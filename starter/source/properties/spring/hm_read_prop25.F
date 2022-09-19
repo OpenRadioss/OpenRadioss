@@ -36,13 +36,13 @@ Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PROP25(GEO, IGEO, UNITAB, ISKN,IGTYP, 
+      SUBROUTINE HM_READ_PROP25(GEO, IGEO, UNITAB, ISKN,IGTYP,
      .                          IG,PROP_TAG,IDTITL,LSUBMODEL,SUB_ID)
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD    
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD     
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IGTYP,IG,SUB_ID
 C     REAL
       my_real
@@ -228,7 +228,7 @@ C----
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
-       
+
        ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
@@ -279,7 +279,7 @@ C----
       GEO(42)=B
       GEO(43)=D
       GEO(40)=E
-      GEO(132)= GF3                       
+      GEO(132)= GF3
       GEO(44)=ONE/F
       GEO(39)=ONE/LSCALE
       GEO(65)=DN
@@ -349,7 +349,7 @@ C--------------------------------------------------
 C!units for default values
       CALL HM_GET_FLOATV_DIM('MIN_RUP2',CRIT_SCALE(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----
-      IF(IECROU/=0 .AND. IECROU/=1 .AND. IECROU/=5.AND. 
+      IF(IECROU/=0 .AND. IECROU/=1 .AND. IECROU/=5.AND.
      . IECROU/=6.AND. IECROU/=7) THEN
          CALL ANCMSG(MSGID=905,
      .               MSGTYPE=MSGERROR,
@@ -384,7 +384,7 @@ C----
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
-       
+
        ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
@@ -428,7 +428,7 @@ C----
       GEO(46) =B
       GEO(47) =D
       GEO(180)=E
-      GEO(133)= GF3                       
+      GEO(133)= GF3
       GEO(48) =ONE/F
       GEO(174)=ONE/LSCALE
       GEO(67) =DN
@@ -550,7 +550,7 @@ C----
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
-       
+
        ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
@@ -594,7 +594,7 @@ C----
       GEO(54) =B
       GEO(55) =D
       GEO(182)=E
-      GEO(135)= GF3                       
+      GEO(135)= GF3
       GEO(56) =ONE/F
       GEO(176)=ONE/LSCALE
       GEO(71) =DN
@@ -698,7 +698,7 @@ C----
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
-       
+
        ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
@@ -742,7 +742,7 @@ C----
       GEO(58) =B
       GEO(59) =D
       GEO(183)=E
-      GEO(136)= GF3                       
+      GEO(136)= GF3
       GEO(60) =ONE/F
       GEO(177)=ONE/LSCALE
       GEO(73)=DN
@@ -898,7 +898,7 @@ C
       PROP_TAG(IGTYP)%G_SKEW = 3
       PROP_TAG(IGTYP)%G_SKEW_ERR = 3
       PROP_TAG(IGTYP)%G_E6 = 6
-      PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6  
+      PROP_TAG(IGTYP)%G_NUVAR = MAX(PROP_TAG(IGTYP)%G_NUVAR,NINT(GEO(25))) ! additional internal variables for h=6
       PROP_TAG(IGTYP)%G_DEFINI = 6
       PROP_TAG(IGTYP)%G_FORINI = 6
 C

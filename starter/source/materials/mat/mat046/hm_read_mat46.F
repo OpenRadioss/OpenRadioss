@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT46(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      )
 C-----------------------------------------------
@@ -56,11 +56,11 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD    
-      USE UNITAB_MOD      
+      USE MATPARAM_DEF_MOD
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -106,7 +106,7 @@ C-----------------------------------------------
       NUVAR = 2
       MTAG%NUVAR = NUVAR
 
-      !===READING 
+      !===READING
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -119,10 +119,10 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_C5'       ,SMAG     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_CO1'      ,CPS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      !===DEFAULT                
+      !===DEFAULT
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
-      PM(89)=RHO0  
+      PM(89)=RHO0
       IF(ISGS==0)SMAG2=ZERO
       IF(ISGS>=1)THEN
        IF(SMAG==ZERO)THEN
@@ -140,16 +140,16 @@ C-----------------------------------------------
       ENDIF
       C1=PM(1)*SSP**2
 
-      !===STORAGE      
+      !===STORAGE
       UPARAM(1) = VIS
       UPARAM(2) = C1
       UPARAM(3) = ISGS+EM01
       UPARAM(4) = SMAG2
       UPARAM(5) = CA
-      !      
+      !
       PARMAT(1) = C1
 
-      !===OUTPUT 
+      !===OUTPUT
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,46
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'  LES FLUID'
@@ -160,13 +160,13 @@ C-----------------------------------------------
         IF(ISGS==1)WRITE(IOUT,1100)RHO0,RHOR,SSP,VIS,SMAG
         IF(ISGS>=2)WRITE(IOUT,1200)RHO0,RHOR,SSP,VIS,SMAG,CPS
       ENDIF
-      
+
 c-----------
  1000 FORMAT(
      & 5X,40H  LES FLUID                             ,/,
      & 5X,40H  ---------                             ,//
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',E12.4/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,    
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,
      & 5X,40HSOUND SPEED . . . . . . . . . . . . . .=,E12.4/,
      & 5X,40HMOLECULAR DYNAMIC VISCOSITY . . . . . .=,E12.4/)
  1001 FORMAT(
@@ -177,7 +177,7 @@ c-----------
      & 5X,40H  LES WITH SMAGORINSKY SGS MODEL        ,/,
      & 5X,40H  ------------------------------        ,//
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',E12.4/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,     
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,
      & 5X,40HSOUND SPEED . . . . . . . . . . . . . .=,E12.4/,
      & 5X,40HMOLECULAR DYNAMIC VISCOSITY . . . . . .=,E12.4/,
      & 5X,40HSMAGORINSKY CONSTANT  . . . . . . . . .=,E12.4//)
@@ -185,12 +185,12 @@ c-----------
      & 5X,40H  LES WITH ACOUSTIC SMAGORINSKY SGS     ,/,
      & 5X,40H  ---------------------------------     ,//
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',E12.4/,
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,     
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',E12.4/,
      & 5X,40HSOUND SPEED . . . . . . . . . . . . . .=,E12.4/,
      & 5X,40HMOLECULAR DYNAMIC VISCOSITY . . . . . .=,E12.4/,
      & 5X,40HSMAGORINSKY CONSTANT  . . . . . . . . .=,E12.4/,
      & 5X,40HPRESSURE DAMPING. . . . . . . . . . . .=,E12.4//)
 c-----------
-     
+
       RETURN
       END SUBROUTINE

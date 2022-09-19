@@ -41,10 +41,10 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|====================================================================
       SUBROUTINE R2R_EXCHANGE(
-     1    IEXLNK   ,IGRNOD   ,DX       ,V        ,VR        ,      
-     2    A        ,AR       ,MS       ,IN       ,STX       ,STR       ,                       
+     1    IEXLNK   ,IGRNOD   ,DX       ,V        ,VR        ,
+     2    A        ,AR       ,MS       ,IN       ,STX       ,STR       ,
      3    R2R_ON   ,DD_R2R   ,WEIGHT   ,IAD_ELEM ,FR_ELEM   ,RBY       ,
-     4    XDP      ,X        ,DD_R2R_ELEM , SDD_R2R_ELEM, OFF_SPH_R2R,NUMSPH_GLO_R2R)                         
+     4    XDP      ,X        ,DD_R2R_ELEM , SDD_R2R_ELEM, OFF_SPH_R2R,NUMSPH_GLO_R2R)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,13 +78,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IEXLNK(NR2R,NR2RLNK),
      .        WEIGHT(*), DD_R2R(NSPMD+1,*), IAD_ELEM(2,*), FR_ELEM(*),
-     .        DD_R2R_ELEM(*),SDD_R2R_ELEM,OFF_SPH_R2R(*),NUMSPH_GLO_R2R     
+     .        DD_R2R_ELEM(*),SDD_R2R_ELEM,OFF_SPH_R2R(*),NUMSPH_GLO_R2R
       INTEGER R2R_ON,NGLOB,NB
 C     REAL
-      my_real 
-     .   V(3,*), VR(3,*),  A(3,*)  , AR(3,*), DX(3,*),     
+      my_real
+     .   V(3,*), VR(3,*),  A(3,*)  , AR(3,*), DX(3,*),
      .   MS(*) , IN(*)  ,  STX(*)  , STR(*), RBY(*), X(3,*)
-      DOUBLE PRECISION XDP(3,*)               
+      DOUBLE PRECISION XDP(3,*)
 !
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -99,54 +99,54 @@ C------------------------------------------------------
 C------------ Stock force and stifness for exch -------
 C------------------------------------------------------
 
-      IF ((R2R_SIU==1).OR.(NSPMD==1)) THEN 
+      IF ((R2R_SIU==1).OR.(NSPMD==1)) THEN
         DO IEX = 1, NR2RLNK
-          IDG  = IEXLNK(1,IEX)                                  
-          IDP  = IEXLNK(2,IEX)                                  
+          IDG  = IEXLNK(1,IEX)
+          IDP  = IEXLNK(2,IEX)
           NNG  = IGRNOD(IDG)%NENTITY
           GRNOD => IGRNOD(IDG)%ENTITY
 	  IF (IRESP==1) THEN
 C----------simple precision : DX is replaced by XDP--------------	                                    
              CALL SEND_DATA_C(
-     .        IDP    ,NNG    ,GRNOD  ,A      ,AR     ,     
-     .        STX    ,STR    ,V      ,VR     ,MS     ,IN     ,     
+     .        IDP    ,NNG    ,GRNOD  ,A      ,AR     ,
+     .        STX    ,STR    ,V      ,VR     ,MS     ,IN     ,
      .        XDP    ,X      ,TYPLNK(IEX),NCYCLE,RBY,TAG_RBY,
      .        ADD_RBY(IEX) ,RBYLNK(IEX),KINLNK(IEX),R2R_KINE,DT1,IEX,
      .        OFF_SPH_R2R  ,NUMSPH_GLO_R2R, NRBY)
           ELSE
 C---------double precision---------------------------------------  
              CALL SEND_DATA_C(
-     .        IDP    ,NNG    ,GRNOD  ,A      ,AR     ,     
-     .        STX    ,STR    ,V      ,VR     ,MS     ,IN     ,     
+     .        IDP    ,NNG    ,GRNOD  ,A      ,AR     ,
+     .        STX    ,STR    ,V      ,VR     ,MS     ,IN     ,
      .        DX     ,X      ,TYPLNK(IEX),NCYCLE,RBY,TAG_RBY,
      .        ADD_RBY(IEX) ,RBYLNK(IEX),KINLNK(IEX),R2R_KINE,DT1,IEX,
-     .        OFF_SPH_R2R  ,NUMSPH_GLO_R2R, NRBY)	  
-	  ENDIF                                     
+     .        OFF_SPH_R2R  ,NUMSPH_GLO_R2R, NRBY)	
+	  ENDIF
         END DO
       ELSE
         DO IEX = 1, NR2RLNK
-          IDG  = IEXLNK(1,IEX)                                  
-          IDP  = IEXLNK(2,IEX)                                  
-          NNG  = IGRNOD(IDG)%NENTITY                                    
+          IDG  = IEXLNK(1,IEX)
+          IDP  = IEXLNK(2,IEX)
+          NNG  = IGRNOD(IDG)%NENTITY
           GRNOD => IGRNOD(IDG)%ENTITY
 	  IF (IRESP==1) THEN
 C----------simple precision : DX is replaced by XDP--------------	  	                                      
              CALL SEND_DATA_SPMD(
-     .           IDP,NNG,GRNOD        ,A                    ,AR     ,     
-     .           STX,STR,V            ,VR                   ,MS     ,     
+     .           IDP,NNG,GRNOD        ,A                    ,AR     ,
+     .           STX,STR,V            ,VR                   ,MS     ,
      .           IN ,XDP ,DD_R2R(1,IEX),DD_R2R(NSPMD+1,IEX),WEIGHT,
      .           TYPLNK(IEX),ROTLNK(IEX),RBYLNK(IEX),RBY,IEX)
-	  ELSE     
+	  ELSE
 C----------double precision -------------------------------------  	                                      
              CALL SEND_DATA_SPMD(
-     .           IDP,NNG,GRNOD        ,A                    ,AR     ,     
-     .           STX,STR,V            ,VR                   ,MS     ,     
+     .           IDP,NNG,GRNOD        ,A                    ,AR     ,
+     .           STX,STR,V            ,VR                   ,MS     ,
      .           IN ,DX ,DD_R2R(1,IEX),DD_R2R(NSPMD+1,IEX),WEIGHT,
      .           TYPLNK(IEX),ROTLNK(IEX),RBYLNK(IEX),RBY,IEX)
 	  ENDIF
-        END DO                  
+        END DO
       ENDIF
-      
+
 C------------------------------------------------------     
       IF ((R2R_SIU==1).OR.(ISPMD==0)) CALL R2R_SEM_C()
 
@@ -160,31 +160,31 @@ C------------------------------------------------------
       IF(NSPMD==1.OR.ISPMD==0)THEN
         CALL CHECK_DTNODA_C(I7KGLO)
         OLD_ACTIV = R2R_ACTIV
-        R2R_ON    = 0  
+        R2R_ON    = 0
 C----- Check activation flag of current subdomain
         CALL GET_IBUF_C(R2R_ACTIV,1)
 
         IF (OLD_ACTIV == 1 .AND. R2R_ACTIV == 0) THEN
           WRITE(IOUT,*)' PROCESS DESACTIVATION'
-        ENDIF 
+        ENDIF
 C------------------------------------------------------
-        IF (R2R_ACTIV /= -1) THEN                            
-         DO WHILE (R2R_ACTIV == 0)       
-          CALL GET_IBUF_C(R2R_ACTIV,1)  
+        IF (R2R_ACTIV /= -1) THEN
+         DO WHILE (R2R_ACTIV == 0)
+          CALL GET_IBUF_C(R2R_ACTIV,1)
          ENDDO
          IF (OLD_ACTIV == 0 .AND. R2R_ACTIV == 1) THEN
           WRITE(IOUT,*)' PROCESS ACTIVATION'
-         ENDIF         
+         ENDIF
         END IF
 C------------------------------------------------------
         IF (R2R_ACTIV == 1) THEN
            CALL GET_IBUF_C(R2R_ON,1)
 C---------infos for th---------------------------------        
-           IF (R2R_SIU==1) THEN            
+           IF (R2R_SIU==1) THEN
              CALL SEND_IBUF_C(R2R_TH_FLAG,10)
-             IF (IDDOM==0) CALL SEND_IBUF_C(R2R_TH_MAIN,10)         
-           ENDIF      
-        ENDIF              
+             IF (IDDOM==0) CALL SEND_IBUF_C(R2R_TH_MAIN,10)
+           ENDIF
+        ENDIF
       END IF
 C------------------------------------------------------      
       IF(NSPMD>1)THEN
@@ -192,32 +192,32 @@ C------------------------------------------------------
         CALL SPMD_IBCAST(I7KGLO,I7KGLO,1,1,0,2)
         IF (R2R_ACTIV == 1) CALL SPMD_IBCAST(R2R_ON,R2R_ON,1,1,0,2)	
       END IF
-      IF (R2R_ACTIV == -1) THEN        
+      IF (R2R_ACTIV == -1) THEN
         TT = TSTOP
 C        RETURN                    
-      ENDIF   
-      
+      ENDIF
+
 C------------------------------------------------------
 C-------------- Rad2rad activation----- ---------------
 C------------------------------------------------------
       IF ((R2R_SIU==1).OR.(ISPMD==0)) THEN
-        CALL R2R_SEM_C()       
+        CALL R2R_SEM_C()
         CALL GET_IBUF_C(BID,1)
         IF (R2R_SIU==1) NTOP = NTHREAD
         IF (R2R_SIU==0) NTOP = NTHREAD*NSPMD
         CALL R2R_UNLOCK_THREADS_C(NTOP)
-      ENDIF  
+      ENDIF
 C------------------------------------------------------
 C------------------------------------------------------        
 !$OMP END MASTER
-      CALL R2R_BLOCK_C()              
-!$OMP END PARALLEL        
+      CALL R2R_BLOCK_C()
+!$OMP END PARALLEL
 
 C------------------------------------------------------
 C------------ Get stifness from shared memory ---------
 C------------------------------------------------------
-        
-      IF ((R2R_SIU==1).OR.(NSPMD==1)) THEN         
+
+      IF ((R2R_SIU==1).OR.(NSPMD==1)) THEN
         DO IEX = 1, NR2RLNK
           IDG  = IEXLNK(1,IEX)
           IDP  = IEXLNK(2,IEX)
@@ -230,22 +230,22 @@ C------------------------------------------------------
         END DO
 
 C----------New rad2rad HMPP - synchro SPMD-----------------------------       
-        IF ((SDD_R2R_ELEM>0).AND.(NSPMD>1)) THEN 
-         SIZE =  1 + IRODDL*1         
+        IF ((SDD_R2R_ELEM>0).AND.(NSPMD>1)) THEN
+         SIZE =  1 + IRODDL*1
          LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
          IF (NCYCLE==0) THEN
            CALL SPMD_EXCH_R2R(
      1     A       ,AR     ,MS,IN ,MS   ,
      2     IAD_ELEM,FR_ELEM,SIZE ,
      3     LENR    ,DD_R2R,DD_R2R_ELEM,1)
-         ENDIF                
+         ENDIF
          CALL SPMD_EXCH_R2R(
      1     A       ,AR     ,STX,STR ,MS   ,
      2     IAD_ELEM,FR_ELEM,SIZE ,
-     3     LENR    ,DD_R2R,DD_R2R_ELEM,1) 
+     3     LENR    ,DD_R2R,DD_R2R_ELEM,1)
         ENDIF
-                     
-      ELSE      
+
+      ELSE
 C--------------------------------------------------------------------      
         DO IEX = 1, NR2RLNK
           IDG  = IEXLNK(1,IEX)
@@ -254,17 +254,17 @@ C--------------------------------------------------------------------
           GRNOD => IGRNOD(IDG)%ENTITY
           NB = DD_R2R(NSPMD+1,IEX)
 	  IF (ISPMD==0) THEN
-	    NGLOB=DD_R2R(NSPMD+1,IEX)+DBNO(IEX)	    	    
+	    NGLOB=DD_R2R(NSPMD+1,IEX)+DBNO(IEX)	    	
 	  ELSE
-	    NGLOB=NNG	    
+	    NGLOB=NNG	
 	  ENDIF
           CALL GET_STIFF_SPMD(
      .      IDP     ,NNG    ,GRNOD        ,MS   ,IN    ,
      .      STX     ,STR    ,DD_R2R(1,IEX),NGLOB,WEIGHT,
      3      IAD_ELEM,FR_ELEM,NB,IEX,TYPLNK(IEX),ROTLNK(IEX))
 
-        END DO     
-      ENDIF     
+        END DO
+      ENDIF
 
 C-----------------------------------------------------------------
       RETURN
@@ -315,7 +315,7 @@ C     REAL
       my_real
      .        A(3,*), AR(3,*), STX(*), STR(*), V(3,*), VR(3,*),
      .        MS(*), IN(*), RBY(*)
-      DOUBLE PRECISION DX(3,*)  
+      DOUBLE PRECISION DX(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -324,15 +324,15 @@ C-----------------------------------------------
      .        BUFR1(3,NGLOB), BUFR2(3,NGLOB), BUFR3(NGLOB),
      .        BUFR4(NGLOB), BUFR5(3,NGLOB), BUFR6(3,NGLOB),
      .        BUFR8(NGLOB), BUFR9(NGLOB),BUF_RBY(9,NGLOB)
-      DOUBLE PRECISION BUFR7(3,NGLOB)       
+      DOUBLE PRECISION BUFR7(3,NGLOB)
 C
 C******************************************************************************C
 
-      IF (TYP/=7) THEN      
+      IF (TYP/=7) THEN
       CALL SPMD_R2R_RGET3(A,NNG,GRNOD,DD_R2R,WEIGHT,BUFR1)
       CALL SPMD_R2R_RGET3(AR,NNG,GRNOD,DD_R2R,WEIGHT,BUFR2)
       IF (TYP==5) THEN
-      CALL SPMD_R2R_RGET3_DP(DX,NNG,GRNOD,DD_R2R,WEIGHT,BUFR7)            
+      CALL SPMD_R2R_RGET3_DP(DX,NNG,GRNOD,DD_R2R,WEIGHT,BUFR7)
       CALL SPMD_R2R_RGET(STX,NNG,GRNOD,DD_R2R,WEIGHT,BUFR3)
       IF(FLAG_ROT /= 0)
      .  CALL SPMD_R2R_RGET(STR,NNG,GRNOD,DD_R2R,WEIGHT,BUFR4)
@@ -349,7 +349,7 @@ C******************************************************************************C
      .    CALL SPMD_R2R_RBY(RBY,NNG,GRNOD,DD_R2R,WEIGHT,IEX,BUF_RBY)                	
       ENDIF
 
-      IF(ISPMD==0) THEN      
+      IF(ISPMD==0) THEN
         CALL SEND_DATA_SPMD_C(IDP  ,NGLOB,BUFR1,BUFR2,BUFR3,
      2                      BUFR4,BUFR5,BUFR6,BUFR7,BUFR8,
      3                      BUFR9,BUF_RBY,FLAG_RBY,TYP,NCYCLE,IEX)
@@ -394,7 +394,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDP, NNG, NGLOB, GRNOD(*),IEX,TYP,
      .        WEIGHT(*), DD_R2R(*), IAD_ELEM(2,*), FR_ELEM(*),NB,
-     .        FLAG_ROT     
+     .        FLAG_ROT
 C     REAL
       my_real
      .        MS(*), IN(*), STX(*), STR(*)
@@ -411,22 +411,22 @@ C******************************************************************************C
      .                      TYP,NCYCLE,IEX,NGLOB)	               		
       ENDIF
 
-      IF (TYP==5) THEN     
+      IF (TYP==5) THEN
       LRBUF = 2*2*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))+2*NSPMD	
 
       IF (NCYCLE==0) THEN
       CALL SPMD_R2R_RSET(MS   ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                   BUFR1,IAD_ELEM,FR_ELEM,LRBUF,IEX)
-      ENDIF              
+      ENDIF
       CALL SPMD_R2R_RSET(STX   ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                   BUFR2,IAD_ELEM,FR_ELEM,LRBUF,IEX )
       IF(FLAG_ROT /= 0)THEN
-        IF (NCYCLE==0) THEN      
+        IF (NCYCLE==0) THEN
           CALL SPMD_R2R_RSET(IN   ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                   BUFR3,IAD_ELEM,FR_ELEM,LRBUF,IEX  )
-        ENDIF     
+        ENDIF
         CALL SPMD_R2R_RSET(STR   ,NNG     ,GRNOD,DD_R2R,WEIGHT,
-     .                   BUFR4,IAD_ELEM,FR_ELEM,LRBUF,IEX  )    
+     .                   BUFR4,IAD_ELEM,FR_ELEM,LRBUF,IEX  )
       END IF
       END IF
 
@@ -445,7 +445,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE RAD2R_MOD   
+      USE RAD2R_MOD
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -472,7 +472,7 @@ C
           DO I=1,TAGEL_SIZE
             TAGEL_TEMP(I) = TAGEL_R2R_SEND(I)
           END DO
-        ENDIF 
+        ENDIF
 C
         TAGEL_SIZE_OLD = TAGEL_SIZE
         TAGEL_SIZE = TAGEL_SIZE + 150
@@ -529,7 +529,7 @@ C=======================================================================
 
        OFF = 0
 
-       IF (R2R_SIU==1) THEN      
+       IF (R2R_SIU==1) THEN
 C----------Echange of itag ( 0 reception / 1 emission) --------------
          DO IEX = 1, NR2RLNK
            IDP  = IEXLNK(2,IEX)

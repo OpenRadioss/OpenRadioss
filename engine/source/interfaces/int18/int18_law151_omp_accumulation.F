@@ -32,12 +32,12 @@ Chd|====================================================================
         SUBROUTINE INT18_LAW151_OMP_ACCUMULATION( MULTI_FVM )
 !$COMMENT
 !       INT18_LAW151_OMP_ACCUMULATION description
-!       accumulation of force for remote nodes on the 
+!       accumulation of force for remote nodes on the
 !       main OpenMP thread
 !       only usefull when OMP_NUM_THREADS > 1
-!       
+!
 !       INT18_LAW151_OMP_ACCUMULATION organization :
-!           loop over the NTHREADS OpenMP task + NODFI phantom nodes 
+!           loop over the NTHREADS OpenMP task + NODFI phantom nodes
 !           & accumulation in the 1rst memory cell
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -83,13 +83,13 @@ C-----------------------------------------------
                 NODFI = MULTI_FVM%R_AFI(N)%NODFI
                 DO J=2,NTHREAD
                     SHIFT_FORCE_INT = (J-1)*NODFI
-                    MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1:NODFI) = 
-     .               MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1:NODFI) 
+                    MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1:NODFI) =
+     .               MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1:NODFI)
      .               + MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1+SHIFT_FORCE_INT:NODFI+SHIFT_FORCE_INT)
-                    MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1+SHIFT_FORCE_INT:NODFI+SHIFT_FORCE_INT) = 0.d+00                        
+                    MULTI_FVM%R_AFI(N)%R_FORCE_INT(1:3,1:6,1+SHIFT_FORCE_INT:NODFI+SHIFT_FORCE_INT) = 0.d+00
                 ENDDO
             ENDDO
-        ENDIF 
+        ENDIF
 
         RETURN
         END SUBROUTINE INT18_LAW151_OMP_ACCUMULATION

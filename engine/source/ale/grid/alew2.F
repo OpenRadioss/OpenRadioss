@@ -81,12 +81,12 @@ C-----------------------------------------------
       INTEGER ICT(2,28), J1(MVSIZ), J2(MVSIZ), I, NG, NEL, NFT, ITY, MQE, ITR,
      .   NTR, N, NNC, NCT, K, II, SIZE, LENR, LENS
       my_real
-     .   FAC(28), 
-     .   DX(MVSIZ)   ,DY(MVSIZ) , DZ(MVSIZ), 
+     .   FAC(28),
+     .   DX(MVSIZ)   ,DY(MVSIZ) , DZ(MVSIZ),
      .   XX(MVSIZ)   ,XY(MVSIZ) , XZ(MVSIZ),
-     .   DL1(MVSIZ)  ,DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ), 
-     .   DL(MVSIZ)   ,XL(MVSIZ) , DDL(MVSIZ), 
-     .   BETA, DLM, DLMIN, GAM1, WBTMP(3,SIZEN)  
+     .   DL1(MVSIZ)  ,DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ),
+     .   DL(MVSIZ)   ,XL(MVSIZ) , DDL(MVSIZ),
+     .   BETA, DLM, DLMIN, GAM1, WBTMP(3,SIZEN)
 C-----------------------------------------------
       DATA FAC/1.,1.,1.,1.,
      A         1.,1.,1.,1.,
@@ -174,7 +174,7 @@ C
       ENDIF
 C
       DLM=ZERO
-      
+
       DO NG=1,NGROUP
         NEL=IPARG(2,NG)
         NFT=IPARG(3,NG)
@@ -209,7 +209,7 @@ C
               DL(I) = FAC(ITR)/XL(I) /ALPHA/ALPHA *DDL(I)*DL1(I)
               DDL(I)= FAC(ITR)/XL(I) * VGX/ALPHA*DDL(I)
             ENDDO!next I
-           
+
             ! --- SPMD PARITH/OFF
             IF(IPARIT == 0) THEN
               DO I=1,NEL
@@ -286,7 +286,7 @@ C
                   ENDIF
                 ENDDO!next I
               ENDIF !IVECTOR
-            ENDIF!IPARIT 
+            ENDIF!IPARIT
           ENDDO!next ITR
         ENDIF!IF (ITY == 1 .AND. MQE == 1)
       ENDDO!next NG

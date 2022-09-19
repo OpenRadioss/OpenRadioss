@@ -99,19 +99,19 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
       IF (KEY(1:6) == 'SUBSET') THEN
 C-------------------------
 C groupes de SUBSETS
 C-------------------------
 
-           CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
-           DO KK=1,NENTITY                                                              
-            JJ=LIST_ENTITY(KK)       
-            IF (JJ /= 0) THEN 
-              ISU=0                                      
+           CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
+           DO KK=1,NENTITY
+            JJ=LIST_ENTITY(KK)
+            IF (JJ /= 0) THEN
+              ISU=0
               DO K=1,NSUBS
                 IF (JJ == SUBSET(K)%ID) THEN
                   ISU=K
@@ -122,7 +122,7 @@ C                   tag les parts
                       NINDX=NINDX+1
                       INDX(NINDX)=SUBSET(ISU)%TPART(L)
                     END IF
-                  ENDDO                                    
+                  ENDDO
                   EXIT
                 ELSEIF (JJ == -SUBSET(K)%ID) THEN
                   ISU=K
@@ -132,12 +132,12 @@ C                   tag les parts
                       BUFFTMP(SUBSET(ISU)%TPART(L))=-1
                       NINDX=NINDX+1
                       INDX(NINDX)=SUBSET(ISU)%TPART(L)
-                    END IF                    
-                  ENDDO                                        
+                    END IF
+                  ENDDO
                   EXIT
                 ENDIF
-              ENDDO                                      
-              IF (ISU == 0 .AND. FLAG == 0) THEN                           
+              ENDDO
+              IF (ISU == 0 .AND. FLAG == 0) THEN
                 CALL ANCMSG(MSGID=194,
      .                      MSGTYPE=MSGWARNING,
      .                      ANMODE=ANINFO,
@@ -146,11 +146,11 @@ C                   tag les parts
      .                      C2=TITR,
      .                      C3='SUBSET',
      .                      I2=JJ)
-              ENDIF                                            
-            ENDIF                                              
-           ENDDO 
-           IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)   
-                                                                                                       
+              ENDIF
+            ENDIF
+           ENDDO
+           IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
+
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR.
      .        KEY(1:4) == 'PROP') THEN
 C-------------------------
@@ -159,55 +159,55 @@ C-------------------------
               IF(KEY(1:4) == 'PART')THEN
                 MOT='PART'
                 IPP=4
-              ELSEIF(KEY(1:3) == 'MAT')THEN  
+              ELSEIF(KEY(1:3) == 'MAT')THEN
                 MOT='MAT'
                 IPP=5
               ELSEIF(KEY(1:4) == 'PROP')THEN
                 MOT='PROP'
                 IPP=6
               ENDIF
-              
-              CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL) 
-              CALL HM_GET_INTV  ('negativeIdsmax' ,NENTITY_NEG,IS_AVAILABLE,LSUBMODEL)                 
-              ALLOCATE(TAG_ENTITY_POS(NENTITY_POS))  
-              ALLOCATE(TAG_ENTITY_NEG(NENTITY_NEG))  
+
+              CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INTV  ('negativeIdsmax' ,NENTITY_NEG,IS_AVAILABLE,LSUBMODEL)
+              ALLOCATE(TAG_ENTITY_POS(NENTITY_POS))
+              ALLOCATE(TAG_ENTITY_NEG(NENTITY_NEG))
               TAG_ENTITY_POS(1:NENTITY_POS)=0
               TAG_ENTITY_NEG(1:NENTITY_NEG)=0
 
-              ALLOCATE(ENTITY_POS(NENTITY_POS)) 
-              ALLOCATE(ENTITY_NEG(NENTITY_NEG))  
+              ALLOCATE(ENTITY_POS(NENTITY_POS))
+              ALLOCATE(ENTITY_NEG(NENTITY_NEG))
 
               DO KK=1,NENTITY_POS
-                CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)  
-                ENTITY_POS(KK) = JJ  
+                CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
+                ENTITY_POS(KK) = JJ
               ENDDO
 
-              DO KK=1,NENTITY_NEG                                            
-                CALL HM_GET_INT_ARRAY_INDEX ('negativeIds' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)  
-                ENTITY_NEG(KK) = JJ  
+              DO KK=1,NENTITY_NEG
+                CALL HM_GET_INT_ARRAY_INDEX ('negativeIds' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
+                ENTITY_NEG(KK) = JJ
               ENDDO
 
 
               IF(IPP==4) THEN
-                DO KK=1,NENTITY_POS 
-                    JJ = ENTITY_POS(KK)                  
+                DO KK=1,NENTITY_POS
+                    JJ = ENTITY_POS(KK)
                     ID_LOCAL = SET_USRTOS(JJ,MAP,NPART)
                     IF(ID_LOCAL == 0) THEN
                          ! part not found
                          CYCLE
                     ENDIF
                     ISU=MAP(ID_LOCAL,2)
-                    TAG_ENTITY_POS(KK)=1  
-                    !tag les parts                         
-                    IF(BUFFTMP(ISU)==0)THEN                
-                        BUFFTMP(ISU)=1                       
-                        NINDX=NINDX+1                        
-                        INDX(NINDX)=ISU                      
-                    END IF                    
+                    TAG_ENTITY_POS(KK)=1
+                    !tag les parts
+                    IF(BUFFTMP(ISU)==0)THEN
+                        BUFFTMP(ISU)=1
+                        NINDX=NINDX+1
+                        INDX(NINDX)=ISU
+                    END IF
                 ENDDO
 
-                DO KK=1,NENTITY_NEG 
-                    JJ = ENTITY_NEG(KK)                  
+                DO KK=1,NENTITY_NEG
+                    JJ = ENTITY_NEG(KK)
                     ID_LOCAL = SET_USRTOS(JJ,MAP,NPART)
                     IF(ID_LOCAL == 0) THEN
                          ! Part not found
@@ -215,60 +215,60 @@ C-------------------------
                     ENDIF
 
                     ISU=MAP(ID_LOCAL,2)
-                    TAG_ENTITY_NEG(KK)=1  
-                    !tag les parts                         
-                    IF(BUFFTMP(ISU)==0)THEN                
-                        BUFFTMP(ISU)=-1          
-                        NINDX=NINDX+1            
-                        INDX(NINDX)=ISU                     
-                    END IF                    
+                    TAG_ENTITY_NEG(KK)=1
+                    !tag les parts
+                    IF(BUFFTMP(ISU)==0)THEN
+                        BUFFTMP(ISU)=-1
+                        NINDX=NINDX+1
+                        INDX(NINDX)=ISU
+                    END IF
                 ENDDO
               ELSE
-                DO KK=1,NENTITY_POS 
+                DO KK=1,NENTITY_POS
                     JJ = ENTITY_POS(KK)
                     DO K=1,NPART
 	                    NUMA = IPART(IPP,K)
-                
-                        IF (NSUBDOM>0) THEN
-	                        IF (IPP==5) NUMA = IPART_R2R(2,K)
-	                    ENDIF
-                        ISU = 0                
-                        IF(JJ == NUMA)THEN                       
-                            ISU=K 
-                            TAG_ENTITY_POS(KK)=1  
-                            !tag les parts                         
-                            IF(BUFFTMP(ISU)==0)THEN                
-                                BUFFTMP(ISU)=1                       
-                                NINDX=NINDX+1                        
-                                INDX(NINDX)=ISU                      
-                            END IF                               
-                        ENDIF
-                    ENDDO
-                ENDDO
 
-                DO KK=1,NENTITY_NEG 
-                    JJ = ENTITY_NEG(KK)
-                    DO K=1,NPART
-	                    NUMA = IPART(IPP,K)
-                
                         IF (NSUBDOM>0) THEN
 	                        IF (IPP==5) NUMA = IPART_R2R(2,K)
 	                    ENDIF
                         ISU = 0
-                        IF(JJ == NUMA)THEN      
-                            ISU=K 
-                            TAG_ENTITY_NEG(KK)=1  
-                            !tag les parts              
-                            IF(BUFFTMP(ISU)==0)THEN   
-                                BUFFTMP(ISU)=-1          
-                                NINDX=NINDX+1            
-                                INDX(NINDX)=ISU          
-                            END IF                   
-                        ENDIF 
+                        IF(JJ == NUMA)THEN
+                            ISU=K
+                            TAG_ENTITY_POS(KK)=1
+                            !tag les parts
+                            IF(BUFFTMP(ISU)==0)THEN
+                                BUFFTMP(ISU)=1
+                                NINDX=NINDX+1
+                                INDX(NINDX)=ISU
+                            END IF
+                        ENDIF
+                    ENDDO
+                ENDDO
+
+                DO KK=1,NENTITY_NEG
+                    JJ = ENTITY_NEG(KK)
+                    DO K=1,NPART
+	                    NUMA = IPART(IPP,K)
+
+                        IF (NSUBDOM>0) THEN
+	                        IF (IPP==5) NUMA = IPART_R2R(2,K)
+	                    ENDIF
+                        ISU = 0
+                        IF(JJ == NUMA)THEN
+                            ISU=K
+                            TAG_ENTITY_NEG(KK)=1
+                            !tag les parts
+                            IF(BUFFTMP(ISU)==0)THEN
+                                BUFFTMP(ISU)=-1
+                                NINDX=NINDX+1
+                                INDX(NINDX)=ISU
+                            END IF
+                        ENDIF
                     ENDDO
                 ENDDO
               ENDIF
-             
+
               !If positive USER_ID is not relevant
               IF(FLAG == 0)THEN
                 DO KK=1,NENTITY_POS
@@ -276,7 +276,7 @@ C-------------------------
                     CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
                     CALL ANCMSG(MSGID=194, MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=ID,C1=TITR1,C2=TITR,C3=MOT,I2=JJ)
                   ENDIF
-                ENDDO               
+                ENDDO
               ENDIF
 
               !If negative USER_ID is not relevant
@@ -286,14 +286,14 @@ C-------------------------
                     CALL HM_GET_INT_ARRAY_INDEX ('negativeIdsmax' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
                     CALL ANCMSG(MSGID=194, MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=ID,C1=TITR1,C2=TITR,C3=MOT,I2=JJ)
                   ENDIF
-                ENDDO                
+                ENDDO
               ENDIF
 
               DEALLOCATE(TAG_ENTITY_POS)
-              DEALLOCATE(TAG_ENTITY_NEG)   
-              DEALLOCATE(ENTITY_POS)  
-              DEALLOCATE(ENTITY_NEG)    
-              
+              DEALLOCATE(TAG_ENTITY_NEG)
+              DEALLOCATE(ENTITY_POS)
+              DEALLOCATE(ENTITY_NEG)
+
 C-------------------------
       ENDIF
 C-------------------------

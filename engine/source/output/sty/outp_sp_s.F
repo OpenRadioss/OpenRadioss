@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,13 +72,13 @@ C-----------------------------------------------
       INTEGER I,J,II(6),JJ,N,NN,NG,NEL,MLW,JJ_OLD,NGF,NGL, LEN,WRTLEN,
      .        NUVAR,IUS,RESP0,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
      .   FUNC(6),S1 ,S2 ,S3,P,VONM2
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C=======================================================================
        IF (ISPMD == 0) THEN
           WRITE(IUGEO,'(2A)')'/SPHCEL    /SCALAR    /',KEY
@@ -101,12 +101,12 @@ C
          DO NG = NGF, NGL
           ITY  = IPARG(5,NG)
           IF (ITY == 51) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
            LFT=1
            LLT=NEL
@@ -131,9 +131,9 @@ c
                S1 = GBUF%SIG(II(1)+I) + P
                S2 = GBUF%SIG(II(2)+I) + P
                S3 = GBUF%SIG(II(3)+I) + P
-               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +               
-     .                        GBUF%SIG(II(5)+I)**2 +               
-     .                        GBUF%SIG(II(6)+I)**2 +               
+               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +
+     .                        GBUF%SIG(II(5)+I)**2 +
+     .                        GBUF%SIG(II(6)+I)**2 +
      .                HALF*(S1*S1+S2*S2+S3*S3))
                WA(JJ)= SQRT(VONM2)
             ELSEIF (NBX == 1) THEN       ! OFF
@@ -141,7 +141,7 @@ c
             ELSEIF (NBX == 2) THEN       ! pressure
               WA(JJ) = - (GBUF%SIG(II(1)+I)
      .                 +  GBUF%SIG(II(2)+I)
-     .                 +  GBUF%SIG(II(3)+I)) / THREE  
+     .                 +  GBUF%SIG(II(3)+I)) / THREE
             ELSEIF (NBX == 3) THEN       ! energy
               WA(JJ) = GBUF%EINT(I)
             ELSEIF (NBX == 4) THEN       ! density
@@ -177,9 +177,9 @@ C  equivalent stress -  (NON VON MISES / VON MISES)
                 S1 = GBUF%SIG(II(1)+I) + P
                 S2 = GBUF%SIG(II(2)+I) + P
                 S3 = GBUF%SIG(II(3)+I) + P
-                VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +               
-     .                         GBUF%SIG(II(5)+I)**2 +               
-     .                         GBUF%SIG(II(6)+I)**2 +               
+                VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +
+     .                         GBUF%SIG(II(5)+I)**2 +
+     .                         GBUF%SIG(II(6)+I)**2 +
      .                  HALF*(S1*S1+S2*S2+S3*S3))
                 WA(JJ)= SQRT(VONM2)
               ENDIF
@@ -190,7 +190,7 @@ C  equivalent stress -  (NON VON MISES / VON MISES)
 c---
          NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
        ENDDO
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -236,11 +236,11 @@ c---
         ENDDO   ! nn=1,nspgroup
 
         IF (RESP0 > 0) THEN
-          IF (OUTYY_FMT == 2) THEN                           
-            WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)   
-          ELSE                                               
-            WRITE(IUGEO,'(1P6E20.13)')(WAP0(J),J=1,RESP0)  
-          ENDIF                                              
+          IF (OUTYY_FMT == 2) THEN
+            WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,RESP0)
+          ELSE
+            WRITE(IUGEO,'(1P6E20.13)')(WAP0(J),J=1,RESP0)
+          ENDIF
         ENDIF
       ENDIF    ! ispmd=0
 c-----------
@@ -298,12 +298,12 @@ C-----------------------------------------------
             NEL = IPARG(2,NG)
             JJ = JJ + NEL
           ENDIF
-         ENDDO 
+         ENDDO
          NGF = NGL + 1
          WASZ = WASZ + JJ
          SIZ_WRITE_LOC(NN) = JJ
         ENDDO
         SIZ_WRITE_LOC(NSPGROUP+1) = WASZ
-      ENDIF 
+      ENDIF
       RETURN
       END

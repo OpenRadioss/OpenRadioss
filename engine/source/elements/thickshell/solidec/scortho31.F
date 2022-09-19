@@ -46,8 +46,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,  
-     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,  
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   E1X, E1Y, E1Z,
      .   E2X, E2Y, E2Z,
      .   E3X, E3Y, E3Z
@@ -102,9 +102,9 @@ C
 C
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 C
-       E3X = TY * RZ - TZ * RY 
-       E3Y = TZ * RX - TX * RZ 
-       E3Z = TX * RY - TY * RX 
+       E3X = TY * RZ - TZ * RY
+       E3Y = TZ * RX - TX * RZ
+       E3Z = TX * RY - TY * RX
 C
        DET = SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
        IF ( DET/=ZERO) DET = ONE / DET
@@ -114,8 +114,8 @@ C
 C
        C1=SQRT(TX*TX+TY*TY+TZ*TZ)
        C2=SQRT(RX*RX+RY*RY+RZ*RZ)
-       E1X=TX*C2 +(RY * E3Z - RZ * E3Y)*C1  
-       E1Y=TY*C2 +(RZ * E3X - RX * E3Z)*C1  
+       E1X=TX*C2 +(RY * E3Z - RZ * E3Y)*C1
+       E1Y=TY*C2 +(RZ * E3X - RX * E3Z)*C1
        E1Z=TZ*C2 +(RX * E3Y - RY * E3X)*C1
        DET = SQRT(E1X*E1X + E1Y*E1Y + E1Z*E1Z)
        IF ( DET/=ZERO) DET = ONE / DET

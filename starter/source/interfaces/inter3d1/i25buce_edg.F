@@ -39,14 +39,14 @@ Chd|====================================================================
      7   I_MEM    ,ITAB    ,MBINFLG  ,EBINFLG  ,LL_STOK  ,
      8   MULNSNS  ,ILEV    ,CAND_A   ,CAND_P   ,IGAP0    ,
      9   FLAGREMNODE,KREMNOD,REMNOD   ,
-     A   IGAP    ,GAP_M_L   ,IEDGE    ,NEDGE    ,MSEGTYP, 
+     A   IGAP    ,GAP_M_L   ,IEDGE    ,NEDGE    ,MSEGTYP,
      B   LEDGE   ,ADMSR,EDG_BISECTOR,VTX_BISECTOR,
      C   CANDM_E2S ,CANDS_E2S,CAND_B ,CAND_PS  ,GAPE    ,
      D   GAP_E_L  ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE TRI7BOX 
+      USE TRI7BOX
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0
-      INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
+      INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*)
       INTEGER MULNSNE,MULNSNS,NCONT,I_MEM(2),
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), EBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*),
@@ -90,14 +90,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, SOL_EDGE, SH_EDGE, 
-     .        N, L, E, IE, I1, I2, N1, N2 
+      INTEGER I, J, SOL_EDGE, SH_EDGE,
+     .        N, L, E, IE, I1, I2, N1, N2
 C     REAL
       my_real
-     .        XYZM(6), AAA, TZINF, 
+     .        XYZM(6), AAA, TZINF,
      .        XMIN, YMIN, ZMIN, XMAX, YMAX, ZMAX
       INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -115,12 +115,12 @@ C--------------------------------
       YMIN= EP30
       YMAX=-EP30
       ZMIN= EP30
-      ZMAX=-EP30 
+      ZMAX=-EP30
 C
       DO I=ESHIFT+1,ESHIFT+NEDGE_T
      	L=LEDGE(1,I)
         E=LEDGE(2,I)
-        IF(STFM(L) /= ZERO)THEN      
+        IF(STFM(L) /= ZERO)THEN
           J=IRECT(E,L)
           XMIN= MIN(XMIN,X(1,J))
           YMIN= MIN(YMIN,X(2,J))
@@ -188,7 +188,7 @@ C=============================================================================
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -201,12 +201,12 @@ C=============================================================================
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))

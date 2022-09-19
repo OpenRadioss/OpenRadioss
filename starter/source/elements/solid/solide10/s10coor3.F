@@ -133,11 +133,11 @@ C         renumber connectivity
             NC(I,8) =IXS10(1,I)
             NC(I,9) =IXS10(5,I)
             NC(I,10)=IXS10(2,I)
-            IXS10(1,I) = NC(I,5) 
-            IXS10(2,I) = NC(I,6) 
-            IXS10(3,I) = NC(I,7) 
-            IXS10(4,I) = NC(I,8) 
-            IXS10(5,I) = NC(I,9) 
+            IXS10(1,I) = NC(I,5)
+            IXS10(2,I) = NC(I,6)
+            IXS10(3,I) = NC(I,7)
+            IXS10(4,I) = NC(I,8)
+            IXS10(5,I) = NC(I,9)
             IXS10(6,I) = NC(I,10)
           ENDIF
         ENDIF
@@ -146,15 +146,15 @@ C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
       DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(IUN,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-          VX(I,N)=V(1,NN)          
-          VY(I,N)=V(2,NN)          
-          VZ(I,N)=V(3,NN)          
-        ENDDO                      
+        DO I=LFT,LLT
+          NN = MAX(IUN,NC(I,N))
+          XX(I,N)=X(1,NN)
+          YY(I,N)=X(2,NN)
+          ZZ(I,N)=X(3,NN)
+          VX(I,N)=V(1,NN)
+          VY(I,N)=V(2,NN)
+          VZ(I,N)=V(3,NN)
+        ENDDO
       ENDDO
 C
       DO I=LFT,LLT
@@ -171,7 +171,7 @@ C
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	
           ENDIF
         ENDDO
       ENDDO
@@ -181,7 +181,7 @@ C
         IF(JTHE < 0 ) THEN
          IF(NINTEMP > 0 ) THEN
           DO N =1,10
-            DO I=LFT,LLT  
+            DO I=LFT,LLT
               NN = MAX(IUN,NC(I,N))
               IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
             ENDDO
@@ -193,7 +193,7 @@ C
                TEMP(NN) = TEMP0(I)
             ENDDO
           ENDDO
-         ENDIF   
+         ENDIF
         ENDIF
 C	
         IF(ISMSTR>=10.AND.ISMSTR<=12)THEN
@@ -204,7 +204,7 @@ C
             SAV(I,N+10)=YY(I,N)
             SAV(I,N+20)=ZZ(I,N)
            ENDDO
-          END DO 
+          END DO
         END IF
 CC        
       RETURN
@@ -321,11 +321,11 @@ C         renumber connectivity
             NC(I,8) =IXS10(1,I)
             NC(I,9) =IXS10(5,I)
             NC(I,10)=IXS10(2,I)
-            IXS10(1,I) = NC(I,5) 
-            IXS10(2,I) = NC(I,6) 
-            IXS10(3,I) = NC(I,7) 
-            IXS10(4,I) = NC(I,8) 
-            IXS10(5,I) = NC(I,9) 
+            IXS10(1,I) = NC(I,5)
+            IXS10(2,I) = NC(I,6)
+            IXS10(3,I) = NC(I,7)
+            IXS10(4,I) = NC(I,8)
+            IXS10(5,I) = NC(I,9)
             IXS10(6,I) = NC(I,10)
           ENDIF
         ENDIF
@@ -334,15 +334,15 @@ C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
       DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(IUN,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-          VX(I,N)=V(1,NN)          
-          VY(I,N)=V(2,NN)          
-          VZ(I,N)=V(3,NN)          
-        ENDDO                      
+        DO I=LFT,LLT
+          NN = MAX(IUN,NC(I,N))
+          XX(I,N)=X(1,NN)
+          YY(I,N)=X(2,NN)
+          ZZ(I,N)=X(3,NN)
+          VX(I,N)=V(1,NN)
+          VY(I,N)=V(2,NN)
+          VZ(I,N)=V(3,NN)
+        ENDDO
       ENDDO
 C
       DO I=LFT,LLT
@@ -359,7 +359,7 @@ C
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	
           ENDIF
         ENDDO
       ENDDO
@@ -369,7 +369,7 @@ C
         IF(JTHE < 0 ) THEN
          IF(NINTEMP > 0 ) THEN
           DO N =1,10
-            DO I=LFT,LLT  
+            DO I=LFT,LLT
               NN = MAX(IUN,NC(I,N))
               IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
             ENDDO
@@ -381,7 +381,7 @@ C
                TEMP(NN) = TEMP0(I)
             ENDDO
           ENDDO
-         ENDIF   
+         ENDIF
         ENDIF
 CC        
       RETURN

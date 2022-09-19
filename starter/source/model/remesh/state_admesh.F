@@ -80,8 +80,8 @@ C-----------------------------------------------
      .        ITRIM,I
       INTEGER IERROR, NINTLST2,ERRORADJ,NSHELL,NSH3N
       INTEGER, DIMENSION(:),ALLOCATABLE :: LIST,INDEXL
-      INTEGER IX1(MAX(NUMELC,NUMELTG)), 
-     .        IX2(MAX(NUMELC,NUMELTG)), 
+      INTEGER IX1(MAX(NUMELC,NUMELTG)),
+     .        IX2(MAX(NUMELC,NUMELTG)),
      .        INDEX(2*MAX(NUMELC,NUMELTG))
 C     REAL
       CHARACTER MESS*40,TITR*nchartitle,KEY*ncharkey,KEY2*ncharkey
@@ -125,11 +125,11 @@ C------
       ALLOCATE(LIST  (5*NLIST),STAT=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='LIST')     
+     .                         C1='LIST')
       ALLOCATE(INDEXL(10*NLIST),STAT=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='INDEXL')     
+     .                         C1='INDEXL')
 
       NLIST=0
 
@@ -155,7 +155,7 @@ C
 C--------* EXTRACT DATAS (INTEGER VALUES) *------
 C
           CALL HM_GET_INTV('NSHELL',NSHELL,IS_AVAILABLE,LSUBMODEL)
-          
+
           DO I=1,NSHELL
 
               CALL HM_GET_INT_ARRAY_INDEX('shell_ID',ID,I,IS_AVAILABLE,LSUBMODEL)
@@ -207,7 +207,7 @@ C
 C--------* EXTRACT DATAS (INTEGER VALUES) *------
 C
           CALL HM_GET_INTV('NSHELL',NSHELL,IS_AVAILABLE,LSUBMODEL)
-          
+
           DO I=1,NSHELL
 
 
@@ -242,19 +242,19 @@ C
               END IF
 C
               IF(I1+I2+I3+I4 /=0) THEN
-                ERRORADJ =0 
+                ERRORADJ =0
                 IF(IXC(2,II) /= IXC(2,I1).OR.IXC(3,II) /= IXC(3,I2)
      .    .OR.IXC(4,II) /= IXC(4,I3).OR.IXC(5,II) /= IXC(5,I4)) THEN
-                 ERRORADJ =1                 
+                 ERRORADJ =1
                 ELSEIF(IXC(4,I1) /= IXC(5,I2).OR.IXC(5,I2) /= IXC(2,I3)
      .    .OR.IXC(2,I3) /= IXC(3,I4).OR.IXC(4,I1) /= IXC(3,I4)) THEN
-                 ERRORADJ =1 
+                 ERRORADJ =1
                 ELSEIF(IXC(3,I1) /= IXC(2,I2).OR.IXC(4,I2) /= IXC(3,I3)
      .    .OR.IXC(5,I3) /= IXC(4,I4).OR.IXC(5,I1) /= IXC(2,I4)) THEN
-                 ERRORADJ =1 
+                 ERRORADJ =1
                 ENDIF
               ENDIF
-              IF(ERRORADJ ==1.AND.ABS(LEVEL)<LEVELMAX) THEN 
+              IF(ERRORADJ ==1.AND.ABS(LEVEL)<LEVELMAX) THEN
                 CALL ANCMSG(MSGID=1023,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -326,11 +326,11 @@ C------
       ALLOCATE(LIST(5*NLIST),STAT=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='LIST')     
+     .                         C1='LIST')
       ALLOCATE(INDEXL(10*NLIST),STAT=IERROR)
       IF(IERROR/=0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='INDEXL')     
+     .                         C1='INDEXL')
 
 C---------
 
@@ -447,20 +447,20 @@ C
               END IF
 C
               IF(I1+I2+I3+I4 /=0) THEN
-                ERRORADJ =0 
+                ERRORADJ =0
                 IF(IXTG(2,II) /= IXTG(2,I1).OR.IXTG(3,II) /= IXTG(3,I2)
      .    .OR.IXTG(4,II) /= IXTG(4,I3)) THEN
-                 ERRORADJ =1                 
+                 ERRORADJ =1
                 ELSEIF(IXTG(3,I1) /= IXTG(2,I2).OR.IXTG(4,I2) /= IXTG(3,I3)
      .    .OR.IXTG(2,I3) /= IXTG(3,I4)) THEN
-                 ERRORADJ =1 
+                 ERRORADJ =1
                 ELSEIF(IXTG(4,I1) /= IXTG(2,I3).OR.IXTG(4,I1) /= IXTG(3,I4)
      .    .OR.IXTG(4,I2) /= IXTG(2,I4).OR.IXTG(4,I4) /= IXTG(2,I2).OR.
      .           IXTG(4,I4) /= IXTG(3,I1)) THEN
-                 ERRORADJ =1 
+                 ERRORADJ =1
                 ENDIF
               ENDIF
-              IF(ERRORADJ ==1.AND.ABS(LEVEL)<LEVELMAX) THEN 
+              IF(ERRORADJ ==1.AND.ABS(LEVEL)<LEVELMAX) THEN
                 CALL ANCMSG(MSGID=1023,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,

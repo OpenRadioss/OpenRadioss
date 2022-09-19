@@ -93,7 +93,7 @@ Chd|====================================================================
      4                   LPBY   , NPBY   , NSTRF , RWBUF  , NPRW    ,
      5                   IXUR   , IPART  , IPARTS, IPARTQ , IPARTC  ,
      6                   IPARTT , IPARTP , IPARTR, IPARTUR, IPARTTG ,
-     7                   RBY   , SWA4   , 
+     7                   RBY   , SWA4   ,
      8                   IGRSURF, BUFSF  , IPARTX, KXSP   , IXSP    ,
      9                   IPARTSP, SPBUF  , IXS10 , IXS20  , IXS16   ,
      A                   IPM    , IGEO   , SMATER, SEL2FA , SNFACPTX,
@@ -142,7 +142,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*), ITAB(*), LPBY(*), NPBY(NNPBY,*),
      .        NSTRF(*), NPRW(*), IXUR(NIXUR,*), IPART(LIPART1,*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
-     .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*),SWA4, 
+     .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*),SWA4,
      .        IPARTX(*), KXSP(NISP,*),IXSP(KVOISPH,*),
      .        IPARTSP(*), IXS10(6,*), IXS20(12,*), IXS16(8,*),
      .        IPM(NPROPMI,*), IGEO(NPROPGI,*), SMATER, SEL2FA,
@@ -258,7 +258,7 @@ C-----------------------------------------------
       DO I=1,NUMELR
         IF(NINT(GEO(12,IXR(1,I)))==4 .OR.
      .     NINT(GEO(12,IXR(1,I)))==13.OR.
-     .     NINT(GEO(12,IXR(1,I)))==45.OR.     
+     .     NINT(GEO(12,IXR(1,I)))==45.OR.
      .       (NINT(GEO(12,IXR(1,I)))>=29.AND.
      .        NINT(GEO(12,IXR(1,I)))<=33))THEN
           NSKEWA=NSKEWA+1
@@ -704,8 +704,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     CUTS PART
 C-----------------------------------------------
-c       print*,'685(664)-870' 
-c       return 
+c       print*,'685(664)-870'
+c       return
       IF (INVSTR<40) THEN
        DO ISECT=1,NSECT
         WRITE(STR,'(I8,A2,A7)') ISECT,': ','Section'
@@ -2711,7 +2711,7 @@ C-----------------------------------------------
  1100 FORMAT (' .. ANIMATION FILE:',1X,A,' WRITTEN')
 C
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  XYZ16                         source/output/anim/genani1.F  
 Chd|-- called by -----------

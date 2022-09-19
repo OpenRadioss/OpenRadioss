@@ -67,10 +67,10 @@ C-----------------------------------------------
      .   AN, BN, CN,
      .   XLMIN, XLMAX, YLMIN, YLMAX, ZLMIN, ZLMAX,
      .   XGMIN, XGMAX, YGMIN, YGMAX, ZGMIN, ZGMAX,
-     .   X1, Y1, Z1, 
-     .   X2, Y2, Z2, 
-     .   X3, Y3, Z3, 
-     .   X4, Y4, Z4, 
+     .   X1, Y1, Z1,
+     .   X2, Y2, Z2,
+     .   X3, Y3, Z3,
+     .   X4, Y4, Z4,
      .   XRMIN, XRMAX, YRMIN, YRMAX, ZRMIN, ZRMAX
 C-----------------------------------------------
       ADRBUF=IGRSURF(KSURF)%IAD_BUFR

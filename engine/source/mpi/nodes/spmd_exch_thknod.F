@@ -99,7 +99,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(

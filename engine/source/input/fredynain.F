@@ -57,7 +57,7 @@ C-----------------------------------------------
 #include      "nchara_c.inc"
 #include      "nchar_c.inc"
 #include      "state_c.inc"
-#include      "com01_c.inc" 
+#include      "com01_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, K, IKEY, N1, KK, IV2(10), J
-      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, 
-     .          KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey, CARTE*ncharline, 
+      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey,
+     .          KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey, CARTE*ncharline,
      .          LINE*line120
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
@@ -81,10 +81,10 @@ C-----------------------------------------------
       DO I = 1,MX_DYNAIN
         DYNAIN_C(I) = 0
       ENDDO
-     
+
       NDYNAINPRT=0
       NDYNAINALL=0
-      
+
 c---
       IF (IKAD(IKEY) /= IKAD(IKEY+1)) THEN
         K  = 0
@@ -115,7 +115,7 @@ c---
               ENDDO
             ENDDO ! DO I=2,NBC
             IF(NDYNAINPRT == 0)THEN
-              CALL ANCMSG(MSGID=291,ANMODE=ANINFO)            
+              CALL ANCMSG(MSGID=291,ANMODE=ANINFO)
               CALL ARRET(0)
             ENDIF
           ENDIF
@@ -136,8 +136,8 @@ c---
             ELSE
               GOTO 9990
             ENDIF ! IF (KEY3)
-       
-          ENDIF!KEY2 
+
+          ENDIF!KEY2
         ENDIF !IF (KEY2)
 c
         IF (IKAD(IKEY)+K /= IKAD(IKEY+1)) GOTO 1175

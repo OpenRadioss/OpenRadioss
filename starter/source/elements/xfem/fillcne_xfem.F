@@ -72,7 +72,7 @@ C-----------------------------------------------
       TAGSKYTG = 0
 C
       DO I = 0, NCRKXFE + 1           ! NCRKXFE = Nb of nodes xfem
-        ADSKY(I) = ADDCNE_CRKXFEM(I)    
+        ADSKY(I) = ADDCNE_CRKXFEM(I)
       ENDDO
 C
       OFFC  = NUMELS + NUMELQ
@@ -119,11 +119,11 @@ c---------------------------
           DO K=1,4
             N  = IXC(K+1,I)          ! Num noeud std
             NP = INOD_CRKXFEM(N)     ! Num noeud phantome
-            CNE_XFE(ADSKY(NP)) = I  
+            CNE_XFE(ADSKY(NP)) = I
             CRKNODIAD(ADSKY(NP)) = TAGSKYC(K,I)
             ADSKY(NP) = ADSKY(NP) + 1
           ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
 c---------------------------
 c     SHELL -3N- Connectivities
@@ -139,7 +139,7 @@ c---------------------------
             CRKNODIAD(ADSKY(NP)) = TAGSKYTG(K,I)
             ADSKY(NP) = ADSKY(NP) + 1
           ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
 C-----------------------------------------------
 c     Remplissage de CEL_XFE, CEP_XFE :  Element Xfem Global/Local

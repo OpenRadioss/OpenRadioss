@@ -31,7 +31,7 @@ Chd|====================================================================
 !$COMMENT
 !       SPLIT_JOINT description
 !       initialization of CYL_JOIN structure
-!       
+!
 !       SPLIT_JOINT organization :
 !       loop over the joint & initialization
 !$ENDCOMMENT
@@ -65,7 +65,7 @@ C=======================================================================
 
         DO I=1,NJOINT
             CYL_JOIN(I)%PROC_MAIN = -1        !   proc main
-            CYL_JOIN(I)%NUMBER_PROC = 0         !   number of proc 
+            CYL_JOIN(I)%NUMBER_PROC = 0         !   number of proc
             CYL_JOIN(I)%NB_SECONDARY_NODE = 0   !   number of secondary node
             ALLOCATE( CYL_JOIN(I)%NB_NODE(NSPMD) )
             CYL_JOIN(I)%NB_NODE(1:NSPMD) = 0    !   number of node per proc

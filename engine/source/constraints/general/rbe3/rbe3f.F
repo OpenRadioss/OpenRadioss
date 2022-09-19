@@ -2155,7 +2155,7 @@ C======================================================================|
          ENDDO
         ENDDO
 C--renormalizing to avoid mass adding
-        IF (IFD >0) THEN         
+        IF (IFD >0) THEN
          SUM =ZERO
          DO I=1,NML
           DO J = 1,3
@@ -2177,7 +2177,7 @@ C
           END IF
          ENDDO
         ENDDO
-        IF (IMD >0) THEN         
+        IF (IMD >0) THEN
          SUM =ZERO
          DO I=1,NML
           DO J = 1,3

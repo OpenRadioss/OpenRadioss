@@ -81,10 +81,10 @@ C-----------------------------------------------
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), 
-     .     GAPV(MVSIZ), GAPR(MVSIZ),GAP_SH(*), GAP_M(*), 
+     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ),
+     .     GAPV(MVSIZ), GAPR(MVSIZ),GAP_SH(*), GAP_M(*),
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
-     .     TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),GAPMAX     
+     .     TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),GAPMAX
       INTEGER IRECT(4,*),ICURV, IADM
       INTEGER SOLIDN_NORMAL(3,*), SOLIDN_NORMAL_F(3,*)
       my_real
@@ -132,10 +132,10 @@ C-----------------------------------------------
 C--------------------------------------------------------
 C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
 C--------------------------------------------------------
-       IF(IGAP /= 0)THEN 
+       IF(IGAP /= 0)THEN
          UNSSQR3 = ONE/SQR3
-         DO I=1,JLT 
-           M = CAND_E(I)                     
+         DO I=1,JLT
+           M = CAND_E(I)
            IG = NSVG(I)
            I1 = NLG(IRECT(1,M))
            I2 = NLG(IRECT(2,M))
@@ -213,7 +213,7 @@ c shift nodales
                SY1 = SY1 + AAA*SY0
                SZ1 = SZ1 + AAA*SZ0
                AAA = GAP_SH(M)*SQR3
-             ENDIF               
+             ENDIF
              SX1 = SX1*AAA
              SY1 = SY1*AAA
              SZ1 = SZ1*AAA
@@ -226,7 +226,7 @@ c shift nodales
                SY2 = SY2 + AAA*SY0
                SZ2 = SZ2 + AAA*SZ0
                AAA = GAP_SH(M)*SQR3
-             ENDIF               
+             ENDIF
              SX2 = SX2*AAA
              SY2 = SY2*AAA
              SZ2 = SZ2*AAA
@@ -239,7 +239,7 @@ c shift nodales
                SY3 = SY3 + AAA*SY0
                SZ3 = SZ3 + AAA*SZ0
                AAA = GAP_SH(M)*SQR3
-             ENDIF               
+             ENDIF
              SX3 = SX3*AAA
              SY3 = SY3*AAA
              SZ3 = SZ3*AAA
@@ -252,7 +252,7 @@ c shift nodales
                SY4 = SY4 + AAA*SY0
                SZ4 = SZ4 + AAA*SZ0
                AAA = GAP_SH(M)*SQR3
-             ENDIF               
+             ENDIF
              SX4 = SX4*AAA
              SY4 = SY4*AAA
              SZ4 = SZ4*AAA
@@ -390,7 +390,7 @@ c            bord de coque
      .                       X3(I),Y3(I),Z3(I),GAP_M(M))
              ENDIF
            ENDIF
-         ENDDO                           
+         ENDDO
        ENDIF
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
@@ -399,7 +399,7 @@ C--------------------------------------------------------
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -738,7 +738,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
@@ -875,7 +875,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
@@ -944,7 +944,7 @@ C
            ENDIF
           ENDDO
          ENDIF
-       ENDIF  
+       ENDIF
       ELSE
 C------ IDTMINS=2
         IF(INTTH == 0 ) THEN
@@ -999,7 +999,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
@@ -1140,7 +1140,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include  "vectorize.inc"
           DO I=1,JLT
            IF(PENE2(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
@@ -1211,7 +1211,7 @@ C
            ENDIF
           ENDDO
          ENDIF
-       ENDIF  
+       ENDIF
       END IF
 C
       RETURN

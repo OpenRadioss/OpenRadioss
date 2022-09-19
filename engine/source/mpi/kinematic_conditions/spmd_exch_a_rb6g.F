@@ -79,7 +79,7 @@ C-----------------------------------------------
       IDEB=1
       IF(LOC_PROC==PMAIN) THEN
         DO P = 2, NSPMD
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      .      BUF(IDEB),LEN,MPI_DOUBLE_PRECISION,IT_SPMD(P),
      .      MSGTYP,MPI_COMM_WORLD,REQ(P-1),IERROR    )
@@ -259,7 +259,7 @@ C
           IDEB = IDEB + A_AR
          ENDIF
         ENDDO
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN=IDEB-1
         CALL MPI_SEND(BUF,LEN,MPI_DOUBLE_PRECISION,IT_SPMD(PMAIN),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)

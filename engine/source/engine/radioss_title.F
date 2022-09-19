@@ -57,7 +57,7 @@ C-----------------------------------------------
 
        LEN=LEN_TRIM(VERS)
        LBT=LEN_TRIM(BTAG)
-      
+
        IF( GOT_INSPIRE_ALM == 1)THEN
           WRITE(RADVERS,'(A,A)') 'Altair Solver ',VERS
           LEN = LEN + 14
@@ -69,7 +69,7 @@ C-----------------------------------------------
        LENBT = LEN_TRIM(BTAG)
        LENCPUNAM=LEN_TRIM(CPUNAM)
        LENARCHTIT=LEN_TRIM(ARCH_TIT)
-       
+
        YEARSTRING(1:4)=BDATE(8:11)
        WRITE(COPYRIGHTLINE,'(A,A,A)') 'COPYRIGHT (C) 1986-'//YEARSTRING(1:4)//' Altair Engineering, Inc.'
 
@@ -102,7 +102,7 @@ C-----------------------------------------------
        CALL PRINTCENTER("Licensed under GNU Affero General Public License.",49,IOUT,3)
        CALL PRINTCENTER("See License file.",17,IOUT,3)
        CALL PRINTCENTER(" ",0,IOUT,1)
-       WRITE(IOUT,'(A)') ' ' 
+       WRITE(IOUT,'(A)') ' '
        IF (IFLAG==1)
      *    WRITE(IOUT,'(A,A,A,A)') ' ROOT: ',FILNAM(1:ROOTLEN),
      *          '  RESTART: ',CHRUN
@@ -134,7 +134,7 @@ C-----------------------------------------------
        INTEGER POS,I
 C-----------------------------------------------
 C Initialisation
-       PRINTOUT=' ' 
+       PRINTOUT=' '
        PRINTOUT(1)='*'
        PRINTOUT(2)='*'
        PRINTOUT(71)='*'
@@ -145,7 +145,7 @@ C   Flag = 0 ligne blanche
        IF (FLAG==1)THEN
 C   Flag = 1 que des * dans la ligne
          PRINTOUT(1:72)='*'
- 
+
 
        ELSEIF (FLAG==2) THEN
 C   du texte center

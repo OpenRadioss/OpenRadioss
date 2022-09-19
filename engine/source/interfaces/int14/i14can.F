@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE I14CAN(NSI     ,KSI     ,X    ,
      2                  KSURF   ,IGRSURF ,BUFSF,
      3                  G       ,
-     4                  NSC   ,KSC ,NSP ,KSP ,   
+     4                  NSC   ,KSC ,NSP ,KSP ,
      5                  IMPACT,CIMP,NIMP,EW  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -90,7 +90,7 @@ C---------------------------------
        CN=C**DGR
        AN=ONE/AN
        BN=ONE/BN
-       CN=ONE/CN       
+       CN=ONE/CN
        DO I=1,9
         ROT(I)=BUFSF(ADRBUF+7+I-1)
        END DO

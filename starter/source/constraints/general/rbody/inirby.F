@@ -96,11 +96,11 @@ C-----------------------------------------------
      .   INMAX,X_MSN0(3),DIST
       INTEGER M_I, OPT_MERGE, RBLEVEL
       INTEGER, DIMENSION(:), POINTER  :: LSN, LSN_XTRA
-      my_real, DIMENSION(:), ALLOCATABLE :: MS_LOC,IN_LOC 
+      my_real, DIMENSION(:), ALLOCATABLE :: MS_LOC,IN_LOC
 C
       TOL=ONE+EM04
 C
-      NSL = NPBY(2,NRB) ! Nombre total de noeuds SECONDARY 
+      NSL = NPBY(2,NRB) ! Nombre total de noeuds SECONDARY
       LSN => LPBY(NPBY(11,NRB)+1:NPBY(11,NRB)+NSL) ! Liste des noeuds SECONDARY
       RBLEVEL = NPBY(12,NRB)
       ALLOCATE (MS_LOC(NSL))
@@ -137,9 +137,9 @@ C-------------------------------------------------------------------------------
           IF (ITAGND(N)/=0) THEN
            MS_LOC(I)= ZERO
            IN_LOC(I)= ZERO
-          END IF 
+          END IF
         ENDDO
-       END IF 
+       END IF
 C
       NSL_XTRA = NPBY(14,NRB)+NPBY(15,NRB)+NPBY(16,NRB)
       NSL = NPBY(2,NRB) - NSL_XTRA
@@ -306,7 +306,7 @@ C
 C    
         DO J=1,3
           X(J,M)=X(J,M)/MASRB
-          XG(J)=X(J,M)          
+          XG(J)=X(J,M)
         ENDDO
       ENDIF
 C
@@ -470,7 +470,7 @@ C--------------------------------------
          ENDDO
         ELSEIF(N2D==1) THEN
          DO I=1,NPBY(15,NRB)+NPBY(16,NRB)
-          N=LSN_XTRA(I) 
+          N=LSN_XTRA(I)
           YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
           ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
           RBY(1,NRB)=RBY(1,NRB)+IN_LOC(NSL+I)+(YY+ZZ)*MS_LOC(NSL+I)
@@ -479,7 +479,7 @@ C--------------------------------------
          ENDDO
         ELSEIF(N2D==1) THEN
          DO I=1,NPBY(15,NRB)+NPBY(16,NRB)
-          N=LSN_XTRA(I) 
+          N=LSN_XTRA(I)
           YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
           YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
           ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
@@ -496,15 +496,15 @@ C--------------------------------------
 C     ASSEMBLAGE DES MASSES DES RIGID BODY SECONDARYS ET MAJ POSITION DU COG
 C--------------------------------------
       DO I=NRB-1,1,-1
-        IF((NPBY(12,I)) == RBLEVEL-1) THEN ! Merge with Rb level n-1 
+        IF((NPBY(12,I)) == RBLEVEL-1) THEN ! Merge with Rb level n-1
           DO J=1,3
             XG(J)=X(J,M)  ! centre de gravite du rb main avant modif
           ENDDO
           XMG=MASRB  ! masse du RB main avant modif
 c
           OPT_MERGE = NPBY(13,I)
-          NPBY(11,NRB) = NPBY(11,I) 
-          NPBY(2,NRB) = NPBY(2,NRB)+NPBY(2,I) 
+          NPBY(11,NRB) = NPBY(11,I)
+          NPBY(2,NRB) = NPBY(2,NRB)+NPBY(2,I)
           M_I=NPBY(1,I)
 c
           IF(OPT_MERGE == 2) THEN ! MASSE ET INERTIE AJOUTEE, COG ACTUALISE
@@ -517,7 +517,7 @@ c
             ENDDO
           ELSEIF(OPT_MERGE == 3) THEN ! MASSE ET INERTIE AJOUTEE, COG NON ACTUALISE
             MASRB = MASRB + RBY(14,I)
-          ENDIF         
+          ENDIF
 c
 C--------------------------------------
 C     TRANSFERT DES INERTIES AU COG
@@ -551,7 +551,7 @@ C--------------------------------------
             RBY(7,NRB)=ZERO
             RBY(8,NRB)=ZERO
             RBY(9,NRB)=RBY(9,NRB)+YY*XMG
-           ELSEIF(N2D==2) THEN  
+           ELSEIF(N2D==2) THEN
             YY=(XG(2)-X(2,M))*(XG(2)-X(2,M))
             YZ=(XG(2)-X(2,M))*(XG(3)-X(3,M))
             ZZ=(XG(3)-X(3,M))*(XG(3)-X(3,M))
@@ -568,7 +568,7 @@ C--------------------------------------
           ENDIF
           IF(OPT_MERGE > 1) THEN
            IF(N2D==0)THEN
-            XX=(X(1,M_I)-X(1,M))*(X(1,M_I)-X(1,M))  
+            XX=(X(1,M_I)-X(1,M))*(X(1,M_I)-X(1,M))
             XY=(X(1,M_I)-X(1,M))*(X(2,M_I)-X(2,M))
             XZ=(X(1,M_I)-X(1,M))*(X(3,M_I)-X(3,M))
             YY=(X(2,M_I)-X(2,M))*(X(2,M_I)-X(2,M))
@@ -582,7 +582,7 @@ C--------------------------------------
             RBY(6,NRB)=RBY(6,NRB)+RBY(6,I)-YZ*RBY(14,I)
             RBY(7,NRB)=RBY(7,NRB)+RBY(7,I)-XZ*RBY(14,I)
             RBY(8,NRB)=RBY(8,NRB)+RBY(8,I)-YZ*RBY(14,I)
-            RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+(XX+YY)*RBY(14,I) 
+            RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+(XX+YY)*RBY(14,I)
            ELSEIF(N2D==1) THEN
             YY=(X(2,M_I)-X(2,M))*(X(2,M_I)-X(2,M))
             ZZ=(X(3,M_I)-X(3,M))*(X(3,M_I)-X(3,M))
@@ -599,12 +599,12 @@ C--------------------------------------
             RBY(8,NRB)=RBY(8,NRB)-YZ*RBY(14,I)
             RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+YY*RBY(14,I)
            ENDIF !N2D
-          ENDIF   
+          ENDIF
 c         mise a zero des donnees rb SECONDARY
-          RBY(1:15,I)=ZERO           
-          IN(M_I)=ZERO 
-          MS(M_I)=ZERO    
-        ELSEIF(NPBY(12,I) == RBLEVEL) THEN ! End of the RB branch 
+          RBY(1:15,I)=ZERO
+          IN(M_I)=ZERO
+          MS(M_I)=ZERO
+        ELSEIF(NPBY(12,I) == RBLEVEL) THEN ! End of the RB branch
           EXIT
         ENDIF
       ENDDO
@@ -759,7 +759,7 @@ C
             IF(RBY(10,NRB)/INMAX<EM03) RBY(10,NRB)=RBY(10,NRB)+EM01*INMAX
             IF(RBY(11,NRB)/INMAX<EM03) RBY(11,NRB)=RBY(11,NRB)+EM01*INMAX
             IF(RBY(12,NRB)/INMAX<EM03) RBY(12,NRB)=RBY(12,NRB)+EM01*INMAX
-            IF(NSUBDOM>0)THEN          
+            IF(NSUBDOM>0)THEN
               IF(TAGNO(M+N_PART) /= 3) THEN
                 CALL ANCMSG(MSGID=275,
      .                      MSGTYPE=MSGWARNING,
@@ -777,7 +777,7 @@ C
           ENDIF
         ENDIF
 
-      
+
         IF(NSUBDOM>0)THEN
           IF(TAGNO(M+N_PART)==3)GOTO 350
         END IF
@@ -1119,7 +1119,7 @@ Chd|====================================================================
      .                   MS  ,IN   ,X     ,ITAB,SKEW,
      .                   B1  ,B2   ,B3    ,B5  ,B6,
      .                   B9  ,ISPH ,TOTMAS,XGT ,YGT ,
-     .                   ZGT ,NPBY ,IWA   ,V   ,VR, 
+     .                   ZGT ,NPBY ,IWA   ,V   ,VR,
      .                   RBYID,ID  ,TITR  ,ITAGND ,RBY_INIAXIS)
       USE MESSAGE_MOD
 C=======================================================================
@@ -1172,7 +1172,7 @@ C     REAL
      .   XG(3), XM0(3), XX, XY, XZ, YY, YZ, ZZ, XIIN, INMIN,
      .   V1X2, V2X1, V2X3, V3X2, V3X1, V1X3,
      .   MASRB,DD,INMAX, XMG, X_MSN0(3), DIST
-      INTEGER, DIMENSION(:), POINTER  :: LSN, LSN_XTRA 
+      INTEGER, DIMENSION(:), POINTER  :: LSN, LSN_XTRA
 C
       MS(M)=ZERO
       IN(M) = ZERO
@@ -1286,7 +1286,7 @@ C
 C    
         DO J=1,3
           X(J,M)=X(J,M)/MASRB
-          XG(J)=X(J,M)          
+          XG(J)=X(J,M)
         ENDDO
       ENDIF
 C
@@ -1446,8 +1446,8 @@ C--------------------------------------
          ENDDO
         ELSEIF(N2D==1) THEN
          DO I=1,NPBY(15,NRB)+NPBY(16,NRB)
-          N=LSN_XTRA(I)  
-          IF (ITAGND(N)/=0) CYCLE       
+          N=LSN_XTRA(I)
+          IF (ITAGND(N)/=0) CYCLE
           YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
           ZZ=(X(3,N)-X(3,M))*(X(3,N)-X(3,M))
           RBY(1,NRB)=RBY(1,NRB)+IN(N)+(YY+ZZ)*MS(N)
@@ -1456,7 +1456,7 @@ C--------------------------------------
          ENDDO
         ELSEIF(N2D==1) THEN
          DO I=1,NPBY(15,NRB)+NPBY(16,NRB)
-          N=LSN_XTRA(I) 
+          N=LSN_XTRA(I)
           IF (ITAGND(N)/=0) CYCLE
           YY=(X(2,N)-X(2,M))*(X(2,N)-X(2,M))
           YZ=(X(2,N)-X(2,M))*(X(3,N)-X(3,M))
@@ -1481,8 +1481,8 @@ C--------------------------------------
           XMG=MASRB  ! masse du RB main avant modif
 c
           OPT_MERGE = NPBY(13,I)
-          NPBY(11,NRB) = NPBY(11,I) 
-          NPBY(2,NRB) = NPBY(2,NRB)+NPBY(2,I) 
+          NPBY(11,NRB) = NPBY(11,I)
+          NPBY(2,NRB) = NPBY(2,NRB)+NPBY(2,I)
           M_I=NPBY(1,I)
 c
           IF(OPT_MERGE == 2) THEN ! MASSE AJOUTEE, COG ACTUALISE
@@ -1492,10 +1492,10 @@ c
             MASRB = MASRB + RBY(14,I)
             DO J=1,3
               X(J,M)=X(J,M)/MASRB
-            ENDDO    
+            ENDDO
           ELSEIF(OPT_MERGE == 3) THEN ! MASSE AJOUTEE, COG NON ACTUALISE
             MASRB = MASRB + RBY(14,I)
-          ENDIF         
+          ENDIF
 c
 C--------------------------------------
 C     TRANSFERT DES INERTIES AU COG
@@ -1529,7 +1529,7 @@ C--------------------------------------
             RBY(7,NRB)=ZERO
             RBY(8,NRB)=ZERO
             RBY(9,NRB)=RBY(9,NRB)+YY*XMG
-           ELSEIF(N2D==2) THEN  
+           ELSEIF(N2D==2) THEN
             YY=(XG(2)-X(2,M))*(XG(2)-X(2,M))
             YZ=(XG(2)-X(2,M))*(XG(3)-X(3,M))
             ZZ=(XG(3)-X(3,M))*(XG(3)-X(3,M))
@@ -1544,9 +1544,9 @@ C--------------------------------------
             RBY(9,NRB)=RBY(9,NRB)+YY*XMG
            ENDIF
           ENDIF
-          IF(OPT_MERGE > 1) THEN ! TRANSFERT INERTIE SECONDARY 
+          IF(OPT_MERGE > 1) THEN ! TRANSFERT INERTIE SECONDARY
            IF(N2D==0)THEN
-            XX=(X(1,M_I)-X(1,M))*(X(1,M_I)-X(1,M))  
+            XX=(X(1,M_I)-X(1,M))*(X(1,M_I)-X(1,M))
             XY=(X(1,M_I)-X(1,M))*(X(2,M_I)-X(2,M))
             XZ=(X(1,M_I)-X(1,M))*(X(3,M_I)-X(3,M))
             YY=(X(2,M_I)-X(2,M))*(X(2,M_I)-X(2,M))
@@ -1560,7 +1560,7 @@ C--------------------------------------
             RBY(6,NRB)=RBY(6,NRB)+RBY(6,I)-YZ*RBY(14,I)
             RBY(7,NRB)=RBY(7,NRB)+RBY(7,I)-XZ*RBY(14,I)
             RBY(8,NRB)=RBY(8,NRB)+RBY(8,I)-YZ*RBY(14,I)
-            RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+(XX+YY)*RBY(14,I) 
+            RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+(XX+YY)*RBY(14,I)
            ELSEIF(N2D==1) THEN
             YY=(X(2,M_I)-X(2,M))*(X(2,M_I)-X(2,M))
             ZZ=(X(3,M_I)-X(3,M))*(X(3,M_I)-X(3,M))
@@ -1577,11 +1577,11 @@ C--------------------------------------
             RBY(8,NRB)=RBY(8,NRB)-YZ*RBY(14,I)
             RBY(9,NRB)=RBY(9,NRB)+RBY(9,I)+YY*RBY(14,I)
            ENDIF !N2D
-          ENDIF   
+          ENDIF
 c         mise a zero des donnees rb SECONDARY
-          RBY(1:15,I)=ZERO           
-          IN(M_I)=ZERO 
-          MS(M_I)=ZERO    
+          RBY(1:15,I)=ZERO
+          IN(M_I)=ZERO
+          MS(M_I)=ZERO
         ELSEIF(NPBY(12,I) == RBLEVEL) THEN
           EXIT
         ENDIF
@@ -1641,7 +1641,7 @@ C
           ENDIF
         ENDIF
 C
-        INMIN = MIN(RBY(10,NRB),RBY(11,NRB),RBY(12,NRB))      
+        INMIN = MIN(RBY(10,NRB),RBY(11,NRB),RBY(12,NRB))
         WRITE(IOUT,1200) RBY(10,NRB),RBY(11,NRB),RBY(12,NRB)
         WRITE(IOUT,1101)
         WRITE(IOUT,1102) (ITAB(LPBY(I+NPBY(11,NRB))),I=1,NSL)
@@ -1680,7 +1680,7 @@ C--         inivel is corrected only if not modified after read of inivel
             V(2,M)= V(2,M)+V3X1-V1X3
             V(3,M)= V(3,M)+V1X2-V2X1
           ENDIF
-        ENDIF      
+        ENDIF
 C
         IF(N2D == 0) THEN
           DO I=1,NSL

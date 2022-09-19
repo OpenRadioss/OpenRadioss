@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXEOS
       INTEGER, INTENT(INOUT)                       :: ISRATE
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
@@ -85,7 +85,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG      
+      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -95,14 +95,14 @@ C-----------------------------------------------
       my_real
      .   N12, N23, N31, E11, E22, E33, G12, G23, G31, SIGT1, SIGT2,
      .   SIGT3, DELTA, CA, CB, CN, FMAX, SIGYT1, SIGYT2, SIGYC1,
-     .   SIGYC2,SIGYT3,SIGYC3,SIGYT12, SIGYC12, SIGYT23, SIGYC23, 
+     .   SIGYC2,SIGYT3,SIGYC3,SIGYT12, SIGYC12, SIGYT23, SIGYC23,
      .   SIGY12T,SIGYT13, SIGYC13, F3,F33,
      .   F6,F66,F13, ALPHA, EFIB, EPSFT,
      .   EPSFC, C11, C22, C33, C12, C13, C23, DETC, D11, D12, D13, D22,
      .   D23, D33, D21, D31, D32, A11, A12, A13, A22, A23, A33, C1, SSP,
      .   F1, F2, F4, F5, F11, F22, F44, F55, F12, F23, FT1, FT2,
      .   CC,EPS0,DMIN,WPLAREF,RHOR,RHO0
-      CHARACTER*64 :: chain      
+      CHARACTER*64 :: chain
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -114,7 +114,7 @@ C-----------------------------------------------
 
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_EA'       ,E11       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EB'       ,E22       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EC'       ,E33       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -137,20 +137,20 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_SIG'      ,FMAX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('WPREF'        ,WPLAREF   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_SIGYT1'   ,SIGYT1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_SIGYT2'   ,SIGYT2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_SIGYC1'   ,SIGYC1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_SIGYC2'   ,SIGYC2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
+      CALL HM_GET_FLOATV('MAT_SIGYT1'   ,SIGYT1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGYT2'   ,SIGYT2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGYC1'   ,SIGYC1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGYC2'   ,SIGYC2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_SIGT12'   ,SIGYT12   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('MAT_SIGC12'   ,SIGYC12   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('MAT_SIGT23'   ,SIGYT23   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('MAT_SIGC23'   ,SIGYC23   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_FLOATV('MAT_SIGT12'   ,SIGYT12   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGC12'   ,SIGYC12   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGT23'   ,SIGYT23   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGC23'   ,SIGYC23   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_SIGYT3'   ,SIGYT3    ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_SIGYC3'   ,SIGYC3    ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_SIGYT13'  ,SIGYT13   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('MAT_SIGYC13'  ,SIGYC13   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_FLOATV('MAT_SIGYT3'   ,SIGYT3    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGYC3'   ,SIGYC3    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGYT13'  ,SIGYT13   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SIGYC13'  ,SIGYC13   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('MAT_ALPHA'    ,ALPHA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EFIB'     ,EFIB      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -182,8 +182,8 @@ C-----------------------------------------------
       ENDIF
 C             
 
-      
-      IF(WPLAREF == ZERO) WPLAREF = ONE    
+
+      IF(WPLAREF == ZERO) WPLAREF = ONE
       IF(ALPHA==ONE)ALPHA= ZEP99
       IF(DELTA==ZERO)DELTA= FIVEEM2
       IF(SIGT1==ZERO)SIGT1= INFINITY
@@ -198,9 +198,9 @@ C
       IF(SIGYT12 == ZERO) SIGYT12 = INFINITY
       IF(SIGYC12 == ZERO) SIGYC12 = INFINITY
       IF(SIGYT23 == ZERO) SIGYT23 = INFINITY
-      IF(SIGYC23 == ZERO) SIGYC23 = INFINITY 
-      IF(SIGYT13 == ZERO) SIGYT13 = SIGYT12 
-      IF(SIGYC13 == ZERO) SIGYC13 = SIGYC12   
+      IF(SIGYC23 == ZERO) SIGYC23 = INFINITY
+      IF(SIGYT13 == ZERO) SIGYT13 = SIGYT12
+      IF(SIGYC13 == ZERO) SIGYC13 = SIGYC12
       CA=ONE
       IF(CN==ZERO)   CN   = ONE
       IF(FMAX==ZERO)FMAX= EP10
@@ -214,7 +214,7 @@ C-------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1002) RHO0      
+        WRITE(IOUT,1002) RHO0
         WRITE(IOUT,1100) E11,E22,E33
         WRITE(IOUT,1200) N12,N23,N31
         WRITE(IOUT,1300) G12,G23,G31
@@ -290,9 +290,9 @@ C
       PM(47)= G23
       PM(48)= G31
 C
-      PM(49)= SSP 
+      PM(49)= SSP
       PM(68)=WPLAREF
-      
+
 C
 C     CONSTANTS FOR THE YIELD FUNCTION
 C  
@@ -301,13 +301,13 @@ C
       F3  = ONE/SIGYT3-ONE/SIGYC3
       F4  = ONE/SIGYT12-ONE/SIGYC12
       F5  = ONE/SIGYT23-ONE/SIGYC23
-      F6  = ONE/SIGYT13-ONE/SIGYC13      
+      F6  = ONE/SIGYT13-ONE/SIGYC13
       F11 = ONE/(SIGYT1*SIGYC1)
       F22 = ONE/(SIGYT2*SIGYC2)
       F33 = ONE/(SIGYT3*SIGYC3)
       F44 = ONE/(SIGYT12*SIGYC12)
       F55 = ONE/(SIGYT23*SIGYC23)
-      F66 = ONE/(SIGYT13*SIGYC13)      
+      F66 = ONE/(SIGYT13*SIGYC13)
       F12 = -HALF/SQRT(SIGYT1*SIGYC1*SIGYT2*SIGYC2)
       F23 = -HALF/SQRT(SIGYT2*SIGYC2*SIGYT3*SIGYC3)
       F13= - HALF/SQRT(SIGYT1*SIGYC1*SIGYT3*SIGYC3)
@@ -341,7 +341,7 @@ C
       PM(64)=F66
       PM(65)=F12
       PM(66)= F23
-      PM(67)= F13 
+      PM(67)= F13
       PM(73)=C11
       PM(74)=C22
       PM(75)=C33
@@ -357,12 +357,12 @@ C
 CC     Formulation for solid elements time step computation.
       IPM(252)=1
       DMIN  = MIN(D11*D22-D12**2,D22*D33-D23**2,D11*D33-D13**2)
-      PM(105) =DMIN/C1**2    
+      PM(105) =DMIN/C1**2
 C-----------------------------------------
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
+      MTAG%G_PLA   = 1
       MTAG%L_PLA   = 1
       MTAG%L_SIGF  = 1
       MTAG%L_EPSF  = 1

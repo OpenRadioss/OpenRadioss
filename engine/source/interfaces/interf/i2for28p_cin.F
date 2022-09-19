@@ -55,7 +55,7 @@ C     REAL
      .   A(3,*),AR(3,*), X(3,*),V(*), FSKYI2(I2SIZE,*),MMASS(*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
      .   SMASS(*), SINER(*),FSAV(*), CRST(2,*),FNCONT(3,*),
-     .   FNCONTP(3,*) ,FTCONTP(3,*) 
+     .   FNCONTP(3,*) ,FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -109,23 +109,23 @@ C------------------------------
 C
 #include "vectorize.inc"
       DO II=1,NSN
-       K = INDXC(II)                                      
-       IF (K == 0) CYCLE                                  
+       K = INDXC(II)
+       IF (K == 0) CYCLE
        I = NSV(K)
        IF(I>0)THEN
         L=IRTL(II)
 C
-        S = CRST(1,II)    
-        T = CRST(2,II)    
-        SP=ONE + S          
-        SM=ONE - S          
-        TP=FOURTH*(ONE + T)  
+        S = CRST(1,II)
+        T = CRST(2,II)
+        SP=ONE + S
+        SM=ONE - S
+        TP=FOURTH*(ONE + T)
         TM=FOURTH*(ONE - T)
 C    
-        H(1)=ONE/NIR                                         
-        H(2)=ONE/NIR                                          
-        H(3)=ONE/NIR                                          
-        H(4)=ONE/NIR                                          
+        H(1)=ONE/NIR
+        H(2)=ONE/NIR
+        H(3)=ONE/NIR
+        H(4)=ONE/NIR
 C
         J1=IRECT(1,L)
         J2=IRECT(2,L)
@@ -165,28 +165,28 @@ C
         X12=X1*X1
         X22=X2*X2
         X32=X3*X3
-        X42=X4*X4 
+        X42=X4*X4
         Y12=Y1*Y1
         Y22=Y2*Y2
         Y32=Y3*Y3
-        Y42=Y4*Y4 
-        Z12=Z1*Z1 
+        Y42=Y4*Y4
+        Z12=Z1*Z1
         Z22=Z2*Z2
-        Z32=Z3*Z3 
-        Z42=Z4*Z4 
-        XX=X12 + X22 + X32 + X42 
-        YY=Y12 + Y22 + Y32 + Y42 
-        ZZ=Z12 + Z22 + Z32 + Z42 
-        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4 
-        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4 
+        Z32=Z3*Z3
+        Z42=Z4*Z4
+        XX=X12 + X22 + X32 + X42
+        YY=Y12 + Y22 + Y32 + Y42
+        ZZ=Z12 + Z22 + Z32 + Z42
+        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4
+        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4
         ZX=Z1*X1 + Z2*X2 + Z3*X3 + Z4*X4
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .                                       - TWO*XY*YZ*ZX
         DET=ONE/DET
         B1=ZZZ*YYY-YZ2
@@ -208,7 +208,7 @@ C
          XMSI=MS(I)
          FXS=A(1,I)
          FYS=A(2,I)
-         FZS=A(3,I) 
+         FZS=A(3,I)
          IF (IRODDL==1) THEN
            INS=IN(I)
            MX=AR(1,I) + YS*FZS - ZS*FYS
@@ -300,7 +300,7 @@ C
            FSKYI2(8,NN) = ZERO
            FSKYI2(9,NN) = INX*FOURTH*(ONE-FACT)
            FSKYI2(10,NN)= ZERO
-         ENDIF  
+         ENDIF
 C
          NN = IADI2(4,I0)
          FSKYI2(1,NN) =  FX0 + A2*Z4 - A3*Y4
@@ -314,7 +314,7 @@ C
            FSKYI2(8,NN) = ZERO
            FSKYI2(9,NN) = INX*FOURTH*(ONE-FACT)
            FSKYI2(10,NN)= ZERO
-         ENDIF  
+         ENDIF
 C
          DMAST = DMAST + 4.*XMSI - MS(I)
 C
@@ -339,7 +339,7 @@ C
 C---    output of tied contact forces
  	CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)   
+     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C----
 C stokage ZERO pour noeuds delete par idel2
        ELSEIF(WEIGHT(-I)==1) THEN
@@ -383,7 +383,7 @@ C stokage ZERO pour noeuds delete par idel2
            FSKYI2(8,NN) = ZERO
            FSKYI2(9,NN) = ZERO
            FSKYI2(10,NN)= ZERO
-         ENDIF  
+         ENDIF
          NN = IADI2(4,I0)
          FSKYI2(1,NN) = ZERO
          FSKYI2(2,NN) = ZERO

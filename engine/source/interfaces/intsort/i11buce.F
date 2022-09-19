@@ -41,16 +41,16 @@ Chd|====================================================================
      6   ADDCM  ,CHAINE  ,NIN    ,ITAB    ,NRTSR   ,
      7   NCONT  ,GAP_S  , STIFS  ,PENIS   ,IGAP    ,
      8   STIFM  ,IAUTO  , I_MEM  ,ITASK   ,IFORM   ,
-     9   IFPEN  ,DRAD   , GAP_M  , GAP_S_L, 
+     9   IFPEN  ,DRAD   , GAP_M  , GAP_S_L,
      1   GAP_M_L ,GAPMIN, BGAPSMX, GAP,
      2   FLAGREMNODE,KREMNODE,REMNODE,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE TRI7BOX 
-      USE TRI11   
-      
+      USE TRI7BOX
+      USE TRI11
+
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,12 +99,12 @@ C
      .        ADD(2,I_ADD_MAX), N
       my_real
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
-      my_real 
+      my_real
      . DD,DD1,MARGE_ST,DX1,DY1,DZ1
       INTEGER :: L
       INTEGER NB_OLD(2,I_ADD_MAX+1)
       INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 C-----------------------------------------------
 C   definition from TRI7BOX module
 C-----------------------------------------------      
@@ -150,14 +150,14 @@ C
         ISZNSNR = 0
         DO I=1,NRTM
           ADDCM(I)=0
-        ENDDO 
+        ENDDO
       ELSE
         ISZNSNR = NRTSR
-      ENDIF    
+      ENDIF
 C
 C
 C-----DEBUT DE LA PHASE DE TRI 
-   
+
       MARGE = TZINF - MAX(MAXGAP+DGAPLOAD,DRAD)
 
       IF( NMN /=  0 ) THEN
@@ -182,7 +182,7 @@ C-----DEBUT DE LA PHASE DE TRI
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8)THEN
         AAA = LVOXEL
@@ -206,24 +206,24 @@ C Reduction of the number of voxels
         NBY = MIN(100,MAX(NBY8,1))
         NBZ = MIN(100,MAX(NBZ8,1))
       END IF
-      
+
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
-      
+
       !print *, "voxel search"
-      
+
         CALL I11TRIVOX(
      1   IRECTS  ,IRECTM  ,X       ,NRTM    ,NRTSR   ,
      2   XYZM    ,II_STOK ,CAND_S  ,CAND_M  ,NCONTACT,
      3   NOINT   ,TZINF   ,I_MEM   ,ESHIFT  ,ADDCM   ,
      4   CHAINE  ,NRTS    ,ITAB    ,STIFS   ,STIFM   ,
      5   IAUTO   ,VOXEL1  ,NBX     ,NBY     ,NBZ     ,
-     6   ITASK   ,IFPEN   ,IFORM   ,GAPMIN  ,DRAD    , 
+     6   ITASK   ,IFPEN   ,IFORM   ,GAPMIN  ,DRAD    ,
      7   MARGE   ,GAP_S   ,GAP_M   ,GAP_S_L, GAP_M_L,
      8   BGAPSMX, IGAP    ,GAP     ,FLAGREMNODE,KREMNODE,
-     9   REMNODE,DGAPLOAD )    
+     9   REMNODE,DGAPLOAD )
 
         CALL MY_BARRIER
 
@@ -249,7 +249,7 @@ c      ENDDO
 c      CALL FLUSH(900+ISPMD)
 c      STOP
 c     ENDIF
-            
+
 
 
       IF (I_MEM == 2) RETURN

@@ -141,11 +141,11 @@ C-----------------------------------------------
       DEALLOCATE(INDEX)
       !-----------------------------------------
       !WARNING HONEYCOMB POROUS MEDIUM PID=',IG
-      !-----------------------------------------      
+      !-----------------------------------------
       IF(JWARN > 0) THEN
          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IG),LTITR)
          CALL ANCMSG(MSGID=359,MSGTYPE=MSGWARNING,ANMODE=ANINFO,I1=IGEO(1,IG),C1=TITR,I2=JWARN)
-      ENDIF      
+      ENDIF
       GEO(31,IG)=N+.1
       NUMPOR=NUMPOR+N
       IRB=INT(GEO(29,IG))
@@ -166,7 +166,7 @@ C-----------------------------------------------
         ! main node RB replicate on all procs for SPMD calculation of porosity
           IF(IMACH == 3) THEN
             DO P = 1, NSPMD
-	      CALL IFRONTPLUS(IRB,P) 
+	      CALL IFRONTPLUS(IRB,P)
             ENDDO
           ENDIF
         ENDIF !IF (GEO(33,IG) == ZERO)

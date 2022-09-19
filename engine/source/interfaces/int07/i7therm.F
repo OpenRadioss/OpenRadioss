@@ -34,11 +34,11 @@ Chd|====================================================================
      1                   X2   ,Y2    ,Z2    ,X3     ,Y3    ,Z3    ,
      2                   X4   ,Y4    ,Z4    ,IX1   ,IX2    ,IX3   ,
      3                   IX4  ,RSTIF ,TEMPI ,IELES  ,
-     4                   PHI  ,TINT  ,AREAS ,IELECI  ,FRAD ,DRAD  ,  
+     4                   PHI  ,TINT  ,AREAS ,IELECI  ,FRAD ,DRAD  ,
      5                   GAPV ,FNI  ,IFUNCTK,XTHE   ,NPC   ,TF    ,
      6                   CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                   FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                   H4   )     
+     8                   H4   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,8 +88,8 @@ C     REAL
      .   AREAM ,TS, VOLM, TSTIF, TM,TSTIFM,
      .   TSTIFT,AX,AY,AZ,DIST, NORM,COND,P,RSTIFF,
      .   AX1,AY1,AZ1,AX2,AY2,AZ2,AREA,AREAC,PHIM
-      my_real 
-     .   FINTER 
+      my_real
+     .   FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
       IF(IFUNCTK==0)THEN ! KTHE =/ F(PEN)
@@ -110,19 +110,19 @@ C------------------------------------------
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
          SZ1=(X1(I)-X3(I))*(Y2(I)-Y4(I)) - (Y1(I)-Y3(I))*(X2(I)-X4(I))
 C         
-         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
+         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)
          ELSE
-           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
-           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
-           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)  
-         END IF  
+           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)
+           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)
+           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)
+         END IF
 C
 C-----------------------------------------------
 C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
@@ -134,14 +134,14 @@ C-------------------------------------------
 C         PENRAD : PENETRATION FOR RADIATION
 C  RADIATION IF GAP < DIST < DRADIATION
 C-------------------------------------------
-         PENRAD(I)=ABS(DIST) 
+         PENRAD(I)=ABS(DIST)
 C          
-         IF(IFORM == 0 )THEN 
+         IF(IFORM == 0 )THEN
             IF(PENRAD(I) <= DRAD.AND.PENRAD(I)>= GAPV(I))THEN
 C---------------------------------
 C         RADIATION
 C---------------------------------
-              PHI(I) = FRAD * AREAS(I) * (TINT*TINT+TS*TS) 
+              PHI(I) = FRAD * AREAS(I) * (TINT*TINT+TS*TS)
      .               * (TINT + TS) * (TINT - TS) * DT1 * THEACCFACT
             ELSE
 C---------------------------------
@@ -158,7 +158,7 @@ C ---
             PHI1(I) = ZERO
             PHI2(I) = ZERO
             PHI3(I) = ZERO
-            PHI4(I) = ZERO 
+            PHI4(I) = ZERO
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
@@ -168,7 +168,7 @@ C-------------------------------------------------
 C   EXCHANGE BETWEEN SECONDARY NODE AND MAIN SURFACE  
 C    IS NO MORE IN I7FOR3
 C-------------------------------------------------
-            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I)) 
+            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I))
      .         + H3(I)*TEMP(IX3(I)) + H4(I)*TEMP(IX4(I))
             TS = TEMPI(I)
 C            
@@ -183,7 +183,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)
 C
             IF (AREAS(I)>ZERO) THEN
               AREAC = MIN(AREA,AREAS(I))
@@ -195,7 +195,7 @@ C
 C---------------------------------
 C         RADIATION
 C---------------------------------
-              PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
+              PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
      .               * (TM + TS) * (TM - TS) * DT1 * THEACCFACT
             ELSE
 C---------------------------------
@@ -213,7 +213,7 @@ C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
             PHI(I) = PHI(I) + FHEATS * EFRICT(I) !SECONDARY HEATING
 
-            PHIM   = FHEATM * EFRICT(I) 
+            PHIM   = FHEATM * EFRICT(I)
             PHI1(I) = PHI1(I) + PHIM*H1(I) ! MAIN HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
@@ -228,7 +228,7 @@ C
        DO I=1,JLT
          PHI(I) = ZERO
 C
-         TS = TEMPI(I)  
+         TS = TEMPI(I)
 C------------------------------------------
 C         CALCUL DE LA SURFACE VECTORIELLE (*2.)
 C------------------------------------------
@@ -236,19 +236,19 @@ C------------------------------------------
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
          SZ1=(X1(I)-X3(I))*(Y2(I)-Y4(I)) - (Y1(I)-Y3(I))*(X2(I)-X4(I))
 C         
-         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
+         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)
          ELSE
-           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
-           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
-           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)  
-         END IF  
+           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)
+           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)
+           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)
+         END IF
 C
 C-----------------------------------------------
 C         CALCUL DISTANCE ENTRE LE NOEUD SECOND. 
@@ -260,14 +260,14 @@ C-------------------------------------------
 C         PENRAD : PENETRATION FOR RADIATION
 C  RADIATION IF GAP < DIST < DRADIATION
 C-------------------------------------------
-         PENRAD(I)=ABS(DIST) 
-          
-         IF(IFORM == 0 )THEN 
+         PENRAD(I)=ABS(DIST)
+
+         IF(IFORM == 0 )THEN
             IF(PENRAD(I) <= DRAD.AND.PENRAD(I)>= GAPV(I))THEN
 C---------------------------------
 C         RADIATION
 C---------------------------------
-              PHI(I) = FRAD * AREAS(I) * (TINT*TINT+TS*TS) 
+              PHI(I) = FRAD * AREAS(I) * (TINT*TINT+TS*TS)
      .               * (TINT + TS) * (TINT - TS) * DT1 * THEACCFACT
             ELSE
 C---------------------------------
@@ -290,13 +290,13 @@ C ---
             PHI1(I) = ZERO
             PHI2(I) = ZERO
             PHI3(I) = ZERO
-            PHI4(I) = ZERO 
+            PHI4(I) = ZERO
           ELSE
 C-------------------------------------------------
 C   EXCHANGE BETWEEN SECONDARY NODE AND MAIN SURFACE  
 C    IS NO MORE DONE  IN I7FOR3
 C-------------------------------------------------
-            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I)) 
+            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I))
      .         + H3(I)*TEMP(IX3(I)) + H4(I)*TEMP(IX4(I))
             TS = TEMPI(I)
 C            
@@ -311,7 +311,7 @@ C
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)
 C
             AREAC = MIN(AREA,AREAS(I))
 C
@@ -319,7 +319,7 @@ C
 C---------------------------------
 C         RADIATION
 C---------------------------------
-              PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
+              PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
      .               * (TM + TS) * (TM- TS) * DT1 * THEACCFACT
             ELSE
 C---------------------------------
@@ -330,18 +330,18 @@ C---------------------------------
 C
               PHI(I) = AREAC * (TM - TS) * DT1 * THEACCFACT / RSTIFF
               CONDINT(I) = AREAC * THEACCFACT / RSTIFF
-            ENDIF      
+            ENDIF
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
             PHI(I) = PHI(I) + FHEATS * EFRICT(I) !SECONDARY HEATING
 
-            PHIM   = FHEATM * EFRICT(I) 
+            PHIM   = FHEATM * EFRICT(I)
             PHI1(I) = PHI1(I) + PHIM*H1(I) ! MAIN HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
             PHI4(I) = PHI4(I) + PHIM*H4(I)
-    
+
            ENDIF
          ENDDO
        ENDIF

@@ -61,7 +61,7 @@ c
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
         IAD = IAD+1
-          RBUF(IAD) = MATPARAM%ILAW 
+          RBUF(IAD) = MATPARAM%ILAW
         IAD = IAD+1
           RBUF(IAD) = MATPARAM%MAT_ID
         IAD = IAD+1
@@ -77,18 +77,18 @@ c
       CALL WRITE_DB(RBUF,LEN)
 c
       DEALLOCATE( RBUF )
-      
+
 c     write material law tables if necessary
-      
+
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
         NUMTABL  = MATPARAM%NTABLE
-        
+
         IF (NUMTABL > 0) THEN
           CALL TABLE_WRESTI_MAT(MATPARAM%TABLE, NUMTABL)
           CALL TABLE_WRESTR_MAT(MATPARAM%TABLE, NUMTABL)
         END IF
-      END DO      
+      END DO
 c-----------
       RETURN
       END

@@ -27,7 +27,7 @@ Chd|        INIT_MONVOL                   source/airbag/init_monvol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVBRIC3(IBUF,  IBUFA,  NNT,   NBRIC, NNA,
-     .                   TBRIC, BRNA,   NCONA, ITAB,  
+     .                   TBRIC, BRNA,   NCONA, ITAB,
      .                   ILVOUT,NB_NODE,IVINI, VINI,  KMESH, V  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,7 +82,7 @@ C
              JJ=JJ+1
              IF(JJ>30) CYCLE
              IBRCO(1,N)=JJ
-             IBRCO(JJ+1,N)=I         
+             IBRCO(JJ+1,N)=I
            ENDDO
          ELSEIF(NTYPE==3) THEN
            REDIR(1)=1
@@ -97,7 +97,7 @@ C
              JJ=JJ+1
              IF(JJ>12) CYCLE
              IBRCO(1,N)=JJ
-             IBRCO(JJ+1,N)=I         
+             IBRCO(JJ+1,N)=I
            ENDDO
          ELSEIF(NTYPE==4) THEN
            DO J=1,5
@@ -106,7 +106,7 @@ C
              JJ=JJ+1
              IF(JJ>12) CYCLE
              IBRCO(1,N)=JJ
-             IBRCO(JJ+1,N)=I         
+             IBRCO(JJ+1,N)=I
            ENDDO
          ELSEIF(NTYPE==1) THEN
            DO J=1,8
@@ -115,7 +115,7 @@ C
              JJ=JJ+1
              IF(JJ>12) CYCLE
              IBRCO(1,N)=JJ
-             IBRCO(JJ+1,N)=I         
+             IBRCO(JJ+1,N)=I
            ENDDO
          ENDIF
       ENDDO
@@ -217,7 +217,7 @@ C Initial velocity of internal gas nodes
             J=IBUF(I)
             VEL=V(1,J)*V(1,J)+V(2,J)*V(2,J)+V(3,J)*V(3,J)
             IF(VEL > VMAX) VMAX=VEL
-            IF(VEL < VMIN) VMIN=VEL		 
+            IF(VEL < VMIN) VMIN=VEL		
          ENDDO
          IF(VMIN == VMAX) THEN
             IF(VMIN > ZERO) THEN
@@ -249,7 +249,7 @@ C Set to zero initial velocity of internal brick nodes (kmesh=1)
           V(1,J)=ZERO
           V(2,J)=ZERO
           V(3,J)=ZERO
-        ENDDO	  
+        ENDDO	
       ENDIF
 C
       WRITE(IOUT,3000) NBRIC,NNA,NNAI

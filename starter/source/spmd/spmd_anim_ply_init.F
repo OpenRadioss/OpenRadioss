@@ -158,7 +158,7 @@ C-----------------------------------------------
                     DO IPT=1,NPT
                       JPID = STACK%IGEO(IPPID + IPT, ISUBSTACK)
                       IPLY = IGEO(102  ,JPID)
-                      IDPID_PLY(IPLY) =IGEO(1  ,JPID) 
+                      IDPID_PLY(IPLY) =IGEO(1  ,JPID)
                       IF (IPLY == K) THEN
                          TAG_ARRAY(IXC(2,N))=1
                          TAG_ARRAY(IXC(3,N))=1

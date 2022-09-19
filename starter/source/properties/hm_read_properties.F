@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
@@ -117,7 +117,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IX(*),ITABM1(*),LBUFGEO,ISKN(LISKN,*),
      .        IGEO(NPROPGI,*),IPM(NPROPMI,*),NPC(*),
      .        IPART(LIPART1,*),IDRAPEID(*),NUMGEO_STACK(NUMGEO+NUMSTACK),
@@ -146,7 +146,7 @@ C-----------------------------------------------
      .        IPPOS, JPID,N1,IPOS,ISROT,MLAWLY,MID,SUB_ID,
      .        PROP_SHELL,PROP_TSHEL,PROP_SOLID,PROP_SPH,PROP_BEAM,
      .        IAD_KNOT,IPDIR,ISTACK,PROP_TRUSS,PROP_SPRING,PROP_NSTRAND,IPINCH
-     
+
       INTEGER JPID1,JPID2,NISUB,IPISUB,IFRAM,E_TYPE,OFF_DEF(NSUBMOD),CPT,
      .        CPT1,SUB_INDEX
       my_real
@@ -262,11 +262,11 @@ C----------------------
       NPSH   = 0
       CVIS =ZERO
       IAD_KNOT = 0
-c----------      
+c----------
 C     Initialize variables used by all property types
 c----
       CALL INI_PROP_VARS(PROP_TAG)
-c----------    
+c----------
 C--------------------------------------------------
 C START BROWSING MODEL PROPERTIES
 C--------------------------------------------------
@@ -378,7 +378,7 @@ c------------------------------
 C            HM READING PROPERTY TYPE5 (RIVET)
 c------------------------------
              IGTYP=5
-             CALL HM_READ_PROP05(GEO(1,I),IGEO(1,I),PROP_ID ,IGTYP ,IDTITL ,UNITAB ,LSUBMODEL ) 
+             CALL HM_READ_PROP05(GEO(1,I),IGEO(1,I),PROP_ID ,IGTYP ,IDTITL ,UNITAB ,LSUBMODEL )
 
           CASE ('TYPE8','TYPE08','SPR_GENE')
 C--------------------------------------------------
@@ -446,7 +446,7 @@ C--------------------------------------------------
              CALL HM_READ_PROP17(GEO(1,I)       ,IGEO(1,I)     ,PM       ,IPM      ,ISKN     ,
      .                   UNITAB    ,RTRANS   ,LSUBMODEL,SUB_ID   ,IDTITL   ,
      .                   PROP_ID   ,PROP_TAG  ,STACK_INFO(NUMS))
-     
+
           CASE ('TYPE18','INT_BEAM')
 C--------------------------------------------------
 C            HM READING PROPERTY TYPE18 (INT_BEAM)
@@ -498,7 +498,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      HM READING PROPERTY TYPE21 (Orthotropic Thick shell)
 C--------------------------------------------------
-             
+
              IGTYP=21
             CALL HM_PROP_READ21(GEO(1,I) ,IGEO(1,I) ,PROP_ID    ,ISKN   ,UNITAB ,
      .                          RTRANS   ,LSUBMODEL ,SUB_ID,IDTITL ,IGTYP  ,PROP_TAG)
@@ -506,7 +506,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      HM READING PROPERTY TYPE22 (Composite Thick shell)
 C--------------------------------------------------
-             
+
              IGTYP=22
             CALL HM_READ_PROP22(GEO(1,I) ,IGEO(1,I) ,IGTYP,PROP_ID    ,IDTITL   ,UNITAB ,
      .                          LSUBMODEL ,PM ,IPM ,RTRANS   ,SUB_ID ,ISKN,PROP_TAG)
@@ -518,14 +518,14 @@ C            New spring defined as PID+MID
 C--------------------------------------------------
              IGTYP=23
            CALL HM_READ_PROP23(GEO(1,I),IGEO(1,I),PROP_ID    ,IGTYP    ,UNITAB,
-     .                         ISKN    ,IDTITL   ,LSUBMODEL, PROP_TAG)       
+     .                         ISKN    ,IDTITL   ,LSUBMODEL, PROP_TAG)
 c
           CASE ('TYPE25','SPR_AXI')
 C--------------------------------------------------
 C            HM READING PROPERTY TYPE13 (SPR_BEAM)
 C--------------------------------------------------
              IGTYP=25
-             CALL HM_READ_PROP25(GEO(1,I), IGEO(1,I), UNITAB, ISKN,IGTYP, 
+             CALL HM_READ_PROP25(GEO(1,I), IGEO(1,I), UNITAB, ISKN,IGTYP,
      .                           PROP_ID,PROP_TAG,IDTITL,LSUBMODEL,SUB_INDEX)
 
           CASE ('TYPE26','SPR_TAB')
@@ -533,7 +533,7 @@ C--------------------------------------------------
 C            HM READING PROPERTY TYPE26 (SPR_TAB)
 C--------------------------------------------------
              IGTYP=26
-             CALL HM_READ_PROP26(GEO(1,I), IGEO(1,I), UNITAB, PROP_ID,IGTYP, 
+             CALL HM_READ_PROP26(GEO(1,I), IGEO(1,I), UNITAB, PROP_ID,IGTYP,
      .                           PROP_TAG,IDTITL,LSUBMODEL)
 c
           CASE ('TYPE27','SPR_BDAMP')
@@ -588,7 +588,7 @@ C-----------------------------
      2        IGEO(1,I),LBUFGEO ,BUFGEO  ,IADBUF   ,UNITAB,
      3        ISKN     ,KNOT    ,IAD_KNOT,PROP_TAG ,LSUBMODEL,
      4        RTRANS   ,SUB_ID  ,IUNIT   ,SUB_INDEX)
-         
+
         END SELECT ! SELECT CASE(IGTYP)
 c
 C--------   Variables stored in element buffer 
@@ -613,7 +613,7 @@ c----   Shells
           PROP_TAG(IGTYP)%G_VOL = 0
           PROP_TAG(IGTYP)%L_VOL = 0
           PROP_TAG(IGTYP)%LY_DMG = 2
-          IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR. 
+          IF (IGTYP == 9  .OR. IGTYP == 10 .OR. IGTYP == 11 .OR.
      .        IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
             PROP_TAG(IGTYP)%LY_GAMA = 6
             PROP_TAG(IGTYP)%LY_DIRA = 2
@@ -622,7 +622,7 @@ c----   Shells
             PROP_TAG(IGTYP)%LY_DIRA = 2
             PROP_TAG(IGTYP)%LY_DIRB = 2
           ENDIF
-          PROP_TAG(IGTYP)%LY_PLAPT = 1      
+          PROP_TAG(IGTYP)%LY_PLAPT = 1
           PROP_TAG(IGTYP)%LY_SIGPT = 5
           PROP_TAG(IGTYP)%G_FORPG  = 5
           PROP_TAG(IGTYP)%G_MOMPG  = 3
@@ -653,7 +653,7 @@ C
           N1 = IGEO(4,CPT)
           DO 100 J =1 , N1
 C ply of stack JPID           
-              JPID = STACK_INFO(NUMS)%PID(J)  
+              JPID = STACK_INFO(NUMS)%PID(J)
                IF (JPID > 0) THEN
                  DO K=1,HM_NUMGEO
                    NSTACK = 0
@@ -678,7 +678,7 @@ C stack whe e ply is belong
                ENDIF
  100      CONTINUE
 C interface substack
-              NISUB = IGEO(44,CPT) 
+              NISUB = IGEO(44,CPT)
               IF (NISUB > 0) THEN
                 DO 110 J =1 , NISUB
                   JPID1 = STACK_INFO(NUMS)%ISUB( 3*(J-1) + 1 )
@@ -689,7 +689,7 @@ C interface substack
                              IF (IGEO(1,K) == JPID1) THEN
                                STACK_INFO(NUMS)%ISUB (3*(J-1) + 1) = K
                                GOTO 110
-                             ELSEIF (IGEO(1,K) == JPID2) THEN 
+                             ELSEIF (IGEO(1,K) == JPID2) THEN
                                STACK_INFO(NUMS)%ISUB (3*(J-1) + 2) = K
                                GOTO 110
                              ENDIF
@@ -709,10 +709,10 @@ C interface substack
      .                               C2='PROPERTY',
      .                               I2=JPID2)
                      ENDIF ! IF (JPID1 > 0 .OR. JPID2 > 0)
- 110            CONTINUE 
+ 110            CONTINUE
               ENDIF ! IF (NISUB > 0)
 C
-          
+
               DO J=1,N1
                 JPID = STACK_INFO(NUMS)%PID(J)
                 STACK_INFO(NUMS)%THK(J)   = GEO(1,JPID)
@@ -767,7 +767,7 @@ C
      .                        I3=MLAWLY)
   450         CONTINUE
             ENDIF !IF (IGTYP == 17) THEN
-         ENDIF ! beging igtype = 17   
+         ENDIF ! beging igtype = 17
       ENDDO ! DO CPT = 1, HM_NUMGEO
 C------------------------------
 C SQRT precalculation
@@ -780,7 +780,7 @@ C Searching for duplicated prop_ids
 C-------------------------------------
       RBID = ZERO
       CALL VDOUBLE(IGEO(1,1),NPROPGI,NUMGEO,MESS,0,RBID)
-      
+
 C-------------------------------
       RETURN
 C-------------------------------

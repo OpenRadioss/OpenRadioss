@@ -30,7 +30,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|====================================================================
       SUBROUTINE TGRHEAD(
      1       IXT ,   PM  , GEO  ,   INUM    ,  ISEL,
-     2       ITR1,   EADD, INDEX,   ITRI    ,      
+     2       ITR1,   EADD, INDEX,   ITRI    ,
      3       IPARTT, ND,   IGRSURF, IGRTRUSS,
      4       CEP,    XEP,  ITRUOFF ,
      5       TAGPRT_SMS)
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, K,  MLN, NG, ISSN, NN, N, MID, PID ,
      .        II, J, II2,JJ2,JJ,L,II3,JJ3,NGROU,
      .        MSKMLN,MSKISN,MSKPID, MSKMID, MODE,
@@ -104,7 +104,7 @@ C
       DATA MSKMID /O'07777777777'/
       DATA MSKPID /O'07777777777'/
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
- 
+
 C----------------------------------------------------------
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
 C----------------------------------------------------------

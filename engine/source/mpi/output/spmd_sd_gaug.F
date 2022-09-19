@@ -78,7 +78,7 @@ C-----------------------------------------------
             IRINDEX(NBIRECV) = I
             NN = NBGAUGE
             SIZ = (LLGAUGE+1)*NN
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_IRECV(
      S        BUF(1,IDEB),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G        MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)

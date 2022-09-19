@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        JLT, NSN, IGAP
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ADMSR(4,*),
      .        MVOISIN(4,*), MVOISN(MVSIZ,4), LBOUND(*), IBOUND(4,MVSIZ)
 C     REAL
@@ -71,7 +71,7 @@ C     REAL
      .   GAPMXL(*)
 C     REAL
       my_real
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
      .   X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),
      .   X2(MVSIZ),Y2(MVSIZ),Z2(MVSIZ),
      .   X3(MVSIZ),Y3(MVSIZ),Z3(MVSIZ),
@@ -103,29 +103,29 @@ C
 C
         L  = CAND_E(I)
 C
-        IX=IRECT(1,L)  
-        IX1(I)=IX      
-        X1(I)=X(1,IX)  
-        Y1(I)=X(2,IX)  
-        Z1(I)=X(3,IX)  
+        IX=IRECT(1,L)
+        IX1(I)=IX
+        X1(I)=X(1,IX)
+        Y1(I)=X(2,IX)
+        Z1(I)=X(3,IX)
 C
-        IX=IRECT(2,L)  
-        IX2(I)=IX      
-        X2(I)=X(1,IX)  
-        Y2(I)=X(2,IX)  
-        Z2(I)=X(3,IX)  
+        IX=IRECT(2,L)
+        IX2(I)=IX
+        X2(I)=X(1,IX)
+        Y2(I)=X(2,IX)
+        Z2(I)=X(3,IX)
 C
-        IX=IRECT(3,L)  
-        IX3(I)=IX      
-        X3(I)=X(1,IX)  
-        Y3(I)=X(2,IX)  
-        Z3(I)=X(3,IX)  
+        IX=IRECT(3,L)
+        IX3(I)=IX
+        X3(I)=X(1,IX)
+        Y3(I)=X(2,IX)
+        Z3(I)=X(3,IX)
 C
-        IX=IRECT(4,L)  
-        IX4(I)=IX      
-        X4(I)=X(1,IX)  
-        Y4(I)=X(2,IX)  
-        Z4(I)=X(3,IX)  
+        IX=IRECT(4,L)
+        IX4(I)=IX
+        X4(I)=X(1,IX)
+        Y4(I)=X(2,IX)
+        Z4(I)=X(3,IX)
 C
         GAPM(I)  = GAP_M(L)
         GAPNM(1:4,I)=GAP_NM(1:4,L)
@@ -147,11 +147,11 @@ C
         IF(IX3(I) /= IX4(I))THEN
          X0(I)  = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I)  = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I)  = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I)  = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I)  = X3(I)
          Y0(I)  = Y3(I)
-         Z0(I)  = Z3(I) 
+         Z0(I)  = Z3(I)
         ENDIF
 C
       END DO
@@ -191,7 +191,7 @@ C
         XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
-        NNZ(I,5)=XN*NNZ(I,5)       
+        NNZ(I,5)=XN*NNZ(I,5)
       END DO
 C
       IBOUND(1:4,1:JLT)=0

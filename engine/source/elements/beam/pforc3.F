@@ -48,13 +48,13 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|====================================================================
       SUBROUTINE PFORC3(ELBUF_STR,
-     1                  JFT     ,JLT    ,NEL     ,MTN     ,ISMSTR  , 
+     1                  JFT     ,JLT    ,NEL     ,MTN     ,ISMSTR  ,
      2                  PM      ,NCC    ,X       ,
      3                  F       ,M      ,V       ,R       ,
-     4                  GEO     ,PARTSAV,DT2T    ,NELTST  ,ITYPTST , 
-     5                  STIFN   ,STIFR  ,FSKY    ,IADP    ,OFFSET  , 
-     6                  IPARTP  ,TANI   ,FX1     ,FX2     ,FY1     , 
-     7                  FY2     ,FZ1    ,FZ2     ,MX1     ,MX2     , 
+     4                  GEO     ,PARTSAV,DT2T    ,NELTST  ,ITYPTST ,
+     5                  STIFN   ,STIFR  ,FSKY    ,IADP    ,OFFSET  ,
+     6                  IPARTP  ,TANI   ,FX1     ,FX2     ,FY1     ,
+     7                  FY2     ,FZ1    ,FZ2     ,MX1     ,MX2     ,
      8                  MY1     ,MY2    ,MZ1     ,MZ2     ,IGEO    ,
      9                  IPM     ,BUFMAT ,NPT     ,NPF     ,TF      ,
      A                  GRESAV  ,GRTH   ,IGRTH   ,MSP     ,DMELP   ,
@@ -107,7 +107,7 @@ C-----------------------------------------------
       INTEGER I,IFLAG,IGTYP,NUPARAM,NUVAR,NFUNC,IFUNC(100),IFUNC_ALPHA
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),
      .   NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
-      my_real 
+      my_real
      .   STI(MVSIZ),STIR(MVSIZ),OFF(MVSIZ),AL(MVSIZ),EXX(MVSIZ),
      .   EXY(MVSIZ),EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),
@@ -117,8 +117,8 @@ C-----------------------------------------------
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),
      .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),VX1G(MVSIZ),VX2G(MVSIZ),
      .   VY1G(MVSIZ),VY2G(MVSIZ),VZ1G(MVSIZ),VZ2G(MVSIZ),
-     .   F11(MVSIZ), F12(MVSIZ), F21(MVSIZ),  
-     .   F22(MVSIZ), F31(MVSIZ), F32(MVSIZ), 
+     .   F11(MVSIZ), F12(MVSIZ), F21(MVSIZ),
+     .   F22(MVSIZ), F31(MVSIZ), F32(MVSIZ),
      .   M11(MVSIZ), M12(MVSIZ), M21(MVSIZ),
      .   M22(MVSIZ), M31(MVSIZ), M32(MVSIZ),TEMPEL(MVSIZ),DTEMP(MVSIZ),
      .   FSCAL_ALPHA,ETH(MVSIZ),DEINTTH,ALPHA,DF
@@ -128,12 +128,12 @@ C
       TYPE(G_BUFEL_),POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C-----------------------------------------------      
-       my_real FINTER 
+       my_real FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 C-----------------------------------------------
-      CALL PCOOR3(X      ,NCC    ,MAT    ,PID    ,NGL    ,  
+      CALL PCOOR3(X      ,NCC    ,MAT    ,PID    ,NGL    ,
      .            NC1   ,NC2    ,NC3    ,X1     ,X2 ,
      .            X3    ,Y1     ,Y2     ,Y3     ,Z1 ,
      .            Z2    ,Z3     )
@@ -164,33 +164,33 @@ C---
       NUPARAM = IPM(9,MAT(1))
 C---
        DIE(JFT:JLT)   = ZERO
-      IF(JTHE > 0) THEN 
-         DO I=JFT,JLT 
-           TEMPEL(I)    = HALF *( TEMP(NC1(I)) + TEMP(NC2(I)))  
+      IF(JTHE > 0) THEN
+         DO I=JFT,JLT
+           TEMPEL(I)    = HALF *( TEMP(NC1(I)) + TEMP(NC2(I)))
            DIE(I) = GBUF%EINT(I) + GBUF%EINT(NEL + I)
          ENDDO
       ENDIF
-  
+
       IF (IEXPAN > 0 .AND. JTHE > 0) THEN
         IF (TT == ZERO) GBUF%TEMP(JFT:JLT) = TEMPEL(JFT:JLT)
         DTEMP(JFT:JLT) = TEMPEL(JFT:JLT) - GBUF%TEMP(JFT:JLT)
         GBUF%TEMP(JFT:JLT) = TEMPEL(JFT:JLT)
-c      
-        DO I=JFT,JLT 
+c
+        DO I=JFT,JLT
              IFUNC_ALPHA = IPM(219, MAT(I))
              FSCAL_ALPHA = PM(191, MAT(I))
              ALPHA = FSCAL_ALPHA*FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
              ETH(I) = ALPHA*DTEMP(I)
-             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
+             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I)
              GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
 !!             GBUF%EINT(I) = GBUF%EINT(I) + DEINTTH
-        ENDDO 
-      ENDIF   
+        ENDDO
+      ENDIF
 C---
       IF (IGTYP == 3) THEN
 C----   Poutre formulation globale
 c
-         
+
         SELECT CASE(MTN)
 c
           CASE (1)
@@ -203,7 +203,7 @@ c
 c
           CASE (2)  ! Johnson-Cook
             CALL M2LAWP(
-     .           PM     ,GBUF%FOR   ,GBUF%MOM  ,GBUF%EINT  ,GEO,        
+     .           PM     ,GBUF%FOR   ,GBUF%MOM  ,GBUF%EINT  ,GEO,
      .           OFF    ,GBUF%PLA   ,EXX       ,EXY        ,EXZ,
      .           KXX    ,KYY        ,KZZ       ,AL         ,F1 ,
      .           F2     ,F3         ,M1        ,M2         ,M3 ,
@@ -223,12 +223,12 @@ c
      .           IPM      ,GEO      ,OFF      ,GBUF%PLA ,GBUF%EINT,AL      ,
      .           EXX      ,EXY      ,EXZ      ,KXX      ,KYY      ,KZZ     ,
      .           F1       ,F2       ,F3       ,M1       ,M2       ,M3      ,
-     .           GBUF%FOR ,GBUF%MOM ,PM       ,NUVAR    ,UVAR     ,NFUNC   , 
+     .           GBUF%FOR ,GBUF%MOM ,PM       ,NUVAR    ,UVAR     ,NFUNC   ,
      .           IFUNC    ,TF       ,NPF      )
 c
         END SELECT
 C----
-      ELSEIF (IGTYP == 18) THEN  
+      ELSEIF (IGTYP == 18) THEN
 C----   Poutre a section intergree
         CALL PMAIN3(ELBUF_STR,
      1              JFT       ,JLT         ,NEL       ,NPT      ,MTN     ,
@@ -243,33 +243,33 @@ C
 C      Expanson
 C
       IF(IEXPAN > 0 .AND. JTHE > 0) THEN
-          IF (IGTYP == 3) THEN   
+          IF (IGTYP == 3) THEN
             CALL THERMEXPPG(NEL    ,MAT       ,PID          ,PM     ,GEO  ,
-     .                      OFF    ,ETH       ,GBUF%FOR     ,GBUF%EINT ) 
-          
+     .                      OFF    ,ETH       ,GBUF%FOR     ,GBUF%EINT )
+
           ELSEIF(IGTYP == 18) THEN
-           CALL THERMEXPPI(ELBUF_STR,   
-     1              NEL     ,NPT      ,MAT       ,PID       ,PM       , 
+           CALL THERMEXPPI(ELBUF_STR,
+     1              NEL     ,NPT      ,MAT       ,PID       ,PM       ,
      2              GEO      ,AL      ,ETH       ,OFF      ,GBUF%FOR  ,
      3              GBUF%EINT)
           ENDIF
 C          
           DO I=JFT,JLT
-             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I) 
+             DEINTTH = - HALF*GBUF%FOR(I)*ETH(I)*AL(I)*OFF(I)
              GBUF%EINT(I) = GBUF%EINT(I) + DEINTTH
           ENDDO
       ENDIF
-      IF(JTHE > 0) THEN 
-         DO I=JFT,JLT 
+      IF(JTHE > 0) THEN
+         DO I=JFT,JLT
            DIE(I) = (GBUF%EINT(I) + GBUF%EINT(NEL + I) - DIE(I))*PM(90,MAT(I))
          ENDDO
       ENDIF
-            
+
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
       IFLAG = MOD(NCYCLE,NCPRI)
-      IF (IOUTPRT > 0)     
+      IF (IOUTPRT > 0)
      .  CALL PBILAN(PM     ,V      ,GBUF%EINT ,GEO     ,PARTSAV,
      2              IPARTP ,TANI   ,GBUF%FOR  ,GBUF%MOM,GRESAV ,
      3              GRTH   ,IGRTH  ,GBUF%OFF  ,NEL     ,AL     ,
@@ -288,20 +288,20 @@ C----------------------------
      .            F31      ,F32      ,M11     ,M12        ,M21,
      .            M22      ,M31      ,M32     )
 C-------------------------
-c     Thermique des coques 
+c     Thermique des coques
 C--------------------------
 C
        IF (JTHE > 0) THEN
         DO I=JFT,JLT
           CA = PM(75,MAT(I))
           CB = PM(76,MAT(I))
-          AREA =GEO(1,PID(I)) 
-          KC = (CA + CB*TEMPEL(I))*DT2T *AREA/AL(I)   
+          AREA =GEO(1,PID(I))
+          KC = (CA + CB*TEMPEL(I))*DT2T *AREA/AL(I)
           PHIX = KC*(TEMP(NC2(I)) - TEMP(NC1(I)))
 C
 C force thermique nodale
 C
-          FPHI(I,1) = HALF * DIE(I) + PHIX ! 
+          FPHI(I,1) = HALF * DIE(I) + PHIX !
           FPHI(I,2) = HALF * DIE(I) - PHIX
          ENDDO
        ENDIF
@@ -329,7 +329,7 @@ C-------------------------
      .               E3Y ,E3Z  ,F11  ,F12  ,F21,
      .               F22 ,F31  ,F32  , FPHI,
      .               FTHESKY)
-     
+
         CALL PMCUM3P(STIR,FSKY,FSKY,IADP,MX1,
      .               MX2  ,MY1  ,MY2  ,MZ1  ,MZ2,
      .               NC1  ,NC2  ,NC3  ,E1X  ,E1Y,

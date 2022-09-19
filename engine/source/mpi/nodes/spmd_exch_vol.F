@@ -28,7 +28,7 @@ Chd|        S4ALESFEM                     source/elements/solid/solide4_sfem/s4a
 Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4lagsfem.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPMD_EXCH_VOL(VOLNOD6,VARNOD6,IAD_ELEM, 
+      SUBROUTINE SPMD_EXCH_VOL(VOLNOD6,VARNOD6,IAD_ELEM,
      .                         FR_ELEM,LENR )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -68,7 +68,7 @@ C-----------------------------------------------
       DATA MSGOFF/231/
 
       DOUBLE PRECISION,
-     . DIMENSION(:,:),ALLOCATABLE :: RBUF, SBUF 
+     . DIMENSION(:,:),ALLOCATABLE :: RBUF, SBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -132,10 +132,10 @@ C--------------------------------------------------------------------
 C envoi a N+I mod P
        NB_NOD = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
        IF(NB_NOD>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           LEN = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
 
-          SIZ = LEN * 2 * SIZ6       
+          SIZ = LEN * 2 * SIZ6
           L = IAD_SEND(I)
           CALL MPI_ISEND(
      S      SBUF(1,L),SIZ,MPI_DOUBLE_PRECISION,
@@ -163,12 +163,12 @@ C
             VOLNOD6(5,NOD) = VOLNOD6(5,NOD) + RBUF(5,L)
             VOLNOD6(6,NOD) = VOLNOD6(6,NOD) + RBUF(6,L)
 c
-            VARNOD6(1,NOD) = VARNOD6(1,NOD) + RBUF(1,L+ NB_NOD) 
-            VARNOD6(2,NOD) = VARNOD6(2,NOD) + RBUF(2,L+ NB_NOD) 
-            VARNOD6(3,NOD) = VARNOD6(3,NOD) + RBUF(3,L+ NB_NOD) 
-            VARNOD6(4,NOD) = VARNOD6(4,NOD) + RBUF(4,L+ NB_NOD) 
-            VARNOD6(5,NOD) = VARNOD6(5,NOD) + RBUF(5,L+ NB_NOD) 
-            VARNOD6(6,NOD) = VARNOD6(6,NOD) + RBUF(6,L+ NB_NOD) 
+            VARNOD6(1,NOD) = VARNOD6(1,NOD) + RBUF(1,L+ NB_NOD)
+            VARNOD6(2,NOD) = VARNOD6(2,NOD) + RBUF(2,L+ NB_NOD)
+            VARNOD6(3,NOD) = VARNOD6(3,NOD) + RBUF(3,L+ NB_NOD)
+            VARNOD6(4,NOD) = VARNOD6(4,NOD) + RBUF(4,L+ NB_NOD)
+            VARNOD6(5,NOD) = VARNOD6(5,NOD) + RBUF(5,L+ NB_NOD)
+            VARNOD6(6,NOD) = VARNOD6(6,NOD) + RBUF(6,L+ NB_NOD)
 c
             L  = L  + 1
           END DO

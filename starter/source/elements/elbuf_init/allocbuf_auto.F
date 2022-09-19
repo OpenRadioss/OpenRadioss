@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -86,22 +86,22 @@ C=======================================================================
 c-------------------------------------------------
 c     layer buffer allocation
 c-------------------------------------------------
-      DO I = 1, NLAY                                                        
-        BUFLY => ELBUF_TAB(NG)%BUFLY(I)                                     
+      DO I = 1, NLAY
+        BUFLY => ELBUF_TAB(NG)%BUFLY(I)
 c
-        MY_ALLOCATE(BUFLY%DMG,NEL*BUFLY%LY_DMG)                          
-          BUFLY%DMG = ZERO                                                  
-        MY_ALLOCATE(BUFLY%GAMA,NEL*BUFLY%LY_GAMA)                        
-          BUFLY%GAMA = ZERO                     
-        MY_ALLOCATE(BUFLY%DIRA,NEL*BUFLY%LY_DIRA)                        
-          BUFLY%DIRA = ZERO                                                 
-        MY_ALLOCATE(BUFLY%DIRB,NEL*BUFLY%LY_DIRB)                        
-          BUFLY%DIRB = ZERO        
-        MY_ALLOCATE(BUFLY%CRKDIR,NEL*BUFLY%LY_CRKDIR)                        
-          BUFLY%CRKDIR = ZERO        
-        MY_ALLOCATE(BUFLY%OFFPG,NEL*BUFLY%LY_OFFPG)                        
+        MY_ALLOCATE(BUFLY%DMG,NEL*BUFLY%LY_DMG)
+          BUFLY%DMG = ZERO
+        MY_ALLOCATE(BUFLY%GAMA,NEL*BUFLY%LY_GAMA)
+          BUFLY%GAMA = ZERO
+        MY_ALLOCATE(BUFLY%DIRA,NEL*BUFLY%LY_DIRA)
+          BUFLY%DIRA = ZERO
+        MY_ALLOCATE(BUFLY%DIRB,NEL*BUFLY%LY_DIRB)
+          BUFLY%DIRB = ZERO
+        MY_ALLOCATE(BUFLY%CRKDIR,NEL*BUFLY%LY_CRKDIR)
+          BUFLY%CRKDIR = ZERO
+        MY_ALLOCATE(BUFLY%OFFPG,NEL*BUFLY%LY_OFFPG)
           BUFLY%OFFPG = 1
-        MY_ALLOCATE(BUFLY%OFF,NEL*BUFLY%LY_OFF)                        
+        MY_ALLOCATE(BUFLY%OFF,NEL*BUFLY%LY_OFF)
           BUFLY%OFF = 1
 c
         IF (NPG > 1) THEN
@@ -117,23 +117,23 @@ c
               LEN_SIGPT = NEL*BUFLY%LY_SIGPT*BUFLY%NPTT
             ENDIF
           ENDIF
-          MY_ALLOCATE(BUFLY%PLAPT,LEN_PLAPT)                     
-            BUFLY%PLAPT = ZERO                 
-          MY_ALLOCATE(BUFLY%SIGPT,LEN_SIGPT)              
-            BUFLY%SIGPT = ZERO 
+          MY_ALLOCATE(BUFLY%PLAPT,LEN_PLAPT)
+            BUFLY%PLAPT = ZERO
+          MY_ALLOCATE(BUFLY%SIGPT,LEN_SIGPT)
+            BUFLY%SIGPT = ZERO
         ELSEIF (NPG == 1) THEN
 C
 C      PLAPT & SIGPT will point to LBUF%PLA and LBUF%SIG after allocation
 C
         ENDIF
 C
-        MY_ALLOCATE(BUFLY%HOURG,NEL*BUFLY%LY_HOURG)                          
+        MY_ALLOCATE(BUFLY%HOURG,NEL*BUFLY%LY_HOURG)
           BUFLY%HOURG = ZERO
-        MY_ALLOCATE(BUFLY%UELR,NEL*BUFLY%LY_UELR)                          
+        MY_ALLOCATE(BUFLY%UELR,NEL*BUFLY%LY_UELR)
           BUFLY%UELR = ZERO
-        MY_ALLOCATE(BUFLY%UELR1,NEL*BUFLY%LY_UELR1)                          
+        MY_ALLOCATE(BUFLY%UELR1,NEL*BUFLY%LY_UELR1)
           BUFLY%UELR1 = ZERO
-      ENDDO                                                                 
+      ENDDO
 c---
 c-------------------------------------------------
 c     LAYER Local variables per integration point
@@ -145,143 +145,143 @@ c-------------------------------------------------
            ELSE
              NPTT = ELBUF_TAB(NG)%NPTT
            ENDIF
-           DO IR = 1,NPTR                                       
-            DO IS = 1,NPTS                                      
-              DO IT = 1,NPTT  
-                LBUF => ELBUF_TAB(NG)%BUFLY(I)%LBUF(IR,IS,IT) 
+           DO IR = 1,NPTR
+            DO IS = 1,NPTS
+              DO IT = 1,NPTT
+                LBUF => ELBUF_TAB(NG)%BUFLY(I)%LBUF(IR,IS,IT)
 c
-              MY_ALLOCATE(LBUF%OFF,NEL*BUFLY%L_OFF)              
+              MY_ALLOCATE(LBUF%OFF,NEL*BUFLY%L_OFF)
                   LBUF%OFF = ONE
-              MY_ALLOCATE (LBUF%GAMA,NEL*BUFLY%L_GAMA)            
+              MY_ALLOCATE (LBUF%GAMA,NEL*BUFLY%L_GAMA)
                   LBUF%GAMA = ZERO
-              MY_ALLOCATE(LBUF%STRA,NEL*BUFLY%L_STRA)            
+              MY_ALLOCATE(LBUF%STRA,NEL*BUFLY%L_STRA)
                   LBUF%STRA = ZERO
-              MY_ALLOCATE(LBUF%FRAC,NEL*BUFLY%L_FRAC)            
+              MY_ALLOCATE(LBUF%FRAC,NEL*BUFLY%L_FRAC)
                   LBUF%FRAC = ZERO
-              MY_ALLOCATE(LBUF%BFRAC,NEL*BUFLY%L_BFRAC)                   
+              MY_ALLOCATE(LBUF%BFRAC,NEL*BUFLY%L_BFRAC)
                   LBUF%BFRAC = ZERO
-              MY_ALLOCATE(LBUF%EINT,NEL*BUFLY%L_EINT)                     
+              MY_ALLOCATE(LBUF%EINT,NEL*BUFLY%L_EINT)
                   LBUF%EINT = ZERO
-              MY_ALLOCATE(LBUF%EINS,NEL*BUFLY%L_EINS)                     
+              MY_ALLOCATE(LBUF%EINS,NEL*BUFLY%L_EINS)
                   LBUF%EINS = ZERO
-              MY_ALLOCATE(LBUF%RHO,NEL*BUFLY%L_RHO)              
+              MY_ALLOCATE(LBUF%RHO,NEL*BUFLY%L_RHO)
                   LBUF%RHO  = ZERO
-              MY_ALLOCATE(LBUF%DP_DRHO,NEL)                       
+              MY_ALLOCATE(LBUF%DP_DRHO,NEL)
                   LBUF%DP_DRHO = ZERO
-              MY_ALLOCATE(LBUF%QVIS,NEL*BUFLY%L_QVIS)             
+              MY_ALLOCATE(LBUF%QVIS,NEL*BUFLY%L_QVIS)
                   LBUF%QVIS = ZERO
-              MY_ALLOCATE(LBUF%DELTAX,NEL*BUFLY%L_DELTAX)         
+              MY_ALLOCATE(LBUF%DELTAX,NEL*BUFLY%L_DELTAX)
                   LBUF%DELTAX = ZERO
-              MY_ALLOCATE(LBUF%VOL,NEL*BUFLY%L_VOL)              
+              MY_ALLOCATE(LBUF%VOL,NEL*BUFLY%L_VOL)
                   LBUF%VOL = ZERO
-              MY_ALLOCATE(LBUF%EPSA,NEL*BUFLY%L_EPSA)            
+              MY_ALLOCATE(LBUF%EPSA,NEL*BUFLY%L_EPSA)
                   LBUF%EPSA = ZERO
-              MY_ALLOCATE(LBUF%EPSD,NEL*BUFLY%L_EPSD)            
+              MY_ALLOCATE(LBUF%EPSD,NEL*BUFLY%L_EPSD)
                   LBUF%EPSD = ZERO
-              MY_ALLOCATE(LBUF%EPSQ,NEL*BUFLY%L_EPSQ)            
+              MY_ALLOCATE(LBUF%EPSQ,NEL*BUFLY%L_EPSQ)
                   LBUF%EPSQ = ZERO
-              MY_ALLOCATE(LBUF%EPSF,NEL*BUFLY%L_EPSF)            
+              MY_ALLOCATE(LBUF%EPSF,NEL*BUFLY%L_EPSF)
                   LBUF%EPSF = ZERO
-              MY_ALLOCATE(LBUF%PLA,NEL*BUFLY%L_PLA)              
+              MY_ALLOCATE(LBUF%PLA,NEL*BUFLY%L_PLA)
                   LBUF%PLA = ZERO
-              MY_ALLOCATE(LBUF%TEMP,NEL*BUFLY%L_TEMP)            
+              MY_ALLOCATE(LBUF%TEMP,NEL*BUFLY%L_TEMP)
                   LBUF%TEMP = ZERO
-              MY_ALLOCATE(LBUF%TB,NEL*BUFLY%L_TB)                
+              MY_ALLOCATE(LBUF%TB,NEL*BUFLY%L_TB)
                   LBUF%TB = ZERO
-              MY_ALLOCATE(LBUF%RK,NEL*BUFLY%L_RK)                
+              MY_ALLOCATE(LBUF%RK,NEL*BUFLY%L_RK)
                   LBUF%RK = ZERO
-              MY_ALLOCATE(LBUF%RE,NEL*BUFLY%L_RE)                
+              MY_ALLOCATE(LBUF%RE,NEL*BUFLY%L_RE)
                   LBUF%RE = ZERO
-              MY_ALLOCATE(LBUF%VK,NEL*BUFLY%L_VK)                
+              MY_ALLOCATE(LBUF%VK,NEL*BUFLY%L_VK)
                   LBUF%VK = ZERO
-              MY_ALLOCATE(LBUF%SF,NEL*BUFLY%L_SF)                
+              MY_ALLOCATE(LBUF%SF,NEL*BUFLY%L_SF)
                   LBUF%SF = ZERO
-              MY_ALLOCATE(LBUF%ROB,NEL*BUFLY%L_ROB)              
+              MY_ALLOCATE(LBUF%ROB,NEL*BUFLY%L_ROB)
                   LBUF%ROB = ZERO
-              MY_ALLOCATE(LBUF%DAM,NEL*BUFLY%L_DAM)              
+              MY_ALLOCATE(LBUF%DAM,NEL*BUFLY%L_DAM)
                   LBUF%DAM = ZERO
-              MY_ALLOCATE(LBUF%DSUM,NEL*BUFLY%L_DSUM)            
+              MY_ALLOCATE(LBUF%DSUM,NEL*BUFLY%L_DSUM)
                   LBUF%DSUM = ZERO
-              MY_ALLOCATE(LBUF%DGLO,NEL*BUFLY%L_DGLO)            
+              MY_ALLOCATE(LBUF%DGLO,NEL*BUFLY%L_DGLO)
                   LBUF%DGLO = ZERO
-              MY_ALLOCATE(LBUF%CRAK,NEL*BUFLY%L_CRAK)            
+              MY_ALLOCATE(LBUF%CRAK,NEL*BUFLY%L_CRAK)
                   LBUF%CRAK = ZERO
-              MY_ALLOCATE(LBUF%EPE,NEL*BUFLY%L_EPE)              
+              MY_ALLOCATE(LBUF%EPE,NEL*BUFLY%L_EPE)
                   LBUF%EPE = ZERO
-              MY_ALLOCATE(LBUF%ANG,NEL*BUFLY%L_ANG)              
+              MY_ALLOCATE(LBUF%ANG,NEL*BUFLY%L_ANG)
                   LBUF%ANG = ZERO
-              MY_ALLOCATE(LBUF%EPC,NEL*BUFLY%L_EPC)              
+              MY_ALLOCATE(LBUF%EPC,NEL*BUFLY%L_EPC)
                   LBUF%EPC = ZERO
-              MY_ALLOCATE(LBUF%XST,NEL*BUFLY%L_XST)              
+              MY_ALLOCATE(LBUF%XST,NEL*BUFLY%L_XST)
                   LBUF%XST = ZERO
-              MY_ALLOCATE(LBUF%SSP,NEL*BUFLY%L_SSP)              
+              MY_ALLOCATE(LBUF%SSP,NEL*BUFLY%L_SSP)
                   LBUF%SSP = ZERO
-              MY_ALLOCATE(LBUF%Z,NEL*BUFLY%L_Z)                  
+              MY_ALLOCATE(LBUF%Z,NEL*BUFLY%L_Z)
                   LBUF%Z = ZERO
-              MY_ALLOCATE(LBUF%VISC,NEL*BUFLY%L_VISC)            
+              MY_ALLOCATE(LBUF%VISC,NEL*BUFLY%L_VISC)
                   LBUF%VISC = ZERO
-              MY_ALLOCATE(LBUF%SIGL,NEL*BUFLY%L_SIGL)            
+              MY_ALLOCATE(LBUF%SIGL,NEL*BUFLY%L_SIGL)
                   LBUF%SIGL = ZERO
-              MY_ALLOCATE(LBUF%SIGV,NEL*BUFLY%L_SIGV)            
+              MY_ALLOCATE(LBUF%SIGV,NEL*BUFLY%L_SIGV)
                   LBUF%SIGV = ZERO
-              MY_ALLOCATE(LBUF%SIGA,NEL*BUFLY%L_SIGA)            
+              MY_ALLOCATE(LBUF%SIGA,NEL*BUFLY%L_SIGA)
                   LBUF%SIGA = ZERO
-              MY_ALLOCATE(LBUF%SIGB,NEL*BUFLY%L_SIGB)            
+              MY_ALLOCATE(LBUF%SIGB,NEL*BUFLY%L_SIGB)
                   LBUF%SIGB = ZERO
-              MY_ALLOCATE(LBUF%SIGC,NEL*BUFLY%L_SIGC)            
+              MY_ALLOCATE(LBUF%SIGC,NEL*BUFLY%L_SIGC)
                   LBUF%SIGC = ZERO
-              MY_ALLOCATE(LBUF%SIGD,NEL*BUFLY%L_SIGD)            
+              MY_ALLOCATE(LBUF%SIGD,NEL*BUFLY%L_SIGD)
                   LBUF%SIGD = ZERO
-              MY_ALLOCATE(LBUF%SIGF,NEL*BUFLY%L_SIGF)            
+              MY_ALLOCATE(LBUF%SIGF,NEL*BUFLY%L_SIGF)
                   LBUF%SIGF = ZERO
-              MY_ALLOCATE(LBUF%SIG,NEL*BUFLY%L_SIG)                      
+              MY_ALLOCATE(LBUF%SIG,NEL*BUFLY%L_SIG)
                   LBUF%SIG = ZERO
-              MY_ALLOCATE(LBUF%SIGPLY,NEL*BUFLY%L_SIGPLY)                      
+              MY_ALLOCATE(LBUF%SIGPLY,NEL*BUFLY%L_SIGPLY)
                   LBUF%SIGPLY = ZERO
-              MY_ALLOCATE(LBUF%FOR,NEL*BUFLY%L_FOR)              
+              MY_ALLOCATE(LBUF%FOR,NEL*BUFLY%L_FOR)
                   LBUF%FOR = ZERO
-              MY_ALLOCATE(LBUF%MOM,NEL*BUFLY%L_MOM)              
+              MY_ALLOCATE(LBUF%MOM,NEL*BUFLY%L_MOM)
                   LBUF%MOM = ZERO
-              MY_ALLOCATE(LBUF%THK,NEL*BUFLY%L_THK)              
+              MY_ALLOCATE(LBUF%THK,NEL*BUFLY%L_THK)
                   LBUF%THK = ZERO
               MY_ALLOCATE(LBUF%SMSTR,NEL*BUFLY%L_SMSTR)
                   LBUF%SMSTR = ZERO
-              MY_ALLOCATE(LBUF%DMG,NEL*BUFLY%L_DMG)              
+              MY_ALLOCATE(LBUF%DMG,NEL*BUFLY%L_DMG)
                   LBUF%DMG = ZERO
-              MY_ALLOCATE(LBUF%FORTH,NEL*BUFLY%L_FORTH)              
+              MY_ALLOCATE(LBUF%FORTH,NEL*BUFLY%L_FORTH)
                   LBUF%FORTH = ZERO
-              MY_ALLOCATE(LBUF%EINTTH,NEL*BUFLY%L_EINTTH)              
+              MY_ALLOCATE(LBUF%EINTTH,NEL*BUFLY%L_EINTTH)
                   LBUF%EINTTH = ZERO
-              MY_ALLOCATE(LBUF%SEQ,NEL*BUFLY%L_SEQ)              
+              MY_ALLOCATE(LBUF%SEQ,NEL*BUFLY%L_SEQ)
                   LBUF%SEQ = ZERO
-              MY_ALLOCATE(LBUF%JAC_I,NEL*BUFLY%L_JAC_I)              
+              MY_ALLOCATE(LBUF%JAC_I,NEL*BUFLY%L_JAC_I)
                   LBUF%JAC_I = ZERO
-              MY_ALLOCATE(LBUF%FAC_YLD,NEL*BUFLY%L_FAC_YLD)              
+              MY_ALLOCATE(LBUF%FAC_YLD,NEL*BUFLY%L_FAC_YLD)
                   LBUF%FAC_YLD = ONE
-              MY_ALLOCATE(LBUF%ABURN,NEL*BUFLY%L_ABURN)                   
+              MY_ALLOCATE(LBUF%ABURN,NEL*BUFLY%L_ABURN)
                   LBUF%ABURN = ZERO
-              MY_ALLOCATE(LBUF%MU,NEL*BUFLY%L_MU)                   
+              MY_ALLOCATE(LBUF%MU,NEL*BUFLY%L_MU)
                   LBUF%MU = ZERO
-              MY_ALLOCATE(LBUF%PLANL,NEL*BUFLY%L_PLANL)                   
+              MY_ALLOCATE(LBUF%PLANL,NEL*BUFLY%L_PLANL)
                   LBUF%PLANL = ZERO
-              MY_ALLOCATE(LBUF%EPSDNL,NEL*BUFLY%L_EPSDNL)                   
+              MY_ALLOCATE(LBUF%EPSDNL,NEL*BUFLY%L_EPSDNL)
                   LBUF%EPSDNL = ZERO
 
-              MY_ALLOCATE(LBUF%PIJ,NEL*BUFLY%L_PIJ)              
+              MY_ALLOCATE(LBUF%PIJ,NEL*BUFLY%L_PIJ)
                   LBUF%PIJ = ZERO
 C-------------initialization even in DP in Starter only---                  
-              MY_ALLOCATE(LBUF%VOL0DP,NEL)              
+              MY_ALLOCATE(LBUF%VOL0DP,NEL)
                   LBUF%VOL0DP = ZERO
-              ENDDO                                                           
-            ENDDO                                                          
-           ENDDO 
+              ENDDO
+            ENDDO
+           ENDDO
           ENDDO
 c---
 C
 C layer mean variable (NPG = 1)
 C
-      DO I = 1, NLAY                                                        
-        BUFLY => ELBUF_TAB(NG)%BUFLY(I)                                     
+      DO I = 1, NLAY
+        BUFLY => ELBUF_TAB(NG)%BUFLY(I)
         IF (NPG == 1) THEN
           ILAYER = I
           IF (NLAY > 1) THEN
@@ -326,92 +326,92 @@ C
 c-------------------------------------------------
 c     Inter layers (ply xfem)
 c-------------------------------------------------
-      DO I = 1, NINTLAY                                                    
-        INTLAY => ELBUF_TAB(NG)%INTLAY(I)                                  
-        MY_ALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%EINT,NEL)             
-           ELBUF_TAB(NG)%INTLAY(I)%EINT  = ZERO                                         
-        MY_ALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%COUNT,NEL)             
-           ELBUF_TAB(NG)%INTLAY(I)%COUNT = ZERO                                         
+      DO I = 1, NINTLAY
+        INTLAY => ELBUF_TAB(NG)%INTLAY(I)
+        MY_ALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%EINT,NEL)
+           ELBUF_TAB(NG)%INTLAY(I)%EINT  = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%COUNT,NEL)
+           ELBUF_TAB(NG)%INTLAY(I)%COUNT = ZERO
 c
-        DO IR = 1,NPTR                                                   
-          DO IS = 1,NPTS                                                 
-            ILBUF => ELBUF_TAB(NG)%INTLAY(I)%ILBUF(IR,IS)              
-            MY_ALLOCATE(ILBUF%EPS,NEL*3)                   
-              ILBUF%EPS = ZERO                                           
-            MY_ALLOCATE (ILBUF%SIG,NEL*3)            
-              ILBUF%SIG = ZERO                                         
-          ENDDO                                                            
-        ENDDO                                                            
-      ENDDO                                                             
+        DO IR = 1,NPTR
+          DO IS = 1,NPTS
+            ILBUF => ELBUF_TAB(NG)%INTLAY(I)%ILBUF(IR,IS)
+            MY_ALLOCATE(ILBUF%EPS,NEL*3)
+              ILBUF%EPS = ZERO
+            MY_ALLOCATE (ILBUF%SIG,NEL*3)
+              ILBUF%SIG = ZERO
+          ENDDO
+        ENDDO
+      ENDDO
 c---
-                                                  
-                                                   
-                                                                        
-                                                  
+
+
+
+
 c-------------------------------------------------
 C       global buffer allocation
 c-------------------------------------------------
       GBUF => ELBUF_TAB(NG)%GBUF
-      MY_ALLOCATE(GBUF%NOFF,NEL*GBUF%G_NOFF)                                      
+      MY_ALLOCATE(GBUF%NOFF,NEL*GBUF%G_NOFF)
          ELBUF_TAB(NG)%GBUF%NOFF = ZERO
-      MY_ALLOCATE(GBUF%IERR,NEL*GBUF%G_IERR)                                      
-        ELBUF_TAB(NG)%GBUF%IERR = ZERO                                                    
-      MY_ALLOCATE(GBUF%GAMA,NEL*GBUF%G_GAMA)                                      
+      MY_ALLOCATE(GBUF%IERR,NEL*GBUF%G_IERR)
+        ELBUF_TAB(NG)%GBUF%IERR = ZERO
+      MY_ALLOCATE(GBUF%GAMA,NEL*GBUF%G_GAMA)
         ELBUF_TAB(NG)%GBUF%GAMA = ZERO
-      MY_ALLOCATE(GBUF%SMSTR,NEL*GBUF%G_SMSTR)                                    
+      MY_ALLOCATE(GBUF%SMSTR,NEL*GBUF%G_SMSTR)
         ELBUF_TAB(NG)%GBUF%SMSTR = ZERO
-      MY_ALLOCATE(GBUF%HOURG,NEL*GBUF%G_HOURG)                                    
+      MY_ALLOCATE(GBUF%HOURG,NEL*GBUF%G_HOURG)
         ELBUF_TAB(NG)%GBUF%HOURG = ZERO
-      MY_ALLOCATE(GBUF%TAG22,NEL*GBUF%G_TAG22)   
-        ELBUF_TAB(NG)%GBUF%TAG22 = ZERO                                                                                  
-      MY_ALLOCATE(GBUF%STRA,NEL*GBUF%G_STRA)                           
-        ELBUF_TAB(NG)%GBUF%STRA = ZERO                                                    
-      MY_ALLOCATE(GBUF%STRW,NEL*GBUF%G_STRW)                                    
+      MY_ALLOCATE(GBUF%TAG22,NEL*GBUF%G_TAG22)
+        ELBUF_TAB(NG)%GBUF%TAG22 = ZERO
+      MY_ALLOCATE(GBUF%STRA,NEL*GBUF%G_STRA)
+        ELBUF_TAB(NG)%GBUF%STRA = ZERO
+      MY_ALLOCATE(GBUF%STRW,NEL*GBUF%G_STRW)
         ELBUF_TAB(NG)%GBUF%STRW = ZERO
-      MY_ALLOCATE(GBUF%SIGI,NEL*GBUF%G_SIGI)                           
-        ELBUF_TAB(NG)%GBUF%SIGI = ZERO                                                    
-      MY_ALLOCATE(GBUF%DMG,NEL*GBUF%G_DMG)                               
-        ELBUF_TAB(NG)%GBUF%DMG = ZERO                                                     
+      MY_ALLOCATE(GBUF%SIGI,NEL*GBUF%G_SIGI)
+        ELBUF_TAB(NG)%GBUF%SIGI = ZERO
+      MY_ALLOCATE(GBUF%DMG,NEL*GBUF%G_DMG)
+        ELBUF_TAB(NG)%GBUF%DMG = ZERO
       MY_ALLOCATE(GBUF%UELR,NEL*GBUF%G_UELR)
         ELBUF_TAB(NG)%GBUF%UELR = ZERO
       MY_ALLOCATE(GBUF%UELR1,NEL*GBUF%G_UELR1)
         ELBUF_TAB(NG)%GBUF%UELR1 = ZERO
-      MY_ALLOCATE(GBUF%DAMDL,NEL*GBUF%G_DAMDL)                           
-        ELBUF_TAB(NG)%GBUF%DAMDL = ZERO                                                     
-      MY_ALLOCATE(GBUF%FOR,NEL*GBUF%G_FOR)                            
-        ELBUF_TAB(NG)%GBUF%FOR = ZERO                                          
-      MY_ALLOCATE(GBUF%MOM,NEL*GBUF%G_MOM)                            
-        ELBUF_TAB(NG)%GBUF%MOM = ZERO                                          
-      MY_ALLOCATE(GBUF%THK,NEL*GBUF%G_THK)                         
-        ELBUF_TAB(NG)%GBUF%THK = ZERO     
-      MY_ALLOCATE(GBUF%THK_I,NEL*GBUF%G_THK_I)                         
-        ELBUF_TAB(NG)%GBUF%THK_I = ZERO                                    
-      MY_ALLOCATE(GBUF%JAC_I,NEL*GBUF%G_JAC_I)                         
-        ELBUF_TAB(NG)%GBUF%JAC_I = ZERO                                    
-      MY_ALLOCATE(GBUF%DT,NEL*GBUF%G_DT)                         
+      MY_ALLOCATE(GBUF%DAMDL,NEL*GBUF%G_DAMDL)
+        ELBUF_TAB(NG)%GBUF%DAMDL = ZERO
+      MY_ALLOCATE(GBUF%FOR,NEL*GBUF%G_FOR)
+        ELBUF_TAB(NG)%GBUF%FOR = ZERO
+      MY_ALLOCATE(GBUF%MOM,NEL*GBUF%G_MOM)
+        ELBUF_TAB(NG)%GBUF%MOM = ZERO
+      MY_ALLOCATE(GBUF%THK,NEL*GBUF%G_THK)
+        ELBUF_TAB(NG)%GBUF%THK = ZERO
+      MY_ALLOCATE(GBUF%THK_I,NEL*GBUF%G_THK_I)
+        ELBUF_TAB(NG)%GBUF%THK_I = ZERO
+      MY_ALLOCATE(GBUF%JAC_I,NEL*GBUF%G_JAC_I)
+        ELBUF_TAB(NG)%GBUF%JAC_I = ZERO
+      MY_ALLOCATE(GBUF%DT,NEL*GBUF%G_DT)
         ELBUF_TAB(NG)%GBUF%DT = ZERO
-      MY_ALLOCATE(GBUF%ISMS,NEL*GBUF%G_ISMS)                         
-        ELBUF_TAB(NG)%GBUF%ISMS = ZERO  
-      MY_ALLOCATE(GBUF%STRHG,NEL*GBUF%G_STRHG)                         
-        ELBUF_TAB(NG)%GBUF%STRHG = ZERO  
-      MY_ALLOCATE(GBUF%BPRELD,NEL*GBUF%G_BPRELD)                         
-        ELBUF_TAB(NG)%GBUF%BPRELD = ZERO  
-      MY_ALLOCATE(GBUF%COR_NF,NEL*GBUF%G_COR_NF)                                    
+      MY_ALLOCATE(GBUF%ISMS,NEL*GBUF%G_ISMS)
+        ELBUF_TAB(NG)%GBUF%ISMS = ZERO
+      MY_ALLOCATE(GBUF%STRHG,NEL*GBUF%G_STRHG)
+        ELBUF_TAB(NG)%GBUF%STRHG = ZERO
+      MY_ALLOCATE(GBUF%BPRELD,NEL*GBUF%G_BPRELD)
+        ELBUF_TAB(NG)%GBUF%BPRELD = ZERO
+      MY_ALLOCATE(GBUF%COR_NF,NEL*GBUF%G_COR_NF)
         ELBUF_TAB(NG)%GBUF%COR_NF = ZERO
-      MY_ALLOCATE(GBUF%COR_FR,NEL*GBUF%G_COR_FR)                                    
+      MY_ALLOCATE(GBUF%COR_FR,NEL*GBUF%G_COR_FR)
         ELBUF_TAB(NG)%GBUF%COR_FR = ZERO
-      MY_ALLOCATE(GBUF%COR_XR,NEL*GBUF%G_COR_XR)                                    
+      MY_ALLOCATE(GBUF%COR_XR,NEL*GBUF%G_COR_XR)
         ELBUF_TAB(NG)%GBUF%COR_XR = ZERO
-      MY_ALLOCATE(GBUF%MAXFRAC,NEL*GBUF%G_MAXFRAC)                                    
+      MY_ALLOCATE(GBUF%MAXFRAC,NEL*GBUF%G_MAXFRAC)
         ELBUF_TAB(NG)%GBUF%MAXFRAC = ZERO
-      MY_ALLOCATE(GBUF%MAXEPS,NEL*GBUF%G_MAXEPS)                                    
+      MY_ALLOCATE(GBUF%MAXEPS,NEL*GBUF%G_MAXEPS)
         ELBUF_TAB(NG)%GBUF%MAXEPS = ZERO
-      MY_ALLOCATE(GBUF%GAMA_R,NEL*GBUF%G_GAMA_R)                                      
+      MY_ALLOCATE(GBUF%GAMA_R,NEL*GBUF%G_GAMA_R)
         ELBUF_TAB(NG)%GBUF%GAMA_R = ZERO
 c           Allocate Orthotropic Beta angle (dyna input format)
-      MY_ALLOCATE(GBUF%BETAORTH,NEL*GBUF%G_BETAORTH)                                     
+      MY_ALLOCATE(GBUF%BETAORTH,NEL*GBUF%G_BETAORTH)
         ELBUF_TAB(NG)%GBUF%BETAORTH= ZERO
-      MY_ALLOCATE(GBUF%AMU,NEL*GBUF%G_AMU)                                    
+      MY_ALLOCATE(GBUF%AMU,NEL*GBUF%G_AMU)
         ELBUF_TAB(NG)%GBUF%AMU = ZERO
 
 c
@@ -447,83 +447,83 @@ C
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%STRPG,NEL*GBUF%G_STRPG)
           ELBUF_TAB(NG)%GBUF%STRPG = ZERO
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%STRWPG,NEL*GBUF%G_STRWPG)
-          ELBUF_TAB(NG)%GBUF%STRWPG = ZERO  
+          ELBUF_TAB(NG)%GBUF%STRWPG = ZERO
       ENDIF
 c
 c-------------------------------------------------
-c      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones    
-      IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones    
-        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                   
+c      IF (NPT == 1) THEN  ! NPT = 1 ! global variables are pointing to local ones
+      IF (NPTTOT == 1) THEN  ! NPTTOT = 1 ! global variables are pointing to local ones
+        LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
 c
-        ELBUF_TAB(NG)%GBUF%BFRAC  => LBUF%BFRAC                                      
-        ELBUF_TAB(NG)%GBUF%OFF    => LBUF%OFF                                        
-        ELBUF_TAB(NG)%GBUF%EINT   => LBUF%EINT                                       
-        ELBUF_TAB(NG)%GBUF%EINS   => LBUF%EINS                                       
-        ELBUF_TAB(NG)%GBUF%RHO    => LBUF%RHO                                        
-        ELBUF_TAB(NG)%GBUF%QVIS   => LBUF%QVIS                                       
-        ELBUF_TAB(NG)%GBUF%DELTAX => LBUF%DELTAX                                     
-        ELBUF_TAB(NG)%GBUF%VOL    => LBUF%VOL                                        
-        ELBUF_TAB(NG)%GBUF%EPSD   => LBUF%EPSD                                       
-        ELBUF_TAB(NG)%GBUF%EPSQ   => LBUF%EPSQ                                       
-        ELBUF_TAB(NG)%GBUF%PLA    => LBUF%PLA                                        
-        ELBUF_TAB(NG)%GBUF%TEMP   => LBUF%TEMP                                       
-        ELBUF_TAB(NG)%GBUF%TB     => LBUF%TB                                         
-        ELBUF_TAB(NG)%GBUF%RK     => LBUF%RK                                         
-        ELBUF_TAB(NG)%GBUF%RE     => LBUF%RE                                         
-        ELBUF_TAB(NG)%GBUF%SIG    => LBUF%SIG                                        
-        ELBUF_TAB(NG)%GBUF%FORTH  => LBUF%FORTH                                      
+        ELBUF_TAB(NG)%GBUF%BFRAC  => LBUF%BFRAC
+        ELBUF_TAB(NG)%GBUF%OFF    => LBUF%OFF
+        ELBUF_TAB(NG)%GBUF%EINT   => LBUF%EINT
+        ELBUF_TAB(NG)%GBUF%EINS   => LBUF%EINS
+        ELBUF_TAB(NG)%GBUF%RHO    => LBUF%RHO
+        ELBUF_TAB(NG)%GBUF%QVIS   => LBUF%QVIS
+        ELBUF_TAB(NG)%GBUF%DELTAX => LBUF%DELTAX
+        ELBUF_TAB(NG)%GBUF%VOL    => LBUF%VOL
+        ELBUF_TAB(NG)%GBUF%EPSD   => LBUF%EPSD
+        ELBUF_TAB(NG)%GBUF%EPSQ   => LBUF%EPSQ
+        ELBUF_TAB(NG)%GBUF%PLA    => LBUF%PLA
+        ELBUF_TAB(NG)%GBUF%TEMP   => LBUF%TEMP
+        ELBUF_TAB(NG)%GBUF%TB     => LBUF%TB
+        ELBUF_TAB(NG)%GBUF%RK     => LBUF%RK
+        ELBUF_TAB(NG)%GBUF%RE     => LBUF%RE
+        ELBUF_TAB(NG)%GBUF%SIG    => LBUF%SIG
+        ELBUF_TAB(NG)%GBUF%FORTH  => LBUF%FORTH
         ELBUF_TAB(NG)%GBUF%EINTTH => LBUF%EINTTH
         ELBUF_TAB(NG)%GBUF%SEQ    => LBUF%SEQ
-        ELBUF_TAB(NG)%GBUF%ABURN  => LBUF%ABURN   
-        ELBUF_TAB(NG)%GBUF%MU     => LBUF%MU                                    
-      ELSE  ! NPT > 1                                                                
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%BFRAC,NEL*GBUF%G_BFRAC)                
-              ELBUF_TAB(NG)%GBUF%BFRAC = ZERO 	  
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%OFF,NEL*GBUF%G_OFF) 
-              ELBUF_TAB(NG)%GBUF%OFF = ONE               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINT,NEL*GBUF%G_EINT)                      
-              ELBUF_TAB(NG)%GBUF%EINT = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINS,NEL*GBUF%G_EINS)                      
-              ELBUF_TAB(NG)%GBUF%EINS = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%RHO,NEL*GBUF%G_RHO)                       
-              ELBUF_TAB(NG)%GBUF%RHO = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%QVIS,NEL*GBUF%G_QVIS)                      
-              ELBUF_TAB(NG)%GBUF%QVIS = ZERO               
+        ELBUF_TAB(NG)%GBUF%ABURN  => LBUF%ABURN
+        ELBUF_TAB(NG)%GBUF%MU     => LBUF%MU
+      ELSE  ! NPT > 1
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%BFRAC,NEL*GBUF%G_BFRAC)
+              ELBUF_TAB(NG)%GBUF%BFRAC = ZERO 	
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%OFF,NEL*GBUF%G_OFF)
+              ELBUF_TAB(NG)%GBUF%OFF = ONE
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINT,NEL*GBUF%G_EINT)
+              ELBUF_TAB(NG)%GBUF%EINT = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINS,NEL*GBUF%G_EINS)
+              ELBUF_TAB(NG)%GBUF%EINS = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%RHO,NEL*GBUF%G_RHO)
+              ELBUF_TAB(NG)%GBUF%RHO = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%QVIS,NEL*GBUF%G_QVIS)
+              ELBUF_TAB(NG)%GBUF%QVIS = ZERO
         MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%DELTAX,NEL*GBUF%G_DELTAX)
-              ELBUF_TAB(NG)%GBUF%DELTAX = ZERO             
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%VOL,NEL*GBUF%G_VOL)                       
-              ELBUF_TAB(NG)%GBUF%VOL = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EPSD,NEL*GBUF%G_EPSD)                      
-              ELBUF_TAB(NG)%GBUF%EPSD = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EPSQ,NEL*GBUF%G_EPSQ)  
-              ELBUF_TAB(NG)%GBUF%EPSQ = ZERO 
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%PLA,NEL*GBUF%G_PLA)                       
-              ELBUF_TAB(NG)%GBUF%PLA = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%TEMP,NEL*GBUF%G_TEMP)                      
-              ELBUF_TAB(NG)%GBUF%TEMP = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%TB,NEL*GBUF%G_TB)                        
-              ELBUF_TAB(NG)%GBUF%TB = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%RK,NEL*GBUF%G_RK)                      
-              ELBUF_TAB(NG)%GBUF%RK = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%RE,NEL*GBUF%G_RE) 
-              ELBUF_TAB(NG)%GBUF%RE = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%SIG,NEL*GBUF%G_SIG)                       
-              ELBUF_TAB(NG)%GBUF%SIG = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FORTH,NEL*GBUF%G_FORTH)                       
-              ELBUF_TAB(NG)%GBUF%FORTH = ZERO  
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINTTH,NEL*GBUF%G_EINTTH)                       
-              ELBUF_TAB(NG)%GBUF%EINTTH = ZERO               
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%SEQ,NEL*GBUF%G_SEQ)                       
+              ELBUF_TAB(NG)%GBUF%DELTAX = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%VOL,NEL*GBUF%G_VOL)
+              ELBUF_TAB(NG)%GBUF%VOL = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EPSD,NEL*GBUF%G_EPSD)
+              ELBUF_TAB(NG)%GBUF%EPSD = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EPSQ,NEL*GBUF%G_EPSQ)
+              ELBUF_TAB(NG)%GBUF%EPSQ = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%PLA,NEL*GBUF%G_PLA)
+              ELBUF_TAB(NG)%GBUF%PLA = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%TEMP,NEL*GBUF%G_TEMP)
+              ELBUF_TAB(NG)%GBUF%TEMP = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%TB,NEL*GBUF%G_TB)
+              ELBUF_TAB(NG)%GBUF%TB = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%RK,NEL*GBUF%G_RK)
+              ELBUF_TAB(NG)%GBUF%RK = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%RE,NEL*GBUF%G_RE)
+              ELBUF_TAB(NG)%GBUF%RE = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%SIG,NEL*GBUF%G_SIG)
+              ELBUF_TAB(NG)%GBUF%SIG = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%FORTH,NEL*GBUF%G_FORTH)
+              ELBUF_TAB(NG)%GBUF%FORTH = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%EINTTH,NEL*GBUF%G_EINTTH)
+              ELBUF_TAB(NG)%GBUF%EINTTH = ZERO
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%SEQ,NEL*GBUF%G_SEQ)
               ELBUF_TAB(NG)%GBUF%SEQ = ZERO
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%ABURN,NEL*GBUF%G_ABURN)                
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%ABURN,NEL*GBUF%G_ABURN)
               ELBUF_TAB(NG)%GBUF%ABURN = ZERO 	
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%MU,NEL*GBUF%G_MU)                
-              ELBUF_TAB(NG)%GBUF%MU = ZERO 
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%MU,NEL*GBUF%G_MU)
+              ELBUF_TAB(NG)%GBUF%MU = ZERO
       ENDIF  ! NPT
 c---
       ALLOCATE(ELBUF_TAB(NG)%GBUF%FILL(NEL*GBUF%G_FILL),STAT=Stat)
-        ELBUF_TAB(NG)%GBUF%FILL = ONE    
-                                                   
+        ELBUF_TAB(NG)%GBUF%FILL = ONE
+
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
@@ -600,8 +600,8 @@ C --- needed for batoz shell and /heat/mat
       IF (NPG == 1) THEN
         ELBUF_TAB(NG)%GBUF%TEMPG => GBUF%TEMP
       ELSEIF (NPG > 1) THEN
-        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%TEMPG,NEL*GBUF%G_TEMPG) 
-        ELBUF_TAB(NG)%GBUF%TEMPG = ZERO  
+        MY_ALLOCATE(ELBUF_TAB(NG)%GBUF%TEMPG,NEL*GBUF%G_TEMPG)
+        ELBUF_TAB(NG)%GBUF%TEMPG = ZERO
       ENDIF
 C
       ALLOCATE (GBUF%SKEW_ID(NEL*GBUF%G_SKEW_ID)                 ,STAT=Stat)
@@ -624,9 +624,9 @@ c---
       ALLOCATE (GBUF%UPDATE(NEL*GBUF%G_UPDATE)                       ,STAT=Stat)
         GBUF%UPDATE = 0
       ALLOCATE (GBUF%FRAM_FACTOR(NEL*GBUF%G_FRAM_FACTOR)             ,STAT=Stat)
-        GBUF%FRAM_FACTOR = ZERO  
+        GBUF%FRAM_FACTOR = ZERO
       ALLOCATE (GBUF%INTVAR(NEL*GBUF%G_INTVAR)                       ,STAT=Stat)
-        GBUF%INTVAR = ZERO          
+        GBUF%INTVAR = ZERO
 c---
 C ---H3D/TMAX in BUFLEN         
 c---
@@ -639,55 +639,55 @@ c---
       ALLOCATE (GBUF%TM_DMG(NEL*GBUF%G_TM_DMG)               ,STAT=Stat)
                 GBUF%TM_DMG = ZERO
       ALLOCATE (GBUF%TM_SIG1(NEL*GBUF%G_TM_SIG)               ,STAT=Stat)
-                GBUF%TM_SIG1 = ZERO  
+                GBUF%TM_SIG1 = ZERO
       ALLOCATE (GBUF%TM_STRA1(NEL*GBUF%G_TM_STRA)             ,STAT=Stat)
                 GBUF%TM_STRA1 = ZERO
       ALLOCATE (GBUF%TM_SIG3(NEL*GBUF%G_TM_SIG)               ,STAT=Stat)
-                GBUF%TM_SIG3 = ZERO  
+                GBUF%TM_SIG3 = ZERO
       ALLOCATE (GBUF%TM_STRA3(NEL*GBUF%G_TM_STRA)             ,STAT=Stat)
                 GBUF%TM_STRA3 = ZERO
-                
-      IF (STAT /= 0) THEN                         
+
+      IF (STAT /= 0) THEN
             CALL ANCMSG(MSGID=727,MSGTYPE=MSGERROR,
-     .                  ANMODE=ANSTOP,C1='ELEMENT BUFFER')              
-      ENDIF                                       
+     .                  ANMODE=ANSTOP,C1='ELEMENT BUFFER')
+      ENDIF
 c
-c-----    Viscosity model buffer - per integration point                                                                  
+c-----    Viscosity model buffer - per integration point
 c
-c        DO IR = 1,NPTR                                       
-c          DO IS = 1,NPTS                                      
-c            DO IT = 1,NPTT   
+c        DO IR = 1,NPTR
+c          DO IS = 1,NPTS
+c            DO IT = 1,NPTT
 c              VISCBUF => ELBUF_TAB(NG)%VISC(IR,IS,IT)
 c              VISCBUF%LawId = IMAT
-c              VISCBUF%MVISC = IPM(220,IMAT)    
-c              VISCBUF%NVAR  = IPM(225,IMAT)    
+c              VISCBUF%MVISC = IPM(220,IMAT)
+c              VISCBUF%NVAR  = IPM(225,IMAT)
 c              print*,'visc_nvar=',VISCBUF%NVAR
 c              ALLOCATE(VISCBUF%VAR(NEL*NVAR)  ,STAT=Stat)
 c              VISCBUF%VAR(1:NEL*NVAR) = ZERO
-c            ENDDO                                                           
-c          ENDDO                                                            
-c        ENDDO 
+c            ENDDO
+c          ENDDO
+c        ENDDO
 c-------------------------------
-c         EOS model variables    (pas de UVAR pour l'instant)                        
+c         EOS model variables    (pas de UVAR pour l'instant)
 c-------------------------------
-c        IF (IEOS /= 0) THEN   
+c        IF (IEOS /= 0) THEN
 c          ALLOCATE (ELBUF_TAB(NG)%EOS(NPTR,NPTS,NPTT), STAT=Stat)
 c          IF (STAT /= 0) THEN
-c            CALL ANSTCKC(6,'SOLBUF')  
-c            CALL ANCStat(727,ANSTOP)                      
+c            CALL ANSTCKC(6,'SOLBUF')
+c            CALL ANCStat(727,ANSTOP)
 c          ENDIF
 C
-c          DO IR = 1,NPTR                                     
-c           DO IS = 1,NPTS                                    
+c          DO IR = 1,NPTR
+c           DO IS = 1,NPTS
 c            DO IT = 1,NPTT
-c                ALLOCATE(ELBUF_TAB(NG)%EOS(IR,IS,IT)%VAR(NEL,NVAR),           
-c     .                                                     STAT=Stat)                                                            
-c            ENDDO                                                         
-c           ENDDO                                                          
-c          ENDDO                                                           
-c        ENDIF                                            
+c                ALLOCATE(ELBUF_TAB(NG)%EOS(IR,IS,IT)%VAR(NEL,NVAR),
+c     .                                                     STAT=Stat)
+c            ENDDO
+c           ENDDO
+c          ENDDO
+c        ENDIF
 c-------------------------------
-c         Viscosity model variables                   
+c         Viscosity model variables
 c-------------------------------
 C-----------------------------------------------
       RETURN

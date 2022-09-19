@@ -65,7 +65,7 @@ Chd|====================================================================
      3                       ICONTACT,FCONT  ,IGRBRIC ,IXS     ,
      4                       IXS16   ,NISKYFIE,NBINT20,
      5                       IFLAG, INTBUF_TAB,  SFSKYI ,
-     6                       SISKY,H3D_DATA ,MULTI_FVM  ,                    
+     6                       SISKY,H3D_DATA ,MULTI_FVM  ,
      7                       TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
 C-----------------------------------------------
 C   M o d u l e s
@@ -114,7 +114,7 @@ C-----------------------------------------------
       INTEGER IFLAG, NBINTC, NBINT20,
      .        IPARI(NPARI,*),  INTLIST(*), NISKYFI(*),
      .        ICODT(*), ICONTACT(*), NSTRF(*),
-     .        IXS(*), IXS16(*), NISKYFIE(*),  
+     .        IXS(*), IXS16(*), NISKYFIE(*),
      .        TAGNCONT(NLOADP_HYD_INTER,*),KLOADPINTER(*),
      .        LOADPINTER(*),LOADP_HYD_INTER(*),
      .        SFSKYI , SISKY
@@ -144,7 +144,7 @@ C parasiz car variable en save
      .        ISIZRCV(2,PARASIZ),ISIZENV(2,PARASIZ),
      .        NSNFITOT(PARASIZ),NSNSITOT(PARASIZ)
       INTEGER :: LEN25E ! edge2edge additional length
-              INTEGER SISKY_OLD,LSKYI_OLD,LSKYI_CT 
+              INTEGER SISKY_OLD,LSKYI_OLD,LSKYI_CT
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX
       my_real, DIMENSION(:,:), ALLOCATABLE :: TEMPO
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: FTEMP
@@ -185,7 +185,7 @@ C type20 => place additionnelle DAANC6
       LEN20 = 18*(1+IRESP) + 1
 C type20 => place additionnelle DAANC6E (edge)
       LEN20E = 36*(1+IRESP) + 2
-      LEN25E = 10 !+ 2  
+      LEN25E = 10 !+ 2
 C
       IF(IFLAG==1)THEN
 C
@@ -214,7 +214,7 @@ C ajout partie egde pour type 20
             ENDDO
             IF(SIZ>0)THEN
               NSNSITOT(P) = SIZ
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               CALL MPI_IRECV(
      .          ISIZRCV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_R(P),IERROR   )
@@ -233,24 +233,24 @@ C
             INTTH = IPARI(47,NIN)
             IF(NTY==7.OR.NTY==10.OR.NTY==22.OR.NTY==23.OR.
      .         NTY==24.OR.NTY==25) THEN
-     
+
               ALLOCATE(INDEX(NI),STAT=IERROR)
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
-              
+
               IF(INTTH > 0)THEN
                  ALLOCATE( TEMPO(LEN7T,NI),STAT=IERROR)
               ELSE
                  ALLOCATE( TEMPO(LEN,NI),STAT=IERROR)
               ENDIF
-              
+
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
-                            
+
               DO J=1,NI
                  INDEX(J)=J
                  TEMPO(1,J)=FSKYFI(NIN)%P(1,J)
@@ -258,7 +258,7 @@ C
                  TEMPO(3,J)=FSKYFI(NIN)%P(3,J)
                  TEMPO(4,J)=FSKYFI(NIN)%P(4,J)
               ENDDO
-              
+
               TEMP_SIZ=5
 C KDTINT > 0 option
               IF(NFSKYI==5)THEN
@@ -273,8 +273,8 @@ C Thermique Option
                   TEMPO(TEMP_SIZ,J)=FTHESKYFI(NIN)%P(J)
                 ENDDO
                 TEMP_SIZ=TEMP_SIZ+1
-                
-                IF (NODADT_THERM == 1)THEN 
+
+                IF (NODADT_THERM == 1)THEN
                   DO J=1,NI
                     TEMPO(TEMP_SIZ,J)=CONDNSKYFI(NIN)%P(J)
                   ENDDO
@@ -282,16 +282,16 @@ C Thermique Option
                 ENDIF
               ENDIF
               CALL SORTINT(NI,ISKYFI(NIN)%P(1),INDEX)
-              
+
               DO J=1,NI
-                 K=INDEX(J) 
+                 K=INDEX(J)
                  FSKYFI(NIN)%P(1,J)=TEMPO(1,K)
                  FSKYFI(NIN)%P(2,J)=TEMPO(2,K)
                  FSKYFI(NIN)%P(3,J)=TEMPO(3,K)
                  FSKYFI(NIN)%P(4,J)=TEMPO(4,K)
               ENDDO
-              TEMP_SIZ=5 
-              
+              TEMP_SIZ=5
+
 C KDTINT > 0 option
               IF(NFSKYI==5)THEN
                 DO J=1,NI
@@ -307,7 +307,7 @@ C Thermique Option
                   FTHESKYFI(NIN)%P(J)=TEMPO(TEMP_SIZ,K)
                 ENDDO
                 TEMP_SIZ=TEMP_SIZ+1
-                
+
                 IF (NODADT_THERM == 1)THEN
                   DO J=1,NI
                     K=INDEX(J)
@@ -578,7 +578,7 @@ C noeud generant une force
                     ENDIF
                    ENDDO
                   ENDIF
-                 
+
                  ELSE ! NODADT_THERM
 
                   LENI = LEN7T
@@ -1036,7 +1036,7 @@ C
 C               L0 = L
                 LL = L + 1
                 L = L  + 1
-                NB_TOT_EDGES = 0 
+                NB_TOT_EDGES = 0
                 IF(NB>0) THEN
                     DO N = 1, NB
                       DEBUG_E2E(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,IDEB+N) == D_ES,IDEB)
@@ -1067,7 +1067,7 @@ C noeud generant une force
                           BBUFS(L+9+THOFFSET)  = FSKYFIE(NIN)%P(7+THOFFSET,IDEBI)
                           BBUFS(L+10+THOFFSET) = FSKYFIE(NIN)%P(8+THOFFSET,IDEBI)
                           IDEBI = IDEBI + 1
-                          NB_TOT_EDGES = NB_TOT_EDGES + 1 
+                          NB_TOT_EDGES = NB_TOT_EDGES + 1
                           L = L + LEN25E ! + 2*THOFFSET
                           IF(IDEBI<=NISKYFIE(NIN)) THEN
                             ITEST = ISKYFIE(NIN)%P(IDEBI)==IDEB+N
@@ -1078,7 +1078,7 @@ C noeud generant une force
                       END IF
                    END DO
                 END IF
-                ! LL = L0 +1 
+                ! LL = L0 +1
                 ! L = L0 +1 + LEN25 * (NBEDGES_WITH_FORCES)
                 ! L - LL = LEN25 * NB_TOT_EDGES / LEN25 = NB_TOT_EDGES
                 ! BBUFS(L0 + 1 ) = NB_TOT_EDGES
@@ -1169,7 +1169,7 @@ C        L = 1       ! a reactiver si envoi non bloquant
             CALL MPI_RECV(
      .        BBUFR(L),ISIZRCV(1,P)+NBINTC*2,REAL  ,IT_SPMD(P),MSGTYP,
      .        MPI_COMM_WORLD            ,STATUS,IERROR    )
-             
+
 C
             DO II = 1, NBINTC
               NIN = INTLIST(II)
@@ -1268,7 +1268,7 @@ C type int20 (non edge)
                       ENDIF
                     ENDIF
 
-                
+
                 ELSEIF(NTY==11)THEN
                     NB = NINT(BBUFR(L))
                     L = L + 1

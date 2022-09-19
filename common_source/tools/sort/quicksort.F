@@ -58,15 +58,15 @@ C-----------------------------------------------
          T = A(I)
          A(I) = A(J)
          A(J) = T
-         I1 = IDX(i) 
-         IDX(I) = IDX(J) 
+         I1 = IDX(i)
+         IDX(I) = IDX(J)
          IDX(J) = I1
          I = I + 1
          J = J - 1
       ENDDO
       IF (FIRST < I - 1) CALL QUICKSORT(A, IDX, FIRST, I - 1)
       IF (J + 1 < LAST)  CALL QUICKSORT(A, IDX, J + 1, LAST)
-      END SUBROUTINE 
+      END SUBROUTINE
 C________________________________________________________________________________________________________
 
       RECURSIVE SUBROUTINE QUICKSORT_I(A, FIRST, LAST)
@@ -111,7 +111,7 @@ C-----------------------------------------------
       ENDDO
       IF (FIRST < I - 1) CALL QUICKSORT_I(A, FIRST, I - 1)
       IF (J + 1 < LAST)  CALL QUICKSORT_I(A, J + 1, LAST)
-      END SUBROUTINE 
+      END SUBROUTINE
 C________________________________________________________________________________________________________
 
       RECURSIVE SUBROUTINE QUICKSORT_I2(A, IDX, FIRST, LAST)
@@ -151,17 +151,17 @@ C-----------------------------------------------
          T = A(I)
          A(I) = A(J)
          A(J) = T
-         I1 = IDX(i) 
-         IDX(I) = IDX(J) 
+         I1 = IDX(i)
+         IDX(I) = IDX(J)
          IDX(J) = I1
          I = I + 1
          J = J - 1
       ENDDO
       IF (FIRST < I - 1) CALL QUICKSORT_I2(A, IDX, FIRST, I - 1)
       IF (J + 1 < LAST)  CALL QUICKSORT_I2(A, IDX, J + 1, LAST)
-      END SUBROUTINE 
+      END SUBROUTINE
 C________________________________________________________________________________________________________
-      
+
       RECURSIVE SUBROUTINE QUICKSORT_INTEGER_2ARRAYS(A, B, FIRST, LAST)
       ! SORT columns A,B  (key=A)
 C-----------------------------------------------
@@ -203,16 +203,16 @@ C-----------------------------------------------
          !
          T = B(I)
          B(I) = B(J)
-         B(J) = T   
-         !      
+         B(J) = T
+         !
          I = I + 1
          J = J - 1
       ENDDO
       IF (FIRST < I - 1) CALL QUICKSORT_INTEGER_2ARRAYS(A,B, FIRST, I - 1)
       IF (J + 1 < LAST)  CALL QUICKSORT_INTEGER_2ARRAYS(A,B, J + 1, LAST)
-      END SUBROUTINE        
+      END SUBROUTINE
 C________________________________________________________________________________________________________
-      
+
       RECURSIVE SUBROUTINE QUICKSORT_INTEGER_3ARRAYS(A, B, C, FIRST, LAST)
       ! SORT columns A,B,C  (key=A)
 C-----------------------------------------------
@@ -254,16 +254,16 @@ C-----------------------------------------------
          !
          T = B(I)
          B(I) = B(J)
-         B(J) = T  
+         B(J) = T
          !
          T = C(I)
          C(I) = C(J)
-         C(J) = T            
-         !      
+         C(J) = T
+         !
          I = I + 1
          J = J - 1
       ENDDO
       IF (FIRST < I - 1) CALL QUICKSORT_INTEGER_3ARRAYS(A,B,C, FIRST, I - 1)
       IF (J + 1 < LAST)  CALL QUICKSORT_INTEGER_3ARRAYS(A,B,C, J + 1, LAST)
-      END SUBROUTINE         
+      END SUBROUTINE
 C________________________________________________________________________________________________________

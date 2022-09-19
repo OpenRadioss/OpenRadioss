@@ -29,9 +29,9 @@ Chd|        DERSBASISFUNS                 source/elements/ige3d/dersbasisfuns.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IGE3DAIRE(ITEL , N     , XXI   , YYI   , ZZI ,
-     1                     WWI  , IDX   , IDY   , IDZ   , AIRE, 
+     1                     WWI  , IDX   , IDY   , IDZ   , AIRE,
      2                     NCTRL, GAUSSX, GAUSSY, GAUSSZ, KX  ,
-     3                     KY   , KZ    , PX    , PY    , PZ  ) 
+     3                     KY   , KZ    , PX    , PY    , PZ  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -46,7 +46,7 @@ C-------------------------------------------------------------------------------
       INTEGER IDX, IDY, IDZ, NCTRL, PX, PY, PZ, ITEL, N
       my_real
      .  GAUSSX, GAUSSY, GAUSSZ
-      my_real, 
+      my_real,
      .  DIMENSION(*)  :: AIRE
       my_real,
      .  DIMENSION(*) :: XXI,YYI,ZZI,WWI
@@ -62,15 +62,15 @@ C-------------------------------------------------------------------------------
      .  DIMENSION(NCTRL,3) :: DRDXI
       my_real
      .  SUMTOT
-      my_real, 
+      my_real,
      .  DIMENSION(PX+1) :: FN, DNDXI
-      my_real, 
+      my_real,
      .  DIMENSION(PY+1) :: FM, DMDXI
-      my_real, 
+      my_real,
      .  DIMENSION(PZ+1) :: FL, DLDXI
-      my_real, 
+      my_real,
      .  DIMENSION(3) :: XI, SUMXI
-      my_real, 
+      my_real,
      .  DIMENSION(3,3)  :: DXDXI, AJMAT, DXIDTILDEXI
 C--------------------------------------------------------------------------------------------------------
 
@@ -140,7 +140,7 @@ C GRADIENT OF MAPPING FROM PARAMETER SPACE TO PHYSICAL SPACE
           DXDXI(1,NB)=DXDXI(1,NB)+XXI(NUMLOC)*DRDXI(NUMLOC,NB)
           DXDXI(2,NB)=DXDXI(2,NB)+YYI(NUMLOC)*DRDXI(NUMLOC,NB)
           DXDXI(3,NB)=DXDXI(3,NB)+ZZI(NUMLOC)*DRDXI(NUMLOC,NB)
-        ENDDO                             
+        ENDDO
       ENDDO
 
 C GRADIENT OF MAPPING FROM PARENT ELEMENT TO PARAMETER SPACE
@@ -160,7 +160,7 @@ C GRADIENT OF MAPPING FROM PARENT ELEMENT TO PARAMETER SPACE
       AIRE(1) = SQRT(AJMAT(1,1)*AJMAT(1,1)+AJMAT(2,1)*AJMAT(2,1)
      .              +AJMAT(3,1)*AJMAT(3,1))
      .         *SQRT(AJMAT(1,2)*AJMAT(1,2)+AJMAT(2,2)*AJMAT(2,2)
-     .              +AJMAT(3,2)*AJMAT(3,2)) 
+     .              +AJMAT(3,2)*AJMAT(3,2))
       AIRE(2) = SQRT(AJMAT(1,1)*AJMAT(1,1)+AJMAT(2,1)*AJMAT(2,1)
      .              +AJMAT(3,1)*AJMAT(3,1))
      .         *SQRT(AJMAT(1,3)*AJMAT(1,3)+AJMAT(2,3)*AJMAT(2,3)
@@ -168,7 +168,7 @@ C GRADIENT OF MAPPING FROM PARENT ELEMENT TO PARAMETER SPACE
       AIRE(3) = SQRT(AJMAT(1,2)*AJMAT(1,2)+AJMAT(2,2)*AJMAT(2,2)
      .              +AJMAT(3,2)*AJMAT(3,2))
      .         *SQRT(AJMAT(1,3)*AJMAT(1,3)+AJMAT(2,3)*AJMAT(2,3)
-     .              +AJMAT(3,3)*AJMAT(3,3)) 
-    
-      RETURN 
+     .              +AJMAT(3,3)*AJMAT(3,3))
+
+      RETURN
       END

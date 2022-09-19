@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE MULTI_FVM_MOD
         USE INTER_SORTING_MOD
         USE INTER_STRUCT_MOD
@@ -107,7 +107,7 @@ C-----------------------------------------------
         IF(ITASK==0) THEN
             ALLOCATE(CELL_BOOL(NB_CELL_X,NB_CELL_Y,NB_CELL_Z))
             CELL_BOOL(1:NB_CELL_X,1:NB_CELL_Y,1:NB_CELL_Z) = .TRUE.
-            ALLOCATE( NB_LOCAL_CELL(NTHREAD) ) 
+            ALLOCATE( NB_LOCAL_CELL(NTHREAD) )
         ENDIF
         CALL MY_BARRIER()
         ! --------------------
@@ -126,7 +126,7 @@ C-----------------------------------------------
             ADRESS = 1 + ITASK*(IPARI(4,NIN)/NTHREAD)
             IF(ITASK==NTHREAD-1) NRTM_T= NRTM - ADRESS + 1
             NB_LOCAL_CELL(ITASK+1) = 0
-            
+
             TZINF = INTBUF_TAB(NIN)%VARIABLES(8)
             GAP   =INTBUF_TAB(NIN)%VARIABLES(2)
             GAPMIN=INTBUF_TAB(NIN)%VARIABLES(13)
@@ -145,7 +145,7 @@ C-----------------------------------------------
                 IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
                     COARSE_GRID = .TRUE.
                     IF(.NOT.ALLOCATED(SORT_COMM(NIN)%MAIN_COARSE_GRID) ) THEN
-                        ALLOCATE(SORT_COMM(NIN)%MAIN_COARSE_GRID( 
+                        ALLOCATE(SORT_COMM(NIN)%MAIN_COARSE_GRID(
      .                        NB_BOX_COARSE_GRID,NB_BOX_COARSE_GRID,NB_BOX_COARSE_GRID ) )
                    ENDIF
                    SORT_COMM(NIN)%MAIN_COARSE_GRID(:,:,:) = 0
@@ -153,8 +153,8 @@ C-----------------------------------------------
             ENDIF
 
             CALL MY_BARRIER()
-            ! --------------------  
-            ! cell coloration by omp threads  
+            ! --------------------
+            ! cell coloration by omp threads
             CALL INTER_CELL_COLOR( X,IPARI(21,NIN)   ,NRTM_T  ,INTBUF_TAB(NIN)%STFM(1+ESHIFT)   ,
      2                 TZINF,INTER_STRUCT(NIN)%CURV_MAX(ADRESS),
      3                 GAPMIN ,GAPMAX,INTBUF_TAB(NIN)%GAP_M(1+ESHIFT) ,
@@ -163,7 +163,7 @@ C-----------------------------------------------
      6                 NIN,COARSE_GRID,SORT_COMM(NIN)%MAIN_COARSE_GRID,DGAPLOAD)
 
             CALL MY_BARRIER()
-            ! --------------------   
+            ! --------------------
             ! reduction of number of colored cells
             IF(ITASK==0) THEN
                 TOTAL_NB_CELL = 0
@@ -174,7 +174,7 @@ C-----------------------------------------------
                 SORT_COMM(NIN)%SIZE_CELL_LIST(2) = 0
                 ALLOCATE( SORT_COMM(NIN)%CELL_LIST(TOTAL_NB_CELL) )
             ENDIF
-            ! --------------------   
+            ! --------------------
             ! flush global array CELL_BOOL to true for the next interface
             DO I=1,NB_LOCAL_CELL(ITASK+1)
 
@@ -187,9 +187,9 @@ C-----------------------------------------------
                 CELL_BOOL(IX,IY,IZ) = .TRUE.
             ENDDO
             CALL MY_BARRIER()
-            ! --------------------   
+            ! --------------------
 
-            ! --------------------   
+            ! --------------------
             ! reduction of colored cells
             SHIFT = 0
             IF(ITASK>0) THEN
@@ -200,7 +200,7 @@ C-----------------------------------------------
             SORT_COMM(NIN)%CELL_LIST(1+SHIFT:NB_LOCAL_CELL(ITASK+1)+SHIFT) = INDEX_CELL(1:NB_LOCAL_CELL(ITASK+1))
 
             CALL MY_BARRIER()
-            ! --------------------   
+            ! --------------------
         ENDDO
 
         CALL MY_BARRIER()
@@ -208,7 +208,7 @@ C-----------------------------------------------
         ! deallocation
         IF(ITASK==0) THEN
             DEALLOCATE(CELL_BOOL)
-            DEALLOCATE( NB_LOCAL_CELL ) 
+            DEALLOCATE( NB_LOCAL_CELL )
         ENDIF
         DEALLOCATE(INDEX_CELL)
         ! --------------------

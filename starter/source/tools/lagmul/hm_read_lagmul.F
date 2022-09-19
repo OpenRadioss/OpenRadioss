@@ -100,18 +100,18 @@ C
           CALL HM_GET_FLOATV_WITHOUT_UID('LAGMUL_Alpha_s',LAG_ALPHS,IS_AVAILABLE)
           TAG_READ=1
           EXIT
-        ENDIF          
+        ENDIF
       ENDDO
 C
       IF(TAG_READ == 1) THEN
         IF(LAGMOD == 0) LAGMOD = 1
         IF(LAGM_TOL == 0) LAGM_TOL = EM11
         IF(LAG_ALPH == 0) LAG_ALPH = EM3
-        IF(LAG_ALPHS == 0) LAG_ALPHS = ZERO 
-      ENDIF 
+        IF(LAG_ALPHS == 0) LAG_ALPHS = ZERO
+      ENDIF
 C
 C--------------------------------------------------------------
       RETURN
-      END 
+      END
 
 

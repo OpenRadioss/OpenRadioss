@@ -78,16 +78,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
 c      my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,A4_0,B4_0,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
-     
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   AA,A4M1,B4M1
-      
+
 c      my_real
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DRDX, DSDX, DTDX,
      .   DRDY, DSDY, DTDY,
      .   DRDZ, DSDZ, DTDZ,
@@ -96,7 +96,7 @@ C-----------------------------------------------
 c      AA = (TWO*ALPH - ONE)*ALPH
 c      BB = (TWO*BETA - ONE)*BETA
 c      B2 = FOUR*BETA*BETA
-c      AB = FOUR*ALPH*BETA      
+c      AB = FOUR*ALPH*BETA
 cC-----------------------------------------------
 c      DO I=LFT,LLT
 c        NX1(I) = BB
@@ -158,8 +158,8 @@ c       B4 = FOUR * BETA
        B4 = D * B4_0
        A4 = D * A4_0
        A4MB4  = A4 - B4
-       VOLDP(I) = WUNSIX * DET 
-       VOL(I) = VOLDP(I) 
+       VOLDP(I) = WUNSIX * DET
+       VOL(I) = VOLDP(I)
 C
        PX1(I) = B4M1 * DRDX
        PY1(I) = B4M1 * DRDY
@@ -263,15 +263,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
 C     REAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
 c      my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
-     
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   AA,A4M1(MVSIZ),B4M1(MVSIZ)
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
 c      my_real
      .   DRDX(MVSIZ), DSDX(MVSIZ), DTDX(MVSIZ),
      .   DRDY(MVSIZ), DSDY(MVSIZ), DTDY(MVSIZ),
@@ -281,7 +281,7 @@ C-----------------------------------------------
 c      AA = (TWO*ALPH - ONE)*ALPH
 c      BB = (TWO*BETA - ONE)*BETA
 c      B2 = FOUR*BETA*BETA
-c      AB = FOUR*ALPH*BETA      
+c      AB = FOUR*ALPH*BETA
 cC-----------------------------------------------
 c#include "vectorize.inc"
 c      DO J=1,NNEGA
@@ -444,10 +444,10 @@ C     REAL
       my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
-     
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   AA,A4M1,B4M1
-      
+
       my_real
      .   DRDX, DSDX, DTDX,
      .   DRDY, DSDY, DTDY,
@@ -456,7 +456,7 @@ C-----------------------------------------------
 c      AA = (TWO*ALPH - ONE)*ALPH
 c      BB = (TWO*BETA - ONE)*BETA
 c      B2 = FOUR*BETA*BETA
-c      AB = FOUR*ALPH*BETA      
+c      AB = FOUR*ALPH*BETA
 cC-----------------------------------------------
 c      DO I=LFT,LLT
 c        NX1(I) = BB
@@ -589,16 +589,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
 c      my_real
      .   D,A4MB4,A4,B4,BB,AB,B2,A4_0,B4_0,
      .   DXDR,DXDS,DXDT,DYDR,DYDS,DYDT,DZDR,DZDS,DZDT
-     
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   AA,A4M1,B4M1
-      
+
 c      my_real
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DRDX, DSDX, DTDX,
      .   DRDY, DSDY, DTDY,
      .   DRDZ, DSDZ, DTDZ,
@@ -607,7 +607,7 @@ C-----------------------------------------------
 c      AA = (TWO*ALPH - ONE)*ALPH
 c      BB = (TWO*BETA - ONE)*BETA
 c      B2 = FOUR*BETA*BETA
-c      AB = FOUR*ALPH*BETA      
+c      AB = FOUR*ALPH*BETA
 cC-----------------------------------------------
 C
        A4_0 = FOUR * ALPH
@@ -657,8 +657,8 @@ c       B4 = FOUR * BETA
        B4 = D * B4_0
        A4 = D * A4_0
        A4MB4  = A4 - B4
-       VOLDP(I) = WUNSIX * DET 
-       VOL(I) = VOLDP(I) 
+       VOLDP(I) = WUNSIX * DET
+       VOL(I) = VOLDP(I)
 C
        PX1(I) = B4M1 * DRDX
        PY1(I) = B4M1 * DRDY

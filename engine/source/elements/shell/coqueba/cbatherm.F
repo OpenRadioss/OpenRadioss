@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATHERM(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
+      SUBROUTINE CBATHERM(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC ,
      2                  BM   ,AREA   ,DT1C  ,TEMPNC ,TEL   ,DIE  ,
      3                  NPLAT, IPLAT ,FPHI)
 C-----------------------------------------------
@@ -45,7 +45,7 @@ C-----------------------------------------------
      .        MAT(*),IXC(NIXC,*),IPLAT(*)
 C     REAL
       my_real
-     .   AREA(*), 
+     .   AREA(*),
      .   TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM,*),DIE(*),
      .   DT1C(*), THK(*),TEL(*),BM(MVSIZ,*)
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C------------------------------------------
         CB = PM(76,MX)
 
 
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
           I=IPLAT(EP)
 
           KC = ( CA + CB*TEL(I))*DT1C(I)
@@ -86,7 +86,7 @@ C - flux : K gradT = B * T
 C   
 
           PHIX =  TEMP13*BM(I,1) + TEMP24*BM(I,2)+BM(I,3)*TEMPH
-          
+
           PHIY =  TEMP13*BM(I,5) + TEMP24*BM(I,6)+BM(I,7)*TEMPH
 C     
           PHIX = KC*PHIX*THK(I)*AREA(I)
@@ -104,7 +104,7 @@ C
 
         END DO
 
-        DO EP=NPLAT+1,JLT 
+        DO EP=NPLAT+1,JLT
 
           I=IPLAT(EP)
 
@@ -123,13 +123,13 @@ C
 C - flux : K gradT = B * T
 C
           PHIX =  (BM(I,1)+BM(I,4))*TEMP1 + (BM(I,10)+BM(I,13))*TEMP2
-     .         +  (BM(I,19)+BM(I,22))*TEMP3 + (BM(I,28)+BM(I,31))*TEMP2  
+     .         +  (BM(I,19)+BM(I,22))*TEMP3 + (BM(I,28)+BM(I,31))*TEMP2
 
           PHIY =  (BM(I,2)+BM(I,5))*TEMP1 + (BM(I,11)+BM(I,14))*TEMP2
-     .         +  (BM(I,20)+BM(I,23))*TEMP3 + (BM(I,29)+BM(I,32))*TEMP2  
+     .         +  (BM(I,20)+BM(I,23))*TEMP3 + (BM(I,29)+BM(I,32))*TEMP2
 
           PHIX = KC*PHIX*THK(I)*AREA(I)
-          PHIY = KC*PHIY*THK(I)*AREA(I)    
+          PHIY = KC*PHIY*THK(I)*AREA(I)
 C
 C Thermal nodal Force
 C          

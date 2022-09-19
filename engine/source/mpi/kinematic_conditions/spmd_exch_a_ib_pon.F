@@ -249,7 +249,7 @@ C
       DO I = 1, NSPMD
         IAD_RECV(I) = IDEBR
         IF(IAD_RBM(4,I)>0) THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           SIZ = IAD_RBM(4,I)*A_AR
@@ -292,7 +292,7 @@ C
         NBISEND = 0
         DO I = 1, NSPMD
           IF(IAD_RBM(3,I)>0) THEN
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
             NBISEND = NBISEND + 1
             ISINDEX(NBISEND) = I
             CALL MPI_ISEND(

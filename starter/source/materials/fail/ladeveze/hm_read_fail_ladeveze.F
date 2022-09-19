@@ -44,9 +44,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::MAT_ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISHELL,ISOLID
-      my_real 
+      my_real
      .    K1,K2,K3,GAMA1,GAMA2,
      .    K,A,TMAX,FAC_L,FAC_T,FAC_M,FAC_C,Y0,YC,R
       LOGICAL  :: IS_AVAILABLE,IS_ENCRYPTED
@@ -108,7 +108,7 @@ c
 c--------------------------------------------------
 c     Default values
 c--------------------------------------------------
-      R = ZERO !! used for delamination (plyxfem formulation) 
+      R = ZERO !! used for delamination (plyxfem formulation)
       Y0  = SQRT(Y0)
       YC  = SQRT(YC)
       IF (K1 == ZERO) K1 = EP30
@@ -116,17 +116,17 @@ c--------------------------------------------------
       IF (K3 == ZERO) K3 = EP30
       IF (A == ZERO)A = EP30
       IF (Y0 == ZERO) Y0 = EP30
-      IF (YC == ZERO .OR. YC==Y0)YC=TWO*Y0 
-      IF (A == ZERO)A = EP30  
-      IF(TMAX <= ZERO) TMAX = EP20    
-      IF(ISHELL == 0) ISHELL = 1 
-      IF(ISOLID == 0) ISOLID = 1              
+      IF (YC == ZERO .OR. YC==Y0)YC=TWO*Y0
+      IF (A == ZERO)A = EP30
+      IF(TMAX <= ZERO) TMAX = EP20
+      IF(ISHELL == 0) ISHELL = 1
+      IF(ISOLID == 0) ISOLID = 1
 CC  
       UPARAM(1) = K1
       UPARAM(2) = K2
       UPARAM(3) = K3
       UPARAM(4) = GAMA1
-      UPARAM(5) = GAMA2 
+      UPARAM(5) = GAMA2
       UPARAM(6) = Y0
       UPARAM(7) = YC
       UPARAM(8) = K
@@ -134,15 +134,15 @@ CC
       UPARAM(10) = TMAX
       UPARAM(11) = ISHELL
       UPARAM(12) = ISOLID
-      UPARAM(13) = R   ! used inside delamination failure (plyxfem formulation) 
-      
+      UPARAM(13) = R   ! used inside delamination failure (plyxfem formulation)
+
 C
       NUPARAM = 13
       NUVAR   = 12
       NFUNC   = 0
 C
       IF(IS_ENCRYPTED)THEN
-      
+
       ELSE
        WRITE(IOUT, 1000)K1,K2,K3,GAMA1,GAMA2,Y0**2,YC**2,K,A,TMAX
 C for solid      
@@ -152,7 +152,7 @@ C for solid
         WRITE(IOUT, 1200)
        ELSEIF(ISOLID == 3)THEN
         WRITE(IOUT, 1300)
-       ENDIF       
+       ENDIF
       ENDIF
 C-----------       
  1000 FORMAT(
@@ -170,13 +170,13 @@ C-----------
      & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)
  1100 FORMAT(
      & 5X,' SOLID IS DELETED IF CRITERIA IS REACHED FOR'/
-     & 5X,'          ONE INTEGRATION POINT ') 
+     & 5X,'          ONE INTEGRATION POINT ')
  1200 FORMAT(
      & 5X,' SOLID IS DELETED IF CRITERIA IS REACHED FOR'/
-     & 5X,'         ALL INTEGRATIONS POINTS ')      
+     & 5X,'         ALL INTEGRATIONS POINTS ')
  1300 FORMAT(
      & 5X,' OUT OF PLANE STRESS ARE SET TO ZERO IF CRITERIA' /
-     & 5X,' IS REACHED FOR  EACH INTEGRATION POINT ') 
+     & 5X,' IS REACHED FOR  EACH INTEGRATION POINT ')
 c-----------
-      RETURN 
+      RETURN
       END

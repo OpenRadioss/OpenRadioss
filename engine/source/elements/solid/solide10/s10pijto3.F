@@ -59,7 +59,7 @@ C-----------------------------------------------
        DO I=1,NEL
         PX(I,J) = PIJ(I,1,J)
         PY(I,J) = PIJ(I,2,J)
-        PZ(I,J) = PIJ(I,3,J) 
+        PZ(I,J) = PIJ(I,3,J)
        END DO
       END DO
 C-----------

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SSURFIGEO                     source/groups/ssurftagigeo.F  
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SSURFTAGIGEO(IXIG3D,IPARTIG3D,KXIG3D, 
+      SUBROUTINE SSURFTAGIGEO(IXIG3D,IPARTIG3D,KXIG3D,
      .                        TAGBUF,NSEG   ,
      .                        IEXT  ,FLAG     ,IFRE  ,KEY    ,
      .                        NSEGIGE,KNOT    ,IGEO  ,WIGE   ,
@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        MF,NF,IPERM,N1,N2,I,ISEG
       INTEGER NODTAG(NUMNOD),FACEIGEO(4,6),PWR(7),CROSSFACEIGEO(4,6),
      .        NNS,NCTRL,IPID,PX,PY,PZ,
-     .        FASTAGIGEO(NUMELIG3D) 
+     .        FASTAGIGEO(NUMELIG3D)
       my_real
      .   KNOTLOCELX(2),KNOTLOCELY(2),KNOTLOCELZ(2)
       DATA PWR/1,2,4,8,16,32,64/
@@ -140,7 +140,7 @@ C
 
           IF(PY==2) THEN
             CROSSFACEIGEO(1,3) = (PX+1)*(PY+1)*PZ+(PX+1)*PY    ! milieu - gauche
-            CROSSFACEIGEO(2,3) = (PX+1)*(PY+1)*PZ+(PX+1)+1 
+            CROSSFACEIGEO(2,3) = (PX+1)*(PY+1)*PZ+(PX+1)+1
             CROSSFACEIGEO(3,3) = (PX+1)+1
             CROSSFACEIGEO(4,3) = (PX+1)*PY
 
@@ -153,11 +153,11 @@ C
           IF(PZ==2) THEN
             CROSSFACEIGEO(1,1) = (PX+1)*(PY+1)+PX+1    ! milieu - bas
             CROSSFACEIGEO(2,1) = (PX+1)*(PY+1)+1
-            CROSSFACEIGEO(3,1) = (PX+1)*(PY+1)+(PX+1)*PY+1 
+            CROSSFACEIGEO(3,1) = (PX+1)*(PY+1)+(PX+1)*PY+1
             CROSSFACEIGEO(4,1) = (PX+1)*(PY+1)*PZ
 
             CROSSFACEIGEO(1,2) = (PX+1)*(PY+1)*PZ    ! milieu - haut
-            CROSSFACEIGEO(2,2) = (PX+1)*(PY+1)+(PX+1)*PY+1 
+            CROSSFACEIGEO(2,2) = (PX+1)*(PY+1)+(PX+1)*PY+1
             CROSSFACEIGEO(3,2) = (PX+1)*(PY+1)+1
             CROSSFACEIGEO(4,2) = (PX+1)*(PY+1)+PX+1
           ENDIF
@@ -166,7 +166,7 @@ CC positionnement des faces crees ici verifiees : ok
 
           DO JJ=1,6
             DO II=1,4 ! on va chercher les 4 coins de chaque face
-              NS(II)=IXIG3D(KXIG3D(4,JS)+FACEIGEO(II,JJ)-1) 
+              NS(II)=IXIG3D(KXIG3D(4,JS)+FACEIGEO(II,JJ)-1)
             END DO
 C
 C           permute
@@ -189,7 +189,7 @@ C           looks for an elt sharing the face.
               KS=NOD2ELIG3D(K)
               IF(KS==JS)CYCLE
               IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivite avec tout le monde
-              IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTIG3D(KS))==0)CYCLE     
+              IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTIG3D(KS))==0)CYCLE
               DO II=1,NF
                 NODTAG(NI(II))=0
               END DO
@@ -204,7 +204,7 @@ C           looks for an elt sharing the face.
               IF(NN==NF)THEN ! il faut que la face ait 4 points en commun avec uen autre pour eventuellement etre exclue
                 DO KK=1,6
             	  DO II=1,4
-            	    MS(II)=IXIG3D(KXIG3D(4,KS)+FACEIGEO(II,KK)-1) 
+            	    MS(II)=IXIG3D(KXIG3D(4,KS)+FACEIGEO(II,KK)-1)
             	  END DO
 C
 C                 permute
@@ -224,7 +224,7 @@ C                 permute
 C
                   IF(CROSSFACEIGEO(1,KK)/=0) THEN
               	    DO II=1,4
-              	      MS(II)=IXIG3D(KXIG3D(4,KS)+CROSSFACEIGEO(II,KK)-1) 
+              	      MS(II)=IXIG3D(KXIG3D(4,KS)+CROSSFACEIGEO(II,KK)-1)
             	    END DO
 C
 C                   permute
@@ -275,7 +275,7 @@ C-----------
             PX = IGEO(41,IPID)
             PY = IGEO(42,IPID)
             PZ = IGEO(43,IPID)
-!!            IF(FLAG == 0) THEN 
+!!            IF(FLAG == 0) THEN
 !!            ELSEIF(FLAG == 1)THEN
             IF(FLAG == 1)THEN
               CALL SSURFIGEO(J,101,
@@ -349,7 +349,7 @@ C-----------------------------------------------
 C=======================================================================
 
       DO N=1,3
-       DO M=1,3                             
+       DO M=1,3
 !---
         NSEGIGE = NSEGIGE + 1
         ISEG = NSEGIGE
@@ -362,7 +362,7 @@ C=======================================================================
         IGRSURF%ELEM_IGE(ISEG)  = JS
 !---
        ENDDO
-      ENDDO          
+      ENDDO
 
       DO J=1,NCTRL
         X_IGEO(J)=X(1,IXIG3D(KXIG3D(4,JS)+J-1))
@@ -390,7 +390,7 @@ C=======================================================================
       IDY2 = KXIG3D(10,JS)
       IDZ2 = KXIG3D(11,JS)
 
-       DO J=1,NCTRL 
+       DO J=1,NCTRL
         DO K=1,PX+1
           KNOTLOCX(K,J)=KNOTLOCPC(K,1,(IPID-1)*NUMNOD+IXIG3D(KXIG3D(4,JS)+J-1))
         ENDDO
@@ -434,7 +434,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -443,7 +443,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
@@ -474,7 +474,7 @@ c     7        PY-1      ,PZ-1      ,0)
        VIGE(3,IADTABIGE)=VZI
 
        ENDDO
-      ENDDO    
+      ENDDO
 
       ELSEIF (JJ==2) THEN
 
@@ -498,7 +498,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -507,7 +507,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
@@ -520,7 +520,7 @@ c     7        PY-1      ,PZ-1      ,0)
            VYI = VYI + R(J)*VY_IGEO(J)
            VZI = VZI + R(J)*VZ_IGEO(J)
          ENDDO
- 
+
        IADTABIGE=IADTABIGE+1
 
        NIGE(IADTABIGE)=JS
@@ -538,9 +538,9 @@ c     7        PY-1      ,PZ-1      ,0)
        VIGE(3,IADTABIGE)=VZI
 
        ENDDO
-      ENDDO   
+      ENDDO
 
-      ELSEIF (JJ==3) THEN 
+      ELSEIF (JJ==3) THEN
 
       DO N=1,4
        DO L=1,4
@@ -562,7 +562,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -571,7 +571,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
@@ -584,7 +584,7 @@ c     7        PY-1      ,PZ-1      ,0)
            VYI = VYI + R(J)*VY_IGEO(J)
            VZI = VZI + R(J)*VZ_IGEO(J)
          ENDDO
-  
+
        IADTABIGE=IADTABIGE+1
 
        NIGE(IADTABIGE)=JS
@@ -602,9 +602,9 @@ c     7        PY-1      ,PZ-1      ,0)
        VIGE(3,IADTABIGE)=VZI
 
        ENDDO
-      ENDDO    
+      ENDDO
 
-      ELSEIF (JJ==4) THEN 
+      ELSEIF (JJ==4) THEN
 
       DO N=1,4
        DO L=1,4
@@ -618,7 +618,7 @@ c     7        PY-1      ,PZ-1      ,0)
 
          ZR = KNOTLOCELX(1) + (L-1)*PASX
          ZS = KNOTLOCELY(2)
-         ZT = KNOTLOCELZ(1) + (N-1)*PASZ  
+         ZT = KNOTLOCELZ(1) + (N-1)*PASZ
 
 c         CALL IG3DBASIS(
 c     1        JS        ,N         ,X_IGEO    ,Y_IGEO  ,
@@ -626,7 +626,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -635,7 +635,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
@@ -648,7 +648,7 @@ c     7        PY-1      ,PZ-1      ,0)
            VYI = VYI + R(J)*VY_IGEO(J)
            VZI = VZI + R(J)*VZ_IGEO(J)
          ENDDO
-  
+
        IADTABIGE=IADTABIGE+1
 
        NIGE(IADTABIGE)=JS
@@ -666,12 +666,12 @@ c     7        PY-1      ,PZ-1      ,0)
        VIGE(3,IADTABIGE)=VZI
 
        ENDDO
-      ENDDO    
+      ENDDO
 
       ELSEIF (JJ==5) THEN
 
       DO N=1,4
-       DO M=1,4 
+       DO M=1,4
 
          XI = ZERO
          YI = ZERO
@@ -682,7 +682,7 @@ c     7        PY-1      ,PZ-1      ,0)
 
          ZR = KNOTLOCELX(2)
          ZS = KNOTLOCELY(1) + (M-1)*PASY
-         ZT = KNOTLOCELZ(1) + (N-1)*PASZ  
+         ZT = KNOTLOCELZ(1) + (N-1)*PASZ
 
 c         CALL IG3DBASIS(
 c     1        JS        ,N         ,X_IGEO    ,Y_IGEO  ,
@@ -690,7 +690,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -699,7 +699,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
@@ -712,7 +712,7 @@ c     7        PY-1      ,PZ-1      ,0)
            VYI = VYI + R(J)*VY_IGEO(J)
            VZI = VZI + R(J)*VZ_IGEO(J)
          ENDDO
-  
+
        IADTABIGE=IADTABIGE+1
 
        NIGE(IADTABIGE)=JS
@@ -730,9 +730,9 @@ c     7        PY-1      ,PZ-1      ,0)
        VIGE(3,IADTABIGE)=VZI
 
        ENDDO
-      ENDDO    
+      ENDDO
 
-      ELSEIF (JJ==6) THEN 
+      ELSEIF (JJ==6) THEN
 
       DO N=1,4
        DO M=1,4
@@ -746,7 +746,7 @@ c     7        PY-1      ,PZ-1      ,0)
 
          ZR = KNOTLOCELX(1)
          ZS = KNOTLOCELY(1) + (M-1)*PASY
-         ZT = KNOTLOCELZ(1) + (N-1)*PASZ  
+         ZT = KNOTLOCELZ(1) + (N-1)*PASZ
 
 c         CALL IG3DBASIS(
 c     1        JS        ,N         ,X_IGEO    ,Y_IGEO  ,
@@ -754,7 +754,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -763,7 +763,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
@@ -776,7 +776,7 @@ c     7        PY-1      ,PZ-1      ,0)
            VYI = VYI + R(J)*VY_IGEO(J)
            VZI = VZI + R(J)*VZ_IGEO(J)
          ENDDO
-  
+
        IADTABIGE=IADTABIGE+1
 
        NIGE(IADTABIGE)=JS
@@ -794,9 +794,9 @@ c     7        PY-1      ,PZ-1      ,0)
        VIGE(3,IADTABIGE)=VZI
 
        ENDDO
-      ENDDO   
- 
-      ENDIF      
+      ENDDO
+
+      ENDIF
 C-----------
       RETURN
       END
@@ -812,7 +812,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

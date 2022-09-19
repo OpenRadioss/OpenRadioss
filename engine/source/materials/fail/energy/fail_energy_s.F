@@ -81,12 +81,12 @@ C
       my_real TIME,TIMESTEP,UPARAM(*),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .   EPSP(NEL),VOLUME(NEL),EINT(NEL)     
+     .   EPSP(NEL),VOLUME(NEL),EINT(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -110,7 +110,7 @@ C-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IR,IFAIL,JJ,
      .        ISOLID
-      my_real 
+      my_real
      .       E1,E2,E3,E4,E5,E6,RFAC,E42,E52,E62,C,D, EPST,EPST2,
      .       R1,R2,Y,YP,DAV,DYDX,IE_SP,P,SCALE,CC
       my_real
@@ -120,7 +120,7 @@ C--------------------------------------------------------------
       RIEF1 = UPARAM(1)
       RIEF2 = UPARAM(2)
       XFAC  = UPARAM(4)
-      !ISOLID = INT(UPARAM(4)) 
+      !ISOLID = INT(UPARAM(4))
       DO I=1,NEL
         DAMAGE(I) = ZERO
       ENDDO
@@ -130,16 +130,16 @@ C-----------------------------------------------
         IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 CC           
-       NINDX=0  
+       NINDX=0
        DO I=1,NEL
         RFAC = ONE
         IF(IFUNC(1)/=0)THEN
           RFAC=FINTER(IFUNC(1),EPSP(I)*XFAC,NPF,TF,DYDX)
           RFAC = MAX(RFAC,EM20)
-        ENDIF  
+        ENDIF
         IF(OFF(I)==ONE)THEN
           IE_SP = EINT(I)/VOLUME(I)
-          
+
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
          IF(IE_SP>R1.AND.R1<R2) THEN
@@ -152,9 +152,9 @@ CC
           NINDX=NINDX+1
           INDX(NINDX)=I
           IDEL7NOK = 1
-          TDELE(I) = TIME  
-         ENDIF                  
-       ENDIF 
+          TDELE(I) = TIME
+         ENDIF
+       ENDIF
       ENDDO
 c
       IF(NINDX>0.AND.IMCONV==1)THEN
@@ -164,11 +164,11 @@ c
         WRITE(ISTDO,1100) NGL(INDX(J)),TIME
 #include "lockoff.inc"
         END DO
-      END IF         
+      END IF
       DO I=1,NEL
         R1 = RIEF1
         R2 = RIEF2
-        IF(R1 < R2)THEN         
+        IF(R1 < R2)THEN
           SIGNXX(I) = (ONE - DAMAGE(I))*SIGNXX(I)
           SIGNYY(I) = (ONE - DAMAGE(I))*SIGNYY(I)
           SIGNZZ(I) = (ONE - DAMAGE(I))*SIGNZZ(I)
@@ -178,7 +178,7 @@ c
         END IF
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
         DFMAX(I) = MAX(DFMAX(I),DAMAGE(I))
-       ENDDO            
+       ENDDO
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10,

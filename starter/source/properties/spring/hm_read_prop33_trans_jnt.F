@@ -61,9 +61,9 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT, ITYP, SKFLAG,IUNIT
-      my_real PARGEO(*) 
+      my_real PARGEO(*)
 
       INTEGER ID
       CHARACTER*nchartitle,
@@ -74,7 +74,7 @@ C=======================================================================
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,IDSK1,IDSK2,IFUN_XX,IFUN_CXX,ZEROI,OFLAG
-      my_real 
+      my_real
      .   XK,XTYP,XFLG,XSK1,XSK2,KNN,KXX,CR,CXX,MASS,INER,
      .   FAC_M,FAC_L,FAC_T,FAC_CT,FAC_CR,FAC_KT,FAC_KR,FAC_CTX,FAC_CRX,
      .   FAC_FF,FAC_MM
@@ -97,7 +97,7 @@ C=======================================================================
       FAC_KR = FAC_CR / FAC_T
       FAC_CTX = FAC_T / FAC_L
       FAC_CRX = FAC_T
-      FAC_FF = FAC_M / FAC_T      
+      FAC_FF = FAC_M / FAC_T
       OFLAG = 0
 C
 C--------------------------------------------------
@@ -158,8 +158,8 @@ C
       IF(CXX==ZERO.AND.IFUN_CXX/=0)CXX = ONE
       IF(KXX==ZERO.AND.IFUN_XX/=0) KXX = ONE
 C-----------------------
-      IF (IFUN_XX  /= 0) KXX = KXX * FAC_FF 
-      IF (IFUN_CXX /= 0) CXX = CXX * FAC_FF 
+      IF (IFUN_XX  /= 0) KXX = KXX * FAC_FF
+      IF (IFUN_CXX /= 0) CXX = CXX * FAC_FF
 C-----------------------
       PARGEO(1) = 0
       PARGEO(2) = XK

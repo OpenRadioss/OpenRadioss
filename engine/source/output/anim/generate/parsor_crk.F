@@ -113,7 +113,7 @@ c                print*,'  NODES=',ITAB(II(1)),ITAB(II(2)),ITAB(II(3)),ITAB(II(4
                   NP(JJ+3) = NODGLOBXFE(II(3))-1+IDCRK
                   NP(JJ+4) = NODGLOBXFE(II(4))-1+IDCRK
                 ENDIF
-                EL2FA(NEL_CRK+IE_EL2FA) = IE 
+                EL2FA(NEL_CRK+IE_EL2FA) = IE
                 JJ = JJ + 4
               ENDDO
 C-----------------------------------------------

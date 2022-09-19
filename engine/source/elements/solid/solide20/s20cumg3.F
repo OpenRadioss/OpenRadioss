@@ -31,7 +31,7 @@ Chd|        S8ZKEG3                       source/elements/solid/solide8z/s8zlke3
 Chd|        S8ZKEG33                      source/elements/solid/solide8z/s8zlke3.F
 Chd|====================================================================
       SUBROUTINE S20CUMG3(
-     .   PX, PY, PZ, DD ,GG ,DG ,G33,IKSUP, 
+     .   PX, PY, PZ, DD ,GG ,DG ,G33,IKSUP,
      .   K11  ,K12  ,K13  ,K14  ,K15  ,K16  ,K17  ,K18  ,K19  ,K110 ,
      .   K111 ,K112 ,K113 ,K114 ,K115 ,K116 ,K117 ,K118 ,K119 ,K120 ,
      .   K22  ,K23  ,K24  ,K25  ,K26  ,K27  ,K28  ,K29  ,K210 ,K211 ,
@@ -172,7 +172,7 @@ C                                                                     12
      .       DD, K1414,IS)
        CALL S8ZKED3(LFT,LLT,
      .       PX(1,15),PY(1,15),PZ(1,15),PX(1,15),PY(1,15),PZ(1,15),
-     .       DD, K1515,IS)          
+     .       DD, K1515,IS)
        CALL S8ZKED3(LFT,LLT,
      .       PX(1,16),PY(1,16),PZ(1,16),PX(1,16),PY(1,16),PZ(1,16),
      .       DD, K1616,IS)
@@ -193,43 +193,43 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
-     .             GG,K11,IS) 
+     .             GG,K11,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
-     .             GG,K22,IS) 
+     .             GG,K22,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
-     .             GG,K33,IS) 
+     .             GG,K33,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             GG,K44,IS) 
+     .             GG,K44,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             GG,K55,IS) 
+     .             GG,K55,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             GG,K66,IS) 
+     .             GG,K66,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K77,IS) 
+     .             GG,K77,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K88,IS) 
+     .             GG,K88,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K99,IS) 
+     .             GG,K99,IS)
        CALL S8ZKEG3(LFT,LLT,
      .      PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .      PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .      GG,K1010,IS) 
+     .      GG,K1010,IS)
        CALL S8ZKEG3(LFT,LLT,
      .      PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
      .      PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
@@ -270,8 +270,8 @@ C
      .      PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
      .      PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
      .      GG,K2020,IS)
-     
-      ENDIF 
+
+      ENDIF
 C  -------non symm------
       IS =0
        CALL S8ZKED3(LFT,LLT,
@@ -315,7 +315,7 @@ C  -------non symm------
      .              DD, K114,IS)
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,1),PY(1,1),PZ(1,1),PX(1,15),PY(1,15),PZ(1,15),
-     .              DD, K115,IS)     
+     .              DD, K115,IS)
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,1),PY(1,1),PZ(1,1),PX(1,16),PY(1,16),PZ(1,16),
      .              DD, K116,IS)
@@ -331,9 +331,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,1),PY(1,1),PZ(1,1),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K120,IS)
-     
-     
-     
+
+
+
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,2),PY(1,2),PZ(1,2),PX(1,3),PY(1,3),PZ(1,3),
      .              DD, K23,IS)
@@ -388,9 +388,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .          PX(1,2),PY(1,2),PZ(1,2),PX(1,20),PY(1,20),PZ(1,20),
      .          DD, K220,IS)
-     
-     
-     
+
+
+
       CALL S8ZKED3(LFT,LLT,
      .              PX(1,3),PY(1,3),PZ(1,3),PX(1,4),PY(1,4),PZ(1,4),
      .              DD, K34,IS)
@@ -442,8 +442,8 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,3),PY(1,3),PZ(1,3),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K320,IS)
-     
-     
+
+
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,4),PY(1,4),PZ(1,4),PX(1,5),PY(1,5),PZ(1,5),
      .              DD, K45,IS)
@@ -492,9 +492,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,4),PY(1,4),PZ(1,4),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K420,IS)
-     
-     
-     
+
+
+
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,5),PY(1,5),PZ(1,5),PX(1,6),PY(1,6),PZ(1,6),
      .              DD, K56,IS)
@@ -540,9 +540,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,5),PY(1,5),PZ(1,5),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K520,IS)
-     
-     
-     
+
+
+
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,6),PY(1,6),PZ(1,6),PX(1,7),PY(1,7),PZ(1,7),
      .              DD, K67,IS)
@@ -585,9 +585,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,6),PY(1,6),PZ(1,6),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K620,IS)
-     
-     
-     
+
+
+
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,7),PY(1,7),PZ(1,7),PX(1,8),PY(1,8),PZ(1,8),
      .              DD, K78,IS)
@@ -627,8 +627,8 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,7),PY(1,7),PZ(1,7),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K720,IS)
-     
-     
+
+
        CALL S8ZKED3(LFT,LLT,
      .              PX(1,8),PY(1,8),PZ(1,8),PX(1,9),PY(1,9),PZ(1,9),
      .              DD, K89,IS)
@@ -666,8 +666,8 @@ C  -------non symm------
      .             PX(1,8),PY(1,8),PZ(1,8),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K820,IS)
 
-     
-     
+
+
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,9),PY(1,9),PZ(1,9),PX(1,10),PY(1,10),PZ(1,10),
      .              DD, K910,IS)
@@ -701,9 +701,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .             PX(1,9),PY(1,9),PZ(1,9),PX(1,20),PY(1,20),PZ(1,20),
      .              DD, K920,IS)
-     
-     
-     
+
+
+
        CALL S8ZKED3(LFT,LLT,
      .          PX(1,10),PY(1,10),PZ(1,10),PX(1,11),PY(1,11),PZ(1,11),
      .          DD, K1011,IS)
@@ -734,9 +734,9 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .          PX(1,10),PY(1,10),PZ(1,10),PX(1,20),PY(1,20),PZ(1,20),
      .          DD, K1020,IS)
-     
-     
-     
+
+
+
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,11),PY(1,11),PZ(1,11),PX(1,12),PY(1,12),PZ(1,12),
      .         DD, K1112,IS)
@@ -764,7 +764,7 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,11),PY(1,11),PZ(1,11),PX(1,20),PY(1,20),PZ(1,20),
      .         DD, K1120,IS)
-     
+
 
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,12),PY(1,12),PZ(1,12),PX(1,13),PY(1,13),PZ(1,13),
@@ -790,8 +790,8 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,12),PY(1,12),PZ(1,12),PX(1,20),PY(1,20),PZ(1,20),
      .         DD, K1220,IS)
-     
-     
+
+
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,13),PY(1,13),PZ(1,13),PX(1,14),PY(1,14),PZ(1,14),
      .         DD, K1314,IS)
@@ -852,7 +852,7 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,15),PY(1,15),PZ(1,15),PX(1,20),PY(1,20),PZ(1,20),
      .         DD, K1520,IS)
-     
+
 
 
        CALL S8ZKED3(LFT,LLT,
@@ -879,7 +879,7 @@ C  -------non symm------
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,17),PY(1,17),PZ(1,17),PX(1,20),PY(1,20),PZ(1,20),
      .         DD, K1720,IS)
-     
+
 
 
        CALL S8ZKED3(LFT,LLT,
@@ -889,55 +889,55 @@ C  -------non symm------
      .         PX(1,18),PY(1,18),PZ(1,18),PX(1,20),PY(1,20),PZ(1,20),
      .         DD, K1820,IS)
 
-          
+
        CALL S8ZKED3(LFT,LLT,
      .         PX(1,19),PY(1,19),PZ(1,19),PX(1,20),PY(1,20),PZ(1,20),
      .         DD, K1920,IS)
 
 
-     
+
 C
       IF (IKSUP==0) THEN
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
-     .             GG,K12,IS) 
+     .             GG,K12,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
-     .             GG,K13,IS) 
+     .             GG,K13,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             GG,K14,IS) 
+     .             GG,K14,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             GG,K15,IS) 
+     .             GG,K15,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             GG,K16,IS) 
+     .             GG,K16,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K17,IS) 
+     .             GG,K17,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K18,IS) 
+     .             GG,K18,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K19,IS) 
+     .             GG,K19,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K110,IS) 
+     .          GG,K110,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K111,IS) 
+     .          GG,K111,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -973,47 +973,47 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K120,IS)     
-     
-     
-     
-     
+     .          GG,K120,IS)
+
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
-     .             GG,K23,IS) 
+     .             GG,K23,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             GG,K24,IS) 
+     .             GG,K24,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             GG,K25,IS) 
+     .             GG,K25,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             GG,K26,IS) 
+     .             GG,K26,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K27,IS) 
+     .             GG,K27,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K28,IS) 
+     .             GG,K28,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K29,IS) 
+     .             GG,K29,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K210,IS) 
+     .          GG,K210,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K211,IS) 
+     .          GG,K211,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1049,43 +1049,43 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K220,IS)     
-     
-     
-     
-     
+     .          GG,K220,IS)
+
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             GG,K34,IS) 
+     .             GG,K34,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             GG,K35,IS) 
+     .             GG,K35,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             GG,K36,IS) 
+     .             GG,K36,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K37,IS) 
+     .             GG,K37,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K38,IS) 
+     .             GG,K38,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K39,IS) 
+     .             GG,K39,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K310,IS) 
+     .          GG,K310,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K311,IS) 
+     .          GG,K311,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1121,39 +1121,39 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K320,IS)     
-     
-     
-     
-     
+     .          GG,K320,IS)
+
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             GG,K45,IS) 
+     .             GG,K45,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             GG,K46,IS) 
+     .             GG,K46,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K47,IS) 
+     .             GG,K47,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K48,IS) 
+     .             GG,K48,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K49,IS) 
+     .             GG,K49,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K410,IS) 
+     .          GG,K410,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K411,IS) 
+     .          GG,K411,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1189,35 +1189,35 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K420,IS)     
-     
-     
-     
-     
+     .          GG,K420,IS)
+
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             GG,K56,IS) 
+     .             GG,K56,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K57,IS) 
+     .             GG,K57,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K58,IS) 
+     .             GG,K58,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K59,IS) 
+     .             GG,K59,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K510,IS) 
+     .          GG,K510,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K511,IS) 
+     .          GG,K511,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1253,30 +1253,30 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K520,IS)     
-     
-     
-     
+     .          GG,K520,IS)
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             GG,K67,IS) 
+     .             GG,K67,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K68,IS) 
+     .             GG,K68,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K69,IS) 
+     .             GG,K69,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K610,IS) 
+     .          GG,K610,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K611,IS) 
+     .          GG,K611,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1312,26 +1312,26 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K620,IS)     
-       
-     
-      
+     .          GG,K620,IS)
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             GG,K78,IS) 
+     .             GG,K78,IS)
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K79,IS) 
+     .             GG,K79,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K710,IS) 
+     .          GG,K710,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K711,IS) 
+     .          GG,K711,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1367,22 +1367,22 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K720,IS)     
-     
-     
-      
+     .          GG,K720,IS)
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             GG,K89,IS) 
+     .             GG,K89,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K810,IS) 
+     .          GG,K810,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K811,IS) 
+     .          GG,K811,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1418,18 +1418,18 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K820,IS)     
-    
-     
-     
+     .          GG,K820,IS)
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          GG,K910,IS) 
+     .          GG,K910,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K911,IS) 
+     .          GG,K911,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1465,14 +1465,14 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K920,IS)  
-     
-     
-     
+     .          GG,K920,IS)
+
+
+
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          GG,K1011,IS) 
+     .          GG,K1011,IS)
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1508,7 +1508,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1020,IS)     
+     .          GG,K1020,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1546,7 +1546,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1120,IS)     
+     .          GG,K1120,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1580,7 +1580,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1220,IS)     
+     .          GG,K1220,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1610,7 +1610,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,13),PX(1,13),PZ(1,13),PX(1,13),PZ(1,13),PY(1,13),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1320,IS)     
+     .          GG,K1320,IS)
 
 
 
@@ -1637,7 +1637,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,14),PX(1,14),PZ(1,14),PX(1,14),PZ(1,14),PY(1,14),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1420,IS)     
+     .          GG,K1420,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1659,7 +1659,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,15),PX(1,15),PZ(1,15),PX(1,15),PZ(1,15),PY(1,15),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1520,IS)     
+     .          GG,K1520,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1677,7 +1677,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,16),PX(1,16),PZ(1,16),PX(1,16),PZ(1,16),PY(1,16),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1620,IS)     
+     .          GG,K1620,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1691,7 +1691,7 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,17),PX(1,17),PZ(1,17),PX(1,17),PZ(1,17),PY(1,17),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1720,IS)     
+     .          GG,K1720,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
@@ -1701,56 +1701,56 @@ C
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,18),PX(1,18),PZ(1,18),PX(1,18),PZ(1,18),PY(1,18),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1820,IS)     
+     .          GG,K1820,IS)
 
 
        CALL S8ZKEG3(LFT,LLT,
      .          PY(1,19),PX(1,19),PZ(1,19),PX(1,19),PZ(1,19),PY(1,19),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          GG,K1920,IS)     
-        
-     
-      ELSE 
+     .          GG,K1920,IS)
+
+
+      ELSE
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
-     .             G33,K12,IS) 
+     .             G33,K12,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
-     .             G33,K13,IS) 
+     .             G33,K13,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             G33,K14,IS) 
+     .             G33,K14,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             G33,K15,IS) 
+     .             G33,K15,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             G33,K16,IS) 
+     .             G33,K16,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K17,IS) 
+     .             G33,K17,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K18,IS) 
+     .             G33,K18,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K19,IS) 
+     .             G33,K19,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K110,IS) 
+     .          G33,K110,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K111,IS) 
+     .          G33,K111,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1786,46 +1786,46 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K120,IS)     
-     
-     
-      
+     .          G33,K120,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
-     .             G33,K23,IS) 
+     .             G33,K23,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             G33,K24,IS) 
+     .             G33,K24,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             G33,K25,IS) 
+     .             G33,K25,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             G33,K26,IS) 
+     .             G33,K26,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K27,IS) 
+     .             G33,K27,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K28,IS) 
+     .             G33,K28,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K29,IS) 
+     .             G33,K29,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K210,IS) 
+     .          G33,K210,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K211,IS) 
+     .          G33,K211,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1861,42 +1861,42 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K220,IS)     
-     
-     
-     
+     .          G33,K220,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             G33,K34,IS) 
+     .             G33,K34,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             G33,K35,IS) 
+     .             G33,K35,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             G33,K36,IS) 
+     .             G33,K36,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K37,IS) 
+     .             G33,K37,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K38,IS) 
+     .             G33,K38,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K39,IS) 
+     .             G33,K39,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K310,IS) 
+     .          G33,K310,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K311,IS) 
+     .          G33,K311,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -1932,39 +1932,39 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K320,IS)     
-     
-     
-     
-      
+     .          G33,K320,IS)
+
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             G33,K45,IS) 
+     .             G33,K45,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             G33,K46,IS) 
+     .             G33,K46,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K47,IS) 
+     .             G33,K47,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K48,IS) 
+     .             G33,K48,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K49,IS) 
+     .             G33,K49,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K410,IS) 
+     .          G33,K410,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K411,IS) 
+     .          G33,K411,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2000,34 +2000,34 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K420,IS)          
-     
-     
-     
+     .          G33,K420,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             G33,K56,IS) 
+     .             G33,K56,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K57,IS) 
+     .             G33,K57,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K58,IS) 
+     .             G33,K58,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K59,IS) 
+     .             G33,K59,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K510,IS) 
+     .          G33,K510,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K511,IS) 
+     .          G33,K511,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2063,30 +2063,30 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K520,IS)     
-     
-     
-     
+     .          G33,K520,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K67,IS) 
+     .             G33,K67,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K68,IS) 
+     .             G33,K68,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K69,IS) 
+     .             G33,K69,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K610,IS) 
+     .          G33,K610,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K611,IS) 
+     .          G33,K611,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2122,26 +2122,26 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K620,IS)     
-     
-     
-     
+     .          G33,K620,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K78,IS) 
+     .             G33,K78,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K79,IS) 
+     .             G33,K79,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K710,IS) 
+     .          G33,K710,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K711,IS) 
+     .          G33,K711,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2177,22 +2177,22 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K720,IS)     
-     
-     
-     
+     .          G33,K720,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K89,IS) 
+     .             G33,K89,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K810,IS) 
+     .          G33,K810,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K811,IS) 
+     .          G33,K811,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2228,18 +2228,18 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K820,IS)     
-     
-     
-     
+     .          G33,K820,IS)
+
+
+
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .          G33,K910,IS) 
+     .          G33,K910,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K911,IS) 
+     .          G33,K911,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2281,7 +2281,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
-     .          G33,K1011,IS) 
+     .          G33,K1011,IS)
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
@@ -2317,7 +2317,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1020,IS)     
+     .          G33,K1020,IS)
 
 
 
@@ -2356,7 +2356,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1120,IS)     
+     .          G33,K1120,IS)
 
 
 
@@ -2391,8 +2391,8 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,12),PX(1,12),PZ(1,12),PX(1,12),PZ(1,12),PY(1,12),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1220,IS)     
-          
+     .          G33,K1220,IS)
+
 
 
        CALL S8ZKEG33(LFT,LLT,
@@ -2422,7 +2422,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,13),PX(1,13),PZ(1,13),PX(1,13),PZ(1,13),PY(1,13),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1320,IS)     
+     .          G33,K1320,IS)
 
 
        CALL S8ZKEG33(LFT,LLT,
@@ -2448,7 +2448,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,14),PX(1,14),PZ(1,14),PX(1,14),PZ(1,14),PY(1,14),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1420,IS)     
+     .          G33,K1420,IS)
 
 
        CALL S8ZKEG33(LFT,LLT,
@@ -2470,7 +2470,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,15),PX(1,15),PZ(1,15),PX(1,15),PZ(1,15),PY(1,15),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1520,IS)     
+     .          G33,K1520,IS)
 
 
 
@@ -2489,7 +2489,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,16),PX(1,16),PZ(1,16),PX(1,16),PZ(1,16),PY(1,16),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1620,IS)     
+     .          G33,K1620,IS)
 
 
        CALL S8ZKEG33(LFT,LLT,
@@ -2503,7 +2503,7 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,17),PX(1,17),PZ(1,17),PX(1,17),PZ(1,17),PY(1,17),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1720,IS)     
+     .          G33,K1720,IS)
 
 
        CALL S8ZKEG33(LFT,LLT,
@@ -2513,17 +2513,17 @@ C
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,18),PX(1,18),PZ(1,18),PX(1,18),PZ(1,18),PY(1,18),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1820,IS)     
+     .          G33,K1820,IS)
 
 
        CALL S8ZKEG33(LFT,LLT,
      .          PY(1,19),PX(1,19),PZ(1,19),PX(1,19),PZ(1,19),PY(1,19),
      .          PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
-     .          G33,K1920,IS)     
-     
-      
+     .          G33,K1920,IS)
+
+
 C
-      
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,1),PY(1,1),PZ(1,1),PX(1,2),PY(1,2),PZ(1,2),
      .              DG, K12,IS)
@@ -2565,7 +2565,7 @@ C
      .              DG, K114,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,1),PY(1,1),PZ(1,1),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K115,IS)     
+     .              DG, K115,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,1),PY(1,1),PZ(1,1),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K116,IS)
@@ -2580,10 +2580,10 @@ C
      .              DG, K119,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,1),PY(1,1),PZ(1,1),PX(1,20),PY(1,20),PZ(1,20),
-     .              DG, K120,IS)     
-     
-     
-     
+     .              DG, K120,IS)
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,2),PY(1,2),PZ(1,2),PX(1,3),PY(1,3),PZ(1,3),
      .              DG, K23,IS)
@@ -2622,7 +2622,7 @@ C
      .              DG, K214,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,2),PY(1,2),PZ(1,2),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K215,IS)     
+     .              DG, K215,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,2),PY(1,2),PZ(1,2),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K216,IS)
@@ -2638,9 +2638,9 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,2),PY(1,2),PZ(1,2),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K220,IS)
-     
-     
-     
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,3),PY(1,3),PZ(1,3),PX(1,4),PY(1,4),PZ(1,4),
      .              DG, K34,IS)
@@ -2676,7 +2676,7 @@ C
      .              DG, K314,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,3),PY(1,3),PZ(1,3),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K315,IS)     
+     .              DG, K315,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,3),PY(1,3),PZ(1,3),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K316,IS)
@@ -2692,10 +2692,10 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,3),PY(1,3),PZ(1,3),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K320,IS)
-     
-    
-     
-     
+
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,4),PY(1,4),PZ(1,4),PX(1,5),PY(1,5),PZ(1,5),
      .              DG, K45,IS)
@@ -2728,7 +2728,7 @@ C
      .              DG, K414,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,4),PY(1,4),PZ(1,4),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K415,IS)     
+     .              DG, K415,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,4),PY(1,4),PZ(1,4),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K416,IS)
@@ -2744,9 +2744,9 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,4),PY(1,4),PZ(1,4),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K420,IS)
-     
-     
-     
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,5),PY(1,5),PZ(1,5),PX(1,6),PY(1,6),PZ(1,6),
      .              DG, K56,IS)
@@ -2776,7 +2776,7 @@ C
      .              DG, K514,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,5),PY(1,5),PZ(1,5),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K515,IS)     
+     .              DG, K515,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,5),PY(1,5),PZ(1,5),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K516,IS)
@@ -2792,9 +2792,9 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,5),PY(1,5),PZ(1,5),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K520,IS)
-     
-     
-     
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,6),PY(1,6),PZ(1,6),PX(1,7),PY(1,7),PZ(1,7),
      .              DG, K67,IS)
@@ -2821,7 +2821,7 @@ C
      .              DG, K614,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,6),PY(1,6),PZ(1,6),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K615,IS)     
+     .              DG, K615,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,6),PY(1,6),PZ(1,6),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K616,IS)
@@ -2837,9 +2837,9 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,6),PY(1,6),PZ(1,6),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K620,IS)
-     
-     
-     
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,7),PY(1,7),PZ(1,7),PX(1,8),PY(1,8),PZ(1,8),
      .              DG, K78,IS)
@@ -2863,7 +2863,7 @@ C
      .              DG, K714,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,7),PY(1,7),PZ(1,7),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K715,IS)     
+     .              DG, K715,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,7),PY(1,7),PZ(1,7),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K716,IS)
@@ -2879,9 +2879,9 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,7),PY(1,7),PZ(1,7),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K720,IS)
-     
-     
-     
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .              PX(1,8),PY(1,8),PZ(1,8),PX(1,9),PY(1,9),PZ(1,9),
      .              DG, K89,IS)
@@ -2902,7 +2902,7 @@ C
      .              DG, K814,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,8),PY(1,8),PZ(1,8),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K815,IS)     
+     .              DG, K815,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,8),PY(1,8),PZ(1,8),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K816,IS)
@@ -2918,9 +2918,9 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,8),PY(1,8),PZ(1,8),PX(1,20),PY(1,20),PZ(1,20),
      .              DG, K820,IS)
-     
-     
-     
+
+
+
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,9),PY(1,9),PZ(1,9),PX(1,10),PY(1,10),PZ(1,10),
      .              DG, K910,IS)
@@ -2938,7 +2938,7 @@ C
      .              DG, K914,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,9),PY(1,9),PZ(1,9),PX(1,15),PY(1,15),PZ(1,15),
-     .              DG, K915,IS)     
+     .              DG, K915,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .             PX(1,9),PY(1,9),PZ(1,9),PX(1,16),PY(1,16),PZ(1,16),
      .              DG, K916,IS)
@@ -2970,7 +2970,7 @@ C
      .          DG, K1014,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,10),PY(1,10),PZ(1,10),PX(1,15),PY(1,15),PZ(1,15),
-     .          DG, K1015,IS)     
+     .          DG, K1015,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,10),PY(1,10),PZ(1,10),PX(1,16),PY(1,16),PZ(1,16),
      .          DG, K1016,IS)
@@ -2999,7 +2999,7 @@ C
      .          DG, K1114,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,11),PY(1,11),PZ(1,11),PX(1,15),PY(1,15),PZ(1,15),
-     .          DG, K1115,IS)     
+     .          DG, K1115,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,11),PY(1,11),PZ(1,11),PX(1,16),PY(1,16),PZ(1,16),
      .          DG, K1116,IS)
@@ -3025,7 +3025,7 @@ C
      .          DG, K1214,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,12),PY(1,12),PZ(1,12),PX(1,15),PY(1,15),PZ(1,15),
-     .          DG, K1215,IS)     
+     .          DG, K1215,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,12),PY(1,12),PZ(1,12),PX(1,16),PY(1,16),PZ(1,16),
      .          DG, K1216,IS)
@@ -3048,7 +3048,7 @@ C
      .          DG, K1314,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,13),PY(1,13),PZ(1,13),PX(1,15),PY(1,15),PZ(1,15),
-     .          DG, K1315,IS)     
+     .          DG, K1315,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,13),PY(1,13),PZ(1,13),PX(1,16),PY(1,16),PZ(1,16),
      .          DG, K1316,IS)
@@ -3069,7 +3069,7 @@ C
 
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,14),PY(1,14),PZ(1,14),PX(1,15),PY(1,15),PZ(1,15),
-     .          DG, K1415,IS)     
+     .          DG, K1415,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,14),PY(1,14),PZ(1,14),PX(1,16),PY(1,16),PZ(1,16),
      .          DG, K1416,IS)
@@ -3140,8 +3140,8 @@ C
        CALL S8ZKEBG1(LFT,LLT,
      .          PX(1,19),PY(1,19),PZ(1,19),PX(1,20),PY(1,20),PZ(1,20),
      .          DG, K1920,IS)
-     
-     
+
+
 C     
        IS =1
        CALL S8ZKEBG1(LFT,LLT,
@@ -3188,7 +3188,7 @@ C
      .       DG, K1414,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .       PX(1,15),PY(1,15),PZ(1,15),PX(1,15),PY(1,15),PZ(1,15),
-     .       DG, K1515,IS)          
+     .       DG, K1515,IS)
        CALL S8ZKEBG1(LFT,LLT,
      .       PX(1,16),PY(1,16),PZ(1,16),PX(1,16),PY(1,16),PZ(1,16),
      .       DG, K1616,IS)
@@ -3204,49 +3204,49 @@ C
             CALL S8ZKEBG1(LFT,LLT,
      .       PX(1,20),PY(1,20),PZ(1,20),PX(1,20),PY(1,20),PZ(1,20),
      .       DG, K2020,IS)
-     
+
 
 C     
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
      .             PY(1,1),PX(1,1),PZ(1,1),PX(1,1),PZ(1,1),PY(1,1),
-     .             G33,K11,IS) 
+     .             G33,K11,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
      .             PY(1,2),PX(1,2),PZ(1,2),PX(1,2),PZ(1,2),PY(1,2),
-     .             G33,K22,IS) 
+     .             G33,K22,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
      .             PY(1,3),PX(1,3),PZ(1,3),PX(1,3),PZ(1,3),PY(1,3),
-     .             G33,K33,IS) 
+     .             G33,K33,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
      .             PY(1,4),PX(1,4),PZ(1,4),PX(1,4),PZ(1,4),PY(1,4),
-     .             G33,K44,IS) 
+     .             G33,K44,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
      .             PY(1,5),PX(1,5),PZ(1,5),PX(1,5),PZ(1,5),PY(1,5),
-     .             G33,K55,IS) 
+     .             G33,K55,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
      .             PY(1,6),PX(1,6),PZ(1,6),PX(1,6),PZ(1,6),PY(1,6),
-     .             G33,K66,IS) 
+     .             G33,K66,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
      .             PY(1,7),PX(1,7),PZ(1,7),PX(1,7),PZ(1,7),PY(1,7),
-     .             G33,K77,IS) 
+     .             G33,K77,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
      .             PY(1,8),PX(1,8),PZ(1,8),PX(1,8),PZ(1,8),PY(1,8),
-     .             G33,K88,IS) 
+     .             G33,K88,IS)
        CALL S8ZKEG33(LFT,LLT,
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
      .             PY(1,9),PX(1,9),PZ(1,9),PX(1,9),PZ(1,9),PY(1,9),
-     .             G33,K99,IS) 
+     .             G33,K99,IS)
        CALL S8ZKEG33(LFT,LLT,
      .      PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
      .      PY(1,10),PX(1,10),PZ(1,10),PX(1,10),PZ(1,10),PY(1,10),
-     .      G33,K1010,IS) 
+     .      G33,K1010,IS)
        CALL S8ZKEG33(LFT,LLT,
      .      PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
      .      PY(1,11),PX(1,11),PZ(1,11),PX(1,11),PZ(1,11),PY(1,11),
@@ -3287,9 +3287,9 @@ C
      .      PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
      .      PY(1,20),PX(1,20),PZ(1,20),PX(1,20),PZ(1,20),PY(1,20),
      .      G33,K2020,IS)
-     
-     
-      ENDIF 
+
+
+      ENDIF
 
 C
       RETURN

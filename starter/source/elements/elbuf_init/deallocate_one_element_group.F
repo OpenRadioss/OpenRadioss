@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -91,22 +91,22 @@ C Lowest arrays needs to be deallocated first.
 c---
 c 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
 c---
-      IF (ASSOCIATED(GBUF%AREA)) DEALLOCATE(GBUF%AREA)  
-      IF (ASSOCIATED(GBUF%SKEW)) DEALLOCATE(GBUF%SKEW)  
-      IF (ASSOCIATED(GBUF%LENGTH)) DEALLOCATE(GBUF%LENGTH)  
-      IF (ASSOCIATED(GBUF%TOTDEPL)) DEALLOCATE(GBUF%TOTDEPL)  
-      IF (ASSOCIATED(GBUF%TOTROT)) DEALLOCATE(GBUF%TOTROT)  
-      IF (ASSOCIATED(GBUF%FOREP)) DEALLOCATE(GBUF%FOREP)  
-      IF (ASSOCIATED(GBUF%MOMEP)) DEALLOCATE(GBUF%MOMEP)  
-      IF (ASSOCIATED(GBUF%DEP_IN_TENS)) DEALLOCATE(GBUF%DEP_IN_TENS)  
-      IF (ASSOCIATED(GBUF%DEP_IN_COMP)) DEALLOCATE(GBUF%DEP_IN_COMP)  
-      IF (ASSOCIATED(GBUF%ROT_IN_TENS)) DEALLOCATE(GBUF%ROT_IN_TENS)  
-      IF (ASSOCIATED(GBUF%ROT_IN_COMP)) DEALLOCATE(GBUF%ROT_IN_COMP)  
-      IF (ASSOCIATED(GBUF%POSX)) DEALLOCATE(GBUF%POSX)  
-      IF (ASSOCIATED(GBUF%POSY)) DEALLOCATE(GBUF%POSY)  
+      IF (ASSOCIATED(GBUF%AREA)) DEALLOCATE(GBUF%AREA)
+      IF (ASSOCIATED(GBUF%SKEW)) DEALLOCATE(GBUF%SKEW)
+      IF (ASSOCIATED(GBUF%LENGTH)) DEALLOCATE(GBUF%LENGTH)
+      IF (ASSOCIATED(GBUF%TOTDEPL)) DEALLOCATE(GBUF%TOTDEPL)
+      IF (ASSOCIATED(GBUF%TOTROT)) DEALLOCATE(GBUF%TOTROT)
+      IF (ASSOCIATED(GBUF%FOREP)) DEALLOCATE(GBUF%FOREP)
+      IF (ASSOCIATED(GBUF%MOMEP)) DEALLOCATE(GBUF%MOMEP)
+      IF (ASSOCIATED(GBUF%DEP_IN_TENS)) DEALLOCATE(GBUF%DEP_IN_TENS)
+      IF (ASSOCIATED(GBUF%DEP_IN_COMP)) DEALLOCATE(GBUF%DEP_IN_COMP)
+      IF (ASSOCIATED(GBUF%ROT_IN_TENS)) DEALLOCATE(GBUF%ROT_IN_TENS)
+      IF (ASSOCIATED(GBUF%ROT_IN_COMP)) DEALLOCATE(GBUF%ROT_IN_COMP)
+      IF (ASSOCIATED(GBUF%POSX)) DEALLOCATE(GBUF%POSX)
+      IF (ASSOCIATED(GBUF%POSY)) DEALLOCATE(GBUF%POSY)
       IF (ASSOCIATED(GBUF%POSZ)) DEALLOCATE(GBUF%POSZ)
-      IF (ASSOCIATED(GBUF%POSXX)) DEALLOCATE(GBUF%POSXX)  
-      IF (ASSOCIATED(GBUF%POSYY)) DEALLOCATE(GBUF%POSYY)  
+      IF (ASSOCIATED(GBUF%POSXX)) DEALLOCATE(GBUF%POSXX)
+      IF (ASSOCIATED(GBUF%POSYY)) DEALLOCATE(GBUF%POSYY)
       IF (ASSOCIATED(GBUF%POSZZ)) DEALLOCATE(GBUF%POSZZ)
       IF (ASSOCIATED(GBUF%YIELD)) DEALLOCATE(GBUF%YIELD)
       IF (ASSOCIATED(GBUF%LENGTH_ERR)) DEALLOCATE(GBUF%LENGTH_ERR)
@@ -127,11 +127,11 @@ c---
 
       DEALLOCATE(ELBUF_TAB(NG)%GBUF%FILL)
 
- 
-      IF (NPTTOT == 1) THEN    
+
+      IF (NPTTOT == 1) THEN
 C Only Pointer Associations.
 C No allocation in this case
-      ELSE  ! NPT > 1                                                                
+      ELSE  ! NPT > 1
         IF (ASSOCIATED(ELBUF_TAB(NG)%GBUF%BFRAC)) DEALLOCATE(ELBUF_TAB(NG)%GBUF%BFRAC)
         IF (ASSOCIATED(ELBUF_TAB(NG)%GBUF%OFF)) DEALLOCATE(ELBUF_TAB(NG)%GBUF%OFF)
         IF (ASSOCIATED(ELBUF_TAB(NG)%GBUF%EINT)) DEALLOCATE(ELBUF_TAB(NG)%GBUF%EINT)
@@ -210,16 +210,16 @@ c     Inter layers (ply xfem)
 c-------------------------------------------------
       DO I = 1, NINTLAY
         IF (ASSOCIATED(ELBUF_TAB(NG)%INTLAY(I)%EINT)) DEALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%EINT)
-        IF (ASSOCIATED(ELBUF_TAB(NG)%INTLAY(I)%COUNT)) DEALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%COUNT)       
+        IF (ASSOCIATED(ELBUF_TAB(NG)%INTLAY(I)%COUNT)) DEALLOCATE(ELBUF_TAB(NG)%INTLAY(I)%COUNT)
 
-        DO IR = 1,NPTR                                                   
-          DO IS = 1,NPTS                                                 
-            ILBUF => ELBUF_TAB(NG)%INTLAY(I)%ILBUF(IR,IS)              
+        DO IR = 1,NPTR
+          DO IS = 1,NPTS
+            ILBUF => ELBUF_TAB(NG)%INTLAY(I)%ILBUF(IR,IS)
             IF (ASSOCIATED(ILBUF%EPS)) DEALLOCATE(ILBUF%EPS)
             IF (ASSOCIATED(ILBUF%SIG)) DEALLOCATE(ILBUF%SIG)
-          ENDDO                                                            
-        ENDDO                                                            
-      ENDDO                                                             
+          ENDDO
+        ENDDO
+      ENDDO
 
 c-------------------------------------------------
 C layer mean variable (NPG = 1)
@@ -240,7 +240,7 @@ c-------------------------------------------------
          DO IR = 1,NPTR
            DO IS = 1,NPTS
              DO IT = 1,NPTT
-                LBUF => ELBUF_TAB(NG)%BUFLY(I)%LBUF(IR,IS,IT) 
+                LBUF => ELBUF_TAB(NG)%BUFLY(I)%LBUF(IR,IS,IT)
 c
                 IF (ASSOCIATED(LBUF%OFF)) DEALLOCATE(LBUF%OFF)
                 IF (ASSOCIATED(LBUF%GAMA)) DEALLOCATE(LBUF%GAMA)
@@ -298,37 +298,37 @@ c
                 IF (ASSOCIATED(LBUF%FAC_YLD)) DEALLOCATE(LBUF%FAC_YLD)
                 IF (ASSOCIATED(LBUF%ABURN)) DEALLOCATE(LBUF%ABURN)
                 IF (ASSOCIATED(LBUF%MU)) DEALLOCATE(LBUF%MU)
-              ENDDO                                                           
-            ENDDO                                                          
-           ENDDO 
+              ENDDO
+            ENDDO
+           ENDDO
           ENDDO
 
 c-------------------------------------------------
 c     layer buffer allocation
 c-------------------------------------------------
-        DO I = 1, NLAY                                                        
-          BUFLY => ELBUF_TAB(NG)%BUFLY(I)                                     
+        DO I = 1, NLAY
+          BUFLY => ELBUF_TAB(NG)%BUFLY(I)
 c
-          IF (ASSOCIATED(BUFLY%DMG))   DEALLOCATE( BUFLY%DMG)                  
-          IF (ASSOCIATED(BUFLY%GAMA))  DEALLOCATE( BUFLY%GAMA)       
-          IF (ASSOCIATED(BUFLY%DIRA))  DEALLOCATE( BUFLY%DIRA)       
-          IF (ASSOCIATED(BUFLY%DIRB))  DEALLOCATE( BUFLY%DIRB)       
-          IF (ASSOCIATED(BUFLY%CRKDIR))DEALLOCATE( BUFLY%CRKDIR)       
-          IF (ASSOCIATED(BUFLY%OFFPG)) DEALLOCATE( BUFLY%OFFPG)       
-          IF (ASSOCIATED(BUFLY%OFF))   DEALLOCATE( BUFLY%OFF)       
+          IF (ASSOCIATED(BUFLY%DMG))   DEALLOCATE( BUFLY%DMG)
+          IF (ASSOCIATED(BUFLY%GAMA))  DEALLOCATE( BUFLY%GAMA)
+          IF (ASSOCIATED(BUFLY%DIRA))  DEALLOCATE( BUFLY%DIRA)
+          IF (ASSOCIATED(BUFLY%DIRB))  DEALLOCATE( BUFLY%DIRB)
+          IF (ASSOCIATED(BUFLY%CRKDIR))DEALLOCATE( BUFLY%CRKDIR)
+          IF (ASSOCIATED(BUFLY%OFFPG)) DEALLOCATE( BUFLY%OFFPG)
+          IF (ASSOCIATED(BUFLY%OFF))   DEALLOCATE( BUFLY%OFF)
 c
           IF (NPG > 1) THEN
-            IF (ASSOCIATED(BUFLY%PLAPT)) DEALLOCATE( BUFLY%PLAPT)                       
+            IF (ASSOCIATED(BUFLY%PLAPT)) DEALLOCATE( BUFLY%PLAPT)
             IF (ASSOCIATED(BUFLY%SIGPT)) DEALLOCATE( BUFLY%SIGPT)
- 
+
           ELSEIF (NPG == 1) THEN
 C             Nothing to deallocate
           ENDIF
 C
-          IF (ASSOCIATED(BUFLY%HOURG)) DEALLOCATE(BUFLY%HOURG)           
-          IF (ASSOCIATED(BUFLY%UELR)) DEALLOCATE(BUFLY%UELR)                     
-          IF (ASSOCIATED(BUFLY%UELR1)) DEALLOCATE(BUFLY%UELR1)                    
-      ENDDO                                                                 
+          IF (ASSOCIATED(BUFLY%HOURG)) DEALLOCATE(BUFLY%HOURG)
+          IF (ASSOCIATED(BUFLY%UELR)) DEALLOCATE(BUFLY%UELR)
+          IF (ASSOCIATED(BUFLY%UELR1)) DEALLOCATE(BUFLY%UELR1)
+      ENDDO
 C-----------------------------------------------
       RETURN
       END

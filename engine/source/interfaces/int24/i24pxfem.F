@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------  
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,14 +68,14 @@ C-----------------------------------------------
       my_real
      .  GAPMAX,DGAPMAX
 C=======================================================================
-                                                   
+
 C------------------------------------------------------------
       IF (NSPMD > 1 ) THEN
 C---                                                          
-        SIZE = 2        
+        SIZE = 2
         LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
-        CALL SPMD_EXCH_I24_GAP( WAGAP,IAD_ELEM,FR_ELEM,SIZE  ,LENR )  
-      ENDIF                                                   
+        CALL SPMD_EXCH_I24_GAP( WAGAP,IAD_ELEM,FR_ELEM,SIZE  ,LENR )
+      ENDIF
 C------------------------------------------------------------
       DO NG=1,NINTER
             GAPMAX = ZERO
@@ -91,10 +91,10 @@ C------------------------------------------------------------
      .       INTBUF_TAB(NG)%DGAP_NM,
      3       INTBUF_TAB(NG)%DGAP_M,DGAPMAX,INTBUF_TAB(NG)%STFM)
 #include "lockon.inc"
-              INTBUF_TAB(NG)%VARIABLES(16) = 
+              INTBUF_TAB(NG)%VARIABLES(16) =
      .               MAX(GAPMAX,INTBUF_TAB(NG)%VARIABLES(16))
               INTBUF_TAB(NG)%DELTA_PMAX_DGAP(1) = DGAPMAX
-#include "lockoff.inc"   
+#include "lockoff.inc"
             END IF
       END DO
 C      
@@ -158,36 +158,36 @@ C
         M4 = IRECT(4,NE)
 C        
         GAPN_OLD(1) = GAP_MN(1,NE)
-        GAPN_OLD(2) = GAP_MN(2,NE)  
-        GAPN_OLD(3) = GAP_MN(3,NE)  
-        GAPN_OLD(4) = GAP_MN(4,NE)   
+        GAPN_OLD(2) = GAP_MN(2,NE)
+        GAPN_OLD(3) = GAP_MN(3,NE)
+        GAPN_OLD(4) = GAP_MN(4,NE)
 C
-        IF(MSEGTYP(NE) > 0 ) THEN 
+        IF(MSEGTYP(NE) > 0 ) THEN
 C              
             GAP_MN(1,NE) =MAX(GAP_MN(1,NE), WAGAP(1,M1))
             GAP_MMAX = MAX(GAP_MMAX,GAP_MN(1,NE))
-            GAP_MN(2,NE) = MAX(GAP_MN(2,NE), WAGAP(1,M2)) 
+            GAP_MN(2,NE) = MAX(GAP_MN(2,NE), WAGAP(1,M2))
             GAP_MMAX = MAX(GAP_MMAX,GAP_MN(2,NE))
             GAP_MN(3,NE) = MAX(GAP_MN(3,NE), WAGAP(1,M3))
             GAP_MMAX = MAX(GAP_MMAX,GAP_MN(3,NE))
             GAP_MN(4,NE) = MAX(GAP_MN(4,NE), WAGAP(1,M4))
             GAP_MMAX = MAX(GAP_MMAX,GAP_MN(4,NE))
 ! voisin
-            L = IABS(NVOISIN(1,NE)) 
-           IF(L > 0) GAP_MN(5,NE) =MAX(GAP_MN(5,NE), WAGAP(1,L)) 
-           L = IABS(NVOISIN(2,NE)) 
-           IF(L > 0) GAP_MN(6,NE) =MAX(GAP_MN(6,NE), WAGAP(1,L)) 
-           L = IABS(NVOISIN(3,NE)) 
+            L = IABS(NVOISIN(1,NE))
+           IF(L > 0) GAP_MN(5,NE) =MAX(GAP_MN(5,NE), WAGAP(1,L))
+           L = IABS(NVOISIN(2,NE))
+           IF(L > 0) GAP_MN(6,NE) =MAX(GAP_MN(6,NE), WAGAP(1,L))
+           L = IABS(NVOISIN(3,NE))
            IF(L > 0) GAP_MN(7,NE) =MAX(GAP_MN(7,NE), WAGAP(1,L))
-           L = IABS(NVOISIN(4,NE)) 
+           L = IABS(NVOISIN(4,NE))
            IF(L > 0) GAP_MN(8,NE) =MAX(GAP_MN(8,NE), WAGAP(1,L))
-           L = IABS(NVOISIN(5,NE)) 
+           L = IABS(NVOISIN(5,NE))
            IF(L > 0) GAP_MN(9,NE) =MAX(GAP_MN(9,NE), WAGAP(1,L))
-            L = IABS(NVOISIN(6,NE)) 
+            L = IABS(NVOISIN(6,NE))
            IF(L > 0) GAP_MN(10,NE) =MAX(GAP_MN(10,NE), WAGAP(1,L))
            L = IABS(NVOISIN(7,NE))
            IF(L > 0) GAP_MN(11,NE) =MAX(GAP_MN(11,NE), WAGAP(1,L))
-           L = IABS(NVOISIN(8,NE)) 
+           L = IABS(NVOISIN(8,NE))
            IF(L > 0) GAP_MN(12,NE) =MAX(GAP_MN(12,NE), WAGAP(1,L))
         ELSEIF(MSEGTYP(NE) < 0) THEN
            GAP_MN(1,NE) =MAX(GAP_MN(1,NE), WAGAP(2,M1))
@@ -199,24 +199,24 @@ C
            GAP_MN(4,NE) = MAX(GAP_MN(4,NE), WAGAP(2,M4))
            GAP_MMAX = MAX(GAP_MMAX,GAP_MN(4,NE))
 C            
-           L = IABS(NVOISIN(1,NE)) 
+           L = IABS(NVOISIN(1,NE))
            IF(L > 0) GAP_MN(5,NE) =MAX(GAP_MN(5,NE), WAGAP(2,L))
-           L = IABS(NVOISIN(2,NE)) 
+           L = IABS(NVOISIN(2,NE))
            IF(L > 0) GAP_MN(6,NE) =MAX(GAP_MN(6,NE), WAGAP(2,L))
-           L = IABS(NVOISIN(3,NE)) 
+           L = IABS(NVOISIN(3,NE))
            IF(L > 0) GAP_MN(7,NE) =MAX(GAP_MN(7,NE), WAGAP(2,L))
-           L = IABS(NVOISIN(4,NE)) 
+           L = IABS(NVOISIN(4,NE))
            IF(L > 0) GAP_MN(8,NE) =MAX(GAP_MN(8,NE), WAGAP(2,L))
-           L = IABS(NVOISIN(5,NE)) 
+           L = IABS(NVOISIN(5,NE))
            IF(L > 0) GAP_MN(9,NE) =MAX(GAP_MN(9,NE), WAGAP(2,L))
-            L = IABS(NVOISIN(6,NE)) 
+            L = IABS(NVOISIN(6,NE))
            IF(L > 0) GAP_MN(10,NE) =MAX(GAP_MN(10,NE), WAGAP(2,L))
-            L = IABS(NVOISIN(7,NE)) 
+            L = IABS(NVOISIN(7,NE))
            IF(L > 0) GAP_MN(11,NE) =MAX(GAP_MN(11,NE), WAGAP(2,L))
-            L = IABS(NVOISIN(8,NE)) 
+            L = IABS(NVOISIN(8,NE))
            IF(L > 0) GAP_MN(12,NE) =MAX(GAP_MN(12,NE), WAGAP(2,L))
-          ENDIF          
-           GAP_M(NE) = GAP_MMAX 
+          ENDIF
+           GAP_M(NE) = GAP_MMAX
            GAPMAX = MAX(GAPMAX,GAP_MMAX)
            DGAP_MN(1,NE)=  GAP_MN(1,NE) - GAPN_OLD(1)
            DGAP_MN(2,NE)=  GAP_MN(2,NE) - GAPN_OLD(2)
@@ -224,11 +224,11 @@ C
            DGAP_MN(4,NE)=  GAP_MN(4,NE) - GAPN_OLD(4)
            DGAP_M(NE) = MAX (DGAP_MN(1,NE), DGAP_MN(2,NE),
      .                       DGAP_MN(3,NE), DGAP_MN(4,NE))
-#include "lockon.inc"       
-           DGAPMAX = MAX(DGAPMAX, DGAP_M(NE))  
-#include "lockoff.inc"                   
+#include "lockon.inc"
+           DGAPMAX = MAX(DGAPMAX, DGAP_M(NE))
+#include "lockoff.inc"
        ENDDO
 C
       RETURN
       END
-      
+

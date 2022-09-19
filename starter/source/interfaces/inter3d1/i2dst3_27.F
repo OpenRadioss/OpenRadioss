@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE I2DST3_27(GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,
      .                  THK  ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS,
      .                  NOD2ELC,NOD2ELTG,X,IRECT,
-     .                  NINT,IXC ,IXTG  ,THK_PART,IPARTC,GEO   , 
+     .                  NINT,IXC ,IXTG  ,THK_PART,IPARTC,GEO   ,
      .                  NOINT,IXS,IXS10 ,PM,IX3,
      1                  IX4,X1 ,X2 ,X3 ,X4 ,
      1                  Y1 ,Y2 ,Y3 ,Y4 ,Z1 ,
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IRTL(*),IGNORE,
-     .    KNOD2ELS(*), KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .    KNOD2ELS(*), KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .    NOD2ELTG(*),IRECT(4,*),NINT,
      .    IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,IXS(NIXS,*),
      .    IXS10(*)
@@ -168,7 +168,7 @@ C
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
         DO I=LFT,LLT
           IF(PENE(I)>ZERO  .AND.
-     .          (S(I) < ONEP5 .AND. 
+     .          (S(I) < ONEP5 .AND.
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))THEN
@@ -187,19 +187,19 @@ C
         DO I=LFT,LLT
 C
         IF(PENE(I)>ZERO  .AND.
-     .          (S(I) < ONEP5 .AND. 
+     .          (S(I) < ONEP5 .AND.
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))  THEN
           II=CAND_N(I)
-          
+
           IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
             ST(1,II) = S(I)
             ST(2,II) = T(I)
           ELSEIF(TZINF - PENE(I)==DMIN(II))THEN
-             CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II) 
+             CALL CHOOSE_MAIN_SEGMENT(IRECT,IRTL(II),CAND_E(I),S(I),T(I),ST(1,II),ST(2,II),TFLAG(I),II)
           ENDIF
          ENDIF
         ENDDO
@@ -208,7 +208,7 @@ C
 C
         IF(PENE(I)>ZERO)  THEN
           II=CAND_N(I)
-          
+
           IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
@@ -261,7 +261,7 @@ C
           INTERIOR_OLD = 1
         ELSE
           INTERIOR_OLD = 0
-        ENDIF        
+        ENDIF
       ELSE
         TFLAG_OLD = 0
         IF ((ABS(S)<=ONE).AND.(ABS(T)<=ONE)) THEN
@@ -276,7 +276,7 @@ C
           INTERIOR = 1
         ELSE
           INTERIOR = 0
-        ENDIF        
+        ENDIF
       ELSE
         IF ((ABS(S_NEW)<=ONE).AND.(ABS(T_NEW)<=ONE)) THEN
           INTERIOR = 1
@@ -289,7 +289,7 @@ C--  Choose segement to keep as main segment
       SWITCH = 0
       IF ((TFLAG_OLD==0).AND.(TFLAG==0)) THEN
 C--     two quadrangles
-        IF (MAX(ABS(S_NEW),ABS(T_NEW))<MAX(ABS(S),ABS(T))) SWITCH = 1    
+        IF (MAX(ABS(S_NEW),ABS(T_NEW))<MAX(ABS(S),ABS(T))) SWITCH = 1
       ELSE
 C--     At least on segment is a triangle
         IF (INTERIOR_OLD < INTERIOR) THEN
@@ -305,7 +305,7 @@ C
         M_OLD = M_NEW
         S = S_NEW
         T = T_NEW
-      ENDIF                  
+      ENDIF
 C
       RETURN
       END

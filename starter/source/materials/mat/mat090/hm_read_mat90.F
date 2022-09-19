@@ -67,7 +67,7 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)          :: PARMAT(100),UPARAM(MAXUPARAM),PM(NPROPM)
       INTEGER, INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,ISRATE,IMATVIS
       INTEGER, INTENT(IN)             :: ID
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IFLAG,IDAM ,ISMOOTH     
+      INTEGER I,J,IFLAG,IDAM ,ISMOOTH
       my_real E0,NU,FCUT,G,C1,SHAPE,HYS,ALPHA
       my_real RATE(1000),YFAC(1000),YFAC_DIM(1000)
       my_real :: RHO0, RHOR,FCUT_UNIT
@@ -130,14 +130,14 @@ C-----------------------------------------------
      .                ANMODE=ANINFO_BLIND,
      .                I1=ID,
      .                C1=TITR)
-      ENDIF 
+      ENDIF
 !
-!... fonction de charge      
+!... fonction de charge
 !
       DO I=1,NFUNC
         CALL HM_GET_INT_ARRAY_INDEX      ('fct_IDL'     ,IFUNC(I)    ,I ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX    ('EpsilondotL' ,RATE(I)     ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX    ('FscaleL'     ,YFAC(I)     ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+        CALL HM_GET_FLOAT_ARRAY_INDEX    ('FscaleL'     ,YFAC(I)     ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('FscaleL'     ,YFAC_DIM(I) ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDDO
 !
@@ -153,7 +153,7 @@ C-----------------------------------------------
         IF(YFAC(I) == ZERO) YFAC(I) = YFAC_DIM(I) * ONE
       ENDDO
       HYS = ABS(HYS)
-      IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1     
+      IF (NFUNC > 0  .AND. HYS == ZERO) IFLAG = 1
       IF (NFUNC > 0  .AND. HYS > ZERO)  IFLAG  = 2    ! unloading is quasi-static
       IF (SHAPE == ZERO) SHAPE = ONE
       IF (ALPHA == ZERO) ALPHA = ONE
@@ -161,26 +161,26 @@ C-----------------------------------------------
       IF (RHOR==ZERO) RHOR=RHO0
       IF (FCUT == ZERO .AND. NFUNC > 1 ) THEN
         FCUT = EP03*FAC_T_WORK
-        ISMOOTH = 1  
+        ISMOOTH = 1
       ENDIF
       IF(ISMOOTH == 0 .AND. FCUT > ZERO .AND. NFUNC > 1) ISMOOTH = 1
       IF(NFUNC == 1) ISMOOTH = 0
       PM(1) = RHOR
       PM(89)= RHO0
-        
+
       G = HALF*E0/(ONE + NU)
       UPARAM(1) = E0
       UPARAM(4) = G
-      UPARAM(5) = NU 
+      UPARAM(5) = NU
       UPARAM(6) = SHAPE
       UPARAM(7) = HYS
       UPARAM(9) = IFLAG
-      UPARAM(10) = IDAM 
+      UPARAM(10) = IDAM
       DO I=1,NFUNC
          UPARAM(I + 10)        =  RATE(I)
          UPARAM(I + 10 + NFUNC) = YFAC(I)
       END DO
-      NUPARAM =13 + 2*NFUNC  
+      NUPARAM =13 + 2*NFUNC
       UPARAM(NUPARAM) = ALPHA
 !
       C1=E0/THREE/(ONE - TWO*NU)
@@ -190,9 +190,9 @@ C-----------------------------------------------
       PARMAT(4) = ISMOOTH
       PARMAT(5) = FCUT
 
-      ISRATE = ISMOOTH 
+      ISRATE = ISMOOTH
       NUVAR = 10
-        ! MTAG variable activation   
+        ! MTAG variable activation
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
 C
@@ -201,7 +201,7 @@ C
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1100)RHO0                                                     
+        WRITE(IOUT,1100)RHO0
         WRITE(IOUT,1150)E0,NU
         WRITE(IOUT,1200)FCUT,ISMOOTH,SHAPE,HYS,ALPHA
         WRITE(IOUT,1300)(IFUNC(J),RATE(J),YFAC(J),J=1,NFUNC)
@@ -224,7 +224,7 @@ c-----------------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1100 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1150 FORMAT(
      & 5X,'INITIAL YOUNG''S MODULUS. . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/)
@@ -240,5 +240,5 @@ c-----------------
      & 5X,'SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13/)
  1500 FORMAT(
      & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . .=',I10/
-     & 5X,'PRESSURE SCALE FACTOR. . . . . . . . . =',1PG20.13)     
+     & 5X,'PRESSURE SCALE FACTOR. . . . . . . . . =',1PG20.13)
       END

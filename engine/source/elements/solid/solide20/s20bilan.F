@@ -53,7 +53,7 @@ C-----------------------------------------------
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),ITASK
 C     REAL
       my_real
-     .  PARTSAV(NPSAV,*), EINTG(*), RHOG(*), 
+     .  PARTSAV(NPSAV,*), EINTG(*), RHOG(*),
      .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),
      .  VOLG(*),VOL0G(*),GRESAV(*),EINTTH(*),
      .  FILL(*),
@@ -65,8 +65,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X1, X2, X3, V1, V2, V3, FAC,
-     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
-     .   VA2(MVSIZ), XMAS(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ),
+     .   VA2(MVSIZ), XMAS(MVSIZ),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ),
@@ -90,7 +90,7 @@ C-----------------------------------------------
         VXA(I)=V1
         VYA(I)=V2
         VZA(I)=V3
-        VA2(I)=(V1**2+V2**2+V3**2)	  
+        VA2(I)=(V1**2+V2**2+V3**2)	
       ENDDO
 C
       DO N=2,8
@@ -101,7 +101,7 @@ C
           VXA(I)=VXA(I)+V1
           VYA(I)=VYA(I)+V2
           VZA(I)=VZA(I)+V3
-          VA2(I)=VA2(I)+(V1**2+V2**2+V3**2)	  
+          VA2(I)=VA2(I)+(V1**2+V2**2+V3**2)	
         ENDDO
       ENDDO
 C
@@ -110,7 +110,7 @@ C
         VXA(I)=VXA(I)*FAC
         VYA(I)=VYA(I)*FAC
         VZA(I)=VZA(I)*FAC
-        VA2(I)=VA2(I)*FAC  
+        VA2(I)=VA2(I)*FAC
       ENDDO
 C
       DO N=9,20
@@ -130,7 +130,7 @@ C
         VXA(I)=VXA(I)*FAC
         VYA(I)=VYA(I)*FAC
         VZA(I)=VZA(I)*FAC
-        VA2(I)=VA2(I)*FAC  
+        VA2(I)=VA2(I)*FAC
       ENDDO
 C
       DO I=LFT,LLT
@@ -270,7 +270,7 @@ C
           PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-          PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
         ENDDO
       ENDIF
 C
@@ -289,7 +289,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       OFF_L(LFT:LLT) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
       RETURN
       END

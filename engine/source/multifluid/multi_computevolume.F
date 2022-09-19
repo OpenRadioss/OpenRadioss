@@ -30,7 +30,7 @@ Chd|        QVOLU2                        source/elements/solid_2d/quad/qvolu2.F
 Chd|        SDERI3                        source/elements/solid/solide/sderi3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_COMPUTEVOLUME(NEL, NG, IPARG, SYM, 
+      SUBROUTINE MULTI_COMPUTEVOLUME(NEL, NG, IPARG, SYM,
      .     ELBUF_TAB, IXS, IXQ, IXTG, VOLNEW, XGRID)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"      
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "mvsiz_p.inc"
@@ -72,8 +72,8 @@ C-----------------------------------------------
       my_real :: X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ)
       my_real :: X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ)
       my_real :: X8(MVSIZ), Y8(MVSIZ), Z8(MVSIZ)
-      my_real :: JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ) 
-      my_real :: JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ) 
+      my_real :: JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ)
+      my_real :: JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ)
       my_real :: B1, B2, B3, B4
       my_real :: C1, C2, C3, C4
       my_real :: D1, D2, D3, D4
@@ -147,12 +147,12 @@ C     Node 8
      .              DUMMY, DUMMY, DUMMY, DUMMY,
      .              DUMMY, DUMMY, DUMMY, DUMMY,
      .              DUMMY, DUMMY, DUMMY, DUMMY,
-     .              DUMMY, DUMMY, DUMMY, 
-     .              DUMMY, DUMMY, DUMMY, 
-     .              DUMMY, DUMMY, DUMMY, 
-     .              DUMMY, DUMMY, DUMMY, 
-     .              JAC1, JAC2, JAC3, 
-     .              JAC4, JAC5, JAC6, 
+     .              DUMMY, DUMMY, DUMMY,
+     .              DUMMY, DUMMY, DUMMY,
+     .              DUMMY, DUMMY, DUMMY,
+     .              DUMMY, DUMMY, DUMMY,
+     .              JAC1, JAC2, JAC3,
+     .              JAC4, JAC5, JAC6,
      .              GBUF%SMSTR, GBUF%OFF, NEL, VOLDP, JHBE, ISMSTR)
             ELSE
                DO II = 1, NEL
@@ -225,9 +225,9 @@ C     Node 4
                   Z4(II) = XGRID(3, IX(5, II))
                   NGL(II) = IX(NIXS, II)
                ENDDO
-               CALL QVOLU2(GBUF%OFF, GBUF%AREA, VOLNEW, NGL, 
-     .              Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4, 
-     .              DUMMY, DUMMY) 
+               CALL QVOLU2(GBUF%OFF, GBUF%AREA, VOLNEW, NGL,
+     .              Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
+     .              DUMMY, DUMMY)
             ELSEIF (ITY == 7) THEN
 C     TRIANGLES
                IX => IXTG(1:NIXTG, 1 + NFT:NEL + NFT)
@@ -239,10 +239,10 @@ C     TRIANGLES
                      Z2(II) = XGRID(3, IX(1 + 2, II))
                      Y3(II) = XGRID(2, IX(1 + 3, II))
                      Z3(II) = XGRID(3, IX(1 + 3, II))
-                     GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
+                     GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) -
      .                    (Z2(II) - Z1(II)) * (Y3(II) - Y1(II))))
                      VOLNEW(II) = GBUF%AREA(II)
-                  ENDDO            
+                  ENDDO
                ELSE IF (SYM == 1) THEN
 C     Axisymmetric case
                   DO II = 1, NEL
@@ -252,16 +252,16 @@ C     Axisymmetric case
                      Z2(II) = XGRID(3, IX(1 + 2, II))
                      Y3(II) = XGRID(2, IX(1 + 3, II))
                      Z3(II) = XGRID(3, IX(1 + 3, II))
-                     GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) - 
+                     GBUF%AREA(II) = ABS(HALF * ((Y2(II) - Y1(II)) * (Z3(II) - Z1(II)) -
      .                    (Z2(II) - Z1(II)) * (Y3(II) - Y1(II))))
                      VOLNEW(II) = (Y1(II) + Y2(II) + Y3(II)) * (
-     .                    Y1(II) * (Z2(II) - Z3(II)) + 
-     .                    Y2(II) * (Z3(II) - Z1(II)) + 
+     .                    Y1(II) * (Z2(II) - Z3(II)) +
+     .                    Y2(II) * (Z3(II) - Z1(II)) +
      .                    Y3(II) * (Z1(II) - Z2(II))) * ONE_OVER_6
-                  ENDDO            
+                  ENDDO
                ENDIF
             ENDIF
          ENDIF
       ENDIF
-      
+
       END SUBROUTINE MULTI_COMPUTEVOLUME

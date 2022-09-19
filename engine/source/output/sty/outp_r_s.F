@@ -47,7 +47,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "scr05_c.inc"
-#include      "task_c.inc"     
+#include      "task_c.inc"
 #include      "scr16_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -67,7 +67,7 @@ C-----------------------------------------------
      .        LIAD
       INTEGER RESP0,WRTLEN,RES,COMPTEUR
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
@@ -77,7 +77,7 @@ C
 C-----------------------------------------------      
 C NEW SUBROUTINE FOR SPRINGS
 C-----------------------------------------------
-       IF(ISPMD==0) THEN 
+       IF(ISPMD==0) THEN
         WRITE(IUGEO,'(2A)')'/SPRING     /SCALAR    /',KEY
         WRITE(IUGEO,'(A)')TEXT
         IF (OUTYY_FMT == 2) THEN
@@ -86,7 +86,7 @@ C-----------------------------------------------
          WRITE(IUGEO,'(A)')'#FORMAT: (1P6E20.13) (VAR(I),I=1,NUMELR)'
         END IF
        ENDIF
-! -----------------------------                   
+! -----------------------------
        JJ_OLD = 1
        NGF = 1
        NGL = 0
@@ -103,17 +103,17 @@ C-----------------------------------------------
            NFT   =IPARG(3,NG)
            IAD   =IPARG(4,NG)
            LFT=1
-           LLT=NEL 
+           LLT=NEL
            DO I=LFT,LLT
              JJ = JJ + 1
              IF (NBX==1)WA(JJ) = GBUF%OFF(I)
-cc             IF (NBX==1)WA(JJ) = BUFEL((IAD-1)+ I) 
-           ENDDO 
-         ENDIF  
-        ENDDO 
+cc             IF (NBX==1)WA(JJ) = BUFEL((IAD-1)+ I)
+           ENDDO
+         ENDIF
+        ENDDO
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
        ENDDO
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -127,7 +127,7 @@ cc             IF (NBX==1)WA(JJ) = BUFEL((IAD-1)+ I)
        ENDIF
 !     ++++++++++
        IF(ISPMD==0) THEN
-         RESP0 = 0 
+         RESP0 = 0
          DO NN=1,NSPGROUP
           COMPTEUR = 0
           DO K = 1,NSPMD
@@ -210,7 +210,7 @@ C-----------------------------------------------
             NEL = IPARG(2,NG)
             JJ = JJ + NEL
           ENDIF
-         ENDDO 
+         ENDDO
          NGF = NGL + 1
          WASZ = WASZ + JJ
          SIZ_WRITE_LOC(NN) = JJ

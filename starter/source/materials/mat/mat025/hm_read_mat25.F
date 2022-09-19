@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
@@ -74,14 +74,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: ID
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
 c
       INTEGER, INTENT(OUT)                         :: ISRATE
-      my_real, DIMENSION(100)       ,INTENT(OUT)   :: PARMAT     
-      my_real, DIMENSION(NPROPM)    ,INTENT(OUT)   :: PM     
+      my_real, DIMENSION(100)       ,INTENT(OUT)   :: PARMAT
+      my_real, DIMENSION(NPROPM)    ,INTENT(OUT)   :: PM
       TYPE(MLAW_TAG_)               ,INTENT(OUT)   :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 c
@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER :: ILAW,IOFF,ICC,IFLAG,IYEILD,IMODWP
       my_real :: RHO0,RHOR,E11,E22,E33,G12,G23,G31,N12,N21,
      .   CB,CN,EPST1,EPST2,
-     .   FMAX, SIGYT1, SIGYT2, SIGYC1, SIGYC2, SIGYT12, SIGYC12, 
+     .   FMAX, SIGYT1, SIGYT2, SIGYC1, SIGYC2, SIGYT12, SIGYC12,
      .   C1, SSP, F1, F2, F11, F22, F33, F12, FT1, WPLAMX,
      .   EPSM1, EPSM2, DMAX, SHRDAM, SHRMAX, SHRDMAX,ALPHA,CC,EPS0,
      .   CBT1,CNT1,SIGMXT1,CCT1,CBT2,CNT2,SIGMXT2,CCT2,DETC, DE,
@@ -109,67 +109,67 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
       ILAW = 25
 C 
-      CB=ZERO          
-      CN=ZERO          
-      FMAX=ZERO        
-      SHRDAM =ZERO     
-      SHRMAX =ZERO     
-      SHRDMAX=ZERO     
+      CB=ZERO
+      CN=ZERO
+      FMAX=ZERO
+      SHRDAM =ZERO
+      SHRMAX =ZERO
+      SHRDMAX=ZERO
       WPLAREF=ZERO
 C
-      SIGYT1=ZERO      
-      CBT1=ZERO        
-      CNT1=ZERO        
-      SIGMXT1=ZERO     
-      CCT1=ZERO        
+      SIGYT1=ZERO
+      CBT1=ZERO
+      CNT1=ZERO
+      SIGMXT1=ZERO
+      CCT1=ZERO
 C
-      SIGYT2=ZERO      
-      CBT2=ZERO        
-      CNT2=ZERO        
-      SIGMXT2=ZERO     
-      CCT2=ZERO        
+      SIGYT2=ZERO
+      CBT2=ZERO
+      CNT2=ZERO
+      SIGMXT2=ZERO
+      CCT2=ZERO
 C
-      SIGYC1=ZERO      
-      CBC1=ZERO        
-      CNC1=ZERO        
-      SIGMXC1=ZERO     
-      CCC1=ZERO        
+      SIGYC1=ZERO
+      CBC1=ZERO
+      CNC1=ZERO
+      SIGMXC1=ZERO
+      CCC1=ZERO
 C
-      SIGYC2=ZERO      
-      CBC2=ZERO        
-      CNC2=ZERO        
-      SIGMXC2=ZERO     
-      CCC2=ZERO        
+      SIGYC2=ZERO
+      CBC2=ZERO
+      CNC2=ZERO
+      SIGMXC2=ZERO
+      CCC2=ZERO
 C
-      SIGYC12=ZERO     
-      CBC12=ZERO       
-      CNC12=ZERO       
-      SIGMXC12=ZERO    
-      CCC12=ZERO       
+      SIGYC12=ZERO
+      CBC12=ZERO
+      CNC12=ZERO
+      SIGMXC12=ZERO
+      CCC12=ZERO
 C
-      EPS1T1=ZERO      
-      EPS2T1=ZERO      
-      SIGRST1=ZERO     
-      WPLAMXT1=ZERO    
+      EPS1T1=ZERO
+      EPS2T1=ZERO
+      SIGRST1=ZERO
+      WPLAMXT1=ZERO
 C
-      EPS1T2=ZERO      
-      EPS2T2=ZERO      
-      SIGRST2=ZERO     
-      WPLAMXT2=ZERO    
+      EPS1T2=ZERO
+      EPS2T2=ZERO
+      SIGRST2=ZERO
+      WPLAMXT2=ZERO
 C
-      EPS1C1=ZERO      
-      EPS2C1=ZERO      
-      SIGRSC1=ZERO     
-      WPLAMXC1=ZERO    
+      EPS1C1=ZERO
+      EPS2C1=ZERO
+      SIGRSC1=ZERO
+      WPLAMXC1=ZERO
 C
-      EPS1C2=ZERO      
-      EPS2C2=ZERO      
-      SIGRSC2=ZERO     
-      WPLAMXC2=ZERO    
+      EPS1C2=ZERO
+      EPS2C2=ZERO
+      SIGRSC2=ZERO
+      WPLAMXC2=ZERO
 C
-      EPS1T12=ZERO     
-      EPS2T12=ZERO     
-      SIGRST12=ZERO    
+      EPS1T12=ZERO
+      EPS2T12=ZERO
+      SIGRST12=ZERO
       WPLAMXT12=ZERO
 c
       ISRATE = 0
@@ -210,12 +210,12 @@ c
 c     composite plasticity hardening
 c
       CALL HM_GET_FLOATV('WPMAX'     ,WPLAMX   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV  ('Itype'     ,IOFF     ,IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV  ('Itype'     ,IOFF     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_R00'   ,RATIO    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c     
-c     formulation flag    
-c     
-      CALL HM_GET_INTV  ('MAT_Iflag' ,IFLAG    ,IS_AVAILABLE,LSUBMODEL)      
+c
+c     formulation flag
+c
+      CALL HM_GET_INTV  ('MAT_Iflag' ,IFLAG    ,IS_AVAILABLE,LSUBMODEL)
 c
 c--------------------------------------------------------
       SELECT CASE (IFLAG)
@@ -243,19 +243,19 @@ c
           CALL HM_GET_FLOATV('MAT_SIGT12'   ,SIGYT12  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_SRC'      ,CC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_SRP'      ,EPS0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_INTV  ('STRFLAG'      ,ICC      ,IS_AVAILABLE,LSUBMODEL)      
+          CALL HM_GET_INTV  ('STRFLAG'      ,ICC      ,IS_AVAILABLE,LSUBMODEL)
 c
 c-----
         CASE (1)   ! Crasurv formulation
 c-----
-          CALL HM_GET_INTV  ('WP_FAIL'  ,IMODWP    ,IS_AVAILABLE,LSUBMODEL)      
+          CALL HM_GET_INTV  ('WP_FAIL'  ,IMODWP    ,IS_AVAILABLE,LSUBMODEL)
 c
 c-----    global composite plasticity parameters
 c
           CALL HM_GET_FLOATV('MAT_SRC'      ,CC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_SRP'      ,EPS0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_ALPHA'    ,ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_INTV  ('STRFLAG'      ,ICC      ,IS_AVAILABLE,LSUBMODEL)      
+          CALL HM_GET_INTV  ('STRFLAG'      ,ICC      ,IS_AVAILABLE,LSUBMODEL)
 c
 c-----    composite plasticity in tension, directions 1 and 2
 c
@@ -293,7 +293,7 @@ c
           CALL HM_GET_FLOATV('MAT_EPS2_c1'  ,EPS2C1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_SIGres_c1',SIGRSC1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_Wmax_pc1' ,WPLAMXC1  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c   
+c
           CALL HM_GET_FLOATV('MAT_SIG2_yc'  ,SIGYC2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_b2_c'     ,CBC2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('MAT_n2_c'     ,CNC2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -333,34 +333,34 @@ c
 c
 c     Strain rate filtering
 c
-      CALL HM_GET_INTV  ('Fsmooth'   ,ISRATE    ,IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV  ('Fsmooth'   ,ISRATE    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Fcut'      ,FCUT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
 c--------------------------------------------------------
       IF (IFLAG == 1) THEN
         IF((CC  > ZERO  .OR.  CCT1 > ZERO .OR. CCT2  > ZERO  .OR.
-     .      CCC1 > ZERO .OR.  CCC2 > ZERO .OR. CCT12 > ZERO) .AND. 
+     .      CCC1 > ZERO .OR.  CCC2 > ZERO .OR. CCT12 > ZERO) .AND.
      .      EPS0 > ZERO .AND. FCUT == ZERO ) THEN
-     
+
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID, 
+     .                I1=ID,
      .                C1=TITR)
-        ENDIF 
+        ENDIF
       ELSE
         IF (CC > ZERO .AND. EPS0 > ZERO  .AND. FCUT == ZERO) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=ID, 
+     .                I1=ID,
      .                C1=TITR)
-        ENDIF           
-      
+        ENDIF
+
       ENDIF
 c
       IF (E33 <= ZERO) E33 = MAX(E11, E22)
-c      
+c
       IF (E11 == ZERO .OR. E22 == ZERO .OR.
      .    G12 == ZERO .OR. G23 == ZERO .OR. G31 == ZERO) THEN
          CALL ANCMSG(MSGID=306,
@@ -372,9 +372,9 @@ c
      .               C2='E11, E22, G12, G23, G31')
       ENDIF
 c--------------------------------
-      IF (ISRATE == ZERO) ISRATE = 1    ! for backward compatibility 
+      IF (ISRATE == ZERO) ISRATE = 1    ! for backward compatibility
       IF (FCUT == ZERO)   FCUT   = EP20
-      IF (CN == ZERO)     CN     = ONE 
+      IF (CN == ZERO)     CN     = ONE
       IF (DMAX  == ZERO)  DMAX   = ZEP999
       IF (FMAX  == ZERO)  FMAX   = EP20
       IF (EPST1 == ZERO)  EPST1  = EP20
@@ -385,7 +385,7 @@ c--------------------------------
       IF (EPSF2 == ZERO)  EPSF2  = ONEP2*EP20
       FMAX   = MIN(FMAX  ,EP20)
       EPST1  = MIN(EPST1 ,EP20)
-      EPST2  = MIN(EPST2 ,EP20)      
+      EPST2  = MIN(EPST2 ,EP20)
       EPSM1  = MIN(EPSM1 ,ONEP1*EP20)
       EPSM2  = MIN(EPSM2 ,ONEP1*EP20)
       EPSF1  = MIN(EPSF1 ,ONEP2*EP20)
@@ -396,7 +396,7 @@ c
       IF (SHRMAX == ZERO) SHRMAX  = ONEP1*EP20
       IF (SHRDMAX == ZERO)SHRDMAX = ONE
       IF (ALPHA == ZERO)  ALPHA   = ONE
-      IF (EPS0 ==  ZERO)  EPS0    = ONE 
+      IF (EPS0 ==  ZERO)  EPS0    = ONE
       IF (ICC == ZERO)    ICC     = 1
 c--------------------------------
       IF (((EPST1 >= EPSM1) .AND.((EPST1 /= ZERO) .AND.
@@ -406,7 +406,7 @@ c--------------------------------
      .              I1=ID,
      .              C1=TITR)
       ENDIF
-c      
+c
       IF ((EPSF1 <= EPST1 .AND. EPST1 /= ZERO) .OR.
      .    (EPSF2 <= EPST2 .AND. EPST2 /= ZERO)) THEN
         CALL ANCMSG(MSGID=616, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
@@ -444,7 +444,7 @@ C
         IF (EPS1C2 == ZERO)  EPS1C2  = EP20
         IF (EPS2C2 == ZERO)  EPS2C2  = SIX_OVER_5*EPS1C2
         IF (EPS1T12 == ZERO) EPS1T12 = EP20
-        IF (EPS2T12 == ZERO) EPS2T12 = SIX_OVER_5*EPS1T12     
+        IF (EPS2T12 == ZERO) EPS2T12 = SIX_OVER_5*EPS1T12
 C
         IF (SIGRST1 == ZERO) SIGRST1  = EM3*SIGYT1
         IF (SIGRST2 == ZERO) SIGRST2  = EM3*SIGYT2
@@ -521,7 +521,7 @@ c---      CRASURV
           WRITE(IOUT,1850)'SHEAR DIR-12        ',
      .                  SIGYT12,CBT12,CNT12,SIGMXT12,CCT12,
      .                  EPS1T12,EPS2T12,SIGRST12,WPLAMXT12
-        ELSE   
+        ELSE
 c---      Tsai-Wu
           WRITE(IOUT,1805) WPLAMX,WPLAREF
           WRITE(IOUT,1807) IOFF,IMODWP,RATIO
@@ -616,14 +616,14 @@ C----------------------------------------
      .               I1=ID,
      .               C1=TITR,
      .               C2='SIGYC12')
-      ENDIF      
+      ENDIF
 C
       F1  = ONE / SIGYT1 - ONE / SIGYC1
       F2  = ONE / SIGYT2 - ONE / SIGYC2
       F11 = ONE / MIN(EP20,(SIGYT1*SIGYC1))
       F22 = ONE / MIN(EP20,(SIGYT2*SIGYC2))
       F33 = ONE / MIN(EP20,(SIGYT12*SIGYC12))
-      F12 = -ALPHA/(TWO*SQRT(MIN(EP20,SIGYT1*SIGYC1*SIGYT2*SIGYC2)))    
+      F12 = -ALPHA/(TWO*SQRT(MIN(EP20,SIGYT1*SIGYC1*SIGYT2*SIGYC2)))
       FT1 = F11*F22 - FOUR*F12**2
       WRITE(IOUT,1650) F1,F2,F11,F22,F33,F12
 c------------------------------------------------------------
@@ -650,8 +650,8 @@ C
 C
       PM(68)=WPLAREF
 C
-      PM(98)=EPSF1      
-      PM(99)=EPSF2      
+      PM(98)=EPSF1
+      PM(99)=EPSF2
 C
       IF(EPS0 == ZERO) THEN
          CALL ANCMSG(MSGID=298,
@@ -711,7 +711,7 @@ C-----------------------------------------
         PM(185)=WPLAMXT12
       ENDIF
       PM(186) = E33
-      IYEILD  = 0           
+      IYEILD  = 0
       PM(187) = IYEILD
       PM(188) = RATIO
       PM(189) = IMODWP
@@ -721,18 +721,18 @@ CC    Formulation for solid elements time step computation.
       D22  = E22*FAC
       D12 = N21*D11
       DMIN  = D11*D22  - D12**2
-      DMAX  = MAX(D11, D22)   
+      DMAX  = MAX(D11, D22)
       PM(105) = DMIN/DMAX/DMAX
 c
 C---- Definition des variables internes (stockage elementaire)
 c
       MTAG%G_IERR  = 1  ! tag element for projection error message
-      MTAG%G_GAMA  = 6  
-      MTAG%G_PLA   = 1    
-      MTAG%G_EPSD  = 1    
-      MTAG%G_DAMDL = 1    
+      MTAG%G_GAMA  = 6
+      MTAG%G_PLA   = 1
+      MTAG%G_EPSD  = 1
+      MTAG%G_DAMDL = 1
 c
-      MTAG%L_GAMA  = 6  
+      MTAG%L_GAMA  = 6
       MTAG%L_PLA   = 1
       MTAG%L_EPSD  = 1
       MTAG%L_DAM   = 2
@@ -753,7 +753,7 @@ c-----------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . . .=',I10/)
  1060 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      & 5X,40HYOUNG'S MODULUS E11 . . . . . . . . . .=,E12.4/,
      & 5X,40HYOUNG'S MODULUS E22 . . . . . . . . . .=,E12.4/,
@@ -826,9 +826,9 @@ c-----------
      & 5X,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1'/,
      & 5X,'         OR'/,
      & 5X,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 2'/,
-     & 5X,' IOFF=6: SHELL DELETE IF FOR EACH LAYER :'/, 
+     & 5X,' IOFF=6: SHELL DELETE IF FOR EACH LAYER :'/,
      & 5X,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1 OR 2'//,
-     & 5X,' DIRECTIONAL WPMAX FAILURE FORMULATION    =', I10 //,     
+     & 5X,' DIRECTIONAL WPMAX FAILURE FORMULATION    =', I10 //,
      & 5X,'LAYER FAILURE RATIO FOR ELEMENT DELETION. =',E12.4 )
      )
  1810 FORMAT(

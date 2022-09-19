@@ -65,9 +65,9 @@ C-----------------------------------------------
      .        OFFSET_IGBUFSSG, OFFSET_NUMFAKENOD, ITSURF
 C     REAL
       my_real
-     .   AV1,CV1, VOL(NUMELIG3D), 
+     .   AV1,CV1, VOL(NUMELIG3D),
      .   VNIGE(NUMFAKENODIGEO), BNIGE(NUMFAKENODIGEO)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF 
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------------------------------
 C 
 C     isogeometric elements :
@@ -91,7 +91,7 @@ c
             AV1 = VOL(IEL)/56
             CV1 = PM(32,KXIG3D(1,IEL))*AV1
             DO K=1,4
-              NUMFAKECP=IGRSURF(ITSURF)%NODES_IGE(J,K) 
+              NUMFAKECP=IGRSURF(ITSURF)%NODES_IGE(J,K)
               VNIGE(NUMFAKECP-NUMNOD)=VNIGE(NUMFAKECP-NUMNOD)+AV1
               BNIGE(NUMFAKECP-NUMNOD)=BNIGE(NUMFAKECP-NUMNOD)+CV1
             ENDDO

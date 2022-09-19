@@ -67,7 +67,7 @@ C-----------------------------------------------
 
       INTEGER :: NB_RESULT
       INTEGER RESULT(*)
-                        
+
       IF( CLAUSE_OPERATOR == SET_ADD) THEN
            CALL UNION_2_SORTED_SETS( SET_ENTITY, NB_SET_ENTITY  ,
      *                               CLAUSE_ENTITY, NB_CLAUSE_ENTITY ,
@@ -79,7 +79,7 @@ C-----------------------------------------------
      *                                     CLAUSE_ENTITY, NB_CLAUSE_ENTITY ,
      *                                     RESULT,        NB_RESULT      )
       ENDIF
-         
+
       IF( CLAUSE_OPERATOR == SET_INTERSECT) THEN
            CALL INTERSECT_2_SORTED_SETS ( SET_ENTITY, NB_SET_ENTITY  ,
      *                                    CLAUSE_ENTITY, NB_CLAUSE_ENTITY ,

@@ -72,7 +72,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE STARTER0   
+      SUBROUTINE STARTER0
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
       USE SUBMODEL_MOD
@@ -158,10 +158,10 @@ C
       CHARACTER ALTDOCTAG*256,CHECKSUM*256
       CHARACTER*2048 FNAME,VAL
 C
-      CHARACTER*ncharline ERR_MSG  
+      CHARACTER*ncharline ERR_MSG
       CHARACTER(len=8)  :: STARTDATE
       CHARACTER(len=10) :: STARTTIME
-      CHARACTER(len=2048) :: TMP_NAME 
+      CHARACTER(len=2048) :: TMP_NAME
 C
       my_real
      .   UNITE, RTITR
@@ -173,7 +173,7 @@ C
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER  ANEND      
+      INTEGER  ANEND
 C--------------------------------------------------------
 C     LAM MAX LENGTH REAL ARRAY
 C     LMA MAX LENGTH INTEGER ARRAY
@@ -190,14 +190,14 @@ C First task check the exec arguments (fill common)
 C -------------------------------------------------
 C     Constants
       CALL INICONSTANT
-    
+
 C     timers initialization
       CALL INITIME()
 C=======================================================================
 C while waiting IOUT to be initialized set to stdout 
 C Needs to be done in the early beginning
 C ===================================================    
-      IOUT=6 
+      IOUT=6
       ISTDO=6
 C=======================================================================
       CALL  RADIOSS_TITLE(ISTDO,CPUNAM,ARCHTITLE,
@@ -240,11 +240,11 @@ C-------------------------------------------------------------------
       ENDIF
 
 !     ----------------------------
-!     if -infile or outfile cdl are used, then one needs to change $TMPDIR 
+!     if -infile or outfile cdl are used, then one needs to change $TMPDIR
 !     in order to write all scratch files in the user folder
       IF(INOUT_BOOL) CALL RADIOSS_SET_ENV_VARIABLE(OUTFILE_NAME , OUTFILE_NAME_LEN)
 !     ----------------------------
-      CALL DATE_AND_TIME(STARTDATE,STARTTIME) 
+      CALL DATE_AND_TIME(STARTDATE,STARTTIME)
 c
       RES_MES = 123456
       RES_TMP = 123457
@@ -256,7 +256,7 @@ C
 C
       CALL INI_MSG()
       CALL BUILD_MSG()
-      CALL CHECK_MESSAGE_DEFINITION() 
+      CALL CHECK_MESSAGE_DEFINITION()
 C-------------------------------------------------------------------
 C     initialization for Analyse Module
 C-------------------------------------------------------------------
@@ -326,7 +326,7 @@ C Dynamical Libaries initialization
           DLIBFILE_SIZE=LEN_TRIM(DLIBFILE)
         ENDIF
         USERL_AVAIL=0
-#ifndef SANITIZE 
+#ifndef SANITIZE
         CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,
      *                        DLIBTKVERS,IRESP,GOT_USERL_ALTNAME)
 C------------------------------------------------
@@ -334,7 +334,7 @@ C Mds lib initialization
 C------------------------------------------------
 #ifdef DNC
        CALL MDS_USERLIB_INIT (IRESP,
-     .                        MDS_AVAIL, 
+     .                        MDS_AVAIL,
      .                        MDS_VER,
      .                        MDS_PATH,
      .                        MDS_PATH_LEN)
@@ -345,7 +345,7 @@ C------------------------------------------------
 C-----------------------------------------------------
 C Avoid linking issue with dynamical libraries
         IERR=0
-        CALL ST_UACCESS_DUM(IERR)      
+        CALL ST_UACCESS_DUM(IERR)
         CALL ST_UTABLE_DUM(IERR)
 C-----------------------------------------------------
 C     initializations
@@ -446,7 +446,7 @@ C
        FILNAM  =OUTFILE_NAME(1:OUTFILE_NAME_LEN)//ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
        OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
      .     ACCESS='SEQUENTIAL',
-     .     FORM='FORMATTED',STATUS='UNKNOWN')     
+     .     FORM='FORMATTED',STATUS='UNKNOWN')
       ENDIF
       CALL TITRE1
 C------------------------------------------------
@@ -490,9 +490,9 @@ C new composite shell pid max nbs 200
       NPARI  = 100
       NPARIR=46
       LFXVELR = 9
-      NIBCLD = 8 
+      NIBCLD = 8
       LFACCLD = 2
-      NIGRV   = 6 
+      NIGRV   = 6
       LFACGRV = 2
       LFACLOAD = 12
       LUNIT   = 4
@@ -591,7 +591,7 @@ C
       IDLT_FRAME_AUTO   = 1000000000
       ID_TH_AUTO        = 1000000000
       ID_LINE_AUTO      = 1000000000
-      ID_INTER_AUTO     = 1000000000 
+      ID_INTER_AUTO     = 1000000000
       ID_UNIT_AUTO      = 1000000000
 C
       NEXMAD=0
@@ -671,8 +671,8 @@ C------------------------------------------------
         CLOSE(IOUT)
         CALL CPP_PRINT_PARAMETERS(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
         OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
-     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND") 
-      ENDIF 
+     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")
+      ENDIF
 C-------------------------------------------------------------------
 C     Keyword mapping header output ( DYNA to RADIOSS)
 C-------------------------------------------------------------------
@@ -681,7 +681,7 @@ C-------------------------------------------------------------------
           CLOSE(IOUT)
           CALL CPP_PRINT_DYNA(FILNAM,ROOTLEN+9+OUTFILE_NAME_LEN)
           OPEN(UNIT=IOUT,FILE=FILNAM(1:ROOTLEN+9+OUTFILE_NAME_LEN),
-     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")   
+     .    ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN',POSITION="APPEND")
           WRITE(IOUT,'(A)')''
           WRITE(IOUT,'(A)')''
           WRITE(IOUT,'(A)')'************************************************************************'
@@ -755,7 +755,7 @@ c Get max ids in the input deck
       CALL HM_GET_MAX_ID('/SPRING',IDMAX_ELEM,LSUBMODEL)
       CALL HM_GET_MAX_ID('/TH',IDMAX_TH,LSUBMODEL)
 c 2d seatbelt translation
-      IF (NB_SEATBELT_SHELLS > 0) 
+      IF (NB_SEATBELT_SHELLS > 0)
      .  CALL HM_CONVERT_2D_ELEMENTS_SEATBELT(IDMAX_PART,IDMAX_PROP,IDMAX_MAT,IDMAX_ELEM,IDMAX_TH,
      .                                           SEATBELT_CONVERTED_ELEMENTS,NB_SEATBELT_SHELLS,LSUBMODEL)
 C-------------------------------------------------------------------
@@ -795,7 +795,7 @@ C-----------------------------------------------------
        ELSEIF (IRFORM/5==2) THEN
 C restart file with binary format ieee 64 bits
         DO I=1,OUTFILE_NAME_LEN
-            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
+            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))
         ENDDO
         DO I=1,ROOTLEN+14
           IFILNAM(OUTFILE_NAME_LEN+I)=ICHAR(FILNAM(I:I))
@@ -806,7 +806,7 @@ C restart file with binary format ieee 64 bits
        ELSEIF (IRFORM/5==3) THEN
 C restart file with binary format ieee 64 bits .Z
         DO I=1,OUTFILE_NAME_LEN
-            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
+            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))
         ENDDO
         DO I=1,ROOTLEN+14
           IFILNAM(OUTFILE_NAME_LEN+I)=ICHAR(FILNAM(I:I))
@@ -817,7 +817,7 @@ C restart file with binary format ieee 64 bits .Z
        ELSEIF (IRFORM/5==4) THEN
 C restart writen file with binary format ieee 64 bits .gz
         DO I=1,OUTFILE_NAME_LEN
-            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))     
+            IFILNAM(I)=ICHAR(OUTFILE_NAME(I:I))
         ENDDO
         DO I=1,ROOTLEN+14
           IFILNAM(OUTFILE_NAME_LEN+I)=ICHAR(FILNAM(I:I))
@@ -873,11 +873,11 @@ C --------------------------------------------------
 
       ENDIF
 C
-      IF(ALLOCATED(SEATBELT_CONVERTED_ELEMENTS)) DEALLOCATE(SEATBELT_CONVERTED_ELEMENTS)  
+      IF(ALLOCATED(SEATBELT_CONVERTED_ELEMENTS)) DEALLOCATE(SEATBELT_CONVERTED_ELEMENTS)
 C
       IF (IERR==0)THEN
         !   -----------------------------
-        !   write the message only if restart 
+        !   write the message only if restart
         !   files are generated
         IF(RESTART_FILE==1) THEN
             IF(IMACH/=3) THEN

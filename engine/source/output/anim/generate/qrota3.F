@@ -98,7 +98,7 @@ C-----------
           SUMA = SQRT(CS/MAX(EM20,CT))
           SY = SY + TZ*SUMA
           SZ = SZ - TY*SUMA
-        END IF 
+        END IF
         SUMA=ONE/MAX(SQRT(SY*SY+SZ*SZ),EM20)
         SY=SY*SUMA
         SZ=SZ*SUMA
@@ -143,7 +143,7 @@ C-----------
             R23=T23
             R32=T32
             R33=T33
-          ENDIF             
+          ENDIF
         END IF
 C-----------
 C       SIZE(TENS)=6 ON STOCKE COMME DES SOLIDES MAIS ON N'UTILISE QUE 1, 2 et 4

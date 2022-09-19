@@ -131,11 +131,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IU,ID
       CHARACTER MESS*40
-      INTEGER ITABM1(*)     
+      INTEGER ITABM1(*)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER R2R_SYS      
+      INTEGER R2R_SYS
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -151,7 +151,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER JINF, JSUP, J, NN
-      
+
       J = -1
       CALL C_HASH_FIND(H_NODE,IU,J)
       USR2SYS = J
@@ -179,7 +179,7 @@ C-----  ------------------------------------------------------
      .                  I1=ID,
      .                  I2=IU)
             USR2SYS=0
-          ENDIF      
+          ENDIF
           RETURN
         ENDIF
         IF((IU-ITABM1(J))==0)THEN
@@ -345,11 +345,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IU, JINDEX
       CHARACTER MESS*40
-      INTEGER ITABM1(*)     
+      INTEGER ITABM1(*)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER R2R_SYS      
+      INTEGER R2R_SYS
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -386,7 +386,7 @@ C-----------------------------------------------------------
      .                C1=MESS,
      .                I1=IU)
           USR2SYS2=0
-        ENDIF     
+        ENDIF
         RETURN
       ENDIF
       IF((IU-ITABM1(J))==0)THEN
@@ -550,7 +550,7 @@ C-----------------------------------------------
 C remonte la declaration des entiers pour la compile sur Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
       CHARACTER MESS*40
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -579,7 +579,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-        CALL UDOUBL2(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST) 
+        CALL UDOUBL2(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -676,7 +676,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER INDEX(NLIST,3),LIST(ILIST,NLIST)
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -765,7 +765,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-        CALL NEWDBL2(INDEX,NLIST,LIST,ILIST,TAB,ERRID,STATUS,NOM_OPT) 
+        CALL NEWDBL2(INDEX,NLIST,LIST,ILIST,TAB,ERRID,STATUS,NOM_OPT)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -879,7 +879,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
       CHARACTER MESS*40
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -907,7 +907,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-      CALL VDOUBL2(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST) 
+      CALL VDOUBL2(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -939,7 +939,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER INDEX(NLIST,3),LIST(ILIST,NLIST)
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -1002,7 +1002,7 @@ C-----------------------------------------------
 C remonte la declaration des entiers pour la compile sur Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
       CHARACTER MESS*40
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1031,7 +1031,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-        CALL UDOUBL2_WO_TITLE(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST) 
+        CALL UDOUBL2_WO_TITLE(INDEX,NLIST,MESS,LIST,ILIST,IR,RLIST)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -1064,7 +1064,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER INDEX(NLIST,3),LIST(ILIST,NLIST)
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -1128,7 +1128,7 @@ C-----------------------------------------------
 C remonte la declaration des entiers pour la compile sur Compaq
       INTEGER ILIST,NLIST,LIST(ILIST,NLIST),IR
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
       CHARACTER MESS*40,MESS2*40
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1157,7 +1157,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-        CALL UDOUBL3(INDEX,NLIST,MESS,MESS2,LIST,ILIST,IR,RLIST) 
+        CALL UDOUBL3(INDEX,NLIST,MESS,MESS2,LIST,ILIST,IR,RLIST)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -1190,7 +1190,7 @@ C-----------------------------------------------
       CHARACTER MESS*40,MESS2*40
       INTEGER INDEX(NLIST,3),LIST(ILIST,NLIST)
       my_real
-     .    RLIST(ILIST,NLIST)     
+     .    RLIST(ILIST,NLIST)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -1263,7 +1263,7 @@ C-----------------------------------------------
 C remonte la declaration des entiers pour la compile sur Compaq
       INTEGER NLIST,LIST(NLIST),IR
       my_real
-     .    RLIST(NLIST)     
+     .    RLIST(NLIST)
       CHARACTER MESS*40
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1292,7 +1292,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-        CALL UDOUBL2_IGR(INDEX,NLIST,MESS,LIST,IR,RLIST) 
+        CALL UDOUBL2_IGR(INDEX,NLIST,MESS,LIST,IR,RLIST)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -1320,7 +1320,7 @@ C-----------------------------------------------
 C remonte la declaration des entiers pour la compile sur Compaq
       INTEGER NLIST,LIST(NLIST),IR
       my_real
-     .    RLIST(NLIST)     
+     .    RLIST(NLIST)
       CHARACTER MESS*40
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1349,7 +1349,7 @@ C-----------------------------------------------
 #else
         CALL MY_ALLOC(IINDEX,3*NLIST,0)
 #endif
-        CALL UDOUBL2_SET(INDEX,NLIST,MESS,LIST,IR,RLIST) 
+        CALL UDOUBL2_SET(INDEX,NLIST,MESS,LIST,IR,RLIST)
 #if CPP_comp == f90
          DEALLOCATE(INDEX)
 #else
@@ -1382,7 +1382,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER INDEX(NLIST,3),LIST(NLIST)
       my_real
-     .    RLIST(NLIST)     
+     .    RLIST(NLIST)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -1449,7 +1449,7 @@ C-----------------------------------------------
       CHARACTER MESS*40
       INTEGER INDEX(NLIST,3),LIST(NLIST)
       my_real
-     .    RLIST(NLIST)     
+     .    RLIST(NLIST)
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------

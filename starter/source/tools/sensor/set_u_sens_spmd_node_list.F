@@ -29,9 +29,9 @@ Chd|====================================================================
         INTEGER FUNCTION SET_U_SENS_SPMD_NODE_LIST(ARRAY,SIZE_ARRAY)
 !$COMMENT
 !       SET_U_SENS_SPMD_NODE_LIST description
-!       user function : save in a Radioss buffer 
+!       user function : save in a Radioss buffer
 !                       a list of node
-!       
+!
 !       SET_U_SENS_SPMD_NODE_LIST organization :
 !           - check if the size of %NODE_LIST is sufficient
 !             and reallocate the array if the size is not sufficient

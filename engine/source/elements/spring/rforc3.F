@@ -146,7 +146,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGL(MVSIZ),MGN(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),IEQUIL(MVSIZ)
 C     REAL
-      my_real 
+      my_real
      .   STI(3,MVSIZ),STIR(3,MVSIZ),VISI(MVSIZ),VISIR(MVSIZ),
      .   USTI(MVSIZ),USTIR(MVSIZ),DF(MVSIZ),AL(MVSIZ),UNUSED(MVSIZ),
      .   UINER(MVSIZ),FR_W_E(MVSIZ),OFF(MVSIZ),BID
@@ -401,7 +401,7 @@ C
         DO I=JFT,JLT
           IF (GBUF%OFF(I) /= -TEN .AND. OFF(I) < ONE) GBUF%OFF(I) = OFF(I)
         ENDDO
-        
+
         CALL RSENS_NIC(NEL   ,IXR    ,GBUF%FOR,GBUF%MOM,SKEW  ,SENSOR_TAB)
 C
         CALL R2LEN3(JFT     ,JLT    ,GBUF%OFF  ,DT2T   ,NELTST ,
@@ -614,7 +614,7 @@ C
      8 GBUF%MOMEP(II(3))      ,GBUF%ROT_IN_COMP(II(1)),GBUF%ROT_IN_COMP(II(2)),GBUF%ROT_IN_COMP(II(3)),ANIM                   ,
      9 GBUF%POSX              ,GBUF%POSY              ,GBUF%POSZ              ,GBUF%POSXX             ,GBUF%POSYY             ,
      A GBUF%POSZZ             ,FR_WAVE                ,GBUF%E6                ,NEL                    ,AL2DP                  ,
-     K EXX2                   ,EYX2                   ,EZX2                   ,EXY2                   ,EYY2                   ,      
+     K EXX2                   ,EYX2                   ,EZX2                   ,EXY2                   ,EYY2                   ,
      L EZY2                   ,EXZ2                   ,EYZ2                   ,EZZ2                   ,IGEO                   ,
      M GBUF%LENGTH_ERR        ,ALDP                   ,GBUF%YIELD(II(1))      ,GBUF%YIELD(II(2))      ,GBUF%YIELD(II(3))      ,
      N GBUF%YIELD(II(4))      ,NGL                    ,MGN                    ,XCR                    ,RX1                    ,
@@ -695,8 +695,8 @@ C
           DO I=1,NEL
              USER_EINT(I) = GBUF%EINT(I)
 
-             USER_FX(I) = GBUF%FOR(II(1)+I-1)   
-             USER_FY(I) = GBUF%FOR(II(2)+I-1)   
+             USER_FX(I) = GBUF%FOR(II(1)+I-1)
+             USER_FY(I) = GBUF%FOR(II(2)+I-1)
              USER_FZ(I) = GBUF%FOR(II(3)+I-1)
 C
              USER_MOMX(I) = GBUF%MOM(II(1)+I-1)
@@ -716,7 +716,7 @@ C
         ENDIF
 
 
-        IF (IGTYP == 29) THEN     
+        IF (IGTYP == 29) THEN
 
           IF (USERL_AVAIL>0) THEN
             CALL ENG_USERLIB_RUSER(IGTYP,
@@ -1057,11 +1057,11 @@ C
         ENDDO
 C
         CALL RUSER44(
-     1 NEL                  ,IOUT                 ,I0                  ,GBUF%VAR            ,NUVAR                ,      
-     2 GBUF%FOR(II(1))      ,GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,  
-     3 GBUF%MOM(II(3))      ,GBUF%EINT            ,OFF                 ,USTI                ,USTIR                ,  
-     4 VISI                 ,VISIR                ,UNUSED              ,UINER               ,DT1                  ,  
-     5 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),  
+     1 NEL                  ,IOUT                 ,I0                  ,GBUF%VAR            ,NUVAR                ,
+     2 GBUF%FOR(II(1))      ,GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,
+     3 GBUF%MOM(II(3))      ,GBUF%EINT            ,OFF                 ,USTI                ,USTIR                ,
+     4 VISI                 ,VISIR                ,UNUSED              ,UINER               ,DT1                  ,
+     5 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
      6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              )
 C
         DO I=JFT,JLT
@@ -1133,12 +1133,12 @@ C
           OFF(I)=MIN(ONE,ABS(GBUF%OFF(I)))
         ENDDO
 C
-        CALL RUSER46(                                         
-     1 NEL                  ,IOUT                 ,I0                  ,GBUF%VAR            ,NUVAR                ,      
-     2 GBUF%FOR(II(1))      ,GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,  
-     3 GBUF%MOM(II(3))      ,GBUF%EINT            ,OFF                 ,USTI                ,USTIR                ,  
-     4 VISI                 ,VISIR                ,UNUSED              ,UINER               ,DT1                  ,  
-     5 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),  
+        CALL RUSER46(
+     1 NEL                  ,IOUT                 ,I0                  ,GBUF%VAR            ,NUVAR                ,
+     2 GBUF%FOR(II(1))      ,GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,
+     3 GBUF%MOM(II(3))      ,GBUF%EINT            ,OFF                 ,USTI                ,USTIR                ,
+     4 VISI                 ,VISIR                ,UNUSED              ,UINER               ,DT1                  ,
+     5 AL                   ,GBUF%V_REPCVT(II(1)) ,GBUF%V_REPCVT(II(2)),GBUF%V_REPCVT(II(3)),GBUF%VR_REPCVT(II(1)),
      6 GBUF%VR_REPCVT(II(2)),GBUF%VR_REPCVT(II(3)),FR_W_E              )
 C
         DO I=JFT,JLT
@@ -1227,7 +1227,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX, FLAG
       my_real
-     .   REINTT 
+     .   REINTT
       my_real
      .   X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),
      .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
@@ -1235,7 +1235,7 @@ C-----------------------------------------------
      .   VR1(MVSIZ,3),VR2(MVSIZ,3),
      .   IN2,EI(MVSIZ),REK(MVSIZ),
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ), XMAS2(MVSIZ),
-     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
+     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),RBIDON(1),OFF(MVSIZ),
@@ -1373,7 +1373,7 @@ C COQUE          PARTSAV(21,MX)=PARTSAV(21,MX) + REI(I)
         ENDDO
       ENDIF
       OFF(1:MVSIZ) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK)  
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK)
 C---
       RETURN
       END
@@ -1415,7 +1415,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XL(*), VX2L(*),RY1L(*), RZ1L(*), RX2L(*), RY2L(*), RZ2L(*),
-     .   FR_WAVE(*) ,FR_W_E(*),EINT(*) ,  
+     .   FR_WAVE(*) ,FR_W_E(*),EINT(*) ,
      .   FX(*), FY(*), FZ(*), XMOM(*), YMOM(*),ZMOM(*),PARTSAV(NPSAV,*),
      .   EXX(MVSIZ), EYX(MVSIZ), EZX(MVSIZ),
      .   EXY(MVSIZ), EYY(MVSIZ), EZY(MVSIZ),
@@ -1466,8 +1466,8 @@ C     Energy
 C--------------------------------------------
       DO I=LFT,LLT
         EINT(I) = EINT(I)
-     .+ HALF*DT1 * (VX2L(I) * FX(I) + RX2L(I) * XMOM(I) 
-     .          + (RY2L(I) - RY1L(I)) * YMOM(I) 
+     .+ HALF*DT1 * (VX2L(I) * FX(I) + RX2L(I) * XMOM(I)
+     .          + (RY2L(I) - RY1L(I)) * YMOM(I)
      .          + (RZ2L(I) - RZ1L(I)) * ZMOM(I)
      .          + HALF * (RY2L(I) + RY1L(I)) * FZ(I) * XL(I)
      .          - HALF * (RZ2L(I) + RZ1L(I)) * FY(I) * XL(I) )
@@ -1478,7 +1478,7 @@ C
           MX = IPARTR(I)
           PARTSAV(23,MX)=PARTSAV(23,MX)
      .          + HALF*DT1 * (RX2L(I) * XMOM(I)
-     .          + (RY2L(I) - RY1L(I)) * YMOM(I) 
+     .          + (RY2L(I) - RY1L(I)) * YMOM(I)
      .          + (RZ2L(I) - RZ1L(I)) * ZMOM(I)
      .          + HALF * (RY2L(I) + RY1L(I)) * FZ(I) * XL(I)
      .          - HALF * (RZ2L(I) + RZ1L(I)) * FY(I) * XL(I) )
@@ -1544,7 +1544,7 @@ C-----------------------------------------------
       my_real DT2T,
      .   OFF(*), STI(3,*), STIR(3,*), MS(*), IN(*),
      .   USTI(*) ,USTIR(*), VISI(*) ,VISIR(*)  ,UMAS(*) ,
-     .   UINER(*),FR_WAVE(*) ,FR_W_E(*) ,EINT(*) ,  
+     .   UINER(*),FR_WAVE(*) ,FR_W_E(*) ,EINT(*) ,
      .   FX(*), FY(*), FZ(*), XMOM(*), YMOM(*),ZMOM(*),XL(*),
      .   VX(*), RY1(*), RZ1(*), RX(*), RY2(*), RZ2(*),PARTSAV(NPSAV,*),
      .   MSRT(*), DMELRT(*)
@@ -1553,7 +1553,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX
       my_real
-     .   DT(MVSIZ), DTC(MVSIZ), 
+     .   DT(MVSIZ), DTC(MVSIZ),
      .     DTINV, A, MASS2, IN2, DTA, DTB, MX2
 C--------------------------------------------
 C     OFF
@@ -1572,7 +1572,7 @@ C--------------------------------------------
       DO I=JFT,JLT
         EINT(I) = EINT(I)
      .+ HALF*DT1 * (VX(I) * FX(I) + RX(I) * XMOM(I)
-     .          + (RY2(I) - RY1(I)) * YMOM(I) 
+     .          + (RY2(I) - RY1(I)) * YMOM(I)
      .          + (RZ2(I) - RZ1(I)) * ZMOM(I)
      .          + HALF * (RY2(I) + RY1(I)) * FZ(I) * XL(I)
      .          - HALF * (RZ2(I) + RZ1(I)) * FY(I) * XL(I) )
@@ -1581,8 +1581,8 @@ C--------------------------------------------
         DO I=JFT,JLT
           MX = IPARTR(I)
           PARTSAV(23,MX)=PARTSAV(23,MX)
-     .          + HALF*DT1 * (RX(I) * XMOM(I) 
-     .          + (RY2(I) - RY1(I)) * YMOM(I) 
+     .          + HALF*DT1 * (RX(I) * XMOM(I)
+     .          + (RY2(I) - RY1(I)) * YMOM(I)
      .          + (RZ2(I) - RZ1(I)) * ZMOM(I)
      .          + HALF * (RY2(I) + RY1(I)) * FZ(I) * XL(I)
      .          - HALF * (RZ2(I) + RZ1(I)) * FY(I) * XL(I) )
@@ -1612,8 +1612,8 @@ C--------------------------------------------
         IF (DT1 == ZERO)THEN
           DO I=JFT,JLT
             IF (VISIR(I) < EM15) UINER(I) =ONE
-            STI(1,I)  = USTI(I) 
-            STIR(1,I) = USTIR(I) 
+            STI(1,I)  = USTI(I)
+            STIR(1,I) = USTIR(I)
             IF (UMAS(I) > EM15)
      .         STI(1,I) = STI(1,I) + FOUR*VISI(I)**2 / UMAS(I)
             IF (UINER(I) > EM15)
@@ -1678,7 +1678,7 @@ C
           STIR(1,I) = ZERO
           STIR(2,I) = ZERO
           IF (DT(I) == ZERO) DT(I)=DTC(I)
-          IF (OFF(I) <= ZERO) CYCLE     
+          IF (OFF(I) <= ZERO) CYCLE
           STI(1,I) = UMAS(I) / DT(I)**2
           STI(2,I) = STI(1,I)
         ENDDO

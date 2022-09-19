@@ -65,7 +65,7 @@ C-----------------------------------------------
       DATA MSGOFF/10002/
       DATA MSGOFF2/10002/
       INTEGER BUFF_I(4)
-      my_real BUFF_R(5)      
+      my_real BUFF_R(5)
 
        IF (ISPMD/=0) THEN
          BUFF_I(1) = STATE_INIMAP_BUF(1)%NUM_CENTROIDS
@@ -78,27 +78,27 @@ C-----------------------------------------------
          BUFF_R(3) = STATE_INIMAP_BUF(1)%SHIFT_Cy
          BUFF_R(4) = STATE_INIMAP_BUF(1)%SHIFT_Nz
          BUFF_R(5) = STATE_INIMAP_BUF(1)%SHIFT_Cz
-         
-         MSGTYP = MSGOFF2 
+
+         MSGTYP = MSGOFF2
          CALL MPI_SEND(BUFF_I, 4,MPI_INTEGER,IT_SPMD(1),MSGTYP,MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFF_R, 5,       REAL,IT_SPMD(1),MSGTYP,MPI_COMM_WORLD,ierror)
-          
+
        ELSE
 
           DO I=2,NSPMD
 
            !Reception du buffer entier des adresses DATA_I
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
             CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)
             CALL MPI_RECV(BUFF_I,4,MPI_INTEGER,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
-            
+
             ! Reception du buffer flottant double des adresses DATA_I
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV(BUFF_R,5,REAL,IT_SPMD(I),MSGTYP,MPI_COMM_WORLD,STATUS,ierror)
-            
+
             STATE_INIMAP_BUF(I)%NUM_CENTROIDS = BUFF_I(1)
             STATE_INIMAP_BUF(I)%NUM_POINTS = BUFF_I(2)
             STATE_INIMAP_BUF(I)%MLW = BUFF_I(3)
@@ -109,7 +109,7 @@ C-----------------------------------------------
             STATE_INIMAP_BUF(I)%SHIFT_Cy = BUFF_R(3)
             STATE_INIMAP_BUF(I)%SHIFT_Nz = BUFF_R(4)
             STATE_INIMAP_BUF(I)%SHIFT_Cz = BUFF_R(5)
-                       
+
           ENDDO
 
        ENDIF

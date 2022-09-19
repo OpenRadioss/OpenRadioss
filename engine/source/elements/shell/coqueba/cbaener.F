@@ -36,13 +36,13 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NEL
-       my_real 
-     .     VOL(*),OFF(*), EXY(*) ,FORPG(NEL,5),EINT(NEL,2) 
+       my_real
+     .     VOL(*),OFF(*), EXY(*) ,FORPG(NEL,5),EINT(NEL,2)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I 
-        my_real  THOFF 
+        INTEGER I
+        my_real  THOFF
 C=======================================================================
         DO I=JFT,JLT
           THOFF = HALF* OFF(I)*VOL(I)
@@ -72,13 +72,13 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NEL
-       my_real 
-     .     AREA(*),THK0(*),OFF(*), DEF(MVSIZ,8) ,FORPG(NEL,5),EINT(NEL,2),DT 
+       my_real
+     .     AREA(*),THK0(*),OFF(*), DEF(MVSIZ,8) ,FORPG(NEL,5),EINT(NEL,2),DT
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-        INTEGER I 
-        my_real  THOFF 
+        INTEGER I
+        my_real  THOFF
 C
         DO I=JFT,JLT
           THOFF = OFF(I)* AREA(I)*THK0(I)*DT*HALF

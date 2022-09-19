@@ -56,8 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       WRITE(MESS,'(A,I10,A)') 'INTERFACE ',INTID,' SORTING'
 
-        CALL ANCMSG(MSGID=19,ANMODE=ANINFO, 
-     .              C1=MESS)    
+        CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
+     .              C1=MESS)
       CALL ARRET(2)
 
       END
@@ -93,8 +93,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       WRITE(MESS,'(A,I10,A)') 'INTERFACE ',INTID,' SLIDING'
 
-        CALL ANCMSG(MSGID=19,ANMODE=ANINFO, 
-     .              C1=MESS)    
+        CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
+     .              C1=MESS)
       CALL ARRET(2)
 
       END

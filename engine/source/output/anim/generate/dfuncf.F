@@ -76,10 +76,10 @@ C     REAL
       my_real
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
-     .   FOR, AREA, FEQ, EPLAS    
+     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,
+     .   FOR, AREA, FEQ, EPLAS
       INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
+     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
      .        NB16, LLL,NUVAR,IGTYP,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
@@ -93,13 +93,13 @@ C-----------------------------------------------
 C
       NN1 = 1
       NN3 = 1
-      NN4 = NN3 
-      NN5 = NN4 
-      NN6 = NN5 
+      NN4 = NN3
+      NN5 = NN4
+      NN6 = NN5
       NN7 = NN6 + NUMELT
       NN8 = NN7 + NUMELP
       NN9 = NN8 + NUMELR
-      NN10= NN9 
+      NN10= NN9
 C
       DO NG=1,NGROUP
         MLW   =IPARG(1,NG)
@@ -131,7 +131,7 @@ C-----------------------------------------------
             ENDDO
            ELSE
             DO  I=LFT,LLT
-              N = I + NFT 
+              N = I + NFT
               FUNC(EL2FA(NN6+N)) = ZERO
             ENDDO
            ENDIF
@@ -149,24 +149,24 @@ C-----------------------------------------------
              FEQ = FOR*FOR
              FUNC(EL2FA(NN6+N)) = SQRT(FEQ)/AREA
             ENDDO
-          ELSEIF(IFUNC==14)THEN  
+          ELSEIF(IFUNC==14)THEN
             DO I=LFT,LLT
-             N = I + NFT                   
+             N = I + NFT
              FUNC(EL2FA(NN6+N)) = GBUF%FOR(I) / GBUF%AREA(I)
             ENDDO
-          ELSEIF(IFUNC==20)THEN 
-            IF(GBUF%G_DT>0)THEN                      
+          ELSEIF(IFUNC==20)THEN
+            IF(GBUF%G_DT>0)THEN
               DO I=LFT,LLT
                 N = I + NFT
                 FUNC(EL2FA(NN6+N)) = GBUF%DT(I)
-             ENDDO 
+             ENDDO
             ENDIF
-          ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN                       
+          ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN
               DO I=LFT,LLT
                 N = I + NFT
                 FUNC(EL2FA(NN6+N)) = GBUF%ISMS(I)
-              ENDDO              
-          ELSEIF (IFUNC == 22) THEN 
+              ENDDO
+          ELSEIF (IFUNC == 22) THEN
             DO I=LFT,LLT
               N = I + NFT
               IF (GBUF%G_OFF > 0) THEN
@@ -178,12 +178,12 @@ C-----------------------------------------------
                   FUNC(EL2FA(NN6+N)) = -ONE
                 ENDIF
               ENDIF
-            ENDDO   
-          ELSEIF (IFUNC == 123) THEN 
+            ENDDO
+          ELSEIF (IFUNC == 123) THEN
             DO I=LFT,LLT
               N = I + NFT
               FUNC(EL2FA(NN6+N)) = GBUF%STRA(I)
-            ENDDO   
+            ENDDO
           ELSE
             DO I=LFT,LLT
              N = I + NFT
@@ -260,17 +260,17 @@ C-----------------------------------------------
              N = I + NFT
              FUNC(EL2FA(NN7+N)) = GBUF%FOR(JJ(3)+I) / GEO(1,IXP(5,N))
             ENDDO
-          ELSEIF(IFUNC==20)THEN                       
+          ELSEIF(IFUNC==20)THEN
             DO I=LFT,LLT
               N = I + NFT
               FUNC(EL2FA(NN7+N)) = GBUF%DT(I)
             ENDDO
-          ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN                       
+          ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN
               DO I=LFT,LLT
                 N = I + NFT
                 FUNC(EL2FA(NN7+N)) = GBUF%ISMS(I)
-              ENDDO        
-          ELSEIF (IFUNC == 22) THEN 
+              ENDDO
+          ELSEIF (IFUNC == 22) THEN
             DO I=LFT,LLT
               N = I + NFT
               IF (GBUF%G_OFF > 0) THEN
@@ -282,8 +282,8 @@ C-----------------------------------------------
                   FUNC(EL2FA(NN7+N)) = -ONE
                 ENDIF
               ENDIF
-            ENDDO              
-          ELSEIF (IFUNC >= 23 .AND. IFUNC <= 122) THEN   
+            ENDDO
+          ELSEIF (IFUNC >= 23 .AND. IFUNC <= 122) THEN
             IPT = MOD((IFUNC - 22), 100)
             IF (IPT == 0) IPT = 100
             IF (MLW /= 1) THEN
@@ -382,17 +382,17 @@ C             XM cannot be zero (was checked in starter).
               N = I + NFT
               FUNC(EL2FA(NN8+N)) = ANIM(N+KK)
             ENDDO
-          ELSEIF(IFUNC==20 .AND. GBUF%G_DT/=0)THEN                       
+          ELSEIF(IFUNC==20 .AND. GBUF%G_DT/=0)THEN
             DO I=LFT,LLT
               N = I + NFT
               FUNC(EL2FA(NN8+N)) = GBUF%DT(I)
             ENDDO
-          ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN                       
+          ELSEIF ((IFUNC==21).AND.(GBUF%G_ISMS>0)) THEN
               DO I=LFT,LLT
                 N = I + NFT
                 FUNC(EL2FA(NN8+N)) = GBUF%ISMS(I)
-              ENDDO       
-          ELSEIF (IFUNC == 22) THEN 
+              ENDDO
+          ELSEIF (IFUNC == 22) THEN
             DO I=LFT,LLT
               N = I + NFT
               IF (GBUF%G_OFF > 0) THEN
@@ -404,7 +404,7 @@ C             XM cannot be zero (was checked in starter).
                   FUNC(EL2FA(NN8+N)) = -ONE
                 ENDIF
               ENDIF
-            ENDDO                       
+            ENDDO
           ELSE
             DO I=LFT,LLT
              N = I + NFT
@@ -465,7 +465,7 @@ C + X-ELEMENTS
         ENDIF
           CALL SPMD_R4GET_PARTN(1,NBF2,NBPART,IADG,WAL,BUF)
       ENDIF
- 
+
       RETURN
       END
 Chd|====================================================================
@@ -485,7 +485,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -511,7 +511,7 @@ C     REAL
       INTEGER IPARG(NPARG,*),IFUNC,
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
-     .        IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,ITAGPS(*) 
+     .        IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,ITAGPS(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -521,18 +521,18 @@ C     REAL
      .   EVAR(MVSIZ),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA
-      INTEGER I,J,K,II,N,NN, NG, NEL, ISC,MLW,NN1,  
+      INTEGER I,J,K,II,N,NN, NG, NEL, ISC,MLW,NN1,
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IHBE,MPT,JJ(6)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       DO 900 NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         ISOLNOD = IPARG(28,NG)
         LFT=1
@@ -611,7 +611,7 @@ C                   ENDIF
                     NC(J+8,I) = IXS20(J,NN1)
                   ENDDO
                 ENDIF
-              ENDDO 
+              ENDDO
 C
 C-----------------------------------------------
 C             QUAD
@@ -640,7 +640,7 @@ C-----------------------------------------------
               DO J = 1,NNOD
                 NC(J,I) = IXQ(J+1,N)
               ENDDO
-            ENDDO 
+            ENDDO
 C-----------------------------------------------
 C         COQUES 3 N 4 N
 C-----------------------------------------------
@@ -648,17 +648,17 @@ C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
 c
             DO I=LFT,LLT
-              P = - (GBUF%FOR(JJ(1)+I) + GBUF%FOR(JJ(2)+I))*THIRD  
+              P = - (GBUF%FOR(JJ(1)+I) + GBUF%FOR(JJ(2)+I))*THIRD
               VALUE = P
               IF (IFUNC==2) THEN
-                S1 = GBUF%FOR(JJ(1)+I)                             
-                S2 = GBUF%FOR(JJ(2)+I)                             
-                S12= GBUF%FOR(JJ(3)+I)                             
+                S1 = GBUF%FOR(JJ(1)+I)
+                S2 = GBUF%FOR(JJ(2)+I)
+                S12= GBUF%FOR(JJ(3)+I)
                 VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                 VALUE = SQRT(VONM2)
               ENDIF
               EVAR(I) = VALUE
-            ENDDO 
+            ENDDO
 c
             IF (ITY==7) THEN
               NNOD=3
@@ -667,7 +667,7 @@ c
                 DO J = 1,NNOD
                   NC(J,I) = IXTG(J+1,N)
                 ENDDO
-              ENDDO 
+              ENDDO
             ELSEIF(ITY==3)THEN
               NNOD=4
               DO I=LFT,LLT
@@ -675,7 +675,7 @@ c
                 DO J = 1,NNOD
                   NC(J,I) = IXC(J+1,N)
                 ENDDO
-              ENDDO 
+              ENDDO
             ENDIF
 C-----------------------------------------------
 C       TRUSS
@@ -758,7 +758,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -784,7 +784,7 @@ C     REAL
       INTEGER IPARG(NPARG,*),IFUNC,
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
-     .        IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*)  
+     .        IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -796,23 +796,23 @@ C     REAL
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3,FOR,AREA,
      .   XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3,THK0,AL0
       INTEGER I,II, NG, NEL, ISC,
-     .        IADD, N, J,K, MLW,  
+     .        IADD, N, J,K, MLW,
      .        NN, MT, IMID, IALEL,IPID,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NF,
      .        OFFSET,INC,KK, IUS, NUVAR,
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,
      .        N1,N2,N3,N4,JJ(6)
-      INTEGER MLW2                
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      INTEGER MLW2
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       DO 900 NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         ISOLNOD = IPARG(28,NG)
         LFT=1
@@ -893,7 +893,7 @@ C                   ENDIF
                     NC(J+8,I) = IXS20(J,NN1)
                   ENDDO
                 ENDIF
-            ENDDO 
+            ENDDO
 C
 C-----------------------------------------------
 C         QUAD
@@ -924,24 +924,24 @@ C-----------------------------------------------
 	               DO J = 1,NNOD
 	                 NC(J,I) = IXQ(J+1,N)
                 ENDDO
-            ENDDO 
+            ENDDO
 C-----------------------------------------------
 C       COQUES 3 N 4 N
 C-----------------------------------------------
         ELSEIF(ITY==3.OR.ITY==7)THEN
            GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
-               P = -(GBUF%FOR(JJ(1)+I)+ GBUF%FOR(JJ(2)+I)) * THIRD      
+               P = -(GBUF%FOR(JJ(1)+I)+ GBUF%FOR(JJ(2)+I)) * THIRD
                 VALUE = P
                 IF(IFUNC==2) THEN
-                 S1 = GBUF%FOR(JJ(1)+I)               
-                 S2 = GBUF%FOR(JJ(2)+I)               
-                 S12= GBUF%FOR(JJ(3)+I)               
+                 S1 = GBUF%FOR(JJ(1)+I)
+                 S2 = GBUF%FOR(JJ(2)+I)
+                 S12= GBUF%FOR(JJ(3)+I)
                   VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                   VALUE = SQRT(VONM2)
                 ENDIF
                 EVAR(I) = VALUE
-            ENDDO 
+            ENDDO
 c
            IF(ITY==7)THEN
 	           NNOD=3
@@ -966,7 +966,7 @@ c
                 AREA = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
                 OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA*OFF
-            ENDDO 
+            ENDDO
            ELSEIF(ITY==3)THEN
             NNOD=4
             DO I=LFT,LLT
@@ -991,7 +991,7 @@ c
                 AREA = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
                 OFF = MIN(GBUF%OFF(I),ONE)
                 VOL(I) = THK0*AREA*OFF
-            ENDDO 
+            ENDDO
            ENDIF
 C-----------------------------------------------
 C       TRUSS

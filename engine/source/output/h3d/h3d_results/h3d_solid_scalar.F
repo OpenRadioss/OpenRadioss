@@ -52,10 +52,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD       
-      USE H3D_MOD        
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
+      USE H3D_MOD
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -135,11 +135,11 @@ C-----------------------------------------------
      .        IS_WRITTEN_VALUE(MVSIZ),NFRAC,IU(4),IV,NB_FACE,KFACE
       CHARACTER*5 BUFF
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
@@ -152,53 +152,53 @@ C-----------------------------------------------
 C
       !-------------------------------------------------------!
       !     INITIALIZATION IF SCHLIEREN DEFINED               !
-      !-------------------------------------------------------!      
+      !-------------------------------------------------------!
       IF(KEYWORD == 'SCHLIEREN')THEN
         SWA_L = MAX(IALE,ITHERM,IEULER,IALELAG)*( NUMELS + NUMELQ + NSVOIS+ NQVOIS + NSEGFLU )
         IF(.NOT.ALLOCATED(WA_L))ALLOCATE(WA_L(SWA_L)) ! work array for ANIM/ELEM/SCHLIEREN
         DO NG=1,NGROUP
-          CALL INITBUF (IPARG	 ,NG	  ,		       
-     2        MLW     ,NEL     ,NFT	,IAD	 ,ITY	  ,  
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL	 ,JTUR    ,  
-     4        JTHE    ,JLAG    ,JMULT	,JHBE	 ,JIVF    ,  
-     5        NVAUX   ,JPOR    ,JCVT	,JCLOSE  ,JPLASOL ,  
-     6        IREP    ,IINT    ,IGTYP	,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG	 ,NG	  ,		
+     2        MLW     ,NEL     ,NFT	,IAD	 ,ITY	  ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL	 ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT	,JHBE	 ,JIVF    ,
+     5        NVAUX   ,JPOR    ,JCVT	,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP	,ISRAT   ,ISROT   ,
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
-          IF (MLW /= 13) THEN	  
+          IF (MLW /= 13) THEN	
             DO OFFSET = 0,NEL-1,NVSIZ
               NFT = IPARG(3,NG) + OFFSET
               LFT=1
               LLT=MIN(NVSIZ,NEL-OFFSET)
               IALEL  = IPARG(7,NG) + IPARG(11,NG)
               IF (IALEL==0)CYCLE
-              IF (ITY == 1) THEN 
+              IF (ITY == 1) THEN
                !SOLID ELEMENTS
                IF (MLW == 151) THEN
                 WA_L(NFT+LFT:NFT+LLT) =  MULTI_FVM%RHO(NFT+LFT:NFT+LLT)
                ELSE
         	GBUF => ELBUF_TAB(NG)%GBUF
-        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)   
-               ENDIF 
+        	WA_L(NFT+LFT:NFT+LLT) = GBUF%RHO(LFT:LLT)
+               ENDIF
               ENDIF
             ENDDO
-          ENDIF!(MLW /= 13)	     
+          ENDIF!(MLW /= 13)	
         ENDDO!next NG
           !--------------------
-        CALL MY_BARRIER    
+        CALL MY_BARRIER
           !--------------------
-          !    SPMD EXCHANGE OF ADJACENT ELEMS 
+          !    SPMD EXCHANGE OF ADJACENT ELEMS
           !--------------------
-        IF(IALE+IEULER+ITHERM /= 0)THEN	     
+        IF(IALE+IEULER+ITHERM /= 0)THEN	
           LENCOM = NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
           IF (NSPMD>1) THEN
             ! Partie non parallele smt
             CALL SPMD_E1VOIS(WA_L     ,NERCVOIS,NESDVOIS,LERCVOIS,
      2      	       LESDVOIS,LENCOM  )
             ! Fin Partie non parallele smt
-          END IF         
+          END IF
           !In Case of Inter12, additional surface adjacent elems must be taken into account (3D only)
-          IOFF = 0  
-        ENDIF      
+          IOFF = 0
+        ENDIF
       ENDIF
 c
       DO 900 NG=1,NGROUP
@@ -217,7 +217,7 @@ c
      .                  MULTI_FVM       , H3D_DATA    ,NG        ,IDMDS       ,IMDSVAR     ,
      .                  MDS_MATID       )
 
- 900  CONTINUE   ! NG 
+ 900  CONTINUE   ! NG
 C-----------------------------------------------
       RETURN
       END

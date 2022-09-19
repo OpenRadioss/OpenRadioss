@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITASK, NINDG 
+      INTEGER ITASK, NINDG
       INTEGER, INTENT(IN) :: NPRESLOAD
       INTEGER IB(NIBCLD,*), ITAG(*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -72,13 +72,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND,  N, IRSIZE, IRECV(NSPMD),
      .        OFC, OFQ, OFT, OFP ,OFR ,OFTG, OFUR,NCONLDF ,
      .        NCONLDL,NL ,ICOMP ,IDBS ,IDB , IERR, NIND2  ,
      .        NINDPLOAD ,NUMPRESLOAD, JJ, IAD, NPRES, NP
 
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: NINDL      
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: NINDL
 C-----------------------------------------------
       OFQ=NUMELS
       OFC=OFQ+NUMELQ
@@ -88,7 +88,7 @@ C-----------------------------------------------
       OFTG=OFR+NUMELR
       OFUR=OFTG+NUMELTG
 C
-      ALLOCATE(NINDL(2,NCONLD+NPRESLOAD))      
+      ALLOCATE(NINDL(2,NCONLD+NPRESLOAD))
 C
       CALL MY_BARRIER()
 C
@@ -125,7 +125,7 @@ C--------------------------------------------------------
 
        DO  NP=1,NLOADP_HYD
 
-           NPRES = ILOADP(1,NP)  
+           NPRES = ILOADP(1,NP)
            IAD = ILOADP(4,NP)
 
            DO N=1, NPRES/4
@@ -278,7 +278,7 @@ C
 
        CALL SPMD_INIT_IDEL(4*NINDG  , IRSIZE, IRECV)
        CALL SPMD_EXCHSEG_IDEL(
-     1         IBUFS  ,4*NINDG   ,IXS    ,IXC    ,IXTG   , 
+     1         IBUFS  ,4*NINDG   ,IXS    ,IXC    ,IXTG   ,
      2         IXQ    ,IPARG     ,ITAGL  ,ITABM1 ,TAGEL  ,
      3         IRSIZE ,IRECV     ,CNEL   ,ADDCNEL,OFC    ,
      4         OFT    ,OFTG      ,OFUR   ,OFR    ,OFP    ,
@@ -303,10 +303,10 @@ C Segment is deleted
 
 C Fin Partie non parallele
 !$OMP END SINGLE
-      ENDIF 
+      ENDIF
 
 C
-      DEALLOCATE(NINDL)      
+      DEALLOCATE(NINDL)
 C
       RETURN
       END

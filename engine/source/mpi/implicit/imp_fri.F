@@ -2576,7 +2576,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSREM, NSL, NINDEX(*) 
+      INTEGER NSREM, NSL, NINDEX(*)
       my_real
      .        LX(*), F(*)
 C-----------------------------------------------
@@ -3431,7 +3431,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_FRK
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3631,7 +3631,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_FRK
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3988,7 +3988,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE IMP_FRK
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4786,7 +4786,7 @@ C-----------------------------------------------
       INTEGER NINDEX(*)
 C     REAL
       my_real
-     .  W(*), V(*) 
+     .  W(*), V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7680,7 +7680,7 @@ Chd|        INI_SLNR                      source/mpi/implicit/imp_fri.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE KIN_KML(
-     1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,     
+     1    IPARI     ,INTBUF_TAB,NINT2     ,IINT2     ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      3    X         ,IBFV      ,LJ        ,SKEW      ,XFRAME    ,
      4    ISKEW     ,ICODT     ,NDOF      ,ILOCP     ,NSREM     ,
@@ -8246,7 +8246,7 @@ C------RBE3----------------------------------
            NJ = LRBE3(IADR+K)
            CALL INTABFR(NR,JDI_SLNR(IAD_SLNR(NSS)),NJ,J)
            IAD = IAD_M(NSS) + J +IS -2
-           ID = 9*(K-1) + 1 
+           ID = 9*(K-1) + 1
            CALL CP_REAL(9,KNM3(ID),KSL(1,IAD))
            IF (IROT>0.AND.NDOF(NJ)==6)
      +           CALL CP_REAL(9,KRM3(ID),KSL(1,IAD+NSREM))
@@ -8284,7 +8284,7 @@ C-------------------in KFR_SI----
              NR =IAD_SLNR(NSS+1)- IAD_SLNR(NSS)
              CALL INTABFR(NR,JDI_SLNR(IAD_SLNR(NSS)),NJ,J)
              IAD = IAD_M(NSS) + J + IS -2
-             ID = 9*(K-1) + 1 
+             ID = 9*(K-1) + 1
              CALL CP_REAL(9,KNM3(ID),KSL(1,IAD))
              IF (IROT>0.AND.NDOF(NJ)==6)
      +           CALL CP_REAL(9,KRM3(ID),KSL(1,IAD+NSREM))

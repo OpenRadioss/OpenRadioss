@@ -96,7 +96,7 @@ C
             FANI(3,N+NFEA) =  FEXT(3,N)
           ENDDO
         ENDIF
-        IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT > 0 .OR. 
+        IF(ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT > 0 .OR.
      .            ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0) THEN
 #include      "vectorize.inc"
           DO N=NODFT,NODLT

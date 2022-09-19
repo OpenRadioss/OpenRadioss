@@ -202,9 +202,9 @@ C          CALL ARRET(2)
       ENDIF
       NCAND_PROV=NB_MC*NB_SC
       IF(DSUP<MINBOX.OR.ISTOP==1.OR.
-     .   (NB_SC<=NB_N_B.AND.DSUP<MAXBOX).OR.   
+     .   (NB_SC<=NB_N_B.AND.DSUP<MAXBOX).OR.
      .   (NB_SC<=NB_N_B.AND.NB_MC==1).OR.
-     .   (NB_MC<=NB_N_B.AND.DSUP<MAXBOX).OR.   
+     .   (NB_MC<=NB_N_B.AND.DSUP<MAXBOX).OR.
      .   (NB_MC<=NB_N_B.AND.NB_SC==1)) THEN
           ISTOP = 0
 C
@@ -245,7 +245,7 @@ CC       endif
                 PROV_M(J) = PROV_M(J+NVSIZ)
               ENDDO
             ENDIF
-          ENDDO 
+          ENDDO
 C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
 C  006        CALL I7DSTK(I_ADD,NB_SC,NB_MC,ADD,BPN,PN,BPE,PE)
@@ -364,7 +364,7 @@ C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
 C     soit XMAX soit le max de la boite
-      XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+      XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
       XYZM(4,I_ADD+1) = XYZM(4,I_ADD)

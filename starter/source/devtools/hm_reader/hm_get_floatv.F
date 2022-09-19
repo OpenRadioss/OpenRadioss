@@ -394,7 +394,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE, INTRINSIC :: ISO_C_BINDING, ONLY: C_BOOL
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
 C-----------------------------------------------
@@ -411,7 +411,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C----------------------------------------------- 
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       CHARACTER*(*),INTENT(IN)::NAME
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C OUTPUT ARGUMENTS
@@ -456,22 +456,22 @@ C--------------------------------------------------
 C--------------------------------------------------
 c      APPLY UNIT SYSTEM
 C--------------------------------------------------
-        IFLAGUNIT = 0 
+        IFLAGUNIT = 0
         FAC_M = ZERO
         FAC_L = ZERO
-        FAC_T = ZERO         
-        DO J=1,NUNITS                         
-          IF (UNITAB%UNIT_ID(J) == UID) THEN    
+        FAC_T = ZERO
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
             FAC_M = UNITAB%FAC_M(J)
             FAC_L = UNITAB%FAC_L(J)
             FAC_T = UNITAB%FAC_T(J)
-            IFLAGUNIT = 1                      
-            EXIT                              
-          ENDIF        
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
         ENDDO
         IF (FAC_M  /= ZERO) FAC = FAC * (FAC_M ** MASS_DIM  )
         IF (FAC_L  /= ZERO) FAC = FAC * (FAC_L ** LENGTH_DIM)
-        IF (FAC_T  /= ZERO) FAC = FAC * (FAC_T ** TIME_DIM  )     
+        IF (FAC_T  /= ZERO) FAC = FAC * (FAC_T ** TIME_DIM  )
 C-------------------------------------------------- 
         RVAL  = DVAL *  FAC
 c        print *,'real value=',NAME(1:LEN_TRIM(NAME)),RVAL,LENGTH_DIM,MASS_DIM,TIME_DIM

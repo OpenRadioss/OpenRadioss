@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER SIZLOC,SIZP0
       INTEGER IXT(NIXT,*),IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTT(*),IPART_STATE(*),STAT_INDXT(*)
-      my_real   
+      my_real
      .   GEO(NPROPG,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       double precision WA(*),WAP0(*)
@@ -160,7 +160,7 @@ c------- end loop over truss elements
           IOFF = NINT(WAP0(J + 1))
 !!          IF (IOFF >= 1) THEN
           IF (IOFF /= 0) THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             ID    = NINT(WAP0(J + 3))
             IGTYP = NINT(WAP0(J + 4))
             J = J + 4

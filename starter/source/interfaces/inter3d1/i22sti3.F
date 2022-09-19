@@ -75,14 +75,14 @@ C-----------------------------------------------
      .        INACTI
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*), IELES(*), INTTH, IELEC(*),
      .   SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),IXR(NIXR,*) ,
      .   IPART(LIPART1,*),IPARTC(*),IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*),
      .   ITAB(*), IXS10(6,*), IXS16(*), IXS20(*),IGEO(NPROPGI,*),IWORKSH(3,*)
 C     REAL
       my_real
-     .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX,PERCENT_SIZE, BGAPSMX 
+     .   STFAC, GAP,GAPMIN,GAPINF, GAPMAX,PERCENT_SIZE, BGAPSMX
 C     REAL
       my_real
      .   X(3,*), STF(*), PM(NPROPM,*), GEO(NPROPG,*), STFN(*),
@@ -102,7 +102,7 @@ C-----------------------------------------------
       INTEGER JPERM(4)
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
+     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX,
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,XL,GAP_S_L_TMP(NUMNOD),ST
       DATA JPERM/2,3,4,1/
@@ -124,8 +124,8 @@ C---------------------------------------------------------------
 C------------------------------------
 C     GAP STIF FACES MAIN
 C------------------------------------
-      
+
       STF(1:NRT)=ONE
-      
+
       RETURN
       END

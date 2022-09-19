@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRUNN    
+      INTEGER IRUNN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -72,43 +72,43 @@ C-----------------------------------------------
       my_real DT_LOC(9)
 C-----------------------------------------------
 
-      IF (ISPMD==0) THEN    
+      IF (ISPMD==0) THEN
         CALL SEND_SOCK_IBUF_C(SOCK0,IDDOM,1)
-        CALL SEND_SOCK_IBUF_C(SOCK0,TH_VERS,1) 
+        CALL SEND_SOCK_IBUF_C(SOCK0,TH_VERS,1)
         CALL SEND_SOCK_IBUF_C(SOCK0,ITFORM,1)
         CALL SEND_SOCK_IBUF_C(SOCK0,NPART,1)
-        CALL SEND_SOCK_IBUF_C(SOCK0,NUMMAT0-1,1) 
-        CALL SEND_SOCK_IBUF_C(SOCK0,NUMGEO0,1)       
+        CALL SEND_SOCK_IBUF_C(SOCK0,NUMMAT0-1,1)
+        CALL SEND_SOCK_IBUF_C(SOCK0,NUMGEO0,1)
         CALL SEND_SOCK_RBUF_C(SOCK0,DTHIS,1)
         DO I=1,9
           DT_LOC(I)= EP30
           IF (NTHGRP01(I)>0) DT_LOC(I)=DTHIS1(I)
         END DO
-        CALL SEND_SOCK_RBUF_C(SOCK0,DT_LOC,9)       
+        CALL SEND_SOCK_RBUF_C(SOCK0,DT_LOC,9)
         CALL SEND_SOCK_IBUF_C(SOCK0,AFORM,9)
         CALL SEND_SOCK_IBUF_C(SOCK0,IRUNN,1)
-                     
+
         CALL GET_SOCK_IBUF_C(SOCK0,TH_VERS,1)
         CALL GET_SOCK_RBUF_C(SOCK0,DTHIS,1)
         CALL GET_SOCK_RBUF_C(SOCK0,DTHIS1,9)
       ENDIF
-      
+
       IF (NSPMD>1) THEN
         CALL SPMD_IBCAST(TH_VERS,TH_VERS,1,1,0,2)
         CALL SPMD_RBCAST(DTHIS,DTHIS,1,1,0,2)
-        CALL SPMD_RBCAST(DTHIS1,DTHIS1,9,1,0,2)     
+        CALL SPMD_RBCAST(DTHIS1,DTHIS1,9,1,0,2)
       ENDIF
-                
+
 C-----Multidomains -> TH must be written with format 4 in order to be read by rad2rad ---
-      ITFORM = 3      
+      ITFORM = 3
       DO I=1,9
         AFORM(I)=3
       END DO
 
 C
 C******************************************************************************C
-           
-	  
+
+	
 C-----------------------------------------------------------------
       RETURN
       END

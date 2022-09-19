@@ -123,58 +123,58 @@ C-----------------------------------------------
       ITHGRP(3)=0
       IFITMP=IFI+1000
 
-      CALL HM_GET_INTV('idsmax',NBMONVOL,IS_AVAILABLE,LSUBMODEL)       
-      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)       
+      CALL HM_GET_INTV('idsmax',NBMONVOL,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
       IF(NVAR>0)NVAR=HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR1,LSUBMODEL)
 
       K1=1
       K2=1+NIMV*NVOLU
       KIBJET=K2+LICBAG
       KIBHOL=KIBJET+LIBAGJET
-      DO N=1,NVOLU                                                       
-        ITYP_MONV=T_MONVOL(N)%TYPE                                       
-        NVENT(N)=T_MONVOL(N)%NVENT                                       
-        IF (NVENT(N) /= 0) THEN                                        
-           CALL NAME_FVBAG(T_MONVOL(N)%IBAGHOL,VENT_NAME(1,N),NVENT(N))  
-        ENDIF                                                            
-      ENDDO                                                              
+      DO N=1,NVOLU
+        ITYP_MONV=T_MONVOL(N)%TYPE
+        NVENT(N)=T_MONVOL(N)%NVENT
+        IF (NVENT(N) /= 0) THEN
+           CALL NAME_FVBAG(T_MONVOL(N)%IBAGHOL,VENT_NAME(1,N),NVENT(N))
+        ENDIF
+      ENDDO
 
-      CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
-        
-      ! Loop over Objects IDs                                                             
-      DO K = 1,IDSMAX                                                                     
-        CALL HM_GET_INT_ARRAY_INDEX('ids',N,K,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,K,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,K,40,IS_AVAILABLE) 
+      CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
+
+      ! Loop over Objects IDs
+      DO K = 1,IDSMAX
+        CALL HM_GET_INT_ARRAY_INDEX('ids',N,K,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,K,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,K,40,IS_AVAILABLE)
         N_BAK=N
         IF (NSUBDOM>0) THEN
 C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
           IF(R2R_EXIST(ITYP,N)==0) CYCLE
 C---------------------------------------------------------------------- 
-        ENDIF          
-        DO J=1,NUM                                                
-          IF(N==NOM_OPT(1,INOPT1+J))N=J                         
-        ENDDO                                                     
-        IF(N==0)THEN                                            
-           CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)      
-           CALL ANCMSG(MSGID=257,                                 
-     .                 MSGTYPE=MSGERROR,                          
-     .                 ANMODE=ANINFO_BLIND_1,                     
-     .                 I1=ITHGRP(1),                              
-     .                 C1=TITR1,                                  
-     .                 C2=KEY,                                    
-     .                 I2=N_BAK)                                 
-        ELSE                                                      
-          NBVENT_MAX = MAX(NBVENT_MAX,NVENT(N))                   
-        ENDIF                                                     
+        ENDIF
+        DO J=1,NUM
+          IF(N==NOM_OPT(1,INOPT1+J))N=J
+        ENDDO
+        IF(N==0)THEN
+           CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)
+           CALL ANCMSG(MSGID=257,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ITHGRP(1),
+     .                 C1=TITR1,
+     .                 C2=KEY,
+     .                 I2=N_BAK)
+        ELSE
+          NBVENT_MAX = MAX(NBVENT_MAX,NVENT(N))
+        ENDIF
       ENDDO
 c
       CALL HM_THVARVENT(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR1,VARVENT,NBVENT_MAX,LSUBMODEL)
-c  
+c
       NBVENT = 0
       DO I=1,10
         DO J=1,5
-          IF (VARVENT( 5*(I-1) + J ) == 1) THEN 
+          IF (VARVENT( 5*(I-1) + J ) == 1) THEN
             NBVENT = NBVENT + 1
             ID_VENT(NBVENT) = I
             EXIT
@@ -216,39 +216,39 @@ c
         ITHGRP(8)=IAD2
         IFI=IFI+3*NNE+40*NNE
         CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
-        
+
 C
-        DO KK = 1,IDSMAX                                                                     
-          CALL HM_GET_INT_ARRAY_INDEX('ids',N,KK,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,KK,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,KK,40,IS_AVAILABLE) 
+        DO KK = 1,IDSMAX
+          CALL HM_GET_INT_ARRAY_INDEX('ids',N,KK,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('SKEW_ARRAY',ISK,KK,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITR,KK,40,IS_AVAILABLE)
           IF(N/=0)THEN
                IF (NSUBDOM>0) THEN
 C----------->Multidomaines - on saute si l'entite n'existe plus-------- 
                  IF(R2R_EXIST(ITYP,N)==0) CYCLE
                ENDIF
 C---------------------------------------------------------------------- 
-          ENDIF          
-          N_BAK = N  
-          N=0                                                  
-          DO J=1,NUM                                              
-            IF(N_BAK==NOM_OPT(1,INOPT1+J))N=J                       
-          ENDDO                                                   
-          IF(N==0)THEN                                          
-             CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)    
-             CALL ANCMSG(MSGID=257,                               
-     .                   MSGTYPE=MSGERROR,                        
-     .                   ANMODE=ANINFO_BLIND_1,                   
-     .                   I1=ITHGRP(1),                            
-     .                   C1=TITR1,                                
-     .                   C2=KEY,                                  
-     .                   I2=N_BAK)                                
-          ENDIF                                                   
-          DO J=1,NBVENT                                           
-            NSNE=NSNE+1                                           
-            ITHBUF(IAD)=N                                         
-            IAD=IAD+1                                             
-          ENDDO                                                   
+          ENDIF
+          N_BAK = N
+          N=0
+          DO J=1,NUM
+            IF(N_BAK==NOM_OPT(1,INOPT1+J))N=J
+          ENDDO
+          IF(N==0)THEN
+             CALL FRETITL2(TITR1,ITHGRP(NITHGR-LTITR+1),LTITR)
+             CALL ANCMSG(MSGID=257,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO_BLIND_1,
+     .                   I1=ITHGRP(1),
+     .                   C1=TITR1,
+     .                   C2=KEY,
+     .                   I2=N_BAK)
+          ENDIF
+          DO J=1,NBVENT
+            NSNE=NSNE+1
+            ITHBUF(IAD)=N
+            IAD=IAD+1
+          ENDDO
         ENDDO
 C
         IAD = ITHGRP(5)
@@ -267,11 +267,11 @@ C
           CALL FRETITL2(TITR1,ITHBUF(IAD2),40)
 
           IF (I <= NVENT(K)) THEN
-            WRITE(TMP_CHAR,FMT='(I2,A)')  ID_VENT(I),VENT_NAME(I,K) 
+            WRITE(TMP_CHAR,FMT='(I2,A)')  ID_VENT(I),VENT_NAME(I,K)
           ELSE
             WRITE(TMP_CHAR,FMT='(I2,A)')  ID_VENT(I),''
           ENDIF
-          TITR1(21:40) = TMP_CHAR(1:20) 
+          TITR1(21:40) = TMP_CHAR(1:20)
           CALL FRETITL(TITR1,ITHBUF(IAD2),40)
 
           IAD=IAD+1

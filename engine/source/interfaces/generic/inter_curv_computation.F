@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE INTER_CURV_COMPUTATION(ICURV,NRTM_T,IRECT,C_MAX_LOCAL,CURV_MAX,X)
 !$COMMENT
 !       INTER_CURV_COMPUTATION description :
-!       
+!
 !       INTER_CURV_COMPUTATION :
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I
-        my_real :: XXX,YYY,ZZZ 
+        my_real :: XXX,YYY,ZZZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------

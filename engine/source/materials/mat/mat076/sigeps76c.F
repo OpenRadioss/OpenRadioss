@@ -137,9 +137,9 @@ c     UVAR(8)  : DPLANL
 C=======================================================================
 c     PARAMETERS INITIALIZATION
 c-----------------------------------------
-      E      = UPARAM(1)                       
-      EPSPF  = UPARAM(10)       !   Failure plastic strain           
-      EPSPR  = UPARAM(11)       !   rupture plastic strain                  
+      E      = UPARAM(1)
+      EPSPF  = UPARAM(10)       !   Failure plastic strain
+      EPSPR  = UPARAM(11)       !   rupture plastic strain
       IFORM  = NINT(UPARAM(13))
       IQUAD  = NINT(UPARAM(14))
       YFAC2  = UPARAM(29)
@@ -147,12 +147,12 @@ c-----------------------------------------
       ETSE(1:NEL) = ONE
       DO I = 1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
-        IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5  
+        IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
       ENDDO
 c
       NUMTABL =  MATPARAM%NTABLE
       TABLE   => MATPARAM%TABLE(1:NUMTABL)
-c--------------------------------------------------------------      
+c--------------------------------------------------------------
       IF (IFORM == 1) THEN  ! associated plastic flow, quadratic yld
         CALL ASSO_QPLAS76C(
      .       NEL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
@@ -187,11 +187,11 @@ c
      .       YLD     ,SOUNDSP ,DEZZ    ,INLOC   ,DPLANL  )
         ENDIF
       ENDIF    ! IFORM
-c--------------------------------------------------------------      
+c--------------------------------------------------------------
 c     update damage
 c--------------------------------------------------------------
-      NINDX = 0      
-      IF (INLOC > 0) THEN 
+      NINDX = 0
+      IF (INLOC > 0) THEN
         PLA_DAM(1:NEL) = UVAR(1:NEL,8)
       ELSE
         PLA_DAM(1:NEL) = PLA(1:NEL)
@@ -200,8 +200,8 @@ c--------------------------------------------------------------
         DO I=1,NEL
           UVAR(I,7) = ABS(YFAC2)* FINTER(IFUNC(2),PLA_DAM(I),NPF,TF,DF)
           UVAR(I,7) = MIN(UVAR(I,7),ONE)
-          IF (UVAR(I,7) >= ONE) THEN 
-            IF (OFF(I) == ONE) THEN 
+          IF (UVAR(I,7) >= ONE) THEN
+            IF (OFF(I) == ONE) THEN
               OFF(I) = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
@@ -213,12 +213,12 @@ c--------------------------------------------------------------
             SIGNXY(I) = ZERO
             SIGNYZ(I) = ZERO
             SIGNZX(I) = ZERO
-          ENDIF 
-        ENDDO 
+          ENDIF
+        ENDDO
       ELSE
         DO I=1,NEL
           IF (PLA_DAM(I) >= EPSPR) THEN
-            IF (OFF(I) == ONE) THEN 
+            IF (OFF(I) == ONE) THEN
               OFF(I)      = FOUR_OVER_5
               IDEL7NOK    = 1
               NINDX       = NINDX+1
@@ -230,7 +230,7 @@ c--------------------------------------------------------------
             SIGNXY(I)   = ZERO
             SIGNYZ(I)   = ZERO
             SIGNZX(I)   = ZERO
-          ELSEIF (PLA_DAM(I) >= EPSPF) THEN  
+          ELSEIF (PLA_DAM(I) >= EPSPF) THEN
             UVAR(I,7) = (PLA_DAM(I) - EPSPF)/ (EPSPR - EPSPF)
           ENDIF
         ENDDO
@@ -238,12 +238,12 @@ c--------------------------------------------------------------
 C-------------------------------------------------------------------------------
       DO I=1,NEL
 c       IF(DPLA(I) > ZERO) ETSE(I)= AA1(1) / (AA1(I) + E)
-        IF (DPLA(I) > ZERO) THEN 
+        IF (DPLA(I) > ZERO) THEN
           ETSE(I) = HALF   !H(I) / (H(I)+E)!HALF   ! ?????
         ENDIF
-        THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I) 
-      ENDDO  
-c-----------     
+        THK(I) = THK(I) + DEZZ(I)*THKLY(I)*OFF(I)
+      ENDDO
+c-----------
       IF (NINDX > 0) THEN
         DO I=1,NINDX
 #include "lockon.inc"
@@ -252,8 +252,8 @@ c-----------
 #include "lockoff.inc"
         ENDDO
       ENDIF
-c------------------------------------------------------      
+c------------------------------------------------------
  1000 FORMAT(1X,'RUPTURE (SAMP) OF SHELL ELEMENT NUMBER ',I10)
- 1100 FORMAT(1X,'RUPTURE (SAMP) OF SHELL ELEMENT NUMBER ',I10,'AT TIME :',G11.4)  
-c------------------------------------------------------      
+ 1100 FORMAT(1X,'RUPTURE (SAMP) OF SHELL ELEMENT NUMBER ',I10,'AT TIME :',G11.4)
+c------------------------------------------------------
       END

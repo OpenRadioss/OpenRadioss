@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT103(UPARAM ,MAXUPARAM,NUPARAM  ,FSMOOTH   , IMATVIS  ,
-     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                          PM     ,IPM   )
 C-----------------------------------------------
@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        INTEGER ILAW
-       my_real 
+       my_real
      .  E, NU, G, A0, FCUT, EPS0, PMIN, RCP, TINI, ETA, BULK,
      .  M1, M2, M3, M4, M5, M7,RHO0,RHOR
        LOGICAL IS_AVAILABLE,IS_ENCRYPTED
@@ -106,14 +106,14 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      IPM(3) = 1 ! 
+      IPM(3) = 1 !
       ILAW = 103
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       !line-2
       CALL HM_GET_FLOATV('MAT_E'     , E      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'    , NU     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -125,13 +125,13 @@ C-----------------------------------------------
       !line-3
       CALL HM_GET_FLOATV('MAT103_M5'    , M5     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT103_M7'    , M7     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !line-4 
-      CALL HM_GET_INTV('MAT_FSMOOTH' , FSMOOTH  ,IS_AVAILABLE, LSUBMODEL)      
+      !line-4
+      CALL HM_GET_INTV('MAT_FSMOOTH' , FSMOOTH  ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Fcut'      , FCUT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SRP'   , EPS0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_PC'    , PMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !line-5 
-      CALL HM_GET_FLOATV('MAT_SPHEAT'  ,RCP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      !line-5
+      CALL HM_GET_FLOATV('MAT_SPHEAT'  ,RCP   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_T0'    ,TINI  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT103_ETA',ETA  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
@@ -139,7 +139,7 @@ C-----------------------------------------------
 C     DEFAULTS   
 C----------------------------------------------- 
       IF(PMIN == ZERO) PMIN=-INFINITY
-      IF(RCP  == ZERO) RCP = INFINITY 
+      IF(RCP  == ZERO) RCP = INFINITY
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
@@ -147,18 +147,18 @@ C-----------------------------------------------
 C     CHECKS   
 C-----------------------------------------------
       IF(E <= ZERO)THEN
-        CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=103,I2=MAT_ID,C1=TITR)   
-      ENDIF 
+        CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=103,I2=MAT_ID,C1=TITR)
+      ENDIF
 
-      IF(NU <= -ONE)  THEN       
+      IF(NU <= -ONE)  THEN
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=103,I2=MAT_ID,C1=TITR)
-      ENDIF 
+      ENDIF
 C
       ETA=MIN(ONE,ETA)
 C----------------------------------------------- 
 C     USER MATERIAL PARAMETERS DEFINITION   
 C----------------------------------------------- 
-      G = E/TWO/(ONE+NU) 
+      G = E/TWO/(ONE+NU)
       NUPARAM   = 14
       UPARAM(1) = A0
       UPARAM(2) = ONE/FAC_T_WORK
@@ -176,9 +176,9 @@ C-----------------------------------------------
       UPARAM(14) = EPS0
 C	  
       NUVAR     = 1  ! temperature
-      NFUNC     = 0 
+      NFUNC     = 0
       BULK   = E/THREE/(ONE-TWO*NU)
-      PARMAT(1) = BULK 
+      PARMAT(1) = BULK
       PARMAT(2) = E
       PARMAT(3) = NU
       PARMAT(4) = FSMOOTH
@@ -188,7 +188,7 @@ C
       PM(69) = RCP
       PM(100)= BULK
 C   flag activation   
-      MTAG%G_TEMP = 1  ! 
+      MTAG%G_TEMP = 1  !
       MTAG%L_TEMP = 1
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
@@ -202,7 +202,7 @@ C-------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1020)RHO0 
+        WRITE(IOUT,1020)RHO0
         WRITE(IOUT,1100) E, NU, A0, M1, M2, M3, M4, M5, M7
         WRITE(IOUT,1200) FSMOOTH, FCUT, EPS0, PMIN, RCP, TINI, ETA
       ENDIF
@@ -210,11 +210,11 @@ C
  1000 FORMAT(
      & 5X,'  HENSEL SPITTEL MATERIAL                   ',/,
      & 5X,'  ----------------------- ',/,
-     & 5X,'                                            ') 
+     & 5X,'                                            ')
  1010 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,
-     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/) 
+     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . .=',I10/)
  1020 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
@@ -236,9 +236,9 @@ C
      & 5X,'INITIAL TEMPERATURE K. . . . . . . . . . . .=',1PG20.13/
      & 5X,'HEAT CONVERSION PARAMETER ETA. . . . . . . .=',1PG20.13/)
 C
-      RETURN      
-      
-      
+      RETURN
+
+
       RETURN
  999  CALL FREERR(3)
       END

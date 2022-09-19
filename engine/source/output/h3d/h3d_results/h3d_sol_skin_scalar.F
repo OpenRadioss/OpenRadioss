@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SKIN_SCALAR(*),PM(NPROPM,*), X(3,*),TF(*)  ,BUFMAT(*)
-      INTEGER IPARG(NPARG,*), 
+      INTEGER IPARG(NPARG,*),
      .   IXS(NIXS,*),IPM(NPROPMI,*),IPARTS(*),
      .   IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,
      .   IGEO(NPROPGI,*),IS_WRITTEN_SKIN(*),NPF(*),
@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER I,I1,II,J,LENR,NEL,NFT,N
 
       INTEGER JJ,N1,N2
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS,TAG_SKIN_ND    
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS,TAG_SKIN_ND
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU,T6GPS
       INTEGER FACES(4,6),NS,K1,PWR(7),LL
@@ -104,14 +104,14 @@ C
       T6GPS = ZERO
       ITAGPS = 0
 C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
-      TAG_SKIN_ND = 0 
+      TAG_SKIN_ND = 0
         DO I=1,NUMELS
             LL=TAG_SKINS6(I)
             DO JJ=1,6
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ) /= 0)CYCLE
               DO K1=1,4
                 NS=IXS(FACES(K1,JJ)+1,I)
-                TAG_SKIN_ND(NS) = 1 
+                TAG_SKIN_ND(NS) = 1
               END DO
             END DO
         END DO
@@ -144,7 +144,7 @@ C
        DEALLOCATE(AFLU,VFLU,T6GPS,ITAGPS,TAG_SKIN_ND)
 C-----------
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  IDX_FLD_SOL                   source/output/h3d/h3d_results/h3d_sol_skin_scalar.F
 Chd|-- called by -----------
@@ -204,13 +204,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II,J,IENG,LENF,NINDX,IMARGIN
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
 C=======================================================================
       IENG     = INT(UPARAM(6))
       RANI     = UPARAM(7)
       IMARGIN  = NINT(UPARAM(2))
-      FACT_MARGIN     = UPARAM(3) 
+      FACT_MARGIN     = UPARAM(3)
       FACT_LOOSEMETAL = UPARAM(8)
 c-----------------------------
 C
@@ -230,7 +230,7 @@ C
         ENDIF
       ENDDO
 c-----
-c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1 
+c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1
 c-----
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
@@ -248,13 +248,13 @@ c
         DO I = 1,NEL
           EM(I)    = FINTER(IFUNC(1),EMIN(I),NPF,TF,DYDX)
         ENDDO
-      ENDIF 
+      ENDIF
 c--------------------------------------------------------------------
 c     FLD zone index calculation for ANIM output
 c
       R1 = FACT_LOOSEMETAL
       R2 = RANI/(RANI+ONE)
-      
+
       IF (IMARGIN == 3) THEN
         DO I = 1,NEL
           IF (EMAJ(I) >= EM(I)) THEN
@@ -353,7 +353,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II,J,IENG,LENF,NINDX,IMARGIN
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
 C=======================================================================
       IENG     = INT(UPARAM(6))
@@ -373,9 +373,9 @@ C
           EMIN(I) = EMAJ(I)
           EMAJ(I) = SS
         ENDIF
-      ENDDO 
+      ENDDO
 c-----
-c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1 
+c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1
 c-----
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
@@ -397,8 +397,8 @@ c          DFMAX(I) = MIN(ONE, DAM(I))
           DAM(I)   = EMAJ(I) / EM(I)
 c          DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
-      ENDIF 
+      ENDIF
 C------------------------
       RETURN
       END
-      
+

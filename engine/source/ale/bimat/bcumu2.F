@@ -31,7 +31,7 @@ Chd|====================================================================
      .                  SIGT,EINTT,RHOT,TEMPT,TEMP,
      .                  PLAST,PLAS,BFRACT,BFRAC,
      .                  F11, F12, F21, F22, AX1,AX2,
-     .                  T11,T12,T13,T14,T21,T22,T23,T24, 
+     .                  T11,T12,T13,T14,T21,T22,T23,T24,
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
      .                  NC1,NC2,NC3,NC4,STI,STIFN,
      .                  L_TEMP, L_PLA,L_BFRAC, L_BULK,NEL)
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
       my_real
-     .   ALPHT, ALPHX     
+     .   ALPHT, ALPHX
 C-----------------------------------------------
       IF(JALE+JEUL==0.OR.MTN==11) THEN
       DO I=LFT,LLT
@@ -125,24 +125,24 @@ C-------------------------
          TEMPT(I)=TEMPT(I)+TEMP(I)*ALPH(I)
         ENDDO
       ENDIF
-      
+
       IF(L_PLA>0)THEN
         DO I=LFT,LLT
          PLAST(I)=PLAST(I)+PLAS(I)*ALPH(I)
         ENDDO
-      ENDIF      
-      
+      ENDIF
+
       IF(L_BFRAC>0)THEN
         DO I=LFT,LLT
          BFRACT(I)=BFRACT(I)+BFRAC(I)*ALPH(I)
         ENDDO
-      ENDIF   
-      
+      ENDIF
+
       IF(L_BULK>0)THEN
         DO I=LFT,LLT
          BULKT(I)=BULKT(I)+BULK(I)*ALPH(I)
         ENDDO
-      ENDIF             
+      ENDIF
 
       RETURN
       END
@@ -158,7 +158,7 @@ Chd|====================================================================
      .                   SIGT,EINTT,RHOT,TEMPT,TEMP,
      .                   PLAST,PLAS,BFRACT,BFRAC,
      .                   F11, F12, F21, F22, AX1,AX2,
-     .                   T11,T12,T13,T14,T21,T22,T23,T24, 
+     .                   T11,T12,T13,T14,T21,T22,T23,T24,
      .                   B11,B12,B13,B14,B21,B22,B23,B24,
      .                   FSKY,FSKYV,IADQ,STI,NC1,NC2,NC3,NC4,
      .                   L_TEMP, L_PLA, L_BFRAC,L_BULK,NEL)
@@ -200,7 +200,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II, K
       my_real
-     .   ALPHT, ALPHX     
+     .   ALPHT, ALPHX
 C-----------------------------------------------
       IF(JALE+JEUL==0.OR.MTN==11) THEN
       DO I=LFT,LLT
@@ -298,19 +298,19 @@ C-------------------------
         DO I=LFT,LLT
          PLAST(I)=PLAST(I)+PLAS(I)*ALPH(I)
         ENDDO
-      ENDIF  
-      
+      ENDIF
+
       IF(L_BFRAC>0)THEN
         DO I=LFT,LLT
          BFRACT(I)=BFRACT(I)+BFRAC(I)*ALPH(I)
         ENDDO
-      ENDIF   
-      
+      ENDIF
+
       IF(L_BULK>0)THEN
         DO I=LFT,LLT
          BULKT(I)=BULKT(I)+BULK(I)*ALPH(I)
         ENDDO
-      ENDIF                   
+      ENDIF
 
       RETURN
       END
@@ -326,7 +326,7 @@ Chd|====================================================================
      .                    SIGT,EINTT,RHOT,TEMPT,TEMP,
      .                    PLAST,PLAS,BFRACT,BFRAC,
      .                    F11, F12, F21, F22, AX1,AX2,
-     .                    T11,T12,T13,T14,T21,T22,T23,T24, 
+     .                    T11,T12,T13,T14,T21,T22,T23,T24,
      .                    B11,B12,B13,B14,B21,B22,B23,B24,
      .                    FSKY,FSKYV,IADQ,STI,NC1,NC2,NC3,NC4,
      .                    L_TEMP, L_PLA,L_BFRAC,L_BULK,NEL)
@@ -482,19 +482,19 @@ C-------------------------
         DO I=LFT,LLT
          PLAST(I)=PLAST(I)+PLAS(I)*ALPH(I)
         ENDDO
-      ENDIF  
-      
+      ENDIF
+
       IF(L_BFRAC>0)THEN
         DO I=LFT,LLT
          BFRACT(I)=BFRACT(I)+BFRAC(I)*ALPH(I)
         ENDDO
-      ENDIF  
-      
+      ENDIF
+
       IF(L_BULK>0)THEN
         DO I=LFT,LLT
          BULKT(I)=BULKT(I)+BULK(I)*ALPH(I)
         ENDDO
-      ENDIF                
+      ENDIF
 
       RETURN
       END

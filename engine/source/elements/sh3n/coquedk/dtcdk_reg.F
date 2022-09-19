@@ -53,14 +53,14 @@ C-----------------------------------------------
       INTEGER                                    :: NEL,IMAT,NDDL
       my_real, INTENT(INOUT)                     ::
      .  DT2T
-      my_real, DIMENSION(NEL), INTENT(IN)        :: 
+      my_real, DIMENSION(NEL), INTENT(IN)        ::
      .  LE,OFF,THK
-      TYPE(NLOCAL_STR_), TARGET                  :: NLOC_DMG 
+      TYPE(NLOCAL_STR_), TARGET                  :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .  L2,ZETA,DTNL_TH,DTNL,DAMPFAC,LE_MAX
       ! Coefficient for non-local stability to take into account damping
       my_real, PARAMETER :: CDAMP = 0.7D0
@@ -69,7 +69,7 @@ C=======================================================================
       L2     = NLOC_DMG%LEN(IMAT)**2 ! Non-local internal length ** 2
       ZETA   = NLOC_DMG%DENS(IMAT)   ! Non-local density
       LE_MAX = NLOC_DMG%LE_MAX(IMAT) ! Maximal length of convergence
-c      
+c
       !-----------------------------------------------------------------------
       ! Computing non-local timestep
       !-----------------------------------------------------------------------

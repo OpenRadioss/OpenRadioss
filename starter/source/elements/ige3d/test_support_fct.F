@@ -170,7 +170,7 @@ c             segments paralleles ou colineaires
               IF(T1>1.OR.T1<0.OR.T2>1.OR.T2<=0) THEN ! pas d'intersection
 c                ! pas d'intersection
               ELSE
-                INTERSEC = INTERSEC + 1 
+                INTERSEC = INTERSEC + 1
 c                ! intersection : incrementer le compteur de 1
               ENDIF
             ENDIF
@@ -181,10 +181,10 @@ c
         IF(IOUT==1) CYCLE
 c
 C----------------------------------------------------------------------
-c  3eme test : Pour traiter les polygones concaves, il faut tester les segments forme par les etendus 
+c  3eme test : Pour traiter les polygones concaves, il faut tester les segments forme par les etendus
 C----------------------------------------------------------------------
 c
-        DO J=1,4  ! BOUCLE SUR LES 4 COINS DE L'ETENDUE        
+        DO J=1,4  ! BOUCLE SUR LES 4 COINS DE L'ETENDUE
           DO K=1,L_TAB_COINKNOT-1
             XC=TAB_COINKNOT(1,K)
             YC=TAB_COINKNOT(2,K)
@@ -214,7 +214,7 @@ C
           IF(FLAG==0) THEN
             L_TAB_FCTCUT = L_TAB_FCTCUT + 1
           ELSE
-            L_TAB_FCTCUT = L_TAB_FCTCUT + 1 
+            L_TAB_FCTCUT = L_TAB_FCTCUT + 1
             TAB_FCTCUT(L_TAB_FCTCUT) = IDFCT
           ENDIF
         ENDIF

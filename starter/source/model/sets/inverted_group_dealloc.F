@@ -31,7 +31,7 @@ Chd|====================================================================
 !$COMMENT
 !       INVERTED_GROUP_DEALLOC description
 !       deallocation of the different arrays of INV_GROUP structure
-!       
+!
 !       INVERTED_GROUP_DEALLOC organization :
 !           none
 !$ENDCOMMENT
@@ -79,8 +79,8 @@ C-----------------------------------------------
             DEALLOCATE( INV_GROUP%PARTTG )
             DEALLOCATE( INV_GROUP%PARTTRIA )
             DEALLOCATE( INV_GROUP%PARTR )
-        ENDIF   
-!   ---------------------------------------- 
+        ENDIF
+!   ----------------------------------------
 
         RETURN
         END SUBROUTINE INVERTED_GROUP_DEALLOC

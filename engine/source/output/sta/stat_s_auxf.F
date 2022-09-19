@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,9 +82,9 @@ C-----------------------------------------------
       DATA DELIMIT(61:100)
      ./'----7----|----8----|----9----|----10---|'/
 C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C     8 NODES BRICK
 C======================================================================|
@@ -94,9 +94,9 @@ C======================================================================|
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)
         ISOLNOD = IPARG(28,NG)
-        MLW   =IPARG(1,NG)  
-        NEL   =IPARG(2,NG)    
-        NFT   =IPARG(3,NG)   
+        MLW   =IPARG(1,NG)
+        NEL   =IPARG(2,NG)
+        NFT   =IPARG(3,NG)
         IAD   =IPARG(4,NG)
         LFT=1
         LLT = NEL
@@ -104,12 +104,12 @@ C======================================================================|
         PID = IPART(2,IPRT)
 c
         IF (ITY == 1) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           IPRT=IPARTS(LFT+NFT)
           PID = IPART(2,IPRT)
@@ -117,51 +117,51 @@ C          JHBE   = IGEO(10,PID)
           GBUF => ELBUF_TAB(NG)%GBUF
           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
           MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-          NLAY = ELBUF_TAB(NG)%NLAY                       
-          NPTR = ELBUF_TAB(NG)%NPTR                        
-          NPTS = ELBUF_TAB(NG)%NPTS                        
-          NPTT = ELBUF_TAB(NG)%NPTT                        
+          NLAY = ELBUF_TAB(NG)%NLAY
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NPT  = NPTR * NPTS * NPTT * NLAY
           IF (JHBE==17.AND.IINT==2) JHBE = 18
-          IF (MLW < 28) THEN 
+          IF (MLW < 28) THEN
             NUVAR = 0
           ELSE
-            NUVAR = IPM(8,IXS(1,NFT+1))   
+            NUVAR = IPM(8,IXS(1,NFT+1))
           ENDIF
 c
-          DO I=LFT,LLT                                       
-            N = I + NFT                                      
-            IPRT=IPARTS(N)                                   
-            IF (IPART_STATE(IPRT)==0) CYCLE                    
-            WA(JJ+1) = GBUF%VOL(I)             
-            WA(JJ+2) = IPRT                                  
-            WA(JJ+3) = IXS(NIXS,N)                           
-            WA(JJ+4) = NLAY                                          
-            WA(JJ+5) = NPTR                                
-            WA(JJ+6) = NPTS                                
-            WA(JJ+7) = NPTT                                
-            WA(JJ+8) = ISOLNOD                                
-            WA(JJ+9) = NUVAR                                  
-            WA(JJ+10)= JHBE   
-            WA(JJ+11) = GBUF%OFF(I)                                                                                                                 
-            JJ = JJ + 11  
-            DO IL=1,NLAY                                               
-             DO IR=1,NPTR                                             
-              DO IS=1,NPTS                                           
-               DO IT=1,NPTT                                         
+          DO I=LFT,LLT
+            N = I + NFT
+            IPRT=IPARTS(N)
+            IF (IPART_STATE(IPRT)==0) CYCLE
+            WA(JJ+1) = GBUF%VOL(I)
+            WA(JJ+2) = IPRT
+            WA(JJ+3) = IXS(NIXS,N)
+            WA(JJ+4) = NLAY
+            WA(JJ+5) = NPTR
+            WA(JJ+6) = NPTS
+            WA(JJ+7) = NPTT
+            WA(JJ+8) = ISOLNOD
+            WA(JJ+9) = NUVAR
+            WA(JJ+10)= JHBE
+            WA(JJ+11) = GBUF%OFF(I)
+            JJ = JJ + 11
+            DO IL=1,NLAY
+             DO IR=1,NPTR
+              DO IS=1,NPTS
+               DO IT=1,NPTT
                  MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
-                 DO IUS = 1,NUVAR   
+                 DO IUS = 1,NUVAR
                    WA(JJ + 1) = MBUF%VAR(I + (IUS-1)*NEL)
-                   JJ = JJ +1                                     
-                 ENDDO                                             
-               ENDDO                                                 
-              ENDDO                                                   
-             ENDDO                                                    
-            ENDDO                 
-            IE=IE+1                          
+                   JJ = JJ +1
+                 ENDDO
+               ENDDO
+              ENDDO
+             ENDDO
+            ENDDO
+            IE=IE+1
 C           pointeur de fin de zone dans WA  
-            PTWA(IE)=JJ                      
-          ENDDO  !  I=LFT,LLT                                     
+            PTWA(IE)=JJ
+          ENDDO  !  I=LFT,LLT
         ENDIF    !  ITY = 1
       ENDDO
  200  CONTINUE
@@ -191,68 +191,68 @@ C         retrouve le nieme elt dans l'ordre d'id croissant
 C         retrouve l'adresse dans WAP0
           J=PTWA_P0(K-1)
           IPRT  = NINT(WAP0(J + 2))
-          IOFF    = NINT(WAP0(J + 11)) 
-          IF (IOFF >= 1) THEN              
-            IF(IPRT /= IPRT0)THEN 
+          IOFF    = NINT(WAP0(J + 11))
+          IF (IOFF >= 1) THEN
+            IF(IPRT /= IPRT0)THEN
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(A)') DELIMIT
                WRITE(IUGEO,'(A)')'/INIBRI/AUX'
                WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                WRITE(IUGEO,'(A)')
-     .      '#  BRICKID       NPT' 
+     .      '#  BRICKID       NPT'
                WRITE(IUGEO,'(A/A/A)')
      .'# IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :',
      .'#    S1,  S2,  S3',
      .'#   S12, S23, S31'
                WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                WRITE(IUGEO,'(A)') DELIMIT
              ELSE
                WRITE(LINE,'(A)') DELIMIT
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'/INIBRI/AUX'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
-               CALL STRS_TXT50(LINE,100) 
+     .'#------------------------ REPEAT --------------------------'
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .      '#  BRICKID       NPT' 
-               CALL STRS_TXT50(LINE,100) 
+     .      '#  BRICKID       NPT'
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
      .'# IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'#    S1,  S2,  S3'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'#   S12, S23, S31'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
-               CALL STRS_TXT50(LINE,100) 
+     .'#---------------------- END REPEAT ------------------------'
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)') DELIMIT
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
              END IF
              IPRT0=IPRT
             END IF
 c
-            ID     = NINT(WAP0(J + 3)) 
-            NLAY   = NINT(WAP0(J+4))                                
-            NPTR   = NINT(WAP0(J+5))                      
-            NPTS   = NINT(WAP0(J+6))                      
-            NPTT   = NINT(WAP0(J+7))                      
-            ISOLNOD= NINT(WAP0(J+8))                         
-            NUVAR  = NINT(WAP0(J+9))                         
+            ID     = NINT(WAP0(J + 3))
+            NLAY   = NINT(WAP0(J+4))
+            NPTR   = NINT(WAP0(J+5))
+            NPTS   = NINT(WAP0(J+6))
+            NPTT   = NINT(WAP0(J+7))
+            ISOLNOD= NINT(WAP0(J+8))
+            NUVAR  = NINT(WAP0(J+9))
             JHBE   = NINT(WAP0(J+10))
             NPTG   = NLAY*NPTR*NPTS*NPTT
             J = J + 11
 c
-            IF(ISOLNOD==8.AND.JHBE==14 )THEN 
+            IF(ISOLNOD==8.AND.JHBE==14 )THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
               ELSE
                 WRITE(LINE,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
                 CALL STRS_TXT50(LINE,100)
-              ENDIF 
+              ENDIF
               IF (NUVAR /= 0) THEN
                IF (IZIPSTRS == 0) THEN
                 DO IPT=1,NPTG
@@ -273,7 +273,7 @@ c
               ELSE
                 WRITE(LINE,'(7I10)') ID,NPTG,ISOLNOD,JHBE,0,0,NUVAR
                 CALL STRS_TXT50(LINE,100)
-              ENDIF 
+              ENDIF
               IF (NUVAR /= 0) THEN
                IF (IZIPSTRS == 0) THEN
                 DO IPT=1,NPTG
@@ -288,8 +288,8 @@ c
                ENDIF
               ENDIF
             ENDIF
-         ENDIF  !  IF (IOFF == 1)              
-        ENDDO		    
+         ENDIF  !  IF (IOFF == 1)
+        ENDDO		
       ENDIF
 c-----------
       RETURN

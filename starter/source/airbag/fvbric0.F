@@ -68,9 +68,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADSKY, ADDCNEL, CNE
-      INTEGER I, J, NG, NNO, NFAC, NV, NG2, NNF, NNF2, NNOF, NNOF2, 
-     .        NC, NNO2, K, TNC(4), TNV(5,6), KK, L, NN1, K2, 
-     .        LL, NTYPE, NTYPE2, NODEID 
+      INTEGER I, J, NG, NNO, NFAC, NV, NG2, NNF, NNF2, NNOF, NNOF2,
+     .        NC, NNO2, K, TNC(4), TNV(5,6), KK, L, NN1, K2,
+     .        LL, NTYPE, NTYPE2, NODEID
       INTEGER, TARGET :: REDIRT(4), REDIRP(6), REDIRB(8), REDIRPY(5)
       INTEGER, DIMENSION(:), POINTER :: REDIR2, REDIR
 C
@@ -192,7 +192,7 @@ C     PYRAMIDE indirection
 C     Stode Brick ID and type
          TBRIC(1,I) = NG
          TBRIC(2,I) = NTYPE
-         DO K = 1, NNO 
+         DO K = 1, NNO
             NODEID = IXS(1 + REDIR(K), NG) + 1
             TAGNODBR(NODEID - 1) = 1
             ADDCNEL(NODEID) = ADDCNEL(NODEID) + 1
@@ -261,7 +261,7 @@ C     =========================
          NNF = NFACE(NTYPE)
          NNOF = NNODEF(NTYPE)
          SELECT CASE (NTYPE)
-         CASE (1) 
+         CASE (1)
             REDIR => REDIRB(1:8)
             FAC => FAC8(1:4, 1:6)
             NOD => NOD8(1:6)
@@ -299,7 +299,7 @@ C     Loop over the adjacent elements
                   NNF2 = NFACE(NTYPE2)
                   NNOF2 = NNODEF(NTYPE2)
                   SELECT CASE (NTYPE2)
-                  CASE (1) 
+                  CASE (1)
                      REDIR2 => REDIRB(1:8)
                      FAC2 => FAC8(1:4, 1:6)
                      NOD2 => NOD8(1:6)
@@ -318,7 +318,7 @@ C     Loop over the adjacent elements
                   CASE DEFAULT
 C     ERROR
                   END SELECT
-                  
+
                   DO K2 = 1, NNO2
                      N2(K2) = IXS(1 + REDIR2(K2), NG2)
                   ENDDO
@@ -360,21 +360,21 @@ C     A common neighbor has been found, now find the face number for I and J
                      ENDDO
                      ERROR_RAISED = (NOD(KFACE) == NOD2(KFACE2)) .AND. (NB_COMMON_NODE == NOD(KFACE))
                      ERROR_RAISED = .NOT. ERROR_RAISED
-                     IF (FVTYPE  /=  8) THEN 
+                     IF (FVTYPE  /=  8) THEN
                         ERROR_RAISED = .FALSE.
                      ENDIF
                      IF (FACE_OK .AND. FACE2_OK .AND. .NOT. ERROR_RAISED) THEN
                         TFAC(2 * (KFACE - 1) + 1, I) = 1
                         TFAC(2 * (KFACE - 1) + 2, I) = J
                         TFAC(2 * (KFACE2 - 1) + 1, J) = 1
-                        TFAC(2 * (KFACE2 - 1) + 2, J) = I                     
+                        TFAC(2 * (KFACE2 - 1) + 2, J) = I
                      ENDIF
                      IF (ERROR_RAISED) THEN
                            CALL ANCMSG(MSGID=1625,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO_BLIND,
-     .                          I1 = MONVID, C1=TITR, 
-     .                          I2 = IXS(NIXS, NG), I3 = IXS(NIXS, NG2))                     
+     .                          I1 = MONVID, C1=TITR,
+     .                          I2 = IXS(NIXS, NG), I3 = IXS(NIXS, NG2))
                      ENDIF
                   ENDIF
                ENDIF

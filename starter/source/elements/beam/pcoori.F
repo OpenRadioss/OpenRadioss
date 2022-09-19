@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE PCOORI(X,NCP, 
+      SUBROUTINE PCOORI(X,NCP,
      .                  MXT,MXG,NC1,NC2,NC3,DELTAX,
      .                  X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3)
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),X(3,*),DELTAX(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   XP1, XP2, XP3, XNOR1, XP4, XP5, XP6, 
+     .   XP1, XP2, XP3, XNOR1, XP4, XP5, XP6,
      .   XNOR2, XNORM, DET1, DET2, DET3, DET, XX,YY,ZZ
 C=======================================================================
 C     CONNECTIVITES ET MATERIEL                   |
@@ -95,9 +95,9 @@ C----------------------------
    20 CONTINUE
 c
       DO I=LFT,LLT
-        XX = (X1(I)-X2(I))*(X1(I)-X2(I)) 
-        YY = (Y1(I)-Y2(I))*(Y1(I)-Y2(I)) 
-        ZZ = (Z1(I)-Z2(I))*(Z1(I)-Z2(I)) 
+        XX = (X1(I)-X2(I))*(X1(I)-X2(I))
+        YY = (Y1(I)-Y2(I))*(Y1(I)-Y2(I))
+        ZZ = (Z1(I)-Z2(I))*(Z1(I)-Z2(I))
         DELTAX(I) = SQRT(XX+YY+ZZ)
       ENDDO
 C------------------------------

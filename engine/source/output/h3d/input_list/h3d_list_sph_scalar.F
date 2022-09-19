@@ -180,7 +180,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SPH_SCALAR(I)%KEY3  = 'OFF'
       H3D_KEYWORD_SPH_SCALAR(I)%TEXT1  = 'Element status'
-      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SPH_SCALAR(I)%COMMENT  =
      .'0.0:deleted  >0.&<1.:under failure process 1.0:activated  <0:Standby'
 c-----------------------------------------------
       I = I + 1

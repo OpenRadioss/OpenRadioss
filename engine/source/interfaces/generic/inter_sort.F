@@ -51,7 +51,7 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE H3D_MOD
         USE METRIC_MOD
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
         INTEGER, INTENT(inout) :: RETRI
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
-        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM
         TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
         my_real, DIMENSION(3,NUMNOD), INTENT(in), TARGET :: X            !   position
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB
@@ -120,16 +120,16 @@ C-----------------------------------------------
                 INTBUF_TAB(N)%METRIC%NCONT   = IPARI(18,N)
                 INTBUF_TAB(N)%METRIC%MULTIMP = IPARI(23,N)
                 INTBUF_TAB(N)%METRIC%NSNR   = MAX(INTBUF_TAB(N)%METRIC%NSNR , IPARI(24,N))
-                INTBUF_TAB(N)%METRIC%NSN    = IPARI(5,N) 
-                CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
+                INTBUF_TAB(N)%METRIC%NSN    = IPARI(5,N)
+                CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)
             ENDIF
             ! ---------------------------
 
             ISENS = 0
-            IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
+            IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
             ! ---------------------------
-            ! interface activated by a a sensor 
-            IF(ISENS/=0) THEN    
+            ! interface activated by a a sensor
+            IF(ISENS/=0) THEN
                 TS = SENSOR(2,ISENS)
             ELSE
                 TS = TT
@@ -152,7 +152,7 @@ C-----------------------------------------------
             ! ---------------------------
             ! timer of current interface N : end
             IF(IMONM > 0) THEN
-                IF(ITASK==0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
+                IF(ITASK==0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)
             ENDIF
             ! ---------------------------
         ENDDO

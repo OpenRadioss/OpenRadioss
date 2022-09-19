@@ -65,9 +65,9 @@ C-----------------------------------------------
      .        SIZ,J,K,L,NB_NOD,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
-     .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET  
+     .        REQ_R(NSPMD),REQ_S(NSPMD),OFFSET
       my_real
-     .        RBUF(4*N_ANCHOR_REMOTE),SBUF(4*N_ANCHOR_REMOTE_SEND)  
+     .        RBUF(4*N_ANCHOR_REMOTE),SBUF(4*N_ANCHOR_REMOTE_SEND)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C
       IF (N_ANCHOR_REMOTE > 0) THEN
         L = 1
-        IAD_RECV(1) = 1      
+        IAD_RECV(1) = 1
         DO I=1,NSPMD
           SIZ = 4*(ANCHOR_REMOTE%ADD_PROC(I+1)-ANCHOR_REMOTE%ADD_PROC(I))
           IF(SIZ/=0)THEN
@@ -91,7 +91,7 @@ C
 C
       IF (N_ANCHOR_REMOTE_SEND > 0) THEN
         L = 1
-        IAD_SEND(1) = 1  
+        IAD_SEND(1) = 1
         DO I=1,NSPMD
 C preparation envoi  partie fixe (elem) a proc I
 #include      "vectorize.inc"
@@ -138,7 +138,7 @@ C
               A(1,NOD) = A(1,NOD) + RBUF(L)
               A(2,NOD) = A(2,NOD) + RBUF(L+1)
               A(3,NOD) = A(3,NOD) + RBUF(L+2)
-              STIFN(NOD) = STIFN(NOD) + RBUF(L+3)                  
+              STIFN(NOD) = STIFN(NOD) + RBUF(L+3)
               L = L + 4
             END DO
 C ---
@@ -152,7 +152,7 @@ C
         DO I = 1, NSPMD
           IF(ANCHOR_REMOTE_SEND%ADD_PROC(I+1)-ANCHOR_REMOTE_SEND%ADD_PROC(I) > 0)THEN
             CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
-          ENDIF       
+          ENDIF
         ENDDO
       ENDIF
 C

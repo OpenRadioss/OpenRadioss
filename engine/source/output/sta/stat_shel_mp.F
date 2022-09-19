@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,9 +74,9 @@ C-----------------------------------------------
       INTEGER NG, NEL, NFT, LFT, LLT, ITY, MLW, ITHK,IOFF
       INTEGER NP(8*MAX(NUMELC,NUMELTG)),
      .        WORK(70000),CLEF(2,MAX(NUMELC,NUMELTG))
-      double precision   
+      double precision
      .   THK(MAX(NUMELC,NUMELTG))
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
         IF(ITY==3) THEN
           NEL   =IPARG(2,NG)
           NFT	=IPARG(3,NG)
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW   =IPARG(1,NG)
           ITHK  =IPARG(28,NG)
           LFT=1
@@ -230,7 +230,7 @@ C-----------------------------------------------
         IF(ITY==7) THEN
           NEL	=IPARG(2,NG)
           NFT	=IPARG(3,NG)
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW   =IPARG(1,NG)
           ITHK  =IPARG(28,NG)
           LFT=1

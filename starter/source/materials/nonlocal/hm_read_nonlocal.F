@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE NLOCAL_REG_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C-----------------------------------------------
       TYPE(NLOCAL_STR_)                                 :: NLOC_DMG
       TYPE(MLAW_TAG_), DIMENSION(NUMMAT), INTENT(INOUT) :: MLAW_TAG
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
-      TYPE (UNIT_TYPE_) ,INTENT(IN)                     :: UNITAB 
+      TYPE (UNIT_TYPE_) ,INTENT(IN)                     :: UNITAB
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -83,10 +83,10 @@ C=======================================================================
 c--------------------------------------------------
 c     COUNT NONLOCAL MODELS USING CFG FILES
 c--------------------------------------------------
-c      
+c
       CALL HM_OPTION_COUNT('/NONLOCAL',NNLOC)
       ! Allocation for non-local computation
-      IF ((NNLOC > 0).OR.(NLOC_DMG%IMOD>0)) THEN 
+      IF ((NNLOC > 0).OR.(NLOC_DMG%IMOD>0)) THEN
         NLOC_DMG%IMOD = 1
         IF (.NOT.ALLOCATED(NLOC_DMG%LEN))    ALLOCATE(NLOC_DMG%LEN(NUMMAT))
         IF (.NOT.ALLOCATED(NLOC_DMG%LE_MAX)) ALLOCATE(NLOC_DMG%LE_MAX(NUMMAT))
@@ -128,7 +128,7 @@ c--------------------------------------------------
         IF (MAT_ID > 0 .AND. FLAGMAT == 0) THEN
           CALL ANCMSG(MSGID=1663,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1= MAT_ID, C1='NONLOCAL', C2='NONLOCAL', C3='')
-          CYCLE                           
+          CYCLE
         ENDIF
 c--------------------------------------------------
 c       Check UNIT_ID
@@ -146,7 +146,7 @@ c--------------------------------------------------
      .                I2= UID,
      .                C1='NONLOCAL',
      .                C2='NONLOCAL',
-     .                C3= '')                             
+     .                C3= '')
         ENDIF
 c--------------------------------------------------
 c       Read card
@@ -156,7 +156,7 @@ c--------------------------------------------------
 c--------------------------------------------------
 c       Check value
 c--------------------------------------------------
-        IF (LE_MAX > ZERO) THEN 
+        IF (LE_MAX > ZERO) THEN
           ! Save maximal target element length
           NLOC_DMG%LE_MAX(IMAT) = LE_MAX
           ! Compute the equivalent non-local internal length
@@ -168,21 +168,21 @@ c--------------------------------------------------
           CALL GET_LEMAX(NLOC_DMG%LE_MAX(IMAT),NLOC_DMG%LEN(IMAT))
         ENDIF
         ! Flag for non-local material
-        IPM(253,IMAT) = 1   
+        IPM(253,IMAT) = 1
         ! Number of the material law
-        ILAW = IPM(2,IMAT)       
+        ILAW = IPM(2,IMAT)
         ! Flag of saving non-local plastic strain and strain rate in buffer
         MLAW_TAG(IMAT)%G_PLANL  = 1
         MLAW_TAG(IMAT)%L_PLANL  = 1
         MLAW_TAG(IMAT)%G_EPSDNL = 1
-        MLAW_TAG(IMAT)%L_EPSDNL = 1                           
+        MLAW_TAG(IMAT)%L_EPSDNL = 1
 c--------------------------------------------------
 c       Printout values
 c--------------------------------------------------
         WRITE(IOUT,2000) MAT_ID,ILAW,NLOC_DMG%LEN(IMAT),NLOC_DMG%LE_MAX(IMAT)
 c
       ENDDO
-c-----------------------------------------      
+c-----------------------------------------
  2000 FORMAT(/
      & 5X,'    NON-LOCAL REGULARIZATION  ',/,
      & 5X,'    ------------------------  ',/,
@@ -190,6 +190,6 @@ c-----------------------------------------
      & 5X,'MATERIAL LAW  . . . . . . . . . . . . . . . . =',I10/,
      & 5X,'NON-LOCAL INTERNAL LENGTH . . . . . . . . . . =',1PG20.13/,
      & 5X,'MAXIMAL ELEMENT LENGTH TARGET . . . . . . . . =',1PG20.13/)
-c-----------------------------------------      
+c-----------------------------------------
       RETURN
       END

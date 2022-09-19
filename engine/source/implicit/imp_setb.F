@@ -117,10 +117,10 @@ C------------------------------------------
         IF (IKC(ND)<1) THEN
           IF (J<=3) THEN
            B(ID)=B(ID)+F(J,I)
-          ELSE 
+          ELSE
            B(ID)=B(ID)+M(J-3,I)
           ENDIF
-        ELSE 
+        ELSE
           NKC=NKC+1
         ENDIF
        ENDDO
@@ -187,7 +187,7 @@ C------------------------------------------
          ENDIF
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 C--------------------------------------------
       RETURN
       END

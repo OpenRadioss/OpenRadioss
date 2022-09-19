@@ -76,7 +76,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SOLID_VECTOR(I)%KEY3  = 'VECT/PEXT'
       H3D_KEYWORD_SOLID_VECTOR(I)%IS_SKIN  = 1
       H3D_KEYWORD_SOLID_VECTOR(I)%TEXT1  = 'Pressure vector'
-      H3D_KEYWORD_SOLID_VECTOR(I)%COMMENT  = 
+      H3D_KEYWORD_SOLID_VECTOR(I)%COMMENT  =
      .'External pressure vector on the Skin of solid'
 c-----------------------------------------------
 

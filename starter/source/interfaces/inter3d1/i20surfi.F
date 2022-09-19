@@ -127,7 +127,7 @@ c-----------------------------------------------------------------
 c     surface S2
 c-----------------------------------------------------------------
       IF(ISU2 /= 0) NRTS = IGRSURF(ISU2)%NSEG
-      
+
       IF(ISYM == 1) NRTM = NRTM + NRTS
 
 c---------------------------------------
@@ -157,7 +157,7 @@ c---------------------------------------
           WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'
           DO I=1,NRTM
             WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,4)
-          ENDDO      
+          ENDDO
         ENDIF
       ENDIF
 C=======================================================================
@@ -167,10 +167,10 @@ c-----------------------------------------------------------------
 c     tag noeuds surfaces S1 S2
 c-----------------------------------------------------------------
       DO I=1,NUMNOD
-        TAG(I)=0 ! initialisation 
-        TAGS(I)=0 ! initialisation 
-        TAGB(I)=0 ! initialisation 
-        LNTAG(I)=0 ! initialisation 
+        TAG(I)=0 ! initialisation
+        TAGS(I)=0 ! initialisation
+        TAGB(I)=0 ! initialisation
+        LNTAG(I)=0 ! initialisation
       ENDDO
       IF(ISU2 /= 0)THEN
         DO J=1,IGRSURF(ISU2)%NSEG
@@ -382,11 +382,11 @@ C-----------------------------------------------
       INTEGER NEXTK(4),IWORK(70000),NLL
       my_real
      .   NX,NY,NZ,MX,MY,MZ,AAA,D1X,D1Y,D1Z,D2X,D2Y,D2Z
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX,LINEIX2,IXWORK
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .   INDEX,TAG
-      my_real, DIMENSION(:,:), ALLOCATABLE :: 
+      my_real, DIMENSION(:,:), ALLOCATABLE ::
      .   XLINEIX
 
       INTEGER BITSET
@@ -518,11 +518,11 @@ c         seuls les bords sont conservs
               IXWORK(3,NL)=IXWORK(3,L)
               IXWORK(4,NL)=IXWORK(4,L)
               IXWORK(5,NL)=1 ! bord on
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5 
+              IXWORK(1,L)=I1
+              IXWORK(2,L)=I2
+              IXWORK(3,L)=I3
+              IXWORK(4,L)=I4
+              IXWORK(5,L)=I5
             ENDIF
           ENDDO
         ELSEIF(IEDGE == 2)THEN
@@ -547,11 +547,11 @@ c         les artes vives sont conservs (EDG_COS)
               IXWORK(3,NL)=IXWORK(3,L)
               IXWORK(4,NL)=IXWORK(4,L)
               IXWORK(5,NL)=1 ! bord on
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5  
+              IXWORK(1,L)=I1
+              IXWORK(2,L)=I2
+              IXWORK(3,L)=I3
+              IXWORK(4,L)=I4
+              IXWORK(5,L)=I5
            ENDIF
           ENDDO
         ENDIF
@@ -564,8 +564,8 @@ C       pas de surfaces
 c---------------------------------------
 c       nombre de lignes
 c---------------------------------------
-      NLL    = LL      
-      NLIN   = LL      
+      NLL    = LL
+      NLIN   = LL
       NACTIF = NL
       IF(LIN /= 0) THEN
         NLIN =  NLIN + NLIN0
@@ -576,25 +576,25 @@ c     nombre de noeuds
 c---------------------------------------
       NSME = 0
       DO I=1,NUMNOD
-        TAG(I) = 0                               
+        TAG(I) = 0
       ENDDO
       DO LL=1,NLL
-        TAG(IXWORK(1,LL)) = 1                               
-        TAG(IXWORK(2,LL)) = 1                               
+        TAG(IXWORK(1,LL)) = 1
+        TAG(IXWORK(2,LL)) = 1
       ENDDO
       IF(LIN /= 0)THEN
         DO J=1,NLIN0
-          TAG(SLIN_NODES(J,1)) = 1                             
-          TAG(SLIN_NODES(J,2)) = 1                             
-          LNTAG(SLIN_NODES(J,1)) = 1			      
+          TAG(SLIN_NODES(J,1)) = 1
+          TAG(SLIN_NODES(J,2)) = 1
+          LNTAG(SLIN_NODES(J,1)) = 1			
           LNTAG(SLIN_NODES(J,2)) = 1
         ENDDO
       ENDIF
       DO I=1,NUMNOD
         IF(TAG(I) == 1) THEN
-          NSME = NSME + 1 
+          NSME = NSME + 1
           TAGB(I) = BITSET(TAGB(I),NB)
-        ENDIF                              
+        ENDIF
       ENDDO
 c---------------------------------------
 c     copie des lignes (IALLO == 2)
@@ -613,7 +613,7 @@ c---------------------------------------
 
         DO LL=1,NLL
           IF(IXWORK(5,LL) == 1)THEN
-            L = L+1                               
+            L = L+1
             IXLINE(1,L) = IXWORK(1,LL)    ! noeud 1
             IXLINE(2,L) = IXWORK(2,LL)    ! noeud 2
             ISLINE(1,L) = IXWORK(3,LL)    ! surface
@@ -624,30 +624,30 @@ c---------------------------------------
 c       lignes inactives
         DO LL=1,NLL
           IF(IXWORK(5,LL) /= 1)THEN
-            L = L+1                               
+            L = L+1
             IXLINE(1,L) = IXWORK(1,LL)    ! noeud 1
             IXLINE(2,L) = IXWORK(2,LL)    ! noeud 2
             ISLINE(1,L) = IXWORK(3,LL)    ! surface
             ISLINE(2,L) = IXWORK(4,LL)    ! cot de la surface
           ENDIF
         ENDDO
-          
+
         IF(IPRI >= 1) THEN
           WRITE(IOUT,'(/,A,/)')' ACTIV SEGMENTS USED FOR EDGE'
           K=1
           DO I=1,NACTIF
             WRITE(IOUT,FMT=FMW_4I)(ITAB(IXLINE(K,I)),K=1,2)
-          ENDDO      
+          ENDDO
         ENDIF
 
 c       noeuds
         L = 0
         DO I=1,NUMNOD
           IF(TAG(I) == 1)THEN
-            TAG(I) = 0 
-            L = L+1                               
-            MSVE(L) = I                             
-          ENDIF                              
+            TAG(I) = 0
+            L = L+1
+            MSVE(L) = I
+          ENDIF
         ENDDO
       ENDIF
 C-----------
@@ -709,9 +709,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I5,I1M,I2M,IS,BORD,BOLD
       INTEGER NEXTK(4),IWORK(70000),NL
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .   INDEX
 
       INTEGER BITSET

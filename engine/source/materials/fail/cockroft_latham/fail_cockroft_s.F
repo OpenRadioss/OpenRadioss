@@ -98,7 +98,7 @@ C
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
      .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,
-     .   TDELE(NEL) ,DFMAX(NEL)     
+     .   TDELE(NEL) ,DFMAX(NEL)
 C-----------------------------------------------
 C I N P U T O U T P U T A r g u m e n t s
 C-----------------------------------------------
@@ -143,17 +143,17 @@ c!      UVAR(I,3) contains the previous first principal stress
       D_EEQ    = ZERO
       R_INTER  = ZERO
       PHI      = ZERO
-      
+
       LENG     = 0
-      
-      
-c!  ***********************      
+
+
+c!  ***********************
       NINDX = 0
 
 C-----------------------------------------------
 c! fast degradation
         DO I=1,NEL
-         IF(OFF(I)<ONE .AND. OFF(I) > ZERO) THEN 
+         IF(OFF(I)<ONE .AND. OFF(I) > ZERO) THEN
            SIGNXX(I) = SIGNXX(I) * OFF(I)
            SIGNYY(I) = SIGNYY(I) * OFF(I)
            SIGNZZ(I) = SIGNZZ(I) * OFF(I)
@@ -165,11 +165,11 @@ c! fast degradation
          IF(OFF(I)<EM01) OFF(I) = ZERO
         END DO
 C-------------------  
-      
-      
+
+
       DO I=1,NEL
         IF(OFF(I)==ONE) THEN
-        
+
 c!          COCKROFT = UVAR(I,2)
 c! equivalent strain calculation (negative = total strain ; positive = plastic strain)
           IF(C0 < ZERO)THEN
@@ -180,19 +180,19 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             E_12  = HALF*EPSXY(I)
             E_23  = HALF*EPSYZ(I)
             E_13  = HALF*EPSZX(I)
-          
+
             EEQ   = E_11**2 + E_22**2 + E_33**2
             EEQ   = EEQ + TWO * (E_12**2) + TWO * (E_23**2) + TWO * (E_13**2)
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
 
             D_EEQ = EEQ - UVAR(I,1)
             IF (D_EEQ <= ZERO) D_EEQ = ZERO
-            UVAR(I,1) = EEQ  
+            UVAR(I,1) = EEQ
           ELSE
             D_EEQ = DPLA(I)
             UVAR(I,1) = UVAR(I,1) + DPLA(I)
           ENDIF
-        
+
 c!   principal stress calculation
 
           I1 = SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
@@ -203,19 +203,19 @@ c!   principal stress calculation
      .         TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
           Q  = (THREE*I2 - I1*I1)/NINE
           R  = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
-           
+
           R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
           PHI = ACOS(MAX(R_INTER,-ONE))
-           
+
           S11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
           S22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
           S33 = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
 
-          IF (S11<S22) THEN 
+          IF (S11<S22) THEN
             R_INTER = S11
             S11     = S22
             S22     = R_INTER
-          ENDIF 
+          ENDIF
           IF (S22<S33)THEN
             R_INTER = S22
             S22     = S33
@@ -226,33 +226,33 @@ c!   principal stress calculation
             S11     = S22
             S22     = R_INTER
           ENDIF
-          
+
           IF(S11 > ZERO) THEN
             S11       = S11 * EMA + (ONE-EMA)* UVAR(I,3)
             UVAR(I,3) = S11
 
             UVAR(I,2) = UVAR(I,2) + MAX(S11,ZERO) * D_EEQ
-          ENDIF 
-          
+          ENDIF
+
           DFMAX(I) = UVAR(I,2) / MAX(ABS(C0),EM20)
           DFMAX(I) = MIN(ONE,DFMAX(I))
-         
+
           IF (UVAR(I,2) >= ABS(C0)) THEN
-            TDELE(I)    = TIME  
+            TDELE(I)    = TIME
             NINDX       = NINDX+1
-            INDX(NINDX) = I              
-            IDEL7NOK    = 1   
-            
+            INDX(NINDX) = I
+            IDEL7NOK    = 1
+
             OFF(I) = FOUR_OVER_5
 
           ENDIF
-        
+
 c!        PRINT *,' UVAR(I,2) =',UVAR(I,2),' el#= ',NGL(I)
-          
+
         ENDIF
-                     
+
       ENDDO
-      
+
       DO J=1,NINDX
         I = INDX(J)
 #include "lockon.inc"
@@ -263,11 +263,11 @@ c!        PRINT *,' UVAR(I,2) =',UVAR(I,2),' el#= ',NGL(I)
       ENDDO
 
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (COCKROFT-LATHAM) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
+     .          ' AT TIME :',1PE12.4)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (COCKROFT-LATHAM) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
+     .          ' AT TIME :',1PE12.4)
 
       RETURN
       END
 
-       
+

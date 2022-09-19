@@ -52,7 +52,7 @@ Chd|====================================================================
 !       exchange of cell (coarse & fine grid) between processor
 
 !       INTER_PREPARE_SORT organization :
-!       * computation of the bounds 
+!       * computation of the bounds
 !       * exchange & globalization of the bounds
 !       * creation of a common grid (coarse & fine)
 !       * coloration of coarse grid
@@ -65,7 +65,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C-----------------------------------------------
         my_real, DIMENSION(TEMP_SIZ), INTENT(in) :: TEMP   !   temperature
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: WEIGHT ! weight : 1 if current proc computes the node
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB   ! global node ID
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET  ! k energy & 
+        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET  ! k energy &
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM     ! connectivity array iad(P+1)-iad(P) = nb of frontier node on P
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM          ! frontier node ID
@@ -129,7 +129,7 @@ C-----------------------------------------------
 !   ----------------------------------------
 
         ! -----------------------------
-        ! compute the min/max position 
+        ! compute the min/max position
         IF(NB_INTER_SORTED>0) THEN
             ! ---------------------
             ! compute the curv and the number of main nodes
@@ -137,7 +137,7 @@ C-----------------------------------------------
             DO KK=1,NB_INTER_SORTED
                 N = LIST_INTER_SORTED(KK)
                 NTY = IPARI(7,N)
-                INACTI = IPARI(22,N)        
+                INACTI = IPARI(22,N)
                 TYPE18 = .FALSE.
                 IF(NTY == 7 .AND. INACTI ==7)TYPE18=.TRUE.
                 CALL INTER_COUNT_NODE_CURV( N,ITASK,IPARI,INTBUF_TAB,
@@ -156,7 +156,7 @@ C-----------------------------------------------
         ! -----------------------------
 
         ! -----------------------------
-        ! globalization of min/max position 
+        ! globalization of min/max position
         IF(NSPMD>1.AND.NEED_TO_SORT>0)THEN
             IF(ITASK==0) THEN
                 CALL SPMD_BOX_LIMIT_REDUCTION(NB_INTER_SORTED)
@@ -170,7 +170,7 @@ C-----------------------------------------------
         IF(ITASK==0) THEN
             IF(.NOT.ALLOCATED(LOCAL_COARSE_GRID)) THEN
                 ALLOCATE(LOCAL_COARSE_GRID(NB_BOX_COARSE_GRID**3+1))
-            ENDIF            
+            ENDIF
             LOCAL_COARSE_GRID(1:NB_BOX_COARSE_GRID**3+1) = 0
         ENDIF
         CALL MY_BARRIER()
@@ -234,7 +234,7 @@ C-----------------------------------------------
             ! -----------------------------
 
             ! -----------------------------
-            ! creation of voxel of secondary nodes 
+            ! creation of voxel of secondary nodes
             ! wait comm R "exchange of number of colored cells" & send/rcv the colored cells
             IF(NSPMD>1.AND.NEED_TO_SORT>0)THEN
                 IF(ITASK==0) THEN
@@ -248,12 +248,12 @@ C-----------------------------------------------
                 CALL MY_BARRIER()
             ENDIF
             ! -----------------------------
- 
+
             ! -----------------------------
-            ! wait comm R "send/rcv the colored cells" 
-            ! and compute the number of secondary nodes needed by remote proc 
+            ! wait comm R "send/rcv the colored cells"
+            ! and compute the number of secondary nodes needed by remote proc
             !             + comm of "number of secondary nodes needed by remote proc"
-            !             + creation of the secondary node list 
+            !             + creation of the secondary node list
             !             + initialize the S buffer of secondary node data (x & v)
             IF(NSPMD>1.AND.NEED_TO_SORT>0)THEN
                 IF(ITASK==0) THEN
@@ -282,7 +282,7 @@ C-----------------------------------------------
      .                 KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,
      .                 N,INTER_STRUCT,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZ)
                     ! wait "number of secondary nodes needed by remote proc"
-                    CALL SPMD_WAIT_NB(IRECVFROM,ISENDTO,N,SORT_COMM)    
+                    CALL SPMD_WAIT_NB(IRECVFROM,ISENDTO,N,SORT_COMM)
                 ENDIF
                 CALL MY_BARRIER()
             ENDIF

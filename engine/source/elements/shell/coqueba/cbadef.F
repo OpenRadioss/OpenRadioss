@@ -49,26 +49,26 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NPG,NG,JFT,JLT,NPLAT,IPLAT(*),ISROT
       PARAMETER (NPG = 4)
-      MY_REAL 
+      MY_REAL
      .   RXYZ(MVSIZ,8),VCORE(MVSIZ,12),VXYZ(MVSIZ,12),
      .   VQN(MVSIZ,9,4),VKSI(4,4),VETA(4,4),
      .   BM(MVSIZ,36),BMF(MVSIZ,36),BF(MVSIZ,24),BC(MVSIZ,40),HX(MVSIZ,4),HY(MVSIZ,4)
-      MY_REAL 
+      MY_REAL
      .   VNRM(MVSIZ,12),VASTN(MVSIZ,16),VJFI(MVSIZ,3,2,4),
      .   VQ(MVSIZ,3,3,4),VDEF(MVSIZ,8),DT1,AREA(*)
-      MY_REAL 
+      MY_REAL
      .   CDET(*),TC(MVSIZ,2,2),BRZ(MVSIZ,4,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
-      MY_REAL 
+      MY_REAL
      .   VPG(2,NPG),PG1,PG,THK,DETJ,DET,
      .   TFN(3,2),BCX,BCY,BXY(3),BYX(3),
      .   V1(2),V2(2),RV1,RV2,
      .   C1,C2,VT1,VT2,BC1,BC2,VB1,
      .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(2,2),V11(4)
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -79,7 +79,7 @@ C--------------------------
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
 C-------VCORE(12):BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
 C-------V13(I)->VXYZ(j,1,I),V24(I)->VXYZ(j,2,I),VHI(I)->VXYZ(j,3,I)------------
@@ -175,7 +175,7 @@ C----------no more constant shear-----------
        END IF !(ISROT>0) THEN
 C------------ELEMENT GAUCH-------------------
 #include "vectorize.inc"
-       DO 150 I=NPLAT+1,JLT 
+       DO 150 I=NPLAT+1,JLT
         EP=IPLAT(I)
 C---------------------------------------------------
 C  CALCUL DE [FN] 
@@ -359,7 +359,7 @@ C         I = 1; JJ = 3*KK =9
           VDEF(EP,3)= VDEF(EP,3)+ C1*VT2+C2*VT1
          ELSE
           BM(EP,18)=ZERO
-         END IF 
+         END IF
 C---------:EPS-X:EPS-Y:EPS-XY
           BM(EP,10)=VQ(EP,1,1,NG)*C1
           BMF(EP,10)=THK*BM(EP,10)+VQ(EP,1,1,NG)*BC1
@@ -449,7 +449,7 @@ C         I = 1;JJ = 3*KK=18
           VDEF(EP,3)= VDEF(EP,3)+ C1*VT2+C2*VT1
          ELSE
           BM(EP,27)=ZERO
-         END IF 
+         END IF
 C---------:EPS-X:EPS-Y:EPS-XY
           BM(EP,19)=VQ(EP,1,1,NG)*C1
           BMF(EP,19)=THK*BM(EP,19)+VQ(EP,1,1,NG)*BC1
@@ -536,7 +536,7 @@ C         I = 1; JJ = 3*KK =27
           VDEF(EP,3)= VDEF(EP,3)+ C1*VT2+C2*VT1
          ELSE
           BM(EP,36)=ZERO
-         END IF 
+         END IF
           BM(EP,28)=VQ(EP,1,1,NG)*C1
           BMF(EP,28)=THK*BM(EP,28)+VQ(EP,1,1,NG)*BC1
           BM(EP,29)=VQ(EP,1,2,NG)*C2
@@ -701,34 +701,34 @@ C----------J=1--II=(J-1)*3 =0 JJ=(J-1)*2 =0 KK=10*(J-1)=0
          BCX=
      1            BC(EP,1)*VXYZ(EP,1)+BC(EP,3)*VXYZ(EP,2)
      2           +BC(EP,5)*VXYZ(EP,3)+BC(EP,7)*RXYZ(EP,1)
-     3           +BC(EP,9)*RXYZ(EP,2)       
+     3           +BC(EP,9)*RXYZ(EP,2)
          BCY=
      1            BC(EP,2)*VXYZ(EP,1)+BC(EP,4)*VXYZ(EP,2)
      2           +BC(EP,6)*VXYZ(EP,3)+BC(EP,8)*RXYZ(EP,1)
-     3           +BC(EP,10)*RXYZ(EP,2)       
+     3           +BC(EP,10)*RXYZ(EP,2)
 C----------J=2 II=(J-1)*3 =3 JJ=(J-1)*2 =2 KK=10*(J-1) =10
          BCX=BCX
      1           +BC(EP,11)*VXYZ(EP,4)+BC(EP,13)*VXYZ(EP,5)
      2           +BC(EP,15)*VXYZ(EP,6)+BC(EP,17)*RXYZ(EP,3)
-     3           +BC(EP,19)*RXYZ(EP,4)       
+     3           +BC(EP,19)*RXYZ(EP,4)
          BCY=BCY
      1           +BC(EP,12)*VXYZ(EP,4)+BC(EP,14)*VXYZ(EP,5)
      2           +BC(EP,16)*VXYZ(EP,6)+BC(EP,18)*RXYZ(EP,3)
-     3           +BC(EP,20)*RXYZ(EP,4)       
+     3           +BC(EP,20)*RXYZ(EP,4)
 C----------J=3--  II=(J-1)*3=6 JJ=(J-1)*2=4  KK=10*(J-1)=20
          BCX=BCX
      1           +BC(EP,21)*VXYZ(EP,7)+BC(EP,23)*VXYZ(EP,8)
      2           +BC(EP,25)*VXYZ(EP,9)+BC(EP,27)*RXYZ(EP,5)
-     3           +BC(EP,29)*RXYZ(EP,6)       
+     3           +BC(EP,29)*RXYZ(EP,6)
          BCY=BCY
      1           +BC(EP,22)*VXYZ(EP,7)+BC(EP,24)*VXYZ(EP,8)
      2           +BC(EP,26)*VXYZ(EP,9)+BC(EP,28)*RXYZ(EP,5)
-     3           +BC(EP,30)*RXYZ(EP,6)       
+     3           +BC(EP,30)*RXYZ(EP,6)
 C----------J=4-- II=(J-1)*3 =9 JJ=(J-1)*2 =6 KK=10*(J-1)=30
          BCX=BCX
      1           +BC(EP,31)*VXYZ(EP,10)+BC(EP,33)*VXYZ(EP,11)
      2           +BC(EP,35)*VXYZ(EP,12)+BC(EP,37)*RXYZ(EP,7)
-     3           +BC(EP,39)*RXYZ(EP,8)       
+     3           +BC(EP,39)*RXYZ(EP,8)
          BCY=BCY
      1           +BC(EP,32)*VXYZ(EP,10)+BC(EP,34)*VXYZ(EP,11)
      2           +BC(EP,36)*VXYZ(EP,12)+BC(EP,38)*RXYZ(EP,7)
@@ -761,20 +761,20 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NPLAT,IPLAT(*)
-       my_real 
+       my_real
      .     X13(*)   ,X24(*)    ,Y13(*)     ,Y24(*)    ,
-     .     BM(MVSIZ,36),VDEF(MVSIZ,8) ,VXYZ(MVSIZ,3,4)  
+     .     BM(MVSIZ,36),VDEF(MVSIZ,8) ,VXYZ(MVSIZ,3,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J,EP
 C
-       DO EP=JFT,NPLAT 
+       DO EP=JFT,NPLAT
         I=IPLAT(EP)
           VDEF(I,3)=Y24(I)*VXYZ(I,2,1)-Y13(I)*VXYZ(I,2,2)
      .             -X24(I)*VXYZ(I,1,1)+X13(I)*VXYZ(I,1,2)
        ENDDO
-       DO EP=NPLAT+1,JLT 
+       DO EP=NPLAT+1,JLT
         I=IPLAT(EP)
           BM(I,3)=-X24(I)
           BM(I,6)=Y24(I)
@@ -809,7 +809,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*),ISMSTR
-      MY_REAL 
+      MY_REAL
      .   VCORE(MVSIZ,3,4),X13(*),X24(*),Y13(*),Y24(*),
      .   BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .   AREA(*)
@@ -817,7 +817,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,EP
-      my_real 
+      my_real
      .   MX13(MVSIZ),MX23(MVSIZ),MX34(MVSIZ),MY13(MVSIZ),
      .   MY23(MVSIZ),MY34(MVSIZ),A1(MVSIZ),
      .   X13L(MVSIZ),X24L(MVSIZ),Y13L(MVSIZ),Y24L(MVSIZ)
@@ -878,18 +878,18 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*),NG
-      my_real 
+      my_real
      .   RLZ(MVSIZ,4),VXYZ(MVSIZ,3,4),
      .   BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .   BMRZ(MVSIZ,3,4),BM(MVSIZ,36)
-      my_real 
+      my_real
      .   AREA(*),VDEF(MVSIZ,8),VRLZ(*),BRZ(MVSIZ,4,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,EP,NPG
       PARAMETER (NPG = 4)
-      my_real 
+      my_real
      .   AA4,BXV2,BYV1,ERZ,VPG(2,NPG),PG,PG1
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -938,7 +938,7 @@ C---------------
       ENDDO
 C      
 #include "vectorize.inc"
-      DO I=NPLAT+1,JLT 
+      DO I=NPLAT+1,JLT
        EP=IPLAT(I)
        ERZ=ZERO
        DO J=1,4
@@ -1243,9 +1243,9 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NG,JFT,JLT,NPLAT,IPLAT(*),ISROT
-      MY_REAL 
+      MY_REAL
      .   VCORE(MVSIZ,12),VXYZ(MVSIZ,12),BM(MVSIZ,36),HX(MVSIZ,4),HY(MVSIZ,4)
-      MY_REAL 
+      MY_REAL
      .   VDEF(MVSIZ,8)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
@@ -1253,7 +1253,7 @@ C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
 C-------VCORE(12):BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
 C-------V13(I)->VXYZ(j,1,I),V24(I)->VXYZ(j,2,I),VHI(I)->VXYZ(j,3,I)------------
@@ -1311,11 +1311,11 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*),ISROT
-      MY_REAL 
+      MY_REAL
      .   RLZ(MVSIZ,4),VXYZ(MVSIZ,3,4),
      .   BM(MVSIZ,9,4),VDEF(MVSIZ,8)
 C     .   BM(9,4,*),BMF(9,4,*),BF(6,4,*),VDEF(8,*)
-      MY_REAL 
+      MY_REAL
      .   BMRZ(MVSIZ,4,4)
 #include      "com01_c.inc"
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1325,12 +1325,12 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
 C
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CDEMI
 C--------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
 C-------BM(8):BXI(2),HX(1),not used,BYI(2),HY(1),not used
 C-------V13(I)->VXYZ(j,1,I),V24(I)->VXYZ(j,2,I),VHI(I)->VXYZ(j,3,I)------------
@@ -1349,7 +1349,7 @@ C     1            +BM(EP,3,1)*RXYZ(EP,1,3))
 C        VDEF(EP,8)=BM(EP,5,1)*RXYZ(EP,2,1)+BM(EP,6,1)*RXYZ(EP,2,2)
 C     3            +BM(EP,7,1)*RXYZ(EP,2,3)
        ENDDO
-c       constant shear is removed 
+c       constant shear is removed
 #include "vectorize.inc"
         DO I=JFT,NPLAT
          EP=IPLAT(I)
@@ -1360,10 +1360,10 @@ C-------- exy---
          VDEF(EP,3)=BM(EP,5,1)*VXYZ(EP,1,1)+BM(EP,6,1)*VXYZ(EP,1,2)
      1             +BM(EP,7,1)*VXYZ(EP,1,3)
         END DO
-c       
+c
 C------------ELEMENT GAUCH-------------------
 #include "vectorize.inc"
-       DO EP=NPLAT+1,JLT 
+       DO EP=NPLAT+1,JLT
         I=IPLAT(EP)
 C          I = 1; JJ = 3*KK =0 terms VXYZ(3,j,I) shared
           CDEMI = HALF*(BM(I,9,1)*VXYZ(I,3,1)+BM(I,9,2)*VXYZ(I,3,2)+
@@ -1373,12 +1373,12 @@ C          I = 1; JJ = 3*KK =0 terms VXYZ(3,j,I) shared
           VDEF(I,3)=BM(I,3,1)*VXYZ(I,1,1)+BM(I,3,2)*VXYZ(I,1,2)+
      1              BM(I,3,3)*VXYZ(I,1,3)+BM(I,3,4)*VXYZ(I,1,4)+CDEMI
 C---------DEF MEMBRANE------
-          VDEF(I,1)= 
+          VDEF(I,1)=
      +BM(I,1,1)*VXYZ(I,1,1)+BM(I,4,1)*VXYZ(I,2,1)+BM(I,7,1)*VXYZ(I,3,1)+
      +BM(I,1,2)*VXYZ(I,1,2)+BM(I,4,2)*VXYZ(I,2,2)+BM(I,7,2)*VXYZ(I,3,2)+
      +BM(I,1,3)*VXYZ(I,1,3)+BM(I,4,3)*VXYZ(I,2,3)+BM(I,7,3)*VXYZ(I,3,3)+
      +BM(I,1,4)*VXYZ(I,1,4)+BM(I,4,4)*VXYZ(I,2,4)+BM(I,7,4)*VXYZ(I,3,4)
-          VDEF(I,2)= 
+          VDEF(I,2)=
      +BM(I,2,1)*VXYZ(I,1,1)+BM(I,5,1)*VXYZ(I,2,1)+BM(I,8,1)*VXYZ(I,3,1)+
      +BM(I,2,2)*VXYZ(I,1,2)+BM(I,5,2)*VXYZ(I,2,2)+BM(I,8,2)*VXYZ(I,3,2)+
      +BM(I,2,3)*VXYZ(I,1,3)+BM(I,5,3)*VXYZ(I,2,3)+BM(I,8,3)*VXYZ(I,3,3)+
@@ -1442,10 +1442,10 @@ C---------------
      1      RLZ(EP,2)+BMRZ(I,1,3)*RLZ(EP,3)+BMRZ(I,1,4)*RLZ(EP,4)
        VDEF(EP,2)=VDEF(EP,2)+BMRZ(I,2,1)*RLZ(EP,1)+BMRZ(I,2,2)*
      1      RLZ(EP,2)+BMRZ(I,2,3)*RLZ(EP,3)+BMRZ(I,2,4)*RLZ(EP,4)
-       VDEF(EP,3)=VDEF(EP,3)+ 
+       VDEF(EP,3)=VDEF(EP,3)+
      1                BMRZ(I,3,1)*RLZ(EP,1)+BMRZ(I,3,2)*RLZ(EP,2)
      2               +BMRZ(I,3,3)*RLZ(EP,3)+BMRZ(I,3,4)*RLZ(EP,4)
-       VDEF(EP,4)=VDEF(EP,4)+ 
+       VDEF(EP,4)=VDEF(EP,4)+
      1                BMRZ(I,4,1)*RLZ(EP,1)+BMRZ(I,4,2)*RLZ(EP,2)
      2               +BMRZ(I,4,3)*RLZ(EP,3)+BMRZ(I,4,4)*RLZ(EP,4)
        ENDDO
@@ -1476,9 +1476,9 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NG,JFT,JLT,NPLAT,IPLAT(*),ISROT
-      MY_REAL 
+      MY_REAL
      .   VCORE(MVSIZ,12),VXYZ(MVSIZ,3,4),BM(MVSIZ,9,4),HX(MVSIZ,4),HY(MVSIZ,4)
-      MY_REAL 
+      MY_REAL
      .   VDEF(MVSIZ,8),RXYZ(MVSIZ,4),BMRZ(MVSIZ,4,4),WXY(*)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C---VDEF: 1:8 exx eyy,exy,eyx,byx,bxx,byy,bxy
@@ -1487,11 +1487,11 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
 C
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CDEMI
 C--------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
 C--------FLEXION-----
         VDEF(EP,6)=ZERO
         VDEF(EP,7)=ZERO
@@ -1500,7 +1500,7 @@ C--------FLEXION-----
         WXY(EP)=ZERO
        ENDDO
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
 C-------BM(8):BXI(2),HX(1),not used,BYI(2),HY(1),not used
         BM(EP,1,1)=VCORE(EP,1)+HX(EP,NG)*VCORE(EP,5)
@@ -1535,10 +1535,10 @@ C---------------
      1         RXYZ(EP,2)+BMRZ(I,1,3)*RXYZ(EP,3)+BMRZ(I,1,4)*RXYZ(EP,4)
        VDEF(EP,2)=VDEF(EP,2)+BMRZ(I,2,1)*RXYZ(EP,1)+BMRZ(I,2,2)*
      1         RXYZ(EP,2)+BMRZ(I,2,3)*RXYZ(EP,3)+BMRZ(I,2,4)*RXYZ(EP,4)
-       VDEF(EP,3)=VDEF(EP,3)+ 
+       VDEF(EP,3)=VDEF(EP,3)+
      1                BMRZ(I,3,1)*RXYZ(EP,1)+BMRZ(I,3,2)*RXYZ(EP,2)
      2               +BMRZ(I,3,3)*RXYZ(EP,3)+BMRZ(I,3,4)*RXYZ(EP,4)
-       VDEF(EP,4)=VDEF(EP,4)+ 
+       VDEF(EP,4)=VDEF(EP,4)+
      1                BMRZ(I,4,1)*RXYZ(EP,1)+BMRZ(I,4,2)*RXYZ(EP,2)
      2               +BMRZ(I,4,3)*RXYZ(EP,3)+BMRZ(I,4,4)*RXYZ(EP,4)
        ENDDO
@@ -1570,22 +1570,22 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NPG,NG,JFT,JLT,NPLAT,IPLAT(*),ISROT
       PARAMETER (NPG = 4)
-      MY_REAL 
+      MY_REAL
      .   VCORE(MVSIZ,12),VKSI(4,4),VETA(4,4),
      .   BM(MVSIZ,36),HX(MVSIZ,4),HY(MVSIZ,4)
-      MY_REAL 
+      MY_REAL
      .   VJFI(MVSIZ,3,2,4),VQ(MVSIZ,3,3,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K
-      MY_REAL 
+      MY_REAL
      .   VPG(2,NPG),PG1,PG,THK,DETJ,DET,
      .   TFN(3,2),BCX,BCY,BXY(3),BYX(3),
      .   V1(2),V2(2),RV1,RV2,
      .   C1,C2,VT1,VT2,BC1,BC2,VB1,TC(MVSIZ,2,2),
      .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(2,2),V11(4)
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -1596,7 +1596,7 @@ C--------------------------
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
 C-------VCORE(12):BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
         BM(EP,1)=VCORE(EP,1)+HX(EP,NG)*VCORE(EP,5)
@@ -1610,7 +1610,7 @@ C-------VCORE(12):BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
        ENDDO
 C------------ELEMENT GAUCH-------------------
 #include "vectorize.inc"
-       DO 150 I=NPLAT+1,JLT 
+       DO 150 I=NPLAT+1,JLT
         EP=IPLAT(I)
 C---------------------------
 C  CALCUL DE TC=VJFI*VQ
@@ -1755,7 +1755,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NG,JFT,JLT
-      MY_REAL 
+      MY_REAL
      .   BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4),
      .   BMRZ(MVSIZ,4,4)
 C-----------------------------------------------
@@ -1763,7 +1763,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NPG,I,J
       PARAMETER (NPG = 4)
-      MY_REAL 
+      MY_REAL
      .   VPG(2,NPG),PG1,PG,NXYP,NYXN
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -1811,7 +1811,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*)
-      MY_REAL 
+      MY_REAL
      .   RXYZ(MVSIZ,2,4),VXYZ(MVSIZ,3,4),
      .   BM(MVSIZ,9,4),BMF(MVSIZ,9,4),BF(MVSIZ,6,4),WXY(*)
 #include      "com01_c.inc"
@@ -1822,12 +1822,12 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,EP,K
 C
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CDEMI,KXY,KYX
 C--------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
         KYX =-(BM(EP,1,1)*RXYZ(EP,1,1)+BM(EP,2,1)*RXYZ(EP,1,2)
      1            +BM(EP,3,1)*RXYZ(EP,1,3))
@@ -1837,7 +1837,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
        ENDDO
 C------------ELEMENT GAUCH-------------------
 #include "vectorize.inc"
-      DO I=NPLAT+1,JLT 
+      DO I=NPLAT+1,JLT
         EP=IPLAT(I)
 C          
         CDEMI =HALF*(BMF(EP,9,1)*VXYZ(EP,3,1)+BMF(I,9,2)*VXYZ(EP,3,2)+
@@ -1858,4 +1858,4 @@ C
 C      
        RETURN
        END
-      
+

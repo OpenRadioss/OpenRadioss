@@ -79,9 +79,9 @@ C-----------------------------------------------
 
         DO I = 2, NSPMD
           MSGTYP=MSGOFF
-          SENDER = I-1        
+          SENDER = I-1
           CALL MPI_RECV(RBUF,DIM,REAL,SENDER,MSGTYP,
-     .                   MPI_COMM_WORLD,STATUS,IERROR) 
+     .                   MPI_COMM_WORLD,STATUS,IERROR)
           DO J=1,DIM_TAB3
            TAB4(I,J) = RBUF(J)
           ENDDO
@@ -94,7 +94,7 @@ C-----------------------------------------------
         ENDDO
         CALL MPI_SEND(RBUF,DIM,REAL,RECIP,MSGTYP,
      .                   MPI_COMM_WORLD,IERROR)
-      ENDIF     
+      ENDIF
 C
 #endif
       RETURN

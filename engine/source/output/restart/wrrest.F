@@ -142,7 +142,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)      
+      SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -277,7 +277,7 @@ C Ecriture du tableau des ddls
 C--------------------------------------
          DO J=1,2
             IF (IRFORM/5<=1) THEN
-              CALL WRTSQI(GRAPHE(I)%LSDDL_INI(J,1:DSNDDL), 
+              CALL WRTSQI(GRAPHE(I)%LSDDL_INI(J,1:DSNDDL),
      .                    DSNDDL, IRFORM)
             ELSE
               CALL WRITE_I_C(GRAPHE(I)%LSDDL_INI(J,1:DSNDDL), DSNDDL)
@@ -468,7 +468,7 @@ C--------------------------------------
        IF(ALLOCATED(IMP_RR)) DEALLOCATE(IMP_RR)
        ALLOCATE(IMP_RR(NR))
        NR = NR + IDYNA
-      ENDIF 
+      ENDIF
 C
       RETURN
       END
@@ -550,7 +550,7 @@ C
       DO I=1,NFVBAG
          IF (IMACH==3) THEN
             CALL WRITE_I_C(FVDATA(I)%L_TYPE,1)
-            CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)            
+            CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)
             CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
             CALL WRITE_DB(FVDATA(I)%DTOLD,1)
             CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
@@ -612,10 +612,10 @@ C
          TABI(3)=LENP
          TABI(4)=NPOLY
          TABI(5)=LENH
-         TABI(6)=NPOLH     
-         TABI(7)=LENP_ANIM     
-         TABI(8)=LENH_ANIM 
-         TABI(9)=NPOLH_ANIM 
+         TABI(6)=NPOLH
+         TABI(7)=LENP_ANIM
+         TABI(8)=LENH_ANIM
+         TABI(9)=NPOLH_ANIM
          TABI(10)=NNS_ANIM
          TABI(11)=FVDATA(I)%ID
          LEN=11
@@ -674,7 +674,7 @@ C--------------------------------------
          ENDIF
 C
       ENDDO
-      
+
       RETURN
       END
 C
@@ -687,7 +687,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE THCWREST(MCP,TEMP)      
+      SUBROUTINE THCWREST(MCP,TEMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -728,7 +728,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE NITSCHEWREST(FORNEQS)      
+      SUBROUTINE NITSCHEWREST(FORNEQS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -769,7 +769,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE CONVWREST(IBCV,FCONV)      
+      SUBROUTINE CONVWREST(IBCV,FCONV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -813,7 +813,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE RADIAWREST(IBCR,FRADIA)      
+      SUBROUTINE RADIAWREST(IBCR,FRADIA)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -857,7 +857,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE FXTEMPWREST(IBFT,FBFT)      
+      SUBROUTINE FXTEMPWREST(IBFT,FBFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -901,7 +901,7 @@ Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM,WEIGHT_RM)      
+      SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM,WEIGHT_RM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -928,11 +928,11 @@ C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (RBYM,NFRBYM*NRBYM,IRFORM)
         CALL WRTSQI (IRBYM,NIRBYM*NRBYM,IRFORM)
-        CALL WRTSQI (LCRBYM,NGSLNRBYM,IRFORM)        
+        CALL WRTSQI (LCRBYM,NGSLNRBYM,IRFORM)
       ELSE
         CALL WRITE_DB(RBYM,NFRBYM*NRBYM)
         CALL WRITE_I_C(IRBYM,NIRBYM*NRBYM)
-        CALL WRITE_I_C( LCRBYM,NGSLNRBYM)      
+        CALL WRITE_I_C( LCRBYM,NGSLNRBYM)
       ENDIF
       CALL WRITE_I_C( WEIGHT_RM,NRBYM)
       RETURN
@@ -946,7 +946,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-      SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,INOD,IEL,ICODE,ISKEW,MSZ2)      
+      SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,INOD,IEL,ICODE,ISKEW,MSZ2)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -971,11 +971,11 @@ C-----------------------------------------------
 C--------------------------------------
 C     ECRITURE DES REELS
 C--------------------------------------          
-         CALL WRITE_DB(MS_PLY,NPLYXFE*NPLYMAX)          
-         CALL WRITE_DB(ZI_PLY,NPLYXFE*NPLYMAX)          
-         CALL WRITE_DB(MSZ2,NPLYXFE)                    
-         CALL WRITE_I_C(INOD,NUMNOD)                    
-         CALL WRITE_I_C(IEL,NUMELC)                    
+         CALL WRITE_DB(MS_PLY,NPLYXFE*NPLYMAX)
+         CALL WRITE_DB(ZI_PLY,NPLYXFE*NPLYMAX)
+         CALL WRITE_DB(MSZ2,NPLYXFE)
+         CALL WRITE_I_C(INOD,NUMNOD)
+         CALL WRITE_I_C(IEL,NUMELC)
 C       
        IF(IPLYBCS > 0) THEN
            CALL WRITE_I_C(ICODE,NUMNOD)
@@ -1045,7 +1045,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-      SUBROUTINE CRKXFEM_WREST(INOD,IEL,NODLEVXF)      
+      SUBROUTINE CRKXFEM_WREST(INOD,IEL,NODLEVXF)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1123,27 +1123,27 @@ c
 C     Writing shell infos for CRACK XFEM
 c
      	DO K=1,NLEVMAX
-     	  ELSZ  = CRKSHELL(K)%CRKNUMSHELL                           
-        ELSZC = CRKSHELL(K)%CRKNUMSH4                             
-        ELSZTG= CRKSHELL(K)%CRKNUMSH3                             
+     	  ELSZ  = CRKSHELL(K)%CRKNUMSHELL
+        ELSZC = CRKSHELL(K)%CRKNUMSH4
+        ELSZTG= CRKSHELL(K)%CRKNUMSH3
 c
-     	  CALL WRITE_I_C(ELSZC,1)                                   
-     	  CALL WRITE_I_C(ELSZTG,1)                                  
-     	  CALL WRITE_I_C(ELSZ,1)                                    
-       	CALL WRITE_I_C(CRKSHELL(K)%CRKSHELLID  ,ELSZ)             
-        CALL WRITE_I_C(CRKSHELL(K)%ELTYPE      ,ELSZ)   
+     	  CALL WRITE_I_C(ELSZC,1)
+     	  CALL WRITE_I_C(ELSZTG,1)
+     	  CALL WRITE_I_C(ELSZ,1)
+       	CALL WRITE_I_C(CRKSHELL(K)%CRKSHELLID  ,ELSZ)
+        CALL WRITE_I_C(CRKSHELL(K)%ELTYPE      ,ELSZ)
 c------ CRKNOD
-        LEN  = 4*ELSZ                                
-        CALL WRITE_I_C(CRKNOD(K)%XFECRKNODID ,LEN)  
-        CALL WRITE_I_C(CRKNOD(K)%XFENODES    ,LEN)     
+        LEN  = 4*ELSZ
+        CALL WRITE_I_C(CRKNOD(K)%XFECRKNODID ,LEN)
+        CALL WRITE_I_C(CRKNOD(K)%XFENODES    ,LEN)
 c------ CRKSHELL
-        LEN = 4*ELSZ                             
+        LEN = 4*ELSZ
         CALL WRITE_I_C(CRKSHELL(K)%XNODEL  ,LEN)
 c------ CRKLVSET
-        LEN = LCNECRKXFEM                                 
-        CALL WRITE_I_C(CRKLVSET(K)%ENR0(1,1:LEN) ,LEN)   
-        CALL WRITE_I_C(CRKLVSET(K)%ENR0(2,1:LEN) ,LEN)   
-        CALL WRITE_DB (CRKLVSET(K)%AREA(1:ELSZ)  ,ELSZ)  
+        LEN = LCNECRKXFEM
+        CALL WRITE_I_C(CRKLVSET(K)%ENR0(1,1:LEN) ,LEN)
+        CALL WRITE_I_C(CRKLVSET(K)%ENR0(2,1:LEN) ,LEN)
+        CALL WRITE_DB (CRKLVSET(K)%AREA(1:ELSZ)  ,ELSZ)
 c------ CRKAVX
         LEN = 3*LCNECRKXFEM
         CALL WRITE_DB(CRKAVX(K)%A  ,  LEN)
@@ -1167,29 +1167,29 @@ c
 c---  write XFEM_PHANTOM  ----------------------------
       NENR = INT(IENRNOD/NLEVMAX)
       DO K=1,NXLAYMAX
-        CALL WRITE_I_C(XFEM_PHANTOM(K)%ELCUT   ,ELSZ)  
+        CALL WRITE_I_C(XFEM_PHANTOM(K)%ELCUT   ,ELSZ)
         CALL WRITE_I_C(XFEM_PHANTOM(K)%IFI     ,LCNECRKXFEM)
         CALL WRITE_I_C(XFEM_PHANTOM(K)%TAGXP   ,NCRKXFE*IENRNOD*5)
-        CALL WRITE_I_C(XFEM_PHANTOM(K)%ITRI    ,ELSZ*2)  
+        CALL WRITE_I_C(XFEM_PHANTOM(K)%ITRI    ,ELSZ*2)
       END DO
 c---  write CRKEDGE  ----------------------------
       LENLAY = CRKSHELL(1)%CRKNUMSHELL
       LEN    = NUMEDGES
       DO K=1,NXLAYMAX
-        CALL WRITE_I_C(CRKEDGE(K)%LAYCUT      ,LENLAY) 
+        CALL WRITE_I_C(CRKEDGE(K)%LAYCUT      ,LENLAY)
         CALL WRITE_I_C(CRKEDGE(K)%IEDGEC      ,ELSZC*4)
         CALL WRITE_I_C(CRKEDGE(K)%IEDGETG     ,ELSZTG*3)
-        CALL WRITE_I_C(CRKEDGE(K)%EDGEICRK    ,LEN)  
+        CALL WRITE_I_C(CRKEDGE(K)%EDGEICRK    ,LEN)
         CALL WRITE_I_C(CRKEDGE(K)%EDGEIFI     ,LEN*2)
         CALL WRITE_I_C(CRKEDGE(K)%EDGEENR     ,LEN*2)
         CALL WRITE_I_C(CRKEDGE(K)%EDGETIP     ,LEN*2)
-        CALL WRITE_I_C(CRKEDGE(K)%IBORDEDGE   ,LEN) 
-        CALL WRITE_I_C(CRKEDGE(K)%ICUTEDGE    ,LEN) 
-        CALL WRITE_DB (CRKEDGE(K)%RATIO       ,LEN) 
+        CALL WRITE_I_C(CRKEDGE(K)%IBORDEDGE   ,LEN)
+        CALL WRITE_I_C(CRKEDGE(K)%ICUTEDGE    ,LEN)
+        CALL WRITE_DB (CRKEDGE(K)%RATIO       ,LEN)
       END DO
 c-------------------------------------------------
-      CALL WRITE_I_C(XEDGE4N, 4*ELSZC)        
-      CALL WRITE_I_C(XEDGE3N, 3*ELSZTG)     
+      CALL WRITE_I_C(XEDGE4N, 4*ELSZC)
+      CALL WRITE_I_C(XEDGE3N, 3*ELSZTG)
       LEN = 2*(NUMELC+NUMELTG)
       CALL WRITE_I_C(ELCUTC,LEN)
       CALL WRITE_I_C(NODENR,NCRKXFE)
@@ -1278,7 +1278,7 @@ C-----------------------------------------------
         NOSZ = 3*NUMNOD
         CALL WRITE_DB(DFLOW, NOSZ)
         CALL WRITE_DB(VFLOW ,NOSZ)
-        CALL WRITE_DB(WFLOW ,NOSZ) 
+        CALL WRITE_DB(WFLOW ,NOSZ)
 C       
       RETURN
       END
@@ -1348,13 +1348,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LSIZ
-      
+
 C-----------------------------------------------*   
-        LSIZ =(3*NPT_STACK +2)*NS_STACK 
-        CALL WRITE_I_C(IGEO,     LSIZ) 
-        LSIZ =(6*NPT_STACK + 1)*NS_STACK 
+        LSIZ =(3*NPT_STACK +2)*NS_STACK
+        CALL WRITE_I_C(IGEO,     LSIZ)
+        LSIZ =(6*NPT_STACK + 1)*NS_STACK
         CALL WRITE_DB(GEO,     LSIZ)
-        LSIZ =20*NS_STACK 
+        LSIZ =20*NS_STACK
         CALL WRITE_DB(PM,     LSIZ)
        RETURN
       END
@@ -1367,7 +1367,7 @@ Chd|        WRITE_DB                      source/output/tools/write_db.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        DRAPE_MOD                     share/modules/drape_mod.F     
 Chd|====================================================================
-      SUBROUTINE DRAPE_WREST(DRAPE_Q4,DRAPE_T3)      
+      SUBROUTINE DRAPE_WREST(DRAPE_Q4,DRAPE_T3)
 C      
       USE DRAPE_MOD
 C-----------------------------------------------
@@ -1389,48 +1389,48 @@ C-----------------------------------------------
         INTEGER LEN,OFF,I,J,NPT,NDIM
         my_real, ALLOCATABLE, DIMENSION(:,:) :: RTMP
         INTEGER, ALLOCATABLE, DIMENSION(:)   :: ITMP,INDEX,NPT_ELT
-         
+
 C--------------------------------------
 C     LECTURE DES ENTIERS
 C--------------------------------------
-      NDIM= DRAPE_Q4%NDIM                         
-      CALL WRITE_I_C(NDIM,1)                      
-      ALLOCATE(INDEX(NUMELC),NPT_ELT(NUMELC))     
-      DO I=1,NUMELC                               
-        INDEX(I) = DRAPE_Q4%INDX(I)               
-        NPT_ELT(I) = DRAPE_Q4%NPT(I)          
-      ENDDO                                       
-      ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))           
-      DO J=1,NDIM                                 
-        ITMP(J)  =DRAPE_Q4%IDRAPE(J)              
-        RTMP(J,1)=DRAPE_Q4%RDRAPE(J,1)            
-        RTMP(J,2)=DRAPE_Q4%RDRAPE(J,2)            
-      ENDDO                                       
-      CALL WRITE_I_C(INDEX,NUMELC)                
-      CALL WRITE_I_C(NPT_ELT,NUMELC)              
-      CALL WRITE_I_C(ITMP,NDIM)                   
-      CALL WRITE_DB(RTMP,2*NDIM)                  
-      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT)                       
+      NDIM= DRAPE_Q4%NDIM
+      CALL WRITE_I_C(NDIM,1)
+      ALLOCATE(INDEX(NUMELC),NPT_ELT(NUMELC))
+      DO I=1,NUMELC
+        INDEX(I) = DRAPE_Q4%INDX(I)
+        NPT_ELT(I) = DRAPE_Q4%NPT(I)
+      ENDDO
+      ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))
+      DO J=1,NDIM
+        ITMP(J)  =DRAPE_Q4%IDRAPE(J)
+        RTMP(J,1)=DRAPE_Q4%RDRAPE(J,1)
+        RTMP(J,2)=DRAPE_Q4%RDRAPE(J,2)
+      ENDDO
+      CALL WRITE_I_C(INDEX,NUMELC)
+      CALL WRITE_I_C(NPT_ELT,NUMELC)
+      CALL WRITE_I_C(ITMP,NDIM)
+      CALL WRITE_DB(RTMP,2*NDIM)
+      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT)
 
 C
       NDIM= DRAPE_T3%NDIM
-      CALL WRITE_I_C(NDIM,1)                  
-      ALLOCATE(INDEX(NUMELTG),NPT_ELT(NUMELTG))     
-      DO I=1,NUMELTG                               
-        INDEX(I) = DRAPE_T3%INDX(I)               
-        NPT_ELT(I) = DRAPE_T3%NPT(I)          
-      ENDDO                                       
-      ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))           
-      DO J=1,NDIM                                 
-        ITMP(J)  =DRAPE_T3%IDRAPE(J)              
-        RTMP(J,1)=DRAPE_T3%RDRAPE(J,1)            
-        RTMP(J,2)=DRAPE_T3%RDRAPE(J,2)            
-      ENDDO                                       
-      CALL WRITE_I_C(INDEX,NUMELTG)                
-      CALL WRITE_I_C(NPT_ELT,NUMELTG)              
-      CALL WRITE_I_C(ITMP,NDIM)                   
-      CALL WRITE_DB(RTMP,2*NDIM)                  
-      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT) 
+      CALL WRITE_I_C(NDIM,1)
+      ALLOCATE(INDEX(NUMELTG),NPT_ELT(NUMELTG))
+      DO I=1,NUMELTG
+        INDEX(I) = DRAPE_T3%INDX(I)
+        NPT_ELT(I) = DRAPE_T3%NPT(I)
+      ENDDO
+      ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))
+      DO J=1,NDIM
+        ITMP(J)  =DRAPE_T3%IDRAPE(J)
+        RTMP(J,1)=DRAPE_T3%RDRAPE(J,1)
+        RTMP(J,2)=DRAPE_T3%RDRAPE(J,2)
+      ENDDO
+      CALL WRITE_I_C(INDEX,NUMELTG)
+      CALL WRITE_I_C(NPT_ELT,NUMELTG)
+      CALL WRITE_I_C(ITMP,NDIM)
+      CALL WRITE_DB(RTMP,2*NDIM)
+      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT)
 
       RETURN
       END

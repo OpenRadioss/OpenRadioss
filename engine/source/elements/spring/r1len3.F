@@ -101,7 +101,7 @@ C
          ELSEIF(XK(I)/=ZERO)THEN
           STI(2,I) = XK(I)
          ELSEIF(XC(I)/=ZERO.AND.MS(NC2(I))/=ZERO)THEN
-          A = TWO * XC(I)**2 
+          A = TWO * XC(I)**2
           STI(2,I) = A / MS(NC2(I))
          ENDIF
         ENDIF
@@ -224,6 +224,6 @@ C------------------------------
            ENDDO
         ENDIF
 C------------------------------
-      
+
       RETURN
       END

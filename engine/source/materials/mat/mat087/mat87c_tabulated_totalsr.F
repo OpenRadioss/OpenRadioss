@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM, NUVAR,ISRATE,INLOC
-      my_real 
+      my_real
      .   TIME,TIMESTEP,ASRATE,UPARAM(NUPARAM),
      .   RHO0(NEL),GS(NEL),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),
@@ -115,14 +115,14 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real ,DIMENSION(NEL,12) ,INTENT(INOUT) :: SIGB
-      my_real 
+      my_real
      .   UVAR(NEL,NUVAR),OFF(NEL),THK(NEL),SEQ(NEL),
      .   YLD(NEL),DPLA(NEL),EPSP(NEL),TEMPEL(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
+      my_real
      .     FINTER ,TF(*)
       EXTERNAL FINTER
 c     Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
@@ -162,12 +162,12 @@ C-----------------------------------------------
      .      EXPV,KSWIFT,KVOCE,UNSP,UNSC,PLA_I,YLD_I,NORMSIG,
      .      DSWIFT,DVOCE,DFEPSP,YLDP, p2,UNSPT,UNSCT,DFSR,TREF,DVM,
      .      K1,K2,AHS,BHS,MHS,EPS0HS,NHS,HMART,TEMP0,ETA,CP, AM    ,
-     .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0 
+     .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0
       my_real
      .        HK(NEL),EPSF(NEL),PLAP(NEL),FRATE(NEL),
      .        SVM2(NEL),YLD2(NEL),HI(NEL),G3(NEL),
      .        HKIN,dezz,svm,DPLA_I(NEL),dr(NEL),
-     .        AA(NEL),BB(NEL),DPLA_J(NEL),   
+     .        AA(NEL),BB(NEL),DPLA_J(NEL),
      .        PP(NEL),QQ(NEL),FAIL(NEL),SVMO(NEL),
      .        HI2(NEL), ES2(NEL), ATEMP(NEL),AEXP(NEL),
      .        VM(NEL)
@@ -183,13 +183,13 @@ C-----------------------------------------------
      .        AKCK,CKH(4) ,AKH(4)  ,AEXP0 ,YLD0(NEL)
 C=======================================================================
 c      Swift/Voce
-c            k=alpha*k1(eps,p)+(1-alpha)*k2(eps,p)  
+c            k=alpha*k1(eps,p)+(1-alpha)*k2(eps,p)
 c            k1=A*(eps,p+e0)**n
 c            k2=Q*(1-exp(-b*eps,p))+sig0
 c-----------------------------------------------
 c     USER VARIABLES
 c-----------------------------------------------
-!       UVAR1  = PLAP  
+!       UVAR1  = PLAP
 !       UVAR2  = YLD
 !       UVAR3  = H
 !       UVAR4  = DPLA
@@ -198,47 +198,47 @@ C=======================================================================
       FCT = zero
 c-----------------------------------------------
       ! Elastic parameters
-      E     =  UPARAM(1)  
-      NU    =  UPARAM(2)  
+      E     =  UPARAM(1)
+      NU    =  UPARAM(2)
       A1    =  E*UPARAM(21)
       A2    =  E*UPARAM(22)
       G     =  UPARAM(23)
       NORM_SP = EP03 / E
 c
       ! Linear projection parameter
-      AL1   =  UPARAM(3)  
-      AL2   =  UPARAM(4)  
-      AL3   =  UPARAM(5)  
-      AL4   =  UPARAM(6)  
-      AL5   =  UPARAM(7)  
-      AL6   =  UPARAM(8)  
-      AL7   =  UPARAM(9)  
-      AL8   =  UPARAM(10) 
+      AL1   =  UPARAM(3)
+      AL2   =  UPARAM(4)
+      AL3   =  UPARAM(5)
+      AL4   =  UPARAM(6)
+      AL5   =  UPARAM(7)
+      AL6   =  UPARAM(8)
+      AL7   =  UPARAM(9)
+      AL8   =  UPARAM(10)
 c
       ! A exponent parameter
       EXPA  =  NINT(UPARAM(15) )
       UNSA  =  ONE/EXPA
-      EXPAM2=  EXPA - 2 
+      EXPAM2=  EXPA - 2
 c
 c
       NRATE   = NINT(UPARAM(25))
-      IFLAG   = NINT(UPARAM(24))            
-      IFLAGSR = NINT(UPARAM(25+2*NRATE+8)) 
+      IFLAG   = NINT(UPARAM(24))
+      IFLAGSR = NINT(UPARAM(25+2*NRATE+8))
 
-      ! IFLAGSR=0 => total strain rate,  IFLAGSR=1 => plastic strain rate 
+      ! IFLAGSR=0 => total strain rate,  IFLAGSR=1 => plastic strain rate
 c-----------------------------------------------
       NFLAG3 = 34 + 2*NRATE
       NFLAG4 = NFLAG3 + 21
       FISOKIN= UPARAM(NFLAG4+1)
-      IF (FISOKIN >ZERO) THEN                  
-         CKH(1) = UPARAM(NFLAG4+2) 
-         AKH(1) = UPARAM(NFLAG4+3) 
-         CKH(2) = UPARAM(NFLAG4+4) 
-         AKH(2) = UPARAM(NFLAG4+5) 
-         CKH(3) = UPARAM(NFLAG4+6) 
-         AKH(3) = UPARAM(NFLAG4+7) 
-         CKH(4) = UPARAM(NFLAG4+8) 
-         AKH(4) = UPARAM(NFLAG4+9) 
+      IF (FISOKIN >ZERO) THEN
+         CKH(1) = UPARAM(NFLAG4+2)
+         AKH(1) = UPARAM(NFLAG4+3)
+         CKH(2) = UPARAM(NFLAG4+4)
+         AKH(2) = UPARAM(NFLAG4+5)
+         CKH(3) = UPARAM(NFLAG4+6)
+         AKH(3) = UPARAM(NFLAG4+7)
+         CKH(4) = UPARAM(NFLAG4+8)
+         AKH(4) = UPARAM(NFLAG4+9)
       ENDIF
       AKCK = AKH(1)*CKH(1) + AKH(2)* CKH(2) + AKH(3)*CKH(3)  + AKH(4) * CKH(4)
 c
@@ -254,7 +254,7 @@ c-----------------------------------------------
 c     COMPUTATION OF THE TRIAL STRESS TENSOR
 c-----------------------------------------------
        ! Computation of the trial stress tensor
-       IF (FISOKIN > ZERO) THEN 
+       IF (FISOKIN > ZERO) THEN
          DO I=1,NEL
           ! CHABOCHE - ROUSSELIER BACKSTRESS CALCULATION
           SIGBXX(I) = SIGB(I,1) + SIGB(I,4) + SIGB(I,7) + SIGB(I,10)
@@ -262,12 +262,12 @@ c-----------------------------------------------
           SIGBXY(I) = SIGB(I,3) + SIGB(I,6) + SIGB(I,9) + SIGB(I,12)
           SIGNXX(I) = SIGOXX(I) - SIGBXX(I) + A1*DEPSXX(I) + A2*DEPSYY(I)
           SIGNYY(I) = SIGOYY(I) - SIGBYY(I) + A2*DEPSXX(I) + A1*DEPSYY(I)
-          SIGNXY(I) = SIGOXY(I) - SIGBXY(I) + G*DEPSXY(I)  
+          SIGNXY(I) = SIGOXY(I) - SIGBXY(I) + G*DEPSXY(I)
         ENDDO
       ELSE
         DO I=1,NEL
-          SIGBXX(I) = ZERO 
-          SIGBYY(I) = ZERO 
+          SIGBXX(I) = ZERO
+          SIGBYY(I) = ZERO
           SIGBXY(I) = ZERO
           SIGNXX(I)  = SIGOXX(I) + A1*DEPSXX(I) + A2*DEPSYY(I)
           SIGNYY(I)  = SIGOYY(I) + A2*DEPSXX(I) + A1*DEPSYY(I)
@@ -300,13 +300,13 @@ C-------------------------------------------------------------------------
 C-------------------------------------------------------------------------
 c
           ! Computation of the yield stress
-          DO I=1,NEL                                   
-            JJ(I) = 1      
-            DO J=2,NRATE-1                      
-              IF (EPSP(I) > UPARAM(25+J)) JJ(I) = J 
-            ENDDO 
+          DO I=1,NEL
+            JJ(I) = 1
+            DO J=2,NRATE-1
+              IF (EPSP(I) > UPARAM(25+J)) JJ(I) = J
+            ENDDO
           ENDDO
-          DO I=1,NEL 
+          DO I=1,NEL
             EPSPI    =  UPARAM(25+JJ(I)) !
             FRATE(I) = (EPSP(I) - EPSPI)/(UPARAM(26+JJ(I)) - EPSPI)
             YFAC(I,1) = UPARAM(25+NRATE+JJ(I))*FACYLDI(I)
@@ -345,11 +345,11 @@ c
              J1 = JJ(I)
              J2 = J1+1
              FUN1 = IFUNC(J1)
-             FUN2 = IFUNC(J2)             
+             FUN2 = IFUNC(J2)
              DYDX1(I)= (TF(NPF(FUN1)+3)- TF(NPF(FUN1)+1))*YFAC(I,1)/(TF(NPF(FUN1)+2)-TF(NPF(FUN1)) )
              DYDX2(I)= (TF(NPF(FUN2)+3)- TF(NPF(FUN2)+1))*YFAC(I,2)/(TF(NPF(FUN2)+2)-TF(NPF(FUN2)) )
              DYDX(I) = ZERO   !(DYDX1(I) + FRATE(I)*(DYDX2(I)-DYDX1(I)))
-             !Kinematic hardening 
+             !Kinematic hardening
              Y1(I) = TF(NPF(FUN1)+1)
              Y2(I) = TF(NPF(FUN2)+1)
              Y1(I) = Y1(I)*YFAC(I,1)
@@ -385,37 +385,37 @@ c
 c------------------------------
 C------------------------------
 c------------------------------
-        ! Computation of the Barlat equivalent stress      
+        ! Computation of the Barlat equivalent stress
         DO I=1,NEL
 
-          YLD_NORM(I) = YLD(I)*NORM_SP        
+          YLD_NORM(I) = YLD(I)*NORM_SP
 c
           XPXX(I) = (TWO*AL1*SIGNXX(I) -AL1*SIGNYY(I)) *NORM_SP/THREE
           XPYY(I) = (-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)) *NORM_SP/THREE
           XPXY(I) = AL7*SIGNXY(I)*NORM_SP
-c       
+c
           XPPXX(I) = (LPP11*SIGNXX(I) + LPP12*SIGNYY(I))*NORM_SP
           XPPYY(I) = (LPP21*SIGNXX(I) + LPP22*SIGNYY(I))*NORM_SP
           XPPXY(I) = LPP66*SIGNXY(I)*NORM_SP
-c       
+c
           XP1(I) = (XPXX(I)+XPYY(I)+SQRT(MAX(ZERO,
      .             (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
      .            + FOUR*XPXY(I)*XPXY(I))))*HALF
           XP2(I) = (XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .            (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
      .            + FOUR*XPXY(I)*XPXY(I))))*HALF
-c       
+c
           XPP1(I) = (XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .             (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
      .            + FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
           XPP2(I) = (XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .          (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
      .          + FOUR*XPPXY(I)*XPPXY(I))))*HALF
-c     
+c
           PHIP(I)  = ABS(XP1(I)-XP2(I))**EXPA
           PHIPP(I) = ABS(TWO*XPP2(I)+XPP1(I))**EXPA
      .             + ABS(TWO*XPP1(I)+XPP2(I))**EXPA
-c       
+c
           IF((HALF*(PHIP(I)+PHIPP(I)))>ZERO) THEN
             SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I)))) !normalized
           ELSE
@@ -429,7 +429,7 @@ c-----------------------------------------------
         DO I=1,NEL
           IF (SIG(I)>YLD_NORM(I).AND.OFF(I) == ONE)THEN ! Plastic Loading
             NINDX = NINDX + 1
-            INDX(NINDX)  = I 
+            INDX(NINDX)  = I
           ENDIF
         ENDDO
 c-----------------------------------------------
@@ -438,13 +438,13 @@ c-----------------------------------------------
  !       IF (IFLAGSR == 0) THEN  ! total strain rate
 c-----------------------------------------------
 c         COMPUTING THE RETURN MAPPING
-c-----------------------------------------------      
-       DO II=1,NINDX                                              
-          I = INDX(II) 
+c-----------------------------------------------
+       DO II=1,NINDX
+          I = INDX(II)
 
           DEPLXX(I) = ZERO
           DEPLYY(I) = ZERO
-          DEPLXY(I) = ZERO       
+          DEPLXY(I) = ZERO
           DSIGBXX(I) = ZERO
           DSIGBYY(I) = ZERO
           DSIGBXY(I) = ZERO
@@ -461,11 +461,11 @@ c-----------------------------------------------
      .                + SIGNYY(I)*SIGNYY(I)
      .                + TWO*SIGNXY(I)*SIGNXY(I)) *NORM_SP
               IF (NORMSIG == ZERO) NORMSIG = ONE
-       
+
               XPXX(I) = (TWO*AL1*SIGNXX(I) -AL1*SIGNYY(I)) *NORM_SP/NORMSIG/THREE
               XPYY(I) = (-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)) *NORM_SP/NORMSIG/THREE
               XPXY(I) = AL7*SIGNXY(I)*NORM_SP/NORMSIG
-c       
+c
               XPPXX(I) = (LPP11*SIGNXX(I) + LPP12*SIGNYY(I))*NORM_SP/NORMSIG
               XPPYY(I) = (LPP21*SIGNXX(I) + LPP22*SIGNYY(I))*NORM_SP/NORMSIG
               XPPXY(I) = LPP66*SIGNXY(I)*NORM_SP/NORMSIG
@@ -476,26 +476,26 @@ c
               XP2(I) =(XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .              (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
      .              +FOUR*XPXY(I)*XPXY(I))))*HALF
-       
+
               XPP1(I)=(XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .              (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
      .              +FOUR*XPPXY(I)*XPPXY(I) ) ))*HALF
               XPP2(I)=(XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .              (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
      .              +FOUR*XPPXY(I)*XPPXY(I))))*HALF
-     
+
               PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
               PHIPP(I)= ABS(TWO*XPP2(I)+XPP1(I))**EXPA
      .               +ABS(TWO*XPP1(I)+XPP2(I))**EXPA
-       
+
               IF ((HALF*(PHIP(I)+PHIPP(I))) > ZERO) THEN
                 SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
               ELSE
                 SIG(I) = ZERO
               ENDIF
-           
+
               AP  = EXPA*(XP1(I)-XP2(I))*ABS(XP1(I)-XP2(I))**EXPAM2
-              DP  = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+FOUR*XPXY(I)*XPXY(I)        
+              DP  = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+FOUR*XPXY(I)*XPXY(I)
               BPP = EXPA*(TWO*XPP2(I)+XPP1(I))*ABS(TWO*XPP2(I)+XPP1(I))**EXPAM2
               CPP = EXPA*(TWO*XPP1(I)+XPP2(I))*ABS(TWO*XPP1(I)+XPP2(I))**EXPAM2
               DPP = (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))+FOUR*XPPXY(I)*XPPXY(I)
@@ -503,17 +503,17 @@ c
               FP1 = AP*(XPXX(I)-XPYY(I))/SQRT(MAX(EM20,DP))
               FP2 = -FP1
               FP3 = AP*FOUR*XPXY(I)/SQRT(MAX(EM20,DP))
-        
+
               KINT=HALF*(XPPXX(I)-XPPYY(I))/SQRT(MAX(EM20,DPP))
-        
-              FPP1=BPP*(THREE_HALF-KINT)+CPP*(THREE_HALF+KINT) 
+
+              FPP1=BPP*(THREE_HALF-KINT)+CPP*(THREE_HALF+KINT)
               FPP2=BPP*(THREE_HALF+KINT)+CPP*(THREE_HALF-KINT)
               FPP3=TWO*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))
-        
+
               DFP1=THIRD*(TWO*AL1*FP1-AL2*FP2)
               DFP2=THIRD*(TWO*AL2*FP2-AL1*FP1)
               DFP3=AL7*FP3
-        
+
               DFPP1=FPP1*LPP11+FPP2*LPP21!dphipp/dsig_xx
               DFPP2=FPP1*LPP12+FPP2*LPP22!dphipp/dsig_yy
               DFPP3=FPP3*LPP66!dphipp/dsig_xy
@@ -548,11 +548,11 @@ C
               DF = DF * DU - DYDX(I)*NORM_SP
 C
               ! Plastic multiplier
-              DLAM = -FCT/SIGN(MAX(ABS(DF),EM20) ,DF) 
+              DLAM = -FCT/SIGN(MAX(ABS(DF),EM20) ,DF)
 C
               ! Updating the plastic strain
               DPLA(I) = DPLA(I) + DLAM
-              PLA(I)  = PLA(I)  + DLAM 
+              PLA(I)  = PLA(I)  + DLAM
 C
               ! Updating the plastic strain tensor
               DEPLXX(I) = DLAM*DF1*DU
@@ -567,8 +567,8 @@ C
            ENDIF
 C
             ! Updating the stress tensor
-            SIGNXX(I) = SIGNXX(I) - A1*DEPLXX(I) - A2*DEPLYY(I) - FISOKIN*DSIGBXX(I)                   
-            SIGNYY(I) = SIGNYY(I) - A2*DEPLXX(I) - A1*DEPLYY(I) - FISOKIN*DSIGBYY(I)                   
+            SIGNXX(I) = SIGNXX(I) - A1*DEPLXX(I) - A2*DEPLYY(I) - FISOKIN*DSIGBXX(I)
+            SIGNYY(I) = SIGNYY(I) - A2*DEPLXX(I) - A1*DEPLYY(I) - FISOKIN*DSIGBYY(I)
             SIGNXY(I) = SIGNXY(I) - G*DEPLXY(I) - FISOKIN*DSIGBXY(I)
 
            IF (FISOKIN > ZERO ) THEN
@@ -576,18 +576,18 @@ C
             SIGB(I,1) = SIGB(I,1) + FISOKIN*(AKH(1)*CKH(1) * DEPLXX(I) - CKH(1) * SIGB(I,1) * DLAM)
             SIGB(I,2) = SIGB(I,2) + FISOKIN*(AKH(1)*CKH(1) * DEPLYY(I) - CKH(1) * SIGB(I,2) * DLAM)
             SIGB(I,3) = SIGB(I,3) + FISOKIN*(AKH(1)*CKH(1) * DEPLXY(I) - CKH(1) * SIGB(I,3) * DLAM)
-            !BACKSTRESS 2          
+            !BACKSTRESS 2
             SIGB(I,4) = SIGB(I,4) + FISOKIN*(AKH(2)*CKH(2) * DEPLXX(I) -CKH(2) *  SIGB(I,4) * DLAM)
-            SIGB(I,5) = SIGB(I,5) + FISOKIN*(AKH(2)*CKH(2) * DEPLYY(I) -CKH(2) *  SIGB(I,5) * DLAM) 
-            SIGB(I,6) = SIGB(I,6) + FISOKIN*(AKH(2)*CKH(2) * DEPLXY(I) -CKH(2) *  SIGB(I,6) * DLAM) 
-            !BACKSTRESS 3          
+            SIGB(I,5) = SIGB(I,5) + FISOKIN*(AKH(2)*CKH(2) * DEPLYY(I) -CKH(2) *  SIGB(I,5) * DLAM)
+            SIGB(I,6) = SIGB(I,6) + FISOKIN*(AKH(2)*CKH(2) * DEPLXY(I) -CKH(2) *  SIGB(I,6) * DLAM)
+            !BACKSTRESS 3
             SIGB(I,7) = SIGB(I,7) + FISOKIN*(AKH(3)*CKH(3) * DEPLXX(I) -CKH(3) *  SIGB(I,7) * DLAM)
             SIGB(I,8) = SIGB(I,8) + FISOKIN*(AKH(3)*CKH(3) * DEPLYY(I) -CKH(3) *  SIGB(I,8) * DLAM)
-            SIGB(I,9) = SIGB(I,9) + FISOKIN*(AKH(3)*CKH(3) * DEPLXY(I) -CKH(3) *  SIGB(I,9) * DLAM)        
-            !BACKSTRESS 4          
-            SIGB(I,10) =SIGB(I,10)+ FISOKIN*(AKH(4)*CKH(4) * DEPLXX(I) - CKH(4) *SIGB(I,10) * DLAM) 
-            SIGB(I,11) =SIGB(I,11)+ FISOKIN*(AKH(4)*CKH(4) * DEPLYY(I) - CKH(4) *SIGB(I,11) * DLAM)  
-            SIGB(I,12) =SIGB(I,12)+ FISOKIN*(AKH(4)*CKH(4) * DEPLXY(I) - CKH(4) *SIGB(I,12) * DLAM)  
+            SIGB(I,9) = SIGB(I,9) + FISOKIN*(AKH(3)*CKH(3) * DEPLXY(I) -CKH(3) *  SIGB(I,9) * DLAM)
+            !BACKSTRESS 4
+            SIGB(I,10) =SIGB(I,10)+ FISOKIN*(AKH(4)*CKH(4) * DEPLXX(I) - CKH(4) *SIGB(I,10) * DLAM)
+            SIGB(I,11) =SIGB(I,11)+ FISOKIN*(AKH(4)*CKH(4) * DEPLYY(I) - CKH(4) *SIGB(I,11) * DLAM)
+            SIGB(I,12) =SIGB(I,12)+ FISOKIN*(AKH(4)*CKH(4) * DEPLXY(I) - CKH(4) *SIGB(I,12) * DLAM)
 C
            ENDIF
 C
@@ -606,14 +606,14 @@ C
               XP2(I) =(XPXX(I)+XPYY(I)-SQRT(MAX(ZERO,
      .              (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))
      .              +FOUR*XPXY(I)*XPXY(I))))*HALF
-       
+
               XPP1(I)=(XPPXX(I)+XPPYY(I)+SQRT(MAX(ZERO,
      .              (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
      .              +FOUR*XPPXY(I)*XPPXY(I))))*HALF
               XPP2(I)=(XPPXX(I)+XPPYY(I)-SQRT(MAX(ZERO,
      .              (XPPXX(I)-XPPYY(I))*(XPPXX(I)-XPPYY(I))
      .              +FOUR*XPPXY(I)*XPPXY(I))))*HALF
-     
+
               PHIP(I) = ABS(XP1(I)-XP2(I))**EXPA
               PHIPP(I)= ABS(TWO*XPP2(I)+XPP1(I))**EXPA
      .              +ABS(TWO*XPP1(I)+XPP2(I))**EXPA
@@ -622,11 +622,11 @@ C
               ELSE
                 SIG(I) = ZERO
               ENDIF
-  
+
 c
-              Y1(I)  = YFAC(I,1)*FINTER(IFUNC(J1),PLA(I),NPF,TF,DYDX1(I)) 
-              Y2(I)  = YFAC(I,2)*FINTER(IFUNC(J2),PLA(I),NPF,TF,DYDX2(I)) 
-    
+              Y1(I)  = YFAC(I,1)*FINTER(IFUNC(J1),PLA(I),NPF,TF,DYDX1(I))
+              Y2(I)  = YFAC(I,2)*FINTER(IFUNC(J2),PLA(I),NPF,TF,DYDX2(I))
+
               YLD(I) = (Y1(I)    + FRATE(I)*(Y2(I)-Y1(I)))
               YLD(I) = MAX(YLD(I),EM20)
               IF (FISOKIN > ZERO)YLD(I)   = (ONE - FISOKIN) * YLD(I) + FISOKIN * YLD0(I)
@@ -634,9 +634,9 @@ c
 C
 
               YLD_NORM(I) = YLD(I) *NORM_SP
-              ! Updating the yield function value         
+              ! Updating the yield function value
               FCT = SIG(I)- YLD_NORM(I)
-            ENDDO ! iter k   
+            ENDDO ! iter k
           ENDDO !ndx
 C-------------------------------------------------------------------------
       IF (FISOKIN > ZERO ) THEN
@@ -647,12 +647,12 @@ C
           SIGBXY(I) = SIGB(I,3) + SIGB(I,6) + SIGB(I,9) + SIGB(I,12)
           SIGNXX(I) = SIGNXX(I) + SIGBXX(I) !+ DSIGBXX(I)
           SIGNYY(I) = SIGNYY(I) + SIGBYY(I) !+ DSIGBYY(I)
-          SIGNXY(I) = SIGNXY(I) + SIGBXY(I) !+ DSIGBXY(I) 
+          SIGNXY(I) = SIGNXY(I) + SIGBXY(I) !+ DSIGBXY(I)
        ENDDO
       ENDIF
 C=======================================================================
 
-      UVAR(:NEL,1) = EPSP(:NEL)      
+      UVAR(:NEL,1) = EPSP(:NEL)
 
 
       DO I=1,NEL
@@ -660,13 +660,13 @@ C=======================================================================
           H(I) = (YLD(I)-UVAR(I,2))/DPLA(I)
           ETSE(I) = H(I)/(H(I)+E)
         ELSE
-          ETSE(I) = ONE 
-        ENDIF        
+          ETSE(I) = ONE
+        ENDIF
         UVAR(I,2)  = YLD(I)
         SEQ(I)     = SIG(I)/NORM_SP
         DEELZZ(I ) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E
         IF (INLOC > 0) THEN
-          NORMSIG = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I) 
+          NORMSIG = SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
      .            + TWO*SIGNXY(I)*SIGNXY(I)
           IF (NORMSIG > ZERO) THEN
             NORMSIG = MAX(SQRT(NORMSIG*NORM_SP),EM20)
@@ -698,7 +698,7 @@ C=======================================================================
             SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
           ELSE
             SIG(I) = ZERO
-          ENDIF               
+          ENDIF
           AP    = EXPA*(XP1(I)-XP2(I))*ABS(XP1(I)-XP2(I))**EXPAM2
           DP    = (XPXX(I)-XPYY(I))*(XPXX(I)-XPYY(I))+FOUR*XPXY(I)*XPXY(I)
           BPP   = EXPA*(TWO*XPP2(I)+XPP1(I))*ABS(TWO*XPP2(I)+XPP1(I))**EXPAM2
@@ -709,9 +709,9 @@ C=======================================================================
           FP2   = -FP1
           FP3   = AP*FOUR*XPXY(I)/SQRT(MAX(EM20,DP))
           KINT  = HALF*(XPPXX(I)-XPPYY(I))/SQRT(MAX(EM20,DPP))
-          FPP1  = BPP*(THREE_HALF-KINT)+CPP*(THREE_HALF+KINT) 
+          FPP1  = BPP*(THREE_HALF-KINT)+CPP*(THREE_HALF+KINT)
           FPP2  = BPP*(THREE_HALF+KINT)+CPP*(THREE_HALF-KINT)
-          FPP3  = TWO*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))  
+          FPP3  = TWO*(CPP-BPP)*XPPXY(I)/SQRT(MAX(EM20,DPP))
           DFP1  = THIRD*(TWO*AL1*FP1-AL2*FP2)
           DFP2  = THIRD*(TWO*AL2*FP2-AL1*FP1)
           DFP3  = AL7*FP3
@@ -722,7 +722,7 @@ C=======================================================================
           DF2   = DFP2+DFPP2
           DF3   = DFP3+DFPP3
           SIG_DFDSIG = SIGNXX(I)*DF1 + SIGNYY(I)*DF2 + SIGNXY(I)*DF3
-          IF (SIG_DFDSIG /= ZERO) THEN 
+          IF (SIG_DFDSIG /= ZERO) THEN
             DEPLZZ(I) = -MAX(DPLANL(I),ZERO)*(YLD(I)/SIG_DFDSIG)*(DF1+DF2)
           ELSE
             DEPLZZ(I) = ZERO
@@ -731,6 +731,6 @@ C=======================================================================
         DEPSZZ(I)  = DEELZZ(I) + DEPLZZ(I)
         THK(I)     = THK(I) + DEPSZZ(I)*THKLY(I)*OFF(I)
       ENDDO
-c-----------      
+c-----------
       RETURN
       END

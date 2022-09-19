@@ -74,22 +74,22 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       NVAR=0
       TRU=1
-      
+
       DO I=1,NV
         TAG(I)=0
       ENDDO
 
-      CALL HM_GET_INTV('Number_Of_Variables',NLABEL,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV('Number_Of_Variables',NLABEL,IS_AVAILABLE,LSUBMODEL)
 
       DO KK=1,NLABEL
         CALL HM_GET_STRING_INDEX('VAR',VAR,KK,10,IS_AVAILABLE)
             VAR(LEN_TRIM(VAR)+1:10)=' '
-            IF (VAR(1:3) == 'DEF') THEN                             
-              TAG(101:MIN(150,100+NBVENT_MAX*5))=1 
-              VARVENT(1:NBVENT_MAX*5) = 1 
+            IF (VAR(1:3) == 'DEF') THEN
+              TAG(101:MIN(150,100+NBVENT_MAX*5))=1
+              VARVENT(1:NBVENT_MAX*5) = 1
             ELSEIF(VAR(1:5) == '     ')THEN
               CYCLE
-            ELSE   
+            ELSE
               OK=0
               I=0
               DO WHILE(OK==0.AND.I<NVG)
@@ -110,7 +110,7 @@ C GENERIC VARIABLES SAVED
 C SELECTED VARIABLES SAVED
                 I=I+1
                 IF(VAR==VARE(I))THEN
-                    IF(I > 100) THEN 
+                    IF(I > 100) THEN
                       VARVENT(I-100)=1
                       TAG(I)=1
                     ELSE
@@ -120,20 +120,20 @@ C SELECTED VARIABLES SAVED
                 ENDIF
               ENDDO
             ENDIF
-      ENDDO 
+      ENDDO
 
-      CALL HM_GET_INTV('idsmax',NMONV,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV('idsmax',NMONV,IS_AVAILABLE,LSUBMODEL)
       DO IMONV=1,NMONV
-        CALL HM_GET_INT_ARRAY_INDEX('ids',N,IMONV,IS_AVAILABLE,LSUBMODEL) 
-        IF(N/=0)THEN           
-          DO I=1,NV              
-            IF(TAG(I)/=0)THEN  
-              NVAR=NVAR+1        
-              IVAR(NVAR)=I       
-            ENDIF                
-          ENDDO                  
-          RETURN                 
-        ENDIF 
+        CALL HM_GET_INT_ARRAY_INDEX('ids',N,IMONV,IS_AVAILABLE,LSUBMODEL)
+        IF(N/=0)THEN
+          DO I=1,NV
+            IF(TAG(I)/=0)THEN
+              NVAR=NVAR+1
+              IVAR(NVAR)=I
+            ENDIF
+          ENDDO
+          RETURN
+        ENDIF
       ENDDO
 
 

@@ -47,8 +47,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD    
-      USE ELBUFTAG_MOD            
+      USE MATPARAM_DEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,9 +64,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PARMAT(100), UPARAM(MAXUPARAM), PM(NPROPM)
-      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM, 
+      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM,
      .     NUPARAM, NUVAR, ISRATE
       INTEGER, INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
@@ -121,7 +121,7 @@ C     #K1 K2 K3 BETA
       CALL HM_GET_FLOATV('K2', K2, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('K3', K3, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_Beta', BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-     
+
       NUVAR = 5
       PM(1) = RHOR
       PM(89) = RHO0
@@ -179,7 +179,7 @@ C--------
      .               C1=TITR)
       ENDIF
 C
-      
+
 C           
       UPARAM(1) = SHEAR
       UPARAM(2) = TWO*SHEAR
@@ -216,7 +216,7 @@ C
        WRITE(IOUT,1100) SHEAR, AA, BB, MM, NN, CC, EPS0, SIGFMAX
        WRITE(IOUT,1200) TMAX, HEL, PHEL, D1, D2
        WRITE(IOUT,1300) K1, K2, K3, BETA
-       WRITE(IOUT,1400) YOUNG, NU 
+       WRITE(IOUT,1400) YOUNG, NU
       ENDIF
 C 
       RETURN
@@ -229,7 +229,7 @@ C
      &  5X,'  JOHNSON HOLMQUIST MATERIAL',/,
      &  5X,'  --------------------------',//)
  1050 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      &  5X,'SHEAR MODULUS . . . . . . . . . . . . . . =',1PG20.13/,
      &  5X,'INTACT STRENGTH CONSTANT (A). . . . . . . =',1PG20.13/,

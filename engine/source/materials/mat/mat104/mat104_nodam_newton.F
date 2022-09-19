@@ -27,7 +27,7 @@ Chd|        SIGEPS104                     source/materials/mat/mat104/sigeps104.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MAT104_NODAM_NEWTON(
-     1     NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
      3     RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -41,7 +41,7 @@ Chd|====================================================================
       !=======================================================================
       !      Common
       !=======================================================================
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
       !=======================================================================
@@ -49,35 +49,35 @@ Chd|====================================================================
       !=======================================================================
       INTEGER NEL,NUPARAM,NUVAR,JTHE
       INTEGER ,DIMENSION(NEL), INTENT(IN)    :: NGL
-      my_real 
+      my_real
      .   TIME,TIMESTEP
-      my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
+      my_real,DIMENSION(NUPARAM), INTENT(IN) ::
      .   UPARAM
-      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+      my_real,DIMENSION(NEL), INTENT(IN)     ::
      .   RHO0,RHO,TEMPEL,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
 c
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
 c
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT)       ::
      .   PLA,DPLA,EPSD,OFF,TEMP,SEQ
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
       !=======================================================================
       !      Local Variables
       !=======================================================================
       INTEGER I,II,ITER,NITER,NINDX,INDEX(NEL)
 c
-      my_real 
+      my_real
      .   YOUNG,BULK,LAM,G,G2,NU,CDR,KDR,HARD,YLD0,QVOCE,BVOCE,JCC,
      .   EPSP0,MTEMP,TINI,TREF,ETA,CP,DPIS,DPAD,ASRATE,AFILTR
-      my_real 
+      my_real
      .   H,LDAV,TRDEP,SIGVM,OMEGA,
      .   DTEMP,FCOSH,FSINH,DPDT,DLAM,DDEP
-      my_real 
+      my_real
      .   DSDRDJ2,DSDRDJ3,
      .   DJ3DSXX,DJ3DSYY,DJ3DSZZ,DJ3DSXY,DJ3DSYZ,DJ3DSZX,
      .   DJ2DSXX,DJ2DSYY,DJ2DSZZ,DJ2DSXY,DJ2DSYZ,DJ2DSZX,
@@ -97,16 +97,16 @@ c
       !=======================================================================
       !       DRUCKER MATERIAL LAW WITH NO DAMAGE
       !=======================================================================
-      !-  
+      !-
       !DEPIJ     PLASTIC STRAIN TENSOR COMPONENT
       !DEPSIJ    TOTAL   STRAIN TENSOR COMPONENT (EL+PL)
       !=======================================================================
-c      
+c
       !=======================================================================
       ! - INITIALISATION OF COMPUTATION ON TIME STEP
       !=======================================================================
       ! Recovering model parameters
-      ! Elastic parameters      
+      ! Elastic parameters
       YOUNG   = UPARAM(1)  ! Young modulus
       BULK    = UPARAM(2)  ! Bulk modulus
       G       = UPARAM(3)  ! Shear modulus
@@ -134,7 +134,7 @@ c
       ! Plastic strain-rate filtering parameters
       ASRATE  = UPARAM(28) ! Plastic strain rate filtering frequency
       AFILTR  = ASRATE*TIMESTEP/(ASRATE*TIMESTEP + ONE)
-c      
+c
       ! Recovering internal variables
       DO I=1,NEL
         IF (OFF(I) < 0.1) OFF(I) = ZERO
@@ -144,13 +144,13 @@ c
         ET(I)    = ONE        ! Initialization of hourglass coefficient
         HARDP(I) = ZERO      ! Initialization of hourglass coefficient
       ENDDO
-c      
+c
       ! Initialization of temperature and self-heating weight factor
-      IF (TIME == ZERO) THEN   
-        TEMP(1:NEL) = TINI 
-      ENDIF 
-      IF (CP > ZERO) THEN     
-        IF (JTHE == 0) THEN     
+      IF (TIME == ZERO) THEN
+        TEMP(1:NEL) = TINI
+      ENDIF
+      IF (CP > ZERO) THEN
+        IF (JTHE == 0) THEN
           DO I=1,NEL
             IF (EPSD(I) < DPIS) THEN
               WEITEMP(I) = ZERO
@@ -166,15 +166,15 @@ c
           TEMP(1:NEL) = TEMPEL(1:NEL)
         ENDIF
       ENDIF
-c      
+c
       ! Computation of the initial yield stress
       DO I = 1,NEL
         ! a) - Hardening law
         FHARD(I) = YLD0 + HARD*PLA(I) + QVOCE*(ONE-EXP(-BVOCE*PLA(I)))
         ! b) - Correction factor for strain-rate dependence (Johnson-Cook)
         FRATE(I)  = ONE
-        IF (EPSD(I) > EPSP0) FRATE(I) = FRATE(I) + JCC*LOG(EPSD(I)/EPSP0)   
-        ! c) - Correction factor for thermal softening      
+        IF (EPSD(I) > EPSP0) FRATE(I) = FRATE(I) + JCC*LOG(EPSD(I)/EPSP0)
+        ! c) - Correction factor for thermal softening
         FTHERM(I) = ONE
         IF (CP > ZERO) FTHERM(I) = ONE - MTEMP * (TEMP(I) - TREF)
         ! d) - Computation of the yield function and value check
@@ -182,7 +182,7 @@ c
         ! e) - Checking values
         YLD(I) = MAX(EM10, YLD(I))
       ENDDO
-c      
+c
       !========================================================================
       ! - COMPUTATION OF TRIAL VALUES
       !========================================================================
@@ -209,11 +209,11 @@ c
         J2(I) = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .          +       SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
         ! Third deviatoric invariant
-        J3(I) = SXX(I) * SYY(I) * SZZ(I)  
+        J3(I) = SXX(I) * SYY(I) * SZZ(I)
      .        + SXY(I) * SYZ(I) * SZX(I) * TWO
      .        - SXX(I) * SYZ(I)**2
      .        - SYY(I) * SZX(I)**2
-     .        - SZZ(I) * SXY(I)**2 
+     .        - SZZ(I) * SXY(I)**2
         ! Drucker equivalent stress
         FDR(I) = J2(I)**3 - CDR*(J3(I)**2)
         ! Checking equivalent stress values
@@ -230,27 +230,27 @@ c
       PHI(1:NEL) = (SIGDR(1:NEL) / YLD(1:NEL))**2 - ONE
       ! Checking plastic behavior for all elements
       NINDX = 0
-      DO I=1,NEL         
+      DO I=1,NEL
         IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX=NINDX+1
           INDEX(NINDX)=I
         ENDIF
       ENDDO
-c      
+c
       !====================================================================
       ! - PLASTIC CORRECTION WITH BACKWARD EULER METHOD (NEWTON RESOLUTION)
-      !====================================================================       
-c      
+      !====================================================================
+c
       ! Number of maximum Newton iterations
       NITER = 3
 c
       ! Loop over yielding elements
-#include "vectorize.inc" 
-      DO II=1,NINDX  
-c        
-        ! Number of the element with plastic behaviour                                          
-        I = INDEX(II) 
-c        
+#include "vectorize.inc"
+      DO II=1,NINDX
+c
+        ! Number of the element with plastic behaviour
+        I = INDEX(II)
+c
         ! Initialization of the iterative Newton procedure
         SIGDR2(I) = SIGDR(I)**2
         YLD2I(I)  = ONE / YLD(I)**2
@@ -262,13 +262,13 @@ c
         DPZX(I)   = ZERO
       ENDDO
 c
-      ! Loop over the iterations     
+      ! Loop over the iterations
       DO ITER = 1, NITER
-#include "vectorize.inc" 
+#include "vectorize.inc"
         ! Loop over yielding elements
-        DO II=1,NINDX 
+        DO II=1,NINDX
           I = INDEX(II)
-        
+
           ! Note     : in this part, the purpose is to compute for each iteration
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the backward Euler implicit method
@@ -276,59 +276,59 @@ c
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
 	  ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
-          !                   into account of internal variables kinetic : 
+          !                   into account of internal variables kinetic :
           !                   plasticity, temperature and damage (to compute)
-c        
+c
 	  ! 1 - Computation of DPHI_DSIG the normal to the yield surface
           !-------------------------------------------------------------
-c        
+c
           ! Computation of the normal to the yield criterion NORM
-          ! flow direction (derivative dPhi / Dsig) 
-          ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1       
-          ! on note dphi/dS=dF/dS                                        
-          ! Fdr = J2^3 - c*J3^2                                     
+          ! flow direction (derivative dPhi / Dsig)
+          ! HERE WE COMPUTE DPHI/DS with phi = (sigbar/sigy)**2 - 1
+          ! on note dphi/dS=dF/dS
+          ! Fdr = J2^3 - c*J3^2
           ! dPhi/dSig = dPhi/dFdr * (dFdr/dJ2 * dJ2/dSig + dFdr/dJ3 * dJ3/dSig)
-          ! dJ2/dSig = S   
-          YLD2I(I)  = ONE/(YLD(I)**2) 
+          ! dJ2/dSig = S
+          YLD2I(I)  = ONE/(YLD(I)**2)
           DPHI_DSIG = TWO*SIGDR(I)*YLD2I(I)
-c          
+c
           ! Computation of the Eulerian norm of the stress tensor
           NORMSIG = SQRT(SIGNXX(I)*SIGNXX(I)
      .            + SIGNYY(I)*SIGNYY(I)
-     .            + SIGNZZ(I)*SIGNZZ(I)  
+     .            + SIGNZZ(I)*SIGNZZ(I)
      .            + TWO*SIGNXY(I)*SIGNXY(I)
      .            + TWO*SIGNYZ(I)*SIGNYZ(I)
-     .            + TWO*SIGNZX(I)*SIGNZX(I))   
-c        
-          ! Derivative with respect to Fdr 
-          FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)       
-          DPHI_DFDR  =  DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))             
-          DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2                             
-          DSDRDJ3    = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))       
-          ! dJ3/dSig                                                        
+     .            + TWO*SIGNZX(I)*SIGNZX(I))
+c
+          ! Derivative with respect to Fdr
+          FDR(I)     =  (J2(I)/(NORMSIG**2))**3 - CDR*((J3(I)/(NORMSIG**3))**2)
+          DPHI_DFDR  =  DPHI_DSIG*KDR*(ONE/SIX)*EXP(-(FIVE/SIX)*LOG(FDR(I)))
+          DSDRDJ2    =  DPHI_DFDR*THREE*(J2(I)/(NORMSIG**2))**2
+          DSDRDJ3    = -DPHI_DFDR*TWO*CDR*(J3(I)/(NORMSIG**3))
+          ! dJ3/dSig
           DJ3DSXX =  TWO_THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
      .             -  THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .             -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)                 
+     .             -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)
           DJ3DSYY = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
      .             + TWO_THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
-     .             -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)             
+     .             -  THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)
           DJ3DSZZ = - THIRD*(SYY(I)*SZZ(I)-SYZ(I)**2)/(NORMSIG**2)
      .              - THIRD*(SXX(I)*SZZ(I)-SZX(I)**2)/(NORMSIG**2)
      .             + TWO_THIRD*(SXX(I)*SYY(I)-SXY(I)**2)/(NORMSIG**2)
-          DJ3DSXY = TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)                   
-          DJ3DSYZ = TWO*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)                     
-          DJ3DSZX = TWO*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)                      
+          DJ3DSXY = TWO*(SXX(I)*SXY(I) + SXY(I)*SYY(I) + SZX(I)*SYZ(I))/(NORMSIG**2)
+          DJ3DSYZ = TWO*(SXY(I)*SZX(I) + SYY(I)*SYZ(I) + SYZ(I)*SZZ(I))/(NORMSIG**2)
+          DJ3DSZX = TWO*(SXX(I)*SZX(I) + SXY(I)*SYZ(I) + SZX(I)*SZZ(I))/(NORMSIG**2)
           ! dPhi/dSig
           NORMXX  = DSDRDJ2*SXX(I)/NORMSIG + DSDRDJ3*DJ3DSXX
           NORMYY  = DSDRDJ2*SYY(I)/NORMSIG + DSDRDJ3*DJ3DSYY
           NORMZZ  = DSDRDJ2*SZZ(I)/NORMSIG + DSDRDJ3*DJ3DSZZ
           NORMXY  = TWO*DSDRDJ2*SXY(I)/NORMSIG + DSDRDJ3*DJ3DSXY
           NORMYZ  = TWO*DSDRDJ2*SYZ(I)/NORMSIG + DSDRDJ3*DJ3DSYZ
-          NORMZX  = TWO*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX  
-c          
+          NORMZX  = TWO*DSDRDJ2*SZX(I)/NORMSIG + DSDRDJ3*DJ3DSZX
+c
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
-c        
+c
           !   a) Derivative with respect stress increments tensor DSIG			
           !   --------------------------------------------------------
           DFDSIG2 = NORMXX * NORMXX * G2
@@ -336,31 +336,31 @@ c
      .            + NORMZZ * NORMZZ * G2
      .            + NORMXY * NORMXY * G
      .            + NORMYZ * NORMYZ * G
-     .            + NORMZX * NORMZX * G   
-c     
+     .            + NORMZX * NORMZX * G
+c
           !   b) Derivatives with respect to plastic strain P 			
-          !   ------------------------------------------------  
-c          
+          !   ------------------------------------------------
+c
           !     i) Derivative of the yield stress with respect to plastic strain dYLD / dPLA
           !     ----------------------------------------------------------------------------
           HARDP(I) = HARD + QVOCE*BVOCE*EXP(-BVOCE*PLA(I))
           DYLD_DPLA  = HARDP(I)*FRATE(I)*FTHERM(I)
-c          
+c
           !     ii) Derivative of dPLA with respect to DLAM
-          !     -------------------------------------------                    
+          !     -------------------------------------------
           SIG_DFDSIG = SIGNXX(I) * NORMXX
      .               + SIGNYY(I) * NORMYY
      .               + SIGNZZ(I) * NORMZZ
      .               + SIGNXY(I) * NORMXY
      .               + SIGNYZ(I) * NORMYZ
-     .               + SIGNZX(I) * NORMZX  
+     .               + SIGNZX(I) * NORMZX
           DPLA_DLAM(I) = SIG_DFDSIG / YLD(I)
-c          
-          !  c) Derivatives with respect to the temperature TEMP 
+c
+          !  c) Derivatives with respect to the temperature TEMP
           !  ---------------------------------------------------
           IF (JTHE == 0 .and. CP > ZERO) THEN
           !    i)  Derivative of the yield stress with respect to temperature dYLD / dTEMP
-          !    ---------------------------------------------------------------------------  
+          !    ---------------------------------------------------------------------------
             DYLD_DTEMP = -FHARD(I)*FRATE(I)*MTEMP
           !    ii) Derivative of the temperature TEMP with respect to DLAM
           !    -----------------------------------------------------------
@@ -369,32 +369,32 @@ c
             DYLD_DTEMP = ZERO
             DTEMP_DLAM = ZERO
           ENDIF
-c          
+c
           !  d) Derivative with respect to the yield stress
           !  ----------------------------------------------
           DPHI_DYLD = -TWO*SIGDR2(I)/(YLD(I)**3)
-c          
+c
           ! 3 - Computation of plastic multiplier and variables update
           !----------------------------------------------------------
-c          
+c
           ! Derivative of PHI with respect to DLAM
           DPHI_DLAM(I) = - DFDSIG2 + (DPHI_DYLD*DYLD_DPLA*DPLA_DLAM(I))
           IF (JTHE == 0 .and. CP > ZERO) THEN
             DPHI_DLAM(I) = DPHI_DLAM(I) + DPHI_DYLD*DYLD_DTEMP*DTEMP_DLAM
           ENDIF
           DPHI_DLAM(I) = SIGN(MAX(ABS(DPHI_DLAM(I)),EM20) ,DPHI_DLAM(I))
-c          
+c
           ! Computation of the plastic multiplier
           DLAM = -PHI(I)/DPHI_DLAM(I)
-c          
+c
 	  ! Plastic strains tensor update
           DPXX(I) = DLAM * NORMXX
           DPYY(I) = DLAM * NORMYY
           DPZZ(I) = DLAM * NORMZZ
           DPXY(I) = DLAM * NORMXY
           DPYZ(I) = DLAM * NORMYZ
-          DPZX(I) = DLAM * NORMZX  
-c          
+          DPZX(I) = DLAM * NORMZX
+c
           ! Elasto-plastic stresses update
           SIGNXX(I) = SIGNXX(I) - DPXX(I)*G2
           SIGNYY(I) = SIGNYY(I) - DPYY(I)*G2
@@ -409,9 +409,9 @@ c
           SZZ(I)    = SIGNZZ(I) + SIGM(I)
           SXY(I)    = SIGNXY(I)
           SYZ(I)    = SIGNYZ(I)
-          SZX(I)    = SIGNZX(I)          
-c          
-          ! Cumulated plastic strain and strain rate update           
+          SZX(I)    = SIGNZX(I)
+c
+          ! Cumulated plastic strain and strain rate update
           DDEP    = (DLAM/YLD(I))*SIG_DFDSIG
           DPLA(I) = MAX(ZERO, DPLA(I) + DDEP)
           PLA(I)  = PLA(I) + DDEP
@@ -420,12 +420,12 @@ c
           J2(I)    = HALF*(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 )
      .             +         SXY(I)**2 + SYZ(I)**2 + SZX(I)**2
           J3(I)    = SXX(I) * SYY(I) * SZZ(I) + TWO   * SXY(I) * SYZ(I) * SZX(I)
-     .             - SXX(I) * SYZ(I)**2 - SYY(I) * SZX(I)**2 - SZZ(I) * SXY(I)**2 
+     .             - SXX(I) * SYZ(I)**2 - SYY(I) * SZX(I)**2 - SZZ(I) * SXY(I)**2
           FDR(I)   = J2(I)**3 - CDR*(J3(I)**2)
           SIGDR(I) = KDR * EXP((ONE/SIX)*LOG(FDR(I)))
-c          
+c
           ! Temperature update
-          IF (JTHE == 0 .AND. CP > ZERO) THEN   
+          IF (JTHE == 0 .AND. CP > ZERO) THEN
             DTEMP     = WEITEMP(I)*YLD(I)*DDEP*ETA/(RHO0(I)*CP)
             TEMP(I)   = TEMP(I) + DTEMP
             FTHERM(I) = ONE - MTEMP*(TEMP(I) - TREF)
@@ -437,22 +437,22 @@ c
           ! Yield stress update
           YLD(I) = FHARD(I)*FRATE(I)*FTHERM(I)
           YLD(I) = MAX(YLD(I), EM10)
-c        
+c
           ! Yield function value update
           SIGDR2(I) = SIGDR(I)**2
           YLD2I(I)  = ONE / YLD(I)**2
           PHI(I)    = SIGDR2(I) * YLD2I(I) - ONE
 c
         ENDDO
-        ! End of the loop over the iterations  
-      ENDDO 
-      ! End of the loop over the iterations 
+        ! End of the loop over the iterations
+      ENDDO
+      ! End of the loop over the iterations
       !===================================================================
       ! - END OF PLASTIC CORRECTION WITH NEWTON IMPLICIT ITERATIVE METHOD
       !===================================================================
-c      
+c
       ! Storing new values
-      DO I=1,NEL  
+      DO I=1,NEL
         ! USR Outputs
         SEQ(I)     = SIGDR(I) ! SIGEQ
         DPDT       = DPLA(I) / MAX(EM20,TIMESTEP)
@@ -465,5 +465,5 @@ c
         ! Storing the yield stress
         SIGY(I)    = YLD(I)
       ENDDO
-c      
+c
       END

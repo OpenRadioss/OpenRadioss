@@ -63,9 +63,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(NIXQ,*) , 
+      INTEGER IPARG(NPARG,*), IXS(NIXS,*), IXQ(NIXQ,*) ,
      .        IXC(NIXC,*) , IXT(NIXT,*), IXTG(NIXTG,*) ,
-     .        IXP(NIXP,*) , IXR(NIXR,*) , IXUR(NIXUR,*), 
+     .        IXP(NIXP,*) , IXR(NIXR,*) , IXUR(NIXUR,*),
      .        DD_IAD(NSPMD+1,*),
      .        DD_IAD_PREV(NSPMD+1,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*), IXTG6(4,*),
@@ -172,9 +172,9 @@ C shift de 1 sur ixtg6
 C kxsp decale pour retrouver KXSP(3) = no noeud
           CALL DD_FR(KXSP(2,NFT+1),P,NEL,ICON,DIM)
         ELSE IF(ITY==100) THEN
-          DIM = NIXX 
+          DIM = NIXX
           CALL DD_FRX(KXX(1,NFT+1),IXX,P,NEL,DIM)
-        ENDIF        
+        ENDIF
       END DO
 c      IF(NUMSPH>0)THEN
 c        DO PP = 1, NSPMD
@@ -203,7 +203,7 @@ C  a condition que imach==3 !
      .              IXT   ,IXP   ,IXR  ,IXTG ,
      .              IPARG ,KXSP  ,IXSP )
       ENDIF
-     
+
       RETURN
       END
 
@@ -247,7 +247,7 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
         DO J=1,NEL
           N = IX(1+I,J)
           IF(N/=0) THEN
-	    CALL IFRONTPLUS(N,P)    
+	    CALL IFRONTPLUS(N,P)
           ENDIF
         END DO
       END DO
@@ -298,10 +298,10 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
         DO J=1,ICON
           N = IXX(ADDX-1+J)
           IF(N/=0) THEN
-	    CALL IFRONTPLUS(N,P)  
+	    CALL IFRONTPLUS(N,P)
           ENDIF
         END DO
-      END DO 
+      END DO
 
       RETURN
       END
@@ -330,7 +330,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICON,NEL,DIM,P
-      INTEGER IX(DIM,*) 
+      INTEGER IX(DIM,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -353,5 +353,5 @@ C         mettre a 1 la FRONTIERE(sd) correspondante
       RETURN
       END
 
- 
+
 

@@ -59,7 +59,7 @@ C-----------------------------------------------
 
 
 
-         
+
         CALL MPI_GATHER(
      S    LEN           ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),

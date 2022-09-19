@@ -36,7 +36,7 @@ Chd|====================================================================
        SUBROUTINE HM_READ_INTER_TYPE22(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2        IGRNOD     ,IGRSURF    ,IGRBRIC    ,IGRSH3N   ,IGRTRUSS ,
-     3        FRIC_P     ,TITR       ,LSUBMODEL)  
+     3        FRIC_P     ,TITR       ,LSUBMODEL)
 C============================================================================
 C     
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C
       NTYP = 22
       IPARI(15)=NOINT
       IPARI(7)=NTYP
-      
+
       IS_AVAILABLE=.FALSE.
 
 C------------------------------------------------------------
@@ -142,26 +142,26 @@ C------------------------------------------------------------
 C
 C....* CHECKS *.............
 C
-       !IF main SIDE IS NOT GIVEN            
-       IF(ISU2==0) THEN                      
-          CALL ANCMSG(MSGID=119,               
-     .                MSGTYPE=MSGERROR,        
-     .                ANMODE=ANINFO,           
-     .                I1=NOINT,                
-     .                C1=TITR)                 
-         IS2=0                                 
-       ELSE                                    
-         IS2=1                                 
+       !IF main SIDE IS NOT GIVEN
+       IF(ISU2==0) THEN
+          CALL ANCMSG(MSGID=119,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR)
+         IS2=0
+       ELSE
+         IS2=1
          INGR2USR => IGRSURF(1:NSURF)%ID
          ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
-       ENDIF                                   
-                                               
-       !common value : IOUTP22                 
-       IF(IOUTP22==0)THEN                    
-         IOUTP22=1                             
-       ELSEIF(IOUTP22/=1)THEN                
-         IOUTP22=0                             
-       ENDIF                                   
+       ENDIF
+
+       !common value : IOUTP22
+       IF(IOUTP22==0)THEN
+         IOUTP22=1
+       ELSEIF(IOUTP22/=1)THEN
+         IOUTP22=0
+       ENDIF
 
        ! IF SECONDARY ID SIDE IS GIVEN
        IF(ISU1/=0)THEN
@@ -243,7 +243,7 @@ C
         IPARI(30)  = 0
         IPARI(31)  = 0
         IPARI(32)  = 0
-        IPARI(44)  = 0 
+        IPARI(44)  = 0
         IPARI(48)  = I22GRSH3N
         IPARI(49)  = 0           !reserved GRSH3N  ---> sh3n group identifier
         IPARI(50)  = 0           !reserved GRSH3N  ---> sh3n group NEL
@@ -252,7 +252,7 @@ C
         IPARI(53)  = 0           !reserved GRTRUS  ---> truss group NEL
         IPARI(35)  = IOUTP22
         IPARI(34)  = I22GRNOD    !orphan nodes
-        IPARI(36)  = I22GRNOD2   !orphan nodes        
+        IPARI(36)  = I22GRNOD2   !orphan nodes
         IPARI(19)  = I22GRNOD3
         IPARI(70)  = 0           !reserved GRNOD_IID     !iad0 renumbered after ddsplit so retrieve it in engine from group internal id
         IPARI(81)  = 0           !reserved GRNOD_IID     !iad0 renumbered after ddsplit so retrieve it in engine from group internal id
@@ -262,9 +262,9 @@ C
         !     IGRN(1,I) : IDENTIFICATEUR DE GROUP
         !     IGRN(2,I) : NOMBRE DE NOEUDS
         !     IGRN(3,I) : ADRESSE DES NOEUDS DANS IBUFSSG
-        !     IGRN(4,I) : TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
+        !     IGRN(4,I) : TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL,
         !                         4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
-        !        
+        !
         LOGI_I22GRSH3N = .FALSE.
         DO J = 1,NGRSH3N
           IF (IGRSH3N(J)%ID == I22GRSH3N) THEN
@@ -276,7 +276,7 @@ C
         END DO
         IF( (I22GRSH3N /=0) .AND. (LOGI_I22GRSH3N .EQV. .FALSE.))THEN
           I22GRSH3N    = 0
-          IPARI(48:50) = 0          
+          IPARI(48:50) = 0
 c          print *, "WARNING : INTER22, GRSH3N ID NOT FOUND IN INPUT FILE"
         ENDIF
 
@@ -293,7 +293,7 @@ c          print *, "WARNING : INTER22, GRSH3N ID NOT FOUND IN INPUT FILE"
           I22GRTRUS    = 0
           IPARI(51:53) = 0
 c          print *, "WARNING : INTER22, GRTRUS ID NOT FOUND IN INPUT FILE"
-        ENDIF        
+        ENDIF
 
         LOGI_I22GRNOD = .FALSE.
         DO J = 1,NGRNOD
@@ -308,7 +308,7 @@ c          print *, "WARNING : INTER22, GRTRUS ID NOT FOUND IN INPUT FILE"
           I22GRNOD  = 0
           IPARI(70) = 0
 c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
-        ENDIF   
+        ENDIF
         !-------------!
         LOGI_I22GRNOD = .FALSE.
         DO J = 1,NGRNOD
@@ -323,7 +323,7 @@ c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
           I22GRNOD2  = 0
           IPARI(81)  = 0
 c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
-        ENDIF      
+        ENDIF
         !-------------!
         LOGI_I22GRNOD = .FALSE.
         DO J = 1,NGRNOD
@@ -338,12 +338,12 @@ c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
           I22GRNOD3  = 0
           IPARI(82)  = 0
 c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
-        ENDIF                
+        ENDIF
         !-------------!
-                 
+
         KCONTACT =MAX(KCONTACT,0,0)
-        INTBAG = MAX(INTBAG,0)  
-        
+        INTBAG = MAX(INTBAG,0)
+
         IF(IS1*IS2/=0)THEN
           INT22  = INT22 + 1                                   !number of int22 interfaces.
           I22LEN1 = MAX(100     ,NINT(82*IGRBRIC(ISU1)%NENTITY**HALF))
@@ -354,7 +354,7 @@ c          print *, "WARNING : INTER22, GRNOD ID NOT FOUND IN INPUT FILE"
 
         !print *, "INTER22 BUFFER LENGTH, I22LEN =", I22LEN
         !print *, "INTER22 GRBRICK SIZE          =", IGRN(2,ISU1)
-    
+
 C------------------------------------------------------------
 C  General Storage IPARI FRIGAP 
 C------------------------------------------------------------
@@ -405,7 +405,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -431,5 +431,5 @@ C------------
      .    '    TYPE==22 FSI INTERFACE                    ' //,
      .    '    GRSH3N_ID. . . . . . . . . . . . . . . . . . ',I10/,
      .    '    GRTRUS_ID. . . . . . . . . . . . . . . . . . ',I10/,
-     .    '    GRNOD_ID . . . . . . . . . . . . . . . . . . ',I10/)    
+     .    '    GRNOD_ID . . . . . . . . . . . . . . . . . . ',I10/)
       END

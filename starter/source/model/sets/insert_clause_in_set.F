@@ -128,7 +128,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%NODE)) DEALLOCATE (SET%NODE)
                ALLOCATE(SET%NODE(CLAUSE%NB_NODE) )
 
@@ -159,7 +159,7 @@ C-----------------------------------------------
      *                             CLAUSE%PART, CLAUSE%NB_PART ,
      *                             RESULT,      NEW_SIZE       ,
      *                             CLAUSE_OPERATOR             )
-         
+
             IF (ALLOCATED(SET%PART)) DEALLOCATE (SET%PART)
             ALLOCATE(SET%PART(NEW_SIZE))
 
@@ -169,7 +169,7 @@ C-----------------------------------------------
             DEALLOCATE(RESULT)
 
          ELSE   ! SET is empty fill it with clause when ADD
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%PART)) DEALLOCATE (SET%PART)
                ALLOCATE(SET%PART(CLAUSE%NB_PART) )
 
@@ -200,7 +200,7 @@ C-----------------------------------------------
      *                             CLAUSE%SOLID, CLAUSE%NB_SOLID ,
      *                             RESULT,       NEW_SIZE        ,
      *                             CLAUSE_OPERATOR)
-         
+
             IF (ALLOCATED(SET%SOLID)) DEALLOCATE (SET%SOLID)
             ALLOCATE(SET%SOLID(NEW_SIZE))
 
@@ -211,7 +211,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%SOLID)) DEALLOCATE (SET%SOLID)
                ALLOCATE(SET%SOLID(CLAUSE%NB_SOLID) )
 
@@ -253,7 +253,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%SH4N)) DEALLOCATE (SET%SH4N)
                ALLOCATE(SET%SH4N(CLAUSE%NB_SH4N) )
 
@@ -295,7 +295,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%SH3N)) DEALLOCATE (SET%SH3N)
                ALLOCATE(SET%SH3N(CLAUSE%NB_SH3N) )
 
@@ -337,7 +337,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%QUAD)) DEALLOCATE (SET%QUAD)
                ALLOCATE(SET%QUAD(CLAUSE%NB_QUAD) )
 
@@ -379,7 +379,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%TRIA)) DEALLOCATE (SET%TRIA)
                ALLOCATE(SET%TRIA(CLAUSE%NB_TRIA) )
 
@@ -421,12 +421,12 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%BEAM)) DEALLOCATE (SET%BEAM)
                ALLOCATE(SET%BEAM(CLAUSE%NB_BEAM) )
 
                SET%NB_BEAM=CLAUSE%NB_BEAM
-               SET%BEAM(1:CLAUSE%NB_BEAM) = CLAUSE%BEAM(1:CLAUSE%NB_BEAM) 
+               SET%BEAM(1:CLAUSE%NB_BEAM) = CLAUSE%BEAM(1:CLAUSE%NB_BEAM)
             ENDIF
 
          ENDIF
@@ -462,7 +462,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%TRUSS)) DEALLOCATE (SET%TRUSS)
                ALLOCATE(SET%TRUSS(CLAUSE%NB_TRUSS) )
 
@@ -504,7 +504,7 @@ C-----------------------------------------------
 
          ELSE   ! SET is empty fill it with clause when ADD
 
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN 
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
                IF (ALLOCATED(SET%SPRING)) DEALLOCATE (SET%SPRING)
                ALLOCATE(SET%SPRING(CLAUSE%NB_SPRING) )
 
@@ -530,35 +530,35 @@ C-----------------------------------------------
 
             !
             ! Low level CPP routines / One per operator
-            ! The result is held in CPP Structure 
+            ! The result is held in CPP Structure
             ! until SET is reallocated and unstacked
             !
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN                            
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
 
-                CALL UNION_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+                CALL UNION_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2),
      .                              SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
      .                              SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                              CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
+     .                              CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2),
      .                              CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
      .                              CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
      .                              NS  )
 
             ELSEIF ( CLAUSE_OPERATOR == SET_DELETE) THEN
 
-                CALL DELETE_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+                CALL DELETE_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2),
      .                              SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
      .                              SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                              CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
+     .                              CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2),
      .                              CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
      .                              CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
      .                              NS  )
 
             ELSEIF ( CLAUSE_OPERATOR == SET_INTERSECT)THEN
 
-                CALL INTERSECT_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+                CALL INTERSECT_SURFACE( SET%SURF_NODES(1,1), SET%SURF_NODES(1,2),
      .                                  SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
      .                                  SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                                  CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2), 
+     .                                  CLAUSE%SURF_NODES(1,1), CLAUSE%SURF_NODES(1,2),
      .                                  CLAUSE%SURF_NODES(1,3), CLAUSE%SURF_NODES(1,4),
      .                                  CLAUSE%SURF_ELTYP, CLAUSE%SURF_ELEM, CLAUSE%NB_SURF_SEG,
      .                                  NS )
@@ -576,7 +576,7 @@ C-----------------------------------------------
 
             SET%NB_SURF_SEG = NS
 
-            CALL GET_MERGED_SURFACE(SET%SURF_NODES(1,1), 
+            CALL GET_MERGED_SURFACE(SET%SURF_NODES(1,1),
      .                              SET%SURF_NODES(1,2),
      .                              SET%SURF_NODES(1,3),
      .                              SET%SURF_NODES(1,4),
@@ -602,7 +602,7 @@ C-----------------------------------------------
 
           ENDIF
         ENDIF
-      ELSE             
+      ELSE
         IF ( CLAUSE_OPERATOR == SET_INTERSECT) THEN              ! SET : Intersection with Empty clause gives Empty SET
             IF (SET%NB_SURF_SEG > 0)THEN
                IF(ALLOCATED(SET%SURF_NODES)) DEALLOCATE(SET%SURF_NODES)
@@ -621,30 +621,30 @@ C-----------------------------------------------
 
             !
             ! Low level CPP routines / One per operator
-            ! The result is held in CPP Structure 
+            ! The result is held in CPP Structure
             ! until SET is reallocated and unstacked
             !
-            IF ( CLAUSE_OPERATOR == SET_ADD) THEN                            
+            IF ( CLAUSE_OPERATOR == SET_ADD) THEN
 
-                CALL UNION_LINE( SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
+                CALL UNION_LINE( SET%LINE_NODES(1,1), SET%LINE_NODES(1,2),
      .                           SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
-     .                           CLAUSE%LINE_NODES(1,1), CLAUSE%LINE_NODES(1,2), 
+     .                           CLAUSE%LINE_NODES(1,1), CLAUSE%LINE_NODES(1,2),
      .                           CLAUSE%LINE_ELTYP, CLAUSE%LINE_ELEM, CLAUSE%NB_LINE_SEG,
      .                           NEW_SIZE  )
 
             ELSEIF ( CLAUSE_OPERATOR == SET_DELETE) THEN
 
-                CALL DELETE_LINE ( SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
+                CALL DELETE_LINE ( SET%LINE_NODES(1,1), SET%LINE_NODES(1,2),
      .                             SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
-     .                             CLAUSE%LINE_NODES(1,1), CLAUSE%LINE_NODES(1,2), 
+     .                             CLAUSE%LINE_NODES(1,1), CLAUSE%LINE_NODES(1,2),
      .                             CLAUSE%LINE_ELTYP, CLAUSE%LINE_ELEM, CLAUSE%NB_LINE_SEG,
      .                             NEW_SIZE  )
 
             ELSEIF ( CLAUSE_OPERATOR == SET_INTERSECT)THEN
 
-                CALL INTERSECT_LINE (  SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
+                CALL INTERSECT_LINE (  SET%LINE_NODES(1,1), SET%LINE_NODES(1,2),
      .                                 SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
-     .                                 CLAUSE%LINE_NODES(1,1), CLAUSE%LINE_NODES(1,2), 
+     .                                 CLAUSE%LINE_NODES(1,1), CLAUSE%LINE_NODES(1,2),
      .                                 CLAUSE%LINE_ELTYP, CLAUSE%LINE_ELEM, CLAUSE%NB_LINE_SEG,
      .                                 NEW_SIZE    )
             ELSE
@@ -661,7 +661,7 @@ C-----------------------------------------------
 
                 SET%NB_LINE_SEG = NEW_SIZE
 
-                CALL GET_MERGED_LINES (SET%LINE_NODES(1,1), 
+                CALL GET_MERGED_LINES (SET%LINE_NODES(1,1),
      .                                 SET%LINE_NODES(1,2),
      .                                 SET%LINE_ELTYP,
      .                                 SET%LINE_ELEM)
@@ -685,7 +685,7 @@ C-----------------------------------------------
 
                 ENDIF
          ENDIF
-      ELSE             
+      ELSE
         IF ( CLAUSE_OPERATOR == SET_INTERSECT) THEN              ! SET : Intersection with Empty clause gives Empty SET
             IF (SET%NB_LINE_SEG > 0)THEN
                IF(ALLOCATED(SET%LINE_NODES)) DEALLOCATE(SET%LINE_NODES)
@@ -697,7 +697,7 @@ C-----------------------------------------------
       ENDIF
 
       ! -----------------------------------------------
-      !     IN CASE OF DELETE redo NODES_FROM_ELEM 
+      !     IN CASE OF DELETE redo NODES_FROM_ELEM
       !                            SURFACE_FROM_ELEMENT
       !                            LINE_FROM_SURFACE
       ! -----------------------------------------------
@@ -719,7 +719,7 @@ C-----------------------------------------------
         CALL SET_MERGE_SIMPLE( SET%NODE,    SET%NB_NODE    ,
      .                         NODES, ND_SIZE ,
      .                         RESULT,      NEW_SIZE       ,
-     .                         OPERATOR)  
+     .                         OPERATOR)
 
 
          IF (ALLOCATED(SET%NODE)) DEALLOCATE (SET%NODE)
@@ -745,10 +745,10 @@ C-----------------------------------------------
      .                     KNOD2ELQ  ,NOD2ELQ  ,X         ,KEYSET    ,DELBUF    ,
      .                     .TRUE.   )
 
-        CALL UNION_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2), 
+        CALL UNION_SURFACE(SET%SURF_NODES(1,1), SET%SURF_NODES(1,2),
      .                     SET%SURF_NODES(1,3), SET%SURF_NODES(1,4),
      .                     SET%SURF_ELTYP, SET%SURF_ELEM, SET%NB_SURF_SEG,
-     .                     DELBUF%SURF(1,1), DELBUF%SURF(1,2), 
+     .                     DELBUF%SURF(1,1), DELBUF%SURF(1,2),
      .                     DELBUF%SURF(1,3), DELBUF%SURF(1,4),
      .                     DELBUF%SURF(1,5), DELBUF%SURF(1,6), DELBUF%SZ_SURF,
      .                     NS  )
@@ -764,7 +764,7 @@ C-----------------------------------------------
 
         SET%NB_SURF_SEG = NS
 
-        CALL GET_MERGED_SURFACE(SET%SURF_NODES(1,1), 
+        CALL GET_MERGED_SURFACE(SET%SURF_NODES(1,1),
      .                          SET%SURF_NODES(1,2),
      .                          SET%SURF_NODES(1,3),
      .                          SET%SURF_NODES(1,4),
@@ -781,9 +781,9 @@ C-----------------------------------------------
         CALL CREATE_LINE_FROM_ELEMENT(IXT    ,IXP  ,IXR  ,SET ,DELBUF    ,
      .                                .TRUE. )
 
-        CALL UNION_LINE(SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
+        CALL UNION_LINE(SET%LINE_NODES(1,1), SET%LINE_NODES(1,2),
      .                  SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
-     .                  DELBUF%LINE(1,1), DELBUF%LINE(1,2), 
+     .                  DELBUF%LINE(1,1), DELBUF%LINE(1,2),
      .                  DELBUF%LINE(1,3), DELBUF%LINE(1,4), DELBUF%SZ_LINE,
      .                  NEW_SIZE  )
 
@@ -798,21 +798,21 @@ C-----------------------------------------------
 
         SET%NB_LINE_SEG = NEW_SIZE
 
-        CALL GET_MERGED_LINES (SET%LINE_NODES(1,1), 
+        CALL GET_MERGED_LINES (SET%LINE_NODES(1,1),
      .                         SET%LINE_NODES(1,2),
      .                         SET%LINE_ELTYP,
      .                         SET%LINE_ELEM)
 
         DELBUF%SZ_LINE = 0
-        
+
 
         ! Line from SURFACE
         CALL CREATE_LINE_FROM_SURFACE(SET  ,KEYSET,OPT_A,OPT_E,DELBUF    ,
      .                               .TRUE.)
 
-        CALL UNION_LINE(SET%LINE_NODES(1,1), SET%LINE_NODES(1,2), 
+        CALL UNION_LINE(SET%LINE_NODES(1,1), SET%LINE_NODES(1,2),
      .                  SET%LINE_ELTYP, SET%LINE_ELEM, SET%NB_LINE_SEG,
-     .                  DELBUF%LINE(1,1), DELBUF%LINE(1,2), 
+     .                  DELBUF%LINE(1,1), DELBUF%LINE(1,2),
      .                  DELBUF%LINE(1,3), DELBUF%LINE(1,4), DELBUF%SZ_LINE,
      .                  NEW_SIZE  )
 
@@ -827,7 +827,7 @@ C-----------------------------------------------
 
         SET%NB_LINE_SEG = NEW_SIZE
 
-        CALL GET_MERGED_LINES (SET%LINE_NODES(1,1), 
+        CALL GET_MERGED_LINES (SET%LINE_NODES(1,1),
      .                         SET%LINE_NODES(1,2),
      .                         SET%LINE_ELTYP,
      .                         SET%LINE_ELEM)

@@ -70,11 +70,11 @@ C     REAL
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   PX1H1(*), PX1H2(*), PX1H3(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),  
+     .   PX1H1(*), PX1H2(*), PX1H3(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),
      .   PX4H1(*), PX4H2(*), PX4H3(*),EANI(*),PARTSAV(NPSAV,*),
-     .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*) 
+     .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C     REAL
      .   HGX1(MVSIZ), HGX2(MVSIZ), HGX3(MVSIZ), HGX4(MVSIZ),
      .   HGY1(MVSIZ), HGY2(MVSIZ), HGY3(MVSIZ), HGY4(MVSIZ),
      .   HGZ1(MVSIZ), HGZ2(MVSIZ), HGZ3(MVSIZ), HGZ4(MVSIZ),
-     .   VX3478(MVSIZ), VX2358(MVSIZ), VX1467(MVSIZ), VX1256(MVSIZ), 
+     .   VX3478(MVSIZ), VX2358(MVSIZ), VX1467(MVSIZ), VX1256(MVSIZ),
      .   VY3478(MVSIZ), VY2358(MVSIZ), VY1467(MVSIZ), VY1256(MVSIZ),
      .   VZ3478(MVSIZ), VZ2358(MVSIZ), VZ1467(MVSIZ), VZ1256(MVSIZ),
      .   G11(MVSIZ),G21(MVSIZ),G31(MVSIZ),G41(MVSIZ),
@@ -104,7 +104,7 @@ C     REAL
      .   G13(MVSIZ),G23(MVSIZ),G33(MVSIZ),G43(MVSIZ),
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
      .   LEN(MVSIZ),
-     .   EHOURT     
+     .   EHOURT
 C-----------------------------------------------
        DO I=LFT,LLT
           CAQ(I)=FOURTH*OFF(I)*GEO(13,PID(I))
@@ -332,17 +332,17 @@ C
       ENDIF
 C
       EHOURT = ZERO
-c 
+c
       DO I=LFT,LLT
         EHOU(I)= DT1*(
-     &   HZ1(I)*HGZ1(I) + HZ2(I)*HGZ2(I) + 
-     &   HZ3(I)*HGZ3(I) + HZ4(I)*HGZ4(I) + 
-     &   HX1(I)*HGX1(I) + HX2(I)*HGX2(I) + 
-     &   HX3(I)*HGX3(I) + HX4(I)*HGX4(I) + 
-     &   HY1(I)*HGY1(I) + HY2(I)*HGY2(I) + 
-     &   HY3(I)*HGY3(I) + HY4(I)*HGY4(I) ) 
+     &   HZ1(I)*HGZ1(I) + HZ2(I)*HGZ2(I) +
+     &   HZ3(I)*HGZ3(I) + HZ4(I)*HGZ4(I) +
+     &   HX1(I)*HGX1(I) + HX2(I)*HGX2(I) +
+     &   HX3(I)*HGX3(I) + HX4(I)*HGX4(I) +
+     &   HY1(I)*HGY1(I) + HY2(I)*HGY2(I) +
+     &   HY3(I)*HGY3(I) + HY4(I)*HGY4(I) )
         EHOURT= EHOURT+EHOU(I)
-      ENDDO   
+      ENDDO
 C a voir plus tard 
 C FP 12/97
 C DANS LE CAS ALE ET EULERIEN, LE TRANSPORT DE l'ENERGIE d'HOURGLAS
@@ -364,7 +364,7 @@ c              IC=IC+1
 c              JST(IC)=J
 c            ENDIF
 c          ENDDO
-c          JST(IC+1)=LLT+1                 
+c          JST(IC+1)=LLT+1
 c          DO II=1,IC
 c            MX=IPARTS(JST(II))
 c            IF (JST(II+1)-JST(II)>15) THEN

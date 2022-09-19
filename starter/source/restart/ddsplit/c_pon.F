@@ -114,11 +114,11 @@ C
       IF(ICRACK3D > 0) THEN
         DO I = 1, NUMNOD_L
           N  = NODGLOB(I)
-          N1 = INODCRKXFEM(N)   ! Num noeud systeme xfem global 
+          N1 = INODCRKXFEM(N)   ! Num noeud systeme xfem global
           IF (N1 > 0) THEN
-            LCNECRKXFEM_L = LCNECRKXFEM_L 
+            LCNECRKXFEM_L = LCNECRKXFEM_L
      .                    + ADDCNE_CRKXFEM(N1+1) - ADDCNE_CRKXFEM(N1)
-          ENDIF  
+          ENDIF
         ENDDO
       ENDIF
 C

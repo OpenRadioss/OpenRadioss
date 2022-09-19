@@ -55,7 +55,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RHO0, G, C1, SSP, C,
-     .   IYY, IZZ, SL2I, SHF, DMP, 
+     .   IYY, IZZ, SL2I, SHF, DMP,
      .   DSH, PHI, F1, F2, FAC, YOUNG
 C=======================================================================
       DO I=LFT,LLT

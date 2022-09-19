@@ -59,11 +59,11 @@ C-----------------------------------------------
       IF (ISORTH == 0) THEN
         DO I=LFT,LLT
           GAMA(I,1)=ONE
-          GAMA(I,2)=ZERO 
-          GAMA(I,3)=ZERO 
+          GAMA(I,2)=ZERO
+          GAMA(I,3)=ZERO
           GAMA(I,4)=ZERO
-          GAMA(I,5)=ONE 
-          GAMA(I,6)=ZERO 
+          GAMA(I,5)=ONE
+          GAMA(I,6)=ZERO
         ENDDO
       ELSE
 C

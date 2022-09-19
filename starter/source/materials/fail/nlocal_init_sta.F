@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE MESSAGE_MOD
@@ -65,11 +65,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_) , TARGET                    :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) , TARGET                    :: NLOC_DMG
       INTEGER IPARG(NPARG,NGROUP),IXS(NIXS,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IPM(NPROPMI,*)
-      my_real ,DIMENSION(NUMELC+NUMELTG),INTENT(IN)        :: 
-     .   AREA 
+      my_real ,DIMENSION(NUMELC+NUMELTG),INTENT(IN)        ::
+     .   AREA
       my_real
      .   X(3,*),XREFC(4,3,*),XREFTG(3,3,*),XREFS(8,3,*),BUFMAT(*)
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
      .  PARAMETER :: TOL1 = 5.0D-4
       my_real,
      .  PARAMETER :: TOL2 = 1.0D-8
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: FNL,UNL,VNL,DNL,MNL
 
         ! Initialization of the convergence flag
@@ -116,13 +116,13 @@ C-----------------------------------------------
               ! Number of elements in the group
               NEL   = IPARG(2,NG)
               ! NFT value
-              NFT   = IPARG(3,NG) 
+              NFT   = IPARG(3,NG)
               ! Type of elements
               ITY   = IPARG(5,NG)
               ! Formulation of the element
               FORMU = IPARG(23,NG)
               ! If the elements are shells
-              IF (ITY == 3) THEN 
+              IF (ITY == 3) THEN
                 IF ((FORMU>10).AND.(FORMU<29)) THEN
                   CALL CBAFINT_REG_INI(ELBUF_TAB,NLOC_DMG ,AREA     ,IXC     ,
      .                                 DT_NL    ,X        ,XREFC    ,NFT     ,
@@ -134,7 +134,7 @@ C-----------------------------------------------
      .                               NEL      ,NG       ,IPM      ,BUFMAT  ,
      .                               TIME     ,FAILURE  )
                 ENDIF
-              ELSEIF (ITY == 7) THEN 
+              ELSEIF (ITY == 7) THEN
                 IF ((FORMU==1).OR.(FORMU==2)) THEN
                   CALL C3FINT_REG_INI(ELBUF_TAB,NLOC_DMG ,AREA     ,IXTG     ,
      .                                DT_NL    ,X        ,XREFTG   ,NFT      ,
@@ -166,12 +166,12 @@ C-----------------------------------------------
           ! Convergence criterion
           CONVERGED = ((NORM<TOL1).AND.(ABS(NORM-NORM_1)<TOL2))
           !WRITE(*,*) 'NORM = ', SQRT(DOT_PRODUCT(DNL,DNL))
-          IF (ISNAN(SQRT(DOT_PRODUCT(DNL,DNL)))) THEN 
+          IF (ISNAN(SQRT(DOT_PRODUCT(DNL,DNL)))) THEN
             CALL ANCMSG(MSGID=1765,MSGTYPE=MSGERROR,
-     .                  ANMODE=ANINFO_BLIND_1) 
+     .                  ANMODE=ANINFO_BLIND_1)
             EXIT
           ENDIF
-          ! Updating time 
+          ! Updating time
           TIME = TIME + DT_NL
         ENDDO
         ! Resetting the non-local vectors
@@ -179,9 +179,9 @@ C-----------------------------------------------
         VNL = ZERO
         DNL = ZERO
         ! Checking failure
-        IF (FAILURE) THEN 
+        IF (FAILURE) THEN
           CALL ANCMSG(MSGID=1767,MSGTYPE=MSGWARNING,
-     .                ANMODE=ANINFO_BLIND_1)         
+     .                ANMODE=ANINFO_BLIND_1)
         ENDIF
 c-----------
       END

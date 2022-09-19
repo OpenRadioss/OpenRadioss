@@ -59,7 +59,7 @@ C     REAL
      .   OFF(*),A1(MVSIZ),
      .   AL(MVSIZ),EXX(MVSIZ),
      .   EXY(MVSIZ),EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
-     .   F1(MVSIZ), F2(MVSIZ), F3(MVSIZ), 
+     .   F1(MVSIZ), F2(MVSIZ), F3(MVSIZ),
      .   M1(MVSIZ), M2(MVSIZ), M3(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,22 +68,22 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   YM(MVSIZ),SHF(MVSIZ),B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),
-     .   DEGMB(MVSIZ), DEGFX(MVSIZ), 
+     .   DEGMB(MVSIZ), DEGFX(MVSIZ),
      .   SH(MVSIZ), YMA2(MVSIZ), SH10(MVSIZ),
      .   SH20(MVSIZ), SH0(MVSIZ), SH1(MVSIZ), SH2(MVSIZ),
      .   DMPM(MVSIZ),DMPF(MVSIZ),RHO(MVSIZ),G(MVSIZ)
 C-----------------------------------------------
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=LFT,LLT                    
-          DMPM(I)=GEO(16,PID(I))*AL(I)  
-          DMPF(I)=GEO(17,PID(I))*AL(I)  
-        ENDDO 
+        DO I=LFT,LLT
+          DMPM(I)=GEO(16,PID(I))*AL(I)
+          DMPF(I)=GEO(17,PID(I))*AL(I)
+        ENDDO
       ELSE
-        DO I=LFT,LLT                    
-          DMPM(I)=ZERO  
-          DMPF(I)=ZERO  
-        ENDDO 
-      ENDIF                                 
+        DO I=LFT,LLT
+          DMPM(I)=ZERO
+          DMPF(I)=ZERO
+        ENDDO
+      ENDIF
 C
       DO I=LFT,LLT
         RHO(I) =PM( 1,MAT(I))
@@ -161,12 +161,12 @@ C
 C
       DO I=LFT,LLT
         F1(I) = F1(I) + FOR(I,1)
-        F2(I) = F2(I) + FOR(I,2) 
-        F3(I) = F3(I) + FOR(I,3)  
-        M1(I) = M1(I) + MOM(I,1) 
-        M2(I) = M2(I) + MOM(I,2) 
-        M3(I) = M3(I) + MOM(I,3) 
-      ENDDO               
+        F2(I) = F2(I) + FOR(I,2)
+        F3(I) = F3(I) + FOR(I,3)
+        M1(I) = M1(I) + MOM(I,1)
+        M2(I) = M2(I) + MOM(I,2)
+        M3(I) = M3(I) + MOM(I,3)
+      ENDDO
 C-----------------------------------------------
       RETURN
       END

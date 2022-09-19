@@ -89,12 +89,12 @@ C-----------------------------------------------
      .    FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
-c      
+c
 C     ==================================================================
 C     RECOVERING SPRING PARAMETERS
 C     ==================================================================
       DO I=LFT,LLT
-        PID        = MGN(I) 
+        PID        = MGN(I)
         XM(I)      = GEO(1,PID)          ! Spring mass
         XK(I)      = GEO(2,PID)          ! Spring linear stiffness
         XC(I)      = GEO(3,PID)          ! Spring linear damping
@@ -138,7 +138,7 @@ C
 C
       DO I=LFT,LLT
         AL0DP(I) = AL0(I)                  ! cast My_real to double
-        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP   
+        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP
       ENDDO
 C
       DO I=LFT,LLT
@@ -156,7 +156,7 @@ C
         DL(I) = ALDP(I) - AL0DP(I)
       ENDDO
 C
-      ! ILENG flag 
+      ! ILENG flag
       DO I=LFT,LLT
         ! Value per length unit
         IF (ILENG(I) /= 0) THEN
@@ -197,14 +197,14 @@ C     ------------------------------------------------------------------
       DO I=LFT,LLT
 c
         ! Computation if the element is not broken only
-        IF ((OFF(I) == ONE).AND.(DL(I) < GAP(I) .OR. ITENS(I) > 0)) THEN 
+        IF ((OFF(I) == ONE).AND.(DL(I) < GAP(I) .OR. ITENS(I) > 0)) THEN
           ! Stiffness part
           !   Computation of the tabulated stiffness force
           IF (IFUNC(I) > 0) THEN
             FK(I) = FSCALE(I)*FINTER(IFUNC(I),(DL(I)-GAP(I))/ASCALE(I),NPF,TF,DF1)
           !   Computation of linear elastic stiffness force (non-linear if NEXP > 1)
           ELSE
-            IF (ABS(DL(I)-GAP(I)) > ZERO) THEN 
+            IF (ABS(DL(I)-GAP(I)) > ZERO) THEN
               FK(I) = SIGN(ONE,(DL(I)-GAP(I)))*XK(I)*EXP(NEXP(I)*LOG(ABS(DL(I)-GAP(I))))
             ELSE
               FK(I) = ZERO
@@ -237,7 +237,7 @@ c
           ELSE
             F(I)  = TWO*FK(I)
             XK(I) = TWO*XK(I)
-            XC(I) = ZERO 
+            XC(I) = ZERO
           ENDIF
         ELSE
           F(I)  = ZERO
@@ -256,14 +256,14 @@ C
       IF (ANIM_FE(11) /= 0) THEN
         DO I=LFT,LLT
           J = I+NFT
-          IF (IFAIL(I) == 1) THEN 
-            IF (ITENS(I) > 0) THEN 
+          IF (IFAIL(I) == 1) THEN
+            IF (ITENS(I) > 0) THEN
               DAMP = DL(I)/MAX(DMX(I),EM15)
             ELSE
               DAMP = ZERO
             ENDIF
             DAMM = DL(I)/MIN(DMN(I),-EM15)
-          ELSEIF (IFAIL(I) == 2) THEN 
+          ELSEIF (IFAIL(I) == 2) THEN
             IF (ITENS(I) > 0) THEN
               DAMP = F(I)/MAX(DMX(I),EM15)
             ELSE
@@ -288,7 +288,7 @@ c
         XM(I)    = XM(I)*XL0(I)
         XK(I)    = XK(I)/XL0(I)
         XC(I)    = XC(I)/XL0(I)
-      ENDDO    
+      ENDDO
 C     ==================================================================
 C      
 C     ==================================================================
@@ -314,7 +314,7 @@ C     ==================================================================
               ENDIF
             ENDIF
           ELSEIF (IFAIL(I) == 2) THEN
-            IF (ITENS(I) > 0) THEN 
+            IF (ITENS(I) > 0) THEN
               IF (F(I)  > DMX(I) .OR. F(I)  < DMN(I)) THEN
                 OFF(I) = ZERO
                 NINDX  = NINDX + 1

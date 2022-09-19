@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  J, IR, IS, IT, 
+      INTEGER I,  J, IR, IS, IT,
      .        N1, N2, N3, N4, N5, N6, N7, N8
 C                                                                     12
       my_real
@@ -373,7 +373,7 @@ C
      .   X17 , X28 , X35 , X46 ,
      .   Y17 , Y28 , Y35 , Y46 ,
      .   Z17 , Z28 , Z35 , Z46 ,
-     .   VOL, HX(4), HY(4), HZ(4), DET, 
+     .   VOL, HX(4), HY(4), HZ(4), DET,
      .   JAC1 ,JAC2 ,JAC3 ,
      .   JAC4 ,JAC5 ,JAC6 ,
      .   JAC7 ,JAC8 ,JAC9 ,
@@ -544,7 +544,7 @@ C
        ETA  = A_GAUSS(IR,NSPHDIR)
        ZETA = A_GAUSS(IS,NSPHDIR)
 C
-       WI = EIGHT/NP 
+       WI = EIGHT/NP
 C
 C Jacobian matrix
        JAC1=CJ1+HX(3)*ETA+(HX(2)+HX(4)*ETA)*ZETA

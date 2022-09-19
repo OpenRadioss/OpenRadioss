@@ -62,9 +62,9 @@ C-----------------------------------------------
            IRBYAC(NRBYAC+NRBYKIN)=K
            NSMAX=NSMAX+NPBY(2,N)
           ENDIF
-         ENDIF 
+         ENDIF
          K=K+NPBY(2,N)
-         ENDDO 
+         ENDDO
 C
       RETURN
       END

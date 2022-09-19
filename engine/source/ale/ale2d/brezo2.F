@@ -70,17 +70,17 @@ C-----------------------------------------------
        IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
        IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
        IF(IV1 <= 0.)THEN
-         IV1=IE       
+         IV1=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
          IV1=IE
        ENDIF
        IF(IV2 <= 0)THEN
-         IV2=IE       
+         IV2=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
          IV2=IE
        ENDIF
        IF(IV3 <= 0)THEN
-         IV3=IE       
+         IV3=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
          IV3=IE
        ENDIF
@@ -102,24 +102,24 @@ C-----------------------------------------------
             IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
             IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
             IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-      
+
        IF(IV1 <= 0.)THEN
-         IV1=IE       
+         IV1=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
          IV1=IE
        ENDIF
-       IF(IV2 <= 0.)THEN 
-         IV2=IE       
+       IF(IV2 <= 0.)THEN
+         IV2=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
          IV2=IE
        ENDIF
-       IF(IV3 <= 0.)THEN 
-         IV3=IE       
+       IF(IV3 <= 0.)THEN
+         IV3=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
          IV3=IE
        ENDIF
-       IF(IV4 <= 0.)THEN 
-         IV4=IE       
+       IF(IV4 <= 0.)THEN
+         IV4=IE
        ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
          IV4=IE
        ENDIF
@@ -181,19 +181,19 @@ C-----------------------------------------------
           IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
           IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       
+
          IF(IV1 <= 0.)THEN
-           IV1=IE       
+           IV1=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
            IV1=IE
          ENDIF
          IF(IV2 <= 0)THEN
-           IV2=IE       
+           IV2=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
            IV2=IE
          ENDIF
          IF(IV3 <= 0)THEN
-           IV3=IE       
+           IV3=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
            IV3=IE
          ENDIF
@@ -202,7 +202,7 @@ C-----------------------------------------------
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
            IV4=IE
          ENDIF
-         SIG(I,NV) = SIG(I,NV) + HALF * DT1 * ( 
+         SIG(I,NV) = SIG(I,NV) + HALF * DT1 * (
      .                                          PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      .                                         -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)
      .                                        ) / VOL(I)
@@ -216,22 +216,22 @@ C-----------------------------------------------
          IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
          IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
          IF(IV1 <= 0.)THEN
-           IV1=IE       
+           IV1=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
            IV1=IE
            ENDIF
-         IF(IV2 <= 0.)THEN 
-           IV2=IE       
+         IF(IV2 <= 0.)THEN
+           IV2=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
            IV2=IE
          ENDIF
-         IF(IV3 <= 0.)THEN 
-           IV3=IE       
+         IF(IV3 <= 0.)THEN
+           IV3=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
            IV3=IE
          ENDIF
-         IF(IV4 <= 0.)THEN 
-           IV4=IE       
+         IF(IV4 <= 0.)THEN
+           IV4=IE
          ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV4)) /= ABS(BHOLE(NM,IE)))THEN
            IV4=IE
          ENDIF

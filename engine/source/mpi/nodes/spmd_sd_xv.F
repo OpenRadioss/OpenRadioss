@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD     
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IMSCH, ISIZXV, ILENXV,
      .        IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*)
-     
+
       DOUBLE PRECISION
      .        XDP(3,*)
       my_real
@@ -84,7 +84,7 @@ C-----------------------------------------------
      .        INB, II, NEW_D, IERROR, MSGOFF,MSGOFF2,
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD),
      .        L2, SIZDP, REQ_S_DP(NSPMD),IERROR1, LEN_DP
-     
+
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: SRBUFDP
 
       DATA MSGOFF/108/
@@ -115,7 +115,7 @@ C-----------------------------------------------
       E_LEN = 7 + IRODDL*3 + DT_CST*2 + NEW_D*3
       ALLOCATE(SRBUF(ISIZXV * MAX(ILENXV,E_LEN)))
       LEN_DP = 3
-      
+
       IF(IRESP==1)THEN
         ALLOCATE(SRBUFDP(ISIZXV*LEN_DP),STAT=IERROR1)
 	IF(IERROR1/=0) THEN
@@ -125,7 +125,7 @@ C-----------------------------------------------
       ELSE
          ALLOCATE(SRBUFDP(1),STAT=IERROR1)
       ENDIF
-      
+
       IF(ISPMD==0) THEN
         L = 1
 	L2 = 1
@@ -353,13 +353,13 @@ Cel NEW_D==2 => Envoyer D et W
 	  IF(IRESP==1)THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,I),IAD_ELEM(1,I+1)-1
-              NOD = FR_ELEM(J)	     
+              NOD = FR_ELEM(J)	
 	      SRBUFDP(L2)  = XDP(1,NOD)
 	      SRBUFDP(L2+1)= XDP(2,NOD)
-	      SRBUFDP(L2+2)= XDP(3,NOD)	       
-	      L2= L2 + LEN_DP 
+	      SRBUFDP(L2+2)= XDP(3,NOD)	
+	      L2= L2 + LEN_DP
 	    ENDDO
-	  ENDIF	  
+	  ENDIF	
         ENDDO
 C
 C   Envoi messages
@@ -375,7 +375,7 @@ C----------------------------------------------------------------------------
      S       SRBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G       MPI_COMM_WORLD,REQ_S(I),IERROR)
            L = L + SIZ
-	   
+	
 	   IF(IRESP==1)THEN
 	     MSGTYP = MSGOFF2
              SIZDP = LEN_DP*(IAD_ELEM(1,I+1)-IAD_ELEM(2,I))
@@ -411,14 +411,14 @@ C
           CALL MPI_RECV(
      S      SRBUF(L),SIZ,REAL,IT_SPMD(1),MSGTYP,
      G      MPI_COMM_WORLD,STATUS,IERROR)
-     
+
           IF(IRESP==1)THEN
             MSGTYP = MSGOFF2
             CALL MPI_RECV(
      S        SRBUFDP(L2),SIZDP,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
      G        MPI_COMM_WORLD,STATUS,IERROR)
           ENDIF
-     	  
+     	
           IF(NEW_D==0) THEN
             IF(IRODDL/=0.AND.DT_CST/=0) THEN
 #include      "vectorize.inc"
@@ -642,13 +642,13 @@ CD et W a recevoir
 	  IF(IRESP==1)THEN
 #include      "vectorize.inc"
             DO J=IAD_ELEM(2,1),IAD_ELEM(1,2)-1
-	      NOD = FR_ELEM(J)  
+	      NOD = FR_ELEM(J)
 	      XDP(1,NOD)=  SRBUFDP(L2)
 	      XDP(2,NOD)=  SRBUFDP(L2+1)
 	      XDP(3,NOD)=  SRBUFDP(L2+2)
-	      L2= L2 + LEN_DP      	    
+	      L2= L2 + LEN_DP      	
 	    ENDDO
-	  ENDIF	    
+	  ENDIF	
         END IF
       ENDIF
       DEALLOCATE(SRBUF)

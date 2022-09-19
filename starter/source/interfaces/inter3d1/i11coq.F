@@ -90,7 +90,7 @@ C
             ST = PM(20,IXTG(1,N))
             IF(IGTYP == 11 .AND. IGMAT > 0) THEN
                ST=GEO(IPGMAT+2,IXTG(5,N))
-            ELSEIF(IGTYP == 52 .OR. 
+            ELSEIF(IGTYP == 52 .OR.
      .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
                ISUBSTACK = IWORKSH(3,NUMELC+N)
                ST=PM_STACK(2,ISUBSTACK)
@@ -107,7 +107,7 @@ C
               NELTG = N
               STM = ST
             ENDIF
-          ENDIF        
+          ENDIF
   230   CONTINUE
       ENDIF
       IF(NUMELC/=0) THEN
@@ -133,11 +133,11 @@ C
             ST = PM(20,IXC(1,N))
             IF(IGTYP == 11 .AND. IGMAT > 0)THEN
               ST=GEO(IPGMAT + 2 ,IXC(6,N))
-            ELSEIF(IGTYP == 52 .OR. 
+            ELSEIF(IGTYP == 52 .OR.
      .        ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
                ISUBSTACK = IWORKSH(3,N)
                ST=PM_STACK(2,ISUBSTACK)
-            ENDIF   
+            ENDIF
           ELSE
             ST = 0.
           ENDIF

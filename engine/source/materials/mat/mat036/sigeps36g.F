@@ -69,7 +69,7 @@ C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL,  IPLA, NGL(NEL), MAT(NEL),ISRATE,NVARTMP,
      .        IPM(NPROPMI,*)
-      my_real 
+      my_real
      .   TIME,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THK0(NEL),PLA(NEL),
@@ -146,7 +146,7 @@ C-----------------------------------------------
      .        ESCALE1
 C
       DATA NMAX/2/
-        TOL = EM4     
+        TOL = EM4
       IF(IRESP == 1)THEN
         TOLD=EM8
       ELSE
@@ -173,57 +173,57 @@ C
        IF(EPSR11==ZERO)EPSR11=EP30
        EPSR21 =UPARAM(IADBUFV1+6+2*NRATE1+3)
        IF(EPSR21==ZERO)EPSR21=TWOEP30
-       EPSF1 = UPARAM(IADBUFV1+6+2*NRATE1+9)  
-c---------------------  
-       OPTE1 = UPARAM(IADBUFV1+2*NRATE1 + 23) 
-       EINF1 = UPARAM(IADBUFV1+2*NRATE1+ 24) 
-       CE1 = UPARAM(IADBUFV1+2*NRATE1+ 25) 
+       EPSF1 = UPARAM(IADBUFV1+6+2*NRATE1+9)
+c---------------------
+       OPTE1 = UPARAM(IADBUFV1+2*NRATE1 + 23)
+       EINF1 = UPARAM(IADBUFV1+2*NRATE1+ 24)
+       CE1 = UPARAM(IADBUFV1+2*NRATE1+ 25)
 c--------------------
-       DO I=1,NEL    
-          E(I) =  E11                                     
-          G(I) =  G11 
-          GS(I) = G(I)*SHF(I)                              
+       DO I=1,NEL
+          E(I) =  E11
+          G(I) =  G11
+          GS(I) = G(I)*SHF(I)
           G3(I) = G31
           C1=THK0(I)*ONE_OVER_12
-          A1(I) = A11                         
-          A2(I) = A21                                     
-          AM1(I)  = A11*C1  
-          AM2(I)  = A21*C1 
-          GM(I)   = G11*C1  
+          A1(I) = A11
+          A2(I) = A21
+          AM1(I)  = A11*C1
+          AM2(I)  = A21*C1
+          GM(I)   = G11*C1
        ENDDO
-       IF (OPTE1 == 1)THEN  
+       IF (OPTE1 == 1)THEN
          NFUNCE = IPM(10,MAT(1))
          IDESCALE1=  IPM(10+NFUNCE,MAT(1))
-         DO I=1,NEL        
-           IF(PLA(I) > ZERO)THEN                                                       
-              ESCALE1 = FINTER(IDESCALE1,PLA(I),NPF,TF,DYDXE(I))   
-              E(I) =  ESCALE1* E11                                     
-              G(I) =  HALF*E(I)/(ONE+NU) 
-              GS(I) =   G(I)*SHF(I)                              
-              G3(I) = THREE*G(I) 
-              A1(I) = E(I)/(ONE - NU*NU)                         
-              A2(I) = NU*A1(I)                                     
-              AM1(I)  = A1(I)*C1  
-              AM2(I)  = A2(I)*C1  
-              GM(I)   = G(I)*C1   
+         DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+              ESCALE1 = FINTER(IDESCALE1,PLA(I),NPF,TF,DYDXE(I))
+              E(I) =  ESCALE1* E11
+              G(I) =  HALF*E(I)/(ONE+NU)
+              GS(I) =   G(I)*SHF(I)
+              G3(I) = THREE*G(I)
+              A1(I) = E(I)/(ONE - NU*NU)
+              A2(I) = NU*A1(I)
+              AM1(I)  = A1(I)*C1
+              AM2(I)  = A2(I)*C1
+              GM(I)   = G(I)*C1
            ENDIF
-         ENDDO           
+         ENDDO
        ELSEIF ( CE1 /= ZERO) THEN
-         DO I=1,NEL       
-           IF(PLA(I) > ZERO)THEN                                                       
-              E(I) = E11-(E11-EINF1)*(ONE-EXP(-CE1*PLA(I)))                     
-              G(I) =  HALF*E(I)/(ONE+NU)  
-              GS(I) =   G(I)*SHF(I)                                                                
-              G3(I) = THREE*G(I)                                              
-              A1(I) = E(I)/(ONE - NU*NU)                         
-              A2(I) = NU*A1(I)                                     
-              AM1(I)  = A1(I)*C1  
-              AM2(I)  = A2(I)*C1  
-              GM(I)   = G(I)*C1    
+         DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+              E(I) = E11-(E11-EINF1)*(ONE-EXP(-CE1*PLA(I)))
+              G(I) =  HALF*E(I)/(ONE+NU)
+              GS(I) =   G(I)*SHF(I)
+              G3(I) = THREE*G(I)
+              A1(I) = E(I)/(ONE - NU*NU)
+              A2(I) = NU*A1(I)
+              AM1(I)  = A1(I)*C1
+              AM2(I)  = A2(I)*C1
+              GM(I)   = G(I)*C1
            ENDIF
-         ENDDO                                                                    
+         ENDDO
        ENDIF
-       
+
 c       IF(IVECTOR==1) THEN
 c         DO I=1,NEL
 c            MFUNCE=UPARAM(IADBUFV(I)+2*NRATE(I)+ 22)
@@ -330,7 +330,7 @@ C---------------------------
       DO  I=1,NEL
        MS=MOMNXX(I)+MOMNYY(I)
        FS=SIGNXX(I)+SIGNYY(I)
-       SVM(I) = SIXTEEN*(MS*MS +THREE*(MOMNXY(I)*MOMNXY(I) 
+       SVM(I) = SIXTEEN*(MS*MS +THREE*(MOMNXY(I)*MOMNXY(I)
      .                                    - MOMNXX(I)*MOMNYY(I)))
      .          + FS*FS+ THREE*(SIGNXY(I)*SIGNXY(I)-SIGNXX(I)*SIGNYY(I))
        SVM(I) = SQRT(MAX(SVM(I),EM20))
@@ -381,7 +381,7 @@ C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) A ETE PRIS A 2/3 PAR DEFAUT
 C-------------------------------------------------------------------------
        C1 = PLA(I)*E(I)
        GAMA(I) = THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I))
-       GAMA2(I) = GAMA(I)*GAMA(I)    
+       GAMA2(I) = GAMA(I)*GAMA(I)
        CM(I) = SIXTEEN*GAMA2(I)
        CNM(I) = SQR16_3*GAMA(I)
        QTIER(I) = FOUR_OVER_3*GAMA2(I)
@@ -390,11 +390,11 @@ C-------------------------------------------------------------------------
        S2(I) = (SIGNXX(I)-SIGNYY(I))*HALF
        S3 = SIGNXY(I)
        SM1(I) = (MOMNXX(I)+MOMNYY(I))*HALF
-       SM2(I) = (MOMNXX(I)-MOMNYY(I))*HALF    
+       SM2(I) = (MOMNXX(I)-MOMNYY(I))*HALF
        SM3 = MOMNXY(I)
        AN(I) = S1(I)*S1(I)
        BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
-       NVM(I) = AN(I)+BN(I)  
+       NVM(I) = AN(I)+BN(I)
        AM(I) = SM1(I)*SM1(I)*CM(I)
        BM(I) =THREE*(SM2(I)*SM2(I)+SM3*SM3)*CM(I)
        MVM(I) = AM(I)+BM(I)
@@ -474,7 +474,7 @@ C-------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         F    =FN+FM+FNM-YLD_I*YLD_I
         C1=NU11*AA*A_I
         CP1=C1*A
@@ -531,7 +531,7 @@ C------------------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         PN=(ONE+QTIER(I)*XP)*A_I
         P_M=(ONE+XP)*A_I
         PNM1=-SQR4_3*GAMA(I)*S*XP*A_I
@@ -572,7 +572,7 @@ C-------------------------------------------------------------------------
        GAMA(I) = TWO/(THREE-CCC)
        GAMA2(I) = GAMA(I)*GAMA(I)
        CM(I) = THIRTY6*GAMA2(I)
-       CNM(I) = THREEP4641*GAMA(I)  
+       CNM(I) = THREEP4641*GAMA(I)
        QTIER(I) = THREE*GAMA2(I)
        H(I) = MAX(ZERO,H(I))
        S1(I) = (SIGNXX(I)+SIGNYY(I))*HALF
@@ -583,7 +583,7 @@ C-------------------------------------------------------------------------
        SM3 = MOMNXY(I)
        AN(I) = S1(I)*S1(I)
        BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
-       NVM(I) = AN(I)+BN(I)  
+       NVM(I) = AN(I)+BN(I)
        AM(I) = SM1(I)*SM1(I)*CM(I)
        BM(I) = THREE*(SM2(I)*SM2(I)+SM3*SM3)*CM(I)
        MVM(I) = AM(I)+BM(I)
@@ -661,7 +661,7 @@ C-------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
 C
         CP1 =(FNP*AN(I)+S*FNMP*ANM(I)+FMP*AM(I))*AA
         CQ1 =(FNQ*BN(I)+S*FNMQ*BNM(I)+FMQ*BM(I))*BB
@@ -703,7 +703,7 @@ C------------------------------------------
          S=-ONEP732*GAMA(I)
         ELSE
          S=ONEP732*GAMA(I)
-        ENDIF 
+        ENDIF
         QN=ONE+QTIER(I)*XQ
         QNM1=XQ*S
         QNM2=QNM1*ONE_OVER_12

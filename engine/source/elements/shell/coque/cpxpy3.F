@@ -29,8 +29,8 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CPXPY3(JFT ,JLT ,PM  ,STI  ,SMSTR,
      2                  PX1  ,PX2 ,PY1 ,PY2 ,STIR,
-     3                  IXC  ,AREA,X2  ,X3  ,X4  , 
-     4                  Y2   ,Y3  ,Y4  ,Z2  ,THK0,  
+     3                  IXC  ,AREA,X2  ,X3  ,X4  ,
+     4                  Y2   ,Y3  ,Y4  ,Z2  ,THK0,
      5                  MAT  ,NEL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,10 +60,10 @@ C-----------------------------------------------
       INTEGER I, II(4), MX
 C     REAL
       my_real
-     .     YOUNG , 
+     .     YOUNG ,
      .     AX, AN, PXX2, PYY2, PXN, PXX, AAA, AL2
 C=======================================================================
-      MX = MAT(JFT)  
+      MX = MAT(JFT)
       YOUNG=PM(20,MX)
 C
       DO I=1,4

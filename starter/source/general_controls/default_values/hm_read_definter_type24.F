@@ -70,25 +70,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  
+      INTEGER
      .   IGSTI,IREM24I2,ILEV,IDEL24,INTPLY,
      .   IEDGE,IGAP0,IPEN0,INACTI,MFROT,IFQ,
      .   IDSENS,INTFRIC,IPRINT,IASSIGN
       my_real
      .   ETEN_M,EDG_ANGL,GAPMAX_S,GAPMAX_M,STMIN,STMAX,PENMAX,PENMIN,
      .   VISC,VISCF,BUMULT,ALPHA,GAP,STARTT,STOPT,STFAC,FRIC
-      CHARACTER 
+      CHARACTER
      .   BCFLAG*ncharfield, BCFLAGM*ncharfield,KEY*ncharkey,KEY1*ncharkey
       LOGICAL IS_AVAILABLE
 !
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE24 (/DEFAULT/INTER/TYPE24)
 C============================================================================
-      
+
       ILEV = 0
-      IGSTI = 0 
-      IDEL24= 0   
-      INTPLY = 0     
+      IGSTI = 0
+      IDEL24= 0
+      INTPLY = 0
       INACTI = 0
       IDSENS = 0
       MFROT=0
@@ -102,7 +102,7 @@ C
       VISCF = ZERO
       VISC = ZERO
 
-      IASSIGN = 0 
+      IASSIGN = 0
 
 C---------------------------------------------------------------
       IPRINT = 0
@@ -194,6 +194,6 @@ C--------------------------------------------------------------
      .       '    DE-ACTIVATION FLAG IF CONFLICTING W/ TYPE2',I5/,
      .       '    DE-ACTIVATION OF INITIAL PENETRATIONS . . ',I5/,
      .       '    FRICTION FORMULATION. . . . . . . . . . . ',I5/)
-   
+
 C--------------------------------------------------------------
-      END 
+      END

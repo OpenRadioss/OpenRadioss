@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDEX,DEF_DEF
-      LOGICAL IS_DEFAUT_1000 
+      LOGICAL IS_DEFAUT_1000
 C-----------------------------------------------
 c KEY      :  KEYWORD
 c IVAL     :  INTEGER VALUE
@@ -74,9 +74,9 @@ c INDEX    :  INDEX IN DEF_INTER ARRAY
 c DEF_DEF  :  DEFAULT VALUE IN CASE NO DEFAULT SPECIFIED
 C FLAG     : 
 c              = 0 : DEFINITION of DEFAULT VALUES
-c              = 1 : USE DEFAULT VALUES 
+c              = 1 : USE DEFAULT VALUES
 c IPRINT   :
-c              = 1 : USE JUST BEFORE PRINTING VALUES IN 0.out 
+c              = 1 : USE JUST BEFORE PRINTING VALUES IN 0.out
 C                    IN ORDER TO REPLACE 0 BY CORRECT VALUES
 C ITYP     :  TYPE OF THE INTERFACE
 C DEF_INTER:  INTEGER ARRAY CONTAINING DEFAULT INTEGER VALUES
@@ -314,20 +314,20 @@ C
       ENDIF
 C
       IF(INDEX/=0)THEN
-        IF(FLAG == 0 .AND. IPRINT == 0 
-     .              .AND. DEF_INTER(INDEX) /= 0)THEN 
+        IF(FLAG == 0 .AND. IPRINT == 0
+     .              .AND. DEF_INTER(INDEX) /= 0)THEN
           CALL ANCMSG(MSGID=1073,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO,
      .                     I1=ITYP)
-        ELSEIF(FLAG == 0 .AND. IPRINT == 0 
-     .                   .AND. IVAL /= 0)THEN 
+        ELSEIF(FLAG == 0 .AND. IPRINT == 0
+     .                   .AND. IVAL /= 0)THEN
           ! put default value in DEF_INTER array
           DEF_INTER(INDEX) = IVAL
-        ELSEIF(FLAG == 0 .AND. IPRINT == 0)THEN 
+        ELSEIF(FLAG == 0 .AND. IPRINT == 0)THEN
           ! put default_default value in DEF_INTER array
           DEF_INTER(INDEX) = DEF_DEF
-        ELSEIF(FLAG == 0 .AND. IPRINT == 1)THEN 
+        ELSEIF(FLAG == 0 .AND. IPRINT == 1)THEN
           ! build IVAL value printed in 0.out for  /DEFAULT option
           IVAL = DEF_INTER(INDEX)
         ELSEIF(FLAG == 1 .AND. IPRINT == 0)THEN

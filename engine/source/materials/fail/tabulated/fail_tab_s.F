@@ -89,7 +89,7 @@ c
       my_real TIME,TIMESTEP,UPARAM(*),ALDT(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .   PLAS(NEL),DPLA(NEL),EPSP(NEL),TSTAR(NEL)     
+     .   PLAS(NEL),DPLA(NEL),EPSP(NEL),TSTAR(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
       TYPE(TTABLE) TABLE(*)
       my_real,
      .        DIMENSION(3) :: XX0
-      my_real 
+      my_real
      .   UVAR(NEL,NUVAR), OFF(NEL), DFMAX(NEL),TDELE(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -121,32 +121,32 @@ C-----------------------------------------------
       INTEGER I,J,K,J1,J2,IDEL,IDEV,IADBUF,NINDX,IFAIL,
      .  IFUN_EL,IFUN_TEMP,ID_DD ,ITABLE
       INTEGER :: SFLAG
-      INTEGER, DIMENSION(NEL) :: 
+      INTEGER, DIMENSION(NEL) ::
      .   INDX
 C
       my_real, DIMENSION(NEL) ::
      .         EPSF
       my_real :: DCRIT,DD,DN,SC_TEMP,SC_EL,EL_REF
-      my_real 
+      my_real
      .        DP,P,SIGM,SVM,SXX,SYY,SZZ,EF1,EF2,DF,FAC,DEPSF,LAMBDA,
      .        RATE1,RATE2,YFAC1,YFAC2,XI, ETA, THETA, DET,YY,Y1SCALE,
      .        X1SCALE
 C=======================================================================
 C     INITIALIZATIONS
 C-----------------------------------------------
-      SFLAG   = INT(UPARAM(1))    
+      SFLAG   = INT(UPARAM(1))
       DCRIT   = UPARAM(4)
       DD      = UPARAM(5)
       DN      = UPARAM(6)
       SC_TEMP = UPARAM(7)
       SC_EL   = UPARAM(8)
       EL_REF  = UPARAM(9)
-      Y1SCALE = UPARAM(12) 
-      X1SCALE = UPARAM(13) 
+      Y1SCALE = UPARAM(12)
+      X1SCALE = UPARAM(13)
 c---
       IDEL = 0
       IDEV = 0
-      INDX = 0                                  
+      INDX = 0
       IF (SFLAG == 1) THEN
           IDEL=1
       ELSEIF (SFLAG == 2) THEN
@@ -160,49 +160,49 @@ C-------------------------------------------------------------------
 
       DO I=1,NEL
 C---    failure strain interpolation
-        P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))     
-        SXX = SIGNXX(I) - P                                 
-        SYY = SIGNYY(I) - P                                 
-        SZZ = SIGNZZ(I) - P                                 
-        SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)             
-     .      + SIGNXY(I)**2+ SIGNZX(I)**2 + SIGNYZ(I)**2    
-        SVM = SQRT(THREE*SVM)                               
-        SIGM = P / MAX(EM20,SVM)                            
+        P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
+        SXX = SIGNXX(I) - P
+        SYY = SIGNYY(I) - P
+        SZZ = SIGNZZ(I) - P
+        SVM = HALF*(SXX**2 + SYY**2 + SZZ**2)
+     .      + SIGNXY(I)**2+ SIGNZX(I)**2 + SIGNYZ(I)**2
+        SVM = SQRT(THREE*SVM)
+        SIGM = P / MAX(EM20,SVM)
 C----
-         DET = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)- 
+         DET = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)-
      .     SXX*SIGNYZ(I)**2-SZZ*SIGNXY(I)**2-SYY*SIGNZX(I)**2
 
          XI = ONE/MAX(EM20,SVM**3)
-         XI = HALF*TWENTY7*DET*XI         
+         XI = HALF*TWENTY7*DET*XI
          IF(XI < -ONE) XI = -ONE
          IF(XI > ONE) XI = ONE
          THETA = ONE - TWO*ACOS(XI)/PI
-         XX0(1)=SIGM 
+         XX0(1)=SIGM
          XX0(2)=EPSP(I) *X1SCALE
          XX0(3)=THETA
          ITABLE = IFUNC(1)
-         CALL TABLE_INTERP (TABLE(ITABLE),XX0,YY)            
+         CALL TABLE_INTERP (TABLE(ITABLE),XX0,YY)
          EPSF(I) = YY*Y1SCALE
 
       ENDDO
-c---- Scale functions       
+c---- Scale functions
       DO I=1,NEL
         IFUN_EL   = IFUNC(2)
         IFUN_TEMP = IFUNC(3)
 c----   element lenght scale function
         IF (IFUN_EL > 0) THEN
-          LAMBDA = ALDT(I) / EL_REF                     
-          FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)  
-          EPSF(I) = EPSF(I)* FAC                           
-        ENDIF                                                              
+          LAMBDA = ALDT(I) / EL_REF
+          FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)
+          EPSF(I) = EPSF(I)* FAC
+        ENDIF
 c----   temperature scale function
         IF (IFUN_TEMP > 0) THEN
-          FAC = SC_TEMP*FINTER(IFUN_TEMP,TSTAR(I),NPF,TF,DF) 
-          EPSF(I) = EPSF(I)* FAC 
-        ENDIF                                                              
+          FAC = SC_TEMP*FINTER(IFUN_TEMP,TSTAR(I),NPF,TF,DF)
+          EPSF(I) = EPSF(I)* FAC
+        ENDIF
       ENDDO
 c-------------------------------------------------------------------
-c---- element will be deleted 
+c---- element will be deleted
       IF (IDEL == 1) THEN
        DO I=1,NEL
           IF (OFF(I) < 0.1) OFF(I)=ZERO
@@ -211,7 +211,7 @@ c---- element will be deleted
       ENDIF
 C      
       IF (IDEL == 1)THEN
-        NINDX  = 0  
+        NINDX  = 0
         DO I=1,NEL
           IF (SFLAG==1 .AND. OFF(I)==ONE) THEN
             ID_DD = IFUNC(NFUNC)
@@ -220,15 +220,15 @@ C
             ELSE
              DP = DN*DD**(ONE-ONE/DN)
             ENDIF
-            IF (EPSF(I) > ZERO) UVAR(I,1)=UVAR(I,1)+DP*DPLA(I)/EPSF(I)      
+            IF (EPSF(I) > ZERO) UVAR(I,1)=UVAR(I,1)+DP*DPLA(I)/EPSF(I)
             IF (UVAR(I,1) >= DCRIT) THEN
               OFF(I)=FOUR_OVER_5
               NINDX=NINDX+1
               INDX(NINDX)=I
-              IDEL7NOK = 1 
-              TDELE(I) = TIME                  
-            ENDIF         
-          ENDIF 
+              IDEL7NOK = 1
+              TDELE(I) = TIME
+            ENDIF
+          ENDIF
         ENDDO
        IF (NINDX > 0 .AND. IMCONV == 1)THEN
          DO J=1,NINDX
@@ -237,13 +237,13 @@ C
            WRITE(ISTDO,1100) NGL(INDX(J)),TIME
 #include "lockoff.inc"
          ENDDO
-        ENDIF         
+        ENDIF
       ENDIF
 C---- 
       IF (IDEV > 0) THEN ! element deleted when rupture in all integration points
-        NINDX  = 0 
+        NINDX  = 0
         DO I=1,NEL
-c---           
+c---
           IF (OFF(I) == ONE .AND. (SFLAG==2 .OR. SFLAG==3)) THEN
             IF (UVAR(I,1) < DCRIT)THEN
              ID_DD = IFUNC(NFUNC)
@@ -252,7 +252,7 @@ c---
               ELSE
                DP = DN*DD**(ONE-ONE/DN)
               ENDIF
-              IF (EPSF(I) > ZERO) UVAR(I,1)=UVAR(I,1)+DP*DPLA(I)/EPSF(I)      
+              IF (EPSF(I) > ZERO) UVAR(I,1)=UVAR(I,1)+DP*DPLA(I)/EPSF(I)
               IF (UVAR(I,1) >= DCRIT) THEN
                 NINDX=NINDX+1
                 INDX(NINDX)=I
@@ -263,14 +263,14 @@ c---
                   SIGNZZ(I) = P
                 ENDIF
               ENDIF
-            ELSEIF (SFLAG == 2) THEN   !  UVAR > DCRIT     
+            ELSEIF (SFLAG == 2) THEN   !  UVAR > DCRIT
               P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
               SIGNXX(I) = P
               SIGNYY(I) = P
               SIGNZZ(I) = P
             ENDIF
-          ENDIF  
-c---           
+          ENDIF
+c---
         ENDDO
         IF (NINDX > 0.AND.IMCONV == 1) THEN
           DO J=1,NINDX
@@ -280,8 +280,8 @@ c---
             WRITE(ISTDO,2100) NGL(I),TIME
 #include "lockoff.inc"
           END DO
-        ENDIF           
-      ENDIF   
+        ENDIF
+      ENDIF
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------    
        DO I=1,NEL
           DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
@@ -294,6 +294,6 @@ C
  2000 FORMAT(1X,' DEVIATORIC STRESS SET TO ZERO',I10)
  2100 FORMAT(1X,' DEVIATORIC STRESS SET TO ZERO',I10,
      .          ' AT TIME :',1PE12.4)
-c-----------           
+c-----------
       RETURN
       END

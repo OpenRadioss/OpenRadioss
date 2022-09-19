@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   PX1(*),PX2(*),PX3(*),PX4(*),
      .   PY1(*),PY2(*),PY3(*),PY4(*),
-     .   PZ1(*),PZ2(*),PZ3(*),PZ4(*),    
+     .   PZ1(*),PZ2(*),PZ3(*),PZ4(*),
      .   DXX(*),DXY(*),DXZ(*),
      .   DYX(*),DYY(*),DYZ(*),
      .   DZX(*),DZY(*),DZZ(*),
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .   DELTAX(*),VIS(*),
      .   RX(*) , RY(*) , RZ(*) ,
      .   SX(*) , SY(*) , SZ(*) ,
-     .   TX(*) , TY(*) , TZ(*) 
+     .   TX(*) , TY(*) , TZ(*)
       INTEGER MAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -137,7 +137,7 @@ C-----------------------------------------------
       !       ENDDO
       !      ENDDO
       ENDIF
-      
+
       ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
       ! STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
       IF(UPWM<2 .OR.MTN==11)THEN
@@ -162,9 +162,9 @@ C-----------------------------------------------
             A3(I) = FAC*(PX3(I)*VDX(I)+PY3(I)*VDY(I)+PZ3(I)*VDZ(I))
             A4(I) = FAC*(PX4(I)*VDX(I)+PY4(I)*VDY(I)+PZ4(I)*VDZ(I))
           ENDDO
-          
+
         ELSE!IF(MTN==11.AND.UPWM>1)
-        
+
           IF(UPWM==ZERO)THEN
             DO I=LFT,LLT
               GAM(I)= PM(15,MAT(I))
@@ -184,16 +184,16 @@ C-----------------------------------------------
            A3(I) = SIGN(GAM(I),A3(I))
            A4(I) = SIGN(GAM(I),A4(I))
           ENDDO
-          
+
         ENDIF !IF(MTN==11.AND.UPWM>1)
-       
+
          DO I=LFT,LLT
            FAC = FOURTH*RHO(I)*VOL(I)
            F1(I) = (VDX(I)*DXX(I)+VDY(I)*DXY(I)+VDZ(I)*DXZ(I))*FAC
            F2(I) = (VDX(I)*DYX(I)+VDY(I)*DYY(I)+VDZ(I)*DYZ(I))*FAC
            F3(I) = (VDX(I)*DZX(I)+VDY(I)*DZY(I)+VDZ(I)*DZZ(I))*FAC
          ENDDO
-       
+
          DO I=LFT,LLT
           F11(I) = F11(I) - (ONE+A1(I))*F1(I)
           F12(I) = F12(I) - (ONE+A2(I))*F1(I)
@@ -215,7 +215,7 @@ C-----------------------------------------------
 
       ! SUPG OU TG
       ! FORMULATION DE LA FORCE DE TRANSPORT
-      ! ON EVALUE <PHI,UJ*DUI/DXJ> DIRECTEMENT AUX NOEUDS 
+      ! ON EVALUE <PHI,UJ*DUI/DXJ> DIRECTEMENT AUX NOEUDS
 
         DO I=LFT,LLT
            R(I,1)=RX(I)-SX(I)
@@ -242,9 +242,9 @@ C-----------------------------------------------
      .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
      .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
      .     PX1,PY1,PZ1,VDX1,VDY1,VDZ1,F11,F21,F31)
-     
+
         DO I=LFT,LLT
-           R(I,1)=SX(I)-TX(I)    
+           R(I,1)=SX(I)-TX(I)
            R(I,2)=SY(I)-TY(I)
            R(I,3)=SZ(I)-TZ(I)
            S(I,1)=SX(I)
@@ -259,16 +259,16 @@ C-----------------------------------------------
         !    +\     ^
         !    + \    | R
         !    +  \S  |
-        !    +   \  | 
+        !    +   \  |
         !    +    \ |
         !    +     \|
         !    +<-----0
-        !       T    2 
+        !       T    2
         CALL A4MOMTN3(
      .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
      .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
      .     PX2,PY2,PZ2,VDX2,VDY2,VDZ2,F12,F22,F32)
-     
+
         DO I=LFT,LLT
            R(I,1)=TX(I)
            R(I,2)=TY(I)
@@ -290,12 +290,12 @@ C-----------------------------------------------
         !    + /    |
         !    +/     |
         !    +------+
-        !             
+        !
         CALL A4MOMTN3(
      .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
      .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
      .     PX3,PY3,PZ3,VDX3,VDY3,VDZ3,F13,F23,F33)
-     
+
         DO I=LFT,LLT
            R(I,1)=RX(I)
            R(I,2)=RY(I)
@@ -317,15 +317,15 @@ C-----------------------------------------------
         !    |    \ +
         !    |     \+
         !    +------+
-        !            
+        !
         CALL A4MOMTN3(
      .     RHO,VOL,VIS,R,S,T,DELTAX,VDX,VDY,VDZ,
      .     DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
      .     PX4,PY4,PZ4,VDX4,VDY4,VDZ4,F14,F24,F34)
-     
-     
+
+
       ENDIF!IF(UPWM<2 .OR.MTN==11)
 
       RETURN
       END
-      
+

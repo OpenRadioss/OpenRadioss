@@ -73,7 +73,7 @@ C-----------------------------------------------
 
 
       IF(ISPMD == 0) THEN
-        LRECV = 0 
+        LRECV = 0
         DO I=1,NSPMD
           LRECV = LRECV + SIZES(I)
         ENDDO
@@ -81,7 +81,7 @@ C-----------------------------------------------
         POINTERS(1) = 0
         DO I=2,NSPMD
           POINTERS(I) = POINTERS(I-1)+SIZES(I-1)
-        ENDDO 
+        ENDDO
         ALLOCATE(SRBUF2(LRECV))
       ELSE
         ALLOCATE(SRBUF2(1))
@@ -94,8 +94,8 @@ C-----------------------------------------------
 
       IF(ISPMD == 0) THEN
         DO I=1,LRECV
-          SRBUF(I) = SRBUF2(I)  
-        ENDDO 
+          SRBUF(I) = SRBUF2(I)
+        ENDDO
       ENDIF
       DEALLOCATE(SRBUF2)
 

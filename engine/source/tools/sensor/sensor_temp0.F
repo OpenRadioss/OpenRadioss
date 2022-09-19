@@ -34,7 +34,7 @@ Chd|====================================================================
 c-----------------------------------------------------------------------
 !$COMMENT
 !       SENSOR_TEMP description :
-!           computation of min/max or mean temperature 
+!           computation of min/max or mean temperature
 !       SENSOR_TEMP organization :
 !           - computation of local min/max/mean temperature
 !           - communication between processor and globalization
@@ -81,8 +81,8 @@ C----------------------------------------------------------
       REAL(kind=8), DIMENSION(:), ALLOCATABLE :: RBUFF_MIN,RBUFF_MAX,RBUFF_MEAN
 c----------------------------------------------------------
 c     SENSOR_TEMP%VAR(1)   = TEMP_MAX
-c     SENSOR_TEMP%VAR(2)   = TEMP_MIN 
-c     SENSOR_TEMP%VAR(3)   = TEMP_AVG 
+c     SENSOR_TEMP%VAR(2)   = TEMP_MIN
+c     SENSOR_TEMP%VAR(3)   = TEMP_AVG
 C=======================================================================
         ! -----------------
         ! local arrays for min/max/mean
@@ -93,7 +93,7 @@ C=======================================================================
         TEMP_MAX(1:COMM_SENS17%NUM_SENS) = ZERO
         TEMP_MIN(1:COMM_SENS17%NUM_SENS) = ZERO
         TEMP_AVG(1:COMM_SENS17%NUM_SENS) = ZERO
-        
+
         !   --------------------------
         !   loop over the sensor temp
         DO IJK=1,COMM_SENS17%NUM_SENS
@@ -102,7 +102,7 @@ C=======================================================================
 c
           IF (TT == ZERO) SENSOR(ISENS)%VAR(2) = EP20   ! initialize Temp min
           IGN    = SENSOR(ISENS)%IPARAM(1)
-c      
+c
           NNOD   = IGRNOD(IGN)%NENTITY
           TEMP_MAX(IJK) = SENSOR(ISENS)%VAR(1)
           TEMP_MIN(IJK) = SENSOR(ISENS)%VAR(2)
@@ -130,7 +130,7 @@ c
              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) = TEMP_AVG(IJK)
            ENDIF
           !   -----------------
-          DEALLOCATE( TEMP_NODE )    
+          DEALLOCATE( TEMP_NODE )
         ENDDO
         !   --------------------------
 
@@ -168,7 +168,7 @@ c
               ISENS = COMM_SENS17%ID_SENS(IJK)
               INDEX_MIN_MAX = INDEX_MIN_MAX + 1
               SENSOR(ISENS)%VAR(1) = RBUFF_MAX(INDEX_MIN_MAX) ! max temp
-              SENSOR(ISENS)%VAR(2) =-RBUFF_MIN(INDEX_MIN_MAX) ! min temp 
+              SENSOR(ISENS)%VAR(2) =-RBUFF_MIN(INDEX_MIN_MAX) ! min temp
             ENDDO
             !   --------------------
             DEALLOCATE( SBUFF_MAX )
@@ -231,7 +231,7 @@ c
             DO KJI=1,DIM_FOR_MEAN
                 SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,KJI,1) = ZERO
             ENDDO
-          ENDDO            
+          ENDDO
           !   ----------------
           DEALLOCATE( SBUFF_MEAN )
           DEALLOCATE( RBUFF_MEAN )

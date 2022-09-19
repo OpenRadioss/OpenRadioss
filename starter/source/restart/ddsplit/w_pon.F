@@ -113,7 +113,7 @@ C-----------------------------------------------
      .         CRKNODIAD(*),NUMELIG3D_L,KXIG3D(NIXIG3D,*),IXIG3D(*),
      .         CEPCND(*),CELCND(*),ADDCNCND(0:*),CNCND(*),NS10E_L,ICNDS10(3,*),
      .         LCNCND_L,ITAGND(*),IGEO(NPROPGI,*)
-      INTEGER  NFXFLUX_L,IBFFLUX(NITFLUX,*) 
+      INTEGER  NFXFLUX_L,IBFFLUX(NITFLUX,*)
       my_real
      .        GEO(NPROPG,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL         
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -150,7 +150,7 @@ C-----------------------------------------------
      .        IADI18(NSKYI18_L),  IADIBCV(4,NCONV_L), IADIBFX(4,NFXFLUX_L),
      .        IADRBMK(NSKYRBMK_L), IADIBCR(4,NRADIA_L),
      .        PROCNE_PXFEM(LCNEPXFEM_L),IADC_PXFEM(4,NUMELCPXFEM_L),
-     .        ADDCNEPXFEM_L(NUMNODPXFEM_L+1),NL_L,N0, 
+     .        ADDCNEPXFEM_L(NUMNODPXFEM_L+1),NL_L,N0,
      .        ITAGLOADP(SLLOADP),IADLOAD(4,LLLOADP_L),
      .        PROCNE_CRKXFEM(LCNECRKXFEM_L),
      .        ADDCNECRKXFEM_L(NUMNODCRKXFE_L+1),
@@ -233,7 +233,7 @@ C-----------------------------------------------
       ALLOCATE( IADS(8,NUMELS_L),IADS10(6,NUMELS10_L) )
       ALLOCATE( IADS16(8,NUMELS16_L),IADS20(12,NUMELS20_L) )
       ALLOCATE( IADQ(4,NUMELQ_L),IADC(4,NUMELC_L) )
-      ALLOCATE( IADT(2,NUMELT_L),IADP(2,NUMELP_L) ) 
+      ALLOCATE( IADT(2,NUMELT_L),IADP(2,NUMELP_L) )
       ALLOCATE( IADR(3,NUMELR_L),IADTG(3,NUMELTG_L) )
       IADR(1:3,1:NUMELR_L) = 0
       IADTG(1:3,1:NUMELTG_L) = 0
@@ -410,9 +410,9 @@ C
         ADDCNE_L(I+1) = ADDCNE_L(I) + N2-N1
         DO CC = N1, N2-1
           NUMG = CNE(CC)
- 
+
           NUML = CEL(NUMG)
-          PROC_L = CEP(NUMG)+1 
+          PROC_L = CEP(NUMG)+1
           CC_L = CC_L + 1
           PROCNE(CC_L) = PROC_L
 C
@@ -853,13 +853,13 @@ C------------------------------
         CC_L = 0
         NL_L = 0
         DO I = 1,NUMNOD_L
-          NG = NODGLOB(I) 
+          NG = NODGLOB(I)
 cc          N = INOD_CRKXFEM(NG)
 cc          IF(N > 0)THEN
           IF (INOD_CRK_L(I) > 0) THEN
-            N  = INOD_CRKXFEM(NG)    ! Num noeud systeme xfem global   
-            N1 = ADDCNE_CRKXFEM(N)   ! adresse global                  
-            N2 = ADDCNE_CRKXFEM(N+1)                                   
+            N  = INOD_CRKXFEM(NG)    ! Num noeud systeme xfem global
+            N1 = ADDCNE_CRKXFEM(N)   ! adresse global
+            N2 = ADDCNE_CRKXFEM(N+1)
             ! N2 - N1 = nb d'elements std connectes au noeud N
             NL_L = NL_L + 1
             ADDCNECRKXFEM_L(NL_L+1) = ADDCNECRKXFEM_L(NL_L) + N2 - N1
@@ -890,7 +890,7 @@ c                       CNE_CRKXFEM_L(CC_L)  = CNE_CRKXFEM(CC)  ! contient NUMG0
                        CRKNODIAD_L(CC_L)    = CRKNODIAD(CC)
                        SHTAG(NUMG) = SHTAG(NUMG)-SHFT
                      ENDIF
-                  ENDDO 
+                  ENDDO
                 ELSEIF (N0 > ECRKXFEC .AND. N0 <= ECRKXFEC+ECRKXFETG) THEN
                   NUMG = NUMG0 -NUMELC
                   DO K=1,3
@@ -904,7 +904,7 @@ c                      CNE_CRKXFEM_L(CC_L)   = CNE_CRKXFEM(CC)
                       TGTAG(NUMG)=TGTAG(NUMG)-SHFT
                     ENDIF
                   ENDDO
-                ENDIF   
+                ENDIF
               ENDIF  ! PROC==PROC_L
             ENDDO    ! CC = N1,N2-1
           ENDIF      ! INOD_CRK_L(I) > 0
@@ -1004,7 +1004,7 @@ C
               NSL_L = NSL_L + 1
               main = 0
               DO P = 1, PROC-1
-                IF(NLOCAL(NN,P)==1)THEN         
+                IF(NLOCAL(NN,P)==1)THEN
                   GOTO 333
                 ENDIF
               ENDDO
@@ -1040,9 +1040,9 @@ Cpseudo elt type 2
             DO I=1,NSN
               L = INTBUF_TAB(N)%IRTLM(I)
               K = INTBUF_TAB(N)%NSV(I)
-              IF(NLOCAL(K,PROC)==1) THEN              
+              IF(NLOCAL(K,PROC)==1) THEN
                 DO P = 1, PROC-1
-                  IF(NLOCAL(K,P)==1) GO TO 202            
+                  IF(NLOCAL(K,P)==1) GO TO 202
                 ENDDO
                 NSN_L = NSN_L + 1
                 DO J=1,NIR
@@ -1096,7 +1096,7 @@ C
         NSL_L = 0
         DO J = 1, NSL
           N = LLLINK(K+J)
-          IF (NLOCAL(N,PROC)==1)THEN      
+          IF (NLOCAL(N,PROC)==1)THEN
             NSL_L = NSL_L + 1
             IADLL(K_L+NSL_L) = J
           ENDIF
@@ -1117,14 +1117,14 @@ C
         NSL=IBVEL(3,N)
         MSR=IBVEL(4,N)
         PMAIN = ABS(DD_RBM2(3,N))
-        IF(NLOCAL(MSR,PROC)==1) THEN    
+        IF(NLOCAL(MSR,PROC)==1) THEN
           DO KK = 1, NSL
             NN = LBVEL(K+KK)
-            IF(NLOCAL(NN,PROC)==1)THEN      
+            IF(NLOCAL(NN,PROC)==1)THEN
               NSL_L = NSL_L + 1
               main = 0
               DO P = 1, PROC-1
-                IF(NLOCAL(NN,P)==1)THEN         
+                IF(NLOCAL(NN,P)==1)THEN
                   GOTO 3000
                 ENDIF
               ENDDO
@@ -1154,16 +1154,16 @@ C
 C-----------------------------------------------
       IF(NS10E>0) THEN
 C: N_L :NS10E_L, NSN_L compacted w/o sharering
-        N_L = 0   
+        N_L = 0
         NSN_L = 0
         DO N = 1, NS10E
             K = ICNDS10(1,N)
             N1= ICNDS10(2,N)
             N2= ICNDS10(3,N)
             IF(NLOCAL(K,PROC)==1.AND.ITAGND(K)<=NS10E) THEN
-              N_L = N_L +1          
+              N_L = N_L +1
               DO P = 1, PROC-1
-               IF(NLOCAL(K,P)==1) GO TO 332               
+               IF(NLOCAL(K,P)==1) GO TO 332
               ENDDO
 c             IF (CEPCND(N)==PROC-1) THEN
                NSN_L = NSN_L + 1
@@ -1302,11 +1302,11 @@ C adresses elements
       CALL WRITE_I_C(IADIBCV,4*NCONV_L)
       LEN_IA = LEN_IA + 4*NCONV_L
       CALL WRITE_I_C(IADIBCR,4*NRADIA_L)
-      LEN_IA = LEN_IA + 4*NRADIA_L 
+      LEN_IA = LEN_IA + 4*NRADIA_L
       CALL WRITE_I_C(IADIBFX,4*NFXFLUX_L)
-      LEN_IA = LEN_IA + 4*NFXFLUX_L 
+      LEN_IA = LEN_IA + 4*NFXFLUX_L
       CALL WRITE_I_C(IADLOAD,LLLOADP_L)
-      LEN_IA = LEN_IA + LLLOADP_L   
+      LEN_IA = LEN_IA + LLLOADP_L
 C adresses RW
       CALL WRITE_I_C(IADWAL,NSKYRW_L)
       LEN_IA = LEN_IA + NSKYRW_L
@@ -1356,11 +1356,11 @@ C
         CALL WRITE_I_C(ADDCNECRKXFEM_L,NUMNODCRKXFE_L+1)
         LEN_IA = LEN_IA + NUMNODCRKXFE_L+1
         CALL WRITE_I_C(CNE_CRKXFEM_L,LCNECRKXFEM_L)
-        LEN_IA = LEN_IA + LCNECRKXFEM_L 
+        LEN_IA = LEN_IA + LCNECRKXFEM_L
         CALL WRITE_I_C(PROCNE_CRKXFEM,LCNECRKXFEM_L)
-        LEN_IA = LEN_IA + LCNECRKXFEM_L 
+        LEN_IA = LEN_IA + LCNECRKXFEM_L
         CALL WRITE_I_C(IADC_CRKXFEM,4*NUMELCCRKXFE_L)
-        LEN_IA = LEN_IA + 4*NUMELCCRKXFE_L     
+        LEN_IA = LEN_IA + 4*NUMELCCRKXFE_L
         CALL WRITE_I_C(IADTG_CRKXFEM,3*NUMELTGCRKXFE_L)
         LEN_IA = LEN_IA + 3*NUMELTGCRKXFE_L
         CALL WRITE_I_C(CRKNODIAD_L,LCNECRKXFEM_L)
@@ -1393,7 +1393,7 @@ c
       DEALLOCATE( IADS,IADS10 )
       DEALLOCATE( IADS16,IADS20 )
       DEALLOCATE( IADQ,IADC )
-      DEALLOCATE( IADT,IADP ) 
+      DEALLOCATE( IADT,IADP )
       DEALLOCATE( IADR,IADTG )
       DEALLOCATE( IADUR,IADIB )
       DEALLOCATE( IADTG1,IADIG3D )

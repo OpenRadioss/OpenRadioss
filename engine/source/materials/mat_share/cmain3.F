@@ -85,7 +85,7 @@ C-----------------------------------------------
       USE STACK_MOD
       USE FAILWAVE_MOD
       USE MATPARAM_DEF_MOD
-      USE DRAPE_MOD 
+      USE DRAPE_MOD
       USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -114,11 +114,11 @@ C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IR,IS,NPT,NG,NPG,NLAY,NEL,MTN,IPLA,IOFC,ITHK,
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
      .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK
-      INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
+      INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),LSENSOR(NSENSI,*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
+     .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5),
      .   MOM(NEL,3),EPSP(*),GSTR(NEL,8),BUFMAT(*),G(*),A11(*),A12(*),VOL0(*),
      .   SHF(*),GS(*),SIGY(MVSIZ),RHO(MVSIZ),SSP(MVSIZ),VISCMX(MVSIZ),
      .   OFF(MVSIZ) ,THK0(MVSIZ) ,NU(MVSIZ),DT1C(MVSIZ),
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .   KXX(MVSIZ), KYY(MVSIZ), KXY(MVSIZ), AREA(MVSIZ),
      .   ZCFAC(MVSIZ,2),ALPE(MVSIZ),DIR_A(*),DIR_B(*),TEMPEL(*),DIE(*),
      .   TEMPEL0(MVSIZ), PLY_F(MVSIZ,5,*),
-     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
+     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*),
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),DEL_PLY(MVSIZ,3,*) ,
      .   TH_IPLY(MVSIZ,*), SIG_IPLY(MVSIZ,3,*),SENSOR(NSENSR,*),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
@@ -137,11 +137,11 @@ C-----------------------------------------------
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -162,15 +162,15 @@ C-----------------------------------------------
 C-------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_),POINTER :: FBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
-       my_real FINTER 
+       my_real FINTER
       EXTERNAL FINTER
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IGTYP=IGEO(11,PID(1))
-      MX = MAT(JFT) 
+      MX = MAT(JFT)
       DM = GROUP_PARAM%VISC_DM   ! membrane damping
 C--------------------------------------------------
 C     add source terme for law not user
@@ -183,32 +183,32 @@ c-----------------
       IF (IEXPAN > 0 .AND. JTHE > 0) THEN
 c
         IF (TT == ZERO) TEMPEL0(JFT:JLT) = TEMPEL(JFT:JLT)
-        DTEMP(JFT:JLT) = TEMPEL(JFT:JLT) - TEMPEL0(JFT:JLT) 
+        DTEMP(JFT:JLT) = TEMPEL(JFT:JLT) - TEMPEL0(JFT:JLT)
         TEMPEL0(JFT:JLT) = TEMPEL(JFT:JLT)
 c
         IF (IGTYP /= 11 .AND. IGTYP /= 17 .AND. IGTYP /=51 .AND. IGTYP /= 52) THEN
-          IFUNC_ALPHA = IPM(219, MX) 
+          IFUNC_ALPHA = IPM(219, MX)
           FSCAL_ALPHA = PM(191, MX)
-          DO I=JFT,JLT 
+          DO I=JFT,JLT
             ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
             ALPHA = ALPHA * FSCAL_ALPHA
             ETH(I) = ALPHA*DTEMP(I)
             DEINTTH = -HALF*(FOR(I,1) + FOR(I,2))*ETH(I)*THK0(I)*AREA(I)
             GBUF%EINTTH(I) = GBUF%EINTTH(I)  + DEINTTH
             EINT(I,1) = EINT(I,1) + DEINTTH
-          ENDDO 
-        ENDIF 
-      ENDIF    
+          ENDDO
+        ENDIF
+      ENDIF
 c-----Tstar computation for Jhonson cook failure : T* = (T-T0)/(TM-T0)----
       IF (JTHE > 0) THEN
-        T0 = PM(79, MX) 
-        TM = PM(80, MX) 
-        DO I=JFT,JLT   
+        T0 = PM(79, MX)
+        TM = PM(80, MX)
+        DO I=JFT,JLT
            TSTAR(I)=MAX(ZERO,(TEMPEL(I)-T0)/(TM-T0))
         ENDDO
       ELSE
         TSTAR(JFT:JLT) = ZERO
-      ENDIF     
+      ENDIF
 c
 c----------------------------
       IF (NPT == 0) THEN
@@ -228,14 +228,14 @@ c
      7       INDXDEL ,NGL     ,ZCFAC   ,GS      ,SIGY    ,G       ,
      8       THK0    ,EPSP    ,IPLA    ,IGEO    ,IPM     ,TABLE   ,
      9       IR      ,IS      ,F_DEF   ,ISMSTR  ,NU      ,VOL0    ,
-     A       KFTS    ) 
+     A       KFTS    )
 c----------------------------
       ELSE IF (MTN > 28 .AND. MTN < 32 .or. MTN == 99 .or. MTN == 200) THEN
 c---    user material law libraries here
 c
         CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO     ,
-     .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    , 
-     .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,   
+     .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    ,
+     .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THK      ,
      .              NEL      ,THK_LY   )
 c
@@ -266,11 +266,11 @@ c----------------------------
 !       position, thickness and material in integration points
 !
         CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO     ,
-     .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    , 
-     .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,   
+     .              MAT      ,PID      ,THKLY    ,MATLY    ,POSLY    ,
+     .              IGTYP    ,IXFEM    ,IXLAY    ,NLAY     ,NPT      ,
      .              ISUBSTACK,STACK    ,DRAPE    ,NFT     ,THK       ,
      .              NEL      ,THK_LY   )
-c 
+c
         CALL MULAWC(ELBUF_STR ,
      1       JFT     ,JLT     ,NEL     ,PM      ,FOR     ,MOM     ,
      2       GSTR    ,THK     ,EINT    ,OFF     ,DIR_A   ,DIR_B   ,
@@ -291,24 +291,24 @@ c
      H       ITASK   ,STACK%PM ,ISUBSTACK,STACK ,TSTAR   ,ALPE    ,
      I       PLY_EXX ,PLY_EYY ,PLY_EXY ,PLY_EXZ ,PLY_EYZ ,PLY_F   ,
      J       VARNL   ,ETIMP   ,NLOC_DMG)
-      ENDIF ! IF (NPT == 0) 
+      ENDIF ! IF (NPT == 0)
 C----------------------------------------------------------------------
       IF (IEXPAN > 0 .AND. JTHE > 0. AND.IDT_THERM==0) THEN
          CALL THERMEXPC(ELBUF_STR,
-     1                  JFT  ,JLT   ,GBUF%FORTH  ,FOR   ,EINT  , 
-     2                  OFF  ,ETH   ,THK0        ,EXX   ,EYY   ,    
+     1                  JFT  ,JLT   ,GBUF%FORTH  ,FOR   ,EINT  ,
+     2                  OFF  ,ETH   ,THK0        ,EXX   ,EYY   ,
      3                  PM   ,NPT   ,AREA        ,A11   ,A12   ,
      4                  MAT  ,MTN   ,GBUF%EINTTH ,DIR_A ,IR    ,
      5                  IS   ,NLAY  ,THK         ,NEL   ,IGTYP ,
      6                  NPF  , TF   , IPM        , TEMPEL ,DTEMP,
-     7                  THKLY ,POSLY,MOM, MATLY )    
+     7                  THKLY ,POSLY,MOM, MATLY )
       ENDIF
 
        IF (JTHE > 0 .AND. (MTN < 28 .OR. MTN == 32)) THEN
-         DO I=JFT,JLT          
-           DIE(I) = (EINT(I,1) + EINT(I,2) - DIE(I)) * PM(90,MAT(1))          
-         ENDDO  
-       ENDIF  
+         DO I=JFT,JLT
+           DIE(I) = (EINT(I,1) + EINT(I,2) - DIE(I)) * PM(90,MAT(1))
+         ENDDO
+       ENDIF
 C-------------------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1))CALL STARTIME(121,1)
 C----------------------------------------------------------------------
@@ -319,12 +319,12 @@ C-----------------------------------------------
 C     delamination  for new formulation of shells 
 C-----------------------------------------------
       IF (ISHPLYXFEM > 0) THEN
-        IPMAT_IPLY = 2  + 2*NPT  
-        DO J=1,NPT-1  
-          DO I=JFT,JLT 
+        IPMAT_IPLY = 2  + 2*NPT
+        DO J=1,NPT-1
+          DO I=JFT,JLT
             MAT_IPLY(I,J) = STACK%IGEO(IPMAT_IPLY + J ,ISUBSTACK)
-          ENDDO                                 
-        ENDDO  
+          ENDDO
+        ENDDO
         DO I=JFT,JLT
           EPSYZ(I)= GSTR(I,4)
           EPSZX(I)= GSTR(I,5)
@@ -338,9 +338,9 @@ c----------
      .                   MOM      ,PLY_F    ,THK0    ,SHF     ,EPSZX   ,
      .                   EPSYZ    ,AREA     ,PID     ,GEO     ,SSP     ,
      .                   POSLY    ,THKLY    ,KXX     ,KYY     ,KXY     ,
-     .                   EXZ      ,EYZ      ,EINT    ,GSTR    ,NEL     ) 
-     
-      ENDIF ! PLYXFEM 
+     .                   EXZ      ,EYZ      ,EINT    ,GSTR    ,NEL     )
+
+      ENDIF ! PLYXFEM
 C---------------------------------------------------------             
       IF (IMPL_S > 0) THEN
         IF (MTN /=78)  ETIMP(JFT:JLT) = ZCFAC(JFT:JLT,1)

@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,8 +77,8 @@ C     REAL
 
       INTEGER I,II, NG, NEL, IPT, MT1,IADD, N, J, MLW,
      .        NN1,NN2,IPRT,BUF, ISTRAIN, NUVAR, NUVARR,JJ(6)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
        DO 5 J=1,18
            R4(J) = ZERO
@@ -88,12 +88,12 @@ C
       NN2 = NN1 + (NUMSPH+MAXPJET)
 C
        DO 490 NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         LFT=1
         LLT=NEL
@@ -135,17 +135,17 @@ C-----------------------------------------------
                  N  = I + NFT
                  TENS(1,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(1) + I)
                  TENS(2,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(2) + I)
-                 TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(3) + I)			   
+                 TENS(3,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(3) + I)			
                  TENS(4,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(4) + I)
                  TENS(5,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(5) + I)
                  TENS(6,EL2FA(NN1+N)) =  LBUF%DGLO(JJ(6) + I)
                ENDDO
             ELSE
-              DO I=LFT,LLT                                              
+              DO I=LFT,LLT
                 N  = I + NFT
-                L11 = LBUF%DGLO(JJ(1) + I)	       
-                L21 = LBUF%DGLO(JJ(2) + I)	       
-                L31 = LBUF%DGLO(JJ(3) + I)	       
+                L11 = LBUF%DGLO(JJ(1) + I)	
+                L21 = LBUF%DGLO(JJ(2) + I)	
+                L31 = LBUF%DGLO(JJ(3) + I)	
                 L12 = LBUF%DGLO(JJ(4) + I)	
                 L22 = LBUF%DGLO(JJ(5) + I)	
                 L32 = LBUF%DGLO(JJ(6) + I)
@@ -161,32 +161,32 @@ C-----------------------------------------------
                 G13 = G21*G32-G31*G22
                 G23 = G31*G12-G11*G32
                 G33 = G11*G22-G21*G12
-                S11 =L11*G11+L12*G12+L13*G13 
-                S12 =L11*G21+L12*G22+L13*G23 
+                S11 =L11*G11+L12*G12+L13*G13
+                S12 =L11*G21+L12*G22+L13*G23
                 S13 =L11*G31+L12*G32+L13*G33
                 S21 =L12*G11+L22*G12+L23*G13
                 S22 =L12*G21+L22*G22+L23*G23
-                S23 =L12*G31+L22*G32+L23*G33 
+                S23 =L12*G31+L22*G32+L23*G33
                 S31 =L13*G11+L23*G12+L33*G13
                 S32 =L13*G21+L23*G22+L33*G23
                 S33 =L13*G31+L23*G32+L33*G33
-                TENS(1,EL2FA(NN1+N)) = G11*S11+G12*S21+G13*S31  
-                TENS(2,EL2FA(NN1+N)) = G21*S12+G22*S22+G23*S32  
-                TENS(3,EL2FA(NN1+N)) = G31*S13+G32*S23+G33*S33  
-                TENS(4,EL2FA(NN1+N)) = G11*S12+G12*S22+G13*S32  
-                TENS(5,EL2FA(NN1+N)) = G21*S13+G22*S23+G23*S33  
-                TENS(6,EL2FA(NN1+N)) = G11*S13+G12*S23+G13*S33  
-              ENDDO                                                    
-            END IF            
+                TENS(1,EL2FA(NN1+N)) = G11*S11+G12*S21+G13*S31
+                TENS(2,EL2FA(NN1+N)) = G21*S12+G22*S22+G23*S32
+                TENS(3,EL2FA(NN1+N)) = G31*S13+G32*S23+G33*S33
+                TENS(4,EL2FA(NN1+N)) = G11*S12+G12*S22+G13*S32
+                TENS(5,EL2FA(NN1+N)) = G21*S13+G22*S23+G23*S33
+                TENS(6,EL2FA(NN1+N)) = G11*S13+G12*S23+G13*S33
+              ENDDO
+            END IF
           ELSEIF(ITENS == 2)THEN
 C-----------------------------------------------
 C          STRAIN
 C-----------------------------------------------
             IPRT=IPARTSP(1 + NFT)
             MT1 =IPART(1,IPRT)
-            ISTRAIN= IPARG(44,NG)    
+            ISTRAIN= IPARG(44,NG)
             NUVAR  = IPM(8,MT1)
-            NUVARR = IPM(221,MT1) 
+            NUVARR = IPM(221,MT1)
             IF (MLW>=28.AND.MLW/=49)THEN
               DO I=LFT,LLT
                N = I + NFT
@@ -196,44 +196,44 @@ C-----------------------------------------------
                TENS(4,EL2FA(NN1+N)) =  LBUF%STRA(JJ(4) + I)*HALF
                TENS(5,EL2FA(NN1+N)) =  LBUF%STRA(JJ(5) + I)*HALF
                TENS(6,EL2FA(NN1+N)) =  LBUF%STRA(JJ(6) + I)*HALF
-              ENDDO   
+              ENDDO
             ELSEIF(MLW == 14)THEN
               DO I=LFT,LLT
-               N = I + NFT                                    
+               N = I + NFT
                TENS(1,EL2FA(NN1+N)) = LBUF%EPE(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) = LBUF%EPE(JJ(2) + I)
-               TENS(3,EL2FA(NN1+N)) = LBUF%EPE(JJ(3) + I)	  
+               TENS(3,EL2FA(NN1+N)) = LBUF%EPE(JJ(3) + I)	
                TENS(4,EL2FA(NN1+N)) =  ZERO
                TENS(5,EL2FA(NN1+N)) =  ZERO
                TENS(6,EL2FA(NN1+N)) =  ZERO
               ENDDO
             ELSEIF(MLW == 24)THEN
               DO I=LFT,LLT
-               N  = I + NFT                                    
+               N  = I + NFT
                TENS(1,EL2FA(NN1+N)) = LBUF%STRA(JJ(1) + I)
                TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)
                TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			
                TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF
                TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF
-               TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
+               TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF
               ENDDO
             ELSEIF(ISTRAIN == 1)THEN
               IF(MLW/=14.AND.MLW/=24.AND.MLW<28.OR.
-     .            MLW == 49)THEN               
+     .            MLW == 49)THEN
                 DO I=LFT,LLT
-                  N  = I + NFT  
+                  N  = I + NFT
                   TENS(1,EL2FA(NN1+N)) = LBUF%STRA(JJ(1) + I)
-                  TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)	       
-                  TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			  
-                  TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF   
-                  TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF   
-                  TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF   
+                  TENS(2,EL2FA(NN1+N)) = LBUF%STRA(JJ(2) + I)	
+                  TENS(3,EL2FA(NN1+N)) = LBUF%STRA(JJ(3) + I)			
+                  TENS(4,EL2FA(NN1+N)) = LBUF%STRA(JJ(4) + I)*HALF
+                  TENS(5,EL2FA(NN1+N)) = LBUF%STRA(JJ(5) + I)*HALF
+                  TENS(6,EL2FA(NN1+N)) = LBUF%STRA(JJ(6) + I)*HALF
                 ENDDO
              ELSE
                DO I=LFT,LLT
                  TENS(1,EL2FA(NN1+N)) =  ZERO
                  TENS(2,EL2FA(NN1+N)) =  ZERO
-                 TENS(3,EL2FA(NN1+N)) =  ZERO                      
+                 TENS(3,EL2FA(NN1+N)) =  ZERO
                  TENS(4,EL2FA(NN1+N)) =  ZERO
                  TENS(5,EL2FA(NN1+N)) =  ZERO
                  TENS(6,EL2FA(NN1+N)) =  ZERO
@@ -246,13 +246,13 @@ C          PLASTIC STRAIN TENSOR
 C-----------------------------------------------
             IF (MLW == 24) THEN
               DO I=LFT,LLT
-               N  = I + NFT                                    
+               N  = I + NFT
                TENS(1,EL2FA(NN1+N)) = LBUF%PLA(JJ(1) + I + NEL)
                TENS(2,EL2FA(NN1+N)) = LBUF%PLA(JJ(2) + I + NEL)
                TENS(3,EL2FA(NN1+N)) = LBUF%PLA(JJ(3) + I + NEL)			
                TENS(4,EL2FA(NN1+N)) = LBUF%PLA(JJ(4) + I + NEL)*HALF
                TENS(5,EL2FA(NN1+N)) = LBUF%PLA(JJ(5) + I + NEL)*HALF
-               TENS(6,EL2FA(NN1+N)) = LBUF%PLA(JJ(6) + I + NEL)*HALF   
+               TENS(6,EL2FA(NN1+N)) = LBUF%PLA(JJ(6) + I + NEL)*HALF
               ENDDO
             ENDIF ! IF (MLW == 24)
 c-----------
@@ -268,7 +268,7 @@ C-----------------------------------------------
                TENS(3,EL2FA(NN1+N)) = ZERO
                TENS(4,EL2FA(NN1+N)) = ZERO
                TENS(5,EL2FA(NN1+N)) = ZERO
-               TENS(6,EL2FA(NN1+N)) = ZERO               
+               TENS(6,EL2FA(NN1+N)) = ZERO
              ENDIF
            ENDDO
           ENDIF

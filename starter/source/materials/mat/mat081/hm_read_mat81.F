@@ -55,11 +55,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,12 +78,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)                                :: MAT_ID,MAXUPARAM,MAXFUNC
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN)       :: UNITAB
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)          :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)          :: PM
       CHARACTER*nchartitle ,INTENT(IN)                   :: TITR
       INTEGER, INTENT(INOUT)                             :: NUPARAM,NUVAR,NFUNC,IFUNC(MAXFUNC)
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)         :: UPARAM
       my_real, DIMENSION(100),INTENT(OUT)                :: PARMAT
-      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL 
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)                     :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -182,12 +182,12 @@ C
       ENDIF
       ! For cohesion and cap
       IF(IFUNC(3) == 0)THEN
-        IF (YLDINI == ZERO) THEN 
+        IF (YLDINI == ZERO) THEN
           CALL ANCMSG(MSGID=1713,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
-     .                C1=TITR)         
+     .                C1=TITR)
         ELSE
           CALL ANCMSG(MSGID=1016,
      .                MSGTYPE=MSGWARNING,
@@ -197,26 +197,26 @@ C
         ENDIF
       ENDIF
       IF(IFUNC(4) == 0)THEN
-        IF (CAPINI == ZERO) THEN 
+        IF (CAPINI == ZERO) THEN
           CALL ANCMSG(MSGID=1714,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
-     .                C1=TITR)         
+     .                C1=TITR)
         ELSE
           CALL ANCMSG(MSGID=1017,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO,
      .                I1=MAT_ID,
-     .                C1=TITR)        
+     .                C1=TITR)
         ENDIF
       ENDIF
       ! Default value for scale factors of c and Pb
-      IF (YLDINI    == ZERO) THEN 
+      IF (YLDINI    == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_COH0' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         YLDINI = ONE*FAC_UNIT
       ENDIF
-      IF (CAPINI    == ZERO) THEN 
+      IF (CAPINI    == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_PB0' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CAPINI = ONE*FAC_UNIT
       ENDIF
@@ -242,7 +242,7 @@ C new in May 2015 by Fred Perie (implemented by Marian)
          MUW0=SAT0-ONE
          IF(MUW0 > ZERO)THEN
            U0=KWATER*MUW0
-         ELSE 
+         ELSE
            U0=ZERO
          ENDIF
        ENDIF
@@ -270,7 +270,7 @@ c     porosity
 c     yld and cap function scaling factors
       UPARAM(15) = YLDINI
       UPARAM(16) = CAPINI
-c----------------------------------------------------------------------- 
+c-----------------------------------------------------------------------
       NUPARAM    = 16
       NFUNC      = 4
       NUVAR      = 6
@@ -286,12 +286,12 @@ C
       PARMAT(1) = KINI + FOUR_OVER_3*GINI
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = TWO*GINI/(KINI + FOUR_OVER_3*GINI) 
+      PARMAT(17) = TWO*GINI/(KINI + FOUR_OVER_3*GINI)
 c-----------------------------------------------------------------------
       IF (RHOR == ZERO) RHOR = RHO0
       PM(1)      = RHOR
       PM(89)     = RHO0
-c-----------------------------------------------------------------------  
+c-----------------------------------------------------------------------
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------
@@ -307,7 +307,7 @@ c--------------------------------------------------
         WRITE(IOUT,1600) IFUNC(1),IFUNC(2),IFUNC(3),IFUNC(4),SOFT_FLAG
         WRITE(IOUT,1700) KWATER,POR0,SAT0,U0
         WRITE(IOUT,1800) TOL,VISCFAC
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -317,7 +317,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL : DRUCKER PRAGER LAW WITH CAP',/,
      & 5X,'--------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'INITIAL BULK MODULUS K0 . . . . . . . . . . =',1PG20.13/,
      & 5X,'INITIAL SHEAR MODULUS G0  . . . . . . . . . =',1PG20.13/,

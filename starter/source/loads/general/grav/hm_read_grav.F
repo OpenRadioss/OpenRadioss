@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGRV(NIGRV,NGRAV), LGRAV(*), ITAB(*), ITABM1(*),
      .        NPC(*), LSENSOR(NSENSI,*), ISKN(LISKN,*), ITAGND(*)
       my_real
@@ -126,7 +126,7 @@ C=======================================================================
 c
 C
       IAD=1
-      IF(NGRAV==0)RETURN   
+      IF(NGRAV==0)RETURN
 C
       WRITE (IOUT,2000)
 C--------------------------------------------------
@@ -177,7 +177,7 @@ C--------------------------------------------------
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='GRAVITY LOAD',
      .                 C2='GRAVITY LOAD',
-     .                 C3=TITR) 
+     .                 C3=TITR)
         ENDIF
         DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
           IF(NOSKEW == ISKN(4,J+1)) THEN
@@ -206,7 +206,7 @@ C--------------------------------------------------
           XYZ='Z'
           NS=3+NSKW
 c          CALL ANCMSG(MSGID=153,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-c     .                C2=XYZ,I1=ID,C1=TITR) 
+c     .                C2=XYZ,I1=ID,C1=TITR)
         ENDIF
 C
         IF (IGU /= 0) THEN
@@ -229,7 +229,7 @@ C
           ENDDO
           IF(NCURS==0)THEN
             CALL ANCMSG(MSGID=154,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                  I2=NCUR,I1=ID,C1=TITR) 
+     .                  I2=NCUR,I1=ID,C1=TITR)
           ENDIF
         ENDIF
         IGRV(3,K)=NCURS
@@ -246,7 +246,7 @@ C
         ENDDO
         IF((TSENS==0).AND.(IGRV(6,K)/=0))THEN
           CALL ANCMSG(MSGID=521,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .               I2=IGRV(6,K),I1=ID,C1=TITR) 
+     .               I2=IGRV(6,K),I1=ID,C1=TITR)
         ENDIF
         IF (NOSKEW > 0)   NOSKEW = ISKN(4,NOSKEW)
         WRITE (IOUT,3000) NOSKEW,XYZ(1:1),

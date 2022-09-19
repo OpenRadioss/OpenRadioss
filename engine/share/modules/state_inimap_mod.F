@@ -39,51 +39,51 @@ Chd|====================================================================
       MODULE STATE_INIMAP_MOD
 
         INTEGER :: STATE_INIMAP_CALL_NUMBER
-        
+
         !for each submaterial
         TYPE CELL_DATA
           my_real, ALLOCATABLE, DIMENSION(:) :: RHO
           my_real, ALLOCATABLE, DIMENSION(:) :: VFRAC
-          my_real, ALLOCATABLE, DIMENSION(:) :: E                    
-          my_real, ALLOCATABLE, DIMENSION(:) :: PRES  
+          my_real, ALLOCATABLE, DIMENSION(:) :: E
+          my_real, ALLOCATABLE, DIMENSION(:) :: PRES
         END TYPE
 
         !for each SPMD domain
         TYPE MAP_STRUCT
-          INTEGER :: NUM_CENTROIDS                                   
-          INTEGER :: NUM_POINTS                                      
-          INTEGER :: MLW                                             
-          INTEGER :: NSUBMAT                                         
-                                                                     
-          my_real :: SHIFT_N                                         
-          my_real :: SHIFT_Ny                                         
-          my_real :: SHIFT_Nz 
-                                                 
-          my_real :: SHIFT_C                                         
-          my_real :: SHIFT_Cy                                         
-          my_real :: SHIFT_Cz  
-                                                 
-          my_real :: LENGTH                                          
-                                                                     
-          my_real, ALLOCATABLE, DIMENSION(:)   :: POS_CENTROIDS      
-          my_real, ALLOCATABLE, DIMENSION(:)   :: POS2_CENTROIDS  
-              
-          my_real, ALLOCATABLE, DIMENSION(:)   :: POS_NODES          
-          my_real, ALLOCATABLE, DIMENSION(:)   :: POS2_NODES   
-                 
-          my_real, ALLOCATABLE, DIMENSION(:)   :: VEL_NODES          
-          my_real, ALLOCATABLE, DIMENSION(:)   :: VEL2_NODES          
+          INTEGER :: NUM_CENTROIDS
+          INTEGER :: NUM_POINTS
+          INTEGER :: MLW
+          INTEGER :: NSUBMAT
 
-          INTEGER, ALLOCATABLE, DIMENSION(:)   :: NODE_IDS      
-          INTEGER, ALLOCATABLE, DIMENSION(:)   :: CELL_IDS      
+          my_real :: SHIFT_N
+          my_real :: SHIFT_Ny
+          my_real :: SHIFT_Nz
 
-                                                                     
-          TYPE(CELL_DATA),DIMENSION(:),ALLOCATABLE :: SUBMAT         
+          my_real :: SHIFT_C
+          my_real :: SHIFT_Cy
+          my_real :: SHIFT_Cz
+
+          my_real :: LENGTH
+
+          my_real, ALLOCATABLE, DIMENSION(:)   :: POS_CENTROIDS
+          my_real, ALLOCATABLE, DIMENSION(:)   :: POS2_CENTROIDS
+
+          my_real, ALLOCATABLE, DIMENSION(:)   :: POS_NODES
+          my_real, ALLOCATABLE, DIMENSION(:)   :: POS2_NODES
+
+          my_real, ALLOCATABLE, DIMENSION(:)   :: VEL_NODES
+          my_real, ALLOCATABLE, DIMENSION(:)   :: VEL2_NODES
+
+          INTEGER, ALLOCATABLE, DIMENSION(:)   :: NODE_IDS
+          INTEGER, ALLOCATABLE, DIMENSION(:)   :: CELL_IDS
+
+
+          TYPE(CELL_DATA),DIMENSION(:),ALLOCATABLE :: SUBMAT
         END TYPE
-        
+
         !for each SPMD domain
         TYPE(MAP_STRUCT), ALLOCATABLE, DIMENSION(:) :: STATE_INIMAP_BUF
-        
+
         !flag
         LOGICAL IS_STAT_INIMAP_DETECTED
         LOGICAL IS_STAT_INIMAP_SINGLE
@@ -91,7 +91,7 @@ Chd|====================================================================
         LOGICAL IS_STAT_INIMAP_MSG_ALREADY_DISPLAYED
         LOGICAL IS_STAT_INIMAP_VP
         LOGICAL IS_STAT_INIMAP_VE
-        
+
         INTEGER NCELL_MAX
         INTEGER NPTS_MAX
 

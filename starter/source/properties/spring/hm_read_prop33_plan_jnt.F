@@ -61,9 +61,9 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT, ITYP, SKFLAG,IUNIT
-      my_real PARGEO(*) 
+      my_real PARGEO(*)
 
       INTEGER ID
       CHARACTER*nchartitle,
@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,IDSK1,IDSK2,IFUN_YY,IFUN_ZZ,IFUN_RX,
      .        IFUN_CYY,IFUN_CZZ,IFUN_CRX, ZEROI,OFLAG
-      my_real 
+      my_real
      .  XK,XTYP,XFLG,XSK1,XSK2,KNN,KYY,KZZ,KRX,CR,CYY,CZZ,CRX,MASS,INER,
      .   FAC_M,FAC_L,FAC_T,FAC_CT,FAC_CR,FAC_KT,FAC_KR,FAC_CTX,FAC_CRX,
      .   FAC_FF,FAC_MM
@@ -175,12 +175,12 @@ C
       IF(CZZ==ZERO.AND.IFUN_CZZ/=0)CZZ = ONE
       IF(CRX==ZERO.AND.IFUN_CRX/=0)CRX = ONE
 C-----------------------
-      IF (IFUN_YY  /= 0) KYY = KYY * FAC_FF 
+      IF (IFUN_YY  /= 0) KYY = KYY * FAC_FF
       IF (IFUN_ZZ  /= 0) KZZ = KZZ * FAC_FF
       IF (IFUN_RX  /= 0) KRX = KRX * FAC_MM
-      IF (IFUN_CYY /= 0) CYY = CYY * FAC_FF 
-      IF (IFUN_CZZ /= 0) CZZ = CZZ * FAC_FF 
-      IF (IFUN_CRX /= 0) CRX = CRX * FAC_MM 
+      IF (IFUN_CYY /= 0) CYY = CYY * FAC_FF
+      IF (IFUN_CZZ /= 0) CZZ = CZZ * FAC_FF
+      IF (IFUN_CRX /= 0) CRX = CRX * FAC_MM
 C-----------------------
       PARGEO(1) = 0
       PARGEO(2) = XK

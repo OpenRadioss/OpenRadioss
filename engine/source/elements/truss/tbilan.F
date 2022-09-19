@@ -70,9 +70,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, M, J, FLAG
       my_real
-     .   VXA(MVSIZ), VYA(MVSIZ),VZA(MVSIZ), VA2(MVSIZ), XMAS(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ),VZA(MVSIZ), VA2(MVSIZ), XMAS(MVSIZ),
      .   EI(MVSIZ), EK(MVSIZ), XM(MVSIZ),
-     .   YM(MVSIZ), ZM(MVSIZ), 
+     .   YM(MVSIZ), ZM(MVSIZ),
      .   RBIDON(1),OFF(MVSIZ),RHO(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ) ,
@@ -118,7 +118,7 @@ c
         EK(I)= XMAS(I)*VA2(I)*HALF
         XM(I)= XMAS(I)*VXA(I)
         YM(I)= XMAS(I)*VYA(I)
-        ZM(I)= XMAS(I)*VZA(I)   
+        ZM(I)= XMAS(I)*VZA(I)
       ENDDO
 
       DO I=LFT,LLT
@@ -177,7 +177,7 @@ c
         PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
         PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
         PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-        PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+        PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
       ENDDO
 c
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
@@ -194,7 +194,7 @@ c
         ENDDO
       ENDIF
       OFF(LFT:LLT) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTT,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTT,ITASK)
 C-----------------------------------------------
       RETURN
       END

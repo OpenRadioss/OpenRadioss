@@ -38,7 +38,7 @@ Chd|====================================================================
      1                    IADK  ,JDIK  ,DIAG_K,LT_K  ,ITASK  ,
      2                    GRAPHE,ITAB  ,INSOLV,IT    ,FAC_K  ,
      3                    IPIV_K,NK    ,IDSC  ,ISOLV ,IPRINT ,
-     4                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+     4                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      5                    LT_M  ,V     ,Z     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -61,14 +61,14 @@ C-----------------------------------------------
      .         ISOLV ,ITAB(*), INSOLV,IT, IPIV_K(*), NK, IDSC
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
       my_real
      .  DIAG_K(*),LT_K(*),FAC_K(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     iprec=1 => [I] 
+c     iprec=1 => [I]
 c     iprec=2 => jacobien NNZ=0
 c     iprec=3 => I.C.(0) :[LT_M]-->strict upper triangle [L]^t en c.r.s.
 c     iprec=4 => I.C.(0)_Stab :item
@@ -90,7 +90,7 @@ C-----------------------------
         NNZK = IADK(NDDL+1)-IADK(1)
 #ifdef MUMPS5
         CALL LIN_SOLV2(
-     1                    NDDL  ,NNZK  ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZK  ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,NI0   ,IBID  ,IBID  ,IBID   ,
      3                    RBID  ,Z     ,V     ,ITASK ,IPRINT ,
      4                    ISOLV ,IBID  ,GRAPHE,ITAB  ,INSOLV ,
@@ -107,22 +107,22 @@ C-----------------------------
         ENDDO
        ENDIF
       ELSEIF (IPREC==5) THEN
-       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
-     1                  LT_M  ,V     ,Z     ) 
+       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
+     1                  LT_M  ,V     ,Z     )
       ELSEIF (IPREC==14) THEN
-       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
-     1                  LT_M  ,V     ,Z     ) 
+       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
+     1                  LT_M  ,V     ,Z     )
       ELSEIF (IPREC==15) THEN
-       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      1                  LT_M  ,V     ,Z     )
       ELSEIF (IPREC>=16.AND.IPREC<=19) THEN
-       CALL MAV_LT1( NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+       CALL MAV_LT1( NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      2               LT_M  ,V     ,Z     )
       ELSEIF (IPREC>=20.AND.IPREC<=23) THEN
-       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
-     1                  LT_M  ,V     ,Z     ) 
-      ELSE 
-       CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
+     1                  LT_M  ,V     ,Z     )
+      ELSE
+       CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      1                 LT_M  ,V     ,Z     )
       ENDIF
 C--------------------------------------------
@@ -141,10 +141,10 @@ Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
       SUBROUTINE PREC_SOLVP(IPREC, ITASK   ,
-     1                      GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-     2                      IADK  ,JDIK    ,ITAB   ,IPRINT,INSOLV , 
+     1                      GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+     2                      IADK  ,JDIK    ,ITAB   ,IPRINT,INSOLV ,
      3                      IT    ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-     4                      CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
+     4                      CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
      5                      INLOC  ,NDOF   , NDDL  ,NNZ   ,IADM     ,
      6                      JDIM   ,DIAG_M , LT_M  ,V     ,Z     )
 C-----------------------------------------------
@@ -165,13 +165,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC, ITASK
-      INTEGER IAD_ELEM(2,*), FR_ELEM(*), IADK(*), JDIK(*), 
-     .        ITAB(*), IPRINT, 
+      INTEGER IAD_ELEM(2,*), FR_ELEM(*), IADK(*), JDIK(*),
+     .        ITAB(*), IPRINT,
      .        INSOLV, IT, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*), NDOF(*)
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
       my_real
      .        DIAG_K(*), LT_K(*),FAC_K(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
@@ -179,7 +179,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     iprec=1 => [I] 
+c     iprec=1 => [I]
 c     iprec=2 => jacobien NNZ=0
 c     iprec=5 => fsai .r same indice than [K]
 C-----------------------------
@@ -198,7 +198,7 @@ C-----------------------------
      4                    FAC_K , IPIV_K, NK   , MUMPS_PAR, CDDLP  ,
      5                    ISOLV , IDSC  , IDDL , IKC      , INLOC  ,
      6                    NDOF  , ITASK )
-#else 
+#else
       WRITE(6,*) "Fatal error: MUMPS required"
       CALL FLUSH(6)
 
@@ -207,13 +207,13 @@ C-----------------------------
         DO I=1,NDDL
          Z(I)=V(I)
         ENDDO
-       ENDIF 
+       ENDIF
       ELSEIF (IPREC==5) THEN
-       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
-     1                  LT_M  ,V     ,Z     ) 
+       CALL PRECIC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
+     1                  LT_M  ,V     ,Z     )
        CALL SPMD_SUMF_V(Z)
-      ELSE 
-       CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+      ELSE
+       CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      1                 LT_M  ,V     ,Z     )
        CALL SPMD_SUMF_V(Z)
       ENDIF
@@ -232,7 +232,7 @@ Chd|        PREC_SOLVP                    source/implicit/prec_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PREC0_SOLV(
-     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      2                    LT_M  ,V     ,Z     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -249,7 +249,7 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*)
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -290,7 +290,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRECIR_SOLV(
-     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      2                    LT_M  ,V     ,Z     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -307,13 +307,13 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
       my_real
-     .  TMP(NDDL) 
+     .  TMP(NDDL)
 C--[LT_M]-->[Z]^t strict lower triangle c.c.s.(= transpose of strict upper tria c.r.s.)--- 
 C--------- tmp est utilisee pour la raison //-------- 
        DO I=1,NDDL
@@ -350,7 +350,7 @@ Chd|        PREC_SOLVP                    source/implicit/prec_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PRECIC_SOLV(
-     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      2                    LT_M  ,V     ,Z     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -367,13 +367,13 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
       my_real
-     .  TMP(NDDL) 
+     .  TMP(NDDL)
 C--[LT_M]-->[Z]^t strict lower triangle c.r.s.(= transpose of strict upper tria c.c.s.)--- 
 C--------- tmp est utilisee pour la raison //-------- 
 C-----------------------------
@@ -410,7 +410,7 @@ Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|====================================================================
       SUBROUTINE PREC5H_SOLV(
-     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      2                    LT_M  ,V     ,Z     ,F_DDL ,L_DDL  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -428,13 +428,13 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),F_DDL ,L_DDL
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
       my_real
-     .  TMP(NDDL) 
+     .  TMP(NDDL)
 C--[LT_M]-->[Z]^t strict lower triangle c.r.s.(= transpose of strict upper tria c.c.s.)--- 
 C--------- tmp est utilisee pour la raison //-------- 
 C-----------------------------
@@ -485,7 +485,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE PREC5HC_SOLV(
-     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+     1                    NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      2                    LT_M  ,V     ,Z     ,F_DDL ,L_DDL  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -506,13 +506,13 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),F_DDL ,L_DDL
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
       my_real
-     .  TMP(NDDL) 
+     .  TMP(NDDL)
 C--[LT_M]-->[Z]^t ,  [LT_M0] ->[Z]----------
 C-----------------------------
        DO I=F_DDL ,L_DDL
@@ -569,10 +569,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  F_DDL ,L_DDL  
+      INTEGER  F_DDL ,L_DDL
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*) ,V(*) 
+     .  DIAG_M(*), Z(*) ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -601,10 +601,10 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
       SUBROUTINE PREC_SOLVH(IPREC, ITASK   ,
-     1                      GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-     2                      IADK  ,JDIK    ,ITAB   ,IPRINT,INSOLV , 
+     1                      GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+     2                      IADK  ,JDIK    ,ITAB   ,IPRINT,INSOLV ,
      3                      IT    ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-     4                      CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
+     4                      CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
      5                      INLOC  ,NDOF   , NDDL  ,NNZ   ,IADM     ,
      6                      JDIM   ,DIAG_M , LT_M  ,V     ,Z        ,
      7                      F_DDL  ,L_DDL  )
@@ -628,13 +628,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADM(*)  ,JDIM(*),IPREC, ITASK
-      INTEGER IAD_ELEM(2,*), FR_ELEM(*), IADK(*), JDIK(*), 
-     .        ITAB(*), IPRINT, 
+      INTEGER IAD_ELEM(2,*), FR_ELEM(*), IADK(*), JDIK(*),
+     .        ITAB(*), IPRINT,
      .        INSOLV, IT, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*), NDOF(*),F_DDL  ,L_DDL
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
       my_real
      .        DIAG_K(*), LT_K(*),FAC_K(*)
       TYPE(PRGRAPH) :: GRAPHE(*)
@@ -642,7 +642,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     iprec=1 => [I] 
+c     iprec=1 => [I]
 c     iprec=2 => jacobien NNZ=0
 c     iprec=5 => fsai .r same indice than [K]
 C-----------------------------
@@ -668,14 +668,14 @@ C-----------------------------
           NI0= 0
           NNZK = IADK(NDDL+1)-IADK(1)
           CALL LIN_SOLV2(
-     1                    NDDL  ,NNZK  ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZK  ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,NI0   ,IBID  ,IBID  ,IBID   ,
      3                    RBID  ,Z     ,V     ,ITASK ,IPRINT ,
      4                    ISOLV ,IBID  ,GRAPHE,ITAB  ,INSOLV ,
      5                    IT    ,FAC_K ,IPIV_K,NK    ,RBID   ,
      6                    IDSC  )
          END IF !(NSPMD>1) THEN
-        END IF 
+        END IF
 #else
       WRITE(6,*) "Fatal error: MUMPS required"
       CALL FLUSH(6)
@@ -688,18 +688,18 @@ C---------------------
         DO I = F_DDL  ,L_DDL
          Z(I)=V(I)
         ENDDO
-       ENDIF 
+       ENDIF
       ELSEIF (IPREC==2) THEN
        CALL PREC2H_SOLV(
      1                  F_DDL ,L_DDL ,DIAG_M ,V     ,Z     )
       ELSEIF (IPREC==5) THEN
-       CALL PREC5HC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
-     1                   LT_M  ,V     ,Z     ,F_DDL ,L_DDL ) 
-      ELSE 
+       CALL PREC5HC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
+     1                   LT_M  ,V     ,Z     ,F_DDL ,L_DDL )
+      ELSE
        IF (ITASK==0) THEN
-        CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
+        CALL PREC0_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
      1                 LT_M  ,V     ,Z     )
-       ENDIF 
+       ENDIF
       ENDIF
 C
       IF (IPREC>1) THEN
@@ -746,11 +746,11 @@ C-----------------------------------------------
      .         F_DDL  ,L_DDL
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     iprec=1 => [I] 
+c     iprec=1 => [I]
 c     iprec=2 => jacobien NNZ=0
 c     iprec=5 => fsai .r same indice than [K]
 C-----------------------------
@@ -767,8 +767,8 @@ C-----------------------------
      1                  F_DDL ,L_DDL ,DIAG_M ,V     ,Z     )
       ELSEIF (IPREC==5) THEN
        NNZ=IADM(NDDL+1)-IADM(1)
-       CALL PREC5HC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,   
-     1                   LT_M  ,V     ,Z     ,F_DDL ,L_DDL ) 
+       CALL PREC5HC_SOLV(NDDL  ,NNZ   ,IADM  ,JDIM  ,DIAG_M ,
+     1                   LT_M  ,V     ,Z     ,F_DDL ,L_DDL )
       ENDIF
 C
       IF (IPREC>1) THEN

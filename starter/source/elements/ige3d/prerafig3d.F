@@ -42,7 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESHSURFIG3D_MOD  
+      USE MESHSURFIG3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(MESHSURFIG3D_), DIMENSION(:), ALLOCATABLE, TARGET :: MESHSURF
-      TYPE(MESHSURFIG3D_), POINTER :: PMESHSURF, P2MESHSURF 
+      TYPE(MESHSURFIG3D_), POINTER :: PMESHSURF, P2MESHSURF
       INTEGER I,J,K,L,M,N,P,ITNCTRL,INCTRL,ITKSI,ITETA,ITZETA,
      .        IPID,IAD_KNOT,ITTEST,ITEL,OFFSET_KNOT,
      .        PX,PY,PZ,IDX,IDY,IDZ,IEL,
@@ -148,10 +148,10 @@ c
           ENDDO
             MS_TMP(I) = 0
             WIGE_TMP(I) = 0
-        ENDDO      
+        ENDDO
       ENDIF
       ALLOCATE (EL_CONNECT(NUMELIG3D0+ADDELIG3D)) ! TABLEAU QUI CONTIENT ONE FLAG POUR LES ELEMENTS QUI ONT ETE MODIFIES
-      EL_CONNECT(:)=0 
+      EL_CONNECT(:)=0
 
 ccc ATTENTION, S'IL Y A DES ELEMENTS CLASSIQUES ET DES ELEMENT ISOGEOMETRIQUES, IL VA Y AVOIR ONE SOUCIS
 CC  IL FAUT DONC FAIRE ONE EL_CONNECT DANS LA STRUCTURE TABCONPATCH ET REFAIRE LES TABLES DE CONNECTIVITE PAR PATCH
@@ -192,7 +192,7 @@ c
         NKNOT1 = N1+PX
         NKNOT2 = N2+PY
         NKNOT3 = N3+PZ
-        DECALGEO_TMP=(IPID-1)*(NUMNOD+NBNEWX_TMP)     
+        DECALGEO_TMP=(IPID-1)*(NUMNOD+NBNEWX_TMP)
         DO I=1,TABCONPATCH(P)%L_TAB_IG3D
           IEL=TABCONPATCH(P)%TAB_IG3D(I)
           ITNCTRL=0
@@ -203,7 +203,7 @@ c
             DO ITETA=1,PY
               DO ITKSI=1,PX
                 ITNCTRL=ITNCTRL+1
-                INCTRL = IXIG3D(KXIG3D(4,IEL)+ITNCTRL-1) 
+                INCTRL = IXIG3D(KXIG3D(4,IEL)+ITNCTRL-1)
                 DO L=0,PX
                   KNOTLOCPC(L+1,1,DECALGEO_TMP+INCTRL)=KNOT(IAD_KNOT+IDX-ITKSI+L+1)
                 ENDDO
@@ -235,7 +235,7 @@ c
           KNOTLOCEL(1,2,IEL) = KNOT(IAD_KNOT+NKNOT1+KXIG3D(7,IEL))
           KNOTLOCEL(2,2,IEL) = KNOT(IAD_KNOT+NKNOT1+KXIG3D(10,IEL))
           KNOTLOCEL(1,3,IEL) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+KXIG3D(8,IEL))
-          KNOTLOCEL(2,3,IEL) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+KXIG3D(11,IEL)) 
+          KNOTLOCEL(2,3,IEL) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+KXIG3D(11,IEL))
 c
 c ------------------------------------------------------------------------------------------
 C  MISE EN MEMOIRE DU NOMBRE DE RAFFINEMENT INITIAL, PERMETTANT LE RAFFINEMENT PROGRESSIF
@@ -259,7 +259,7 @@ c ------------------------------------------------------------------------------
 c
 c! vectorize possible with some modifications
 c
-      DO P=1,NBPART_IG3D 
+      DO P=1,NBPART_IG3D
         IPID=TABCONPATCH(P)%PID
         IAD_KNOT = IGEO(40,IPID)
         PX = IGEO(41,IPID)
@@ -326,7 +326,7 @@ c
          SELECT CASE (DIR)
           CASE(1)
             IDNBCUT=12 ! where the nb of cut wished is located
-            IDKNOT1=6  ! index of 1nd knot in the Xknot vector 
+            IDKNOT1=6  ! index of 1nd knot in the Xknot vector
             IDKNOT2=9  ! index of 2nd knot in the Xknot vector
             OFFSET_KNOT=IAD_KNOT
             PDIR=PX
@@ -419,7 +419,7 @@ C
 C
              DO ITTEST=1,NBMESHSURF-1
                P2MESHSURF => MESHSURF(ITTEST)
-               CALL COMPUT_MESH_NEIGHBOUR(PMESHSURF%DIR, P2MESHSURF%DIR, 
+               CALL COMPUT_MESH_NEIGHBOUR(PMESHSURF%DIR, P2MESHSURF%DIR,
      .                         PMESHSURF%ID_PID, P2MESHSURF%ID_PID, P2MESHSURF%ID_MESHSURF,
      .                         PMESHSURF%TAB_COINKNOT,PMESHSURF%L_TAB_COINKNOT,
      .                         P2MESHSURF%TAB_COINKNOT,P2MESHSURF%L_TAB_COINKNOT,
@@ -433,7 +433,7 @@ C
 C
              DO ITTEST=1,NBMESHSURF-1
                P2MESHSURF => MESHSURF(ITTEST)
-               CALL COMPUT_MESH_NEIGHBOUR(PMESHSURF%DIR, P2MESHSURF%DIR, 
+               CALL COMPUT_MESH_NEIGHBOUR(PMESHSURF%DIR, P2MESHSURF%DIR,
      .                         PMESHSURF%ID_PID, P2MESHSURF%ID_PID, P2MESHSURF%ID_MESHSURF,
      .                         PMESHSURF%TAB_COINKNOT,PMESHSURF%L_TAB_COINKNOT,
      .                         P2MESHSURF%TAB_COINKNOT,P2MESHSURF%L_TAB_COINKNOT,
@@ -473,7 +473,7 @@ C
                  P2TANG1=PY
                  P2TANG2=PZ
                ENDIF
-               L_TAB_NEWFCTCUT = 0 
+               L_TAB_NEWFCTCUT = 0
                CALL TEST_SUPPORT_NEWFCT(KNOTLOCPC, P2DIR, P2TANG1, P2TANG2,
      .                             P2MESHSURF%DIR, P2MESHSURF%KNOT_INSERE,
      .                             P2MESHSURF%TAB_COINKNOT,P2MESHSURF%L_TAB_COINKNOT, TAB_NEWFCT,
@@ -595,7 +595,7 @@ c
             ENDDO
           ENDDO
           DEALLOCATE(X_TMP,V_TMP,D_TMP,MS_TMP,WIGE_TMP)
-          
+
           IF(FLAG_DEBUG==1) THEN
             DO I=1,NUMELIG3D0+ADDELIG3D
               J=1
@@ -624,17 +624,17 @@ c
 
         ENDIF
       ENDIF
-      
+
 c
 c ------------------------------------------------------------------------------------------
 c
-      DEALLOCATE(TAB_REMOVE) 
-      DEALLOCATE(TAB_STAY) 
-      DEALLOCATE(TAB_NEWFCT) 
+      DEALLOCATE(TAB_REMOVE)
+      DEALLOCATE(TAB_STAY)
+      DEALLOCATE(TAB_NEWFCT)
       DEALLOCATE(GAMA)
       DEALLOCATE(IDFILS)
-      DEALLOCATE(EL_CONNECT) 
-      DEALLOCATE(TAB_INITIAL_CUT) 
+      DEALLOCATE(EL_CONNECT)
+      DEALLOCATE(TAB_INITIAL_CUT)
 
 c      Print*,'NBMESHSURF',NBMESHSURF
 c

@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER :: NB_FILL_TRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: FILL_TRI
       END TYPE MONVOL_STRUCT_
-      
+
       CONTAINS
 Chd|====================================================================
 Chd|  MONVOL_DEALLOCATE             share/modules/monvol_struct_mod.F
@@ -56,7 +56,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"    
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------   
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II
-      
+
       DO II = 1, NVOLU
          IF (ALLOCATED(T_MONVOL(II)%FILL_TRI)) DEALLOCATE(T_MONVOL(II)%FILL_TRI)
       ENDDO

@@ -61,7 +61,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
-     .        EMPL                        
+     .        EMPL
       INTEGER, DIMENSION(:), ALLOCATABLE :: SDNODG
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE ::
@@ -111,7 +111,7 @@ C-----------------------------------------------
               RECGLOB(4,EMPL) =  A(3,I)
              ENDIF
           ENDDO
-          
+
           DO K=2,NSPMD
             MSGTYP=MSGOFF0
             CALL MPI_RECV(SDNODG,NUMNODM,MPI_INTEGER,
@@ -131,7 +131,7 @@ C-----------------------------------------------
             ENDDO
 
           END DO
-          CALL PRINT_CHECKSUM(RECGLOB,NUMNODG,3) 
+          CALL PRINT_CHECKSUM(RECGLOB,NUMNODG,3)
         ENDIF
         IF(ALLOCATED(SDNODG))  DEALLOCATE(SDNODG)
         IF(ALLOCATED(AGLOB))   DEALLOCATE(AGLOB)
@@ -183,7 +183,7 @@ C-----------------------------------------------
       S2 = 0
       PREC = 2
 C  If A is in simple precision
-      IF(SIZEOF(A(1,1)) == 4) PREC = 1 
+      IF(SIZEOF(A(1,1)) == 4) PREC = 1
       SIZ = SIZ1*SIZ2 * PREC
       ALLOCATE(TMP(SIZ))
       TMP(1:SIZ) = 0

@@ -74,7 +74,7 @@ C-----------------------------------------------
       IF(ISPMD==0) THEN
         DO I = 2, NSPMD
 	  SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
-          MSGTYP=MSGOFF 
+          MSGTYP=MSGOFF
           CALL MPI_IRECV(RBUF(1,I-1),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      .                   MPI_COMM_WORLD,REQ_R(I-1),IERROR)
         END DO
@@ -119,10 +119,10 @@ C preparation envoi  partie fixe (elem) a proc I
             SBUF(SIZ+3) =  A(3,NOD)
             SIZ = SIZ + SIZE
           END DO
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_SEND(SBUF,SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(1),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
-     
+
       END IF
 C
 #endif

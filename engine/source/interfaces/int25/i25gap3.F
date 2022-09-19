@@ -31,8 +31,8 @@ Chd|====================================================================
      1 ITASK,
      2 NRTM  ,IRECT   ,GAP_NM   ,GAP_M   ,
      3 NMN   ,MSR     ,GAPN_M   ,
-     4 GAPMAX_M ,GAPSCALE ,MSEGTYP , THKNOD, 
-     5 GAPMSAV, MAXDGAP_G)        
+     4 GAPMAX_M ,GAPSCALE ,MSEGTYP , THKNOD,
+     5 GAPMSAV, MAXDGAP_G)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRTM,IRECT(4,*),    
+      INTEGER NRTM,IRECT(4,*),
      .   MSR(*),NMN,MSEGTYP(*),ITASK
 C     REAL
       my_real
@@ -100,9 +100,9 @@ C
             M=IRECT(J,I)
             WA(M) = ZERO
           END DO
-        END IF 
+        END IF
       END DO
-!$OMP END SINGLE 
+!$OMP END SINGLE
 C
 #include "vectorize.inc"
       DO I=NMNF,NMNL
@@ -113,8 +113,8 @@ C
 C
       CALL MY_BARRIER
 C
-#include "vectorize.inc" 
-      DO I=NRTMF,NRTML 
+#include "vectorize.inc"
+      DO I=NRTMF,NRTML
         GAP_M(I) = ZERO
         DO J=1,4
           M=IRECT(J,I)
@@ -134,7 +134,7 @@ C
 #include "lockon.inc"
 C obtain the max dgap for all
       MAXDGAP_G = MAX(MAXDGAP_L,MAXDGAP_G)
-#include "lockoff.inc"      
+#include "lockoff.inc"
 
       RETURN
       END

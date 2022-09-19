@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IDNBCUT,IDKNOT1,IDKNOT2  
+      INTEGER IDNBCUT,IDKNOT1,IDKNOT2
       INTEGER OFFSET_KNOT
 C=======================================================================
 C----------------------------------------------------------
@@ -180,11 +180,11 @@ C
 
 cc LES ID VOISINS NE CORRESPONDENT PAS AU INITIAL CUT
 
-      IF(KXIG3D(IDNBCUT,IDNEIGHBOUR)==1) THEN 
+      IF(KXIG3D(IDNBCUT,IDNEIGHBOUR)==1) THEN
         IDCUT_VOISIN = 0
       ELSE
         IDCUT_VOISIN = TAB_OLDIDCUT(DIR,IDNEIGHBOUR)-KXIG3D(IDNBCUT,IDNEIGHBOUR)+1
-      ENDIF 
+      ENDIF
 C
 C
       RETURN

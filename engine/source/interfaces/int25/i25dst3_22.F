@@ -77,18 +77,18 @@ C-----------------------------------------------
      .        MVOISA(MVSIZ,4), MVOISB(MVSIZ,4),IBOUNDA(4,MVSIZ),IBOUNDB(4,MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     TIME_S(2,NSN), GAPS(*), GAPM(*), 
+     .     TIME_S(2,NSN), GAPS(*), GAPM(*),
      .     PENE_OLD(5,*),STIF_OLD(2,NSN), PENMIN, EPS0, MARGE
       my_real
-     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5), 
+     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .     VX1(MVSIZ),VX2(MVSIZ),VX3(MVSIZ),VX4(MVSIZ),VY1(MVSIZ),
      .     VY2(MVSIZ),VY3(MVSIZ),VY4(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ),
      .     VZ3(MVSIZ),VZ4(MVSIZ),VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),
      .     NAX(MVSIZ,5), NAY(MVSIZ,5), NAZ(MVSIZ,5),
      .     NBX(MVSIZ,5), NBY(MVSIZ,5), NBZ(MVSIZ,5),
-     .     PENT(MVSIZ), 
-     .     LBS(MVSIZ), LCS(MVSIZ), LBP(MVSIZ,4), LCP(MVSIZ,4), 
+     .     PENT(MVSIZ),
+     .     LBS(MVSIZ), LCS(MVSIZ), LBP(MVSIZ,4), LCP(MVSIZ,4),
      .     GAP_NM(4,MVSIZ), GAPMXL(MVSIZ)
       INTEGER IRECT(4,*),ITAB(*),ICONT_I(*), FAR(MVSIZ)
       REAL*4 VTX_BISECTOR(3,2,*)
@@ -104,9 +104,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, IT, I1, I2, ITRIA(2,4),
      .        N4N, MGLOB, ITPERM(4), IA, IB, IB1, IB2, IB3, IBX, IX, IY, IZ
-      INTEGER I4N(MVSIZ), INTERSECTA(MVSIZ), INTERSECTB(MVSIZ), 
-     .        INTERSECA, INTERSECB, 
-     .        FARA(MVSIZ,4), FARB(MVSIZ,4), INGAPA(MVSIZ,4), INGAPB(MVSIZ,4),  
+      INTEGER I4N(MVSIZ), INTERSECTA(MVSIZ), INTERSECTB(MVSIZ),
+     .        INTERSECA, INTERSECB,
+     .        FARA(MVSIZ,4), FARB(MVSIZ,4), INGAPA(MVSIZ,4), INGAPB(MVSIZ,4),
      .        SUBTRIB(MVSIZ), SUBTRIX(MVSIZ)
       my_real
      .     XIJ(MVSIZ,4),  XI0V(MVSIZ),  XI5, XOI5,
@@ -123,20 +123,20 @@ C-----------------------------------------------
      .     GAP_MM(MVSIZ), GAP, GAP21,GAP22,GAP23,GAP24,
      .     XP, YP, ZP,
      .     DX, DY, DZ, LX, LD, LAX, LBX, LCX, DMIN, PMIN,
-     .     DD(MVSIZ,4), 
+     .     DD(MVSIZ,4),
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     LAP1,LAP2,LAP3,LAP4,
      .     AL(MVSIZ,4)
       my_real
      .     UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,
-     .     PENA(MVSIZ,4), PENB(MVSIZ,4), BB(MVSIZ,4), 
+     .     PENA(MVSIZ,4), PENB(MVSIZ,4), BB(MVSIZ,4),
      .     SX1,SX2,SX3,SX4,SY1,SY2,SY3,SY4,SZ1,SZ2,SZ3,SZ4,
-     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
+     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4),
      .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),HH,
-     .     LB(MVSIZ,4), LC(MVSIZ,4), 
-     .     SIDA(MVSIZ,4), SIDB(MVSIZ,4), 
-     .     X12, Y12, Z12, 
-     .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ, 
+     .     LB(MVSIZ,4), LC(MVSIZ,4),
+     .     SIDA(MVSIZ,4), SIDB(MVSIZ,4),
+     .     X12, Y12, Z12,
+     .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ,
      .     DIST(MVSIZ),LL,NN,PN,
      .     V12,V23,V34,V41,
      .     NX1, NX2, NX3, NX4,
@@ -165,12 +165,12 @@ C initialisation (cf triangles)
       PENB(1:JLT,1:4) = ZERO
       DD  (1:JLT,1:4) = ZERO
 C
-      ANY_TRIANGLE = .FALSE. 
+      ANY_TRIANGLE = .FALSE.
       DO I=1,JLT
        IF(IX3(I)==IX4(I)) THEN
          ANY_TRIANGLE = .TRUE.
        ENDIF
-      ENDDO 
+      ENDDO
 
       DO I=1,JLT
 C
@@ -196,7 +196,7 @@ C
 C
         GAP_MM(I)=FOURTH*(GAP_NM(1,I)+GAP_NM(2,I)+GAP_NM(3,I)+GAP_NM(4,I))
       ENDDO
-      
+
       IF (ANY_TRIANGLE) THEN
         DO I=1,JLT
           IF(IX3(I)==IX4(I)) THEN
@@ -244,18 +244,18 @@ C
 C
        DO I=1,JLT
 C   attention triangles 
-  
+
          XI5 = XX(I,5) - XI(I)
          YI5 = YY(I,5) - YI(I)
          ZI5 = ZZ(I,5) - ZI(I)
 
-         V12  = XN(I,1)*XI5 + YN(I,1)*YI5 + ZN(I,1)*ZI5 
+         V12  = XN(I,1)*XI5 + YN(I,1)*YI5 + ZN(I,1)*ZI5
          V23  = XN(I,2)*XI5 + YN(I,2)*YI5 + ZN(I,2)*ZI5
-         V34  = XN(I,3)*XI5 + YN(I,3)*YI5 + ZN(I,3)*ZI5 
-         V41  = XN(I,4)*XI5 + YN(I,4)*YI5 + ZN(I,4)*ZI5      
-         
+         V34  = XN(I,3)*XI5 + YN(I,3)*YI5 + ZN(I,3)*ZI5
+         V41  = XN(I,4)*XI5 + YN(I,4)*YI5 + ZN(I,4)*ZI5
+
          IF(ISHEL(I)==0)THEN
-           IF(V12 < ZERO .and. V23 < ZERO .and. 
+           IF(V12 < ZERO .and. V23 < ZERO .and.
      .        V34 < ZERO .and. V41 < ZERO ) THEN
 C            INTERSECTION IMPOSSIBLE
              CYCLE
@@ -267,30 +267,30 @@ C        POSSIBLE INTERSECTION
 C--------------------------------------------------------
 C  OLD COORDINATES
 C--------------------------------------------------------
-         XO1 = XX(I,1) - DT1*VX1(I)    
-         YO1 = YY(I,1) - DT1*VY1(I)    
-         ZO1 = ZZ(I,1) - DT1*VZ1(I) 
+         XO1 = XX(I,1) - DT1*VX1(I)
+         YO1 = YY(I,1) - DT1*VY1(I)
+         ZO1 = ZZ(I,1) - DT1*VZ1(I)
 C           
-         XO2 = XX(I,2) - DT1*VX2(I)     
-         YO2 = YY(I,2) - DT1*VY2(I)     
-         ZO2 = ZZ(I,2) - DT1*VZ2(I)     
-c         
-         XO3 = XX(I,3) - DT1*VX3(I)   
-         YO3 = YY(I,3) - DT1*VY3(I)   
+         XO2 = XX(I,2) - DT1*VX2(I)
+         YO2 = YY(I,2) - DT1*VY2(I)
+         ZO2 = ZZ(I,2) - DT1*VZ2(I)
+c
+         XO3 = XX(I,3) - DT1*VX3(I)
+         YO3 = YY(I,3) - DT1*VY3(I)
          ZO3 = ZZ(I,3) - DT1*VZ3(I)
 C        
-         XO4 = XX(I,4) - DT1*VX4(I) 
-         YO4 = YY(I,4) - DT1*VY4(I) 
+         XO4 = XX(I,4) - DT1*VX4(I)
+         YO4 = YY(I,4) - DT1*VY4(I)
          ZO4 = ZZ(I,4) - DT1*VZ4(I)
 
          XOI = XI(I) - DT1*VXI(I)
          YOI = YI(I) - DT1*VYI(I)
-         ZOI = ZI(I) - DT1*VZI(I) 
+         ZOI = ZI(I) - DT1*VZI(I)
 
          IF(IX3(I) /= IX4(I))THEN
            XO5 = FOURTH*(XO1+XO2+XO3+XO4)
            YO5 = FOURTH*(YO1+YO2+YO3+YO4)
-           ZO5 = FOURTH*(ZO1+ZO2+ZO3+ZO4) 
+           ZO5 = FOURTH*(ZO1+ZO2+ZO3+ZO4)
          ELSE
            XO5 = XO3
            YO5 = YO3
@@ -302,19 +302,19 @@ c        compute volumes at previous time step
          X51 = XO1 - XO5
          Y51 = YO1 - YO5
          Z51 = ZO1 - ZO5
- 
+
          X52 = XO2 - XO5
          Y52 = YO2 - YO5
          Z52 = ZO2 - ZO5
- 
+
          X53 = XO3 - XO5
          Y53 = YO3 - YO5
          Z53 = ZO3 - ZO5
- 
+
          X54 = XO4 - XO5
          Y54 = YO4 - YO5
          Z54 = ZO4 - ZO5
- 
+
          XOI5 = XO5 - XOI
          YOI5 = YO5 - YOI
          ZOI5 = ZO5 - ZOI
@@ -656,7 +656,7 @@ C
           GAP24 =GAP**2
           BB(I,4) =((XX(I,5)-XI(I))*XN(I,4)+(YY(I,5)-YI(I))*YN(I,4)+(ZZ(I,5)-ZI(I))*ZN(I,4))
 C
-          IF(DD(I,1) <= GAP21) THEN 
+          IF(DD(I,1) <= GAP21) THEN
             IF(BB(I,1) <= ZERO .AND. INTERSECTA(I) /= 1)THEN
               INGAPA(I,1)=1
             END IF
@@ -726,7 +726,7 @@ C             Privilegier secteur dans lequel on se trouve.
           END DO
 C          
 C         !
-          IT=SUBTRIX(I)  
+          IT=SUBTRIX(I)
           IF(IT > 0) THEN
             IF(INTERSECTA(I)/=0.OR.INGAPA(I,IT)/=0)SUBTRIA(I)=IT
             IF (ISHEL(I) /= 0)THEN
@@ -786,7 +786,7 @@ C
         IT=SUBTRIA(I)
         IF(IT==0)CYCLE
 C
-        IF(PENA(I,IT)==ZERO) CYCLE          
+        IF(PENA(I,IT)==ZERO) CYCLE
 C          
         I1=ITRIA(1,IT)
         I2=ITRIA(2,IT)
@@ -799,7 +799,7 @@ C
 C
           IB1=IBOUNDA(I1,I)
           IB2=IBOUNDA(I2,I)
-          IF(MVOISA(I,IT)==0)THEN     
+          IF(MVOISA(I,IT)==0)THEN
 C
             IF( (XH-XX(I,I1))* NAX(I,IT)+
      .          (YH-YY(I,I1))* NAY(I,IT)+
@@ -854,14 +854,14 @@ C
             Z12=ZZ(I,I2)-ZZ(I,I1)
 C
 C           normal to the bisecting plane (pointing toward the inside)
-            PX = Z12*NAY(I,IT)-Y12*NAZ(I,IT)  
-            PY = X12*NAZ(I,IT)-Z12*NAX(I,IT)  
-            PZ = Y12*NAX(I,IT)-X12*NAY(I,IT)  
+            PX = Z12*NAY(I,IT)-Y12*NAZ(I,IT)
+            PY = X12*NAZ(I,IT)-Z12*NAX(I,IT)
+            PZ = Y12*NAX(I,IT)-X12*NAY(I,IT)
             PP = PX*PX+PY*PY+PZ*PZ
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDA(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))                 
+            SIDA(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
             IF(SIDA(I,IT) < -ZEP01) FARA(I,IT) =2
 C
           END IF
@@ -940,20 +940,20 @@ C
               Z12=ZZ(I,2)-ZZ(I,1)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12*NAY(I,1)-Y12*NAZ(I,1)  
-              PY = X12*NAZ(I,1)-Z12*NAX(I,1)  
-              PZ = Y12*NAX(I,1)-X12*NAY(I,1)  
+              PX = Z12*NAY(I,1)-Y12*NAZ(I,1)
+              PY = X12*NAZ(I,1)-Z12*NAX(I,1)
+              PZ = Y12*NAX(I,1)-X12*NAY(I,1)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDA(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDA(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDA(I,1) < -ZEP01) FARA(I,IT) =2
 C
             END IF
 
             IF( MVOISA(I,2) /= 0 )THEN
-            
+
 C             INGAP = 1 => tjrs regarder si l'on est dans le cone (permet de determiner dans quel cone on se trouve) 
 C          
               X12=XX(I,3)-XX(I,2)
@@ -961,14 +961,14 @@ C
               Z12=ZZ(I,3)-ZZ(I,2)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12*NAY(I,2)-Y12*NAZ(I,2)  
-              PY = X12*NAZ(I,2)-Z12*NAX(I,2)  
-              PZ = Y12*NAX(I,2)-X12*NAY(I,2)  
+              PX = Z12*NAY(I,2)-Y12*NAZ(I,2)
+              PY = X12*NAZ(I,2)-Z12*NAX(I,2)
+              PZ = Y12*NAX(I,2)-X12*NAY(I,2)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDA(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDA(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDA(I,2) < -ZEP01) FARA(I,IT) =2
 C
             END IF
@@ -981,14 +981,14 @@ C
               Z12=ZZ(I,1)-ZZ(I,3)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12*NAY(I,4)-Y12*NAZ(I,4)  
-              PY = X12*NAZ(I,4)-Z12*NAX(I,4)  
-              PZ = Y12*NAX(I,4)-X12*NAY(I,4)  
+              PX = Z12*NAY(I,4)-Y12*NAZ(I,4)
+              PY = X12*NAZ(I,4)-Z12*NAX(I,4)
+              PZ = Y12*NAX(I,4)-X12*NAY(I,4)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDA(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDA(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDA(I,4) < -ZEP01) FARA(I,IT) =2
 C
             END IF
@@ -1037,7 +1037,7 @@ C
         IT=SUBTRIB(I)
         IF(IT==0)CYCLE
 C
-        IF(PENB(I,IT)==ZERO) CYCLE          
+        IF(PENB(I,IT)==ZERO) CYCLE
 C          
         I1=ITRIA(1,IT)
         I2=ITRIA(2,IT)
@@ -1051,7 +1051,7 @@ C
 C         Cone
           IB1=IBOUNDB(I1,I)
           IB2=IBOUNDB(I2,I)
-          IF(MVOISB(I,IT)==0)THEN     
+          IF(MVOISB(I,IT)==0)THEN
 C
             IF( (XH-XX(I,I1))* NBX(I,IT)+
      .          (YH-YY(I,I1))* NBY(I,IT)+
@@ -1105,14 +1105,14 @@ C
             Z12=ZZ(I,I2)-ZZ(I,I1)
 C
 C           normal to the bisecting plane (pointing toward the inside)
-            PX = Z12*NBY(I,IT)-Y12*NBZ(I,IT)  
-            PY = X12*NBZ(I,IT)-Z12*NBX(I,IT)  
-            PZ = Y12*NBX(I,IT)-X12*NBY(I,IT)  
+            PX = Z12*NBY(I,IT)-Y12*NBZ(I,IT)
+            PY = X12*NBZ(I,IT)-Z12*NBX(I,IT)
+            PZ = Y12*NBX(I,IT)-X12*NBY(I,IT)
             PP = PX*PX+PY*PY+PZ*PZ
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDB(I,IT)= (XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))                 
+            SIDB(I,IT)= (XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
             IF(SIDB(I,IT) < -ZEP01) FARB(I,IT) =2
 C
           END IF
@@ -1191,14 +1191,14 @@ C
               Z12=ZZ(I,2)-ZZ(I,1)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12*NBY(I,1)-Y12*NBZ(I,1)  
-              PY = X12*NBZ(I,1)-Z12*NBX(I,1)  
-              PZ = Y12*NBX(I,1)-X12*NBY(I,1)  
+              PX = Z12*NBY(I,1)-Y12*NBZ(I,1)
+              PY = X12*NBZ(I,1)-Z12*NBX(I,1)
+              PZ = Y12*NBX(I,1)-X12*NBY(I,1)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDB(I,1)= (XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDB(I,1)= (XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDB(I,1) < -ZEP01) FARB(I,IT) =2
 C
             END IF
@@ -1210,14 +1210,14 @@ C
               Z12=ZZ(I,3)-ZZ(I,2)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12*NBY(I,2)-Y12*NBZ(I,2)  
-              PY = X12*NBZ(I,2)-Z12*NBX(I,2)  
-              PZ = Y12*NBX(I,2)-X12*NBY(I,2)  
+              PX = Z12*NBY(I,2)-Y12*NBZ(I,2)
+              PY = X12*NBZ(I,2)-Z12*NBX(I,2)
+              PZ = Y12*NBX(I,2)-X12*NBY(I,2)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDB(I,2)= (XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDB(I,2)= (XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDB(I,2) < -ZEP01) FARB(I,IT) =2
 C
             END IF
@@ -1229,14 +1229,14 @@ C
               Z12=ZZ(I,1)-ZZ(I,3)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12*NBY(I,4)-Y12*NBZ(I,4)  
-              PY = X12*NBZ(I,4)-Z12*NBX(I,4)  
-              PZ = Y12*NBX(I,4)-X12*NBY(I,4)  
+              PX = Z12*NBY(I,4)-Y12*NBZ(I,4)
+              PY = X12*NBZ(I,4)-Z12*NBX(I,4)
+              PZ = Y12*NBX(I,4)-X12*NBY(I,4)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDB(I,4)= (XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDB(I,4)= (XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDB(I,4) < -ZEP01) FARB(I,IT) =2
 C
             END IF
@@ -1391,7 +1391,7 @@ C     REAL
      7     XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
      8     YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
      9     ZO3     ,ZO4    ,ZO5    ,ZEROM ,UNP    ,
-     A     ZEROMT  ,UNPT   ,XI     ,YI    ,ZI     ,   
+     A     ZEROMT  ,UNPT   ,XI     ,YI    ,ZI     ,
      B     XOI     ,YOI    ,ZOI
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1411,8 +1411,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XS, YS, ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -1432,12 +1432,12 @@ C------------------------------------------------
 
            XM1 = XX1 + AAA*(XO1-XX1)
            YM1 = YY1 + AAA*(YO1-YY1)
-           ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+           ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
            XM2 = XX2 + AAA*(XO2-XX2)
            YM2 = YY2 + AAA*(YO2-YY2)
-           ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+           ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
            XS = XI + AAA*(XOI-XI)
            YS = YI + AAA*(YOI-YI)
            ZS = ZI + AAA*(ZOI-ZI)
@@ -1445,23 +1445,23 @@ C------------------------------------------------
            XM5 = XX5 + AAA*(XO5-XX5)
            YM5 = YY5 + AAA*(YO5-YY5)
            ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
            X51 = XM1 - XM5
            Y51 = YM1 - YM5
            Z51 = ZM1 - ZM5
- 
+
            X52 = XM2 - XM5
            Y52 = YM2 - YM5
            Z52 = ZM2 - ZM5
- 
+
            XI1 = XM1 - XS
            YI1 = YM1 - YS
            ZI1 = ZM1 - ZS
- 
+
            XI2 = XM2 - XS
            YI2 = YM2 - YS
            ZI2 = ZM2 - ZS
-         
+
            XI5 = XM5 - XS
            YI5 = YM5 - YS
            ZI5 = ZM5 - ZS
@@ -1481,11 +1481,11 @@ C------------------------------------------------
            SX2 = YI2*ZI5 - ZI2*YI5
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
-           
+
            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  ONE-LB0-LC0 
+           LA0 =  ONE-LB0-LC0
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -1514,12 +1514,12 @@ C----------loose tolerance for tria
 
              XM2 = XX2 + AAA*(XO2-XX2)
              YM2 = YY2 + AAA*(YO2-YY2)
-             ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+             ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
              XM3 = XX3 + AAA*(XO3-XX3)
              YM3 = YY3 + AAA*(YO3-YY3)
-             ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+             ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
              XS = XI + AAA*(XOI-XI)
              YS = YI + AAA*(YOI-YI)
              ZS = ZI + AAA*(ZOI-ZI)
@@ -1527,23 +1527,23 @@ C----------loose tolerance for tria
              XM5 = XX5 + AAA*(XO5-XX5)
              YM5 = YY5 + AAA*(YO5-YY5)
              ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
              X52 = XM2 - XM5
              Y52 = YM2 - YM5
              Z52 = ZM2 - ZM5
- 
+
              X53 = XM3 - XM5
              Y53 = YM3 - YM5
              Z53 = ZM3 - ZM5
- 
+
              XI2 = XM2 - XS
              YI2 = YM2 - YS
              ZI2 = ZM2 - ZS
- 
+
              XI3 = XM3 - XS
              YI3 = YM3 - YS
              ZI3 = ZM3 - ZS
-         
+
              XI5 = XM5 - XS
              YI5 = YM5 - YS
              ZI5 = ZM5 - ZS
@@ -1563,11 +1563,11 @@ C----------loose tolerance for tria
              SX3 = YI3*ZI5 - ZI3*YI5
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
-             
+
              S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
+             LA0 =  ONE-LB0-LC0
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1586,12 +1586,12 @@ C----------loose tolerance for tria
 
             XM3 = XX3 + AAA*(XO3-XX3)
             YM3 = YY3 + AAA*(YO3-YY3)
-            ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+            ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
             ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
-         
+
             XS = XI + AAA*(XOI-XI)
             YS = YI + AAA*(YOI-YI)
             ZS = ZI + AAA*(ZOI-ZI)
@@ -1599,23 +1599,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X53 = XM3 - XM5
             Y53 = YM3 - YM5
             Z53 = ZM3 - ZM5
- 
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             XI3 = XM3 - XS
             YI3 = YM3 - YS
             ZI3 = ZM3 - ZS
- 
+
             XI4 = XM4 - XS
             YI4 = YM4 - YS
             ZI4 = ZM4 - ZS
-         
+
             XI5 = XM5 - XS
             YI5 = YM5 - YS
             ZI5 = ZM5 - ZS
@@ -1635,11 +1635,11 @@ C----------loose tolerance for tria
             SX4 = YI4*ZI5 - ZI4*YI5
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1659,12 +1659,12 @@ C----------loose tolerance for tria
 
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
-            ZM4 = ZZ4 + AAA*(ZO4-ZZ4) 
-         
+            ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
+
             XM1 = XX1 + AAA*(XO1-XX1)
             YM1 = YY1 + AAA*(YO1-YY1)
-            ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+            ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
             XS = XI + AAA*(XOI-XI)
             YS = YI + AAA*(YOI-YI)
             ZS = ZI + AAA*(ZOI-ZI)
@@ -1672,23 +1672,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             X51 = XM1 - XM5
             Y51 = YM1 - YM5
             Z51 = ZM1 - ZM5
- 
+
             XI4 = XM4 - XS
             YI4 = YM4 - YS
             ZI4 = ZM4 - ZS
- 
+
             XI1 = XM1 - XS
             YI1 = YM1 - YS
             ZI1 = ZM1 - ZS
-         
+
             XI5 = XM5 - XS
             YI5 = YM5 - YS
             ZI5 = ZM5 - ZS
@@ -1708,11 +1708,11 @@ C----------loose tolerance for tria
             SX1 = YI1*ZI5 - ZI1*YI5
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -1762,7 +1762,7 @@ C     REAL
      7     XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
      8     YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
      9     ZO3     ,ZO4    ,ZO5    ,ZEROM ,UNP    ,
-     A     ZEROMT  ,UNPT   ,XI     ,YI    ,ZI     ,   
+     A     ZEROMT  ,UNPT   ,XI     ,YI    ,ZI     ,
      B     XOI     ,YOI    ,ZOI
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1782,8 +1782,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XS, YS, ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -1804,12 +1804,12 @@ C------------------------------------------------
 
            XM1 = XX1 + AAA*(XO1-XX1)
            YM1 = YY1 + AAA*(YO1-YY1)
-           ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+           ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
            XM2 = XX2 + AAA*(XO2-XX2)
            YM2 = YY2 + AAA*(YO2-YY2)
-           ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+           ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
            XS = XI + AAA*(XOI-XI)
            YS = YI + AAA*(YOI-YI)
            ZS = ZI + AAA*(ZOI-ZI)
@@ -1817,23 +1817,23 @@ C------------------------------------------------
            XM5 = XX5 + AAA*(XO5-XX5)
            YM5 = YY5 + AAA*(YO5-YY5)
            ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
            X51 = XM1 - XM5
            Y51 = YM1 - YM5
            Z51 = ZM1 - ZM5
- 
+
            X52 = XM2 - XM5
            Y52 = YM2 - YM5
            Z52 = ZM2 - ZM5
- 
+
            XI1 = XM1 - XS
            YI1 = YM1 - YS
            ZI1 = ZM1 - ZS
- 
+
            XI2 = XM2 - XS
            YI2 = YM2 - YS
            ZI2 = ZM2 - ZS
-         
+
            XI5 = XM5 - XS
            YI5 = YM5 - YS
            ZI5 = ZM5 - ZS
@@ -1853,11 +1853,11 @@ C------------------------------------------------
            SX2 = YI2*ZI5 - ZI2*YI5
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
-           
+
            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  ONE-LB0-LC0 
+           LA0 =  ONE-LB0-LC0
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -1865,8 +1865,8 @@ C------------------------------------------------
      .        LA0 >= ZEROM .and. LA0 <= UNP)THEN
              IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
                INTERSECA = 1
-             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR. 
-                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR. 
+             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR.
+                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR.
                   ! (VO12 == ZERO .AND. V12 < ZERO)
                INTERSECB = 1
              END IF
@@ -1878,8 +1878,8 @@ C----------loose tolerance for tria
      .        LA0 >= ZEROMT .AND. LA0 <= UNPT)THEN
              IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
                INTERSECA = 1
-             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR. 
-                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR. 
+             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR.
+                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR.
                   ! (VO12 == ZERO .AND. V12 < ZERO)
                INTERSECB = 1
              ENDIF
@@ -1898,12 +1898,12 @@ C----------loose tolerance for tria
 
              XM2 = XX2 + AAA*(XO2-XX2)
              YM2 = YY2 + AAA*(YO2-YY2)
-             ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+             ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
              XM3 = XX3 + AAA*(XO3-XX3)
              YM3 = YY3 + AAA*(YO3-YY3)
-             ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+             ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
              XS = XI + AAA*(XOI-XI)
              YS = YI + AAA*(YOI-YI)
              ZS = ZI + AAA*(ZOI-ZI)
@@ -1911,23 +1911,23 @@ C----------loose tolerance for tria
              XM5 = XX5 + AAA*(XO5-XX5)
              YM5 = YY5 + AAA*(YO5-YY5)
              ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
              X52 = XM2 - XM5
              Y52 = YM2 - YM5
              Z52 = ZM2 - ZM5
- 
+
              X53 = XM3 - XM5
              Y53 = YM3 - YM5
              Z53 = ZM3 - ZM5
- 
+
              XI2 = XM2 - XS
              YI2 = YM2 - YS
              ZI2 = ZM2 - ZS
- 
+
              XI3 = XM3 - XS
              YI3 = YM3 - YS
              ZI3 = ZM3 - ZS
-         
+
              XI5 = XM5 - XS
              YI5 = YM5 - YS
              ZI5 = ZM5 - ZS
@@ -1947,19 +1947,19 @@ C----------loose tolerance for tria
              SX3 = YI3*ZI5 - ZI3*YI5
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
-             
+
              S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
+             LA0 =  ONE-LB0-LC0
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
      .          LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO23 <= ZERO .AND. V23 >= ZERO)THEN
                  INTERSECA = 1
-               ELSE ! (VO23 > ZERO .AND. V23 < ZERO)  .OR. 
-                    ! (VO23 > ZERO .AND. V23 == ZERO) .OR. 
+               ELSE ! (VO23 > ZERO .AND. V23 < ZERO)  .OR.
+                    ! (VO23 > ZERO .AND. V23 == ZERO) .OR.
                     ! (VO23 == ZERO .AND. V23 < ZERO)
                  INTERSECB = 1
                END IF
@@ -1976,12 +1976,12 @@ C----------loose tolerance for tria
 
             XM3 = XX3 + AAA*(XO3-XX3)
             YM3 = YY3 + AAA*(YO3-YY3)
-            ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+            ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
             ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
-         
+
             XS = XI + AAA*(XOI-XI)
             YS = YI + AAA*(YOI-YI)
             ZS = ZI + AAA*(ZOI-ZI)
@@ -1989,23 +1989,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X53 = XM3 - XM5
             Y53 = YM3 - YM5
             Z53 = ZM3 - ZM5
- 
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             XI3 = XM3 - XS
             YI3 = YM3 - YS
             ZI3 = ZM3 - ZS
- 
+
             XI4 = XM4 - XS
             YI4 = YM4 - YS
             ZI4 = ZM4 - ZS
-         
+
             XI5 = XM5 - XS
             YI5 = YM5 - YS
             ZI5 = ZM5 - ZS
@@ -2025,19 +2025,19 @@ C----------loose tolerance for tria
             SX4 = YI4*ZI5 - ZI4*YI5
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
      .         LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO34 <= ZERO .AND. V34 >= ZERO)THEN
                  INTERSECA = 1
-               ELSE ! (VO34 > ZERO .AND. V34 < ZERO)  .OR. 
-                    ! (VO34 > ZERO .AND. V34 == ZERO) .OR. 
+               ELSE ! (VO34 > ZERO .AND. V34 < ZERO)  .OR.
+                    ! (VO34 > ZERO .AND. V34 == ZERO) .OR.
                     ! (VO34 == ZERO .AND. V34 < ZERO)
                  INTERSECB = 1
                END IF
@@ -2055,12 +2055,12 @@ C----------loose tolerance for tria
 
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
-            ZM4 = ZZ4 + AAA*(ZO4-ZZ4) 
-         
+            ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
+
             XM1 = XX1 + AAA*(XO1-XX1)
             YM1 = YY1 + AAA*(YO1-YY1)
-            ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+            ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
             XS = XI + AAA*(XOI-XI)
             YS = YI + AAA*(YOI-YI)
             ZS = ZI + AAA*(ZOI-ZI)
@@ -2068,23 +2068,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             X51 = XM1 - XM5
             Y51 = YM1 - YM5
             Z51 = ZM1 - ZM5
- 
+
             XI4 = XM4 - XS
             YI4 = YM4 - YS
             ZI4 = ZM4 - ZS
- 
+
             XI1 = XM1 - XS
             YI1 = YM1 - YS
             ZI1 = ZM1 - ZS
-         
+
             XI5 = XM5 - XS
             YI5 = YM5 - YS
             ZI5 = ZM5 - ZS
@@ -2104,19 +2104,19 @@ C----------loose tolerance for tria
             SX1 = YI1*ZI5 - ZI1*YI5
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
      .         LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO41 <= ZERO .AND. V41 >= ZERO)THEN
                  INTERSECA = 1
-               ELSE ! (VO41 > ZERO .AND. V41 < ZERO)  .OR. 
-                    ! (VO41 > ZERO .AND. V41 == ZERO) .OR. 
+               ELSE ! (VO41 > ZERO .AND. V41 < ZERO)  .OR.
+                    ! (VO41 > ZERO .AND. V41 == ZERO) .OR.
                     ! (VO41 == ZERO .AND. V41 < ZERO)
                  INTERSECB = 1
                END IF
@@ -2163,7 +2163,7 @@ C     REAL
      7     XO3     ,XO4    ,XO5    ,YO1   ,YO2    ,
      8     YO3     ,YO4    ,YO5    ,ZO1   ,ZO2    ,
      9     ZO3     ,ZO4    ,ZO5    ,ZEROM ,UNP    ,
-     A     ZEROMT  ,UNPT   ,XI     ,YI    ,ZI     ,   
+     A     ZEROMT  ,UNPT   ,XI     ,YI    ,ZI     ,
      B     XOI     ,YOI    ,ZOI
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -2183,8 +2183,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XS, YS, ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -2202,12 +2202,12 @@ C------------------------------------------------
 
            XM1 = XX1 + AAA*(XO1-XX1)
            YM1 = YY1 + AAA*(YO1-YY1)
-           ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+           ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
            XM2 = XX2 + AAA*(XO2-XX2)
            YM2 = YY2 + AAA*(YO2-YY2)
-           ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+           ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
            XS = XI + AAA*(XOI-XI)
            YS = YI + AAA*(YOI-YI)
            ZS = ZI + AAA*(ZOI-ZI)
@@ -2215,23 +2215,23 @@ C------------------------------------------------
            XM5 = XX5 + AAA*(XO5-XX5)
            YM5 = YY5 + AAA*(YO5-YY5)
            ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
            X51 = XM1 - XM5
            Y51 = YM1 - YM5
            Z51 = ZM1 - ZM5
- 
+
            X52 = XM2 - XM5
            Y52 = YM2 - YM5
            Z52 = ZM2 - ZM5
- 
+
            XI1 = XM1 - XS
            YI1 = YM1 - YS
            ZI1 = ZM1 - ZS
- 
+
            XI2 = XM2 - XS
            YI2 = YM2 - YS
            ZI2 = ZM2 - ZS
-         
+
            XI5 = XM5 - XS
            YI5 = YM5 - YS
            ZI5 = ZM5 - ZS
@@ -2251,11 +2251,11 @@ C------------------------------------------------
            SX2 = YI2*ZI5 - ZI2*YI5
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
-           
+
            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  ONE-LB0-LC0 
+           LA0 =  ONE-LB0-LC0
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -2263,8 +2263,8 @@ C------------------------------------------------
      .        LA0 >= ZEROM .and. LA0 <= UNP)THEN
              IF(VO12 <= ZERO .AND. V12 >= ZERO)THEN
                INTERSECT = 1
-             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR. 
-                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR. 
+             ELSE ! (VO12 > ZERO .AND. V12 < ZERO)  .OR.
+                  ! (VO12 > ZERO .AND. V12 == ZERO) .OR.
                   ! (VO12 == ZERO .AND. V12 < ZERO)
                INTERSECT = -1
              END IF
@@ -2292,12 +2292,12 @@ C----------loose tolerance for tria
 
              XM2 = XX2 + AAA*(XO2-XX2)
              YM2 = YY2 + AAA*(YO2-YY2)
-             ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+             ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
              XM3 = XX3 + AAA*(XO3-XX3)
              YM3 = YY3 + AAA*(YO3-YY3)
-             ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+             ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
              XS = XI + AAA*(XOI-XI)
              YS = YI + AAA*(YOI-YI)
              ZS = ZI + AAA*(ZOI-ZI)
@@ -2305,23 +2305,23 @@ C----------loose tolerance for tria
              XM5 = XX5 + AAA*(XO5-XX5)
              YM5 = YY5 + AAA*(YO5-YY5)
              ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
              X52 = XM2 - XM5
              Y52 = YM2 - YM5
              Z52 = ZM2 - ZM5
- 
+
              X53 = XM3 - XM5
              Y53 = YM3 - YM5
              Z53 = ZM3 - ZM5
- 
+
              XI2 = XM2 - XS
              YI2 = YM2 - YS
              ZI2 = ZM2 - ZS
- 
+
              XI3 = XM3 - XS
              YI3 = YM3 - YS
              ZI3 = ZM3 - ZS
-         
+
              XI5 = XM5 - XS
              YI5 = YM5 - YS
              ZI5 = ZM5 - ZS
@@ -2341,19 +2341,19 @@ C----------loose tolerance for tria
              SX3 = YI3*ZI5 - ZI3*YI5
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
-             
+
              S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
+             LA0 =  ONE-LB0-LC0
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
      .          LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO23 <= ZERO .AND. V23 >= ZERO)THEN
                  INTERSECT = 1
-               ELSE ! (VO23 > ZERO .AND. V23 < ZERO)  .OR. 
-                    ! (VO23 > ZERO .AND. V23 == ZERO) .OR. 
+               ELSE ! (VO23 > ZERO .AND. V23 < ZERO)  .OR.
+                    ! (VO23 > ZERO .AND. V23 == ZERO) .OR.
                     ! (VO23 == ZERO .AND. V23 < ZERO)
                  INTERSECT = -1
                END IF
@@ -2371,12 +2371,12 @@ C----------loose tolerance for tria
 
             XM3 = XX3 + AAA*(XO3-XX3)
             YM3 = YY3 + AAA*(YO3-YY3)
-            ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+            ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
             ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
-         
+
             XS = XI + AAA*(XOI-XI)
             YS = YI + AAA*(YOI-YI)
             ZS = ZI + AAA*(ZOI-ZI)
@@ -2384,23 +2384,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X53 = XM3 - XM5
             Y53 = YM3 - YM5
             Z53 = ZM3 - ZM5
- 
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             XI3 = XM3 - XS
             YI3 = YM3 - YS
             ZI3 = ZM3 - ZS
- 
+
             XI4 = XM4 - XS
             YI4 = YM4 - YS
             ZI4 = ZM4 - ZS
-         
+
             XI5 = XM5 - XS
             YI5 = YM5 - YS
             ZI5 = ZM5 - ZS
@@ -2420,19 +2420,19 @@ C----------loose tolerance for tria
             SX4 = YI4*ZI5 - ZI4*YI5
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
      .         LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO34 <= ZERO .AND. V34 >= ZERO)THEN
                  INTERSECT = 1
-               ELSE ! (VO34 > ZERO .AND. V34 < ZERO)  .OR. 
-                    ! (VO34 > ZERO .AND. V34 == ZERO) .OR. 
+               ELSE ! (VO34 > ZERO .AND. V34 < ZERO)  .OR.
+                    ! (VO34 > ZERO .AND. V34 == ZERO) .OR.
                     ! (VO34 == ZERO .AND. V34 < ZERO)
                  INTERSECT = -1
                END IF
@@ -2450,12 +2450,12 @@ C----------loose tolerance for tria
 
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
-            ZM4 = ZZ4 + AAA*(ZO4-ZZ4) 
-         
+            ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
+
             XM1 = XX1 + AAA*(XO1-XX1)
             YM1 = YY1 + AAA*(YO1-YY1)
-            ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+            ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
             XS = XI + AAA*(XOI-XI)
             YS = YI + AAA*(YOI-YI)
             ZS = ZI + AAA*(ZOI-ZI)
@@ -2463,23 +2463,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             X51 = XM1 - XM5
             Y51 = YM1 - YM5
             Z51 = ZM1 - ZM5
- 
+
             XI4 = XM4 - XS
             YI4 = YM4 - YS
             ZI4 = ZM4 - ZS
- 
+
             XI1 = XM1 - XS
             YI1 = YM1 - YS
             ZI1 = ZM1 - ZS
-         
+
             XI5 = XM5 - XS
             YI5 = YM5 - YS
             ZI5 = ZM5 - ZS
@@ -2499,19 +2499,19 @@ C----------loose tolerance for tria
             SX1 = YI1*ZI5 - ZI1*YI5
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
      .         LA0 >= ZEROM .and. LA0 <= UNP)THEN
                IF(VO41 <= ZERO .AND. V41 >= ZERO)THEN
                  INTERSECT = 1
-               ELSE ! (VO41 > ZERO .AND. V41 < ZERO)  .OR. 
-                    ! (VO41 > ZERO .AND. V41 == ZERO) .OR. 
+               ELSE ! (VO41 > ZERO .AND. V41 < ZERO)  .OR.
+                    ! (VO41 > ZERO .AND. V41 == ZERO) .OR.
                     ! (VO41 == ZERO .AND. V41 < ZERO)
                  INTERSECT = -1
                END IF
@@ -2576,8 +2576,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XS,YS,ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -2591,12 +2591,12 @@ C---------------- cas V>0 V_old>0
 
            XM1 = XO1
            YM1 = YO1
-           ZM1 = ZO1 
-         
+           ZM1 = ZO1
+
            XM2 = XO2
            YM2 = YO2
-           ZM2 = ZO2 
-         
+           ZM2 = ZO2
+
 c           XOI = XI - ADT*VXI
 c           YOI = YI - ADT*VYI
 c           ZOI = ZI - ADT*VZI
@@ -2604,23 +2604,23 @@ c           ZOI = ZI - ADT*VZI
            XM5 = XO5
            YM5 = YO5
            ZM5 = ZO5
-         
+
            X51 = XM1 - XM5
            Y51 = YM1 - YM5
            Z51 = ZM1 - ZM5
- 
+
            X52 = XM2 - XM5
            Y52 = YM2 - YM5
            Z52 = ZM2 - ZM5
- 
+
            XI1 = XM1 - XOI
            YI1 = YM1 - YOI
            ZI1 = ZM1 - ZOI
- 
+
            XI2 = XM2 - XOI
            YI2 = YM2 - YOI
            ZI2 = ZM2 - ZOI
-         
+
            XI5 = XM5 - XOI
            YI5 = YM5 - YOI
            ZI5 = ZM5 - ZOI
@@ -2640,11 +2640,11 @@ c           ZOI = ZI - ADT*VZI
            SX2 = YI2*ZI5 - ZI2*YI5
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
-           
+
            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  ONE-LB0-LC0 
+           LA0 =  ONE-LB0-LC0
 
            IF(LB0 >= ZEROMT .AND. LB0 <= UNPT .AND.
      .        LC0 >= ZEROMT .AND. LC0 <= UNPT .AND.
@@ -2659,12 +2659,12 @@ c           ZOI = ZI - ADT*VZI
 
              XM2 = XO2
              YM2 = YO2
-             ZM2 = ZO2 
-         
+             ZM2 = ZO2
+
              XM3 = XO3
              YM3 = YO3
-             ZM3 = ZO3 
-         
+             ZM3 = ZO3
+
 c             XOI = XI - ADT*VXI
 c             YOI = YI - ADT*VYI
 c             ZOI = ZI - ADT*VZI
@@ -2672,23 +2672,23 @@ c             ZOI = ZI - ADT*VZI
              XM5 = XO5
              YM5 = YO5
              ZM5 = ZO5
-         
+
              X52 = XM2 - XM5
              Y52 = YM2 - YM5
              Z52 = ZM2 - ZM5
- 
+
              X53 = XM3 - XM5
              Y53 = YM3 - YM5
              Z53 = ZM3 - ZM5
- 
+
              XI2 = XM2 - XOI
              YI2 = YM2 - YOI
              ZI2 = ZM2 - ZOI
- 
+
              XI3 = XM3 - XOI
              YI3 = YM3 - YOI
              ZI3 = ZM3 - ZOI
-         
+
              XI5 = XM5 - XOI
              YI5 = YM5 - YOI
              ZI5 = ZM5 - ZOI
@@ -2708,11 +2708,11 @@ c             ZOI = ZI - ADT*VZI
              SX3 = YI3*ZI5 - ZI3*YI5
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
-             
+
              S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
+             LA0 =  ONE-LB0-LC0
 
              IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .          LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -2730,12 +2730,12 @@ c             ZOI = ZI - ADT*VZI
 
             XM3 = XO3
             YM3 = YO3
-            ZM3 = ZO3 
-         
+            ZM3 = ZO3
+
             XM4 = XO4
             YM4 = YO4
             ZM4 = ZO4
-         
+
 c            XOI = XI - ADT*VXI
 c            YOI = YI - ADT*VYI
 c            ZOI = ZI - ADT*VZI
@@ -2743,23 +2743,23 @@ c            ZOI = ZI - ADT*VZI
             XM5 = XO5
             YM5 = YO5
             ZM5 = ZO5
-         
+
             X53 = XM3 - XM5
             Y53 = YM3 - YM5
             Z53 = ZM3 - ZM5
- 
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             XI3 = XM3 - XOI
             YI3 = YM3 - YOI
             ZI3 = ZM3 - ZOI
- 
+
             XI4 = XM4 - XOI
             YI4 = YM4 - YOI
             ZI4 = ZM4 - ZOI
-         
+
             XI5 = XM5 - XOI
             YI5 = YM5 - YOI
             ZI5 = ZM5 - ZOI
@@ -2779,11 +2779,11 @@ c            ZOI = ZI - ADT*VZI
             SX4 = YI4*ZI5 - ZI4*YI5
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
            IF(LB0  >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -2801,12 +2801,12 @@ c            ZOI = ZI - ADT*VZI
 
             XM4 = XO4
             YM4 = YO4
-            ZM4 = ZO4 
-         
+            ZM4 = ZO4
+
             XM1 = XO1
             YM1 = YO1
-            ZM1 = ZO1 
-         
+            ZM1 = ZO1
+
 c            XOI = XI - ADT*VXI
 c            YOI = YI - ADT*VYI
 c            ZOI = ZI - ADT*VZI
@@ -2814,23 +2814,23 @@ c            ZOI = ZI - ADT*VZI
             XM5 = XO5
             YM5 = YO5
             ZM5 = ZO5
-         
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             X51 = XM1 - XM5
             Y51 = YM1 - YM5
             Z51 = ZM1 - ZM5
- 
+
             XI4 = XM4 - XOI
             YI4 = YM4 - YOI
             ZI4 = ZM4 - ZOI
- 
+
             XI1 = XM1 - XOI
             YI1 = YM1 - YOI
             ZI1 = ZM1 - ZOI
-         
+
             XI5 = XM5 - XOI
             YI5 = YM5 - YOI
             ZI5 = ZM5 - ZOI
@@ -2850,11 +2850,11 @@ c            ZOI = ZI - ADT*VZI
             SX1 = YI1*ZI5 - ZI1*YI5
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
             IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -2882,7 +2882,7 @@ Chd|====================================================================
      4                  IRTLM  ,TIME_S ,ITAB   ,SUBTRIA,
      5                  FAR    ,PENT   ,LB     ,LC     ,
      9                  INDEX  ,FARM   ,PENM   ,LBM    ,
-     A                  LCM    ) 
+     A                  LCM    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2915,8 +2915,8 @@ C-----------------------------------------------
      .        FAR(MVSIZ)
       my_real
      .     STIF(*), TIME_S(*),
-     .     PENT(MVSIZ), 
-     .     LB (MVSIZ), LC (MVSIZ), 
+     .     PENT(MVSIZ),
+     .     LB (MVSIZ), LC (MVSIZ),
      .     PENM(4,*), LBM(4,*), LCM(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -2945,4 +2945,4 @@ C--------------------------------------------------------
 
       END DO
       RETURN
-      END 
+      END

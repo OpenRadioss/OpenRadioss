@@ -48,20 +48,20 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
-      TYPE INTBUF_FRIC_STRUCT_  
+      TYPE INTBUF_FRIC_STRUCT_
 
-      INTEGER ::    NSETPRTS       ! number of couple of parts 
+      INTEGER ::    NSETPRTS       ! number of couple of parts
       INTEGER ::    FRICMOD        ! the friction model
       INTEGER ::    FRICFORM       ! the friction formulation ( viscous or incremental)
-      INTEGER ::    IFFILTER       !Friction filtering flag 
-      INTEGER ::    S_TABPARTS_FRIC  ! number of parts  
+      INTEGER ::    IFFILTER       !Friction filtering flag
+      INTEGER ::    S_TABPARTS_FRIC  ! number of parts
       INTEGER ::    IORTHFRIC          ! Flag for orthotropic friction
        my_real :: XFILTR_FRIC        !Filtering coefficient
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: TABCOUPLEPARTS_FRIC    ! Table of couple of parts
       INTEGER, DIMENSION(:), ALLOCATABLE :: TABPARTS_FRIC          ! Table of parts
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADPARTS_FRIC           ! Table of adress of couple of parts
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IFRICORTH              ! Table of Orthotropic type of couple of parts 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IFRICORTH              ! Table of Orthotropic type of couple of parts
       my_real,DIMENSION(:), ALLOCATABLE :: TABCOEF_FRIC            ! Table of friction coefficients
 
       END TYPE INTBUF_FRIC_STRUCT_
@@ -82,7 +82,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -125,7 +125,7 @@ C--------------------------------------
         LEN    = NSET
         CALL WRITE_I_C(INTBUF_FRIC_TAB(N)%TABCOUPLEPARTS_FRIC,LEN)
 
-        LEN    = INTBUF_FRIC_TAB(N)%S_TABPARTS_FRIC 
+        LEN    = INTBUF_FRIC_TAB(N)%S_TABPARTS_FRIC
         CALL WRITE_I_C(INTBUF_FRIC_TAB(N)%TABPARTS_FRIC,LEN)
 
         LEN    = INTBUF_FRIC_TAB(N)%S_TABPARTS_FRIC +1
@@ -148,7 +148,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -161,7 +161,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSET 
+      INTEGER NSET
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -175,11 +175,11 @@ C--------------------------------------
         NSET = INTBUF_FRIC_TAB(N)%NSETPRTS
         IORTH = INTBUF_FRIC_TAB(N)%IORTHFRIC
         MFROT = INTBUF_FRIC_TAB(N)%FRICMOD
-        IF(MFROT ==0 ) THEN   
-           LENC =2  
+        IF(MFROT ==0 ) THEN
+           LENC =2
         ELSE
            LENC = 8
-        ENDIF 
+        ENDIF
         IF(IORTH == 0) THEN
            LEN    =LENC*(NSET+1)
            CALL WRITE_DB(INTBUF_FRIC_TAB(N)%TABCOEF_FRIC,LEN)
@@ -203,7 +203,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -285,7 +285,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -310,8 +310,8 @@ C--------------------------------------
         NSET = INTBUF_FRIC_TAB(N)%NSETPRTS
         IORTH = INTBUF_FRIC_TAB(N)%IORTHFRIC
         MFROT = INTBUF_FRIC_TAB(N)%FRICMOD
-        IF(MFROT ==0 ) THEN   
-           LENC =2  
+        IF(MFROT ==0 ) THEN
+           LENC =2
         ELSE
            LENC = 8
         ENDIF

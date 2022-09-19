@@ -70,9 +70,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,ILAW
 C     REAL
-      my_real 
+      my_real
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
-      my_real, 
+      my_real,
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
 C=======================================================================
       IF (IREP == 1) THEN
@@ -81,55 +81,55 @@ C=======================================================================
           J = (N-1)*NEL*2
 !    or    J = 2*(N-1)
           DO I=JFT,JLT
-            AA = DIR1(I)                          
-            BB = DIR1(I + NEL)                         
-            V1 = AA*RX(I) + BB*SX(I)                
-            V2 = AA*RY(I) + BB*SY(I)                
-            V3 = AA*RZ(I) + BB*SZ(I)                
-            VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-            VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+            AA = DIR1(I)
+            BB = DIR1(I + NEL)
+            V1 = AA*RX(I) + BB*SX(I)
+            V2 = AA*RY(I) + BB*SY(I)
+            V3 = AA*RZ(I) + BB*SZ(I)
+            VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+            VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
-            DIR_A(J+I)     = VR/SUMA  		  
-            DIR_A(J+I+NEL) = VS/SUMA     
-!    or      DIR_A(I,J+1) = VR/SUMA                    
+            DIR_A(J+I)     = VR/SUMA  		
+            DIR_A(J+I+NEL) = VS/SUMA
+!    or      DIR_A(I,J+1) = VR/SUMA
 !            DIR_A(I,J+2) = VS/SUMA
-          ENDDO                                     
-        ENDDO                                       
-      ELSEIF (IREP == 2) THEN                       
-        DO N=1,NLAY                                  
+          ENDDO
+        ENDDO
+      ELSEIF (IREP == 2) THEN
+        DO N=1,NLAY
           DIR1 => ELBUF_STR%BUFLY(N)%DIRA
           DIR2 => ELBUF_STR%BUFLY(N)%DIRB
           J = (N-1)*NEL*2
 !    or    J = 2*(N-1)
-          DO I=JFT,JLT                              
+          DO I=JFT,JLT
 C---        Axe I                                   
-            AA = DIR1(I)                        
-            BB = DIR1(I + NEL)                       
-            V1 = AA*RX(I) + BB*SX(I)                
-            V2 = AA*RY(I) + BB*SY(I)                
-            V3 = AA*RZ(I) + BB*SZ(I)                
-            VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-            VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-            SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-            DIR_A(J+I)     = VR/SUMA		     
-            DIR_A(J+I+NEL) = VS/SUMA		     
-!    or      DIR_A(I,J+1) = VR/SUMA                    
+            AA = DIR1(I)
+            BB = DIR1(I + NEL)
+            V1 = AA*RX(I) + BB*SX(I)
+            V2 = AA*RY(I) + BB*SY(I)
+            V3 = AA*RZ(I) + BB*SZ(I)
+            VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+            VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+            SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)
+            DIR_A(J+I)     = VR/SUMA		
+            DIR_A(J+I+NEL) = VS/SUMA		
+!    or      DIR_A(I,J+1) = VR/SUMA
 !            DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
-            AA = DIR2(I)                         
-            BB = DIR2(I + NEL)                         
-            V1 = AA*RX(I) + BB*SX(I)                
-            V2 = AA*RY(I) + BB*SY(I)                
-            V3 = AA*RZ(I) + BB*SZ(I)                
-            VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-            VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-            SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-            DIR_B(J+I)     = VR/SUMA		     
-            DIR_B(J+I+NEL) = VS/SUMA		     
-!    or      DIR_B(I,J+1) = VR/SUMA                    
+            AA = DIR2(I)
+            BB = DIR2(I + NEL)
+            V1 = AA*RX(I) + BB*SX(I)
+            V2 = AA*RY(I) + BB*SY(I)
+            V3 = AA*RZ(I) + BB*SZ(I)
+            VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+            VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+            SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)
+            DIR_B(J+I)     = VR/SUMA		
+            DIR_B(J+I+NEL) = VS/SUMA		
+!    or      DIR_B(I,J+1) = VR/SUMA
 !            DIR_B(I,J+2) = VS/SUMA
-          ENDDO                                     
-        ENDDO                                       
+          ENDDO
+        ENDDO
       ELSEIF (IREP == 3) THEN
 C   mixing law58 with other user laws with IREP = 0 within PID51
         DO N=1,NLAY
@@ -139,32 +139,32 @@ C   mixing law58 with other user laws with IREP = 0 within PID51
             DIR2 => ELBUF_STR%BUFLY(N)%DIRB
             J = (N-1)*NEL*2
 !    or      J = 2*(N-1)
-            DO I=JFT,JLT                              
+            DO I=JFT,JLT
 C---        Axe I                                   
-              AA = DIR1(I)                        
-              BB = DIR1(I + NEL)                       
-              V1 = AA*RX(I) + BB*SX(I)                
-              V2 = AA*RY(I) + BB*SY(I)                
-              V3 = AA*RZ(I) + BB*SZ(I)                
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA		       
-!     or       DIR_A(I,J+1) = VR/SUMA                    
+              AA = DIR1(I)
+              BB = DIR1(I + NEL)
+              V1 = AA*RX(I) + BB*SX(I)
+              V2 = AA*RY(I) + BB*SY(I)
+              V3 = AA*RZ(I) + BB*SZ(I)
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)
+              DIR_A(J+I)     = VR/SUMA		
+              DIR_A(J+I+NEL) = VS/SUMA		
+!     or       DIR_A(I,J+1) = VR/SUMA
 !              DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
-              AA = DIR2(I)                         
-              BB = DIR2(I + NEL)                         
-              V1 = AA*RX(I) + BB*SX(I)                
-              V2 = AA*RY(I) + BB*SY(I)                
-              V3 = AA*RZ(I) + BB*SZ(I)                
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_B(J+I)     = VR/SUMA		       
-              DIR_B(J+I+NEL) = VS/SUMA		       
-!    or        DIR_B(I,J+1) = VR/SUMA                    
+              AA = DIR2(I)
+              BB = DIR2(I + NEL)
+              V1 = AA*RX(I) + BB*SX(I)
+              V2 = AA*RY(I) + BB*SY(I)
+              V3 = AA*RZ(I) + BB*SZ(I)
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)
+              DIR_B(J+I)     = VR/SUMA		
+              DIR_B(J+I+NEL) = VS/SUMA		
+!    or        DIR_B(I,J+1) = VR/SUMA
 !              DIR_B(I,J+2) = VS/SUMA
             ENDDO
           ELSE  ! IREP = 0 within PID51
@@ -174,7 +174,7 @@ C---        Axe II
             DO I=JFT,JLT
               DIR_A(J+I)     = DIR1(I)
               DIR_A(J+I+NEL) = DIR1(I+NEL)
-!    or        DIR_A(I,J+1) = VR/SUMA                    
+!    or        DIR_A(I,J+1) = VR/SUMA
 !              DIR_A(I,J+2) = VS/SUMA
             ENDDO
           ENDIF
@@ -188,32 +188,32 @@ C   mixing law58 with other user laws with IREP = 1 within PID51
             DIR2 => ELBUF_STR%BUFLY(N)%DIRB
             J = (N-1)*NEL*2
 !    or      J = 2*(N-1)
-            DO I=JFT,JLT                              
+            DO I=JFT,JLT
 C---        Axe I                                   
-              AA = DIR1(I)                        
-              BB = DIR1(I + NEL)                       
-              V1 = AA*RX(I) + BB*SX(I)                
-              V2 = AA*RY(I) + BB*SY(I)                
-              V3 = AA*RZ(I) + BB*SZ(I)                
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_A(J+I)     = VR/SUMA		       
-              DIR_A(J+I+NEL) = VS/SUMA		       
-!    or        DIR_A(I,J+1) = VR/SUMA                    
+              AA = DIR1(I)
+              BB = DIR1(I + NEL)
+              V1 = AA*RX(I) + BB*SX(I)
+              V2 = AA*RY(I) + BB*SY(I)
+              V3 = AA*RZ(I) + BB*SZ(I)
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)
+              DIR_A(J+I)     = VR/SUMA		
+              DIR_A(J+I+NEL) = VS/SUMA		
+!    or        DIR_A(I,J+1) = VR/SUMA
 !              DIR_A(I,J+2) = VS/SUMA
 C---        Axe II                                  
-              AA = DIR2(I)                         
-              BB = DIR2(I + NEL)                         
-              V1 = AA*RX(I) + BB*SX(I)                
-              V2 = AA*RY(I) + BB*SY(I)                
-              V3 = AA*RZ(I) + BB*SZ(I)                
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
-              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)  
-              DIR_B(J+I)     = VR/SUMA		       
-              DIR_B(J+I+NEL) = VS/SUMA		       
-!     or       DIR_B(I,J+1) = VR/SUMA                    
+              AA = DIR2(I)
+              BB = DIR2(I + NEL)
+              V1 = AA*RX(I) + BB*SX(I)
+              V2 = AA*RY(I) + BB*SY(I)
+              V3 = AA*RZ(I) + BB*SZ(I)
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+              SUMA = MAX( SQRT(VR*VR + VS*VS), EM20)
+              DIR_B(J+I)     = VR/SUMA		
+              DIR_B(J+I+NEL) = VS/SUMA		
+!     or       DIR_B(I,J+1) = VR/SUMA
 !              DIR_B(I,J+2) = VS/SUMA
             ENDDO
           ELSE  ! IREP = 1 within PID51
@@ -221,17 +221,17 @@ C---        Axe II
             J = (N-1)*NEL*2
 !    or      J = 2*(N-1)
             DO I=JFT,JLT
-              AA = DIR1(I)                          
-              BB = DIR1(I + NEL)                         
-              V1 = AA*RX(I) + BB*SX(I)                
-              V2 = AA*RY(I) + BB*SY(I)                
-              V3 = AA*RZ(I) + BB*SZ(I)                
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+              AA = DIR1(I)
+              BB = DIR1(I + NEL)
+              V1 = AA*RX(I) + BB*SX(I)
+              V2 = AA*RY(I) + BB*SY(I)
+              V3 = AA*RZ(I) + BB*SZ(I)
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
               SUMA=SQRT(VR*VR + VS*VS)
-              DIR_A(J+I)     = VR/SUMA		       
+              DIR_A(J+I)     = VR/SUMA		
               DIR_A(J+I+NEL) = VS/SUMA	
-!    or        DIR_A(I,J+1) = VR/SUMA                    
+!    or        DIR_A(I,J+1) = VR/SUMA
 !              DIR_A(I,J+2) = VS/SUMA
             ENDDO
           ENDIF

@@ -184,7 +184,7 @@ C--------------------------------------
 !
       !translation from Working unit System to {big bang} unit system
       FAC_M_bb = FAC_MASS*EP03
-      FAC_L_bb = FAC_LENGTH*EP02 
+      FAC_L_bb = FAC_LENGTH*EP02
       FAC_T_bb = FAC_TIME*EP06
 !
       IF (A == ZERO)    A = GAM0-HALF
@@ -246,7 +246,7 @@ C
       C2=G0AX*(D2+THREE_HALF*RP)*RHOR/(ONE-X)
      .   +ALPHAP*XM*(XLAMJ+G0AX)*RHOR/(ONE-X)
      .   -RP*RHOR*((ONE+ZJ+ZJ**2-ZJ**3)/(ONE-ZJ)**3)/(ONE-X)
-      C3=GAME*GP*RHOR*HALF/(ONE-X)      
+      C3=GAME*GP*RHOR*HALF/(ONE-X)
 C
       PM(24)=D2
       PM(25)=D3
@@ -276,7 +276,7 @@ C
 C--------------------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU)      
+      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU)
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
       IF (ANU >= 0.49) THEN
@@ -290,7 +290,7 @@ c-----------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1002)RHO0,RHOR  
+        WRITE(IOUT,1002)RHO0,RHOR
         WRITE(IOUT,1300)YOUNG,ANU,G
         WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM
         WRITE(IOUT,1500)C0,C,S,GAM0,A,AW,PMIN,E0
@@ -312,11 +312,11 @@ C--------------------
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
-      MTAG%G_TEMP  = 1    
-      MTAG%G_EPSD  = 1    
+      MTAG%G_PLA   = 1
+      MTAG%G_TEMP  = 1
+      MTAG%G_EPSD  = 1
 c
-      MTAG%L_PLA   = 1 
+      MTAG%L_PLA   = 1
       MTAG%L_TEMP  = 1
       MTAG%L_EPSD  = 1
       MTAG%L_XST   = 1

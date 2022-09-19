@@ -66,7 +66,7 @@ C     REAL
      .   SLSFAC, GAP
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), NSEG(*), LNSV(*), IELE(*),
-     .   KNOD2ELS(*), NOD2ELS(*), 
+     .   KNOD2ELS(*), NOD2ELS(*),
      .   IXS10(*), IXS16(*), IXS20(*)
 C     REAL
       my_real
@@ -121,7 +121,7 @@ C----------------------
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=I)
-           ENDIF            
+           ENDIF
            IF(NINT<0) THEN
               CALL ANCMSG(MSGID=93,
      .                    MSGTYPE=MSGWARNING,

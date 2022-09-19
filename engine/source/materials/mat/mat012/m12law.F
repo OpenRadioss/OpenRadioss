@@ -34,7 +34,7 @@ Chd|====================================================================
      2                   SIGF ,EPSF ,DAM   ,EPE  ,EPC  ,
      3                   A    ,VOL  ,RX    ,RY   ,RZ   ,
      4                   SX   ,SY   ,SZ    ,MAT  ,VNEW ,
-     5                   DVOL ,SSP  ,D1    ,D2   ,D3   , 
+     5                   DVOL ,SSP  ,D1    ,D2   ,D3   ,
      6                   D4   ,D5   ,D6    ,SOLD1,SOLD2,
      7                   SOLD3,SOLD4,SOLD5 ,SOLD6,SIGY ,
      8                   DEFP ,NGL  ,SEQ_OUTPUT  ,NEL  ,EOSTYP,
@@ -69,7 +69,7 @@ C-----------------------------------------------
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), PLA(*), SIGF(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),
      .   EPSF(*), DAM(NEL,5), EPE(NEL,3), EPC(NEL,3), A(MVSIZ,6), VOL(*),
-     .   VNEW(MVSIZ), DVOL(MVSIZ), SSP(MVSIZ), 
+     .   VNEW(MVSIZ), DVOL(MVSIZ), SSP(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ), SOLD4(MVSIZ),
      .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*)
@@ -82,16 +82,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD1(MVSIZ), KD2(MVSIZ), KD3(MVSIZ), 
+      INTEGER KD1(MVSIZ), KD2(MVSIZ), KD3(MVSIZ),
      .   KD4(MVSIZ),ICC(MVSIZ),
      .   I, IDAM, KDX, MX, NINDX, INDEX(MVSIZ), J, ICC_1
 C     REAL
       my_real
-     .   AX(MVSIZ), AY(MVSIZ), AZ(MVSIZ), BX(MVSIZ), BY(MVSIZ), 
+     .   AX(MVSIZ), AY(MVSIZ), AZ(MVSIZ), BX(MVSIZ), BY(MVSIZ),
      .   BZ(MVSIZ), CX(MVSIZ), CY(MVSIZ),CZ(MVSIZ),
      .   WVEC(MVSIZ),S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
      .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ),T4(MVSIZ),T5(MVSIZ),T6(MVSIZ),
-     .   E1(MVSIZ), E2(MVSIZ), E3(MVSIZ),E4(MVSIZ),E5(MVSIZ),E6(MVSIZ), 
+     .   E1(MVSIZ), E2(MVSIZ), E3(MVSIZ),E4(MVSIZ),E5(MVSIZ),E6(MVSIZ),
      .   HARD(MVSIZ), SIGMY(MVSIZ), ALPHA(MVSIZ), EFIB(MVSIZ),
      .   EPSFT(MVSIZ), EPSFC(MVSIZ), SIGEQ(MVSIZ), P(MVSIZ),
      .   D11(MVSIZ), D12(MVSIZ), D13(MVSIZ), D22(MVSIZ),
@@ -112,7 +112,7 @@ C     REAL
      .   ENER(MVSIZ)
       my_real
      .   FIB, CA, SIGMX, EPSP, DT5 ,
-     .   SIGYM,CA_1, CB_1, CN_1, CC_1, 
+     .   SIGYM,CA_1, CB_1, CN_1, CC_1,
      .   EPDR_1,ALPHA_1,F1_1,F2_1,F3_1,
      .   F4_1,F5_1,F6_1,F11_1,F22_1,
      .   F33_1,F44_1,F55_1,F66_1,F12_1,
@@ -121,7 +121,7 @@ C     REAL
      .   D13_1,D22_1,D23_1,D33_1,G12_1,
      .   G23_1,G31_1,WPLAREF,DWPLA
 C=======================================================================
-     
+
       IF(NCYCLE==0 .AND. IRUN==1) THEN
         DO  I=LFT,LLT
          KD1(I) = 0
@@ -138,7 +138,7 @@ C=======================================================================
           KDX    = KDX - KD2(I)*100
           KD3(I) = KDX/10
           KD4(I) = KDX - KD3(I)*10
-          
+
         ENDDO
       ENDIF
 C------------------
@@ -155,10 +155,10 @@ C
 C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
 C--------------------------------------------
-        CALL M14AMA(PM, A,  RX, RY, RZ, SX, 
+        CALL M14AMA(PM, A,  RX, RY, RZ, SX,
      2              SY, SZ, AX, AY, AZ, BX,
      3              BY, BZ, CX, CY, CZ)
-        CALL M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,  
+        CALL M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,
      2              BZ ,CX ,CY ,CZ ,D1 ,D2,
      3              D3 ,D4 ,D5 ,D6 ,T1 ,T2,
      4              T3 ,T4 ,T5 ,T6 ,E1 ,E2,
@@ -213,7 +213,7 @@ C
          SIGT2(I)= PM(82,MX)
          SIGT3(I)= PM(83,MX)
          SSP(I)  = PM(49,MX)
-         DELTA(I)= PM(79,MX) 
+         DELTA(I)= PM(79,MX)
       ENDDO
 C
       IF(NINDX/=0)THEN
@@ -380,10 +380,10 @@ C------------------
         DO  I=LFT,LLT
           EFIB(I) =PM(38,MX)
           EPSFT(I)=PM(84,MX)
-	      EPSFC(I)=PM(85,MX) 
+	      EPSFC(I)=PM(85,MX)
 	      EPSF(I) = EPSF(I)+ E1(I)
           SIGF(I) = EFIB(I)*EPSF(I)
-        ENDDO 
+        ENDDO
 C
 C DEACTIVATED (DAM4 AND DAM5 TEMPORARILY USED FOR GENERAL DAMAGE INFO)
 C   
@@ -497,7 +497,7 @@ C-----------------------------------
            T3(I)=ZERO
            T1(I)=T1(I)-D13(I)*E3(I)*DAM(I,3)
            T2(I)=T2(I)-D23(I)*E3(I)*DAM(I,3)
-         ENDIF  
+         ENDIF
       ENDDO
 C---------------------
 C     PLASTICITY START
@@ -614,7 +614,7 @@ C
      .      TWO*DP5(I)*(T5(I)+SO5(I))+
      .      TWO*DP6(I)*(T6(I)+SO6(I)))
         DWPLA = MAX(DWPLA ,ZERO) / WPLAREF
-        PLA(I) = PLA(I) + DWPLA  
+        PLA(I) = PLA(I) + DWPLA
         PLA(I)= MAX(PLA(I),ZERO)
       ENDDO
 C-------------------
@@ -623,7 +623,7 @@ C-------------------
 C--------------------------------------------
 C     STRESS TRANSFORMATION (FIBER -> GLOBAL)
 C--------------------------------------------
-        CALL M14FTG(SIG,AX ,AY ,AZ ,BX ,BY ,  
+        CALL M14FTG(SIG,AX ,AY ,AZ ,BX ,BY ,
      2              BZ ,CX ,CY ,CZ ,T1 ,T2 ,
      3              T3 ,T4 ,T5 ,T6 ,NEL)
 C
@@ -655,7 +655,7 @@ C
        SIGYM = MAX(EM20,HALF*(ONE/F11(I)+ONE/F22(I)))
        SIGY(I)=SIGMY(I)*SQRT(SIGYM)
        DEFP(I)=PLA(I)
-      ENDDO 
+      ENDDO
 C------------------------------------------------------------------------
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
  6001 FORMAT(I6,' FAIL(14)   E(',I5,')   M(',A3,')   T(',6E10.3,')')

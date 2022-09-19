@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEL, I,  N1 , N2,  N3, N4, N5, N6, N7, N8, 
+      INTEGER IEL, I,  N1 , N2,  N3, N4, N5, N6, N7, N8,
      .         N9 , N10, N11, N12, N13, N14, N15, N16,
      .         N17, N18, N19, N20, NALL
 C
@@ -68,7 +68,7 @@ C
       N17 =IXS20(9,IEL)
       N18 =IXS20(10,IEL)
       N19 =IXS20(11,IEL)
-      N20 =IXS20(12,IEL)         
+      N20 =IXS20(12,IEL)
          NALL=ETAG(N1)*ETAG(N2)*ETAG(N3)*ETAG(N4)
      .       *ETAG(N5)*ETAG(N6)*ETAG(N7)*ETAG(N8)
      .       *ETAG(N9)*ETAG(N10)*ETAG(N11)*ETAG(N12)
@@ -79,4 +79,4 @@ C
 C
       RETURN
       END
-      
+

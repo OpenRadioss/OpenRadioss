@@ -139,9 +139,9 @@ C
           EYYDP(I)= ONE
           EZYDP(I)= ZERO	
         ELSE
-          EXXDP(I)=EXXDP(I)/ALDP(I) 
-          EYXDP(I)=EYXDP(I)/ALDP(I) 
-          EZXDP(I)=EZXDP(I)/ALDP(I) 
+          EXXDP(I)=EXXDP(I)/ALDP(I)
+          EYXDP(I)=EYXDP(I)/ALDP(I)
+          EZXDP(I)=EZXDP(I)/ALDP(I)
         ENDIF
       ENDDO
 C
@@ -188,7 +188,7 @@ C--------------------------------------------
         THETA(I) = (RX1DP+RX2DP)/TWO*DT05
         SUM2(I)  = MAX(EM15,SQRT(EXY2DP(I)**2+EYY2DP(I)**2+EZY2DP(I)**2))
         SUM3(I)  = MAX(EM15,SQRT(EXZ2DP(I)**2+EYZ2DP(I)**2+EZZ2DP(I)**2))
-        CC = COS(THETA(I))  
+        CC = COS(THETA(I))
         SS = SIN(THETA(I))
         COST2(I) = CC/SUM2(I)
         SINT2(I) = SS/SUM3(I)
@@ -214,16 +214,16 @@ C
         SUM(I)   =MAX(EM15,SQRT(EXYDP(I)*EXYDP(I)+
      .                          EYYDP(I)*EYYDP(I)+
      .                          EZYDP(I)*EZYDP(I)))
-        EXYDP(I)=EXYDP(I)/SUM(I) 
-        EYYDP(I)=EYYDP(I)/SUM(I) 
+        EXYDP(I)=EXYDP(I)/SUM(I)
+        EYYDP(I)=EYYDP(I)/SUM(I)
         EZYDP(I)=EZYDP(I)/SUM(I)
 C
         SUM(I)   =MAX(EM15,SQRT(EXY2DP(I)*EXY2DP(I)+
      .                          EYY2DP(I)*EYY2DP(I)+
      .                          EZY2DP(I)*EZY2DP(I)))
-        EXY2DP(I)=EXY2DP(I)/SUM(I) 
-        EYY2DP(I)=EYY2DP(I)/SUM(I) 
-        EZY2DP(I)=EZY2DP(I)/SUM(I) 
+        EXY2DP(I)=EXY2DP(I)/SUM(I)
+        EYY2DP(I)=EYY2DP(I)/SUM(I)
+        EZY2DP(I)=EZY2DP(I)/SUM(I)
       ENDDO
 C
       DO I=LFT,LLT
@@ -240,15 +240,15 @@ C
         SUM(I)   =MAX(EM15,SQRT(EXZDP(I)*EXZDP(I)+
      .                          EYZDP(I)*EYZDP(I)+
      .                          EZZDP(I)*EZZDP(I)))
-        EXZDP(I)=EXZDP(I)/SUM(I) 
-        EYZDP(I)=EYZDP(I)/SUM(I) 
-        EZZDP(I)=EZZDP(I)/SUM(I) 
+        EXZDP(I)=EXZDP(I)/SUM(I)
+        EYZDP(I)=EYZDP(I)/SUM(I)
+        EZZDP(I)=EZZDP(I)/SUM(I)
 C
         SUM(I)   =MAX(EM15,SQRT(EXZ2DP(I)*EXZ2DP(I)+
      .                          EYZ2DP(I)*EYZ2DP(I)+
      .                          EZZ2DP(I)*EZZ2DP(I)))
-        EXZ2DP(I)=EXZ2DP(I)/SUM(I) 
-        EYZ2DP(I)=EYZ2DP(I)/SUM(I) 
+        EXZ2DP(I)=EXZ2DP(I)/SUM(I)
+        EYZ2DP(I)=EYZ2DP(I)/SUM(I)
         EZZ2DP(I)=EZZ2DP(I)/SUM(I)
       ENDDO
 C

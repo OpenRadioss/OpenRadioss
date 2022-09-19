@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NALE(NUMNOD),NODFT,NODLT
-      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD)  
+      my_real X(3,NUMNOD), D(3,NUMNOD), V(3,NUMNOD)
       REAL(kind=8), DIMENSION(3,*), INTENT(INOUT) :: DDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -74,7 +74,7 @@ C-----------------------------------------------
                 DDP(2,N)= D(2,N)
                 DDP(3,N)= D(3,N)
             ENDDO
-        ENDIF    
+        ENDIF
 C-----------------------------------------------       
       RETURN
       END

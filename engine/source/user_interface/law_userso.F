@@ -134,7 +134,7 @@ C
         my_real SIGOXY(MVSIZ)
         my_real SIGOYZ(MVSIZ)
         my_real SIGOZX(MVSIZ)
-        
+
         my_real RHO0(MVSIZ)
         my_real TEMP(MVSIZ)      ! temperature
 C-----------------------------------------------
@@ -153,12 +153,12 @@ C
         my_real SIGVXY(MVSIZ)
         my_real SIGVYZ(MVSIZ)
         my_real SIGVZX(MVSIZ)
-    
+
         my_real DPLA(MVSIZ)
-      
+
        END TYPE ULAWINTBUF
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       END MODULE LAW_USERSO
-      
+

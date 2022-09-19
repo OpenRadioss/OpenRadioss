@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        IDP_FREE                      source/system/machine.F       
 Chd|        IDP_LOCK                      source/system/machine.F       
 Chd|====================================================================
-      SUBROUTINE BAFIL2(PM,V,W,FILL,DFILL,IMS,X,ALPH1,ALPH2, 
-     .     AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
+      SUBROUTINE BAFIL2(PM,V,W,FILL,DFILL,IMS,X,ALPH1,ALPH2,
+     .     AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2,
      .     MAT, NC1, NC2, NC3, NC4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,11 +60,11 @@ C-----------------------------------------------
       INTEGER I, N1, N2, N3, N4,
      .   NP
       my_real
-!     .   GAMMA(MVSIZ), 
+!     .   GAMMA(MVSIZ),
 !     .   XMS(MVSIZ),
-     .   FI1(MVSIZ), FI2(MVSIZ), FI3(MVSIZ), FI4(MVSIZ), 
+     .   FI1(MVSIZ), FI2(MVSIZ), FI3(MVSIZ), FI4(MVSIZ),
      .   FA(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ), VDY3(MVSIZ), VDY4(MVSIZ),
-     .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ), 
+     .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),
      .   ABF, DN, P1, P2, P3, P4, PT, PSY, PSZ, PTY,
      .   PTZ, PS, PST, PTS, DS0, DT0, DS, DT,
      .   DF1(MVSIZ), DF2(MVSIZ), DF3(MVSIZ), DF4(MVSIZ)
@@ -91,7 +91,7 @@ C-------------------------------
         IF(DN/=ZERO)THEN
          FA(I)=-DALPH1(I)*ABF/DN
         ELSE
-         FA(I)=ZERO     
+         FA(I)=ZERO
         ENDIF
       ENDDO
 C-----------------------------------------------
@@ -117,7 +117,7 @@ C-----------------------------------------------
         P1=FI1(I) + ONE
         P2=FI2(I) + ONE
         P3=FI3(I) + ONE
-        P4=FI4(I) + ONE      
+        P4=FI4(I) + ONE
         PT=(P1+P2+P3+P4)
         PT=MAX(EM15,PT)
         VDY(I)=(VDY1(I)*P1+VDY2(I)*P2+VDY3(I)*P3+VDY4(I)*P4)/PT
@@ -134,7 +134,7 @@ C-----------------------------------------------
         PST=PSY*PTZ-PSZ*PTY
         PTS=-PST
         DS0=-FOUR*(PTY*VDZ(I)-PTZ*VDY(I))/PTS
-        DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST      
+        DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST
         IF(FI1(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
          DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST
@@ -143,14 +143,14 @@ C-----------------------------------------------
          DT=DT0
         ENDIF
         DS=MAX(ZERO,TWO*DS)
-        DT=MAX(ZERO,TWO*DT)      
+        DT=MAX(ZERO,TWO*DT)
         DF1(I)=FOURTH*((-TWO*DS-TWO*DT+DS*DT*DT1)*FI1(I)
      .              + (         TWO*DS-DS*DT*DT1)*FI2(I)
      .              + (                 DS*DT*DT1)*FI3(I)
      .              + (         TWO*DT-DS*DT*DT1)*FI4(I) )
         IF(FI2(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ2(I)-PTZ*VDY2(I))/PTS
-         DT=-FOUR*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST       
+         DT=-FOUR*(PSY*VDZ2(I)-PSZ*VDY2(I))/PST
         ELSE
          DS=DS0
          DT=DT0
@@ -159,11 +159,11 @@ C-----------------------------------------------
         DT=MAX(ZERO,TWO*DT)
            DF2(I)=FOURTH*((        -TWO*DS+DS*DT*DT1)*FI1(I)
      .                 + ( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
-     .                 + (        +TWO*DT+DS*DT*DT1)*FI3(I)     
+     .                 + (        +TWO*DT+DS*DT*DT1)*FI3(I)
      .                 + (                -DS*DT*DT1)*FI4(I) )
         IF(FI3(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ3(I)-PTZ*VDY3(I))/PTS
-         DT=-FOUR*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST       
+         DT=-FOUR*(PSY*VDZ3(I)-PSZ*VDY3(I))/PST
         ELSE
          DS=DS0
          DT=DT0
@@ -191,7 +191,7 @@ C-----------------------------------------------
 
       CALL IDP_LOCK(2)
 
-      DO I = LFT,LLT 
+      DO I = LFT,LLT
         DFILL(NC1(I),1)=DFILL(NC1(I),1)+DF1(I)-FA(I)
         DFILL(NC2(I),1)=DFILL(NC2(I),1)+DF2(I)-FA(I)
         DFILL(NC3(I),1)=DFILL(NC3(I),1)+DF3(I)-FA(I)
@@ -231,7 +231,7 @@ C-----------------------------------------------
         P1=FI1(I) + ONE
         P2=FI2(I) + ONE
         P3=FI3(I) + ONE
-        P4=FI4(I) + ONE     
+        P4=FI4(I) + ONE
         PT=(P1+P2+P3+P4)
         PT=MAX(EM15,PT)
         VDY(I)=(VDY1(I)*P1+VDY2(I)*P2+VDY3(I)*P3+VDY4(I)*P4)/PT
@@ -251,13 +251,13 @@ C-----------------------------------------------
         DT0=-FOUR*(PSY*VDZ(I)-PSZ*VDY(I))/PST
         IF(FI1(I)>=ZERO)THEN
          DS=-FOUR*(PTY*VDZ1(I)-PTZ*VDY1(I))/PTS
-         DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST       
+         DT=-FOUR*(PSY*VDZ1(I)-PSZ*VDY1(I))/PST
         ELSE
          DS=DS0
          DT=DT0
         ENDIF
         DS=MAX(ZERO,TWO*DS)
-        DT=MAX(ZERO,TWO*DT)     
+        DT=MAX(ZERO,TWO*DT)
         DF1(I)=FOURTH*((-TWO*DS-TWO*DT+DS*DT*DT1)*FI1(I)
      .              +( TWO*DS         -DS*DT*DT1)*FI2(I)
      .              +(                  DS*DT*DT1)*FI3(I)
@@ -270,7 +270,7 @@ C-----------------------------------------------
          DT=DT0
         ENDIF
         DS=MIN(ZERO,TWO*DS)
-        DT=MAX(ZERO,TWO*DT)      
+        DT=MAX(ZERO,TWO*DT)
         DF2(I)=FOURTH*((-TWO*DS       +DS*DT*DT1)*FI1(I)
      .              +( TWO*DS-TWO*DT-DS*DT*DT1)*FI2(I)
      .              +(        +TWO*DT+DS*DT*DT1)*FI3(I)
@@ -300,7 +300,7 @@ C-----------------------------------------------
            DF4(I)=FOURTH*((       -TWO*DT+DS*DT*DT1)*FI1(I)
      .                 +(                -DS*DT*DT1)*FI2(I)
      .                 +(+TWO*DS        +DS*DT*DT1)*FI3(I)
-     .                 +(-TWO*DS+TWO*DT-DS*DT*DT1)*FI4(I) )     
+     .                 +(-TWO*DS+TWO*DT-DS*DT*DT1)*FI4(I) )
       ENDDO !next I
 
       CALL IDP_LOCK(2)

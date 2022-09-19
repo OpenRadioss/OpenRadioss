@@ -87,9 +87,9 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD           
-      USE DRAPE_MOD  
-      USE NLOCAL_REG_MOD  
+      USE MATPARAM_DEF_MOD
+      USE DRAPE_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -147,11 +147,11 @@ C     REAL
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
       TYPE (XFEM_SKY_)    , DIMENSION(*) :: CRKSKY
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -159,7 +159,7 @@ C-----------------------------------------------
      .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,ILEV,IGMAT,IPTHK,IREP
       INTEGER MAT(MVSIZ),PID(MVSIZ),NDT(MVSIZ),NGL(MVSIZ),FWAVE(MVSIZ)
 C
-      my_real 
+      my_real
      .   STI(MVSIZ),STIR(MVSIZ),SIGY(MVSIZ),RHO(MVSIZ),
      .   X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),
      .   Y4(MVSIZ),Z2(MVSIZ),SSP(MVSIZ),VISCMX(MVSIZ),
@@ -167,42 +167,42 @@ C
      .   VY1(MVSIZ),VY2(MVSIZ),VY3(MVSIZ),VY4(MVSIZ),
      .   VZ1(MVSIZ),VZ2(MVSIZ),VZ3(MVSIZ),VZ4(MVSIZ),
      .   VX13(MVSIZ),VX24(MVSIZ),VY13(MVSIZ),VY24(MVSIZ),
-     .   VZ13(MVSIZ),VZ24(MVSIZ),THK02(MVSIZ), 
+     .   VZ13(MVSIZ),VZ24(MVSIZ),THK02(MVSIZ),
      .   X1G(MVSIZ),X2G(MVSIZ),X3G(MVSIZ),X4G(MVSIZ),
      .   Y1G(MVSIZ),Y2G(MVSIZ),Y3G(MVSIZ),Y4G(MVSIZ),
      .   Z1G(MVSIZ),Z2G(MVSIZ),Z3G(MVSIZ),Z4G(MVSIZ),
      .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),E2X(MVSIZ),
      .   E2Y(MVSIZ),E2Z(MVSIZ),E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ)
-      my_real 
+      my_real
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EXZ(MVSIZ),EYZ(MVSIZ),
      .   KXX(MVSIZ),KYY(MVSIZ),KXY(MVSIZ),PX1(MVSIZ),
      .   PX2(MVSIZ),PY1(MVSIZ),PY2(MVSIZ),THK0(MVSIZ),
      .   OFF(MVSIZ),NU(MVSIZ),SHF(MVSIZ),AREA(MVSIZ),
      .   G(MVSIZ),YM(MVSIZ),A11(MVSIZ),A12(MVSIZ),
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
-     .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3), 
+     .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3),VRL4(MVSIZ,3),
      .   DT1C(MVSIZ),DT2C(MVSIZ),ALDT(MVSIZ),ALPE(MVSIZ),VHX(MVSIZ),
      .   VHY(MVSIZ),DSUB(MVSIZ,3,4),DRSUB(MVSIZ,3,4),TSUB(MVSIZ),
      .   DTCSUB(MVSIZ),AREAS(MVSIZ),A_I(MVSIZ)
-      my_real 
+      my_real
      .   H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),VOL0(MVSIZ),VOL00(MVSIZ),
-     .   H11(MVSIZ),H12(MVSIZ),H13(MVSIZ),H14(MVSIZ),  
-     .   H21(MVSIZ),H22(MVSIZ),H23(MVSIZ),H24(MVSIZ),  
-     .   H31(MVSIZ),H32(MVSIZ),H33(MVSIZ),H34(MVSIZ),  
-     .   B11(MVSIZ),B12(MVSIZ),B13(MVSIZ),B14(MVSIZ),  
-     .   B21(MVSIZ),B22(MVSIZ),B23(MVSIZ),B24(MVSIZ),  
-     .   RX1(MVSIZ),RX2(MVSIZ),RX3(MVSIZ),RX4(MVSIZ), 
+     .   H11(MVSIZ),H12(MVSIZ),H13(MVSIZ),H14(MVSIZ),
+     .   H21(MVSIZ),H22(MVSIZ),H23(MVSIZ),H24(MVSIZ),
+     .   H31(MVSIZ),H32(MVSIZ),H33(MVSIZ),H34(MVSIZ),
+     .   B11(MVSIZ),B12(MVSIZ),B13(MVSIZ),B14(MVSIZ),
+     .   B21(MVSIZ),B22(MVSIZ),B23(MVSIZ),B24(MVSIZ),
+     .   RX1(MVSIZ),RX2(MVSIZ),RX3(MVSIZ),RX4(MVSIZ),
      .   RY1(MVSIZ),RY2(MVSIZ),RY3(MVSIZ),RY4(MVSIZ),
      .   ZCFAC(MVSIZ,2),GS(MVSIZ),SRH1(MVSIZ),SRH2(MVSIZ),SRH3(MVSIZ),
      .   DIE(MVSIZ),TEMPEL(MVSIZ),THEM(MVSIZ,4),
      .   UX1(MVSIZ),UX2(MVSIZ),UX3(MVSIZ),UX4(MVSIZ),
      .   UY1(MVSIZ),UY2(MVSIZ),UY3(MVSIZ),UY4(MVSIZ),A11R(MVSIZ),
      .   THKE0(MVSIZ)
-      my_real 
+      my_real
      .   BID,THKR
 C---
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB,DIR1_CRK,DIR2_CRK
       my_real,
      .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B
@@ -352,17 +352,17 @@ cc     9            GRTH   ,IGRTH   )
 cc        IF(JLT<JFT)RETURN
         ENDIF
 c
-        CALL CNVEC3(XFEM_STR,DIR_A   ,DIR_B   ,                     
-     1     JFT     ,JLT      ,IREP    ,IGTYP   ,NXLAY   ,           
-     2     X1G     ,X2G      ,X3G     ,X4G     ,Y1G     ,Y2G     ,  
-     3     Y3G     ,Y4G      ,Z1G     ,Z2G     ,Z3G     ,Z4G     ,  
-     4     E1X     ,E1Y      ,E1Z     ,E2X     ,E2Y     ,E2Z     ,  
-     5     E3X     ,E3Y      ,E3Z     ,NEL     )                             
+        CALL CNVEC3(XFEM_STR,DIR_A   ,DIR_B   ,
+     1     JFT     ,JLT      ,IREP    ,IGTYP   ,NXLAY   ,
+     2     X1G     ,X2G      ,X3G     ,X4G     ,Y1G     ,Y2G     ,
+     3     Y3G     ,Y4G      ,Z1G     ,Z2G     ,Z3G     ,Z4G     ,
+     4     E1X     ,E1Y      ,E1Z     ,E2X     ,E2Y     ,E2Z     ,
+     5     E3X     ,E3Y      ,E3Z     ,NEL     )
 C
         IF (ISMSTR /= 3) THEN
           CALL CDERI3(
      1      JFT ,JLT ,SMSTRG,OFFG,STI ,STIR,
-     2      AREA,PX1 ,PX2  ,PY1 ,PY2 ,X2  ,X3  ,X4  ,Y2  ,Y3  ,  
+     2      AREA,PX1 ,PX2  ,PY1 ,PY2 ,X2  ,X3  ,X4  ,Y2  ,Y3  ,
      3      Y4  ,Z2  ,X1G  ,X2G ,X3G ,X4G ,Y1G ,Y2G ,Y3G ,Y4G ,
      4      Z1G ,Z2G ,Z3G  ,Z4G ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,
      5      E3X ,E3Y ,E3Z  ,VHX ,VHY ,A_I ,UX1 ,UX2 ,UX3 ,UX4 ,
@@ -403,9 +403,9 @@ c         CDLEN3 must be always called for tissue property/law for time step cor
      3              E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,
      4              E3Z ,KXX ,KYY ,KXY ,EXZ ,EYZ ,
      5              BID ,ISMSTR   )
-        CALL CSTRA3(JFT    ,JLT      ,STRAG ,SHF    ,AREA, 
-     2              EXX    ,EYY      ,EXY      ,EXZ    ,EYZ ,   
-     3              KXX    ,KYY      ,KXY      ,DT1C   ,TANI, 
+        CALL CSTRA3(JFT    ,JLT      ,STRAG ,SHF    ,AREA,
+     2              EXX    ,EYY      ,EXY      ,EXZ    ,EYZ ,
+     3              KXX    ,KYY      ,KXY      ,DT1C   ,TANI,
      4              FORG   ,MOMG     ,ISMSTR   ,MTN ,
      6              IHBE   ,NFT      ,ISTRAIN  ,UX1    ,UX2 ,
      7              UX3    ,UX4      ,UY1      ,UY2    ,UY3 ,
@@ -479,12 +479,12 @@ c---------------------------------------------------
      2            PX2    ,PY1    ,PY2    ,SIGY   ,IXC   ,DT1C   ,
      3            SSP    ,RHO    ,STI    ,Z2     ,EANI  ,STIR   ,
      4            SHF    ,THK0   ,THK02  ,VISCMX ,G     ,A11    ,
-     5            H1     ,H2     ,H3     ,YM     ,NU    ,ALPE   , 
+     5            H1     ,H2     ,H3     ,YM     ,NU    ,ALPE   ,
      6            VHX    ,VHY    ,VX1    ,VX2    ,VX3   ,VX4    ,VY1,
      7            VY2 ,VY3 ,VY4,VZ1  ,VZ2  ,VZ3 ,VZ4 ,AREA   ,
      8            H11 ,H12 ,H13 ,H21 ,H22 ,H23  ,H31  ,H32  ,H33  ,
      9            B11 ,B12 ,B13 ,B14 ,B21 ,B22  ,B23  ,B24  ,
-     A            RX1 ,RX2 ,RX3 ,RX4 ,RY1 ,RY2  ,RY3  ,RY4, 
+     A            RX1 ,RX2 ,RX3 ,RX4 ,RY1 ,RY2  ,RY3  ,RY4,
      B            IPARTC,PARTSAV,
      C            IHBE   ,NFT     ,ISMSTR    ,SRH3, IGTYP ,
      D            IGMAT  ,A11R,  NEL)
@@ -497,7 +497,7 @@ c---------------------------------------------------
      6      H1  ,H2  ,H3 ,YM   ,NU  ,THK02,ALPE,H11 ,
      7      H12 ,H13 ,H21 ,H22 ,H23 ,H31  ,H32 ,H33 ,
      8      B11 ,B12 ,B13 ,B14 ,B21 ,B22  ,B23 ,B24 ,
-     9      RX1 ,RX2 ,RX3 ,RX4 ,RY1 ,RY2  ,RY3 ,RY4 , 
+     9      RX1 ,RX2 ,RX3 ,RX4 ,RY1 ,RY2  ,RY3 ,RY4 ,
      A      IPARTC,PARTSAV,
      B      IHBE   ,NFT     ,ISMSTR,KFTS   ,
      C      SRH1, SRH2, SRH3   , IGTYP ,
@@ -522,15 +522,15 @@ c        IFLAG = MOD(NCYCLE,NCPRI)
 C--------------------------
 C     PAS DE TEMPS
 C--------------------------
-       IF (ISMSTR /= 3 .AND.(NODADT == 0 .OR. IDTMIN(3) /= 0)) THEN 
-         CALL CDT3(JFT     ,JLT    ,YM        ,OFF    ,DT2T    ,        
-     2             NELTST  ,ITYPTST,STI       ,STIR   ,OFFG    ,        
-     3             DTCSUB  ,NDT    ,DT2C      ,IXC    ,SSP     ,        
-     4             VISCMX  ,PX1    ,PX2       ,PY1    ,PY2     ,        
-     5             VOL0    ,VOL00  ,RHO       ,ALDT   ,ALPE    ,        
-     6             INDXOF  ,NGL    ,ISMSTR    ,IOFC   ,MSC     ,        
-     7             DMELC   ,JSMS   ,GBUF%G_DT ,GBUF%DT)                                
-       ENDIF                                                        
+       IF (ISMSTR /= 3 .AND.(NODADT == 0 .OR. IDTMIN(3) /= 0)) THEN
+         CALL CDT3(JFT     ,JLT    ,YM        ,OFF    ,DT2T    ,
+     2             NELTST  ,ITYPTST,STI       ,STIR   ,OFFG    ,
+     3             DTCSUB  ,NDT    ,DT2C      ,IXC    ,SSP     ,
+     4             VISCMX  ,PX1    ,PX2       ,PY1    ,PY2     ,
+     5             VOL0    ,VOL00  ,RHO       ,ALDT   ,ALPE    ,
+     6             INDXOF  ,NGL    ,ISMSTR    ,IOFC   ,MSC     ,
+     7             DMELC   ,JSMS   ,GBUF%G_DT ,GBUF%DT)
+       ENDIF
 C----------------------------
 C     FORCES INTERNES + ASSEMBLE
 C----------------------------
@@ -541,17 +541,17 @@ C----------------------------
      5              H11    ,H12    ,H13     ,H21     ,H22    ,H23    ,
      6              H31    ,H32    ,H33     ,B11     ,B12    ,B13    ,
      7              B14    ,B21    ,B22     ,B23     ,B24    ,NEL    ,
-     8              M11    ,M12    ,M13     ,M14     ,M21    ,M22    , 
+     8              M11    ,M12    ,M13     ,M14     ,M21    ,M22    ,
      9              M23    ,M24    ,M31     ,M32     ,M33    ,M34    ,
      A              E1X    ,E1Y    ,E1Z     ,E2X     ,E2Y    ,E2Z    ,
      B              E3X    ,E3Y    ,E3Z     ,IHBE    ,NPTT    ,FZERO  )
 C-------------------------
-c     Thermique des coques 
+c     Thermique des coques
 C--------------------------
         IF (JTHE > 0) THEN
           CALL THERMC(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
      .                PX1   ,PX2   ,PY1    ,PY2     ,AREA  ,DT1C    ,
-     .                TEMP  ,TEMPEL,DIE   , THEM) 
+     .                TEMP  ,TEMPEL,DIE   , THEM)
         ENDIF
 C--------------------------
 C     THERMAL TIME STEP       --- to be added --- (see cforc3.F)

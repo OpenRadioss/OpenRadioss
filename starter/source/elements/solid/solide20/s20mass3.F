@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S20MASS3(
      1   MASS  ,MS  ,PARTSAV,IPART  ,MSS    ,VOLG,
-     2   XX    ,YY  ,ZZ     ,VX     ,VY     ,VZ,  
+     2   XX    ,YY  ,ZZ     ,VX     ,VY     ,VZ,
      3   NC    ,STI ,STIFN  ,DELTAX2,RHO    ,DTX,
      4   DTELEM,MSSX,RHOCP  ,MCP     ,MCPS  ,MCPSX,
      5   FILL  )
@@ -47,7 +47,7 @@ C-----------------------------------------------
       my_real
      .   MASS(*), MS(*),PARTSAV(20,*), MSS(8,*),DELTAX2(*),
      .   XX(MVSIZ,20), YY(MVSIZ,20), ZZ(MVSIZ,20),
-     .   VX(MVSIZ,20), VY(MVSIZ,20), VZ(MVSIZ,20),STI(*),STIFN(*), 
+     .   VX(MVSIZ,20), VY(MVSIZ,20), VZ(MVSIZ,20),STI(*),STIFN(*),
      .   VOLG(MVSIZ),RHO(MVSIZ),DTX(MVSIZ),DTELEM(MVSIZ),MSSX(12,*),
      .   RHOCP(*), MCP(*), MCPS(8,*),MCPSX(12,*), FILL(*)
 C-----------------------------------------------
@@ -205,7 +205,7 @@ C
      .         +VZ(I,5)+VZ(I,6)+VZ(I,7)+VZ(I,8))
      .    + BM*(VZ(I,9) +VZ(I,10)+VZ(I,11)+VZ(I,12)+VZ(I,13)+VZ(I,14)
      .         +VZ(I,15)+VZ(I,16)+VZ(I,17)+VZ(I,18)+VZ(I,19)+VZ(I,20))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * 
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF *
      .       (AM*(VX(I,1)*VX(I,1)+VX(I,2)*VX(I,2)
      .           +VX(I,3)*VX(I,3)+VX(I,4)*VX(I,4)
      .           +VX(I,5)*VX(I,5)+VX(I,6)*VX(I,6)
@@ -238,11 +238,11 @@ C
      .           +VZ(I,19)*VZ(I,19)+VZ(I,20)*VZ(I,20)))
        ENDDO
 C
-c --- for FEM solide heat trasnfert  
+c --- for FEM solide heat trasnfert
 c
        IF(JTHE < 0 ) THEN
         DO I=LFT,LLT
-          MASSCP=FILL(I)*RHOCP(I)*VOLG(I)        
+          MASSCP=FILL(I)*RHOCP(I)*VOLG(I)
           FAC=TRHEE_OVER_14
           AM = MASSCP*FAC/(EIGHT*FAC + TWELVE)
           BM = MASSCP*ONE/(EIGHT*FAC + TWELVE)
@@ -264,7 +264,7 @@ c
               MCPS(N2,I)=MCPS(N2,I)+ HALF*BM
             ENDIF
           ENDDO
-        ENDDO 
+        ENDDO
        ENDIF
 C-----------      
       RETURN
@@ -308,12 +308,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   DTX(MVSIZ)    
+     .   DTX(MVSIZ)
 C-----------------------------------------------
       DO I=LFT,LLT
 c        MASS(I)=RHO(I)*VOLU(I)
 c        DTELEM(I)=MIN(DTELEM(I),DTX(I))
-c        STI(I) = RHO(I) * VOLU(I) / 
+c        STI(I) = RHO(I) * VOLU(I) /
 c     .        MAX(EM20,DTX(I)*DTX(I))
         SIGG(I,1) = SIGG(I,1) + WIP * SIG(I,1)
         SIGG(I,2) = SIGG(I,2) + WIP * SIG(I,2)
@@ -349,7 +349,7 @@ Chd|====================================================================
      .           NEL     ,IUSER   ,IDEF    ,NSIGS  ,STRSGLOB,
      .           STRAGLOB,JHBE    ,IGTYP   ,X      ,BUFGAMA ,
      .           MAT     ,EPSP    ,L_PLA   ,PT     ,SIGB    ,
-     .           L_SIGB  ,IPM     ,BUFMAT  ,VOLDP  )      
+     .           L_SIGB  ,IPM     ,BUFMAT  ,VOLDP  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -358,7 +358,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
-#include       "scry_c.inc" 
+#include       "scry_c.inc"
 #include       "com01_c.inc"
 #include       "com04_c.inc"
 #include       "vect01_c.inc"
@@ -385,7 +385,7 @@ C-----------------------------------------------
      .   GAMA(6),TENS(6)
 C=======================================================================
        DO I=LFT,LLT
-         MA = MAT(I)        
+         MA = MAT(I)
          EINT(I)=PM(23,MA)
          RHO(I) =PM(89,MA)
        ENDDO
@@ -393,7 +393,7 @@ C
        IF (ISIGI /= 0) THEN
 C         
         JPS=1+ (IPT-1)*9
-        JPS1 = NVSOLID1 + (IPT-1)*6      
+        JPS1 = NVSOLID1 + (IPT-1)*6
         DO I=LFT,LLT
           IFLAGINI = 0
           IF (STRAGLOB(I) == 1 .OR. STRSGLOB(I) == 1) THEN
@@ -420,9 +420,9 @@ C         CONTRAINTES INITIALES
           IFLAGINI = 1
           IF(JJ==0)IFLAGINI = 0
 c
-            IF (IFLAGINI == 1) THEN   
-              IPP = I  
-              IF(NVSOLID1 /= 0 )THEN                 
+            IF (IFLAGINI == 1) THEN
+              IPP = I
+              IF(NVSOLID1 /= 0 )THEN
                 SIG(I,1)=SIGSP(JPS+1,JJ)
                 SIG(I,2)=SIGSP(JPS+2,JJ)
                 SIG(I,3)=SIGSP(JPS+3,JJ)
@@ -436,7 +436,7 @@ c
                   TENS(4)=SIG(I,4)
                   TENS(5)=SIG(I,5)
                   TENS(6)=SIG(I,6)
-                  CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)                      
+                  CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)
                   SIG(I,1)=TENS(1)
                   SIG(I,2)=TENS(2)
                   SIG(I,3)=TENS(3)
@@ -444,8 +444,8 @@ c
                   SIG(I,5)=TENS(5)
                   SIG(I,6)=TENS(6)
                 ENDIF
-                IF(L_PLA /= 0 .AND. SIGSP(JPS+7,JJ) /= ZERO) 
-     .                   EPSP(I) = SIGSP(JPS+7,JJ)       
+                IF(L_PLA /= 0 .AND. SIGSP(JPS+7,JJ) /= ZERO)
+     .                   EPSP(I) = SIGSP(JPS+7,JJ)
                 IF (SIGSP(JPS+8,JJ) /= ZERO) EINT(I)=SIGSP(JPS+8,JJ)
                 IF (SIGSP(JPS+9,JJ) /= ZERO) THEN
                   VOLDP(I) = SIGSP(JPS+9,JJ)*VOLDP(I) / RHO(I)
@@ -455,30 +455,30 @@ c
               ENDIF
 c
               IF (MTN >= 28 .AND. IUSER == 1) THEN
-                IF (MTN == 36 .and. L_SIGB == 6) THEN                       
-                  IADB = IPM(7,MAT(1))               
+                IF (MTN == 36 .and. L_SIGB == 6) THEN
+                  IADB = IPM(7,MAT(1))
                   NRATE = NINT(BUFMAT(IADB))
-                  NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)  
+                  NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)
                   IPSU = NVSOLID1 + NVSOLID2 + 4 + (IPT - 1)*NVAR_TMP
-                  DO IUS = 1,6         
+                  DO IUS = 1,6
                     IPP = I + (IUS -1)*NEL
-                    SIGB(IPP) = SIGSP(IPSU + NRATE + IUS, JJ)                        
-                  ENDDO 
+                    SIGB(IPP) = SIGSP(IPSU + NRATE + IUS, JJ)
+                  ENDDO
                 ELSE IF (MTN /= 36) THEN
-                  NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)  
+                  NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)
                   IPSU = NVSOLID1 + NVSOLID2 + 4 + (IPT - 1)*NVAR_TMP
-                  DO IUS = 1, NVAR_TMP             
+                  DO IUS = 1, NVAR_TMP
                     IPP = I + (IUS -1)*NEL
-                    UVAR(IPP) = SIGSP(IPSU + IUS, JJ)          
-                  ENDDO 
-                  DO IUS = NVAR_TMP + 1, NUVAR             
+                    UVAR(IPP) = SIGSP(IPSU + IUS, JJ)
+                  ENDDO
+                  DO IUS = NVAR_TMP + 1, NUVAR
                     IPP = I + (IUS -1)*NEL
-                    UVAR(IPP) = ZERO        
+                    UVAR(IPP) = ZERO
                   ENDDO
                 ENDIF
               ENDIF
 c
-              IF (NVSOLID2 /= 0 .AND. IDEF /=0) THEN      
+              IF (NVSOLID2 /= 0 .AND. IDEF /=0) THEN
                 EPS(I,1) = SIGSP(JPS1 + 1 , JJ)
                 EPS(I,2) = SIGSP(JPS1 + 2 , JJ)
                 EPS(I,3) = SIGSP(JPS1 + 3 , JJ)
@@ -500,11 +500,11 @@ c
                   EPS(I,5) = TENS(5)
                   EPS(I,6) = TENS(6)
                 ENDIF
-              ENDIF  
+              ENDIF
             ENDIF !IF (IFLAGINI == 1)
-c        
+c
         ENDDO ! I=LFT,LLT
        ENDIF  ! ISIGI /= 0
-c-----------        
+c-----------
       RETURN
       END SUBROUTINE SIGIN20B

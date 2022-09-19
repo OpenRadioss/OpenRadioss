@@ -70,9 +70,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,B_NDS_SIZE,NB_RESULT,
-     .        ID,IB,NB_BOX_OF_BOX,J,CLAUSE_OPERATOR 
+     .        ID,IB,NB_BOX_OF_BOX,J,CLAUSE_OPERATOR
       LOGICAL BOOL
-      INTEGER, DIMENSION(:) , ALLOCATABLE :: B_NDS,RESULT      
+      INTEGER, DIMENSION(:) , ALLOCATABLE :: B_NDS,RESULT
 C-----------------------------------------------
       ALLOCATE(B_NDS(NUMNOD))
       ALLOCATE(RESULT(NUMNOD))
@@ -80,16 +80,16 @@ C-----------------------------------------------
 !
       ! Tag nodes from boxes
       ! ---------------------
-      CLAUSE_OPERATOR = SET_ADD 
+      CLAUSE_OPERATOR = SET_ADD
       SZ_BOXNDS = 0
       DO I=1,BOXLIST_SIZE
         IB = BOXLIST(I)
         B_NDS_SIZE = 0
-        
+
         CALL NODE_BOX( IB  ,
      *                     IBOX ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                     B_NDS, B_NDS_SIZE)
-        
+
 
         CALL SET_MERGE_SIMPLE( BOXNDS,  SZ_BOXNDS  ,
      *                          B_NDS,   B_NDS_SIZE ,
@@ -97,7 +97,7 @@ C-----------------------------------------------
      *                          CLAUSE_OPERATOR)
 
          BOXNDS(1:NB_RESULT) = RESULT(1:NB_RESULT)
-         SZ_BOXNDS = NB_RESULT        
+         SZ_BOXNDS = NB_RESULT
       ENDDO ! DO I=1,BOXLIST_SIZE
 
 C-------
@@ -152,7 +152,7 @@ C-----------------------------------------------
       TYPE (BOX_)    , DIMENSION(NBBOX)  :: IBOX
 
       INTEGER  BOXNDS(*)
-      INTEGER  IB,SZ_BOXNDS 
+      INTEGER  IB,SZ_BOXNDS
 
       my_real
      .        X(3,*),SKEW(LSKEW,*)
@@ -166,9 +166,9 @@ C-----------------------------------------------
      .        NB_BOX_OF_BOX,J,NEW_BOX,CLAUSE_OPERATOR
       LOGICAL BOOL
       INTEGER, DIMENSION(:) , ALLOCATABLE :: B_NDS,RESULT
-      
+
 C-----------------------------------------------
-        
+
 
       NB_BOX_OF_BOX   = IBOX(IB)%NBOXBOX
 
@@ -195,11 +195,11 @@ C-----------------------------------------------
             CALL NODE_BOX (  NEW_BOX ,
      *                       IBOX ,X  ,SKEW  ,SET_TITLE ,KEYSET,
      *                       B_NDS, B_NDS_SIZE )
-            
+
             IF (J < 0)THEN
                 CLAUSE_OPERATOR = SET_DELETE
             ELSE
-                CLAUSE_OPERATOR = SET_ADD 
+                CLAUSE_OPERATOR = SET_ADD
             ENDIF
 
             CALL SET_MERGE_SIMPLE( BOXNDS,  SZ_BOXNDS  ,

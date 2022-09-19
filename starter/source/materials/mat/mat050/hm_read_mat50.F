@@ -44,8 +44,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
@@ -74,9 +74,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NFUNC
@@ -106,7 +106,7 @@ c
 c
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'    ,RHOR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c      
+c
       CALL HM_GET_FLOATV('MAT_EA'       ,E11       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EB'       ,E22       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EC'       ,E33       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -116,9 +116,9 @@ c
       CALL HM_GET_FLOATV('MAT_GCA'      ,G31       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
       CALL HM_GET_FLOATV('MAT_asrate'   ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c    
-c     normal direction    
-c    
+c
+c     normal direction
+c
       CALL HM_GET_INTV  ('Gflag'        ,IFLAG1    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_EPS_max11',EMX11     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS_max22',EMX22     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -183,9 +183,9 @@ c
       CALL HM_GET_FLOATV('MAT_EPS33_3'  ,EPSP33(3) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS33_4'  ,EPSP33(4) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS33_5'  ,EPSP33(5) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c    
+c
 c     shear
-c    
+c
       CALL HM_GET_INTV  ('Vflag'        ,IFLAG2    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_EPS_max12',EMX12     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS_max23',EMX23     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -263,7 +263,7 @@ c--------------------------------------------------
       IF (EMX33  == ZERO) EMX33  = EP10
       IF (EMX12  == ZERO) EMX12  = EP10
       IF (EMX23  == ZERO) EMX23  = EP10
-      IF (EMX31  == ZERO) EMX31  = EP10  
+      IF (EMX31  == ZERO) EMX31  = EP10
 c
       DO I=1,5
         IF (FAC11(I) == ZERO) FAC11(I) = ONE*PRESS_SCALE
@@ -356,12 +356,12 @@ c
         UPARAM(29+I) = EPSP12(I)
         UPARAM(34+I) = EPSP23(I)
         UPARAM(39+I) = EPSP31(I)
-        UPARAM(51+I) = FAC11(I) 
-        UPARAM(56+I) = FAC22(I) 
-        UPARAM(61+I) = FAC33(I) 
-        UPARAM(66+I) = FAC12(I) 
-        UPARAM(71+I) = FAC23(I) 
-        UPARAM(76+I) = FAC31(I) 
+        UPARAM(51+I) = FAC11(I)
+        UPARAM(56+I) = FAC22(I)
+        UPARAM(61+I) = FAC33(I)
+        UPARAM(66+I) = FAC12(I)
+        UPARAM(71+I) = FAC23(I)
+        UPARAM(76+I) = FAC31(I)
       ENDDO
       UPARAM(45) = N11
       UPARAM(46) = N22
@@ -392,11 +392,11 @@ c
       PARMAT(3)  = ZERO
       PARMAT(4)  = ZERO
       PARMAT(16) = 1
-      PARMAT(17) = DMIN/DMAX/DMAX      
+      PARMAT(17) = DMIN/DMAX/DMAX
 c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0
-      PM(100)= PARMAT(1)    
+      PM(100)= PARMAT(1)
 c-----------------
 c     Element buffer variable allocation
 c-----------------
@@ -461,7 +461,7 @@ c
         IF (IFLAG1+IFLAG2 /= 0) WRITE(IOUT,1400) IFLAG1,IFLAG2
         IF (EMX11+EMX22+EMX33+EMX12+EMX23+EMX31 /= 0) WRITE(IOUT,1500)
      .   EMX11,EMX22,EMX33,EMX12,EMX23,EMX31
-       ENDIF     
+       ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -472,7 +472,7 @@ c-----------------------------------------------------------------------
      & 5X,'-------------------------------------------------',/)
  1200 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)  
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'E11 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'E22 . . . . . . . . . . . . . . . . . .=',1PG20.13/

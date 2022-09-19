@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,7 +80,7 @@ C----------------------------------------------------------
       DO WHILE (NG<=NGROUP)
        NEL_P = 0
        ITEST = 0
-       IF (IPARG(5,NG)==101) THEN 
+       IF (IPARG(5,NG)==101) THEN
         NFT=IPARG(3,NG)
         IF (NG==NGROUP) THEN
          NEL_P = IPARG(2,NG)

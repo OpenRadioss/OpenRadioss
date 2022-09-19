@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -152,11 +152,11 @@ C               body waiting for activation, override sensor request.
                ENDIF
               ENDIF
 C
-              ONFELT= 1-ONOF 
+              ONFELT= 1-ONOF
                      ! ONFELT= 0 : deactivation of elements
                      ! ONFELT= 1 : activation of elements
               ONOF1 = ONOF
-              IF(ONOF==1.AND.NPBY(7,N)/=0) ONOF1 = -1 
+              IF(ONOF==1.AND.NPBY(7,N)/=0) ONOF1 = -1
                      ! ONOF1 = -1 nothing against rbody (rbody was already active)
                      !       = 0   ! deactivate rbody
                      !       = 1   ! activate rbody
@@ -204,13 +204,13 @@ C
       ENDDO
 C
       DO K=1,NLOADC
-	NN   = ICFIELD(1,K) 
+	NN   = ICFIELD(1,K)
         IAD  = ICFIELD(4,K)
         DO I=1,NN
          N=LCFIELD(IAD+I-1)
          IF(TAGSLV_RBY(N) /= 0)LCFIELD(IAD+I-1) = -N
         END DO
-      ENDDO 
+      ENDDO
 C-----------
       RETURN
       END
@@ -234,7 +234,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -463,7 +463,7 @@ C-------------------------------------------
         IFAIL = NPBY(18,N)
         CRIT  = RBY(30,N)
         IF(IACTI >= 1.AND.IFAIL == 1.AND.CRIT >= ONE)THEN ! If rbody is active
-         IF(IACTI==1)THEN ! and failure is detected 
+         IF(IACTI==1)THEN ! and failure is detected
            IF(TT>0.)THEN
              IACTI=4
              NPBY(7,N)=IACTI
@@ -575,13 +575,13 @@ C
       ENDDO
 C
       DO K=1,NLOADC
-	NN   = ICFIELD(1,K) 
+	NN   = ICFIELD(1,K)
         IAD  = ICFIELD(4,K)
         DO I=1,NN
          N=LCFIELD(IAD+I-1)
          IF(TAGSLV_RBY(N) /= 0)LCFIELD(IAD+I-1) = -N
         END DO
-      ENDDO 
+      ENDDO
 C
  200  CONTINUE
       RETURN

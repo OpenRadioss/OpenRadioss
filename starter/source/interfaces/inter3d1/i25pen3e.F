@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER CAND_S(*), CAND_M(*), IRECT(4,*), LEDGE(NLEDGE,*), ITAB(*),
      .        N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
       my_real
-     .     XXS1(*), XXS2(*), XYS1(*), XYS2(*), XZS1(*) , XZS2(*), 
+     .     XXS1(*), XXS2(*), XYS1(*), XYS2(*), XZS1(*) , XZS2(*),
      .     XXM1(*), XXM2(*) , XYM1(*), XYM2(*), XZM1(*), XZM2(*),
      .     GAPVE(*), PENE(*), X(3,*),
      .     EX(MVSIZ), EY(MVSIZ), EZ(MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
@@ -81,7 +81,7 @@ C-----------------------------------------------
       my_real
      .     X0A(MVSIZ,4),Y0A(MVSIZ,4),Z0A(MVSIZ,4),
      .     X0B(MVSIZ,4),Y0B(MVSIZ,4),Z0B(MVSIZ,4),
-     .     XNA(MVSIZ,4), YNA(MVSIZ,4), ZNA(MVSIZ,4), XNB(MVSIZ,4), YNB(MVSIZ,4), ZNB(MVSIZ,4), 
+     .     XNA(MVSIZ,4), YNA(MVSIZ,4), ZNA(MVSIZ,4), XNB(MVSIZ,4), YNB(MVSIZ,4), ZNB(MVSIZ,4),
      .     XS, YS, ZS, XM, YM, ZM, DA, DB, CNVX, DA1, DB1, DA2, DB2,
      .     RZERO, RUN, RDIX, REM30, REP30,
      .     ALP,XXS,XYS,XZS,
@@ -155,7 +155,7 @@ C
        ZS2M2 = XZM2(I)-XZS2(I)
 
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C

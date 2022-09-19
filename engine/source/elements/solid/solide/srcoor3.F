@@ -40,18 +40,18 @@ Chd|====================================================================
      .   X1    ,X2    ,X3    ,X4    ,X5    ,X6    ,X7    ,X8    ,
      .   Y1    ,Y2    ,Y3    ,Y4    ,Y5    ,Y6    ,Y7    ,Y8    ,
      .   Z1    ,Z2    ,Z3    ,Z4    ,Z5    ,Z6    ,Z7    ,Z8    ,
-     .   VX1   ,VX2   ,VX3   ,VX4   ,VX5   ,VX6   ,VX7   ,VX8   , 
-     .   VY1   ,VY2   ,VY3   ,VY4   ,VY5   ,VY6   ,VY7   ,VY8   , 
-     .   VZ1   ,VZ2   ,VZ3   ,VZ4   ,VZ5   ,VZ6   ,VZ7   ,VZ8   , 
+     .   VX1   ,VX2   ,VX3   ,VX4   ,VX5   ,VX6   ,VX7   ,VX8   ,
+     .   VY1   ,VY2   ,VY3   ,VY4   ,VY5   ,VY6   ,VY7   ,VY8   ,
+     .   VZ1   ,VZ2   ,VZ3   ,VZ4   ,VZ5   ,VZ6   ,VZ7   ,VZ8   ,
      .   VD2   ,VIS   ,OFFG  ,OFF   ,SAV   ,RHO   ,RHOO  ,R11   ,
      .   R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ,
      .   NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,
      .   NGL   ,MXT   ,NGEO  ,IOUTPRT,VGAX ,VGAY  ,VGAZ  ,VGA2  ,
      .   XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
      .   YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
-     .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,         
+     .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
      .   XDP   ,X0    ,Y0    ,Z0    ,NEL   ,XGAX  ,XGAY  ,XGAZ  ,
-     .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA ,IPARG ,GAMA_R) 
+     .   XGXA2,XGYA2  ,XGZA2 ,XGXYA ,XGYZA ,XGZXA ,IPARG ,GAMA_R)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,23 +91,23 @@ C     REAL
       INTEGER IXS(NIXS,*), MXT(*), NGL(*),NGEO(*),IPARG(*),
      .        NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
       INTEGER IOUTPRT
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XDP(3,*),X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),SAV(NEL,21),
-     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*), 
-     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*), 
-     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)      
+     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
+     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
+     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      
+
       DOUBLE PRECISION
      .   XDL, YDL, ZDL
-    
+
 C     REAL
       my_real
-     .  DT05     
+     .  DT05
       my_real
      .   G11,G12,G13,
      .   G21,G22,G23,
@@ -117,7 +117,7 @@ C     REAL
      .   T31,T32,T33,
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
       my_real
@@ -143,61 +143,61 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      IF(IRESP==1)THEN 
+      IF(IRESP==1)THEN
         DO I=LFT,LLT
-          XD1(I)=XDP(1,NC1(I))  
-          YD1(I)=XDP(2,NC1(I))  
-          ZD1(I)=XDP(3,NC1(I))  
-          XD2(I)=XDP(1,NC2(I))  
-          YD2(I)=XDP(2,NC2(I))  
-          ZD2(I)=XDP(3,NC2(I))  
-          XD3(I)=XDP(1,NC3(I))  
-          YD3(I)=XDP(2,NC3(I))  
-          ZD3(I)=XDP(3,NC3(I))  
-          XD4(I)=XDP(1,NC4(I))  
-          YD4(I)=XDP(2,NC4(I))  
-          ZD4(I)=XDP(3,NC4(I))  
-          XD5(I)=XDP(1,NC5(I))  
-          YD5(I)=XDP(2,NC5(I))  
-          ZD5(I)=XDP(3,NC5(I))  
-          XD6(I)=XDP(1,NC6(I))  
-          YD6(I)=XDP(2,NC6(I))  
-          ZD6(I)=XDP(3,NC6(I))  
-          XD7(I)=XDP(1,NC7(I))  
-          YD7(I)=XDP(2,NC7(I))  
-          ZD7(I)=XDP(3,NC7(I))  
-          XD8(I)=XDP(1,NC8(I))  
-          YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          XD1(I)=XDP(1,NC1(I))
+          YD1(I)=XDP(2,NC1(I))
+          ZD1(I)=XDP(3,NC1(I))
+          XD2(I)=XDP(1,NC2(I))
+          YD2(I)=XDP(2,NC2(I))
+          ZD2(I)=XDP(3,NC2(I))
+          XD3(I)=XDP(1,NC3(I))
+          YD3(I)=XDP(2,NC3(I))
+          ZD3(I)=XDP(3,NC3(I))
+          XD4(I)=XDP(1,NC4(I))
+          YD4(I)=XDP(2,NC4(I))
+          ZD4(I)=XDP(3,NC4(I))
+          XD5(I)=XDP(1,NC5(I))
+          YD5(I)=XDP(2,NC5(I))
+          ZD5(I)=XDP(3,NC5(I))
+          XD6(I)=XDP(1,NC6(I))
+          YD6(I)=XDP(2,NC6(I))
+          ZD6(I)=XDP(3,NC6(I))
+          XD7(I)=XDP(1,NC7(I))
+          YD7(I)=XDP(2,NC7(I))
+          ZD7(I)=XDP(3,NC7(I))
+          XD8(I)=XDP(1,NC8(I))
+          YD8(I)=XDP(2,NC8(I))
+          ZD8(I)=XDP(3,NC8(I))  	  	  	
         ENDDO
       ELSE	
         DO I=LFT,LLT
-          XD1(I)=X(1,NC1(I))  
-          YD1(I)=X(2,NC1(I))  
-          ZD1(I)=X(3,NC1(I))  
-          XD2(I)=X(1,NC2(I))  
-          YD2(I)=X(2,NC2(I))  
-          ZD2(I)=X(3,NC2(I))  
-          XD3(I)=X(1,NC3(I))  
-          YD3(I)=X(2,NC3(I))  
-          ZD3(I)=X(3,NC3(I))  
-          XD4(I)=X(1,NC4(I))  
-          YD4(I)=X(2,NC4(I))  
-          ZD4(I)=X(3,NC4(I))  
-          XD5(I)=X(1,NC5(I))  
-          YD5(I)=X(2,NC5(I))  
-          ZD5(I)=X(3,NC5(I))  
-          XD6(I)=X(1,NC6(I))  
-          YD6(I)=X(2,NC6(I))  
-          ZD6(I)=X(3,NC6(I))  
-          XD7(I)=X(1,NC7(I))  
-          YD7(I)=X(2,NC7(I))  
-          ZD7(I)=X(3,NC7(I))  
-          XD8(I)=X(1,NC8(I))  
-          YD8(I)=X(2,NC8(I))  
-          ZD8(I)=X(3,NC8(I))  
-        ENDDO      
-      ENDIF         
+          XD1(I)=X(1,NC1(I))
+          YD1(I)=X(2,NC1(I))
+          ZD1(I)=X(3,NC1(I))
+          XD2(I)=X(1,NC2(I))
+          YD2(I)=X(2,NC2(I))
+          ZD2(I)=X(3,NC2(I))
+          XD3(I)=X(1,NC3(I))
+          YD3(I)=X(2,NC3(I))
+          ZD3(I)=X(3,NC3(I))
+          XD4(I)=X(1,NC4(I))
+          YD4(I)=X(2,NC4(I))
+          ZD4(I)=X(3,NC4(I))
+          XD5(I)=X(1,NC5(I))
+          YD5(I)=X(2,NC5(I))
+          ZD5(I)=X(3,NC5(I))
+          XD6(I)=X(1,NC6(I))
+          YD6(I)=X(2,NC6(I))
+          ZD6(I)=X(3,NC6(I))
+          XD7(I)=X(1,NC7(I))
+          YD7(I)=X(2,NC7(I))
+          ZD7(I)=X(3,NC7(I))
+          XD8(I)=X(1,NC8(I))
+          YD8(I)=X(2,NC8(I))
+          ZD8(I)=X(3,NC8(I))
+        ENDDO
+      ENDIF
 C-----------
       DO I=LFT,LLT
        VX1(I)=V(1,NC1(I))
@@ -283,28 +283,28 @@ C---
      .       R11, R12, R13, R21, R22, R23, R31, R32, R33)
       ENDIF
 C------stocker [R] in %GAMA_R--------------     
-       GAMA_R(LFT:LLT,1) = R11(LFT:LLT) ! Dir1_x                            
-       GAMA_R(LFT:LLT,2) = R21(LFT:LLT) ! Dir1_y                            
-       GAMA_R(LFT:LLT,3) = R31(LFT:LLT) ! Dir1_z                            
-       GAMA_R(LFT:LLT,4) = R12(LFT:LLT) ! Dir2_x                            
-       GAMA_R(LFT:LLT,5) = R22(LFT:LLT) ! Dir2_y                           
-       GAMA_R(LFT:LLT,6) = R32(LFT:LLT) ! Dir2_z                            
+       GAMA_R(LFT:LLT,1) = R11(LFT:LLT) ! Dir1_x
+       GAMA_R(LFT:LLT,2) = R21(LFT:LLT) ! Dir1_y
+       GAMA_R(LFT:LLT,3) = R31(LFT:LLT) ! Dir1_z
+       GAMA_R(LFT:LLT,4) = R12(LFT:LLT) ! Dir2_x
+       GAMA_R(LFT:LLT,5) = R22(LFT:LLT) ! Dir2_y
+       GAMA_R(LFT:LLT,6) = R32(LFT:LLT) ! Dir2_z
 C-------sauf thick shells --------------     
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
-          DO I=LFT,LLT                                          
-            GAMA(I,1) = ONE                             
-            GAMA(I,2) = ZERO                              
+          DO I=LFT,LLT
+            GAMA(I,1) = ONE
+            GAMA(I,2) = ZERO
             GAMA(I,3) = ZERO
-            GAMA(I,4) = ZERO                              
-            GAMA(I,5) = ONE                              
+            GAMA(I,4) = ZERO
+            GAMA(I,5) = ONE
             GAMA(I,6) = ZERO
-          ENDDO      
-        ELSE    
-          CALL SORTHDIR3(                                            
-     .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   , 
-     .        R11  ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  , 
-     .        GAMA0,GAMA )                                           
+          ENDDO
+        ELSE
+          CALL SORTHDIR3(
+     .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
+     .        R11  ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  ,
+     .        GAMA0,GAMA )
         ENDIF
       ENDIF
 C-----------
@@ -388,13 +388,13 @@ C     X=RX' <=> X'=t(R)X chgt de base.
             ZDL=R13(I)*XD8(I)+R23(I)*YD8(I)+R33(I)*ZD8(I)
             XD8(I)=XDL
             YD8(I)=YDL
-            ZD8(I)=ZDL		    	    
+            ZD8(I)=ZDL		    	
             OFF(I) = ABS(OFFG(I))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDIF
         ENDDO
         IF((ISMSTR==12.AND.IDTMIN(1)==3).AND.JLAG>0) THEN
-         DO I=LFT,LLT	  
+         DO I=LFT,LLT	
           IF(ABS(OFFG(I)) > ONE)THEN
           XDL=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)
           YDL=R12(I)*XD1(I)+R22(I)*YD1(I)+R32(I)*ZD1(I)
@@ -443,13 +443,13 @@ C     X=RX' <=> X'=t(R)X chgt de base.
           ZDL=R13(I)*XD8(I)+R23(I)*YD8(I)+R33(I)*ZD8(I)
           XD8(I)=XDL
           YD8(I)=YDL
-          ZD8(I)=ZDL		   	 
+          ZD8(I)=ZDL		   	
           END IF
 	 ENDDO
         END IF
 C
       ELSE    ! Ismstr = 4
-        DO I=LFT,LLT	  
+        DO I=LFT,LLT	
           XDL=R11(I)*XD1(I)+R21(I)*YD1(I)+R31(I)*ZD1(I)
           YDL=R12(I)*XD1(I)+R22(I)*YD1(I)+R32(I)*ZD1(I)
           ZDL=R13(I)*XD1(I)+R23(I)*YD1(I)+R33(I)*ZD1(I)
@@ -497,12 +497,12 @@ C
           ZDL=R13(I)*XD8(I)+R23(I)*YD8(I)+R33(I)*ZD8(I)
           XD8(I)=XDL
           YD8(I)=YDL
-          ZD8(I)=ZDL		   	    	   
+          ZD8(I)=ZDL		   	    	
           OFF(I) = ABS(OFFG(I))
           OFF_L  = MIN(OFF_L,OFFG(I))
         ENDDO
 C
-      ENDIF  ! ISMSTR    
+      ENDIF  ! ISMSTR
 C-----------
 C     PASSAGE AU REPERE ORTHOTROPE.
 C-----------
@@ -619,35 +619,35 @@ C         MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
           R32(I)=T32
           R33(I)=T33
         ENDDO
-      ENDIF   
+      ENDIF
 
-c copy and cast XD (DP) to C(SP) to assure coherence between XD et X      
+c copy and cast XD (DP) to C(SP) to assure coherence between XD et X
       DO I=LFT,LLT
-        X1(I)= XD1(I) 
-        Y1(I)= YD1(I) 
+        X1(I)= XD1(I)
+        Y1(I)= YD1(I)
         Z1(I)= ZD1(I)
-        X2(I)= XD2(I)  
-        Y2(I)= YD2(I)  
-        Z2(I)= ZD2(I) 
-        X3(I)= XD3(I) 
-        Y3(I)= YD3(I) 
-        Z3(I)= ZD3(I) 
-        X4(I)= XD4(I) 
-        Y4(I)= YD4(I) 
-        Z4(I)= ZD4(I) 
-        X5(I)= XD5(I) 
+        X2(I)= XD2(I)
+        Y2(I)= YD2(I)
+        Z2(I)= ZD2(I)
+        X3(I)= XD3(I)
+        Y3(I)= YD3(I)
+        Z3(I)= ZD3(I)
+        X4(I)= XD4(I)
+        Y4(I)= YD4(I)
+        Z4(I)= ZD4(I)
+        X5(I)= XD5(I)
         Y5(I)= YD5(I)
-        Z5(I)= ZD5(I) 
-        X6(I)= XD6(I) 
-        Y6(I)= YD6(I) 
-        Z6(I)= ZD6(I) 
-        X7(I)= XD7(I) 
-        Y7(I)= YD7(I) 
-        Z7(I)= ZD7(I) 
-        X8(I)= XD8(I) 
-        Y8(I)= YD8(I) 
-        Z8(I)= ZD8(I) 
-      ENDDO          
+        Z5(I)= ZD5(I)
+        X6(I)= XD6(I)
+        Y6(I)= YD6(I)
+        Z6(I)= ZD6(I)
+        X7(I)= XD7(I)
+        Y7(I)= YD7(I)
+        Z7(I)= ZD7(I)
+        X8(I)= XD8(I)
+        Y8(I)= YD8(I)
+        Z8(I)= ZD8(I)
+      ENDDO
 C-----------
 C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
 C-----------
@@ -658,8 +658,8 @@ C-----------
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8)
 
 
-      
-      
+
+
       IF(OFF_L < ZERO)THEN
         DO I=LFT,LLT
           IF(OFFG(I) < ZERO)THEN
@@ -712,7 +712,7 @@ Chd|====================================================================
      .   XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
      .   YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
      .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
-     .   NEL   ) 
+     .   NEL   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -732,16 +732,16 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*)
-      
-      DOUBLE PRECISION 
-     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*), 
-     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*), 
-     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*),      
+
+      DOUBLE PRECISION
+     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
+     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
+     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*),
      .   SAV(NEL,21)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I      
+      INTEGER I
 C=======================================================================
         DO I=LFT,LLT
           IF(ABS(OFFG(I)) <= ONE )THEN
@@ -778,7 +778,7 @@ Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc
 Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8SAVSR3(OFFG  ,SAV   ,XD   ,YD   ,ZD, NEL) 
+      SUBROUTINE S8SAVSR3(OFFG  ,SAV   ,XD   ,YD   ,ZD, NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -799,13 +799,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*)
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XD(MVSIZ,8),YD(MVSIZ,8),ZD(MVSIZ,8), SAV(NEL,21)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I      
+      INTEGER I
 C=======================================================================
         DO I=LFT,LLT
           IF(ABS(OFFG(I)) <= ONE )THEN
@@ -864,17 +864,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
 C     REAL
-      INTEGER 
+      INTEGER
      .        NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
       my_real
      .   OFFG(*),OFFG0(*),X(3,*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XDP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,IH    
-      DOUBLE PRECISION 
+      INTEGER I ,IH
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -890,60 +890,60 @@ C-----for JCVT>0 Fixed SAV is rotated w/ local system not like Ismstr=1
 	END DO
 	IF (IH==0) RETURN
 C	
-      IF(IRESP==1)THEN 
+      IF(IRESP==1)THEN
         DO I=LFT,LLT
-          XD1(I)=XDP(1,NC1(I))  
-          YD1(I)=XDP(2,NC1(I))  
-          ZD1(I)=XDP(3,NC1(I))  
-          XD2(I)=XDP(1,NC2(I))  
-          YD2(I)=XDP(2,NC2(I))  
-          ZD2(I)=XDP(3,NC2(I))  
-          XD3(I)=XDP(1,NC3(I))  
-          YD3(I)=XDP(2,NC3(I))  
-          ZD3(I)=XDP(3,NC3(I))  
-          XD4(I)=XDP(1,NC4(I))  
-          YD4(I)=XDP(2,NC4(I))  
-          ZD4(I)=XDP(3,NC4(I))  
-          XD5(I)=XDP(1,NC5(I))  
-          YD5(I)=XDP(2,NC5(I))  
-          ZD5(I)=XDP(3,NC5(I))  
-          XD6(I)=XDP(1,NC6(I))  
-          YD6(I)=XDP(2,NC6(I))  
-          ZD6(I)=XDP(3,NC6(I))  
-          XD7(I)=XDP(1,NC7(I))  
-          YD7(I)=XDP(2,NC7(I))  
-          ZD7(I)=XDP(3,NC7(I))  
-          XD8(I)=XDP(1,NC8(I))  
-          YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          XD1(I)=XDP(1,NC1(I))
+          YD1(I)=XDP(2,NC1(I))
+          ZD1(I)=XDP(3,NC1(I))
+          XD2(I)=XDP(1,NC2(I))
+          YD2(I)=XDP(2,NC2(I))
+          ZD2(I)=XDP(3,NC2(I))
+          XD3(I)=XDP(1,NC3(I))
+          YD3(I)=XDP(2,NC3(I))
+          ZD3(I)=XDP(3,NC3(I))
+          XD4(I)=XDP(1,NC4(I))
+          YD4(I)=XDP(2,NC4(I))
+          ZD4(I)=XDP(3,NC4(I))
+          XD5(I)=XDP(1,NC5(I))
+          YD5(I)=XDP(2,NC5(I))
+          ZD5(I)=XDP(3,NC5(I))
+          XD6(I)=XDP(1,NC6(I))
+          YD6(I)=XDP(2,NC6(I))
+          ZD6(I)=XDP(3,NC6(I))
+          XD7(I)=XDP(1,NC7(I))
+          YD7(I)=XDP(2,NC7(I))
+          ZD7(I)=XDP(3,NC7(I))
+          XD8(I)=XDP(1,NC8(I))
+          YD8(I)=XDP(2,NC8(I))
+          ZD8(I)=XDP(3,NC8(I))  	  	  	
         ENDDO
       ELSE	
         DO I=LFT,LLT
-          XD1(I)=X(1,NC1(I))  
-          YD1(I)=X(2,NC1(I))  
-          ZD1(I)=X(3,NC1(I))  
-          XD2(I)=X(1,NC2(I))  
-          YD2(I)=X(2,NC2(I))  
-          ZD2(I)=X(3,NC2(I))  
-          XD3(I)=X(1,NC3(I))  
-          YD3(I)=X(2,NC3(I))  
-          ZD3(I)=X(3,NC3(I))  
-          XD4(I)=X(1,NC4(I))  
-          YD4(I)=X(2,NC4(I))  
-          ZD4(I)=X(3,NC4(I))  
-          XD5(I)=X(1,NC5(I))  
-          YD5(I)=X(2,NC5(I))  
-          ZD5(I)=X(3,NC5(I))  
-          XD6(I)=X(1,NC6(I))  
-          YD6(I)=X(2,NC6(I))  
-          ZD6(I)=X(3,NC6(I))  
-          XD7(I)=X(1,NC7(I))  
-          YD7(I)=X(2,NC7(I))  
-          ZD7(I)=X(3,NC7(I))  
-          XD8(I)=X(1,NC8(I))  
-          YD8(I)=X(2,NC8(I))  
-          ZD8(I)=X(3,NC8(I))  
-        ENDDO      
+          XD1(I)=X(1,NC1(I))
+          YD1(I)=X(2,NC1(I))
+          ZD1(I)=X(3,NC1(I))
+          XD2(I)=X(1,NC2(I))
+          YD2(I)=X(2,NC2(I))
+          ZD2(I)=X(3,NC2(I))
+          XD3(I)=X(1,NC3(I))
+          YD3(I)=X(2,NC3(I))
+          ZD3(I)=X(3,NC3(I))
+          XD4(I)=X(1,NC4(I))
+          YD4(I)=X(2,NC4(I))
+          ZD4(I)=X(3,NC4(I))
+          XD5(I)=X(1,NC5(I))
+          YD5(I)=X(2,NC5(I))
+          ZD5(I)=X(3,NC5(I))
+          XD6(I)=X(1,NC6(I))
+          YD6(I)=X(2,NC6(I))
+          ZD6(I)=X(3,NC6(I))
+          XD7(I)=X(1,NC7(I))
+          YD7(I)=X(2,NC7(I))
+          ZD7(I)=X(3,NC7(I))
+          XD8(I)=X(1,NC8(I))
+          YD8(I)=X(2,NC8(I))
+          ZD8(I)=X(3,NC8(I))
+        ENDDO
       ENDIF
 C   -----attention, format is different to Ismstr=10,11
         DO I=LFT,LLT
@@ -985,7 +985,7 @@ Chd|        SREPISO12                     source/elements/solid/solide/srepiso3.
 Chd|====================================================================
       SUBROUTINE SRCOOR12(OFF,X     ,XDP   ,
      .   NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,
-     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33  ) 
+     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1010,22 +1010,22 @@ C     REAL
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .   X(3,*),OFF(*)
-      INTEGER 
+      INTEGER
      .        NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
-      
-      DOUBLE PRECISION 
-     .   XDP(3,*)      
+
+      DOUBLE PRECISION
+     .   XDP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      
+
 C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
-      DOUBLE PRECISION 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -1037,63 +1037,63 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      IF(IRESP==1)THEN 
+      IF(IRESP==1)THEN
         DO I=LFT,LLT
-         IF (OFF(I) <= ONE ) CYCLE 
-          XD1(I)=XDP(1,NC1(I))  
-          YD1(I)=XDP(2,NC1(I))  
-          ZD1(I)=XDP(3,NC1(I))  
-          XD2(I)=XDP(1,NC2(I))  
-          YD2(I)=XDP(2,NC2(I))  
-          ZD2(I)=XDP(3,NC2(I))  
-          XD3(I)=XDP(1,NC3(I))  
-          YD3(I)=XDP(2,NC3(I))  
-          ZD3(I)=XDP(3,NC3(I))  
-          XD4(I)=XDP(1,NC4(I))  
-          YD4(I)=XDP(2,NC4(I))  
-          ZD4(I)=XDP(3,NC4(I))  
-          XD5(I)=XDP(1,NC5(I))  
-          YD5(I)=XDP(2,NC5(I))  
-          ZD5(I)=XDP(3,NC5(I))  
-          XD6(I)=XDP(1,NC6(I))  
-          YD6(I)=XDP(2,NC6(I))  
-          ZD6(I)=XDP(3,NC6(I))  
-          XD7(I)=XDP(1,NC7(I))  
-          YD7(I)=XDP(2,NC7(I))  
-          ZD7(I)=XDP(3,NC7(I))  
-          XD8(I)=XDP(1,NC8(I))  
-          YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+         IF (OFF(I) <= ONE ) CYCLE
+          XD1(I)=XDP(1,NC1(I))
+          YD1(I)=XDP(2,NC1(I))
+          ZD1(I)=XDP(3,NC1(I))
+          XD2(I)=XDP(1,NC2(I))
+          YD2(I)=XDP(2,NC2(I))
+          ZD2(I)=XDP(3,NC2(I))
+          XD3(I)=XDP(1,NC3(I))
+          YD3(I)=XDP(2,NC3(I))
+          ZD3(I)=XDP(3,NC3(I))
+          XD4(I)=XDP(1,NC4(I))
+          YD4(I)=XDP(2,NC4(I))
+          ZD4(I)=XDP(3,NC4(I))
+          XD5(I)=XDP(1,NC5(I))
+          YD5(I)=XDP(2,NC5(I))
+          ZD5(I)=XDP(3,NC5(I))
+          XD6(I)=XDP(1,NC6(I))
+          YD6(I)=XDP(2,NC6(I))
+          ZD6(I)=XDP(3,NC6(I))
+          XD7(I)=XDP(1,NC7(I))
+          YD7(I)=XDP(2,NC7(I))
+          ZD7(I)=XDP(3,NC7(I))
+          XD8(I)=XDP(1,NC8(I))
+          YD8(I)=XDP(2,NC8(I))
+          ZD8(I)=XDP(3,NC8(I))  	  	  	
         ENDDO
       ELSE	
         DO I=LFT,LLT
-         IF (OFF(I) <= ONE ) CYCLE 
-          XD1(I)=X(1,NC1(I))  
-          YD1(I)=X(2,NC1(I))  
-          ZD1(I)=X(3,NC1(I))  
-          XD2(I)=X(1,NC2(I))  
-          YD2(I)=X(2,NC2(I))  
-          ZD2(I)=X(3,NC2(I))  
-          XD3(I)=X(1,NC3(I))  
-          YD3(I)=X(2,NC3(I))  
-          ZD3(I)=X(3,NC3(I))  
-          XD4(I)=X(1,NC4(I))  
-          YD4(I)=X(2,NC4(I))  
-          ZD4(I)=X(3,NC4(I))  
-          XD5(I)=X(1,NC5(I))  
-          YD5(I)=X(2,NC5(I))  
-          ZD5(I)=X(3,NC5(I))  
-          XD6(I)=X(1,NC6(I))  
-          YD6(I)=X(2,NC6(I))  
-          ZD6(I)=X(3,NC6(I))  
-          XD7(I)=X(1,NC7(I))  
-          YD7(I)=X(2,NC7(I))  
-          ZD7(I)=X(3,NC7(I))  
-          XD8(I)=X(1,NC8(I))  
-          YD8(I)=X(2,NC8(I))  
-          ZD8(I)=X(3,NC8(I))  
-        ENDDO      
-      ENDIF         
+         IF (OFF(I) <= ONE ) CYCLE
+          XD1(I)=X(1,NC1(I))
+          YD1(I)=X(2,NC1(I))
+          ZD1(I)=X(3,NC1(I))
+          XD2(I)=X(1,NC2(I))
+          YD2(I)=X(2,NC2(I))
+          ZD2(I)=X(3,NC2(I))
+          XD3(I)=X(1,NC3(I))
+          YD3(I)=X(2,NC3(I))
+          ZD3(I)=X(3,NC3(I))
+          XD4(I)=X(1,NC4(I))
+          YD4(I)=X(2,NC4(I))
+          ZD4(I)=X(3,NC4(I))
+          XD5(I)=X(1,NC5(I))
+          YD5(I)=X(2,NC5(I))
+          ZD5(I)=X(3,NC5(I))
+          XD6(I)=X(1,NC6(I))
+          YD6(I)=X(2,NC6(I))
+          ZD6(I)=X(3,NC6(I))
+          XD7(I)=X(1,NC7(I))
+          YD7(I)=X(2,NC7(I))
+          ZD7(I)=X(3,NC7(I))
+          XD8(I)=X(1,NC8(I))
+          YD8(I)=X(2,NC8(I))
+          ZD8(I)=X(3,NC8(I))
+        ENDDO
+      ENDIF
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------

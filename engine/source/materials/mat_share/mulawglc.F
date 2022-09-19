@@ -93,7 +93,7 @@ C-----------------------------------------------
       INTEGER IGTYP, I, NUVAR ,NINDX,IGEO(NPROPGI,*),NVARTMP,
      .        MX,IOFF_DUCT(MVSIZ),ISRATE
 C     REAL
-      my_real 
+      my_real
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,THKN(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),EPSXX(MVSIZ) ,EPSYY(MVSIZ) ,EPSXY(MVSIZ),
@@ -102,7 +102,7 @@ C     REAL
      .   SIGOYY(MVSIZ),SIGOXY(MVSIZ),SIGOYZ(MVSIZ),SIGOZX(MVSIZ),
      .   SIGNXX(MVSIZ),SIGNYY(MVSIZ),SIGNXY(MVSIZ),SIGNYZ(MVSIZ),
      .   SIGNZX(MVSIZ),SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),
-     .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ), 
+     .   SIGVYZ(MVSIZ),SIGVZX(MVSIZ),TENS(5,MVSIZ),
      .   EPS_M2,EPS_K2,YOUNG, VISC, VOL2, ASRATE
       my_real
      .   DEPBXX(MVSIZ),DEPBYY(MVSIZ),DEPBXY(MVSIZ),
@@ -142,7 +142,7 @@ C
       DO I=JFT,JLT
         THKN(I) = THK(I)
       ENDDO
-!       compute the inverse of dt and save the result 
+!       compute the inverse of dt and save the result
       DO I=JFT,JLT
         DT_INV(I) = DT1C(I)/MAX(DT1C(I)**2,EM20)
       ENDDO
@@ -156,7 +156,7 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
 !
       ISRATE = IPM(3,MX)
       IF (ISRATE == 1) THEN
-!#include "vectorize.inc" 
+!#include "vectorize.inc"
         DO I=JFT,JLT
           EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
      .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
@@ -165,7 +165,7 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
           EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
         END DO
       ELSE IF (ISRATE > 1) THEN
-!#include "vectorize.inc" 
+!#include "vectorize.inc"
         DO I=JFT,JLT
           EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
      .            + FOURTH*EXY(I)*EXY(I))
@@ -198,7 +198,7 @@ C-----------------------
       DO I=JFT,JLT
         MOMNXX(I) = ZERO
         MOMNYY(I) = ZERO
-        MOMNXY(I) = ZERO          
+        MOMNXY(I) = ZERO
       ENDDO
 C
       IF (IGTYP == 1) THEN
@@ -213,7 +213,7 @@ C
           EPSXY(I) = GSTR(I,3)
           EPSYZ(I) = GSTR(I,4)
           EPSZX(I) = GSTR(I,5)
-          SIGOXX(I) = FOR(I,1) 
+          SIGOXX(I) = FOR(I,1)
           SIGOYY(I) = FOR(I,2)
           SIGOXY(I) = FOR(I,3)
           SIGOYZ(I) = FOR(I,4)
@@ -223,7 +223,7 @@ C
           DEPBXX(I) = KXX(I)
           DEPBYY(I) = KYY(I)
           DEPBXY(I) = KXY(I)
-          MOMOXX(I) = MOM(I,1) 
+          MOMOXX(I) = MOM(I,1)
           MOMOYY(I) = MOM(I,2)
           MOMOXY(I) = MOM(I,3)
          ENDDO
@@ -233,7 +233,7 @@ C
           TENS(2,I) = EYY(I)
           TENS(3,I) = HALF*EXY(I)
           TENS(4,I) = HALF*EYZ(I)
-          TENS(5,I) = HALF*EXZ(I)          
+          TENS(5,I) = HALF*EXZ(I)
         ENDDO
         CALL ROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
@@ -241,14 +241,14 @@ C
           DEPSYY(I) = TENS(2,I)
           DEPSXY(I) = TWO*TENS(3,I)
           DEPSYZ(I) = TWO*TENS(4,I)
-          DEPSZX(I) = TWO*TENS(5,I)          
+          DEPSZX(I) = TWO*TENS(5,I)
         ENDDO
         DO I=JFT,JLT
           TENS(1,I) = GSTR(I,1)
           TENS(2,I) = GSTR(I,2)
           TENS(3,I) = HALF*GSTR(I,3)
           TENS(4,I) = HALF*GSTR(I,4)
-          TENS(5,I) = HALF*GSTR(I,5)          
+          TENS(5,I) = HALF*GSTR(I,5)
         ENDDO
         CALL ROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
@@ -256,7 +256,7 @@ C
           EPSYY(I) = TENS(2,I)
           EPSXY(I) = TWO*TENS(3,I)
           EPSYZ(I) = TWO*TENS(4,I)
-          EPSZX(I) = TWO*TENS(5,I)          
+          EPSZX(I) = TWO*TENS(5,I)
         ENDDO
         DO I=JFT,JLT
           TENS(1,I) = FOR(I,1)
@@ -278,7 +278,7 @@ C
           TENS(2,I) = KYY(I)
           TENS(3,I) = KXY(I)
           TENS(4,I) = ZERO
-          TENS(5,I) = ZERO          
+          TENS(5,I) = ZERO
         ENDDO
         CALL ROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
@@ -291,7 +291,7 @@ C
           TENS(2,I) = MOM(I,2)
           TENS(3,I) = MOM(I,3)
           TENS(4,I) = ZERO
-          TENS(5,I) = ZERO          
+          TENS(5,I) = ZERO
         ENDDO
         CALL ROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
@@ -363,7 +363,7 @@ C-------------------------------------------
      9     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SSP    ,VISCMX ,THKN    ,LBUF%PLA     ,
      B     OFF    ,NGL    ,IPM     ,MAT     ,ETSE   ,
-     C     GS     ,SIGY   ,EPSPL   ,ISRATE  ,IPLA, 
+     C     GS     ,SIGY   ,EPSPL   ,ISRATE  ,IPLA,
      D     SHF    ,NVARTMP,VARTMP)
       ELSEIF (MTN == 43) THEN
         CALL SIGEPS43G(
@@ -474,7 +474,7 @@ C-----------------------
           TENS(2,I)= MOMNYY(I)
           TENS(3,I)= MOMNXY(I)
           TENS(4,I)= ZERO
-          TENS(5,I)= ZERO 
+          TENS(5,I)= ZERO
         ENDDO
         CALL UROTO(JFT,JLT,TENS,DIR,NEL)
         DO I=JFT,JLT
@@ -513,12 +513,12 @@ C---------------------------
 C     VISCOSITE DE MEMBRANE
 C---------------------------
       IF (DM > ZERO) THEN
-        DO I=JFT,JLT                                                   
+        DO I=JFT,JLT
           VISCMX(I) = MAX(VISCMX(I),DM)
-          VISC = ONEP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*DT_INV(I)        
-          FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+HALF*EYY(I))		  
-          FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+HALF*EXX(I))		  
-          FOR(I,3) = FOR(I,3) + VISC* EXY(I)*THIRD			     
+          VISC = ONEP414*DM*RHO(I)*SSP(I)*SQRT(AREA(I))*DT_INV(I)
+          FOR(I,1) = FOR(I,1) + VISC*(EXX(I)+HALF*EYY(I))		
+          FOR(I,2) = FOR(I,2) + VISC*(EYY(I)+HALF*EXX(I))		
+          FOR(I,3) = FOR(I,3) + VISC* EXY(I)*THIRD			
         ENDDO
       ENDIF
 C

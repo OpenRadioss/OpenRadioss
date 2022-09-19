@@ -139,7 +139,7 @@ C
 
         CAND_T    = IFPEN(K)
         IFPEN(K)  = IFPEN(I)
-        IFPEN(I)  = CAND_T 
+        IFPEN(I)  = CAND_T
 C 
         IPUT(I) = IPUT(K)
         IGET(IPUT(I)) = I

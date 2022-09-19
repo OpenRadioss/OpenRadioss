@@ -32,36 +32,36 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|        WRRESTP                       source/output/restart/wrrestp.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE ECND_MOD 
+      MODULE ECND_MOD
 C----------------------------------------------------------------------- 
 C    CND : CondeNsation Dynamic, ND means aussi Node_Dependent
 C----------------------------------------------------------------------- 
-#include "my_real.inc"      
+#include "my_real.inc"
 C=======================================================================
 c DEFINE ARRAYS (integers arrays)
 C=======================================================================
-        integer, DIMENSION(:) , POINTER ::  ICNDS10   !  3*NS10E 
+        integer, DIMENSION(:) , POINTER ::  ICNDS10   !  3*NS10E
 C-- :ND, 2:N1, 3:N2	; ND <0 : degenerated  
 C=======================================================================
 c DEFINE ARRAYS (float arrays) : intenal arrays :restarter
 C=======================================================================
-        integer, DIMENSION(:) , POINTER ::  IAD_CNDM,FR_CNDM   !  edge node on the front 
-        integer, DIMENSION(:) , POINTER ::  IAD_CNDM1,FR_CNDM1   !  edge node on the front 
-        integer, DIMENSION(:) , POINTER ::  ADDCNCND,PROCNCND,IADCND   !  P/ON id 
-        integer, DIMENSION(:) , POINTER ::  IAD_CNDS,FR_CNDS   ! middle node on the front 
+        integer, DIMENSION(:) , POINTER ::  IAD_CNDM,FR_CNDM   !  edge node on the front
+        integer, DIMENSION(:) , POINTER ::  IAD_CNDM1,FR_CNDM1   !  edge node on the front
+        integer, DIMENSION(:) , POINTER ::  ADDCNCND,PROCNCND,IADCND   !  P/ON id
+        integer, DIMENSION(:) , POINTER ::  IAD_CNDS,FR_CNDS   ! middle node on the front
 C=======================================================================
 c DEFINE ARRAYS (float arrays) : work arrays
 C=======================================================================
-        integer, DIMENSION(:) , POINTER ::  ITAGND   !  (1:NUMNOD) : id of ICNDS10 
+        integer, DIMENSION(:) , POINTER ::  ITAGND   !  (1:NUMNOD) : id of ICNDS10
 C-- in Engine ITAGND(ND)= id of ICNDS10 < 0 : degenerated iabs() > NS10E :main of Int2
 C------------ ITAGND(N1,N2)= id of Int2 :secnd of Int2
-        integer, DIMENSION(:) , POINTER ::  FR_NBCCCND,FR_NBCCCND1   !  P/ON id 
+        integer, DIMENSION(:) , POINTER ::  FR_NBCCCND,FR_NBCCCND1   !  P/ON id
          my_real
      .          , DIMENSION(:), ALLOCATABLE :: VND, STIFND,FSKYCND ! (3,NS10E),(4,LCNCND)
          my_real
      .          , DIMENSION(:), ALLOCATABLE :: VMD        ! (3,NUMNOD) workarray
 C-- For calculate rightly the KE of ND which is also main node of int2 
-        INTEGER NKEND 
+        INTEGER NKEND
         integer, DIMENSION(:) , ALLOCATABLE ::  IMAP2ND   !  to id of ICNDS10
          my_real
      .          MAS_ND,KEND

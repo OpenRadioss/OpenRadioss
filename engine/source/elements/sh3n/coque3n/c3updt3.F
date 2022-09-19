@@ -54,9 +54,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JTHE,JFT, JLT, NVC
-      INTEGER IXTG(NIXTG,*),MAT(MVSIZ),IPARTTG(*) 
-      my_real  
-     .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*), 
+      INTEGER IXTG(NIXTG,*),MAT(MVSIZ),IPARTTG(*)
+      my_real
+     .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*),
      .   STIFN(*), STIFR(*),CONDN(*),CONDE(*)
       my_real F11(MVSIZ), F12(MVSIZ), F13(MVSIZ),
      .     F21(MVSIZ), F22(MVSIZ), F23(MVSIZ),
@@ -80,7 +80,7 @@ C cumul de l'energie des elements deletes AU moment du delete
       ENDDO
       IF(IOFF == 1)THEN
        MT = MAT(JFT)
-       DO I=JFT,JLT 
+       DO I=JFT,JLT
         IF (OFF(I) == ZERO .AND. OFFG(I) > ZERO)THEN
            MX = IPARTTG(I)
            PARTSAV(24,MX)=PARTSAV(24,MX) + EINT(I,1) + EINT(I,2)
@@ -143,7 +143,7 @@ C
            STIFR(NC1)=STIFR(NC1)+STIR(I)
  100      CONTINUE
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
            DO  I=JFT,JLT
             NC1 = IXTG(2,I)
@@ -173,8 +173,8 @@ C
             FTHE(NC1) = FTHE(NC1) + THEM(I,1)
            ENDDO
           ENDIF
-        ENDIF 
-      
+        ENDIF
+
       ELSE
        IF(JTHE == 0 ) THEN
          DO 110 I=JFT,JLT
@@ -189,7 +189,7 @@ C
           STIFR(NC1)=STIFR(NC1)+STIR(I)
   110    CONTINUE
        ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
            DO  I=JFT,JLT
              NC1 = IXTG(2,I)
              F(1,NC1)=F(1,NC1)-F11(I)
@@ -216,7 +216,7 @@ C
              STIFR(NC1)=STIFR(NC1)+STIR(I)
              FTHE(NC1) = FTHE(NC1) + THEM(I,1)
            ENDDO
-         ENDIF 
+         ENDIF
        ENDIF
       ENDIF
 C
@@ -235,7 +235,7 @@ C
           STIFR(NC2)=STIFR(NC2)+STIR(I)
   200    CONTINUE
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
           DO  I=JFT,JLT
             NC2 = IXTG(3,I)
@@ -246,8 +246,8 @@ C
             M(2,NC2)=M(2,NC2)-M22(I)
             M(3,NC2)=M(3,NC2)-M32(I)
             STIFN(NC2)=STIFN(NC2)+STI(I)
-            STIFR(NC2)=STIFR(NC2)+STIR(I)          
-            FTHE(NC2) = FTHE(NC2) + THEM(I,2) 
+            STIFR(NC2)=STIFR(NC2)+STIR(I)
+            FTHE(NC2) = FTHE(NC2) + THEM(I,2)
             CONDN(NC2)=CONDN(NC2)+CONDE(I)
           ENDDO
          ELSE
@@ -261,8 +261,8 @@ C
             M(2,NC2)=M(2,NC2)-M22(I)
             M(3,NC2)=M(3,NC2)-M32(I)
             STIFN(NC2)=STIFN(NC2)+STI(I)
-            STIFR(NC2)=STIFR(NC2)+STIR(I)          
-            FTHE(NC2) = FTHE(NC2) + THEM(I,2) 
+            STIFR(NC2)=STIFR(NC2)+STIR(I)
+            FTHE(NC2) = FTHE(NC2) + THEM(I,2)
           ENDDO
          ENDIF
         ENDIF
@@ -280,7 +280,7 @@ C
           STIFR(NC2)=STIFR(NC2)+STIR(I)
   210    CONTINUE
        ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
           DO  I=JFT,JLT
             NC2 = IXTG(3,I)
             F(1,NC2)=F(1,NC2)-F12(I)
@@ -290,8 +290,8 @@ C
             M(2,NC2)=M(2,NC2)-M22(I)
             M(3,NC2)=M(3,NC2)-M32(I)
             STIFN(NC2)=STIFN(NC2)+STI(I)
-            STIFR(NC2)=STIFR(NC2)+STIR(I)          
-            FTHE(NC2) = FTHE(NC2) + THEM(I,2) 
+            STIFR(NC2)=STIFR(NC2)+STIR(I)
+            FTHE(NC2) = FTHE(NC2) + THEM(I,2)
             CONDN(NC2)=CONDN(NC2)+CONDE(I)
           ENDDO
          ELSE
@@ -304,8 +304,8 @@ C
             M(2,NC2)=M(2,NC2)-M22(I)
             M(3,NC2)=M(3,NC2)-M32(I)
             STIFN(NC2)=STIFN(NC2)+STI(I)
-            STIFR(NC2)=STIFR(NC2)+STIR(I)          
-            FTHE(NC2) = FTHE(NC2) + THEM(I,2) 
+            STIFR(NC2)=STIFR(NC2)+STIR(I)
+            FTHE(NC2) = FTHE(NC2) + THEM(I,2)
           ENDDO
          ENDIF
        ENDIF
@@ -326,7 +326,7 @@ C
            STIFR(NC3)=STIFR(NC3)+STIR(I)
   300     CONTINUE
          ELSE
-          IF(NODADT_THERM == 1 ) THEN  
+          IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
            DO I=JFT,JLT
              NC3 = IXTG(4,I)
@@ -357,7 +357,7 @@ C
            ENDDO
           ENDIF
          ENDIF
-  
+
       ELSE
        IF(JTHE == 0 ) THEN
          DO 310 I=JFT,JLT
@@ -372,7 +372,7 @@ C
           STIFR(NC3)=STIFR(NC3)+STIR(I)
   310    CONTINUE
         ELSE
-          IF(NODADT_THERM == 1 ) THEN  
+          IF(NODADT_THERM == 1 ) THEN
            DO I=JFT,JLT
              NC3 = IXTG(4,I)
              F(1,NC3)=F(1,NC3)-F13(I)
@@ -719,7 +719,7 @@ C
         ENDIF
        ENDIF
 
-      ENDIF 
+      ENDIF
 C-----------
       RETURN
       END

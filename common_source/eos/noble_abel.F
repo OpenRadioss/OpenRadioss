@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE NOBLE_ABEL(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE NOBLE_ABEL(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 ,
      2                      ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                      PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -44,9 +44,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,PSH(*)  ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
 C-----------------------------------------------
@@ -74,8 +74,8 @@ C-----------------------------------------
 
       ! PM(23) =  E0
       ! PM(32) =  BB
-      ! PM(33) =  GAMMA-ONE     
-      ! PM(34) =  RHO0         
+      ! PM(33) =  GAMMA-ONE
+      ! PM(34) =  RHO0
       ! PM(88) =  PSH
 
        DO I=LFT,LLT
@@ -84,20 +84,20 @@ C-----------------------------------------
         GM1(I)  = PM(33,MX)
         RHO0(I) = PM(34,MX)
         PSH(I)  = PM(88,MX)
-        SPH(I)  = PM(69,MX)      
+        SPH(I)  = PM(69,MX)
        ENDDO
-    
+
        DO I=LFT,LLT
         DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-        PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
+        PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
         DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
-        DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)      
+        DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
        ENDDO
 C
        DO I=LFT,LLT
         ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I)>ZERO) THEN
-          ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I))) 
+          ECOLD(I)=ECOLD(I)*(ONE+GM1(I)*MU(I)*(ONE-MU(I)))
         ENDIF
        ENDDO
 C
@@ -149,15 +149,15 @@ C------------------------
             GM1(I)  = PM(33,MX)
             RHO0(I) = PM(34,MX)
             PSH(I)  = PM(88,MX)
-            SPH(I)  = PM(69,MX)      
+            SPH(I)  = PM(69,MX)
          ENDDO
-         
+
          DO I=1, NEL
             IF (VNEW(I) > ZERO) THEN
                DENOM   = ONE-BB_(I)*RHO0(I)*(ONE+MU(I))
-               PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM 
+               PP      = ESPE(I)*GM1(I)*(MU(I)+ONE)/DENOM
                DPDE(I) = GM1(I)*(ONE+MU(I))/DENOM
-               DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I) 
+               DPDM(I) = GM1(I)*ESPE(I)/DENOM + PP/DENOM*BB_(I)*RHO0(I) + PP*DF(I)*DF(I)*DPDE(I)
                PNEW(I) = PP-PSH(I)
             ENDIF
          ENDDO

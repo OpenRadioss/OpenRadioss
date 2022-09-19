@@ -27,7 +27,7 @@ Chd|        SPSTRES                       source/elements/sph/spstres.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SPDEFO3(
-     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, 
+     .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ,
      .   D4, D5, D6,WXX, WYY, WZZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -44,7 +44,7 @@ C     REAL
       my_real
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
-     .   DZX(*), DZY(*), DZZ(*), 
+     .   DZX(*), DZY(*), DZZ(*),
      .   D4(*), D5(*), D6(*),
      .   WXX(*), WYY(*), WZZ(*)
 C-----------------------------------------------

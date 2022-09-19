@@ -92,7 +92,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -133,17 +133,17 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,NGROUP),NPF(*),IADS(8,*),
      .        IPARTS(*),IXS10(6,*),IADS10(6,*),IPM(*),ITASK,GRTH(*),
      .        IGRTH(*),IGEO(*),LSENSOR(NSENSI,*),IOUTPRT,H3D_STRAIN
-      INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)      
+      INTEGER NELTST,ITYPTST,OFFSET,NEL,NG,ISTRAIN,ISOLNOD,IEXPAN,ITAGDN(*)
 C     REAL
 
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XDP(3,*)
-      
+
       my_real
      .   DT2T
       my_real
      .   PM(NPROPM,*), GEO(*), X(*), A(*), V(3,*), MS(*), W(*),
-     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
+     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*),
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   AR(*),VR(*) ,DR(*) ,STIFR(*),D(*), MSSA(*)  ,DMELS(*)
       my_real
@@ -152,7 +152,7 @@ C     REAL
      .   CONDNSKY(*),SENSOR(NSENSR,*), VARNOD(2*NUMNOD)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -170,7 +170,7 @@ C transmises en argument a mmain.
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
@@ -221,11 +221,11 @@ c
       my_real VARNL(NEL)
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,II(6)
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: BPRELD
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C--------------------------------------------------------
       DATA WIP / 1.  ,0.  ,0.  ,0.  ,0.  ,
      2           0.  ,0.  ,0.  ,0.  ,0.  ,
@@ -293,8 +293,8 @@ C
 C-----------
       CALL S10COOR3(
      1   X        ,IXS(1,NF1),IXS10(1,NF2),V        ,W        ,
-     2   XX       ,YY        ,ZZ          ,VX       ,VY       , 
-     3   VZ       ,VDXX      ,VDYY        ,VDZZ     ,VDX      , 
+     2   XX       ,YY        ,ZZ          ,VX       ,VY       ,
+     3   VZ       ,VDXX      ,VDYY        ,VDZZ     ,VDX      ,
      4   VDY      ,VDZ       ,VD2         ,VIS      ,GBUF%OFF ,
      5   OFF      ,GBUF%SMSTR,NC          ,NGL      ,MXT      ,
      6   NGEO     ,FX        ,FY          ,FZ       ,STIG     ,
@@ -322,7 +322,7 @@ C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
       IF (ISMSTR >= 10.AND.ISMSTR <= 12) THEN
        CALL SGCOOR10(XX,YY,ZZ,X ,XDP ,
-     1   XX0, YY0, ZZ0, VX0,VY0, VZ0, 
+     1   XX0, YY0, ZZ0, VX0,VY0, VZ0,
      2   GBUF%SMSTR,NC,D ,GBUF%OFF,OFFG0,NEL)
 C----------------------
        IF (ISMSTR ==  11) THEN
@@ -339,7 +339,7 @@ C----------------------
 C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un) 
         IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
          CALL S10RCOOR12(GBUF%OFF,X ,XDP ,NC ,
-     .    E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   ) 
+     .    E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   )
         END IF !(ISMSTR == 10.AND.ISORTH/=0.AND.IDTMIN(1)==3)
 c        CALL S10DERITO3(VOLP,
 c     .   XX0, YY0, ZZ0, PX,PY,PZ, NX,
@@ -354,16 +354,16 @@ c     .   WIP(1,NPT),ALPH(1,NPT),BETA(1,NPT),VOLN,ELBUF_TAB(NG))
        DO IP=1,NPT
         CALL S10DEFOT3(
      .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), VX0, VY0, VZ0,
-     .   MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), MFYY(1,IP), 
+     .   MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP), MFYX(1,IP), MFYY(1,IP),
      .   MFYZ(1,IP), MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP) )
-       END DO 
+       END DO
        IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
          DO IP=1,NPT
           CALL SORDEFT12(LFT,LLT,MFXX(1,IP), MFXY(1,IP), MFXZ(1,IP),
      .         MFYX(1,IP), MFYY(1,IP), MFYZ(1,IP),
      .         MFZX(1,IP), MFZY(1,IP), MFZZ(1,IP),
      .         E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z,GBUF%OFF)
-         END DO 
+         END DO
        ENDIF
       ENDIF     ! ISMSTR == 10
 C-----------
@@ -389,8 +389,8 @@ C--- for /CST avoid multi-printout----
           IF (GBUF%OFF(I)==TWO) LBUF%OFF(I)=GBUF%OFF(I)
          ENDDO
         ENDDO
-       END IF 
-      END IF 
+       END IF
+      END IF
 C --------------------------
 C  --- UPDATE REF. CONFIGURATION 
 C --------------------------
@@ -399,16 +399,16 @@ C --------------------------
      +                   XX   ,YY   ,ZZ  ,NEL)
       END IF !(ISMSTR == 2) THEN
 C-----------------------------
-      IF (ISORTH == 0) THEN            
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                               
-          GAMA(I,2) = ZERO                                
-          GAMA(I,3) = ZERO             
-          GAMA(I,4) = ZERO                                
-          GAMA(I,5) = ONE                                
-          GAMA(I,6) = ZERO             
-        ENDDO                          
-      ELSE                             
+      IF (ISORTH == 0) THEN
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
+          GAMA(I,3) = ZERO
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
+        ENDDO
+      ELSE
         CALL SREPLOC3(
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
@@ -461,7 +461,7 @@ C
      .                  LBUF%VOL,VOLN,LBUF%VOL0DP,VOLDP(1,IP),NEL)
          ENDIF
 C   
-        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))  
+        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))
         CALL SRHO3(PM         ,LBUF%VOL  , LBUF%RHO, LBUF%EINT, DIVDE,
      .             FLUX(1,NF1),FLU1(NF1) , VOLN    , DVOL     , NGL, MXT, OFF,
      .             0          ,GBUF%TAG22, VOLDP(1,IP),LBUF%VOL0DP ,AMU ,GBUF%OFF)
@@ -482,25 +482,25 @@ C       SMALL STRAIN
 C-----------------------------
         CALL S10MALLA3(GBUF%OFF,OFF,WXX,WYY,WZZ,
      .                 WXXG,WYYG,WZZG,WIP(IP,NPT))
-           
-        IF(JTHE < 0 ) THEN                                        
-          DO I=LFT,LLT                                            
-            TEMPEL(I)= ZERO                                       
-          ENDDO                                                   
-          IF(ISOLNOD == 10) THEN		  
-          DO J = 1,10                                             
-            DO I=LFT,LLT                                          
-              TEMPEL(I)= TEMPEL(I) +  NX(I,J,IP)*TEMP(NC(I,J))       
-            ENDDO                                                 
-          ENDDO                                                   
+
+        IF(JTHE < 0 ) THEN
+          DO I=LFT,LLT
+            TEMPEL(I)= ZERO
+          ENDDO
+          IF(ISOLNOD == 10) THEN		
+          DO J = 1,10
+            DO I=LFT,LLT
+              TEMPEL(I)= TEMPEL(I) +  NX(I,J,IP)*TEMP(NC(I,J))
+            ENDDO
+          ENDDO
           ELSEIF(ISOLNOD == 4) THEN
-            DO J = 1,4                                             
-              DO I=LFT,LLT                                          
+            DO J = 1,4
+              DO I=LFT,LLT
                 TEMPEL(I)= TEMPEL(I) +  NXT4(I,J,IP)*TEMP(NC(I,J))
-              ENDDO 
-            ENDDO 
-        ENDIF                                                     
-        ENDIF                                                     
+              ENDDO
+            ENDDO
+        ENDIF
+        ENDIF
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
@@ -519,7 +519,7 @@ C
      A             RX       ,RY     ,RZ     ,SX      ,SY      ,SZ     ,
      B             VDX      ,VDY    ,VDZ    ,MUVOID  ,SSP_EQ  ,AIRE   ,
      C             SIGY     ,ET     ,R1_FREE,LBUF%PLA   ,R3_FREE    ,AMU    ,
-     D             MFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP),MFYY(1,IP)     ,MFYZ(1,IP), 
+     D             MFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP),MFYY(1,IP)     ,MFYZ(1,IP),
      E             MFZX(1,IP),MFZY(1,IP),MFZZ(1,IP)  ,IPM     ,GAMA	      ,BID    ,
      F             BID      ,BID    ,BID    ,BID     ,BID     ,BID    ,
      G             ISTRAIN  ,TEMPEL, DIE    ,IEXPAN  ,ILAY    ,MSSA   ,
@@ -536,7 +536,7 @@ C-----------  return to global system
 !! the other multidimensional buffer ARRAYS which are still not modified
 !!         CALL SROTO12(LFT,LLT,LBUF%SIG,
 !!     .                 E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,OFFG0)
-         IF (ISTRAIN == 1) THEN 
+         IF (ISTRAIN == 1) THEN
           CALL SORDEF12(LFT,LLT,DXX, DXY, DXZ,
      .         D4, D5, D6,
      .         E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,OFFG0)
@@ -576,9 +576,9 @@ C          switched to small strain
         ENDDO
 C
         IF (JTHE < 0 .AND. ISOLNOD == 10) THEN
-          CALL S10THERM(PM     ,MXT    ,NC ,VOLN, 
+          CALL S10THERM(PM     ,MXT    ,NC ,VOLN,
      .    	    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),NX(1,1,IP),
-     .    	    DT1 ,TEMP  ,TEMPEL ,DIE  , THEM,GBUF%OFF,LBUF%OFF) 
+     .    	    DT1 ,TEMP  ,TEMPEL ,DIE  , THEM,GBUF%OFF,LBUF%OFF)
         ENDIF
 c----------
       ENDDO   ! end integration point loop
@@ -586,7 +586,7 @@ c----------
       IF (JTHE < 0 .AND. ISOLNOD == 4) THEN
           CALL S4THERM_ITET1(PM   ,MXT    ,NC   ,NEL  ,
      .    	                 XX   ,YY     ,ZZ   ,DT1  ,DIE ,
-     .    	                 TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF) 
+     .    	                 TEMP ,THEM   ,GBUF%OFF   ,LBUF%OFF)
       ENDIF
 c-----------------------------
       IF (JLAG+JALE+JEUL /= 0) THEN
@@ -614,7 +614,7 @@ C
 c
         CALL SMALLB3(GBUF%OFF,OFF)
         CALL S10MALLGEO3(NGL,GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,
-     .                       RX , RY , RZ , 
+     .                       RX , RY , RZ ,
      .                       SX , SY , SZ ,
      .                       TX , TY , TZ )
 C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
@@ -629,7 +629,7 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
            IF (ISM12_11>0 .AND. ISORTH == 0) THEN
              CALL S10UPD11T12(ELBUF_TAB(NG) ,GBUF%OFF   ,OFFG0  ,NC   ,
      +                        XX   ,YY   ,ZZ   ,NEL )
-           END IF 
+           END IF
           IPTS = 1
           IPTT = 1
           ILAY = 1
@@ -641,7 +641,7 @@ C-----------!!!-seperate LBUF%SIGL=LBUF%SIG,w/ npt>0 ISM12_11
             END DO
           END DO
          END IF !(IOFFS == 1) THEN
-       END IF 
+       END IF
 c-----------------------------
       IF(NFILSOL/=0) CALL SXFILLOPT(NPE,GBUF%FILL,STIG,FX,FY,FZ)
 C-----
@@ -651,7 +651,7 @@ C-----
      .                 ITAGDN  ,NEL)
           ELSE
           CALL S10CUMU3P(GBUF%OFF,STIG,FSKY   ,FSKY   ,IADS,FX,FY,
-     .                 FZ  ,DELTAX2,IADS10 ,NC,THEM, 
+     .                 FZ  ,DELTAX2,IADS10 ,NC,THEM,
      .                 FTHESKY ,AR,X,GBUF%SMSTR,CONDNSKY,CONDEG,
      .                 ITAGDN  ,NEL)
         ENDIF
@@ -858,9 +858,9 @@ C-----------------------------------------------
 #include "vectorize.inc"
       DO J=1,NB
         I = INDEX(J)
-        PIJ(I,1,1:10) = PX(J,1:10) 
-        PIJ(I,2,1:10) = PY(J,1:10) 
-        PIJ(I,3,1:10) = PZ(J,1:10) 
+        PIJ(I,1,1:10) = PX(J,1:10)
+        PIJ(I,2,1:10) = PY(J,1:10)
+        PIJ(I,3,1:10) = PZ(J,1:10)
         SIGL(I,1:6) = SIG(I,1:6)
       END DO
 C-----------

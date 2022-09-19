@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IWA(*),
      .   IPART(LIPART1,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .   ITHGRP(NITHGR,*),ITHBUF(*), IFIL,
@@ -101,11 +101,11 @@ C-----------------------------------------------
       INTEGER ITITLE(100), IFILNAM(100), ICODE, I, NJOINV, NRBAGV,
      .   NG, II, N, IH, ITY, NEL, NFT, K, MTN, NACCELV,
      .   IRUNR,NVAR,MID,PID,IAD1,IAD2,J,IAD,LTITL,NRECORD,
-     .   SEEK_LOC,IPART1,IPART2    
+     .   SEEK_LOC,IPART1,IPART2
 C     REAL
       my_real
      .   TITLE(20),TIT40(10),TIT80(20),TIT100(25)
-      CHARACTER EOR*8, CH8*8, CARD*80, BLA*7, CH8M*8, CH8L*8, CH8T*8 
+      CHARACTER EOR*8, CH8*8, CARD*80, BLA*7, CH8M*8, CH8L*8, CH8T*8
       CHARACTER CH80*80,TITL*100,VAR*10
       INTEGER :: LEN_TMP_NAME, TITLSUM
       CHARACTER(len=2148) :: TMP_NAME
@@ -139,7 +139,7 @@ C      ICODE=3030
       ENDIF
 C
       LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN+LONG
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))  
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
 C
       IF(TH_TITLES == 1)
      .     OPEN(UNIT=IFILTITL,FILE=TMP_NAME(1:LEN_TMP_NAME)//'_TITLES',
@@ -161,7 +161,7 @@ C
        CALL CUR_FIL_C(IFIL)
        IF(MCHECK==0)THEN
        CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
-        
+
        ELSE
        CALL OPEN_C(IFILNAM,LEN_TMP_NAME,8)
        RETURN
@@ -171,13 +171,13 @@ C
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
        ENDDO
        CALL CUR_FIL_C(IFIL)
-       CALL OPEN_C(IFILNAM,LEN_TMP_NAME,3)  
+       CALL OPEN_C(IFILNAM,LEN_TMP_NAME,3)
        ITTYP=3
       ELSEIF(ITTYP==5)THEN
        DO I=1,LEN_TMP_NAME
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
        ENDDO
-       CALL CUR_FIL_C(IFIL)       
+       CALL CUR_FIL_C(IFIL)
        CALL OPEN_C(IFILNAM,LEN_TMP_NAME,6)
        ITTYP=3
       ENDIF
@@ -187,7 +187,7 @@ C-------TITRE------------
 
       ELSEIF(ITTYP==1)THEN
         CH8=STRI(ICODE)
-        WRITE(IUNIT,'(A)')FILNAM(1:ROOTLEN+LONG)         
+        WRITE(IUNIT,'(A)')FILNAM(1:ROOTLEN+LONG)
         WRITE(IUNIT,'(2A)')CH8,CARD(1:72)
       ELSEIF(ITTYP==2)THEN
         WRITE(IUNIT,'(2A)')FILNAM(1:ROOTLEN+LONG),' FORMAT'
@@ -264,7 +264,7 @@ C       1ER RECORD : LONGUEUR DES TITRES
 C
 C       2EME RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME        
         IF(ITTYP==0)THEN
-          WRITE(IUNIT) FAC_MASS,FAC_LENGTH,FAC_TIME 
+          WRITE(IUNIT) FAC_MASS,FAC_LENGTH,FAC_TIME
         ELSEIF(ITTYP==1)THEN
           CH8M=STRR(FAC_MASS)
           CH8L=STRR(FAC_LENGTH)
@@ -272,7 +272,7 @@ C       2EME RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME
           WRITE(IUNIT,'(3A8)')CH8M,CH8L,CH8T
         ELSEIF(ITTYP==2)THEN
           WRITE(IUNIT,'(A,I5,A)')EOR,3,'R'
-          WRITE(IUNIT,'((5(1X,1PE15.8)))')FAC_MASS,FAC_LENGTH,FAC_TIME 
+          WRITE(IUNIT,'((5(1X,1PE15.8)))')FAC_MASS,FAC_LENGTH,FAC_TIME
         ELSEIF(ITTYP==3)THEN
           CALL EOR_C(12)
           R4=FAC_MASS
@@ -283,16 +283,16 @@ C       2EME RECORD : FAC_MASS,FAC_LENGTH,FAC_TIME
           CALL WRITE_R_C(R4,1)
           CALL EOR_C(12)
         ENDIF
-      END IF      
+      END IF
 C-------HIERARCHIE INFO------------
       IWA(1)=NPART+NTHPART
       IWA(2)=NUMMAT
       IWA(3)=NUMGEO
       IWA(4)=NSUBS
-      IWA(5)=NTHGRP2 
+      IWA(5)=NTHGRP2
       IF(NSECT==0.AND.NSFLSW/=0) IWA(5)=NTHGRP2+1
       IF(TH_VERS >= 2021)THEN
-        NGLOBTH=15   
+        NGLOBTH=15
       ELSE
         NGLOBTH=12
       END IF
@@ -304,11 +304,11 @@ c
       ENDIF
 c
       CALL WRTDES(IWA,IWA,6,ITTYP,0)
-       
+
       DO I=1,IWA(6)
           IWA(I)=I
       ENDDO
-      IF(IUNIT == IUHIS) CALL WRTDES(IWA,IWA,NGLOBTH,ITTYP,0)     
+      IF(IUNIT == IUHIS) CALL WRTDES(IWA,IWA,NGLOBTH,ITTYP,0)
 C-------PART DESCRIPTION------------
       DO N=1,NPART+NTHPART
         NVAR=IPARTH(NVPARTH,N)
@@ -359,10 +359,10 @@ C-------PART DESCRIPTION------------
           IF(I <= SITHBUF) THEN
             IWA(II)=ITHBUF(I)
           ELSE
-            IWA(II) = 0 
+            IWA(II) = 0
           ENDIF
         ENDDO
-        IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,ITTYP,0)       
+        IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,ITTYP,0)
       ENDDO
 C-------MATER DESCRIPTION------------
       DO N=1,NUMMAT
@@ -420,7 +420,7 @@ C-------GEO DESCRIPTION------------
         ELSEIF(ITTYP==2)THEN
           WRITE(IUNIT,'(A,I5,A,I5,A)')EOR,1,'I',LTITL,'C'
           WRITE(IUNIT,'(I10,A)')PID,TITL(1:LTITL)
-          
+
         ELSEIF(ITTYP==3)THEN
          CALL EOR_C(4+LTITL)
          CALL WRITE_I_C(PID,1)
@@ -446,7 +446,7 @@ C-------HIERARCHIE DESCRIPTION------------
 !!     .               ISUBS(2,N),ISUBS(4,N),NVAR,TIT40
             WRITE(IUNIT)SUBSET(N)%ID,SUBSET(N)%PARENT,
      .               SUBSET(N)%NCHILD,SUBSET(N)%NPART,NVAR,TIT40
-          ELSE IF(LTITL==00)THEN  
+          ELSE IF(LTITL==00)THEN
             READ(TITL,'(20A4)')TIT80
 !!            WRITE(IUNIT)ISUBS(1,N),ISUBS(10,N),
 !!     .               ISUBS(2,N),ISUBS(4,N),NVAR,TIT80
@@ -494,7 +494,7 @@ C-------HIERARCHIE DESCRIPTION------------
           IWA(II)=ITHBUF(I)
         ENDDO
         IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,ITTYP,0)
-        
+
       ENDDO
 C-------TH GROUP------------
         DO N=1,NTHGRP2
@@ -574,10 +574,10 @@ C (nstrands elements are treated as a spring group)
               DO J=1,NVAR
                 DO K=1,10
                   VAR(K:K)=CHAR(ITHVAR((ITHGRP(9,N)-1+J-1)*10+K))
-                ENDDO 
+                ENDDO
                 WRITE(IFILTITL,'(I10)')ITHGRP(2,N)
                 WRITE(IFILTITL,'(A)')VAR(1:10)
-              ENDDO 
+              ENDDO
             ENDDO
           ENDIF
         ENDIF
@@ -641,17 +641,17 @@ C-------TH GROUP + 1 section fluide------------
         DO I=1,6
             IWA(I)=I
         ENDDO
-        CALL WRTDES(IWA,IWA,6,ITTYP,0)      
+        CALL WRTDES(IWA,IWA,6,ITTYP,0)
       ENDIF
 C
-      IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN      
+      IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
         CALL FLU_FIL_C()
         IF (IDDOM==0) THEN
           SEEK_LOC = IUNIT-29
           IF (IUNIT == 3) SEEK_LOC = 1
           SEEK_FLAG(SEEK_LOC) = 1
-        ENDIF  
-      ENDIF  
+        ENDIF
+      ENDIF
 C
       IF(TH_TITLES == 1) CLOSE(IFILTITL)
 C

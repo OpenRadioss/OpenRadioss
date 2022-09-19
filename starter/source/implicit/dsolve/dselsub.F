@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER DSLEN, NSDEC, OFF, IPROC, ISD, 
+      INTEGER DSLEN, NSDEC, OFF, IPROC, ISD,
      .        PARENT(GRAPHE(1)%NSUPEL*NSPROC), NBSD, ILVL, ISD2, J,
      .        NUMELSL, NUMELQL, NUMELCL, NUMELTL, NUMELPL, NUMELRL,
      .        NUMELTGL, NUMELURL, NUMELXL, NELEML, I, IEL, JJ, JJJ,
@@ -213,4 +213,4 @@ C
 C
       RETURN
       END
-            
+

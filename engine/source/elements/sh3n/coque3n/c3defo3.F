@@ -31,8 +31,8 @@ Chd|====================================================================
      .                   IXTG,ISH3N,PX1  ,PY1    ,PY2   ,
      .                   EXX  ,EYY  ,EXY  ,EYZ   ,EZX   ,
      .                   VX13 ,VX23  ,VY12  ,
-     .                   E1X      ,E1Y      ,E1Z     ,E2X      ,           
-     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      ) 
+     .                   E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,IXTG(NIXTG,*), ISH3N
       my_real VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),
-     .     EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EYZ(MVSIZ),EZX(MVSIZ), 
+     .     EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EYZ(MVSIZ),EZX(MVSIZ),
      .     E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .     E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .     E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
@@ -105,12 +105,12 @@ C
       VX10 = VX1(I)
       VX20 = VX2(I)
       VX30 = VX3(I)
-      VX1(I) = VX1(I) - VZ1(I) * TMP1 - VY1(I) * TMP11 
+      VX1(I) = VX1(I) - VZ1(I) * TMP1 - VY1(I) * TMP11
       VX2(I) = VX2(I) - VZ2(I) * TMP1 - VY2(I) * TMP11
-      VX3(I) = VX3(I) - VZ3(I) * TMP1 - VY3(I) * TMP11 
-      VY1(I) = VY1(I) - VZ1(I) * TMP2 - VX10 * TMP22 
-      VY2(I) = VY2(I) - VZ2(I) * TMP2 - VX20 * TMP22 
-      VY3(I) = VY3(I) - VZ3(I) * TMP2 - VX30 * TMP22 
+      VX3(I) = VX3(I) - VZ3(I) * TMP1 - VY3(I) * TMP11
+      VY1(I) = VY1(I) - VZ1(I) * TMP2 - VX10 * TMP22
+      VY2(I) = VY2(I) - VZ2(I) * TMP2 - VX20 * TMP22
+      VY3(I) = VY3(I) - VZ3(I) * TMP2 - VX30 * TMP22
 C
       VX12(I)=VX1(I) - VX2(I)
       VY12(I)=VY1(I) - VY2(I)
@@ -200,7 +200,7 @@ C-----------------------------------------------
       my_real
      .   AREA(*),RLZ(MVSIZ,3),VX13(MVSIZ), VX23(MVSIZ),VY12(MVSIZ),
      .   VRL1(MVSIZ,3), VRL2(MVSIZ,3), VRL3(MVSIZ,3),
-     .   E3X(MVSIZ), E3Y(MVSIZ),E3Z(MVSIZ), EXX(*),EYY(*),EXY(*), 
+     .   E3X(MVSIZ), E3Y(MVSIZ),E3Z(MVSIZ), EXX(*),EYY(*),EXY(*),
      .   BM0RZ(MVSIZ,3,2),B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),WXY(*),
      .   PX1(*),PY1(*),PY2(*)
 C=======================================================================
@@ -493,7 +493,7 @@ C-------------anticipe for system change (later)
        VDEF(I,2)=PY2(I)*V21Y(I)+PY3(I)*V31Y(I)
        VDEF(I,3)=PY2(I)*V21X(I)+PY3(I)*V31X(I)
        VDEF(I,4)=PX2(I)*V21Y(I)+PX3(I)*V31Y(I)
-      END DO 
+      END DO
 C---------after the patch, as explicit, EMRZ=0
 c      IF (IDRIL>0) THEN
 c       DO I=JFT,JLT

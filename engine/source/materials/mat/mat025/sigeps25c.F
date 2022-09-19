@@ -90,7 +90,7 @@ C     REAL
      .   SIGVXX(MVSIZ),SIGVYY(MVSIZ),SIGVXY(MVSIZ),SIGVYZ(MVSIZ),
      .   SIGVZX(MVSIZ),
      .   UVARV(NEL,*),PLY_F(MVSIZ,5,*),
-     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
+     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*),
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),
      .   SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),SIGOYZ(NEL),
      .   SIGOZX(NEL),PLA(NEL),DAMT(NEL,2),CRAK(NEL,2),SEQ_OUTP(NEL),
@@ -119,23 +119,23 @@ C
 C  Check visco elastic model 
 C             
       NPMAX = 0
-      IF (IPRONY > 0) THEN 
+      IF (IPRONY > 0) THEN
         IADBUF = IPM(223,IMATLY)
-        DO I=JFT,JLT    
+        DO I=JFT,JLT
           KV(I) = UPARAM(IADBUF)
           NPRONY = INT(UPARAM(IADBUF+1))
           NPMAX = MAX(NPRONY,NPMAX)
-        ENDDO   
+        ENDDO
         ALLOCATE(GV(NPMAX),BETA(NPMAX))
         GV(1:NPMAX) = ZERO
         BETA(1:NPMAX) = ZERO
         DO JJ=1,NPRONY
           GV(JJ)   = UPARAM(IADBUF + 1 + JJ)
           BETA(JJ) = UPARAM(IADBUF + 1 + NPRONY + JJ)
-        ENDDO 
+        ENDDO
       ELSE
         ALLOCATE(GV(0),BETA(0))
-      ENDIF      
+      ENDIF
 C
       IF (ISHPLYXFEM == 0 .OR. IPLYXFEM == 2) THEN
         DO I=JFT,JLT
@@ -149,32 +149,32 @@ C
           STRN2(I)= GSTR(I,2)+ZT*GSTR(I,7)
           STRN3(I)=(GSTR(I,3)+ZT*GSTR(I,8))*HALF
         ENDDO
-      ELSE 
+      ELSE
         DO I=JFT,JLT
           ZT=ZZ(I)*THK0(I)
           EPS(I,1)=EXX(I) + ZT*KXX(I) + PLY_EXX(I,IPT)
           EPS(I,2)=EYY(I) + ZT*KYY(I) + PLY_EYY(I,IPT)
           EPS(I,3)=EXY(I) + ZT*KXY(I) + PLY_EXY(I,IPT)
-          EPS(I,4)=EYZ(I) 
-          EPS(I,5)=EXZ(I) 
+          EPS(I,4)=EYZ(I)
+          EPS(I,5)=EXZ(I)
 !          EPS(4,I)=EYZ(I) + PLY_EYZ(I,J)
-!          EPS(5,I)=EXZ(I) + PLY_EXZ(I,J) 
+!          EPS(5,I)=EXZ(I) + PLY_EXZ(I,J)
           STRN1(I)= GSTR(I,1)+ ZT*GSTR(I,6)
           STRN2(I)= GSTR(I,2)+ ZT*GSTR(I,7)
-          STRN3(I)=(GSTR(I,3)+ ZT*GSTR(I,8))*HALF  
+          STRN3(I)=(GSTR(I,3)+ ZT*GSTR(I,8))*HALF
         ENDDO
       ENDIF
 C
-      IF (IPRONY > 0) THEN 
+      IF (IPRONY > 0) THEN
         DO I=JFT,JLT
           DTINV = DT_INV(I)
           EPSPXX(I) = EPS(I,1)*DTINV
           EPSPYY(I) = EPS(I,2)*DTINV
           EPSPXY(I) = EPS(I,3)*DTINV
           EPSPYZ(I) = EPS(I,4)*DTINV
-          EPSPZX(I) = EPS(I,5)*DTINV 
+          EPSPZX(I) = EPS(I,5)*DTINV
         ENDDO
-      ENDIF 
+      ENDIF
 C-----------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C-----------------------
@@ -198,43 +198,43 @@ C-----------------------
      A              IPG     )
 !----------------------------------
         IF (IPLYXFEM == 1) THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO I=JFT,JLT
             PLY_F(I,1,IPT) = THLY(I)*SIGE(I,1)
             PLY_F(I,2,IPT) = THLY(I)*SIGE(I,2)
             PLY_F(I,3,IPT) = THLY(I)*SIGE(I,3)
             PLY_F(I,4,IPT) = THLY(I)*SIGE(I,4)
-            PLY_F(I,5,IPT) = THLY(I)*SIGE(I,5)  
+            PLY_F(I,5,IPT) = THLY(I)*SIGE(I,5)
           ENDDO
         ELSEIF (IPLYXFEM == 2) THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO I=JFT,JLT
             PLY_F(I,1,IPT) = THLY(I)*(SIGE(I,1)+SIGPE(I,1))
             PLY_F(I,2,IPT) = THLY(I)*(SIGE(I,2)+SIGPE(I,2))
             PLY_F(I,3,IPT) = THLY(I)*(SIGE(I,3)+SIGPE(I,3))
             PLY_F(I,4,IPT) = THLY(I)*SIGE(I,4)
-            PLY_F(I,5,IPT) = THLY(I)*SIGE(I,5)  
+            PLY_F(I,5,IPT) = THLY(I)*SIGE(I,5)
           ENDDO
         ENDIF ! IF (IPLYXFEM == 1)
 !----------------------------------
 C
 C  visco elastic model 
 C             
-      IF (IPRONY > 0) THEN 
+      IF (IPRONY > 0) THEN
         CALL PRONY25C(JLT      ,NPRONY ,NPMAX    ,BETA    ,KV    ,
-     1                GV       ,DT1C   ,RHO0     ,OFF     ,DIR   ,   
+     1                GV       ,DT1C   ,RHO0     ,OFF     ,DIR   ,
      2                EPSPXX   ,EPSPYY ,EPSPXY   ,EPSPYZ  ,EPSPZX,
      3                SIGVXX   ,SIGVYY ,SIGVXY   ,SIGVYZ  ,SIGVZX,
      4                SIGV     ,SOUNDSP,UVARV    ,IGTYP   )
 C 
           IF (ISHPLYXFEM > 0) THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
             DO I=JFT,JLT
               PLY_F(I,1,IPT) = PLY_F(I,1,IPT) + THLY(I)*SIGVXX(I)
-              PLY_F(I,2,IPT) = PLY_F(I,2,IPT) + THLY(I)*SIGVYY(I)  
+              PLY_F(I,2,IPT) = PLY_F(I,2,IPT) + THLY(I)*SIGVYY(I)
               PLY_F(I,3,IPT) = PLY_F(I,3,IPT) + THLY(I)*SIGVXY(I)
               PLY_F(I,4,IPT) = PLY_F(I,4,IPT) + THLY(I)*SIGVYZ(I)
-              PLY_F(I,5,IPT) = PLY_F(I,5,IPT) + THLY(I)*SIGVZX(I) 
+              PLY_F(I,5,IPT) = PLY_F(I,5,IPT) + THLY(I)*SIGVZX(I)
             ENDDO
           ENDIF  ! IF (ISHPLYXFEM > 0)
         ENDIF ! IF (IPRONY > 0)
@@ -283,7 +283,7 @@ C
             IF (IOFF == 1 .AND. NINT(WPLAR(I)) >= FAILNPT) JOFF=1
             IF (IOFF == 2 .AND. NFIS1(I) >= FAILNPT) JOFF=1
             IF (IOFF == 3 .AND. NFIS2(I) >= FAILNPT) JOFF=1
-            IF (IOFF == 4 .AND. NFIS1(I) >= FAILNPT 
+            IF (IOFF == 4 .AND. NFIS1(I) >= FAILNPT
      .                    .AND. NFIS2(I) == FAILNPT) JOFF=1
             IF (IOFF == 5 .AND. NFIS1(I) >= FAILNPT) JOFF=1
             IF (IOFF == 5 .AND. NFIS2(I) >= FAILNPT) JOFF=1

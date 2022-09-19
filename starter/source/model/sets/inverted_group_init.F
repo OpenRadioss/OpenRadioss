@@ -32,13 +32,13 @@ Chd|====================================================================
 !$COMMENT
 !       INVERTED_GROUP_INIT description
 !       initialization of INV_GROUP structure (number of elm & part)
-!       
+!
 !       INVERTED_GROUP_INIT organization :
 !           2 different modes :
 !           - MODE = 0 --> first initialization
 !           - MODE = 1 --> recomputation of the inverted connectivity
 !             the size does not change, the structure was alreay allocated,
-!             flush to 0 the array 
+!             flush to 0 the array
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
@@ -83,7 +83,7 @@ C-----------------------------------------------
             INV_GROUP%SIZE_P = NUMELP
             INV_GROUP%SIZE_TG = NUMELTG
             INV_GROUP%SIZE_TRIA= NUMELTRIA
-            INV_GROUP%SIZE_R = NUMELR        
+            INV_GROUP%SIZE_R = NUMELR
         ELSE
         !   ---------------
         !   recompute the inverted connectivity : flush to 0
@@ -110,7 +110,7 @@ C-----------------------------------------------
 
             MY_SIZE = INV_GROUP%SIZE_P
             INV_GROUP%PARTP( 1:MY_SIZE ) = 0
-        
+
             MY_SIZE = INV_GROUP%SIZE_TG
             INV_GROUP%PARTTG( 1:MY_SIZE ) = 0
 
@@ -118,8 +118,8 @@ C-----------------------------------------------
             INV_GROUP%PARTTRIA( 1:MY_SIZE ) = 0
 
             MY_SIZE = INV_GROUP%SIZE_R
-            INV_GROUP%PARTR( 1:MY_SIZE ) = 0  
-        !   ---------------  
+            INV_GROUP%PARTR( 1:MY_SIZE ) = 0
+        !   ---------------
         ENDIF
 !   ----------------------------------------
         RETURN

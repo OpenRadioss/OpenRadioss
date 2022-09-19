@@ -51,7 +51,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE INT8_MOD
       USE H3D_MOD
 C-----------------------------------------------
@@ -132,7 +132,7 @@ C     REAL
       INTEGER MFROT,IBAG,IADM,IFORM,IFT0
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP,  STOPT,  
+     .   STARTT, FRIC, GAP,  STOPT,
      .   VISC,VISCF,FNOR,DEPTH
 
 C     INTEGER aa,bb,cc,dd 
@@ -187,11 +187,11 @@ C
      .  ZI(NSN), ZI_A(NSN),
      .  XP(NSN), N1(NSN),
      .  YP(NSN), N2(NSN),
-     .  ZP(NSN), N3(NSN), 
+     .  ZP(NSN), N3(NSN),
      .  ANS(NSN),SSC(NSN),TTC(NSN),
      .  H1(NSN),H2(NSN),H3(NSN),H4(NSN),
      .  FACE(NSN),FACE_A(NSN),
-     .  STIF(NSN), 
+     .  STIF(NSN),
      .  X0(NSN), XX1(NSN), XX2(NSN),
      .  Y0(NSN), YY1(NSN), YY2(NSN),
      .  Z0(NSN), ZZ1(NSN), ZZ2(NSN),
@@ -214,7 +214,7 @@ C
 !       DO 180 NG=1,NGROUS
         NFT=0
         LFT=1
-        LLT=NSN                   
+        LLT=NSN
         IF(NSPMD > 1) THEN
         ! WRITE(6,*) "================================="
         ! WRITE(6,*) __FILE__,__LINE__,T8%S_COMM,NMN,NSN
@@ -245,7 +245,7 @@ C
           CALL SPMD_I8_COMMSLV(NSN,
      .              INTBUF_TAB%ILOCS,INTBUF_TAB%NSV,
      .              ITAB,T8%BUFFER,T8%SPMD_COMM_PATTERN,INDEX_IN_COMM)
-          
+
           CALL SPMD_I8_UPDBUF(NSN,INTBUF_TAB%ILOCS,INTBUF_TAB%NSV,
      .              ITAB,T8%BUFFER,T8%SPMD_COMM_PATTERN,INDEX_IN_COMM)
         ENDIF
@@ -263,7 +263,7 @@ C
 
         NFT=0
         LFT=1
-        LLT=0                   
+        LLT=0
         NSV_A(1:NSN) = 0
         IRTL_A(1:NSN) = 0
         NSV2(1:NSN) = 0
@@ -273,12 +273,12 @@ C
         FACE_A(1:NSN) = 0
 
         ! Compact NSV,IRTL,XI,ZI and FACE
-        ! by keeping only secnd nodes that are 
+        ! by keeping only secnd nodes that are
         ! active on this SPMD domain
         DO I = 1,NSN
            IF(INTBUF_TAB%ILOCS(I) > -1 .AND.
      .        INTBUF_TAB%IRTLM(I) > 0) THEN
-             LLT = LLT +1 
+             LLT = LLT +1
              NSV2(LLT) = I
              NSV_A(LLT) = INTBUF_TAB%NSV(I)
              IRTL_A(LLT) = INTBUF_TAB%IRTLM(I)
@@ -286,23 +286,23 @@ C
              YI_A(LLT) = YI(I)
              ZI_A(LLT) = ZI(I)
              FACE_A(LLT) = FACE(I)
-             
+
            ELSEIF (IFORM==2) THEN
-            !WRITE(6,*) "S_FTSAVX=",INTBUF_TAB%S_FTSAVX,NSN 
+            !WRITE(6,*) "S_FTSAVX=",INTBUF_TAB%S_FTSAVX,NSN
             INTBUF_TAB%FTSAVX(I) = 0
             INTBUF_TAB%FTSAVY(I) = 0
             INTBUF_TAB%FTSAVZ(I) = 0
-           ENDIF 
-        ENDDO 
-  
+           ENDIF
+        ENDDO
+
         NINSKID = 0
         IF(H3D_DATA%N_SCAL_SKID > 0) THEN
            NINSKID = H3D_DATA%N_SKID_INTER(NIN)
         ENDIF
 
         CALL I8COR3(X ,INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,NSV_A,
-     .  	IRTL_A, 
-     . IX1 ,IX2 ,IX3, 
+     .  	IRTL_A,
+     . IX1 ,IX2 ,IX3,
      . IX4, X1 ,Y1,
      . Z1, X2 ,Y2 ,Z2,
      . X3 ,Y3 ,Z3,
@@ -345,18 +345,18 @@ C
 
         CALL I8FOR3(LFT  ,LLT	,NFT   ,A   ,
      2          INTBUF_TAB%MSR,NSV_A,IRTL_A,INTBUF_TAB%STFM,
-     .          INTBUF_TAB%NSV,NSV2, INTBUF_TAB%ILOCS, 
-     3          INTBUF_TAB%STFNS,IBC     ,ICODT	    ,FSAV      ,IGIMP  , 
+     .          INTBUF_TAB%NSV,NSV2, INTBUF_TAB%ILOCS,
+     3          INTBUF_TAB%STFNS,IBC     ,ICODT	    ,FSAV      ,IGIMP  ,
      4          X	     ,V       ,MS	    ,FRIC      ,NSN    ,
      5          FSKYI	     ,ISKY    ,FCONT	    ,RCONTACT  ,IFORM  ,
      6          INTBUF_TAB%FTSAVX,INTBUF_TAB%FTSAVY,INTBUF_TAB%FTSAVZ,VISC ,FNOR   ,
      7          DEPTH	     ,DIST	   ,INTBUF_TAB%GAPN,INTBUF_TAB%STF8,
      8          STIFN	     ,FNCONT	   ,FTCONT	 ,ITAB,   IFT0,
-     9          IX1     ,IX2       ,IX3      ,IX4, 
+     9          IX1     ,IX2       ,IX3      ,IX4,
      A          XI_A    ,YI_A      ,ZI_A,
      B          N1    ,N2      ,N3,
      C           ANS    , SSC      , TTC,
-     D            H1    ,  H2      ,  H3     ,  H4, 
+     D            H1    ,  H2      ,  H3     ,  H4,
      E          FACE_A    ,STIF      , XX3,
      G           YY3    , ZZ3      , XX4,
      H           YY4    , ZZ4      , XI1,
@@ -367,8 +367,8 @@ C
      M           H3D_DATA%N_SCAL_SKID, PSKIDS,INTBUF_TAB%IRECTM,NIN,
      N           TAGNCONT ,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER)
 
-      
-      
+
+
         DEALLOCATE(
      .  DISTANCE,
      .  DIST,
@@ -384,11 +384,11 @@ C
      .  ZI, ZI_A,
      .  XP, N1,
      .  YP, N2,
-     .  ZP, N3, 
+     .  ZP, N3,
      .  ANS,SSC,TTC,
      .  H1,H2,H3,H4,
      .  FACE,FACE_A,
-     .  STIF, 
+     .  STIF,
      .  X0, XX1, XX2,
      .  Y0, YY1, YY2,
      .  Z0, ZZ1, ZZ2,

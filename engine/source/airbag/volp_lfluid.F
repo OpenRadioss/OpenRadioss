@@ -54,7 +54,7 @@ C
      .   P0, VOL0, DYDX, AREA, VEPS, VINC, POLD, PEXT, VOLD, PRES,
      .   Q,  QOLD, DV,   XFUN
       my_real SCALEF, BULK, PMAX, GMASS, DMASS, RHOI
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
 C
@@ -76,7 +76,7 @@ C   BULK
       IFUNCT = IVOLU(21)
       SCALEF = RVOLU(35)
       IF(IFUNCT == 0) THEN
-         BULK = SCALEF	  
+         BULK = SCALEF	
       ELSE
          BULK = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX)
       ENDIF
@@ -88,7 +88,7 @@ C   FLUID MASS IN
          DMASS = SCALEF * DT1
       ELSE
          DMASS = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX) * DT1
-      ENDIF 
+      ENDIF
       GMASS = GMASS + DMASS
       RVOLU(54)=RVOLU(54)+DMASS
 
@@ -99,7 +99,7 @@ C   FLUID MASS OUT (time)
          DMASS = SCALEF * DT1
       ELSE
          DMASS = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX) * DT1
-      ENDIF 
+      ENDIF
       GMASS = GMASS - DMASS
 
 C   FLUID MASS OUT (pressure)
@@ -109,14 +109,14 @@ C   FLUID MASS OUT (pressure)
          DMASS = SCALEF * DT1
       ELSE
          DMASS = SCALEF * FINTER(IFUNCT,POLD,NPC,TF,DYDX) * DT1
-      ENDIF 
+      ENDIF
       GMASS = GMASS - DMASS
 
 C   P0
       IFUNCT = IVOLU(25)
       SCALEF = RVOLU(39)
       IF(IFUNCT == 0) THEN
-         P0 = SCALEF	  
+         P0 = SCALEF	
       ELSE
          P0 = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX)
       ENDIF
@@ -125,7 +125,7 @@ C   PMAX
       IFUNCT = IVOLU(26)
       SCALEF = RVOLU(40)
       IF(IFUNCT == 0) THEN
-         PMAX = SCALEF	  
+         PMAX = SCALEF	
       ELSE
          PMAX = SCALEF * FINTER(IFUNCT,TT,NPC,TF,DYDX)
       ENDIF

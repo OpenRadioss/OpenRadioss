@@ -55,12 +55,12 @@ C
       ALP = MAX(ZERO,ALP)
       ALP = MIN(ONE,ALP)
 C
-      XP = XA + ALP*XAB 
-      YP = YA + ALP*YAB 
+      XP = XA + ALP*XAB
+      YP = YA + ALP*YAB
       ZP = ZA + ALP*ZAB
 C
-      NX = XI -XP 
-      NY = YI -YP 
+      NX = XI -XP
+      NY = YI -YP
       NZ = ZI -ZP
 C
       P = SQRT(NX**2 + NY**2 +NZ**2)

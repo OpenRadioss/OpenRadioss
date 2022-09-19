@@ -193,7 +193,7 @@ c
         LA(3,N2)=LA(3,N2)+NZ
         LA(1,N3)=LA(1,N3)+NX
         LA(2,N3)=LA(2,N3)+NY
-        LA(3,N3)=LA(3,N3)+NZ 
+        LA(3,N3)=LA(3,N3)+NZ
 C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)

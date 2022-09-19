@@ -224,7 +224,7 @@ C--- dx
                 LLL(IK) = NN
                 JLL(IK) = 3
               ENDIF
-            ENDIF            
+            ENDIF
           ENDIF
           IF(INER(NN)/=0.0)THEN
 C--- Rotations

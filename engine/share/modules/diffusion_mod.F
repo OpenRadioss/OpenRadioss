@@ -75,7 +75,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C-----------------------------------------------
       max_id = maxval(ale_connect%idglob%id(1:numels + nsvois))
 #ifdef MPI
       if (nspmd > 1) then
-         call mpi_allreduce(max_id, glob_dim, 1, mpi_int, mpi_max, 
+         call mpi_allreduce(max_id, glob_dim, 1, mpi_int, mpi_max,
      .        mpi_comm_world, ierr)
       endif
 #endif
@@ -171,23 +171,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
       class(t_diffusion) :: this
       integer :: glob_dim
-      
+
       glob_dim = this%linear_solver%get_global_dim()
       call this%linear_solver%solve(this%sol, this%nrhs * glob_dim)
-      
+
       end subroutine solve_diffusion
 
       subroutine get_solution(this, sol, glob_dim)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
       class(t_diffusion), intent(inout), target :: this
       integer, intent(out) :: glob_dim
-      
+
       double precision, dimension(:), intent(inout), pointer :: sol
       sol => this%sol
       glob_dim = this%linear_solver%get_global_dim()
@@ -197,10 +197,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
       class(t_diffusion), intent(inout) :: this
-      
-    
+
+
       call this%linear_solver%terminate()
       call this%mat%matrix_destroy()
       call this%rhs%destroy()

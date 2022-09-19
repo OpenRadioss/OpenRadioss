@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CDERI3(
      1    JFT ,JLT ,SMSTR ,OFFG,STI ,STIR,
-     2    AREA,PX1 ,PX2 ,PY1 ,PY2 ,X2  ,X3  ,X4  ,Y2  ,Y3  ,  
+     2    AREA,PX1 ,PX2 ,PY1 ,PY2 ,X2  ,X3  ,X4  ,Y2  ,Y3  ,
      3    Y4  ,Z2  ,X1G ,X2G ,X3G ,X4G ,Y1G ,Y2G ,Y3G ,Y4G ,
      4    Z1G ,Z2G ,Z3G ,Z4G ,E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,
      5    E3X ,E3Y ,E3Z ,VHX ,VHY ,A_I ,UX1 ,UX2 ,UX3 ,UX4 ,
@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,NEL
       my_real
-     .   PX1(*), PX2(*), PY1(*), PY2(*), 
+     .   PX1(*), PX2(*), PY1(*), PY2(*),
      .   OFFG(*),STI(*), STIR(*)
       my_real
      .   X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),AREA(MVSIZ),
@@ -74,8 +74,8 @@ C-----------------------------------------------
       INTEGER I,II(6),J
 C     REAL
       my_real
-     .     X21G(MVSIZ), Y21G(MVSIZ), Z21G(MVSIZ), X31G(MVSIZ), 
-     .     Y31G(MVSIZ), Z31G(MVSIZ), 
+     .     X21G(MVSIZ), Y21G(MVSIZ), Z21G(MVSIZ), X31G(MVSIZ),
+     .     Y31G(MVSIZ), Z31G(MVSIZ),
      .     X41G(MVSIZ), Y41G(MVSIZ), Z41G(MVSIZ)
       my_real
      .     X21GA, Y21GA, Z21GA, X31GA, Y31GA, Z31GA,
@@ -85,27 +85,27 @@ C-----------------------------------------------
         II(I) = NEL*(I-1)
       ENDDO
 C
-      DO I=JFT,JLT                                    
-        STI(I) = ZERO                                 
-        STIR(I)= ZERO                                 
-        X21GA=X2G(I)-X1G(I)                           
-        Y21GA=Y2G(I)-Y1G(I)                           
-        Z21GA=Z2G(I)-Z1G(I)                           
-        X31GA=X3G(I)-X1G(I)                           
-        Y31GA=Y3G(I)-Y1G(I)                           
-        Z31GA=Z3G(I)-Z1G(I)                           
-        X41GA=X4G(I)-X1G(I)                           
-        Y41GA=Y4G(I)-Y1G(I)                           
-        Z41GA=Z4G(I)-Z1G(I)                           
+      DO I=JFT,JLT
+        STI(I) = ZERO
+        STIR(I)= ZERO
+        X21GA=X2G(I)-X1G(I)
+        Y21GA=Y2G(I)-Y1G(I)
+        Z21GA=Z2G(I)-Z1G(I)
+        X31GA=X3G(I)-X1G(I)
+        Y31GA=Y3G(I)-Y1G(I)
+        Z31GA=Z3G(I)-Z1G(I)
+        X41GA=X4G(I)-X1G(I)
+        Y41GA=Y4G(I)-Y1G(I)
+        Z41GA=Z4G(I)-Z1G(I)
 C
-        X2(I)=E1X(I)*X21GA+E1Y(I)*Y21GA+E1Z(I)*Z21GA  
-        Y2(I)=E2X(I)*X21GA+E2Y(I)*Y21GA+E2Z(I)*Z21GA  
-        Y3(I)=E2X(I)*X31GA+E2Y(I)*Y31GA+E2Z(I)*Z31GA  
-        X3(I)=E1X(I)*X31GA+E1Y(I)*Y31GA+E1Z(I)*Z31GA  
-        X4(I)=E1X(I)*X41GA+E1Y(I)*Y41GA+E1Z(I)*Z41GA  
-        Y4(I)=E2X(I)*X41GA+E2Y(I)*Y41GA+E2Z(I)*Z41GA  
-        Z2(I)=E3X(I)*X21GA+E3Y(I)*Y21GA+E3Z(I)*Z21GA 
-      ENDDO                                           
+        X2(I)=E1X(I)*X21GA+E1Y(I)*Y21GA+E1Z(I)*Z21GA
+        Y2(I)=E2X(I)*X21GA+E2Y(I)*Y21GA+E2Z(I)*Z21GA
+        Y3(I)=E2X(I)*X31GA+E2Y(I)*Y31GA+E2Z(I)*Z31GA
+        X3(I)=E1X(I)*X31GA+E1Y(I)*Y31GA+E1Z(I)*Z31GA
+        X4(I)=E1X(I)*X41GA+E1Y(I)*Y41GA+E1Z(I)*Z41GA
+        Y4(I)=E2X(I)*X41GA+E2Y(I)*Y41GA+E2Z(I)*Z41GA
+        Z2(I)=E3X(I)*X21GA+E3Y(I)*Y21GA+E3Z(I)*Z21GA
+      ENDDO
 C
       IF (ISMSTR == 11) THEN
         DO I=JFT,JLT
@@ -171,7 +171,7 @@ C
       PX1(I)= HALF*(Y2(I)-Y4(I))
       PY1(I)= HALF*(X4(I)-X2(I))
       PX2(I)= HALF* Y3(I)
-      PY2(I)=-HALF* X3(I)     
+      PY2(I)=-HALF* X3(I)
    40 CONTINUE
 C
       DO  I=JFT,JLT

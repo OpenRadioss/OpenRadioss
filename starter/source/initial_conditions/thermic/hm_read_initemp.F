@@ -96,8 +96,8 @@ C-----------------------------------------------
 C=======================================================================
       BID =0
       NBTEMP = 0
-      IS_AVAILABLE = .FALSE.   
-      NB_LINE = 0                      
+      IS_AVAILABLE = .FALSE.
+      NB_LINE = 0
 C--------------------------------------------------
 C START BROWSING MODEL INITEMP
 C--------------------------------------------------
@@ -146,10 +146,10 @@ C--------------------------------------------------
         ENDIF
 C--------------------------------------------------  
         NBTEMP = NBTEMP+1
-        INITIDS(NBTEMP)=ID              
-        IGRS=0     
-        IF (TYP == 0) THEN                                           
-          IF (IGR == 0)THEN 
+        INITIDS(NBTEMP)=ID
+        IGRS=0
+        IF (TYP == 0) THEN
+          IF (IGR == 0)THEN
             CALL ANCMSG(MSGID=668,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -157,15 +157,15 @@ C--------------------------------------------------
      .                  C2='/INITEM',
      .                  C3=TITR,
      .                  I1=ID)
-          ENDIF                                                       
-          DO J=1,NGRNOD                                               
+          ENDIF
+          DO J=1,NGRNOD
             IF (IGR == IGRNOD(J)%ID) IGRS=J
-          ENDDO                                                       
-          IF(IGRS /= 0)THEN                                           
+          ENDDO
+          IF(IGRS /= 0)THEN
             DO J=1,IGRNOD(IGRS)%NENTITY
               NOSYS=IGRNOD(IGRS)%ENTITY(J)
               TEMP(NOSYS)= TEMP0
-            ENDDO                                                     
+            ENDDO
             NNOD=IGRNOD(IGRS)%NENTITY
           ELSE
             CALL ANCMSG(MSGID=53,
@@ -173,18 +173,18 @@ C--------------------------------------------------
      .                  ANMODE=ANINFO,
      .                  C1='IN /INITEM OPTION',
      .                  I1=IGR)
-          ENDIF   
-        ELSE                                                   
-          DO J=1,NGRNOD                                               
+          ENDIF
+        ELSE
+          DO J=1,NGRNOD
             IF (IGR == IGRNOD(J)%ID) IGRS=J
-          ENDDO                                                       
-          IF(IGRS /= 0)THEN                                           
+          ENDDO
+          IF(IGRS /= 0)THEN
             DO J=1,IGRNOD(IGRS)%NENTITY
               NOSYS=IGRNOD(IGRS)%ENTITY(J)
               TEMP(NOSYS)= TEMP0
-            ENDDO                                                     
+            ENDDO
             NNOD=IGRNOD(IGRS)%NENTITY
-          ENDIF      
+          ENDIF
           DO J=1,NB_LINE
             NODSYS=USR2SYS(LIST_NOD(J),ITABM1,MESS,ID)
             IF (LIST_NOD(J) == 0) THEN
@@ -192,15 +192,15 @@ C--------------------------------------------------
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    C1='/INITEM',
-     .                    I1=ID,  
+     .                    I1=ID,
      .                    I2=NOD)
             ENDIF
             IF (NODSYS /= 0) TEMP(NODSYS)= LIST_TEMP0(J)
-          ENDDO 
-        ENDIF 
-        IF(ALLOCATED(LIST_TEMP0)) DEALLOCATE(LIST_TEMP0) 
-        IF(ALLOCATED(LIST_NOD)) DEALLOCATE(LIST_NOD) 
-       ENDDO  
+          ENDDO
+        ENDIF
+        IF(ALLOCATED(LIST_TEMP0)) DEALLOCATE(LIST_TEMP0)
+        IF(ALLOCATED(LIST_NOD)) DEALLOCATE(LIST_NOD)
+       ENDDO
 C---                                                           
       CALL UDOUBLE(INITIDS,1,NBTEMP,MESS,0,BID)
 C--------------------------------------------------

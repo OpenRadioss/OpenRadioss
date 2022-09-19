@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -107,8 +107,8 @@ C
               ISS = J
               NFXFLUX = NFXFLUX + IGRSURF(ISS)%NSEG
               EXIT
-            ENDIF                             
-          ENDDO 
+            ENDIF
+          ENDDO
         ENDIF
         IF (IGBR > 0) THEN
           DO J=1,NGRBRIC
@@ -116,10 +116,10 @@ C
               ISS = J
               NFXFLUX = NFXFLUX + IGRBRIC(ISS)%NENTITY
               EXIT
-            ENDIF                             
-          ENDDO 
+            ENDIF
+          ENDDO
         ENDIF
-      ENDDO                                             
+      ENDDO
 C
 C---
       RETURN

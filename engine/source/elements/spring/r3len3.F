@@ -86,7 +86,7 @@ C
         ELSEIF(XK(I)/=ZERO)THEN
          STI(1,I) = TWO*XK(I)
         ELSEIF(XC(I)/=ZERO.AND.MS(NC1(I))/=ZERO)THEN
-         A = TWO * XC(I)**2 
+         A = TWO * XC(I)**2
          STI(1,I) = A / MS(NC1(I))
         ENDIF
        END IF
@@ -99,7 +99,7 @@ C
         ELSEIF(XK(I)/=ZERO)THEN
          STI(2,I) = TWO*XK(I)
         ELSEIF(XC(I)/=ZERO.AND.MS(NC2(I))/=ZERO)THEN
-         A = TWO * XC(I)**2 
+         A = TWO * XC(I)**2
          STI(2,I) = A / MS(NC2(I))
         ENDIF
        END IF
@@ -112,7 +112,7 @@ C
         ELSEIF(XK(I)/=ZERO)THEN
          STI(3,I) = TWO*XK(I)
         ELSEIF(XC(I)/=ZERO.AND.MS(NC3(I))/=ZERO)THEN
-         A = TWO * XC(I)**2 
+         A = TWO * XC(I)**2
          STI(3,I) = A / MS(NC3(I))
         ENDIF
        END IF
@@ -206,7 +206,7 @@ C
          STI(2,I) = ZERO
          STI(3,I) = ZERO
          IF(OFF(I)>ZERO) THEN
-           STI(1,I) = HALF*XM(I) / DT(I)**2   
+           STI(1,I) = HALF*XM(I) / DT(I)**2
            STI(2,I) = STI(1,I)
            STI(3,I) = STI(1,I)
            DT(I)=DTFAC1(6)*DT(I)

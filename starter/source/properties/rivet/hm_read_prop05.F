@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),IG,IGTYP
 C     REAL
       my_real GEO(NPROPG)
@@ -82,7 +82,7 @@ C      RIVETS (Obsolete)
 C----------------------
 
       IS_ENCRYPTED = .FALSE.
-      IS_AVAILABLE = .FALSE. 
+      IS_AVAILABLE = .FALSE.
 
       IMODE = 0
 C--------------------------------------------------

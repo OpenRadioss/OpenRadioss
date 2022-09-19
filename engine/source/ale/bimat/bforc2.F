@@ -80,7 +80,7 @@ C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -112,7 +112,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFILL,OFFSET,NEL,NG
-      INTEGER IC(*), IPARG(NPARG,*), JPARG(*), IMS(*), 
+      INTEGER IC(*), IPARG(NPARG,*), JPARG(*), IMS(*),
      .        NPF(*),IPARTQ(*),IPM(*),IGEO(*),ITASK,H3D_STRAIN
       INTEGER NELTST,ITYPTST, IADQ(4,*),GRTH(*),IGRTH(*)
       my_real
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .   BUFVOIS(6,*),GRESAV(*),VOLN(MVSIZ),MS_2D(*),FSKYM(*)
       TYPE (TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -136,11 +136,11 @@ C-----------------------------------------------
       my_real
      .   SOFF
       my_real
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   AIRE(MVSIZ),AIRES(MVSIZ),AIREM(MVSIZ),VD2(MVSIZ),DVOL(MVSIZ),
      .   DELTAX(MVSIZ),VIS(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ), 
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ),
      .   VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
      .   PY1(MVSIZ), PY2(MVSIZ), PZ1(MVSIZ), PZ2(MVSIZ),
      .   WYZ(MVSIZ),DYZ(MVSIZ),DZY(MVSIZ),QVIS(MVSIZ),SSP(MVSIZ),
@@ -150,8 +150,8 @@ C-----------------------------------------------
      .   SZ(MVSIZ), TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F21(MVSIZ), F22(MVSIZ),SSP_EQ(MVSIZ),
-     .   T11(MVSIZ), T12(MVSIZ), T13(MVSIZ), T14(MVSIZ), T21(MVSIZ), 
-     .   T22(MVSIZ), T23(MVSIZ),T24(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ), 
+     .   T11(MVSIZ), T12(MVSIZ), T13(MVSIZ), T14(MVSIZ), T21(MVSIZ),
+     .   T22(MVSIZ), T23(MVSIZ),T24(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),
      .   AX1(MVSIZ),AX2(MVSIZ), EHOU(MVSIZ)
 C FORCE DE TRANSPORT BIMATERIAU
       my_real
@@ -170,8 +170,8 @@ C FORCE DE TRANSPORT BIMATERIAU
      . EYYS(MVSIZ), EZZS(MVSIZ), ETTS(MVSIZ), EYZS(MVSIZ), EYTS(MVSIZ), EZTS(MVSIZ),BIDM(MVSIZ)
       my_real VARNL(NEL)
 C-------------------
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF, LBUF1,LBUF2     
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF, LBUF1,LBUF2
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C--------------------------------------------------      
 C
 C=======================================================================
@@ -196,7 +196,7 @@ c
       DO I=1,NEL
        WYY(I)=ZERO
        WZZ(I)=ZERO
-       VDX(I)=ZERO     
+       VDX(I)=ZERO
       ENDDO
 C------------
       CALL QCOOR2(X,IC(LCO),
@@ -225,14 +225,14 @@ C------------
      .             FLUX(1,NF2),FLU1(NF2),LBUF2%OFF,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,
      .             MTN1,MTN2,NGL,GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
-     .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL, 
-     .             AIRE, AIRES, 
+     .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL,
+     .             AIRE, AIRES,
      .             EYY, EZZ, ETT, EYZ, EYT, EZT,
-     .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS, 
-     .             MAT, NC1, NC2, NC3, NC4, 
+     .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
+     .             MAT, NC1, NC2, NC3, NC4,
      .             DALPH1, DALPH2)
-       CALL BAFIL2(PM,V,W,FILL,DFILL,IMS,X,LBUF1%FRAC,LBUF2%FRAC, 
-     .      AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
+       CALL BAFIL2(PM,V,W,FILL,DFILL,IMS,X,LBUF1%FRAC,LBUF2%FRAC,
+     .      AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2,
      .      MAT, NC1, NC2, NC3, NC4)
 C-----------
 C      EULER
@@ -252,14 +252,14 @@ C-----------
      .             FLUX(1,NF2),FLU1(NF2),LBUF2%OFF,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,
      .             MTN1,MTN2,NGL,GBUF%G_TEMP,GBUF%BFRAC,GBUF%G_BFRAC,
-     .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL, 
-     .             AIRE, AIRES, 
+     .             GBUF%PLA,GBUF%G_PLA,VOLN,GBUF%QVIS,GBUF%G_QVIS,NEL,
+     .             AIRE, AIRES,
      .             EYY, EZZ, ETT, EYZ, EYT, EZT,
-     .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS, 
-     .             MAT, NC1, NC2, NC3, NC4, 
+     .             EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
+     .             MAT, NC1, NC2, NC3, NC4,
      .             DALPH1, DALPH2)
-       CALL BEFIL2(PM,V,FILL,DFILL,IMS,X,LBUF1%FRAC,LBUF2%FRAC, 
-     .      AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
+       CALL BEFIL2(PM,V,FILL,DFILL,IMS,X,LBUF1%FRAC,LBUF2%FRAC,
+     .      AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2,
      .      MAT, NC1, NC2, NC3, NC4)
       ENDIF
 C-----------------------------------------------------
@@ -271,44 +271,44 @@ C-----------------------------------------------------
       MTN=JPARG(25)
       L_TEMP = ELBUF_TAB(NG)%BUFLY(JMULT)%L_TEMP
       L_PLA  = ELBUF_TAB(NG)%BUFLY(JMULT)%L_PLA
-      L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC 
+      L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC
       L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS
 c
       CALL BREST2(LBUF1%FRAC,GBUF%VOL,PM,
      .            LBUF1%OFF,LBUF1%VOL,SOFF,IC(LCO),VOLN,
-     .            AIRE, AIRES, 
+     .            AIRE, AIRES,
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
      .            VD2, DVOL,
      .            MAT)
       CALL BLERO2(LBUF1%FRAC,LBUF2%FRAC,LBUF1%VOL,LBUF1%RHO,
-     .            FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN, 
-     .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 
-     .            VY1, VY2, VY3, VY4, 
+     .            FLUX(1,NF1),FLU1(NF1),LBUF1%OFF,PM,NGL,VOLN,
+     .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL,
+     .            VY1, VY2, VY3, VY4,
      .            VZ1, VZ2, VZ3, VZ4,
      .            MAT)
       CALL QROTA2(LBUF1%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
 
-      IF (ISORTH == 0) THEN 
+      IF (ISORTH == 0) THEN
 C       propriete isotrope
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                                
-          GAMA(I,2) = ZERO                                  
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
-          GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = ONE                                  
-          GAMA(I,6) = ZERO 
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
         ENDDO
       ELSE
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                                
-          GAMA(I,2) = ZERO                                  
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
-          GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = ONE                                  
-          GAMA(I,6) = ZERO 
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
         ENDDO
-      ENDIF                                  
+      ENDIF
 C-----------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES
 C-----------------------------------------------------
@@ -359,7 +359,7 @@ C------------------------
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                  PY1,PY2,PZ1,PZ2,
-     .                  T11,T12,T13,T14,T21,T22,T23,T24, 
+     .                  T11,T12,T13,T14,T21,T22,T23,T24,
      .                  AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
      .                  PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
 C--------------------------
@@ -393,12 +393,12 @@ C------------------------
       IF (JALE>0.AND.MTN/=11)
      .  CALL BAMOM2(PM,V,W,LBUF%RHO,LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  MAT, NC1, NC2, NC3, NC4)
       IF (JEUL>0.AND.MTN/=11)
      .  CALL BEMOM2(PM,V,LBUF%RHO,LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  MAT, NC1, NC2, NC3, NC4)
 C--------------
 C     ASSEMBLE
@@ -414,9 +414,9 @@ C--------------
       CALL BCUMU2 (LBUF1%FRAC,LBUF2%FRAC,A,FILL(1,1),
      .             LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
-     .             GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,    
+     .             GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,
      .             F11, F12, F21, F22, AX1,AX2,
-     .             T11,T12,T13,T14,T21,T22,T23,T24, 
+     .             T11,T12,T13,T14,T21,T22,T23,T24,
      .             B11,B12,B13,B14,B21,B22,B23,B24,
      .             NC1,NC2,NC3,NC4,STI,STIFN,
      .             L_TEMP, L_PLA, L_BFRAC, L_BULK,NEL)
@@ -424,19 +424,19 @@ C--------------
        CALL BCUMU2P(LBUF1%FRAC,LBUF2%FRAC,FILL(1,1),
      .              LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .              GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
-     .              GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,    
+     .              GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,
      .              F11, F12, F21, F22, AX1,AX2,
-     .              T11,T12,T13,T14,T21,T22,T23,T24, 
+     .              T11,T12,T13,T14,T21,T22,T23,T24,
      .              B11,B12,B13,B14,B21,B22,B23,B24,
      .              FSKY,FSKY,IADQ,STI,NC1,NC2,NC3,NC4,
      .              L_TEMP,L_PLA,L_BFRAC,L_BULK,NEL)
       ENDIF
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
 C-----------------------------------------------------
 C     MULTIMATERIAUX 2
 C-----------------------------------------------------
@@ -448,45 +448,45 @@ c
       LBUF => ELBUF_TAB(NG)%BUFLY(JMULT)%LBUF(1,1,1)  ! buffer mat 2
       MTN=JPARG(26)
       L_TEMP = ELBUF_TAB(NG)%BUFLY(JMULT)%L_TEMP
-      L_PLA  = ELBUF_TAB(NG)%BUFLY(JMULT)%L_PLA      
-      L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC      
-      L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS  
+      L_PLA  = ELBUF_TAB(NG)%BUFLY(JMULT)%L_PLA
+      L_BFRAC= ELBUF_TAB(NG)%BUFLY(JMULT)%L_BFRAC
+      L_BULK = ELBUF_TAB(NG)%BUFLY(JMULT)%L_QVIS
 c
       CALL BREST2(LBUF2%FRAC,GBUF%VOL,PM,
      .            LBUF%OFF,LBUF%VOL,SOFF,IC(LCO),VOLN,
-     .            AIRE, AIRES, 
+     .            AIRE, AIRES,
      .            EYY, EZZ, ETT, EYZ, EYT, EZT,
      .            EYYS, EZZS, ETTS, EYZS, EYTS, EZTS,
      .            VD2, DVOL,
      .            MAT)
       CALL BLERO2(LBUF2%FRAC,LBUF1%FRAC,LBUF%VOL,LBUF%RHO,
-     .            FLUX(1,NF2),FLU1(NF2),LBUF%OFF,PM,NGL,VOLN, 
-     .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL, 
-     .            VY1, VY2, VY3, VY4, 
+     .            FLUX(1,NF2),FLU1(NF2),LBUF%OFF,PM,NGL,VOLN,
+     .            AIRE, EYY, EZZ, ETT, EYZ, EYT, EZT, VD2, DVOL,
+     .            VY1, VY2, VY3, VY4,
      .            VZ1, VZ2, VZ3, VZ4,
      .            MAT)
       CALL QROTA2(LBUF%SIG,S1,S2,S3,S4,S5,S6,WYZ,NEL)
 c
-      IF (ISORTH == 0) THEN 
+      IF (ISORTH == 0) THEN
 C       propriete isotrope
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                                
-          GAMA(I,2) = ZERO                                  
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
-          GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = ONE                                  
-          GAMA(I,6) = ZERO 
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
         ENDDO
       ELSE
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                                
-          GAMA(I,2) = ZERO                                  
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
-          GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = ONE                                  
-          GAMA(I,6) = ZERO 
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
         ENDDO
-      ENDIF                                  
+      ENDIF
 C-----------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES
 C-----------------------------------------------------
@@ -535,7 +535,7 @@ C------------------------
      .            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .            VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .            PY1,PY2,PZ1,PZ2,
-     .            T11,T12,T13,T14,T21,T22,T23,T24, 
+     .            T11,T12,T13,T14,T21,T22,T23,T24,
      .            AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
      .            PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
 C--------------------------
@@ -570,12 +570,12 @@ C------------------------
         IF(JALE>0.AND.MTN/=11)
      .    CALL BAMOM2(PM,V,W,LBUF%RHO,LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  MAT, NC1, NC2, NC3, NC4)
         IF(JEUL>0.AND.MTN/=11)
      .    CALL BEMOM2(PM,V,LBUF%RHO,LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  MAT, NC1, NC2, NC3, NC4)
 C--------------
 C       ASSEMBLE
@@ -592,16 +592,16 @@ C--------------
      .             GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
      .             GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,
      .             F11, F12, F21, F22, AX1,AX2,
-     .             T11,T12,T13,T14,T21,T22,T23,T24, 
+     .             T11,T12,T13,T14,T21,T22,T23,T24,
      .             B11,B12,B13,B14,B21,B22,B23,B24,
      .             NC1,NC2,NC3,NC4,STI,STIFN,L_TEMP,L_PLA,L_BFRAC,L_BULK,NEL)
         ELSE
           CALL BCUMU2PA(LBUF2%FRAC,LBUF1%FRAC,FILL(1,2),
      .                 LBUF%SIG,LBUF%EINT,LBUF%RHO,LBUF%QVIS,GBUF%QVIS,
      .                 GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%TEMP,LBUF%TEMP,
-     .                 GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,     
+     .                 GBUF%PLA,LBUF%PLA,GBUF%BFRAC,LBUF%BFRAC,
      .                 F11, F12, F21, F22, AX1,AX2,
-     .                 T11,T12,T13,T14,T21,T22,T23,T24, 
+     .                 T11,T12,T13,T14,T21,T22,T23,T24,
      .                 B11,B12,B13,B14,B21,B22,B23,B24,
      .                 FSKY,FSKY,IADQ,STI,NC1,NC2,NC3,NC4,L_TEMP,L_PLA,
      .                 L_BFRAC,L_BULK,NEL)

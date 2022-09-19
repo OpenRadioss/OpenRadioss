@@ -27,7 +27,7 @@ Chd|        R13KE3                        source/elements/spring/r13ke3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE R4COORK3(JFT    ,JLT    ,X      ,NCC   ,PID    ,
-     2                    NGL    ,AL     ,R11    ,R12   ,R13    , 
+     2                    NGL    ,AL     ,R11    ,R12   ,R13    ,
      3                    R21    ,R22    ,R23    ,R31   ,R32    ,
      4                    R33    ,RLOC   ,OFFG   ,OFF   )
 C-----------------------------------------------
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT 
+      INTEGER JFT, JLT
       INTEGER NCC(NIXR,*),PID(*),NGL(*)
 C     REAL
       my_real
@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ)
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),  
+     .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), NORM
 C-----------------------------------------------
 C
@@ -72,7 +72,7 @@ C
        NGL(I)=NCC(5,I)
        NC1(I)=NCC(2,I)
        NC2(I)=NCC(3,I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     COORDONNEES
 C----------------------------
@@ -83,7 +83,7 @@ C----------------------------
        X2(I)=X(1,NC2(I))
        Y2(I)=X(2,NC2(I))
        Z2(I)=X(3,NC2(I))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
@@ -95,19 +95,19 @@ C----------------------------
        R21(I)=Y2(I)-Y1(I)
        R31(I)=Z2(I)-Z1(I)
        AL(I)=SQRT(R11(I)*R11(I)+R21(I)*R21(I)+R31(I)*R31(I))
-      ENDDO 
+      ENDDO
 C
       DO I=JFT, JLT
        NORM=ONE/MAX(EM20,AL(I))
        R11(I)=R11(I)*NORM
        R21(I)=R21(I)*NORM
        R31(I)=R31(I)*NORM
-      ENDDO 
+      ENDDO
       DO I=JFT, JLT
        R13(I)=R21(I)*R32(I)-R31(I)*R22(I)
        R23(I)=R31(I)*R12(I)-R11(I)*R32(I)
        R33(I)=R11(I)*R22(I)-R21(I)*R12(I)
-      ENDDO 
+      ENDDO
 C
       DO I=JFT, JLT
        NORM=SQRT(R13(I)*R13(I)+R23(I)*R23(I)+R33(I)*R33(I))
@@ -115,12 +115,12 @@ C
        R13(I)=R13(I)*NORM
        R23(I)=R23(I)*NORM
        R33(I)=R33(I)*NORM
-      ENDDO 
+      ENDDO
       DO I=JFT, JLT
        R12(I)=R23(I)*R31(I)-R33(I)*R21(I)
        R22(I)=R33(I)*R11(I)-R13(I)*R31(I)
        R32(I)=R13(I)*R21(I)-R23(I)*R11(I)
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
        OFF(I)=OFFG(I)
       ENDDO
@@ -133,10 +133,10 @@ C
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IR = IMP_IR + 1
-         ENDIF 
-        ENDIF 
+         ENDIF
+        ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
 C
       RETURN
  2001 FORMAT(/'***ERROR :SPRING TYPE13 ZERO-LENGTH : ELEMENT NB:',

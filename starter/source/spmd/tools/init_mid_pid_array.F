@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-!     integer 
+!     integer
       INTEGER, INTENT(IN) :: MODE,TAILLE,NUMMAT,NPART
       INTEGER, DIMENSION(TAILLE), INTENT(INOUT) :: CONCORDANCE_MAT
       INTEGER, DIMENSION(7,TAILLE), INTENT(IN) :: TAB_UMP
@@ -82,21 +82,21 @@ C=======================================================================
 
 
 ! ------------------------------------------------------------------------
-!       MODE = 0 : create the mid_pid arraies for each element type that 
-!                  will be used in INITWG_[X] subroutine (X = SHELL, SOL 
-!                  or TRI). The mid_pid arraies will be initialized with 
-!                  the Radioss element cost if MODE = 1 is not used. 
-!                  If MODE = 1 is used, mid_pid will be initialized to 
+!       MODE = 0 : create the mid_pid arraies for each element type that
+!                  will be used in INITWG_[X] subroutine (X = SHELL, SOL
+!                  or TRI). The mid_pid arraies will be initialized with
+!                  the Radioss element cost if MODE = 1 is not used.
+!                  If MODE = 1 is used, mid_pid will be initialized to
 !                  the element costs obtained from a previous Radioss run
-!               
-!       MODE = 1 : initialize the mid_pid arraies to the element costs 
+!
+!       MODE = 1 : initialize the mid_pid arraies to the element costs
 !                  obtained from a previous Radioss run
 !
-!       MODE = 0 : allocate and initialize the mid_pid_1 arraies for 
+!       MODE = 0 : allocate and initialize the mid_pid_1 arraies for
 !                  each element type :
-!                    * check the number of pid properties 
+!                    * check the number of pid properties
 !                      per mid ( %NBR_PID )
-!                    * allocate each array(mid)%pid1d ( number of 
+!                    * allocate each array(mid)%pid1d ( number of
 !                      pid ) + %cost1d( number of pid )
 !
 !       MODE = 1 : initialize each aray(mid)%pid1d(pid) + %cost1d(pid)
@@ -114,8 +114,8 @@ C=======================================================================
                                 CONCORDANCE_MAT(I) = 1
                         ENDIF
                 ENDDO
-        ENDIF                               
-        
+        ENDIF
+
 ! -----------------------
 !       check the number of pid properties per mid
 ! -----------------------
@@ -132,7 +132,7 @@ C=======================================================================
                         IF(ELM_TYP==3) THEN
                             PID_SHELL(MID) = PID_SHELL(MID) + 1
                         ELSEIF(ELM_TYP==7) THEN
-                            PID_TRI(MID) = PID_TRI(MID) + 1        
+                            PID_TRI(MID) = PID_TRI(MID) + 1
                         ELSE
                             INDI = 0
                             IF(ELM_TYP==1) THEN
@@ -150,7 +150,7 @@ C=======================================================================
                             ELSEIF(ELM_TYP==1020) THEN
                                     INDI = 4
                             ENDIF
-                            IF(INDI/=0) PID_SOL(MID,INDI) = PID_SOL(MID,INDI) + 1 
+                            IF(INDI/=0) PID_SOL(MID,INDI) = PID_SOL(MID,INDI) + 1
                         ENDIF
                 ENDIF
            ENDDO
@@ -172,8 +172,8 @@ C=======================================================================
                 IF(PID_TRI(I)>0) THEN
                         ALLOCATE( MID_PID_TRI(I)%PID1D( PID_TRI(I) ) )
                         ALLOCATE( MID_PID_TRI(I)%COST1D( PID_TRI(I) ) )
-                        MID_PID_TRI(I)%PID1D( 1 : PID_TRI(I) ) = 0 
-                        MID_PID_TRI(I)%COST1D( 1 : PID_TRI(I) ) = ZERO 
+                        MID_PID_TRI(I)%PID1D( 1 : PID_TRI(I) ) = 0
+                        MID_PID_TRI(I)%COST1D( 1 : PID_TRI(I) ) = ZERO
                         MID_PID_TRI(I)%NBR_PID = PID_TRI(I)
                 ENDIF
                 DO INDI=1,7
@@ -182,7 +182,7 @@ C=======================================================================
                                 ALLOCATE( MID_PID_SOL(I,INDI)%COST1D( PID_SOL(I,INDI) ) )
                                 MID_PID_SOL(I,INDI)%PID1D( 1:PID_SOL(I,INDI) ) = 0
                                 MID_PID_SOL(I,INDI)%COST1D( 1:PID_SOL(I,INDI) ) = ZERO
-                                MID_PID_SOL(I,INDI)%NBR_PID = PID_SOL(I,INDI) 
+                                MID_PID_SOL(I,INDI)%NBR_PID = PID_SOL(I,INDI)
                         ELSE
                                 MID_PID_SOL(I,INDI)%NBR_PID = 0
                         ENDIF
@@ -192,9 +192,9 @@ C=======================================================================
 
 !       end of mode = 0
 !       *********************************
-!       mode = 0 or 1 
+!       mode = 0 or 1
 !       mode = 0 --> %cost1d = 0
-!       mode = 1 --> %cost1d = old cost 
+!       mode = 1 --> %cost1d = old cost
 ! -----------------------
 !       initialize each aray(mid)%pid1d(pid) + %cost1d
 ! -----------------------
@@ -216,7 +216,7 @@ C=======================================================================
                             MID_PID_SHELL(MID)%COST1D( PID_SHELL(MID) ) = CPUTIME_MP_OLD_2(J)
                           ENDIF
                         ELSEIF(ELM_TYP==7) THEN
-                          PID_TRI(MID) = PID_TRI(MID) + 1        
+                          PID_TRI(MID) = PID_TRI(MID) + 1
                           MID_PID_TRI(MID)%PID1D( PID_TRI(MID) ) = PID
                           IF(MODE==0) THEN
                             MID_PID_TRI(MID)%COST1D( PID_TRI(MID) ) = ZERO
@@ -241,7 +241,7 @@ C=======================================================================
                                     INDI = 4
                             ENDIF
                             IF(INDI/=0) THEN
-                             PID_SOL(MID,INDI) = PID_SOL(MID,INDI) + 1 
+                             PID_SOL(MID,INDI) = PID_SOL(MID,INDI) + 1
                              MID_PID_SOL(MID,INDI)%PID1D( PID_SOL(MID,INDI) ) = PID
                              IF(MODE==0) THEN
                                MID_PID_SOL(MID,INDI)%COST1D( PID_SOL(MID,INDI) ) = ZERO
@@ -269,11 +269,11 @@ C=======================================================================
                 IGTYP_LOC=NINT(GEO(12,IPID))
                 IF(IPART(1,I) == 0)CYCLE !error message was printed, user must update mat_id
                 ILAW = IPM(2,IPART(1,I))
-! for /TRIA element, force the IGTYP flag 
+! for /TRIA element, force the IGTYP flag
 ! -->  not really the best way to define a TRIA element but the TRIA element dev. was not
 ! a beatiful dev! TRIA element are solid element but TRIA does not use the solid arraies (too simple!)
-! and use the SHELL3N arraies !!!!!!!! 
-                IF(ILAW==151.AND.N2D/=0) IGTYP_LOC = 1 
+! and use the SHELL3N arraies !!!!!!!!
+                IF(ILAW==151.AND.N2D/=0) IGTYP_LOC = 1
                 IGTYP = IGTYP_LOC
 
                 IF(IGTYP==1  .OR. IGTYP==9  .OR. IGTYP==10 .OR. IGTYP==11 .OR.
@@ -287,7 +287,7 @@ C=======================================================================
                                  IF(PID==MID_PID_SHELL(MID)%PID1D(J)) THEN
                                         POIN_PART_SHELL(1,I)=MID
                                         POIN_PART_SHELL(2,I) = J
-                                 ENDIF                                
+                                 ENDIF
                                 ENDDO
                         ENDIF
 !               -----------------
@@ -298,7 +298,7 @@ C=======================================================================
                                  IF(PID==MID_PID_TRI(MID)%PID1D(J)) THEN
                                         POIN_PART_TRI(1,I)=MID
                                         POIN_PART_TRI(2,I) = J
-                                 ENDIF                                
+                                 ENDIF
                                 ENDDO
                         ENDIF
                 ELSEIF(IGTYP==6  .OR. IGTYP==14 .OR. IGTYP==15 .OR.
@@ -312,8 +312,8 @@ C=======================================================================
                                  DO J=1,MID_PID_SOL(MID,INDI)%NBR_PID
                                         IF(PID==MID_PID_SOL(MID,INDI)%PID1D(J)) THEN
                                            POIN_PART_SOL(1,I,INDI)=MID
-                                           POIN_PART_SOL(2,I,INDI) = J   
-                                        ENDIF                            
+                                           POIN_PART_SOL(2,I,INDI) = J
+                                        ENDIF
                                  ENDDO
                             ENDIF
                         ENDDO
@@ -326,8 +326,8 @@ C=======================================================================
                                  DO J=1,MID_PID_SOL(MID,INDI)%NBR_PID
                                         IF(PID==MID_PID_SOL(MID,INDI)%PID1D(J)) THEN
                                            POIN_PART_SOL(1,I,INDI)=MID
-                                           POIN_PART_SOL(2,I,INDI) = J   
-                                        ENDIF                            
+                                           POIN_PART_SOL(2,I,INDI) = J
+                                        ENDIF
                                  ENDDO
                             ENDIF
                         ENDDO

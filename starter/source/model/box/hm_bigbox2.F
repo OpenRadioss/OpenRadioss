@@ -65,7 +65,7 @@ C-----------------------------------------------
      .        NIX,IX(NIX,*),NIX1,NUMEL,IPARTE(*),IPART(LIPART1,*),
      .        KLEVTREE,KELTREE,ELTREE(KELTREE,*),
      .        BUFTMP(NUMEL*5),NGRELE,NN,IBOXMAX,IADB,IBUFBOX(*)
-      INTEGER,INTENT(IN) :: IDB     
+      INTEGER,INTENT(IN) :: IDB
       my_real X(3,*),SKEW(LSKEW,*)
       CHARACTER KEY*4,MES*40
       CHARACTER*nchartitle,

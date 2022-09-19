@@ -64,12 +64,12 @@ Chd|====================================================================
      P                   LERCVOIS    , LESDVOIS    ,CRKEDGE   , INDX_CRK  , XEDGE4N ,
      Q                   XEDGE3N     ,STACK        ,SPH2SOL   ,STIFN      ,STIFR    ,
      R                   DRAPE_Q4    , DRAPE_T3    ,H3D_DATA  ,SUBSET     ,IGRNOD   ,
-     S                   FCONT_MAX   ,FNCONTP2     ,FTCONTP2, ALE_CONNECTIVITY)   
+     S                   FCONT_MAX   ,FNCONTP2     ,FTCONTP2, ALE_CONNECTIVITY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GENANI_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD
       USE CRACKXFEM_MOD
@@ -107,17 +107,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER EIGIPM(*), IKC0(*), NDDL0, IADK(*), JDIK(*), NDOF(*),
-     .    NDDL, EIGIBUF(*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),     
-     .    IXR(*), IXTG(*), ICUT(*), ITAB(*), LPBY(*), NPBY(NNPBY,*),    
-     .    NSTRF(*), NPRW(*), IXUR(*),INDX_CRK(*),XEDGE4N(4,*),XEDGE3N(3,*),                                   
-     .    DD_IAD(NSPMD+1,*), FR_IAD(*), DD_FRONT(4,*), WEIGHT(*),       
-     .    IPART(*), NOM_OPT(LNOPT1,*),     
-     .    IDATA(*), KXX(NIXX,*), IXX(*),              
-     .    KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*), IXS10(6,*),         
-     .    IXS20(12,*), IXS16(8,*), MONVOL(*), IPM(*), IGEO(*),          
-     .    IPARG(*), NODGLOB(*), IAD_ELEM(2,*), FR_ELEM(*),              
-     .    FR_SEC(NSPMD+1,*), FR_RBY2(3,*), IAD_RBY2(4,*),               
-     .    FR_WALL(*), NINT2, IINT2(*), IPARI(NPARI,*),         
+     .    NDDL, EIGIBUF(*), IXS(*), IXQ(*), IXC(*), IXT(*), IXP(*),
+     .    IXR(*), IXTG(*), ICUT(*), ITAB(*), LPBY(*), NPBY(NNPBY,*),
+     .    NSTRF(*), NPRW(*), IXUR(*),INDX_CRK(*),XEDGE4N(4,*),XEDGE3N(3,*),
+     .    DD_IAD(NSPMD+1,*), FR_IAD(*), DD_FRONT(4,*), WEIGHT(*),
+     .    IPART(*), NOM_OPT(LNOPT1,*),
+     .    IDATA(*), KXX(NIXX,*), IXX(*),
+     .    KXSP(NISP,*), IXSP(KVOISPH,*), NOD2SP(*), IXS10(6,*),
+     .    IXS20(12,*), IXS16(8,*), MONVOL(*), IPM(*), IGEO(*),
+     .    IPARG(*), NODGLOB(*), IAD_ELEM(2,*), FR_ELEM(*),
+     .    FR_SEC(NSPMD+1,*), FR_RBY2(3,*), IAD_RBY2(4,*),
+     .    FR_WALL(*), NINT2, IINT2(*), IPARI(NPARI,*),
      .    LDDL(*), INLOC(*), WEIGHT_MD(*),NV46,NERCVOIS(*),
      .    NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),SPH2SOL(*)
       INTEGER IRBE2(NRBE2L,*),IRBE3(NRBE3L,*),LRBE2(*),LRBE3(*),

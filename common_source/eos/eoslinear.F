@@ -33,7 +33,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE EOSLINEAR(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2  , 
+      SUBROUTINE EOSLINEAR(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2  ,
      2                     DVOL ,DF   ,VNEW ,MAT  ,PNEW ,DPDM ,
      3                     DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -50,8 +50,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*) ,EINT(*) ,MU(*)   , 
+     .   PM(NPROPM,*),
+     .   OFF(*) ,EINT(*) ,MU(*)   ,
      .   MU2(*) ,DVOL(*) ,DF(*)   ,VNEW(*),
      .   PNEW(*),DPDM(*) ,DPDE(*) ,THETA(*),
      .   ECOLD(*)
@@ -130,22 +130,22 @@ C------------------------
        ENDDO
 C------------------------------------------------
       ELSEIF (IFLAG == 2) THEN
-        DO I=1, NEL                                
-           MX     =MAT(I)  
-           C0(I)  =PM(104,MX)                                    
-           BULK(I)=PM(32,MX)                       
-           PC(I)  =PM(37,MX)                       
-           PSH(I) =PM(88,MX)                       
-        ENDDO                                      
-        DO I=1, NEL                                
-           IF (VNEW(I) > ZERO) THEN             
-              PNEW(I) = C0(I)+BULK(I)*MU(I)        
-              PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))  
-              PNEW(I) = PNEW(I)*OFF(I)             
-              DPDM(I) = BULK(I)                    
-              DPDE(I) = ZERO                       
-           ENDIF                                   
-        ENDDO                                      
+        DO I=1, NEL
+           MX     =MAT(I)
+           C0(I)  =PM(104,MX)
+           BULK(I)=PM(32,MX)
+           PC(I)  =PM(37,MX)
+           PSH(I) =PM(88,MX)
+        ENDDO
+        DO I=1, NEL
+           IF (VNEW(I) > ZERO) THEN
+              PNEW(I) = C0(I)+BULK(I)*MU(I)
+              PNEW(I) = MAX(PNEW(I),PC(I)-PSH(I))
+              PNEW(I) = PNEW(I)*OFF(I)
+              DPDM(I) = BULK(I)
+              DPDE(I) = ZERO
+           ENDIF
+        ENDDO
       ENDIF
       RETURN
       END

@@ -81,7 +81,7 @@ C=======================================================================
         NMAS = IPMAS(I)%NPART
         ITYPE= IPMAS(I)%TYPE
         IFLAG= IPMAS(I)%WEIGHT_FLAG
-        IF (ITYPE /= 3 .and. ITYPE /= 4 .and. 
+        IF (ITYPE /= 3 .and. ITYPE /= 4 .and.
      .      ITYPE /= 6 .and. ITYPE /= 7) GOTO 10
 !
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)

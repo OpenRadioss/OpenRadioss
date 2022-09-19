@@ -130,9 +130,9 @@ C PLY  Nodes structures for animations
          my_real ,
      .   DIMENSION (:,:), ALLOCATABLE :: GEO   , PM         ! GEO, PM
       END TYPE STACK_PLY
-      INTEGER , DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER , DIMENSION(:,:), ALLOCATABLE ::
      .      PLY_INFO
-      
+
 c
       END MODULE STACK_MOD
 

@@ -66,15 +66,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB
       INTEGER                           :: ITABM1(SITABM1),ITAB(NUMNOD)
-      INTEGER                           :: IPM(NPROPMI,NUMMAT)    
+      INTEGER                           :: IPM(NPROPMI,NUMMAT)
       my_real                           :: X(3,NUMNOD)
-      CHARACTER*ncharkey                :: KEY, KEY2      
+      CHARACTER*ncharkey                :: KEY, KEY2
       TYPE(SUBMODEL_DATA),INTENT(IN)    :: LSUBMODEL(NSUBMOD)
       INTEGER            ,INTENT(INOUT) :: I1,I2,I3,I4,I5
-      INTEGER,INTENT(IN)                :: DET_ID  
-      TYPE(DETONATOR_STRUCT_)           :: DETONATORS          
+      INTEGER,INTENT(IN)                :: DET_ID
+      TYPE(DETONATOR_STRUCT_)           :: DETONATORS
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER,EXTERNAL     :: NODGRNR5, USR2SYS, NINTRI
       INTEGER              :: UNUSED_MAT_DETONATOR
-      DATA MESS/'DETONATORS DEFINITION                   '/      
+      DATA MESS/'DETONATORS DEFINITION                   '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -106,108 +106,108 @@ C-----------------------------------------------
       NDETPL = DETONATORS%NDETPL
       NDETCORD = DETONATORS%NDETCORD
 
-      IS_ENCRYPTED= .FALSE.                                                                  
-      IS_AVAILABLE = .FALSE.                                                                 
-      IS_NODE_DEFINED = .FALSE.                                                              
-      IF(KEY2(1:4)=='NODE')IS_NODE_DEFINED = .TRUE.                                          
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)                                                                                       
-      !---------------------------------!                                                    
-      !             READING             !                                                    
-      !---------------------------------!                                                    
-      IF(IS_NODE_DEFINED)THEN                                                                
-        CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)              
-        CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)         
-        CALL HM_GET_INTV('rad_det_node1', uID1, IS_AVAILABLE, LSUBMODEL)             
-        XC=ZERO                                                                              
-        YC=ZERO                                                                              
-        ZC=ZERO                                                                              
-      ELSE                                                                                   
-        CALL HM_GET_FLOATV('rad_det_locationA_X', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)       
-        CALL HM_GET_FLOATV('rad_det_locationA_Y', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)       
-        CALL HM_GET_FLOATV('rad_det_locationA_Z', ZC, IS_AVAILABLE, LSUBMODEL, UNITAB)       
-        CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)              
-        CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)                 
-      ENDIF                                                                                  
-                                                                                             
-      IF(IS_NODE_DEFINED)THEN                                                                
-        NODE_ID1=USR2SYS(uID1,ITABM1,MESS,DET_ID)                                                
-        IF(NODE_ID1 > 0)THEN                                                                
-          XC = X(1,NODE_ID1)                                                                 
-          YC = X(2,NODE_ID1)                                                                 
-          ZC = X(3,NODE_ID1)                                                                 
-        ENDIF                                                                                
-        IF(NODE_ID1==0)THEN                                                                  
-          CALL ANCMSG(MSGID   = 104,                                                         
-     .                MSGTYPE = MSGERROR,                                                    
-     .                ANMODE  = ANINFO,                                                      
-     .                C1      = '/DFS/DETPOINT/NODE',                                        
-     .                I1      = DET_ID,                                                          
-     .                C2      = 'INVALID NODE_ID')                                           
-        ENDIF                                                                                
-      ENDIF                                                                                  
-      !---------------------------------!                                                    
-      !      CHECKING USER FLAGS        !                                                    
-      !      +INTERNAL ID               !                                                    
-      !---------------------------------!                                                    
-      MDET=MAT !bak                                                                          
-      IF (ALT > INFINITY) ALT=INFINITY 
-      UNUSED=0                                                     
-      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)                                
-      IF (MAT < 0) THEN                                                                     
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
-        CALL ANCMSG(MSGID=102,                                                               
-     .              MSGTYPE=MSGERROR,                                                        
-     .              ANMODE=ANINFO,                                                           
-     .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR IS REFERRING TO A NEGATIVE MATERIAL ID',                   
-     .              C2='/DFS/DETPOINT',                                                      
-     .              I2=MDET)                                                                 
-      ELSEIF (UNUSED==1) THEN                                                                
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
-        CALL ANCMSG(MSGID=102,                                                               
-     .              MSGTYPE=MSGERROR,                                                        
-     .              ANMODE=ANINFO,                                                           
-     .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR IS REFERRING TO AN UNKNOWN MATERIAL ID',                   
-     .              C2='/DFS/DETPOINT',                                                      
-     .              I2=MDET)                                                                 
-      ELSEIF (UNUSED==2) THEN                                                                
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
-        CALL ANCMSG(MSGID=102,                                                               
-     .              MSGTYPE=MSGERROR,                                                        
-     .              ANMODE=ANINFO,                                                           
-     .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',          
-     .              C2='/DFS/DETPOINT',                                                      
-     .              I2=MDET)                                                                 
-      ELSE                                                                                   
-      !---------------------------------!                                                    
-      !        LISTING PRINTOUT         !                                                    
-      !---------------------------------!                                                    
-        I1=I1+1 !one more detpoint                                                           
-        IF(IS_ENCRYPTED)THEN                                                                 
-          WRITE(IOUT,1001)                                                                   
-        ELSEIF(IS_NODE_DEFINED)THEN                                                          
-          WRITE(IOUT,1401) DET_ID,uID1,XC,YC,ZC,ALT,MDET                                         
-        ELSE                                                                                 
-          WRITE(IOUT,1400) DET_ID,XC,YC,ZC,ALT,MDET                                              
-        ENDIF                                                                                
-        DETONATORS%BURN(1,I1) = ALT                                                                        
-        DETONATORS%BURN(2,I1) = MAT                                                                        
-        DETONATORS%BURN(3,I1) = XC                                                                         
-        DETONATORS%BURN(4,I1) = YC                                                                         
-        DETONATORS%BURN(5,I1) = ZC                                                                         
-        DETONATORS%BURN(6,I1) = 0 !unused                                                                  
-        DETONATORS%BURN(7,I1) = 0 !unused                                                                  
-        DETONATORS%BURN(8,I1) = 0 !unused                                                                  
-      END IF                                                                                 
+      IS_ENCRYPTED= .FALSE.
+      IS_AVAILABLE = .FALSE.
+      IS_NODE_DEFINED = .FALSE.
+      IF(KEY2(1:4)=='NODE')IS_NODE_DEFINED = .TRUE.
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
+      !---------------------------------!
+      !             READING             !
+      !---------------------------------!
+      IF(IS_NODE_DEFINED)THEN
+        CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+        CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('rad_det_node1', uID1, IS_AVAILABLE, LSUBMODEL)
+        XC=ZERO
+        YC=ZERO
+        ZC=ZERO
+      ELSE
+        CALL HM_GET_FLOATV('rad_det_locationA_X', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('rad_det_locationA_Y', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('rad_det_locationA_Z', ZC, IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+        CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
+      ENDIF
+
+      IF(IS_NODE_DEFINED)THEN
+        NODE_ID1=USR2SYS(uID1,ITABM1,MESS,DET_ID)
+        IF(NODE_ID1 > 0)THEN
+          XC = X(1,NODE_ID1)
+          YC = X(2,NODE_ID1)
+          ZC = X(3,NODE_ID1)
+        ENDIF
+        IF(NODE_ID1==0)THEN
+          CALL ANCMSG(MSGID   = 104,
+     .                MSGTYPE = MSGERROR,
+     .                ANMODE  = ANINFO,
+     .                C1      = '/DFS/DETPOINT/NODE',
+     .                I1      = DET_ID,
+     .                C2      = 'INVALID NODE_ID')
+        ENDIF
+      ENDIF
+      !---------------------------------!
+      !      CHECKING USER FLAGS        !
+      !      +INTERNAL ID               !
+      !---------------------------------!
+      MDET=MAT !bak
+      IF (ALT > INFINITY) ALT=INFINITY
+      UNUSED=0
+      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)
+      IF (MAT < 0) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR IS REFERRING TO A NEGATIVE MATERIAL ID',
+     .              C2='/DFS/DETPOINT',
+     .              I2=MDET)
+      ELSEIF (UNUSED==1) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR IS REFERRING TO AN UNKNOWN MATERIAL ID',
+     .              C2='/DFS/DETPOINT',
+     .              I2=MDET)
+      ELSEIF (UNUSED==2) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',
+     .              C2='/DFS/DETPOINT',
+     .              I2=MDET)
+      ELSE
+      !---------------------------------!
+      !        LISTING PRINTOUT         !
+      !---------------------------------!
+        I1=I1+1 !one more detpoint
+        IF(IS_ENCRYPTED)THEN
+          WRITE(IOUT,1001)
+        ELSEIF(IS_NODE_DEFINED)THEN
+          WRITE(IOUT,1401) DET_ID,uID1,XC,YC,ZC,ALT,MDET
+        ELSE
+          WRITE(IOUT,1400) DET_ID,XC,YC,ZC,ALT,MDET
+        ENDIF
+        DETONATORS%BURN(1,I1) = ALT
+        DETONATORS%BURN(2,I1) = MAT
+        DETONATORS%BURN(3,I1) = XC
+        DETONATORS%BURN(4,I1) = YC
+        DETONATORS%BURN(5,I1) = ZC
+        DETONATORS%BURN(6,I1) = 0 !unused
+        DETONATORS%BURN(7,I1) = 0 !unused
+        DETONATORS%BURN(8,I1) = 0 !unused
+      END IF
 
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------
  1001 FORMAT(///'DETONATION POINT           ',I10,/5X,
      &          '----------------           ',/5X,
-     &          'CONFIDENTIAL DATA')    
+     &          'CONFIDENTIAL DATA')
  1400 FORMAT(///'DETONATION POINT           ',I10,/5X,
      &          '----------------           ',/5X,
      &          'X-COORDINATE              =',1PG20.13,/5X,
@@ -222,6 +222,6 @@ C-----------------------------------------------
      &          ' Y-COORDINATE             =',1PG20.13,/5X,
      &          ' Z-COORDINATE             =',1PG20.13,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
-     &          'EXPLOSIVE MATERIAL NUMBER =',I10 ) 
+     &          'EXPLOSIVE MATERIAL NUMBER =',I10 )
 C-----------------------------------------------            
       END SUBROUTINE

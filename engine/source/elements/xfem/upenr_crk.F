@@ -65,16 +65,16 @@ c
         NLEV    = NODLEVXF(NSX)
         DO ILEV=1,NLEV
           OK_UP = 0
-          DO KK = NCT_CRK+1, NCT_CRK+NC_CRK                                 
-            EN0 = ABS(CRKLVSET(ILEV)%ENR0(1,KK))                            
+          DO KK = NCT_CRK+1, NCT_CRK+NC_CRK
+            EN0 = ABS(CRKLVSET(ILEV)%ENR0(1,KK))
             IF (EN0 > 0) THEN
-              ENR_MAX = ENRTAG(N,EN0)                           
-              IF (ENR_MAX > 0) THEN  ! il y a une fissure dans l'adresse sky  
-                IFAC0(EN0) = ENR_MAX                                          
-                OK_UP = 1                                                     
-              ENDIF                                                           
-            ENDIF                                                           
-          ENDDO                                                             
+              ENR_MAX = ENRTAG(N,EN0)
+              IF (ENR_MAX > 0) THEN  ! il y a une fissure dans l'adresse sky
+                IFAC0(EN0) = ENR_MAX
+                OK_UP = 1
+              ENDIF
+            ENDIF
+          ENDDO
 c
           IF (OK_UP == 1) THEN
             DO KK = NCT_CRK+1, NCT_CRK+NC_CRK

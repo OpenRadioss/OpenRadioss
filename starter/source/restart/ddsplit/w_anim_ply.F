@@ -143,11 +143,11 @@ C
 
         CALL WRITE_I_C(PLYSIZNG,NPLYMAX)
 C id ply pid     
-        CALL WRITE_I_C(IDPID_PLY,NPLYPART)    
-! ----------------------------------    
+        CALL WRITE_I_C(IDPID_PLY,NPLYPART)
+! ----------------------------------
 !     1d array
       DEALLOCATE( NODTAG,ELEMTAG )
       DEALLOCATE( PLYSIZNG )
-! ----------------------------------   
+! ----------------------------------
       RETURN
       END

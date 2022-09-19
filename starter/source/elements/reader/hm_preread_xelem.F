@@ -100,7 +100,7 @@ C--------------------------------------------------
       ALLOCATE (SUB_XELEM(NUMELX),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_XELEM') 
+     .                             C1='SUB_XELEM')
       SUB_XELEM(1:NUMELX) = 0
 C--------------------------------------------------
       NUM  = 0
@@ -113,7 +113,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_XELEM(I) /= 0)THEN
-          IF(IGU(I) /= 0) IGU(I) = IGU(I) + OFF_DEF(SUB_XELEM(I)) 
+          IF(IGU(I) /= 0) IGU(I) = IGU(I) + OFF_DEF(SUB_XELEM(I))
         ENDIF
       ENDDO
 C--------------------------------------------------

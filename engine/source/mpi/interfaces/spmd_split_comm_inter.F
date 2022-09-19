@@ -38,14 +38,14 @@ Chd|====================================================================
 !       SPMD_SPLIT_COMM_INTER organization :
 !              - loop over the interfaces in order to
 !                tag all the processors of a interface
-!              - then create a communicator for a given 
+!              - then create a communicator for a given
 !                interface
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE COMM_TRI7VOX_MOD
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE INTER_STRUCT_MOD
       USE INTER_SORTING_MOD
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
       integer, dimension(NPARI,NINTER), intent(in) :: IPARI
       integer,dimension(NINTER+1,NSPMD+1), intent(in) :: ISENDTO,IRCVFROM
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
-      
+
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -102,7 +102,7 @@ C-----------------------------------------------
         ALLOCATE( LIST_INTER_7_INACTI(NINTER) )
         LIST_INTER_7_INACTI(1:NINTER) = 0
 !           -----------------------------
-!       loop over the interface        
+!       loop over the interface
         DO KK=1,NBINTC
             NIN = INTLIST(KK)
             NTY   =IPARI(7,NIN)
@@ -139,7 +139,7 @@ C-----------------------------------------------
                     ELSE
                         COMM_TRI7VOX(NIN)%COLOR=1
                         KEY = 1
-                    ENDIF       
+                    ENDIF
                     !   create the communicator
                     CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COMM_TRI7VOX(NIN)%COLOR,KEY,COMM_TRI7VOX(NIN)%COMM,CODE)
                     CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COMM_TRI7VOX(NIN)%COLOR,KEY,SORT_COMM(NIN)%COMM,CODE)
@@ -152,7 +152,7 @@ C-----------------------------------------------
                 INACTI = IPARI(22,NIN)
                 IFQ = IPARI(31,NIN)
                 ITIED = IPARI(85,NIN)
-                IF(IMPL_S==0.OR.NEIG==0) THEN       
+                IF(IMPL_S==0.OR.NEIG==0) THEN
                     IF( INACTI==5.OR.INACTI==6.OR.IFQ>0.OR.ITIED/=0)THEN
                         NEED_COMM_INACTI = .TRUE.
                         NB_INTER_7_INACTI = NB_INTER_7_INACTI + 1
@@ -172,9 +172,9 @@ C-----------------------------------------------
         ELSE
             COLOR_INACTI = 1
             KEY = 1
-        ENDIF       
+        ENDIF
         !   create the communicator for the spmd_get_inacti communication
-        CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOR_INACTI,KEY,COMM_INACTI,CODE)  
+        CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,COLOR_INACTI,KEY,COMM_INACTI,CODE)
 !           -----------------------------
 #endif
       RETURN

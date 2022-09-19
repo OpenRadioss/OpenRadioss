@@ -104,11 +104,11 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER IOUT,NUVAR,NEL,IPROP,   
+      INTEGER IOUT,NUVAR,NEL,IPROP,
      .        IX(4,NEL) ,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
      .        KFUNC,KMAT,KPROP
-      my_real 
+      my_real
      .        XL(NEL) ,MASS(NEL) ,XINER(NEL) ,STIFM(NEL) ,
      .        STIFR(NEL),VISCM(NEL) ,VISCR(NEL),UVAR(NUVAR,*),
      .        GET_U_MAT,GET_U_GEO
@@ -120,7 +120,7 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .        AMAS,INER,K11,K44,K55,K66,K5B,K6C,
      .        XLIMG,XLIM,XXLIM,YY1LIM,YY2LIM,ZZ1LIM,ZZ2LIM,
      .        NCF,IDAMPING

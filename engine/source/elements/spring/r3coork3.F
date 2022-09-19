@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT 
+      INTEGER JFT, JLT
       INTEGER NCC(NIXR,*),PID(*),NGL(*)
 C     REAL
       my_real
@@ -60,8 +60,8 @@ C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ),X3(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),  
-     .   Y3(MVSIZ),Z1(MVSIZ), Z2(MVSIZ),Z3(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ),X3(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),
+     .   Y3(MVSIZ),Z1(MVSIZ), Z2(MVSIZ),Z3(MVSIZ),
      .   AL1(MVSIZ),AL2(MVSIZ),NORM
 C-----------------------------------------------
 C
@@ -71,7 +71,7 @@ C
        NC1(I)=NCC(2,I)
        NC2(I)=NCC(3,I)
        NC3(I)=NCC(4,I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     COORDONNEES
 C----------------------------
@@ -85,7 +85,7 @@ C----------------------------
        X3(I)=X(1,NC3(I))
        Y3(I)=X(2,NC3(I))
        Z3(I)=X(3,NC3(I))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
@@ -104,7 +104,7 @@ C
        R31(I)=Z2(I)-Z1(I)
        AL1(I)=SQRT(R11(I)*R11(I)+R21(I)*R21(I)+R31(I)*R31(I))
        AL1(I)=MAX(EM15,AL1(I))
-      ENDDO 
+      ENDDO
 C
       DO I=JFT, JLT
        IF (AL1(I)>EM15) THEN
@@ -112,8 +112,8 @@ C
         R11(I)=R11(I)*NORM
         R21(I)=R21(I)*NORM
         R31(I)=R31(I)*NORM
-       ENDIF 
-      ENDDO 
+       ENDIF
+      ENDDO
 C
       DO  I=JFT, JLT
        R12(I)=X2(I)-X3(I)
@@ -121,7 +121,7 @@ C
        R32(I)=Z2(I)-Z3(I)
        AL2(I)=SQRT(R12(I)*R12(I)+R22(I)*R22(I)+R32(I)*R32(I))
        AL2(I)=MAX(EM15,AL2(I))
-      ENDDO 
+      ENDDO
 C
       DO I=JFT, JLT
        IF (AL2(I)>EM15) THEN
@@ -129,8 +129,8 @@ C
         R12(I)=R12(I)*NORM
         R22(I)=R22(I)*NORM
         R32(I)=R32(I)*NORM
-       ENDIF 
-      ENDDO 
+       ENDIF
+      ENDDO
       IF (IMP_CHK > 0) THEN
        DO I=JFT,JLT
         IF(OFFG(I)/=ZERO)THEN
@@ -140,21 +140,21 @@ C
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IW = IMP_IW + 1
-         ENDIF 
+         ENDIF
          IF(AL2(I)<=EM15)THEN
 #include "lockon.inc"
             WRITE(IOUT ,2002) NGL(I)
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IW = IMP_IW + 1
-         ENDIF 
-        ENDIF 
+         ENDIF
+        ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
 C
       DO I=JFT, JLT
        BETA(I) = PI - ACOS(R11(I)*R12(I)+R21(I)*R22(I)+R31(I)*R32(I))
-      ENDDO 
+      ENDDO
 C
       DO I=JFT,JLT
        OFF(I)=OFFG(I)

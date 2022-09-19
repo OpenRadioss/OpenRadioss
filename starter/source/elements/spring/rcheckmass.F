@@ -130,7 +130,7 @@ C
             N2  =IXR(3,NR)
             IF((TAGSLV(N1)==0.AND.(MS(N1)==ZERO.OR.IN(N1)==ZERO)).OR.
      .         (TAGSLV(N2)==0.AND.(MS(N2)==ZERO.OR.IN(N2)==ZERO)))THEN
- 
+
               IF(IP/=IPREV.AND.NERR/=0)THEN
                 IPREV=IP
 C
@@ -166,7 +166,7 @@ C
               END IF
             END IF
           END IF
-        END IF 
+        END IF
         IF(IERR2/=0)THEN
           NERR=NERR+1
           CALL ANCMSG(MSGID=1871,
@@ -187,4 +187,4 @@ C
       DEALLOCATE(INDEX,ITRI,TAGSLV)
 C------------------------------------------
       RETURN
-      END      
+      END

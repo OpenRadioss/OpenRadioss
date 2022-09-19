@@ -132,7 +132,7 @@ C-------------------------------------------------------------
               ZC(NODEL)  = Z1
               NVC(1,NODEL)=IXS(N1+1,I)
               NVC(2,NODEL)=IXS(N1+1,I)
-              ALC(NODEL)=1.              
+              ALC(NODEL)=1.
               NODEL=NODEL+1
               XC(NODEL)  = X2
               YC(NODEL)  = Y2
@@ -191,7 +191,7 @@ C MISE EN ORDRE DES NOEUDS SELON LEUR COSINUS
 C------------------------------------------------
             XM=ZERO
             YM=ZERO
-            ZM=ZERO	    
+            ZM=ZERO	
             DO 130 K=1,NODEL
               XM=XM+XC(K)/FLOAT(NODEL)
               YM=YM+YC(K)/FLOAT(NODEL)

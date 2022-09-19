@@ -84,7 +84,7 @@ C-----------------------------------------------
       END IF
 
       DO I=1,NRTM
-c test pour ne prendre en compte que les solides 
+c test pour ne prendre en compte que les solides
         IF(GAP_SH(I)/=ZERO)THEN
           N1 = NLG(IRECT(1,I))
           N2 = NLG(IRECT(2,I))
@@ -229,7 +229,7 @@ C-----------------------------------------------
         N2 = NLG(IRECT(2,I))
         N3 = NLG(IRECT(3,I))
         N4 = NLG(IRECT(4,I))
-c test pour ne prendre en compte que les solides 
+c test pour ne prendre en compte que les solides
         IF(GAP_SH(I)/=ZERO)THEN
 
 c          X13 = X(1,N3) - X(1,N1)
@@ -698,28 +698,28 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       DO I=1,JLT
-        L  = CAND_E(I)                
+        L  = CAND_E(I)
 
 
         IX = NLG(IRECT(1,L))
-        NNX1(I)=NOD_NORMAL(1,IX)  
-        NNY1(I)=NOD_NORMAL(2,IX)  
-        NNZ1(I)=NOD_NORMAL(3,IX)  
+        NNX1(I)=NOD_NORMAL(1,IX)
+        NNY1(I)=NOD_NORMAL(2,IX)
+        NNZ1(I)=NOD_NORMAL(3,IX)
 
         IX = NLG(IRECT(2,L))
-        NNX2(I)=NOD_NORMAL(1,IX)  
-        NNY2(I)=NOD_NORMAL(2,IX)  
-        NNZ2(I)=NOD_NORMAL(3,IX)  
+        NNX2(I)=NOD_NORMAL(1,IX)
+        NNY2(I)=NOD_NORMAL(2,IX)
+        NNZ2(I)=NOD_NORMAL(3,IX)
 
         IX = NLG(IRECT(3,L))
-        NNX3(I)=NOD_NORMAL(1,IX)  
-        NNY3(I)=NOD_NORMAL(2,IX)  
-        NNZ3(I)=NOD_NORMAL(3,IX)  
+        NNX3(I)=NOD_NORMAL(1,IX)
+        NNY3(I)=NOD_NORMAL(2,IX)
+        NNZ3(I)=NOD_NORMAL(3,IX)
 
         IX = NLG(IRECT(4,L))
-        NNX4(I)=NOD_NORMAL(1,IX)  
-        NNY4(I)=NOD_NORMAL(2,IX)  
-        NNZ4(I)=NOD_NORMAL(3,IX)  
+        NNX4(I)=NOD_NORMAL(1,IX)
+        NNY4(I)=NOD_NORMAL(2,IX)
+        NNZ4(I)=NOD_NORMAL(3,IX)
 
         X12 = X2(I) - X1(I)
         Y12 = Y2(I) - Y1(I)
@@ -742,22 +742,22 @@ C-----------------------------------------------
         L34L34 = X34*X34 + Y34*Y34 + Z34*Z34
         L41L41 = X41*X41 + Y41*Y41 + Z41*Z41
 
-        N1N1   = NNX1(I)*NNX1(I) 
+        N1N1   = NNX1(I)*NNX1(I)
      +         + NNY1(I)*NNY1(I)
      +         + NNZ1(I)*NNZ1(I)
-        N2N2   = NNX2(I)*NNX2(I) 
+        N2N2   = NNX2(I)*NNX2(I)
      +         + NNY2(I)*NNY2(I)
      +         + NNZ2(I)*NNZ2(I)
-        N3N3   = NNX3(I)*NNX3(I) 
+        N3N3   = NNX3(I)*NNX3(I)
      +         + NNY3(I)*NNY3(I)
      +         + NNZ3(I)*NNZ3(I)
-        N4N4   = NNX4(I)*NNX4(I) 
+        N4N4   = NNX4(I)*NNX4(I)
      +         + NNY4(I)*NNY4(I)
      +         + NNZ4(I)*NNZ4(I)
 
         NL  = NNX1(I)*X12
-     +      + NNY1(I)*Y12   
-     +      + NNZ1(I)*Z12   
+     +      + NNY1(I)*Y12
+     +      + NNZ1(I)*Z12
         N1L12N1L12 = NL*NL
         NL = NNX2(I)*X12
      +     + NNY2(I)*Y12
@@ -780,12 +780,12 @@ C-----------------------------------------------
      +     + NNZ4(I)*Z34
         N4L34N4L34 = NL*NL
         NL = NNX4(I)*X41
-     +     + NNY4(I)*Y41    
-     +     + NNZ4(I)*Z41    
+     +     + NNY4(I)*Y41
+     +     + NNZ4(I)*Z41
         N4L41N4L41 = NL*NL
         NL = NNX1(I)*X41
-     +     + NNY1(I)*Y41    
-     +     + NNZ1(I)*Z41    
+     +     + NNY1(I)*Y41
+     +     + NNZ1(I)*Z41
         N1L41N1L41 = NL*NL
 
 c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)

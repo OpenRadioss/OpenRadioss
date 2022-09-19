@@ -116,9 +116,9 @@ c
      .            SIGOXX ,SIGOYY ,SIGOXY ,SIGOYZ ,SIGOZX ,
      .            SIGNXX ,SIGNYY ,SIGNXY ,SIGNYZ ,SIGNZX ,
      .            NUMTABL,ITABLE ,TABLE  )
-c------------------------------------            
+c------------------------------------
 c       thickness update:
-c------------------------------------            
+c------------------------------------
         DO I=1,NEL
           DEZZ = -(DEPSXX(I)+DEPSYY(I))*NU/(ONE-NU)
           THK(I) = THK(I) + DEZZ * THKLYL(I)*OFF(I)

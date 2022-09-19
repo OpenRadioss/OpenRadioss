@@ -52,8 +52,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD    
-      USE ELBUFTAG_MOD          
+      USE MATPARAM_DEF_MOD
+      USE ELBUFTAG_MOD
       USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PARMAT(100), UPARAM(MAXUPARAM), PM(NPROPM)
-      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM, 
+      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM,
      .     NUPARAM, NUVAR,NVARTMP, ISRATE_IN, ITABLE(MAXTABL), NUMTABL
       INTEGER, INTENT(IN)                    :: MAT_ID, MAXTABL
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
@@ -90,7 +90,7 @@ C-----------------------------------------------
       my_real
      .      YSCALE1,YSCALE2,YSCALE3,YSCALE4,YSCALE5,XSCALE(5),RSCALE_UNIT(5),
      .      XSCALE2,XSCALE3,XSCALE4,XSCALE5,EFAC,UNITT,RSCALE(5),
-     .      TETA2, TETA3,TETA4, TETA5,QR2,QR3,QR4,ALPHA2, TREF,  
+     .      TETA2, TETA3,TETA4, TETA5,QR2,QR3,QR4,ALPHA2, TREF,
      .      AE1, AE3,BS,MS,GSIZE,B, MO,MN,W,AL,C,CR,SI,CU,AS,
      .      CO,NI,V,P,TI,E,NU,CEPS, PEPS, BULK,CE,HFP,HB,HM,TINI,
      .      ALFA1, ALFA2,KF,KP,LAT1,LAT2,AC1,AC3,TAU1,TAU3,
@@ -105,19 +105,19 @@ C     S o u r c e
 C-----------------------------------------------
       ISRATE_IN = 1
       FLAG_LOC  = 0
-      
+
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-      
+
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)     
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       NFUNC =7
-      NUMTABL = 5 
+      NUMTABL = 5
       NVARTMP = 15
 
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -186,34 +186,34 @@ C-----------------------------------------------
       MS  = ZERO
       CALL HM_GET_FLOATV('PrMesh_Size' , GSIZE, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_K'       , KF  , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_K_UNLOAD', KP  , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_Lamda'   , LAT1, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_Theta'   , LAT2, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('T_Initial'   , TINI, IS_AVAILABLE, LSUBMODEL, UNITAB)     
+      CALL HM_GET_FLOATV('MAT_K'       , KF  , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_K_UNLOAD', KP  , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_Lamda'   , LAT1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_Theta'   , LAT2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('T_Initial'   , TINI, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_B'       , B , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_MUE1'    , MO, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_MUE2'    , MN, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_Wmax_pt1', W , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_A1'      , AL, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-            
-      CALL HM_GET_FLOATV('MAT_C'   , C , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_c1_t', CR, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_SRE' , SI, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_c2_t', CU, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_A2'  , AS, IS_AVAILABLE, LSUBMODEL, UNITAB)     
+      CALL HM_GET_FLOATV('MAT_B'       , B , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE1'    , MO, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_MUE2'    , MN, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_Wmax_pt1', W , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_A1'      , AL, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_c1_c', CO, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_NUt' , NI, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_VOL' , V , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_PR'  , P , IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('MAT_T0'  , TI, IS_AVAILABLE, LSUBMODEL, UNITAB)     
+      CALL HM_GET_FLOATV('MAT_C'   , C , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_c1_t', CR, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_SRE' , SI, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_c2_t', CU, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_A2'  , AS, IS_AVAILABLE, LSUBMODEL, UNITAB)
+
+      CALL HM_GET_FLOATV('MAT_c1_c', CO, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_NUt' , NI, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_VOL' , V , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_PR'  , P , IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_T0'  , TI, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
 
       !Parameters for austenization during heating phase
-      CALL HM_GET_FLOATV('TAU1'  , TAU1, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      CALL HM_GET_FLOATV('TAU3'  , TAU3, IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('TAU1'  , TAU1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('TAU3'  , TAU3, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       !flag for transformation strain model
 c------------------------------------------------------------------------
@@ -290,14 +290,14 @@ c------------------------------------------------------------------------
 
 
 
-      IF(ITABLE(1)==ZERO.OR.ITABLE(2)==ZERO.OR.ITABLE(3)==ZERO.OR. 
+      IF(ITABLE(1)==ZERO.OR.ITABLE(2)==ZERO.OR.ITABLE(3)==ZERO.OR.
      .     ITABLE(4)==ZERO.OR.ITABLE(5)==ZERO)THEN
          CALL ANCMSG(MSGID=1020,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
      .                C1=TITR)
-        
+
       ENDIF
 
       DO I = 1,NTABLE
@@ -307,7 +307,7 @@ c------------------------------------------------------------------------
           ENDIF
         ENDDO
       ENDDO
-      IF(NDIM(1) == 3 .OR.NDIM(2)==3 .OR.NDIM(3)==3 .OR. 
+      IF(NDIM(1) == 3 .OR.NDIM(2)==3 .OR.NDIM(3)==3 .OR.
      .                                   NDIM(4)==3 .OR.NDIM(5)==3 )THEN
          IF(CEPS /= ZERO .OR. PEPS /= ZERO  ) THEN
            CEPS =  ZERO
@@ -318,7 +318,7 @@ c------------------------------------------------------------------------
      .                I1=MAT_ID,
      .                C1=TITR)
           ENDIF
-        
+
       ENDIF
 C
       NUVAR = 44
@@ -339,7 +339,7 @@ C
       UPARAM(2) = NU
       UPARAM(3) = IFUNC(1)
       IF (EFAC==ZERO)EFAC=ONE
-      UPARAM(4) = EFAC     
+      UPARAM(4) = EFAC
       UPARAM(10)= YSCALE1
       UPARAM(11)= YSCALE2
       UPARAM(12)= YSCALE3
@@ -360,15 +360,15 @@ C
       AE1= 723.-10.7*MN-16.9*NI+29.*SI+16.9*CR+290.*AS+ 6.4 *W + 273.0
       BS = 656.-58.*C-35.*MN-75.*SI-15.*NI-34.*CR-41.*MO +273.0
       MS = 561.-474.*C-33.*MN-17.*NI-17.*CR-21.*MO +273.0
-      UPARAM(26)= AE1 
-      UPARAM(27)= AE3 
+      UPARAM(26)= AE1
+      UPARAM(27)= AE3
       UPARAM(28)= BS
-      UPARAM(29)= MS 
+      UPARAM(29)= MS
       UPARAM(30)= GSIZE
-      UPARAM(31)= ALFA1  
+      UPARAM(31)= ALFA1
       UPARAM(32)= ALFA2
 
-c---- COMPOSITION FOR FERRITE PEARLITE BAINITE      
+c---- COMPOSITION FOR FERRITE PEARLITE BAINITE
       FCFER =1/(59.6*MN+1.45*NI+67.7*CR+244.0*MO+KF*B)
       FCPER =1/(1.79+5.42*(CR+MO+FOUR*MO*NI)+KP*B)
       FCBAI =1/((2.34+10.1*C+3.8*CR+19.0*MO)*EM04)
@@ -380,16 +380,16 @@ c---- COMPOSITION FOR FERRITE PEARLITE BAINITE
 
       FGRAIN=TWO**((GSIZE-ONE)*HALF)
       UPARAM(33)= FCFER
-      UPARAM(34)= FCPER  
+      UPARAM(34)= FCPER
       UPARAM(35)= FCBAI
       UPARAM(36)= FGRAIN
-      
+
       KPER=0.01*C+0.52*MO
       UPARAM(37)= KPER
-      
+
       KBAIN= 1.9*C+2.5*MN+0.9*NI+1.7*CR+4*MO-2.6
       UPARAM(38)= KBAIN
-      
+
       T1=912.0-15.2*NI+44.7*SI+104.0*V+315.0*MO+13.1*W
       T2=30.0*MN+11.0*CR+20.0*CU-700.0*P-400.0*AL-120.0*AS-400.0*TI
       CEUT= (T1-T2-AE1-273.)*(T1-T2-AE1-273.)/203.0/203.0
@@ -397,17 +397,17 @@ c---- COMPOSITION FOR FERRITE PEARLITE BAINITE
       UPARAM(39)= XEQ2
 
       UPARAM(40)= LAT1
-      UPARAM(41)= LAT2      
-     
+      UPARAM(41)= LAT2
+
       HFP=42.+223.*C+53.*SI+30.*MN+12.*NI+7.*CR+19.*MO+(10.-19.*SI+4.*NI+8.*CR+130.*V)
       HB =259.4-254.7*C+4834.1*C*C
       HM =181.1+2031.9*C-1940.1*C*C
       UPARAM(42)= HFP
       UPARAM(43)= HB
       UPARAM(44)= HM
-     
+
       UPARAM(45)= TINI
-      UPARAM(46)= UNITT      
+      UPARAM(46)= UNITT
 C
       NUPARAM= 46
       UPARAM(46+1) = 0.
@@ -422,7 +422,7 @@ C
       UPARAM(46+10)= 1.330
       UPARAM(46+11)= 1.000
       UPARAM(46+12)= 1.000
-      
+
       NUPARAM= NUPARAM +12 !58
 
       DO I= 1,NUMTABL
@@ -435,7 +435,7 @@ C
       UPARAM(58 + NUMTABL + 4) = FLAG_LOC
 
       UPARAM(58 + NUMTABL + 5) = FLAG_TR_STRAIN
-      UPARAM(58 + NUMTABL + 6) = FLAG_TR_KINETICS 
+      UPARAM(58 + NUMTABL + 6) = FLAG_TR_KINETICS
 
       !UPARAM(58 + NUMTABL + 6) = IFUNC(1)!FLAG_HEAT_ID
 
@@ -444,8 +444,8 @@ C
       UPARAM(58 + NUMTABL + 8) = RSCALE(2)
       UPARAM(58 + NUMTABL + 9) = RSCALE(3)
       UPARAM(58 + NUMTABL +10) = RSCALE(4)
-      UPARAM(58 + NUMTABL +11) = RSCALE(5) ! 58 + 11 + 5= 74 !SINCE NUMTABL = 5 
-      
+      UPARAM(58 + NUMTABL +11) = RSCALE(5) ! 58 + 11 + 5= 74 !SINCE NUMTABL = 5
+
       NUPARAM= NUPARAM   + 5 !74
 
 

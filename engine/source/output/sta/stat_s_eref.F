@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,J,K,II,JJ,LEN,NLAY,NPTR,NPTS,NPTT,ISOLNOD0,
-     .   ISOLNOD,ISTRAIN,NG, NEL, MLW, ID, IPRT0, IPRT,IE, 
+     .   ISOLNOD,ISTRAIN,NG, NEL, MLW, ID, IPRT0, IPRT,IE,
      .   NPG,IPG,IPT,IL,IR,IS,IT,IPID,PID,IOFF,KK(8),NC(20),
      .   NN1,NN,NSROT
       INTEGER PTWA(STAT_NUMELS), PTWA_P0(0:MAX(1,STAT_NUMELS_G))
@@ -94,8 +94,8 @@ C-----------------------------------------------
       DATA DELIMIT(61:100)
      ./'----7----|----8----|----9----|----10---|'/
 C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C======================================================================|
       JJ = 0
       IF(STAT_NUMELS==0) GOTO 200
@@ -105,11 +105,11 @@ C----- not output all solid element
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)
         ISOLNOD = IPARG(28,NG)
-        MLW   =IPARG(1,NG) 
-        NEL   =IPARG(2,NG) 
+        MLW   =IPARG(1,NG)
+        NEL   =IPARG(2,NG)
         NFT   =IPARG(3,NG)
         IAD   =IPARG(4,NG)
-        ISTRAIN = IPARG(44,NG)          
+        ISTRAIN = IPARG(44,NG)
         LFT = 1
         LLT = NEL
 !
@@ -118,12 +118,12 @@ C----- not output all solid element
         ENDDO
 !
         IF (ITY == 1) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           IF (JHBE==17.AND.IINT==2) JHBE = 18
           ISOLNOD0 = ISOLNOD
@@ -135,22 +135,22 @@ C----- not output all solid element
           GBUF => ELBUF_TAB(NG)%GBUF
           IPRT=IPARTS(LFT+NFT)
           PID = IPART(2,IPRT)
-c------          
+c------
           IF(ISMSTR==1.OR.ISMSTR>=10) THEN
             CALL GETCONFIG(LFT,LLT,ISOLNOD,ISMSTR,X0,Y0,Z0,
      1                     GBUF%SMSTR,NEL)
           END IF
-            DO I=LFT,LLT                                                    
-              N  = I + NFT                                                  
-              IPRT=IPARTS(N)                                                
-              IF(IPART_STATE(IPRT)==0)CYCLE                                 
-              WA(JJ+ 1)= IPRT                                               
-              WA(JJ+ 2)= IXS(NIXS,N) 
-              WA(JJ+ 3)= ISOLNOD                                               
-              WA(JJ+ 4)= JHBE                                               
-              WA(JJ+ 5)= ISMSTR 
-              WA(JJ+ 6)= GBUF%OFF(I)                                                                                                      
-              WA(JJ+ 7)= NSROT                                                                                                      
+            DO I=LFT,LLT
+              N  = I + NFT
+              IPRT=IPARTS(N)
+              IF(IPART_STATE(IPRT)==0)CYCLE
+              WA(JJ+ 1)= IPRT
+              WA(JJ+ 2)= IXS(NIXS,N)
+              WA(JJ+ 3)= ISOLNOD
+              WA(JJ+ 4)= JHBE
+              WA(JJ+ 5)= ISMSTR
+              WA(JJ+ 6)= GBUF%OFF(I)
+              WA(JJ+ 7)= NSROT
               JJ = JJ + 7
               IF(ISMSTR==1.OR.ISMSTR>=10) THEN
                 IF(ISOLNOD == 8)THEN
@@ -193,29 +193,29 @@ c------
                 ENDIF
                DO J= 1, ISOLNOD
                 JJ = JJ + 1
-                WA(JJ)= X0(I,J)                                        
+                WA(JJ)= X0(I,J)
                 JJ = JJ + 1
-                WA(JJ)= Y0(I,J)                                               
+                WA(JJ)= Y0(I,J)
                 JJ = JJ + 1
-                WA(JJ)= Z0(I,J)                                        
-               END DO              
+                WA(JJ)= Z0(I,J)
+               END DO
                DO J= 1, NSROT
                 NN = 3*(NC(J)-1)
                 JJ = JJ + 1
-                WA(JJ)= DR(1+NN)                                        
+                WA(JJ)= DR(1+NN)
                 JJ = JJ + 1
-                WA(JJ)= DR(2+NN)                                               
+                WA(JJ)= DR(2+NN)
                 JJ = JJ + 1
-                WA(JJ)= DR(3+NN)                                        
-               END DO              
+                WA(JJ)= DR(3+NN)
+               END DO
               END IF    ! ISMSTR==1.OR.ISMSTR>=10
-              IE=IE+1                                                       
+              IE=IE+1
 C             pointeur de fin de zone dans WA                                 
-              PTWA(IE)=JJ                                                   
-            END DO                                                
+              PTWA(IE)=JJ
+            END DO
 C                                                                                       
         ENDIF    ! ITY == 1
-      ENDDO      ! NG=1,NGROUP 
+      ENDDO      ! NG=1,NGROUP
  200  CONTINUE
 c-----------------------------------------------------------
       IF(NSPMD == 1)THEN
@@ -244,9 +244,9 @@ C         retrouve le nieme elt dans l'ordre d'id croissant
           K=STAT_INDXS(N)
 C         retrouve l'adresse dans WAP0
           J=PTWA_P0(K-1)
-          IOFF  = NINT(WAP0(J + 6))      
-          IPRT  = NINT(WAP0(J + 1)) 
-          ISMSTR = NINT(WAP0(J + 5)) 
+          IOFF  = NINT(WAP0(J + 6))
+          IPRT  = NINT(WAP0(J + 1))
+          ISMSTR = NINT(WAP0(J + 5))
           IF (IOFF >= 1.AND.(ISMSTR==1.OR.ISMSTR>=10)) THEN
             IF(IPRT /= IPRT0)THEN
              IF (IZIPSTRS == 0) THEN
@@ -255,7 +255,7 @@ C         retrouve l'adresse dans WAP0
              WRITE(IUGEO,'(A)')
      .      '#------------------------ REPEAT -------------------------'
              WRITE(IUGEO,'(A)')
-     .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR     NSROT' 
+     .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR     NSROT'
              WRITE(IUGEO,'(A/A)')
      .      '# REPEAT K=1,ISOLNOD ',
      .      '#     X,   Y,   Z'
@@ -266,55 +266,55 @@ C         retrouve l'adresse dans WAP0
                WRITE(LINE,'(A)') DELIMIT
                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')'/INIBRI/EREF'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
      .      '#------------------------ REPEAT -------------------------'
-               CALL STRS_TXT50(LINE,100)  
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
      .      '#  BRICKID              ISOLNOD    ISOLID    ISMSTR     NSROT'
-               CALL STRS_TXT50(LINE,100)  
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
      .      '# REPEAT K=1,ISOLNOD '
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'#     X,   Y,   Z'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
      .      '# REPEAT K=1,NSROT '
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'#    RX,  RY,  RZ'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
      .      '#------------------------ REPEAT -------------------------'
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)') DELIMIT
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
              END IF
               IPRT0=IPRT
             END IF
-            ID      = NINT(WAP0(J + 2))          
-            ISOLNOD = NINT(WAP0(J + 3))          
-            JHBE    = NINT(WAP0(J + 4))          
-            NSROT   = NINT(WAP0(J + 7))          
+            ID      = NINT(WAP0(J + 2))
+            ISOLNOD = NINT(WAP0(J + 3))
+            JHBE    = NINT(WAP0(J + 4))
+            NSROT   = NINT(WAP0(J + 7))
 c
             J = J + 7
 c------------------------------------------------
-            IF (IZIPSTRS == 0) THEN 
+            IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(I10,10X,4I10)') ID,ISOLNOD,JHBE,ISMSTR,NSROT
             ELSE
               WRITE(LINE,'(I10,10X,4I10)') ID,ISOLNOD,JHBE,ISMSTR,NSROT
               CALL STRS_TXT50(LINE,100)
             ENDIF
-            DO IPT = 1, ISOLNOD+NSROT                                 
-              IF (IZIPSTRS == 0) THEN                        
-                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,3) 
-              ELSE                                           
-                CALL TAB_STRS_TXT50(WAP0(1),3,J,SIZP0,3)    
-              ENDIF                                          
-              J = J + 3                                     
-            ENDDO                  
+            DO IPT = 1, ISOLNOD+NSROT
+              IF (IZIPSTRS == 0) THEN
+                WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + K),K=1,3)
+              ELSE
+                CALL TAB_STRS_TXT50(WAP0(1),3,J,SIZP0,3)
+              ENDIF
+              J = J + 3
+            ENDDO
           ENDIF  !  IF (IOFF == 1)
 c---
-        ENDDO		    
+        ENDDO		
       ENDIF
 c-----------
       RETURN
@@ -344,7 +344,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X0(MVSIZ,*), Y0(MVSIZ,*), Z0(MVSIZ,*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .  SAV(NEL,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -385,7 +385,7 @@ C---------diff stockage for quadratic elements
            Z0(I,N) =SAV(I,N3)
           ENDDO
         ENDDO
-      ELSE      
+      ELSE
        DO I=IFT,ILT
         X0(I,NPE)=ZERO
         Y0(I,NPE)=ZERO

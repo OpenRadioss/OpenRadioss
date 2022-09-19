@@ -42,8 +42,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -71,9 +71,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)   :: IFUNC
@@ -103,7 +103,7 @@ c
 c
       CALL HM_GET_FLOATV('MAT_RHO'       ,RHO0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'     ,RHOR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c      
+c
       CALL HM_GET_FLOATV('MAT_E1'        ,EC        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_B1'        ,BC        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_E2'        ,ET        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -180,29 +180,29 @@ c          if unloading is active, all unloading functions must be properly defi
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=MAT_ID,
      .                  C1=TITR)
-           ENDIF 
+           ENDIF
            IF (IFUNC(2) == 0)  THEN
             CALL ANCMSG(MSGID=1579 ,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=MAT_ID,
      .                  C1=TITR)
-           ENDIF 
+           ENDIF
            IF (IFUNC(3) == 0) THEN
             CALL ANCMSG(MSGID=1580 ,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=MAT_ID,
      .                  C1=TITR)
-           ENDIF  
-         ENDIF  
+           ENDIF
+         ENDIF
        ENDIF
 c-----------------------------------------------------------------------
 c     Default values
 c-----------------------------------------------------------------------
       CALL HM_GET_FLOATV_DIM('MAT_E1',STRESS_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
-      DO I=1,6       
+      DO I=1,6
         IF (YFAC(I) == ZERO) YFAC(I) = ONE * STRESS_UNIT
       ENDDO
 c
@@ -229,8 +229,8 @@ c
 c-----------------------------------------------------------------------
       LC0 = ONE / NT
       LT0 = ONE / NC
-      DC0 = LC0*(ONE+EMBC) 
-      DT0 = LT0*(ONE+EMBT) 
+      DC0 = LC0*(ONE+EMBC)
+      DT0 = LT0*(ONE+EMBT)
       HC0 = SQRT(DC0*DC0 - LC0*LC0)
       HT0 = SQRT(DT0*DT0 - LT0*LT0)
 c---  rigidite fil
@@ -253,13 +253,13 @@ c---  angle blocage cisaillement
       ENDIF
 c
       G = GT / (ONE + TAN_LOCK*TAN_LOCK)
-      IF (G0 == ZERO) G0 = G 
+      IF (G0 == ZERO) G0 = G
       GB = TAN_LOCK*(G0 - G)
 c
       IF (GFROT == ZERO .and. ILOAD == 0) GFROT = G0
       IF (GSH   == ZERO .and. ILOAD == 0) GSH   = G0
 c-----------------------------------------------------------------------
-      NUVAR   = 39+1     
+      NUVAR   = 39+1
       NUPARAM = 46 !4pts pour l intersection +flag+PR SHEAR
 c-----------------------------------------------------------------------
       UPARAM(1:NUPARAM) = ZERO
@@ -276,8 +276,8 @@ c
       UPARAM(10) = KT
       UPARAM(11) = KFC
       UPARAM(12) = KFT
-      UPARAM(13) = G0 
-      UPARAM(14) = G 
+      UPARAM(13) = G0
+      UPARAM(14) = G
       UPARAM(15) = GB
       UPARAM(16) = TAN_LOCK
       UPARAM(17) = VISCE
@@ -338,7 +338,7 @@ c--------------------------------------------------
         ENDIF
         WRITE(IOUT,1600) VISCE,VISCG,GFROT,GSH,ZEROSTRESS,
      .        EMBC,EMBT,NC,NT,ISENS,FLEX1,FLEX2
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -348,7 +348,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : ANISOTROPIC FABRIC (LAW58) ',/,
      & 5X,'--------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . .  .  . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . .  .  . . . . . . . . . . .=',1PG20.13/)
  1250 FORMAT(
      & 5X,'YOUNG MODULUS E1 (WARP DIRECTION) . . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS E2 (WEFT DIRECTION) . . . . . . . .=',1PG20.13/)
@@ -360,14 +360,14 @@ c-----------------------------------------------------------------------
      & 5X,'SHEAR LOCK ANGLE. . . . . . . . . . . . . . . . .=',1PG20.13/)
  1400 FORMAT(
      & 5X,'LOADING STRESS FUNCTION ID IN WARP DIRECTION. . .=',I10/
-     & 5X,'LOADING STRESS FUNCTION ID IN WEFT DIRECTION. . .=',I10/ 
+     & 5X,'LOADING STRESS FUNCTION ID IN WEFT DIRECTION. . .=',I10/
      & 5X,'LOADING STRESS FUNCTION ID IN SHEAR . . . . . . .=',I10/
      & 5X,'LOADING FUNCTION SCALE FACTOR (WARP). . . . . . .=',1PG20.13/
      & 5X,'LOADING FUNCTION SCALE FACTOR (WEFT). . . . . . .=',1PG20.13/
      & 5X,'LOADING FUNCTION SCALE FACTOR (SHEAR) . . . . . .=',1PG20.13/)
  1500 FORMAT(
      & 5X,'UNLOADING STRESS FUNCTION ID IN WARP DIRECTION. .=',I10/
-     & 5X,'UNLOADING STRESS FUNCTION ID IN WEFT DIRECTION. .=',I10/ 
+     & 5X,'UNLOADING STRESS FUNCTION ID IN WEFT DIRECTION. .=',I10/
      & 5X,'UNLOADING STRESS FUNCTION ID IN SHEAR DIRECTION .=',I10/
      & 5X,'UNLOADING FUNCTION SCALE FACTOR (WARP). . . . . .=',1PG20.13/
      & 5X,'UNLOADING FUNCTION SCALE FACTOR (WEFT). . . . . .=',1PG20.13/
@@ -381,7 +381,7 @@ c-----------------------------------------------------------------------
      & 5X,'NOMINAL WARP STRETCH. . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'NOMINAL WEFT STRETCH. . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'FIBER DENSITY IN WARP DIRECTION . . . . . . . . .=',I10/
-     & 5X,'FIBER DENSITY IN WEFT DIRECTION . . . . . . . . .=',I10/ 
+     & 5X,'FIBER DENSITY IN WEFT DIRECTION . . . . . . . . .=',I10/
      & 5X,'SENSOR ID . . . . . . . . . . . . . . . . . . . .=',I10/
      & 5X,'FLEX MODULUS REDUCTION FACTOR (WARP). . . . . . .=',1PG20.13/
      & 5X,'FLEX MODULUS REDUCTION FACTOR (WEFT). . . . . . .=',1PG20.13)

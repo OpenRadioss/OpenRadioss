@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NIN, NOINT, MSTR, NSVG(*), NSMS(*), 
+      INTEGER JLT, NIN, NOINT, MSTR, NSVG(*), NSMS(*),
      .        ISKYI_SMS(LSKYI_SMS,*)
       my_real
      .    MSKYI_SMS(*), KT(MVSIZ), C(MVSIZ), DTI
@@ -107,7 +107,7 @@ C
        ISKYI_SMS(NISKYL,1)=IG
        ISKYI_SMS(NISKYL,2)=MSTR
        ISKYI_SMS(NISKYL,3)=ISPMD+1
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

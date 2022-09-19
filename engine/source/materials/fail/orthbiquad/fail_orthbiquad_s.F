@@ -77,7 +77,7 @@ C!-----------------------------------------------
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),UVAR(NEL,NUVAR),
      .   DPLA(NEL),EPSP(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL),
-     .   ALDT(NEL)     
+     .   ALDT(NEL)
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
@@ -95,7 +95,7 @@ C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
       INTEGER I,K,J,INDX(MVSIZ),NINDX,SEL,NANGLE,IREG,IRATE
-      my_real 
+      my_real
      .        DF,P,triaxs,SVM,SXX,SYY,SZZ,EPS_FAIL,
      .        P1X,P1Y,S1X,S1Y,S2Y,A1,B1,C1,REF_EL_LEN,LAMBDA,FAC,
      .        X_1(3),X_2(3),COS2(10,10),EPSD0,CJC,RATE_SCALE,FRATE,
@@ -103,15 +103,15 @@ C!-----------------------------------------------
       my_real, DIMENSION(:), ALLOCATABLE :: Q_X11,Q_X12,Q_X13,Q_X21,Q_X22,Q_X23,Q_INST
 C
       DATA  COS2/
-     1 1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,   
-     2 0.   ,1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     3 -1.  ,0.   ,2.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     4 0.   ,-3.  ,0.   ,4.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     5 1.   ,0.   ,-8.  ,0.   ,8.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     6 0.   ,5.   ,0.   ,-20. ,0.   ,16.  ,0.   ,0.   ,0.   ,0.   ,     
-     7 -1.  ,0.   ,18.  ,0.   ,-48. ,0.   ,32.  ,0.   ,0.   ,0.   ,     
-     8 0.   ,-7.  ,0.   ,56.  ,0.   ,-112.,0.   ,64.  ,0.   ,0.   ,     
-     9 1.   ,0.   ,-32. ,0.   ,160. ,0.   ,-256.,0.   ,128. ,0.   ,     
+     1 1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     2 0.   ,1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     3 -1.  ,0.   ,2.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     4 0.   ,-3.  ,0.   ,4.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     5 1.   ,0.   ,-8.  ,0.   ,8.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     6 0.   ,5.   ,0.   ,-20. ,0.   ,16.  ,0.   ,0.   ,0.   ,0.   ,
+     7 -1.  ,0.   ,18.  ,0.   ,-48. ,0.   ,32.  ,0.   ,0.   ,0.   ,
+     8 0.   ,-7.  ,0.   ,56.  ,0.   ,-112.,0.   ,64.  ,0.   ,0.   ,
+     9 1.   ,0.   ,-32. ,0.   ,160. ,0.   ,-256.,0.   ,128. ,0.   ,
      A 0.   ,9.   ,0.   ,-120.,0.   ,432. ,0.   ,-576 ,0.   ,256. /
 C!--------------------------------------------------------------
       !=======================================================================
@@ -130,24 +130,24 @@ c
      .         Q_X21(NANGLE),Q_X22(NANGLE),Q_X23(NANGLE))
       ! Recovering factors
       IF (SEL == 3) THEN
-        ALLOCATE(Q_INST(NANGLE))        
+        ALLOCATE(Q_INST(NANGLE))
         DO J = 1,NANGLE
           Q_X11(J)  = UPARAM(8  + 7*(J-1))
           Q_X12(J)  = UPARAM(9  + 7*(J-1))
-          Q_X13(J)  = UPARAM(10 + 7*(J-1)) 
+          Q_X13(J)  = UPARAM(10 + 7*(J-1))
           Q_X21(J)  = UPARAM(11 + 7*(J-1))
           Q_X22(J)  = UPARAM(12 + 7*(J-1))
           Q_X23(J)  = UPARAM(13 + 7*(J-1))
           Q_INST(J) = UPARAM(14 + 7*(J-1))
-        ENDDO 
+        ENDDO
       ELSE
         DO J = 1,NANGLE
           Q_X11(J)  = UPARAM(8  + 6*(J-1))
           Q_X12(J)  = UPARAM(9  + 6*(J-1))
-          Q_X13(J)  = UPARAM(10 + 6*(J-1)) 
+          Q_X13(J)  = UPARAM(10 + 6*(J-1))
           Q_X21(J)  = UPARAM(11 + 6*(J-1))
           Q_X22(J)  = UPARAM(12 + 6*(J-1))
-          Q_X23(J)  = UPARAM(13 + 6*(J-1)) 
+          Q_X23(J)  = UPARAM(13 + 6*(J-1))
         ENDDO
       ENDIF
       IF (SEL == 3) SEL = 2
@@ -160,13 +160,13 @@ c
       IREG  = 0
       IF (REF_EL_LEN /= ZERO) THEN
         IREG = IRATE + 1
-      ENDIF       
-c      
+      ENDIF
+c
       ! At initial time, compute the element size regularization factor
       IF (UVAR(1,3) == ZERO .AND. IREG > 0) THEN
-        DO I=1,NEL   
-          LAMBDA    = ALDT(I)/REF_EL_LEN 
-          FAC       = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF) 
+        DO I=1,NEL
+          LAMBDA    = ALDT(I)/REF_EL_LEN
+          FAC       = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF)
           UVAR(I,3) = FAC
         ENDDO
       ENDIF
@@ -178,11 +178,11 @@ c
       END DO
 C
       ! Initialization of variable
-      NINDX = 0  
-c      
+      NINDX = 0
+c
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO COMPUTE THE DAMAGE VARIABLE
-      !====================================================================       
+      !====================================================================
       DO I=1,NEL
 c
         ! Failure strain initialization
@@ -203,16 +203,16 @@ c
           X_1(1:3) = ZERO
           X_2(1:3) = ZERO
           DO J = 1,NANGLE
-            DO K = 1,J              
+            DO K = 1,J
               X_1(1) = X_1(1) + Q_X11(J)*COS2(K,J)*(COS2THETA(I))**(K-1)
               X_1(2) = X_1(2) + Q_X12(J)*COS2(K,J)*(COS2THETA(I))**(K-1)
               X_1(3) = X_1(3) + Q_X13(J)*COS2(K,J)*(COS2THETA(I))**(K-1)
               X_2(1) = X_2(1) + Q_X21(J)*COS2(K,J)*(COS2THETA(I))**(K-1)
               X_2(2) = X_2(2) + Q_X22(J)*COS2(K,J)*(COS2THETA(I))**(K-1)
               X_2(3) = X_2(3) + Q_X23(J)*COS2(K,J)*(COS2THETA(I))**(K-1)
-            ENDDO          
+            ENDDO
           ENDDO
-c        
+c
           ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
           P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
@@ -242,7 +242,7 @@ c
                   S1Y      = X_2(1) + X_2(2)/SQR3 + X_2(3)*(ONE/SQR3)**2
                   A1       = (P1Y - S1Y)/(P1X - S1X)**2
                   B1       = -TWO*A1*S1X
-                  C1       = A1*S1X**2 + S1Y 
+                  C1       = A1*S1X**2 + S1Y
                   EPS_FAIL = C1 + B1*triaxs + A1*triaxs**2
                   IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
                 ELSE                                             ! triax > 0.57735
@@ -252,7 +252,7 @@ c
                   S1Y      = X_2(1) + X_2(2)/SQR3 + X_2(3)*(ONE/SQR3)**2
                   A1       = (P1Y - S1Y)/(P1X - S1X)**2
                   B1       = -TWO*A1*S1X
-                  C1       = A1*S1X**2 + S1Y 
+                  C1       = A1*S1X**2 + S1Y
                   EPS_FAIL = C1 + B1*triaxs + A1*triaxs**2
                   IF (IREG > 0) EPS_FAIL = EPS_FAIL*UVAR(I,3)
                 ENDIF
@@ -260,15 +260,15 @@ c
           ENDIF
 c
           ! Strain-rate effects
-          IF (CJC /= ZERO .OR. IRATE /= 0) THEN 
-            IF (CJC /= ZERO) THEN 
+          IF (CJC /= ZERO .OR. IRATE /= 0) THEN
+            IF (CJC /= ZERO) THEN
               FRATE = ONE
               IF (EPSP(I) > EPSD0) FRATE = FRATE + CJC*LOG(EPSP(I)/EPSD0)
-            ELSEIF (IRATE /= 0) THEN 
-              FRATE = FINTER(KFUNC(IRATE),EPSP(I)/RATE_SCALE,NPF,TF,DF) 
+            ELSEIF (IRATE /= 0) THEN
+              FRATE = FINTER(KFUNC(IRATE),EPSP(I)/RATE_SCALE,NPF,TF,DF)
             ENDIF
             EPS_FAIL = EPS_FAIL*FRATE
-          ENDIF          
+          ENDIF
 c
           ! Computation of damage variables
           DFMAX(I) = DFMAX(I) + DPLA(I)/MAX(EPS_FAIL,EM6)
@@ -279,10 +279,10 @@ c
             OFF(I)      = FOUR_OVER_5
             NINDX       = NINDX + 1
             INDX(NINDX) = I
-            IDEL7NOK    = 1   
-            TDELE(I)    = TIME    
+            IDEL7NOK    = 1
+            TDELE(I)    = TIME
           ENDIF
-        ENDIF 
+        ENDIF
       ENDDO
 c------------------------
 c------------------------
@@ -298,16 +298,16 @@ c------------------------
 c------------------------
       IF (NINDX > 0) THEN
         DO J=1,NINDX
-          I = INDX(J)     
+          I = INDX(J)
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I),TIME
           WRITE(ISTDO,1100) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-      END IF         
+      END IF
 c------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (ORTHBIQUAD) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
+     .          ' AT TIME :',1PE12.4)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (ORTHBIQUAD) el#',I10,
      .          ' AT TIME :',1PE12.4)
       END

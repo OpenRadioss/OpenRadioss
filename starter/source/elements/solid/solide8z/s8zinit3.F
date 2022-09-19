@@ -70,10 +70,10 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE BPRELOAD_MOD
-      USE DETONATORS_MOD      
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -105,7 +105,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(*),IPARTS(*),
-     .    NEL, IPART(LIPART1,*),IPM(NPROPMI,*), PTSOL(*), 
+     .    NEL, IPART(LIPART1,*),IPM(NPROPMI,*), PTSOL(*),
      .    NSIGI, IUSER, NSIGS, NPF(*),
      .    KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*)
       INTEGER IGEO(NPROPGI,*),STRSGLOB(*),STRAGLOB(*),FAIL_INI(*),PERTURB(NPERTURB)
@@ -163,21 +163,21 @@ C-----------------------------------------------
      .   AJP4(MVSIZ,8) , AJP5(MVSIZ,8) , AJP6(MVSIZ,8) ,
      .   AJP7(MVSIZ,8) , AJP8(MVSIZ,8) , AJP9(MVSIZ,8) ,
      .   ANGLE(MVSIZ),DTX0(MVSIZ),WT,ZR,ZS,ZT,ZZ
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
 c---
      1 2.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -207,7 +207,7 @@ c---
      9 0.312347077040003D0,0.330239355001260D0,0.312347077040003D0,
      9 0.260610696402935D0,0.180648160694857D0,0.081274388361574D0/
 c------------------------------------------------------------
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -273,7 +273,7 @@ C
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
         TEMP0(I) =  PM(79,IXS(1,NFT+I))
       ENDDO
-      
+
 C-----JAC_I [J]^-1 is calculated in global system
       IF (ISMSTR==10.OR.ISMSTR==12) THEN
 C   cas GBUF%JAC_I  for all case
@@ -344,8 +344,8 @@ C   cas LBUF%L_PIJ>24 local system w/ assumed strain and retrun to global only f
      .              AJC4 ,AJC5 ,AJC6 ,
      .              AJC7 ,AJC8 ,AJC9 ,
      .              HX, HY, HZ,
-     .              PXC1, PXC2, PXC3, PXC4, 
-     .              PYC1, PYC2, PYC3, PYC4, 
+     .              PXC1, PXC2, PXC3, PXC4,
+     .              PYC1, PYC2, PYC3, PYC4,
      .              PZC1, PZC2, PZC3, PZC4)
 C-----------Begin integrating points-----
         DO IR=1,NPTR
@@ -371,15 +371,15 @@ c
         ENDDO
         ENDDO
         ENDDO
-       
+
          NNPT = 8
          DO I=LFT,LLT
           NU(I)=MIN(HALF,PM(21,MAT(I)))
          ENDDO
          CALL S8E_PIJ(NPTR,NPTS,NPTT,NNPT,LLT,
-     .               PXC1, PXC2, PXC3, PXC4, 
-     .               PYC1, PYC2, PYC3, PYC4, 
-     .               PZC1, PZC2, PZC3, PZC4, 
+     .               PXC1, PXC2, PXC3, PXC4,
+     .               PYC1, PYC2, PYC3, PYC4,
+     .               PZC1, PZC2, PZC3, PZC4,
      .                E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .                NU   ,ELBUF_STR)
        END IF !(LLPIJ<=24) THEN
@@ -419,7 +419,7 @@ c
       CALL S8ZDERIC3(GBUF%VOL,HX, HY, HZ,
      .     AJC1,AJC2,AJC3,
      .     AJC4,AJC5,AJC6,
-     .     AJC7,AJC8,AJC9,SMAX, VOLU, NGL, 
+     .     AJC7,AJC8,AJC9,SMAX, VOLU, NGL,
      .     XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .     ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
@@ -455,7 +455,7 @@ C
       IF (JHBE == 17) THEN
 C---------necessary for SP (to get the same LBUF%VOL)         
          CALL S8EJACIP3(
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .    AJC1,AJC2,AJC3,
      .    AJC4,AJC5,AJC6,
      .    AJC7,AJC8,AJC9,
@@ -520,22 +520,22 @@ C
            IDEF =1
          ELSE
            NUVAR = 0
-           IF(MTN == 14 .OR. MTN == 12)THEN              
-              IDEF =1                                    
-           ELSEIF(MTN == 24)THEN                         
-             IDEF =1                                     
-           ELSEIF(ISTRAIN == 1)THEN                      
-             IF(MTN == 1)THEN                            
-               IDEF =1                                   
-             ELSEIF(MTN == 2)THEN                        
-               IDEF =1                                   
-             ELSEIF(MTN == 4)THEN                        
-               IDEF =1                                   
-             ELSEIF(MTN == 3.OR.MTN == 6.OR.MTN ==10.OR. 
-     .              MTN == 21.OR.MTN == 22.OR.           
-     .              MTN == 23.OR.MTN == 49)THEN          
-               IDEF =1                                   
-             ENDIF                                       
+           IF(MTN == 14 .OR. MTN == 12)THEN
+              IDEF =1
+           ELSEIF(MTN == 24)THEN
+             IDEF =1
+           ELSEIF(ISTRAIN == 1)THEN
+             IF(MTN == 1)THEN
+               IDEF =1
+             ELSEIF(MTN == 2)THEN
+               IDEF =1
+             ELSEIF(MTN == 4)THEN
+               IDEF =1
+             ELSEIF(MTN == 3.OR.MTN == 6.OR.MTN ==10.OR.
+     .              MTN == 21.OR.MTN == 22.OR.
+     .              MTN == 23.OR.MTN == 49)THEN
+               IDEF =1
+             ENDIF
            ENDIF
          ENDIF
          CALL SIGIN20B(
@@ -555,9 +555,9 @@ c
 C----------------------------------------
 c Initialization of stress tensor in case of Orthotropic properties
 C----------------------------------------
-          IF (ISIGI /= 0 .AND. ISORTH/=0) THEN 
+          IF (ISIGI /= 0 .AND. ISORTH/=0) THEN
             LBUF%SIGL = LBUF%SIG
-          ENDIF          
+          ENDIF
 c
         ENDDO
        ENDDO
@@ -570,7 +570,7 @@ C----------------------------------------
      .     IPARTS(NF1),MSS(1,NF1),VOLU  ,
      .     MSNF    ,MSSF(1,NF1) ,BID(1)  ,
      .     BID(1)     ,BID(1)         ,WMA  ,RHOCP     ,MCP     ,
-     .     MCPS(1,NF1) ,MSSA ,BID(1)   ,BID(1),GBUF%FILL, 
+     .     MCPS(1,NF1) ,MSSA ,BID(1)   ,BID(1),GBUF%FILL,
      .     IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C----------------------------------------
 c Failure model initialisation
@@ -594,7 +594,7 @@ C       CALCUL DES DT ELEMENTAIRES
 C------------------------------------------
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .       VOLU, DTX,IGEO)
 c
        DO 10 I=LFT,LLT

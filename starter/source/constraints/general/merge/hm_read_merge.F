@@ -29,16 +29,16 @@ Chd|        TRIRBMERGE                    source/constraints/general/merge/hm_re
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE RBMERGE_MOD
-c=======================================================================   
+c=======================================================================
 !                           RIGID BODY MERGE
-c=======================================================================   
+c=======================================================================
 C-----------------------------------------------------------------------
       TYPE RBMERGE_
         INTEGER   :: ID ! - RIGID BODY identifier
         INTEGER   :: NBSECONDARY   ! Number of SECONDARY rigid body
         INTEGER, DIMENSION(:) , ALLOCATABLE :: IDSECONDARY ! SECONDARY rigid bodys attached to the MAIN
         INTEGER   :: IMAIN   ! 0 if this rigid body doesn't have a MAIN
-!                              ! The Rigid body's MAIN 
+!                              ! The Rigid body's MAIN
         INTEGER   :: LEVEL   ! Rigid body level
 !                                 = 0  ! if the rigid body is only a MAIN
 !                                 = -1 ! if the rigid body has a MAIN
@@ -133,7 +133,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:) , ALLOCATABLE :: INDEX
       INTEGER, DIMENSION(:,:) , ALLOCATABLE :: INUM
 
-      INTEGER IMAIN,ISECONDARY,FLAGG_OPT, FLAG_BOUCLE, FLAG_ERROR, 
+      INTEGER IMAIN,ISECONDARY,FLAGG_OPT, FLAG_BOUCLE, FLAG_ERROR,
      .        FLAG_DOUBLON, FLAG_DOUBLEMAIN, M_TYPE, S_TYPE, ID_OPT,
      .        IDNODE, NN, PRT_OPT
       INTEGER TABRB(NRBYKIN,2)
@@ -191,10 +191,10 @@ C
             CALL HM_GET_INT_ARRAY_INDEX('Secon_ID',ISECONDARY,J,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('S_type',S_TYPE,J,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('Iflag',FLAGG_OPT,J,IS_AVAILABLE,LSUBMODEL)
-            IF (IMAIN /= 0) THEN 
-              IF(M_TYPE == 0) M_TYPE=1                   
-              IF(S_TYPE == 0) S_TYPE=1 
-              IF(FLAGG_OPT == 0) FLAGG_OPT=2  
+            IF (IMAIN /= 0) THEN
+              IF(M_TYPE == 0) M_TYPE=1
+              IF(S_TYPE == 0) S_TYPE=1
+              IF(FLAGG_OPT == 0) FLAGG_OPT=2
               MGRBY(1,N)=IMAIN
               MGRBY(2,N)=M_TYPE
               MGRBY(3,N)=ISECONDARY
@@ -218,12 +218,12 @@ C
         RBMERGE(I)%FLAG_MAIN = 0
       ENDDO
 
-c      
+c
       NBMERGE = 0
       TABRB(:,:)=0
       TAG1(:)=0
       TAG2(:)=0
-      FLAG_ERROR = 0                          
+      FLAG_ERROR = 0
       NB_MAIN(:)=0
       ITAG(1:NUMNOD) = 0
       FLAG_DOUBLON=0
@@ -238,9 +238,9 @@ c
         S_TYPE = MGRBY(4,I)
         FLAGG_OPT = MGRBY(5,I)
         ID_OPT = MGRBY(6,I)
-        IF(S_TYPE == 1) THEN ! SECONDARY IS A RBODY   
+        IF(S_TYPE == 1) THEN ! SECONDARY IS A RBODY
 c
-          CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBMERGE+MGRBY(7,I)),LTITR) 
+          CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBMERGE+MGRBY(7,I)),LTITR)
 c
           IF(PRT_OPT /= MGRBY(6,I)) THEN
             WRITE(IOUT,1100) MGRBY(6,I),TRIM(TITR)
@@ -252,45 +252,45 @@ C------------------------------------
           IRBM=0
           DO K=1,NRBYKIN
             IF (IMAIN == NPBY(6,K)) THEN
-              IRBM=K                     
+              IRBM=K
               EXIT
-            ENDIF 
+            ENDIF
           ENDDO
-          IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas    
+          IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  I1=ID_OPT,
      .                  C1=TITR,
-     .                  I2=IMAIN)                           
-          ENDIF 
-         
-          IRBS=0                                  
-          DO K=1,NRBYKIN  
+     .                  I2=IMAIN)
+          ENDIF
+
+          IRBS=0
+          DO K=1,NRBYKIN
             IF (ISECONDARY == NPBY(6,K)) THEN
-              IRBS=K                     
+              IRBS=K
               EXIT
-            ENDIF                                                     
+            ENDIF
           ENDDO
-          IF (IRBS == 0)THEN  !  l'ID du rbody n'existe pas    
+          IF (IRBS == 0)THEN  !  l'ID du rbody n'existe pas
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  I1=ID_OPT,
      .                  C1=TITR,
-     .                  I2=ISECONDARY)                              
-          ENDIF 
+     .                  I2=ISECONDARY)
+          ENDIF
 C------------------------------------
 c  TRI DES RELATIONS LUES
 C------------------------------------
-          IF((IRBM /= 0).AND.(IRBS /= 0)) THEN 
+          IF((IRBM /= 0).AND.(IRBS /= 0)) THEN
 
             WRITE(IOUT,1200) IMAIN, ISECONDARY, FLAGG_OPT
             MESS2 ='SECONDARY RIGID BODY '
 
             FLAG_DOUBLON=0
-            FLAG_DOUBLEMAIN = 0                    
-            IF(NB_MAIN(IRBS) >= 1) THEN 
+            FLAG_DOUBLEMAIN = 0
+            IF(NB_MAIN(IRBS) >= 1) THEN
               DO L=1,NBMERGE
                 IF(TABRB(L,2) == IRBS) THEN
                   IF(TABRB(L,1) /= IRBM) THEN ! le SECONDARY est deja SECONDARY d'un autre
@@ -300,7 +300,7 @@ C------------------------------------
      .                          I1=ID_OPT,
      .                          C1=TITR,
      .                          I2=ISECONDARY)
-                    FLAG_DOUBLEMAIN = 1  
+                    FLAG_DOUBLEMAIN = 1
                     FLAG_ERROR = 1
                   ELSE ! la relation de merge est en double
                     CALL ANCMSG(MSGID=1027,
@@ -319,19 +319,19 @@ C------------------------------------
             ENDIF
             IF((FLAG_DOUBLON + FLAG_DOUBLEMAIN) == 0) THEN
               NBMERGE = NBMERGE + 1
-              NB_MAIN(IRBS) = NB_MAIN(IRBS) + 1 
+              NB_MAIN(IRBS) = NB_MAIN(IRBS) + 1
               NSECONDARY(IRBM) = NSECONDARY(IRBM) + 1
               TABRB(NBMERGE,1) = IRBM ! MAIN
               TABRB(NBMERGE,2) = IRBS ! SECONDARY
-c                    
+c
               RBMERGE(IRBS)%ID = ISECONDARY
               RBMERGE(IRBS)%IMAIN = IRBM
-              RBMERGE(IRBS)%FLAG_MAIN = FLAGG_OPT 
-c                      
+              RBMERGE(IRBS)%FLAG_MAIN = FLAGG_OPT
+c
               RBMERGE(IRBM)%ID = IMAIN
               RBMERGE(IRBM)%NBSECONDARY = RBMERGE(IRBM)%NBSECONDARY+1
-              RBMERGE(IRBM)%IDSECONDARY(RBMERGE(IRBM)%NBSECONDARY) = IRBS                      
-            ELSEIF(FLAG_DOUBLON == 1) THEN ! Le flag est celui qu'on lit en dernier 
+              RBMERGE(IRBM)%IDSECONDARY(RBMERGE(IRBM)%NBSECONDARY) = IRBS
+            ELSEIF(FLAG_DOUBLON == 1) THEN ! Le flag est celui qu'on lit en dernier
               RBMERGE(IRBS)%FLAG_MAIN = FLAGG_OPT
             ENDIF
           ENDIF ! IRBM /= 0 IRBS /= 0
@@ -347,7 +347,7 @@ C
         ID_OPT = MGRBY(6,I)
         IF((S_TYPE == 2).OR.(S_TYPE == 3)) THEN
 c
-        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBMERGE+MGRBY(7,I)),LTITR) 
+        CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_RBMERGE+MGRBY(7,I)),LTITR)
 c
           IF(PRT_OPT /= MGRBY(6,I)) THEN
             WRITE(IOUT,1100) MGRBY(6,I),TRIM(TITR)
@@ -359,30 +359,30 @@ C------------------------------------
           IRBM=0
           DO K=1,NRBYKIN
             IF (IMAIN == NPBY(6,K)) THEN
-              IRBM=K                     
+              IRBM=K
               EXIT
-            ENDIF 
+            ENDIF
           ENDDO
-          IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas    
+          IF (IRBM == 0)THEN  !  l'ID du rbody n'existe pas
             CALL ANCMSG(MSGID=1636,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  I1=ID_OPT,
      .                  C1=TITR,
-     .                  I2=IMAIN)                           
-          ENDIF 
-         
+     .                  I2=IMAIN)
+          ENDIF
+
           IDNODE=0
           NN=0
           IF(S_TYPE == 2) THEN ! SECONDARY IS A NODE
             IDNODE = USR2SYS(MGRBY(3,I),ITABM1,MESS,ID)
           ELSEIF(S_TYPE == 3) THEN ! SECONDARY IS A GRNOD
-            NN = NODGRNR5(MGRBY(3,I),IGS,WORK,IGRNOD,ITABM1,MESS) 
-          ENDIF    
+            NN = NODGRNR5(MGRBY(3,I),IGS,WORK,IGRNOD,ITABM1,MESS)
+          ENDIF
 
 
           IF((IRBM /= 0).AND.(IDNODE /= 0)) THEN ! SECONDARY IS A NODE
- 
+
             WRITE(IOUT,1300) IMAIN, ISECONDARY, FLAGG_OPT
             MESS2 ='SECONDARY NODE '
 
@@ -406,14 +406,14 @@ C------------------------------------
               RBMERGE(IRBM)%NNODE = RBMERGE(IRBM)%NNODE+1
               RBMERGE(IRBM)%NODE(RBMERGE(IRBM)%NNODE) = IDNODE
               RBMERGE(IRBM)%FLAG_NODE(RBMERGE(IRBM)%NNODE) = FLAGG_OPT
-            ELSE ! Le flag est celui qu'on lit en dernier 
+            ELSE ! Le flag est celui qu'on lit en dernier
               DO II=1,RBMERGE(IRBM)%NNODE
                 IF(RBMERGE(IRBM)%NODE(II) == IDNODE) THEN
                   RBMERGE(IRBM)%FLAG_NODE(II) = FLAGG_OPT
                 ENDIF
               ENDDO
             ENDIF
-          ENDIF 
+          ENDIF
 
           IF((IRBM /= 0).AND.(NN /= 0)) THEN   ! SECONDARY IS A SET OF NODE
 
@@ -445,16 +445,16 @@ C------------------------------------
                 RBMERGE(IRBM)%NNODE = RBMERGE(IRBM)%NNODE+1
                 RBMERGE(IRBM)%NODE(RBMERGE(IRBM)%NNODE) = WORK(J)
                 RBMERGE(IRBM)%FLAG_NODE(RBMERGE(IRBM)%NNODE) = FLAGG_OPT
-              ELSE ! Le flag est celui qu'on lit en dernier 
+              ELSE ! Le flag est celui qu'on lit en dernier
                 DO II=1,RBMERGE(IRBM)%NNODE
                   IF(RBMERGE(IRBM)%NODE(II) == WORK(J)) THEN
                     RBMERGE(IRBM)%FLAG_NODE(II) = FLAGG_OPT
                   ENDIF
                 ENDDO
               ENDIF
-            ENDDO  
+            ENDDO
 
-          ENDIF 
+          ENDIF
         ENDIF ! S_TYPE = 2 OR 3
 C-----             
       ENDDO
@@ -477,7 +477,7 @@ C------------------------------------
             RBMERGE(I)%NODE(J) = INUM(INDEX(J),2)
           ENDDO
           DEALLOCATE(INDEX)
-          DEALLOCATE(INUM)       
+          DEALLOCATE(INUM)
         ENDIF
       ENDDO
 C------------------------------------
@@ -489,7 +489,7 @@ C  TAG ET RECHERCHE DES LOOPS
 C------------------------------------
       DO I=1,NRBYKIN
         IF(NB_MAIN(I) == 0) THEN
-           CALL RBTAG1DOWN(TABRB,I,TAG1,NBMERGE)   
+           CALL RBTAG1DOWN(TABRB,I,TAG1,NBMERGE)
         ENDIF
       ENDDO
 C      
@@ -498,14 +498,14 @@ C
           FLAG_BOUCLE = 0
           IDBOUCLE = 0
           TABBOUCLE(:) = 0
-          CALL RBTAG2DOWN(I,TAG2,RBMERGE,FLAG_BOUCLE,TABBOUCLE,IDBOUCLE)  
+          CALL RBTAG2DOWN(I,TAG2,RBMERGE,FLAG_BOUCLE,TABBOUCLE,IDBOUCLE)
           IF (FLAG_BOUCLE == 1) THEN
             WRITE(MYLOOP,*) TABBOUCLE(1)
             MYLOOP = ADJUSTL(MYLOOP)
             DO J=2,NRBYKIN+1
               IF(TABBOUCLE(J) == 0) EXIT
               WRITE(MYSTRING,*) TABBOUCLE(J)
-              MYSTRING = ADJUSTL(MYSTRING)              
+              MYSTRING = ADJUSTL(MYSTRING)
               MYLOOP = MYLOOP(1:LEN(TRIM(MYLOOP))) //' -> '// MYSTRING
             ENDDO
             CALL ANCMSG(MSGID=1029,
@@ -526,11 +526,11 @@ C
 C------------------------------------
 C SI PAS DE LOOP, CONSTRUCTION DES HIERARCHIES
 C------------------------------------
-      IF(FLAG_ERROR == 0) THEN 
-        DO I=1,NRBYKIN  ! RB level calculation      
+      IF(FLAG_ERROR == 0) THEN
+        DO I=1,NRBYKIN  ! RB level calculation
           IF(NB_MAIN(I) == 0) THEN
             LEVEL = 0
-            CALL RBLEVELDOWN(NPBY,RBMERGE,I,LEVEL) 
+            CALL RBLEVELDOWN(NPBY,RBMERGE,I,LEVEL)
           ENDIF
         ENDDO
 C------------------------------------
@@ -588,11 +588,11 @@ C-----------------------------------------------
       INTEGER I, IDRBS
 C-----------------------------------------------
       TAG1(IDRB) = 1
-c     
+c
       DO I=1,NBMERGE
         IF(TABRB(I,1) == IDRB) THEN
            IDRBS = TABRB(I,2)
-           CALL RBTAG1DOWN(TABRB,IDRBS,TAG1,NBMERGE)    
+           CALL RBTAG1DOWN(TABRB,IDRBS,TAG1,NBMERGE)
         ENDIF
       ENDDO
 C
@@ -619,14 +619,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IDRB,NBMERGE, TAG2(NRBYKIN),FLAG_BOUCLE
       INTEGER TABBOUCLE(NRBYKIN+1), IDBOUCLE
-      TYPE (RBMERGE_)   , DIMENSION(NRBYKIN)   :: RBMERGE      
+      TYPE (RBMERGE_)   , DIMENSION(NRBYKIN)   :: RBMERGE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IDRBS
 C-----------------------------------------------
       TAG2(IDRB) = 1
-c     
+c
       DO I=1,RBMERGE(IDRB)%NBSECONDARY
         IF(TAG2(RBMERGE(IDRB)%IDSECONDARY(I)) == 0) THEN
            IDRBS = RBMERGE(IDRB)%IDSECONDARY(I)
@@ -640,16 +640,16 @@ c
            EXIT
         ENDIF
       ENDDO
-      
+
       IF(FLAG_BOUCLE == 1) THEN
         IDBOUCLE = IDBOUCLE+1
-        TABBOUCLE(IDBOUCLE)=RBMERGE(IDRB)%ID       
+        TABBOUCLE(IDBOUCLE)=RBMERGE(IDRB)%ID
       ELSE
         TAG2(IDRB) = 0
       ENDIF
 C
       RETURN
-      END   
+      END
 C
 C-----------------------------------------------
       RECURSIVE SUBROUTINE RBLEVELDOWN(NPBY,RBMERGE,IDRB,LEVEL)
@@ -679,7 +679,7 @@ C-----------------------------------------------
 !   RBMERGE(IRBM)%ID   :: Rigid body identifier
 !   RBMERGE(IRBM)%NBSECONDARY   :: Number of SECONDARY rigid body
 !   RBMERGE(IRBM)%IMAIN   :: 0 if this rigid body doesn't have a MAIN
-!                              X : The Rigid body's MAIN 
+!                              X : The Rigid body's MAIN
 !   RBMERGE(IRBM)%LEVEL   :: Rigid body level
 !   RBMERGE(IRBM)%FLAG_MAIN   :: Flag relating the rigid option merge to the MAIN
 !   RBMERGE(IRBM)%IDSECONDARY(J) :: SECONDARY rigid bodys attached to the MAIN
@@ -690,7 +690,7 @@ C-----------------------------------------------
       LEVEL = LEVEL - 1
       NPBY(13,IDRB) = RBMERGE(IDRB)%FLAG_MAIN
 c
-      DO WHILE (ISECONDARY < NBSECONDARY) 
+      DO WHILE (ISECONDARY < NBSECONDARY)
         ISECONDARY = ISECONDARY + 1
         RBMERGE(RBMERGE(IDRB)%IDSECONDARY(ISECONDARY))%LEVEL=RBMERGE(IDRB)%LEVEL-1
         CALL RBLEVELDOWN(NPBY,RBMERGE,RBMERGE(IDRB)%IDSECONDARY(ISECONDARY),LEVEL)
@@ -760,14 +760,14 @@ C     REAL
       my_real
      .     BID, DX, DY, DZ, DMSTR, DELT, DTMP
       INTEGER NBSECONDARY, IDIR, IKINE1(3*NUMNOD), NSL, NSL_XTRA
-      INTEGER, DIMENSION(NUMNOD) :: ITAG 
-      INTEGER, DIMENSION(NXTRA_NODE) :: LIST_XTRA 
-      CHARACTER MESS*40,TITR*nchartitle    
+      INTEGER, DIMENSION(NUMNOD) :: ITAG
+      INTEGER, DIMENSION(NXTRA_NODE) :: LIST_XTRA
+      CHARACTER MESS*40,TITR*nchartitle
 C-----------------------------------------------
 !   RBMERGE(IRBM)%ID   :: Rigid body identifier
 !   RBMERGE(IRBM)%NBSECONDARY   :: Number of SECONDARY rigid body
 !   RBMERGE(IRBM)%IMAIN   :: 0 if this rigid body doesn't have a MAIN
-!                              X : The Rigid body's MAIN 
+!                              X : The Rigid body's MAIN
 !   RBMERGE(IRBM)%LEVEL   :: Rigid body level
 !   RBMERGE(IRBM)%FLAG_MAIN   :: Flag relating the rigid option merge to the MAIN
 !   RBMERGE(IRBM)%IDSECONDARY(J) :: SECONDARY rigid bodys attached to the MAIN
@@ -777,7 +777,7 @@ C-----------------------------------------------
       OFFSETID = 0
       ITAG(1:NUMNOD) = 0
       LPBY_TMP(1:SLRBODY)=0
-      DO N=1,NRBYKIN    
+      DO N=1,NRBYKIN
         IF(RBMERGE(N)%LEVEL == 0) THEN
           IF(RBMERGE(N)%NBSECONDARY > 0) THEN
             PILE(:)=0
@@ -791,21 +791,21 @@ C-----------------------------------------------
             INDEX(NRBYKIN-OFFSET)=N
             OFFSET = OFFSET + 1
           ENDIF
-        ENDIF  
+        ENDIF
         NOM_OPT_TMP(1:LNOPT1,N)=NOM_OPT(1:LNOPT1,N)
         DO J=1,NNPBY
           NPBY_TMP(J,N)=NPBY(J,N)
         ENDDO
         DO J=1,NRBY
-          RBY_TMP(J,N)=RBY(J,N) 
+          RBY_TMP(J,N)=RBY(J,N)
         ENDDO
         K=NPBY(11,N)
         DO J=1,NPBY(2,N)
-          LPBY_TMP(K+J)=LPBY(K+J) 
+          LPBY_TMP(K+J)=LPBY(K+J)
         ENDDO
-      ENDDO 
+      ENDDO
       LPBY(1:SLRBODY)=0
-      K=0      
+      K=0
       DO N=1,NRBYKIN
         NOM_OPT(1:LNOPT1,N)=NOM_OPT_TMP(1:LNOPT1,INDEX(N))
         DO J=1,NNPBY
@@ -813,7 +813,7 @@ C-----------------------------------------------
         ENDDO
         NPBY(11,N)=K
         DO J=1,NRBY
-          RBY(J,N)=RBY_TMP(J,INDEX(N)) 
+          RBY(J,N)=RBY_TMP(J,INDEX(N))
         ENDDO
         DO J=1,NPBY_TMP(2,INDEX(N))
           LPBY(K+J)=LPBY_TMP(NPBY_TMP(11,INDEX(N))+J)
@@ -822,7 +822,7 @@ C-----------------------------------------------
       ENDDO
 c
 C------------------------------------
-c     Ajout des XTRA_NODES en triant les doublons 
+c     Ajout des XTRA_NODES en triant les doublons
 C     entre les RB qui seront fusionnes et ceux 
 C     qui ne le seront pas
 C------------------------------------
@@ -830,22 +830,22 @@ C------------------------------------
       LPBY_TMP(1:SLRBODY)=0
       DO N=1,NRBYKIN
         K=NPBY(11,N)
-        NPBY(11,N)=INODE                  
+        NPBY(11,N)=INODE
         DO J=1,NPBY(2,N)
-          IF(ITAG(LPBY(K+J)) == 0) THEN 
+          IF(ITAG(LPBY(K+J)) == 0) THEN
             INODE = INODE+1
             ITAG(LPBY(K+J)) = 1
-            LPBY_TMP(INODE)=LPBY(K+J)             
+            LPBY_TMP(INODE)=LPBY(K+J)
           ELSE
             NPBY(2,N)=NPBY(2,N)-1
           ENDIF
-        ENDDO  
+        ENDDO
         NSL_XTRA = 0
         DO J=1,RBMERGE(INDEX(N))%NNODE
-          IF(ITAG(RBMERGE(INDEX(N))%NODE(J)) <= 0) THEN 
+          IF(ITAG(RBMERGE(INDEX(N))%NODE(J)) <= 0) THEN
             NSL_XTRA = NSL_XTRA+1
             INODE = INODE+1
-            LPBY_TMP(INODE)=RBMERGE(INDEX(N))%NODE(J) 
+            LPBY_TMP(INODE)=RBMERGE(INDEX(N))%NODE(J)
             IF(RBMERGE(INDEX(N))%FLAG_NODE(J) == 1) NPBY(14,N)=NPBY(14,N)+1
             IF(RBMERGE(INDEX(N))%FLAG_NODE(J) == 2) NPBY(15,N)=NPBY(15,N)+1
             IF(RBMERGE(INDEX(N))%FLAG_NODE(J) == 3) NPBY(16,N)=NPBY(16,N)+1
@@ -860,10 +860,10 @@ C------------------------------------
           ENDIF
         ENDDO
 C
-        NPBY(2,N)=NPBY(2,N)+NSL_XTRA 
-        IF(NPBY(12,N) == 0) THEN    
+        NPBY(2,N)=NPBY(2,N)+NSL_XTRA
+        IF(NPBY(12,N) == 0) THEN
           NSL_XTRA=NPBY(14,N)+NPBY(15,N)+NPBY(16,N)
-          K=NPBY(11,N) 
+          K=NPBY(11,N)
           DO J=1,NPBY(2,N)-NSL_XTRA
             ITAG(LPBY_TMP(K+J)) = 0
           ENDDO
@@ -872,8 +872,8 @@ C
           ENDDO
           DO I=N-1,1,-1
             IF((NPBY(12,I)) < 0) THEN
-              K=NPBY(11,I) 
-              NSL_XTRA=NPBY(14,I)+NPBY(15,I)+NPBY(16,I) 
+              K=NPBY(11,I)
+              NSL_XTRA=NPBY(14,I)+NPBY(15,I)+NPBY(16,I)
               DO J=1,NPBY(2,I)-NSL_XTRA
                 ITAG(LPBY_TMP(K+J)) = 0
               ENDDO
@@ -1011,7 +1011,7 @@ C-----------------------------------------------
 !   RBMERGE(IRBM)%ID   :: Rigid body identifier
 !   RBMERGE(IRBM)%NBSECONDARY   :: Number of SECONDARY rigid body
 !   RBMERGE(IRBM)%IMAIN   :: 0 if this rigid body doesn't have a MAIN
-!                              X : The Rigid body's MAIN 
+!                              X : The Rigid body's MAIN
 !   RBMERGE(IRBM)%LEVEL   :: Rigid body level
 !   RBMERGE(IRBM)%FLAG_MAIN   :: Flag relating the rigid option merge to the MAIN
 !   RBMERGE(IRBM)%IDSECONDARY(J) :: SECONDARY rigid bodys attached to the MAIN
@@ -1021,13 +1021,13 @@ C-----------------------------------------------
       NBSECONDARY = RBMERGE(IDRB)%NBSECONDARY
       ISECONDARY = 0
 c
-      DO WHILE (ISECONDARY < NBSECONDARY) 
+      DO WHILE (ISECONDARY < NBSECONDARY)
         ISECONDARY = ISECONDARY + 1
         CALL RB_EXPLORE(RBMERGE(IDRB)%IDSECONDARY(ISECONDARY),RBMERGE,PILE,IDPILE)
       ENDDO
 C
       RETURN
-      END     
+      END
 C
 Chd|====================================================================
 Chd|  RETRIRBY                      source/constraints/general/merge/hm_read_merge.F
@@ -1083,21 +1083,21 @@ C     REAL
      .   RBY_TMP(NRBY,NRBYKIN+NRBYLAG)
 C-----------------------------------------------
 C
-      NEW_SIZE = 0       
+      NEW_SIZE = 0
       DO I=1,NRBYKIN+NRBYLAG
         NOM_OPT_TMP(1:LNOPT1,I)=NOM_OPT(1:LNOPT1,I)
         DO J=1,NNPBY
           NPBY_TMP(J,I)=NPBY(J,I)
         ENDDO
         DO J=1,NRBY
-          RBY_TMP(J,I)=RBY(J,I) 
+          RBY_TMP(J,I)=RBY(J,I)
         ENDDO
         IF (NPBY(12,I)==0) NEW_SIZE = NEW_SIZE+1
       ENDDO
 C
       CPT_RBY = NEW_SIZE
       CPT_RBY_SECONDARY = NRBYKIN+NRBYLAG
-      DO I=NRBYKIN+NRBYLAG,1,-1  
+      DO I=NRBYKIN+NRBYLAG,1,-1
         IF (NPBY_TMP(12,I)==0) THEN
           NOM_OPT(1:LNOPT1,CPT_RBY)=NOM_OPT_TMP(1:LNOPT1,I)
           NPBY(1:NNPBY,CPT_RBY)=NPBY_TMP(1:NNPBY,I)
@@ -1109,12 +1109,12 @@ C--  SECONDARY RBODY - put at the end of the list
           NPBY(1:NNPBY,CPT_RBY_SECONDARY)=0!NPBY_TMP(1:NNPBY,I)
           RBY(1:NRBY,CPT_RBY_SECONDARY)=0!RBY_TMP(1:NRBY,I)
           NPBY(13,CPT_RBY_SECONDARY) = CPT_RBY+1
-          CPT_RBY_SECONDARY = CPT_RBY_SECONDARY-1 
+          CPT_RBY_SECONDARY = CPT_RBY_SECONDARY-1
         ENDIF
       ENDDO
 C
       NRBYKIN=NEW_SIZE-NRBYLAG
 C
       RETURN
-      END   
+      END
 C

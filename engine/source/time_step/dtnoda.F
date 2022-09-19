@@ -106,43 +106,43 @@ C----------------------------------------------------------
             CALL ANCMSG(MSGID=237,ANMODE=ANINFO,
      .                I1=-IDTGR(11))
             CALL ARRET(2)
-          ENDIF        
+          ENDIF
         ENDIF
 !$OMP END SINGLE
       ENDIF
-      
-      IF(IDTGR(11)/=0)THEN   
-        DO N=NODFT,NODLT                                             
-          TAG(N) = 0                                                 
-        ENDDO                                                        
+
+      IF(IDTGR(11)/=0)THEN
+        DO N=NODFT,NODLT
+          TAG(N) = 0
+        ENDDO
         DO N=1,IGRNOD(IDTGR(11))%NENTITY
           TAG(IGRNOD(IDTGR(11))%ENTITY(N)) = 1
-        ENDDO                                                        
-      ELSE                                                          
-        DO N=NODFT,NODLT                                             
-          TAG(N) = 1                                                 
-        ENDDO                                                        
+        ENDDO
+      ELSE
+        DO N=NODFT,NODLT
+          TAG(N) = 1
+        ENDDO
       ENDIF
-      
+
       !ALE or EULER grid points are not concerned about /DT/NODA & /DT/NODA/CST options
       IF(IALE+IEULER/=0 .AND. I_DT_NODA_ALE_ON==0 .AND. NODADT/=0)THEN
         !NOD_LAG_COUNT = 0
         DO N=NODFT,NODLT
           IF(IABS(NALE(N))==1 .OR. IABS(NALE(N))==2)THEN
-            TAG(N) = 0     
+            TAG(N) = 0
          ! ELSE
          !   NOD_LAG_COUNT = NOD_LAG_COUNT + 1
-          ENDIF                                                        
-        ENDDO        
+          ENDIF
+        ENDDO
         !IF(NOD_LAG_COUNT == 0)THEN
         !  NODADT = 0
         !  IDTMIN(1) = 0
         !  IDTMIN(2) = 0
         !  IDTMIN(3) = 0
         !  IDTMIN(7) = 0
-        !ENDIF 
-      ENDIF      
-                                                      
+        !ENDIF
+      ENDIF
+
 C----------------------------------------------------------
 C     ANIM TIME STEP 
 C----------------------------------------------------------
@@ -183,14 +183,14 @@ C vectorize sqrt
          DO K=1,KMAX
            N = INDTN(K)
            DTN(K) = DTFAC1(11)*TWO * MCP(N) / CONDN(N)
-           DTNOD = MIN(DTNOD,DTN(K))   
+           DTNOD = MIN(DTNOD,DTN(K))
          END DO
 C
          IF(DTNOD<DTMIN1(11))THEN
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   ISTOP = ITAB(N)
               ENDIF
             ENDDO
@@ -200,7 +200,7 @@ C
 #include      "vectorize.inc"
           DO K=1,KMAX
               IF(DTN(K)<DT2T)THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN(K)
@@ -240,26 +240,26 @@ C----------------------------------------------------------
 C true dependency
          IF(IALE+IEULER == 0 .OR. I_DT_NODA_ALE_ON==1)THEN
            DO N=I,MIN(NODLT,I+1023)
-             IF(STIFN(N)<=ZERO)THEN                             
-                ISTOP = -ITAB(N)                                  
-             ELSEIF(MS(N)>ZERO)THEN                            
-                K = K + 1                                         
-                INDTN(K) = N                                      
-             ENDIF                                                
+             IF(STIFN(N)<=ZERO)THEN
+                ISTOP = -ITAB(N)
+             ELSEIF(MS(N)>ZERO)THEN
+                K = K + 1
+                INDTN(K) = N
+             ENDIF
            ENDDO
          ELSE
            DO N=I,MIN(NODLT,I+1023)
-             IF(STIFN(N)<=ZERO)THEN                             
-                ISTOP = -ITAB(N)                                  
+             IF(STIFN(N)<=ZERO)THEN
+                ISTOP = -ITAB(N)
              ELSEIF(MS(N)>ZERO)THEN
-               IF(NALE(N)==0.OR.NALE(N)==3)THEN                            
-                K        = K + 1                                         
-                INDTN(K) = N 
-               ENDIF                                     
-             ENDIF                                                
-           ENDDO         
+               IF(NALE(N)==0.OR.NALE(N)==3)THEN
+                K        = K + 1
+                INDTN(K) = N
+               ENDIF
+             ENDIF
+           ENDDO
          ENDIF
-         
+
          KMAX = K
 
 C vectorize sqrt
@@ -275,7 +275,7 @@ C
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
-                  N     = INDTN(K) 
+                  N     = INDTN(K)
                   ISTOP = ITAB(N)
               ENDIF
             ENDDO
@@ -285,7 +285,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N)==1)THEN
@@ -307,7 +307,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N)==1)THEN
@@ -322,9 +322,9 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = HALF * STIFN(N) * DT2P * DT2P 
+                  MAS = HALF * STIFN(N) * DT2P * DT2P
                   MAS=MS(N)/MAS
                   DTN(K)=DTMIN1(11)
                   A(1,N)=A(1,N)*MAS
@@ -338,7 +338,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
           DO K=1,KMAX
               IF(DTN(K)<DT2T)THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN(K)
@@ -396,7 +396,7 @@ C
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K) < DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   ISTOP = N + NUMNOD
               ENDIF
             ENDDO
@@ -405,9 +405,9 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 MASS = RBYM(1,N)
-                STI = RBYM(27,N)                   
+                STI = RBYM(27,N)
                 DT2P = DTMIN1(11)/DTFAC1(11)
                 MAS = HALF * STI * DT2P * DT2P * ONEP00001
 c                IF(TAG(N)==1)THEN
@@ -424,11 +424,11 @@ c                ENDIF
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   MASS = RBYM(1,N)
                   STI = RBYM(27,N)
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = HALF * STI * DT2P * DT2P 
+                  MAS = HALF * STI * DT2P * DT2P
                   MAS=MASS/MAS
                   DTN(K)=DTMIN1(11)
                   ARBY(1,N)=ARBY(1,N)*MAS
@@ -442,7 +442,7 @@ c                ENDIF
 #include      "vectorize.inc"
           DO K=1,KMAX
               IF(DTN(K)<DT2T)THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 NELTST  = N + NUMNOD
                 ITYPTST = 11
                 DT2T = DTN(K)
@@ -483,7 +483,7 @@ C vectorize sqrt
            DO K=1,KMAX
               N = INDTN(K)
               DTN(K) = DTFAC1(11)*SQRT(TWO * IN(N) / STIFR(N))
-              DTNOD = MIN(DTNOD,DTN(K))            
+              DTNOD = MIN(DTNOD,DTN(K))
            END DO
 C
            IF(DTNOD<DTMIN1(11))THEN
@@ -491,7 +491,7 @@ C
 #include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   ISTOP = ITAB(N)
                 ENDIF
               ENDDO
@@ -500,7 +500,7 @@ C
 #include      "vectorize.inc"
                 DO K=1,KMAX
                   IF(DTN(K)<DTMIN1(11))THEN
-                    N = INDTN(K) 
+                    N = INDTN(K)
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
                     INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
@@ -518,7 +518,7 @@ C
 #include      "vectorize.inc"
                 DO K=1,KMAX
                   IF(DTN(K)<DTMIN1(11))THEN
-                    N = INDTN(K) 
+                    N = INDTN(K)
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
                     INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
@@ -534,9 +534,9 @@ C
 #include      "vectorize.inc"
              DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = HALF * STIFR(N) * DT2P * DT2P 
+                  MAS = HALF * STIFR(N) * DT2P * DT2P
                   MAS=IN(N)/MAS
                   DTN(K)=DTMIN1(11)
                   AR(1,N)=AR(1,N)*MAS
@@ -550,7 +550,7 @@ C
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DT2T)THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN(K)
@@ -567,7 +567,7 @@ C----------------------------------------------------------
            IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
              DO K=1,KMAX
-               N = INDTN(K) 
+               N = INDTN(K)
                ADT(N)=MIN(ADT(N),DTN(K))
              ENDDO
            ENDIF
@@ -586,7 +586,7 @@ C true dependency
                  ISTOP=-(I + NUMNOD)
                ELSEIF(IN(N)>ZERO)THEN
                  K = K + 1
-                 INDTN(K) = I 
+                 INDTN(K) = I
                  DTN(K) = DTFAC1(11)*SQRT(TWO * INER / STI)
                  DTNOD = MIN(DTNOD,DTN(K))
                ENDIF
@@ -597,7 +597,7 @@ C vectorize sqrt
            DO K=1,KMAX
               N = INDTN(K)
               DTN(K) = DTFAC1(11)*SQRT(TWO * IN(N) / STIFR(N))
-              DTNOD = MIN(DTNOD,DTN(K))            
+              DTNOD = MIN(DTNOD,DTN(K))
            END DO
 C
            IF(DTNOD<DTMIN1(11))THEN
@@ -605,7 +605,7 @@ C
 #include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   ISTOP = NODFT + N
                 ENDIF
               ENDDO
@@ -613,7 +613,7 @@ C
 #include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   STI = RBYM(28,N)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   INER = HALF * STI * DT2P * DT2P * ONEP00001
@@ -631,9 +631,9 @@ C
              DO K=1,KMAX
               IF(DTN(K)<DTMIN1(11))THEN
                   N = INDTN(K)
-                  STI = RBYM(28,N)  
+                  STI = RBYM(28,N)
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = HALF * STI * DT2P * DT2P 
+                  MAS = HALF * STI * DT2P * DT2P
                   MAS=RBYM(17,N)/MAS
                   DTN(K)=DTMIN1(11)
                   ARRBY(1,N)=ARRBY(1,N)*MAS
@@ -647,7 +647,7 @@ C
 #include "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DT2T)THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 NELTST  = N + NUMNOD
                 ITYPTST = 11
                 DT2T = DTN(K)
@@ -660,11 +660,11 @@ C----------------------------------------------------------
            IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
              DO K=1,KMAX
-               N = INDTN(K) 
+               N = INDTN(K)
                ADT(N)=MIN(ADT(N),DTN(K))
              ENDDO
            ENDIF
-       ENDIF 
+       ENDIF
 C --end rigid material  
       ENDIF
 
@@ -684,12 +684,12 @@ C----------------------------------------------------------
          DTNOD = EP20
 C true dependency
          DO N=I,MIN(NODLT,I+1023)
-           IF(STIFN(N)<=ZERO)THEN   
-              ISTOP=-ITAB(N)          
-           ELSEIF(MS(N)>ZERO)THEN  
-              K = K + 1               
-              INDTN(K) = N            
-           ENDIF                      
+           IF(STIFN(N)<=ZERO)THEN
+              ISTOP=-ITAB(N)
+           ELSEIF(MS(N)>ZERO)THEN
+              K = K + 1
+              INDTN(K) = N
+           ENDIF
          ENDDO
          KMAX = K
 C vectorize sqrt
@@ -706,7 +706,7 @@ C
 #include      "vectorize.inc"
               DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   ISTOP = ITAB(N)
                 ENDIF
               ENDDO
@@ -716,7 +716,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
                DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N)==1)THEN
@@ -733,7 +733,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
                DO K=1,KMAX
                 IF(DTN(K)<DTMIN1(11))THEN
-                  N = INDTN(K) 
+                  N = INDTN(K)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N)==1)THEN
@@ -751,7 +751,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
             DO K=1,KMAX
               IF(DTN(K)<DT2T)THEN
-                N = INDTN(K) 
+                N = INDTN(K)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN(K)
@@ -773,7 +773,7 @@ C----------------------------------------------------------
         IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
           DO K=1,KMAX
-            N = INDTN(K) 
+            N = INDTN(K)
             ADT(N)=MIN(ADT(N),DTN(K))
           ENDDO
         ENDIF
@@ -782,7 +782,7 @@ C----------------------------------------------------------
         IF(IDTMIN(11)==8) THEN
           IF(DT2T < DTMIN1(11)) DT2T=MIN(DT2S,DTMIN1(11))
         END IF
-  
+
 C--------------------------------
 
         DO N = NODFT, NODLT
@@ -815,7 +815,7 @@ C--------------------------------
              IF ( ISTAMPING == 1) THEN
 	       WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 7.'
-               WRITE(ISTDO,'(A)')'You may need to check if there is enou 
+               WRITE(ISTDO,'(A)')'You may need to check if there is enou
      .gh clearance between the tools,'
                WRITE(ISTDO,'(A)')'and that they do not penetrate each ot
      .her during their travel'
@@ -847,7 +847,7 @@ C--------------------------------
              IF ( ISTAMPING == 1) THEN
 	       WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 7.'
-               WRITE(ISTDO,'(A)')'You may need to check if there is enou 
+               WRITE(ISTDO,'(A)')'You may need to check if there is enou
      .gh clearance between the tools,'
                WRITE(ISTDO,'(A)')'and that they do not penetrate each ot
      .her during their travel'

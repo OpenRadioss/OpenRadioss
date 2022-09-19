@@ -112,7 +112,7 @@ C
       END DO
 C-----------------------------------------------
       BMINMA(1) = -EP30
-      BMINMA(2) = -EP30 
+      BMINMA(2) = -EP30
       BMINMA(3) = -EP30
       BMINMA(4) =  EP30
       BMINMA(5) =  EP30
@@ -123,7 +123,7 @@ C
       YMIN=EP30
       YMAX=-EP30
       ZMIN=EP30
-      ZMAX=-EP30     
+      ZMAX=-EP30
 C
 C        Bucket sort. DBUC + MIN / MAX
 C
@@ -141,11 +141,11 @@ C
         ZMAX= MAX(ZMAX,X(3,J))
       END DO
 C
-      BMINMA(1) = MAX(BMINMA(1),XMAX) 
-      BMINMA(2) = MAX(BMINMA(2),YMAX) 
-      BMINMA(3) = MAX(BMINMA(3),ZMAX) 
-      BMINMA(4) = MIN(BMINMA(4),XMIN) 
-      BMINMA(5) = MIN(BMINMA(5),YMIN) 
+      BMINMA(1) = MAX(BMINMA(1),XMAX)
+      BMINMA(2) = MAX(BMINMA(2),YMAX)
+      BMINMA(3) = MAX(BMINMA(3),ZMAX)
+      BMINMA(4) = MIN(BMINMA(4),XMIN)
+      BMINMA(5) = MIN(BMINMA(5),YMIN)
       BMINMA(6) = MIN(BMINMA(6),ZMIN)
 C
       DBUC=DBUC*SQRT(ONE +SPATRUE)*ONEP0001

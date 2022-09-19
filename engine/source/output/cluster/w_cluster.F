@@ -63,32 +63,32 @@ C-----------------------------------------------
       INTEGER ILCLUSTER(NCLUSTER),RLCLUSTER(NCLUSTER)
       INTEGER RLCLUSTER_MAX,ILCLUSTER_MAX
       my_real,
-     .   DIMENSION(:), ALLOCATABLE :: RCLTAB  
+     .   DIMENSION(:), ALLOCATABLE :: RCLTAB
       INTEGER, DIMENSION(:), ALLOCATABLE :: ICLTAB
 C=======================================================================
 
       IF(NCLUSTER > 0) THEN
-        ILCLUSTER(1:NCLUSTER)  = 0 
+        ILCLUSTER(1:NCLUSTER)  = 0
         RLCLUSTER(1:NCLUSTER) =  ZERO
       ENDIF
       RLCLUSTER_MAX = 0
       ILCLUSTER_MAX = 0
-   
+
       DO I = 1, NCLUSTER
         ITY   = CLUSTER(I)%TYPE
         NEL   = CLUSTER(I)%NEL
         NNOD  = CLUSTER(I)%NNOD
         IFAIL = CLUSTER(I)%IFAIL
         ILCLUSTER(I) = 8 + 2 * (NEL + NNOD)
-        RLCLUSTER(I) = 1 
-        IF (IFAIL > 0) RLCLUSTER(I) = RLCLUSTER(I) + 4 
-        IF (IFAIL == 3) RLCLUSTER(I) = RLCLUSTER(I) + 8  
-        IF ( RLCLUSTER_MAX < RLCLUSTER(I) ) THEN 
+        RLCLUSTER(I) = 1
+        IF (IFAIL > 0) RLCLUSTER(I) = RLCLUSTER(I) + 4
+        IF (IFAIL == 3) RLCLUSTER(I) = RLCLUSTER(I) + 8
+        IF ( RLCLUSTER_MAX < RLCLUSTER(I) ) THEN
           RLCLUSTER_MAX = RLCLUSTER(I)
-        ENDIF 
-        IF ( ILCLUSTER_MAX < ILCLUSTER(I) ) THEN 
+        ENDIF
+        IF ( ILCLUSTER_MAX < ILCLUSTER(I) ) THEN
           ILCLUSTER_MAX = ILCLUSTER(I)
-        ENDIF 
+        ENDIF
       ENDDO !NCLUSTER
 
       IF(NCLUSTER > 0) THEN
@@ -99,7 +99,7 @@ C=======================================================================
       ENDIF
 
       DO I = 1, NCLUSTER
-        ICLTAB(1:ILCLUSTER(I)) = 0 
+        ICLTAB(1:ILCLUSTER(I)) = 0
         RCLTAB(1:RLCLUSTER(I)) = ZERO
         IL = 0
         RL = 0
@@ -109,7 +109,7 @@ C=======================================================================
         ICLTAB(IL+4) = CLUSTER(I)%IGR
         ICLTAB(IL+5) = CLUSTER(I)%NEL
         ICLTAB(IL+6) = CLUSTER(I)%NNOD
-        ICLTAB(IL+7) = CLUSTER(I)%SKEW 
+        ICLTAB(IL+7) = CLUSTER(I)%SKEW
         ICLTAB(IL+8) = CLUSTER(I)%OFF
         IL = IL + 8
         RCLTAB(RL+1) = CLUSTER(I)%FAIL
@@ -123,19 +123,19 @@ c
           ICLTAB(IL + J+NEL) = ID ! element index in the group
         ENDDO  ! J = 1,NEL
 c
-        IL = IL + NEL*2      
+        IL = IL + NEL*2
         DO J = 1,NNOD
           ICLTAB(IL + J)      = CLUSTER(I)%NOD1(J)
           ICLTAB(IL + J+NNOD) = CLUSTER(I)%NOD2(J)
         ENDDO
 
-        IL = IL + NNOD*2      
+        IL = IL + NNOD*2
         IF (CLUSTER(I)%IFAIL > 0) THEN
           RCLTAB(RL + 1) = CLUSTER(I)%FMAX(1)
           RCLTAB(RL + 2) = CLUSTER(I)%FMAX(2)
           RCLTAB(RL + 3) = CLUSTER(I)%MMAX(1)
           RCLTAB(RL + 4) = CLUSTER(I)%MMAX(2)
-          RL = RL + 4     
+          RL = RL + 4
         ENDIF
 
         IF (CLUSTER(I)%IFAIL == 3) THEN

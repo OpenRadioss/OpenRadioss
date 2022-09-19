@@ -73,7 +73,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NSENSR)  ,INTENT(OUT) :: SENSOR
       TYPE (SENSOR_STR_) :: SENSOR_TAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -110,7 +110,7 @@ c--------------------------------------------------
       SENS_TYPE  = 13
       LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
-      LSENSOR(4) = USR2SYS(NOD1,ITABM1,MESS,NS) 
+      LSENSOR(4) = USR2SYS(NOD1,ITABM1,MESS,NS)
       CALL ANODSET(LSENSOR(4), CHECK_USED)
 c      DO P = 1, NSPMD
 c	       CALL IFRONTPLUS(LSENSOR(4),P)

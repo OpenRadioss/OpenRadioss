@@ -21,9 +21,9 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 !hd|====================================================================
-!hd|  SIGEPS02G                     src/mate02/sigeps02g.F           
+!hd|  SIGEPS02G                     src/mate02/sigeps02g.F
 !hd|-- called by -----------
-!hd|        MULAWGLC                      src/coque/mulawglc.F          
+!hd|        MULAWGLC                      src/coque/mulawglc.F
 !hd|-- calls ---------------
 !hd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 !hd|====================================================================
@@ -75,7 +75,7 @@ Chd|====================================================================
 !   D u m m y   A r g u m e n t s
 !-----------------------------------------------
       INTEGER JFT,JLT,IOFC,KFTS,NLAY,IR,IS,NEL
-      INTEGER NGL(MVSIZ),INDX(MVSIZ), 
+      INTEGER NGL(MVSIZ),INDX(MVSIZ),
      .        IOFF_DUCT(*),MX
       my_real
      .   PM(NPROPM,*),FOR(NEL,5),MOM(NEL,3),EINT(JLT,2),
@@ -106,7 +106,7 @@ Chd|====================================================================
      .   M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),T(MVSIZ),EPMX,
      .   DWELM(MVSIZ),DWELF(MVSIZ),CA(MVSIZ),CB(MVSIZ),CN,
      .   YMAX(MVSIZ),UNSYEQ(MVSIZ),DWPLA(MVSIZ),
-     .   HH(MVSIZ),RR(MVSIZ),C1,C2,C3,CC,EPDR(MVSIZ),CP,  
+     .   HH(MVSIZ),RR(MVSIZ),C1,C2,C3,CC,EPDR(MVSIZ),CP,
      .   YM,EPSPDT(MVSIZ),
      .   S1(MVSIZ),S2(MVSIZ),SVM(MVSIZ),NNU1(MVSIZ),NU1(MVSIZ),
      .   NU2(MVSIZ),NU3(MVSIZ),DPLA_J(MVSIZ),SM1(MVSIZ),SM2(MVSIZ),
@@ -220,7 +220,7 @@ Chd|====================================================================
 !--             epspdt(i)= (1.+cc(i) * epspdt(i))*(1.-exp(log(tstar)*mt))
             ELSE
 !--          EPSPDT(I)= (1.+CC(I) * EPSPDT(I))*(1.-TSTAR**MT)
-!--          ...  in case of tstart<=ZERO => tstar**mt=zero**mt=zero 
+!--          ...  in case of tstart<=ZERO => tstar**mt=zero**mt=zero
 !--          ...  => can be skipped
               EPSPDT(I) = (ONE+CC * EPSPDT(I))
             ENDIF
@@ -346,13 +346,13 @@ Chd|====================================================================
 !
         DO I=JFT,JLT
 !-------------------------------------------------------------------------
-!     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) 
+!     GAMA (L'INVERSE DE GAMA DANS LA FORMULE)
 !-------------------------------------------------------------------------
           CCC = EXP(-TWOP6666666667*LBUF%PLA(I)*YM/YLD(I))
           GAMA(I) = TWO/(THREE-CCC)
           GAMA2(I)= GAMA(I)*GAMA(I)
           MM1 = THIRTY6*GAMA2(I)
-          MM2 = THREEP4641*GAMA(I)  
+          MM2 = THREEP4641*GAMA(I)
           QTIER(I) = THREE*GAMA2(I)
           NNU1(I) = NU(I)/(ONE-NU(I))
           S1(I) = (F1(I)+F2(I))*HALF
@@ -364,7 +364,7 @@ Chd|====================================================================
           AN(I) = S1(I)*S1(I)
           BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
           AM(I) = SM1(I)*SM1(I)*MM1
-          BM(I) = THREE*(SM2(I)*SM2(I)+SM3*SM3)*MM1       
+          BM(I) = THREE*(SM2(I)*SM2(I)+SM3*SM3)*MM1
           ANM(I) = S1(I)*SM1(I)*MM2
           BNM(I) = THREE*(S2(I)*SM2(I)+S3*SM3)*MM2
           SVM(I) = SQRT(AN(I)+BN(I)+AM(I)+BM(I)+ABS(ANM(I)+BNM(I)))

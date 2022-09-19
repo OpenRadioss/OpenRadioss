@@ -68,7 +68,7 @@ C-----------------------------------------------
         WRITE(VARNAME,'(A)') 'NODADT'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NODADT,0.0_8)
 
-        DO I=1,102 
+        DO I=1,102
 C         VARNAME: variable name in ref.extract (without blanks)
           WRITE(VARNAME,'(A,I0)') 'IDTMIN_',I      ! IDTMIN(11) => 'IDTMIN_11'
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IDTMIN(I),0.0_8)

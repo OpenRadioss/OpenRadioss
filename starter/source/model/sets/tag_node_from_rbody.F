@@ -59,7 +59,7 @@ C=======================================================================
         IRB = RBODY(I)
 
         NOD = RBY_MSN(2,IRB)
-  
+
         IF(TAGNOD(NOD) == 0)THEN
           TAGNOD(NOD) = 1
           IND = IND+1

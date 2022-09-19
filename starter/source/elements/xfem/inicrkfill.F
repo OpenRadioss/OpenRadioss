@@ -66,8 +66,8 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE (XFEM_LVSET_)  , DIMENSION(NLEVMAX)     :: CRKLVSET
       TYPE (XFEM_SHELL_)  , DIMENSION(NLEVMAX)     :: CRKSHELL
-      TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX)    :: CRKEDGE       
-      TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX)    :: XFEM_PHANTOM  
+      TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX)    :: CRKEDGE
+      TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX)    :: XFEM_PHANTOM
       TYPE (INICRACK_)    , DIMENSION(NINICRACK)   :: INICRACK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -157,7 +157,7 @@ Chd|        S4LAGSFEM                     source/elements/solid/solide4_sfem/s4l
 Chd|-- calls ---------------
 Chd|        FOAT_TO_6_FLOAT               source/system/parit.F         
 Chd|====================================================================
-      SUBROUTINE S4VOLNOD_SM(VOLNOD6,V,NC1,NC2,NC3,NC4,VOL0,AMU,OFFG,SAV,NEL) 
+      SUBROUTINE S4VOLNOD_SM(VOLNOD6,V,NC1,NC2,NC3,NC4,VOL0,AMU,OFFG,SAV,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -193,19 +193,19 @@ C     REAL
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,DVOL
       my_real
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
+     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
      .   DET(MVSIZ),VOL(MVSIZ),VOLREF(MVSIZ),D,DXX,DYY,DZZ,
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),  
-     .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),  
+     .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),
+     .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),
      .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), 
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ) 
+     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
+     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ)
 
       DOUBLE PRECISION
      .   DET6(6,MVSIZ)

@@ -25,7 +25,7 @@ Chd|  DIRECT_SOLVE                  source/ale/alemuscl/direct_solve.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DIRECT_SOLVE (mat, rhs, sol) 
+      SUBROUTINE DIRECT_SOLVE (mat, rhs, sol)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   This subroutine solves directly the 3 x 3 
@@ -52,8 +52,8 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------   
       !!! Determinant of the matrix
-      det = 2.0D0 * mat(1,3) * mat(1,2) * mat(2, 3) - 
-     .     mat(1,3) * mat(1,3) * mat(2,2) - mat(1,2) * mat(1,2) * mat(3,3) + 
+      det = 2.0D0 * mat(1,3) * mat(1,2) * mat(2, 3) -
+     .     mat(1,3) * mat(1,3) * mat(2,2) - mat(1,2) * mat(1,2) * mat(3,3) +
      .     mat(1,1) * mat(2,2) * mat(3,3) - mat(1,1) * mat(2,3) * mat(2,3)
       !!! Coefficients of the inverse
       a11 = mat(2,2) * mat(3,3) - mat(2,3) * mat(2,3)

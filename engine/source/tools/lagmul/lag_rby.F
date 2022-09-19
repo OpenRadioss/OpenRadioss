@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, NCR, LLL(*),JLL(*),SLL(*),IADLL(*), 
+      INTEGER NC, NCR, LLL(*),JLL(*),SLL(*),IADLL(*),
      .        NPBYL(NNPBY,*), LPBYL(*), COMNTAG(*)
 C     REAL
       my_real
@@ -360,7 +360,7 @@ C---      Trans z
       NCR = NC
 C=======================================================================
       DO N=1,NRBYLAG
-        NFIX = NPBYL(4,N) 
+        NFIX = NPBYL(4,N)
         NFRE = NPBYL(5,N)
         IF (NFIX>0.AND.NFRE>0) THEN
 C         Partially condensed RB

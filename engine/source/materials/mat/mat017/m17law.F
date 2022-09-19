@@ -64,12 +64,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real
-     .   VIS2(MVSIZ), 
+     .   VIS2(MVSIZ),
      .   DAV(MVSIZ),
      .   YP0, CMU, AX, E, A, XMU,
      .   XM, XK, XE, YPLUS, RK2T, FAC,
      .   RHO0_1, VIS_1, PC_1, C1_1, C2_1,
-     .   C3_1, C4_1, C5_1, C6_1, PSH_1     
+     .   C3_1, C4_1, C5_1, C6_1, PSH_1
 C-----------------------------------------------
 C
       ! SAUVEGARDE VORTICITE SI ANIM
@@ -132,7 +132,7 @@ C
       ELSE
         DO 21 I=LFT,LLT
          VIS(I)=ZERO
-         TMU(I)=ZERO 
+         TMU(I)=ZERO
    21   CONTINUE
       ENDIF
 C

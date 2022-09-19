@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,*),ISEL(*),INUM(9,*),IPARTC(*), ISHEOFF(*),
      .        EADD(*),ITR1(*),INDEX(*),ITRI(7,*),
      .        ND, CEP(*), XEP(*),
-     .        IGEO(NPROPGI,*),IPM(NPROPMI,*),IPART(LIPART1,*), 
+     .        IGEO(NPROPGI,*),IPM(NPROPMI,*),IPART(LIPART1,*),
      .        SH4TREE(KSH4TREE,*), NOD2ELC(*), SH4TRIM(*),
      .        TAGPRT_SMS(*) ,LGAUGE(3,*),
      .        IWORKSH(3,*)
@@ -176,7 +176,7 @@ C----------------------------------------------------------
            ALLOCATE(XNUM_DRAPE(I)%RDRAPE(NPT,2),XNUM_DRAPE(I)%IDRAPE(NPT))
            XNUM_DRAPE(I)%RDRAPE = 0
            XNUM_DRAPE(I)%IDRAPE = 0
-        ENDDO 
+        ENDDO
       ELSE
         ALLOCATE( XNUM_DRAPE(0) )
       ENDIF
@@ -220,10 +220,10 @@ C
         ENDIF
         IF (NPERTURB > 0) THEN
           DO IPERT = 1, NPERTURB
-            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
+            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I)
           ENDDO
         ENDIF
-        ANGLE(I)=SH4ANG(I) 
+        ANGLE(I)=SH4ANG(I)
       ENDDO
 C
       IF(NADMESH /= 0)THEN
@@ -281,7 +281,7 @@ C
           DO IPT = 1, NPN
             IMATLY  = IGEO(100+IPT,PID)
             NFAIL = MAX(NFAIL,IPM(220, IMATLY))
-          ENDDO 
+          ENDDO
           IF(ICRACK3D > 0)THEN
 C-          new multilayer -
             IXFEM = IPM(236,MID)
@@ -289,16 +289,16 @@ C-          new multilayer -
         ELSEIF(IGTYP == 17) THEN
           NPN = IWORKSH(1,II)
           ISUBSTACK =IWORKSH(3, II)
-!!          IIGEO   =  40 + 5*(ISUBSTACK - 1) 
+!!          IIGEO   =  40 + 5*(ISUBSTACK - 1)
 !!          IADI    = IGEO(IIGEO + 3,PID)
-!!          IPPID   = IADI    
-          IPPID = 2     
+!!          IPPID   = IADI
+          IPPID = 2
           DO IPT = 1, NPN
 !!            IPIDL = IGEO(IPPID+IPT,PID)
             IPIDL = STACK%IGEO(IPPID  + IPT  ,ISUBSTACK)
             IMATLY  = IGEO(101,IPIDL)
             NFAIL = MAX(NFAIL,IPM(220, IMATLY))
-          ENDDO   
+          ENDDO
         ELSEIF(IGTYP == 51 ) THEN
 C---
 C new shell property (variable NPT through each layer)
@@ -328,7 +328,7 @@ C---
           NPN = IWORKSH(1,II)
           ISUBSTACK = IWORKSH(3, II)
           IPPID = 2
-          IPMAT = IPPID + NPN 
+          IPMAT = IPPID + NPN
           DO IPT = 1,NPN  ! nb of plys
             IPIDL  = STACK%IGEO(IPPID + IPT,ISUBSTACK)
             IMATLY = STACK%IGEO(IPMAT + IPT,ISUBSTACK)
@@ -341,7 +341,7 @@ C --- set IREP for tri criteria:
             IREP = 2
           ELSEIF (NB_LAW58 > 0) THEN
             IREP = IREP + 3
-          ENDIF           
+          ENDIF
 C
         ELSE ! IGTYP == 1
           NFAIL = IPM(220, MID)
@@ -355,9 +355,9 @@ C -         new monolayer -
           END IF
         ENDIF
         IF (NFAIl > 0) IFAIL = 1
-c        
+c
 C thermal material expansion
-        IEXPAN  = IPM(218, MID)        
+        IEXPAN  = IPM(218, MID)
         ICSEN= IGEO(3,PID)
         IF (ICSEN > 0) ICSEN=1
         IF(NPN == 0.AND.(MLN == 36.OR.MLN == 86))THEN
@@ -424,7 +424,7 @@ C
 C
         ITRI(4,I)=ITHK+IREP+NPN+ICSEN+JTHE+IEXPAN+IRB+IFAIL+ISHXFEM_PLY
      .           +IXFEM
-     
+
 C---     Clef5 
 C       MID=MY_SHIFTL(MID,0)
         ITRI(5,I)=MID
@@ -432,7 +432,7 @@ C---     Clef6
 C       PID=MY_SHIFTL(PID,0)
         ITRI(6,I)=PID
 C --- clef7 used for type17 iworkc=0 with/out type17 (or type51) PID  
-        ITRI(7,I) =  IWORKSH(2,I) 
+        ITRI(7,I) =  IWORKSH(2,I)
       ENDDO
 C
       MODE=0
@@ -460,11 +460,11 @@ C
        IWORKSH(2,I)= INUM_WORKC(2,INDEX(I))
        IWORKSH(3,I)= INUM_WORKC(3,INDEX(I))
        IF (NDRAPE > 0) THEN
-         NPT = XNUM_DRAPE(INDEX(I))%NPT 
+         NPT = XNUM_DRAPE(INDEX(I))%NPT
          IF(NPT /= DRAPE(I)%NPT ) THEN
             DEALLOCATE(DRAPE(I)%IDRAPE,DRAPE(I)%RDRAPE)
             ALLOCATE(DRAPE(I)%IDRAPE(NPT),DRAPE(I)%RDRAPE(NPT,2))
-         ENDIF 
+         ENDIF
          DRAPE(I)%NPT = XNUM_DRAPE(INDEX(I))%NPT
          DO IPT = 1, NPT
            DRAPE(I)%IDRAPE(IPT)   = XNUM_DRAPE(INDEX(I))%IDRAPE(IPT)
@@ -474,7 +474,7 @@ C
        ENDIF
        IF (NPERTURB > 0) THEN
          DO IPERT = 1, NPERTURB
-           RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
+           RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I))
          ENDDO
        ENDIF
         SH4ANG(I)=ANGLE(INDEX(I))
@@ -563,8 +563,8 @@ C--------------------------------------------------------------
 C for stack/ply pid
         II5=ITRI(7,INDEX(I))
         JJ5=ITRI(7,INDEX(I-1))
-        IF (II0/=JJ0 .or. 
-     *   II/=JJ .or. 
+        IF (II0/=JJ0 .or.
+     *   II/=JJ .or.
      *   II1/=JJ1 .or.
      *   II2/=JJ2.OR.II3 /= JJ3.OR.II4 /= JJ4.OR.II5 /= JJ5) THEN
           ND=ND+1
@@ -575,7 +575,7 @@ C for stack/ply pid
 C-----------
 c
       IF (NPERTURB > 0) THEN
-        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
+        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE)
       ENDIF
 c
       DEALLOCATE(INDEX2)

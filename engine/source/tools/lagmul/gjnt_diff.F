@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE GJNT_DIFF(SK     ,L1     ,L2     ,L3     ,ALPHA  ,
      2                     IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                     X      ,N0     ,N1     ,N2     ,N3     ,
-     4                     NC     )  
+     4                     NC     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -38,13 +38,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N0,N1,N2,N3,NC, LLL(*),JLL(*),SLL(*),IADLL(*)
-      my_real 
+      my_real
      .        X(3,*),XLL(*),SK(9),L1(3),L2(3),L3(3),ALPHA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,JJ,IK,IC,IAD,INOD(4)
-      my_real 
+      my_real
      .        UX(3),UY(3),UZ(3),VX(3),VY(3),VZ(3),WX(3),WY(3),WZ(3),
      .        RX(3),RY(3),RZ(3),
      .        X0,Y0,Z0,X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,XS,YS,ZS,
@@ -184,18 +184,18 @@ C---------------------------
       Y12=Y1*Y1
       Y22=Y2*Y2
       Y32=Y3*Y3
-      Z12=Z1*Z1 
+      Z12=Z1*Z1
       Z22=Z2*Z2
-      Z32=Z3*Z3 
+      Z32=Z3*Z3
       XX=X12 + X22 + X32
       YY=Y12 + Y22 + Y32
       ZZ=Z12 + Z22 + Z32
-      XY=X1*Y1 + X2*Y2 + X3*Y3 
-      YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 
+      XY=X1*Y1 + X2*Y2 + X3*Y3
+      YZ=Y1*Z1 + Y2*Z2 + Y3*Z3
       ZX=Z1*X1 + Z2*X2 + Z3*X3
       ZZZ=XX+YY
       XXX=YY+ZZ
-      YYY=ZZ+XX 
+      YYY=ZZ+XX
       XY2=XY*XY
       YZ2=YZ*YZ
       ZX2=ZX*ZX

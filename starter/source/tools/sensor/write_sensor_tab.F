@@ -66,23 +66,23 @@ c       update node system N° after renumbering for sensors using nodes
             SENSOR%IPARAM(4) = NODLOCAL(SENSOR%IPARAM(4))
             SENSOR%IPARAM(5) = NODLOCAL(SENSOR%IPARAM(5))
           END IF
-        END IF        
-c        
+        END IF
+c
         LEN = NFIX + NPARI + NPARR + NVAR
         ALLOCATE (RBUF(LEN) )
 c
         IAD = 0
-        RBUF(IAD+1) = SENSOR%TYPE    
-        RBUF(IAD+2) = SENSOR%SENS_ID 
-        RBUF(IAD+3) = SENSOR%STATUS  
-        RBUF(IAD+4) = SENSOR%TCRIT 
-        RBUF(IAD+5) = SENSOR%TMIN  
+        RBUF(IAD+1) = SENSOR%TYPE
+        RBUF(IAD+2) = SENSOR%SENS_ID
+        RBUF(IAD+3) = SENSOR%STATUS
+        RBUF(IAD+4) = SENSOR%TCRIT
+        RBUF(IAD+5) = SENSOR%TMIN
         RBUF(IAD+6) = SENSOR%TDELAY
         RBUF(IAD+7) = SENSOR%TSTART
-        RBUF(IAD+8) = SENSOR%VALUE 
-        RBUF(IAD+9) = SENSOR%NPARI 
-        RBUF(IAD+10)= SENSOR%NPARR 
-        RBUF(IAD+11)= SENSOR%NVAR  
+        RBUF(IAD+8) = SENSOR%VALUE
+        RBUF(IAD+9) = SENSOR%NPARI
+        RBUF(IAD+10)= SENSOR%NPARR
+        RBUF(IAD+11)= SENSOR%NVAR
         IAD = IAD + NFIX
 c
         IF (NPARI > 0) THEN
@@ -96,7 +96,7 @@ c
             RBUF(IAD+I) = SENSOR%RPARAM(I)
           END DO
           IAD = IAD + NPARR
-        END IF        
+        END IF
         IF (NVAR > 0) THEN
           DO I = 1,NVAR
             RBUF(IAD+I) = SENSOR%VAR(I)

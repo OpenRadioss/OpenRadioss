@@ -154,12 +154,12 @@ C-----------------------------------------------
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        INDEX(MVSIZ), NINDX
       my_real
-     .    E11,E22,E33,G12,G23,G31,                                 
-     .    Y11,Y22,Y33,Y12,Y23,Y31,                                 
-     .    EP1,EP2,EP3,EP4,EP5,EP6,                                 
-     .    YC(MVSIZ),                                               
-     .    DYDX,DYDXV(MVSIZ),EP(MVSIZ,9),EPC(MVSIZ),            
-     .    EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,AMUV   
+     .    E11,E22,E33,G12,G23,G31,
+     .    Y11,Y22,Y33,Y12,Y23,Y31,
+     .    EP1,EP2,EP3,EP4,EP5,EP6,
+     .    YC(MVSIZ),
+     .    DYDX,DYDXV(MVSIZ),EP(MVSIZ,9),EPC(MVSIZ),
+     .    EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,AMUV
       my_real
      .    SXY(NEL),SYX(MVSIZ),SYZ(MVSIZ),
      .    SZY(MVSIZ),SZX(MVSIZ),SXZ(MVSIZ),
@@ -178,7 +178,7 @@ C-----------------------------------------------
        ENDIF
       ENDIF
 C-----------------------------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO I=1,NEL
 C
         IADBUF = IPM(7,MAT(I))
@@ -192,19 +192,19 @@ C
         SIGNXX(I) = SIGOXX(I) + E11 * DEPSXX(I)
         SIGNYY(I) = SIGOYY(I) + E22 * DEPSYY(I)
         SIGNZZ(I) = SIGOZZ(I) + E33 * DEPSZZ(I)
-        SXY(I) = SIGOXY(I,1) + SIGOXY(I,2) 
-        SYX(I) = SIGOXY(I,1) - SIGOXY(I,2) 
-        SYZ(I) = SIGOYZ(I,1) + SIGOYZ(I,2) 
-        SZY(I) = SIGOYZ(I,1) - SIGOYZ(I,2) 
-        SZX(I) = SIGOZX(I,1) + SIGOZX(I,2) 
-        SXZ(I) = SIGOZX(I,1) - SIGOZX(I,2) 
+        SXY(I) = SIGOXY(I,1) + SIGOXY(I,2)
+        SYX(I) = SIGOXY(I,1) - SIGOXY(I,2)
+        SYZ(I) = SIGOYZ(I,1) + SIGOYZ(I,2)
+        SZY(I) = SIGOYZ(I,1) - SIGOYZ(I,2)
+        SZX(I) = SIGOZX(I,1) + SIGOZX(I,2)
+        SXZ(I) = SIGOZX(I,1) - SIGOZX(I,2)
 
-        DXY(I) = DEPSXY(I,1) + DEPSXY(I,2) 
-        DYX(I) = DEPSXY(I,1) - DEPSXY(I,2) 
-        DYZ(I) = DEPSYZ(I,1) + DEPSYZ(I,2) 
-        DZY(I) = DEPSYZ(I,1) - DEPSYZ(I,2) 
-        DZX(I) = DEPSZX(I,1) + DEPSZX(I,2) 
-        DXZ(I) = DEPSZX(I,1) - DEPSZX(I,2) 
+        DXY(I) = DEPSXY(I,1) + DEPSXY(I,2)
+        DYX(I) = DEPSXY(I,1) - DEPSXY(I,2)
+        DYZ(I) = DEPSYZ(I,1) + DEPSYZ(I,2)
+        DZY(I) = DEPSYZ(I,1) - DEPSYZ(I,2)
+        DZX(I) = DEPSZX(I,1) + DEPSZX(I,2)
+        DXZ(I) = DEPSZX(I,1) - DEPSZX(I,2)
 
         SXY(I) = SXY(I) + G12 * DXY(I)
         SYX(I) = SYX(I) + G12 * DYX(I)
@@ -259,8 +259,8 @@ C
      .        ABS(EPSYZ(I)/TWO)>EMX23.OR.
      .        ABS(EPSZX(I)/TWO)>EMX31).AND.OFF(I)/=ZERO) THEN
             OFF(I) = ZERO
-            NINDX=NINDX+1  
-            INDEX(NINDX)=I  
+            NINDX=NINDX+1
+            INDEX(NINDX)=I
             IDEL7NOK = 1
           ENDIF
       ENDDO
@@ -356,7 +356,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SIGNYY(I) = SIGN(MIN(ABS(SIGNYY(I)),
      .                  FAC(I,JJ)*YC(II)),SIGNYY(I))
           ENDDO
@@ -366,7 +366,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SIGNZZ(I) = SIGN(MIN(ABS(SIGNZZ(I)),
      .                  FAC(I,JJ)*YC(II)),SIGNZZ(I))
           ENDDO
@@ -376,7 +376,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SXY(I) = SIGN(MIN(ABS(SXY(I)),
      .               FAC(I,JJ)*YC(II)),SXY(I))
           ENDDO
@@ -386,7 +386,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SYZ(I) = SIGN(MIN(ABS(SYZ(I)),
      .               FAC(I,JJ)*YC(II)),SYZ(I))
           ENDDO
@@ -396,7 +396,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SZX(I) = SIGN(MIN(ABS(SZX(I)),
      .               FAC(I,JJ)*YC(II)),SZX(I))
           ENDDO
@@ -406,7 +406,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SYX(I) = SIGN(MIN(ABS(SYX(I)),
      .               FAC(I,JJ)*YC(II)),SYX(I))
           ENDDO
@@ -416,7 +416,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SZY(I) = SIGN(MIN(ABS(SZY(I)),
      .               FAC(I,JJ)*YC(II)),SZY(I))
           ENDDO
@@ -426,7 +426,7 @@ C
             I = INDEX(II)
             JJ=J
             IF(FR_WAV(I)==1.)JJ=J+9
-            UVAR(I,JJ) = IPOS1(II) 
+            UVAR(I,JJ) = IPOS1(II)
             SXZ(I) = SIGN(MIN(ABS(SXZ(I)),
      .               FAC(I,JJ)*YC(II)),SXZ(I))
           ENDDO

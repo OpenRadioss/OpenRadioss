@@ -20,8 +20,8 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-      subroutine ns_fvm_diffusion(ale_connect, multi_fvm, time_step, ebcs_tab, 
-     .     diffusion, ipm, pm, iparg, elbuf_tab, nercvois, nesdvois, lercvois, lesdvois, 
+      subroutine ns_fvm_diffusion(ale_connect, multi_fvm, time_step, ebcs_tab,
+     .     diffusion, ipm, pm, iparg, elbuf_tab, nercvois, nesdvois, lercvois, lesdvois,
      .     ixs, func_value)
       USE ALE_CONNECTIVITY_MOD
       USE MULTI_FVM_MOD
@@ -68,7 +68,7 @@ c-----------------------------------------------
       double precision, dimension(:), pointer :: sol
       my_real :: vel(3), nx, ny, nz
       integer :: mtn, nel, nft, imat, submatlaw, submatid, lencom, ifunc
-      type(g_bufel_), pointer :: gbuf  
+      type(g_bufel_), pointer :: gbuf
       integer :: mat_nz, glob_dim, ierr, max_id, icount1, icount2
       class (t_ebcs), pointer :: ebcs
       integer :: iad, lgth
@@ -104,7 +104,7 @@ c-----------------------------------------------
                   if (submatlaw == 6) then
                      do ii = 1, nel
                         i = ii + nft
-                        diffusion%nu(i) = diffusion%nu(i) + multi_fvm%phase_alpha(imat, i) * 
+                        diffusion%nu(i) = diffusion%nu(i) + multi_fvm%phase_alpha(imat, i) *
      .                       pm(24, submatid) * multi_fvm%phase_rho(imat, i)
                      enddo
                   endif
@@ -115,7 +115,7 @@ c-----------------------------------------------
 !     mpi comm
       if (nspmd > 1) then
          lencom = nercvois(nspmd + 1) + nesdvois(nspmd + 1)
-         call spmd_e1vois(diffusion%nu, 
+         call spmd_e1vois(diffusion%nu,
      .        nercvois, nesdvois, lercvois, lesdvois, lencom)
       endif
 
@@ -228,11 +228,11 @@ c-----------------------------------------------
                dist = sqrt((xk(1) - xl(1))**2 + (xk(2) - xl(2))**2 + (xk(3) - xl(3))**2)
                nu = diffusion%nu(ii)
                diffusion%mat%val(icount1) = diffusion%mat%val(icount1) + time_step * surf * nu / dist
-               diffusion%rhs%val(ii + (1 - 1) * numels) = diffusion%rhs%val(ii + (1 - 1) * numels) + 
+               diffusion%rhs%val(ii + (1 - 1) * numels) = diffusion%rhs%val(ii + (1 - 1) * numels) +
      .              time_step * surf * nu * vel(1) / dist
-               diffusion%rhs%val(ii + (2 - 1) * numels) = diffusion%rhs%val(ii + (2 - 1) * numels) + 
+               diffusion%rhs%val(ii + (2 - 1) * numels) = diffusion%rhs%val(ii + (2 - 1) * numels) +
      .              time_step * surf * nu * vel(2) / dist
-               diffusion%rhs%val(ii + (3 - 1) * numels) = diffusion%rhs%val(ii + (3 - 1) * numels) + 
+               diffusion%rhs%val(ii + (3 - 1) * numels) = diffusion%rhs%val(ii + (3 - 1) * numels) +
      .              time_step * surf * nu * vel(3) / dist
             endif
          enddo
@@ -265,7 +265,7 @@ c-----------------------------------------------
          diffusion%rhs%val(ii + (2 - 1) * numels) = diffusion%rhs%val(ii + (2 - 1) * numels) + mass * uy
          diffusion%rhs%val(ii + (3 - 1) * numels) = diffusion%rhs%val(ii + (3 - 1) * numels) + mass * uz
       enddo
-      
+
       nullify(sol)
       call diffusion%solve_diffusion()
       call diffusion%get_solution(sol, glob_dim)

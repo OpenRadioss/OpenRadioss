@@ -76,11 +76,11 @@ C     Work arrays
 C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: ILEVNOD
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGNOD
-      my_real, 
+      my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: NODNORM
-      my_real, 
+      my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: ACND,ARCND
-      my_real, 
+      my_real,
      .         DIMENSION(:),ALLOCATABLE :: STCND,STRCND
 C-----------------------------------------------
 C     Liste des neouds kinematiques pour implicite 

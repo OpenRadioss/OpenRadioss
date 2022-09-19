@@ -73,7 +73,7 @@ C-----------------------------------------------
      .   GRESAV(NPSAV,*),OFF(*),
      .   XMAS(*), EI(*),REI(*),REK(*),
      .   EK(*), XM(*), YM(*), ZM(*),
-     .   XXM(*), YYM(*), ZZM(*), 
+     .   XXM(*), YYM(*), ZZM(*),
      .   XCG(*), YCG(*), ZCG(*),
      .   IXX(*), IYY(*), IZZ(*),
      .   IXY(*), IYZ(*), IZX(*)

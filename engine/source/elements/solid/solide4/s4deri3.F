@@ -28,9 +28,9 @@ Chd|-- calls ---------------
 Chd|        SCHKJABT3                     source/elements/solid/solide4/s4deri3.F
 Chd|====================================================================
       SUBROUTINE S4DERI3(OFF,DET,NGL,DELTAX,MXT,
-     .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4, 
+     .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4,
      .   Z1,  Z2,  Z3,  Z4,  PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4, 
+     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX , TY , TZ,
      .   SAV ,OFFG,NEL, PM ,VOLDP)
 C-----------------------------------------------
@@ -60,11 +60,11 @@ C     REAL
      .   X1(*), X2(*), X3(*), X4(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), SAV(NEL,9),VOLDP(NEL)
-     
+
       my_real
      .   OFF(*), DET(*), DELTAX(*), PM(NPROPM,*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),OFFG(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),TX(*), TY(*), TZ(*)
 C-----------------------------------------------
@@ -76,8 +76,8 @@ C     REAL
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
-     .   A1, A2, A3, A4, D, AREAMX2, 
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
+     .   A1, A2, A3, A4, D, AREAMX2,
+     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
      .   PXX, PYY, PZZ, PXY, PYZ, PXZ, GFAC, AA, BB, P, LD
@@ -267,7 +267,7 @@ C          DELTAX(I) = 6.*DET(I) / AREAMX2
            PYZ=PY1(I)*PZ1(I)+PY2(I)*PZ2(I)+PY3(I)*PZ3(I)+PY4(I)*PZ4(I)
 C
            AA = -(PXX+PYY+PZZ)
-           BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
+           BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2)
            P  = BB-THIRD*AA*AA
            D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -288,7 +288,7 @@ C
            PYZ=PY1(I)*PZ1(I)+PY2(I)*PZ2(I)+PY3(I)*PZ3(I)+PY4(I)*PZ4(I)
 C
            AA = -(PXX+PYY+PZZ)
-           BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
+           BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2)
            P  = BB-THIRD*AA*AA
            D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -311,9 +311,9 @@ Chd|-- calls ---------------
 Chd|        SCHKJAB3                      source/elements/solid/solide/sderi3.F
 Chd|====================================================================
       SUBROUTINE S4DERIT3(OFF,DET,NGL,DELTAX,MXT,
-     .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4, 
+     .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4,
      .   Z1,  Z2,  Z3,  Z4,  PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4, 
+     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX , TY , TZ ,
      .   PM ,VOLDP)
 C-----------------------------------------------
@@ -337,9 +337,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),DET(*),DELTAX(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),TX(*), TY(*), TZ(*),
      .   PM(NPROPM,*)
 C-----------------------------------------------
@@ -359,7 +359,7 @@ C                                                                     12
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
+     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
      .   A1, A2, A3, A4, D, AREAMX2,
@@ -458,7 +458,7 @@ C         DELTAX(I) = 6.*DET(I) / AREAMX2
            PYZ=PY1(I)*PZ1(I)+PY2(I)*PZ2(I)+PY3(I)*PZ3(I)+PY4(I)*PZ4(I)
 C
            AA = -(PXX+PYY+PZZ)
-           BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
+           BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2)
            P  = BB-THIRD*AA*AA
            D=TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -479,7 +479,7 @@ C
            PYZ=PY1(I)*PZ1(I)+PY2(I)*PZ2(I)+PY3(I)*PZ3(I)+PY4(I)*PZ4(I)
 C
            AA = -(PXX+PYY+PZZ)
-           BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
+           BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2)
            P  = BB-THIRD*AA*AA
            D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -492,7 +492,7 @@ C
 C
  1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
-      END      
+      END
 Chd|====================================================================
 Chd|  SCHKJABT3                     source/elements/solid/solide4/s4deri3.F
 Chd|-- called by -----------
@@ -665,9 +665,9 @@ C
  1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
  3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
+     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/)
  4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' TOTAL STRAIN ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
+     +        ' TOTAL STRAIN ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/)
       END
 Chd|====================================================================
 Chd|  S4DERITO3                     source/elements/solid/solide4/s4deri3.F
@@ -676,9 +676,9 @@ Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S4DERITO3(OFF,DET,
-     .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4, 
+     .   X1,  X2,  X3,  X4,  Y1,  Y2,  Y3,  Y4,
      .   Z1,  Z2,  Z3,  Z4,  PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4, 
+     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX , TY , TZ ,
      .   JAC_I )
 C-----------------------------------------------
@@ -696,9 +696,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),DET(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),TX(*), TY(*), TZ(*),
      .   JAC_I(10,*)
       DOUBLE PRECISION
@@ -718,9 +718,9 @@ C                                                                     12
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43
       my_real
-     .   JI1, JI2, JI3,  
-     .   JI4, JI5, JI6,  
-     .   JI7, JI8, JI9,  
+     .   JI1, JI2, JI3,
+     .   JI4, JI5, JI6,
+     .   JI7, JI8, JI9,
      .   A1, A2, A3, A4, D, AREAMX2
 C-----------------------------------------------
       DO I=LFT,LLT

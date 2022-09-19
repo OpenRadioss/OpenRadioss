@@ -110,9 +110,9 @@ C
      3                  IPARTC ,BID,BID,BID,BID,
      4                  BID,BID, 0,OFF,
      5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
+     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 ,
+     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   ,
+     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   ,
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
      A                  IBID,IBID ,BID  ,ITASK)
           ENDIF
@@ -154,7 +154,7 @@ C
              FSKYV(IADC(4,I),5)=ZERO
              FSKYV(IADC(4,I),6)=ZERO
              FSKYV(IADC(4,I),7)=ZERO
-             FSKYV(IADC(4,I),8)=ZERO     
+             FSKYV(IADC(4,I),8)=ZERO
             ENDDO
            ELSE
             DO I=JFT,JLT
@@ -196,7 +196,7 @@ C
              FSKY(5,K)=ZERO
              FSKY(6,K)=ZERO
              FSKY(7,K)=ZERO
-             FSKY(8,K)=ZERO     
+             FSKY(8,K)=ZERO
             ENDDO
            ENDIF
           ENDIF
@@ -241,9 +241,9 @@ C
      3                  IPARTC ,BID,BID,BID,BID,
      4                  BID,BID, 0,OFF,
      5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
+     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 ,
+     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   ,
+     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   ,
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
      A                  IBID,IBID ,BID  ,ITASK)
             ELSE
@@ -256,9 +256,9 @@ C
      3                  IPARTC ,BID,BID,BID,BID,
      4                  BID,BID, 0,OFF,
      5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
+     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 ,
+     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   ,
+     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   ,
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
      A                  IBID,IBID ,BID  ,ITASK)
              ENDIF
@@ -272,9 +272,9 @@ C
      3                  IPARTC ,BID,BID,BID,BID,
      4                  BID,BID, 0,OFF,
      5                  IBID,GRESAV,GRTH,IGRTH,
-     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 , 
-     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   , 
-     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   , 
+     6                  VL1 ,VL2  ,VL3  ,VL4 ,VRL1 ,
+     7                  VRL2,VRL3 ,VRL4 ,X1  ,X2   ,
+     8                  X3  ,X4   ,Y1   ,Y2  ,Y3   ,
      9                  Y4  ,Z1   ,Z2   ,Z3  ,Z4   ,
      A                  IBID,IBID ,BID  ,ITASK)
              ENDIF

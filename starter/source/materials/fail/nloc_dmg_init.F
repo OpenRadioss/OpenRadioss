@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE INOUTFILE_MOD
@@ -67,9 +67,9 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP),IXS(NIXS,*),IXC(NIXC,*),IXTG(NIXTG,*)
       INTEGER IPM(NPROPMI,*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_) , TARGET                    :: NLOC_DMG 
-      my_real, 
-     .         DIMENSION(NUMELC+NUMELTG),INTENT(IN)  :: AREA 
+      TYPE (NLOCAL_STR_) , TARGET                    :: NLOC_DMG
+      my_real,
+     .         DIMENSION(NUMELC+NUMELTG),INTENT(IN)  :: AREA
       my_real,
      .         DIMENSION(NUMEL), INTENT(INOUT)       :: DTELEM
       my_real
@@ -96,23 +96,23 @@ C-----------------------------------------------
      .   DTSCA_AMS,DTSCA_CST_AMS,LE_MAX,SSP,
      .   DTMINI_AMS,DTMINI_CST_AMS,DTMINI,
      .   WARN_LENGHT(NUMMAT,3)
-      my_real, DIMENSION(:,:), ALLOCATABLE ::  
+      my_real, DIMENSION(:,:), ALLOCATABLE ::
      .   VOLN_S, VOLN_C, VOLN_TG
-      my_real, DIMENSION(:)  , ALLOCATABLE ::  
+      my_real, DIMENSION(:)  , ALLOCATABLE ::
      .   VOLN, VOLU
-      my_real ,DIMENSION(:)  , POINTER     :: 
+      my_real ,DIMENSION(:)  , POINTER     ::
      .   VOL, THCK, UPARAM
       TYPE(BUF_NLOC_), POINTER             :: BUFNL
-      my_real, DIMENSION(:,:), POINTER     :: 
+      my_real, DIMENSION(:,:), POINTER     ::
      .   MASSTH
-      ! Damping ratio ZETA 
+      ! Damping ratio ZETA
       ! ZETA = 0     : Undamped
       ! 0 < ZETA < 1 : Underdamped
       ! ZETA = 1     : Critically damped
       ! ZETA > 1     : Overdamped
-      my_real, PARAMETER                   :: ZETA = 0.2D0 
+      my_real, PARAMETER                   :: ZETA = 0.2D0
       ! Safety coefficient for non-local stability vs mechanical stability
-      ! (here we have a good compromise to find, DENS must be as low as 
+      ! (here we have a good compromise to find, DENS must be as low as
       !  possible but sufficiently high to avoid the decrease of the timestep)
       my_real, PARAMETER                   :: CSTA = 40.0D0
       ! Position of integration points in the thickness
@@ -139,7 +139,7 @@ C-----------------------------------------------
      A 0.0555555,0.1666667,0.2777778,0.3888889,0.5      ,0.       ,
      B -.5      ,-.4      ,-.3      ,-.2      ,-.1      ,
      B 0.       ,0.1      ,0.2      ,0.3      ,0.4      ,0.5      /
-      ! Weight of integration in the thickness 
+      ! Weight of integration in the thickness
       DATA  WF1/
      1 1.       ,0.       ,0.       ,0.       ,0.       ,
      1 0.       ,0.       ,0.       ,0.       ,0.       ,0.       ,
@@ -180,7 +180,7 @@ C-----------------------------------------------
      7 -.5      ,-.4166667,-.25     ,-.0833333,0.0833333,0.25     ,
      7 0.4166667,0.5      ,0.       ,0.       ,0.       ,0.       ,
      8 -.5      ,-.4285715,-.2857143,-.1428572,0.0      ,0.1428572,
-     8 0.2857143,0.4285715,0.5      ,0.       ,0.       ,0.       ,     
+     8 0.2857143,0.4285715,0.5      ,0.       ,0.       ,0.       ,
      9 -.5      ,-.4375   ,-.3125   ,-.1875   ,-.0625   ,0.0625   ,
      9 0.1875   ,0.3125   ,0.4375   ,0.5      ,0.       ,0.       ,
      A -.5      ,-.4444444,-.3333333,-.2222222,-.1111111,0.       ,
@@ -204,8 +204,8 @@ C=======================================================================
         IF (.NOT.ALLOCATED(NLOC_DMG%INDX))     ALLOCATE(NLOC_DMG%INDX(0))
         IF (.NOT.ALLOCATED(NLOC_DMG%POSI))     ALLOCATE(NLOC_DMG%POSI(0))
         IF (.NOT.ALLOCATED(NLOC_DMG%IDXI))     ALLOCATE(NLOC_DMG%IDXI(0))
-        IF (.NOT.ALLOCATED(NLOC_DMG%ADDCNE))   ALLOCATE(NLOC_DMG%ADDCNE(0))        
-        IF (.NOT.ALLOCATED(NLOC_DMG%CNE))      ALLOCATE(NLOC_DMG%CNE(0)) 
+        IF (.NOT.ALLOCATED(NLOC_DMG%ADDCNE))   ALLOCATE(NLOC_DMG%ADDCNE(0))
+        IF (.NOT.ALLOCATED(NLOC_DMG%CNE))      ALLOCATE(NLOC_DMG%CNE(0))
         IF (.NOT.ALLOCATED(NLOC_DMG%IADS))     ALLOCATE(NLOC_DMG%IADS(0,0))
         IF (.NOT.ALLOCATED(NLOC_DMG%IADC))     ALLOCATE(NLOC_DMG%IADC(0,0))
         IF (.NOT.ALLOCATED(NLOC_DMG%IADTG))    ALLOCATE(NLOC_DMG%IADTG(0,0))
@@ -222,7 +222,7 @@ C=======================================================================
         IF (.NOT.ALLOCATED(NLOC_DMG%IAD_ELEM)) ALLOCATE(NLOC_DMG%IAD_ELEM(0))
         IF (.NOT.ALLOCATED(NLOC_DMG%IAD_SIZE)) ALLOCATE(NLOC_DMG%IAD_SIZE(0))
         IF (.NOT.ALLOCATED(NLOC_DMG%FR_ELEM))  ALLOCATE(NLOC_DMG%FR_ELEM(0))
-c        
+c
       ! If non-local method is used
       ELSE
 c
@@ -231,10 +231,10 @@ c
 c
         ! Allocation of tables
         ALLOCATE( TAGNOD(NUMNOD,3) )
-        ALLOCATE( INDX(NUMNOD) )  
-        ALLOCATE( IDXI(NUMNOD) )     
-        ALLOCATE( NDDL(NUMNOD) )  
-        ALLOCATE( NMAT(NUMNOD) ) 
+        ALLOCATE( INDX(NUMNOD) )
+        ALLOCATE( IDXI(NUMNOD) )
+        ALLOCATE( NDDL(NUMNOD) )
+        ALLOCATE( NMAT(NUMNOD) )
         ALLOCATE( POSI(NUMNOD+1) )
         ALLOCATE( VOLN_S(8,NUMELS) )
         ALLOCATE( VOLN_C(4,NUMELC) )
@@ -244,8 +244,8 @@ c
         ALLOCATE( TAGTET(NUMELS) )
         ALLOCATE( INDEX(NUMELS+NUMELC+NUMELTG) )
         ALLOCATE( ITRI(NUMELS+NUMELC+NUMELTG) )
-c   
-        ! Initialization of variables   
+c
+        ! Initialization of variables
         VOLN_S(1:8,1:NUMELS)   = ZERO
         VOLN_C(1:4,1:NUMELC)   = ZERO
         VOLN_TG(1:3,1:NUMELTG) = ZERO
@@ -260,8 +260,8 @@ c
         NUMELTG_NL = 0
         NDDMAX     = 0
         WARN_LENGHT(1:NUMMAT,1:3) = ZERO
-c     
-        ! Computation of the volume of elements 
+c
+        ! Computation of the volume of elements
         DO NG=1,NGROUP
           ! Flag for non-local regularization
           ILOC  = IPARG(78,NG)
@@ -287,13 +287,13 @@ c
                 INDEX(NUMELS_NL+K) = K + NFT
                 ITRI(K+NFT) = IXS(11,K+NFT)
                 VOLU(K+NFT) = VOL(K)
-              ENDDO 
+              ENDDO
               ! Counting non-local solid elements
               NUMELS_NL = NUMELS_NL + NEL
               ! Material Law ID
               IMAT = IXS(1,1+NFT)
               ! Tetra element
-              IF (ISOLNOD == 4) THEN 
+              IF (ISOLNOD == 4) THEN
                 ! Loop over elements
                 DO I=1,NEL
                   ! Tag tetra element
@@ -313,13 +313,13 @@ c
                     ! If already written and different => error
                     IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
                       CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+     .                 ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))
                     ENDIF
                     ! Tag the material law id of the node
                     TAGNOD(INOD,3) = IMAT
                     ! Computation of the volume associated to the node
                     VOLN_S(J,I+NFT) = FOURTH * VOL(I)
-                  ENDDO      
+                  ENDDO
                 ENDDO
               ! Brick element
               ELSEIF (ISOLNOD == 8) THEN
@@ -339,26 +339,26 @@ c
                       ! If already written and different => error
                       IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
                         CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+     .                   ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))
                       ENDIF
                       ! Tag the material law id of the node
                       TAGNOD(INOD,3) = IMAT
                       ! Computation of the volume associated to the node
                       VOLN_S(J,I+NFT) = ONE_OVER_8 * VOL(I)
-                    ENDDO      
+                    ENDDO
                   ENDDO
                 ELSE
                   ! Formulations not supported
                   CALL ANCMSG(MSGID=1659,MSGTYPE=MSGERROR,
-     .                     ANMODE=ANINFO_BLIND_1,I1=FORMU)                 
+     .                     ANMODE=ANINFO_BLIND_1,I1=FORMU)
                 ENDIF
-              ENDIF  
+              ENDIF
             ! For 4-nodes shell elements
             ELSEIF (ITY == 3) THEN
               ! Non-supported property
-              IF ((IGTYP /= 1).AND.(IGTYP /= 9)) THEN 
+              IF ((IGTYP /= 1).AND.(IGTYP /= 9)) THEN
                 CALL ANCMSG(MSGID=1662,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=IGTYP)               
+     .                   ANMODE=ANINFO_BLIND_1,I1=IGTYP)
               ENDIF
               ! Beginning value in index table
               IDEB = NUMELS
@@ -366,7 +366,7 @@ c
               DO K = 1,NEL
                 INDEX(IDEB+NUMELC_NL+K) = K + NFT
                 ITRI(IDEB+K+NFT)        = IXC(7,K+NFT)
-              ENDDO              
+              ENDDO
               ! Counting non-local shell elements
               NUMELC_NL = NUMELC_NL + NEL
               ! Number of integration points in the thickness
@@ -374,7 +374,7 @@ c
               ! Material law ID
               IMAT = IXC(1,1+NFT)
               ! Thickness of the shell element
-              THCK => ELBUF_TAB(NG)%GBUF%THK(1:NEL) 
+              THCK => ELBUF_TAB(NG)%GBUF%THK(1:NEL)
               ! Loop over elements
               DO I = 1,NEL
                 ! Loop over shell element nodes
@@ -387,27 +387,27 @@ c
                   ! If already written and different => error
                   IF ((TAGNOD(INOD,2) /= 0).AND.(TAGNOD(INOD,2) /= NPTT)) THEN
                     CALL ANCMSG(MSGID=1657,MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=NPTT,I3=TAGNOD(INOD,2))                  
+     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=NPTT,I3=TAGNOD(INOD,2))
                   ENDIF
                   ! Tag the number of additional d.o.fs (= NPTT)
                   TAGNOD(INOD,2) = NPTT
                   ! If already written and different => error
                   IF ((TAGNOD(INOD,3) /= 0).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
                     CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))
                   ENDIF
                   ! Tag the material law ID
                   TAGNOD(INOD,3)  = IMAT
                   ! Computation of the volume associated to the node
                   VOLN_C(J,I+NFT) = FOURTH * AREA(NFT+I) * THCK(I)
-                ENDDO      
-              ENDDO  
+                ENDDO
+              ENDDO
             ! For 3-nodes shell elements
             ELSEIF (ITY == 7) THEN
               ! Non-supported property
-              IF ((IGTYP /= 1).AND.(IGTYP /= 9)) THEN 
+              IF ((IGTYP /= 1).AND.(IGTYP /= 9)) THEN
                 CALL ANCMSG(MSGID=1662,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=IGTYP)               
+     .                   ANMODE=ANINFO_BLIND_1,I1=IGTYP)
               ENDIF
               ! Beginning value in index table
               IDEB = NUMELS+NUMELC
@@ -415,7 +415,7 @@ c
               DO K = 1,NEL
                 INDEX(IDEB+NUMELTG_NL+K) = K + NFT
                 ITRI(IDEB+K+NFT)         = IXTG(6,K+NFT)
-              ENDDO 
+              ENDDO
               ! Counting non-local triangle shell elements
               NUMELTG_NL = NUMELTG_NL + NEL
               ! Number of integration point in the shell thickness
@@ -423,10 +423,10 @@ c
               ! Material law ID
               IMAT = IXTG(1,1+NFT)
               ! Thickness of the shell
-              THCK => ELBUF_TAB(NG)%GBUF%THK(1:NEL) 
+              THCK => ELBUF_TAB(NG)%GBUF%THK(1:NEL)
               ! Loop over elements
               DO I = 1,NEL
-                ! Loop over the nodes of the shell 
+                ! Loop over the nodes of the shell
                 DO J = 1,3
                   ! Number of the node
                   K = J + 1
@@ -436,25 +436,25 @@ c
                   ! If already written and different => error
                   IF ((TAGNOD(INOD,2) /= ZERO).AND.(TAGNOD(INOD,2) /= NPTT)) THEN
                     CALL ANCMSG(MSGID=1657,MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=NPTT,I3=TAGNOD(INOD,2))                  
+     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=NPTT,I3=TAGNOD(INOD,2))
                   ENDIF
                   ! Tag the number of additional d.o.fs (= NPTT)
                   TAGNOD(INOD,2) = NPTT
                   ! If already written and different => error
                   IF ((TAGNOD(INOD,3) /= ZERO).AND.(TAGNOD(INOD,3) /= IMAT)) THEN
                     CALL ANCMSG(MSGID=1656,MSGTYPE=MSGERROR,
-     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))                  
+     .               ANMODE=ANINFO_BLIND_1,I1=INOD,I2=IMAT,I3=TAGNOD(INOD,3))
                   ENDIF
                   ! Tag the material law ID
                   TAGNOD(INOD,3) = IMAT
                   ! Computation of the volume associated to the node
                   VOLN_TG(J,I+NFT) = THIRD * AREA(NUMELC+NFT+I) * THCK(I)
-                ENDDO      
+                ENDDO
               ENDDO
             ! For all other types of elements
             ELSE
               CALL ANCMSG(MSGID=1658,MSGTYPE=MSGERROR,
-     .                   ANMODE=ANINFO_BLIND_1,I1=ITY)   
+     .                   ANMODE=ANINFO_BLIND_1,I1=ITY)
             ENDIF
           ENDIF
         ENDDO
@@ -466,7 +466,7 @@ C
         LEN_TMP_NAME = INFILE_NAME_LEN+ROOTLEN+9
         TMP_NAME = INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+9)
         INQUIRE(FILE = TMP_NAME,EXIST = ENG_FILE)
-        IF (ENG_FILE) THEN 
+        IF (ENG_FILE) THEN
           ! Opening the engine file
           OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .       ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
@@ -481,7 +481,7 @@ C
               BACKSPACE(71)
             ENDIF
             READ(71,*) DTSCA_AMS,DTMINI_AMS
-            IF (DTSCA_AMS == ZERO) DTSCA_AMS = ZEP9    
+            IF (DTSCA_AMS == ZERO) DTSCA_AMS = ZEP9
           ENDIF
           !/DT/CST_AMS
           IF(KEYA(1:11)=='/DT/CST_AMS') THEN
@@ -492,7 +492,7 @@ C
               BACKSPACE(71)
             ENDIF
             READ(71,*) DTSCA_CST_AMS,DTMINI_CST_AMS
-            IF (DTSCA_CST_AMS == ZERO) DTSCA_CST_AMS = ZEP9    
+            IF (DTSCA_CST_AMS == ZERO) DTSCA_CST_AMS = ZEP9
           ENDIF
           ! Back to read the keywords
           GOTO 10
@@ -504,7 +504,7 @@ C
           CALL ANCMSG(MSGID=1730,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
-     .                C1=ROOTNAM(1:ROOTLEN)//'_0001.rad')   
+     .                C1=ROOTNAM(1:ROOTLEN)//'_0001.rad')
         ENDIF
         ! Maximum of the minimal timesteps
         DTMINI = MAX(DTMINI_AMS,DTMINI_CST_AMS)
@@ -525,7 +525,7 @@ C
         ! and automatic computation of the non-local density, and the non-local damping
         DO J = 1, NUMELS_NL+NUMELC_NL+NUMELTG_NL
           ! Solid elements
-          IF (J<=NUMELS_NL) THEN 
+          IF (J<=NUMELS_NL) THEN
             ! Number of the element
             I = INDEX(J)
             ! Material number
@@ -534,7 +534,7 @@ C
             SSP    = SQRT(((THIRD*PM(20,IMAT)/(ONE - PM(21,IMAT)*TWO)) + FOUR_OVER_3*PM(22,IMAT))/PM(1,IMAT))
             ! Element characteristic length
             LE_MIN = (VOLU(I))**THIRD
-            IF (TAGTET(I)>0) THEN 
+            IF (TAGTET(I)>0) THEN
               ! Loop over element nodes
               DO K = 1,4
                 IF (K == 1) N = IXS(2,I)
@@ -542,29 +542,29 @@ C
                 IF (K == 3) N = IXS(7,I)
                 IF (K == 4) N = IXS(6,I)
                 VOLN(N) = VOLN(N) + VOLN_S(K,I)
-              ENDDO 
+              ENDDO
             ELSE
               ! Loop over element nodes
               DO K = 1,8
                 N = IXS(K+1,I)
                 VOLN(N) = VOLN(N) + VOLN_S(K,I)
-              ENDDO 
+              ENDDO
             ENDIF
           ! Shell elements
           ELSEIF (J<=NUMELS_NL+NUMELC_NL) THEN
-            ! Number of the element 
+            ! Number of the element
             I = INDEX(NUMELS+J-NUMELS_NL)
             ! Loop over nodes of the element
             DO K = 1,4
               N = IXC(K+1,I)
               VOLN(N) = VOLN(N) + VOLN_C(K,I)
-            ENDDO 
+            ENDDO
             ! Material number
             IMAT   = IXC(1,I)
             ! Soundspeed
             SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
             ! Element characteristic length
-            LE_MIN = SQRT(AREA(I))       
+            LE_MIN = SQRT(AREA(I))
           ! Triangle elements
           ELSEIF (J<=NUMELS_NL+NUMELC_NL+NUMELTG_NL) THEN
             ! Number of the element
@@ -579,27 +579,27 @@ C
             ! Soundspeed
             SSP    = SQRT(PM(24,IMAT)/PM(1,IMAT))
             ! Element characteristic length
-            LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(I))            
+            LE_MIN = SQRT((FOUR/SQRT(THREE))*AREA(I))
           ENDIF
           ! Recovering the non-local internal length
           LEN    = NLOC_DMG%LEN(IMAT)
           ! Computing the theoretical maximal length
           LE_MAX = NLOC_DMG%LE_MAX(IMAT)
-          IF (LE_MAX == ZERO) THEN 
+          IF (LE_MAX == ZERO) THEN
             NLOC_DMG%LE_MAX(IMAT) = LE_MIN
             LE_MAX = LE_MIN
-          ENDIF 
+          ENDIF
           ! Computation of the minimal timestep
           DTMIN = MAX(LE_MAX/SSP,DTMINI)
           ! Computation of the non-local density
           DENS = CSTA*(((LEN/MAX(LE_MAX,EM20))**2 + (ONE/TWELVE))*(DTMIN**2))
-          IF (LE_MIN > LE_MAX) THEN 
+          IF (LE_MIN > LE_MAX) THEN
             WARN_LENGHT(IMAT,1) = ONE
             WARN_LENGHT(IMAT,2) = LE_MAX
             WARN_LENGHT(IMAT,3) = LE_MIN
           ENDIF
           ! Computation of non-local damping
-          IF ((DENS < NLOC_DMG%DENS(IMAT)).OR.(NLOC_DMG%DENS(IMAT) == ZERO)) THEN 
+          IF ((DENS < NLOC_DMG%DENS(IMAT)).OR.(NLOC_DMG%DENS(IMAT) == ZERO)) THEN
             ! Computation of the damping parameter (homogeneous to a time value)
             DAMP  = TWO*ZETA*SQRT((FOUR*(LEN/MAX(LE_MAX,EM20))**2 + THIRD)*DENS)
             ! Saving non-local parameters (storing the maximal value)
@@ -625,11 +625,11 @@ c
         ! Printing out non-local parameters
         WRITE(IOUT,1800)
         DO I = 1, NUMMAT
-          IF (NLOC_DMG%DENS(I) > ZERO) THEN 
+          IF (NLOC_DMG%DENS(I) > ZERO) THEN
             WRITE(IOUT,1900) IPM(1,I),NLOC_DMG%LEN(I),NLOC_DMG%LE_MAX(I),NLOC_DMG%DENS(I),NLOC_DMG%DAMP(I)
           ENDIF
         ENDDO
-c        
+c
         ! Data on non-local nodes
         NNOD   = 0 ! Total number of non-local nodes
         L_NLOC = 0 ! Length of the non-local vectors
@@ -650,7 +650,7 @@ c
           ENDIF
         ENDDO
         POSI(NNOD + 1) = L_NLOC + 1 ! Last value of the position
-c       
+c
         ! Maximal number of additional d.o.fs
         NDDMAX = MAXVAL(NDDL(1:NNOD))
 c
@@ -666,10 +666,10 @@ c
         MY_ALLOCATE(NLOC_DMG%INDX,NNOD)
         MY_ALLOCATE(NLOC_DMG%POSI,NNOD+1)
         MY_ALLOCATE(NLOC_DMG%IDXI,NUMNOD)
-        MY_ALLOCATE(NLOC_DMG%MASS,L_NLOC)   
-        MY_ALLOCATE(NLOC_DMG%MASS0,L_NLOC)   
+        MY_ALLOCATE(NLOC_DMG%MASS,L_NLOC)
+        MY_ALLOCATE(NLOC_DMG%MASS0,L_NLOC)
         MY_ALLOCATE(NLOC_DMG%VNL,L_NLOC)
-        MY_ALLOCATE(NLOC_DMG%VNL_OLD,L_NLOC) 
+        MY_ALLOCATE(NLOC_DMG%VNL_OLD,L_NLOC)
         MY_ALLOCATE(NLOC_DMG%DNL,L_NLOC)
         MY_ALLOCATE(NLOC_DMG%UNL,L_NLOC)
         IF (.NOT.ALLOCATED(NLOC_DMG%STIFNL))   ALLOCATE(NLOC_DMG%STIFNL(L_NLOC,1))
@@ -690,7 +690,7 @@ c
         NLOC_DMG%DNL(1:L_NLOC)      = ZERO
         NLOC_DMG%UNL(1:L_NLOC)      = ZERO
         NLOC_DMG%STIFNL(1:L_NLOC,1) = ZERO
-c 
+c
         ! Computing non-local masses
         DO I=1,NNOD
           NDD  = NDDL(I)
@@ -702,13 +702,13 @@ c
               NLOC_DMG%MASS(J)  = VOLN(INDX(I))*DENS
               NLOC_DMG%MASS0(J) = VOLN(INDX(I))*DENS
             ! For shell and triangle elements
-            ELSEIF ((ITY == 3).OR.(ITY == 7)) THEN 
+            ELSEIF ((ITY == 3).OR.(ITY == 7)) THEN
               NLOC_DMG%MASS(J)  = WF1(J-POS+1,NDD)*VOLN(INDX(I))*DENS
               NLOC_DMG%MASS0(J) = WF1(J-POS+1,NDD)*VOLN(INDX(I))*DENS
             ENDIF
           ENDDO
         ENDDO
-c        
+c
         ! Computing non-local masses in the thickness for shell elements only
         DO NG=1,NGROUP
           ! Non-local flag
@@ -720,7 +720,7 @@ c
             ! First element position
             NFT   = IPARG(3,NG)
             ! Number of the material
-            IF (ITY == 3) THEN 
+            IF (ITY == 3) THEN
               IMAT  = IXC(1,1+NFT)
               NDEPAR = 0
             ELSEIF (ITY == 7) THEN
@@ -738,7 +738,7 @@ c
             ! Weight of integration in the plane of the shell
             WS   = ONE/(NPTS*NPTR)
             ! Number of integration points in the shell thickness
-            NPTT = IPARG(6,NG) 
+            NPTT = IPARG(6,NG)
             ! Thickness of the shells
             THCK => ELBUF_TAB(NG)%GBUF%THK(1:NEL)
             ! Non-local in the thickness only if NPTT>1
@@ -746,32 +746,32 @@ c
               ! Loop over integration points in the shell surface
               DO IR = 1, NPTR
                 DO IS = 1, NPTS
-                  BUFNL => ELBUF_TAB(NG)%NLOC(IR,IS)       
-                  MASSTH => BUFNL%MASSTH   
+                  BUFNL => ELBUF_TAB(NG)%NLOC(IR,IS)
+                  MASSTH => BUFNL%MASSTH
                   ! Loop over integration points in the shell thickness
                   DO K = 1, NPTT
                     IF ((NPTT==2).AND.(K==2)) THEN
                       NTH1 = (Z01(K,NPTT)   - ZN1(K,NPTT))/
-     .                   (ZN1(K-1,NPTT) - ZN1(K,NPTT))  
+     .                   (ZN1(K-1,NPTT) - ZN1(K,NPTT))
                       NTH2 = (Z01(K,NPTT) - ZN1(K-1,NPTT))/
-     .                       (ZN1(K,NPTT) - ZN1(K-1,NPTT))  
+     .                       (ZN1(K,NPTT) - ZN1(K-1,NPTT))
                     ELSE
                       NTH1 = (Z01(K,NPTT)   - ZN1(K+1,NPTT))/
-     .                       (ZN1(K,NPTT)   - ZN1(K+1,NPTT))  
+     .                       (ZN1(K,NPTT)   - ZN1(K+1,NPTT))
                       NTH2 = (Z01(K,NPTT)   - ZN1(K,NPTT))/
-     .                       (ZN1(K+1,NPTT) - ZN1(K,NPTT))  
+     .                       (ZN1(K+1,NPTT) - ZN1(K,NPTT))
                     ENDIF
                     ! Loop over elements
-                    DO I=1,NEL                                   
+                    DO I=1,NEL
                       IF ((NPTT==2).AND.(K==2)) THEN
-                        MASSTH(I,K-1) = MASSTH(I,K-1) + 
+                        MASSTH(I,K-1) = MASSTH(I,K-1) +
      .                       (NTH1**2 + NTH1*NTH2)*DENS*AREA(NDEPAR+NFT+I)*THCK(I)*WS*WF1(K,NPTT)
-                        MASSTH(I,K)   = MASSTH(I,K)   + 
+                        MASSTH(I,K)   = MASSTH(I,K)   +
      .                       (NTH2**2 + NTH1*NTH2)*DENS*AREA(NDEPAR+NFT+I)*THCK(I)*WS*WF1(K,NPTT)
                       ELSE
-                        MASSTH(I,K)   = MASSTH(I,K)   + 
+                        MASSTH(I,K)   = MASSTH(I,K)   +
      .                       (NTH1**2 + NTH1*NTH2)*DENS*AREA(NDEPAR+NFT+I)*THCK(I)*WS*WF1(K,NPTT)
-                        MASSTH(I,K+1) = MASSTH(I,K+1) + 
+                        MASSTH(I,K+1) = MASSTH(I,K+1) +
      .                       (NTH2**2 + NTH1*NTH2)*DENS*AREA(NDEPAR+NFT+I)*THCK(I)*WS*WF1(K,NPTT)
                       ENDIF
                     ENDDO
@@ -783,12 +783,12 @@ c
         ENDDO
 c
         ! Initialization of non-local fields and variables
-        IF (ISIGI /= 0) THEN 
+        IF (ISIGI /= 0) THEN
           WRITE(ISTDO,'(A)') ' .. NON-LOCAL FIELDS INITIALIZATION'
           CALL NLOCAL_INIT_STA(ELBUF_TAB,NLOC_DMG ,IPARG    ,IXC      ,
      .                         IXS      ,IXTG     ,AREA     ,X        ,
      .                         XREFS    ,XREFC    ,XREFTG   ,IPM      ,
-     .                         BUFMAT   ) 
+     .                         BUFMAT   )
         ENDIF
 c
        ENDIF

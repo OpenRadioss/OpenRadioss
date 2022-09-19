@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW108_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
+      SUBROUTINE LAW108_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,
      .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID,
      .                     PM     )
       USE MESSAGE_MOD
@@ -72,17 +72,17 @@ c     Transform FUNC_ID ->  Function number , leakmat only
 cc
 c---------------------------------------------------------------
 c
-c     traction X 
+c     traction X
 c
       I7  = 40  ! 4 + 6*6
       I11 = 64  ! 4 + 10*6
       I13 = 76  ! 4 + 12*6
       FUNC = IFUNC(1)
       LSCALE = UPARAM(I7 + 1)
-      XK   = UPARAM(I11 + 1) 
+      XK   = UPARAM(I11 + 1)
       HARD = UPARAM(I13 + 1)
       XK_INI = XK
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -95,7 +95,7 @@ c
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
-            CALL ANCMSG(MSGID=1640, ! 
+            CALL ANCMSG(MSGID=1640, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -107,17 +107,17 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 1)= XK   
+         UPARAM(I11 + 1)= XK
       ENDIF
 !-----------------
       ! Traction Y
-!-----------------   
+!-----------------
       FUNC = IFUNC(2)
       LSCALE = UPARAM(I7 + 2)
-      XK     = UPARAM(I11 + 2) 
+      XK     = UPARAM(I11 + 2)
       HARD   = UPARAM(I13 + 2)
       XK_INI = XK
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -130,7 +130,7 @@ c
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
-            CALL ANCMSG(MSGID=1640,  
+            CALL ANCMSG(MSGID=1640,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -142,17 +142,17 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 2) = XK   
+         UPARAM(I11 + 2) = XK
       ENDIF
 !-----------------
       ! Traction Z
-!-----------------   
+!-----------------
       FUNC = IFUNC(3)
       LSCALE = UPARAM(I7 +  3)
-      XK     = UPARAM(I11 + 3) 
+      XK     = UPARAM(I11 + 3)
       HARD   = UPARAM(I13 + 3)
       XK_INI = XK
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -165,7 +165,7 @@ c
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
-            CALL ANCMSG(MSGID=1640, ! 
+            CALL ANCMSG(MSGID=1640, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -177,17 +177,17 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 3)= XK   
+         UPARAM(I11 + 3)= XK
       ENDIF
 !-----------------
       ! Torsion xx
-!-----------------   
+!-----------------
       FUNC = IFUNC(4)
       LSCALE = UPARAM(I7 + 4)
-      XK     = UPARAM(I11 + 4) 
+      XK     = UPARAM(I11 + 4)
       HARD   = UPARAM(I13 + 4)
       XK_INI = XK
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -200,7 +200,7 @@ c
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
-            CALL ANCMSG(MSGID=1640, ! 
+            CALL ANCMSG(MSGID=1640, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -212,17 +212,17 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 4)= XK   
+         UPARAM(I11 + 4)= XK
       ENDIF
 !-----------------
       ! Rotation YY
-!-----------------   
+!-----------------
       FUNC = IFUNC(5)
       LSCALE = UPARAM(I7 + 5)
-      XK     = UPARAM(I11 + 5) 
+      XK     = UPARAM(I11 + 5)
       HARD   = UPARAM(I13 + 5)
       XK_INI = XK
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -235,7 +235,7 @@ c
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
-            CALL ANCMSG(MSGID=1640, !  
+            CALL ANCMSG(MSGID=1640, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -248,17 +248,17 @@ c
 
             ENDIF
          ENDIF
-         UPARAM(I11  + 5)= XK   
+         UPARAM(I11  + 5)= XK
       ENDIF
 !-----------------
       ! Rotation ZZ
-!-----------------   
+!-----------------
       FUNC = IFUNC(6)
       LSCALE = UPARAM(I7 + 6)
-      XK     = UPARAM(I11 + 6) 
+      XK     = UPARAM(I11 + 6)
       HARD   = UPARAM(I13 + 6)
       XK_INI = XK
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -271,7 +271,7 @@ c
         IF(HARD/=0)THEN
             IF(XK_INI<XK)THEN
 !!            CALL FRETITL2(TITR1,NOM_OPT(LNOPT1-LTITR+1,FUNC),LTITR)
-            CALL ANCMSG(MSGID=1640, !  
+            CALL ANCMSG(MSGID=1640, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -283,12 +283,12 @@ c
      .                  R3=XK)
             ENDIF
          ENDIF
-         UPARAM(I11 + 6)= XK   
+         UPARAM(I11 + 6)= XK
       ENDIF
 C
    ! update of max slope
 C   
-c -------- 
+c --------
 !compute max slope for ifunc3
           I5  = 44 ! 4 + 4*10
           I7  = 40 ! 4 + 4*6
@@ -298,38 +298,38 @@ c --------
           IF3 = 12
           IF4 = 18
           DO  J=1, 6
-            YFAC  = UPARAM(I5 + J) ! 
-            IFUN = IFUNC(IF4 + J) ! 
+            YFAC  = UPARAM(I5 + J) !
+            IFUN = IFUNC(IF4 + J) !
             IF (IFUN /= 0)THEN
-              IC1 = NPC(IFUN)           
-              IC2 = NPC(IFUN+1)         
+              IC1 = NPC(IFUN)
+              IC2 = NPC(IFUN+1)
               X0 = PLD(IC1)
               EMAX = ZERO
-              DO II = IC1,IC2-4,2                   
-                 JJ = II+2                          
-                 DX = PLD(JJ)   - X0                
-                 DY = PLD(JJ+1) - PLD(II+1)         
-                 Y0 =  PLD(II+1)               
-                 Y1 =  PLD(JJ+1)               
-                 DERI = YFAC * DY / DX              
-                 X1 =  PLD(JJ)                      
-                 EMAX = MAX(EMAX, DERI)             
-                 X0 =  PLD(JJ)                      
-              ENDDO  
-              UPARAM(I14+J) =  EMAX      
-            ENDIF                        
+              DO II = IC1,IC2-4,2
+                 JJ = II+2
+                 DX = PLD(JJ)   - X0
+                 DY = PLD(JJ+1) - PLD(II+1)
+                 Y0 =  PLD(II+1)
+                 Y1 =  PLD(JJ+1)
+                 DERI = YFAC * DY / DX
+                 X1 =  PLD(JJ)
+                 EMAX = MAX(EMAX, DERI)
+                 X0 =  PLD(JJ)
+              ENDDO
+              UPARAM(I14+J) =  EMAX
+            ENDIF
           ENDDO
 C
-          DO 100 J=1, 6 
-            H= UPARAM(I13 + J )      
+          DO 100 J=1, 6
+            H= UPARAM(I13 + J )
             IF (H == 7)THEN
               XSCALE=UPARAM(7+J)
               LOAD  =IFUNC(IF1 + J)
               UNLOAD=IFUNC(IF3 + J)
               NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
               NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
-              ALPHA1=ZERO  
-              ALPHA2=ZERO             
+              ALPHA1=ZERO
+              ALPHA2=ZERO
 c---
               DO JJ=2,NP1
                 J1=2*(JJ-2)
@@ -346,7 +346,7 @@ c---
                  X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
                  YY1=PLD(NPC(UNLOAD)+K1+1)
                  Y2=PLD(NPC(UNLOAD)+K1+3)
-                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
+                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)
                  IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
                    DYDX = (Y2-YY1) / (X2-XX1)
                    DTDS = (T2-T1) / (S2-S1)
@@ -354,18 +354,18 @@ c---
                      SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
                      TY =  T1 + DTDS*(SX - S1)
                    ENDIF
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                   IF (TY/=ZERO .AND. SX/=ZERO )THEN
                     IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN        
+     .                      .AND.SX>=S2.AND.TY<=T2)THEN
                       CALL ANCMSG(MSGID=982,
      .                            MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO_BLIND_1,
      .                            C1=TITR,
      .                            I1=UNLOAD,
      .                            I2=LOAD)
-                     GOTO 100         
-                    ENDIF     
-                   ENDIF                                
+                     GOTO 100
+                    ENDIF
+                   ENDIF
                  ENDIF
                 ENDDO
               ENDDO
@@ -377,8 +377,8 @@ c---
      .                      I1=UNLOAD,
      .                      I2=LOAD)
               ENDIF
-           ENDIF      
- 100      CONTINUE           
+           ENDIF
+ 100      CONTINUE
 c-----------
       RETURN
       END

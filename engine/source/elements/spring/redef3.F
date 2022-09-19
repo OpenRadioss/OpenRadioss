@@ -79,21 +79,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
      . JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
-     . JPOS2(MVSIZ), JLEN2(MVSIZ),JPOS3(MVSIZ), JLEN3(MVSIZ), 
+     . JPOS2(MVSIZ), JLEN2(MVSIZ),JPOS3(MVSIZ), JLEN3(MVSIZ),
      . JAD2(MVSIZ),JFUNC,JFUNC2,JDMP,JECROU(-1:11),J2DMP,K1,NP1,NP2,
      . I, J, II, INTERP, K, IC1(MVSIZ), JLEN4(MVSIZ),FUNC,FUND,J1,
      . IC2(MVSIZ),IC0(MVSIZ),TMP1(MVSIZ),TMP2(MVSIZ), IFUNC3(MVSIZ),
      . J2POS(MVSIZ), J2LEN(MVSIZ),J2AD(MVSIZ),J2FUNC,JPOS4(MVSIZ)
 c     REAL ou REAL*8
-      my_real 
-     .     FINTER 
+      my_real
+     .     FINTER
       EXTERNAL FINTER
       my_real
      . DDX(MVSIZ),
-     . FOLD(MVSIZ), GX(MVSIZ), DXELA(MVSIZ), 
+     . FOLD(MVSIZ), GX(MVSIZ), DXELA(MVSIZ),
      . DYDX(MVSIZ), XX(MVSIZ), XX2(MVSIZ), XX3(MVSIZ), YY(MVSIZ),
-     . YY2(MVSIZ), YY3(MVSIZ), DYDX2(MVSIZ), DYDX3(MVSIZ), 
-     . DYDXV(MVSIZ), DPERM(MVSIZ), XKI, X, XBID, DVV, DFAC, DT11, 
+     . YY2(MVSIZ), YY3(MVSIZ), DYDX2(MVSIZ), DYDX3(MVSIZ),
+     . DYDXV(MVSIZ), DPERM(MVSIZ), XKI, X, XBID, DVV, DFAC, DT11,
      . DAMP, DAMM,FMAX(MVSIZ),DVXS(MVSIZ),GF3(MVSIZ),DYDXV2(MVSIZ),
      . FMAX2,FMIN(MVSIZ),YP0,YP1,YP2,B1,GX2(MVSIZ),FY0(MVSIZ),
      . XFY0(MVSIZ),YCUT(MVSIZ),XCUT(MVSIZ),XN3FY0(MVSIZ),
@@ -201,7 +201,7 @@ C
           JPOS(I)  = NINT(POS(1,I))
           JPOS2(I) = NINT(POS(2,I))
           JPOS3(I) = NINT(POS(3,I))
-          
+
           JFUNC =MAX(1,IFUNC(I))
           JFUNC2=MAX(1,IFUNC2(I))
           JAD(I)   = NPF(JFUNC) / 2  + 1
@@ -211,9 +211,9 @@ C
           JLEN3(I) = NPF(JFUNC+1) / 2  - JAD(I)  - JPOS3(I)
           XX(I) =ZERO
           XX2(I)=ZERO
-          XX3(I)=ZERO  
+          XX3(I)=ZERO
         ENDDO
-      ENDIF            
+      ENDIF
 C-------------------------------------
 C        NON LINEAIRE ELASTIQUE, F=f(total length)
 C-------------------------------------
@@ -330,35 +330,35 @@ C-------------------------------------
 C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE)
 C-------------------------------------
       IF(JECROU(6)==LLT)THEN
-        DO I=LFT,LLT                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
-          AN3Y0(I)= ZERO 
-          DO  K=2,NP2                                                       
-             K1=2*(K-2)                                                
-             X1=TF(NPF(FUND)+K1)                                       
-             X2=TF(NPF(FUND)+K1+2)                                     
-             Y1=TF(NPF(FUND)+K1+1)                                     
-             Y2=TF(NPF(FUND)+K1+3) 
-             IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
-                EXIT     
-             ENDIF 
-           ENDDO 
+        DO I=LFT,LLT
+          FUND = IFUNC2(I)     ! courbe N3 de unload
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
+          AN3Y0(I)= ZERO
+          DO  K=2,NP2
+             K1=2*(K-2)
+             X1=TF(NPF(FUND)+K1)
+             X2=TF(NPF(FUND)+K1+2)
+             Y1=TF(NPF(FUND)+K1+1)
+             Y2=TF(NPF(FUND)+K1+3)
+             IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN
+                AN3Y0(I)=(Y2-Y1)/ (X2-X1)
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3
+                EXIT
+             ENDIF
+           ENDDO
            IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
-             X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-             X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-             Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-             Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+             X1=TF(NPF(FUND)+(NP2-2)*2)
+             X2=TF(NPF(FUND)+(NP2-2)*2+2)
+             Y1=TF(NPF(FUND)+(NP2-2)*2+1)
+             Y2=TF(NPF(FUND)+(NP2-2)*2+3)
 C
-             XI1=TF(NPF(FUND))                                       
-             XI2=TF(NPF(FUND)+2)                                     
-             YI1=TF(NPF(FUND)+1)                                     
-             YI2=TF(NPF(FUND)+3) 
-             IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
+             XI1=TF(NPF(FUND))
+             XI2=TF(NPF(FUND)+2)
+             YI1=TF(NPF(FUND)+1)
+             YI2=TF(NPF(FUND)+3)
+             IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1)
              IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
-           ENDIF    
+           ENDIF
            FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
            XX(I)=SIGN(ABS(XX_OLD(I)),FX(I))
            XX(I)=XX(I)+DDX(I)
@@ -367,34 +367,34 @@ C
       ELSEIF(JECROU(6)>0)THEN
         DO I=LFT,LLT
          IF(IFUNC(I)/=0.AND.IECROU(I)== 6)THEN
-          FUND = IFUNC2(I)                                                                  
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
-          AN3Y0(I)= ZERO 
-          DO  K=2,NP2                                                       
-             K1=2*(K-2)                                                
-             X1=TF(NPF(FUND)+K1)                                       
-             X2=TF(NPF(FUND)+K1+2)                                     
-             Y1=TF(NPF(FUND)+K1+1)                                     
-             Y2=TF(NPF(FUND)+K1+3) 
-             IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN              
-                AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
-                EXIT     
-             ENDIF 
-           ENDDO 
+          FUND = IFUNC2(I)
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
+          AN3Y0(I)= ZERO
+          DO  K=2,NP2
+             K1=2*(K-2)
+             X1=TF(NPF(FUND)+K1)
+             X2=TF(NPF(FUND)+K1+2)
+             Y1=TF(NPF(FUND)+K1+1)
+             Y2=TF(NPF(FUND)+K1+3)
+             IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN
+                AN3Y0(I)=(Y2-Y1)/ (X2-X1)
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3
+                EXIT
+             ENDIF
+           ENDDO
            IF (AN3Y0(I)== ZERO)THEN
-             X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-             X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-             Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-             Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+             X1=TF(NPF(FUND)+(NP2-2)*2)
+             X2=TF(NPF(FUND)+(NP2-2)*2+2)
+             Y1=TF(NPF(FUND)+(NP2-2)*2+1)
+             Y2=TF(NPF(FUND)+(NP2-2)*2+3)
 C
-             XI1=TF(NPF(FUND))                                       
-             XI2=TF(NPF(FUND)+2)                                     
-             YI1=TF(NPF(FUND)+1)                                     
-             YI2=TF(NPF(FUND)+3) 
-             IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
+             XI1=TF(NPF(FUND))
+             XI2=TF(NPF(FUND)+2)
+             YI1=TF(NPF(FUND)+1)
+             YI2=TF(NPF(FUND)+3)
+             IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1)
              IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
-           ENDIF    
+           ENDIF
            FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
            XX(I)=SIGN(ABS(XX_OLD(I)),FX(I))
            XX(I)=XX(I)+DDX(I)
@@ -423,7 +423,7 @@ C-------------------------------------
 C        ELASTO PERFECLTY PLASTIQUE (ECOUISSAGE ISOTROPE) - input by values
 C-------------------------------------
       IF(JECROU(9)==LLT)THEN
-        DO I=LFT,LLT                                                              
+        DO I=LFT,LLT
           AN3Y0(I)= ZERO
           IF (ABS(FXEP(I)) > FX_MAX(I)) THEN
             AN3Y0(I)= ZERO
@@ -437,8 +437,8 @@ C
         ENDDO
       ELSEIF(JECROU(9)>0)THEN
         DO I=LFT,LLT
-          IF(IECROU(I)== 9) THEN                      
-            AN3Y0(I)= ZERO 
+          IF(IECROU(I)== 9) THEN
+            AN3Y0(I)= ZERO
             IF (ABS(FXEP(I)) > FX_MAX(I)) THEN
               AN3Y0(I)= ZERO
             ELSE
@@ -455,37 +455,37 @@ C-------------------------------------
 C        ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) - PERFECLTY PLASTIC IN COMPRESSION
 C-------------------------------------
       IF(JECROU(10)==LLT)THEN
-        DO I=LFT,LLT                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+        DO I=LFT,LLT
+          FUND = IFUNC2(I)     ! courbe N3 de unload
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
           AN3Y0(I)= ZERO
           DXELA(I)=DX(I)-DPX(I)
           IF (((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
 C--- Tension - load curve is used
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3) 
-              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
-                EXIT     
-              ENDIF 
+            DO  K=2,NP2
+              K1=2*(K-2)
+              X1=TF(NPF(FUND)+K1)
+              X2=TF(NPF(FUND)+K1+2)
+              Y1=TF(NPF(FUND)+K1+1)
+              Y2=TF(NPF(FUND)+K1+3)
+              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN
+                AN3Y0(I)=(Y2-Y1)/ (X2-X1)
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3
+                EXIT
+              ENDIF
             ENDDO
 C            IF ((I==1).AND.(JECROU(6)>0)) print *,"LL2_A",FXEP(I),AN3Y0(I) 
             IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+              X1=TF(NPF(FUND)+(NP2-2)*2)
+              X2=TF(NPF(FUND)+(NP2-2)*2+2)
+              Y1=TF(NPF(FUND)+(NP2-2)*2+1)
+              Y2=TF(NPF(FUND)+(NP2-2)*2+3)
 C
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
+              XI1=TF(NPF(FUND))
+              XI2=TF(NPF(FUND)+2)
+              YI1=TF(NPF(FUND)+1)
+              YI2=TF(NPF(FUND)+3)
+              IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1)
               IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
 C----       Crossing of compresion/tension line - mix stiffness computed
@@ -506,36 +506,36 @@ C--- Compression - perfectly plastic behavior
       ELSEIF(JECROU(10)>0)THEN
         DO I=LFT,LLT
          IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          FUND = IFUNC2(I)     ! courbe N3 de unload
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
           AN3Y0(I)= ZERO
           DXELA(I)=DX(I)-DPX(I)
           IF (((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
 C--- Tension - load curve is used
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3) 
-              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(I)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3  
-                EXIT     
-              ENDIF 
+            DO  K=2,NP2
+              K1=2*(K-2)
+              X1=TF(NPF(FUND)+K1)
+              X2=TF(NPF(FUND)+K1+2)
+              Y1=TF(NPF(FUND)+K1+1)
+              Y2=TF(NPF(FUND)+K1+3)
+              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN
+                AN3Y0(I)=(Y2-Y1)/ (X2-X1)
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(I) + X1   !ABS DE N3
+                EXIT
+              ENDIF
             ENDDO
 C            IF ((I==1).AND.(JECROU(6)>0)) print *,"LL2_A",FXEP(I),AN3Y0(I) 
             IF (AN3Y0(I)== ZERO)THEN ! extrapolation (exterieur aux points de l input)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+              X1=TF(NPF(FUND)+(NP2-2)*2)
+              X2=TF(NPF(FUND)+(NP2-2)*2+2)
+              Y1=TF(NPF(FUND)+(NP2-2)*2+1)
+              Y2=TF(NPF(FUND)+(NP2-2)*2+3)
 C
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1) 
+              XI1=TF(NPF(FUND))
+              XI2=TF(NPF(FUND)+2)
+              YI1=TF(NPF(FUND)+1)
+              YI2=TF(NPF(FUND)+3)
+              IF(FXEP(I)>Y2)AN3Y0(I)=(Y2-Y1)/ (X2-X1)
               IF(FXEP(I)<YI1)AN3Y0(I)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
 C----       Crossing of compresion/tension line - mix stiffness computed
@@ -558,7 +558,7 @@ C-------------------------------------
 C        LINEAR ELASTIC in tension - perfleclty palstic in compression (same as 10 without curve)
 C-------------------------------------
       IF(JECROU(11)==LLT)THEN
-        DO I=LFT,LLT                                                              
+        DO I=LFT,LLT
           AN3Y0(I)= ZERO
           DXELA(I)=DX(I)-DPX(I)
           AN3Y0(I)= XK(I)
@@ -571,12 +571,12 @@ C----       Crossing of compresion/tension line - mix stiffness computed
             ENDIF
           ELSE
             AN3Y0(I)= XKC(I)
-          ENDIF                                                          
+          ENDIF
           FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
         ENDDO
       ELSEIF(JECROU(11)>0)THEN
         DO I=LFT,LLT
-          IF(IECROU(I)== 11) THEN                      
+          IF(IECROU(I)== 11) THEN
             AN3Y0(I)= ZERO
             DXELA(I)=DX(I)-DPX(I)
             IF ((DXELA(I) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
@@ -589,7 +589,7 @@ C----       Crossing of compresion/tension line - mix stiffness computed
               ENDIF
             ELSE
               AN3Y0(I)= XKC(I)
-            ENDIF                                                          
+            ENDIF
             FX(I)=FXEP(I)+AN3Y0(I)*DDX(I)
           ENDIF
         ENDDO
@@ -598,10 +598,10 @@ C-------------------------------------
 c     VECTOR INTERPOLATION
 C-------------------------------------
       DO I=LFT,LLT
-        XX(I)  = XX(I) *LSCALE(I)                   
-        XX2(I) = XX2(I)*LSCALE(I)                   
-        XX3(I) = XX3(I)*LSCALE(I)                   
-      ENDDO                          
+        XX(I)  = XX(I) *LSCALE(I)
+        XX2(I) = XX2(I)*LSCALE(I)
+        XX3(I) = XX3(I)*LSCALE(I)
+      ENDDO
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (IRESP==1) THEN
         IF(INTERP>=1)
@@ -700,12 +700,12 @@ C-------------------------------------
              FX(I)  = XK(I) * (DX(I)-DPX(I))
              FXEP(I)= YY(I)
              FX(I)  = MIN(FX(I),FXEP(I))
-             DPX(I) = DX(I) - FX(I) / XK(I) 
+             DPX(I) = DX(I) - FX(I) / XK(I)
            ELSEIF(DX(I)<DPX2(I))THEN
              FX(I)   = XK(I) * (DX(I)-DPX2(I))
              FXEP(I) = YY(I)
              FX(I)   = MAX(FX(I),FXEP(I))
-             DPX2(I) = DX(I) - FX(I) / XK(I) 
+             DPX2(I) = DX(I) - FX(I) / XK(I)
            ELSE
              FX(I)   = ZERO
            ENDIF
@@ -717,12 +717,12 @@ C-------------------------------------
              FX(I)  = XK(I) * (DX(I)-DPX(I))
              FXEP(I)= YY(I)
              FX(I)  = MIN(FX(I),FXEP(I))
-             DPX(I) = DX(I) - FX(I) / XK(I) 
+             DPX(I) = DX(I) - FX(I) / XK(I)
            ELSEIF(DX(I)<DPX2(I))THEN
              FX(I)   = XK(I) * (DX(I)-DPX2(I))
              FXEP(I) = YY(I)
              FX(I)   = MAX(FX(I),FXEP(I))
-             DPX2(I) = DX(I) - FX(I) / XK(I) 
+             DPX2(I) = DX(I) - FX(I) / XK(I)
            ELSE
              FX(I)   = ZERO
            ENDIF
@@ -775,7 +775,7 @@ C-------------------------------------
         ENDDO
         DO I=LFT,LLT
           FXEP(I)=FX(I)
-          DPX(I) = DX(I) - FX(I) / XK(I) 
+          DPX(I) = DX(I) - FX(I) / XK(I)
         ENDDO
       ELSEIF(JECROU(4)>0)THEN
         DO I=LFT,LLT
@@ -795,7 +795,7 @@ C-------------------------------------
         DO I=LFT,LLT
           IF(IFUNC(I)/=0.AND.IECROU(I)==4)THEN
             FXEP(I)=FX(I)
-            DPX(I) = DX(I) - FX(I) / XK(I) 
+            DPX(I) = DX(I) - FX(I) / XK(I)
           ENDIF
         ENDDO
       ENDIF
@@ -915,7 +915,7 @@ C---FX< O
            ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
                POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
+               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)
                DXELA(I)=DX(I)-DPX(I)
                FX(I)=YY(I)
                YIELD(I)=-FX(I)
@@ -941,7 +941,7 @@ C---FX< O
            ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
                POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
+               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)
                DXELA(I)=DX(I)-DPX(I)
                FX(I)=YY(I)
                YIELD(I)=-FX(I)
@@ -960,34 +960,34 @@ C-------------------------------------
         DO I=LFT,LLT
           FX(I) = FXEP(I) + XK(I)*DDX(I)
           IF (DX(I)>= DXOLD(I).AND.DX(I)>=0)THEN
-            IF (FX(I)>YY(I)) FX(I) = YY(I) 
+            IF (FX(I)>YY(I)) FX(I) = YY(I)
           ELSEIF(DX(I)< DXOLD(I).AND.DX(I)>=0)THEN
-            IF (FX(I)<YY2(I))FX(I) = YY2(I) 
+            IF (FX(I)<YY2(I))FX(I) = YY2(I)
           ELSEIF(DX(I)>= DXOLD(I).AND.DX(I)<0)THEN
-            IF(FX(I)> YY2(I))FX(I) = YY2(I)            
+            IF(FX(I)> YY2(I))FX(I) = YY2(I)
           ELSEIF(DX(I)< DXOLD(I).AND.DX(I)<0)THEN
             IF(FX(I)< YY(I))FX(I) = YY(I)
           ENDIF
         ENDDO
         DO I=LFT,LLT
           FXEP(I)= FX(I)
-          DPX(I) = DX(I) - FX(I) / XK(I) 
+          DPX(I) = DX(I) - FX(I) / XK(I)
         ENDDO
       ELSEIF (JECROU(7) > 0) THEN
         DO I=LFT,LLT
           IF (IFUNC(I)/=0 .AND. IECROU(I)==7) THEN
             FX(I) = FXEP(I) + XK(I)*DDX(I)
             IF (DX(I)>= DXOLD(I) .AND. DX(I)>=0) THEN
-              IF (FX(I)>YY(I)) FX(I) = YY(I)                     
+              IF (FX(I)>YY(I)) FX(I) = YY(I)
             ELSEIF (DX(I)< DXOLD(I) .AND. DX(I)>= 0) THEN
-              IF  (FX(I) < YY2(I)) FX(I) = YY2(I)                    
+              IF  (FX(I) < YY2(I)) FX(I) = YY2(I)
             ELSEIF (DX(I)>= DXOLD(I) .AND. DX(I)<0) THEN
-              IF (FX(I)> YY2(I)) FX(I) = YY2(I)                  
+              IF (FX(I)> YY2(I)) FX(I) = YY2(I)
             ELSEIF (DX(I)< DXOLD(I) .AND. DX(I)<0) THEN
               IF (FX(I)< YY(I))  FX(I) = YY(I)
             ENDIF
-            FXEP(I) = FX(I)                      
-            DPX(I)  = DX(I) - FX(I) / XK(I)      
+            FXEP(I) = FX(I)
+            DPX(I)  = DX(I) - FX(I) / XK(I)
           ENDIF
         ENDDO
       ENDIF
@@ -1002,7 +1002,7 @@ C
              DYDX = 0
            ELSE
              YY(I) = XK(I)*XX(I)
-             DYDX = XK(I) 
+             DYDX = XK(I)
            ENDIF
 C
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
@@ -1017,7 +1017,7 @@ C---FX< O
            ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
 
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
+               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)
                DXELA(I)=DX(I)-DPX(I)
                FX(I)=YY(I)
                YIELD(I)=-FX(I)
@@ -1035,7 +1035,7 @@ C
              DYDX = 0
            ELSE
              YY(I) = XK(I)*XX(I)
-             DYDX = XK(I) 
+             DYDX = XK(I)
            ENDIF
 C
            IF(FX(I)>= ZERO.AND.FX(I)>YIELD(I))THEN
@@ -1051,7 +1051,7 @@ C---FX< O
            ELSEIF(FX(I)< ZERO.AND.FX(I)< -YIELD(I))THEN
                POS(1,I) = JPOS(I)
 C-- COMPUTE PLASTIC AND ELASTIC DEFORMATION (TOTAL)  
-               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)  
+               DPX(I)=DPX(I)+(YY(I)-FX(I))/AN3Y0(I)
                DXELA(I)=DX(I)-DPX(I)
                FX(I)=YY(I)
                YIELD(I)=-FX(I)
@@ -1131,7 +1131,7 @@ C-- COMPUTE PLASTIC DEFORMATION (TOTAL)
             FXEP(I)=FX(I)
           ENDIF
         ENDDO
-      ENDIF 
+      ENDIF
 C--------------------------------------------------------------------
 C     NON LINEAR DAMPING
 C--------------------------------------------------------------------
@@ -1164,14 +1164,14 @@ c---------------------------G * funct_id_4
            POS(5,I) = J2POS(I)
          ENDDO
         ENDIF
-c-------------------------        
+c-------------------------
         IF(JDMP/=LLT)THEN
           DO I=LFT,LLT
            IF(IFV(I)==0) GX(I)=ZERO
           ENDDO
         ENDIF
-        IF(J2DMP/=LLT)THEN 
-          DO I=LFT,LLT            
+        IF(J2DMP/=LLT)THEN
+          DO I=LFT,LLT
            IF(IFUNC3(I)==0) GX2(I)=ZERO
           ENDDO
         ENDIF

@@ -82,8 +82,8 @@ C=======================================================================
         ENDDO
       ENDDO
 C-----------------------------------------------
-      CALL MY_ORDERS( 0,IWORK,IW1,INDEX,K,1)  
-      CALL MY_ORDERS(10,IWORK,IW2,INDEX,K,1)  
+      CALL MY_ORDERS( 0,IWORK,IW1,INDEX,K,1)
+      CALL MY_ORDERS(10,IWORK,IW2,INDEX,K,1)
 C-----------------------------------------------
       IF (KEY(1:4) == 'SURF') THEN
 C-----------------------------------------------
@@ -126,12 +126,12 @@ C-----------------------------------------------
      .          IW2(INDEX(I+1))/=IW2(INDEX(I)))) NSEG=NSEG+1
           ENDDO
           IF(IW1(INDEX(K-1))/=IW1(INDEX(K)).OR.
-     .       IW2(INDEX(K-1))/=IW2(INDEX(K))) NSEG=NSEG+1                    
+     .       IW2(INDEX(K-1))/=IW2(INDEX(K))) NSEG=NSEG+1
 C
         ELSEIF (FLAG == 1) THEN
           IF(IW1(INDEX(1))/=IW1(INDEX(2)).OR.
      .       IW2(INDEX(1))/=IW2(INDEX(2)))THEN
-             NSEG=1                    
+             NSEG=1
              SLIN_NODES(NSEG,1) = IW1(INDEX(1))
              SLIN_NODES(NSEG,2) = IW2(INDEX(1))
              SLIN_ELTYP(NSEG)   = IW5(INDEX(1))
@@ -151,7 +151,7 @@ C
           ENDDO
           IF(IW1(INDEX(K-1))/=IW1(INDEX(K)).OR.
      .       IW2(INDEX(K-1))/=IW2(INDEX(K)))THEN
-            NSEG=NSEG+1                    
+            NSEG=NSEG+1
             SLIN_NODES(NSEG,1) = IW1(INDEX(K))
             SLIN_NODES(NSEG,2) = IW2(INDEX(K))
             SLIN_ELTYP(NSEG)   = IW5(INDEX(K))

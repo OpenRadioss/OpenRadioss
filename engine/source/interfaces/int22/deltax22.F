@@ -45,7 +45,7 @@ C to update VOLN(*)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, IB, NCELL, IPOS, MCELL, NIN , NSecnds, IBV, ICELLv, NumSecnd,ISECND,NBCUT,K
       my_real :: VAR, AREAM, VOLM, VOLsecnds, FACE0, FACE0M, VOLMAST
-      TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMain 
+      TYPE(POLY_ENTITY),DIMENSION(:),    POINTER    :: pIsMain
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------
@@ -85,20 +85,20 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NIN = 1
-      
-      IF(JEUL+JALE/=0)THEN    
+
+      IF(JEUL+JALE/=0)THEN
         DO I=LFT,LLT
-        
+
            IB        =  NINT(IAD22(I))
            IF(IB==0)CYCLE
-           NCELL     =  BRICK_LIST(NIN,IB)%NBCUT      
+           NCELL     =  BRICK_LIST(NIN,IB)%NBCUT
            pIsMain(1:9) => BRICK_LIST(NIN,IB)%POLY(1:9)!%IsMain
            MCELL     =  BRICK_LIST(NIN,IB)%MainID
            IF(MCELL == 0)THEN
              DELTAX(I) = EP30   !don't take into account this time step, nothing is stored here since MCELL=0.
              CYCLE
            ENDIF
-          
+
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
            !           CHARACTERISTIC LENGTH           !
            !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -116,28 +116,28 @@ C-----------------------------------------------
              FACE0M    = MAX(FACE0M,FACE0)
            ENDDO
            AREAM       = MAX(AREAM,FACE0M)
-           
+
            !---meth1:supercell dx with 50% of brick dx (smooth time step)
            !DELTAX(I)   = HALF * DELTAX(I)
-           
+
            !---meth2:supercell dx estimated with main cell dx (minorant)
-           !DELTAX(I)   = VOLM/AREAM  
-            
-           !---meth3:isomorph supercell to equivlent brick(cube) 
+           !DELTAX(I)   = VOLM/AREAM
+
+           !---meth3:isomorph supercell to equivlent brick(cube)
            !DELTAX(I)   = (VOLN(I))**THIRD
-           
-           !---meth4:isomorph main cell only to equivlent brick(cube) 
-           !DELTAX(I)   = VOLM**THIRD  
-                    
+
+           !---meth4:isomorph main cell only to equivlent brick(cube)
+           !DELTAX(I)   = VOLM**THIRD
+
            !---meth5: no specific treatment (FAST but only valid if time step scale factor <= 0.5 in engine file)
            !DELTAX(I)    = DELTAX(I)
-           
+
            !---meth6: use scale factor on solid element to compute target 0.5
            !DELTAX(I)    = DTFAC22*DELTAX(I)
 
            !---meth7: Vol(main)/area_max
-           DELTAX(I)   = VOLMAST/AREAM  
-           
+           DELTAX(I)   = VOLMAST/AREAM
+
         ENDDO
       ENDIF
 

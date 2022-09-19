@@ -27,7 +27,7 @@ Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CUPDTN3PINCH(
-     1                        JFT  ,JLT    ,NVC  ,IXC       , 
+     1                        JFT  ,JLT    ,NVC  ,IXC       ,
      2                        FP   ,FPINCH ,STI  ,STIFPINCH ,FACP )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -78,7 +78,7 @@ C
           FPINCH(3,IXC(2,I))=FPINCH(3,IXC(2,I))-FP(I,3,1)
           STIFPINCH(IXC(2,I))=STIFPINCH(IXC(2,I))+STI(I)*FACP(I)
         ENDDO
-      ENDIF        
+      ENDIF
 C
       IF(NVC2==0)THEN
 #include "vectorize.inc"
@@ -95,7 +95,7 @@ C
           FPINCH(3,IXC(3,I))=FPINCH(3,IXC(3,I))-FP(I,3,2)
           STIFPINCH(IXC(3,I))=STIFPINCH(IXC(3,I))+STI(I)*FACP(I)
         ENDDO
-      ENDIF        
+      ENDIF
 C
       IF(NVC3==0)THEN
 #include "vectorize.inc"
@@ -112,7 +112,7 @@ C
           FPINCH(3,IXC(4,I))=FPINCH(3,IXC(4,I))-FP(I,3,3)
           STIFPINCH(IXC(4,I))=STIFPINCH(IXC(4,I))+STI(I)*FACP(I)
         ENDDO
-      ENDIF        
+      ENDIF
 C
       IF(NVC4==0)THEN
 #include "vectorize.inc"

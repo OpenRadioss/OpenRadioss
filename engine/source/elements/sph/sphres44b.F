@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .    KXSP(NISP,*),IXSP(KVOISPH,*),NOD2SP(*),
      .    IPARG(NPARG,*)
 C     REAL
@@ -66,14 +66,14 @@ C-----------------------------------------------
       DO IG= 1,NEL,MVSIZ
         OFFSET = IG - 1
         LFT=1
-        LLT=MIN(MVSIZ,NEL-OFFSET)  
+        LLT=MIN(MVSIZ,NEL-OFFSET)
         IF(ITY==51)THEN
          DO I=LFT,LLT
           N =I+NFT
           IF(SPBUF(9,N)>ZERO)THEN
            KXSP(1,N) =0
            KXSP(2,N) =NG
-           SPBUF(9,N)=ZERO	   
+           SPBUF(9,N)=ZERO	
           ENDIF
          ENDDO
         ENDIF

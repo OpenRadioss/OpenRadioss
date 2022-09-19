@@ -103,7 +103,7 @@ C Accelerations locales SPMD
         WI(1,2)=THIRD
         WI(2,2)=THIRD
         WI(3,2)=ONE_OVER_6
-        WI(4,2)=ONE_OVER_6	  
+        WI(4,2)=ONE_OVER_6	
         DO I = 1,NEL
           N1 = ELEM(1,I)
           N2 = ELEM(2,I)
@@ -119,4 +119,4 @@ C Accelerations locales SPMD
 C	  
       RETURN
       END
-      
+

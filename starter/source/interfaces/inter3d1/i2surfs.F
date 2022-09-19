@@ -72,7 +72,7 @@ C     REAL
      .   FACE(6)
 C=======================================================================
       ICOQ = 1
-      ISOL = 1 
+      ISOL = 1
       IF (ILEV == 11 .OR. ILEV == 21) ISOL = 0
       IF (ILEV == 12 .OR. ILEV == 22) ICOQ = 0
       DO I=1,NSN
@@ -83,63 +83,63 @@ C=======================================================================
 C--       Cooques 4n
           DO IAD = KNOD2ELC(IS)+1,KNOD2ELC(IS+1)
             IEL  = NOD2ELC(IAD)
-            N1   = IXC(2,IEL)                                            
-            N2   = IXC(3,IEL)                                            
-            N3   = IXC(4,IEL)                                            
-            N4   = IXC(5,IEL)                                            
-            X1  = X(1,N1)                                                
-            Y1  = X(2,N1)                                                
-            Z1  = X(3,N1)                                                
-            X2  = X(1,N2)                                                
-            Y2  = X(2,N2)                                                
-            Z2  = X(3,N2)                                                
-            X3  = X(1,N3)                                                
-            Y3  = X(2,N3)                                                
-            Z3  = X(3,N3)                                                
-            X4  = X(1,N4)                                                
-            Y4  = X(2,N4)                                                
-            Z4  = X(3,N4)                                                
-            X12 = X2 - X1                                                
-            Y12 = Y2 - Y1                                                
-            Z12 = Z2 - Z1                                                
-            X13 = X3 - X1                                                
-            Y13 = Y3 - Y1                                                
-            Z13 = Z3 - Z1                                                
-            X24 = X4 - X2                                                
-            Y24 = Y4 - Y2                                                
-            Z24 = Z4 - Z2                                                
-            EX  = Y13*Z24 - Z13*Y24                                      
-            EY  = Z13*X24 - X13*Z24                                      
-            EZ  = X13*Y24 - Y13*X24                                      
-            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*FOURTH  
-          ENDDO 
+            N1   = IXC(2,IEL)
+            N2   = IXC(3,IEL)
+            N3   = IXC(4,IEL)
+            N4   = IXC(5,IEL)
+            X1  = X(1,N1)
+            Y1  = X(2,N1)
+            Z1  = X(3,N1)
+            X2  = X(1,N2)
+            Y2  = X(2,N2)
+            Z2  = X(3,N2)
+            X3  = X(1,N3)
+            Y3  = X(2,N3)
+            Z3  = X(3,N3)
+            X4  = X(1,N4)
+            Y4  = X(2,N4)
+            Z4  = X(3,N4)
+            X12 = X2 - X1
+            Y12 = Y2 - Y1
+            Z12 = Z2 - Z1
+            X13 = X3 - X1
+            Y13 = Y3 - Y1
+            Z13 = Z3 - Z1
+            X24 = X4 - X2
+            Y24 = Y4 - Y2
+            Z24 = Z4 - Z2
+            EX  = Y13*Z24 - Z13*Y24
+            EY  = Z13*X24 - X13*Z24
+            EZ  = X13*Y24 - Y13*X24
+            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*FOURTH
+          ENDDO
 C--       Cooques 3n
           DO IAD = KNOD2ELTG(IS)+1,KNOD2ELTG(IS+1)
             IEL  = NOD2ELTG(IAD)
-            N1  = IXTG(2,IEL)                                            
-            N2  = IXTG(3,IEL)                                            
-            N3  = IXTG(4,IEL)                                            
-            X1  = X(1,N1)                                                
-            Y1  = X(2,N1)                                                
-            Z1  = X(3,N1)                                                
-            X2  = X(1,N2)                                                
-            Y2  = X(2,N2)                                                
-            Z2  = X(3,N2)                                                
-            X3  = X(1,N3)                                                
-            Y3  = X(2,N3)                                                
-            Z3  = X(3,N3)                                                
-            X13 = X3 - X1                                                
-            Y13 = Y3 - Y1                                                
-            Z13 = Z3 - Z1                                                
-            X12 = X2 - X1                                                
-            Y12 = Y2 - Y1                                                
-            Z12 = Z2 - Z1                                                
-            EX  = Y12*Z13 - Z12*Y13                                      
-            EY  = Z12*X13 - X12*Z13                                      
-            EZ  = X12*Y13 - Y12*X13                                      
-            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*THIRD     
+            N1  = IXTG(2,IEL)
+            N2  = IXTG(3,IEL)
+            N3  = IXTG(4,IEL)
+            X1  = X(1,N1)
+            Y1  = X(2,N1)
+            Z1  = X(3,N1)
+            X2  = X(1,N2)
+            Y2  = X(2,N2)
+            Z2  = X(3,N2)
+            X3  = X(1,N3)
+            Y3  = X(2,N3)
+            Z3  = X(3,N3)
+            X13 = X3 - X1
+            Y13 = Y3 - Y1
+            Z13 = Z3 - Z1
+            X12 = X2 - X1
+            Y12 = Y2 - Y1
+            Z12 = Z2 - Z1
+            EX  = Y12*Z13 - Z12*Y13
+            EY  = Z12*X13 - X12*Z13
+            EZ  = X12*Y13 - Y12*X13
+            AREA(I) = AREA(I) + SQRT(EX*EX+EY*EY+EZ*EZ)*HALF*THIRD
           ENDDO
-        ENDIF 
+        ENDIF
         IF (ISOL == 1) THEN
 C--       Solides 8n
           DO IAD = KNOD2ELS(IS)+1,KNOD2ELS(IS+1)
@@ -178,19 +178,19 @@ C--       Solides 8n
             Z8=X(3,N8)
 C----
 c           face 1234
-            XX1(1)=X1                    
-            XX2(1)=Y1                    
-            XX3(1)=Z1                    
-            XX1(2)=X2                    
-            XX2(2)=Y2                    
-            XX3(2)=Z2                    
-            XX1(3)=X3                    
-            XX2(3)=Y3                    
-            XX3(3)=Z3                    
-            XX1(4)=X4                    
-            XX2(4)=Y4                    
-            XX3(4)=Z4                    
-            CALL NORMA1(I1,I2,I3,FACE(1))  
+            XX1(1)=X1
+            XX2(1)=Y1
+            XX3(1)=Z1
+            XX1(2)=X2
+            XX2(2)=Y2
+            XX3(2)=Z2
+            XX1(3)=X3
+            XX2(3)=Y3
+            XX3(3)=Z3
+            XX1(4)=X4
+            XX2(4)=Y4
+            XX3(4)=Z4
+            CALL NORMA1(I1,I2,I3,FACE(1))
 c           face 5678
             XX1(1)=X5
             XX2(1)=Y5
@@ -300,4 +300,4 @@ C----
       ENDDO
 C----------
       RETURN
-      END SUBROUTINE I2SURFS 
+      END SUBROUTINE I2SURFS

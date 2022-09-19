@@ -103,20 +103,20 @@ c
           CALL HM_GET_INTV('entityid'                ,GRNOD_ID ,IS_AVAILABLE,LSUBMODEL)
           IGS = NGR2USRN(GRNOD_ID,IGRNOD,NGRNOD,NNOD)
           IF (IGS > 0) THEN
-            NIMPVEL = NIMPVEL + NNOD                                         
+            NIMPVEL = NIMPVEL + NNOD
             IF (KEY(1:6) == 'LAGMUL') NFVLAG = NFVLAG + NNOD
           END IF
         ENDIF
 c
       ENDDO ! DO I=1,NFVEL
-c--------------------------      
-c     /IMPVEL/FGEO    
-c--------------------------         
+c--------------------------
+c     /IMPVEL/FGEO
+c--------------------------
       CALL HM_OPTION_COUNT('/IMPVEL/FGEO',NFGEO)
 c
       CALL HM_OPTION_START('/IMPVEL/FGEO')
 c
-      
+
       DO I=1,NFGEO
 c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

@@ -40,7 +40,7 @@ Chd|====================================================================
      3           OFF    ,FORX   ,FORY    ,FORZ   ,E       ,
      4           DX     ,DY     ,DZ      ,RX     ,RY      ,
      5           RZ     ,XMOM   ,YMOM    ,ZMOM   ,UVAR    ,
-     6           STIFN  ,STIFR  ,IXR     ,TANI   ,RBY     , 
+     6           STIFN  ,STIFR  ,IXR     ,TANI   ,RBY     ,
      7           X      ,VX     ,VR      ,STI    ,STIR    ,
      8           MS     ,IN     ,PARTSAV ,DT1    ,DT2T    ,
      9           F      ,AR     ,FX1     ,FX2    ,FY1     ,
@@ -71,8 +71,8 @@ C----------------------------------------------------------
      .        NELTST,ITYPTST,IGTYP,LSENSOR(NSENSI,*),NC1(*),NC2(*)
       my_real
      .   DT1, DT2T, UVAR(NUVAR,*),STIFN(*),STIFR(*), OFF(*), E(*),
-     .   X(*), VX(*), VR(*),DX(*),DY(*),DZ(*), RX(*),RY(*),RZ(*), 
-     .   F(*) , FORX(*), FORY(*), FORZ(*), 
+     .   X(*), VX(*), VR(*),DX(*),DY(*),DZ(*), RX(*),RY(*),RZ(*),
+     .   F(*) , FORX(*), FORY(*), FORZ(*),
      .   AR(*), XMOM(*), YMOM(*), ZMOM(*),
      .   FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
      .   FX2(MVSIZ),FY2(MVSIZ),FZ2(MVSIZ),
@@ -98,7 +98,7 @@ C
      .             ROT1   ,ROT2    ,DX     ,DY     ,DZ   ,
      .             RX     ,RY      ,RZ     ,VR     ,IGTYP,
      .             SENSOR ,LSENSOR ,ISENS  ,NC1    ,NC2  ,
-     .             XDP)         
+     .             XDP)
 C
       CALL RUSER33(NEL   ,IOUT   ,IPROP  ,NUVAR   ,UVAR  ,
      .             FORX  ,FORY   ,FORZ   ,XMOM    ,YMOM  ,

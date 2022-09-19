@@ -135,7 +135,7 @@ C-----------------------------------------------
           IFR =ISPCOND(3,I)
           ICSP=ISPCOND(2,I)
           ISLIDE=ISPCOND(5,I)
-        
+
           UX=XFRAME(3*(ICSP-1)+1,IFR)
           UY=XFRAME(3*(ICSP-1)+2,IFR)
           UZ=XFRAME(3*(ICSP-1)+3,IFR)

@@ -58,10 +58,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE ELBUFTAG_MOD            
+      USE MATPARAM_DEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER ,INTENT(IN)   :: MAT_ID,MAXUPARAM
       CHARACTER*nchartitle,INTENT(IN)::TITR
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
-      TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
+      TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL((NSUBMOD))
       TYPE(MLAW_TAG_)        ,INTENT(OUT)   :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
@@ -103,7 +103,7 @@ c=======================================================================
 
       CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho',RHOR  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_EA'   ,E11   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_EB'   ,E22   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_PRAB' ,N12   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -115,7 +115,7 @@ c=======================================================================
       CALL HM_GET_FLOATV('MAT_REDFACT'   ,RCOMP      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('M58_Zerostress',ZEROSTRESS ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_POROS'     ,POROSITY   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV  ('ISENSOR'       ,ISENS      ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV  ('ISENSOR'       ,ISENS      ,IS_AVAILABLE,LSUBMODEL)
 C-----------------------------------------------------
 c
       ISRATE = -1
@@ -164,7 +164,7 @@ C-----------------------------------------
       PM(17) = AMU
       PM(20) = MAX(E11,E22)/DETC
       PM(21) = SQRT(N12*N21)
-      PM(22) = MAX(G12,G23,G31)    
+      PM(22) = MAX(G12,G23,G31)
       PM(24) = PM(20)
       PM(25) = PM(21)*PM(24)
       PM(26) = FIVE_OVER_6
@@ -187,7 +187,7 @@ c
       ELSE
         PM(54) = ZERO
       ENDIF
-      PM(56) = POROSITY 
+      PM(56) = POROSITY
 c-----------------------------------------
       UPARAM(1)  = E11
       UPARAM(2)  = E22
@@ -198,8 +198,8 @@ c-----------------------------------------
       UPARAM(7)  = G31
       UPARAM(8)  = RCOMP
       UPARAM(9)  = SSP
-      UPARAM(10) = A11                         
-      UPARAM(11) = A22                         
+      UPARAM(10) = A11
+      UPARAM(11) = A22
       UPARAM(12) = A12
       UPARAM(13) = ISENS
       UPARAM(14) = ZEROSTRESS
@@ -207,7 +207,7 @@ c-----------------------------------------
 c
       NUPARAM = 15
       NUVAR   = 0
-c                
+c
 c --------------------------
       PARMAT(1)  = C1
       PARMAT(2)  = MAX(E11,E22)/DETC
@@ -239,7 +239,7 @@ C----------------------------------------
      &(5X,'ORTHOTROPIC MATERIAL FOR SHELLS (LAW19)     ',/,
      & 5X,'--------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . .  .  . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . .  .  . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG MODULUS E11 (TENSION) . . . . . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS E22 (TENSION) . . . . . . . . . . .=',1PG20.13/

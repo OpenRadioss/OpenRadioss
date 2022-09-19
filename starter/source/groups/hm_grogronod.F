@@ -34,7 +34,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_GROGRONOD(IGRNOD  ,ICOUNT  ,FLAG    ,ITER  ,ELKEY,   
+      SUBROUTINE HM_GROGRONOD(IGRNOD  ,ICOUNT  ,FLAG    ,ITER  ,ELKEY,
      .                        LSUBMODEL)
 !---
 !   group des group des elements + parts
@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER J10(10),BUFTMP(NUMNOD*2)
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ENTITY
       CHARACTER TITR*nchartitle,KEY*ncharkey,ELKEY*4,KEY2*ncharkey
-      LOGICAL IS_AVAILABLE   
+      LOGICAL IS_AVAILABLE
       INTERFACE
        SUBROUTINE GROUPS_GET_ELEM_LIST(arg1,arg2,arg3)
         USE SUBMODEL_MOD
@@ -84,37 +84,37 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE 
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       IF (FLAG == 0) ICOUNT=0
       IGS =0
       CALL HM_OPTION_START('/GRNOD')
 C     boucle sur les groupes
-      DO I=1,NGRNOD     
+      DO I=1,NGRNOD
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = ID,
      .                          OPTION_TITR = TITR  ,
      .                          UNIT_ID     = UID,
      .                          KEYWORD2    = KEY   ,
      .                          KEYWORD3    = KEY2 )
-                                                               
+
         IGS=IGS+1
         IF (IGRNOD(IGS)%GRPGRP == 2) THEN
-          BUFTMP = 0 
-          NEL=0                                                                    
+          BUFTMP = 0
+          NEL=0
           NN = 0
           NONTRI = IGRNOD(IGS)%SORTED
 C-----------                                             
           IF (FLAG == 0 .AND. IGRNOD(IGS)%NENTITY == -1) THEN
-c          
-            SKIPFLAG = 0  
-            IF (SKIPFLAG == 0) THEN  
+c
+            SKIPFLAG = 0
+            IF (SKIPFLAG == 0) THEN
               CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
               DO KK = 1,NENTITY
-                JJ = LIST_ENTITY(KK)   
-                IF (JJ /= 0) THEN 
+                JJ = LIST_ENTITY(KK)
+                IF (JJ /= 0) THEN
                   IGRS=0
                   DO K=1,NGRNOD
                     IF (IABS(JJ) == IGRNOD(K)%ID) THEN
@@ -157,76 +157,76 @@ c                         non sorted group
                   ENDIF ! IF (IGRS == 0)
                 ENDIF ! IF (J10(J) /= 0)
               ENDDO ! DO J=1,10
-              IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)   
+              IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
             ENDIF ! IF (SKIPFLAG == 0)
 C-----
-            IF (SKIPFLAG == 0) THEN               
-              IF (NONTRI == 0 ) THEN              
+            IF (SKIPFLAG == 0) THEN
+              IF (NONTRI == 0 ) THEN
 C                  sorted group                     
-                DO J=1,NUMNOD                      
-                  IF (BUFTMP(J) > 0) NEL=NEL+1    
-                ENDDO                             
-              ENDIF                               
+                DO J=1,NUMNOD
+                  IF (BUFTMP(J) > 0) NEL=NEL+1
+                ENDDO
+              ENDIF
 C
               IGRNOD(IGS)%NENTITY = NEL
               MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NEL)
               IGRNOD(IGS)%ENTITY = 0
             ENDIF ! IF (SKIPFLAG == 0)
 C-----------                                             
-          ELSEIF (FLAG == 1 .AND. IGRNOD(IGS)%LEVEL == 0 .AND. 
+          ELSEIF (FLAG == 1 .AND. IGRNOD(IGS)%LEVEL == 0 .AND.
      .                            IGRNOD(IGS)%NENTITY > -1) THEN
 c
             CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
             DO KK=1,NENTITY
               JJ = LIST_ENTITY(KK)
               IF (JJ /= 0) THEN
-                IGRS=0                                                           
-                DO K=1,NGRNOD                                                   
+                IGRS=0
+                DO K=1,NGRNOD
                   IF (IABS(JJ) == IGRNOD(K)%ID) THEN
-                    IGRS=K                                                      
-                    EXIT                                                        
-                  ENDIF                                                         
-                ENDDO                                                           
+                    IGRS=K
+                    EXIT
+                  ENDIF
+                ENDDO
                 IF (IGRS == 0) THEN
                 ELSEIF (IGRNOD(IGRS)%NENTITY == -1) THEN
-                  CYCLE                                            
-                ELSE                                                 
-                  IF (NONTRI == 0) THEN                                                       
+                  CYCLE
+                ELSE
+                  IF (NONTRI == 0) THEN
 C                       tag les noeuds                                                            
                     DO L=1,IGRNOD(IGRS)%NENTITY
-                      IF (JJ < 0) THEN                                                    
+                      IF (JJ < 0) THEN
 C                           retire les noeuds du group si j10 < 0                                 
                         BUFTMP(IGRNOD(IGRS)%ENTITY(L))=-1
                       ELSEIF (BUFTMP(IGRNOD(IGRS)%ENTITY(L)) == 0) THEN
 C                           ajoute les noeuds au group si j10 > 0 et noeud non retire            
                         BUFTMP(IGRNOD(IGRS)%ENTITY(L))=1
-                      ENDIF                                                                   
-                    ENDDO                                                                     
-                  ELSE                                                                        
+                      ENDIF
+                    ENDDO
+                  ELSE
                     DO L=1,IGRNOD(IGRS)%NENTITY
                       NN = NN + 1
                       IGRNOD(IGS)%ENTITY(NN) = IGRNOD(IGRS)%ENTITY(L)
-                    ENDDO                                                                     
-                  ENDIF ! IF (NONTRI == 0)                                                                     
+                    ENDDO
+                  ENDIF ! IF (NONTRI == 0)
                 ENDIF ! IF (IGRS == 0)
               ENDIF ! IF (J10(J) /= 0)
-            ENDDO ! DO J=1,10       
-            IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)   
+            ENDDO ! DO J=1,10
+            IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
 C-----                                                                          
-            IF (NONTRI == 0) THEN                    
-c               sorted group                                                                
-              DO J=1,NUMNOD                                                       
-                IF (BUFTMP(J) > 0) THEN                                            
+            IF (NONTRI == 0) THEN
+c               sorted group
+              DO J=1,NUMNOD
+                IF (BUFTMP(J) > 0) THEN
                   NN = NN + 1
                   IGRNOD(IGS)%ENTITY(NN)=J
-                ENDIF                                                             
-              ENDDO                                                              
-            ENDIF ! IF (NONTRI == 0)   
+                ENDIF
+              ENDDO
+            ENDIF ! IF (NONTRI == 0)
             IGRNOD(IGS)%LEVEL = 1
 C-----------  end_ flag = 1                                           
           ENDIF ! IF (FLAG == 0 .AND. IGRNOD(IGS)%NENTITY == -1)
         ENDIF ! IF (IGRNOD(IGS)%GRPGRP == 2)
-      ENDDO ! DO I=1,NLINE(KCUR)                                                    
+      ENDDO ! DO I=1,NLINE(KCUR)
 C-----------
       RETURN
  900  CALL ANCMSG(MSGID=176,

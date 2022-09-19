@@ -51,7 +51,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE R2R_MOD
       USE MESSAGE_MOD
-      USE INTBUF_FRIC_MOD        
+      USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE UNITAB_MOD
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IFLAG ,NPFRICORTH
       INTEGER IPART(LIPART1,*) ,PFRICORTH(*),IREPFORTH(*),TAGPRT_FRIC(*),
      .        ISKN(LISKN,*) !,IDFRICORIENT(*)
@@ -100,11 +100,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIF ,NIN ,ISK ,IERRR ,IREP ,NOINTFORTH ,IDSK ,
      .      FLAGP ,FLAGGRP ,GRPART ,IDPART ,N ,KK ,IDTGRS ,IPL ,J ,IP ,
-     .      IPG ,SUB_ID ,NINPUT ,NL 
-      my_real AN ,VX ,VY ,VZ ,PHI 
+     .      IPG ,SUB_ID ,NINPUT ,NL
+      my_real AN ,VX ,VY ,VZ ,PHI
       CHARACTER*nchartitle,
-     .   TITR 
-      LOGICAL IS_AVAILABLE        
+     .   TITR
+      LOGICAL IS_AVAILABLE
 C
 C=======================================================================
 C READING /FRIC_ORIENT
@@ -117,7 +117,7 @@ C--------------------------------------------------
 
       IF(IFLAG==1)    WRITE(IOUT,1000)
 
-      NPFRICORTH = 0 
+      NPFRICORTH = 0
 
 C--------------------------------------------------
 C START BROWSING FRICTION ORIENTATIONS
@@ -136,7 +136,7 @@ C--------------------------------------------------
      .                       SUBMODEL_ID = SUB_ID,
      .                       OPTION_TITR = TITR)
 
-c          KFRICORIENT = KFRICORIENT + 1          
+c          KFRICORIENT = KFRICORIENT + 1
 
 C--Output ---
 
@@ -171,11 +171,11 @@ C
 C----CHECK PARTS 
 C 
           FLAGP = 0
-          FLAGGRP = 0  
+          FLAGGRP = 0
           IF(IDPART/=0)THEN
              DO N=1,NPART
                 IF(IDPART == IPART(4,N))THEN
-                   FLAGP = 1 
+                   FLAGP = 1
                    IP = N
                    EXIT
                 ENDIF
@@ -249,35 +249,35 @@ C   Vect orhotrope
      .                    I1=NOINTFORTH,
      .                    C2='FRICTION ORIENTATION PART',
      .                    C3=TITR,
-     .                    I2=IDSK) 
+     .                    I2=IDSK)
               ENDIF
           ENDIF
 
 C
 C COUNTING AND STORAGE IN TEMPARY TABLES
 C
-            
+
           IF(FLAGP > 0) THEN
              IPG = TAGPRT_FRIC(IP)
              IF(IPG > 0) THEN
                 DO NIF =1,NINTERFRIC
                    CALL FRICTION_PARTS_SEARCH (
      .                  IPG,INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC,
-     .                  INTBUF_FRIC_TAB(NIF)%TABPARTS_FRIC,IPL ) 
+     .                  INTBUF_FRIC_TAB(NIF)%TABPARTS_FRIC,IPL )
                    IF(IPL >0) THEN
-                      NPFRICORTH = NPFRICORTH + 1 
+                      NPFRICORTH = NPFRICORTH + 1
                       IF(IFLAG ==1 ) THEN
                          PFRICORTH(IP) = NPFRICORTH
                          PHIFORTH(NPFRICORTH) = PHI
-                         IREPFORTH(NPFRICORTH) = IREP          
+                         IREPFORTH(NPFRICORTH) = IREP
                          IF(ISK == 0) THEN
-                            VFORTH(1,NPFRICORTH) = VX  
-                            VFORTH(2,NPFRICORTH) = VY                   
-                            VFORTH(3,NPFRICORTH) = VZ     
-                         ELSE    
-                            VFORTH(1,NPFRICORTH) = SKEW(1,ISK)  
-                            VFORTH(2,NPFRICORTH) = SKEW(2,ISK)                   
-                            VFORTH(3,NPFRICORTH) = SKEW(3,ISK)                                                         
+                            VFORTH(1,NPFRICORTH) = VX
+                            VFORTH(2,NPFRICORTH) = VY
+                            VFORTH(3,NPFRICORTH) = VZ
+                         ELSE
+                            VFORTH(1,NPFRICORTH) = SKEW(1,ISK)
+                            VFORTH(2,NPFRICORTH) = SKEW(2,ISK)
+                            VFORTH(3,NPFRICORTH) = SKEW(3,ISK)
                          ENDIF
                       ENDIF
                    ENDIF
@@ -292,7 +292,7 @@ C
                   WRITE(IOUT,1504) IREP,IDSK
                 ENDIF
              ENDIF
-          ENDIF  
+          ENDIF
 
           IF(FLAGGRP > 0) THEN
              DO J=1,IGRPART(IDTGRS)%NENTITY
@@ -302,21 +302,21 @@ C
                    DO NIF =1,NINTERFRIC
                       CALL FRICTION_PARTS_SEARCH (
      .                     IPG,INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC,
-     .                     INTBUF_FRIC_TAB(NIF)%TABPARTS_FRIC,IPL ) 
+     .                     INTBUF_FRIC_TAB(NIF)%TABPARTS_FRIC,IPL )
                       IF(IPL > 0) THEN
                          NPFRICORTH = NPFRICORTH + 1
                          IF(IFLAG ==1 ) THEN
                              PFRICORTH(IP) = NPFRICORTH
-                             PHIFORTH(NPFRICORTH) = PHI  
-                             IREPFORTH(NPFRICORTH) = IREP      
+                             PHIFORTH(NPFRICORTH) = PHI
+                             IREPFORTH(NPFRICORTH) = IREP
                              IF(ISK == 0) THEN
-                               VFORTH(1,NPFRICORTH) = VX  
-                               VFORTH(2,NPFRICORTH) = VY                   
-                               VFORTH(3,NPFRICORTH) = VZ     
-                             ELSE    
-                               VFORTH(1,NPFRICORTH) = SKEW(1,ISK)  
-                               VFORTH(2,NPFRICORTH) = SKEW(2,ISK)                   
-                               VFORTH(3,NPFRICORTH) = SKEW(3,ISK)                                                         
+                               VFORTH(1,NPFRICORTH) = VX
+                               VFORTH(2,NPFRICORTH) = VY
+                               VFORTH(3,NPFRICORTH) = VZ
+                             ELSE
+                               VFORTH(1,NPFRICORTH) = SKEW(1,ISK)
+                               VFORTH(2,NPFRICORTH) = SKEW(2,ISK)
+                               VFORTH(3,NPFRICORTH) = SKEW(3,ISK)
                              ENDIF
                          ENDIF
                       ENDIF
@@ -331,7 +331,7 @@ C
                    WRITE(IOUT,1504) IREP,IDSK
                ENDIF
              ENDIF
-          ENDIF 
+          ENDIF
 C
 
         ENDDO  ! N=1,NLINE

@@ -89,7 +89,7 @@ C
        ALLOCATE( ID_X2_TAGN(NUMNOD) )
        ID_X2_TAGN = 0
 !
-!    SWIFTSURF ---> tag for each container surface, continuously the total nb of 
+!    SWIFTSURF ---> tag for each container surface, continuously the total nb of
 !                   segments. This is used by "SEGTOSURF" to identify for each counted
 !                   surface segment whom surface belongs
 !
@@ -225,7 +225,7 @@ C---
         ZP2 = BUFSF(IAD0+6)
         AA = XP2 - XP1
         BB = YP2 - YP1
-        CC = ZP2 - ZP1        
+        CC = ZP2 - ZP1
         DO N=1,NUMNOD
           IF (ITAGNSOL(N) /= 1) CYCLE
           DIST = ZERO
@@ -234,7 +234,7 @@ C---
           SUM = ONE/MAX(EM30,SUM)
           DIST = DIST*SUM
           DIS(IVOLSURF(IDSURF),N) = DIST
-        ENDDO 
+        ENDDO
 C---
 C---
  951    CONTINUE
@@ -256,11 +256,11 @@ C---
         SKW(6)=BUFSF(IAD0+12)
         SKW(7)=BUFSF(IAD0+13)
         SKW(8)=BUFSF(IAD0+14)
-        SKW(9)=BUFSF(IAD0+15)                                                                              
-        DGR=BUFSF(IAD0+36)  
-        !XG = SKW(1)*XG + SKW(4)*YG + SKW(7)*ZG 
+        SKW(9)=BUFSF(IAD0+15)
+        DGR=BUFSF(IAD0+36)
+        !XG = SKW(1)*XG + SKW(4)*YG + SKW(7)*ZG
         !YG = SKW(2)*XG + SKW(5)*YG + SKW(8)*ZG
-        !ZG = SKW(3)*XG + SKW(6)*YG + SKW(9)*ZG     
+        !ZG = SKW(3)*XG + SKW(6)*YG + SKW(9)*ZG
         DO N=1,NUMNOD
           IF (ITAGNSOL(N) /= 1) CYCLE
           DIST=ZERO
@@ -270,7 +270,7 @@ C---
           Z_PRIME = SKW(3)*(X(1,N)-XG) + SKW(6)*(X(2,N)-YG) + SKW(9)*(X(3,N)-ZG)
           TMP(1)= ABS(X_PRIME)/AA
           TMP(2)= ABS(Y_PRIME)/BB
-          TMP(3)= ABS(Z_PRIME)/CC          
+          TMP(3)= ABS(Z_PRIME)/CC
           !X_PRIME = SKW(1)*X(1,N) + SKW(4)*X(2,N) + SKW(7)*X(3,N)
           !Y_PRIME = SKW(2)*X(1,N) + SKW(5)*X(2,N) + SKW(8)*X(3,N)
           !Z_PRIME = SKW(3)*X(1,N) + SKW(6)*X(2,N) + SKW(9)*X(3,N)
@@ -280,7 +280,7 @@ C---
           IF(TMP(1)/=ZERO)TMP(1)= EXP(DGR*LOG(TMP(1)))
           IF(TMP(2)/=ZERO)TMP(2)= EXP(DGR*LOG(TMP(2)))
           IF(TMP(3)/=ZERO)TMP(3)= EXP(DGR*LOG(TMP(3)))
-          DIST = (TMP(1)+TMP(2)+TMP(3))          
+          DIST = (TMP(1)+TMP(2)+TMP(3))
           DIS(IVOLSURF(IDSURF),N) = ONE-DIST
         ENDDO
 C---

@@ -87,9 +87,9 @@ C-----------------------------------------------
       INTEGER          :: IADF,IADL,ISENS,N1,NVERTEX,INOd,II, NIN
       my_real          :: TS,AA,FCX,FCY,VV,A0, SENSOR(NSENSR,*),DYDX,GAMA,TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
-      my_real,EXTERNAL :: FINTER  
+      my_real,EXTERNAL :: FINTER
       LOGICAL          :: debug_outp
-      INTEGER          :: idbf,idbl , MCELL   
+      INTEGER          :: idbf,idbl , MCELL
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
@@ -103,7 +103,7 @@ C-----------------------------------------------
 
       !-------------------------------------------------------------!
       ! GRAVITY COMPUTED FOR CELL CENTROIDS                         !
-      !-------------------------------------------------------------!      
+      !-------------------------------------------------------------!
       DO I=LFT,LLT
         IB            = NINT(IAD22(I))
         IF(IB<=0)CYCLE
@@ -113,7 +113,7 @@ C-----------------------------------------------
         FCELL(1:3,II) = ZERO
         !loop on main cell vertexes
         MCELL         = BRICK_LIST(NIN,IB)%MainID
-        MNOD          = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD 
+        MNOD          = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
         DO K=1,MNOD
           J           = BRICK_LIST(NIN,IB)%POLY(MCELL)%ListNodID(K)
           INOD        = IXS(1+J,I+NFT)
@@ -121,26 +121,26 @@ C-----------------------------------------------
           NVERTEX     = NVERTEX + 1
           ACCEL(1,I)  = ACCEL(1,I) + VERTEX(1,INOD)
           ACCEL(2,I)  = ACCEL(2,I) + VERTEX(2,INOD)
-          ACCEL(3,I)  = ACCEL(3,I) + VERTEX(3,INOD) 
-        ENDDO        
+          ACCEL(3,I)  = ACCEL(3,I) + VERTEX(3,INOD)
+        ENDDO
         IF(NVERTEX>0)THEN
           ACCEL(1,I) = ACCEL(1,I) / NVERTEX
           ACCEL(2,I) = ACCEL(2,I) / NVERTEX
-          ACCEL(3,I) = ACCEL(3,I) / NVERTEX 
-        ENDIF                   
+          ACCEL(3,I) = ACCEL(3,I) / NVERTEX
+        ENDIF
       ENDDO!next I
-      
+
       DO I=LFT,LLT
         M_CELL(I)   = RHO(I)*VOLN(I) !Check if VOLN is the supercell volume. Should be unchaged since december 2015
       ENDDO!next I
 
       DO I=LFT,LLT
         IB          = NINT(IAD22(I))
-        IF(IB<=0)CYCLE      
+        IF(IB<=0)CYCLE
         II          = I + NFT
         FCELL(1,II) = FCELL(1,II) + M_CELL(I) * ACCEL(1,I)
         FCELL(2,II) = FCELL(2,II) + M_CELL(I) * ACCEL(2,I)
-        FCELL(3,II) = FCELL(3,II) + M_CELL(I) * ACCEL(3,I)                
+        FCELL(3,II) = FCELL(3,II) + M_CELL(I) * ACCEL(3,I)
       ENDDO!next I
 
         !DEBUG-OUTPUT---------------!
@@ -159,44 +159,44 @@ C-----------------------------------------------
           elseif(IALEFVM_OUTP_GRAV==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
-                idbl   = llt          
+                idbl   = llt
           endif
-!#!include "lockon.inc"  
-          if(debug_outp)then     
-!#!include "lockon.inc"       
+!#!include "lockon.inc"
+          if(debug_outp)then
+!#!include "lockon.inc"
           print *, "    |----alefvm_gravity.F----|"
           print *, "    |   THREAD INFORMATION   |"
-          print *, "    |------------------------|" 
+          print *, "    |------------------------|"
           print *, "     NCYCLE =", NCYCLE
           do i=idbf,idbl
             ii = nft + i
             IB = NINT(IAD22(I))
-            IF(IB<=0)CYCLE            
+            IF(IB<=0)CYCLE
             print *,                    "      brique=", ixs(11,nft+i)
-            write(*,FMT='(A24,1A26)')   "                        ",             
-     .                                  "#--------- cell----------#"          
+            write(*,FMT='(A24,1A26)')   "                        ",
+     .                                  "#--------- cell----------#"
             write (*,FMT='(A,1E26.14)') "            Rho  =", RHO(I)
             write (*,FMT='(A,1E26.14)') "            Vol  =", VOLN(I)
             write (*,FMT='(A,1E26.14)') "           Mass  =", M_CELL(I)
-            write (*,FMT='(A,1E26.14)') "        Accel-X  =", ACCEL(1,I)           
-            write (*,FMT='(A,1E26.14)') "        Accel-Y  =", ACCEL(2,I)          
-            write (*,FMT='(A,1E26.14)') "        Accel-Z  =", ACCEL(3,I) 
-            write(*,FMT='(A24,8A26)')   "                        ",    
+            write (*,FMT='(A,1E26.14)') "        Accel-X  =", ACCEL(1,I)
+            write (*,FMT='(A,1E26.14)') "        Accel-Y  =", ACCEL(2,I)
+            write (*,FMT='(A,1E26.14)') "        Accel-Z  =", ACCEL(3,I)
+            write(*,FMT='(A24,8A26)')   "                        ",
      .                                  "#--------- nod_1 ---------","#--------- nod_2 ---------",
      .                                  "#--------- nod_3 ---------","#--------- nod_4 ---------",
      .                                  "#--------- nod_5 ---------","#--------- nod_6 ---------",
-     .                                  "#--------- nod_7 ---------","#--------- nod_8 --------#"     
-            write (*,FMT='(A,8E26.14)') "           acc-X =", VERTEX(1,IXS(2:9,I))          
+     .                                  "#--------- nod_7 ---------","#--------- nod_8 --------#"
+            write (*,FMT='(A,8E26.14)') "           acc-X =", VERTEX(1,IXS(2:9,I))
             write (*,FMT='(A,8E26.14)') "           acc-Y =", VERTEX(2,IXS(2:9,I))
-            write (*,FMT='(A,8E26.14)') "           acc-Z =", VERTEX(3,IXS(2:9,I))                       
-            print *, "      "          
+            write (*,FMT='(A,8E26.14)') "           acc-Z =", VERTEX(3,IXS(2:9,I))
+            print *, "      "
           enddo
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
         endif
         endif
       !-----------------------------------------!
 
- 
+
 
       RETURN
       END

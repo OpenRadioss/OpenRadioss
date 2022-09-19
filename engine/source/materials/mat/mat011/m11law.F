@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,15 +82,15 @@ C-----------------------------------------------
      .   ISFUN, INOD, IVxFUN, IVyFUN, IVzFUN, IALEFVM_FLG
       my_real
      .   GAM(MVSIZ), P0(MVSIZ)   , VCRT(MVSIZ), GAM1(MVSIZ), P(MVSIZ),
-     .   VEL(MVSIZ), GAMRP(MVSIZ), RHOV(MVSIZ), PV(MVSIZ)  , EIV(MVSIZ), 
-     .   REV(MVSIZ), RKV(MVSIZ)  , TV(MVSIZ)  , EXPT(MVSIZ), 
+     .   VEL(MVSIZ), GAMRP(MVSIZ), RHOV(MVSIZ), PV(MVSIZ)  , EIV(MVSIZ),
+     .   REV(MVSIZ), RKV(MVSIZ)  , TV(MVSIZ)  , EXPT(MVSIZ),
      .   VxV(MVSIZ), VyV(MVSIZ)  , VzV(MVSIZ) ,
      .   FAC, CART, E0, XE0, RHOF, PF, EF,  T0,
      .   XK0, PSH, RHON, PN, EN, GV, RSR, RV, C1, DC, ALP, DU, DP,
      .   RHOC,RHOC2,DYDX, VxN(MVSIZ), VyN(MVSIZ), VzN(MVSIZ),
      .   Vx0(MVSIZ), Vy0(MVSIZ), Vz0(MVSIZ),
      .   XmomV(MVSIZ), YmomV(MVSIZ), ZmomV(MVSIZ) ,
-     .   XmomN,YmomN,ZmomN   
+     .   XmomN,YmomN,ZmomN
       my_real
      .   DVP(MVSIZ), VN(MVSIZ),VIMP (MVSIZ),SSP,TSCAL,
      .   RHO0_1, GAM_1, P0_1, VCRT_1, GAMRP_1, GAM1_1, Vx_1, Vy_1, Vz_1, MASS
@@ -99,7 +99,7 @@ C=======================================================================
 
       !-----------------------------------!
       !  READING USER INPUTS              !
-      !-----------------------------------!      
+      !-----------------------------------!
       MX          = MAT(LFT)
       RHO0_1      = PM( 1,MX)
       GAM_1       = PM(25,MX)
@@ -107,10 +107,10 @@ C=======================================================================
       VCRT_1      = PM(27,MX)
       GAMRP_1     = PM(28,MX)
       GAM1_1      = PM(29,MX)
-      Vx_1        = PM(101,MX)     
+      Vx_1        = PM(101,MX)
       Vy_1        = PM(102,MX)
-      Vz_1        = PM(103,MX) 
-      IALEFVM_FLG = IPM(251,MX)    
+      Vz_1        = PM(103,MX)
+      IALEFVM_FLG = IPM(251,MX)
       ITYP        = PM(50,MX)
       E0          = PM(23,MX)
       XE0         = PM(33,MX)
@@ -125,16 +125,16 @@ C=======================================================================
       ISFUN       = IPM(16,MX)
       IVxFUN      = IPM(18,MX)
       IVyFUN      = IPM(19,MX)
-      IVzFUN      = IPM(20,MX)            
+      IVzFUN      = IPM(20,MX)
       TSCAL       = PM(40,MX)*TT
       INOD        = NINT(PM(51,MX))
       T0          = PM(79,MX)
       XK0         = PM(87,MX)
-      PSH         = PM(88,MX)       
-      
+      PSH         = PM(88,MX)
+
       !-----------------------------------!
       !  ELEM INIT. FROM USER INPUTS      !
-      !-----------------------------------!       
+      !-----------------------------------!
       DO I=LFT,LLT
         RHO0(I)   = RHO0_1
         GAM(I)    = GAM_1
@@ -144,7 +144,7 @@ C=======================================================================
         GAM1(I)   = GAM1_1
         Vx0(I)    = Vx_1
         Vy0(I)    = Vy_1
-        Vz0(I)    = Vz_1     
+        Vz0(I)    = Vz_1
         TV(I) = ZERO
       ENDDO
 
@@ -154,41 +154,41 @@ C=======================================================================
       ENDDO
 
       IF(IALEFVM==1)THEN
-        IF(ITYP /= 3)THEN        
+        IF(ITYP /= 3)THEN
           DO I=LFT,LLT
             IF(IVxFUN>0)THEN
               VxN(I) = Vx0(I)*FINTER(IVxFUN,TSCAL,NPF,TF,DYDX)
             ELSE
               VxN(I) = Vx0(I)
-            ENDIF      
+            ENDIF
             IF(IVyFUN>0)THEN
               VyN(I) = Vy0(I)*FINTER(IVyFUN,TSCAL,NPF,TF,DYDX)
             ELSE
-              VyN(I) = Vy0(I)          
-            ENDIF    
+              VyN(I) = Vy0(I)
+            ENDIF
             IF(IVzFUN>0)THEN
               VzN(I) = Vz0(I)*FINTER(IVzFUN,TSCAL,NPF,TF,DYDX)
             ELSE
-              VzN(I) = Vz0(I)          
-            ENDIF                    
+              VzN(I) = Vz0(I)
+            ENDIF
           ENDDO
-        ELSE!IF(ITYP /= 3)  
+        ELSE!IF(ITYP /= 3)
           DO I=LFT,LLT
             MASS   = RHO(I) * VOL(I)
             VxN(I) = MOM(I,1) / MASS
             VyN(I) = MOM(I,2) / MASS
             VzN(I) = MOM(I,3) / MASS			
-          ENDDO          
+          ENDDO
         ENDIF
       ELSE
         VxN(I) = ZERO
         VyN(I) = ZERO
-        VzN(I) = ZERO                
+        VzN(I) = ZERO
       ENDIF!IF(IALEFVM==1)
 
       !-----------------------------------!
       !  GET ADJACENT VALUES              !
-      !-----------------------------------!  
+      !-----------------------------------!
       IF(N2D==0) THEN
        CALL M11VS3(PM    ,IPARG ,IX    ,ALE_CONNECT       ,ELBUF_TAB   ,V  ,
      2             X     ,DVP   ,VN    ,W           ,VEL         ,VD2,
@@ -205,7 +205,7 @@ C=======================================================================
      4             EIV   ,REV   ,RKV   ,TV          ,
      5             SSP_EQ,VxV   ,VyV   ,VzV         ,IALEFVM_FLG ,
      6             VxN   ,VyN   ,VzN   ,MOM         ,RHO         ,VOL   ,
-     7             XmomV ,YmomV ,ZmomV ,BUFVOIS     ,NEL         )     
+     7             XmomV ,YmomV ,ZmomV ,BUFVOIS     ,NEL         )
        FAC=FOUR
       ENDIF
 
@@ -220,25 +220,25 @@ C=======================================================================
       !-----------------------------------!
       ! LOOP ON ELEMENTS                  !
       !-----------------------------------!
-      DO I=LFT,LLT    
-        
+      DO I=LFT,LLT
+
         IF(INOD/=0)THEN
          VEL(I)   = V(1,INOD)**2+V(2,INOD)**2+V(3,INOD)**2
         ENDIF
 
         !---------------------------------!
         !  IMPOSED STATE ITYP=0,1         !
-        !---------------------------------! 
+        !---------------------------------!
         IF(ITYP<2)THEN
           RHOV(I) = RHO0(I)
           PV(I)   = P0(I)
           EIV(I)  = E0
           VxV(I)  = Vx0(I)
           VyV(I)  = Vy0(I)
-          VzV(I)  = Vz0(I)  
+          VzV(I)  = Vz0(I)
         !---------------------------------!
         !  OUTGOING FLUX ITYP=ALL         !
-        !---------------------------------!                             
+        !---------------------------------!
         ELSEIF(VN(I)<ZERO)THEN
           RHOV(I) = RHO(I)
           EIV(I)  = EINT(I)/VOL(I)
@@ -249,10 +249,10 @@ C=======================================================================
             MASS    = RHO(I) * VOL(I)
             VxV(I)  = MOM(I,1)/MASS
             VyV(I)  = MOM(I,2)/MASS
-            VzV(I)  = MOM(I,3)/MASS 
+            VzV(I)  = MOM(I,3)/MASS
             XmomV(I)= MOM(I,1)
             YmomV(I)= MOM(I,2)
-            ZmomV(I)= MOM(I,3)  			     
+            ZmomV(I)= MOM(I,3)  			
           ENDIF
         ENDIF
 
@@ -279,7 +279,7 @@ C=======================================================================
             VIMP(I)=P0(I)
           ENDIF
         ENDIF
-        
+
         IF(IEFUN>0)THEN
           EN = E0*FINTER(IEFUN,TSCAL,NPF,TF,DYDX)
         ELSEIF(IEFUN<0)THEN
@@ -306,25 +306,25 @@ C=======================================================================
         ELSE
           T(I)   =TV(I)
         ENDIF
-        
-      IF(IALEFVM==1)THEN   
+
+      IF(IALEFVM==1)THEN
         IF(IVxFUN>0)THEN
           XmomN = Vx0(I)*FINTER(IVxFUN,TSCAL,NPF,TF,DYDX)*RHON*VOL(I)
         ELSE
           XmomN = XmomV(I)
-        ENDIF      
+        ENDIF
         IF(IVyFUN>0)THEN
           YmomN = Vy0(I)*FINTER(IVyFUN,TSCAL,NPF,TF,DYDX)*RHON*VOL(I)
         ELSE
-          YmomN = YmomV(I)          
-        ENDIF    
+          YmomN = YmomV(I)
+        ENDIF
         IF(IVzFUN>0)THEN
           ZmomN = Vz0(I)*FINTER(IVzFUN,TSCAL,NPF,TF,DYDX)*RHON*VOL(I)
         ELSE
-          ZmomN = ZmomV(I)          
-        ENDIF                    
-      ENDIF        
-        
+          ZmomN = ZmomV(I)
+        ENDIF
+      ENDIF
+
         !-------------------------------------------!
         ! CAS   0 et 1     STAGNATION POINT         !
         !-------------------------------------------!
@@ -355,7 +355,7 @@ C        LIQUIDE
          EINT(I)   = (ONE - RHO(I)/RHON)*(P(I)+PSH)+EN
          SSP_EQ(I) = SQRT(C1/RHON)
          IF(IPFUN/=0.AND.JTUR/=0)P(I)=P(I)+ TWO_THIRD*RK(I)
-         
+
         !-------------------------------------------!
         ! CAS   2    IMPOSED STATE                  !
         !-------------------------------------------!
@@ -368,9 +368,9 @@ C        LIQUIDE
          IF(IALEFVM==1)THEN
            MOM(I,1)   = XmomN
            MOM(I,2)   = YmomN
-           MOM(I,3)   = ZmomN			    
+           MOM(I,3)   = ZmomN			
          ENDIF
-         
+
         !-------------------------------------------!
         ! CAS   3   NON REFLECTING BOUNDARY         !
         !-------------------------------------------!
@@ -384,15 +384,15 @@ C        LIQUIDE
          IF(IALEFVM==1)THEN
            MOM(I,1) = XmomN
            MOM(I,2) = YmomN
-           MOM(I,3) = ZmomN		    
-         ENDIF         
+           MOM(I,3) = ZmomN		
+         ENDIF
 C
          IF(TT>ZERO)THEN
           IF(IPFUN==0 .OR. VN(I)<=ZERO .OR. ITYP==3)THEN
             DU     = (ONE-ALP)*RHOC*(VN(I)-VO(I))
            ELSE
             DU     = (ONE - ALP)*RHOC*((VN(I)-VO(I))-VN(I)*DVP(I))
-          ENDIF 
+          ENDIF
          ELSE
           DU       = ZERO
           SIG(I,1) = -PN
@@ -401,7 +401,7 @@ C
          VO(I)     = VN(I)
          P(I)      = -SIG(I,1)+DP+DU
          SSP_EQ(I) = RHOC / RHO0(I) !adjacent value can also be output but recquires SPMD treatment.
-         
+
         !-------------------------------------------!
         ! CAS   4  NON REFLECTING BOUNDARY          !
         !           + TRANSVERSE RIGIDITY           !
@@ -459,7 +459,7 @@ C
 
 C-----------
       DO I=LFT,LLT
-        EIS(I)   = EIS(I) - EINT(I) 
+        EIS(I)   = EIS(I) - EINT(I)
         SIG(I,1) = -P(I)
         SIG(I,2) = -P(I)
         SIG(I,3) = -P(I)

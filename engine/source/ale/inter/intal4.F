@@ -48,7 +48,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), VG(*), BCS(*)      
+      my_real X(3,NUMNOD), V(3,NUMNOD), A(3,NUMNOD), VG(*), BCS(*)
       INTEGER IPARI(SIPARI), ICODE(*), IBCS(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------

@@ -34,15 +34,15 @@ Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT54(UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC, 
-     .     MAXFUNC, NFUNC, PARMAT, UNITAB ,MAT_ID, 
+      SUBROUTINE HM_READ_MAT54(UPARAM, MAXUPARAM, NUPARAM, NUVAR, IFUNC,
+     .     MAXFUNC, NFUNC, PARMAT, UNITAB ,MAT_ID,
      .     MTAG, TITR, LSUBMODEL, PM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,8 +59,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM
       my_real, DIMENSION(100), INTENT(OUT) :: PARMAT
       my_real, DIMENSION(MAXUPARAM), INTENT(OUT) :: UPARAM
       INTEGER, DIMENSION(MAXFUNC), INTENT(OUT) :: IFUNC
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NF
-      my_real E, NU, AY, AZ, BY, BZ, CX, DC, PR, PS, SIG0, H, M, SFAC, 
+      my_real E, NU, AY, AZ, BY, BZ, CX, DC, PR, PS, SIG0, H, M, SFAC,
      .     RHO0, RHOR, FAC_UNIT
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----------------------------------------------
          RHOR = RHO0
       ENDIF
       PM(1) = RHOR
-      PM(89) = RHO0 
+      PM(89) = RHO0
 
 !     Line 1
       CALL HM_GET_FLOATV('MAT_E', E, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -118,33 +118,33 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV_DIM('MAT_Sfac_Yield', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SFAC = ONE * FAC_UNIT
       ENDIF
-      IF (AY == ZERO) THEN 
+      IF (AY == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('MAT_Ay', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          AY = ONE * FAC_UNIT
       ENDIF
-      IF (AZ == ZERO) THEN 
+      IF (AZ == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('MAT_Az', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          AZ = ONE * FAC_UNIT
       ENDIF
-      IF (BY == ZERO) THEN 
+      IF (BY == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('MAT_By', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          BY = ONE * FAC_UNIT
       ENDIF
-      IF (BZ == ZERO) THEN 
+      IF (BZ == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('MAT_Bz', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          BZ = ONE * FAC_UNIT
       ENDIF
-      IF (CX == ZERO) THEN 
+      IF (CX == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('MAT_Cx', FAC_UNIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CX = ONE * FAC_UNIT
       ENDIF
-      IF (DC == ZERO .OR. DC >= ONE) THEN 
+      IF (DC == ZERO .OR. DC >= ONE) THEN
          DC = ZEP99999
       ENDIF
-      IF (PR == ZERO) THEN 
+      IF (PR == ZERO) THEN
          PR = TWO * INFINITY
       ENDIF
-      IF (PS == ZERO) THEN 
+      IF (PS == ZERO) THEN
          PS = INFINITY
       ENDIF
 
@@ -154,7 +154,7 @@ C-----------------------------------------------
             CALL ANCMSG(MSGID = 501, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_1,
      .           I1 = MAT_ID, C1 = TITR)
          ENDIF
-      ENDIF 
+      ENDIF
       IF (PR < PS) THEN
          CALL ANCMSG(MSGID = 502, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_1,
      .        I1 = MAT_ID, C1 = TITR)
@@ -163,8 +163,8 @@ C-----------------------------------------------
 !     Material law parameters
       NUPARAM = 19
       NUVAR = 15
-      NFUNC = 1       
- 
+      NFUNC = 1
+
 !     Storage
       IFUNC(1) = NF
 
@@ -202,7 +202,7 @@ C-----------------------------------------------
          WRITE(IOUT, 3000)
          WRITE(IOUT, 3100) DC, PR, PS
       ENDIF
-      
+
   800 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . .=',I10/,

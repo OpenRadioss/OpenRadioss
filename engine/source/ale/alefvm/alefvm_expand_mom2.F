@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_EXPAND_MOM2 (
-     1                               X  , V   ,   IXS, NV46, 
+     1                               X  , V   ,   IXS, NV46,
      2                               MOM, VEUL, ITASK, NALE ,  NEL )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
-      IF(IALEFVM==0)    RETURN    
+      IF(IALEFVM==0)    RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -111,23 +111,23 @@ C-----------------------------------------------
         !NF_INTERNAL  = NV46 - NF_BORDER  !number of internal face
         !IF(NF_INTERNAL==0)CYCLE
         II                = I + NFT
-        IN(1)             = IXS(2,II)        
-        IN(2)             = IXS(3,II)        
-        IN(3)             = IXS(4,II)        
-        IN(4)             = IXS(5,II)        
-        IN(5)             = IXS(6,II)        
-        IN(6)             = IXS(7,II)        
-        IN(7)             = IXS(8,II)        
+        IN(1)             = IXS(2,II)
+        IN(2)             = IXS(3,II)
+        IN(3)             = IXS(4,II)
+        IN(4)             = IXS(5,II)
+        IN(5)             = IXS(6,II)
+        IN(6)             = IXS(7,II)
+        IN(7)             = IXS(8,II)
         IN(8)             = IXS(9,II)
-#include "lockon.inc"         
+#include "lockon.inc"
         DO K=1,8
-          VERTEX(1,IN(K)) = VERTEX(1,IN(K)) + MOM(I,1)/EIGHT 
+          VERTEX(1,IN(K)) = VERTEX(1,IN(K)) + MOM(I,1)/EIGHT
           VERTEX(2,IN(K)) = VERTEX(2,IN(K)) + MOM(I,2)/EIGHT
-          VERTEX(3,IN(K)) = VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		   
+          VERTEX(3,IN(K)) = VERTEX(3,IN(K)) + MOM(I,3)/EIGHT		
           VERTEX(4,IN(K)) = VERTEX(4,IN(K)) + ONE
         ENDDO
 #include "lockoff.inc"
-      ENDDO        
-        
+      ENDDO
+
       RETURN
       END

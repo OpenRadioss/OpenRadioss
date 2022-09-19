@@ -38,15 +38,15 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT109(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR  ,NVARTMP  ,
      .                          ITABLE   ,MAXTABL  ,NTABL     ,PARMAT ,UNITAB   ,
      .                          MAT_ID   ,TITR     ,RHO       ,MTAG   ,MATPARAM ,
-     .                          LSUBMODEL)                     
+     .                          LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,10 +72,10 @@ C-----------------------------------------------
       my_real ,DIMENSION(100)       ,INTENT(OUT)  :: PARMAT
       my_real ,DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER ,DIMENSION(MAXTABL)   ,INTENT(OUT)  :: ITABLE
-      INTEGER ,INTENT(INOUT)          :: NTABL,NUPARAM,NUVAR,NVARTMP  
+      INTEGER ,INTENT(INOUT)          :: NTABL,NUPARAM,NUVAR,NVARTMP
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
-      TYPE (UNIT_TYPE_)  ,INTENT(IN)  :: UNITAB 
+      TYPE (UNIT_TYPE_)  ,INTENT(IN)  :: UNITAB
       TYPE(MATPARAM_STRUCT_) ,INTENT(OUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -115,8 +115,8 @@ Card6
 c------------------------
 c     Elastic parameters
 c------------------------
-      G    = HALF *YOUNG / (ONE + NU) 
-      LAME = TWO * G * NU /(ONE - TWO*NU)  
+      G    = HALF *YOUNG / (ONE + NU)
+      LAME = TWO * G * NU /(ONE - TWO*NU)
       BULK = THIRD * YOUNG / (ONE - NU*TWO)
 c      SOUNDSP = SQRT((BULK + FOUR_OVER_3*G)/RHO)
 c------------------------
@@ -160,7 +160,7 @@ c-----------------------------------------------
       UPARAM(9)  = YSCALE    ! Yld function scale factor
       UPARAM(10) = 0
       UPARAM(11) = G         ! Shear modulus
-      UPARAM(12) = G * TWO 
+      UPARAM(12) = G * TWO
       UPARAM(13) = G * THREE
       UPARAM(14) = BULK      ! Bulk modulus
       UPARAM(15) = LAME      ! Lame parameter
@@ -194,21 +194,21 @@ c
       ITABLE(1) = TAB_YLD     ! Yield function table              = f(epsp,epsdot)
       ITABLE(2) = TAB_TEMP    ! Temperature scale factor table    = f(epsp,T)
       ITABLE(3) = TAB_ETA     ! Taylor-Quinney scale factor table = f(epsp,epsdot,T)
-      IF (TAB_TEMP > 0 .or. TAB_ETA > 0) THEN 
+      IF (TAB_TEMP > 0 .or. TAB_ETA > 0) THEN
         NVARTMP  = 5
       ELSE
         NVARTMP  = 1
       ENDIF
-c-----------------------      
-      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW 
-      WRITE(IOUT,1000)   
-      IF (IS_ENCRYPTED)THEN                                
+c-----------------------
+      WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
+      WRITE(IOUT,1000)
+      IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
+      ELSE
         WRITE(IOUT,1100) RHO,YOUNG,NU,CP,TREF,TINI,ETA,TAB_YLD,TAB_TEMP,
      .                   TAB_ETA,ISMOOTH,XRATE,XSCALE,YSCALE
       ENDIF
-c-----------        
+c-----------
       RETURN
 c-----------
  1000 FORMAT(
@@ -219,7 +219,7 @@ c-----------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . . . .=',I10/)
  1100 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . .=',1PG20.13/ 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'SPECIFIC HEAT COEFFICIENT . . . . . . . . .=',1PG20.13/

@@ -50,7 +50,7 @@ C-----------------------------------------------
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), PENE(MVSIZ), 
+     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), PENE(MVSIZ),
      .     PENE_E(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -75,7 +75,7 @@ C-----------------------------------------------
      .     YI1(MVSIZ),  YI2(MVSIZ),  YI3(MVSIZ), YI4(MVSIZ),
      .     ZI1(MVSIZ),  ZI2(MVSIZ),  ZI3(MVSIZ), ZI4(MVSIZ),
      .     HLB1(MVSIZ), HLC1(MVSIZ), HLB2(MVSIZ),HLC2(MVSIZ),
-     .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ), 
+     .     HLB3(MVSIZ), HLC3(MVSIZ), HLB4(MVSIZ),HLC4(MVSIZ),
      .     GAP2E(MVSIZ)
       my_real
      .     DTI, S2,A1,A2,A3,A4,D1,D2,D3,D4,DE1,DE2,DE3,DE4,
@@ -110,7 +110,7 @@ C--------------------------------------------------------
        DO I=1,JLT
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
        ENDDO
 C--------------------------------------------------------
 C  CAS DES PAQUETS MIXTES
@@ -120,7 +120,7 @@ C--------------------------------------------------------
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)

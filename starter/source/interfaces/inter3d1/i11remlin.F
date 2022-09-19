@@ -217,7 +217,7 @@ C
      .                     .AND.((IRECTM(L,LIN1)) /= IRECTM(J,LIN)).AND.(TAGNOD(IRECTM(L,LIN1)) /= 2)) THEN
 C
                         NEW_DIST=DIST1(IRECTM(J,LIN))+
-     .                  SQRT((X(1,IRECTM(L,LIN1))-X(1,IRECTM(J,LIN)))**2 + 
+     .                  SQRT((X(1,IRECTM(L,LIN1))-X(1,IRECTM(J,LIN)))**2 +
      .                       (X(2,IRECTM(L,LIN1)) - X(2,IRECTM(J,LIN)))**2 +
      .                       (X(3,IRECTM(L,LIN1)) - X(3,IRECTM(J,LIN)))**2 )
 C
@@ -227,12 +227,12 @@ C
 C
                         IF(TAGNOD(IRECTM(L,LIN1))==0) THEN
                           TAGNOD(IRECTM(L,LIN1)) = 1
-                        ENDIF                     
+                        ENDIF
 C
                       ENDIF
-                    ENDDO 
-                  ENDIF                  
-                ENDDO   
+                    ENDDO
+                  ENDIF
+                ENDDO
               ENDDO
               ENDIF
 C
@@ -268,7 +268,7 @@ C
           IM1 = IRECTM(1,I)
           IM2 = IRECTM(2,I)
 C
-          IF (IGAP == 0) THEN 
+          IF (IGAP == 0) THEN
             DO L=1,CPT_TOTAL
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
@@ -287,7 +287,7 @@ C--- lines with common nodes with main lines are aready removed - no need to sto
               ENDIF
             ENDDO
             KREMNODE(I+1) = KREMNODE(I) + CPT1
-          ELSEIF (IGAP == 1) THEN 
+          ELSEIF (IGAP == 1) THEN
             DO L=1,CPT_TOTAL
               LIN = LISTLINTOTAL(L)
               IF ((IM1 /= IRECTM(1,LIN)).AND.(IM1 /= IRECTM(2,LIN))
@@ -395,7 +395,7 @@ C
        YS2M2 = X(2,M2)-X(2,N2)
        ZS2M2 = X(3,M2)-X(3,N2)
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C

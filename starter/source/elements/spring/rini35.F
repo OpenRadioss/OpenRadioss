@@ -105,10 +105,10 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER IOUT,NUVAR,NEL,IPROP,   
+      INTEGER IOUT,NUVAR,NEL,IPROP,
      .        IX(4,NEL) ,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU
-      my_real 
+      my_real
      .        XL(NEL) ,MASS(NEL) ,XINER(NEL) ,STIFM(NEL) ,
      .        STIFR(NEL),VISCM(NEL) ,VISCR(NEL),UVAR(NUVAR,*),
      .        GET_U_MAT,GET_U_GEO
@@ -117,7 +117,7 @@ C----------------------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .        AMAS,ELASTIF
       INTEGER I
 C=======================================================================
@@ -143,12 +143,12 @@ C--------------------------------------
           XINER(I)  = ZERO
           UVAR(1,I) = ZERO
           UVAR(2,I) = ONE
-          UVAR(3,I) = ZERO  
+          UVAR(3,I) = ZERO
 C         FOR NODAL AND ELEMENT TIME STEP COMPUTATION
           STIFM(I) = ELASTIF / XL(I)
           STIFR(I) = ZERO
           VISCM(I) = ZERO
-          VISCR(I) = ZERO  
+          VISCR(I) = ZERO
         ENDDO
 C-----------
       RETURN

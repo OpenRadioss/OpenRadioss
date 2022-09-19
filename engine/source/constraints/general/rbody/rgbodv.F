@@ -53,9 +53,9 @@ C     REAL
       my_real
      .   V(3,*), VR(3,*), X(3,*), RBY(*), SKEW(LSKEW,*), FS(*),
      .   A(3,*),AR(3,*),IN(*),MS(*),FREAC(6,*)
-      my_real, INTENT(IN) :: 
+      my_real, INTENT(IN) ::
      .   FNY,FTY,EXPN,EXPT
-      my_real, INTENT(INOUT) :: 
+      my_real, INTENT(INOUT) ::
      .   CRIT, FTHREAC(6,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -80,7 +80,7 @@ C     REAL
      .   VX1, VX2, VX3, MAS,AM1,AM2,AM3,VXX1,VXX2,VXX3,VY1
       my_real
      .   UX, UY, UZ, NN, FN, FT
-      my_real, DIMENSION(:,:), ALLOCATABLE :: 
+      my_real, DIMENSION(:,:), ALLOCATABLE ::
      .   R, RR
 C-----------------------------------------------
       M    =NBY(1)
@@ -229,7 +229,7 @@ C
            VXX1=ZERO
            VXX2=-VG(1)*VG(1)*(X(2,N)-X(2,M))
            VXX3=-VG(1)*VG(1)*(X(3,N)-X(3,M))
-  
+
            A(1,N)= ZERO
            A(2,N)= AM2 +
      .       (V(2,M)+VX2+HALF*DT2*VXX2-V(2,N))*USDT
@@ -286,10 +286,10 @@ C
           N = NOD(I)
           L=NODREAC(N)
           IF(L/=0)THEN
-            FTHREAC(1,L)=FTHREAC(1,L)+R(1,I)*DT12*WEIGHT(N) ! no other kin condition can apply to a secondary node 
+            FTHREAC(1,L)=FTHREAC(1,L)+R(1,I)*DT12*WEIGHT(N) ! no other kin condition can apply to a secondary node
             FTHREAC(2,L)=FTHREAC(2,L)+R(2,I)*DT12*WEIGHT(N)
             FTHREAC(3,L)=FTHREAC(3,L)+R(3,I)*DT12*WEIGHT(N)
-            FTHREAC(4,L)=FTHREAC(4,L)+RR(1,I)*DT12*WEIGHT(N) ! no other kin condition can apply to a secondary node 
+            FTHREAC(4,L)=FTHREAC(4,L)+RR(1,I)*DT12*WEIGHT(N) ! no other kin condition can apply to a secondary node
             FTHREAC(5,L)=FTHREAC(5,L)+RR(2,I)*DT12*WEIGHT(N)
             FTHREAC(6,L)=FTHREAC(6,L)+RR(3,I)*DT12*WEIGHT(N)
           END IF

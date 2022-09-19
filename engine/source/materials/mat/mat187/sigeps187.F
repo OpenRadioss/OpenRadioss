@@ -31,16 +31,16 @@ Chd|====================================================================
       SUBROUTINE SIGEPS187(
      1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC    ,
      2     NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM   ,
-     3     RHO0   ,RHO    ,VOLUME  ,EINT    ,TEMPEL,NGL , 
-     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX   , 
+     3     RHO0   ,RHO    ,VOLUME  ,EINT    ,TEMPEL,NGL ,
+     4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX   ,
      5     DEPSXX ,DEPSYY ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX   ,
      6     EPSXX  ,EPSYY  ,EPSZZ   ,EPSXY   ,EPSYZ   ,EPSZX  ,
      7     SIGOXX ,SIGOYY ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX ,
      8     SIGNXX ,SIGNYY ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX ,
-     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX , 
+     9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,YLD     ,PLA    ,
      B     DPLA    ,ETSE   ,IPM     ,MAT     ,ISRATE ,
-     C     FACYLDI ,EPSP     )  
+     C     FACYLDI ,EPSP     )
 C=======================================================================
 C   BARLAT YLD2000 material model
 C=======================================================================
@@ -108,7 +108,7 @@ C-----------------------------------------------
 C
       INTEGER NEL, NUPARAM, NUVAR,
      .        IPM(NPROPMI,*),ISRATE(NEL),MAT(NEL), NGL(NEL)
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
      .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
@@ -133,13 +133,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .   UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
+      my_real
      .     FINTER ,TF(*)
       EXTERNAL FINTER
 c     Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
@@ -188,7 +188,7 @@ C-----------------------------------------------
      .        HK(NEL),NU_1MNU(NEL),EPSF(NEL),PLAP(NEL),F_EPSP(NEL),
      .        SVM2(NEL),YLD2(NEL),HI(NEL),G3(NEL),T_1PNU(NEL),
      .        HKIN,NU110,NU210,dezz,svm,DPLA_I(NEL),dr(NEL),
-     .        AA(NEL),BB(NEL),DPLA_J(NEL),U_1MNU(NEL),     
+     .        AA(NEL),BB(NEL),DPLA_J(NEL),U_1MNU(NEL),
      .        PP(NEL),QQ(NEL),FAIL(NEL),SVMO(NEL),F_EPSPT(NEL),
      .        NU11V(NEL),NU21V3(NEL),AANU11V(NEL),BBNU21V3(NEL),
      .        HI2(NEL), ES2(NEL)
@@ -199,7 +199,7 @@ c-----------------------------------------------
 c     USER VARIABLES INITIALIZATION
 c-----------------------------------------------
 c      Swift/Voce
-c            k=alpha*k1(eps,p)+(1-alpha)*k2(eps,p)  
+c            k=alpha*k1(eps,p)+(1-alpha)*k2(eps,p)
 c            k1=A*(eps,p+e0)**n
 c            k2=Q*(1-exp(-b*eps,p))+sig0
 c-----------------------------------------------
@@ -211,38 +211,38 @@ c    UVAR5  =IPOS
 c    UVAR6  =H
 c-----------------------------------------------
 C
-      E     =  UPARAM(1)  
-      NU    =  UPARAM(2)  
+      E     =  UPARAM(1)
+      NU    =  UPARAM(2)
       G     = UPARAM(23)
-      G2    = TWO *G 
+      G2    = TWO *G
       BULK  = E/THREE/(ONE-TWO*NU)
 
-      AL1   =  UPARAM(3)  
-      AL2   =  UPARAM(4)  
-      AL3   =  UPARAM(5)  
-      AL4   =  UPARAM(6)  
-      AL5   =  UPARAM(7)  
-      AL6   =  UPARAM(8)  
-      AL7   =  UPARAM(9)  
-      AL8   =  UPARAM(10) 
-      AL9   =  UPARAM(11)  
-      AL10   = UPARAM(12)  
-      AL11   = UPARAM(13)  
-      AL12   = UPARAM(14)  
+      AL1   =  UPARAM(3)
+      AL2   =  UPARAM(4)
+      AL3   =  UPARAM(5)
+      AL4   =  UPARAM(6)
+      AL5   =  UPARAM(7)
+      AL6   =  UPARAM(8)
+      AL7   =  UPARAM(9)
+      AL8   =  UPARAM(10)
+      AL9   =  UPARAM(11)
+      AL10   = UPARAM(12)
+      AL11   = UPARAM(13)
+      AL12   = UPARAM(14)
 
 
 c
       EXPA  =  NINT(UPARAM(15) )
       UNSA  =  ONE/EXPA
-      EXPAM2=  EXPA - 2 
+      EXPAM2=  EXPA - 2
 c
-      ALPHA   =  UPARAM(16) 
+      ALPHA   =  UPARAM(16)
       NEXP    =  UPARAM(17)
-      EPSO    =  UPARAM(18) 
-      ASWIFT  =  UPARAM(19) 
+      EPSO    =  UPARAM(18)
+      ASWIFT  =  UPARAM(19)
 
       NRATE   = NINT(UPARAM(25))
-      LAMDA   = UPARAM(25+2*NFUNC+9) 
+      LAMDA   = UPARAM(25+2*NFUNC+9)
 
 
       QVOCE = UPARAM(25+2*NRATE+1)
@@ -267,9 +267,9 @@ c
       LPP34=AL8
       LPP45=AL11
       LPP56=AL12
-      
 
-      IFLAG    =  INT(UPARAM(24)) 
+
+      IFLAG    =  INT(UPARAM(24))
 
 c ---
       DO I=1,NEL
@@ -279,7 +279,7 @@ c ---
         SIGNZZ(I)  = SIGOZZ(I) + DEPSZZ(I)*G2 + LAMDA*DAV
         SIGNXY(I)  = SIGOXY(I) + DEPSXY(I)*G
         SIGNYZ(I)  = SIGOYZ(I) + DEPSYZ(I)*G
-        SIGNZX(I)  = SIGOZX(I) + DEPSZX(I)*G 
+        SIGNZX(I)  = SIGOZX(I) + DEPSZX(I)*G
 
 C------------------
 C SIGMA TRIAL
@@ -303,51 +303,51 @@ c flag formulation ************************************************
 C-------------------
 
       IF (IFLAG == 1) THEN ! ANALYTIC SWIFT-VOCE YIELD
-c     -----    Yield ---------------                                                   
+c     -----    Yield ---------------
        DO I=1,NEL
            EXPV   = EXP(-BETA*PLA(I))
            IF((PLA(I) + EPSO)>ZERO) THEN
             PUI_1 = EXP(NEXP*LOG((PLA(I) + EPSO)))
            ELSE
             PUI_1 = ZERO
-           ENDIF                                           
-!           KSWIFT = ASWIFT*(PLA(I) + EPSO)**NEXP                                      
+           ENDIF
+!           KSWIFT = ASWIFT*(PLA(I) + EPSO)**NEXP
            KSWIFT = ASWIFT*PUI_1
-           KVOCE  = KO + QVOCE*(ONE - EXPV)                                      
-           YLD(I)  = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE 
-           F_EPSPT(I) = ONE 
-           F_EPSP(I)  = ONE 
+           KVOCE  = KO + QVOCE*(ONE - EXPV)
+           YLD(I)  = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE
+           F_EPSPT(I) = ONE
+           F_EPSP(I)  = ONE
            !!print*, 'yld ', YLD(I)
-       ENDDO    
-       IF (UNSPT /= ZERO )THEN 
+       ENDDO
+       IF (UNSPT /= ZERO )THEN
         DO I=1,NEL
           IF(EPSP(I)/=ZERO)
-     .    F_EPSPT(I) =ONE + EXP(UNSPT * LOG(UNSCT*EPSP(I)))   
-        ENDDO    
-       ENDIF  
+     .    F_EPSPT(I) =ONE + EXP(UNSPT * LOG(UNSCT*EPSP(I)))
+        ENDDO
+       ENDIF
        DO I=1,NEL
          !--------------------
-         !BARLAT CRITERION 
+         !BARLAT CRITERION
          !--------------------
-         !XP(5) = LP(5*6) * SIGMA(6) 
+         !XP(5) = LP(5*6) * SIGMA(6)
          XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)-AL1*SIGNZZ(I))/THREE
          XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)-AL2*SIGNZZ(I))/THREE
          XPXY(I) = AL7*SIGNXY(I)
          XPYZ(I) = AL9*SIGNYZ(I)
-         XPZX(I) = AL10*SIGNZX(I) 
-      
-         !XPP(5) = LPP(5*6) * SIGMA(6) 
+         XPZX(I) = AL10*SIGNZX(I)
+
+         !XPP(5) = LPP(5*6) * SIGMA(6)
          XPPXX(I) = LPP11*SIGNXX(I) + LPP12*SIGNYY(I) +LPP13*SIGNZZ(I)
          XPPYY(I) = LPP21*SIGNXX(I) + LPP22*SIGNYY(I) +LPP23*SIGNZZ(I)
          XPPXY(I) = LPP34*SIGNXY(I)
          XPPYZ(I) = LPP45*SIGNYZ(I)
          XPPZX(I) = LPP56*SIGNZX(I)
 
-         DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )    
+         DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )
          PHIP(I)  = SQRT(MAX(ZERO, DELTAP(I)))**EXPA
 
 
-       
+
          DELTAPP(I)  = (XPPXX(I)-XPPYY(I))**2 + FOUR * (XPPXY(I)**2 + XPPYZ(I)**2 + XPPZX(I)**2 )
          DELTAPP(I)  = SQRT(MAX(ZERO, DELTAPP(I)))
          DELTAPP1(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))+HALF*DELTAPP(I)
@@ -362,22 +362,22 @@ c     -----    Yield ---------------
           SIG(I) = ZERO
          ENDIF
 
-       ENDDO   
- 
+       ENDDO
+
 C      Check Yield Condition  
 C      ----------------------------------------------------
        NINDX  = 0
        DO I=1,NEL
         IF (SIG(I)>YLD(I).AND.OFF(I) == ONE)THEN ! Plastic Loading
          NINDX = NINDX + 1
-         INDX(NINDX)  = I 
+         INDX(NINDX)  = I
         ENDIF
        ENDDO
        !--------------------
        !PLASTIC FLOW
        !--------------------
-       DO II=1,NINDX                                              
-        I = INDX(II)                                             
+       DO II=1,NINDX
+        I = INDX(II)
         !IF (SIG(I)>YLD(I).AND.OFF(I) == ONE)THEN
 	   DPLA(I)= UVAR(I,3)+ EM09
 
@@ -401,45 +401,45 @@ C      ----------------------------------------------------
          PLAP(I)= DPLA(I)/TIMESTEP
 C
          EXPV   = EXP(-BETA*PLA(I))
-!         KSWIFT = ASWIFT*(PLA(I) + EPSO)**NEXP   
-         IF((PLA(I) + EPSO)>ZERO) THEN                                           
+!         KSWIFT = ASWIFT*(PLA(I) + EPSO)**NEXP
+         IF((PLA(I) + EPSO)>ZERO) THEN
           PUI_1 = EXP(NEXP*LOG(PLA(I) + EPSO))
          ELSE
           PUI_1 = ZERO
          ENDIF
-         KSWIFT = ASWIFT*PUI_1                                       
-         KVOCE  = KO + QVOCE*(ONE - EXPV)                                       
-         YLD(I) = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE 
+         KSWIFT = ASWIFT*PUI_1
+         KVOCE  = KO + QVOCE*(ONE - EXPV)
+         YLD(I) = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE
 
          !===========ADD PL SR DEPENDENCY THROUGH COWPER SEYMONDS
-         !Compute plastic strain rate Cowper seymonds          
+         !Compute plastic strain rate Cowper seymonds
          IF( UNSP/=ZERO)THEN
            IF(PLAP(I)>ZERO)THEN
-             F_EPSP(I) = ONE+EXP(UNSP * LOG(UNSC*PLAP(I)))   
+             F_EPSP(I) = ONE+EXP(UNSP * LOG(UNSC*PLAP(I)))
            ELSE
              F_EPSP(I) = ONE
-           ENDIF 
+           ENDIF
          ELSE
-            F_EPSP(I) =  ONE 
+            F_EPSP(I) =  ONE
          ENDIF
          !DERIVATIVE OF YLD
          DSWIFT = NEXP*KSWIFT/(PLA(I) + EPSO)
          DVOCE  = QVOCE*BETA*EXPV
          !DFEPSP = UNSP *F_EPSP(I)/ (DPLA(I)+TIMESTEP/MAX(EM20,UNSC))
          DFEPSP = UNSP *(F_EPSP(I)-ONE)/ MAX(EM20,DPLA(I))
-         YLDP   = ALPHA*DSWIFT + (ONE-ALPHA)*DVOCE                
+         YLDP   = ALPHA*DSWIFT + (ONE-ALPHA)*DVOCE
          YLDP   = YLDP*F_EPSP(I) + YLD(I)*DFEPSP
          YLD(I) =  YLD(I) * F_EPSP(I)  *F_EPSPT(I)
-         !===========END PL SR DEPENDENCY  
+         !===========END PL SR DEPENDENCY
          FCT = SIG(I)- YLD(I)  ! residu
 
          TP1 = EXPA*(SQRT(MAX(ZERO,DELTAP(I))))**(EXPA-2)
          !D_phip/D_XP
          FP1 = TP1 * (XPXX(I) - XPYY(I))
-         FP2 = -FP1  
+         FP2 = -FP1
          FP3 = THREE * TP1 * XPXY(I)
          FP4 = THREE * TP1 * XPYZ(I)
-         FP5 = THREE * TP1 * XPZX(I) 
+         FP5 = THREE * TP1 * XPZX(I)
 
 
          TPP1 = EXPA * DELTAPP1(I) ** (EXPA - 1)
@@ -452,25 +452,25 @@ C
          FPP2 = TPP1 *(-THREE_HALF-HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
      .         + TPP2 *(-THREE_HALF+HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
          FPP3 = TPP3 * XPPXY(I)
-         FPP4 = TPP3 * XPPYZ(I) 
+         FPP4 = TPP3 * XPPYZ(I)
          FPP5 = TPP3 * XPPZX(I)
-        
+
          DFP1=THIRD*(TWO*AL1*FP1-AL2*FP2)
          DFP2=THIRD*(TWO*AL2*FP2-AL1*FP1)
          DFP3=THIRD*(-AL1*FP1-AL2*FP2)
          DFP4=AL7*FP3
          DFP5=AL9*FP4
-         DFP6=AL10*FP5 
-       
+         DFP6=AL10*FP5
+
          DFPP1=FPP1*LPP11+FPP2*LPP21
          DFPP2=FPP1*LPP12+FPP2*LPP22
          DFPP3=FPP1*LPP13+FPP2*LPP23
          DFPP4=FPP3*LPP34
          DFPP5=FPP4*LPP45
          DFPP6=FPP5*LPP56
-          
-         DU =  UNSA * SIG(I) / (MAX(EM20, PHIP(I)+PHIPP(I)) ) 
- 
+
+         DU =  UNSA * SIG(I) / (MAX(EM20, PHIP(I)+PHIPP(I)) )
+
 
          DF1 = DFP1+DFPP1
          DF2 = DFP2+DFPP2
@@ -491,12 +491,12 @@ C
      .        * (TWO*(DF1*DF1 + DF2*DF2 + DF3*DF3 )
      .            + DF4*DF4 + DF5*DF5 + DF6*DF6 )
 
-c         DF = -TWO*G * (DU * DF1) **2 
-c     .        -TWO*G * (DU * DF2) **2 
-c     .        -TWO*G * (DU * DF3) **2 
-c     .        -G * (DU * DF4) **2 
-c     .        -G * (DU * DF5) **2 
-c     .        -G * (DU * DF6) **2 
+c         DF = -TWO*G * (DU * DF1) **2
+c     .        -TWO*G * (DU * DF2) **2
+c     .        -TWO*G * (DU * DF3) **2
+c     .        -G * (DU * DF4) **2
+c     .        -G * (DU * DF5) **2
+c     .        -G * (DU * DF6) **2
 
          DF = DF  - YLDP
          !CALCUL PAS PLASTIQUE
@@ -512,33 +512,33 @@ c     .        -G * (DU * DF6) **2
          DEPLZX(I)=DPLA(I)*DF6*DU
 
          !ACTUALISATION DES CONTRAINTES
-         SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)            
-         SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I) 
-         SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)            
+         SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)
+         SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I)
+         SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)
          SIGNXY(I)=SIGTRXY(I)- G*DEPLXY(I)
          SIGNYZ(I)=SIGTRYZ(I)- G*DEPLYZ(I)
          SIGNZX(I)=SIGTRZX(I)- G*DEPLZX(I)
          !CALCUL NOUVEAU SIGMA EFFECTIF
          !--------------------
-         !BARLAT CRITERION 
+         !BARLAT CRITERION
          !--------------------
          XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)-AL1*SIGNZZ(I))/THREE
          XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)-AL2*SIGNZZ(I))/THREE
          XPXY(I) = AL7*SIGNXY(I)
          XPYZ(I) = AL9*SIGNYZ(I)
-         XPZX(I) = AL10*SIGNZX(I) 
-      
+         XPZX(I) = AL10*SIGNZX(I)
+
          XPPXX(I) = LPP11*SIGNXX(I) + LPP12*SIGNYY(I) +LPP13*SIGNZZ(I)
          XPPYY(I) = LPP21*SIGNXX(I) + LPP22*SIGNYY(I) +LPP23*SIGNZZ(I)
          XPPXY(I) = LPP34*SIGNXY(I)
          XPPYZ(I) = LPP45*SIGNYZ(I)
          XPPZX(I) = LPP56*SIGNZX(I)
 
-         DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )  
+         DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )
 
          PHIP(I)  = SQRT(MAX(ZERO, DELTAP(I)))**EXPA
 
-       
+
          DELTAPP(I)  = (XPPXX(I)-XPPYY(I))**2 + FOUR * (XPPXY(I)**2 + XPPYZ(I)**2 + XPPZX(I)**2 )
          DELTAPP(I)  = SQRT(MAX(EM20, DELTAPP(I)))
 
@@ -546,33 +546,33 @@ c     .        -G * (DU * DF6) **2
          DELTAPP2(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))-HALF*DELTAPP(I)
 
          PHIPP(I)= DELTAPP1(I)**EXPA + DELTAPP2(I)**EXPA
-      
+
 !        SIG(I) = (HALF*(PHIP(I)+PHIPP(I)))**UNSA
          IF(((PHIP(I)+PHIPP(I)))>ZERO) THEN
           SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
          ELSE
           SIG(I) = ZERO
          ENDIF
-  
-        ENDDO  ! iter  
-	   UVAR(I,3)=DPLA(I)       
+
+        ENDDO  ! iter
+	   UVAR(I,3)=DPLA(I)
        ENDDO ! NINDX
 C-------------------
 C-------------------
-      ELSE ! IFLAG *TABULATED YIELD               
+      ELSE ! IFLAG *TABULATED YIELD
 C-------------------
 c yield tabulated in below
 C-------------------
        IF(IFLAGSR == 0)THEN
 C-------------------
 C-------------------
-        DO I=1,NEL                                   
-          JJ(I) = 1      
-          DO J=2,NRATE-1                      
-            IF (EPSP(I) > UPARAM(25+J)) JJ(I) = J 
-          ENDDO 
+        DO I=1,NEL
+          JJ(I) = 1
+          DO J=2,NRATE-1
+            IF (EPSP(I) > UPARAM(25+J)) JJ(I) = J
+          ENDDO
         ENDDO
-        DO I=1,NEL 
+        DO I=1,NEL
           EPSPI  = UPARAM(25+JJ(I)) !
           RATE(I)=(EPSP(I) - EPSPI)/(UPARAM(26+JJ(I)) - EPSPI)
           YFAC(I,1)=UPARAM(25+NRATE+JJ(I))*FACYLDI(I)
@@ -610,49 +610,49 @@ c------------------------------
          IF(TIME == ZERO)THEN
           DO I=1,NEL
            YFAC(I,1)= UPARAM(25+NRATE+1)*FACYLDI(I)
-           YLD(I)   = YFAC(I,1)*FINTER(IPM(11,MAT(1))  ,ZERO,NPF,TF,DYDX(I)) 
-           UVAR(I,2)= YLD(I)     
+           YLD(I)   = YFAC(I,1)*FINTER(IPM(11,MAT(1))  ,ZERO,NPF,TF,DYDX(I))
+           UVAR(I,2)= YLD(I)
           ENDDO
          ENDIF
         ENDIF
         DO I=1,NEL
-         PLA(I)  = UVAR(I,1)                                        
+         PLA(I)  = UVAR(I,1)
          YLD(I)  = UVAR(I,2)
-         DYDX(I) = UVAR(I,5)                                                                       
-         PLAP(I) = UVAR(I,6)                                   
-         JJ(I) = 1                                                  
-        ENDDO       
+         DYDX(I) = UVAR(I,5)
+         PLAP(I) = UVAR(I,6)
+         JJ(I) = 1
+        ENDDO
       ENDIF !flagSR
 C-------------------
 C-------------------
-c------------------------------     
+c------------------------------
       DO I=1,NEL
        !--------------------
-       !BARLAT CRITERION 
+       !BARLAT CRITERION
        !--------------------
        XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)-AL1*SIGNZZ(I))/THREE
        XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)-AL2*SIGNZZ(I))/THREE
        XPXY(I) = AL7*SIGNXY(I)
        XPYZ(I) = AL9*SIGNYZ(I)
-       XPZX(I) = AL10*SIGNZX(I) 
-      
+       XPZX(I) = AL10*SIGNZX(I)
+
        XPPXX(I) = LPP11*SIGNXX(I) + LPP12*SIGNYY(I) +LPP13*SIGNZZ(I)
        XPPYY(I) = LPP21*SIGNXX(I) + LPP22*SIGNYY(I) +LPP23*SIGNZZ(I)
        XPPXY(I) = LPP34*SIGNXY(I)
        XPPYZ(I) = LPP45*SIGNYZ(I)
        XPPZX(I) = LPP56*SIGNZX(I)
 
-       DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )    
+       DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )
        PHIP(I)  = SQRT(MAX(ZERO, DELTAP(I)))**EXPA
 
-       
+
        DELTAPP(I)  = (XPPXX(I)-XPPYY(I))**2 + FOUR * (XPPXY(I)**2 + XPPYZ(I)**2 + XPPZX(I)**2 )
        DELTAPP(I)  = SQRT(MAX(EM20, DELTAPP(I)))
        DELTAPP1(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))+HALF*DELTAPP(I)
        DELTAPP2(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))-HALF*DELTAPP(I)
 
        PHIPP(I)= DELTAPP1(I)**EXPA + DELTAPP2(I)**EXPA
-       
+
 !      SIG(I) = (HALF*(PHIP(I)+PHIPP(I)))**UNSA
        IF((PHIP(I)+PHIPP(I))>ZERO) THEN
         SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
@@ -667,7 +667,7 @@ C     ----------------------------------------------------
       DO I=1,NEL
        IF (SIG(I)>YLD(I).AND.OFF(I) == ONE)THEN ! Plastic Loading
         NINDX = NINDX + 1
-        INDX(NINDX)  = I 
+        INDX(NINDX)  = I
        ENDIF
       ENDDO
 C     ----------------------------------------------------
@@ -676,8 +676,8 @@ C     ----------------------------------------------------
 c     flag strain rate option *****************************************
 C     ----------------------------------------------------
       IF(IFLAGSR == 0)THEN
-       DO II=1,NINDX                                              
-         I = INDX(II)                                             
+       DO II=1,NINDX
+         I = INDX(II)
         !--------------------
         !PLASTIC FLOW
         !--------------------
@@ -704,23 +704,23 @@ C     ----------------------------------------------------
 
           !D_phip/D_XP
           FP1 = TP1 * (XPXX(I) - XPYY(I))
-          FP2 = -FP1  
+          FP2 = -FP1
           FP3 = THREE * TP1 * XPXY(I)
           FP4 = THREE * TP1 * XPYZ(I)
-          FP5 = THREE * TP1 * XPZX(I) 
-         
+          FP5 = THREE * TP1 * XPZX(I)
+
 
           TPP1 = EXPA * DELTAPP1(I) ** (EXPA - 1)
           TPP2 = EXPA * DELTAPP2(I) ** (EXPA - 1)
           TPP3 = TWO *(TPP1  -  TPP2) /DELTAPP(I)
-         
+
           !D_phipp/D_XPP
           FPP1 = TPP1 *(THREE_HALF+HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
      .         +TPP2 *(THREE_HALF-HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
           FPP2 = TPP1 *(-THREE_HALF-HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
      .         +TPP2 *(-THREE_HALF+HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
           FPP3 = TPP3 * XPPXY(I)
-          FPP4 = TPP3 * XPPYZ(I) 
+          FPP4 = TPP3 * XPPYZ(I)
           FPP5 = TPP3 * XPPZX(I)
 
           DFP1=THIRD*(TWO*AL1*FP1-AL2*FP2)
@@ -728,8 +728,8 @@ C     ----------------------------------------------------
           DFP3=THIRD*(-AL1*FP1-AL2*FP2)
           DFP4=AL7*FP3
           DFP5=AL9*FP4
-          DFP6=AL10*FP5 
-         
+          DFP6=AL10*FP5
+
 
           DFPP1=FPP1*LPP11+FPP2*LPP21
           DFPP2=FPP1*LPP12+FPP2*LPP22
@@ -737,8 +737,8 @@ C     ----------------------------------------------------
           DFPP4=FPP3*LPP34
           DFPP5=FPP4*LPP45
           DFPP6=FPP5*LPP56
-          
-          DU =  UNSA * SIG(I) / (MAX(EM20, PHIP(I)+PHIPP(I)) ) 
+
+          DU =  UNSA * SIG(I) / (MAX(EM20, PHIP(I)+PHIPP(I)) )
 
           DF1 = DFP1+DFPP1
           DF2 = DFP2+DFPP2
@@ -747,12 +747,12 @@ C     ----------------------------------------------------
           DF5 = DFP5+DFPP5
           DF6 = DFP6+DFPP6
 
-          DF = -TWO*G * (DU * DF1) **2 
-     .         -TWO*G * (DU * DF2) **2 
-     .         -TWO*G * (DU * DF3) **2 
-     .         -G * (DU * DF4) **2 
-     .         -G * (DU * DF5) **2 
-     .         -G * (DU * DF6) **2 
+          DF = -TWO*G * (DU * DF1) **2
+     .         -TWO*G * (DU * DF2) **2
+     .         -TWO*G * (DU * DF3) **2
+     .         -G * (DU * DF4) **2
+     .         -G * (DU * DF5) **2
+     .         -G * (DU * DF6) **2
 
           DF = DF  - YLDP
 
@@ -768,40 +768,40 @@ C     ----------------------------------------------------
           DEPLZX(I)=DPLA(I)*DF6*DU
 
           !ACTUALISATION DES CONTRAINTES
-          SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)           
-          SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I) 
-          SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)           
+          SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)
+          SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I)
+          SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)
           SIGNXY(I)=SIGTRXY(I)- G*DEPLXY(I)
           SIGNYZ(I)=SIGTRYZ(I)- G*DEPLYZ(I)
           SIGNZX(I)=SIGTRZX(I)- G*DEPLZX(I)
 
           !CALCUL NOUVEAU SIGMA EFFECTIF
           !--------------------
-          !BARLAT CRITERION 
+          !BARLAT CRITERION
           !--------------------
           XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)-AL1*SIGNZZ(I))/THREE
           XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)-AL2*SIGNZZ(I))/THREE
           XPXY(I) = AL7*SIGNXY(I)
           XPYZ(I) = AL9*SIGNYZ(I)
-          XPZX(I) = AL10*SIGNZX(I) 
-      
+          XPZX(I) = AL10*SIGNZX(I)
+
           XPPXX(I) = LPP11*SIGNXX(I) + LPP12*SIGNYY(I) +LPP13*SIGNZZ(I)
           XPPYY(I) = LPP21*SIGNXX(I) + LPP22*SIGNYY(I) +LPP23*SIGNZZ(I)
           XPPXY(I) = LPP34*SIGNXY(I)
           XPPYZ(I) = LPP45*SIGNYZ(I)
           XPPZX(I) = LPP56*SIGNZX(I)
 
-          DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )    
+          DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )
           PHIP(I)  = SQRT(MAX(ZERO, DELTAP(I)))**EXPA
 
-       
+
           DELTAPP(I)  = (XPPXX(I)-XPPYY(I))**2 + FOUR * (XPPXY(I)**2 + XPPYZ(I)**2 + XPPZX(I)**2 )
           DELTAPP(I)  = SQRT(MAX(EM20, DELTAPP(I)))
           DELTAPP1(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))+HALF*DELTAPP(I)
           DELTAPP2(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))-HALF*DELTAPP(I)
 
           PHIPP(I)= DELTAPP1(I)**EXPA + DELTAPP2(I)**EXPA
-       
+
 !         !SIG(I) = (HALF*(PHIP(I)+PHIPP(I)))**UNSA
           IF((HALF*(PHIP(I)+PHIPP(I)))>ZERO) THEN
            SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
@@ -809,34 +809,34 @@ C     ----------------------------------------------------
            SIG(I) = ZERO
           ENDIF
 
-         ENDDO !iter   
-	        UVAR(I,3)=DPLA(I)       
+         ENDDO !iter
+	        UVAR(I,3)=DPLA(I)
        ENDDO ! NINDX
 C=======================================================================
       ELSE !IFLAGSR PLASTIC STRAIN RATE ******************************
 C=======================================================================
-       DO II=1,NINDX                                              
-        I = INDX(II)                                             
+       DO II=1,NINDX
+        I = INDX(II)
         !--------------------
         !PLASTIC FLOW
         !--------------------
-        DPLA(I) =  UVAR(I,3) + EM09 
+        DPLA(I) =  UVAR(I,3) + EM09
         PLAP(I) = DPLA(I)/TIMESTEP
-        !-------------- 
+        !--------------
         !update yield :
-        !-------------- 
-        JJ(I) = 1                                              
-        DO J=2,NRATE-1                                        
-          IF(PLAP(I) >= UPARAM(25+J)) JJ(I) = J               
-        ENDDO                                                  
+        !--------------
+        JJ(I) = 1
+        DO J=2,NRATE-1
+          IF(PLAP(I) >= UPARAM(25+J)) JJ(I) = J
+        ENDDO
         J1 = JJ(I)
         J2 = J1+1
         RATE(I)=(PLAP(I) - UPARAM(25+J1))/(UPARAM(26+J1) - UPARAM(25+J1))
         YFAC(I,1)=UPARAM(25+NRATE+J1)*FACYLDI(I)
         YFAC(I,2)=UPARAM(25+NRATE+J2)*FACYLDI(I)
         !Y1 and Y2 for Pl SR dependency
-        Y1(I)   = YFAC(I,1)*FINTER(IPM(10+J1,MAT(1)),PLA(I),NPF,TF,DYDX1(I)) 
-        Y2(I)   = YFAC(I,2)*FINTER(IPM(10+J2,MAT(1)),PLA(I),NPF,TF,DYDX2(I))        
+        Y1(I)   = YFAC(I,1)*FINTER(IPM(10+J1,MAT(1)),PLA(I),NPF,TF,DYDX1(I))
+        Y2(I)   = YFAC(I,2)*FINTER(IPM(10+J2,MAT(1)),PLA(I),NPF,TF,DYDX2(I))
         YLD(I)  = Y1(I)    + RATE(I)*(Y2(I)-Y1(I))
         YLD(I)  = MAX(YLD(I),EM20)
         DYDX1(I)= DYDX1(I)*YFAC(I,1)
@@ -846,7 +846,7 @@ C=======================================================================
      .           (UPARAM(26+J1)-UPARAM(25+J1)) /TIMESTEP
 
 
-       
+
 	       !DPLA(I)= UVAR(I,3)
         !DPLA(I)= (SIG(I)-YLD(I))/(THREE*G+DYDX(I))
          DEPLXX(I)=ZERO
@@ -866,29 +866,29 @@ C=======================================================================
          !update yield :
          !---------------------------------------
          PLA(I)    = UVAR(I,1) + DPLA(I)
-         PLAP(I)   = DPLA(I) / TIMESTEP    
-         JJ(I) = 1                                              
-         DO J=2,NRATE-1                                        
-          IF(PLAP(I) >= UPARAM(25+J)) JJ(I) = J               
-         ENDDO                                                  
+         PLAP(I)   = DPLA(I) / TIMESTEP
+         JJ(I) = 1
+         DO J=2,NRATE-1
+          IF(PLAP(I) >= UPARAM(25+J)) JJ(I) = J
+         ENDDO
          J1 = JJ(I)
          J2 = J1+1
          RATE(I)=(PLAP(I) - UPARAM(25+J1))/(UPARAM(26+J1) - UPARAM(25+J1))
          YFAC(I,1)=UPARAM(25+NRATE+J1)*FACYLDI(I)
          YFAC(I,2)=UPARAM(25+NRATE+J2)*FACYLDI(I)
          !Y1 and Y2 for Pl SR dependency
-         Y1(I)   = YFAC(I,1)*FINTER(IPM(10+J1,MAT(1)),PLA(I),NPF,TF,DYDX1(I)) 
-         Y2(I)   = YFAC(I,2)*FINTER(IPM(10+J2,MAT(1)),PLA(I),NPF,TF,DYDX2(I)) 
+         Y1(I)   = YFAC(I,1)*FINTER(IPM(10+J1,MAT(1)),PLA(I),NPF,TF,DYDX1(I))
+         Y2(I)   = YFAC(I,2)*FINTER(IPM(10+J2,MAT(1)),PLA(I),NPF,TF,DYDX2(I))
          YLD(I)  = Y1(I)    + RATE(I)*(Y2(I)-Y1(I))
          YLD(I)  = MAX(YLD(I),EM20)
          DYDX1(I)=DYDX1(I)*YFAC(I,1)
          DYDX2(I)=DYDX2(I)*YFAC(I,2)
          DYDX(I)   = (DYDX1(I) + RATE(I)*(DYDX2(I)-DYDX1(I)))
-         !--------------------------------------- 
+         !---------------------------------------
          YLDP   = DYDX(I)+ (Y2(I)-Y1(I))
      .            /(UPARAM(26+J1)-UPARAM(25+J1))  /TIMESTEP
 
-         !--------------------------------------- 
+         !---------------------------------------
 
          !YLD(I) =YLD_I+DYDX(I)*DPLA(I)
 
@@ -898,23 +898,23 @@ C=======================================================================
 
           !D_phip/D_XP
           FP1 = TP1 * (XPXX(I) - XPYY(I))
-          FP2 = -FP1  
+          FP2 = -FP1
           FP3 = THREE * TP1 * XPXY(I)
           FP4 = THREE * TP1 * XPYZ(I)
-          FP5 = THREE * TP1 * XPZX(I) 
-         
+          FP5 = THREE * TP1 * XPZX(I)
+
 
           TPP1 = EXPA * DELTAPP1(I) ** (EXPA - 1)
           TPP2 = EXPA * DELTAPP2(I) ** (EXPA - 1)
           TPP3 = TWO *(TPP1  -  TPP2) /DELTAPP(I)
-         
+
           !D_phipp/D_XPP
           FPP1 = TPP1 *(THREE_HALF+HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
      .         +TPP2 *(THREE_HALF-HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
           FPP2 = TPP1 *(-THREE_HALF-HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
      .         +TPP2 *(-THREE_HALF+HALF* ( XPPXX(I) - XPPYY(I) )/DELTAPP(I))
           FPP3 = TPP3 * XPPXY(I)
-          FPP4 = TPP3 * XPPYZ(I) 
+          FPP4 = TPP3 * XPPYZ(I)
           FPP5 = TPP3 * XPPZX(I)
 
           DFP1=THIRD*(TWO*AL1*FP1-AL2*FP2)
@@ -922,8 +922,8 @@ C=======================================================================
           DFP3=THIRD*(-AL1*FP1-AL2*FP2)
           DFP4=AL7*FP3
           DFP5=AL9*FP4
-          DFP6=AL10*FP5 
-         
+          DFP6=AL10*FP5
+
 
           DFPP1=FPP1*LPP11+FPP2*LPP21
           DFPP2=FPP1*LPP12+FPP2*LPP22
@@ -931,8 +931,8 @@ C=======================================================================
           DFPP4=FPP3*LPP34
           DFPP5=FPP4*LPP45
           DFPP6=FPP5*LPP56
-          
-          DU =  UNSA * SIG(I) / (MAX(EM20, PHIP(I)+PHIPP(I)) ) 
+
+          DU =  UNSA * SIG(I) / (MAX(EM20, PHIP(I)+PHIPP(I)) )
 
           DF1 = DFP1+DFPP1
           DF2 = DFP2+DFPP2
@@ -941,12 +941,12 @@ C=======================================================================
           DF5 = DFP5+DFPP5
           DF6 = DFP6+DFPP6
 
-          DF = -TWO*G * (DU * DF1) **2 
-     .         -TWO*G * (DU * DF2) **2 
-     .         -TWO*G * (DU * DF3) **2 
-     .         -G * (DU * DF4) **2 
-     .         -G * (DU * DF5) **2 
-     .         -G * (DU * DF6) **2 
+          DF = -TWO*G * (DU * DF1) **2
+     .         -TWO*G * (DU * DF2) **2
+     .         -TWO*G * (DU * DF3) **2
+     .         -G * (DU * DF4) **2
+     .         -G * (DU * DF5) **2
+     .         -G * (DU * DF6) **2
 
           DF = DF  - YLDP
 
@@ -962,51 +962,51 @@ C=======================================================================
           DEPLZX(I)=DPLA(I)*DF6*DU
 
           !ACTUALISATION DES CONTRAINTES
-          SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)           
-          SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I) 
-          SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)           
+          SIGNXX(I)=SIGTRXX(I)- G2*DEPLXX(I)
+          SIGNYY(I)=SIGTRYY(I)- G2*DEPLYY(I)
+          SIGNZZ(I)=SIGTRZZ(I)- G2*DEPLZZ(I)
           SIGNXY(I)=SIGTRXY(I)- G*DEPLXY(I)
           SIGNYZ(I)=SIGTRYZ(I)- G*DEPLYZ(I)
           SIGNZX(I)=SIGTRZX(I)- G*DEPLZX(I)
 
           !CALCUL NOUVEAU SIGMA EFFECTIF
           !--------------------
-          !BARLAT CRITERION 
+          !BARLAT CRITERION
           !--------------------
           XPXX(I) = (TWO*AL1*SIGNXX(I)-AL1*SIGNYY(I)-AL1*SIGNZZ(I))/THREE
           XPYY(I) =(-AL2*SIGNXX(I)+TWO*AL2*SIGNYY(I)-AL2*SIGNZZ(I))/THREE
           XPXY(I) = AL7*SIGNXY(I)
           XPYZ(I) = AL9*SIGNYZ(I)
-          XPZX(I) = AL10*SIGNZX(I) 
-      
+          XPZX(I) = AL10*SIGNZX(I)
+
           XPPXX(I) = LPP11*SIGNXX(I) + LPP12*SIGNYY(I) +LPP13*SIGNZZ(I)
           XPPYY(I) = LPP21*SIGNXX(I) + LPP22*SIGNYY(I) +LPP23*SIGNZZ(I)
           XPPXY(I) = LPP34*SIGNXY(I)
           XPPYZ(I) = LPP45*SIGNYZ(I)
           XPPZX(I) = LPP56*SIGNZX(I)
 
-          DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )    
+          DELTAP(I)   = (XPXX(I)-XPYY(I))**2 + FOUR * (XPXY(I)**2 + XPYZ(I)**2 + XPZX(I)**2 )
           PHIP(I)  = SQRT(MAX(ZERO, DELTAP(I)))**EXPA
 
-       
+
           DELTAPP(I)  = (XPPXX(I)-XPPYY(I))**2 + FOUR * (XPPXY(I)**2 + XPPYZ(I)**2 + XPPZX(I)**2 )
           DELTAPP(I)  = SQRT(MAX(EM20, DELTAPP(I)))
           DELTAPP1(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))+HALF*DELTAPP(I)
           DELTAPP2(I) = THREE_HALF*(XPPXX(I)-XPPYY(I))-HALF*DELTAPP(I)
 
           PHIPP(I)= DELTAPP1(I)**EXPA + DELTAPP2(I)**EXPA
-       
+
 !         !SIG(I) = (HALF*(PHIP(I)+PHIPP(I)))**UNSA
           IF((HALF*(PHIP(I)+PHIPP(I)))>ZERO) THEN
            SIG(I) = EXP(UNSA*LOG(HALF*(PHIP(I)+PHIPP(I))))
           ELSE
            SIG(I) = ZERO
           ENDIF
-        ENDDO ! iter k   
-        UVAR(I,3) =DPLA(I)                                                                  
+        ENDDO ! iter k
+        UVAR(I,3) =DPLA(I)
        ENDDO !ndx
 c----------------------------
-       ENDIF   !flag formulation 
+       ENDIF   !flag formulation
       ENDIF
 C=======================================================================
       DO I=1,NEL
@@ -1023,6 +1023,6 @@ C
        ETSE(I)= UVAR(I,4)
        YLD(I) = UVAR(I,2)
        H(I)   = UVAR(I,5)
-      ENDDO     
+      ENDDO
       RETURN
       END

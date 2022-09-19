@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ) ,
      .   XY(MVSIZ) , YZ(MVSIZ) , ZX(MVSIZ) ,
      .   XX2(MVSIZ), YY2(MVSIZ), ZZ2(MVSIZ),
-     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
+     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
@@ -233,7 +233,7 @@ C
       ENDDO
 
       OFF(1:MVSIZ) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EINT,EK,OFF,IPARTR,ITASK)
 C---
       RETURN
       END

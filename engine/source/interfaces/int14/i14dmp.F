@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER NSC, NSP, KSURF,KSI(*),
      .        IMPACT(*), NDAMP1, NDAMP2, NPC(*)
 C     REAL
-      my_real 
+      my_real
      .  X(3,*)  ,V(3,*)    , BUFSF(*), KSC(*), KSP(*),
      .  CIMP(3,*) ,NIMP(3,*) , VISC  , GAPMIN, PLD(*),
      .  MS(*)     ,WF(*)     , WST(*), STF
@@ -94,7 +94,7 @@ C-----------------------------------------------
       CN=C**DGR
       AN=ONE/AN
       BN=ONE/BN
-      CN=ONE/CN      
+      CN=ONE/CN
       DO I=1,9
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO

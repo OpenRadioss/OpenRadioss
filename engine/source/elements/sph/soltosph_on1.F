@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -68,8 +68,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),
-     .        IPARTSP(*), IPARG(NPARG,*), NGROUNC, 
-     .        IGROUNC(*), ITASK, IXSP(KVOISPH,*), NOD2SP(*), 
+     .        IPARTSP(*), IPARG(NPARG,*), NGROUNC,
+     .        IGROUNC(*), ITASK, IXSP(KVOISPH,*), NOD2SP(*),
      .        SOL2SPH(2,*), SPH2SOL(*), IXS(NIXS,*),
      .        IADS(8,*), ADDCNE(*), ICONTACT(*)
       my_real
@@ -92,12 +92,12 @@ C-----------------------------------------------
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 50
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -154,7 +154,7 @@ C     PARITH/OFF
 C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 100
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -286,7 +286,7 @@ C
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 200
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -434,7 +434,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -460,8 +460,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),
-     .        IPARTSP(*), IPARG(NPARG,*), NGROUNC, 
-     .        IGROUNC(*), ITASK, IXSP(KVOISPH,*), NOD2SP(*), 
+     .        IPARTSP(*), IPARG(NPARG,*), NGROUNC,
+     .        IGROUNC(*), ITASK, IXSP(KVOISPH,*), NOD2SP(*),
      .        SOL2SPH(2,*), SPH2SOL(*), IXS(NIXS,*),
      .        IADS(8,*), ADDCNE(*), ICONTACT(*), IPART(LIPART1,*)
       my_real
@@ -476,12 +476,12 @@ C-----------------------------------------------
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 50
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -557,7 +557,7 @@ C-----
                   DO J=1,NVOIS
                     JNOD=IXSP(J,NP)
                     IF(JNOD>0)THEN
-                      M=NOD2SP(JNOD)    
+                      M=NOD2SP(JNOD)
                       IF((IPART(3,IPARTSP(M))/=IPART(3,IPARTSP(NP))).OR.
      .                  (((IPART(3,IPARTSP(M))+IPART(3,IPARTSP(NP)))==2*NSUBS).
      .                  AND.(IPARTSP(M)/=IPARTSP(NP)))) THEN
@@ -608,7 +608,7 @@ C-----------------------------------------------
      . ' => DELETE SOLID ELEMENT AT NEXT CYCLE',I10)
  6000 FORMAT(
      & ' -- PARTICLE INTERACTING W/OTHER SPH PART OR SUBSET',
-     . ' => DELETE SOLID ELEMENT AT NEXT CYCLE',I10)    
+     . ' => DELETE SOLID ELEMENT AT NEXT CYCLE',I10)
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SOLTOSPH_ON12

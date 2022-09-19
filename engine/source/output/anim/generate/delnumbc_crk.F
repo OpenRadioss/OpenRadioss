@@ -70,9 +70,9 @@ C
           NLEVXF = IPARG(65,NG)
           IF (IXFEM > 0) THEN
             IF (IXFEM == 2 .AND. ICRK > NLEVXF) CYCLE
-            NEL = IPARG(2,NG)   
-            NFT = IPARG(3,NG)   
-            ITY = IPARG(5,NG)   
+            NEL = IPARG(2,NG)
+            NFT = IPARG(3,NG)
+            ITY = IPARG(5,NG)
 C-----------------------------------------------
 C           COQUES 4 N
 C-----------------------------------------------

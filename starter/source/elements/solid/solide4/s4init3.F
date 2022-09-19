@@ -64,10 +64,10 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE BPRELOAD_MOD
-      USE DETONATORS_MOD      
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -103,7 +103,7 @@ C-----------------------------------------------
       my_real
      .   MAS(*), PM(NPROPM,*), X(*), GEO(NPROPG,*),
      .   VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
-     .   PARTSAV(20,*), V(*), MSS(8,*)  , 
+     .   PARTSAV(20,*), V(*), MSS(8,*)  ,
      .   MSNF(*), MSSF(8,*),WMA(*),XREFS(8,3,*),
      .   VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),BUFMAT(*),
      .   MCP(*), MCPS(8,*), TEMP(*), TF(*),SIGSP(NSIGI,*), MSSA(*),
@@ -123,7 +123,7 @@ C-----------------------------------------------
       INTEGER NSPHDIR,NCELF,NCELL,IBOLTP
       DOUBLE PRECISION
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),
-     .   Y3(MVSIZ),Y4(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ) 
+     .   Y3(MVSIZ),Y4(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ)
       CHARACTER*nchartitle,
      .   TITR1
       my_real
@@ -140,8 +140,8 @@ C-----------------------------------------------
      .   V8LOC(51,MVSIZ), VOLU(MVSIZ), DTX(MVSIZ),RHOCP(MVSIZ),
      .   TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(1)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -184,7 +184,7 @@ C
      .             Y3     ,Y4     ,Z1     ,Z2     ,Z3     ,Z4     ,
      .             PX1    ,PX2    ,PX3    ,PX4    ,
      .             PY1    ,PY2    ,PY3    ,PY4    ,
-     .             PZ1    ,PZ2    ,PZ3    ,PZ4    ,GBUF%JAC_I, 
+     .             PZ1    ,PZ2    ,PZ3    ,PZ4    ,GBUF%JAC_I,
      .             DELTAX ,VOLU   ,NGL    ,PID    ,MAT       ,
      .             PM     ,LBUF%VOL0DP)
       IREP = IPARG_GR(35)
@@ -208,8 +208,8 @@ C
      .            FACLOAD, DELTAX)
 C
       ! Density perturbation for /MAT/LAW115
-      IF (MTN == 115) THEN 
-        CALL M115_PERTURB(PM       ,MAT      ,GBUF%RHO ,PERTURB  ,RNOISE   ) 
+      IF (MTN == 115) THEN
+        CALL M115_PERTURB(PM       ,MAT      ,GBUF%RHO ,PERTURB  ,RNOISE   )
       ENDIF
 C
       IF (IBOLTP /=0) THEN
@@ -227,7 +227,7 @@ C     INITIALISATION DES MASSES
 C----------------------------------------
       IF(JLAG+JALE+JEUL/=0) THEN
 C-------- case /INIBRIS/STRS_FGLO missed         
-         IF (ISIGI /= 0 .AND. (JCVT/=0.OR.ISORTH/=0)) 
+         IF (ISIGI /= 0 .AND. (JCVT/=0.OR.ISORTH/=0))
      .   CALL USTRSIN3(
      .   SIGI    ,LBUF%SIG ,IXS     ,NIXS    ,NSIGS   ,
      .   NEL     ,STRSGLOB ,JHBE    ,IGTYP   ,X       ,
@@ -285,7 +285,7 @@ C       attention : IX1, IX2 ... IX4 sont sous la forme NC(MVSIZ,4)
 C----------------------------------------
 c Initialization of stress tensor in case of Orthotropic properties
 C----------------------------------------
-      IF (ISIGI /= 0 .AND. ISORTH/=0) THEN 
+      IF (ISIGI /= 0 .AND. ISORTH/=0) THEN
         LBUF%SIGL = LBUF%SIG
       ENDIF
 C----------------------------------------
@@ -299,7 +299,7 @@ C     CALCUL DES DT ELEMENTAIRES
 c
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE,
      .     VOLU, DTX ,IGEO)
 C------------------------------------------
 c

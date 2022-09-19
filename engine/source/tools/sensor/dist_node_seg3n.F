@@ -71,7 +71,7 @@ c     normal to segment plane
       NORM = SQRT(NX*NX + NY*NY + NZ*NZ)
 c     distance to plane
       DIST = ABS(NX*UX + NY*UY + NZ*UZ) / NORM
-      
+
       IF (DIST > DMAX .or. DIST < DMIN) RETURN  ! distance is outside of valid range
 c---------------------------------------------------
 c     Check if projection on segment plane is inside
@@ -146,7 +146,7 @@ c
           D3 = SQRT((NOD_X - QX)**2 + (NOD_Y - QY)**2 + (NOD_Z - QZ)**2)
           DIST = MIN(DIST, D3)
         END IF
-c        
+c
       END IF
 c-----------
       RETURN

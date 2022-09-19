@@ -88,11 +88,11 @@ C-----------------------------------------------
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VT1(MVSIZ), VT2(MVSIZ),FNI(MVSIZ), 
+     .   VT1(MVSIZ), VT2(MVSIZ),FNI(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),NORMINV,
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
      .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ),FAC10
       my_real
@@ -104,7 +104,7 @@ C-----------------------------------------------
       IF (IMP_INT7==3) THEN
        DO I=1,JLT
         D1 = SQRT(P1(I))
-        P1(I) = FOURTH*GAPV(I) 
+        P1(I) = FOURTH*GAPV(I)
         D2 = SQRT(P2(I))
         P2(I) = FOURTH*GAPV(I)
         D3 = SQRT(P3(I))
@@ -127,7 +127,7 @@ C
         D4 = SQRT(P4(I))
         P4(I) = MAX(ZERO, GAPV(I) - D4)
        ENDDO
-      ENDIF !(IMP_INT7==3) 
+      ENDIF !(IMP_INT7==3)
 C
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -136,9 +136,9 @@ C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I) 
+         LA4 = ONE - LB4(I) - LC4(I)
 C
-         H0    = FOURTH * 
+         H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
@@ -200,7 +200,7 @@ C------------------------------------
         H3(I) = CAND_F(6,II)
         H4(I) = ONE - H1(I) - H2(I) - H3(I)
        ENDIF
-      ENDDO 
+      ENDDO
 C
       DO I=1,JLT
         VX(I) = VXI(I) - H1(I)*V(1,IX1(I)) - H2(I)*V(1,IX2(I))
@@ -236,9 +236,9 @@ C
         T2Y(I) = NZ(I)*T1X(I) - NX(I)*T1Z(I)
         T2Z(I) = NX(I)*T1Y(I) - NY(I)*T1X(I)
 C
-        VN(I)  = VX(I)*NX(I)  + VY(I)*NY(I)  + VZ(I)*NZ(I)  
-        VT1(I) = VX(I)*T1X(I) + VY(I)*T1Y(I) + VZ(I)*T1Z(I)  
-        VT2(I) = VX(I)*T2X(I) + VY(I)*T2Y(I) + VZ(I)*T2Z(I)  
+        VN(I)  = VX(I)*NX(I)  + VY(I)*NY(I)  + VZ(I)*NZ(I)
+        VT1(I) = VX(I)*T1X(I) + VY(I)*T1Y(I) + VZ(I)*T1Z(I)
+        VT2(I) = VX(I)*T2X(I) + VY(I)*T2Y(I) + VZ(I)*T2Z(I)
       ENDDO
 C
       DO I=1,JLT
@@ -266,13 +266,13 @@ C------------------------------------
             FNI(I) = ZERO
             VN(I)  = ZERO
             VT1(I) = ZERO
-            VT2(I) = ZERO    
-            STIF(I) = ZERO 
+            VT2(I) = ZERO
+            STIF(I) = ZERO
           ELSE
 C--------
           ENDIF
       ELSE
-           STIF(I) = STIF(I) * ABS(VN(I)) * DT1/MAX(PENE(I),EM10) 
+           STIF(I) = STIF(I) * ABS(VN(I)) * DT1/MAX(PENE(I),EM10)
       ENDIF
 C    
  100  CONTINUE
@@ -359,8 +359,8 @@ C    ----sans frottement d'abord---
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
 C    ----avec frottement --- 
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
@@ -374,13 +374,13 @@ C    ----avec frottement ---
            KK11(J,K,I)=KK11(J,K,I)+KT3
            KT4=FAC*H4(I)
            KL11(J,K,I)=KL11(J,K,I)+KT4
-          ENDIF 
+          ENDIF
          ENDDO
         ENDDO
        ENDDO
 C
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           KI12(J,K,I)=-KI11(J,K,I)
           KJ12(J,K,I)=-KJ11(J,K,I)
@@ -389,8 +389,8 @@ C
          ENDDO
         ENDDO
        ENDDO
-       DO J=1,3 
-        DO K=J+1,3 
+       DO J=1,3
+        DO K=J+1,3
          DO I=1,JLT
           KI12(K,J,I)=-KI11(J,K,I)
           KJ12(K,J,I)=-KJ11(J,K,I)
@@ -443,8 +443,8 @@ C---------pour temporairement diag_ss---
 	  DFI(3,NS)=ZERO
 	 ENDIF
         ENDDO
-       ENDIF 
-       ENDIF 
+       ENDIF
+       ENDIF
 C
        RETURN
       END
@@ -496,9 +496,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, J, K,IG,ISF,NN,NS,NI
       my_real
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
-     .   DNI(MVSIZ),D1T(MVSIZ),D2T(MVSIZ), DTI1(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
+     .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
+     .   DNI(MVSIZ),D1T(MVSIZ),D2T(MVSIZ), DTI1(MVSIZ),
      .   DTI2(MVSIZ),S2,FACN(MVSIZ),FACF, FACT(MVSIZ),FAC10
       my_real
      .   FX,FY,FZ,FN,FT1,FT2,FNI,FTI1,FTI2,VTX,VTY,VTZ,VT,
@@ -663,7 +663,7 @@ C-----------------------------------------------
      .     LC1(MVSIZ), LC2(MVSIZ), LC3(MVSIZ), LC4(MVSIZ),
      .   P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), STIF(MVSIZ),
      .   GAPV(MVSIZ),
-     .     DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ), 
+     .     DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ),
      .     XI(MVSIZ),YI(MVSIZ),ZI(MVSIZ),SCALK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -677,18 +677,18 @@ C-----------------------------------------------
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   FT1(MVSIZ), FT2(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
-     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ), 
-     .   VT1(MVSIZ), VT2(MVSIZ), 
+     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
+     .   VT1(MVSIZ), VT2(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
      .   S2,D1,D2,D3,D4,A1,A2,A3,A4,LA1,LA2,LA3,LA4,H0,
      .   NORMINV,BID,GAP2,PENE2,FAC,FX,FY,FZ
       my_real
-     .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ), 
-     .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ) 
+     .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ),
+     .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
 C--------------------------------------------------------
 C  actualise stif
 C--------------------------------------------------------
@@ -726,9 +726,9 @@ C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I) 
+         LA4 = ONE - LB4(I) - LC4(I)
 C
-         H0    = FOURTH * 
+         H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
@@ -789,7 +789,7 @@ C------------------------------------
         H3(I) = CAND_F(6,II)
         H4(I) = ONE - H1(I) - H2(I) - H3(I)
        ENDIF
-      ENDDO 
+      ENDDO
 C      
       DO I=1,JLT
         T1X(I) = X3(I) - X1(I)
@@ -817,10 +817,10 @@ C
         T2Z(I) = NX(I)*T1Y(I) - NY(I)*T1X(I)
 C
         DN(I) = NX(I)*DX(I) + NY(I)*DY(I) + NZ(I)*DZ(I)
-        VT1(I) = DX(I)*T1X(I) + DY(I)*T1Y(I) + DZ(I)*T1Z(I)  
-        VT2(I) = DX(I)*T2X(I) + DY(I)*T2Y(I) + DZ(I)*T2Z(I)  
+        VT1(I) = DX(I)*T1X(I) + DY(I)*T1Y(I) + DZ(I)*T1Z(I)
+        VT2(I) = DX(I)*T2X(I) + DY(I)*T2Y(I) + DZ(I)*T2Z(I)
       ENDDO
-       FAC =   ABS(SCALK)   
+       FAC =   ABS(SCALK)
        DO I=1,JLT
         STIF(I)=STIF(I)*FAC
        ENDDO
@@ -849,7 +849,7 @@ C           REBOND
 C------------------------------------
             FNI(I) = ZERO
             DN(I)  = ZERO
-            STIF(I) = ZERO 
+            STIF(I) = ZERO
             FT1(I) = ZERO
             FT2(I) = ZERO
           ELSE
@@ -869,7 +869,7 @@ C-------------------------------------------
         FZT(I)= T1Z(I)*FT1(I) + T2Z(I)*FT2(I)
         FXI(I) = FXN(I) + FXT(I)
         FYI(I) = FYN(I) + FYT(I)
-        FZI(I) = FZN(I) + FZT(I) 
+        FZI(I) = FZN(I) + FZT(I)
       ENDDO
 C--------main part-------
        DO I=1,JLT
@@ -897,7 +897,7 @@ C--------secnd part-------
           A(2,IG)=A(2,IG)-FYI(I)
           A(3,IG)=A(3,IG)-FZI(I)
         ENDDO
-       ELSE 
+       ELSE
         DO I=1,JLT
           IG=NSVG(I)
           IF(IG>0)THEN

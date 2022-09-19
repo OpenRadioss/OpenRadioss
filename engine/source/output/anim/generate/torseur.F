@@ -53,7 +53,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   TENS(9,*),TORS(15,*)
-      INTEGER IPARG(NPARG,*),ITENS, 
+      INTEGER IPARG(NPARG,*),ITENS,
      .   IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),EL2FA(*),
      .   NBF,NBPART,IADG(NSPMD,*)
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C     REAL
      .   OFF, FAC, A1, A2, A3, THK
       REAL R4(18)
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IPT,M,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
+     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, ISTRAIN,
      .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
@@ -77,11 +77,11 @@ C-----------------------------------------------
 C
 C
       NN1 = 1
-      NN2 = NN1 
-      NN3 = NN2 
-      NN4 = NN3 
-      NN5 = NN4 
-      NN6 = NN5 
+      NN2 = NN1
+      NN3 = NN2
+      NN4 = NN3
+      NN5 = NN4
+      NN6 = NN5
       NN7 = NN6 + NUMELT
       NN8 = NN7 + NUMELP
       NN9 = NN8 + NUMELR
@@ -146,7 +146,7 @@ C-----------------------------------------------
                   TENS(6,EL2FA(NN8+N)) = ZERO
                   TENS(7,EL2FA(NN8+N)) = ZERO
                   TENS(8,EL2FA(NN8+N)) = ZERO
-                  TENS(9,EL2FA(NN8+N)) = ZERO                  
+                  TENS(9,EL2FA(NN8+N)) = ZERO
                   TENS(1,EL2FA(NN8+N)+1) = TORS(4,M)
                   TENS(2,EL2FA(NN8+N)+1) = TORS(5,M)
                   TENS(3,EL2FA(NN8+N)+1) = TORS(6,M)
@@ -155,7 +155,7 @@ C-----------------------------------------------
                   TENS(6,EL2FA(NN8+N)+1) = ZERO
                   TENS(7,EL2FA(NN8+N)+1) = ZERO
                   TENS(8,EL2FA(NN8+N)+1) = ZERO
-                  TENS(9,EL2FA(NN8+N)+1) = ZERO          
+                  TENS(9,EL2FA(NN8+N)+1) = ZERO
                 ELSE
                   TENS(4,EL2FA(NN8+N)) = TORS(4,M)
                   TENS(5,EL2FA(NN8+N)) = TORS(5,M)

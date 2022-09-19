@@ -71,29 +71,29 @@ C-----------------------------------------------
       INTEGER NIN, NB_DST1, JTASK
       INTEGER IPARI(NPARI,NINTER), ITAB(*), KINET(*)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*), SENSOR(NSENSR,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, J, L, H, I_STOK_RTLM, I_STOK, JLT , NFT,
      .        INACTI, NADMSR, NB_LOC, DEBUT, IGAP,
      .        MG, N, NSN, NSNR, IVIS2, ISENS
       INTEGER  LENT, MAXCC
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ), FAR(MVSIZ,4), SUBTRIA(MVSIZ), 
+     .        NSVG(MVSIZ), FAR(MVSIZ,4), SUBTRIA(MVSIZ),
      .        MVOISN(MVSIZ,4), IBOUND(4,MVSIZ)
 C     REAL
 C-----------------------------------------------
 C     REAL
       my_real
      .   NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
-     .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5), 
+     .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   GAPS(MVSIZ), GAPM(MVSIZ),
-     .   PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4), 
+     .   PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4),
      .   LBH(MVSIZ,4), LCH(MVSIZ,4), GAP_NM(4,MVSIZ), GAPMXL(MVSIZ),
      .   TS, STARTT, STOPT, DRAD, DGAPLOAD
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C
         IF(TT>STOPT)  RETURN
 C
 C       Look if interface is activated 
-        ISENS = IPARI(64,NIN)  
+        ISENS = IPARI(64,NIN)
         IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE

@@ -28,7 +28,7 @@ Chd|        S20FORC3                      source/elements/solid/solide20/s20forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S20DEFO3(
-     .   NPE, PX, PY, PZ, VX, VY, VZ, 
+     .   NPE, PX, PY, PZ, VX, VY, VZ,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY,
      .   DZZ, D4, D5, D6, WXX, WYY, WZZ,RHO,RHOO,VOLNP,VOLN)
 C-----------------------------------------------

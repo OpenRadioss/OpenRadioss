@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       DOUBLE PRECISION
-     .   X , Y, Z   ,DV   
+     .   X , Y, Z   ,DV
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
@@ -85,49 +85,49 @@ C-----------------------------------------------
          Z=SAV(I,15)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,2)
          Y=SAV(I,9)
          Z=SAV(I,16)
          SAV(I,2) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,9) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,16) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,16) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,3)
          Y=SAV(I,10)
          Z=SAV(I,17)
          SAV(I,3) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,10) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,17) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,17) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,11)
          Z=SAV(I,18)
          SAV(I,4) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,11) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,5)
          Y=SAV(I,12)
          Z=SAV(I,19)
          SAV(I,5) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,12) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,19) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,19) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,6)
          Y=SAV(I,13)
          Z=SAV(I,20)
          SAV(I,6) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,13) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,20) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,20) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,14)
          Z=SAV(I,21)
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I)
 C
 c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
 c         RHO(I) = MAX(RHO(I),EM30)
@@ -155,49 +155,49 @@ C-----------------------------------------------
          Z=SAV(I,3)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,2) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,5)
          Z=SAV(I,6)
          SAV(I,4) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,5) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,8)
          Z=SAV(I,9)
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,10)
          Y=SAV(I,11)
          Z=SAV(I,12)
          SAV(I,10) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,11) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,12) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,12) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,13)
          Y=SAV(I,14)
          Z=SAV(I,15)
          SAV(I,13) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,16)
          Y=SAV(I,17)
          Z=SAV(I,18)
          SAV(I,16) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,17) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,19)
          Y=SAV(I,20)
          Z=SAV(I,21)
          SAV(I,19) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,20) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I)
 C
 c         RHO(I) = RHOO(I) - RHO(I)*(DXX(I)+DYY(I)+DZZ(I))*DT1
 c         RHO(I) = MAX(RHO(I),EM30)
@@ -254,7 +254,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(ISMSTR==1.OR.ISMSTR==3)THEN
         DO I=LFT,LLT
-          IF(OFFG(I)>ZERO)OFFG(I)=TWO 
+          IF(OFFG(I)>ZERO)OFFG(I)=TWO
         ENDDO
       ENDIF
 C
@@ -400,7 +400,7 @@ C------------Wxx,y,z from local system to global
          WYY(I) = WYYG
          WZZ(I) = WZZG
        END DO
-      END IF 
+      END IF
       IF (ISMSTR==11) THEN
 C      IF(ISMSTR==11.AND.NCYCLE>1)THEN
 C----SAV : (ismstr=10,11) is differently saved to Ismstr=1      
@@ -412,49 +412,49 @@ C-----------------------------------------------
          Z=SAV(I,15)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,15)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,15)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,2)
          Y=SAV(I,9)
          Z=SAV(I,16)
          SAV(I,2) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,9) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,16)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,16)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,3)
          Y=SAV(I,10)
          Z=SAV(I,17)
          SAV(I,3)  = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,10) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,17) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,17) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,11)
          Z=SAV(I,18)
          SAV(I,4)  = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,11) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,5)
          Y=SAV(I,12)
          Z=SAV(I,19)
          SAV(I,5)  = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,12) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,19) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,19) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,6)
          Y=SAV(I,13)
          Z=SAV(I,20)
          SAV(I,6)  = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,13) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,20) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,20) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,14)
          Z=SAV(I,21)
          SAV(I,7)  = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I)
        ENDDO
       ELSEIF(ISMSTR==1.OR.
      .  	((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3))THEN
@@ -466,49 +466,49 @@ C-----------------------------------------------
          Z=SAV(I,3)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,2) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,5)
          Z=SAV(I,6)
          SAV(I,4) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,5) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,8)
          Z=SAV(I,9)
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,10)
          Y=SAV(I,11)
          Z=SAV(I,12)
          SAV(I,10) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,11) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,12) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,12) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,13)
          Y=SAV(I,14)
          Z=SAV(I,15)
          SAV(I,13) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,16)
          Y=SAV(I,17)
          Z=SAV(I,18)
          SAV(I,16) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,17) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,19)
          Y=SAV(I,20)
          Z=SAV(I,21)
          SAV(I,19) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,20) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I)
 C
         ENDIF
        ENDDO
@@ -581,49 +581,49 @@ C-----------------------------------------------
          Z=SAV(I,15)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,15)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,15)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,2)
          Y=SAV(I,9)
          Z=SAV(I,16)
          SAV(I,2) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,9) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,16)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,16)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,3)
          Y=SAV(I,10)
          Z=SAV(I,17)
          SAV(I,3) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,10)= Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,17)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,17)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,11)
          Z=SAV(I,18)
          SAV(I,4) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,11)= Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,18)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,18)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,5)
          Y=SAV(I,12)
          Z=SAV(I,19)
          SAV(I,5) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,12)= Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,19)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,19)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,6)
          Y=SAV(I,13)
          Z=SAV(I,20)
          SAV(I,6) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,13)= Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,20)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,20)= Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,14)
          Z=SAV(I,21)
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14)= Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,21)= Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,21)= Z - X*WYY(I) + Y*WXX(I)
        ENDDO
 	  ELSEIF(ISMSTR==12)THEN
 C------------Wxx,y,z from local system to global 
@@ -644,49 +644,49 @@ C-----------------------------------------------
          Z=SAV(I,3)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,2) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,5)
          Z=SAV(I,6)
          SAV(I,4) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,5) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,8)
          Z=SAV(I,9)
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,10)
          Y=SAV(I,11)
          Z=SAV(I,12)
          SAV(I,10) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,11) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,12) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,12) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,13)
          Y=SAV(I,14)
          Z=SAV(I,15)
          SAV(I,13) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,14) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,15) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,16)
          Y=SAV(I,17)
          Z=SAV(I,18)
          SAV(I,16) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,17) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,18) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,19)
          Y=SAV(I,20)
          Z=SAV(I,21)
          SAV(I,19) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,20) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,21) = Z - X*WYY(I) + Y*WXX(I)
        ENDDO
       END IF !(ISMSTR==11)THEN
 C

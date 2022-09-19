@@ -71,7 +71,7 @@ c
 100           CONTINUE
 c
               DO L=L1,L2
-                K=ITHBUF(L) 
+                K=ITHBUF(L)
                 K1 = (K-101)/5+1
                 II=II+1
                 IF(K<=NTHVKI)THEN
@@ -82,7 +82,7 @@ C                 variables additionnelles AOUTi,BOUTi,UOUTi,MOUTi,HOUTi
                   IV=ID_VENT
                   IADVENT=IVOLU(16,I)
                   NVENT=IVOLU(11,I)
-                  IF (IV<=NVENT) THEN 
+                  IF (IV<=NVENT) THEN
                     WA(II) =FSAVVENT(KV,IADVENT+IV)
                   END IF
                 END IF

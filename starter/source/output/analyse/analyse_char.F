@@ -48,24 +48,24 @@ C-----------------------------------------------
       LENGTH = LEN
       B = 1
       E = LENGTH
-      I = 1 
-      
+      I = 1
+
       DO WHILE ((I<=LENGTH).AND.(STR(I:I) == ' '))
 	    I = I+1
 	    B = I
       END DO
-      
-      I = 1      
-      DO WHILE( (I<LENGTH) 
+
+      I = 1
+      DO WHILE( (I<LENGTH)
      .         .AND.
      .          (STR((LENGTH-I+1):(LENGTH-I+1)) == ' ') )
             E =  LENGTH-I
 	    I = I+1
       END DO
-               
+
       LENGTH=E-B+1
 
-      IF (LENGTH > 0) THEN   
+      IF (LENGTH > 0) THEN
         DO I=B, E
         ENDDO
       END IF

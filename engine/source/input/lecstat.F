@@ -104,7 +104,7 @@ C-----------------------------------------------
                   MAT_ID = IPM(1,IMAT)  ! user mat ID
                   IF (MAT_CHECKED(IMAT) == 0 ) THEN
                     MAT_CHECKED(IMAT) = 1
-                    DO IFAIL = 1,NFAIL 
+                    DO IFAIL = 1,NFAIL
                       FAIL_ID = IPM(236+IFAIL,IMAT)
                       IF (FAIL_ID == 0)
      .                  CALL ANCMSG(MSGID=297,ANMODE=ANINFO,I1=MAT_ID)

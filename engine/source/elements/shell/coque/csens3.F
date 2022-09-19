@@ -64,7 +64,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ID,ISEN,IVAR,IERR
 C======================================================================|
-      IVAR = 1    
+      IVAR = 1
       DO I=JFT,JLT
         ID = IGEO(3,PID(I))
         IF (ID /= 0) THEN

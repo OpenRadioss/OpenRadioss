@@ -62,7 +62,7 @@ Chd|====================================================================
      O           IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P           F_DEF     ,ITASK     ,DRAPE     ,VARNL     ,
      Q           PINCH_LOCAL,FORP     ,MOMP      ,EZZAVG    ,
-     R           AREAPINCH)  
+     R           AREAPINCH)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -70,7 +70,7 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD 
+      USE MATPARAM_DEF_MOD
       USE PINCHTYPE_MOD
       USE PINCH_LOCAL_MOD
       USE DRAPE_MOD
@@ -101,11 +101,11 @@ C-----------------------------------------------
       INTEGER JFT,JLT,NFT,IR,IS,NPT,NG,NPG,NLAY,NEL,MTN,IPLA,IOFC,ITHK,
      .   KFTS,JHBE,IFAILURE,JTHE,IEXPAN,ISHPLYXFEM,ISMSTR,
      .   IXLAY,IXEL,IXFEM,ISUBSTACK,ITASK
-      INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*), 
+      INTEGER MAT(MVSIZ), PID(MVSIZ), INDXDEL(MVSIZ), NGL(MVSIZ),NPF(*),
      .   IGEO(NPROPGI,*),IPM(NPROPMI,*),IPARG(*),LSENSOR(NSENSI,*),
      .   A11_IPLY(MVSIZ,*),ELCRKINI(*),FWAVE_EL(NEL)
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5), 
+     .   PM(NPROPM,*), GEO(NPROPG,*),TF(*),THK(*),EINT(JLT,*),FOR(NEL,5),
      .   MOM(NEL,3),EPSP(*),GSTR(NEL,8),BUFMAT(*),G(*),A11(*),A12(*),VOL0(*),
      .   SHF(*),GS(*),SIGY(MVSIZ),RHO(MVSIZ),SSP(MVSIZ),VISCMX(MVSIZ),
      .   OFF(MVSIZ) ,THK0(MVSIZ) ,NU(MVSIZ),DT1C(MVSIZ),
@@ -113,7 +113,7 @@ C-----------------------------------------------
      .   KXX(MVSIZ), KYY(MVSIZ), KXY(MVSIZ), AREA(MVSIZ),
      .   ZCFAC(MVSIZ,2),ALPE(MVSIZ),DIR_A(*),DIR_B(*),TEMPEL(*),DIE(*),
      .   TEMPEL0(MVSIZ), PLY_F(MVSIZ,5,*),
-     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*), 
+     .   PLY_EXX(MVSIZ,*),PLY_EYY(MVSIZ,*),PLY_EXY(MVSIZ,*),
      .   PLY_EXZ(MVSIZ,*),PLY_EYZ(MVSIZ,*),DEL_PLY(MVSIZ,3,*) ,
      .   TH_IPLY(MVSIZ,*), SIG_IPLY(MVSIZ,3,*),SENSOR(NSENSR,*),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
@@ -125,7 +125,7 @@ C-----------------------------------------------
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL
       TYPE (DRAPE_) :: DRAPE
@@ -149,15 +149,15 @@ C-----------------------------------------------
 C-------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_),POINTER :: FBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
-       my_real FINTER 
+       my_real FINTER
       EXTERNAL FINTER
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IGTYP=IGEO(11,PID(1))
-      MX = MAT(JFT) 
+      MX = MAT(JFT)
       DM = GROUP_PARAM%VISC_DM   ! membrane damping
 C--------------------------------------------------
       DIE(JFT:JLT)   = ZERO
@@ -180,8 +180,8 @@ C
      A         KFTS    ,PINCH_LOCAL%EPINCHZZ,PINCH_LOCAL%EPINCHXZ   ,
      B         PINCH_LOCAL%EPINCHYZ      ,FORP    ,MOMP    ,ALDT    ,
      C         EZZAVG  ,AREAPINCH)
-      ENDIF 
- 
+      ENDIF
+
       RETURN
       END SUBROUTINE CMAIN3PINCH
 C

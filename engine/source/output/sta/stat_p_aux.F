@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N,J,K,JJ,LEN,IOFF,NG,NEL,NFT,ITY,LFT,LLT,ID,IPRT0,IPRT,IE, 
+      INTEGER I,N,J,K,JJ,LEN,IOFF,NG,NEL,NFT,ITY,LFT,LLT,ID,IPRT0,IPRT,IE,
      .        NPT,IR,IS,IPT,IL,IVAR,NUVAR,MY_NUVAR,IGTYP,IPROP,MLW
       INTEGER PTWA(STAT_NUMELP),
      .        PTWA_P0(0:MAX(1,STAT_NUMELP_G))
@@ -92,7 +92,7 @@ C-----------------------------------------------
         DO NG=1,NGROUP
           ITY = IPARG(5,NG)
           IF (ITY == 5) THEN
-            GBUF => ELBUF_TAB(NG)%GBUF   
+            GBUF => ELBUF_TAB(NG)%GBUF
             MLW  = IPARG(1,NG)
             NEL  = IPARG(2,NG)
             NFT  = IPARG(3,NG)
@@ -177,20 +177,20 @@ C-----------------------------------------------
           IOFF  = NINT(WAP0(J + 1))
           MY_NUVAR = NINT(WAP0(J + 6))
           IF (IOFF >= 1 .AND. MY_NUVAR /= 0) THEN
-            IPRT = NINT(WAP0(J + 2)) 
+            IPRT = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INIBEAM/AUX'
                 WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .      '#  BEAMID       NPT       PROP_TYPE      NVAR' 
+     .      '#  BEAMID       NPT       PROP_TYPE      NVAR'
                 WRITE(IUGEO,'(A/A)')
      .'# THE CONTENT OF THE FOLLOWING CARDS WILL NOT BE DISCLOSED',
      .'# THEY MUST NOT BE CHANGED.'
                 WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -199,9 +199,9 @@ C-----------------------------------------------
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'#------------------------ REPEAT --------------------------'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .      '#  BEAMID       NPT       PROP_TYPE      NVAR' 
+     .      '#  BEAMID       NPT       PROP_TYPE      NVAR'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# THE CONTENT OF THE FOLLOWING CARDS WILL NOT BE DISCLOSED'
@@ -210,16 +210,16 @@ C-----------------------------------------------
      .'# THEY MUST NOT BE CHANGED.'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF  !  IF (IZIPSTRS == 0)
               IPRT0=IPRT
             ENDIF  ! IF (IPRT /= IPRT0)
-            ID    = NINT(WAP0(J + 3)) 
-            IGTYP = NINT(WAP0(J + 4)) 
-            NPT   = NINT(WAP0(J + 5)) 
+            ID    = NINT(WAP0(J + 3))
+            IGTYP = NINT(WAP0(J + 4))
+            NPT   = NINT(WAP0(J + 5))
             MY_NUVAR = NINT(WAP0(J + 6))
             J = J + 6
             IF (IZIPSTRS == 0) THEN
@@ -237,7 +237,7 @@ C-----------------------------------------------
               J=J+MY_NUVAR
             ENDDO
           ENDIF  !  IF (IOFF == 1 .AND. MY_NUVAR /= 0)
-        ENDDO  !  DO N=1,STAT_NUMELP_G		    
+        ENDDO  !  DO N=1,STAT_NUMELP_G		
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 c-----------
       RETURN

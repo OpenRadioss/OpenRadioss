@@ -55,13 +55,13 @@ C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER,  INTENT(IN) ::       NEL,FLAG_MUL,NVARF
       my_real,  INTENT(IN) :: C1,C2,C3,C4,C5,MU,BETA,D ,
-     .                        COEFR, BETAF,COEFM          
-      my_real, DIMENSION(NEL, 3,3) , INTENT(IN) ::  MATB 
+     .                        COEFR, BETAF,COEFM
+      my_real, DIMENSION(NEL, 3,3) , INTENT(IN) ::  MATB
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real, DIMENSION(NEL), INTENT(OUT) :: BI1 ,JDET 
-      my_real, DIMENSION(NEL, 3,3)  :: SIG  
+      my_real, DIMENSION(NEL), INTENT(OUT) :: BI1 ,JDET
+      my_real, DIMENSION(NEL, 3,3)  :: SIG
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -71,7 +71,7 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I
 
-      my_real     
+      my_real
      .   J2THIRD(NEL),I1(NEL),JTHIRD(NEL),WW (NEL),
      .   DPHIDI1(NEL) ,DPHIDJ(NEL) ,ETA(NEL)
 C----------------------------------------------------------------
@@ -80,18 +80,18 @@ C----------------------------------------------------------------
          JDET(I)=MATB(I,1,1)*MATB(I,2,2)*MATB(I,3,3) -MATB(I,1,1)*MATB(I,2,3)*MATB(I,3,2) -
      .       MATB(I,3,3)*MATB(I,1,2)*MATB(I,2,1) +MATB(I,1,2)*MATB(I,2,3)*MATB(I,3,1) +
      .       MATB(I,2,1)*MATB(I,3,2)*MATB(I,1,3) -MATB(I,2,2)*MATB(I,3,1)*MATB(I,1,3)
-         JDET(I)= SQRT(MAX(EM20, JDET(I)))    
-        !INVARIANT BAR         
+         JDET(I)= SQRT(MAX(EM20, JDET(I)))
+        !INVARIANT BAR
          I1(I) = MATB(I,1,1)+MATB(I,2,2)+MATB(I,3,3)
          IF(JDET(I)>ZERO) THEN
           JTHIRD(I)  = EXP((-THIRD )*LOG(JDET(I)))
-          J2THIRD(I) = JTHIRD(I)**2       
+          J2THIRD(I) = JTHIRD(I)**2
          ELSE
           JTHIRD(I)  = ZERO
           J2THIRD(I) = ZERO
          ENDIF
         !first invariant deviator BI1:
-         BI1(I) = I1(I) * J2THIRD(I) 
+         BI1(I) = I1(I) * J2THIRD(I)
       ENDDO
       !====================================
       !dammge by mullins effect
@@ -99,7 +99,7 @@ C----------------------------------------------------------------
       IF(FLAG_MUL == 1)THEN
        DO I = 1,NEL
          WW(I) =  MU *( C1 * (BI1(I)- THREE)+C2 * BETA *   (BI1(I)**2- NINE)
-     .   +                                   C3 * BETA**2 *(BI1(I)**3- THREE**3)    
+     .   +                                   C3 * BETA**2 *(BI1(I)**3- THREE**3)
      .   +                                   C4 * BETA**3 *(BI1(I)**4- THREE**4)
      .   +                                   C5 * BETA**4 *(BI1(I)**5- THREE**5) )
 
@@ -114,25 +114,25 @@ C----------------------------------------------------------------
       DO I = 1,NEL
         ETA(I) = MAX(MIN(ETA(I),ONE),EM20)
         DPHIDI1(I) = ETA(I)* TWO*MU *( C1 + TWO * C2 * BETA * BI1(I)
-     .   +                           THREE* C3 *(BETA *BI1(I))**2    
-     .   +                          FOUR* C4 *(BETA *BI1(I))**3 
+     .   +                           THREE* C3 *(BETA *BI1(I))**2
+     .   +                          FOUR* C4 *(BETA *BI1(I))**3
      .   +                          FIVE  * C5 *(BETA *BI1(I))**4)/MAX(EM20,JDET(I))
 
         DPHIDJ(I)  = D * (  JDET(I) - ONE /MAX(EM20,JDET(I)) ) !d=1/d
       ENDDO
       DO I = 1,NEL
          SIG(I,1,1) =  DPHIDI1(I)* (MATB(I,1,1)-THIRD*BI1(I))
-     .       +   DPHIDJ(I)        
+     .       +   DPHIDJ(I)
          SIG(I,2,2) =  DPHIDI1(I)* (MATB(I,2,2)-THIRD*BI1(I))
-     .       +   DPHIDJ(I)        
+     .       +   DPHIDJ(I)
          SIG(I,3,3) =  DPHIDI1(I)* (MATB(I,3,3)-THIRD*BI1(I))
-     .       +   DPHIDJ(I)        
+     .       +   DPHIDJ(I)
          SIG(I,1,2) =  DPHIDI1(I)*MATB(I,1,2)
          SIG(I,2,3) =  DPHIDI1(I)*MATB(I,2,3)
          SIG(I,3,1) =  DPHIDI1(I)*MATB(I,3,1)
-         SIG(I,2,1)=SIG(I,1,2)   
-         SIG(I,3,2)=SIG(I,2,3)   
-         SIG(I,1,3)=SIG(I,3,1)   
+         SIG(I,2,1)=SIG(I,1,2)
+         SIG(I,3,2)=SIG(I,2,3)
+         SIG(I,1,3)=SIG(I,3,1)
       ENDDO
 
       RETURN

@@ -44,7 +44,7 @@ Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE SPSTRES(ELBUF_TAB,NG     , 
+      SUBROUTINE SPSTRES(ELBUF_TAB,NG     ,
      1    PM        ,GEO       ,X         ,V         ,MS        ,
      2    W         ,SPBUF     ,WA        ,NLOC_DMG  ,
      3    ITAB      ,PLD       ,BUFMAT    ,BUFGEO    ,PARTSAV   ,
@@ -59,7 +59,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -102,7 +102,7 @@ C-----------------------------------------------
      .   WA(*) , PARTSAV(*) ,DT2T, FV(*),
      .   GRESAV(*),VOLN(MVSIZ),TEMP(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(MATPARAM_STRUCT_), DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -116,7 +116,7 @@ C-----
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,   
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,GAMA(MVSIZ,6),
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ) ,SSP_EQ(MVSIZ),AIRE(MVSIZ),
@@ -142,12 +142,12 @@ C Variables void MMAIN
       my_real
      .   SIGY(MVSIZ),ET(MVSIZ),
      .   R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: EINT
       my_real VARNL(NEL)
       TYPE(TTABLE) TABLE(*)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF   
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       TYPE(t_ale_connectivity) :: ALE_CONNECT
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -216,7 +216,7 @@ C     LAW 11 uses IELVS=IBIDON and IXS=IBIDON should not be used.
      I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,BID  ,
      J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C-----------------------------
-      IF(ISTRAIN==1)THEN 
+      IF(ISTRAIN==1)THEN
         CALL SSTRA3(DXX,DYY      ,DZZ ,D4  ,D5  ,
      .              D6 ,LBUF%STRA,WXX ,WYY ,WZZ ,
      .              OFF,NEL      )
@@ -235,11 +235,11 @@ C--------------------------
      .   OR.TT>=TABFIS(5).OR.TT>=TABFIS(6).OR.TT>=TABFIS(7).
      .   OR.TT>=TABFIS(8).OR.TT>=TABFIS(9).OR.TT>=TABFIS(10))THEN
 C    .   OR.(IALESUB==1.AND.T1S+DT2S>=THIS))THEN
-         IF (MTN == 11) THEN                                     
-           EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                    
-         ELSE                                                    
-           EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)                    
-         ENDIF                                                   
+         IF (MTN == 11) THEN
+           EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)
+         ELSE
+           EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
+         ENDIF
          CALL SPBILAN(V,PARTSAV,NC1,EINT,GBUF%RHO,GBUF%RK,
      .                GBUF%VOL,VOLN,IPARTSP(NF1),GBUF%OFF,
      .                GRESAV,GRTH,IGRTH(NF1),GBUF%EINTTH,IEXPAN,X)

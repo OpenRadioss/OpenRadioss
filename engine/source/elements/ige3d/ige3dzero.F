@@ -44,7 +44,7 @@ C-----------------------------------------------
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
 #include      "com08_c.inc"
-#include      "impl1_c.inc" 
+#include      "impl1_c.inc"
 #include      "scr18_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -88,7 +88,7 @@ C-----------------------------------------------
          MASS(J,I)=ZERO
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 
       IF(IDTMIN(101)==2)THEN
        DO I=LFT,LLT
@@ -104,7 +104,7 @@ C-----------------------------------------------
 
       IF (G_PLA > 0) THEN
         DO I=LFT,LLT
-          EPLASM(I)=ZERO  
+          EPLASM(I)=ZERO
         ENDDO
       ENDIF
       IF (G_EPSD > 0) THEN

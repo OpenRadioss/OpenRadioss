@@ -82,25 +82,25 @@ C-----------------------------------------------
              MSGTYP = MSGOFF1
              CALL MPI_ISEND(
      C         INDSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G         MPI_COMM_WORLD,REQ_S1(I),IERROR) 
+     G         MPI_COMM_WORLD,REQ_S1(I),IERROR)
 
              SIZ = INDSEGLO(NINTER+1)-INDSEGLO(1)
              IF(SIZ>0)THEN
                MSGTYP = MSGOFF2
                CALL MPI_ISEND(
      C           IBUFSEGLO,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
-     G           MPI_COMM_WORLD,REQ_S2(I),IERROR) 
+     G           MPI_COMM_WORLD,REQ_S2(I),IERROR)
              ENDIF
            ENDIF
          ENDDO
-      
+
          DO I = 1, NSPMD
            IF(I/=LOC_PROC) THEN
              MSGTYP = MSGOFF1
              CALL MPI_RECV(
      .         RSEGLO,NINTER+1,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .         MPI_COMM_WORLD,STATUS,IERROR)
-             
+
                SIZ = RSEGLO(NINTER+1)-RSEGLO(1)
                IF(SIZ>0)THEN
                  ALLOCATE(RBUF(SIZ))
@@ -108,7 +108,7 @@ C-----------------------------------------------
                  CALL MPI_RECV(
      .             RBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .             MPI_COMM_WORLD,STATUS,IERROR)
-                 
+
                    DO NG=1,NINTER
                       IND_SEG=RSEGLO(NG+1)-RSEGLO(NG)
                       IAD=RSEGLO(NG)

@@ -69,9 +69,9 @@ C-----------------------------------------------
        SY=X(2,IXC(4,I))+X(2,IXC(5,I))-X(2,IXC(2,I))-X(2,IXC(3,I))
        RZ=X(3,IXC(3,I))+X(3,IXC(4,I))-X(3,IXC(2,I))-X(3,IXC(5,I))
        SZ=X(3,IXC(4,I))+X(3,IXC(5,I))-X(3,IXC(2,I))-X(3,IXC(3,I))
-       E3X = RY * SZ - RZ * SY 
-       E3Y = RZ * SX - RX * SZ 
-       E3Z = RX * SY - RY * SX 
+       E3X = RY * SZ - RZ * SY
+       E3Y = RZ * SX - RX * SZ
+       E3Z = RX * SY - RY * SX
        AREA(I) =FOURTH*SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
       END DO
       DO I=JFT,JLT
@@ -143,9 +143,9 @@ C-----------------------------------------------
        SY=X(2,IXTG(4,I))-X(2,IXTG(2,I))
        RZ=X(3,IXTG(3,I))-X(3,IXTG(2,I))
        SZ=X(3,IXTG(4,I))-X(3,IXTG(2,I))
-       E3X = RY * SZ - RZ * SY 
-       E3Y = RZ * SX - RX * SZ 
-       E3Z = RX * SY - RY * SX 
+       E3X = RY * SZ - RZ * SY
+       E3Y = RZ * SX - RX * SZ
+       E3Z = RX * SY - RY * SX
        AREA(I) =HALF*SQRT(E3X*E3X + E3Y*E3Y + E3Z*E3Z)
       END DO
       DO I=JFT,JLT

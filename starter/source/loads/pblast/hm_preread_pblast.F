@@ -96,11 +96,11 @@ C-----------------------------------------------
          NUMLOADP  = NUMLOADP + IGRSURF(IS)%NSEG*4
       ENDDO
 
-      IF(NLOADP_B > 0 ) ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1); 
+      IF(NLOADP_B > 0 ) ALLOCATE (   PBLAST_TAB(NLOADP_B),STAT=IERR1);
        IF (IERR1 /= 0) THEN
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
          CALL ARRET(2)
-       ENDIF                         
+       ENDIF
 
       END SUBROUTINE HM_PREREAD_PBLAST

@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
      * COUNT_REMSLV(*), COUNT_REMSLVE(*)
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(3,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -82,7 +82,7 @@ C=======================================================================
 C     ALLOCATABLE
 C=======================================================================
 C-----------------------------------------------
-      IFQ =IPARI(31,NIN) 
+      IFQ =IPARI(31,NIN)
 C
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)

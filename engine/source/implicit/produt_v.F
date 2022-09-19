@@ -44,10 +44,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  
+      INTEGER  NDDL
 C     REAL
       my_real
-     .  X(*), Y(*)  ,R 
+     .  X(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,10 +83,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  
+      INTEGER  NDDL
 C     REAL
       my_real
-     .  X(*), Y(*)  ,R 
+     .  X(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -131,10 +131,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL ,W(*) 
+      INTEGER  NDDL ,W(*)
 C     REAL
       my_real
-     .  X(*), Y(*)  ,R 
+     .  X(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -180,10 +180,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*)  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*)
 C     REAL
       my_real
-     .  D(*),DR(*), U(*)  
+     .  D(*),DR(*), U(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -219,10 +219,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*) ,W_IMP(*) 
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*) ,W_IMP(*)
 C     REAL
       my_real
-     .  DD(*),DDR(*), Y(*)  ,R 
+     .  DD(*),DDR(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -261,7 +261,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*)  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*)
 C     REAL
       my_real
      .  DD(*),DDR(*), NORM2
@@ -304,7 +304,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*)  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*)
 C     REAL
       my_real
      .  D1(*),D1R(*), D2(*),D2R(*), NORM2
@@ -345,7 +345,7 @@ C-----------------------------------------------
       INTEGER  NUM,IDDL(*),IKC(*) ,NDOF(*) ,IR
 C     REAL
       my_real
-     .  D(3,*), DR(3,*)  
+     .  D(3,*), DR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -364,9 +364,9 @@ C-----------------------------
           ID = IDDL(I)+J+3
           IF (IKC(ID)==2) DR(J,I)=ZERO
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
 C--------------------------------------------
       RETURN
       END
@@ -381,7 +381,7 @@ Chd|        SMS_PCG1                      source/ams/sms_fsa_inv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MAV_LT(
-     1                    NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,
      2                    LT_K  ,V     ,W     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -398,7 +398,7 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADL(*)  ,JDIL(*)
 C     REAL
       my_real
-     .  DIAG_K(*), W(*), LT_K(*)  ,V(*) 
+     .  DIAG_K(*), W(*), LT_K(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -446,7 +446,7 @@ Chd|        PREC_SOLV                     source/implicit/prec_solv.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MAV_LT1(
-     1                    NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,
      2                    LT_K  ,V     ,W     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -463,7 +463,7 @@ C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADL(*)  ,JDIL(*)
 C     REAL
       my_real
-     .  DIAG_K(*), W(*), LT_K(*)  ,V(*) 
+     .  DIAG_K(*), W(*), LT_K(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -497,7 +497,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LT2(
-     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
+     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3                    V     ,W     ,MONVOL,VOLMON,X     ,
      4                    IGRSURF,NMONV ,IMONV,NDOF  ,
@@ -532,7 +532,7 @@ C-----------------------------------------------
      .         IRBE3(*) ,LRBE3(*)
 C     REAL
       my_real
-     .  DIAG_K(*), W(*), LT_K(*)  ,LT_I(*)  ,V(*) 
+     .  DIAG_K(*), W(*), LT_K(*)  ,LT_I(*)  ,V(*)
       my_real
      .   X(3,*),A(3,*),AR(3,*), VOLMON(*)  ,D(3,*),
      .   SKEW(*)  ,XFRAME(*),VE(3,*),MS(*),XI_C(*)
@@ -580,7 +580,7 @@ C  ------LT_I
         DO J =IADI(I),IADI(I+1)-1
          K =JDII(J)
          KK = ITOK(K)
-         L_K = LT_I(J) 
+         L_K = LT_I(J)
          W(II) = W(II) + L_K*V(KK)
          W(KK) = W(KK) + L_K*V(II)
         ENDDO
@@ -593,7 +593,7 @@ C  ------LT_I
      2               NDOF   ,IPARI  ,INTBUF_TAB  ,A      ,
      3               AR     ,D      ,IBFV    ,SKEW   ,XFRAME ,
      4               IRBE3  ,LRBE3  ,IBID    ,IBID   )
-       ENDIF 
+       ENDIF
 C--------------------------------------------
       RETURN
       END
@@ -612,7 +612,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LTP(
-     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
+     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3                    V     ,W     ,A     ,AR    ,VE    ,
      5                    MS    ,X     ,D     ,DR    ,NDOF  ,
@@ -701,7 +701,7 @@ C  ------LT_I
         DO J =IADI(I),IADI(I+1)-1
          K =JDII(J)
          KK = ITOK(K)
-         L_K = LT_I(J) 
+         L_K = LT_I(J)
          W(II) = W(II) + L_K*V(KK)
          W(KK) = W(KK) + L_K*V(II)
         ENDDO
@@ -717,7 +717,7 @@ C  ------LT_I
        ENDIF
 C    
       IF (IMACH==3.AND.NSPMD>1) THEN
-       IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
+       IF ((NSREM+NSL)>0.AND.INTP_C>=0)
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
@@ -734,7 +734,7 @@ Chd|  MAV_ZI                        source/implicit/produt_v.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MAV_ZI(II,NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
+      SUBROUTINE MAV_ZI(II,NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,
      1                  LT_K  ,NNZZ ,IADM   ,JDIM  , LT_M  ,W )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -749,7 +749,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADL(*)  ,JDIL(*),
-     1          II,NNZZ ,IADM(*)  ,JDIM(*)   
+     1          II,NNZZ ,IADM(*)  ,JDIM(*)
 C     REAL
       my_real
      .  DIAG_K(*), W(*), LT_K(*)  ,LT_M(*)
@@ -770,7 +770,7 @@ C-----------------------------
         K =JDIL(J)
         IF (K==II) THEN
          W(I) = LT_K(J)
-        ENDIF 
+        ENDIF
        ENDDO
       ENDDO
       W(II)=DIAG_K(II)
@@ -814,7 +814,7 @@ Chd|  MAV_Z                         source/implicit/produt_v.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MAV_Z(II,NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,   
+      SUBROUTINE MAV_Z(II,NDDL  ,NNZ   ,IADL  ,JDIL  ,DIAG_K ,
      1                  LT_K   ,NNZM ,IADM   ,JDIM  , LT_M  ,W )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -829,7 +829,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL  ,NNZ   ,IADL(*)  ,JDIL(*),
-     1          II,NNZM ,IADM(*)  ,JDIM(*)   
+     1          II,NNZM ,IADM(*)  ,JDIM(*)
 C     REAL
       my_real
      .  DIAG_K(*), W(*), LT_K(*)  ,LT_M(*)
@@ -849,7 +849,7 @@ C-----------------------------
         K =JDIL(J)
         IF (K==II) THEN
          W(I) = LT_K(J)
-        ENDIF 
+        ENDIF
        ENDDO
       ENDDO
       W(II)=DIAG_K(II)
@@ -959,10 +959,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N  
+      INTEGER  N
 C     REAL
       my_real
-     .  X(*), XC(*)   
+     .  X(*), XC(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1010,7 +1010,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N ,X(*), XC(*) 
+      INTEGER  N ,X(*), XC(*)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1044,10 +1044,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  
+      INTEGER  NDDL
 C     REAL
       my_real
-     .  X(*), Y(*)  ,R 
+     .  X(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1123,7 +1123,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE IMP_INTBUF
       USE IMP_I7CP
       USE INTBUFDEF_MOD
@@ -1152,7 +1152,7 @@ C     REAL
       my_real
      .  ELBUF(*)   ,ELBUF_C(*) ,BUFMAT(*)  ,BUFMAT_C(*)  ,
      .  FSAV(*)  ,VOLMON(*)  ,PARTSAV(*)
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB, ELBUF_IMP 
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB, ELBUF_IMP
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*), INTBUF_TAB_C(*)
 C-----------------------------------------------
@@ -1196,7 +1196,7 @@ C------for int24 + Istif=6
      .                     ISLEN11,IRLEN11,ISLEN17 ,IRLEN17,IRLEN7T  ,
      .                     ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
      .                     IRLEN20E,ISLEN20E,NEWFRONT)
-          END IF 
+          END IF
 C------------BUF_C->BUF--------------------------------
       ELSEIF (IFLAG==2) THEN
             CALL COPY_ELBUF(ELBUF_IMP,ELBUF_TAB,IPARG,NGROUP)
@@ -1235,7 +1235,7 @@ C------for int24 + Istif=6 remote part is inside CP_IFRONT
      .                     ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
      .                     IRLEN20E,ISLEN20E,NEWFRONT)
 c           CALL CP_INTBUF(BUFIN_C,INBUF_C ,BUFIN,INBUF ,IPARI )
-          END IF 
+          END IF
       ENDIF
 C--------------------------------------------
       RETURN
@@ -1249,7 +1249,7 @@ Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|====================================================================
       SUBROUTINE MAV_LT_H(NDDL   ,
-     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
+     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,
      2                    LT_K   ,V       ,W     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1267,7 +1267,7 @@ C-----------------------------------------------
       INTEGER  F_DDL  ,L_DDL   ,IADL(*)  ,JDIL(*),NDDL
 C     REAL
       my_real
-     .  DIAG_K(*), W(*), LT_K(*)  ,V(*) 
+     .  DIAG_K(*), W(*), LT_K(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1318,7 +1318,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LTH0(
-     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
+     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3                    V     ,W     ,A     ,AR    ,VE    ,
      5                    MS    ,X     ,D     ,DR    ,NDOF  ,
@@ -1362,7 +1362,7 @@ C     REAL
       my_real
      .  DIAG_K(*), W(*), LT_K(*)  ,LT_I(*)  ,V(*) ,
      .  A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),X(3,*),
-     .  MS(*),VOLMON(*),SKEW(*),XFRAME(*),XI_C(*)     
+     .  MS(*),VOLMON(*),SKEW(*),XFRAME(*),XI_C(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -1374,7 +1374,7 @@ C-----------------------------------------------
      .   L_K,WORK_II(NDDLI)
 C-----------------------------
             CALL MAV_LT_H(NDDL   ,
-     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
+     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,
      2                    LT_K   ,V       ,W     )
 C----------------------
       CALL MY_BARRIER
@@ -1413,7 +1413,7 @@ C
         DO J =IADI(I),IADI(I+1)-1
          K =JDII(J)
          KK = ITOK(K)
-         L_K = LT_I(J) 
+         L_K = LT_I(J)
          WORK_II(I) = WORK_II(I) + L_K*V(KK)
          WORK_II(K) = WORK_II(K) + L_K*V(II)
         ENDDO
@@ -1439,10 +1439,10 @@ C
      2               NDOF   ,IPARI  ,INTBUF_TAB      ,A      ,
      3               AR     ,D      ,IBFV    ,SKEW   ,XFRAME ,
      4               IRBE3  ,LRBE3  ,IRBE2  ,LRBE2  )
-       ENDIF 
+       ENDIF
 C    
       IF (NSPMD>1) THEN
-       IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
+       IF ((NSREM+NSL)>0.AND.INTP_C>=0)
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI  ,INTBUF_TAB     ,
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
@@ -1475,7 +1475,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MAV_LTH(
-     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,   
+     1                    NDDL  ,NDDLI ,IADL  ,JDIL  ,DIAG_K,
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3                    V     ,W     ,A     ,AR    ,VE    ,
      5                    MS    ,X     ,D     ,DR    ,NDOF  ,
@@ -1532,7 +1532,7 @@ C-----------------------------------------------
      .   L_K,WORK_II(NDDLI)
 C-----------PCG_GP-----------
           CALL MAV_LU_H(NDDL   ,
-     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
+     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,
      2                    LT_K   ,V       ,W     )
 C----------------------
       CALL MY_BARRIER
@@ -1575,7 +1575,7 @@ C
         DO J =IADI(I),IADI(I+1)-1
          K =JDII(J)
          KK = ITOK(K)
-         L_K = LT_I(J) 
+         L_K = LT_I(J)
          WORK_II(I) = WORK_II(I) + L_K*V(KK)
          WORK_II(K) = WORK_II(K) + L_K*V(II)
         ENDDO
@@ -1602,10 +1602,10 @@ C
      2               NDOF   ,IPARI  ,INTBUF_TAB,A      ,
      3               AR     ,D      ,IBFV    ,SKEW   ,XFRAME ,
      4               IRBE3  ,LRBE3  ,IRBE2  ,LRBE2  )
-       ENDIF 
+       ENDIF
 C    
        IF (NSPMD>1) THEN
-        IF ((NSREM+NSL)>0.AND.INTP_C>=0) 
+        IF ((NSREM+NSL)>0.AND.INTP_C>=0)
      .   CALL FR_MATV(  A     ,VE    ,D      ,MS     ,X      ,
      1                  DR    ,AR    ,IPARI ,INTBUF_TAB      ,
      2                  NDOF  ,NUM_IMP,NS_IMP,NE_IMP,V       ,
@@ -1689,12 +1689,12 @@ C
         DO I=1,NE
          RL = RL + RTMP(I)
         ENDDO
-       END DO 
+       END DO
 #include "lockon.inc"
         R_N2 = R_N2 + RL
 #include "lockoff.inc"
 C------------
-      ELSE 
+      ELSE
 C------------NSPMD>1--------
         RL = ZERO
        DO N=F_DDL,L_DDL,MVSIZ
@@ -1707,7 +1707,7 @@ C
         DO I=1,NE
          RL = RL + RTMP(I)
         ENDDO
-       END DO 
+       END DO
 #include "lockon.inc"
          R_N2 = R_N2 + RL
 #include "lockoff.inc"
@@ -1760,10 +1760,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*) ,W_IMP(*) ,
-     .         F_DDL ,L_DDL ,ITASK 
+     .         F_DDL ,L_DDL ,ITASK
 C     REAL
       my_real
-     .  DD(*),DDR(*), Y(*)  ,R 
+     .  DD(*),DDR(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1818,7 +1818,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*) ,
-     .         F_DDL ,L_DDL ,ITASK  
+     .         F_DDL ,L_DDL ,ITASK
 C     REAL
       my_real
      .  DD(*),DDR(*), NORM2
@@ -1875,8 +1875,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*),  
-     .         F_DDL ,L_DDL ,ITASK  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*),
+     .         F_DDL ,L_DDL ,ITASK
 C     REAL
       my_real
      .  D1(*),D1R(*), D2(*),D2R(*), NORM2
@@ -1913,7 +1913,7 @@ Chd|-- calls ---------------
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
 Chd|====================================================================
       SUBROUTINE MAV_LU_H(NDDL   ,
-     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
+     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,
      2                    LT_K   ,V       ,W     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -1934,7 +1934,7 @@ C-----------------------------------------------
       INTEGER  F_DDL  ,L_DDL   ,IADL(*)  ,JDIL(*),NDDL
 C     REAL
       my_real
-     .  DIAG_K(*), W(*), LT_K(*)  ,V(*) 
+     .  DIAG_K(*), W(*), LT_K(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2033,8 +2033,8 @@ C	        IAD_STIFOLD(I)=JD(32)
 C           END IF
            DO J =1, NPARI
             IPARICP(J,I) = IPARI(J,I)
-           END DO 
-          END DO 
+           END DO
+          END DO
       ELSE	
           DO I =1, NINTER
            ITY   =IPARI(7,I)
@@ -2045,9 +2045,9 @@ C           END IF
             IPARICP(53,I) = IPARI(53,I)
            END IF
           DO J =1, NPARI
-            IPARI(J,I) = IPARICP(J,I)  
-          END DO 
-          END DO 
+            IPARI(J,I) = IPARICP(J,I)
+          END DO
+          END DO
       ENDIF !IF(IFLAG==1) THEN
 C      
       IF (NSPMD<=1) RETURN
@@ -2113,7 +2113,7 @@ C-------------------XFI,VFI
 C-------------------AFI,STNFI,VSCFI,AREASFI,TEMPFI
                   LRI7CP=LRI7CP+8*LENR*NTHREAD
                   IF(KDTINT/=0)LRI7CP=LRI7CP+2*LENR*NTHREAD
-                  IF(INTTH > 0 )LRI7CP=LRI7CP+3*LENR   
+                  IF(INTTH > 0 )LRI7CP=LRI7CP+3*LENR
                  ELSE
 C-----------------PARITON not yet with implicit----	       
 	         ENDIF
@@ -2276,7 +2276,7 @@ C-----------------PARITON not yet with implicit----
          LENSCP(4)=IRLEN11
          LENSCP(5)=ISLEN17
          LENSCP(6)=IRLEN17
-         LENSCP(7)=IRLEN7T 
+         LENSCP(7)=IRLEN7T
          LENSCP(8)=ISLEN7T
          LENSCP(9)=IRLEN20
          LENSCP(10)=ISLEN20
@@ -2290,7 +2290,7 @@ C-----------------PARITON not yet with implicit----
      .            I1=IID,I2=LII7CP,I3=RID,I4=LRI7CP)
            CALL ARRET(2)
          ENDIF
-        END IF 
+        END IF
       ELSE	
         IF((LII7CP+LRI7CP)==0) RETURN
         IF(NINTER/=0) THEN
@@ -2304,8 +2304,8 @@ C ----copy- from II7CP,RI7CP -------------
             INTTH = IPARI(47,I)
             NREBOU=IPARI(53,I)
             IF(ITYP==7.OR.ITYP==10.OR.ITYP==11.OR.ITYP==24)THEN
-	         IPARI(24,I) = II7CP(IID) 
-	         IPARI(57,I) = II7CP(IID+1) 
+	         IPARI(24,I) = II7CP(IID)
+	         IPARI(57,I) = II7CP(IID+1)
 	         IID=IID+2
               LENR0 = 0
               DO P = 1, NSPMD
@@ -2326,7 +2326,7 @@ C ----copy- from II7CP,RI7CP -------------
                ALLOCATE(NSVSI(I)%P(LENS),STAT=IERR)
 	          CALL CP_INT(LENS,II7CP(IID),NSVSI(I)%P(1))
 	          IID=IID+LENS
-	         ENDIF	      
+	         ENDIF	
 C-----------------ALLOCATION cp from II7CP,RI7CP----------
               IF (LENR>0) THEN
                IF(ASSOCIATED(NSVFI(I)%P)) DEALLOCATE(NSVFI(I)%P)
@@ -2386,7 +2386,7 @@ C-----------------ALLOCATION cp from II7CP,RI7CP----------
 	               CALL CP_REAL(LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
 	               RID=RID+LENR*NTHREAD
                   ENDIF
-                  IF(INTTH > 0 )THEN    
+                  IF(INTTH > 0 )THEN
 C
                    IF(ASSOCIATED(FTHEFI(I)%P)) DEALLOCATE(FTHEFI(I)%P)
                    ALLOCATE(FTHEFI(I)%P(LENR*NTHREAD),STAT=IERR)
@@ -2498,7 +2498,7 @@ C
 	               CALL CP_REAL(2*LENR*NTHREAD,RI7CP(RID),VSCFI(I)%P(1))
 	               RID=RID+2*LENR*NTHREAD
                   ENDIF
-                  IF(INTTH > 0 )THEN    
+                  IF(INTTH > 0 )THEN
                    IF(ASSOCIATED(FTHEFI(I)%P)) DEALLOCATE(FTHEFI(I)%P)
                    ALLOCATE(FTHEFI(I)%P(LENR),STAT=IERR)
 	               CALL CP_REAL(LENR,RI7CP(RID),FTHEFI(I)%P(1))
@@ -2517,8 +2517,8 @@ C
 C-----------------PARITON not yet with implicit----	       
 	             ENDIF
                ELSEIF(ITYP==17)THEN
-	          ENDIF !IF(ITYP==7.OR.ITYP==10)	      
-	         ENDIF !IF (LENR.GT0)	      
+	          ENDIF !IF(ITYP==7.OR.ITYP==10)	
+	         ENDIF !IF (LENR.GT0)	
             ENDIF
          ENDDO
          ISLEN7 = LENSCP(1)
@@ -2527,7 +2527,7 @@ C-----------------PARITON not yet with implicit----
          IRLEN11= LENSCP(4)
          ISLEN17= LENSCP(5)
          IRLEN17= LENSCP(6)
-         IRLEN7T= LENSCP(7) 
+         IRLEN7T= LENSCP(7)
          ISLEN7T= LENSCP(8)
          IRLEN20= LENSCP(9)
          ISLEN20= LENSCP(10)
@@ -2569,7 +2569,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  WEIGHT(*)  
+      INTEGER  WEIGHT(*)
 C     REAL
       my_real
      .  DD(3,*),DDR(3,*), NORM2
@@ -2584,7 +2584,7 @@ C-----------------------------
         NORM2 = NORM2 + DD(1,I)*DD(1,I)
         NORM2 = NORM2 + DD(2,I)*DD(2,I)
         NORM2 = NORM2 + DD(3,I)*DD(3,I)
-       END IF 
+       END IF
       END DO
       IF (IRODDL>0) THEN
        DO I=1,NUMNOD
@@ -2592,13 +2592,13 @@ C-----------------------------
          NORM2 = NORM2 + DDR(1,I)*DDR(1,I)
          NORM2 = NORM2 + DDR(2,I)*DDR(2,I)
          NORM2 = NORM2 + DDR(3,I)*DDR(3,I)
-        END IF 
+        END IF
        END DO
-      END IF 
+      END IF
 C       
       IF (NSPMD>1) THEN
         CALL SPMD_SUM_S(NORM2)
-      END IF 
+      END IF
 C--------------------------------------------
       RETURN
       END
@@ -2614,7 +2614,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|====================================================================
       SUBROUTINE MAV_LTGH(
-     1                    NDDL  ,IADL  ,JDIL  ,DIAG_K,LT_K  ,   
+     1                    NDDL  ,IADL  ,JDIL  ,DIAG_K,LT_K  ,
      2                    V     ,W     ,F_DDL ,L_DDL ,ITASK ,
      3                    NDDLI )
 C-----------------------------------------------
@@ -2636,14 +2636,14 @@ C-----------------------------------------------
      .         NDDLI
 C     REAL
       my_real
-     .  DIAG_K(*), W(*), LT_K(*)  ,V(*) 
+     .  DIAG_K(*), W(*), LT_K(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
 C-----------------------------
             CALL MAV_LU_H(NDDL   ,
-     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,   
+     1                    F_DDL  ,L_DDL   ,IADL  ,JDIL   ,DIAG_K ,
      2                    LT_K   ,V       ,W     )
       IF (NDDLI>0) CALL MAV_LUI_H(F_DDL ,L_DDL  ,V   ,W     )
 C----------------------
@@ -2678,10 +2678,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  F_DDL  ,L_DDL   
+      INTEGER  F_DDL  ,L_DDL
 C     REAL
       my_real
-     .  W(*), V(*) 
+     .  W(*), V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2721,7 +2721,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NUMGEO,IGEO(NPROPGI,*),IFLAG  
+      INTEGER  NUMGEO,IGEO(NPROPGI,*),IFLAG
 C     REAL
       my_real
      .  GEO(NPROPG,*),DMCP(*)
@@ -2733,18 +2733,18 @@ C-----remove membraine material damping w/ implicit static-----
 C-----IFLAG=1 > store dm to DMCP and put dm=zero ; IFLAG=2 reput dm
       IF (IFLAG == 1) THEN
          DO I=1,NUMGEO
-          IGTYP = IGEO(11,I)  
-          IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN  
-            DMCP(I) = GEO(16,I)                       
-            GEO(16,I) = EM30                        
-          ENDIF                                                
+          IGTYP = IGEO(11,I)
+          IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN
+            DMCP(I) = GEO(16,I)
+            GEO(16,I) = EM30
+          ENDIF
 	     END DO
       ELSE
          DO I=1,NUMGEO
-          IGTYP = IGEO(11,I)  
-          IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN  
-            GEO(16,I) = DMCP(I)                        
-          ENDIF                                                
+          IGTYP = IGEO(11,I)
+          IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN
+            GEO(16,I) = DMCP(I)
+          ENDIF
 	     END DO
       END IF
       RETURN
@@ -2885,7 +2885,7 @@ C-----------------------------------------------
       my_real
      .  SII,SIJ,S,SJJ
 C-----------------------------
-       DO J= MD_F ,MD_L 
+       DO J= MD_F ,MD_L
         DO I=1,J-1
           CALL PRODUT_H(F_DDL ,L_DDL ,A(1,I) ,A(1,J) ,WDDL, SIJ ,ITASK)
           S = -SIJ
@@ -2928,7 +2928,7 @@ C-----------------------------------------------
       INTEGER  F_ND ,L_ND ,ND  ,MD   ,ITASK,WDDL(*)
 C     REAL
       my_real
-     .  A(ND,*), B(*), C(*)  
+     .  A(ND,*), B(*), C(*)
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]^t{B}
 c
@@ -2976,7 +2976,7 @@ C-----------------------------------------------
       INTEGER  ND  ,MD   ,ITASK
 C     REAL
       my_real
-     .  A(ND,*), B(*), C(*)  
+     .  A(ND,*), B(*), C(*)
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]{B}
 c
@@ -2993,7 +2993,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
       my_real
-     .  W(MD) 
+     .  W(MD)
 C-----------------------------
       IF (ITASK /= 0) RETURN
 C------------may add dynamic smp on ND after--      
@@ -3029,7 +3029,7 @@ C-----------------------------------------------
       INTEGER  F_ND ,L_ND ,ND  ,MD   ,ITASK,WDDL(*)
 C     REAL
       my_real
-     .  A(ND,*), B(ND,*), C(MD,*)  
+     .  A(ND,*), B(ND,*), C(MD,*)
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]^t[B]
 c
@@ -3078,7 +3078,7 @@ C-----------------------------------------------
       INTEGER  ND  ,MD   ,ITASK
 C     REAL
       my_real
-     .  A(ND,*), B(MD,*)  
+     .  A(ND,*), B(MD,*)
 C-----------------------------------------------
 c FUNCTION: product [A]<-[A][B]
 c
@@ -3133,7 +3133,7 @@ Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE MMAV_LTH(
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2                    LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3                    V     ,W     ,A     ,AR    ,VE    ,
      5                    MS    ,X     ,D     ,DR    ,NDOF  ,
@@ -3179,7 +3179,7 @@ C     REAL
      .  DIAG_K(*), W(*), LT_K(*)  ,LT_I(*)  ,V(*) ,
      .  A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),X(3,*),
      .  MS(*),VOLMON(*),SKEW(*),XFRAME(*),XI_C(*) ,
-     .  DIAG_M(*),LT_M(*),V_W(*)  
+     .  DIAG_M(*),LT_M(*),V_W(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -3190,11 +3190,11 @@ C------Hybrid----produit {w}=[K']{v}=Lm[K]Lm^t{v} (Lm=L_M*sqrt(Diag_M))--DIAG_M-
 C--------------if M=Lm*D*Lm^t, should be -> [K']=sqrt(D)*Lm^t[K]Lm*sqrt(D)
       INTEGER I,J,K
       my_real
-     .  ZW1(NDDL) 
+     .  ZW1(NDDL)
 C--------------------------------------------
 C------------------{zw1}=Lm^t{v}--------------------------
         CALL MMV_LH(
-     1              NDDL  ,IADM0 ,JDIM0 ,DIAG_M ,LT_M0 ,   
+     1              NDDL  ,IADM0 ,JDIM0 ,DIAG_M ,LT_M0 ,
      2              V     ,V_W   ,F_DDL ,L_DDL  ,ITASK )
 C----------------------
       CALL MY_BARRIER
@@ -3206,7 +3206,7 @@ C----------------------
       CALL MY_BARRIER
 C-----------------{zw2}=[K]{zw1}----
        CALL MAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            ZW1   ,V_W   ,A     ,AR    ,
      5            VE    ,MS    ,X     ,D     ,DR    ,
@@ -3220,7 +3220,7 @@ C----------------------
       CALL MY_BARRIER
 C-----------------{w}=[Lm]{zw2}----
         CALL MMV_LTH(
-     1               NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,   
+     1               NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,
      2               V_W   ,W     ,F_DDL ,L_DDL  ,ITASK )
 C      
       RETURN
@@ -3235,7 +3235,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|====================================================================
       SUBROUTINE MMV_LTH(
-     1                    NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,   
+     1                    NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,
      2                    V     ,Z     ,F_DDL ,L_DDL  ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3254,7 +3254,7 @@ C-----------------------------------------------
       INTEGER  NDDL  ,IADM(*)  ,JDIM(*),F_DDL ,L_DDL,ITASK
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3302,7 +3302,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_SUMF_V                   source/mpi/implicit/imp_spmd.F
 Chd|====================================================================
       SUBROUTINE MMV_LH(
-     1                    NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,   
+     1                    NDDL  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,
      2                    V     ,Z     ,F_DDL ,L_DDL  ,ITASK )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3321,14 +3321,14 @@ C-----------------------------------------------
       INTEGER  NDDL  ,IADM(*)  ,JDIM(*),F_DDL ,L_DDL,ITASK
 C     REAL
       my_real
-     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*) 
+     .  DIAG_M(*), Z(*), LT_M(*)  ,V(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C-------hybrid version-solves  {z}=[Z][D]^-1/2{v}----[Z] en colonne-
       INTEGER I,J,K
       my_real
-     .  TMP(NDDL) 
+     .  TMP(NDDL)
 C-----------------------------
       DO I=F_DDL ,L_DDL
         Z(I) = V(I)
@@ -3377,7 +3377,7 @@ Chd|        MAV_LTH                       source/implicit/produt_v.F
 Chd|-- calls ---------------
 Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F 
 Chd|====================================================================
-      SUBROUTINE MAV_LIUH(F_DDL  ,L_DDL   ,IADI  ,JDII   ,ITOK  ,   
+      SUBROUTINE MAV_LIUH(F_DDL  ,L_DDL   ,IADI  ,JDII   ,ITOK  ,
      2                    LT_I   ,WORK_II ,V     ,W      ,ITASK )
 C-----------------------------------------------
 C   M o d u l e s
@@ -3471,7 +3471,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,W(*) 
+      INTEGER  NDDL,W(*)
 C     REAL
       my_real
      .  X(*), Y(*)  ,R
@@ -3491,11 +3491,11 @@ C---------------------
        RL = ZERO
        DO J=F_DDL,L_DDL
          RL = RL + X(J)*Y(J)*W(J)
-       END DO 
+       END DO
 #include "lockon.inc"
         R = R + RL
 #include "lockoff.inc"
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
          IF(IMONM > 0) CALL STARTIME(67,1)
          CALL SPMD_SUM_S(R)
          IF(IMONM > 0) CALL STARTIME(67,1)
@@ -3506,11 +3506,11 @@ C------mono domain
        RL = ZERO
        DO J=F_DDL,L_DDL
          RL = RL + X(J)*Y(J)
-       END DO 
+       END DO
 #include "lockon.inc"
         R = R + RL
 #include "lockoff.inc"
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
       END IF !(NSPMD > 1) THEN
 C---------------------
       RETURN
@@ -3539,15 +3539,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*) ,W_IMP(*) 
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*) ,W_IMP(*)
       my_real
-     .  DD(*),DDR(*), Y(*)  ,R 
+     .  DD(*),DDR(*), Y(*)  ,R
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .  TMP_W1(NDDL) 
+     .  TMP_W1(NDDL)
 C-------------to // D_TO_U----------------
         CALL D_TO_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .              DD    ,DDR   ,TMP_W1 )
@@ -3583,7 +3583,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*) ,
-     .         F_DDL ,L_DDL ,ITASK  
+     .         F_DDL ,L_DDL ,ITASK
 C     REAL
       my_real
      .  DD(*),DDR(*), NORM2
@@ -3626,7 +3626,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*)  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_IMP(*)
 C     REAL
       my_real
      .  D1(*),D1R(*), D2(*),D2R(*), NORM2
@@ -3672,7 +3672,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  WEIGHT(*)  
+      INTEGER  WEIGHT(*)
 C     REAL
       my_real
      .  DD(3,*),DDR(3,*), NORM2
@@ -3691,7 +3691,7 @@ C-----------------------------
         NORM2 = NORM2 + DD(2,I)*DD(2,I)
         NORM2 = NORM2 + DD(3,I)*DD(3,I)
 #include "lockoff.inc"
-       END IF 
+       END IF
       END DO
       IF (IRODDL>0) THEN
        DO I=NODFT ,NODLT
@@ -3701,14 +3701,14 @@ C-----------------------------
          NORM2 = NORM2 + DDR(2,I)*DDR(2,I)
          NORM2 = NORM2 + DDR(3,I)*DDR(3,I)
 #include "lockoff.inc"
-        END IF 
+        END IF
        END DO
-      END IF 
-!$OMP END PARALLEL 
+      END IF
+!$OMP END PARALLEL
 C       
       IF (NSPMD>1) THEN
         CALL SPMD_SUM_S(NORM2)
-      END IF 
+      END IF
 C--------------------------------------------
       RETURN
       END
@@ -3731,7 +3731,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N 
+      INTEGER  N
 C     REAL
       my_real
      .  S, V(*)
@@ -3754,7 +3754,7 @@ C-----------------------------
       DO I = NFT  ,NLT
        V(I) = S*V(I)
       END DO !I=NFT  ,NLT
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -3778,7 +3778,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N 
+      INTEGER  N
 C     REAL
       my_real
      .  S, V(*),Y(*)
@@ -3790,7 +3790,7 @@ c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
 c
 c TYPE NAME                FUNCTION
 c  I   N                 - dim. of V()
-c  I  Y(*)               - Y(*) 
+c  I  Y(*)               - Y(*)
 c  O  V(*)               - V(*) scaled for output
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3802,7 +3802,7 @@ C-----------------------------
       DO I = NFT  ,NLT
        V(I) = S*Y(I)
       END DO !I=NFT  ,NLT
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -3827,7 +3827,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N 
+      INTEGER  N
 C     REAL
       my_real
      .  S, V(*),Y(*)
@@ -3839,7 +3839,7 @@ c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
 c
 c TYPE NAME                FUNCTION
 c  I   N                 - dim. of V()
-c  I  Y(*)               - Y(*) 
+c  I  Y(*)               - Y(*)
 c  O  V(*)               - V(*) scaled for output
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3851,7 +3851,7 @@ C-----------------------------
       DO I = NFT  ,NLT
        V(I) = V(I) + S*Y(I)
       END DO !I=NFT  ,NLT
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -3876,10 +3876,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N  
+      INTEGER  N
 C     REAL
       my_real
-     .  X(*), XC(*)   
+     .  X(*), XC(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3890,7 +3890,7 @@ C-----------------------------
       DO I = NFT  ,NLT
        XC(I) = X(I)
       ENDDO
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -3914,7 +3914,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N ,X(*), XC(*) 
+      INTEGER  N ,X(*), XC(*)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3926,7 +3926,7 @@ C-----------------------------
       DO I = NFT  ,NLT
        XC(I) = X(I)
       ENDDO
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -3950,10 +3950,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  N 
+      INTEGER  N
 C     REAL
       my_real
-     .      X(*) 
+     .      X(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3965,7 +3965,7 @@ C-----------------------------
       DO I = NFT  ,NLT
        X(I) = ZERO
       ENDDO
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END

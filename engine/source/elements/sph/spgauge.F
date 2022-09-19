@@ -41,7 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE SPHBOX
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -102,7 +102,7 @@ c 19:   				   ! Butterworth !
 c 20:   			           ! Butterworth !
 c 21: 				           ! Butterworth !
 c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
+c 23: 				           ! Butterworth !
 c 24:   				   ! Butterworth !
 c 25:   				   ! Butterworth !
 c 26:   				   ! Butterworth !
@@ -112,7 +112,7 @@ c 29:   				   ! Butterworth !
 c 30:  Pressure      		  	   filtered Pressure
 c 31:  PA            			   not yet available
 c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
+c 33:  E             			   filtered E	
 c 34:   				   ! Butterworth !
 c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
@@ -129,7 +129,7 @@ C-----------------------------------------------
      .       PP,EE,PRESS,ENER,RHO
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
       my_real
-     .       , DIMENSION(:), ALLOCATABLE :: FGAUGE1,FGAUGE2,FGAUGE3,FGAUGE4        
+     .       , DIMENSION(:), ALLOCATABLE :: FGAUGE1,FGAUGE2,FGAUGE3,FGAUGE4
 C-----------------------------------------------
       FR_RL(:) = 1
 !$OMP DO SCHEDULE(DYNAMIC,1)
@@ -227,7 +227,7 @@ C-----------------
 !$OMP END DO
 C
 C-------------
-      IF(NSPMD > 1) THEN    
+      IF(NSPMD > 1) THEN
 !$OMP SINGLE
            CALL SPMD_EXCH_FR6(FR_RL,SPHG_F6,4*NBGAUGE*6)
 !$OMP END SINGLE
@@ -244,16 +244,16 @@ C
         PRESS =   SPHG_F6(2,1,IG)+SPHG_F6(2,2,IG)+SPHG_F6(2,3,IG)+
      +            SPHG_F6(2,4,IG)+SPHG_F6(2,5,IG)+SPHG_F6(2,6,IG)
         RHO  =    SPHG_F6(3,1,IG)+SPHG_F6(3,2,IG)+SPHG_F6(3,3,IG)+
-     +            SPHG_F6(3,4,IG)+SPHG_F6(3,5,IG)+SPHG_F6(3,6,IG)      
+     +            SPHG_F6(3,4,IG)+SPHG_F6(3,5,IG)+SPHG_F6(3,6,IG)
         ALPHAI=ONE/MAX(EM20,WCOMPI)
         PRESS=PRESS*ALPHAI
         RHO  =RHO*ALPHAI
         GAUGE(10,IG)=PRESS
         GAUGE(12,IG)=RHO
 C energy not yet available
-        GAUGE(13,IG)=ZERO    
+        GAUGE(13,IG)=ZERO
       END DO
-!$OMP END DO      
+!$OMP END DO
 C
       RETURN
       END

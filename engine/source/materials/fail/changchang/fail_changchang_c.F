@@ -28,11 +28,11 @@ Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_she
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_CHANGCHANG_C(
-     1           NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,    
-     2           TIME      ,TIMESTEP  ,IPG       ,ILAY      ,IPT       , 
-     3           NGL       ,DMG_FLAG  ,DMG_SCALE ,DFMAX     ,TDEL      ,  
-     4           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,    
-     5           OFF       ,FOFF      ,PTHKF     )                               
+     1           NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,
+     2           TIME      ,TIMESTEP  ,IPG       ,ILAY      ,IPT       ,
+     3           NGL       ,DMG_FLAG  ,DMG_SCALE ,DFMAX     ,TDEL      ,
+     4           SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
+     5           OFF       ,FOFF      ,PTHKF     )
 C-----------------------------------------------
 C    chang-chang failure model
 C-----------------------------------------------
@@ -97,31 +97,31 @@ C-----------------------------------------------
       my_real :: SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,BETA,TMAX,
      .           DAMFT,DAMFC,DAMMT,DAMMC,DAMMX
 C=======================================================================
-      SIGT1 = UPARAM(1)      
-      SIGT2 = UPARAM(2)      
-      SIGT12= UPARAM(3)      
-      SIGC1 = UPARAM(4)      
-      SIGC2 = UPARAM(5)      
-      BETA  = UPARAM(6)      
-      TMAX  = UPARAM(7)      
-      IFAIL_SH = INT(UPARAM(8)) 
+      SIGT1 = UPARAM(1)
+      SIGT2 = UPARAM(2)
+      SIGT12= UPARAM(3)
+      SIGC1 = UPARAM(4)
+      SIGC2 = UPARAM(5)
+      BETA  = UPARAM(6)
+      TMAX  = UPARAM(7)
+      IFAIL_SH = INT(UPARAM(8))
 c-----------------
       DMG_FLAG = 1
       IDEL_F   = 0
       IDEL_FM  = 0
       IF (IFAIL_SH == 1) THEN        ! matrix or fiber failure
-        IDEL_FM = 1           
+        IDEL_FM = 1
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN    ! matrix or fiber failure
-        IDEL_FM = 1          
+        IDEL_FM = 1
         PTHKF = ONE
       ELSEIF (IFAIL_SH == 3) THEN    ! fiber only failure
-        IDEL_F = 1            
+        IDEL_F = 1
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 4) THEN    ! fiber only failure
-        IDEL_F = 1           
+        IDEL_F = 1
         PTHKF = ONE
-      END IF                  
+      END IF
 c-----------------
       NINDX  = 0
 c-----------------------------------------------------------------
@@ -131,28 +131,28 @@ c-----------------------------------------------------------------
 C
         DO I=1,NEL
           IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-c            
-            IF (UVAR(I,1) == ZERO) THEN 
+c
+            IF (UVAR(I,1) == ZERO) THEN
 c             check fiber damage
               IF (SIGNXX(I) > ZERO) THEN
                 DAMFT = (SIGNXX(I)/SIGT1)**2 + BETA*(SIGNXY(I)/SIGT12)**2
                 DAMFC = ZERO
-              ELSE 
+              ELSE
                 DAMFC = (SIGNXX(I)/SIGC1)**2
                 DAMFT = ZERO
-              ENDIF 
+              ENDIF
 c
 c             check matrix damage
-              IF (SIGNYY(I) > ZERO) THEN                                   
-                DAMMT = (SIGNYY(I)/SIGT2)**2                             
-     .                + (SIGNXY(I)/SIGT12)**2                    
-                DAMMC = ZERO        
-              ELSE                                                        
-                DAMMC = (SIGNYY(I)/(TWO*SIGT12))**2                     
-     .                + (SIGNXY(I)/SIGT12)**2                             
-     .                + SIGNYY(I)*((SIGC2/(TWO*SIGT12))**2 - ONE)/SIGC2 
+              IF (SIGNYY(I) > ZERO) THEN
+                DAMMT = (SIGNYY(I)/SIGT2)**2
+     .                + (SIGNXY(I)/SIGT12)**2
+                DAMMC = ZERO
+              ELSE
+                DAMMC = (SIGNYY(I)/(TWO*SIGT12))**2
+     .                + (SIGNXY(I)/SIGT12)**2
+     .                + SIGNYY(I)*((SIGC2/(TWO*SIGT12))**2 - ONE)/SIGC2
                 DAMMT = ZERO
-              ENDIF 
+              ENDIF
               DAMMX = MAX(DAMFT,DAMFC,DAMMC,DAMMT)
               DFMAX(I) = MIN(ONE,DAMMX)
               IF (DAMMX >= ONE) THEN
@@ -160,9 +160,9 @@ c             check matrix damage
                 NINDX = NINDX+1
                 INDX(NINDX) = I
               ENDIF
-            ENDIF             
+            ENDIF
 c
-            IF (UVAR(I,1) > ZERO) THEN 
+            IF (UVAR(I,1) > ZERO) THEN
               DFMAX(I) = ONE
               DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)
 c
@@ -172,12 +172,12 @@ c
                 DMG_SCALE(I) = ZERO
               ENDIF
             ENDIF
-c         
+c
           ELSEIF (FOFF(I) == 0) THEN
-            DMG_SCALE(I) = ZERO  
-          ENDIF   
-        ENDDO         
-      ENDIF       
+            DMG_SCALE(I) = ZERO
+          ENDIF
+        ENDDO
+      ENDIF
 c-----------------------------------------------------------------
 c     failure only on fiber criteria   ( flag 3 et 4)
 c-----------------------------------------------------------------
@@ -185,25 +185,25 @@ c-----------------------------------------------------------------
 C
         DO I=1,NEL
           IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-c            
-            IF (UVAR(I,1) == ZERO) THEN 
+c
+            IF (UVAR(I,1) == ZERO) THEN
 c             check fiber damage only
               IF (SIGNXX(I) > ZERO) THEN
-                DAMFT = (SIGNXX(I)/SIGT1)**2 
+                DAMFT = (SIGNXX(I)/SIGT1)**2
      .                + BETA*(SIGNXY(I)/SIGT12)**2
                 DAMFC = ZERO
-              ELSE 
+              ELSE
                 DAMFC = (SIGNXX(I)/SIGC1)**2
                 DAMFT = ZERO
-              ENDIF 
+              ENDIF
               DAMMX    = MAX(DAMFT,DAMFC)
               DFMAX(I) = MIN(ONE,DAMMX)
               IF (DAMMX >= ONE) UVAR(I,1) = TIME
-            ENDIF 
+            ENDIF
 c
-            IF (UVAR(I,1) > ZERO) THEN 
+            IF (UVAR(I,1) > ZERO) THEN
               DFMAX(I) = ONE
-              DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)   
+              DMG_SCALE(I) = EXP(-(TIME + TIMESTEP(I) - UVAR(I,1))/TMAX)
 c
               IF (DMG_SCALE(I) < EM02) THEN
                 NINDX = NINDX+1
@@ -214,21 +214,21 @@ c
               ENDIF
             ENDIF
           ELSEIF (FOFF(I) == 0) THEN
-            DMG_SCALE(I) = ZERO  
-          ENDIF   
-        ENDDO         
+            DMG_SCALE(I) = ZERO
+          ENDIF
+        ENDDO
 c
-      ENDIF                
+      ENDIF
 c------------------------
-      IF (NINDX > 0) THEN  
-        DO J=1,NINDX       
-          I = INDX(J)      
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
+          I = INDX(J)
 #include  "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c------------------------
  2000 FORMAT(1X,'FAILURE (CHANG) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

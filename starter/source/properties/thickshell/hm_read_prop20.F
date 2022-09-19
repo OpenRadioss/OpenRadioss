@@ -57,9 +57,9 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD         
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MULTI_FVM_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IG,IGTYP
       CHARACTER*nchartitle,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
@@ -103,17 +103,17 @@ C     REAL
       INTEGER IHBE,ISMSTR,IPLAST,ICPRE,ICSTR,IINT,JCVT,
      .   NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
       my_real
-     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
+     .    CVIS,QA,QB,QH,VNS1,VNS2,DTMIN
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 C-----hide and removed flags:
-      IPLAST = 2                              
+      IPLAST = 2
       ID = IG
 C---- will branche later     
-      ICPRE = 0  
-      ISTRAIN =1 
+      ICPRE = 0
+      ISTRAIN =1
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -146,8 +146,8 @@ C---   Default values
 C-----------------------
 C
 C  ihbe
-      IF (IHBE == 0) IHBE = IHBE_DS      
-      IF (IHBE /= 14 .AND. IHBE /= 15 .AND. IHBE /= 16) THEN    
+      IF (IHBE == 0) IHBE = IHBE_DS
+      IF (IHBE /= 14 .AND. IHBE /= 15 .AND. IHBE /= 16) THEN
         CALL ANCMSG(MSGID=549,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
@@ -155,18 +155,18 @@ C  ihbe
      .              C1=TITR,
      .              I2=IHBE,
      .              I3=20)
-      ENDIF                                                    
+      ENDIF
 C
 C   jcvt
 C 
-      IF (IHBE == 14 .OR. IHBE == 15) JCVT = 2 
-      IF (IHBE == 16) JCVT = 1        
+      IF (IHBE == 14 .OR. IHBE == 15) JCVT = 2
+      IF (IHBE == 16) JCVT = 1
 C
 C  smstr
 C
-      IF (ISMSTR == 0) ISMSTR=ISST_DS    
-      IF (ISMSTR == 0) ISMSTR=4          
-      IF (ISST_DS == -2.OR.ISMSTR<0) ISMSTR=4          
+      IF (ISMSTR == 0) ISMSTR=ISST_DS
+      IF (ISMSTR == 0) ISMSTR=4
+      IF (ISST_DS == -2.OR.ISMSTR<0) ISMSTR=4
 c       IF(GEO( 3)/=ZERO.AND.IGEO( 5)== 0)IGEO( 5)=NINT(GEO( 3))
 C
 C  icpre/icstr
@@ -186,18 +186,18 @@ C      ICPRE = 0
 C
 C  iint
 C     
-      IF (IHBE == 16) THEN 
+      IF (IHBE == 16) THEN
         IF (IINT == 0) IINT = 1    ! gauss integration
-      ELSEIF (IHBE == 14 .OR. IHBE == 15) THEN 
+      ELSEIF (IHBE == 14 .OR. IHBE == 15) THEN
         IINT = 1
       ENDIF
 C
 C  npt
 C
       SELECT CASE (IHBE)
-      CASE(15)                                             
-        IF (NPT == 0) NPT = 3                              
-        IF (NPT < 1 .OR. NPT > 9)  THEN                    
+      CASE(15)
+        IF (NPT == 0) NPT = 3
+        IF (NPT < 1 .OR. NPT > 9)  THEN
           CALL ANCMSG(MSGID=563,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -205,20 +205,20 @@ C
      .                C1=TITR,
      .                I2=NPT,
      .                I3=IHBE)
-        ENDIF                                              
+        ENDIF
         NPG = NPT
-      CASE(14,16)                                          
-c        NPT = NPTR*100+NPTS*10+ NPTT     
+      CASE(14,16)
+c        NPT = NPTR*100+NPTS*10+ NPTT
         IF (NPT == 0) THEN
          NPT = 222
-         NPTR = 2 
+         NPTR = 2
          NPTS = 2
-         NPTT = 2     
-        END IF         
-        NPG = NPTR*NPTS*NPTT                                    
-        IF (IHBE == 14 .AND.                               
-     .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.     
-     .      NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN   
+         NPTT = 2
+        END IF
+        NPG = NPTR*NPTS*NPTT
+        IF (IHBE == 14 .AND.
+     .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.
+     .      NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN
           CALL ANCMSG(MSGID=563,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -226,9 +226,9 @@ c        NPT = NPTR*100+NPTS*10+ NPTT
      .                C1=TITR,
      .                I2=NPT,
      .                I3=IHBE)
-        ELSEIF (IHBE == 16 .AND.                           
-     .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.     
-     .      NPTR > 3 .OR. NPTS > 9 .OR. NPTT > 3)) THEN   
+        ELSEIF (IHBE == 16 .AND.
+     .     (NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.
+     .      NPTR > 3 .OR. NPTS > 9 .OR. NPTT > 3)) THEN
           CALL ANCMSG(MSGID=563,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -236,8 +236,8 @@ c        NPT = NPTR*100+NPTS*10+ NPTT
      .                C1=TITR,
      .                I2=NPT,
      .                I3=IHBE)
-        ENDIF                                              
-      END SELECT      
+        ENDIF
+      END SELECT
 C                                 
 C  viscosity
 C
@@ -248,26 +248,26 @@ C
       ENDIF
 C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IF(QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
-      IF (QA == ZERO) QA = ONEP1         
-      IF (QB == ZERO) QB = FIVEEM2      
-      IGEO(4)  = NPT                                  
-      IGEO(5)  = ISMSTR               
-      IGEO(9)  = IPLAST-1                                       
-      IGEO(10) = IHBE 
-      IGEO(12) = ISTRAIN                                       
-      IGEO(13) = ICPRE                                 
-      IGEO(14) = ICSTR                                 
-      IGEO(15) = IINT                                 
-      IGEO(16) = JCVT-1                               
+      IF (QA == ZERO) QA = ONEP1
+      IF (QB == ZERO) QB = FIVEEM2
+      IGEO(4)  = NPT
+      IGEO(5)  = ISMSTR
+      IGEO(9)  = IPLAST-1
+      IGEO(10) = IHBE
+      IGEO(12) = ISTRAIN
+      IGEO(13) = ICPRE
+      IGEO(14) = ICSTR
+      IGEO(15) = IINT
+      IGEO(16) = JCVT-1
 C
-      GEO(13)  = CVIS        
+      GEO(13)  = CVIS
       GEO(14)  = QA
       GEO(15)  = QB
       GEO(172) = DTMIN
 
 C----------------------
       IF(.NOT.IS_ENCRYPTED)THEN
-        IF(IGEO(31) == 1) THEN   
+        IF(IGEO(31) == 1) THEN
          WRITE(IOUT,1100)IG,IHBE,ISMSTR,IINT,ICSTR,CVIS,QA,QB,
      .                   DTMIN,ISTRAIN
         ELSE
@@ -278,7 +278,7 @@ C----------------------
         WRITE(IOUT,1001) NPG,NPT
        ELSE
         WRITE(IOUT,1002) NPG
-       ENDIF  
+       ENDIF
       ELSE
        WRITE(IOUT,1099) IG
       ENDIF
@@ -295,7 +295,7 @@ C----Initialization in lecgeo:
        PROP_TAG(IGTYP)%L_QVIS = 1
        IF (MULTI_FVM%IS_USED)  PROP_TAG(IGTYP)%G_MOM = 3
        PROP_TAG(IGTYP)%G_FILL = 1
-       PROP_TAG(IGTYP)%L_STRA = 6 
+       PROP_TAG(IGTYP)%L_STRA = 6
         IGEO(1) =IG
         IGEO(11)=IGTYP
         IGEO(17)=0
@@ -343,7 +343,7 @@ C---
      & 5X,'NUMBER OF INTEGRATION POINTS. .  . .  .=',I3,
      &    ' (',I3,')'/)
  1002 FORMAT(
-     & 5X,'NUMBER OF INTEGRATION POINTS. .  . .  .=',I10/) 
+     & 5X,'NUMBER OF INTEGRATION POINTS. .  . .  .=',I10/)
 C
 
       END SUBROUTINE HM_READ_PROP20

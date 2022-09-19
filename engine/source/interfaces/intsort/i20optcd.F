@@ -143,7 +143,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFA(NSV(CAND_N(I)))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFA(NSV(CAND_N(I)))/=ZERO) THEN
 
 c           IG(IS) = NSV(CAND_N(I))
 c           XI = X(1,IG(IS))
@@ -195,7 +195,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFA(NSV(CAND_N(I)))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFA(NSV(CAND_N(I)))/=ZERO) THEN
             IL(IS) = NSV(CAND_N(I))
             ZI = XA(3,IL(IS))
 
@@ -288,7 +288,7 @@ C
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
              ZI = XFI(NIN)%P(3,II)
@@ -339,7 +339,7 @@ C
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
               ZI = XFI(NIN)%P(3,II)
               IX1(IS)=IRECT(1,L)
               Z1=XA(3,IX1(IS))
@@ -433,7 +433,7 @@ Chd|====================================================================
      2                    IXLINS ,IXLINM  ,GAP     ,NIN   ,
      3                    V      ,GAP_S   ,GAP_M   ,IGAP  ,
      4                    STFS   ,ITASK   ,NLINSA  ,STFM  ,
-     5                    COUNT_REMSLVE ) 
+     5                    COUNT_REMSLVE )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -726,7 +726,7 @@ C
 C
 #include "lockon.inc"
       LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
-      COUNT_REMSLVE(NIN) = COUNT_REMSLVE(NIN) + CT      
+      COUNT_REMSLVE(NIN) = COUNT_REMSLVE(NIN) + CT
 #include "lockoff.inc"
 
 C

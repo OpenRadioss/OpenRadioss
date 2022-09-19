@@ -60,7 +60,7 @@ C----------change the method, just look at the connectivity
           INV = 1
         ELSE
           INV = 0
-        END IF 
+        END IF
 C----6---------------------------------------------------------------7---------8
       RETURN
       END

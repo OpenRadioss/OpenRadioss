@@ -65,8 +65,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD     
-      USE DETONATORS_MOD             
+      USE ELBUFDEF_MOD
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -100,7 +100,7 @@ C-----------------------------------------------
       my_real
      .   MAS(*), PM(NPROPM,*), X(*), GEO(NPROPG,*),
      .   VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
-     .   PARTSAV(20,*), V(*), MSS(8,*), 
+     .   PARTSAV(20,*), V(*), MSS(8,*),
      .   SIGSP(NSIGI, *),MSNF(*), MSSF(8,*), WMA(*),
      .   VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*), BUFMAT(*),
      .   MCP(*),MCPS(8,*),TEMP(*), TF(*), MSSA(*),RNOISE(NPERTURB,*)
@@ -140,9 +140,9 @@ C-----------------------------------------------
       my_real, DIMENSION(MVSIZ) :: BIDMVSIZ
 C--------------------------------
 C-----------------------------------------------
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
@@ -256,7 +256,7 @@ C
         IG=PID(1)
         MTN0=MTN
         DO I=1,NEL
-           MAT0(I) = MAT(I)    
+           MAT0(I) = MAT(I)
            DTX0(I) = EP20
         ENDDO
        END IF
@@ -269,7 +269,7 @@ C
 C
       CALL SDLEN3(X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
-     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   , 
+     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .            DELTAX, VOLU)
       IF (IDTTSH > 0) THEN
          CALL SDLENSH(NEL,LLSH,
@@ -277,10 +277,10 @@ C
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
         DO I=1,NEL
-          IF (GBUF%IDT_TSH(I)>0) 
+          IF (GBUF%IDT_TSH(I)>0)
      .     DELTAX(I)=MAX(LLSH(I),DELTAX(I))
         ENDDO
-      END IF        
+      END IF
 C
       IP=0
       CALL MATINI(PM      ,IXS    ,NIXS       ,X      ,
@@ -332,7 +332,7 @@ c
         CALL MATINI(PM     ,IXS    ,NIXS        ,X        ,
      .             GEO     ,ALE_CONNECTIVITY  ,DETONATORS  ,IPARG    ,
      .             SIGI    ,NEL    ,SKEW        ,IGEO     ,
-     .             IPART   ,IPARTS,   
+     .             IPART   ,IPARTS,
      .             MAT     ,IPM    ,NSIGS       ,NUMSOL   ,PTSOL,
      .             IS      ,NGL    ,NPF         ,TF       ,BUFMAT,
      .             GBUF    ,LBUF   ,MBUF        ,ELBUF_STR,ILOADP,
@@ -371,11 +371,11 @@ c
 C
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .         VOLU, DTX , IGEO )
 C Average density, stresses, ...
           CALL SVALUE0(
-     .         LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,        
+     .         LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,
      .         GBUF%RHO,GBUF%VOL,GBUF%OFF,GBUF%SIG,GBUF%EINT,DTX0,
      .         NEL     )
         ENDIF
@@ -416,7 +416,7 @@ C------------------------------------------
 C Element time step
        AIRE(:) = ZERO
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .      LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .      LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .      VOLU, DTX , IGEO )
 C
        IF(IGTYP == 22) THEN
@@ -578,9 +578,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
-      my_real,DIMENSION(MVSIZ),INTENT(IN) :: 
+      my_real,DIMENSION(MVSIZ),INTENT(IN) ::
      .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,  
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8
       my_real,DIMENSION(MVSIZ),INTENT(OUT) :: LLSH
 C-----------------------------------------------
@@ -592,7 +592,7 @@ C-----------------------------------------------
      .   VQ(MVSIZ,3,3), LXYZ0(3),DETA1(MVSIZ),XX,YY,ZZ,
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),AREA(MVSIZ),
-     .   XN(MVSIZ,4) , YN(MVSIZ,4) , ZN(MVSIZ,4) 
+     .   XN(MVSIZ,4) , YN(MVSIZ,4) , ZN(MVSIZ,4)
       my_real
      .   AL1,AL2,LL(MVSIZ),COREL(2,4)
       my_real
@@ -612,7 +612,7 @@ C=======================================================================
           XN(I,4) = HALF*(X4(I)+X8(I))
           YN(I,4) = HALF*(Y4(I)+Y8(I))
           ZN(I,4) = HALF*(Z4(I)+Z8(I))
-        ENDDO 
+        ENDDO
 C------g1,g2 :
         DO I=1,NEL
           RX(I)=XN(I,2)+XN(I,3)-XN(I,1)-XN(I,4)
@@ -621,9 +621,9 @@ C------g1,g2 :
           SX(I)=XN(I,3)+XN(I,4)-XN(I,1)-XN(I,2)
           SY(I)=YN(I,3)+YN(I,4)-YN(I,1)-YN(I,2)
           SZ(I)=ZN(I,3)+ZN(I,4)-ZN(I,1)-ZN(I,2)
-        ENDDO 
+        ENDDO
 C------Local elem. base:
-        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
+        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ,
      .              VQ, DETA1,NEL)
 C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=1,NEL
@@ -652,7 +652,7 @@ C
           XL4(I)=VQ(I,1,1)*XX+VQ(I,2,1)*YY+VQ(I,3,1)*ZZ
           YL4(I)=VQ(I,1,2)*XX+VQ(I,2,2)*YY+VQ(I,3,2)*ZZ
           AREA(I)=FOURTH*DETA1(I)
-        ENDDO 
+        ENDDO
       FAC = TWO
       FACDT = FIVE_OVER_4
 C-------same as QBAT       
@@ -718,8 +718,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
 C
-      my_real,DIMENSION(NEL),INTENT(IN) :: 
-     .   RX , RY , RZ, 
+      my_real,DIMENSION(NEL),INTENT(IN) ::
+     .   RX , RY , RZ,
      .   SX , SY , SZ
       my_real,DIMENSION(NEL),INTENT(OUT) :: DET
       my_real,DIMENSION(NEL,3,3),INTENT(OUT) :: VQ
@@ -747,21 +747,21 @@ C
       my_real
      .   E1X(NEL), E1Y(NEL), E1Z(NEL),
      .   E2X(NEL), E2Y(NEL), E2Z(NEL),
-     .   E3X(NEL), E3Y(NEL), E3Z(NEL), 
+     .   E3X(NEL), E3Y(NEL), E3Z(NEL),
      .   C1,C2,CC,C1C1,C2C2,C1_1,C2_1
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=1,NEL
 C---------E3------------
-       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I)
+       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I)
+       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I)
        DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
 C ----- EM20=1.0E-20      
        DET(I) = MAX(EM20,DET(I))
-       E3X(I) = E3X(I) / DET(I) 
-       E3Y(I) = E3Y(I) / DET(I) 
-       E3Z(I) = E3Z(I) / DET(I) 
-      ENDDO 
+       E3X(I) = E3X(I) / DET(I)
+       E3Y(I) = E3Y(I) / DET(I)
+       E3Z(I) = E3Z(I) / DET(I)
+      ENDDO
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
@@ -773,11 +773,11 @@ C ----- ZERO=0., ONE=1.0
         ELSEIF(C2C2 /= ZERO)THEN
           C2_1 = ONE
           C1_1 = SQRT(C1C1/MAX(EM20,C2C2))
-        END IF 
+        END IF
         E1X(I) = RX(I)*C2_1+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1
-        E1Y(I) = RY(I)*C2_1+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1 
+        E1Y(I) = RY(I)*C2_1+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1
         E1Z(I) = RZ(I)*C2_1+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1_1
-       ENDDO 
+       ENDDO
 C
        DO I=1,NEL
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
@@ -788,7 +788,7 @@ C
         E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
         E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
         E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
-       ENDDO 
+       ENDDO
       DO I=1,NEL
         VQ(I,1,1)=E1X(I)
         VQ(I,2,1)=E1Y(I)
@@ -799,7 +799,7 @@ C
         VQ(I,1,3)=E3X(I)
         VQ(I,2,3)=E3Y(I)
         VQ(I,3,3)=E3Z(I)
-      ENDDO 
+      ENDDO
 C-----------
       RETURN
       END SUBROUTINE CLSYS3

@@ -71,7 +71,7 @@ C     REAL
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
      .   P(MVSIZ),COEF,FVOL
 C-----------------------------------------------
-      
+
       IF (ICP==1.AND.(ISMSTR==10.OR.ISMSTR==12)) THEN
        DO I=LFT,LLT
         FVOL=JFAC(I)*VOL(I)
@@ -83,7 +83,7 @@ C-----------------------------------------------
         S6(I)=(SIG(I,6)+SVIS(I,6))*FVOL
        ENDDO
       ELSEIF (ICP==1) THEN
-       COEF=ZEP3 
+       COEF=ZEP3
        DO I=LFT,LLT
         P(I) =COEF*(SIG(I,1)+SIG(I,2)+SIG(I,3)
      .            +SVIS(I,1)+SVIS(I,2)+SVIS(I,3))
@@ -173,33 +173,33 @@ C-----------------------------------------------
 !        F12(I)=F12(I)-(S1(I)*DN_X(I,2)+S4(I)*DN_Y(I,2)+S6(I)*DN_Z(I,2))
 !        F22(I)=F22(I)-(S2(I)*DN_Y(I,2)+S4(I)*DN_X(I,2)+S5(I)*DN_Z(I,2))
 !        F32(I)=F32(I)-(S3(I)*DN_Z(I,2)+S5(I)*DN_Y(I,2)+S6(I)*DN_X(I,2))
-!        
+!
 !        F13(I)=F13(I)-(S1(I)*DN_X(I,3)+S4(I)*DN_Y(I,3)+S6(I)*DN_Z(I,3))
 !        F23(I)=F23(I)-(S2(I)*DN_Y(I,3)+S4(I)*DN_X(I,3)+S5(I)*DN_Z(I,3))
 !        F33(I)=F33(I)-(S3(I)*DN_Z(I,3)+S5(I)*DN_Y(I,3)+S6(I)*DN_X(I,3))
-!        
+!
 !        F14(I)=F14(I)-(S1(I)*DN_X(I,4)+S4(I)*DN_Y(I,4)+S6(I)*DN_Z(I,4))
 !        F24(I)=F24(I)-(S2(I)*DN_Y(I,4)+S4(I)*DN_X(I,4)+S5(I)*DN_Z(I,4))
 !        F34(I)=F34(I)-(S3(I)*DN_Z(I,4)+S5(I)*DN_Y(I,4)+S6(I)*DN_X(I,4))
-!        
+!
 !        F15(I)=F15(I)-(S1(I)*DN_X(I,5)+S4(I)*DN_Y(I,5)+S6(I)*DN_Z(I,5))
 !        F25(I)=F25(I)-(S2(I)*DN_Y(I,5)+S4(I)*DN_X(I,5)+S5(I)*DN_Z(I,5))
 !        F35(I)=F35(I)-(S3(I)*DN_Z(I,5)+S5(I)*DN_Y(I,5)+S6(I)*DN_X(I,5))
-!        
+!
 !        F16(I)=F16(I)-(S1(I)*DN_X(I,6)+S4(I)*DN_Y(I,6)+S6(I)*DN_Z(I,6))
 !        F26(I)=F26(I)-(S2(I)*DN_Y(I,6)+S4(I)*DN_X(I,6)+S5(I)*DN_Z(I,6))
 !        F36(I)=F36(I)-(S3(I)*DN_Z(I,6)+S5(I)*DN_Y(I,6)+S6(I)*DN_X(I,6))
-!        
+!
 !        F17(I)=F17(I)-(S1(I)*DN_X(I,7)+S4(I)*DN_Y(I,7)+S6(I)*DN_Z(I,7))
 !        F27(I)=F27(I)-(S2(I)*DN_Y(I,7)+S4(I)*DN_X(I,7)+S5(I)*DN_Z(I,7))
 !        F37(I)=F37(I)-(S3(I)*DN_Z(I,7)+S5(I)*DN_Y(I,7)+S6(I)*DN_X(I,7))
-!        
+!
 !        F18(I)=F18(I)-(S1(I)*DN_X(I,8)+S4(I)*DN_Y(I,8)+S6(I)*DN_Z(I,8))
 !        F28(I)=F28(I)-(S2(I)*DN_Y(I,8)+S4(I)*DN_X(I,8)+S5(I)*DN_Z(I,8))
 !        F38(I)=F38(I)-(S3(I)*DN_Z(I,8)+S5(I)*DN_Y(I,8)+S6(I)*DN_X(I,8))
 !        ENDDO
 !
-!!c      
+!!c
 
       RETURN
       END

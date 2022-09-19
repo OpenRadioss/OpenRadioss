@@ -90,7 +90,7 @@ C-----------------------------------------------
      .        IADRCP_PXFEM(*), ISENDP_PXFEM(*),IRECVP_PXFEM(*),
      .        IADSDP_CRK(*),IADRCP_CRK(*),ISENDP_CRK(*),
      .        IRECVP_CRK(*),CRKNODIAD(*),NFACNIT,
-     .        LENC 
+     .        LENC
       my_real
      .        FSKY(8,LSKY),FSKYV(LSKY,8),FSKYM(*),
      .        FFSKY(3,LSKY),FSKYD(*),FORNEQSKY(3*NFACNIT,*),
@@ -164,7 +164,7 @@ C
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
           SIZ = SIZE*FR_NBCC(2,I)+1
           IF(IPLYXFEM > 0) SIZ = SIZ + 4*NPLYMAX*FR_NBCC1(2,I)
-          IF(ICRACK3D > 0) SIZ = SIZ + 
+          IF(ICRACK3D > 0) SIZ = SIZ +
      .                      (17*NLEVMAX+1)*FR_NBCC1(2,I)
           SIZ = SIZ + 3*NFACNIT*FR_NBCC(2,I)               !NITSCHE METHOD
           IF(LENC > 0) SIZ = SIZ + 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
@@ -286,7 +286,7 @@ C + la t hermique
             ENDDO
            ENDIF
           ENDIF
-         ENDIF ! INTHEAT        
+         ENDIF ! INTHEAT
 C! + Plyxfem + type 24        
         ELSE
          IF(INTHEAT == 0 ) THEN
@@ -365,7 +365,7 @@ C
                FSKYIF_PXFEM(2,NISKYF) = PLYSKYI%FSKYI(I,2)
                FSKYIF_PXFEM(3,NISKYF) = PLYSKYI%FSKYI(I,3)
                FSKYIF_PXFEM(4,NISKYF) = PLYSKYI%FSKYI(I,4)
-               FSKYIF_PXFEM(5,NISKYF) = PLYSKYI%FSKYI(I,5) 
+               FSKYIF_PXFEM(5,NISKYF) = PLYSKYI%FSKYI(I,5)
              ENDIF
             ENDDO
            ENDIF
@@ -385,7 +385,7 @@ C
                FSKYIF_PXFEM(2,NISKYF) = PLYSKYI%FSKYI(I,2)
                FSKYIF_PXFEM(3,NISKYF) = PLYSKYI%FSKYI(I,3)
                FSKYIF_PXFEM(4,NISKYF) = PLYSKYI%FSKYI(I,4)
-               FSKYIF_PXFEM(5,NISKYF) = PLYSKYI%FSKYI(I,5) 
+               FSKYIF_PXFEM(5,NISKYF) = PLYSKYI%FSKYI(I,5)
              ENDIF
             ENDDO
            ELSE
@@ -410,7 +410,7 @@ C
            ENDIF
           ENDIF
          ENDIF ! INTHEAT
-       ENDIF 
+       ENDIF
 C
 C tri suivant no noeud
         DO N = 1, NUMNOD+1
@@ -576,7 +576,7 @@ Cel cas   3D seul possible
                  SBUF(L+5) = FSKY(6,CC)
                  SBUF(L+6) = FSKY(7,CC)
                  SBUF(L+7) = FSKY(8,CC)
-                 L = L + SIZE       
+                 L = L + SIZE
                END DO
              ELSE
 #include "vectorize.inc"
@@ -1073,7 +1073,7 @@ C
                END DO
              ENDIF
            ELSE
-            IF(NODADT_THERM == 1) THEN 
+            IF(NODADT_THERM == 1) THEN
              IF(IRODDL/=0) THEN
 #include "vectorize.inc"
                DO J=IADSDP(I),IADSDP(I+1)-1
@@ -1315,7 +1315,7 @@ C
             SBUF(L+5) = CRKSKY(IPT)% FSKY(6,CC)
             SBUF(L+6) = CRKLVSET(IPT)%ENR0(1,CC)
             SBUF(L+7) = CRKLVSET(IPT)%ENR0(2,CC)
-c 
+c
             SBUF(L+8)  = CRKAVX(IPT)%X(1,CC)
             SBUF(L+9)  = CRKAVX(IPT)%X(2,CC)
             SBUF(L+10) = CRKAVX(IPT)%X(3,CC)
@@ -1387,7 +1387,7 @@ C
      .            (IADSDP_CRK(I+1)-IADSDP_CRK(I))*
      .                                    (17*NLEVMAX+1)   + 1
         ENDIF
-        SIZ = SIZ + (IADSDP(I+1)-IADSDP(I))*3*NFACNIT              
+        SIZ = SIZ + (IADSDP(I+1)-IADSDP(I))*3*NFACNIT
         IF(LENC > 0) SIZ = SIZ + 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))    !Output max contact forces
 C
         MSGTYP = MSGOFF
@@ -1574,7 +1574,7 @@ C cas 3D seul possible
             ENDIF
           ELSE         ! ivector = 0
 C cas 3D seul possible
-           IF(NODADT_THERM == 1) THEN 
+           IF(NODADT_THERM == 1) THEN
             IF(IRODDL/=0) THEN
 #include "vectorize.inc"
               DO J=IADRCP(I),IADRCP(I+1)-1
@@ -2180,15 +2180,15 @@ C
             CRKLVSET(IPT)%ENR0(1,CC) = RBUF(L+6)
             CRKLVSET(IPT)%ENR0(2,CC) = RBUF(L+7)
 
-            CRKAVX(IPT)%X(1,CC)  = RBUF(L+8)                  
-            CRKAVX(IPT)%X(2,CC)  = RBUF(L+9)                  
-            CRKAVX(IPT)%X(3,CC)  = RBUF(L+10)                 
-            CRKAVX(IPT)%V(1,CC)  = RBUF(L+11)                 
-            CRKAVX(IPT)%V(2,CC)  = RBUF(L+12)                 
-            CRKAVX(IPT)%V(3,CC)  = RBUF(L+13)                 
-            CRKAVX(IPT)%VR(1,CC) = RBUF(L+14)                 
-            CRKAVX(IPT)%VR(2,CC) = RBUF(L+15)                 
-            CRKAVX(IPT)%VR(3,CC) = RBUF(L+16)             
+            CRKAVX(IPT)%X(1,CC)  = RBUF(L+8)
+            CRKAVX(IPT)%X(2,CC)  = RBUF(L+9)
+            CRKAVX(IPT)%X(3,CC)  = RBUF(L+10)
+            CRKAVX(IPT)%V(1,CC)  = RBUF(L+11)
+            CRKAVX(IPT)%V(2,CC)  = RBUF(L+12)
+            CRKAVX(IPT)%V(3,CC)  = RBUF(L+13)
+            CRKAVX(IPT)%VR(1,CC) = RBUF(L+14)
+            CRKAVX(IPT)%VR(2,CC) = RBUF(L+15)
+            CRKAVX(IPT)%VR(3,CC) = RBUF(L+16)
 
             L = L + 17
           END DO
@@ -2202,7 +2202,7 @@ C
         DO J=IADRCP(I),IADRCP(I+1)-1
           CC = IRECVP(J)
           DO K=1,NFACNIT
-            FORNEQSKY(3*(K-1)+1,CC) = RBUF(L+3*(K-1)) 
+            FORNEQSKY(3*(K-1)+1,CC) = RBUF(L+3*(K-1))
             FORNEQSKY(3*(K-1)+2,CC) = RBUF(L+3*(K-1)+1)
             FORNEQSKY(3*(K-1)+3,CC) = RBUF(L+3*(K-1)+2)
           ENDDO
@@ -2215,9 +2215,9 @@ C --- /CONT/MAX output
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
-             FCONT(1,NOD) =  FCONT(1,NOD) + RBUF(L)  
+             FCONT(1,NOD) =  FCONT(1,NOD) + RBUF(L)
              FCONT(2,NOD) =  FCONT(2,NOD) + RBUF(L+1)
-             FCONT(3,NOD) =  FCONT(3,NOD) + RBUF(L+2) 
+             FCONT(3,NOD) =  FCONT(3,NOD) + RBUF(L+2)
              L = L + 3
           END DO
        ENDIF

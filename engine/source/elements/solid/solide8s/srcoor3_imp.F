@@ -35,21 +35,21 @@ Chd|====================================================================
      .   X1    ,X2    ,X3    ,X4    ,X5    ,X6    ,X7    ,X8    ,
      .   Y1    ,Y2    ,Y3    ,Y4    ,Y5    ,Y6    ,Y7    ,Y8    ,
      .   Z1    ,Z2    ,Z3    ,Z4    ,Z5    ,Z6    ,Z7    ,Z8    ,
-     .   VX1   ,VX2   ,VX3   ,VX4   ,VX5   ,VX6   ,VX7   ,VX8   , 
-     .   VY1   ,VY2   ,VY3   ,VY4   ,VY5   ,VY6   ,VY7   ,VY8   , 
-     .   VZ1   ,VZ2   ,VZ3   ,VZ4   ,VZ5   ,VZ6   ,VZ7   ,VZ8   , 
-     .   VD2   ,VIS   ,OFFG  ,OFF   ,SAV   ,RHO   ,RHOO  ,R     , 
+     .   VX1   ,VX2   ,VX3   ,VX4   ,VX5   ,VX6   ,VX7   ,VX8   ,
+     .   VY1   ,VY2   ,VY3   ,VY4   ,VY5   ,VY6   ,VY7   ,VY8   ,
+     .   VZ1   ,VZ2   ,VZ3   ,VZ4   ,VZ5   ,VZ6   ,VZ7   ,VZ8   ,
+     .   VD2   ,VIS   ,OFFG  ,OFF   ,SAV   ,RHO   ,RHOO  ,R     ,
      .   NC1   ,NC2   ,NC3   ,NC4   ,NC5   ,NC6   ,NC7   ,NC8   ,
      .   NGL   ,MXT   ,NGEO  ,IOUTPRT,VGAX ,VGAY  ,VGAZ  ,VGA2  ,
      .   XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
      .   YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
-     .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,         
+     .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
      .   XDP   ,X0    ,Y0    ,Z0    ,NEL   ,TRM   ,XREF  ,
      .   ULX1  ,ULX2  ,ULX3  ,ULX4  ,ULX5  ,ULX6  ,ULX7  ,ULX8  ,
      .   ULY1  ,ULY2  ,ULY3  ,ULY4  ,ULY5  ,ULY6  ,ULY7  ,ULY8  ,
      .   ULZ1  ,ULZ2  ,ULZ3  ,ULZ4  ,ULZ5  ,ULZ6  ,ULZ7  ,ULZ8  ,
      .   XGAX  ,XGAY  ,XGAZ  ,XGXA2 ,XGYA2 ,XGZA2 ,XGXYA ,XGYZA ,
-     .   XGZXA ,IPARG)  
+     .   XGZXA ,IPARG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,14 +97,14 @@ C     REAL
       INTEGER IXS(NIXS,*), MXT(*), NGL(*),NGEO(*),IPARG(*),
      .        NC1(*),NC2(*),NC3(*),NC4(*),NC5(*),NC6(*),NC7(*),NC8(*)
       INTEGER IOUTPRT
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XDP(3,*),SAV(NEL,21),X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), 
-     .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), 
-     .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), 
+     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
+     .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
+     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
+     .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
+     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
      .   ULX1(MVSIZ), ULX2(MVSIZ), ULX3(MVSIZ), ULX4(MVSIZ),
      .   ULX5(MVSIZ), ULX6(MVSIZ), ULX7(MVSIZ), ULX8(MVSIZ),
@@ -117,15 +117,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,j
-      
+
       DOUBLE PRECISION
      .   XDL, YDL, ZDL, INVJ(MVSIZ,9),
      .   V1(MVSIZ,9), V2(MVSIZ,9), V3(MVSIZ,9), V4(MVSIZ,9),
      .   V5(MVSIZ,9), V6(MVSIZ,9), V7(MVSIZ,9), V8(MVSIZ,9)
-    
+
 C     REAL
       my_real
-     .  DT05     
+     .  DT05
       my_real
      .   G11,G12,G13,
      .   G21,G22,G23,
@@ -135,7 +135,7 @@ C     REAL
      .   T31,T32,T33,
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
       my_real
      .   XL(MVSIZ),YL(MVSIZ),ZL(MVSIZ)
       my_real
@@ -163,61 +163,61 @@ C
 C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
-      IF(IRESP==1)THEN 
+      IF(IRESP==1)THEN
         DO I=LFT,LLT
-          XD1(I)=XDP(1,NC1(I))  
-          YD1(I)=XDP(2,NC1(I))  
-          ZD1(I)=XDP(3,NC1(I))  
-          XD2(I)=XDP(1,NC2(I))  
-          YD2(I)=XDP(2,NC2(I))  
-          ZD2(I)=XDP(3,NC2(I))  
-          XD3(I)=XDP(1,NC3(I))  
-          YD3(I)=XDP(2,NC3(I))  
-          ZD3(I)=XDP(3,NC3(I))  
-          XD4(I)=XDP(1,NC4(I))  
-          YD4(I)=XDP(2,NC4(I))  
-          ZD4(I)=XDP(3,NC4(I))  
-          XD5(I)=XDP(1,NC5(I))  
-          YD5(I)=XDP(2,NC5(I))  
-          ZD5(I)=XDP(3,NC5(I))  
-          XD6(I)=XDP(1,NC6(I))  
-          YD6(I)=XDP(2,NC6(I))  
-          ZD6(I)=XDP(3,NC6(I))  
-          XD7(I)=XDP(1,NC7(I))  
-          YD7(I)=XDP(2,NC7(I))  
-          ZD7(I)=XDP(3,NC7(I))  
-          XD8(I)=XDP(1,NC8(I))  
-          YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          XD1(I)=XDP(1,NC1(I))
+          YD1(I)=XDP(2,NC1(I))
+          ZD1(I)=XDP(3,NC1(I))
+          XD2(I)=XDP(1,NC2(I))
+          YD2(I)=XDP(2,NC2(I))
+          ZD2(I)=XDP(3,NC2(I))
+          XD3(I)=XDP(1,NC3(I))
+          YD3(I)=XDP(2,NC3(I))
+          ZD3(I)=XDP(3,NC3(I))
+          XD4(I)=XDP(1,NC4(I))
+          YD4(I)=XDP(2,NC4(I))
+          ZD4(I)=XDP(3,NC4(I))
+          XD5(I)=XDP(1,NC5(I))
+          YD5(I)=XDP(2,NC5(I))
+          ZD5(I)=XDP(3,NC5(I))
+          XD6(I)=XDP(1,NC6(I))
+          YD6(I)=XDP(2,NC6(I))
+          ZD6(I)=XDP(3,NC6(I))
+          XD7(I)=XDP(1,NC7(I))
+          YD7(I)=XDP(2,NC7(I))
+          ZD7(I)=XDP(3,NC7(I))
+          XD8(I)=XDP(1,NC8(I))
+          YD8(I)=XDP(2,NC8(I))
+          ZD8(I)=XDP(3,NC8(I))  	  	  	
         ENDDO
       ELSE	
         DO I=LFT,LLT
-          XD1(I)=X(1,NC1(I))  
-          YD1(I)=X(2,NC1(I))  
-          ZD1(I)=X(3,NC1(I))  
-          XD2(I)=X(1,NC2(I))  
-          YD2(I)=X(2,NC2(I))  
-          ZD2(I)=X(3,NC2(I))  
-          XD3(I)=X(1,NC3(I))  
-          YD3(I)=X(2,NC3(I))  
-          ZD3(I)=X(3,NC3(I))  
-          XD4(I)=X(1,NC4(I))  
-          YD4(I)=X(2,NC4(I))  
-          ZD4(I)=X(3,NC4(I))  
-          XD5(I)=X(1,NC5(I))  
-          YD5(I)=X(2,NC5(I))  
-          ZD5(I)=X(3,NC5(I))  
-          XD6(I)=X(1,NC6(I))  
-          YD6(I)=X(2,NC6(I))  
-          ZD6(I)=X(3,NC6(I))  
-          XD7(I)=X(1,NC7(I))  
-          YD7(I)=X(2,NC7(I))  
-          ZD7(I)=X(3,NC7(I))  
-          XD8(I)=X(1,NC8(I))  
-          YD8(I)=X(2,NC8(I))  
-          ZD8(I)=X(3,NC8(I))  
-        ENDDO      
-      ENDIF         
+          XD1(I)=X(1,NC1(I))
+          YD1(I)=X(2,NC1(I))
+          ZD1(I)=X(3,NC1(I))
+          XD2(I)=X(1,NC2(I))
+          YD2(I)=X(2,NC2(I))
+          ZD2(I)=X(3,NC2(I))
+          XD3(I)=X(1,NC3(I))
+          YD3(I)=X(2,NC3(I))
+          ZD3(I)=X(3,NC3(I))
+          XD4(I)=X(1,NC4(I))
+          YD4(I)=X(2,NC4(I))
+          ZD4(I)=X(3,NC4(I))
+          XD5(I)=X(1,NC5(I))
+          YD5(I)=X(2,NC5(I))
+          ZD5(I)=X(3,NC5(I))
+          XD6(I)=X(1,NC6(I))
+          YD6(I)=X(2,NC6(I))
+          ZD6(I)=X(3,NC6(I))
+          XD7(I)=X(1,NC7(I))
+          YD7(I)=X(2,NC7(I))
+          ZD7(I)=X(3,NC7(I))
+          XD8(I)=X(1,NC8(I))
+          YD8(I)=X(2,NC8(I))
+          ZD8(I)=X(3,NC8(I))
+        ENDDO
+      ENDIF
 C-----------
       DO I=LFT,LLT
        VX1(I)=V(1,NC1(I))
@@ -317,27 +317,27 @@ C-----------
           ENDIF
         ENDDO
         IF((ISMSTR==12.AND.IDTMIN(1)==3).AND.JLAG>0) THEN
-         DO I=LFT,LLT	  
+         DO I=LFT,LLT	
           IF(ABS(OFFG(I)) > ONE)THEN
           END IF
 	 ENDDO
         END IF
 C
       ELSE    ! Ismstr = 4
-        DO I=LFT,LLT	  
+        DO I=LFT,LLT	
           OFF(I) = ABS(OFFG(I))
           OFF_L  = MIN(OFF_L,OFFG(I))
         ENDDO
 C
-      ENDIF  ! ISMSTR    
+      ENDIF  ! ISMSTR
 
-      CALL CRFRAME_IMP(SAV, INVJ, 
+      CALL CRFRAME_IMP(SAV, INVJ,
      .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .             YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
 !     .             R11, R21, R31, R12, R22, R32, R13, R23, R33,
      .             R,NEL)
-     
+
 !      !! POUR COMPARAISON AVEC LA FORMULATION CLASSIQUE RADIOSS
 !            CALL SREPISO3(
 !     .       XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
@@ -349,7 +349,7 @@ C
 !     .       RD12, RD13, RD11, RD22, RD23, RD21, RD32, RD33, RD31)          !isolid14
 !!     .       RD11, RD12, RD13, RD21, RD22, RD23, RD31, RD32, RD33)         !isolid17
 !
-!      !!DO I=LFT,LLT 
+!      !!DO I=LFT,LLT
 !        I = LLT
 !        RR11= R(1,1,I)*RD11(I)+R(2,1,I)*RD21(I)+R(3,1,I)*RD31(I)
 !        RR12= R(1,2,I)*RD11(I)+R(2,2,I)*RD21(I)+R(3,2,I)*RD31(I)
@@ -364,8 +364,8 @@ C
 !        write(*,'(3(3(1X,1PE10.3),6X))')R(1,1,I),R(1,2,I),R(1,3,I),RD11(I),RD12(I),RD13(I),RR11,RR12,RR13
 !        write(*,'(3(3(1X,1PE10.3),6X))')R(2,1,I),R(2,2,I),R(2,3,I),RD21(I),RD22(I),RD23(I),RR21,RR22,RR23
 !        write(*,'(3(3(1X,1PE10.3),6X))')R(3,1,I),R(3,2,I),R(3,3,I),RD31(I),RD32(I),RD33(I),RR31,RR32,RR33
-        
-      CALL CRTRANS_IMP(SAV,INVJ, 
+
+      CALL CRTRANS_IMP(SAV,INVJ,
      .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .             YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
@@ -409,7 +409,7 @@ C
      .             ULZ1,ULZ2,ULZ3,ULZ4,ULZ5,ULZ6,ULZ7,ULZ8,
      .             R, NEL)
       ENDIF
-!     
+!
 !      CALL SREPISO3(
 !     .       XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
 !     .       YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
@@ -429,51 +429,51 @@ C
 !     .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
 !     .       R11, R12, R13, R21, R22, R23, R31, R32, R33)
 !      ENDIF
-!C-------sauf thick shells --------------     
+!C-------sauf thick shells --------------
 !      IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
 !        IF (ISORTH == 0) THEN
-!          DO I=LFT,LLT                                          
-!            GAMA(I,1) = ONE                             
-!            GAMA(I,2) = ZERO                              
+!          DO I=LFT,LLT
+!            GAMA(I,1) = ONE
+!            GAMA(I,2) = ZERO
 !            GAMA(I,3) = ZERO
-!            GAMA(I,4) = ZERO                              
-!            GAMA(I,5) = ONE                              
+!            GAMA(I,4) = ZERO
+!            GAMA(I,5) = ONE
 !            GAMA(I,6) = ZERO
-!          ENDDO      
-!        ELSE    
-!          CALL SORTHDIR3(                                            
-!     .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   , 
-!     .        R11  ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  , 
-!     .        GAMA0,GAMA )                                           
+!          ENDDO
+!        ELSE
+!          CALL SORTHDIR3(
+!     .        RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
+!     .        R11  ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  ,
+!     .        GAMA0,GAMA )
 !        ENDIF
 !      ENDIF
-c Recuperer les coordonnees courantes     
+c Recuperer les coordonnees courantes
       DO I=LFT,LLT
-        X1(I)= XD1(I) 
-        Y1(I)= YD1(I) 
+        X1(I)= XD1(I)
+        Y1(I)= YD1(I)
         Z1(I)= ZD1(I)
-        X2(I)= XD2(I)  
-        Y2(I)= YD2(I)  
-        Z2(I)= ZD2(I) 
-        X3(I)= XD3(I) 
-        Y3(I)= YD3(I) 
-        Z3(I)= ZD3(I) 
-        X4(I)= XD4(I) 
-        Y4(I)= YD4(I) 
-        Z4(I)= ZD4(I) 
-        X5(I)= XD5(I) 
+        X2(I)= XD2(I)
+        Y2(I)= YD2(I)
+        Z2(I)= ZD2(I)
+        X3(I)= XD3(I)
+        Y3(I)= YD3(I)
+        Z3(I)= ZD3(I)
+        X4(I)= XD4(I)
+        Y4(I)= YD4(I)
+        Z4(I)= ZD4(I)
+        X5(I)= XD5(I)
         Y5(I)= YD5(I)
-        Z5(I)= ZD5(I) 
-        X6(I)= XD6(I) 
-        Y6(I)= YD6(I) 
-        Z6(I)= ZD6(I) 
-        X7(I)= XD7(I) 
-        Y7(I)= YD7(I) 
-        Z7(I)= ZD7(I) 
-        X8(I)= XD8(I) 
-        Y8(I)= YD8(I) 
-        Z8(I)= ZD8(I) 
-      ENDDO          
+        Z5(I)= ZD5(I)
+        X6(I)= XD6(I)
+        Y6(I)= YD6(I)
+        Z6(I)= ZD6(I)
+        X7(I)= XD7(I)
+        Y7(I)= YD7(I)
+        Z7(I)= ZD7(I)
+        X8(I)= XD8(I)
+        Y8(I)= YD8(I)
+        Z8(I)= ZD8(I)
+      ENDDO
 !C-----------
 !C     PASSAGE AU REPERE CONVECTE.
 !C-----------
@@ -517,7 +517,7 @@ c Recuperer les coordonnees courantes
         XD2(I) = UL
         YD2(I) = VL
         ZD2(I) = WL
-        
+
         UG = XD3(I)-XD1(I)
         VG = YD3(I)-YD1(I)
         WG = ZD3(I)-ZD1(I)
@@ -527,7 +527,7 @@ c Recuperer les coordonnees courantes
         XD3(I) = UL
         YD3(I) = VL
         ZD3(I) = WL
-      
+
         UG = XD4(I)-XD1(I)
         VG = YD4(I)-YD1(I)
         WG = ZD4(I)-ZD1(I)
@@ -537,7 +537,7 @@ c Recuperer les coordonnees courantes
         XD4(I) = UL
         YD4(I) = VL
         ZD4(I) = WL
-      
+
         UG = XD5(I)-XD1(I)
         VG = YD5(I)-YD1(I)
         WG = ZD5(I)-ZD1(I)
@@ -547,7 +547,7 @@ c Recuperer les coordonnees courantes
         XD5(I) = UL
         YD5(I) = VL
         ZD5(I) = WL
-      
+
         UG = XD6(I)-XD1(I)
         VG = YD6(I)-YD1(I)
         WG = ZD6(I)-ZD1(I)
@@ -557,7 +557,7 @@ c Recuperer les coordonnees courantes
         XD6(I) = UL
         YD6(I) = VL
         ZD6(I) = WL
-      
+
         UG = XD7(I)-XD1(I)
         VG = YD7(I)-YD1(I)
         WG = ZD7(I)-ZD1(I)
@@ -567,7 +567,7 @@ c Recuperer les coordonnees courantes
         XD7(I) = UL
         YD7(I) = VL
         ZD7(I) = WL
-      
+
         UG = XD8(I)-XD1(I)
         VG = YD8(I)-YD1(I)
         WG = ZD8(I)-ZD1(I)
@@ -582,7 +582,7 @@ c Recuperer les coordonnees courantes
         YD1(I)=ZERO
         ZD1(I)=ZERO
        ENDDO
-      ENDIF 
+      ENDIF
 C-----------
 C     PASSAGE DES VITESSES AU REPERE CONVECTE (OU ORTHOTROPE).
 C-----------
@@ -593,8 +593,8 @@ C-----------
 !     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8)
 
 
-      
-      
+
+
       IF(OFF_L < ZERO)THEN
         DO I=LFT,LLT
           IF(OFFG(I) < ZERO)THEN
@@ -642,7 +642,7 @@ Chd|====================================================================
      .   XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,XD7   ,XD8   ,
      .   YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,YD7   ,YD8   ,
      .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,ZD7   ,ZD8   ,
-     .   NEL   ) 
+     .   NEL   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -662,16 +662,16 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*)
-      
-      DOUBLE PRECISION 
-     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*), 
-     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*), 
-     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*),      
+
+      DOUBLE PRECISION
+     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
+     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
+     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*),
      .   SAV(NEL,21)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I      
+      INTEGER I
 C=======================================================================
         !print*,'OFFG(10) ', offg(10)
         DO I=LFT,LLT
@@ -733,8 +733,8 @@ C-----------------------------------------------
 C     REAL
 !      my_real
 !     .   OFFG(*)
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -745,7 +745,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J      
+      INTEGER I,J
 C=======================================================================
       DOUBLE PRECISION DX_DR,DX_DS,DX_DT,DY_DR,DY_DS,DY_DT,DZ_DR,DZ_DS,DZ_DT
       DOUBLE PRECISION FMAT(3,3),UM(3,3),IC,I2C,I3C,IU,I2U,I3U
@@ -754,7 +754,7 @@ C=======================================================================
       DOUBLE PRECISION A,B,ZZ,A1,A2,A3,A4,X0(8),Y0(8),Z0(8)
       DOUBLE PRECISION MILLE24
       MILLE24 = 1024.0
-      
+
       DO I=LFT,LLT
         X0(1) = ZERO
         Y0(1) = ZERO
@@ -813,7 +813,7 @@ C=======================================================================
         INVJ(I,1,3) = (DX_DS*DY_DT-DX_DT*DY_DS)*DETM1
         INVJ(I,2,3) = (DX_DT*DY_DR-DX_DR*DY_DT)*DETM1
         INVJ(I,3,3) = (DX_DR*DY_DS-DX_DS*DY_DR)*DETM1
-      
+
         DX_DR = (XD3(I)+XD4(I)+XD7(I)+XD8(I))-(XD1(I)+XD2(I)+XD5(I)+XD6(I))
         DY_DR = (YD3(I)+YD4(I)+YD7(I)+YD8(I))-(YD1(I)+YD2(I)+YD5(I)+YD6(I))
         DZ_DR = (ZD3(I)+ZD4(I)+ZD7(I)+ZD8(I))-(ZD1(I)+ZD2(I)+ZD5(I)+ZD6(I))
@@ -832,7 +832,7 @@ C=======================================================================
         DX_DT = DX_DT/EIGHT
         DY_DT = DY_DT/EIGHT
         DZ_DT = DZ_DT/EIGHT
-        
+
         FMAT(1,1) = (DX_DR*INVJ(I,1,1)+DX_DS*INVJ(I,2,1)+DX_DT*INVJ(I,3,1))
         FMAT(2,1) = (DY_DR*INVJ(I,1,1)+DY_DS*INVJ(I,2,1)+DY_DT*INVJ(I,3,1))
         FMAT(3,1) = (DZ_DR*INVJ(I,1,1)+DZ_DS*INVJ(I,2,1)+DZ_DT*INVJ(I,3,1))
@@ -842,7 +842,7 @@ C=======================================================================
         FMAT(1,3) = (DX_DR*INVJ(I,1,3)+DX_DS*INVJ(I,2,3)+DX_DT*INVJ(I,3,3))
         FMAT(2,3) = (DY_DR*INVJ(I,1,3)+DY_DS*INVJ(I,2,3)+DY_DT*INVJ(I,3,3))
         FMAT(3,3) = (DZ_DR*INVJ(I,1,3)+DZ_DS*INVJ(I,2,3)+DZ_DT*INVJ(I,3,3))
-        
+
         C11 = FMAT(1,1)*FMAT(1,1)+FMAT(2,1)*FMAT(2,1)+FMAT(3,1)*FMAT(3,1)
         C21 = FMAT(1,2)*FMAT(1,1)+FMAT(2,2)*FMAT(2,1)+FMAT(3,2)*FMAT(3,1)
         C31 = FMAT(1,3)*FMAT(1,1)+FMAT(2,3)*FMAT(2,1)+FMAT(3,3)*FMAT(3,1)
@@ -852,7 +852,7 @@ C=======================================================================
         C13 = FMAT(1,1)*FMAT(1,3)+FMAT(2,1)*FMAT(2,3)+FMAT(3,1)*FMAT(3,3)
         C23 = FMAT(1,2)*FMAT(1,3)+FMAT(2,2)*FMAT(2,3)+FMAT(3,2)*FMAT(3,3)
         C33 = FMAT(1,3)*FMAT(1,3)+FMAT(2,3)*FMAT(2,3)+FMAT(3,3)*FMAT(3,3)
-        
+
         CC11 = C11*C11+C12*C21+C13*C31
         CC21 = C21*C11+C22*C21+C23*C31
         CC31 = C31*C11+C32*C21+C33*C31
@@ -862,7 +862,7 @@ C=======================================================================
         CC13 = C11*C13+C12*C23+C13*C33
         CC23 = C21*C13+C22*C23+C23*C33
         CC33 = C31*C13+C32*C23+C33*C33
-        
+
         IC = C11+C22+C33
         I2C = C11*C22+C22*C33+C11*C33-C21*C12-C13*C31-C23*C32
         I3C = C11*C22*C33+C12*C23*C31+C13*C21*C32
@@ -900,7 +900,7 @@ C=======================================================================
         UM(1,3) = A4*(A1*CC13-A2*C13)
         UM(2,3) = A4*(A1*CC23-A2*C23)
         UM(3,3) = A4*(A1*CC33-A2*C33+A3)
-        
+
         R(1,1,I) = FMAT(1,1)*UM(1,1)+FMAT(1,2)*UM(2,1)+FMAT(1,3)*UM(3,1)
         R(2,1,I) = FMAT(2,1)*UM(1,1)+FMAT(2,2)*UM(2,1)+FMAT(2,3)*UM(3,1)
         R(3,1,I) = FMAT(3,1)*UM(1,1)+FMAT(3,2)*UM(2,1)+FMAT(3,3)*UM(3,1)
@@ -913,7 +913,7 @@ C=======================================================================
       ENDDO
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  GETULOC                       source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- called by -----------
@@ -948,8 +948,8 @@ C-----------------------------------------------
 C     REAL
 !      my_real
 !     .   OFFG(*)
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -966,9 +966,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I    
+      INTEGER I
 C=======================================================================
-      DOUBLE PRECISION U,V,W,UL,VL,WL 
+      DOUBLE PRECISION U,V,W,UL,VL,WL
 
       DO I=LFT,LLT
         ULX1(I) = ZERO    ! sb : On pourrait eviter de stocker ces 3 tables (toujours zero)
@@ -994,7 +994,7 @@ C=======================================================================
         ULX3(I) = UL-SAV(I,4)
         ULY3(I) = VL-SAV(I,5)
         ULZ3(I) = WL-SAV(I,6)
-      
+
         U = (XD4(I)-XD1(I))
         V = (YD4(I)-YD1(I))
         W = (ZD4(I)-ZD1(I))
@@ -1004,7 +1004,7 @@ C=======================================================================
         ULX4(I) = UL-SAV(I,7)
         ULY4(I) = VL-SAV(I,8)
         ULZ4(I) = WL-SAV(I,9)
-      
+
         U = (XD5(I)-XD1(I))
         V = (YD5(I)-YD1(I))
         W = (ZD5(I)-ZD1(I))
@@ -1014,7 +1014,7 @@ C=======================================================================
         ULX5(I) = UL-SAV(I,10)
         ULY5(I) = VL-SAV(I,11)
         ULZ5(I) = WL-SAV(I,12)
-      
+
         U = (XD6(I)-XD1(I))
         V = (YD6(I)-YD1(I))
         W = (ZD6(I)-ZD1(I))
@@ -1024,7 +1024,7 @@ C=======================================================================
         ULX6(I) = UL-SAV(I,13)
         ULY6(I) = VL-SAV(I,14)
         ULZ6(I) = WL-SAV(I,15)
-      
+
         U = (XD7(I)-XD1(I))
         V = (YD7(I)-YD1(I))
         W = (ZD7(I)-ZD1(I))
@@ -1034,7 +1034,7 @@ C=======================================================================
         ULX7(I) = UL-SAV(I,16)
         ULY7(I) = VL-SAV(I,17)
         ULZ7(I) = WL-SAV(I,18)
-      
+
         U = (XD8(I)-XD1(I))
         V = (YD8(I)-YD1(I))
         W = (ZD8(I)-ZD1(I))
@@ -1044,11 +1044,11 @@ C=======================================================================
         ULX8(I) = UL-SAV(I,19)
         ULY8(I) = VL-SAV(I,20)
         ULZ8(I) = WL-SAV(I,21)
-        
+
       ENDDO
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  GETVLOC                       source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- called by -----------
@@ -1082,9 +1082,9 @@ C-----------------------------------------------
 C     REAL
 !      my_real
 !     .   OFFG(*)
-      
-      DOUBLE PRECISION 
-     .   TRM(NEL,24,24), R(3,3,MVSIZ),    
+
+      DOUBLE PRECISION
+     .   TRM(NEL,24,24), R(3,3,MVSIZ),
      .   ULX1(MVSIZ), ULX2(MVSIZ), ULX3(MVSIZ), ULX4(MVSIZ),
      .   ULX5(MVSIZ), ULX6(MVSIZ), ULX7(MVSIZ), ULX8(MVSIZ),
      .   ULY1(MVSIZ), ULY2(MVSIZ), ULY3(MVSIZ), ULY4(MVSIZ),
@@ -1098,15 +1098,15 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,J,K    
+      INTEGER I ,J,K
 C=======================================================================
-      DOUBLE PRECISION U,V,W!,UL,VL,WL 
-      DOUBLE PRECISION UG(24),UL(24) 
+      DOUBLE PRECISION U,V,W!,UL,VL,WL
+      DOUBLE PRECISION UG(24),UL(24)
 c
       DO I=LFT,LLT
-        UG(1) = ZERO 
-        UG(2) = ZERO 
-        UG(3) = ZERO 
+        UG(1) = ZERO
+        UG(2) = ZERO
+        UG(3) = ZERO
         UG(4) = VX2(I)-VX1(I)
         UG(5) = VY2(I)-VY1(I)
         UG(6) = VZ2(I)-VZ1(I)
@@ -1129,20 +1129,20 @@ c
         UG(23) = VY8(I)-VY1(I)
         UG(24) = VZ8(I)-VZ1(I)
 !        if (i==10) write(*,'("Vitesse G ",/,3(1x,1pe10.3))')   ug(1:24)
-          
+
         DO J=1,24
           UL(J) = ZERO
           DO K=1,24
             UL(J) = UL(J)+TRM(I,J,K)*UG(K)
           ENDDO
         ENDDO
-        
+
 !        if (i==10) write(*,'("vLOC ",/,3(1x,1pe10.3))')   ul(1:24)
         !
         !U = R11(I)*VX1(I)+R21(I)*VY1(I)+R31(I)*VZ1(I)
         !V = R12(I)*VX1(I)+R22(I)*VY1(I)+R32(I)*VZ1(I)
         !W = R13(I)*VX1(I)+R23(I)*VY1(I)+R33(I)*VZ1(I)
-        
+
         ULX1(I) = UL(1)!-u
         ULY1(I) = UL(2)!-v
         ULZ1(I) = UL(3)!-w
@@ -1205,7 +1205,7 @@ c
 !        ULY3(I) = VL
 !        ULZ3(I) = WL
 !        if (i==10)       write(*,'(3(1X,1PE10.3))')U,V,W
-!      
+!
 !        U = VX4(I)-VX1(I)
 !        V = VY4(I)-VY1(I)
 !        W = VZ4(I)-VZ1(I)
@@ -1216,7 +1216,7 @@ c
 !        ULY4(I) = VL
 !        ULZ4(I) = WL
 !        if (i==10)       write(*,'(3(1X,1PE10.3))')U,V,W
-!      
+!
 !        U = VX5(I)-VX1(I)
 !        V = VY5(I)-VY1(I)
 !        W = VZ5(I)-VZ1(I)
@@ -1227,7 +1227,7 @@ c
 !        ULY5(I) = VL
 !        ULZ5(I) = WL
 !        if (i==10)       write(*,'(3(1X,1PE10.3))')U,V,W
-!      
+!
 !        U = VX6(I)-VX1(I)
 !        V = VY6(I)-VY1(I)
 !        W = VZ6(I)-VZ1(I)
@@ -1238,7 +1238,7 @@ c
 !        ULY6(I) = VL
 !        ULZ6(I) = WL
 !        if (i==10)       write(*,'(3(1X,1PE10.3))')U,V,W
-!      
+!
 !        U = VX7(I)-VX1(I)
 !        V = VY7(I)-VY1(I)
 !        W = VZ7(I)-VZ1(I)
@@ -1249,7 +1249,7 @@ c
 !        ULY7(I) = VL
 !        ULZ7(I) = WL
 !        if (i==10)       write(*,'(3(1X,1PE10.3))')U,V,W
-!      
+!
 !        U = VX8(I)-VX1(I)
 !        V = VY8(I)-VY1(I)
 !        W = VZ8(I)-VZ1(I)
@@ -1270,11 +1270,11 @@ c
 !          write(*,'(3(1x,1pe10.3))')   ULX7(I),ULY7(I),ULZ7(I)
 !          write(*,'(3(1x,1pe10.3))')   ULX8(I),ULY8(I),ULZ8(I)
 !        endif
-!       
+!
 !      ENDDO
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  CRTRANS_IMP                   source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- called by -----------
@@ -1308,8 +1308,8 @@ C-----------------------------------------------
 C     REAL
 !      my_real
 !     .   OFFG(*)
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -1323,11 +1323,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,JJ      
+      INTEGER I,J,JJ
 C=======================================================================
       DOUBLE PRECISION DX_DR,DX_DS,DX_DT,DY_DR,DY_DS,DY_DT,DZ_DR,DZ_DS,DZ_DT
       DOUBLE PRECISION FMAT(3,3),UM(3,3),IC,I2C,I3C,IU,I2U,I3U
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   SA11,SA21,SA31,SA12,SA22,SA32,SA13,SA23,SA33,
      .   SB11,SB21,SB31,SB12,SB22,SB32,SB13,SB23,SB33,
      .   SC11,SC21,SC31,SC12,SC22,SC32,SC13,SC23,SC33,
@@ -1336,11 +1336,11 @@ C=======================================================================
      .   SF11,SF21,SF31,SF12,SF22,SF32,SF13,SF23,SF33,
      .   SG11,SG21,SG31,SG12,SG22,SG32,SG13,SG23,SG33,
      .   S11,S21,S31,S12,S22,S32,S13,S23,S33
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   B11,B21,B31,B12,B22,B32,B13,B23,B33,BB,
      .   BI11,BI21,BI31,BI12,BI22,BI32,BI13,BI23,BI33
-      DOUBLE PRECISION AA 
-      DOUBLE PRECISION 
+      DOUBLE PRECISION AA
+      DOUBLE PRECISION
      .   DN1_DX(MVSIZ), DN1_DY(MVSIZ), DN1_DZ(MVSIZ),
      .   DN2_DX(MVSIZ), DN2_DY(MVSIZ), DN2_DZ(MVSIZ),
      .   DN3_DX(MVSIZ), DN3_DY(MVSIZ), DN3_DZ(MVSIZ),
@@ -1355,9 +1355,9 @@ C=======================================================================
      .   YI5(MVSIZ), YI6(MVSIZ), YI7(MVSIZ), YI8(MVSIZ),
      .   ZI1(MVSIZ), ZI2(MVSIZ), ZI3(MVSIZ), ZI4(MVSIZ),
      .   ZI5(MVSIZ), ZI6(MVSIZ), ZI7(MVSIZ), ZI8(MVSIZ)
-      
+
       AA = ONE/EIGHT
-      
+
       DO I=LFT,LLT
         XI1(I) = ZERO
         YI1(I) = ZERO
@@ -1384,7 +1384,7 @@ C=======================================================================
         YI8(I) = YD8(I)-YD1(I)
         ZI8(I) = ZD8(I)-ZD1(I)
       ENDDO
-      
+
       DO I=LFT,LLT
         DN1_DX(I) = (-INVJ(I,1,1)-INVJ(I,2,1)-INVJ(I,3,1))*AA
         DN2_DX(I) = (-INVJ(I,1,1)-INVJ(I,2,1)+INVJ(I,3,1))*AA
@@ -1394,7 +1394,7 @@ C=======================================================================
         DN6_DX(I) = (-INVJ(I,1,1)+INVJ(I,2,1)+INVJ(I,3,1))*AA
         DN7_DX(I) = ( INVJ(I,1,1)+INVJ(I,2,1)+INVJ(I,3,1))*AA
         DN8_DX(I) = ( INVJ(I,1,1)+INVJ(I,2,1)-INVJ(I,3,1))*AA
-        
+
         DN1_DY(I) = (-INVJ(I,1,2)-INVJ(I,2,2)-INVJ(I,3,2))*AA
         DN2_DY(I) = (-INVJ(I,1,2)-INVJ(I,2,2)+INVJ(I,3,2))*AA
         DN3_DY(I) = ( INVJ(I,1,2)-INVJ(I,2,2)+INVJ(I,3,2))*AA
@@ -1403,7 +1403,7 @@ C=======================================================================
         DN6_DY(I) = (-INVJ(I,1,2)+INVJ(I,2,2)+INVJ(I,3,2))*AA
         DN7_DY(I) = ( INVJ(I,1,2)+INVJ(I,2,2)+INVJ(I,3,2))*AA
         DN8_DY(I) = ( INVJ(I,1,2)+INVJ(I,2,2)-INVJ(I,3,2))*AA
-      
+
         DN1_DZ(I) = (-INVJ(I,1,3)-INVJ(I,2,3)-INVJ(I,3,3))*AA
         DN2_DZ(I) = (-INVJ(I,1,3)-INVJ(I,2,3)+INVJ(I,3,3))*AA
         DN3_DZ(I) = ( INVJ(I,1,3)-INVJ(I,2,3)+INVJ(I,3,3))*AA
@@ -1412,7 +1412,7 @@ C=======================================================================
         DN6_DZ(I) = (-INVJ(I,1,3)+INVJ(I,2,3)+INVJ(I,3,3))*AA
         DN7_DZ(I) = ( INVJ(I,1,3)+INVJ(I,2,3)+INVJ(I,3,3))*AA
         DN8_DZ(I) = ( INVJ(I,1,3)+INVJ(I,2,3)-INVJ(I,3,3))*AA
-        
+
         SA11 = R(2,1,I)*ZI2(I)-R(3,1,I)*YI2(I)     ! Noeud 2
         SA12 =-R(1,1,I)*ZI2(I)+R(3,1,I)*XI2(I)
         SA13 = R(1,1,I)*YI2(I)-R(2,1,I)*XI2(I)
@@ -1476,7 +1476,7 @@ C=======================================================================
         SG31 = R(2,3,I)*ZI8(I)-R(3,3,I)*YI8(I)
         SG32 =-R(1,3,I)*ZI8(I)+R(3,3,I)*XI8(I)
         SG33 = R(1,3,I)*YI8(I)-R(2,3,I)*XI8(I)
-        
+
         B11 = -DN2_DZ(I)*SA21+DN2_DY(I)*SA31
      .        -DN3_DZ(I)*SB21+DN3_DY(I)*SB31
      .        -DN4_DZ(I)*SC21+DN4_DY(I)*SC31
@@ -1553,7 +1553,7 @@ C=======================================================================
         BI13 = (B12*B23-B13*B22)*BB
         BI23 = (B21*B13-B11*B23)*BB
         BI33 = (B11*B22-B12*B21)*BB
-        
+
         S11 = -DN1_DZ(I)*R(1,2,I)+DN1_DY(I)*R(1,3,I)
         S21 =  DN1_DZ(I)*R(1,1,I)-DN1_DX(I)*R(1,3,I)
         S31 = -DN1_DY(I)*R(1,1,I)+DN1_DX(I)*R(1,2,I)
@@ -1563,7 +1563,7 @@ C=======================================================================
         S13 = -DN1_DZ(I)*R(3,2,I)+DN1_DY(I)*R(3,3,I)
         S23 =  DN1_DZ(I)*R(3,1,I)-DN1_DX(I)*R(3,3,I)
         S33 = -DN1_DY(I)*R(3,1,I)+DN1_DX(I)*R(3,2,I)
-        
+
         V1(I,1,1) = -(BI11*S11+BI12*S21+BI13*S31)
         V1(I,2,1) = -(BI21*S11+BI22*S21+BI23*S31)
         V1(I,3,1) = -(BI31*S11+BI32*S21+BI33*S31)
@@ -1593,12 +1593,12 @@ C=======================================================================
         V2(I,1,3) = -(BI11*S13+BI12*S23+BI13*S33)
         V2(I,2,3) = -(BI21*S13+BI22*S23+BI23*S33)
         V2(I,3,3) = -(BI31*S13+BI32*S23+BI33*S33)
-        
+
         S11 = -DN3_DZ(I)*R(1,2,I)+DN3_DY(I)*R(1,3,I)
         S21 =  DN3_DZ(I)*R(1,1,I)-DN3_DX(I)*R(1,3,I)
         S31 = -DN3_DY(I)*R(1,1,I)+DN3_DX(I)*R(1,2,I)
         S12 = -DN3_DZ(I)*R(2,2,I)+DN3_DY(I)*R(2,3,I)
-        S22 =  DN3_DZ(I)*R(2,1,I)-DN3_DX(I)*R(2,3,I)                      
+        S22 =  DN3_DZ(I)*R(2,1,I)-DN3_DX(I)*R(2,3,I)
         S32 = -DN3_DY(I)*R(2,1,I)+DN3_DX(I)*R(2,2,I)
         S13 = -DN3_DZ(I)*R(3,2,I)+DN3_DY(I)*R(3,3,I)
         S23 =  DN3_DZ(I)*R(3,1,I)-DN3_DX(I)*R(3,3,I)
@@ -1613,7 +1613,7 @@ C=======================================================================
         V3(I,1,3) = -(BI11*S13+BI12*S23+BI13*S33)
         V3(I,2,3) = -(BI21*S13+BI22*S23+BI23*S33)
         V3(I,3,3) = -(BI31*S13+BI32*S23+BI33*S33)
-        
+
         S11 = -DN4_DZ(I)*R(1,2,I)+DN4_DY(I)*R(1,3,I)
         S21 =  DN4_DZ(I)*R(1,1,I)-DN4_DX(I)*R(1,3,I)
         S31 = -DN4_DY(I)*R(1,1,I)+DN4_DX(I)*R(1,2,I)
@@ -1633,7 +1633,7 @@ C=======================================================================
         V4(I,1,3) = -(BI11*S13+BI12*S23+BI13*S33)
         V4(I,2,3) = -(BI21*S13+BI22*S23+BI23*S33)
         V4(I,3,3) = -(BI31*S13+BI32*S23+BI33*S33)
-        
+
         S11 = -DN5_DZ(I)*R(1,2,I)+DN5_DY(I)*R(1,3,I)
         S21 =  DN5_DZ(I)*R(1,1,I)-DN5_DX(I)*R(1,3,I)
         S31 = -DN5_DY(I)*R(1,1,I)+DN5_DX(I)*R(1,2,I)
@@ -1653,7 +1653,7 @@ C=======================================================================
         V5(I,1,3) = -(BI11*S13+BI12*S23+BI13*S33)
         V5(I,2,3) = -(BI21*S13+BI22*S23+BI23*S33)
         V5(I,3,3) = -(BI31*S13+BI32*S23+BI33*S33)
-        
+
         S11 = -DN6_DZ(I)*R(1,2,I)+DN6_DY(I)*R(1,3,I)
         S21 =  DN6_DZ(I)*R(1,1,I)-DN6_DX(I)*R(1,3,I)
         S31 = -DN6_DY(I)*R(1,1,I)+DN6_DX(I)*R(1,2,I)
@@ -1713,7 +1713,7 @@ C=======================================================================
         V8(I,1,3) = -(BI11*S13+BI12*S23+BI13*S33)
         V8(I,2,3) = -(BI21*S13+BI22*S23+BI23*S33)
         V8(I,3,3) = -(BI31*S13+BI32*S23+BI33*S33)
-        
+
         TRM(I,1,1) = ZERO
         TRM(I,2,1) = ZERO
         TRM(I,3,1) = ZERO
@@ -1733,7 +1733,7 @@ C=======================================================================
         TRM(I,4,3) = SA11*V1(I,1,3)+SA12*V1(I,2,3)+SA13*V1(I,3,3)
         TRM(I,5,3) = SA21*V1(I,1,3)+SA22*V1(I,2,3)+SA23*V1(I,3,3)
         TRM(I,6,3) = SA31*V1(I,1,3)+SA32*V1(I,2,3)+SA33*V1(I,3,3)
-        
+
         TRM(I,7,1) = SB11*V1(I,1,1)+SB12*V1(I,2,1)+SB13*V1(I,3,1)
         TRM(I,8,1) = SB21*V1(I,1,1)+SB22*V1(I,2,1)+SB23*V1(I,3,1)
         TRM(I,9,1) = SB31*V1(I,1,1)+SB32*V1(I,2,1)+SB33*V1(I,3,1)
@@ -1743,7 +1743,7 @@ C=======================================================================
         TRM(I,7,3) = SB11*V1(I,1,3)+SB12*V1(I,2,3)+SB13*V1(I,3,3)
         TRM(I,8,3) = SB21*V1(I,1,3)+SB22*V1(I,2,3)+SB23*V1(I,3,3)
         TRM(I,9,3) = SB31*V1(I,1,3)+SB32*V1(I,2,3)+SB33*V1(I,3,3)
-        
+
         TRM(I,10,1) = SC11*V1(I,1,1)+SC12*V1(I,2,1)+SC13*V1(I,3,1)
         TRM(I,11,1) = SC21*V1(I,1,1)+SC22*V1(I,2,1)+SC23*V1(I,3,1)
         TRM(I,12,1) = SC31*V1(I,1,1)+SC32*V1(I,2,1)+SC33*V1(I,3,1)
@@ -1753,7 +1753,7 @@ C=======================================================================
         TRM(I,10,3) = SC11*V1(I,1,3)+SC12*V1(I,2,3)+SC13*V1(I,3,3)
         TRM(I,11,3) = SC21*V1(I,1,3)+SC22*V1(I,2,3)+SC23*V1(I,3,3)
         TRM(I,12,3) = SC31*V1(I,1,3)+SC32*V1(I,2,3)+SC33*V1(I,3,3)
-        
+
         TRM(I,13,1) = SD11*V1(I,1,1)+SD12*V1(I,2,1)+SD13*V1(I,3,1)
         TRM(I,14,1) = SD21*V1(I,1,1)+SD22*V1(I,2,1)+SD23*V1(I,3,1)
         TRM(I,15,1) = SD31*V1(I,1,1)+SD32*V1(I,2,1)+SD33*V1(I,3,1)
@@ -1763,7 +1763,7 @@ C=======================================================================
         TRM(I,13,3) = SD11*V1(I,1,3)+SD12*V1(I,2,3)+SD13*V1(I,3,3)
         TRM(I,14,3) = SD21*V1(I,1,3)+SD22*V1(I,2,3)+SD23*V1(I,3,3)
         TRM(I,15,3) = SD31*V1(I,1,3)+SD32*V1(I,2,3)+SD33*V1(I,3,3)
-        
+
         TRM(I,16,1) = SE11*V1(I,1,1)+SE12*V1(I,2,1)+SE13*V1(I,3,1)
         TRM(I,17,1) = SE21*V1(I,1,1)+SE22*V1(I,2,1)+SE23*V1(I,3,1)
         TRM(I,18,1) = SE31*V1(I,1,1)+SE32*V1(I,2,1)+SE33*V1(I,3,1)
@@ -1773,7 +1773,7 @@ C=======================================================================
         TRM(I,16,3) = SE11*V1(I,1,3)+SE12*V1(I,2,3)+SE13*V1(I,3,3)
         TRM(I,17,3) = SE21*V1(I,1,3)+SE22*V1(I,2,3)+SE23*V1(I,3,3)
         TRM(I,18,3) = SE31*V1(I,1,3)+SE32*V1(I,2,3)+SE33*V1(I,3,3)
-        
+
         TRM(I,19,1) = SF11*V1(I,1,1)+SF12*V1(I,2,1)+SF13*V1(I,3,1)
         TRM(I,20,1) = SF21*V1(I,1,1)+SF22*V1(I,2,1)+SF23*V1(I,3,1)
         TRM(I,21,1) = SF31*V1(I,1,1)+SF32*V1(I,2,1)+SF33*V1(I,3,1)
@@ -1783,7 +1783,7 @@ C=======================================================================
         TRM(I,19,3) = SF11*V1(I,1,3)+SF12*V1(I,2,3)+SF13*V1(I,3,3)
         TRM(I,20,3) = SF21*V1(I,1,3)+SF22*V1(I,2,3)+SF23*V1(I,3,3)
         TRM(I,21,3) = SF31*V1(I,1,3)+SF32*V1(I,2,3)+SF33*V1(I,3,3)
-        
+
         TRM(I,22,1) = SG11*V1(I,1,1)+SG12*V1(I,2,1)+SG13*V1(I,3,1)
         TRM(I,23,1) = SG21*V1(I,1,1)+SG22*V1(I,2,1)+SG23*V1(I,3,1)
         TRM(I,24,1) = SG31*V1(I,1,1)+SG32*V1(I,2,1)+SG33*V1(I,3,1)
@@ -1793,7 +1793,7 @@ C=======================================================================
         TRM(I,22,3) = SG11*V1(I,1,3)+SG12*V1(I,2,3)+SG13*V1(I,3,3)
         TRM(I,23,3) = SG21*V1(I,1,3)+SG22*V1(I,2,3)+SG23*V1(I,3,3)
         TRM(I,24,3) = SG31*V1(I,1,3)+SG32*V1(I,2,3)+SG33*V1(I,3,3)
-        
+
         TRM(I,1,4) = ZERO
         TRM(I,2,4) = ZERO
         TRM(I,3,4) = ZERO
@@ -1813,7 +1813,7 @@ C=======================================================================
         TRM(I,4,6) = SA11*V2(I,1,3)+SA12*V2(I,2,3)+SA13*V2(I,3,3)
         TRM(I,5,6) = SA21*V2(I,1,3)+SA22*V2(I,2,3)+SA23*V2(I,3,3)
         TRM(I,6,6) = SA31*V2(I,1,3)+SA32*V2(I,2,3)+SA33*V2(I,3,3)
-        
+
         TRM(I,7,4) = SB11*V2(I,1,1)+SB12*V2(I,2,1)+SB13*V2(I,3,1)
         TRM(I,8,4) = SB21*V2(I,1,1)+SB22*V2(I,2,1)+SB23*V2(I,3,1)
         TRM(I,9,4) = SB31*V2(I,1,1)+SB32*V2(I,2,1)+SB33*V2(I,3,1)
@@ -1823,7 +1823,7 @@ C=======================================================================
         TRM(I,7,6) = SB11*V2(I,1,3)+SB12*V2(I,2,3)+SB13*V2(I,3,3)
         TRM(I,8,6) = SB21*V2(I,1,3)+SB22*V2(I,2,3)+SB23*V2(I,3,3)
         TRM(I,9,6) = SB31*V2(I,1,3)+SB32*V2(I,2,3)+SB33*V2(I,3,3)
-        
+
         TRM(I,10,4) = SC11*V2(I,1,1)+SC12*V2(I,2,1)+SC13*V2(I,3,1)
         TRM(I,11,4) = SC21*V2(I,1,1)+SC22*V2(I,2,1)+SC23*V2(I,3,1)
         TRM(I,12,4) = SC31*V2(I,1,1)+SC32*V2(I,2,1)+SC33*V2(I,3,1)
@@ -1833,7 +1833,7 @@ C=======================================================================
         TRM(I,10,6) = SC11*V2(I,1,3)+SC12*V2(I,2,3)+SC13*V2(I,3,3)
         TRM(I,11,6) = SC21*V2(I,1,3)+SC22*V2(I,2,3)+SC23*V2(I,3,3)
         TRM(I,12,6) = SC31*V2(I,1,3)+SC32*V2(I,2,3)+SC33*V2(I,3,3)
-        
+
         TRM(I,13,4) = SD11*V2(I,1,1)+SD12*V2(I,2,1)+SD13*V2(I,3,1)
         TRM(I,14,4) = SD21*V2(I,1,1)+SD22*V2(I,2,1)+SD23*V2(I,3,1)
         TRM(I,15,4) = SD31*V2(I,1,1)+SD32*V2(I,2,1)+SD33*V2(I,3,1)
@@ -1843,7 +1843,7 @@ C=======================================================================
         TRM(I,13,6) = SD11*V2(I,1,3)+SD12*V2(I,2,3)+SD13*V2(I,3,3)
         TRM(I,14,6) = SD21*V2(I,1,3)+SD22*V2(I,2,3)+SD23*V2(I,3,3)
         TRM(I,15,6) = SD31*V2(I,1,3)+SD32*V2(I,2,3)+SD33*V2(I,3,3)
-        
+
         TRM(I,16,4) = SE11*V2(I,1,1)+SE12*V2(I,2,1)+SE13*V2(I,3,1)
         TRM(I,17,4) = SE21*V2(I,1,1)+SE22*V2(I,2,1)+SE23*V2(I,3,1)
         TRM(I,18,4) = SE31*V2(I,1,1)+SE32*V2(I,2,1)+SE33*V2(I,3,1)
@@ -1853,7 +1853,7 @@ C=======================================================================
         TRM(I,16,6) = SE11*V2(I,1,3)+SE12*V2(I,2,3)+SE13*V2(I,3,3)
         TRM(I,17,6) = SE21*V2(I,1,3)+SE22*V2(I,2,3)+SE23*V2(I,3,3)
         TRM(I,18,6) = SE31*V2(I,1,3)+SE32*V2(I,2,3)+SE33*V2(I,3,3)
-        
+
         TRM(I,19,4) = SF11*V2(I,1,1)+SF12*V2(I,2,1)+SF13*V2(I,3,1)
         TRM(I,20,4) = SF21*V2(I,1,1)+SF22*V2(I,2,1)+SF23*V2(I,3,1)
         TRM(I,21,4) = SF31*V2(I,1,1)+SF32*V2(I,2,1)+SF33*V2(I,3,1)
@@ -1863,7 +1863,7 @@ C=======================================================================
         TRM(I,19,6) = SF11*V2(I,1,3)+SF12*V2(I,2,3)+SF13*V2(I,3,3)
         TRM(I,20,6) = SF21*V2(I,1,3)+SF22*V2(I,2,3)+SF23*V2(I,3,3)
         TRM(I,21,6) = SF31*V2(I,1,3)+SF32*V2(I,2,3)+SF33*V2(I,3,3)
-        
+
         TRM(I,22,4) = SG11*V2(I,1,1)+SG12*V2(I,2,1)+SG13*V2(I,3,1)
         TRM(I,23,4) = SG21*V2(I,1,1)+SG22*V2(I,2,1)+SG23*V2(I,3,1)
         TRM(I,24,4) = SG31*V2(I,1,1)+SG32*V2(I,2,1)+SG33*V2(I,3,1)
@@ -1873,7 +1873,7 @@ C=======================================================================
         TRM(I,22,6) = SG11*V2(I,1,3)+SG12*V2(I,2,3)+SG13*V2(I,3,3)
         TRM(I,23,6) = SG21*V2(I,1,3)+SG22*V2(I,2,3)+SG23*V2(I,3,3)
         TRM(I,24,6) = SG31*V2(I,1,3)+SG32*V2(I,2,3)+SG33*V2(I,3,3)
-        
+
         TRM(I,1,7) = ZERO
         TRM(I,2,7) = ZERO
         TRM(I,3,7) = ZERO
@@ -1893,7 +1893,7 @@ C=======================================================================
         TRM(I,4,9) = SA11*V3(I,1,3)+SA12*V3(I,2,3)+SA13*V3(I,3,3)
         TRM(I,5,9) = SA21*V3(I,1,3)+SA22*V3(I,2,3)+SA23*V3(I,3,3)
         TRM(I,6,9) = SA31*V3(I,1,3)+SA32*V3(I,2,3)+SA33*V3(I,3,3)
-        
+
         TRM(I,7,7) = SB11*V3(I,1,1)+SB12*V3(I,2,1)+SB13*V3(I,3,1)
         TRM(I,8,7) = SB21*V3(I,1,1)+SB22*V3(I,2,1)+SB23*V3(I,3,1)
         TRM(I,9,7) = SB31*V3(I,1,1)+SB32*V3(I,2,1)+SB33*V3(I,3,1)
@@ -1903,7 +1903,7 @@ C=======================================================================
         TRM(I,7,9) = SB11*V3(I,1,3)+SB12*V3(I,2,3)+SB13*V3(I,3,3)
         TRM(I,8,9) = SB21*V3(I,1,3)+SB22*V3(I,2,3)+SB23*V3(I,3,3)
         TRM(I,9,9) = SB31*V3(I,1,3)+SB32*V3(I,2,3)+SB33*V3(I,3,3)
-        
+
         TRM(I,10,7) = SC11*V3(I,1,1)+SC12*V3(I,2,1)+SC13*V3(I,3,1)
         TRM(I,11,7) = SC21*V3(I,1,1)+SC22*V3(I,2,1)+SC23*V3(I,3,1)
         TRM(I,12,7) = SC31*V3(I,1,1)+SC32*V3(I,2,1)+SC33*V3(I,3,1)
@@ -1913,7 +1913,7 @@ C=======================================================================
         TRM(I,10,9) = SC11*V3(I,1,3)+SC12*V3(I,2,3)+SC13*V3(I,3,3)
         TRM(I,11,9) = SC21*V3(I,1,3)+SC22*V3(I,2,3)+SC23*V3(I,3,3)
         TRM(I,12,9) = SC31*V3(I,1,3)+SC32*V3(I,2,3)+SC33*V3(I,3,3)
-        
+
         TRM(I,13,7) = SD11*V3(I,1,1)+SD12*V3(I,2,1)+SD13*V3(I,3,1)
         TRM(I,14,7) = SD21*V3(I,1,1)+SD22*V3(I,2,1)+SD23*V3(I,3,1)
         TRM(I,15,7) = SD31*V3(I,1,1)+SD32*V3(I,2,1)+SD33*V3(I,3,1)
@@ -1923,7 +1923,7 @@ C=======================================================================
         TRM(I,13,9) = SD11*V3(I,1,3)+SD12*V3(I,2,3)+SD13*V3(I,3,3)
         TRM(I,14,9) = SD21*V3(I,1,3)+SD22*V3(I,2,3)+SD23*V3(I,3,3)
         TRM(I,15,9) = SD31*V3(I,1,3)+SD32*V3(I,2,3)+SD33*V3(I,3,3)
-        
+
         TRM(I,16,7) = SE11*V3(I,1,1)+SE12*V3(I,2,1)+SE13*V3(I,3,1)
         TRM(I,17,7) = SE21*V3(I,1,1)+SE22*V3(I,2,1)+SE23*V3(I,3,1)
         TRM(I,18,7) = SE31*V3(I,1,1)+SE32*V3(I,2,1)+SE33*V3(I,3,1)
@@ -1933,7 +1933,7 @@ C=======================================================================
         TRM(I,16,9) = SE11*V3(I,1,3)+SE12*V3(I,2,3)+SE13*V3(I,3,3)
         TRM(I,17,9) = SE21*V3(I,1,3)+SE22*V3(I,2,3)+SE23*V3(I,3,3)
         TRM(I,18,9) = SE31*V3(I,1,3)+SE32*V3(I,2,3)+SE33*V3(I,3,3)
-        
+
         TRM(I,19,7) = SF11*V3(I,1,1)+SF12*V3(I,2,1)+SF13*V3(I,3,1)
         TRM(I,20,7) = SF21*V3(I,1,1)+SF22*V3(I,2,1)+SF23*V3(I,3,1)
         TRM(I,21,7) = SF31*V3(I,1,1)+SF32*V3(I,2,1)+SF33*V3(I,3,1)
@@ -1943,7 +1943,7 @@ C=======================================================================
         TRM(I,19,9) = SF11*V3(I,1,3)+SF12*V3(I,2,3)+SF13*V3(I,3,3)
         TRM(I,20,9) = SF21*V3(I,1,3)+SF22*V3(I,2,3)+SF23*V3(I,3,3)
         TRM(I,21,9) = SF31*V3(I,1,3)+SF32*V3(I,2,3)+SF33*V3(I,3,3)
-        
+
         TRM(I,22,7) = SG11*V3(I,1,1)+SG12*V3(I,2,1)+SG13*V3(I,3,1)
         TRM(I,23,7) = SG21*V3(I,1,1)+SG22*V3(I,2,1)+SG23*V3(I,3,1)
         TRM(I,24,7) = SG31*V3(I,1,1)+SG32*V3(I,2,1)+SG33*V3(I,3,1)
@@ -1953,7 +1953,7 @@ C=======================================================================
         TRM(I,22,9) = SG11*V3(I,1,3)+SG12*V3(I,2,3)+SG13*V3(I,3,3)
         TRM(I,23,9) = SG21*V3(I,1,3)+SG22*V3(I,2,3)+SG23*V3(I,3,3)
         TRM(I,24,9) = SG31*V3(I,1,3)+SG32*V3(I,2,3)+SG33*V3(I,3,3)
-        
+
         TRM(I,1,10) = ZERO
         TRM(I,2,10) = ZERO
         TRM(I,3,10) = ZERO
@@ -1973,7 +1973,7 @@ C=======================================================================
         TRM(I,4,12) = SA11*V4(I,1,3)+SA12*V4(I,2,3)+SA13*V4(I,3,3)
         TRM(I,5,12) = SA21*V4(I,1,3)+SA22*V4(I,2,3)+SA23*V4(I,3,3)
         TRM(I,6,12) = SA31*V4(I,1,3)+SA32*V4(I,2,3)+SA33*V4(I,3,3)
-        
+
         TRM(I,7,10) = SB11*V4(I,1,1)+SB12*V4(I,2,1)+SB13*V4(I,3,1)
         TRM(I,8,10) = SB21*V4(I,1,1)+SB22*V4(I,2,1)+SB23*V4(I,3,1)
         TRM(I,9,10) = SB31*V4(I,1,1)+SB32*V4(I,2,1)+SB33*V4(I,3,1)
@@ -1983,7 +1983,7 @@ C=======================================================================
         TRM(I,7,12) = SB11*V4(I,1,3)+SB12*V4(I,2,3)+SB13*V4(I,3,3)
         TRM(I,8,12) = SB21*V4(I,1,3)+SB22*V4(I,2,3)+SB23*V4(I,3,3)
         TRM(I,9,12) = SB31*V4(I,1,3)+SB32*V4(I,2,3)+SB33*V4(I,3,3)
-        
+
         TRM(I,10,10) = SC11*V4(I,1,1)+SC12*V4(I,2,1)+SC13*V4(I,3,1)
         TRM(I,11,10) = SC21*V4(I,1,1)+SC22*V4(I,2,1)+SC23*V4(I,3,1)
         TRM(I,12,10) = SC31*V4(I,1,1)+SC32*V4(I,2,1)+SC33*V4(I,3,1)
@@ -1993,7 +1993,7 @@ C=======================================================================
         TRM(I,10,12) = SC11*V4(I,1,3)+SC12*V4(I,2,3)+SC13*V4(I,3,3)
         TRM(I,11,12) = SC21*V4(I,1,3)+SC22*V4(I,2,3)+SC23*V4(I,3,3)
         TRM(I,12,12) = SC31*V4(I,1,3)+SC32*V4(I,2,3)+SC33*V4(I,3,3)
-        
+
         TRM(I,13,10) = SD11*V4(I,1,1)+SD12*V4(I,2,1)+SD13*V4(I,3,1)
         TRM(I,14,10) = SD21*V4(I,1,1)+SD22*V4(I,2,1)+SD23*V4(I,3,1)
         TRM(I,15,10) = SD31*V4(I,1,1)+SD32*V4(I,2,1)+SD33*V4(I,3,1)
@@ -2003,7 +2003,7 @@ C=======================================================================
         TRM(I,13,12) = SD11*V4(I,1,3)+SD12*V4(I,2,3)+SD13*V4(I,3,3)
         TRM(I,14,12) = SD21*V4(I,1,3)+SD22*V4(I,2,3)+SD23*V4(I,3,3)
         TRM(I,15,12) = SD31*V4(I,1,3)+SD32*V4(I,2,3)+SD33*V4(I,3,3)
-        
+
         TRM(I,16,10) = SE11*V4(I,1,1)+SE12*V4(I,2,1)+SE13*V4(I,3,1)
         TRM(I,17,10) = SE21*V4(I,1,1)+SE22*V4(I,2,1)+SE23*V4(I,3,1)
         TRM(I,18,10) = SE31*V4(I,1,1)+SE32*V4(I,2,1)+SE33*V4(I,3,1)
@@ -2013,7 +2013,7 @@ C=======================================================================
         TRM(I,16,12) = SE11*V4(I,1,3)+SE12*V4(I,2,3)+SE13*V4(I,3,3)
         TRM(I,17,12) = SE21*V4(I,1,3)+SE22*V4(I,2,3)+SE23*V4(I,3,3)
         TRM(I,18,12) = SE31*V4(I,1,3)+SE32*V4(I,2,3)+SE33*V4(I,3,3)
-        
+
         TRM(I,19,10) = SF11*V4(I,1,1)+SF12*V4(I,2,1)+SF13*V4(I,3,1)
         TRM(I,20,10) = SF21*V4(I,1,1)+SF22*V4(I,2,1)+SF23*V4(I,3,1)
         TRM(I,21,10) = SF31*V4(I,1,1)+SF32*V4(I,2,1)+SF33*V4(I,3,1)
@@ -2023,7 +2023,7 @@ C=======================================================================
         TRM(I,19,12) = SF11*V4(I,1,3)+SF12*V4(I,2,3)+SF13*V4(I,3,3)
         TRM(I,20,12) = SF21*V4(I,1,3)+SF22*V4(I,2,3)+SF23*V4(I,3,3)
         TRM(I,21,12) = SF31*V4(I,1,3)+SF32*V4(I,2,3)+SF33*V4(I,3,3)
-        
+
         TRM(I,22,10) = SG11*V4(I,1,1)+SG12*V4(I,2,1)+SG13*V4(I,3,1)
         TRM(I,23,10) = SG21*V4(I,1,1)+SG22*V4(I,2,1)+SG23*V4(I,3,1)
         TRM(I,24,10) = SG31*V4(I,1,1)+SG32*V4(I,2,1)+SG33*V4(I,3,1)
@@ -2033,7 +2033,7 @@ C=======================================================================
         TRM(I,22,12) = SG11*V4(I,1,3)+SG12*V4(I,2,3)+SG13*V4(I,3,3)
         TRM(I,23,12) = SG21*V4(I,1,3)+SG22*V4(I,2,3)+SG23*V4(I,3,3)
         TRM(I,24,12) = SG31*V4(I,1,3)+SG32*V4(I,2,3)+SG33*V4(I,3,3)
-        
+
         TRM(I,1,13) = ZERO
         TRM(I,2,13) = ZERO
         TRM(I,3,13) = ZERO
@@ -2053,7 +2053,7 @@ C=======================================================================
         TRM(I,4,15) = SA11*V5(I,1,3)+SA12*V5(I,2,3)+SA13*V5(I,3,3)
         TRM(I,5,15) = SA21*V5(I,1,3)+SA22*V5(I,2,3)+SA23*V5(I,3,3)
         TRM(I,6,15) = SA31*V5(I,1,3)+SA32*V5(I,2,3)+SA33*V5(I,3,3)
-        
+
         TRM(I,7,13) = SB11*V5(I,1,1)+SB12*V5(I,2,1)+SB13*V5(I,3,1)
         TRM(I,8,13) = SB21*V5(I,1,1)+SB22*V5(I,2,1)+SB23*V5(I,3,1)
         TRM(I,9,13) = SB31*V5(I,1,1)+SB32*V5(I,2,1)+SB33*V5(I,3,1)
@@ -2063,7 +2063,7 @@ C=======================================================================
         TRM(I,7,15) = SB11*V5(I,1,3)+SB12*V5(I,2,3)+SB13*V5(I,3,3)
         TRM(I,8,15) = SB21*V5(I,1,3)+SB22*V5(I,2,3)+SB23*V5(I,3,3)
         TRM(I,9,15) = SB31*V5(I,1,3)+SB32*V5(I,2,3)+SB33*V5(I,3,3)
-        
+
         TRM(I,10,13) = SC11*V5(I,1,1)+SC12*V5(I,2,1)+SC13*V5(I,3,1)
         TRM(I,11,13) = SC21*V5(I,1,1)+SC22*V5(I,2,1)+SC23*V5(I,3,1)
         TRM(I,12,13) = SC31*V5(I,1,1)+SC32*V5(I,2,1)+SC33*V5(I,3,1)
@@ -2073,7 +2073,7 @@ C=======================================================================
         TRM(I,10,15) = SC11*V5(I,1,3)+SC12*V5(I,2,3)+SC13*V5(I,3,3)
         TRM(I,11,15) = SC21*V5(I,1,3)+SC22*V5(I,2,3)+SC23*V5(I,3,3)
         TRM(I,12,15) = SC31*V5(I,1,3)+SC32*V5(I,2,3)+SC33*V5(I,3,3)
-        
+
         TRM(I,13,13) = SD11*V5(I,1,1)+SD12*V5(I,2,1)+SD13*V5(I,3,1)
         TRM(I,14,13) = SD21*V5(I,1,1)+SD22*V5(I,2,1)+SD23*V5(I,3,1)
         TRM(I,15,13) = SD31*V5(I,1,1)+SD32*V5(I,2,1)+SD33*V5(I,3,1)
@@ -2083,7 +2083,7 @@ C=======================================================================
         TRM(I,13,15) = SD11*V5(I,1,3)+SD12*V5(I,2,3)+SD13*V5(I,3,3)
         TRM(I,14,15) = SD21*V5(I,1,3)+SD22*V5(I,2,3)+SD23*V5(I,3,3)
         TRM(I,15,15) = SD31*V5(I,1,3)+SD32*V5(I,2,3)+SD33*V5(I,3,3)
-        
+
         TRM(I,16,13) = SE11*V5(I,1,1)+SE12*V5(I,2,1)+SE13*V5(I,3,1)
         TRM(I,17,13) = SE21*V5(I,1,1)+SE22*V5(I,2,1)+SE23*V5(I,3,1)
         TRM(I,18,13) = SE31*V5(I,1,1)+SE32*V5(I,2,1)+SE33*V5(I,3,1)
@@ -2093,7 +2093,7 @@ C=======================================================================
         TRM(I,16,15) = SE11*V5(I,1,3)+SE12*V5(I,2,3)+SE13*V5(I,3,3)
         TRM(I,17,15) = SE21*V5(I,1,3)+SE22*V5(I,2,3)+SE23*V5(I,3,3)
         TRM(I,18,15) = SE31*V5(I,1,3)+SE32*V5(I,2,3)+SE33*V5(I,3,3)
-        
+
         TRM(I,19,13) = SF11*V5(I,1,1)+SF12*V5(I,2,1)+SF13*V5(I,3,1)
         TRM(I,20,13) = SF21*V5(I,1,1)+SF22*V5(I,2,1)+SF23*V5(I,3,1)
         TRM(I,21,13) = SF31*V5(I,1,1)+SF32*V5(I,2,1)+SF33*V5(I,3,1)
@@ -2103,7 +2103,7 @@ C=======================================================================
         TRM(I,19,15) = SF11*V5(I,1,3)+SF12*V5(I,2,3)+SF13*V5(I,3,3)
         TRM(I,20,15) = SF21*V5(I,1,3)+SF22*V5(I,2,3)+SF23*V5(I,3,3)
         TRM(I,21,15) = SF31*V5(I,1,3)+SF32*V5(I,2,3)+SF33*V5(I,3,3)
-        
+
         TRM(I,22,13) = SG11*V5(I,1,1)+SG12*V5(I,2,1)+SG13*V5(I,3,1)
         TRM(I,23,13) = SG21*V5(I,1,1)+SG22*V5(I,2,1)+SG23*V5(I,3,1)
         TRM(I,24,13) = SG31*V5(I,1,1)+SG32*V5(I,2,1)+SG33*V5(I,3,1)
@@ -2113,7 +2113,7 @@ C=======================================================================
         TRM(I,22,15) = SG11*V5(I,1,3)+SG12*V5(I,2,3)+SG13*V5(I,3,3)
         TRM(I,23,15) = SG21*V5(I,1,3)+SG22*V5(I,2,3)+SG23*V5(I,3,3)
         TRM(I,24,15) = SG31*V5(I,1,3)+SG32*V5(I,2,3)+SG33*V5(I,3,3)
-        
+
         TRM(I,1,16) = ZERO
         TRM(I,2,16) = ZERO
         TRM(I,3,16) = ZERO
@@ -2133,7 +2133,7 @@ C=======================================================================
         TRM(I,4,18) = SA11*V6(I,1,3)+SA12*V6(I,2,3)+SA13*V6(I,3,3)
         TRM(I,5,18) = SA21*V6(I,1,3)+SA22*V6(I,2,3)+SA23*V6(I,3,3)
         TRM(I,6,18) = SA31*V6(I,1,3)+SA32*V6(I,2,3)+SA33*V6(I,3,3)
-        
+
         TRM(I,7,16) = SB11*V6(I,1,1)+SB12*V6(I,2,1)+SB13*V6(I,3,1)
         TRM(I,8,16) = SB21*V6(I,1,1)+SB22*V6(I,2,1)+SB23*V6(I,3,1)
         TRM(I,9,16) = SB31*V6(I,1,1)+SB32*V6(I,2,1)+SB33*V6(I,3,1)
@@ -2143,7 +2143,7 @@ C=======================================================================
         TRM(I,7,18) = SB11*V6(I,1,3)+SB12*V6(I,2,3)+SB13*V6(I,3,3)
         TRM(I,8,18) = SB21*V6(I,1,3)+SB22*V6(I,2,3)+SB23*V6(I,3,3)
         TRM(I,9,18) = SB31*V6(I,1,3)+SB32*V6(I,2,3)+SB33*V6(I,3,3)
-        
+
         TRM(I,10,16) = SC11*V6(I,1,1)+SC12*V6(I,2,1)+SC13*V6(I,3,1)
         TRM(I,11,16) = SC21*V6(I,1,1)+SC22*V6(I,2,1)+SC23*V6(I,3,1)
         TRM(I,12,16) = SC31*V6(I,1,1)+SC32*V6(I,2,1)+SC33*V6(I,3,1)
@@ -2153,7 +2153,7 @@ C=======================================================================
         TRM(I,10,18) = SC11*V6(I,1,3)+SC12*V6(I,2,3)+SC13*V6(I,3,3)
         TRM(I,11,18) = SC21*V6(I,1,3)+SC22*V6(I,2,3)+SC23*V6(I,3,3)
         TRM(I,12,18) = SC31*V6(I,1,3)+SC32*V6(I,2,3)+SC33*V6(I,3,3)
-        
+
         TRM(I,13,16) = SD11*V6(I,1,1)+SD12*V6(I,2,1)+SD13*V6(I,3,1)
         TRM(I,14,16) = SD21*V6(I,1,1)+SD22*V6(I,2,1)+SD23*V6(I,3,1)
         TRM(I,15,16) = SD31*V6(I,1,1)+SD32*V6(I,2,1)+SD33*V6(I,3,1)
@@ -2163,7 +2163,7 @@ C=======================================================================
         TRM(I,13,18) = SD11*V6(I,1,3)+SD12*V6(I,2,3)+SD13*V6(I,3,3)
         TRM(I,14,18) = SD21*V6(I,1,3)+SD22*V6(I,2,3)+SD23*V6(I,3,3)
         TRM(I,15,18) = SD31*V6(I,1,3)+SD32*V6(I,2,3)+SD33*V6(I,3,3)
-        
+
         TRM(I,16,16) = SE11*V6(I,1,1)+SE12*V6(I,2,1)+SE13*V6(I,3,1)
         TRM(I,17,16) = SE21*V6(I,1,1)+SE22*V6(I,2,1)+SE23*V6(I,3,1)
         TRM(I,18,16) = SE31*V6(I,1,1)+SE32*V6(I,2,1)+SE33*V6(I,3,1)
@@ -2173,7 +2173,7 @@ C=======================================================================
         TRM(I,16,18) = SE11*V6(I,1,3)+SE12*V6(I,2,3)+SE13*V6(I,3,3)
         TRM(I,17,18) = SE21*V6(I,1,3)+SE22*V6(I,2,3)+SE23*V6(I,3,3)
         TRM(I,18,18) = SE31*V6(I,1,3)+SE32*V6(I,2,3)+SE33*V6(I,3,3)
-        
+
         TRM(I,19,16) = SF11*V6(I,1,1)+SF12*V6(I,2,1)+SF13*V6(I,3,1)
         TRM(I,20,16) = SF21*V6(I,1,1)+SF22*V6(I,2,1)+SF23*V6(I,3,1)
         TRM(I,21,16) = SF31*V6(I,1,1)+SF32*V6(I,2,1)+SF33*V6(I,3,1)
@@ -2183,7 +2183,7 @@ C=======================================================================
         TRM(I,19,18) = SF11*V6(I,1,3)+SF12*V6(I,2,3)+SF13*V6(I,3,3)
         TRM(I,20,18) = SF21*V6(I,1,3)+SF22*V6(I,2,3)+SF23*V6(I,3,3)
         TRM(I,21,18) = SF31*V6(I,1,3)+SF32*V6(I,2,3)+SF33*V6(I,3,3)
-        
+
         TRM(I,22,16) = SG11*V6(I,1,1)+SG12*V6(I,2,1)+SG13*V6(I,3,1)
         TRM(I,23,16) = SG21*V6(I,1,1)+SG22*V6(I,2,1)+SG23*V6(I,3,1)
         TRM(I,24,16) = SG31*V6(I,1,1)+SG32*V6(I,2,1)+SG33*V6(I,3,1)
@@ -2193,7 +2193,7 @@ C=======================================================================
         TRM(I,22,18) = SG11*V6(I,1,3)+SG12*V6(I,2,3)+SG13*V6(I,3,3)
         TRM(I,23,18) = SG21*V6(I,1,3)+SG22*V6(I,2,3)+SG23*V6(I,3,3)
         TRM(I,24,18) = SG31*V6(I,1,3)+SG32*V6(I,2,3)+SG33*V6(I,3,3)
-        
+
         TRM(I,1,19) = ZERO
         TRM(I,2,19) = ZERO
         TRM(I,3,19) = ZERO
@@ -2213,7 +2213,7 @@ C=======================================================================
         TRM(I,4,21) = SA11*V7(I,1,3)+SA12*V7(I,2,3)+SA13*V7(I,3,3)
         TRM(I,5,21) = SA21*V7(I,1,3)+SA22*V7(I,2,3)+SA23*V7(I,3,3)
         TRM(I,6,21) = SA31*V7(I,1,3)+SA32*V7(I,2,3)+SA33*V7(I,3,3)
-        
+
         TRM(I,7,19) = SB11*V7(I,1,1)+SB12*V7(I,2,1)+SB13*V7(I,3,1)
         TRM(I,8,19) = SB21*V7(I,1,1)+SB22*V7(I,2,1)+SB23*V7(I,3,1)
         TRM(I,9,19) = SB31*V7(I,1,1)+SB32*V7(I,2,1)+SB33*V7(I,3,1)
@@ -2223,7 +2223,7 @@ C=======================================================================
         TRM(I,7,21) = SB11*V7(I,1,3)+SB12*V7(I,2,3)+SB13*V7(I,3,3)
         TRM(I,8,21) = SB21*V7(I,1,3)+SB22*V7(I,2,3)+SB23*V7(I,3,3)
         TRM(I,9,21) = SB31*V7(I,1,3)+SB32*V7(I,2,3)+SB33*V7(I,3,3)
-        
+
         TRM(I,10,19) = SC11*V7(I,1,1)+SC12*V7(I,2,1)+SC13*V7(I,3,1)
         TRM(I,11,19) = SC21*V7(I,1,1)+SC22*V7(I,2,1)+SC23*V7(I,3,1)
         TRM(I,12,19) = SC31*V7(I,1,1)+SC32*V7(I,2,1)+SC33*V7(I,3,1)
@@ -2233,7 +2233,7 @@ C=======================================================================
         TRM(I,10,21) = SC11*V7(I,1,3)+SC12*V7(I,2,3)+SC13*V7(I,3,3)
         TRM(I,11,21) = SC21*V7(I,1,3)+SC22*V7(I,2,3)+SC23*V7(I,3,3)
         TRM(I,12,21) = SC31*V7(I,1,3)+SC32*V7(I,2,3)+SC33*V7(I,3,3)
-        
+
         TRM(I,13,19) = SD11*V7(I,1,1)+SD12*V7(I,2,1)+SD13*V7(I,3,1)
         TRM(I,14,19) = SD21*V7(I,1,1)+SD22*V7(I,2,1)+SD23*V7(I,3,1)
         TRM(I,15,19) = SD31*V7(I,1,1)+SD32*V7(I,2,1)+SD33*V7(I,3,1)
@@ -2243,7 +2243,7 @@ C=======================================================================
         TRM(I,13,21) = SD11*V7(I,1,3)+SD12*V7(I,2,3)+SD13*V7(I,3,3)
         TRM(I,14,21) = SD21*V7(I,1,3)+SD22*V7(I,2,3)+SD23*V7(I,3,3)
         TRM(I,15,21) = SD31*V7(I,1,3)+SD32*V7(I,2,3)+SD33*V7(I,3,3)
-        
+
         TRM(I,16,19) = SE11*V7(I,1,1)+SE12*V7(I,2,1)+SE13*V7(I,3,1)
         TRM(I,17,19) = SE21*V7(I,1,1)+SE22*V7(I,2,1)+SE23*V7(I,3,1)
         TRM(I,18,19) = SE31*V7(I,1,1)+SE32*V7(I,2,1)+SE33*V7(I,3,1)
@@ -2253,7 +2253,7 @@ C=======================================================================
         TRM(I,16,21) = SE11*V7(I,1,3)+SE12*V7(I,2,3)+SE13*V7(I,3,3)
         TRM(I,17,21) = SE21*V7(I,1,3)+SE22*V7(I,2,3)+SE23*V7(I,3,3)
         TRM(I,18,21) = SE31*V7(I,1,3)+SE32*V7(I,2,3)+SE33*V7(I,3,3)
-        
+
         TRM(I,19,19) = SF11*V7(I,1,1)+SF12*V7(I,2,1)+SF13*V7(I,3,1)
         TRM(I,20,19) = SF21*V7(I,1,1)+SF22*V7(I,2,1)+SF23*V7(I,3,1)
         TRM(I,21,19) = SF31*V7(I,1,1)+SF32*V7(I,2,1)+SF33*V7(I,3,1)
@@ -2263,7 +2263,7 @@ C=======================================================================
         TRM(I,19,21) = SF11*V7(I,1,3)+SF12*V7(I,2,3)+SF13*V7(I,3,3)
         TRM(I,20,21) = SF21*V7(I,1,3)+SF22*V7(I,2,3)+SF23*V7(I,3,3)
         TRM(I,21,21) = SF31*V7(I,1,3)+SF32*V7(I,2,3)+SF33*V7(I,3,3)
-        
+
         TRM(I,22,19) = SG11*V7(I,1,1)+SG12*V7(I,2,1)+SG13*V7(I,3,1)
         TRM(I,23,19) = SG21*V7(I,1,1)+SG22*V7(I,2,1)+SG23*V7(I,3,1)
         TRM(I,24,19) = SG31*V7(I,1,1)+SG32*V7(I,2,1)+SG33*V7(I,3,1)
@@ -2273,7 +2273,7 @@ C=======================================================================
         TRM(I,22,21) = SG11*V7(I,1,3)+SG12*V7(I,2,3)+SG13*V7(I,3,3)
         TRM(I,23,21) = SG21*V7(I,1,3)+SG22*V7(I,2,3)+SG23*V7(I,3,3)
         TRM(I,24,21) = SG31*V7(I,1,3)+SG32*V7(I,2,3)+SG33*V7(I,3,3)
-        
+
         TRM(I,1,22) = ZERO
         TRM(I,2,22) = ZERO
         TRM(I,3,22) = ZERO
@@ -2293,7 +2293,7 @@ C=======================================================================
         TRM(I,4,24) = SA11*V8(I,1,3)+SA12*V8(I,2,3)+SA13*V8(I,3,3)
         TRM(I,5,24) = SA21*V8(I,1,3)+SA22*V8(I,2,3)+SA23*V8(I,3,3)
         TRM(I,6,24) = SA31*V8(I,1,3)+SA32*V8(I,2,3)+SA33*V8(I,3,3)
-        
+
         TRM(I,7,22) = SB11*V8(I,1,1)+SB12*V8(I,2,1)+SB13*V8(I,3,1)
         TRM(I,8,22) = SB21*V8(I,1,1)+SB22*V8(I,2,1)+SB23*V8(I,3,1)
         TRM(I,9,22) = SB31*V8(I,1,1)+SB32*V8(I,2,1)+SB33*V8(I,3,1)
@@ -2303,7 +2303,7 @@ C=======================================================================
         TRM(I,7,24) = SB11*V8(I,1,3)+SB12*V8(I,2,3)+SB13*V8(I,3,3)
         TRM(I,8,24) = SB21*V8(I,1,3)+SB22*V8(I,2,3)+SB23*V8(I,3,3)
         TRM(I,9,24) = SB31*V8(I,1,3)+SB32*V8(I,2,3)+SB33*V8(I,3,3)
-        
+
         TRM(I,10,22) = SC11*V8(I,1,1)+SC12*V8(I,2,1)+SC13*V8(I,3,1)
         TRM(I,11,22) = SC21*V8(I,1,1)+SC22*V8(I,2,1)+SC23*V8(I,3,1)
         TRM(I,12,22) = SC31*V8(I,1,1)+SC32*V8(I,2,1)+SC33*V8(I,3,1)
@@ -2313,7 +2313,7 @@ C=======================================================================
         TRM(I,10,24) = SC11*V8(I,1,3)+SC12*V8(I,2,3)+SC13*V8(I,3,3)
         TRM(I,11,24) = SC21*V8(I,1,3)+SC22*V8(I,2,3)+SC23*V8(I,3,3)
         TRM(I,12,24) = SC31*V8(I,1,3)+SC32*V8(I,2,3)+SC33*V8(I,3,3)
-        
+
         TRM(I,13,22) = SD11*V8(I,1,1)+SD12*V8(I,2,1)+SD13*V8(I,3,1)
         TRM(I,14,22) = SD21*V8(I,1,1)+SD22*V8(I,2,1)+SD23*V8(I,3,1)
         TRM(I,15,22) = SD31*V8(I,1,1)+SD32*V8(I,2,1)+SD33*V8(I,3,1)
@@ -2323,7 +2323,7 @@ C=======================================================================
         TRM(I,13,24) = SD11*V8(I,1,3)+SD12*V8(I,2,3)+SD13*V8(I,3,3)
         TRM(I,14,24) = SD21*V8(I,1,3)+SD22*V8(I,2,3)+SD23*V8(I,3,3)
         TRM(I,15,24) = SD31*V8(I,1,3)+SD32*V8(I,2,3)+SD33*V8(I,3,3)
-        
+
         TRM(I,16,22) = SE11*V8(I,1,1)+SE12*V8(I,2,1)+SE13*V8(I,3,1)
         TRM(I,17,22) = SE21*V8(I,1,1)+SE22*V8(I,2,1)+SE23*V8(I,3,1)
         TRM(I,18,22) = SE31*V8(I,1,1)+SE32*V8(I,2,1)+SE33*V8(I,3,1)
@@ -2333,7 +2333,7 @@ C=======================================================================
         TRM(I,16,24) = SE11*V8(I,1,3)+SE12*V8(I,2,3)+SE13*V8(I,3,3)
         TRM(I,17,24) = SE21*V8(I,1,3)+SE22*V8(I,2,3)+SE23*V8(I,3,3)
         TRM(I,18,24) = SE31*V8(I,1,3)+SE32*V8(I,2,3)+SE33*V8(I,3,3)
-        
+
         TRM(I,19,22) = SF11*V8(I,1,1)+SF12*V8(I,2,1)+SF13*V8(I,3,1)
         TRM(I,20,22) = SF21*V8(I,1,1)+SF22*V8(I,2,1)+SF23*V8(I,3,1)
         TRM(I,21,22) = SF31*V8(I,1,1)+SF32*V8(I,2,1)+SF33*V8(I,3,1)
@@ -2343,7 +2343,7 @@ C=======================================================================
         TRM(I,19,24) = SF11*V8(I,1,3)+SF12*V8(I,2,3)+SF13*V8(I,3,3)
         TRM(I,20,24) = SF21*V8(I,1,3)+SF22*V8(I,2,3)+SF23*V8(I,3,3)
         TRM(I,21,24) = SF31*V8(I,1,3)+SF32*V8(I,2,3)+SF33*V8(I,3,3)
-        
+
         TRM(I,22,22) = SG11*V8(I,1,1)+SG12*V8(I,2,1)+SG13*V8(I,3,1)
         TRM(I,23,22) = SG21*V8(I,1,1)+SG22*V8(I,2,1)+SG23*V8(I,3,1)
         TRM(I,24,22) = SG31*V8(I,1,1)+SG32*V8(I,2,1)+SG33*V8(I,3,1)
@@ -2354,7 +2354,7 @@ C=======================================================================
         TRM(I,23,24) = SG21*V8(I,1,3)+SG22*V8(I,2,3)+SG23*V8(I,3,3)
         TRM(I,24,24) = SG31*V8(I,1,3)+SG32*V8(I,2,3)+SG33*V8(I,3,3)
       enddo
-      
+
        DO J=1,8
         JJ = 3*(J-1)
         DO I=LFT,LLT
@@ -2369,10 +2369,10 @@ C=======================================================================
           TRM(I,JJ+3,JJ+3) = R(3,3,I)+TRM(I,JJ+3,JJ+3)
         ENDDO
       ENDDO
-      
+
       RETURN
       END
-        
+
 Chd|====================================================================
 Chd|  S8XREF_IMP                    source/elements/solid/solide8s/srcoor3_imp.F
 Chd|-- called by -----------
@@ -2384,7 +2384,7 @@ Chd|====================================================================
      .             XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .             YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
      .             ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
-     .             R,NEL   ) 
+     .             R,NEL   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2404,13 +2404,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*)
-      
-      DOUBLE PRECISION 
-     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), 
-     .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), 
-     .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
-     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), 
+
+      DOUBLE PRECISION
+     .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
+     .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
+     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
+     .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
+     .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
      .   R(3,3,MVSIZ), XREF(NEL,21)
 C-----------------------------------------------
@@ -2441,7 +2441,7 @@ C=======================================================================
             XREF(I,4) = UL
             XREF(I,5) = VL
             XREF(I,6) = WL
-      
+
             U = XD4(I)-XD1(I)
             V = YD4(I)-YD1(I)
             W = ZD4(I)-ZD1(I)
@@ -2451,7 +2451,7 @@ C=======================================================================
             XREF(I,7) = UL
             XREF(I,8) = VL
             XREF(I,9) = WL
-      
+
             U = XD5(I)-XD1(I)
             V = YD5(I)-YD1(I)
             W = ZD5(I)-ZD1(I)
@@ -2461,7 +2461,7 @@ C=======================================================================
             XREF(I,10) = UL
             XREF(I,11) = VL
             XREF(I,12) = WL
-      
+
             U = XD6(I)-XD1(I)
             V = YD6(I)-YD1(I)
             W = ZD6(I)-ZD1(I)
@@ -2471,7 +2471,7 @@ C=======================================================================
             XREF(I,13) = UL
             XREF(I,14) = VL
             XREF(I,15) = WL
-      
+
             U = XD7(I)-XD1(I)
             V = YD7(I)-YD1(I)
             W = ZD7(I)-ZD1(I)
@@ -2481,7 +2481,7 @@ C=======================================================================
             XREF(I,16) = UL
             XREF(I,17) = VL
             XREF(I,18) = WL
-      
+
             U = XD8(I)-XD1(I)
             V = YD8(I)-YD1(I)
             W = ZD8(I)-ZD1(I)
@@ -2491,7 +2491,7 @@ C=======================================================================
             XREF(I,19) = UL
             XREF(I,20) = VL
             XREF(I,21) = WL
-        
+
         ENDDO
 C-----------
       RETURN

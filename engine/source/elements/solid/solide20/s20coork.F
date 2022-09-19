@@ -160,7 +160,7 @@ C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
       DO N=1,NPE
-      
+
         IF(ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
 C
           DO I=LFT,LLT
@@ -205,10 +205,10 @@ C
           ENDIF
         ENDDO
       ENDDO
-      
+
 
 C-----------
-      DO I=LFT,LLT      
+      DO I=LFT,LLT
       DO J=1,9
         K11(J,I)  =ZERO
         K12(J,I)  =ZERO

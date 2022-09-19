@@ -107,7 +107,7 @@ C-----------------------------------------------
 C common pour variable globale en memoire partagee
       COMMON /I25MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,I_MEMG_E,I_MEMG_S,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,I_MEMG_E,I_MEMG_S,NMN_G
-      my_real 
+      my_real
      .        BMINMA(6),CURV_MAX_MAX
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -115,12 +115,12 @@ C-----------------------------------------------
       INTEGER NIN ,ITASK, RETRI, NEDGE_T, NRTM_T, SSHIFT, ESHIFT,
      .        NUM_IMP ,IND_IMP(*),
      .        ITAB(*), KINET(*),
-     .        IPARI(NPARI,NINTER),  
+     .        IPARI(NPARI,NINTER),
      .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*), ICODT(*), ISKEW(*)
 C     REAL
-      my_real 
+      my_real
      .    X(3,*), V(*), MS(*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -128,10 +128,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,IEDGE,NEDGE,IGSTI,ITIED,
-     .        I,J, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_SK_OLD_E, I_STOK1, 
+     .        I,J, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_SK_OLD_E, I_STOK1,
      .        ADD1, NOINT, INACTI, MULTIMP, IGAP, IFQ,
      .        N, NSNF, NSNL, NSNRF, NSNRL,NMN_L, IVIS2, IGAP0
-      INTEGER 
+      INTEGER
      .        NCONT, NCONTE, MULNSN, MULNSNE, MULNSNS, INACTII, INACIMP, INTTH,
      .        I_MEM,I_MEME(2),CAND_N_OLD,CAND_E_OLD(2),ILEV,FLAGREMN, LREMNORMAX,
      .        IDUM1(1), ITHK
@@ -192,7 +192,7 @@ C        TS = TT
 C     ENDIF
 C     IF(TT<TS) RETURN
 C
-      ISENS = IPARI(64,NIN)  
+      ISENS = IPARI(64,NIN)
       IF(ISENS == 0) THEN
          STOPT =INTBUF_TAB%VARIABLES(11)
          IF(TT > STOPT) RETURN
@@ -210,7 +210,7 @@ C
       DGAPLOAD  =INTBUF_TAB%VARIABLES(46)
 C
 C     Specific TYPE7 :
-      ITIED = 0 
+      ITIED = 0
 C
 C -------------------------------------------------------------
 C
@@ -249,7 +249,7 @@ C
 
 
           NEDGE_TOTAL = NEDGE + NEDGE_REMOTE_OLD
-          ALLOCATE(CAND_A(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
+          ALLOCATE(CAND_A(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3
 
           I_SK_OLD_E = INTBUF_TAB%I_STOK_E(1)
           CALL I25TRC_EDG(
@@ -259,7 +259,7 @@ C
 
           INTBUF_TAB%I_STOK_E(1)=I_SK_OLD_E
 
-          ALLOCATE(CAND_B(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3 
+          ALLOCATE(CAND_B(NEDGE_TOTAL + 3)) ! attention SPMD : NEDGE + NEDGEROLD + 3
 
           I_SK_OLD_E = INTBUF_TAB%I_STOK_E(2)
           CALL I25TRC_E2S(
@@ -272,7 +272,7 @@ C
 
           INTBUF_TAB%I_STOK_E(2)=I_SK_OLD_E
 
-          
+
         ENDIF
       ELSE ! IEDGE
           IF(SIZE(INTBUF_TAB%I_STOK_E) > 1 ) THEN
@@ -295,7 +295,7 @@ C ITHK == 1 : main gap should be updated with change in thickness
         CALL I25GAPMSAVE(
      1       INTBUF_TAB%GAP_M ,INTBUF_TAB%GAPMSAV ,
      2       INTBUF_TAB%MSR   ,NRTM               , ITASK)
-      ENDIF      
+      ENDIF
 C
 #include "lockon.inc"
       BMINMA(1) = MAX(BMINMA(1),XMAXL)
@@ -349,7 +349,7 @@ C
 
       IF(NSPMD > 1) THEN
 
-        IF(ITASK==0) THEN 
+        IF(ITASK==0) THEN
           ALLOCATE(CRVOXEL25(0:LRVOXEL25,0:LRVOXEL25,1:2,1:NSPMD))
           CRVOXEL25(0:LRVOXEL25,0:LRVOXEL25,1:2,LOC_PROC) = 0
         ENDIF
@@ -406,7 +406,7 @@ C
      H      INTBUF_TAB%IRECTM,
      I      INTBUF_TAB%EBINFLG,
      J      INTBUF_TAB%MVOISIN,
-     K      IEDGE, 
+     K      IEDGE,
      L      ICODT,
      M      ISKEW,INTBUF_TAB%IPARTFRIC_E,
      N      INTBUF_TAB%E2S_NOD_NORMAL)
@@ -592,7 +592,7 @@ C
 
         IF(IEDGE /= 0) THEN
         CALL SPMD_TRI25EGAT(RESULT,
-     .        NIN, 
+     .        NIN,
      .        NEDGE,
      .        INTBUF_TAB%CANDS_E2E,
      .        INTBUF_TAB%I_STOK_E(1),

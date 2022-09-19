@@ -83,15 +83,15 @@ C     Velocity
                MULTI_FVM%VEL(1, I) = GBUF%MOM(II + 0 * NEL)
                MULTI_FVM%VEL(2, I) = GBUF%MOM(II + 1 * NEL)
                MULTI_FVM%VEL(3, I) = GBUF%MOM(II + 2 * NEL)
-               MULTI_FVM%PRES(I) = - THIRD * (GBUF%SIG(II + 0 * NEL) + 
-     .              GBUF%SIG(II + 1 * NEL) + 
+               MULTI_FVM%PRES(I) = - THIRD * (GBUF%SIG(II + 0 * NEL) +
+     .              GBUF%SIG(II + 1 * NEL) +
      .              GBUF%SIG(II + 2 * NEL))
             ENDDO
             IF (NBMAT > 1) THEN
                DO IMAT = 1, NBMAT
                   LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
                   DO II = 1, NEL
-                     I = II + NFT 
+                     I = II + NFT
                      VOL = GBUF%VOL(II)
 C     Volume fraction
                      MULTI_FVM%PHASE_ALPHA(IMAT, I) = LBUF%VOL(II) / VOL
@@ -102,7 +102,7 @@ C     internal energy
 C     PRessure
                      MULTI_FVM%PHASE_PRES(IMAT, I) = - THIRD * (
      .                    LBUF%SIG(II + 0 * NEL) +
-     .                    LBUF%SIG(II + 1 * NEL) + 
+     .                    LBUF%SIG(II + 1 * NEL) +
      ;                    LBUF%SIG(II + 2 * NEL))
                   ENDDO
                ENDDO

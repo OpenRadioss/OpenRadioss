@@ -45,7 +45,7 @@ C-----------------------------------------------
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
 !                       where the SKEW is stuck
 !--------------------------------------------------------------------
-                INTEGER, DIMENSION(:), ALLOCATABLE :: PLIST  
+                INTEGER, DIMENSION(:), ALLOCATABLE :: PLIST
         END TYPE SKEW_TYPE
 C
         END MODULE SKEW_MOD

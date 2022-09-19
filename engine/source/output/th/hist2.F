@@ -87,14 +87,14 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
-      USE CLUSTER_MOD        
+      USE ELBUFDEF_MOD
+      USE CLUSTER_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE TH_MOD
       USE PINCHTYPE_MOD
       USE MULTI_FVM_MOD
-      USE SEATBELT_MOD  
+      USE SEATBELT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -158,29 +158,29 @@ C-----------------------------------------------
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
       TYPE (PINCH) :: PINCH_DATA
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL ICOND,RIVET_BOOL
-      
+
       INTEGER I,J,K,L,M,N,II,JJ,IP,NP,NN,NG,ITY,NEL,NFT,N1,N2,NPT,NRWA,
      .        JALE,FSAVMAX,PROC,NVAR,IAD,ITYP,IADV,FIRST,KRBHOL,ISKN,NNOD, ID_HIST, SEEK_ID,
      .        MY_SIZE,IMID,IPID,JALE_FROM_MAT,JALE_FROM_PROP
 
-      my_real XFN,SUBSAV(100),XX,YY,ZZ,XY,YZ,ZX,DET,XXMOM,YYMOM,ZZMOM,NORM, 
-     .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,                   
-     .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,XM,YM,ZM,             
-     .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),          
-     .        VX(3),VY(3),VN(3),X1(3),X2(3),X3(3),FLOC(3),MLOC(3),FAC ,     
-     .        FSAVSURF(3,NSURF),ARRAY(5)                                    
+      my_real XFN,SUBSAV(100),XX,YY,ZZ,XY,YZ,ZX,DET,XXMOM,YYMOM,ZZMOM,NORM,
+     .        XCG, YCG, ZCG, IXX, IYY, IZZ,IXY, IYZ, IZX,
+     .        JXX, JYY, JZZ, JXY, JYZ, JZX, AA, THISC,XM,YM,ZM,
+     .        FSAVINT(NTHVKI,NINTER+NINTSUB),FSAVVENT(5,NVENTTOT),
+     .        VX(3),VY(3),VN(3),X1(3),X2(3),X3(3),FLOC(3),MLOC(3),FAC ,
+     .        FSAVSURF(3,NSURF),ARRAY(5)
       DATA FIRST/0/
       SAVE FIRST
 C=======================================================================
       ID_HIST = ITHFLAG
       THISC = THIS0
       SEEK_ID = IUNIT-29
-      IF (IUNIT == 3) SEEK_ID = 1                   
+      IF (IUNIT == 3) SEEK_ID = 1
 C--------Multidomains : control of time history for subdomains-----------
       IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
         R2R_TH_FLAG(SEEK_ID) = 0
@@ -195,12 +195,12 @@ C--------Multidomains : control of time history for subdomains-----------
             SIZE_MES = 1
           ENDIF
         ENDIF
-      ENDIF      
+      ENDIF
 C-----------------------------------------------------------------------    
       IF (TT>=THISC) THEN
 C---------------------------
         IF (IDDOM == 0) R2R_TH_MAIN(SEEK_ID) = 1
-        R2R_TH_FLAG(SEEK_ID) = 1          
+        R2R_TH_FLAG(SEEK_ID) = 1
 C---------------------------
         IF (IMPL_S>0) THEN
           THIS0=MAX(TT,THIS0+MAX(DTHIS0,DT1))
@@ -208,7 +208,7 @@ C---------------------------
         ELSE
           THIS0=MAX(TT,THIS0+DTHIS0)
           THIS0=MIN(TSTOP,THIS0)
-        ENDIF    
+        ENDIF
 C---------------------------                  
         IF(ITTYP==3) CALL CUR_FIL_C(IFIL)
 C Heat Outputs
@@ -222,11 +222,11 @@ C       dans version spmd seul process 0 ecrit
         IF (ISPMD==0) THEN
 C--------Multidomains : offset for th file------------------------------
           IF ((IRAD2R==1).AND.(R2R_SIU==1)) THEN
-            IF (SEEK_FLAG(SEEK_ID)==1) THEN     
+            IF (SEEK_FLAG(SEEK_ID)==1) THEN
               CALL FSEEK_C(SEEK0(SEEK_ID))
               SEEK_FLAG(SEEK_ID) = 0
             ELSE
-              CALL FSEEK_C(SEEKC(SEEK_ID))          
+              CALL FSEEK_C(SEEKC(SEEK_ID))
             ENDIF
           ENDIF
 C-----------------------------------------------------------------------                  
@@ -251,7 +251,7 @@ C------------------------
           WA(II+14)= ECONTV ! Contact Frictional Energy
           WA(II+15)= ECONTD ! Damping Frictional Energy
 
-!   Version 2018 not released 
+!   Version 2018 not released
 c          WA(II+13)=EAMS
 c          WA(II+14)= ARRAY(1)
 c          WA(II+15)= ARRAY(2)
@@ -270,24 +270,24 @@ C-----------------------------
      .       CALL SPMD_GLOB_DSUM9(GRESAV,NPSAV*NGPE)
          IF(NSPMD>1) CALL SPMD_GLOB_DSUM9(PARTSAV,NPSAV*(NPART+NTHPART))
          IF(ISPMD/=0) THEN
-           DO M=1,NPSAV                                  
-             DO I=1,NPART+NTHPART                         
+           DO M=1,NPSAV
+             DO I=1,NPART+NTHPART
                PARTSAV(M,I) = ZERO
-             ENDDO    
-             DO I=1,NTHPART                                               
-               GRESAV(M,I) = ZERO  
-             ENDDO                                         
-           ENDDO                                         
+             ENDDO
+             DO I=1,NTHPART
+               GRESAV(M,I) = ZERO
+             ENDDO
+           ENDDO
          ELSE
-          II=0                                  
-          DO I=1,NPART+NTHPART                  
-            NVAR=IPARTH(NVPARTH,I)               
-            IAD =IPARTH(NVPARTH+1,I)             
-            IF (I > NPART) THEN               
-              DO J=1,NPSAV                       
-                PARTSAV(J,I) = GRESAV(J,I-NPART) 
-              ENDDO                              
-            ENDIF                                
+          II=0
+          DO I=1,NPART+NTHPART
+            NVAR=IPARTH(NVPARTH,I)
+            IAD =IPARTH(NVPARTH+1,I)
+            IF (I > NPART) THEN
+              DO J=1,NPSAV
+                PARTSAV(J,I) = GRESAV(J,I-NPART)
+              ENDDO
+            ENDIF
             IF(NVAR>0)THEN
               IF(NPSAV>=22)THEN
 C---------------------------------------
@@ -317,7 +317,7 @@ C---------------------------------------
                 IF(N <= SITHBUF) THEN
                   K=ITHBUF(N)
                 ELSE
-                  K=0 
+                  K=0
                 ENDIF
                 IF(K==1)THEN
                   WA(II)=PARTSAV(1,I)+PARTSAV(24,I)+PARTSAV(26,I)
@@ -328,7 +328,7 @@ C---------------------------------------
                 ELSEIF(K==4)THEN
                   WA(II)=PARTSAV(K,I)
                 ELSEIF(K==5)THEN
-                  WA(II)=PARTSAV(K,I)                
+                  WA(II)=PARTSAV(K,I)
                 ELSEIF(K==6)THEN
                   WA(II)=PARTSAV(6,I)+PARTSAV(25,I)
                 ELSEIF(K==7)THEN
@@ -387,12 +387,12 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                   WA(II)=PARTSAV(22,I)
                 ELSEIF(K > 0 .AND. SIZE(PARTSAV,1) >= K) THEN
                   WA(II)=PARTSAV(K,I)
-                ELSE 
+                ELSE
                   WA(II) = 0
-                ENDIF  !  K == 
+                ENDIF  !  K ==
               ENDDO    !  N=IAD,IAD+NVAR-1
             ENDIF      !  NVAR>0
-          ENDDO        !  I=1,NPART+NTHPART 
+          ENDDO        !  I=1,NPART+NTHPART
           IF (II/=0) CALL WRTDES(WA,WA,II,ITTYP,1)
          ENDIF         !  ISPMD/=0
         ENDIF          !  NPART>0
@@ -429,7 +429,7 @@ C-----------------------------
                ZZMOM = SUBSAV(14)-SUBSAV(4)*XCG+SUBSAV(3)*YCG
                XX = SUBSAV( 9)*XCG
                YY = SUBSAV(10)*YCG
-               ZZ = SUBSAV(11)*ZCG                              
+               ZZ = SUBSAV(11)*ZCG
                IXX = SUBSAV(15)-YY-ZZ
                IYY = SUBSAV(16)-ZZ-XX
                IZZ = SUBSAV(17)-XX-YY
@@ -446,7 +446,7 @@ C-----------------------------
                  IXY = SUBSAV(18)
                  IYZ = SUBSAV(19)
                  IZX = SUBSAV(20)
-               ENDIF  
+               ENDIF
              ENDIF
              DO N=IAD,IAD+NVAR-1
                K=ITHBUF(N)
@@ -514,7 +514,7 @@ C                                    [Izx Iyz Izz]   {ZZMOM}
                  WA(II)=SUBSAV(22)
                ELSEIF(K > 0) THEN
                  WA(II)=SUBSAV(K)
-               ELSE 
+               ELSE
                  WA(II) = 0
                ENDIF
              ENDDO
@@ -668,7 +668,7 @@ C gather on proc0 for seatblets
            CALL SPMD_COLLECT_SEATBELT()
          ENDIF
 C
-       END IF     
+       END IF
 C-------------------------------------------------------
 C    TH GROUP
 C-------------------------------------------------------
@@ -692,7 +692,7 @@ C-------------------------------------------------------
 !   -------------------------------------
 !               NODE ELEMENT
 !   TH optimization for node elements
-        !   initialization of local array       
+        !   initialization of local array
         WA_NOD(ID_HIST)%WA_REAL( 1:WA_NOD_SIZE(ID_HIST) ) = ZERO
         CALL THNOD(ITHBUF ,
      2   WA_NOD(ID_HIST)%WA_REAL,X       ,D       ,V      ,A      ,
@@ -715,7 +715,7 @@ C-------------------------------------------------------
 !   TH optimization for solid elements
         !   initialization of local array
         WA_SOL(ID_HIST)%WA_REAL( 1:WA_SOL_SIZE(ID_HIST) ) = ZERO
-        CALL THSOL(ELBUF_TAB,NTHGRP2 ,ITHGRP , 
+        CALL THSOL(ELBUF_TAB,NTHGRP2 ,ITHGRP ,
      .                 IPARG   ,ITHBUF   ,WA_SOL(ID_HIST)%WA_REAL ,
      .                 IXS     ,X        ,IPM    ,PM     ,IGEO    ,
      .                 MULTI_FVM,V       ,W      )
@@ -735,7 +735,7 @@ C-------------------------------------------------------
 !   TH optimization for quad/tria elements
         !   initialization of local array
         WA_QUAD(ID_HIST)%WA_REAL( 1:WA_QUAD_SIZE(ID_HIST) ) = ZERO
-        CALL THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP , 
+        CALL THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP ,
      1              IPARG    ,ITHBUF   ,WA_QUAD(ID_HIST)%WA_REAL      ,
      2              IPM      ,IXQ      ,IXTG      ,X       ,MULTI_FVM ,
      3              V        ,W        )
@@ -844,16 +844,16 @@ C-------------------------------------------------------
           IAD =ITHGRP(5,N)
           NVAR=ITHGRP(6,N)
           IADV=ITHGRP(7,N)
-          IF(ITYP==0)THEN  
-            !   all the stuff already done, PROC0 writes its data         
+          IF(ITYP==0)THEN
+            !   all the stuff already done, PROC0 writes its data
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      NOD_STRUCT(ID_HIST),WA_NOD_P0(ID_HIST))
           ELSEIF(ITYP==1)THEN
-            !   all the stuff already done, PROC0 writes its data             
+            !   all the stuff already done, PROC0 writes its data
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      SOL_STRUCT(ID_HIST),WA_SOL_P0(ID_HIST))
           ELSEIF( NANALY /= 0 .AND. (ITYP==2.OR.ITYP==117) )THEN
-            !   all the stuff already done, PROC0 writes its data     
+            !   all the stuff already done, PROC0 writes its data
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,NN,NVAR,ITTYP,
      1                      QUAD_STRUCT(ID_HIST),WA_QUAD_P0(ID_HIST))
           ELSEIF(ITYP==3.OR.ITYP==7)THEN
@@ -889,7 +889,7 @@ C    NSTRAND ELEMENTS.
 C-----------------------------
             !   all the stuff already done, PROC0 writes its data
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,1,NN*NVAR,ITTYP,
-     1                      NST_STRUCT(ID_HIST),WA_NST_P0(ID_HIST)) 
+     1                      NST_STRUCT(ID_HIST),WA_NST_P0(ID_HIST))
           ELSEIF(ITYP==101)THEN
 C-----------------------------
 C           INTERFACE

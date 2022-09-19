@@ -61,53 +61,53 @@ C-----------------------------------------------
       INTEGER KK,JJ
       INTEGER ID,IPARTFILL,NBCONTY
       INTEGER IPHASE,ICUMU ,IFILL
-      DOUBLE PRECISION VFRAC 
+      DOUBLE PRECISION VFRAC
       CHARACTER*nchartitle TITLE
-      DOUBLE PRECISION TEMP_DOUBLE      
+      DOUBLE PRECISION TEMP_DOUBLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      OK_QA = MYQAKEY('/INIVOL')  
-                                                         
-      IF (OK_QA) THEN   
-                                                                      
+      OK_QA = MYQAKEY('/INIVOL')
+
+      IF (OK_QA) THEN
+
           DO KK=1,NINIVOL
-          
+
             ID = USER_INIVOL(KK)%ID
             TITLE = USER_INIVOL(KK)%TITLE
             NBCONTY = USER_INIVOL(KK)%NBCONTY
             IPARTFILL = USER_INIVOL(KK)%IPARTFILL
-            
-            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%ID                  ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8)             
+
+            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%ID                  ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8)
             WRITE(VARNAME,'(A,I0,A,A)') 'USER_INIVOL(',KK ,')%TITLE               =',TITLE(1:LEN_TRIM(TITLE))
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,0.0_8)             
-            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%NBCONTY             ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NBCONTY,0.0_8)             
-            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%IPARTFILLE          ='              
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%NBCONTY             ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NBCONTY,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') 'USER_INIVOL(',KK ,')%IPARTFILLE          ='
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPARTFILL,0.0_8)
-            
+
             DO JJ=1,NBCONTY
 
               IPHASE = USER_INIVOL(KK)%CONTY(JJ)%IPHASE
               ICUMU = USER_INIVOL(KK)%CONTY(JJ)%ICUMU
-              IFILL = USER_INIVOL(KK)%CONTY(JJ)%IFILL 
-              VFRAC = USER_INIVOL(KK)%CONTY(JJ)%FILL_RATIO 
+              IFILL = USER_INIVOL(KK)%CONTY(JJ)%IFILL
+              VFRAC = USER_INIVOL(KK)%CONTY(JJ)%FILL_RATIO
 
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%IPHASE     ='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPHASE,0.0_8)             
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%ICUMU      ='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ICUMU,0.0_8)             
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%IFILL      ='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IFILL,0.0_8)             
-              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%RATIO_FILL ='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,VFRAC)                             
-            
-            ENDDO! next JJ (next line)            
-            
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%IPHASE     ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPHASE,0.0_8)
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%ICUMU      ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ICUMU,0.0_8)
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%IFILL      ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IFILL,0.0_8)
+              WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%RATIO_FILL ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,VFRAC)
+
+            ENDDO! next JJ (next line)
+
           ENDDO!next KK (next option)
-                
-      ENDIF                                                                             
+
+      ENDIF
 C-----------------------------------------------
       RETURN
       END

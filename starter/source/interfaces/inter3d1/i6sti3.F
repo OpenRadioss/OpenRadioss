@@ -80,13 +80,13 @@ C
         KAD =KAD+NSL
       ENDDO
 C     Error : no rigid body
-      IFL = 1                               
-      CALL ANCMSG(MSGID=100,              
-     .            MSGTYPE=MSGERROR,       
-     .            ANMODE=ANINFO_BLIND_1,  
-     .            I1=ID,                  
-     .            C1=TITR,                
-     .            I2=ITAB(NSV(1)))        
+      IFL = 1
+      CALL ANCMSG(MSGID=100,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            I1=ID,
+     .            C1=TITR,
+     .            I2=ITAB(NSV(1)))
 C-------------
   150 CONTINUE
 C-------------

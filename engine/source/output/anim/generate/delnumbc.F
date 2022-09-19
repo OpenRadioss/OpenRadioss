@@ -71,9 +71,9 @@ C
       NN4 = NN3 + NUMELQ
       NN5 = NN4 + NUMELC
       NN6 = NN5 + NUMELTG
-      NN7 = NN6 
-      NN8 = NN7 
-      NN9 = NN8 
+      NN7 = NN6
+      NN8 = NN7
+      NN9 = NN8
       NN10= NN9 + NUMELUR
 C
       DO 490 NG=1,NGROUP
@@ -137,7 +137,7 @@ C-----------------------------------------------
         CALL SPMD_FVB_AMAX(IDCMAX, IDCMAXL)
         IF (ISPMD==0) THEN
            BUF = NUMELQG+NUMELCG+NUMELTGG+NUMELURG
-        ELSE 
+        ELSE
            BUF = 1
         ENDIF
         CALL SPMD_IGET_PARTN(1,NBF_L,INUM,NBPART,IADG,BUF,1)

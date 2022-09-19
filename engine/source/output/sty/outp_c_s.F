@@ -73,17 +73,17 @@ C-----------------------------------------------
      .        NBX,NPG,MPT,IPT,I1,NU,KK,NS,NVAR,ITHK,I5,COMPTEUR,
      .        IJ(3)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
 
-      my_real   
+      my_real
      .   FAC,S1, S2, S12, VONM2,AA,MEAN_GAUSS
-      my_real   
+      my_real
      .   FUNC(6),FUNC1(100)
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(BUF_LAY_) ,POINTER :: BUFLY
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3,LBUF4
 C-----------------------------------------------
@@ -100,10 +100,10 @@ C-----------------------------------------------
           IF(NBX == 26) THEN
             IF (OUTYY_FMT == 2) THEN
              WRITE(IUGEO,'(A)')'#FORMAT: (1P6E12.5)
-     .       (((VAR(NU,IPT,I),NU=1,NUVAR),IPT=1,NPT),I=1,NUMSHL)' 
+     .       (((VAR(NU,IPT,I),NU=1,NUVAR),IPT=1,NPT),I=1,NUMSHL)'
             ELSE
             WRITE(IUGEO,'(A)')'#FORMAT: (1P6E20.13)
-     .       (((VAR(NU,IPT,I),NU=1,NUVAR),IPT=1,NPT),I=1,NUMSHL)' 
+     .       (((VAR(NU,IPT,I),NU=1,NUVAR),IPT=1,NPT),I=1,NUMSHL)'
             ENDIF
           ELSEIF( NBX >= 27 .OR.NBX >= 86) THEN
             IF (OUTYY_FMT == 2) THEN
@@ -119,7 +119,7 @@ C-----------------------------------------------
             ELSE
               WRITE(IUGEO,'(A)')'#FORMAT: (1P6E20.13) (VAR(I),I=1,NUMSHL)'
             ENDIF
-          ENDIF 
+          ENDIF
       ENDIF
 C
       JJ_OLD = 1
@@ -150,10 +150,10 @@ C
               IF (MLW == 25.OR.MLW == 27.OR.MLW == 32) ISTRAIN=1
               IF( (MLW/=0).AND.(MLW/=13) ) THEN
                GBUF => ELBUF_TAB(NG)%GBUF
-               NLAY =  ELBUF_TAB(NG)%NLAY                    
-               NPTR =  ELBUF_TAB(NG)%NPTR                     
-               NPTS =  ELBUF_TAB(NG)%NPTS                     
-               NPG  =  NPTR*NPTS                   
+               NLAY =  ELBUF_TAB(NG)%NLAY
+               NPTR =  ELBUF_TAB(NG)%NPTR
+               NPTS =  ELBUF_TAB(NG)%NPTS
+               NPG  =  NPTR*NPTS
                NPT   = IPARG(6,NG)
                MPT   = MAX(1,NPT)
               ENDIF
@@ -166,15 +166,15 @@ C Ecriture de 0. si loi non user et outp user demande
                 DO I=LFT,LLT
                   JJ=JJ+1
                   WA(JJ) = ZERO
-                ENDDO         
+                ENDDO
 C-----------
-              ELSEIF (NBX == 1) THEN                                
+              ELSEIF (NBX == 1) THEN
                 DO I=LFT,LLT
                   JJ = JJ + 1
                   IF( (MLW/=0).AND.(MLW/=13) ) THEN
-                   S1 = GBUF%FOR(IJ(1)+I)                         
-                   S2 = GBUF%FOR(IJ(2)+I)                         
-                   S12= GBUF%FOR(IJ(3)+I)                         
+                   S1 = GBUF%FOR(IJ(1)+I)
+                   S2 = GBUF%FOR(IJ(2)+I)
+                   S12= GBUF%FOR(IJ(3)+I)
                    VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
                    WA(JJ) = SQRT(VONM2)
                   ELSE
@@ -235,13 +235,13 @@ c-----------
                   WA(JJ) = ZERO
                   IF (MLW /= 0 .AND. MLW /= 13) THEN
                     IF (GBUF%G_PLA > 0) THEN
-                      DO IL=1,NLAY                                                 
+                      DO IL=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                         NPTT = BUFLY%NPTT
                         IF (BUFLY%L_PLA > 0) THEN
                           DO IS=1,NPTS
                             DO IR=1,NPTR
-                              DO IT=1,NPTT                                           
+                              DO IT=1,NPTT
                                 LBUF => BUFLY%LBUF(IR,IS,IT)
                                 WA(JJ) = MAX(WA(JJ),LBUF%PLA(I))
                               ENDDO
@@ -253,17 +253,17 @@ c-----------
                   ENDIF
                 ENDDO ! DO I=LFT,LLT
 c-----------
-              ELSEIF (NBX == 25) THEN  ! Hourglass 
-                DO I=LFT,LLT                       
-                  JJ=JJ+1                          
-                  IF (ITY == 7) THEN               
+              ELSEIF (NBX == 25) THEN  ! Hourglass
+                DO I=LFT,LLT
+                  JJ=JJ+1
+                  IF (ITY == 7) THEN
                     WA(JJ)=ZERO
                   ELSE
                     WA(JJ)=EANI(NFT + I + NUMELS)
                   ENDIF
                 ENDDO
 C-----------
-              ELSEIF (NBX>=20.AND.NBX<=24.AND.IHBE == 11) THEN  
+              ELSEIF (NBX>=20.AND.NBX<=24.AND.IHBE == 11) THEN
                 CALL S_USER(NBX,IMX,IHBE,NEL,NPT,MLW,IPM,IGEO, IXC,
      .                      ITY ,JJ,ELBUF_TAB(NG),WA, NFT, FUNC,
      .                      NLAY,NPTR,NPTS)
@@ -277,36 +277,36 @@ C-----------
                     IF (ITY == 3) THEN
                       NPG =4
                       FAC = FOURTH
-                    ELSEIF (ITY == 7) THEN          
+                    ELSEIF (ITY == 7) THEN
                       NPG =3
                       FAC = THIRD
                     ENDIF
 c
                     IF (NLAY > 1) THEN
 cc                      IT = 1
-                      DO I=1,NEL   
+                      DO I=1,NEL
                         WA(JJ + 1) = IHBE
                         WA(JJ + 2) = NPT
                         WA(JJ + 3) = NPG
                         WA(JJ + 4) = NUVAR
-                        JJ = JJ + 4 
-                        DO IL=1,NLAY                                           
+                        JJ = JJ + 4
+                        DO IL=1,NLAY
                           NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                          DO IR=1,NPTR                                           
-                            DO IS=1,NPTS                                         
-                              DO IT=1,NPTT 
-                                MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)  
-                                NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT       
-                                DO NU= 1,NUVAR 
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              DO IT=1,NPTT
+                                MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                                NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
+                                DO NU= 1,NUVAR
                                   JJ= JJ + 1
-                                  I1 = (NU -1)*NEL                      
-                                  WA(JJ) = MBUF%VAR(I1 + I)             
+                                  I1 = (NU -1)*NEL
+                                  WA(JJ) = MBUF%VAR(I1 + I)
                                 ENDDO
-                              ENDDO   
+                              ENDDO
                             ENDDO
-                          ENDDO           
-                        ENDDO                                                
-                      ENDDO ! I=1,NEL     
+                          ENDDO
+                        ENDDO
+                      ENDDO ! I=1,NEL
                     ELSE    ! NLAY = 1
                       IL = 1
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
@@ -315,17 +315,17 @@ cc                      IT = 1
                         WA(JJ + 2) = NPT
                         WA(JJ + 3) = NPG
                         WA(JJ + 4) = NUVAR
-                        JJ = JJ + 4 
-                        DO IS=1,NPTS                                         
-                          DO IR=1,NPTR                                           
+                        JJ = JJ + 4
+                        DO IS=1,NPTS
+                          DO IR=1,NPTR
                             DO IT=1,NPTT
-                              MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)  
-                              NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT       
+                              MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                              NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
                               DO NU= 1,NUVAR
                                 JJ= JJ + 1
-                                I1 = (NU-1)*NEL                             
-                                WA(JJ) = MBUF%VAR(I1 + I)                    
-                              ENDDO 
+                                I1 = (NU-1)*NEL
+                                WA(JJ) = MBUF%VAR(I1 + I)
+                              ENDDO
                             ENDDO
                           ENDDO
                         ENDDO
@@ -337,16 +337,16 @@ cc                      IT = 1
                       WA(JJ + 2) = NPT
                       WA(JJ + 3) = NPG
                       WA(JJ + 4) = NUVAR
-                      JJ = JJ + 4 
-                      DO IL=1,NLAY                                         
+                      JJ = JJ + 4
+                      DO IL=1,NLAY
                         NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                        DO IT=1,NPTT                                       
-                          MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(1,1,IT)      
-                          NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT         
+                        DO IT=1,NPTT
+                          MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(1,1,IT)
+                          NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
                           DO NU=1,NUVAR
                             JJ = JJ + 1
-                            I1 = (NU-1)*NEL                             
-                            WA(JJ)= MBUF%VAR(I1 + I) 
+                            I1 = (NU-1)*NEL
+                            WA(JJ)= MBUF%VAR(I1 + I)
                           ENDDO
                         ENDDO
                       ENDDO
@@ -362,10 +362,10 @@ c----------
                   NU = NBX - 26
                   I1 = (NU -1)*NEL
                   IF (IHBE == 11) THEN  ! BATOZ
-                    IF (ITY == 3) THEN                                            
+                    IF (ITY == 3) THEN
                       NPG = 4
                       FAC = FOURTH
-                    ELSEIF(ITY == 7)THEN                                          
+                    ELSEIF(ITY == 7)THEN
                       NPG = 3
                       FAC = THIRD
                     ENDIF
@@ -375,56 +375,56 @@ C
                     WA(JJ + 3) = NPG
                     WA(JJ + 4) = NEL
                     JJ = JJ + 4
-                    IF (NLAY > 1) THEN                                            
-cc                      IT = 1                                                      
-                      DO I=1,NEL   
+                    IF (NLAY > 1) THEN
+cc                      IT = 1
+                      DO I=1,NEL
                         DO IL=1,NLAY
                           NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                          DO IS=1,NPTS                                            
-                            DO IR=1,NPTR                                              
+                          DO IS=1,NPTS
+                            DO IR=1,NPTR
                               DO IT=1,NPTT
-                                MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)       
+                                MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
                                 JJ= JJ + 1
-                                WA(JJ) = MBUF%VAR(I1 + I)                         
-                              ENDDO   
-                            ENDDO
-                          ENDDO                                         
-                        ENDDO                                                     
-                      ENDDO                                                       
-                    ELSE  ! NLAY = 1                                              
-                      IL = 1
-                      NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                      DO I=1,NEL
-                        DO IS=1,NPTS                                            
-                          DO IR=1,NPTR                                              
-                            DO IT=1,NPTT                                          
-                              NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT            
-                              MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)       
-                              JJ= JJ + 1
-                              WA(JJ) = MBUF%VAR(I1 + I)                            
+                                WA(JJ) = MBUF%VAR(I1 + I)
+                              ENDDO
                             ENDDO
                           ENDDO
                         ENDDO
-                      ENDDO                                                       
-                    ENDIF ! NLAY                                                  
+                      ENDDO
+                    ELSE  ! NLAY = 1
+                      IL = 1
+                      NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
+                      DO I=1,NEL
+                        DO IS=1,NPTS
+                          DO IR=1,NPTR
+                            DO IT=1,NPTT
+                              NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
+                              MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)
+                              JJ= JJ + 1
+                              WA(JJ) = MBUF%VAR(I1 + I)
+                            ENDDO
+                          ENDDO
+                        ENDDO
+                      ENDDO
+                    ENDIF ! NLAY
                   ELSE  ! not Batoz
                     WA(JJ + 1) = IHBE
                     WA(JJ + 2) = NPT
                     WA(JJ + 3) = NPG
                     WA(JJ + 4) = NEL
-                    JJ = JJ + 4    
+                    JJ = JJ + 4
                     DO I=LFT,LLT
-                      DO IL=1,NLAY                                           
+                      DO IL=1,NLAY
                         NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
-                        DO IT=1,NPTT                                         
-                          MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(1,1,IT)        
+                        DO IT=1,NPTT
+                          MBUF => ELBUF_TAB(NG)%BUFLY(IL)%MAT(1,1,IT)
                           JJ = JJ + 1
-                          WA(JJ)= MBUF%VAR(I1 + I)                           
+                          WA(JJ)= MBUF%VAR(I1 + I)
                         ENDDO
                       ENDDO
                     ENDDO
                   ENDIF ! IHBE
-                ENDIF   ! MLW                                                    
+                ENDIF   ! MLW
 c---------
               ELSEIF (NBX == 87) THEN
 C  equivalent stress - other then VON MISES
@@ -435,7 +435,7 @@ C  equivalent stress - other then VON MISES
                     BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                     NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
                     IF (NPG > 1) THEN
-                      DO I=LFT,LLT  
+                      DO I=LFT,LLT
                         JJ = JJ + 1
                         DO IT=1,NPTT
                           LBUF1 => BUFLY%LBUF(1,1,IT)
@@ -510,7 +510,7 @@ c---------
 c-----------------------------------------------------------------
           NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
       ENDDO
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -540,19 +540,19 @@ c-----------------------------------------------------------------
 c-----------------------------------------------------------------
           IF (JJ_OLD > 0) THEN
 c-------
-            IF (NBX == 26) THEN    ! all User variables           
+            IF (NBX == 26) THEN    ! all User variables
               J = 1
               DO WHILE (J<JJ_OLD+1)
-                IHBE  = NINT(WAP0(J )) 
-                NPT   = NINT(WAP0(J + 1)) 
-                NPG   = NINT(WAP0(J + 2)) 
+                IHBE  = NINT(WAP0(J ))
+                NPT   = NINT(WAP0(J + 1))
+                NPG   = NINT(WAP0(J + 2))
                 NUVAR = NINT(WAP0(J + 3))
                 J = J + 4
                 IF (OUTYY_FMT == 2) THEN
                   WRITE(IUGEO,'(4I8)')IHBE,NPT,NPG,NUVAR
                 ELSE
                   WRITE(IUGEO,'(4I10)')IHBE,NPT,NPG,NUVAR
-                ENDIF                       
+                ENDIF
 c
                 IF (NPG == 0) THEN
                   IF (NPT == 0) THEN
@@ -563,14 +563,14 @@ c
                     ENDIF
                     J = J + NUVAR
                   ELSE
-                    DO IPT = 1,NPT  
+                    DO IPT = 1,NPT
                       IF (OUTYY_FMT == 2) THEN
                         WRITE(IUGEO,'(1P6E12.5)')(WAP0(J + K - 1),K=1,NUVAR)
                       ELSE
                         WRITE(IUGEO,'(1P6E20.13)')(WAP0(J + K - 1),K=1,NUVAR)
                       ENDIF
                       J = J + NUVAR
-                    ENDDO 
+                    ENDDO
                   ENDIF
                 ELSE  ! IF (NPG == 0)
                   IF (NPT == 0) THEN
@@ -592,26 +592,26 @@ c
                         ENDIF
                         J = J + NUVAR
                       ENDDO
-                    ENDDO 
-                  ENDIF 
-                ENDIF        
+                    ENDDO
+                  ENDIF
+                ENDIF
               ENDDO    ! DO WHILE (J<JJ_OLD)
 c-------
-            ELSEIF (NBX >= 27 .AND. NBX <= 86) THEN  ! single User variables          
+            ELSEIF (NBX >= 27 .AND. NBX <= 86) THEN  ! single User variables
               J = 1
               DO WHILE (J<JJ_OLD+1)
-                IHBE  = NINT(WAP0(J )) 
-                NPT   = NINT(WAP0(J + 1)) 
-                NPG   = NINT(WAP0(J + 2)) 
+                IHBE  = NINT(WAP0(J ))
+                NPT   = NINT(WAP0(J + 1))
+                NPG   = NINT(WAP0(J + 2))
                 NEL   = NINT(WAP0(J + 3))
                 NVAR  = NEL*MAX(1,NPT)*MAX(1,NPG)
                 J = J + 4
-                WRITE(IUGEO,'(A)')'#FORMAT:IHBE,NPT,NPG'           
+                WRITE(IUGEO,'(A)')'#FORMAT:IHBE,NPT,NPG'
                 IF (OUTYY_FMT == 2) THEN
                   WRITE(IUGEO,'(3I8)')IHBE,NPT,NPG
                 ELSE
                   WRITE(IUGEO,'(3I10)')IHBE,NPT,NPG
-                ENDIF                       
+                ENDIF
                 IF (OUTYY_FMT == 2) THEN
                   WRITE(IUGEO,'(1P6E12.5)')(WAP0(J + K - 1),K=1,NVAR)
                 ELSE
@@ -628,15 +628,15 @@ c-------
                   WRITE(IUGEO,'(1P6E12.5)')(WAP0(J),J=1,WRTLEN)
                 ELSE
                   WRITE(IUGEO,'(1P6E20.13)')(WAP0(J),J=1,WRTLEN)
-                ENDIF  
+                ENDIF
               ENDIF
               DO I=1,RES
                 WAP0(I)=WAP0(WRTLEN+I)
               ENDDO
               RESP0=RES
-            ENDIF   ! NBX       
+            ENDIF   ! NBX
 c
-          ENDIF   ! IF (JJ_OLD > 0) THEN    
+          ENDIF   ! IF (JJ_OLD > 0) THEN
 c-------
         ENDDO  ! DO NN=1,NSPGROUP
 c---
@@ -660,7 +660,7 @@ Chd|        GENOUTP                       source/output/sty/genoutp.F
 Chd|        OUTP_ARSZ_CS                  source/mpi/interfaces/spmd_outp.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,WASZ,SIZ_WRITE_LOC) 
+      SUBROUTINE COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,WASZ,SIZ_WRITE_LOC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -750,10 +750,10 @@ C-----------------------------------------------
 
               NPG=0
 
-              IF(IHBE == 11) THEN         
+              IF(IHBE == 11) THEN
                IF (ITY == 3) THEN
                  NPG = 4
-               ELSEIF(ITY == 7)THEN             
+               ELSEIF(ITY == 7)THEN
                  NPG =3
                ENDIF
                MPT=IABS(NPT)
@@ -818,10 +818,10 @@ C
 
               NPG=0
 
-              IF(IHBE == 11) THEN         
+              IF(IHBE == 11) THEN
                IF (ITY == 3) THEN
                  NPG = 4
-               ELSEIF(ITY == 7)THEN             
+               ELSEIF(ITY == 7)THEN
                  NPG =3
                ENDIF
                MPT=IABS(NPT)
@@ -829,14 +829,14 @@ C
                   JJ = JJ + 4 + NEL*(NPG)
                ELSE
                   JJ = JJ + 4 + NEL*(NPG*MPT)
-               END IF               
+               END IF
               ELSE
                MPT=IABS(NPT)
                IF (MPT == 0) THEN
                   JJ = JJ + 4 + NEL
                ELSE
                   JJ = JJ + 4 + NEL*(MPT)
-               END IF                  
+               END IF
               END IF
              END IF
           END IF
@@ -845,12 +845,12 @@ C
           NGF = NGL + 1
           SIZ_WRITE_LOC(NSPGROUP+NN) = SIZ_WRITE_LOC(NSPGROUP+NN) + JJ
         END DO
-      ENDIF   
+      ENDIF
       WASZ(1) = WASZ1
       WASZ(2) = WASZ26
       SIZ_WRITE_LOC(2*NSPGROUP+1) = WASZ(1)
       SIZ_WRITE_LOC(2*NSPGROUP+2) = WASZ(2)
-      
+
 
       RETURN
       END

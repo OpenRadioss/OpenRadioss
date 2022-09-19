@@ -68,7 +68,7 @@ C     REAL
      .    AY(*),OFF(*),OFFG(*),VOLO(*),
      .    EINT(*),DSV(*),FAC(*)
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PY1(*)~PZ4(*)      - SHAPE DERIVATIVES
@@ -179,4 +179,4 @@ Ccw>>>
 C
       RETURN
       END
-	  
+	

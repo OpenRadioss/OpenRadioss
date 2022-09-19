@@ -116,8 +116,8 @@ C=======================================================================
       SIZE_MINER_POFF = 0
 C
       IF (IPARIT == 0)THEN
-        DO N=1,NINTER                                    
-          NTY  = IPARI(7,N)                               
+        DO N=1,NINTER
+          NTY  = IPARI(7,N)
           ILEV = IPARI(20,N)
           IF (NTY == 2) THEN
             IF (ILEV == 25) THEN
@@ -153,102 +153,102 @@ C
       ENDIF
 C
 C      Calcul flag de rupture pour interface type 2 user
-       DO N=1,NINTER                                    
-         NTY  = IPARI(7,N)                               
+       DO N=1,NINTER
+         NTY  = IPARI(7,N)
          ILEV = IPARI(20,N)
-         IF (NTY == 2 .AND. ILEV >= 10 .AND. ILEV < 23) THEN             
-           JI  =IPARI(1,N)                                 
-           JB  =IPARI(2,N)    
-           CALL INT2RUPT(                              
+         IF (NTY == 2 .AND. ILEV >= 10 .AND. ILEV < 23) THEN
+           JI  =IPARI(1,N)
+           JB  =IPARI(2,N)
+           CALL INT2RUPT(
      .          IPARI(1,N),MS        ,IN         ,
      .          X         ,V        ,A        ,STIFN     ,IGEO       ,
      .          WEIGHT    ,FSAV(1,N),ILEV     ,NPF       ,TF         ,
      .          ITAB      ,FNCONT   ,PDAMA2   ,INTBUF_TAB(N),H3D_DATA,
-     .          FNCONTP   ,FTCONTP )         
-         ENDIF                                           
-       ENDDO                                            
+     .          FNCONTP   ,FTCONTP )
+         ENDIF
+       ENDDO
 C
 Cel correction pb poff si main dans plusieurs interfaces type2
-      IF (IMACH == 3 .AND. IPARIT == 0) THEN                     
-        IF (NHIN2 == 0) THEN                                  
-          DO N=1,NINTER                                       
-            NTY   =IPARI(7,N)                                 
-            IF (IPARI(26,N) == KHIE) THEN                       
-              JI=IPARI(1,N)                                   
-              JB=IPARI(2,N)                                   
-              NMN =IPARI(6,N)                                 
-              NINT=N                                          
-              ILAGM = IPARI(33,N)                             
-              IF (NTY == 2 .AND. ILAGM == 0)THEN  
-                CALL INT2POFF(                                
-     .   	         IPARI(1,N) ,X        ,V      ,  
-     .   	         A          ,VR       ,AR     ,MS    ,IN    ,          
-     .               WEIGHT     ,STIFN    ,STIFR  ,MCP   ,CONDN , 
-     .               FTHE       ,INTBUF_TAB(N)    )               
-              ENDIF                                           
-            ENDIF                                             
-          ENDDO                                               
-        ELSE                                                  
-          TAGNOD=0                                            
-          DO N=1,NINTER                                       
-            NTY = IPARI(7,N)                                 
-            IF (IPARI(26,N) == KHIE) THEN                      
-              JI=IPARI(1,N)                                   
-              JB=IPARI(2,N)                                   
-              NMN =IPARI(6,N)                                 
-              NINT=N                                          
-              ILAGM = IPARI(33,N)                             
-              IF (NTY == 2 .AND. ILAGM == 0) THEN 
-                CALL INT2POFFH(                               
-     .   	      IPARI(1,N),X    ,V    ,  
-     .   	      A	  ,VR	,AR   ,MS   ,IN    ,          
-     .   	      WEIGHT    ,STIFN     ,STIFR   ,TAGNOD,INTBUF_TAB(N))        
-              ENDIF                                           
-            ENDIF                                             
-          ENDDO                                               
-        ENDIF                                                 
-       ELSEIF (IMACH == 3 .AND. IPARIT /= 0) THEN               
-c       ELSEIF(IMACH == 3.AND.IPARIT /= 0.AND.NHIN2 /= 0)THEN 
-        DO I=1,LCNI2                                          
-          DO J=1,I2SIZE                                       
-            FSKYI2(J,I)=ZERO                                  
-          END DO                                              
-        END DO 
+      IF (IMACH == 3 .AND. IPARIT == 0) THEN
+        IF (NHIN2 == 0) THEN
+          DO N=1,NINTER
+            NTY   =IPARI(7,N)
+            IF (IPARI(26,N) == KHIE) THEN
+              JI=IPARI(1,N)
+              JB=IPARI(2,N)
+              NMN =IPARI(6,N)
+              NINT=N
+              ILAGM = IPARI(33,N)
+              IF (NTY == 2 .AND. ILAGM == 0)THEN
+                CALL INT2POFF(
+     .   	         IPARI(1,N) ,X        ,V      ,
+     .   	         A          ,VR       ,AR     ,MS    ,IN    ,
+     .               WEIGHT     ,STIFN    ,STIFR  ,MCP   ,CONDN ,
+     .               FTHE       ,INTBUF_TAB(N)    )
+              ENDIF
+            ENDIF
+          ENDDO
+        ELSE
+          TAGNOD=0
+          DO N=1,NINTER
+            NTY = IPARI(7,N)
+            IF (IPARI(26,N) == KHIE) THEN
+              JI=IPARI(1,N)
+              JB=IPARI(2,N)
+              NMN =IPARI(6,N)
+              NINT=N
+              ILAGM = IPARI(33,N)
+              IF (NTY == 2 .AND. ILAGM == 0) THEN
+                CALL INT2POFFH(
+     .   	      IPARI(1,N),X    ,V    ,
+     .   	      A	  ,VR	,AR   ,MS   ,IN    ,
+     .   	      WEIGHT    ,STIFN     ,STIFR   ,TAGNOD,INTBUF_TAB(N))
+              ENDIF
+            ENDIF
+          ENDDO
+        ENDIF
+       ELSEIF (IMACH == 3 .AND. IPARIT /= 0) THEN
+c       ELSEIF(IMACH == 3.AND.IPARIT /= 0.AND.NHIN2 /= 0)THEN
+        DO I=1,LCNI2
+          DO J=1,I2SIZE
+            FSKYI2(J,I)=ZERO
+          END DO
+        END DO
       ENDIF
 C
-      IF(IPARIT /= 0.AND.INTHEAT /= 0)THEN 
-        DO I=1,LCNI2                                          
-           FTHESKYI2(I)=ZERO                                  
-        END DO  
+      IF(IPARIT /= 0.AND.INTHEAT /= 0)THEN
+        DO I=1,LCNI2
+           FTHESKYI2(I)=ZERO
+        END DO
         IF(IDT_THERM == 1) THEN
-          DO I=1,LCNI2                                          
-           CONDNSKYI2(I)=ZERO  
-          ENDDO                                
-        ENDIF                                              
-      ENDIF                                                     
+          DO I=1,LCNI2
+           CONDNSKYI2(I)=ZERO
+          ENDDO
+        ENDIF
+      ENDIF
 C
-      I2OK = 0          
-      I2MSCH=0          
-      I0 = 0            
-      NIR=2 
-      IF(N2D == 0)NIR=4 
-      KSN=1     
-      INTTH2 = 0       
+      I2OK = 0
+      I2MSCH=0
+      I0 = 0
+      NIR=2
+      IF(N2D == 0)NIR=4
+      KSN=1
+      INTTH2 = 0
 C---
-      DO N=1,NINTER                                                     
-        NTY = IPARI(7,N)                                               
-        IF (IPARI(26,N) == KHIE) THEN                                     
-          JI=IPARI(1,N)                                                 
-          JB=IPARI(2,N)                                                 
+      DO N=1,NINTER
+        NTY = IPARI(7,N)
+        IF (IPARI(26,N) == KHIE) THEN
+          JI=IPARI(1,N)
+          JB=IPARI(2,N)
           NSN =IPARI(5,N)
-          NMN =IPARI(6,N)                                               
-          ILEV=IPARI(20,N)                                               
-          NINT=N                                                        
-          ILAGM = IPARI(33,N)                                           
-          IF(NTY == 2 .AND. ILAGM == 0)THEN                             
+          NMN =IPARI(6,N)
+          ILEV=IPARI(20,N)
+          NINT=N
+          ILAGM = IPARI(33,N)
+          IF(NTY == 2 .AND. ILAGM == 0)THEN
             I2OK=1
             IF (ILEV == 0.OR.ILEV == 1.OR.ILEV == 3.OR.ILEV == 27.OR.ILEV == 28) I2MSCH = 1
-            IF (ILEV==25.OR.ILEV==26.OR.ILEV==27.OR.ILEV==28) I7KGLO=1 
+            IF (ILEV==25.OR.ILEV==26.OR.ILEV==27.OR.ILEV==28) I7KGLO=1
         !       Optimization :
         !       If NSN=0, somes variables are loaded in INTTI2F (NRTS,...)
         !       if the number of TYPE2 interface is important (>3000) and if the number of
@@ -256,18 +256,18 @@ C---
         !       for_array_copy_in and other initialisations represent up to 5% of total CPUTIME
         !       and break the scalability of the code
             IF((NSN>0)) THEN
-            CALL INTTI2F(                                               
-     1       IPARI(1,N),X       ,V        ,A      , 
-     2       VR        ,AR       ,MS       ,IN      ,WEIGHT   ,STIFN  , 
-     3       STIFR     ,FSKYI2   ,IADI2    ,I2MSCH  ,DMAST    ,ADM    , 
-     4       I0        ,NIR      ,I2SIZE   ,ADI     ,IGEO     ,BUFGEO , 
+            CALL INTTI2F(
+     1       IPARI(1,N),X       ,V        ,A      ,
+     2       VR        ,AR       ,MS       ,IN      ,WEIGHT   ,STIFN  ,
+     3       STIFR     ,FSKYI2   ,IADI2    ,I2MSCH  ,DMAST    ,ADM    ,
+     4       I0        ,NIR      ,I2SIZE   ,ADI     ,IGEO     ,BUFGEO ,
      5       FSAV(1,N) ,FNCONT   ,NODNX_SMS,DMINT2(KSN)  ,SAV_FOR_PENA,
      6       MS_PENA   ,DT2T     ,NELTST   ,ITYPTST ,INTBUF_TAB(N),TEMP,
      7       FTHE      ,FTHESKYI2,CONDN    ,CONDNSKYI2,ITAB,
      8       SAV_MINER_POFF     ,H3D_DATA,T2FAC_SMS,FNCONTP ,
      A       FTCONTP)
             ELSE
-        !       WARNING : if NSN==0 and ILEV==2 or 4, ones needs to save the mass 
+        !       WARNING : if NSN==0 and ILEV==2 or 4, ones needs to save the mass
                 ILEV = IPARI(20,N)
                 IF(ILEV==2.OR.ILEV==4) THEN
                         DO II=1,NMN
@@ -277,33 +277,33 @@ C---
                 ENDIF
           ENDIF
             IF (ILEV==25 .or. ILEV==26 .or. ILEV==27 .or. ILEV==28) KSN=KSN+4*NSN
-          ELSEIF(NTY == 12)THEN                                           
-            IF(IMACH /= 3.OR.ISPMD == 0)THEN                         
-             CALL INTTI12F(                                          
-     .        IPARI(1,N),INTBUF_TAB(N)      ,X      ,V     ,         
-     .        A         ,MS       ,ITAB     ,WEIGHT ,STIFN,WA,SKEW ) 
-            ENDIF                                                    
-          ENDIF                                                      
-        ELSEIF(IMACH == 3.AND.IPARIT > 0)THEN                       
-          ILAGM = IPARI(33,N)                                        
-          IF(IPARI(26,N) /= KHIE.AND.NTY == 2.AND.ILAGM == 0)THEN    
-            K10=IPARI(1,N)                                           
-            K11=K10+4*IPARI(3,N)                                     
-            K12=K11+4*IPARI(4,N)                                     
-            CALL I2SKIP(IPARI(5,N) ,INTBUF_TAB(N)%NSV ,WEIGHT ,I0 ) 
-          ENDIF                                                      
-        ENDIF 
-        IF(NTY == 2 .AND. IPARI(47,N)> 0)THEN  
+          ELSEIF(NTY == 12)THEN
+            IF(IMACH /= 3.OR.ISPMD == 0)THEN
+             CALL INTTI12F(
+     .        IPARI(1,N),INTBUF_TAB(N)      ,X      ,V     ,
+     .        A         ,MS       ,ITAB     ,WEIGHT ,STIFN,WA,SKEW )
+            ENDIF
+          ENDIF
+        ELSEIF(IMACH == 3.AND.IPARIT > 0)THEN
+          ILAGM = IPARI(33,N)
+          IF(IPARI(26,N) /= KHIE.AND.NTY == 2.AND.ILAGM == 0)THEN
+            K10=IPARI(1,N)
+            K11=K10+4*IPARI(3,N)
+            K12=K11+4*IPARI(4,N)
+            CALL I2SKIP(IPARI(5,N) ,INTBUF_TAB(N)%NSV ,WEIGHT ,I0 )
+          ENDIF
+        ENDIF
+        IF(NTY == 2 .AND. IPARI(47,N)> 0)THEN
            INTTH2 = 1
-        ENDIF                           
-      ENDDO 
+        ENDIF
+      ENDDO
       IF (INTTH2 == 1) THEN
         I2SIZETH = I2SIZE + 1
         IF(IDT_THERM == 1) I2SIZETH = I2SIZETH + 1
       ELSE
-          I2SIZETH = I2SIZE  
+          I2SIZETH = I2SIZE
       ENDIF
-                                                           
+
 C------------------------------------------------------------
       IF (IMACH == 3 .AND. I2OK == 1) THEN
 C version spmd avec plus d'1 proc : sommer A et AR sur les noeuds main

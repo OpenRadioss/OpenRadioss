@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
       my_real
-     .   SUM(MVSIZ), 
+     .   SUM(MVSIZ),
      .   THETA, SUM2(MVSIZ), SUM3(MVSIZ), COST(MVSIZ),
      .   SINT(MVSIZ), R1PHI, R2PHI, THETAPHI, SUM2PHI, SUM3PHI, COPHI,
      .   SIPHI, SINPHI, COSPHI, SUMPHI

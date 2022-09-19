@@ -31,7 +31,7 @@ C=======================================================================
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
-      INTERFACE  
+      INTERFACE
       SUBROUTINE ANCMSG(MSGID ,MSGTYPE,ANMODE,
      .                  I1    ,I2    ,I3    ,I4    ,
      .                  I5    ,I6    ,I7    ,I8    ,I9    ,
@@ -51,15 +51,15 @@ C-----------------------------------------------
       INTEGER
      .                 I1,I2,I3,I4,
      .                 I5,I6,I7,I8,I9
-      my_real             
+      my_real
      .                 R1,R2,R3,R4,
      .                 R5,R6,R7,R8,R9
       CHARACTER(*)
      .                 C1,C2,C3,C4,
      .                 C5,C6,C7,C8,C9
-      OPTIONAL ::       
-     .                 MSGTYPE, ! Warning : MSGTYPE is not optional in the Starter 
-     .                          ! but is is not supported in the engine       
+      OPTIONAL ::
+     .                 MSGTYPE, ! Warning : MSGTYPE is not optional in the Starter
+     .                          ! but is is not supported in the engine
      .                 I1,I2,I3,I4,
      .                 I5,I6,I7,I8,I9,
      .                 R1,R2,R3,R4,
@@ -69,4 +69,4 @@ C-----------------------------------------------
       END SUBROUTINE
       END INTERFACE
 C=======================================================================
-      END MODULE 
+      END MODULE

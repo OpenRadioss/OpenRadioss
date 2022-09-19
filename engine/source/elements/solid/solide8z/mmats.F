@@ -97,7 +97,7 @@ C-----------------------------------------------
          G3(3,I) =PM(48,MX)
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                 QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==25) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -115,7 +115,7 @@ C-----------------------------------------------
          G3(3,I) =PM(39,MX)
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                 QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==28.OR.MTN==50.OR.MTN==68) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -130,7 +130,7 @@ C-----------------------------------------------
          G3(3,I) = UPARAM(6)
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                 QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==53) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -145,7 +145,7 @@ C-----------------------------------------------
          G3(3,I) = G3(1,I)
         ENDDO
         CALL MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                 QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                 QG     ,CC    ,G3  ,G33  ,CG     )
        ELSE
 C----------isotrope effective       
         IORTH = 0
@@ -160,7 +160,7 @@ C-------GG:2G---HH(2,I):G-------
          HH(2,I)=GG*HALF
         ENDDO
        ENDIF
-      ELSE 
+      ELSE
 C-------iso------
 C------hyperelastic------      
        IF (MTN==42) THEN
@@ -203,8 +203,8 @@ C-------------KT Condinuum---sig:mean value-------------
 C-------------KT Condinuum---sig:per ip------------
       ELSEIF (IKT==3) THEN
        SELECT CASE (MTN)
-       CASE(1)                                            
-       CASE(2,36)                                   
+       CASE(1)
+       CASE(2,36)
         IPLAST =0
         DO I=JFT,JLT
          MX      =MAT(I)
@@ -222,24 +222,24 @@ C           G33(1,1,I)=QH(I)
 C          ENDDO
 C        ENDIF 
         IF (IORTH==0.AND.IPLAST==1) IORTH=1
-       CASE(10)                                        
-       END SELECT      
+       CASE(10)
+       END SELECT
 C-------------KT Consistent--sig: per ip-------------
       ELSEIF (IKT==4) THEN
        S1=ONE*NPPT
        SELECT CASE (MTN)
-       CASE(1)                                            
-       CASE(2,36)                                   
+       CASE(1)
+       CASE(2,36)
         IPLAST =0
         DO I=JFT,JLT
 candr ---  make the 0-th iteration always elastic
            IF(FAC(I)<ONE.AND.ITER_NL>0) IPLAST =1
         ENDDO
         IF (IORTH==0.AND.IPLAST==1) IORTH=1
-       CASE(10)                                        
-       END SELECT      
+       CASE(10)
+       END SELECT
       ENDIF !IF (IKT==2) THEN
- 
+
 C
       RETURN
       END
@@ -250,7 +250,7 @@ Chd|        MMATS                         source/elements/solid/solide8z/mmats.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GETTRANS(JFT    ,JLT   ,GAMA ,QC  ,QCG  ,
-     .                    QGC    ,QG   ) 
+     .                    QGC    ,QG   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -265,7 +265,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  
+      INTEGER JFT, JLT
 C     REAL
       my_real
      .   GAMA(MVSIZ,6),QC(3,3,*),QCG(3,3,*),QGC(3,3,*),QG(3,3,*)
@@ -324,7 +324,7 @@ Chd|-- calls ---------------
 Chd|        CBATRAN3                      source/elements/shell/coqueba/cbasumg3.F
 Chd|====================================================================
       SUBROUTINE MSTIFORTH(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                     QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                     QG     ,CC    ,G3  ,G33  ,CG     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -339,7 +339,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  
+      INTEGER JFT, JLT
 C     REAL
       my_real
      .   QC(3,3,*),QCG(3,3,*),QGC(3,3,*),QG(3,3,*),
@@ -376,8 +376,8 @@ C
           B(J,J,I)=G3(J,I)
         ENDDO
        ENDDO
-      CALL CBATRAN3(JFT   ,JLT    ,QC   ,A ,QCG,ISYM) 
-      CALL CBATRAN3(JFT   ,JLT    ,QGC  ,B ,QG ,ISYM) 
+      CALL CBATRAN3(JFT   ,JLT    ,QC   ,A ,QCG,ISYM)
+      CALL CBATRAN3(JFT   ,JLT    ,QGC  ,B ,QG ,ISYM)
 C      
        DO J= 1,3
        DO K= 1,3
@@ -402,8 +402,8 @@ C
           B(J,J,I)=G3(J,I)
         ENDDO
        ENDDO
-      CALL CBATRAN3(JFT   ,JLT    ,QCG  ,A ,QCG,ISYM) 
-      CALL CBATRAN3(JFT   ,JLT    ,QG   ,B ,QG ,ISYM) 
+      CALL CBATRAN3(JFT   ,JLT    ,QCG  ,A ,QCG,ISYM)
+      CALL CBATRAN3(JFT   ,JLT    ,QG   ,B ,QG ,ISYM)
 C      
        DO J= 1,3
        DO K= J,3
@@ -427,8 +427,8 @@ C
           B(J,J,I)=G3(J,I)
         ENDDO
        ENDDO
-      CALL CBATRAN3(JFT   ,JLT    ,QC   ,A ,QC ,ISYM) 
-      CALL CBATRAN3(JFT   ,JLT    ,QGC  ,B ,QGC,ISYM) 
+      CALL CBATRAN3(JFT   ,JLT    ,QC   ,A ,QC ,ISYM)
+      CALL CBATRAN3(JFT   ,JLT    ,QGC  ,B ,QGC,ISYM)
 C      
        DO J= 1,3
        DO K= J,3
@@ -502,7 +502,7 @@ C----------HT(i)>0
         ST(1,I)=SIG(I,4)
         ST(2,I)=SIG(I,5)
         ST(3,I)=SIG(I,6)
-       ENDIF 
+       ENDIF
       ENDDO
 C      
       DO I=LFT,LLT
@@ -532,7 +532,7 @@ C
          DS(J,I)=DS(J,I)*NORMI
          ST(J,I)=ST(J,I)*G(I)*NORMI
         ENDDO
-       ENDIF 
+       ENDIF
       ENDDO
 C-----------GT->u-------- 
       DO I=LFT,LLT
@@ -550,7 +550,7 @@ C-----------GT->u--------
          DD1(J,K,I)=-DS(J,I)*ST(K,I)*HALF
         ENDDO
         ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
 C
       RETURN
@@ -711,7 +711,7 @@ C-----------------------------------------------
         DO I = 1,NEL
           KTBUF_STR(NG_IMP)%ETFAC(I)=ONE
         ENDDO
-       ENDIF 
+       ENDIF
 C
       RETURN
       END
@@ -754,7 +754,7 @@ C     REAL
       my_real
      .   SS(3,MVSIZ),ST(3,MVSIZ),P,SIGY2,G(MVSIZ),
      .   SS2,DS2,ST2,NORM(MVSIZ),NORMI,G2,TT,TV
-      my_real    
+      my_real
      .   EW(3,MVSIZ),TOL,LAMDA(MVSIZ),EV(3,3),KK(3,3)
 C
       TOL=EM5
@@ -787,7 +787,7 @@ C----------HT(i)>0
         ST(1,I)=SIG(I,4)
         ST(2,I)=SIG(I,5)
         ST(3,I)=SIG(I,6)
-       ENDIF 
+       ENDIF
       ENDDO
 C      
       DO I=LFT,LLT
@@ -806,7 +806,7 @@ C
          SS(J,I)=SS(J,I)*NORM(I)
          ST(J,I)=ST(J,I)*NORM(I)
         ENDDO
-       ENDIF 
+       ENDIF
       ENDDO
 C-----------GT->u-------- 
       DO I=LFT,LLT
@@ -824,7 +824,7 @@ C-----------GT->u--------
          DD1(J,K,I)=-SS(J,I)*ST(K,I)
         ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
       ENDDO
 C
       RETURN
@@ -909,8 +909,8 @@ c .....  ALPHA(I) is the alpha constant of the radial return..
          CC(3,1,I)=TV
          CC(3,2,I)=TV
         ENDDO
-         DO J = 1, 3 
-         DO K = 1, 3 
+         DO J = 1, 3
+         DO K = 1, 3
           DO I=JFT,JLT
            CG(J,K,I)=ZERO
            G33(J,K,I)=ZERO
@@ -968,7 +968,7 @@ C     REAL
 C----------  verifier-------------------------------------
 C----------HT(i)>0 
       DO I=LFT,LLT
-c .....(R(I) is the alpha parameter of the radial return .. 
+c .....(R(I) is the alpha parameter of the radial return ..
        IF (R(I)/=ONE) THEN
 c ..... SS(), ST() contain deviatoric stresses ..
         SS(1,I)=SIG(1,I)
@@ -980,7 +980,7 @@ c ..... SS(), ST() contain deviatoric stresses ..
 c        print *,'DS,ST='
 c        print *,SS(1,I),SS(2,I),SS(3,I)
 c        print *,ST(1,I),ST(2,I),ST(3,I)
-       ENDIF 
+       ENDIF
       ENDDO
 C-----------GT->u-------- 
       DO I=LFT,LLT
@@ -1009,7 +1009,7 @@ C         ENDIF
 c         print *,'[Ct]='
 c         print *,DD(1,1,I),DD(1,2,I),GT(1,1,I)
 c         print *,DD1(1,1,I),DD1(2,1,I)
-        ENDIF 
+        ENDIF
       ENDDO
 C
       RETURN

@@ -52,11 +52,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,17 +75,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(OUT)  :: NUPARAM,NUVAR
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
       my_real, DIMENSION(100),INTENT(OUT) :: PARMAT
-      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL      
+      TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT) :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .    E,NU,CP,A, B, Q,C,D,P, AHS,BHS,M,N,K1,K2,DH,VM0,EPS0,
      .    C1,G,TEMP,HL,COEF,RHO0,RHOR
       INTEGER ILAW
@@ -148,9 +148,9 @@ C
      .               I2=MAT_ID,
      .               C1=TITR)
       END IF
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
       G  = HALF*E/(ONE+NU)
-      C1 = E/THREE/(ONE - TWO*NU) 
+      C1 = E/THREE/(ONE - TWO*NU)
 c-----------------------------------------------------------------------
       UPARAM(1)  = E
       UPARAM(2)  = E/(ONE - NU*NU)
@@ -173,25 +173,25 @@ c-----------------------------------------------------------------------
       UPARAM(19) = VM0
       UPARAM(20) = EPS0
       UPARAM(21) = CP
-      UPARAM(22) = TEMP           
+      UPARAM(22) = TEMP
       UPARAM(23) = HL
-      UPARAM(24) = COEF     
+      UPARAM(24) = COEF
 c-----------------------------------------------------------------------
       NUPARAM = 24
       NUVAR = 4
 c-----------------------------------------------------------------------
       PARMAT(1) = C1
       PARMAT(2) = E
-      PARMAT(3) = NU 
+      PARMAT(3) = NU
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G) 
+      PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 c-----------------------------------------------------------------------
       PM(1)  = RHOR
       PM(89) = RHO0
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-c-----------------------------------------------------------------------  
+c-----------------------------------------------------------------------
 c--------------------------------------------------
 c     Starter output
 c--------------------------------------------------
@@ -202,11 +202,11 @@ c--------------------------------------------------
       ELSE
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) E,NU,ONE/CP
-        WRITE(IOUT,1400) A,B,Q,C,D     
+        WRITE(IOUT,1400) A,B,Q,C,D
         WRITE(IOUT,1500) P,AHS,BHS,M,N
         WRITE(IOUT,1600) K1,K2,DH,VM0,EPS0
         WRITE(IOUT,1700) TEMP,HL,COEF
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -216,7 +216,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL : TRIP-STEELS  PLASTIC LAW',/,
      & 5X,'-----------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS  . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO  . . . . . . . . . . . . . .=',1PG20.13/,

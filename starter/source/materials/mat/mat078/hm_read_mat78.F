@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT78(UPARAM   ,MAXUPARAM,NUPARAM  ,ISRATE   ,IMATVIS  ,
-     .                         NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC    ,PARMAT   , 
+     .                         NUVAR    ,IFUNC    ,MAXFUNC  ,NFUNC    ,PARMAT   ,
      .                         UNITAB   ,MAT_ID   ,TITR     ,MTAG     ,LSUBMODEL,
      .                         PM       ,NVARTMP)
 C-----------------------------------------------
@@ -47,10 +47,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,12 +67,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)                :: MAT_ID,MAXFUNC,MAXUPARAM
-      TYPE (UNIT_TYPE_)   ,INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_)   ,INTENT(IN)   :: UNITAB
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) ,INTENT(IN)  :: LSUBMODEL
       CHARACTER*nchartitle              ,INTENT(IN)  :: TITR
-      INTEGER  ,DIMENSION(MAXFUNC)      ,INTENT(OUT) :: IFUNC       
-      my_real  ,DIMENSION(NPROPM)       ,INTENT(OUT) :: PM       
-      my_real  ,DIMENSION(100)          ,INTENT(OUT) :: PARMAT   
+      INTEGER  ,DIMENSION(MAXFUNC)      ,INTENT(OUT) :: IFUNC
+      my_real  ,DIMENSION(NPROPM)       ,INTENT(OUT) :: PM
+      my_real  ,DIMENSION(100)          ,INTENT(OUT) :: PARMAT
       my_real  ,DIMENSION(MAXUPARAM)    ,INTENT(OUT) :: UPARAM
       INTEGER         ,INTENT(OUT)     :: NFUNC,NUVAR,NVARTMP,NUPARAM,ISRATE,IMATVIS
       TYPE(MLAW_TAG_) ,INTENT(OUT)     :: MTAG
@@ -86,7 +86,7 @@ C-----------------------------------------------
      .           R00,R45,R90,CST,CSTT,P1,P2,P3,P4,N3,MEXP,C1_KH
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 c-----------------------------------------------
-c   S o u r c e   L i n e s 
+c   S o u r c e   L i n e s
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -121,9 +121,9 @@ C
       !line-6
       CALL HM_GET_INTV  ('MAT_fct_IDE',FUNCID   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_EA'     ,EINF     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_CE'     ,COE      ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C1KH'   ,C1_KH    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      !========== DEFAULT VALUES=============!              
+      CALL HM_GET_FLOATV('MAT_CE'     ,COE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C1KH'   ,C1_KH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      !========== DEFAULT VALUES=============!
       PM(1) = RHO0
       PM(89)= RHO0
 C       
@@ -141,17 +141,17 @@ C
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      IF ((HYU < ZERO).OR.(HYU > ONE)) THEN 
+      IF ((HYU < ZERO).OR.(HYU > ONE)) THEN
          CALL ANCMSG(MSGID=1886,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               R1=HYU,
      .               I1=MAT_ID,
-     .               C1=TITR)      
+     .               C1=TITR)
       ENDIF
       IF (C1_KH <= CYU) C1_KH = CYU
       ! Hill 48
-      IF (Iplas == 1) THEN 
+      IF (Iplas == 1) THEN
         MEXP = ZERO
         P1   = R00*(ONE+R90)/R90/(ONE+R00)
         P2   = R00/(R00+ONE)
@@ -166,7 +166,7 @@ C
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
      .                I1=MAT_ID,
-     .                C1=TITR)          
+     .                C1=TITR)
         ENDIF
         ! Default value of M exponent
         IF (MEXP == ZERO) MEXP = SIX
@@ -177,7 +177,7 @@ C
         CALL CALCULP2(P1,P2,P3,P4,MEXP,R45)                    ! USE ROUTINE OF HM_READ_MAT57
         N3   = MEXP                                            ! M
       ENDIF
-c---------------------------------    
+c---------------------------------
       NVARTMP = 0
       NUVAR   = 6
       NFUNC   = OPTE
@@ -189,13 +189,13 @@ c
       ENDIF
 C           
       IF (BSAT < YIELD) THEN
-        BSAT=YIELD 
+        BSAT=YIELD
         CALL ANCMSG(MSGID=922,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO,
      .              I1=MAT_ID,
      .              C1=TITR)
-      ENDIF 
+      ENDIF
 c----------------------
       UPARAM(1)  = YOUNG
       UPARAM(2)  = NU
@@ -226,7 +226,7 @@ c---------------------
 c     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
-c------------------------------             
+c------------------------------
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
       MTAG%L_SIGA = 6
@@ -234,19 +234,19 @@ c------------------------------
       MTAG%L_SIGC = 6
       MTAG%G_SEQ  = 1
       MTAG%L_SEQ  = 1
-c------------------------------             
+c------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
-       WRITE(IOUT,1000) 
+      ELSE
+       WRITE(IOUT,1000)
        WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
-       WRITE(IOUT,1002) RHO0   
+       WRITE(IOUT,1002) RHO0
        WRITE(IOUT,1100) YOUNG,NU,FUNCID,EINF,COE
        WRITE(IOUT,1200) YIELD,BYU,CYU,HYU,BSAT,C1_KH
        WRITE(IOUT,1300) MYU,RSAT,OPTR
        WRITE(IOUT,1400) Iplas,R00,R45,R90,CST,CSTT
        IF (Iplas == 2) WRITE(IOUT,1500) P1,P2,P3,P4,MEXP
-      ENDIF 
+      ENDIF
 c----------------------------------------------------------------
  1000 FORMAT
      & (5X,'   YOSHIDA-UEMORI MATERIAL LAW       ',/
@@ -256,7 +256,7 @@ c----------------------------------------------------------------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . . =',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . .  . . . . =',1PG20.13/
      & 5X,'POISSON''S RATIO  . . . . . . . . . . . . . . =',1PG20.13/
@@ -269,20 +269,20 @@ c----------------------------------------------------------------
      & 5X,'MATERIAL PARAMETER (CYU  ). . . . . . . . . . =',1PG20.13/
      & 5X,'MATERIAL PARAMETER (HYU  ). . . . . . . . . . =',1PG20.13/
      & 5X,'MATERIAL PARAMETER (BSAT  ) . . . . . . . . . =',1PG20.13/
-     & 5X,'MATERIAL PARAMETER (C1_KH  )  . . . . . . . . =',1PG20.13)    
+     & 5X,'MATERIAL PARAMETER (C1_KH  )  . . . . . . . . =',1PG20.13)
  1300 FORMAT(//
      & 5X,'MATERIAL PARAMETER (MYU  ). . . . . . . . . . =',1PG20.13/
      & 5X,'MATERIAL PARAMETER (RSAT ). . . . . . . . . . =',1PG20.13/
      & 5X,'FLAG ISOTROPIC HARDENING FUNC (OPTR)  . . . . =',I10)
  1400 FORMAT(//
-     & 5X,'PLASTIC CRITERION FLAG  . . . . . . . . . . . =',I10/  
+     & 5X,'PLASTIC CRITERION FLAG  . . . . . . . . . . . =',I10/
      & 5X,'  Icrit=1  HILL   1948 CRITERION'/
      & 5X,'  Icrit=2  BARLAT 1989 CRITERION'/
      & 5X,'LANKFORD COEFFICIENT R00. . . . . . . . . . . =',1PG20.13/
      & 5X,'LANKFORD COEFFICIENT R45. . . . . . . . . . . =',1PG20.13/
      & 5X,'LANKFORD COEFFICIENT R90. . . . . . . . . . . =',1PG20.13/
      & 5X,'MATERIAL PARAMETER (CST). . . . . . . . . . . =',1PG20.13/
-     & 5X,'MATERIAL PARAMETER (CSTT) . . . . . . . . . . =',1PG20.13/)    
+     & 5X,'MATERIAL PARAMETER (CSTT) . . . . . . . . . . =',1PG20.13/)
  1500 FORMAT(//
      & 5X,'BARLAT PARAMETER A. . . . . . . . . . . . . . =',1PG20.13/
      & 5X,'BARLAT PARAMETER C. . . . . . . . . . . . . . =',1PG20.13/

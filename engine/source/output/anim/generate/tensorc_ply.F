@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITENS, INVERT(*),
-     .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*), 
+     .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*),
      .   NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),NEL_PLY,IPLY, NBF_PXFEMG,
      .   IPM(NPROPMI,*)
@@ -127,7 +127,7 @@ C
         NN5 = NN4 + NUMELC
         NN6 = NN5 + NUMELTG
 C
-       
+
         DO 490 NG=1,NGROUP
          II = 0
 C        IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
@@ -150,10 +150,10 @@ C        IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
            JJ(I) = NEL*(I-1)
          ENDDO
 !
-         DO I=LFT,LLT          
-           DO J=1,5            
-             SIGE(I,J) = ZERO  
-           ENDDO               
+         DO I=LFT,LLT
+           DO J=1,5
+             SIGE(I,J) = ZERO
+           ENDDO
          ENDDO
 !
 C-----------------------------------------------
@@ -190,7 +190,7 @@ C
            N = 1 + NFT
 C
            DO  I=LFT,LLT
-            N = I + NFT 
+            N = I + NFT
             ILAYER = PLYELEMS(N)
             IF(ILAYER > 0) IFLAG = ILAYER
            ENDDO
@@ -223,7 +223,7 @@ C------------------------
      .            MLW==15.OR.
      .            MLW==22.OR.MLW==25.OR.
      .            MLW==27.OR.MLW==32.OR.
-     .            MLW>=28)THEN 
+     .            MLW>=28)THEN
                IADD = NB10 + NS1 * NEL * (NPT-1)
                A1   = ZERO
                A2   = ZERO
@@ -243,7 +243,7 @@ C------------------------
      .            MLW==15.OR.
      .            MLW==22.OR.MLW==25.OR.
      .            MLW==27.OR.MLW==32.OR.
-     .            MLW>=28)THEN 
+     .            MLW>=28)THEN
                IADD = NB10
                A1   = ONE
                A2   = ZERO
@@ -263,7 +263,7 @@ C------------------------
      .            MLW==15.OR.
      .            MLW==22.OR.MLW==25.OR.
      .            MLW==27.OR.MLW==32.OR.
-     .            MLW>=28)THEN 
+     .            MLW>=28)THEN
                IPT = MIN(NPT,ITENS-100)
                IADD = NB10 + NS1 * NEL * (ILAYER - 1)
                A1   = ONE
@@ -340,7 +340,7 @@ C------------------------
              IPT = MIN(NPT,ITENS - 200)
              IF(IPT == IPLY ) ION = 1
              IF(ISTRAIN==1.AND.NPT/=0)THEN
-cc             IPT = ILAYER          
+cc             IPT = ILAYER
               IADD = NB8
               IAD2 = NB8 + 5
               A1   = ONE
@@ -375,7 +375,7 @@ C------------------------
             IF(IPT == IPLY ) ION = 1
             IF(NPT/=0)THEN	
              ISTRE  = 2
-cc             IPT = ILAYER             
+cc             IPT = ILAYER
              A1   = ONE
              A2   = HALF*(((2*ILAYER-ONE)/NPT)-ONE)
 	        ELSE
@@ -404,31 +404,31 @@ c------------
               DO I=1,NEL
             	MAT(I)=IXC(1,NFT+I)
             	PID(I)=IXC(6,NFT+I)
-              END DO				    
+              END DO				
             ELSE
               DO I=1,NEL
             	MAT(I)=IXTG(1,NFT+I)
             	PID(I)=IXTG(5,NFT+I)
-              END DO				    
-            END IF   
+              END DO				
+            END IF
              IF(MLW == 25) THEN
                IF(IGTYP == 17)THEN
-!!                  IIGEO   =  40 + 5*(ISUBSTACK - 1)   
-!!                  IADI    = IGEO(IIGEO + 3,PID(1))   
-                  IPMAT   = 2 + NPT  
+!!                  IIGEO   =  40 + 5*(ISUBSTACK - 1)
+!!                  IADI    = IGEO(IIGEO + 3,PID(1))
+                  IPMAT   = 2 + NPT
                   IPMAT_IPLY   = IPMAT + NPT
 ! old stack organisation           IPMAT = 300
-                  NUVARV = 0                                
+                  NUVARV = 0
                   DO N=1,NPT
-                     IADR = (N-1)*NEL                       
-                      DO I=1,NEL                          
+                     IADR = (N-1)*NEL
+                      DO I=1,NEL
                         MATLY   = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                        NUVARV =  MAX(NUVARV, IPM(225,MATLY)) 
+                        NUVARV =  MAX(NUVARV, IPM(225,MATLY))
                         IF(IPM(222,MATLY) > 0 ) IVISC = 1
-                      END DO                                
-                  END DO                                       
-              END IF  
-             ENDIF                     
+                      END DO
+                  END DO
+              END IF
+             ENDIF
                IF(ION == 1)THEN
                  CALL SIGROTA(LFT  ,LLT     ,NFT   ,ILAYER  ,NEL  ,
      2                        NS1     ,X     ,IXC     ,ELBUF_TAB(NG),
@@ -437,7 +437,7 @@ c------------
                  DO I=LFT,LLT
                    N = I + NFT
                    ILAYER = PLYELEMS(N)
-                   IF(ILAYER > 0) THEN 
+                   IF(ILAYER > 0) THEN
                      IE = IE + 1
                       DO J = 1 , 3
                          R4(J) = SIGE(I,J)
@@ -452,7 +452,7 @@ cc               R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE))
                  DO I=LFT,LLT
                    N = I + NFT
                    ILAYER = PLYELEMS(N)
-                   IF(ILAYER > 0) THEN 
+                   IF(ILAYER > 0) THEN
                       IE = IE + 1
                       TENS(1,EL2FA(NEL_PLY + IE)) = ZERO
                       TENS(2,EL2FA(NEL_PLY + IE)) = ZERO
@@ -474,15 +474,15 @@ C
                        N = I + NFT
                        ILAYER = PLYELEMS(N)
                        IF (ILAYER > 0) THEN
-                         DO IR=1,NPTR                                             
-                           DO IS=1,NPTS                                           
-                             LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,1)    
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             LBUF => ELBUF_TAB(NG)%BUFLY(ILAYER)%LBUF(IR,IS,1)
                              DO J = 1 , 5
-                               SIGE(I,J) = SIGE(I,J) + LBUF%SIG(JJ(J)+I)/NPG         
+                               SIGE(I,J) = SIGE(I,J) + LBUF%SIG(JJ(J)+I)/NPG
                              ENDDO
                            ENDDO
                          ENDDO
-                       ENDIF  
+                       ENDIF
                      ENDDO
 c
                  DO I=LFT,LLT
@@ -493,12 +493,12 @@ c
                      DO J = 1 , 3
                       R4(J) = SIGE(I,J)
                      ENDDO
-cc                     R4(3) = R4(3) * INVERT(EL2FA(NNI+N))         
+cc                     R4(3) = R4(3) * INVERT(EL2FA(NNI+N))
                      TENS(1,EL2FA(NEL_PLY + IE)) = R4(1)
                      TENS(2,EL2FA(NEL_PLY + IE)) = R4(2)
                      TENS(3,EL2FA(NEL_PLY + IE)) = R4(3)
-                   ENDIF  
-                ENDDO                
+                   ENDIF
+                ENDDO
                ELSE
                  DO I=LFT,LLT
                    N = I + NFT
@@ -509,9 +509,9 @@ cc                     R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE))
                      TENS(1,EL2FA(NEL_PLY + IE)) = ZERO
                      TENS(2,EL2FA(NEL_PLY + IE)) = ZERO
                      TENS(3,EL2FA(NEL_PLY + IE)) = ZERO
-                   ENDIF  
-                 ENDDO  
-               ENDIF       
+                   ENDIF
+                 ENDDO
+               ENDIF
              ELSE
                DO I=LFT,LLT
                  N = I + NFT
@@ -525,7 +525,7 @@ cc                R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE))
                   TENS(1,EL2FA(NEL_PLY + IE)) = R4(1)
                   TENS(2,EL2FA(NEL_PLY + IE)) = R4(2)
                   TENS(3,EL2FA(NEL_PLY + IE)) = R4(3)
-                 ENDIF 
+                 ENDIF
                ENDDO
              ENDIF
            ELSEIF (ISTRE == 0 .AND. GBUF%G_STRA > 0) THEN
@@ -551,7 +551,7 @@ cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * HALF
                    TENS(1,EL2FA(NEL_PLY + IE)) = R4(1)
                    TENS(2,EL2FA(NEL_PLY + IE)) = R4(2)
                    TENS(3,EL2FA(NEL_PLY + IE)) = R4(3)
-              ENDIF 
+              ENDIF
              ENDDO
            ELSEIF(ISTRE==2)THEN
 C------------------------
@@ -561,7 +561,7 @@ C------------------------
                N = I + NFT
                ILAYER = PLYELEMS(N)
                IF(ILAYER > 0) THEN
-                   THK = GBUF%THK(I)               
+                   THK = GBUF%THK(I)
                    IF(ITENS/=92)THEN
                     DO J = 1 , 3
                      R4(J) = A1*EPSDOT(J,N+N0) + A2*EPSDOT(J+3,N+N0)*THK
@@ -576,7 +576,7 @@ cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_PLY + IE)) * HALF
                    TENS(1,EL2FA(NEL_PLY + IE)) = R4(1)
                    TENS(2,EL2FA(NEL_PLY + IE)) = R4(2)
                    TENS(3,EL2FA(NEL_PLY + IE)) = R4(3)
-               ENDIF    
+               ENDIF
             ENDDO
            ENDIF
 C-----------------------------------------------

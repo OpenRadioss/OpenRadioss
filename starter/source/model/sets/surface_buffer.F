@@ -85,7 +85,7 @@ C=======================================================================
         IF ( CLAUSE%NB_SH4N > 0 ) CALL SHELL_SURFACE_BUFFER(
      .                             IXC     ,NIXC      ,2         ,5         ,3     ,
      .                             NSEG    ,IAD_SURF  ,OPT_O     ,BUFTMPSURF,CLAUSE)
-        IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0) 
+        IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0)
      .                            CALL SHELL_SURFACE_BUFFER(
      .                             IXTG     ,NIXTG     ,2        ,4         ,7     ,
      .                             NSEG     ,IAD_SURF  ,OPT_O    ,BUFTMPSURF,CLAUSE)
@@ -94,7 +94,7 @@ C=======================================================================
      .                             IXC     ,NIXC      ,2	 ,5	    ,3     ,
      .                             NSEG    ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTC ,
      .                             IPART   ,KSH4TREE  ,SH4TREE   )
-        IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0) 
+        IF ( CLAUSE%NB_SH3N > 0 .AND. NUMELTRIA == 0)
      .                            CALL SHELL_SURFACE_BUFFER_REMESH(
      .                             IXTG     ,NIXTG     ,2         ,4         ,7     ,
      .                             NSEG     ,IAD_SURF  ,BUFTMPSURF,CLAUSE    ,IPARTG,

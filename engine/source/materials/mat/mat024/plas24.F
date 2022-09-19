@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   CP32, CP33, CP34, CP35, CP36, CP41, CP42, CP43, CP44, CP45,
      .   CP46, CP51, CP52, CP53, CP54, CP55, CP56, CP61, CP62, CP63,
      .   CP64, CP65, CP66, C11, C12, C13, C22, C23, C33, VKOLD, RR,
-     .   VKMAX, RO, DIV, DVK, VKK, NUMER, DENOM,BULK,DP,RHO0,DFDRO     
+     .   VKMAX, RO, DIV, DVK, VKK, NUMER, DENOM,BULK,DP,RHO0,DFDRO
 C=======================================================================
       RHO0  = PM(1)
       YOUNG = PM(20)
@@ -113,7 +113,7 @@ c------------------------------------------------
         DE3(I)  = ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
         SCAL1(I)= HALF+SIGN(HALF,DE1(I)-ONE)
         SCAL2(I)= HALF+SIGN(HALF,DE2(I)-ONE)
-        SCAL3(I)= HALF+SIGN(HALF,DE3(I)-ONE)     
+        SCAL3(I)= HALF+SIGN(HALF,DE3(I)-ONE)
         DE4(I)  = SCAL1(I)*SCAL2(I)
         DE5(I)  = SCAL2(I)*SCAL3(I)
         DE6(I)  = SCAL3(I)*SCAL1(I)
@@ -136,7 +136,7 @@ c-----
         SIG(I,1)=CDAM(I,1,1)*CRAK(I,1)+CDAM(I,1,2)*CRAK(I,2)+CDAM(I,1,3)*CRAK(I,3)
         SIG(I,2)=CDAM(I,2,1)*CRAK(I,1)+CDAM(I,2,2)*CRAK(I,2)+CDAM(I,2,3)*CRAK(I,3)
         SIG(I,3)=CDAM(I,3,1)*CRAK(I,1)+CDAM(I,3,2)*CRAK(I,2)+CDAM(I,3,3)*CRAK(I,3)
-        IF (IBUG == 0) THEN 
+        IF (IBUG == 0) THEN
           SIG(I,4) = DE4(I)*SIG(I,4) - C44(I)*E4(I)*(ONE-SCLE2(I))
           SIG(I,5) = DE5(I)*SIG(I,5) - C55(I)*E5(I)*(ONE-SCLE2(I))
           SIG(I,6) = DE6(I)*SIG(I,6) - C66(I)*E6(I)*(ONE-SCLE2(I))
@@ -195,7 +195,7 @@ c--------------------
             VK(I)=ZERO
           ENDIF
 c         CRITERE
-          IF (IBUG == 0) THEN 
+          IF (IBUG == 0) THEN
             AJ3 = S1(I)*S2(I)*S3(I)
      .          - S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)-S3(I)*S4(I)*S4(I)
      .          + TWO*S4(I)*S5(I)*S6(I)
@@ -244,15 +244,15 @@ C DF/DSIG
           TS1 = S1(I)**2 + S4(I)**2 + S6(I)**2 - TWO*THIRD*AJ2
           TS2 = S2(I)**2 + S4(I)**2 + S5(I)**2 - TWO*THIRD*AJ2
           TS3 = S3(I)**2 + S5(I)**2 + S6(I)**2 - TWO*THIRD*AJ2
-          IF (IBUG == 0) THEN 
+          IF (IBUG == 0) THEN
             TS4 = TWO* (S5(I)*S6(I)-S4(I)*S3(I))
             TS5 = TWO* (S6(I)*S4(I)-S5(I)*S1(I))
             TS6 = TWO* (S4(I)*S5(I)-S6(I)*S2(I))
           ELSE
             TS4 = -TWO* S4(I) * S3(I)
             TS5 = -TWO* S5(I) * S1(I)
-            TS6 = -TWO* S6(I) * S2(I)     
-          ENDIF     
+            TS6 = -TWO* S6(I) * S2(I)
+          ENDIF
           DFS1=B0+B1*S1(I)+B2*TS1
           DFS2=B0+B1*S2(I)+B2*TS2
           DFS3=B0+B1*S3(I)+B2*TS3
@@ -272,29 +272,29 @@ C PLASTICITE VOLUMIQUE COMPACTANCE/DILATANCE
             IF (B0 > EM02)  ALPHA = MAX(ALPHA,-ZEP4/B0)
           ENDIF
           IF (EINT(I)<=ZERO) ALPHA=ZERO
-c         AJOUT DILATANCE PLASTIQUE MAX fp 09/16 
+c         AJOUT DILATANCE PLASTIQUE MAX fp 09/16
           IF (RHO(I) < RHO0) ALPHA = ZERO
-          IF (AJJ > EM3*FC) THEN                 
-            DGS1=ALPHA+S1(I)/(TWO*AJJ)         
-            DGS2=ALPHA+S2(I)/(TWO*AJJ)         
-            DGS3=ALPHA+S3(I)/(TWO*AJJ)         
-            DGS4=S4(I)/AJJ                      
-            DGS5=S5(I)/AJJ                      
-            DGS6=S6(I)/AJJ                      
-          ELSE                                  
-            IF (ICAP == 1) THEN                 
-              DGS1=ALPHA                        
-              DGS2=ALPHA                        
-              DGS3=ALPHA                        
-            ELSE                                
-              DGS1=-ONE                          
-              DGS2=-ONE                          
-              DGS3=-ONE                          
-            ENDIF                               
-            DGS4=ZERO                           
-            DGS5=ZERO                           
-            DGS6=ZERO                           
-          ENDIF                                 
+          IF (AJJ > EM3*FC) THEN
+            DGS1=ALPHA+S1(I)/(TWO*AJJ)
+            DGS2=ALPHA+S2(I)/(TWO*AJJ)
+            DGS3=ALPHA+S3(I)/(TWO*AJJ)
+            DGS4=S4(I)/AJJ
+            DGS5=S5(I)/AJJ
+            DGS6=S6(I)/AJJ
+          ELSE
+            IF (ICAP == 1) THEN
+              DGS1=ALPHA
+              DGS2=ALPHA
+              DGS3=ALPHA
+            ELSE
+              DGS1=-ONE
+              DGS2=-ONE
+              DGS3=-ONE
+            ENDIF
+            DGS4=ZERO
+            DGS5=ZERO
+            DGS6=ZERO
+          ENDIF
 c         ECROUISSAGE
           HPV = HV0*EXP( MIN(FIVEUANTE,(ROB(I)-RO0)*EXPO))
           IF(SM(I)>ROK0)THEN
@@ -452,7 +452,7 @@ C
           DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
           SCAL1(I)=HALF+SIGN(HALF,DE1(I)-ONE)
           SCAL2(I)=HALF+SIGN(HALF,DE2(I)-ONE)
-          SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)      
+          SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)
           DE4(I)=SCAL1(I)*SCAL2(I)
           DE5(I)=SCAL2(I)*SCAL3(I)
           DE6(I)=SCAL3(I)*SCAL1(I)
@@ -493,13 +493,13 @@ C CALCUL DES PARAMETRES D' ECROUISSAGE COURANTS VK0,ROB(I)
 C CORRECTIONS EVENTUELLES
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . .
           VKOLD=VK(I)
-          IF (SM(I)>AC/AA) SM(I) = 
+          IF (SM(I)>AC/AA) SM(I) =
      .        SM(I) -THREE*(SM(I)-AC/AA)/(SCAL1(I)+SCAL2(I)+SCAL3(I))
 C
           R2  = S1(I)**2+S2(I)**2+S3(I)**2
      .        + TWO*S4(I)**2+TWO*S5(I)**2+TWO*S6(I)**2
           RR  = SQRT(R2)
-          IF (IBUG == 0) THEN 
+          IF (IBUG == 0) THEN
             AJ3 = S1(I)*S2(I)*S3(I)
      .          - S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)-S3(I)*S4(I)*S4(I)
      .          + TWO*S4(I)*S5(I)*S6(I)
@@ -524,7 +524,7 @@ c         CORRECTION SI EN DEHORS DU CRITERE DE RUPTURE
             IF(SCAL3(I) > ZEP9) SIG(I,3) =  S3(I)*FAC+SM(I)
             IF(SCAL1(I)*SCAL2(I) > ZEP9)SIG(I,4) =  S4(I)*FAC
             IF(SCAL2(I)*SCAL3(I) > ZEP9)SIG(I,5) =  S5(I)*FAC
-            IF(SCAL3(I)*SCAL1(I) > ZEP9)SIG(I,6) =  S6(I)*FAC        
+            IF(SCAL3(I)*SCAL1(I) > ZEP9)SIG(I,6) =  S6(I)*FAC
             VK(I)=VKMAX
             C11 = ONE/DE1(I)/YOUNG
             C12 = -NU*SCAL1(I)*SCAL2(I)/YOUNG
@@ -541,7 +541,7 @@ C
             DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
             SCAL1(I)=HALF + SIGN(HALF,DE1(I)-ONE)
             SCAL2(I)=HALF + SIGN(HALF,DE2(I)-ONE)
-            SCAL3(I)=HALF + SIGN(HALF,DE3(I)-ONE)        
+            SCAL3(I)=HALF + SIGN(HALF,DE3(I)-ONE)
             DE4(I)=SCAL1(I)*SCAL2(I)
             DE5(I)=SCAL2(I)*SCAL3(I)
             DE6(I)=SCAL3(I)*SCAL1(I)

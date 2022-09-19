@@ -33,7 +33,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE GRUNEISEN(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE GRUNEISEN(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,RHO0,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -50,9 +50,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,RHO0(*) ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
 C-----------------------------------------------

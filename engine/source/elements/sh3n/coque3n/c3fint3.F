@@ -111,9 +111,9 @@ C
       M5 = M5 * PX1(I)
       M4 = M4 * PX1(I)
 C
-      MX1(I) = MX1(I) - M5 - M4 * (TWO*PY1(I)+PY2(I)) 
-      MX2(I) = MX2(I) + M5 - M4 * (PY1(I)+TWO*PY2(I)) 
-      MX3(I) = MX3(I)      - M4 * THREE*(PY1(I)+PY2(I))       
+      MX1(I) = MX1(I) - M5 - M4 * (TWO*PY1(I)+PY2(I))
+      MX2(I) = MX2(I) + M5 - M4 * (PY1(I)+TWO*PY2(I))
+      MX3(I) = MX3(I)      - M4 * THREE*(PY1(I)+PY2(I))
       ENDDO
 C
       RETURN
@@ -140,7 +140,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
         INTEGER JFT ,JLT,NEL
-        my_real 
+        my_real
      .     THK(*)   ,AREA(*)   ,PX1(*)     ,PY1(*)    ,
      .     PY2(*)   ,F11(*)    ,F12(*)     ,F13(*)    ,
      .     F21(*)   ,F22(*)    ,F23(*)     ,WXY(*)   ,

@@ -77,7 +77,7 @@ C
            AMZ=ZERO
            VMX=ZERO
            VMY=ZERO
-           VMZ=ZERO    
+           VMZ=ZERO
 C
            DO JJ=1,NIR
              J=IRECT(JJ,L)
@@ -142,62 +142,62 @@ C
         L = IRTL(II)
 C
         IF(I > 0 .AND. IRUPT(II) == 0) THEN
-          SS=CRST(1,II)                             
-          TT=CRST(2,II)                             
-          SP=ONE + SS                               
-          SM=ONE - SS                               
-          TP=FOURTH*(ONE + TT)                        
-          TM=FOURTH*(ONE - TT)                        
-          H(1)=TM*SM                                
-          H(2)=TM*SP                                
-          H(3)=TP*SP                                
-          H(4)=TP*SM                                
+          SS=CRST(1,II)
+          TT=CRST(2,II)
+          SP=ONE + SS
+          SM=ONE - SS
+          TP=FOURTH*(ONE + TT)
+          TM=FOURTH*(ONE - TT)
+          H(1)=TM*SM
+          H(2)=TM*SP
+          H(3)=TP*SP
+          H(4)=TP*SM
 C
-          XC0 = X(1,I)                              
-          YC0 = X(2,I)                              
-          ZC0 = X(3,I)                              
+          XC0 = X(1,I)
+          YC0 = X(2,I)
+          ZC0 = X(3,I)
 C
-          AMX=ZERO                                    
-          AMY=ZERO                                    
-          AMZ=ZERO                                    
-          VMX=ZERO                                    
-          VMY=ZERO                                    
-          VMZ=ZERO                                    
-          DO JJ=1,4                                 
-            J=IRECT(JJ,L)                           
-            AMX=AMX+AR(1,J)*H(JJ)                   
-            AMY=AMY+AR(2,J)*H(JJ)                   
-            AMZ=AMZ+AR(3,J)*H(JJ)                   
-            VMX=VMX+VR(1,J)*H(JJ)                   
-            VMY=VMY+VR(2,J)*H(JJ)                   
-            VMZ=VMZ+VR(3,J)*H(JJ)                   
-            XC0=XC0 - X(1,J) * H(JJ)                
-            YC0=YC0 - X(2,J) * H(JJ)                
-            ZC0=ZC0 - X(3,J) * H(JJ)                
-          ENDDO                                     
-          AR(1,I)=AMX                               
-          AR(2,I)=AMY                               
-          AR(3,I)=AMZ                               
-          VR(1,I)=VMX                               
-          VR(2,I)=VMY                               
-          VR(3,I)=VMZ                               
-          V1X2=VMX * YC0                            
-          V2X1=VMY * XC0                            
-          V2X3=VMY * ZC0                            
-          V3X2=VMZ * YC0                            
-          V3X1=VMZ * XC0                            
-          V1X3=VMX * ZC0                            
+          AMX=ZERO
+          AMY=ZERO
+          AMZ=ZERO
+          VMX=ZERO
+          VMY=ZERO
+          VMZ=ZERO
+          DO JJ=1,4
+            J=IRECT(JJ,L)
+            AMX=AMX+AR(1,J)*H(JJ)
+            AMY=AMY+AR(2,J)*H(JJ)
+            AMZ=AMZ+AR(3,J)*H(JJ)
+            VMX=VMX+VR(1,J)*H(JJ)
+            VMY=VMY+VR(2,J)*H(JJ)
+            VMZ=VMZ+VR(3,J)*H(JJ)
+            XC0=XC0 - X(1,J) * H(JJ)
+            YC0=YC0 - X(2,J) * H(JJ)
+            ZC0=ZC0 - X(3,J) * H(JJ)
+          ENDDO
+          AR(1,I)=AMX
+          AR(2,I)=AMY
+          AR(3,I)=AMZ
+          VR(1,I)=VMX
+          VR(2,I)=VMY
+          VR(3,I)=VMZ
+          V1X2=VMX * YC0
+          V2X1=VMY * XC0
+          V2X3=VMY * ZC0
+          V3X2=VMZ * YC0
+          V3X1=VMZ * XC0
+          V1X3=VMX * ZC0
 
-          A(1,I)= A(1,I) + AMY * ZC0 - AMZ * YC0    
-     .          - HALF*(VMY*V2X1+VMZ*V3X1)           
-          A(2,I)= A(2,I) + AMZ * XC0 - AMX * ZC0    
-     .          - HALF*(VMZ*V3X2+VMX*V1X2)           
-          A(3,I)= A(3,I) + AMX * YC0 - AMY * XC0    
-     .          - HALF*(VMX*V1X3+VMY*V2X3)           
-          V(1,I)= V(1,I) + V2X3 - V3X2              
-          V(2,I)= V(2,I) + V3X1 - V1X3              
-          V(3,I)= V(3,I) + V1X2 - V2X1              
-        ENDIF                                       
+          A(1,I)= A(1,I) + AMY * ZC0 - AMZ * YC0
+     .          - HALF*(VMY*V2X1+VMZ*V3X1)
+          A(2,I)= A(2,I) + AMZ * XC0 - AMX * ZC0
+     .          - HALF*(VMZ*V3X2+VMX*V1X2)
+          A(3,I)= A(3,I) + AMX * YC0 - AMY * XC0
+     .          - HALF*(VMX*V1X3+VMY*V2X3)
+          V(1,I)= V(1,I) + V2X3 - V3X2
+          V(2,I)= V(2,I) + V3X1 - V1X3
+          V(3,I)= V(3,I) + V1X2 - V2X1
+        ENDIF
       ENDDO
 C----
       RETURN

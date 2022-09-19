@@ -90,7 +90,7 @@ C-----------------------------------------------
         F18(I)=FILL(I)*F18(I)
         F28(I)=FILL(I)*F28(I)
         F38(I)=FILL(I)*F38(I)
-      END DO              
+      END DO
 
       RETURN
       END

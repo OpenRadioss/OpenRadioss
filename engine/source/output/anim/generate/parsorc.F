@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
+      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH, BUF
@@ -137,7 +137,7 @@ C-----------------------------------------------
 
              XNORM(1,II(1)) = ONE
              XNORM(2,II(1)) = ZERO
-             XNORM(3,II(1)) = ZERO             
+             XNORM(3,II(1)) = ZERO
              IF (NSPMD == 1) THEN
                II(1) = II(1)-1
                II(2) = II(2)-1

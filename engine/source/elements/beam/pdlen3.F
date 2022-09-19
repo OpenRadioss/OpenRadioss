@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .   SSP(MVSIZ), DT(MVSIZ), DMP(MVSIZ), FAC(MVSIZ),
-     .   A1, B1, B2, B3, YOUNG,G,AA,BB,   
+     .   A1, B1, B2, B3, YOUNG,G,AA,BB,
      .   PHI,SHF,DSH(MVSIZ),SL2I(MVSIZ),F1,F2
 C-----------------------------------------------
       DT(1:MVSIZ) = ZERO

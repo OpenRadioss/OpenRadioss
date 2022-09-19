@@ -156,10 +156,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NRATE(MVSIZ),J1,J2,N,NINDX,
-     .        NMAX,INDEX(MVSIZ), 
+     .        NMAX,INDEX(MVSIZ),
      .        IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
-     .        NFUNC, IFUNC(2),MX     
+     .        NFUNC, IFUNC(2),MX
       my_real
      .        E,A1,A2,G,G3,
      .        AA(MVSIZ),BB(MVSIZ),PP(MVSIZ),QQ(MVSIZ),H(MVSIZ),
@@ -167,7 +167,7 @@ C-----------------------------------------------
      .        CN, CM(MVSIZ), K1(MVSIZ),
      .        V0, TEMP(MVSIZ),VMC,FAC,
      .        VOL0,DVM, VM(MVSIZ),NU,
-     .        NNU2,NU1,NU2,NU3,NU4, 
+     .        NNU2,NU1,NU2,NU3,NU4,
      .        NU5,NU6,SVM(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ), Y1(MVSIZ),Y2(MVSIZ)
       my_real
@@ -199,7 +199,7 @@ C
          VMC = UPARAM(10)
          CP  = UPARAM(11)
          YFAC(1) = UPARAM(13)
-         YFAC(2) = UPARAM(14) 
+         YFAC(2) = UPARAM(14)
          G3  = THREE*G
          NNU1 = NU / (ONE - NU)
          NNU2    = NNU1*NNU1
@@ -222,7 +222,7 @@ C
          DO I=1,NEL0
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
-           UVAR(I,3) = ZERO  
+           UVAR(I,3) = ZERO
            UVAR(I,4) = ZERO
            UVAR(I,5) = ZERO
            UVAR(I,6) = ZERO
@@ -233,14 +233,14 @@ C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
         IF(JTHE > 0 ) THEN
-         DO I=1,NEL0     
+         DO I=1,NEL0
            TEMP(I) = TEMPEL(I)
          ENDDO
         ELSE
           DO I=1,NEL0
             VOL0 = VOL(I) * RHO0(I)
-            VM(I) = UVAR(I,2)      
-            TEMP(I) = TEMP(I) 
+            VM(I) = UVAR(I,2)
+            TEMP(I) = TEMP(I)
      .                       + COEF(I)*CP*(EINT(I,1)+ EINT(I,2))/VOL0
      .                       + CP*VM(I)*HL/VOL0
           ENDDO
@@ -256,7 +256,7 @@ C
          VM(I) = UVAR(I,2)
          DPLA(I) = ZERO
 C ...     
-    
+
          SOUNDSP(I) = SQRT(A1/RHO0(I))
          VISCMAX(I) = ZERO
          ETSE(I) = ONE
@@ -269,13 +269,13 @@ C compute YLD stress
         ILEN1(I) = NPF(IFUNC(1)+1) / 2 - IAD1(I) - IPOS1(I)
         IPOS2(I) = NINT(UVAR(I,4))
         IAD2(I)  = NPF(IFUNC(2)) / 2 + 1
-        ILEN2(I) = NPF(IFUNC(2)+1) / 2 - IAD2(I) - IPOS2(I)    
+        ILEN2(I) = NPF(IFUNC(2)+1) / 2 - IAD2(I) - IPOS2(I)
        ENDDO
 C
         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL0,PLA,DYDX1,Y1)
         CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL0,PLA,DYDX2,Y2)
 C Yld stress 
-          DO I=1,NEL0  
+          DO I=1,NEL0
            Y1(I)=Y1(I)*YFAC(1)
            Y2(I)=Y2(I)*YFAC(2)
            FAC   = VM(I)/VMC
@@ -287,7 +287,7 @@ C ecrouissage
            H(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
            UVAR(I,3) = IPOS1(I)
            UVAR(I,4) = IPOS2(I)
-         ENDDO           
+         ENDDO
 C-------------------
 C     PROJECTION
 C-------------------
@@ -312,7 +312,7 @@ cc           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E) 
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E)
          ENDDO
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
@@ -325,8 +325,8 @@ C-------------------------
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
-           IF (INLOC == 0) THEN 
+           SVM(I)=SQRT(AA(I)+BB(I))
+           IF (INLOC == 0) THEN
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -358,7 +358,7 @@ C
              I=INDEX(J)
              DPLA(I)=DPLA_J(I)
 cc             PLA_I = PLA(I) + DPLA(I)
-             YLD_I = YLD(I) + H(I)*DPLA(I)       
+             YLD_I = YLD(I) + H(I)*DPLA(I)
 C             
              DR(I) =HALF*E*DPLA(I)/YLD_I
              PP(I)  =ONE/(ONE+DR(I)*NU1)
@@ -374,7 +374,7 @@ C
                DPLA_J(I)=MAX(ZERO,DPLA(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C------------------------------------------
@@ -443,28 +443,28 @@ C calcul de l'effet martensite ----
           DVM = CN*CD*EXP((CN-ONE)*LOG(MAX(CD*PLA(I),EM20)))
           DVM = DVM*EXP(-(CD*PLA(I))**CN)
           DVM = DVM*V0*LOG(MD - TEMP(I) + ONE)
-         ENDIF 
-         
+         ENDIF
+
          VM(I) = VM(I) + MAX(DVM*DPLA(I),ZERO)
          VM(I) = MIN(VM(I), ONE)
 C la chaleur latente dans le terme source.
-         IF(JTHE > 0 ) DIE(I) = (VM(I) - UVAR(I,2))*HL       
+         IF(JTHE > 0 ) DIE(I) = (VM(I) - UVAR(I,2))*HL
          UVAR(I,2) = VM(I)
          UVAR(I,5) = TEMP(I)
          UVAR(I,1) = PLA(I)
-      ENDDO   
+      ENDDO
 C
 C--------------------------------
 C     NON-LOCAL THICKNESS VARIATION
 C--------------------------------
       IF (INLOC > 0) THEN
-        DO I = 1,NEL0 
+        DO I = 1,NEL0
           SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
      .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
           DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
           DEZZ   = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E) - DEZZ
-          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
-        ENDDO  
+          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+        ENDDO
       ENDIF
 C
       RETURN

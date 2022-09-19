@@ -79,19 +79,19 @@ C-----------------------------------------------
         INTEGER :: SIZE_COMM17_MIN_MAX,SIZE_COMM17_MEAN
 
 !   *********************************************
-!       In 1 element group : 1 or several PART 
+!       In 1 element group : 1 or several PART
 !          --> one or several /SENSOR linked to the PARTs
 !       structure of SENS_GROUP(NG)%PART
 !       for energy sensor type 1 : only 1 part per sensor
 !       for energy sensor type 2 : several part per sensor
-!       %PART(:,1): id of the part         
-!       %PART(:,2): type of energy sensor  
-!       %PART(:,3): id of the sensor      
+!       %PART(:,1): id of the part
+!       %PART(:,2): type of energy sensor
+!       %PART(:,3): id of the sensor
 !
 !       Example with one element group with :
 !           * 2 /PARTs
 !           * one sensor type=1 per PART
-!       %PART(:,1): id of the part         |   32  |   89   |   
+!       %PART(:,1): id of the part         |   32  |   89   |
 !       %PART(:,2): type of energy sensor  |   1   |   1    |
 !       %PART(:,3): id of the sensor       |   3   |   67   |
 
@@ -126,14 +126,14 @@ c
         !   count the number of sensors by type
         DO K=1,NSENSOR
             TYP = LSENSOR(2,K)
-            !   --------------------    
+            !   --------------------
             IF (TYP==14) THEN
                 !   sensor energy
                 ENERGY_SENSOR = ENERGY_SENSOR + 1
                 INDX_ENERGY(ENERGY_SENSOR) = K
             ELSE IF (TYP==16) THEN
                 !   distance to surface
-                ISURF = SENSOR_TAB(K)%IPARAM(2)         
+                ISURF = SENSOR_TAB(K)%IPARAM(2)
                 IF (ISURF/=0) THEN
                     SURF_DIST_SENSOR = SURF_DIST_SENSOR + 1
                     INDX_SURF_DIST_SENSOR(SURF_DIST_SENSOR) = K
@@ -146,15 +146,15 @@ c
                     INDX_TEMP(SENSOR_TEMP) = K
                 ENDIF
             ENDIF
-            !   --------------------        
+            !   --------------------
         ENDDO
         !   -----------------------------------------
         !   activation of the mpi communication
         IF (ENERGY_SENSOR>0) COMM_SENS14%BOOL = .TRUE.
-        COMM_SENS14%NUM_SENS = ENERGY_SENSOR   
+        COMM_SENS14%NUM_SENS = ENERGY_SENSOR
 
         IF (SURF_DIST_SENSOR>0) COMM_SENS16%BOOL = .TRUE.
-        COMM_SENS16%NUM_SENS = SURF_DIST_SENSOR 
+        COMM_SENS16%NUM_SENS = SURF_DIST_SENSOR
 
         IF (SENSOR_TEMP>0) COMM_SENS17%BOOL = .TRUE.
         COMM_SENS17%NUM_SENS = SENSOR_TEMP
@@ -177,7 +177,7 @@ c
                DO I=1,ENERGY_SENSOR
                       K = INDX_ENERGY(I)
                       TYP = LSENSOR(2,K)
-                      !   --------------------    
+                      !   --------------------
                       !   sensor energy
                       IPART  = LSENSOR(4,K)
                       ISUBS  = LSENSOR(5,K)
@@ -188,14 +188,14 @@ c
                       ELSEIF(ISUBS>0) THEN
                       !   several subparts per sensor
                           SENSOR_STRUCT(K)%TYP = 2
-                          NP = SUBSET(ISUBS)%NTPART   !   number of part 
+                          NP = SUBSET(ISUBS)%NTPART   !   number of part
                           SENSOR_STRUCT(K)%NB_SUB = NP
                           ALLOCATE( SENSOR_STRUCT(K)%SUB(NP) )
                           DO J=1,NP
                             SENSOR_STRUCT(K)%SUB(J)%PART = SUBSET(ISUBS)%TPART(J) ! part id
                           ENDDO
-                      ENDIF    
-                      !   -------------------                                   
+                      ENDIF
+                      !   -------------------
                ENDDO
 
                !   -----------------------------------------
@@ -239,7 +239,7 @@ c
                       DO I=2,NEL
                         IPART_2 = IPART_POINTER(I)
                         IF(IPART/=IPART_2) THEN
-                            NUMBER_PART_GROUP = NUMBER_PART_GROUP + 1   
+                            NUMBER_PART_GROUP = NUMBER_PART_GROUP + 1
                             INDX_PART(NUMBER_PART_GROUP) =  IPART_2
                             IPART = IPART_2
                         ENDIF
@@ -258,7 +258,7 @@ c
                       ENDDO
 
                       SENS_GROUP(NG)%NUM_PART = -NUMBER_PART_GROUP       !   number of part in one groupe
-                    !   count the number of sensor for a element group 
+                    !   count the number of sensor for a element group
                       ALLOCATE( BOOL_SENSOR(ENERGY_SENSOR) )
                       BOOL_SENSOR(1:ENERGY_SENSOR) = .TRUE.
 
@@ -276,7 +276,7 @@ c
                                 IF(BOOL_SENSOR(I).AND.SENSOR_STRUCT(K)%SUB(J)%PART == IPART) THEN
                                     NUMBER_SENSOR_PER_GROUP = NUMBER_SENSOR_PER_GROUP + 1
                                     BOOL_SENSOR(I)=.FALSE.
-                                ENDIF                                     
+                                ENDIF
                               ENDDO
                           ENDIF
                         ENDDO
@@ -334,15 +334,15 @@ c
                                     SENS_GROUP(NG)%PART(KJI,1) = ABS(SENS_GROUP(NG)%PART(KJI,1))
                                     CHECK_BOOL(I,IJK) = ABS(CHECK_BOOL(I,IJK))
                                     BOOL = .TRUE.
-                                ENDIF                                     
+                                ENDIF
                               ENDDO
                             ENDIF
                           ENDIF
                         ENDDO
                       ENDDO
 
-                      IF(BOOL) SENS_GROUP(NG)%NUM_PART = KJI       !   number of part in one groupe * number of sensor        
-                      DEALLOCATE( CHECK_BOOL )             
+                      IF(BOOL) SENS_GROUP(NG)%NUM_PART = KJI       !   number of part in one groupe * number of sensor
+                      DEALLOCATE( CHECK_BOOL )
                     ENDIF
                ENDDO
                !   -----------------------------------------
@@ -351,8 +351,8 @@ c
                     K = INDX_ENERGY(I)
                     ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(2,6,NTHREAD) )
                     SENSOR_STRUCT(K)%FBSAV6_SENS(1:2,1:6,1:NTHREAD) = ZERO
-               ENDDO    
-               !   -----------------------------------------           
+               ENDDO
+               !   -----------------------------------------
            ENDIF
         ELSE
           ALLOCATE( SENS_GROUP(0) )
@@ -377,7 +377,7 @@ c
                 COMM_SENS17%ID_SENS(I) = K
                 !   Temp max and min : 1 data per sensor
                 SIZE_COMM17_MIN_MAX = SIZE_COMM17_MIN_MAX + 1
-                !   Temp mean  : 6 data per sensor (parith/on) / 1 data per sensor (parith/off) 
+                !   Temp mean  : 6 data per sensor (parith/on) / 1 data per sensor (parith/off)
                 IF (IPARIT>0) THEN
                     ALLOCATE( SENSOR_STRUCT(K)%FBSAV6_SENS(1,6,1) )
                     SENSOR_STRUCT(K)%FBSAV6_SENS(1,1:6,1:1) = ZERO
@@ -387,7 +387,7 @@ c
                     SENSOR_STRUCT(K)%FBSAV6_SENS(1,1,1) = ZERO
                     SIZE_COMM17_MEAN = SIZE_COMM17_MEAN + 1
                 ENDIF
-            ENDDO    
+            ENDDO
             COMM_SENS17%BUFFER_SIZE_MIN_MAX = SIZE_COMM17_MIN_MAX
             COMM_SENS17%BUFFER_SIZE_MEAN    = SIZE_COMM17_MEAN
         ENDIF

@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NME, NMES, NOINT,IDT,ITASK,MX_CAND,
-     .        ESH_T, I_STOK_GLOB, NIN, NMESR, NB_N_B 
+     .        ESH_T, I_STOK_GLOB, NIN, NMESR, NB_N_B
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*)
 C     REAL
@@ -69,7 +69,7 @@ C     REAL
      .   TZINF,MINBOX
       my_real
      .   X(3,*),EMINXM(6,*),EMINXS(6,*),XSAV(3,*),V(3,*) ,A(3,*),
-     .   FROTS(7,*), KS(2,*),BMINMA(6)  
+     .   FROTS(7,*), KS(2,*),BMINMA(6)
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -121,8 +121,8 @@ C     P1........Elt Bas Pile        NME+100
 C     P2........Elt PILE            3*(NME+100)
 C     P21.......BPN                 NMES+100
 C     P22.......PN                  3*(NMES+100)
-        MAXSIZ = 3*(NME+100) 
-        MAXSIZS = 3*(NMES+NMESR+100) 
+        MAXSIZ = 3*(NME+100)
+        MAXSIZS = 3*(NMES+NMESR+100)
 C      Allocation directement dans i17tri pour tenir compte de NMESR
 C      IP1 = 1
 C      IP2 = IP1+NME+100
@@ -164,7 +164,7 @@ C -------------------------------------------------------------
         IF(ITASK == 0)THEN
           DEALLOCATE (ADCHAINE)
           DEALLOCATE (CHAINE)
-        ENDIF      
+        ENDIF
 C -------------------------------------------------------------
       ENDDO
 C
@@ -217,7 +217,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NME, NMES, NOINT,IDT,ITASK,MX_CAND,
-     .        ESH_T, I_STOK_GLOB, NIN, NMESR 
+     .        ESH_T, I_STOK_GLOB, NIN, NMESR
       INTEGER CAND_E(*),CAND_N(*),IXS(NIXS,*),IXS16(8,*),
      .        LWAT,NELEM(*),NELES(*),IXS20(12,*),
      .        ISENDTO(*), IRCVFROM(*), WEIGHT(*)
@@ -226,7 +226,7 @@ C     REAL
      .   TZINF,MINBOX
       my_real
      .   X(3,*),EMINXM(6,*),EMINXS(6,*),XSAV(3,*),V(3,*) ,A(3,*),
-     .   FROTS(7,*), KS(2,*), VCOM(3,*)  
+     .   FROTS(7,*), KS(2,*), VCOM(3,*)
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -358,8 +358,8 @@ C     P1........Elt Bas Pile        NME+100
 C     P2........Elt PILE            3*(NME+100)
 C     P21.......BPN                 NMES+100
 C     P22.......PN                  3*(NMES+100)
-        MAXSIZ = 3*(NME+100) 
-        MAXSIZS = 3*(NMES+NMESR+100) 
+        MAXSIZ = 3*(NME+100)
+        MAXSIZS = 3*(NMES+NMESR+100)
 C      Allocation directement dans i17tri pour tenir compte de NMESR
 C      IP1 = 1
 C      IP2 = IP1+NME+100
@@ -398,7 +398,7 @@ C -------------------------------------------------------------
         IF(ITASK == 0)THEN
           DEALLOCATE (ADCHAINE)
           DEALLOCATE (CHAINE)
-        ENDIF      
+        ENDIF
 C -------------------------------------------------------------
       ENDDO
 C

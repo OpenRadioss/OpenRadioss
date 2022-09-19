@@ -60,44 +60,44 @@ C-----------------------------------------------
 C=======================================================================
       ALLOCATE(FAC(IENRNOD))
 c---------------------------
-      DO N = NODFT,NODLT                                                
-        NN = INOD_CRK(N)                                                
-        IF (NN <= 0) CYCLE                                              
+      DO N = NODFT,NODLT
+        NN = INOD_CRK(N)
+        IF (NN <= 0) CYCLE
 c---
-        NCT_CRK = ADDCNE_CRK(NN)-1                                      
-        NC_CRK  = ADDCNE_CRK(NN+1)-ADDCNE_CRK(NN)                       
-        FAC     = 0                                                     
-        RTMP0   = ONE                                                    
+        NCT_CRK = ADDCNE_CRK(NN)-1
+        NC_CRK  = ADDCNE_CRK(NN+1)-ADDCNE_CRK(NN)
+        FAC     = 0
+        RTMP0   = ONE
 c
-        NLEV = NODLEVXF(NN)                                             
-        DO ILEV=1,NLEV                                                  
-          DO KK = NCT_CRK+1, NCT_CRK+NC_CRK                             
-            EN0 = CRKLVSET(ILEV)%ENR0(2,KK)                             
-            IF (EN0 > 0) FAC(EN0) = FAC(EN0) + 1                        
-          END DO                                                        
-        END DO                                                          
-c                                                                      
-        DO ILEV=1,NLEV                                                  
-          DO KK = NCT_CRK+1, NCT_CRK+NC_CRK                             
-            EN0 = CRKLVSET(ILEV)%ENR0(2,KK)                             
-            IF (EN0 > 0) THEN                                           
-              IF (FAC(EN0) > 0) RTMP0 = NC_CRK/FAC(EN0)                 
-              IF (MS(N) > ZERO) THEN                                    
-                RTMP = RTMP0 / MS(N)                                    
-                CRKAVX(ILEV)%A(1,KK)  = CRKSKY(ILEV)%FSKY(1,KK) * RTMP  
-                CRKAVX(ILEV)%A(2,KK)  = CRKSKY(ILEV)%FSKY(2,KK) * RTMP  
-                CRKAVX(ILEV)%A(3,KK)  = CRKSKY(ILEV)%FSKY(3,KK) * RTMP  
-              END IF                                                    
-              IF (IN(N) > ZERO) THEN                                    
-                RTMP = RTMP0 / IN(N)                                    
-                CRKAVX(ILEV)%AR(1,KK) = CRKSKY(ILEV)%FSKY(4,KK) * RTMP  
-                CRKAVX(ILEV)%AR(2,KK) = CRKSKY(ILEV)%FSKY(5,KK) * RTMP  
-                CRKAVX(ILEV)%AR(3,KK) = CRKSKY(ILEV)%FSKY(6,KK) * RTMP  
-              END IF                                                    
-            END IF                                                      
-          END DO                                                        
-        END DO ! DO ILEV=1,NLEVMAX                                      
-      END DO  ! N = NODFT,NODLT                                         
+        NLEV = NODLEVXF(NN)
+        DO ILEV=1,NLEV
+          DO KK = NCT_CRK+1, NCT_CRK+NC_CRK
+            EN0 = CRKLVSET(ILEV)%ENR0(2,KK)
+            IF (EN0 > 0) FAC(EN0) = FAC(EN0) + 1
+          END DO
+        END DO
+c
+        DO ILEV=1,NLEV
+          DO KK = NCT_CRK+1, NCT_CRK+NC_CRK
+            EN0 = CRKLVSET(ILEV)%ENR0(2,KK)
+            IF (EN0 > 0) THEN
+              IF (FAC(EN0) > 0) RTMP0 = NC_CRK/FAC(EN0)
+              IF (MS(N) > ZERO) THEN
+                RTMP = RTMP0 / MS(N)
+                CRKAVX(ILEV)%A(1,KK)  = CRKSKY(ILEV)%FSKY(1,KK) * RTMP
+                CRKAVX(ILEV)%A(2,KK)  = CRKSKY(ILEV)%FSKY(2,KK) * RTMP
+                CRKAVX(ILEV)%A(3,KK)  = CRKSKY(ILEV)%FSKY(3,KK) * RTMP
+              END IF
+              IF (IN(N) > ZERO) THEN
+                RTMP = RTMP0 / IN(N)
+                CRKAVX(ILEV)%AR(1,KK) = CRKSKY(ILEV)%FSKY(4,KK) * RTMP
+                CRKAVX(ILEV)%AR(2,KK) = CRKSKY(ILEV)%FSKY(5,KK) * RTMP
+                CRKAVX(ILEV)%AR(3,KK) = CRKSKY(ILEV)%FSKY(6,KK) * RTMP
+              END IF
+            END IF
+          END DO
+        END DO ! DO ILEV=1,NLEVMAX
+      END DO  ! N = NODFT,NODLT
 c-----------
       DEALLOCATE(FAC)
 c-----------

@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
 
       ALLOCATE (IWORK(80000))
-        
+
       DO K=1,NSURF
         NN  = IGRSURF(K)%NSEG
 
@@ -81,7 +81,7 @@ C-----------------------------------------------
 
           ITRI(1,I) = ITYP
           SELECT CASE (ITYP)
-            CASE ( 0 ) 
+            CASE ( 0 )
                ITRI(2,I) = 0
             CASE ( 1 )
                ITRI(2,I) = IXS(NIXS,ELEM)
@@ -93,9 +93,9 @@ C-----------------------------------------------
                ITRI(2,I) = IXTG(NIXTG,ELEM)
           END SELECT
 
-          INDEX(I) = I 
+          INDEX(I) = I
 
-         ENDDO 
+         ENDDO
 
          CALL MY_ORDERS(0,IWORK,ITRI,INDEX,NN,2)
 

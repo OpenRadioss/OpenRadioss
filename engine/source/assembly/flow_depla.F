@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER NODFT, NODLT, NDDIM, NALE(*)
 C     REAL
       my_real
-     .  D(3,*) ,V(3,*) 
+     .  D(3,*) ,V(3,*)
 cc      DOUBLE PRECISION
 C     .   XDP(3,*)
 C-----------------------------------------------
@@ -73,7 +73,7 @@ cC             XDP(1,N)=XDP(1,N)+VDT2
 C             X(1,N)=XDP(1,N)
              VDT2 = DT2*V(2,N)
              D(2,N)=D(2,N)+VDT2
-cc             X(2,N)=X(2,N)+VDT2            
+cc             X(2,N)=X(2,N)+VDT2
 c             XDP(2,N)=XDP(2,N)+VDT2
 c             X(2,N)=XDP(2,N)
              VDT2 = DT2*V(3,N)
@@ -98,7 +98,7 @@ cc              X(2,N)=X(2,N)+VDT
 cc              X(3,N)=X(3,N)+VDT
           ENDIF
         ENDDO
-      ENDIF 
+      ENDIF
 C
       RETURN
       END

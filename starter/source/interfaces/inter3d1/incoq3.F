@@ -89,26 +89,26 @@ C-----------------------------------------------
   210     CONTINUE
           GOTO 230
   220   CONTINUE
-	IGTYP = IGEO(11,IXTG(5,N)) 
+	IGTYP = IGEO(11,IXTG(5,N))
 	IF ( THK(NUMELC+N) /= ZERO .AND. IINTTHICK == 0 .AND.
      .       (NTY == 7 .OR. NTY == 20.OR. NTY == 22)) THEN
 	  DX=THK(NUMELC+N)
 	ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP ==52) THEN
-           DX=THK(NUMELC+N) 
+           DX=THK(NUMELC+N)
         ELSE
           DX = GEO(1,IXTG(5,N))
         ENDIF
         IGMAT = IGEO(98,IXTG(5,N))
         IF (IXTG(1,N)>0) THEN
           IF(IGTYP == 11 .AND. IGMAT > 0) THEN
-            ST = GEO(IPGMAT + 2 ,IXTG(5,N)) 
+            ST = GEO(IPGMAT + 2 ,IXTG(5,N))
           ELSEIF(IGTYP ==52 .OR.
      .          ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
             ISUBSTACK = IWORKSH(3,NUMELC + N)
-             ST = PM_STACK(2 ,ISUBSTACK) 
+             ST = PM_STACK(2 ,ISUBSTACK)
           ELSE
             ST = PM(20,IXTG(1,N))
-          ENDIF  
+          ENDIF
         ELSE
           ST = 0.
         ENDIF
@@ -121,7 +121,7 @@ C-----------------------------------------------
             NELTG = N
             STM = ST
           ENDIF
-        ENDIF	     
+        ENDIF	
   230  CONTINUE
       ENDIF
 C
@@ -141,7 +141,7 @@ C
 	  DX=THK(N)
 	ELSEIF(IGTYP == 17 .OR. IGTYP ==51 .OR. IGTYP ==52) THEN
 	  DX=THK(N)
-        ELSE 
+        ELSE
           DX = GEO(1,IXC(6,N))
 	ENDIF
         IF (IXC(1,N)>0) THEN
@@ -158,7 +158,7 @@ C
             NEL = N
             STM = ST
           ENDIF
-        ENDIF	     
+        ENDIF	
   430  CONTINUE
       ENDIF
       RETURN

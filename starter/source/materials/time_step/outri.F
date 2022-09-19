@@ -53,8 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*) 
-      INTEGER IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*) 
+      INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*)
+      INTEGER IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*)
       INTEGER KXX(NIXX,*), KXSP(NISP,*) ,KXIG3D(NIXIG3D,*),
      .        IGEO(NPROPGI,*)
       my_real
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NUM2, I, NUMIMP, NUMELO, NUM1, IS_PROP45     
+      INTEGER NUM2, I, NUMIMP, NUMELO, NUM1, IS_PROP45
       REAL*4 VINGTR4, TEMPO
       DATA VINGTR4 /20./
 C=======================================================================
@@ -269,7 +269,7 @@ c        CALL ANCHECK(93)
            WRITE(IOUT,1002)DTELEM(NUM1+I),IXUR(6,NUMELO)
         END DO
       ENDIF
-      
+
       IF(NUMELX>0) THEN
         TEMPO = NUMELX*TWOEM2
         NUMIMP=MIN0(NUMELX,MAX1(VINGTR4,TEMPO))
@@ -282,7 +282,7 @@ c        CALL ANCHECK(93)
            WRITE(IOUT,1002)DTELEM(NUM1+I),KXX(5,NUMELO)
         END DO
       ENDIF
-      
+
       IF(NUMSPH>0) THEN
         TEMPO = NUMSPH*TWOEM2
         NUMIMP=MIN0(NUMSPH,MAX1(VINGTR4,TEMPO))
@@ -309,7 +309,7 @@ c        CALL ANCHECK(93)
            WRITE(IOUT,1002)DTELEM(NUM1+I),KXIG3D(5,NUMELO)
         END DO
       ENDIF
-      
+
 C--------------------------------------------------------
  1000 FORMAT(//,'         SOLID ELEMENTS TIME STEP')
  1001 FORMAT(  '         ------------------------',//,
@@ -385,13 +385,13 @@ C=======================================================================
 C 
       DO I=1,NUMNOD
         IF((MS(I)/=ZERO).AND.(STIFN(I)>EM20))THEN
-          DT(I)=MS(I)/STIFN(I) 
+          DT(I)=MS(I)/STIFN(I)
         ELSE
           DT(I)=EP30       ! -1- free nodes dt=1e30 instead of dt=1416=sqrt(1e6).
                            ! -2- nodal time step from VOID elem (stifn<em20) is dt=EP30 too.
         ENDIF
       ENDDO
-	 
+	
       IF(IRODDL/=0)THEN
         DO I=1,NUMNOD
           IF(IN(I)/=ZERO)THEN
@@ -417,13 +417,13 @@ C
 C
       DTNODA = MIN(DTNODA,DT(1))
 C
-      IF ( N2D/=1) THEN        
+      IF ( N2D/=1) THEN
         WRITE(IOUT,1000)
         WRITE(IOUT,1001)
         N=NINT(TMP(1))
-c        CALL ANCHECK(96)      
+c        CALL ANCHECK(96)
         DO I=1,MIN(NUMNOD0,MAX(100,NUMNOD0/50))
-          N=NINT(TMP(I))  
+          N=NINT(TMP(I))
           WRITE(IOUT,1002)DT(I),ITAB(N)
         ENDDO
 C
@@ -478,7 +478,7 @@ C
         DTNODA_STAT(1) = DT_MIN*(ONE-EM10)
         DTNODA_STAT(NB_OF_COLUM) = DT_MAX*(ONE+EM10)
         DO I=2,COMPT
-          DTNODA_STAT(I) = (DT_MIN+CHUNK*(I-2)+HALF*CHUNK)  
+          DTNODA_STAT(I) = (DT_MIN+CHUNK*(I-2)+HALF*CHUNK)
         ENDDO
 C
 C----- Visual output of nodal time stemp distribution

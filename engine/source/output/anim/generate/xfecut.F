@@ -58,33 +58,33 @@ C-----------------------------------------------
 C=======================================================================
       IF (NLEVSET > 0) THEN
 C---
-        ITG1 = 1+NUMELC     
-        ITG2 = 1+4*ECRKXFEC 
+        ITG1 = 1+NUMELC
+        ITG2 = 1+4*ECRKXFEC
 C
-        DO NG=1,NGROUP                                                  
-          NEL       = IPARG(2,NG)                                       
-          NFT       = IPARG(3,NG)                                       
-          ITY       = IPARG(5,NG)                                       
-          IXFEM     = IPARG(54,NG)                                          
-          ACTIFXFEM = IPARG(70,NG)                                        
-          IF (ITY/=3 .and. ITY/=7) CYCLE                                
-          IF (IXFEM == 0)          CYCLE                                
-          IF (ACTIFXFEM == 0)      CYCLE                                
-          JFT = 1                                                         
-          JLT = NEL                                                       
+        DO NG=1,NGROUP
+          NEL       = IPARG(2,NG)
+          NFT       = IPARG(3,NG)
+          ITY       = IPARG(5,NG)
+          IXFEM     = IPARG(54,NG)
+          ACTIFXFEM = IPARG(70,NG)
+          IF (ITY/=3 .and. ITY/=7) CYCLE
+          IF (IXFEM == 0)          CYCLE
+          IF (ACTIFXFEM == 0)      CYCLE
+          JFT = 1
+          JLT = NEL
 C
-          IF (ITY == 3) THEN                                            
-            CALL XFECONNEC4N(                                           
-     .        JFT     ,JLT     ,NFT     ,IXC     ,ELCUTC  ,                  
+          IF (ITY == 3) THEN
+            CALL XFECONNEC4N(
+     .        JFT     ,JLT     ,NFT     ,IXC     ,ELCUTC  ,
      .        IEL_CRK ,IADC_CRK,ILEV    ,NODEDGE ,CRKEDGE ,
-     .        XEDGE4N )                 
-          ELSE IF (ITY == 7) THEN                                       
-            CALL XFECONNEC3N(                                           
-     .        JFT          ,JLT           ,NFT  ,IXTG  ,ELCUTC(1,ITG1), 
+     .        XEDGE4N )
+          ELSE IF (ITY == 7) THEN
+            CALL XFECONNEC3N(
+     .        JFT          ,JLT           ,NFT  ,IXTG  ,ELCUTC(1,ITG1),
      .        IEL_CRK(ITG1),IADC_CRK(ITG2),ILEV ,NODEDGE,CRKEDGE,
-     .        XEDGE3N      )       
-          END IF                                                        
-        ENDDO                                                           
+     .        XEDGE3N      )
+          END IF
+        ENDDO
       ENDIF
 C-----------
       RETURN

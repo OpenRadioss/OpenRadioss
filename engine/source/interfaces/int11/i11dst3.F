@@ -144,7 +144,7 @@ C
        ZS2M2 = XZM2(I)-XZS2(I)
 
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C
@@ -171,7 +171,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
      .       - H1M(I)*XZM1(I) - H2M(I)*XZM2(I)
        GAP2 = (GAPV(I)+DGAPLOAD)*(GAPV(I)+DGAPLOAD)
        PENE2(I) = MAX(GAP2,DRAD2) - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
-       PENE2(I) = MAX(ZERO,PENE2(I)) 
+       PENE2(I) = MAX(ZERO,PENE2(I))
 
       ENDDO
 C
@@ -212,7 +212,7 @@ C
                MS2(JLT_NEW) = MS2(I)
                MM1(JLT_NEW) = MM1(I)
                MM2(JLT_NEW) = MM2(I)
-               INDEX(JLT_NEW) = INDEX(I) 
+               INDEX(JLT_NEW) = INDEX(I)
              ENDIF
           ENDDO
         ELSE
@@ -253,7 +253,7 @@ C
                MM2(JLT_NEW) = MM2(I)
                IPARTFRICSI(JLT_NEW)=IPARTFRICSI(I)
                IPARTFRICMI(JLT_NEW)=IPARTFRICMI(I)
-               INDEX(JLT_NEW) = INDEX(I) 
+               INDEX(JLT_NEW) = INDEX(I)
              ENDIF
           ENDDO
         ENDIF

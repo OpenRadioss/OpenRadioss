@@ -62,6 +62,6 @@ C
       DO I=LFT,LLT
         IF (GAP(I) > ZERO) OFF(I)=ZERO
       END DO
-c-----------      
+c-----------
       RETURN
       END

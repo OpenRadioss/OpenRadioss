@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C=======================================================================
       CB  =PM(39,MX)
       CN  =PM(40,MX)
       EPMX=PM(41,MX)
-      SIGMX=PM(42,MX)    
+      SIGMX=PM(42,MX)
 
 C
       DO I=LFT,LLT
@@ -101,7 +101,7 @@ C
       G2=TWO*G1
       DO I=LFT,LLT
         EPSEQ(I)=ZERO
-        TSTAR(I) = ZERO       
+        TSTAR(I) = ZERO
       ENDDO
 C
       DO J=1,6
@@ -117,9 +117,9 @@ C--------------------------------------------------
         JPT=(IPT-1)*LLT
         DO I=LFT,LLT
          II=I+JPT
-         SIGP(JJ(1)+I) = SIGP(JJ(1)+I)-POLD(I) 
-         SIGP(JJ(2)+I) = SIGP(JJ(2)+I)-POLD(I) 
-         SIGP(JJ(3)+I) = SIGP(JJ(3)+I)-POLD(I) 
+         SIGP(JJ(1)+I) = SIGP(JJ(1)+I)-POLD(I)
+         SIGP(JJ(2)+I) = SIGP(JJ(2)+I)-POLD(I)
+         SIGP(JJ(3)+I) = SIGP(JJ(3)+I)-POLD(I)
          DAV = ONE-DVOL(I)/VNEW(I)
          SOLD1(I,IPT)=SIGP(JJ(1)+I)*DAV
          SOLD2(I,IPT)=SIGP(JJ(2)+I)*DAV
@@ -127,10 +127,10 @@ C--------------------------------------------------
          SOLD4(I,IPT)=SIGP(JJ(4)+I)*DAV
          SOLD5(I,IPT)=SIGP(JJ(5)+I)*DAV
          SOLD6(I,IPT)=SIGP(JJ(6)+I)*DAV
-         EPD(II)=OFF(I)* 
+         EPD(II)=OFF(I)*
      .       MAX( ABS(D1(I,IPT)), ABS(D2(I,IPT)), ABS(D3(I,IPT)),
      .       HALF*ABS(D4(I,IPT)),
-     .       HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))        
+     .       HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))
         ENDDO
 C
         DO I=LFT,LLT
@@ -187,7 +187,7 @@ C
           SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
           SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
           EPLA(I) = EPLA(I)+(ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))
-          DPLA(II)= (ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))       
+          DPLA(II)= (ONE-SCALE)*SJ2(I)/(THREE*G+QH(I))
         ENDDO
       ELSEIF(IPLA==2)THEN
        DO 110 I=LFT,LLT
@@ -201,7 +201,7 @@ C
           SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
           SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
           EPLA(I)=EPLA(I)+(ONE-SCALE)*SJ2(I)/(THREE*G)
-          DPLA(II)=(ONE-SCALE)*SJ2(I)/(THREE*G)         
+          DPLA(II)=(ONE-SCALE)*SJ2(I)/(THREE*G)
   110  CONTINUE
       ELSEIF(IPLA==1)THEN
        DO 120 I=LFT,LLT
@@ -219,7 +219,7 @@ C       actual yeld stress.
         SIGP(JJ(4)+I)=SCALE*SIGP(JJ(4)+I)
         SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
         SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
-        EPLA(I)=EPLA(I)+DPLA(II)      
+        EPLA(I)=EPLA(I)+DPLA(II)
  120  CONTINUE
       ENDIF
 C--------------------------------------------------

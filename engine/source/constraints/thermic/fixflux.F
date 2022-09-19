@@ -71,10 +71,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   NX, NY, NZ, AXI, AA, A0, DYDX, TS, FLUX,
-     .   TS_OLD, F1, F2, FCX, FCY, FLUX_DENS, AREA, 
+     .   TS_OLD, F1, F2, FCX, FCY, FLUX_DENS, AREA,
      .   STARTT, STOPT, FCY_OLD
       my_real TTA, TTB, DT1A, DT1N, VOLG, BID
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C=======================================================================
       IFUNC_OLD = 0
@@ -96,11 +96,11 @@ C
          TTB    = TTA - DT1A
          IF(ISENS == 0)THEN
             TS = TTA - STARTT
-         ELSE 
+         ELSE
             STARTT = STARTT + SENSOR(2,ISENS)
             STOPT  = STOPT  + SENSOR(2,ISENS)		
-            TS = TTA - STARTT      
-         ENDIF       
+            TS = TTA - STARTT
+         ENDIF
 C
          IF(TTA < STARTT .OR. TTB >= STOPT) CYCLE
          IF(TTA > STOPT ) THEN
@@ -115,7 +115,7 @@ C
             ELSE
                DT1N = DT1A
             ENDIF
-         ENDIF		 
+         ENDIF		
 C
          IFUNC = IBFFLUX(5,NL)
          FCY = FBFFLUX(1,NL)
@@ -145,14 +145,14 @@ C
      +        -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
            AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
-           FLUX = AREA*FLUX_DENS*DT1N 
+           FLUX = AREA*FLUX_DENS*DT1N
            HEAT_FFLUX = HEAT_FFLUX + FLUX
            FLUX = FOURTH*FLUX
 C
            FTHE(N1) = FTHE(N1) + FLUX
            FTHE(N2) = FTHE(N2) + FLUX
            FTHE(N3) = FTHE(N3) + FLUX
-           FTHE(N4) = FTHE(N4) + FLUX  
+           FTHE(N4) = FTHE(N4) + FLUX
 C
           ELSEIF(N3 > 0) THEN !TRUE TRIANGLES
            NX= (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2))
@@ -201,14 +201,14 @@ C----------------------------
            N6  = IXS(7,IEL)
            N7  = IXS(8,IEL)
            N8  = IXS(9,IEL)
-		   
-           IF(N1 == N2 .AND. N3 == N4 .AND. N5 == N8 .AND. N6 == N7) THEN		   
+		
+           IF(N1 == N2 .AND. N3 == N4 .AND. N5 == N8 .AND. N6 == N7) THEN		
              CALL S4VOLUME(X, VOLG, 1, N1, N3, N6, N5)
-           ELSE  
+           ELSE
              CALL S8EVOLUME(X, VOLG, BID, 1, 0, 0, 0, N1, N2, N3, N4, N5, N6, N7, N8)
            ENDIF
 
-           FLUX = VOLG*FLUX_DENS*DT1N 
+           FLUX = VOLG*FLUX_DENS*DT1N
            HEAT_FFLUX = HEAT_FFLUX + FLUX
            FLUX = ONE_OVER_8*FLUX
 C
@@ -231,17 +231,17 @@ C CODE NON VECTORIEL
 C-------------------------
         DO NL=1,NFXFLUX
            ISENS  = IBFFLUX(6,NL)
-           STARTT = FBFFLUX(4,NL) 
+           STARTT = FBFFLUX(4,NL)
            STOPT  = FBFFLUX(5,NL)
            TTA    = TT*THEACCFACT
            DT1A   = DT1*THEACCFACT
            IF(ISENS == 0)THEN
               TS = TTA - STARTT
-           ELSE 
+           ELSE
               STARTT = STARTT + SENSOR(2,ISENS)
               STOPT  = STOPT  + SENSOR(2,ISENS)		
               TS = TTA - STARTT
-           ENDIF       
+           ENDIF
            IFLAG = 1
            IF(TTA < STARTT)  IFLAG = 0
            IF(TTA > STOPT )  IFLAG = 0
@@ -255,7 +255,7 @@ C----------------------------
              N2 =IBFFLUX(2,NL)
              N3 =IBFFLUX(3,NL)
              N4 =IBFFLUX(4,NL)
-             IFUNC = IBFFLUX(5,NL)            
+             IFUNC = IBFFLUX(5,NL)
              FCY   = FBFFLUX(1,NL)
              FCX   = FBFFLUX(2,NL)
              IF(IFUNC_OLD /= IFUNC .OR. TS_OLD /= TS) THEN
@@ -296,7 +296,7 @@ C
      +            -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
                AREA = HALF*SQRT(NX*NX + NY*NY + NZ*NZ)
-               FLUX = AREA*FLUX_DENS*FCY*DT1A 
+               FLUX = AREA*FLUX_DENS*FCY*DT1A
                HEAT_FFLUX = HEAT_FFLUX + FLUX
                FLUX = THIRD*FLUX
 C
@@ -309,7 +309,7 @@ C
 C
              ELSE !ANALYSE 2D
                NY=  -X(3,N2)+X(3,N1)
-               NZ=   X(2,N2)-X(2,N1) 
+               NZ=   X(2,N2)-X(2,N1)
 C 
                AREA = SQRT(NY*NY + NZ*NZ)
                FLUX = AREA*FLUX_DENS*FCY*DT1A
@@ -344,7 +344,7 @@ C----------------------------
              WRITE(IOUT,'(//A)') ' VOLUMIC HEAT FLUX IS NOT COMPATIBLE WITH /PARITH/ON : USE /PARITH/OFF'
              CALL ARRET(2)
            ENDIF
-        ENDDO       
+        ENDDO
 C
       ENDIF
 C   

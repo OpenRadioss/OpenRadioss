@@ -146,7 +146,7 @@ C
           DO I = 1, CLUSTERS(MY_CLUSTER)%NEL
              WRITE(VARNAME,'(A,I0)') 'CLUSTER_ELEM_',I
              TEMP_INT = CLUSTERS(MY_CLUSTER)%ELEM(I)
-             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)                         
+             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
           ENDDO
 C
           WRITE(VARNAME,'(A)') 'CLUSTER_IFAIL'
@@ -168,13 +168,13 @@ C
           DO I = 1, CLUSTERS(MY_CLUSTER)%NNOD
              WRITE(VARNAME,'(A,I0)') 'CLUSTER_NNOD1_',I
              TEMP_INT = CLUSTERS(MY_CLUSTER)%NOD1(I)
-             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)                         
+             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
           ENDDO
 C
           DO I = 1, CLUSTERS(MY_CLUSTER)%NNOD
              WRITE(VARNAME,'(A,I0)') 'CLUSTER_NNOD2_',I
              TEMP_INT = CLUSTERS(MY_CLUSTER)%NOD2(I)
-             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)                         
+             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
           ENDDO
 C
           DO I = 1,2

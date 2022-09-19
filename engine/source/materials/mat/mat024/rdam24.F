@@ -65,7 +65,7 @@ C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       I= DAMAI(K)
       DEPS4(I)=HALF*DEPS4(I)
       DEPS5(I)=HALF*DEPS5(I)
-      DEPS6(I)=HALF*DEPS6(I)      
+      DEPS6(I)=HALF*DEPS6(I)
       A11(I)=DEPS1(I)*S11(I)+DEPS4(I)*S21(I)+DEPS6(I)*S31(I)
       A12(I)=DEPS1(I)*S12(I)+DEPS4(I)*S22(I)+DEPS6(I)*S32(I)
       A13(I)=DEPS1(I)*S13(I)+DEPS4(I)*S23(I)+DEPS6(I)*S33(I)
@@ -86,6 +86,6 @@ C . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
       DEPS6(I) = S11(I)*A13(I)+S21(I)*A23(I)+S31(I)*A33(I)
       DEPS4(I) = TWO*DEPS4(I)
       DEPS5(I) = TWO*DEPS5(I)
- 201  DEPS6(I) = TWO*DEPS6(I) 
+ 201  DEPS6(I) = TWO*DEPS6(I)
       RETURN
       END

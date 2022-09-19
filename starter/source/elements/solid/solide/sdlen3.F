@@ -81,7 +81,7 @@ C---------------------------------------------------------------------
       DO I=LFT,LLT
         ATEST(I) = EM4*AREAM(I)
       ENDDO
-      
+
       DO I=LFT,LLT
         NFAC=0
         IF(AREA(1,I)<ATEST(I)) NFAC=NFAC+1
@@ -92,7 +92,7 @@ C---------------------------------------------------------------------
         IF(AREA(6,I)<ATEST(I)) NFAC=NFAC+1
         IF(NFAC>=3) XIOFF(I)=EP03
       ENDDO
-      
+
       DO I=LFT,LLT
         DELTAX(I) = FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
       ENDDO

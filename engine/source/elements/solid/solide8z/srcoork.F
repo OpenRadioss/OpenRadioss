@@ -81,7 +81,7 @@ C     REAL
      .   K38(9,*)   ,K44(9,*)   ,K45(9,*)    ,K46(9,*)    ,K47(9,*)   ,
      .   K48(9,*)   ,K55(9,*)   ,K56(9,*)    ,K57(9,*)    ,K58(9,*)   ,
      .   K66(9,*)   ,K67(9,*)   ,K68(9,*)    ,K77(9,*)    ,K78(9,*)   ,
-     .   K88(9,*)   
+     .   K88(9,*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
      .        NC5(*), NC6(*), NC7(*), NC8(*), MXT(*), NGL(*),NGEO(*)
       INTEGER IXS(NIXS,*),KHBE
@@ -102,7 +102,7 @@ C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
 C-----------------------------------------------
 C
       MXT_1 = IXS(1,LFT)
@@ -173,15 +173,15 @@ C-----------
 C-------sauf thick shells --------------     
       IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
         IF (ISORTH == 0) THEN
-          DO I=LFT,LLT                                          
-            GAMA(I,1) = ONE                             
-            GAMA(I,2) = ZERO                              
+          DO I=LFT,LLT
+            GAMA(I,1) = ONE
+            GAMA(I,2) = ZERO
             GAMA(I,3) = ZERO
-            GAMA(I,4) = ZERO                              
-            GAMA(I,5) = ONE                              
+            GAMA(I,4) = ZERO
+            GAMA(I,5) = ONE
             GAMA(I,6) = ZERO
-          ENDDO      
-        ELSE    
+          ENDDO
+        ELSE
           CALL SORTHDIR3(
      .           RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .           R11  ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  ,
@@ -191,7 +191,7 @@ C-------sauf thick shells --------------
      .       RX    ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .       R11   ,R12  ,R13  ,R21  ,R22  ,R23  ,R31  ,R32  ,R33  ,
      .       GAMA )
-         END IF 
+         END IF
         ENDIF
       ENDIF
 C-----------
@@ -520,7 +520,7 @@ C
 C
        ENDIF
 C-----------
-      DO J=1,9      
+      DO J=1,9
       DO I=LFT,LLT
         K11(J,I)=ZERO
         K12(J,I)=ZERO
@@ -571,7 +571,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SORTHDIR17(
      .       RX    ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X   ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
+     .       E1X   ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .       GAMA )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -587,7 +587,7 @@ C-----------------------------------------------
       my_real, DIMENSION(LLT), INTENT(IN)    ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
      .   E1X, E1Y, E1Z, E2X, E2Y, E2Z, E3X, E3Y, E3Z
-      my_real, 
+      my_real,
      .  DIMENSION(MVSIZ,6), INTENT(INOUT) :: GAMA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -600,29 +600,29 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,D1,D2,D3,GX,GY,GZ,SUMA,S2,S3
-      my_real, 
+      my_real,
      .  DIMENSION(6)  :: GAMA0
 C=======================================================================
         IF (JCVT== 0) THEN
 C------U,V,DW ->R,S,T orthogalized        
-         DO I=LFT,LLT                                            
+         DO I=LFT,LLT
           SUMA = ONE/SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
           UX = RX(I)*SUMA
           UY = RY(I)*SUMA
-          UZ = RZ(I)*SUMA             
-          WX = UY*SZ(I)-UZ*SY(I)                 
-          WY = UZ*SX(I)-UX*SZ(I)                 
-          WZ = UX*SY(I)-UY*SX(I)                 
+          UZ = RZ(I)*SUMA
+          WX = UY*SZ(I)-UZ*SY(I)
+          WY = UZ*SX(I)-UX*SZ(I)
+          WZ = UX*SY(I)-UY*SX(I)
           SUMA = ONE/SQRT(WX*WX + WY*WY + WZ*WZ)
-          WX = WX*SUMA                 
-          WY = WY*SUMA                 
-          WZ = WZ*SUMA                 
-          VX = WY*UZ-WZ*UY                 
-          VY = WZ*UX-WX*UZ                 
-          VZ = WX*UY-WY*UX                 
+          WX = WX*SUMA
+          WY = WY*SUMA
+          WZ = WZ*SUMA
+          VX = WY*UZ-WZ*UY
+          VY = WZ*UX-WX*UZ
+          VZ = WX*UY-WY*UX
           SUMA = ONE/SQRT(VX*VX + VY*VY + VZ*VZ)
-          VX = VX*SUMA                 
-          VY = VY*SUMA                 
+          VX = VX*SUMA
+          VY = VY*SUMA
           VZ = VZ*SUMA
 C---------refind --_global ortho          
           GAMA0(1)= GAMA(I,1)*UX+GAMA(I,2)*VX+GAMA(I,3)*WX
@@ -645,25 +645,25 @@ C
      .      GAMA0(4)*E2X(I)+GAMA0(5)*E2Y(I)+GAMA0(6)*E2Z(I)
           GAMA(I,6)=
      .      GAMA0(4)*E3X(I)+GAMA0(5)*E3Y(I)+GAMA0(6)*E3Z(I)
-         ENDDO                                     
+         ENDDO
 C
         ELSE
           DO I=LFT,LLT
-            GAMA0(1)  = GAMA(I,1)   
-            GAMA0(2)  = GAMA(I,2)   
-            GAMA0(3)  = GAMA(I,3)   
-            GAMA0(4)  = GAMA(I,4)   
-            GAMA0(5)  = GAMA(I,5)   
-            GAMA0(6)  = GAMA(I,6)   
-!                                       
-            GAMA(I,1) = GAMA0(3)                             
-            GAMA(I,2) = GAMA0(1)                             
+            GAMA0(1)  = GAMA(I,1)
+            GAMA0(2)  = GAMA(I,2)
+            GAMA0(3)  = GAMA(I,3)
+            GAMA0(4)  = GAMA(I,4)
+            GAMA0(5)  = GAMA(I,5)
+            GAMA0(6)  = GAMA(I,6)
+!
+            GAMA(I,1) = GAMA0(3)
+            GAMA(I,2) = GAMA0(1)
             GAMA(I,3) = GAMA0(2)
-            GAMA(I,4) = GAMA0(6)                             
-            GAMA(I,5) = GAMA0(4)                           
+            GAMA(I,4) = GAMA0(6)
+            GAMA(I,5) = GAMA0(4)
             GAMA(I,6) = GAMA0(5)
-          ENDDO      
-        ENDIF                                      
+          ENDDO
+        ENDIF
 C-------------
       RETURN
       END SUBROUTINE SORTHDIR17

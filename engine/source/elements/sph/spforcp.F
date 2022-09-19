@@ -78,13 +78,13 @@ C     REAL
      .   PM(NPROPM,*), GEO(NPROPG,*),
      .   BUFMAT(*) ,BUFGEO(*) ,PLD(*)  ,FSAV(NTHVKI,*) ,
      .   SPBUF(NSPBUF,*) ,PARTSAV(NPSAV,*) ,DT2T ,
-     .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) ,VSPSYM(3,*), WA(KWASPH,*), 
+     .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) ,VSPSYM(3,*), WA(KWASPH,*),
      .   WASIGSM(6,*), WACOMP(16,*), WSMCOMP(6,*), WAR(10,*), STAB(7,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER N,INOD,JNOD,J,NVOIS,M,IPRT,IPROP,IMAT,I,
-     .        NVOISS,IC,NC,IS,SM,JS,ISLIDE,SS,NSTAB,NN,KS,NR, 
+     .        NVOISS,IC,NC,IS,SM,JS,ISLIDE,SS,NSTAB,NN,KS,NR,
      .        K,JPERM(KVOISPH),IERROR
       my_real
      .       XI,YI,ZI,DI,RHOI,XJ,YJ,ZJ,DJ,RHOJ,
@@ -306,7 +306,7 @@ C---------
 C         FV(j,i)=-FV(i,j)
           WGRDX=(WGRAD(1)-WGRD(1))*HALF
           WGRDY=(WGRAD(2)-WGRD(2))*HALF
-          WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
+          WGRDZ=(WGRAD(3)-WGRD(3))*HALF
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
@@ -477,7 +477,7 @@ C---------
 C         FV(j,i)=-FV(i,j)
           WGRDX=(WGRAD(1)-WGRD(1))*HALF
           WGRDY=(WGRAD(2)-WGRD(2))*HALF
-          WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
+          WGRDZ=(WGRAD(3)-WGRD(3))*HALF
           FVX=-FACT*WGRDX
           FVY=-FACT*WGRDY
           FVZ=-FACT*WGRDZ
@@ -669,7 +669,7 @@ C          artitifial viscosity.
 C---------
            WGRDX=(WGRAD(1)-WGRD(1))*HALF
            WGRDY=(WGRAD(2)-WGRD(2))*HALF
-           WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
+           WGRDZ=(WGRAD(3)-WGRD(3))*HALF
            FVX=-FACT*WGRDX
            FVY=-FACT*WGRDY
            FVZ=-FACT*WGRDZ
@@ -853,7 +853,7 @@ C WA(8) <=> WAR(7)
 C---------
            WGRDX=(WGRAD(1)-WGRD(1))*HALF
            WGRDY=(WGRAD(2)-WGRD(2))*HALF
-           WGRDZ=(WGRAD(3)-WGRD(3))*HALF 
+           WGRDZ=(WGRAD(3)-WGRD(3))*HALF
            FVX=-FACT*WGRDX
            FVY=-FACT*WGRDY
            FVZ=-FACT*WGRDZ

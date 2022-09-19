@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*), MSR(*)
 C     REAL
       my_real
-     .        GAP, GAPMIN, GAPMAX, 
+     .        GAP, GAPMIN, GAPMAX,
      .        X(3,*), GAPV(*), GAP_S(*), GAP_M(*)
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4,NSVG
       my_real, DIMENSION(MVSIZ), INTENT(INOUT) :: X1,X2,X3,X4

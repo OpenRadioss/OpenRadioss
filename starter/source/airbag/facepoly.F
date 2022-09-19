@@ -31,7 +31,7 @@ Chd|====================================================================
      .                    N     , NORMF, NORMT , NSMAX, NNP    ,
      .                    NRPMAX, NB   , NV    , LMIN , NPOLMAX,
      .                    NPPMAX, INFO , IELNOD, X    , IFAC   ,
-     .                    ILVOUT, MVID ) 
+     .                    ILVOUT, MVID )
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -44,11 +44,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TRI(NSMAX,*), NTRI, NPPMAX, IPOLY(6+NPPMAX+1+NPOLMAX,*), 
+      INTEGER TRI(NSMAX,*), NTRI, NPPMAX, IPOLY(6+NPPMAX+1+NPOLMAX,*),
      .        NSMAX, NRPMAX, NNP, NB, NV, NPOLMAX, INFO,
      .        IELNOD(NPPMAX,*), IFAC, ILVOUT, MVID
       my_real
-     .        QUAD(3,*), RPOLY(NRPMAX+3*NPOLMAX,*), N(*), NORMF(3,*), 
+     .        QUAD(3,*), RPOLY(NRPMAX+3*NPOLMAX,*), N(*), NORMF(3,*),
      .        NORMT(3,*), LMIN, X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        INEXT, NN, NPOLY, IADPOLY(NTRI), LENPOLY(NTRI), IAD, II,
      .        POLY(2,5*NTRI+1), I0, JJJ, REDIR_TMP(5*NTRI), NPI_TMP,
      .        ELSEG(5*NTRI,2), ELINTER(4,NTRI), ELNODE(5*NTRI*2),
-     .        NNS, LENMAX, NEDGE, J1, J2, IEDGE, K1, K2, 
+     .        NNS, LENMAX, NEDGE, J1, J2, IEDGE, K1, K2,
      .        TEDGE(3*NTRI,3), EDGE(3*NTRI,3), N1, N2, IPOUT, M, MM,
      .        NHOL, IADHOL(NPOLMAX), ISEG3_OLD(5*NTRI), IDIFF, NSEC,
      .        KSMIN,NOK,ISSEGOLD
@@ -68,10 +68,10 @@ C-----------------------------------------------
       INTEGER TEMP(5*NTRI),JTAG(2,5*NTRI)
       my_real
      .        TOLE, TOLE2, A(3), X1, Y1, Z1, X2, Y2, Z2, SS1, SS2,
-     .        X12, Y12, Z12, XA1, YA1, ZA1, ALPHA, XM, YM, ZM, 
+     .        X12, Y12, Z12, XA1, YA1, ZA1, ALPHA, XM, YM, ZM,
      .        STMP(4,3), SEG(5*NTRI,3,2), NX, NY, NZ, XA2, YA2, ZA2,
-     .        XA12, YA12, ZA12, XA1P1, YA1P1, ZA1P1, BETA, 
-     .        PINTER(4,NTRI,4), XL(NTRI), XLREF, XP1, YP1, ZP1, XP2, 
+     .        XA12, YA12, ZA12, XA1P1, YA1P1, ZA1P1, BETA,
+     .        PINTER(4,NTRI,4), XL(NTRI), XLREF, XP1, YP1, ZP1, XP2,
      .        YP2, ZP2, NODE(3,5*NTRI*2), XX1, YY1, ZZ1, DD1, DD2,
      .        XLC, LL, TOLEI, T1, T2, DD, XA1P2, YA1P2, ZA1P2,
      .        XEDGE(3*NTRI,4), XX2, YY2, ZZ2, NR1, NR2, VX1, VY1, VZ1,
@@ -91,8 +91,8 @@ C
       TOLE=TOLE2*LMIN
 C
 C     Initialization to avoid error in debug mode
-     
-      IF(NTRI>0) ISEG(1:5,1:5*NTRI) = 0 
+
+      IF(NTRI>0) ISEG(1:5,1:5*NTRI) = 0
 
       A(1)=QUAD(1,1)
       A(2)=QUAD(2,1)
@@ -159,7 +159,7 @@ C
          XEDGE(I,2)=YM
          XEDGE(I,3)=ZM
          XEDGE(I,4)=SS1*SS2
-      ENDDO   
+      ENDDO
 C Calcul des intersections des triangles avec le plan de la facette (segments)
       DO I=1,4
          NINTER(I)=0
@@ -292,8 +292,8 @@ C
                   SEG(I,1,1)=XM
                   SEG(I,2,1)=YM
                   SEG(I,3,1)=ZM
-               ENDIF   
-            ELSE     
+               ENDIF
+            ELSE
                IF (SS1==ZERO) THEN
                   IF (SS2<ZERO) THEN
                      SEG(I,1,1)=XM
@@ -743,11 +743,11 @@ C
               ENDDO
               LENPOLY(NPOLY)=NP-IADPOLY(NPOLY)
            ELSEIF(NOK==0.AND.ISSEGOLD==ISSEG)THEN
-                 ISEG(3,ISSEG)=1            
+                 ISEG(3,ISSEG)=1
 c            print *,'cycle corrige !!!',ISSEG,i,NSEG
 c            stop 204
            ENDIF
-           ISSEGOLD=ISSEG     
+           ISSEGOLD=ISSEG
 C
            IDIFF=0
            DO J=1,NSEG
@@ -755,11 +755,11 @@ C
            ENDDO
            IF (IDIFF==0) THEN
               WRITE(ISTDO,*)
-              WRITE(ISTDO,'(A25,I8,A25)') 
+              WRITE(ISTDO,'(A25,I8,A25)')
      .    ' ** MONITORED VOLUME ID: ',MVID,' - INFINITE LOOP DETECTED'
-              WRITE(IOUT,'(A25,I8,A25)') 
+              WRITE(IOUT,'(A25,I8,A25)')
      .    ' ** MONITORED VOLUME ID: ',MVID,' - INFINITE LOOP DETECTED'
-              IF (ILVOUT >=1) WRITE(IOUT,'(A26,I8,A16,I8)') 
+              IF (ILVOUT >=1) WRITE(IOUT,'(A26,I8,A16,I8)')
      .    '    CUTTING BRICK NUMBER: ',NB,' - FACE NUMBER: ',IFAC
               CALL ARRET(2)
            ENDIF
@@ -769,7 +769,7 @@ C
         IF (NPOLY>NPOLMAX) THEN
            NPOLMAX=NPOLY
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--            
-           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
+           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)')
      .       ' MONITORED VOLUME ID: ',MVID,' NLAYER  IS RESET TO ',NPOLY
            INFO=1
         ENDIF
@@ -779,7 +779,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         ENDDO
         IF (LENMAX>NPPMAX) THEN
            NPPMAX=LENMAX
-           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
+           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)')
      .       ' MONITORED VOLUME ID: ',MVID,' NPPMAX  IS RESET TO ',LENMAX
            INFO=1
         ENDIF
@@ -807,7 +807,7 @@ C-------------------------
                 NODSEG(K,1)=M+1
                 NODSEG(K,M+2)=I
               ELSE
-                WRITE(IOUT,'(A,I10,2A,3E12.4,A1)') 
+                WRITE(IOUT,'(A,I10,2A,3E12.4,A1)')
      .          ' ** MONITORED VOLUME ID: ',MVID,' MORE THAN 4 SEGMENTS',
      .          ' CONNECTED TO NODE [',NODE(1,K),NODE(2,K),NODE(3,K),']'
                 CALL ARRET(2)
@@ -833,7 +833,7 @@ C-------------------------------------------
               IADR(L)=K
            ENDDO
            IF(L /= 2) THEN
-             WRITE(IOUT,'(A,I10,A,3E12.4,2A,I2,A)') 
+             WRITE(IOUT,'(A,I10,A,3E12.4,2A,I2,A)')
      .      ' ** FVMBAG ID: ',MVID,' ERROR IN POLYGON BUILDING : NODE [',
      .        NODE(1,I),NODE(2,I),NODE(3,I),'] IS CONNECTED TO 4',
      .      ' EDGES',L,' BEING INTERNAL EDGES'
@@ -850,7 +850,7 @@ C-------------------------------------------
 C
         DO I=1,NNO
            IF(NODSEG(I,1) <= 1) THEN
-             WRITE(IOUT,'(A,I10,A,3E12.4,A,I2,A)') 
+             WRITE(IOUT,'(A,I10,A,3E12.4,A,I2,A)')
      .       ' ** FVMBAG ID ',MVID,' ERROR IN POLYGON BUILDING : NODE [',
      .       NODE(1,I),NODE(2,I),NODE(3,I),'] IS CONNECTED TO ',
      .       NODSEG(I,1),' EDGE'
@@ -861,7 +861,7 @@ CFA            CALL ARRET(2)
            IF(ISEG(5,NODSEG(I,2)) == 1) L=L+1
            IF(ISEG(5,NODSEG(I,3)) == 1) L=L+1
            IF(L == 1) THEN
-             WRITE(IOUT,'(A,I10,A,3E12.4,2A)') 
+             WRITE(IOUT,'(A,I10,A,3E12.4,2A)')
      .       ' ** FVMBAG ID ',MVID,' ERROR IN POLYGON BUILDING : NODE [',
      .       NODE(1,I),NODE(2,I),NODE(3,I),'] IS CONNECTED TO 2',
      .      ' EDGES : 1 INTERNAL AND 1 EXTERNAL'
@@ -881,7 +881,7 @@ C
               IADR(L)=K
            ENDDO
            IF(L == 2) THEN
-             WRITE(IOUT,'(A,I10,A,3E12.4,2A)') 
+             WRITE(IOUT,'(A,I10,A,3E12.4,2A)')
      .       ' ** FVMBAG ID: ',MVID,' ERROR IN POLYGON BUILDING : NODE [',
      .       NODE(1,I),NODE(2,I),NODE(3,I),'] IS CONNECTED TO 3',
      .       ' EDGES 2 BEING INTERNAL EDGES'
@@ -1092,7 +1092,7 @@ C
                ENDDO
              ENDIF
            ENDDO
-        ENDDO		   
+        ENDDO		
 C------------------------------------------------------
 C Noeud connecte a 3 segments : 1 interne et 2 externes
 C------------------------------------------------------
@@ -1388,7 +1388,7 @@ C
         ENDDO
         IF (NPOLY>NPOLMAX) THEN
            NPOLMAX=NPOLY
-           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
+           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)')
      .     ' MONITORED VOLUME ID: ',MVID,' NLAYER  IS RESET TO ',NPOLY
            INFO=1
         ENDIF
@@ -1398,7 +1398,7 @@ C
         ENDDO
         IF (LENMAX>NPPMAX) THEN
            NPPMAX=LENMAX
-           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
+           IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)')
      .     ' MONITORED VOLUME ID: ',MVID,' NPPMAX  IS RESET TO ',LENMAX
            INFO=1
         ENDIF
@@ -1429,7 +1429,7 @@ C----------------
         IAD=0
         DO I=1,NPOLY
            IF(LENPOLY(I) < 3) THEN
-             WRITE(IOUT,'(A,I8,3(A,I5),A)') 
+             WRITE(IOUT,'(A,I8,3(A,I5),A)')
      .      ' CUTTING BRICK NUMBER: ',NB,'  FACE NUMBER: ',IFAC,
      .      ' POLYGONE',I,' HAS ONLY',LENPOLY(I),' EDGES'
            ENDIF
@@ -1452,7 +1452,7 @@ C              J=J+1
               DO WHILE (ISTOP ==  0)
                  K=K+1
                  IF( K > NSEG ) THEN
-                   WRITE(IOUT,'(A,I8,2(A,I5),A)') 
+                   WRITE(IOUT,'(A,I8,2(A,I5),A)')
      .             ' CUTTING BRICK NUMBER: ',NB,'  FACE NUMBER: ',IFAC,
      .             ' POLYGONE',I,' IS NOT CLOSED'
                    CALL ARRET(2)
@@ -1475,11 +1475,11 @@ C
                     POLY(2,IAD+J+1)=2
                     ISTOP=1
                     ITAGSEG(K)=1
-                 ENDIF			   
+                 ENDIF			
               ENDDO
            ENDDO
            IF(ISEG(IP0SEG,ISSEG) /= I0) THEN
-             WRITE(IOUT,'(A,I8,2(A,I5),A)') 
+             WRITE(IOUT,'(A,I8,2(A,I5),A)')
      .      ' CUTTING BRICK NUMBER: ',NB,'  FACE NUMBER: ',IFAC,
      .      ' POLYGONE',I,' IS NOT CLOSED'
            ENDIF
@@ -1500,7 +1500,7 @@ C
          RPOLY(1,I)=ZERO
          RPOLY(2,I)=N(1)
          RPOLY(3,I)=N(2)
-         RPOLY(4,I)=N(3) 
+         RPOLY(4,I)=N(3)
          DO J=1,LENPOLY(I)
             JJ =POLY(1,IAD+J)
             JJJ=POLY(2,IAD+J)
@@ -1633,16 +1633,16 @@ C Le polygone j est un trou dans le polygone i
                IADHOL(NHOL)=LENPOLY(I)
                IF (LENPOLY(I)+LENPOLY(J)>NPPMAX) THEN
                   NPPMAX=LENPOLY(I)+LENPOLY(J)
-                  IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
+                  IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)')
      .                            ' MONITORED VOLUME ID: ',MVID,
      .                            ' NPPMAX  IS RESET TO ',NPPMAX
                   INFO=1
                   RETURN
                ELSE
                   IF (ILVOUT >=1) THEN
-                      WRITE(IOUT,'(/A25,I10,A25)') 
+                      WRITE(IOUT,'(/A25,I10,A25)')
      .            ' ** MONITORED VOLUME ID: ',MVID,' - HOLE DETECTED'
-                      WRITE(IOUT,'(A26,I8,A16,I8)') 
+                      WRITE(IOUT,'(A26,I8,A16,I8)')
      .            '    CUTTING BRICK NUMBER: ',NB,'  FACE NUMBER: ',IFAC
                   ENDIF
                   DO K=1,LENPOLY(J)

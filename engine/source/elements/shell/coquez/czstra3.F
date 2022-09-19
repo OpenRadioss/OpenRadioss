@@ -28,7 +28,7 @@ Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CZSTRA3(JFT    ,JLT    ,NFT   ,VDEF  ,GSTR  ,
-     2                   EXX    ,EYY    ,EXY   ,EXZ   ,EYZ   ,  
+     2                   EXX    ,EYY    ,EXY   ,EXZ   ,EYZ   ,
      3                   KXX    ,KYY    ,KXY   ,DT1C  ,EPSDOT,
      4                   IEPSDOT,ISTRAIN,UX1   ,UX2   ,UX3   ,
      5                   UX4    ,UY1    ,UY2   ,UY3   ,UY4   ,
@@ -105,7 +105,7 @@ C-------- WXY
          GSTRW(I)=GSTRW(I)+WXY(I)*DT1C(I)
         ENDDO
 C-----   
-        DO I=JFT,JLT 
+        DO I=JFT,JLT
           F_DEF(I,6) = GSTR(I,6)
           F_DEF(I,7) = GSTR(I,7)
           F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*HALF

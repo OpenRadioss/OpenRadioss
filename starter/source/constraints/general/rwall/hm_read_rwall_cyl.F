@@ -47,8 +47,8 @@ Chd|====================================================================
       SUBROUTINE HM_READ_RWALL_CYL(RWL     ,NPRW    ,LPRW    ,IFI     ,MS      ,
      .                             V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                             IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
-     .                            LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHCYL  , 
-     .                             K       ,OFFS    ,IKINE1  )  
+     .                            LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHCYL  ,
+     .                             K       ,OFFS    ,IKINE1  )
 C-------------------------------------
 C     LECTURE MUR RIGIDE
 C-----------------------------------------------
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IFI,MFI,IDDLEVEL,NCHCYL,K,OFFS
       INTEGER NPRW(*), LPRW(*), ITAB(*), ITABM1(*),
      .        IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD)
@@ -135,41 +135,41 @@ C
         ! Reading the option
         ! /RWALL/type/rwall_ID/node_ID
         !   rwall_title
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = NUSER, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = NUSER,
      .                          UNIT_ID        = UID,
      .                          SUBMODEL_INDEX = SUB_INDEX,
      .                          SUBMODEL_ID    = SUB_ID,
-     .                          OPTION_TITR    = TITR)   
+     .                          OPTION_TITR    = TITR)
 C
         NOM_OPT(1,N)=NUSER
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
 C
         ! Checking flag unit
-        IFLAGUNIT = 0        
-        DO J=1,NUNITS                           
-          IF (UNITAB%UNIT_ID(J) == UID) THEN          
-            IFLAGUNIT = 1                         
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                 
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID /= 0 .AND. IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=NUSER,C1='RIGID WALL',
      .                C2='RIGID WALL',
      .                C3=TITR)
-        ENDIF   
+        ENDIF
 C        
-        !  node_ID     Slide  grnd_ID1  grnd_ID2      
-        CALL HM_GET_INTV('Node1',NUSER,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('slidingflag',ITIED,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('NodeSet_ID',IGU,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('excludeNodeSet_ID',IGU2,IS_AVAILABLE,LSUBMODEL)  
+        !  node_ID     Slide  grnd_ID1  grnd_ID2
+        CALL HM_GET_INTV('Node1',NUSER,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('slidingflag',ITIED,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('NodeSet_ID',IGU,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('excludeNodeSet_ID',IGU2,IS_AVAILABLE,LSUBMODEL)
 C
         IF(NUSER /= 0) THEN
           MSR = USR2SYS(NUSER,ITABM1,MESS,NUSER)
-          CALL ANODSET(MSR, CHECK_USED) 
+          CALL ANODSET(MSR, CHECK_USED)
           DO JC = 1,NMERGED
             IF (MSR == IMERGE(JC)) MSR = IMERGE(NUMCNOD+JC)
           ENDDO
@@ -183,12 +183,12 @@ C
         CALL HM_GET_FLOATV('fric'           ,FRIC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Diameter'       ,DIAM       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Filteringfactor',FREQ       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV('Filteringflag'    ,IFQ        ,IS_AVAILABLE, LSUBMODEL)  
+        CALL HM_GET_INTV('Filteringflag'    ,IFQ        ,IS_AVAILABLE, LSUBMODEL)
         IF (FREQ == 0 .AND. IFQ /= 0) IFQ = 0
         IF (IFQ == 0) FREQ = ONE
         IF (IFQ >= 0) THEN
-          IF (IFQ <= 1) ALPHA = FREQ                         
-          IF (IFQ == 2) ALPHA = FOUR*ATAN2(ONE,ZERO) / FREQ 
+          IF (IFQ <= 1) ALPHA = FREQ
+          IF (IFQ == 2) ALPHA = FOUR*ATAN2(ONE,ZERO) / FREQ
           IF (IFQ == 3) ALPHA = FOUR*ATAN2(ONE,ZERO) * FREQ
         ENDIF
         IF ((ALPHA < ZERO) .OR. ((ALPHA > ONE .AND. IFQ <= 2))) THEN
@@ -211,16 +211,16 @@ C
           IF(SUB_ID /= 0) CALL SUBROTPOINT(X1,X2,X3,RTRANS,SUB_ID,LSUBMODEL)
           RWL(4,N) = X1
           RWL(5,N) = X2
-          RWL(6,N) = X3 
+          RWL(6,N) = X3
         ! if node_ID > 0
         ELSE IF (MSR /= 0)THEN
           !               Mass                 VX0                 VY0                 VZ0
-          CALL HM_GET_FLOATV('Mass'      ,XMAS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+          CALL HM_GET_FLOATV('Mass'      ,XMAS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('motionx'   ,VX         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('motiony'   ,VY         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('motionz'   ,VZ         ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+          CALL HM_GET_FLOATV('motionz'   ,VZ         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           ! Multidomains : masse of the rwall splitted between 2 domains
-          FAC_M_R2R = ONE            
+          FAC_M_R2R = ONE
           IF (NSUBDOM > 0) THEN
             IF(TAGNO(NPART+MSR) == 4) FAC_M_R2R = HALF
           ENDIF
@@ -239,10 +239,10 @@ C
         CALL HM_GET_FLOATV('XH'        ,XM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('YH'        ,YM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('ZH'        ,ZM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (SUB_ID /= 0) CALL SUBROTPOINT(XM1,YM1,ZM1,RTRANS,SUB_ID,LSUBMODEL)      
+        IF (SUB_ID /= 0) CALL SUBROTPOINT(XM1,YM1,ZM1,RTRANS,SUB_ID,LSUBMODEL)
 C
         ! Initialization depending on the type of interface
-        ! CYL  
+        ! CYL
 C       M SUR L'AXE ET MM1 AXE DU CYLINDRE
         RWL(1,N) = XM1-RWL(4,N)
         RWL(2,N) = YM1-RWL(5,N)
@@ -321,7 +321,7 @@ C
             ENDIF
           ENDIF
         ENDDO
-        ! Itet=2 of S10      
+        ! Itet=2 of S10
         IF (NS10E > 0 ) CALL REMOVE_ND(NSL,LPRW(K+1),ITAGND)
         IFI=IFI+NSL
         IF (IFQ > 0) THEN

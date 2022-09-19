@@ -34,7 +34,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
        SUBROUTINE HM_READ_FAIL_RTCL(
      .            UPARAM  ,MAXUPARAM ,NUPARAM ,NUVAR    ,UNITAB  ,
-     .            FAIL_ID ,MAT_ID    ,TITR    ,LSUBMODEL)   
+     .            FAIL_ID ,MAT_ID    ,TITR    ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB
       INTEGER,INTENT(IN)             :: MAXUPARAM,FAIL_ID,MAT_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER Inst
-      my_real 
+      my_real
      .        N,EPSCAL
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -98,14 +98,14 @@ C===============================================================================
       ! -> Number of parameters
       NUPARAM    = 3
       ! -> Number of user variables
-      NUVAR      = 2   
+      NUVAR      = 2
       UPARAM(1)  = EPSCAL
       UPARAM(2)  = Inst
       UPARAM(3)  = N
 C======================================================================================
 c--------------------------
 c     Printout data
-c-------------------------- 
+c--------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -124,9 +124,9 @@ c-----------------------------------------------------
      & 5X,'FOR SHELLS ONLY :                                    ',/,
      & 5X,'FLAG FOR REGULARIZATION OF MESH SENSITIVITY. . . . .=',I10,/,
      & 5X,'     = 1 : MESH REGULARIZATION NOT ACTIVATED         ',/,
-     & 5X,'     = 2 : MESH REGULARIZATION ACTIVATED             ',/, 
+     & 5X,'     = 2 : MESH REGULARIZATION ACTIVATED             ',/,
      & 5X,'HARDENING EXPONENT FOR REGULARIZATION. . . . . . . .=',1PG20.13,/)
  1200 FORMAT(
      & 5X,' ----------------------------------------------------',//)
-c----------- 
+c-----------
       END

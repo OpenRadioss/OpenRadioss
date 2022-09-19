@@ -67,10 +67,10 @@ C-----------------------------------------------
       INTEGER I, K, JTYP, ISK1, ISK2,
      .        IFUN_XX,IFUN_YY,IFUN_ZZ,IFUN_RX,IFUN_RY,IFUN_RZ,
      .        IFUN_CXX,IFUN_CYY,IFUN_CZZ,IFUN_CRX,IFUN_CRY,IFUN_CRZ,
-     .        IFUN_FMX,IFUN_FMY,IFUN_FMZ,IFUN_FMRX,IFUN_FMRY,IFUN_FMRZ,     
+     .        IFUN_FMX,IFUN_FMY,IFUN_FMZ,IFUN_FMRX,IFUN_FMRY,IFUN_FMRZ,
      .        KFUNC,KMAT,KPROP,GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
-     .        FDOF(6),ICOMBT,ICOMBR     
-      my_real 
+     .        FDOF(6),ICOMBT,ICOMBR
+      my_real
      .        LX2,LY2,LZ2,CXX,CYY,CZZ,CRX,CRY,CRZ,
      .        CR1,CR2,CR3,CR4,CR5,CR6,CX, MS,IN,FAC_CTX,FAC_CRX,
      .        MY1(MVSIZ),MY2(MVSIZ),MZ1(MVSIZ),MZ2(MVSIZ),MX1(MVSIZ),
@@ -87,9 +87,9 @@ C-----------------------------------------------
      .        DRYS(MVSIZ),DRZS(MVSIZ),KF(6),DXSK(6),FM(6),
      .        FCOMB(6),DEQ(MVSIZ),REQ(MVSIZ),XCENT(6),SMEQT,SMEQR,
      .        FAC_LOC_L,FAC_LOC_T,FAC_X,FAC_R
-      DOUBLE PRECISION X0DP(3)              
+      DOUBLE PRECISION X0DP(3)
 C-----------------------------------------------
-      EXTERNAL GET_U_MAT,GET_U_GEO, GET_U_FUNC, 
+      EXTERNAL GET_U_MAT,GET_U_GEO, GET_U_FUNC,
      .         GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU
 C-----------------------------------------------
       PARAMETER (KFUNC=29)
@@ -100,7 +100,7 @@ C=======================================================================
       IF (DT==ZERO) DT = EP30
       JTYP = NINT(GET_U_GEO(1,IPROP))
 C
-      CR   = GET_U_GEO(12,IPROP)  
+      CR   = GET_U_GEO(12,IPROP)
       CR1  = GET_U_GEO(15,IPROP)
       CR2  = GET_U_GEO(16,IPROP)
       CR3  = GET_U_GEO(17,IPROP)
@@ -122,20 +122,20 @@ C
       FAC_CRX = FAC_LOC_T
 C
       IF (IGTYP==45) THEN
-        IFUN_FMX = GET_U_PNU(13,IPROP,KFUNC) 
-        IFUN_FMY = GET_U_PNU(14,IPROP,KFUNC) 
-        IFUN_FMZ = GET_U_PNU(15,IPROP,KFUNC) 
-        IFUN_FMRX = GET_U_PNU(16,IPROP,KFUNC) 
-        IFUN_FMRY = GET_U_PNU(17,IPROP,KFUNC) 
-        IFUN_FMRZ = GET_U_PNU(18,IPROP,KFUNC)      
-        CALL DEF_FDOF(JTYP,FDOF) 
+        IFUN_FMX = GET_U_PNU(13,IPROP,KFUNC)
+        IFUN_FMY = GET_U_PNU(14,IPROP,KFUNC)
+        IFUN_FMZ = GET_U_PNU(15,IPROP,KFUNC)
+        IFUN_FMRX = GET_U_PNU(16,IPROP,KFUNC)
+        IFUN_FMRY = GET_U_PNU(17,IPROP,KFUNC)
+        IFUN_FMRZ = GET_U_PNU(18,IPROP,KFUNC)
+        CALL DEF_FDOF(JTYP,FDOF)
         K = 28
 C
         XCENT(1:6) = ZERO
         DO I=1,6
 	  KF(I) = GET_U_GEO(40+I,IPROP)
-	  FM(I) = GET_U_GEO(46+I,IPROP)	  
-          SMI(I) = GET_U_GEO(K+1,IPROP)      
+	  FM(I) = GET_U_GEO(46+I,IPROP)	
+          SMI(I) = GET_U_GEO(K+1,IPROP)
           SMA(I) = GET_U_GEO(K+2,IPROP)
           FCOMB(I) = GET_U_GEO(54+I,IPROP)
           XCENT(I) = HALF*(SMA(I)+SMI(I))
@@ -148,20 +148,20 @@ C
 C--  old kjoint type33 -> combined stopping displ/angles not allowed
         ICOMBT = 0
         ICOMBR = 0
-      ENDIF	      
+      ENDIF	
 C
-      IFUN_XX = GET_U_PNU(1,IPROP,KFUNC) 
-      IFUN_YY = GET_U_PNU(2,IPROP,KFUNC) 
-      IFUN_ZZ = GET_U_PNU(3,IPROP,KFUNC) 
-      IFUN_RX = GET_U_PNU(4,IPROP,KFUNC) 
-      IFUN_RY = GET_U_PNU(5,IPROP,KFUNC) 
+      IFUN_XX = GET_U_PNU(1,IPROP,KFUNC)
+      IFUN_YY = GET_U_PNU(2,IPROP,KFUNC)
+      IFUN_ZZ = GET_U_PNU(3,IPROP,KFUNC)
+      IFUN_RX = GET_U_PNU(4,IPROP,KFUNC)
+      IFUN_RY = GET_U_PNU(5,IPROP,KFUNC)
       IFUN_RZ = GET_U_PNU(6,IPROP,KFUNC)
 C
-      IFUN_CXX = GET_U_PNU(7,IPROP,KFUNC) 
-      IFUN_CYY = GET_U_PNU(8,IPROP,KFUNC) 
-      IFUN_CZZ = GET_U_PNU(9,IPROP,KFUNC) 
-      IFUN_CRX = GET_U_PNU(10,IPROP,KFUNC) 
-      IFUN_CRY = GET_U_PNU(11,IPROP,KFUNC) 
+      IFUN_CXX = GET_U_PNU(7,IPROP,KFUNC)
+      IFUN_CYY = GET_U_PNU(8,IPROP,KFUNC)
+      IFUN_CZZ = GET_U_PNU(9,IPROP,KFUNC)
+      IFUN_CRX = GET_U_PNU(10,IPROP,KFUNC)
+      IFUN_CRY = GET_U_PNU(11,IPROP,KFUNC)
       IFUN_CRZ = GET_U_PNU(12,IPROP,KFUNC)
 C
       DO I=1,NEL
@@ -175,16 +175,16 @@ C
 	KRR(I) = UVAR(18,I)
         IF ((IGTYP==45).AND.(ISENS==1)) THEN
 	  DO K=1,6
-            DXSK(K) = UVAR(4+K-1,I)	    
+            DXSK(K) = UVAR(4+K-1,I)	
 	    IF (ABS(SMA(K))>EM20) DXSK(K) = MIN(DXSK(K),SMA(K))
-	    IF (ABS(SMI(K))>EM20) DXSK(K) = MAX(DXSK(K),SMI(K))	    
+	    IF (ABS(SMI(K))>EM20) DXSK(K) = MAX(DXSK(K),SMI(K))	
 	  END DO
-	  DXS(I) = DXSK(1)	  
+	  DXS(I) = DXSK(1)	
 	  DYS(I) = DXSK(2)
 	  DZS(I) = DXSK(3)
 	  DRXS(I) = DXSK(4)
 	  DRYS(I) = DXSK(5)
-	  DRZS(I) = DXSK(6)		  	  	  	  
+	  DRZS(I) = DXSK(6)		  	  	  	
 	ENDIF 		
         DXOLD(I,1) = DX(I)
         DXOLD(I,2) = DY(I)
@@ -213,7 +213,7 @@ C- simple precision - extended sple precsion only for translational dof
           X0DP(3) = UVAR(3,I)
           X0DP(1) = X0DP(1) + X0_ERR(1,I)
           X0DP(2) = X0DP(2) + X0_ERR(2,I)
-          X0DP(3) = X0DP(3) + X0_ERR(3,I)         
+          X0DP(3) = X0DP(3) + X0_ERR(3,I)
         ELSE
 C-- double precision
           X0DP(1) = UVAR(1,I)
@@ -263,7 +263,7 @@ C--------      ELASTIC
        CALL XDDL33(NEL, RZ, ZMOM, KRZ, IFUN_RZ, XKR,FAC_R)
 
 C--------      STOP DISPLACEMENT / ANGLE + FRICTION
-       IF (IGTYP==45) THEN       
+       IF (IGTYP==45) THEN
          CALL STDPL(NEL,DX,VX,FX,KNX,KNN,KF(1),CR,CR1,SMI(1),SMA(1),
      .              XKM,FM(1),UVAR(10,1),IFUN_FMX,ICOMBT,DEQ,FCOMB(1),XCENT(1),FAC_X)
          CALL STDPL(NEL,DY,VY,FY,KNY,KNN,KF(2),CR,CR2,SMI(2),SMA(2),
@@ -279,14 +279,14 @@ C--------      STOP DISPLACEMENT / ANGLE + FRICTION
      .              XKR,FM(6),UVAR(15,1),IFUN_FMRZ,ICOMBR,REQ,FCOMB(6),XCENT(6),FAC_R)
        ENDIF
 C--------      JOINT BLOCKED BY SENSOR ACTIVATION
-       IF ((IGTYP==45).AND.(ISENS==1)) THEN       
+       IF ((IGTYP==45).AND.(ISENS==1)) THEN
          CALL SENS_BLOCK(NEL,DX,FX,KNX,KNN,CR,CR1,DXS,FDOF(1),XKM)
          CALL SENS_BLOCK(NEL,DY,FY,KNY,KNN,CR,CR2,DYS,FDOF(2),XKM)
          CALL SENS_BLOCK(NEL,DZ,FZ,KNZ,KNN,CR,CR3,DZS,FDOF(3),XKM)
          CALL SENS_BLOCK(NEL,RX,XMOM,KRX,KRR,CR,CR4,DRXS,FDOF(4),XKR)
          CALL SENS_BLOCK(NEL,RY,YMOM,KRY,KRR,CR,CR5,DRYS,FDOF(5),XKR)
          CALL SENS_BLOCK(NEL,RZ,ZMOM,KRZ,KRR,CR,CR6,DRZS,FDOF(6),XKR)
-       ENDIF       	                              
+       ENDIF       	
 C--------      CRITICAL DAMPING
        DO I=1,NEL
          MS = ZERO
@@ -349,8 +349,8 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER I,NEL,IFUN
-      my_real DERI, KX(*), DX(*), FX(*), KMX(*), 
-     .         GET_U_FUNC,FAC_X       
+      my_real DERI, KX(*), DX(*), FX(*), KMX(*),
+     .         GET_U_FUNC,FAC_X
       EXTERNAL GET_U_FUNC
 C----------------------------------------------------------
       my_real FX0
@@ -390,9 +390,9 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER I,NEL,IFUN
-      my_real DERI, FAC_X, KX, DX(*), FX(*), KMX(*), 
-     .        GET_U_FUNC 
-      EXTERNAL GET_U_FUNC 
+      my_real DERI, FAC_X, KX, DX(*), FX(*), KMX(*),
+     .        GET_U_FUNC
+      EXTERNAL GET_U_FUNC
 C-------------------------------------------------------------------------
       IF (KX/=ZERO) THEN
         DO I=1,NEL
@@ -416,7 +416,7 @@ Chd|-- calls ---------------
 Chd|        GET_U_FUNC                    source/user_interface/ufunc.F 
 Chd|====================================================================
       SUBROUTINE STDPL(NEL,DX,VX,FX,KX,KNN,KF,CR,CRX,DXMI,DXMA,KMX,
-     .                 FM,FRP,IFUN,ICOMB,DEQ,FCOMB,XCENT,FAC_X)       
+     .                 FM,FRP,IFUN,ICOMB,DEQ,FCOMB,XCENT,FAC_X)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -430,17 +430,17 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER I,NEL,IFUN,FLAG_FRIC,ICOMB
-      my_real DERI, KX(*), DX(*), VX(*), FX(*), KMX(*),CRX, 
+      my_real DERI, KX(*), DX(*), VX(*), FX(*), KMX(*),CRX,
      .         CR,DXMI,DXMA,DELTAX,KNN(*),KF,KLOC,FM,FR,BETA,
      .         DFR,FT,FRP(*),GET_U_FUNC,KTAN,FFM,KTMAX,DEQ(*),FCOMB,RADIUS,XCENT,FAC_X
-      EXTERNAL GET_U_FUNC                
+      EXTERNAL GET_U_FUNC
 C-------------------------------------------------------------------------
 C
-      IF ((KF>EM20).AND.((FM>EM20).OR.(IFUN>0))) THEN      
+      IF ((KF>EM20).AND.((FM>EM20).OR.(IFUN>0))) THEN
 C------Friction-----------------------------------------------------------     
         DO I=1,NEL
 	  DFR = KF*VX(I)*DT12
-	  FR = FRP(I) + DFR 
+	  FR = FRP(I) + DFR
           FT = MAX(FR*FR,EM30)
           DELTAX = ZERO
 C
@@ -449,8 +449,8 @@ C
 	    KTMAX = MAX(KF,ABS((FM*FAC_X)*DERI))
 	  ELSE
 	    FFM = FM
-	    KTMAX = KF  
-	  ENDIF	  
+	    KTMAX = KF
+	  ENDIF	
 C	  
           BETA = MIN(ONE,SQRT((FFM**2)/FT))
 C
@@ -472,18 +472,18 @@ C-    combined stopping displacment/ angle
           ENDIF
 C	  
 	  FR = FR * BETA
-	  KTAN = ABS((FR-FRP(I))/(MAX(EM15,VX(I)*DT12)))	  
+	  KTAN = ABS((FR-FRP(I))/(MAX(EM15,VX(I)*DT12)))	
 	  KTAN = MIN(KTAN,KTMAX)
-	  FRP(I) = FR	  
+	  FRP(I) = FR	
 C	    
           FX(I) = FX(I) + FR
 	  KX(I) = KX(I) + KTAN
 	  KLOC = KX(I) + MAX(KTAN,KF)
-	  CRX = CR	  
+	  CRX = CR	
           KMX(I)= MAX(KMX(I),KLOC)
-        ENDDO      
+        ENDDO
 
-      ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB <= 1)) THEN      
+      ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB <= 1)) THEN
 C------Stopping Angles / displacements only--------------------------------      
         DO I=1,NEL
           DELTAX = ZERO
@@ -494,16 +494,16 @@ C------Stopping Angles / displacements only--------------------------------
 	  IF (ABS(DELTAX)>EM20) THEN
              FX(I) = FX(I) + KLOC*DELTAX
 	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
+	     CRX = CR	
              KMX(I)= MAX(KMX(I),KX(I))
 	  ELSEIF (ABS((DX(I)-DXMA)/DXMA)<0.001) THEN
 	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
-             KMX(I)= MAX(KMX(I),KX(I))	        
-	  ENDIF   
+	     CRX = CR	
+             KMX(I)= MAX(KMX(I),KX(I))	
+	  ENDIF
         ENDDO
 C
-      ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB > 1)) THEN      
+      ELSEIF (((ABS(DXMI)+DXMA)>0).AND.(ICOMB > 1)) THEN
 C------Combined stopping Angles / displacements only--------------------------------      
         DO I=1,NEL
           DELTAX = ZERO
@@ -514,18 +514,18 @@ C------Combined stopping Angles / displacements only----------------------------
 	  IF (ABS(DELTAX)>EM20) THEN
              FX(I) = FX(I) + KLOC*DELTAX*(FCOMB*(DX(I)-XCENT)/DEQ(I))
 	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
+	     CRX = CR	
              KMX(I)= MAX(KMX(I),KX(I))
 	  ELSEIF (ABS((DEQ(I)-RADIUS)/RADIUS)<0.001) THEN
 	     KX(I) = KX(I) + KLOC
-	     CRX = CR	  
-             KMX(I)= MAX(KMX(I),KX(I))	        
-	  ENDIF   
+	     CRX = CR	
+             KMX(I)= MAX(KMX(I),KX(I))	
+	  ENDIF
         ENDDO
 C	      
       ENDIF
 C
-                  
+
 C-------------------------------
       RETURN
       END
@@ -535,7 +535,7 @@ Chd|-- called by -----------
 Chd|        RUSER33                       source/elements/joint/ruser33.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SENS_BLOCK(NEL,DX,FX,KX,KNN,CR,CRX,DXS,FLAG,KMX)       
+      SUBROUTINE SENS_BLOCK(NEL,DX,FX,KX,KNN,CR,CRX,DXS,FLAG,KMX)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -548,8 +548,8 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER I,NEL,FLAG
-      my_real DERI, KX(*), DX(*), FX(*), KMX(*), 
-     .         CRX,CR,DELTAX,KNN(*),DXS(*)       
+      my_real DERI, KX(*), DX(*), FX(*), KMX(*),
+     .         CRX,CR,DELTAX,KNN(*),DXS(*)
 C-------------------------------------------------------------------------
       IF (FLAG==0) GOTO 350
 C      
@@ -557,11 +557,11 @@ C
          DELTAX = DX(I)-DXS(I)
          FX(I) = FX(I) + KNN(I)*DELTAX
 	 KX(I) = KX(I) + KNN(I)
-	 CRX = CR	  
-         KMX(I)= MAX(KMX(I),KX(I))  
+	 CRX = CR	
+         KMX(I)= MAX(KMX(I),KX(I))
       ENDDO
 C      
-350   CONTINUE      
+350   CONTINUE
 C-------------------------------
       RETURN
       END
@@ -571,7 +571,7 @@ Chd|-- called by -----------
 Chd|        RUSER33                       source/elements/joint/ruser33.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DEF_FDOF(JTYP,FDOF)       
+      SUBROUTINE DEF_FDOF(JTYP,FDOF)
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -583,7 +583,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER JTYP,FDOF(6)     
+      INTEGER JTYP,FDOF(6)
 C-------------------------------------------------------------------------
 
       FDOF = 0
@@ -614,7 +614,7 @@ C-------------------------------------------------------------------------
         FDOF(5) = 1
         FDOF(6) = 1
       ENDIF
-     
+
 C-------------------------------
       RETURN
       END

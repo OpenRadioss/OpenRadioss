@@ -40,10 +40,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   X17, X28, X35, X46, Y17, Y28, Y35, Y46, Z17, Z28, Z35, Z46,
-     .   JAC1,JAC2,JAC3,JAC4,JAC5,JAC6,JAC7,JAC8,JAC9, 
+     .   JAC1,JAC2,JAC3,JAC4,JAC5,JAC6,JAC7,JAC8,JAC9,
      .   JAC_59_68, JAC_67_49, JAC_48_57
 C=======================================================================
       CHECKVOLUME_8N = ZERO
@@ -93,13 +93,13 @@ C Jacobian matrix
       JAC2=Y17+Y28-Y35-Y46
       JAC3=Z17+Z28-Z35-Z46
 C
-      JAC4=X17+X46+X28+X35 
-      JAC5=Y17+Y46+Y28+Y35 
-      JAC6=Z17+Z46+Z28+Z35 
+      JAC4=X17+X46+X28+X35
+      JAC5=Y17+Y46+Y28+Y35
+      JAC6=Z17+Z46+Z28+Z35
 C
-      JAC7=X17+X46-X28-X35 
-      JAC8=Y17+Y46-Y28-Y35 
-      JAC9=Z17+Z46-Z28-Z35 
+      JAC7=X17+X46-X28-X35
+      JAC8=Y17+Y46-Y28-Y35
+      JAC9=Z17+Z46-Z28-Z35
 C
       JAC_59_68=JAC5*JAC9-JAC6*JAC8
       JAC_67_49=JAC6*JAC7-JAC4*JAC9
@@ -155,10 +155,10 @@ C
 C Jacobian matrix
       JAC1=X2-X1+X5-X4
       JAC2=Y2-Y1+Y5-Y4
-      JAC3=Z2-Z1+Z5-Z4 
+      JAC3=Z2-Z1+Z5-Z4
 C
-      JAC4=X3-X1+X6-X4 
-      JAC5=Y3-Y1+Y6-Y4 
+      JAC4=X3-X1+X6-X4
+      JAC5=Y3-Y1+Y6-Y4
       JAC6=Z3-Z1+Z6-Z4
 C
       JAC7=THIRD*(X4-X1+X5-X2+X6-X3)

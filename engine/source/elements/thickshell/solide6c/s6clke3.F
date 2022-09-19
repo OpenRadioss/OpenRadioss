@@ -33,9 +33,9 @@ Chd|====================================================================
      .   PXC1, PXC2, PXC3, PXC4,
      .   PYC1, PYC2, PYC3, PYC4,
      .   PZC1, PZC2, PZC3, PZC4,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
+     .   PX1H, PX2H, PX3H,
+     .   PY1H, PY2H, PY3H,
+     .   PZ1H, PZ2H, PZ3H,
      .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   DD  ,GG  ,VOL ,ZI  ,WI ,NU ,
@@ -61,12 +61,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
-     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
-     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),  
-     .   PX1H(*), PX2H(*), PX3H(*),  
-     .   PY1H(*), PY2H(*), PY3H(*),   
-     .   PZ1H(*), PZ2H(*), PZ3H(*),   
+     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),
+     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),
+     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),
+     .   PX1H(*), PX2H(*), PX3H(*),
+     .   PY1H(*), PY2H(*), PY3H(*),
+     .   PZ1H(*), PZ2H(*), PZ3H(*),
      .   JI33(*),B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
      .   B1XH(MVSIZ,2),B1YH(MVSIZ,2),B2XH(MVSIZ,2),B2YH(MVSIZ,2),
      .   B1122(*),B1221(*),B2212(*),B1121(*),
@@ -76,7 +76,7 @@ C     REAL
      .   K16(9,*) ,K22(9,*)  ,K23(9,*)  ,K24(9,*)  ,K25(9,*) ,
      .   K26(9,*) ,K33(9,*)  ,K34(9,*)  ,K35(9,*)  ,K36(9,*) ,
      .   K44(9,*) ,K45(9,*)  ,K46(9,*)  ,K55(9,*)  ,K56(9,*) ,
-     .   K66(9,*) 
+     .   K66(9,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -196,163 +196,163 @@ C | PXZ PYX PZX|
       DO I=LFT,LLT
        J2 = TWO*JI33(I)
        J3 = THREE*JI33(I)
-       PXZ1(I) = -J2-B1X(I,1)+B1X(I,2)+ ZI*(-B1XH(I,1)+B1XH(I,2))  
-       PXZ2(I) = -J3-B1221(I)-B1X(I,2)+ ZI*(-B1221H(I)-B1XH(I,2)) 
+       PXZ1(I) = -J2-B1X(I,1)+B1X(I,2)+ ZI*(-B1XH(I,1)+B1XH(I,2))
+       PXZ2(I) = -J3-B1221(I)-B1X(I,2)+ ZI*(-B1221H(I)-B1XH(I,2))
        PXZ3(I) = -J3+B1122(I)+B1X(I,1)+ ZI*(B1122H(I)+B1XH(I,1))
-       PXZ4(I) = J2+B1X(I,1)-B1X(I,2) + ZI*(B1XH(I,1)-B1XH(I,2))  
-       PXZ5(I) = J3+B1221(I)+B1X(I,2) + ZI*(B1221H(I)+B1XH(I,2))  
-       PXZ6(I) = J3-B1122(I)-B1X(I,1) + ZI*(-B1122H(I)-B1XH(I,1)) 
+       PXZ4(I) = J2+B1X(I,1)-B1X(I,2) + ZI*(B1XH(I,1)-B1XH(I,2))
+       PXZ5(I) = J3+B1221(I)+B1X(I,2) + ZI*(B1221H(I)+B1XH(I,2))
+       PXZ6(I) = J3-B1122(I)-B1X(I,1) + ZI*(-B1122H(I)-B1XH(I,1))
 C 
        PYZ1(I)= -J2+B2Y(I,1)-B2Y(I,2) + ZI*(B2YH(I,1)-B2YH(I,2))
-       PYZ2(I)= -J3+B1122(I)+B2Y(I,2) + ZI*(B1122H(I)+B2YH(I,2)) 
-       PYZ3(I)= -J3-B1221(I)-B2Y(I,1) + ZI*(-B1221H(I)-B2YH(I,1))  
+       PYZ2(I)= -J3+B1122(I)+B2Y(I,2) + ZI*(B1122H(I)+B2YH(I,2))
+       PYZ3(I)= -J3-B1221(I)-B2Y(I,1) + ZI*(-B1221H(I)-B2YH(I,1))
        PYZ4(I)= J2-B2Y(I,1)+B2Y(I,2)  + ZI*(-B2YH(I,1)+B2YH(I,2))
-       PYZ5(I)= J3-B1122(I)-B2Y(I,2)  + ZI*(-B1122H(I)-B2YH(I,2))  
-       PYZ6(I)= J3+B1221(I)+B2Y(I,1)  + ZI*( B1221H(I)+B2YH(I,1)) 
+       PYZ5(I)= J3-B1122(I)-B2Y(I,2)  + ZI*(-B1122H(I)-B2YH(I,2))
+       PYZ6(I)= J3+B1221(I)+B2Y(I,1)  + ZI*( B1221H(I)+B2YH(I,1))
       ENDDO
       DO I=LFT,LLT
-       PYX1(I) = -B1Y(I,1)+B1Y(I,2)+ZI*(-B1YH(I,1)+B1YH(I,2)) 
-       PYX2(I) = -B2212(I)-B1Y(I,2)+ZI*(-B2212H(I)-B1YH(I,2)) 
-       PYX3(I) =  B2212(I)+B1Y(I,1)+ZI*(B2212H(I)+B1YH(I,1)) 
-       PYX4(I) =  B1Y(I,1)-B1Y(I,2)+ZI*(B1YH(I,1)-B1YH(I,2)) 
-       PYX5(I) =  B2212(I)+B1Y(I,2)+ZI*(B2212H(I)+B1YH(I,2)) 
-       PYX6(I) = -B2212(I)-B1Y(I,1)+ZI*(-B2212H(I)-B1YH(I,1)) 
+       PYX1(I) = -B1Y(I,1)+B1Y(I,2)+ZI*(-B1YH(I,1)+B1YH(I,2))
+       PYX2(I) = -B2212(I)-B1Y(I,2)+ZI*(-B2212H(I)-B1YH(I,2))
+       PYX3(I) =  B2212(I)+B1Y(I,1)+ZI*(B2212H(I)+B1YH(I,1))
+       PYX4(I) =  B1Y(I,1)-B1Y(I,2)+ZI*(B1YH(I,1)-B1YH(I,2))
+       PYX5(I) =  B2212(I)+B1Y(I,2)+ZI*(B2212H(I)+B1YH(I,2))
+       PYX6(I) = -B2212(I)-B1Y(I,1)+ZI*(-B2212H(I)-B1YH(I,1))
       ENDDO
       DO I=LFT,LLT
-       PXY1(I)= B2X(I,1)-B2X(I,2) +ZI*(B2XH(I,1)-B2XH(I,2))  
-       PXY2(I)= B1121(I)+B2X(I,2) +ZI*(B1121H(I)+B2XH(I,2))  
-       PXY3(I)= -B1121(I)-B2X(I,1)+ZI*(-B1121H(I)-B2XH(I,1))  
-       PXY4(I)= -B2X(I,1)+B2X(I,2)+ZI*(-B2XH(I,1)+B2XH(I,2))  
-       PXY5(I)=-B1121(I)-B2X(I,2) +ZI*(-B1121H(I)-B2XH(I,2))  
-       PXY6(I)= B1121(I)+B2X(I,1) +ZI*( B1121H(I)+B2XH(I,1))  
+       PXY1(I)= B2X(I,1)-B2X(I,2) +ZI*(B2XH(I,1)-B2XH(I,2))
+       PXY2(I)= B1121(I)+B2X(I,2) +ZI*(B1121H(I)+B2XH(I,2))
+       PXY3(I)= -B1121(I)-B2X(I,1)+ZI*(-B1121H(I)-B2XH(I,1))
+       PXY4(I)= -B2X(I,1)+B2X(I,2)+ZI*(-B2XH(I,1)+B2XH(I,2))
+       PXY5(I)=-B1121(I)-B2X(I,2) +ZI*(-B1121H(I)-B2XH(I,2))
+       PXY6(I)= B1121(I)+B2X(I,1) +ZI*( B1121H(I)+B2XH(I,1))
       ENDDO
 C
       DO I=LFT,LLT
-       PZX1(I)= HALF*(PXC1(I) + ZI*PX1H(I))  
-       PZX2(I)= HALF*(PXC2(I) + ZI*PX2H(I))   
-       PZX3(I)= HALF*(PXC3(I) + ZI*PX3H(I))   
-       PZX4(I)= HALF*(PXC1(I) + ZI*PX1H(I))   
-       PZX5(I)= HALF*(PXC2(I) + ZI*PX2H(I))  
-       PZX6(I)= HALF*(PXC3(I) + ZI*PX3H(I))  
+       PZX1(I)= HALF*(PXC1(I) + ZI*PX1H(I))
+       PZX2(I)= HALF*(PXC2(I) + ZI*PX2H(I))
+       PZX3(I)= HALF*(PXC3(I) + ZI*PX3H(I))
+       PZX4(I)= HALF*(PXC1(I) + ZI*PX1H(I))
+       PZX5(I)= HALF*(PXC2(I) + ZI*PX2H(I))
+       PZX6(I)= HALF*(PXC3(I) + ZI*PX3H(I))
 C
-       PZY1(I)= HALF*(PYC1(I) + ZI*PY1H(I))   
-       PZY2(I)= HALF*(PYC2(I) + ZI*PY2H(I)) 
-       PZY3(I)= HALF*(PYC3(I) + ZI*PY3H(I))  
-       PZY4(I)= HALF*(PYC1(I) + ZI*PY1H(I))  
-       PZY5(I)= HALF*(PYC2(I) + ZI*PY2H(I)) 
-       PZY6(I)= HALF*(PYC3(I) + ZI*PY3H(I)) 
+       PZY1(I)= HALF*(PYC1(I) + ZI*PY1H(I))
+       PZY2(I)= HALF*(PYC2(I) + ZI*PY2H(I))
+       PZY3(I)= HALF*(PYC3(I) + ZI*PY3H(I))
+       PZY4(I)= HALF*(PYC1(I) + ZI*PY1H(I))
+       PZY5(I)= HALF*(PYC2(I) + ZI*PY2H(I))
+       PZY6(I)= HALF*(PYC3(I) + ZI*PY3H(I))
       ENDDO
 C  -------symm(diag)------
       IS =1
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX1, PY1, PZ1,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
-     .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,DD,K11,IS) 
+     .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,DD,K11,IS)
        CALL S8ZKEB3(LFT,LLT,PX2, PY2 ,PZ2 ,PX2, PY2, PZ2,
      .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,
-     .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,DD,K22,IS) 
+     .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,DD,K22,IS)
        CALL S8ZKEB3(LFT,LLT,PX3, PY3 ,PZ3 ,PX3, PY3, PZ3,
      .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,
-     .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,DD,K33,IS) 
+     .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,DD,K33,IS)
        CALL S8ZKEB3(LFT,LLT,PX4, PY4 ,PZ4 ,PX4, PY4, PZ4,
      .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,
-     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K44,IS) 
+     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K44,IS)
        CALL S8ZKEB3(LFT,LLT,PX5, PY5 ,PZ5 ,PX5, PY5, PZ5,
      .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,
-     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K55,IS) 
+     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K55,IS)
        CALL S8ZKEB3(LFT,LLT,PX6, PY6 ,PZ6 ,PX6, PY6, PZ6,
      .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,
-     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K66,IS) 
+     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K66,IS)
 C
        CALL S6CKEG3(LFT,LLT,PY1, PX1 ,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
-     .              PY1,PX1,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,GG,K11,IS) 
+     .              PY1,PX1,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,GG,K11,IS)
        CALL S6CKEG3(LFT,LLT,PY2, PX2 ,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,
-     .              PY2,PX2,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,GG,K22,IS) 
+     .              PY2,PX2,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,GG,K22,IS)
        CALL S6CKEG3(LFT,LLT,PY3, PX3 ,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,
-     .              PY3,PX3,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,GG,K33,IS) 
+     .              PY3,PX3,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,GG,K33,IS)
        CALL S6CKEG3(LFT,LLT,PY4, PX4 ,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,
-     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K44,IS) 
+     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K44,IS)
        CALL S6CKEG3(LFT,LLT,PY5, PX5 ,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,
-     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K55,IS) 
+     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K55,IS)
        CALL S6CKEG3(LFT,LLT,PY6, PX6 ,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,
-     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K66,IS) 
+     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K66,IS)
 C  -------non symm------
       IS =0
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX2, PY2, PZ2,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
-     .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,DD,K12,IS) 
+     .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,DD,K12,IS)
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX3, PY3, PZ3,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
-     .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,DD,K13,IS) 
+     .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,DD,K13,IS)
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX4, PY4, PZ4,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
-     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K14,IS) 
+     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K14,IS)
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX5, PY5, PZ5,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
-     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K15,IS) 
+     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K15,IS)
        CALL S8ZKEB3(LFT,LLT,PX1, PY1 ,PZ1 ,PX6, PY6, PZ6,
      .                      BXY1, BYX1 ,BXZ1,BZX1 ,BYZ1,BZY1,
-     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K16,IS) 
+     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K16,IS)
        CALL S8ZKEB3(LFT,LLT,PX2, PY2 ,PZ2 ,PX3, PY3, PZ3,
      .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,
-     .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,DD,K23,IS) 
+     .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,DD,K23,IS)
        CALL S8ZKEB3(LFT,LLT,PX2, PY2 ,PZ2 ,PX4, PY4, PZ4,
      .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,
-     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K24,IS) 
+     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K24,IS)
        CALL S8ZKEB3(LFT,LLT,PX2, PY2 ,PZ2 ,PX5, PY5, PZ5,
      .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,
-     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K25,IS) 
+     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K25,IS)
        CALL S8ZKEB3(LFT,LLT,PX2, PY2 ,PZ2 ,PX6, PY6, PZ6,
      .                      BXY2, BYX2 ,BXZ2,BZX2 ,BYZ2,BZY2,
-     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K26,IS) 
+     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K26,IS)
        CALL S8ZKEB3(LFT,LLT,PX3, PY3 ,PZ3 ,PX4, PY4, PZ4,
      .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,
-     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K34,IS) 
+     .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,DD,K34,IS)
        CALL S8ZKEB3(LFT,LLT,PX3, PY3 ,PZ3 ,PX5, PY5, PZ5,
      .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,
-     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K35,IS) 
+     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K35,IS)
        CALL S8ZKEB3(LFT,LLT,PX3, PY3 ,PZ3 ,PX6, PY6, PZ6,
      .                      BXY3, BYX3 ,BXZ3,BZX3 ,BYZ3,BZY3,
-     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K36,IS) 
+     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K36,IS)
        CALL S8ZKEB3(LFT,LLT,PX4, PY4 ,PZ4 ,PX5, PY5, PZ5,
      .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,
-     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K45,IS) 
+     .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,DD,K45,IS)
        CALL S8ZKEB3(LFT,LLT,PX4, PY4 ,PZ4 ,PX6, PY6, PZ6,
      .                      BXY4, BYX4 ,BXZ4,BZX4 ,BYZ4,BZY4,
-     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K46,IS) 
+     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K46,IS)
        CALL S8ZKEB3(LFT,LLT,PX5, PY5 ,PZ5 ,PX6, PY6, PZ6,
      .                      BXY5, BYX5 ,BXZ5,BZX5 ,BYZ5,BZY5,
-     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K56,IS) 
+     .                      BXY6, BYX6 ,BXZ6,BZX6 ,BYZ6,BZY6,DD,K56,IS)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
        CALL S6CKEG3(LFT,LLT,PY1, PX1 ,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
-     .              PY2,PX2,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,GG,K12,IS) 
+     .              PY2,PX2,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,GG,K12,IS)
        CALL S6CKEG3(LFT,LLT,PY1, PX1 ,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
-     .              PY3,PX3,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,GG,K13,IS) 
+     .              PY3,PX3,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,GG,K13,IS)
        CALL S6CKEG3(LFT,LLT,PY1, PX1 ,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
-     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K14,IS) 
+     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K14,IS)
        CALL S6CKEG3(LFT,LLT,PY1, PX1 ,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
-     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K15,IS) 
+     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K15,IS)
        CALL S6CKEG3(LFT,LLT,PY1, PX1 ,PXY1, PYX1 ,PXZ1,PZX1 ,PYZ1,PZY1,
-     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K16,IS) 
+     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K16,IS)
        CALL S6CKEG3(LFT,LLT,PY2, PX2 ,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,
-     .              PY3,PX3,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,GG,K23,IS) 
+     .              PY3,PX3,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,GG,K23,IS)
        CALL S6CKEG3(LFT,LLT,PY2, PX2 ,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,
-     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K24,IS) 
+     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K24,IS)
        CALL S6CKEG3(LFT,LLT,PY2, PX2 ,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,
-     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K25,IS) 
+     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K25,IS)
        CALL S6CKEG3(LFT,LLT,PY2, PX2 ,PXY2, PYX2 ,PXZ2,PZX2 ,PYZ2,PZY2,
-     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K26,IS) 
+     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K26,IS)
        CALL S6CKEG3(LFT,LLT,PY3, PX3 ,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,
-     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K34,IS) 
+     .              PY4,PX4,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,GG,K34,IS)
        CALL S6CKEG3(LFT,LLT,PY3, PX3 ,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,
-     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K35,IS) 
+     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K35,IS)
        CALL S6CKEG3(LFT,LLT,PY3, PX3 ,PXY3, PYX3 ,PXZ3,PZX3 ,PYZ3,PZY3,
-     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K36,IS) 
+     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K36,IS)
        CALL S6CKEG3(LFT,LLT,PY4, PX4 ,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,
-     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K45,IS) 
+     .              PY5,PX5,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,GG,K45,IS)
        CALL S6CKEG3(LFT,LLT,PY4, PX4 ,PXY4, PYX4 ,PXZ4,PZX4 ,PYZ4,PZY4,
-     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K46,IS) 
+     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K46,IS)
        CALL S6CKEG3(LFT,LLT,PY5, PX5 ,PXY5, PYX5 ,PXZ5,PZX5 ,PYZ5,PZY5,
-     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K56,IS) 
+     .              PY6,PX6,PXY6, PYX6 ,PXZ6,PZX6 ,PYZ6,PZY6,GG,K56,IS)
 C
       RETURN
       END
@@ -384,7 +384,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   PXYI(*), PYXI(*) ,PXZI(*),PZXI(*) ,PYZI(*),PZYI(*),
-     .   PXYJ(*), PYXJ(*) ,PXZJ(*),PZXJ(*) ,PYZJ(*),PZYJ(*), 
+     .   PXYJ(*), PYXJ(*) ,PXZJ(*),PZXJ(*) ,PYZJ(*),PZYJ(*),
      .   P21I(*), P32I(*) ,P21J(*), P32J(*) ,G(*), KIJ(3,3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -420,7 +420,7 @@ C | PXZ P32 PZX|
         KIJ(3,2,I)=KIJ(3,2,I)+
      .        G(I)*(PYZJ(I)*PZYI(I)+P32J(I)*PZXI(I))
        ENDDO
-      ENDIF 
+      ENDIF
 C
       RETURN
       END

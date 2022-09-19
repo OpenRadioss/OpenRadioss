@@ -167,12 +167,12 @@ C-----------------------------------------------
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
 C=======================================================================
-      IGTYP = NINT(GEO(12,IPROP)) 
-      IGMAT = IGEO(98,IPROP)  
+      IGTYP = NINT(GEO(12,IPROP))
+      IGMAT = IGEO(98,IPROP)
       IF ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT < 0) THEN
         DO I=LFT,LLT
           IF (NDRAPE == 0) THEN
-            IF (THKE(I)== ZERO) THEN          
+            IF (THKE(I)== ZERO) THEN
               THK(I) = STACK%GEO(1,ISUBSTACK)
               THKE(I)= THK(I)
             ELSE
@@ -183,10 +183,10 @@ C=======================================================================
             THK(I) = THKE(I)
             THKI(I)= THK(I)
           ENDIF ! IF (NDRAPE == 0)
-c      
+c
             IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
-              IF (PERTURB(J) == 1 .AND. 
+              IF (PERTURB(J) == 1 .AND.
      .             RNOISE(J,NUMELC+I+NFT) /= ZERO)  THEN
                 THK(I)  = THK(I)  * RNOISE(J,NUMELC+I+NFT)
                 THKE(I) = THKE(I) * RNOISE(J,NUMELC+I+NFT)
@@ -196,19 +196,19 @@ c
             ENDIF
 c
             RHO(I)= PM(89,IMAT)
-            RHOCP(I) =  PM(69,IMAT) 
+            RHOCP(I) =  PM(69,IMAT)
             IF(THK(I)==ZERO.AND.IGTYP/=0)THEN
                CALL ANCMSG(MSGID=495,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=IXTG(6,I))
-            ENDIF  
+            ENDIF
           ENDDO
-      ELSEIF (IGTYP == 52 .OR. 
+      ELSEIF (IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
         DO I=LFT,LLT
           IF (NDRAPE == 0) THEN
-            IF (THKE(I)== ZERO) THEN          
+            IF (THKE(I)== ZERO) THEN
               THK(I) = STACK%GEO(1,ISUBSTACK)
               THKE(I)= THK(I)
             ELSE
@@ -219,10 +219,10 @@ c
             THK(I) = THKE(I)
             THKI(I)= THK(I)
           ENDIF ! IF (NDRAPE == 0)
-c      
+c
             IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
-              IF (PERTURB(J) == 1 .AND. 
+              IF (PERTURB(J) == 1 .AND.
      .             RNOISE(J,NUMELC+I+NFT) /= ZERO) THEN
                 THK(I)  = THK(I)  * RNOISE(J,NUMELC+I+NFT)
                 THKE(I) = THKE(I) * RNOISE(J,NUMELC+I+NFT)
@@ -238,7 +238,7 @@ c
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=IXTG(6,I))
-            ENDIF  
+            ENDIF
           ENDDO
       ELSE
           DO I=LFT,LLT
@@ -249,10 +249,10 @@ c
               THK(I)=THKE(I)
             ENDIF
             THKI(I) =GEO(1,IPROP)
-c      
+c
             IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
-              IF (PERTURB(J) == 1 .AND. 
+              IF (PERTURB(J) == 1 .AND.
      .             RNOISE(J,NUMELC+I+NFT) /= ZERO) THEN
                 THK(I)  = THK(I)  * RNOISE(J,NUMELC+I+NFT)
                 THKE(I) = THKE(I) * RNOISE(J,NUMELC+I+NFT)
@@ -262,15 +262,15 @@ c
             ENDIF
 c
             RHO(I)= PM(89,IMAT)
-            RHOCP(I) =  PM(69,IMAT) 
+            RHOCP(I) =  PM(69,IMAT)
             IF(THK(I)==ZERO.AND.IGTYP/=0)THEN
                CALL ANCMSG(MSGID=495,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=IXTG(6,I))
-            ENDIF  
+            ENDIF
           ENDDO
-        ENDIF  
+        ENDIF
 C----------------------------------------------
 C     MASSES ELEMENTAIRES
 C----------------------------------------------
@@ -290,13 +290,13 @@ C----------------------------------------------
           ENDDO
 C---      Test stability condition for mass
           MST = RHO(I)*THK(I)*AREA(I)
-          DMS = ABS(EM(I)-MST)/MST             
+          DMS = ABS(EM(I)-MST)/MST
 C! for igty=11 ---> IGMAT=-1 (old G-mat), 1 for new g-mat
 C! for igtyp=16 --->IGMAT= 0 
 C! for igtyp=17 --->IGMAT= 0
           IF(IGMAT <= 0) THEN
-            IF (DMS > EM02) THEN               
-	              IDPROP = NINT(GEO(40,IPROP))       
+            IF (DMS > EM02) THEN
+	              IDPROP = NINT(GEO(40,IPROP))
                CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
                CALL ANCMSG(MSGID=519,
@@ -306,7 +306,7 @@ C! for igtyp=17 --->IGMAT= 0
      .                  C1=TITR,I2=IXTG(NIXTG,NFT+I),
      .                  R1=EM(I),R2=MST)
              ENDIF
-          ENDIF                           
+          ENDIF
 	       ENDDO
       ELSEIF (IGTYP == 17) THEN
         IPPID  = 2
@@ -314,7 +314,7 @@ C! for igtyp=17 --->IGMAT= 0
         IPANG  =  1
         IPTHK  =  IPANG + NPT
         IPPOS  =  IPTHK + NPT
-        NTHK   =  IPPOS + NPT 
+        NTHK   =  IPPOS + NPT
         DO I=LFT,LLT
           EM(I)=ZERO
           DO N=1,NPT
@@ -345,10 +345,10 @@ C! for igtyp=17 --->IGMAT= 0
           ENDDO
 C---      Test stability condition for mass
           MST = RHO(I)*THK(I)*AREA(I)
-          DMS = ABS(EM(I)-MST)/MST    
-          IF(IGMAT < 0) THEN         
-            IF (DMS > EM02) THEN               
-	             IDPROP = NINT(GEO(40,IPROP))       
+          DMS = ABS(EM(I)-MST)/MST
+          IF(IGMAT < 0) THEN
+            IF (DMS > EM02) THEN
+	             IDPROP = NINT(GEO(40,IPROP))
               CALL FRETITL2(TITR,
      .                      IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
               CALL ANCMSG(MSGID=519,
@@ -357,9 +357,9 @@ C---      Test stability condition for mass
      .                    I1=IGEO(1,IPROP),
      .                    C1=TITR,I2=IXTG(NIXTG,NFT+I),
      .                    R1=EM(I),R2=MST)
-            ENDIF    
-          ENDIF                      
-	       ENDDO        
+            ENDIF
+          ENDIF
+	       ENDDO
       ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
         IPANG  =  1
         IPPID  =  2
@@ -400,7 +400,7 @@ C---      Test stability condition for mass
             IF (IINT == 1) THEN !  uniform distribution - by default
               DO IT=1,NPTT
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
-              ENDDO 
+              ENDDO
             ELSEIF (IINT == 2) THEN  !  Gauss distribution
               DO IT=1,NPTT
                 THK_IT(IT) = HALF*THKLY*W_GAUSS(IT,NPTT)
@@ -415,10 +415,10 @@ C----
           ENDDO
 C---      Test stability condition for mass
           MST = RHO(I)*THK(I)*AREA(I)
-          DMS = ABS(EM(I)-MST)/MST             
+          DMS = ABS(EM(I)-MST)/MST
           IF(IGTYP == 51 .AND.IGMAT < 0) THEN
-            IF (DMS > EM02) THEN               
-             IDPROP = NINT(GEO(40,IPROP))       
+            IF (DMS > EM02) THEN
+             IDPROP = NINT(GEO(40,IPROP))
              CALL FRETITL2(TITR,
      .                     IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
              CALL ANCMSG(MSGID=519,
@@ -427,8 +427,8 @@ C---      Test stability condition for mass
      .                   I1=IGEO(1,IPROP),
      .                   C1=TITR,I2=IXTG(NIXTG,NFT+I),
      .                   R1=EM(I),R2=MST)
-            ENDIF     
-          ENDIF                     
+            ENDIF
+          ENDIF
 	       ENDDO
       ELSE
         DO I=LFT,LLT
@@ -457,11 +457,11 @@ C----------------------------------------------
             XI(I) = XI(I) + XIL
           ENDDO
 C---      Test stability condition for inertia
-          IF(IGMAT <= 0) THEN ! 
+          IF(IGMAT <= 0) THEN !
             INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
             DMS = ABS(XI(I)-INS)/INS
             IF(DMS > EM02) THEN
-	             IDPROP = NINT(GEO(40,IPROP))       
+	             IDPROP = NINT(GEO(40,IPROP))
               CALL FRETITL2(TITR,
      .                  IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
               CALL ANCMSG(MSGID=520,
@@ -470,8 +470,8 @@ C---      Test stability condition for inertia
      .                I1=IGEO(1,IPROP),
      .                C1=TITR,I2=IXTG(NIXTG,NFT+I))
             ENDIF
-          ENDIF                                 
-        ENDDO  
+          ENDIF
+        ENDDO
       ELSEIF (IGTYP == 17) THEN
         DO I=LFT,LLT
           XI(I)=ZERO
@@ -494,7 +494,7 @@ C---      Test stability condition for inertia
                 IF (N == 1) THEN
                   LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
-                  LAYPOS(N,I) = LAYPOS(N-1,I)            
+                  LAYPOS(N,I) = LAYPOS(N-1,I)
      .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
@@ -507,7 +507,7 @@ C---      Test stability condition for inertia
                 IF (N == 1) THEN
                   LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
-                  LAYPOS(N,I) = LAYPOS(N-1,I)            
+                  LAYPOS(N,I) = LAYPOS(N-1,I)
      .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
@@ -520,10 +520,10 @@ C---      Test stability condition for inertia
 C---      Test stability condition for inertia
           INS = EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
           DMS = ABS(XI(I)-INS)/INS
-          
-          IF(IGMAT <= 0) THEN ! 
+
+          IF(IGMAT <= 0) THEN !
             IF(DMS > EM02) THEN
-              IDPROP = NINT(GEO(40,IPROP))       
+              IDPROP = NINT(GEO(40,IPROP))
               CALL FRETITL2(TITR,
      .                      IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
               CALL ANCMSG(MSGID=520,
@@ -531,9 +531,9 @@ C---      Test stability condition for inertia
      .                    ANMODE=ANINFO_BLIND_2,
      .                    I1=IGEO(1,IPROP),
      .                    C1=TITR,I2=IXTG(NIXTG,NFT+I))
-            ENDIF  
-          ENDIF                              
-        ENDDO          
+            ENDIF
+          ENDIF
+        ENDDO
       ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
         IPANG  =  1
         IPPID  =  2
@@ -563,7 +563,7 @@ C---      Test stability condition for inertia
                 IF (ILAY == 1) THEN
                   LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
-                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
+                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)
      .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
@@ -576,7 +576,7 @@ C---      Test stability condition for inertia
                 IF (ILAY == 1) THEN
                   LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
-                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
+                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)
      .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
@@ -589,7 +589,7 @@ C----
             IF (IINT == 1) THEN !  uniform distribution - by default
               DO IT=1,NPTT
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
-              ENDDO 
+              ENDDO
               POS_0 = POSLY - HALF*THKLY
               IF (NLAY == 1) POS_0 = - HALF*THKLY !! special case
               POS_IT(1) = POS_0 + HALF*THK_IT(1)
@@ -616,7 +616,7 @@ C---      Test stability condition for inertia
           DMS = ABS(XI(I)-INS)/INS
           IF(IGTYP == 51 .AND. IGMAT < 0) THEN
            IF (DMS > EM02) THEN
-            IDPROP = NINT(GEO(40,IPROP))       
+            IDPROP = NINT(GEO(40,IPROP))
             CALL FRETITL2(TITR,
      .                    IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
             CALL ANCMSG(MSGID=520,
@@ -624,15 +624,15 @@ C---      Test stability condition for inertia
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=IGEO(1,IPROP),
      .                  C1=TITR,I2=IXTG(NIXTG,NFT+I))
-           ENDIF  
-          ENDIF                             
+           ENDIF
+          ENDIF
         ENDDO
       ELSE
         DO I=LFT,LLT
 C---        Exact:  XIN = EMS*(AREA(I)/(6.*SQRT(3.))+THK(I)*THK(I)/12.)
 C---        Compatibilite avec coques 4 noeuds:
           XI(I)=EM(I)*(AREA(I)/NINE_OVER_2+THK(I)*THK(I)*ONE_OVER_12)
-        ENDDO        
+        ENDDO
       ENDIF
 C---------------------------------------------------
 C     INITIALISATION DES MASSES ET INERTIES NODALES
@@ -641,13 +641,13 @@ C   mass and inertia spmd parith/on + adaptive meshing
       IF(JTHE == 0 ) THEN
         DO I=LFT,LLT
           MSTG(I)=EM(I)
-          INTG(I)=XI(I)   
+          INTG(I)=XI(I)
         END DO
       ELSE
         DO I=LFT,LLT
           MSTG(I)=EM(I)
-          INTG(I)=XI(I)   
-          MCPTG(I) = EMSCP(I)   
+          INTG(I)=XI(I)
+          MCPTG(I) = EMSCP(I)
         END DO
       ENDIF
 C
@@ -670,7 +670,7 @@ C
      .       ( (A2 + B2 - C2)/(TWO * AA * BB) >= ONE) .OR.
      .       ( (B2 + C2 - A2)/(TWO * BB * CC) <= -ONE) .OR.
      .       ( (B2 + C2 - A2)/(TWO * BB * CC) >= ONE)) .AND.
-     .              LSH3TRIM /= 0    ) THEN      
+     .              LSH3TRIM /= 0    ) THEN
          IF (SH3TRIM(NFT+I) /= -1) CALL ANCMSG(MSGID=750,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -681,7 +681,7 @@ C
      .       ( (A2 + B2 - C2)/(TWO * AA * BB) >= ONE) .OR.
      .       ( (B2 + C2 - A2)/(TWO * BB * CC) <= -ONE) .OR.
      .       ( (B2 + C2 - A2)/(TWO * BB * CC) >= ONE)) .AND.
-     .              LSH3TRIM == 0      ) THEN      
+     .              LSH3TRIM == 0      ) THEN
           CALL ANCMSG(MSGID=750,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -754,31 +754,31 @@ C
            I3 = IX3(I)
            IP=IPART(I)
 C
-           PARTSAV(1,IP)=PARTSAV(1,IP) + EMS                         
-           PARTSAV(2,IP)=PARTSAV(2,IP) + EMS*                        
-     .          (P1*XREFTG(1,1,I)+P2*XREFTG(2,1,I)+P3*XREFTG(3,1,I)) 
-           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS*                        
-     .          (P1*XREFTG(1,2,I)+P2*XREFTG(2,2,I)+P3*XREFTG(3,2,I)) 
-           PARTSAV(4,IP)=PARTSAV(4,IP) + EMS*                        
-     .          (P1*XREFTG(1,3,I)+P2*XREFTG(2,3,I)+P3*XREFTG(3,3,I)) 
-           XX = P1*XREFTG(1,1,I)**2                                  
-     .        + P2*XREFTG(2,1,I)**2                                  
-     .        + P3*XREFTG(3,1,I)**2                                  
-           XY = P1*XREFTG(1,1,I)*XREFTG(1,2,I)                       
-     .        + P2*XREFTG(2,1,I)*XREFTG(2,2,I)                       
-     .        + P3*XREFTG(3,1,I)*XREFTG(3,2,I)                       
-           YY = P1*XREFTG(1,2,I)**2                                  
-     .        + P2*XREFTG(2,2,I)**2                                  
-     .        + P3*XREFTG(3,2,I)**2                                  
-           YZ = P1*XREFTG(1,2,I)*XREFTG(1,3,I)                       
-     .        + P2*XREFTG(2,2,I)*XREFTG(2,3,I)                       
-     .        + P3*XREFTG(3,2,I)*XREFTG(3,3,I)                       
-           ZZ = P1*XREFTG(1,3,I)**2                                  
-     .        + P2*XREFTG(2,3,I)**2                                  
-     .        + P3*XREFTG(3,3,I)**2                                  
-           ZX = P1*XREFTG(1,3,I)*XREFTG(1,1,I)                       
-     .        + P2*XREFTG(2,3,I)*XREFTG(2,1,I)                       
-     .        + P3*XREFTG(3,3,I)*XREFTG(3,1,I)                       
+           PARTSAV(1,IP)=PARTSAV(1,IP) + EMS
+           PARTSAV(2,IP)=PARTSAV(2,IP) + EMS*
+     .          (P1*XREFTG(1,1,I)+P2*XREFTG(2,1,I)+P3*XREFTG(3,1,I))
+           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS*
+     .          (P1*XREFTG(1,2,I)+P2*XREFTG(2,2,I)+P3*XREFTG(3,2,I))
+           PARTSAV(4,IP)=PARTSAV(4,IP) + EMS*
+     .          (P1*XREFTG(1,3,I)+P2*XREFTG(2,3,I)+P3*XREFTG(3,3,I))
+           XX = P1*XREFTG(1,1,I)**2
+     .        + P2*XREFTG(2,1,I)**2
+     .        + P3*XREFTG(3,1,I)**2
+           XY = P1*XREFTG(1,1,I)*XREFTG(1,2,I)
+     .        + P2*XREFTG(2,1,I)*XREFTG(2,2,I)
+     .        + P3*XREFTG(3,1,I)*XREFTG(3,2,I)
+           YY = P1*XREFTG(1,2,I)**2
+     .        + P2*XREFTG(2,2,I)**2
+     .        + P3*XREFTG(3,2,I)**2
+           YZ = P1*XREFTG(1,2,I)*XREFTG(1,3,I)
+     .        + P2*XREFTG(2,2,I)*XREFTG(2,3,I)
+     .        + P3*XREFTG(3,2,I)*XREFTG(3,3,I)
+           ZZ = P1*XREFTG(1,3,I)**2
+     .        + P2*XREFTG(2,3,I)**2
+     .        + P3*XREFTG(3,3,I)**2
+           ZX = P1*XREFTG(1,3,I)*XREFTG(1,1,I)
+     .        + P2*XREFTG(2,3,I)*XREFTG(2,1,I)
+     .        + P3*XREFTG(3,3,I)*XREFTG(3,1,I)
 C
            PARTSAV(5,IP) =PARTSAV(5,IP) + XIN + EMS * (YY+ZZ)
            PARTSAV(6,IP) =PARTSAV(6,IP) + XIN + EMS * (ZZ+XX)
@@ -1033,26 +1033,26 @@ C
        ENDIF
       END IF
 C-----
-      IF(JTHE > 0 ) THEN             
-          IF(NINTEMP > 0 ) THEN  
+      IF(JTHE > 0 ) THEN
+          IF(NINTEMP > 0 ) THEN
           DO I= LFT,LLT
-            IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = PM(79,IMAT) 
+            IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = PM(79,IMAT)
             IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = PM(79,IMAT)
-            IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = PM(79,IMAT) 
-          ENDDO        
+            IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = PM(79,IMAT)
+          ENDDO
          ELSE
           DO I=LFT,LLT
-            TEMP(IX1(I))=  PM(79,IMAT) 
+            TEMP(IX1(I))=  PM(79,IMAT)
             TEMP(IX2(I))=  PM(79,IMAT)
-            TEMP(IX3(I))=  PM(79,IMAT) 
-          ENDDO              
+            TEMP(IX3(I))=  PM(79,IMAT)
+          ENDDO
          ENDIF
-       ENDIF  
+       ENDIF
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
-      IF (IGTYP == 52 .OR. 
-     .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN     
+      IF (IGTYP == 52 .OR.
+     .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
            IF(I7STIFS/=0)THEN
             IF (IMACH/=3) THEN
              DO I=LFT,LLT
@@ -1119,7 +1119,7 @@ C----------------------------------------------
              ENDDO
             ENDIF
            ENDIF
-       ENDIF ! IGMAT             
+       ENDIF ! IGMAT
 C-----------
       RETURN
       END

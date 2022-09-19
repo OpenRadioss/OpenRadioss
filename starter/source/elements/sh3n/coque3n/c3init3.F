@@ -76,13 +76,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE MESSAGE_MOD          
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD    
-      USE DRAPE_MOD            
+      USE MATPARAM_DEF_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -157,7 +157,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:) :: DIR_A,DIR_B
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
@@ -167,15 +167,15 @@ C-----------------------------------------------
 C-----------------------------------------------
       my_real,
      .  DIMENSION(:) ,POINTER :: UVAR,DIR1,DIR2
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY 
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
       BUFLY => ELBUF_STR%BUFLY(1)
 c
-      IMAT  = IXTG(1,1+NFT)          ! mat N   
-      IPROP = IXTG(NIXTG-1,1+NFT)    ! property N   
+      IMAT  = IXTG(1,1+NFT)          ! mat N
+      IPROP = IXTG(NIXTG-1,1+NFT)    ! property N
       IGTYP = NINT(GEO(12,IPROP))
       ID    = IGEO(1,IPROP)
       IGMAT = IGEO(98,IPROP)
@@ -261,7 +261,7 @@ C------------
      .             PARTSAV,V,IPART(NFT+1),MSTG(NFT+1),INTG(NFT+1),
      .             PTG(1,NFT+1),IGEO    ,IMAT  ,IPROP   ,AREA    ,
      .             ETNOD,NSHNOD,STTG(NFT+1)  ,SH3TREE ,MCP   ,
-     .             MCPTG(NFT+1),TEMP  ,SH3TRIM,ISUBSTACK,NLAY , 
+     .             MCPTG(NFT+1),TEMP  ,SH3TRIM,ISUBSTACK,NLAY ,
      .             ELBUF_STR   ,STACK ,GBUF%THK_I,RNOISE,DRAPE,
      .             PERTURB,IX1   ,IX2      ,IX3    ,
      .             X2L      ,X3L    ,Y3L   )
@@ -286,7 +286,7 @@ C
         ENDDO
       ENDIF
 C-------new local system for ortho or aniso init     
-      IF (IFRAM_OLD ==0 ) 
+      IF (IFRAM_OLD ==0 )
      .   CALL CDKEVEC3(LFT ,LLT ,AREA,
      .                 X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .                 Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
@@ -304,15 +304,15 @@ c
      .   GEO_STACK ,IGEO_STACK,E3X       ,E3Y       ,E3Z       ,
      .   GBUF%BETAORTH,X1     ,X2        ,Y1        ,Y2        ,
      .   Z1         ,Z2       )
-c---     
-      IF(IGTYP == 51 .OR. IGTYP == 52 .OR. IGMAT > 0) THEN   
+c---
+      IF(IGTYP == 51 .OR. IGTYP == 52 .OR. IGMAT > 0) THEN
 c
         CALL CORTHDIR(ELBUF_STR,
      .                IGEO     ,GEO       ,VX         ,VY      ,VZ       ,
      .                PHI1     ,PHI2      ,COOR1      ,COOR2   ,COOR3    ,
      .                COOR4    ,IORTHLOC  ,NLAY       ,IREP    ,ISUBSTACK,
      .                STACK    ,GEO_STACK ,IGEO_STACK ,IR      ,IS       ,
-     .                NEL      ,IMAT      ,IPROP      ,     
+     .                NEL      ,IMAT      ,IPROP      ,
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
@@ -340,13 +340,13 @@ c
      .                PHI1     ,PHI2      ,COOR1      ,COOR2   ,COOR3    ,
      .                COOR4    ,IORTHLOC  ,NLAY       ,IREP    ,ISUBSTACK,
      .                STACK    ,GEO_STACK ,IGEO_STACK ,IR      ,IS       ,
-     .                NEL      ,IMAT      ,IPROP      ,     
+     .                NEL      ,IMAT      ,IPROP      ,
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
       ENDIF
 c
-      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
+      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
           CALL ANCMSG(MSGID=658,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -364,7 +364,7 @@ c
             DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
             DO IT=1,NPTT
               LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
-              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR  
+              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR
               NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
               CALL CM58IN3(IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
      .                     BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
@@ -393,11 +393,11 @@ C to be checked for IGTYP = 51
      .             E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
         END IF
         CALL CSIGINI(ELBUF_STR,
-     1       LFT     ,LLT      ,NFT      ,MPT       ,ISTRAIN   ,            
-     2       GBUF%THK,GBUF%EINT,GBUF%STRA,GBUF%HOURG,GBUF%PLA  ,            
-     3       GBUF%FOR,GBUF%MOM ,SIGSH    ,NLAY      ,GBUF%G_HOURG,        
-     4       NUMELTG ,IXTG     ,NIXTG    ,NSIGSH    ,NUMSH3N   ,             
-     5       PTSH3N  ,IGEO     ,THK      ,NEL       ,E1X       ,                                         
+     1       LFT     ,LLT      ,NFT      ,MPT       ,ISTRAIN   ,
+     2       GBUF%THK,GBUF%EINT,GBUF%STRA,GBUF%HOURG,GBUF%PLA  ,
+     3       GBUF%FOR,GBUF%MOM ,SIGSH    ,NLAY      ,GBUF%G_HOURG,
+     4       NUMELTG ,IXTG     ,NIXTG    ,NSIGSH    ,NUMSH3N   ,
+     5       PTSH3N  ,IGEO     ,THK      ,NEL       ,E1X       ,
      6       E2X     ,E3X      ,E1Y      ,E2Y       ,E3Y       ,
      7       E1Z     ,E2Z      ,E3Z      ,ISIGSH    ,DIR_A     ,
      8       DIR_B   ,POSLY    ,IGTYP    )
@@ -445,27 +445,27 @@ c
       ELSEIF (ISMSTR == 11 .OR. (ISMSTR==1 .AND. MTN==19)) THEN
 C to be checked for IGTYP = 51
         CALL C3EPS11_INI(
-     .                 LFT     ,LLT     ,IXTG(1,NFT+1),X     ,X2S     ,    
+     .                 LFT     ,LLT     ,IXTG(1,NFT+1),X     ,X2S     ,
      .                 X3S     ,Y3S     )
       ENDIF
 c
-      IF (ISMSTR == 10) THEN                  
-          DO I=LFT,LLT                          
-            II = NFT + I            
-            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXTG(3,II))-X(1,IXTG(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXTG(3,II))-X(2,IXTG(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXTG(3,II))-X(3,IXTG(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXTG(4,II))-X(1,IXTG(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXTG(4,II))-X(2,IXTG(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXTG(4,II))-X(3,IXTG(2,II))  
-          ENDDO                                 
-      ELSEIF (ISMSTR == 11 .OR.(ISMSTR==1 .AND. MTN==19)) THEN                  
-        DO I=LFT,LLT                          
-          ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)  
-          ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X3S(I)  
-          ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = Y3S(I)  
-        ENDDO                                 
-      ENDIF                                   
+      IF (ISMSTR == 10) THEN
+          DO I=LFT,LLT
+            II = NFT + I
+            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXTG(3,II))-X(1,IXTG(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXTG(3,II))-X(2,IXTG(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXTG(3,II))-X(3,IXTG(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXTG(4,II))-X(1,IXTG(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXTG(4,II))-X(2,IXTG(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXTG(4,II))-X(3,IXTG(2,II))
+          ENDDO
+      ELSEIF (ISMSTR == 11 .OR.(ISMSTR==1 .AND. MTN==19)) THEN
+        DO I=LFT,LLT
+          ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)
+          ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X3S(I)
+          ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = Y3S(I)
+        ENDDO
+      ENDIF
 C
       IF (IUSER == 1 .and. MTN > 28) THEN
 C to be checked for IGTYP = 51
@@ -489,7 +489,7 @@ C-------------------------------------------
 c         IGTYP=GEO(12,IXTG(5,I+NFT))
          IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.
      .       IGTYP /= 9  .AND. IGTYP /= 10 .AND.
-     .       IGTYP /= 11 .AND. IGTYP /= 16 .AND. 
+     .       IGTYP /= 11 .AND. IGTYP /= 16 .AND.
      .       IGTYP /= 17 .AND. IGTYP /= 51 .AND.
      .       IGTYP /= 52 ) THEN
            CALL ANCMSG(MSGID=25,
@@ -612,9 +612,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NIT, NT, I1, I2, I3, I4
       my_real
-     .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) , 
-     .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) , 
-     .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ) 
+     .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) ,
+     .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) ,
+     .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ)
       my_real SUM,S1,S2
       my_real
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),

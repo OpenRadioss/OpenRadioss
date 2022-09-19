@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER REF,I,J,K,L,IDG,NJ,IAD,NJS,FRONTS,ERR,DOMLEN,
-     .        FL_EXIT,FLPR,SPLIST      
+     .        FL_EXIT,FLPR,SPLIST
       CHARACTER NAM*150,LINKZ*80,CHRUN*4,MESS*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: PLIST
 C-----------------------------------------------
@@ -83,13 +83,13 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      INTEGER NLOCAL         
+      INTEGER NLOCAL
       INTEGER :: LEN_TMP_NAME
-      CHARACTER(len=4096) :: TMP_NAME 
+      CHARACTER(len=4096) :: TMP_NAME
 C----------------------------------------------- 
-    
+
       REF = 991982
-      
+
       WRITE(CHRUN,'(I4.4)') IRUN
       IF (IPID==0) THEN
         NAM = TRIM(DOM_NAME)//'_'//CHRUN//'.domdec'
@@ -98,17 +98,17 @@ C-----------------------------------------------
 C-----------only 1 subdomain   
         NAM=DOM_NAME(ISUBDOM(8,1):ISUBDOM(8,1)+
      .               ISUBDOM(7,1)-1)//'_'//CHRUN//'.domdec'
-        DOMLEN = ISUBDOM(7,1)+12        
+        DOMLEN = ISUBDOM(7,1)+12
       ENDIF
-            
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//NAM(1:LEN_TRIM(NAM))    
+
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//NAM(1:LEN_TRIM(NAM))
       LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_TRIM(NAM)
       OPEN(UNIT=REF,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .      ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')                    
+     .      ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
 
-      IF (FLAG == 1) THEN      
+      IF (FLAG == 1) THEN
 C------------------------------------- 
-        ALLOCATE(PLIST(NSPMD)) 
+        ALLOCATE(PLIST(NSPMD))
         PLIST(1:NSPMD) = -1
 C------ Information for FSI
         WRITE(REF,1303,IOSTAT=ERR) FLG_FSI
@@ -122,30 +122,30 @@ C------
           DO J=1,IGRNOD(IDG)%NENTITY
             NJ = IGRNOD(IDG)%ENTITY(J)
             FL_EXIT = 0
-            SPLIST=0  
+            SPLIST=0
 	    CALL PLIST_IFRONT(PLIST,NJ,SPLIST)
 C
             WRITE(REF,1302,IOSTAT=ERR) ITAB(NJ),SPLIST
 	    DO L=1,SPLIST
-              K = PLIST(L)	   
+              K = PLIST(L)	
               WRITE(REF,1303,IOSTAT=ERR) (K)
               IF (ERR/=0) THEN
                 CALL ANCMSG(MSGID=950,
      .          MSGTYPE=MSGERROR,
      .          ANMODE=ANINFO_BLIND_1)
-                FL_EXIT = 1                
+                FL_EXIT = 1
                 EXIT
               ENDIF
             ENDDO
 C
-            IF (FL_EXIT==1) EXIT            
+            IF (FL_EXIT==1) EXIT
           END DO
         END DO
 C
         CLOSE(UNIT=REF,STATUS='KEEP')
         DEALLOCATE(PLIST)
-                
-      ELSEIF (FLAG == 0) THEN  
+
+      ELSEIF (FLAG == 0) THEN
 C------ Information for FSI
         READ(REF,1303,IOSTAT=ERR) FLG_FSI
 C------ Information for speedup computation
@@ -160,35 +160,35 @@ C
             READ(REF,1302,IOSTAT=ERR) NJS,SPLIST
             NJ = USR2SYS(NJS,ITABM1,MESS,0)
             DO K=1,NSPMD
-               FRONTB_R2R(NJ,K) = IDG 
-            END DO     
-            DO L=1,SPLIST	   
+               FRONTB_R2R(NJ,K) = IDG
+            END DO
+            DO L=1,SPLIST	
               READ(REF,1303,IOSTAT=ERR) K
               IF (ERR/=0) THEN
                 CALL ANCMSG(MSGID=950,
      .          MSGTYPE=MSGERROR,
-     .          ANMODE=ANINFO_BLIND_1)                
+     .          ANMODE=ANINFO_BLIND_1)
                 FL_EXIT = 1
-                EXIT                
+                EXIT
               ENDIF
-              FRONTB_R2R(NJ,K) = -1                              
-              IF (NLOCAL(NJ,K)/=1) CALL IFRONTPLUS(NJ,K)               
+              FRONTB_R2R(NJ,K) = -1
+              IF (NLOCAL(NJ,K)/=1) CALL IFRONTPLUS(NJ,K)
             ENDDO
             IF (FL_EXIT==1) EXIT
-          END DO                      
+          END DO
         END DO
-        CLOSE(UNIT=REF,STATUS='KEEP')     
-        
-      ELSE  
+        CLOSE(UNIT=REF,STATUS='KEEP')
+
+      ELSE
 C------------------------------------
         CLOSE(UNIT=REF,STATUS='DELETE')
-        
+
 C-------------------------------------                
       ENDIF
-      	   			              
+      	   			
 C--------------------------------------------------------------C
       RETURN
-   
+
 1302  FORMAT( 1X,I20,I9)
 1303  FORMAT( 1X,I9)
 1304  FORMAT( 1X,E9.4)
@@ -196,8 +196,8 @@ C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 
       RETURN
-                    
+
 C-----------
-  
+
       RETURN
-      END                             
+      END

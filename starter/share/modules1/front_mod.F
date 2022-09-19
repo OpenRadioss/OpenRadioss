@@ -86,28 +86,28 @@ Chd|====================================================================
       TYPE my_front
         INTEGER, DIMENSION(:,:), POINTER :: P
 	INTEGER, DIMENSION(:)  , ALLOCATABLE :: IENTRY
-      END TYPE my_front     
-      
-c IFRONT chained-list      
+      END TYPE my_front
+
+c IFRONT chained-list
       TYPE(my_front) :: IFRONT
 
       TYPE my_connectdom
         INTEGER, DIMENSION(:,:), POINTER :: PDOM
 	INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: IENTRYDOM
-      END TYPE my_connectdom     
-      
-c IFRONT64 chained-list      
+      END TYPE my_connectdom
+
+c IFRONT64 chained-list
       TYPE(my_connectdom) :: IDDCONNECT
       INTEGER SIDDCONNECT, IDDCONNECT_END
-      
+
       INTEGER, DIMENSION(:),ALLOCATABLE :: IENTRY2
       INTEGER, DIMENSION(:),ALLOCATABLE :: FLAGKIN
-     
+
       INTEGER SIFRONT, IFRONT_END
-      
+
       TYPE INTERSURFP
         INTEGER, DIMENSION(:), POINTER :: P
-      END TYPE INTERSURFP       
-            
+      END TYPE INTERSURFP
+
       END MODULE FRONT_MOD
 C=======================================================================

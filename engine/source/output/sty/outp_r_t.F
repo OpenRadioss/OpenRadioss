@@ -71,7 +71,7 @@ C-----------------------------------------------
      .        LIAD, IUS, MLW2,NAD,
      .        MT,IPROP,IGTYP,COMPTEUR,L,II(6),IV
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
 C
@@ -82,7 +82,7 @@ C-----------------------------------------------
         WRITE(IUGEO,'(A)') TEXT
       ENDIF
 C 
-      JJ_OLD = 1 
+      JJ_OLD = 1
       NGF = 1
       NGL = 0
       JJ = 0
@@ -101,7 +101,7 @@ C------------
             NFT   = IPARG(3,NG)
 C------------     
             IF (IGTYP == 4) THEN
-              WA(JJ + 1) = IGTYP 
+              WA(JJ + 1) = IGTYP
               WA(JJ + 2) = NEL
               WA(JJ + 3) = 0
               JJ = JJ + 3
@@ -117,7 +117,7 @@ C------------
               ENDDO
 C------------  
             ELSEIF (IGTYP == 12) THEN
-              WA(JJ + 1) = IGTYP 
+              WA(JJ + 1) = IGTYP
               WA(JJ + 2) = NEL
               WA(JJ + 3) = 0
               JJ = JJ + 3
@@ -133,11 +133,11 @@ C------------
                 JJ = JJ + 8
               ENDDO
 C------------ 
-            ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25 
+            ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25
      .                                          .OR. IGTYP == 23) THEN
               WA(JJ + 1) = IGTYP
               WA(JJ + 2) = NEL
-              WA(JJ + 3) = 0 
+              WA(JJ + 3) = 0
               JJ = JJ + 3
               DO J=1,6
                 II(J) = (J-1)*NEL + 1
@@ -166,7 +166,7 @@ c
               ENDDO
 C------------  
             ELSEIF (IGTYP == 26) THEN
-              WA(JJ + 1) = IGTYP 
+              WA(JJ + 1) = IGTYP
               WA(JJ + 2) = NEL
               WA(JJ + 3) = 0
               JJ = JJ + 3
@@ -184,7 +184,7 @@ C------------
      .              IGTYP == 32 .OR. IGTYP == 33 .OR. IGTYP == 35 .OR.
      .              IGTYP == 36 .OR. IGTYP == 44 .OR. IGTYP == 45 .OR.
      .              IGTYP == 46) THEN
-              NUVAR = NINT(GEO(25,IPROP))         
+              NUVAR = NINT(GEO(25,IPROP))
               WA(JJ +1) = IGTYP
               WA(JJ +2) = NEL
               WA(JJ +3) = NUVAR
@@ -210,7 +210,7 @@ c
                   IV = NUVAR*(I-1) + J
                   WA(JJ + J) = GBUF%VAR(IV)
                 ENDDO
-                JJ = JJ + NUVAR               
+                JJ = JJ + NUVAR
               ENDDO ! DO I=1,NEL
             ENDIF ! IF (IGTYP)
 C------------ 
@@ -218,7 +218,7 @@ C------------
         ENDDO ! DO NG=NGF,NGL
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
       ENDDO ! DO NN=1,NSPGROUP                ! nn=1,nspdgroup
 !---
 !     ++++++++++
@@ -268,12 +268,12 @@ C--------------------------------------
                   ELSE
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(F(I),DL(I),FEP(I),DPL(I),DPL2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P2E20.13) #(XLO(I),EI(I),I=1,NEL)'
-                  ENDIF 
+                  ENDIF
                 ENDIF ! IF (ICAS_OLD /= 1)
                 IF (OUTYY_FMT == 2) THEN
-                  WRITE(IUGEO,'(2I8)')IGTYP,NEL 
+                  WRITE(IUGEO,'(2I8)')IGTYP,NEL
                 ELSE
-                  WRITE(IUGEO,'(2I10)')IGTYP,NEL           
+                  WRITE(IUGEO,'(2I10)')IGTYP,NEL
                 ENDIF
                 DO I=1,NEL
                   IF (OUTYY_FMT == 2) THEN
@@ -301,9 +301,9 @@ C--------------------------------------
                   ENDIF ! IF (OUTYY_FMT == 2)
                 ENDIF ! IF (ICAS_OLD /= 2)
                 IF (OUTYY_FMT == 2) THEN
-                  WRITE(IUGEO,'(2I8)')IGTYP,NEL 
+                  WRITE(IUGEO,'(2I8)')IGTYP,NEL
                 ELSE
-                  WRITE(IUGEO,'(2I10)')IGTYP,NEL           
+                  WRITE(IUGEO,'(2I10)')IGTYP,NEL
                 ENDIF
                 DO I=1,NEL
                   IF (OUTYY_FMT == 2) THEN
@@ -311,30 +311,30 @@ C--------------------------------------
                     WRITE(IUGEO,'(1P5E12.5)') (WAP0(J-1+K),K=1,5)
                     WRITE(IUGEO,'(1P3E12.5)') (WAP0(J-1+K),K=6,8)
                   ELSE
-!!                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,8)         
-                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,5) 
-                    WRITE(IUGEO,'(1P3E20.13)')(WAP0(J-1+K),K=6,8) 
+!!                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,8)
+                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,5)
+                    WRITE(IUGEO,'(1P3E20.13)')(WAP0(J-1+K),K=6,8)
                   ENDIF
                   J = J + 8
                 ENDDO ! DO I=1,NEL
 C--------------------------------------
-              ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25 
+              ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25
      .                                            .OR. IGTYP == 23 ) THEN
 C--------------------------------------
                 IF (ICAS_OLD /= 3) THEN
                   ICAS_OLD = 3
                   IF (OUTYY_FMT == 2) THEN
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(FX(I),DX(I),FXEP(I),DPX(I),DPX2(I),I=1,NEL)'
-                    WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(FY(I),DY(I),FYEP(I),DPY(I),DPY2(I),I=1,NEL)' 
+                    WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(FY(I),DY(I),FYEP(I),DPY(I),DPY2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(FZ(I),DZ(I),FZEP(I),DPZ(I),DPZ2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(XMOM(I),RX(I),XMEP(I),RPX(I),RPX2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(YMOM(I),RY(I),YMEP(I),RPY(I),RPY2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(ZMOM(I),RZ(I),ZMEP(I),RPZ(I),RPZ2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(XLO(I),YL0(I),ZL0(I),EI(I),E1(I),I=1,NEL)'
                     WRITE(IUGEO,'(2A)')'#FORMAT:(1P5E12.5) #(E2(I),E3(I),E4(I),E5(I),E6(I),I=1,NEL)'
-                  ELSE 
+                  ELSE
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FX(I),DX(I),FXEP(I),DPX(I),DPX2(I),I=1,NEL)'
-                    WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FY(I),DY(I),FYEP(I),DPY(I),DPY2(I),I=1,NEL)' 
+                    WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FY(I),DY(I),FYEP(I),DPY(I),DPY2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FZ(I),DZ(I),FZEP(I),DPZ(I),DPZ2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(XMOM(I),RX(I),XMEP(I),RPX(I),RPX2(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(YMOM(I),RY(I),YMEP(I),RPY(I),RPY2(I),I=1,NEL)'
@@ -344,15 +344,15 @@ C--------------------------------------
                   ENDIF ! IF (OUTYY_FMT == 2)
                 ENDIF ! IF (ICAS_OLD /= 3)
                 IF (OUTYY_FMT == 2) THEN
-                  WRITE(IUGEO,'(2I8)')IGTYP,NEL 
+                  WRITE(IUGEO,'(2I8)')IGTYP,NEL
                 ELSE
-                  WRITE(IUGEO,'(2I10)')IGTYP,NEL          
+                  WRITE(IUGEO,'(2I10)')IGTYP,NEL
                 ENDIF
                 DO I=1,NEL
-                  IF (OUTYY_FMT == 2) THEN         
+                  IF (OUTYY_FMT == 2) THEN
                     WRITE(IUGEO,'(1P5E12.5)') (WAP0(J-1+K),K=1,40)
                   ELSE
-                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,40)           
+                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,40)
                   ENDIF
                   J = J + 40
                 ENDDO ! DO I=1,NEL
@@ -370,9 +370,9 @@ C--------------------------------------
                   ENDIF ! IF (OUTYY_FMT == 2)
                 ENDIF ! IF (ICAS_OLD /= 2)
                 IF (OUTYY_FMT == 2) THEN
-                  WRITE(IUGEO,'(2I8)') IGTYP,NEL 
+                  WRITE(IUGEO,'(2I8)') IGTYP,NEL
                 ELSE
-                  WRITE(IUGEO,'(2I10)')IGTYP,NEL           
+                  WRITE(IUGEO,'(2I10)')IGTYP,NEL
                 ENDIF
                 DO I=1,NEL
                   IF (OUTYY_FMT == 2) THEN
@@ -405,7 +405,7 @@ C--------------------------------------
 !!     .        #(MOM1Y(I),MOM1Z(I),I=1,NEL)'
 !!                    ENDIF
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P5E12.5) #(UVAR(I,J),J=1,NUVAR),I=1,NEL)'
-                  ELSE 
+                  ELSE
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P2E20.13) #(FX(I),DX(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P2E20.13) #(FY(I),DY(I),I=1,NEL)'
                     WRITE(IUGEO,'(A)')'#FORMAT:(1P2E20.13) #(FZ(I),DZ(I),I=1,NEL)'
@@ -421,9 +421,9 @@ C--------------------------------------
                   ENDIF ! IF (OUTYY_FMT == 2)
                 ENDIF ! IF (ICAS_OLD /= 4)
                 IF (OUTYY_FMT == 2) THEN
-                  WRITE(IUGEO,'(3I8)') IGTYP,NEL,NUVAR 
+                  WRITE(IUGEO,'(3I8)') IGTYP,NEL,NUVAR
                 ELSE
-                  WRITE(IUGEO,'(3I10)')IGTYP,NEL,NUVAR        
+                  WRITE(IUGEO,'(3I10)')IGTYP,NEL,NUVAR
                 ENDIF
                 DO I=1,NEL
                   IF (OUTYY_FMT == 2) THEN
@@ -458,11 +458,11 @@ c
                   IF (OUTYY_FMT == 2) THEN
                     WRITE(IUGEO,'(1P5E12.5)') (WAP0(J-1+K),K=1,NUVAR)
                   ELSE
-                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,NUVAR)           
+                    WRITE(IUGEO,'(1P5E20.13)')(WAP0(J-1+K),K=1,NUVAR)
                   ENDIF
                   J = J + NUVAR
                 ENDDO ! DO I=1,NEL
-              ENDIF ! igtyp          
+              ENDIF ! igtyp
             ENDDO  ! do while
           ENDIF   ! jj_old>0
         ENDDO   ! nn=1,nspgroup
@@ -495,7 +495,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER IPARG(NPARG,*),DD_IAD(NSPMD+1,*),WASZ,WASZP,
      .           IXR(NIXR,*),IGEO(NPROPGI,*),SIZ_WRITE_LOC(NSPGROUP+1)
-       my_real 
+       my_real
      .   GEO(NPROPG,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -523,10 +523,10 @@ C-----------------------------------------------
                 JJ = JJ + 7*NEL
               ELSEIF (IGTYP == 12) THEN
                 JJ = JJ + 8*NEL
-              ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25 
-     .                                            .OR. IGTYP == 23 ) THEN             
+              ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25
+     .                                            .OR. IGTYP == 23 ) THEN
                 JJ = JJ + 40*NEL
-              ELSEIF (IGTYP == 26) THEN             
+              ELSEIF (IGTYP == 26) THEN
                 JJ = JJ + 6*NEL
               ELSEIF (IGTYP == 29 .OR. IGTYP == 30 .OR. IGTYP == 31 .OR.
      .                IGTYP == 32 .OR. IGTYP == 33 .OR. IGTYP == 35 .OR.
@@ -536,17 +536,17 @@ C-----------------------------------------------
 !!                IF (IGTYP /= 32 .AND. IGTYP /= 33 .AND. IGTYP /= 45) THEN
 !!                  JJ = JJ + 2    !     MOM1Y, MOM1Z
 !!                ENDIF
-                NUVAR = NINT(GEO(25,IPROP))         
-                JJ = JJ + NUVAR*NEL             
+                NUVAR = NINT(GEO(25,IPROP))
+                JJ = JJ + NUVAR*NEL
               ENDIF ! IF(IGTYP)
             ENDIF ! IF (ITY)
-          ENDDO ! DO NG = NGF,NGL 
+          ENDDO ! DO NG = NGF,NGL
           NGF = NGL + 1
           WASZ = WASZ + JJ
           SIZ_WRITE_LOC(NN) = JJ
         ENDDO ! DO NN=1,NSPGROUP
         SIZ_WRITE_LOC(NSPGROUP+1) = WASZ
-      ENDIF ! 
+      ENDIF !
 C---
       RETURN
       END

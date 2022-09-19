@@ -158,7 +158,7 @@ C---      count next level
      .                 NIX        ,NIX1    ,NIX2   ,NUMEL  ,ISURF0 ,
      .                 IELTYP     ,ID      ,TITR   ,MESS   ,FLAG   ,
      .                 TAGSHELLBOX,0       )
-          IF (IADB>SBUFBOX .OR. IADB<0) 
+          IF (IADB>SBUFBOX .OR. IADB<0)
      .      CALL ANCMSG(MSGID=1007, MSGTYPE=MSGERROR,ANMODE=ANSTOP)
 C---      fill next level
           FLAGG = 1
@@ -204,7 +204,7 @@ C--------------------
 C--------------------
            IF(IELTYP == 7)THEN
                J=IBUFBOX(IADISU)
-               ISURFLIN%NODES(NN,4) = 
+               ISURFLIN%NODES(NN,4) =
      .                         ISURFLIN%NODES(NN,3)
                IADISU = IADISU + 1
            END IF

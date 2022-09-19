@@ -106,7 +106,7 @@ C
        DMINT2(2,I)=ABS(H(2,I))*MAS+MASM
        DMINT2(3,I)=ABS(H(3,I))*MAS+MASM
        IF(IX4(I)/=IX3(I)) DMINT2(4,I)=ABS(H(4,I))*MAS+MASM
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

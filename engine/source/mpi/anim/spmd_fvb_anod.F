@@ -98,7 +98,7 @@ C
             IF (ISPMD==PMAIN-1) THEN
                ITAG=MSGOFF
                CALL MPI_SEND(FVDATA(I)%NNS_ANIM, 1, MPI_INTEGER,
-     .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD, 
+     .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
      .                       IERR)
 C
                LEN=3*FVDATA(I)%NNS_ANIM
@@ -119,7 +119,7 @@ C
                DEALLOCATE(RBUF)
             ENDIF
          ENDIF
-      ENDDO         
+      ENDDO
 C
 #endif
       RETURN

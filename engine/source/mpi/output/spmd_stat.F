@@ -77,7 +77,7 @@ C-----------------------------------------------
 
 
 
-         
+
         CALL MPI_GATHER(
      S    PTLEN         ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
@@ -194,7 +194,7 @@ C                                                                     12
         END DO
 
         STAT_LENELG=IDEB/SIZE
-        
+
       END IF
 C
 #endif
@@ -243,11 +243,11 @@ C-----------------------------------------------
 
       DATA MSGOFF/10002/
       DATA MSGOFF2/10002/
-      my_real 
+      my_real
      .       BUFSR(3,NUMNODM)
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
-         
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -256,8 +256,8 @@ C   Tableau utilise par proc 0
              SIZ = SIZ + 1
              IBUF(SIZ) = NODGLOB(I)
              BUFSR(1,SIZ) = V(1,I)
-             BUFSR(2,SIZ) = V(2,I) 
-             BUFSR(3,SIZ) = V(3,I) 
+             BUFSR(2,SIZ) = V(2,I)
+             BUFSR(3,SIZ) = V(3,I)
            END IF
          END DO
 
@@ -265,15 +265,15 @@ C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
+         MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,3*SIZ,REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-          
+
        ELSE
 
           NODTAGLOB(1:NUMNODG)=0
@@ -291,7 +291,7 @@ C   de noeuds au max
           DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
@@ -302,10 +302,10 @@ C   Reception du buffer entier des adresses NODGLOB
 
 C   Reception du buffer flottant double des adresses NODGLOB
 
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
            NREC = SIZ
            DO K = 1, NREC
              NG = IBUF(K)
@@ -362,11 +362,11 @@ C-----------------------------------------------
 
       DATA MSGOFF/10003/
       DATA MSGOFF2/10003/
-      my_real 
+      my_real
      .       BUFSR(NUMNODM)
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
-         
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -386,11 +386,11 @@ C   de noeuds au max
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-          
+
        ELSE
 
           NODTAGLOB(1:NUMNODG)=0
@@ -420,7 +420,7 @@ C   Reception du buffer flottant double des adresses NODGLOB
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
            NREC = SIZ
            DO K = 1, NREC
              NG = IBUF(K)
@@ -475,7 +475,7 @@ C-----------------------------------------------
       DATA MSGOFF2/10003/
       INTEGER IBUFN(NUMNODM),IBUFM(NUMNODM)
 C   Tableau utilise par proc 0
-         
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -495,7 +495,7 @@ C
          CALL MPI_SEND(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-        
+
        ELSE
           DO I=1,NUMNOD
              NG = NODGLOB(I)
@@ -519,7 +519,7 @@ C Reception Integer Buffer of ICODE
             MSGTYP = MSGOFF2
             CALL MPI_RECV(IBUFM,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
            NREC = SIZ
            DO K = 1, NREC
              NG = IBUFN(K)

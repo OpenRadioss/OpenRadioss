@@ -52,11 +52,11 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE IG3DUFORC3(ELBUF_TAB,NG     ,
-     1           LFT      ,LLT      ,NFT     ,NEL     ,IXS     ,       
-     2           PM       ,GEO      ,IPM     ,IGEO    ,X       ,       
-     3           A        ,AR       ,V       ,VR      ,W       ,       
-     4           D        ,MS       ,IN      ,TF      ,NPF     ,       
-     5           BUFMAT   ,IPARG    ,IPARTS  ,PARTSAV ,NLOC_DMG,         
+     1           LFT      ,LLT      ,NFT     ,NEL     ,IXS     ,
+     2           PM       ,GEO      ,IPM     ,IGEO    ,X       ,
+     3           A        ,AR       ,V       ,VR      ,W       ,
+     4           D        ,MS       ,IN      ,TF      ,NPF     ,
+     5           BUFMAT   ,IPARG    ,IPARTS  ,PARTSAV ,NLOC_DMG,
      6           FSKY     ,FR_WAVE  ,IADS    ,EANI    ,STIFN   ,
      7           STIFR    ,FX       ,FY      ,FZ      ,IFAILURE,
      8           MTN      ,IGTYP    ,NPT     ,JSMS    ,MSSA    ,
@@ -71,7 +71,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -123,7 +123,7 @@ C-----------------------------------------------
      .   KNOTLOCEL(2,3,*),GRESAV(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(TTABLE) TABLE(*)
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -142,16 +142,16 @@ C-----
      .   STI(MVSIZ),STIN(MVSIZ),STIR(MVSIZ), VISCM(MVSIZ) ,VISCR(MVSIZ),RHO0(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),FR_W_E(MVSIZ),
-     .   XX(NCTRL,NEL),YY(NCTRL,NEL),ZZ(NCTRL,NEL), 
-     .   DX(NCTRL,NEL),DY(NCTRL,NEL),DZ(NCTRL,NEL), 
+     .   XX(NCTRL,NEL),YY(NCTRL,NEL),ZZ(NCTRL,NEL),
+     .   DX(NCTRL,NEL),DY(NCTRL,NEL),DZ(NCTRL,NEL),
      .   UX(NCTRL,NEL),UY(NCTRL,NEL),UZ(NCTRL,NEL),
      .   VX(NCTRL,NEL),VY(NCTRL,NEL),VZ(NCTRL,NEL),
      .   VRX(NCTRL,NEL),VRY(NCTRL,NEL),VRZ(NCTRL,NEL),
      .   DTE(MVSIZ)  ,WW(NCTRL,NEL),RBID, ZR, ZS, ZT
 
-      TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF    
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
       my_real,
      .   DIMENSION(:),POINTER :: UVAR
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ)
@@ -160,7 +160,7 @@ C-----
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,
      . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
      . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
@@ -177,14 +177,14 @@ C-----
      . GAMA(MVSIZ,6),BID(MVSIZ),TEMPEL(MVSIZ),DIE(MVSIZ),
      . STIG(MVSIZ,NCTRL)
 C 
-      my_real 
+      my_real
      .   DXX(MVSIZ), DYY(MVSIZ), DZZ(MVSIZ),
-     .   DXY(MVSIZ), DXZ(MVSIZ), DYX(MVSIZ), 
+     .   DXY(MVSIZ), DXZ(MVSIZ), DYX(MVSIZ),
      .   DYZ(MVSIZ), DZX(MVSIZ), DZY(MVSIZ),DIVDE(MVSIZ)
 
       INTEGER ITEL, ITNCTRL, K, N, JJ, INCTRL, L, IFACE
       my_real,
-     .  DIMENSION(NCTRL) :: R 
+     .  DIMENSION(NCTRL) :: R
       my_real,
      .  DIMENSION(NCTRL,3) :: DRDXI
       my_real,
@@ -203,7 +203,7 @@ C
      .   KNOTLOCELX(2,MVSIZ),
      .   KNOTLOCELY(2,MVSIZ),KNOTLOCELZ(2,MVSIZ)
       my_real
-     .   AIRENURBS(3), AFACE(6,MVSIZ), TC, LC, 
+     .   AIRENURBS(3), AFACE(6,MVSIZ), TC, LC,
      .   VMIN(MVSIZ), SMAX(MVSIZ), SUMV,AMU(MVSIZ)
       my_real VARNL(NEL)
       my_real,
@@ -211,7 +211,7 @@ C
 C----------------------------------------------------------
       DOUBLE PRECISION
      .  W_GAUSS(9,9),A_GAUSS(9,9),VOLDP(MVSIZ)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -239,7 +239,7 @@ C----------------------------------------------------------
      9 0.081274388361574D0,0.180648160694857D0,0.260610696402935D0,
      9 0.312347077040003D0,0.330239355001260D0,0.312347077040003D0,
      9 0.260610696402935D0,0.180648160694857D0,0.081274388361574D0/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -357,9 +357,9 @@ C-----------
 
 C-----------AMU for SP is not really implemented
       IF (TT==ZERO) THEN
-       DO I=1,PX  
+       DO I=1,PX
        DO J=1,PY
-        DO K=1,PZ 
+        DO K=1,PZ
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(I,J,K)
          LBUF%VOL0DP(LFT:LLT) = LBUF%VOL(LFT:LLT)
         ENDDO
@@ -391,9 +391,9 @@ C------------------------------------------------------
      .    NEL      )
 
       N=0
-      DO I=1,PX  
+      DO I=1,PX
        DO J=1,PY
-        DO K=1,PZ 
+        DO K=1,PZ
 
          N=N+1
          ZR = A_GAUSS(I,PX)
@@ -410,8 +410,8 @@ C------------------------------------------------------
          DO ITEL=LFT,LLT
 
 c          CALL IGE3DDERIV(
-c     .       ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
-c     .       IDX(ITEL), IDY(ITEL), IDZ(ITEL), DRDXI, R, DETJAC, 
+c     .       ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
+c     .       IDX(ITEL), IDY(ITEL), IDZ(ITEL), DRDXI, R, DETJAC,
 c     .       NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
 c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
 
@@ -421,12 +421,12 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
      3      IDZ(ITEL) ,KNOTLOCX(:,:,ITEL) ,KNOTLOCY(:,:,ITEL),KNOTLOCZ(:,:,ITEL) ,
      4      DRDXI     ,R             ,DETJAC      ,NCTRL    ,
      5      ZR        ,ZS            ,ZT          ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1      ,PZ-1          ,1           ,
      8      IDX2(ITEL),IDY2(ITEL)    ,IDZ2(ITEL)  ,
      9      KNOTLOCELX(:,ITEL),KNOTLOCELY(:,ITEL),KNOTLOCELZ(:,ITEL))
-       
-          VOLN(ITEL) = PGAUSS*DETJAC 
+
+          VOLN(ITEL) = PGAUSS*DETJAC
           VGAUSS(N,ITEL) = PGAUSS*DETJAC
           VOLG(ITEL) = VOLG(ITEL) + VOLN(ITEL)
 
@@ -439,12 +439,12 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
 C------------------------------------------------------
 C     ASSEMBLAGE DE LA MATRICE MATB, MATN, MATDET
 C------------------------------------------------------
-         
+
           CALL IG3DDERISHAP(
      .      ITEL  ,NCTRL ,R     ,DRDXI ,
-     .      DETJAC,MATN  ,MATB  ,MATDET) 
+     .      DETJAC,MATN  ,MATB  ,MATDET)
 
-         ENDDO 
+         ENDDO
 
 C------------------------------------------------------
 C     STRAIN RATE
@@ -456,7 +456,7 @@ C------------------------------------------------------
      .     DZZ   ,DXY   ,DYX   ,DYZ   ,DZY   ,
      .     DXZ   ,DZX   ,D4    ,D5    ,D6    ,
      .     BA    ,Aloc  )
- 
+
 C------------------------------------------------------
 C     ROTATION DE CORPS RIGIDE DES CONTRAINTES PASSEES 
 C------------------------------------------------------
@@ -470,10 +470,10 @@ C------------------------------------------------------
 C     CALCUL DE LA MASSE VOLUMIQUE COURANTE
 C------------------------------------------------------
          VOLDP(LFT:LLT) = VOLN(LFT:LLT)
-         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
+         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))
 
          CALL SRHO3(PM         , LBUF%VOL   , LBUF%RHO , LBUF%EINT, DIVDE ,
-     2              FLUX(1,NF1), FLU1(NF1)  , VOLN     , DVOL     , NGL  , MXT  , OFF , 
+     2              FLUX(1,NF1), FLU1(NF1)  , VOLN     , DVOL     , NGL  , MXT  , OFF ,
      3              IPARG(64,NG)  , GBUF%TAG22, VOLDP,LBUF%VOL0DP ,AMU   ,GBUF%OFF)
 
 c      CALL SMALL3(GBUF%SMSTR,GBUF%OFF,OFF,WXX,WYY,
@@ -485,7 +485,7 @@ C     CALCUL DES CONTRAINTES
 C------------------------------------------------------
 
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
-       CALL MMAIN(                                            
+       CALL MMAIN(
      1       ELBUF_TAB,NG      ,PM      ,GEO           ,FV	      ,ALE_CONNECT	,
      2       IXS      ,IPARG   ,V       ,TF            ,NPF	      ,BUFMAT	,
      3       STI      ,X       ,DT2T    ,NELTST        ,ITYPTST       ,OFFSET	,
@@ -505,7 +505,7 @@ C------------------------------------------------------
      I       BID      ,BID     ,BID     ,IPARG(1,NG)   ,IGEO     ,BID      ,
      J       ITASK    ,NLOC_DMG,VARNL   ,MATPARAM_TAB  ,H3D_STRAIN)
 
-       CALL SSTRA3(DXX      ,DYY   ,DZZ   ,D4   ,D5   ,D6   , 
+       CALL SSTRA3(DXX      ,DYY   ,DZZ   ,D4   ,D5   ,D6   ,
      .             LBUF%STRA,WXX   ,WYY   ,WZZ  ,OFF  ,NEL  )
 
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
@@ -515,7 +515,7 @@ C     FORCES INTERNES
 C------------------------------------------------------
 
       CALL IG3DFINT(
-     1     PM, MXT,KXIG3D  ,LBUF%SIG ,NCTRL   ,MATB    , 
+     1     PM, MXT,KXIG3D  ,LBUF%SIG ,NCTRL   ,MATB    ,
      2     FX     ,FY      ,FZ       ,VOLN    ,BtDBAloc,
      3     DBA    ,SSP_EQ  ,STIG     ,NEL     )
 
@@ -532,9 +532,9 @@ C-----------------------------
 C------------------------------------------------------
 c
       N=0
-      DO I=1,PX  
+      DO I=1,PX
        DO J=1,PY
-        DO K=1,PZ 
+        DO K=1,PZ
 
          N=N+1
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(I,J,K)
@@ -603,29 +603,29 @@ C------------------------------------------------------
          ZR = A_GAUSS(I,PX)
          ZS = A_GAUSS(J,PY)
          ZT = -ONE
-         PGAUSS = W_GAUSS(I,PX)*W_GAUSS(J,PY) 
+         PGAUSS = W_GAUSS(I,PX)*W_GAUSS(J,PY)
 
          DO ITEL=LFT,LLT
 
           CALL IGE3DAIRE(
-     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
+     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
      .      IDX(ITEL), IDY(ITEL), IDZ(ITEL), AIRENURBS,
      .      NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
      .      KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1)
-                      
+
           AFACE(1,ITEL) = AFACE(1,ITEL) + AIRENURBS(1)*PGAUSS
-         
+
          ENDDO
 
          ZT = ONE
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
-     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
+     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
      .      IDX(ITEL), IDY(ITEL), IDZ(ITEL), AIRENURBS,
      .      NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
      .      KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1)
-                      
+
           AFACE(2,ITEL) = AFACE(2,ITEL) + AIRENURBS(1)*PGAUSS
          ENDDO
         ENDDO
@@ -633,7 +633,7 @@ C------------------------------------------------------
 
        N=0
        DO I=1,PX
-        DO K=1,PZ 
+        DO K=1,PZ
          N=N+1
          ZS = -ONE
          ZR = A_GAUSS(I,PX)
@@ -642,23 +642,23 @@ C------------------------------------------------------
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
-     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
+     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
      .      IDX(ITEL), IDY(ITEL), IDZ(ITEL), AIRENURBS,
      .      NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
      .      KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1)
-         
+
           AFACE(3,ITEL) = AFACE(3,ITEL) + AIRENURBS(2)*PGAUSS
          ENDDO
 
-         ZS = ONE 
+         ZS = ONE
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
-     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
+     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
      .      IDX(ITEL), IDY(ITEL), IDZ(ITEL), AIRENURBS,
      .      NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
      .      KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1)
-                      
+
           AFACE(4,ITEL) = AFACE(4,ITEL) + AIRENURBS(2)*PGAUSS
          ENDDO
         ENDDO
@@ -666,7 +666,7 @@ C------------------------------------------------------
 
        N=0
        DO J=1,PY
-        DO K=1,PZ 
+        DO K=1,PZ
          N=N+1
          ZR = -ONE
          ZS = A_GAUSS(J,PY)
@@ -675,23 +675,23 @@ C------------------------------------------------------
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
-     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
+     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
      .      IDX(ITEL), IDY(ITEL), IDZ(ITEL), AIRENURBS,
      .      NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
      .      KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1)
-                      
+
           AFACE(5,ITEL) = AFACE(5,ITEL) + AIRENURBS(3)*PGAUSS
          ENDDO
 
-         ZR = ONE 
+         ZR = ONE
 
          DO ITEL=LFT,LLT
           CALL IGE3DAIRE(
-     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),  
+     .      ITEL     ,N   ,XX(:,ITEL),YY(:,ITEL),ZZ(:,ITEL),WW(:,ITEL),
      .      IDX(ITEL), IDY(ITEL), IDZ(ITEL), AIRENURBS,
      .      NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
      .      KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1)
-                     
+
           AFACE(6,ITEL) = AFACE(6,ITEL) + AIRENURBS(3)*PGAUSS
          ENDDO
         ENDDO
@@ -704,7 +704,7 @@ C------------------------------------------------------
        DO ITEL=LFT,LLT
         DO I=1,PX
          DO J=1,PY
-          SUMV=ZERO 
+          SUMV=ZERO
           DO K=1,PZ
            SUMV=SUMV+VGAUSS((J-1)*PZ+(I-1)*PZ*PY+K,ITEL)
           ENDDO

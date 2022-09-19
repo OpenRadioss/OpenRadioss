@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER              :: NRTM, IRECT(4,*), NOINT, ITAB(*), NBRIC, IXS(NIXS,*),  BRICS(*)
-      my_real              :: X(3,*), PM(NPROPM,*)    
+      my_real              :: X(3,*), PM(NPROPM,*)
       INTEGER              :: ID, IMESG
       CHARACTER*nchartitle :: TITR
       INTEGER, DIMENSION(MVSIZ), INTENT(INOUT) :: IX1,IX2,IX3,IX4
@@ -137,7 +137,7 @@ C
        ENDDO
 C
        DO I=1,MIN(MVSIZ,NRTM-IDEB)
-        !Calcul du centre de gravit   
+        !Calcul du centre de gravit
         X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
         Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
@@ -255,17 +255,17 @@ C     #######################################################
 	  EXIT
 	END IF
       END DO! next I
-      
+
       IF(I22LAW06*I22LAW37/=0 .OR. I22LAW06*I22LAW51/=0 .OR. I22LAW37*I22LAW51/=0 )THEN
         IMESG = 91
       ENDIF
-      
+
       IF(IMESG/=0)THEN
           CALL ANCMSG(MSGID   = IMESG,
      .                MSGTYPE = MSGERROR,
      .                ANMODE  = ANINFO_BLIND_1,
      .                I1      = ID,
-     .                C1      = TITR)      
+     .                C1      = TITR)
       ENDIF
 C     #######################################################
 

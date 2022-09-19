@@ -165,11 +165,11 @@ Chd|====================================================================
 !                    - constant function --> direct interpolation
 !                    - non-constant function :
 !                        (1): if the number of point in the function is < MIN_GAP, then
-!                             the interpolation is computed 
+!                             the interpolation is computed
 !                        (2): if the number of point in the function is > MIN_GAP, then
 !                             a dichotmy reduces the point interval and a interpolation
 !                             is performed on the reduced point interval
-!                             if the dichotomy fails, then the classical interpolation 
+!                             if the dichotomy fails, then the classical interpolation
 !                             is used
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -188,7 +188,7 @@ C-----------------------------------------------
 !       TF      : my_real ; dimension=SUM( (number of point[IFUNC])*2), IFUNC=1:MAX_FUNC
 !                 gives the function points x + function value f(x)
 !       DERI    : my_real ; function derivative
-!       XX      : my_real ; x value to be interpolate 
+!       XX      : my_real ; x value to be interpolate
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       ----------------------------------------
 !       Local variables
@@ -241,7 +241,7 @@ C-----------------------------------------------
                 ELSE
                         !       -----------------------------
                         !       dichotomy
-                        !       first shot : (a) we check the first value 
+                        !       first shot : (a) we check the first value
 
                         DX2 = TF(NPF(IFUNC)) - XX
                         I=NPF(IFUNC)+2
@@ -255,12 +255,12 @@ C-----------------------------------------------
                                 IF(DX1<=DX2)THEN
                                         FINTER = TF(I-1) + DX1 * DERI
                                 ELSE
-                                        FINTER = TF(I+1) - DX2 * DERI 
+                                        FINTER = TF(I+1) - DX2 * DERI
                                 ENDIF
                                 RETURN
                         ENDIF
 
-                        !       first shot : (b) we check the last value 
+                        !       first shot : (b) we check the last value
                         DX2 = TF(NPF(IFUNC+1)-2) - XX
                         I=NPF(IFUNC+1)-2
                         DX1 = -DX2
@@ -279,15 +279,15 @@ C-----------------------------------------------
                                 ENDIF
                                 RETURN
                         ENDIF
-                
+
 
                         !       -----------------------------
                         !       second shot : (a) dichotomy in order to reduce the gap
-                        FIRST = 1 
-                        LAST = POINT_NBR 
+                        FIRST = 1
+                        LAST = POINT_NBR
                         BOOL=.TRUE.
-                        DX2 = TF(NPF(IFUNC)) - XX    
-                        COUNTER = 0     
+                        DX2 = TF(NPF(IFUNC)) - XX
+                        COUNTER = 0
 
                         DO WHILE(BOOL)
                                 MIDDLE = (LAST - FIRST) / 2 + FIRST
@@ -295,7 +295,7 @@ C-----------------------------------------------
                                 DX2_LAST= TF(NPF(IFUNC)+2*LAST) - XX
                                 DX2_MIDDLE= TF(NPF(IFUNC)+2*MIDDLE) - XX
 
-        
+
                                 PRODUCT_FM = DX2_FIRST*DX2_MIDDLE
                                 PRODUCT_ML = DX2_MIDDLE*DX2_LAST
 
@@ -317,7 +317,7 @@ C-----------------------------------------------
                                 ENDIF
                                 !   ---------------------
                         ENDDO
-                        !       -----------------------------                
+                        !       -----------------------------
                         !       second shot : (b) classical interpokation with reduced interval
 
                         !   ------------------------
@@ -325,10 +325,10 @@ C-----------------------------------------------
                         !   the dichotomy failed to reduce the inteval, back to old treatment
                         IF( COUNTER == -1 ) THEN
                                 FIRST = 1
-                                LAST = POINT_NBR 
+                                LAST = POINT_NBR
                         ENDIF
                         !   ------------------------
-                        DX2 = TF(NPF(IFUNC)+2*FIRST-2) - XX            
+                        DX2 = TF(NPF(IFUNC)+2*FIRST-2) - XX
                         DO J=FIRST,LAST
                                 I=NPF(IFUNC)+2*J
                                 DX1 = -DX2

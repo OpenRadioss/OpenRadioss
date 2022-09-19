@@ -29,10 +29,10 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|        FINTER_SMOOTH                 source/tools/curve/finter_smooth.F
 Chd|====================================================================
-      SUBROUTINE DAASOLV(NDIM,   NNO,    NEL,   
+      SUBROUTINE DAASOLV(NDIM,   NNO,    NEL,
      .                   IFLOW,  IBUF,   ELEM,  SHELL_GA,
-     .                   RFLOW,  NORMAL, TA,    AREAF, COSG,  DIST,  
-     .                   MFLE,   ACCF,   PM,    PTI,   X, V, A, NPC, TF, 
+     .                   RFLOW,  NORMAL, TA,    AREAF, COSG,  DIST,
+     .                   MFLE,   ACCF,   PM,    PTI,   X, V, A, NPC, TF,
      .                   NBGAUGE,LGAUGE, GAUGE, NSENSOR, SENSOR,  LSENSOR, IGRV, AGRV,
      .                   CBEM   ,IPIV  , NFUNCT)
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER  IFPRES, JFORM, KFORM, IPRES, IWAVE, INTEGR, FREESURF, AFTERFLOW
       INTEGER  GRAV_ID, IFUNC, ISENS, LENBUF, NNO_L, NEL_L, NELMAX, INFO,ISMOOTH
       my_real  X1,  Y1,  Z1,  X2,  Y2,  Z2,  X3,  Y3,  Z3,  X4,  Y4,  Z4,
-     .         X0,  Y0,  Z0,  X12, Y12, Z12, X13, Y13, Z13, X24, Y24, Z24,	  
+     .         X0,  Y0,  Z0,  X12, Y12, Z12, X13, Y13, Z13, X24, Y24, Z24,	
      .         NRX, NRY, NRZ, AREA2, WF(2), WI(4,2),
      .         PM1, DSC, VX0, VY0, VZ0
       my_real  RHO, SSP, RHOC, TTA, DYDX, FF, SFPRES, DPPDT, PMAX, THETA, NORM, FAC1, TS, GRAVITY
@@ -333,7 +333,7 @@ C-----------------------------------------------
              ENDIF
           ENDDO
         ENDIF
-      ENDIF	  
+      ENDIF	
 C-----------------------------------------------
 C     Vitesse onde incidente
 C-----------------------------------------------
@@ -396,7 +396,7 @@ C-----------------------------------------------
                 DPRDT(I) = ZERO
              ENDIF
           ENDDO
-        ENDIF	  
+        ENDIF	
 C-----------------------------------------------
 C    Vitesse onde reflechie
 C-----------------------------------------------
@@ -446,7 +446,7 @@ C Correction
             ENDDO
             DO I=1,NEL
                PM(I) = PM(I) + DPMDT(I)*DT1
-               PS(I) = PM(I) - RHOC*(VI(I)+VR(I)) 
+               PS(I) = PM(I) - RHOC*(VI(I)+VR(I))
             ENDDO
           ENDIF
 C
@@ -505,7 +505,7 @@ C High Frequency Approximation
         ENDDO
         DO I=1,NEL
            PM(I) = PM(I) + DPMDT(I)*DT1
-           PS(I) = PM(I) - RHOC*VI(I) 
+           PS(I) = PM(I) - RHOC*VI(I)
         ENDDO
 C
       ELSEIF(KFORM == 3) THEN
@@ -633,4 +633,4 @@ C-----------------------------------------------------------
 
       RETURN
       END
-      
+

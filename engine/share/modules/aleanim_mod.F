@@ -32,10 +32,10 @@ Chd|        SORTIE_MAIN                   source/output/sortie_main.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALEANIM_MOD
-      
+
 #include "my_real.inc"
 
-        my_real , 
+        my_real ,
      .    DIMENSION(:), ALLOCATABLE ::  FANI_CELL
 
       END MODULE ALEANIM_MOD

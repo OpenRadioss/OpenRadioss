@@ -50,9 +50,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
-      USE DETONATORS_MOD      
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXIG3D(*), IPARG(*),
-     .    NEL, IPART(LIPART1,*), 
+     .    NEL, IPART(LIPART1,*),
      .    IGEO(NPROPGI,*), IPM(NPROPMI,*), PTSOL(*), NSIGI, NSIGS,
      .    NPF(*),FAIL_INI(*),KXIG3D(NIXIG3D,*),NCTRL,NCTRLMAX,
      .    IPARTIG3D(*),PX,PY,PZ
@@ -145,13 +145,13 @@ C-----------------------------------------------
       my_real
      .   TBID(MVSIZ), TBID2(8,MVSIZ)   ! SUREMENT A CHANGER LA FORME ET LE NOM
 C-----------------------------------------------    
-      TYPE(G_BUFEL_) ,POINTER :: GBUF 
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------    
       DOUBLE PRECISION
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -179,7 +179,7 @@ C-----------------------------------------------
      9 0.081274388361574D0,0.180648160694857D0,0.260610696402935D0,
      9 0.312347077040003D0,0.330239355001260D0,0.312347077040003D0,
      9 0.260610696402935D0,0.180648160694857D0,0.081274388361574D0/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -226,7 +226,7 @@ C
       DO I=LFT,LLT
        TBID(I)=ZERO
        DO J=1,NCTRL
-        MASS(J,I) = ZERO 
+        MASS(J,I) = ZERO
        ENDDO
        DO J=1,8
         TBID2(J,I)=ZERO
@@ -287,7 +287,7 @@ C----------------------------------------
       IF(IGTYP == 47) THEN
 
       DO ITEL=LFT,LLT
-       GBUF%VOL(ITEL)=ZERO 
+       GBUF%VOL(ITEL)=ZERO
       ENDDO
 
       CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
@@ -296,13 +296,13 @@ C----------------------------------------
 
       DO I=1,PX
        DO J=1,PY
-        DO K=1,PZ 
+        DO K=1,PZ
 
          LBUF => ELBUF_STR%BUFLY(1)%LBUF(I,J,K)
          MBUF => ELBUF_STR%BUFLY(1)%MAT(I,J,K)
          N=N+1
- 
-         DO ITEL=LFT,LLT 
+
+         DO ITEL=LFT,LLT
 
           LBUF%RHO(ITEL) = PM(89,IMAT(ITEL))
           ZR = A_GAUSS(I,PX)
@@ -315,7 +315,7 @@ c     1      ITEL      ,N             ,XX(:,ITEL)  ,YY(:,ITEL),
 c     2      ZZ(:,ITEL),WW(:,ITEL)    ,IDX(ITEL)   ,IDY(ITEL) ,
 c     3      IDZ(ITEL) ,DRDXI         ,R           ,DETJAC    ,
 c     4      NCTRL     ,ZR            ,ZS          ,ZT        ,
-c     5      KNOT(IAD_KNOT+1),KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+c     5      KNOT(IAD_KNOT+1),KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
 c     6      PY-1      ,PZ-1          ,1)
 
           CALL IG3DONEDERIV(
@@ -324,12 +324,12 @@ c     6      PY-1      ,PZ-1          ,1)
      3      IDZ(ITEL) ,KNOTLOCX(:,:,ITEL) ,KNOTLOCY(:,:,ITEL),KNOTLOCZ(:,:,ITEL) ,
      4      DRDXI     ,R             ,DETJAC      ,NCTRL    ,
      5      ZR        ,ZS            ,ZT          ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1      ,PZ-1          ,1           ,
      8      IDX2(ITEL),IDY2(ITEL)    ,IDZ2(ITEL)  ,
      9      KNOTLOCELX(:,ITEL),KNOTLOCELY(:,ITEL),KNOTLOCELZ(:,ITEL))
-        
-          LBUF%VOL(ITEL)= PGAUSS*DETJAC 
+
+          LBUF%VOL(ITEL)= PGAUSS*DETJAC
 
           IF (PX*PY*PZ/=1) THEN
            GBUF%VOL(ITEL)=GBUF%VOL(ITEL) + LBUF%VOL(ITEL)
@@ -340,7 +340,7 @@ C     INITIALISATION DES MASSES
 C----------------------------------------
 
           CALL IG3DMASS3(
-     1      LBUF%RHO,MS      ,PARTSAV ,XX     ,YY         ,   
+     1      LBUF%RHO,MS      ,PARTSAV ,XX     ,YY         ,
      2      ZZ      ,VX      ,VY      ,VZ     ,IPARTIG3D(NF1),
      3      MSIG3D  ,LBUF%VOL,TBID    ,TBID2  ,BID        ,
      4      BID     ,BID     ,TBID    ,TBID   ,TBID       ,
@@ -350,7 +350,7 @@ C----------------------------------------
 
          ENDDO
 
-         CALL MATINI(PM      ,IXIG3D ,SIXIG3D   ,X      ,  
+         CALL MATINI(PM      ,IXIG3D ,SIXIG3D   ,X      ,
      1               GEO     ,ALE_CONNECTIVITY  ,DETONATORS,IPARG  ,
      2               SIGI    ,NEL    ,SKEW      ,IGEO   ,
      3               IPART   ,IPARTIG3D ,
@@ -374,12 +374,12 @@ C------------------------------------------
 
        DO I=1,PX
         DO J=1,PY
-         DO K=1,PZ 
+         DO K=1,PZ
 
           LBUF => ELBUF_STR%BUFLY(1)%LBUF(I,J,K)
 
           CALL SVALUE0(
-     1      LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX , 
+     1      LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX ,
      2      GBUF%RHO,GBUF%VOL,GBUF%OFF,GBUF%SIG,GBUF%EINT,DTX0,
      3      NEL     )
 

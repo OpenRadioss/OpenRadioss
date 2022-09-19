@@ -29,11 +29,11 @@ Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_she
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FAIL_PUCK_C(
-     1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      , 
-     2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,                          
-     3     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
+     1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,
+     2     TIME      ,NGL       ,IPG       ,ILAY      ,IPT       ,
+     3     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      4     OFF       ,FOFF      ,PTHKF     ,DMG_FLAG  ,DMG_SCALE ,
-     5     DFMAX     ,TDEL      )                               
+     5     DFMAX     ,TDEL      )
 C-----------------------------------------------
 C    modified Puck model ------
 C-----------------------------------------------
@@ -104,10 +104,10 @@ C=======================================================================
       SIGC2  = UPARAM(4)
       FSIG12 = UPARAM(5)
       PP12   = UPARAM(6)
-      PN12   = UPARAM(7) 
+      PN12   = UPARAM(7)
       PN22   = UPARAM(8)
       TMAX   = UPARAM(9)
-      IFAIL_SH = INT(UPARAM(10)) 
+      IFAIL_SH = INT(UPARAM(10))
 c
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
@@ -115,8 +115,8 @@ c
         PTHKF = ONE
       ENDIF
 c
-      DMG_FLAG = 1               
-      NINDX    = 0 
+      DMG_FLAG = 1
+      NINDX    = 0
 c-------------------------------
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
@@ -125,7 +125,7 @@ c-------------------------------
           FB = ZERO
           FC = ZERO
 C       
-          IF (UVAR(I,1) == ZERO) THEN                  
+          IF (UVAR(I,1) == ZERO) THEN
 c
 c           fiber criteria
 c
@@ -135,53 +135,53 @@ c
               F1 = -SIGNXX(I)/SIGC1
             ENDIF
 c
-c           matrix criteria                                      
-c                                                                
+c           matrix criteria
+c
             IF (SIGNYY(I) >= ZERO) THEN
               FAC = ONE - PP12*SIGT2/FSIG12
               FAC = FAC*SIGNYY(I)/SIGT2
-              FA  = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
+              FA  = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC)
      .            + PP12*SIGNYY(I)/FSIG12
              ELSE
               FAC = HALF/(ONE + PN22)/FSIG12
               FC  = (SIGNXY(I)*FAC)**2 + (SIGNYY(I)/SIGC2)**2
               FC  =-FC*SIGC2/SIGNYY(I)
             ENDIF
-            FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 ) 
+            FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 )
      .                             + PN12*SIGNYY(I)
             FB = FB/FSIG12
 C
             DAMMX    = MIN(ONE,MAX(F1,FA,FB,FC))
             DFMAX(I) = MIN(ONE,DAMMX)
             IF (DAMMX >= ONE) THEN
-              NINDX = NINDX+1                                    
-              INDX(NINDX) = I                                    
-              UVAR(I,1) = TIME                                   
+              NINDX = NINDX+1
+              INDX(NINDX) = I
+              UVAR(I,1) = TIME
             ENDIF
           ENDIF
 c
-          IF (UVAR(I,1) > ZERO) THEN 
-            DMG_SCALE(I) = EXP(-(TIME - UVAR(I,1))/TMAX)   
+          IF (UVAR(I,1) > ZERO) THEN
+            DMG_SCALE(I) = EXP(-(TIME - UVAR(I,1))/TMAX)
             IF (DMG_SCALE(I) < EM02) THEN
               FOFF(I) = 0
               TDEL(I) = TIME
               DMG_SCALE(I) = ZERO
             ENDIF
-          ENDIF                  
-        ENDIF        
-      ENDDO                     
+          ENDIF
+        ENDIF
+      ENDDO
 c------------------------
 c       print
 c------------------------
-      IF (NINDX > 0) THEN  
-        DO J=1,NINDX       
-          I = INDX(J)      
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
+          I = INDX(J)
 #include  "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c------------------------
  2000 FORMAT(1X,'FAILURE (PUCK) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

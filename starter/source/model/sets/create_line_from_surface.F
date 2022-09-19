@@ -60,7 +60,7 @@ C=======================================================================
 
 !------------------
       IEXT = 1  ! par default (external surface)
-      IF ( OPT_A == 1 .OR. KEYSET == 'ALL' .OR. 
+      IF ( OPT_A == 1 .OR. KEYSET == 'ALL' .OR.
      .                     KEYSET == 'BOX' .OR.
      .                     KEYSET == 'BOX2')  IEXT = 2 ! all surfaces (internal + external)
 !------------------

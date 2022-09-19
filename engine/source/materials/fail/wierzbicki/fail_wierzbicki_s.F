@@ -82,12 +82,12 @@ C
       my_real TIME,TIMESTEP,UPARAM(*),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .   DPLA(NEL),PLA(NEL) 
+     .   DPLA(NEL),PLA(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -102,7 +102,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,IMOY
-      my_real 
+      my_real
      .        C1,C2,C3,C4,CM,
      .        CN,P,EPSF,SVM,J3,ETA,XI,SXX,SYY,SZZ,DELTA,
      .        XI_OLD, ETA_OLD,PLA_OLD,EPSF_OLD
@@ -119,8 +119,8 @@ C
       IF(TIME == ZERO)THEN
         DO I=1,NEL
          TDELE(I)  = ZERO
-        ENDDO   
-      ENDIF 
+        ENDDO
+      ENDIF
 Cc
       IDEL=0
       IDEV=0
@@ -138,7 +138,7 @@ C...
       END IF
 C      
       IF(IDEL==1)THEN
-       NINDX=0  
+       NINDX=0
        DO I=1,NEL
         IF(IFLAG==1.AND.OFF(I)==1.AND.DPLA(I)/=ZERO)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
@@ -150,19 +150,19 @@ C  Vmises stress
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
          SVM=SQRT(THREE*SVM)
 C third invariant
-         J3 = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I) 
+         J3 = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
      .                    -  SYY*SIGNZX(I)**2  - SXX*SIGNYZ(I)**2
      .                    -  SZZ*SIGNXY(I)**2
           ETA = P / MAX(EM20,SVM)
           XI  = HALF*(TWENTY + SEVEN)*J3/MAX(EM20,SVM**3)
 c
-          IF(IMOY==1)THEN 
+          IF(IMOY==1)THEN
            UVAR(I,1) = UVAR(I,1) + ETA*DPLA(I)
            UVAR(I,2) = UVAR(I,2) +  XI*DPLA(I)
            ETA = UVAR(I,1)/MAX(EM20,PLA(I))
            XI  = UVAR(I,2)/MAX(EM20,PLA(I))
-          ENDIF                              
-c  
+          ENDIF
+c
           EPSF = (C1*EXP(-C2*ETA))**CN
      .        - (C3*EXP(-C4*ETA))**CN
            EPSF = EPSF * MAX(ZERO,(ONE - XI**CM))**(ONE/CM)
@@ -173,10 +173,10 @@ c
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
-          IDEL7NOK = 1 
-          TDELE(I) = TIME  
+          IDEL7NOK = 1
+          TDELE(I) = TIME
          ENDIF
-        ENDIF 
+        ENDIF
        ENDDO
        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
@@ -185,14 +185,14 @@ c
          WRITE(ISTDO,1100) NGL(INDX(J)),TIME
 #include "lockoff.inc"
         END DO
-       END IF         
+       END IF
       ENDIF
 Cc deviatoric will vanish     
       IF(IDEV==1)THEN
-       NINDX=0 
-       NINDEX = 0 
+       NINDX=0
+       NINDEX = 0
        DO I=1,NEL
-        IF(IFLAG==2.AND.OFF(I)==ONE)THEN 
+        IF(IFLAG==2.AND.OFF(I)==ONE)THEN
          IF(DFMAX(I)<ONE)THEN
          P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
          SXX = SIGNXX(I) - P
@@ -203,7 +203,7 @@ C  Vmises stress
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
          SVM=SQRT(THREE*SVM)
 C third invariant
-         J3 = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I) 
+         J3 = SXX*SYY*SZZ + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
      .                    -  SYY*SIGNZX(I)**2  - SXX*SIGNYZ(I)**2
      .                    -  SZZ*SIGNXY(I)**2
          ETA = P / MAX(EM20,SVM)
@@ -229,10 +229,10 @@ CC
            SIGNZZ(I) =   P
            SIGNXY(I) = ZERO
            SIGNYZ(I) = ZERO
-           SIGNZX(I) = ZERO                 
+           SIGNZX(I) = ZERO
           ENDIF
-c UVAR> 1          
-         ELSE 
+c UVAR> 1
+         ELSE
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SIGNXX(I) =   P
           SIGNYY(I) =   P
@@ -241,7 +241,7 @@ c UVAR> 1
           SIGNYZ(I) = ZERO
           SIGNZX(I) = ZERO
          ENDIF
-        ENDIF  
+        ENDIF
        ENDDO
        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
@@ -251,8 +251,8 @@ c UVAR> 1
          WRITE(ISTDO,2100) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-       END IF           
-      ENDIF      
+       END IF
+      ENDIF
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
           DFMAX(I)= MIN(ONE,DFMAX(I))

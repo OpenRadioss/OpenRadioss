@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        NSMS(*), ISKYI_SMS(LSKYI_SMS,*), NRTS
       my_real
      .    HS1(MVSIZ),HS2(MVSIZ),HM1(MVSIZ),HM2(MVSIZ),STIF(MVSIZ),
-     .    MSKYI_SMS(*), K1(MVSIZ), K2(MVSIZ), K3(MVSIZ), K4(MVSIZ), 
+     .    MSKYI_SMS(*), K1(MVSIZ), K2(MVSIZ), K3(MVSIZ), K4(MVSIZ),
      .    C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -159,7 +159,7 @@ C
          ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(N2(I))
         END IF
        END IF
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

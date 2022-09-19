@@ -30,7 +30,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       MODULE ELBUF_MOD
 
-        USE ELBUFDEF_MOD      
+        USE ELBUFDEF_MOD
 
         TYPE(ELBUF_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: ELBUF_TAB
 

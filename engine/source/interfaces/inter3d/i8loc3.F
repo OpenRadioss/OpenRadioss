@@ -107,7 +107,7 @@ C
         KG=MSR(K)
         MG=MSR(M)
         NG=MSR(N)
-        
+
         CMS=(XI(I)-X(1,JG))**2+(YI(I)-X(2,JG))**2+(ZI(I)-X(3,JG))**2
         DMS=(XI(I)-X(1,KG))**2+(YI(I)-X(2,KG))**2+(ZI(I)-X(3,KG))**2
         EMS=(XI(I)-X(1,MG))**2+(YI(I)-X(2,MG))**2+(ZI(I)-X(3,MG))**2
@@ -118,12 +118,12 @@ C
          GMS=CMS
          JLNEW=J
         ENDIF
-        IF(DMS<GMS .OR. 
+        IF(DMS<GMS .OR.
      .     (DMS==GMS .AND. ITAB(MSR(JLNEW))>ITAB(MSR(K))))  THEN
          GMS=DMS
          JLNEW=K
         ENDIF
-        IF(EMS<GMS .OR. 
+        IF(EMS<GMS .OR.
      .    (EMS==GMS .AND. ITAB(MSR(JLNEW))>ITAB(MSR(M)) )) THEN
          GMS=EMS
          JLNEW=M

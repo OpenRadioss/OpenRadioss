@@ -97,7 +97,7 @@ C-----------------------------------------------
       LOGICAL debug_outp
       INTEGER :: idbf, idbl, NC(8,MVSIZ), IAD2, LGTH
 C-----------------------------------------------
-      DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/      
+      DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------      
@@ -125,7 +125,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-     
+
       DO I=LFT,LLT
         II     = I + NFT
         MAT(I) = IXS(1,II)
@@ -198,11 +198,11 @@ C-----------------------------------------------
         Wface(2,5,I) = FOURTH*(W(2,NC2(I))+W(2,NC3(I))+W(2,NC6(I))+W(2,NC7(I)))
         Wface(3,5,I) = FOURTH*(W(3,NC2(I))+W(3,NC3(I))+W(3,NC6(I))+W(3,NC7(I)))
 
-        Wface(1,6,I) = FOURTH*(W(1,NC1(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC8(I)))                                       
-        Wface(2,6,I) = FOURTH*(W(2,NC1(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC8(I)))                                        
-        Wface(3,6,I) = FOURTH*(W(3,NC1(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC8(I)))                                       
+        Wface(1,6,I) = FOURTH*(W(1,NC1(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC8(I)))
+        Wface(2,6,I) = FOURTH*(W(2,NC1(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC8(I)))
+        Wface(3,6,I) = FOURTH*(W(3,NC1(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC8(I)))
       ENDDO
-      
+
       !======================================================!
       ! INITIALIZATION : ADJAENT VALUES                      !
       !======================================================!
@@ -214,32 +214,32 @@ C-----------------------------------------------
         VALEL(3,I)         = FCELL(3,II) !rho.uz
         VALEL(4,I)         = FCELL(4,II) !rho
         VALEL(5,I)         = FCELL(5,II) !ssp
-        VALEL(6,I)         = FCELL(6,II) !P 
+        VALEL(6,I)         = FCELL(6,II) !P
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         LGTH = ALE_CONNECT%ee_connect%iad_connect(II+1) - IAD2
         DO J=1,LGTH
           IDV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
           IF(IDV <= 0) THEN
-            VALVOIS(1,J,I) = -FCELL(1,II) 
-            VALVOIS(2,J,I) = -FCELL(2,II) 
-            VALVOIS(3,J,I) = -FCELL(3,II) 
-            VALVOIS(4,J,I) =  FCELL(4,II) 
-            VALVOIS(5,J,I) =  FCELL(5,II) 
-            VALVOIS(6,J,I) =  FCELL(6,II)               
+            VALVOIS(1,J,I) = -FCELL(1,II)
+            VALVOIS(2,J,I) = -FCELL(2,II)
+            VALVOIS(3,J,I) = -FCELL(3,II)
+            VALVOIS(4,J,I) =  FCELL(4,II)
+            VALVOIS(5,J,I) =  FCELL(5,II)
+            VALVOIS(6,J,I) =  FCELL(6,II)
           ELSE
             VALVOIS(1,J,I) = FCELL(1,IDV)
             VALVOIS(2,J,I) = FCELL(2,IDV)
-            VALVOIS(3,J,I) = FCELL(3,IDV) 
-            VALVOIS(4,J,I) = FCELL(4,IDV)  
-            VALVOIS(5,J,I) = FCELL(5,IDV) 
-            VALVOIS(6,J,I) = FCELL(6,IDV)                  
+            VALVOIS(3,J,I) = FCELL(3,IDV)
+            VALVOIS(4,J,I) = FCELL(4,IDV)
+            VALVOIS(5,J,I) = FCELL(5,IDV)
+            VALVOIS(6,J,I) = FCELL(6,IDV)
           ENDIF
         ENDDO!next J
       ENDDO!next I
-      
+
       !======================================================!
       ! NORMAL VECTORS ON EACH DACE                          !
-      !    2S[n] = [diag1] x [diag2]                         ! 
+      !    2S[n] = [diag1] x [diag2]                         !
       !    where                                             !
       !      [n] : unitary normal vector on face             !
       !======================================================!
@@ -276,9 +276,9 @@ C-----------------------------------------------
         N(1:3,5,I) = (/N5X(I),N5Y(I),N5Z(I)/)
         N(1:3,6,I) = (/N6X(I),N6Y(I),N6Z(I)/)
       END DO
-      
+
       !======================================================!
-      ! RELATIVE VELOCITIES ON EACH FACE                     !     
+      ! RELATIVE VELOCITIES ON EACH FACE                     !
       !======================================================!
       !UPDATE LATER WITH LINEAR INTERPOLATION INSTEAD OF MEAN VALUE
       !MEAN VALUE OK FOR CARTESIAN REGULAR MESH
@@ -286,53 +286,53 @@ C-----------------------------------------------
       IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
 
       SELECT CASE(I_ALE_SOLVER)
-      
+
 
        CASE(1)
-        !CENTERED FVM - U average 
+        !CENTERED FVM - U average
           DO I=LFT,LLT
             II               = I + NFT
             DO J=1,NV46
-               VEC(1,J)      = HALF * (VALEL(1,I)/VALEL(4,I) + VALVOIS(1,J,I)/VALVOIS(4,J,I)) 
-               VEC(2,J)      = HALF * (VALEL(2,I)/VALEL(4,I) + VALVOIS(2,J,I)/VALVOIS(4,J,I)) 
-               VEC(3,J)      = HALF * (VALEL(3,I)/VALEL(4,I) + VALVOIS(3,J,I)/VALVOIS(4,J,I)) 
+               VEC(1,J)      = HALF * (VALEL(1,I)/VALEL(4,I) + VALVOIS(1,J,I)/VALVOIS(4,J,I))
+               VEC(2,J)      = HALF * (VALEL(2,I)/VALEL(4,I) + VALVOIS(2,J,I)/VALVOIS(4,J,I))
+               VEC(3,J)      = HALF * (VALEL(3,I)/VALEL(4,I) + VALVOIS(3,J,I)/VALVOIS(4,J,I))
                VEC(1,J)      = VEC(1,J) - Wface(1,J,I)
-               VEC(2,J)      = VEC(2,J) - Wface(2,J,I) 
-               VEC(3,J)      = VEC(3,J) - Wface(3,J,I) 
-            ENDDO!next J 
+               VEC(2,J)      = VEC(2,J) - Wface(2,J,I)
+               VEC(3,J)      = VEC(3,J) - Wface(3,J,I)
+            ENDDO!next J
             DO J=1,NV46
               F_FACE(1,J,II) = VEC(1,J)
               F_FACE(2,J,II) = VEC(2,J)
               F_FACE(3,J,II) = VEC(3,J)
-            ENDDO        
+            ENDDO
             !---face-1
             VX1(I)           = VEC(1,1)
             VY1(I)           = VEC(2,1)
-            VZ1(I)           = VEC(3,1)                
+            VZ1(I)           = VEC(3,1)
             !---face-2
             VX2(I)           = VEC(1,2)
             VY2(I)           = VEC(2,2)
-            VZ2(I)           = VEC(3,2)                
+            VZ2(I)           = VEC(3,2)
             !---face-3
             VX3(I)           = VEC(1,3)
             VY3(I)           = VEC(2,3)
-            VZ3(I)           = VEC(3,3)                
+            VZ3(I)           = VEC(3,3)
             !---face-4
             VX4(I)           = VEC(1,4)
             VY4(I)           = VEC(2,4)
-            VZ4(I)           = VEC(3,4)                
+            VZ4(I)           = VEC(3,4)
             !---face-5
             VX5(I)           = VEC(1,5)
             VY5(I)           = VEC(2,5)
-            VZ5(I)           = VEC(3,5)                
+            VZ5(I)           = VEC(3,5)
             !---face-6
             VX6(I)           = VEC(1,6)
             VY6(I)           = VEC(2,6)
-            VZ6(I)           = VEC(3,6)                
-          ENDDO!next I 
+            VZ6(I)           = VEC(3,6)
+          ENDDO!next I
 
         CASE(2)
-        !CENTERED FVM - rho.U average 
+        !CENTERED FVM - rho.U average
           DO I=LFT,LLT
             II               = I + NFT
             DO J=1,NV46
@@ -340,42 +340,42 @@ C-----------------------------------------------
                VEC(2,J)      = (VALEL(2,I) + VALVOIS(2,J,I)) / (VALEL(4,I)+VALVOIS(4,J,I))
                VEC(3,J)      = (VALEL(3,I) + VALVOIS(3,J,I)) / (VALEL(4,I)+VALVOIS(4,J,I))
                VEC(1,J)      = VEC(1,J) - Wface(1,J,I)
-               VEC(2,J)      = VEC(2,J) - Wface(2,J,I) 
-               VEC(3,J)      = VEC(3,J) - Wface(3,J,I) 
-            ENDDO!next J 
+               VEC(2,J)      = VEC(2,J) - Wface(2,J,I)
+               VEC(3,J)      = VEC(3,J) - Wface(3,J,I)
+            ENDDO!next J
             DO J=1,NV46
               F_FACE(1,J,II) = VEC(1,J)
               F_FACE(2,J,II) = VEC(2,J)
               F_FACE(3,J,II) = VEC(3,J)
-            ENDDO        
+            ENDDO
             !---face-1
             VX1(I)           = VEC(1,1)
             VY1(I)           = VEC(2,1)
-            VZ1(I)           = VEC(3,1)                
+            VZ1(I)           = VEC(3,1)
             !---face-2
             VX2(I)           = VEC(1,2)
             VY2(I)           = VEC(2,2)
-            VZ2(I)           = VEC(3,2)                
+            VZ2(I)           = VEC(3,2)
             !---face-3
             VX3(I)           = VEC(1,3)
             VY3(I)           = VEC(2,3)
-            VZ3(I)           = VEC(3,3)                
+            VZ3(I)           = VEC(3,3)
             !---face-4
             VX4(I)           = VEC(1,4)
             VY4(I)           = VEC(2,4)
-            VZ4(I)           = VEC(3,4)                
+            VZ4(I)           = VEC(3,4)
             !---face-5
             VX5(I)           = VEC(1,5)
             VY5(I)           = VEC(2,5)
-            VZ5(I)           = VEC(3,5)                
+            VZ5(I)           = VEC(3,5)
             !---face-6
             VX6(I)           = VEC(1,6)
             VY6(I)           = VEC(2,6)
-            VZ6(I)           = VEC(3,6)                
-          ENDDO!next I 
-          
+            VZ6(I)           = VEC(3,6)
+          ENDDO!next I
+
         CASE(3)
-        !CENTERED FVM - Roe-average 
+        !CENTERED FVM - Roe-average
           DO I=LFT,LLT
             II               = I + NFT
             SR1              = SQRT(VALEL(4,I))
@@ -385,46 +385,46 @@ C-----------------------------------------------
                VEC(2,J)      = (VALEL(2,I)/SR1 + VALVOIS(2,J,I)/SR2) / (SR1+SR2)
                VEC(3,J)      = (VALEL(3,I)/SR1 + VALVOIS(3,J,I)/SR2) / (SR1+SR2)
                VEC(1,J)      = VEC(1,J) - Wface(1,J,I)
-               VEC(2,J)      = VEC(2,J) - Wface(2,J,I) 
-               VEC(3,J)      = VEC(3,J) - Wface(3,J,I) 
-            ENDDO!next J 
+               VEC(2,J)      = VEC(2,J) - Wface(2,J,I)
+               VEC(3,J)      = VEC(3,J) - Wface(3,J,I)
+            ENDDO!next J
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J) 
-              F_FACE(2,J,II) = VEC(2,J) 
-              F_FACE(3,J,II) = VEC(3,J) 
-            ENDDO        
+              F_FACE(1,J,II) = VEC(1,J)
+              F_FACE(2,J,II) = VEC(2,J)
+              F_FACE(3,J,II) = VEC(3,J)
+            ENDDO
             !---face-1
             VX1(I)           = VEC(1,1)
             VY1(I)           = VEC(2,1)
-            VZ1(I)           = VEC(3,1)                
+            VZ1(I)           = VEC(3,1)
             !---face-2
             VX2(I)           = VEC(1,2)
             VY2(I)           = VEC(2,2)
-            VZ2(I)           = VEC(3,2)                
+            VZ2(I)           = VEC(3,2)
             !---face-3
             VX3(I)           = VEC(1,3)
             VY3(I)           = VEC(2,3)
-            VZ3(I)           = VEC(3,3)                
+            VZ3(I)           = VEC(3,3)
             !---face-4
             VX4(I)           = VEC(1,4)
             VY4(I)           = VEC(2,4)
-            VZ4(I)           = VEC(3,4)                
+            VZ4(I)           = VEC(3,4)
             !---face-5
             VX5(I)           = VEC(1,5)
             VY5(I)           = VEC(2,5)
-            VZ5(I)           = VEC(3,5)                
+            VZ5(I)           = VEC(3,5)
             !---face-6
             VX6(I)           = VEC(1,6)
             VY6(I)           = VEC(2,6)
-            VZ6(I)           = VEC(3,6)                
-          ENDDO!next I 
-          
+            VZ6(I)           = VEC(3,6)
+          ENDDO!next I
+
         CASE(4)
-        !CENTERED FVM - rho.c.U average 
+        !CENTERED FVM - rho.c.U average
           DO I=LFT,LLT
             II               = I + NFT
             DO J=1,NV46
-              IF(DT1==ZERO)THEN            
+              IF(DT1==ZERO)THEN
                VEC(1,J)      = (VALEL(1,I)            + VALVOIS(1,J,I)               )
      .                       / (VALEL(4,I)            + VALVOIS(4,J,I)               )
                VEC(2,J)      = (VALEL(2,I)            + VALVOIS(2,J,I)               )
@@ -432,47 +432,47 @@ C-----------------------------------------------
                VEC(3,J)      = (VALEL(3,I)            + VALVOIS(3,J,I)               )
      .                       / (VALEL(4,I)            + VALVOIS(4,J,I)               )
               ELSE
-               VEC(1,J)      = (VALEL(1,I)*VALEL(5,I) + VALVOIS(1,J,I)*VALVOIS(5,J,I)) 
+               VEC(1,J)      = (VALEL(1,I)*VALEL(5,I) + VALVOIS(1,J,I)*VALVOIS(5,J,I))
      .                       / (VALEL(4,I)*VALEL(5,I) + VALVOIS(4,J,I)*VALVOIS(5,J,I))
-               VEC(2,J)      = (VALEL(2,I)*VALEL(5,I) + VALVOIS(2,J,I)*VALVOIS(5,J,I)) 
+               VEC(2,J)      = (VALEL(2,I)*VALEL(5,I) + VALVOIS(2,J,I)*VALVOIS(5,J,I))
      .                       / (VALEL(4,I)*VALEL(5,I) + VALVOIS(4,J,I)*VALVOIS(5,J,I))
-               VEC(3,J)      = (VALEL(3,I)*VALEL(5,I) + VALVOIS(3,J,I)*VALVOIS(5,J,I)) 
-     .                       / (VALEL(4,I)*VALEL(5,I) + VALVOIS(4,J,I)*VALVOIS(5,J,I))            
+               VEC(3,J)      = (VALEL(3,I)*VALEL(5,I) + VALVOIS(3,J,I)*VALVOIS(5,J,I))
+     .                       / (VALEL(4,I)*VALEL(5,I) + VALVOIS(4,J,I)*VALVOIS(5,J,I))
               ENDIF
               VEC(1,J)      = VEC(1,J) - Wface(1,J,I)
-              VEC(2,J)      = VEC(2,J) - Wface(2,J,I) 
-              VEC(3,J)      = VEC(3,J) - Wface(3,J,I) 
-            ENDDO!next J 
+              VEC(2,J)      = VEC(2,J) - Wface(2,J,I)
+              VEC(3,J)      = VEC(3,J) - Wface(3,J,I)
+            ENDDO!next J
             DO J=1,NV46
               F_FACE(1,J,II) = VEC(1,J)
               F_FACE(2,J,II) = VEC(2,J)
               F_FACE(3,J,II) = VEC(3,J)
-            ENDDO        
+            ENDDO
             !---face-1
             VX1(I)           = VEC(1,1)
             VY1(I)           = VEC(2,1)
-            VZ1(I)           = VEC(3,1)                
+            VZ1(I)           = VEC(3,1)
             !---face-2
             VX2(I)           = VEC(1,2)
             VY2(I)           = VEC(2,2)
-            VZ2(I)           = VEC(3,2)                
+            VZ2(I)           = VEC(3,2)
             !---face-3
             VX3(I)           = VEC(1,3)
             VY3(I)           = VEC(2,3)
-            VZ3(I)           = VEC(3,3)                
+            VZ3(I)           = VEC(3,3)
             !---face-4
             VX4(I)           = VEC(1,4)
             VY4(I)           = VEC(2,4)
-            VZ4(I)           = VEC(3,4)                
+            VZ4(I)           = VEC(3,4)
             !---face-5
             VX5(I)           = VEC(1,5)
             VY5(I)           = VEC(2,5)
-            VZ5(I)           = VEC(3,5)                
+            VZ5(I)           = VEC(3,5)
             !---face-6
             VX6(I)           = VEC(1,6)
             VY6(I)           = VEC(2,6)
-            VZ6(I)           = VEC(3,6)                
-          ENDDO!next I 
+            VZ6(I)           = VEC(3,6)
+          ENDDO!next I
 
         CASE(5)
         !Godunov Acoustic for Riemann problem
@@ -480,16 +480,16 @@ C-----------------------------------------------
             II               = I + NFT
             IF(DT1==ZERO)THEN
               DO J=1,NV46
-                VEC(1,J)      = (VALEL(1,I)             + VALVOIS(1,J,I)) 
-     .                        / (VALEL(4,I)             + VALVOIS(4,J,I)) 
-                VEC(2,J)      = (VALEL(2,I)             + VALVOIS(2,J,I)) 
+                VEC(1,J)      = (VALEL(1,I)             + VALVOIS(1,J,I))
      .                        / (VALEL(4,I)             + VALVOIS(4,J,I))
-                VEC(3,J)      = (VALEL(3,I)             + VALVOIS(3,J,I)) 
+                VEC(2,J)      = (VALEL(2,I)             + VALVOIS(2,J,I))
+     .                        / (VALEL(4,I)             + VALVOIS(4,J,I))
+                VEC(3,J)      = (VALEL(3,I)             + VALVOIS(3,J,I))
      .                        / (VALEL(4,I)             + VALVOIS(4,J,I))
                 VEC(1,J)        = VEC(1,J) - Wface(1,J,I)
-                VEC(2,J)        = VEC(2,J) - Wface(2,J,I) 
-                VEC(3,J)        = VEC(3,J) - Wface(3,J,I) 
-              ENDDO!next J 
+                VEC(2,J)        = VEC(2,J) - Wface(2,J,I)
+                VEC(3,J)        = VEC(3,J) - Wface(3,J,I)
+              ENDDO!next J
             ELSE
               SURF(1) = ONE/SQRT(N1X(I)*N1X(I)+N1Y(I)*N1Y(I)+N1Z(I)*N1Z(I))
               SURF(2) = ONE/SQRT(N2X(I)*N2X(I)+N2Y(I)*N2Y(I)+N2Z(I)*N2Z(I))
@@ -500,48 +500,48 @@ C-----------------------------------------------
               DO J=1,NV46
                  TERM2         = SURF(J) * ( VALEL(6,I)-VALVOIS(6,J,I) ) / (VALEL(4,I)*VALEL(5,I)+VALVOIS(4,J,I)*VALVOIS(5,J,I))
                  !TERM2         = TERM2 * ZERO
-                 VEC(1,J)      = (VALEL(1,I)*VALEL(5,I) + VALVOIS(1,J,I)*VALVOIS(5,J,I)) 
+                 VEC(1,J)      = (VALEL(1,I)*VALEL(5,I) + VALVOIS(1,J,I)*VALVOIS(5,J,I))
      .                         / (VALEL(4,I)*VALEL(5,I)+VALVOIS(4,J,I)*VALVOIS(5,J,I)) + TERM2*N(1,J,I)
-                 VEC(2,J)      = (VALEL(2,I)*VALEL(5,I) + VALVOIS(2,J,I)*VALVOIS(5,J,I)) 
+                 VEC(2,J)      = (VALEL(2,I)*VALEL(5,I) + VALVOIS(2,J,I)*VALVOIS(5,J,I))
      .                         / (VALEL(4,I)*VALEL(5,I)+VALVOIS(4,J,I)*VALVOIS(5,J,I)) + TERM2*N(2,J,I)
-                 VEC(3,J)      = (VALEL(3,I)*VALEL(5,I) + VALVOIS(3,J,I)*VALVOIS(5,J,I)) 
+                 VEC(3,J)      = (VALEL(3,I)*VALEL(5,I) + VALVOIS(3,J,I)*VALVOIS(5,J,I))
      .                         / (VALEL(4,I)*VALEL(5,I)+VALVOIS(4,J,I)*VALVOIS(5,J,I)) + TERM2*N(3,J,I)
                  VEC(1,J)      = VEC(1,J) - Wface(1,J,I)
-                 VEC(2,J)      = VEC(2,J) - Wface(2,J,I) 
-                 VEC(3,J)      = VEC(3,J) - Wface(3,J,I) 
-              ENDDO!next J 
+                 VEC(2,J)      = VEC(2,J) - Wface(2,J,I)
+                 VEC(3,J)      = VEC(3,J) - Wface(3,J,I)
+              ENDDO!next J
             ENDIF
             DO J=1,NV46
-              F_FACE(1,J,II) = VEC(1,J) 
-              F_FACE(2,J,II) = VEC(2,J)  
-              F_FACE(3,J,II) = VEC(3,J)  
-            ENDDO        
+              F_FACE(1,J,II) = VEC(1,J)
+              F_FACE(2,J,II) = VEC(2,J)
+              F_FACE(3,J,II) = VEC(3,J)
+            ENDDO
             !---face-1
             VX1(I)           = VEC(1,1)
             VY1(I)           = VEC(2,1)
-            VZ1(I)           = VEC(3,1)                
+            VZ1(I)           = VEC(3,1)
             !---face-2
             VX2(I)           = VEC(1,2)
             VY2(I)           = VEC(2,2)
-            VZ2(I)           = VEC(3,2)                
+            VZ2(I)           = VEC(3,2)
             !---face-3
             VX3(I)           = VEC(1,3)
             VY3(I)           = VEC(2,3)
-            VZ3(I)           = VEC(3,3)                
+            VZ3(I)           = VEC(3,3)
             !---face-4
             VX4(I)           = VEC(1,4)
             VY4(I)           = VEC(2,4)
-            VZ4(I)           = VEC(3,4)                
+            VZ4(I)           = VEC(3,4)
             !---face-5
             VX5(I)           = VEC(1,5)
             VY5(I)           = VEC(2,5)
-            VZ5(I)           = VEC(3,5)                
+            VZ5(I)           = VEC(3,5)
             !---face-6
             VX6(I)           = VEC(1,6)
             VY6(I)           = VEC(2,6)
-            VZ6(I)           = VEC(3,6)                
-          ENDDO!next I  
-                
+            VZ6(I)           = VEC(3,6)
+          ENDDO!next I
+
         CASE(6)
         !INTERPOLATED
         !WARNING : ADD SYMETRY LATER IF FORMULATION IS KEPT (mean value for identical value on both sides)
@@ -557,7 +557,7 @@ C-----------------------------------------------
             NC(8,I)          = IXS(9,II)
             Z(1)             = ONE_OVER_8*SUM(X(1,NC(1:8,I)))
             Z(2)             = ONE_OVER_8*SUM(X(2,NC(1:8,I)))
-            Z(3)             = ONE_OVER_8*SUM(X(3,NC(1:8,I)))    
+            Z(3)             = ONE_OVER_8*SUM(X(3,NC(1:8,I)))
             IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
             LGTH = ALE_CONNECT%ee_connect%iad_connect(II + 1) - IAD2
             DO J=1,LGTH
@@ -566,13 +566,13 @@ C-----------------------------------------------
                 VEC(1:3,J) = ZERO
                 CYCLE
               ENDIF
-              IX1=IXS(ICF(1,J)+1,II)          
-              IX2=IXS(ICF(2,J)+1,II)          
-              IX3=IXS(ICF(3,J)+1,II)          
-              IX4=IXS(ICF(4,J)+1,II) 
+              IX1=IXS(ICF(1,J)+1,II)
+              IX2=IXS(ICF(2,J)+1,II)
+              IX3=IXS(ICF(3,J)+1,II)
+              IX4=IXS(ICF(4,J)+1,II)
               CF(1,I) = FOURTH*(X(1,IX1)+X(1,IX2)+X(1,IX3)+X(1,IX4))
               CF(2,I) = FOURTH*(X(2,IX1)+X(2,IX2)+X(2,IX3)+X(2,IX4))
-              CF(3,I) = FOURTH*(X(3,IX1)+X(3,IX2)+X(3,IX3)+X(3,IX4))                
+              CF(3,I) = FOURTH*(X(3,IX1)+X(3,IX2)+X(3,IX3)+X(3,IX4))
               NC(1,I)=IXS(2,IDV)
               NC(2,I)=IXS(3,IDV)
               NC(3,I)=IXS(4,IDV)
@@ -583,18 +583,18 @@ C-----------------------------------------------
               NC(8,I)=IXS(9,IDV)
               Zadj(1) = ONE_OVER_8*SUM(X(1,NC(1:8,I)))
               Zadj(2) = ONE_OVER_8*SUM(X(2,NC(1:8,I)))
-              Zadj(3) = ONE_OVER_8*SUM(X(3,NC(1:8,I)))                    
+              Zadj(3) = ONE_OVER_8*SUM(X(3,NC(1:8,I)))
               ZZadj(1)  = Zadj(1)-Z(1)
               ZZadj(2)  = Zadj(2)-Z(2)
-              ZZadj(3)  = Zadj(3)-Z(3)                    
+              ZZadj(3)  = Zadj(3)-Z(3)
               ZCf(1)    = Cf(1,I) - Z(1)
               ZCf(2)    = Cf(2,I) - Z(2)
-              ZCf(3)    = Cf(3,I) - Z(3)                    
+              ZCf(3)    = Cf(3,I) - Z(3)
               PS        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)
               ZCf_      = Zcf(1)**2  + Zcf(2)**2  + Zcf(3)**2
               ZZadj_    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2
               denom1    = SQRT(ZCf_)
-              denom2    = SQRT(ZZadj_)          
+              denom2    = SQRT(ZZadj_)
               denom     = denom1*denom2
               cos       =  PS/denom
               Xsi       =  SQRT(Zcf_) * cos
@@ -602,44 +602,44 @@ C-----------------------------------------------
               !interpoler VALEL -> VALVOIS utilisant lambda
               VEC(1,J)  = VALEL(1,I) + LAMBDA*(VALVOIS(1,J,I)/VALVOIS(4,J,I)-VALEL(1,I)/VALEL(4,I)) - Wface(1,J,I)
               VEC(2,J)  = VALEL(2,I) + LAMBDA*(VALVOIS(2,J,I)/VALVOIS(4,J,I)-VALEL(2,I)/VALEL(4,I)) - Wface(2,J,I)
-              VEC(3,J)  = VALEL(3,I) + LAMBDA*(VALVOIS(3,J,I)/VALVOIS(4,J,I)-VALEL(3,I)/VALEL(4,I)) - Wface(3,J,I)                   
+              VEC(3,J)  = VALEL(3,I) + LAMBDA*(VALVOIS(3,J,I)/VALVOIS(4,J,I)-VALEL(3,I)/VALEL(4,I)) - Wface(3,J,I)
             ENDDO!next J
             DO J=1,NV46
               F_FACE(1,J,II) = VEC(1,J)
               F_FACE(2,J,II) = VEC(2,J)
               F_FACE(3,J,II) = VEC(3,J)
-            ENDDO        
+            ENDDO
             !---face-1
             VX1(I)           = VEC(1,1)
             VY1(I)           = VEC(2,1)
-            VZ1(I)           = VEC(3,1)                
+            VZ1(I)           = VEC(3,1)
             !---face-2
             VX2(I)           = VEC(1,2)
             VY2(I)           = VEC(2,2)
-            VZ2(I)           = VEC(3,2)                
+            VZ2(I)           = VEC(3,2)
             !---face-3
             VX3(I)           = VEC(1,3)
             VY3(I)           = VEC(2,3)
-            VZ3(I)           = VEC(3,3)                
+            VZ3(I)           = VEC(3,3)
             !---face-4
             VX4(I)           = VEC(1,4)
             VY4(I)           = VEC(2,4)
-            VZ4(I)           = VEC(3,4)                
+            VZ4(I)           = VEC(3,4)
             !---face-5
             VX5(I)           = VEC(1,5)
             VY5(I)           = VEC(2,5)
-            VZ5(I)           = VEC(3,5)                
+            VZ5(I)           = VEC(3,5)
             !---face-6
             VX6(I)           = VEC(1,6)
             VY6(I)           = VEC(2,6)
-            VZ6(I)           = VEC(3,6)                
+            VZ6(I)           = VEC(3,6)
           ENDDO!next I
-        
+
       END SELECT !I_ALE_SOLVER
-      
+
       !======================================================!
       ! FLUXES CALCULATION ON EACH FACE                      !
-      !    FLUX_face = [0.5*V_face] . [2S*n]                 !       
+      !    FLUX_face = [0.5*V_face] . [2S*n]                 !
       !======================================================!
       DO I=LFT,LLT
         FLUX1(I)=HALF*(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
@@ -666,34 +666,34 @@ C-----------------------------------------------
           elseif(IALEFVM_OUTP_FLUX==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
-                idbl   = llt          
+                idbl   = llt
           endif
-!#!include "lockon.inc"  
-          if(debug_outp)then     
-!#!include "lockon.inc"       
+!#!include "lockon.inc"
+          if(debug_outp)then
+!#!include "lockon.inc"
           print *, "    |----alefvm_aflux3.F-----|"
           print *, "    |   THREAD INFORMATION   |"
-          print *, "    |------------------------|" 
+          print *, "    |------------------------|"
           print *, "     NCYCLE =", NCYCLE
           do i=idbf,idbl
             ii = nft + i
             print *,                    "      brique=", ixs(11,nft+i)
             write (*,FMT='(A,6E26.14)') "       Flux(1:6) =", FLUX1(I),FLUX2(I),FLUX3(I),FLUX4(I),FLUX5(I),FLUX6(I)
-            write(*,FMT='(A24,1A20)')       "                        ",  
-     .                                  "#--------- cell-----------"          
-            write (*,FMT='(A,1E26.14)') "       V_cell-X  =", FCELL(1,II)           
-            write (*,FMT='(A,1E26.14)') "       V_cell-Y  =", FCELL(2,II)           
-            write (*,FMT='(A,1E26.14)') "       V_cell-Z  =", FCELL(3,II)  
-            write(*,FMT='(A24,6A26)')   "                        ",    
+            write(*,FMT='(A24,1A20)')       "                        ",
+     .                                  "#--------- cell-----------"
+            write (*,FMT='(A,1E26.14)') "       V_cell-X  =", FCELL(1,II)
+            write (*,FMT='(A,1E26.14)') "       V_cell-Y  =", FCELL(2,II)
+            write (*,FMT='(A,1E26.14)') "       V_cell-Z  =", FCELL(3,II)
+            write(*,FMT='(A24,6A26)')   "                        ",
      .                                  "#--------- adj_1 ---------","#--------- adj_2 ---------",
      .                                  "#--------- adj_3 ---------","#--------- adj_4 ---------",
      .                                  "#--------- adj_5 ---------","#--------- adj_6 --------#"
-            write (*,FMT='(A,6E26.14)') "       V_faces-X =", F_FACE(1,1:6,II)           
+            write (*,FMT='(A,6E26.14)') "       V_faces-X =", F_FACE(1,1:6,II)
             write (*,FMT='(A,6E26.14)') "       V_faces-Y =", F_FACE(2,1:6,II)
-            write (*,FMT='(A,6E26.14)') "       V_faces-Z =", F_FACE(3,1:6,II)                        
-            print *, "      "          
+            write (*,FMT='(A,6E26.14)') "       V_faces-Z =", F_FACE(3,1:6,II)
+            print *, "      "
           enddo
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
         endif
         endif
       !-----------------------------------------!

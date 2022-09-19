@@ -66,7 +66,7 @@ C
           NTAG(NN)=1
           NINDEX0 = NINDEX0 + 1
           INDEX0(NINDEX0) = NN
-        END IF            
+        END IF
       ENDDO
 C Need to sort MNM but avoid treatment over NUMNOD if too big
       IF(N>NUMNOD/10)THEN  ! test to check which treatment is best
@@ -98,7 +98,7 @@ C Need to sort MNM but avoid treatment over NUMNOD if too big
 #include "vectorize.inc"
       DO K = 1,NINDEX0
         NTAG(INDEX0(K)) = 0
-      ENDDO        
+      ENDDO
 
       DEALLOCATE(INDEX0)
 C

@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER          :: IADF,IADL,ISENS,N1,NVERTEX,INOd,II
       my_real          :: TS,AA,FCX,FCY,VV,A0, SENSOR(NSENSR,*),DYDX,GAMA,TFEXTT
       my_real          :: M_CELL(MVSIZ),ACCEL(3,MVSIZ),SKEW(LSKEW,*)
-      my_real,EXTERNAL :: FINTER      
+      my_real,EXTERNAL :: FINTER
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
@@ -96,9 +96,9 @@ C-----------------------------------------------
 
       !-------------------------------------------------------------!
       ! GRAVITY COMPUTED FOR CELL VERTEXES                          !
-      !-------------------------------------------------------------!   
+      !-------------------------------------------------------------!
       TFEXTT = ZERO
-  
+
       DO NL=1,NGRAV
         FCY   = AGRV(1,NL)
         FCX   = AGRV(2,NL)
@@ -133,7 +133,7 @@ C-----------------------------------------------
         K1    = 3*N2-2
         K2    = 3*N2-1
         K3    = 3*N2
-        
+
         IF(NL==1)THEN
          !initialisation
 #include "vectorize.inc"
@@ -144,7 +144,7 @@ C-----------------------------------------------
             VERTEX(2,N1) =  SKEW(K2,ISK)*AA
             VERTEX(3,N1) =  SKEW(K3,ISK)*AA
             VERTEX(4,N1) = ONE
-            !--- TODO : TFEXTT            
+            !--- TODO : TFEXTT
             ! VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
             ! IF(LGRAV(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
            ENDDO !next J
@@ -158,7 +158,7 @@ C-----------------------------------------------
             VERTEX(2,N1) = VERTEX(2,N1)+SKEW(K2,ISK)*AA
             VERTEX(3,N1) = VERTEX(3,N1)+SKEW(K3,ISK)*AA
             VERTEX(4,N1) = ONE
-            !--- TODO : TFEXTT            
+            !--- TODO : TFEXTT
             ! VV = SKEW(K1,ISK)*V(1,N1)+SKEW(K2,ISK)*V(2,N1)+SKEW(K3,ISK)*V(3,N1)
             ! IF(LGRAV(J)>0)TFEXTT=TFEXTT+HALF*(A0+AA)*MS(N1)*VV*DT1*WEIGHT(N1)
            ENDDO !next J

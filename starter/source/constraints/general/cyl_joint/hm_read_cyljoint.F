@@ -49,11 +49,11 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE R2R_MOD     
+      USE R2R_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
       USE JOINT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,7 +89,7 @@ C-----------------------------------------------
      .        IFLAGUNIT,FLAG_FMT_TMP,IFIX_TMP,UID,NY,SUB_ID,
      .        IGS
       my_real
-     .   BID 
+     .   BID
       CHARACTER MESS*40,TITR*nchartitle
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
@@ -125,22 +125,22 @@ C----------------------------------------------------------------------
      .                       SUBMODEL_ID = SUB_ID,
      .                       OPTION_TITR = TITR)
 C
-        NOM_OPT(1,I)=ID 
-        CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)       
+        NOM_OPT(1,I)=ID
+        CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 C
         CALL HM_GET_INTV('independentnode',N1,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('dependentnodes',N2,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('dependentnodeset',IGU,IS_AVAILABLE,LSUBMODEL)
 C                                           
-        NS=2+NODGRNR5(IGU,IGS,LJOINT(K+3),IGRNOD,ITABM1,MESS)  
+        NS=2+NODGRNR5(IGU,IGS,LJOINT(K+3),IGRNOD,ITABM1,MESS)
 C
-        LJOINT(K+1)=USR2SYS(N1,ITABM1,MESS,ID)                            
-        LJOINT(K+2)=USR2SYS(N2,ITABM1,MESS,ID)                  
-        CALL ANODSET(LJOINT(K+1), CHECK_USED)                          
-        CALL ANODSET(LJOINT(K+2), CHECK_USED)                         
-        LJOINT(K)=NS                                                   
-        WRITE (IOUT,1000) ID,NS                                        
-        WRITE (IOUT,1100) (ITAB(LJOINT(K+J)),J=1,NS)                   
+        LJOINT(K+1)=USR2SYS(N1,ITABM1,MESS,ID)
+        LJOINT(K+2)=USR2SYS(N2,ITABM1,MESS,ID)
+        CALL ANODSET(LJOINT(K+1), CHECK_USED)
+        CALL ANODSET(LJOINT(K+2), CHECK_USED)
+        LJOINT(K)=NS
+        WRITE (IOUT,1000) ID,NS
+        WRITE (IOUT,1100) (ITAB(LJOINT(K+J)),J=1,NS)
 
         !   allocation of cyl_joint%secondary_node : ns = secondary node + main node
         ALLOCATE( CYL_JOIN(I)%SECONDARY_NODE(NS) )
@@ -155,9 +155,9 @@ C
             ENDDO
             !   ----------------------
         ENDDO
-        ! save the number of secondary nodes 
+        ! save the number of secondary nodes
         CYL_JOIN(I)%NB_SECONDARY_NODE = NS
-        ! save the main nodes 
+        ! save the main nodes
         ALLOCATE( CYL_JOIN(I)%MAIN_NODE(2) )
         CYL_JOIN(I)%MAIN_NODE(1:2) = LJOINT(K+1:K+2)
         K=K+NS+1

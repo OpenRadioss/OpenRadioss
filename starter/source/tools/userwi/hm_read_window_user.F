@@ -119,17 +119,17 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV ('Number_of_datalines' ,NLINES ,IS_AVAILABLE, LSUBMODEL)
 
-      ! Create tempo file  
+      ! Create tempo file
       WRITE(CWIN,'(I4.4)') 1
       SCR_FILE_NAME='SI'//ROOTNAM(1:ROOTLEN)//'_'//CWIN//'.scr'
       SCR_FILE_NAME_LEN=LEN_TRIM(SCR_FILE_NAME)
       OPEN(UNIT=30,FILE=TRIM(SCR_FILE_NAME),FORM='FORMATTED',RECL=ncharline)
       WRITE(30,'(A)') '/USERWI'
 !
-      IF (NLINES > 0) THEN 
+      IF (NLINES > 0) THEN
 
         ! Read & Dump in scratch file
-        DO J=1,NLINES   
+        DO J=1,NLINES
          CALL HM_GET_STRING_INDEX('arraydatalines', RLINE, J, ncharline, IS_AVAILABLE)
          WRITE(30,FMT='(A)')TRIM(RLINE)
         ENDDO
@@ -171,7 +171,7 @@ C-----  buffer initialisation
       WRITE(30,'(A)') '/USERWI'
 
         ! Read & Dump in scratch file
-      DO J=1,NLINES   
+      DO J=1,NLINES
        CALL HM_GET_STRING_INDEX('arraydatalines', RLINE, J, ncharline, IS_AVAILABLE)
        WRITE(30,FMT='(A)')TRIM(RLINE)
       ENDDO

@@ -35,7 +35,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER TABCOUPLEPARTS_FRIC_TMP(NINTERFRIC,*),TABPARTS_FRIC_TMP(NINTERFRIC,*),
-     .        NSETINIT(NINTERFRIC)  ,IFRICORTH_TMP(NINTERFRIC,*) 
+     .        NSETINIT(NINTERFRIC)  ,IFRICORTH_TMP(NINTERFRIC,*)
       my_real
      .   TABCOEF_FRIC_TMP(NINTERFRIC,*)
 
@@ -73,21 +73,21 @@ C=======================================================================
 
        DO NIF = 1, NINTERFRIC
            TABCOUPLEPARTS_FRIC  => INTBUF_FRIC_TAB(NIF)%TABCOUPLEPARTS_FRIC
-           TABCOEF_FRIC  => INTBUF_FRIC_TAB(NIF)%TABCOEF_FRIC 
+           TABCOEF_FRIC  => INTBUF_FRIC_TAB(NIF)%TABCOEF_FRIC
            TABPARTS_FRIC  => INTBUF_FRIC_TAB(NIF)%TABPARTS_FRIC
-           ADPART_FRIC   => INTBUF_FRIC_TAB(NIF)%ADPARTS_FRIC  
+           ADPART_FRIC   => INTBUF_FRIC_TAB(NIF)%ADPARTS_FRIC
            NSET  = INTBUF_FRIC_TAB(NIF)%NSETPRTS
            NSETT  = NSETINIT(NIF)
-           NPARTF = INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC 
+           NPARTF = INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC
            IORTH = INTBUF_FRIC_TAB(NIF)%IORTHFRIC
            IFRICORTH => INTBUF_FRIC_TAB(NIF)%IFRICORTH
            MFROT = INTBUF_FRIC_TAB(NIF)%FRICMOD
 
-           IF(MFROT ==0 ) THEN   
-              LENC =2  
+           IF(MFROT ==0 ) THEN
+              LENC =2
            ELSE
               LENC = 8
-           ENDIF 
+           ENDIF
 
 C----------Copying default values of friction in the top of the Tab TABCOEF_FRIC_TMP
            DO J=1,LENC
@@ -129,30 +129,30 @@ C
                   J = J+2
                 ENDDO
 
-            ENDIF     
+            ENDIF
 
 C----------Copying parts tab tagged by friction model
            DO I=1,NPARTF
                 TABPARTS_FRIC(I) = TABPARTS_FRIC_TMP(NIF,I)
-           ENDDO    
+           ENDDO
 
 C----------Computation of the adress of each part in the tabs TABPARTSFRIC TABCOEF_FRIC_TMP
            ADPART_FRIC(1) = 1
            ADPART_FRIC(2:NPARTF+1) = 0
-           DO I=1,NPARTF 
+           DO I=1,NPARTF
               K = 0
-              J = 1 
+              J = 1
               DO N=1,NSETT
                 IF( TABCOUPLEPARTS_FRIC_TMP(NIF,J)/= 0) THEN
-                 K = K + 1                  
-                 IF(TABCOUPLEPARTS_FRIC_TMP(NIF,J) == TABPARTS_FRIC(I)) THEN  
+                 K = K + 1
+                 IF(TABCOUPLEPARTS_FRIC_TMP(NIF,J) == TABPARTS_FRIC(I)) THEN
                     ADPART_FRIC(I+1) = ADPART_FRIC(I+1) + 1
-                 ENDIF  
+                 ENDIF
                 ENDIF
                 J = J +2
               ENDDO
            ENDDO
-           DO I=1,NPARTF 
+           DO I=1,NPARTF
                K = I +1
               ADPART_FRIC(K) =ADPART_FRIC(K) +ADPART_FRIC(I)
            ENDDO

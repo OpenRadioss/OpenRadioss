@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_LAGMUL_TYPE07(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2        IGRNOD     ,IGRSURF    ,TITR       ,UNITAB     ,LSUBMODEL  )
 C============================================================================
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -95,7 +95,7 @@ C=======================================================================
       MULTIMP = 0
       IREM7I2=0
 C
-      NTYP = 7 
+      NTYP = 7
       IPARI(15)=NOINT
       IPARI(7)=NTYP
 C
@@ -156,7 +156,7 @@ C
 C
         IF(STFAC==ZERO) THEN
            STFAC=ONE
-        ENDIF 
+        ENDIF
 C
 C------------------------------------------------------------
 C  Card5
@@ -192,7 +192,7 @@ C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
 C
-      WRITE(IOUT,1527)       
+      WRITE(IOUT,1527)
 C
       IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -205,7 +205,7 @@ C
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -224,5 +224,5 @@ C--------------------------------------------------------------
       RETURN
  1527 FORMAT(//
      .    '    TYPE==7   PARALLEL/AUTO IMPACTING           ' /,
-     .    '    LAGRANGE MULTIPLIER FORMULATION               ' //)  
+     .    '    LAGRANGE MULTIPLIER FORMULATION               ' //)
       END

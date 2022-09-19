@@ -107,7 +107,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
      . I,J,II,LL
-      my_real 
+      my_real
      .  CC,G1,DAV,EPXX(MVSIZ),EPYY(MVSIZ),EPZZ(MVSIZ),SVXX,
      .  SVYY,SVZZ,P(MVSIZ),
      .  AA(MVSIZ,NPMAX),BB(MVSIZ,NPMAX),H0(6),EPSPZZ(MVSIZ),
@@ -123,24 +123,24 @@ C
        G1 = ZERO
        DO J=1,NPRONY
              G1 = G1 + GV(J)
-       ENDDO 
+       ENDDO
 C  
        A1(1:NEL) = ZERO
        A2(1:NEL) = ZERO
-       EPSPZZ(1:NEL) = ZERO          
+       EPSPZZ(1:NEL) = ZERO
 C
        DO J=1,NPRONY
          DO I=  1,NEL
-          AA(I,J)=  EXP(-BETA(J)*TIMESTEP(I)) 
+          AA(I,J)=  EXP(-BETA(J)*TIMESTEP(I))
           BB(I,J)=TIMESTEP(I)*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP(I))
 C
 C  for computing epszz_dot (sigzz=0)
 C
           H03 = VARI(I, (J - 1)*6 + 3)
-          A1(I)  = A1(I) +  AA(I,J)*H03 
+          A1(I)  = A1(I) +  AA(I,J)*H03
           A2(I)  = A2(I) +  BB(I,J)
          ENDDO
-       ENDDO  
+       ENDDO
 C
 C  compute epszz_dot  sig33= 0
 C            
@@ -154,11 +154,11 @@ C
 C spherique part
           DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
           P(I) = -THREE*KV(I)*DAV
-c deviatorique part           
+c deviatorique part
           EPXX(I) = EPSPXX(I) - DAV
           EPYY(I) = EPSPYY(I) - DAV
           EPZZ(I) = EPSPZZ(I) - DAV
-       ENDDO          
+       ENDDO
 C  
        DO J= 1,NPRONY
          DO I=1,NEL
@@ -170,11 +170,11 @@ C
            H05 = VARI(I, (J - 1)*6 + 5)
            H06 = VARI(I, (J - 1)*6 + 6)
 C
-           
+
            H(I,1,J) =    AA(I,J)*H01 + BB(I,J)*EPXX(I)
-           H(I,2,J) =    AA(I,J)*H02 + BB(I,J)*EPYY(I)          
+           H(I,2,J) =    AA(I,J)*H02 + BB(I,J)*EPYY(I)
            H(I,3,J) =    AA(I,J)*H03 + BB(I,J)*EPZZ(I)
-           H(I,4,J) =    AA(I,J)*H04 + HALF*BB(I,J)*EPSPXY(I)          
+           H(I,4,J) =    AA(I,J)*H04 + HALF*BB(I,J)*EPSPXY(I)
            H(I,5,J) =    AA(I,J)*H05 + HALF*BB(I,J)*EPSPYZ(I)
            H(I,6,J) =    AA(I,J)*H06 + HALF*BB(I,J)*EPSPZX(I)
 C
@@ -184,16 +184,16 @@ C
            VARI(I, (J - 1)*6 + 3) = H(I,3,J)
            VARI(I, (J - 1)*6 + 4) = H(I,4,J)
            VARI(I, (J - 1)*6 + 5) = H(I,5,J)
-           VARI(I, (J - 1)*6 + 6) = H(I,6,J) 
+           VARI(I, (J - 1)*6 + 6) = H(I,6,J)
          ENDDO
-       ENDDO 
+       ENDDO
 C     
 C  comppute stress
 C
-           
+
        DO II = 1,6
            S(1:MVSIZ,II) = ZERO
-       ENDDO        
+       ENDDO
 
        DO  J= 1,NPRONY
          DO I=1,NEL
@@ -208,9 +208,9 @@ cc            S(I,3) = S(I,3) + H(I,3,J)
        DO I=1,NEL
           SIGVXX(I) = S(I,1)  - P(I)
           SIGVYY(I) = S(I,2)  - P(I)
-          SIGVXY(I) = S(I,4) 
-          SIGVYZ(I) = S(I,5) 
-          SIGVZX(I) = S(I,6)                      
+          SIGVXY(I) = S(I,4)
+          SIGVYZ(I) = S(I,5)
+          SIGVZX(I) = S(I,6)
        ENDDO
 C       
         DO I=1,NEL
@@ -227,7 +227,7 @@ C
           SIGV(I,5) = SIGVZX(I)
 C              
           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + G1/RHO0(I))
-        ENDDO        
+        ENDDO
 
 C transformation dans le rep re d'orthotropie
         LL = 1

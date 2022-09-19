@@ -51,7 +51,7 @@ Chd|====================================================================
      G                  STIF_OLD,ITRIV ,ITAB   ,CAND_T ,IEDGE  ,
      H                  NFT     ,PENMIN,EPS0   ,NM1    ,NM2    ,
      I                  NM3     ,INTPLY ,DGAP_NM,ICONT_I,MARGE ,
-     J                  NSNE    ,ISPT2  ,IZERO ) 
+     J                  NSNE    ,ISPT2  ,IZERO )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -118,12 +118,12 @@ C-----------------------------------------------
      .     X51,  X52,  X53, X54,
      .     Y51,  Y52,  Y53, Y54,
      .     Z51,  Z52,  Z53, Z54,
-     .     XO16, XO17, XO15, XO14, X163, X153, X152, X142, X141, 
-     .     YO16, YO17, YO15, YO14, Y163, Y153, Y152, Y142, Y141, 
-     .     ZO16, ZO17, ZO15, ZO14, Z163, Z153, Z152, Z142, Z141, 
-     .     X164, X174, X171, 
-     .     Y164, Y174, Y171, 
-     .     Z164, Z174, Z171, 
+     .     XO16, XO17, XO15, XO14, X163, X153, X152, X142, X141,
+     .     YO16, YO17, YO15, YO14, Y163, Y153, Y152, Y142, Y141,
+     .     ZO16, ZO17, ZO15, ZO14, Z163, Z153, Z152, Z142, Z141,
+     .     X164, X174, X171,
+     .     Y164, Y174, Y171,
+     .     Z164, Z174, Z171,
      .     XI1,  XI2,  XI3,  XI4,  XI5,
      .     YI1,  YI2,  YI3,  YI4,  YI5,
      .     ZI1,  ZI2,  ZI3,  ZI4,  ZI5,
@@ -133,11 +133,11 @@ C-----------------------------------------------
      .     XO1, XO2, XO3, XO4, XO5, XOI,
      .     YO1, YO2, YO3, YO4, YO5, YOI,
      .     ZO1, ZO2, ZO3, ZO4, ZO5, ZOI,XS,YS,ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5
       my_real
-     .     NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), 
+     .     NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .     SX125(MVSIZ),SX235(MVSIZ),SX345(MVSIZ),SX415(MVSIZ),
      .     SY125(MVSIZ),SY235(MVSIZ),SY345(MVSIZ),SY415(MVSIZ),
      .     SZ125(MVSIZ),SZ235(MVSIZ),SZ345(MVSIZ),SZ415(MVSIZ),
@@ -150,7 +150,7 @@ C-----------------------------------------------
      .     SX21140(MVSIZ),SX32150(MVSIZ),SX43160(MVSIZ),SX14170(MVSIZ),
      .     SY21140(MVSIZ),SY32150(MVSIZ),SY43160(MVSIZ),SY14170(MVSIZ),
      .     SZ21140(MVSIZ),SZ32150(MVSIZ),SZ43160(MVSIZ),SZ14170(MVSIZ),
-     .     LA(MVSIZ),LB(MVSIZ), LC(MVSIZ), 
+     .     LA(MVSIZ),LB(MVSIZ), LC(MVSIZ),
      .     XA(MVSIZ),YA(MVSIZ),ZA(MVSIZ),
      .     XB(MVSIZ),YB(MVSIZ),ZB(MVSIZ),
      .     XC(MVSIZ),YC(MVSIZ),ZC(MVSIZ),
@@ -216,14 +216,14 @@ C-----------------------------------------------
 ! | IC                                     |
 ! +----+----------+----------+-------------+
 ! | ST | noeuds T | noeuds TV| noeuds Quad |
-! +----+----------+----------+-------------+        11-------10       
-! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
-! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
-! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |           
-! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |           
-! +----+----------+----------+-------------+         |15/ \11|        
-! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |      
-! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|       
+! +----+----------+----------+-------------+        11-------10
+! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|
+! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |
+! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |
+! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |
+! +----+----------+----------+-------------+         |15/ \11|
+! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |
+! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|
 ! |  7 | 16  4  3 |  5 10 11 | 10 11  4  3 |12-------4-------3-------9
 ! |  8 | 17  1  4 |  5 12 13 | 12 13  1  4 | |\ 12  /|\     /|\ 14  /|
 ! +----+----------+----------+-------------+ | \   / | \ 3 / | \   / |
@@ -233,17 +233,17 @@ C-----------------------------------------------
 ! | 12 | 17  4 12 |(11)13  1 | 13  1  4 12 | | /   \ | / 1 \ | /   \ |
 ! +----+----------+----------+-------------+ |/ 16  \|/     \|/ 10  \|
 ! | 13 | 14  7  2 |( 8) 1  6 |  1  6  7  2 |13-------1-------2-------8
-! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|       
-! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |      
-! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|    
-! +----+----------+----------+-------------+         |  14   |    
-! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |   
-! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |  
-! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \| 
+! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|
+! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |
+! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|
+! +----+----------+----------+-------------+         |  14   |
+! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |
+! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |
+! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \|
 ! | 20 | 17 12 13 |  -  1  4 |  1  4 12 13 |         6-------7
 ! +----+----------+----------+-------------+
-      DATA IC / 
-     1    5, 1, 2 , 14, 3, 4 ,  3, 4, 1, 2, 
+      DATA IC /
+     1    5, 1, 2 , 14, 3, 4 ,  3, 4, 1, 2,
      2    5, 2, 3 , 15, 4, 1 ,  4, 1, 2, 3,
      3    5, 3, 4 , 16, 1, 2 ,  1, 2, 3, 4,
      4    5, 4, 1 , 17, 2, 3 ,  2, 3, 4, 1,
@@ -296,7 +296,7 @@ C-----------------------------------------------
 ! |  19  | -1 11 15 |  -  -  - |  -  -  - |  -  -  - |
 ! |  20  | -1 12 16 |  -  -  - | -1 12 16 |  -  -  - |
 ! +------+----------+----------+----------+----------+
-      DATA IT0 / 
+      DATA IT0 /
      1   5, 2, 4,
      2   6, 3, 1,
      3   7, 4, 2,
@@ -321,7 +321,7 @@ C-----------------------------------------------
 c      if(nft==45952)then
 c        ibug=1
 c      endif
-      NOR_OLD = 0  
+      NOR_OLD = 0
       UNP   = ONE + EM4
       ZEROM = ZERO - EM4
       EPS = (TWO+HALF)/HUNDRED
@@ -355,9 +355,9 @@ c       IRTLM(1,N)>0 node previously impacted on global MAIN IRTLM(1,N)
 c          treat one contact but no new intersection
 c       IRTLM(1,N)<0 node curently impacted on global MAIN -IRTLM(1,N)
 c          treat multiple contact during one cycle
-c       IRTLM(1,N)==0 node not impacted 
-        IPEN0(I)=0 
-        ICONT_R(I) = 0        
+c       IRTLM(1,N)==0 node not impacted
+        IPEN0(I)=0
+        ICONT_R(I) = 0
         IF(N <= NSN)THEN
           ICONTACT(I) = IRTLM(1,N)
           SUBTRIA(I)=IRTLM(2,N)
@@ -411,15 +411,15 @@ c      2 : algo d'intersection si pas de contact prcdent
 c                             si intersection => ISTEP=3
 c                             sinon plus rien  faire
 c      3 : algo de glissement
-c                             si ne glisse pas                => ISTEP=5 
-c                             si glisse mais pas hors surface => ISTEP=4 
+c                             si ne glisse pas                => ISTEP=5
+c                             si glisse mais pas hors surface => ISTEP=4
 c                             si glisse hors surface          => ISTEP=0 plus rien  faire
 c      4 : algo de glissement !!!! not used
-c                             si ne glisse pas hors surface => ISTEP=5 
-c                             si glisse mais pas hors surface => ISTEP=4 
+c                             si ne glisse pas hors surface => ISTEP=5
+c                             si glisse mais pas hors surface => ISTEP=4
 c                             si glisse hors surface          => ISTEP=0 plus rien  faire
 c      5 : calcul Hi,pene ... pour nouveau contact ou ancien avec glissement
-c      
+c
 c      6 : special shell plane/shell plance case: treated by node/edge(line) with Iedge=1
 C--------------------------------------------------------
 
@@ -451,19 +451,19 @@ c      write(iout,*)'i=',i,'i24dst3 21'
        X51 = XX0(I,1) - XX0(I,5)
        Y51 = YY0(I,1) - YY0(I,5)
        Z51 = ZZ0(I,1) - ZZ0(I,5)
- 
+
        X52 = XX0(I,2) - XX0(I,5)
        Y52 = YY0(I,2) - YY0(I,5)
        Z52 = ZZ0(I,2) - ZZ0(I,5)
- 
+
        X53 = XX0(I,3) - XX0(I,5)
        Y53 = YY0(I,3) - YY0(I,5)
        Z53 = ZZ0(I,3) - ZZ0(I,5)
- 
+
        X54 = XX0(I,4) - XX0(I,5)
        Y54 = YY0(I,4) - YY0(I,5)
        Z54 = ZZ0(I,4) - ZZ0(I,5)
- 
+
 
        SX1250(I) = Y51*Z52 - Z51*Y52
        SY1250(I) = Z51*X52 - X51*Z52
@@ -485,23 +485,23 @@ c      write(iout,*)'i=',i,'i24dst3 21'
        X141 = XX0(I,1) - XX0(I,14)
        Y141 = YY0(I,1) - YY0(I,14)
        Z141 = ZZ0(I,1) - ZZ0(I,14)
- 
+
        X142 = XX0(I,2) - XX0(I,14)
        Y142 = YY0(I,2) - YY0(I,14)
        Z142 = ZZ0(I,2) - ZZ0(I,14)
- 
+
        X152 = XX0(I,2) - XX0(I,15)
        Y152 = YY0(I,2) - YY0(I,15)
        Z152 = ZZ0(I,2) - ZZ0(I,15)
- 
+
        X153 = XX0(I,3) - XX0(I,15)
        Y153 = YY0(I,3) - YY0(I,15)
        Z153 = ZZ0(I,3) - ZZ0(I,15)
- 
+
        X163 = XX0(I,3) - XX0(I,16)
        Y163 = YY0(I,3) - YY0(I,16)
        Z163 = ZZ0(I,3) - ZZ0(I,16)
- 
+
        X164 = XX0(I,4) - XX0(I,16)
        Y164 = YY0(I,4) - YY0(I,16)
        Z164 = ZZ0(I,4) - ZZ0(I,16)
@@ -549,15 +549,15 @@ c      write(iout,*)'i=',i,'i24dst3 21'
 
 c      write(iout,*)'i=',i,'i24dst3 22'
 
-       IF(MVOISIN(1,CAND_E(I))/=0)THEN       
-         SX21140(I) = Y142*Z141 - Z142*Y141  
-         SY21140(I) = Z142*X141 - X142*Z141  
-         SZ21140(I) = X142*Y141 - Y142*X141  
-       ELSE                                  
-         SX21140(I) = SX1250(I)              
-         SY21140(I) = SY1250(I)              
-         SZ21140(I) = SZ1250(I)              
-       ENDIF                                 
+       IF(MVOISIN(1,CAND_E(I))/=0)THEN
+         SX21140(I) = Y142*Z141 - Z142*Y141
+         SY21140(I) = Z142*X141 - X142*Z141
+         SZ21140(I) = X142*Y141 - Y142*X141
+       ELSE
+         SX21140(I) = SX1250(I)
+         SY21140(I) = SY1250(I)
+         SZ21140(I) = SZ1250(I)
+       ENDIF
 
 c      write(iout,*)'i=',i,'i24dst3 23'
        IF(IXX(I,3) /= IXX(I,4))THEN
@@ -641,7 +641,7 @@ c      write(iout,*)'i=',i,'i24dst3 23'
          ELSE
            SX14170(I) = SX1250(I)
            SY14170(I) = SY1250(I)
-           SZ14170(I) = SZ1250(I)       
+           SZ14170(I) = SZ1250(I)
          ENDIF
 
          NXX(I,1) =SX1250(I)+SX14170(I)+SX21140(I)
@@ -853,23 +853,23 @@ C------taking into account Igap0=1
          XX(I,17) = XX(I,17) + NX17 * AAA
          YY(I,17) = YY(I,17) + NY17 * AAA
          ZZ(I,17) = ZZ(I,17) + NZ17 * AAA
- 
+
          X51 = XX(I,1) - XX(I,5)
          Y51 = YY(I,1) - YY(I,5)
          Z51 = ZZ(I,1) - ZZ(I,5)
-      
+
          X52 = XX(I,2) - XX(I,5)
          Y52 = YY(I,2) - YY(I,5)
          Z52 = ZZ(I,2) - ZZ(I,5)
-      
+
          X53 = XX(I,3) - XX(I,5)
          Y53 = YY(I,3) - YY(I,5)
          Z53 = ZZ(I,3) - ZZ(I,5)
-      
+
          X54 = XX(I,4) - XX(I,5)
          Y54 = YY(I,4) - YY(I,5)
          Z54 = ZZ(I,4) - ZZ(I,5)
-      
+
 
          SX125(I) = Y51*Z52 - Z51*Y52
          SY125(I) = Z51*X52 - X51*Z52
@@ -888,7 +888,7 @@ C------taking into account Igap0=1
          SZ415(I) = X54*Y51 - Y54*X51
 
        ELSE
-         
+
          XX(I,1:17) = XX0(I,1:17)
          YY(I,1:17) = YY0(I,1:17)
          ZZ(I,1:17) = ZZ0(I,1:17)
@@ -896,11 +896,11 @@ C------taking into account Igap0=1
          SX125(I)=SX1250(I)
          SY125(I)=SY1250(I)
          SZ125(I)=SZ1250(I)
-         
+
          SX235(I) = SX2350(I)
          SY235(I) = SY2350(I)
          SZ235(I) = SZ2350(I)
-         
+
          SX345(I) = SX3450(I)
          SY345(I) = SY3450(I)
          SZ345(I) = SZ3450(I)
@@ -922,7 +922,7 @@ c      write(iout,*)'jlt=',jlt,'i24dst3 3'
        PENE_TM(I) = ZERO
        IF(ISTEP(I) == 0)CYCLE
        IF(ISTEP(I) /= 1.AND.TT /= ZERO)CYCLE
-        
+
 C
         IF (TT==ZERO) THEN
          ITQ = 1
@@ -930,34 +930,34 @@ C
          ITQ = SUBTRIA(I)
         END IF
         K = IC(1,ITQ)
-        XA(I) = XX(I,K)   
-        YA(I) = YY(I,K)    
-        ZA(I) = ZZ(I,K) 
+        XA(I) = XX(I,K)
+        YA(I) = YY(I,K)
+        ZA(I) = ZZ(I,K)
 
         K = IC(2,ITQ)
-        XB(I) = XX(I,K)   
-        YB(I) = YY(I,K)    
-        ZB(I) = ZZ(I,K)   
+        XB(I) = XX(I,K)
+        YB(I) = YY(I,K)
+        ZB(I) = ZZ(I,K)
 
         K = IC(3,ITQ)
-        XC(I) = XX(I,K)   
-        YC(I) = YY(I,K)    
-        ZC(I) = ZZ(I,K)   
+        XC(I) = XX(I,K)
+        YC(I) = YY(I,K)
+        ZC(I) = ZZ(I,K)
 
         K = IC(4,ITQ)
-        XD(I) = XX(I,K)   
-        YD(I) = YY(I,K)    
-        ZD(I) = ZZ(I,K)   
+        XD(I) = XX(I,K)
+        YD(I) = YY(I,K)
+        ZD(I) = ZZ(I,K)
 
         K = 15 ! only used for triangles
-        XE(I) = XX(I,K)   
-        YE(I) = YY(I,K)    
-        ZE(I) = ZZ(I,K)   
+        XE(I) = XX(I,K)
+        YE(I) = YY(I,K)
+        ZE(I) = ZZ(I,K)
 
         K = 17 ! only used for triangles
-        XF(I) = XX(I,K)   
-        YF(I) = YY(I,K)    
-        ZF(I) = ZZ(I,K)   
+        XF(I) = XX(I,K)
+        YF(I) = YY(I,K)
+        ZF(I) = ZZ(I,K)
 
         IF(ITQ ==1)THEN
          NQX = SX125(I)
@@ -976,7 +976,7 @@ C
          NQY = SY415(I)
          NQZ = SZ415(I)
         ENDIF
-        
+
         S2 = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
         AAA = ONE/S2
         NQX = NQX*AAA
@@ -1007,9 +1007,9 @@ C--------------if SECONDARY (projected) is inside segment
                      IRTLM(2,N)=1
                      TIME_S(N) = PENE(I)
                ENDIF
-            ENDIF 
+            ENDIF
            ELSE
-            IF(IRTLM_FI(NIN)%P(1,N-NSN) == 0)THEN 
+            IF(IRTLM_FI(NIN)%P(1,N-NSN) == 0)THEN
                IRTLM_FI(NIN)%P(1,N-NSN)=-MSEGLO(CAND_E(I))
                IRTLM_FI(NIN)%P(2,N-NSN)=1
                TIME_SFI(NIN)%P(N-NSN) = PENE(I)
@@ -1031,7 +1031,7 @@ C--------------if SECONDARY (projected) is inside segment
           END IF
          ELSE
           CYCLE
-         END IF 
+         END IF
         ELSE
          PENE(I) = -MIN(ZERO,BBB)
         END IF
@@ -1043,29 +1043,29 @@ c        PMAX_GAP = MAX(PMAX_GAP,ABS(PENE(I)))
         N1(I) = NQX
         N2(I) = NQY
         N3(I) = NQZ
-        N_TM(1,I) = N1(I) 
-        N_TM(2,I) = N2(I) 
-        N_TM(3,I) = N3(I) 
+        N_TM(1,I) = N1(I)
+        N_TM(2,I) = N2(I)
+        N_TM(3,I) = N3(I)
 
 c project triangle on SECONDARY node
-        
+
 
   !                  a
   !                 / \
   !                /   \           a,b,c position at current time
-  !               /   A \          A,B,C projected on SECONDARY node 
+  !               /   A \          A,B,C projected on SECONDARY node
   !              /   /\  \
   !             /   /  \  \
-  !            /   /    \  \    normal at point a:      
+  !            /   /    \  \    normal at point a:
   !           /   /      \  \       Na = a - A
   !          /   /        \  \
   !         /   /          \  \
   !        /   /            \  \
   !       /   B--------------C  \
   !      /                       \
-  !     b-------------------------c 
-  !                  
-  
+  !     b-------------------------c
+  !
+
         XAB = XB(I)-XA(I)
         YAB = YB(I)-YA(I)
         ZAB = ZB(I)-ZA(I)
@@ -1320,7 +1320,7 @@ C
             N2(I) = LA(I)*NAY + LB(I)*NBY + LC(I)*NCY
             N3(I) = LA(I)*NAZ + LB(I)*NBZ + LC(I)*NCZ
 
-        
+
             NNI = NQX*N1(I) + NQY*N2(I) + NQZ*N3(I)
             NI2  = N1(I)*N1(I) + N2(I)*N2(I) + N3(I)*N3(I)
             IF(TWO*NNI*NNI < NI2)THEN
@@ -1341,11 +1341,11 @@ C-------special case, skew mesh------------
             N1(I) = NQX
             N2(I) = NQY
             N3(I) = NQZ
-           END IF            
+           END IF
 C            NNI = NQX*N1(I) + NQY*N2(I) + NQZ*N3(I)
 C            AAA = MAX(ONE,ONE/MAX(NNI,EM20))
 C            PENE(I) = PENE(I)*AAA 
-           
+
         ENDIF
 
         IF(PENE(I) == ZERO)THEN
@@ -1387,25 +1387,25 @@ C            PENE(I) = PENE(I)*AAA
         IF    (IX1(I) == IX2(I))THEN
           H1(I) = LA(I)
           H2(I) = ZERO
-          H3(I) = LB(I) 
+          H3(I) = LB(I)
           H4(I) = LC(I)
         ELSEIF(IX2(I) == IX3(I))THEN
           H1(I) = LA(I)
           H2(I) = LB(I)
-          H3(I) = ZERO 
+          H3(I) = ZERO
           H4(I) = LC(I)
 c       ELSEIF(IX3(I) == IX4(I))THEN impossible
         ELSEIF(IX4(I) == IX1(I))THEN
           H1(I) = LC(I)
           H2(I) = LA(I)
-          H3(I) = LB(I) 
+          H3(I) = LB(I)
           H4(I) = ZERO
         ELSE
           H0    = FOURTH * LA(I)
           H1(I) = H0
-          H2(I) = H0 
+          H2(I) = H0
           H3(I) = H0 + LB(I)
-          H4(I) = H0 + LC(I) 
+          H4(I) = H0 + LC(I)
         ENDIF
       ENDDO
 C--------------------------------------------------------
@@ -1414,18 +1414,18 @@ C--------------------------------------------------------
 c      write(iout,*)'i24dst3 5'
       DO I=1,JLT
        IF(ISTEP(I) /= 2)CYCLE ! previous contact
-c       
-  
+c
+
          XI5 = XX(I,5) - XI(I)
          YI5 = YY(I,5) - YI(I)
          ZI5 = ZZ(I,5) - ZI(I)
 
-         V12  = SX125(I)*XI5 + SY125(I)*YI5 + SZ125(I)*ZI5 
+         V12  = SX125(I)*XI5 + SY125(I)*YI5 + SZ125(I)*ZI5
          V23  = SX235(I)*XI5 + SY235(I)*YI5 + SZ235(I)*ZI5
-         V34  = SX345(I)*XI5 + SY345(I)*YI5 + SZ345(I)*ZI5 
-         V41  = SX415(I)*XI5 + SY415(I)*YI5 + SZ415(I)*ZI5      
-         
-         IF(V12 < ZERO .and. V23 < ZERO .and. 
+         V34  = SX345(I)*XI5 + SY345(I)*YI5 + SZ345(I)*ZI5
+         V41  = SX415(I)*XI5 + SY415(I)*YI5 + SZ415(I)*ZI5
+
+         IF(V12 < ZERO .and. V23 < ZERO .and.
      .      V34 < ZERO .and. V41 < ZERO ) THEN
 c          INTERSECTION IMPOSSIBLE
            CYCLE
@@ -1440,80 +1440,80 @@ C  OLD COORDINATES
 C--------------------------------------------------------
          IF(INTPLY > 0) THEN
 C         
-           DGAP = DGAP_NM(1,CAND_E(I))               
-           NX1 = NXX(I,1)                            
-           NY1 = NYY(I,1)                            
-           NZ1 = NZZ(I,1)                            
-           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)    
-           NX1 = NX1 * AAA                           
-           NY1 = NY1 * AAA                           
-           NZ1 = NZ1 * AAA                           
+           DGAP = DGAP_NM(1,CAND_E(I))
+           NX1 = NXX(I,1)
+           NY1 = NYY(I,1)
+           NZ1 = NZZ(I,1)
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
+           NX1 = NX1 * AAA
+           NY1 = NY1 * AAA
+           NZ1 = NZ1 * AAA
 C         
-           XO1 = XX(I,1) - DT1*VX(I,1) - DGAP*NX1    
-           YO1 = YY(I,1) - DT1*VY(I,1) - DGAP*NY1    
-           ZO1 = ZZ(I,1) - DT1*VZ(I,1) - DGAP*NZ1    
-           DGAP = DGAP_NM(2,CAND_E(I))               
-           NX1 = NXX(I,2)                           
-           NY1 = NYY(I,2)                           
-           NZ1 = NZZ(I,2)                           
-           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
-           NX1 = NX1 * AAA                          
-           NY1 = NY1 * AAA                          
-           NZ1 = NZ1 * AAA                          
+           XO1 = XX(I,1) - DT1*VX(I,1) - DGAP*NX1
+           YO1 = YY(I,1) - DT1*VY(I,1) - DGAP*NY1
+           ZO1 = ZZ(I,1) - DT1*VZ(I,1) - DGAP*NZ1
+           DGAP = DGAP_NM(2,CAND_E(I))
+           NX1 = NXX(I,2)
+           NY1 = NYY(I,2)
+           NZ1 = NZZ(I,2)
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
+           NX1 = NX1 * AAA
+           NY1 = NY1 * AAA
+           NZ1 = NZ1 * AAA
 C
-           XO2 = XX(I,2) - DT1*VX(I,2)- DGAP*NX1     
-           YO2 = YY(I,2) - DT1*VY(I,2)- DGAP*NY1     
-           ZO2 = ZZ(I,2) - DT1*VZ(I,2)- DGAP*NZ1     
-           DGAP = DGAP_NM(3,CAND_E(I))              
-           NX1 = NXX(I,3)                           
-           NY1 = NYY(I,3)                           
-           NZ1 = NZZ(I,3)                           
-           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
-           NX1 = NX1 * AAA                          
-           NY1 = NY1 * AAA                          
-           NZ1 = NZ1 * AAA                          
+           XO2 = XX(I,2) - DT1*VX(I,2)- DGAP*NX1
+           YO2 = YY(I,2) - DT1*VY(I,2)- DGAP*NY1
+           ZO2 = ZZ(I,2) - DT1*VZ(I,2)- DGAP*NZ1
+           DGAP = DGAP_NM(3,CAND_E(I))
+           NX1 = NXX(I,3)
+           NY1 = NYY(I,3)
+           NZ1 = NZZ(I,3)
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
+           NX1 = NX1 * AAA
+           NY1 = NY1 * AAA
+           NZ1 = NZ1 * AAA
 C                                                     
-           XO3 = XX(I,3) - DT1*VX(I,3)- DGAP*NX1     
-           YO3 = YY(I,3) - DT1*VY(I,3)- DGAP*NY1     
-           ZO3 = ZZ(I,3) - DT1*VZ(I,3)- DGAP*NZ1     
-           DGAP = DGAP_NM(4,CAND_E(I))               
-           NX1 = NXX(I,4)                           
-           NY1 = NYY(I,4)                           
-           NZ1 = NZZ(I,4)                           
-           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)   
-           NX1 = NX1 * AAA                          
-           NY1 = NY1 * AAA                          
-           NZ1 = NZ1 * AAA                          
+           XO3 = XX(I,3) - DT1*VX(I,3)- DGAP*NX1
+           YO3 = YY(I,3) - DT1*VY(I,3)- DGAP*NY1
+           ZO3 = ZZ(I,3) - DT1*VZ(I,3)- DGAP*NZ1
+           DGAP = DGAP_NM(4,CAND_E(I))
+           NX1 = NXX(I,4)
+           NY1 = NYY(I,4)
+           NZ1 = NZZ(I,4)
+           AAA = ONE/SQRT(NX1*NX1+NY1*NY1+NZ1*NZ1)
+           NX1 = NX1 * AAA
+           NY1 = NY1 * AAA
+           NZ1 = NZ1 * AAA
 C
-           XO4 = XX(I,4) - DT1*VX(I,4)- DGAP*NX1    
-           YO4 = YY(I,4) - DT1*VY(I,4)- DGAP*NY1    
-           ZO4 = ZZ(I,4) - DT1*VZ(I,4)- DGAP*NZ1    
+           XO4 = XX(I,4) - DT1*VX(I,4)- DGAP*NX1
+           YO4 = YY(I,4) - DT1*VY(I,4)- DGAP*NY1
+           ZO4 = ZZ(I,4) - DT1*VZ(I,4)- DGAP*NZ1
          ELSE
-           XO1 = XX(I,1) - DT1*VX(I,1)    
-           YO1 = YY(I,1) - DT1*VY(I,1)    
-           ZO1 = ZZ(I,1) - DT1*VZ(I,1) 
+           XO1 = XX(I,1) - DT1*VX(I,1)
+           YO1 = YY(I,1) - DT1*VY(I,1)
+           ZO1 = ZZ(I,1) - DT1*VZ(I,1)
 C             
-           XO2 = XX(I,2) - DT1*VX(I,2)     
-           YO2 = YY(I,2) - DT1*VY(I,2)     
-           ZO2 = ZZ(I,2) - DT1*VZ(I,2)     
-c           
-           XO3 = XX(I,3) - DT1*VX(I,3)   
-           YO3 = YY(I,3) - DT1*VY(I,3)   
+           XO2 = XX(I,2) - DT1*VX(I,2)
+           YO2 = YY(I,2) - DT1*VY(I,2)
+           ZO2 = ZZ(I,2) - DT1*VZ(I,2)
+c
+           XO3 = XX(I,3) - DT1*VX(I,3)
+           YO3 = YY(I,3) - DT1*VY(I,3)
            ZO3 = ZZ(I,3) - DT1*VZ(I,3)
 C          
-           XO4 = XX(I,4) - DT1*VX(I,4) 
-           YO4 = YY(I,4) - DT1*VY(I,4) 
+           XO4 = XX(I,4) - DT1*VX(I,4)
+           YO4 = YY(I,4) - DT1*VY(I,4)
            ZO4 = ZZ(I,4) - DT1*VZ(I,4)
-         ENDIF      
+         ENDIF
 
          XOI = XI(I) - DT1*VXI(I)
          YOI = YI(I) - DT1*VYI(I)
-         ZOI = ZI(I) - DT1*VZI(I) 
+         ZOI = ZI(I) - DT1*VZI(I)
 
          IF(IXX(I,3) /= IXX(I,4))THEN
            XO5 = FOURTH*(XO1+XO2+XO3+XO4)
            YO5 = FOURTH*(YO1+YO2+YO3+YO4)
-           ZO5 = FOURTH*(ZO1+ZO2+ZO3+ZO4) 
+           ZO5 = FOURTH*(ZO1+ZO2+ZO3+ZO4)
          ELSE
            XO5 = XO3
            YO5 = YO3
@@ -1525,19 +1525,19 @@ c        compute volumes at previous time step
          X51 = XO1 - XO5
          Y51 = YO1 - YO5
          Z51 = ZO1 - ZO5
- 
+
          X52 = XO2 - XO5
          Y52 = YO2 - YO5
          Z52 = ZO2 - ZO5
- 
+
          X53 = XO3 - XO5
          Y53 = YO3 - YO5
          Z53 = ZO3 - ZO5
- 
+
          X54 = XO4 - XO5
          Y54 = YO4 - YO5
          Z54 = ZO4 - ZO5
- 
+
          XI5 = XO5 - XOI
          YI5 = YO5 - YOI
          ZI5 = ZO5 - ZOI
@@ -1545,7 +1545,7 @@ c        compute volumes at previous time step
          SOX125 = Y51*Z52 - Z51*Y52
          SOY125 = Z51*X52 - X51*Z52
          SOZ125 = X51*Y52 - Y51*X52
-         VO12  = SOX125*XI5 + SOY125*YI5 + SOZ125*ZI5 
+         VO12  = SOX125*XI5 + SOY125*YI5 + SOZ125*ZI5
 
          SOX235 = Y52*Z53 - Z52*Y53
          SOY235 = Z52*X53 - X52*Z53
@@ -1555,19 +1555,19 @@ c        compute volumes at previous time step
          SOX345 = Y53*Z54 - Z53*Y54
          SOY345 = Z53*X54 - X53*Z54
          SOZ345 = X53*Y54 - Y53*X54
-         VO34  = SOX345*XI5 + SOY345*YI5 + SOZ345*ZI5 
+         VO34  = SOX345*XI5 + SOY345*YI5 + SOZ345*ZI5
 
          SOX415 = Y54*Z51 - Z54*Y51
          SOY415 = Z54*X51 - X54*Z51
          SOZ415 = X54*Y51 - Y54*X51
-         VO41  = SOX415*XI5 + SOY415*YI5 + SOZ415*ZI5 
+         VO41  = SOX415*XI5 + SOY415*YI5 + SOZ415*ZI5
 
          ADT0(I)   = -ONE
 
 c        compute intersection time (linear approximation)
 c        compute coordinates at intersection time
 c        intersection time can be different for each sub-triangle
- 
+
          SUBTRIA(I)= 0 ! subtriangle 0 => no contact
 
          INTERSECT = 0
@@ -1646,11 +1646,11 @@ C
       ENDDO
 !                numerotation des sous-triangles
 !
-!                                      
-!                 6o------o5           
-!                  |\ 19 /|                              
-!                  | \  / |            
-!                  |  \/  |                7,8=0o------3=4 
+!
+!                 6o------o5
+!                  |\ 19 /|
+!                  | \  / |
+!                  |  \/  |                7,8=0o------3=4
 !                  |15/\11|                     |     /|\
 !                  | /  \ |                     | 8  / | \
 !                  |/ 7  \|                     |   /  |  \
@@ -1658,16 +1658,16 @@ C
 !           |\ 12 /|\    /|\ 14 /|              | /  1 | 6  \
 !           | \  / | \3 / | \  / |              |/     |     \
 !           |  \/  |  \/2 |6 \/18|              1------2------o3,4=0
-!           |20/\ 8| 4/\  |  /\  |              |     /           
-!           | /  \ | / 1\ | /  \ |              |  5 /    
-!           |/ 16 \|/    \|/ 10 \|              |   /     
-!          8o------1------2------o3             |  /     
-!                  |\  5 /|                     | /   
+!           |20/\ 8| 4/\  |  /\  |              |     /
+!           | /  \ | / 1\ | /  \ |              |  5 /
+!           |/ 16 \|/    \|/ 10 \|              |   /
+!          8o------1------2------o3             |  /
+!                  |\  5 /|                     | /
 !                  | \  / |                     |/
 !                  |9 \/13|                    1o2=0
-!                  |  /\  | 
-!                  | /  \ | 
-!                  |/ 17 \| 
+!                  |  /\  |
+!                  | /  \ |
+!                  |/ 17 \|
 !                 1o------o2
 !
 ! +------+-------------------------------------------+
@@ -1702,23 +1702,23 @@ C
 ! |  19  | 11 15 -1 |  -  -  - |  -  -  - |  -  -  - |
 ! |  20  | 12 16 -1 |  -  -  - | 12 16 -1 |  -  -  - |
 ! +------+----------+----------+----------+----------+
-!        
+!
 !
 !                connetivite des sous-triangles IC(10,*)
 !
 !
 ! +----+----------+----------+-------------+
 ! | ST | noeuds T | noeuds TV| noeuds Quad |
-! +----+----------+----------+-------------+          
+! +----+----------+----------+-------------+
 ! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |
-! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |        11-------10       
-! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |\ 19  /|        
-! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         | \   / |                                    
-! +----+----------+----------+-------------+         |  \ /  |           
-! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         |  16   |           
-! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |15/ \11|        
-! |  7 | 16  4  3 |  5 10 11 | 10 11  4  3 |         | /   \ |      
-! |  8 | 17  1  4 |  5 12 13 | 12 13  1  4 |         |/  7  \|       
+! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |        11-------10
+! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |\ 19  /|
+! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         | \   / |
+! +----+----------+----------+-------------+         |  \ /  |
+! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         |  16   |
+! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |15/ \11|
+! |  7 | 16  4  3 |  5 10 11 | 10 11  4  3 |         | /   \ |
+! |  8 | 17  1  4 |  5 12 13 | 12 13  1  4 |         |/  7  \|
 ! +----+----------+----------+-------------+12-------4-------3-------9
 ! |  9 | 14  1  6 |(13) 7  2 |  7  2  1  6 | |\ 12  /|\     /|\ 14  /|
 ! | 10 | 15  2  8 |( 7) 9  3 |  9  3  2  8 | | \   / | \ 3 / | \   / |
@@ -1728,15 +1728,15 @@ C
 ! | 13 | 14  7  2 |( 8) 1  6 |  1  6  7  2 | | /   \ | / 1 \ | /   \ |
 ! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 | |/ 16  \|/     \|/ 10  \|
 ! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |13-------1-------2-------8
-! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |\  5  /|       
-! +----+----------+----------+-------------+         | \   / |      
-! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |9 \ /13|    
-! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         |  14   |    
-! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |  / \  |   
-! | 20 | 17 12 13 |  -  1  4 |  1  4 12 13 |         | /   \ |  
-! +----+----------+----------+-------------+         |/ 17  \| 
+! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |\  5  /|
+! +----+----------+----------+-------------+         | \   / |
+! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |9 \ /13|
+! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         |  14   |
+! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |  / \  |
+! | 20 | 17 12 13 |  -  1  4 |  1  4 12 13 |         | /   \ |
+! +----+----------+----------+-------------+         |/ 17  \|
 !                                                    6-------7
-! 
+!
 C=======================================================================
 c    sliding
 C=======================================================================
@@ -1842,13 +1842,13 @@ c        pour la correction du gap (utilise pendant un seul cycle)
 
          IF(IXX(I,3) == IXX(I,4))THEN
 
-           XX(I,10) = XX0(I,10) 
-           YY(I,10) = YY0(I,10) 
+           XX(I,10) = XX0(I,10)
+           YY(I,10) = YY0(I,10)
            ZZ(I,10) = ZZ0(I,10)
- 
-           XX(I,11) = XX0(I,11) 
-           YY(I,11) = YY0(I,11) 
-           ZZ(I,11) = ZZ0(I,11) 
+
+           XX(I,11) = XX0(I,11)
+           YY(I,11) = YY0(I,11)
+           ZZ(I,11) = ZZ0(I,11)
 
          ELSE
 
@@ -1922,23 +1922,23 @@ c      write(iout,*)'i=',i,'i24dst3 29'
          X141 = XX(I,1) - XX(I,14)
          Y141 = YY(I,1) - YY(I,14)
          Z141 = ZZ(I,1) - ZZ(I,14)
- 
+
          X142 = XX(I,2) - XX(I,14)
          Y142 = YY(I,2) - YY(I,14)
          Z142 = ZZ(I,2) - ZZ(I,14)
- 
+
          X152 = XX(I,2) - XX(I,15)
          Y152 = YY(I,2) - YY(I,15)
          Z152 = ZZ(I,2) - ZZ(I,15)
- 
+
          X153 = XX(I,3) - XX(I,15)
          Y153 = YY(I,3) - YY(I,15)
          Z153 = ZZ(I,3) - ZZ(I,15)
- 
+
          X163 = XX(I,3) - XX(I,16)
          Y163 = YY(I,3) - YY(I,16)
          Z163 = ZZ(I,3) - ZZ(I,16)
- 
+
          X164 = XX(I,4) - XX(I,16)
          Y164 = YY(I,4) - YY(I,16)
          Z164 = ZZ(I,4) - ZZ(I,16)
@@ -1992,23 +1992,23 @@ c      write(iout,*)'i=',i,'i24dst3 29'
          ENDIF
 
        ELSE
-         
+
          XX(I,6:17) = XX0(I,6:17)
          YY(I,6:17) = YY0(I,6:17)
          ZZ(I,6:17) = ZZ0(I,6:17)
-         
+
          SX2114(I) = SX21140(I)
          SY2114(I) = SY21140(I)
          SZ2114(I) = SZ21140(I)
-         
+
          SX3215(I) = SX32150(I)
          SY3215(I) = SY32150(I)
          SZ3215(I) = SZ32150(I)
-         
+
          SX4316(I) = SX43160(I)
          SY4316(I) = SY43160(I)
          SZ4316(I) = SZ43160(I)
-         
+
          SX1417(I) = SX14170(I)
          SY1417(I) = SY14170(I)
          SZ1417(I) = SZ14170(I)
@@ -2020,7 +2020,7 @@ c      write(iout,*)'i=',i,'i24dst3 212'
 
 
 C=======================================================================
-c   3 first sliding 
+c   3 first sliding
 C=======================================================================
 c      write(iout,*)'i24dst3 6'
       NSLID = 0
@@ -2095,24 +2095,24 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
         ENDIF
 
         IF(IXX(I,3) /= IXX(I,4))THEN
-          
+
           IF(SUBTRIA(I)==1)THEN
-            XA(I) = XX(I,5)   !         f-----------a-----------e 
+            XA(I) = XX(I,5)   !         f-----------a-----------e
             YA(I) = YY(I,5)   !          \         / \         /
-            ZA(I) = ZZ(I,5)   !           \   T   /   \   S   / 
-            XB(I) = XX(I,1)   !            \     /     \     /  
-            YB(I) = YY(I,1)   !             \   /   Q   \   /   
-            ZB(I) = ZZ(I,1)   !              \ /         \ /    
+            ZA(I) = ZZ(I,5)   !           \   T   /   \   S   /
+            XB(I) = XX(I,1)   !            \     /     \     /
+            YB(I) = YY(I,1)   !             \   /   Q   \   /
+            ZB(I) = ZZ(I,1)   !              \ /         \ /
             XC(I) = XX(I,2)   !               b-----------c
-            YC(I) = YY(I,2)   !                \         /           
-            ZC(I) = ZZ(I,2)   !                 \   R   /           
-                              !                  \     /            
-            NQX = SX125(I)    !                   \   /        
-            NQY = SY125(I)    !                    \ /        
+            YC(I) = YY(I,2)   !                \         /
+            ZC(I) = ZZ(I,2)   !                 \   R   /
+                              !                  \     /
+            NQX = SX125(I)    !                   \   /
+            NQY = SY125(I)    !                    \ /
             NQZ = SZ125(I)    !                     d
             NSX = SX235(I)
-            NSY = SY235(I) 
-            NSZ = SZ235(I) 
+            NSY = SY235(I)
+            NSZ = SZ235(I)
             NTX = SX415(I)
             NTY = SY415(I)
             NTZ = SZ415(I)
@@ -2127,26 +2127,26 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
               NRZ = NQZ
             ENDIF
             ITS = 2
-            ITT = 4    
+            ITT = 4
           ELSEIF(SUBTRIA(I)==2)THEN
-            XA(I) = XX(I,5)   
-            YA(I) = YY(I,5)   
-            ZA(I) = ZZ(I,5)   
-            XB(I) = XX(I,2)   
-            YB(I) = YY(I,2)   
-            ZB(I) = ZZ(I,2)   
-            XC(I) = XX(I,3)   
-            YC(I) = YY(I,3)   
-            ZC(I) = ZZ(I,3)   
-            NQX = SX235(I) 
-            NQY = SY235(I) 
-            NQZ = SZ235(I) 
-            NSX = SX345(I) 
-            NSY = SY345(I) 
-            NSZ = SZ345(I) 
-            NTX = SX125(I) 
-            NTY = SY125(I) 
-            NTZ = SZ125(I) 
+            XA(I) = XX(I,5)
+            YA(I) = YY(I,5)
+            ZA(I) = ZZ(I,5)
+            XB(I) = XX(I,2)
+            YB(I) = YY(I,2)
+            ZB(I) = ZZ(I,2)
+            XC(I) = XX(I,3)
+            YC(I) = YY(I,3)
+            ZC(I) = ZZ(I,3)
+            NQX = SX235(I)
+            NQY = SY235(I)
+            NQZ = SZ235(I)
+            NSX = SX345(I)
+            NSY = SY345(I)
+            NSZ = SZ345(I)
+            NTX = SX125(I)
+            NTY = SY125(I)
+            NTZ = SZ125(I)
             NRX = SX3215(I)
             NRY = SY3215(I)
             NRZ = SZ3215(I)
@@ -2158,26 +2158,26 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
               NRZ = NQZ
             ENDIF
             ITS = 3
-            ITT = 1    
+            ITT = 1
           ELSEIF(SUBTRIA(I)==3)THEN
-            XA(I) = XX(I,5)   
-            YA(I) = YY(I,5)   
-            ZA(I) = ZZ(I,5)   
-            XB(I) = XX(I,3)   
-            YB(I) = YY(I,3)   
-            ZB(I) = ZZ(I,3)   
-            XC(I) = XX(I,4)   
-            YC(I) = YY(I,4)   
-            ZC(I) = ZZ(I,4)   
-            NQX = SX345(I) 
-            NQY = SY345(I) 
-            NQZ = SZ345(I) 
+            XA(I) = XX(I,5)
+            YA(I) = YY(I,5)
+            ZA(I) = ZZ(I,5)
+            XB(I) = XX(I,3)
+            YB(I) = YY(I,3)
+            ZB(I) = ZZ(I,3)
+            XC(I) = XX(I,4)
+            YC(I) = YY(I,4)
+            ZC(I) = ZZ(I,4)
+            NQX = SX345(I)
+            NQY = SY345(I)
+            NQZ = SZ345(I)
             NSX = SX415(I)
             NSY = SY415(I)
             NSZ = SZ415(I)
-            NTX = SX235(I) 
-            NTY = SY235(I) 
-            NTZ = SZ235(I) 
+            NTX = SX235(I)
+            NTY = SY235(I)
+            NTZ = SZ235(I)
             NRX = SX4316(I)
             NRY = SY4316(I)
             NRZ = SZ4316(I)
@@ -2189,26 +2189,26 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
               NRZ = NQZ
             ENDIF
             ITS = 4
-            ITT = 2    
+            ITT = 2
           ELSEIF(SUBTRIA(I)==4)THEN
-            XA(I) = XX(I,5)   
-            YA(I) = YY(I,5)   
-            ZA(I) = ZZ(I,5)   
-            XB(I) = XX(I,4)   
-            YB(I) = YY(I,4)   
-            ZB(I) = ZZ(I,4)   
-            XC(I) = XX(I,1)   
-            YC(I) = YY(I,1)   
-            ZC(I) = ZZ(I,1)   
+            XA(I) = XX(I,5)
+            YA(I) = YY(I,5)
+            ZA(I) = ZZ(I,5)
+            XB(I) = XX(I,4)
+            YB(I) = YY(I,4)
+            ZB(I) = ZZ(I,4)
+            XC(I) = XX(I,1)
+            YC(I) = YY(I,1)
+            ZC(I) = ZZ(I,1)
             NQX = SX415(I)
             NQY = SY415(I)
             NQZ = SZ415(I)
-            NSX = SX125(I) 
-            NSY = SY125(I) 
-            NSZ = SZ125(I) 
-            NTX = SX345(I) 
-            NTY = SY345(I) 
-            NTZ = SZ345(I) 
+            NSX = SX125(I)
+            NSY = SY125(I)
+            NSZ = SZ125(I)
+            NTX = SX345(I)
+            NTY = SY345(I)
+            NTZ = SZ345(I)
             NRX = SX1417(I)
             NRY = SY1417(I)
             NRZ = SZ1417(I)
@@ -2220,26 +2220,26 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
               NRZ = NQZ
             ENDIF
             ITS = 1
-            ITT = 3    
+            ITT = 3
           ENDIF
         ELSE!IF(IXX(I,3) /= IXX(I,4)))THEN
-            XA(I) = XX(I,3)   
-            YA(I) = YY(I,3)   
-            ZA(I) = ZZ(I,3)   
-            XB(I) = XX(I,1)    !         f-----------a-----------e 
+            XA(I) = XX(I,3)
+            YA(I) = YY(I,3)
+            ZA(I) = ZZ(I,3)
+            XB(I) = XX(I,1)    !         f-----------a-----------e
             YB(I) = YY(I,1)    !          \         / \         /
-            ZB(I) = ZZ(I,1)    !           \   T   /   \   S   / 
-            XC(I) = XX(I,2)    !            \     /     \     /  
-            YC(I) = YY(I,2)    !             \   /   Q   \   /         
-            ZC(I) = ZZ(I,2)    !              \ /         \ /         
-            NQX = SX125(I)     !               b-----------c  
-            NQY = SY125(I)     !                \         /   
-            NQZ = SZ125(I)     !                 \   R   /    
-            NSX = SX3215(I)    !                  \     /     
-            NSY = SY3215(I)    !                   \   /      
-            NSZ = SZ3215(I)    !                    \ /       
-            NTX = SX1417(I)    !                     d        
-            NTY = SY1417(I)                                   
+            ZB(I) = ZZ(I,1)    !           \   T   /   \   S   /
+            XC(I) = XX(I,2)    !            \     /     \     /
+            YC(I) = YY(I,2)    !             \   /   Q   \   /
+            ZC(I) = ZZ(I,2)    !              \ /         \ /
+            NQX = SX125(I)     !               b-----------c
+            NQY = SY125(I)     !                \         /
+            NQZ = SZ125(I)     !                 \   R   /
+            NSX = SX3215(I)    !                  \     /
+            NSY = SY3215(I)    !                   \   /
+            NSZ = SZ3215(I)    !                    \ /
+            NTX = SX1417(I)    !                     d
+            NTY = SY1417(I)
             NTZ = SZ1417(I)
             NRX = SX2114(I)
             NRY = SY2114(I)
@@ -2258,7 +2258,7 @@ c a vrifier          4,IF(MVOISIN(4,CAND_E(I))==0)IT( 3, 1,I) = 0
               NSY = NQY
               NSZ = NQZ
             ENDIF
-            ITT = 8    
+            ITT = 8
             IF(MVOISIN(4,CAND_E(I))==0)THEN
               ITT = -ITT
               NTX = NQX
@@ -2292,7 +2292,7 @@ c       calcul des plans bisecteurs
               NSLID = NSLID+1
               SUBTRIA(I) = ITR
             ELSE
-c             sliding out of the surface              
+c             sliding out of the surface
               ICONTACT(I) = 0
               ISTEP(I) = 0
               SUBTRIA(I) = 0
@@ -2312,7 +2312,7 @@ c             sliding out of the surface
               NSLID = NSLID+1
               SUBTRIA(I) = ITS
             ELSE
-c             sliding out of the surface              
+c             sliding out of the surface
               ICONTACT(I) = 0
               ISTEP(I) = 0
               SUBTRIA(I) = 0
@@ -2332,7 +2332,7 @@ c             sliding out of the surface
               NSLID = NSLID+1
               SUBTRIA(I) = ITT
             ELSE
-c             sliding out of the surface              
+c             sliding out of the surface
               ICONTACT(I) = 0
               ISTEP(I) = 0
               SUBTRIA(I) = 0
@@ -2359,27 +2359,27 @@ c      write(iout,*)'i24dst3 8'
       DO I=1,JLT
        IF(ISTEP(I) /= 1)PENE(I) = ZERO
        IF(ISTEP(I) < 4 .OR.ISTEP(I) == 6)CYCLE
-        ITQ = SUBTRIA(I) 
+        ITQ = SUBTRIA(I)
         K = IC(1,ITQ)
-        XA(I) = XX(I,K)   
-        YA(I) = YY(I,K)    
-        ZA(I) = ZZ(I,K) 
+        XA(I) = XX(I,K)
+        YA(I) = YY(I,K)
+        ZA(I) = ZZ(I,K)
         NAX = NXX(I,K)
         NAY = NYY(I,K)
         NAZ = NZZ(I,K)
 
         K = IC(2,ITQ)
-        XB(I) = XX(I,K)   
-        YB(I) = YY(I,K)    
-        ZB(I) = ZZ(I,K)   
+        XB(I) = XX(I,K)
+        YB(I) = YY(I,K)
+        ZB(I) = ZZ(I,K)
         NBX = NXX(I,K)
         NBY = NYY(I,K)
         NBZ = NZZ(I,K)
 
         K = IC(3,ITQ)
-        XC(I) = XX(I,K)   
-        YC(I) = YY(I,K)    
-        ZC(I) = ZZ(I,K)   
+        XC(I) = XX(I,K)
+        YC(I) = YY(I,K)
+        ZC(I) = ZZ(I,K)
         NCX = NXX(I,K)
         NCY = NYY(I,K)
         NCZ = NZZ(I,K)
@@ -2387,7 +2387,7 @@ c      write(iout,*)'i24dst3 8'
         NQX = NX(I)
         NQY = NY(I)
         NQZ = NZ(I)
-        
+
         AAA = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
         S2 = ONE/AAA
         NQX = NQX*S2
@@ -2418,7 +2418,7 @@ C--------exclude high pene in cas of ICONT_R
            IF (IRTLM(1,N)<=0.AND.IRTLM(2,N)==0) IRTLM(2,N) = -CAND_E(I)
           ELSE
            N = N - NSN
-           IF (IRTLM_FI(NIN)%P(1,N)<=0.AND.IRTLM_FI(NIN)%P(2,N)==0) 
+           IF (IRTLM_FI(NIN)%P(1,N)<=0.AND.IRTLM_FI(NIN)%P(2,N)==0)
      +         IRTLM_FI(NIN)%P(2,N) = -CAND_E(I)
           END IF
           PENE(I) = ZERO
@@ -2435,24 +2435,24 @@ c        N2(I) = NQY
 c        N3(I) = NQZ
 
 c project triangle on SECONDARY node
-        
+
 
   !                  a
   !                 / \
   !                /   \           a,b,c position at current time
-  !               /   A \          A,B,C projected on SECONDARY node 
+  !               /   A \          A,B,C projected on SECONDARY node
   !              /   /\  \
   !             /   /  \  \
-  !            /   /    \  \    normal at point a:      
+  !            /   /    \  \    normal at point a:
   !           /   /      \  \       Na = a - A
   !          /   /        \  \
   !         /   /          \  \
   !        /   /            \  \
   !       /   B--------------C  \
   !      /                       \
-  !     b-------------------------c 
-  !                  
-  
+  !     b-------------------------c
+  !
+
         NNI = (NQX*NAX + NQY*NAY + NQZ*NAZ)
         NI2  = NAX*NAX + NAY*NAY + NAZ*NAZ
         IF(TWO*NNI*NNI < NI2)THEN
@@ -2610,7 +2610,7 @@ C---------for implicit
           Z2(I) = ZZ0(I,IC( 8,ITQ))
           Z3(I) = ZZ0(I,IC( 9,ITQ))
           Z4(I) = ZZ0(I,IC(10,ITQ))
-          
+
           VX1(I) = VX(I,IC( 7,ITQ))
           VX2(I) = VX(I,IC( 8,ITQ))
           VX3(I) = VX(I,IC( 9,ITQ))
@@ -2624,8 +2624,8 @@ C---------for implicit
           VZ3(I) = VZ(I,IC( 9,ITQ))
           VZ4(I) = VZ(I,IC(10,ITQ))
 
-          LA(I) = LA_TM(I) 
-          LB(I) = LB_TM(I) 
+          LA(I) = LA_TM(I)
+          LB(I) = LB_TM(I)
           LC(I) = ONE - LA(I) - LB(I)
           IF(LA(I)<ZERO)THEN
             IF(LB(I)<ZERO)THEN
@@ -2659,35 +2659,35 @@ C---------for implicit
               LA(I) = LA(I)/AAA
               LB(I) = LB(I)/AAA
           ENDIF
-          
+
           IF    (IX1(I) == IX2(I))THEN
             H1(I) = LA(I)
             H2(I) = ZERO
-            H3(I) = LB(I) 
+            H3(I) = LB(I)
             H4(I) = LC(I)
           ELSEIF(IX2(I) == IX3(I))THEN
             H1(I) = LA(I)
             H2(I) = LB(I)
-            H3(I) = ZERO 
+            H3(I) = ZERO
             H4(I) = LC(I)
 c          ELSEIF(IX3(I) == IX4(I))THEN impossible
           ELSEIF(IX4(I) == IX1(I))THEN
             H1(I) = LC(I)
             H2(I) = LA(I)
-            H3(I) = LB(I) 
+            H3(I) = LB(I)
             H4(I) = ZERO
           ELSE
             H0    = FOURTH * LA(I)
             H1(I) = H0
-            H2(I) = H0 
+            H2(I) = H0
             H3(I) = H0 + LB(I)
-            H4(I) = H0 + LC(I) 
+            H4(I) = H0 + LC(I)
           ENDIF
-           N1(I) = N_TM(1,I) 
-           N2(I) = N_TM(2,I) 
-           N3(I) = N_TM(3,I) 
+           N1(I) = N_TM(1,I)
+           N2(I) = N_TM(2,I)
+           N3(I) = N_TM(3,I)
           CYCLE
-         END IF          
+         END IF
          N1(I) = NQX
          N2(I) = NQY
          N3(I) = NQZ
@@ -2745,7 +2745,7 @@ c     .        (IXX(I,3) /= IXX(I,4)))THEN
             N3(I) = LA(I)*NAZ + LB(I)*NBZ + LC(I)*NCZ
 c          ELSE
 c            OVERW = OVERW0*LA(I)*LB(I)*LC(I)
-c            N1(I) = OVERW*NQX + LA(I)*NAX + LB(I)*NBX + LC(I)*NCX  
+c            N1(I) = OVERW*NQX + LA(I)*NAX + LB(I)*NBX + LC(I)*NCX
 c            N2(I) = OVERW*NQY + LA(I)*NAY + LB(I)*NBY + LC(I)*NCY
 c            N3(I) = OVERW*NQZ + LA(I)*NAZ + LB(I)*NBZ + LC(I)*NCZ
 c          ENDIF
@@ -2754,7 +2754,7 @@ c          ENDIF
           N1(I) = N1(I)*S2
           N2(I) = N2(I)*S2
           N3(I) = N3(I)*S2
-        
+
           AAA = NQX*N1(I) + NQY*N2(I) + NQZ*N3(I)
           AAA = MAX(ONE,ONE/MAX(AAA,EM20))
           PENE(I) = PENE(I)*AAA
@@ -2800,25 +2800,25 @@ c        endif
         IF    (IX1(I) == IX2(I))THEN
           H1(I) = LA(I)
           H2(I) = ZERO
-          H3(I) = LB(I) 
+          H3(I) = LB(I)
           H4(I) = LC(I)
         ELSEIF(IX2(I) == IX3(I))THEN
           H1(I) = LA(I)
           H2(I) = LB(I)
-          H3(I) = ZERO 
+          H3(I) = ZERO
           H4(I) = LC(I)
 c       ELSEIF(IX3(I) == IX4(I))THEN impossible
         ELSEIF(IX4(I) == IX1(I))THEN
           H1(I) = LC(I)
           H2(I) = LA(I)
-          H3(I) = LB(I) 
+          H3(I) = LB(I)
           H4(I) = ZERO
         ELSE
           H0    = FOURTH * LA(I)
           H1(I) = H0
-          H2(I) = H0 
+          H2(I) = H0
           H3(I) = H0 + LB(I)
-          H4(I) = H0 + LC(I) 
+          H4(I) = H0 + LC(I)
         ENDIF
 C          IF (INCONV /= 1) CYCLE
 
@@ -2833,7 +2833,7 @@ C          IF (INCONV /= 1) CYCLE
 !            H1(I) = zero
 !            H2(I) = zero
 !            H3(I) = zero
-!            H4(I) = zero 
+!            H4(I) = zero
 !            ICONTACT(I) = 0
 !            cycle
 !        endif
@@ -2845,7 +2845,7 @@ c           MGLOB = IRTLM_FI(NIN)%P(1,N-NSN)
 c        ENDIF
 c        IF(ICONTACT(I)==MGLOB)THEN
 c       ICONTACT(I) == IRTLM > 0 old contact, new segment
-c       ICONTACT(I) == IRTLM < 0 new contact, new segment, retained provisional  
+c       ICONTACT(I) == IRTLM < 0 new contact, new segment, retained provisional
 c       ICONTACT(I) /= IRTLM < 0 new contact, new segment, not retained
         MGLOB = MSEGLO(CAND_E(I))
         IF    (ITQ==5 .or. ITQ==9  .or. ITQ==13 .or. ITQ==17)THEN
@@ -2888,7 +2888,7 @@ c            TIME_S(N) = ADT0(I)
           ELSEIF((TIME_SFI(NIN)%P(II) < PENE(I)).or.
      .           (TIME_SFI(NIN)%P(II)== PENE(I).and.
      .           -IRTLM_FI(NIN)%P(1,II) < MGLOB) )THEN
-              IRTLM_FI(NIN)%P(2,II) = ITQ 
+              IRTLM_FI(NIN)%P(2,II) = ITQ
               IRTLM_FI(NIN)%P(1,II) = -MGLOB
               TIME_SFI(NIN)%P(II) = PENE(I)
           ENDIF
@@ -2896,7 +2896,7 @@ c            TIME_S(N) = ADT0(I)
       ENDDO
 
 c debug
-!!!      goto 123      
+!!!      goto 123
  123  continue
 C=======================================================================
 c       special plan/plan: node/edge
@@ -2906,14 +2906,14 @@ C=======================================================================
 ! | IC                                     |
 ! +----+----------+----------+-------------+
 ! | ST | noeuds T | noeuds TV| noeuds Quad |
-! +----+----------+----------+-------------+        11-------10       
-! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
-! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
-! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |           
-! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |           
-! +----+----------+----------+-------------+         |15/ \11|        
-! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |      
-! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|       
+! +----+----------+----------+-------------+        11-------10
+! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|
+! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |
+! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |
+! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |
+! +----+----------+----------+-------------+         |15/ \11|
+! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |
+! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|
 ! |  7 | 16  4  3 |  5 10 11 | 10 11  4  3 |12-------4-------3-------9
 ! |  8 | 17  1  4 |  5 12 13 | 12 13  1  4 | |\ 12  /|\     /|\ 14  /|
 ! +----+----------+----------+-------------+ | \   / | \ 3 / | \   / |
@@ -2923,13 +2923,13 @@ C=======================================================================
 ! | 12 | 17  4 12 |(11)13  1 | 13  1  4 12 | | /   \ | / 1 \ | /   \ |
 ! +----+----------+----------+-------------+ |/ 16  \|/     \|/ 10  \|
 ! | 13 | 14  7  2 |( 8) 1  6 |  1  6  7  2 |13-------1-------2-------8
-! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|       
-! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |      
-! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|    
-! +----+----------+----------+-------------+         |  14   |    
-! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |   
-! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |  
-! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \| 
+! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|
+! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |
+! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|
+! +----+----------+----------+-------------+         |  14   |
+! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |
+! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |
+! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \|
 ! | 20 | 17 12 13 |  -  1  4 |  1  4 12 13 |         6-------7
 ! +----+----------+----------+-------------+
 !   sliding of old contacts, SUBTRIA(I)>20: new ones
@@ -2940,29 +2940,29 @@ C old contact ITQ =1-4, edge BC determine if FB BC CG as final one
         IF (IXX(I,4)==IXX(I,3)) ITQ =1
         L = CAND_E(I)
         K = IC(1,ITQ)  ! 5
-        XA(I) = XX0(I,K)   
-        YA(I) = YY0(I,K)    
-        ZA(I) = ZZ0(I,K) 
+        XA(I) = XX0(I,K)
+        YA(I) = YY0(I,K)
+        ZA(I) = ZZ0(I,K)
 
         K = IC(2,ITQ)  ! N1
-        XB(I) = XX0(I,K)   
-        YB(I) = YY0(I,K)    
-        ZB(I) = ZZ0(I,K)   
+        XB(I) = XX0(I,K)
+        YB(I) = YY0(I,K)
+        ZB(I) = ZZ0(I,K)
 
         K = IC(3,ITQ)  ! N2
-        XC(I) = XX0(I,K)   
-        YC(I) = YY0(I,K)    
-        ZC(I) = ZZ0(I,K) 
+        XC(I) = XX0(I,K)
+        YC(I) = YY0(I,K)
+        ZC(I) = ZZ0(I,K)
 C        
         K = IC(5,ITQ)  ! N3
-        XD(I) = XX0(I,K)   
-        YD(I) = YY0(I,K)    
-        ZD(I) = ZZ0(I,K)   
+        XD(I) = XX0(I,K)
+        YD(I) = YY0(I,K)
+        ZD(I) = ZZ0(I,K)
 
         K = IC(6,ITQ)  ! N4
-        XE(I) = XX0(I,K)   
-        YE(I) = YY0(I,K)    
-        ZE(I) = ZZ0(I,K)   
+        XE(I) = XX0(I,K)
+        YE(I) = YY0(I,K)
+        ZE(I) = ZZ0(I,K)
         XIB = XB(I)-XI(I)
         YIB = YB(I)-YI(I)
         ZIB = ZB(I)-ZI(I)
@@ -3031,7 +3031,7 @@ C----- internal sliding
             ISTEP(I) = 0
             CYCLE
           END IF
-        END IF 
+        END IF
 C-
         XIC = XC(I)-XI(I)
         YIC = YC(I)-YI(I)
@@ -3092,30 +3092,30 @@ C----- internal sliding
             CYCLE
           END IF
         END IF
-        IF (SUBTRIA_N(I)>0) SUBTRIA(I) = SUBTRIA_N(I)        
-        SUBTRIA_N(I) = ITQ        
-      END DO 
+        IF (SUBTRIA_N(I)>0) SUBTRIA(I) = SUBTRIA_N(I)
+        SUBTRIA_N(I) = ITQ
+      END DO
 C------possible nodal normal with interpolation after
       DO I=1,JLT
        IF(ISTEP(I) /= 6 )CYCLE
 C----   finalizing penetration for node/edge possible multi-contactcase for new contact      
         ITQ = SUBTRIA(I)
-       IF (ITQ>20) ITQ = ITQ -20        
+       IF (ITQ>20) ITQ = ITQ -20
 C       EDGE : BC
         K = IC(1,ITQ)  ! 5
-        XA(I) = XX0(I,K)   
-        YA(I) = YY0(I,K)    
-        ZA(I) = ZZ0(I,K) 
+        XA(I) = XX0(I,K)
+        YA(I) = YY0(I,K)
+        ZA(I) = ZZ0(I,K)
 
         K = IC(2,ITQ)  ! N1
-        XB(I) = XX0(I,K)   
-        YB(I) = YY0(I,K)    
-        ZB(I) = ZZ0(I,K)   
+        XB(I) = XX0(I,K)
+        YB(I) = YY0(I,K)
+        ZB(I) = ZZ0(I,K)
 
         K = IC(3,ITQ)  ! N2
-        XC(I) = XX0(I,K)   
-        YC(I) = YY0(I,K)    
-        ZC(I) = ZZ0(I,K)   
+        XC(I) = XX0(I,K)
+        YC(I) = YY0(I,K)
+        ZC(I) = ZZ0(I,K)
 C--------
         XBC = XC(I)-XB(I)
         YBC = YC(I)-YB(I)
@@ -3153,7 +3153,7 @@ C       in right direction
         NQX = -NX(I)
         NQY = -NY(I)
         NQZ = -NZ(I)
-        
+
         AAA = MAX(EM30,SQRT(NQX*NQX + NQY*NQY + NQZ*NQZ))
         S2 = ONE/AAA
         NQX = NQX*S2
@@ -3201,7 +3201,7 @@ C       in right direction
         VZ4(I) = VZ(I,IC(10,ITQ))
         H1(I) = ZERO
         H2(I) = ZERO
-        H3(I) = HALF 
+        H3(I) = HALF
         H4(I) = HALF
 
         N=CAND_N(I)
@@ -3242,12 +3242,12 @@ c            ITQ = ITRIV(4,I)
           ELSEIF((TIME_SFI(NIN)%P(II) < PENE(I)).or.
      .           (TIME_SFI(NIN)%P(II)== PENE(I).and.
      .           -IRTLM_FI(NIN)%P(1,II) < MGLOB) )THEN
-              IRTLM_FI(NIN)%P(2,II) = ITQ+20 
+              IRTLM_FI(NIN)%P(2,II) = ITQ+20
               IRTLM_FI(NIN)%P(1,II) = -MGLOB
               TIME_SFI(NIN)%P(II) = PENE(I)
           ENDIF
         ENDIF
-      END DO 
+      END DO
 c      write(iout,*)'i24dst3 9'
 C=======================================================================
 c  6 Reset IRTLM (only for old contact: IRTLM(1,N)>0)
@@ -3282,7 +3282,7 @@ c     .        IRTLM(1,N)==IRTLM_OLD(I))THEN
              SECND_FRFI(NIN)%P(6,N-NSN)= ZERO
              IF (IMCONV==1) PENE_OLDFI(NIN)%P(2,N-NSN) = ZERO
              PENE_OLDFI(NIN)%P(5,N-NSN) = ZERO
-             IF (IMCONV==1) STIF_OLDFI(NIN)%P(2,N-NSN) = ZERO 
+             IF (IMCONV==1) STIF_OLDFI(NIN)%P(2,N-NSN) = ZERO
            ENDIF
          ENDIF
        ELSE
@@ -3304,22 +3304,22 @@ C -------Calculate Nz,Area,Z1 IF Z1*Z1/AREA > f(angle 45) CYCLE
          YS = H1(I)*Y1(I) + H2(I)*Y2(I) + H3(I)*Y3(I) + H4(I)*Y4(I)
          ZS = H1(I)*Z1(I) + H2(I)*Z2(I) + H3(I)*Z3(I) + H4(I)*Z4(I)
          XS = XS - XI(I)
-         YS = YS - YI(I) 
-         ZS = ZS - ZI(I) 
- 
+         YS = YS - YI(I)
+         ZS = ZS - ZI(I)
+
          AAA = XS*N1(I) + YS*N2(I) + ZS*N3(I)
 
          IF(AAA > ZERO)THEN
 
            AAA = XS**2 + YS**2 + ZS**2
-           AAA = ONEP01*SQRT(AAA) 
+           AAA = ONEP01*SQRT(AAA)
            PMAX_GAP = MAX(PMAX_GAP,AAA)
 
            N=CAND_N(I)
            IF(N <= NSN)THEN
              PENE_OLD(3,N) = MAX(PENE_OLD(3,N),AAA)
            ELSE
-             PENE_OLDFI(NIN)%P(3,N-NSN) = 
+             PENE_OLDFI(NIN)%P(3,N-NSN) =
      .                      MAX(PENE_OLDFI(NIN)%P(3,N-NSN),AAA)
            ENDIF
          ENDIF
@@ -3359,7 +3359,7 @@ C-------zero force for all first contact
           PENE_OLD(5,N) = MAX( PENE(I) ,PENE_OLD(5,N) )
           STIF_OLD(1,N) = MAX( STIF(I) ,STIF_OLD(1,N) )
 #include "lockoff.inc"
-          END IF 
+          END IF
          ELSE
           JG = -JG
           IF (IPEN0(I)==0)THEN
@@ -3367,7 +3367,7 @@ C-------zero force for all first contact
           PENE_OLDFI(NIN)%P(5,JG) = MAX( PENE(I),PENE_OLDFI(NIN)%P(5,JG))
           STIF_OLDFI(NIN)%P(1,JG) = MAX( STIF(I),STIF_OLDFI(NIN)%P(1,JG))
 #include "lockoff.inc"
-          END IF 
+          END IF
          ENDIF
         ENDDO
        END IF !(TT==ZERO) THEN
@@ -3446,21 +3446,21 @@ C-----------------------------------------------
       my_real
      .     AAA,BBB,VOL,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,XD,YD,ZD,
      .     XAB,YAB,ZAB,XBC,YBC,ZBC,XCA,YCA,ZCA,XBD,YBD,ZBD,
-     .     XIA,YIA,ZIA,XIB,YIB,ZIB,XIC,YIC,ZIC,SX ,SY, SZ, 
+     .     XIA,YIA,ZIA,XIB,YIB,ZIB,XIC,YIC,ZIC,SX ,SY, SZ,
      .     S2 ,SAX,SAY,SAZ,SBX,SBY,SBZ,UNP,ZEROM,EPS
       INTEGER IT0(3,20),IC(10,20)
 ! +----+----------+----------+-------------+
 ! | IC                                     |
 ! +----+----------+----------+-------------+
 ! | ST | noeuds T | noeuds TV| noeuds Quad |
-! +----+----------+----------+-------------+        11-------10       
-! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
-! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
-! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |           
-! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |           
-! +----+----------+----------+-------------+         |15/ \11|        
-! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |      
-! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|       
+! +----+----------+----------+-------------+        11-------10
+! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|
+! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |
+! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |
+! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |
+! +----+----------+----------+-------------+         |15/ \11|
+! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |
+! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|
 ! |  7 | 16  4  3 |  5 10 11 | 10 11  4  3 |12-------4-------3-------9
 ! |  8 | 17  1  4 |  5 12 13 | 12 13  1  4 | |\ 12  /|\     /|\ 14  /|
 ! +----+----------+----------+-------------+ | \   / | \ 3 / | \   / |
@@ -3470,17 +3470,17 @@ C-----------------------------------------------
 ! | 12 | 17  4 12 |(11)13  1 | 13  1  4 12 | | /   \ | / 1 \ | /   \ |
 ! +----+----------+----------+-------------+ |/ 16  \|/     \|/ 10  \|
 ! | 13 | 14  7  2 |( 8) 1  6 |  1  6  7  2 |13-------1-------2-------8
-! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|       
-! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |      
-! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|    
-! +----+----------+----------+-------------+         |  14   |    
-! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |   
-! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |  
-! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \| 
+! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|
+! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |
+! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|
+! +----+----------+----------+-------------+         |  14   |
+! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |
+! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |
+! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \|
 ! | 20 | 17 12 13 |  -  1  4 |  1  4 12 13 |         6-------7
 ! +----+----------+----------+-------------+
-      DATA IC / 
-     1    5, 1, 2 , 14, 3, 4 ,  3, 4, 1, 2, 
+      DATA IC /
+     1    5, 1, 2 , 14, 3, 4 ,  3, 4, 1, 2,
      2    5, 2, 3 , 15, 4, 1 ,  4, 1, 2, 3,
      3    5, 3, 4 , 16, 1, 2 ,  1, 2, 3, 4,
      4    5, 4, 1 , 17, 2, 3 ,  2, 3, 4, 1,
@@ -3533,7 +3533,7 @@ C-----------------------------------------------
 ! |  19  | -1 11 15 |  -  -  - |  -  -  - |  -  -  - |
 ! |  20  | -1 12 16 |  -  -  - | -1 12 16 |  -  -  - |
 ! +------+----------+----------+----------+----------+
-      DATA IT0 / 
+      DATA IT0 /
      1   5, 2, 4,
      2   6, 3, 1,
      3   7, 4, 2,
@@ -3561,24 +3561,24 @@ C-----------------------------------------------
 
       ITQ = SUBTRIA
       K = IC(1,ITQ)
-      XA = XXL(K)   
-      YA = YYL(K)    
-      ZA = ZZL(K) 
+      XA = XXL(K)
+      YA = YYL(K)
+      ZA = ZZL(K)
 
       K = IC(2,ITQ)
-      XB = XXL(K)   
-      YB = YYL(K)    
-      ZB = ZZL(K)   
+      XB = XXL(K)
+      YB = YYL(K)
+      ZB = ZZL(K)
 
       K = IC(3,ITQ)
-      XC = XXL(K)   
-      YC = YYL(K)    
-      ZC = ZZL(K)   
+      XC = XXL(K)
+      YC = YYL(K)
+      ZC = ZZL(K)
 
       K = IC(4,ITQ)
-      XD = XXL(K)   
-      YD = YYL(K)    
-      ZD = ZZL(K)   
+      XD = XXL(K)
+      YD = YYL(K)
+      ZD = ZZL(K)
 
       IF(ITQ ==1)THEN
        N1 = SX125
@@ -3597,7 +3597,7 @@ C-----------------------------------------------
        N2 = SY415
        N3 = SZ415
       ENDIF
-      
+
       S2 = ONE/MAX(EM30,SQRT(N1*N1 + N2*N2 + N3*N3))
       N1 = N1*S2
       N2 = N2*S2
@@ -3764,21 +3764,21 @@ C-----------------------------------------------
       my_real
      .     AAA,BBB,VOL,XA,YA,ZA,XB,YB,ZB,XC,YC,ZC,XD,YD,ZD,
      .     XAB,YAB,ZAB,XBC,YBC,ZBC,XCA,YCA,ZCA,XBD,YBD,ZBD,
-     .     XIA,YIA,ZIA,XIB,YIB,ZIB,XIC,YIC,ZIC,SX ,SY, SZ, 
+     .     XIA,YIA,ZIA,XIB,YIB,ZIB,XIC,YIC,ZIC,SX ,SY, SZ,
      .     S2 ,SAX,SAY,SAZ,SBX,SBY,SBZ,UNP,ZEROM
       INTEGER IT0(3,20),IC(10,20)
 ! +----+----------+----------+-------------+
 ! | IC                                     |
 ! +----+----------+----------+-------------+
 ! | ST | noeuds T | noeuds TV| noeuds Quad |
-! +----+----------+----------+-------------+        11-------10       
-! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|        
-! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |                                    
-! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |           
-! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |           
-! +----+----------+----------+-------------+         |15/ \11|        
-! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |      
-! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|       
+! +----+----------+----------+-------------+        11-------10
+! |  1 |  5  1  2 | 14  3  4 |  3  4  1  2 |         |\ 19  /|
+! |  2 |  5  2  3 | 15  4  1 |  4  1  2  3 |         | \   / |
+! |  3 |  5  3  4 | 16  1  2 |  1  2  3  4 |         |  \ /  |
+! |  4 |  5  4  1 | 17  2  3 |  2  3  4  1 |         |  16   |
+! +----+----------+----------+-------------+         |15/ \11|
+! |  5 | 14  2  1 |  5  6  7 |  6  7  2  1 |         | /   \ |
+! |  6 | 15  3  2 |  5  8  9 |  8  9  3  2 |         |/  7  \|
 ! |  7 | 16  4  3 |  5 10 11 | 10 11  4  3 |12-------4-------3-------9
 ! |  8 | 17  1  4 |  5 12 13 | 12 13  1  4 | |\ 12  /|\     /|\ 14  /|
 ! +----+----------+----------+-------------+ | \   / | \ 3 / | \   / |
@@ -3788,17 +3788,17 @@ C-----------------------------------------------
 ! | 12 | 17  4 12 |(11)13  1 | 13  1  4 12 | | /   \ | / 1 \ | /   \ |
 ! +----+----------+----------+-------------+ |/ 16  \|/     \|/ 10  \|
 ! | 13 | 14  7  2 |( 8) 1  6 |  1  6  7  2 |13-------1-------2-------8
-! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|       
-! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |      
-! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|    
-! +----+----------+----------+-------------+         |  14   |    
-! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |   
-! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |  
-! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \| 
+! | 14 | 15  9  3 |(10) 2  8 |  2  8  9  3 |         |\  5  /|
+! | 15 | 16 11  4 |(12) 3 10 |  3 10 11  4 |         | \   / |
+! | 16 | 17 13  1 |( 6) 4 12 |  4 12 13  1 |         |9 \ /13|
+! +----+----------+----------+-------------+         |  14   |
+! | 17 | 14  6  7 |  -  2  1 |  2  1  6  7 |         |  / \  |
+! | 18 | 15  8  9 |  -  3  2 |  3  2  8  9 |         | /   \ |
+! | 19 | 16 10 11 |  -  4  3 |  4  3 10 11 |         |/ 17  \|
 ! | 20 | 17 12 13 |  -  1  4 |  1  4 12 13 |         6-------7
 ! +----+----------+----------+-------------+
-      DATA IC / 
-     1    5, 1, 2 , 14, 3, 4 ,  3, 4, 1, 2, 
+      DATA IC /
+     1    5, 1, 2 , 14, 3, 4 ,  3, 4, 1, 2,
      2    5, 2, 3 , 15, 4, 1 ,  4, 1, 2, 3,
      3    5, 3, 4 , 16, 1, 2 ,  1, 2, 3, 4,
      4    5, 4, 1 , 17, 2, 3 ,  2, 3, 4, 1,
@@ -3851,7 +3851,7 @@ C-----------------------------------------------
 ! |  19  | -1 11 15 |  -  -  - |  -  -  - |  -  -  - |
 ! |  20  | -1 12 16 |  -  -  - | -1 12 16 |  -  -  - |
 ! +------+----------+----------+----------+----------+
-      DATA IT0 / 
+      DATA IT0 /
      1   5, 2, 4,
      2   6, 3, 1,
      3   7, 4, 2,
@@ -3879,24 +3879,24 @@ c      EPS = (TWO+HALF)/HUNDRED
 
       ITQ = SUBTRIA
       K = IC(1,ITQ)
-      XA = XXL(K)   
-      YA = YYL(K)    
-      ZA = ZZL(K) 
+      XA = XXL(K)
+      YA = YYL(K)
+      ZA = ZZL(K)
 
       K = IC(2,ITQ)
-      XB = XXL(K)   
-      YB = YYL(K)    
-      ZB = ZZL(K)   
+      XB = XXL(K)
+      YB = YYL(K)
+      ZB = ZZL(K)
 
       K = IC(3,ITQ)
-      XC = XXL(K)   
-      YC = YYL(K)    
-      ZC = ZZL(K)   
+      XC = XXL(K)
+      YC = YYL(K)
+      ZC = ZZL(K)
 
       K = IC(4,ITQ)
-      XD = XXL(K)   
-      YD = YYL(K)    
-      ZD = ZZL(K)   
+      XD = XXL(K)
+      YD = YYL(K)
+      ZD = ZZL(K)
 
       IF(ITQ ==1)THEN
        N1 = SX125
@@ -3915,7 +3915,7 @@ c      EPS = (TWO+HALF)/HUNDRED
        N2 = SY415
        N3 = SZ415
       ENDIF
-      
+
       S2 = ONE/MAX(EM30,SQRT(N1*N1 + N2*N2 + N3*N3))
       N1 = N1*S2
       N2 = N2*S2
@@ -4251,8 +4251,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XOI,YOI,ZOI,XS,YS,ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -4273,12 +4273,12 @@ C------------------------------------------------
 
            XM1 = XX1 + AAA*(XO1-XX1)
            YM1 = YY1 + AAA*(YO1-YY1)
-           ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+           ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
            XM2 = XX2 + AAA*(XO2-XX2)
            YM2 = YY2 + AAA*(YO2-YY2)
-           ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+           ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
            XOI = XI - ADT*VXI
            YOI = YI - ADT*VYI
            ZOI = ZI - ADT*VZI
@@ -4286,23 +4286,23 @@ C------------------------------------------------
            XM5 = XX5 + AAA*(XO5-XX5)
            YM5 = YY5 + AAA*(YO5-YY5)
            ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
            X51 = XM1 - XM5
            Y51 = YM1 - YM5
            Z51 = ZM1 - ZM5
- 
+
            X52 = XM2 - XM5
            Y52 = YM2 - YM5
            Z52 = ZM2 - ZM5
- 
+
            XI1 = XM1 - XOI
            YI1 = YM1 - YOI
            ZI1 = ZM1 - ZOI
- 
+
            XI2 = XM2 - XOI
            YI2 = YM2 - YOI
            ZI2 = ZM2 - ZOI
-         
+
            XI5 = XM5 - XOI
            YI5 = YM5 - YOI
            ZI5 = ZM5 - ZOI
@@ -4322,11 +4322,11 @@ C------------------------------------------------
            SX2 = YI2*ZI5 - ZI2*YI5
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
-           
+
            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  ONE-LB0-LC0 
+           LA0 =  ONE-LB0-LC0
 
           IF(IXX3 /= IXX4)THEN
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
@@ -4371,12 +4371,12 @@ C----------loose tolerance for tria
 
              XM2 = XX2 + AAA*(XO2-XX2)
              YM2 = YY2 + AAA*(YO2-YY2)
-             ZM2 = ZZ2 + AAA*(ZO2-ZZ2) 
-         
+             ZM2 = ZZ2 + AAA*(ZO2-ZZ2)
+
              XM3 = XX3 + AAA*(XO3-XX3)
              YM3 = YY3 + AAA*(YO3-YY3)
-             ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+             ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
              XOI = XI - ADT*VXI
              YOI = YI - ADT*VYI
              ZOI = ZI - ADT*VZI
@@ -4384,23 +4384,23 @@ C----------loose tolerance for tria
              XM5 = XX5 + AAA*(XO5-XX5)
              YM5 = YY5 + AAA*(YO5-YY5)
              ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
              X52 = XM2 - XM5
              Y52 = YM2 - YM5
              Z52 = ZM2 - ZM5
- 
+
              X53 = XM3 - XM5
              Y53 = YM3 - YM5
              Z53 = ZM3 - ZM5
- 
+
              XI2 = XM2 - XOI
              YI2 = YM2 - YOI
              ZI2 = ZM2 - ZOI
- 
+
              XI3 = XM3 - XOI
              YI3 = YM3 - YOI
              ZI3 = ZM3 - ZOI
-         
+
              XI5 = XM5 - XOI
              YI5 = YM5 - YOI
              ZI5 = ZM5 - ZOI
@@ -4420,11 +4420,11 @@ C----------loose tolerance for tria
              SX3 = YI3*ZI5 - ZI3*YI5
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
-             
+
              S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
+             LA0 =  ONE-LB0-LC0
 
              IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .          LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -4456,12 +4456,12 @@ C----------loose tolerance for tria
 
             XM3 = XX3 + AAA*(XO3-XX3)
             YM3 = YY3 + AAA*(YO3-YY3)
-            ZM3 = ZZ3 + AAA*(ZO3-ZZ3) 
-         
+            ZM3 = ZZ3 + AAA*(ZO3-ZZ3)
+
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
             ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
-         
+
             XOI = XI - ADT*VXI
             YOI = YI - ADT*VYI
             ZOI = ZI - ADT*VZI
@@ -4469,23 +4469,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X53 = XM3 - XM5
             Y53 = YM3 - YM5
             Z53 = ZM3 - ZM5
- 
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             XI3 = XM3 - XOI
             YI3 = YM3 - YOI
             ZI3 = ZM3 - ZOI
- 
+
             XI4 = XM4 - XOI
             YI4 = YM4 - YOI
             ZI4 = ZM4 - ZOI
-         
+
             XI5 = XM5 - XOI
             YI5 = YM5 - YOI
             ZI5 = ZM5 - ZOI
@@ -4505,11 +4505,11 @@ C----------loose tolerance for tria
             SX4 = YI4*ZI5 - ZI4*YI5
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
            IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -4541,12 +4541,12 @@ C----------loose tolerance for tria
 
             XM4 = XX4 + AAA*(XO4-XX4)
             YM4 = YY4 + AAA*(YO4-YY4)
-            ZM4 = ZZ4 + AAA*(ZO4-ZZ4) 
-         
+            ZM4 = ZZ4 + AAA*(ZO4-ZZ4)
+
             XM1 = XX1 + AAA*(XO1-XX1)
             YM1 = YY1 + AAA*(YO1-YY1)
-            ZM1 = ZZ1 + AAA*(ZO1-ZZ1) 
-         
+            ZM1 = ZZ1 + AAA*(ZO1-ZZ1)
+
             XOI = XI - ADT*VXI
             YOI = YI - ADT*VYI
             ZOI = ZI - ADT*VZI
@@ -4554,23 +4554,23 @@ C----------loose tolerance for tria
             XM5 = XX5 + AAA*(XO5-XX5)
             YM5 = YY5 + AAA*(YO5-YY5)
             ZM5 = ZZ5 + AAA*(ZO5-ZZ5)
-         
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             X51 = XM1 - XM5
             Y51 = YM1 - YM5
             Z51 = ZM1 - ZM5
- 
+
             XI4 = XM4 - XOI
             YI4 = YM4 - YOI
             ZI4 = ZM4 - ZOI
- 
+
             XI1 = XM1 - XOI
             YI1 = YM1 - YOI
             ZI1 = ZM1 - ZOI
-         
+
             XI5 = XM5 - XOI
             YI5 = YM5 - YOI
             ZI5 = ZM5 - ZOI
@@ -4590,11 +4590,11 @@ C----------loose tolerance for tria
             SX1 = YI1*ZI5 - ZI1*YI5
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
             IF(LB0 >= ZEROM .and. LB0 <= UNP .and.
      .         LC0 >= ZEROM .and. LC0 <= UNP .and.
@@ -4677,8 +4677,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XS,YS,ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -4693,12 +4693,12 @@ C---------------- cas V>0 V_old>0
 
            XM1 = XO1
            YM1 = YO1
-           ZM1 = ZO1 
-         
+           ZM1 = ZO1
+
            XM2 = XO2
            YM2 = YO2
-           ZM2 = ZO2 
-         
+           ZM2 = ZO2
+
 c           XOI = XI - ADT*VXI
 c           YOI = YI - ADT*VYI
 c           ZOI = ZI - ADT*VZI
@@ -4706,23 +4706,23 @@ c           ZOI = ZI - ADT*VZI
            XM5 = XO5
            YM5 = YO5
            ZM5 = ZO5
-         
+
            X51 = XM1 - XM5
            Y51 = YM1 - YM5
            Z51 = ZM1 - ZM5
- 
+
            X52 = XM2 - XM5
            Y52 = YM2 - YM5
            Z52 = ZM2 - ZM5
- 
+
            XI1 = XM1 - XOI
            YI1 = YM1 - YOI
            ZI1 = ZM1 - ZOI
- 
+
            XI2 = XM2 - XOI
            YI2 = YM2 - YOI
            ZI2 = ZM2 - ZOI
-         
+
            XI5 = XM5 - XOI
            YI5 = YM5 - YOI
            ZI5 = ZM5 - ZOI
@@ -4742,11 +4742,11 @@ c           ZOI = ZI - ADT*VZI
            SX2 = YI2*ZI5 - ZI2*YI5
            SY2 = ZI2*XI5 - XI2*ZI5
            SZ2 = XI2*YI5 - YI2*XI5
-           
+
            S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
            LB0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
            LC0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-           LA0 =  ONE-LB0-LC0 
+           LA0 =  ONE-LB0-LC0
 
            IF(LB0 >= ZEROMT .AND. LB0 <= UNPT .AND.
      .        LC0 >= ZEROMT .AND. LC0 <= UNPT .AND.
@@ -4768,12 +4768,12 @@ c           ZOI = ZI - ADT*VZI
 
              XM2 = XO2
              YM2 = YO2
-             ZM2 = ZO2 
-         
+             ZM2 = ZO2
+
              XM3 = XO3
              YM3 = YO3
-             ZM3 = ZO3 
-         
+             ZM3 = ZO3
+
 c             XOI = XI - ADT*VXI
 c             YOI = YI - ADT*VYI
 c             ZOI = ZI - ADT*VZI
@@ -4781,23 +4781,23 @@ c             ZOI = ZI - ADT*VZI
              XM5 = XO5
              YM5 = YO5
              ZM5 = ZO5
-         
+
              X52 = XM2 - XM5
              Y52 = YM2 - YM5
              Z52 = ZM2 - ZM5
- 
+
              X53 = XM3 - XM5
              Y53 = YM3 - YM5
              Z53 = ZM3 - ZM5
- 
+
              XI2 = XM2 - XOI
              YI2 = YM2 - YOI
              ZI2 = ZM2 - ZOI
- 
+
              XI3 = XM3 - XOI
              YI3 = YM3 - YOI
              ZI3 = ZM3 - ZOI
-         
+
              XI5 = XM5 - XOI
              YI5 = YM5 - YOI
              ZI5 = ZM5 - ZOI
@@ -4817,11 +4817,11 @@ c             ZOI = ZI - ADT*VZI
              SX3 = YI3*ZI5 - ZI3*YI5
              SY3 = ZI3*XI5 - XI3*ZI5
              SZ3 = XI3*YI5 - YI3*XI5
-             
+
              S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
              LB0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
              LC0 =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-             LA0 =  ONE-LB0-LC0 
+             LA0 =  ONE-LB0-LC0
 
              IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .          LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -4846,12 +4846,12 @@ c          ENDIF
 
             XM3 = XO3
             YM3 = YO3
-            ZM3 = ZO3 
-         
+            ZM3 = ZO3
+
             XM4 = XO4
             YM4 = YO4
             ZM4 = ZO4
-         
+
 c            XOI = XI - ADT*VXI
 c            YOI = YI - ADT*VYI
 c            ZOI = ZI - ADT*VZI
@@ -4859,23 +4859,23 @@ c            ZOI = ZI - ADT*VZI
             XM5 = XO5
             YM5 = YO5
             ZM5 = ZO5
-         
+
             X53 = XM3 - XM5
             Y53 = YM3 - YM5
             Z53 = ZM3 - ZM5
- 
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             XI3 = XM3 - XOI
             YI3 = YM3 - YOI
             ZI3 = ZM3 - ZOI
- 
+
             XI4 = XM4 - XOI
             YI4 = YM4 - YOI
             ZI4 = ZM4 - ZOI
-         
+
             XI5 = XM5 - XOI
             YI5 = YM5 - YOI
             ZI5 = ZM5 - ZOI
@@ -4895,11 +4895,11 @@ c            ZOI = ZI - ADT*VZI
             SX4 = YI4*ZI5 - ZI4*YI5
             SY4 = ZI4*XI5 - XI4*ZI5
             SZ4 = XI4*YI5 - YI4*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
             LC0 =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
            IF(LB0  >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -4924,12 +4924,12 @@ c            ZOI = ZI - ADT*VZI
 
             XM4 = XO4
             YM4 = YO4
-            ZM4 = ZO4 
-         
+            ZM4 = ZO4
+
             XM1 = XO1
             YM1 = YO1
-            ZM1 = ZO1 
-         
+            ZM1 = ZO1
+
 c            XOI = XI - ADT*VXI
 c            YOI = YI - ADT*VYI
 c            ZOI = ZI - ADT*VZI
@@ -4937,23 +4937,23 @@ c            ZOI = ZI - ADT*VZI
             XM5 = XO5
             YM5 = YO5
             ZM5 = ZO5
-         
+
             X54 = XM4 - XM5
             Y54 = YM4 - YM5
             Z54 = ZM4 - ZM5
- 
+
             X51 = XM1 - XM5
             Y51 = YM1 - YM5
             Z51 = ZM1 - ZM5
- 
+
             XI4 = XM4 - XOI
             YI4 = YM4 - YOI
             ZI4 = ZM4 - ZOI
- 
+
             XI1 = XM1 - XOI
             YI1 = YM1 - YOI
             ZI1 = ZM1 - ZOI
-         
+
             XI5 = XM5 - XOI
             YI5 = YM5 - YOI
             ZI5 = ZM5 - ZOI
@@ -4973,11 +4973,11 @@ c            ZOI = ZI - ADT*VZI
             SX1 = YI1*ZI5 - ZI1*YI5
             SY1 = ZI1*XI5 - XI1*ZI5
             SZ1 = XI1*YI5 - YI1*XI5
-            
+
             S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
             LB0 =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
             LC0 =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
-            LA0 =  ONE-LB0-LC0 
+            LA0 =  ONE-LB0-LC0
 
             IF(LB0 >= ZEROMT.and. LB0 <= UNPT .and.
      .         LC0 >= ZEROMT.and. LC0 <= UNPT .and.
@@ -5066,8 +5066,8 @@ C-----------------------------------------------
      .     YIA,  YIB,  YIC,
      .     ZIA,  ZIB,  ZIC,
      .     XS,YS,ZS,
-     .     XM1, XM2, XM3, XM4, XM5, 
-     .     YM1, YM2, YM3, YM4, YM5, 
+     .     XM1, XM2, XM3, XM4, XM5,
+     .     YM1, YM2, YM3, YM4, YM5,
      .     ZM1, ZM2, ZM3, ZM4, ZM5,LA0,LB0,LC0
       my_real
      .     SX,SX1,SX2,SX3,SX4,SX5,SX0,
@@ -5104,7 +5104,7 @@ C--------edge selection: first look at smallest distance DNO,then final intersec
            DNO(4) = DNO(3)
          END IF
          DMIN = EP20
-         IEG =0 
+         IEG =0
          DO J=1,4
           IF (DNO(J)<DMIN) THEN
            DMIN = DNO(J)
@@ -5121,12 +5121,12 @@ C--------edge selection: smallest pen between IJ,IK
      2                    XX2    ,YY2      ,ZZ2    ,
      3                    SX125  ,SY125    ,SZ125  ,
      4                    XI     ,YI       ,ZI     ,PIJ )
-             IF (PIJ<ZERO) THEN 
+             IF (PIJ<ZERO) THEN
                CALL N2EDGE3(XO1    ,YO1      ,ZO1    ,
      2                      XO2    ,YO2      ,ZO2    ,
      3                      SOX125 ,SOY125   ,SOZ125  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+               IF (PIJ0>ZERO) THEN
                 INTERSECT = 1
                 SUBTRIA= 20 + 1
                END IF
@@ -5142,29 +5142,29 @@ C--------edge selection: smallest pen between IJ,IK
      2                      XO1    ,YO1      ,ZO1    ,
      3                      SOX415 ,SOY415   ,SOZ415  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+               IF (PIJ0>ZERO) THEN
                 INTERSECT = 1
                 SUBTRIA= 20 + 4
                END IF
              END IF
-            END IF 
+            END IF
            CASE (2) ! 23,12
             IF (MVOISIN(2)==0) THEN
              CALL N2EDGE3(XX2    ,YY2      ,ZZ2    ,
      2                    XX3    ,YY3      ,ZZ3    ,
      3                    SX235  ,SY235    ,SZ235  ,
      4                    XI     ,YI       ,ZI     ,PIJ )
-             IF (PIJ<ZERO) THEN 
+             IF (PIJ<ZERO) THEN
                CALL N2EDGE3(XO2    ,YO2      ,ZO2    ,
      2                      XO3    ,YO3      ,ZO3    ,
      3                      SOX235 ,SOY235   ,SOZ235  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+               IF (PIJ0>ZERO) THEN
                 INTERSECT = 1
                 SUBTRIA= 20 + 2
                END IF
              END IF
-            END IF 
+            END IF
             IF (MVOISIN(1)==0) THEN
              CALL N2EDGE3(XX1    ,YY1      ,ZZ1    ,
      2                    XX2    ,YY2      ,ZZ2    ,
@@ -5175,12 +5175,12 @@ C--------edge selection: smallest pen between IJ,IK
      2                      XO2    ,YO2      ,ZO2    ,
      3                      SOX125  ,SOY125    ,SOZ125  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+               IF (PIJ0>ZERO) THEN
                 INTERSECT = 1
                 SUBTRIA= 20 + 1
                END IF
              END IF
-            END IF 
+            END IF
            CASE (3) ! 34,23
              IF(IXX3 /= IXX4)THEN
                IF(MVOISIN(3)==0)THEN
@@ -5188,12 +5188,12 @@ C--------edge selection: smallest pen between IJ,IK
      2                       XX4    ,YY4      ,ZZ4    ,
      3                       SX345  ,SY345    ,SZ345  ,
      4                       XI     ,YI       ,ZI     ,PIJ )
-                IF (PIJ<ZERO) THEN 
+                IF (PIJ<ZERO) THEN
                   CALL N2EDGE3(XO3    ,YO3      ,ZO3    ,
      2                         XO4    ,YO4      ,ZO4    ,
      3                         SOX345  ,SOY345    ,SOZ345  ,
      4                         XOI    ,YOI      ,ZOI    ,PIJ0)
-                  IF (PIJ0>ZERO) THEN 
+                  IF (PIJ0>ZERO) THEN
                    INTERSECT = 1
                    SUBTRIA= 20 + 3
                   END IF
@@ -5210,13 +5210,13 @@ C--------edge selection: smallest pen between IJ,IK
      2                      XO1    ,YO1      ,ZO1    ,
      3                      SOX415  ,SOY415    ,SOZ415  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-                  IF (PIJ0>ZERO) THEN 
+                  IF (PIJ0>ZERO) THEN
                    INTERSECT = 1
                    SUBTRIA= 20 + 4
                   END IF
                 END IF
-              END IF 
-             END IF 
+              END IF
+             END IF
 C--------------  23 for both 3N/4N           
               IF(MVOISIN(2)==0)THEN !23
                 CALL N2EDGE3(XX2    ,YY2      ,ZZ2    ,
@@ -5228,14 +5228,14 @@ C--------------  23 for both 3N/4N
      2                      XO3    ,YO3      ,ZO3    ,
      3                      SOX235  ,SOY235    ,SOZ235  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-                   IF (PIJ0>ZERO) THEN 
+                   IF (PIJ0>ZERO) THEN
                     INTERSECT = 1
                     SUBTRIA= 20 + 2
                    END IF
                  END IF
               END IF
            CASE (4) ! 41,34
-            IF(MVOISIN(4)==0)THEN 
+            IF(MVOISIN(4)==0)THEN
              CALL N2EDGE3(XX4    ,YY4      ,ZZ4    ,
      2                    XX1    ,YY1      ,ZZ1    ,
      3                    SX415  ,SY415    ,SZ415  ,
@@ -5245,28 +5245,28 @@ C--------------  23 for both 3N/4N
      2                      XO1    ,YO1      ,ZO1    ,
      3                      SOX415  ,SOY415    ,SOZ415  ,
      4                      XOI    ,YOI      ,ZOI    ,PIJ0 )
-               IF (PIJ0>ZERO) THEN 
+               IF (PIJ0>ZERO) THEN
                 INTERSECT = 1
                 SUBTRIA= 20 + 4
                END IF
              END IF
-            END IF 
+            END IF
             IF(IXX3 /= IXX4.AND.MVOISIN(3)==0)THEN
              CALL N2EDGE3(XX3    ,YY3      ,ZZ3    ,
      2                    XX4    ,YY4      ,ZZ4    ,
      3                    SX345  ,SY345    ,SZ345  ,
      4                    XI     ,YI       ,ZI     ,PIK )
-                IF (PIK<ZERO.AND.PIK>PIJ) THEN 
+                IF (PIK<ZERO.AND.PIK>PIJ) THEN
                   CALL N2EDGE3(XO3    ,YO3      ,ZO3    ,
      2                         XO4    ,YO4      ,ZO4    ,
      3                         SOX345  ,SOY345    ,SOZ345  ,
      4                         XOI    ,YOI      ,ZOI    ,PIJ0)
-                  IF (PIJ0>ZERO) THEN 
+                  IF (PIJ0>ZERO) THEN
                    INTERSECT = 1
                    SUBTRIA= 20 + 3
                   END IF
                 END IF
-            END IF 
+            END IF
          END SELECT
 C------------out of seg     
          IF (INTERSECT == 1.AND.PIK>ZERO) INTERSECT = 0
@@ -5275,7 +5275,7 @@ C------------out of seg
           IF(IXX3 == IXX4) SUBTRIA0= 20 + 1
           ISTEP = 6
           ADT0 = DT1
-         END IF 
+         END IF
 C
       RETURN
       END

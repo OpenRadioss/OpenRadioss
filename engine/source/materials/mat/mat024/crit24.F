@@ -61,9 +61,9 @@ C-----------------------------------------------
      .   FC,RT,RC,RCT1,RCT2,AA,AC,BC,BT,TOL
       my_real DS1(NEL),DS2(NEL),DS3(NEL),DS4(NEL),DS5(NEL),DS6(NEL),
      .   FA(NEL), XN(NEL),FN(NEL),SN1(NEL),SN2(NEL),
-     .   SN3(NEL),SN4(NEL),SN5(NEL),SN6(NEL),SN7(NEL),ROK(NEL) 
+     .   SN3(NEL),SN4(NEL),SN5(NEL),SN6(NEL),SN7(NEL),ROK(NEL)
 C---------------------
-      DATA TOLF/0.005/ 
+      DATA TOLF/0.005/
 C=======================================================================
 C . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
 C ELIMINE LES DIRECTIONS ENDOMMAGEES POUR TESTER LE CRITERE
@@ -114,7 +114,7 @@ c
         SCLE3(I)=-ONE
         IF (OFF(I) >= ONE) THEN
           NINDEX = NINDEX + 1
-          INDEX(NINDEX) = I      
+          INDEX(NINDEX) = I
           ROK(I)  = ROK0+ROB(I)-RO0
         ENDIF
       ENDDO
@@ -128,7 +128,7 @@ c----------------------------------------------
      .           RCT1,RCT2,AA,AC,BC,BT,
      .           ROK,TOL,FA,NINDEX,INDEX,IBUG,
      .           NEL,SEQ,ICRIT_OUTP)
-      ENDIF 
+      ENDIF
 c----------------------------------------------
       NINDEX2 = 0
 C
@@ -162,7 +162,7 @@ c---------------
            SN5(I) = S5(I)-XN(I)*DS5(I)
            SN6(I) = S6(I)-XN(I)*DS6(I)
            SN7(I) = SM(I)-XN(I)*DSM(I)
-          ENDIF         
+          ENDIF
         ENDDO
 c----------------------------------------------
         CALL FRV(SN1,SN2,SN3,SN4,SN5,SN6,
@@ -190,7 +190,7 @@ c
              ENDIF
             ENDIF
           ENDIF
-        ENDDO        
+        ENDDO
 c
       ENDDO  ! NIT
 c--------------
@@ -204,7 +204,7 @@ C verif convergence
           SCLE2(I) = MIN(ONE,SCLE2(I))
           SCLE2(I) = MAX(ZERO,SCLE2(I))
         ENDIF
-      ENDDO             
+      ENDDO
 
       DO I=1,NEL
         SCLE1(I) = ONE-SCLE2(I)

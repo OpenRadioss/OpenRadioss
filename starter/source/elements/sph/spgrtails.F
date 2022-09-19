@@ -83,7 +83,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NGR1, NG, MT, MLN, I, P, NEL, MODE, NB,
      .        N, IGTYP,JIVF,JHBE,IJK,NE1,
-     .        ISSN,IKSNOD,IORDER,IPRT,ISLEEP,IEOS,NEL_PREC,IUN,IG,IFAIL, 
+     .        ISSN,IKSNOD,IORDER,IPRT,ISLEEP,IEOS,NEL_PREC,IUN,IG,IFAIL,
      .        WORK(70000),INUM(13,NUMSPH),INDEX(2*NUMSPH),
      .        NGP(NSPMD+1),K,J,II, MX, NUMBER_FAILURE, IR, IP, STAT,
      .        IPARTR2R, NOD, JALE_FROM_MAT, JALE_FROM_PROP
@@ -181,7 +181,7 @@ C
         IF(NSPHSOL/=0)THEN
           DO I=1,NEL
             INUM(10,I)=SPH2SOL(NFT+I)
-            IF(NFT+I >= FIRST_SPHSOL .AND. 
+            IF(NFT+I >= FIRST_SPHSOL .AND.
      .         NFT+I < FIRST_SPHSOL+NSPHSOL)THEN
               INUM(11,I)=IRST(1,NFT+I-FIRST_SPHSOL+1)
               INUM(12,I)=IRST(2,NFT+I-FIRST_SPHSOL+1)
@@ -191,7 +191,7 @@ C
           DO I=1,NEL
             SPH2SOL(NFT+I) = INUM(10,INDEX(I))
 C
-            IF(NFT+I >= FIRST_SPHSOL .AND. 
+            IF(NFT+I >= FIRST_SPHSOL .AND.
      .         NFT+I < FIRST_SPHSOL+NSPHSOL)THEN
 C INDEX(I) < FIRST_SPHSOL <=> internal error
               IRST(1,NFT+I-FIRST_SPHSOL+1)=INUM(11,INDEX(I))
@@ -225,10 +225,10 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEPSP(NFT+INDEX(I))          
+          INDEX(I) = CEPSP(NFT+INDEX(I))
         END DO
         DO I = 1, NEL
-          CEPSP(NFT+I) = INDEX(I)          
+          CEPSP(NFT+I) = INDEX(I)
         END DO
 C
         NFT = NFT + NEL
@@ -252,7 +252,7 @@ C Rebuild SOL2SPH, SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
             SOL2SPH(1,N)=I-1
             SOL2SPH(2,N)=SOL2SPH(1,N)+1
           END IF
-        END DO          
+        END DO
       END IF
 C ne pas oublier renumeroter selection th et surface si concerne
 C
@@ -287,7 +287,7 @@ C ngroup global
           NGROUP=NGROUP+1
           II = EADD(N)+NFT
           IPRT  =IPARTSP(II)
-          IF (NSUBDOM>0) IPARTR2R = TAG_PART(IPRT)          
+          IF (NSUBDOM>0) IPARTR2R = TAG_PART(IPRT)
           MT    =IPART(1,IPRT)
           MLN   =NINT(PM(19,ABS(MT)))
           IG    =IPART(2,IPRT)
@@ -297,7 +297,7 @@ C ngroup global
           IEOS  = IPM(4,MT)
           IORDER=GET_U_GEO(5,IG)
           ISLEEP=KXSP(2,II)
-          
+
           JALE_FROM_MAT = NINT(PM(72,MT))
           JALE_FROM_PROP = IGEO(62,IG)
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
@@ -341,7 +341,7 @@ C-------------------------------------------------
             DO IJK = 1, NE1
               II = EADD(N)+NFT-1+IJK
               MX = IPART(1,IPARTSP(II))
-              DO IR = 1,NUMBER_FAILURE 
+              DO IR = 1,NUMBER_FAILURE
                 IP=(IR -1)*15
                 IF(IPM(111 + IP,MX)==10) THEN
                   ISTRAIN=1
@@ -392,7 +392,7 @@ C
 C         flag for group of duplicated elements in multidomains
           IF (NSUBDOM>0) IPARG(71,NGROUP)= IPARTR2R
 C         thermal expansion
-          IF(IPM(218,MT) > 0 .AND. MLN /= 0 .AND. MLN /= 13) IPARG(49,NGROUP)= 1 
+          IF(IPM(218,MT) > 0 .AND. MLN /= 0 .AND. MLN /= 13) IPARG(49,NGROUP)= 1
 C
           IF(MLN/=14.AND.MLN/=24.AND.MLN/=25.AND.MLN<28)THEN
             IPARG(44,NGROUP)= ISTRAIN
@@ -424,7 +424,7 @@ C
       DO I = 1, NUMSPH
         NOD = KXSP(3,I)
         NOD2SP(NOD) = I
-      END DO 
+      END DO
 C
       WRITE(IOUT,1000)
       WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,

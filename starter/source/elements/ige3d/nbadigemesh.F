@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE MESHSURFIG3D_MOD  
+      USE MESHSURFIG3D_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -120,11 +120,11 @@ C------
       ALLOCATE(ITAB(NUMNUSR),ITABM1(2*NUMNUSR),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='ITAB') 
+     .                         C1='ITAB')
       ALLOCATE (SUBID_NODES(NUMNUSR),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUBID_NODES') 
+     .                             C1='SUBID_NODES')
       SUBID_NODES(1:NUMNUSR) = 0
 C--------------------------------------
 C     LECTURE DES PROP IGE
@@ -184,7 +184,7 @@ c
       ALLOCATE(KNOT(SKNOT),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='KNOT') 
+     .                         C1='KNOT')
       KNOT=0
 C--------------------------------------
 C     LECUTRE DES PART
@@ -198,7 +198,7 @@ C--------------------------------------
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         READ(LINE,ERR=999,FMT=FMT_I)PID
-        IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)   !  ICI REND IPID BIZARRE 
+        IPID = NINTRI(PID,IGEO,NPROPGI,NUMGEO,1)   !  ICI REND IPID BIZARRE
 C
         IPART(2,I)=IPID
         IPART(4,I)=ID
@@ -303,16 +303,16 @@ c
       IREC = KOPTAD(KCUR)
       IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-      
+
 c  IL FAUT DIFFERENCIER LES PART IGE3D DES AUTRES
-   
+
       DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
-     
+
        IF (LINE(1:1) == '/')THEN  !  ON A ONE CHANGEMENT DE PART
          IREC=IREC+1
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
        ENDIF
-       
+
        READ(LINE,ERR=999,FMT=FMT_8I)
      . ID,IDX1,IDY1,IDZ1,NCTRL,NBRAFX,NBRAFY,NBRAFZ
        NBIG3D_PATCH=NBIG3D_PATCH+1
@@ -323,21 +323,21 @@ c  IL FAUT DIFFERENCIER LES PART IGE3D DES AUTRES
        ADDELIG3D = ADDELIG3D + NBRAFX*NBRAFY*NBRAFZ
        IREC = IREC + ((NCTRL-1)/10)+2
        READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-       
+
        IF (LINE(1:6) == '/IGE3D')THEN  !  ON A ONE CHANGEMENT DE PART
          NBPART_IG3D = NBPART_IG3D+1
          NBIG3D_PATCH=0
          IREC=IREC+1
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
        ENDIF
-       
+
       ENDDO
 c
       ALLOCATE(IXIG3D(NUM+ADDELIG3D*NCTRLMAX),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
      .                         C1='IXIG3D')
-      SIXIG3D=NUM 
+      SIXIG3D=NUM
 c
       ALLOCATE(TABCONPATCH(NBPART_IG3D),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
@@ -358,18 +358,18 @@ c
       IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
       DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
-      
+
        IF (LINE(1:1) == '/')THEN
          IREC=IREC+1
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
        ENDIF
-       
+
        READ(LINE,ERR=999,FMT=FMT_8I)
      . ID,IDX1,IDY1,IDZ1,NCTRL,NBRAFX,NBRAFY,NBRAFZ
        NBIG3D_PATCH=NBIG3D_PATCH+1
        IREC = IREC + ((NCTRL-1)/10)+2
        READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-       
+
        IF (LINE(1:6) == '/IGE3D')THEN  !  ON A ONE CHANGEMENT DE PART
          PTABCONPATCH%L_TAB_IG3D=NBIG3D_PATCH
          ALLOCATE(PTABCONPATCH%TAB_IG3D(NBIG3D_PATCH),STAT=stat)
@@ -386,7 +386,7 @@ c
          IREC=IREC+1
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
        ENDIF
-       
+
       ENDDO
 c
       PTABCONPATCH%L_TAB_IG3D=NBIG3D_PATCH
@@ -410,7 +410,7 @@ C--------------------------------------------------
 C      READING NODES IDs IN HM STRUCTURE
 C-------------------------------------------------- 
       CALL CPP_NODE_COUNT(NUMNUSR1)
-      CALL CPP_NODE_ID_READ(ITAB,SUBID_NODES) 
+      CALL CPP_NODE_ID_READ(ITAB,SUBID_NODES)
 C--------------------------------------------------
 C      CHECKS NODES IDs
 C--------------------------------------------------  
@@ -425,33 +425,33 @@ C--------------------------------------------------
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
      .               ITAB(I) >= IDLT_NODE_AUTO)) THEN
               CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                    I1=ITAB(I),C1=LINE,C2='/NODE') 
-	ENDIF 			 
+     .                    I1=ITAB(I),C1=LINE,C2='/NODE')
+	ENDIF 			
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C--------------------------------------------------
 C     LECTURE DES CNODES
 C--------------------------------------------------
       N = NUMNUSR1
-      KCUR = KCNODE                                     
-      IREC = KOPTAD(KCUR)-1                              
-      DO I=1,NLINE(KCUR)+NSLASH(KCUR)                      
-        IREC=IREC+1                                    
+      KCUR = KCNODE
+      IREC = KOPTAD(KCUR)-1
+      DO I=1,NLINE(KCUR)+NSLASH(KCUR)
+        IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-        IF(LINE(1:1)=='/')THEN                       
+        IF(LINE(1:1)=='/')THEN
           KLINE=LINE
-        ELSE                                           
-          N=N+1 
-          READ(LINE,ERR=999,FMT=FMT_I)             
-     .           ITAB(N)        
+        ELSE
+          N=N+1
+          READ(LINE,ERR=999,FMT=FMT_I)
+     .           ITAB(N)
 	  IF (ITAB(N) > ID_LIMIT_ADMESH
      .        .AND. (ITAB(N) <  IDFT_NODE_AUTO.OR.
-     .               ITAB(N) >= IDLT_NODE_AUTO)) THEN       
+     .               ITAB(N) >= IDLT_NODE_AUTO)) THEN
               CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                    I1=ITAB(N),C1=LINE,C2='/CNODE') 
-          ENDIF                          
-        ENDIF                             
-      ENDDO 
+     .                    I1=ITAB(N),C1=LINE,C2='/CNODE')
+          ENDIF
+        ENDIF
+      ENDDO
 C------
 C     CONSTITUTION DU TABLEAU INVERSE DES NOEUDS
 C------
@@ -464,31 +464,31 @@ c
       ALLOCATE(KXIG3D(NIXIG3D,NUMELIG3D0+ADDELIG3D),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='KXIG3D')    
-      KXIG3D=0 
+     .                         C1='KXIG3D')
+      KXIG3D=0
 
       ALLOCATE(IPARTIG3D(NUMELIG3D0+ADDELIG3D),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='IPARTIG3D')    
-      IPARTIG3D=0 
+     .                         C1='IPARTIG3D')
+      IPARTIG3D=0
 C
       NBPART_IG3D = 0
       NBIG3D_PATCH = 0
 c
         IAD =1
         KCUR=KIGE3D
-        IREC=KOPTAD(KCUR)-1 
+        IREC=KOPTAD(KCUR)-1
         I = 0
         INOD_IGE = FIRSTNOD_ISOGEO
-        DO WHILE( I < NUMELIG3D0 )              
-         IREC=IREC+1                        
+        DO WHILE( I < NUMELIG3D0 )
+         IREC=IREC+1
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-         IF (LINE(1:1) == '/')THEN  
+         IF (LINE(1:1) == '/')THEN
           NBPART_IG3D = NBPART_IG3D+1
           NBIG3D_PATCH = 0
-          PTABCONPATCH => TABCONPATCH(NBPART_IG3D)     
-          KLINE=LINE                                     
+          PTABCONPATCH => TABCONPATCH(NBPART_IG3D)
+          KLINE=LINE
           CALL FREDEC0(ID)
           IDS=0
           DO J=1,NPART

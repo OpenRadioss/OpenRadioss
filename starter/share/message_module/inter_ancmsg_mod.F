@@ -36,8 +36,8 @@ Chd|====================================================================
      .                  R1    ,R2    ,R3    ,R4    ,
      .                  R5    ,R6    ,R7    ,R8    ,R9    ,
      .                  C1    ,C2    ,C3    ,C4    ,
-     .                  C5    ,C6    ,C7    ,C8    ,C9    ,   
-     .                  PRMOD )   
+     .                  C5    ,C6    ,C7    ,C8    ,C9    ,
+     .                  PRMOD )
 c     .                  PRMOD ,IOPTION,IOPTION_TYPE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -74,4 +74,4 @@ c     .                 PRMOD,IOPTION,IOPTION_TYPE
       END SUBROUTINE
       END INTERFACE
 C=======================================================================
-      END MODULE 
+      END MODULE

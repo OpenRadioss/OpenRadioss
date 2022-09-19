@@ -59,8 +59,8 @@ C-----------------------------------------------
       USE TRI7BOX
       USE INTBUFMOD
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
-      USE H3D_MOD 
+      USE INTBUFDEF_MOD
+      USE H3D_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C common pour variable globale en memoire partagee
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
-      my_real 
+      my_real
      .        BMINMA(6),CURV_MAX_MAX
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -98,7 +98,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*)
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(*), MS(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -107,9 +107,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC, IFQ, INTTH, ITIED,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, 
+     .        I, IP0, IP1, IP2, IP21, I_SK_OLD,
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, I_STOK ,NMN_L
-      INTEGER 
+      INTEGER
      .       ILD, NCONTACT,NCONT,INTFRIC,
      .       I_MEM,CAND_N_OLD,IDUM1(1),ILEV, IVIS2
 C     REAL
@@ -129,7 +129,7 @@ C-----------------------------------------------
       INTFRIC = 0
 C
 C     Specific TYPE7 :
-      ITIED = 0 
+      ITIED = 0
 C
       LOC_PROC=ISPMD+1
       NRTM   =IPARI(4,NIN)
@@ -257,7 +257,7 @@ c        goto 150
      1      X           ,BMINMA  ,IPARI(21,NIN),NRTM_T,INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF       ,CURV_MAX,GAPMIN       ,GAPMAX,INTBUF_TAB%GAP_M(1+ESHIFT),
      3      INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP  ,INTBUF_TAB%VARIABLES(7) ,INTBUF_TAB%MSR)
- 
+
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 c 150   continue
@@ -379,7 +379,7 @@ C
      4      MULTI_FVM)
         IPARI(24,NIN) = NSNR
 C
-        IF (NUM_IMP>0) 
+        IF (NUM_IMP>0)
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)

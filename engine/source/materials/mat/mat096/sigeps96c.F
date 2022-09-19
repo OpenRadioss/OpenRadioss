@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS96C(
-     1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   , 
+     1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,NFUNC   ,IFUNC   ,
      2     NPF     ,TF      ,UPARAM  ,UVAR    ,JTHE    ,GS      ,
      3     RHO     ,TEMP    ,DEFP    ,SOUNDSP ,OFF     ,EPSD    ,
      4     EPSPXX  ,EPSPYY  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,THKLY   ,
@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 C---------+---------+---+---+--------------------------------------------
@@ -105,8 +105,8 @@ c
      .  DEPSL1,DEPSL2,DEPSL3,DEPSL4,EPSP,QY,FY,PY,F1,F2,X,X1,X2,DX,ALPHA
       my_real, DIMENSION(NEL) :: AA,K,G,G2,RA,DEPSV,DEPSZZ,DAV,D1,D2,D3,
      .  DS1,DS2,DS3,DS4,DP,DE1,DE2,DE3,DE4,DYDX,FO,PO,SO1,SO2,SO3,SO4,S1,S2,S3,S4,
-     .  P,YLD,DEZZ,S1N,S2N,S3N,S4N,PN,QN,Q,F,FAC_E,FRATE,SIGNZZ 
-      my_real SMALL,BIG,TOL 
+     .  P,YLD,DEZZ,S1N,S2N,S3N,S4N,PN,QN,Q,F,FAC_E,FRATE,SIGNZZ
+      my_real SMALL,BIG,TOL
       my_real ,DIMENSION(:), POINTER :: EPSPD,EPSPV
 C=======================================================================
 c      UPARAM(1)   E    : Young modulus
@@ -126,7 +126,7 @@ c      UPARAM(14)  NA   : exponent coefficient for temperature dependency of SIG
 c      UPARAM(15)  RB   : exponent coefficient for SIGB evolution
 c      UPARAM(16)  RC   : coefficient for SIGR evolution
 c      UPARAM(20)  NUP  : Plastic deformation Poisson coefficient
-c---------------------     
+c---------------------
 c      UVAR(1)     YIELD
 c      UVAR(2)     EPSD
 C=======================================================================
@@ -134,10 +134,10 @@ C=======================================================================
       SMALL = EM10
       BIG   = EP20
       TOL   = EM20
-c---------------------     
-      EPSPD => DEFP(1:NEL,1)   ! Von Mises Equivalent Plastic Strain  
+c---------------------
+      EPSPD => DEFP(1:NEL,1)   ! Von Mises Equivalent Plastic Strain
       EPSPV => DEFP(1:NEL,2)   ! Volumetric Plastic Strain
-c---------------------     
+c---------------------
       EINI = UPARAM(1)
       GINI = UPARAM(2)
       KINI = UPARAM(3)
@@ -145,8 +145,8 @@ c---------------------
       TANB = UPARAM(5)
       TANP = UPARAM(6)
       YXI  = UPARAM(7)
-      SIGY = UPARAM(8) 
-      SIGA = UPARAM(9) 
+      SIGY = UPARAM(8)
+      SIGA = UPARAM(9)
       SIGB = UPARAM(10)
       SIGR = UPARAM(11)
       RA1  = UPARAM(12)
@@ -215,7 +215,7 @@ c------------------------------------------
         PLA2 = PLA**2
         PP1  = ONE - RC*PLA2
         PP2  = PP1 + TWO
-        YLD(I) = SIGY*FRATE(I) + SIGA*(ONE - EXP(-RA(I)*PLA)) 
+        YLD(I) = SIGY*FRATE(I) + SIGA*(ONE - EXP(-RA(I)*PLA))
      .         - SIGB *(ONE - EXP(-RB*PLA))
      .         + SIGR*PLA*THIRD*PP2 / PP1
 c
@@ -225,13 +225,13 @@ c
         D1(I)  = DEPSXX(I) - DAV(I)
         D2(I)  = DEPSYY(I) - DAV(I)
         D3(I)  = DEPSZZ(I) - DAV(I)
-c       Increments elastiques pression et deviateur        
+c       Increments elastiques pression et deviateur
         DP(I) =-K(I)* DEPSV(I)
-        DS1(I)= G2(I)* D1(I) 
+        DS1(I)= G2(I)* D1(I)
         DS2(I)= G2(I)* D2(I)
         DS3(I)= G2(I)* D3(I)
         DS4(I)= G(I) * DEPSXY(I)
-c       Valeurs elastiques pression et deviateur   
+c       Valeurs elastiques pression et deviateur
         PO(I)  =-(SIGOXX(I)+ SIGOYY(I))*THIRD
         SO1(I) = SIGOXX(I) + PO(I)
         SO2(I) = SIGOYY(I) + PO(I)
@@ -255,13 +255,13 @@ c------------------------------------------
 c     EVALUATION FONCTION CRITERE DE PLASTICITE
 c------------------------------------------
 c     old criterion
-      DO I=1,NEL          
+      DO I=1,NEL
         Q2  = THREE_HALF*(SO1(I)**2 + SO2(I)**2 + SO3(I)**2) + THREE*SO4(I)**2
         Q(I)= SQRT(Q2)
         FO(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
       ENDDO
 c------------------------------------------
-      DO I=1,NEL          
+      DO I=1,NEL
         Q2  = THREE_HALF*(S1(I)**2 + S2(I)**2 + S3(I)**2) + THREE*S4(I)**2
         Q(I)= SQRT(Q2)
         F(I)= Q(I) - MAX(ZERO, P(I)*TANB + YLD(I))
@@ -281,9 +281,9 @@ c
             DO ITER=1,NITER
               X   = (X1*F2 - X2*F1) / (F2 - F1)  ! regula falsi
               SY1 = S1(I) - X * DS1(I)
-              SY2 = S2(I) - X * DS2(I)    
+              SY2 = S2(I) - X * DS2(I)
               SY4 = S4(I) - X * DS4(I)
-              PY  = P(I)  - X * DP(I) 
+              PY  = P(I)  - X * DP(I)
               QY  = THREE_HALF*(SY1**2 + SY2**2) + THREE*SY4**2
               QY  = SQRT(QY)
               FY  = QY - MAX(ZERO, PY*TANB + YLD(I))
@@ -329,8 +329,8 @@ c     PLASTIC FLOW  : FULL NEWTON ITERATONS
 c---------------------------------
       DO I=1,NEL
         IF (F(I) > ZERO) THEN
-          DFDP =-TANB  
-          DGDP =-TANP  
+          DFDP =-TANB
+          DGDP =-TANP
           DFDC =-ONE
 c
           IF (Q(I) > EM20) THEN
@@ -357,13 +357,13 @@ c
 c-----------------------------------------------------------------------
           NITER = 4
           DO ITER=1,NITER
-c          
+c
             DEPSPD = LDOT
             DEPSPV = LDOT*DGDP*THIRD
 c
-            DEPSP1 = LDOT*DFDS1 
-            DEPSP2 = LDOT*DFDS2 
-            DEPSP3 = LDOT*DFDS3 
+            DEPSP1 = LDOT*DFDS1
+            DEPSP2 = LDOT*DFDS2
+            DEPSP3 = LDOT*DFDS3
             DEPSP4 = LDOT*DFDS4 * TWO
 c
 c           Deviatoric elastic deformations
@@ -391,7 +391,7 @@ c
             PN(I)  = P(I)  + DP(I)
 c
 c           Update yield and plastic increment
-c           
+c
             Q2   = THREE_HALF*(S1N(I)**2 + S2N(I)**2 + S3N(I)**2) + THREE*S4N(I)**2
             QN(I)= SQRT(Q2)
 c
@@ -412,7 +412,7 @@ c            HM = (HO + H) * HALF
 c
             RES  = QN(I) - MAX(ZERO, PN(I)*TANB + YLD(I))
             DRES = -(THREE*G(I) + K(I)*DFDP*DGDP - DFDC*HM)
-c            
+c
             IF (DRES /= ZERO) THEN
               LDOT = LDOT - RES / DRES
             ENDIF
@@ -433,7 +433,7 @@ c
               S2N(I) = ZERO
               S4N(I) = ZERO
 c              WRITE(6,*)'TRI-TRACTION FAILURE'
-            ELSE 
+            ELSE
               IF (QN(I) > SMALL) THEN
                 X = (PN(I)*TANB + YLD(I)) / QN(I)
                 IF (X < ONE-EM02 .OR. X > ONE) THEN
@@ -455,9 +455,9 @@ c
           SIGNXX(I) = S1N(I) - PN(I)
           SIGNYY(I) = S2N(I) - PN(I)
           SIGNXY(I) = S4N(I)
-          
+
           SIGNZZ(I) = S3N(I) - PN(I)
-        ENDIF   ! F > 0       
+        ENDIF   ! F > 0
         UVAR(I,1)= YLD(I)
       ENDDO     ! I=1,NEL
 c----------------------------------------------

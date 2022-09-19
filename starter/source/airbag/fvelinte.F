@@ -27,7 +27,7 @@ Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|====================================================================
-      SUBROUTINE FVELINTE(IBUF, ELEM, IXC, IXTG, PM, IPM, ILVOUT, IFV, 
+      SUBROUTINE FVELINTE(IBUF, ELEM, IXC, IXTG, PM, IPM, ILVOUT, IFV,
      .                    NNT, NTG, POROSITY, ITAB, NSEG,SURF_ELTYP,
      .                    NTGI,ELTG,NB_NODE,SURF_ELEM)
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C     Number connected surface element to each node
       DO I = 1, NTGI
          N1 = ELEM(1, I)
          N2 = ELEM(2, I)
-         N3 = ELEM(3, I) 
+         N3 = ELEM(3, I)
          N1 = IBUF(N1)
          N2 = IBUF(N2)
          N3 = IBUF(N3)
@@ -84,10 +84,10 @@ C     Build connectivity
       DO I = 1, NB_NODE
          ICMAX = MAX(ICMAX, ITAG(I))
       ENDDO
-      DO I = 1, NTGI 
+      DO I = 1, NTGI
          N1 = ELEM(1, I)
          N2 = ELEM(2, I)
-         N3 = ELEM(3, I) 
+         N3 = ELEM(3, I)
          N1 = IBUF(N1)
          N2 = IBUF(N2)
          N3 = IBUF(N3)
@@ -139,10 +139,10 @@ C     Triangle interne appuye sur element solide
                ITAG(I2) = 1
                ITAG(I3) = 1
 C     Surface elements connected to node I1
-               DO J = 1, CNS(I1,1)               
+               DO J = 1, CNS(I1,1)
                   N1 = IBUF(ELEM(1, CNS(I1, 1 + J)))
                   N2 = IBUF(ELEM(2, CNS(I1, 1 + J)))
-                  N3 = IBUF(ELEM(3, CNS(I1, 1 + J))) 
+                  N3 = IBUF(ELEM(3, CNS(I1, 1 + J)))
                   IF (ITAG(N1) * ITAG(N2) * ITAG(N3) /= 0) THEN
                      FVDATA(IFV)%IFVTRI(4,I) = -CNS(I1, 1 + J)
                   ENDIF
@@ -154,7 +154,7 @@ C     reset tags
             ENDIF
          ENDIF
       ENDDO
-      
+
       DEALLOCATE(CNS)
 
       DO I=1,NUMELC
@@ -198,7 +198,7 @@ C
             CNS(JJ,1+2*(NC-1)+1)=1
             CNS(JJ,1+2*(NC-1)+2)=I
          ENDDO
-      ENDDO   
+      ENDDO
       DO I=1,NUMELTG
       IF(ITAGTG(I)==0) CYCLE
          DO J=1,3
@@ -209,7 +209,7 @@ C
             CNS(JJ,1+2*(NC-1)+1)=2
             CNS(JJ,1+2*(NC-1)+2)=I
          ENDDO
-      ENDDO   
+      ENDDO
 C
       DO I=1,NB_NODE
          ITAG(I)=ZERO
@@ -263,11 +263,11 @@ C     Triangle interne appuye sur element solide
                      EXIT
                   ENDIF
                ENDDO
-               IF(IFOUND/=0) THEN 
+               IF(IFOUND/=0) THEN
                   FVDATA(IFV)%IFVTRI(4,I)=-IFOUND
                   NNT_TMP = NNT_TMP + 1
                ENDIF
-            ENDIF            
+            ENDIF
          ENDIF
       ENDDO
 C     
@@ -324,7 +324,7 @@ C
            ELSEIF(ILAW == 19 .AND. LEAK == 0) THEN
              POROSITY(I)=PM(56,MAT)
            ELSE
-             POROSITY(I)=ZERO             
+             POROSITY(I)=ZERO
            ENDIF
            IF(ILVOUT >= 1) THEN
              IF(ILAW == 58 .OR. (ILAW == 19 .AND. LEAK > 0)) THEN

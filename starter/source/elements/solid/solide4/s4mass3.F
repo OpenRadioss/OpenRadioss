@@ -162,7 +162,7 @@ C
        ENDDO
       ENDIF
 C
-      IF(JTHE < 0 ) THEN      
+      IF(JTHE < 0 ) THEN
        DO I=LFT,LLT
         RCP=FILL(I)*RHOCP(I)*VOLU(I)*FOURTH
         MCPS(1,I) = RCP
@@ -173,7 +173,7 @@ C
         MCPS(4,I) = ZERO
         MCPS(7,I) = ZERO
         MCPS(8,I) = ZERO
-       ENDDO      
+       ENDDO
       ENDIF
 C
       IF(JALE > 0 .AND. NWALE == 4)THEN
@@ -187,15 +187,15 @@ C
           WMA(I3)=WMA(I3)+THREE_HALF
           WMA(I4)=WMA(I4)+THREE_HALF
         ENDDO
-      ENDIF      
+      ENDIF
 C
       IF(JTHE < 0 ) THEN
-       IF(NINTEMP > 0 ) THEN 
-          DO I=LFT,LLT 
+       IF(NINTEMP > 0 ) THEN
+          DO I=LFT,LLT
             I1 = IX1(I)
             I2 = IX2(I)
             I3 = IX3(I)
-            I4 = IX4(I) 
+            I4 = IX4(I)
             IF(TEMP(I1)== ZERO) TEMP(I1) = TEMP0(I)
             IF(TEMP(I2)== ZERO) TEMP(I2) = TEMP0(I)
             IF(TEMP(I3)== ZERO) TEMP(I3) = TEMP0(I)
@@ -206,13 +206,13 @@ C
             I1 = IX1(I)
             I2 = IX2(I)
             I3 = IX3(I)
-            I4 = IX4(I) 
+            I4 = IX4(I)
             TEMP(I1) = TEMP0(I)
             TEMP(I2) = TEMP0(I)
             TEMP(I3) = TEMP0(I)
             TEMP(I4) = TEMP0(I)
         ENDDO
-       ENDIF   
+       ENDIF
       ENDIF
 C-----------
       RETURN
@@ -279,7 +279,7 @@ C
      +       ACOS((A2(I) + D2(I) - F2(I))/(TWO * AA(I) * DD(I)))+
      +       ACOS((D2(I) + B2(I) - E2(I))/(TWO * DD(I) * BB(I)))
 C    
-        P3 = ACOS((B2(I) + C2(I) - A2(I))/(TWO * BB(I) * CC(I)))+ 
+        P3 = ACOS((B2(I) + C2(I) - A2(I))/(TWO * BB(I) * CC(I)))+
      +       ACOS((B2(I) + E2(I) - D2(I))/(TWO * BB(I) * EE(I)))+
      +       ACOS((E2(I) + C2(I) - F2(I))/(TWO * EE(I) * CC(I)))
 C    
@@ -342,7 +342,7 @@ C=======================================================================
         ZZ = X(3,N2(I))-X(3,N1(I))
         S2(I) = XX*XX+YY*YY+ZZ*ZZ
         S(I) = SQRT(S2(I))
-      END DO 
+      END DO
 C-----------
       RETURN
       END
@@ -401,7 +401,7 @@ C ------------Ai -> A   (i)-----------
        CALL AREA_TRIA(X,IX1,IX2,IX4, A3  )
        CALL AREA_TRIA(X,IX1,IX2,IX3, A4  )
       DO I=LFT,LLT
-        S = FOUR/(A1(I) +A2(I) +A3(I) +A4(I)) 
+        S = FOUR/(A1(I) +A2(I) +A3(I) +A4(I))
         PTG(1,I)=A1(I)*S
         PTG(2,I)=A2(I)*S
         PTG(3,I)=A3(I)*S
@@ -449,19 +449,19 @@ C-----------------------------------------------
      .    X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),
      .    Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),
      .    Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),
-     .    X13, Y13, Z13, X12, Y12, Z12, 
+     .    X13, Y13, Z13, X12, Y12, Z12,
      .    E3X, E3Y, E3Z, SURF
 C=======================================================================
         DO I=LFT,LLT
-          X1(I)=X(1,N1(I))   
-          Y1(I)=X(2,N1(I))   
-          Z1(I)=X(3,N1(I))   
-          X2(I)=X(1,N2(I))   
-          Y2(I)=X(2,N2(I))   
-          Z2(I)=X(3,N2(I))   
-          X3(I)=X(1,N3(I))   
-          Y3(I)=X(2,N3(I))   
-          Z3(I)=X(3,N3(I))   
+          X1(I)=X(1,N1(I))
+          Y1(I)=X(2,N1(I))
+          Z1(I)=X(3,N1(I))
+          X2(I)=X(1,N2(I))
+          Y2(I)=X(2,N2(I))
+          Z2(I)=X(3,N2(I))
+          X3(I)=X(1,N3(I))
+          Y3(I)=X(2,N3(I))
+          Z3(I)=X(3,N3(I))
         ENDDO
         DO I=LFT,LLT
          X13=X3(I)-X1(I)

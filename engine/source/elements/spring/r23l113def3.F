@@ -37,17 +37,17 @@ Chd|====================================================================
      6        FZEP    ,X0     ,Y0     , Z0     ,XMOM  ,
      7        YMOM    ,ZMOM   , RX     ,RY     ,RZ    ,
      8        RPX     ,RPY    ,RPZ    ,XMEP   ,YMEP   ,
-     9        ZMEP    ,RPX2   , RPY2   ,RPZ2   ,ANIM  , 
+     9        ZMEP    ,RPX2   , RPY2   ,RPZ2   ,ANIM  ,
      A        POSX    ,POSY   ,POSZ   ,POSXX  ,POSYY  ,
      B        POSZZ   ,FR_WAVE,E6     ,NEL    , EXX2  ,
-     C        EYX2    ,EZX2   ,EXY2   ,EYY2   ,EZY2   , 
-     D        EXZ2    ,EYZ2   , EZZ2   , AL2DP  , NGL , 
+     C        EYX2    ,EZX2   ,EXY2   ,EYY2   ,EZY2   ,
+     D        EXZ2    ,EYZ2   , EZZ2   , AL2DP  , NGL ,
      E        CRIT_NEW,X0_ERR ,ALDP  ,YIELDX , YIELDY,
      F        YIELDZ  ,YIELDX2,YIELDY2,YIELDZ2,EXX    ,
      G        EYX    ,EZX   , EXY     ,EYY    ,  EZY  ,
      H        EXZ    , EYZ   ,EZZ     ,XCR    , RX1   ,
      I        RY1    ,RZ1   ,RX2      ,RY2    ,RZ2    ,
-     K        XIN     ,AK    ,XM      ,XKM    , XCM   , 
+     K        XIN     ,AK    ,XM      ,XKM    , XCM   ,
      L        XKR     , VX1   ,VX2     ,VY1   ,VY2    ,
      I        VZ1     ,VZ2   ,NUVAR   ,UVAR   ,MASS   ,
      J        DX0    ,DY0    ,DZ0     ,RX0    ,RY0    ,
@@ -136,20 +136,20 @@ C
 C
       NUPAR = 4
       I1 = NUPAR
-      I2 = I1 + 6 
-      I3 = I2 + 6 
-      I4 = I3 + 6 
-      I5 = I4 + 6 
-      I6 = I5 + 6 
-      I7 = I6 + 6 
-      I8 = I7 + 6 
-      I9 = I8 + 6 
-      I10 = I9 + 6 
-      I11 = I10 + 6 
-      I12 = I11 + 6 
+      I2 = I1 + 6
+      I3 = I2 + 6
+      I4 = I3 + 6
+      I5 = I4 + 6
+      I6 = I5 + 6
+      I7 = I6 + 6
+      I8 = I7 + 6
+      I9 = I8 + 6
+      I10 = I9 + 6
+      I11 = I10 + 6
+      I12 = I11 + 6
       I13 = I12 + 6
       I14 = I13 + 6
-      NUPAR = NUPAR +  84    
+      NUPAR = NUPAR +  84
       DO I=LFT,LLT
        IADBUF= IPM(7,MID(I)) - 1
        EPLA(I)=ZERO
@@ -171,7 +171,7 @@ C
        XH(I)= MAX(HX(I),HY(I),HZ(I))
        XCM(I)= MAX(XC(I),YC(I),ZC(I))
        XCM(I)= XCM(I)+XH(I)
-     
+
        XKR(I)= MAX(YKA,ZKA) * ALDP(I) * ALDP(I)
        XCR(I)= (MAX(YC(I),ZC(I)) + MAX(HY(I),HZ(I))) * ALDP(I) * ALDP(I)
        VRT(I) = UPARAM(IADBUF + NUPAR + 1)

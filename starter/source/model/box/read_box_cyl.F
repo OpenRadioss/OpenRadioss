@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
       my_real            ,DIMENSION(3,NUMNOD)  ,INTENT(IN) :: X
       my_real            ,DIMENSION(NTRANSF,*) ,INTENT(IN) :: RTRANS
-      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA),DIMENSION(*)         ,INTENT(IN) :: LSUBMODEL
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
 C-----------------------------------------------
@@ -135,7 +135,7 @@ c-----------------------
      .                  I2= UID  ,I1=BOXID,
      .                  C1='BOX' ,
      .                  C2='BOX' ,
-     .                  C3='TITR')                              
+     .                  C3='TITR')
           ENDIF
         ENDIF
 c-----------------------
@@ -163,12 +163,12 @@ c
           XP2 = X(1,USR2SYS(N2,ITABM1,MESS,BOXID)) * FAC_L
           YP2 = X(2,USR2SYS(N2,ITABM1,MESS,BOXID)) * FAC_L
           ZP2 = X(3,USR2SYS(N2,ITABM1,MESS,BOXID)) * FAC_L
-c       
+c
         ELSE
-c         Submodel rotation 
+c         Submodel rotation
           IF (SUB_ID > 0) CALL SUBROTPOINT(XP1,YP1,ZP1,RTRANS,SUB_ID,LSUBMODEL)
           IF (SUB_ID > 0) CALL SUBROTPOINT(XP2,YP2,ZP2,RTRANS,SUB_ID,LSUBMODEL)
-c       
+c
         ENDIF
 c
         IF ((XP1 == ZERO .and. YP1 == ZERO .and. ZP1 == ZERO) .and.

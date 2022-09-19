@@ -61,7 +61,7 @@ C-----------------------------------------------
       my_real
      .   YY ,ZZ ,YZ ,
      .   MASS(MVSIZ)
-     
+
 
       DO I=LFT,LLT
         MASS(I)=PM(89,MAT(I))*VOL(I)*FOURTH

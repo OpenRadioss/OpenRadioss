@@ -75,7 +75,7 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+--------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR,IUNIT
       my_real PARGEO(*)
       INTEGER ID, IGTYP

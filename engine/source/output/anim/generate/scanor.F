@@ -58,7 +58,7 @@ C-----------------------------------------------
       ZMIN = EP30
       XMAX = -EP30
       YMAX = -EP30
-      ZMAX = -EP30      
+      ZMAX = -EP30
 C
 c      IF (IMACH/=3) THEN
 
@@ -89,11 +89,11 @@ c      END IF
 
       CDG(1) = HALF * (XMAX + XMIN)
       CDG(2) = HALF * (YMAX + YMIN)
-      CDG(3) = HALF * (ZMAX + ZMIN)      
+      CDG(3) = HALF * (ZMAX + ZMIN)
 C
 C  
-      DX = XMAX - XMIN      
-      DY = YMAX - YMIN      
+      DX = XMAX - XMIN
+      DY = YMAX - YMIN
       DZ = ZMAX - ZMIN
 C
       SCALE = MAX(DX,DY,DZ)

@@ -26,8 +26,8 @@ Chd|  KLDIM                         stub/kldim.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE KLDIM(EIGIPM, EIGIBUF, NDOF  , LDIAG, LJDIK, 
-     .                 LJDIK2, NDDL   , K_DIAG, K_LT , IADK , 
+      SUBROUTINE KLDIM(EIGIPM, EIGIBUF, NDOF  , LDIAG, LJDIK,
+     .                 LJDIK2, NDDL   , K_DIAG, K_LT , IADK ,
      .                 JDIK  , IKC    , NMS   , INLOC, IDDL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER EIGIPM(*), EIGIBUF(*),NDOF(*), LDIAG, LJDIK, LJDIK2, 
+      INTEGER EIGIPM(*), EIGIBUF(*),NDOF(*), LDIAG, LJDIK, LJDIK2,
      .        NDDL, IADK(*), JDIK(*), IKC(*), NMS, INLOC(*), IDDL(*)
       my_real
      .        K_DIAG(*), K_LT(*)
@@ -84,7 +84,7 @@ C
          BDOF(2)=1
          BDOF(3)=1
          NBDOF=3
-      ENDIF    
+      ENDIF
       IF (ICR==1) THEN
          BDOF(6)=1
          NBDOF=NBDOF+1
@@ -172,9 +172,9 @@ C
                JD=JDIK(J)
                IF (ITAG(JD)>=1) THEN
                   LJDIK=LJDIK+1
-                  IF (ITAG(JD)==2.AND.ITAG(I)==1) 
+                  IF (ITAG(JD)==2.AND.ITAG(I)==1)
      .                              IND_IB(I)=IND_IB(I)+1
-                  IF (ITAG(JD)==1.AND.ITAG(I)==2) 
+                  IF (ITAG(JD)==1.AND.ITAG(I)==2)
      .                              IND_IB(JD)=IND_IB(JD)+1
                ENDIF
             ENDDO
@@ -185,5 +185,5 @@ C
       ENDDO
 C
       RETURN
-      END   
+      END
 #endif

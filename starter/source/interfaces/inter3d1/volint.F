@@ -59,7 +59,7 @@ C-----------------------------------------------
       my_real X17, X28, X35, X46,
      .        Y17, Y28, Y35, Y46,
      .        Z17, Z28, Z35, Z46
-      my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9 
+      my_real JAC1, JAC2, JAC3, JAC4, JAC5, JAC6, JAC7, JAC8, JAC9
 C-------------------------------------------------------
       X17 = XC(7)-XC(1)
       X28 = XC(8)-XC(2)
@@ -76,20 +76,20 @@ C
       Z35 = ZC(5)-ZC(3)
       Z46 = ZC(6)-ZC(4)
 C
-      JAC1 = X17 + X28 - X35 - X46 
-      JAC2 = Y17 + Y28 - Y35 - Y46 
-      JAC3 = Z17 + Z28 - Z35 - Z46 
+      JAC1 = X17 + X28 - X35 - X46
+      JAC2 = Y17 + Y28 - Y35 - Y46
+      JAC3 = Z17 + Z28 - Z35 - Z46
 C
-      JAC4 = X17 + X46 + X28 + X35 
-      JAC5 = Y17 + Y46 + Y28 + Y35 
-      JAC6 = Z17 + Z46 + Z28 + Z35 
+      JAC4 = X17 + X46 + X28 + X35
+      JAC5 = Y17 + Y46 + Y28 + Y35
+      JAC6 = Z17 + Z46 + Z28 + Z35
 C
-      JAC7 = X17 + X46 - X28 - X35 
-      JAC8 = Y17 + Y46 - Y28 - Y35 
-      JAC9 = Z17 + Z46 - Z28 - Z35 
+      JAC7 = X17 + X46 - X28 - X35
+      JAC8 = Y17 + Y46 - Y28 - Y35
+      JAC9 = Z17 + Z46 - Z28 - Z35
 C
-      VOL = JAC1 * (JAC5 * JAC9 - JAC8 * JAC6) + 
-     .      JAC2 * (JAC6 * JAC7 - JAC4 * JAC9) + 
+      VOL = JAC1 * (JAC5 * JAC9 - JAC8 * JAC6) +
+     .      JAC2 * (JAC6 * JAC7 - JAC4 * JAC9) +
      .      JAC3 * (JAC4 * JAC8 - JAC7 * JAC5)
       VOL = ZEP015625*VOL
 C

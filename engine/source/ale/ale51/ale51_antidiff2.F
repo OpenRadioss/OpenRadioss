@@ -41,7 +41,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-       USE SEGVAR_MOD     
+       USE SEGVAR_MOD
        USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER IXQ(NIXQ,NUMELQ),N4_VOIS(NUMELQ+NQVOIS,4),ITAB(NUMNOD)
       INTEGER,INTENT(IN) :: ITRIMAT
       my_real FLUX(4,*),ALPH(*),VOL(*),FLUX_VOIS(NUMELQ+NQVOIS,6)
-      TYPE(t_segvar),INTENT(IN) :: SEGVAR     
+      TYPE(t_segvar),INTENT(IN) :: SEGVAR
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -94,8 +94,8 @@ C
         AV0  = ALPH(II) * VOL0
         UAV0 = VOL0 - AV0
         ALPHI  = ZERO
-        UALPHI = ZERO 
-        PHI0 = ZERO  
+        UALPHI = ZERO
+        PHI0 = ZERO
 C-----------------------------------------------
 C       adjacent face & total outgoing volume flux 
 C-----------------------------------------------
@@ -107,8 +107,8 @@ C-----------------------------------------------
               JV(K)  = II
               FF(K)  = ALPH(II)*FLUX(K,II)
             ELSEIF(JV(K) < 0)THEN
-              !case <0 : ebcs (-IVOIS is then segment identifier)               
-              FF(K)  = SEGVAR%PHASE_ALPHA(ITRIMAT,-JV(K))  *FLUX(K,II)         
+              !case <0 : ebcs (-IVOIS is then segment identifier)
+              FF(K)  = SEGVAR%PHASE_ALPHA(ITRIMAT,-JV(K))  *FLUX(K,II)
             ELSEIF(JV(K) <= NUMELQ)THEN
                IAD3 = ALE_CONNECT%ee_connect%iad_connect(JV(K))
               IF(ALE_CONNECT%ee_connect%connected(IAD3 + 1 - 1) == II) KV(K) = 1
@@ -118,16 +118,16 @@ C-----------------------------------------------
               FF(K)  = ALPH(JV(K))*FLUX(K,II)
             ELSE
               !spmd
-              FF(K)  = ALPH(JV(K))*FLUX(K,II)              
+              FF(K)  = ALPH(JV(K))*FLUX(K,II)
             ENDIF
 c           outgoing volume flux (estimation)
             ALPHI  = ALPHI  + FF(K)
 c           intial outgoing flux
-            PHI0 = PHI0 + FLUX(K,II) 
+            PHI0 = PHI0 + FLUX(K,II)
           ENDIF
         ENDDO
 c       outgoing rest
-        UALPHI = PHI0 - ALPHI 
+        UALPHI = PHI0 - ALPHI
 C-----------------------------------------------
 C       outgoing volume flux by face
 C-----------------------------------------------
@@ -184,8 +184,8 @@ C-----------------------------------------------
               IF(FLUX(K,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + K - 1) < 0)THEN
                 FLUX(K,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + K - 1))*FLUX(K,II)
               ENDIF
-            ENDDO       
-          ENDIF   
+            ENDDO
+          ENDIF
 C-------------
       ENDDO! next I
 C-----------------------------------------------

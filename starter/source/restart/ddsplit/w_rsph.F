@@ -79,7 +79,7 @@ C
       IF(NSPHIO > 0) THEN
         ALLOCATE(SPHVELN_L(SSPHVELN_L)    ,STAT=stat)
         IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .                             MSGTYPE=MSGERROR)       
+     .                             MSGTYPE=MSGERROR)
         SPHVELN_L(1:SSPHVELN_L)=ZERO
 C ecriture faite sur p0 en monodomaine pour inlet/outlet
         CALL WRITE_DB(VSPHIO,SVSPHIO)

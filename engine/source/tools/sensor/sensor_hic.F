@@ -92,7 +92,7 @@ c
       TIME = TT
       BETA = 2.5D0
       VALUE_TABLE(1:NPOINT) => SENSOR%VAR(NVAR+1:NVAR+NPOINT)
-c      
+c
       IF (ISENSOR_TYPE == 1) THEN   ! Acceletator based
         ACC_X = ACCEL(20,IACC)
         ACC_Y = ACCEL(21,IACC)
@@ -101,16 +101,16 @@ c
         ACC_X = ACCN(1,IACC)
         ACC_Y = ACCN(2,IACC)
         ACC_Z = ACCN(3,IACC)
-      END IF        
+      END IF
 c
       IF (IDIR == 1) THEN     ! Resultant
         ACC = SQRT(ACC_X**2 + ACC_Y**2 + ACC_Z**2)
       ELSEIF (IDIR == 2) THEN    !  X
-        ACC = ACC_X   
+        ACC = ACC_X
       ELSEIF (IDIR == 3) THEN    !  Y
-        ACC = ACC_Y  
+        ACC = ACC_Y
       ELSEIF (IDIR == 4) THEN    !  Z
-        ACC = ACC_Z    
+        ACC = ACC_Z
       END IF
       ACCG = ACC / GRAVITY
 c
@@ -125,22 +125,22 @@ c
       TIME_INTERVAL = HIC_PERIOD / NPOINT
       TEST_TIME = TIME_PREC + TIME_INTERVAL
 c
-c.... Calculate new HIC value (only at the start of new time interval) 
+c.... Calculate new HIC value (only at the start of new time interval)
 c
       IF (TIME > TEST_TIME) THEN
         DELTA_T = TIME - TIME_PREC
         ! average acceleration from previous time interval
         CURRENT_VALUE = (ACC_PREC + ACCG*DT12) / DELTA_T
 c
-        IF (INDX == NPOINT) THEN               
+        IF (INDX == NPOINT) THEN
 c         shift data to make place for new time interval when HIC_PERIOD is reached
           DO I = 1,NPOINT-1
-            VALUE_TABLE(I) = VALUE_TABLE(I+1)   
-          END DO                                
-        ELSE          ! advance data index for next time interval                          
-          INDX = INDX + 1                       
+            VALUE_TABLE(I) = VALUE_TABLE(I+1)
+          END DO
+        ELSE          ! advance data index for next time interval
+          INDX = INDX + 1
         ENDIF
-        VALUE_TABLE(INDX) = CURRENT_VALUE       
+        VALUE_TABLE(INDX) = CURRENT_VALUE
 c
 c       Calculation of HIC
 c       Searching for the period (lower or equal to HIC_PERIOD) maximizing HIC
@@ -158,9 +158,9 @@ c
           HIC_TMP = HIC_TMP * TIME_UNIT          ! convert to seconds ???
           IF (HIC_TMP > HIC) THEN
             HIC = HIC_TMP
-            OPT_PERIOD = PERIOD_TMP            
-            T1 = MAX(TIME - OPT_PERIOD, ZERO)  
-            T2 = TIME                          
+            OPT_PERIOD = PERIOD_TMP
+            T1 = MAX(TIME - OPT_PERIOD, ZERO)
+            T2 = TIME
           ENDIF
         END DO
 c
@@ -170,7 +170,7 @@ c       Save sensor status, for next step
         SENSOR%VAR(3) = INDX
         IF (HIC > HIC_PREC) THEN
           SENSOR%VAR(4) = HIC
-        ENDIF 
+        ENDIF
 c
 c.......Check Sensor State
         IF (HIC >= HIC_CRIT) THEN
@@ -181,7 +181,7 @@ c.......Check Sensor State
           IF (SENSOR%TCRIT <= TIME) THEN
             SENSOR%STATUS = 2
           END IF
-          IF (SENSOR%STATUS == 2 .and. 
+          IF (SENSOR%STATUS == 2 .and.
      .        SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
             SENSOR%STATUS = 3   ! activate
             SENSOR%TSTART = TIME
@@ -189,10 +189,10 @@ c.......Check Sensor State
         ENDIF ! Fin test HIC
 c
       ELSE    ! TIME < TEST_TIME
-c       Calculate acceleration integral within current time interval 
+c       Calculate acceleration integral within current time interval
         SENSOR%VAR(2) = SENSOR%VAR(2) + ACCG*DT12
       ENDIF  ! Fin of TIME test
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
         WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
@@ -201,10 +201,10 @@ c-----------------------------------------------------------------------
         WRITE (IOUT ,1300)  T1, T2
 #include "lockoff.inc"
       ENDIF
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
 1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5)
-1200  FORMAT('      HIC     = ',1PE12.5,'  ,HIC PERIOD  = ',1PE12.5)           
+1200  FORMAT('      HIC     = ',1PE12.5,'  ,HIC PERIOD  = ',1PE12.5)
 1300  FORMAT('      TIME T1 = ' 1PE12.5,'  ,TIME T2 = ',1PE12.5)
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
       RETURN
       END SUBROUTINE

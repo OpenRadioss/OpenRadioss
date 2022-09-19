@@ -38,8 +38,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
-      USE I25_FIE_MOD 
+      USE INTBUFDEF_MOD
+      USE I25_FIE_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -101,7 +101,7 @@ C-----------------------------------------------
 C         WRITE(6,*) NIN,NTY,IEDGE
           IF(NTY/=25 .OR. IEDGE==0) CYCLE
           NEDGE = IPARI(68,NIN)
-          NRTM = IPARI(4,NIN) 
+          NRTM = IPARI(4,NIN)
           ALLOCATE(CEP_EDGE(NEDGE)) !saved also temporarly in LEDGE
           ALLOCATE(LOCAL_ID_EDG(NEDGE))
           ALLOCATE(LOCAL_ID_SEG(NRTM))
@@ -111,12 +111,12 @@ C         WRITE(6,*) NIN,NTY,IEDGE
      .                              LOCAL_ID_SEG,
      .                              CEP_EDGE,
      .                              LOCAL_ID_EDG)
-        
+
          nbCandE2E = INTBUF_TAB(NIN)%I_STOK_E(1)
          nbCandE2S = INTBUF_TAB(NIN)%I_STOK_E(2)
 
 
-         nbCand = nbCandE2E + nbCandE2S 
+         nbCand = nbCandE2E + nbCandE2S
          ALLOCATE(localIdx(nbCand))
          ALLOCATE(secondaryRemoteCount(NSPMD,NSPMD))
          ALLOCATE(CANDM(nbCand))
@@ -127,10 +127,10 @@ C         WRITE(6,*) NIN,NTY,IEDGE
          LOCAL_ID(NEDGE+1:NEDGE+NRTM) = LOCAL_ID_SEG(1:NRTM)
 
          sizeM = NEDGE + NRTM
-         CANDM(1:nbCandE2E) = INTBUF_TAB(NIN)%CANDM_E2E(1:nbCandE2E) 
-         CANDS(1:nbCandE2E) = INTBUF_TAB(NIN)%CANDS_E2E(1:nbCandE2E) 
-         CANDM(nbCandE2E+1:nbCand) = NEDGE + INTBUF_TAB(NIN)%CANDM_E2S(1:nbCandE2S) 
-         CANDS(nbCandE2E+1:nbCand) = INTBUF_TAB(NIN)%CANDS_E2S(1:nbCandE2S) 
+         CANDM(1:nbCandE2E) = INTBUF_TAB(NIN)%CANDM_E2E(1:nbCandE2E)
+         CANDS(1:nbCandE2E) = INTBUF_TAB(NIN)%CANDS_E2E(1:nbCandE2E)
+         CANDM(nbCandE2E+1:nbCand) = NEDGE + INTBUF_TAB(NIN)%CANDM_E2S(1:nbCandE2S)
+         CANDS(nbCandE2E+1:nbCand) = INTBUF_TAB(NIN)%CANDS_E2S(1:nbCandE2S)
          CEPM(1:NEDGE) = CEP_EDGE(1:NEDGE)
          CEPM(NEDGE+1:NEDGE+NRTM) = INTERCEP(1,NIN)%P(1:NRTM) - 1
 
@@ -138,22 +138,22 @@ C         WRITE(6,*) NIN,NTY,IEDGE
      .     sizeM, !sizeM,
      .     CEPM,!CepM
      .     LOCAL_ID, !localIdM,
-     .     CANDM, !candM, 
+     .     CANDM, !candM,
      .     NEDGE,  !sizeS,
      .     CEP_EDGE, !cepS,
      .     LOCAL_ID_EDG, ! localIdS,
-     .     CANDS, !candS 
-     .     NSPMD, 
+     .     CANDS, !candS
+     .     NSPMD,
      .     secondaryRemoteCount,
-     .     localIdx) 
+     .     localIdx)
 
           DO I = 1,NSPMD
-            I25_FIE(NIN,I)%NEDGE_TOT = 0 
+            I25_FIE(NIN,I)%NEDGE_TOT = 0
             ALLOCATE(I25_FIE(NIN,I)%NEDGE(NSPMD))
             I25_FIE(NIN,I)%NEDGE(1:NSPMD) = 0
             DO J = 1,NSPMD
-              I25_FIE(NIN,I)%NEDGE(J) = I25_FIE(NIN,I)%NEDGE(J) + secondaryRemoteCount(J,I) 
-              I25_FIE(NIN,I)%NEDGE_TOT = I25_FIE(NIN,I)%NEDGE_TOT + secondaryRemoteCount(J,I) 
+              I25_FIE(NIN,I)%NEDGE(J) = I25_FIE(NIN,I)%NEDGE(J) + secondaryRemoteCount(J,I)
+              I25_FIE(NIN,I)%NEDGE_TOT = I25_FIE(NIN,I)%NEDGE_TOT + secondaryRemoteCount(J,I)
             ENDDO
             ALLOCATE(I25_FIE(NIN,I)%ID(I25_FIE(NIN,I)%NEDGE_TOT))
             I25_FIE(NIN,I)%ID(1:I25_FIE(NIN,I)%NEDGE_TOT) = -666
@@ -165,7 +165,7 @@ C         E2E
             CM = CEPM(INTBUF_TAB(NIN)%CANDM_E2E(I)) + 1
             LOCAL_CAND_COUNT(CM) = 1 + LOCAL_CAND_COUNT(CM)
           ENDDO
-          DO I = 1, NSPMD 
+          DO I = 1, NSPMD
              I25_SPLIT_CAND(NIN,I)%NB_CAND_E2E = LOCAL_CAND_COUNT(I)
 C            WRITE(6,*) "SPLIT_CAND size",I-1,LOCAL_CAND_COUNT(I)
              ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDM_E2E(LOCAL_CAND_COUNT(I)))
@@ -177,9 +177,9 @@ C            WRITE(6,*) "SPLIT_CAND size",I-1,LOCAL_CAND_COUNT(I)
              J = CEPM(INTBUF_TAB(NIN)%CANDM_E2E(I)) + 1 ! domain
              LOCAL_CAND_COUNT(J) = 1 + LOCAL_CAND_COUNT(J)
              K = LOCAL_CAND_COUNT(J)
-             I25_SPLIT_CAND(NIN,J)%CANDS_E2E(K) = CANDS(I) 
+             I25_SPLIT_CAND(NIN,J)%CANDS_E2E(K) = CANDS(I)
              ASSERT(CANDM(I) > 0)
-             I25_SPLIT_CAND(NIN,J)%CANDM_E2E(K) = CANDM(I) 
+             I25_SPLIT_CAND(NIN,J)%CANDM_E2E(K) = CANDM(I)
              I25_SPLIT_CAND(NIN,J)%ID_E2E(K) = I
              IF(CANDS(I) < 0) THEN !remote
                 I25_FIE(NIN,J)%ID(ABS(CANDS(I))) = localIdx(I)
@@ -195,7 +195,7 @@ C         E2S
             CM = CEPM(INTBUF_TAB(NIN)%CANDM_E2S(I) + NEDGE ) + 1
             LOCAL_CAND_COUNT(CM) = 1 + LOCAL_CAND_COUNT(CM)
           ENDDO
-          DO I = 1, NSPMD 
+          DO I = 1, NSPMD
              I25_SPLIT_CAND(NIN,I)%NB_CAND_E2S = LOCAL_CAND_COUNT(I)
              ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDM_E2S(LOCAL_CAND_COUNT(I)))
              ALLOCATE(I25_SPLIT_CAND(NIN,I)%CANDS_E2S(LOCAL_CAND_COUNT(I)))
@@ -207,8 +207,8 @@ C         E2S
              LOCAL_CAND_COUNT(J) = 1 + LOCAL_CAND_COUNT(J)
              K = LOCAL_CAND_COUNT(J)
 C            ASSERT(CANDM(I+nbCandE2E) < 0) 
-             I25_SPLIT_CAND(NIN,J)%CANDS_E2S(K) = CANDS(I+nbCandE2E) 
-             I25_SPLIT_CAND(NIN,J)%CANDM_E2S(K) = CANDM(I+nbCandE2E)-NEDGE 
+             I25_SPLIT_CAND(NIN,J)%CANDS_E2S(K) = CANDS(I+nbCandE2E)
+             I25_SPLIT_CAND(NIN,J)%CANDM_E2S(K) = CANDM(I+nbCandE2E)-NEDGE
              I25_SPLIT_CAND(NIN,J)%ID_E2S(K) = I
              IF(CANDS(I+nbCandE2E) < 0) THEN !remote
                 I25_FIE(NIN,J)%ID(ABS(CANDS(I+nbCandE2E))) = localIdx(I+nbCandE2E)
@@ -225,7 +225,7 @@ C              IF(I25_FIE(NIN,J)%ID(I) < 0) WRITE(6,*) J,"FIE(",I,")=",I25_FIE(N
 C            ENDDO 
 C         ENDDO
 CC ==========
-           
+
           DEALLOCATE(CANDM)
           DEALLOCATE(CANDS)
           DEALLOCATE(localIdx)
@@ -246,7 +246,7 @@ Chd|        PREPARE_SPLIT_I25E2E          source/spmd/prepare_split_i25e2e.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE LOCAL_EDGE_NUMBERING(NEDGE,NRTM,NSPMD,
-     .                              LEDGE,           
+     .                              LEDGE,
      .                              CEP_SEG,
      .                              LOCAL_ID_SEG,
      .                              CEP_EDGE,
@@ -260,7 +260,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  NEDGE,NRTM,NSPMD
-      INTEGER, INTENT(INOUT) ::  LEDGE(NLEDGE,NEDGE) 
+      INTEGER, INTENT(INOUT) ::  LEDGE(NLEDGE,NEDGE)
       INTEGER, INTENT(IN) ::  CEP_SEG(NRTM)          !starts at 1
       INTEGER, INTENT(INOUT) ::  LOCAL_ID_SEG(NRTM)
       INTEGER, INTENT(INOUT) ::  CEP_EDGE(NEDGE)
@@ -271,8 +271,8 @@ C-----------------------------------------------
       INTEGER :: NRTM_LOCAL(NSPMD)
       INTEGER :: NB_FREE_EDGES(NSPMD)
       INTEGER :: NB_INTERNAL_EDGES(NSPMD)
-      INTEGER :: NB_BOUNDARY_EDGES_LOCAL(NSPMD) ! boundary edges treated by current domain 
-      INTEGER :: NB_BOUNDARY_EDGES_REMOTE(NSPMD) ! boundary edges treated by the other domain 
+      INTEGER :: NB_BOUNDARY_EDGES_LOCAL(NSPMD) ! boundary edges treated by current domain
+      INTEGER :: NB_BOUNDARY_EDGES_REMOTE(NSPMD) ! boundary edges treated by the other domain
       INTEGER :: EDGE_LOCAL(NSPMD)
       INTEGER :: ISPMD
       INTEGER :: I,E1,E2,K1,K2
@@ -309,7 +309,7 @@ C INTERNAL EDGES
         IF(E2 > 0 ) THEN ! edge not boundary
         IF(ISPMD /= CEP_SEG(E2)) CYCLE ! edge not internal
           NB_INTERNAL_EDGES(ISPMD) = NB_INTERNAL_EDGES(ISPMD) + 1
-          EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) + 1 
+          EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) + 1
           CEP_EDGE(I) = ISPMD - 1
           LOCAL_ID_EDG(I) = EDGE_LOCAL(ISPMD)
           ASSERT(LEDGE(9,I) == 0)
@@ -326,7 +326,7 @@ C BOUNDARY EDGE LOCAL
         IF(E2 > 0 ) THEN ! edge not boundary
         IF(ISPMD == CEP_SEG(E2)) CYCLE ! edge internal
           NB_BOUNDARY_EDGES_LOCAL(ISPMD) = NB_BOUNDARY_EDGES_LOCAL(ISPMD) + 1
-          EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) +1 
+          EDGE_LOCAL(ISPMD) = EDGE_LOCAL(ISPMD) +1
           CEP_EDGE(I) = ISPMD - 1
           LOCAL_ID_EDG(I) = EDGE_LOCAL(ISPMD)
           ASSERT(LEDGE(9,I) == 0)

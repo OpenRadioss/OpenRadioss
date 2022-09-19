@@ -271,7 +271,7 @@ C
                JSUP=JSUP-1
            ENDDO
            SET_USRTOS_NEAREST=JSUP
-           
+
         ENDIF
         RETURN
       ENDIF

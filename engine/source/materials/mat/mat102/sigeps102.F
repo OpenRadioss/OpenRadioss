@@ -27,12 +27,12 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE SIGEPS102(
-     1      NEL    , NUPARAM, NUVAR  , UPARAM  , RHO0    , RHO    , 
+     1      NEL    , NUPARAM, NUVAR  , UPARAM  , RHO0    , RHO    ,
      2      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX ,
      3      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX ,
      4      SIGNXX , SIGNYY , SIGNZZ , SIGNXY  , SIGNYZ  , SIGNZX ,
      5      SOUNDSP, UVAR   , OFF    , ET      ,
-     6      PSH    , PNEW   , DPDM   , SSP     , PLA     )   
+     6      PSH    , PNEW   , DPDM   , SSP     , PLA     )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER NEL,NVARF,NUPARAM,NUVAR
-      my_real :: TIME,TIMESTEP   
+      my_real :: TIME,TIMESTEP
       my_real :: UPARAM(NUPARAM)
       my_real ,DIMENSION(NEL) :: RHO, RHO0,
      .   DEPSXX, DEPSYY, DEPSZZ, DEPSXY, DEPSYZ, DEPSZX,
@@ -88,22 +88,22 @@ C----------------------------------------------------------------
       A0        = UPARAM(4)
       A1        = UPARAM(5)
       A2        = UPARAM(6)
-      AMAX      = UPARAM(7) 
+      AMAX      = UPARAM(7)
       G         = UPARAM(8)
       GG        = TWO*G
       IFORM     = NINT(UPARAM(9))
       !----------------------------------------------------------------!
       !  STATE INIT.                                                   !
-      !----------------------------------------------------------------!        
+      !----------------------------------------------------------------!
       DO I=1,NEL
-        POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD 
-        SCRT(I) =  (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD 
+        POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
+        SCRT(I) =  (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
         MU(I)   = RHO(I)/RHO0(I) - ONE
         MU2(I)  = MU(I) * MAX(ZERO,MU(I))
-      ENDDO !next I    
+      ENDDO !next I
       !----------------------------------------------------------------!
       !  TEMPORARY DEVIATORIC STRESS TENSOR : T(1:6)                   !
-      !----------------------------------------------------------------!  
+      !----------------------------------------------------------------!
       DO I=1,NEL
         T1(I)=SIGOXX(I)+POLD(I)+GG*(DEPSXX(I)-SCRT(I))
         T2(I)=SIGOYY(I)+POLD(I)+GG*(DEPSYY(I)-SCRT(I))
@@ -111,17 +111,17 @@ C----------------------------------------------------------------
         T4(I)=SIGOXY(I)        + G*DEPSXY(I)
         T5(I)=SIGOYZ(I)        + G*DEPSYZ(I)
         T6(I)=SIGOZX(I)        + G*DEPSZX(I)
-      ENDDO !next I  
+      ENDDO !next I
       !----------------------------------------------------------------!
       !  SOUND SPEED                                                   !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=1,NEL
         DPDM(I) = DPDM(I) + ONEP333*G
         SSP(I)  = SQRT(ABS(DPDM(I))/RHO0(I))
-      ENDDO !next I      
+      ENDDO !next I
       !----------------------------------------------------------------!
       !  YIELD SURFACE                                                 !
-      !----------------------------------------------------------------!     
+      !----------------------------------------------------------------!
       DO I=1,NEL
         AJ2(I)= HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
       ENDDO
@@ -147,12 +147,12 @@ C----------------------------------------------------------------
           G0(I)    = MAX(ZERO,G0(I))
           IF(PTOT <= PSTAR)G0(I)=ZERO
           YIELD2(I)=AJ2(I)-G0(I)
-        ENDDO !next I           
-      ENDIF 
+        ENDDO !next I
+      ENDIF
 
       !----------------------------------------------------------------!
       !  PROJECTION FACTOR ON YIELD SURFACE                            !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO  I=1,NEL
         RATIO(I)=ZERO
         IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
@@ -160,10 +160,10 @@ C----------------------------------------------------------------
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))
         ENDIF
-      ENDDO !next I 
+      ENDDO !next I
       !----------------------------------------------------------------!
       !  UPDATE DEVIATORIC STRESS TENSOR IN SIG(:,:)                   !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=1,NEL
         SIGNXX(I)=RATIO(I)*T1(I)*OFF(I)
         SIGNYY(I)=RATIO(I)*T2(I)*OFF(I)
@@ -172,8 +172,8 @@ C----------------------------------------------------------------
         SIGNYZ(I)=RATIO(I)*T5(I)*OFF(I)
         SIGNZX(I)=RATIO(I)*T6(I)*OFF(I)
         DPLA(I)  =(ONE -RATIO(I))*SQRT(AJ2(I)) / MAX(EM20,THREE*G)
-      ENDDO !next I     
+      ENDDO !next I
       PLA(1:NEL) = PLA(1:NEL) + DPLA(1:NEL)
-c-----------         
+c-----------
       RETURN
       END

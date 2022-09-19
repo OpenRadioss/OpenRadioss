@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NEL ,ICP, ICSIG,IKGEO,MPT
       INTEGER NDOF(*)  ,IADK(*) ,JDIK(*),
-     .   IXS(NIXS,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ETAG(*),IDDL(*)  
+     .   IXS(NIXS,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ETAG(*),IDDL(*)
 C
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), X(*),
@@ -95,10 +95,10 @@ C-----------------------------------------------
      . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
      . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) , 
-     . AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ) 
+     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) ,
+     . AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ)
 C----------------
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),
@@ -125,12 +125,12 @@ c
      .   DN_R(8),DN_S(8),DN_T(8),INVJ(9,MVSIZ),
      .   V1(MVSIZ,9), V2(MVSIZ,9), V3(MVSIZ,9), V4(MVSIZ,9),
      .   V5(MVSIZ,9), V6(MVSIZ,9), V7(MVSIZ,9), V8(MVSIZ,9)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -158,7 +158,7 @@ c
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -192,10 +192,10 @@ c
      .      DM(9,MVSIZ),GM(9,MVSIZ),DGM(9,MVSIZ),DG(9,MVSIZ),
      .      G33(9,MVSIZ),HH1(2,MVSIZ),LAMDA,NU,GG
        my_real
-     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
-     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ), 
-     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)      
-     
+     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ),
+     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ),
+     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)
+
 C----HH(1,):lamda,HH(2,):G; HH1 :effective lamda,g for Icpre=1
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -251,9 +251,9 @@ C      CALL GET_GAMA(MTN,NEL,NBGAMA,JCVT,PM,IXS(1,NF1),IGTYP)
       ICPG = ICP
       IF (JHBE/=14.AND.JHBE/=17.AND.JHBE/=24) THEN
        ICPG = 1
-      ENDIF 
+      ENDIF
 c
-     
+
 C-----------Matrix B----------
 C-----------Begin integrating points-----
       IL = 1
@@ -295,10 +295,10 @@ C
      .    Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
      .    A11,A12,A13,A21,A22,A23,A31,A32,A33
      .    )
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
       ENDDO
-      
+
       CALL TRANSK(KL,TRM,NEL)
 C-------------      
       CALL S8SKSIG(X,IXS(1,NF1),NEL,
@@ -316,7 +316,7 @@ C     CONVECTE --> GLOBAL.
 C----------------------------     
       IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
-     
+
       DO K=LFT,LLT
        DO J=1,3
         JJ=3*(J-1)
@@ -361,21 +361,21 @@ C----------------------------
         ENDDO
        ENDDO
       ENDDO
-      
+
       CALL ASSEM_S8(
      1    IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,
-     2    K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     
+     2    K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,
      3    K13   ,K14   ,K15   ,K16   ,K17   ,
      4    K18   ,K22   ,K23   ,K24   ,K25   ,
      5    K26   ,K27   ,K28   ,K33   ,K34   ,
      6    K35   ,K36   ,K37   ,K38   ,K44   ,
      7    K45   ,K46   ,K47   ,K48   ,K55   ,
      8    K56   ,K57   ,K58   ,K66   ,K67   ,
-     9    K68   ,K77   ,K78   ,K88   ,OFFG   )     
+     9    K68   ,K77   ,K78   ,K88   ,OFFG   )
 C
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  TRANSK                        source/elements/solid/solide8s/s8ske3.F
 Chd|-- called by -----------
@@ -406,7 +406,7 @@ C-----------------------------------------------
           ENDDO
          ENDDO
         ENDDO
-        
+
         KL(1:24,1:24,I) = ZERO
         DO L=1,24
          DO M=1,24
@@ -415,7 +415,7 @@ C-----------------------------------------------
           ENDDO
          ENDDO
         ENDDO
-       ENDDO 
-c       
+       ENDDO
+c
        RETURN
        END

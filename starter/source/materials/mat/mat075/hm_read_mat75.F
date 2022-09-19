@@ -47,8 +47,8 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD    
-      USE ELBUFTAG_MOD            
+      USE MATPARAM_DEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,9 +67,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PARMAT(100), UPARAM(MAXUPARAM), PM(NPROPM)
-      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM, 
+      INTEGER, INTENT(INOUT)                :: IFUNC(MAXFUNC), NFUNC, MAXFUNC, MAXUPARAM,
      .     NUPARAM, NUVAR
       INTEGER, INTENT(IN)                    :: MAT_ID
       CHARACTER*nchartitle,INTENT(IN)       :: TITR
@@ -111,7 +111,7 @@ C
       IF(IFLAG2 <= 0) IFLAG2=1
       IF(ITEMAX <= 0) ITEMAX=5
       IF(NN  <= ZERO) NN=TWO
-      IF(TOL <= ZERO) TOL=EM08    
+      IF(TOL <= ZERO) TOL=EM08
 
       NUVAR = 4
       PM(1) = RHOR

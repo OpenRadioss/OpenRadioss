@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE MQVISC26(PM,OFF    ,RHO   ,RK    ,T      ,SSP   ,
      2             RE      ,STI     ,DT2T  ,NELTST,ITYPTST,AIRE  ,
      3             OFFG    ,GEO     ,PID   ,
-     4             VOL     ,VD2     ,DELTAX,VIS   ,  
+     4             VOL     ,VD2     ,DELTAX,VIS   ,
      5             D1      ,D2      ,D3    ,PNEW  ,PSH    ,MAT   ,
      6             NGL     ,QVIS    ,SSP_EQ,XK    )
 C============================================================================
@@ -65,8 +65,8 @@ C-----------------------------------------------
       my_real
      .   PM(NPROPM,*), OFF(*), RHO(*), RK(*), T(*), RE(*),STI(*),
      .   OFFG(*),GEO(NPROPG,*),
-     .   VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*), 
+     .   VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
+     .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),
      .   D1(*), D2(*), D3(*), XK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -79,7 +79,7 @@ C     REAL
      .   QA, QB, VISI, FACQ,QAA,
      .   CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
      .   ATU, QAD, QBD, QAAP
-      my_real 
+      my_real
      .   TIDT,TVOL,TRHO,TAIRE
 C=======================================================================
       IF(IMPL == 0)THEN
@@ -206,7 +206,7 @@ C
 C
       IF(IDTMIN(ITY)==1)THEN
         DO 70 I=LFT,LLT
-        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
      .        OR.OFFG(I)<ZERO) GO TO 70
           TSTOP = TT
 #include "lockon.inc"
@@ -257,7 +257,7 @@ C
 C
       IF(NODADT==0)THEN
        DO 80 I=LFT,LLT
-        IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO)GOTO 80 
+        IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.OFFG(I)<=ZERO)GOTO 80
         DT2T    = DTX(I)
         NELTST =NGL(I)
         ITYPTST=ITY

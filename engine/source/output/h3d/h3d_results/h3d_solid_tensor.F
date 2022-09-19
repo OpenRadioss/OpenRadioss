@@ -43,9 +43,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD               
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

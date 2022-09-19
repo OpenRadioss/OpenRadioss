@@ -31,11 +31,11 @@ Chd|====================================================================
 
 #include "my_real.inc"
 
-      TYPE PINCH_LOCAL_STRUCT_ 
-        my_real ,DIMENSION(:), ALLOCATABLE :: EPINCHXZ   
-        my_real ,DIMENSION(:), ALLOCATABLE :: EPINCHYZ 
-        my_real ,DIMENSION(:), ALLOCATABLE :: EPINCHZZ    
-      END TYPE PINCH_LOCAL_STRUCT_  
-      
+      TYPE PINCH_LOCAL_STRUCT_
+        my_real ,DIMENSION(:), ALLOCATABLE :: EPINCHXZ
+        my_real ,DIMENSION(:), ALLOCATABLE :: EPINCHYZ
+        my_real ,DIMENSION(:), ALLOCATABLE :: EPINCHZZ
+      END TYPE PINCH_LOCAL_STRUCT_
+
       END MODULE PINCH_LOCAL_MOD
 

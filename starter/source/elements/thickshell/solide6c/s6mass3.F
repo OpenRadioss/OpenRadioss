@@ -27,7 +27,7 @@ Chd|        S6CINIT3                      source/elements/thickshell/solide6c/s6
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S6MASS3(RHO,MS,PARTSAV,X,V,IPART,MSS,
-     .     RHOCP,MCP ,MCPS,MSSA,FILL, VOLU, 
+     .     RHOCP,MCP ,MCPS,MSSA,FILL, VOLU,
      .     NC1, NC2, NC3, NC4, NC5, NC6)
 C
 C-----------------------------------------------
@@ -163,7 +163,7 @@ C
            MCPS(7,I)=MASSP
            MCPS(8,I)=ZERO
           ENDDO
-        ENDIF   
+        ENDIF
 C
       RETURN
       END

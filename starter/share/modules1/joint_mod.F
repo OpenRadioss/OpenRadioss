@@ -37,7 +37,7 @@ Chd|====================================================================
 !$COMMENT
 !       JOINT_MOD description
 !       module for /CYL_JOINT option
-!       
+!
 !       JOINT_MOD organization :
 !       the main /CYL_JOINT structure is CYL_JOINT
 !       the type(joint_node) proc structure is used for the restart writting
@@ -52,8 +52,8 @@ Chd|====================================================================
                 INTEGER :: PROC_MAIN
                 INTEGER :: NUMBER_PROC
                 INTEGER, DIMENSION(:), ALLOCATABLE :: MAIN_NODE   ! main node
-                INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_PROC     ! list of processor 
-                INTEGER, DIMENSION(:), ALLOCATABLE :: NB_NODE       ! number of node on 
+                INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_PROC     ! list of processor
+                INTEGER, DIMENSION(:), ALLOCATABLE :: NB_NODE       ! number of node on
                 TYPE(joint_node), DIMENSION(:), ALLOCATABLE :: PROC
                 INTEGER :: NB_SECONDARY_NODE                        ! number of secondary node
                 INTEGER, DIMENSION(:),ALLOCATABLE :: SECONDARY_NODE ! list of secondary node

@@ -88,7 +88,7 @@ C
       IF (ISH>0) CALL SPLINK(MT, ST, DT1, FXBRPM, FXBVIT,
      .                          DMT)
 C
-      CALL FXBSYS(MT,ST,DMT)      
+      CALL FXBSYS(MT,ST,DMT)
 C
       DO I=1,NME
          FXBACC(I)=ST(I)
@@ -262,7 +262,7 @@ C
                IAD=IAD+6
             ENDDO
          ENDDO
-      ENDIF   
+      ENDIF
 C     
       IF (NMOD>0) THEN
          DO I=1,NMOD
@@ -356,7 +356,7 @@ C
          ECBIDT=ECBIDT+HALF*MS(N)*(VX*VX+VY*VY+VZ*VZ)/IFAC(N)
          ECBIDR=ECBIDR+HALF*IN(N)*(VRX*VRX+VRY*VRY+VRZ*VRZ)/IFAC(N)
       ENDDO
-      IF (PMAIN/=ISPMD) FXBRPM(12)=ZERO  
+      IF (PMAIN/=ISPMD) FXBRPM(12)=ZERO
       FXBRPM(12)=FXBRPM(12)-ECBIDT-ECBIDR
 C-----------------------------------------------
 C   RESTITUTION SUR LE MAIN

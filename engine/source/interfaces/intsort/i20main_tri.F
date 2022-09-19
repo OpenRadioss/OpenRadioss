@@ -90,7 +90,7 @@ C-----------------------------------------------
       COMMON /I20MAINC/BMINMA,BMINMAE,CURV_MAX_MAX,
      .                 RESULT,NSNR,NSNROLD,NLINSR,I_MEMG
       INTEGER RESULT,NSNR,NSNROLD,NLINSR,I_MEMG
-      my_real 
+      my_real
      .        BMINMA(6),BMINMAE(6),CURV_MAX_MAX
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -103,7 +103,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*)
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(*), MS(*),TEMP(*),DIAG_SMS(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -111,9 +111,9 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISYM,I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1,IEDGE,  
+      INTEGER ISYM,I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1,IEDGE,
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
-      INTEGER 
+      INTEGER
      .       ILD, NCONT, NCONTACT,NCONTE,NCONTACTE,
      .       INACTII,INACIMP,NSNF,NSNL,NLN,CAND_N_OLD,
      .       I_MEM
@@ -156,7 +156,7 @@ C
       NCONTACTE=MULTIMP*NCONTE
 C
 C     Specific TYPE7 :
-      ITIED = 0 
+      ITIED = 0
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.
      .   NUM_IMP>0)THEN
@@ -186,7 +186,7 @@ C Appel routine calcul XS VS remote stocke dans XFI et VFI + partie edge
         RETURN
 C Si retri XFI et VFI transferes directement au niveau de i20buce/SPMD_TRI20BOX
       END IF
-      RETRI=1 
+      RETRI=1
 C -------------------------------------------------------------
 C
       MAXBOX = INTBUF_TAB%VARIABLES(9)
@@ -263,7 +263,7 @@ C sauvegarde de XSAV (tableau BUFIN(JD(19)))
      4 INTBUF_TAB%NSVL,INTBUF_TAB%MSRL,INTBUF_TAB%CRITX,
      5 XMINL	    ,YMINL	  ,ZMINL	,XMAXL        ,
      6 YMAXL	    ,ZMAXL	  ,C_MAXL	,CURV_MAX     ,
-     7 IPARI(39,NIN),INTBUF_TAB%IRECTM(1+4*ESHIFT) ,NRTM_T,XMINEL ,   
+     7 IPARI(39,NIN),INTBUF_TAB%IRECTM(1+4*ESHIFT) ,NRTM_T,XMINEL ,
      8 YMINEL	    ,ZMINEL	  ,XMAXEL	, YMAXEL      ,
      9 ZMAXEL	    )
 #include "lockon.inc"
@@ -417,7 +417,7 @@ C mono tache
      3    IPARI(22,NIN),H3D_DATA  )
         IPARI(24,NIN) = NSNR
 
-        IF (NUM_IMP>0) 
+        IF (NUM_IMP>0)
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 
         IF (IMONM > 0) CALL STOPTIME(26,1)
@@ -546,10 +546,10 @@ C--------------------------------------------------------------
             RESULT = 0
           ENDIF
           CALL MY_BARRIER
-          ILD  = 0  
+          ILD  = 0
           MAXBOX = INTBUF_TAB%VARIABLES(9)
           MINBOX = INTBUF_TAB%VARIABLES(12)
-          TZINF  = INTBUF_TAB%VARIABLES(8)       
+          TZINF  = INTBUF_TAB%VARIABLES(8)
           GOTO 150
         ENDIF
         IF (NSPMD>1) THEN
@@ -612,8 +612,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I1, I2, NF, NL
-      my_real 
-     .       AAA, DA(3),AMASS 
+      my_real
+     .       AAA, DA(3),AMASS
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -659,14 +659,14 @@ C
             DAANC6FI(NIN)%P(1,4,I) = ZERO
             DAANC6FI(NIN)%P(1,5,I) = ZERO
             DAANC6FI(NIN)%P(1,6,I) = ZERO
-        
+
             DAANC6FI(NIN)%P(2,1,I) = ZERO
             DAANC6FI(NIN)%P(2,2,I) = ZERO
             DAANC6FI(NIN)%P(2,3,I) = ZERO
             DAANC6FI(NIN)%P(2,4,I) = ZERO
             DAANC6FI(NIN)%P(2,5,I) = ZERO
             DAANC6FI(NIN)%P(2,6,I) = ZERO
-        
+
             DAANC6FI(NIN)%P(3,1,I) = ZERO
             DAANC6FI(NIN)%P(3,2,I) = ZERO
             DAANC6FI(NIN)%P(3,3,I) = ZERO
@@ -700,7 +700,7 @@ C
         VFI(NIN)%P(1,I) = VFI(NIN)%P(1,I)+DVANCFI(NIN)%P(1,I)
         VFI(NIN)%P(2,I) = VFI(NIN)%P(2,I)+DVANCFI(NIN)%P(2,I)
         VFI(NIN)%P(3,I) = VFI(NIN)%P(3,I)+DVANCFI(NIN)%P(3,I)
-        
+
 C ALPHAK(2) remote
         ALPHAKFI(NIN)%P(I) = ONE
 
@@ -726,7 +726,7 @@ C
      .             + DAANC6FIE(NIN)%P(1,5,I1) + DAANC6FIE(NIN)%P(1,6,I1)
      .             + DA(1)
              DA(2) = DAANC6FIE(NIN)%P(2,1,I1) + DAANC6FIE(NIN)%P(2,2,I1)
-     .             + DAANC6FIE(NIN)%P(2,3,I1) + DAANC6FIE(NIN)%P(2,4,I1) 
+     .             + DAANC6FIE(NIN)%P(2,3,I1) + DAANC6FIE(NIN)%P(2,4,I1)
      .             + DAANC6FIE(NIN)%P(2,5,I1) + DAANC6FIE(NIN)%P(2,6,I1)
      .             + DA(2)
              DA(3) = DAANC6FIE(NIN)%P(3,1,I1) + DAANC6FIE(NIN)%P(3,2,I1)
@@ -739,14 +739,14 @@ C
              DAANC6FIE(NIN)%P(1,4,I1) = ZERO
              DAANC6FIE(NIN)%P(1,5,I1) = ZERO
              DAANC6FIE(NIN)%P(1,6,I1) = ZERO
-        
+
              DAANC6FIE(NIN)%P(2,1,I1) = ZERO
              DAANC6FIE(NIN)%P(2,2,I1) = ZERO
              DAANC6FIE(NIN)%P(2,3,I1) = ZERO
              DAANC6FIE(NIN)%P(2,4,I1) = ZERO
              DAANC6FIE(NIN)%P(2,5,I1) = ZERO
              DAANC6FIE(NIN)%P(2,6,I1) = ZERO
-        
+
              DAANC6FIE(NIN)%P(3,1,I1) = ZERO
              DAANC6FIE(NIN)%P(3,2,I1) = ZERO
              DAANC6FIE(NIN)%P(3,3,I1) = ZERO
@@ -797,7 +797,7 @@ C ALPHAK(2) remote
      .             + DAANC6FIE(NIN)%P(1,5,I2) + DAANC6FIE(NIN)%P(1,6,I2)
      .             + DA(1)
              DA(2) = DAANC6FIE(NIN)%P(2,1,I2) + DAANC6FIE(NIN)%P(2,2,I2)
-     .             + DAANC6FIE(NIN)%P(2,3,I2) + DAANC6FIE(NIN)%P(2,4,I2) 
+     .             + DAANC6FIE(NIN)%P(2,3,I2) + DAANC6FIE(NIN)%P(2,4,I2)
      .             + DAANC6FIE(NIN)%P(2,5,I2) + DAANC6FIE(NIN)%P(2,6,I2)
      .             + DA(2)
              DA(3) = DAANC6FIE(NIN)%P(3,1,I2) + DAANC6FIE(NIN)%P(3,2,I2)
@@ -810,14 +810,14 @@ C ALPHAK(2) remote
              DAANC6FIE(NIN)%P(1,4,I2) = ZERO
              DAANC6FIE(NIN)%P(1,5,I2) = ZERO
              DAANC6FIE(NIN)%P(1,6,I2) = ZERO
-        
+
              DAANC6FIE(NIN)%P(2,1,I2) = ZERO
              DAANC6FIE(NIN)%P(2,2,I2) = ZERO
              DAANC6FIE(NIN)%P(2,3,I2) = ZERO
              DAANC6FIE(NIN)%P(2,4,I2) = ZERO
              DAANC6FIE(NIN)%P(2,5,I2) = ZERO
              DAANC6FIE(NIN)%P(2,6,I2) = ZERO
-        
+
              DAANC6FIE(NIN)%P(3,1,I2) = ZERO
              DAANC6FIE(NIN)%P(3,2,I2) = ZERO
              DAANC6FIE(NIN)%P(3,3,I2) = ZERO
@@ -850,8 +850,8 @@ C ALPHAK(2) remote
         VFIE(NIN)%P(1,I2) = VFIE(NIN)%P(1,I2)+DVANCFIE(NIN)%P(1,I2)
         VFIE(NIN)%P(2,I2) = VFIE(NIN)%P(2,I2)+DVANCFIE(NIN)%P(2,I2)
         VFIE(NIN)%P(3,I2) = VFIE(NIN)%P(3,I2)+DVANCFIE(NIN)%P(3,I2)
-        
-        
+
+
 C ALPHAK(2) remote
         ALPHAKFIE(NIN)%P(I2) = ONE
 
@@ -893,14 +893,14 @@ C
             DAANC6FI(NIN)%P(1,4,I) = ZERO
             DAANC6FI(NIN)%P(1,5,I) = ZERO
             DAANC6FI(NIN)%P(1,6,I) = ZERO
-        
+
             DAANC6FI(NIN)%P(2,1,I) = ZERO
             DAANC6FI(NIN)%P(2,2,I) = ZERO
             DAANC6FI(NIN)%P(2,3,I) = ZERO
             DAANC6FI(NIN)%P(2,4,I) = ZERO
             DAANC6FI(NIN)%P(2,5,I) = ZERO
             DAANC6FI(NIN)%P(2,6,I) = ZERO
-        
+
             DAANC6FI(NIN)%P(3,1,I) = ZERO
             DAANC6FI(NIN)%P(3,2,I) = ZERO
             DAANC6FI(NIN)%P(3,3,I) = ZERO
@@ -933,7 +933,7 @@ C
         VFI(NIN)%P(1,I) = VFI(NIN)%P(1,I)+DVANCFI(NIN)%P(1,I)
         VFI(NIN)%P(2,I) = VFI(NIN)%P(2,I)+DVANCFI(NIN)%P(2,I)
         VFI(NIN)%P(3,I) = VFI(NIN)%P(3,I)+DVANCFI(NIN)%P(3,I)
-        
+
 
 C ALPHAK(2) remote
         ALPHAKFI(NIN)%P(I) = ONE
@@ -961,7 +961,7 @@ C
      .             + DAANC6FIE(NIN)%P(1,5,I1) + DAANC6FIE(NIN)%P(1,6,I1)
      .             + DA(1)
              DA(2) = DAANC6FIE(NIN)%P(2,1,I1) + DAANC6FIE(NIN)%P(2,2,I1)
-     .             + DAANC6FIE(NIN)%P(2,3,I1) + DAANC6FIE(NIN)%P(2,4,I1) 
+     .             + DAANC6FIE(NIN)%P(2,3,I1) + DAANC6FIE(NIN)%P(2,4,I1)
      .             + DAANC6FIE(NIN)%P(2,5,I1) + DAANC6FIE(NIN)%P(2,6,I1)
      .             + DA(2)
              DA(3) = DAANC6FIE(NIN)%P(3,1,I1) + DAANC6FIE(NIN)%P(3,2,I1)
@@ -975,14 +975,14 @@ C
              DAANC6FIE(NIN)%P(1,4,I1) = ZERO
              DAANC6FIE(NIN)%P(1,5,I1) = ZERO
              DAANC6FIE(NIN)%P(1,6,I1) = ZERO
-        
+
              DAANC6FIE(NIN)%P(2,1,I1) = ZERO
              DAANC6FIE(NIN)%P(2,2,I1) = ZERO
              DAANC6FIE(NIN)%P(2,3,I1) = ZERO
              DAANC6FIE(NIN)%P(2,4,I1) = ZERO
              DAANC6FIE(NIN)%P(2,5,I1) = ZERO
              DAANC6FIE(NIN)%P(2,6,I1) = ZERO
-        
+
              DAANC6FIE(NIN)%P(3,1,I1) = ZERO
              DAANC6FIE(NIN)%P(3,2,I1) = ZERO
              DAANC6FIE(NIN)%P(3,3,I1) = ZERO
@@ -1033,7 +1033,7 @@ C ALPHAK(2) remote
      .             + DAANC6FIE(NIN)%P(1,5,I2) + DAANC6FIE(NIN)%P(1,6,I2)
      .             + DA(1)
              DA(2) = DAANC6FIE(NIN)%P(2,1,I2) + DAANC6FIE(NIN)%P(2,2,I2)
-     .             + DAANC6FIE(NIN)%P(2,3,I2) + DAANC6FIE(NIN)%P(2,4,I2) 
+     .             + DAANC6FIE(NIN)%P(2,3,I2) + DAANC6FIE(NIN)%P(2,4,I2)
      .             + DAANC6FIE(NIN)%P(2,5,I2) + DAANC6FIE(NIN)%P(2,6,I2)
      .             + DA(2)
              DA(3) = DAANC6FIE(NIN)%P(3,1,I2) + DAANC6FIE(NIN)%P(3,2,I2)
@@ -1046,14 +1046,14 @@ C ALPHAK(2) remote
              DAANC6FIE(NIN)%P(1,4,I2) = ZERO
              DAANC6FIE(NIN)%P(1,5,I2) = ZERO
              DAANC6FIE(NIN)%P(1,6,I2) = ZERO
-        
+
              DAANC6FIE(NIN)%P(2,1,I2) = ZERO
              DAANC6FIE(NIN)%P(2,2,I2) = ZERO
              DAANC6FIE(NIN)%P(2,3,I2) = ZERO
              DAANC6FIE(NIN)%P(2,4,I2) = ZERO
              DAANC6FIE(NIN)%P(2,5,I2) = ZERO
              DAANC6FIE(NIN)%P(2,6,I2) = ZERO
-        
+
              DAANC6FIE(NIN)%P(3,1,I2) = ZERO
              DAANC6FIE(NIN)%P(3,2,I2) = ZERO
              DAANC6FIE(NIN)%P(3,3,I2) = ZERO
@@ -1086,8 +1086,8 @@ C ALPHAK(2) remote
         VFIE(NIN)%P(1,I2) = VFIE(NIN)%P(1,I2)+DVANCFIE(NIN)%P(1,I2)
         VFIE(NIN)%P(2,I2) = VFIE(NIN)%P(2,I2)+DVANCFIE(NIN)%P(2,I2)
         VFIE(NIN)%P(3,I2) = VFIE(NIN)%P(3,I2)+DVANCFIE(NIN)%P(3,I2)
-        
-        
+
+
 C ALPHAK(2) remote
         ALPHAKFIE(NIN)%P(I2) = ONE
 

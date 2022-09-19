@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S16MASS3(
      1   MASS  ,MS  ,PARTSAV,IPART  ,MSS,VOLG,
-     2   XX    ,YY  ,ZZ     ,VX     ,VY ,VZ  ,  
+     2   XX    ,YY  ,ZZ     ,VX     ,VY ,VZ  ,
      3   NC    ,STI ,STIFN  ,DELTAX2,RHO,DTX ,
      4   DTELEM,MSSX,RHOCP  ,MCP     ,MCPS, MCPSX,
      5   FILL  )
@@ -48,7 +48,7 @@ C-----------------------------------------------
       my_real
      .   MASS(*), MS(*),PARTSAV(20,*), MSS(8,*),DELTAX2(*),
      .   XX(MVSIZ,16), YY(MVSIZ,16), ZZ(MVSIZ,16),
-     .   VX(MVSIZ,16), VY(MVSIZ,16), VZ(MVSIZ,16),STI(*),STIFN(*), 
+     .   VX(MVSIZ,16), VY(MVSIZ,16), VZ(MVSIZ,16),STI(*),STIFN(*),
      .   VOLG(MVSIZ),RHO(MVSIZ),DTX(MVSIZ),DTELEM(MVSIZ),
      .   MSSX(12,*), RHOCP(*), MCP(*), MCPS(8,*),MCPSX(12,*),
      .   FILL(*)
@@ -193,7 +193,7 @@ C
      .         +VZ(I,5)+VZ(I,6)+VZ(I,7)+VZ(I,8))
      .    + BM*(VZ(I,9) +VZ(I,10)+VZ(I,11)+VZ(I,12)+VZ(I,13)+VZ(I,14)
      .         +VZ(I,15)+VZ(I,16))
-        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * 
+        PARTSAV(14,IP)=PARTSAV(14,IP) + HALF *
      .       (AM*(VX(I,1)*VX(I,1)+VX(I,2)*VX(I,2)
      .           +VX(I,3)*VX(I,3)+VX(I,4)*VX(I,4)
      .           +VX(I,5)*VX(I,5)+VX(I,6)*VX(I,6)
@@ -218,7 +218,7 @@ C
      .           +VZ(I,11)*VZ(I,11)+VZ(I,12)*VZ(I,12)
      .           +VZ(I,13)*VZ(I,13)+VZ(I,14)*VZ(I,14)
      .           +VZ(I,15)*VZ(I,15)+VZ(I,16)*VZ(I,16)))
-       ENDDO  
+       ENDDO
 CC
 C  heat transfer for solid
 C      

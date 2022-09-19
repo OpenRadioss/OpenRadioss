@@ -142,7 +142,7 @@ C-----------------------------------------------
      .        JPOS_DAMP_XX(NEL),JPOS_DAMP_YY(NEL),JPOS_DAMP_ZZ(NEL),
      .        IFUN_DAMP_X(NEL),IFUN_DAMP_Y(NEL),IFUN_DAMP_Z(NEL),
      .        IFUN_DAMP_XX(NEL),IFUN_DAMP_YY(NEL),IFUN_DAMP_ZZ(NEL)
-      my_real :: 
+      my_real ::
      .        XLIMG,XLIM,XXLIM,YY1LIM,YY2LIM,ZZ1LIM,ZZ2LIM,
      .        K11,K44,K55,K66,K5B,K6C,LENG2,LENG,ULENG0,R,AX,AY,AZ,
      .        FSCAL_X,FSCAL_RX,FSCAL_RY1,FSCAL_RY2,FSCAL_RZ1,FSCAL_RZ2,
@@ -173,29 +173,29 @@ C=======================================================================
       FSCAL_RZ1 = GET_U_GEO(21,IPROP)
       FSCAL_RZ2 = GET_U_GEO(22,IPROP)
 !------------------------------------------
-      IFUN_XMI  = GET_U_PNU(1,IPROP,KFUNC) 
-      IFUN_XXMI = GET_U_PNU(2,IPROP,KFUNC) 
-      IFUN_YY1MI= GET_U_PNU(3,IPROP,KFUNC) 
-      IFUN_ZZ1MI= GET_U_PNU(4,IPROP,KFUNC) 
-      IFUN_YY2MI= GET_U_PNU(5,IPROP,KFUNC) 
-      IFUN_ZZ2MI= GET_U_PNU(6,IPROP,KFUNC) 
-      IFUN_XP   = GET_U_PNU(7,IPROP,KFUNC) 
-      IFUN_XXPI = GET_U_PNU(8,IPROP,KFUNC) 
-      IFUN_YY1PI= GET_U_PNU(9,IPROP,KFUNC) 
-      IFUN_ZZ1PI= GET_U_PNU(10,IPROP,KFUNC) 
-      IFUN_YY2PI= GET_U_PNU(11,IPROP,KFUNC) 
-      IFUN_ZZ2PI= GET_U_PNU(12,IPROP,KFUNC) 
-      IFUN_XMR  = GET_U_PNU(13,IPROP,KFUNC) 
-      IFUN_XXMR = GET_U_PNU(14,IPROP,KFUNC) 
-      IFUN_YY1MR= GET_U_PNU(15,IPROP,KFUNC) 
-      IFUN_ZZ1MR= GET_U_PNU(16,IPROP,KFUNC) 
-      IFUN_YY2MR= GET_U_PNU(17,IPROP,KFUNC) 
-      IFUN_ZZ2MR= GET_U_PNU(18,IPROP,KFUNC) 
-      IFUN_XXPR = GET_U_PNU(19,IPROP,KFUNC) 
-      IFUN_YY1PR= GET_U_PNU(20,IPROP,KFUNC) 
-      IFUN_ZZ1PR= GET_U_PNU(21,IPROP,KFUNC) 
-      IFUN_YY2PR= GET_U_PNU(22,IPROP,KFUNC) 
-      IFUN_ZZ2PR= GET_U_PNU(23,IPROP,KFUNC) 
+      IFUN_XMI  = GET_U_PNU(1,IPROP,KFUNC)
+      IFUN_XXMI = GET_U_PNU(2,IPROP,KFUNC)
+      IFUN_YY1MI= GET_U_PNU(3,IPROP,KFUNC)
+      IFUN_ZZ1MI= GET_U_PNU(4,IPROP,KFUNC)
+      IFUN_YY2MI= GET_U_PNU(5,IPROP,KFUNC)
+      IFUN_ZZ2MI= GET_U_PNU(6,IPROP,KFUNC)
+      IFUN_XP   = GET_U_PNU(7,IPROP,KFUNC)
+      IFUN_XXPI = GET_U_PNU(8,IPROP,KFUNC)
+      IFUN_YY1PI= GET_U_PNU(9,IPROP,KFUNC)
+      IFUN_ZZ1PI= GET_U_PNU(10,IPROP,KFUNC)
+      IFUN_YY2PI= GET_U_PNU(11,IPROP,KFUNC)
+      IFUN_ZZ2PI= GET_U_PNU(12,IPROP,KFUNC)
+      IFUN_XMR  = GET_U_PNU(13,IPROP,KFUNC)
+      IFUN_XXMR = GET_U_PNU(14,IPROP,KFUNC)
+      IFUN_YY1MR= GET_U_PNU(15,IPROP,KFUNC)
+      IFUN_ZZ1MR= GET_U_PNU(16,IPROP,KFUNC)
+      IFUN_YY2MR= GET_U_PNU(17,IPROP,KFUNC)
+      IFUN_ZZ2MR= GET_U_PNU(18,IPROP,KFUNC)
+      IFUN_XXPR = GET_U_PNU(19,IPROP,KFUNC)
+      IFUN_YY1PR= GET_U_PNU(20,IPROP,KFUNC)
+      IFUN_ZZ1PR= GET_U_PNU(21,IPROP,KFUNC)
+      IFUN_YY2PR= GET_U_PNU(22,IPROP,KFUNC)
+      IFUN_ZZ2PR= GET_U_PNU(23,IPROP,KFUNC)
 !------------------------------------------
 !  strain rate filtering number of cycles:
       NCF = GET_U_GEO(35,IPROP)
@@ -262,7 +262,7 @@ C=======================================================================
 ! save new filtered strain rate:
         DO I=1,NEL
           UVAR(37,I) = XDOT(I)  ! new filtered strain rate
-          UVAR(38,I) = XXDOT(I) 
+          UVAR(38,I) = XXDOT(I)
           UVAR(39,I) = YY1DOT(I)
           UVAR(40,I) = ZZ1DOT(I)
           UVAR(41,I) = YY2DOT(I)
@@ -273,7 +273,7 @@ C=======================================================================
 !!          ULENG0 = UVAR(30,I)
 !!          X(I)   = UVAR(1,I) + DT * XDOT(I)  * ULENG0  ! filtered strain
           X(I)   = UVAR(1,I) + DT * XDOT(I)  ! filtered strain
-          XX(I)  = UVAR(2,I) + DT * XXDOT(I) 
+          XX(I)  = UVAR(2,I) + DT * XXDOT(I)
           YY1(I) = UVAR(3,I) + DT * YY1DOT(I)
           ZZ1(I) = UVAR(4,I) + DT * ZZ1DOT(I)
           YY2(I) = UVAR(5,I) + DT * YY2DOT(I)
@@ -287,7 +287,7 @@ C=======================================================================
         MY1(I) = -YMOM(I)+HALF*XL(I)*FZ(I)
         MY2(I) =  YMOM(I)+HALF*XL(I)*FZ(I)
         MZ1(I) = -ZMOM(I)-HALF*XL(I)*FY(I)
-        MZ2(I) =  ZMOM(I)-HALF*XL(I)*FY(I)	  
+        MZ2(I) =  ZMOM(I)-HALF*XL(I)*FY(I)	
 C
         LENG = MAX(XL(I),EM20)
         LENG2 = LENG*LENG
@@ -469,7 +469,7 @@ C
             CALL GET_V_FUNC(IFUN_DAMP_Y,NEL,ELODOTY,DYDX,FY_DAMP,JPOS_DAMP_Y)
           ENDIF
 !
-          IF (IFUN_DAMP_ZI > 0) THEN 
+          IF (IFUN_DAMP_ZI > 0) THEN
             DO I=1,NEL
               ELODOTZ(I) = ELODOTZ(I) / F_Z
             ENDDO
@@ -504,22 +504,22 @@ C
           FXXP(I)  = FXXP(I) * FSCAL_RX
           FXXM(I)  = FXXM(I) * FSCAL_RX
           FYY1M(I) = FYY1M(I)* FSCAL_RY1
-          FYY1P(I) = FYY1P(I)* FSCAL_RY1 
-          FZZ1M(I) = FZZ1M(I)* FSCAL_RZ1 
-          FZZ1P(I) = FZZ1P(I)* FSCAL_RZ1 
-          FYY2M(I) = FYY2M(I)* FSCAL_RY2 
-          FYY2P(I) = FYY2P(I)* FSCAL_RY2  
-          FZZ2M(I) = FZZ2M(I)* FSCAL_RZ2  
-          FZZ2P(I) = FZZ2P(I)* FSCAL_RZ2             
+          FYY1P(I) = FYY1P(I)* FSCAL_RY1
+          FZZ1M(I) = FZZ1M(I)* FSCAL_RZ1
+          FZZ1P(I) = FZZ1P(I)* FSCAL_RZ1
+          FYY2M(I) = FYY2M(I)* FSCAL_RY2
+          FYY2P(I) = FYY2P(I)* FSCAL_RY2
+          FZZ2M(I) = FZZ2M(I)* FSCAL_RZ2
+          FZZ2P(I) = FZZ2P(I)* FSCAL_RZ2
         ENDDO
 !
         DO I=1,NEL
-          UVAR(1,I) = X(I) 
-          UVAR(2,I) = XX(I) 
-          UVAR(3,I) = YY1(I) 
-          UVAR(4,I) = ZZ1(I) 
-          UVAR(5,I) = YY2(I) 
-          UVAR(6,I) = ZZ2(I) 
+          UVAR(1,I) = X(I)
+          UVAR(2,I) = XX(I)
+          UVAR(3,I) = YY1(I)
+          UVAR(4,I) = ZZ1(I)
+          UVAR(5,I) = YY2(I)
+          UVAR(6,I) = ZZ2(I)
           UVAR(7,I)  = JPOSXM(I)
           UVAR(8,I)  = JPOSXXM(I)
           UVAR(9,I)  = JPOSYY1M(I)
@@ -697,7 +697,7 @@ C
             CALL GET_V_FUNC(IFUN_DAMP_Y,NEL,ELODOTY,DYDX,FY_DAMP,JPOS_DAMP_Y)
           ENDIF
 !
-          IF (IFUN_DAMP_ZI > 0) THEN 
+          IF (IFUN_DAMP_ZI > 0) THEN
             DO I=1,NEL
               ELODOTZ(I) = ELODOTZ(I) / F_Z
             ENDDO
@@ -732,13 +732,13 @@ C
           FXXP(I)  = FXXP(I) * FSCAL_RX
           FXXM(I)  = FXXM(I) * FSCAL_RX
           FYY1M(I) = FYY1M(I)* FSCAL_RY1
-          FYY1P(I) = FYY1P(I)* FSCAL_RY1 
-          FZZ1M(I) = FZZ1M(I)* FSCAL_RZ1 
-          FZZ1P(I) = FZZ1P(I)* FSCAL_RZ1 
-          FYY2M(I) = FYY2M(I)* FSCAL_RY2 
-          FYY2P(I) = FYY2P(I)* FSCAL_RY2  
-          FZZ2M(I) = FZZ2M(I)* FSCAL_RZ2  
-          FZZ2P(I) = FZZ2P(I)* FSCAL_RZ2             
+          FYY1P(I) = FYY1P(I)* FSCAL_RY1
+          FZZ1M(I) = FZZ1M(I)* FSCAL_RZ1
+          FZZ1P(I) = FZZ1P(I)* FSCAL_RZ1
+          FYY2M(I) = FYY2M(I)* FSCAL_RY2
+          FYY2P(I) = FYY2P(I)* FSCAL_RY2
+          FZZ2M(I) = FZZ2M(I)* FSCAL_RZ2
+          FZZ2P(I) = FZZ2P(I)* FSCAL_RZ2
         ENDDO
 C
         DO I=1,NEL

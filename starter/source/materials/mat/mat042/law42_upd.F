@@ -49,7 +49,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
       INTEGER MAT_ID,IOUT
-      my_real 
+      my_real
      .         UPARAM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -67,145 +67,145 @@ C=======================================================================
 !       CHECK the material stability (Drucker proguer conditions)
 !====================================================================
        NDATA = 10000  ! La=0.1,10, EM3!!
-       LAM_MIN = EM3                                         
-       LAM_MAX = TEN 
+       LAM_MIN = EM3
+       LAM_MAX = TEN
 C       
        DO I=1,5
          MU(I) = UPARAM(I)
          AL(I) = UPARAM(5+I)
-       ENDDO  
+       ENDDO
 C
-       ALLOCATE (STRETCH(NDATA))                              
-       ALLOCATE (STRESS(NDATA))                                  
-       ALLOCATE (ITAB_ON_A(NDATA))                                    
-       ALLOCATE (INDEX(NDATA))                                                                           
+       ALLOCATE (STRETCH(NDATA))
+       ALLOCATE (STRESS(NDATA))
+       ALLOCATE (ITAB_ON_A(NDATA))
+       ALLOCATE (INDEX(NDATA))
        STRETCH(1)=LAM_MIN
        ITAB_ON_A = 0
        DO K= 2,NDATA
          STRETCH(K)=STRETCH(K-1) + EM3
-       ENDDO                                         
-       STRESS=ZERO  
+       ENDDO
+       STRESS=ZERO
 C                                                            
-       WRITE(IOUT,1000)MAT_ID  
+       WRITE(IOUT,1000)MAT_ID
 C  Tension/compression      
-       INDX =0                
-       DO I = 1, NDATA                                        
-          D11= ZERO                                         
-          D22= ZERO                                   
-          D12= ZERO 
+       INDX =0
+       DO I = 1, NDATA
+          D11= ZERO
+          D22= ZERO
+          D12= ZERO
           LAM1 =STRETCH(I)
           LAM2 = ONE/SQRT(LAM1)
           LAM3 = LAM2
 C            
-          DO K=1,5 
+          DO K=1,5
              LAM12 = (lAM1*LAM2)**(-AL(K))
              D11=D11+ AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
              D22=D22+ AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
              D12=D12+ AL(K)*MU(K) * LAM12
           ENDDO
-          
+
            INVD1 = D11 + D22
-           INVD2 = D11*D22 - D12**2 
+           INVD2 = D11*D22 - D12**2
            IF (INVD1 > 0 .AND. INVD2 > 0) THEN
-             INDX = INDX +1 
+             INDX = INDX +1
              ITAB_ON_A(INDX) = 1
              INDEX(INDX) = I
-           ENDIF  
-       ENDDO 
-       IF(INDX > 0 .AND. INDX < NDATA) THEN 
+           ENDIF
+       ENDDO
+       IF(INDX > 0 .AND. INDX < NDATA) THEN
          WRITE(IOUT,1010)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - ONE 
-          WRITE(IOUT,1100)STRAIN_MIN 
+          STRAIN_MIN = STRETCH(I) - ONE
+          WRITE(IOUT,1100)STRAIN_MIN
          ENDIF
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
            STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
-         ENDIF  
+         ENDIF
        ENDIF
 C  Biaxial      
-       INDX =0                                 
-       DO I = 1, NDATA                                        
-          D11= ZERO                                         
-          D22= ZERO                                   
-          D12= ZERO 
+       INDX =0
+       DO I = 1, NDATA
+          D11= ZERO
+          D22= ZERO
+          D12= ZERO
           LAM1 =STRETCH(I)
           LAM2 = LAM1
           LAM3 = ONE/LAM1/LAM1
 C            
-          DO K=1,5 
+          DO K=1,5
              LAM12 = (lAM1*LAM2)**(-AL(K))
              D11=D11+ AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
              D22=D22+ AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
              D12=D12+ AL(K)*MU(K) * LAM12
           ENDDO
-          
+
            INVD1 = D11 + D22
-           INVD2 = D11*D22 - D12**2 
+           INVD2 = D11*D22 - D12**2
            IF (INVD1 > 0 .AND. INVD2 > 0) THEN
-             INDX = INDX + 1 
+             INDX = INDX + 1
              ITAB_ON_A(INDX) = 1
-             INDEX(INDX) = I 
-           ENDIF  
+             INDEX(INDX) = I
+           ENDIF
        ENDDO
        IF(INDX > 0 .AND. INDX < NDATA) THEN
          WRITE(IOUT,1020)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - ONE 
-          WRITE(IOUT,1100)STRAIN_MIN 
-         ENDIF 
+          STRAIN_MIN = STRETCH(I) - ONE
+          WRITE(IOUT,1100)STRAIN_MIN
+         ENDIF
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
            STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
-         ENDIF 
+         ENDIF
        ENDIF
 C shear test
-       INDX =0                                 
-       DO I = 1, NDATA                                        
-          D11= ZERO                                         
-          D22= ZERO                                   
-          D12= ZERO 
+       INDX =0
+       DO I = 1, NDATA
+          D11= ZERO
+          D22= ZERO
+          D12= ZERO
           LAM1 =STRETCH(I)
           LAM2 = ONE
           LAM3 = ONE/LAM1
 C            
-          DO K=1,5 
+          DO K=1,5
              LAM12 = (lAM1*LAM2)**(-AL(K))
              D11=D11+ AL(K)*MU(K) * (LAM1**AL(K) + LAM12 )
              D22=D22+ AL(K)*MU(K) * (LAM2**AL(K) + LAM12 )
              D12=D12+ AL(K)*MU(K) * LAM12
           ENDDO
-          
+
            INVD1 = D11 + D22
-           INVD2 = D11*D22 - D12**2 
+           INVD2 = D11*D22 - D12**2
            IF (INVD1 > 0 .AND. INVD2 > 0) THEN
-             INDX = INDX +1 
+             INDX = INDX +1
              ITAB_ON_A(INDX) = 1
              INDEX(INDX) = I
-           ENDIF  
+           ENDIF
        ENDDO
-       IF(INDX > 0 .AND. INDX < NDATA) THEN 
+       IF(INDX > 0 .AND. INDX < NDATA) THEN
          WRITE(IOUT,1030)
          I = INDEX(1) - 1
          IF(I > 1) THEN
-          STRAIN_MIN = STRETCH(I) - ONE 
-          WRITE(IOUT,1100)STRAIN_MIN 
+          STRAIN_MIN = STRETCH(I) - ONE
+          WRITE(IOUT,1100)STRAIN_MIN
          ENDIF
          I = INDEX(INDX) + 1
          IF(I <= NDATA)THEN
            STRAIN_MAX = STRETCH(I) - ONE
            WRITE(IOUT,1200)STRAIN_MAX
          ENDIF
-       ENDIF 
+       ENDIF
 C             
-        DEALLOCATE (STRETCH)                                                 
-        DEALLOCATE (STRESS)                                 
-        DEALLOCATE (ITAB_ON_A)                                    
-        DEALLOCATE (INDEX)  
+        DEALLOCATE (STRETCH)
+        DEALLOCATE (STRESS)
+        DEALLOCATE (ITAB_ON_A)
+        DEALLOCATE (INDEX)
       RETURN
  1000 FORMAT
      & (//5X, 'CHECK THE DRUCKER PRAGER STABILITY CONDITIONS   ' ,/,

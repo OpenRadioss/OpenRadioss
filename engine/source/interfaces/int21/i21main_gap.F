@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER)
 C     REAL
-      my_real 
+      my_real
      .   THKNOD(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB

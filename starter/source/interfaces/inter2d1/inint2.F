@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -182,12 +182,12 @@ C
       J18=J17+NRTM
       J19=J18+3*NSN
 
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST) = 0
       INTBUF_TAB%LMSR(1:NMT) = 0
       INTBUF_TAB%STFNS(1:NSN) = 0
-      INTBUF_TAB%STFNM(1:NMN) = 0      
+      INTBUF_TAB%STFNM(1:NMN) = 0
 
        CALL ININT0(X,INTBUF_TAB%IRECTS,INTBUF_TAB%NSEGS,INTBUF_TAB%LNSV,INTBUF_TAB%NSV,
      1  	     INTBUF_TAB%MSR,INTBUF_TAB%ILOCM,NMN,NSN,NRTS)
@@ -241,7 +241,7 @@ C
       J18=J17+NRTM
       J19=J18+3*NSN
 
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST) = 0
       INTBUF_TAB%LMSR(1:NMT) = 0
@@ -282,7 +282,7 @@ C
       J18=J17+NRTM
       J19=J18+3*NSN
 
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST) = 0
       INTBUF_TAB%LMSR(1:NMT) = 0

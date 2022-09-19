@@ -145,7 +145,7 @@ C
            Z1 = X(3,N1)-Z0
            DIST(1)=X1-(X1*X2+Y1*Y2+Z1*Z2)*X2
            DIST(2)=Y1-(X1*X2+Y1*Y2+Z1*Z2)*Y2
-           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2 
+           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2
            DW(1) = DWDT*X2
            DW(2) = DWDT*Y2
            DW(3) = DWDT*Z2
@@ -163,8 +163,8 @@ C
            IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
-             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1)
+             TFEXTT=TFEXTT
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
@@ -178,7 +178,7 @@ C
            Z1 = X(3,N1)-Z0
            DIST(1)=X1-(X1*X2+Y1*Y2+Z1*Z2)*X2
            DIST(2)=Y1-(X1*X2+Y1*Y2+Z1*Z2)*Y2
-           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2 
+           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2
            DW(1) = DWDT*X2
            DW(2) = DWDT*Y2
            DW(3) = DWDT*Z2
@@ -194,8 +194,8 @@ C
            IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
-             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1)
+             TFEXTT=TFEXTT
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
@@ -208,7 +208,7 @@ C
            Z1 = X(3,N1)-Z0
            DIST(1)=X1-(X1*X2+Y1*Y2+Z1*Z2)*X2
            DIST(2)=Y1-(X1*X2+Y1*Y2+Z1*Z2)*Y2
-           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2 
+           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2
            AREL(1) = DIST(1)*VROT2
            AREL(2) = DIST(2)*VROT2
            AREL(3) = DIST(3)*VROT2
@@ -220,8 +220,8 @@ C
            IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
-             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1)
+             TFEXTT=TFEXTT
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO
@@ -234,7 +234,7 @@ C
            Z1 = X(3,N1)-Z0
            DIST(1)=X1-(X1*X2+Y1*Y2+Z1*Z2)*X2
            DIST(2)=Y1-(X1*X2+Y1*Y2+Z1*Z2)*Y2
-           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2 
+           DIST(3)=Z1-(X1*X2+Y1*Y2+Z1*Z2)*Z2
            AREL(1) = DIST(1)*VROT2
            AREL(2) = DIST(2)*VROT2
            AREL(3) = DIST(3)*VROT2
@@ -244,8 +244,8 @@ C
            IF(IB(J)>0)THEN
              VMX=V(1,N1)+HALF*DT2*A(1,N1) ! Supposing A will be no more modified...
              VMY=V(2,N1)+HALF*DT2*A(2,N1)
-             VMZ=V(3,N1)+HALF*DT2*A(3,N1) 
-             TFEXTT=TFEXTT 
+             VMZ=V(3,N1)+HALF*DT2*A(3,N1)
+             TFEXTT=TFEXTT
      .         +MS(N1)*(AREL(1)*VMX+AREL(2)*VMY+AREL(3)*VMZ)*DT12*WEIGHT(N1)
            END IF
          ENDDO

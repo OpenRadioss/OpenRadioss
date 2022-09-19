@@ -46,7 +46,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFMOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        WEIGHT(*), MWAG(*)
       TYPE(INTSTAMP_DATA) INTSTAMP
 C     REAL
-      my_real 
+      my_real
      .    X(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -84,10 +84,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J17_T,
-     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, 
+     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD,
      .        ADD1, NB_N_B, INIT, NOINT, INACTI, MULTIMP, IGAP, I_STOK,
      .        INTTH , ADXLOC
-      INTEGER 
+      INTEGER
      .       NRTM_T,ESHIFT,ILD, NCONTACT, NRTM_L,
      .       I_MEM,CAND_N_OLD, IROT
 C     REAL

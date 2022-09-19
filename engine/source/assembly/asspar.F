@@ -33,7 +33,7 @@ Chd|====================================================================
      .                  FTHE ,ITHERM_FE ,STCND,GREFT,GRELT ,
      .                  GRESAV,NGPE     ,NTHPART,IALELAG,AF,
      .                  DMSPH ,CONDN,
-     .                  APINCH,STIFPINCH) 
+     .                  APINCH,STIFPINCH)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -54,7 +54,7 @@ C
      .              NPART,PARTFT,PARTLT,ITHERM_FE,GREFT,GRELT,NGPE,
      .              NTHPART,IALELAG
       INTEGER K,KN,IKN,IKN1,IKN2,I,KM,KM1,KM2,NUM7,NUM8,KM3,KM4,KM5
-      my_real 
+      my_real
      .  A(3,*),AR(3,*),PARTSAV(*),STIFN(*),STIFR(*),VISCN(*),
      .  FTHE(*), STCND(*),GRESAV(*),AF(3,*), DMSPH(*),CONDN(*)
       my_real
@@ -107,14 +107,14 @@ C     2 TASKS
             AR(3,I) = AR(3,I) + AR(3,IKN)
             AR(1,IKN) = ZERO
             AR(2,IKN) = ZERO
-            AR(3,IKN) = ZERO    
+            AR(3,IKN) = ZERO
  140       CONTINUE
           ENDIF
 C
           IF(ITHERM_FE > 0 ) THEN
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             FTHE(I) = FTHE(I) + FTHE(IKN)
             FTHE(IKN) = ZERO
            ENDDO
@@ -123,19 +123,19 @@ C
           IF(NODADT_THERM > 0 ) THEN
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             CONDN(I) = CONDN(I) + CONDN(IKN)
             CONDN(IKN) = ZERO
            ENDDO
-          ENDIF              
+          ENDIF
 C        
           IF(ISTATCND /=0) THEN
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             STCND(I) = STCND(I) + STCND(IKN)
             STCND(IKN) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
           IF(IALELAG> 0) THEN
 #include "vectorize.inc"
@@ -148,7 +148,7 @@ C
                AF(2,IKN) = ZERO
                AF(3,IKN) = ZERO
              ENDDO
-          ENDIF   
+          ENDIF
 
 C         viscosite
           IF(KDTINT/=0)THEN
@@ -163,11 +163,11 @@ C
           IF(SOL2SPH_FLAG /=0) THEN
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             DMSPH(I) = DMSPH(I) + DMSPH(IKN)
             DMSPH(IKN) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
 #include "vectorize.inc"
           DO 160 I=PARTFT,PARTLT
@@ -193,7 +193,7 @@ C     3 TASKS
             A(3,IKN) = ZERO
             A(1,IKN1) = ZERO
             A(2,IKN1) = ZERO
-            A(3,IKN1) = ZERO    
+            A(3,IKN1) = ZERO
  220      CONTINUE
 
          IF(NPINCH > 0) THEN
@@ -212,7 +212,7 @@ C     3 TASKS
              APINCH(3,IKN) = ZERO
              APINCH(1,IKN1) = ZERO
              APINCH(2,IKN1) = ZERO
-             APINCH(3,IKN1) = ZERO    
+             APINCH(3,IKN1) = ZERO
            ENDDO
          ENDIF
 
@@ -233,7 +233,7 @@ C     3 TASKS
             AR(3,IKN) = ZERO
             AR(1,IKN1) = ZERO
             AR(2,IKN1) = ZERO
-            AR(3,IKN1) = ZERO    
+            AR(3,IKN1) = ZERO
  240       CONTINUE
           ENDIF
 C
@@ -244,8 +244,8 @@ C
             IKN1 = IKN + NUMNOD
             FTHE(I) = FTHE(I) + FTHE(IKN) + FTHE(IKN1)
             FTHE(IKN) = ZERO
-            FTHE(IKN1) = ZERO 
-           ENDDO 
+            FTHE(IKN1) = ZERO
+           ENDDO
           ENDIF
 C
           IF(NODADT_THERM > 0 ) THEN
@@ -255,19 +255,19 @@ C
             IKN1 = IKN + NUMNOD
             CONDN(I) = CONDN(I) + CONDN(IKN) + CONDN(IKN1)
             CONDN(IKN) = ZERO
-            CONDN(IKN1) = ZERO 
-           ENDDO 
+            CONDN(IKN1) = ZERO
+           ENDDO
           ENDIF
 C        
           IF(ISTATCND /=0) THEN
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             IKN1 = IKN + NUMNOD
             STCND(I) = STCND(I) + STCND(IKN) + STCND(IKN1)
             STCND(IKN) = ZERO
             STCND(IKN1) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
 C         viscosite
           IF(KDTINT/=0)THEN
@@ -275,12 +275,12 @@ C         viscosite
             DO I=NODFT,NODLT
              IKN  = I    + NUMNOD
              IKN1 = IKN  + NUMNOD
-             VISCN(I) = VISCN(I) + VISCN(IKN) + VISCN(IKN1) 
+             VISCN(I) = VISCN(I) + VISCN(IKN) + VISCN(IKN1)
              VISCN(IKN) = ZERO
              VISCN(IKN1) = ZERO
             ENDDO
           ENDIF
-         IF(IALELAG > 0) THEN 
+         IF(IALELAG > 0) THEN
 #include "vectorize.inc"
              DO  I=NODFT,NODLT
                IKN  = I   + NUMNOD
@@ -294,20 +294,20 @@ C
                AF(3,IKN) = ZERO
                AF(1,IKN1) = ZERO
                AF(2,IKN1) = ZERO
-               AF(3,IKN1) = ZERO    
+               AF(3,IKN1) = ZERO
               ENDDO
           ENDIF
 C        
           IF(SOL2SPH_FLAG /=0) THEN
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             IKN1 = IKN + NUMNOD
             DMSPH(I) = DMSPH(I) + DMSPH(IKN) + DMSPH(IKN1)
             DMSPH(IKN)  = ZERO
             DMSPH(IKN1) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
           KM  = NUM7
           KM1 = NUM7 + NUM7
@@ -336,11 +336,11 @@ C     4 TASKS
             IKN  = I    + NUMNOD
             IKN1 = IKN  + NUMNOD
             IKN2 = IKN1 + NUMNOD
-            STIFN(I) = STIFN(I) + STIFN(IKN) + 
+            STIFN(I) = STIFN(I) + STIFN(IKN) +
      .                 STIFN(IKN1) + STIFN(IKN2)
             STIFN(IKN) = ZERO
             STIFN(IKN1) = ZERO
-            STIFN(IKN2) = ZERO    
+            STIFN(IKN2) = ZERO
             A(1,I) = A(1,I) + A(1,IKN) + A(1,IKN1) + A(1,IKN2)
             A(2,I) = A(2,I) + A(2,IKN) + A(2,IKN1) + A(2,IKN2)
             A(3,I) = A(3,I) + A(3,IKN) + A(3,IKN1) + A(3,IKN2)
@@ -352,7 +352,7 @@ C     4 TASKS
             A(3,IKN1) = ZERO
             A(1,IKN2) = ZERO
             A(2,IKN2) = ZERO
-            A(3,IKN2) = ZERO    
+            A(3,IKN2) = ZERO
  320      CONTINUE
 
          IF(NPINCH > 0) THEN
@@ -364,7 +364,7 @@ C     4 TASKS
              STIFPINCH(I) = STIFPINCH(I) + STIFPINCH(IKN) +  STIFPINCH(IKN1) + STIFPINCH(IKN2)
              STIFPINCH(IKN) = ZERO
              STIFPINCH(IKN1) = ZERO
-             STIFPINCH(IKN2) = ZERO    
+             STIFPINCH(IKN2) = ZERO
              APINCH(1,I) = APINCH(1,I) + APINCH(1,IKN) + APINCH(1,IKN1) + APINCH(1,IKN2)
              APINCH(2,I) = APINCH(2,I) + APINCH(2,IKN) + APINCH(2,IKN1) + APINCH(2,IKN2)
              APINCH(3,I) = APINCH(3,I) + APINCH(3,IKN) + APINCH(3,IKN1) + APINCH(3,IKN2)
@@ -376,7 +376,7 @@ C     4 TASKS
              APINCH(3,IKN1) = ZERO
              APINCH(1,IKN2) = ZERO
              APINCH(2,IKN2) = ZERO
-             APINCH(3,IKN2) = ZERO    
+             APINCH(3,IKN2) = ZERO
            ENDDO
          ENDIF
 
@@ -386,7 +386,7 @@ C     4 TASKS
             IKN  = I    + NUMNOD
             IKN1 = IKN  + NUMNOD
             IKN2 = IKN1 + NUMNOD
-            STIFR(I) = STIFR(I) + STIFR(IKN) + 
+            STIFR(I) = STIFR(I) + STIFR(IKN) +
      .                 STIFR(IKN1) + STIFR(IKN2)
             STIFR(IKN) = ZERO
             STIFR(IKN1) = ZERO
@@ -402,7 +402,7 @@ C     4 TASKS
             AR(3,IKN1) = ZERO
             AR(1,IKN2) = ZERO
             AR(2,IKN2) = ZERO
-            AR(3,IKN2) = ZERO    
+            AR(3,IKN2) = ZERO
  340       CONTINUE
           ENDIF
 C
@@ -414,9 +414,9 @@ C
             IKN2 = IKN1 + NUMNOD
             FTHE(I)    = FTHE(I) + FTHE(IKN) + FTHE(IKN1) + FTHE(IKN2)
             FTHE(IKN)  = ZERO
-            FTHE(IKN1) = ZERO 
+            FTHE(IKN1) = ZERO
             FTHE(IKN2) = ZERO
-           ENDDO 
+           ENDDO
           ENDIF
 C
           IF(NODADT_THERM > 0 ) THEN
@@ -427,14 +427,14 @@ C
             IKN2 = IKN1 + NUMNOD
             CONDN(I)    = CONDN(I) + CONDN(IKN) + CONDN(IKN1) + CONDN(IKN2)
             CONDN(IKN)  = ZERO
-            CONDN(IKN1) = ZERO 
+            CONDN(IKN1) = ZERO
             CONDN(IKN2) = ZERO
-           ENDDO 
+           ENDDO
           ENDIF
 C        
           IF(ISTATCND /=0) THEN
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             IKN1 = IKN + NUMNOD
             IKN2 = IKN1 + NUMNOD
             STCND(I) = STCND(I) + STCND(IKN) + STCND(IKN1) + STCND(IKN2)
@@ -442,9 +442,9 @@ C
             STCND(IKN1) = ZERO
             STCND(IKN2) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
-          IF(IALELAG > 0) THEN 
+          IF(IALELAG > 0) THEN
 #include "vectorize.inc"
              DO  I=NODFT,NODLT
                IKN  = I   + NUMNOD
@@ -473,7 +473,7 @@ C         viscosite
              IKN  = I    + NUMNOD
              IKN1 = IKN  + NUMNOD
              IKN2 = IKN1 + NUMNOD
-             VISCN(I) = VISCN(I) + VISCN(IKN) + 
+             VISCN(I) = VISCN(I) + VISCN(IKN) +
      .                  VISCN(IKN1) + VISCN(IKN2)
              VISCN(IKN) = ZERO
              VISCN(IKN1) = ZERO
@@ -484,7 +484,7 @@ C
           IF(SOL2SPH_FLAG /=0) THEN
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
-            IKN = I+ NUMNOD    
+            IKN = I+ NUMNOD
             IKN1 = IKN + NUMNOD
             IKN2 = IKN1 + NUMNOD
             DMSPH(I) = DMSPH(I) + DMSPH(IKN) + DMSPH(IKN1) + DMSPH(IKN2)
@@ -492,7 +492,7 @@ C
             DMSPH(IKN1) = ZERO
             DMSPH(IKN2) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
           KM  = NUM7
           KM1 = KM  + NUM7
@@ -503,7 +503,7 @@ C
      .                PARTSAV(I+KM1) + PARTSAV(I+KM2)
            PARTSAV(I+KM)  = ZERO
            PARTSAV(I+KM1) = ZERO
-           PARTSAV(I+KM2) = ZERO   
+           PARTSAV(I+KM2) = ZERO
  360      CONTINUE
           KM3 = NUM8
           KM4 = KM3 + NUM8
@@ -515,7 +515,7 @@ C
      .                GRESAV(I+KM4) + GRESAV(I+KM5)
              GRESAV(I+KM3)  = ZERO
              GRESAV(I+KM4) = ZERO
-             GRESAV(I+KM5) = ZERO   
+             GRESAV(I+KM5) = ZERO
  370        CONTINUE
           ENDIF
       GOTO 1000
@@ -537,7 +537,7 @@ C     NTHREADS > 4
             A(3,I) = A(3,I) + A(3,IKN)
             A(1,IKN) = ZERO
             A(2,IKN) = ZERO
-            A(3,IKN) = ZERO    
+            A(3,IKN) = ZERO
  930      CONTINUE
 
          IF (NPINCH > 0) THEN
@@ -551,7 +551,7 @@ C     NTHREADS > 4
              APINCH(3,I) = APINCH(3,I) + APINCH(3,IKN)
              APINCH(1,IKN) = ZERO
              APINCH(2,IKN) = ZERO
-             APINCH(3,IKN) = ZERO    
+             APINCH(3,IKN) = ZERO
            ENDDO
          ENDIF
 
@@ -566,7 +566,7 @@ C     NTHREADS > 4
             AR(3,I) = AR(3,I) + AR(3,IKN)
             AR(1,IKN) = ZERO
             AR(2,IKN) = ZERO
-            AR(3,IKN) = ZERO    
+            AR(3,IKN) = ZERO
  935       CONTINUE
           ENDIF
 C
@@ -574,18 +574,18 @@ C
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
             IKN  = I + KN
-            FTHE(I)    = FTHE(I) + FTHE(IKN) 
+            FTHE(I)    = FTHE(I) + FTHE(IKN)
             FTHE(IKN)  = ZERO
-           ENDDO 
+           ENDDO
           ENDIF
 C
           IF(NODADT_THERM > 0 ) THEN
 #include "vectorize.inc"
            DO  I=NODFT,NODLT
             IKN  = I + KN
-            CONDN(I)   = CONDN(I) + CONDN(IKN) 
+            CONDN(I)   = CONDN(I) + CONDN(IKN)
             CONDN(IKN) = ZERO
-           ENDDO 
+           ENDDO
           ENDIF
 C        
           IF(ISTATCND /=0) THEN
@@ -594,7 +594,7 @@ C
             STCND(I) = STCND(I) + STCND(IKN)
             STCND(IKN) = ZERO
            ENDDO
-          ENDIF            
+          ENDIF
 C
           IF(IALELAG > 0) THEN
 #include "vectorize.inc"
@@ -605,7 +605,7 @@ C
               AF(3,I) = AF(3,I) + AF(3,IKN)
               AF(1,IKN) = ZERO
               AF(2,IKN) = ZERO
-              AF(3,IKN) = ZERO    
+              AF(3,IKN) = ZERO
              ENDDO
           ENDIF
 C         viscosite

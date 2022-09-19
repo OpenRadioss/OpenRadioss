@@ -89,13 +89,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK ,N_MUL_MX ,NKMAX   
+      INTEGER NIN,ITASK ,N_MUL_MX ,NKMAX
       INTEGER IPARI(NPARI,NINTER),
      .        IADLL(*) ,LLL(*) ,JLL(*) ,SLL(*) ,
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*) ,IXS10(6,*),
      .        COMNTAG(*)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),EMINX(*),WAT(*),
      .   XLL(*)
 
@@ -106,7 +106,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSN,NME,NAD,EAD,
-     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,itri 
+     .        NME_T,ESH_T,IGN,IGE,MULTIMP,NOINT,I,MX_CAND,itri
 C     REAL
       my_real
      .   STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX
@@ -143,7 +143,7 @@ C -------------------------------------------------------------
        XMSRG(3) = -EP30
        XMSRG(4) =  EP30
        XMSRG(5) =  EP30
-       XMSRG(6) =  EP30       
+       XMSRG(6) =  EP30
 C -------------------------------------------------------------
        CALL MY_BARRIER
 C=======================================================================

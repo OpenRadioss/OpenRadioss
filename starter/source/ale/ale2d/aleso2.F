@@ -76,7 +76,7 @@ C-----------------------------------------------
           IAL = JTHE_FROM_MAT + JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL == 0)CYCLE
           IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(M)
-          LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(M+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(M)        
+          LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(M+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(M)
           DO I=1,LGTH
             IVPR(I)=ALE_CONNECTIVITY%ee_connect%connected(IAD1 + I - 1)
             IF(IVPR(I) /= 0)IVPR(I)=IXQ(7,IVPR(I))

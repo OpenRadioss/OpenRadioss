@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, N ,NELC , NELTG , IO_ERR1 , IP , NPRT , 
+      INTEGER I, J, K, N ,NELC , NELTG , IO_ERR1 , IP , NPRT ,
      .   FLG_CHK , IS_CHECK , JWARN, NELMIN , NELMAX , IPRT ,
      .   NELTGG , NELCG , IPRTALL , IERR2 ,IS_READ,
      .   DYNPART(NPART), IPART_DYNAIN(NPART)
@@ -80,21 +80,21 @@ C-----------------------------------------------
 C     READING ENGINE FILE
 C-----------------------------------------------   
       FILNAM=ROOTNAM(1:ROOTLEN)//'_0001.rad'
-      TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
+      TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
       LEN_TMP_NAME = INFILE_NAME_LEN+LEN_TRIM(FILNAM)
       OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
 C
       IF (IO_ERR1/=0) THEN
          FILNAM=ROOTNAM(1:ROOTLEN)//'D01'
-         TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
+         TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
          LEN_TMP_NAME = INFILE_NAME_LEN+LEN_TRIM(FILNAM)
          OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
-      ENDIF      
+      ENDIF
 C
       NELC = 0
-      NELTG = 0 
+      NELTG = 0
       NPRT = 0
       IPRTALL = 0
       IS_READ = 0
@@ -118,14 +118,14 @@ C--     Check dynain file is requested --
             DO I=1,NUMELC
                NELIDC(I) = IXC(NIXC,I)
             ENDDO
-            NELC = NUMELC 
+            NELC = NUMELC
           ENDIF
           IF(NUMELTG/=0)THEN
             ALLOCATE(NELIDTG(NUMELTG),STAT=IERR2)
             DO I=1,NUMELTG
                NELIDTG(NELTG) = IXTG(NIXTG,I)
             ENDDO
-            NELTG = NUMELTG 
+            NELTG = NUMELTG
           ENDIF
           NPRT = NPART
           IPRTALL = 1
@@ -146,7 +146,7 @@ C
 C--     Couting and storing parts id --
          IF(CARTE(1:1)/='#'.OR.CARTE(1:1)/='$') THEN
 
-           DO WHILE(CARTE(1:1) /= '/'.OR.LEN_TRIM(CARTE)/=0) 
+           DO WHILE(CARTE(1:1) /= '/'.OR.LEN_TRIM(CARTE)/=0)
             DO WHILE (J<=LEN_TRIM(CARTE))
                IF(CARTE(J:J)/=' ') THEN
                  K=J
@@ -175,8 +175,8 @@ C
           IF(NPRT == 0)THEN
              CALL ANCMSG(MSGID=1909,
      .                 MSGTYPE=MSGERROR,
-     .                 ANMODE=ANINFO_BLIND_1)    
-   
+     .                 ANMODE=ANINFO_BLIND_1)
+
           ELSEIF(IPRTALL ==0) THEN
 C
 C--     parts id to local part --
@@ -202,7 +202,7 @@ C--     parts id to local part --
 C
 C--     Counting concerned elements  --
 
-          NELC = 0 
+          NELC = 0
           DO I=1,NUMELC
               IP = IPARTC(I)
               IF(IPART_DYNAIN(IP)==1) THEN
@@ -210,7 +210,7 @@ C--     Counting concerned elements  --
                 NELIDC(NELC) = IXC(NIXC,I)
               ENDIF
           ENDDO
-          NELTG = 0 
+          NELTG = 0
           DO I=1,NUMELTG
              IP = IPARTTG(I)
               IF(IPART_DYNAIN(IP)==1) THEN
@@ -238,7 +238,7 @@ C
            INDXC(N)=N
            CLEFC(N)= NELIDC(N)
         END DO
-        CALL MY_ORDERS(0,WORK,CLEFC,INDXC,NELC,1)     
+        CALL MY_ORDERS(0,WORK,CLEFC,INDXC,NELC,1)
 
         ALLOCATE(CLEFTG(NELTG),STAT=IERR2)
         ALLOCATE(INDXTG(2*NELTG),STAT=IERR2)
@@ -247,7 +247,7 @@ C
            INDXTG(N)=N
            CLEFTG(N)= NELIDTG(N)
         END DO
-        CALL MY_ORDERS(0,WORK,CLEFTG,INDXTG,NELTG,1)       
+        CALL MY_ORDERS(0,WORK,CLEFTG,INDXTG,NELTG,1)
 
         IF(NELIDTG(INDXTG(1))>=NELIDC(INDXC(1)).AND.NELIDTG(INDXTG(1))<=NELIDC(INDXC(NELC)))THEN
            IS_CHECK = 1
@@ -264,7 +264,7 @@ C
         IF(NELIDC(INDXC(NELC))>=NELIDTG(INDXTG(1)).AND.NELIDC(INDXC(NELC))<=NELIDTG(INDXTG(NELTG)))THEN
            IS_CHECK = 1
         ENDIF
-       
+
         IF(IS_CHECK == 1) THEN
            NELMIN = MAX(NELIDC(INDXC(1)),NELIDTG(INDXTG(1)))
            NELMAX = MIN(NELIDC(INDXC(NELC)),NELIDTG(INDXTG(NELTG)))
@@ -277,7 +277,7 @@ C
                     IF(NELIDTG(INDXTG(J))>=NELMIN.AND.NELIDTG(INDXTG(J))<=NELMAX) THEN
                        IF(NELIDC(INDXC(I))==NELIDTG(INDXTG(J))) THEN
                           JWARN = JWARN + 1
-                          IDWARN(JWARN) = NELIDC(INDXC(I)) 
+                          IDWARN(JWARN) = NELIDC(INDXC(I))
                        ENDIF
                     ENDIF
                  ENDDO

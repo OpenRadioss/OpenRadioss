@@ -375,20 +375,20 @@ Chd|====================================================================
       MODULE UNITAB_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c define type NLOCAL_STRUCT_ for nodal variable regularization
-c=======================================================================      
-c 
+c=======================================================================
+c
       TYPE UNIT_TYPE_
-        INTEGER     :: NUNITS                             ! Number of UNIT options in input deck 
+        INTEGER     :: NUNITS                             ! Number of UNIT options in input deck
         INTEGER, DIMENSION(:)   , ALLOCATABLE :: UNIT_ID  ! (NUNITS) Unit user ID
         my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_M    ! (NUNITS) Mass Unit
-        my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_L    ! (NUNITS) Length Unit    
+        my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_L    ! (NUNITS) Length Unit
         my_real, DIMENSION(:)   , ALLOCATABLE :: FAC_T    ! (NUNITS) Temperature Unit
       END TYPE UNIT_TYPE_
 c---------------
 c     MODE = 0 => no variable regularization, no structure allocation
-c     MODE = 1 => Forest non-local regularization (micromorphic) 
+c     MODE = 1 => Forest non-local regularization (micromorphic)
 c     MODE = 2 => Peerlings non-local regularization
 c---------------
       END MODULE  UNITAB_MOD

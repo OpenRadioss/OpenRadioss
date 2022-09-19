@@ -260,25 +260,25 @@ Chd|====================================================================
 !     Subroutines    !
 !     ***********    !
       CONTAINS
-      
+
       subroutine ale_connectivity_init(this)
       implicit none
       class(t_ale_connectivity), intent(inout) :: this
 #include "com01_c.inc"
 #include "inter18.inc"
-#include "ale_param.inc"   
-      logical result  
+#include "ale_param.inc"
+      logical result
       result = .false.
       if(iale > 0 .and. nwale == 6)result=.true.                 !/ale/grid/volume defined
       if(inter18_autoparam == 1)result=.true. !/inter/type18 with flag iauto set to 1
-      if(inter18_is_variable_gap_defined)result=.true. !/inter/type18 with flag iauto set to 1      
+      if(inter18_is_variable_gap_defined)result=.true. !/inter/type18 with flag iauto set to 1
       this%has_ne_connect = result
       result = .false.
       if(iale > 0 .and. nwale < 2)result=.true.     !/ale/grid/donea, disp, spring
       if(iale > 0 .and. nwale == 5)result=.true. !/ale/grid/laplacian
       this%has_nn_connect = result
       end subroutine ale_connectivity_init
-      subroutine ale_compute_connectivity(this, numnod, numelq, numeltg, numels, 
+      subroutine ale_compute_connectivity(this, numnod, numelq, numeltg, numels,
      .     nixq, nixtg, nixs, itab,
      .     ixq, ixtg, ixs)
       implicit none
@@ -288,12 +288,12 @@ C-----------------------------------------------
 !     Comptes Node to Element connectivities,    !
 !     and Node to Node connectivities for ALE    !
 !     grid velocity formulations                 !
-!     ---------------------------------------    !   
+!     ---------------------------------------    !
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       class(t_ale_connectivity), intent(inout) :: this
-      integer, intent(in) :: numnod, numelq, numeltg, numels, 
+      integer, intent(in) :: numnod, numelq, numeltg, numels,
      .     nixq, nixtg, nixs
       integer, dimension(numnod), intent(in) :: itab
       integer, dimension(nixq, numelq), intent(in) :: ixq
@@ -324,7 +324,7 @@ C-----------------------------------------------
       if (allocated(this%ne_connect%iad_connect)) deallocate(this%ne_connect%iad_connect)
       if (allocated(this%ne_connect%connected)) deallocate(this%ne_connect%connected)
       if (allocated(this%ne_connect%type)) deallocate(this%ne_connect%type)
-      
+
       allocate(nn_nb_connect(numnod))
       nn_nb_connect(1:numnod) = 0
       allocate(ne_nb_connect(numnod))
@@ -333,7 +333,7 @@ C-----------------------------------------------
       allocate(edges(2, max_edge))
       nb_edge = 0
       node_id = 0
-      
+
       tri_edge(1, 1) = 1
       tri_edge(2, 1) = 2
       tri_edge(1, 2) = 2
@@ -387,7 +387,7 @@ C-----------------------------------------------
       tetra_edge(2, 5) = 5
       tetra_edge(1, 6) = 6
       tetra_edge(2, 6) = 5
-       
+
 !     2D elements
 !     /TRIA
       do ii = 1, numeltg
@@ -421,9 +421,9 @@ C-----------------------------------------------
       enddo
 !     3D elements
       do ii = 1, numels
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
+         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and.
      .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
+!     tetra
             node_id = ixs(2, ii)
             ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
             node_id = ixs(4, ii)
@@ -464,14 +464,14 @@ C-----------------------------------------------
             edges(2, ii) = itmp
          endif
       enddo
-      
+
 
 !     Indirection tab
       allocate(this%ne_connect%iad_connect(numnod + 1))
       this%ne_connect%iad_connect(1) = 1
       do ii = 2, numnod + 1
-         this%ne_connect%iad_connect(ii) = this%ne_connect%iad_connect(ii - 1) + 
-     .        ne_nb_connect(ii - 1) 
+         this%ne_connect%iad_connect(ii) = this%ne_connect%iad_connect(ii - 1) +
+     .        ne_nb_connect(ii - 1)
       enddo
 
       allocate(adsky(numnod))
@@ -504,9 +504,9 @@ C-----------------------------------------------
       enddo
 !     3D elements
       do ii = 1, numels
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
+         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and.
      .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
+!     tetra
             node_id = ixs(2, ii)
             this%ne_connect%connected(adsky(node_id)) = ii
             this%ne_connect%type(adsky(node_id)) = 1
@@ -545,7 +545,7 @@ C-----------------------------------------------
          edges_tmp(1, ii) = edges(1, idx(ii))
          edges_tmp(2, ii) = edges(2, idx(ii))
       enddo
-      
+
       nb_edge_new = 0
       ii = 1
       do while (ii < nb_edge)
@@ -590,8 +590,8 @@ C-----------------------------------------------
       allocate(this%nn_connect%iad_connect(numnod + 1))
       this%nn_connect%iad_connect(1) = 1
       do ii = 2, numnod + 1
-         this%nn_connect%iad_connect(ii) = this%nn_connect%iad_connect(ii - 1) + 
-     .        nn_nb_connect(ii - 1) 
+         this%nn_connect%iad_connect(ii) = this%nn_connect%iad_connect(ii - 1) +
+     .        nn_nb_connect(ii - 1)
       enddo
 
       do ii = 1, numnod
@@ -614,7 +614,7 @@ C-----------------------------------------------
       subroutine ale_deallocate_connectivity(this)
       implicit none
       class(t_ale_connectivity), intent(inout) :: this
-      
+
       if (allocated(this%ne_connect%connected)) deallocate(this%ne_connect%connected)
       if (allocated(this%ne_connect%iad_connect)) deallocate(this%ne_connect%iad_connect)
 
@@ -624,8 +624,8 @@ C-----------------------------------------------
       if (allocated(this%nale)) deallocate(this%nale)
       end subroutine ale_deallocate_connectivity
 
-      subroutine ale_compute_ee_connectivity(this, pm, 
-     .     npropm, nummat, numnod, numelq, numeltg, numels, n2d, 
+      subroutine ale_compute_ee_connectivity(this, pm,
+     .     npropm, nummat, numnod, numelq, numeltg, numels, n2d,
      .     iale, ieuler, itherm, ialelag,
      .     nixq, nixtg, nixs, itab,
      .     ixq, ixtg, ixs)
@@ -635,12 +635,12 @@ C     D e s c r i p t i o n
 C-----------------------------------------------
 !     Computes Element to Element connectivities  !
 !     for ALE, and EULER computations             !
-!     ---------------------------------------     !   
+!     ---------------------------------------     !
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       class(t_ale_connectivity), intent(inout) :: this
-      integer, intent(in) :: numnod, numelq, numeltg, numels, 
+      integer, intent(in) :: numnod, numelq, numeltg, numels,
      .     nixq, nixtg, nixs, n2d, iale, ieuler, itherm, ialelag, npropm, nummat
       my_real, dimension(npropm, nummat), intent(in) :: pm
       integer, dimension(numnod), intent(in) :: itab
@@ -660,7 +660,7 @@ C-----------------------------------------------
       integer, dimension(2, 4) :: quad_edge
       integer, dimension(2, 12) :: hexa_edge
       integer, dimension(2, 6) :: tetra_edge
-      integer, dimension(:), allocatable :: iad_connect, ne_nb_connect, connected, type, ee_nb_connect, 
+      integer, dimension(:), allocatable :: iad_connect, ne_nb_connect, connected, type, ee_nb_connect,
      .     itag
       integer(8) :: vec_ptr1
       integer :: jal, jalt, mlw, imid, tmp, count
@@ -763,7 +763,7 @@ C-----------------------------------------------
 !     /TRIA
       do ii = 1, numeltg
 !     ale : jal = 1, euler : jal = 2
-         jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+         jal = nint(pm(72, iabs(ixtg(1, ii))))
          jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
          imid = iabs(ixtg(1, ii))
          if (jalt == 0) cycle
@@ -782,7 +782,7 @@ C-----------------------------------------------
 !     /QUAD
       do ii = 1, numelq
 !     ale : jal = 1, euler : jal = 2
-         jal = nint(pm(72, iabs(ixq(1, ii)))) 
+         jal = nint(pm(72, iabs(ixq(1, ii))))
          jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
          imid = iabs(ixq(1, ii))
          if (jalt == 0) cycle
@@ -800,14 +800,14 @@ C-----------------------------------------------
       enddo
 !     3D elements
       do ii = 1, numels
-         jal = nint(pm(72, iabs(ixs(1, ii)))) 
+         jal = nint(pm(72, iabs(ixs(1, ii))))
          jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
          imid = iabs(ixs(1, ii))
          if (jalt == 0) cycle
          mlw  = nint(pm(19,imid))
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
+         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and.
      .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
+!     tetra
             do jj = 1, 4
                node_id = ixs(tetra_nodes(jj), ii)
                ne_nb_connect(node_id) = ne_nb_connect(node_id) + 1
@@ -831,7 +831,7 @@ C-----------------------------------------------
                endif
             enddo
          endif
-      enddo    
+      enddo
 
       this%nale_already_computed = .true.
 
@@ -839,7 +839,7 @@ C-----------------------------------------------
       allocate(iad_connect(numnod + 1))
       iad_connect(1) = 1
       do ii = 2, numnod + 1
-         iad_connect(ii) = iad_connect(ii - 1) + ne_nb_connect(ii - 1) 
+         iad_connect(ii) = iad_connect(ii - 1) + ne_nb_connect(ii - 1)
       enddo
       allocate(adsky(numnod))
       do ii = 1, numnod
@@ -853,7 +853,7 @@ C-----------------------------------------------
 !     2D elements
 !     /TRIA
       do ii = 1, numeltg
-         jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+         jal = nint(pm(72, iabs(ixtg(1, ii))))
          jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
          imid = iabs(ixtg(1, ii))
          if (jalt == 0) cycle
@@ -866,7 +866,7 @@ C-----------------------------------------------
       enddo
 !     /QUAD
       do ii = 1, numelq
-         jal = nint(pm(72, iabs(ixq(1, ii)))) 
+         jal = nint(pm(72, iabs(ixq(1, ii))))
          jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
          imid = iabs(ixq(1, ii))
          if (jalt == 0) cycle
@@ -879,13 +879,13 @@ C-----------------------------------------------
       enddo
 !     3D elements
       do ii = 1, numels
-         jal = nint(pm(72, iabs(ixs(1, ii)))) 
+         jal = nint(pm(72, iabs(ixs(1, ii))))
          jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
          imid = iabs(ixs(1, ii))
          if (jalt == 0) cycle
-         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
+         if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and.
      .        ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
-!     tetra 
+!     tetra
             node_id = ixs(2, ii)
             connected(adsky(node_id)) = ii
             type(adsky(node_id)) = 1
@@ -913,7 +913,7 @@ C-----------------------------------------------
          endif
       enddo
 
-      
+
 !     Counting connected elements
       if (n2d == 0) then
          allocate(this%ee_connect%iad_connect(numels+1))
@@ -928,10 +928,10 @@ C-----------------------------------------------
       if (n2d == 0) then
 !     3D elements
          do ii = 1, numels
-            jal = nint(pm(72, iabs(ixs(1, ii)))) 
+            jal = nint(pm(72, iabs(ixs(1, ii))))
             jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
             if (jalt == 0) cycle
-            if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
+            if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and.
      .           ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
 !     Tetras
                ee_nb_connect(ii) = 6
@@ -949,14 +949,14 @@ C-----------------------------------------------
 !     2D elements
 !     /QUAD
          do ii = 1, numelq
-            jal = nint(pm(72, iabs(ixq(1, ii)))) 
+            jal = nint(pm(72, iabs(ixq(1, ii))))
             jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
             if (jalt == 0) cycle
             ee_nb_connect(ii) = 4
-         enddo   
+         enddo
 !     /TRIA
          do ii = 1, numeltg
-            jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+            jal = nint(pm(72, iabs(ixtg(1, ii))))
             jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
             if (jalt == 0) cycle
             ee_nb_connect(ii) = 3
@@ -979,11 +979,11 @@ C-----------------------------------------------
       itag(1:numnod) = 0
       if (n2d == 0) then
          do ii = 1, numels
-            jal = nint(pm(72, iabs(ixs(1, ii)))) 
+            jal = nint(pm(72, iabs(ixs(1, ii))))
             jalt = jal + nint(pm(71, iabs(ixs(1, ii))) + pm(96, iabs(ixs(1, ii))))
             if (jalt == 0) cycle
             iad1 = this%ee_connect%iad_connect(ii)
-            if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and. 
+            if (ixs(2, ii) == ixs(3, ii) .and. ixs(4, ii) == ixs(5, ii) .and.
      .           ixs(6, ii) == ixs(9, ii) .and. ixs(7, ii) == ixs(8, ii)) then
 !     Tetras
                nface = 6
@@ -1014,7 +1014,7 @@ C-----------------------------------------------
                iad1 = this%ee_connect%iad_connect(ii)
                this%ee_connect%connected(iad1 + kface - 1) = jj
                if (jj > 0) then
-                  if (ixs(2, jj) == ixs(3, jj) .and. ixs(4, jj) == ixs(5, jj) .and. 
+                  if (ixs(2, jj) == ixs(3, jj) .and. ixs(4, jj) == ixs(5, jj) .and.
      .                 ixs(6, jj) == ixs(9, jj) .and. ixs(7, jj) == ixs(8, jj)) then
 !     Tetras
                      nface2 = 6
@@ -1050,7 +1050,7 @@ C-----------------------------------------------
       else
 !     Quad
          do ii = 1, numelq
-            jal = nint(pm(72, iabs(ixq(1, ii)))) 
+            jal = nint(pm(72, iabs(ixq(1, ii))))
             jalt = jal + nint(pm(71, iabs(ixq(1, ii))) + pm(96, iabs(ixq(1, ii))))
             if (jalt == 0) cycle
             iad1 = this%ee_connect%iad_connect(ii)
@@ -1103,7 +1103,7 @@ C-----------------------------------------------
          enddo
 !     Tria
          do ii = 1, numeltg
-            jal = nint(pm(72, iabs(ixtg(1, ii)))) 
+            jal = nint(pm(72, iabs(ixtg(1, ii))))
             jalt = jal + nint(pm(71, iabs(ixtg(1, ii))) + pm(96, iabs(ixtg(1, ii))))
             if (jalt == 0) cycle
             iad1 = this%ee_connect%iad_connect(ii)
@@ -1163,6 +1163,6 @@ C-----------------------------------------------
       if (allocated(iad_connect)) deallocate(iad_connect)
       if (allocated(adsky)) deallocate(adsky)
       if (allocated(connected)) deallocate(connected)
-      
+
       end subroutine ale_compute_ee_connectivity
       END MODULE ALE_CONNECTIVITY_MOD

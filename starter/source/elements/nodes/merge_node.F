@@ -36,7 +36,7 @@ Chd|====================================================================
      .                      IADMERGE2,NMERGE_TOT,MERGE_NODE_TAB,MERGE_NODE_TOL,
      .                      NMERGE_NODE_CAND,NMERGE_NODE_DEST,IXS,IXS10,IXS20,
      .                      IXS16,IXQ,IXC,IXT,IXP,
-     .                      IXR,IXTG,IXUR,EANI,IGRNOD)   
+     .                      IXR,IXTG,IXUR,EANI,IGRNOD)
       USE MESSAGE_MOD
       USE NOD2EL_MOD
       USE GROUPDEF_MOD
@@ -79,7 +79,7 @@ C
       my_real
      .        DBUC
 C-----------------------------------------------
-       INTEGER 
+       INTEGER
      .         USRTOS,USRTOSC
       EXTERNAL USRTOS,USRTOSC
 C
@@ -91,13 +91,13 @@ C-------    dbuc------------------------------
 C-- Cnodes not taken into account
 C
       NUMNOD1 = NUMNOD0-NUMCNOD
-      DBUC = ZERO 
+      DBUC = ZERO
       ALL_VS_ALL = 0
-      DO I=1,NB_MERGE_NODE 
+      DO I=1,NB_MERGE_NODE
         DBUC = MAX(DBUC,MERGE_NODE_TOL(I))
         GR_IDS = MERGE_NODE_TAB(2,I)
         IF (GR_IDS == 0) ALL_VS_ALL = 1
-      ENDDO   
+      ENDDO
 C
 C----------------------------------------------------------------------------------- 
 C     BUCKET SEARCH - search of node to merge for each candidate - stored in IMERGE0                           
@@ -137,7 +137,7 @@ C--     all nodes are candidates - only one merge
       ELSE
 C--     list filled merge by merge
         NM = 0
-        DO I=1,NB_MERGE_NODE 
+        DO I=1,NB_MERGE_NODE
           GR_IDS = MERGE_NODE_TAB(2,I)
           DO J=1,IGRNOD(GR_IDS)%NENTITY
             IF (LIST1_INV(IGRNOD(GR_IDS)%ENTITY(J)) == 0) THEN
@@ -152,10 +152,10 @@ C--           point already in list
               NM_L = LIST1_INV(IGRNOD(GR_IDS)%ENTITY(J))
 C--           coding of idmerge in case of several merge
               LIST1_NBMERGE(NM_L) = LIST1_NBMERGE(NM_L) + 1
-              LIST1_IDMERGE(NM_L) = LIST1_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST1_NBMERGE(NM_L)-1))   
-            ENDIF            
+              LIST1_IDMERGE(NM_L) = LIST1_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST1_NBMERGE(NM_L)-1))
+            ENDIF
           ENDDO
-        ENDDO   
+        ENDDO
       ENDIF
 C
 C---- bluid list of destination - filled merge by merge
@@ -170,7 +170,7 @@ C--   all nodes are destination
       ELSE
 C--     list filled merge by merge
         NM = 0
-        DO I=1,NB_MERGE_NODE 
+        DO I=1,NB_MERGE_NODE
           GR_IDS = MERGE_NODE_TAB(2,I)
           IF (MERGE_NODE_TAB(1,I) == 1) THEN
 C--         destination defined by grnod
@@ -187,8 +187,8 @@ C--             point already in list
                 NM_L = LIST2_INV(IGRNOD(GR_IDS)%ENTITY(J))
 C--             coding of idmerge in case of several merge
                 LIST2_NBMERGE(NM_L) = LIST2_NBMERGE(NM_L) + 1
-                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST2_NBMERGE(NM_L)-1))        
-              ENDIF      
+                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST2_NBMERGE(NM_L)-1))
+              ENDIF
             ENDDO
           ELSE
 C--         all nodes are destination
@@ -205,11 +205,11 @@ C--             point already in list
                 NM_L = LIST2_INV(J)
 C--             coding of idmerge in case of several merge
                 LIST2_NBMERGE(NM_L) = LIST2_NBMERGE(NM_L) + 1
-                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST2_NBMERGE(NM_L)-1))               
-              ENDIF      
-            ENDDO     
+                LIST2_IDMERGE(NM_L) = LIST2_IDMERGE(NM_L) + I*(NB_MERGE_NODE**(LIST2_NBMERGE(NM_L)-1))
+              ENDIF
+            ENDDO
           ENDIF
-        ENDDO   
+        ENDDO
       ENDIF
 C
       CALL MERGE_BUCKET_SEARCH(X,ITAB,ITABM1,IMERGE0,MERGE_NODE_TOL,
@@ -221,7 +221,7 @@ C--------------------------------------------------------------------------
 C     Remove merge of nodes of one element                        
 C--------------------------------------------------------------------------
 C
-      DO I= 1,NN1 
+      DO I= 1,NN1
         IF (IMERGE0(I) > 0) THEN
           N = LIST1(I)
           N_DEST = USRTOS(IMERGE0(I),ITABM1)
@@ -230,18 +230,18 @@ C---      Check of elements
 	  FLAG = 0 	
 C------------------------>   cas des coques  <-----------------------C		    
           DO J = KNOD2ELC(N)+1,KNOD2ELC(N+1)
-            DO K=2,5	           
-              IF (IXC(K,NOD2ELC(J)) == N_DEST) FLAG = 1   	   
+            DO K=2,5	
+              IF (IXC(K,NOD2ELC(J)) == N_DEST) FLAG = 1   	
             ENDDO
           ENDDO
 C------------------------>   cas des coques triagnles <--------------C		    
           DO J = KNOD2ELTG(N)+1,KNOD2ELTG(N+1)
-            DO K=2,4            
-              IF (IXTG(K,NOD2ELTG(J)) == N_DEST) FLAG = 1   	   
+            DO K=2,4
+              IF (IXTG(K,NOD2ELTG(J)) == N_DEST) FLAG = 1   	
             ENDDO
           ENDDO
 C------------------------>   cas des solides <-----------------------C	
-          DO J = KNOD2ELS(N)+1,KNOD2ELS(N+1)     
+          DO J = KNOD2ELS(N)+1,KNOD2ELS(N+1)
             CUR_ID = NOD2ELS(J)
             DO K=2,9
 	      IF(IXS(K,NOD2ELS(J)) == N_DEST) FLAG = 1
@@ -250,30 +250,30 @@ C------------------------>   cas des solides <-----------------------C
               DO K=1,6
 	        IF(IXS10(K,CUR_ID-NUMELS8) == N_DEST) FLAG = 1
               ENDDO
-            ELSEIF (EANI(CUR_ID)==20) THEN		 	       
+            ELSEIF (EANI(CUR_ID)==20) THEN		 	
               DO K=1,12
 	        IF(IXS20(K,CUR_ID-NUMELS8-NUMELS10) == N_DEST) FLAG = 1
               ENDDO
-	    ELSEIF (EANI(CUR_ID)==16) THEN      
+	    ELSEIF (EANI(CUR_ID)==16) THEN
               DO K=1,8
 	        IF(IXS16(K,CUR_ID-NUMELS8-NUMELS10-NUMELS20) == N) FLAG = 1
-              ENDDO			 		 	       
-	    ENDIF	       	           	    
+              ENDDO			 		 	
+	    ENDIF	       	           	
 	  END DO
 C------------------------>   cas des elements 1D <-------------------C
           DO J = KNOD2EL1D(N)+1,KNOD2EL1D(N+1)
             CUR_ID = NOD2EL1D(J)
 	    IF (CUR_ID <= NUMELT) THEN
               DO K=2,3
-                IF (IXT(K,NOD2EL1D(J)) == N_DEST) FLAG = 1   	   
+                IF (IXT(K,NOD2EL1D(J)) == N_DEST) FLAG = 1   	
               ENDDO
             ELSEIF (CUR_ID <= NUMELT + NUMELP) THEN
               DO K=2,4
-                IF (IXP(K,CUR_ID-NUMELT) == N_DEST) FLAG = 1   	   
+                IF (IXP(K,CUR_ID-NUMELT) == N_DEST) FLAG = 1   	
               ENDDO
             ELSE
               DO K=2,4
-                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N_DEST) FLAG = 1   	   
+                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N_DEST) FLAG = 1   	
               ENDDO
             ENDIF
           ENDDO
@@ -282,22 +282,22 @@ C------------------------>   cas des elements 1D inverse (pour 3e noeud )<---C
             CUR_ID = NOD2EL1D(J)
 	    IF (CUR_ID <= NUMELT) THEN
               DO K=2,3
-                IF (IXT(K,NOD2EL1D(J)) == N) FLAG = 1   	   
+                IF (IXT(K,NOD2EL1D(J)) == N) FLAG = 1   	
               ENDDO
             ELSEIF (CUR_ID <= NUMELT + NUMELP) THEN
               DO K=2,4
-                IF (IXP(K,CUR_ID-NUMELT) == N) FLAG = 1   	   
+                IF (IXP(K,CUR_ID-NUMELT) == N) FLAG = 1   	
               ENDDO
             ELSE
               DO K=2,4
-                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N) FLAG = 1   	   
+                IF (IXR(K,CUR_ID-NUMELT-NUMELP) == N) FLAG = 1   	
               ENDDO
             ENDIF
           ENDDO
 C------------------------>   cas des quad  <-----------------------C		    
           DO J = KNOD2ELQ(N)+1,KNOD2ELQ(N+1)
-            DO K=2,5	           
-              IF (IXQ(K,NOD2ELQ(J)) == N_DEST) FLAG = 1   	   
+            DO K=2,5	
+              IF (IXQ(K,NOD2ELQ(J)) == N_DEST) FLAG = 1   	
             ENDDO
           ENDDO	
 C
@@ -310,9 +310,9 @@ C--         connection removed
      .                  I1=ITAB(N),I2=ITAB(N_DEST),
      .                  R1=DIST(I),
      .                  PRMOD=MSG_CUMU)
-          ENDIF 
+          ENDIF
 C
-        ENDIF                                 
+        ENDIF
       ENDDO
 C
       CALL ANCMSG(MSGID=2039,
@@ -323,7 +323,7 @@ C
 C-------------------------------------------------------------------------- 
 C     Ignore merge in case of hierarchy                         
 C--------------------------------------------------------------------------
-      DO I= 1,NN1 
+      DO I= 1,NN1
         IF (IMERGE0(I) > 0) THEN
           N = LIST1(I)
           N_DEST = USRTOS(IMERGE0(I),ITABM1)
@@ -351,7 +351,7 @@ C
             ENDIF
            ENDIF
           ENDIF
-        ENDIF                                 
+        ENDIF
       ENDDO
 C
       CALL ANCMSG(MSGID=2038,
@@ -362,17 +362,17 @@ C
 C-------------------------------------------------------------------------- 
 C     COMPACT IMERGE -> No systeme                           
 C-------------------------------------------------------------------------- 
-      NM = 0                                  
-      DO I= 1,NN1 
+      NM = 0
+      DO I= 1,NN1
         IF (IMERGE0(I) > 0) THEN
           N = LIST1(I)
-          NM = NM+1                          
+          NM = NM+1
           IMERGE(NMERGE_TOT+NUMCNOD+NM) = USRTOS(IMERGE0(I),ITABM1)
           IMERGE(NUMCNOD+NM) = N
-        ENDIF                                 
-      ENDDO                                   
+        ENDIF
+      ENDDO
       NMERGED = NMERGED + NM
-                           
+
 C--------------------------------------------------
 C     TAB ID_NODE systeme  -> ID_CNODE  systeme (done from scratch even with cnodes)              
 C--------------------------------------------------
@@ -395,7 +395,7 @@ C--------------------------------------------------
             N = IMERGE(NMERGE_TOT+I)
             IMERGE2(IADMERGE2TMP(N)) = IMERGE(I)
             IADMERGE2TMP(N)=IADMERGE2TMP(N)+1
-          ENDIF  
+          ENDIF
         ENDDO
       ENDIF
 
@@ -403,14 +403,14 @@ C--------------------------------------------------
       IF (NUMCNOD == 0) WRITE(IOUT,1000)
       WRITE(IOUT,1001)
 C    
-      J=0                                                            
-      DO  N=1,NMERGED,50                                             
-        J=J+50                                                       
+      J=0
+      DO  N=1,NMERGED,50
+        J=J+50
         J=MIN(J,NMERGED)
         DO  I=N,J
-          WRITE(IOUT,'(5X,I10,8X,I10)') 
+          WRITE(IOUT,'(5X,I10,8X,I10)')
      .          ITAB(IMERGE(NUMCNOD+I)),ITAB(IMERGE(NUMCNOD+NMERGE_TOT+I))
-        ENDDO                                                       
+        ENDDO
       ENDDO
 C--------
       DEALLOCATE(IMERGE0)

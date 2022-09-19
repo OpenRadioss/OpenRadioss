@@ -36,14 +36,14 @@ Chd|        DETONATORS_MOD                share/modules1/detonators_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTIFLUID_INIT2(NEL, NSIGS, 
+      SUBROUTINE MULTIFLUID_INIT2(NEL, NSIGS,
      .     IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPARTQ, NPF,
-     .     PTQUAD, ILOADP, X, PM, 
+     .     PTQUAD, ILOADP, X, PM,
      .     GEO, SIGI, SKEW, TF, BUFMAT, FACLOAD, ELBUF_STR, ERROR_THROWN, DETONATORS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -72,13 +72,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NEL, NSIGS, IPARG(*), IXQ(NIXQ, *), IPM(NPROPMI, *), 
+      INTEGER, INTENT(IN) :: NEL, NSIGS, IPARG(*), IXQ(NIXQ, *), IPM(NPROPMI, *),
      .     IGEO(*), IPART(LIPART1, *), IPARTQ(*), PTQUAD(*),
      .     NPF(*), ILOADP(SIZLOADP, *)
       TYPE(ELBUF_STRUCT_), INTENT(IN), TARGET :: ELBUF_STR
       my_real, INTENT(IN) :: X(*),  FACLOAD(LFACLOAD, *)
       my_real, INTENT(INOUT) :: PM(NPROPM, *)
-      my_real, INTENT(INOUT) :: GEO(*), SIGI(NSIGS, *), 
+      my_real, INTENT(INOUT) :: GEO(*), SIGI(NSIGS, *),
      .     SKEW(LSKEW, *), TF(*), BUFMAT(*)
       LOGICAL :: ERROR_THROWN
       TYPE(DETONATOR_STRUCT_) :: DETONATORS
@@ -89,12 +89,12 @@ C-----------------------------------------------
       INTEGER :: ILAY, NLAY, II, IP, IBID, MATLAW
       INTEGER :: NGL(MVSIZ), MAT(MVSIZ), PID(MVSIZ)
       INTEGER :: IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
-      my_real :: 
-     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),Y4(MVSIZ),  
+      my_real ::
+     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),Z4(MVSIZ),
      .     SY(MVSIZ), SZ(MVSIZ), TY(MVSIZ),TZ(MVSIZ),PRES,VFRAC
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
@@ -104,19 +104,19 @@ C     Global buffer
 C     Number of layers ( = number of material in law 151)
       NLAY = ELBUF_STR%NLAY
 C     Gather coordinates, material Id and so on
-      CALL QCOOR2(X, IXQ(1, NFT + 1), NGL, MAT, PID, 
-     .     IX1, IX2, IX3, IX4, 
-     .     Y1, Y2, Y3, Y4, 
+      CALL QCOOR2(X, IXQ(1, NFT + 1), NGL, MAT, PID,
+     .     IX1, IX2, IX3, IX4,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4,
      .     SY, SZ, TY, TZ)
 C     Volume, area computation
-      CALL QVOLI2(GBUF%VOL, IXQ(1, NFT + 1), NGL, GBUF%AREA, 
-     .     Y1, Y2, Y3, Y4, 
+      CALL QVOLI2(GBUF%VOL, IXQ(1, NFT + 1), NGL, GBUF%AREA,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
 C     Compute deltax
       IF (JEUL /= 0) THEN
-         CALL QDLEN2(IPARG(63), 
-     .        GBUF%AREA, GBUF%DELTAX, 
+         CALL QDLEN2(IPARG(63),
+     .        GBUF%AREA, GBUF%DELTAX,
      .        Y1, Y2, Y3, Y4,
      .        Z1, Z2, Z3, Z4)
       ENDIF
@@ -138,24 +138,24 @@ C     Material initialization
          IP = 1
          IBID = 0
          CALL MATINI(PM, IXQ, NIXQ, X,
-     .        GEO, ALE_CONNECTIVITY, DETONATORS, IPARG, 
+     .        GEO, ALE_CONNECTIVITY, DETONATORS, IPARG,
      .        SIGI, NEL, SKEW, IGEO,
      .        IPART,IPARTQ,
      .        MAT, IPM, NSIGS, NUMQUAD, PTQUAD,
      .        IP, NGL,NPF, TF, BUFMAT,
      .        GBUF, LBUF, MBUF, ELBUF_STR, ILOADP,
      .        FACLOAD, GBUF%DELTAX)
-     
+
          VFRAC = PM(20+ILAY,IXQ(1, 1 + NFT))
          PRES  = PM(104, IPM(20+ILAY,IXQ(1, 1 + NFT)))
          PM(104,IXQ(1, 1 + NFT)) = PM(104,IXQ(1, 1 + NFT)) + VFRAC * PRES !global pressure
-     
+
          MATLAW = IPM(2, MAT(1))
          IF (MATLAW == 5) THEN
 !     JWL MAT - layer detonation times
             IF (.NOT. ERROR_THROWN) THEN
                IF (PM(44, MAT(1)) == ZERO) THEN
-                  CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                  CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                 I1 = IPM(1, IXQ(1, 1 + NFT)), I2 = IPM(1, MAT(1)))
                ENDIF
                ERROR_THROWN = .TRUE.
@@ -165,16 +165,16 @@ C     Material initialization
       ENDDO
 
       IF (NLAY > 1) THEN
-         
+
 C      Mass globalization
-         GBUF%RHO(LFT:LLT)=ZERO                 
+         GBUF%RHO(LFT:LLT)=ZERO
          DO ILAY = 1, NLAY
             LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
             DO II = LFT, LLT
                GBUF%RHO(II) = GBUF%RHO(II) + LBUF%RHO(II) * PM(20 + ILAY, IXQ(1, II + NFT))
             ENDDO
          ENDDO
-                  
+
 C      Temperature globalization. We must solve later T such as e+p/rho=integral(Cp_global(T),dT)
          GBUF%TEMP(LFT:LLT)=ZERO
          DO ILAY = 1, NLAY
@@ -182,8 +182,8 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
             DO II = LFT, LLT
                GBUF%TEMP(II) = GBUF%TEMP(II) + LBUF%TEMP(II) * PM(20 + ILAY, IXQ(1, II + NFT))*LBUF%RHO(II)/GBUF%RHO(II)   !volfrac*densfrac=massfrac
             ENDDO
-         ENDDO    
-     
+         ENDDO
+
       ENDIF
-                        
+
       END SUBROUTINE MULTIFLUID_INIT2

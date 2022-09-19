@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*), ITABM1(*),ISKN(LISKN,*),
      .        INIVIDS(*),IFRAME(LISKN,*),KXSP(NISP,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -139,7 +139,7 @@ C
             V(1,I) = V1
             V(2,I) = V2
             V(3,I) = V3
-! we don't have the velocity outp for gaz for law 77            
+! we don't have the velocity outp for gaz for law 77
 !!            IF(IALELAG > 0) THEN
 !!              VFLOW(1,I) = V1
 !!              VFLOW(2,I) = V2
@@ -232,7 +232,7 @@ C--------------------------------------------------
         ENDIF
         IFLAGUNIT = 0
         DO J=1,NUNITS
-          IF (UNITAB%UNIT_ID(J) == UID) THEN    
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
             FAC_L = UNITAB%FAC_L(J)
             FAC_T = UNITAB%FAC_T(J)
             FAC_V = FAC_L/FAC_T
@@ -244,12 +244,12 @@ C--------------------------------------------------
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='INITIAL VELOCITY',
      .                 C2='INITIAL VELOCITY',
-     .                 C3=TITR) 
+     .                 C3=TITR)
         ENDIF
 C
         IREC=IREC+1
 C
-       
+
         IF(KEY(1:4)=='NODE')THEN
           ITYPE=6
         ELSE
@@ -418,7 +418,7 @@ C     /INIVEL type 5 : FVM
                  IF (IDGRQUAD /= 0) THEN
                     DO J = 1,NGRQUAD
                        IF (IDGRQUAD == IGRQUAD(J)%ID) IDGRQUAD_LOC = J
-                    ENDDO    
+                    ENDDO
                     IF (IDGRQUAD_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
@@ -430,13 +430,13 @@ C     /INIVEL type 5 : FVM
                  IF (IDGRSH3N /= 0) THEN
                     DO J = 1,NGRSH3N
                        IF (IDGRSH3N == IGRSH3N(J)%ID) IDGRSH3N_LOC = J
-                    ENDDO      
+                    ENDDO
                     IF (IDGRSH3N_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
      .                      C1='IN /INIVEL OPTION',
-     .                      I1=IDGRSH3N)                   
+     .                      I1=IDGRSH3N)
                     ENDIF
                  ENDIF
               ENDIF
@@ -484,7 +484,7 @@ C--- RAZ vitesses for SPH Reserve particles
             VR(2,INOD) = ZERO
             VR(3,INOD) = ZERO
           ENDIF
-        END DO   
+        END DO
       ENDIF
 C--------------------------------------------------
 C     PRINT
@@ -626,7 +626,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      CHARACTER IDTITL*nchartitle,KEY*ncharkey, 
+      CHARACTER IDTITL*nchartitle,KEY*ncharkey,
      .          SOLVERKEYWORD*ncharline
 C=======================================================================
 C--------------------------------------------------

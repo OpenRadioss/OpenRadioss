@@ -31,7 +31,7 @@ Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-       SUBROUTINE HM_READ_FAIL_VISUAL( 
+       SUBROUTINE HM_READ_FAIL_VISUAL(
      .             UPARAM ,  MAXUPARAM,  NUPARAM,  NUVAR, NFUNC,  IFUNC,
      .             MAXFUNC,  LSUBMODEL, UNITAB )
 C-----------------------------------------------
@@ -67,11 +67,11 @@ C----------+--------+---+---+-------------------------------------------
 C-----------------------------------------------
 C D u m m y A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)   ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
       INTEGER MAXUPARAM,NUPARAM,NUVAR,MAXFUNC,NFUNC,
      . IFUNC(MAXFUNC),IUNIT
-      my_real UPARAM(MAXUPARAM)           
+      my_real UPARAM(MAXUPARAM)
 C-----------------------------------------------
 C L o c a l V a r i a b l e s
 C-----------------------------------------------
@@ -89,26 +89,26 @@ C=======================================================================
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C--------------------------------------------------
-       
+
        NFUNC     = 0
        NUPARAM   = 7
        NUVAR     = 2
-       
+
 c! User variable # 1, to store the previous damage value
 c! User variable # 2, to store the previous stress or strain value (for EMA filtering)
-       
+
        TYPE_MAX  = 0
        C_MIN     = ZERO
        C_MAX     = ZERO
        BUTTER    = ZERO
 c!CARD1
-      CALL HM_GET_INTV   ('Type'                ,TYPE_MAX  ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('Type'                ,TYPE_MAX  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('C_min'               ,C_MIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('C_max'               ,C_MAX     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('Alpha_Exp_Avg_Filter',EMA       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('f_cutoff'            ,EMA       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV   ('f_flag'              ,F_FLAG    ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV   ('Strdef'              ,STRDEF    ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('f_flag'              ,F_FLAG    ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('Strdef'              ,STRDEF    ,IS_AVAILABLE,LSUBMODEL)
 
 
 
@@ -116,8 +116,8 @@ c!CARD1
          F_FLAG = 1
          IF (EMA == ZERO) EMA = ONE
       ELSE
-         BUTTER = EMA 
-         EMA    = ONE       
+         BUTTER = EMA
+         EMA    = ONE
          NUVAR  = 8! User variable # 3-8, Storage values for the Butterworth filter
       ENDIF
 
@@ -139,7 +139,7 @@ c-----------------------------------------------------------------------
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE (IOUT,'(5X,A,//)') 'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
        IF (TYPE_MAX == 1) THEN
          WRITE(IOUT, 1000) C_MIN, C_MAX
          IF (F_FLAG ==1 .AND. EMA /= ONE) THEN
@@ -177,8 +177,8 @@ c-----------------------------------------------------------------------
      & 5X,' MINIMUM 1st PRINCIPAL STRAIN. . . . . =',E12.4/
      & 5X,' MAXIMUM 1st PRINCIPAL STRAIN. . . . . =',E12.4/
      & 5X,' FAILURE STRAIN INPUT TYPE . . . . . . =',I10/
-     & 5X,' =1 (STRAIN MEASURE DEFINED IN PROPERTY)',/                
-     & 5X,' =2 (ENGINEERING STRAIN) . . . . . . . .',/                
+     & 5X,' =1 (STRAIN MEASURE DEFINED IN PROPERTY)',/
+     & 5X,' =2 (ENGINEERING STRAIN) . . . . . . . .',/
      & 5X,' =3 (TRUE STRAIN). . . . . . . . . . . .')
 
  2010 FORMAT(

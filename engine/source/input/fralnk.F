@@ -69,7 +69,7 @@ C
       K=0
       IERR=0
       IKEY=KVEL
-      
+
        DO N=1,NALELK
          READ(IUSC1,
      .        REC=IKAD(IKEY)+K,
@@ -85,15 +85,15 @@ C
          READ(IUSC2,*,ERR=9990,END=9990)M1,M2
          IF(M1<=0.OR.M2<=0)GOTO 9990      !Negative main node null or negative not allowed
          !IF(KEY4(1:5)=='GRNOD')M1=-M1         !Tag on ale link for specific treatment in lectur.F
-         
+
          !---------------------------------!
          !  ALE LINK DEFINED FROM NODES    !
-         !---------------------------------!         
+         !---------------------------------!
          IF(KEY4(1:5)/='GRNOD')THEN
            K=K+1
            KK=K
            NS=0
-           !counting number of nodes           
+           !counting number of nodes
            DO I=1,NBC-1
              READ(IUSC1,REC=IKAD(IKEY)+K,FMT='(A)',ERR=9990)CARTE
              K=K+1
@@ -101,17 +101,17 @@ C
              IF(NS==0)THEN
                IERR=1
              ENDIF
-           ENDDO             
-           !checking input             
+           ENDDO
+           !checking input
            IF(IERR==1)THEN
              WRITE(ISTDO,*)
      .         ' ** ERROR : NODE ID(S) NOT FOUND IN ALE LINK CARD'
              WRITE(IOUT ,*)
      .         ' ** ERROR : NODE ID(S) NOT FOUND IN ALE LINK CARD'
-             CALL ARRET(2)          
-           END IF 
-           !array size for allocation (LINALE(SLINALE))           
-           LLINAL=LLINAL+NS+6                          
+             CALL ARRET(2)
+           END IF
+           !array size for allocation (LINALE(SLINALE))
+           LLINAL=LLINAL+NS+6
          !---------------------------------!
          !  ALE LINK DEFINED FROM GRNOD    !
          !---------------------------------!
@@ -131,7 +131,7 @@ C
              ENDIF
              IF(NVAR(CARTE)==1.AND.NS==0)THEN !first single definition
                NS=1
-             ENDIF             
+             ENDIF
            ENDDO
            !checking input
            IF(IERR==1)THEN
@@ -139,18 +139,18 @@ C
      .         ' ** ERROR : SINGLE GRNOD ID NOT FOUND IN ALE LINK CARD'
              WRITE(IOUT ,*)
      .         ' ** ERROR : SINGLE GRNOD ID NOT FOUND IN ALE LINK CARD'
-             CALL ARRET(2)          
+             CALL ARRET(2)
            END IF
            NS=-NS
-           !array size for allocation (LINALE(SLINALE))           
-           LLINAL=LLINAL+1+6           
+           !array size for allocation (LINALE(SLINALE))
+           LLINAL=LLINAL+1+6
          ENDIF
-         
+
          WRITE(IIN,'(3I10,5X,I3.3,I10)')M1,M2,NS,IXYZ(KEY3),K4
-         CALL READ10(IKAD(IKEY)+KK,NBC-1,KEY0(IKEY)) 
-        
+         CALL READ10(IKAD(IKEY)+KK,NBC-1,KEY0(IKEY))
+
        ENDDO !next N (ALE LINK)
-             
+
       RETURN
  9990 CONTINUE
       CALL ANCMSG(MSGID=73,ANMODE=ANINFO,
@@ -247,8 +247,8 @@ C
             NS=NS+NVAR(CARTE)
           ENDDO
           WRITE(IIN,'(3I10,5X,I3.3,I10)')-1,-1,NS,0,0
-          CALL READ10(IKAD(IKEY)+KK,NBC,KEY0(IKEY))        
-                
+          CALL READ10(IKAD(IKEY)+KK,NBC,KEY0(IKEY))
+
         !---------------------------------!
         ! '/ALE/LINK/VEL/*'               !
         !---------------------------------!
@@ -256,10 +256,10 @@ C
           K=K+1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9990,END=9990)M1,M2
-          IF(M1<=0.OR.M2<=0)GOTO 9990      !Negative main node null or negative not allowed                 
+          IF(M1<=0.OR.M2<=0)GOTO 9990      !Negative main node null or negative not allowed
           K=K+1
           KK=K
-          NS=0    
+          NS=0
           !---------------------------------!
           !  ALE LINK DEFINED FROM NODES    !
           !---------------------------------!
@@ -287,7 +287,7 @@ C
               ENDIF
               IF(NVAR(CARTE)==1.AND.NS==0)THEN !first single definition
                 NS=1
-              ENDIF             
+              ENDIF
             ENDDO
             !checking input
             IF(IERR==1)THEN
@@ -295,14 +295,14 @@ C
      .          ' ** ERROR : SINGLE GRNOD ID NOT FOUND IN ALE LINK CARD'
               WRITE(IOUT ,*)
      .          ' ** ERROR : SINGLE GRNOD ID NOT FOUND IN ALE LINK CARD'
-              CALL ARRET(2)          
-            END IF  
+              CALL ARRET(2)
+            END IF
             NS=-NS
-            LLINAL=LLINAL+1+6             
-          ENDIF     
-          !---------------------------------!                    
+            LLINAL=LLINAL+1+6
+          ENDIF
+          !---------------------------------!
           WRITE(IIN,'(3I10,5X,I3.3,I10)')M1,M2,NS,IXYZ(KEY3),IFORM
-          CALL READ10(IKAD(IKEY)+KK,NBC-1,KEY0(IKEY))                  
+          CALL READ10(IKAD(IKEY)+KK,NBC-1,KEY0(IKEY))
 
         ENDIF !(KEY2=='VEL  ')
       ENDDO

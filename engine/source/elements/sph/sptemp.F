@@ -407,7 +407,7 @@ C
      .      (ALPHAZJ*BETAX+ALPHAJ*
      .       (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
 C
-          WLAPLT(N)=WLAPLT(N)+VJ*( 
+          WLAPLT(N)=WLAPLT(N)+VJ*(
      . -LAMBDA(M)*(GRADTXJ*WGRD(1)+GRADTYJ*WGRD(2)+GRADTZJ*WGRD(3))
      . +LAMBDA(N)*(GRADTXI*WGRAD(1)+GRADTYI*WGRAD(2)+GRADTZI*WGRAD(3)))
 C--------
@@ -478,7 +478,7 @@ C
      .     +WGHT*
      .      (ALPHAZJ*BETAX+ALPHAJ*
      .       (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
-          WLAPLT(N)=WLAPLT(N)+VJ*( 
+          WLAPLT(N)=WLAPLT(N)+VJ*(
      . -LAMBDR(NN)*(GRADTXJ*WGRD(1)+GRADTYJ*WGRD(2)+GRADTZJ*WGRD(3))
      . +LAMBDA(N)*(GRADTXI*WGRAD(1)+GRADTYI*WGRAD(2)+GRADTZI*WGRAD(3)))
         END IF
@@ -566,7 +566,7 @@ C
      .      (ALPHAZJ*BETAX+ALPHAJ*
      .     (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
 C
-          WLAPLT(N)=WLAPLT(N)+VJ*( 
+          WLAPLT(N)=WLAPLT(N)+VJ*(
      . -LAMBDA(SM)*(GRADTXJ*WGRD(1)+GRADTYJ*WGRD(2)+GRADTZJ*WGRD(3))
      . +LAMBDA(N)*(GRADTXI*WGRAD(1)+GRADTYI*WGRAD(2)+GRADTZI*WGRAD(3)))
         ELSE
@@ -646,7 +646,7 @@ C
      .       (ALPHAZJ*BETAX+ALPHAJ*
      .        (BETAXZJ*(XJ-XI)+BETAYZJ*(YJ-YI)+BETAZZJ*(ZJ-ZI)+BETAZJ))
 C
-          WLAPLT(N)=WLAPLT(N)+VJ*( 
+          WLAPLT(N)=WLAPLT(N)+VJ*(
      . -LAMBDR(SM)*(GRADTXJ*WGRD(1)+GRADTYJ*WGRD(2)+GRADTZJ*WGRD(3))
      . +LAMBDA(N)*(GRADTXI*WGRAD(1)+GRADTYI*WGRAD(2)+GRADTZI*WGRAD(3)))
         END IF
@@ -688,8 +688,8 @@ C-----------------------------------------------
       INTEGER ISPCOND(NISPCOND,*), ISPSYM(NSPCOND,*), WASPACT(*)
 C     REAL
       my_real
-     .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) , WGRADT(3,*), 
-     .   WGRADTSM(3,*), WGR(3,*) 
+     .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) , WGRADT(3,*),
+     .   WGRADTSM(3,*), WGR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

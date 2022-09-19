@@ -67,7 +67,7 @@ C
 	 CALL WRITE_I_C(FVDATA(I)%ID_DT_OPTION,1)
 	 CALL WRITE_DB(FVDATA(I)%LAMBDA,1)
 	 CALL WRITE_DB(FVDATA(I)%DTOLD,1)
-         
+
 	 CALL WRITE_DB(FVDATA(I)%CFL_COEF,1)
 	 CALL WRITE_DB(FVDATA(I)%DTMIN,1)
          TABI(1)=FVSPMD(I)%NN_L
@@ -80,7 +80,7 @@ C
          TABI(8)=FVSPMD(I)%NNI_L
          LEN=8
 	 CALL WRITE_I_C(TABI,LEN)
-	 
+	
          LEN=2*(FVSPMD(I)%NN_L+FVSPMD(I)%NNI_L)
          IF (LEN>0) THEN
               CALL WRITE_I_C(FVSPMD(I)%IBUF_L,LEN)
@@ -133,15 +133,15 @@ C
          TABI(3)=LENP
          TABI(4)=NPOLY
          TABI(5)=LENH
-         TABI(6)=NPOLH     
-         TABI(7)=LENP_ANIM     
-         TABI(8)=LENH_ANIM 
-         TABI(9)=NPOLH_ANIM 
+         TABI(6)=NPOLH
+         TABI(7)=LENP_ANIM
+         TABI(8)=LENH_ANIM
+         TABI(9)=NPOLH_ANIM
          TABI(10)=NNS_ANIM
          TABI(11)=FVDATA(I)%ID
          LEN=11
 	 CALL WRITE_I_C(TABI,LEN)
-       
+
 C--------------------------------------
 C     ECRITURE DES ENTIERS
 C--------------------------------------
@@ -198,7 +198,7 @@ C
          ENDIF
 C
       ENDDO
-      
+
       IF (ALLOCATED(FVSPMD)) DEALLOCATE(FVSPMD)
 C
       RETURN

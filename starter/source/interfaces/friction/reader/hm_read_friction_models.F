@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE R2R_MOD
       USE MESSAGE_MOD
-      USE INTBUF_FRIC_MOD        
+      USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER IFLAG ,NSETFRICTOT ,COEFSLEN ,IORTHFRICMAX ,NGRPF ,LENG ,NSETMAX
       INTEGER IPART(LIPART1,*) ,TAGPRT_FRIC(*),
@@ -130,7 +130,7 @@ C CHECK IF UID IS EXISTING
 C--------------------------------------------------
         IFLAGUNIT = 0
         DO J=1,NUNITS
-          IF (UNITAB%UNIT_ID(J) == UID) THEN    
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
             IFLAGUNIT = 1
             EXIT
           ENDIF
@@ -147,7 +147,7 @@ C        Friction model defining
 C-------------------------
 
          NIF=NIF+1
-c        
+c
          NSET = 0
          NGRPF0 = NGRPF
 C   
@@ -157,10 +157,10 @@ C
      3        INTBUF_FRIC_TAB(NIF)%FRICMOD,INTBUF_FRIC_TAB(NIF)%IFFILTER ,
      .             INTBUF_FRIC_TAB(NIF)%XFILTR_FRIC,INTBUF_FRIC_TAB(NIF)%FRICFORM         ,
      4        IFLAG    ,INTBUF_FRIC_TAB(NIF)%IORTHFRIC,IFRICORTH_TMP     ,NGRPF          ,
-     5        LENGRPF  ,LENG         ,NOINTF      , LSUBMODEL )  
+     5        LENGRPF  ,LENG         ,NOINTF      , LSUBMODEL )
 
          IF(IFLAG == 0) THEN
-           NSET = NGRPF - NGRPF0 
+           NSET = NGRPF - NGRPF0
            NSET = NSET * NSET
            NSETFRICTOT = NSETFRICTOT + NSET
            NSETMAX =MAX(NSETMAX,NSET)
@@ -170,8 +170,8 @@ C
            NSETFRICTOT = NSETFRICTOT + NSET
            INTBUF_FRIC_TAB(NIF)%NSETPRTS = NSET
            NSETMAX =MAX(NSETMAX,NSET)
-           IORTHFRICMAX = MAX(IORTHFRICMAX,INTBUF_FRIC_TAB(NIF)%IORTHFRIC) 
-         ENDIF 
+           IORTHFRICMAX = MAX(IORTHFRICMAX,INTBUF_FRIC_TAB(NIF)%IORTHFRIC)
+         ENDIF
          IREC=IREC+1
 
       ENDDO

@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -99,18 +99,18 @@ C-----------------------------------------------
       RHOI = PM(89)
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-      
+
       !---Initial State Deduced from e=eos(P0,T0) and t=eos(P0,rho0)
-      T0=(ONE/RHO0-B)*(P0+PSTAR)/(GAMMA-ONE)/Cv      
+      T0=(ONE/RHO0-B)*(P0+PSTAR)/(GAMMA-ONE)/Cv
       E0=(P0+GAMMA*PSTAR)*(ONE-RHO0*b)/(GAMMA-1)+RHO0*Q
-      
+
       !---warning/errors :
       ! GAMMA <=0
-      
+
       IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -119,18 +119,18 @@ C-----------------------------------------------
      .               C1='/EOS/NASG',
      .               C2='GAMMA MUST BE GREATER THAN 1.0')
       ENDIF
-      
+
       IF(E0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/NASG',
-     .               C2='PARAMETERS ARE RESULTING INTO A NEGATIVE ENERGY : E0')      
+     .               C2='PARAMETERS ARE RESULTING INTO A NEGATIVE ENERGY : E0')
       ENDIF
 
       Q_ = ZERO
-      !---buffer storage     
+      !---buffer storage
       PM(034)=GAMMA
       PM(032)=P0
       PM(088)=PSH
@@ -143,7 +143,7 @@ C-----------------------------------------------
       PM(162)=Cv
       PM(079)=T0
       IF(PM(79)==ZERO)PM(79)=THREE100
-      
+
       !P0
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -154,28 +154,28 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-         
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
-      RHOI = PM(89)      
+      RHOI = PM(89)
         UNPMU   =  ONE+MU0
         DENOM   = (ONE-RHOI*B*UNPMU)
         NUM     = (E0-RHOI*Q)
         PP      = P0
-        dPdE    = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative    
-        DPDMU   = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE*(PP)/UNPMU/UNPMU                                  
+        dPdE    = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative
+        DPDMU   = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE*(PP)/UNPMU/UNPMU
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0           
-   
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
+
       !---listing output
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -197,7 +197,7 @@ C-----------------------------------------------
      & 5X,'PSTAR . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'Cv. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'P0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
-!     & 5X,'T0 .  . . . . . . . . . . . . . . . . . .=',1PG20.13/,     
+!     & 5X,'T0 .  . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'E0 .  . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'RHO0. . . . . . . . . . . . . . . . . . .=',1PG20.13/)
 

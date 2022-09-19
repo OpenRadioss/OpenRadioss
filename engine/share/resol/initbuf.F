@@ -276,46 +276,46 @@ C              le buffeur elementaire.
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
-      MTN     = IPARG(1,NG)    
-      LLT     = IPARG(2,NG)    
-      NFT     = IPARG(3,NG)    
-      IAD     = IPARG(4,NG)    
-      ITY     = IPARG(5,NG)    
-      NPT     = IPARG(6,NG)     
-      JALE    = IPARG(7,NG)     
+      MTN     = IPARG(1,NG)
+      LLT     = IPARG(2,NG)
+      NFT     = IPARG(3,NG)
+      IAD     = IPARG(4,NG)
+      ITY     = IPARG(5,NG)
+      NPT     = IPARG(6,NG)
+      JALE    = IPARG(7,NG)
 
-      ISMSTR  = IPARG(9,NG)     
+      ISMSTR  = IPARG(9,NG)
 
       IF(ITY==1.OR.ITY==2)THEN
-         JEUL    = IPARG(11,NG) 
+         JEUL    = IPARG(11,NG)
       ELSEIF (MTN == 151 .AND. ITY == 7) THEN
-         JEUL    = IPARG(11,NG) 
+         JEUL    = IPARG(11,NG)
       ELSE             ! attention dkt9_s3 utilise ce flag
          JEUL    = 0
-      END IF 
+      END IF
 
-      JTUR    = IPARG(12,NG)    
-      JTHE    = IPARG(13,NG)    
+      JTUR    = IPARG(12,NG)
+      JTHE    = IPARG(13,NG)
       JLAG    = IPARG(14,NG)
-      MID     = IPARG(18,NG)    
-      JMULT   = IPARG(20,NG)    
-      JHBE    = IPARG(23,NG)    
-      JIVF    = IPARG(24,NG)          
-      JPOR    = IPARG(27,NG)          
-      JPLA    = IPARG(29,NG)      
-      JCLOSE  = IPARG(33,NG)      
-      IREP    = IPARG(35,NG)      
-      IINT    = IPARG(36,NG)    
+      MID     = IPARG(18,NG)
+      JMULT   = IPARG(20,NG)
+      JHBE    = IPARG(23,NG)
+      JIVF    = IPARG(24,NG)
+      JPOR    = IPARG(27,NG)
+      JPLA    = IPARG(29,NG)
+      JCLOSE  = IPARG(33,NG)
+      IREP    = IPARG(35,NG)
+      IINT    = IPARG(36,NG)
       JCVT    = IPARG(37,NG)
       IGTYP   = IPARG(38,NG)
       ICSEN   = IPARG(39,NG)
-      ISRAT   = IPARG(40,NG)      
-      ISROT   = IPARG(41,NG)       
-      IF(IPARG(28,NG) == 10) ISROT = IPARG(74,NG)     
-      ISORTH  = IPARG(42,NG)      
+      ISRAT   = IPARG(40,NG)
+      ISROT   = IPARG(41,NG)
+      IF(IPARG(28,NG) == 10) ISROT = IPARG(74,NG)
+      ISORTH  = IPARG(42,NG)
       ISORTHG = ISORTH
 
-      IFAILURE = IPARG(43,NG)                  
+      IFAILURE = IPARG(43,NG)
 
       JSMS = IPARG(52,NG)
 C----

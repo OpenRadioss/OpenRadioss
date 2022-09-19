@@ -32,7 +32,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP , 
+      SUBROUTINE THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP ,
      1                  IPARG    ,ITHBUF   ,WA      ,
      2                  IPM      ,IXQ      ,IXTG    ,
      3                  X        ,MULTI_FVM,V       ,
@@ -41,8 +41,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD   
-      USE MULTI_FVM_MOD      
+      USE ELBUFDEF_MOD
+      USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
       my_real
      .   WA(*), X(3,*), V(3,*), W(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,11 +89,11 @@ C-----------------------------------------------
       my_real
      .   BUFEL(1)   !!  Old buffer - bidon !!
       my_real
-     .   SSP  
+     .   SSP
 C----  
       TYPE(L_BUFEL_) ,POINTER :: LBUF,LBUF1,LBUF2
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C=======================================================================
 C           ELEMENTS QUADS
 C-------------------------
@@ -118,30 +118,30 @@ C decalage IH
           IH = IH + 1
         ENDDO
 C----
-        IF (IH>=IADB+NN) GOTO 666 
+        IF (IH>=IADB+NN) GOTO 666
 C----
 c
       DO NG=1,NGROUP
        ITY=IPARG(5,NG)
        IS_ALE = IPARG(7,NG)
-       
+
        DO I=1,6
          JJ(I) = NEL*(I-1)
-       ENDDO  
+       ENDDO
 
        IF (ITY == ITYP) THEN
          GBUF => ELBUF_TAB(NG)%GBUF
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
          MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 c
-         NPTR = ELBUF_TAB(NG)%NPTR                 
-         NPTS = ELBUF_TAB(NG)%NPTS 
+         NPTR = ELBUF_TAB(NG)%NPTR
+         NPTS = ELBUF_TAB(NG)%NPTS
 C------
-        CALL INITBUF (IPARG    ,NG      ,                    
-     2          MTE     ,NEL     ,NFT     ,IAD     ,ITY    ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
+        CALL INITBUF (IPARG    ,NG      ,
+     2          MTE     ,NEL     ,NFT     ,IAD     ,ITY    ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
      6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 
@@ -246,11 +246,11 @@ C------------------------------------------------------------------------------
                   WWA(2+J-1)=EVAR(J)
                 ENDDO
                 IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
-                DO J=1,6               
+                DO J=1,6
                   WWA(35+J-1)=EVAR(J)
                 ENDDO
               ELSE
-                DO J=1,6               
+                DO J=1,6
                   WWA(35+J-1)=EVAR(J)
                 ENDDO
                 IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
@@ -269,7 +269,7 @@ c
                 WWA(13)=GBUF%TEMP(I)
                 WWA(14)=GBUF%EPSD(I)
               ELSEIF (MTE==5) THEN
-                WWA(31)=GBUF%BFRAC(I) 
+                WWA(31)=GBUF%BFRAC(I)
                 WWA(13)=GBUF%TEMP(I)
               ELSEIF (MTE==6) THEN
                 WWA(13)=GBUF%TEMP(I)
@@ -301,7 +301,7 @@ c                WWA(14)=BUFEL(N3)
               ELSEIF (MTE==16) THEN
                 WWA(12)=LBUF%PLA(I)
                 WWA(13)=LBUF%TEMP(I)
-                WWA(14)=LBUF%XST(I)   
+                WWA(14)=LBUF%XST(I)
               ELSEIF (MTE==17) THEN
                 IF (ITHERM > 0) WWA(13)=LBUF%TEMP(I)
                 WWA(26)=LBUF%RK(I)
@@ -312,7 +312,7 @@ c                WWA(14)=BUFEL(N3)
                 LBUF1 => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
                 LBUF2 => ELBUF_TAB(NG)%BUFLY(2)%LBUF(1,1,1)
                 IF(GBUF%G_PLA>0) WWA(12)=GBUF%PLA(I)
-                IF(GBUF%G_TEMP>0)WWA(13)=GBUF%TEMP(I)                            
+                IF(GBUF%G_TEMP>0)WWA(13)=GBUF%TEMP(I)
                 ! SUBMATERIAL 1
                 !MTN1=IPARG(25,NG)
                 DO J = 1,6
@@ -321,8 +321,8 @@ c                WWA(14)=BUFEL(N3)
                    WWA(1624 + 7 ) = LBUF1%EINT(I)
                    WWA(1624 + 8 ) = LBUF1%RHO(I)
                    WWA(1624 + 9 ) = LBUF1%VOL(I)
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_TEMP>0) 
-     .             WWA(1624 +11 )=LBUF1%TEMP(I)                 
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_TEMP>0)
+     .             WWA(1624 +11 )=LBUF1%TEMP(I)
                 !SUBMATERIAL 2
                 !MTN1=IPARG(26, NG)
                 DO J = 1,6
@@ -331,8 +331,8 @@ c                WWA(14)=BUFEL(N3)
                       WWA(1635 + 7 ) = LBUF2%EINT(I)
                       WWA(1635 + 8 ) = LBUF2%RHO(I)
                       WWA(1635 + 9 ) = LBUF2%VOL(I)
-                IF(ELBUF_TAB(NG)%BUFLY(2)%L_TEMP>0) 
-     .             WWA(1635 +11 )=LBUF2%TEMP(I)                                 
+                IF(ELBUF_TAB(NG)%BUFLY(2)%L_TEMP>0)
+     .             WWA(1635 +11 )=LBUF2%TEMP(I)
               ELSEIF (MTE==21) THEN
                 WWA(12)=LBUF%EPSQ(I) ! NB11
                 WWA(30)=GBUF%PLA(I)  ! NB10
@@ -360,7 +360,7 @@ c                WWA(14)=BUFEL(N3)
               ELSEIF (MTE==46.OR.MTE==47) THEN
                 WWA(12)=MBUF%VAR(I)
                 WWA(13)=MBUF%VAR(I+NEL)
-c                WWA(14)=MBUF%VAR(I+NEL*2)    
+c                WWA(14)=MBUF%VAR(I+NEL*2)
               ELSEIF (MTE==49) THEN
                 WWA(12)=LBUF%PLA(I)
                 WWA(13)=LBUF%TEMP(I)
@@ -395,10 +395,10 @@ C              EPSXX,EPSYY,EPSZZ,EPSXY,EPSXZ,EPSYZ  =>  WWA(1618)
 C              L_EPSXX,L_EPSYY,L_EPSZZ,L_EPSXY,LEPSXZ,LEPSYZ  => WWA(239030)
 C------------------------------------------------------------------------------
 c EPS
-              EVAR(1:6)=ZERO         
-              DO IS=1,NPTS                   
+              EVAR(1:6)=ZERO
+              DO IS=1,NPTS
                 DO IR=1,NPTR
-                 LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)        
+                 LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                  EVAR(1) = EVAR(1) + LBUF1%STRA(KK(1) + I)/NPT
                  EVAR(2) = EVAR(2) + LBUF1%STRA(KK(2) + I)/NPT
                  EVAR(4) = EVAR(4) + LBUF1%STRA(KK(4) + I)*HALF/NPT
@@ -409,7 +409,7 @@ c EPS
 C EPS IN THE GLOBAL SYSTEM
                 DO J=1,6
                  WWA(1619+J-1)=EVAR(J)
-                ENDDO 
+                ENDDO
                 IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
 C LEPS IN THE LOCAL SYSTEM
                 DO J=1,6
@@ -424,26 +424,26 @@ C LEPS IN THE LOCAL SYSTEM
 C EPS IN THE GLOBAL SYSTEM
                 DO J=1,6
                  WWA(1619+J-1)=EVAR(J)
-                ENDDO     
+                ENDDO
               ENDIF
 C EPS111, EPS121, EPS211, EPS221 IN THE GLOBAL SYSTEM
-              DO IS=1,NPTS                   
+              DO IS=1,NPTS
                 DO IR=1,NPTR
-                 LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1) 
-                 EVAR(1:6)=ZERO 
+                 LBUF1 =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
+                 EVAR(1:6)=ZERO
                  EVAR(1) = LBUF1%STRA(KK(1) + I)
                  EVAR(2) = LBUF1%STRA(KK(2) + I)
                  EVAR(4) = LBUF1%STRA(KK(4) + I)
                  IF (JCVT == 0) THEN
-                   DO J=1,6      
+                   DO J=1,6
                      WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
                    ENDDO
                  ELSE
                    IF(ITY == 2) CALL QROTA3(X,IXQ(1,N),JCVT,EVAR,GAMA)
-                   DO J=1,6      
+                   DO J=1,6
                      WWA(239030+30+(IS-1)*6+(IR-1)*18+J) = EVAR(J)
                    ENDDO
-                 ENDIF  
+                 ENDIF
                 ENDDO
               ENDDO
 C
@@ -458,73 +458,73 @@ C SSP
 C MACH NUMBER
                 WWA(239551)= SQRT(MULTI_FVM%VEL(1, N)*MULTI_FVM%VEL(1, N)+
      .                       MULTI_FVM%VEL(2, N)*MULTI_FVM%VEL(2, N)+
-     .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) / 
+     .                       MULTI_FVM%VEL(3, N)*MULTI_FVM%VEL(3, N)) /
      .                       MULTI_FVM%SOUND_SPEED(N)
 
               ELSEIF(I_ALE_SOLVER>1)THEN
 C SSP
-                WWA(239550)= LBUF%SSP(I)                              
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN   
-                  VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
+                WWA(239550)= LBUF%SSP(I)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
+                  VEL(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
                   VEL(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
-                  VEL(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I) 
+                  VEL(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
                   WWA(239547)= VEL(1)
                   WWA(239548)= VEL(2)
                   WWA(239549)= VEL(3)
-                  WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
-                ENDIF                     
+                  WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
+                ENDIF
 
               ELSE IF (MTE==51 .AND. ITY == 2) THEN
 C SSP
-                WWA(239550)= LBUF%SSP(I)                                                 
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                      
+                WWA(239550)= LBUF%SSP(I)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
                   IF(IS_ALE /= 0)THEN
-c                  !ale  
+c                  !ale
                      TMP(1,1:4)=V(1,IXQ(2:5,N))-W(1,IXQ(2:5,N))
                      TMP(2,1:4)=V(2,IXQ(2:5,N))-W(2,IXQ(2:5,N))
-                     TMP(3,1:4)=V(3,IXQ(2:5,N))-W(3,IXQ(2:5,N))                                    
+                     TMP(3,1:4)=V(3,IXQ(2:5,N))-W(3,IXQ(2:5,N))
                      VEL(1) = SUM(TMP(1,1:4))*FOURTH
                      VEL(2) = SUM(TMP(2,1:4))*FOURTH
                      VEL(3) = SUM(TMP(3,1:4))*FOURTH
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
+                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                     ELSE
-                    !euler and lagrange                                                                           
-                     TMP(1,1:4)=V(1,IXQ(2:5,N))                                                    
-                     TMP(2,1:4)=V(2,IXQ(2:5,N))                                                    
-                     TMP(3,1:4)=V(3,IXQ(2:5,N))                                                    
-                     VEL(1) = SUM(TMP(1,1:4))*FOURTH                                                       
-                     VEL(2) = SUM(TMP(2,1:4))*FOURTH                                                       
-                     VEL(3) = SUM(TMP(3,1:4))*FOURTH                                          
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
+                    !euler and lagrange
+                     TMP(1,1:4)=V(1,IXQ(2:5,N))
+                     TMP(2,1:4)=V(2,IXQ(2:5,N))
+                     TMP(3,1:4)=V(3,IXQ(2:5,N))
+                     VEL(1) = SUM(TMP(1,1:4))*FOURTH
+                     VEL(2) = SUM(TMP(2,1:4))*FOURTH
+                     VEL(3) = SUM(TMP(3,1:4))*FOURTH
+                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                   ENDIF
                 ENDIF
               ELSEIF (MTE==51 .AND. ITY == 7) THEN
 C SSP  
-                WWA(239550)= LBUF%SSP(I)                                                   
-                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN                      
+                WWA(239550)= LBUF%SSP(I)
+                IF(ELBUF_TAB(NG)%BUFLY(1)%L_SSP /= 0)THEN
                   IF(IS_ALE /= 0)THEN
-                  !ale  
+                  !ale
                      TMP(1,1:3)=V(1,IXTG(2:4,N))-W(1,IXTG(2:4,N))
                      TMP(2,1:3)=V(2,IXTG(2:4,N))-W(2,IXTG(2:4,N))
-                     TMP(3,1:3)=V(3,IXTG(2:4,N))-W(3,IXTG(2:4,N))                                    
+                     TMP(3,1:3)=V(3,IXTG(2:4,N))-W(3,IXTG(2:4,N))
                      VEL(1) = SUM(TMP(1,1:3))*THIRD
                      VEL(2) = SUM(TMP(2,1:3))*THIRD
                      VEL(3) = SUM(TMP(3,1:3))*THIRD
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
+                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                     ELSE
-                    !euler and lagrange                                                                           
+                    !euler and lagrange
                      TMP(1,1:3)=V(1,IXTG(2:4,N))
                      TMP(2,1:3)=V(2,IXTG(2:4,N))
                      TMP(3,1:3)=V(3,IXTG(2:4,N))
                      VEL(1) = SUM(TMP(1,1:3))*THIRD
                      VEL(2) = SUM(TMP(2,1:3))*THIRD
                      VEL(3) = SUM(TMP(3,1:3))*THIRD
-                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I) 
+                     WWA(239551)= SQRT(VEL(1)*VEL(1)+VEL(2)*VEL(2)+VEL(3)*VEL(3))/LBUF%SSP(I)
                   ENDIF
                 ENDIF
-                               
+
               ELSE
-                IF(SIZE(LBUF%SSP) >= I) THEN 
+                IF(SIZE(LBUF%SSP) >= I) THEN
                    WWA(239550)= LBUF%SSP(I)
                 ELSE
                    WWA(239550)= 0
@@ -541,13 +541,13 @@ c
               WA(IJK)=II
             ENDIF
           ENDDO
-c --------------          
-         ENDIF  ! mte /= 13 
-        ENDIF  
+c --------------
+         ENDIF  ! mte /= 13
+        ENDIF
       ENDDO ! groupe
 !   -----------------------------
             ENDIF
- 666    continue    
+ 666    continue
         ENDDO
 C-----------
       RETURN

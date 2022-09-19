@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        WEIGHT(*),IMSCH,
      .        ISMSCH, NODNX_SMS(*), NPBY(NNPBY,*), TAGMSR_RBY_SMS(*)
 C     REAL
-      my_real DT2T, DMAST, DINERT, 
+      my_real DT2T, DMAST, DINERT,
      .   MS(*) ,IN(*) ,STIFN(*), STIFR(*),ADT(*) ,ADM(*) ,
      .   A(3,*) ,AR(3,*) ,ADI(*) ,RBYM(NFRBYM,*),ARBY(3,*),
      .   ARRBY(3,*), DIAG_SMS(*)
@@ -185,7 +185,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
               DO K1=1,KMAX1
                 IF(DTN1(K1)<DTMIN1(11))THEN
-                  N = INDTN1(K1) 
+                  N = INDTN1(K1)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N)==1)THEN
@@ -203,7 +203,7 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
               DO K1=1,KMAX1
                 IF(DTN1(K1)<DTMIN1(11))THEN
-                  N = INDTN1(K1) 
+                  N = INDTN1(K1)
                   DT2P = DTMIN1(11)/DTFAC1(11)
                   MAS = HALF * STIFN(N) * DT2P * DT2P * ONEP00001
                   IF(TAG(N)==1)THEN
@@ -219,9 +219,9 @@ C----------------------------------------------------------
 #include      "vectorize.inc"
             DO K1=1,KMAX1
               IF(DTN1(K1)<DTMIN1(11))THEN
-                  N = INDTN1(K1) 
+                  N = INDTN1(K1)
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = HALF * STIFN(N) * DT2P * DT2P 
+                  MAS = HALF * STIFN(N) * DT2P * DT2P
                   MAS=MS(N)/MAS
                   DTN1(K1)=DTMIN1(11)
                   A(1,N)=A(1,N)*MAS
@@ -235,7 +235,7 @@ C--------
          IF(DTNOD1<DT2T)THEN
           DO K1=1,KMAX1
               IF(DTN1(K1)<DT2T)THEN
-                N = INDTN1(K1) 
+                N = INDTN1(K1)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN1(K1)
@@ -302,7 +302,7 @@ C                ENDIF
 #include      "vectorize.inc"
                 DO K1=1,KMAX1
                   IF(DTN1(K1)<DTMIN1(11))THEN
-                    N = INDTN1(K1) 
+                    N = INDTN1(K1)
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
                     INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
@@ -322,7 +322,7 @@ C
 #include      "vectorize.inc"
                 DO K1=1,KMAX1
                   IF(DTN1(K1)<DTMIN1(11))THEN
-                    N = INDTN1(K1) 
+                    N = INDTN1(K1)
                     INER = IN(N)
                     DT2P = DTMIN1(11)/DTFAC1(11)
                     INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
@@ -339,9 +339,9 @@ C
 #include      "vectorize.inc"
              DO K1=1,KMAX1
               IF(DTN1(K1)<DTMIN1(11))THEN
-                  N = INDTN1(K1) 
+                  N = INDTN1(K1)
                   DT2P = DTMIN1(11)/DTFAC1(11)
-                  MAS = HALF * STIFR(N) * DT2P * DT2P 
+                  MAS = HALF * STIFR(N) * DT2P * DT2P
                   MAS=IN(N)/MAS
                   DTN1(K1)=DTMIN1(11)
                   AR(1,N)=AR(1,N)*MAS
@@ -355,7 +355,7 @@ C-----------
            IF(DTNOD1<DT2T)THEN
             DO K1=1,KMAX1
               IF(DTN1(K1)<DT2T)THEN
-                N = INDTN1(K1) 
+                N = INDTN1(K1)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN1(K1)
@@ -368,7 +368,7 @@ C-----------
 #include    "vectorize.inc"
               DO K2=1,KMAX2
                 IF(DTN2(K2)<DTMINS)THEN
-                  N = INDTN2(K2) 
+                  N = INDTN2(K2)
                   INER = IN(N)
                   DT2P = DTMINS/DTFACS
                   INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
@@ -388,7 +388,7 @@ C
 #include    "vectorize.inc"
               DO K2=1,KMAX2
                 IF(DTN2(K2)<DTMINS)THEN
-                  N = INDTN2(K2) 
+                  N = INDTN2(K2)
                   INER = IN(N)
                   DT2P = DTMINS/DTFACS
                   INER = HALF * STIFR(N) * DT2P * DT2P * ONEP00001
@@ -406,7 +406,7 @@ C-----------
            IF(DTNOD2<DT2T)THEN
             DO K2=1,KMAX2
               IF(DTN2(K2)<DT2T)THEN
-                N = INDTN2(K2) 
+                N = INDTN2(K2)
                 NELTST  = ITAB(N)
                 ITYPTST = 11
                 DT2T = DTN2(K2)
@@ -427,12 +427,12 @@ C----------------------------------------------------------
            IF(ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT >0)THEN
 #include      "vectorize.inc"
              DO K1=1,KMAX1
-               N = INDTN1(K1) 
+               N = INDTN1(K1)
                ADT(N)=MIN(ADT(N),DTN1(K1))
              ENDDO
 #include      "vectorize.inc"
              DO K2=1,KMAX2
-               N = INDTN2(K2) 
+               N = INDTN2(K2)
                ADT(N)=MIN(ADT(N),DTN2(K2))
              ENDDO
            ENDIF
@@ -464,7 +464,7 @@ C--------------------------------
              IF ( ISTAMPING == 1) THEN
 	       WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 7.'
-               WRITE(ISTDO,'(A)')'You may need to check if there is enou 
+               WRITE(ISTDO,'(A)')'You may need to check if there is enou
      .gh clearance between the tools,'
                WRITE(ISTDO,'(A)')'and that they do not penetrate each ot
      .her during their travel'
@@ -496,7 +496,7 @@ C--------------------------------
              IF ( ISTAMPING == 1) THEN
 	       WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 7.'
-               WRITE(ISTDO,'(A)')'You may need to check if there is enou 
+               WRITE(ISTDO,'(A)')'You may need to check if there is enou
      .gh clearance between the tools,'
                WRITE(ISTDO,'(A)')'and that they do not penetrate each ot
      .her during their travel'

@@ -138,7 +138,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE IMP_SOLV( 
+      SUBROUTINE IMP_SOLV(
      1  ICODE  ,ISKEW  ,ISKWN  ,IPART  ,IXUR   ,IXTG   ,IXS    ,IXQ    ,
      2  IXC    ,IXT    ,IXP    ,IXR    ,IXTG1          ,ITAB   ,ITABM1 ,
      3  NPC    ,IBCL   ,IBFV   ,LSENSOR,NNLINK ,LNLINK ,IPARG  ,IGRV   ,
@@ -174,7 +174,7 @@ C-----------------------------------------------
       USE IMP_WORKI
       USE IMP_PCG_PROJ
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
       USE STACK_MOD
       USE H3D_MOD
@@ -319,7 +319,7 @@ C
       my_real, DIMENSION(:) ,POINTER     :: FEXT,DG,DGR,DG0,DGR0,BUFIN_C,AC,ACR
 c sb
       character*1 anew_stif
-	  
+	
 C-----------------------------------------------
       anew_stif = ' '
 c
@@ -355,26 +355,26 @@ C-----------------------------------------------
           NDOFI=> IMPBUF_TAB%NDOFI
           IDDLI=> IMPBUF_TAB%IDDLI
 C		  
-          DIAG_K  =>IMPBUF_TAB%DIAG_K  
-		  LT_K    =>IMPBUF_TAB%LT_K    
-		  DIAG_M  =>IMPBUF_TAB%DIAG_M  
-		  LT_M    =>IMPBUF_TAB%LT_M    
-		  LB      =>IMPBUF_TAB%LB      
-          LB0     =>IMPBUF_TAB%LB0      
-		  BKUD    =>IMPBUF_TAB%BKUD    
-		  D_IMP   =>IMPBUF_TAB%D_IMP   
-		  DR_IMP  =>IMPBUF_TAB%DR_IMP   
-		  ELBUF_C =>IMPBUF_TAB%ELBUF_C 
+          DIAG_K  =>IMPBUF_TAB%DIAG_K
+		  LT_K    =>IMPBUF_TAB%LT_K
+		  DIAG_M  =>IMPBUF_TAB%DIAG_M
+		  LT_M    =>IMPBUF_TAB%LT_M
+		  LB      =>IMPBUF_TAB%LB
+          LB0     =>IMPBUF_TAB%LB0
+		  BKUD    =>IMPBUF_TAB%BKUD
+		  D_IMP   =>IMPBUF_TAB%D_IMP
+		  DR_IMP  =>IMPBUF_TAB%DR_IMP
+		  ELBUF_C =>IMPBUF_TAB%ELBUF_C
 		  BUFMAT_C=>IMPBUF_TAB%BUFMAT_C
-	      X_C     =>IMPBUF_TAB%X_C     
-	      X_A     =>IMPBUF_TAB%X_A     
-		  DD      =>IMPBUF_TAB%DD      
-		  DDR     =>IMPBUF_TAB%DDR     
-		  FEXT  =>IMPBUF_TAB%FEXT  
-		  DG    =>IMPBUF_TAB%DG    
-		  DGR   =>IMPBUF_TAB%DGR   
-		  DG0   =>IMPBUF_TAB%DG0    
-		  DGR0  =>IMPBUF_TAB%DGR0   
+	      X_C     =>IMPBUF_TAB%X_C
+	      X_A     =>IMPBUF_TAB%X_A
+		  DD      =>IMPBUF_TAB%DD
+		  DDR     =>IMPBUF_TAB%DDR
+		  FEXT  =>IMPBUF_TAB%FEXT
+		  DG    =>IMPBUF_TAB%DG
+		  DGR   =>IMPBUF_TAB%DGR
+		  DG0   =>IMPBUF_TAB%DG0
+		  DGR0  =>IMPBUF_TAB%DGR0
 c		  BUFIN_C=>IMPBUF_TAB%BUFIN_C
 		  AC=>IMPBUF_TAB%AC
 		  ACR=>IMPBUF_TAB%ACR
@@ -467,7 +467,7 @@ C
      .                     INTBUF_TAB_C,IPARI   ,ISLEN7 ,IRLEN7   ,
      .                     ISLEN11,IRLEN11,ISLEN17 ,IRLEN17,IRLEN7T  ,
      .                     ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
-     .           IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,          
+     .           IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,
      .           IPARG   )
             CALL CP_REAL_HP(NNDL,X_C,X)
             CALL CP_REAL_HP(NNDL,X_C,XI_C)
@@ -619,7 +619,7 @@ C-------------(IKC(I)=4->IMCONV=1 pour eviter le rebond-------
      2     NPRW        ,MS       ,FSAV(1,NINTER+1),FR_WALL ,
      3     FOPT        ,RWSAV    ,WEIGHT ,FSAVD(1,NINTER+1),
      4     NT_RW       ,IDDL     ,IKC    ,IMCONV,NDOF,FRWL6,
-     5     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)     
+     5     WEIGHT_MD   ,DIMFB    , FBSAV6,STABSEN,TABSENSOR)
          ENDIF
 C
          IF(NT_RW>0) THEN
@@ -1056,7 +1056,7 @@ C
             CALL CP_INT_HP(NDDLI,IFTOK,ITOK)
             CALL CP_INT_HP(NNZI,JDIIF,JDII)
             ALLOCATE(DIAG_I(NDDLI))
-            ALLOCATE(LT_I(NNZI)) 
+            ALLOCATE(LT_I(NNZI))
             CALL CP_REAL_HP(NDDLI,DIAG_IF,DIAG_I)
             CALL CP_REAL_HP(NNZI,LT_IF,LT_I)
                ELSE
@@ -1204,7 +1204,7 @@ C
      4    NDDLI     ,NSL       ,NDDLI_G   ,IRBE3     ,LRBE3     ,
      5    IRBE2     ,LRBE2     )
 C         Store the size of the contact stifness matrix for nonlinear solver outputs            
-          IF (ISPMD==0.AND.IMCONV>=0) I_IMP(13) = NDDLI_G     
+          IF (ISPMD==0.AND.IMCONV>=0) I_IMP(13) = NDDLI_G
             IF (ISPMD==0.AND.IMCONV>=0.AND.
      .         (LPRINT/=0.OR.NPRINT/=0)) THEN
              WRITE(IOUT,1006)
@@ -1212,7 +1212,7 @@ C         Store the size of the contact stifness matrix for nonlinear solver out
              WRITE(IOUT,1011)NDDLI_G
              WRITE(ISTDO,1011)NDDLI_G
              WRITE(IOUT,*)
-             WRITE(ISTDO,*)             
+             WRITE(ISTDO,*)
             ENDIF
           ENDIF
          ENDIF
@@ -1354,7 +1354,7 @@ C
 C
           NTMP=0
 C
-c          R2=ZERO          
+c          R2=ZERO
           CALL PRODUT_HP(NDDL,LB,LB,W_DDL,R2)
 C
           IF (R2>ZERO.AND.R2<EP30) THEN
@@ -1412,13 +1412,13 @@ C
      1                        X    ,V    ,VR    ,A     ,AR    )
 C
 c         IF (IMPDEB>0) THEN
-c            CALL PR_DEB(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   , 
+c            CALL PR_DEB(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
 c     1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
 c     2                  IADK  ,JDIK  ,LT_K   ,LT_M   ,NDDLI  ,
 c     3                  IADI  ,JDII  ,ITOK   ,DIAG_I ,LT_I   ,
 c     4                  LBB   ,LBB   ,0      ,NSREM  ,NSL    ,
 c     5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
-c     6                  ACR   ,A     ,AR     ,R2     ,0  ,NODGLOB) 
+c     6                  ACR   ,A     ,AR     ,R2     ,0  ,NODGLOB)
 c         END IF
          IF (ILINTF>0.AND.NCYCLE<ILINTF) THEN
           CALL IMP_INTTD0(
@@ -1472,8 +1472,8 @@ citask0          IF (ITASK == 0) THEN
      .                    INTBUF_TAB_C,IPARI   ,ISLEN7 ,IRLEN7   ,
      .                    ISLEN11,IRLEN11,ISLEN17 ,IRLEN17,IRLEN7T  ,
      .                    ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
-     .          IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,          
-     .          IPARG   )          
+     .          IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,
+     .          IPARG   )
           END IF
           IF (NCYCLE==1) THEN
            IF (ISPRB==1.AND.I_IMP(5)==0) R_IMP(1) = ZERO
@@ -1517,7 +1517,7 @@ C---------------------
 C
           IF (INCONV == 1) R_IMP(1)=MAX(R_IMP(1),R2)
 !sb
-          IF(N_LIM == 1 .AND. ISPRB == 0) R_IMP(1)=R2    
+          IF(N_LIM == 1 .AND. ISPRB == 0) R_IMP(1)=R2
 !fin sb
          IF (ISPRB==1) THEN
            IF (SQRT(R2/R_IMP(1))<=N_TOL) THEN
@@ -1703,9 +1703,9 @@ C--------Rigid motions elimination----
      6                  IXTG  ,SH4TREE,SH3TREE,IRBE3 ,LRBE3,
      7                  FRBE3 ,IRBE2 ,LRBE2 )
         END IF
-c       Print information of non-linear solver 
+c       Print information of non-linear solver
         IF (SOLVNFO > ZERO) THEN
-         IF (IMCONV /= -1) THEN 
+         IF (IMCONV /= -1) THEN
           CALL PR_SOLNFO(NDDL  ,IDDL  ,NDOF   ,IKC   ,ITAB   ,
      1                  DIAG_K,DIAG_M,INLOC  ,FR_ELEM,IAD_ELEM,
      2                  IADK  ,JDIK  ,LT_K   ,LT_M   ,NDDLI  ,
@@ -1714,9 +1714,9 @@ c       Print information of non-linear solver
      5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
      6                  ACR   ,A     ,AR     ,R2    ,NDEB0   ,
      7                  R_IMP ,I_IMP ,DD     ,DDR)
-         ENDIF       
-        ENDIF  
-c        
+         ENDIF
+        ENDIF
+c
 c        IF (IMPDEB>0) THEN
 c          IF (NCYCLE>=NDEB0.AND.NCYCLE<=NDEB1) THEN
 c            CALL PRODUT_HP(NDDL,LB,LB,W_DDL,R2)
@@ -1728,7 +1728,7 @@ c     4                  LBB   ,LBB   ,IT     ,NSREM  ,NSL    ,
 c     5                  D_IMP ,DR_IMP,1      ,W_DDL  ,AC     ,
 c     6                  ACR   ,A     ,AR     ,R2    ,NDEB0   )
 c          END IF
-c         END IF           
+c         END IF
 c
          IF (NBINTC>0) THEN
           IF (ISMDISP>0) THEN
@@ -1763,15 +1763,15 @@ C---------------------------------
           IF (ISMDISP>0) THEN
            CALL CP_REAL_HP(NNDL,X_C,X_A)
           ELSE
-           CALL CP_REAL_HP(NNDL,X_C,X) 
+           CALL CP_REAL_HP(NNDL,X_C,X)
           END IF
           CALL CP_IMPBUF(2      ,ELBUF   ,ELBUF_C ,BUFMAT  ,BUFMAT_C  ,
      .                   FSAV   ,VOLMON  ,PARTSAV ,INTBUF_TAB       ,
      .                   INTBUF_TAB_C ,IPARI   ,ISLEN7 ,IRLEN7   ,
      .                   ISLEN11,IRLEN11,ISLEN17 ,IRLEN17,IRLEN7T  ,
      .                   ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
-     .         IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,          
-     .         IPARG   )          
+     .         IRLEN20E,ISLEN20E,NEWFRONT,ELBUF_TAB,ELBUF_IMP,
+     .         IPARG   )
 
           IF (NCYCLE == 1 .AND. ISTOP == 0 .AND.ISOLV == 7) THEN
            IF (IT == 1 .AND. I_IMP(5) == 0 ) THEN
@@ -1976,7 +1976,7 @@ c
        RETURN
       END
 C endif MUMPS defined
-#endif 
+#endif
 
 Chd|====================================================================
 Chd|  IMP_STOP                      source/implicit/imp_solv.F    
@@ -3198,8 +3198,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE DSGRAPH_MOD
       USE IMP_WORKI
-      USE ELBUFDEF_MOD  
-      USE INTBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE INTBUFDEF_MOD
       USE STACK_MOD
       USE H3D_MOD
       USE IMPBUFDEF_MOD
@@ -3328,25 +3328,25 @@ C-----------------------------------------------
           IDDLI => IMPBUF_TAB%IDDLI
           NDOFI => IMPBUF_TAB%NDOFI
 C		  
-          DIAG_K  =>IMPBUF_TAB%DIAG_K  
-		  LT_K    =>IMPBUF_TAB%LT_K    
-		  DIAG_M  =>IMPBUF_TAB%DIAG_M  
-		  LT_M    =>IMPBUF_TAB%LT_M    
-		  LB      =>IMPBUF_TAB%LB      
-          LB0     =>IMPBUF_TAB%LB0      
-		  BKUD    =>IMPBUF_TAB%BKUD    
-		  D_IMP   =>IMPBUF_TAB%D_IMP   
-		  ELBUF_C =>IMPBUF_TAB%ELBUF_C 
+          DIAG_K  =>IMPBUF_TAB%DIAG_K
+		  LT_K    =>IMPBUF_TAB%LT_K
+		  DIAG_M  =>IMPBUF_TAB%DIAG_M
+		  LT_M    =>IMPBUF_TAB%LT_M
+		  LB      =>IMPBUF_TAB%LB
+          LB0     =>IMPBUF_TAB%LB0
+		  BKUD    =>IMPBUF_TAB%BKUD
+		  D_IMP   =>IMPBUF_TAB%D_IMP
+		  ELBUF_C =>IMPBUF_TAB%ELBUF_C
 		  BUFMAT_C=>IMPBUF_TAB%BUFMAT_C
-	      X_C     =>IMPBUF_TAB%X_C     
-		  DD      =>IMPBUF_TAB%DD      
-		  DDR     =>IMPBUF_TAB%DDR     
-		  FEXT  =>IMPBUF_TAB%FEXT  
-		  DG    =>IMPBUF_TAB%DG    
-		  DGR   =>IMPBUF_TAB%DGR   
-		  DG0   =>IMPBUF_TAB%DG0    
-		  DGR0  =>IMPBUF_TAB%DGR0   
-		  DR_IMP=>IMPBUF_TAB%DR_IMP   
+	      X_C     =>IMPBUF_TAB%X_C
+		  DD      =>IMPBUF_TAB%DD
+		  DDR     =>IMPBUF_TAB%DDR
+		  FEXT  =>IMPBUF_TAB%FEXT
+		  DG    =>IMPBUF_TAB%DG
+		  DGR   =>IMPBUF_TAB%DGR
+		  DG0   =>IMPBUF_TAB%DG0
+		  DGR0  =>IMPBUF_TAB%DGR0
+		  DR_IMP=>IMPBUF_TAB%DR_IMP
 c		  BUFIN_C=>IMPBUF_TAB%BUFIN_C
 		  AC=>IMPBUF_TAB%AC
 		  ACR=>IMPBUF_TAB%ACR
@@ -4737,7 +4737,7 @@ C
      .        ' INCOMPABLE OPTIONS**'/)
       END
 C endif MUMPS defined
-#endif 
+#endif
 
 Chd|====================================================================
 Chd|  IMP_FOUT                      source/implicit/imp_solv.F    
@@ -4753,7 +4753,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE H3D_MOD 
+      USE H3D_MOD
       USE IMPBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4816,7 +4816,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE H3D_MOD 
+      USE H3D_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4868,7 +4868,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE H3D_MOD 
+      USE H3D_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5048,7 +5048,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C------------------------------------------
-       IF(IMUMPSV > 0 ) CALL SPMD_MUMPS_DEAL(MUMPS_PAR) 
+       IF(IMUMPSV > 0 ) CALL SPMD_MUMPS_DEAL(MUMPS_PAR)
        IF (ISOLV>2) THEN
         IF(ALLOCATED(HOLD)) DEALLOCATE(HOLD)
        ENDIF
@@ -5421,7 +5421,7 @@ C-----------------------------------------
            NUMIMP(N)=0
            IADT =IADT + NUMIMPL(N,J)
          END IF
-        END DO 
+        END DO
          NIMPJ = -NIMPJ+IADT
          L_CPJ = MAX(L_CPJ,NIMPJ)
         END DO
@@ -5527,7 +5527,7 @@ C-----------------------------------------------
          L_CPJ = MAX(L_CPJ,NIMPJ)
         END DO
         IF (IADT==0) GOTO 100
-        
+
         IF (NTHREAD==1) THEN
              DO N = 1,NINTER
               NUMIMP(N) =NUMIMPL(N,1)
@@ -5535,7 +5535,7 @@ C-----------------------------------------------
         ELSE
          L_CP = L_CPJ*NTHREAD
           ALLOCATE(NS_CP(L_CP),NE_CP(L_CP),IND_CP(L_CP),STAT=IER1)
-        
+
              IAD0=NT_IMP
              NT_IMP7=NT_IMP0-NT_IMP
              IAD =0
@@ -5549,7 +5549,7 @@ C-----------------------------------------------
            IAD =IAD + L_CPJ
            IADN(J) =0
          END DO
-        
+
              IAD = IAD0
          DO N = 1,NINTER
           ITY   =IPARI(7,N)
@@ -5809,7 +5809,7 @@ c         I = 849965
          END IF
         ENDDO
        ENDDO
-             if (nn>0) write(IDF,*)'MAX_F,N,J=',F(II),ITAB(NN),K      
+             if (nn>0) write(IDF,*)'MAX_F,N,J=',F(II),ITAB(NN),K
 c        DO N =1,NDDL
 c         I = ITOK(N)
 c         I = N
@@ -5854,7 +5854,7 @@ c          end if !(NDOF(I)/=0) then
        if (NSPMD>1) then
 C
        IF (INTP_D>0) THEN
-         write(IDF,*)'NDDL_SL,NDDL_SI=',NDDL_SL,NDDL_SI 
+         write(IDF,*)'NDDL_SL,NDDL_SI=',NDDL_SL,NDDL_SI
         DO I=1,NSL
          N=ISL(I)
          write (IDF,*)'NS,I=',N,ITAB(N),I
@@ -5884,8 +5884,8 @@ C
         write (IDF,*)'NS,I=',N,I
         END DO
        END IF
-       IAD = 0 
-       IAD2 = 0 
+       IAD = 0
+       IAD2 = 0
        write(IDF,*)'LEN_K,LEN_V=',LEN_K,LEN_V
       DO I =1,NSPMD
        NKC=0
@@ -6217,17 +6217,17 @@ c          ID2N(ID)=I
              IIR = ID
              NNR = I
              KR = J
-            ENDIF 
+            ENDIF
             IF (abs(DR(J-3,I))>DR_MAX) THEN
                   DR_MAX= abs(DR(J-3,I))
               NN2R = I
               K2R = J
-                ENDIF  
+                ENDIF
             IF (abs(DDR(J-3,I))>DDR_MAX) THEN
                   DDR_MAX= abs(DDR(J-3,I))
               NN3R = I
               K3R = J
-                ENDIF             
+                ENDIF
           ENDIF
          ENDIF
         ENDDO
@@ -6239,11 +6239,11 @@ c          ID2N(ID)=I
        IF (NN2 /= 0) DMAX = D(K2,NN2)
        ITABMAX2 = ITAB(NN2)
        IF (NN2R /= 0) DRMAX = DR(K2R-3,NN2R)
-       IRTABMAX2 = ITAB(NN2R)  
+       IRTABMAX2 = ITAB(NN2R)
        IF (NN3 /= 0) DDMAX = DD(K3,NN3)
        ITABMAX3 = ITAB(NN3)
        IF (NN3R /= 0) DDRMAX = DDR(K3R-3,NN3R)
-       IRTABMAX3 = ITAB(NN3R)              
+       IRTABMAX3 = ITAB(NN3R)
 c      Compute maximum value F(II) with several processes in SPMD
        IF (NSPMD>1) THEN
          CALL SPMD_MAX_F(FMAX,ITABMAX,K)
@@ -6256,9 +6256,9 @@ c      Compute maximum value F(II) with several processes in SPMD
 c      Write solver information
        IF (ISPMD==0) THEN
          IF (IT == ZERO) THEN
-          WRITE(ISOLINFO,1667) NCYCLE       
+          WRITE(ISOLINFO,1667) NCYCLE
          ENDIF
-         WRITE(ISOLINFO,1060) IT 
+         WRITE(ISOLINFO,1060) IT
          WRITE(ISOLINFO,1066) FMAX,ITABMAX,K
          WRITE(ISOLINFO,1064) DMAX,ITABMAX2,K2
          WRITE(ISOLINFO,1062) DDMAX,ITABMAX3,K3
@@ -6267,70 +6267,70 @@ c      Write solver information
          WRITE(ISOLINFO,1061) DDRMAX,IRTABMAX3,K3R
          WRITE (NODEID,'(I10)') ITABMAX
          CUMUL_IT = I_IMP(1)+IT
-c        Write monitor file         
+c        Write monitor file
          IF (K==0) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'  ',FMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'  ',FMAX
          ELSEIF (K==1) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_X',FMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_X',FMAX
          ELSEIF (K==2) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_Y',FMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_Y',FMAX
          ELSEIF (K==3) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_Z',FMAX   
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualForce  ',NODEID//'_Z',FMAX
          ENDIF
 c         WRITE (NODEID,'(I10)') ITABMAX2
 c         IF (K2==0) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'  ',DMAX 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'  ',DMAX
 c         ELSEIF (K2==1) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_X',DMAX 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_X',DMAX
 c         ELSEIF (K2==2) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_Y',DMAX 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_Y',DMAX
 c         ELSEIF (K2==3) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_Z',DMAX   
-c         ENDIF 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementDisp  ',NODEID//'_Z',DMAX
+c         ENDIF
          WRITE (NODEID,'(I10)') ITABMAX3
          IF (K3==0) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'  ',DDMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'  ',DDMAX
          ELSEIF (K3==1) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_X',DDMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_X',DDMAX
          ELSEIF (K3==2) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_Y',DDMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_Y',DDMAX
          ELSEIF (K3==3) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_Z',DDMAX   
-         ENDIF  
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionDisp ',NODEID//'_Z',DDMAX
+         ENDIF
          WRITE (NODEID,'(I10)') IRTABMAX
          IF (KR==0) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'  ',FRMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'  ',FRMAX
          ELSEIF (KR==4) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_X',FRMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_X',FRMAX
          ELSEIF (KR==5) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_Y',FRMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_Y',FRMAX
          ELSEIF (KR==6) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_Z',FRMAX   
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxResidualMoment ',NODEID//'_Z',FRMAX
          ENDIF
 c         WRITE (NODEID,'(I10)') IRTABMAX2
 c         IF (K2R==0) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'  ',DRMAX 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'  ',DRMAX
 c         ELSEIF (K2R==4) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_X',DRMAX 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_X',DRMAX
 c         ELSEIF (K2R==5) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_Y',DRMAX 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_Y',DRMAX
 c         ELSEIF (K2R==6) THEN
-c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_Z',DRMAX   
-c         ENDIF 
+c           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxIncrementRota  ',NODEID//'_Z',DRMAX
+c         ENDIF
          WRITE (NODEID,'(I10)') IRTABMAX3
          IF (K3R==0) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'  ',DDRMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'  ',DDRMAX
          ELSEIF (K3R==4) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_X',DDRMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_X',DDRMAX
          ELSEIF (K3R==5) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_Y',DDRMAX 
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_Y',DDRMAX
          ELSEIF (K3R==6) THEN
-           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_Z',DDRMAX   
-         ENDIF  
+           WRITE(ISOLMNTR,1160) CUMUL_IT,0,' MaxCorrectionRota ',NODEID//'_Z',DDRMAX
+         ENDIF
          WRITE(NODEID,'(I10)') 0
-         WRITE(ISOLMNTR,1160) CUMUL_IT,0,' NormResidualDisp  ',NODEID//'  ',R_IMP(20) 
-         WRITE(ISOLMNTR,1160) CUMUL_IT,0,' NormResidualForce ',NODEID//'  ',R_IMP(21) 
-         WRITE(ISOLMNTR,1160) CUMUL_IT,0,' NormResidualEnergy',NODEID//'  ',R_IMP(22) 
+         WRITE(ISOLMNTR,1160) CUMUL_IT,0,' NormResidualDisp  ',NODEID//'  ',R_IMP(20)
+         WRITE(ISOLMNTR,1160) CUMUL_IT,0,' NormResidualForce ',NODEID//'  ',R_IMP(21)
+         WRITE(ISOLMNTR,1160) CUMUL_IT,0,' NormResidualEnergy',NODEID//'  ',R_IMP(22)
          WRITE(ISOLMNTR,1160) CUMUL_IT,0,' DimContactMatrix  ',NODEID//'  ',FLOAT(I_IMP(13))
          WRITE(ISOLMNTR,1160) CUMUL_IT,0,' TimeStep          ',NODEID//'  ',DT2
 C         CALL MY_FLUSH(ISOLMNTR)
@@ -6339,33 +6339,33 @@ C         CALL MY_FLUSH(ISOLMNTR)
            IF (NITOL == 1) THEN
              WRITE(ISOLINFO,1067)
            ELSE IF (NITOL == 2) THEN
-             WRITE(ISOLINFO,1069) 
+             WRITE(ISOLINFO,1069)
            ELSE IF (NITOL == 3) THEN
-             WRITE(ISOLINFO,1071)              
+             WRITE(ISOLINFO,1071)
            ELSE IF (NITOL == 12) THEN
-             WRITE(ISOLINFO,1073)              
+             WRITE(ISOLINFO,1073)
            ELSE IF (NITOL == 13) THEN
              WRITE(ISOLINFO,1075)
            ELSE IF (NITOL == 23) THEN
-             WRITE(ISOLINFO,1077)            
+             WRITE(ISOLINFO,1077)
            ELSE IF (NITOL == 123) THEN
-             WRITE(ISOLINFO,1079)           
+             WRITE(ISOLINFO,1079)
            END IF
          ELSE IF (IMCONV == -2) THEN
            IF (NITOL == 1) THEN
              WRITE(ISOLINFO,1068)
            ELSE IF (NITOL == 2) THEN
-             WRITE(ISOLINFO,1070) 
+             WRITE(ISOLINFO,1070)
            ELSE IF (NITOL == 3) THEN
-             WRITE(ISOLINFO,1072)  
+             WRITE(ISOLINFO,1072)
            ELSE IF (NITOL == 12) THEN
-             WRITE(ISOLINFO,1074) 
+             WRITE(ISOLINFO,1074)
            ELSE IF (NITOL == 13) THEN
              WRITE(ISOLINFO,1076)
            ELSE IF (NITOL == 23) THEN
-             WRITE(ISOLINFO,1078) 
+             WRITE(ISOLINFO,1078)
            ELSE IF (NITOL == 123) THEN
-             WRITE(ISOLINFO,1080)             
+             WRITE(ISOLINFO,1080)
            END IF
          ENDIF
          IF (NITOL == 1) THEN
@@ -6379,11 +6379,11 @@ C         CALL MY_FLUSH(ISOLMNTR)
            ELSE IF (NITOL == 3) THEN
              TOLE = EM03
              TOLF = EM02
-             TOLU = N_TOL             
+             TOLU = N_TOL
            ELSE IF (NITOL == 12) THEN
              TOLE = N_TOLE
              TOLF = N_TOLF
-             TOLU = EM02             
+             TOLU = EM02
            ELSE IF (NITOL == 13) THEN
              TOLE = N_TOLE
              TOLF = EM02
@@ -6391,11 +6391,11 @@ C         CALL MY_FLUSH(ISOLMNTR)
            ELSE IF (NITOL == 23) THEN
              TOLE = EM03
              TOLF = N_TOLF
-             TOLU = N_TOLU             
+             TOLU = N_TOLU
            ELSE IF (NITOL == 123) THEN
              TOLE = N_TOLE
              TOLF = N_TOLF
-             TOLU = N_TOLU             
+             TOLU = N_TOLU
          END IF
          IF (IMCONV == -1) THEN
 c         Nothing since line search not ended
@@ -6414,7 +6414,7 @@ c         Converged step
      .        ONE,ZERO,TT,R_IMP(9),TT,R_IMP(24)
          WRITE(ISOLHIST,1668)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
-     .        ZERO,ZERO,TT,R_IMP(9),TT,R_IMP(24)  
+     .        ZERO,ZERO,TT,R_IMP(9),TT,R_IMP(24)
         ELSE
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
@@ -6424,18 +6424,18 @@ c         Converged step
      .        ONE,ZERO,TT,R_IMP(9)
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
-     .        ZERO,ZERO,TT,R_IMP(9)   
-        ENDIF    
+     .        ZERO,ZERO,TT,R_IMP(9)
+        ENDIF
 c         Write .progress file
           REWIND(ISOLPGRS)
-          WRITE(ISOLPGRS,'(I4)') CUMUL_IT          
+          WRITE(ISOLPGRS,'(I4)') CUMUL_IT
           WRITE(ISOLPGRS,'(E11.4)') TT
           WRITE(ISOLPGRS,'(I4)') nint(TT/TSTOP*HUNDRED)
           WRITE(ISOLPGRS,'(I4)') 0
           WRITE(ISOLPGRS,'(I4)') 0
-          CALL FLUSH(ISOLPGRS)       
+          CALL FLUSH(ISOLPGRS)
         ELSEIF (IMCONV == -2) THEN
-c         Diverged step         
+c         Diverged step
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
      .        ZERO,ZERO,TT,R_IMP(9)
@@ -6444,46 +6444,46 @@ c         Diverged step
      .        ZERO,ONE,TT,R_IMP(9)
          WRITE(ISOLHIST,1666)CUMUL_IT+1,NCYCLE,IT,R_IMP(20),
      .        R_IMP(21),R_IMP(22),TOLE,TOLF,TOLU,
-     .        ZERO,ZERO,TT,R_IMP(9)         
-        ENDIF  
+     .        ZERO,ZERO,TT,R_IMP(9)
+        ENDIF
       ENDIF
-1060  FORMAT('       ITERATION',I4)       
+1060  FORMAT('       ITERATION',I4)
 1061  FORMAT('           LARGEST CORRECTION ROTA.  ',E11.4,
-     .       '   AT NODE  ',I10,'   DOF  ',I4)         
+     .       '   AT NODE  ',I10,'   DOF  ',I4)
 1062  FORMAT('           LARGEST CORRECTION DISP.  ',E11.4,
-     .       '   AT NODE  ',I10,'   DOF  ',I4)         
+     .       '   AT NODE  ',I10,'   DOF  ',I4)
 1063  FORMAT('           LARGEST INCREMENT ROTA.   ',E11.4,
-     .       '   AT NODE  ',I10,'   DOF  ',I4)         
+     .       '   AT NODE  ',I10,'   DOF  ',I4)
 1064  FORMAT('           LARGEST INCREMENT DISP.   ',E11.4,
-     .       '   AT NODE  ',I10,'   DOF  ',I4)         
+     .       '   AT NODE  ',I10,'   DOF  ',I4)
 1065  FORMAT('           LARGEST RESIDUAL MOMENT   ',E11.4,
-     .       '   AT NODE  ',I10,'   DOF  ',I4)       
+     .       '   AT NODE  ',I10,'   DOF  ',I4)
 1066  FORMAT('           LARGEST RESIDUAL FORCE    ',E11.4,
-     .       '   AT NODE  ',I10,'   DOF  ',I4) 
+     .       '   AT NODE  ',I10,'   DOF  ',I4)
 1067  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY')
-1068  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY') 
+1068  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY')
 1069  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL FORCE')
-1070  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL FORCE') 
+1070  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL FORCE')
 1071  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL DISP.')
-1072  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL DISP.') 
+1072  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL DISP.')
 1073  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY AND FORCE')
 1074  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY AND FORCE')
 1075  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY AND DISP.')
-1076  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY AND DISP.')  
+1076  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY AND DISP.')
 1077  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL FORCE AND DISP.')
-1078  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL FORCE AND DISP.') 
+1078  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL FORCE AND DISP.')
 1079  FORMAT('       ACCEPTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY, FORCE AND DISP.')
 1080  FORMAT('       REJECTED EQUILIBRIUM BASED ON SMALL RESIDUAL ENERGY, FORCE AND DISP.')
 1666  FORMAT(I10,',',I10,',',I10,',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2,
      .       ',',E10.2,',',E10.2,',',E10.2)
-1667  FORMAT('   * CYCLE',I6)  
+1667  FORMAT('   * CYCLE',I6)
 1668  FORMAT(I10,',',I10,',',I10,',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2,
      .       ',',E10.2,',',E10.2,',',E10.2,',',E10.2,',',E10.2)
 1160  FORMAT(I6,I6,A19,A12,E12.4)
 C------------------------------------------
       RETURN
       END
-    
+
 Chd|====================================================================
 Chd|  WRITE_TPL_FILE                source/implicit/imp_solv.F    
 Chd|-- called by -----------
@@ -6535,36 +6535,36 @@ C-----------------------------------------------
      .   ,'Residual force','Residual force','Residual force'
       WRITE(ISOLTPL,1002) IOFF2,1,4,1,0,4,1,'Tolerance force',1
      .   ,'Tolerance force','Tolerance force','Tolerance force'
-     .   ,'Tolerance force','Tolerance force','Tolerance force'      
+     .   ,'Tolerance force','Tolerance force','Tolerance force'
       WRITE(ISOLTPL,1002) IOFF3,1,46,1,3,46,1,'Residual disp.',1
      .   ,'Residual disp.','Residual disp.','Residual disp.'
      .   ,'Residual disp.','Residual disp.','Residual disp.'
       WRITE(ISOLTPL,1002) IOFF3,1,46,1,0,4,1,'Tolerance disp.',1
      .   ,'Tolerance disp.','Tolerance disp.','Tolerance disp.'
-     .   ,'Tolerance disp.','Tolerance disp.','Tolerance disp.'   
+     .   ,'Tolerance disp.','Tolerance disp.','Tolerance disp.'
       WRITE(ISOLTPL,1002) IOFF1,1,0,1,3,0,1,'Residual energy',1
      .   ,'Residual energy','Residual energy','Residual energy'
      .   ,'Residual energy','Residual energy','Residual energy'
       WRITE(ISOLTPL,1002) IOFF1,1,0,1,0,4,1,'Tolerance energy',1
      .   ,'Tolerance energy','Tolerance energy','Tolerance energy'
-     .   ,'Tolerance energy','Tolerance energy','Tolerance energy'    
+     .   ,'Tolerance energy','Tolerance energy','Tolerance energy'
       WRITE(ISOLTPL,1002) 'On',1,55,1,0,55,1,'Converged step',2
      .   ,'Converged step','Converged step','Converged step'
-     .   ,'Converged step','Converged step','Converged step'   
+     .   ,'Converged step','Converged step','Converged step'
       WRITE(ISOLTPL,1002) 'On',1,2,1,0,2,1,'Diverged step',2
      .   ,'Diverged step','Diverged step','Diverged step'
-     .   ,'Diverged step','Diverged step','Diverged step'    
+     .   ,'Diverged step','Diverged step','Diverged step'
       WRITE(ISOLTPL,1003)
       WRITE(ISOLTPL,1004) 2,2,2,'Cumulative iterations','Line search coeff'
       WRITE(ISOLTPL,1002) 'On',1,50,1,3,50,1,'Line search coefficient',1
      .   ,'Line search coefficient','Line search coefficient','Line search coefficient'
-     .   ,'Line search coefficient','Line search coefficient','Line search coefficient'  
+     .   ,'Line search coefficient','Line search coefficient','Line search coefficient'
       WRITE(ISOLTPL,1003)
       IF (IDTC==3) THEN
       WRITE(ISOLTPL,1004) 3,3,3,'Arc length','Load factor'
       WRITE(ISOLTPL,1006) 'On',1,27,1,3,27,1,'Load factor',1
      .   ,'Load factor','Load factor','Load factor'
-     .   ,'Load factor','Load factor','Load factor'      
+     .   ,'Load factor','Load factor','Load factor'
       ELSE
       WRITE(ISOLTPL,1004) 3,3,3,'Cumulative iterations','Time (s)'
       WRITE(ISOLTPL,1002) 'On',1,27,1,3,27,1,'Time',1
@@ -6583,7 +6583,7 @@ c     .       '            *EndTime(1,0000000)'/
 c     .       '            *Increment(Forward, Frame, 1, BounceOff)'/
 c     .       '        *EndAnimator()'/
      .       '        *WindowIDs(191, 192, 193)'
-     .       )    
+     .       )
 1001  FORMAT('        *ExportFormat("PNG")'/
      .       '        *BeginPlot()'/
      .       '            *PlotType(0)'/
@@ -6664,7 +6664,7 @@ c     .       '        *EndAnimator()'/
      .       '                *LabelFont("Arial", 0, 0, 8)'/
      .       '                *TicsFont("Arial", 0, 0, 8)'/
      .       '                *FitRange(FALSE)'/
-     .       '            *EndAxis()'     
+     .       '            *EndAxis()'
      .       )
 1002  FORMAT('            *BeginCurve(',A,', "{y.HWComponent}")'/
      .       '                *Line(',I2,',',I2,',',I2,')'/
@@ -6762,8 +6762,8 @@ c     .       '        *EndAnimator()'/
      .       '                *EndVector()'/
      .       '                *Attribute("HWLastGoodCurveName", "HWLastGoodCurveName", "String", "',A,'")'/
      .       '            *EndCurve()'
-     .       )     
-1003  FORMAT('        *EndPlot()')   
+     .       )
+1003  FORMAT('        *EndPlot()')
 1004  FORMAT('        *ExportFormat("PNG")'/
      .       '        *BeginPlot()'/
      .       '            *PlotType(0)'/
@@ -6829,7 +6829,7 @@ c     .       '        *EndAnimator()'/
      .       '                *TicsFont("Arial", 0, 0, 8)'/
      .       '                *FitRange(FALSE)'/
      .       '            *EndAxis()'
-     .       )  
+     .       )
 1005  FORMAT('        *EndPlot()'/
      .       '        *TimeScales(1, 1, 1)'/
      .       '        *TimeDelays(0, 0, 0)'/
@@ -6837,7 +6837,7 @@ c     .       '        *EndAnimator()'/
      .       '        *SyncTolerance(2e-008)'/
      .       '        *SyncTableGenerationPolicy(ALL_BLOCKS)'/
      .       '    *EndPage()'/
-     .       '*EndDefine()'     
+     .       '*EndDefine()'
      .       )
 1006  FORMAT('            *BeginCurve(',A,', "{y.HWComponent}")'/
      .       '                *Line(',I2,',',I2,',',I2,')'/
@@ -6935,10 +6935,10 @@ c     .       '        *EndAnimator()'/
      .       '                *EndVector()'/
      .       '                *Attribute("HWLastGoodCurveName", "HWLastGoodCurveName", "String", "',A,'")'/
      .       '            *EndCurve()'
-     .       )     
+     .       )
 C------------------------------------------
       RETURN
-      END      
+      END
 c
 Chd|====================================================================
 Chd|  INT5_DIVERG                   source/implicit/imp_solv.F    
@@ -7075,12 +7075,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITSK   ,N1FTSK ,N1LTSK ,N1   
+      INTEGER ITSK   ,N1FTSK ,N1LTSK ,N1
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER OMP_GET_THREAD_NUM
-      EXTERNAL OMP_GET_THREAD_NUM 
+      EXTERNAL OMP_GET_THREAD_NUM
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -7204,7 +7204,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE TRI7BOX   
+      USE TRI7BOX
       USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -7339,7 +7339,7 @@ C
         IF (N_MAX(N)>0 .AND. IN1CON==0) THEN
          IF (INCONV==1) THEN
           IN1CON = NCYCLE+1
-         ELSE 
+         ELSE
           IN1CON = NCYCLE
          END IF
         END IF
@@ -7356,7 +7356,7 @@ c        write(iout,*)'NREBOU,NIN,imconv,ispmd=',
 c     +                NREBOU,N,imconv,ispmd
 C---------negative :rebound active          
          IPARI(53,N)=-NREBOU
-        END IF 
+        END IF
         IPARI(26,N)=IN1CON
         IPARI(27,N)=N_MAX(N)
        END DO
@@ -7686,11 +7686,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
-     .   IXC(NIXC,*), IXTG(NIXTG,*), IPARG(NPARG,*),  
+     .   IXC(NIXC,*), IXTG(NIXTG,*), IPARG(NPARG,*),
      .    NDOF(*),IDDL(*),IKC(*),ITAB(*)
 C     REAL
       my_real
-     .   X(3,*)  ,PARTSAV(NPSAV,*) ,PM(*)  
+     .   X(3,*)  ,PARTSAV(NPSAV,*) ,PM(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -7707,7 +7707,7 @@ C------------blank could be composed w/ 4N,3N and in diff parts
 C------ IRIG_M>1 -> input E_REF id
 C---IF there id BC (symmetry) in the blank----
 C----- put N1,N2,N3 (sys_id) in E_REF(1:3),  E_REF(4)=E_REF(3)      
-       RLSKEW(1:9) = ZERO        
+       RLSKEW(1:9) = ZERO
        IF (IRIG_M>1 ) THEN
         NBC_B = 0
         ILSKEW = 0
@@ -7732,7 +7732,7 @@ C----- put N1,N2,N3 (sys_id) in E_REF(1:3),  E_REF(4)=E_REF(3)
           IF (IKC(ND)>0.AND.IKCE(K)==0) IKCE(K) = 1
           IF (IKC(ND)==8) ILSKEW = N
          END DO
-        END DO 
+        END DO
         IF (ILSKEW >0)  LSKEW_G=1
 C----  end routine      
         RETURN
@@ -7789,8 +7789,8 @@ C
           JFT   =IPARG(3,NG) + 1
           JLT   = IPARG(3,NG) + NEL
           IF (ITY==7) THEN
-           DO I = JFT,JLT 
-            NBCS = 0           
+           DO I = JFT,JLT
+            NBCS = 0
             DO J=1,3
              N= IXTG(J+1,I)
              NBCS = NBCS + ITAG(N)
@@ -7798,8 +7798,8 @@ C
             IF (NBCS >0) NE_BC3 =NE_BC3 + 1
            END DO
           ELSEIF (ITY==3) THEN
-           DO I = JFT,JLT 
-            NBCS = 0           
+           DO I = JFT,JLT
+            NBCS = 0
             DO J=1,4
              N= IXC(J+1,I)
              NBCS = NBCS + ITAG(N)
@@ -7823,8 +7823,8 @@ C
           JFT   =IPARG(3,NG) + 1
           JLT   = IPARG(3,NG) + NEL
           IF (ITY==7) THEN
-           DO I = JFT,JLT 
-            NBCS = 0           
+           DO I = JFT,JLT
+            NBCS = 0
             DO J=1,3
              N= IXTG(J+1,I)
              NBCS = NBCS + ITAG(N)
@@ -7835,8 +7835,8 @@ C
             END IF
            END DO
           ELSEIF (ITY==3) THEN
-           DO I = JFT,JLT 
-            NBCS = 0           
+           DO I = JFT,JLT
+            NBCS = 0
             DO J=1,4
              N= IXC(J+1,I)
              NBCS = NBCS + ITAG(N)
@@ -7847,7 +7847,7 @@ C
             END IF
            END DO
           END IF
-       END DO !NG = 
+       END DO !NG =
 C-------NBC = 0          
       ELSEIF (NBC_B == 0) THEN
        N3=0
@@ -7893,10 +7893,10 @@ C-------warning out--
         YC = YC/MAS
         ZC = ZC/MAS
 C
-        XMIN=EP30        
-        YMIN=EP30        
-        ZMIN=EP30        
-        DMIN=EP30        
+        XMIN=EP30
+        YMIN=EP30
+        ZMIN=EP30
+        DMIN=EP30
        DO NG = 1, NGROUP
           IF(IPARG(8,NG)==1) CYCLE
           ITY   =IPARG(5,NG)
@@ -7930,7 +7930,7 @@ C-------to get unique ref-element
          CALL SPMD_MIN_S(DMING)
          IF (DMING<DMIN) E_REF(4)=0
         END IF
-       END IF   !((N3==0.AND.N4==0).OR.N3>1 .OR. N4>1)     
+       END IF   !((N3==0.AND.N4==0).OR.N3>1 .OR. N4>1)
       END IF !(NBC>0) THEN
       IF (NBC >0) DEALLOCATE(ITAG)
 C      
@@ -7983,7 +7983,7 @@ C---- E_id : nearest the gravity center----
         YMIN=EP30
         YMAX=-EP30
         ZMIN=EP30
-        ZMAX=-EP30 
+        ZMAX=-EP30
          DO J=1,4
           N= IXC(J+1,I)
           XMIN=MIN(XMIN,X(1,N))
@@ -8093,7 +8093,7 @@ C---- E_id : nearest the gravity center----
         YMIN=EP30
         YMAX=-EP30
         ZMIN=EP30
-        ZMAX=-EP30 
+        ZMAX=-EP30
          DO J=1,3
           N= IXTG(J+1,I)
           XMIN=MIN(XMIN,X(1,N))
@@ -8227,7 +8227,7 @@ C----get ISK(from E_REF)set [Q],transfert DTRA,DROT to local reset IKCE(6) put (
              NN = ILSKEW
              ISK = ISKEW(NN)
 C---------local IKC
-             RLSKEW(1:9) = SKEW(1:9,ISK)        
+             RLSKEW(1:9) = SKEW(1:9,ISK)
              CALL GETIKCE(ICODT(NN),ICODR(NN),NDOF(NN),IKCE)
            END IF
          IF (NSPMD>1) CALL SPMD_N_REF()
@@ -8241,7 +8241,7 @@ C----get ISK(from E_REF)set [Q],transfert DTRA,DROT to local reset IKCE(6) put (
              NN = ILSKEW
              ISK = ISKEW(NN)
 C---------local IKC
-             RLSKEW(1:9) = SKEW(1:9,ISK)        
+             RLSKEW(1:9) = SKEW(1:9,ISK)
              CALL GETIKCE(ICODT(NN),ICODR(NN),NDOF(NN),IKCE)
             END IF
           ELSE
@@ -8274,7 +8274,7 @@ c        END IF
          IF (IKCE(J)==1) DTRAL(J)= ZERO
          IF (IKCE(J+3)==1) DROTL(J)=ZERO
         ENDDO
-        IF (IRODDL/=0) CALL TRANSVL2G(RLSKEW,DROTL,DROT) 
+        IF (IRODDL/=0) CALL TRANSVL2G(RLSKEW,DROTL,DROT)
        DO I =1,NUMNOD
         NKC=0
         DO J=1,MIN(3,NDOF(I))
@@ -8286,7 +8286,7 @@ C--------exclude the node w/all translational fixed
         IF (NKC<3.AND.NDOF(I)>0) THEN
           LSM(1)=X(1,I)-X0
           LSM(2)=X(2,I)-Y0
-          LSM(3)=X(3,I)-Z0             
+          LSM(3)=X(3,I)-Z0
 C----transfert LSM to local     
 c         CALL TRANSVG2L(RLSKEW,LSM,LSML)
           CALL VELROT(DROTL,LSML,DRS)
@@ -8300,9 +8300,9 @@ C----------suppose the same ISK w/ reference one
             IF (IKCL(J)==1) DRS(J)= ZERO
             IF (IKCL(J+3)==1) DROTL1(J)= ZERO
            ENDDO
-           CALL TRANSVL2G(RLSKEW,DROTL1,DROT1) 
+           CALL TRANSVL2G(RLSKEW,DROTL1,DROT1)
           END IF !(NKC>0) THEN
-          CALL TRANSVL2G(RLSKEW,DRS,DRS1) 
+          CALL TRANSVL2G(RLSKEW,DRS,DRS1)
 C----transfert DL DROT,to global     
           DO K=1,3
            D_IMP(K,I)=D_IMP(K,I)- DRS1(K)
@@ -8325,7 +8325,7 @@ C--------exclude the node w/all translational fixed
         IF (NKC<3.AND.NDOF(I)>0) THEN
           LSM(1)=X(1,I)-X0
           LSM(2)=X(2,I)-Y0
-          LSM(3)=X(3,I)-Z0             
+          LSM(3)=X(3,I)-Z0
           CALL VELROT(DROT,LSM,DRS)
           DO K=1,3
            ND = IDDL(I)+K
@@ -8339,7 +8339,7 @@ C--------exclude the node w/all translational fixed
           END IF
         END IF
        ENDDO
-      END IF 
+      END IF
        IF (ITTOFF>0 .AND.NCYCLE==1) THEN
         write(iout,*)
         write(iout,*)'Segement served as Reference are the following nodes:'
@@ -8417,7 +8417,7 @@ C-----------------------------------------------
      .   NDOF(*),IDDL(*),IKC(*),IXC(NIXC,*), IXTG(NIXTG,*)
 C     REAL
       my_real
-     .   DMIN,X(3,*) ,D_IMP(3,*)   
+     .   DMIN,X(3,*) ,D_IMP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -8433,7 +8433,7 @@ C------doing  once: NCYCLE=1
         LSKEW_G = 0
         IKCE(1:6) = 0
         E_REF(1:4) = 0
-        DO I = 1, NE_BC4       
+        DO I = 1, NE_BC4
          IE =IE_BC4(I)
          DO K = 1,3
           D(K) = ZERO
@@ -8449,7 +8449,7 @@ C------doing  once: NCYCLE=1
          END IF
         END DO
 C        
-        DO I = 1, NE_BC3       
+        DO I = 1, NE_BC3
          IE =IE_BC3(I)
          DO K = 1,3
           D(K) = ZERO
@@ -8464,7 +8464,7 @@ C
           E_REF(1:3) = IXTG(2:4,IE)
           E_REF(4) = E_REF(3)
          END IF
-        END DO 
+        END DO
 C-----not to use allow BCS (global only IKC=1) dof direction 
 C----- add BCS w/ SKEW (ILSKEW=1 w/ ref); Ud (IKC=2,9) could also be added--
         DO J = 1, 4
@@ -8474,7 +8474,7 @@ C----- add BCS w/ SKEW (ILSKEW=1 w/ ref); Ud (IKC=2,9) could also be added--
           ND = IDDL(N)+K
           IF (IKC(ND)>0.AND.IKCE(K)==0) IKCE(K) = 1
          END DO
-        END DO 
+        END DO
 C--------to limit change during the iteration and dependant of np        
         IF (NSPMD>1) THEN
          DMINT = DMIN
@@ -8499,7 +8499,7 @@ C------not in this domain-----
           ND = IDDL(N)+K
           IF (IKC(ND)==8) ILSKEW = N
          END DO
-        END DO 
+        END DO
         IF (ILSKEW >0) LSKEW_G=1
        END IF
 C-------Ncycle>1       
@@ -8525,7 +8525,7 @@ C-------Ncycle>1
           X_REF(1:3,J)= X(1:3,N)
           D_REF(1:3,J)= D_IMP(1:3,N)
          END DO
-       END IF 
+       END IF
 C------------------------------------------
       RETURN
       END
@@ -8548,7 +8548,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X_REF(3,4),D_REF(3,4),X(3,*),D(3,*),DTRA(3),DROT(3),
-     .   X0  ,Y0  ,Z0  
+     .   X0  ,Y0  ,Z0
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -8573,7 +8573,7 @@ C        NJ=IRECT(J)
         XM(J)=X_REF(1,J)
         YM(J)=X_REF(2,J)
         ZM(J)=X_REF(3,J)
-       ENDDO 
+       ENDDO
        IF(NIR==3) THEN
         XM(4)=ZERO
         YM(4)=ZERO
@@ -8585,18 +8585,18 @@ C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))       
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))
         DO J=1,NIR
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
 C-------
-        XX=0 
-        YY=0 
-        ZZ=0 
-        XY=0 
-        YZ=0 
+        XX=0
+        YY=0
+        ZZ=0
+        XY=0
+        YZ=0
         ZX=0
         DO J=1,NIR
          XX=XX+ XM(J)*XM(J)
@@ -8605,10 +8605,10 @@ C-------
          XY=XY+ XM(J)*YM(J)
          YZ=YZ+ YM(J)*ZM(J)
          ZX=ZX+ ZM(J)*XM(J)
-        ENDDO 
+        ENDDO
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -8685,7 +8685,7 @@ C-----------------------------------------------
      .   IXC(NIXC,*), IXTG(NIXTG,*), NDOF(*),IDDL(*),IKC(*)
 C     REAL
       my_real
-     .   DMIN,X(3,*) ,D_IMP(3,*) ,DR_IMP(3,*)  
+     .   DMIN,X(3,*) ,D_IMP(3,*) ,DR_IMP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -8696,9 +8696,9 @@ C----- find reference element: around element center))
 C--------NSAVE(1) : XMIN, 2 : YMIN, 3 : ZMIN, 4 : DMIN 
       DMIN=EP30
       IF (NCYCLE==1 )THEN
-        NSAVE(1:4) = E_REF(1:4) 
+        NSAVE(1:4) = E_REF(1:4)
         E_REF(1:4) = 0
-          DO I = 1,4       
+          DO I = 1,4
            IE =IABS(NSAVE(I))
            IF (IE==0) CYCLE
            DO K = 1,3
@@ -8773,7 +8773,7 @@ C---- Ncycle>1
           X_REF(1:3,J)= X(1:3,N)
           D_REF(1:3,J)= D_IMP(1:3,N)
          END DO
-       END IF 
+       END IF
 C------------------------------------------
       RETURN
       END
@@ -8784,11 +8784,11 @@ Chd|        DIM_INT7                      source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
 Chd|        IMP_INTBUFDEF                 share/modules/imp_mod_def.F   
 Chd|====================================================================
-      SUBROUTINE IMP_INTBUF_INI(IMP_INTBUF_TAB,NIMP)  
+      SUBROUTINE IMP_INTBUF_INI(IMP_INTBUF_TAB,NIMP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE IMP_INTBUFDEF             
+      USE IMP_INTBUFDEF
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -8811,38 +8811,38 @@ C=======================================================================
 
       DO NI= 1, NINTER
         I_CONT = NIMP(NI)
-        IMP_INTBUF_TAB(NI)%S_I_STOK        = 1 
-        IMP_INTBUF_TAB(NI)%S_CAND_N       = 0   
-        IMP_INTBUF_TAB(NI)%S_CAND_E       = 0   
-        IMP_INTBUF_TAB(NI)%S_INDSUBT      = 0   
-        IMP_INTBUF_TAB(NI)%S_HJ         = 0   
-        IMP_INTBUF_TAB(NI)%S_NJ         = 0   
-        IMP_INTBUF_TAB(NI)%S_STIF         = 0   
-        ALLOCATE(IMP_INTBUF_TAB(NI)%I_STOK(IMP_INTBUF_TAB(NI)%S_I_STOK)) 
+        IMP_INTBUF_TAB(NI)%S_I_STOK        = 1
+        IMP_INTBUF_TAB(NI)%S_CAND_N       = 0
+        IMP_INTBUF_TAB(NI)%S_CAND_E       = 0
+        IMP_INTBUF_TAB(NI)%S_INDSUBT      = 0
+        IMP_INTBUF_TAB(NI)%S_HJ         = 0
+        IMP_INTBUF_TAB(NI)%S_NJ         = 0
+        IMP_INTBUF_TAB(NI)%S_STIF         = 0
+        ALLOCATE(IMP_INTBUF_TAB(NI)%I_STOK(IMP_INTBUF_TAB(NI)%S_I_STOK))
         IMP_INTBUF_TAB(NI)%I_STOK(1:IMP_INTBUF_TAB(NI)%S_I_STOK) = 0
        IF (I_CONT > 0) THEN
-        IMP_INTBUF_TAB(NI)%S_CAND_N       = I_CONT   
-        IMP_INTBUF_TAB(NI)%S_CAND_E       = I_CONT   
-        IMP_INTBUF_TAB(NI)%S_INDSUBT       = I_CONT   
+        IMP_INTBUF_TAB(NI)%S_CAND_N       = I_CONT
+        IMP_INTBUF_TAB(NI)%S_CAND_E       = I_CONT
+        IMP_INTBUF_TAB(NI)%S_INDSUBT       = I_CONT
         IMP_INTBUF_TAB(NI)%S_HJ   = 4*I_CONT
         IMP_INTBUF_TAB(NI)%S_NJ   = 3*I_CONT
         IMP_INTBUF_TAB(NI)%S_STIF = I_CONT
 C------Allocate, ini to zero        
-        ALLOCATE(IMP_INTBUF_TAB(NI)%CAND_N(IMP_INTBUF_TAB(NI)%S_CAND_N)) 
+        ALLOCATE(IMP_INTBUF_TAB(NI)%CAND_N(IMP_INTBUF_TAB(NI)%S_CAND_N))
         IMP_INTBUF_TAB(NI)%CAND_N(1:IMP_INTBUF_TAB(NI)%S_CAND_N) = 0
-        ALLOCATE(IMP_INTBUF_TAB(NI)%CAND_E(IMP_INTBUF_TAB(NI)%S_CAND_E)) 
+        ALLOCATE(IMP_INTBUF_TAB(NI)%CAND_E(IMP_INTBUF_TAB(NI)%S_CAND_E))
         IMP_INTBUF_TAB(NI)%CAND_E(1:IMP_INTBUF_TAB(NI)%S_CAND_E) = 0
-        ALLOCATE(IMP_INTBUF_TAB(NI)%INDSUBT(IMP_INTBUF_TAB(NI)%S_INDSUBT)) 
+        ALLOCATE(IMP_INTBUF_TAB(NI)%INDSUBT(IMP_INTBUF_TAB(NI)%S_INDSUBT))
         IMP_INTBUF_TAB(NI)%INDSUBT(1:IMP_INTBUF_TAB(NI)%S_INDSUBT) = 0
 C        
-        ALLOCATE(IMP_INTBUF_TAB(NI)%HJ(IMP_INTBUF_TAB(NI)%S_HJ)) 
+        ALLOCATE(IMP_INTBUF_TAB(NI)%HJ(IMP_INTBUF_TAB(NI)%S_HJ))
         IMP_INTBUF_TAB(NI)%HJ(1:IMP_INTBUF_TAB(NI)%S_HJ) = ZERO
-        ALLOCATE(IMP_INTBUF_TAB(NI)%NJ(IMP_INTBUF_TAB(NI)%S_NJ)) 
+        ALLOCATE(IMP_INTBUF_TAB(NI)%NJ(IMP_INTBUF_TAB(NI)%S_NJ))
         IMP_INTBUF_TAB(NI)%NJ(1:IMP_INTBUF_TAB(NI)%S_NJ) = ZERO
-        ALLOCATE(IMP_INTBUF_TAB(NI)%STIF(IMP_INTBUF_TAB(NI)%S_STIF)) 
+        ALLOCATE(IMP_INTBUF_TAB(NI)%STIF(IMP_INTBUF_TAB(NI)%S_STIF))
         IMP_INTBUF_TAB(NI)%STIF(1:IMP_INTBUF_TAB(NI)%S_STIF) = ZERO
        END IF
-         
+
       ENDDO !NI=1,NINTER
 
 C-----
@@ -8971,7 +8971,7 @@ C----free node
          KE(K,K) = K_DIAG(K)/MSD(K)
          DO J = IADK(K),IADK(K+1)-1
           JD = JDIK(J)
-          MSIJ=ONE/SQRT(MSD(K))/SQRT(MSD(JD))  
+          MSIJ=ONE/SQRT(MSD(K))/SQRT(MSD(JD))
           KE(K,JD) = K_LT(J)*MSIJ
           KE(JD,K) = KE(K,JD)
          ENDDO
@@ -9058,7 +9058,7 @@ C----6----------------------------------
         N1  = ICNDS10(2,I)
         N2  = ICNDS10(3,I)
         ID=INLOC(NN)
-        MSND = MS(ID) 
+        MSND = MS(ID)
         DO J=1,NDOF(ID)
          IK = IDDL(ID)+J
          ME(IK,IK)=ME(IK,IK)+MSND
@@ -9097,37 +9097,37 @@ C--------- m13,m23
          JK = IDDL(ID)+J
          ME(IK,JK)=ME(IK,JK)+MSII
          ME(JK,IK)=ME(JK,IK)+MSII
-        END DO        
+        END DO
        END DO !I =1,NS10E
        DO I =1,ND
        DO J =I,ND
          ME(J,I)=ME(I,J)
-       END DO 
-       END DO 
+       END DO
+       END DO
        CALL JACOBIEN(ME,ND,EW,EV,TOL,LAMDA)
 C-------[EV]'-> [EV]*EW^-1/2       
        DO I =1,ND
 c        print *,'M, ME(I,I),I=',ME(I,I),I
          EW(I)=ONE/SQRT(EW(I))
-       END DO 
+       END DO
        DO I =1,ND
         DO J =1,ND
          EV(I,J)=EV(I,J)*EW(J)
-        END DO 
-       END DO 
+        END DO
+       END DO
 C-------[K]-> [EV]^t*[K]*[EV]      
        ME(1:ND,1:ND) = ZERO
-        DO I=1,ND 
+        DO I=1,ND
         DO J=1,ND
-         DO K = 1,ND        
+         DO K = 1,ND
           ME(I,J)=ME(I,J)+KE(I,K)*EV(K,J)
          ENDDO
         ENDDO
         ENDDO
        KE(1:ND,1:ND) = ZERO
-        DO I=1,ND 
+        DO I=1,ND
         DO J=1,ND
-         DO K = 1,ND        
+         DO K = 1,ND
           KE(I,J)=KE(I,J)+EV(K,I)*ME(K,J)
          ENDDO
         ENDDO
@@ -9305,7 +9305,7 @@ C-----------------------------------------------
      .   NDOF(*),IDDL(*),IKC(*),ICODT(*),ICODR(*),ISKEW(*)
 C     REAL
       my_real
-     .   X(3,*) ,D_IMP(3,*) ,SKEW(LSKEW,*)  
+     .   X(3,*) ,D_IMP(3,*) ,SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -9327,7 +9327,7 @@ C----get ISK(from E_REF)set [Q],transfert DTRA,DROT to local reset IKCE(6) put (
           NN = ILSKEW
           ISK = ISKEW(NN)
 C---------local IKC
-          RLSKEW(1:9) = SKEW(1:9,ISK)        
+          RLSKEW(1:9) = SKEW(1:9,ISK)
           CALL GETIKCE(ICODT(NN),ICODR(NN),NDOF(NN),IKCE)
         END IF
 C------------------------------------------
@@ -9365,11 +9365,11 @@ C
         IF (ALLOCATED(IMPBUF_TAB%IDDL)) DEALLOCATE(IMPBUF_TAB%IDDL)
         IF (ALLOCATED(IMPBUF_TAB%NDOF)) DEALLOCATE(IMPBUF_TAB%NDOF)
         IF (ALLOCATED(IMPBUF_TAB%INLOC)) DEALLOCATE(IMPBUF_TAB%INLOC)
-        IF (ALLOCATED(IMPBUF_TAB%IRBYAC))DEALLOCATE(IMPBUF_TAB%IRBYAC)         
-        IF (ALLOCATED(IMPBUF_TAB%NSC))   DEALLOCATE(IMPBUF_TAB%NSC)        
-        IF (ALLOCATED(IMPBUF_TAB%IINT2)) DEALLOCATE(IMPBUF_TAB%IINT2)           
-        IF (ALLOCATED(IMPBUF_TAB%NKUD))  DEALLOCATE(IMPBUF_TAB%NKUD)          
-        IF (ALLOCATED(IMPBUF_TAB%IMONV)) DEALLOCATE(IMPBUF_TAB%IMONV)            
+        IF (ALLOCATED(IMPBUF_TAB%IRBYAC))DEALLOCATE(IMPBUF_TAB%IRBYAC)
+        IF (ALLOCATED(IMPBUF_TAB%NSC))   DEALLOCATE(IMPBUF_TAB%NSC)
+        IF (ALLOCATED(IMPBUF_TAB%IINT2)) DEALLOCATE(IMPBUF_TAB%IINT2)
+        IF (ALLOCATED(IMPBUF_TAB%NKUD))  DEALLOCATE(IMPBUF_TAB%NKUD)
+        IF (ALLOCATED(IMPBUF_TAB%IMONV)) DEALLOCATE(IMPBUF_TAB%IMONV)
         IF (ALLOCATED(IMPBUF_TAB%IADK)) DEALLOCATE(IMPBUF_TAB%IADK)
         IF (ALLOCATED(IMPBUF_TAB%JDIK)) DEALLOCATE(IMPBUF_TAB%JDIK)
         IF (ALLOCATED(IMPBUF_TAB%IKINW)) DEALLOCATE(IMPBUF_TAB%IKINW)
@@ -9384,26 +9384,26 @@ C
         IF (ALLOCATED(IMPBUF_TAB%NDOFI)) DEALLOCATE(IMPBUF_TAB%NDOFI)
         IF (ALLOCATED(IMPBUF_TAB%IDDLI)) DEALLOCATE(IMPBUF_TAB%IDDLI)
         IF (ALLOCATED(IMPBUF_TAB%INBUF_C)) DEALLOCATE(IMPBUF_TAB%INBUF_C)
-	    IF (ALLOCATED(IMPBUF_TAB%DIAG_K)) DEALLOCATE(IMPBUF_TAB%DIAG_K) 
-	    IF (ALLOCATED(IMPBUF_TAB%LT_K))   DEALLOCATE(IMPBUF_TAB%LT_K)   
-	    IF (ALLOCATED(IMPBUF_TAB%DIAG_M)) DEALLOCATE(IMPBUF_TAB%DIAG_M) 
-	    IF (ALLOCATED(IMPBUF_TAB%LT_M))   DEALLOCATE(IMPBUF_TAB%LT_M)   
-	    IF (ALLOCATED(IMPBUF_TAB%LB))     DEALLOCATE(IMPBUF_TAB%LB)     
-	    IF (ALLOCATED(IMPBUF_TAB%LB0))    DEALLOCATE(IMPBUF_TAB%LB0)     
-	    IF (ALLOCATED(IMPBUF_TAB%BKUD))   DEALLOCATE(IMPBUF_TAB%BKUD)   
-	    IF (ALLOCATED(IMPBUF_TAB%D_IMP))  DEALLOCATE(IMPBUF_TAB%D_IMP)  
-	    IF (ALLOCATED(IMPBUF_TAB%DR_IMP)) DEALLOCATE(IMPBUF_TAB%DR_IMP) 
+	    IF (ALLOCATED(IMPBUF_TAB%DIAG_K)) DEALLOCATE(IMPBUF_TAB%DIAG_K)
+	    IF (ALLOCATED(IMPBUF_TAB%LT_K))   DEALLOCATE(IMPBUF_TAB%LT_K)
+	    IF (ALLOCATED(IMPBUF_TAB%DIAG_M)) DEALLOCATE(IMPBUF_TAB%DIAG_M)
+	    IF (ALLOCATED(IMPBUF_TAB%LT_M))   DEALLOCATE(IMPBUF_TAB%LT_M)
+	    IF (ALLOCATED(IMPBUF_TAB%LB))     DEALLOCATE(IMPBUF_TAB%LB)
+	    IF (ALLOCATED(IMPBUF_TAB%LB0))    DEALLOCATE(IMPBUF_TAB%LB0)
+	    IF (ALLOCATED(IMPBUF_TAB%BKUD))   DEALLOCATE(IMPBUF_TAB%BKUD)
+	    IF (ALLOCATED(IMPBUF_TAB%D_IMP))  DEALLOCATE(IMPBUF_TAB%D_IMP)
+	    IF (ALLOCATED(IMPBUF_TAB%DR_IMP)) DEALLOCATE(IMPBUF_TAB%DR_IMP)
         IF (ALLOCATED(IMPBUF_TAB%ELBUF_C)) DEALLOCATE(IMPBUF_TAB%ELBUF_C)
 		IF (ALLOCATED(IMPBUF_TAB%BUFMAT_C))DEALLOCATE(IMPBUF_TAB%BUFMAT_C)
 		IF (ALLOCATED(IMPBUF_TAB%X_C)) DEALLOCATE(IMPBUF_TAB%X_C)
 		IF (ALLOCATED(IMPBUF_TAB%DD)) DEALLOCATE(IMPBUF_TAB%DD)
 		IF (ALLOCATED(IMPBUF_TAB%DDR)) DEALLOCATE(IMPBUF_TAB%DDR)
-		IF (ALLOCATED(IMPBUF_TAB%X_A))    DEALLOCATE(IMPBUF_TAB%X_A)   
-		IF (ALLOCATED(IMPBUF_TAB%FEXT))   DEALLOCATE(IMPBUF_TAB%FEXT)  
-		IF (ALLOCATED(IMPBUF_TAB%DG))     DEALLOCATE(IMPBUF_TAB%DG)    
-		IF (ALLOCATED(IMPBUF_TAB%DGR))    DEALLOCATE(IMPBUF_TAB%DGR)   
-		IF (ALLOCATED(IMPBUF_TAB%DG0))     DEALLOCATE(IMPBUF_TAB%DG0)    
-		IF (ALLOCATED(IMPBUF_TAB%DGR0))    DEALLOCATE(IMPBUF_TAB%DGR0)   
+		IF (ALLOCATED(IMPBUF_TAB%X_A))    DEALLOCATE(IMPBUF_TAB%X_A)
+		IF (ALLOCATED(IMPBUF_TAB%FEXT))   DEALLOCATE(IMPBUF_TAB%FEXT)
+		IF (ALLOCATED(IMPBUF_TAB%DG))     DEALLOCATE(IMPBUF_TAB%DG)
+		IF (ALLOCATED(IMPBUF_TAB%DGR))    DEALLOCATE(IMPBUF_TAB%DGR)
+		IF (ALLOCATED(IMPBUF_TAB%DG0))     DEALLOCATE(IMPBUF_TAB%DG0)
+		IF (ALLOCATED(IMPBUF_TAB%DGR0))    DEALLOCATE(IMPBUF_TAB%DGR0)
 		IF (ALLOCATED(IMPBUF_TAB%BUFIN_C)) DEALLOCATE(IMPBUF_TAB%BUFIN_C)
 		IF (ALLOCATED(IMPBUF_TAB%AC)) DEALLOCATE(IMPBUF_TAB%AC)
 		IF (ALLOCATED(IMPBUF_TAB%ACR)) DEALLOCATE(IMPBUF_TAB%ACR)

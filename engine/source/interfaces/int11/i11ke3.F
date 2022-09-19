@@ -36,7 +36,7 @@ Chd|====================================================================
      1      A         ,V        ,MS        ,IPARI   ,INTBUF_TAB,
      2      X        ,NIN       ,NUM_IMP ,CAND_N    ,
      3      CAND_E    ,IDDL     ,K_DIAG    ,K_LT    ,IADK      ,
-     4      JDIK     ,GAP_IMP   ,LREM      ,ITAB    ) 
+     4      JDIK     ,GAP_IMP   ,LREM      ,ITAB    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
+      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP,
      .        I_STOK_LOC,DEBUT,IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
@@ -172,13 +172,13 @@ C
 C
            IF (IMACH==3.AND.NSPMD>1) THEN
             LREM = LREM + JLT
-            CALL ASS_SPMD11(3      ,N1       ,N2        ,M1       ,         
+            CALL ASS_SPMD11(3      ,N1       ,N2        ,M1       ,
      1         M2       ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,K1I11    ,K1I12     ,K1J11    ,
      9         K1J12    ,K2I11     ,K2I12    ,K2J11     ,K2J12    ,
      A         OFF      ,NIN       ,CAND_N(NFT+1),NRTS  )
             LREM = LREM - JLT
-           ENDIF 
+           ENDIF
             CALL ASSEM_INT11(3     ,N1        ,N2        ,M1       ,
      1         M2       ,JLT       ,IDDL      ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,K1I11    ,K1I12     ,K1J11    ,
@@ -226,14 +226,14 @@ C-----------------------------------------------
       INTEGER IPARI(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN
 C     REAL
-      my_real 
-     .  A(3,*), MS(*), V(3,*),D(3,*),X(*) 
+      my_real
+     .  A(3,*), MS(*), V(3,*),D(3,*),X(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
+      INTEGER I, I_STOK, JLT_NEW, JLT , NFT,
      .        INACTI, NRTS,NTY,L
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
@@ -268,15 +268,15 @@ C
           JLT = MIN( NVSIZ, I_STOK - NFT )
             JLT_NEW=0
            CALL I11CORP3(JLT   ,X     ,INTBUF_TAB%IRECTS,INTBUF_TAB%IRECTM,
-     1                   CAND_E(NFT+1),CAND_N(NFT+1),STIF ,HS1 ,     
-     2                   HS2   ,HM1   ,HM2   ,NX      ,NY      ,  
+     1                   CAND_E(NFT+1),CAND_N(NFT+1),STIF ,HS1 ,
+     2                   HS2   ,HM1   ,HM2   ,NX      ,NY      ,
      3                   NZ    ,N1    ,N2    ,M1      ,M2      ,
      4                   VXS1  ,VYS1  ,VZS1  ,VXS2    ,VYS2    ,
      5                   VZS2  ,VXM1  ,VYM1  ,VZM1    ,VXM2    ,
-     6                   VYM2  ,VZM2  ,DXS1  ,DYS1    ,DZS1    ,  
-     7                   DXS2  ,DYS2  ,DZS2  ,DXM1    ,DYM1    ,  
+     6                   VYM2  ,VZM2  ,DXS1  ,DYS1    ,DZS1    ,
+     7                   DXS2  ,DYS2  ,DZS2  ,DXM1    ,DYM1    ,
      8                   DZM1  ,DXM2  ,DYM2  ,DZM2    ,MS1     ,
-     9                   MS2   ,MM1   ,MM2   ,MS      ,D       , 
+     9                   MS2   ,MM1   ,MM2   ,MS      ,D       ,
      A                   V     ,NRTS  ,NIN   ,JLT_NEW ,L       )
             L = L +JLT_NEW
             JLT=JLT_NEW
@@ -286,8 +286,8 @@ C
      3                  VXS1    ,VYS1   ,VZS1   ,VXS2   ,VYS2   ,
      4                  VZS2    ,VXM1   ,VYM1   ,VZM1   ,VXM2   ,
      5                  VYM2    ,VZM2   ,N1     ,N2     ,M1     ,
-     6                   M2     ,DXS1   ,DYS1   ,DZS1   ,DXS2   ,  
-     7                   DYS2   ,DZS2   ,DXM1   ,DYM1   ,DZM1   ,  
+     6                   M2     ,DXS1   ,DYS1   ,DZS1   ,DXS2   ,
+     7                   DYS2   ,DZS2   ,DXM1   ,DYM1   ,DZM1   ,
      8                   DXM2   ,DYM2   ,DZM2   ,STIF   , NIN   ,
      9                   SK_INT )
         ENDDO
@@ -343,14 +343,14 @@ C-----------------------------------------------
       INTEGER IPARI(*), NIN,JTASK,LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),ITAB(*)
 C     REAL
-      my_real 
+      my_real
      .  MS(*), V(3,*),X(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
+      INTEGER NOINT,I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP,
      .        I_STOK_LOC,DEBUT,LREM,IDESAC,NB_LOC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
      .        CS_LOC(MVSIZ),CM_LOC(MVSIZ),INDEX2(LINDMAX)
@@ -475,7 +475,7 @@ Chd|====================================================================
       SUBROUTINE I11FKU3(
      1      A         ,V         ,MS        ,D        ,
      2      IPARI     ,INTBUF_TAB,X        ,NIN     ,
-     3      NUM_IMP   ,CAND_N    ,CAND_E    ,IUPD   )  
+     3      NUM_IMP   ,CAND_N    ,CAND_E    ,IUPD   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -516,7 +516,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP, 
+      INTEGER I, I_STOK, NSEG,JLT , NFT, JLT_NEW, IGAP,
      .        I_STOK_LOC,DEBUT,LREM,IDESAC, IGSTI, IBID
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ)
 C     REAL
@@ -582,7 +582,7 @@ C
      G  IBID         ,IBID         )
          CALL I11CORKP3(JLT   ,
      1                    XXS1   ,XXS2    ,XYS1    ,XYS2   ,XZS1   ,
-     2                    XZS2   ,DXS1    ,DYS1    ,DZS1   ,DXS2   ,  
+     2                    XZS2   ,DXS1    ,DYS1    ,DZS1   ,DXS2   ,
      3                    DYS2   ,DZS2    ,D       ,CAND_N(NFT+1),NRTS ,
      4                    N1     ,N2      ,NIN     ,IUPD   )
           CALL I11DSTK3(
@@ -599,7 +599,7 @@ C
      1        JLT    ,A       ,V       ,GAP    ,MS     ,
      2        CAND_N(NFT+1),CAND_E(NFT+1),STIF    ,FRIC   ,
      3        HS1    ,HS2     ,HM1    ,HM2    ,NX     ,
-     4        NY     ,NZ     ,GAPV    ,INTBUF_TAB%PENIS,INTBUF_TAB%PENIM, 
+     4        NY     ,NZ     ,GAPV    ,INTBUF_TAB%PENIS,INTBUF_TAB%PENIM,
      5        IPARI(22)    ,NRTS   ,MS1     ,MS2    ,MM1    ,
      6        MM2    ,VXS1   ,VYS1    ,VZS1   ,VXS2   ,
      7        VYS2   ,VZS2   ,VXM1    ,VYM1   ,VZM1   ,
@@ -607,7 +607,7 @@ C
      9        M1     ,M2     ,NIN     ,DXS1    ,DYS1  ,
      A        DZS1   ,DXS2   ,DYS2    ,DZS2    ,D     ,
      B        SK_INT)
-        END DO 
+        END DO
 C
       RETURN
       END

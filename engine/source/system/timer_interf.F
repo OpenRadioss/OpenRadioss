@@ -170,7 +170,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE METRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -195,13 +195,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: SENDBUF
-      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: RECVBUF 
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: RECVBUF
       INTEGER ::  I,J,N,P
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: RATIO
       DOUBLE PRECISION,DIMENSION(:,:,:), ALLOCATABLE :: SUMMARY
       DOUBLE PRECISION :: TRESHOLD,PMAX,TOTAL_TIME
-      INTEGER :: NB_PRINTED_INTERF 
-      
+      INTEGER :: NB_PRINTED_INTERF
+
 
       TRESHOLD = 0.01D0 * REALTIME(1,1)
 
@@ -217,12 +217,12 @@ C-----------------------------------------------
           ALLOCATE(RATIO(1))
           ALLOCATE(SUMMARY(1,1,1))
         ENDIF
-       
+
         DO I = 1,NBINTC
           N = INTLIST(I)
           J = (I-1) * SIZE_METRIC
-          SENDBUF(J + I_MAIN_CRIT_TRI)=INTBUF_TAB(N)%METRIC%TIME(I_MAIN_CRIT_TRI,1) 
-          SENDBUF(J + I_MAIN_TRI     )=INTBUF_TAB(N)%METRIC%TIME(I_MAIN_TRI,1) 
+          SENDBUF(J + I_MAIN_CRIT_TRI)=INTBUF_TAB(N)%METRIC%TIME(I_MAIN_CRIT_TRI,1)
+          SENDBUF(J + I_MAIN_TRI     )=INTBUF_TAB(N)%METRIC%TIME(I_MAIN_TRI,1)
           SENDBUF(J + I_MAIN_OPT_TRI )=INTBUF_TAB(N)%METRIC%TIME(I_MAIN_OPT_TRI,1)
           SENDBUF(J + I_MAIN_FORCES  )=INTBUF_TAB(N)%METRIC%TIME(I_MAIN_FORCES,1)
           SENDBUF(J + I_NOINT        )=DBLE(INTBUF_TAB(N)%METRIC%NOINT   )
@@ -242,9 +242,9 @@ C=================== PRINT ON PROC 0
           DO I = 1,NBINTC
             PMAX = 0.0D0
             DO P = 1,NSPMD
-              J = (I-1) * SIZE_METRIC                              
+              J = (I-1) * SIZE_METRIC
 
-              RATIO(I) =  MAX(RATIO(I), 
+              RATIO(I) =  MAX(RATIO(I),
      .                    RECVBUF(J + I_MAIN_CRIT_TRI,P)
      .                 +  RECVBUF(J + I_MAIN_TRI     ,P)
      .                 +  RECVBUF(J + I_MAIN_OPT_TRI ,P)
@@ -262,33 +262,33 @@ C ===========  SUM OVER PROCESSORS
 
 C ===========  MAX OVER PROCESSORS
               TOTAL_TIME = RECVBUF(I_MAIN_OPT_TRI+J,P)
-     .                   + RECVBUF(I_MAIN_CRIT_TRI+J,P)             
-     .                   + RECVBUF(I_MAIN_TRI+J,P) 
-     .                   + RECVBUF(I_MAIN_FORCES+J,P) 
+     .                   + RECVBUF(I_MAIN_CRIT_TRI+J,P)
+     .                   + RECVBUF(I_MAIN_TRI+J,P)
+     .                   + RECVBUF(I_MAIN_FORCES+J,P)
               IF(TOTAL_TIME  > PMAX) THEN
                 SUMMARY(I_MAIN_OPT_TRI,2,I) =  RECVBUF(J + I_MAIN_OPT_TRI,P)
                 SUMMARY(I_MAIN_CRIT_TRI,2,I)=  RECVBUF(J + I_MAIN_CRIT_TRI,P)
                 SUMMARY(I_MAIN_TRI,2,I)     =  RECVBUF(J + I_MAIN_TRI,P)
                 SUMMARY(I_MAIN_FORCES,2,I)  =  RECVBUF(J + I_MAIN_FORCES,P)
-                PMAX = TOTAL_TIME 
+                PMAX = TOTAL_TIME
               ENDIF
             ENDDO !P
-            IF(RATIO(I) > TRESHOLD) NB_PRINTED_INTERF = NB_PRINTED_INTERF + 1 
+            IF(RATIO(I) > TRESHOLD) NB_PRINTED_INTERF = NB_PRINTED_INTERF + 1
           ENDDO ! I
           IF(NB_PRINTED_INTERF > 0) THEN
-            WRITE(IOUT,*)' '                                               
+            WRITE(IOUT,*)' '
             WRITE(IOUT,*)
      .      '                           ** INTERFACE SUMMARY **'
 
             DO I = 1,NBINTC
               IF(RATIO(I) > TRESHOLD) THEN
                 N = INTLIST(I)
-                WRITE(IOUT,*)' '                                               
+                WRITE(IOUT,*)' '
                 WRITE(IOUT,*)
      .       'INTERFACE ID:',INTBUF_TAB(N)%METRIC%NOINT,' TYPE: ',IPARI(7,N)
                 WRITE(IOUT,'(A,F12.3,A)')
      .       'REMOTE SECONDARY:',SUMMARY(I_NSNR,1,I)/SUMMARY(I_NSN,1,I),'%'
-                WRITE(IOUT,*) 'TIME (s)            MAX         AVG' 
+                WRITE(IOUT,*) 'TIME (s)            MAX         AVG'
                 WRITE(IOUT,'(A,2F12.2)')
      .       '   SORT.MAIN:',SUMMARY(I_MAIN_TRI,2,I),SUMMARY(I_MAIN_TRI,1,I)/NSPMD
                 WRITE(IOUT,'(A,2F12.3)')

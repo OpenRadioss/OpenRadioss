@@ -99,12 +99,12 @@ C
 C
       IF(IGAP==0)THEN
         DO I=LFT,LLT
-         GAPV(I) = MAX(GAP+DGAPLOAD,DRAD)         
+         GAPV(I) = MAX(GAP+DGAPLOAD,DRAD)
         ENDDO
       ELSE
         DO I=LFT,LLT
          GAPV(I) = GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
-         IF(IGAP == 3)  
+         IF(IGAP == 3)
      .      GAPV(I)=MIN(GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)),GAPV(I))
          GAPV(I) = MIN(GAPMAX,GAPV(I))
          GAPV(I) = MAX(GAPMIN,GAPV(I))

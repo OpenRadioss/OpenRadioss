@@ -154,7 +154,7 @@ C
         PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
         PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
         PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-        PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+        PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
       ENDDO
 C
       IF(JTUR/=0)THEN

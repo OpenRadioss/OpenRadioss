@@ -62,19 +62,19 @@ C-----------------------------------------------
       INTEGER JLT,JLT_NEW, IEDGE,INTFRIC
       INTEGER CAND_S(MVSIZ),CAND_M(MVSIZ),NSMS(MVSIZ),INDEX(*),
      .        N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ),
-     .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),     
+     .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),
      .        IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),
-     .        IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ), 
+     .        IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ),
      .        IRECT(4,*),LEDGE(NLEDGE,*),ITAB(*)
       INTEGER :: EDGE_ID(2,MVSIZ)
       my_real
      .     H1S(*),H2S(*),H1M(*),H2M(*),NX(*),NY(*),NZ(*),STIF(*),
-     .     XXS1(*), XXS2(*), XYS1(*), XYS2(*), XZS1(*) , XZS2(*), 
+     .     XXS1(*), XXS2(*), XYS1(*), XYS2(*), XZS1(*) , XZS2(*),
      .     XXM1(*), XXM2(*) , XYM1(*), XYM2(*), XZM1(*), XZM2(*),
      .     VXS1(*), VXS2(*), VYS1(*), VYS2(*), VZS1(*), VZS2(*) ,
      .     VXM1(*), VXM2(*), VYM1(*), VYM2(*), VZM1(*), VZM2(*),
      .     MS1(*) ,MS2(*) ,MM1(*) ,MM2(*),
-     .     GAPVE(*), EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*), 
+     .     GAPVE(*), EX(*), EY(*), EZ(*), FX(*), FY(*), FZ(*),
      .     CAND_P(*)
       my_real  , INTENT(IN) :: DGAPLOADPMAX
 C-----------------------------------------------
@@ -161,9 +161,9 @@ C
        ZS2M2 = XZM2(I)-XZS2(I)
 
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
-       
+
        DET = MAX(EM20,DET)
 C
        H1M(I) = (XA*XSM-XB*XS2) / DET
@@ -190,7 +190,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
 
        GAP2 = (GAPVE(I)+DGAPLOADPMAX)*(GAPVE(I)+DGAPLOADPMAX)
        PENE2(I) = GAP2 - NN(I)
-       PENE2(I) = MAX(ZERO,PENE2(I)) 
+       PENE2(I) = MAX(ZERO,PENE2(I))
 
       ENDDO
 C

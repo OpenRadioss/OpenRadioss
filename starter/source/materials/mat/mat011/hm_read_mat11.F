@@ -36,13 +36,13 @@ Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT11(LSUBMODEL, MTAG, UNITAB, IPM, PM, 
+      SUBROUTINE HM_READ_MAT11(LSUBMODEL, MTAG, UNITAB, IPM, PM,
      .     MAT_ID, TITR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER ID
       my_real
      .   GAM, VCRT2, GAMRP, GAM1, P0, C1, SSP2, EF,
-     .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP, 
+     .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP,
      .   T0, DC, ALP0, RHOC,
      .   TSCAL, TREF,GAMA,RHOR,
      .   FAC_LENGTH_, FAC_TIME_
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      
+
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       FAC_LENGTH_ = ONE
@@ -111,7 +111,7 @@ C     Initial and reference density
          RHOR = RHO0
       ENDIF
       PM(1) = RHOR
-      PM(89) = RHO0 
+      PM(89) = RHO0
       IS_BOUNDARY_MATERIAL = .TRUE.
 C    
       CARL     = ZERO
@@ -124,7 +124,7 @@ C
       C1       = ZERO
       SSP      = ZERO
       SSP2     = ZERO
-      EF       = ZERO 
+      EF       = ZERO
       E0       = ZERO
       DC       = ZERO
       RHOC     = ZERO
@@ -166,7 +166,7 @@ C     Switch according to input type
 
          CALL HM_GET_INTV('FUN_A2', IFP, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_PScale', P0, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          CALL HM_GET_INTV('FUN_A6', IFE, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_E0', E0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CASE (2)
@@ -174,7 +174,7 @@ C     Switch according to input type
 
          CALL HM_GET_INTV('FUN_A2', IFP, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_PScale', P0, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          CALL HM_GET_INTV('FUN_A6', IFE, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_E0', E0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CASE (3)
@@ -195,7 +195,7 @@ C     Switch according to input type
       END SELECT
 
       CALL HM_GET_INTV('Xt_fun', IFT, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV('Yt_fun', IFQ, IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV('Yt_fun', IFQ, IS_AVAILABLE, LSUBMODEL)
 
 C----------------------
 C     DEFAULT VALUES
@@ -258,7 +258,7 @@ C     Already exited at input reading
          END SELECT
          IF(ITYP/=3)WRITE(IOUT,2001) IFT,IFQ
       ENDIF
-     
+
 C----------------------
 C     STORAGE
 C----------------------
@@ -267,7 +267,7 @@ C----------------------
       IPM(13) = IFE
       IPM(14) = IFT
       IPM(17) = IFQ
-      
+
       PM(23)  = E0
       PM(25)  = GAM
       PM(27)  = VCRT2
@@ -290,16 +290,16 @@ C----------------------
 C----------------------
 C     MATERIAL BUFFER
 C----------------------
-      MTAG%G_RK    = 1   
-      MTAG%G_RE    = 1   
-      MTAG%L_RK    = 1   ! NB10    
-      MTAG%L_TEMP  = 1   ! NB11 
-      MTAG%L_RE    = 1   ! NB12   
-      MTAG%L_VK    = 1   ! NB13   
-      MTAG%L_EINS  = 1   ! NB14   
+      MTAG%G_RK    = 1
+      MTAG%G_RE    = 1
+      MTAG%L_RK    = 1   ! NB10
+      MTAG%L_TEMP  = 1   ! NB11
+      MTAG%L_RE    = 1   ! NB12
+      MTAG%L_VK    = 1   ! NB13
+      MTAG%L_EINS  = 1   ! NB14
 C--------------------------------
       RETURN
-      
+
 C----------------------
 C     FORMAT
 C----------------------

@@ -50,7 +50,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
@@ -85,7 +85,7 @@ C     NSUBMOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IX(*),ITABM1(*),ISKN(LISKN,*),
      .        IGEO(NPROPGI,*),IPM(NPROPMI,*),NPC(*),
      .        IPART(LIPART1,*),IDRAPEID(*),PLY_INFO(2,NUMPLY),
@@ -108,7 +108,7 @@ C-----------------------------------------------
       INTEGER ISH3N,IFLAGUNIT,ICXFEM, JPID,N1,IPOS,I_INJECT,ISROT,MLAWLY,MID,SUB_ID,
      .        PROP_SHELL,PROP_TSHEL,PROP_SOLID,PROP_SPH,PROP_BEAM,
      .        IAD_KNOT,IPDIR
-     
+
       INTEGER JPID1,JPID2,NISUB,IPISUB,II
       my_real
      .    FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
@@ -187,12 +187,12 @@ C----------------------
       CVIS =ZERO
       IAD_KNOT = 0
       SUB_ID = 0
-      
+
 C
-c----------      
+c----------
 C       
       CALL HM_OPTION_START('/STACK')
-      DO 600 I=1,NUMSTACK 
+      DO 600 I=1,NUMSTACK
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = IG, UNIT_ID = UID, OPTION_TITR = IDTITL)
         IGFLU = 0
         IF(ICAA == 1)IGFLU=1
@@ -213,10 +213,10 @@ C
      .                 C2='STACK',
      .                 C3=IDTITL)
         ENDIF
-!!     
-!       Stack + ply are belong to /PROP/PCOMPP 
 !!
-        IGTYP = 52  ! belong to /PROP/PCOMP - TYPE52              
+!       Stack + ply are belong to /PROP/PCOMPP
+!!
+        IGTYP = 52  ! belong to /PROP/PCOMP - TYPE52
 C
 C new shell property (stack based with multi NPT through one layer 
 C---------------
@@ -236,7 +236,7 @@ C----------------------------------------------------------------
      .           GEO(1,I) ,IGEO(1,I) ,PM       ,IPM      ,ISKN     ,
      .           IG       ,RTRANS   ,SUB_ID   ,STACK_INFO(NUMS)   ,
      .           IDTITL   ,UNITAB    ,LSUBMODEL)
-     
+
 C--------   Variables stored in element buffer        
 c----   Shells
 C should be done for pccomp
@@ -247,7 +247,7 @@ C
         IGEO(17,I)=ISORTH
         IF(GEO(39,I)/=ZERO.AND.IGEO( 9,I)== 0)IGEO( 9,I)=NINT(GEO(39,I))
         IF(GEO(171,I)/=ZERO.AND.IGEO(10,I)== 0)
-     .     IGEO(10,I)=NINT(GEO(171,I))    
+     .     IGEO(10,I)=NINT(GEO(171,I))
 C      
  600  CONTINUE
 C
@@ -256,7 +256,7 @@ C  Objet /PLY
 C-------------------------------
       I = NUMSTACK
       CALL HM_OPTION_START('/PLY')
-      DO II = 1, NUMPLY  
+      DO II = 1, NUMPLY
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = IG, UNIT_ID = UID, OPTION_TITR = IDTITL)
          IGFLU = 0
          IF(ICAA == 1)I GFLU = 1
@@ -279,15 +279,15 @@ c     observed after global code compilation with -openmp flag
      .          C3=IDTITL)
         ENDIF
         IGTYP = 19
-        I = I + 1   
+        I = I + 1
         IHBE=0
         ISMSTR=0
         ISROT=0
-        IGMAT =0      
+        IGMAT =0
         IGEO( 1,I)=IG
         ISTACK = 1
 C
-        CALL FRETITL(IDTITL,IGEO(NPROPGI-LTITR+1,I),LTITR)        
+        CALL FRETITL(IDTITL,IGEO(NPROPGI-LTITR+1,I),LTITR)
 C
         CALL LCGEO19(GEO(1,I), IGEO(1,I), PM, IPM, UNITAB, IUNIT, ISTACK,
      .       IDRAPEID, LSUBMODEL)
@@ -301,7 +301,7 @@ C
         ENDIF
         PLY_INFO(1,II) = IG
         PLY_INFO(2,II) = IGEO(4,I)
-        IGEO(1,I) =IG     
+        IGEO(1,I) =IG
       ENDDO
 C
 C-------------------------------
@@ -329,7 +329,7 @@ C ply of stack JPID
 C tag if the ply is in the  stack  
                     IDS = IGEO(42,NUMSTACK  + K)
                     IGEO(42 ,NUMSTACK + K) = I
-                    IF(IDS > 0 .AND. IDS /= I) THEN 
+                    IF(IDS > 0 .AND. IDS /= I) THEN
                        CALL FRETITL2(TITR1,
      .                       IGEO(NPROPGI-LTITR+1,NUMSTACK+I),LTITR)
                        CALL ANCMSG(MSGID=1148,
@@ -353,18 +353,18 @@ C tag if the ply is in the  stack
             ENDIF
  100      CONTINUE
 C interface substack
-          NISUB = IGEO(44,I) 
+          NISUB = IGEO(44,I)
           IF (NISUB > 0) THEN
             DO 110 J =1 , NISUB
               JPID1 = STACK_INFO(NUMS)%ISUB( 3*(J-1) + 1 )
               JPID2 = STACK_INFO(NUMS)%ISUB( 3*(J-1) + 2 )
               IF (JPID1 > 0 .OR. JPID2 > 0) THEN
-                DO K=1,NUMPLY 
+                DO K=1,NUMPLY
                   NSTACK = 0
                   IF (IGEO(1,NUMSTACK + K) == JPID1) THEN
                     STACK_INFO(NUMS)%ISUB (3*(J-1) + 1) = NUMSTACK  + K
                     GOTO 110
-                  ELSEIF (IGEO(1,NUMSTACK + K) == JPID2) THEN 
+                  ELSEIF (IGEO(1,NUMSTACK + K) == JPID2) THEN
                     STACK_INFO(NUMS)%ISUB (3*(J-1) + 2) = NUMSTACK  + K
                     GOTO 110
                   ENDIF
@@ -384,7 +384,7 @@ C interface substack
      .                      C2='STACK',
      .                      I2=JPID2)
               ENDIF ! IF (JPID1 > 0 .OR. JPID2 > 0)
- 110        CONTINUE 
+ 110        CONTINUE
           ENDIF ! IF (NISUB > 0)
 C
           DO J=1,N1
@@ -394,8 +394,8 @@ C
             STACK_INFO(NUMS)%DIR(J)  = GEO(212,JPID) ! angle (DIR1,DIR2) - for compatibility of law58 with PID51)
             STACK_INFO(NUMS)%MID(J)  = IGEO(101,JPID)
           ENDDO
-! 
-       ENDIF 
+!
+       ENDIF
       ENDDO ! DO I = 1, NUMSTACK
 C-------------------------------------
 C Recherche des ID doubles
@@ -414,5 +414,5 @@ C-----------
 C-----------
  1000 FORMAT(//
      & 5X,'    STACK OBJECT FOR PLY-BASED SHELL ELEMENT  SETS'/,
-     & 5X,'    -------------'//) 
+     & 5X,'    -------------'//)
       END

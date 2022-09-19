@@ -76,7 +76,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*),NPC(*), NPC1(*), IBCL(NIBCLD,*), IPRES(NIBCLD,*),
      .   ISKEW(*), ISKN(LISKN,*), ITABM1(*),
-     .   LACCELM(3,*),INSEL(*),IBCSLAG(5,*), 
+     .   LACCELM(3,*),INSEL(*),IBCSLAG(5,*),
      .   IPM(NPROPMI,*), IGEO(NPROPGI,*), IBFT(NIFT,*), IBCV(NICONV,*),
      .   IBCR(NIRADIA,*), LSENSOR(NSENSI,*), IBFFLUX(NITFLUX,*)
       my_real
@@ -96,7 +96,7 @@ C-----------------------------------------------
      .  LOAD,UNLOAD, NTY, IRUP,IDN,IDT,PN1,PN2,PT1,PT2,KK,
      .  IFRIC1,IFRIC2,IDAMP1,IDAMP2,LOAD0,UNLOAD0,NF2,FUNC,FUND,IOK,ISENS,IMAT,IEOS,
      .  A_FUNC, B_FUNC
-     
+
       LOGICAL IS_FOUND
 
       INTEGER NINTRI
@@ -264,7 +264,7 @@ C-------
             IFE=IPM(10+NF,I)
             IF(NF > EFUNC)THEN
               IE =NPC(IFE)
-              IE2=NPC(IFE+1) 
+              IE2=NPC(IFE+1)
               DO II = IE+1,IE2-3,2
                  IF(PLD(II) < PLD(II+2))THEN
                     CALL ANCMSG(MSGID=975,
@@ -272,8 +272,8 @@ C-------
      .                          ANMODE=ANINFO,
      .                          I1=ID,
      .                          C1=TITR)
-                    EXIT 
-                 ENDIF       
+                    EXIT
+                 ENDIF
               ENDDO
             ENDIF
            ENDIF
@@ -323,7 +323,7 @@ C
             IFE=IPM(10+NF,I)
             IF(NF > EFUNC)THEN
               IE =NPC(IFE)
-              IE2=NPC(IFE+1) 
+              IE2=NPC(IFE+1)
               DO II = IE+1,IE2-3,2
                  IF(PLD(II) < PLD(II+2))THEN
                     CALL ANCMSG(MSGID=975,
@@ -331,8 +331,8 @@ C
      .                          ANMODE=ANINFO,
      .                          I1=ID,
      .                          C1=TITR)
-                    EXIT 
-                 ENDIF       
+                    EXIT
+                 ENDIF
               ENDDO
             ENDIF
            ENDIF
@@ -363,8 +363,8 @@ c
             E     = BUFMAT(IADD+1)
             G     = BUFMAT(IADD+2)
             NRATE = BUFMAT(IADD+3)
-            EMAX  = ZERO           
-            GMAX  = ZERO           
+            EMAX  = ZERO
+            GMAX  = ZERO
             DO K=1,2*NRATE-1,2
               IDN = IPM(10+K,I)
               IDT = IPM(10+K+1,I)
@@ -388,28 +388,28 @@ c
               ENDDO
             ENDDO
             IF (EMAX > E) THEN
-              BUFMAT(IADD+1) = EMAX                  
-              CALL ANCMSG(MSGID= 1041,           
-     .                    MSGTYPE=MSGWARNING,      
-     .                    ANMODE=ANINFO,         
-     .                    I1=ID,                 
-     .                    C1=TITR,C2='YOUNG MODULUS',R1=EMAX)               
-            ENDIF                                
+              BUFMAT(IADD+1) = EMAX
+              CALL ANCMSG(MSGID= 1041,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID,
+     .                    C1=TITR,C2='YOUNG MODULUS',R1=EMAX)
+            ENDIF
             IF (GMAX > G) THEN
-              BUFMAT(IADD+2) = GMAX                  
-              CALL ANCMSG(MSGID= 1041,           
-     .                    MSGTYPE=MSGWARNING,      
-     .                    ANMODE=ANINFO,         
-     .                    I1=ID,                 
-     .                    C1=TITR,C2='SHEAR MODULUS',R1=GMAX)               
-            ENDIF                                
+              BUFMAT(IADD+2) = GMAX
+              CALL ANCMSG(MSGID= 1041,
+     .                    MSGTYPE=MSGWARNING,
+     .                    ANMODE=ANINFO,
+     .                    I1=ID,
+     .                    C1=TITR,C2='SHEAR MODULUS',R1=GMAX)
+            ENDIF
           ENDIF
 
 C
         ELSE IF(ILAW == 60) THEN
          EFUNC = 0
          NF=IPM(10,I)
-         IF(IPM(10+NF,I) /= 0)THEN 
+         IF(IPM(10+NF,I) /= 0)THEN
            EFUNC=1
            IF(IPM(10+NF-1,I) /= 0 ) EFUNC =2
          ENDIF
@@ -434,7 +434,7 @@ C
             IFE=IPM(10+NF,I)
             IF(NF > EFUNC)THEN
               IE =NPC(IFE)
-              IE2=NPC(IFE+1) 
+              IE2=NPC(IFE+1)
               DO II = IE+1,IE2-3,2
                  IF(PLD(II) < PLD(II+2))THEN
                     CALL ANCMSG(MSGID=975,
@@ -442,8 +442,8 @@ C
      .                          ANMODE=ANINFO,
      .                          I1=ID,
      .                          C1=TITR)
-                    EXIT 
-                 ENDIF       
+                    EXIT
+                 ENDIF
               ENDDO
             ENDIF
           ENDIF
@@ -473,11 +473,11 @@ C
            NRATE= BUFMAT(IADD+1)
            E    = BUFMAT(IADD+2)
            G    = BUFMAT(IADD+8)
-           
+
 c           DO K=1,NF-1,2
            DO K=1,NRATE
              IFC = IPM(10+K,I)
-             IFD = IPM(10+K+NRATE,I)           
+             IFD = IPM(10+K+NRATE,I)
              YFAC=BUFMAT(IADD+14+NRATE+K)
              IF (IFC > 0 .AND. IFD > 0) THEN
                IC1 = NPC(IFC)
@@ -599,7 +599,7 @@ C automatic modification of EPST1 and E0
             EPS0 = ONE
             IFLAG = 0
             IFLAG0= 0
-            EPST1 = ONE            
+            EPST1 = ONE
             DO K=1,NC
                IFC = IPM(10+K,I)
                ICHK = 0
@@ -698,7 +698,7 @@ C
          IF (NF > 0) THEN
             IFE=IPM(10+NF,I)
             IE =NPC(IFE)
-            IE2=NPC(IFE+1) 
+            IE2=NPC(IFE+1)
             DO II = IE+1,IE2-3,2
                IF(PLD(II) < PLD(II+2))THEN
                   CALL ANCMSG(MSGID=975,
@@ -706,8 +706,8 @@ C
      .                        ANMODE=ANINFO,
      .                        I1=ID,
      .                        C1=TITR)
-                  EXIT 
-               ENDIF       
+                  EXIT
+               ENDIF
             ENDDO
          ENDIF
 C law 88 - tabulated ogden law  removed to updmat.F
@@ -728,11 +728,11 @@ C
                 ENDDO
                 IF (OK == 0) THEN
                   CALL ANCMSG(MSGID=126,
-     .                 MSGTYPE=MSGERROR,          
-     .                 ANMODE=ANINFO_BLIND_1,     
-     .                 I1=ID,                     
-     .                 C1=TITR,                   
-     .                 I2=IS)                     
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=IS)
                 ENDIF
               ENDIF
             ENDDO
@@ -848,8 +848,8 @@ C------------
 C------------
 C     fin boucle sur mats :
  300  CONTINUE
- 
- 
+
+
       !---EOS INPUT BASED ON FUNCTION (TABULATED EoS : IEOS=17 ---!
       DO IMAT=1,NUMMAT
         IEOS = IPM(4,IMAT)
@@ -860,38 +860,38 @@ C     fin boucle sur mats :
           CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
           ILAW=NINT(PM(19,I))
 
-          A_FUNC = PM(35,IMAT) 
-          IF(A_FUNC /= 0)THEN                                                                                                
-            IS_FOUND = .FALSE.                                                                                       
-            DO J=1,NFUNCT                                                                                            
-              IF(A_FUNC == NPC1(J))  THEN                                                                              
-                PM(35,IMAT)=J                                                                                        
-                IS_FOUND = .TRUE.                                                                                    
-                EXIT                                                                                                 
-              ENDIF                                                                                                  
-            ENDDO                                                                                                    
+          A_FUNC = PM(35,IMAT)
+          IF(A_FUNC /= 0)THEN
+            IS_FOUND = .FALSE.
+            DO J=1,NFUNCT
+              IF(A_FUNC == NPC1(J))  THEN
+                PM(35,IMAT)=J
+                IS_FOUND = .TRUE.
+                EXIT
+              ENDIF
+            ENDDO
             IF(.NOT.IS_FOUND)CALL ANCMSG(MSGID=125,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=A_FUNC)
-          ENDIF  
+          ENDIF
 
           B_FUNC = PM(36,IMAT)
-          IF(B_FUNC /= 0)THEN                                                                                     
-            IS_FOUND = .FALSE.                                                                                       
-            DO J=1,NFUNCT                                                                                            
-              IF(B_FUNC == NPC1(J))  THEN                                                                                
-                PM(36,IMAT)=J                                                                                        
-                IS_FOUND = .TRUE.                                                                                    
-                EXIT                                                                                                 
-              ENDIF                                                                                                  
-            ENDDO                                                                                                    
-            IF(.NOT.IS_FOUND)CALL ANCMSG(MSGID=125,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=B_FUNC)    
+          IF(B_FUNC /= 0)THEN
+            IS_FOUND = .FALSE.
+            DO J=1,NFUNCT
+              IF(B_FUNC == NPC1(J))  THEN
+                PM(36,IMAT)=J
+                IS_FOUND = .TRUE.
+                EXIT
+              ENDIF
+            ENDDO
+            IF(.NOT.IS_FOUND)CALL ANCMSG(MSGID=125,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=B_FUNC)
            ENDIF
-             
+
          ENDIF
 
       ENDDO
- 
- 
- 
+
+
+
 C
 C     3) PID SPRING/AIRBAG/GENERAL SPRING
 C
@@ -930,16 +930,16 @@ C
      .                    I2=ISERV(K+3))
             ENDIF
  330      CONTINUE
-          IF (IGEO(119,I) /=0)THEN                    
-             ERRF = 1                   
-             DO  J=1,NFUNCT  
-               IF(IGEO(119,I) == NPC1(J)) THEN    
+          IF (IGEO(119,I) /=0)THEN
+             ERRF = 1
+             DO  J=1,NFUNCT
+               IF(IGEO(119,I) == NPC1(J)) THEN
                  IGEO(119,I)=J
-                 ERRF = 0                   
-                 EXIT                       
-               ENDIF                              
-             ENDDO 
-             IF (ERRF == 1) THEN                          
+                 ERRF = 0
+                 EXIT
+               ENDIF
+             ENDDO
+             IF (ERRF == 1) THEN
                 CALL ANCMSG(MSGID=127,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -947,29 +947,29 @@ C
      .                      C1=TITR,
      .                      I2=IGEO(119,I))
              ENDIF
-          ENDIF   
+          ENDIF
           !compute max slope for ifunc3
-          YFAC  = GEO(132,I) !GF3 in lecgeo4       
+          YFAC  = GEO(132,I) !GF3 in lecgeo4
           IFUNC = IGEO(119,I) !IFUNC3 in lecgeo4
           X_SCALE = GEO(18,I)
-          IF (IFUNC /= 0)THEN                       
-            IC1 = NPC(IFUNC)                        
-            IC2 = NPC(IFUNC+1)                      
-            X0 = PLD(IC1)                           
-            EMAX = ZERO                             
-            DO II = IC1,IC2-4,2                     
-               JJ = II+2                            
-               DX = PLD(JJ)   - X0                  
-               DY = PLD(JJ+1) - PLD(II+1)           
-               Y0 =  PLD(II+1)                      
-               Y1 =  PLD(JJ+1)                      
-               DERI = YFAC * X_SCALE * DY / DX                
-               X1 =  PLD(JJ)                        
-               EMAX = MAX(EMAX, DERI)               
-               X0 =  PLD(JJ)                        
-            ENDDO                                   
-            GEO(141,I) =  EMAX                      
-          ENDIF                                     
+          IF (IFUNC /= 0)THEN
+            IC1 = NPC(IFUNC)
+            IC2 = NPC(IFUNC+1)
+            X0 = PLD(IC1)
+            EMAX = ZERO
+            DO II = IC1,IC2-4,2
+               JJ = II+2
+               DX = PLD(JJ)   - X0
+               DY = PLD(JJ+1) - PLD(II+1)
+               Y0 =  PLD(II+1)
+               Y1 =  PLD(JJ+1)
+               DERI = YFAC * X_SCALE * DY / DX
+               X1 =  PLD(JJ)
+               EMAX = MAX(EMAX, DERI)
+               X0 =  PLD(JJ)
+            ENDDO
+            GEO(141,I) =  EMAX
+          ENDIF
 
           IF (H == 7)THEN
              XSCALE=GEO(39,I)
@@ -977,8 +977,8 @@ C
              UNLOAD=IGEO(103,I)
              NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
-             ALPHA1=ZERO  
-             ALPHA2=ZERO             
+             ALPHA1=ZERO
+             ALPHA2=ZERO
 c---
              DO 777 J=2,NP1
                J1=2*(J-2)
@@ -1002,23 +1002,23 @@ c---
                    IF (DYDX > DTDS) THEN ! intersection des courbes
                      SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
                      TY =  T1 + DTDS*(SX - S1)
-                   ENDIF 
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                   ENDIF
+                   IF (TY/=ZERO .AND. SX/=ZERO )THEN
                     IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
-           
+     .                      .AND.SX>=S2.AND.TY<=T2)THEN
+
                       CALL ANCMSG(MSGID=982,
      .                            MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO_BLIND_1,
      .                            C1=TITR,
      .                            I1=UNLOAD0,
      .                            I2=LOAD0)
-                     GOTO 777         
-                    ENDIF     
-                   ENDIF                                
+                     GOTO 777
+                    ENDIF
+                   ENDIF
                  ENDIF
                ENDDO
- 777         CONTINUE      
+ 777         CONTINUE
              IF(ALPHA2>=ALPHA1)THEN
                CALL ANCMSG(MSGID=982,
      .                     MSGTYPE=MSGERROR,
@@ -1027,7 +1027,7 @@ c---
      .                     I1=UNLOAD,
      .                     I2=LOAD)
              ENDIF
-          ENDIF                             
+          ENDIF
 c-------
         ELSEIF(IGTYP == 12) THEN
 C
@@ -1067,16 +1067,16 @@ C
           ENDIF
  332     CONTINUE
 c
-          IF (IGEO(119,I) /=0)THEN                    
-             ERRF = 1                   
-             DO  J=1,NFUNCT  
-               IF(IGEO(119,I) == NPC1(J)) THEN    
+          IF (IGEO(119,I) /=0)THEN
+             ERRF = 1
+             DO  J=1,NFUNCT
+               IF(IGEO(119,I) == NPC1(J)) THEN
                  IGEO(119,I)=J
-                 ERRF = 0                   
-                 EXIT                       
-               ENDIF                              
-             ENDDO 
-             IF (ERRF == 1) THEN                          
+                 ERRF = 0
+                 EXIT
+               ENDIF
+             ENDDO
+             IF (ERRF == 1) THEN
                 CALL ANCMSG(MSGID=127,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -1084,29 +1084,29 @@ c
      .                      C1=TITR,
      .                      I2=IGEO(119,I))
              ENDIF
-          ENDIF   
-          
-          YFAC  = GEO(132,I) !GF3 in lecgeo12       
-          IFUNC = IGEO(119,I) !IFUNC3 in lecgeo12 
-          X_SCALE = GEO(18,I)  
-          IF (IFUNC /= 0)THEN                       
-            IC1 = NPC(IFUNC)                        
-            IC2 = NPC(IFUNC+1)                      
-            X0 = PLD(IC1)                           
-            EMAX = ZERO                             
-            DO II = IC1,IC2-4,2                     
-               JJ = II+2                            
-               DX = PLD(JJ)   - X0                  
-               DY = PLD(JJ+1) - PLD(II+1)           
-               Y0 =  PLD(II+1)                      
-               Y1 =  PLD(JJ+1)                      
-               DERI = YFAC * X_SCALE * DY / DX                
-               X1 =  PLD(JJ)                        
-               EMAX = MAX(EMAX, DERI)               
-               X0 =  PLD(JJ)                        
-            ENDDO                                   
-            GEO(141,I) =  EMAX                      
-          ENDIF                                     
+          ENDIF
+
+          YFAC  = GEO(132,I) !GF3 in lecgeo12
+          IFUNC = IGEO(119,I) !IFUNC3 in lecgeo12
+          X_SCALE = GEO(18,I)
+          IF (IFUNC /= 0)THEN
+            IC1 = NPC(IFUNC)
+            IC2 = NPC(IFUNC+1)
+            X0 = PLD(IC1)
+            EMAX = ZERO
+            DO II = IC1,IC2-4,2
+               JJ = II+2
+               DX = PLD(JJ)   - X0
+               DY = PLD(JJ+1) - PLD(II+1)
+               Y0 =  PLD(II+1)
+               Y1 =  PLD(JJ+1)
+               DERI = YFAC * X_SCALE * DY / DX
+               X1 =  PLD(JJ)
+               EMAX = MAX(EMAX, DERI)
+               X0 =  PLD(JJ)
+            ENDDO
+            GEO(141,I) =  EMAX
+          ENDIF
 
           IF (H == 7)THEN
              XSCALE=GEO(39,I)
@@ -1114,8 +1114,8 @@ c
              UNLOAD=IGEO(103,I)
              NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
              NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
-             ALPHA1=ZERO  
-             ALPHA2=ZERO             
+             ALPHA1=ZERO
+             ALPHA2=ZERO
 c---
              DO 778 J=2,NP1
                J1=2*(J-2)
@@ -1132,7 +1132,7 @@ c---
                  X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
                  YY1=PLD(NPC(UNLOAD)+K1+1)
                  Y2=PLD(NPC(UNLOAD)+K1+3)
-                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
+                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)
                  IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
                    DYDX = (Y2-YY1) / (X2-XX1)
                    DTDS = (T2-T1) / (S2-S1)
@@ -1140,21 +1140,21 @@ c---
                      SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
                      TY =  T1 + DTDS*(SX - S1)
                    ENDIF
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                   IF (TY/=ZERO .AND. SX/=ZERO )THEN
                     IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
+     .                      .AND.SX>=S2.AND.TY<=T2)THEN
                       CALL ANCMSG(MSGID=982,
      .                            MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO_BLIND_1,
      .                            C1=TITR,
      .                            I1=UNLOAD,
      .                            I2=LOAD)
-                     GOTO 778         
-                    ENDIF     
-                   ENDIF                                
+                     GOTO 778
+                    ENDIF
+                   ENDIF
                  ENDIF
                ENDDO
- 778         CONTINUE                          
+ 778         CONTINUE
              IF(ALPHA2>=ALPHA1)THEN
                CALL ANCMSG(MSGID=982,
      .                     MSGTYPE=MSGERROR,
@@ -1163,7 +1163,7 @@ c---
      .                     I1=UNLOAD,
      .                     I2=LOAD)
              ENDIF
-          ENDIF                             
+          ENDIF
 C
         ELSE IF(IGTYP == 7) THEN
 C
@@ -1214,7 +1214,7 @@ C
               ENDIF
               IF(IFLAG1+IFLAG2+IFLAG3 == 3)GOTO 400
  380        CONTINUE
-            
+
             IF(IFLAG1 == 0) ID1=ISERV(1)
             IF(IFLAG2 == 0) ID1=ISERV(2)
             IF(IFLAG3 == 0) ID1=ISERV(3)
@@ -1224,19 +1224,19 @@ C
      .                  I1=ID,
      .                  C1=TITR,
      .                  I2=ID1)
- 400      CONTINUE 
-c -------- 
+ 400      CONTINUE
+c --------
           DO  J=1, 6
-            ERRF = 1  
-            IF (IGEO(119+J-1,I) /=0)THEN       
+            ERRF = 1
+            IF (IGEO(119+J-1,I) /=0)THEN
               DO  K=1,NFUNCT
                 IF(IGEO(119+J-1,I) == NPC1(K)) THEN !ifunc3
                   IGEO(119+J-1,I) = K
                   ERRF = 0
                   EXIT
-                ENDIF                            
+                ENDIF
               ENDDO
-              IF (ERRF == 1)THEN 
+              IF (ERRF == 1)THEN
                 IF (IGTYP == 8)THEN
                 ELSE
                 ENDIF
@@ -1255,43 +1255,43 @@ c --------
             IFUNC = IGEO(118+J,I) !IFUNC3 in lecgeo13 -8
             X_SCALE=GEO(44+4*(J-1),I)
             IF (IFUNC /= 0)THEN
-              IC1 = NPC(IFUNC)           
-              IC2 = NPC(IFUNC+1)         
+              IC1 = NPC(IFUNC)
+              IC2 = NPC(IFUNC+1)
               X0 = PLD(IC1)
               EMAX = ZERO
-              DO II = IC1,IC2-4,2                   
-                 JJ = II+2                          
-                 DX = PLD(JJ)   - X0                
-                 DY = PLD(JJ+1) - PLD(II+1)         
-                 Y0 =  PLD(II+1)               
-                 Y1 =  PLD(JJ+1)               
-                 DERI = YFAC * X_SCALE * DY / DX              
-                 X1 =  PLD(JJ)                      
-                 EMAX = MAX(EMAX, DERI)             
-                 X0 =  PLD(JJ)                      
-              ENDDO  
-              GEO(140+J,I) =  EMAX  
-            ENDIF                        
+              DO II = IC1,IC2-4,2
+                 JJ = II+2
+                 DX = PLD(JJ)   - X0
+                 DY = PLD(JJ+1) - PLD(II+1)
+                 Y0 =  PLD(II+1)
+                 Y1 =  PLD(JJ+1)
+                 DERI = YFAC * X_SCALE * DY / DX
+                 X1 =  PLD(JJ)
+                 EMAX = MAX(EMAX, DERI)
+                 X0 =  PLD(JJ)
+              ENDDO
+              GEO(140+J,I) =  EMAX
+            ENDIF
           ENDDO
 C
-          DO 877 J=1, 6 
+          DO 877 J=1, 6
             IF(J<= 2)THEN
               H=GEO(7*J,I)
             ELSE
               H=GEO(14+(J-2)*4,I)
-            ENDIF         
+            ENDIF
             IF (H == 7)THEN
               IF (J==1)THEN
                XSCALE=GEO(39,I)
               ELSE
-               XSCALE=GEO(172+J,I) 
+               XSCALE=GEO(172+J,I)
               ENDIF
               LOAD=IGEO(101+3*(J-1),I)
               UNLOAD=IGEO(103+3*(J-1),I)
               NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
               NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
-              ALPHA1=ZERO  
-              ALPHA2=ZERO             
+              ALPHA1=ZERO
+              ALPHA2=ZERO
 c---
               DO JJ=2,NP1
                 J1=2*(JJ-2)
@@ -1308,7 +1308,7 @@ c---
                  X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
                  YY1=PLD(NPC(UNLOAD)+K1+1)
                  Y2=PLD(NPC(UNLOAD)+K1+3)
-                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)  
+                 IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)
                  IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
                    DYDX = (Y2-YY1) / (X2-XX1)
                    DTDS = (T2-T1) / (S2-S1)
@@ -1316,28 +1316,28 @@ c---
                      SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
                      TY =  T1 + DTDS*(SX - S1)
                    ENDIF
-                   IF (TY/=ZERO .AND. SX/=ZERO )THEN  
+                   IF (TY/=ZERO .AND. SX/=ZERO )THEN
                     IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
+     .                      .AND.SX>=S2.AND.TY<=T2)THEN
                       IF (IGTYP == 8)THEN
                       ELSE
-                      ENDIF        
+                      ENDIF
                       CALL ANCMSG(MSGID=982,
      .                            MSGTYPE=MSGERROR,
      .                            ANMODE=ANINFO_BLIND_1,
      .                            C1=TITR,
      .                            I1=UNLOAD,
      .                            I2=LOAD)
-                     GOTO 877         
-                    ENDIF     
-                   ENDIF                                
+                     GOTO 877
+                    ENDIF
+                   ENDIF
                  ENDIF
                 ENDDO
               ENDDO
               IF(ALPHA2>=ALPHA1)THEN
                 IF (IGTYP == 8)THEN
                 ELSE
-                ENDIF        
+                ENDIF
                 CALL ANCMSG(MSGID=982,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -1345,11 +1345,11 @@ c---
      .                      I1=UNLOAD,
      .                      I2=LOAD)
               ENDIF
-           ENDIF      
- 877      CONTINUE     
+           ENDIF
+ 877      CONTINUE
 
 C         ENDDO
-c -------- 
+c --------
 C
         ELSEIF (IGTYP==25) THEN
 C
@@ -1390,123 +1390,123 @@ C
      .                  I2=ID1)
  401      CONTINUE
 C
-c -------- 
-         DO  J=1,4                                          
-           ERRF = 1                                         
-           IF (IGEO(119+J-1,I) /=0)THEN                     
-             DO  K=1,NFUNCT                                 
-               IF(IGEO(119+J-1,I) == NPC1(K)) THEN          
-                 IGEO(119+J-1,I) = K                        
-                 ERRF = 0                                   
-                 EXIT                                       
-               ENDIF                                        
-             ENDDO                                          
-             IF (ERRF == 1)THEN                             
+c --------
+         DO  J=1,4
+           ERRF = 1
+           IF (IGEO(119+J-1,I) /=0)THEN
+             DO  K=1,NFUNCT
+               IF(IGEO(119+J-1,I) == NPC1(K)) THEN
+                 IGEO(119+J-1,I) = K
+                 ERRF = 0
+                 EXIT
+               ENDIF
+             ENDDO
+             IF (ERRF == 1)THEN
                CALL ANCMSG(MSGID=127,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=ID,
      .                     C1=TITR,
      .                     I2=IGEO(119+J-1,I))
-             ENDIF                                          
-           ENDIF                                            
+             ENDIF
+           ENDIF
          ENDDO
 !compute max slope for ifunc3
           DO  J=1, 4
             YFAC  = GEO(131+J,I) !GF3 in lecgeo25
             IFUNC = IGEO(118+J,I) !IFUNC3 in lecgeo25
             IF (J==1) X_SCALE = GEO(44,I)
-            IF (J==2) X_SCALE = GEO(48,I) 
-            IF (J==3) X_SCALE = GEO(56,I) 
-            IF (J==4) X_SCALE = GEO(60,I)  
+            IF (J==2) X_SCALE = GEO(48,I)
+            IF (J==3) X_SCALE = GEO(56,I)
+            IF (J==4) X_SCALE = GEO(60,I)
             IF (IFUNC /= 0)THEN
-              IC1 = NPC(IFUNC)           
-              IC2 = NPC(IFUNC+1)         
+              IC1 = NPC(IFUNC)
+              IC2 = NPC(IFUNC+1)
               X0 = PLD(IC1)
               EMAX = ZERO
-              DO II = IC1,IC2-4,2                   
-                 JJ = II+2                          
-                 DX = PLD(JJ)   - X0                
-                 DY = PLD(JJ+1) - PLD(II+1)         
-                 Y0 =  PLD(II+1)               
-                 Y1 =  PLD(JJ+1)               
-                 DERI = YFAC * X_SCALE * DY / DX              
-                 X1 =  PLD(JJ)                      
-                 EMAX = MAX(EMAX, DERI)             
-                 X0 =  PLD(JJ)                      
-              ENDDO  
-              GEO(140+J,I) =  EMAX      
-            ENDIF                        
+              DO II = IC1,IC2-4,2
+                 JJ = II+2
+                 DX = PLD(JJ)   - X0
+                 DY = PLD(JJ+1) - PLD(II+1)
+                 Y0 =  PLD(II+1)
+                 Y1 =  PLD(JJ+1)
+                 DERI = YFAC * X_SCALE * DY / DX
+                 X1 =  PLD(JJ)
+                 EMAX = MAX(EMAX, DERI)
+                 X0 =  PLD(JJ)
+              ENDDO
+              GEO(140+J,I) =  EMAX
+            ENDIF
           ENDDO
-         
-         DO 888 J=1,4                                                     
-           H=IGEO(101+(J-1)*4,I)                                      
-           IF (H == 7)THEN                                              
-             IF (J==1)THEN                                              
-                  XSCALE=GEO(39,I)                                       
-                ELSEIF (J==2)THEN                                                   
-                  XSCALE=GEO(174,I)                                    
-                ELSEIF (J==3)THEN                                                   
-                  XSCALE=GEO(176,I)                                    
-                ELSEIF (J==4)THEN                                                   
-                  XSCALE=GEO(177,I)                                    
-             ENDIF                                                      
-             LOAD=IGEO(102+4*(J-1),I)                                  
-             UNLOAD=IGEO(103+4*(J-1),I)                              
-             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF                      
-             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF   
-             ALPHA1=ZERO  
-             ALPHA2=ZERO             
+
+         DO 888 J=1,4
+           H=IGEO(101+(J-1)*4,I)
+           IF (H == 7)THEN
+             IF (J==1)THEN
+                  XSCALE=GEO(39,I)
+                ELSEIF (J==2)THEN
+                  XSCALE=GEO(174,I)
+                ELSEIF (J==3)THEN
+                  XSCALE=GEO(176,I)
+                ELSEIF (J==4)THEN
+                  XSCALE=GEO(177,I)
+             ENDIF
+             LOAD=IGEO(102+4*(J-1),I)
+             UNLOAD=IGEO(103+4*(J-1),I)
+             NP1  = (NPC(LOAD+1)-NPC(LOAD))*HALF
+             NP2  = (NPC(UNLOAD+1)-NPC(UNLOAD))*HALF
+             ALPHA1=ZERO
+             ALPHA2=ZERO
 c---
-             DO JJ=2,NP1                                                
-              J1=2*(JJ-2)                                                   
-              S1=PLD(NPC(LOAD)+J1)*XSCALE                                   
-              S2=PLD(NPC(LOAD)+J1+2)*XSCALE                                 
-              T1=PLD(NPC(LOAD)+J1+1)                                        
-              T2=PLD(NPC(LOAD)+J1+3)      
+             DO JJ=2,NP1
+              J1=2*(JJ-2)
+              S1=PLD(NPC(LOAD)+J1)*XSCALE
+              S2=PLD(NPC(LOAD)+J1+2)*XSCALE
+              T1=PLD(NPC(LOAD)+J1+1)
+              T2=PLD(NPC(LOAD)+J1+3)
               TY=ZERO
-              SX=ZERO                                  
-              IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)            
-              DO K=2,NP2                                                    
-               K1=2*(K-2)                                                   
-               XX1=PLD(NPC(UNLOAD)+K1)*XSCALE                               
-               X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE                              
-               YY1=PLD(NPC(UNLOAD)+K1+1)                                    
-               Y2=PLD(NPC(UNLOAD)+K1+3)                                     
-               IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)        
-               IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN          
-                 DYDX = (Y2-YY1) / (X2-XX1)                                 
-                 DTDS = (T2-T1) / (S2-S1)                                   
-                 IF (DYDX > DTDS) THEN                                      
-                   SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)             
-                   TY =  T1 + DTDS*(SX - S1)                                
-                 ENDIF                                                      
-                 IF (TY/=ZERO .AND. SX/=ZERO )THEN                          
+              SX=ZERO
+              IF ( S1<=ZERO .AND.S2> ZERO)ALPHA1=(T2-T1)/(S2-S1)
+              DO K=2,NP2
+               K1=2*(K-2)
+               XX1=PLD(NPC(UNLOAD)+K1)*XSCALE
+               X2=PLD(NPC(UNLOAD)+K1+2)*XSCALE
+               YY1=PLD(NPC(UNLOAD)+K1+1)
+               Y2=PLD(NPC(UNLOAD)+K1+3)
+               IF ( XX1<=ZERO .AND.X2> ZERO)ALPHA2=(Y2-YY1)/(X2-XX1)
+               IF (Y2>=T1 .AND.YY1<=T2.AND.X2>=S1.AND.XX1<=S2)THEN
+                 DYDX = (Y2-YY1) / (X2-XX1)
+                 DTDS = (T2-T1) / (S2-S1)
+                 IF (DYDX > DTDS) THEN
+                   SX = (T1-YY1-DTDS*S1+DYDX*XX1) / (DYDX-DTDS)
+                   TY =  T1 + DTDS*(SX - S1)
+                 ENDIF
+                 IF (TY/=ZERO .AND. SX/=ZERO )THEN
                     IF (TY>=YY1.AND.TY<=Y2.AND.SX>=XX1.AND.SX<=X2
-     .                      .AND.SX>=S2.AND.TY<=T2)THEN 
+     .                      .AND.SX>=S2.AND.TY<=T2)THEN
                      CALL ANCMSG(MSGID=982,
      .                           MSGTYPE=MSGERROR,
      .                           ANMODE=ANINFO_BLIND_1,
      .                           C1=TITR,
      .                           I1=UNLOAD,
      .                           I2=LOAD)
-                    GOTO 888                                                
-                   ENDIF                                                    
-                 ENDIF                                                      
-               ENDIF                                                        
-              ENDDO                                                         
-             ENDDO                                                      
-             IF(ALPHA2>=ALPHA1)THEN   
+                    GOTO 888
+                   ENDIF
+                 ENDIF
+               ENDIF
+              ENDDO
+             ENDDO
+             IF(ALPHA2>=ALPHA1)THEN
                CALL ANCMSG(MSGID=982,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     C1=TITR,
      .                     I1=UNLOAD,
      .                     I2=LOAD)
-             ENDIF                                                      
-           ENDIF   ! H == 7                                                     
- 888     CONTINUE                                                               
-c --------         
+             ENDIF
+           ENDIF   ! H == 7
+ 888     CONTINUE
+c --------
          ELSEIF (IGTYP == 26) THEN
           NFUNC = IGEO(20,I)
           NFUND = IGEO(21,I)
@@ -1555,7 +1555,7 @@ C
                   EXIT
                 ENDIF
               ENDDO
-              IF (IFLAG1 == 0) THEN 
+              IF (IFLAG1 == 0) THEN
                 CALL ANCMSG(MSGID=127,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
@@ -1564,29 +1564,29 @@ C
      .                      I2=ISERV(K+2))
               ENDIF
             ENDIF
-          ENDDO    
+          ENDDO
           ! Compute max slop for damping
-          IFUNC = IGEO(102,I) 
-          IF (IFUNC /= 0)THEN   
+          IFUNC = IGEO(102,I)
+          IF (IFUNC /= 0)THEN
             YFAC    = GEO(132,I)
-            X_SCALE = GEO(18,I)                    
-            IC1 = NPC(IFUNC)                        
-            IC2 = NPC(IFUNC+1)                      
-            X0  = PLD(IC1)                           
-            EMAX = ZERO                             
-            DO II = IC1,IC2-4,2                     
-               JJ = II+2                            
-               DX = PLD(JJ)   - X0                  
-               DY = PLD(JJ+1) - PLD(II+1)           
-               Y0 = PLD(II+1)                      
-               Y1 = PLD(JJ+1)                      
-               DERI = YFAC * X_SCALE * DY / DX                
+            X_SCALE = GEO(18,I)
+            IC1 = NPC(IFUNC)
+            IC2 = NPC(IFUNC+1)
+            X0  = PLD(IC1)
+            EMAX = ZERO
+            DO II = IC1,IC2-4,2
+               JJ = II+2
+               DX = PLD(JJ)   - X0
+               DY = PLD(JJ+1) - PLD(II+1)
+               Y0 = PLD(II+1)
+               Y1 = PLD(JJ+1)
+               DERI = YFAC * X_SCALE * DY / DX
                X1 = PLD(JJ)
-               EMAX = MAX(EMAX,DERI)               
-               X0 = PLD(JJ)                        
-            ENDDO                                   
-            GEO(141,I) = EMAX                      
-          ENDIF      
+               EMAX = MAX(EMAX,DERI)
+               X0 = PLD(JJ)
+            ENDDO
+            GEO(141,I) = EMAX
+          ENDIF
         ENDIF
 C
  420  CONTINUE
@@ -1643,9 +1643,9 @@ C
 c
       DO 560 I=1,NFXVEL
         DO J=1,NFUNCT
-          IF (IBFV(15,I)== 0) THEN 
+          IF (IBFV(15,I)== 0) THEN
             GOTO 560
-          ELSE    
+          ELSE
             IF(IBFV(15,I) == NPC1(J)) THEN
               IBFV(15,I)=J
               GOTO 560
@@ -1790,7 +1790,7 @@ C---------------------------
      .              I1=IBFFLUX(5,I))
  757  CONTINUE
 
- 
+
 C
 c     4) PID SOLID, GENERAL SPRING, POROUS MEDIUM
 C
@@ -1953,9 +1953,9 @@ C
                 EXIT
               END IF
             ENDDO
-            IF (IOK == 0)  
+            IF (IOK == 0)
      .        CALL ANCMSG(MSGID=1240,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
-     .                    I1=ID,C1=TITR,I2=ISENS) 
+     .                    I1=ID,C1=TITR,I2=ISENS)
           ENDIF
         ENDIF
       ENDDO
@@ -1970,7 +1970,7 @@ C-------------------------
                  IBCV(6,I) = J
                  GO TO 801
               ENDIF
-            ENDDO  
+            ENDDO
             CALL ANCMSG(MSGID=1605,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                  C1='CONVECTIVE HEAT FLUX',I1=ISENS)
           ENDIF
@@ -1987,7 +1987,7 @@ C------------------------
                  IBCR(6,I) = J
                  GO TO 802
               ENDIF
-            ENDDO  
+            ENDDO
            CALL ANCMSG(MSGID=1605,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                 C1='RADIATIVE HEAT FLUX',I1=ISENS)
           ENDIF
@@ -2004,7 +2004,7 @@ C---------------------
                  IBFFLUX(6,I) = J
                  GO TO 803
               ENDIF
-            ENDDO  
+            ENDDO
            CALL ANCMSG(MSGID=1605,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                 C1='IMPOSED HEAT FLUX',I1=ISENS)
           ENDIF
@@ -2053,18 +2053,18 @@ c -- young evolution
          IF (NF > 0) THEN
             IFE=IPM(10+NF,I)
             IF (IFE /= 0)THEN
-              IE =NPC(IFE)                    
-              IE2=NPC(IFE+1)                  
-              DO II = IE+1,IE2-3,2            
-                 IF(PLD(II) < PLD(II+2))THEN  
+              IE =NPC(IFE)
+              IE2=NPC(IFE+1)
+              DO II = IE+1,IE2-3,2
+                 IF(PLD(II) < PLD(II+2))THEN
                     CALL ANCMSG(MSGID=975,
      .                          MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO,
      .                          I1=ID,
      .                          C1=TITR)
-                    EXIT                      
-                 ENDIF                        
-              ENDDO                           
+                    EXIT
+                 ENDIF
+              ENDDO
             ENDIF
          ENDIF
 
@@ -2099,7 +2099,7 @@ c -- young evolution
             IFE=IPM(10+NF,I)
             IF(IFE /= 0)THEN
               IE =NPC(IFE)
-              IE2=NPC(IFE+1) 
+              IE2=NPC(IFE+1)
               DO II = IE+1,IE2-3,2
                  IF(PLD(II) < PLD(II+2))THEN
                     CALL ANCMSG(MSGID=975,
@@ -2107,8 +2107,8 @@ c -- young evolution
      .                          ANMODE=ANINFO,
      .                          I1=ID,
      .                          C1=TITR)
-                    EXIT 
-                 ENDIF       
+                    EXIT
+                 ENDIF
               ENDDO
             ENDIF
          ENDIF
@@ -2124,7 +2124,7 @@ c -- young evolution
               IPM(226+k,I)=J
               ITABLE=IPM(226+K,I)
               IF(TABLE(ITABLE)%NDIM >= 2 )THEN
-                BUFMAT(IADD+15) = ZERO                  
+                BUFMAT(IADD+15) = ZERO
               ENDIF
               IF(TABLE(ITABLE)%NDIM > 3 )THEN
                CALL ANCMSG(MSGID=1030,
@@ -2151,7 +2151,7 @@ c -- young evolution
             IFE=IPM(10+NF,I)
             IF(IFE /= 0)THEN
               IE =NPC(IFE)
-              IE2=NPC(IFE+1) 
+              IE2=NPC(IFE+1)
               DO II = IE+1,IE2-3,2
                  IF(PLD(II) < PLD(II+2))THEN
                     CALL ANCMSG(MSGID=975,
@@ -2159,8 +2159,8 @@ c -- young evolution
      .                          ANMODE=ANINFO,
      .                          I1=ID,
      .                          C1=TITR)
-                    EXIT 
-                 ENDIF       
+                    EXIT
+                 ENDIF
               ENDDO
             ENDIF
          ENDIF
@@ -2201,8 +2201,8 @@ C     SOUS PROGRAMME DE DECODAGE DES SOUS-MATERIAUX (LOI 20 et LOI 151)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE ELBUFTAG_MOD 
+      USE ELBUFDEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2234,7 +2234,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,
      .   TITR
       LOGICAL PASSED
-      TYPE(MLAW_TAG_), POINTER :: MTAG, MTAGk      
+      TYPE(MLAW_TAG_), POINTER :: MTAG, MTAGk
 C-----------------------------------------------
       DATA PUN/0.1/
 C-----------------------------------------------
@@ -2253,7 +2253,7 @@ C
           NF=NINT(PM(40,I))
           RHO_MAX=ZERO
           DO K=1,2
-            PASSED=.TRUE.          
+            PASSED=.TRUE.
             IS=NINT(PM(20+K,I))
             IF(IS/=0) THEN
               DO J=1,NUMMAT
@@ -2274,16 +2274,16 @@ C
  200        CONTINUE !found
             !LAW20 material buffer is dimensioned from submaterial buffer dimensions.
             IF(PASSED)THEN
-              ILAWk = IPM(2,J)            
-              MTAG  => MLAW_TAG(I)   
-              MTAGk => MLAW_TAG(J) 
-              MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)  	        
+              ILAWk = IPM(2,J)
+              MTAG  => MLAW_TAG(I)
+              MTAGk => MLAW_TAG(J)
+              MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)  	
               MTAG%L_TEMP = MAX(MTAG%L_TEMP , MTAGk%L_TEMP )
-              MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )       
-              MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)        
-              MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )          
-              MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  )             
-            ENDIF            
+              MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )
+              MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)
+              MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )
+              MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  )
+            ENDIF
           ENDDO !next K
           PM(91,I)=RHO_MAX
 
@@ -2297,21 +2297,21 @@ C
               DO J = 1, NUMMAT
                  IF (IS == IPM(1, J)) THEN
                     IPM(20 + K, I) = J
-                    ILAWk = IPM(2,J)            
-                    MTAG  => MLAW_TAG(I)   
-                    MTAGk => MLAW_TAG(J) 
-                    MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)  	        
-                    MTAG%L_TB= MAX(MTAG%L_BFRAC, MTAGk%L_TB)  	        
+                    ILAWk = IPM(2,J)
+                    MTAG  => MLAW_TAG(I)
+                    MTAGk => MLAW_TAG(J)
+                    MTAG%L_BFRAC= MAX(MTAG%L_BFRAC, MTAGk%L_BFRAC)  	
+                    MTAG%L_TB= MAX(MTAG%L_BFRAC, MTAGk%L_TB)  	
                     MTAG%L_TEMP = MAX(MTAG%L_TEMP , MTAGk%L_TEMP )
-                    MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )       
-                    MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)        
-                    MTAG%G_TB= MAX(MTAG%G_TB, MTAGk%G_TB)        
-                    MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )          
-                    MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  ) 
+                    MTAG%L_PLA  = MAX(MTAG%L_PLA  , MTAGk%L_PLA  )
+                    MTAG%G_BFRAC= MAX(MTAG%G_BFRAC, MTAGk%G_BFRAC)
+                    MTAG%G_TB= MAX(MTAG%G_TB, MTAGk%G_TB)
+                    MTAG%G_TEMP = MAX(MTAG%G_TEMP , MTAGk%G_TEMP )
+                    MTAG%G_PLA  = MAX(MTAG%G_PLA  , MTAGk%G_PLA  )
                     RHO_MAX=MAX(RHO_MAX,PM(1,J))
                  ENDIF
               ENDDO!next J
-              PM(91,I)=RHO_MAX              
+              PM(91,I)=RHO_MAX
            ENDDO
         ENDIF
       ENDDO !next I=1,NUMMAT

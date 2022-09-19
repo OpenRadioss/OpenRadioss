@@ -41,7 +41,7 @@ C old routine w/o index of BUFFTMP
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE R2R_MOD     
+      USE R2R_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
@@ -86,50 +86,50 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
       NENTITY = 0
       IF (KEY(1:6) == 'SUBSET') THEN
 C-------------------------
 C groupes de SUBSETS
 C-------------------------
-           CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
-           DO KK=1,NENTITY                                                              
-               JJ=LIST_ENTITY(KK)       
-               IF(JJ /= 0)THEN                                                          
-                 ISU=0                                                                  
-                 DO K=1,NSUBS                                                           
-                   IF (JJ == SUBSET(K)%ID) THEN                                         
-                     ISU=K                                                              
-                     DO L=1,SUBSET(ISU)%NTPART                                          
-                       !tag les parts                                                    
-                       BUFFTMP(SUBSET(ISU)%TPART(L)) = 1                                
-                     ENDDO                                                              
-                     EXIT                                                               
-                   ELSEIF (JJ == -SUBSET(K)%ID) THEN                                    
-                     ISU=K                                                              
-                     DO L=1,SUBSET(ISU)%NTPART                                          
-                       !tag les parts                                                    
-                       BUFFTMP(SUBSET(ISU)%TPART(L)) = -1                               
-                     ENDDO                                                              
-                     EXIT                                                               
-                   ENDIF                                                                
-                 ENDDO                                                                  
-                 IF (ISU == 0 .AND. FLAG == 0) THEN                                     
-                   CALL ANCMSG(MSGID=194,                                               
-     .                         MSGTYPE=MSGWARNING,                                      
-     .                         ANMODE=ANINFO,                                           
-     .                         I1=ID,                                                   
-     .                         C1=TITR1,                                                
-     .                         C2=TITR,                                                 
-     .                         C3='SUBSET',                                             
-     .                         I2=JJ)                                                   
-                 ENDIF                                                                  
-               ENDIF                                                                    
-           ENDDO! NEXT KK                                                               
-           IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)           
-                                              
+           CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
+           DO KK=1,NENTITY
+               JJ=LIST_ENTITY(KK)
+               IF(JJ /= 0)THEN
+                 ISU=0
+                 DO K=1,NSUBS
+                   IF (JJ == SUBSET(K)%ID) THEN
+                     ISU=K
+                     DO L=1,SUBSET(ISU)%NTPART
+                       !tag les parts
+                       BUFFTMP(SUBSET(ISU)%TPART(L)) = 1
+                     ENDDO
+                     EXIT
+                   ELSEIF (JJ == -SUBSET(K)%ID) THEN
+                     ISU=K
+                     DO L=1,SUBSET(ISU)%NTPART
+                       !tag les parts
+                       BUFFTMP(SUBSET(ISU)%TPART(L)) = -1
+                     ENDDO
+                     EXIT
+                   ENDIF
+                 ENDDO
+                 IF (ISU == 0 .AND. FLAG == 0) THEN
+                   CALL ANCMSG(MSGID=194,
+     .                         MSGTYPE=MSGWARNING,
+     .                         ANMODE=ANINFO,
+     .                         I1=ID,
+     .                         C1=TITR1,
+     .                         C2=TITR,
+     .                         C3='SUBSET',
+     .                         I2=JJ)
+                 ENDIF
+               ENDIF
+           ENDDO! NEXT KK
+           IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
+
       ELSEIF (KEY(1:4) == 'PART' .OR. KEY(1:3) == 'MAT' .OR. KEY(1:4) == 'PROP') THEN
 C-------------------------
 C groupes de PART,MAT,PROP
@@ -137,19 +137,19 @@ C-------------------------
               IF(KEY(1:4) == 'PART')THEN
                 MOT='PART'
                 IPP=4
-              ELSEIF(KEY(1:3) == 'MAT')THEN  
+              ELSEIF(KEY(1:3) == 'MAT')THEN
                 MOT='MAT'
                 IPP=5
               ELSEIF(KEY(1:4) == 'PROP')THEN
                 MOT='PROP'
                 IPP=6
               ENDIF
-              
-                  CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)                  
+
+                  CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
                   DO KK=1,NENTITY
                       JJ=LIST_ENTITY(KK)
                       IF(JJ /= 0)THEN
-                          ISU=0           
+                          ISU=0
                           DO K=1,NPART
 		            NUMA = IPART(IPP,K)
                             IF (NSUBDOM>0) THEN
@@ -178,21 +178,21 @@ C                             !tag les parts
      .                             C4=MOT,
      .                             I2=JJ)
                             ELSE
-                               CALL ANCMSG(MSGID=194,                                               
-     .                         MSGTYPE=MSGWARNING,                                      
-     .                         ANMODE=ANINFO,                                           
-     .                         I1=ID,                                                   
-     .                         C1=TITR1,                                                
-     .                         C2=TITR1,                                                 
-     .                         C3=TITR,   
-     .                         C4='PART',                                             
-     .                         I2=JJ)                               
+                               CALL ANCMSG(MSGID=194,
+     .                         MSGTYPE=MSGWARNING,
+     .                         ANMODE=ANINFO,
+     .                         I1=ID,
+     .                         C1=TITR1,
+     .                         C2=TITR1,
+     .                         C3=TITR,
+     .                         C4='PART',
+     .                         I2=JJ)
                             ENDIF
                           ENDIF
                       ENDIF
                   ENDDO! NEXT KK
-                  IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY) 
-                  
+                  IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
+
 C-------------------------
       ENDIF
 C-------------------------

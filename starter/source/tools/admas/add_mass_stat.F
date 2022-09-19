@@ -119,7 +119,7 @@ C
 C
 C  -------------------------------------------------------------------------------------------------------------------------
 C
-      IF (DT(1) < EP20) THEN       
+      IF (DT(1) < EP20) THEN
 C
 C----- Visual output of added mass estimation - only if nodal time step is significant
 C

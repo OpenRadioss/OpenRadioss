@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LK2, NKEY, IKEY
-      CHARACTER KEY2*80, CARTE*ncharline 
+      CHARACTER KEY2*80, CARTE*ncharline
       CHARACTER KEY0(NKEY)*5
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -52,7 +52,7 @@ C-----------------------------------------------
       KEY1=' '
       KEY2=' '
       JK=0
-      DO 10 I=1,ncharline 
+      DO 10 I=1,ncharline
       IF(CARTE(I:I)=='/')THEN
        JK=JK+1
        J=0

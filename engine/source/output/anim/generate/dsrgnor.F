@@ -114,7 +114,7 @@ C-------------------------------------------------------
             INOE=INOE+1
             NCOR(1,INOE) = A*XL * THIRD
             NCOR(2,INOE) = B*YL * THIRD
-            NCOR(3,INOE) = C*ZL * THIRD            
+            NCOR(3,INOE) = C*ZL * THIRD
             XL = XL + DX0(I)
             YL = YL + DY0(I)
             ZL = ZL + DZ0(I)
@@ -161,7 +161,7 @@ C
         NZ  =NZ/NORMN
         NNOR(1,INOE)=THREE1000*NX
         NNOR(2,INOE)=THREE1000*NY
-        NNOR(3,INOE)=THREE1000*NZ        
+        NNOR(3,INOE)=THREE1000*NZ
        END DO
 C-------------------------------------------------------
 C      Ecriture des normales aux noeuds.

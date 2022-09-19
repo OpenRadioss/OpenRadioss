@@ -62,7 +62,7 @@ C     REAL
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
      .   VX13(MVSIZ), VX24(MVSIZ), VY13(MVSIZ), VY24(MVSIZ),
-     .   VZ13(MVSIZ), VZ24(MVSIZ), 
+     .   VZ13(MVSIZ), VZ24(MVSIZ),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), E2X(MVSIZ),
      .   E2Y(MVSIZ), E2Z(MVSIZ), E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ)
 C-----------------------------------------------
@@ -70,8 +70,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
       my_real
-     .     ZZ2(MVSIZ), EXZZ2(MVSIZ), EYZZ2(MVSIZ), EXZ2PY2(MVSIZ), 
-     .     EXZ2PY1(MVSIZ), EYZ2PX2(MVSIZ), EYZ2PX1(MVSIZ),ZZZ(MVSIZ), 
+     .     ZZ2(MVSIZ), EXZZ2(MVSIZ), EYZZ2(MVSIZ), EXZ2PY2(MVSIZ),
+     .     EXZ2PY1(MVSIZ), EYZ2PX2(MVSIZ), EYZ2PX1(MVSIZ),ZZZ(MVSIZ),
      .     EXZ2(MVSIZ),EYZ2(MVSIZ),
      .     DT1V4, TMP1A(MVSIZ), TMP2A(MVSIZ), TMP3A(MVSIZ),
      .     TMP1B(MVSIZ), TMP2B(MVSIZ), TMP3B(MVSIZ),GZX(MVSIZ),

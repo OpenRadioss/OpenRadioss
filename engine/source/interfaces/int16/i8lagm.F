@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
-     .  IXS(NIXS,*),IADLL(*),NSV(*)  ,NELEM(*) 
+     .  IXS(NIXS,*),IADLL(*),NSV(*)  ,NELEM(*)
 C     REAL
       my_real
      .  X(3,*),V(3,*),XLL(*),
@@ -234,7 +234,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX   
+      INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX
       INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
      .        III(MVSIZ,9),IADLL(*)
 C     REAL
@@ -251,7 +251,7 @@ C-----------------------------------------------
       my_real
      .   R(MVSIZ),S(MVSIZ),T(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
-     .   NI(MVSIZ,9) 
+     .   NI(MVSIZ,9)
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------
@@ -349,7 +349,7 @@ C
           NK = 9
           VX = ZERO
           VY = ZERO
-          VZ = ZERO	  
+          VZ = ZERO	
           DO IK=1,NK
             VX = VX - (V(1,III(I,IK))+DT12*A(1,III(I,IK)))*NI(I,IK)
             VY = VY - (V(2,III(I,IK))+DT12*A(2,III(I,IK)))*NI(I,IK)
@@ -537,11 +537,11 @@ C-----------------------------------------------
      .   VX,VY,VZ,VN
       my_real
      .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
+     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
      .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ),
      .   DXDR(MVSIZ),DYDR(MVSIZ),DZDR(MVSIZ),
      .   DXDT(MVSIZ),DYDT(MVSIZ),DZDT(MVSIZ),
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)     
+     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)
 C-----------------------------------------------
 C
 C      r=s=t=0
@@ -650,7 +650,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
       my_real
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),NI(MVSIZ,9)  
+     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),NI(MVSIZ,9)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -690,8 +690,8 @@ C
         NI(I,6) = U_M_R * UPS_UPT
         NI(I,3) = U_P_R * UMS_UPT
         NI(I,7) = U_P_R * UPS_UPT
-        NI(I,4) = U_P_R * UMS_UMT 
-        NI(I,8) = U_P_R * UPS_UMT 
+        NI(I,4) = U_P_R * UMS_UMT
+        NI(I,8) = U_P_R * UPS_UMT
 C------------------------------------
         NI(I,9) = -ONE
 C------------------------------------
@@ -728,14 +728,14 @@ C-----------------------------------------------
      .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),
      .   XX(MVSIZ,9) ,YY(MVSIZ,9) ,ZZ(MVSIZ,9) ,
      .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
-     .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ)     
+     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
+     .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   DX ,DY,DZ,DR ,DS,DT,ERR   
+     .   DX ,DY,DZ,DR ,DS,DT,ERR
 C
       ERR=ZERO
 C-----------------------------------------------
@@ -744,18 +744,18 @@ C
         DX = XX(I,9)
      +     - NI(I, 1)*XX(I, 1) - NI(I, 2)*XX(I, 2) - NI(I, 3)*XX(I, 3)
      +     - NI(I, 4)*XX(I, 4) - NI(I, 5)*XX(I, 5) - NI(I, 6)*XX(I, 6)
-     +     - NI(I, 7)*XX(I, 7) - NI(I, 8)*XX(I, 8) 
+     +     - NI(I, 7)*XX(I, 7) - NI(I, 8)*XX(I, 8)
         DY = YY(I,9)
      +     - NI(I, 1)*YY(I, 1) - NI(I, 2)*YY(I, 2) - NI(I, 3)*YY(I, 3)
      +     - NI(I, 4)*YY(I, 4) - NI(I, 5)*YY(I, 5) - NI(I, 6)*YY(I, 6)
-     +     - NI(I, 7)*YY(I, 7) - NI(I, 8)*YY(I, 8) 
+     +     - NI(I, 7)*YY(I, 7) - NI(I, 8)*YY(I, 8)
         DZ = ZZ(I,9)
      +     - NI(I, 1)*ZZ(I, 1) - NI(I, 2)*ZZ(I, 2) - NI(I, 3)*ZZ(I, 3)
      +     - NI(I, 4)*ZZ(I, 4) - NI(I, 5)*ZZ(I, 5) - NI(I, 6)*ZZ(I, 6)
-     +     - NI(I, 7)*ZZ(I, 7) - NI(I, 8)*ZZ(I, 8) 
+     +     - NI(I, 7)*ZZ(I, 7) - NI(I, 8)*ZZ(I, 8)
 C
         DR = DRDX(I)*DX + DRDY(I)*DY + DRDZ(I)*DZ
-        DS = DSDX(I)*DX + DSDY(I)*DY + DSDZ(I)*DZ 
+        DS = DSDX(I)*DX + DSDY(I)*DY + DSDZ(I)*DZ
         DT = DTDX(I)*DX + DTDY(I)*DY + DTDZ(I)*DZ
 C
         RR(I) = RR(I) + DR
@@ -916,11 +916,11 @@ C
         NI(I,6) = U_M_R * UPS_UPT
         NI(I,3) = U_P_R * UMS_UPT
         NI(I,7) = U_P_R * UPS_UPT
-        NI(I,4) = U_P_R * UMS_UMT 
-        NI(I,8) = U_P_R * UPS_UMT 
+        NI(I,4) = U_P_R * UMS_UMT
+        NI(I,8) = U_P_R * UPS_UMT
 C
         A = HALF
-        DNIDR(1) = -UMS_UMT * A 
+        DNIDR(1) = -UMS_UMT * A
         DNIDR(2) = -UMS_UPT * A
         DNIDR(3) = -DNIDR(2)
         DNIDR(4) = -DNIDR(1)
@@ -954,43 +954,43 @@ C     dx/dr; dx/ds; dx/dt
 C-----------------------------------------------------------------------
         DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
      +          + DNIDR(4)*XX(I,4) + DNIDR(5)*XX(I,5) + DNIDR(6)*XX(I,6)
-     +          + DNIDR(7)*XX(I,7) + DNIDR(8)*XX(I,8)  
+     +          + DNIDR(7)*XX(I,7) + DNIDR(8)*XX(I,8)
 C  
         DXDS(I) = DNIDS(1)*XX(I,1) + DNIDS(2)*XX(I,2) + DNIDS(3)*XX(I,3)
      +          + DNIDS(4)*XX(I,4) + DNIDS(5)*XX(I,5) + DNIDS(6)*XX(I,6)
-     +          + DNIDS(7)*XX(I,7) + DNIDS(8)*XX(I,8)  
+     +          + DNIDS(7)*XX(I,7) + DNIDS(8)*XX(I,8)
 C 
         DXDT(I) = DNIDT(1)*XX(I,1) + DNIDT(2)*XX(I,2) + DNIDT(3)*XX(I,3)
      +          + DNIDT(4)*XX(I,4) + DNIDT(5)*XX(I,5) + DNIDT(6)*XX(I,6)
-     +          + DNIDT(7)*XX(I,7) + DNIDT(8)*XX(I,8)  
+     +          + DNIDT(7)*XX(I,7) + DNIDT(8)*XX(I,8)
 C-----------------------------------------------------------------------
 C     dy/dr; dy/ds; dy/dt
 C-----------------------------------------------------------------------
         DYDR(I) = DNIDR(1)*YY(I,1) + DNIDR(2)*YY(I,2) + DNIDR(3)*YY(I,3)
      +          + DNIDR(4)*YY(I,4) + DNIDR(5)*YY(I,5) + DNIDR(6)*YY(I,6)
-     +          + DNIDR(7)*YY(I,7) + DNIDR(8)*YY(I,8)  
+     +          + DNIDR(7)*YY(I,7) + DNIDR(8)*YY(I,8)
 C  
         DYDS(I) = DNIDS(1)*YY(I,1) + DNIDS(2)*YY(I,2) + DNIDS(3)*YY(I,3)
      +          + DNIDS(4)*YY(I,4) + DNIDS(5)*YY(I,5) + DNIDS(6)*YY(I,6)
-     +          + DNIDS(7)*YY(I,7) + DNIDS(8)*YY(I,8)  
+     +          + DNIDS(7)*YY(I,7) + DNIDS(8)*YY(I,8)
 C 
         DYDT(I) = DNIDT(1)*YY(I,1) + DNIDT(2)*YY(I,2) + DNIDT(3)*YY(I,3)
      +          + DNIDT(4)*YY(I,4) + DNIDT(5)*YY(I,5) + DNIDT(6)*YY(I,6)
-     +          + DNIDT(7)*YY(I,7) + DNIDT(8)*YY(I,8)  
+     +          + DNIDT(7)*YY(I,7) + DNIDT(8)*YY(I,8)
 C-----------------------------------------------------------------------
 C     dz/dr; dz/ds; dz/dt
 C-----------------------------------------------------------------------
         DZDR(I) = DNIDR(1)*ZZ(I,1) + DNIDR(2)*ZZ(I,2) + DNIDR(3)*ZZ(I,3)
      +          + DNIDR(4)*ZZ(I,4) + DNIDR(5)*ZZ(I,5) + DNIDR(6)*ZZ(I,6)
-     +          + DNIDR(7)*ZZ(I,7) + DNIDR(8)*ZZ(I,8)  
+     +          + DNIDR(7)*ZZ(I,7) + DNIDR(8)*ZZ(I,8)
 C  
         DZDS(I) = DNIDS(1)*ZZ(I,1) + DNIDS(2)*ZZ(I,2) + DNIDS(3)*ZZ(I,3)
      +          + DNIDS(4)*ZZ(I,4) + DNIDS(5)*ZZ(I,5) + DNIDS(6)*ZZ(I,6)
-     +          + DNIDS(7)*ZZ(I,7) + DNIDS(8)*ZZ(I,8)  
+     +          + DNIDS(7)*ZZ(I,7) + DNIDS(8)*ZZ(I,8)
 C 
         DZDT(I) = DNIDT(1)*ZZ(I,1) + DNIDT(2)*ZZ(I,2) + DNIDT(3)*ZZ(I,3)
      +          + DNIDT(4)*ZZ(I,4) + DNIDT(5)*ZZ(I,5) + DNIDT(6)*ZZ(I,6)
-     +          + DNIDT(7)*ZZ(I,7) + DNIDT(8)*ZZ(I,8)  
+     +          + DNIDT(7)*ZZ(I,7) + DNIDT(8)*ZZ(I,8)
 C-----------------------------------------------------------------------
 C          -1
 C       [J]          Inversion du jacobien

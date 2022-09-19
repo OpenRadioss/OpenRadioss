@@ -106,7 +106,7 @@ C
           V(1,N)=V0(1)
           V(2,N)=V0(2)
           V(3,N)=V0(3)
-        ENDDO      
+        ENDDO
       ENDIF
       RETURN
-      END       
+      END

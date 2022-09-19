@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IADK(*), JDIK(*), NDDL, NB, ITAB(*), IPRINT, NDDLI7, 
+      INTEGER IADK(*), JDIK(*), NDDL, NB, ITAB(*), IPRINT, NDDLI7,
      .        IADI7(*), JDII7(*), I7TOK(*)
       my_real
      .        K_DIAG(*), K_LT(*), B(NB,*), X(NB,*),
@@ -131,7 +131,7 @@ C Redescente
       CALL DSDESC(GRAPHE, NB, NDDL, IOPT)
 C Recuperation du vecteur solution
       CALL DSRECU(GRAPHE, NB, X, NDDL, NB,
-     .            0     )     
+     .            0     )
 #endif
 C
       IF (IMACH==3.AND.IPRI<0) THEN
@@ -201,7 +201,7 @@ C Condensation statique si necessaire
       IF (IDSC==1) THEN
          IF (IPRINT/=0) THEN
             IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
-            IF (IMACH/=3.OR.ISPMD==0) 
+            IF (IMACH/=3.OR.ISPMD==0)
      .         WRITE(ISTDO,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL STATIC CONDENSATION *'
          ENDIF
@@ -220,7 +220,7 @@ C Condensation statique si necessaire
 C Condensation du vecteur des forces seul
          IF (IPRINT/=0) THEN
             IF (IMACH==3.AND.ISPMD==0) WRITE(ISTDO,*)
-            IF (IMACH/=3.OR.ISPMD==0) 
+            IF (IMACH/=3.OR.ISPMD==0)
      .         WRITE(ISTDO,'(A)') ' * MULTI-LEVEL FORCES CONDENSATION *'
             WRITE(IOUT,'(A)') ' * MULTI-LEVEL FORCES CONDENSATION *'
          ENDIF
@@ -248,12 +248,12 @@ C Resolution
 #ifndef WITHOUT_LINALG
          CALL DSRESOLP_ITER(GRAPHE(1), IT, NB,    NDDLC,  B,
      .                      FAC_K,     NR, TITRE, LTITR1,  IPRINT,
-     .                      IBID,      1        ) 
+     .                      IBID,      1        )
 #endif
       ENDIF
 C Redescente
       IF (IPRINT/=0) THEN
-         IF (IMACH/=3.OR.ISPMD==0) 
+         IF (IMACH/=3.OR.ISPMD==0)
      .      WRITE(ISTDO,'(A)') ' * STATIC SOLUTION EXPANSION *'
          WRITE(IOUT,'(A)') ' * STATIC SOLUTION EXPANSION *'
       ENDIF
@@ -261,7 +261,7 @@ C Redescente
       CALL DSDESC(GRAPHE, NB, NDDL, IOPT)
 C Recuperation du vecteur solution
       CALL DSRECU(GRAPHE, NB, X, NDDL, NB,
-     .            0     )     
+     .            0     )
 C
 #endif
       IF (IMACH==3.AND.IPRI<0) THEN
@@ -271,4 +271,4 @@ C
 C
       RETURN
       END
-            
+

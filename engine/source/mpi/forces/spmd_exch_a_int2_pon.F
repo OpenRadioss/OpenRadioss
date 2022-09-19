@@ -108,7 +108,7 @@ C
       DO II=1, NBISEND
         I = INDEXS(II)
         IF (INTTH2 == 1) THEN
-         IF(IDT_THERM == 1) THEN             
+         IF(IDT_THERM == 1) THEN
           IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
@@ -229,8 +229,8 @@ C
       L = 1
       DO II=1,NBISEND
         I = INDEXS(II)
-        SIZ = I2SIZE*FR_NBCCI2(1,I)                         
-        MSGTYP = MSGOFF 
+        SIZ = I2SIZE*FR_NBCCI2(1,I)
+        MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(II),IERROR)
@@ -244,7 +244,7 @@ C
         I = INDEXR(INDEXI)
         L = IAD_RECV(I)
         IF (INTTH2 == 1) THEN
-         IF(IDT_THERM == 1) THEN                    
+         IF(IDT_THERM == 1) THEN
           IF(IRODDL/=0) THEN
            DO J=IAD_I2M(I),IAD_I2M(I+1)-1
             NOD = FR_I2M(J)
@@ -362,7 +362,7 @@ C
             END DO
            END DO
          END IF
-       ENDIF  
+       ENDIF
       END DO
 C
 Cel wait terminaison isend

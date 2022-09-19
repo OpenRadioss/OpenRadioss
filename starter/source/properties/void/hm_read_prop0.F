@@ -54,7 +54,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -84,9 +84,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IG
-      INTEGER,INTENT(IN)::IGTYP 
+      INTEGER,INTENT(IN)::IGTYP
 c      INTEGER,INTENT(IN)::SUB_INDEX
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C MODIFIED ARGUMENT

@@ -67,7 +67,7 @@ C     REAL
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        MATER(*),EL2FA(*),
      .        IADG(NSPMD,*),
-     .        DD_IAD(NSPMD+1,*), 
+     .        DD_IAD(NSPMD+1,*),
      .        IPARTT(*),IPARTP(*),IPARTR(*),
      .        NFACPTX(3,*),IXEDGE(2,*),IPART(LIPART1,*),
      .        IGEO(NPROPGI,*)
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 
+      INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J,
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ,K,NAX1D
@@ -90,13 +90,13 @@ C
       NN1 = 1
       NN2 = 1
       NN3 = 1
-      NN4 = NN3 
-      NN5 = NN4 
-      NN6 = NN5 
+      NN4 = NN3
+      NN5 = NN4
+      NN6 = NN5
       NN7 = NN6 + NUMELT
       NN8 = NN7 + NUMELP
       NN9 = NN8 + NUMELR
-      NN10= NN9 
+      NN10= NN9
 C-----------------------------------------------
       NPAR = 0
       JJ = 0
@@ -251,7 +251,7 @@ C
              IADG_TPR(K,N) = IADG(K,N)
           ENDIF
           IADG(K,N) = ABS(IADG(K,N))
-!         ----------------          
+!         ----------------
           DO N = 2, NPAR
             IF(IADG(K,N)<=0) THEN
                 IADG_TPR(K,N) = IADG_TPR(K,N-1)

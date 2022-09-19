@@ -70,7 +70,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .    TEST,RECHERCHE,NUMEL_RE,IAD,INDI,
      .    MAX_ELM_OLD,MAX_ELM,MAX_ELM_OLD_36_2,MAX_ELM_36_2,
      .    K_36_2,I_PRO_36_2,NBR_ELM
-     
+
       INTEGER, DIMENSION(TAILLE) :: CONCORDANCE_MAT
       REAL
      .   WTYPE(9),FWIHBE,FAC8,
@@ -123,7 +123,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NUMMAT) :: PID_SHELL,PID_TRI
       INTEGER, DIMENSION(NUMMAT,7) :: PID_SOL
       INTEGER :: IPID,ID,IGTYP,MODE
-      
+
       my_real
      .        CC, INVTREF,A,B,A1,A2
       my_real, DIMENSION(TAILLE_OLD) :: CPUTIME_MP_OLD_2
@@ -160,15 +160,15 @@ C-----------------------------------------------
       IF(DOMDEC_TUNING/=0)         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION : MANUAL TUNING'
       IF(DD_OPTIMIZATION==1) THEN
-!       Skylake processor 
+!       Skylake processor
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION : OPTIMIZED FOR SKYLAKE PROCESSOR'
       ELSEIF(DD_OPTIMIZATION==2) THEN
-!       Sandy Bridge processor   
+!       Sandy Bridge processor
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION : OPTIMIZED FOR SANDY BRIDGE PROCESSOR'
       ELSEIF(DD_OPTIMIZATION==3) THEN
-!       ThunderX2 processor (ARMV8.0)      
+!       ThunderX2 processor (ARMV8.0)
         WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION : OPTIMIZED FOR ARM64 PROCESSOR'
       ELSEIF(DD_OPTIMIZATION==0.OR.DD_OPTIMIZATION==4) THEN
@@ -216,15 +216,15 @@ C-----------------------------------------------
      .              (ILAW/=31).OR.(ILAW<99))  THEN
                   MAX_ELM_OLD = MAX_ELM
                   MAX_ELM = MAX(MAX_ELM,TAB_UMP_OLD(5,I))
-                  ! Material 2 or 36 are favoured  
+                  ! Material 2 or 36 are favoured
                   IF((ILAW==2).OR.(ILAW==36)) THEN
                    MAX_ELM_OLD_36_2 = MAX_ELM_36_2
                    MAX_ELM_36_2 = MAX(MAX_ELM_36_2,TAB_UMP_OLD(5,I))
                    IF( (MAX_ELM_OLD_36_2<MAX_ELM_36_2) ) I_PRO_36_2 = J
-                  ENDIF                   
+                  ENDIF
                   IF( (MAX_ELM_OLD<MAX_ELM) ) I_PRO = J
-                 ENDIF     
-               ENDIF                 
+                 ENDIF
+               ENDIF
           ENDDO
            ENDIF
          ENDDO
@@ -249,7 +249,7 @@ C-----------------------------------------------
           MID = TAB_UMP_OLD(3,K)
           PID = TAB_UMP_OLD(4,K)
 ! --------------------------
-!         SHELL        
+!         SHELL
            IF(ELM_TYP_OLD==3) THEN
             TEST_MAT = 1
             CALL INITWG_SHELL(WD,PM,GEO,IXC,IGEO,SIZE_IRUP,
@@ -258,7 +258,7 @@ C-----------------------------------------------
      .            MID,PID,MLN,RECHERCHE,TELT_PRO,
      .            TABMP_L)
 ! --------------------------
-!       TRI             
+!       TRI
            ELSEIF(ELM_TYP_OLD==7) THEN
             TEST_MAT = 1
             CALL INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMEL_RE,IPM ,SIZE_IRUP,
@@ -267,7 +267,7 @@ C-----------------------------------------------
      .            TABMP_L)
 
 ! --------------------------
-!       OTHER        
+!       OTHER
             ELSEIF((ELM_TYP_OLD==1004).OR.(ELM_TYP_OLD==1010).OR.
      .             (ELM_TYP_OLD==1)   .OR.(ELM_TYP_OLD==1006).OR.
      .             (ELM_TYP_OLD==1008).OR.(ELM_TYP_OLD==1016).OR.
@@ -303,9 +303,9 @@ C-----------------------------------------------
      2                             MID_PID_SHELL  ,MID_PID_TRI  ,MID_PID_SOL,
      3                             IPART          ,IPM          ,GEO          ,CPUTIME_MP_OLD_2,
      4                             POIN_PART_SHELL,POIN_PART_TRI,POIN_PART_SOL)
-          ! --------------------------     
+          ! --------------------------
         ENDIF   ! K/=0
-      ! --------------------------               
+      ! --------------------------
       ENDIF      ! (TEST_POIDS==1).AND. ...
 C-----------------------------------------------
       RECHERCHE = 0
@@ -324,12 +324,12 @@ C -------------------------------
      .            TELT_PRO,TABMP_L,NPART)
 C      
       OFF = NUMELS
-! -------------------- 
+! --------------------
       CALL INITWG_QUAD(WD,PM,GEO,IXQ,IGEO,
      .                 NUMELQ,IPM,OFF)
 C
       OFF = OFF + NUMELQ
-! -------------------- 
+! --------------------
        CALL INITWG_SHELL(WD,PM,GEO,IXC,IGEO,SIZE_IRUP,
      .            NUMELC,IPM,NUMMAT,NUMGEO,POIN_PART_SHELL,
      .            MID_PID_SHELL,IPARTC,OFF,BUFMAT,
@@ -337,39 +337,39 @@ C
      .            TABMP_L)
 C
       OFF = OFF + NUMELC
-! -------------------- 
+! --------------------
       CALL INITWG_TRUSS(WD,PM,GEO,IXT,IGEO,
      .            NUMELT,IPM,NUMMAT,NUMGEO,OFF)
 C     
       OFF = OFF + NUMELT
-! -------------------- 
+! --------------------
       CALL INITWG_POUTRE(WD,PM,GEO,IXP,IGEO,
      .            NUMELP,IPM,NUMMAT,NUMGEO,OFF)
 C
       OFF = OFF + NUMELP
-! -------------------- 
+! --------------------
       CALL INITWG_RESSORT(WD,PM,GEO,IXR,IGEO,
      .            NUMELR,IPM,NUMMAT,NUMGEO,OFF)
 C
       OFF = OFF + NUMELR
-! -------------------- 
+! --------------------
       CALL INITWG_TRI(WD,PM,GEO,IXTG,IGEO,NUMELTG,IPM , SIZE_IRUP,
      .            NUMMAT,NUMGEO,POIN_PART_TRI,MID_PID_TRI,IPARTG,
      .            OFF,BUFMAT,MID,PID,MLN,RECHERCHE,TELT_PRO,
      .            TABMP_L)
 C
       OFF = OFF + NUMELTG
-! -------------------- 
+! --------------------
       CALL INITWG_UR(WD,PM,GEO,IXUR,IGEO,
      .            NUMELUR,IPM,NUMMAT,NUMGEO,OFF)
 C
       OFF = OFF + NUMELUR
-! -------------------- 
+! --------------------
       CALL INITWG_X(WD,PM,GEO,KXX,IGEO,
      .            NUMELX,IPM,NUMMAT,NUMGEO,OFF)
 C
       OFF = OFF + NUMELX
-! -------------------- 
+! --------------------
 
       RETURN
       END

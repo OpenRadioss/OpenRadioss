@@ -35,7 +35,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TILLOTSON(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2, 
+      SUBROUTINE TILLOTSON(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,
      3                     PNEW ,DPDM ,DPDE ,THETA, ECOLD)
 C-----------------------------------------------
@@ -52,9 +52,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(MVSIZ) , EINT(MVSIZ), VOL0(MVSIZ), MU(MVSIZ)   , 
-     .   MU2(MVSIZ) , ESPE(MVSIZ), DVOL(MVSIZ), DF(MVSIZ)   , 
+     .   PM(NPROPM,*),
+     .   OFF(MVSIZ) , EINT(MVSIZ), VOL0(MVSIZ), MU(MVSIZ)   ,
+     .   MU2(MVSIZ) , ESPE(MVSIZ), DVOL(MVSIZ), DF(MVSIZ)   ,
      .   VNEW(MVSIZ), PNEW(MVSIZ), DPDM(MVSIZ), DPDE(MVSIZ) ,
      .   THETA(MVSIZ),ECOLD(MVSIZ)
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C
           ENDIF
         ENDIF
 C        
-        ETA=ONE+MU(I)        
+        ETA=ONE+MU(I)
         OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
         AA=FACC1*C1(I)*MU(I)+FACC2*C2(I)*MU2(I)
         BB=PTIA(I)+FACPB*PTIB(I)/OMEGA
@@ -154,7 +154,7 @@ C----------------------------------------
 C
        DO I=LFT,LLT
         DVV=HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-        ETA=ONE+MU(I)        
+        ETA=ONE+MU(I)
         OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
 C
         FACC1=ONE
@@ -163,7 +163,7 @@ C
         IF(MU(I)<ZERO) THEN
          FACC2=ZERO
          IF(DF(I)>VSUBL(I).OR.
-     .     (DF(I)<=VSUBL(I).AND.ESPE(I)>=ESUBL(I))) THEN       
+     .     (DF(I)<=VSUBL(I).AND.ESPE(I)>=ESUBL(I))) THEN
            XX  = MU(I)/(ONE+MU(I))
            EXPA= EXP(-ALPHA(I)*XX*XX)
            EXPB= EXP(BETA(I)*XX)
@@ -173,12 +173,12 @@ C
         ENDIF
 C
         AA=FACC1*C1(I)*MU(I)+FACC2*C2(I)*MU2(I)
-        BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA 
+        BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA
         PNEW(I) = (AA +BB*ESPE(I))/(ONE+ BB*DVV)
         ENEW = ESPE(I) - PNEW(I)*DVV
 C       ONE ITERATION
         OMEGA= ONE+ENEW/(EZERO(I)*ETA**2)
-        BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA        
+        BB=(PTIA(I)+FACPB*PTIB(I)/OMEGA)*ETA
         PNEW(I) = (AA +BB*ESPE(I))/(ONE+ BB*DVV)
         PNEW(I)= MAX(PNEW(I),PC(I))*OFF(I)
         EINT(I)= EINT(I) - HALF*DVOL(I)*PNEW(I)
@@ -230,7 +230,7 @@ C
                   ENDIF
                ENDIF
 C     
-               ETA=ONE+MU(I)        
+               ETA=ONE+MU(I)
                OMEGA= ONE+ESPE(I)/(EZERO(I)*ETA**2)
                AA=FACC1*C1(I)*MU(I)+FACC2*C2(I)*MU2(I)
                BB=PTIA(I)+FACPB*PTIB(I)/OMEGA
@@ -240,7 +240,7 @@ C
      .              *PTIB(I)*FACPB/(EZERO(I)*ETA*OMEGA**2) )
                DPDE(I)=BB*ETA
             ENDIF
-         ENDDO        
+         ENDDO
       ENDIF
       RETURN
       END

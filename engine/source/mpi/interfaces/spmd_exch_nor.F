@@ -69,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NADMSR,SOL_EDGE
       INTEGER NI25, IAD_FREDG(NINTER25,*), FR_EDG(2,*),SIZE,ISHIFT,
-     .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),ISINDEX(NSPMD),IAD_RECV(NSPMD+1), 
+     .        REQ_R(NSPMD),REQ_S(NSPMD),IRINDEX(NSPMD),ISINDEX(NSPMD),IAD_RECV(NSPMD+1),
      .        NBIRECV, NBISEND, IAD_FRNOR(NINTER25,*), FR_NOR(*), IFLAG, LBOUND(*),
      .        ADDCSRECT(*), PROCNOR(*)
       REAL*4 NOD_NORMAL(3,4,*), WNOD_NORMAL(3,4,*), VTX_BISECTOR(3,2,NADMSR),FSKYN(3,*),
@@ -238,11 +238,11 @@ c                print *,'recoit',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoi
                 VTX_BISECTOR(1,1,IS) = RZERO
                 VTX_BISECTOR(2,1,IS) = RZERO
                 VTX_BISECTOR(3,1,IS) = RZERO
-                VTX_BISECTOR(1,2,IS) = RZERO 
+                VTX_BISECTOR(1,2,IS) = RZERO
                 VTX_BISECTOR(2,2,IS) = RZERO
                 VTX_BISECTOR(3,2,IS) = RZERO
-              END IF    
-            END IF      
+              END IF
+            END IF
             L = L + SIZE
             IF(RBUF(L)/=RZERO.OR.RBUF(L+1)/=RZERO.OR.RBUF(L+2)/=RZERO)THEN
               IF(VTX_BISECTOR(1,1,IS)==RZERO.AND.
@@ -257,8 +257,8 @@ c                print *,'recoit',ispmd+1,i,j-IAD_FREDG(NI25,I)+1,mseglo(m),mvoi
                 VTX_BISECTOR(1,2,IS)=RBUF(L)
                 VTX_BISECTOR(2,2,IS)=RBUF(L+1)
                 VTX_BISECTOR(3,2,IS)=RBUF(L+2)
-              END IF    
-            END IF      
+              END IF
+            END IF
             L = L + SIZE
 
             LBOUND(IS) =  LBOUND(IS)+NINT(RBUF(L))

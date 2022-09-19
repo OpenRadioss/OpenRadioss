@@ -33,9 +33,9 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE QGRHEAD(
      1       IXQ     ,PM      ,GEO     ,INUM    ,ISEL    ,
-     2       ITR1    ,EADD    ,INDEX   ,ITRI    ,IPARTQ  ,     
+     2       ITR1    ,EADD    ,INDEX   ,ITRI    ,IPARTQ  ,
      3       ND      ,IGRSURF ,IGRQUAD ,CEP     ,
-     5       XEP     ,IGEO    ,IPM     ,IQUAOFF )     
+     5       XEP     ,IGEO    ,IPM     ,IQUAOFF )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -93,10 +93,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,J,K,L, NG, NN, N, MLN, MID, PID ,
      .        II,JJ, II1,JJ1,II2,JJ2,II3,JJ3,II4,JJ4,
-     .        MODE, ML1, ML2, MT1, MT2,IGT, 
+     .        MODE, ML1, ML2, MT1, MT2,IGT,
      .        MSKMLN,MSKJAL,MSKMID,MSKPID,IEOS,
      .        MSKJEU,MSKJTU,MSKJTH,MSKJPO,
      .        IPLAST, IALEL, MT,IREP,IINT,ISSN,NGTVX,IFAIL,IRB,
@@ -118,7 +118,7 @@ C
       DATA MSKPID /O'07777777777'/
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
- 
+
 C----------------------------------------------------------
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
 C----------------------------------------------------------
@@ -166,7 +166,7 @@ C
           IF(MLN==46)MLN=47
           MID=IABS(MID)
         ENDIF
-        IFAIL = IPM(220,MID)       
+        IFAIL = IPM(220,MID)
         JALE_FROM_MAT = NINT(PM(72,MID))
         JALE_FROM_PROP = IGEO(62,PID)
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
@@ -189,7 +189,7 @@ C
         ELSE
           JMULT=0
           ML1=0
-          ML2=0 
+          ML2=0
         ENDIF
 C
         IF(JCVT/=0.AND.(JLAG==0.OR.MLN==20))THEN
@@ -209,7 +209,7 @@ C tri sur elem delete des rigidbody
 C IRB = 0 : elem actif
 C IRB = 1 : elem inactif et optimise pour en SPMD
 C IRB = 2 : elem inactif mais optimise pour etre actif en SPMD
-        IRB = IQUAOFF(I)       
+        IRB = IQUAOFF(I)
 C
 C NPT = 1 ; JHBE = 0 ; JIVF = 0 et JLAG non utilise
 Clef 1---------------------------------
@@ -220,7 +220,7 @@ Clef 1---------------------------------
         JALE=MY_SHIFTL(JALE,12)
         MLN=MY_SHIFTL(MLN,21)
 c        IRB=MY_SHIFTL(IRB,0)
-        ITRI(1,I)=MLN+JALE+JEUL+JTUR+JTHE+JPOR+IRB 
+        ITRI(1,I)=MLN+JALE+JEUL+JTUR+JTHE+JPOR+IRB
 Clef 2---------------------------------
         IPLAST=MY_SHIFTL(IPLAST,0)
         IFAIL = MY_SHIFTL(IFAIL,3)
@@ -234,7 +234,7 @@ Clef 3---------------------------------
 Clef 4---------------------------------
         ITRI(4,I)=PID
 Clef 5---------------------------------
-        IEOS = MY_SHIFTL(IEOS,0) 
+        IEOS = MY_SHIFTL(IEOS,0)
 C       next = MY_SHIFTL(next,4) 
         ITRI(5,I)=IEOS
 

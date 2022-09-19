@@ -57,7 +57,7 @@ Chd|====================================================================
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM   ,
      4                  ITAB    ,KINET   ,TEMP    ,NRTM_T  ,RENUM     ,
      5                  NSNFIOLD,ESHIFT  ,NUM_IMP ,IND_IMP ,NODNX_SMS ,
-     6                  IXS     ,IGRBRIC ,ALE_CONNECTIVITY,INTBUF_TAB, 
+     6                  IXS     ,IGRBRIC ,ALE_CONNECTIVITY,INTBUF_TAB,
      7                  COUNT_REMSLV ,H3D_DATA,MULTI_FVM)
 C============================================================================
 C   M o d u l e s
@@ -67,7 +67,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE I22BUFBRIC_MOD  
+      USE I22BUFBRIC_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
@@ -100,9 +100,9 @@ C-----------------------------------------------
 #include      "inter22.inc"
 C common pour variable globale en memoire partagee
       COMMON /I22MAINC/BMINMA_LAG,BMINMA_FLU,RESULT,NSNR,NSNROLD,I_MEMG,
-     .                 CURV_MAX_MAX 
+     .                 CURV_MAX_MAX
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG
-      my_real 
+      my_real
      .        BMINMA_LAG(6), !dimensions domaine lagrangien local
      .        BMINMA_FLU(6), !dimensions domaine fluide local
      .        CURV_MAX_MAX
@@ -117,7 +117,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*),
      .        IXS(NIXS,*),NSHELL,  COUNT_REMSLV(*)
-      my_real 
+      my_real
      .   X(3,*), V(3,*), MS(*),TEMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -130,7 +130,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC, P,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
+     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1,
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ,
      .        IAD, J, NF, NL, I1, I2, REM_P(NSPMD-1)
       INTEGER ::
@@ -139,9 +139,9 @@ C-----------------------------------------------
      .        NSHEL_G,  !Nombre de facettes dans tout le modele
      .        NSHEL_L,  !Nombre de facettes du domaine
      .        NSHEL_T,  !Nombre de facettes du domaine associe au THREAD concerne
-     .        NSHELR_L !Nombre de facettes remote du domaine 
+     .        NSHELR_L !Nombre de facettes remote du domaine
 !     .        NSHELR_T  !Nombre de facettes remote du domaine (pour le thread courant)
-      INTEGER 
+      INTEGER
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),
      .        ISU1, ISU2, NBF, NBL, IBID, COUNT_CAND, CT,INTFRIC
@@ -151,14 +151,14 @@ C-----------------------------------------------
      .   STARTT,GAP,MAXBOX,MINBOX,STOPT,DIST,TZINF,
      .   XMAXL, YMAXL, ZMAXL, XMINL, YMINL, ZMINL, GAPMIN, GAPMAX,
      .   C_MAXL,BID,
-     .   CURV_MAX(NRTM_T),RDUM1(1), STFE, 
+     .   CURV_MAX(NRTM_T),RDUM1(1), STFE,
      .   BMINMA_AND_R(6), !intersection fluid in local domain and remote lag faces
      .   BMINMA_AND(6),  !intersection fluid in local domain and all faces
      .   vel(4), vel_max
 C-----------------------------------------------
 #include "sync_dir.inc"
 C-----------------------------------------------
-    !  if(itask==0.and.ibug22_tri==1)print *, 
+    !  if(itask==0.and.ibug22_tri==1)print *,
     ! .        "entree subroutine i22main_tri.F"
       I_MEMG = 0
       I_MEM = 0
@@ -212,7 +212,7 @@ C -------------------------------------------------------------
       NSNR = 0
       NSHELR_L = 0
       !NSHELR_T = NSNR
-  
+
       NIRECT_L = NSHEL_G !est un majorant de NSHEL_L+NSHELR_L
 
 C -------------------------------------------------------------
@@ -239,15 +239,15 @@ C -------------------------------------------------------------
         BMINMA_LAG(4) = EP30
         BMINMA_LAG(5) = EP30
         BMINMA_LAG(6) = EP30
-        dx22_min      = EP30  !cinematic time step  
-        v22_max       = ZERO  !cinematic time step 
-        dt22_min      = EP30  !cinematic time step 
-      END IF 
-      
-      !cinematic time step 
+        dx22_min      = EP30  !cinematic time step
+        v22_max       = ZERO  !cinematic time step
+        dt22_min      = EP30  !cinematic time step
+      END IF
+
+      !cinematic time step
       DX22MIN_L(ITASK) = EP30
       V22MAX_L(ITASK)  = ZERO
-      
+
       CALL MY_BARRIER ! waiting for allocations
 
       NSNR_G(1:NTHREAD) = 0
@@ -295,7 +295,7 @@ C a conserver pour cas inacti est modifie sur p0
         END IF
 
         !extension du domaine lagrangien avec TZINF (verifier calcul de TZINF)
-        if(itask==0.and.ibug22_tri==1)print *, 
+        if(itask==0.and.ibug22_tri==1)print *,
      .         "applying TZINF extension to lag domain", TZINF
 
         BMINMA_LAG(1)=BMINMA_LAG(1)+TZINF
@@ -322,7 +322,7 @@ C -------------------------------------------------------------
           ALLOCATE(BMINMA_LAG_SPMD(6,NSPMD))
           CALL SPMD_LAGBOUNDS_EXCH_I22(
      .            BMINMA_LAG_SPMD, BMINMA_LAG, ISENDTO  ,IRCVFROM , NIN)
-          if(itask==0.and.ibug22_tri==1)print *, "BMINMA=", 
+          if(itask==0.and.ibug22_tri==1)print *, "BMINMA=",
      .                          BMINMA_LAG(4:6),BMINMA_LAG(1:3)
           J=1
           !listing all remote proc in REM_P(1:NSPMD-1)
@@ -375,9 +375,9 @@ C -------------------------------------------------------------
           !print *, ""
          end if
           !---------------debug--------------!
-        END IF   
+        END IF
       ELSE
-        IF(ITASK==0) BMINMA_LAG_G = BMINMA_LAG    
+        IF(ITASK==0) BMINMA_LAG_G = BMINMA_LAG
       END IF
 
 C -------------------------------------------------------------
@@ -390,15 +390,15 @@ C -------------------------------------------------------------
       BMINMA_FLU(4) =  EP30
       BMINMA_FLU(5) =  EP30
       BMINMA_FLU(6) =  EP30
-      
+
 
       !IBUFSSG(IAD)[1:NBRIC_L] is multi-threaded
       !computing MIN/MAX for 3D fluid elems
       CALL I22SOLID_GETMINMAX (
-     1                        X,       IXS, IGRBRIC(ISU1)%ENTITY, NBRIC_L, 
+     1                        X,       IXS, IGRBRIC(ISU1)%ENTITY, NBRIC_L,
      2                     ITAB,     ITASK, NIN       )
 
-      CALL MY_BARRIER        
+      CALL MY_BARRIER
 
       !Calcul des bornes du domaine Fluide
 #include "lockon.inc"
@@ -445,7 +445,7 @@ C -------------------------------------------------------------
 C     RECHERCHE DANS LES AUTRES DOMAINES DES FACETTES A PROXIMITE
 C     DU DOMAINE FLUIDE LOCAL (REMOTE). ALLOCATION DE XREM
 C -------------------------------------------------------------
- 
+
       IF(NSPMD > 1) THEN
 
         IF(ITASK==0) CRVOXEL(0:LRVOXEL,0:LRVOXEL,LOC_PROC)=0
@@ -462,16 +462,16 @@ C -------------------------------------------------------------
 
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
         IF(ITASK==0)THEN
-      
-        !CONTACT=TRUE si intersection non nulle entre domaine FLUIDE LOCAL / LAG DISTANTS    
+
+        !CONTACT=TRUE si intersection non nulle entre domaine FLUIDE LOCAL / LAG DISTANTS
         IF(IS_CONTACT) CALL SPMD_TRI22VOX(
      1      INTBUF_TAB%IRECTM ,NSHEL_L ,X        ,V          ,BMINMA_AND_R,  !envoyer les shell du domaine.
-     2      INTBUF_TAB%STFM   ,NIN     ,ISENDTO  ,IRCVFROM   ,IAD_ELEM  , 
+     2      INTBUF_TAB%STFM   ,NIN     ,ISENDTO  ,IRCVFROM   ,IAD_ELEM  ,
      3      FR_ELEM           ,NSNR    ,ITAB     ,ITASK      )
-           
+
         NIRECT_L = NSHEL_L + NSNR !on avait un majorant de NSHEL_L+NSHELR_L, on connait mainteannt la taille exacte car NSHELR_L=NSNR (nb candidat remote)
 
-       ELSE 
+       ELSE
        !verifier si contact avec intersection des domaines
 
       END IF
@@ -503,30 +503,30 @@ C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data
         J = ESHIFT + IP1      !numero global (local+remote)
         STFE = INTBUF_TAB%STFM(1+ESHIFT+I) ! rigidite dans le groupe de shell du thread
         IRECT_L(23   , J) = STFE                               ! Stiffness
-        !IF(STFE==ZERO) CYCLE  
+        !IF(STFE==ZERO) CYCLE
         I1 = 1+4*ESHIFT+4*I
         I2 = I1+3
-        IRECT_L(1:4  , J)  = ITAB(INTBUF_TAB%IRECTM(I1:I2))            ! User Nodes  
-        IRECT_L(5:8  , J)  = X(1,INTBUF_TAB%IRECTM(I1:I2))             ! X-coordinates 
-        IRECT_L(9:12 , J)  = X(2,INTBUF_TAB%IRECTM(I1:I2))             ! Y-coordinates 
-        IRECT_L(13:16, J)  = X(3,INTBUF_TAB%IRECTM(I1:I2))             ! Z-coordinates 
-        IRECT_L(17:19, J)  = (/XMINE(J),YMINE(J),ZMINE(J)/)            ! Minimum X,Y,Z 
+        IRECT_L(1:4  , J)  = ITAB(INTBUF_TAB%IRECTM(I1:I2))            ! User Nodes
+        IRECT_L(5:8  , J)  = X(1,INTBUF_TAB%IRECTM(I1:I2))             ! X-coordinates
+        IRECT_L(9:12 , J)  = X(2,INTBUF_TAB%IRECTM(I1:I2))             ! Y-coordinates
+        IRECT_L(13:16, J)  = X(3,INTBUF_TAB%IRECTM(I1:I2))             ! Z-coordinates
+        IRECT_L(17:19, J)  = (/XMINE(J),YMINE(J),ZMINE(J)/)            ! Minimum X,Y,Z
         IRECT_L(20:22, J)  = (/XMAXE(J),YMAXE(J),ZMAXE(J)/)            ! Maximum X,Y,Z
         IRECT_L(24, J)     = SUM(V(1,INTBUF_TAB%IRECTM(I1:I2)))/FOUR ! X-Velocity (mean)
         IRECT_L(25, J)     = SUM(V(2,INTBUF_TAB%IRECTM(I1:I2)))/FOUR ! Y-Velocity (mean)
         IRECT_L(26, J)     = SUM(V(3,INTBUF_TAB%IRECTM(I1:I2)))/FOUR ! Z-Velocity (mean)
-        
+
         !cinematic time step
         vel(1)             = dot_product(V(1:3,INTBUF_TAB%IRECTM(I1+0)),V(1:3,INTBUF_TAB%IRECTM(I1+0)))
         vel(2)             = dot_product(V(1:3,INTBUF_TAB%IRECTM(I1+1)),V(1:3,INTBUF_TAB%IRECTM(I1+1)))
         vel(3)             = dot_product(V(1:3,INTBUF_TAB%IRECTM(I1+2)),V(1:3,INTBUF_TAB%IRECTM(I1+2)))
-        vel(4)             = dot_product(V(1:3,INTBUF_TAB%IRECTM(I1+3)),V(1:3,INTBUF_TAB%IRECTM(I1+3)))          
+        vel(4)             = dot_product(V(1:3,INTBUF_TAB%IRECTM(I1+3)),V(1:3,INTBUF_TAB%IRECTM(I1+3)))
         vel(1)             = SQRT(vel(1))
         vel(2)             = SQRT(vel(2))
         vel(3)             = SQRT(vel(3))
-        vel(4)             = SQRT(vel(4))                                                      
-        v22max_l(ITASK)    = MAX(v22max_l(ITASK), MAXVAL(vel) ) 
-                
+        vel(4)             = SQRT(vel(4))
+        v22max_l(ITASK)    = MAX(v22max_l(ITASK), MAXVAL(vel) )
+
       END DO
 
 !     Filling with remote faces data
@@ -534,7 +534,7 @@ C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data
       NL = (ITASK+1)*NSHELR_L/NTHREAD
       DO I=NF,NL !1,NSNR
         J = NSHEL_L+I
-        IRECT_L(1:4   , J) = XREM(  1:4,I) ! User Nodes   
+        IRECT_L(1:4   , J) = XREM(  1:4,I) ! User Nodes
         IRECT_L(5:8   , J) = XREM(  5:8,I) ! X-coordinates
         IRECT_L(9:12  , J) = XREM( 9:12,I) ! Y-coordinates
         IRECT_L(13:16 , J) = XREM(13:16,I) ! Z-coordinates
@@ -543,7 +543,7 @@ C      IRECT_L(    :,NRTM+1:NRTM + NSNR)         : remotes elements data
         IRECT_L(23    , J) = XREM(   23,I) ! Stiffness (forcemment non nul)
         IRECT_L(24:26 , J) = XREM(24:26,I) ! XYZ-Velocity (mean)
 
-        !missing SPMD cinematic time step       
+        !missing SPMD cinematic time step
       END DO
 !
 
@@ -551,8 +551,8 @@ C--------------------------------------------------------------
 C    CINEMATIC TIME STEP (MAXIMUM SPEED)
 C-------------------------------------------------------------- 
       CALL MY_BARRIER
-#include "lockon.inc"      
-      v22_max            = MAX(v22_max,v22max_l(ITASK))      
+#include "lockon.inc"
+      v22_max            = MAX(v22_max,v22max_l(ITASK))
 #include "lockoff.inc"
 
 C -------------------------------------------------------------
@@ -576,34 +576,34 @@ C -------------------------------------------------------------
       BMINMA_AND(4) = MAX(BMINMA_FLU(4),BMINMA_LAG_G(4))
       BMINMA_AND(5) = MAX(BMINMA_FLU(5),BMINMA_LAG_G(5))
       BMINMA_AND(6) = MAX(BMINMA_FLU(6),BMINMA_LAG_G(6))
-      
-      if(itask==0.and.ibug22_tri==1)print *, 
+
+      if(itask==0.and.ibug22_tri==1)print *,
      .  "Faire test si dimension negative ",
      .  "=>candidat=0 ! ici ou dans i22trivox"
 
-       
+
  50   CALL MY_BARRIER
- 
+
       IF (BMINMA_AND(1)-BMINMA_AND(4)<0)GOTO 999
       IF (BMINMA_AND(2)-BMINMA_AND(5)<0)GOTO 999
       IF (BMINMA_AND(3)-BMINMA_AND(6)<0)GOTO 999
-      
+
       ISKIP22 = 0
 
 C -------------------------------------------------------------
 C     RECHERCHE DES COUPLES CANDIDATS POUR L'INTERACTION
 C -------------------------------------------------------------
- 
+
       IF (IMONM > 0) CALL STARTIME(30,1)
       CALL I22BUCE(
      1 X                ,INTBUF_TAB%IRECTM(1+4*ESHIFT) ,INTBUF_TAB%NSV            ,INACTI            ,ISKIP22            ,
      2 NMN              ,NSHEL_T                       ,NSN                       ,INTBUF_TAB%CAND_E ,INTBUF_TAB%CAND_N  ,
-     3 GAP              ,NOINT                         ,INTBUF_TAB%I_STOK(1)      ,NCONTACT          ,BMINMA_AND         , 
+     3 GAP              ,NOINT                         ,INTBUF_TAB%I_STOK(1)      ,NCONTACT          ,BMINMA_AND         ,
      4 TZINF            ,MAXBOX                        ,MINBOX                    ,MWAG              ,CURV_MAX           ,
      6 NB_N_B           ,ESHIFT                        ,ILD                       ,IFQ               ,IBID               ,
      8 INTBUF_TAB%STFNS ,NIN                           ,INTBUF_TAB%STFM(1+ESHIFT) ,IPARI(21,NIN)     ,
      A NSHELR_L         ,NCONT                         ,RENUM                     ,NSNROLD           ,
-     B GAPMIN           ,GAPMAX                        ,CURV_MAX_MAX              ,NUM_IMP           , 
+     B GAPMIN           ,GAPMAX                        ,CURV_MAX_MAX              ,NUM_IMP           ,
      C INTTH            ,ITASK                         ,INTBUF_TAB%VARIABLES(7)   ,I_MEM ,
      D IXS              ,IGRBRIC(ISU1)%ENTITY          ,NBRIC_L                   ,ITAB              ,NSHEL_L            ,
      E ALE_CONNECTIVITY ,IPARI(1,NIN) )
@@ -642,7 +642,7 @@ C
       INTBUF_TAB%VARIABLES(5)  = INTBUF_TAB%VARIABLES(8)-GAP
       RESULT                   = RESULT + ILD
       LSKYI_COUNT              = LSKYI_COUNT+COUNT_CAND*5
-      COUNT_REMSLV(NIN)        = COUNT_REMSLV(NIN)+CT      
+      COUNT_REMSLV(NIN)        = COUNT_REMSLV(NIN)+CT
 #include "lockoff.inc"
 
 
@@ -679,7 +679,7 @@ C
      4      MULTI_FVM)
         IPARI(24,NIN) = NSNR
 C
-        IF (NUM_IMP>0) 
+        IF (NUM_IMP>0)
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)
@@ -692,7 +692,7 @@ C--------------------------------------------------------------
 
   999 CONTINUE !JUMP IF DOMAINE INTERSECTION VIDE (PAS DE CANDIDATS)
 
-      
+
       IF(ITASK==0)THEN
         !DEALLOCATE(IRECT_L)
         DEALLOCATE(XMINS)
@@ -723,13 +723,13 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22SOLID_GETMINMAX(
-     1                                  X,   IXS, BUFBRIC, NBRIC, 
+     1                                  X,   IXS, BUFBRIC, NBRIC,
      2                               ITAB,  ITASK, NIN       )
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD  
+      USE I22BUFBRIC_MOD
       USE I22TRI_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -780,7 +780,7 @@ C-----------------------------------------------
 
       NBF = 1+ITASK*NBRIC/NTHREAD
       NBL = (ITASK+1)*NBRIC/NTHREAD
-      
+
       DO IB=NBF,NBL   !1,NBRIC
          NE = BUFBRIC(IB)
          !-------------------------------------------!
@@ -792,7 +792,7 @@ C-----------------------------------------------
          !-------------------------------------------!
          !  Eight Y-coordinates of the eight nodes   !
          !-------------------------------------------!
-         YY(1:8)   = X(2,IXS(2:9,NE)) 
+         YY(1:8)   = X(2,IXS(2:9,NE))
          YMAXS(IB) = MAXVAL(YY)
          YMINS(IB) = MINVAL(YY)
          !-------------------------------------------!
@@ -803,7 +803,7 @@ C-----------------------------------------------
          ZMINS(IB) = MINVAL(ZZ)
          !
       ENDDO !IB=1,NBRIC
-      
+
       RETURN
       END SUBROUTINE
 C-----------------------------------------------
@@ -917,8 +917,8 @@ C-----------------------------------------------
          !-------------------------------------------!
          ZZ(1:4)  = X(3,N(1:4))
          ZMAXE(J) = MAXVAL(ZZ)
-         ZMINE(J) = MINVAL(ZZ)  
-      ENDDO !IB=1,NRTM 
+         ZMINE(J) = MINVAL(ZZ)
+      ENDDO !IB=1,NRTM
 
       RETURN
       END SUBROUTINE

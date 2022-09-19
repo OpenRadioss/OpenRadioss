@@ -27,7 +27,7 @@ Chd|        MULAWC                        source/materials/mat_share/mulawc.F
 Chd|-- calls ---------------
 Chd|        VINTER                        source/tools/curve/vinter.F   
 Chd|====================================================================
-      SUBROUTINE SIGEPS44C( 
+      SUBROUTINE SIGEPS44C(
      1     NEL0    ,NUPARAM,NUVAR   ,MFUNC   ,KFUNC  ,
      2     NPF    ,NPT0    ,IPT     ,IFLAG   ,
      2     TF     ,TIME   ,TIMESTEP,UPARAM  ,RHO0   ,
@@ -125,7 +125,7 @@ C
      .   SIGOXY(NEL0),SIGOYZ(NEL0),SIGOZX(NEL0),
      .   GS(*),EPSP(NEL0),ASRATE,
      .   DPLANL(NEL0)
-      my_real ,DIMENSION(NEL0,3),INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL0,3),INTENT(INOUT) ::
      .   SIGP
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
@@ -154,9 +154,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NINDX,NMAX,IADBUF,ICC1,ISRATE,INDEX(MVSIZ),VFLAG,
      .        IPOS(MVSIZ),ILEN(MVSIZ),IAD(MVSIZ),IPOS0(MVSIZ)
-      my_real 
+      my_real
      .        SVM(MVSIZ),DR(MVSIZ),
-     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
+     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),HS(MVSIZ),
      .        YLO(MVSIZ),ZEROR(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ)
@@ -189,7 +189,7 @@ C-----------------------------------------------
        G31      = UPARAM(18)
        A11      = UPARAM(20)
        A21      = UPARAM(21)
-       ISRATE   = NINT(UPARAM(13)) 
+       ISRATE   = NINT(UPARAM(13))
        VFLAG    = NINT(UPARAM(23))
        YSCALE   = UPARAM(24)
 C       
@@ -220,7 +220,7 @@ C     ELASTIC STRESS ESTIMATE
 C-----------------------------------------------
        DO I=1,NEL0
 C
-         IF (FISOKIN1 > ZERO) THEN 
+         IF (FISOKIN1 > ZERO) THEN
            SIGNXX(I) = SIGOXX(I) - SIGP(I,1) + A11*DEPSXX(I) + A21*DEPSYY(I)
            SIGNYY(I) = SIGOYY(I) - SIGP(I,2) + A21*DEPSXX(I) + A11*DEPSYY(I)
            SIGNXY(I) = SIGOXY(I) - SIGP(I,3) + G1 *DEPSXY(I)
@@ -241,10 +241,10 @@ C
 C-----------------------------------------------
 C     TOTAL OR DEVIATORIC STRAIN-RATE COMPUTATION
 C-----------------------------------------------
-         IF (VFLAG == 1) THEN 
+         IF (VFLAG == 1) THEN
            EPSP(I) = UVAR(I,1)
          ENDIF
-         IF (ISRATE > 0) THEN 
+         IF (ISRATE > 0) THEN
            IF (VFLAG == 3) THEN
              DAV = (EPSPXX(I)+EPSPYY(I))*THIRD
              DEVE1  = EPSPXX(I) - DAV
@@ -252,7 +252,7 @@ C-----------------------------------------------
              DEVE3  = - DAV
              DEVE4  = HALF*EPSPXY(I)
              EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-             EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+             EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF
              EPSP(I)   = ASRATE*EPSP(I) + (ONE - ASRATE)*UVAR(I,1)
              UVAR(I,1) = EPSP(I)
            ENDIF
@@ -264,10 +264,10 @@ C-----------------------------------------------
              DEVE3  = - DAV
              DEVE4  = HALF*EPSPXY(I)
              EPSP(I)   = HALF*(DEVE1**2 + DEVE2**2 + DEVE3**2) + DEVE4**2
-             EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF             
+             EPSP(I)   = SQRT(THREE*EPSP(I))/THREE_HALF
              UVAR(I,1) = EPSP(I)
            ELSEIF (VFLAG == 2) THEN
-             EPSP(I) = 
+             EPSP(I) =
      .       HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .     + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                   + EPSPXY(I)*EPSPXY(I) ) )
@@ -292,7 +292,7 @@ C
          IPOS(1:NEL0)     = VARTMP(1:NEL0,1)
          IAD (1:NEL0)     = NPF(KFUNC(1)) / 2 + 1
          ILEN(1:NEL0)     = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL0) - IPOS(1:NEL0)
-         CALL VINTER(TF,IAD,IPOS,ILEN,NEL0,PLA,DFDPLA,YLD) 
+         CALL VINTER(TF,IAD,IPOS,ILEN,NEL0,PLA,DFDPLA,YLD)
          VARTMP(1:NEL0,1) = IPOS(1:NEL0)
        ENDIF
 C
@@ -311,7 +311,7 @@ C--------------------
            ENDIF
          ENDDO
 C---------------------------
-       ELSEIF ((MFUNC > 0) .AND. (CA1 /= ZERO)) THEN 
+       ELSEIF ((MFUNC > 0) .AND. (CA1 /= ZERO)) THEN
 C--------------------
          DO I=1,NEL0
            IF(CC1 /= ZERO) RQ = ONE + (CC1*EPSP(I))**CP1
@@ -324,7 +324,7 @@ C--------------------
                YLD(I) = YSCALE * YLD(I) + (CA1 + CB1*PLA(I)**CN1) * (RQ-ONE)
                IF (CN1>ONE) THEN
                  HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-ONE) * (PLA(I)**(CN1-ONE))
-               ELSE 
+               ELSE
                  HS(I) = YSCALE * DFDPLA(I) + CN1*CB1*(RQ-ONE) / ((PLA(I)**(ONE-CN1)))
                ENDIF
              ENDIF
@@ -395,7 +395,7 @@ C
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
            PLA(I) = PLA(I) + DPLA_I(I)
            S1=HALF*(SIGNXX(I)+SIGNYY(I))
-           IF (INLOC == 0) THEN 
+           IF (INLOC == 0) THEN
              DEZZ = DPLA_I(I) * S1 / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -416,8 +416,8 @@ C
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
-           IF (INLOC == 0) THEN 
+           SVM(I)=SQRT(AA(I)+BB(I))
+           IF (INLOC == 0) THEN
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -465,7 +465,7 @@ C
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C
@@ -480,7 +480,7 @@ C
            SIGNXX(I)=HALF*(S1+S2)
            SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
-           IF (INLOC == 0) THEN 
+           IF (INLOC == 0) THEN
              DEZZ = - NU31*DR(I)*S1/E1
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -520,7 +520,7 @@ C
            SVM(I)=SQRT(VM2)
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
            PLA(I) = PLA(I) + DPLA_I(I)
-           IF (INLOC == 0) THEN 
+           IF (INLOC == 0) THEN
              DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -531,7 +531,7 @@ C
 C
        DO I=1,NEL0
          IF ((PLA(I) > EPSM1).AND.(OFF(I) == ONE)) OFF(I) = FOUR_OVER_5
-         IF (VFLAG == 1) THEN 
+         IF (VFLAG == 1) THEN
            DPDT      = DPLA_I(I)/MAX(EM20,TIMESTEP)
            UVAR(I,1) = ASRATE * DPDT + (ONE - ASRATE) * UVAR(I,1)
            EPSP(I)   = UVAR(I,1)
@@ -540,12 +540,12 @@ C
 C
 C---     KINEMATIC HARDENING
 C
-       IF (FISOKIN1 > ZERO) THEN 
+       IF (FISOKIN1 > ZERO) THEN
          DO I=1,NEL0
            DSXX  = SIGEXX(I) - SIGNXX(I)
            DSYY  = SIGEYY(I) - SIGNYY(I)
            DSXY  = SIGEXY(I) - SIGNXY(I)
-           DEXX  = (DSXX - NUX*DSYY) 
+           DEXX  = (DSXX - NUX*DSYY)
            DEYY  = (DSYY - NUX*DSXX)
            DEXY  = TWO*(ONE+NUX)*DSXY
            ALPHA = FISOKIN1*HS(I)/(E1+HS(I)) * THIRD
@@ -560,17 +560,17 @@ C
 C
 C---     NON-LOCAL THICKNESS VARIATION
 C
-       IF (INLOC > 0) THEN 
-         DO I = 1,NEL0 
+       IF (INLOC > 0) THEN
+         DO I = 1,NEL0
            SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
      .           + SIGNYY(I)*SIGNYY(I)
      .           - SIGNXX(I)*SIGNYY(I)
      .           + THREE*SIGNXY(I)*SIGNXY(I))
            DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
            DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
-           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
-         ENDDO  
-       ENDIF 
+           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+         ENDDO
+       ENDIF
 C-----------
       RETURN
       END

@@ -34,7 +34,7 @@ Chd|        MAT104_NODAM_NICE             source/materials/mat/mat104/mat104_nod
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE SIGEPS104(
-     1     NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1     NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2     TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3     RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -45,7 +45,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD        
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -69,20 +69,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,JTHE,IPG,NPG
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
-      my_real 
+      my_real
      .   TIME,TIMESTEP
-      my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
+      my_real,DIMENSION(NUPARAM), INTENT(IN) ::
      .   UPARAM
-      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+      my_real,DIMENSION(NEL), INTENT(IN)     ::
      .   RHO0,RHO,TEMPEL,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT)       ::
      .   PLA,DPLA,EPSD,VARNL,LOFF,OFF,DMG,TEMP,SEQ
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
 C-----------------------------------------------
@@ -96,20 +96,20 @@ c
                                  !  = 2 => Newton
                                  !  = 3 => Nice method with elastic update
 c
-      IGURSON = NINT(UPARAM(30)) ! Gurson switch flag: 
+      IGURSON = NINT(UPARAM(30)) ! Gurson switch flag:
                                  !  = 0 => Drucker material law with no damage
                                  !  = 1 => local Gurson damage model
                                  !  = 2 => non local (Forest - micromorphic) damage model
                                  !  = 3 => non local (Peerlings) damage model
-c--------------------------                              
+c--------------------------
       SELECT CASE (IGURSON)
-c      
+c
         CASE(0)   ! Drucker material law with no damage
 c
-c                        
+c
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_NODAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -118,7 +118,7 @@ c
      7         SIGY    ,ET      ,TEMPEL  ,TEMP    ,SEQ     )
           ELSE  ! Newton
             CALL MAT104_NODAM_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -128,10 +128,10 @@ c
           ENDIF
 c
         CASE(1,2)   ! Drucker material law with local Gurson damage
-c 
+c
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_LDAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -141,7 +141,7 @@ c
      8         SEQ     )
           ELSE  ! Newton
             CALL MAT104_LDAM_NEWTON(
-     1           NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1           NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2           TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3           RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4           DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -155,7 +155,7 @@ c
 c
           IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104_NLDAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -165,7 +165,7 @@ c
      8         SEQ     )
           ELSE  ! Newton
             CALL MAT104_NLDAM_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,LOFF    ,
      3         RHO0    ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -175,10 +175,10 @@ c
      8         SEQ     )
           ENDIF
 c
-      END SELECT        
+      END SELECT
 c--------------------------
       ! Solid elements deletion
-      IF (IGURSON>0) THEN 
+      IF (IGURSON>0) THEN
         NINDX = 0
         ! Fully integrated solid elements
         IF (NPG > 1) THEN
@@ -191,7 +191,7 @@ c--------------------------
             ENDIF
           ENDDO
           ! Checking full failure of the element
-          IF (IPG == NPG) THEN 
+          IF (IPG == NPG) THEN
             DO I = 1,NEL
               ! Initialization of OFFG
               OFF(I) = ZERO
@@ -235,8 +235,8 @@ c--------------------------
 c
  1000 FORMAT(1X,'RUPTURE (GURSON) IN SOLID ELEMENT NUMBER ',I10,1X,',GAUSS PT',I2,1X)
  1100 FORMAT(1X,'RUPTURE (GURSON) IN SOLID ELEMENT NUMBER ',I10,1X,',GAUSS PT',I2,1X,
-     .          ' AT TIME :',G11.4)  
-c  
+     .          ' AT TIME :',G11.4)
+c
 c-----------
       RETURN
       END

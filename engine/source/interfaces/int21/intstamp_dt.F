@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER KDIR, NN, K, IROT, MAIN, INTDAMP
 C     REAL
       my_real
-     .   MASS, STF, INM, STR, ALPHA, VIS, 
+     .   MASS, STF, INM, STR, ALPHA, VIS,
      .   C, CVIS(NINTSTAMP), CVISR(NINTSTAMP)
 C-----------------------------------------------
       IF(IDTMINS/=2.AND.IDTMINS_INT==0)THEN

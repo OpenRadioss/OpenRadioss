@@ -97,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITABM1(*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXT(NIXT,*),
      .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),IPARTS(*),
@@ -198,7 +198,7 @@ C
      .                          OPTION_TITR = TITR  ,
      .                          UNIT_ID     = UID,
      .                          KEYWORD2    = KEY   ,
-     .                          KEYWORD3    = KEY2)   
+     .                          KEYWORD3    = KEY2)
 C      
         ! Increasing the counter
         IGS=IGS+1
@@ -253,11 +253,11 @@ c          non sorted nodes
             ENDDO
             IGRNOD(IGS)%NENTITY=NNOD
 ! may be allocated already (prelecgrns.F) if NUMELX > 0
-            IF (.NOT. ALLOCATED(IGRNOD(IGS)%ENTITY)) 
+            IF (.NOT. ALLOCATED(IGRNOD(IGS)%ENTITY))
      .                MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
             IGRNOD(IGS)%GRPGRP=1
             MAXNNOD = MAX(NNOD,MAXNNOD)
-          ELSE 
+          ELSE
             IGRNOD(IGS)%SORTED=1
             CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
             DO KK = 1,NENTITY
@@ -266,7 +266,7 @@ c          non sorted nodes
                 NN = NN+1
                 IGRNOD(IGS)%ENTITY(NN) = USR2SYS(JJ,ITABM1,MESS,ID)
               ENDIF
-            ENDDO          
+            ENDDO
           ENDIF
         !-----------------------------------------------------------------
         ! GRNOD from NODE
@@ -275,10 +275,10 @@ C         groupe de noeuds
           IT1=IT1+1
           IF (FLAG == 0) THEN
             CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
-           IF(IS_AVAILABLE)NNOD = NNOD + NENTITY  
+           IF(IS_AVAILABLE)NNOD = NNOD + NENTITY
             IGRNOD(IGS)%NENTITY=NNOD
 ! may be allocated already (prelecgrns.F) if NUMELX > 0
-            IF( .NOT. ALLOCATED(IGRNOD(IGS)%ENTITY)) 
+            IF( .NOT. ALLOCATED(IGRNOD(IGS)%ENTITY))
      .                MY_ALLOCATE(IGRNOD(IGS)%ENTITY,NNOD)
             IGRNOD(IGS)%GRPGRP=1
             MAXNNOD = MAX(NNOD,MAXNNOD)
@@ -291,10 +291,10 @@ c           sorted nodes
                 NN = NN+1
                 IGRNOD(IGS)%ENTITY(NN) = JJ
               ENDIF
-            ENDDO        
+            ENDDO
           ENDIF
         !-----------------------------------------------------------------
-        ! GRNOD from PART, SUBSET, MAT and PROP          
+        ! GRNOD from PART, SUBSET, MAT and PROP
         ELSEIF(KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR.
      .         KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN
           IT2=IT2+1
@@ -332,7 +332,7 @@ C                         cylindrical, spherical)
           IF (FLAG == 0) IGRNOD(IGS)%NENTITY=0
           IGRNOD(IGS)%GRPGRP=0
         !-----------------------------------------------------------------
-        ! GRNOD from BOX            
+        ! GRNOD from BOX
         ELSEIF(KEY(1:3) == 'BOX' .AND. NBBOX > 0)THEN
 C         multi box (box de box)
           IT8=IT8+1
@@ -404,7 +404,7 @@ C
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)        
+     .                            KEYWORD3    = KEY2)
 C        
           NNOD = 0
           NN   = 0
@@ -422,10 +422,10 @@ C-------------------------
           ELSEIF (KEY(1:4) == 'GENE') THEN
             BUFTMP = 0
 C              
-            CALL HM_GET_INTV('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)  
+            CALL HM_GET_INTV('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
             DO KK = 1,NENTITY
-              CALL HM_GET_INT_ARRAY_INDEX('Ifirst',N1 ,KK  ,IS_AVAILABLE,LSUBMODEL)    
-              CALL HM_GET_INT_ARRAY_INDEX('Ilast' ,N2 ,KK  ,IS_AVAILABLE,LSUBMODEL)  
+              CALL HM_GET_INT_ARRAY_INDEX('Ifirst',N1 ,KK  ,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX('Ilast' ,N2 ,KK  ,IS_AVAILABLE,LSUBMODEL)
               IF (N2 >= N1) THEN
                 DO K=1,NUMNOD
                   IF (ITAB(K) >= N1 .AND. ITAB(K) <= N2) BUFTMP(K)=1
@@ -482,12 +482,12 @@ c
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)          
-c        
+     .                            KEYWORD3    = KEY2)
+c
           NN   = 0
           NNOD = 0
           IGS  = IGS+1
-c          
+c
           IF (KEY(1:3) == 'BOX' .AND. NBBOX > 0) THEN
             IADBOX = 1
             IFLAGUNIT = 0
@@ -536,7 +536,7 @@ C=======================================================================
      .                            OPTION_TITR = TITR    ,
      .                            UNIT_ID     = UID     ,
      .                            KEYWORD2    = KEY     ,
-     .                            KEYWORD3    = KEY2)        
+     .                            KEYWORD3    = KEY2)
 C             
           IGS=IGS+1
           NN = 0
@@ -588,8 +588,8 @@ C=======================================================================
      .                            OPTION_TITR = TITR    ,
      .                            UNIT_ID     = UID     ,
      .                            KEYWORD2    = KEY     ,
-     .                            KEYWORD3    = KEY2)        
-c        
+     .                            KEYWORD3    = KEY2)
+c
           NNOD = 0
           IGS  = IGS+1
           NN   = 0
@@ -617,7 +617,7 @@ C=======================================================================
      .                            OPTION_TITR = TITR    ,
      .                            UNIT_ID     = UID     ,
      .                            KEYWORD2    = KEY     ,
-     .                            KEYWORD3    = KEY2)   
+     .                            KEYWORD3    = KEY2)
 c
           IGS=IGS+1
           NN = 0
@@ -693,7 +693,7 @@ C=======================================================================
      .                            OPTION_TITR = TITR    ,
      .                            UNIT_ID     = UID     ,
      .                            KEYWORD2    = KEY     ,
-     .                            KEYWORD3    = KEY2    )   
+     .                            KEYWORD3    = KEY2    )
 c
           NNOD=0
           NN = 0
@@ -704,10 +704,10 @@ C-------------------------
           IF (KEY(1:8) == 'GEN_INCR') THEN
             BUFTMP = 0
             CALL HM_GET_INTV  ('grnodGenArrCnt' ,NLINES,IS_AVAILABLE,LSUBMODEL)
-            DO KK=1,NLINES              
+            DO KK=1,NLINES
               CALL HM_GET_INT_ARRAY_INDEX('Ifirst',IDMIN  ,KK,IS_AVAILABLE,LSUBMODEL)
               CALL HM_GET_INT_ARRAY_INDEX('Ilast' ,IDMAX  ,KK,IS_AVAILABLE,LSUBMODEL)
-              CALL HM_GET_INT_ARRAY_INDEX('Iincr' ,OFFSET ,KK,IS_AVAILABLE,LSUBMODEL)               
+              CALL HM_GET_INT_ARRAY_INDEX('Iincr' ,OFFSET ,KK,IS_AVAILABLE,LSUBMODEL)
               DO J=IDMIN, IDMAX , OFFSET
                 IF (J > 0) THEN
                   DO K=1,NUMNOD
@@ -716,7 +716,7 @@ C-------------------------
                     IF(MOD(ID-IDMIN,OFFSET)==0) BUFTMP(K) = 1
                   ENDDO
                 ENDIF
-              ENDDO            
+              ENDDO
             ENDDO
 C---
             NNOD=0

@@ -44,7 +44,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,18 +64,18 @@ C-----------------------------------------------
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXFUNC
       INTEGER, INTENT(INOUT)                       :: NUPARAM,NUVAR,IFUNC(MAXFUNC),NFUNC
-      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB    
+      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
-      my_real, DIMENSION(100),INTENT(INOUT)        :: PARMAT      
+      my_real, DIMENSION(100),INTENT(INOUT)        :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(OUT)          :: MATPARAM
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM 
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER FLAGNICE,ILAW
-      my_real 
+      my_real
      .   YOUNG,NU,NNU,NNU1,BULK,LAM,G,G2,A1,A2,C1,FCUT,ASRATE,CDR,
      .   QVOCE,BVOCE,JCC,EPSP0,MTEMP,TREF,ETA,CP,DPIS,DPAD,
      .   YLD0,HP,KDR,TINI,RHO0
@@ -112,14 +112,14 @@ card6 - self-heating
       CALL HM_GET_FLOATV('MAT_SPHEAT'   ,CP         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT104_EpsIso',DPIS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT104_EpsAd' ,DPAD       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c---------------------------------------------------  
+c---------------------------------------------------
       ! Default values
       IF (YLD0 == ZERO) YLD0 = INFINITY
       ! Cutting frequency
       FCUT   = 10000.0D0*FAC_T_WORK
       ASRATE = TWO*PI*FCUT
       ! If the inviscid plastic strain-rate is zero, no Johnson-Cook model
-      IF(EPSP0 == ZERO) THEN 
+      IF(EPSP0 == ZERO) THEN
         EPSP0 = ONE
         JCC   = ZERO
         ! Info message
@@ -136,7 +136,7 @@ c---------------------------------------------------
       ENDIF
       ! Nice return mapping by default
       IF (FLAGNICE == 0) FLAGNICE = 1
-      IF (FLAGNICE > 2) THEN 
+      IF (FLAGNICE > 2) THEN
         CALL ANCMSG(MSGID=1731,MSGTYPE=MSGWARNING,
      .    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR,
      .    I2=FLAGNICE)
@@ -147,7 +147,7 @@ c--------------------------
       ! Elastic parameters
       G2 = YOUNG / (ONE + NU)
       G  = HALF * G2
-      LAM  = G2 * NU /(ONE - TWO*NU)  
+      LAM  = G2 * NU /(ONE - TWO*NU)
       BULK = THIRD * YOUNG / (ONE - NU*TWO)
       NNU  = NU  / (ONE - NU)
       NNU1 = ONE - NNU
@@ -156,13 +156,13 @@ c--------------------------
       C1   = YOUNG / THREE/(ONE - TWO*NU)
 c
       ! Checking value of Drucker coeff to ensure the yield surface convexity
-      IF (CDR > 2.25D0) THEN 
+      IF (CDR > 2.25D0) THEN
         CDR = 2.25D0
         ! Warning message
         CALL ANCMSG(MSGID=1651,MSGTYPE=MSGWARNING,
      .    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
       ELSEIF (CDR < -TWENTY7/EIGHT) THEN
-        CDR = -TWENTY7/EIGHT   
+        CDR = -TWENTY7/EIGHT
         ! Warning message
         CALL ANCMSG(MSGID=1652,MSGTYPE=MSGWARNING,
      .    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
@@ -180,7 +180,7 @@ c--------------------------
       UPARAM(4)  = G2       ! 2*Shear modulus
       UPARAM(5)  = LAM      ! Lambda (Hook)
       UPARAM(6)  = NU       ! Poisson ratio
-      UPARAM(7)  = NNU      
+      UPARAM(7)  = NNU
       UPARAM(8)  = NNU1
       UPARAM(9)  = A1
       UPARAM(10) = A2
@@ -204,26 +204,26 @@ c--------------------------
       UPARAM(28) = ASRATE   ! Plastic strain-rate filtering period
       UPARAM(29) = ZERO     ! Free
 c
-c---  reserved for Gurson damage parameters   
+c---  reserved for Gurson damage parameters
 c
       UPARAM(30) = ZERO     ! Gurson switch flag: default = 0 => no damage model
                             !                             = 1 => local damage model
                             !                             = 2 => non local micromorph damage model
                             !                             = 3 => non local Peerling damage model
-      UPARAM(31) = ZERO     ! reserved for Gurson 
-      UPARAM(32) = ZERO     ! reserved for Gurson 
-      UPARAM(33) = ZERO     ! reserved for Gurson 
-      UPARAM(34) = ZERO     ! reserved for Gurson 
-      UPARAM(35) = ZERO     ! reserved for Gurson 
-      UPARAM(36) = ZERO     ! reserved for Gurson 
-      UPARAM(37) = ZERO     ! reserved for Gurson 
-      UPARAM(38) = ZERO     ! reserved for Gurson 
-      UPARAM(39) = ZERO     ! reserved for Gurson 
-      UPARAM(40) = ZERO     ! reserved for Gurson 
-c---------------------------    
+      UPARAM(31) = ZERO     ! reserved for Gurson
+      UPARAM(32) = ZERO     ! reserved for Gurson
+      UPARAM(33) = ZERO     ! reserved for Gurson
+      UPARAM(34) = ZERO     ! reserved for Gurson
+      UPARAM(35) = ZERO     ! reserved for Gurson
+      UPARAM(36) = ZERO     ! reserved for Gurson
+      UPARAM(37) = ZERO     ! reserved for Gurson
+      UPARAM(38) = ZERO     ! reserved for Gurson
+      UPARAM(39) = ZERO     ! reserved for Gurson
+      UPARAM(40) = ZERO     ! reserved for Gurson
+c---------------------------
       NFUNC       = 0
       NUPARAM     = 40
-      IF (FLAGNICE == 1) THEN 
+      IF (FLAGNICE == 1) THEN
         NUVAR = 1
       ELSE
         NUVAR = 0
@@ -236,11 +236,11 @@ c---------------------------
       MTAG%L_EPSD = 1
       MTAG%G_SEQ  = 1
       MTAG%L_SEQ  = 1
-c---------------------------   
+c---------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM ,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM ,"INCREMENTAL"   )
       CALL INIT_MAT_KEYWORD(MATPARAM ,"LARGE_STRAIN"  )
-c---------------------------    
+c---------------------------
       PARMAT(1) = C1
       PARMAT(2) = YOUNG
       PARMAT(3) = NU
@@ -276,7 +276,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : DRUCKER - VOCE - JOHNSON-COOK   ',/,
      & 5X,'-------------------------------------------------',/)
  1050 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . . . . .=',1PG20.13/
@@ -285,7 +285,7 @@ c-----------------------------------------------------------------------
      & 5X,'YIELD VOCE PARAMETER B  . . . . . . . . . . .=',1PG20.13/
 !
      & 5X,'INITIAL YIELD STRESS YLD0 . . . . . . . . . .=',1PG20.13/
-     & 5X,'LINEAR HARDENING PARAMETER. . . . . . . . . .=',1PG20.13/ 
+     & 5X,'LINEAR HARDENING PARAMETER. . . . . . . . . .=',1PG20.13/
      & 5X,'J-C STRAIN RATE COEFFICIENT C . . . . . . . .=',1PG20.13/
      & 5X,'J-C REFERENCE STRAIN RATE . . . . . . . . . .=',1PG20.13/
 !
@@ -297,7 +297,7 @@ c-----------------------------------------------------------------------
 !
      & 5X,'ISOTHERMAL PLASTIC STRAIN RATE. . . . . . . .=',1PG20.13/
      & 5X,'ADIABATIC PLASTIC STRAIN RATE . . . . . . . .=',1PG20.13/
-!   
+!
      & 5X,'RETURN MAPPING ALGORITHM FLAG . . . . . . . .=',I3/
      & 5X,'  IRES=1  NICE EXPLICIT (DEFAULT)'/
      & 5X,'  IRES=2  NEWTON-ITERATION IMPLICIT (CUTTING PLANE)'/)

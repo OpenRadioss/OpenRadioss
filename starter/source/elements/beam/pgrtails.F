@@ -46,7 +46,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE R2R_MOD
-      USE MESSAGE_MOD   
+      USE MESSAGE_MOD
       USE REORDER_MOD
 C-----------------------------------------------
 C            A R G U M E N T S
@@ -137,7 +137,7 @@ C initialisation dd_iad
           INUM(7,I)=IXP(6,NFT+I)
           INUM(8,I)=IPOUOFF(NFT+I)
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -176,13 +176,13 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO          
+      ENDDO
 C
 C RENUMEROTATION POUR SURFACES
 C
@@ -207,7 +207,7 @@ C renumerotation CONNECTIVITE INVERSE
 C
       ITAG = 0
       DO I=1,2*NUMELT+2*NUMELP+3*NUMELR
-        IF(NOD2EL1D(I) /= 0 .AND. NUMELT      <  NOD2EL1D(I) 
+        IF(NOD2EL1D(I) /= 0 .AND. NUMELT      <  NOD2EL1D(I)
      .                      .AND. NOD2EL1D(I) <= NUMELT+NUMELP)THEN
           IF(ITAG(NOD2EL1D(I)) == 0) THEN
              NOD2EL1D(I)=ITR1(NOD2EL1D(I)-NUMELT)
@@ -215,7 +215,7 @@ C
              ITAG(NOD2EL1D(I)) = 1
           END IF
 	END IF
-      END DO      
+      END DO
 C              
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
@@ -252,7 +252,7 @@ C---
          IF(ITHERM_FE == 0 .AND. JTHE > 0) THEN
            ID=IPM(1,MID)
            CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MID),LTITR)
-           CALL ANCMSG(MSGID=1879, 
+           CALL ANCMSG(MSGID=1879,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                   I1=ID,
@@ -264,8 +264,8 @@ C---
            ID1= IGEO(1,PID)
            CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,PID),LTITR)
            CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,MID),LTITR)
-           
-           CALL ANCMSG(MSGID=2050, 
+
+           CALL ANCMSG(MSGID=2050,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 I1=ID1,
@@ -273,9 +273,9 @@ C---
      .                 I2=ID,
      .                 C2=TITR)
          ENDIF
-          
-          
-          !!         
+
+
+          !!
           NUVAR  = 0
           DO J = 1,NE1
             IE=J+EADD(N)+NFT-1
@@ -283,7 +283,7 @@ C---
           END DO
           IPARG(46,NGROUP) = NUVAR
 C---
-          IPARG(1,NGROUP) = MLN      
+          IPARG(1,NGROUP) = MLN
           IPARG(2,NGROUP) = NE1
           IPARG(3,NGROUP) = EADD(N)-1 + NFT
           IPARG(4,NGROUP) = LBUFEL+1  !  kept in place for compatibility with
@@ -292,7 +292,7 @@ c                                        other groups using old buffer
           IPARG(6,NGROUP) = NIP
           IPARG(9,NGROUP) = ISSN
           IPARG(13,NGROUP) = JTHE
-          IPARG(38,NGROUP) = IGTYP      
+          IPARG(38,NGROUP) = IGTYP
           !---reperage groupe/processeur
           IPARG(32,NGROUP)= P-1
 C         flag for group of duplicated elements in multidomains
@@ -314,7 +314,7 @@ C        thermal material expansion
           IPARG(52,NGROUP)=JSMS
 c
 cc          LBUFEL = LBUFEL + NFIX*NE1   ! Cmi --> a virer
-cc     .                    + NMTVP(MLN)*NE1*NIP 
+cc     .                    + NMTVP(MLN)*NE1*NIP
 cc     .                    + NMTVC(MLN)*NE1*NIP
 c
           NFT = NFT + NE1
@@ -348,6 +348,6 @@ cc       LB_MAX = MAX(LB_MAX,LB_L)
      +'                   LAW     NUMBER    ELEMENT       TYPE'/)
  1001 FORMAT(5(1X,I10))
 
-     
+
       RETURN
       END

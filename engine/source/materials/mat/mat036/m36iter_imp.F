@@ -33,14 +33,14 @@ Chd|====================================================================
       SUBROUTINE M36ITER_IMP( SIGNXX,  SIGNYY,  SIGNZZ,
      $                        SIGNXY,  SIGNYZ,  SIGNZX,
      $                        PLA,        YLD,      G3,
-     $                        YFAC,     DPLA1,       H,   
-     $                        TF,        IAD1,  
+     $                        YFAC,     DPLA1,       H,
+     $                        TF,        IAD1,
      $                        ILEN1,     NEL,
-     $                        FISOKIN,  VARTMP, PLA0, 
+     $                        FISOKIN,  VARTMP, PLA0,
      $                        PLAM    ,Y1,  DYDX1,
-     $                        IPFLAG, PFUN, IPFUN, IPOSP, 
+     $                        IPFLAG, PFUN, IPFUN, IPOSP,
      $                        NRATE,  NPF,  IADP,  ILENP,
-     $                        PFAC, PSCALE1, DFDP, FAIL , 
+     $                        PFAC, PSCALE1, DFDP, FAIL ,
      A                        NVARTMP ,
      B                        SIGBXX,SIGBYY,SIGBZZ,SIGBXY,SIGBYZ,SIGBZX)
 c--------------------------------------------------------------
@@ -71,7 +71,7 @@ c    IAD1,  ILEN1 = pre-computed data required by interpolation
 c                         routine "VINTER"
 c    NEL     = size of the element group being processed
 c    FISOKIN = indicator for isotropic/kinematic/moixed hardening
-c    UVAR    = array containing various state variables 
+c    UVAR    = array containing various state variables
 c    IPFLAG  = flag for existence of pressure scaling (scalar)
 c    PFUN    = flag for existence of pressure scaling (array)
 c    PFAC    = scaling factor for pressure at time t (not needed)
@@ -81,22 +81,22 @@ c              by pressure interpolating routine (for pressure scaling)
 c
 c
 c    --------------------
-c    -- parameters out --      
+c    -- parameters out --
 c    --------------------
 c
 c    DPLA1   = equivalent plastic strain increment
 c    PLA     = updated equivalent plastic strain (on output)
 c    H       = updated hardening parameter
-c    SIGNXX  = updated XX-component of deviatoric stress tensor 
+c    SIGNXX  = updated XX-component of deviatoric stress tensor
 c              (...)
-c    SIGNZX  = updated ZX-component of deviatoric stress tensor, 
+c    SIGNZX  = updated ZX-component of deviatoric stress tensor,
 c    UVAR    = array containing various state variables
 c
 c    -----------------
-c    -- work arrays --      
+c    -- work arrays --
 c    -----------------
 c
-c    Y1     =  yield stress  
+c    Y1     =  yield stress
 c    DYDX1  =  derivative in sig0-eps_plast curve
 c
 C-----------------------------------------------
@@ -127,7 +127,7 @@ C
 C     REAL
       my_real
      .   SIGNXX(*),  SIGNYY(*),  SIGNZZ(*),
-     .   SIGNXY(*),  SIGNYZ(*),  SIGNZX(*), 
+     .   SIGNXY(*),  SIGNYZ(*),  SIGNZX(*),
      .   PLA(*),         G3(*),     YLD(*),
      .   DPLA1(*),        H(*),
      .   TF(*),          Y1(*),   DYDX1(*),
@@ -150,7 +150,7 @@ C     REAL
      .   YLD_CURR, YLD_PREV, YLD_M, H_M, P_SCAL, Y_SCAL,
      .   TOTAL_SCAL, YLD_M_PREV, H_M_PREV,
      .   sxx, syy, szz, sxy, syz, szx
-     
+
 C
 C-----------------------------------------------
 C   External Functions
@@ -169,7 +169,7 @@ c
        i_bilin = 0
 c
 c ---- max number of iterations ----
-       NITER = 20   
+       NITER = 20
 c
 c    -- scaling if pressure dependent yield function --
 c    -- compute the scaling factor for pressure + delta-pressure
@@ -210,7 +210,7 @@ c    -- store "fractional" eqivalent plastic strain
 c
        DO I=1,NEL
          PLA0(I) = PLA(I)
-         PLAM(I) = (ONE - FISOKIN) * PLA(I) 
+         PLAM(I) = (ONE - FISOKIN) * PLA(I)
        ENDDO
 c
 c      -- computes the yield stress --
@@ -257,7 +257,7 @@ c          -- scaling for sigma-eps_plast function --
               Y_SCAL = YFAC(I,1)
 c
 c          -- scaling if pressure dependent yield function --
-              P_SCAL = PFAC(I) * FAIL(I) 
+              P_SCAL = PFAC(I) * FAIL(I)
 c
 c          -- total scaling
               TOTAL_SCAL = Y_SCAL * P_SCAL
@@ -279,12 +279,12 @@ c          -- hardening parameter --
               H_M_PREV  = DYDX1(I)
 c
 c          -- apply scaling --
-              YLD_M_PREV =  YLD_M_PREV * TOTAL_SCAL 
+              YLD_M_PREV =  YLD_M_PREV * TOTAL_SCAL
               H_M_PREV  = H_M_PREV * TOTAL_SCAL
               YLD_M_PREV  = MAX(YLD_M_PREV,EM20)
 c          -- check if H is nonnegative and y0 positive
               if( .not.( H_M_PREV >= ZERO ).or.
-     $            .not.( YLD_M_PREV  > ZERO ) )then 
+     $            .not.( YLD_M_PREV  > ZERO ) )then
                write(ISTDO,1000)PLAM(I),H_M_PREV,YLD_M_PREV
                write(IOUT,1000)PLAM(I),H_M_PREV,YLD_M_PREV
                CALL IMP_STOP(-1)
@@ -319,7 +319,7 @@ c          =================
 c            NR iterations
 c          =================
 c
-            DO 80 ITER = 1,NITER 
+            DO 80 ITER = 1,NITER
 c
 c            ---------------------------------------------------
 c            yield stress and hardening parameter at eps + deps
@@ -364,7 +364,7 @@ c
               ELSE
                  RHS = VM - G3(I)*XSI + YLD_PREV - YLD_CURR - YLD_M_PREV
                  LHS = G3(I) +  H(I)
-              ENDIF    
+              ENDIF
 c
 c
 c            --------------------------------------
@@ -375,10 +375,10 @@ C          -- update plastic strain rate multiplier
               XSI = XSI + DXSI
 C          -- update equivalent plastic strain --      
               PLA(I) =  PLA(I) + DXSI
-              PLA(I) =  MAX(ZERO,PLA(I)) !..to prevent negative value   
+              PLA(I) =  MAX(ZERO,PLA(I)) !..to prevent negative value
 c
 c
-c          -- convergence criterion should be stringent --           
+c          -- convergence criterion should be stringent --
               IF( ABS(DXSI)<EM10 ) GO TO 90
 c
  80         CONTINUE ! -- ITER --
@@ -389,7 +389,7 @@ c
  90         CONTINUE
 c
 c       ... equivalent plastic strain increment
-            DPLA = MAX(ZERO,XSI) !..to prevent negative value 
+            DPLA = MAX(ZERO,XSI) !..to prevent negative value
 c
 c
 c
@@ -409,7 +409,7 @@ c
 c
             ELSEIF(FISOKIN > ZERO.and.FISOKIN<=ONE)then
 c
-c          -- update "fractional" equivalent plastic strain --  
+c          -- update "fractional" equivalent plastic strain --
               PLAM(I) = (ONE - FISOKIN)*PLA(I) !. for mixed hardeneing
 c
 c
@@ -429,13 +429,13 @@ c
 c          -- hardening parameter --
               H_M  = DYDX1(I)
 c          -- apply scaling --
-              YLD_M =  YLD_M * TOTAL_SCAL 
+              YLD_M =  YLD_M * TOTAL_SCAL
               H_M  = H_M * TOTAL_SCAL
               YLD_M =  MAX(YLD_M,EM20)
 c
 c          -- check if H is nonnegative and y0 positive
               if( .not.( H_M >= ZERO ).or.
-     $            .not.( YLD_M  > ZERO ) )then 
+     $            .not.( YLD_M  > ZERO ) )then
                write(ISTDO,1000)PLAM(I),H_M,YLD_M
                write(IOUT,1000)PLAM(I),H_M,YLD_M
                CALL IMP_STOP(-1)
@@ -464,24 +464,24 @@ c
               SIGBXX(I)  = SIGBXX(I)  + sxx *HEP
               SIGBYY(I)  = SIGBYY(I)  + syy *HEP
               SIGBZZ(I)  = SIGBZZ(I)  + szz *HEP
-              SIGBXY(I)  = SIGBXY(I) + sxy *HEP 
+              SIGBXY(I)  = SIGBXY(I) + sxy *HEP
               SIGBYZ(I)  = SIGBYZ(I) + syz *HEP
-              SIGBZX(I)  = SIGBZX(I) + szx *HEP  
+              SIGBZX(I)  = SIGBZX(I) + szx *HEP
 C
 c           --adds the back stresses  to shifted stresses
-             SIGNXX(I) = SIGNXX(I) + SIGBXX(I) 
-             SIGNYY(I) = SIGNYY(I) + SIGBYY(I) 
-             SIGNZZ(I) = SIGNZZ(I) + SIGBZZ(I) 
+             SIGNXX(I) = SIGNXX(I) + SIGBXX(I)
+             SIGNYY(I) = SIGNYY(I) + SIGBYY(I)
+             SIGNZZ(I) = SIGNZZ(I) + SIGBZZ(I)
              SIGNXY(I) = SIGNXY(I) + SIGBXY(I)
-             SIGNYZ(I) = SIGNYZ(I) + SIGBYZ(I) 
-             SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
+             SIGNYZ(I) = SIGNYZ(I) + SIGBYZ(I)
+             SIGNZX(I) = SIGNZX(I) + SIGBZX(I)
 c
-            ENDIF ! ..FISOKIN > ZERO.and.FISOKIN<=ONE .. 
+            ENDIF ! ..FISOKIN > ZERO.and.FISOKIN<=ONE ..
 c
 c
 c        .. updates yield stress.
             IF(FISOKIN == ZERO)then
-              YLD(I) = YLD_CURR   
+              YLD(I) = YLD_CURR
             ELSEIF(FISOKIN == ONE)then
 cccc              YLD(I) =  YLD(I)
             ELSE
@@ -490,7 +490,7 @@ cccc              YLD(I) =  YLD(I)
 c
             DPLA1(I)  = DPLA !--PLASTIC STRAIN MULTIPLIER "delta lambda"
 
-c  
+c
 c
 c           --- end of plastically active process ---
 c
@@ -498,13 +498,13 @@ c
 
 c
 c        .. gets stresses from shifted stresses and back stresses
-            IF(FISOKIN > ZERO)then 
-             SIGNXX(I) = SIGNXX(I) + SIGBXX(I) 
-             SIGNYY(I) = SIGNYY(I) + SIGBYY(I) 
-             SIGNZZ(I) = SIGNZZ(I) + SIGBZZ(I) 
+            IF(FISOKIN > ZERO)then
+             SIGNXX(I) = SIGNXX(I) + SIGBXX(I)
+             SIGNYY(I) = SIGNYY(I) + SIGBYY(I)
+             SIGNZZ(I) = SIGNZZ(I) + SIGBZZ(I)
              SIGNXY(I) = SIGNXY(I) + SIGBXY(I)
-             SIGNYZ(I) = SIGNYZ(I) + SIGBYZ(I) 
-             SIGNZX(I) = SIGNZX(I) + SIGBZX(I) 
+             SIGNYZ(I) = SIGNYZ(I) + SIGBYZ(I)
+             SIGNZX(I) = SIGNZX(I) + SIGBZX(I)
             ENDIF
 
             ENDIF ! .. VM > YLD(I)
@@ -547,24 +547,24 @@ c             --adds the back stresses at the beginning of the increment
                 SIGNZX(I) = SIGNZX(I) + SIGBZX(I)
 c
 c             ..updates back stresses
-                HEP = FISOKIN*H(I)* DPLA/VM 
+                HEP = FISOKIN*H(I)* DPLA/VM
 c
                 SIGBXX(I) = SIGBXX(I) + sxx *HEP
                 SIGBYY(I) = SIGBYY(I) + syy *HEP
                 SIGBZZ(I) = SIGBZZ(I) + szz *HEP
-                SIGBXY(I) = SIGBXY(I) + sxy *HEP 
+                SIGBXY(I) = SIGBXY(I) + sxy *HEP
                 SIGBYZ(I) = SIGBYZ(I) + syz *HEP
-                SIGBZX(I) = SIGBZX(I) + szx *HEP  
+                SIGBZX(I) = SIGBZX(I) + szx *HEP
 c
-              ENDIF ! .. FISOKIN > ZERO ..       
+              ENDIF ! .. FISOKIN > ZERO ..
 c
 c          .. updated yield stress.
               YLD(I) = MAX(YLD(I)+(ONE - FISOKIN)*DPLA*H(I),ZERO)
 c
 c          .. updates equivalent plastic strain
-              PLA(I)    = PLA(I) + DPLA   
-c  
-              DPLA1(I)  = DPLA      
+              PLA(I)    = PLA(I) + DPLA
+c
+              DPLA1(I)  = DPLA
 c
             ELSE !.. elasticity
 c
@@ -581,7 +581,7 @@ c
             ENDIF ! .. VM > YLD(I)*YLD(I)
 c
 c
-        ENDIF ! .. i_bilin ..    
+        ENDIF ! .. i_bilin ..
 c
  100  CONTINUE  !..LOOP ON A GROUP OF ELEMENTS
 c

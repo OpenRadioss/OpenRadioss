@@ -83,12 +83,12 @@ C=======================================================================
 c
        DO II = 1, NB_INTERV
          DO J = 1, S_ARRAY
-           IF(ARRAY(J) >= X_MINVALUE+INTERV*(II-1) .AND. 
+           IF(ARRAY(J) >= X_MINVALUE+INTERV*(II-1) .AND.
      .        ARRAY(J) < X_MINVALUE+INTERV*II) THEN
              DISTRIB(II) = DISTRIB(II) + 1
            ENDIF
            IF(ARRAY(J) == X_MAXVALUE) DISTRIB(II) = DISTRIB(II) + 1
-         ENDDO 
+         ENDDO
        ENDDO
 
        X_MAXVALUE1 =ZERO
@@ -107,9 +107,9 @@ c
          VALUE = VALUE * HUNDRED
          CHAR(II)= " "
          DO J = 1,(SIZEY+1)
-           IF( VALUE > (J-1) * X_MAXVALUE1/(SIZEY+1)) THEN 
+           IF( VALUE > (J-1) * X_MAXVALUE1/(SIZEY+1)) THEN
              CHAR(II)(J:J)= ECRIT(1:1)
-           
+
            ENDIF
          ENDDO
        ENDDO
@@ -143,23 +143,23 @@ c
        CHAR2(NB_INTERV:NB_INTERV)=  '|'
        WRITE(IOUT,'(20X,A)') CHAR2(1:51)
 c       WRITE(IOUT,'(10X,1PG20.13,30X,1PG20.13)') X_MINVALUE,X_MAXVALUE
-       IF (NB_INTERV <= 10) THEN 
+       IF (NB_INTERV <= 10) THEN
          FMTA='(10X,1PG20.13,2X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 20) THEN 
+       ELSEIF (NB_INTERV <= 20) THEN
          FMTA='(10X,1PG20.13,5X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 30) THEN 
+       ELSEIF (NB_INTERV <= 30) THEN
          FMTA='(10X,1PG20.13,15X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 40) THEN 
+       ELSEIF (NB_INTERV <= 40) THEN
          FMTA='(10X,1PG20.13,25X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 50) THEN 
+       ELSEIF (NB_INTERV <= 50) THEN
          FMTA='(10X,1PG20.13,35X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 60) THEN 
+       ELSEIF (NB_INTERV <= 60) THEN
          FMTA='(10X,1PG20.13,45X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 70) THEN 
+       ELSEIF (NB_INTERV <= 70) THEN
          FMTA='(10X,1PG20.13,55X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 80) THEN 
+       ELSEIF (NB_INTERV <= 80) THEN
          FMTA='(10X,1PG20.13,65X,1PG20.13)'
-       ELSEIF (NB_INTERV <= 90) THEN 
+       ELSEIF (NB_INTERV <= 90) THEN
          FMTA='(10X,1PG20.13,75X,1PG20.13)'
        ELSE
          FMTA='(10X,1PG20.13,85X,1PG20.13)'

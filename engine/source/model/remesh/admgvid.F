@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,7 +146,7 @@ C----6---------------------------------------------------------------7---------8
                FTHESKY(IADC(2,NFT+I)) = ZERO
                FTHESKY(IADC(3,NFT+I)) = ZERO
                FTHESKY(IADC(4,NFT+I)) = ZERO
-             ENDDO         
+             ENDDO
             ENDIF
             IF(NODADT_THERM > 0 ) THEN
 #include "vectorize.inc"
@@ -155,7 +155,7 @@ C----6---------------------------------------------------------------7---------8
                CONDNSKY(IADC(2,NFT+I)) = ZERO
                CONDNSKY(IADC(3,NFT+I)) = ZERO
                CONDNSKY(IADC(4,NFT+I)) = ZERO
-             ENDDO    
+             ENDDO
             ENDIF
           ELSE
 #include "vectorize.inc"
@@ -194,7 +194,7 @@ C----6---------------------------------------------------------------7---------8
                FTHESKY(IADTG(1,NFT+I)) = ZERO
                FTHESKY(IADTG(2,NFT+I)) = ZERO
                FTHESKY(IADTG(3,NFT+I)) = ZERO
-             ENDDO         
+             ENDDO
             ENDIF
             IF(NODADT_THERM > 0 ) THEN
 #include "vectorize.inc"
@@ -202,7 +202,7 @@ C----6---------------------------------------------------------------7---------8
                CONDNSKY(IADTG(1,NFT+I)) = ZERO
                CONDNSKY(IADTG(2,NFT+I)) = ZERO
                CONDNSKY(IADTG(3,NFT+I)) = ZERO
-             ENDDO    
+             ENDDO
             ENDIF
           END IF
         ELSE
@@ -221,7 +221,7 @@ C----6---------------------------------------------------------------7---------8
                FTHESKY(IADC(2,NFT+I)) = ZERO
                FTHESKY(IADC(3,NFT+I)) = ZERO
                FTHESKY(IADC(4,NFT+I)) = ZERO
-             ENDDO         
+             ENDDO
             ENDIF
             IF(NODADT_THERM > 0 ) THEN
              DO I=LFT,LLT
@@ -229,7 +229,7 @@ C----6---------------------------------------------------------------7---------8
                CONDNSKY(IADC(2,NFT+I)) = ZERO
                CONDNSKY(IADC(3,NFT+I)) = ZERO
                CONDNSKY(IADC(4,NFT+I)) = ZERO
-             ENDDO    
+             ENDDO
             ENDIF
           ELSE
             DO I=LFT,LLT
@@ -245,14 +245,14 @@ C----6---------------------------------------------------------------7---------8
                FTHESKY(IADTG(1,NFT+I)) = ZERO
                FTHESKY(IADTG(2,NFT+I)) = ZERO
                FTHESKY(IADTG(3,NFT+I)) = ZERO
-             ENDDO         
+             ENDDO
             ENDIF
             IF(NODADT_THERM > 0 ) THEN
              DO I=LFT,LLT
                CONDNSKY(IADTG(1,NFT+I)) = ZERO
                CONDNSKY(IADTG(2,NFT+I)) = ZERO
                CONDNSKY(IADTG(3,NFT+I)) = ZERO
-             ENDDO    
+             ENDDO
             ENDIF
           END IF
         END IF
@@ -263,4 +263,4 @@ c      GOTO 100
 c 101  CONTINUE
 
       RETURN
-      END     
+      END

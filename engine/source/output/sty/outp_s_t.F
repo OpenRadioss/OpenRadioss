@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,12 +69,12 @@ C-----------------------------------------------
      .        II,JJ,JJ_OLD, NGF, NGL, NN, LEN,FWAP0,LENWAP0,
      .        COMPTEUR,L,K,KK(6)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   FUNC(6)
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
       IF (ISPMD == 0) THEN
           WRITE(IUGEO,'(2A)')'/SOLID     /TENSOR    /',KEY
@@ -97,12 +97,12 @@ C
          DO  NG = NGF, NGL
           ITY = IPARG(5,NG)
           IF (ITY == 1 .OR. ITY == 2) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
            GBUF => ELBUF_TAB(NG)%GBUF
            LFT=1
@@ -126,7 +126,7 @@ C
          ENDDO
          NGF = NGL + 1
          JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-         COMPTEUR = JJ                         
+         COMPTEUR = JJ
       ENDDO     ! do nn=1,nspgroup
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -141,7 +141,7 @@ C
 !     ++++++++++
        IF(ISPMD==0) THEN
          RESP0 = 0
-         JJ_OLD = 0 
+         JJ_OLD = 0
          DO NN=1,NSPGROUP
           COMPTEUR = 0
           DO K = 1,NSPMD
@@ -198,7 +198,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -234,18 +234,18 @@ C-----------------------------------------------
       my_real
      .   FUNC(6)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
       ITENS = NBX
-c-----------------------  
-      IF (ISPMD == 0) THEN        
+c-----------------------
+      IF (ISPMD == 0) THEN
         WRITE(IUGEO,'(2A)')'/SOLID     /TENSOR    /',KEY
         WRITE(IUGEO,'(A)')TEXT
-      ENDIF     
+      ENDIF
 C
        JJ_OLD = 1
        NGF = 1
@@ -257,21 +257,21 @@ C
         DO  NG = NGF, NGL
          ITY   =IPARG(5,NG)
          IF (ITY == 1.OR.ITY == 2) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,KHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,KHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           GBUF => ELBUF_TAB(NG)%GBUF
-          NLAY = ELBUF_TAB(NG)%NLAY                       
-          NPTR = ELBUF_TAB(NG)%NPTR                       
-          NPTS = ELBUF_TAB(NG)%NPTS                       
-          NPTT = ELBUF_TAB(NG)%NPTT                       
+          NLAY = ELBUF_TAB(NG)%NLAY
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NPT  = NPTR * NPTS * NPTT * NLAY
           LFT=1
-          LLT=NEL           
+          LLT=NEL
           ISOLNOD=IPARG(28,NG)
           TSHELL = 0
           IF (IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22) TSHELL = 1
@@ -281,325 +281,325 @@ C
           ENDDO
 !
 C--------------------------------------          
-        IF (ITENS == 2)THEN   
+        IF (ITENS == 2)THEN
 C         /outp/brick/stress/full          
 C------------------------------------
           IF (TSHELL == 1) THEN
             IF (KHBE == 14 .OR. KHBE == 16) THEN
-              DO I=LFT,LLT              
-                WA(JJ+1) = NLAY  
-                WA(JJ+2) = NPTR  
-                WA(JJ+3) = NPTS  
-                WA(JJ+4) = NPTT  
-                WA(JJ+5) = ABS(ISOLNOD) 
-                WA(JJ+6) = IABS(KHBE)   
-                JJ = JJ + 6                
-                DO IR=1,NPTR                                                
-                  DO IS=1,NPTS                                                  
-                   DO IT=1,NPTT                                                  
+              DO I=LFT,LLT
+                WA(JJ+1) = NLAY
+                WA(JJ+2) = NPTR
+                WA(JJ+3) = NPTS
+                WA(JJ+4) = NPTT
+                WA(JJ+5) = ABS(ISOLNOD)
+                WA(JJ+6) = IABS(KHBE)
+                JJ = JJ + 6
+                DO IR=1,NPTR
+                  DO IS=1,NPTS
+                   DO IT=1,NPTT
                     DO IL=1,NLAY
-                     LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                     WA(JJ +  1) = LBUF%SIG(KK(1)+I)				 
-                     WA(JJ +  2) = LBUF%SIG(KK(2)+I)				 
-                     WA(JJ +  3) = LBUF%SIG(KK(3)+I)				 
-                     WA(JJ +  4) = LBUF%SIG(KK(4)+I)				 
-                     WA(JJ +  5) = LBUF%SIG(KK(5)+I)				 
-                     WA(JJ +  6) = LBUF%SIG(KK(6)+I)				 
-                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN                                      
-                       WA(JJ +  7) = ZERO                                       
-                     ELSE                                                       
-                       WA(JJ +  7) = LBUF%PLA(I)                                
-                     ENDIF                                                      
-                     WA(JJ+8) = LBUF%EINT(I) 
-                     WA(JJ+9) = LBUF%RHO(I)  
-                     JJ = JJ + 9                                                 
-                   ENDDO  ! IT=1,NPTT                                                     
-                  ENDDO   ! IS=1,NPTS                                                    
-                 ENDDO    ! IR=1,NPTR                                                    
-                ENDDO     ! IL=1,NLAY                                                  
-              ENDDO       ! I=LFT,LLT  
-            ELSEIF (KHBE == 15) THEN
-              DO I=LFT,LLT              
-                WA(JJ+1) = NLAY  
-                WA(JJ+2) = NPTR  
-                WA(JJ+3) = NPTS  
-                WA(JJ+4) = NPTT  
-                WA(JJ+5) = ABS(ISOLNOD) 
-                WA(JJ+6) = IABS(KHBE)   
-                JJ = JJ + 6                
-                DO IL=1,NLAY                                                   
-                  DO IR=1,NPTR                                                
-                   DO IS=1,NPTS                                                
-                    DO IT=1,NPTT                                                 
-                     LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)            
+                     LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                      WA(JJ +  1) = LBUF%SIG(KK(1)+I)				
                      WA(JJ +  2) = LBUF%SIG(KK(2)+I)				
                      WA(JJ +  3) = LBUF%SIG(KK(3)+I)				
                      WA(JJ +  4) = LBUF%SIG(KK(4)+I)				
                      WA(JJ +  5) = LBUF%SIG(KK(5)+I)				
                      WA(JJ +  6) = LBUF%SIG(KK(6)+I)				
-                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN                                      
-                       WA(JJ +  7) = ZERO                                      
-                     ELSE                                                      
-                       WA(JJ +  7) = LBUF%PLA(I)                               
-                     ENDIF                                                     
-                     WA(JJ+8) = LBUF%EINT(I) 
-                     WA(JJ+9) = LBUF%RHO(I)  
-                     JJ = JJ + 9                                                
-                   ENDDO  ! IT=1,NPTT                                                     
-                  ENDDO   ! IS=1,NPTS                                                    
-                 ENDDO    ! IR=1,NPTR                                                    
-                ENDDO     ! IL=1,NLAY                                                  
-              ENDDO       ! I=LFT,LLT  
+                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN
+                       WA(JJ +  7) = ZERO
+                     ELSE
+                       WA(JJ +  7) = LBUF%PLA(I)
+                     ENDIF
+                     WA(JJ+8) = LBUF%EINT(I)
+                     WA(JJ+9) = LBUF%RHO(I)
+                     JJ = JJ + 9
+                   ENDDO  ! IT=1,NPTT
+                  ENDDO   ! IS=1,NPTS
+                 ENDDO    ! IR=1,NPTR
+                ENDDO     ! IL=1,NLAY
+              ENDDO       ! I=LFT,LLT
+            ELSEIF (KHBE == 15) THEN
+              DO I=LFT,LLT
+                WA(JJ+1) = NLAY
+                WA(JJ+2) = NPTR
+                WA(JJ+3) = NPTS
+                WA(JJ+4) = NPTT
+                WA(JJ+5) = ABS(ISOLNOD)
+                WA(JJ+6) = IABS(KHBE)
+                JJ = JJ + 6
+                DO IL=1,NLAY
+                  DO IR=1,NPTR
+                   DO IS=1,NPTS
+                    DO IT=1,NPTT
+                     LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                     WA(JJ +  1) = LBUF%SIG(KK(1)+I)				
+                     WA(JJ +  2) = LBUF%SIG(KK(2)+I)				
+                     WA(JJ +  3) = LBUF%SIG(KK(3)+I)				
+                     WA(JJ +  4) = LBUF%SIG(KK(4)+I)				
+                     WA(JJ +  5) = LBUF%SIG(KK(5)+I)				
+                     WA(JJ +  6) = LBUF%SIG(KK(6)+I)				
+                     IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN
+                       WA(JJ +  7) = ZERO
+                     ELSE
+                       WA(JJ +  7) = LBUF%PLA(I)
+                     ENDIF
+                     WA(JJ+8) = LBUF%EINT(I)
+                     WA(JJ+9) = LBUF%RHO(I)
+                     JJ = JJ + 9
+                   ENDDO  ! IT=1,NPTT
+                  ENDDO   ! IS=1,NPTS
+                 ENDDO    ! IR=1,NPTR
+                ENDDO     ! IL=1,NLAY
+              ENDDO       ! I=LFT,LLT
             ENDIF
           ELSEIF (KHBE == 14 .OR. KHBE == 17 .OR. ISOLNOD == 20 .OR.
-     .           ISOLNOD == 16) THEN 
-            DO I=LFT,LLT              
-              WA(JJ+1) = NLAY  
-              WA(JJ+2) = NPTR  
-              WA(JJ+3) = NPTS  
-              WA(JJ+4) = NPTT  
-              WA(JJ+5) = ABS(ISOLNOD) 
-              WA(JJ+6) = IABS(KHBE)   
-              JJ = JJ + 6                
-              DO IL=1,NLAY                                                     
-               DO IT=1,NPTT                                                   
-                DO IS=1,NPTS                                                  
-                 DO IR=1,NPTR            
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			       
-                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			       
-                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			       
-                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			       
-                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			       
-                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			       
-                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN                                        
-                     WA(JJ +  7) = ZERO                                       
-                   ELSE                                                       
-                     WA(JJ +  7) = LBUF%PLA(I)                                
-                   ENDIF                                                      
-                   WA(JJ+8) = LBUF%EINT(I) 
-                   WA(JJ+9) = LBUF%RHO(I)  
-                   JJ = JJ + 9                                                  
-                 ENDDO  ! IT=1,NPTT                                                       
-                ENDDO   ! IS=1,NPTS                                                      
-               ENDDO    ! IR=1,NPTR                                                      
-              ENDDO     ! IL=1,NLAY                                                    
-            ENDDO       ! I=LFT,LLT  
+     .           ISOLNOD == 16) THEN
+            DO I=LFT,LLT
+              WA(JJ+1) = NLAY
+              WA(JJ+2) = NPTR
+              WA(JJ+3) = NPTS
+              WA(JJ+4) = NPTT
+              WA(JJ+5) = ABS(ISOLNOD)
+              WA(JJ+6) = IABS(KHBE)
+              JJ = JJ + 6
+              DO IL=1,NLAY
+               DO IT=1,NPTT
+                DO IS=1,NPTS
+                 DO IR=1,NPTR
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			
+                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			
+                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			
+                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			
+                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			
+                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			
+                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN
+                     WA(JJ +  7) = ZERO
+                   ELSE
+                     WA(JJ +  7) = LBUF%PLA(I)
+                   ENDIF
+                   WA(JJ+8) = LBUF%EINT(I)
+                   WA(JJ+9) = LBUF%RHO(I)
+                   JJ = JJ + 9
+                 ENDDO  ! IT=1,NPTT
+                ENDDO   ! IS=1,NPTS
+               ENDDO    ! IR=1,NPTR
+              ENDDO     ! IL=1,NLAY
+            ENDDO       ! I=LFT,LLT
 c
           ELSEIF (ISOLNOD == 8 .AND. NPT == 8 .AND.
-     .         KHBE /= 14  .AND. KHBE /= 15 ) THEN          
-            DO I=LFT,LLT              
-              WA(JJ+1) = NLAY  
-              WA(JJ+2) = NPTR  
-              WA(JJ+3) = NPTS  
-              WA(JJ+4) = NPTT  
-              WA(JJ+5) = ABS(ISOLNOD) 
-              WA(JJ+6) = IABS(KHBE)   
-              WA(JJ+7) = GBUF%EINT(I) 
-              WA(JJ+8) = GBUF%RHO(I)  
-              JJ = JJ + 8                
-              DO IL=1,NLAY                                                     
-               DO IR=1,NPTR                                                   
-                DO IS=1,NPTS                                                  
+     .         KHBE /= 14  .AND. KHBE /= 15 ) THEN
+            DO I=LFT,LLT
+              WA(JJ+1) = NLAY
+              WA(JJ+2) = NPTR
+              WA(JJ+3) = NPTS
+              WA(JJ+4) = NPTT
+              WA(JJ+5) = ABS(ISOLNOD)
+              WA(JJ+6) = IABS(KHBE)
+              WA(JJ+7) = GBUF%EINT(I)
+              WA(JJ+8) = GBUF%RHO(I)
+              JJ = JJ + 8
+              DO IL=1,NLAY
+               DO IR=1,NPTR
+                DO IS=1,NPTS
                  DO IT=1,NPTT
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			       
-                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			       
-                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			       
-                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			       
-                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			       
-                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			       
-                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN                                        
-                     WA(JJ +  7) = ZERO                                       
-                   ELSE                                                       
-                     WA(JJ +  7) = LBUF%PLA(I)                                
-                   ENDIF   
-                   JJ = JJ + 7                                                   
-                 ENDDO  ! IT=1,NPTT                                                       
-                ENDDO   ! IS=1,NPTS                                                      
-               ENDDO    ! IR=1,NPTR                                                      
-              ENDDO     ! IL=1,NLAY                                                    
-            ENDDO       ! I=LFT,LLT  
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			
+                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			
+                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			
+                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			
+                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			
+                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			
+                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN
+                     WA(JJ +  7) = ZERO
+                   ELSE
+                     WA(JJ +  7) = LBUF%PLA(I)
+                   ENDIF
+                   JJ = JJ + 7
+                 ENDDO  ! IT=1,NPTT
+                ENDDO   ! IS=1,NPTS
+               ENDDO    ! IR=1,NPTR
+              ENDDO     ! IL=1,NLAY
+            ENDDO       ! I=LFT,LLT
 c
           ELSEIF (ISOLNOD == 10) THEN
-            DO I=LFT,LLT              
-              WA(JJ+1) = NLAY  
-              WA(JJ+2) = NPTR  
-              WA(JJ+3) = NPTS  
-              WA(JJ+4) = NPTT  
-              WA(JJ+5) = ABS(ISOLNOD) 
-              WA(JJ+6) = IABS(KHBE)   
-              JJ = JJ + 6                
-              DO IL=1,NLAY                                                     
-               DO IR=1,NPTR                                                   
-                DO IS=1,NPTS                                                  
-                 DO IT=1,NPTT                                                 
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			       
-                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			       
-                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			       
-                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			       
-                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			       
-                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			       
-                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN                                        
-                     WA(JJ +  7) = ZERO                                       
-                   ELSE                                                       
-                     WA(JJ +  7) = LBUF%PLA(I)                                
-                   ENDIF                                                      
-                   WA(JJ+8) = LBUF%EINT(I) 
-                   WA(JJ+9) = LBUF%RHO(I)  
-                   JJ = JJ + 9                                                  
-                 ENDDO  ! IT=1,NPTT                                                       
-                ENDDO   ! IS=1,NPTS                                                      
-               ENDDO    ! IR=1,NPTR                                                      
-              ENDDO     ! IL=1,NLAY                                                    
-            ENDDO       ! I=LFT,LLT  
+            DO I=LFT,LLT
+              WA(JJ+1) = NLAY
+              WA(JJ+2) = NPTR
+              WA(JJ+3) = NPTS
+              WA(JJ+4) = NPTT
+              WA(JJ+5) = ABS(ISOLNOD)
+              WA(JJ+6) = IABS(KHBE)
+              JJ = JJ + 6
+              DO IL=1,NLAY
+               DO IR=1,NPTR
+                DO IS=1,NPTS
+                 DO IT=1,NPTT
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			
+                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			
+                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			
+                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			
+                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			
+                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			
+                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN
+                     WA(JJ +  7) = ZERO
+                   ELSE
+                     WA(JJ +  7) = LBUF%PLA(I)
+                   ENDIF
+                   WA(JJ+8) = LBUF%EINT(I)
+                   WA(JJ+9) = LBUF%RHO(I)
+                   JJ = JJ + 9
+                 ENDDO  ! IT=1,NPTT
+                ENDDO   ! IS=1,NPTS
+               ENDDO    ! IR=1,NPTR
+              ENDDO     ! IL=1,NLAY
+            ENDDO       ! I=LFT,LLT
 c
           ELSEIF ((ISOLNOD == 6.OR.ISOLNOD == 8).AND.
      .             KHBE == 15) THEN
-            DO I=LFT,LLT              
-              WA(JJ+1) = NLAY  
-              WA(JJ+2) = NPTR  
-              WA(JJ+3) = NPTS  
-              WA(JJ+4) = NPTT  
-              WA(JJ+5) = ABS(ISOLNOD) 
-              WA(JJ+6) = IABS(KHBE)   
-              JJ = JJ + 6                
-              DO IL=1,NLAY                                                     
-               DO IR=1,NPTR                                                   
-                DO IS=1,NPTS                                                  
-                 DO IT=1,NPTT                                                 
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			       
-                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			       
-                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			       
-                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			       
-                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			       
-                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			       
-                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN                                        
-                     WA(JJ +  7) = ZERO                                       
-                   ELSE                                                       
-                     WA(JJ +  7) = LBUF%PLA(I)                                
-                   ENDIF                                                      
-                   WA(JJ+8) = LBUF%EINT(I) 
-                   WA(JJ+9) = LBUF%RHO(I)  
-                   JJ = JJ + 9                                                  
-                 ENDDO  ! IT=1,NPTT                                                       
-                ENDDO   ! IS=1,NPTS                                                      
-               ENDDO    ! IR=1,NPTR                                                      
-              ENDDO     ! IL=1,NLAY                                                    
-            ENDDO       ! I=LFT,LLT  
+            DO I=LFT,LLT
+              WA(JJ+1) = NLAY
+              WA(JJ+2) = NPTR
+              WA(JJ+3) = NPTS
+              WA(JJ+4) = NPTT
+              WA(JJ+5) = ABS(ISOLNOD)
+              WA(JJ+6) = IABS(KHBE)
+              JJ = JJ + 6
+              DO IL=1,NLAY
+               DO IR=1,NPTR
+                DO IS=1,NPTS
+                 DO IT=1,NPTT
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                   WA(JJ +  1) = LBUF%SIG(KK(1)+I)			
+                   WA(JJ +  2) = LBUF%SIG(KK(2)+I)			
+                   WA(JJ +  3) = LBUF%SIG(KK(3)+I)			
+                   WA(JJ +  4) = LBUF%SIG(KK(4)+I)			
+                   WA(JJ +  5) = LBUF%SIG(KK(5)+I)			
+                   WA(JJ +  6) = LBUF%SIG(KK(6)+I)			
+                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA == 0) THEN
+                     WA(JJ +  7) = ZERO
+                   ELSE
+                     WA(JJ +  7) = LBUF%PLA(I)
+                   ENDIF
+                   WA(JJ+8) = LBUF%EINT(I)
+                   WA(JJ+9) = LBUF%RHO(I)
+                   JJ = JJ + 9
+                 ENDDO  ! IT=1,NPTT
+                ENDDO   ! IS=1,NPTS
+               ENDDO    ! IR=1,NPTR
+              ENDDO     ! IL=1,NLAY
+            ENDDO       ! I=LFT,LLT
 c-------------
           ELSE  ! one integration pt, Isolid = 0,1,2,24
 c-------------
-            DO I=LFT,LLT              
-              WA(JJ+1) = NLAY  
-              WA(JJ+2) = NPTR  
-              WA(JJ+3) = NPTS  
-              WA(JJ+4) = NPTT  
-              WA(JJ+5) = ABS(ISOLNOD) 
-              WA(JJ+6) = IABS(KHBE)   
-              WA(JJ+7) = GBUF%EINT(I) 
-              WA(JJ+8) = GBUF%RHO(I)  
-              JJ = JJ + 8                
-              WA(JJ + 1) = GBUF%SIG(KK(1)+I)				 
-              WA(JJ + 2) = GBUF%SIG(KK(2)+I)				 
-              WA(JJ + 3) = GBUF%SIG(KK(3)+I)				 
-              WA(JJ + 4) = GBUF%SIG(KK(4)+I)				 
-              WA(JJ + 5) = GBUF%SIG(KK(5)+I)				 
-              WA(JJ + 6) = GBUF%SIG(KK(6)+I)  
-              IF (GBUF%G_PLA == 0) THEN                                        
-                WA(JJ +  7) = ZERO                                       
-              ELSE                                                       
-                WA(JJ +  7) = GBUF%PLA(I)                                
-              ENDIF                                                      
-              JJ = JJ + 7                
-            ENDDO       ! I=LFT,LLT  
+            DO I=LFT,LLT
+              WA(JJ+1) = NLAY
+              WA(JJ+2) = NPTR
+              WA(JJ+3) = NPTS
+              WA(JJ+4) = NPTT
+              WA(JJ+5) = ABS(ISOLNOD)
+              WA(JJ+6) = IABS(KHBE)
+              WA(JJ+7) = GBUF%EINT(I)
+              WA(JJ+8) = GBUF%RHO(I)
+              JJ = JJ + 8
+              WA(JJ + 1) = GBUF%SIG(KK(1)+I)				
+              WA(JJ + 2) = GBUF%SIG(KK(2)+I)				
+              WA(JJ + 3) = GBUF%SIG(KK(3)+I)				
+              WA(JJ + 4) = GBUF%SIG(KK(4)+I)				
+              WA(JJ + 5) = GBUF%SIG(KK(5)+I)				
+              WA(JJ + 6) = GBUF%SIG(KK(6)+I)
+              IF (GBUF%G_PLA == 0) THEN
+                WA(JJ +  7) = ZERO
+              ELSE
+                WA(JJ +  7) = GBUF%PLA(I)
+              ENDIF
+              JJ = JJ + 7
+            ENDDO       ! I=LFT,LLT
           ENDIF
 C--------------------------------------          
         ELSEIF (ITENS == 3)THEN
 c         /outp/brick/strain/full
 C--------------------------------------          
-          WA(JJ+1) = NPT  
-          WA(JJ+2) = ISOLNOD  
-          WA(JJ+3) = NEL  
-          JJ = JJ+3                
+          WA(JJ+1) = NPT
+          WA(JJ+2) = ISOLNOD
+          WA(JJ+3) = NEL
+          JJ = JJ+3
           IF (ELBUF_TAB(NG)%BUFLY(1)%L_STRA == 0) THEN
-            DO I=LFT,LLT              
-              WA(JJ + 1) = ZERO                                       
-              WA(JJ + 2) = ZERO                                       
-              WA(JJ + 3) = ZERO                                       
-              WA(JJ + 4) = ZERO                                       
-              WA(JJ + 5) = ZERO                                       
-              WA(JJ + 6) = ZERO                                       
-              JJ=JJ + 6                                                       
-            ENDDO   ! I=LFT,LLT 
+            DO I=LFT,LLT
+              WA(JJ + 1) = ZERO
+              WA(JJ + 2) = ZERO
+              WA(JJ + 3) = ZERO
+              WA(JJ + 4) = ZERO
+              WA(JJ + 5) = ZERO
+              WA(JJ + 6) = ZERO
+              JJ=JJ + 6
+            ENDDO   ! I=LFT,LLT
           ELSEIF (MLW == 14) THEN
-            DO I=LFT,LLT              
-              DO IL=1,NLAY                                                     
-               DO IR=1,NPTR                                                    
-                DO IS=1,NPTS                                                   
-                 DO IT=1,NPTT                                                  
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)           
-                   WA(JJ + 1) = LBUF%EPE(KK(1)+I)			       
-                   WA(JJ + 2) = LBUF%EPE(KK(2)+I)			       
-                   WA(JJ + 3) = LBUF%EPE(KK(3)+I)			       
-                   WA(JJ + 4) = ZERO                                        
-                   WA(JJ + 5) = ZERO                                        
-                   WA(JJ + 6) = ZERO                                        
-                   JJ=JJ + 6                                                   
-                 ENDDO                                                         
-                ENDDO                                                          
-               ENDDO                                                           
-              ENDDO                                                         
+            DO I=LFT,LLT
+              DO IL=1,NLAY
+               DO IR=1,NPTR
+                DO IS=1,NPTS
+                 DO IT=1,NPTT
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                   WA(JJ + 1) = LBUF%EPE(KK(1)+I)			
+                   WA(JJ + 2) = LBUF%EPE(KK(2)+I)			
+                   WA(JJ + 3) = LBUF%EPE(KK(3)+I)			
+                   WA(JJ + 4) = ZERO
+                   WA(JJ + 5) = ZERO
+                   WA(JJ + 6) = ZERO
+                   JJ=JJ + 6
+                 ENDDO
+                ENDDO
+               ENDDO
+              ENDDO
             ENDDO
-          ELSEIF (TSHELL == 1) THEN                                                              
-            DO I=LFT,LLT              
-              DO IR=1,NPTR                                                     
-               DO IS=1,NPTS                                                    
-                DO IT=1,NPTT                                                   
-                 DO IL=1,NLAY                                                     
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)           
+          ELSEIF (TSHELL == 1) THEN
+            DO I=LFT,LLT
+              DO IR=1,NPTR
+               DO IS=1,NPTS
+                DO IT=1,NPTT
+                 DO IL=1,NLAY
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                    WA(JJ + 1) = LBUF%STRA(KK(1)+I)				
                    WA(JJ + 2) = LBUF%STRA(KK(2)+I)				
                    WA(JJ + 3) = LBUF%STRA(KK(3)+I)				
                    WA(JJ + 4) = LBUF%STRA(KK(4)+I)				
                    WA(JJ + 5) = LBUF%STRA(KK(5)+I)				
                    WA(JJ + 6) = LBUF%STRA(KK(6)+I)				
-                   JJ=JJ + 6                                                   
-                 ENDDO                                                         
-                ENDDO                                                          
-               ENDDO                                                           
-              ENDDO                                                         
-            ENDDO   ! I=LFT,LLT 
-          ELSE                                                           
-            DO I=LFT,LLT              
-              DO IL=1,NLAY                                                     
-               DO IT=1,NPTT                                            
-                DO IS=1,NPTS                                              
-                 DO IR=1,NPTR                                                
-                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)           
+                   JJ=JJ + 6
+                 ENDDO
+                ENDDO
+               ENDDO
+              ENDDO
+            ENDDO   ! I=LFT,LLT
+          ELSE
+            DO I=LFT,LLT
+              DO IL=1,NLAY
+               DO IT=1,NPTT
+                DO IS=1,NPTS
+                 DO IR=1,NPTR
+                   LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
                    WA(JJ + 1) = LBUF%STRA(KK(1)+I)				
                    WA(JJ + 2) = LBUF%STRA(KK(2)+I)				
                    WA(JJ + 3) = LBUF%STRA(KK(3)+I)				
                    WA(JJ + 4) = LBUF%STRA(KK(4)+I)				
                    WA(JJ + 5) = LBUF%STRA(KK(5)+I)				
                    WA(JJ + 6) = LBUF%STRA(KK(6)+I)				
-                   JJ=JJ + 6                                                   
-                 ENDDO                                                         
-                ENDDO                                                          
-               ENDDO                                                           
-              ENDDO                                                         
-            ENDDO   ! I=LFT,LLT 
-          ENDIF  
+                   JJ=JJ + 6
+                 ENDDO
+                ENDDO
+               ENDDO
+              ENDDO
+            ENDDO   ! I=LFT,LLT
+          ENDIF
          ENDIF ! ITENS = 3
 C           
         ENDIF  ! ITY == 1.OR.ITY == 2
         ENDDO   ! NG = NGF, NGL
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
        ENDDO         ! nn=1,nspgroup
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -650,23 +650,23 @@ c
               IF (ICAS_OLD /= 1) THEN
                ICAS_OLD = 1
                IF (OUTYY_FMT == 2) THEN
-                WRITE(IUGEO,'(A)')                                       
-     .          '#FORMAT:(NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT',              
-     .          '#(NPT = NPTR * NPTS * NPTT),(5I8),I=1,NUMSOL'           
-                WRITE(IUGEO,'(2A)')'#FORMAT: (1P6E12.5/3E12.5) ',        
-     .          '((TX(I,J),TY(I,J),TZ(I,J),TXY(I,J),TYZ(I,J),TZX(I,J),', 
-     .          '#EPSP(J,I),EINT(J,I),RHO(J,I),J=1,NPT),I=1,NUMSOL)'     
+                WRITE(IUGEO,'(A)')
+     .          '#FORMAT:(NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT',
+     .          '#(NPT = NPTR * NPTS * NPTT),(5I8),I=1,NUMSOL'
+                WRITE(IUGEO,'(2A)')'#FORMAT: (1P6E12.5/3E12.5) ',
+     .          '((TX(I,J),TY(I,J),TZ(I,J),TXY(I,J),TYZ(I,J),TZX(I,J),',
+     .          '#EPSP(J,I),EINT(J,I),RHO(J,I),J=1,NPT),I=1,NUMSOL)'
                ELSE
-                WRITE(IUGEO,'(A)')                                       
-     .          '#FORMAT:(NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT',              
-     .          '#(NPT = NPTR * NPTS * NPTT),(5I10),I=1,NUMSOL'          
-                WRITE(IUGEO,'(2A)')'#FORMAT: (1P6E20.13/3E20.13) ',      
-     .          '((TX(I,J),TY(I,J),TZ(I,J),TXY(I,J),TYZ(I,J),TZX(I,J),', 
-     .          '#EPSP(J,I),EINT(J,I),RHO(J,I),J=1,NPT),I=1,NUMSOL)'     
+                WRITE(IUGEO,'(A)')
+     .          '#FORMAT:(NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT',
+     .          '#(NPT = NPTR * NPTS * NPTT),(5I10),I=1,NUMSOL'
+                WRITE(IUGEO,'(2A)')'#FORMAT: (1P6E20.13/3E20.13) ',
+     .          '((TX(I,J),TY(I,J),TZ(I,J),TXY(I,J),TYZ(I,J),TZX(I,J),',
+     .          '#EPSP(J,I),EINT(J,I),RHO(J,I),J=1,NPT),I=1,NUMSOL)'
                ENDIF
               ENDIF ! ICAS_OLD
               IF (OUTYY_FMT == 2) THEN
-                WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
+                WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT
 C               ecriture sur 2 lignes cf smp !
                 DO I = 1, NPT
                   WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
@@ -675,7 +675,7 @@ C               ecriture sur 2 lignes cf smp !
                   J = J + 3
                 ENDDO
               ELSE
-                WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
+                WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT
 C               ecriture sur 2 lignes cf smp !
                 DO I = 1, NPT
                   WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
@@ -743,9 +743,9 @@ C            test cas precedent et ecriture format si besoin
      .          '((TX(I,J),TY(I,J),TZ(I,J),TXY(I,J),TYZ(I,J),TZX(I,J),',
      .          '#EPSP(J,I),J=1,NPT),I=1,NUMSOL)'
                ENDIF
-             ENDIF     
+             ENDIF
              IF (OUTYY_FMT == 2) THEN
-               WRITE(IUGEO,'(2I8)')NPT,ISOLNOD 
+               WRITE(IUGEO,'(2I8)')NPT,ISOLNOD
                WRITE(IUGEO,'(1P2E12.5)')(WAP0(J-1+K),K=1,2)
                J=J+2
 C              ecriture sur 2 lignes cf smp !
@@ -756,7 +756,7 @@ C              ecriture sur 2 lignes cf smp !
                  J = J + 1
                ENDDO
              ELSE
-               WRITE(IUGEO,'(2I10)')NPT,ISOLNOD 
+               WRITE(IUGEO,'(2I10)')NPT,ISOLNOD
                WRITE(IUGEO,'(1P2E20.13)')(WAP0(J-1+K),K=1,2)
                J=J+2
 C              ecriture sur 2 lignes cf smp !
@@ -789,7 +789,7 @@ c
              ENDIF
 c
              IF (OUTYY_FMT == 2) THEN
-               WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
+               WRITE(IUGEO,'(6I8)') NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT
 C              ecriture sur 2 lignes cf smp !
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
@@ -798,7 +798,7 @@ C              ecriture sur 2 lignes cf smp !
                  J = J + 3
                ENDDO
              ELSE
-               WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT 
+               WRITE(IUGEO,'(6I10)')NPT,ISOLNOD,KHBE,NPTR,NPTS,NPTT
 C              ecriture sur 2 lignes cf smp !
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
@@ -826,7 +826,7 @@ c
                ENDIF
              ENDIF
              IF (OUTYY_FMT == 2) THEN
-               WRITE(IUGEO,'(5I8)')NPT,ISOLNOD,NPTR,NPTS,NPTT 
+               WRITE(IUGEO,'(5I8)')NPT,ISOLNOD,NPTR,NPTS,NPTT
 C              ecriture sur 2 lignes cf smp !
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
@@ -835,7 +835,7 @@ C              ecriture sur 2 lignes cf smp !
                  J = J + 3
                ENDDO
              ELSE
-               WRITE(IUGEO,'(5I10)')NPT,ISOLNOD,NPTR,NPTS,NPTT 
+               WRITE(IUGEO,'(5I10)')NPT,ISOLNOD,NPTR,NPTS,NPTT
 C              ecriture sur 2 lignes cf smp !
                DO I = 1, NPT
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
@@ -864,9 +864,9 @@ c
      .          '((TX(I,J),TY(I,J),TZ(I,J),TXY(I,J),TYZ(I,J),TZX(I,J),',
      .          '#EPSP(J,I),J=1,NPT),I=1,NUMSOL,NPT=1)'
                ENDIF
-             ENDIF     
+             ENDIF
                 IF (OUTYY_FMT == 2) THEN
-                 WRITE(IUGEO,'(2I8)')NPT,ISOLNOD 
+                 WRITE(IUGEO,'(2I8)')NPT,ISOLNOD
                  WRITE(IUGEO,'(1P2E12.5)')(WAP0(J-1+K),K=1,2)
                 J=J+2
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
@@ -874,7 +874,7 @@ c
                  WRITE(IUGEO,'(1P1E12.5)')WAP0(J)
                  J = J + 1
                ELSE
-                 WRITE(IUGEO,'(2I10)')NPT,ISOLNOD 
+                 WRITE(IUGEO,'(2I10)')NPT,ISOLNOD
                  WRITE(IUGEO,'(1P2E20.13)')(WAP0(J-1+K),K=1,2)
                  J=J+2
                  WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
@@ -972,15 +972,15 @@ c-------------------------------
      .        '#FORMAT:(NPT, ISOLNOD, NUMSOL (3I8)'
                WRITE(IUGEO,'(2A)')'#FORMAT: (1P6E12.5) ',
      .       '((EXX(I,J),EYY(I,J),EZZ(I,J),EXY(I,J),EYZ(I,J),EZX(I,J),',
-     .         '#J=1,NPT),I=1,NUMSOL)'             
+     .         '#J=1,NPT),I=1,NUMSOL)'
               ELSE
                WRITE(IUGEO,'(A)')
      .        '#FORMAT:(NPT, ISOLNOD, NUMSOL (3I10)'
                WRITE(IUGEO,'(2A)')'#FORMAT: (1P6E20.13) ',
      .       '((EXX(I,J),EYY(I,J),EZZ(I,J),EXY(I,J),EYZ(I,J),EZX(I,J),',
-     .        '#J=1,NPT),I=1,NUMSOL)'             
+     .        '#J=1,NPT),I=1,NUMSOL)'
               ENDIF
-            ENDIF 
+            ENDIF
 c
             IF(OUTYY_FMT == 2)THEN
               WRITE(IUGEO,'(3I8)') NPT, ISOLNOD,NEL
@@ -989,7 +989,7 @@ c
                  WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)
                  J = J + 6
                ENDDO
-              ENDDO       
+              ENDDO
             ELSE
               WRITE(IUGEO,'(3I10)') NPT,ISOLNOD,NEL
               DO I=1,NEL
@@ -997,8 +997,8 @@ c
                   WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6)
                   J = J + 6
                 ENDDO
-              ENDDO  
-            ENDIF                         
+              ENDDO
+            ENDIF
 c
           ENDIF ! ITENS
 c-------------------------------
@@ -1021,7 +1021,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1063,7 +1063,7 @@ c------------------------------
           ITY   =IPARG(5,NG)
           IF (ITY == 1.OR.ITY == 2) THEN
            NEL   =IPARG(2,NG)
-         
+
            JJ = JJ + 6*NEL
           ENDIF
          ENDDO
@@ -1085,14 +1085,14 @@ c------------------------------
             IF (ITY == 1 .OR. ITY == 2) THEN
               MLW  = IPARG(1,NG)
               NEL  = IPARG(2,NG)
-              KHBE = IPARG(23,NG)    
+              KHBE = IPARG(23,NG)
               NPT  = ABS(IPARG(6,NG))
               ISOLNOD=IPARG(28,NG)
 C      
-              IF (ISOLNOD == 8 .AND. (KHBE == 14.OR.KHBE == 17)) THEN 
+              IF (ISOLNOD == 8 .AND. (KHBE == 14.OR.KHBE == 17)) THEN
                 JJ = JJ + NEL*(6+9*NPT)
               ELSEIF (ISOLNOD == 8 .AND. NPT == 8 .AND.
-     .            KHBE /= 14  .AND. KHBE /= 15) THEN          
+     .            KHBE /= 14  .AND. KHBE /= 15) THEN
                 JJ = JJ + NEL*(8+7*NPT)
               ELSEIF ((ISOLNOD == 8 .OR. NPT == 1) .AND.
      .                 KHBE /= 14.AND.KHBE /= 15.AND.KHBE /= 17) THEN
@@ -1121,7 +1121,7 @@ C strain/full
            IF(ITY == 1.OR.ITY == 2) THEN
              MLW   =IPARG(1,NG)
              NEL   =IPARG(2,NG)
-             KHBE  =IPARG(23,NG)      
+             KHBE  =IPARG(23,NG)
              NPT   =ABS(IPARG(6,NG))
              ISOLNOD=IPARG(28,NG)
              JJ = JJ + 3 + NEL*NPT*6

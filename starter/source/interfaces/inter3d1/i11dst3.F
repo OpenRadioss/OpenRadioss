@@ -74,7 +74,7 @@ C
       ELSE
         DO I=1,JLT
           GAPV2(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
-         IF(IGAP == 3)  
+         IF(IGAP == 3)
      .     GAPV2(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV2(I))+DGAPLOAD
           GAPV2(I)=MAX(GAPV2(I)*GAPV2(I),GAP2)
         ENDDO
@@ -124,7 +124,7 @@ C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
        YS2M2 = X(2,M2(I))-X(2,N2(I))
        ZS2M2 = X(3,M2(I))-X(3,N2(I))
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C
@@ -150,7 +150,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
        NZ(I) =  H1S*X(3,N1(I)) + H2S*X(3,N2(I))
      .      - H1M*X(3,M1(I)) - H2M*X(3,M2(I))
        PENE2(I) = MAX(GAPV2(I),DRAD2) - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
-       PENE2(I) = MAX(ZERO,PENE2(I)) 
+       PENE2(I) = MAX(ZERO,PENE2(I))
 C
       ENDDO
       DO I=1,JLT

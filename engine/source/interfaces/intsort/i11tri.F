@@ -215,7 +215,7 @@ C
       DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
       DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
       DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
-      DSUP= MAX(DX,DY,DZ) 
+      DSUP= MAX(DX,DY,DZ)
       GOTO 200
 C=======================================================================
  100  CONTINUE
@@ -296,10 +296,10 @@ c          Txmin
 c
 c       si la boite est reduite du cote de Xmin on pourrait utiliser:
 c           Txmin = Xmin  avec Xmin = min(Xmain)-Tzinf > Xmin_old
-c       
+c
 c       mais en utilisant:
-c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf) 
-c       on ne penalise pas I11INSIND 
+c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf)
+c       on ne penalise pas I11INSIND
 c       (il n'y a pas de main dans la zone surestimee)
 c       et le calcul de Xmin, Txmin ... est plus simple
 
@@ -318,7 +318,7 @@ c       et le calcul de Xmin, Txmin ... est plus simple
       TYMAX = YMAX + TZINF
       TZMAX = ZMAX + TZINF
 
-      DMX = XMAX-XMIN 
+      DMX = XMAX-XMIN
       DMY = YMAX-YMIN
       DMZ = ZMAX-ZMIN
 
@@ -384,15 +384,15 @@ C
 C    2- DIVISER LES SECONDS EN TWO ZONES 
 C
 
-c            +-----------+-----------+--Xjmax  
-c            |           |           |         
-c            |           |           |         
-c            |           |           |         
-c            |           |           |         
-c            +-----------+-----------+--Xjmin  
-c            |           |           |        
-c          Ximin       Seuil       Ximax  
-c            
+c            +-----------+-----------+--Xjmax
+c            |           |           |
+c            |           |           |
+c            |           |           |
+c            |           |           |
+c            +-----------+-----------+--Xjmin
+c            |           |           |
+c          Ximin       Seuil       Ximax
+c
 
 
 
@@ -478,12 +478,12 @@ c        .    +------,----+----.------+    ,--Xjmin   ^
 c        .           ,         .           ,          | Tzinf
 c        .           ,         .           ,          |
 c        ............,.,.,.,.,..,,,,,,,,,,,,--Tjmin   v
-c        |    |      |    |    |      |    |    
+c        |    |      |    |    |      |    |
 c        |  Ximin    |  Seuil  |    Ximax  |
 c      Timin       Tsmin     Tsmax       Timax
 c
 c        si la boite a ete reduite(Cf 1)
-c        il est possible que Timin=Ximin ... 
+c        il est possible que Timin=Ximin ...
 
 
       NB_ECN= 0
@@ -578,7 +578,7 @@ C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
 c     soit XMAX soit le max de la boite
-      XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+      XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
       XYZM(4,I_ADD+1) = XYZM(4,I_ADD)
@@ -677,7 +677,7 @@ C
                 ENDIF
               ELSE
                 NI = NN-NRTS
-                NN1 = IREM(2,NI)             
+                NN1 = IREM(2,NI)
                 NN2 = IREM(3,NI)
                 N1 = ITAB(N1)
                 N2 = ITAB(N2)
@@ -705,7 +705,7 @@ C
                 PROV_M(J) = PROV_M(J+NVSIZ)
               ENDDO
             ENDIF
-          ENDDO 
+          ENDDO
         ELSE
 C=======================================================================
           GOTO 100
@@ -766,9 +766,9 @@ c
 c
 c 1- conservation: au moins un noeud dans la boite
 c
-c              Xmin        Xmax  
-c                |           |   
-c                |           |   
+c              Xmin        Xmax
+c                |           |
+c                |           |
 c    Ymax -------+-----------+
 c                |       0 N2|
 c                |  N1  /    |
@@ -783,143 +783,143 @@ c                        O
       I11INSID = .true.
 
 
-c     test si N1 ou N2  dans la boite                   
+c     test si N1 ou N2  dans la boite
 
-      IF(X1>=XMIN.and.X1<=XMAX.and.                     
-     .   Y1>=YMIN.and.Y1<=YMAX.and.                     
-     .   Z1>=ZMIN.and.Z1<=ZMAX) RETURN                   
- 
-      IF(X2>=XMIN.and.X2<=XMAX.and.                     
-     .   Y2>=YMIN.and.Y2<=YMAX.and.                     
-     .   Z2>=ZMIN.and.Z2<=ZMAX) RETURN                  
-   
+      IF(X1>=XMIN.and.X1<=XMAX.and.
+     .   Y1>=YMIN.and.Y1<=YMAX.and.
+     .   Z1>=ZMIN.and.Z1<=ZMAX) RETURN
+
+      IF(X2>=XMIN.and.X2<=XMAX.and.
+     .   Y2>=YMIN.and.Y2<=YMAX.and.
+     .   Z2>=ZMIN.and.Z2<=ZMAX) RETURN
+
 
 c
 c 2- elimination: segment ne coupe pas la boite
 c
-c              Xmin        Xmax  
-c                |           |   
-c                |           |   
+c              Xmin        Xmax
+c                |           |
+c                |           |
 c    Ymax -------+-----------+
 c                |           |
 c            N1  |           |
 c           O    |           |
 c            \   |           |
-c    Ymin ----\--+-----------+ 
-c              \ |            
-c               \|            
+c    Ymin ----\--+-----------+
+c              \ |
+c               \|
 c                \
 c                |\ N2
-c                | O       
+c                | O
 
       I11INSID = .false.
 
-c     projection de N1 sur XMIN ou XMAX                 
+c     projection de N1 sur XMIN ou XMAX
 
-      XX = MIN(MAX(X1,XMIN),XMAX)                       
+      XX = MIN(MAX(X1,XMIN),XMAX)
 
-      IF(XX /= X1)THEN 
-        IF(X1==X2)RETURN                                 
-        IF(Y2>YMAX)THEN                                
-          AA = (XX-X1)/(X2-X1)                                        
-          IF(  Y1 + AA * (Y2-Y1) > YMAX)RETURN         
-          IF(Z2>ZMAX)THEN                              
-            IF(Z1 + AA * (Z2-Z1) > ZMAX)RETURN         
-          ELSEIF(Z2<ZMIN)THEN                          
-            IF(Z1 + AA * (Z2-Z1) < ZMIN)RETURN         
-          ENDIF                                         
-        ELSEIF(Y2<YMIN)THEN                            
-          AA = (XX-X1)/(X2-X1)                                        
-          IF(  Y1 + AA * (Y2-Y1) < YMIN)RETURN         
-          IF(Z2>ZMAX)THEN                              
-            IF(Z1 + AA * (Z2-Z1) > ZMAX)RETURN         
-          ELSEIF(Z2<ZMIN)THEN                          
-            IF(Z1 + AA * (Z2-Z1) < ZMIN)RETURN         
-          ENDIF                                         
-        ELSE                                            
-          IF(Z2>ZMAX)THEN                              
-            AA = (XX-X1)/(X2-X1)                                        
-            IF(Z1 + AA * (Z2-Z1) > ZMAX)RETURN         
-          ELSEIF(Z2<ZMIN)THEN                          
-            AA = (XX-X1)/(X2-X1)                                        
-            IF(Z1 + AA * (Z2-Z1) < ZMIN)RETURN         
-          ENDIF                                         
-        ENDIF                                           
-      ENDIF                                             
+      IF(XX /= X1)THEN
+        IF(X1==X2)RETURN
+        IF(Y2>YMAX)THEN
+          AA = (XX-X1)/(X2-X1)
+          IF(  Y1 + AA * (Y2-Y1) > YMAX)RETURN
+          IF(Z2>ZMAX)THEN
+            IF(Z1 + AA * (Z2-Z1) > ZMAX)RETURN
+          ELSEIF(Z2<ZMIN)THEN
+            IF(Z1 + AA * (Z2-Z1) < ZMIN)RETURN
+          ENDIF
+        ELSEIF(Y2<YMIN)THEN
+          AA = (XX-X1)/(X2-X1)
+          IF(  Y1 + AA * (Y2-Y1) < YMIN)RETURN
+          IF(Z2>ZMAX)THEN
+            IF(Z1 + AA * (Z2-Z1) > ZMAX)RETURN
+          ELSEIF(Z2<ZMIN)THEN
+            IF(Z1 + AA * (Z2-Z1) < ZMIN)RETURN
+          ENDIF
+        ELSE
+          IF(Z2>ZMAX)THEN
+            AA = (XX-X1)/(X2-X1)
+            IF(Z1 + AA * (Z2-Z1) > ZMAX)RETURN
+          ELSEIF(Z2<ZMIN)THEN
+            AA = (XX-X1)/(X2-X1)
+            IF(Z1 + AA * (Z2-Z1) < ZMIN)RETURN
+          ENDIF
+        ENDIF
+      ENDIF
 
-c     projection de N1 sur YMIN ou YMAX               
+c     projection de N1 sur YMIN ou YMAX
 
-      YY = MIN(MAX(Y1,YMIN),YMAX)                     
+      YY = MIN(MAX(Y1,YMIN),YMAX)
 
-      IF(YY /= Y1)THEN                                
-        IF(Y1==Y2)RETURN                                 
-        IF(Z2>ZMAX)THEN                              
-          AA = (YY-Y1)/(Y2-Y1)                                        
-          IF(  Z1 + AA * (Z2-Z1) > ZMAX)RETURN       
-          IF(X2>XMAX)THEN                            
-            IF(X1 + AA * (X2-X1) > XMAX)RETURN       
-          ELSEIF(X2<XMIN)THEN                        
-            IF(X1 + AA * (X2-X1) < XMIN)RETURN       
-          ENDIF                                       
-        ELSEIF(Z2<ZMIN)THEN                          
-          AA = (YY-Y1)/(Y2-Y1)                                        
-          IF(  Z1 + AA * (Z2-Z1) < ZMIN)RETURN       
-          IF(X2>XMAX)THEN                            
-            IF(X1 + AA * (X2-X1) > XMAX)RETURN       
-          ELSEIF(X2<XMIN)THEN                        
-            IF(X1 + AA * (X2-X1) < XMIN)RETURN       
-          ENDIF                                       
-        ELSE                                          
-          IF(X2>XMAX)THEN                            
-            AA = (YY-Y1)/(Y2-Y1)                                        
-            IF(X1 + AA * (X2-X1) > XMAX)RETURN       
-          ELSEIF(X2<XMIN)THEN                        
-            AA = (YY-Y1)/(Y2-Y1)                                        
-            IF(X1 + AA * (X2-X1) < XMIN)RETURN       
-          ENDIF                                       
-        ENDIF                                         
-      ENDIF                                           
+      IF(YY /= Y1)THEN
+        IF(Y1==Y2)RETURN
+        IF(Z2>ZMAX)THEN
+          AA = (YY-Y1)/(Y2-Y1)
+          IF(  Z1 + AA * (Z2-Z1) > ZMAX)RETURN
+          IF(X2>XMAX)THEN
+            IF(X1 + AA * (X2-X1) > XMAX)RETURN
+          ELSEIF(X2<XMIN)THEN
+            IF(X1 + AA * (X2-X1) < XMIN)RETURN
+          ENDIF
+        ELSEIF(Z2<ZMIN)THEN
+          AA = (YY-Y1)/(Y2-Y1)
+          IF(  Z1 + AA * (Z2-Z1) < ZMIN)RETURN
+          IF(X2>XMAX)THEN
+            IF(X1 + AA * (X2-X1) > XMAX)RETURN
+          ELSEIF(X2<XMIN)THEN
+            IF(X1 + AA * (X2-X1) < XMIN)RETURN
+          ENDIF
+        ELSE
+          IF(X2>XMAX)THEN
+            AA = (YY-Y1)/(Y2-Y1)
+            IF(X1 + AA * (X2-X1) > XMAX)RETURN
+          ELSEIF(X2<XMIN)THEN
+            AA = (YY-Y1)/(Y2-Y1)
+            IF(X1 + AA * (X2-X1) < XMIN)RETURN
+          ENDIF
+        ENDIF
+      ENDIF
 
-c     projection de N1 sur ZMIN ou ZMAX                    
+c     projection de N1 sur ZMIN ou ZMAX
 
-      ZZ = MIN(MAX(Z1,ZMIN),ZMAX)                          
+      ZZ = MIN(MAX(Z1,ZMIN),ZMAX)
 
-      IF(ZZ /= Z1)THEN                                     
-        IF(Z1==Z2)RETURN                                 
-        IF(X2>XMAX)THEN                                   
-          AA = (ZZ-Z1)/(Z2-Z1)                                        
-          IF(  X1 + AA * (X2-X1) > XMAX)RETURN            
-          IF(Y2>YMAX)THEN                                 
-            IF(Y1 + AA * (Y2-Y1) > YMAX)RETURN            
-          ELSEIF(Y2<YMIN)THEN                             
-            IF(Y1 + AA * (Y2-Y1) < YMIN)RETURN            
-          ENDIF                                            
-        ELSEIF(X2<XMIN)THEN                               
-          AA = (ZZ-Z1)/(Z2-Z1)                                        
-          IF(  X1 + AA * (X2-X1) < XMIN)RETURN            
-          IF(Y2>YMAX)THEN                                 
-            IF(Y1 + AA * (Y2-Y1) > YMAX)RETURN            
-          ELSEIF(Y2<YMIN)THEN                             
-            IF(Y1 + AA * (Y2-Y1) < YMIN)RETURN            
-          ENDIF                                            
-        ELSE                                               
-          IF(Y2>YMAX)THEN                                 
-            AA = (ZZ-Z1)/(Z2-Z1)                                        
-            IF(Y1 + AA * (Y2-Y1) > YMAX)RETURN            
-          ELSEIF(Y2<YMIN)THEN                             
-            AA = (ZZ-Z1)/(Z2-Z1)                                        
-            IF(Y1 + AA * (Y2-Y1) < YMIN)RETURN            
-          ENDIF                                            
-        ENDIF                                              
-      ENDIF                                                
+      IF(ZZ /= Z1)THEN
+        IF(Z1==Z2)RETURN
+        IF(X2>XMAX)THEN
+          AA = (ZZ-Z1)/(Z2-Z1)
+          IF(  X1 + AA * (X2-X1) > XMAX)RETURN
+          IF(Y2>YMAX)THEN
+            IF(Y1 + AA * (Y2-Y1) > YMAX)RETURN
+          ELSEIF(Y2<YMIN)THEN
+            IF(Y1 + AA * (Y2-Y1) < YMIN)RETURN
+          ENDIF
+        ELSEIF(X2<XMIN)THEN
+          AA = (ZZ-Z1)/(Z2-Z1)
+          IF(  X1 + AA * (X2-X1) < XMIN)RETURN
+          IF(Y2>YMAX)THEN
+            IF(Y1 + AA * (Y2-Y1) > YMAX)RETURN
+          ELSEIF(Y2<YMIN)THEN
+            IF(Y1 + AA * (Y2-Y1) < YMIN)RETURN
+          ENDIF
+        ELSE
+          IF(Y2>YMAX)THEN
+            AA = (ZZ-Z1)/(Z2-Z1)
+            IF(Y1 + AA * (Y2-Y1) > YMAX)RETURN
+          ELSEIF(Y2<YMIN)THEN
+            AA = (ZZ-Z1)/(Z2-Z1)
+            IF(Y1 + AA * (Y2-Y1) < YMIN)RETURN
+          ENDIF
+        ENDIF
+      ENDIF
 
 c
 c 3- autres cas: segment coupe la boite
 c
 c
-c              Xmin        Xmax  
-c                |           |   
-c                |           |   
+c              Xmin        Xmax
+c                |           |
+c                |           |
 c    Ymax -------+-----------+
 c           N1 0 |           |
 c               \|           |
@@ -927,10 +927,10 @@ c                \           |
 c                |\          |
 c    Ymin -------+-\---------+
 c                   \
-c                    \ N2 
-c                     O   
+c                    \ N2
+c                     O
 
       I11INSID = .true.
-      
+
       RETURN
       END

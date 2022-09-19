@@ -114,7 +114,7 @@ C
             AR(J,N2)=AR(J,N2)+AC
             AR(J,N3)=AR(J,N3)+AC
             AR(J,N4)=AR(J,N4)+AC
-          END DO	    
+          END DO	
           AC=FOURTH*STIFR(MC)
           STIFR(N1)=STIFR(N1)+AC
           STIFR(N2)=STIFR(N2)+AC
@@ -487,7 +487,7 @@ C
 C-------
         LELT   =1
         NELT(1)=N
-   
+
         LELT1  =0
         LELT2  =1
 
@@ -496,7 +496,7 @@ C-------
         LLNOD=0
         DO WHILE (LEV < LEVELMAX)
           DO LE=LELT1+1,LELT2
-  
+
             NE =NELT(LE)
             IF(SH4TREE(3,NE) >= 0) CYCLE
 
@@ -645,7 +645,7 @@ C
 C-------
         LELT   =1
         NELT(1)=N
-   
+
         LELT1  =0
         LELT2  =1
 
@@ -654,7 +654,7 @@ C-------
         LLNOD=0
         DO WHILE (LEV < LEVELMAX)
           DO LE=LELT1+1,LELT2
-  
+
             NE =NELT(LE)
             IF(SH3TREE(3,NE) >= 0) CYCLE
 
@@ -753,4 +753,4 @@ C-------
 C
 C-----
       RETURN
-      END     
+      END

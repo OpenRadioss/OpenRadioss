@@ -1848,7 +1848,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE FVBAG_MOD
       USE FVMBAG_MESHCONTROL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1872,7 +1872,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LEN, I, II, KK, TABI(11), NNS, NNTR, LENP, NPOLY, LENH, NPOLH,
      .        LENP_ANIM, NPOLH_ANIM, LENH_ANIM, NNS_ANIM, NN_L, NNA_L,
-     .        NNSA_L, NSA, NELSA, NNI_L, IFV, ID_DT_OPTION, K1, ITYP, 
+     .        NNSA_L, NSA, NELSA, NNI_L, IFV, ID_DT_OPTION, K1, ITYP,
      .        ID_BAG, ID_BAG_INPUT, N
       INTEGER COLOR,KEY
       LOGICAL lFOUND
@@ -1956,10 +1956,10 @@ C
             FVSPMD(I)%PMAIN=TABI(7)
             FVSPMD(I)%NNA_L_GLOB = NNA_L
 
-            COLOR = MIN(1,NN_L+NNI_L+NNA_L+NNSA_L) 
+            COLOR = MIN(1,NN_L+NNI_L+NNA_L+NNSA_L)
             IF(ISPMD == FVSPMD(I)%PMAIN - 1) THEN
             ! PMAIN will be zero in the subcommunicator
-              KEY = 0 
+              KEY = 0
               COLOR = 1
             ELSE
               KEY = 1
@@ -2123,12 +2123,12 @@ C--------------------------------------
          ENDIF
 C
       ENDDO
-      
-      
+
+
 C--------------------------------------
 C     UPDATING DATA WITH ENGINE FILE PARAMETERS
 C--------------------------------------
-      ! FILL FVDATA BUFFER (NOW ALLOCATED) WITH PARAMETERS READ IN ENGINE FILE (/DT/FVMBAG OPTION)      
+      ! FILL FVDATA BUFFER (NOW ALLOCATED) WITH PARAMETERS READ IN ENGINE FILE (/DT/FVMBAG OPTION)
       IF (IMACH == 3) THEN
         !looping over all /DT/FVMBAG options
         DO II=1,NUM_OPT_DT_FVMBAG
@@ -2142,17 +2142,17 @@ C--------------------------------------
               !Looping over all existing bags to check if one id is matching
               DO N=1,NVOLU
                 ID_BAG=MONVOL(K1-1+1)
-                ITYP=MONVOL(K1-1+2) 
-                IF(ID_BAG == ID_BAG_INPUT)THEN                      
-                  IF (ITYP == 6 .OR. ITYP == 8) THEN 
-                    lFOUND=.TRUE.           
-                    IFV = MONVOL(K1 -1 +45)                     
-                    FVDATA_OLD(IFV)%L_TYPE = FVMBAG_INPUT_OPTIONS(II)%L_TYPE      
+                ITYP=MONVOL(K1-1+2)
+                IF(ID_BAG == ID_BAG_INPUT)THEN
+                  IF (ITYP == 6 .OR. ITYP == 8) THEN
+                    lFOUND=.TRUE.
+                    IFV = MONVOL(K1 -1 +45)
+                    FVDATA_OLD(IFV)%L_TYPE = FVMBAG_INPUT_OPTIONS(II)%L_TYPE
                     FVDATA_OLD(IFV)%ID_DT_OPTION = FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION
                     FVDATA_OLD(IFV)%LAMBDA = FVMBAG_INPUT_OPTIONS(II)%LAMBDA
                   ENDIF
                 ENDIF
-                K1=K1+NIMV 
+                K1=K1+NIMV
                 IF(lFOUND)EXIT
               ENDDO !next N
               IF(.NOT.lFOUND)THEN

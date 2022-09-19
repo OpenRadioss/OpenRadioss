@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER IRUP
       INTEGER USERL_AVAIL
       INTEGER MAXUPARAM
-      INTEGER NUPARAM 
+      INTEGER NUPARAM
       INTEGER NUVAR
       INTEGER NFUNC,MAXFUNC
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
@@ -111,16 +111,16 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV ('Number_of_datalines' ,NLINES ,IS_AVAILABLE, LSUBMODEL)
 
-      IF(NLINES > 0)THEN 
+      IF(NLINES > 0)THEN
 
-        ! Create tempo file  
+        ! Create tempo file
         WRITE(CRUP,'(I4.4)')IRUP
         SCR_FILE_NAME='SI'//ROOTNAM(1:ROOTLEN)//'_'//CRUP//'.scr'
         SCR_FILE_NAME_LEN=LEN_TRIM(SCR_FILE_NAME)
         OPEN(UNIT=30,FILE=TRIM(SCR_FILE_NAME),FORM='FORMATTED',RECL=ncharline)
 
         ! Read & Dump in scratch file
-        DO J=1,NLINES   
+        DO J=1,NLINES
          CALL HM_GET_STRING_INDEX('arraydatalines', RLINE, J, ncharline, IS_AVAILABLE)
          WRITE(30,FMT='(A)')TRIM(RLINE)
         ENDDO

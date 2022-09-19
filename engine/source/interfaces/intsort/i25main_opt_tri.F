@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
       USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        COUNT_REMSLV(*), NB_CANDT, I_OPT_STOK
       INTEGER :: COUNT_REMSLVE(*)
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -160,7 +160,7 @@ C
 Cf barrier at the end of i25optcd
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
-      DO N = NSNF,NSNL 
+      DO N = NSNF,NSNL
 C       release node for future impact (at next cycles)
         IF(INTBUF_TAB%IRTLM(4*(N-1)+3) < 0) INTBUF_TAB%IRTLM(4*(N-1)+3)=0
       ENDDO

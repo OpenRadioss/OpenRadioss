@@ -65,10 +65,10 @@ c        SENSOR%VAR(2) :  Current non filtered spring moment
 c        SENSOR%VAR(3) :  flag spmd : =0 => spring not present in the domain
 c                                     =1 => spring is present in the domain
 c        free
-c        SENSOR%VAR(6 -10)  :  non filtered force values 
-c        SENSOR%VAR(11-15)  :  filtered force values    
-c        SENSOR%VAR(16-20   :  non filtered moment values 
-c        SENSOR%VAR(21-25)  :  filtered moment values 
+c        SENSOR%VAR(6 -10)  :  non filtered force values
+c        SENSOR%VAR(11-15)  :  filtered force values
+c        SENSOR%VAR(16-20   :  non filtered moment values
+c        SENSOR%VAR(21-25)  :  filtered moment values
 C=======================================================================
       IF (SENSOR%STATUS == 3)    RETURN   ! already activated
       IF (SENSOR%VAR(3) == ZERO) RETURN   ! spring is on different spmd domain
@@ -79,7 +79,7 @@ c
       TIME   = TT
 c
 c     Parameters of SAE-J211 CFC filter
-      DT   = DT2    
+      DT   = DT2
       WD   = TWO*PI*CFC*ALPHA
       BETA = HALF * DT * WD
       WA   = TAN(BETA)
@@ -105,23 +105,23 @@ c
       ! forward filter - forces
 c
       X0 = FOR
-      X1 = SENSOR%VAR(IADFX+5)      
-      X2 = SENSOR%VAR(IADFX+4)    
-      Y1 = SENSOR%VAR(IADFY+5)  
+      X1 = SENSOR%VAR(IADFX+5)
+      X2 = SENSOR%VAR(IADFX+4)
+      Y1 = SENSOR%VAR(IADFY+5)
       Y2 = SENSOR%VAR(IADFY+4)
-c      
+c
       YF = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
-c              
+c
       SENSOR%VAR(IADFX+1) = SENSOR%VAR(IADFX+2)
       SENSOR%VAR(IADFX+2) = SENSOR%VAR(IADFX+3)
       SENSOR%VAR(IADFX+3) = SENSOR%VAR(IADFX+4)
-      SENSOR%VAR(IADFX+4) = SENSOR%VAR(IADFX+5)  
+      SENSOR%VAR(IADFX+4) = SENSOR%VAR(IADFX+5)
       SENSOR%VAR(IADFX+5) = FOR
 c
       SENSOR%VAR(IADFY+1) = SENSOR%VAR(IADFY+2)
       SENSOR%VAR(IADFY+2) = SENSOR%VAR(IADFY+3)
       SENSOR%VAR(IADFY+3) = SENSOR%VAR(IADFY+4)
-      SENSOR%VAR(IADFY+4) = SENSOR%VAR(IADFY+5)  
+      SENSOR%VAR(IADFY+4) = SENSOR%VAR(IADFY+5)
       SENSOR%VAR(IADFY+5) = YF
 c
       ! backward filter - forces
@@ -131,38 +131,38 @@ c
       X2 = SENSOR%VAR(IADFX+NPH+2)
       Y1 = SENSOR%VAR(IADFY+NPH+1)
       Y2 = SENSOR%VAR(IADFY+NPH+2)
-c      
+c
       FOR = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
 c
       ! forward filter - moments
       X0 = MOM
-      X1 = SENSOR%VAR(IADMX+5)      
+      X1 = SENSOR%VAR(IADMX+5)
       X2 = SENSOR%VAR(IADMX+4)
       Y1 = SENSOR%VAR(IADMY+5)
       Y2 = SENSOR%VAR(IADMY+4)
-c      
+c
       YM = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
-c              
+c
       SENSOR%VAR(IADMX+1) = SENSOR%VAR(IADMX+2)
       SENSOR%VAR(IADMX+2) = SENSOR%VAR(IADMX+3)
       SENSOR%VAR(IADMX+3) = SENSOR%VAR(IADMX+4)
-      SENSOR%VAR(IADMX+4) = SENSOR%VAR(IADMX+5)  
+      SENSOR%VAR(IADMX+4) = SENSOR%VAR(IADMX+5)
       SENSOR%VAR(IADMX+5) = MOM
-      
+
       SENSOR%VAR(IADMY+1) = SENSOR%VAR(IADMY+2)
       SENSOR%VAR(IADMY+2) = SENSOR%VAR(IADMY+3)
       SENSOR%VAR(IADMY+3) = SENSOR%VAR(IADMY+4)
-      SENSOR%VAR(IADMY+4) = SENSOR%VAR(IADMY+5)  
+      SENSOR%VAR(IADMY+4) = SENSOR%VAR(IADMY+5)
       SENSOR%VAR(IADMY+5) = YM
 c
       ! backward filter - moments
-c      
+c
       X0  = SENSOR%VAR(IADMX+NPH)
       X1  = SENSOR%VAR(IADMX+NPH+1)
       X2  = SENSOR%VAR(IADMX+NPH+2)
       Y1  = SENSOR%VAR(IADMY+NPH+1)
       Y2  = SENSOR%VAR(IADMY+NPH+2)
-      MOM = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2               
+      MOM = A0*X0 + A1*X1 + A2*X2 + B1*Y1 + B2*Y2
 c-----------------------------------------
 c     Check Sensor State
 c-----------------------------------------
@@ -176,22 +176,22 @@ c
         IF (SENSOR%TCRIT <= TIME) THEN
           SENSOR%STATUS = 2
         END IF
-        IF (SENSOR%STATUS == 2 .and. 
+        IF (SENSOR%STATUS == 2 .and.
      .      SENSOR%TCRIT + SENSOR%TDELAY <= TIME) THEN
           SENSOR%STATUS = 3   ! activate
           SENSOR%TSTART = TIME
         END IF
       ENDIF ! Fin test NIC
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
         WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART,NIC
         WRITE (IOUT ,1100 ) SENSOR%SENS_ID,SENSOR%TSTART,NIC
 #include "lockoff.inc"
       ENDIF
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
 1100  FORMAT(' SENSOR NUMBER ',I10,' ,ACTIVATED AT TIME ',1PE12.5,
-     .       '      NIC VALUE  = ',1PE12.5)           
-c-----------------------------------------------------------------------      
+     .       '      NIC VALUE  = ',1PE12.5)
+c-----------------------------------------------------------------------
       RETURN
       END SUBROUTINE

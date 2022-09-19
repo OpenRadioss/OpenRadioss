@@ -152,7 +152,7 @@ C
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 C1='/NBCS/1',
-     .                 I1=ID,  
+     .                 I1=ID,
      .                 I2=NOD)
           ENDIF
 C
@@ -176,7 +176,7 @@ C
               CHKCOD = 1
             ENDIF
           ENDDO
-          IF(CHKCOD == 1) 
+          IF(CHKCOD == 1)
      .         CALL ANCMSG(MSGID=1051,ANMODE=ANINFO_BLIND,
      .                MSGTYPE=MSGERROR,I1=ID,C1=TITR,C2=CODE)
 c
@@ -193,7 +193,7 @@ c
      .                    I1=ITAB(NOSYS),PRMOD=MSG_CUMU)
              ENDIF
              ISKEW(NOSYS)=CHECK_NEW
-            
+
              DO J=1,6
                IF(J6(J)/=0)
      .         CALL KINSET(1,ITAB(NOSYS),IKINE(NOSYS),J,ISKEW(NOSYS)
@@ -204,7 +204,7 @@ C
         ENDDO
 C
       ENDDO
-   
+
 
       RETURN
  999  CALL FREERR(1)

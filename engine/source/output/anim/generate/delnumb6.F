@@ -131,7 +131,7 @@ C-----------------------------------------------
 
         IF (ISPMD==0) THEN
           BUF = NUMELSG + 3*NUMELS16G + NUMSPHG + 27* NUMELIG3D
-        ELSE 
+        ELSE
           BUF = 1
         ENDIF
 

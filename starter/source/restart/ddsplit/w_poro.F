@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL   
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C
           IF(N>0)THEN
             DO J = NAD+1, NAD+N
               NN = PORNOD(J)
-              IF(NLOCAL(NN,PROC+1)==1)THEN            
+              IF(NLOCAL(NN,PROC+1)==1)THEN
                 N_L = N_L + 1
                 PORNOD_L(N_L)=NODLOCAL(NN)
               END IF

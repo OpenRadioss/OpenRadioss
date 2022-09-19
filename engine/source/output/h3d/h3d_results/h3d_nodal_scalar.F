@@ -44,12 +44,12 @@ Chd|====================================================================
      .                  VOLMON    ,ALE_CONNECT  ,DIAG_SMS        ,MS       ,PDAMA2  ,
      .                  X         ,STIFR        ,STIFN           ,KEYWORD  ,H3D_DATA,
      .                  NPBY      ,RBY          ,INTERSKID       ,NINTERSKID,PSKIDS ,
-     .                  NODGLOB   ,ITYSKID      ) 
+     .                  NODGLOB   ,ITYSKID      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
-      USE H3D_MOD 
+      USE ELBUFDEF_MOD
+      USE H3D_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -104,7 +104,7 @@ C
       VALUE_NUMNOD_REAL(1:NUMNOD) = ZERO
       VALUE_NUMNOD(1:NUMNOD) = ZERO
 c
-      DO  I=1,NUMNOD 
+      DO  I=1,NUMNOD
         NODE_ID(I) = ITAB(I)
       ENDDO
 
@@ -127,19 +127,19 @@ c
 
 C
 C--------------------------------------------------
-      IF(KEYWORD == 'DT' .OR. KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN 
+      IF(KEYWORD == 'DT' .OR. KEYWORD == 'DMASS' .OR. KEYWORD == 'DINER')THEN
 C--------------------------------------------------
         IF(KEYWORD == 'DT') K = 0
         IF(KEYWORD == 'DMASS') K = MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) * NUMNOD
         IF(KEYWORD == 'DINER') K =(MIN(1,ANIM_N(1)+H3D_DATA%N_SCAL_DT) +
      .                            MIN(1,ANIM_N(2)+H3D_DATA%N_SCAL_DMAS) ) * NUMNOD
         DO I=1,NUMNOD
-         VALUE(I) = ANIN(I+K)			 
+         VALUE(I) = ANIN(I+K)			
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
       ELSEIF(KEYWORD == 'MASS')THEN      ! IFUNC<3.OR.IFUNC==12)THEN
         DO I=1,NUMNOD
-         VALUE(I) = MS(I)			 
+         VALUE(I) = MS(I)			
          IS_WRITTEN_VALUE(I) = 1
         ENDDO
         DO N=1,NRBYKIN
@@ -151,12 +151,12 @@ C--------------------------------------------------
 C--------------------------------------------------
       ELSEIF( KEYWORD == 'P'     .OR. KEYWORD == 'DENS'  .OR. KEYWORD == 'ENER'  .OR.
      .        KEYWORD == 'TEMP'  .OR. KEYWORD == 'SSP'   .OR.
-     .        KEYWORD == 'NVAR1' .OR. KEYWORD == 'NVAR2' .OR. KEYWORD == 'NVAR3' .OR. 
-     .        KEYWORD == 'NVAR4' .OR. KEYWORD == 'NVAR5') THEN  
+     .        KEYWORD == 'NVAR1' .OR. KEYWORD == 'NVAR2' .OR. KEYWORD == 'NVAR3' .OR.
+     .        KEYWORD == 'NVAR4' .OR. KEYWORD == 'NVAR5') THEN
 C--------------------------------------------------
        IF(KEYWORD == 'TEMP' .AND. (ITHERM_FE  > 0  )) THEN
          DO I=1,NUMNOD
-           VALUE(I)=TEMP(I) 
+           VALUE(I)=TEMP(I)
            IS_WRITTEN_VALUE(I) = 1
          ENDDO
        ELSE
@@ -170,7 +170,7 @@ c
          IF(KEYWORD == 'NVAR3') IFUNC = 9
          IF(KEYWORD == 'NVAR4') IFUNC = 10
          IF(KEYWORD == 'NVAR5') IFUNC = 11
-         IF(KEYWORD == 'SSP') IFUNC = 30         
+         IF(KEYWORD == 'SSP') IFUNC = 30
          !ALE Nodal Pressure
          IF (KEYWORD == 'P') THEN
            IF(N2D==0)CALL NODALP(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
@@ -178,8 +178,8 @@ c
          ENDIF
          !ALE Nodal Density
          IF (KEYWORD == 'DENS') THEN
-           IF(N2D==0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46) 
-           IF(N2D/=0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46) 
+           IF(N2D==0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
+           IF(N2D/=0)CALL NODALD(IFUNC, VALUE_NUMNOD_REAL, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXQ,NIXQ,ITAB,NV46)
          ENDIF
          !ALE Nodal Temperature
          IF (KEYWORD == 'TEMP') THEN
@@ -189,7 +189,7 @@ c
          !Then Monitored Volumes (Pressure,Density,Temperature,Sound Speed)
          CALL ANIMBALE(IFUNC, VALUE_NUMNOD_REAL, MONVOL, VOLMON, 1)
          DO I=1,NUMNOD
-           VALUE(I)=VALUE_NUMNOD_REAL(I) 
+           VALUE(I)=VALUE_NUMNOD_REAL(I)
            IS_WRITTEN_VALUE(I) = 1
          ENDDO
 c
@@ -199,7 +199,7 @@ C--------------------------------------------------
 C--------------------------------------------------
         CALL NODALP
      .   (13, NODAL_SCALAR, IFLOW, RFLOW,IPARG,ELBUF_TAB,IXS,NIXS,ITAB,NV46)
-        DO I=1,NUMNOD 
+        DO I=1,NUMNOD
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C--------------------------------------------------
@@ -207,7 +207,7 @@ C--------------------------------------------------
 C--------------------------------------------------
         IF(IDTMINS /= 0)THEN
           DO I=1,NUMNOD
-            VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-ONE)	 
+            VALUE(I)=MAX(ZERO,DIAG_SMS(I)/MAX(EM20,MS(I))-ONE)	
             IS_WRITTEN_VALUE(I) = 1
           ENDDO
         ENDIF
@@ -215,20 +215,20 @@ C--------------------------------------------------
       ELSEIF(KEYWORD == 'DAMA2/NORMAL')THEN
 C--------------------------------------------------
         DO I=1,NUMNOD
-          VALUE(I)=PDAMA2(1,I)	 
+          VALUE(I)=PDAMA2(1,I)	
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DAMA2/TANGENT')THEN
 C--------------------------------------------------
         DO I=1,NUMNOD
-          VALUE(I)=PDAMA2(2,I)	 
+          VALUE(I)=PDAMA2(2,I)	
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'SCHLI')THEN
 C--------------------------------------------------
-         CALL NODAL_SCHLIEREN(VALUE,X,IXS,IXQ,ITAB,IPARG,0,ELBUF_TAB,ALE_CONNECT)  
+         CALL NODAL_SCHLIEREN(VALUE,X,IXS,IXQ,ITAB,IPARG,0,ELBUF_TAB,ALE_CONNECT)
          DO I=1,NUMNOD
            IS_WRITTEN_VALUE(I) = 1
          ENDDO
@@ -237,15 +237,15 @@ C--------------------------------------------------
 C--------------------------------------------------
         IF(IRODDL/=0)THEN
           DO I=1,NUMNOD
-            VALUE(I)=STIFR(I)		 
+            VALUE(I)=STIFR(I)		
             IS_WRITTEN_VALUE(I) = 1
           ENDDO
-        ENDIF	 
+        ENDIF	
 C-------------------------------------------------- 
       ELSEIF(KEYWORD == 'STIF')THEN
 C--------------------------------------------------
         DO I=1,NUMNOD
-          VALUE(I)=STIFN(I)		 
+          VALUE(I)=STIFN(I)		
           IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C-------------------------------------------------- 
@@ -254,26 +254,26 @@ C--------------------------------------------------
         IF(ITYSKID == 21 ) THEN
            DO I=1,NUMNOD
               K=NODGLOB(I)
-              VALUE(I)=PSKIDS(INTERSKID,K)		 
+              VALUE(I)=PSKIDS(INTERSKID,K)		
               IS_WRITTEN_VALUE(I) = 1
            ENDDO
         ELSE
            DO I=1,NUMNOD
-              VALUE(I)=PSKIDS(INTERSKID,I)		 
+              VALUE(I)=PSKIDS(INTERSKID,I)		
               IS_WRITTEN_VALUE(I) = 1
            ENDDO
         ENDIF
 C--------------------------------------------------
-      ELSEIF(KEYWORD == 'INTERNAL.ID')THEN 
+      ELSEIF(KEYWORD == 'INTERNAL.ID')THEN
 C-------------------------------------------------- 
         DO I=1,NUMNOD
           VALUE(I) = I
-          IS_WRITTEN_VALUE(I) = 1  
+          IS_WRITTEN_VALUE(I) = 1
         ENDDO
 C--------------------------------------------------
-     
+
       ENDIF
-c	 
+c	
       CALL H3D_WRITE_SCALAR(IOK_PART,IS_WRITTEN_NODE,NODAL_SCALAR,NUMNOD,0,0,
      .                                    VALUE,IS_WRITTEN_VALUE)
 

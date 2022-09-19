@@ -46,7 +46,7 @@ C-----------------------------------------------
       INTEGER , INTENT(IN)    :: NUMNOD,NUMNOD_L
       INTEGER , INTENT(INOUT) :: LEN_AM
       INTEGER , DIMENSION(NUMNOD_L) , INTENT(IN) :: NODGLOB
-      TYPE (FAILWAVE_STR_)    :: FAILWAVE 
+      TYPE (FAILWAVE_STR_)    :: FAILWAVE
       INTEGER ITAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -79,10 +79,10 @@ c
             IDXI_LOC(I) = NNOD_L
           ENDIF
         ENDDO
-c        
+c
         HEAD(1) = IWAVE
-        HEAD(2) = NDDL 
-        HEAD(3) = SIZE 
+        HEAD(2) = NDDL
+        HEAD(3) = SIZE
         HEAD(4) = NNOD_L
 c
         CALL WRITE_I_C(HEAD,4)

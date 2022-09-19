@@ -57,10 +57,10 @@ C=======================================================================
 !                SUBSET structure allocation
 C=======================================================================
 !
-      IF (NSUBS > 0)THEN 
+      IF (NSUBS > 0)THEN
         MY_ALLOCATE(SUBSETS,NSUBS)
         CALL ALLOC_SUBSET_STR(SUBSETS)
-      ELSE           
+      ELSE
         MY_ALLOCATE(SUBSETS,0)
       ENDIF
 !---------

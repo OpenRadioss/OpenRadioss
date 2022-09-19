@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, 
+      INTEGER I,
      .        NBPLY_ANIM,NBPLY_ANIM_STRESS,IPT,NBPLY_ANIM_PHI,
      .        NBPLY_ANIM_EPSP,NBPLY_ANIM_STRAIN,NBPLY_ANIM_EPSDOT,
      .        NBPLY_ANIM_DAMA
@@ -80,7 +80,7 @@ C-----------------------------------------------
       IEPSDOALL         = 0
       IEPSPALL          = 0
       IPHIALL           = 0
-      IORTHDALL         = 0 
+      IORTHDALL         = 0
       IPLYALL           = 0
       ANIM_PLY          = 0
       ANIM_CRK          = 0
@@ -91,7 +91,7 @@ C-----------------------------------------------
       ! anim per ply
       IPLYALL           = 0
       ISTRESALL_PLY     = 0
-      IPHIALL_PLY       = 0       
+      IPHIALL_PLY       = 0
       IEPSPALL_PLY      = 0
       ISTRAINALL_PLY    = 0
       IEPSDOTALL_PLY    = 0

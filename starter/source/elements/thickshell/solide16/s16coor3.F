@@ -111,14 +111,14 @@ C
         SIGG(I,6)=ZERO
         IF (CHECKVOLUME_8N(X ,IXS(1,I)) < ZERO) THEN
 C         renumber connectivity
-          NC(I,1) =IXS(6,I)    
-          NC(I,2) =IXS(7,I)    
-          NC(I,3) =IXS(8,I)    
-          NC(I,4) =IXS(9,I)    
-          NC(I,5) =IXS(2,I)    
-          NC(I,6) =IXS(3,I)    
-          NC(I,7) =IXS(4,I)    
-          NC(I,8) =IXS(5,I)    
+          NC(I,1) =IXS(6,I)
+          NC(I,2) =IXS(7,I)
+          NC(I,3) =IXS(8,I)
+          NC(I,4) =IXS(9,I)
+          NC(I,5) =IXS(2,I)
+          NC(I,6) =IXS(3,I)
+          NC(I,7) =IXS(4,I)
+          NC(I,8) =IXS(5,I)
           NC(I,9) =IXS16(5,I)
           NC(I,10)=IXS16(6,I)
           NC(I,11)=IXS16(7,I)
@@ -135,7 +135,7 @@ C         renumber connectivity
           IXS(7,I) = NC(I,6)
           IXS(8,I) = NC(I,7)
           IXS(9,I) = NC(I,8)
-          IXS16(1,I) = NC(I,9) 
+          IXS16(1,I) = NC(I,9)
           IXS16(2,I) = NC(I,10)
           IXS16(3,I) = NC(I,11)
           IXS16(4,I) = NC(I,12)
@@ -150,15 +150,15 @@ C----------------------------
 C     NODAL COORDINATES     |
 C----------------------------
       DO N=1,16
-        DO I=LFT,LLT               
-          NN = MAX(IUN,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-          VX(I,N)=V(1,NN)          
-          VY(I,N)=V(2,NN)          
-          VZ(I,N)=V(3,NN)          
-        ENDDO                      
+        DO I=LFT,LLT
+          NN = MAX(IUN,NC(I,N))
+          XX(I,N)=X(1,NN)
+          YY(I,N)=X(2,NN)
+          ZZ(I,N)=X(3,NN)
+          VX(I,N)=V(1,NN)
+          VY(I,N)=V(2,NN)
+          VZ(I,N)=V(3,NN)
+        ENDDO
       ENDDO
 C
       DO I=LFT,LLT
@@ -175,7 +175,7 @@ C
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	    
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))	
           ENDIF
         ENDDO
       ENDDO
@@ -183,7 +183,7 @@ C
       IF(JTHE < 0 ) THEN
         IF(NINTEMP > 0 ) THEN
           DO N =1,16
-            DO I=LFT,LLT  
+            DO I=LFT,LLT
               NN = MAX(IUN,NC(I,N))
               IF(TEMP(NN)== ZERO) TEMP(NN) = TEMP0(I)
             ENDDO
@@ -195,7 +195,7 @@ C
               TEMP(NN) = TEMP0(I)
             ENDDO
           ENDDO
-        ENDIF   
+        ENDIF
       ENDIF
 C-----------
       RETURN

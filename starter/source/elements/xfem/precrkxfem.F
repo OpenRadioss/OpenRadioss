@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        ADDCNE_XFE                    source/elements/xfem/precrkxfem.F
 Chd|====================================================================
       SUBROUTINE PRECRKXFEM(
-     .           IPARG      ,IXC         ,IXTG          , NCRKXFE    ,      
-     .           IEL_CRKXFEM,INOD_CRKXFEM,ADDCNE_CRKXFEM)  
+     .           IPARG      ,IXC         ,IXTG          , NCRKXFE    ,
+     .           IEL_CRKXFEM,INOD_CRKXFEM,ADDCNE_CRKXFEM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,15 +72,15 @@ C
           CALL ADDCNE_XFE(IEL_CRKXFEM(ITG),KX   ,NIX  ,IXTG  ,ADDCNE_CRKXFEM,
      .                    INOD_CRKXFEM    ,LFT  ,LLT  ,NFT   ,NCRKXFE       )
         END IF
-      END DO        
-c-----------          
+      END DO
+c-----------
 C     decalage d'adresses
-c-----------          
+c-----------
       ADDCNE_CRKXFEM(1) = 1
       DO I=2,NCRKXFE+1
         ADDCNE_CRKXFEM(I) = ADDCNE_CRKXFEM(I) + ADDCNE_CRKXFEM(I-1)
-      END DO    
-c-----------          
+      END DO
+c-----------
       RETURN
       END
 c

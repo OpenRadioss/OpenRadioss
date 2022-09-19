@@ -27,11 +27,11 @@ Chd|        CP_IMPBUF                     engine/source/implicit/produt_v.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|====================================================================
-      SUBROUTINE COPY_INTBUF_TAB(INTBUF_TAB, INTBUF_TAB_C)  
+      SUBROUTINE COPY_INTBUF_TAB(INTBUF_TAB, INTBUF_TAB_C)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD              
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,9 +51,9 @@ C-----------------------------------------------
       INTEGER I,SIZ,OLD_SIZ
 C=======================================================================
 
-! re-set to old sizes and reallocate only arrays that have potentialy size 
+! re-set to old sizes and reallocate only arrays that have potentialy size
 ! changes with MULTIMP, other sizes should not have been modified
-      
+
         SIZ = INTBUF_TAB%S_CAND_E
         INTBUF_TAB_C%S_CAND_E = SIZ
         IF(SIZ>0)DEALLOCATE(INTBUF_TAB_C%CAND_E)
@@ -521,7 +521,7 @@ C=======================================================================
         DO I=1, SIZ
           INTBUF_TAB_C%ISEG_PLY(I) = INTBUF_TAB%ISEG_PLY(I)
         ENDDO
-        
+
         SIZ = INTBUF_TAB%S_ICONT_I
         DO I=1, SIZ
           INTBUF_TAB_C%ICONT_I(I) = INTBUF_TAB%ICONT_I(I)
@@ -592,7 +592,7 @@ C=======================================================================
         SIZ = INTBUF_TAB%S_SINER
         DO I=1, SIZ
           INTBUF_TAB_C%SINER(I) = INTBUF_TAB%SINER(I)
-        ENDDO   
+        ENDDO
 
         SIZ = INTBUF_TAB%S_UVAR
         DO I=1, SIZ
@@ -668,12 +668,12 @@ C=======================================================================
         DO I=1, SIZ
           INTBUF_TAB_C%GAP_M(I) = INTBUF_TAB%GAP_M(I)
         ENDDO
-        
+
         SIZ = INTBUF_TAB%S_GAP_S
         DO I=1, SIZ
           INTBUF_TAB_C%GAP_S(I) = INTBUF_TAB%GAP_S(I)
         ENDDO
-        
+
         SIZ = INTBUF_TAB%S_CRIT
         DO I=1, SIZ
           INTBUF_TAB_C%CRIT(I) = INTBUF_TAB%CRIT(I)
@@ -1037,7 +1037,7 @@ C=======================================================================
 
         SIZ = INTBUF_TAB%S_DELTA_PMAX_DGAP
         DO I=1, SIZ
-          INTBUF_TAB_C%DELTA_PMAX_DGAP(I) = 
+          INTBUF_TAB_C%DELTA_PMAX_DGAP(I) =
      .             INTBUF_TAB%DELTA_PMAX_DGAP(I)
         ENDDO
 
@@ -1067,11 +1067,11 @@ Chd|        DIM_INT7                      engine/source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F       
 Chd|====================================================================
-      SUBROUTINE INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_C)  
+      SUBROUTINE INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_C)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD              
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1353,7 +1353,7 @@ C=======================================================================
         SIZ = INTBUF_TAB(NI)%S_ISEDGE
         INTBUF_TAB_C(NI)%S_ISEDGE = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%ISEDGE(SIZ))
-       
+
         SIZ = INTBUF_TAB(NI)%S_ISEG_PXFEM
         INTBUF_TAB_C(NI)%S_ISEG_PXFEM = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%ISEG_PXFEM(SIZ))
@@ -1418,7 +1418,7 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_SINER
         INTBUF_TAB_C(NI)%S_SINER = SIZ
-        ALLOCATE(INTBUF_TAB_C(NI)%SINER(SIZ))   
+        ALLOCATE(INTBUF_TAB_C(NI)%SINER(SIZ))
 
         SIZ = INTBUF_TAB(NI)%S_UVAR
         INTBUF_TAB_C(NI)%S_UVAR = SIZ
@@ -1479,11 +1479,11 @@ C=======================================================================
         SIZ = INTBUF_TAB(NI)%S_GAP_M
         INTBUF_TAB_C(NI)%S_GAP_M = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%GAP_M(SIZ))
-        
+
         SIZ = INTBUF_TAB(NI)%S_GAP_S
         INTBUF_TAB_C(NI)%S_GAP_S = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%GAP_S(SIZ))
-        
+
         SIZ = INTBUF_TAB(NI)%S_CRIT
         INTBUF_TAB_C(NI)%S_CRIT = SIZ
         ALLOCATE(INTBUF_TAB_C(NI)%CRIT(SIZ))

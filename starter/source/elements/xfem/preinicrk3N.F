@@ -211,7 +211,7 @@ C
 C
                 CRKEDGE(ILAY)%EDGETIP(1,IEDGE) = MAX(IED,
      .                                     CRKEDGE(ILAY)%EDGETIP(1,IEDGE))
-                CRKEDGE(ILAY)%EDGETIP(2,IEDGE) = 
+                CRKEDGE(ILAY)%EDGETIP(2,IEDGE) =
      .                        CRKEDGE(ILAY)%EDGETIP(2,IEDGE) + 1
 C
 c               add check if BETA (0:1)
@@ -252,7 +252,7 @@ c     activation of cracked elements (OFFG = 1)
 C
       IF (NXLAY > 1)THEN  ! multilayer
 c        DO IXEL=1,NXEL   ! ATTENTION: Third phantom not activated yet
-        DO IXEL=1,2     
+        DO IXEL=1,2
           DO ILAY=1,NXLAY
             LBUF => XFEM_STR(IXEL)%BUFLY(ILAY)%LBUF(1,1,1)
             DO I=LFT,LLT

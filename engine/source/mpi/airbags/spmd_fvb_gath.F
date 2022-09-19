@@ -95,7 +95,7 @@ C
         IDO2 = 1 ! add NNI_L
       ELSEIF (IDO == 3) THEN
         IDO2 = 1 ! add NNI_L
-      ENDIF 
+      ENDIF
 
       IF (FVSPMD(IFV)%RANK == 0) THEN
          DO I=1,FVSPMD(IFV)%NSPMD-1
@@ -109,7 +109,7 @@ C
               ITAB(3,I)=0
            ENDIF
          ENDDO
- 
+
          LENI=0
          LENR=0
          II=0

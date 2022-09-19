@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
       INTEGER I,IPG,IEL,NINDX,NDEL
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real ,DIMENSION(NEL) :: COUNTPG
-      my_real ,DIMENSION(:) ,POINTER :: OFFL     
+      my_real ,DIMENSION(:) ,POINTER :: OFFL
 C=======================================================================
       DO IEL=1,NEL
-        IF (OFFG(IEL) < EM01) OFFG(IEL) = ZERO  
+        IF (OFFG(IEL) < EM01) OFFG(IEL) = ZERO
         IF (OFFG(IEL) < ONE)   OFFG(IEL) = OFFG(IEL)*FOUR_OVER_5
       ENDDO
 c
@@ -70,8 +70,8 @@ c
       DO IPG = 1,NPG
         OFFL  => ELBUF_STR%BUFLY(1)%LBUF(IPG,1,1)%OFF(1:NEL)
         DO IEL=1,NEL
-          IF (OFFG(IEL)==ZERO .AND. OFFL(IEL)/=OFFG(IEL)) 
-     .        OFFL(IEL)=OFFG(IEL)  
+          IF (OFFG(IEL)==ZERO .AND. OFFL(IEL)/=OFFG(IEL))
+     .        OFFL(IEL)=OFFG(IEL)
           COUNTPG(IEL) = COUNTPG(IEL) + OFFL(IEL)
         ENDDO         ! IEL=1,NEL
       ENDDO
@@ -87,7 +87,7 @@ c
           IDEL7NOK  = 1
           ENDIF
         ENDIF
-      ENDDO         ! IEL=1,NEL          
+      ENDDO         ! IEL=1,NEL
 c----------------------------------------
 c     Print out
 c----------------------------------------
@@ -99,7 +99,7 @@ c----------------------------------------
           WRITE(ISTDO,1100) NGL(IEL),TIME
 #include "lockoff.inc"
         END DO
-      ENDIF         
+      ENDIF
 c-------------------------------
  1000 FORMAT(5X,' DELETE CONNECTION SOLID ELEMENT ',I10)
  1100 FORMAT(5X,' DELETE CONNECTION SOLID ELEMENT ',I10,' AT TIME ',1PE16.9)

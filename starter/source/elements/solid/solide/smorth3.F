@@ -90,7 +90,7 @@ C=======================================================================
 C---- tag elm /w /INIBRI/ORTHO
       INIORTH(LFT:LLT)=0
       IF (NVSOLID3 /= 0) THEN
-        IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
+        IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID
         DO I=LFT,LLT
          JJ=PT(NFT+I)
          IF(JJ ==0 ) CYCLE
@@ -99,7 +99,7 @@ C---- tag elm /w /INIBRI/ORTHO
      .   SIGSP(IIS+3,JJ) /= ZERO .OR. SIGSP(IIS+4,JJ) /=ZERO .OR.
      .   SIGSP(IIS+5,JJ) /= ZERO .OR. SIGSP(IIS+6,JJ) /=ZERO )THEN
              INIORTH(I) = 1
-         ENDIF         
+         ENDIF
         ENDDO
       ENDIF
       DO I=LFT,LLT

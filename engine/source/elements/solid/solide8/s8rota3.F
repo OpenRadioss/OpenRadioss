@@ -66,7 +66,7 @@ C-----------------------------------------------
 C
          Q1=TWO*S4*WZZ(I)
          Q2=TWO*S6*WYY(I)
-         Q3=TWO*S5*WXX(I) 
+         Q3=TWO*S5*WXX(I)
 C
 
          SIG(I,1)=S1-Q1+Q2

@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL    
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C
             NSL_L = 0
             DO KK = 1, NSL
               NN = LPRW(K+KK)
-              IF(NLOCAL(NN,PROC+1)==1)THEN            
+              IF(NLOCAL(NN,PROC+1)==1)THEN
                 RWSAV_L(KSAV_L+3*NSL_L+1) = RWSAV(KSAV+3*(KK-1)+1)
                 RWSAV_L(KSAV_L+3*NSL_L+2) = RWSAV(KSAV+3*(KK-1)+2)
                 RWSAV_L(KSAV_L+3*NSL_L+3) = RWSAV(KSAV+3*(KK-1)+3)

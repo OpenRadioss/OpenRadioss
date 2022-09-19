@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -101,16 +101,16 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM(23)  = E0
       PM(32)  = PM(1)*C*C
       PM(33)  = C
       PM(34)  = S1
-      PM(35)  = GAMA0      
+      PM(35)  = GAMA0
       PM(36)  = A
       PM(160) = S2
       PM(161) = S3
@@ -118,7 +118,7 @@ C-----------------------------------------------
 
       !COMPUTE INITIAL PRESSURE FOR PM(31)->SIG(1:3,*)
       !SSP0
-      
+
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
       ELSE
@@ -128,7 +128,7 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
@@ -136,10 +136,10 @@ C-----------------------------------------------
       ENDIF
 
       MU2=MU0*MU0
-      PP=PM(31)    
-      SSP0 = ZERO 
+      PP=PM(31)
+      SSP0 = ZERO
       G0 = PM(22)
-      RHOI = PM(89) 
+      RHOI = PM(89)
         FAC=ONE
         FAC1=ONE
         IF(MU0>0)THEN
@@ -149,18 +149,18 @@ C-----------------------------------------------
          FAC=FF/(FG*FG)
          DFF=ONE-HALF*GAMA0-A*MU0
          DFG=ONE-S1+XX*(-TWO*S2+XX*(S2-THREE*S3)+TWO*S3*XX*XX)
-         FAC1=FAC*(ONE+MU0*(DFF/FF-TWO*DFG/FG))        
-        ENDIF       
+         FAC1=FAC*(ONE+MU0*(DFF/FF-TWO*DFG/FG))
+        ENDIF
         AA=FAC*RHOR*C*C*MU0
         BB=GAMA0+A*MU0
         PP=MAX(AA+BB*E0,PM(37))
         DPDMU=FAC1*RHOI*C*C+PP*DF*DF*BB+A*E0
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
       PM(27)=SSP0
-      PM(31) = PP     
-      PM(104) = PP       
-      
+      PM(31) = PP
+      PM(104) = PP
+
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -169,7 +169,7 @@ C-----------------------------------------------
       ENDIF
 
       RETURN
-      
+
  1000 FORMAT(
      & 5X,'  GRUNEISEN EOS     ',/,
      & 5X,'  --------------     ',/)
@@ -183,6 +183,6 @@ C-----------------------------------------------
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
      & 5X,'INITIAL PRESSURE . .  . . . . . . . . . .=',1PG20.13/,
      & 5X,'EOS REFERENCE DENSITY . . . . . . . . . .=',1PG20.13//)
- 
+
       RETURN
       END SUBROUTINE HM_READ_EOS_GRUNEISEN

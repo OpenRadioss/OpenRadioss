@@ -31,12 +31,12 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LAW119_UPD(NUPARAM ,NUMTABL ,ITABLE ,TABLE  ,TABLE_ID ,
-     .                      UPARAM  ,PM      ,TITR   ,MAT_ID )          
+     .                      UPARAM  ,PM      ,TITR   ,MAT_ID )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE MESSAGE_MOD   
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ c=======================================================================
       FUNC = ITABLE(1)
       FUND = ITABLE(2)
       N12  = UPARAM(3)
-      FSCALE1 = UPARAM(11)                        
+      FSCALE1 = UPARAM(11)
       FSCALE2 = UPARAM(12)
       FSCALET = UPARAM(13)
 c
@@ -78,7 +78,7 @@ c
         DX = TABLE(FUNC)%X(1)%VALUES(2) - TABLE(FUNC)%X(1)%VALUES(1)
         DY = TABLE(FUNC)%Y%VALUES(2) - TABLE(FUNC)%Y%VALUES(1)
         KINI = FSCALE1 * DY / DX
-        KMAX = KINI        
+        KMAX = KINI
         DO I = 3,NPOINT
           J  = I-1
           DX = TABLE(FUNC)%X(1)%VALUES(I) - TABLE(FUNC)%X(1)%VALUES(J)
@@ -93,7 +93,7 @@ c
           DX = TABLE(FUND)%X(1)%VALUES(2) - TABLE(FUND)%X(1)%VALUES(1)
           DY = TABLE(FUND)%Y%VALUES(2) - TABLE(FUND)%Y%VALUES(1)
           KINI = FSCALE2 * DY / DX
-          KMAX =  MAX(KMAX, KINI)  
+          KMAX =  MAX(KMAX, KINI)
           DO I = 3,NPOINT
             J  = I-1
             DX = TABLE(FUND)%X(1)%VALUES(I) - TABLE(FUND)%X(1)%VALUES(J)
@@ -108,18 +108,18 @@ c
           IF (XINT == ZERO .or. YINT == ZERO) THEN
             CALL ANCMSG(MSGID=1716 ,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .                  I1 = MAT_ID,
-     .                  I2 = TABLE_ID(1),                                               
-     .                  I3 = TABLE_ID(2),                                              
+     .                  I2 = TABLE_ID(1),
+     .                  I3 = TABLE_ID(2),
      .                  C1 = TITR  )
-          ENDIF 
-          UPARAM(18) = XINT   
+          ENDIF
+          UPARAM(18) = XINT
           UPARAM(19) = YINT
         END IF
 C
         UPARAM(1) = KMAX                 ! E11
 C       other material parameters are recomputed in create_seatbelt when section is available
 C  
-      END IF      
+      END IF
 c-----------
       RETURN
       END

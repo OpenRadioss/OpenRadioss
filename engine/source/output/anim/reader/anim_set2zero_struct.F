@@ -72,7 +72,7 @@ C-----------------------------------------------
       IEPSPNLALL        = 0
       IEPSDNLALL        = 0
       IPHIALL           = 0
-      IORTHDALL         = 0 
+      IORTHDALL         = 0
       IPLYALL           = 0
       ANIM_PLY          = 0
       ANIM_CRK          = 0
@@ -83,7 +83,7 @@ C-----------------------------------------------
       ! anim per ply
       IPLYALL           = 0
       ISTRESALL_PLY     = 0
-      IPHIALL_PLY       = 0       
+      IPHIALL_PLY       = 0
       IEPSPALL_PLY      = 0
       ISTRAINALL_PLY    = 0
       IEPSDOTALL_PLY    = 0

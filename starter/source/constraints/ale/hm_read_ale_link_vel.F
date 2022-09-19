@@ -79,7 +79,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER GRID_DOF, BID, IFORM,  NODE_ID1, NODE_ID2,POS,IAD0,NNOD
-      INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4, 
+      INTEGER I,JJ(12), IC, NC, N, NUSR, IS, IC1, IC2, IC3, IC4,
      .        NOSYS, J,J10(10),IGR,IGRS,ISU,IBCALE,J3(3),K,
      .        IC0, IC01, IC02, IC03, IC04, ID ,ILAGM, NBCSLAG,
      .        FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IKINE1(3*NUMNOD),IGRNS
@@ -103,7 +103,7 @@ C-----------------------------------------------
       IGRNS=0
       TSTART=ZERO
       TSTOP=ZERO
-      
+
       WRITE(IOUT,1000)
       CALL HM_OPTION_START('/ALE/LINK/VEL')
 
@@ -123,14 +123,14 @@ C-----------------------------------------------
          IGRS=NGR2USR(IGR,INGR2USR,NGRNOD)
          IF(IGRS==0)THEN
             WRITE(IOUT,*)  '  -- NODE GROUP',IGR,' NOT FOUND'
-            WRITE(ISTDO,*) '  -- NODE GROUP',IGR,' NOT FOUND'              
-         ENDIF               
-         
+            WRITE(ISTDO,*) '  -- NODE GROUP',IGR,' NOT FOUND'
+         ENDIF
+
          J3(1) = WX
          J3(2) = WY
          J3(3) = WZ
-         IC  = J3(1) * 4 + J3(2) * 2 + J3(3)            
-         CHAR_XYZ = '          '           
+         IC  = J3(1) * 4 + J3(2) * 2 + J3(3)
+         CHAR_XYZ = '          '
          K=LFIELD
          IF(J3(3)==1 )THEN
             CHAR_XYZ(K:K)='Z'
@@ -143,24 +143,24 @@ C-----------------------------------------------
          IF(J3(1)==1 )THEN
             CHAR_XYZ(K:K)='X'
          ENDIF
-!     
+!
          IGRNS = IGRNOD(IGRS)%SORTED
-!     
+!
          IF(IFORM==0.AND.IGRNS /= 1)THEN
-            CALL ANCMSG(MSGID=271,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=N,I2=IFORM) 
+            CALL ANCMSG(MSGID=271,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=N,I2=IFORM)
          ELSE
             WRITE(IOUT,1100) N,TRIM(TITR),NODE_ID1,NODE_ID2,IGR,CHAR_XYZ,IFORM,TSTART,TSTOP
          ENDIF
 
          LINALE(POS+1)=N
-         LINALE(POS+2)=NODE_ID1   
+         LINALE(POS+2)=NODE_ID1
          LINALE(POS+3)=NODE_ID2
-         LINALE(POS+4)=-1                    
+         LINALE(POS+4)=-1
          LINALE(POS+5)=IC
-         LINALE(POS+6)=IFORM 
+         LINALE(POS+6)=IFORM
          LINALE(POS+7)=IGRS
 
-         POS = POS+1+6 
+         POS = POS+1+6
          MESS=''
          MESS(1:10)='ALE  LINKS'
          BID=USR2SYS(NODE_ID1,ITABM1,MESS,N)
@@ -174,7 +174,7 @@ C-----------------------------------------------
 1100  FORMAT( /5X,'ALE LINK ID ',I10,': ',A,
      .       /10X,'MAIN NODE 1 . . . . . . . . . . . . . ',I10
      .       /10X,'MAIN NODE 2 . . . . . . . . . . . . . ',I10
-     .       /10X,'GROUP IDENTIFIER FOR SECONDARY NODES. . . . ',I10    
+     .       /10X,'GROUP IDENTIFIER FOR SECONDARY NODES. . . . ',I10
      .       /10X,'GRID VELOCITY DIRECTIONS TO LINK. . . . ',A
      .       /10X,'FORMULATION . . . . . . . . . . . . . . ',I10
      .       /10X,'START TIME. . . . . . . . . . . . . . . ',1PG20.13

@@ -450,7 +450,7 @@ C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
 c     soit XMAX soit le max de la boite
-      XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+      XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
       XYZM(4,I_ADD+1) = XYZM(4,I_ADD)
@@ -516,9 +516,9 @@ C
               J = L-(I-1)*NB_NC
 C
               NE = BPE(I)
-              N1=IRECT(1,NE) 
-              N2=IRECT(2,NE) 
-              N3=IRECT(3,NE) 
+              N1=IRECT(1,NE)
+              N2=IRECT(2,NE)
+              N3=IRECT(3,NE)
               N4=IRECT(4,NE)
 C
               XX1=X(1, N1)
@@ -571,9 +571,9 @@ C
               J = L-(I-1)*NB_NC
 C
               NE = BPE(I)
-              N1=IRECT(1,NE) 
-              N2=IRECT(2,NE) 
-              N3=IRECT(3,NE) 
+              N1=IRECT(1,NE)
+              N2=IRECT(2,NE)
+              N3=IRECT(3,NE)
               N4=IRECT(4,NE)
 C
               JJ = BPN(J)

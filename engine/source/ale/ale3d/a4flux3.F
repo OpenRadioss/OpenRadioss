@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MAT(MVSIZ), 
+      INTEGER MAT(MVSIZ),
      .   NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), I,J,II,IAD2
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -64,12 +64,12 @@ C-----------------------------------------------
      .   N1X(MVSIZ),N1Y(MVSIZ),N1Z(MVSIZ),
      .   N2X(MVSIZ),N2Y(MVSIZ),N2Z(MVSIZ),
      .   N3X(MVSIZ),N3Y(MVSIZ),N3Z(MVSIZ),
-     .   N4X(MVSIZ),N4Y(MVSIZ),N4Z(MVSIZ),               
+     .   N4X(MVSIZ),N4Y(MVSIZ),N4Z(MVSIZ),
      .   FLUX2(MVSIZ), FLUX4(MVSIZ), FLUX5(MVSIZ), FLUX6(MVSIZ),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), 
+     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
      .   VX4(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
-     .   VY4(MVSIZ),  
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ),
+     .   VY4(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
      .   VZ4(MVSIZ),
      .   VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
@@ -113,7 +113,7 @@ C-----------------------------------------------
 	!  where
 	!    [V_node] : material velocity on node
 	!    [W_node] : grid velocity on node
-	!  
+	!
         VDX1(I)=V(1,NC1(I)) - W(1,NC1(I))
         VDY1(I)=V(2,NC1(I)) - W(2,NC1(I))
         VDZ1(I)=V(3,NC1(I)) - W(3,NC1(I))
@@ -130,12 +130,12 @@ C-----------------------------------------------
         VDY4(I)=V(2,NC4(I)) - W(2,NC4(I))
         VDZ4(I)=V(3,NC4(I)) - W(3,NC4(I))
       ENDDO
- 
+
       !======================================================!
       ! RELATIVE VELOCITIES ON EACH FACE                     !
       !    [V_face] = 1/3 Sum([V_node])                      !
-      !      Results are divided by 3 later, then:           ! 
-      !  [3*V_face] =     Sum([V_node])                      !        
+      !      Results are divided by 3 later, then:           !
+      !  [3*V_face] =     Sum([V_node])                      !
       !======================================================!
       DO I=LFT,LLT
         ! X-component
@@ -154,10 +154,10 @@ C-----------------------------------------------
         VZ3(I)=(VDZ4(I)+VDZ3(I)+VDZ2(I))
         VZ4(I)=(VDZ4(I)+VDZ1(I)+VDZ3(I))
       END DO
-      
+
       !======================================================!
       ! NORMAL VECTORS ON EACH DACE                          !
-      !    2S[n] = [diag1] x [diag2]                         ! 
+      !    2S[n] = [diag1] x [diag2]                         !
       !    where                                             !
       !      [n] : unitary normal vector on face             !
       !======================================================!
@@ -179,19 +179,19 @@ C-----------------------------------------------
         N1Y(I)= -N2Y(I) -N3Y(I) -N4Y(I)
         N1Z(I)= -N2Z(I) -N3Z(I) -N4Z(I)
       END DO
-      
+
       !======================================================!
       ! FLUXES CALCULATION ON EACH FACE                      !
-      !    FLUX_face = [V_face].[n]                          ! 
-      !    FLUX_face = 1/6 * ([3*V_face] . [2S*n])           !       
+      !    FLUX_face = [V_face].[n]                          !
+      !    FLUX_face = 1/6 * ([3*V_face] . [2S*n])           !
       !======================================================!
       DO I=LFT,LLT
         FLUX5(I)=(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))*ONE_OVER_6
         FLUX6(I)=(VX2(I)*N2X(I)+VY2(I)*N2Y(I)+VZ2(I)*N2Z(I))*ONE_OVER_6
         FLUX2(I)=(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))*ONE_OVER_6
-        FLUX4(I)=(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))*ONE_OVER_6      
+        FLUX4(I)=(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))*ONE_OVER_6
       END DO
-      
+
       !======================================================!
       !  UPWIND TREATMENT                                    !
       !    reading coefficient for mass transportation UPWL  !
@@ -201,7 +201,7 @@ C-----------------------------------------------
           UPWL(J,I)=PM(16,MAT(I))
         END DO !J
       END DO !I
-      
+
       !======================================================!
       !  UPWIND TREATMENT                                    !
       !    reducing computed fluxes for :                    !
@@ -213,7 +213,7 @@ C-----------------------------------------------
       !======================================================!
       DO I=LFT,LLT
        REDUC=PM(92,MAT(I))
-       ! Face2-neighbor check 
+       ! Face2-neighbor check
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        II = ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
        IF(II == 0)THEN
@@ -267,7 +267,7 @@ C-----------------------------------------------
       !     sgn  : sign of computed flux on face                 !
       !==========================================================!
       DO I=LFT,LLT
-        ! 6 fluxes on faces      
+        ! 6 fluxes on faces
         FLUX(1,I)=ZERO
         FLUX(2,I)=FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
         FLUX(3,I)=ZERO

@@ -37,10 +37,10 @@ Chd|====================================================================
 
       INTEGER, POINTER, DIMENSION(:) :: LCHAIN_ELEM
       INTEGER, POINTER, DIMENSION(:) :: LCHAIN_NEXT
-      INTEGER, POINTER, DIMENSION(:) :: LCHAIN_LAST 
-      
+      INTEGER, POINTER, DIMENSION(:) :: LCHAIN_LAST
+
 
       !INTEGER INIVOXEL11,VOXEL11(LVOXEL)
-      !DATA INIVOXEL11 /1/   
-                 
+      !DATA INIVOXEL11 /1/
+
       END MODULE TRI11

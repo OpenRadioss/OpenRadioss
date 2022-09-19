@@ -41,8 +41,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -72,11 +72,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(NPROPMI) ,INTENT(OUT)     :: IPM
-      my_real, DIMENSION(NPROPM)  ,INTENT(OUT)     :: PM     
+      my_real, DIMENSION(NPROPM)  ,INTENT(OUT)     :: PM
       CHARACTER(nchartitle) ,INTENT(IN)            :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_) :: MTAG
@@ -158,7 +158,7 @@ c
       IF (DSUP1 == ZERO)  DSUP1 = ZEP99999
       IF (VMAX >= ZERO)   VMAX  =-ZEP35
       IF (EPSMAX <= ZERO) EPSMAX= EP20
-c      
+c
       IF (VKY  ==  ZERO) VKY = HALF
       IF (RC   ==  ZERO) RC  =-THIRD*FC
       IF (HBP  ==  ZERO) THEN
@@ -206,11 +206,11 @@ c
       !IF(ALF == ZERO) ALF = -ONE/TEN
       IF (ALI >= ZERO) THEN
         IF (ICAP == 1) THEN
-          message='CAP REQUIRES ALPHAI PARAMETER  STRICTLY <0   ' 
+          message='CAP REQUIRES ALPHAI PARAMETER  STRICTLY <0   '
         ELSE
-          message='ALPHAI RESET TO DEFAULT -0.2 CAP REQUIRES ALPHAI <0' 
+          message='ALPHAI RESET TO DEFAULT -0.2 CAP REQUIRES ALPHAI <0'
           ALI =- ONE/FIVE
-        ENDIF 
+        ENDIF
         CALL ANCMSG(MSGID=1161,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO,
@@ -286,10 +286,10 @@ C
       PM(53) = ARM1
       PM(54) = ARM2
       PM(55) = ARM3
-      PM(56) = ONE      !                                                      
+      PM(56) = ONE      !
       PM(57) = ICAP+EM01
       PM(58) = ONE-HVFAC
-      PM(59) = ZERO    ! 
+      PM(59) = ZERO    !
       PM(105)= TWO*PM(22)/(BULK+FOUR_OVER_3*PM(22)) ! =(1-2*Nuc)/(1-Nuc)
 c---------------------
       IPM(252)= 2  ! Formulation for solid element time step computation.
@@ -300,24 +300,24 @@ c---------------------
 c-----------------
 c---- Definition des variables internes (stockage elementaire)
 c-----------------
-      MTAG%G_GAMA  = 6  
+      MTAG%G_GAMA  = 6
       MTAG%G_PLA = 1
       MTAG%L_PLA = 7       ! plastic strain tensor for output
 c
-      MTAG%L_SIGA  = 3     
-      MTAG%L_EPSA  = 3     
-      MTAG%L_DAM   = 3     
-      MTAG%L_ANG   = 6     
-      MTAG%L_SF    = 3     
-      MTAG%L_VK    = 1     ! K0 
-      MTAG%L_STRA  = 6     
-      MTAG%L_CRAK  = 3     
-      MTAG%L_DSUM  = 1     
-      MTAG%L_ROB   = 1     
-      MTAG%L_SIGC  = 6     
-      MTAG%L_DGLO  = 6     
-      MTAG%L_RK    = 1     ! K 
-      MTAG%L_EPE   = 1     ! EPSP VOL        
+      MTAG%L_SIGA  = 3
+      MTAG%L_EPSA  = 3
+      MTAG%L_DAM   = 3
+      MTAG%L_ANG   = 6
+      MTAG%L_SF    = 3
+      MTAG%L_VK    = 1     ! K0
+      MTAG%L_STRA  = 6
+      MTAG%L_CRAK  = 3
+      MTAG%L_DSUM  = 1
+      MTAG%L_ROB   = 1
+      MTAG%L_SIGC  = 6
+      MTAG%L_DGLO  = 6
+      MTAG%L_RK    = 1     ! K
+      MTAG%L_EPE   = 1     ! EPSP VOL
 c-----------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,24
       WRITE(IOUT,1000)
@@ -337,7 +337,7 @@ c-----------------
           WRITE(IOUT,1600) VKY,RT,RC,ROK,RO0,ETC,HBP,HV0,ALI,ALF,VMAX,
      .                     YMS,Y0S,ETS,ARM1,ARM2,ARM3
         ENDIF
-      ENDIF     
+      ENDIF
 C-----------------
       RETURN
 C-----------------
@@ -351,11 +351,11 @@ C-----------------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . . . =',I10/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . =',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . =',1PG20.13/)
  1300 FORMAT(
-     & 5X,'      NEW CAP FORMULATION                  ',/) 
+     & 5X,'      NEW CAP FORMULATION                  ',/)
  1301 FORMAT(
-     & 5X,'      ORIGINAL CAP FORMULATION             ',/) 
+     & 5X,'      ORIGINAL CAP FORMULATION             ',/)
  1400 FORMAT(
      & 5X,'  1. MATRIX PROPERTIES                     ',/,
      & 5X,'YMC   YOUNG MODULUS . . . . . . . . . . . =',E12.4/,
@@ -378,7 +378,7 @@ C-----------------
      & 5X,'HBP   UNIAXIAL PLASTIC MODULUS  . . . . . =',E12.4/,
      & 5X,'HV0   INITIAL TRIAXIAL PLASTIC MODULUS. . =',E12.4/,
      & 5X,'EPS0  EPS0 FOR HPV HARDENING  . . . . . . =',E12.4/,
-     & 5X,'HVFAC REDUCTION COEFFICIENT FOR HPV . . . =',E12.4/, 
+     & 5X,'HVFAC REDUCTION COEFFICIENT FOR HPV . . . =',E12.4/,
      & 5X,'ALI   COMPACTANCY FACTOR AT YIELD   . . . =',E12.4/,
      & 5X,'ALF   DILATANCY FACTOR AT FAILURE . . . . =',E12.4/,
      & 5X,'VMAX  MAXIMAL COMPACTION VOLUME (<0). . . =',E12.4/,

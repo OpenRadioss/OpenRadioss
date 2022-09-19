@@ -76,12 +76,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, L, KCUR, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,
      .        NH3D,IREC,NBSENS
-      CHARACTER  TITLE*72, KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, 
+      CHARACTER  TITLE*72, KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey,
      .           KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey,
      .           CARTE*ncharline,TITLE2*80,LINE*120
       my_real
      .   X0,Y0,Z0,VNX,VNY,VNZ,V0
-     
+
 C=========================================================================
       KCUR           = KH3D
       NH3D = NSLASH(KCUR)

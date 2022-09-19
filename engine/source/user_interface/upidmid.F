@@ -44,7 +44,7 @@ Chd|        GET_VAR_USER_F_SP             source/user_interface/eng_callback_c.c
 Chd|        GET_VAR_USER_I                source/user_interface/eng_callback_c.c
 Chd|        GET_U_MAT                     source/user_interface/upidmid.F
 Chd|====================================================================
-      my_real FUNCTION 
+      my_real FUNCTION
      .      GET_U_MAT(IVAR,IM)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
@@ -114,7 +114,7 @@ Chd|        GET_VAR_USER_F                source/user_interface/eng_callback_c.c
 Chd|        GET_VAR_USER_F_SP             source/user_interface/eng_callback_c.c
 Chd|        GET_U_GEO                     source/user_interface/upidmid.F
 Chd|====================================================================
-      my_real FUNCTION 
+      my_real FUNCTION
      .      GET_U_GEO(IVAR,IP)
 #include      "implicit_f.inc"
 #include      "param_c.inc"
@@ -123,7 +123,7 @@ Chd|====================================================================
 #include      "scr05_c.inc"
 
       INTEGER IVAR,IP,NVAR,DEPLA
-      my_real 
+      my_real
      .      NV,RESULTAT
 C
 C     GEO(I,J)  == LOCA(ISH3+I+(J-1)*NPROPG)

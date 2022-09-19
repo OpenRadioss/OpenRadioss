@@ -42,10 +42,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IT,IT_MAX  
+      INTEGER  IT,IT_MAX
 C     REAL
       my_real
-     .  R2,TOL 
+     .  R2,TOL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C-----------------------------------------------
       WRITE(66)EPS_M,TOLS
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  IMP_ISAVE2                    source/implicit/imp_pcg.F     
 Chd|-- called by -----------
@@ -132,16 +132,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .        X(*), 
-     .        DIAG_K(*), 
+     .        X(*),
+     .        DIAG_K(*),
      .        LT_K(*),LT_K0(*)
-      INTEGER NDDL, NNZ, 
+      INTEGER NDDL, NNZ,
      .        IADK(*), JDIK(*),IADK0(*), JDIK0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K
-      
+
       OPEN(66,file="input_matA")
       WRITE(66,*)NDDL,NDDL,NNZ+NDDL
       DO I = 1, NDDL
@@ -170,7 +170,7 @@ C-----------------------------------------------
       END DO
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  IMP_RSAVE                     source/implicit/imp_pcg.F     
 Chd|-- called by -----------
@@ -461,7 +461,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MIC_PCG                       source/implicit/imp_pcg.F     
 Chd|====================================================================
       SUBROUTINE IMP_PCGH( IPREC ,
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
      3                    LT_I  ,NNZM  ,IADM  ,JDIM  ,DIAG_M ,
      4                    LT_M  ,X     ,R     ,ITOL  ,TOL    ,
@@ -472,7 +472,7 @@ Chd|====================================================================
      A                    NUM_IMP,NS_IMP,NE_IMP,NSREM ,
      B                    NSL   ,NMONV  ,IMONV ,MONVOL,IGRSURF ,
      C                    VOLMON,FR_MV ,IBFV  ,SKEW  ,
-     D                    XFRAME ,GRAPHE,IAD_ELEM,FR_ELEM,ITAB , 
+     D                    XFRAME ,GRAPHE,IAD_ELEM,FR_ELEM,ITAB ,
      E                    INSOLV ,ITN   ,FAC_K ,IPIV_K,NK    ,
      F                    MUMPS_PAR,CDDLP,ISOLV,IDSC  ,IDDL  ,
      G                    IKC    ,INLOC ,IND_IMP,XI_C ,R0    ,
@@ -521,7 +521,7 @@ C----------resol [K]{X}={F}---------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-      INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),  
+      INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*),NDDLI_G, MICID
 C     REAL
@@ -534,7 +534,7 @@ C     REAL
      .  DIAG_K(NDDL), LT_K(NNZ) ,DIAG_M(NDDL),LT_M(NNZM) ,X(NDDL),
      .  P(NDDL) ,Z(NDDL)  ,R(NDDL)  ,Y(NDDL)
 #elif 1
-      INTEGER 
+      INTEGER
      .  IADK(*)  ,JDIK(*), IADM(*),JDIM(*)
       my_real
      .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,X(*),
@@ -590,16 +590,16 @@ C--------------GPU SPECIFIC--------------------------
 #endif
 
 c#if defined knf
-c!dec$ attributes offload: mic ::  
+c!dec$ attributes offload: mic ::
 c     &         M_IADK, M_IADM, M_JDIM, M_JDIK
-c      INTEGER, pointer, save, dimension(:)  :: 
+c      INTEGER, pointer, save, dimension(:)  ::
 c     .         M_IADK, M_IADM, M_JDIM, M_JDIK
-c!dec$ attributes offload: mic ::  
+c!dec$ attributes offload: mic ::
 c     &         M_LT_K, M_LT_M, M_DIAG_K, M_DIAG_M, M_P,
 c     &         M_X, M_R, M_Y, M_Z
-c      DOUBLE PRECISION, pointer, save, dimension(:)  :: 
+c      DOUBLE PRECISION, pointer, save, dimension(:)  ::
 c     .         M_LT_K, M_LT_M, M_DIAG_K, M_DIAG_M, M_P,
-c     .         M_X, M_R, M_Y, M_Z 
+c     .         M_X, M_R, M_Y, M_Z
 c#endif
 C--------------END GPU SPECIFIC----------------------
       DATA               EXIT  /'WITH'/
@@ -632,10 +632,10 @@ C
               NTAG(K)=LCOMI
               IGATHER(LCOMI)=K-1
             ENDIF
-          ENDDO 
+          ENDDO
         END DO
         DO I = 1, NSPMD
-          LCOMX=LCOMX+F_DDL+IAD_SREM(I+1)-IAD_SREM(I)+1 
+          LCOMX=LCOMX+F_DDL+IAD_SREM(I+1)-IAD_SREM(I)+1
         END DO
         DO I=1,NDDL_SI
           DO J =IAD_SI(I),IAD_SI(I+1)-1
@@ -678,7 +678,7 @@ C------X(I)=ZERO----******N_MAX,EPS_M a calculer avant----
       F_DDL=1+ITASK*NDDL/NTHREAD
       L_DDL=(ITASK+1)*NDDL/NTHREAD
 C
-      ISTOP=0 
+      ISTOP=0
       NLIM=N_MAX
       CALL NLIM_MIX(N_MAX,NDDLI_G,NLIM)
       NLIM=MAX(NLIM,2)
@@ -695,7 +695,7 @@ C routine speciale pour sauvegarder les input
      5   NLIM,itol,EPS_M,IPREC)
       IF(ISAVE==2)CALL IMP_ISAVE2(
      1   NDDL,R,DIAG_K,NNZ,LT_K,
-     3   IADK,JDIK,LT_K0,IADK0,JDIK0)   
+     3   IADK,JDIK,LT_K0,IADK0,JDIK0)
 C--------
       IF (ITASK == 0) THEN
        IF(IPRI/=0)THEN
@@ -726,11 +726,11 @@ C variable to switch between double (GPUR4R8=2)or single (GPUR4R8=1)precision GP
 #if  !defined knf
 
        CALL PREC_SOLVH(IPREC, ITASK   ,
-     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
      3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM     , 
+     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM     ,
      6                 JDIM  ,DIAG_M  , LT_M  ,R    ,Z        ,
      7                 F_DDL ,L_DDL   )
 C----------------------
@@ -742,7 +742,7 @@ C---------------------
        CALL PRODUT_H(F_DDL  ,L_DDL ,R  ,Z  ,W_DDL , G0 ,ITASK )
 C---------------------
        CALL MAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            P     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -810,16 +810,16 @@ C---------------------
        DO I=F_DDL,L_DDL
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
-       ENDDO 
+       ENDDO
 C----------------------
        CALL MY_BARRIER
 C---------------------
        CALL PREC_SOLVH(IPREC, ITASK ,
-     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
      3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    , 
+     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    ,
      6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z       ,
      7                 F_DDL ,L_DDL   )
 C----------------------
@@ -863,13 +863,13 @@ C---------------------
        DO WHILE (ISTOP==1)
         DO I=F_DDL,L_DDL
          P(I) = Z(I) + BETA*P(I)
-        ENDDO 
+        ENDDO
         IF(IUPD0>0.AND.IT>NDDLI_G/2) IUPD = IUPD0
 C----------------------
         CALL MY_BARRIER
 C---------------------
         CALL MAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            P     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -888,16 +888,16 @@ C---------------------
         DO I=F_DDL,L_DDL
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
-        ENDDO 
+        ENDDO
 C----------------------
         CALL MY_BARRIER
 C---------------------
         CALL PREC_SOLVH(IPREC, ITASK ,
-     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
      3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    , 
+     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    ,
      6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z       ,
      7                 F_DDL ,L_DDL   )
 C----------------------
@@ -972,8 +972,8 @@ C---------------------
         IF((IUPD>0.AND.IT==NLIM).OR.
      .     (IUPD==0.AND.ISTOP/=1.AND.IUPD0>0))THEN
 C------- re-iter with linear Kint------	
-         IUPD0 = 0 
-         IF(IUPD>0) IUPD = 0 
+         IUPD0 = 0
+         IF(IUPD>0) IUPD = 0
 #include "lockon.inc"
          ISTOP = 1
 #include "lockoff.inc"
@@ -981,12 +981,12 @@ C------- re-iter with linear Kint------
          NLIM = NLIM + NLIM
          DO I=F_DDL,L_DDL
           X(I) = ZERO
-         ENDDO 
+         ENDDO
 C----------------------
          CALL MY_BARRIER
 C---------------------
          CALL MAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            X     ,Z     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -1001,16 +1001,16 @@ C----------------------
 C---------------------
          DO I=F_DDL,L_DDL
           R(I) = R0(I)-Z(I)
-         ENDDO 
+         ENDDO
 C----------------------
          CALL MY_BARRIER
 C---------------------
          CALL PREC_SOLVH(IPREC, ITASK ,
-     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
      3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    , 
+     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    ,
      6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z       ,
      7                 F_DDL ,L_DDL   )
 C----------------------
@@ -1101,50 +1101,50 @@ cc        call kmp_set_blocktime_target (TARGET_MIC, MICID,INFINITE)
         TB=0
 !dir$ omp offload target(mic:MICID)
      & in (LT_K:length(nnz), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
         TB = TB+NNZ
         print *,' Variables1= ',nnz
 !dir$ omp offload target(mic:MICID)
      & in (JDIK:length(nnz), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
         TB = TB+NNZ
         print *,' Variables2= ',nnz
 !dir$ omp offload target(mic:MICID)
      & in (LT_K0:length(nnz), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
         TB = TB+NNZ
         print *,' Variables3= ',nnz
 !dir$ omp offload target(mic:MICID)
      & in (JDIK0:length(nnz), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
         TB = TB+NNZ
         print *,' Variables4= ',nnz
         IF(IPREC == 5) THEN
 !dir$ omp offload target(mic:MICID)
 & in (lt_m:length(nnzm), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
           TB = TB+NNZM
           print *,' Variables5= ',nnzm
 !dir$ omp offload target(mic:MICID)
      & in (JDIM:length(nnzm), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
           TB = TB+NNZM
           print *,' Variables6= ',nnzm
 !dir$ omp offload target(mic:MICID)
      & in (lt_m0:length(nnzm), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
           TB = TB+NNZM
           print *,' Variables7= ',nnzm
 !dir$ omp offload target(mic:MICID)
      & in (JDIM0:length(nnzm), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
           TB = TB+NNZ
           print *,' Variables8= ',nnzm
@@ -1152,14 +1152,14 @@ cc        call kmp_set_blocktime_target (TARGET_MIC, MICID,INFINITE)
 !dir$ omp offload target(mic:MICID)
      & in (DIAG_K,DIAG_M,x,y,z,r,p:length(nddl),
      &     free_if(.false.))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
         TB = TB+NDDL*7
         print *,' Variables9= ',nddl*7
 !dir$ omp offload target(mic:MICID)
      & in (IADK,IADK0,IADM,IADM0:length(NDDL1),
      &     free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
         TB = TB+nddl1*4
         print *,' Variables10= ',nddl1*4
@@ -1201,18 +1201,18 @@ C transfo entier vers my_real
            DEALLOCATE(TABLE)
 !dir$ omp offload target(mic:MICID)
      & in (W:length(NDDL), free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
           print *,' Variables11= ',i
 !dir$ omp offload target(mic:MICID)
      & in (IFR2K,INDEX:length(LCOM), free_if(.false.))
 c     &     free_if(.false.), align(512))
-!$OMP PARALLEL 
+!$OMP PARALLEL
 !$OMP END PARALLEL
           print *,' Variables12= ',i
         END IF
-        
-      IF(NSPMD>1)THEN 
+
+      IF(NSPMD>1)THEN
 !dir$ omp offload target(mic:MICID)
      & nocopy(IADK,IADK0,IADM,IADM0,LT_K,LT_K0,
      &        lt_m,lt_m0,JDIK,JDIK0,JDIM,JDIM0,
@@ -1221,11 +1221,11 @@ c     &     free_if(.false.), align(512))
 !$OMP PARALLEL default(shared)
 
 
-!$OMP single 
+!$OMP single
       tt=OMP_GET_WTIME()
       i= omp_get_num_threads()
       print *,'Number of threads (MIC):',i
-!$OMP END single 
+!$OMP END single
 
 C-------------IT=0--------
 C----------{Z}=[K]{X}--------
@@ -1235,15 +1235,15 @@ C D_Z = D_X * DIAG_K
       CALL MIC_MV(NDDL,X,DIAG_K,Z)
 
 C D_Z = D_Z + LT_K * D_X
-      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K ,IADK ,JDIK ) 
+      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K ,IADK ,JDIK )
 C D_Z = D_Z + LT_K0 * D_X
-      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K0,IADK0,JDIK0) 
+      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K0,IADK0,JDIK0)
          IF(NDDLI > 0) THEN
 C D_Z = D_Z + LT_I0 * D_X
-ctempo      CALL MIC_SPMV(NDDL ,Z ,X ,LT_I0,IADI0,JDII0) 
+ctempo      CALL MIC_SPMV(NDDL ,Z ,X ,LT_I0,IADI0,JDII0)
          END IF
 C D_R = D_R - D_Z
-      CALL MIC_DAXPY(NDDL, -ONE, Z, R)    
+      CALL MIC_DAXPY(NDDL, -ONE, Z, R)
 
 C---------------------
 C----------{Z}=[M]{R}-([M]=[Lm][Dm][Lm]^t)-------
@@ -1261,13 +1261,13 @@ C D_Z = D_R * DIAG_M
 C D_Y = D_R
       CALL MIC_DCOPY(NDDL, R, Y)
 C D_Y = D_Y + LT_M * D_R
-      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM ) 
+      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM )
 C D_Z = D_Y * DIAG_M
       CALL MIC_MV(NDDL,Y,DIAG_M,Z)
 C D_Y = D_Z
       CALL MIC_DCOPY(NDDL, Z, Y)
 C D_Z = D_Z + LT_M0 * D_Y
-      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0) 
+      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0)
 
          ELSE
          END IF
@@ -1290,7 +1290,7 @@ C----------------------
      & nocopy(z,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
-           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
+           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)
 !$OMP END PARALLEL
            IF(IMONM > 0) CALL STOPTIME(69,1)
          END IF
@@ -1336,12 +1336,12 @@ C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
 C D_Y = D_P * DIAG_K
          CALL MIC_MV(NDDL,P,DIAG_K,Y)
 C D_Y = D_Y + LT_K * D_P
-         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK ) 
+         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK )
 C D_Y = D_Y + LT_K0 * D_P
-         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0) 
+         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0)
          IF(NDDLI > 0) THEN
 C D_Y = D_Y + LT_I0 * D_P
-ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0) 
+ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
          END IF
 !$OMP END PARALLEL
 C----------------------
@@ -1362,7 +1362,7 @@ C----------------------
      & nocopy(y,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
-           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
+           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)
 !$OMP END PARALLEL
            IF(IMONM > 0) CALL STOPTIME(69,1)
          END IF
@@ -1482,12 +1482,12 @@ C D_Z = D_R * DIAG_M
 C D_Y = D_R
       CALL MIC_DCOPY(NDDL, R, Y)
 C D_Y = D_Y + LT_M * D_R
-      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM ) 
+      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM )
 C D_Z = D_Y * DIAG_M
       CALL MIC_MV(NDDL,Y,DIAG_M,Z)
       CALL MIC_DCOPY(NDDL, Z, Y)
 C D_Z = D_Z + LT_M0 * D_Y
-      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0) 
+      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0)
          ELSE
          END IF
 !$OMP END PARALLEL
@@ -1509,7 +1509,7 @@ C----------------------
      & nocopy(z,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
-           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
+           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)
 !$OMP END PARALLEL
            IF(IMONM > 0) CALL STOPTIME(69,1)
          END IF
@@ -1608,12 +1608,12 @@ C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
 C D_Y = D_P * DIAG_K
           CALL MIC_MV(NDDL,P,DIAG_K,Y)
 C D_Y = D_Y + LT_K * D_P
-          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK ) 
+          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK )
 C D_Y = D_Y + LT_K0 * D_P
-          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0) 
+          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0)
           IF(NDDLI > 0) THEN
 C D_Y = D_Y + LT_I0 * D_P
-ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0) 
+ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
           END IF
 !$OMP END PARALLEL
           IF(NSPMD > 1)THEN
@@ -1633,7 +1633,7 @@ ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
      & nocopy(y,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
-           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
+           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)
 !$OMP END PARALLEL
            IF(IMONM > 0) CALL STOPTIME(69,1)
           END IF
@@ -1680,12 +1680,12 @@ C D_Z = D_R * DIAG_M
 C D_Y = D_R
             CALL MIC_DCOPY(NDDL, R, Y)
 C D_Y = D_Y + LT_M * D_R
-            CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM ) 
+            CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM )
 C D_Z = D_Y * DIAG_M
             CALL MIC_MV(NDDL,Y,DIAG_M,Z)
             CALL MIC_DCOPY(NDDL, Z, Y)
 C D_Z = D_Z + LT_M0 * D_Y
-            CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0) 
+            CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0)
           ELSE
           END IF
 !$OMP END PARALLEL
@@ -1707,7 +1707,7 @@ C----------------------
      & nocopy(z,ifr2k,index)
      & in(vsca:length(lcom))
 !$OMP PARALLEL default(shared)
-           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
+           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)
 !$OMP END PARALLEL
            IF(IMONM > 0) CALL STOPTIME(69,1)
           END IF
@@ -1733,10 +1733,10 @@ C si spmd penser a faire avant D_Y = D_Z*W pour les poids
             IF(IMONM > 0) CALL STOPTIME(67,1)
           END IF
 C---------------------
-cc!$OMP single 
+cc!$OMP single
           BETA=G1/G0
           G0 = G1
-cc!$OMP end single 
+cc!$OMP end single
           IF (ITOL==1) THEN
             IF(NSPMD == 1) THEN
 !dir$ omp offload target(mic:MICID)
@@ -1824,8 +1824,8 @@ C---------------------
          WRITE(IOUT,1001)IT-1,RR
 
 C!dec$ omp offload target(mic:MICID) out(X,R:alloc_if(.false.))
-!$OMP PARALLEL 
-!$OMP single 
+!$OMP PARALLEL
+!$OMP single
       tt=OMP_GET_WTIME()-tt
       i= omp_get_num_threads()
       print *,' '
@@ -1833,12 +1833,12 @@ C!dec$ omp offload target(mic:MICID) out(X,R:alloc_if(.false.))
       print *,' Execution time on MIC with',i,' THREADS'
       print *,' ==> ',tt,' SECONDS'
       print *,' '
-!$OMP END single 
+!$OMP END single
 !$OMP END PARALLEL
       DEALLOCATE(W)
       DEALLOCATE(VGAT)
       DEALLOCATE(VSCA)
-      DEALLOCATE(INDEX) 
+      DEALLOCATE(INDEX)
 c+1 tempo
       ELSE  ! CODE NSPMD = 1
 C debut code provisoire
@@ -1849,14 +1849,14 @@ C debut code provisoire
      &        lt_m,lt_m0,JDIK,JDIK0,JDIM,JDIM0,
      &        DIAG_K,DIAG_M,x,y,z,r,p,w)
      &        inout(tt)
-     
+
 !$OMP PARALLEL default(shared)
 
-!$OMP single 
+!$OMP single
       tt=OMP_GET_WTIME()
       i= omp_get_num_threads()
       print *,'Number of threads (MIC):',i
-!$OMP END single 
+!$OMP END single
 
 C-------------IT=0--------
 C----------{Z}=[K]{X}--------
@@ -1866,15 +1866,15 @@ C D_Z = D_X * DIAG_K
       CALL MIC_MV(NDDL,X,DIAG_K,Z)
 
 C D_Z = D_Z + LT_K * D_X
-      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K ,IADK ,JDIK ) 
+      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K ,IADK ,JDIK )
 C D_Z = D_Z + LT_K0 * D_X
-      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K0,IADK0,JDIK0) 
+      CALL MIC_SPMV(NDDL ,Z ,X ,LT_K0,IADK0,JDIK0)
          IF(NDDLI > 0) THEN
 C D_Z = D_Z + LT_I0 * D_X
-ctempo      CALL MIC_SPMV(NDDL ,Z ,X ,LT_I0,IADI0,JDII0) 
+ctempo      CALL MIC_SPMV(NDDL ,Z ,X ,LT_I0,IADI0,JDII0)
          END IF
 C D_R = D_R - D_Z
-      CALL MIC_DAXPY(NDDL, -ONE, Z, R)    
+      CALL MIC_DAXPY(NDDL, -ONE, Z, R)
 C---------------------
 C----------{Z}=[M]{R}-([M]=[Lm][Dm][Lm]^t)-------
 C----------->{V}={R}+[Lm]^t{R}-(the first term presents the [I]{R} with is not included in Lm)-------
@@ -1891,13 +1891,13 @@ C D_Z = D_R * DIAG_M
 C D_Y = D_R
       CALL MIC_DCOPY(NDDL, R, Y)
 C D_Y = D_Y + LT_M * D_R
-      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM ) 
+      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM )
 C D_Z = D_Y * DIAG_M
       CALL MIC_MV(NDDL,Y,DIAG_M,Z)
 C D_Y = D_Z
       CALL MIC_DCOPY(NDDL, Z, Y)
 C D_Z = D_Z + LT_M0 * D_Y
-      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0) 
+      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0)
 
          ELSE
          END IF
@@ -1920,7 +1920,7 @@ c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
-c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
+c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)
 c!$OMP END PARALLEL
 c           IF(IMONM > 0) CALL STOPTIME(69,1)
 c         END IF
@@ -1966,12 +1966,12 @@ C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
 C D_Y = D_P * DIAG_K
          CALL MIC_MV(NDDL,P,DIAG_K,Y)
 C D_Y = D_Y + LT_K * D_P
-         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK ) 
+         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK )
 C D_Y = D_Y + LT_K0 * D_P
-         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0) 
+         CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0)
          IF(NDDLI > 0) THEN
 C D_Y = D_Y + LT_I0 * D_P
-ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0) 
+ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
          END IF
 c!$OMP END PARALLEL
 C----------------------
@@ -1992,7 +1992,7 @@ c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
-c           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
+c           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)
 c!$OMP END PARALLEL
 c           IF(IMONM > 0) CALL STOPTIME(69,1)
 c         END IF
@@ -2120,12 +2120,12 @@ C D_Z = D_R * DIAG_M
 C D_Y = D_R
       CALL MIC_DCOPY(NDDL, R, Y)
 C D_Y = D_Y + LT_M * D_R
-      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM ) 
+      CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM )
 C D_Z = D_Y * DIAG_M
       CALL MIC_MV(NDDL,Y,DIAG_M,Z)
       CALL MIC_DCOPY(NDDL, Z, Y)
 C D_Z = D_Z + LT_M0 * D_Y
-      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0) 
+      CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0)
          ELSE
          END IF
 c!$OMP END PARALLEL
@@ -2147,7 +2147,7 @@ c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
-c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
+c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)
 c!$OMP END PARALLEL
 c           IF(IMONM > 0) CALL STOPTIME(69,1)
 c         END IF
@@ -2198,7 +2198,7 @@ c           END IF
          ELSEIF (ITOL==3) THEN
 C------ R2<TOL*TOL*ANORM2*XNORM2------
 c+1
-!$OMP SINGLE 
+!$OMP SINGLE
            R2=ABS(G1)
            L_B2=ABS(BETA)*A_OLD*A_OLD
            L_B=SQRT(L_B2)
@@ -2264,12 +2264,12 @@ C     2            P     ,Y     ,F_DDL ,L_DDL ,ITASK )
 C D_Y = D_P * DIAG_K
           CALL MIC_MV(NDDL,P,DIAG_K,Y)
 C D_Y = D_Y + LT_K * D_P
-          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK ) 
+          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K ,IADK ,JDIK )
 C D_Y = D_Y + LT_K0 * D_P
-          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0) 
+          CALL MIC_SPMV(NDDL ,Y ,P ,LT_K0,IADK0,JDIK0)
           IF(NDDLI > 0) THEN
 C D_Y = D_Y + LT_I0 * D_P
-ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0) 
+ctempo      CALL MIC_SPMV(NDDL ,Y ,P ,LT_I0,IADI0,JDII0)
           END IF
 c!$OMP END PARALLEL
 c          IF(NSPMD > 1)THEN
@@ -2289,7 +2289,7 @@ c!dir$ omp offload target(mic:MICID)
 c     & nocopy(y,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
-c           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)          
+c           CALL MIC_SCATTER(NDDL, LCOM, Y, VSCA, IFR2K, INDEX)
 c!$OMP END PARALLEL
 c           IF(IMONM > 0) CALL STOPTIME(69,1)
 c          END IF
@@ -2336,12 +2336,12 @@ C D_Z = D_R * DIAG_M
 C D_Y = D_R
             CALL MIC_DCOPY(NDDL, R, Y)
 C D_Y = D_Y + LT_M * D_R
-            CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM ) 
+            CALL MIC_SPMV(NDDL ,Y ,R ,LT_M ,IADM ,JDIM )
 C D_Z = D_Y * DIAG_M
             CALL MIC_MV(NDDL,Y,DIAG_M,Z)
             CALL MIC_DCOPY(NDDL, Z, Y)
 C D_Z = D_Z + LT_M0 * D_Y
-            CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0) 
+            CALL MIC_SPMV(NDDL ,Z ,Y ,LT_M0,IADM0,JDIM0)
           ELSE
           END IF
 c!$OMP END PARALLEL
@@ -2363,7 +2363,7 @@ c!dir$ omp offload target(mic:MICID)
 c     & nocopy(z,ifr2k,index)
 c     & in(vsca:length(lcom))
 c!$OMP PARALLEL default(shared)
-c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)          
+c           CALL MIC_SCATTER(NDDL, LCOM, Z, VSCA, IFR2K, INDEX)
 c!$OMP END PARALLEL
 c           IF(IMONM > 0) CALL STOPTIME(69,1)
 c          END IF
@@ -2390,11 +2390,11 @@ c            IF(IMONM > 0) CALL STOPTIME(67,1)
 c          END IF
 C---------------------
 c+1
-!$OMP single 
+!$OMP single
           BETA=G1/G0
           G0 = G1
 c+1
-!$OMP end single 
+!$OMP end single
           IF (ITOL==1) THEN
 c            IF(NSPMD == 1) THEN
 c!dir$ omp offload target(mic:MICID)
@@ -2418,7 +2418,7 @@ c              IF(IMONM > 0) CALL STOPTIME(67,1)
 c            END IF
           ELSEIF (ITOL==3) THEN
 c+1
-!$OMP single 
+!$OMP single
            R2 =ABS(G1)
            S=ONE/ALPHA
            L_A=S+B_OLD*A_OLD
@@ -2446,7 +2446,7 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
            OLDB2   = L_B2
            OLDB   = L_B
 c+1
-!$OMP end single 
+!$OMP end single
           ELSEIF (ITOL==4) THEN
            TMP=ALPHA*ALPHA*ABS(G1)
            IF (IT>=ND) THEN
@@ -2466,7 +2466,7 @@ c+1
            R2 =ABS(G1)
           ENDIF
 c+1
-!$OMP single 
+!$OMP single
           IF(IPRI/=0.AND.ITASK==0)THEN
            IF(MOD(IT,IP)==0)THEN
             RR = SQRT(R2/R02)
@@ -2495,7 +2495,7 @@ c+1
 !$OMP end single
          ENDDO
  2060    CONTINUE
-!$OMP single 
+!$OMP single
          tt=OMP_GET_WTIME()-tt
          i= omp_get_num_threads()
          print *,' '
@@ -2503,15 +2503,15 @@ c+1
          print *,' Execution time on MIC with',i,' THREADS'
          print *,' ==> ',tt,' SECONDS'
          print *,' '
-!$OMP END single 
+!$OMP END single
 c+1
 !$OMP END PARALLEL
          WRITE(IOUT,1001)IT-1,RR
       END IF ! fin NSPMD ==1
       TF=OMP_GET_WTIME()
 !dec$ omp offload target(mic:MICID) out(X,R:alloc_if(.false.))
-!$OMP PARALLEL 
-c!$OMP single 
+!$OMP PARALLEL
+c!$OMP single
 c      tt=OMP_GET_WTIME()-tt
 c      i= omp_get_num_threads()
 c      print *,' '
@@ -2519,7 +2519,7 @@ c      print *,' '
 c      print *,' Execution time on MIC with',i,' THREADS'
 c      print *,' ==> ',tt,' SECONDS'
 c      print *,' '
-c!$OMP END single 
+c!$OMP END single
 !$OMP END PARALLEL
       TF=OMP_GET_WTIME()-TF
       print *,'Transfer Time MIC=>CPU (s)   =',TF
@@ -2543,7 +2543,7 @@ C fin code specifique MIC double precision
 C fin code specifique GPU
 C routine speciale pour sauvegarder les resultats
       IF(ISAVE==1)CALL IMP_RSAVE(NDDL,X,R)
-      
+
 C
 C------due to ISTOP local variable
 C      IF(IT>=NLIM.AND.ISOLV==7) ISTOP = 3
@@ -2571,9 +2571,9 @@ C
         WRITE(ISTDO,1003)NLIM
         WRITE(ISTDO,*)
         IF(ITOL==3)THEN
-          WRITE(IOUT,2000)  
+          WRITE(IOUT,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
-          WRITE(ISTDO,2000)  
+          WRITE(ISTDO,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
 C----add condition to remove wrong message with mix solver        
@@ -2588,14 +2588,14 @@ C----add condition to remove wrong message with mix solver
          WRITE(ISTDO,*)
         ENDIF
         END IF !(.NOT.(MIXEDSOL)) THEN
-         
+
         END IF !(ISOLV==7) THEN
        ENDIF
        IF(IPRI/=0)THEN
         RR = SQRT(R2/R02)
         WRITE(IOUT,*)
         WRITE(IOUT,1002)IT,RR
-        IF(ITOL==3)WRITE(IOUT,2000)  
+        IF(ITOL==3)WRITE(IOUT,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         WRITE(IOUT,*)
         IF(IPRI<0) THEN
@@ -2632,7 +2632,7 @@ C--------------------------------------------
  1004 FORMAT(5X,'WARNING:C.G STOP WITH RELATIVE RESIDUAL NORM=',E11.4)
  2000 FORMAT(/ 5X, A, 2X, 'ANORM =', E12.4, 2X, 'XNORM =', E12.4,2X,
      .       'KCOND =', E12.4)
- 2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =', 
+ 2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =',
      .       E12.4,2X,'OLDB =', E12.4)
       RETURN
       END
@@ -2784,7 +2784,7 @@ C-----------------------------------------------
       INTEGER  F_DDL,L_DDL,NDDL,ITASK,W_DDL(*)
 C     REAL
       my_real
-     .  X(*), R(*) 
+     .  X(*), R(*)
 C-----------------------------------------------
 c FUNCTION: initialization of X0=[S][LAMDA]^-1[S]^t{R}
 c
@@ -2862,7 +2862,7 @@ C-----------------------------------------------
       INTEGER  F_DDL ,L_DDL ,NDDL,ITASK,W_DDL(*)
 C     REAL
       my_real
-     .  P(*) 
+     .  P(*)
 C-----------------------------------------------
 c FUNCTION: Projection of {p}={p}-[S][LAMDA]^-1[T]^t{p}
 c
@@ -2941,7 +2941,7 @@ C     REAL
      .  S(ND,*),ALEAT
       EXTERNAL ALEAT
 C-----------------------------------------------
-c FUNCTION: initialization of [S] 
+c FUNCTION: initialization of [S]
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
@@ -2976,8 +2976,8 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-       SUBROUTINE IMP_UPDV2( 
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+       SUBROUTINE IMP_UPDV2(
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                    ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                    D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB,
@@ -3014,7 +3014,7 @@ C-----------------------------------------------
       INTEGER  F_DDL,L_DDL,NDDL  ,IADK(*)  ,JDIK(*),
      .         NDDLI ,ITOK(*) ,IADI(*),JDII(*),
      .         ITASK,W_DDL(*),IBFV(*),IRBE3(*) ,LRBE3(*),
-     .         IRBE2(*) ,LRBE2(*),IT,ICHECK,IADM(*),JDIM(*) 
+     .         IRBE2(*) ,LRBE2(*),IT,ICHECK,IADM(*),JDIM(*)
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
@@ -3086,7 +3086,7 @@ C-------checking V(U_TMP)
       if (icheck==1.OR.IMPDEB>0) then
         CALL PRODUT_H( F_DDL  ,L_DDL ,U_TMP,U_TMP,W_DDL , S ,ITASK )
        CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            U_TMP ,WORK_T,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -3113,8 +3113,8 @@ Chd|-- called by -----------
 Chd|        IMP_PPCGH                     source/implicit/imp_pcg.F     
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE IMP_UPDV1( 
-     1                    R2  ,R2_OLD  ,RMAX  ,PROJ_U,P      ,   
+       SUBROUTINE IMP_UPDV1(
+     1                    R2  ,R2_OLD  ,RMAX  ,PROJ_U,P      ,
      2                    IT   ,F_DDL,L_DDL )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3152,7 +3152,7 @@ C
              PROJ_U(I) = P(I)
             ENDDO
             RMAX=RR
-           ENDIF 
+           ENDIF
           END IF
 C
       RETURN
@@ -3187,7 +3187,7 @@ Chd|        IMP_WORKH                     share/modules/impbufdef_mod.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_PPCGH( IPREC ,
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,NDDLI ,ITOK  ,IADI  ,JDII   ,
      3                    LT_I  ,NNZM  ,IADM  ,JDIM  ,DIAG_M ,
      4                    LT_M  ,X     ,R     ,ITOL  ,TOL    ,
@@ -3198,7 +3198,7 @@ Chd|====================================================================
      A                    NUM_IMP,NS_IMP,NE_IMP,NSREM ,
      B                    NSL   ,NMONV  ,IMONV ,MONVOL,IGRSURF ,
      C                    VOLMON,FR_MV ,IBFV  ,SKEW  ,
-     D                    XFRAME ,GRAPHE,IAD_ELEM,FR_ELEM,ITAB , 
+     D                    XFRAME ,GRAPHE,IAD_ELEM,FR_ELEM,ITAB ,
      E                    INSOLV ,ITN   ,FAC_K ,IPIV_K,NK    ,
      F                    MUMPS_PAR,CDDLP,ISOLV,IDSC  ,IDDL  ,
      G                    IKC    ,INLOC ,IND_IMP,XI_C ,R0    ,
@@ -3239,7 +3239,7 @@ C----------resol [K]{X}={F}---------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-      INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),  
+      INTEGER IAD_ELEM(2,*), FR_ELEM(*), ITAB(*),
      .        INSOLV, ITN, IPIV_K(*), NK, CDDLP(*), ISOLV, IDSC,
      .        IDDL(*), IKC(*), INLOC(*),NDDLI_G
 C     REAL
@@ -3285,7 +3285,7 @@ C------X(I)=ZERO----******N_MAX,EPS_M a calculer avant----
       F_DDL=1+ITASK*NDDL/NTHREAD
       L_DDL=(ITASK+1)*NDDL/NTHREAD
 C
-      ISTOP=0 
+      ISTOP=0
       NLIM=N_MAX
       CALL NLIM_MIX(N_MAX,NDDLI_G,NLIM)
       NLIM=MAX(NLIM,2)
@@ -3323,8 +3323,8 @@ C----------------------
       CALL MY_BARRIER
 C--------For S ini only----X is in place of R to not change R---------
         RMAX=ZERO
-        CALL IMP_INISI( 
-     1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,   
+        CALL IMP_INISI(
+     1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
      2                    NDDLI ,ITOK  ,IADI  ,JDII   ,LT_I  ,
      3                    NNZM  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,
      4                    X     ,P     ,Y      ,
@@ -3340,8 +3340,8 @@ C--------For S ini only----X is in place of R to not change R---------
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
-         CALL IMP_INIST( 
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+         CALL IMP_INIST(
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                    ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                    D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB,
@@ -3349,14 +3349,14 @@ C    /---------------/
      6                    NSL   ,NMONV  ,IMONV ,MONVOL,IGRSURF ,
      7                    VOLMON,FR_MV ,IBFV  ,SKEW  ,
      8                    XFRAME ,IND_IMP,XI_C ,MS    ,XE    ,
-     9                    IRBE3 ,LRBE3 ,IRBE2 ,LRBE2  ,IADM  , 
+     9                    IRBE3 ,LRBE3 ,IRBE2 ,LRBE2  ,IADM  ,
      A                    JDIM  ,SQ_DIAG_M, LT_M ,F_DDL ,L_DDL,
      B                    Z     )
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
 C--------b'=Lm^t b--------------
-       CALL MMV_LTH(NDDL  ,IADM  ,JDIM  ,SQ_DIAG_M,LT_M  ,   
+       CALL MMV_LTH(NDDL  ,IADM  ,JDIM  ,SQ_DIAG_M,LT_M  ,
      2              R     ,Z     ,F_DDL ,L_DDL  ,ITASK )
 C----------------------
        CALL MY_BARRIER
@@ -3371,7 +3371,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
        CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            X     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -3394,16 +3394,16 @@ C----------initialization of XNORM2
 C
        DO I=F_DDL,L_DDL
         R(I) = R(I)-Y(I)
-       ENDDO 
+       ENDDO
 C----------------------
        CALL MY_BARRIER
 C---------------------
 C       CALL PREC_SOLVH(IPREC, ITASK   ,
-c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
 c     3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM     , 
+c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM     ,
 c     6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z        ,
 c     7                 F_DDL ,L_DDL   )
        DO I = F_DDL,L_DDL
@@ -3419,7 +3419,7 @@ C---------------------
        CALL PRODUT_H(F_DDL  ,L_DDL ,R   ,R  ,W_DDL , G0 ,ITASK )
 C---------------------
        CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            P     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -3433,8 +3433,8 @@ C---------------------
 C----------------------
        CALL MY_BARRIER
 C---------------------
-       CALL IMP_UPDV2( 
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+       CALL IMP_UPDV2(
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                    ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                    D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB,
@@ -3500,16 +3500,16 @@ C---------------------
        DO I=F_DDL,L_DDL
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
-       ENDDO 
+       ENDDO
 C----------------------
        CALL MY_BARRIER
 C---------------------
 c       CALL PREC_SOLVH(IPREC, ITASK ,
-c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
 c     3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    , 
+c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    ,
 c     6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z       ,
 c     7                 F_DDL ,L_DDL   )
 C---------------------
@@ -3549,7 +3549,7 @@ C---------------------
        DO WHILE (ISTOP==1)
         DO I=F_DDL,L_DDL
          P(I) = R(I) + BETA*P(I)
-        ENDDO 
+        ENDDO
         IF(IUPD0>0.AND.IT>NDDLI_G/2) IUPD = IUPD0
 C       
 C------PCG(PROJECTION)----
@@ -3559,7 +3559,7 @@ C----------------------
         CALL MY_BARRIER
 C---------------------
         CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            P     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -3574,8 +3574,8 @@ C----------------------
         CALL MY_BARRIER
 C---------------------
         ICK=0
-       CALL IMP_UPDV2( 
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+       CALL IMP_UPDV2(
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                    ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                    D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB,
@@ -3596,9 +3596,9 @@ C---------------------
        IF(MOD(IT,10)<0)THEN
         DO I=F_DDL,L_DDL
          X(I) = X(I) + ALPHA*P(I)
-        ENDDO 
+        ENDDO
         CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            X     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -3611,7 +3611,7 @@ C---------------------
      C            F_DDL ,L_DDL ,ITASK ,Z     )
         DO I=F_DDL,L_DDL
          R(I) = R0(I) - Y(I)
-        ENDDO 
+        ENDDO
 C----------------------
         CALL MY_BARRIER
 C---------------------
@@ -3619,17 +3619,17 @@ C---------------------
         DO I=F_DDL,L_DDL
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
-        ENDDO 
+        ENDDO
        END IF !  IF(MOD(IT,IP)==0)THEN
 C----------------------
         CALL MY_BARRIER
 C---------------------
 c        CALL PREC_SOLVH(IPREC, ITASK ,
-c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
 c     3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    , 
+c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    ,
 c     6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z       ,
 c     7                 F_DDL ,L_DDL   )
 C---------------------
@@ -3685,8 +3685,8 @@ C----------L_B2 : beta(j-1)^2-A_OLD :1/alpha(j-1)-------
          R2 =ABS(G1)
         ENDIF
 C        
-          CALL IMP_UPDV1( 
-     1                    R2  ,R2_OLD  ,RMAX  ,PROJ_V,P      ,   
+          CALL IMP_UPDV1(
+     1                    R2  ,R2_OLD  ,RMAX  ,PROJ_V,P      ,
      2                    IT  ,F_DDL,L_DDL )
 C        
         IF(IPRI/=0.AND.ITASK==0)THEN
@@ -3703,18 +3703,18 @@ C---------------------
         IF((IUPD>0.AND.IT==NLIM).OR.
      .     (IUPD==0.AND.ISTOP/=1.AND.IUPD0>0))THEN
 C------- re-iter with linear Kint------	
-         IUPD0 = 0 
-         IF(IUPD>0) IUPD = 0 
+         IUPD0 = 0
+         IF(IUPD>0) IUPD = 0
          ISTOP = 1
          NLIM = NLIM + NLIM
          DO I=F_DDL,L_DDL
           X(I) = ZERO
-         ENDDO 
+         ENDDO
 C----------------------
          CALL MY_BARRIER
 C---------------------
          CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            X     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -3730,15 +3730,15 @@ C----------------------
 C---------------------
          DO I=F_DDL,L_DDL
           R(I) = R0(I)-Y(I)
-         ENDDO 
+         ENDDO
 C----------------------
          CALL MY_BARRIER
 c         CALL PREC_SOLVH(IPREC, ITASK ,
-c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   , 
-c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV , 
+c     1                 GRAPHE,IAD_ELEM,FR_ELEM,DIAG_K,LT_K   ,
+c     2                 IADK  ,JDIK    ,ITAB   ,IPRI,INSOLV ,
 c     3                 ITN   ,FAC_K   , IPIV_K, NK   ,MUMPS_PAR,
-c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      , 
-c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    , 
+c     4                 CDDLP ,ISOLV   , IDSC  , IDDL ,IKC      ,
+c     5                 INLOC  ,NDOF   , NDDL  ,NNZM  ,IADM    ,
 c     6                 JDIM  ,DIAG_M  , LT_M  ,R     ,Z       ,
 c     7                 F_DDL ,L_DDL   )
 C---------------------
@@ -3775,8 +3775,8 @@ C---------------------
  200   CONTINUE
 C--------PCG (PROJECTION)      
       IF (ISTOP==0) THEN
-       CALL IMP_UPDST( 
-     1                NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+       CALL IMP_UPDST(
+     1                NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB,
@@ -3785,13 +3785,13 @@ C--------PCG (PROJECTION)
      7                VOLMON,FR_MV ,IBFV  ,SKEW  ,
      8                XFRAME ,IND_IMP,XI_C ,MS    ,XE    ,
      9                IRBE3  ,LRBE3 ,IRBE2 ,LRBE2 ,X     ,
-     A                P      ,Y     ,IADM  ,JDIM  ,SQ_DIAG_M  , 
+     A                P      ,Y     ,IADM  ,JDIM  ,SQ_DIAG_M  ,
      B                LT_M  ,F_DDL ,L_DDL )
 C----------------------
       CALL MY_BARRIER
 C----------------------
 C--------x=Lm x'--------------
-       CALL MMV_LH(NDDL   ,IADM0 ,JDIM0 ,SQ_DIAG_M,LT_M0 ,   
+       CALL MMV_LH(NDDL   ,IADM0 ,JDIM0 ,SQ_DIAG_M,LT_M0 ,
      2              X     ,Z     ,F_DDL ,L_DDL  ,ITASK )
        DO I=F_DDL,L_DDL
          X(I) =  Z(I)
@@ -3814,7 +3814,7 @@ C----------------------
 c      CALL MY_BARRIER
 C---------------------
 c          CALL PRODUT_H( F_DDL  ,L_DDL ,X  ,Z ,W_DDL , XNORM2 ,ITASK )
-c	 END IF 
+c	 END IF
       IF(ITASK == 0) THEN
         ISTOP_H = ISTOP
        CALL PUPD(N_MAX,NDDLI_G,IT)
@@ -3831,9 +3831,9 @@ C
         WRITE(ISTDO,1003)NLIM
         WRITE(ISTDO,*)
         IF(ITOL==3)THEN
-          WRITE(IOUT,2000)  
+          WRITE(IOUT,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
-          WRITE(ISTDO,2000)  
+          WRITE(ISTDO,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
         ENDIF
         ISTOP_H = 1
@@ -3847,14 +3847,14 @@ C
          WRITE(ISTDO,1004)RR
          WRITE(ISTDO,*)
         ENDIF
-         
+
         END IF !(ISOLV==7) THEN
        ENDIF
        IF(IPRI/=0)THEN
         RR = SQRT(R2/R02)
         WRITE(IOUT,*)
         WRITE(IOUT,1002)IT,RR
-        IF(ITOL==3)WRITE(IOUT,2000)  
+        IF(ITOL==3)WRITE(IOUT,2000)
      .     EXIT, SQRT(ANORM2), SQRT(XNORM2),GMAX/GMIN
 C          WRITE(IOUT,*) 'TOLN,TOLS2=',TOLN,TOLS2 
         WRITE(IOUT,*)
@@ -3888,7 +3888,7 @@ C--------------------------------------------
  1004 FORMAT(5X,'WARNING:C.G STOP WITH RELATIVE RESIDUAL NORM=',E11.4)
  2000 FORMAT(/ 5X, A, 2X, 'ANORM =', E12.4, 2X, 'XNORM =', E12.4,2X,
      .       'KCOND =', E12.4)
- 2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =', 
+ 2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =',
      .       E12.4,2X,'OLDB =', E12.4)
       RETURN
       END
@@ -3907,8 +3907,8 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-       SUBROUTINE IMP_INIST( 
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+       SUBROUTINE IMP_INIST(
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                    ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                    D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB ,
@@ -3916,7 +3916,7 @@ Chd|====================================================================
      6                    NSL   ,NMONV  ,IMONV ,MONVOL,IGRSURF ,
      7                    VOLMON,FR_MV ,IBFV  ,SKEW  ,
      8                    XFRAME ,IND_IMP,XI_C ,MS    ,XE    ,
-     9                    IRBE3 ,LRBE3 ,IRBE2 ,LRBE2  ,IADM  , 
+     9                    IRBE3 ,LRBE3 ,IRBE2 ,LRBE2  ,IADM  ,
      A                    JDIM  ,DIAG_M, LT_M ,F_DDL ,L_DDL  ,
      B                    V_W   )
 C-----------------------------------------------
@@ -3986,11 +3986,11 @@ C       IF (NPCGPV >=0) RETURN
 C----------------------
 C      CALL MY_BARRIER
 C---------------------
-       IF (NCG_RUN==0) THEN 
+       IF (NCG_RUN==0) THEN
         M_VS1 =M_VS
        ELSE
         M_VS1 =M_VS+1
-       END IF  
+       END IF
        IF (ITASK==0) NPCGPV = M_VS
 C----------------------
       CALL MY_BARRIER
@@ -4001,7 +4001,7 @@ C---------------------
        IUPD = 0
        DO M = 1,M_VS1
         CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            PROJ_S(1,M),PROJ_T(1,M),A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -4049,7 +4049,7 @@ C---------------------
          PROJ_LA_1(I)= ONE/SIGN(MAX(EM20,ABS(W(I))),W(I))
         ENDDO
       if (iline==1.AND.IMPDEB>0) then
-       IF (NCG_RUN==0) THEN 
+       IF (NCG_RUN==0) THEN
        write(iout,*)'info,ini EIGENVALUE=',info,
      .       (ONE/PROJ_LA_1(I),I=1,M_VS1)
        ELSEIF (iline==1) THEN
@@ -4074,8 +4074,8 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-       SUBROUTINE IMP_UPDST( 
-     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,   
+       SUBROUTINE IMP_UPDST(
+     1                    NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,ITOK  ,IADI  ,JDII  ,LT_I   ,
      3                    ITASK ,W_DDL ,A     ,AR    ,VE     ,
      4                    D     ,DR    ,NDOF  ,IPARI ,INTBUF_TAB,
@@ -4084,7 +4084,7 @@ Chd|====================================================================
      7                    VOLMON,FR_MV ,IBFV  ,SKEW  ,
      8                    XFRAME ,IND_IMP,XI_C ,MS    ,XE    ,
      9                    IRBE3 ,LRBE3 ,IRBE2 ,LRBE2  ,U     ,
-     A                    P     ,Y     ,IADM  ,JDIM  ,DIAG_M  , 
+     A                    P     ,Y     ,IADM  ,JDIM  ,DIAG_M  ,
      B                    LT_M  ,F_DDL ,L_DDL )
 C-----------------------------------------------
 C   M o d u l e s
@@ -4159,7 +4159,7 @@ C---IPRO_S0=1 : alertory updated w/ 1 vector x
 C---IPRO_S0=2 : ini S w/ first p vectors updated w/ 2 vectors p,x
 C---IPRO_S0=3 : ini S w/ first p vectors updated w/ 2 vectors p,x (p<-RR_max)
 C---IPRO_S0=4 : ini S w/ first p vectors updated w/ 2 vectors v,x (v update each ite)
-c       IF (IPRO_S0 > 2.AND.IPRO_S0 < 4.AND.NCG_RUN==0) THEN    
+c       IF (IPRO_S0 > 2.AND.IPRO_S0 < 4.AND.NCG_RUN==0) THEN
 c         CALL IMP_INIS(NDDL  ,F_DDL  ,L_DDL  ,   1,NPCGPV-1 ,PROJ_S  )
 C----------------------
 c      CALL MY_BARRIER
@@ -4169,14 +4169,14 @@ c     .                  PROJ_S ,W_DDL  ,ITASK  )
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
-c       END IF !(IPRO_S0 > 1.AND.NCG_RUN==0) THEN 
+c       END IF !(IPRO_S0 > 1.AND.NCG_RUN==0) THEN
 C          
-       IF (IPRO_S0==2) THEN    
+       IF (IPRO_S0==2) THEN
         DO I=F_DDL,L_DDL
          PROJ_S(I,NPCGPV)=U(I)
          PROJ_S(I,M_VS1)=P(I)
         ENDDO
-       ELSEIF (IPRO_S0==3.OR.IPRO_S0==4) THEN    
+       ELSEIF (IPRO_S0==3.OR.IPRO_S0==4) THEN
          DO I=F_DDL,L_DDL
           PROJ_S(I,NPCGPV)=U(I)
           PROJ_S(I,M_VS1)=PROJ_V(I)
@@ -4185,7 +4185,7 @@ C
         DO I=F_DDL,L_DDL
          PROJ_S(I,M_VS1)=U(I)
         ENDDO
-       END IF !(MOD(IPRO_S0,2)==0) THEN    
+       END IF !(MOD(IPRO_S0,2)==0) THEN
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -4210,8 +4210,8 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE IMP_INISI( 
-     1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,   
+      SUBROUTINE IMP_INISI(
+     1                    NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
      2                    NDDLI ,ITOK  ,IADI  ,JDII   ,LT_I  ,
      3                    NNZM  ,IADM  ,JDIM  ,DIAG_M ,LT_M  ,
      4                    R     ,P     ,Y      ,
@@ -4255,10 +4255,10 @@ C-----------------------------------------------
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,
      .         IPARI(*) ,NUM_IMP(*),NS_IMP(*) ,IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
-      INTEGER IDDL(*), IKC(*), INLOC(*) 
+      INTEGER IDDL(*), IKC(*), INLOC(*)
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) , 
+     .  DIAG_K(*), LT_K(*) ,DIAG_M(*),LT_M(*) ,
      .  P(*) ,R(*)  ,Y(*),LT_I(*) ,XI_C(*),Z(*),SQ_DIAG_M(*)
       my_real
      .  A(3,*),AR(3,*),VE(3,*),D(3,*),DR(3,*),XE(3,*),
@@ -4298,11 +4298,11 @@ C---IPRO_S0=2 : ini S w/ first p vectors updated w/ 2 vectors p,x
 C---IPRO_S0=3 : alertory ini S vectors updated w/ 2 vectors p,x (p<-RR_max)
 C---------------------
        IUPD = 0
-      IF (IPRO_S0 > 1) THEN 
+      IF (IPRO_S0 > 1) THEN
 C------seems more stable-----      
        DO I=F_DDL,L_DDL
          R(I) = ALEAT()
-       ENDDO 
+       ENDDO
 C----------------------
        CALL MY_BARRIER
 C---------------------
@@ -4310,10 +4310,10 @@ C---------------------
         P(I) = R(I)
        ENDDO
        CALL PRODUT_H(F_DDL  ,L_DDL ,R  ,R  ,W_DDL , G0 ,ITASK )
-c       
+c
        DO ITP=1,NPV
         CALL MMAV_LTH(
-     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NDDLI ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            P     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -4336,7 +4336,7 @@ C----------------------
 C---------------------
        DO I=F_DDL,L_DDL
          R(I) = R(I) - ALPHA*Y(I)
-       ENDDO 
+       ENDDO
 C----------------------
        CALL MY_BARRIER
 C---------------------
@@ -4349,13 +4349,13 @@ C----------------------
 C---------------------
         DO I=F_DDL,L_DDL
          P(I) = R(I) + BETA*P(I)
-        ENDDO 
+        ENDDO
 C----------------------
         CALL MY_BARRIER
 C---------------------
         DO I=F_DDL,L_DDL
          PROJ_S(I,ITP) = P(I)
-        ENDDO 
+        ENDDO
 C----------------------
         CALL MY_BARRIER
 C---------------------
@@ -4365,7 +4365,7 @@ C---------------------
 C----------------------
        CALL MY_BARRIER
 C---------------------
-      END IF !(IPRO_S0 > 1) THEN 
+      END IF !(IPRO_S0 > 1) THEN
 C--------matrix GS orthonalization and normalized
        CALL MORTHO_GS(F_DDL  ,L_DDL  ,NDDL   ,1      ,NPV  ,
      .                PROJ_S ,W_DDL  ,ITASK  )

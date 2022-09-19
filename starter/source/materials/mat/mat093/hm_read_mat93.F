@@ -39,7 +39,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT93(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,MATPARAM ,NVARTMP  )
 C-----------------------------------------------
@@ -62,10 +62,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)          :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)          :: UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,
      .                                         MAXFUNC,MAXUPARAM,NUPARAM,NUVAR,IMATVIS ,
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J,NRATE,I,ILAW,VP
-      my_real 
+      my_real
      .    E11,E22,E33,NU12,NU23,NU13,G12,G13,G23,QR1,QR2,CR1,CR2,
      .    SIGY,R11,R22,R33,R12,R13,R23,A1,A2,A3,HH,FF,GG,LL,MM,NN,
      .    D11,D22,D33,D12,D13,D23,A11,A22,A12,C11,C22,C33,C12,C13,
@@ -113,7 +113,7 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       ILAW = 93
 c
-c-----------------------------------------------             
+c-----------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c-----------------------------------------------
 c
@@ -135,14 +135,14 @@ card4 - Number of curves for each rate
       CALL HM_GET_FLOATV('FCUT'      ,ASRATE ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('VP'        ,VP     ,IS_AVAILABLE, LSUBMODEL)
 card5 - Curves parameters
-      IF (NRATE > 0) THEN 
+      IF (NRATE > 0) THEN
         DO I=1,NRATE
           CALL HM_GET_INT_ARRAY_INDEX  ('LAW93_arr1',IFUNC(I) ,I ,IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('LAW93_arr2',YFAC(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('LAW93_arr3',RATE(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
+          CALL HM_GET_FLOAT_ARRAY_INDEX('LAW93_arr3',RATE(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           IF (YFAC(I) == ZERO) THEN
             CALL HM_GET_FLOATV_DIM('LAW93_arr2' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-            YFAC(I) = ONE * YSCALE_UNIT        
+            YFAC(I) = ONE * YSCALE_UNIT
           ENDIF
         ENDDO
       ENDIF
@@ -160,10 +160,10 @@ card8 - Hill parameters (normalized yield stresses)
       CALL HM_GET_FLOATV('LAW93_R33'    ,R33   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('LAW93_R13'    ,R13   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('LAW93_R23'    ,R23   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c      
+c
       !========== DEFAULT VALUES=============!
 C
-      ! Default value for functions 
+      ! Default value for functions
       NFUNC = NRATE
       IF (NRATE > 1) THEN
         IF (RATE(1) == ZERO) THEN
@@ -176,8 +176,8 @@ C
             YFAC(J+1)  = YFAC(J)
           ENDDO
           RATE(1) = ZERO
-        ENDIF  
-      ENDIF    
+        ENDIF
+      ENDIF
 C            
       ! Yield stresses
       IF(SIGY == ZERO) SIGY = INFINITY
@@ -197,7 +197,7 @@ C
      .               R1=NU12,
      .               I1=MAT_ID,
      .               C1=TITR)
-      ENDIF  
+      ENDIF
       IF (NU13 < ZERO .OR. NU13 >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
@@ -205,7 +205,7 @@ C
      .               R1=NU13,
      .               I1=MAT_ID,
      .               C1=TITR)
-      ENDIF   
+      ENDIF
       IF (NU23 < ZERO .OR. NU23 >= HALF) THEN
          CALL ANCMSG(MSGID=49,
      .               MSGTYPE=MSGERROR,
@@ -222,10 +222,10 @@ C
       IF (G23 == ZERO) G23 = G12
       ! Remaining Poisson's ratio
       NU21 = NU12*E22/E11
-      NU31 = NU13*E33/E11  
-      NU32 = NU23*E33/E22    
+      NU31 = NU13*E33/E11
+      NU32 = NU23*E33/E22
 C
-      ! Checking Poisson's ratio 
+      ! Checking Poisson's ratio
       DETC = ONE - NU12*NU21
       IF (DETC <= ZERO) THEN
         CALL ANCMSG(MSGID=307,
@@ -233,7 +233,7 @@ C
      .              ANMODE=ANINFO,
      .              I1=MAT_ID,
      .              C1=TITR)
-      ENDIF 
+      ENDIF
 C
       ! Hill coefficient
       A1 = ONE/R11/R11
@@ -257,7 +257,7 @@ C
       C33 = ONE/E33
       C12 =-NU12/E11
       C13 =-NU31/E33
-      C23 =-NU23/E22      
+      C23 =-NU23/E22
       ! Checking input
       DETC= C11*C22*C33-C11*C23*C23-C12*C12*C33+C12*C13*C23
      +     +C13*C12*C23-C13*C22*C13
@@ -274,8 +274,8 @@ C
       D13  = (C12*C23-C13*C22)/DETC
       D22  = (C11*C33-C13*C13)/DETC
       D23  =-(C11*C23-C13*C12)/DETC
-      D33  = (C11*C22-C12*C12)/DETC  
-      DMIN = MIN(D11*D22 -D12**2, D11*D33 - D13**2, D22*D33 - D23**2 )      
+      D33  = (C11*C22-C12*C12)/DETC
+      DMIN = MIN(D11*D22 -D12**2, D11*D33 - D13**2, D22*D33 - D23**2 )
       DMAX = MAX(D11,D22,D33)
 C
       ! Strain-rate filtering
@@ -286,7 +286,7 @@ C
           ASRATE = 1.0D4*FAC_T_WORK
         ELSE
           IF (ASRATE == ZERO) ASRATE = 1.0D4*FAC_T_WORK
-        ENDIF  
+        ENDIF
       ELSE
         ISRATE = 0
         ASRATE = ZERO
@@ -304,10 +304,10 @@ C
       PARMAT(4)  = ISRATE
       PARMAT(5)  = ASRATE
       PARMAT(16) = 1
-      PARMAT(17) = DMIN/DMAX/DMAX 
+      PARMAT(17) = DMIN/DMAX/DMAX
 C
-      ! MTAG variable activation      
-      MTAG%G_PLA  = 1 
+      ! MTAG variable activation
+      MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
       MTAG%G_SEQ  = 1
       MTAG%L_SEQ  = 1
@@ -323,29 +323,29 @@ C
       IMATVIS = 0
 C
       ! Number of user variable
-      IF ((NRATE > 1).AND.(VP /= 2)) THEN 
+      IF ((NRATE > 1).AND.(VP /= 2)) THEN
         NUVAR = 1
       ELSE
         NUVAR = 0
       ENDIF
-      
+
       ! Number of material parameter
       NUPARAM = 30 + 2*NFUNC
       NVARTMP = NFUNC
-c          
+c
       ! Filling the parameter table
-      ! -> Elastic parameters      
-      UPARAM(1)  = A11    
-      UPARAM(2)  = A22    
-      UPARAM(3)  = A12    
-      UPARAM(4)  = D11    
-      UPARAM(5)  = D12    
-      UPARAM(6)  = D13    
-      UPARAM(7)  = D22    
-      UPARAM(8)  = D23    
-      UPARAM(9)  = D33    
-      UPARAM(10) = G12   
-      UPARAM(11) = G13   
+      ! -> Elastic parameters
+      UPARAM(1)  = A11
+      UPARAM(2)  = A22
+      UPARAM(3)  = A12
+      UPARAM(4)  = D11
+      UPARAM(5)  = D12
+      UPARAM(6)  = D13
+      UPARAM(7)  = D22
+      UPARAM(8)  = D23
+      UPARAM(9)  = D33
+      UPARAM(10) = G12
+      UPARAM(11) = G13
       UPARAM(12) = G23
       UPARAM(13) = E11
       UPARAM(14) = E22
@@ -354,31 +354,31 @@ c
       UPARAM(17) = NU13
       UPARAM(18) = NU23
       ! -> Yield criterion parameters
-      UPARAM(19) = FF      
-      UPARAM(20) = GG     
-      UPARAM(21) = HH     
-      UPARAM(22) = LL     
-      UPARAM(23) = MM     
-      UPARAM(24) = NN  
+      UPARAM(19) = FF
+      UPARAM(20) = GG
+      UPARAM(21) = HH
+      UPARAM(22) = LL
+      UPARAM(23) = MM
+      UPARAM(24) = NN
       ! -> Continuous hardening parameters
-      UPARAM(25) = SIGY   
-      UPARAM(26) = QR1    
-      UPARAM(27) = CR1    
+      UPARAM(25) = SIGY
+      UPARAM(26) = QR1
+      UPARAM(27) = CR1
       UPARAM(28) = QR2
       UPARAM(29) = CR2
       ! -> Strain-rate computation flag
       UPARAM(30) = VP
-      ! -> Tabulated hardening parameters 
+      ! -> Tabulated hardening parameters
       IF (NFUNC > 0) THEN
         DO J=1,NFUNC
-          UPARAM(30 + J)         = RATE(J)   
-          UPARAM(30 + NFUNC + J) = YFAC(J)  
-        ENDDO 
+          UPARAM(30 + J)         = RATE(J)
+          UPARAM(30 + NFUNC + J) = YFAC(J)
+        ENDDO
       ENDIF
 c
 c--------------------------
 c     Parameters printout
-c-------------------------- 
+c--------------------------
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -389,7 +389,7 @@ c--------------------------
         IF (NRATE == 0) THEN
           WRITE(IOUT,1450)
           WRITE(IOUT,1400) SIGY,QR1,CR1,QR2,CR2
-        ELSE 
+        ELSE
           WRITE(IOUT,1550)
           DO J=1,NFUNC
             WRITE(IOUT,1500) IFUNC(J),YFAC(J),RATE(J)
@@ -419,11 +419,11 @@ C-----------------------------------------------------------------
      & 5X,'SHEAR MODULUS IN 23 DIRECTION . . . .=',1PG20.13/,
      & 5X,'POISSON RATIO 12. . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON RATIO 13. . . . . . . . . . .=',1PG20.13/,
-     & 5X,'POISSON RATIO 23. . . . . . . . . . .=',1PG20.13//) 
+     & 5X,'POISSON RATIO 23. . . . . . . . . . .=',1PG20.13//)
  1550 FORMAT(
      & 5X,'--------------------------------------'/,
      & 5X,'TABULATED YIELD STRESS                '/,
-     & 5X,'--------------------------------------'//)     
+     & 5X,'--------------------------------------'//)
  1500 FORMAT(
      & 5X,'YIELD STRESS FUNCTION NUMBER. . . . .=',I10/,
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . .=',1PG20.13/,
@@ -437,7 +437,7 @@ C-----------------------------------------------------------------
  1450 FORMAT(
      & 5X,'--------------------------------------'/,
      & 5X,'CONTINUOUS YIELD STRESS               '/,
-     & 5X,'--------------------------------------'//) 
+     & 5X,'--------------------------------------'//)
  1400 FORMAT(
      & 5X,'INITIAL YIELD STRESS. . . . . . . . .=',1PG20.13/,
      & 5X,'PARAMETER QR1 OF  HARDENING . . . . .=',1PG20.13/,

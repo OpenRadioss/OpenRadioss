@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
 #ifdef MPI
-      REAL, DIMENSION(:) , ALLOCATABLE :: MAXV0, MAXV1, MAXV2 
+      REAL, DIMENSION(:) , ALLOCATABLE :: MAXV0, MAXV1, MAXV2
 
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: V, MAXV, MAXV_1, MAXV_2, MAXV_RES0,
@@ -116,9 +116,9 @@ c
                IF(V(I) > MAXV0(J) .AND. FLAG == 0) THEN
                  DO K=1,NUM-J
                    IDNOD0(NUM-K+1) = IDNOD0(NUM-K)
-                   MAXV0(NUM-K+1) = MAXV0(NUM-K) 
-                   MAXV1(NUM-K+1) = MAXV1(NUM-K) 
-                   MAXV2(NUM-K+1) = MAXV2(NUM-K) 
+                   MAXV0(NUM-K+1) = MAXV0(NUM-K)
+                   MAXV1(NUM-K+1) = MAXV1(NUM-K)
+                   MAXV2(NUM-K+1) = MAXV2(NUM-K)
                  ENDDO
                  IDNOD0(J) = NODGLOB(I)
                  MAXV0(J) = V(I)
@@ -146,7 +146,7 @@ Csv de noeuds au max
          CALL MPI_SEND(MAXV1,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF4 
+         MSGTYP = MSGOFF4
          CALL MPI_SEND(MAXV2,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -158,7 +158,7 @@ Csv de noeuds au max
                 IF(V(I) > MAXV(J) .AND. FLAG == 0) THEN
                   DO K=1,NUM-J
                     IDNOD(NUM-K+1) = IDNOD(NUM-K)
-                    MAXV(NUM-K+1) = MAXV(NUM-K) 
+                    MAXV(NUM-K+1) = MAXV(NUM-K)
                     MAXV_1(NUM-K+1) = MAXV_1(NUM-K)
                     MAXV_2(NUM-K+1) = MAXV_2(NUM-K)
                   ENDDO
@@ -187,7 +187,7 @@ Csv Reception
 
 Csv Reception
 
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
             CALL MPI_RECV(MAXV0,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
@@ -195,7 +195,7 @@ Csv Reception
             CALL MPI_RECV(MAXV1,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-            MSGTYP = MSGOFF4 
+            MSGTYP = MSGOFF4
             CALL MPI_RECV(MAXV2,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
@@ -281,7 +281,7 @@ Csv Reception
      .                          MAXV_RES2(I),MAXV_RES0(I)
               ENDDO
             ENDIF
-          ENDIF 
+          ENDIF
        ENDIF
 C
  1000 FORMAT('***  NODES WITH HIGHEST VELOCITY')
@@ -307,7 +307,7 @@ c
        DEALLOCATE(MAXV0,MAXV1,MAXV2)
        DEALLOCATE(V,MAXV,MAXV_RES0,MAXV_RES1,MAXV_RES2)
        DEALLOCATE(IDNOD0,IDNOD,IDNOD_RES)
-      
+
 #endif
        RETURN
        END

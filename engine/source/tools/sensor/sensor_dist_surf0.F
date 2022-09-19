@@ -36,7 +36,7 @@ Chd|====================================================================
 !       SENSOR_DIST_SURF0 description
 !       computation of distance to surface for sensor typ16
 !       and reduction with a mpi communication
-!       
+!
 !       SENSOR_DIST_SURF0 organization :
 !       - computation of local distance
 !       - reduction with mpi comm
@@ -111,7 +111,7 @@ c
         XNOD  = X(1,INOD)
         YNOD  = X(2,INOD)
         ZNOD  = X(3,INOD)
-c    
+c
 c
       ! calculate distance to Surf_Id composed of segments
 c
@@ -144,12 +144,12 @@ c
               YP4 = X(2,NP4)
               ZP4 = X(3,NP4)
               CALL DIST_NODE_SEG4N(
-     .             DIST,DMIN,DMAX,XNOD,YNOD,ZNOD, 
+     .             DIST,DMIN,DMAX,XNOD,YNOD,ZNOD,
      .             XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3,XP4,YP4,ZP4)
               SENSOR(ISENS)%VALUE = MIN(SENSOR(ISENS)%VALUE, DIST)
-            END DO            
+            END DO
 c
-          CASE (7)  ! SH3N          
+          CASE (7)  ! SH3N
 c
             DO I = 1,NSEG
               NP1 = SURFACE%NODES(I,1)
@@ -166,10 +166,10 @@ c
               ZP3 = X(3,NP3)
 c
               CALL DIST_NODE_SEG3N(
-     .             DIST,DMIN,DMAX,XNOD,YNOD,ZNOD, 
+     .             DIST,DMIN,DMAX,XNOD,YNOD,ZNOD,
      .             XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3)
               SENSOR(ISENS)%VALUE = MIN(SENSOR(ISENS)%VALUE, DIST)
-            END DO            
+            END DO
 c
 c--------------------
         END SELECT

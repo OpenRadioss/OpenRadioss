@@ -120,7 +120,7 @@ C---------------------------------------------------
 C 1- Assemblage
 C---------------------------------------------------
       IF (L_ASSEMB) THEN
-         IF (ILVOUT>=1.AND.ISPMD==0) WRITE(ISTDO,'(A)') 
+         IF (ILVOUT>=1.AND.ISPMD==0) WRITE(ISTDO,'(A)')
      .   ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
          IF (IFORM==1) THEN
 C Assemblage de H
@@ -133,7 +133,7 @@ C Assemblage de H
                ENDDO
             ENDDO
             DO I=1,NCEIP
-               IF (ILVOUT==2) 
+               IF (ILVOUT==2)
      .            CALL PROGCONDP_C(I,NCEIP+NEP, ISPMD+1, IBID)
                IEL=CCEI_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -152,7 +152,7 @@ C Assemblage de H
                Z2=X(3,N2)
                Z3=X(3,N3)
                X0=THIRD*(X1+X2+X3)
-               Y0=THIRD*(Y1+Y2+Y3)    
+               Y0=THIRD*(Y1+Y2+Y3)
                Z0=THIRD*(Z1+Z2+Z3)
                D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
@@ -175,7 +175,7 @@ C Assemblage de H
             ENDDO
 C Assemblage de G
             DO I=1,NEP
-               IF (ILVOUT==2) 
+               IF (ILVOUT==2)
      .            CALL PROGCONDP_C(NCEIP+I,NCEIP+NEP, ISPMD+1, IBID)
                IEL=CE_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -194,7 +194,7 @@ C Assemblage de G
                Z2=X(3,N2)
                Z3=X(3,N3)
                X0=THIRD*(X1+X2+X3)
-               Y0=THIRD*(Y1+Y2+Y3)    
+               Y0=THIRD*(Y1+Y2+Y3)
                Z0=THIRD*(Z1+Z2+Z3)
                D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
@@ -240,7 +240,7 @@ C
                ENDDO
             ENDDO
             DO I=1,NREIP
-               IF (ILVOUT==2) 
+               IF (ILVOUT==2)
      .            CALL PROGCONDP_C(I,NREIP, ISPMD+1, IBID)
                IEL=CREI_LOC_GLOB(I)
                N1=ELEM(1,IEL)
@@ -277,7 +277,7 @@ C
                Z2=X(3,N2)
                Z3=X(3,N3)
                X0=THIRD*(X1+X2+X3)
-               Y0=THIRD*(Y1+Y2+Y3)    
+               Y0=THIRD*(Y1+Y2+Y3)
                Z0=THIRD*(Z1+Z2+Z3)
                NRX=NORM(1,IEL)
                NRY=NORM(2,IEL)
@@ -286,7 +286,7 @@ C
                CALL GLBEMP(X1,    Y1,    Z1,    X2,   Y2,
      .                     Z2,    X3,    Y3,    Z3,   X0,
      .                     Y0,    Z0,    NORM,  HBEM, GBEM,
-     .                     ELEM,  X,     NL1,   NL2,  NL3, 
+     .                     ELEM,  X,     NL1,   NL2,  NL3,
      .                     NNRP,  NEL,   AREA2, CC_GLOB_LOC,
      .                     CE_GLOB_LOC,  NC1, NC2,  NC3  ,
      .                     OFFNR, OFFNC)
@@ -311,15 +311,15 @@ C Somme des lignes de G pour remplacer la derniere colonne de H
             ENDDO
          ENDIF
 C Factorisation de HBEM
-         CALL PDGETRF(NNO,    NNO,  HBEM, 1, 1, 
+         CALL PDGETRF(NNO,    NNO,  HBEM, 1, 1,
      .                DESC_H, IPIV, INFO)
-      ENDIF            
+      ENDIF
 C---------------------------------------------------
 C 2- Resolution
 C---------------------------------------------------
       IF (ILVOUT>=1.AND.ISPMD==0) THEN
          WRITE(ISTDO,*)
-         WRITE(ISTDO,'(A)') 
+         WRITE(ISTDO,'(A)')
      .' ** BEMSOLV : PARALLEL LINEAR SYSTEM SOLUTION'
       ENDIF
       CALL PDGEMV('N', NNO, NEL,    ONE,   GBEM,
@@ -407,12 +407,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, JBID, NBID, IDEG, IAD2, IP, IEL, NN1, NN2, NN3,
      .        NL1, NL2, NL3, IELL, OFFNR2(3), OFFEL
-      my_real 
+      my_real
      .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3, XP,
-     .        YP, ZP, CP, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3, 
+     .        YP, ZP, CP, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .        XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XX0, YY0,
      .        ZZ0, NRX, NRY, NRZ, D2, RVL(6), RVLH(3), RVLG
-     .        
+     .
 C
       DATA PG  /.33333333,.33333333,
      .          .33333333,.33333333,
@@ -539,7 +539,7 @@ C Matrice G
          HBEM(N3,NC1)=HBEM(N3,NC1)+OFFNR(3)*OFFNC(1)*W*CP*VAL3*VAL1*JAC
          HBEM(N3,NC2)=HBEM(N3,NC2)+OFFNR(3)*OFFNC(2)*W*CP*VAL3*VAL2*JAC
          HBEM(N3,NC3)=HBEM(N3,NC3)+OFFNR(3)*OFFNC(3)*W*CP*VAL3*VAL3*JAC
-      ENDDO          
+      ENDDO
 C
       RETURN
       END
@@ -568,8 +568,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, IAD2, IP
-      my_real 
-     .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3, 
+      my_real
+     .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3,
      .        PHI_INFP
 C
       DATA PG  /.33333333,.33333333,

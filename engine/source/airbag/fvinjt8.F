@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE FVINJT8(NJET   , IBAGJET , RBAGJET , NPC    , TF,
-     2                   SENSOR , SCALT,    IGEO,     GEO,     PM, 
+     2                   SENSOR , SCALT,    IGEO,     GEO,     PM,
      3                   IVOLU,   DATAINJ )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,21 +47,21 @@ C-----------------------------------------------
       INTEGER NJET, IBAGJET(NIBJET,*), NPC(*), IGEO(NPROPGI,*), IVOLU(*)
 C     REAL
       my_real
-     .   RBAGJET(NRBJET,*), TF(*), SENSOR(NSENSR,*), SCALT, 
+     .   RBAGJET(NRBJET,*), TF(*), SENSOR(NSENSR,*), SCALT,
      .   GEO(NPROPG,*), PM(NPROPM,*), DATAINJ(6,NJET)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I_INJ, I_TYPINJ, NGASES, ISENS, IFLU, IMASS, ITEMP, IMOL, 
+      INTEGER I_INJ, I_TYPINJ, NGASES, ISENS, IFLU, IMASS, ITEMP, IMOL,
      .   I_GAS, IJ, IK, IL, IMASS1, I_GAS1, IMOL1, KK
       my_real
-     .   TSTART, ASTIME, DGMASSI, GMTOT_OLD, GMASS_OLD, GMOL_OLD, FMASS, 
-     .   FTEMP,  MOLFR,  GMASS,   GMASS_DT,  GMTOT,     DGMASS,   EFAC , 
-     .   TSG,    DYDX,  RMWG,  TEMP,  
-     .   CPA, CPB, CPC, CPD, CPE, CPF, MW, 
+     .   TSTART, ASTIME, DGMASSI, GMTOT_OLD, GMASS_OLD, GMOL_OLD, FMASS,
+     .   FTEMP,  MOLFR,  GMASS,   GMASS_DT,  GMTOT,     DGMASS,   EFAC ,
+     .   TSG,    DYDX,  RMWG,  TEMP,
+     .   CPA, CPB, CPC, CPD, CPE, CPF, MW,
      .   CPA_NEW, CPB_NEW, CPC_NEW, CPD_NEW, CPE_NEW, CPF_NEW,MWMIX_NEW,
-     .   DMASS_MIX, DMOL_MIX, DMASSG_MIX, DTEPS, MASS_MIX, MASS_MIX_DT, 
+     .   DMASS_MIX, DMOL_MIX, DMASSG_MIX, DTEPS, MASS_MIX, MASS_MIX_DT,
      .   MWMIX, FMASS1, MW1, MOLFR1, R_IGC1, DGMOUT
 C
       my_real
@@ -141,7 +141,7 @@ C
           EFAC=ZERO
          ENDIF
 C
-         DMASS_MIX=ZERO 
+         DMASS_MIX=ZERO
          DMOL_MIX=ZERO
          DMASSG_MIX=ZERO
 

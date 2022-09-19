@@ -125,7 +125,7 @@ C      NSPHSYM=0 initialise dans sphprep
            NSPHSYM_L = ISPSYM(NC,N)
            XS=XI - TWO*DD*NX
            YS=YI - TWO*DD*NY
-           ZS=ZI - TWO*DD*NZ	   
+           ZS=ZI - TWO*DD*NZ	
            IF(ISLIDE==0)THEN
             VXS=-VXI
             VYS=-VYI
@@ -134,7 +134,7 @@ C      NSPHSYM=0 initialise dans sphprep
             VN=VXI*NX+VYI*NY+VZI*NZ
             VXS=VXI  - TWO*VN*NX
             VYS=VYI - TWO*VN*NY
-            VZS=VZI - TWO*VN*NZ	    
+            VZS=VZI - TWO*VN*NZ	
            ENDIF
            XSPSYM(1,NSPHSYM_L)= XS
            XSPSYM(2,NSPHSYM_L)= YS
@@ -159,7 +159,7 @@ C
            NSPHSYM_L = ISPSYMR(NC,NS)
            XS=XI - TWO*DD*NX
            YS=YI - TWO*DD*NY
-           ZS=ZI - TWO*DD*NZ	   
+           ZS=ZI - TWO*DD*NZ	
            IF(ISLIDE==0)THEN
             VXS=-VXI
             VYS=-VYI
@@ -168,7 +168,7 @@ C
             VN=VXI*NX+VYI*NY+VZI*NZ
             VXS=VXI  - TWO*VN*NX
             VYS=VYI - TWO*VN*NY
-            VZS=VZI - TWO*VN*NZ	    
+            VZS=VZI - TWO*VN*NZ	
            ENDIF
            XSPSYM(1,NSPHSYM_L)= XS
            XSPSYM(2,NSPHSYM_L)= YS
@@ -222,7 +222,7 @@ C------
 C------
         DO I=1,NVOIS2
          JNOD=IXSP(I,N)
-         IF(JNOD>0)THEN          ! particule interne       
+         IF(JNOD>0)THEN          ! particule interne
           M=NOD2SP(JNOD)
           DJ =SPBUF(1,M)
           DIJ=(DI+DJ)
@@ -297,7 +297,7 @@ C-------
 C        preparing all real neighbours for sort.
          DO J=1,NVOIS2
           JNOD=IXSP(J,N)
-          IF(JNOD>0)THEN               ! particule interne  
+          IF(JNOD>0)THEN               ! particule interne
             XJ =X(1,JNOD)
             YJ =X(2,JNOD)
             ZJ =X(3,JNOD)
@@ -453,7 +453,7 @@ C------
 C------
          DO I=1,NVOIS2
           JNOD=IXSP(I,N)
-          IF(JNOD>0)THEN          ! particule interne       
+          IF(JNOD>0)THEN          ! particule interne
            M=NOD2SP(JNOD)
            DJ =SPBUF(1,M)
            DIJ=TWO*DJ
@@ -524,7 +524,7 @@ C-------
 C         preparing all real neighbours for sort.
           DO J=1,NVOIS2
            JNOD=IXSP(J,N)
-           IF(JNOD>0)THEN               ! particule interne  
+           IF(JNOD>0)THEN               ! particule interne
             XJ =X(1,JNOD)
             YJ =X(2,JNOD)
             ZJ =X(3,JNOD)

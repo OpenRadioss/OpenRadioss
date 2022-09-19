@@ -30,7 +30,7 @@ Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|====================================================================
       SUBROUTINE R4DEF3(
      1        SKEW    ,GEO    ,FX     ,FY     ,FZ    ,
-     2        E       ,DX     ,DY     ,DZ     ,NPF   , 
+     2        E       ,DX     ,DY     ,DZ     ,NPF   ,
      3        TF      ,OFF    ,DPX    ,DPY    ,DPZ   ,
      4        DPX2    ,DPY2   ,DPZ2   ,FXEP   ,FYEP  ,
      5        FZEP    ,X0     ,Y0     ,Z0     ,XMOM  ,
@@ -150,7 +150,7 @@ C
        XH(I)= MAX(HX(I),HY(I),HZ(I))
        XCM(I)= MAX(XC(I),YC(I),ZC(I))
        XCM(I)= XCM(I)+XH(I)
-     
+
        XKR(I)= MAX(YKA,ZKA) * ALDP(I) * ALDP(I)
        XCR(I)= (MAX(YC(I),ZC(I)) + MAX(HY(I),HZ(I))) * ALDP(I) * ALDP(I)
        VRT(I) = GEO(101,MGN(I))

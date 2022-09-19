@@ -58,8 +58,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD     
-      USE DETONATORS_MOD             
+      USE ELBUFDEF_MOD
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -99,8 +99,8 @@ C-----------------------------------------------
      .   TEMP(*), TF(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
-      my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*) 
-      TYPE(DETONATOR_STRUCT_)::DETONATORS     
+      my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
+      TYPE(DETONATOR_STRUCT_)::DETONATORS
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -124,13 +124,13 @@ C-----------------------------------------------
      .  NI(MVSIZ,20),DNIDR(MVSIZ,20),DNIDS(MVSIZ,20),DNIDT(MVSIZ,20),
      .  DTX(MVSIZ), WI,RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
 c---
      1 2.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -160,7 +160,7 @@ c---
      9 0.312347077040003D0,0.330239355001260D0,0.312347077040003D0,
      9 0.260610696402935D0,0.180648160694857D0,0.081274388361574D0/
 c------------------------------------------------------------
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -205,7 +205,7 @@ c
 C
       CALL S20COOR3(
      1   X          ,V     ,IXS(1,NF1),IXS20(1,NF2),XX      ,
-     2   YY         ,ZZ    ,VX        ,VY          ,VZ      , 
+     2   YY         ,ZZ    ,VX        ,VY          ,VZ      ,
      3   NC         ,NGL   ,MAT       ,PID         ,MASS    ,
      4   DTELEM(NF1),STI   ,GBUF%SIG  ,GBUF%EINT   ,GBUF%RHO,
      5   GBUF%QVIS  ,TEMP0 ,TEMP      ,NEL         )
@@ -255,7 +255,7 @@ C
 C----------------------------------------
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .         GBUF%VOL, DTX       , IGEO)
 C----------------------------------------
 c         INITIALISATION DES MASSES
@@ -301,7 +301,7 @@ C------------------------------------------
       LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,1)
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .     GBUF%VOL, DTX        , IGEO )
 c
       CALL S20MASS3(

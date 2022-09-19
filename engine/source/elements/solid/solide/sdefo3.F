@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
      .   VX46, VY46, VZ46, DT1D2, DT1D
-      my_real 
+      my_real
      .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,FAC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C=======================================================================
@@ -300,7 +300,7 @@ C
         WZZ(I)=AAA*WZZ(I) + BBB*VZR(I)
        ENDDO
       ENDIF
-      
+
       !VORTICITY OUTPUT /ANIM/ELEM/VORTX VORTY VORTZ
       IF(DT1/=ZERO)THEN
         FAC = FOUR/DT1
@@ -322,7 +322,7 @@ C
           ENDDO
         ENDIF
       ENDIF
-      
+
 C-----------
       RETURN
       END
@@ -364,7 +364,7 @@ C     REAL
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*)

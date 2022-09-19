@@ -42,7 +42,7 @@ C----------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESHSURFIG3D_MOD 
+      USE MESHSURFIG3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        IDFCTCOUPEE,IDFCTCOUPEE1,IDFCTCOUPEE2,FLAG_REMOVE,ITNCTRL
       my_real ALPHA1,ALPHA2,NEWKNOTLOC(DEG+1,2),TOL
 C=======================================================================
-c  
+c
       NEWKNOTLOC = 0
       TOL = EM06
 c
@@ -103,13 +103,13 @@ c
 c
 C       CALCUL DES COEFFICIENTS ALPHA1 ET ALPHA2
 c
-        IF(NEWKNOT>=KNOTLOCPC(DEG,DIR,DECALGEO+IDFCTCOUPEE)) THEN 
+        IF(NEWKNOT>=KNOTLOCPC(DEG,DIR,DECALGEO+IDFCTCOUPEE)) THEN
           ALPHA1=1
         ELSE
           ALPHA1=(NEWKNOT-KNOTLOCPC(1,DIR,DECALGEO+IDFCTCOUPEE))/
      /           (KNOTLOCPC(DEG,DIR,DECALGEO+IDFCTCOUPEE)-KNOTLOCPC(1,DIR,DECALGEO+IDFCTCOUPEE))
         ENDIF
-        IF(NEWKNOT<=KNOTLOCPC(2,DIR,DECALGEO+IDFCTCOUPEE)) THEN 
+        IF(NEWKNOT<=KNOTLOCPC(2,DIR,DECALGEO+IDFCTCOUPEE)) THEN
           ALPHA2=1
         ELSE
           ALPHA2=(KNOTLOCPC(DEG+1,DIR,DECALGEO+IDFCTCOUPEE)-NEWKNOT)/
@@ -117,7 +117,7 @@ c
         ENDIF
 c
 c       ASSEMBLAGE DES NOUVEAUX KNOT
-c        
+c
         I=DEG+1
         DO WHILE (KNOTLOCPC(I-1,DIR,DECALGEO+IDFCTCOUPEE)>=NEWKNOT)
           NEWKNOTLOC(I,1)=KNOTLOCPC(I-1,DIR,DECALGEO+IDFCTCOUPEE)
@@ -239,7 +239,7 @@ c
           KNOTLOCPC(:,DIR,DECALGEO+NUMNODIGE0+OFFSET_NEWFCT+NEWFCT) = NEWKNOTLOC(:,1)
           KNOTLOCPC(:,DIRTANG1,DECALGEO+NUMNODIGE0+OFFSET_NEWFCT+NEWFCT) = KNOTLOCPC(:,DIRTANG1,DECALGEO+IDFCTCOUPEE)
           KNOTLOCPC(:,DIRTANG2,DECALGEO+NUMNODIGE0+OFFSET_NEWFCT+NEWFCT) = KNOTLOCPC(:,DIRTANG2,DECALGEO+IDFCTCOUPEE)
-          TAB_NEWFCT(L_TAB_NEWFCT) = NUMNODIGE0+OFFSET_NEWFCT+NEWFCT 
+          TAB_NEWFCT(L_TAB_NEWFCT) = NUMNODIGE0+OFFSET_NEWFCT+NEWFCT
         ENDIF
 c
         DO J=1,L_TAB_FCTCUT
@@ -338,16 +338,16 @@ c
           KNOTLOCPC(:,DIR,DECALGEO+NUMNODIGE0+OFFSET_NEWFCT+NEWFCT) = NEWKNOTLOC(:,2)
           KNOTLOCPC(:,DIRTANG1,DECALGEO+NUMNODIGE0+OFFSET_NEWFCT+NEWFCT) = KNOTLOCPC(:,DIRTANG1,DECALGEO+IDFCTCOUPEE)
           KNOTLOCPC(:,DIRTANG2,DECALGEO+NUMNODIGE0+OFFSET_NEWFCT+NEWFCT) = KNOTLOCPC(:,DIRTANG2,DECALGEO+IDFCTCOUPEE)
-          TAB_NEWFCT(L_TAB_NEWFCT) = NUMNODIGE0+OFFSET_NEWFCT+NEWFCT 
+          TAB_NEWFCT(L_TAB_NEWFCT) = NUMNODIGE0+OFFSET_NEWFCT+NEWFCT
         ENDIF
 c
-ccc si la fonction est sur un autre patch aussi, elle ne doit pas etre supprimee. 
+ccc si la fonction est sur un autre patch aussi, elle ne doit pas etre supprimee.
 ccc Elle sera supprimee de la connectivite du patch raffine mais restera
 ccc avec son numero de fct pour le patch voisin
 c
         FLAG_REMOVE=1
         DO I=1,NBPART_IG3D
-          IF(I==NUMPATCH) CYCLE ! pas sur le patch sur lequel on travaille 
+          IF(I==NUMPATCH) CYCLE ! pas sur le patch sur lequel on travaille
           DO J=1,TABCONPATCH(I)%L_TAB_IG3D
             DO ITNCTRL=1,KXIG3D(3,TABCONPATCH(I)%TAB_IG3D(J))
               IF(IXIG3D(KXIG3D(4,TABCONPATCH(I)%TAB_IG3D(J))+ITNCTRL-1)==IDFCTCOUPEE) THEN

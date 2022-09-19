@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C INITIALISE LES DIRECTIONS DE FISSURES
@@ -142,16 +142,16 @@ C
       IF(IGTYP/=11 .AND. IGTYP/=17 . AND. IGTYP/=51) THEN
         THKL = ONE / NPT
         POS0 =-HALF*(ONE + THKL)
-        DO N=1,NPT                                                
-          I1=IPPOS+N                                              
-          I2=IPTHK+N                                              
-          I3=IPMAT+N                                              
+        DO N=1,NPT
+          I1=IPPOS+N
+          I2=IPTHK+N
+          I3=IPMAT+N
           DP =  N*THKL
-          DO I=LFT,LLT                                            
-            GEO(I1,IMAT) = POS0 + DP 
-            GEO(I2,IMAT) = THKL                              
-          ENDDO                                                   
-        ENDDO                                                     
+          DO I=LFT,LLT
+            GEO(I1,IMAT) = POS0 + DP
+            GEO(I2,IMAT) = THKL
+          ENDDO
+        ENDDO
       ENDIF
 C-----------
       RETURN

@@ -68,7 +68,7 @@ C-----------------------------------------------
         F14(I)=FILL(I)*F14(I)
         F24(I)=FILL(I)*F24(I)
         F34(I)=FILL(I)*F34(I)
-      END DO              
+      END DO
 
       RETURN
       END

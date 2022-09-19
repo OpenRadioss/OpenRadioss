@@ -31,7 +31,7 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE NODALD(IFUNC     ,WA4, IFLOW, RFLOW, IPARG, 
+      SUBROUTINE NODALD(IFUNC     ,WA4, IFLOW, RFLOW, IPARG,
      .                  ELBUF_TAB ,IX , NIX  , ITAB , NV46 )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -48,10 +48,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD  
-      USE I22BUFBRIC_MOD   
-      USE I22EDGE_MOD    
-      USE I22TRI_MOD           
+      USE ELBUFDEF_MOD
+      USE I22BUFBRIC_MOD
+      USE I22EDGE_MOD
+      USE I22TRI_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
       my_real
      .        RFLOW(*)
       REAL WA4(*)
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,8 +82,8 @@ C-----------------------------------------------
      .        IR1, IR2, J, JJ, NNO_L, NNI_L, II3, II4, JJJ, NNI,
      .        IALEL,NNOD,IPOS,IV,NGv,IDLOCv,J1,J2,IBV
       INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
-      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv
+      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL
       my_real D,V
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -99,30 +99,30 @@ C-----------------------------------------------
          NNOD = NIX-3   !8-node brick or 4-node quad
 
          IF(INT22==0)THEN
-         !---------------------------------------------------------!         
+         !---------------------------------------------------------!
          !         ALE STANDARD FORMULATION                        !
-         !---------------------------------------------------------!       
+         !---------------------------------------------------------!
          !1. COMPUTE NODAL PRESSURE                                !
-         !---------------------------------------------------------!         
-           !---1. COMPUTE NODAL PRESSURE---!      
-           ALLOCATE(COUNT_VOL(NUMNOD))                 
-           COUNT_VOL(:) = 0                           
+         !---------------------------------------------------------!
+           !---1. COMPUTE NODAL PRESSURE---!
+           ALLOCATE(COUNT_VOL(NUMNOD))
+           COUNT_VOL(:) = 0
            DO NG = 1, NGROUP
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
              ITYP  =IPARG(5,NG)
-             IALEL =IPARG(7,NG)+IPARG(11,NG)             
-             IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
+             IALEL =IPARG(7,NG)+IPARG(11,NG)
+             IF(ITYP/=1 .AND. ITYP/=2)CYCLE
              !IF(IALEL==0)CYCLE
-             GBUF => ELBUF_TAB(NG)%GBUF                       
+             GBUF => ELBUF_TAB(NG)%GBUF
               DO I=1,NEL
-                D = GBUF%RHO(I)   
-                V = GBUF%VOL(I)                            
+                D = GBUF%RHO(I)
+                V = GBUF%VOL(I)
                 DO J=2,NNOD+1
                   JJ=IX(J,NFT+I)
                   WA4(JJ)=WA4(JJ)+V*D               !cumulated mass
-                  COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume                 
-                ENDDO            
+                  COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume
+                ENDDO
               ENDDO
            ENDDO
            !applying weight factor
@@ -130,20 +130,20 @@ C-----------------------------------------------
              IF(COUNT_VOL(I)/=ZERO)THEN
                WA4(I)=WA4(I)/COUNT_VOL(I)
              ENDIF
-           ENDDO                 
-           DEALLOCATE(COUNT_VOL)             
+           ENDDO
+           DEALLOCATE(COUNT_VOL)
            GOTO 100
-         
-         ELSEIF(INT22>0)THEN 
-         !---------------------------------------------------------!         
+
+         ELSEIF(INT22>0)THEN
+         !---------------------------------------------------------!
          !         /INTER/TYPE22                                   !
-         !---------------------------------------------------------!       
+         !---------------------------------------------------------!
          !1. TAG FOR CUT CELL                                      !
          !2. COMPUTE NODAL PRESSURE                                !
          !     NOT INTERSECTED : NODAL P COMPUTED FROM GLOBAL BUF  !
          !         INTERSECTED : NODAL P COMPUTED FROM CUT CELL    !
-         !---------------------------------------------------------!                 
-           ALLOCATE(COUNT_VOL(NUMNOD))      
+         !---------------------------------------------------------!
+           ALLOCATE(COUNT_VOL(NUMNOD))
            COUNT_VOL = 0
            !---1. TAG FOR INTERSECTED BRICKS---!
            !NBF = 1+ITASK*NB/NTHREAD
@@ -151,80 +151,80 @@ C-----------------------------------------------
            NBF = 1
            NBL = NB
            NIN = 1
-           !---1. COMPUTE NODAL PRESSURE---!                  
+           !---1. COMPUTE NODAL PRESSURE---!
            DO NG = 1, NGROUP
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
              ITYP  =IPARG(5,NG)
-             IALEL =IPARG(7,NG)+IPARG(11,NG)             
-             IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
-             IF(IALEL==0)CYCLE             
-             GBUF => ELBUF_TAB(NG)%GBUF 
+             IALEL =IPARG(7,NG)+IPARG(11,NG)
+             IF(ITYP/=1 .AND. ITYP/=2)CYCLE
+             IF(IALEL==0)CYCLE
+             GBUF => ELBUF_TAB(NG)%GBUF
               DO I=1,NEL
 C                print *, "treating brick id=", IX(11,I+NFT)
                 IB = NINT(GBUF%TAG22(I))
-                !---------------------------!                
+                !---------------------------!
                 ! NOT A CUT CELL            !
-                !---------------------------! 
+                !---------------------------!
                 IF(IB>0)THEN
                   IF(BRICK_LIST(NIN,IB)%NBCUT==0)IB=0 !in cut cell buffer but not partitionned (because it is adjacent to a cut cell)
-                ENDIF             
-                IF(IB==0)THEN                
-                  D = GBUF%RHO(I)   
-                  V = GBUF%VOL(I)                           
+                ENDIF
+                IF(IB==0)THEN
+                  D = GBUF%RHO(I)
+                  V = GBUF%VOL(I)
                   DO J=2,NNOD+1
                     JJ=IX(J,NFT+I)
                     WA4(JJ)=WA4(JJ)+ D*V              !cumulated mass
-                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume 
-c                   if(ibug22_nodalp==1)then                    
+                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + V !cumulated volume
+c                   if(ibug22_nodalp==1)then
 c                       print *, "adding on node", itab(JJ)
 c                       print *, "    D=", D
-c                       print *, "    V=", V 
+c                       print *, "    V=", V
 c                       print *, "   WA=", WA4(JJ)
 c                       print *, " sumV=", COUNT_VOL(JJ)
 c                   endif
-                  ENDDO            
+                  ENDDO
                 !---------------------------!
                 !        CUT CELL           !
-                !---------------------------!                                
-                ELSE 
-                  NIN   = 1 
+                !---------------------------!
+                ELSE
+                  NIN   = 1
                   IB    = NINT(GBUF%TAG22(I))
                   MCELL = BRICK_LIST(NIN,IB)%MainID
                   DO J=2,NNOD+1
                     JJ=IX(J,NFT+I)
                     ICELL=BRICK_LIST(NIN,IB)%NODE(J-1)%WhichCell
                     IF(ICELL == MCELL)THEN
-                      D = GBUF%RHO(I)   
-                      V = GBUF%VOL(I)                      
+                      D = GBUF%RHO(I)
+                      V = GBUF%VOL(I)
                     ELSE
-                      IPOS     =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1) 
+                      IPOS     =  BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
                       IF(IPOS<=NV46)THEN
                         IV     =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,1)
                         NGv    =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,2)
-                        IDLOCv =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,3)                      
+                        IDLOCv =  BRICK_LIST(NIN,IB)%Adjacent_Brick(IPOS,3)
                       ELSE
                         J1     =  IPOS/10
                         J2     =  MOD(IPOS,10)
                         IBv    =  BRICK_LIST(NIN,IB )%Adjacent_Brick(J1,4)
                         IV     =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,1)
                         NGv    =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,2)
-                        IDLOCv =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,3)                                                 
+                        IDLOCv =  BRICK_LIST(NIN,IBv)%Adjacent_Brick(J2,3)
                       ENDIF
                       GBUFv    => ELBUF_TAB(NGv)%GBUF
-                      D        =  GBUFv%RHO(IDLOCv) 
-                      V        =  GBUFv%VOL(IDLOCv)                                             
+                      D        =  GBUFv%RHO(IDLOCv)
+                      V        =  GBUFv%VOL(IDLOCv)
                     ENDIF
                     WA4(JJ)=WA4(JJ)+D*V
                     COUNT_VOL(JJ) = COUNT_VOL(JJ) + V
-c                   if(ibug22_nodalp==1)then                    
+c                   if(ibug22_nodalp==1)then
 c                       print *, "adding on node", itab(JJ)
 c                       print *, "    D=", D
-c                       print *, "    V=", V 
+c                       print *, "    V=", V
 c                       print *, "   WA=", WA4(JJ)
 c                       print *, " sumV=", COUNT_VOL(JJ)
 c                   endif
-                  ENDDO            
+                  ENDDO
                 ENDIF
               ENDDO
            ENDDO
@@ -232,18 +232,18 @@ c                   endif
            DO I=1,NUMNOD
              IF(COUNT_VOL(I)/=ZERO)THEN
                WA4(I)=WA4(I)/COUNT_VOL(I)
-c                if(ibug22_nodalp==1)then               
+c                if(ibug22_nodalp==1)then
 c                    print *, "normilze node", itab(I)
-c                    print *, "  sum V=",COUNT_VOL(I) 
+c                    print *, "  sum V=",COUNT_VOL(I)
 c                    print *, "     WA=", WA4(I)
 c               endif
-                    
+
              ENDIF
            ENDDO
-           DEALLOCATE(COUNT_VOL)                  
+           DEALLOCATE(COUNT_VOL)
            GOTO 100
          ENDIF
-                  
-  100 CONTINUE        
+
+  100 CONTINUE
       RETURN
       END

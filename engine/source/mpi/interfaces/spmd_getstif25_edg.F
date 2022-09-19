@@ -98,19 +98,19 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
 C
-      IF(.NOT. (NSPMD == 1 .OR. COMM == MPI_COMM_NULL)) THEN 
+      IF(.NOT. (NSPMD == 1 .OR. COMM == MPI_COMM_NULL)) THEN
 !       Count fully broken edge
         LOCAL_SIZE(1:COMSIZE,1:2) = 0
         LOCAL_SIZE(RANK+1,1) = COUNT(STFE(1:NEDGE) < ZERO)
-       
+
 !       count new free edges
         DO I = 1,NEDGE
            IF(LEDGE(LEDGE_GLOBAL_ID,I) < 0) THEN
-             LOCAL_SIZE(RANK+1,2) = LOCAL_SIZE(RANK+1,2) + 1 
+             LOCAL_SIZE(RANK+1,2) = LOCAL_SIZE(RANK+1,2) + 1
            ENDIF
         ENDDO
-       
-        COMSIZE2 = COMSIZE * 2 
+
+        COMSIZE2 = COMSIZE * 2
         CALL MPI_ALLREDUCE(MPI_IN_PLACE,
      .                   LOCAL_SIZE,
      .                   COMSIZE2,
@@ -130,14 +130,14 @@ C
           J = 0
           DO I = 1, NEDGE
             IF( STFE(I) < 0 ) THEN
-              J = J + 1 
+              J = J + 1
 Cfill with global ID 
             BUFFER_SEND(J) = ABS(LEDGE(LEDGE_GLOBAL_ID,I))
 #ifdef D_ES
               IF(ABS(LEDGE(LEDGE_GLOBAL_ID,I)) == D_ES) THEN
                 WRITE(6,*) __FILE__,D_ES,"is deleted",STFE(I)
               ENDIF
-#endif      
+#endif
             ENDIF
           ENDDO
           DISPL(1)=0
@@ -156,7 +156,7 @@ Cfill with global ID
 
           DEALLOCATE(BUFFER_SEND)
 C hash table would be better here (UID -> index in LEDEG_FIE)
-          DO J = 1, TOTAL_SIZE 
+          DO J = 1, TOTAL_SIZE
             UID = BUFFER_RECV(J)
             DO I = 1,NEDGE_REMOTE
               IF(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,I) == UID) THEN
@@ -179,7 +179,7 @@ C
           J = 0
           DO I = 1, NEDGE
             IF( LEDGE(LEDGE_GLOBAL_ID,I) < 0 ) THEN
-              J = J + 1 
+              J = J + 1
 Cfill with global ID 
               BUFFER_SEND(5*(J-1)+1) = ABS(LEDGE(LEDGE_GLOBAL_ID,I))
               BUFFER_SEND(5*(J-1)+2) = LEDGE(LEDGE_LEFT_SEG,I)
@@ -190,11 +190,11 @@ Cfill with global ID
               IF(ABS(LEDGE(LEDGE_GLOBAL_ID,I)) == D_ES) THEN
                 WRITE(6,*) __FILE__,D_ES,"is Free"
               ENDIF
-#endif    
+#endif
             ENDIF
           ENDDO
           DO I=1,COMSIZE
-            LOCAL_SIZE(I,2) = LOCAL_SIZE(I,2) * 5 
+            LOCAL_SIZE(I,2) = LOCAL_SIZE(I,2) * 5
           ENDDO
           DISPL(1)=0
           DO I=2,COMSIZE
@@ -213,18 +213,18 @@ Cfill with global ID
 
           DEALLOCATE(BUFFER_SEND)
 C hash table would be better here (UID -> index in LEDEG_FIE)
-          DO J = 1, TOTAL_SIZE 
+          DO J = 1, TOTAL_SIZE
             UID =      BUFFER_RECV(5*(J-1)+1)
             S_LEFT =   BUFFER_RECV(5*(J-1)+2)
             S_RIGHT =  BUFFER_RECV(5*(J-1)+3)
             ID_LEFT =  BUFFER_RECV(5*(J-1)+4)
             ID_RIGHT = BUFFER_RECV(5*(J-1)+5)
-        
+
             DO I = 1,NEDGE_REMOTE
               IF(LEDGE_FIE(NIN)%P(E_GLOBAL_ID,I) == UID) THEN
                 LEDGE_FIE(NIN)%P(E_LEFT_SEG,I)  = S_LEFT
                 LEDGE_FIE(NIN)%P(E_RIGHT_SEG,I) = S_RIGHT
-                LEDGE_FIE(NIN)%P(E_LEFT_ID,I)   = ID_LEFT 
+                LEDGE_FIE(NIN)%P(E_LEFT_ID,I)   = ID_LEFT
                 LEDGE_FIE(NIN)%P(E_RIGHT_ID,I)  = ID_RIGHT
               ENDIF
             ENDDO
@@ -246,4 +246,4 @@ C       IF(STFE(i) < ZERO) STFE(i) = ZERO
 C     ENDDO
       RETURN
       END
-  
+

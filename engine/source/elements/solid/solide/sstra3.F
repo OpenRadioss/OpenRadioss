@@ -57,13 +57,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
-      my_real DXX(*), DYY(*), DZZ(*), D4(*), D5(*), D6(*), 
-     .        STRAIN(NEL,6), WXX(*), WYY(*), WZZ(*),OFF(*) 
+      my_real DXX(*), DYY(*), DZZ(*), D4(*), D5(*), D6(*),
+     .        STRAIN(NEL,6), WXX(*), WYY(*), WZZ(*),OFF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real WXXF, WYYF, WZZF, Q1, Q2, Q3, SS1, SS2, SS3, 
+      my_real WXXF, WYYF, WZZF, Q1, Q2, Q3, SS1, SS2, SS3,
      .        SS4, SS5, SS6, DTOFF(NEL)
 C-      
       WXXF = ZERO
@@ -73,7 +73,7 @@ C-
       Q2= ZERO
       Q3=0
       DTOFF(1:NEL) = DT1*OFF(1:NEL)
-      IF(JCVT>0)THEN 
+      IF(JCVT>0)THEN
         DO I=LFT,LLT
           STRAIN(I,1)=STRAIN(I,1)+DXX(I)*DTOFF(I)
           STRAIN(I,2)=STRAIN(I,2)+DYY(I)*DTOFF(I)
@@ -82,7 +82,7 @@ C-
           STRAIN(I,5)=STRAIN(I,5)+D5(I)*DTOFF(I)
           STRAIN(I,6)=STRAIN(I,6)+D6(I)*DTOFF(I)
         ENDDO
-      ELSE    
+      ELSE
         DO I=LFT,LLT
 C
            WXXF=WXX(I)*OFF(I)
@@ -110,5 +110,5 @@ C
          ENDDO
        ENDIF
 c------------
-       RETURN      
+       RETURN
        END SUBROUTINE SSTRA3

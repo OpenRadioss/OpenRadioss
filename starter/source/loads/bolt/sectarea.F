@@ -21,14 +21,14 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 
-!      SUBROUTINE SECTAREA(IXS,X,IBUF,NELE,ISOLNOD,AREA)  
+!      SUBROUTINE SECTAREA(IXS,X,IBUF,NELE,ISOLNOD,AREA)
 Chd|====================================================================
 Chd|  SECTAREA                      source/loads/bolt/sectarea.F  
 Chd|-- called by -----------
 Chd|        HM_READ_PRELOAD               source/loads/general/preload/hm_read_preload.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SECTAREA(IXS,IXS10,X,IBUF,NELE,ISOLNOD,AREA,ITAB)  
+      SUBROUTINE SECTAREA(IXS,IXS10,X,IBUF,NELE,ISOLNOD,AREA,ITAB)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real
      .   X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,N3
 C=======================================================================
-      
+
       AREA = ZERO
       DO IE=1,NELE
         J=0
@@ -75,7 +75,7 @@ C=======================================================================
             ENDIF
            ENDDO
          ENDIF
-           
+
          IF(J>=3)THEN
            IN1 = NODE(1)
            IN2 = NODE(2)
@@ -106,7 +106,7 @@ C=======================================================================
              AREA=AREA+HALF*SQRT(N3)
            ENDIF
          ENDIF
-         
+
         ELSE
          I10=II-NUMELS8
          IF(I10<=NUMELS10) THEN
@@ -123,7 +123,7 @@ C=======================================================================
             NODE(J)=IXS10(I-7,I10)
            ENDIF
           ENDDO
-         
+
          IF(J==6)THEN
           IN1 = NODE(1)
           IN2 = NODE(2)
@@ -143,6 +143,6 @@ C=======================================================================
         ENDIF
         ENDIF
       ENDDO
-         
+
       RETURN
       END

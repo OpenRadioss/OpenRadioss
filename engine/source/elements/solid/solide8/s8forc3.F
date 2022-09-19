@@ -47,7 +47,7 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|====================================================================
       SUBROUTINE S8FORC3(
      1                   ELBUF_STR,PM       ,GEO    ,IXS      ,X      ,
-     2                   A        ,V        ,MS     , 
+     2                   A        ,V        ,MS     ,
      3                   VEUL     ,FV       ,ALE_CONNECT  ,IPARG    ,
      4                   TF       ,NPF      ,BUFMAT ,PARTSAV  ,
      5                   STIFN ,FSKY ,IADS  ,OFFSET ,IPARTS ,
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -84,7 +84,7 @@ C-----------------------------------------------
 #include      "vecfx_c.inc"
 #include      "timeri_c.inc"
 #include      "warn_c.inc"
-#include      "param_c.inc" 
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -109,11 +109,11 @@ C-----------------------------------------------
       my_real
      .    XLOC(MVSIZ,8), YLOC(MVSIZ,8), ZLOC(MVSIZ,8),
      .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8),
-     .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),      
-     .   PX5(MVSIZ,8),PX6(MVSIZ,8),PX7(MVSIZ,8),PX8(MVSIZ,8),      
-     .   PY1(MVSIZ,8),PY2(MVSIZ,8),PY3(MVSIZ,8),PY4(MVSIZ,8),      
-     .   PY5(MVSIZ,8),PY6(MVSIZ,8),PY7(MVSIZ,8),PY8(MVSIZ,8),      
-     .   PZ1(MVSIZ,8),PZ2(MVSIZ,8),PZ3(MVSIZ,8),PZ4(MVSIZ,8),      
+     .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),
+     .   PX5(MVSIZ,8),PX6(MVSIZ,8),PX7(MVSIZ,8),PX8(MVSIZ,8),
+     .   PY1(MVSIZ,8),PY2(MVSIZ,8),PY3(MVSIZ,8),PY4(MVSIZ,8),
+     .   PY5(MVSIZ,8),PY6(MVSIZ,8),PY7(MVSIZ,8),PY8(MVSIZ,8),
+     .   PZ1(MVSIZ,8),PZ2(MVSIZ,8),PZ3(MVSIZ,8),PZ4(MVSIZ,8),
      .   PZ5(MVSIZ,8),PZ6(MVSIZ,8),PZ7(MVSIZ,8),PZ8(MVSIZ,8),
      .    D1(MVSIZ,8), D2(MVSIZ,8), D3(MVSIZ,8), D4(MVSIZ,8),
      .    D5(MVSIZ,8), D6(MVSIZ,8),
@@ -132,7 +132,7 @@ C Variables utilisees en arguments dans les routines solides
       my_real :: SSP(MVSIZ)
 C
 
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: EINT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -185,14 +185,14 @@ C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
       CALL MMAIN8(PM   ,GEO   ,ELBUF_STR,
-     2            IXS  ,IPARG ,V        ,TF    ,    
+     2            IXS  ,IPARG ,V        ,TF    ,
      3              NPF  ,BUFMAT,STI    ,X     ,D1    ,
      4              D2   ,D3    ,D4     ,D5    ,D6    ,
      5              VOLGP,DELTAX,VOLN   ,DVOL  ,VD2   ,
-     6            RHO0 ,MXT   ,NC       ,NGL   ,FV    ,           
+     6            RHO0 ,MXT   ,NC       ,NGL   ,FV    ,
      7              NEL  ,WXX   ,WYY    ,WZZ   ,PID   ,
-     8              DT2T ,NELTST,ITYPTST,R11   ,R21   ,  
-     9              R31  ,R12   ,R22    ,R32   ,R13   , 
+     8              DT2T ,NELTST,ITYPTST,R11   ,R21   ,
+     9              R31  ,R12   ,R22    ,R32   ,R13   ,
      A              R23  ,R33   ,OFF    ,IPM   ,GAMA  ,
      B              MSSA ,DMELS ,TABLE  ,SSP   ,ITASK )
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
@@ -200,14 +200,14 @@ C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
         IFLAG=MOD(NCYCLE,NCPRI)
-        IF(IOUTPRT>0)THEN       
+        IF(IOUTPRT>0)THEN
 c           NB3S = NB3
 c           IF (MTN==11) NB3S = NB14
-          IF (MTN == 11) THEN                                    
-            EINT => ELBUF_STR%GBUF%EINS(1:NEL)                   
-          ELSE                                                   
-            EINT => ELBUF_STR%GBUF%EINT(1:NEL)                   
-          ENDIF                                                  
+          IF (MTN == 11) THEN
+            EINT => ELBUF_STR%GBUF%EINS(1:NEL)
+          ELSE
+            EINT => ELBUF_STR%GBUF%EINT(1:NEL)
+          ENDIF
            IF (JCVT==0)THEN
             CALL S8BILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
      .                  VOLN,VXLOC,VYLOC,VZLOC,IPARTS,

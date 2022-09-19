@@ -630,7 +630,7 @@ C-----------------------------------------------
       END SELECT
       !============================!
       ! PLASTICITY DEFAULT         !
-      !============================! 
+      !============================!
       IF(RATIO<=ZERO)THEN
         RATIO = 0.25D00   !ONE is for previous formulation (permitted large volume change)
       ENDIF
@@ -659,18 +659,18 @@ C-----------------------------------------------
           MTAG%L_BFRAC = 1
       ENDIF
       DO I=1,3
-        IF(IPLA(I) == 2)THEN 
+        IF(IPLA(I) == 2)THEN
           IF(A2(I)==ZERO.AND.A1(I)/=ZERO)THEN   !(A21=A11=ZERO => error message)
-            PSTAR(I)=-A0(I)/A1(I) 
+            PSTAR(I)=-A0(I)/A1(I)
           ELSEIF(A2(I)/=ZERO)THEN
             DELTA = A1(I)*A1(I)-FOUR*A0(I)*A2(I)
             !Si intersection avec l'axe
             IF(DELTA  >=  ZERO)THEN
               DELTA=SQRT(DELTA)
               PSTAR(I) = (-A1(I)+DELTA)/TWO/A2(I)
-            
+
             ELSE
-            !  PSTAR(I) = -A1(I)/TWO/A2(I) !no let user do what he wants 
+            !  PSTAR(I) = -A1(I)/TWO/A2(I) !no let user do what he wants
               PSTAR(I) = -INFINITY
               chain='SUBMAT-0 : YIELD SURFACE HAS NO ROOT.                          '
               write(chain(8:8),'(i1.1)')I
@@ -699,9 +699,9 @@ C     !============================!
         ELSE
           N_LC=1000
         ENDIF
-      ENDIF       
+      ENDIF
       IF(ABCS==ZERO) ABCS=  ONE*FAC_UNIT_TIME
-      PMIN = -PEXT  
+      PMIN = -PEXT
       DO I=1,4
         ! RhoCp
         IF(SPH(I) == ZERO) SPH(I) = ONE * FAC_UNIT_SPH
@@ -812,7 +812,7 @@ C     !============================!
       IF(IFLG == 0 .OR. IFLG == 1)THEN
         DO I=1,3
           P0(I)    = C0(I)+C4(I)*E0(I)
-          DPDMU(I) = (C1(I)+C5(I)*E0(I)) + C4(I)*(PEXT+P0(I)) 
+          DPDMU(I) = (C1(I)+C5(I)*E0(I)) + C4(I)*(PEXT+P0(I))
           IF(RHO0_(I) /= ZERO) SSP(I)  = SQRT( (DPDMU(I) + TWO_THIRD*GG(I)) / RHO0_(I) )   !achtung GG = 2*G   =>  TWO_THIRD*GG = FOUR_OVER_3*G
         ENDDO
         P0(4)  = C0(4)
@@ -820,8 +820,8 @@ C     !============================!
       ENDIF
       !============================!
       ! Output through UPARAM(*)   !
-      !============================! 
-      UPARAM(1)  = VIS   
+      !============================!
+      UPARAM(1)  = VIS
       UPARAM(2)  = TWO*VIS
       UPARAM(3)  = (VISV-UPARAM(2))*THIRD
       UPARAM(4)  = AV(1)
@@ -890,8 +890,8 @@ C     !============================!
         UPARAM(57) = EINF(1)
         UPARAM(58) = EINF(2)
         UPARAM(59) = EINF(3)
-        UPARAM(60) = EINF(4)               
-        UPARAM(61) = IOPT  
+        UPARAM(60) = EINF(4)
+        UPARAM(61) = IOPT
         UPARAM(62) = ONE/N_LC
         UPARAM(63) = IPLA_
         UPARAM(64) = IPLA(1)
@@ -1077,11 +1077,11 @@ C     !============================!
         !============================!
         IF(NITER  /= 10)THEN
           WRITE(IOUT,901)NITER
-        ENDIF   
-      ENDIF  
-      
-      PM(38)=VDET    
-      IF(IFLG==12)RHO0=ONE    
+        ENDIF
+      ENDIF
+
+      PM(38)=VDET
+      IF(IFLG==12)RHO0=ONE
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0

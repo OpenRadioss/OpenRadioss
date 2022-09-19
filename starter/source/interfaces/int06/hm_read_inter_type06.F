@@ -69,7 +69,7 @@ C-----------------------------------------------
      .   FRIGAP(*)
       CHARACTER TITR*nchartitle,TITR1*nchartitle
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -89,8 +89,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,L, NTYP, IBID,INACTI,IS1, IS2,ILEV,NCURS,NLO,       
-     .    NFRIC, NDAMP1,NDAMP2,IRS,IRM,IFUN1,IFUN2,HFLAG,IKK,II,  
+      INTEGER I,J,L, NTYP, IBID,INACTI,IS1, IS2,ILEV,NCURS,NLO,
+     .    NFRIC, NDAMP1,NDAMP2,IRS,IRM,IFUN1,IFUN2,HFLAG,IKK,II,
      .    INTKG, NFRIC1,NFRIC2,ICOR,IERR1,IERR2,IFRIC1,IFRIC2,
      .    IDAMP1,IDAMP2,IGSTI
       my_real
@@ -113,11 +113,11 @@ C Initializations
       IS1=0
       IS2=0
       IFUN1=0
-      IFUN2=0         
-      IGSTI = 0  
+      IFUN2=0
+      IGSTI = 0
       INACTI = 0
-      ILEV = 0      
-      INTKG = 0    
+      ILEV = 0
+      INTKG = 0
 C
       FRIC = ZERO
       GAP = ZERO
@@ -191,7 +191,7 @@ C.....* Storage IPARI FRIGAP *.......
       FRIGAP(11)=STOPT
 
 C....* CHECKS *.............     
-    
+
       IF (HFLAG > 0  .AND. IFUN2 == 0)    HFLAG = 2
       IF (HFLAG > 0  .AND. STIFF == ZERO) HFLAG = 0
       IF (HFLAG == 0 .AND. ICOR == 1)  ICOR = 0
@@ -271,83 +271,83 @@ c
       ENDIF
 c
       IFRIC1  = IPARI(51)
-      IF (IFRIC1 /= 0) THEN  ! friction coefficient = f(Fn)  
-        IERR1 = 1                                           
-        DO J=1,NFUNCT                                   
-          IF (IFRIC1 == NPC1(J)) THEN            
-            IPARI(51) = J                                 
-            IERR1 = 0                                       
-            EXIT                                            
-          ENDIF                                             
-        ENDDO                                               
-        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,              
-     .                              MSGTYPE=MSGERROR,       
-     .                              ANMODE=ANINFO,          
-     .                              I1=NOINT,               
-     .                              C1=TITR,                
-     .                              I2=IFRIC1)               
-      ENDIF                                                 
+      IF (IFRIC1 /= 0) THEN  ! friction coefficient = f(Fn)
+        IERR1 = 1
+        DO J=1,NFUNCT
+          IF (IFRIC1 == NPC1(J)) THEN
+            IPARI(51) = J
+            IERR1 = 0
+            EXIT
+          ENDIF
+        ENDDO
+        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO,
+     .                              I1=NOINT,
+     .                              C1=TITR,
+     .                              I2=IFRIC1)
+      ENDIF
 c
       IDAMP1 = IPARI(52)
-      IF (IDAMP1 /= 0) THEN  ! damping coefficient = f(Fn)  
-        IERR1 = 1                                           
-        DO J=1,NFUNCT                                   
-          IF (IDAMP1 == NPC1(J)) THEN           
-            IPARI(52) = J                                 
-            IERR1 = 0                                       
-            EXIT                                            
-          ENDIF                                             
-        ENDDO                                               
-        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,              
-     .                              MSGTYPE=MSGERROR,       
-     .                              ANMODE=ANINFO,          
-     .                              I1=NOINT,               
-     .                              C1=TITR,                
-     .                              I2=IDAMP1)              
-      ENDIF                                                 
+      IF (IDAMP1 /= 0) THEN  ! damping coefficient = f(Fn)
+        IERR1 = 1
+        DO J=1,NFUNCT
+          IF (IDAMP1 == NPC1(J)) THEN
+            IPARI(52) = J
+            IERR1 = 0
+            EXIT
+          ENDIF
+        ENDDO
+        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO,
+     .                              I1=NOINT,
+     .                              C1=TITR,
+     .                              I2=IDAMP1)
+      ENDIF
 c
       IDAMP2 = IPARI(53)
-      IF (IDAMP2 /= 0) THEN  ! damping coefficient = f(Vn)  
-        IERR1 = 1                                           
-        DO J=1,NFUNCT                                   
-          IF (IDAMP2 == NPC1(J)) THEN           
-            IPARI(53) = J                                 
-            IERR1 = 0                                       
-            EXIT                                            
-          ENDIF                                             
-        ENDDO                                               
-        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,              
-     .                              MSGTYPE=MSGERROR,       
-     .                              ANMODE=ANINFO,          
-     .                              I1=NOINT,               
-     .                              C1=TITR,                
-     .                              I2=IDAMP2)              
-      ENDIF                                                 
+      IF (IDAMP2 /= 0) THEN  ! damping coefficient = f(Vn)
+        IERR1 = 1
+        DO J=1,NFUNCT
+          IF (IDAMP2 == NPC1(J)) THEN
+            IPARI(53) = J
+            IERR1 = 0
+            EXIT
+          ENDIF
+        ENDDO
+        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO,
+     .                              I1=NOINT,
+     .                              C1=TITR,
+     .                              I2=IDAMP2)
+      ENDIF
 c
       IFRIC2 = IPARI(54)
-      IF (IFRIC2 /= 0) THEN  ! friction coefficient = f(Vn)  
-        IERR1 = 1                                           
-        DO J=1,NFUNCT                                   
-          IF (IFRIC2 == NPC1(J)) THEN           
-            IPARI(54) = J                                 
-            IERR1 = 0                                       
-            EXIT                                            
-          ENDIF                                             
-        ENDDO                                               
-        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,              
-     .                              MSGTYPE=MSGERROR,       
-     .                              ANMODE=ANINFO,          
-     .                              I1=NOINT,               
-     .                              C1=TITR,                
-     .                              I2=IFRIC2)              
-      ENDIF    
+      IF (IFRIC2 /= 0) THEN  ! friction coefficient = f(Vn)
+        IERR1 = 1
+        DO J=1,NFUNCT
+          IF (IFRIC2 == NPC1(J)) THEN
+            IPARI(54) = J
+            IERR1 = 0
+            EXIT
+          ENDIF
+        ENDDO
+        IF (IERR1 == 1) CALL ANCMSG(MSGID=113,
+     .                              MSGTYPE=MSGERROR,
+     .                              ANMODE=ANINFO,
+     .                              I1=NOINT,
+     .                              C1=TITR,
+     .                              I2=IFRIC2)
+      ENDIF
 C
 C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
       WRITE(IOUT,1506) HFLAG,ICOR,IFUN1,IFUN2,FACX,STFAC,FAC2,
      .                 STIFF,SFRIC,FRIC,NFRIC1,NFRIC2,VISC,
-     .                 NDAMP2,NDAMP1,INACTI,GAP,STARTT,STOPT,IRS,IRM                        
+     .                 NDAMP2,NDAMP1,INACTI,GAP,STARTT,STOPT,IRS,IRM
 C--------------------------------------------------------------
       IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -360,7 +360,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

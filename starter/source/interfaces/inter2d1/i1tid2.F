@@ -105,7 +105,7 @@ C       CALL ARRET(2)
       CRST(1,II)=SS
       CRST(2,II)=-ONE
       IER2=0
-       IF(SS> ONEP05.OR.SS<-ONEP05)THEN  
+       IF(SS> ONEP05.OR.SS<-ONEP05)THEN
        IER1=IER1+1
        IER2=1
       ENDIF

@@ -81,7 +81,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MOD_SPHPREP
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
@@ -128,7 +128,7 @@ C     REAL
       my_real
      .   X(3,*), V(3,*), MS(*),PM(NPROPM,*),
      .   GEO(NPROPG,*),BUFMAT(*), BUFGEO(*), PLD(*),
-     .   WA(*), PARTSAV(*), XFRAME(NXFRAME,*) , 
+     .   WA(*), PARTSAV(*), XFRAME(NXFRAME,*) ,
      .   SPBUF(NSPBUF,*),
      .   WASPH(*), VSPHIO(*), D(3,*), SPHVELN(*), GAUGE(LLGAUGE,*),
      .   FSKYD(*), DMSPH(*)
@@ -136,7 +136,7 @@ C     REAL
      .   XDP(3,*)
       TYPE (ELBUF_STRUCT_), DIMENSION (NGROUP) :: ELBUF_TAB
       TYPE SPSYM_STRUCT
-        my_real, DIMENSION(:)  , POINTER :: BUF 
+        my_real, DIMENSION(:)  , POINTER :: BUF
       END TYPE SPSYM_STRUCT
       TYPE (SPSYM_STRUCT) :: XSPSYM,VSPSYM,WSMCOMP
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -226,7 +226,7 @@ C
         DZMIN= EP20
         DXMAX=-EP20
         DYMAX=-EP20
-        DZMAX=-EP20     
+        DZMAX=-EP20
       END IF
 C-----------------------------------------------
 C
@@ -249,7 +249,7 @@ C       echange des particules reelles/symetriques si traversee.
         DZMINL= EP20
         DXMAXL=-EP20
         DYMAXL=-EP20
-        DZMAXL=-EP20     
+        DZMAXL=-EP20
         DO NS=NSP2SORTF,NSP2SORTL
           N=WSP2SORT(NS)
           INOD=KXSP(3,N)
@@ -295,7 +295,7 @@ C
         IF(ITASK==0)THEN
           IF(NSPMD>1)THEN
             CALL SPMD_MIN_MAX(DXMIN,DYMIN,DZMIN,DXMAX,DYMAX,DZMAX)
-          END IF	 
+          END IF	
 C
           DX=DXMAX-DXMIN
           DY=DYMAX-DYMIN
@@ -325,7 +325,7 @@ C
       IF(ITASK==0)THEN
         ISPHRED=0
         ISORTSPG = ISORTSP
-      ENDIF    
+      ENDIF
 C   
       IREDUCE=0
 C    /---------------/      
@@ -335,7 +335,7 @@ C    /---------------/
       IF (ITASK/= 0) ISORTSP = ISORTSPG
 
       WREDUCE(1+ITASK*NUMSPH/NTHREAD:(ITASK+1)*NUMSPH/NTHREAD)=0
-      
+
 C    /---------------/
       CALL MY_BARRIER
 C    /---------------/
@@ -471,8 +471,8 @@ C
             CALL SPMD_SPAMAJ(ISPHRED,SPATRUE)
 C
             CALL STOPTIME(91,1)
-          END IF          
-        END IF          
+          END IF
+        END IF
 C      /---------------/
         CALL MY_BARRIER
 C      /---------------/
@@ -498,7 +498,7 @@ C
             CALL STARTIME(91,1)
             CALL SPMD_SPHGETISPH()
             CALL STOPTIME(91,1)
-          END IF 
+          END IF
         ENDIF
 C      /---------------/
         CALL MY_BARRIER
@@ -548,7 +548,7 @@ C
             CALL SPMD_SPHGETX(KXSP, SPBUF ,X ,IPARTSP)
 C
             CALL STOPTIME(92,1)
-          END IF 
+          END IF
 C Synchro sur echange SPMD
 C         /---------------/
           CALL MY_BARRIER
@@ -600,12 +600,12 @@ C
             CALL SPMD_SPHGETV(KXSP ,SPBUF, V, MS, ISORTSP ,IPARTSP)
 C
             CALL STOPTIME(92,1)
-          END IF 
+          END IF
 C Synchro echange SPMD
 C        /---------------/
           CALL MY_BARRIER
 C       /---------------/
-        END IF 
+        END IF
 C
 C Actualisation des particules symetriques : MAJ VSPSYM apres SPMD_SPHGETV
 C

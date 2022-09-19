@@ -79,7 +79,7 @@ C-----------------------------------------------
        DO I=JFT,JLT
          DT(I)=DTFAC1(4)*AL(I)/SSP(I)
        ENDDO
-       
+
        IF(NODADT/=0.AND.IDTMIN(4)==0)RETURN
 
        DO I=JFT,JLT
@@ -126,7 +126,7 @@ C----
             NELTST  = NGL(I)
             ITYPTST = 4
           END  IF
-        END DO         
+        END DO
       END IF!(IDTMINS/=2.OR.JSMS==0)
 C-----------------------------------------------           
       IF(G_DT/=ZERO)THEN
@@ -135,6 +135,6 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------      
-      
+
       RETURN
       END

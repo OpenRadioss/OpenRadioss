@@ -30,7 +30,7 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|====================================================================
-      SUBROUTINE NODALVFRAC(IFUNC    , WA4, IFLOW, RFLOW, IPARG, 
+      SUBROUTINE NODALVFRAC(IFUNC    , WA4, IFLOW, RFLOW, IPARG,
      .                      ELBUF_TAB, IX , NIX  , ITAB , NV46 )
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -48,10 +48,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD  
-      USE I22BUFBRIC_MOD   
-      USE I22EDGE_MOD    
-      USE I22TRI_MOD           
+      USE ELBUFDEF_MOD
+      USE I22BUFBRIC_MOD
+      USE I22EDGE_MOD
+      USE I22TRI_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,9 +73,9 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: IFUNC, IFLOW(*),IPARG(NPARG,*),IX(NIX,*),ITAB(*),NIX,NV46
       my_real,INTENT(IN) :: RFLOW(*)
       REAL,INTENT(INOUT) :: WA4(*)
-      
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
-      TYPE(BUF_MAT_),POINTER                          :: MBUF      
+
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE(BUF_MAT_),POINTER                          :: MBUF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -84,10 +84,10 @@ C-----------------------------------------------
      .                                      IALEL,NNOD,IPOS,IV,NGv,J1,J2,IBV, MLW,NumNodCell,
      .                                      NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL,
      .                                      IPHASE
-      TYPE(G_BUFEL_)  ,POINTER           :: GBUF,GBUFv     
-      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
+      TYPE(G_BUFEL_)  ,POINTER           :: GBUF,GBUFv
+      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL
       my_real                            :: P,VF,D,V
-      INTEGER,DIMENSION(:,:), POINTER    :: pAdjBRICK      
+      INTEGER,DIMENSION(:,:), POINTER    :: pAdjBRICK
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -101,118 +101,118 @@ C-----------------------------------------------
 
          NNOD   = NIX-3   !8-node brick or 4-node quad
          IPHASE = IFUNC-19
-         
+
          IF(INT22==0)THEN
-         !---------------------------------------------------------!         
+         !---------------------------------------------------------!
          !         ALE STANDARD FORMULATION                        !
-         !---------------------------------------------------------!       
+         !---------------------------------------------------------!
          !1. COMPUTE NODAL VALUE                                   !
-         !---------------------------------------------------------!         
-           !---1. COMPUTE NODAL VFRAC---!                          
-           ALLOCATE(COUNT_VOL(NUMNOD))                 
-           COUNT_VOL(:) = 0    
+         !---------------------------------------------------------!
+           !---1. COMPUTE NODAL VFRAC---!
+           ALLOCATE(COUNT_VOL(NUMNOD))
+           COUNT_VOL(:) = 0
            DO NG = 1, NGROUP
              MLW   = IPARG(1,NG)
              NEL   = IPARG(2,NG)
              NFT   = IPARG(3,NG)
              ITYP  = IPARG(5,NG)
-             IALEL = IPARG(7,NG)+IPARG(11,NG)             
-             IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
+             IALEL = IPARG(7,NG)+IPARG(11,NG)
+             IF(ITYP/=1 .AND. ITYP/=2)CYCLE
              IF(IALEL==0)CYCLE
              IF(MLW/=37.AND.MLW/=51)CYCLE
              GBUF => ELBUF_TAB(NG)%GBUF
              MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-             IF(MLW==37)THEN                       
+             IF(MLW==37)THEN
                DO I=1,NEL
                  VF              = MBUF%VAR(NEL*(3+IPHASE-1)+I) !liquid or gas in uvar(I,4:5)
-                 V               = GBUF%VOL(I)                             
+                 V               = GBUF%VOL(I)
                  DO J=2,NNOD+1
                    JJ            = IX(J,NFT+I)
-                   WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8 
-                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8            
-                 ENDDO !next J          
+                   WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8
+                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8
+                 ENDDO !next J
                ENDDO! next I
              ELSEIF(MLW==51)THEN
                DO I=1,NEL
                  IPOS             = 1
-                 K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
-                 K                = K1 * NEL   
-                 VF               = MBUF%VAR(K+I) 
-                 V                = GBUF%VOL(I)                                                                                                                         
+                 K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}
+                 K                = K1 * NEL
+                 VF               = MBUF%VAR(K+I)
+                 V                = GBUF%VOL(I)
                  DO J=2,NNOD+1
                    JJ            = IX(J,NFT+I)
-                   WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8     
-                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8          
-                 ENDDO !next J          
-               ENDDO! next I              
-             ENDIF              
+                   WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8
+                   COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8
+                 ENDDO !next J
+               ENDDO! next I
+             ENDIF
            ENDDO!next NG
            !applying weight factor
            DO I=1,NUMNOD
              IF(COUNT_VOL(I)/=ZERO)THEN
                WA4(I)=WA4(I)/COUNT_VOL(I)
              ENDIF
-           ENDDO                 
-           DEALLOCATE(COUNT_VOL)                    
-         ELSEIF(INT22>0)THEN 
-         !---------------------------------------------------------!         
+           ENDDO
+           DEALLOCATE(COUNT_VOL)
+         ELSEIF(INT22>0)THEN
+         !---------------------------------------------------------!
          !         /INTER/TYPE22                                   !
-         !---------------------------------------------------------!       
+         !---------------------------------------------------------!
          !1. TAG FOR CUT CELL                                      !
          !2. COMPUTE NODAL VALUE                                   !
          !    NOT INTERSECTED : NODAL Val COMPUTED FROM GLOBAL BUF !
-         !---------------------------------------------------------!                 
+         !---------------------------------------------------------!
            !---1. TAG FOR INTERSECTED BRICKS---!
            !NBF = 1+ITASK*NB/NTHREAD
            !NBL = (ITASK+1)*NB/NTHREAD
            NBF = 1
            NBL = NB
            NIN = 1
-           !---1. COMPUTE NODAL PRESSURE---! 
-           ALLOCATE(COUNT_VOL(NUMNOD))      
-           COUNT_VOL = 0                            
+           !---1. COMPUTE NODAL PRESSURE---!
+           ALLOCATE(COUNT_VOL(NUMNOD))
+           COUNT_VOL = 0
            DO NG = 1, NGROUP
-             MLW   = IPARG(1,NG) 
+             MLW   = IPARG(1,NG)
              NEL   = IPARG(2,NG)
              NFT   = IPARG(3,NG)
              ITYP  = IPARG(5,NG)
-             IALEL = IPARG(7,NG)+IPARG(11,NG)             
-             IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
-             IF(IALEL==0)CYCLE       
-             IF(MLW/=37.AND.MLW/=51)CYCLE                   
-             GBUF => ELBUF_TAB(NG)%GBUF 
+             IALEL = IPARG(7,NG)+IPARG(11,NG)
+             IF(ITYP/=1 .AND. ITYP/=2)CYCLE
+             IF(IALEL==0)CYCLE
+             IF(MLW/=37.AND.MLW/=51)CYCLE
+             GBUF => ELBUF_TAB(NG)%GBUF
              MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
               DO I=1,NEL
                 IB = NINT(GBUF%TAG22(I))
-                !---------------------------!                
+                !---------------------------!
                 ! NOT A CUT CELL            !
-                !---------------------------!            
-                IF(IB==0)THEN                
-                  IF(MLW==37)THEN                       
-                    VF              = MBUF%VAR(NEL*(3+IPHASE-1)+I)  !liquid or gas in uvar(I,4:5) 
-                    V               = GBUF%VOL(I)                            
-                    DO J=2,NNOD+1
-                      JJ            = IX(J,NFT+I)                 
-                      WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8  
-                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8 !cumulated volume             
-                    ENDDO !next J          
-                  ELSEIF(MLW==51)THEN
-                    IPOS             = 1
-                    K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)} 
-                    K                = K1 * NEL   
-                    VF               = MBUF%VAR(K+I)  
-                    V                = GBUF%VOL(I)                                                                                                                        
+                !---------------------------!
+                IF(IB==0)THEN
+                  IF(MLW==37)THEN
+                    VF              = MBUF%VAR(NEL*(3+IPHASE-1)+I)  !liquid or gas in uvar(I,4:5)
+                    V               = GBUF%VOL(I)
                     DO J=2,NNOD+1
                       JJ            = IX(J,NFT+I)
-                      WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8 
-                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8              
-                    ENDDO !next J                      
-                  ENDIF                         
+                      WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8
+                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8 !cumulated volume
+                    ENDDO !next J
+                  ELSEIF(MLW==51)THEN
+                    IPOS             = 1
+                    K1               = N0PHAS + (IPHASE-1)*NVPHAS +IPOS-1   ! exemple : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}
+                    K                = K1 * NEL
+                    VF               = MBUF%VAR(K+I)
+                    V                = GBUF%VOL(I)
+                    DO J=2,NNOD+1
+                      JJ            = IX(J,NFT+I)
+                      WA4(JJ)       = WA4(JJ)+VF*V*ONE_OVER_8
+                      COUNT_VOL(JJ) = COUNT_VOL(JJ) + V * ONE_OVER_8
+                    ENDDO !next J
+                  ENDIF
                 !---------------------------!
                 !        CUT CELL           !
-                !---------------------------!                                
-                ELSE 
-                  NIN             = 1 
+                !---------------------------!
+                ELSE
+                  NIN             = 1
                   DO J=2,NNOD+1
                     JJ            = IX(J,NFT+I)
                     ICELL         = BRICK_LIST(NIN,IB)%NODE(J-1)%WhichCell
@@ -220,11 +220,11 @@ C-----------------------------------------------
                    ! if(vf<zero .or. vf>un)then
                    !   print *,"**inter22, cell vfrac warning", vf
                    ! endif
-                    NumNodCELL    = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD 
+                    NumNodCELL    = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
                     V             = BRICK_LIST(NIN,IB)%POLY(ICELL)%Vnew
                     WA4(JJ)       = WA4(JJ)+VF*V/NumNODCell
-                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + V / NumNodCELL  
-                  ENDDO  !next J          
+                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + V / NumNodCELL
+                  ENDDO  !next J
                 ENDIF
               ENDDO!next I
            ENDDO!next NG
@@ -233,10 +233,10 @@ C-----------------------------------------------
                WA4(I)=WA4(I)/COUNT_VOL(I)
              ENDIF
            ENDDO
-           DEALLOCATE(COUNT_VOL)                  
-           
+           DEALLOCATE(COUNT_VOL)
+
          ENDIF!INT22
-                  
+
 
 C-----------------------------------------------         
       RETURN

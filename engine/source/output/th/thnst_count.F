@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        INIT_TH                       source/output/th/init_th.F    
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE THNST_COUNT(NTHGRP2, ITHGRP, WA_SIZE, INDEX_WA_NST, 
+      SUBROUTINE THNST_COUNT(NTHGRP2, ITHGRP, WA_SIZE, INDEX_WA_NST,
      .                      IPARG,ITHBUF)
 C-----------------------------------------------
 C   M o d u l e s
@@ -85,7 +85,7 @@ C-------------------------
                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                     IH = IH + 1
                 ENDDO
-                IF (IH >= IAD+NN) GOTO 666 
+                IF (IH >= IAD+NN) GOTO 666
 
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)

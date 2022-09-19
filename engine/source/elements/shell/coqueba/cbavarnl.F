@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,NG,IXC(NIXC,*),NDDL,NEL
-      INTEGER, INTENT(INOUT) :: 
+      INTEGER, INTENT(INOUT) ::
      .   NC1(*), NC2(*), NC3(*), NC4(*)
 C     REAL,
       MY_REAL, INTENT(INOUT) ::
@@ -59,14 +59,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,  K, 
+      INTEGER I,  K,
      .        INOD(4), IPOS(4),L_NLOC
-      MY_REAL 
+      MY_REAL
      .   VPG(2,4),PG1,PG,KSI,ETA,SF1,SF2,SF3,SF4
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
-      MY_REAL, 
-     .   DIMENSION(:), POINTER :: DNL 
+      MY_REAL,
+     .   DIMENSION(:), POINTER :: DNL
 C--------------------------
 C     INITIALISATION
 C-------------------------
@@ -86,7 +86,7 @@ C --- Length of the non-local vector
        L_NLOC = NLOC_DMG%L_NLOC
        DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
 C --- Loop over 
-       DO I=JFT,JLT       
+       DO I=JFT,JLT
          NC1(I)  = IXC(2,I)
          NC2(I)  = IXC(3,I)
          NC3(I)  = IXC(4,I)
@@ -98,13 +98,13 @@ C --- Loop over
            INOD(1) = NLOC_DMG%IDXI(NC1(I))
            INOD(2) = NLOC_DMG%IDXI(NC2(I))
            INOD(3) = NLOC_DMG%IDXI(NC3(I))
-           INOD(4) = NLOC_DMG%IDXI(NC4(I)) 
-           IPOS(1) = NLOC_DMG%POSI(INOD(1)) 
-           IPOS(2) = NLOC_DMG%POSI(INOD(2)) 
-           IPOS(3) = NLOC_DMG%POSI(INOD(3)) 
-           IPOS(4) = NLOC_DMG%POSI(INOD(4)) 
+           INOD(4) = NLOC_DMG%IDXI(NC4(I))
+           IPOS(1) = NLOC_DMG%POSI(INOD(1))
+           IPOS(2) = NLOC_DMG%POSI(INOD(2))
+           IPOS(3) = NLOC_DMG%POSI(INOD(3))
+           IPOS(4) = NLOC_DMG%POSI(INOD(4))
            VARNL(I,K) = ZERO
-           VARNL(I,K) = FOURTH*(SF1*DNL(IPOS(1)+K-1) + SF2*DNL(IPOS(2)+K-1) 
+           VARNL(I,K) = FOURTH*(SF1*DNL(IPOS(1)+K-1) + SF2*DNL(IPOS(2)+K-1)
      .                       + SF3*DNL(IPOS(3)+K-1) + SF4*DNL(IPOS(4)+K-1))
          ENDDO
        ENDDO

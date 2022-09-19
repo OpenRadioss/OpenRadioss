@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NLAY,NPTT,LFT,LLT,IXFEM,IR,IS,IREP,IXEL
-      my_real 
+      my_real
      .   THKLY(*),POSLY(MVSIZ,*)
 C
       TYPE(ELBUF_STRUCT_), TARGET, intent(inout) :: ELBUF_STR
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,ILAY,IT,J,IPT,L_DIRA,L_DIRB
-      my_real 
+      my_real
      .   THKT
       my_real,
      .  DIMENSION(:) ,POINTER  ::  DIR1,DIR2,DIR1X,DIR2X
@@ -73,7 +73,7 @@ c
             XFEM_STR%BUFLY(ILAY)%LBUF(1,1,1)%THK(I) = THKLY(J)*THKT
           ENDDO
         ENDDO  !  DO ILAY=1,NLAY
-      ELSE  
+      ELSE
 c       monolayer : already filled within "C1BUF3.F"
       ENDIF  !  IF(NLAY > 1)THEN
 c

@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/. 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  MONVOL_CHECK_DELETE_DUPLICATEDsource/airbag/monvol_check_delete_duplicated.F
 Chd|-- called by -----------
@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"    
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -55,10 +55,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER(8) :: EDGE_PTR, PAIR_VEC_PTR, GRAPH_PTR, LIST_PTR
       INTEGER :: II, JJ, KK, IDX, NEDGE
-      INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_ARRAY_N1, EDGE_ARRAY_N2, 
-     .     EDGE_ARRAY_ELEM, NB_CONNECT, EDGE_ELEM, IAD_EDGE_ELEM, PAIR_LIST, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_ARRAY_N1, EDGE_ARRAY_N2,
+     .     EDGE_ARRAY_ELEM, NB_CONNECT, EDGE_ELEM, IAD_EDGE_ELEM, PAIR_LIST,
      .     SIZES, INV_LIST, LIST
-      INTEGER :: NB_DUPLICATED_ELTS, NODE_LIST1(3), NODE_LIST2(3), IAD1, IAD2, NB_CON, 
+      INTEGER :: NB_DUPLICATED_ELTS, NODE_LIST1(3), NODE_LIST2(3), IAD1, IAD2, NB_CON,
      .     IELEM1, IELEM2, NB_COMMON_NODE, ELEM_ID1, ELEM_ID2, NPAIR
       INTEGER :: NB_CONNEX_COMP, ICOMP, PATH_SIZE
       INTEGER, DIMENSION(:), ALLOCATABLE :: FLAG_ELEM, PATHS
@@ -96,7 +96,7 @@ C-----------------------------------------------
 !     Edge sorting and compaction
       EDGE_PTR = 0
       CALL EDGE_SORT(EDGE_PTR, EDGE_ARRAY_N1, EDGE_ARRAY_N2, EDGE_ARRAY_ELEM, NEDGE)
-      
+
       MY_ALLOCATE(NB_CONNECT, (NEDGE))
       CALL EDGE_GET_NB_CONNECT(EDGE_PTR, NB_CONNECT)
       MY_ALLOCATE(EDGE_ELEM, (SUM(NB_CONNECT)))
@@ -142,7 +142,7 @@ C-----------------------------------------------
             ENDDO
          ENDIF
       ENDDO
-      
+
 !     Get pairs of duplicated elements
       CALL INTVECTOR_GET_SIZE(PAIR_VEC_PTR, NPAIR)
       MY_ALLOCATE(PAIR_LIST, (NPAIR))
@@ -171,7 +171,7 @@ C-----------------------------------------------
             FLAG_ELEM(PAIR_LIST(2 * (II - 1) + 2)) = 1
          ENDIF
       ENDDO
-      
+
       IF (NB_DUPLICATED_ELTS == 0) THEN
          RETURN
       ENDIF
@@ -179,7 +179,7 @@ C-----------------------------------------------
       CALL INTVECTOR_GET_SIZE(LIST_PTR, NB_DUPLICATED_ELTS)
       MY_ALLOCATE(LIST, (NB_DUPLICATED_ELTS))
       CALL INTVECTOR_COPY_TO(LIST_PTR, LIST)
-      
+
       DO II = 1, NPAIR
          PAIR_LIST(2 * (II - 1) + 1) = INV_LIST(PAIR_LIST(2 * (II - 1) + 1)) - 1
          PAIR_LIST(2 * (II - 1) + 2) = INV_LIST(PAIR_LIST(2 * (II - 1) + 2)) - 1
@@ -197,7 +197,7 @@ C-----------------------------------------------
          PATHS(II) = LIST(PATHS(II) + 1)
       ENDDO
 
-      
+
 !     Flag Elems to supress
       FLAG_ELEM(1:NTG + NTGI) = 1
       IAD1 = 1
@@ -207,7 +207,7 @@ C-----------------------------------------------
          ELEM_ID1 = PATHS(IAD1)
          NODE_LIST1(1:3) = ITAB(T_MONVOLN%ELEM(1:3, ELEM_ID1))
          CALL ANCMSG(MSGID = 2069, ANMODE = ANINFO, MSGTYPE = MSGWARNING,
-     .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, 
+     .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE,
      .        I2 = NODE_LIST1(1), I3 = NODE_LIST1(2), I4 = NODE_LIST1(3), I5 = SIZES(ICOMP)-1)
          DO II = IAD1 + 1, IAD2
             FLAG_ELEM(PATHS(II)) = 0
@@ -217,7 +217,7 @@ C-----------------------------------------------
 
       NTG_NEW = SUM(FLAG_ELEM(1:NTG))
       NTGI_NEW = SUM(FLAG_ELEM(NTG + 1:NTG + NTGI))
-      
+
       MY_ALLOCATE2D(ELEM, 3, NTG_NEW + NTGI_NEW)
       IAD1 = 1
       DO II = 1, NTG + NTGI

@@ -90,7 +90,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::ITAB(*)
       INTEGER,INTENT(IN)::ITABM1(*)
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
@@ -135,7 +135,7 @@ C--------------------------------------------------
       ALLOCATE (SUB_QUAD(NUMELQ),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_QUAD') 
+     .                             C1='SUB_QUAD')
       ALLOCATE (UID_QUAD(NUMELQ),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -144,7 +144,7 @@ C--------------------------------------------------
       UID_QUAD(1:NUMELQ) = 0
       NDEGEN = 0
       INDEX_PART = 1
-      UID = -1 
+      UID = -1
 C--------------------------------------------------
 C      READING QUADS INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
@@ -157,13 +157,13 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_QUAD(I) /= 0)THEN
-          IF(IPARTQ(I) /= 0) IPARTQ(I) = IPARTQ(I) + OFF_PART(SUB_QUAD(I)) 
+          IF(IPARTQ(I) /= 0) IPARTQ(I) = IPARTQ(I) + OFF_PART(SUB_QUAD(I))
           IF(IXQ(NIXQ,I) /= 0) IXQ(NIXQ,I) = IXQ(NIXQ,I) + OFF_EL(SUB_QUAD(I))
           DO J=2,5
             IF(IXQ(J,I) /= 0) IXQ(J,I) = IXQ(J,I) + OFF_NOD(SUB_QUAD(I))
           ENDDO
           IF(UID_QUAD(I) /= 0) UID_QUAD(I) = UID_QUAD(I) + OFF_DEF(SUB_QUAD(I))
-          IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID /= 0) 
+          IF(UID_QUAD(I) == 0 .AND. LSUBMODEL(SUB_QUAD(I))%UID /= 0)
      .         UID_QUAD(I) = LSUBMODEL(SUB_QUAD(I))%UID
         ENDIF
 C--------------------------------------------------
@@ -171,25 +171,25 @@ C      UNITS
 C--------------------------------------------------
         IF(UID_QUAD(I) /= UID )THEN
           UID = UID_QUAD(I)
-          IFLAGUNIT = 0          
-          DO J=1,NUNITS                         
-            IF (UNITAB%UNIT_ID(J) == UID) THEN  
-              FAC_L = UNITAB%FAC_L(J)                 
-              IFLAGUNIT = 1                     
-            ENDIF                               
-          ENDDO                                  
+          IFLAGUNIT = 0
+          DO J=1,NUNITS
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
+              FAC_L = UNITAB%FAC_L(J)
+              IFLAGUNIT = 1
+            ENDIF
+          ENDDO
           IF (UID/=0.AND.IFLAGUNIT==0) THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/QUAD')
-          ENDIF 
-        ENDIF   
+          ENDIF
+        ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTQ(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTQ(I) ) INDEX_PART = J 
-          ENDDO  
+        IF( IPART(4,INDEX_PART) /= IPARTQ(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTQ(I) ) INDEX_PART = J
+          ENDDO
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTQ(I)) THEN
           CALL ANCMSG(MSGID=402,
@@ -199,33 +199,33 @@ C--------------------------------------------------
      .                I1=IPARTQ(I),
      .                I2=IPARTQ(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF 
+        ENDIF
         IPARTQ(I) = INDEX_PART
 C--------------------------------------------------
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)                                 
-        IXQ(1,I)=MT                                
-        IXQ(6,I)=IPID 
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXQ(1,I)=MT
+        IXQ(6,I)=IPID
         IF (IXQ(NIXQ,I)>ID_LIMIT)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
         ELSEIF (NADMESH/=0.AND.IXQ(NIXQ,I)>ID_LIMIT_ADMESH)THEN
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXQ(NIXQ,I),C1=LINE,C2='/QUAD')
-        ENDIF                            
-        IF(  ( IXQ(4,I) == IXQ(5,I)) .OR.        
-     .       ( IXQ(5,I) == 0 )) THEN             
-           NDEGEN = NDEGEN + 1                     
+        ENDIF
+        IF(  ( IXQ(4,I) == IXQ(5,I)) .OR.
+     .       ( IXQ(5,I) == 0 )) THEN
+           NDEGEN = NDEGEN + 1
            CALL ANCMSG(MSGID=430,
      .                 MSGTYPE=MSGWARNING,
      .                 I1=IXQ(NIXQ,I),
      .                 ANMODE=ANINFO_BLIND_2,
      .                 PRMOD=MSG_CUMU)
-        ENDIF  
-                               
-        DO J=2,5                                                 
-          IXQ(J,I)=USR2SYS(IXQ(J,I),ITABM1,MESS,ID) 
-          CALL ANODSET(IXQ(J,I), CHECK_SHELL)     
+        ENDIF
+
+        DO J=2,5
+          IXQ(J,I)=USR2SYS(IXQ(J,I),ITABM1,MESS,ID)
+          CALL ANODSET(IXQ(J,I), CHECK_SHELL)
         ENDDO
 
       ENDDO
@@ -240,7 +240,7 @@ C
    90  WRITE (IOUT,'(//A/A//A,A/)')TITRE(110),TITRE(111),TITRE(102),TITRE(105)
        DO I=I1,I2
          MID = IPM(1,IXQ(1,I))
-         PID = IGEO(1,IXQ(6,I)) 
+         PID = IGEO(1,IXQ(6,I))
          WRITE (IOUT,FMT='(8(I10,1X),1PG20.13,1X,1PG20.13)') IXQ(NIXQ,I),I,MID,PID,
      .                      (ITAB(IXQ(J,I)),J=2,5)
        ENDDO
@@ -252,10 +252,10 @@ C
 C
  200  CONTINUE
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Search Duplicated Ids
 C-------------------------------------
@@ -264,7 +264,7 @@ C-------------------------------------
       J = 0
       CALL VDOUBLE(IXQ(NIXQ,1),NIXQ,NUMELQ,MESS,0,BID)
       IDS = 17
-      
+
       RETURN
 
       END

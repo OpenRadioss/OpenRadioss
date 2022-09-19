@@ -61,8 +61,8 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD    
-      USE FRONT_MOD  
+      USE MESSAGE_MOD
+      USE FRONT_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE SKEW_MOD
@@ -120,7 +120,7 @@ C-----------------------------------------------
 !       TAG_SKN : integer ; dimension=NUMSKW+NSUBMOD+1
 !                 tag array --> tag the i SKEW if a SPRING uses it
 !                 tag array=0 --> the SKEW is not used by a SPRING
-!                 tag array=1 --> the SKEW is used by one SPRING      
+!                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
 !       MULTIPLE_SKEW : SKEW_TYPE ; dimension=NUMSKW+1
 !                       MULTIPLE_SKEW(I)%PLIST(:) is a list of processor
@@ -141,7 +141,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL    
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -171,8 +171,8 @@ c      print*,'Count:',CNT
 C-----------------------------------------------------
       ! ------------------------
       DO ISENS=1,NSENSOR
-            ! ------------------------   
-            ! dist-surf sensor : for plane defined by 3 nodes, 
+            ! ------------------------
+            ! dist-surf sensor : for plane defined by 3 nodes,
             !                    add the 3 nodes and the reference node
             !                    on all spmd processors
             IF (SENSOR_TAB(ISENS)%TYPE==16) THEN
@@ -208,8 +208,8 @@ C-----------------------------------------------------
                         CALL IFRONTPLUS(N1,P)
                     ENDDO
                 ENDDO
-            ENDIF     
-            ! ------------------------ 
+            ENDIF
+            ! ------------------------
       ENDIF
       ! ------------------------
       IF(NUMSKW>0)THEN
@@ -217,7 +217,7 @@ C skew global fixe
        ISKWP(1)=1
        DO P = 1, NSPMD
          NSKWP(P) = 0
-       END DO        
+       END DO
        IF(N2D==0)THEN
         OFFSET = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP
 !       check if a SPRING is linked with a SKEW
@@ -236,7 +236,7 @@ C skew global fixe
             DO P = 1, NSPMD
               NN = NLOCAL(N1,P)+
      +             NLOCAL(N2,P)+
-     +             NLOCAL(N3,P)       
+     +             NLOCAL(N3,P)
               IF(NN>INSNMAX)THEN
                 INSNMAX=NN
                 IMAIN=P
@@ -254,7 +254,7 @@ C skew global fixe
        ELSE
         DO I=1,NUMSKW
           N1=ISKN(1,I+1)
-          N2=ISKN(2,I+1) 
+          N2=ISKN(2,I+1)
           INSNMAX = 0
           IMAIN = 1
           IF(N1+N2/=0) THEN
@@ -268,14 +268,14 @@ C skew global fixe
             END DO
             IF(INSNMAX/=2)THEN
               CALL IFRONTPLUS(N1,IMAIN)
-              CALL IFRONTPLUS(N2,IMAIN)             
+              CALL IFRONTPLUS(N2,IMAIN)
             END IF
           END IF
           ISKWP(I+1) = IMAIN
           NSKWP(IMAIN) = NSKWP(IMAIN)+1
         END DO
        END IF
-      END IF                
+      END IF
 C-----------------------------------------------------
 C Traitement special rigid wall moving
 C-----------------------------------------------------
@@ -293,7 +293,7 @@ C-----------------------------------------------------
                 NSL_L = NSL_L + 1
               ENDIF
             ENDDO
-            IF(NSL_L>0) CALL IFRONTPLUS(MSR,P) 
+            IF(NSL_L>0) CALL IFRONTPLUS(MSR,P)
           ENDDO
         ENDIF
         K = K + NSL
@@ -312,7 +312,7 @@ C-----------------------------------------------------
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1.AND.
-     +        NLOCAL(N4,P)==1)THEN     
+     +        NLOCAL(N4,P)==1)THEN
              GOTO 9999
            ENDIF
          ENDDO
@@ -321,7 +321,7 @@ C-----------------------------------------------------
          DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
-     +        NLOCAL(N3,P)==1)THEN    
+     +        NLOCAL(N3,P)==1)THEN
              IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
@@ -332,12 +332,12 @@ C-----------------------------------------------------
        IF(N4/=-1)THEN
          DO P = 1, NSPMD
             IF(NLOCAL(N1,P)==1.AND.
-     +        NLOCAL(N2,P)==1)THEN    
+     +        NLOCAL(N2,P)==1)THEN
              IF(N2D==0.AND.N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
              IF(N2D==0) THEN
-               CALL IFRONTPLUS(N3,P) 
+               CALL IFRONTPLUS(N3,P)
              ENDIF
              GOTO 9999
            ENDIF
@@ -361,7 +361,7 @@ C-----------------------------------------------------
          CALL IFRONTPLUS(N4,1)
        ENDIF
        IF(N2D==0.AND.N4/=-1) THEN
-         CALL IFRONTPLUS(N3,1) 
+         CALL IFRONTPLUS(N3,1)
        ENDIF
        IF(N4/=-1) THEN
          CALL IFRONTPLUS(N2,1)
@@ -382,7 +382,7 @@ C-----------------------------------------------------
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1.AND.
-     +        NLOCAL(N4,P)==1)THEN     
+     +        NLOCAL(N4,P)==1)THEN
              GOTO 9191
            ENDIF
          ENDDO
@@ -412,7 +412,7 @@ C-----------------------------------------------------
          ENDIF
        ENDDO
        DO P = 1, NSPMD
-         IF(NLOCAL(N1,P)==1) THEN        
+         IF(NLOCAL(N1,P)==1) THEN
            IF(N2D==0.AND.N4/=0) THEN
              CALL IFRONTPLUS(N4,P)
            ENDIF
@@ -430,7 +430,7 @@ C-----------------------------------------------------
          CALL IFRONTPLUS(N3,1)
        ENDIF
        CALL IFRONTPLUS(N2,1)
-       CALL IFRONTPLUS(N1,1)       
+       CALL IFRONTPLUS(N1,1)
  9191  CONTINUE
       ENDDO
 C
@@ -447,7 +447,7 @@ C-----------------------------------------------------
             IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1.AND.
-     +        NLOCAL(N4,P)==1)THEN    
+     +        NLOCAL(N4,P)==1)THEN
              GOTO 9192
            ENDIF
          ENDDO
@@ -456,7 +456,7 @@ C-----------------------------------------------------
          DO P = 1, NSPMD
              IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
-     +        NLOCAL(N3,P)==1)THEN   
+     +        NLOCAL(N3,P)==1)THEN
              IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
@@ -479,10 +479,10 @@ C-----------------------------------------------------
        DO P = 1, NSPMD
          IF(NLOCAL(N1,P)==1) THEN
            IF(N2D==0.AND.N4/=0) THEN
-             CALL IFRONTPLUS(N4,P)           
+             CALL IFRONTPLUS(N4,P)
            ENDIF
            IF(N2D==0) THEN
-             CALL IFRONTPLUS(N3,P) 
+             CALL IFRONTPLUS(N3,P)
            ENDIF
              CALL IFRONTPLUS(N2,P)
            GOTO 9192
@@ -495,7 +495,7 @@ C-----------------------------------------------------
          CALL IFRONTPLUS(N3,1)
        ENDIF
        CALL IFRONTPLUS(N2,1)
-       CALL IFRONTPLUS(N1,1)       
+       CALL IFRONTPLUS(N1,1)
  9192  CONTINUE
       ENDDO
 C---------------------------------------------------------
@@ -533,7 +533,7 @@ C---------------------------------------------------------
          ENDIF
        ENDDO
        DO P = 1, NSPMD
-         IF(NLOCAL(N1,P)==1) THEN        
+         IF(NLOCAL(N1,P)==1) THEN
            IF(N2D==0.AND.N4/=0) CALL IFRONTPLUS(N4,P)
            IF(N2D==0) CALL IFRONTPLUS(N3,P)
                CALL IFRONTPLUS(N2,P)
@@ -543,7 +543,7 @@ C---------------------------------------------------------
        IF(N4/=0)  CALL IFRONTPLUS(N4,1)
        IF(N2D==0) CALL IFRONTPLUS(N3,1)
        CALL IFRONTPLUS(N2,1)
-       CALL IFRONTPLUS(N1,1)       
+       CALL IFRONTPLUS(N1,1)
  9193  CONTINUE
       ENDDO
 C-----------------------------------------------------
@@ -560,7 +560,7 @@ C-----------------------------------------------------
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
      +        NLOCAL(N3,P)==1.AND.
-     +        NLOCAL(N4,P)==1)THEN           
+     +        NLOCAL(N4,P)==1)THEN
              GOTO 8888
            ENDIF
          ENDDO
@@ -569,7 +569,7 @@ C-----------------------------------------------------
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
      +        NLOCAL(N2,P)==1.AND.
-     +        NLOCAL(N3,P)==1)THEN           
+     +        NLOCAL(N3,P)==1)THEN
              IF(N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
@@ -580,7 +580,7 @@ C-----------------------------------------------------
        IF(N4/=-1)THEN
          DO P = 1, NSPMD
            IF(NLOCAL(N1,P)==1.AND.
-     +        NLOCAL(N2,P)==1)THEN           
+     +        NLOCAL(N2,P)==1)THEN
              IF(N2D==0.AND.N4/=0) THEN
                CALL IFRONTPLUS(N4,P)
              ENDIF
@@ -628,7 +628,7 @@ C-----------------------------------------------------
           IF2 = NLOCAL(IXRI(3,J),P)
           IF (IF1==1.OR.IF2==1) THEN
             CALL IFRONTPLUS(IXRI(2,J),P)
-            CALL IFRONTPLUS(IXRI(3,J),P)            
+            CALL IFRONTPLUS(IXRI(3,J),P)
           ENDIF
         ENDDO
       ENDDO
@@ -873,7 +873,7 @@ C-----------------------------------------------------
         DO N=1,NFXVEL
            FINGEO = IBFV(13,N)
            IF (FINGEO == 2)THEN      ! FINGEO=2 option /IMPVEL/FGEO
-              N1 = IBFV(1,N)         ! This impvel option has 2 nodes, 
+              N1 = IBFV(1,N)         ! This impvel option has 2 nodes,
               N2 = IBFV(14,N)        ! ensure that the Nodes are on same domain.
 
               IAD1 = IFRONT%IENTRY(N1)
@@ -1069,8 +1069,8 @@ C-----------------------------------------------------
           N1 = LBCSCYC(1,K+J)
           N2 = LBCSCYC(2,K+J)
           DO P = 1, NSPMD
-            IF(NLOCAL(N1,P)==1 .AND. NLOCAL(N2,P)==0)CALL IFRONTPLUS(N2,P) 
-            IF(NLOCAL(N2,P)==1 .AND. NLOCAL(N1,P)==0)CALL IFRONTPLUS(N1,P) 
+            IF(NLOCAL(N1,P)==1 .AND. NLOCAL(N2,P)==0)CALL IFRONTPLUS(N2,P)
+            IF(NLOCAL(N2,P)==1 .AND. NLOCAL(N1,P)==0)CALL IFRONTPLUS(N1,P)
           ENDDO
         ENDDO
       ENDDO
@@ -1158,7 +1158,7 @@ C mise sur Pi des noeuds non affectes (round robbin)
             IFRONT%P(2,I) = 0
             IPROC = MOD(IPROC,NSPMD)+1
           ENDIF
-        END DO  
+        END DO
 C-----------------------------------------------------
 C Traitement special sensor type2
 C-----------------------------------------------------
@@ -1562,7 +1562,7 @@ C--------------------------------------
               IF(N4/=0) THEN
                 NN = N4 + 1
                 ADSKY(NN) = ADSKY(NN) + 1
-              ENDIF             
+              ENDIF
             ENDIF
           ENDIF
         ENDDO
@@ -1687,9 +1687,9 @@ C
               N3=IBCV(3,NL)
               N4=IBCV(4,NL)
               IF(IBCV(7,NL) == 1) THEN
-               IF(PROC-1 == CEP(IBCV(8,NL))) THEN 
+               IF(PROC-1 == CEP(IBCV(8,NL))) THEN
                 NL_L = NL_L + 1
-                CEL(NL+OFF) = NL_L               
+                CEL(NL+OFF) = NL_L
                ENDIF
               ELSE
                 IF(N2D==0)THEN
@@ -1773,7 +1773,7 @@ C
           ENDDO
         ENDDO
         OFF = OFF + NUMRADIA
-      ENDIF 
+      ENDIF
 C-----------------------------------------------
 C Ajout pseudo element for imposed heat flux
 C-----------------------------------------------
@@ -1848,27 +1848,27 @@ C
      +                 NLOCAL(N2,PROC)==1.AND.
      +                 NLOCAL(N3,PROC)==1.AND.
      +                 NLOCAL(N4,PROC)==1)THEN
-                      NL_L = NL_L + 1          
+                      NL_L = NL_L + 1
                       CEL(OFF+NUMLOADP+I) = NL_L
                     ENDIF
                   ELSE
                     IF(NLOCAL(N1,PROC)==1.AND.
      +                 NLOCAL(N2,PROC)==1.AND.
-     +                 NLOCAL(N3,PROC)==1)THEN 
-                      NL_L = NL_L + 1          
+     +                 NLOCAL(N3,PROC)==1)THEN
+                      NL_L = NL_L + 1
                       CEL(OFF+NUMLOADP+I) = NL_L
                     ENDIF
                   ENDIF
                 ELSE
                   IF(NLOCAL(N1,PROC)==1.AND.
-     +               NLOCAL(N2,PROC)==1)THEN      
-                    NL_L = NL_L + 1          
+     +               NLOCAL(N2,PROC)==1)THEN
+                    NL_L = NL_L + 1
                     CEL(OFF+NUMLOADP+I) = NL_L
                   ENDIF
                 ENDIF
               ELSE
                 IF(NLOCAL(N1,PROC)==1) THEN
-                  NL_L = NL_L + 1          
+                  NL_L = NL_L + 1
                   CEL(OFF+NUMLOADP+I) = NL_L
                 ENDIF
               ENDIF
@@ -1878,7 +1878,7 @@ C
           ENDDO
         ENDDO
         OFF = OFF + NUMLOADP
-      ENDIF     
+      ENDIF
 C
 C Traitement assemblage // int2
 C
@@ -2039,7 +2039,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL   
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -2224,7 +2224,7 @@ C
       ENDDO
 C rajout condition type element triangle
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELTG-NUMELTG6,1)
-      IDEB = NUMELTG-NUMELTG6+1     
+      IDEB = NUMELTG-NUMELTG6+1
       IF (NUMELTG6/=0)
      .  CALL MY_ORDERS(0,WORK,ITRI(IDEB),INDEX(IDEB),NUMELTG6,1)
       DO J=1, NUMELTG6
@@ -2501,7 +2501,7 @@ C-----------------------------------------------
           N3=IBCR(3,NL)
           N4=IBCR(4,NL)
           IF(IBCR(7,NL) == 1) THEN
-             P = CEP(IBCR(8,NL)) 
+             P = CEP(IBCR(8,NL))
              CEP(NL+OFF) = P
           ELSE
           IF(N2D==0)THEN
@@ -2619,7 +2619,7 @@ C VOLUMIC FLUX
          ELSEIF(IBFFLUX(10,NL) == 1) THEN
 c          N1 = IBFFLUX(1,NL)
            N1 = IBFFLUX(8,NL)
-           IBFFLUX(2,NL) = 0 
+           IBFFLUX(2,NL) = 0
            IF(NSPMD > 1) THEN
              IBFFLUX(1,NL) = CEL(N1)
              IBFFLUX(2,NL) = CEP(N1)
@@ -2655,7 +2655,7 @@ C-----------------------------------------------
                 NN = N4
                 CNE(ADSKY(NN)) = OFF+NUMLOADP+I
                 ADSKY(NN) = ADSKY(NN) + 1
-              ENDIF             
+              ENDIF
             ENDIF
           ENDIF
          ENDDO
@@ -2679,7 +2679,7 @@ C-----------------------------------------------
                   IF(NLOCAL(N1,P)==1.AND.
      +               NLOCAL(N2,P)==1.AND.
      +               NLOCAL(N3,P)==1.AND.
-     +               NLOCAL(N4,P)==1)THEN           
+     +               NLOCAL(N4,P)==1)THEN
                     CEP(I+OFF) = P-1
                     GOTO 4
                   ENDIF
@@ -2689,7 +2689,7 @@ C-----------------------------------------------
                 DO P = 1, NSPMD
                   IF(NLOCAL(N1,P)==1.AND.
      +               NLOCAL(N2,P)==1.AND.
-     +               NLOCAL(N3,P)==1)THEN           
+     +               NLOCAL(N3,P)==1)THEN
                     CEP(I+OFF) = P-1
                     GOTO 44
                   ENDIF
@@ -2699,7 +2699,7 @@ C-----------------------------------------------
             ELSE
               DO P = 1, NSPMD
                 IF(NLOCAL(N1,P)==1.AND.
-     +             NLOCAL(N2,P)==1)THEN           
+     +             NLOCAL(N2,P)==1)THEN
                   CEP(I+OFF) = P-1
                   GOTO 444
                 ENDIF
@@ -2756,7 +2756,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ADDCNI2(0:*), CNI2(*), 
+      INTEGER ADDCNI2(0:*), CNI2(*),
      .        LCNI2, IPARI(NPARI,NINTER)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -2868,14 +2868,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER P, NACTIVE, J
       INTEGER (KIND=8) MEMTOTAL,RTOBYTES,ITOBYTES,MBYTE
-      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::AVERAGE,DEVIATION   
+      DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE ::AVERAGE,DEVIATION
 C-----------------------------------------------
       NACTIVE=50
 C Double of float to Bytes conversion
 C In double precision : one double = 8 bytes
 C In single precision : one float  = 4 bytes
       ALLOCATE( AVERAGE(NACTIVE) )
-      ALLOCATE( DEVIATION(NACTIVE) ) 
+      ALLOCATE( DEVIATION(NACTIVE) )
       MBYTE=1024*1024
       IF (IRESP==1) THEN
          RTOBYTES = 4
@@ -2907,7 +2907,7 @@ C
        DO J=1, NACTIVE
          DEVIATION(J) = SQRT(DEVIATION(J)/NSPMD)
        END DO
-       
+
        WRITE(IOUT,*)
        WRITE(IOUT,*)
        WRITE(IOUT,*)'STATISTICS ON DOMAIN DECOMPOSITION '
@@ -2932,7 +2932,7 @@ C
      .    NINT(DEVIATION(20)),' / ',NINT(DEVIATION(21))
          WRITE(IOUT,*)
        END IF
-       
+
        IF(AVERAGE(22)+AVERAGE(23) >= ONE)THEN
          WRITE(IOUT,'(A,I8,A3,I8)')
      .     'AVERAGE NB. OF INT2 NODES(SECONDARY/MAIN):',
@@ -2951,7 +2951,7 @@ C
      .     NINT(DEVIATION(17))
          WRITE(IOUT,*)
        END IF
-       
+
        WRITE(IOUT,*)
      .  'PROC    NB OF ELTS    NB OF BOUND. NODES    NB OF BOUND. PROCS'
        DO P=1,NSPMD
@@ -3086,7 +3086,7 @@ C
            WRITE(IOUT,*)
            IF( GOT_INSPIRE_ALM == 1)THEN
              WRITE(IOUT,'(A)')
-     .  '     ADDITIONAL SOLVER STORAGE FOR MULTI-LEVEL CONDENSATION' 
+     .  '     ADDITIONAL SOLVER STORAGE FOR MULTI-LEVEL CONDENSATION'
            ELSE
              WRITE(IOUT,'(A)')
      .  '     ADDITIONAL ENGINE STORAGE FOR MULTI-LEVEL CONDENSATION'
@@ -3174,7 +3174,7 @@ C
      . '        NEW TOTAL . . . . . . . ',I10,' MB'/)
 C
       DEALLOCATE( AVERAGE )
-      DEALLOCATE( DEVIATION ) 
+      DEALLOCATE( DEVIATION )
       RETURN
       END
 Chd|====================================================================
@@ -3208,7 +3208,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL 
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3217,8 +3217,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 !     TAGI->N: NNF(N)=MAX_NF
       ALLOCATE( TAGI(NUMNOD),NNF(NS10E) )
-      TAGI(1:NUMNOD) = 0 
-      NNF(1:NS10E) = 1 
+      TAGI(1:NUMNOD) = 0
+      NNF(1:NS10E) = 1
       IPLUS = 0
 C-------------only one of the mid-node is choosen (max_nf) for 1er pass---------
       DO N = 1, NS10E
@@ -3229,7 +3229,7 @@ C-------------only one of the mid-node is choosen (max_nf) for 1er pass---------
 C----- normally N1,N2 are local as  NN-----     
          NF = 0
          DO P = 1, NSPMD
-          NF = NF +NLOCAL(NN,P)           
+          NF = NF +NLOCAL(NN,P)
          ENDDO
          NNF(N) = NF
 c         IF(NF <=1 ) CYCLE
@@ -3239,9 +3239,9 @@ c         IF(NF <=1 ) CYCLE
           NS = ICNDS10(1,TAGI(N1))
           NF0 = 0
           DO P = 1, NSPMD
-           NF0 = NF0 +NLOCAL(NS,P)                
+           NF0 = NF0 +NLOCAL(NS,P)
           ENDDO
-          IF (NF>NF0) TAGI(N1)=N 
+          IF (NF>NF0) TAGI(N1)=N
          END IF
          IF (TAGI(N2)==0) THEN
           TAGI(N2) = N
@@ -3249,9 +3249,9 @@ c         IF(NF <=1 ) CYCLE
           NS = ICNDS10(1,TAGI(N2))
           NF0 = 0
           DO P = 1, NSPMD
-           NF0 = NF0 +NLOCAL(NS,P)                
+           NF0 = NF0 +NLOCAL(NS,P)
           ENDDO
-          IF (NF>NF0) TAGI(N2)=N 
+          IF (NF>NF0) TAGI(N2)=N
          END IF
       END DO
 C-------------avoid non symmetry M/S S/M--------
@@ -3264,12 +3264,12 @@ C-------------avoid non symmetry M/S S/M--------
          DO P = 1, NSPMD
           IF(NLOCAL(N1,P)==1.AND.NLOCAL(NN,P)/=1) CALL IFRONTPLUS(NN,P)
          ENDDO
-        END IF 
+        END IF
         IF (TAGI(N2)==N) THEN
          DO P = 1, NSPMD
           IF(NLOCAL(N2,P)==1.AND.NLOCAL(NN,P)/=1) CALL IFRONTPLUS(NN,P)
          ENDDO
-        END IF 
+        END IF
       END DO
 C-------------3nd pass for the case- in certain proc--(not necessary)-----
 C      DO N = 1, NS10E
@@ -3316,7 +3316,7 @@ C          END IF !(NF0 > NF) THEN
 C         END IF 
 C        END IF 
 C      END DO
-      
+
       DO N = 1, NS10E
         NN = ICNDS10(1,N)
         IF(ITAGND(NN)>NS10E) CYCLE

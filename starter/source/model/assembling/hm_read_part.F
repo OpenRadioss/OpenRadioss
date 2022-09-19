@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD           
-      USE SUBMODEL_MOD           
+      USE MESSAGE_MOD
+      USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real,INTENT(IN)::GEO(NPROPG,NUMGEO)
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C OUTPUT ARGUMENTS
@@ -104,7 +104,7 @@ C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI,NUMGEO)
       INTEGER,INTENT(INOUT)::IPM(NPROPMI,NUMMAT)
       my_real,INTENT(INOUT)::PM(NPROPM,NUMMAT)
-      TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM     
+      TYPE(MULTI_FVM_STRUCT),INTENT(INOUT)::MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -114,7 +114,7 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE, USER_LAW, IS_ASSOCIATED_LAW51
       INTEGER PID,MID,SID,ID,ID1,ID2,I,IMID,IPID,ISID,K,ITH, IGTYP,XFEMFLG,
      .        IXFEM,IHBE,ILAW,UID,IFLAGUNIT,J,FLG_SPH_THERM_UPDT,IDMAT_PLY,
-     .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE, IDS, CNT, 
+     .        ILAW_PLY,IPMAT,NPT,IDPARTSPH,SUB_INDEX,SIZE, IDS, CNT,
      .        IFIX_TMP, IGFLU, JALE,JTHE,STAT,JALE_FROM_MAT,JALE_FROM_PROP
       my_real BID, THICK,FAC_L,MP,VOL,DIAM
 C-----------------------------------------------
@@ -137,8 +137,8 @@ C-----------------------------------------------
       XFEMFLG = 0
       IXFEM   = 0
 
-      WRITE(IOUT,'(//A)')'       PARTS' 
-      WRITE(IOUT,'(A//)')'       -----' 
+      WRITE(IOUT,'(//A)')'       PARTS'
+      WRITE(IOUT,'(A//)')'       -----'
 
       FLG_SPH_THERM_UPDT = 0
       DO I=1,NUMGEO
@@ -206,7 +206,7 @@ C--------------------------------------------------
      .      (IGTYP == 11).OR.(IGTYP == 14).OR.(IGTYP == 16).OR.
      .      (IGTYP == 18).OR.(IGTYP == 20).OR.(IGTYP == 21).OR.
      .      (IGTYP == 22).OR.(IGTYP == 34).OR.(IGTYP == 11).OR.
-     .      (IGTYP == 17).OR.(IGTYP == 51).OR.(IGTYP == 52).OR. 
+     .      (IGTYP == 17).OR.(IGTYP == 51).OR.(IGTYP == 52).OR.
      .      (IGTYP == 23).OR.(IGTYP == 43)) THEN
             IF(MID == 0) THEN
                CALL ANCMSG(MSGID=179,
@@ -215,7 +215,7 @@ C--------------------------------------------------
      .                     I1=ID,
      .                     C1=TITR,
      .                     I2=MID)
-            ENDIF          
+            ENDIF
         ENDIF
         !--- check material identifier
         IF(MID == 0) THEN
@@ -242,7 +242,7 @@ C--------------------------------------------------
          !--- check property identifier
          IGTYP=0
          IF(IPID > 0) IGTYP=IGEO(11,IPID)
-         IF (IXFEM > 0 .and. (IGTYP==1  .or. IGTYP==9 .or. IGTYP==10 .or. 
+         IF (IXFEM > 0 .and. (IGTYP==1  .or. IGTYP==9 .or. IGTYP==10 .or.
      .                        IGTYP==11 .or. IGTYP==51)) THEN
            XFEMFLG = XFEMFLG + IXFEM
          END IF
@@ -267,7 +267,7 @@ C--------------------------------------------------
          ELSE
            USER_LAW = .false.
          ENDIF
-         IF (((IGTYP==43) .and. ((ILAW/=59 .and. ILAW/=83 .and. ILAW/=116 .and. ILAW/=117 .AND. ILAW /=120) .and. 
+         IF (((IGTYP==43) .and. ((ILAW/=59 .and. ILAW/=83 .and. ILAW/=116 .and. ILAW/=117 .AND. ILAW /=120) .and.
      .       (USER_LAW .eqv. .false. ) ).eqv. .true.) .or.
      .       ((ILAW==59 .or. ILAW==83 .or. ILAW==116 .or. ILAW==117) .and. IGTYP/=43) .eqv. .true.) THEN
            CALL ANCMSG(MSGID=658,
@@ -320,7 +320,7 @@ C compatibility of global material and ply material for type11
      .                  C3=TITR2)
              ENDIF
            ENDDO
-        ENDIF        
+        ENDIF
 
         IF(IGTYP == 23) THEN
            IMID = NINTRI(MID,IPM,NPROPMI,NUMMAT,1)
@@ -336,46 +336,46 @@ C compatibility of global material and ply material for type11
 
         IF(ILAW == 70 .AND. IGEO(31,IPID) == 1) WRITE(IOUT,2000)
 
-        !################################################################!   !(14)'SOLID'     
+        !################################################################!   !(14)'SOLID'
         !  EULERIAN AND ALE CASES : ALLOWS ONLY IGTYP=14 & IGTYP=15      !   !(14)'FLUID'
-        !################################################################!   !(15)'POROUS'                
+        !################################################################!   !(15)'POROUS'
         ILAW=0
         JALE=0
         IF(IMID > 0)THEN
           ILAW=IPM(2,IMID)
-          JALE=NINT(PM(72,IMID) ) 
+          JALE=NINT(PM(72,IMID) )
         ENDIF
         IF(JALE > 0)THEN
            IF (ILAW  ==  151 .AND. N2D /= 0) THEN
 C     Allow SHELL3N for 2D law 151
-              IF(IGTYP/=14.AND.IGTYP/=15.AND.IGTYP/=1)THEN  
+              IF(IGTYP/=14.AND.IGTYP/=15.AND.IGTYP/=1)THEN
                  CALL ANCMSG(MSGID=42,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
-     .                I1=ID) 
-                 MID=0 
+     .                I1=ID)
+                 MID=0
                  PM(1:NPROPM,IMID) =  ZERO
-                 IPM(1:NPROPMI,IMID) = 0                  
+                 IPM(1:NPROPMI,IMID) = 0
               ENDIF
            ELSE
-              IF(IGTYP/=14.AND.IGTYP/=15)THEN  
+              IF(IGTYP/=14.AND.IGTYP/=15)THEN
                  CALL ANCMSG(MSGID=42,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
-     .                I1=ID) 
+     .                I1=ID)
 !material set to void for normal termination otherwise engine will set value to non allocated arrays.
-                 MID=0 
+                 MID=0
                  PM(1:NPROPM,IMID) =  ZERO
-                 IPM(1:NPROPMI,IMID) = 0                  
+                 IPM(1:NPROPMI,IMID) = 0
               ENDIF
            ENDIF
         ENDIF
         !################################################################!
         !  EULER & ALE : CHECK CONSISTENCY BETWEEN MAT and PROP          !
-        !################################################################!  
-        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler 
-        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler       
-        
+        !################################################################!
+        ! JALE_FROM_MAT = PM(72)        0:lagrange   1:ale    2:euler
+        ! JALE_FROM_PROP = IGEO(62)     0:lagrange   1:ale    2:euler
+
         !/ALE/MAT or /EULER/MAT
         IF(IMID > 0)THEN
           JALE_FROM_MAT = PM(72,IMID)
@@ -388,34 +388,34 @@ C     Allow SHELL3N for 2D law 151
         ELSE
           JALE_FROM_MAT = 0
         ENDIF
-        
+
         !/PROP_TYPE14 (IALE_FLAG)
         IF(IPID > 0)THEN
           JALE_FROM_PROP = IGEO(62,IPID)
-          !character string for possible error message          
+          !character string for possible error message
           IF(JALE_FROM_PROP == 1)THEN
             CHAR_PROP = 'ALE  '
           ELSEIF(JALE_FROM_PROP == 2)THEN
             CHAR_PROP = 'EULER'
-          ENDIF          
+          ENDIF
         ELSE
           JALE_FROM_PROP = 0
         ENDIF
-        
-        !display error message if MATERIAL and PROPERTY have unconsistent definitions     
+
+        !display error message if MATERIAL and PROPERTY have unconsistent definitions
         IF(JALE_FROM_MAT > 0 .AND. JALE_FROM_PROP > 0)THEN
           IF(JALE_FROM_MAT /= JALE_FROM_PROP)THEN
             CALL ANCMSG(MSGID=130,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,
      .                I1=ID, C1=TITR,
      .                I2=PID,C2=TITR1,C3=CHAR_PROP,
-     .                I3=MID,C4=TITR2,C5=CHAR_MAT )          
+     .                I3=MID,C4=TITR2,C5=CHAR_MAT )
           ENDIF
         ENDIF
 
 
 
-        
-       
+
+
         WRITE(IOUT,'(A,I10,2A)')'     SUBSET  :',SID
         WRITE(IOUT,'(A,1PG20.13,2A)')' VIRT. THICKN:',THK_PART(I)
 
@@ -453,7 +453,7 @@ C         SPH : update of thermal flags
      .                C1=LINE1)
         ENDIF
 
-       !################################################################!   
+       !################################################################!
        !  CFD CONSISTENCY                                               !
        !################################################################!
        ILAW=0
@@ -476,9 +476,9 @@ C         SPH : update of thermal flags
            ENDIF
          ENDIF
        ENDIF
-       !### /PROP/FLUID without FLUID material 
-       IF(      (IGFLU==1) 
-     .    .AND. (loi_fluid(ilaw).eqv. .false.) 
+       !### /PROP/FLUID without FLUID material
+       IF(      (IGFLU==1)
+     .    .AND. (loi_fluid(ilaw).eqv. .false.)
      .    .AND. (ICAA == 0)
      .    .AND. (IGTYP == 14)
      .  )THEN
@@ -496,12 +496,12 @@ C         SPH : update of thermal flags
       !-------------------------------------
 
       ENDDO ! NPART
-      
+
       MULTI_FVM%IS_USED = IS_ASSOCIATED_LAW51
-      
+
       IMULTI_FVM = 0
       IF (MULTI_FVM%IS_USED) THEN
-         IMULTI_FVM = 1     
+         IMULTI_FVM = 1
          IF (N2D == 0) THEN
             ALLOCATE(MULTI_FVM%VEL(3, NUMELS), STAT=stat)
          ELSE
@@ -512,8 +512,8 @@ C         SPH : update of thermal flags
      .        MSGTYPE = MSGERROR,
      .        C1      = 'MULTI_FVM%VEL')
          MULTI_FVM%VEL(: ,:) = ZERO
-      ENDIF      
-      
+      ENDIF
+
       IF (XFEMFLG == 0) ICRACK3D = 0
 
       DO I=1,NPART
@@ -541,9 +541,9 @@ C     SPH : switch to fem thermal formulation - update of thermal flags
           IF (IGEO(11,IPART(2,I)) == 34) JTHE = -1*ABS(JTHE)
           IF(JTHE > 0) ITHERM=MAX(ITHERM,ABS(JTHE))
           IF(JTHE < 0) ITHERM_FE=MAX(ITHERM_FE,ABS(JTHE))
-        ENDDO      
+        ENDDO
       ENDIF
-      
+
 C     SOL2SPH : Orthotropic flag transfered to SPH property
       DO I=1,NPART
         IDPARTSPH = IGEO(38,IPART(2,I))
@@ -583,7 +583,7 @@ Chd|====================================================================
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------

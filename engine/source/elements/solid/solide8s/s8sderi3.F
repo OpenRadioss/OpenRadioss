@@ -60,10 +60,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),OFFG(*),KSI,ETA,ZETA,WI,VOLN(*),
-     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
-     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ), 
-     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ) 
-      DOUBLE PRECISION 
+     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ),
+     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ),
+     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)
+      DOUBLE PRECISION
      .   VOLDP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -72,23 +72,23 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),VOL(MVSIZ)
-     
+
       DOUBLE PRECISION RI(8),SI(8),TI(8),DN_R(8),DN_S(8),DN_T(8),
      .   DX_R,DX_S,DX_T,DY_R,DY_S,DY_T,DZ_R,DZ_S,DZ_T,DETM1,
      .   DETJ(MVSIZ),INVJ(9,MVSIZ),
      .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),C(6,6,MVSIZ),DETDP
 C-----------------------------------------------
-      
+
       DATA RI /-1.0, -1.0,  1.0,  1.0,-1.0, -1.0, 1.0, 1.0/
       DATA SI /-1.0, -1.0, -1.0, -1.0, 1.0,  1.0, 1.0, 1.0/
       DATA TI /-1.0,  1.0,  1.0, -1.0,-1.0,  1.0, 1.0,-1.0/
-      
+
 !sb  ksi->t   eta->r   zeta->s
       DO I=1,8
         DN_R(I) = RI(I)*(ONE+KSI*TI(I))*(ONE+ZETA*SI(I))/EIGHT
@@ -117,13 +117,13 @@ C-----------------------------------------------
      .        +Z5(I)*DN_S(5)+Z6(I)*DN_S(6)+Z7(I)*DN_S(7)+Z8(I)*DN_S(8)
         DZ_T = Z1(I)*DN_T(1)+Z2(I)*DN_T(2)+Z3(I)*DN_T(3)+Z4(I)*DN_T(4)
      .        +Z5(I)*DN_T(5)+Z6(I)*DN_T(6)+Z7(I)*DN_T(7)+Z8(I)*DN_T(8)
-      
+
         DETDP  = DX_R*(DY_S*DZ_T-DZ_S*DY_T)
      .           -DX_S*(DY_R*DZ_T-DY_T*DZ_R)
      .           +DX_T*(DY_R*DZ_S-DY_S*DZ_R)
         DETJ(I) = DETDP
         VOLDP(I) = WI*DETDP
-        
+
         IF (DETJ(I) > ZERO)THEN
           DETM1 = ONE/DETJ(I)
 
@@ -137,9 +137,9 @@ C-----------------------------------------------
           INVJ(8,I) = (DX_T*DY_R-DX_R*DY_T)*DETM1
           INVJ(9,I) = (DX_R*DY_S-DX_S*DY_R)*DETM1
         ELSE
-          
+
         ENDIF
-        
+
         A11(I) = DX_T !R
         A12(I) = DY_T !R
         A13(I) = DZ_T !R
@@ -150,7 +150,7 @@ C-----------------------------------------------
         A32(I) = DY_S !T
         A33(I) = DZ_S !T
       ENDDO
-      
+
       DO J=1,8
         DO I=LFT,LLT
           DN_X(I,J) = DN_R(J)*INVJ(1,I)+DN_S(J)*INVJ(2,I)+DN_T(J)*INVJ(3,I)
@@ -176,7 +176,7 @@ C
         DO I=LFT,LLT
           IF(VOLDP(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOLDP(I)= EM20
-            OFF(I) =ZERO 
+            OFF(I) =ZERO
            IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
@@ -188,12 +188,12 @@ C
             WRITE(ISTDO,2000) NGL(I)
             WRITE(IOUT ,2000) NGL(I)
 #include "lockoff.inc"
-            IDEL7NOK = 1   
-           ENDIF 
+            IDEL7NOK = 1
+           ENDIF
           ENDIF
         ENDDO
       END IF
-      
+
       DO I=LFT,LLT
        VOLN(I) = VOLDP(I)
       ENDDO

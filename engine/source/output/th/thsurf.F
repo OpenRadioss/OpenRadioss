@@ -65,7 +65,7 @@ C
         DO J=J1,J2
              I=ITHBUF(J)
              DO L=L1,L2
-                K=ITHBUF(L) 
+                K=ITHBUF(L)
                 II=II+1
                 WA(II)=FSAVSURF(K,I)
              ENDDO

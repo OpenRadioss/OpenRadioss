@@ -73,7 +73,7 @@ C
             VV(1,I)=VT(1)
             VV(2,I)=VT(2)
             VV(3,I)=VT(3)
-         ENDDO   
+         ENDDO
       ENDIF
 C
       DO I=1,NSN
@@ -81,8 +81,8 @@ C
          MDEPL(1,II)=VV(1,I)
          MDEPL(2,II)=VV(2,I)
          MDEPL(3,II)=VV(3,I)
-      ENDDO         
+      ENDDO
 C
       RETURN
       END
-      
+

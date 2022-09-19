@@ -142,11 +142,11 @@ C
          DO I=1,JLT
            GAPV(I)=MAX(GAP+DGAPLOAD,DRAD)
          END DO
-       ELSEIF(IGAP == 3)THEN 
-         IADD = 9 
+       ELSEIF(IGAP == 3)THEN
+         IADD = 9
          DO I=1,JLT
            J = CAND_N(I)
-           IF(J<=NSN) THEN 
+           IF(J<=NSN) THEN
              GAPV(I)=GAP_S(J)+GAP_M(CAND_E(I))
              GAPV(I)=MIN(GAP_S_L(J)+GAP_M_L(CAND_E(I)),GAPV(I))
            ELSE

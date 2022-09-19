@@ -35,8 +35,8 @@ Chd|        PRSCAL                        source/constraints/fxbody/ortho_normal
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_FXBODY(FXBIPM,  FXBRPM, FXBNOD, FXBGLM,FXBCPM,   
-     .                      FXBCPS,  FXBLM,  FXBFLS, FXBDLS,FXBMOD, 
+      SUBROUTINE INI_FXBODY(FXBIPM,  FXBRPM, FXBNOD, FXBGLM,FXBCPM,
+     .                      FXBCPS,  FXBLM,  FXBFLS, FXBDLS,FXBMOD,
      .                      ITAB, X ,MS, IN, FXB_MATRIX,
      .                      FXB_MATRIX_ADD,FXB_LAST_ADRESS,ICODE,NOM_OPT)
 C-----------------------------------------------
@@ -63,9 +63,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),FXBIPM(NBIPM,*),FXBNOD(*),FXB_MATRIX_ADD(4,*),FXB_LAST_ADRESS(*),ICODE(*),
      .        NOM_OPT(LNOPT1,*)
-      my_real 
+      my_real
      .        X(3,*),MS(*),IN(*),
-     .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), 
+     .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*),
      .        FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBMOD(*),
      .        FXB_MATRIX(*)
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        IC,J,INFO,IANIM, IMIN, IMAX, REF, ERR, K, L, IDN, I1,I2, J2, REF2,J1,SIZE_MAX,IDUM1,IDUM2,IDUM3,
      .        IDUM4,FLAG,IC1,IC2,BCS(6),SIZE_STIFF,ADR_STIFF,IL1,IL2,IDOF1,IDOF2,NMOD_MAX,NMST_F,NMR,
      .        ADR_MASS,SIZE_MASS
-      my_real 
+      my_real
      .        FREQ,BETA,OMEGA,DTC1,DTC2,BID,XM(3),ZZ,RHO_INVMK,UNSN,NORM,FAC,FAC2,MSTOT,TOLE,
      .        KT,KR,RR,SKEW(9),RDUM1,MIN_DIAG_STIF,FAC2X,FAC2Y,FAC2Z
       CHARACTER TITR*nchartitle,MESS*40,MESS1*40,NWLINE*100,
@@ -104,7 +104,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      my_real 
+      my_real
      .        PRSCAL
       DATA MESS/'FLEXIBLE BODY : NODES                   '/
       DATA MESS1/'FLEXIBLE BODY DEFINITION                '/
@@ -120,11 +120,11 @@ C
       ADRDLS = FXB_LAST_ADRESS(6)
       ADRVAR = FXB_LAST_ADRESS(7)
       ADRRPM = FXB_LAST_ADRESS(8)
-      ADRMCD = FXB_LAST_ADRESS(9)    
+      ADRMCD = FXB_LAST_ADRESS(9)
 C
       DO NFX=1,NFXBODY
 C
-        ADRNOD = FXBIPM(6,NFX)  
+        ADRNOD = FXBIPM(6,NFX)
 C
         IF (FXBIPM(41,NFX)==2) THEN
 C
@@ -145,8 +145,8 @@ C
           SIZE_STIFF = FXBIPM(42,NFX)
           SIZE_MASS = FXBIPM(43,NFX)
           ADR_STIFF = FXBIPM(44,NFX)
-          ADR_MASS = FXBIPM(45,NFX)    
-          NDDL = 6*NBNOD  
+          ADR_MASS = FXBIPM(45,NFX)
+          NDDL = 6*NBNOD
           SIZE_MAX = MAX(NMOD,NME)
 C
           ALLOCATE(ITAG_DOF(6,NBNOD))
@@ -160,7 +160,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                         INITIAL SKEW                              CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-          FXBIPM(14,NFX) = ADRRPM                  
+          FXBIPM(14,NFX) = ADRRPM
 C 
           SKEW(1:9) = ZERO
           SKEW(1) = ONE
@@ -176,7 +176,7 @@ C--       Information of boundary nodes is not used for now
           DO I=1,NBNOD
             IF (FXBNOD(ADRNOD+I-1) < 0) THEN
               FXBNOD(ADRNOD+I-1) = ABS(FXBNOD(ADRNOD+I-1))
-            ENDIF 
+            ENDIF
           ENDDO
           FXBIPM(18,NFX) = NBNOD
 C
@@ -187,7 +187,7 @@ C
           MIN_DIAG_STIF = EP30
           STIF(1:NDDL,1:NDDL) = ZERO
           DO I=1,SIZE_STIFF
-            I1 = FXB_MATRIX_ADD(1,ADR_STIFF+I-1) 
+            I1 = FXB_MATRIX_ADD(1,ADR_STIFF+I-1)
             I2 = FXB_MATRIX_ADD(2,ADR_STIFF+I-1)
             IDOF1 = FXB_MATRIX_ADD(3,ADR_STIFF+I-1)
             IDOF2 = FXB_MATRIX_ADD(4,ADR_STIFF+I-1)
@@ -217,7 +217,7 @@ C-- Mass matrix automatically generated from nodal masses and inertia
 C
           ELSE
             DO I=1,SIZE_MASS
-              I1 = FXB_MATRIX_ADD(1,ADR_MASS+I-1) 
+              I1 = FXB_MATRIX_ADD(1,ADR_MASS+I-1)
               I2 = FXB_MATRIX_ADD(2,ADR_MASS+I-1)
               IDOF1 = FXB_MATRIX_ADD(3,ADR_MASS+I-1)
               IDOF2 = FXB_MATRIX_ADD(4,ADR_MASS+I-1)
@@ -239,7 +239,7 @@ C
           ENDIF
           FXBRPM(ADRRPM)=ZERO
           FXBRPM(ADRRPM+1)=ZERO
-          ADRRPM=ADRRPM+2                   
+          ADRRPM=ADRRPM+2
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                         MODES RBODY                               CCCCC
@@ -271,28 +271,28 @@ C---------- Modes 1/.../9
                 DO K=1,NBNOD
                   IDN = FXBNOD(ADRNOD+K-1)
                   MODES_RB(6*(K-1)+J,3*(I-1)+J) = X(I,IDN) - XM(I)
-                ENDDO           
+                ENDDO
               ENDDO
             ENDDO
 C---------- Modes 10/11/12
             DO I=1,3
               DO K=1,NBNOD
                 IDN = FXBNOD(ADRNOD+K-1)
-                MODES_RB(6*(K-1)+I,9+I) = 1-(X(1,IDN)-XM(1))-(X(2,IDN)-XM(2))-(X(3,IDN)-XM(3))       
+                MODES_RB(6*(K-1)+I,9+I) = 1-(X(1,IDN)-XM(1))-(X(2,IDN)-XM(2))-(X(3,IDN)-XM(3))
               ENDDO
             ENDDO
 C---------- Modes rotation
             IF (NME > 12) THEN
               DO I=1,3
                 DO K=1,NBNOD
-                  MODES_RB(6*(K-1)+3+I,12+I) = ONE       
+                  MODES_RB(6*(K-1)+3+I,12+I) = ONE
                 ENDDO
               ENDDO
             ENDIF
 C --------- Matrice modes RB transposee
             DO I=1,NME
               DO J=1,NDDL
-                MODES_RBT(I,J) = MODES_RB(J,I)      
+                MODES_RBT(I,J) = MODES_RB(J,I)
               ENDDO
             ENDDO
 C
@@ -307,7 +307,7 @@ C---------- SCALE FACTOR ON LOCAL MODES FOR MASS CONDITIONING
             FAC2X=PRSCAL(MODES_RB(1,1), MODES_RB(1,1), NDDL, MASS)
             FAC2Y=PRSCAL(MODES_RB(1,4), MODES_RB(1,4), NDDL, MASS)
             FAC2Z=PRSCAL(MODES_RB(1,7), MODES_RB(1,7), NDDL, MASS)
-            FAC2 = MAX(FAC2X,FAC2Y,FAC2Z)  
+            FAC2 = MAX(FAC2X,FAC2Y,FAC2Z)
             FAC=SQRT(FAC2)
 C
           ELSE
@@ -378,7 +378,7 @@ C---      Tag of connected DOF ---
             IDOF2 = FXB_MATRIX_ADD(4,ADR_STIFF+I-1)
 C --        Craig-bampton with only boundary nodes - one static mode per dof in connected
             ITAG_DOF(IDOF1,IL1) = 1
-            ITAG_DOF(IDOF2,IL2) = 1                  
+            ITAG_DOF(IDOF2,IL2) = 1
           ENDDO
 C
           NMST = 0
@@ -401,7 +401,7 @@ C---        On static mode generated per connected DOF  ---
                 NMST = NMST + 1
                 MODES(6*(I-1)+K,NMST) = ONE
               ENDIF
-            ENDDO      
+            ENDDO
           ENDDO
           ITAG_DOF(1:6,1:NBNOD) = 0
 C
@@ -446,7 +446,7 @@ C
             DO J=1,NMOD
               MODEST(J,I)=MODES(I,J)
             ENDDO
-          ENDDO        
+          ENDDO
 C
           DO I=1,NMST
             DO J=1,NDDL
@@ -529,7 +529,7 @@ C
 C
        DEALLOCATE(WI,WR,EIG_R,EIG_L,WORK,INVMK)
 C
-       FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)      
+       FXBRPM(FXBIPM(14,NFX))=ZEP9*TWO/SQRT(RHO_INVMK)
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   MASS MATRIX PROJ ON RB MODES                    CCCCC
@@ -580,7 +580,7 @@ C
           ENDDO
 C
         ENDDO
-      ENDDO  
+      ENDDO
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                   STIFF MATRIX COUPLED PROJECTION                  CCCCC
@@ -618,9 +618,9 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 CCCCC                       ADDITIONNAL ADRESSES                        CCCCC
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 C
-      FXBIPM(13,NFX) = ADRVAR 
+      FXBIPM(13,NFX) = ADRVAR
       ADRVAR=ADRVAR+NMOD+NME
-      FXBIPM(15,NFX) = ADRMCD 
+      FXBIPM(15,NFX) = ADRMCD
       ADRMCD=ADRMCD+NME*NME
 C
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -639,7 +639,7 @@ C
           ADRFLS_L = FXBIPM(11,NFX)
           ADRGLM_L = FXBIPM(8,NFX)
           ADRCP_L = FXBIPM(9,NFX)
-          ADRCP2_L = FXBIPM(9,NFX)         
+          ADRCP2_L = FXBIPM(9,NFX)
 C
           REF= 11000
           IF (NFX < 10) THEN
@@ -651,11 +651,11 @@ C
           ENDIF
 C
           OPEN(UNIT=REF,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')  
+     .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
 C
           WRITE(REF,'(A)') '# FLEXIBLE BODY DATA'
           WRITE(REF,'(A)') '#--1---|---2---|---3---|---4---|---5---|---6---|---7---|---8---|---9---|--10---|'
-          WRITE(REF,'(A)') '#  Param'     
+          WRITE(REF,'(A)') '#  Param'
           WRITE(REF,'(A)') "#  Nbmod  Nbstat   Nbnod    Irot   Idamp    Iblo   Ifile  Intype"
 C
           WRITE(REF,'(7I8)') NMOD,NMST,NBNOD,ISHELL,IDAMP,IBLO,IFILE
@@ -666,7 +666,7 @@ C
           NLIGNE = CEILING(ZZ)
           DO I=1,NLIGNE
             WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,10)
-            CPT = CPT + 10          
+            CPT = CPT + 10
           ENDDO
           REST = NBNOD-10*NLIGNE
           IF (REST > 0) WRITE(REF,'(10I8)') (ITAB(FXBNOD(ADRNOD+CPT+K-1)),K=1,REST)
@@ -676,7 +676,7 @@ C
           WRITE(REF,'(A)') '#         Mrot23          Mrot31          Mrot32          Mrot33            Freq'
           WRITE(REF,'(5(1PE16.9))') FXBRPM(RPM_L+6),FXBRPM(RPM_L+7),FXBRPM(RPM_L+8),FXBRPM(RPM_L+9),FXBRPM(RPM_L)
 C
-          WRITE(REF,'(A)') '#   BLOCK5  - RB MODES' 
+          WRITE(REF,'(A)') '#   BLOCK5  - RB MODES'
 C
 C --- block5 - Modes RBODY
 C
@@ -688,19 +688,19 @@ C
                DO J=1,NBNOD
                  WRITE(REF,'(5(1PE16.9))') (FXBMOD(ADRMODE_L+K-1),K=1,5)
                  WRITE(REF,'((1PE16.9))') FXBMOD(ADRMODE_L+6-1)
-                 ADRMODE_L = ADRMODE_L + 6      
+                 ADRMODE_L = ADRMODE_L + 6
                ENDDO
              ENDDO
 C
            ENDIF
 C
-           WRITE(REF,'(A)') '#   BLOCK6  - REDUCED MODES ROTATION ' 
+           WRITE(REF,'(A)') '#   BLOCK6  - REDUCED MODES ROTATION '
            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
            WRITE(REF,'(A)') '#             ZZ'
 C
 C --- block7 - Reduced Modes
 C
-           WRITE(REF,'(A)') '#   BLOCK7  - REDUCED MODES' 
+           WRITE(REF,'(A)') '#   BLOCK7  - REDUCED MODES'
 C
            DO I=1,NMST
              WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
@@ -708,13 +708,13 @@ C
              DO J=1,NBNOD
                WRITE(REF,'(5(1PE16.9))') (FXBMOD(ADRMODE_L+K-1),K=1,5)
                WRITE(REF,'((1PE16.9))') FXBMOD(ADRMODE_L+6-1)
-               ADRMODE_L = ADRMODE_L + 6     
+               ADRMODE_L = ADRMODE_L + 6
              ENDDO
            ENDDO
 C
 C --- block8 - Diag Mass matrix
 C
-           WRITE(REF,'(A)') '#   BLOCK8  - REDUCED DIAG MASS MATRIX' 
+           WRITE(REF,'(A)') '#   BLOCK8  - REDUCED DIAG MASS MATRIX'
            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
            WRITE(REF,'(A)') '#             ZZ'
 C
@@ -722,7 +722,7 @@ C
            NLIGNE = CEILING(ZZ)
            DO I=1,NLIGNE
              WRITE(REF,'(5(1PE16.9))') (FXBLM(ADRLM_L+K-1),K=1,5)
-             ADRLM_L = ADRLM_L + 5          
+             ADRLM_L = ADRLM_L + 5
            ENDDO
            REST = NMOD-5*NLIGNE
            IF (REST > 0) THEN
@@ -732,7 +732,7 @@ C
 C
 C --- block9 - Full Stiff matrix
 C
-           WRITE(REF,'(A)') '#   BLOCK9  - REDUCED FULL STIFF MATRIX' 
+           WRITE(REF,'(A)') '#   BLOCK9  - REDUCED FULL STIFF MATRIX'
            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
            WRITE(REF,'(A)') '#             ZZ'
 C
@@ -741,7 +741,7 @@ C
            NLIGNE = CEILING(ZZ)
            DO I=1,NLIGNE
              WRITE(REF,'(5(1PE16.9))') (FXBFLS(ADRFLS_L+K-1),K=1,5)
-             ADRFLS_L = ADRFLS_L + 5         
+             ADRFLS_L = ADRFLS_L + 5
            ENDDO
            REST = SIZE_MAX-5*NLIGNE
            IF (REST > 0) THEN
@@ -751,7 +751,7 @@ C
 C
 C --- block11 - Reduced Mass matrix on rbody modes - diag  
 C
-           WRITE(REF,'(A)') '#   BLOCK11  - RB MODES RB MATRIX' 
+           WRITE(REF,'(A)') '#   BLOCK11  - RB MODES RB MATRIX'
            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
            WRITE(REF,'(A)') '#             ZZ'
 C
@@ -760,7 +760,7 @@ C
            NLIGNE = CEILING(ZZ)
            DO I=1,NLIGNE
              WRITE(REF,'(5(1PE16.9))') (FXBGLM(ADRGLM_L+K-1),K=1,5)
-             ADRGLM_L = ADRGLM_L + 5         
+             ADRGLM_L = ADRGLM_L + 5
            ENDDO
            REST = SIZE_MAX-5*NLIGNE
            IF (REST > 0) THEN
@@ -770,7 +770,7 @@ C
 C
 C --- block12 - Coupled mass projection
 C
-           WRITE(REF,'(A)') '#   BLOCK12  - COUPLE MASS PROJECTION' 
+           WRITE(REF,'(A)') '#   BLOCK12  - COUPLE MASS PROJECTION'
            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
            WRITE(REF,'(A)') '#             ZZ'
 C
@@ -781,7 +781,7 @@ C
              NLIGNE = CEILING(ZZ)
              DO I=1,NLIGNE
                WRITE(REF,'(5(1PE16.9))') (FXBCPM(ADRCP_L+K-1),K=1,5)
-               ADRCP_L = ADRCP_L + 5         
+               ADRCP_L = ADRCP_L + 5
              ENDDO
              REST = SIZE_MAX-5*NLIGNE
              IF (REST > 0) THEN
@@ -792,7 +792,7 @@ C
 C
 C --- block13 - Coupled stiff projection
 C
-           WRITE(REF,'(A)') '#   BLOCK13  - COUPLE STIFF PROJECTION' 
+           WRITE(REF,'(A)') '#   BLOCK13  - COUPLE STIFF PROJECTION'
            WRITE(REF,'(A)') '#             X               Y               Z              XX              YY'
            WRITE(REF,'(A)') '#             ZZ'
 C
@@ -803,7 +803,7 @@ C
              NLIGNE = CEILING(ZZ)
              DO I=1,NLIGNE
                WRITE(REF,'(5(1PE16.9))') (FXBCPS(ADRCP2_L+K-1),K=1,5)
-               ADRCP2_L = ADRCP2_L + 5         
+               ADRCP2_L = ADRCP2_L + 5
              ENDDO
              REST = SIZE_MAX-5*NLIGNE
              IF (REST > 0) THEN
@@ -853,4 +853,4 @@ C
      .       /10X,'STABILITY TIME STEP                     ',1PE10.3)
 C
       END SUBROUTINE INI_FXBODY
-         
+

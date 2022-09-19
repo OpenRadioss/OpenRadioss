@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,NINTER)
       TYPE(INTSTAMP_DATA) INTSTAMP
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*),
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   X21MSR(3), V21MSR(3)
@@ -98,7 +98,7 @@ C
      2  INTBUF_TAB%XSAV,NIN          ,INTBUF_TAB%STFNS,V       ,XSLV_L   ,
      3  XMSR_L       ,VSLV_L       ,VMSR_L       ,X21MSR    ,V21MSR   ,
      4  INTBUF_TAB%XSAV(ADXLOC) )
-      
+
 C
       RETURN
       END

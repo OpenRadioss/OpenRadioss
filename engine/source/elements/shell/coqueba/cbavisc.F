@@ -86,7 +86,7 @@ C
           MOM(I,3)=MOM(I,3)+FXY
           DV(I) =DV(I)*THK(I)
           MX = IPARTC(I)
-          EVIS(8,MX)=EVIS(8,MX) 
+          EVIS(8,MX)=EVIS(8,MX)
      .             +(FX*VDEF(I,6)+FY*VDEF(I,7)+FXY*VDEF(I,8))*DV(I)
          ENDDO
         ENDIF
@@ -129,7 +129,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX, IC, II, J, JST(MVSIZ+1)
-        my_real 
+        my_real
      .  C2,HSURA,MX23,MY23,MX34,MY34,MX13R,MY13R,
      .  SC6_V,SC5_V,CXZ_V,CYZ_V,SS3_V,HVL,RX13,RY13,RX24,RY24,
      .  RXSOM,RYSOM,TESY(MVSIZ),VHXZ(MVSIZ),VHYZ(MVSIZ)
@@ -167,7 +167,7 @@ C--------NOEUDS 1,3-------
 C--------NOEUDS 2,4-------
          VF(I,3,4)=VF(I,3,4)-SS3_V
          TESY(I)= (SC5_V*VHXZ(I)+SC6_V*VHYZ(I))*DT1
-       ENDDO 
+       ENDDO
 C
        MX = IPARTC(JFT)
        DO I=JFT,JLT

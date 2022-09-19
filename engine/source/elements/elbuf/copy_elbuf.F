@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IL,IR,IS,IT,ITY,K,NG,NUVAR,NVARTMP,NFAIL,NLAY,NPTR,NPTS,NPTT,NPT,
      .   NPG,NEL,IGTYP,LEN1,LEN2,NPTTOT,I,NONL,INLOC
-      INTEGER ! global variables 
+      INTEGER ! global variables
      .   G_GAMA,G_SIG,G_OFF,G_NOFF,G_EINT,G_EINS,G_TEMP,
      .   G_RHO,G_PLA,G_VOL,G_EPSD,G_QVIS,G_DELTAX,G_TB,G_RK,G_RE,
      .   G_SMSTR,G_HOURG,G_BFRAC,G_THK,G_FOR,G_MOM,G_TAG22,G_STRA,G_SIGI,
@@ -89,10 +89,10 @@ c-------------------------------------------------
 c      copy the element buffer : ELBUF_SRC -> ELBUF_TGT
 c      target must be allocated
 C=======================================================================
-      DO NG = 1,NGROUP      
+      DO NG = 1,NGROUP
         CALL COPY_ELBUF_1(ELBUF_SRC,ELBUF_TGT,IPARG,NGROUP,NG)
       ENDDO   ! NG = 1,NGROUP
 C-----------------------------------------------
       RETURN
-      END      
+      END
 

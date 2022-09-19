@@ -102,8 +102,8 @@ C-----------------------------------------------
        VISI=ZERO
        FACQ=ZERO
       ENDIF
-      
-      !not a bug : only law 24 uses CNS1 & CNS2 
+
+      !not a bug : only law 24 uses CNS1 & CNS2
       !(they are not yet available with SPH).
       DO I=LFT,LLT
         AL(I)=ZERO
@@ -126,9 +126,9 @@ C-----------------------------------------------
 
       DO I=LFT,LLT
        DTX(I)=DELTAX(I)/MAX(EM20,QX(I)+SQRT(QX(I)*QX(I)+CX(I)*CX(I)))
-      !preparing material sound speed for nodal time step computation: 
+      !preparing material sound speed for nodal time step computation:
        SSP_EQ(I) = MAX(EM20,QXMATER(I)+SQRT(QXMATER(I)*QXMATER(I)+CX(I)*CX(I)))
-      ENDDO            
+      ENDDO
 
       IF(JTHE/=0)THEN
         MT  = MAT(LFT)
@@ -152,7 +152,7 @@ C-----------------------------------------------
           AKK=AKK*(ONE + ATU)
          ENDIF
          DTX(I) = MIN(DTX(I),HALF*DELTAX(I)*DELTAX(I)*SPH/AKK)
-        ENDDO       
+        ENDDO
       ENDIF
 
       DO I=LFT,LLT
@@ -163,13 +163,13 @@ C-----------------------------------------------
         !dt2 remplace par dt2t
         IF(NODADT==0)DT2T= MIN(DTX(I),DT2T)
       ENDDO
-      
+
       IF(G_DT/=ZERO)THEN
         DO I=LFT,LLT
           DTSPH(I) = DTX(I)
         ENDDO
       ENDIF
-      
+
 
       IF(NODADT==0)THEN
        IF(IDTMIN(ITY)==1)THEN
@@ -202,7 +202,7 @@ C-----------------------------------------------
 #include "lockoff.inc"
  570    CONTINUE
        ENDIF
-       
+
        DO I=LFT,LLT
          IF(DTX(I)>DT2T.OR.OFF(I)==ZERO) CYCLE
          !nelts et itypts remplaces par neltst et itypst

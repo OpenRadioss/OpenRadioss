@@ -64,8 +64,8 @@ C-----
        IN3=KSI(3,IL)
        IN4=KSI(4,IL)
        IF (IACTIV(1,IL)>0
-     . .OR.IACTIV(2,IL)>0    
-     . .OR.IACTIV(3,IL)>0    
+     . .OR.IACTIV(2,IL)>0
+     . .OR.IACTIV(3,IL)>0
      . .OR.IACTIV(4,IL)>0) THEN
         IMARQND(IN1)=1
         IMARQND(IN2)=1
@@ -82,7 +82,7 @@ C-----
         IMARQND(IN1)=1
         IMARQND(IN2)=1
         IMARQND(IN3)=1
-       ENDIF   
+       ENDIF
       ENDDO
 C-----
       NNC=0

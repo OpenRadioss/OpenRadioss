@@ -46,7 +46,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE ELBUFTAG_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
@@ -65,9 +65,9 @@ C
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXTABL
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE,ITABLE(MAXTABL)
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NTABL,NVARTMP
@@ -117,7 +117,7 @@ card2 - Young moduli - Flags
       CALL HM_GET_INTV  ('MAT_ITAB'  ,Itab     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_SMOOTH',Ismooth  ,IS_AVAILABLE, LSUBMODEL)
       IF (Ismooth == 0) Ismooth = 1
-card3 - Coulomb moduli - Poissson's ratio  
+card3 - Coulomb moduli - Poissson's ratio
       CALL HM_GET_FLOATV('MAT_NU21'  ,NU21     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G12'   ,G12      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G23'   ,G23      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -130,20 +130,20 @@ card5 - Yield criterion and compressive parameter
       IF (E3C == ZERO) E3C = YOUNG3
       CALL HM_GET_FLOATV('MAT_CC'   ,CC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF (CC == ZERO)  CC = ONE
-card6 - Plastic potential parameter       
+card6 - Plastic potential parameter
       CALL HM_GET_FLOATV('MAT_NU1P' ,NU1P     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU2P' ,NU2P     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU4P' ,NU4P     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU5P' ,NU5P     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ! Choice in yield stresses input
-      IF (Itab == 0) THEN 
+      IF (Itab == 0) THEN
 card7 - Yield stress in tension in direction 1 (MD)
         CALL HM_GET_FLOATV('MAT_S01'  ,S01      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (S01 == ZERO) S01 = INFINITY
         CALL HM_GET_FLOATV('MAT_A01'  ,A01      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_B01'  ,B01      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_C01'  ,C01      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card8 - Yield stress in compression in direction 1 (MD)  
+card8 - Yield stress in compression in direction 1 (MD)
         CALL HM_GET_FLOATV('MAT_S02'  ,S02      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (S02 == ZERO) S02 = INFINITY
         CALL HM_GET_FLOATV('MAT_A02'  ,A02      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -155,32 +155,32 @@ card9 - Yield stress in positive shear
         CALL HM_GET_FLOATV('MAT_A03'  ,A03      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_B03'  ,B03      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_C03'  ,C03      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card10 - Yield stress in tension in direction 2 (CD)    
+card10 - Yield stress in tension in direction 2 (CD)
         CALL HM_GET_FLOATV('MAT_S04'  ,S04      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (S04 == ZERO) S04 = INFINITY
         CALL HM_GET_FLOATV('MAT_A04'  ,A04      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_B04'  ,B04      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_C04'  ,C04      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card11 - Yield stress in compression in direction 2 (CD)   
+card11 - Yield stress in compression in direction 2 (CD)
         CALL HM_GET_FLOATV('MAT_S05'  ,S05      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (S05 == ZERO) S05 = INFINITY
         CALL HM_GET_FLOATV('MAT_A05'  ,A05      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_B05'  ,B05      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_C05'  ,C05      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card12 - Yield stress in out-of-plane direction 
+card12 - Yield stress in out-of-plane direction
         CALL HM_GET_FLOATV('MAT_ASIG' ,ASIG     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (ASIG == ZERO) ASIG = INFINITY
         CALL HM_GET_FLOATV('MAT_BSIG' ,BSIG     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_CSIG' ,CSIG     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card13 - Yield stress in transverse shear       
+card13 - Yield stress in transverse shear
         CALL HM_GET_FLOATV('MAT_TAU0' ,TAU0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (TAU0 == ZERO) TAU0 = INFINITY
         CALL HM_GET_FLOATV('MAT_ATAU' ,ATAU     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_BTAU' ,BTAU     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ELSE
-card7 - Yield stress in tension in direction 1 (MD)        
+card7 - Yield stress in tension in direction 1 (MD)
         CALL HM_GET_INTV  ('TAB_YLD1'     ,TAB_YLD1  ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLD1 == 0) THEN 
+        IF (TAB_YLD1 == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -192,7 +192,7 @@ card7 - Yield stress in tension in direction 1 (MD)
         IF (XSCALE1 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale1' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           XSCALE1 = ONE * XSCALE_UNIT
-        ENDIF        
+        ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale1' ,YSCALE1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE1 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale1' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -200,7 +200,7 @@ card7 - Yield stress in tension in direction 1 (MD)
         ENDIF
 card8 - Yield stress in compression in direction 1 (MD)
         CALL HM_GET_INTV  ('TAB_YLD2'     ,TAB_YLD2  ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLD2 == 0) THEN 
+        IF (TAB_YLD2 == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -212,7 +212,7 @@ card8 - Yield stress in compression in direction 1 (MD)
         IF (XSCALE2 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale2' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           XSCALE2 = ONE * XSCALE_UNIT
-        ENDIF 
+        ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale2' ,YSCALE2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE2 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale2' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -220,7 +220,7 @@ card8 - Yield stress in compression in direction 1 (MD)
         ENDIF
 card9 - Yield stress in positive shear
         CALL HM_GET_INTV  ('TAB_YLD3'     ,TAB_YLD3  ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLD3 == 0) THEN 
+        IF (TAB_YLD3 == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -232,15 +232,15 @@ card9 - Yield stress in positive shear
         IF (XSCALE3 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale3' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           XSCALE3 = ONE * XSCALE_UNIT
-        ENDIF 
+        ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale3' ,YSCALE3   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE3 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale3' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           YSCALE3 = ONE * YSCALE_UNIT
         ENDIF
-card10 - Yield stress in tension in direction 2 (CD) 
+card10 - Yield stress in tension in direction 2 (CD)
         CALL HM_GET_INTV  ('TAB_YLD4'     ,TAB_YLD4  ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLD4 == 0) THEN 
+        IF (TAB_YLD4 == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -252,15 +252,15 @@ card10 - Yield stress in tension in direction 2 (CD)
         IF (XSCALE4 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale4' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           XSCALE4 = ONE * XSCALE_UNIT
-        ENDIF 
+        ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale4' ,YSCALE4   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE4 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale4' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           YSCALE4 = ONE * YSCALE_UNIT
         ENDIF
-card11 - Yield stress in compression in direction 2 (CD)  
+card11 - Yield stress in compression in direction 2 (CD)
         CALL HM_GET_INTV  ('TAB_YLD5'     ,TAB_YLD5 ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLD5 == 0) THEN 
+        IF (TAB_YLD5 == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -272,7 +272,7 @@ card11 - Yield stress in compression in direction 2 (CD)
         IF (XSCALE5 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Xscale5' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           XSCALE5 = ONE * XSCALE_UNIT
-        ENDIF 
+        ENDIF
         CALL HM_GET_FLOATV('MAT_Yscale5' ,YSCALE5   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALE5 == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Yscale5' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -280,7 +280,7 @@ card11 - Yield stress in compression in direction 2 (CD)
         ENDIF
 card12 - Yield stress in out-of-plane direction
         CALL HM_GET_INTV  ('TAB_YLDC'     ,TAB_YLDC  ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLDC == 0) THEN 
+        IF (TAB_YLDC == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -292,15 +292,15 @@ card12 - Yield stress in out-of-plane direction
         IF (XSCALEC == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_XscaleC' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           XSCALEC = ONE * XSCALE_UNIT
-        ENDIF 
+        ENDIF
         CALL HM_GET_FLOATV('MAT_YscaleC' ,YSCALEC   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (YSCALEC == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_YscaleC' ,YSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           YSCALEC = ONE * YSCALE_UNIT
-        ENDIF 
+        ENDIF
 card12 - Yield stress in out-of-plane direction
         CALL HM_GET_INTV  ('TAB_YLDS'     ,TAB_YLDS  ,IS_AVAILABLE, LSUBMODEL)
-        IF (TAB_YLDS == 0) THEN 
+        IF (TAB_YLDS == 0) THEN
           CALL ANCMSG(MSGID=2056,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -342,7 +342,7 @@ c---------------------
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      ! Checking Poisson's ratio 
+      ! Checking Poisson's ratio
       DETC = ONE - NU12*NU21
       IF (DETC <= ZERO) THEN
         CALL ANCMSG(MSGID=307,
@@ -350,7 +350,7 @@ c---------------------
      .              ANMODE=ANINFO,
      .              I1=MAT_ID,
      .              C1=TITR)
-      ENDIF 
+      ENDIF
 c
       ! Strain-rate and filtering
       ISRATE    = 0
@@ -367,7 +367,7 @@ c
 c
 c--------------------------
 c     Filling buffer tables
-c-------------------------- 
+c--------------------------
       ! Number of material parameter
       IF (Itab == 0) THEN
         NUPARAM   = 47
@@ -385,13 +385,13 @@ c--------------------------
         ITABLE(6) = TAB_YLDC     ! Yield function table              = f(epsp,epsdot)
         ITABLE(7) = TAB_YLDS     ! Yield function table              = f(epsp,epsdot)
       ENDIF
-      ! Number of user variable      
-      IF (Ires == 1) THEN 
+      ! Number of user variable
+      IF (Ires == 1) THEN
         NUVAR = 3
       ELSE
         NUVAR = 0
       ENDIF
-c          
+c
       ! Filling the parameter table
       UPARAM(1)  = YOUNG1
       UPARAM(2)  = YOUNG2
@@ -433,11 +433,11 @@ c
         UPARAM(37) = C04
         UPARAM(38) = S05
         UPARAM(39) = A05
-        UPARAM(40) = B05 
+        UPARAM(40) = B05
         UPARAM(41) = C05
         UPARAM(42) = ASIG
         UPARAM(43) = BSIG
-        UPARAM(44) = CSIG        
+        UPARAM(44) = CSIG
         UPARAM(45) = TAU0
         UPARAM(46) = ATAU
         UPARAM(47) = BTAU
@@ -453,7 +453,7 @@ c
         ELSE
           UPARAM(24) = ZERO
         ENDIF
-        UPARAM(25) = YSCALE2      
+        UPARAM(25) = YSCALE2
         IF (XSCALE3 /= ZERO) THEN
           UPARAM(26) = ONE/XSCALE3
         ELSE
@@ -487,13 +487,13 @@ c
         UPARAM(36) = ASRATE
         UPARAM(37) = Ismooth
       ENDIF
-c      
+c
       ! PARMAT table
       PARMAT(1)  = MAX(YOUNG1,YOUNG2,YOUNG3,G12,G23,G31)
       PARMAT(2)  = MAX(YOUNG1,YOUNG2,YOUNG3)
       PARMAT(3)  = MAX(NU12,NU21)
       PARMAT(16) = 1
-      DMIN       = YOUNG1*YOUNG2   
+      DMIN       = YOUNG1*YOUNG2
       DMAX       = MAX(YOUNG1,YOUNG2)
       PARMAT(17) = DMIN/DMAX/DMAX
 c
@@ -502,7 +502,7 @@ c
       PM(89) = RHO0
       SSP    = SQRT(MAX(A11,A12,A22,A21,YOUNG3,G12,G23,G31)/ RHO0)
       PM(27) = SSP
-c      
+c
       ! MTAG variable activation
       MTAG%G_PLA  = 4
       MTAG%L_PLA  = 4
@@ -515,7 +515,7 @@ c
 c
 c--------------------------
 c     Parameters printout
-c-------------------------- 
+c--------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1050)
       IF (IS_ENCRYPTED) THEN
@@ -535,7 +535,7 @@ c--------------------------
      .                     TAB_YLD5,XSCALE5,YSCALE5,TAB_YLDC,XSCALEC,YSCALEC,
      .                     TAB_YLDS,XSCALES,YSCALES,Ismooth
         ENDIF
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -546,7 +546,7 @@ c-----------------------------------------------------------------------
      & 5X,'--------------------------------------',/)
  1200 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'REFERENCE DENSITY . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG MODULUS IN DIRECTION 1. . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS IN DIRECTION 2. . . . . .=',1PG20.13/
@@ -578,14 +578,14 @@ c-----------------------------------------------------------------------
      & 5X,'4TH PLASTICITY PARAMETER C01  . . . . .=',1PG20.13/
      & 5X,'-----------------------------------------------',/,
      & 5X,'YIELD STRESS IN TENSION IN DIRECTION 2 (CD)    ',/,
-     & 5X,'-----------------------------------------------',/,     
+     & 5X,'-----------------------------------------------',/,
      & 5X,'1ST PLASTICITY PARAMETER S02  . . . . .=',1PG20.13/
      & 5X,'2ND PLASTICITY PARAMETER A02  . . . . .=',1PG20.13/
      & 5X,'3RD PLASTICITY PARAMETER B02  . . . . .=',1PG20.13/
      & 5X,'4TH PLASTICITY PARAMETER C02  . . . . .=',1PG20.13/
      & 5X,'-----------------------------------------------',/,
      & 5X,'YIELD STRESS IN POSITIVE SHEAR                 ',/,
-     & 5X,'-----------------------------------------------',/,  
+     & 5X,'-----------------------------------------------',/,
      & 5X,'1ST PLASTICITY PARAMETER S03  . . . . .=',1PG20.13/
      & 5X,'2ND PLASTICITY PARAMETER A03  . . . . .=',1PG20.13/
      & 5X,'3RD PLASTICITY PARAMETER B03  . . . . .=',1PG20.13/
@@ -599,20 +599,20 @@ c-----------------------------------------------------------------------
      & 5X,'4TH PLASTICITY PARAMETER C04  . . . . .=',1PG20.13/
      & 5X,'-----------------------------------------------',/,
      & 5X,'YIELD STRESS IN COMPRESSION IN DIRECTION 2 (CD)',/,
-     & 5X,'-----------------------------------------------',/,  
+     & 5X,'-----------------------------------------------',/,
      & 5X,'1ST PLASTICITY PARAMETER S05  . . . . .=',1PG20.13/
      & 5X,'2ND PLASTICITY PARAMETER A05  . . . . .=',1PG20.13/
      & 5X,'3RD PLASTICITY PARAMETER B05  . . . . .=',1PG20.13/
      & 5X,'4TH PLASTICITY PARAMETER C05  . . . . .=',1PG20.13/
      & 5X,'-----------------------------------------------',/,
      & 5X,'YIELD STRESS IN OUT-OF-PLANE DIRECTION         ',/,
-     & 5X,'-----------------------------------------------',/,     
+     & 5X,'-----------------------------------------------',/,
      & 5X,'1ST PLASTICITY PARAMETER ASIG . . . . .=',1PG20.13/
      & 5X,'2ND PLASTICITY PARAMETER BSIG . . . . .=',1PG20.13/
      & 5X,'3RD PLASTICITY PARAMETER CSIG . . . . .=',1PG20.13/
      & 5X,'-----------------------------------------------',/,
      & 5X,'YIELD STRESS IN TRANSVERSE SHEAR               ',/,
-     & 5X,'-----------------------------------------------',/,     
+     & 5X,'-----------------------------------------------',/,
      & 5X,'1ST PLASTICITY PARAMETER TAU0 . . . . .=',1PG20.13/
      & 5X,'2ND PLASTICITY PARAMETER ATAU . . . . .=',1PG20.13/
      & 5X,'3RD PLASTICITY PARAMETER BTAU . . . . .=',1PG20.13/)
@@ -620,51 +620,51 @@ c-----------------------------------------------------------------------
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN TENSION IN DIRECTION 1 (MD)    ',/,
      & 5X,'---------------------------------------------------------',/,
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN TENSION IN DIRECTION 2 (CD)    ',/,
-     & 5X,'---------------------------------------------------------',/,     
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN POSITIVE SHEAR                 ',/,
-     & 5X,'---------------------------------------------------------',/,  
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN COMPRESSION IN DIRECTION 1 (MD)',/,
      & 5X,'---------------------------------------------------------',/,
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN COMPRESSION IN DIRECTION 2 (CD)',/,
-     & 5X,'---------------------------------------------------------',/,  
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN OUT-OF-PLANE DIRECTION         ',/,
-     & 5X,'---------------------------------------------------------',/,     
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'TABULATED YIELD STRESS IN TRANSVERSE SHEAR               ',/,
-     & 5X,'---------------------------------------------------------',/,     
-     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/ 
+     & 5X,'---------------------------------------------------------',/,
+     & 5X,'TABULATED YIELD - STRAIN RATE TABLE ID.=',I10/
      & 5X,'TABULATED YIELD X FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'TABULATED YIELD Y FACTOR  . . . . . . .=',1PG20.13/
      & 5X,'---------------------------------------------------------',/,
      & 5X,'DATA FOR STRAIN-RATE COMPUTATION                         ',/,
      & 5X,'---------------------------------------------------------',/,
-     & 5X,'TABLE INTERPOLATION FLAG  . . . . . . .=',I10/ 
+     & 5X,'TABLE INTERPOLATION FLAG  . . . . . . .=',I10/
      & 5X,'     ISMOOTH=1  LINEAR INTERPOLATION'/
      & 5X,'     ISMOOTH=2  LOGARITHMIC INTERPOLATION BASE 10'/
-     & 5X,'     ISMOOTH=3  LOGARITHMIC INTERPOLATION BASE N'/)     
+     & 5X,'     ISMOOTH=3  LOGARITHMIC INTERPOLATION BASE N'/)
 c-----------------------------------------------------------------------
       END

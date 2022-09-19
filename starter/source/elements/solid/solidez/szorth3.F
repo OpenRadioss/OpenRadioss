@@ -52,7 +52,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C-----------------------------------------------
-      IF (ISORTH == 1) THEN 
+      IF (ISORTH == 1) THEN
         DO I=1,NEL
          G1X(I)=GAMA(I,1)
          G1Y(I)=GAMA(I,2)
@@ -76,7 +76,7 @@ C-----------------------------------------------
          G3Y(I)=ZERO
          G3Z(I)=ONE
         END DO
-      ENDIF 
+      ENDIF
 C
       RETURN
       END SUBROUTINE STORTH3

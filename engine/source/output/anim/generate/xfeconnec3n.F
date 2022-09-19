@@ -32,7 +32,7 @@ Chd|====================================================================
      .     IEL_CRKTG,IAD_CRKTG,ILEV    ,NODEDGE     ,CRKEDGE  ,
      .     XEDGE3N  )
 C----------------------------------------------- 
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-------------------
       DATA d1/2,3,1/
       DATA d2/3,1,2/
-      DATA DX/1,2,3,1,2,3/        
+      DATA DX/1,2,3,1,2,3/
 c      DATA ED/1,3,2,1,3,2/
 C=======================================================================
 c     Re-build phantom element connectivities
@@ -133,28 +133,28 @@ c-----------------------------------------------
             IED0 = CRKEDGE(ILAY)%IEDGETG(K,ELCRKTG)
             IF (IED0 > 0) THEN
               EDGE = XEDGE3N(K,ELCRKTG)
-              BETA = CRKEDGE(ILAY)%RATIO(EDGE)        
+              BETA = CRKEDGE(ILAY)%RATIO(EDGE)
               NOD1 = NODEDGE(1,EDGE)
               NOD2 = NODEDGE(2,EDGE)
-              IF (NOD1 == IXTG(K+1,I+NFT) .and.             
-     .            NOD2 == IXTG(d1(K)+1,I+NFT)) THEN          
-                p1 = K                                      
-                p2 = d1(K)                                   
-              ELSEIF (NOD2 == IXTG(K+1,I+NFT).and.          
-     .                NOD1 == IXTG(d1(K)+1,I+NFT)) THEN      
-                p1 = d1(K)                                   
-                p2 = K                                      
+              IF (NOD1 == IXTG(K+1,I+NFT) .and.
+     .            NOD2 == IXTG(d1(K)+1,I+NFT)) THEN
+                p1 = K
+                p2 = d1(K)
+              ELSEIF (NOD2 == IXTG(K+1,I+NFT).and.
+     .                NOD1 == IXTG(d1(K)+1,I+NFT)) THEN
+                p1 = d1(K)
+                p2 = K
               ENDIF
-              X10 = XX(p1,I)                                
-              Y10 = YY(p1,I)                                
-              Z10 = ZZ(p1,I)                                
-              X20 = XX(p2,I)                                
-              Y20 = YY(p2,I)                                
-              Z20 = ZZ(p2,I)                                
-              XIN(IED0,I) = X10+BETA*(X20-X10)  
-              YIN(IED0,I) = Y10+BETA*(Y20-Y10)  
-              ZIN(IED0,I) = Z10+BETA*(Z20-Z10)  
-            END IF                              
+              X10 = XX(p1,I)
+              Y10 = YY(p1,I)
+              Z10 = ZZ(p1,I)
+              X20 = XX(p2,I)
+              Y20 = YY(p2,I)
+              Z20 = ZZ(p2,I)
+              XIN(IED0,I) = X10+BETA*(X20-X10)
+              YIN(IED0,I) = Y10+BETA*(Y20-Y10)
+              ZIN(IED0,I) = Z10+BETA*(Z20-Z10)
+            END IF
           END DO
         END IF
       END DO
@@ -186,37 +186,37 @@ C---
 C
           IF (p1==0 .or. p2==0 .or. p3==0) CYCLE
 C--------------------------
-          ITRI   = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) 
-          NX1    = XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) 
-          NX2    = DX(NX1+1)                                                        
-          NX3    = DX(NX1+2)                                                        
-          IED1   = NX1                                                               
-          IED2   = NX3                                                               
-          IEDGE1 = CRKEDGE(ILAY)%IEDGETG(IED1,ELCRKTG)                                 
-          IEDGE2 = CRKEDGE(ILAY)%IEDGETG(IED2,ELCRKTG)  
-          EDGE1  = XEDGE3N(IED1,ELCRKTG)  ! global xfem edge number      
-          EDGE2  = XEDGE3N(IED2,ELCRKTG)  ! global xfem edge number      
+          ITRI   = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)
+          NX1    = XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK)
+          NX2    = DX(NX1+1)
+          NX3    = DX(NX1+2)
+          IED1   = NX1
+          IED2   = NX3
+          IEDGE1 = CRKEDGE(ILAY)%IEDGETG(IED1,ELCRKTG)
+          IEDGE2 = CRKEDGE(ILAY)%IEDGETG(IED2,ELCRKTG)
+          EDGE1  = XEDGE3N(IED1,ELCRKTG)  ! global xfem edge number
+          EDGE2  = XEDGE3N(IED2,ELCRKTG)  ! global xfem edge number
 c
-          KK = CRKSHELL(ILEV)%XNODEL(NX1,ELCRK)         
-          K1 = KK - CRKNOD(ILEV)%CRKNUMNODS * (ILEV-1)    
-          KK = CRKSHELL(ILEV)%XNODEL(NX2,ELCRK)         
-          K2 = KK - CRKNOD(ILEV)%CRKNUMNODS * (ILEV-1)    
-          KK = CRKSHELL(ILEV)%XNODEL(NX3,ELCRK)         
-          K3 = KK - CRKNOD(ILEV)%CRKNUMNODS * (ILEV-1)    
+          KK = CRKSHELL(ILEV)%XNODEL(NX1,ELCRK)
+          K1 = KK - CRKNOD(ILEV)%CRKNUMNODS * (ILEV-1)
+          KK = CRKSHELL(ILEV)%XNODEL(NX2,ELCRK)
+          K2 = KK - CRKNOD(ILEV)%CRKNUMNODS * (ILEV-1)
+          KK = CRKSHELL(ILEV)%XNODEL(NX3,ELCRK)
+          K3 = KK - CRKNOD(ILEV)%CRKNUMNODS * (ILEV-1)
 C--------------------------
           IF (ITRI < 0) THEN
 C--------------------------
             IF (IXEL == 1) THEN
 c             NX1 -> unchanged
 c             NX2 -> intersec edge1 : Nx1->Nx2
-c             NX3 -> intersec edge2 : Nx3->Nx1       
+c             NX3 -> intersec edge2 : Nx3->Nx1
 c
               CRKAVX(ILEV)%XX(1,K2) = XIN(IEDGE1,I)
-              CRKAVX(ILEV)%XX(2,K2) = YIN(IEDGE1,I)          
-              CRKAVX(ILEV)%XX(3,K2) = ZIN(IEDGE1,I)          
-              CRKAVX(ILEV)%XX(1,K3) = XIN(IEDGE2,I)          
-              CRKAVX(ILEV)%XX(2,K3) = YIN(IEDGE2,I)          
-              CRKAVX(ILEV)%XX(3,K3) = ZIN(IEDGE2,I)          
+              CRKAVX(ILEV)%XX(2,K2) = YIN(IEDGE1,I)
+              CRKAVX(ILEV)%XX(3,K2) = ZIN(IEDGE1,I)
+              CRKAVX(ILEV)%XX(1,K3) = XIN(IEDGE2,I)
+              CRKAVX(ILEV)%XX(2,K3) = YIN(IEDGE2,I)
+              CRKAVX(ILEV)%XX(3,K3) = ZIN(IEDGE2,I)
 c
             ELSEIF (IXEL == 2) THEN
 c             NX1 -> intersec edge2 : Nx3->Nx1
@@ -234,10 +234,10 @@ c             NX3 -> moved
               CRKAVX(ILEV)%XX(1,K1) = XIN(IEDGE1,I)
               CRKAVX(ILEV)%XX(2,K1) = YIN(IEDGE1,I)
               CRKAVX(ILEV)%XX(3,K1) = ZIN(IEDGE1,I)
-               
-              CRKAVX(ILEV)%XX(1,K3) = XIN(IEDGE2,I)  
-              CRKAVX(ILEV)%XX(2,K3) = YIN(IEDGE2,I)  
-              CRKAVX(ILEV)%XX(3,K3) = ZIN(IEDGE2,I)  
+
+              CRKAVX(ILEV)%XX(1,K3) = XIN(IEDGE2,I)
+              CRKAVX(ILEV)%XX(2,K3) = YIN(IEDGE2,I)
+              CRKAVX(ILEV)%XX(3,K3) = ZIN(IEDGE2,I)
             END IF
 C--------------------------
           ELSEIF (ITRI > 0) THEN
@@ -245,8 +245,8 @@ C--------------------------
             IF (IXEL == 1) THEN
 c             NX1 -> intersec edge1 : Nx1->Nx2
 c             NX2 -> unchanged
-c             NX3 -> unchanged  
-c                                                                                   
+c             NX3 -> unchanged
+c
               CRKAVX(ILEV)%XX(1,K1) = XIN(IEDGE1,I)
               CRKAVX(ILEV)%XX(2,K1) = YIN(IEDGE1,I)
               CRKAVX(ILEV)%XX(3,K1) = ZIN(IEDGE1,I)
@@ -254,7 +254,7 @@ c
             ELSEIF (IXEL == 2) THEN
 c             NX1 -> unchanged
 c             NX2 -> intersec edge1 : Nx1->Nx2
-c             NX3 -> intersec edge2 : Nx3->Nx1  
+c             NX3 -> intersec edge2 : Nx3->Nx1
               CRKAVX(ILEV)%XX(1,K2) = XIN(IEDGE1,I)
               CRKAVX(ILEV)%XX(2,K2) = YIN(IEDGE1,I)
               CRKAVX(ILEV)%XX(3,K2) = ZIN(IEDGE1,I)
@@ -264,20 +264,20 @@ c             NX3 -> intersec edge2 : Nx3->Nx1
             ELSEIF (IXEL == 3) THEN
 c             NX1 -> intersec edge2 : Nx3->Nx1
 c             NX2 -> moved
-c             NX3 -> unchanged  
+c             NX3 -> unchanged
               CRKAVX(ILEV)%XX(1,K1) = XIN(IEDGE2,I)
               CRKAVX(ILEV)%XX(2,K1) = YIN(IEDGE2,I)
               CRKAVX(ILEV)%XX(3,K1) = ZIN(IEDGE2,I)
 c
-              CRKAVX(ILEV)%XX(1,K2) = CRKAVX(ILEV-2)%XX(1,K1) 
-              CRKAVX(ILEV)%XX(2,K2) = CRKAVX(ILEV-2)%XX(2,K1) 
-              CRKAVX(ILEV)%XX(3,K2) = CRKAVX(ILEV-2)%XX(3,K1) 
-c              CRKAVX(ILEV)%XX(1,K2) = XIN(IEDGE1,I)    
-c              CRKAVX(ILEV)%XX(2,K2) = YIN(IEDGE1,I)    
-c              CRKAVX(ILEV)%XX(3,K2) = ZIN(IEDGE1,I)    
+              CRKAVX(ILEV)%XX(1,K2) = CRKAVX(ILEV-2)%XX(1,K1)
+              CRKAVX(ILEV)%XX(2,K2) = CRKAVX(ILEV-2)%XX(2,K1)
+              CRKAVX(ILEV)%XX(3,K2) = CRKAVX(ILEV-2)%XX(3,K1)
+c              CRKAVX(ILEV)%XX(1,K2) = XIN(IEDGE1,I)
+c              CRKAVX(ILEV)%XX(2,K2) = YIN(IEDGE1,I)
+c              CRKAVX(ILEV)%XX(3,K2) = ZIN(IEDGE1,I)
             END IF ! IXEL
 C---
-          ENDIF    ! ITRI 
+          ENDIF    ! ITRI
 C-----------------
         ENDDO      ! I=JFT,JLT
 C-----------------

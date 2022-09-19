@@ -36,12 +36,12 @@ Chd|====================================================================
      .                       NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                       NOINT     ,NI     ,NOD2RTMS,NOD2RTMM,KAD       ,
      .                       TAGLINS   ,TAGLINM ,IADD   ,NT19    ,MAXRTMS   ,
-     .                       NRTS      ,NTY     )      
+     .                       NRTS      ,NTY     )
 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -62,8 +62,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*) , NOD2RTMS(*), NOD2RTMM(*), KAD(*), TAGLINS(*), TAGLINM(*), 
-     .        IADD(*) 
+      INTEGER ITAB(*) , NOD2RTMS(*), NOD2RTMM(*), KAD(*), TAGLINS(*), TAGLINM(*),
+     .        IADD(*)
       INTEGER NRTM, NRTM0, NSN, NISUBS, NISUBM, NOINT, NI, NT19, NRTS, NTY, MAXRTMS
       INTEGER NOM_OPT(LNOPT1,*)
 
@@ -185,7 +185,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -224,7 +224,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 
                ISU1 =NOM_OPT(3,NINTER+JSUB)  ! SURFACE ID 1
@@ -253,7 +253,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
 C
@@ -316,7 +316,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -354,8 +354,8 @@ C
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                               KAD(IS)=KAD(IS)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINS(IS) = 1                     
-                            ELSE                   
+                              TAGLINS(IS) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
                             ENDIF
@@ -363,7 +363,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
                ISU1 =NOM_OPT(3,NINTER+JSUB)  ! SURFACE ID 1
@@ -382,7 +382,7 @@ C
                                 IF(IGRSURF(ISU1)%NODES(I,K)==II) FOUND=1
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
-                          END DO   
+                          END DO
                           IF (FOUND_LINE==2)THEN
                             IF(TAGLINS(IS)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
@@ -390,8 +390,8 @@ C
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                               KAD(IS)=KAD(IS)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINS(IS) = 1                     
-                            ELSE                   
+                              TAGLINS(IS) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
                             ENDIF
@@ -400,7 +400,7 @@ C                          Line must be taken into account only one time for one
 
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
 
@@ -488,7 +488,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -526,8 +526,8 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
- 
+                  ENDDO
+
                ENDIF
 C
                ISU2 =NOM_OPT(6,NINTER+JSUB)  ! SURFACE ID 2
@@ -555,8 +555,8 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
- 
+                  ENDDO
+
                ENDIF
 C
 
@@ -618,7 +618,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -656,8 +656,8 @@ C
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                               KAD(IM)=KAD(IM)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINM(IM) = 1                     
-                            ELSE                   
+                              TAGLINM(IM) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),1)
                             ENDIF
@@ -665,7 +665,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 
                ISU2 =NOM_OPT(6,NINTER+JSUB)  ! SURFACE ID 1
@@ -693,8 +693,8 @@ C                          Line must be taken into account only one time for one
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                               KAD(IM)=KAD(IM)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINM(IM) = 1                     
-                            ELSE                   
+                              TAGLINM(IM) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
                             ENDIF
@@ -702,7 +702,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
 C
@@ -787,7 +787,7 @@ C                       Line must be taken into account only one time for one su
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-            ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+            ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -826,7 +826,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
 
                ENDIF
 
@@ -856,7 +856,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
 
                ENDIF
 C
@@ -915,7 +915,7 @@ C                       Line must be taken into account only one time for one su
                END DO
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -953,8 +953,8 @@ C
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                               KAD(IS)=KAD(IS)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINS(IS) = 1                     
-                            ELSE                   
+                              TAGLINS(IS) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
                             ENDIF
@@ -962,7 +962,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
 
               ENDIF
 C
@@ -983,7 +983,7 @@ C
                              END DO
                              FOUND_LINE = FOUND_LINE + FOUND
                           END DO
-  
+
                           IF (FOUND_LINE==2)THEN
                             IF(TAGLINS(IS)==0) THEN
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS))=
@@ -991,8 +991,8 @@ C
                               INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                               KAD(IS)=KAD(IS)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINS(IS) = 1                     
-                            ELSE                   
+                              TAGLINS(IS) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
                             ENDIF
@@ -1000,7 +1000,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
 
               ENDIF
             END IF
@@ -1074,7 +1074,7 @@ C                       Line must be taken into account only one time for one su
                 END DO
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -1113,7 +1113,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
 
                 ENDIF
 
@@ -1143,7 +1143,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
 
                 ENDIF
 C
@@ -1201,7 +1201,7 @@ C                       Line must be taken into account only one time for one su
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -1239,8 +1239,8 @@ C
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                               KAD(IM)=KAD(IM)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINM(IM) = 1                     
-                            ELSE                   
+                              TAGLINM(IM) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),1)
                             ENDIF
@@ -1248,7 +1248,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
                ISU2 =NOM_OPT(6,NINTER+JSUB)  ! SURFACE ID 2
@@ -1276,8 +1276,8 @@ C
                               INTBUF_TAB(NI)%LISUBM(KAD(IM))=KSUB
                               KAD(IM)=KAD(IM)+1
 C                          Line must be taken into account only one time for one subinterface
-                              TAGLINM(IM) = 1                     
-                            ELSE                   
+                              TAGLINM(IM) = 1
+                            ELSE
                               INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1)=
      .                           BITSET(INTBUF_TAB(NI)%INFLG_SUBM(KAD(IM)-1),0)
                             ENDIF
@@ -1285,7 +1285,7 @@ C                          Line must be taken into account only one time for one
                        ENDDO
                      ENDDO
 
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
               END IF

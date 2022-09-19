@@ -49,7 +49,7 @@ Chd|====================================================================
      7               FOPT      , ANIN     , LPBY        , NPBY        , NSTRF     ,
      8               RWBUF     , NPRW     , IXUR        , TANI        , ELBUF_TAB ,
      9               DD_IAD    , FR_IAD   , DD_FRONT    , CLUSTER     ,
-     A               WEIGHT    , EANI     , IPART       , 
+     A               WEIGHT    , EANI     , IPART       ,
      B               RBY       , NOM_OPT  , IGRSURF     , BUFSF       , IDATA     ,
      C               RDATA     , BUFMAT   , BUFGEO      , KXX         , IXX       ,
      D               KXSP      , IXSP     , NOD2SP      , SPBUF       , IXS10     ,
@@ -63,7 +63,7 @@ Chd|====================================================================
      L               FTCONT    , TEMP     , ERR_THK_SH4 , ERR_THK_SH3 ,
      M               IRBE2     , IRBE3    , LRBE2       , LRBE3       , FR_RBE2   ,
      N               FR_RBE3M  , IAD_RBE2 , WEIGHT_MD   , FCLUSTER    , MCLUSTER  ,
-     O               XFEM_TAB  , W           , NV46        , NERCVOIS  , 
+     O               XFEM_TAB  , W           , NV46        , NERCVOIS  ,
      P               NESDVOIS  , LERCVOIS , LESDVOIS    ,CRKEDGE      ,INDX_CRK   ,
      Q               XEDGE4N   ,XEDGE3N   ,STACK        ,SPH2SOL      ,STIFN      ,
      R               STIFR     ,DRAPE_Q4  ,DRAPE_T3     ,H3D_DATA     ,SUBSET     ,
@@ -73,7 +73,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GENANI_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD
       USE CRACKXFEM_MOD

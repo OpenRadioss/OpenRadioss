@@ -55,7 +55,7 @@ C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
       INTEGER I,J,INDX(MVSIZ),NINDX
-      my_real 
+      my_real
      .        P,triaxs,SVM,SXX,SYY,SZZ,EPS_CR,F_RTCL
 C!--------------------------------------------------------------
       !=======================================================================
@@ -71,16 +71,16 @@ c
       END DO
 C
       ! Initialization of variable
-      NINDX = 0  
-c      
+      NINDX = 0
+c
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO COMPUTE THE DAMAGE VARIABLE
-      !====================================================================       
+      !====================================================================
       DO I=1,NEL
 c
         ! If the element is not broken
         IF (OFF(I) ==  ONE .AND. DPLA(I) /= ZERO) THEN
-c        
+c
           ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
           P   = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SXX = SIGNXX(I) - P
@@ -94,7 +94,7 @@ c
           IF (triaxs < -ONE) triaxs = -ONE
 c
           ! Computing the plastic strain at failure according to stress triaxiality
-          IF (triaxs < -THIRD) THEN 
+          IF (triaxs < -THIRD) THEN
             F_RTCL = ZERO
           ELSEIF ((triaxs >= -THIRD).AND.(triaxs < THIRD)) THEN
             F_RTCL = TWO*((ONE+triaxs*SQRT(TWELVE-TWENTY7*(triaxs**2)))/
@@ -112,25 +112,25 @@ c
             OFF(I)      = FOUR_OVER_5
             NINDX       = NINDX + 1
             INDX(NINDX) = I
-            IDEL7NOK    = 1   
-            TDELE(I)    = TIME    
+            IDEL7NOK    = 1
+            TDELE(I)    = TIME
           ENDIF
-        ENDIF 
+        ENDIF
       ENDDO
 c------------------------
 c------------------------
       IF (NINDX > 0) THEN
         DO J=1,NINDX
-          I = INDX(J)     
+          I = INDX(J)
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I),TIME
           WRITE(ISTDO,1100) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-      END IF         
+      END IF
 c------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (RTCL) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
+     .          ' AT TIME :',1PE12.4)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (RTCL) el#',I10,
      .          ' AT TIME :',1PE12.4)
       END

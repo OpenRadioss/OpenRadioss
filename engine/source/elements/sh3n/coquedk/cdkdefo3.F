@@ -48,7 +48,7 @@ C  ds007  18/2/00   +1
       INTEGER JFT, JLT,NFT,ISTRAIN,NEL
 C     REAL
       my_real
-     .   PX2(*), PY2(*), PX3(*), PY3(*), 
+     .   PX2(*), PY2(*), PX3(*), PY3(*),
      .   VLX(MVSIZ,2),VLY(MVSIZ,2),EXX(*),EYY(*),EXY(*),EXZ(*),EYZ(*),
      .   GSTR(NEL,8),EPSDOT(6,*),VDEF(MVSIZ,8),DT1
 C-----------------------------------------------

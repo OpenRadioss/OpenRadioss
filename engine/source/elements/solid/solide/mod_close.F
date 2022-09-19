@@ -54,14 +54,14 @@ C     REAL
       DOUBLE PRECISION
      .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
      .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
-     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)     
+     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)
 
       my_real
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   GEO(NPROPG,*),HH(*)
-     
+
       INTEGER NGEO(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -212,40 +212,40 @@ C
   	  ZD7(I)=X(3,7)
   	  XD8(I)=X(1,8)
   	  YD8(I)=X(2,8)
-  	  ZD8(I)=X(3,8)	  	  
+  	  ZD8(I)=X(3,8)	  	
           HH(I)=Max(ONE-H/HCLOS(I),ZERO)
 	  HH(I)=MIN(ONE,HH(I))
 	ENDIF
       ENDDO
-      
-c copy and cast XD(DP) to X(SP) to assure coherence between XD et X      
+
+c copy and cast XD(DP) to X(SP) to assure coherence between XD et X
       DO I=LFT,LLT
-        X1(I)= XD1(I) 
-        Y1(I)= YD1(I) 
+        X1(I)= XD1(I)
+        Y1(I)= YD1(I)
         Z1(I)= ZD1(I)
-        X2(I)= XD2(I)  
-        Y2(I)= YD2(I)  
-        Z2(I)= ZD2(I) 
-        X3(I)= XD3(I) 
-        Y3(I)= YD3(I) 
-        Z3(I)= ZD3(I) 
-        X4(I)= XD4(I) 
-        Y4(I)= YD4(I) 
-        Z4(I)= ZD4(I) 
-        X5(I)= XD5(I) 
+        X2(I)= XD2(I)
+        Y2(I)= YD2(I)
+        Z2(I)= ZD2(I)
+        X3(I)= XD3(I)
+        Y3(I)= YD3(I)
+        Z3(I)= ZD3(I)
+        X4(I)= XD4(I)
+        Y4(I)= YD4(I)
+        Z4(I)= ZD4(I)
+        X5(I)= XD5(I)
         Y5(I)= YD5(I)
-        Z5(I)= ZD5(I) 
-        X6(I)= XD6(I) 
-        Y6(I)= YD6(I) 
-        Z6(I)= ZD6(I) 
-        X7(I)= XD7(I) 
-        Y7(I)= YD7(I) 
-        Z7(I)= ZD7(I) 
-        X8(I)= XD8(I) 
-        Y8(I)= YD8(I) 
-        Z8(I)= ZD8(I) 
-      ENDDO          
-          
+        Z5(I)= ZD5(I)
+        X6(I)= XD6(I)
+        Y6(I)= YD6(I)
+        Z6(I)= ZD6(I)
+        X7(I)= XD7(I)
+        Y7(I)= YD7(I)
+        Z7(I)= ZD7(I)
+        X8(I)= XD8(I)
+        Y8(I)= YD8(I)
+        Z8(I)= ZD8(I)
+      ENDDO
+
       RETURN
       END		
 	

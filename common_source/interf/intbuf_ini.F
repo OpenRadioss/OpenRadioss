@@ -36,12 +36,12 @@ Chd|        INTBUFDEF_MOD                 modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE INTBUF_INI(INTBUF_TAB)  
+      SUBROUTINE INTBUF_INI(INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD      
-      USE MESSAGE_MOD      
+      USE INTBUFDEF_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C=======================================================================
 
         N = 1
 C=======================================================================
-c READ INTEGER SIZES 
+c READ INTEGER SIZES
 C=======================================================================
         INTBUF_TAB(NI)%S_IRECTS       = INTBUF_SIZE(N)
         N = N+1
@@ -96,7 +96,7 @@ C=======================================================================
         INTBUF_TAB(NI)%S_INORM        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_IELEC        = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_IELES        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_LISUB        = INTBUF_SIZE(N)
@@ -136,7 +136,7 @@ C=======================================================================
         INTBUF_TAB(NI)%S_KREMNODE     = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_REMNODE      = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_KREMNOR      = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_REMNOR       = INTBUF_SIZE(N)
@@ -180,7 +180,7 @@ C=======================================================================
 !type1
         N = N+1
         INTBUF_TAB(NI)%S_ILOCS        = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_NSEGM        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_NRT          = INTBUF_SIZE(N)
@@ -190,13 +190,13 @@ C=======================================================================
 !type3
         N = N+1
         INTBUF_TAB(NI)%S_IRTLS        = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_ILOCM        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_IRTLOM       = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_IRTLOS       = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_NSEGS        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_LNSV         = INTBUF_SIZE(N)
@@ -220,7 +220,7 @@ C=======================================================================
         INTBUF_TAB(NI)%S_MNDD        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_MSR_L       = INTBUF_SIZE(N)
-!type24 
+!type24
         N = N+1
         INTBUF_TAB(NI)%S_MVOISIN     = INTBUF_SIZE(N)
         N = N+1
@@ -230,7 +230,7 @@ C=======================================================================
         INTBUF_TAB(NI)%S_MSEGLO      = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_MSEGTYP24   = INTBUF_SIZE(N)
-!type24 
+!type24
 C---------will be cleaned after        
         N = N+1
         INTBUF_TAB(NI)%S_ISEADD      = INTBUF_SIZE(N)
@@ -368,7 +368,7 @@ C=======================================================================
         INTBUF_TAB(NI)%S_STFS         = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_PENIM        = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_PENIS        = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_GAP_M        = INTBUF_SIZE(N)
@@ -582,7 +582,7 @@ C-----to be cleaned after
         INTBUF_TAB(NI)%S_FTSAVZ_E     = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_FTSAVX_E2S   = INTBUF_SIZE(N)
-        N = N+1 
+        N = N+1
         INTBUF_TAB(NI)%S_FTSAVY_E2S   = INTBUF_SIZE(N)
         N = N+1
         INTBUF_TAB(NI)%S_FTSAVZ_E2S   = INTBUF_SIZE(N)
@@ -599,7 +599,7 @@ C-----to be cleaned after
 
 C=======================================================================
         IF(N /= L_INTBUF_SIZE)THEN
-          WRITE(ISTDO,'(A)') 
+          WRITE(ISTDO,'(A)')
      .            ' ** Internal error in routine INTBUF_INI'
           CALL ARRET(2)
         END IF
@@ -800,7 +800,7 @@ C=======================================================================
         IF(SIZ>0)THEN
           CALL READ_I_C(INTBUF_TAB(NI)%IREP_FRICM,SIZ)
         ENDIF
-       
+
         SIZ = INTBUF_TAB(NI)%S_KREMNODE
         ALLOCATE(INTBUF_TAB(NI)%KREMNODE(SIZ))
         IF(SIZ>0)THEN
@@ -1108,7 +1108,7 @@ C----------to be cleaned later
         IF(SIZ>0)THEN
           CALL READ_I_C(INTBUF_TAB(NI)%ISEG_PLY,SIZ)
         ENDIF
-        
+
         SIZ = INTBUF_TAB(NI)%S_ICONT_I
         ALLOCATE(INTBUF_TAB(NI)%ICONT_I(SIZ))
         IF(SIZ>0)THEN
@@ -1119,7 +1119,7 @@ C----------to be cleaned later
         IF(SIZ>0)THEN
           CALL READ_I_C(INTBUF_TAB(NI)%IRTSE,SIZ)
         ENDIF
- 
+
         SIZ = INTBUF_TAB(NI)%S_IS2SE
         ALLOCATE(INTBUF_TAB(NI)%IS2SE(SIZ))
         IF(SIZ>0)THEN
@@ -1280,7 +1280,7 @@ c          INTBUF_TAB(NI)%IFPEN_E2S(1:SIZ) = 0
           CALL READ_I_C(INTBUF_TAB(NI)%IFPEN_E2S,SIZ)
         ENDIF
 
-! NITSCHE METHOD 
+! NITSCHE METHOD
         SIZ = INTBUF_TAB(NI)%S_IELNRTS
         ALLOCATE(INTBUF_TAB(NI)%IELNRTS(SIZ))
         IF(SIZ>0)THEN
@@ -1400,12 +1400,12 @@ C=======================================================================
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%RUPT,SIZ)
         ENDIF
- 
+
         SIZ = INTBUF_TAB(NI)%S_FINI
         ALLOCATE(INTBUF_TAB(NI)%FINI(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%FINI,SIZ)
-        ENDIF        
+        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_STFNS
         ALLOCATE(INTBUF_TAB(NI)%STFNS(SIZ))
@@ -1940,32 +1940,32 @@ C=======================================================================
         ALLOCATE(INTBUF_TAB(NI)%DGAP_M(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%DGAP_M,SIZ)
-        ENDIF  
+        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_DELTA_PMAX_DGAP
         ALLOCATE(INTBUF_TAB(NI)%DELTA_PMAX_DGAP(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%DELTA_PMAX_DGAP,SIZ)
-        ENDIF  
-        
+        ENDIF
+
         SIZ = INTBUF_TAB(NI)%S_XFIC
         ALLOCATE(INTBUF_TAB(NI)%XFIC(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%XFIC,SIZ)
-        ENDIF  
-        
+        ENDIF
+
         SIZ = INTBUF_TAB(NI)%S_VFIC
         ALLOCATE(INTBUF_TAB(NI)%VFIC(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%VFIC,SIZ)
-        ENDIF  
+        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_MSFIC
 
         ALLOCATE(INTBUF_TAB(NI)%MSFIC(SIZ))
         IF(SIZ>0)THEN
           CALL READ_DB(INTBUF_TAB(NI)%MSFIC,SIZ)
-        ENDIF  
+        ENDIF
 
 !type 25
         SIZ = INTBUF_TAB(NI)%S_EDGE_BISECTOR
@@ -2013,7 +2013,7 @@ C=======================================================================
 
 !type 8
         IF(INTBUF_TAB(NI)%S_T8 == 1) THEN
-          CALL INTBUF_INI_T8(INTBUF_TAB(NI)%T8)  
+          CALL INTBUF_INI_T8(INTBUF_TAB(NI)%T8)
         ENDIF
 !type 2
         SIZ = INTBUF_TAB(NI)%S_CSTS_BIS
@@ -2098,13 +2098,13 @@ Chd|        READ_I_C                      starter/source/output/tools/write_rout
 Chd|        READ_I_C                      engine/source/output/tools/sortie_c.c
 Chd|        INT8_MOD                      modules/int8_mod.F            
 Chd|====================================================================
-      SUBROUTINE INTBUF_INI_T8(T8)  
+      SUBROUTINE INTBUF_INI_T8(T8)
 C Reads the T8 structures
 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INT8_MOD 
+      USE INT8_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2124,16 +2124,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,NBS_INTERF,NBM_INTERF,SIZ,P2
       IF(NSPMD > 1) THEN
-      ! Specific T8 structures has to be read only 
+      ! Specific T8 structures has to be read only
       ! In SPMD
 
        T8%IS_ACTIVATED = 0
-       
+
        CALL READ_I_C(SIZ,1)
        T8%S_COMM = SIZ
 C      WRITE(6,*) __FILE__,__LINE__,"S_COMM=",SIZ
        ALLOCATE(T8%SPMD_COMM_PATTERN(SIZ))
-       DO K=1,T8%S_COMM 
+       DO K=1,T8%S_COMM
          CALL READ_I_C(T8%SPMD_COMM_PATTERN(K)%NUMLOC,1)
          CALL READ_I_C(T8%SPMD_COMM_PATTERN(K)%UID,1)
          CALL READ_I_C(T8%SPMD_COMM_PATTERN(K)%NBCOM,1)
@@ -2145,10 +2145,10 @@ C      WRITE(6,*) __FILE__,__LINE__,"S_COMM=",SIZ
        ALLOCATE(T8%BUFFER(NSPMD))
        DO P2=1,NSPMD
           CALL READ_I_C(NBM_INTERF,1)
-          CALL READ_I_C(NBS_INTERF,1)        
-          T8%BUFFER(P2)%NBSECND_TOT = NBS_INTERF 
-          T8%BUFFER(P2)%NBMAIN    = NBM_INTERF 
-         
+          CALL READ_I_C(NBS_INTERF,1)
+          T8%BUFFER(P2)%NBSECND_TOT = NBS_INTERF
+          T8%BUFFER(P2)%NBMAIN    = NBM_INTERF
+
           !nb secnds per main
 
           IF(NBM_INTERF > 0) THEN
@@ -2163,7 +2163,7 @@ C      WRITE(6,*) __FILE__,__LINE__,"S_COMM=",SIZ
             ALLOCATE(T8%BUFFER(P2)%MAIN_ID(1))
             ALLOCATE(T8%BUFFER(P2)%MAIN_UID(1))
           ENDIF
-         
+
           IF(NBS_INTERF > 0) THEN
             ALLOCATE(T8%BUFFER(P2)%SECND_ID(NBS_INTERF))
             ALLOCATE(T8%BUFFER(P2)%SECND_UID(NBS_INTERF))
@@ -2177,7 +2177,7 @@ C           CALL READ_I_C(T8%BUFFER(P2)%SECND_UID,NBS_INTERF)
             !WRITE(6,*) T8%BUFFER(P2)%SECND_ID(1:NBS_INTERF)
             !WRITE(6,*) "SUID ="
             !WRITE(6,*) T8%BUFFER(P2)%SECND_UID(1:NBS_INTERF)
-         
+
 c           ALLOCATE(T8%BUFFER(P2)%BUFR(NBS_INTERF*2))
 c           ALLOCATE(T8%BUFFER(P2)%BUFI(NBS_INTERF*3))
           !WRITE(6,*) ISPMD+1,T8%BUFFER(P2)%SECND_UID(1:NBS_INTERF)

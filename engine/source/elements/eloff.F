@@ -33,7 +33,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
        SUBROUTINE ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,
-     .                  IXR     ,IXTG    ,IPARG    , 
+     .                  IXR     ,IXTG    ,IPARG    ,
      .                  IACTIV  ,TIME    ,IFLAG    ,NN      ,ELBUF_TAB,
      .                  X       ,TEMP    ,MCP      ,PM      ,IGROUPS  ,
      .                  MCP_OFF ,IGRBRIC ,IGRQUAD  ,IGRSH4N ,IGRSH3N  ,
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IACTIV(LACTIV,*),IPARG(NPARG,*),
-     .   IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*), 
+     .   IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*),
      .   IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
      .   IGROUPS(*)
       INTEGER IFLAG, NN
@@ -105,14 +105,14 @@ C-----------------------------------------------
 C======================================================================|
       IF( IFLAG == 0 .OR. IFLAG == 1) THEN
       IGBR  = IACTIV(3,NN)
-      IGQU  = IACTIV(4,NN) 
-      IGSH  = IACTIV(5,NN) 
-      IGTR  = IACTIV(6,NN) 
-      IGBM  = IACTIV(7,NN) 
-      IGSP  = IACTIV(8,NN) 
-      IGSH3 = IACTIV(9,NN) 
-      IFORM = IACTIV(10,NN) 
-      
+      IGQU  = IACTIV(4,NN)
+      IGSH  = IACTIV(5,NN)
+      IGTR  = IACTIV(6,NN)
+      IGBM  = IACTIV(7,NN)
+      IGSP  = IACTIV(8,NN)
+      IGSH3 = IACTIV(9,NN)
+      IFORM = IACTIV(10,NN)
+
       ALLOCATE(INDEX2(1+MVSIZ,NGROUP))
       INDEX2=0
       ENDIF
@@ -125,13 +125,13 @@ C------------------------------
        IF (IGBR /= 0) THEN
          DO J=1,IGRBRIC(IGBR)%NENTITY
            II = IGRBRIC(IGBR)%ENTITY(J)
-           NG = IGROUPS(II)                
+           NG = IGROUPS(II)
            NFT= IPARG(3,NG)
            MLW=IPARG(1,NG)
            IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
            I  = II - NFT
            INDEX2(1,NG) = INDEX2(1,NG) + 1
-           NELA = INDEX2(1,NG) 
+           NELA = INDEX2(1,NG)
            INDEX2(NELA+1,NG) = I
            WRITE(IOUT,'(A,I10,A,G13.5)')' BRICK ACTIVATION:',IXS(11,II),' AT TIME:',TIME
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
@@ -144,17 +144,17 @@ C------------------------------
          NEL=IPARG(2,NG)
          NFT=IPARG(3,NG)
          ITY=IPARG(5,NG)
-         JTHE=IPARG(13,NG)    
+         JTHE=IPARG(13,NG)
          IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
 C         
-         IF(ITY==1)THEN       
+         IF(ITY==1)THEN
 C---       ELEMENTS SOLIDES
-           ISOLNOD=IPARG(28,NG)    
+           ISOLNOD=IPARG(28,NG)
            ITETRA4=IPARG(41,NG)
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
            NELA = INDEX2(1,NG)
            INDEX(1:NELA) = INDEX2(2:NELA+1,NG)
-      
+
            IF(NELA == 0) CYCLE
 C
            IF(ITHERM_FE > 0) THEN
@@ -163,7 +163,7 @@ C
              NPTS   = ELBUF_TAB(NG)%NPTS
              NPTT   = ELBUF_TAB(NG)%NPTT
              FACVOL=ONE
-             IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			   
+             IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			
 
              DO I=1,NELA
                 J=INDEX(I)+NFT
@@ -185,7 +185,7 @@ C
                 MCP_OFF(NC7(I)) = ONE
                 MCP_OFF(NC8(I)) = ONE
              ENDDO
-			 
+			
              IF(IFORM == 2) THEN
                RHOCP=PM(69,IXS(1,1+NFT))
                DO I=1,NELA
@@ -213,7 +213,7 @@ C---      TEMPERATURE AT ACTIVATION TIME
                  NC4(I)=IXS(6,J)
                ENDDO
                CALL S4VOLUME(X, VOLGN, NELA, NC1, NC2, NC3, NC4)
-			   
+			
                IF(ITETRA4 == 1) THEN
                  IF(JTHE < 0) CALL S10NXT4(NXT4,NELA)
                  DO IP=1,NPTR
@@ -234,8 +234,8 @@ C---      TEMPERATURE AT ACTIVATION TIME
              ELSE
                CALL S8EVOLUME(X, VOLGN, VOLPN, NELA, NPTR, NPTS, NPTT,
      .                        NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8 )
-               IF(JTHE < 0 ) THEN 
-                  CALL S8ETEMPER(TEMP, TEMPN, NELA, NPTR, NPTS, NPTT, 
+               IF(JTHE < 0 ) THEN
+                  CALL S8ETEMPER(TEMP, TEMPN, NELA, NPTR, NPTS, NPTT,
      .                        NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8 )
                ENDIF
              ENDIF
@@ -256,8 +256,8 @@ C
                     VOLP(J) = VOLPN(I,IP)
                     IF(JTHE < 0 ) TEIP(J) = TEMPN(I,IP)
                   ENDDO
-               ENDDO 
-              ENDDO 
+               ENDDO
+              ENDDO
              ENDDO
            ENDIF
 
@@ -290,7 +290,7 @@ C---       TEST POUR L'ACTIVATION D'ONE GROUPE
            ENDDO
            IPARG(8,NG) = IGOF
 
-         ELSEIF(ITY==3)THEN 
+         ELSEIF(ITY==3)THEN
 C---     ELEMENTS COQUES
           OFFG => ELBUF_TAB(NG)%GBUF%OFF
            DO I=1,NEL
@@ -357,7 +357,7 @@ C---       TEST POUR L'ACTIVATION D'ONE GROUPE
 C---     ELEMENTS RESSORTS
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
 !        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-!        We need to compute the local referentiel for spring 
+!        We need to compute the local referentiel for spring
 !        --> even if off(1:mvsiz)=1, IPARG(8) = 0
 !        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
            DO I=1,NEL
@@ -374,7 +374,7 @@ C---     ELEMENTS RESSORTS
              IGOF = 0
              IPARG(8,NG) = IGOF
 
-         ELSEIF(ITY==7)THEN 
+         ELSEIF(ITY==7)THEN
 C---     ELEMENTS COQUES 3N
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
            DO I=1,NEL
@@ -412,7 +412,7 @@ C-----------------------
           NEL=IPARG(2,NG)
           NFT=IPARG(3,NG)
           ITY=IPARG(5,NG)
-          ISOLNOD=IPARG(28,NG)    
+          ISOLNOD=IPARG(28,NG)
           ITETRA4=IPARG(41,NG)
           IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
           I = II - NFT
@@ -420,7 +420,7 @@ C-----------------------
           WRITE(IOUT,'(A,I10,A,G13.5)')' BRICK DEACTIVATION:',IXS(11,II),' AT TIME:',TIME
           IF(ITHERM_FE > 0 .AND. IFORM == 2) THEN
             FACVOL=ONE
-            IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			   
+            IF(ISOLNOD == 4 .AND. ITETRA4 == 1) FACVOL=FOUR			
             RHOCP=PM(69,IXS(1,II))
             MCPS=ONE_OVER_8*RHOCP*VOLG(I)*FACVOL
             DO K=2,9
@@ -437,7 +437,7 @@ C-----------------------
          NFT=IPARG(3,NG)
          ITY=IPARG(5,NG)
          IF (MLW == 0 .OR. MLW == 13) CYCLE  ! loi0, pas de off
-         IF(ITY==1) THEN       
+         IF(ITY==1) THEN
 C---     ELEMENTS SOLIDES
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
            VOLG => ELBUF_TAB(NG)%GBUF%VOL
@@ -469,7 +469,7 @@ C---       TEST POUR L'ELIMINATION D'ONE GROUPE
            ENDDO
            IPARG(8,NG) = IGOF
 
-         ELSEIF(ITY==3) THEN 
+         ELSEIF(ITY==3) THEN
 C---     ELEMENTS COQUES
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
            DO I=1,NEL
@@ -537,7 +537,7 @@ C---       TEST POUR L'ELIMINATION D'ONE GROUPE
 C---     ELEMENTS RESSORTS
            OFFG => ELBUF_TAB(NG)%GBUF%OFF
 !        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-!        We need to compute the local referentiel for spring 
+!        We need to compute the local referentiel for spring
 !        --> even if off(1:mvsiz)=1, IPARG(8) = 0
 !        *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
            DO I=1,NEL
@@ -555,7 +555,7 @@ C---
            IGOF = 0
            IPARG(8,NG) = IGOF
 
-         ELSEIF(ITY==7) THEN 
+         ELSEIF(ITY==7) THEN
 C---     ELEMENTS COQUES 3N
           OFFG => ELBUF_TAB(NG)%GBUF%OFF
            DO I=1,NEL
@@ -578,7 +578,7 @@ C---       TEST POUR L'ELIMINATION D'ONE GROUPE
 C----------------------------------------
          ENDIF
        ENDDO
-      ELSE  ! IFLAG == -1 
+      ELSE  ! IFLAG == -1
       IF(ITHERM_FE > 0 ) THEN
 C Set MCP_OFF(i) == 0 if all solids connected to i are deactivated
           MCP_OFF(1:NUMNOD) = ONE

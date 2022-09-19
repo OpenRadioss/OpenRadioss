@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER NELTST,ITYPTST, IFUNC,IFUN2, NOINT, NSN, NMN,HFLAG,ICOR
       INTEGER MSR(*), NSV(*), NPC(*), ISKY(*)
 C     REAL
-      my_real 
+      my_real
      .   DT2T,ANSMX,ANSMX0,FF0,FMX,FMY,FMZ,XMAS,FFAC,FACX,FAC2,STIFF,
      .   PENI
       my_real
@@ -117,173 +117,173 @@ C
         DTMI = MAX(EM01*SQRT(XMAS/XK),ANSMX/VMAX)
 C------------------------------------------------
       ELSEIF (ANSMX == ZERO) THEN
-        FT = FINTER(IFUNC,ANSMX*FACX,NPC,TF,XK)  
-        XK = MAX(EM15,XK*FFAC)                   
-        FT = FT*FFAC                             
+        FT = FINTER(IFUNC,ANSMX*FACX,NPC,TF,XK)
+        XK = MAX(EM15,XK*FFAC)
+        FT = FT*FFAC
         DTMI = EM01*SQRT(XMAS/XK)
 C------------------------------------------------
-      ELSE 
+      ELSE
 C       ANSMX < 0                                                    
-        ANSMX = -ANSMX                                               
+        ANSMX = -ANSMX
         FT = FINTER(IFUNC,ANSMX*FACX,NPC,TF,XK)
-        XK = MAX(EM15,XK*FFAC)                                       
+        XK = MAX(EM15,XK*FFAC)
         FT = FT*FFAC
         FU = ZERO
         IF (HFLAG == 1) THEN
-          FU = FINTER(IFUN2,ANSMX*FACX,NPC,TF,XK)                    
+          FU = FINTER(IFUN2,ANSMX*FACX,NPC,TF,XK)
           FU = FU*FAC2
         ENDIF
 C                                                                    
-        IF (HFLAG > 0) THEN                                     
+        IF (HFLAG > 0) THEN
           DX = ANSMX-ANSMX0
-          IF (DX >= ZERO) THEN                                        
-c           loading                                                  
-            FT  = MIN(FT, FF0 + STIFF*DX) 
-          ELSE                                                       
-c           unloading                                                
-            FT  = MAX(FU, FF0 + STIFF*DX)                                     
-          ENDIF                                                      
-          XK  = FT - FF0 / MAX(EM15,DX)                    
-          ANSMX0 = ANSMX   
-          FF0 = FT 
+          IF (DX >= ZERO) THEN
+c           loading
+            FT  = MIN(FT, FF0 + STIFF*DX)
+          ELSE
+c           unloading
+            FT  = MAX(FU, FF0 + STIFF*DX)
+          ENDIF
+          XK  = FT - FF0 / MAX(EM15,DX)
+          ANSMX0 = ANSMX
+          FF0 = FT
         ENDIF
         FAC   = FT / MAX(EM15,SQRT(FMX**2+FMY**2+FMZ**2))
         FACDT = FAC*DT1
 C------------------------------------------------
-        FSAV(1)=FSAV(1)+FMX*FACDT        
-        FSAV(2)=FSAV(2)+FMY*FACDT        
-        FSAV(3)=FSAV(3)+FMZ*FACDT        
-        FSAV(4)=FSAV(4)-FMX*FACDT        
-        FSAV(5)=FSAV(5)-FMY*FACDT        
-        FSAV(6)=FSAV(6)-FMZ*FACDT        
+        FSAV(1)=FSAV(1)+FMX*FACDT
+        FSAV(2)=FSAV(2)+FMY*FACDT
+        FSAV(3)=FSAV(3)+FMZ*FACDT
+        FSAV(4)=FSAV(4)-FMX*FACDT
+        FSAV(5)=FSAV(5)-FMY*FACDT
+        FSAV(6)=FSAV(6)-FMZ*FACDT
 C
-        IF (IPARIT == 0) THEN            
-          DO 190 IL=1,NSN                
-          IG=NSV(IL)                     
-          IG3=3*IG                       
-          IG2=IG3-1                      
-          IG1=IG2-1                      
-          IL3=3*IL                       
-          IL2=IL3-1                      
-          IL1=IL2-1                      
-          E(IG1)=ES(IL1)*FAC             
-          E(IG2)=ES(IL2)*FAC             
-          E(IG3)=ES(IL3)*FAC             
- 190      CONTINUE                       
+        IF (IPARIT == 0) THEN
+          DO 190 IL=1,NSN
+          IG=NSV(IL)
+          IG3=3*IG
+          IG2=IG3-1
+          IG1=IG2-1
+          IL3=3*IL
+          IL2=IL3-1
+          IL1=IL2-1
+          E(IG1)=ES(IL1)*FAC
+          E(IG2)=ES(IL2)*FAC
+          E(IG3)=ES(IL3)*FAC
+ 190      CONTINUE
 C
-          DO 200 IL=1,NMN                
-          IG=MSR(IL)                     
-          IG3=3*IG                       
-          IG2=IG3-1                      
-          IG1=IG2-1                      
-          IL3=3*IL                       
-          IL2=IL3-1                      
-          IL1=IL2-1                      
-          E(IG1)=EM(IL1)*FAC             
-          E(IG2)=EM(IL2)*FAC             
-          E(IG3)=EM(IL3)*FAC             
-          FSAV(4)=FSAV(4)-EM(IL1)*FACDT  
-          FSAV(5)=FSAV(5)-EM(IL2)*FACDT  
-          FSAV(6)=FSAV(6)-EM(IL3)*FACDT  
- 200      CONTINUE                       
-                                         
-        ELSE                             
+          DO 200 IL=1,NMN
+          IG=MSR(IL)
+          IG3=3*IG
+          IG2=IG3-1
+          IG1=IG2-1
+          IL3=3*IL
+          IL2=IL3-1
+          IL1=IL2-1
+          E(IG1)=EM(IL1)*FAC
+          E(IG2)=EM(IL2)*FAC
+          E(IG3)=EM(IL3)*FAC
+          FSAV(4)=FSAV(4)-EM(IL1)*FACDT
+          FSAV(5)=FSAV(5)-EM(IL2)*FACDT
+          FSAV(6)=FSAV(6)-EM(IL3)*FACDT
+ 200      CONTINUE
+
+        ELSE
 C         IPARIT /= 0                      
-#include "lockon.inc"                      
-          NISKYL = NISKY                   
-          NISKY = NISKY + NSN + NMN        
-#include "lockoff.inc"                     
-          IF (KDTINT == 0) THEN            
-            DO 220 IL=1,NSN                
-            IL3=3*IL                       
-            IL2=IL3-1                      
-            IL1=IL2-1                      
-            NISKYL = NISKYL + 1            
-            FSKYI(NISKYL,1)=ES(IL1)*FAC    
-            FSKYI(NISKYL,2)=ES(IL2)*FAC    
-            FSKYI(NISKYL,3)=ES(IL3)*FAC    
-            FSKYI(NISKYL,4)=ZERO           
-            ISKY(NISKYL) = NSV(IL)         
- 220        CONTINUE                       
+#include "lockon.inc"
+          NISKYL = NISKY
+          NISKY = NISKY + NSN + NMN
+#include "lockoff.inc"
+          IF (KDTINT == 0) THEN
+            DO 220 IL=1,NSN
+            IL3=3*IL
+            IL2=IL3-1
+            IL1=IL2-1
+            NISKYL = NISKYL + 1
+            FSKYI(NISKYL,1)=ES(IL1)*FAC
+            FSKYI(NISKYL,2)=ES(IL2)*FAC
+            FSKYI(NISKYL,3)=ES(IL3)*FAC
+            FSKYI(NISKYL,4)=ZERO
+            ISKY(NISKYL) = NSV(IL)
+ 220        CONTINUE
 C
-            DO 240 IL=1,NMN                
-            IL3=3*IL                       
-            IL2=IL3-1                      
-            IL1=IL2-1                      
-            NISKYL = NISKYL + 1            
-            FSKYI(NISKYL,1)=EM(IL1)*FAC    
-            FSKYI(NISKYL,2)=EM(IL2)*FAC    
-            FSKYI(NISKYL,3)=EM(IL3)*FAC    
-            FSKYI(NISKYL,4)=ZERO           
-            ISKY(NISKYL) = MSR(IL)         
-            FSAV(4)=FSAV(4)-EM(IL1)*FACDT  
-            FSAV(5)=FSAV(5)-EM(IL2)*FACDT  
-            FSAV(6)=FSAV(6)-EM(IL3)*FACDT  
- 240        CONTINUE                       
-          ELSE                             
-            DO IL=1,NSN                    
-            IL3=3*IL                       
-            IL2=IL3-1                      
-            IL1=IL2-1                      
-            NISKYL = NISKYL + 1            
-            FSKYI(NISKYL,1)=ES(IL1)*FAC    
-            FSKYI(NISKYL,2)=ES(IL2)*FAC    
-            FSKYI(NISKYL,3)=ES(IL3)*FAC    
-            FSKYI(NISKYL,4)=ZERO           
-            FSKYI(NISKYL,5)=ZERO           
-            ISKY(NISKYL) = NSV(IL)         
-            ENDDO                          
+            DO 240 IL=1,NMN
+            IL3=3*IL
+            IL2=IL3-1
+            IL1=IL2-1
+            NISKYL = NISKYL + 1
+            FSKYI(NISKYL,1)=EM(IL1)*FAC
+            FSKYI(NISKYL,2)=EM(IL2)*FAC
+            FSKYI(NISKYL,3)=EM(IL3)*FAC
+            FSKYI(NISKYL,4)=ZERO
+            ISKY(NISKYL) = MSR(IL)
+            FSAV(4)=FSAV(4)-EM(IL1)*FACDT
+            FSAV(5)=FSAV(5)-EM(IL2)*FACDT
+            FSAV(6)=FSAV(6)-EM(IL3)*FACDT
+ 240        CONTINUE
+          ELSE
+            DO IL=1,NSN
+            IL3=3*IL
+            IL2=IL3-1
+            IL1=IL2-1
+            NISKYL = NISKYL + 1
+            FSKYI(NISKYL,1)=ES(IL1)*FAC
+            FSKYI(NISKYL,2)=ES(IL2)*FAC
+            FSKYI(NISKYL,3)=ES(IL3)*FAC
+            FSKYI(NISKYL,4)=ZERO
+            FSKYI(NISKYL,5)=ZERO
+            ISKY(NISKYL) = NSV(IL)
+            ENDDO
 C
-            DO IL=1,NMN                    
-            IL3=3*IL                       
-            IL2=IL3-1                      
-            IL1=IL2-1                      
-            NISKYL = NISKYL + 1            
-            FSKYI(NISKYL,1)=EM(IL1)*FAC    
-            FSKYI(NISKYL,2)=EM(IL2)*FAC    
-            FSKYI(NISKYL,3)=EM(IL3)*FAC    
-            FSKYI(NISKYL,4)=ZERO           
-            FSKYI(NISKYL,5)=ZERO           
-            ISKY(NISKYL) = MSR(IL)         
-            FSAV(4)=FSAV(4)-EM(IL1)*FACDT  
-            FSAV(5)=FSAV(5)-EM(IL2)*FACDT  
-            FSAV(6)=FSAV(6)-EM(IL3)*FACDT  
-            ENDDO                          
+            DO IL=1,NMN
+            IL3=3*IL
+            IL2=IL3-1
+            IL1=IL2-1
+            NISKYL = NISKYL + 1
+            FSKYI(NISKYL,1)=EM(IL1)*FAC
+            FSKYI(NISKYL,2)=EM(IL2)*FAC
+            FSKYI(NISKYL,3)=EM(IL3)*FAC
+            FSKYI(NISKYL,4)=ZERO
+            FSKYI(NISKYL,5)=ZERO
+            ISKY(NISKYL) = MSR(IL)
+            FSAV(4)=FSAV(4)-EM(IL1)*FACDT
+            FSAV(5)=FSAV(5)-EM(IL2)*FACDT
+            FSAV(6)=FSAV(6)-EM(IL3)*FACDT
+            ENDDO
           ENDIF
         ENDIF
 C-------  parith      
-        IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.                      
-     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.                     
-     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN                   
-#include "lockon.inc"                                         
-           DO IL=1,NSN                                        
-            IL3=3*IL                                          
-            IL2=IL3-1                                         
-            IL1=IL2-1                                         
-            FCONT(1,NSV(IL)) =FCONT(1,NSV(IL)) + ES(IL1)*FAC  
-            FCONT(2,NSV(IL)) =FCONT(2,NSV(IL)) + ES(IL2)*FAC  
-            FCONT(3,NSV(IL)) =FCONT(3,NSV(IL)) + ES(IL3)*FAC 
-           ENDDO                                              
+        IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
+     .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
+     .   (MANIM>=4.AND.MANIM<=15).OR. H3D_DATA%MH3D /= 0))THEN
+#include "lockon.inc"
+           DO IL=1,NSN
+            IL3=3*IL
+            IL2=IL3-1
+            IL1=IL2-1
+            FCONT(1,NSV(IL)) =FCONT(1,NSV(IL)) + ES(IL1)*FAC
+            FCONT(2,NSV(IL)) =FCONT(2,NSV(IL)) + ES(IL2)*FAC
+            FCONT(3,NSV(IL)) =FCONT(3,NSV(IL)) + ES(IL3)*FAC
+           ENDDO
 C
-           DO IL=1,NMN                                        
-            IL3=3*IL                                          
-            IL2=IL3-1                                         
-            IL1=IL2-1                                         
-            FCONT(1,MSR(IL)) =FCONT(1,MSR(IL)) + EM(IL1)*FAC  
-            FCONT(2,MSR(IL)) =FCONT(2,MSR(IL)) + EM(IL2)*FAC  
-            FCONT(3,MSR(IL)) =FCONT(3,MSR(IL)) + EM(IL3)*FAC  
-           ENDDO                                              
-#include "lockoff.inc"                                        
-        ENDIF                                                 
+           DO IL=1,NMN
+            IL3=3*IL
+            IL2=IL3-1
+            IL1=IL2-1
+            FCONT(1,MSR(IL)) =FCONT(1,MSR(IL)) + EM(IL1)*FAC
+            FCONT(2,MSR(IL)) =FCONT(2,MSR(IL)) + EM(IL2)*FAC
+            FCONT(3,MSR(IL)) =FCONT(3,MSR(IL)) + EM(IL3)*FAC
+           ENDDO
+#include "lockoff.inc"
+        ENDIF
 C
         XK   = MAX(XK,FT / MAX(EM15,ANSMX))
         DTMI = EM01*SQRT(XMAS/MAX(XK,EM20))
       ENDIF
 C-----------
       IF(DTMI<DT2T)THEN
-        DT2T    = DTMI   
-        NELTST  = NOINT  
-        ITYPTST = 10     
+        DT2T    = DTMI
+        NELTST  = NOINT
+        ITYPTST = 10
       ENDIF
 C-----------
       RETURN

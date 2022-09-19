@@ -167,7 +167,7 @@ C-----------------------------------------------
      .        G13,FAC,EPD,NU31,R,UMR,DEZZ,S2,S3,NU11,S1,NU21,
      .        NU110,NU210,P2,Q2,F,DF,A,YLD_I,YRATE,HKIN,ALPHA,
      .        DTINV
-      my_real SIGEXX(NEL),SIGEYY(NEL),SIGEXY(NEL),  
+      my_real SIGEXX(NEL),SIGEYY(NEL),SIGEXY(NEL),
      .        DYDX1(NEL),DYDX2(NEL),SVM(NEL),
      .        YC(NEL),YT(NEL),P(NEL),H(NEL),
      .        HK(NEL),NNU1(NEL),HI(NEL),DPLA_J(NEL),
@@ -180,7 +180,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-       IADBUF = IPM(7,MAT(1)) 
+       IADBUF = IPM(7,MAT(1))
 C       
        IRATE = NINT(UPARAM(IADBUF ))
        E1   = UPARAM(IADBUF +1)
@@ -203,7 +203,7 @@ C
         RATE0(I) = UPARAM(IADBUF +12+NFUNC + I)
        ENDDO
 C    
-       SIGY = UPARAM(IADBUF + 13 + 2*MFUNC) 
+       SIGY = UPARAM(IADBUF + 13 + 2*MFUNC)
        VP   = UPARAM(IADBUF + 14 + 2*MFUNC)
 C
        IF(VP /=0 .AND .IFLAG(1) /= 1) VP = 0
@@ -227,11 +227,11 @@ C
 C------------------------------------------
 C   estiamte stress
 C------------------------------------------
-       DO I=1,NEL 
+       DO I=1,NEL
 C
 C  en cas d'   crouissage cinematique
 C       
-       
+
          SIGNXX(I)=SIGOXX(I) - UVAR(I,2)  + A11*DEPSXX(I)+A21*DEPSYY(I)
          SIGNYY(I)=SIGOYY(I) - UVAR(I,3)  + A21*DEPSXX(I)+A11*DEPSYY(I)
          SIGNXY(I)=SIGOXY(I) - UVAR(I,4)  + G1 *DEPSXY(I)
@@ -241,7 +241,7 @@ C
          SIGEXX(I) = SIGNXX(I)
          SIGEYY(I) = SIGNYY(I)
          SIGEXY(I) = SIGNXY(I)
-         
+
          P(I) = -THIRD*(SIGNXX(I) + SIGNYY(I) )
 C
          SOUNDSP(I) = SQRT(A11/RHO0(I))
@@ -250,7 +250,7 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-        IF (ISRATE == 0) EPSP(I) = 
+        IF (ISRATE == 0) EPSP(I) =
      .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -260,7 +260,7 @@ C-------------------
 C
 C id function
 C              
-      IF(IRATE <=3) THEN 
+      IF(IRATE <=3) THEN
             DO I=1,NEL
               IPOS1(I) = NINT(UVAR(I,5))
               IAD1(I)  = NPF(IFUNC(1)) / 2 + 1
@@ -275,16 +275,16 @@ C
 C
              CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,YC)
              CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,YT)
-             
+
           IF(FISOKIN == ZERO) THEN
-           DO I=1,NEL 
+           DO I=1,NEL
              YC(I)=YC(I)*YFAC(1)
              YT(I)=YT(I)*YFAC(2)
              HC(I)=DYDX1(I)*YFAC(1)
              HT(I)=DYDX2(I)*YFAC(2)
-           ENDDO  
+           ENDDO
           ELSEIF(FISOKIN == ONE ) THEN
-            DO I=1,NEL 
+            DO I=1,NEL
               HC(I)=DYDX1(I)*YFAC(1)
               HT(I)=DYDX2(I)*YFAC(2)
               YC(I)=TF(NPF(IFUNC(1)) + 1)
@@ -293,7 +293,7 @@ C
               YT(I)=YT(I)*YFAC(2)
               YC(I) = MAX(EM20, YC(I))
               YT(I) = MAX(EM20, YT(I))
-            ENDDO 
+            ENDDO
           ELSE
             DO I=1,NEL
                 YC(I)=YC(I)*YFAC(1)
@@ -318,11 +318,11 @@ C
               DO I=1,NEL
                 IF(EPSP(I) >= RATE0(J) ) JJC(I) = J
               ENDDO
-            ENDDO        
+            ENDDO
             DO I=1,NEL
               FAC=RATE0(JJC(I))
               RATE(I)=(EPSP(I) - FAC)/(RATE0(JJC(I) +1) - FAC)
-            ENDDO        
+            ENDDO
             DO I=1,NEL
               J1 = JJC(I)
               J2 = J1+1
@@ -334,10 +334,10 @@ C
               ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I)-IPOS2(I)
 C              
               UVAR(I,4+J1) = IPOS1(I)
-              UVAR(I,4+J2) = IPOS2(I) 
-            END DO 
+              UVAR(I,4+J2) = IPOS2(I)
+            END DO
              CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
-             CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2) 
+             CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)
 C                  
              IF (FISOKIN == ZERO) THEN
                DO I=1,NEL
@@ -385,7 +385,7 @@ C                ECROUISSAGE CINEMATIQUE
                  Y2(I)=TF(NPF(IFUNC(J2))+1)
                  Y1(I)=Y1(I)*YFAC(J1)
                  Y2(I)=Y2(I)*YFAC(J2)
-                 YC(I) = (ONE - FISOKIN) * YC(I) + 
+                 YC(I) = (ONE - FISOKIN) * YC(I) +
      .             FISOKIN * ((Y1(I)    + FAC*(Y2(I)-Y1(I))))
                 ENDDO
                ENDIF
@@ -396,11 +396,11 @@ C
               DO I=1,NEL
                 IF(EPSP(I) >= RATE0(NCC+J)) JJT(I) = NCC + J
               ENDDO
-            ENDDO        
+            ENDDO
             DO I=1,NEL
               FAC=RATE0(JJT(I))
               RATE(I)=(EPSP(I) - FAC)/(RATE0(JJT(I)+1) - FAC)
-            ENDDO        
+            ENDDO
             DO I=1,NEL
               J1 = JJT(I)
               J2 = J1+1
@@ -413,9 +413,9 @@ C
 C              
               UVAR(I,4+J1) = IPOS1(I)
               UVAR(I,4+J2) = IPOS2(I)
-            END DO 
+            END DO
              CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
-             CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2) 
+             CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)
 C                  
              IF (FISOKIN == ZERO) THEN
                DO I=1,NEL
@@ -459,11 +459,11 @@ C               ECROUISSAGE CINEMATIQUE
 C                ECROUISSAGE CINEMATIQUE
                  Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1))+1)
                  Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2))+1)
-                 YT(I) = (ONE - FISOKIN) * YT(I) + 
+                 YT(I) = (ONE - FISOKIN) * YT(I) +
      .               FISOKIN * ((Y1(I)    + FAC*(Y2(I)-Y1(I))))
                 ENDDO
-              ENDIF               
-      ENDIF    
+              ENDIF
+      ENDIF
 c
 C strain effect on compression and traction
          IF(IRATE == 3) THEN
@@ -472,14 +472,14 @@ C compression
             YRATE = YFAC(3)*FINTER(IFUNC(3),EPSP(I),NPF,TF,DF)
             YC(I) = YRATE*YC(I)
             HC(I) = HC(I)*YRATE
-c traction            
+c traction
             YRATE = YFAC(4)*FINTER(IFUNC(4),EPSP(I),NPF,TF,DF)
             YT(I) = YRATE*YT(I)
             HT(I) = HT(I)*YRATE
           ENDDO
          ENDIF
 C interpolation entre (tracation & compression         
-        DO I=1,NEL   
+        DO I=1,NEL
           IF(P(I) <=  -PT) THEN
             YLD(I) = MAX(YT(I),EM20)
             H(I)   = HT(I)
@@ -492,19 +492,19 @@ C interpolation entre (tracation & compression
             YLD(I) = FAC*YT(I) + (ONE -FAC)*YC(I)
             YLD(I) = MAX(EM20,YLD(I))
             H(I) = FAC*HT(I) + (ONE -FAC)*HC(I)
-          ENDIF    
+          ENDIF
         ENDDO
 C
 C strain rate effect
 c (1 + (epsp/epsp0)**(1/cp)
       IF(VP == 0) THEN
-       IF(IRATE == 1) THEN      
+       IF(IRATE == 1) THEN
          DO I=1,NEL
           EPD = MAX(EM20,EPSP(I)/EPSP0)
           YRATE  = ONE + EXP(CP*LOG(EPD))
           YLD(I) = YLD(I)*YRATE
           H(I) = H(I)*YRATE
-         ENDDO     
+         ENDDO
 C 1 + cp*ln(epep/epsp0)     
        ELSEIF(IRATE == 2) THEN
          DO I=1,NEL
@@ -512,9 +512,9 @@ C 1 + cp*ln(epep/epsp0)
             YRATE = ONE + CP*LOG(EPD)
             YLD(I) = YLD(I)*YRATE
             H(I) = H(I)*YRATE
-         ENDDO  
-       ENDIF   
-      ENDIF               
+         ENDDO
+       ENDIF
+      ENDIF
 C-------------------
 C     PROJECTION
 C-------------------
@@ -556,8 +556,8 @@ C-------------------------
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
-           IF (INLOC == 0) THEN 
+           SVM(I)=SQRT(AA(I)+BB(I))
+           IF (INLOC == 0) THEN
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -586,7 +586,7 @@ C---------------------------
           ENDDO
 C
           IF(VP  == 1) THEN
-            DO J=1,NINDX 
+            DO J=1,NINDX
                 I=INDEX(J)
                 DTINV = TIMESTEP(I)/MAX(EM20, TIMESTEP(I)**2)
                 EPD = DPLA_J(I)*DTINV
@@ -599,7 +599,7 @@ C
                 ELSE
                    YLD(I) = YLD(I) + SIGY*(YRATE - ONE)
                 ENDIF
-            ENDDO 
+            ENDDO
           ENDIF
 C          
           NU11 = ONE/(ONE-NUX)
@@ -615,7 +615,7 @@ C
              NU110 = NU11+THREE*HK(I)/E1
              NU210 = NU21+HK(I)/E1
              PP(I)  =ONE/(ONE+DR(I)*NU110)
-             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU210)     
+             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU210)
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
@@ -627,7 +627,7 @@ C
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C------------------------------------------
@@ -640,7 +640,7 @@ C------------------------------------------
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
            SIGNXX(I)=HALF*(S1+S2)
-           SIGNYY(I)=HALF*(S1-S2) 
+           SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            IF (INLOC == 0) THEN
              DEZZ = - NU31*DR(I)*S1/E1
@@ -660,7 +660,7 @@ C-------------------------
      .             -SIGNXX(I)*SIGNYY(I)
      .             +THREE*SIGNXY(I)*SIGNXY(I)
            SVM(I)=SQRT(SVM2(I))
-           IF (INLOC == 0) THEN   
+           IF (INLOC == 0) THEN
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -729,7 +729,7 @@ C------------------------------------------
           DSXX = SIGEXX(I) - SIGNXX(I)
           DSYY = SIGEYY(I) - SIGNYY(I)
           DSXY = SIGEXY(I) - SIGNXY(I)
-          DEXX = (DSXX - NUX*DSYY) 
+          DEXX = (DSXX - NUX*DSYY)
           DEYY = (DSYY - NUX*DSXX)
 C
           DEXY = TWO*(ONE+NUX)*DSXY
@@ -746,29 +746,29 @@ C
           SIGNYY(I) = SIGNYY(I) + UVAR(I,3)
           SIGNXY(I) = SIGNXY(I) + UVAR(I,4)
         ENDDO
-       ENDIF       
+       ENDIF
 C
 C  visco elastic model 
 C             
-       IF(IPM(222,MAT(1)) > 0) THEN   
+       IF(IPM(222,MAT(1)) > 0) THEN
          IADBUF = IPM(223,MAT(1))
          NUVARV = IPM(225,MAT(1))
 C         
          KV =  UPARAM(IADBUF )
          NPRONY =  UPARAM(IADBUF + 1)
-c              
+c
         DO I=1,NPRONY
          GV(I)    = UPARAM(IADBUF + 1 + I)
          BETA(I)  = UPARAM(IADBUF + 1 + NPRONY + I)
         ENDDO
 C
         NV =  NUVAR - NUVARV
-        CALL PRONY_MODELC( 
-     1     NEL    ,NUPARAM,NUVAR   , NV,TIME   ,TIMESTEP , 
-     2     NPRONY    , KV   , GV    ,BETA  ,RHO0   ,   
+        CALL PRONY_MODELC(
+     1     NEL    ,NUPARAM,NUVAR   , NV,TIME   ,TIMESTEP ,
+     2     NPRONY    , KV   , GV    ,BETA  ,RHO0   ,
      3     EPSPXX ,EPSPYY ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
      4     SIGVXX ,SIGVYY ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
-     5     VISCMAX,SOUNDSP,UVAR    ,OFF)        
+     5     VISCMAX,SOUNDSP,UVAR    ,OFF)
         ENDIF
 C
 C--------------------------------
@@ -780,8 +780,8 @@ C--------------------------------
      .           - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
           DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
           DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
-          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
-        ENDDO  
+          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+        ENDDO
       ENDIF
 C -----------------------------------------        
       RETURN

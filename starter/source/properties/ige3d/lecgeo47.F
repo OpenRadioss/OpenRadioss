@@ -64,7 +64,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI)
       INTEGER IIN,IOUT
-      my_real   
+      my_real
      .        PARGEO(*),KNOT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -130,8 +130,8 @@ C
       SKNOT=IAD_KNOT
 C
 C-----------
-     
-      WRITE(IOUT,1000) 
+
+      WRITE(IOUT,1000)
       RETURN
 C-----------
  1000 FORMAT(

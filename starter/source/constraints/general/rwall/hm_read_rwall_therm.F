@@ -45,9 +45,9 @@ Chd|====================================================================
       SUBROUTINE HM_READ_RWALL_THERM(RWL      ,NPRW    ,LPRW    ,IFI     ,MS      ,
      .                                V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                                IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
-     .                               LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHTHERM, 
+     .                               LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHTHERM,
      .                                K       ,OFFS    ,IKINE1  ,IXS     ,IXQ     ,
-     .                                NPC     ) 
+     .                                NPC     )
 C-------------------------------------
 C     LECTURE MUR RIGIDE
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IFI,MFI,IDDLEVEL,NCHTHERM,K,OFFS
       INTEGER NPRW(*), LPRW(*), ITAB(*), ITABM1(*),
      .        IKINE(*), IMERGE(*),ITAGND(*),IKINE1(3*NUMNOD),
@@ -135,36 +135,36 @@ C
         ! Reading the option
         ! /RWALL/type/rwall_ID/node_ID
         !   rwall_title
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = NUSER, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = NUSER,
      .                          UNIT_ID        = UID,
      .                          SUBMODEL_INDEX = SUB_INDEX,
      .                          SUBMODEL_ID    = SUB_ID,
-     .                          OPTION_TITR    = TITR)   
+     .                          OPTION_TITR    = TITR)
 C
         NOM_OPT(1,N)=NUSER
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
 C
         ! Checking flag unit
-        IFLAGUNIT = 0        
-        DO J=1,NUNITS                           
-          IF (UNITAB%UNIT_ID(J) == UID) THEN          
-            IFLAGUNIT = 1                         
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                 
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID /= 0 .AND. IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=NUSER,C1='RIGID WALL',
      .                C2='RIGID WALL',
      .                C3=TITR)
-        ENDIF   
+        ENDIF
 C
         !  node_ID     Slide  grnd_ID1  grnd_ID2
-        CALL HM_GET_INTV('slidingflag',ITIED,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('NodeSet_ID',IGU,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('excludeNodeSet_ID',IGU2,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('slidingflag',ITIED,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('NodeSet_ID',IGU,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('excludeNodeSet_ID',IGU2,IS_AVAILABLE,LSUBMODEL)
 C
         ! Fixed rigid wall
         MSR = 0
@@ -189,17 +189,17 @@ C
         IF(SUB_ID /= 0) CALL SUBROTPOINT(X1,X2,X3,RTRANS,SUB_ID,LSUBMODEL)
         RWL(4,N) = X1
         RWL(5,N) = X2
-        RWL(6,N) = X3 
+        RWL(6,N) = X3
 C
         ! 4th card
         !                 XM1                 YM1                 ZM1
         CALL HM_GET_FLOATV('XH'        ,XM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('YH'        ,YM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('ZH'        ,ZM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        IF (SUB_ID /= 0) CALL SUBROTPOINT(XM1,YM1,ZM1,RTRANS,SUB_ID,LSUBMODEL)    
+        CALL HM_GET_FLOATV('ZH'        ,ZM1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        IF (SUB_ID /= 0) CALL SUBROTPOINT(XM1,YM1,ZM1,RTRANS,SUB_ID,LSUBMODEL)
 C
         ! 5th card (only for THERM)
-        CALL HM_GET_INTV('fct_IDt'            ,IFUNC,IS_AVAILABLE, LSUBMODEL)       
+        CALL HM_GET_INTV('fct_IDt'            ,IFUNC,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('Fscale_T'         ,TEMP ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Thermalresistance',TSTIF,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C
@@ -275,7 +275,7 @@ C
             ENDIF
           ENDIF
         ENDDO
-        ! Itet=2 of S10      
+        ! Itet=2 of S10
         IF (NS10E > 0 ) CALL REMOVE_ND(NSL,LPRW(K+1),ITAGND)
         IFI=IFI+NSL
         IF (IFQ > 0) THEN
@@ -297,7 +297,7 @@ C
         NPRW(N+2*NRWALL) = MSR
         NPRW(N+3*NRWALL) = ITYP
         NPRW(N+4*NRWALL) = 0
-        NPRW(N+5*NRWALL) = 0              
+        NPRW(N+5*NRWALL) = 0
         K0 = K
         K  = K+NSL
 C
@@ -319,42 +319,42 @@ C
             ENDDO
             IF (NN >= 4) THEN
               NE = NE+1
-              NN = LPRW(IXS(2,I) + KK) 
+              NN = LPRW(IXS(2,I) + KK)
      .           + LPRW(IXS(3,I) + KK)
      .           + LPRW(IXS(4,I) + KK)
      .           + LPRW(IXS(5,I) + KK)
               IF (NN == 4) THEN
                 LPRW(K+NE) = I*10 + 1
               ELSE
-                NN = LPRW(IXS(4,I) + KK) 
+                NN = LPRW(IXS(4,I) + KK)
      .             + LPRW(IXS(5,I) + KK)
      .             + LPRW(IXS(8,I) + KK)
      .             + LPRW(IXS(9,I) + KK)
                 IF (NN == 4) THEN
                   LPRW(K+NE) = I*10 + 2
                 ELSE
-                  NN = LPRW(IXS(6,I) + KK) 
+                  NN = LPRW(IXS(6,I) + KK)
      .               + LPRW(IXS(7,I) + KK)
      .               + LPRW(IXS(8,I) + KK)
      .               + LPRW(IXS(9,I) + KK)
                   IF (NN == 4) THEN
                     LPRW(K+NE) = I*10 + 3
                   ELSE
-                    NN = LPRW(IXS(2,I) + KK) 
+                    NN = LPRW(IXS(2,I) + KK)
      .                 + LPRW(IXS(3,I) + KK)
      .                 + LPRW(IXS(6,I) + KK)
      .                 + LPRW(IXS(7,I) + KK)
                     IF (NN == 4) THEN
                       LPRW(K+NE) = I*10 + 4
                     ELSE
-                      NN = LPRW(IXS(3,I) + KK) 
+                      NN = LPRW(IXS(3,I) + KK)
      .                   + LPRW(IXS(4,I) + KK)
      .                   + LPRW(IXS(7,I) + KK)
      .                   + LPRW(IXS(8,I) + KK)
                       IF (NN == 4) THEN
                         LPRW(K+NE) = I*10 + 5
                       ELSE
-                        NN = LPRW(IXS(2,I) + KK) 
+                        NN = LPRW(IXS(2,I) + KK)
      .                     + LPRW(IXS(5,I) + KK)
      .                     + LPRW(IXS(6,I) + KK)
      .                     + LPRW(IXS(9,I) + KK)
@@ -409,10 +409,10 @@ C
         FHEAT = ONE
         FACX  = ONE/FAC_T_WORK
 C
-        IF (TSTIF == ZERO) THEN 
+        IF (TSTIF == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('Thermalresistance',FAC_TSTIF,IS_AVAILABLE,LSUBMODEL,UNITAB)
           TSTIF = ONE*FAC_TSTIF
-        ENDIF     
+        ENDIF
 C       
         WRITE(IOUT,2100) IFUNC,TEMP,TSTIF
 C        
@@ -421,14 +421,14 @@ C
         NPRW(N+3*NRWALL)=-ITYP
 C
         NF = 0
-        IF (IFUNC > 0) THEN 
+        IF (IFUNC > 0) THEN
           DO I=1,NFUNCT
-            IF (IFUNC == NPC(I)) THEN 
+            IF (IFUNC == NPC(I)) THEN
               NF = I
               EXIT
             ENDIF
           ENDDO
-          IF (NF == 0) THEN 
+          IF (NF == 0) THEN
             CALL ANCMSG(MSGID=120,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,

@@ -38,9 +38,9 @@ Chd|====================================================================
       SUBROUTINE SRCOOR3(
      .         X    ,XREFS,IXS  ,GEO  ,MXT  ,NGEO ,NGL  ,JHBE  ,
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8 ,
-     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8  ,   
-     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,   
-     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,   
+     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8  ,
+     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,
+     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,
@@ -70,29 +70,29 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),MXT(*),NGL(*),NGEO(*),JHBE,
-     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)        
+     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)
 C     REAL
       my_real
      .   X(3,*),GEO(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   E1X(*),E2X(*),E3X(*),E1Y(*),E2Y(*),E3Y(*),E1Z(*),E2Z(*),E3Z(*),
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
      .   F1X(*),F1Y(*),F1Z(*),F2X(*),F2Y(*),F2Z(*),TEMP0(MVSIZ),
      .   TEMP(*),XREFS(8,3,*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XL,YL,ZL
 C-----------------------------------------------
 C   E x t e r n a l  F u n c t i o n s
@@ -172,15 +172,15 @@ C----------------------------
             Y1(I)=XREFS(5,2,I)
             Z1(I)=XREFS(5,3,I)
             X2(I)=XREFS(6,1,I)
-            Y2(I)=XREFS(6,2,I)                    
-            Z2(I)=XREFS(6,3,I)                    
-            X3(I)=XREFS(7,1,I)                    
-            Y3(I)=XREFS(7,2,I)                    
-            Z3(I)=XREFS(7,3,I)                    
-            X4(I)=XREFS(8,1,I)                    
-            Y4(I)=XREFS(8,2,I)                    
-            Z4(I)=XREFS(8,3,I)                    
-            X5(I)=XREFS(1,1,I)                                
+            Y2(I)=XREFS(6,2,I)
+            Z2(I)=XREFS(6,3,I)
+            X3(I)=XREFS(7,1,I)
+            Y3(I)=XREFS(7,2,I)
+            Z3(I)=XREFS(7,3,I)
+            X4(I)=XREFS(8,1,I)
+            Y4(I)=XREFS(8,2,I)
+            Z4(I)=XREFS(8,3,I)
+            X5(I)=XREFS(1,1,I)
             Y5(I)=XREFS(1,2,I)
             Z5(I)=XREFS(1,3,I)
             X6(I)=XREFS(2,1,I)
@@ -290,13 +290,13 @@ C-----------
       IF (JHBE == 14 .OR. JHBE == 24) THEN
 C       HA8 / HEPH
         CALL SORTHO3(
-     .      RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,   
+     .      RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .      E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,E1X  ,E1Y  ,E1Z  )
       ELSE
         CALL SORTHO3(
-     .      RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,   
+     .      RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .      E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  )
-      END IF 
+      END IF
 C-----------
 C   PASSAGE to Local_SYS in DP, add case JHBE==1(ISORTH==0) but Xj remain in Global_sys as before
 C-----------
@@ -354,45 +354,45 @@ C-----------
       END IF !(JHBE==14 .OR. JHBE==24 .OR. JHBE==17 .OR.(JHBE==1 .AND. ISORTH==0)) THEN
       IF (JHBE==14 .OR. JHBE==24 .OR. JHBE==17 ) THEN
         DO I=LFT,LLT
-          X1(I) = XD1(I)  
-          Y1(I) = YD1(I)  
-          Z1(I) = ZD1(I)  
-          X2(I) = XD2(I)  
-          Y2(I) = YD2(I)  
-          Z2(I) = ZD2(I)  
-          X3(I) = XD3(I)  
-          Y3(I) = YD3(I)  
-          Z3(I) = ZD3(I)  
-          X4(I) = XD4(I)  
-          Y4(I) = YD4(I)  
-          Z4(I) = ZD4(I)  
-          X5(I) = XD5(I)  
-          Y5(I) = YD5(I)  
-          Z5(I) = ZD5(I)  
-          X6(I) = XD6(I)  
-          Y6(I) = YD6(I)  
-          Z6(I) = ZD6(I)  
-          X7(I) = XD7(I)  
-          Y7(I) = YD7(I)  
-          Z7(I) = ZD7(I)  
-          X8(I) = XD8(I)  
-          Y8(I) = YD8(I)  
-          Z8(I) = ZD8(I)  
+          X1(I) = XD1(I)
+          Y1(I) = YD1(I)
+          Z1(I) = ZD1(I)
+          X2(I) = XD2(I)
+          Y2(I) = YD2(I)
+          Z2(I) = ZD2(I)
+          X3(I) = XD3(I)
+          Y3(I) = YD3(I)
+          Z3(I) = ZD3(I)
+          X4(I) = XD4(I)
+          Y4(I) = YD4(I)
+          Z4(I) = ZD4(I)
+          X5(I) = XD5(I)
+          Y5(I) = YD5(I)
+          Z5(I) = ZD5(I)
+          X6(I) = XD6(I)
+          Y6(I) = YD6(I)
+          Z6(I) = ZD6(I)
+          X7(I) = XD7(I)
+          Y7(I) = YD7(I)
+          Z7(I) = ZD7(I)
+          X8(I) = XD8(I)
+          Y8(I) = YD8(I)
+          Z8(I) = ZD8(I)
         ENDDO
       END IF !(JHBE==14 .OR. JHBE==24 .OR. JHBE==17 ) THEN
 C
-        IF(JTHE < 0 ) THEN             
-           IF(NINTEMP > 0 ) THEN  
+        IF(JTHE < 0 ) THEN
+           IF(NINTEMP > 0 ) THEN
             DO I= LFT,LLT
               IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)
-              IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I) 
+              IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I)
               IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = TEMP0(I)
-              IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I) 
+              IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I)
               IF(TEMP(IX5(I))== ZERO) TEMP(IX5(I)) = TEMP0(I)
-              IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I) 
+              IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I)
               IF(TEMP(IX7(I))== ZERO) TEMP(IX7(I)) = TEMP0(I)
               IF(TEMP(IX8(I))== ZERO) TEMP(IX8(I)) = TEMP0(I)
-            ENDDO        
+            ENDDO
            ELSE
             DO I=LFT,LLT
               TEMP(IX1(I))=TEMP0(I)
@@ -403,9 +403,9 @@ C
               TEMP(IX6(I))=TEMP0(I)
               TEMP(IX7(I))=TEMP0(I)
               TEMP(IX8(I))=TEMP0(I)
-            ENDDO              
+            ENDDO
            ENDIF
-         ENDIF   
+         ENDIF
 C-----
       RETURN
       END

@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI25, NIN, NRTM, NSN, NSNR, JTASK, FLAGREMN,NADMSR,
      .        IAD_FRNOR(NINTER25,NSPMD+1) ,FR_NOR(*),
-     .        IRTLM(4,*), MSEGTYP(*), I_STOK_GLO, I_STOK_RTLM, CAND_OPT_E(*), 
+     .        IRTLM(4,*), MSEGTYP(*), I_STOK_GLO, I_STOK_RTLM, CAND_OPT_E(*),
      .        ACTNOR(*), IRECT(4,*), TAGNOD(*), E2S_ACTNOR(*),
      .        IAD_ELEM(2,*), FR_ELEM(*), KNOR2MSR(*), NOR2MSR(*), ADMSR(4,*),
      .        KREMNOR(*), REMNOR(*), I_STOK_E2S, CANDM_E2S(*), CANDS_E2S(*), MVOISIN(4,*)
@@ -141,7 +141,7 @@ C             considerer L ET tous les segments voisins (cf glissement)
                         TAGNOD(NOD)=1
                       END DO
                     ENDIF
-                  END DO 
+                  END DO
                 END DO
              END IF
           END IF
@@ -166,13 +166,13 @@ C             considerer L ET tous les segments voisins (cf glissement)
                        NOD=IRECT(K,LVOIS)
                        TAGNOD(NOD)=1
                     END DO
-                  END DO 
+                  END DO
                 END DO
              END IF
           END IF
         ENDDO
       ENDIF
-      
+
 C
       NSNRF = 1 + NSNR*(JTASK-1) / NTHREAD
       NSNRL = NSNR*JTASK / NTHREAD
@@ -181,7 +181,7 @@ C
 
         DO N=NSNRF,NSNRL
            NOR1 = KREMNOR_FI(NIN)%P(N) +1
-           NOR2 = KREMNOR_FI(NIN)%P(N+1) 
+           NOR2 = KREMNOR_FI(NIN)%P(N+1)
            DO M=NOR1,NOR2
               TAGMSR(REMNOR_FI(NIN)%P(M)) = 1
            ENDDO
@@ -250,7 +250,7 @@ C     Calcul des candidats optimises
       LAST  = I_STOK_RTLM +     (I_STOK_GLO-I_STOK_RTLM)*JTASK / NTHREAD
       DO I=FIRST,LAST
 
-        IRM = CAND_OPT_E(I) 
+        IRM = CAND_OPT_E(I)
         ACTNOR(IRM)=1
         TAGNOD(IRECT(1,IRM)) = 1
         TAGNOD(IRECT(2,IRM)) = 1
@@ -268,7 +268,7 @@ C     Force le calcul le long des free edges necessaire a vtx_bisector
       NRTMFT_FREE= 1+(JTASK-1)*NRTM_FREE/NTHREAD
       NRTMLT_FREE= JTASK*NRTM_FREE/NTHREAD
       DO I=NRTMFT_FREE,NRTMLT_FREE
-        IRM = FREE_IRECT_ID(I) 
+        IRM = FREE_IRECT_ID(I)
         ACTNOR(IRM) = 1
         ISH=IABS(MSEGTYP(IRM))
         IF(ISH > 0) THEN
@@ -297,7 +297,7 @@ C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)
           LAST  = I_STOK_E2S*JTASK / NTHREAD
           DO I=FIRST,LAST
             IF(CANDS_E2S(I)  < 0)THEN ! after optcd_e2s
-              IRM=CANDM_E2S(I) 
+              IRM=CANDM_E2S(I)
               ACTNOR(IRM)=1
               TAGNOD(IRECT(1,IRM)) = 1
               TAGNOD(IRECT(2,IRM)) = 1
@@ -319,14 +319,14 @@ C
             IEDG=LEDGE(LEDGE_LEFT_ID  ,I)
             JRM =LEDGE(LEDGE_RIGHT_SEG,I)
             JEDG=LEDGE(LEDGE_RIGHT_ID ,I)
-            IF(IRM >0 ) THEN 
+            IF(IRM >0 ) THEN
               ACTNOR(IRM) = 1
               TAGNOD(IRECT(1,IRM)) = 1
               TAGNOD(IRECT(2,IRM)) = 1
               TAGNOD(IRECT(3,IRM)) = 1
               TAGNOD(IRECT(4,IRM)) = 1
             ENDIF
-            IF(JRM >0 ) THEN 
+            IF(JRM >0 ) THEN
               ACTNOR(JRM) = 1
               TAGNOD(IRECT(1,JRM)) = 1
               TAGNOD(IRECT(2,JRM)) = 1
@@ -349,7 +349,7 @@ C         Primary edges <=> only candidates retained for this cycle (optcd_e2s)
           DO I=FIRST,LAST
             IF(CANDS_E2S(I)  < 0)THEN ! after optcd_e2s
 c              IF( LEDGE(LEDGE_TYPE,ABS(CANDS_E2S(I)))/=1)CYCLE
-              IRM=CANDM_E2S(I) 
+              IRM=CANDM_E2S(I)
               IF(TAGNOD(IRECT(1,IRM))==1)E2S_ACTNOR(ADMSR(1,IRM)) = 1
               IF(TAGNOD(IRECT(2,IRM))==1)E2S_ACTNOR(ADMSR(2,IRM)) = 1
               IF(TAGNOD(IRECT(3,IRM))==1)E2S_ACTNOR(ADMSR(3,IRM)) = 1
@@ -361,14 +361,14 @@ C         All secondary edges includes
           NEDGFT= 1+(JTASK-1)*NEDGE/NTHREAD
           NEDGLT= JTASK*NEDGE/NTHREAD
           DO I = NEDGFT,NEDGLT
-             IF(LEDGE(LEDGE_TYPE,I)/=1)CYCLE 
+             IF(LEDGE(LEDGE_TYPE,I)/=1)CYCLE
 C
             IRM =LEDGE(LEDGE_LEFT_SEG ,I)
             IEDG=LEDGE(LEDGE_LEFT_ID  ,I)
             JRM =LEDGE(LEDGE_RIGHT_SEG,I)
             JEDG=LEDGE(LEDGE_RIGHT_ID ,I)
-            IF(IRM >0 ) THEN 
-              IF(TAGNOD(IRECT(1,IRM))==1)E2S_ACTNOR(ADMSR(IEDG,IRM)) = 1 
+            IF(IRM >0 ) THEN
+              IF(TAGNOD(IRECT(1,IRM))==1)E2S_ACTNOR(ADMSR(IEDG,IRM)) = 1
               IF(TAGNOD(IRECT(MOD(IEDG,4)+1,IRM))==1)E2S_ACTNOR(ADMSR(MOD(IEDG,4)+1,IRM)) = 1
             ENDIF
           ENDDO
@@ -403,7 +403,7 @@ C
         END DO
       END IF
 C
-      CALL MY_BARRIER() 
+      CALL MY_BARRIER()
 
       IF(FLAGREMN == 2) DEALLOCATE(TAGMSR)
 C
@@ -460,7 +460,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NI25, NRTM, NRTM0, NMN, JTASK, IEDGE, NEDGE, FLAG, NADMSR,ISHIFT,SOL_EDGE,
      .        IRECT(4,NRTM), MSR(*),
-     .        ACTNOR(*), MSEGTYP(*), TAGNOD(*), 
+     .        ACTNOR(*), MSEGTYP(*), TAGNOD(*),
      .        MVOISIN(4,*), EVOISIN(4,*), IAD_FREDG(NINTER25,*), FR_EDG(*),
      .        LEDGE(NLEDGE,*), LBOUND(*), ADMSR(4,*), IAD_FRNOR(NINTER25,*), FR_NOR(*),
      .        IADNOR(4,*),ADDCSRECT(*), PROCNOR(*)
@@ -481,7 +481,7 @@ C-----------------------------------------------
       INTEGER IX1, IX2, IX3, IX4,
      .        I1, I2, I3, I4, JRM, JEDG, IEDG, NEDG, IS1,IS2
       INTEGER NRTMFT, NRTMLT, NEDGFT, NEDGLT, NADMSRFT, NADMSRLT
-      INTEGER SIZE                 
+      INTEGER SIZE
       my_real S1,S2
       REAL*4
      .     X0, Y0, Z0,
@@ -506,11 +506,11 @@ C     PARAMETER ( RUN   = 1.          )
 C     PARAMETER ( RDIX  = 10.         )     
 C     PARAMETER ( REP30 = RDIX**30    )      
 C     PARAMETER ( REM30 = RUN/REP30   )
-#define       RZERO   0.          
-#define       RUN     1.               
-#define       RDIX    10.              
-#define       REP30   1.0E30          
-#define       REM30   1.0E-30   
+#define       RZERO   0.
+#define       RUN     1.
+#define       RDIX    10.
+#define       REP30   1.0E30
+#define       REM30   1.0E-30
 
 
 
@@ -576,7 +576,7 @@ C           IF(I3/=I4)THEN
             IF(IX3/=IX4)THEN
              X0 = (X1+X2+X3+X4)/4.0
              Y0 = (Y1+Y2+Y3+Y4)/4.0
-             Z0 = (Z1+Z2+Z3+Z4)/4.0 
+             Z0 = (Z1+Z2+Z3+Z4)/4.0
              IS_QUAD(I) = .TRUE.
             ELSE
              X0 = X3
@@ -764,12 +764,12 @@ c
             FSKYT(1,IAD) =  XN1(I)+XN2(I)
             FSKYT(2,IAD) =  YN1(I)+YN2(I)
             FSKYT(3,IAD) =  ZN1(I)+ZN2(I)
-c 
+c
             IAD = IADNOR(3,IRM)
             FSKYT(1,IAD) =  XN2(I)+XN3(I)
             FSKYT(2,IAD) =  YN2(I)+YN3(I)
             FSKYT(3,IAD) =  ZN2(I)+ZN3(I)
-c    
+c
             IAD = IADNOR(4,IRM)
             FSKYT(1,IAD) =  XN3(I)+XN4(I)
             FSKYT(2,IAD) =  YN3(I)+YN4(I)
@@ -779,17 +779,17 @@ c
             FSKYT(1,IAD) =  XN1(I)
             FSKYT(2,IAD) =  YN1(I)
             FSKYT(3,IAD) =  ZN1(I)
-c   
+c
             IAD = IADNOR(2,IRM)
             FSKYT(1,IAD) =  XN1(I)
             FSKYT(2,IAD) =  YN1(I)
             FSKYT(3,IAD) =  ZN1(I)
-c     
+c
             IAD = IADNOR(3,IRM)
             FSKYT(1,IAD) =  XN1(I)
             FSKYT(2,IAD) =  YN1(I)
             FSKYT(3,IAD) =  ZN1(I)
-c 
+c
           END IF
         END DO
        ENDIF
@@ -810,9 +810,9 @@ C
 C
 !$OMP SINGLE
       NB_FREE_BOUND = 0
-      LIMIT_CASE = .FALSE. 
+      LIMIT_CASE = .FALSE.
       DO I=1,NRTM_FREE
-        IRM = FREE_IRECT_ID(I) 
+        IRM = FREE_IRECT_ID(I)
         IF(STIFM(IRM)==ZERO)CYCLE
         DO IEDG=1,4
           IF(MVOISIN(IEDG,IRM)==0)THEN
@@ -832,10 +832,10 @@ C
               IF(VX == 0 .AND. VY == 0 .AND. VZ == 0) THEN
 C Free bound, but nod_normal not computed (no candidate for this free bound)
                 FREE_BOUND(3,NB_FREE_BOUND) = 3
-                FREE_BOUND(4,NB_FREE_BOUND) = 3           
+                FREE_BOUND(4,NB_FREE_BOUND) = 3
               ELSE
-                LBOUND(IS1) = LBOUND(IS1) + 1 
-                LBOUND(IS2) = LBOUND(IS2) + 1  
+                LBOUND(IS1) = LBOUND(IS1) + 1
+                LBOUND(IS2) = LBOUND(IS2) + 1
                 FREE_BOUND(3,NB_FREE_BOUND) = LBOUND(IS1)
                 FREE_BOUND(4,NB_FREE_BOUND) = LBOUND(IS2)
               ENDIF
@@ -858,10 +858,10 @@ C A special treatment is done, VTX_BISECTOR has to set to 0
           IS1=ADMSR(IEDG,IRM)
           IF(LBOUND(IS1) > 2) THEN
             FREE_BOUND(3,I) = 3
-            VTX_BISECTOR(1,1,IS1) = RZERO 
+            VTX_BISECTOR(1,1,IS1) = RZERO
             VTX_BISECTOR(2,1,IS1) = RZERO
             VTX_BISECTOR(3,1,IS1) = RZERO
-            VTX_BISECTOR(1,2,IS1) = RZERO 
+            VTX_BISECTOR(1,2,IS1) = RZERO
             VTX_BISECTOR(2,2,IS1) = RZERO
             VTX_BISECTOR(3,2,IS1) = RZERO
           ENDIF
@@ -869,10 +869,10 @@ C A special treatment is done, VTX_BISECTOR has to set to 0
           IS2=ADMSR(MOD(IEDG,4)+1,IRM)
           IF(LBOUND(IS2) > 2) THEN
             FREE_BOUND(4,I) = 3
-            VTX_BISECTOR(1,1,IS2) = RZERO 
+            VTX_BISECTOR(1,1,IS2) = RZERO
             VTX_BISECTOR(2,1,IS2) = RZERO
             VTX_BISECTOR(3,1,IS2) = RZERO
-            VTX_BISECTOR(1,2,IS2) = RZERO 
+            VTX_BISECTOR(1,2,IS2) = RZERO
             VTX_BISECTOR(2,2,IS2) = RZERO
             VTX_BISECTOR(3,2,IS2) = RZERO
           ENDIF
@@ -914,7 +914,7 @@ C
         NOD_NORMAL(1,IEDG,IRM)=VX
         NOD_NORMAL(2,IEDG,IRM)=VY
         NOD_NORMAL(3,IEDG,IRM)=VZ
-        
+
       ENDDO
 
       CALL MY_BARRIER
@@ -935,15 +935,15 @@ C
           VTX_BISECTOR(1,I1,IS1)=VX
           VTX_BISECTOR(2,I1,IS1)=VY
           VTX_BISECTOR(3,I1,IS1)=VZ
-        END IF    
+        END IF
 
         IS2=ADMSR(MOD(IEDG,4)+1,IRM)
         IF(I2 <= 2) THEN
           VTX_BISECTOR(1,I2,IS2)=VX
           VTX_BISECTOR(2,I2,IS2)=VY
           VTX_BISECTOR(3,I2,IS2)=VZ
-        END IF    
-      ENDDO 
+        END IF
+      ENDDO
 
       CALL MY_BARRIER
 
@@ -1025,7 +1025,7 @@ C
      3      BUFFERS%NBIRECV,BUFFERS%NBISEND,BUFFERS%RECV_BUF   ,BUFFERS%SEND_BUF ,VTX_BISECTOR,
      4      LBOUND,IAD_FRNOR,FR_NOR,2,FSKYN25 ,ISHIFT,ADDCSRECT, PROCNOR,SOL_EDGE)
         END IF
-        WHERE (LBOUND(1:NADMSR) > 1) 
+        WHERE (LBOUND(1:NADMSR) > 1)
           LBOUND(1:NADMSR) = 1
         END WHERE
       END IF
@@ -1036,7 +1036,7 @@ C
 C
 C       IF(ACTNOR(IRM)==0 .OR. STIFM(IRM)==ZERO) CYCLE
 
-! Nod Normal should be recieved even if IRM 
+! Nod Normal should be recieved even if IRM
 C is deleted
 C ISPMD may still send the edge during for contact detection
 C (i.e. ISPMD is PMAIN)
@@ -1044,7 +1044,7 @@ C (i.e. ISPMD is PMAIN)
         IF(ACTNOR(IRM)==0) CYCLE
 
         IF(STIFM(IRM) == ZERO) THEN
-          NOD_NORMAL(1:3,1:4,IRM) = RZERO 
+          NOD_NORMAL(1:3,1:4,IRM) = RZERO
         ENDIF
 
         DO J=1,4
@@ -1059,7 +1059,7 @@ C The (secoundary) edge can still be sended by ISPMD to the processor that have
 C the main segment. 
 C In that case, the ordering of (JEDG) should be the one on the side that is not
 C broken
-          ELSE ! JRM >= 0 .OR. STIFM /= 0 
+          ELSE ! JRM >= 0 .OR. STIFM /= 0
             IF( JRM /= 0) THEN
               NX=NOD_NORMAL(1,J,IRM)+WNOD_NORMAL(1,J,IRM)
               NY=NOD_NORMAL(2,J,IRM)+WNOD_NORMAL(2,J,IRM)
@@ -1132,7 +1132,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JTASK, NADMSR, 
+      INTEGER JTASK, NADMSR,
      .        ADMSR(4,*), ADSKYT(NADMSR+1), IADNOR(4,*), ACTNOR(*)
 C     REAL
        REAL*4
@@ -1143,7 +1143,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J, C1, C2, CC
       INTEGER NADMSRFT, NADMSRLT, NRTMFT, NRTMLT
-      REAL*4 
+      REAL*4
      .       AAA
 C------------------------------------
 C   Normal nodes for edge to edge solids
@@ -1162,7 +1162,7 @@ C
         DO CC = C1, C2
           NOD_NORMAL(1:3,I) = NOD_NORMAL(1:3,I) + FSKYT(1:3,CC)
         END DO
-          
+
         AAA=RUN/MAX(REM30,SQRT(NOD_NORMAL(1,I)*NOD_NORMAL(1,I)+
      .                        NOD_NORMAL(2,I)*NOD_NORMAL(2,I)+
      .                        NOD_NORMAL(3,I)*NOD_NORMAL(3,I)))

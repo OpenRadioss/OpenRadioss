@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTM,IBAG,IRECT(4,*),FR_I18(*),ISKY(*)
-      my_real 
+      my_real
      .    A(3,*),X(3,*),SURF(3,*),PRES(*),FCONT(3,*),FSAV(*),
      .    FSAVBAG(NTHVKI,*), FSKYI(LSKYI,*)
 c     .    SURFN(NUMNOD),CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA
@@ -72,7 +72,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  ERROR,NSKYI18G,PMAIN,I,J,K,L,N,NN,NBAG,
      .         PERM(NRTM)
-      my_real 
+      my_real
      .    PRESMED,PRESMOY,SURFACE,SURFLOC,AAA,BBB,PRESM,PRESVOL,
      .    CDGX,CDGY,CDGZ,VOLUME,PBAG,ALPHA,
      .   F1(NRTM), F2(NRTM), F3(NRTM), F4(NRTM), F5(NRTM)
@@ -170,7 +170,7 @@ C
           N = IRECT(J,I)
           AAA = SURF(1,I) * (X(1,N)-CDGX)
      .        + SURF(2,I) * (X(2,N)-CDGY)
-     .        + SURF(3,I) * (X(3,N)-CDGZ) 
+     .        + SURF(3,I) * (X(3,N)-CDGZ)
           VOLUME  = VOLUME + AAA
           PRESVOL = PRESVOL + PRES(I) * AAA
         ENDDO
@@ -214,7 +214,7 @@ c              A(3,N) = A(3,N) + AAA*SURF(3,I)
 c          ENDDO
 c        ENDDO
 c      ENDIF
-      
+
 c      IF(ANIM_V(4)+OUTP_V(4)>0.AND.
 c     .          (TT>=TANIM.OR.TT>=TOUTP.OR.
 c     .              (MANIM>=4.AND.MANIM<=15)))THEN

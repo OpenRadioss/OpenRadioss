@@ -51,48 +51,48 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT   ,IPLAT(*),NPT
-      my_real 
+      my_real
      .   VQN(MVSIZ,9,4),VF(MVSIZ,12,NPT),VQ(MVSIZ,3,3),
      .   COREL(MVSIZ,3,4),DI(MVSIZ,6)
       my_real
-     .   F11(MVSIZ,NPT), F12(MVSIZ,NPT), F13(MVSIZ,NPT), 
+     .   F11(MVSIZ,NPT), F12(MVSIZ,NPT), F13(MVSIZ,NPT),
      .   F14(MVSIZ,NPT), F21(MVSIZ,NPT), F22(MVSIZ,NPT),
-     .   F23(MVSIZ,NPT), F24(MVSIZ,NPT), F31(MVSIZ,NPT), 
+     .   F23(MVSIZ,NPT), F24(MVSIZ,NPT), F31(MVSIZ,NPT),
      .   F32(MVSIZ,NPT), F33(MVSIZ,NPT), F34(MVSIZ,NPT),
-     .   VFI(MVSIZ,12,NPT) ,OFF(*)                     
+     .   VFI(MVSIZ,12,NPT) ,OFF(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K,EP,I_INF,I_SUP,IPLY,NPLAT0
-      my_real 
+      my_real
      .     MM(3,4),FL(3,4),ML(2,4),C1,Z1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
      .     F1, F2,F3,FAC,FAC1,FAC2,FAC3,FL1,FL2,
-     .     FL3,E33,G,NU  
+     .     FL3,E33,G,NU
       my_real
-     .   ML11(MVSIZ),ML12(MVSIZ),ML13(MVSIZ) ,ML14(MVSIZ),ML21(MVSIZ),         
-     .   ML22(MVSIZ),ML23(MVSIZ),ML24(MVSIZ) ,ML31(MVSIZ),ML32(MVSIZ),         
+     .   ML11(MVSIZ),ML12(MVSIZ),ML13(MVSIZ) ,ML14(MVSIZ),ML21(MVSIZ),
+     .   ML22(MVSIZ),ML23(MVSIZ),ML24(MVSIZ) ,ML31(MVSIZ),ML32(MVSIZ),
      .   ML33(MVSIZ),ML34(MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 !!        NPLAT0  = JLT
         NPLAT0 = NPLAT
        DO J=1,NPT
 #include "vectorize.inc"
-        DO EP=JFT,NPLAT0 
+        DO EP=JFT,NPLAT0
           K=IPLAT(EP)
 C      I=1
-          FL(1,1)=  VF(K,1,J)  +   VF(K,7,J)  
-          FL(1,2)=  VF(K,4,J)  +   VF(K,10,J) 
-          FL(1,3)= -VF(K,1,J)  +   VF(K,7,J)  
-          FL(1,4)= -VF(K,4,J)  +   VF(K,10,J)         
+          FL(1,1)=  VF(K,1,J)  +   VF(K,7,J)
+          FL(1,2)=  VF(K,4,J)  +   VF(K,10,J)
+          FL(1,3)= -VF(K,1,J)  +   VF(K,7,J)
+          FL(1,4)= -VF(K,4,J)  +   VF(K,10,J)
 C      I=2
-          FL(2,1)=  VF(K,2,J)  +   VF(K,8,J)  
-          FL(2,2)=  VF(K,5,J)  +   VF(K,11,J) 
-          FL(2,3)= -VF(K,2,J)  +   VF(K,8,J)  
-          FL(2,4)= -VF(K,5,J)  +   VF(K,11,J) 
+          FL(2,1)=  VF(K,2,J)  +   VF(K,8,J)
+          FL(2,2)=  VF(K,5,J)  +   VF(K,11,J)
+          FL(2,3)= -VF(K,2,J)  +   VF(K,8,J)
+          FL(2,4)= -VF(K,5,J)  +   VF(K,11,J)
 C      I  =3
-          FL(3,1)=  VF(K,3,J)  +   VF(K,9,J)  
-          FL(3,2)=  VF(K,6,J)  +   VF(K,12,J) 
+          FL(3,1)=  VF(K,3,J)  +   VF(K,9,J)
+          FL(3,2)=  VF(K,6,J)  +   VF(K,12,J)
           FL(3,3)= -VF(K,3,J)  +   VF(K,9,J)
           FL(3,4)= -VF(K,6,J)  +   VF(K,12,J)
 C---------------------------------------
@@ -131,10 +131,10 @@ C        I=2
 C        I=3
          F34(K,J)= VQ(K,3,1)*FL(1,4)+VQ(K,3,2)*FL(2,4)+VQ(K,3,3)*FL(3,4)
 C       
-                
-        ENDDO 
+
+        ENDDO
 #include "vectorize.inc"
-        DO EP=NPLAT0+1,JLT 
+        DO EP=NPLAT0+1,JLT
           K=IPLAT(EP)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
           Z1 = COREL(K,3,1)
@@ -220,9 +220,9 @@ C        I=3
       ENDDO
 C
 C     Projection des forces d'interpli
-       DO J = 1 , NPT 
+       DO J = 1 , NPT
 #include "vectorize.inc"
-        DO EP=JFT,JLT  
+        DO EP=JFT,JLT
          K=IPLAT(EP)
 
          FL1 = VFI(K,1,J)
@@ -234,9 +234,9 @@ C transformation au repere globale
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
      1                               + VQ(K,2,3)*FL3
          F3= VQ(K,3,1)*FL1  + VQ(K,3,2)*FL2
-     1                               + VQ(K,3,3)*FL3  
+     1                               + VQ(K,3,3)*FL3
 CNode 1 - ply
-         F11(K,J)= F11(K,J) + F1 
+         F11(K,J)= F11(K,J) + F1
          F21(K,J)= F21(K,J) + F2
          F31(K,J)= F31(K,J) + F3
 CNode 2 -ply 
@@ -249,8 +249,8 @@ C transformation au repere globale
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
      1                               + VQ(K,2,3)*FL3
          F3= VQ(K,3,1)*FL1  + VQ(K,3,2)*FL2
-     1                               + VQ(K,3,3)*FL3  
-         F12(K,J)= F12(K,J) + F1 
+     1                               + VQ(K,3,3)*FL3
+         F12(K,J)= F12(K,J) + F1
          F22(K,J)= F22(K,J) + F2
          F32(K,J)= F32(K,J) + F3
 CC
@@ -263,9 +263,9 @@ C transformation au repere globale
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
      1                               + VQ(K,2,3)*FL3
          F3= VQ(K,3,1)*FL1  + VQ(K,3,2)*FL2
-     1                               + VQ(K,3,3)*FL3  
+     1                               + VQ(K,3,3)*FL3
 CNode 3 - ply
-         F13(K,J)= F13(K,J) + F1 
+         F13(K,J)= F13(K,J) + F1
          F23(K,J)= F23(K,J) + F2
          F33(K,J)= F33(K,J) + F3
 CNode 4 -ply 
@@ -278,13 +278,13 @@ C transformation au repere globale
          F2=  VQ(K,2,1)*FL1  + VQ(K,2,2)*FL2
      1                               + VQ(K,2,3)*FL3
          F3= VQ(K,3,1)*FL1  + VQ(K,3,2)*FL2
-     1                               + VQ(K,3,3)*FL3  
-         F14(K,J)= F14(K,J) + F1 
+     1                               + VQ(K,3,3)*FL3
+         F14(K,J)= F14(K,J) + F1
          F24(K,J)= F24(K,J) + F2
          F34(K,J)= F34(K,J) + F3
 C
 CNode 1 - ply
-         F11(K,J)= F11(K,J)*OFF(K) 
+         F11(K,J)= F11(K,J)*OFF(K)
          F21(K,J)= F21(K,J)*OFF(K)
          F31(K,J)= F31(K,J)*OFF(K)
 CNode 2 - ply
@@ -292,15 +292,15 @@ CNode 2 - ply
          F22(K,J)= F22(K,J)*OFF(K)
          F32(K,J)= F32(K,J)*OFF(K)
 CNode 3 - ply
-         F13(K,J)= F13(K,J)*OFF(K) 
+         F13(K,J)= F13(K,J)*OFF(K)
          F23(K,J)= F23(K,J)*OFF(K)
          F33(K,J)= F33(K,J)*OFF(K)
 CNode 4 - ply
-         F14(K,J)= F14(K,J)*OFF(K) 
+         F14(K,J)= F14(K,J)*OFF(K)
          F24(K,J)= F24(K,J)*OFF(K)
-         F34(K,J)= F34(K,J)*OFF(K)                           
-         
-        ENDDO 
-       ENDDO 
+         F34(K,J)= F34(K,J)*OFF(K)
+
+        ENDDO
+       ENDDO
       RETURN
       END

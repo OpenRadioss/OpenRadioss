@@ -36,10 +36,10 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_LEAK(IPM,PM,UNITAB,LSUBMODEL)
-      
+
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       INTEGER IPM(NPROPMI,*)
 C     REAL
@@ -71,15 +71,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER UID,HM_NLEAK,IFLAGUNIT,IUNIT
       INTEGER I, K, ILAW, IMID, IMAT, ILEAKAGE, IFTLC, IFTAC, IFTACP,
-     .        NFUNC 
+     .        NFUNC
 C     REAL
-      my_real 
+      my_real
      .   ASCALET, ASCALEP, SCALELC, SCALEAC, FLC, FAC,
      .   X0, X1, X2, X3,
      .   LR1,LR2,FTHK,C1,C2,C3,
      .   FACP, SCALEACP
 C
-      CHARACTER TITR*nchartitle,LINESAVE*ncharline     
+      CHARACTER TITR*nchartitle,LINESAVE*ncharline
       LOGICAL :: IS_AVAILABLE
       IS_AVAILABLE = .FALSE.
 C=================================================================================
@@ -101,22 +101,22 @@ c
      .                          OPTION_ID   = IMAT  ,
      .                          OPTION_TITR = TITR  ,
      .                          UNIT_ID     = UID   )
-     
+
 c
         ! Checking unit IDs
         IFLAGUNIT = 0
-        DO IUNIT=1,NUNITS                           
+        DO IUNIT=1,NUNITS
           IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
-            IFLAGUNIT = 1               
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                 
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=IMAT,
      .                C1='LEAK',C2='LEAK',
      .                C3=TITR)
-        ENDIF 
+        ENDIF
 c
         ! Initialization of Material ID
         IMID=0
@@ -148,7 +148,7 @@ c
               ! Read second card
               CALL HM_GET_FLOATV('Acoeft1'     ,FACP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               CALL HM_GET_INTV  ('MAT_fct_IDE' ,IFTACP   ,IS_AVAILABLE, LSUBMODEL)
-              CALL HM_GET_FLOATV('FScale11'    ,SCALEACP ,IS_AVAILABLE, LSUBMODEL, UNITAB)       
+              CALL HM_GET_FLOATV('FScale11'    ,SCALEACP ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               ! Checking, writing and saving the values
               IF(SCALEACP == ZERO) SCALEACP=ONE
               IF(FACP > 0)  IFTACP=0
@@ -156,7 +156,7 @@ c
               IF(FACP < ZERO) FACP=ZERO
               PM(162,I)= FACP
               PM(163,I)= SCALEACP
-              IPM(10+NFUNC,I)=IFTACP             
+              IPM(10+NFUNC,I)=IFTACP
               WRITE(IOUT,1020) FACP, IFTACP, SCALEACP
 C
               ! First case
@@ -174,24 +174,24 @@ C
                 CALL HM_GET_INTV  ('LEAK_FCT_IDLC' ,IFTLC   ,IS_AVAILABLE, LSUBMODEL)
                 CALL HM_GET_INTV  ('FUN_B1'        ,IFTAC   ,IS_AVAILABLE, LSUBMODEL)
                 CALL HM_GET_FLOATV('FScale22'      ,SCALELC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-                CALL HM_GET_FLOATV('FScale33'      ,SCALEAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)             
+                CALL HM_GET_FLOATV('FScale33'      ,SCALEAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
                 ! Checking, writing and saving the values
                 IF(SCALELC == ZERO) SCALELC=ONE
                 IF(SCALEAC == ZERO) SCALEAC=ONE
                 PM(164,I)= SCALELC
                 PM(165,I)= SCALEAC
-                IPM(10+NFUNC-1,I)=IFTLC             
-                IPM(10+NFUNC-2,I)=IFTAC             
+                IPM(10+NFUNC-1,I)=IFTLC
+                IPM(10+NFUNC-2,I)=IFTAC
                 WRITE(IOUT,2020) ILEAKAGE,IFTLC,SCALELC,IFTAC,SCALEAC
               ! Fifth case
               ELSEIF(ILEAKAGE==5) THEN
                 ! Read third card
                 CALL HM_GET_FLOATV('LENGTH'  ,LR1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-                CALL HM_GET_FLOATV('THICK1'  ,FTHK    ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+                CALL HM_GET_FLOATV('THICK1'  ,FTHK    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
                 ! Read fourth card
                 CALL HM_GET_FLOATV('C1'      ,C1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-                CALL HM_GET_FLOATV('C2'      ,C2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-                CALL HM_GET_FLOATV('C3'      ,C3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+                CALL HM_GET_FLOATV('C2'      ,C2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+                CALL HM_GET_FLOATV('C3'      ,C3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
                 ! Checking, writing and saving the values
                 IF (FTHK > LR1) THEN
                   FTHK = LR1
@@ -208,14 +208,14 @@ C
                 PM(166,I)= FTHK
                 PM(167,I)= C1
                 PM(168,I)= C2
-                PM(169,I)= C3 
+                PM(169,I)= C3
                 WRITE(IOUT,2050) LR1,FTHK,C1,C2,C3
               ! Sixth case
               ELSEIF(ILEAKAGE==6) THEN
                 ! Read third case
                 CALL HM_GET_FLOATV('X0'    ,X0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-                CALL HM_GET_FLOATV('VX1'   ,X1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-                CALL HM_GET_FLOATV('ex2'   ,X2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)              
+                CALL HM_GET_FLOATV('VX1'   ,X1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+                CALL HM_GET_FLOATV('ex2'   ,X2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
                 CALL HM_GET_FLOATV('VX3'   ,X3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
                 ! Checking, writing and saving the values
                 PM(164,I)= X0
@@ -241,7 +241,7 @@ C
      .                ANMODE=ANINFO,
      .                I1=IMAT,
      .                C1=TITR)
-        ENDIF   
+        ENDIF
       ENDDO
 C       
       RETURN

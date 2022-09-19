@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N,ERROR,PERM(N)
 C     REAL
-      my_real 
+      my_real
      .  A(N)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -66,16 +66,16 @@ C the max STACKLEN <= 1 + 2 x log2 (N+1)/(TRESHOLD + 2)
       PARAMETER( STACKLEN = 128 ,
      .           TRESHOLD   =  9 )
 C
-      INTEGER :: I 
+      INTEGER :: I
       INTEGER :: IPLUS1
       INTEGER :: J
       INTEGER :: JMINUS1
-      INTEGER :: K 
+      INTEGER :: K
       INTEGER :: LEFT
       INTEGER :: LLEN
-      INTEGER :: RIGHT 
+      INTEGER :: RIGHT
       INTEGER :: RLEN
-      INTEGER :: TOP  
+      INTEGER :: TOP
       INTEGER :: STACK(STACKLEN)
 C     REAL
       my_real
@@ -106,7 +106,7 @@ C
         DONE = 0
       ENDIF
 
-c     QUICKSORT                                                              
+c     QUICKSORT
 c
        DO WHILE (DONE /= 1)
          RK = A((LEFT+RIGHT)/2)
@@ -148,14 +148,14 @@ C
 
          DO WHILE(J >= I)
            I  = I + 1
-           DO WHILE(A(I) <  RV) 
+           DO WHILE(A(I) <  RV)
              I = I +1
            ENDDO
            J = J - 1
            DO WHILE(A(J) > RV)
-             J = J - 1  
+             J = J - 1
            ENDDO
-           IF (J >= I) THEN 
+           IF (J >= I) THEN
              RK = A(I)
              A(I) = A(J)
              A(J) = RK
@@ -184,14 +184,14 @@ C
                LEFT = STACK(TOP)
                RIGHT = STACK(TOP+1)
              ENDIF
-         ELSE IF(MIN(LLEN, RLEN) <=  TRESHOLD) THEN 
-             IF( LLEN > RLEN ) THEN 
+         ELSE IF(MIN(LLEN, RLEN) <=  TRESHOLD) THEN
+             IF( LLEN > RLEN ) THEN
                RIGHT = J - 1
              ELSE
                LEFT = I
              ENDIF
          ELSE
-           IF( LLEN > RLEN ) THEN 
+           IF( LLEN > RLEN ) THEN
               STACK(TOP) = LEFT
               STACK(TOP+1) = J-1
               LEFT = I
@@ -204,18 +204,18 @@ C
          ENDIF
        END DO
 c
-c     INSERTION SORT 
+c     INSERTION SORT
 c
       I = N - 1
       IPLUS1 = N
-      DO WHILE (I > 0) 
-        IF( A(I) > A(IPLUS1) ) THEN 
+      DO WHILE (I > 0)
+        IF( A(I) > A(IPLUS1) ) THEN
           RK = A(I)
           K  = PERM(I)
           J = IPLUS1
           JMINUS1 = I
           DO WHILE(A(J) <  RK)
-            A(JMINUS1) = A(J) 
+            A(JMINUS1) = A(J)
             PERM(JMINUS1) = PERM(J)
             JMINUS1 = J
             J = J + 1

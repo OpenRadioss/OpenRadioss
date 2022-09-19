@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDN,NPC(*) 
+      INTEGER IDN,NPC(*)
       my_real PLD(*),FAC,STIFFMIN,STIFFMAX,STIFFINI,STIFFAVG
 C-----------------------------------------------
       INTENT(IN)    :: NPC,PLD,IDN
@@ -70,22 +70,22 @@ C=======================================================================
           STIFFMIN = EP20
           DO J = PN1,PN2-4,2
             DX = PLD(J+2) - PLD(J)
-            DY = PLD(J+3) - PLD(J+1)               
+            DY = PLD(J+3) - PLD(J+1)
             DYDX = FAC*DY/DX
             STIFFMAX = MAX(STIFFMAX,DYDX)
             STIFFMIN = MIN(STIFFMIN,DYDX)
             STIFFAVG = STIFFAVG + DYDX
             IF(PLD(J+2)== ZERO )THEN
                 DX = PLD(J+2) - PLD(J)
-                DY = PLD(J+3) - PLD(J+1)            
+                DY = PLD(J+3) - PLD(J+1)
                 STIFFINI = MAX(STIFFINI, FAC*DY/DX)
             ELSEIF(PLD(J) == ZERO) THEN
                DX = PLD(J+2) - PLD(J)
-               DY = PLD(J+3) - PLD(J+1)             
+               DY = PLD(J+3) - PLD(J+1)
                STIFFINI = MAX(STIFFINI, FAC*DY/DX)
             ELSEIF(PLD(PN1) >= ZERO) THEN
                DX = PLD(PN1+2) - PLD(PN1 )
-               DY = PLD(PN1+3) - PLD(PN1 + 1)             
+               DY = PLD(PN1+3) - PLD(PN1 + 1)
                STIFFINI = MAX(STIFFINI, FAC*DY/DX)
             ENDIF
           ENDDO
@@ -120,47 +120,47 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER     IDN1,IDN2,IDN,NPOINT,LEN1,LEN2,
-     .        NPTNEW,NPC(*) 
-      my_real 
-     .        PLD(*),XUNI(NPOINT) 
+     .        NPTNEW,NPC(*)
+      my_real
+     .        PLD(*),XUNI(NPOINT)
 C-----------------------------------------------
       INTENT(IN)    :: NPC,PLD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,ID,NP1,NP2,K1,PN1,PN2
-      my_real 
-     .      EC , ET  
+      my_real
+     .      EC , ET
 c-----------
        !IDN1 = IFUNC(1) ! uni C
        !IDN2 = IFUNC(2) ! uni T
             !print*,' i,  j   ',  i, j
-            !print*, 'EC , ET ' , EC , ET 
+            !print*, 'EC , ET ' , EC , ET
        I = 0
        J = 0
        EC = PLD(NPC(IDN1) )
        ET = PLD(NPC(IDN2) )
        DO K = 1,NPOINT
-        IF(I == 2*LEN1 .AND. J == 2*LEN2 )THEN 
+        IF(I == 2*LEN1 .AND. J == 2*LEN2 )THEN
          EXIT
         ELSE
          IF     ((EC < ET.AND.I<2*LEN1) .OR. J >= 2*LEN2)THEN
-           XUNI(K) = EC 
-           I = I + 2 
+           XUNI(K) = EC
+           I = I + 2
            EC = PLD(NPC(IDN1)+ I )
-           !print*, ' courbe 1 ' 
-         ELSEIF ((EC > ET.AND.J<2*LEN2)   .OR. I >= 2*LEN1)THEN  
-           XUNI(K) = ET 
+           !print*, ' courbe 1 '
+         ELSEIF ((EC > ET.AND.J<2*LEN2)   .OR. I >= 2*LEN1)THEN
+           XUNI(K) = ET
            J = J + 2
            ET = PLD(NPC(IDN2)+ J )
-           !print*, ' courbe 2 ' 
-         ELSEIF (EC == ET)THEN 
-           XUNI(K) = ET 
+           !print*, ' courbe 2 '
+         ELSEIF (EC == ET)THEN
+           XUNI(K) = ET
            I = I + 2
            J = J + 2
            EC = PLD(NPC(IDN1)+ I )
            ET = PLD(NPC(IDN2)+ J )
-           !print*, ' egalite ' 
+           !print*, ' egalite '
          ENDIF
         ENDIF
        !PRINT*, ' K, XUNI ', K, XUNI(K)

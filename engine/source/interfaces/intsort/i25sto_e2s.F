@@ -76,14 +76,14 @@ C-----------------------------------------------
 C     REAL
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .   MARGE,X(3,*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), 
+     .   MARGE,X(3,*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*),
      .   CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*),CAND_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,EJ
-      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
+      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ)
 C     REAL
       my_real
      .   PENE(MVSIZ)
@@ -141,7 +141,7 @@ C-----------------------------------------------
       DO I=1,J_STOK
           IF(PENE(I)/=ZERO) THEN
             K_STOK = K_STOK + 1
-          END IF 
+          END IF
       ENDDO
       IF(K_STOK==0)RETURN
 C

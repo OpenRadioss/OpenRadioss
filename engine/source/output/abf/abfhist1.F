@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IWA(*),
      .   IPART(LIPART1,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .   ITHGRP(NITHGR,*),ITHBUF(*), IFIL,
@@ -119,7 +119,7 @@ C
       READ(CARD,'(20A4)')TITLE
         ICODE=3050
         LTITL = 100
-        LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+        LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
         TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+LONG)
         DO I=1,LEN_TMP_NAME
          IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -190,17 +190,17 @@ C-------HIERARCHIE INFO------------
       IWA(2)=NUMMAT
       IWA(3)=NUMGEO
       IWA(4)=NSUBS
-      IWA(5)=NTHGRP2  
+      IWA(5)=NTHGRP2
         IF(NSECT==0.AND.NSFLSW/=0) IWA(5)=NTHGRP2+1
         NGLOB=15
        IF (IFIL/=11) NGLOB=0
       IWA(6)=NGLOB
       CALL WRTDES(IWA,IWA,6,3,0)
-       
+
       DO I=1,IWA(6)
           IWA(I)=I
       ENDDO
-      CALL WRTDES(IWA,IWA,NGLOB,3,0)     
+      CALL WRTDES(IWA,IWA,NGLOB,3,0)
 C-------PART DESCRIPTION------------
       DO N=1,NPART+NTHPART
         NVAR=IPARTH(NVPARTH,N)
@@ -222,7 +222,7 @@ C-------PART DESCRIPTION------------
           II=II+1
           IWA(II)=ITHBUF(I)
         ENDDO
-        IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,3,0)       
+        IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,3,0)
       ENDDO
 C-------MATER DESCRIPTION------------
       DO N=1,NUMMAT
@@ -285,7 +285,7 @@ C-------HIERARCHIE DESCRIPTION------------
           IWA(II)=ITHBUF(I)
         ENDDO
         IF(NVAR/=0)CALL WRTDES(IWA,IWA,NVAR,3,0)
-        
+
       ENDDO
 C-------TH GROUP name sorting ( check /TH with same title )
       DO N=1,NTHGRP2
@@ -398,7 +398,7 @@ C-------TH GROUP + 1 section fluide------------
         DO I=1,6
             IWA(I)=I
         ENDDO
-        CALL WRTDES(IWA,IWA,6,3,0)      
+        CALL WRTDES(IWA,IWA,6,3,0)
       ENDIF
       CALL FLU_FIL_C()
 C

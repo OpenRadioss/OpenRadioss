@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LFT    ,LLT 
+      INTEGER LFT    ,LLT
       my_real
      .   FRIC,OFF(*),SCALK,TNJ(3,MVSIZ)
       my_real
@@ -127,8 +127,8 @@ C    ----tangent vector ---
          FACT(I)=STIF(I)*FAC
        ENDDO
 C       
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=LFT,LLT
            Q1 =Q(1,J,I)*Q(1,K,I)
            Q2 =Q(2,J,I)*Q(2,K,I)
@@ -146,8 +146,8 @@ C
        ENDDO
       END IF !(FRIC>ZERO) THEN
 C
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=LFT,LLT
           KI12(J,K,I)=-KI11(J,K,I)
           KJ12(J,K,I)=-KJ11(J,K,I)
@@ -156,8 +156,8 @@ C
          ENDDO
         ENDDO
        ENDDO
-       DO J=1,3 
-        DO K=J+1,3 
+       DO J=1,3
+        DO K=J+1,3
          DO I=LFT,LLT
           KI12(K,J,I)=-KI11(J,K,I)
           KJ12(K,J,I)=-KJ11(J,K,I)

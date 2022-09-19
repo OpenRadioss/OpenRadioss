@@ -38,14 +38,14 @@ Chd|====================================================================
 !       MULTI_FLUXES_COMPUTATION description :
 !           computation of fluxes with 1rst order algorithm
 !       MULTI_FLUXES_COMPUTATION organization :
-!           The parith/on is ensured by the same 
+!           The parith/on is ensured by the same
 !           order computation :
 !           * check the user ID
 !           * if user ID( element1) < user ID( element2)
 !             --> element1 drives the computation
 !           * if user ID( element1) > user ID( element2)
 !             --> element2 drives the computation
-!           
+!
 !$ENDCOMMENT
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -65,13 +65,13 @@ C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-! NUMELS      
+! NUMELS
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "mvsiz_p.inc"
 !     DTFAC1
-#include      "scr18_c.inc" 
+#include      "scr18_c.inc"
       COMMON /TABLESIZF/ STF,SNPC
       INTEGER STF,SNPC
 C-----------------------------------------------
@@ -104,16 +104,16 @@ C-----------------------------------------------
       INTEGER :: IMAT
       my_real :: X1(3), X2(3), X3(3), X4(3)
       my_real :: LAMBDAII, LAMBDAF, NORMUII, NORMUJJ
-      my_real :: FII(5), SUB_FII(3), FJJ(5), NORMAL_VELII, NORMAL_VELJJ, VII(5), SUB_VII(3), VJJ(5), 
+      my_real :: FII(5), SUB_FII(3), FJJ(5), NORMAL_VELII, NORMAL_VELJJ, VII(5), SUB_VII(3), VJJ(5),
      .     VELII2, VELJJ2, SURF
-      my_real :: SL, SR, SSTAR, PSTAR, FIISTAR(5), SUB_FIISTAR(3), FJJSTAR(5), VIISTAR(5), VJJSTAR(5), PP(5), 
+      my_real :: SL, SR, SSTAR, PSTAR, FIISTAR(5), SUB_FIISTAR(3), FJJSTAR(5), VIISTAR(5), VJJSTAR(5), PP(5),
      .     SUB_VIISTAR(3)
       my_real :: SSPII, SSPJJ, RHOII, RHOJJ, PII, PJJ, NX, NY, NZ, NORMALW
       INTEGER :: NODE1, NODE2, NODE3, NODE4
       my_real :: VXII, VYII, VZII
       my_real :: VXJJ, VYJJ, VZJJ, VX, VY, VZ, NORMVEL, SSP, RHO, P
       INTEGER :: NB_FACE, ELEMID, NUMEL_SPMD
-      my_real :: MACHII, MACHJJ, PSTAR2, THETA, ALPHAII, SUB_RHOII, SUB_RHOEINTII, 
+      my_real :: MACHII, MACHJJ, PSTAR2, THETA, ALPHAII, SUB_RHOII, SUB_RHOEINTII,
      .     ALPHASTAR, SUB_RHOSTAR, SUB_ESTAR, SUB_PII, WFAC(3)
       TYPE(LBUF_PTR) :: LBUFS(NBMAT)
       INTEGER :: LOCAL_MATID(NBMAT), MATLAW(NBMAT)
@@ -187,7 +187,7 @@ C     Flux computation
       DO II = 1, NEL
          I = II + NFT
          IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-         NB_FACE =ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) -  
+         NB_FACE =ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) -
      .        ALE_CONNECTIVITY%ee_connect%iad_connect(I)
          I_OLD = I
 C     Face KFACE
@@ -201,7 +201,7 @@ C     Face normal
             SURF = MULTI_FVM%FACE_DATA%SURF(KFACE3, I_OLD)
             WFAC(1:3) = MULTI_FVM%FACE_DATA%WFAC(1:3, KFACE3, I_OLD)
 
-            ID_GLOBAL_VOIS_1 = GLOBAL_ID_CURRENT_ELM(II)            
+            ID_GLOBAL_VOIS_1 = GLOBAL_ID_CURRENT_ELM(II)
             ID_GLOBAL_VOIS_2 = ID_GLOBAL_VOIS( NB_FACE * (I_OLD - 1) + KFACE3 )
 !   -----------------------------------------------
             IF (J_OLD > 0 .AND. I_OLD < J_OLD) THEN
@@ -247,7 +247,7 @@ C     Face normal
 C     Densities
                RHOJJ = MULTI_FVM%RHO(J)
 C     Pressures
-               PJJ = MULTI_FVM%PRES(J)  
+               PJJ = MULTI_FVM%PRES(J)
 C     Normal velocity current element
                NORMAL_VELII = VXII * NX + VYII * NY + VZII * NZ
 
@@ -262,20 +262,20 @@ C     Sound speeds adjacent element
                SSPJJ = MULTI_FVM%SOUND_SPEED(J)
 C     Normal grid velocity
                NORMALW = WFAC(1) * NX + WFAC(2) * NY + WFAC(3) * NZ
-               
+
 C     Local Mach numbers
                MACHII = ABS(NORMAL_VELII) / SSPII
-               MACHJJ = ABS(NORMAL_VELJJ) / SSPJJ               
+               MACHJJ = ABS(NORMAL_VELJJ) / SSPJJ
 
 C     HLL wave speed estimates
                SL = MIN(NORMAL_VELII - SSPII, NORMAL_VELJJ - SSPJJ)
                SR = MAX(NORMAL_VELII + SSPII, NORMAL_VELJJ + SSPJJ)
 
 C     Intermediate wave speed
-               SSTAR = PJJ - PII + RHOII * NORMAL_VELII * (SL - NORMAL_VELII) - 
+               SSTAR = PJJ - PII + RHOII * NORMAL_VELII * (SL - NORMAL_VELII) -
      .              RHOJJ * NORMAL_VELJJ * (SR - NORMAL_VELJJ)
 
-               SSTAR = SSTAR / (RHOII * (SL - NORMAL_VELII) - 
+               SSTAR = SSTAR / (RHOII * (SL - NORMAL_VELII) -
      .              RHOJJ * (SR - NORMAL_VELJJ))
 
 
@@ -293,7 +293,7 @@ C               PSTAR2 = HALF * (PSTAR + PJJ + RHOJJ * (SSTAR - NORMAL_VELJJ) * 
                   PP(1) = ZERO
                   PP(2) = PSTAR * NX
                   PP(3) = PSTAR * NY
-                  PP(4) = PSTAR * NZ   
+                  PP(4) = PSTAR * NZ
                   PP(5) = SSTAR * (PSTAR + PSHIFT)
                ELSE
                   PP(1) = ZERO
@@ -341,7 +341,7 @@ C     Submaterial fluxes
      .                       (SUB_FIISTAR(3) - NORMALW * SUB_VIISTAR(3)) * SURF
                         massflux2 = massflux2 + MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE_OLD, I_OLD)
                      ENDDO
-                  ENDIF                  
+                  ENDIF
 C     
                ELSEIF (SL <= NORMALW .AND. NORMALW <= SSTAR) THEN
 C     Global fluxes
@@ -361,7 +361,7 @@ C     ===
 C     Global fluxes
                   VIISTAR(1:5) = FII(1:5) - (SL) * VII(1:5) - PP(1:5)
                   VIISTAR(1:5) = VIISTAR(1:5) / (SSTAR - SL)
-                  FIISTAR(1:5) = VIISTAR(1:5) * SSTAR + PP(1:5) 
+                  FIISTAR(1:5) = VIISTAR(1:5) * SSTAR + PP(1:5)
                   MULTI_FVM%FLUXES(1:5, KFACE_OLD, I_OLD) = DIRECTION *
      .                 (FIISTAR(1:5) - NORMALW * VIISTAR(1:5)) * SURF
                   MULTI_FVM%FLUXES(6, KFACE_OLD, I_OLD) = DIRECTION * SSTAR * SURF
@@ -379,11 +379,11 @@ C     Submaterial fluxes
                         SUB_RHOSTAR = SUB_RHOII * (NORMAL_VELII - SL) / (SSTAR - SL)
                         SUB_PII = MULTI_FVM%PHASE_PRES(IMAT, I)
                         IF (ALPHASTAR > ZERO) THEN
-c$$$                           CALL ENERGY_JUMP(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
-c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_PII, (SSTAR - NORMAL_VELII) / (SSTAR - SL), 
+c$$$                           CALL ENERGY_JUMP(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI,
+c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_PII, (SSTAR - NORMAL_VELII) / (SSTAR - SL),
 c$$$     .                          LBUFS(IMAT)%LBUF%BFRAC(II), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
 c$$$     .                          SUB_ESTAR, BUFMAT)
-                              SUB_ESTAR = SUB_RHOEINTII / SUB_RHOII - 
+                              SUB_ESTAR = SUB_RHOEINTII / SUB_RHOII -
      .                             SUB_PII * (ONE / SUB_RHOSTAR - ONE / SUB_RHOII)
                         ELSE
                            SUB_ESTAR = ZERO
@@ -420,7 +420,7 @@ C     ===
 C     Global fluxes
                   VIISTAR(1:5) = FII(1:5) - (SR) * VII(1:5) - PP(1:5)
                   VIISTAR(1:5) = VIISTAR(1:5) / (SSTAR - SR)
-                  FIISTAR(1:5) = VIISTAR(1:5) * SSTAR + PP(1:5) 
+                  FIISTAR(1:5) = VIISTAR(1:5) * SSTAR + PP(1:5)
                   MULTI_FVM%FLUXES(1:5, KFACE_OLD, I_OLD) = DIRECTION *
      .                 (FIISTAR(1:5) - NORMALW * VIISTAR(1:5)) * SURF
                   MULTI_FVM%FLUXES(6, KFACE_OLD, I_OLD) = DIRECTION * SSTAR * SURF
@@ -438,13 +438,13 @@ C     Submaterial fluxes
                         SUB_RHOSTAR = SUB_RHOII * (NORMAL_VELJJ - SR) / (SSTAR - SR)
                         SUB_PII = MULTI_FVM%PHASE_PRES(IMAT, J)
                         IF (ALPHASTAR > ZERO) THEN
-c$$$                           CALL ENERGY_JUMP(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI, 
-c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_PII, (SSTAR - NORMAL_VELJJ) / (SSTAR - SR), 
+c$$$                           CALL ENERGY_JUMP(MATLAW(IMAT), LOCAL_MATID(IMAT), PM, IPM, NPROPM, NPROPMI,
+c$$$     .                          SUB_RHOEINTII / SUB_RHOII, SUB_RHOSTAR, SUB_PII, (SSTAR - NORMAL_VELJJ) / (SSTAR - SR),
 c$$$     .                          LBUFS(IMAT)%LBUF%BFRAC(II), GBUF%TB(II), GBUF%DELTAX(II), CURRENT_TIME,
 c$$$     .                          SUB_ESTAR, BUFMAT)
-                           SUB_ESTAR = SUB_RHOEINTII / SUB_RHOII - 
+                           SUB_ESTAR = SUB_RHOEINTII / SUB_RHOII -
      .                          SUB_PII * (ONE / SUB_RHOSTAR - ONE / SUB_RHOII)
-                           
+
                         ELSE
                            SUB_ESTAR = ZERO
                         ENDIF
@@ -571,8 +571,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        MULTI_SUBMATLAW               source/multifluid/multi_submatlaw.F
 Chd|====================================================================
-      SUBROUTINE ENERGY_JUMP(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI, 
-     .     EINT, RHOSTAR, PRES, ALPHA, 
+      SUBROUTINE ENERGY_JUMP(MATLAW, LOCAL_MATID, PM, IPM, NPROPM, NPROPMI,
+     .     EINT, RHOSTAR, PRES, ALPHA,
      .     BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,
      .     ESTAR, BUFMAT,SIG,NPF,TF)
 C-----------------------------------------------
@@ -594,7 +594,7 @@ C-----------------------------------------------
       my_real :: FUNC, DFUNC, PSTAR, GRUN, SSP, VOL, INCR, TEMP
       LOGICAL :: CONT
       my_real :: OFF
-      
+
       MAX_ITER = 50
       TOL = EM06
       ERROR = ONE
@@ -607,10 +607,10 @@ C     Initialization
       TEMP = ZERO
       ITER = 0
       CONT = .TRUE.
-      DO WHILE(CONT .AND. ITER < MAX_ITER) 
+      DO WHILE(CONT .AND. ITER < MAX_ITER)
          ITER = ITER + 1
-         CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, RHOSTAR * ESTAR, PSTAR, RHOSTAR, SSP, VOL, GRUN, 
-     .        PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP, 
+         CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, 1, RHOSTAR * ESTAR, PSTAR, RHOSTAR, SSP, VOL, GRUN,
+     .        PM, IPM, NPROPM, NPROPMI, BUFMAT, OFF, TEMP,
      .        BURNFRAC, BURNTIME, DELTAX, CURRENT_TIME,SIG(1:6),NPF,TF)
 
          IF (GRUN == ZERO) THEN
@@ -632,7 +632,7 @@ c$$$  ENDIF
             ENDIF
          ENDIF
       ENDDO
-      
+
       IF (ERROR > TOL * ABS(ESTAR)) THEN
 !         PRINT*, "ESTAR NOT FOUND"
          ESTAR = EINT

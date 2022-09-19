@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE RUPTURE_MOD
 c-----------------------------------------------
 c    Windshield failure model with crack propagation (ref : PhD thesis Christian Alter 2018)
-c    front fawe propagation 
+c    front fawe propagation
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,19 +97,19 @@ c
      .   KRES1,KRES2,EXP_N,EXP_M,V0,VC,REFLEN,DMG1,DMG2,DMG3,TANPHI
       my_real ,DIMENSION(NEL) :: TPROPG,AI,FORMF,SIGP_AKT,DAM1,DAM2,
      .   SIGP1,SIGP2,SIGDT1,SIGDT2,SIG_DTF1,SIG_DTF2,SIGP_MIN,SIGP_MAX,
-     .   SP1,SP2,SP3,SIN2,COS2,COSI,TFACT1,TFACT2,CR_LEN,CR_DEPTH,CR_ANG   
+     .   SP1,SP2,SP3,SIN2,COS2,COSI,TFACT1,TFACT2,CR_LEN,CR_DEPTH,CR_ANG
       my_real, DIMENSION(:), POINTER :: DIR1,DIR2
 c--------------------------------------------------------------------
 c---  state variables for Ch.Alter model
-c     UVAR(1)  = SIGP1       ! principal stress DIR1               
-c     UVAR(1)  = SIGP2       ! principal stress DIR2               
+c     UVAR(1)  = SIGP1       ! principal stress DIR1
+c     UVAR(1)  = SIGP2       ! principal stress DIR2
 c     UVAR(3)  = SIGDT1      ! filtered principal stress rate DIR1
 c     UVAR(4)  = SIGDT2      ! filtered principal stress rate DIR2
-c     UVAR(5)  = SIGP_MIN                                          
-c     UVAR(6)  = SIGP_MAX                                          
-c     UVAR(7)  = FORMF                                             
-c     UVAR(8)  = AI          ! crack depth                         
-c     UVAR(9)  = SIGP_AKT                                         
+c     UVAR(5)  = SIGP_MIN
+c     UVAR(6)  = SIGP_MAX
+c     UVAR(7)  = FORMF
+c     UVAR(8)  = AI          ! crack depth
+c     UVAR(9)  = SIGP_AKT
 c     UVAR(10) = edge element flag
 c     UVAR(11) = DAM1
 c     UVAR(12) = DAM2
@@ -125,10 +125,10 @@ c     UVAR(20) = ALDT0    :  Initial width of the shell (in micrometers)
 c     UVAR(21) = SIG_COS  :  Crack opening stress (saved for filtering)
 C=======================================================================
       RFLAG(1:NEL) = 0
-      NINDXF1 = 0  
-      NINDXF2 = 0  
-      NINDXD1 = 0                                     
-      NINDXD2 = 0   
+      NINDXF1 = 0
+      NINDXF2 = 0
+      NINDXD1 = 0
+      NINDXD2 = 0
 c--------------------------------------------------------------------
       EXP_N    = UPARAM(1)
       CR_FOIL  = UPARAM(2)
@@ -153,7 +153,7 @@ c--------------------------------------------------------------------
 c
       IF (TRELAX > 0) DMG_FLAG = 1
       ALPHAI = ONE - ALPHA
-      EXP_M  = ONE / (ONE + EXP_N) 
+      EXP_M  = ONE / (ONE + EXP_N)
 c--------------------------------------------------------------------
       IF (TIME == ZERO) THEN
 c       Crack depth modification and definition of Y (formfactor)
@@ -199,7 +199,7 @@ c
         DAM2(1:NEL)     = UVAR(1:NEL,12)
       ENDIF
 c--------------------------------------------------------------------
-c     Ch.Brokmann criterion - initialization 
+c     Ch.Brokmann criterion - initialization
 c--------------------------------------------------------------------
       IF (ITGLASS == 1 .and. (IPT == 1 .or. IPT == NPT)) THEN
         IF (TIME == ZERO) THEN
@@ -217,7 +217,7 @@ c
         ENDIF        ! END Brokmann criterion initialization (TIME 0)
 c--------------------------------------------------------------------
 c       Test of Ch.Brokmann criterion
-c--------------------------------------------------------------------      
+c--------------------------------------------------------------------
         CALL FAIL_BROKMANN(
      .     NEL       ,NUPARAM   ,NUVAR     ,TIME      ,TIMESTEP  ,
      .     UPARAM    ,NGL       ,SIGNXX    ,SIGNYY    ,SIGNXY    ,
@@ -229,7 +229,7 @@ c       Brokmann model not actif => test only Alter failure model
 c
         UVAR(1:NEL,15) = ONE
 c
-      END IF   ! ITGLASS == 1 .and. (IPT == 1 .or. IPT == NPT)   
+      END IF   ! ITGLASS == 1 .and. (IPT == 1 .or. IPT == NPT)
 c--------------------------------------------------------------------
       DO I = 1,NEL
         IF (FWAVE_EL(I) > 0) THEN
@@ -241,15 +241,15 @@ c--------------------------------------------------------------------
         ELSE IF (DADV(I) == ONE) THEN
           RFLAG(I) = 1
         ENDIF
-        TPROPG(I) = ALDT(I) / MIN(VC,SSP(I))       
-        TPROPG(I) = MAX(TPROPG(I), TIMESTEP)     
-      END DO                                         
+        TPROPG(I) = ALDT(I) / MIN(VC,SSP(I))
+        TPROPG(I) = MAX(TPROPG(I), TIMESTEP)
+      END DO
 c--------------------------------------------------------------------
 c     Principal stress
 c--------------------------------------------------------------------
       DO I = 1,NEL
-        S1 = SIGNXX(I) 
-        S2 = SIGNYY(I) 
+        S1 = SIGNXX(I)
+        S2 = SIGNYY(I)
         CC = SIGNXY(I)
         AA = (S1 + S2)*HALF
         BB = (S1 - S2)*HALF
@@ -258,20 +258,20 @@ c--------------------------------------------------------------------
         SIGP2(I) = AA - CR
         SP1(I)   = SIGP1(I)
         SP2(I)   = SIGP2(I)
-        SP3(I)   = ZERO         
+        SP3(I)   = ZERO
       END DO
 c--------------------------------------------------------------------
 c     Calculate stress rate + filtering
 c--------------------------------------------------------------------
       IF (ISRATE == 0) THEN
-c       exponential moving average with smoohting coefficient = alpha 
+c       exponential moving average with smoohting coefficient = alpha
         DO I = 1,NEL
           IF (OFF(I) == ONE) THEN
             SIGDT1(I) = ABS(SIGP1(I) - UVAR(I,1)) / MAX(TIMESTEP, EM20)
             SIGDT2(I) = ABS(SIGP2(I) - UVAR(I,2)) / MAX(TIMESTEP, EM20)
             SIGDT1(I) = ALPHA * SIGDT1(I) + ALPHAI * UVAR(I,3)
             SIGDT2(I) = ALPHA * SIGDT2(I) + ALPHAI * UVAR(I,4)
-          ENDIF        
+          ENDIF
         END DO
       ELSE
 c       arythmetic moving average over 50 cycles
@@ -287,10 +287,10 @@ c
           ELSE
             SIGDT1(I) = ZERO
             SIGDT2(I) = ZERO
-          ENDIF        
-        END DO 
+          ENDIF
+        END DO
         INDEX_OVER_50_CYCLES(NGR_FAIL_WIND) = INDEX_OVER_50_CYCLES(NGR_FAIL_WIND) - 1
-        IF(INDEX_OVER_50_CYCLES(NGR_FAIL_WIND)==1) INDEX_OVER_50_CYCLES(NGR_FAIL_WIND) = 50   
+        IF(INDEX_OVER_50_CYCLES(NGR_FAIL_WIND)==1) INDEX_OVER_50_CYCLES(NGR_FAIL_WIND) = 50
       ENDIF
 c--------------------------------------------------------------------
 c     Max strength calculation
@@ -298,24 +298,24 @@ c--------------------------------------------------------------------
       IF (IPT == NPT) THEN   ! Top layer integration point
         DO I = 1,NEL
           SIG_DTF1(I) = SIGP_AKT(I) *ABS(SIGDT1(I))**EXP_M
-          SIG_DTF2(I) = SIGP_AKT(I) *ABS(SIGDT2(I))**EXP_M      
+          SIG_DTF2(I) = SIGP_AKT(I) *ABS(SIGDT2(I))**EXP_M
           SIG_DTF1(I) = MAX(SIG_DTF1(I),SIGP_MIN(I))
           SIG_DTF1(I) = MIN(SIG_DTF1(I),SIGP_MAX(I))
           SIG_DTF2(I) = MAX(SIG_DTF2(I),SIGP_MIN(I))
           SIG_DTF2(I) = MIN(SIG_DTF2(I),SIGP_MAX(I))
-        END DO     
+        END DO
       ELSEIF (IPT < NPT) THEN   ! inner integration points
         DO I = 1,NEL
           IF (UVAR(I,10) == ONE) THEN   ! edge element => stress rate dependent
             SIG_DTF1(I) = SIGP_AKT(I)*ABS(SIGDT1(I))**EXP_M
-            SIG_DTF2(I) = SIGP_AKT(I)*ABS(SIGDT2(I))**EXP_M      
+            SIG_DTF2(I) = SIGP_AKT(I)*ABS(SIGDT2(I))**EXP_M
             SIG_DTF1(I) = MAX(SIG_DTF1(I),SIGP_MIN(I))
             SIG_DTF1(I) = MIN(SIG_DTF1(I),SIGP_MAX(I))
             SIG_DTF2(I) = MAX(SIG_DTF2(I),SIGP_MIN(I))
             SIG_DTF2(I) = MIN(SIG_DTF2(I),SIGP_MAX(I))
           ELSE IF (ISIDE == 1) THEN    ! inner  points are stress rate dependent in this case
             SIG_DTF1(I) = SIGP_AKT(I)*ABS(SIGDT1(I))**EXP_M
-            SIG_DTF2(I) = SIGP_AKT(I)*ABS(SIGDT2(I))**EXP_M      
+            SIG_DTF2(I) = SIGP_AKT(I)*ABS(SIGDT2(I))**EXP_M
             SIG_DTF1(I) = MAX(SIG_DTF1(I),SIGP_MIN(I))
             SIG_DTF1(I) = MIN(SIG_DTF1(I),SIGP_MAX(I))
             SIG_DTF2(I) = MAX(SIG_DTF2(I),SIGP_MIN(I))
@@ -325,7 +325,7 @@ c--------------------------------------------------------------------
             SIG_DTF2(I) = SIGP_MAX(I)
           ENDIF
         END DO
-      ENDIF      
+      ENDIF
 c
       DO I = 1,NEL
         SIG_DTF1(I) = SIG_DTF1(I)*DADV(I)
@@ -334,127 +334,127 @@ c
 c--------------------------
 c     test failure criteria in first direction
 c--------------------------
-      DO I = 1,NEL                                                                      
+      DO I = 1,NEL
         IF (OFF(I) == ONE) THEN
           IF (TDEL1(I) == ZERO) THEN    ! no crack yet in the element
             IF (SIGP1(I) > SIG_DTF1(I) .and. UVAR(I,15) == ONE) THEN  ! test Alter
-              TDEL1(I) = TIME                                                             
-              NINDXF1 = NINDXF1+1       ! tag to save crack direction                                                     
-              INDXF1(NINDXF1) = I                                                           
+              TDEL1(I) = TIME
+              NINDXF1 = NINDXF1+1       ! tag to save crack direction
+              INDXF1(NINDXF1) = I
             ENDIF
           ENDIF
 c
-          IF (TDEL1(I) > ZERO) THEN   ! damage started                          
-            TFACT1(I) = (TIME - TDEL1(I)) / TPROPG(I)                                      
-            TFACT1(I) = MIN(ONE, TFACT1(I))                                     
+          IF (TDEL1(I) > ZERO) THEN   ! damage started
+            TFACT1(I) = (TIME - TDEL1(I)) / TPROPG(I)
+            TFACT1(I) = MIN(ONE, TFACT1(I))
             IF (UVAR(I,11) > ZERO .and. TFACT1(I) == ONE) THEN
-              OFFLY(I) = -1      ! time to propagate info about failure  
-            ENDIF                   
+              OFFLY(I) = -1      ! time to propagate info about failure
+            ENDIF
             DFMAX(I) = MAX(DFMAX(I), TFACT1(I))
-            NINDXD1  = NINDXD1+1                                                         
-            INDXD1(NINDXD1) = I                                                         
-          ENDIF                                                                       
+            NINDXD1  = NINDXD1+1
+            INDXD1(NINDXD1) = I
+          ENDIF
 c
-        ENDIF                                                                         
-      ENDDO                                                                             
+        ENDIF
+      ENDDO
 c--------------------------
 c     calculate and save principal stress direction when first failure occurs
 c--------------------------
-      IF (NINDXF1 > 0) THEN                        
-#include "vectorize.inc"                    
-        DO J=1,NINDXF1                             
-          I  = INDXF1(J)                           
-          S1 = SIGNXY(I)                         
-          S2 = SIGP1(I) - SIGNXX(I)              
-          CR = SQRT(S1**2 + S2**2)               
-          IF (CR > ZERO) THEN                    
-            CRKDIR(I,1) = S1 / CR                
-            CRKDIR(I,2) = S2 / CR                
-          ELSEIF (S1 > S2) THEN                  
-            CRKDIR(I,1) = ZERO                     
-            CRKDIR(I,2) = ONE                   
-          ELSE                                   
-            CRKDIR(I,1) = ONE                   
-            CRKDIR(I,2) = ZERO                     
-          ENDIF                                  
-        ENDDO                                    
-      ENDIF                                                
+      IF (NINDXF1 > 0) THEN
+#include "vectorize.inc"
+        DO J=1,NINDXF1
+          I  = INDXF1(J)
+          S1 = SIGNXY(I)
+          S2 = SIGP1(I) - SIGNXX(I)
+          CR = SQRT(S1**2 + S2**2)
+          IF (CR > ZERO) THEN
+            CRKDIR(I,1) = S1 / CR
+            CRKDIR(I,2) = S2 / CR
+          ELSEIF (S1 > S2) THEN
+            CRKDIR(I,1) = ZERO
+            CRKDIR(I,2) = ONE
+          ELSE
+            CRKDIR(I,1) = ONE
+            CRKDIR(I,2) = ZERO
+          ENDIF
+        ENDDO
+      ENDIF
 c-----------------------------------------------
 c     apply progressive damage and turn the stress tensor back to the local system
 c-----------------------------------------------
       IF (NINDXD1 > 0) THEN
-#include "vectorize.inc"                    
-        DO J=1,NINDXD1                                   
+#include "vectorize.inc"
+        DO J=1,NINDXD1
           I = INDXD1(J)
           S1 = SIGNXX(I)
           S2 = SIGNYY(I)
           S3 = SIGNXY(I)
-          COSX = CRKDIR(I,1)                            
-          SINX = CRKDIR(I,2)                            
+          COSX = CRKDIR(I,1)
+          SINX = CRKDIR(I,2)
           COS2(I) = COSX * COSX
           SIN2(I) = SINX * SINX
           COSI(I) = COSX * SINX
-c         rotate stress to previously saved crack direction            
+c         rotate stress to previously saved crack direction
           SP1(I) = COS2(I)*S1 + SIN2(I)*S2 + TWO*COSI(I)*S3
           SP2(I) = SIN2(I)*S1 + COS2(I)*S2 - TWO*COSI(I)*S3
           SP3(I) = COSI(I)*(S2 - S1) + (COS2(I) - SIN2(I))*S3
-c          
+c
           BETA = MAX(ZERO , ONE - TFACT1(I))
-          DMG1 = MAX(KRES1, ONE - (ONE - KRES1) * TFACT1(I))   
+          DMG1 = MAX(KRES1, ONE - (ONE - KRES1) * TFACT1(I))
           DMG3 = MIN(ONE, 0.6 + 0.4 * BETA)
           DAM1(I) = DMG1
-c         stress reduction               
+c         stress reduction
           SP1(I) = SP1(I) * DMG1
           SP3(I) = SP3(I) * DMG3
-c         rotate reduced stress back to current element coordinate system            
-          SIGNXX(I) = COS2(I)*SP1(I) + SIN2(I)*SP2(I) - TWO*COSI(I)*SP3(I)  
-          SIGNYY(I) = SIN2(I)*SP1(I) + COS2(I)*SP2(I) + TWO*COSI(I)*SP3(I)  
+c         rotate reduced stress back to current element coordinate system
+          SIGNXX(I) = COS2(I)*SP1(I) + SIN2(I)*SP2(I) - TWO*COSI(I)*SP3(I)
+          SIGNYY(I) = SIN2(I)*SP1(I) + COS2(I)*SP2(I) + TWO*COSI(I)*SP3(I)
           SIGNXY(I) = COSI(I)*(SP1(I) - SP2(I)) + (COS2(I) - SIN2(I))*SP3(I)
         ENDDO
       ENDIF
 c--------------------------
 c     test failure criteria in second direction
 c--------------------------
-      DO I = 1,NEL  
+      DO I = 1,NEL
         IF (OFF(I) == ONE) THEN
           IF (TDEL1(I) > ZERO .and. TDEL2(I) == ZERO) THEN
-            IF (SP2(I) > SIG_DTF2(I)) THEN   
-              TDEL2(I) = TIME        
-              NINDXF2  = NINDXF2 + 1                                                           
-              INDXF2(NINDXF2) = I                                                           
+            IF (SP2(I) > SIG_DTF2(I)) THEN
+              TDEL2(I) = TIME
+              NINDXF2  = NINDXF2 + 1
+              INDXF2(NINDXF2) = I
             ENDIF
-          ENDIF                                                                 
+          ENDIF
 c
-          IF (TDEL2(I) > ZERO) THEN                                                              
-            TFACT2(I)   = (TIME - TDEL2(I)) / TPROPG(I)                                      
+          IF (TDEL2(I) > ZERO) THEN
+            TFACT2(I)   = (TIME - TDEL2(I)) / TPROPG(I)
             TFACT2(I)   = MIN(ONE, TFACT2(I))
-            IF (UVAR(I,12) > ZERO .and. TFACT2(I) == ONE) THEN                   
-              IF (OFFLY(I) == 0) THEN        ! DIR1 already fully cracked before                                           
-                OFFLY(I) = -2                                                   
-              ELSE IF (OFFLY(I) == -1) THEN  ! DIR1 just cracked in this cycle                                     
-                OFFLY(I) = -3                                                   
-              ENDIF                                                             
-            ENDIF                                                               
-            NINDXD2 = NINDXD2+1                                                         
-            INDXD2(NINDXD2) = I                                                         
-          ENDIF                                                                     
-        ENDIF                                                                     
-      ENDDO                                                                             
+            IF (UVAR(I,12) > ZERO .and. TFACT2(I) == ONE) THEN
+              IF (OFFLY(I) == 0) THEN        ! DIR1 already fully cracked before
+                OFFLY(I) = -2
+              ELSE IF (OFFLY(I) == -1) THEN  ! DIR1 just cracked in this cycle
+                OFFLY(I) = -3
+              ENDIF
+            ENDIF
+            NINDXD2 = NINDXD2+1
+            INDXD2(NINDXD2) = I
+          ENDIF
+        ENDIF
+      ENDDO
 c----------------------------
       IF (NINDXD2 > 0) THEN
-#include "vectorize.inc"                    
-        DO J=1,NINDXD2                                   
+#include "vectorize.inc"
+        DO J=1,NINDXD2
           I = INDXD2(J)
           BETA = MAX(ZERO , ONE - TFACT2(I))
           DMG2 = MAX(KRES2, ONE - (ONE - KRES2) * TFACT2(I))
           DMG3 = MIN(ONE, 0.6 + 0.4 * BETA)
           DAM2(I) = DMG2
-c         stress reduction in 2nd direction             
+c         stress reduction in 2nd direction
           SP2(I) = SP2(I) * DMG2
           SP3(I) = SP3(I) * DMG3
-c         rotate reduced stress back to current element coordinate system            
-          SIGNXX(I) = COS2(I)*SP1(I) + SIN2(I)*SP2(I) - TWO*COSI(I)*SP3(I)  
-          SIGNYY(I) = SIN2(I)*SP1(I) + COS2(I)*SP2(I) + TWO*COSI(I)*SP3(I)  
+c         rotate reduced stress back to current element coordinate system
+          SIGNXX(I) = COS2(I)*SP1(I) + SIN2(I)*SP2(I) - TWO*COSI(I)*SP3(I)
+          SIGNYY(I) = SIN2(I)*SP1(I) + COS2(I)*SP2(I) + TWO*COSI(I)*SP3(I)
           SIGNXY(I) = COSI(I)*(SP1(I) - SP2(I)) + (COS2(I) - SIN2(I))*SP3(I)
           IF (DMG2 == ZERO) THEN
             FOFF(I) = 0
@@ -469,43 +469,43 @@ c-----------------------------------------------
         UVAR(I,4)  = SIGDT2(I)
         UVAR(I,11) = DAM1(I)
         UVAR(I,12) = DAM2(I)
-      END DO     
+      END DO
 c-----------------------------------------------
       IF (NINDXF1 > 0) THEN
         DO J=1,NINDXF1
           I = INDXF1(J)
 #include "lockon.inc"
-          IF (RFLAG(I) == 1) THEN 
-c           failure initialization                                    
-            WRITE(IOUT, 3000) NGL(I),ILAY,IPT                                    
-            WRITE(ISTDO,3100) NGL(I),ILAY,IPT,TIME                               
+          IF (RFLAG(I) == 1) THEN
+c           failure initialization
+            WRITE(IOUT, 3000) NGL(I),ILAY,IPT
+            WRITE(ISTDO,3100) NGL(I),ILAY,IPT,TIME
           ELSEIF (RFLAG(I) == -1) THEN
-c           failure advancement                                    
-            WRITE(IOUT, 4000) NGL(I),ILAY,IPT                                    
-            WRITE(ISTDO,4100) NGL(I),ILAY,IPT,TIME                               
-          ENDIF            
+c           failure advancement
+            WRITE(IOUT, 4000) NGL(I),ILAY,IPT
+            WRITE(ISTDO,4100) NGL(I),ILAY,IPT,TIME
+          ENDIF
           IF (IDEB == 1 .and. ABS(RFLAG(I)) == 1) THEN
             TANPHI = ATAN(CRKDIR(I,2) / SIGN(MAX(ABS(CRKDIR(I,1)),EM20),CRKDIR(I,1)))
             WRITE(IOUT,3500) NGL(I),TANPHI,DADV(I)
             WRITE(IOUT,3700) NGL(I),SIGP1(I),SIGDT1(I),SIG_DTF1(I)
           ENDIF
 #include "lockoff.inc"
-        ENDDO        
-      ENDIF          
+        ENDDO
+      ENDIF
 c-----------------------------------------------
       IF (NINDXF2 > 0) THEN
         DO J=1,NINDXF2
           I = INDXF2(J)
 #include "lockon.inc"
-          WRITE(IOUT, 5000) NGL(I),ILAY,IPT                                    
-          WRITE(ISTDO,5100) NGL(I),ILAY,IPT,TIME                               
+          WRITE(IOUT, 5000) NGL(I),ILAY,IPT
+          WRITE(ISTDO,5100) NGL(I),ILAY,IPT,TIME
           IF (IDEB == 1 .and. ABS(RFLAG(I)) == 1) THEN
             WRITE(IOUT,3600) NGL(I),DADV(I)
             WRITE(IOUT,3800) NGL(I),SIGP2(I),SIGDT2(I),SIG_DTF2(I)
           ENDIF
 #include "lockoff.inc"
-        ENDDO        
-      ENDIF          
+        ENDDO
+      ENDIF
 c-----------------------------------------------
  3000 FORMAT(1X, 'FAILURE INITIALIZATION IN SHELL',I10,1X,' 1ST DIR, LAYER',I2,1X,'INT POINT',I2)
  3100 FORMAT(1X, 'FAILURE INITIALIZATION IN SHELL',I10,1X,' 1ST DIR, LAYER',I2,1X,'INT POINT',I2,

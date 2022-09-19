@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .     SSP(*), PM(NPROPM,*),GEO(NPROPG,*), 
+     .     SSP(*), PM(NPROPM,*),GEO(NPROPG,*),
      .     RHO0(*), VIS(*), DELTAX(*), AIRE(*), VOL(*), DTX(*)
       INTEGER PID(*),MAT(*)
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ) 
+     .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ)
       my_real
      .   QA, QB, CNS1, CNS2
 C-----------------------------------------------
@@ -85,14 +85,14 @@ C=======================================================================
         IF(N2D>0) AL(I)=SQRT(AIRE(I))
       ENDDO
 C
-      DO I=LFT,LLT                                               
-        QA =GEO(14,PID(I))                                       
-        QB =GEO(15,PID(I))                                       
-        CNS1=GEO(16,PID(I))                                      
-        CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)                 
-        QX(I)= (QB+CNS1)*SSP(I)                                  
-     .        +(TWO*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I))) 
-      ENDDO                                                      
+      DO I=LFT,LLT
+        QA =GEO(14,PID(I))
+        QB =GEO(15,PID(I))
+        CNS1=GEO(16,PID(I))
+        CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)
+        QX(I)= (QB+CNS1)*SSP(I)
+     .        +(TWO*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I)))
+      ENDDO
 C
       DO I=LFT,LLT
          DTX(I)=DELTAX(I)/
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .     SSP(*), PM(NPROPM,*),GEO(NPROPG,*), 
+     .     SSP(*), PM(NPROPM,*),GEO(NPROPG,*),
      .     RHO0(*), VIS(*), DELTAX(*), AIRE(*), VOL(*), DTX(*)
       INTEGER PID(*),MAT(*),IGEO(NPROPGI,*)
 C-----------------------------------------------
@@ -140,13 +140,13 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ) 
+     .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ)
       my_real
      .   QA, QB, CNS1, CNS2,FACQ
 C-----------------------------------------------
 C=======================================================================
        FACQ = ONE
-!! qa=qb=zero by default for law70     
+!! qa=qb=zero by default for law70
       IF(IGEO(31,PID(1)) == 1) FACQ = ZERO
       DO I=LFT,LLT
         CX(I)=SSP(I)
@@ -154,14 +154,14 @@ C=======================================================================
         IF(N2D>0) AL(I)=SQRT(AIRE(I))
       ENDDO
 C
-      DO I=LFT,LLT                                               
-        QA =FACQ*GEO(14,PID(I))                                       
-        QB =FACQ*GEO(15,PID(I))                                       
-        CNS1=GEO(16,PID(I))                                      
-        CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)                 
-        QX(I)= (QB+CNS1)*SSP(I)                                  
-     .        +(TWO*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I))) 
-      ENDDO                                                      
+      DO I=LFT,LLT
+        QA =FACQ*GEO(14,PID(I))
+        QB =FACQ*GEO(15,PID(I))
+        CNS1=GEO(16,PID(I))
+        CNS2=GEO(17,PID(I))*SSP(I)*AL(I)*RHO0(I)
+        QX(I)= (QB+CNS1)*SSP(I)
+     .        +(TWO*VIS(I)+CNS2)/(RHO0(I)*MAX(EM20,DELTAX(I)))
+      ENDDO
 C
       DO I=LFT,LLT
          DTX(I)=DELTAX(I)/

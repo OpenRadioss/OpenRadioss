@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*)
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -64,8 +64,8 @@ C-----------------------------------------------
       INTEGER P,J,TOTAL_NODES,NCOUNT,NOD
 C-----------------------------------------------
 
-      IF (ALLOCATED( FAILWAVE%FWAVE_IAD)) DEALLOCATE (FAILWAVE%FWAVE_IAD) 
-      IF (ALLOCATED( FAILWAVE%FWAVE_FR )) DEALLOCATE (FAILWAVE%FWAVE_FR) 
+      IF (ALLOCATED( FAILWAVE%FWAVE_IAD)) DEALLOCATE (FAILWAVE%FWAVE_IAD)
+      IF (ALLOCATED( FAILWAVE%FWAVE_FR )) DEALLOCATE (FAILWAVE%FWAVE_FR)
 
 C count the #boundaries failwave nodes
       ALLOCATE(COUNT(NSPMD))
@@ -87,7 +87,7 @@ C count the #boundaries failwave nodes
       DO P=2,NSPMD+1
          FAILWAVE%FWAVE_IAD(P)=FAILWAVE%FWAVE_IAD(P-1)+COUNT(P-1)
       ENDDO
-      
+
       NCOUNT=0
       DO P=1,NSPMD
          DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
@@ -139,7 +139,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -160,7 +160,7 @@ C MPI  VARIABLES
 
       INTEGER REQ_S1(NSPMD), REQ_S2(NSPMD)
       INTEGER REQ_R1(NSPMD), REQ_R2(NSPMD)
-      
+
       INTEGER, DIMENSION(:), ALLOCATABLE :: SBUFI,RBUFI
       INTEGER, DIMENSION(:), ALLOCATABLE :: SEND_BUF,RECV_BUF
 
@@ -259,7 +259,7 @@ C Prepare & send Stacked informations
 C ---------------------------------------------------------------
       IAD_SEND(1)=1
       IAD_RECV(1)=1
-     
+
       DO I=1,NSPMD
         IAD_SEND(I+1)=IAD_SEND(I)+SEND_SIZ(I)
         IAD_RECV(I+1)=IAD_RECV(I)+RECV_SIZ(I)

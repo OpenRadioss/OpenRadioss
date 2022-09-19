@@ -59,7 +59,7 @@ C-----------------------------------------------
 #include      "nchara_c.inc"
 #include      "nchar_c.inc"
 #include      "state_c.inc"
-#include      "com01_c.inc" 
+#include      "com01_c.inc"
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -68,8 +68,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NBC, K, IKEY, N1, KK, IV2(10), K_STAT, J
-      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey, 
-     .          KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey, CARTE*ncharline, 
+      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, KEY5*ncharkey,
+     .          KEY6*ncharkey,KEY7*ncharkey, KEY8*ncharkey, CARTE*ncharline,
      .          LINE*line120
       LOGICAL BOOL
 C-----------------------------------------------
@@ -88,10 +88,10 @@ C-----------------------------------------------
       IS_STAT_NODE = .FALSE.
       IS_STAT_LSENS = .FALSE.
       IS_STAT_NO_DE = .FALSE.
-      IS_STAT_INIMAP_FILE = .FALSE. 
+      IS_STAT_INIMAP_FILE = .FALSE.
       IS_STAT_INIMAP_VP = .FALSE.
       IS_STAT_INIMAP_VE = .FALSE.
-      
+
       IKEY=KSTATF
 
       TSTAT0 = ZERO
@@ -107,10 +107,10 @@ C-----MX_STAT=20
       ENDDO
       DO I=1,MX_STAT3
         STAT_INIMAP(I) = 0
-      ENDDO      
+      ENDDO
       NSTATPRT=0
       NSTATALL=0
-      
+
       IS_STAT_INIMAP_SINGLE = .TRUE.
       IS_STAT_INIMAP_MSG_ALREADY_DISPLAYED = .FALSE.
 c---
@@ -145,7 +145,7 @@ c---
               ENDDO
             ENDDO ! DO I=2,NBC
             IF(NSTATPRT == 0)THEN
-              CALL ANCMSG(MSGID=289,ANMODE=ANINFO)            
+              CALL ANCMSG(MSGID=289,ANMODE=ANINFO)
               CALL ARRET(0)
             ENDIF
           ENDIF
@@ -174,7 +174,7 @@ c---
               STAT_C(2) = 1
             ELSEIF (KEY3(1:5) == 'EPSP ') THEN
               IF (KEY4(1:5) == 'FULL ') THEN
-                STAT_C(3) = 1	    
+                STAT_C(3) = 1	
               ELSE
                 GOTO 9990
               ENDIF
@@ -231,16 +231,16 @@ c---
               ELSE
                 GOTO 9990
               ENDIF
-            ELSEIF (KEY3(1:5) == 'ORTHO') THEN            
+            ELSEIF (KEY3(1:5) == 'ORTHO') THEN
               IF (KEY4(1:5) == 'GLOBF ') THEN
-                STAT_S(10) = 1 
+                STAT_S(10) = 1
               ELSE
                 STAT_S(7) = 1
               ENDIF
             ELSEIF (KEY3(1:4) == 'FAIL') THEN
-              STAT_S(11) = 1 
+              STAT_S(11) = 1
             ELSEIF (KEY3(1:4) == 'EREF') THEN
-              STAT_S(13) = 1 
+              STAT_S(13) = 1
             ELSE
               GOTO 9990
             ENDIF
@@ -253,7 +253,7 @@ c---
               READ(IUSC2,*,ERR=9990,END=9990)
      .            (LSTATSENS(J),J=1,NVAR(CARTE))
               NSTATSENS=NSTATSENS+NVAR(CARTE)
-            ENDDO 
+            ENDDO
           ELSEIF (KEY2(1:5) == 'NO_DE') THEN
             IS_STAT_NO_DE = .TRUE.
             STAT_C(9) = 1
@@ -269,7 +269,7 @@ c---
               GOTO 9990
             ENDIF
           ELSEIF (KEY2(1:4) == 'BEAM') THEN
-            IS_STAT_BEAM = .TRUE.          
+            IS_STAT_BEAM = .TRUE.
             IF (KEY3(1:4) == 'FULL') THEN
               STAT_P(1) = 1
             ELSEIF (KEY3(1:3) == 'AUX') THEN
@@ -278,14 +278,14 @@ c---
               GOTO 9990
             ENDIF
           ELSEIF (KEY2(1:5) == 'TRUSS') THEN
-            IS_STAT_TRUSS = .TRUE.          
+            IS_STAT_TRUSS = .TRUE.
             IF (KEY3(1:4) == 'FULL') THEN
               STAT_T(1) = 1
             ELSE
               GOTO 9990
             ENDIF
           ELSEIF (KEY2(1:8) == 'INIMAP1D') THEN
-              IS_STAT_INIMAP1D=.TRUE.                      
+              IS_STAT_INIMAP1D=.TRUE.
               STATE_INIMAP_CALL_NUMBER = 0
               STAT_INIMAP(1) = 1
               IF(KEY3(1:5) == 'FILE ')THEN
@@ -293,28 +293,28 @@ c---
                 IS_STAT_INIMAP_FILE = .TRUE.
               ELSEIF(KEY3(1:2) == 'VP')THEN
                 IS_STAT_INIMAP_VP = .TRUE.
-              ELSEIF(KEY3(1:2) == 'VE')THEN              
-                IS_STAT_INIMAP_VE = .TRUE.   
+              ELSEIF(KEY3(1:2) == 'VE')THEN
+                IS_STAT_INIMAP_VE = .TRUE.
               ELSE
                 CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY),C2=LINE(1:35))
-                CALL ARRET(0)                                                               
+                CALL ARRET(0)
               ENDIF
           ELSEIF (KEY2(1:8) == 'INIMAP2D') THEN
-              IS_STAT_INIMAP2D=.TRUE.  
-              STATE_INIMAP_CALL_NUMBER = 0 
-              STAT_INIMAP(1) = 2                      
+              IS_STAT_INIMAP2D=.TRUE.
+              STATE_INIMAP_CALL_NUMBER = 0
+              STAT_INIMAP(1) = 2
               IF(KEY3(1:5) == 'FILE ')THEN
                 STAT_INIMAP(1) = 12
                 IS_STAT_INIMAP_FILE = .TRUE.
               ELSEIF(KEY3(1:2) == 'VP')THEN
                 IS_STAT_INIMAP_VP = .TRUE.
-              ELSEIF(KEY3(1:2) == 'VE')THEN           
-                IS_STAT_INIMAP_VE = .TRUE.                                
+              ELSEIF(KEY3(1:2) == 'VE')THEN
+                IS_STAT_INIMAP_VE = .TRUE.
               ELSE
                 CALL ANCMSG(MSGID=73,ANMODE=ANINFO,C1=KEY0(IKEY),C2=LINE(1:35))
-                CALL ARRET(0)                                                               
-              ENDIF         
-          ENDIF!KEY2 
+                CALL ARRET(0)
+              ENDIF
+          ENDIF!KEY2
         ENDIF !IF (KEY2)
 c
         IF (IKAD(IKEY)+K /= IKAD(IKEY+1)) GOTO 1175
@@ -329,7 +329,7 @@ c
         IF(IS_STAT_NODE)BOOL=.TRUE.
         IF(IS_STAT_LSENS)BOOL=.TRUE.
         IF(IS_STAT_NO_DE)BOOL=.TRUE.
-        
+
         !do not export STATE FILE IF /STATE/INIMAP IS USED AS A SINGLE /STATE OPTION
         IF(BOOL .AND. (IS_STAT_INIMAP2D .OR. IS_STAT_INIMAP1D))THEN
           ! /STATE/INIMAP used with another /STATE/ option (SHELL,BRICK,..)

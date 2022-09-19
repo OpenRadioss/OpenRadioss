@@ -141,7 +141,7 @@ Chd|====================================================================
      y  CONDN    ,CONDNSKY ,KXFENOD2ELC  ,ELCUTC ,NODEDGE,
      z  IAD_EDGE ,CRKNODIAD,FR_EDGE     ,FR_NBEDGE ,NODLEVXF,
      x  CRKEDGE  ,XFEM_TAB   ,ISENSINT  , NISUBMAX,
-     1  STABSEN  ,TABSENSOR,INTLIST25  ,INT24E2EUSE  ,TABMP_L   , 
+     1  STABSEN  ,TABSENSOR,INTLIST25  ,INT24E2EUSE  ,TABMP_L   ,
      2  I87N ,TAB_MAT,H3D_DATA,TAGTRIMC,TAGTRIMTG,
      3  IGRBRIC ,IGRQUAD  ,IGRSH4N  ,IGRSH3N  ,IGRTRUSS   ,
      4  IGRBEAM ,IGRSPRING,IGRPART  ,FORNEQS  ,INT7ITIED ,
@@ -151,17 +151,17 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE PLYXFEM_MOD
-      USE ELBUFDEF_MOD    
-      USE INTBUFDEF_MOD            
+      USE ELBUFDEF_MOD
+      USE INTBUFDEF_MOD
       USE CRACKXFEM_MOD
-      USE ECND_MOD  
+      USE ECND_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
       USE PINCHTYPE_MOD
       USE PBLAST_MOD
-      USE DTDC_MOD  
+      USE DTDC_MOD
       USE INTER_SORTING_MOD
       USE STACK_MOD
       USE OUTMAX_MOD
@@ -191,7 +191,7 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "scr17_c.inc"
 #include      "scr23_c.inc"
-#include      "secur_c.inc" 
+#include      "secur_c.inc"
 #include      "units_c.inc"
 #include      "cong2_c.inc"
 #include      "task_c.inc"
@@ -229,7 +229,7 @@ C-----------------------------------------------
      .        ISLEN20E,R3SIZE,NELEM,LAG_SEC, NGRTH, NFT2,NMRBE2,
      .        INT18KINE,INT24USE,NDAMA2, NRBYKIN_L,IOLDSECT,LBUFIDEL24,
      .        TABMP_L,TAGTRIMC(*),TAGTRIMTG(*), SLLOADP
-      INTEGER 
+      INTEGER
      .        IXS(NIXS,*),IXS10(6,*) ,IXS20(12,*),IADS10(6,*),
      .        IADS20(12,*),IXS16(6,*) ,IADS16(12,*), IGEO(NPROPGI,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -248,7 +248,7 @@ C-----------------------------------------------
      .        IFLOW(*), ADDCNEL(0:*), CNEL(0:*), ADDTMPL(0:*),
      .        IPM(NPROPMI,*), SH4TREE(*), IPADMESH(*), SH3TREE(*),
      .        SH4TRIM(*), SH3TRIM(*), NISKYFIE(*),IRBE3(NRBE3L,*),
-     .        ICODT(*), ICODR(*),IBFV(NIFV,*),  
+     .        ICODT(*), ICODR(*),IBFV(NIFV,*),
      .        INOD_PXFEM(*),IEL_PXFEM(*) ,IADC_PXFEM(4,*),ELCUTC(2,*),
      .        ADSKY_PXFEM(*), KXFENOD2ELC(*),NODLEVXF(*),CRKNODIAD(*),
      .        NODEDGE(*),IAD_EDGE(*),FR_EDGE(*),FR_NBEDGE(*),
@@ -269,7 +269,7 @@ C-----------------------------------------------
      .        TABSENSOR(STABSEN), INTLIST25(NINTER25) ,INT24E2EUSE ,FXVEL_FGEO,
      .        TAGSLV_RBY(NUMNOD)
 !     INT7ITIED : check if an interface type 7 with ITIED /= 0 is used
-!                 in order to force the communication of a list of candidate nodes 
+!                 in order to force the communication of a list of candidate nodes
 !                 INT7ITIED = 0 type 7 + ITIED/=0 not used
 !                 INT7ITIED = 1 type 7 + ITIED/=0 used
       INTEGER, INTENT(INOUT) :: INT7ITIED
@@ -279,7 +279,7 @@ C-----------------------------------------------
      .   FANI(3,*), UWA(*), STIFN(*),  STIFR(*),
      .   ANIN(*), FSKY(*),PARTSAV(NPSAV,*),PARTS0(*),
      .   DMAS, DINER     , FSKYM(*),
-     .   PM(NPROPM,*)    , GEO(NPROPG,*), 
+     .   PM(NPROPM,*)    , GEO(NPROPG,*),
      .   VISCN(*),
      .   SECBUF(*),SECFCUM(7,NUMNOD,NSECT),XFRAME(NXFRAME,*),
      .   ELBUF(*), MSC(*), INC(*), MSTG(*), INTG(*), PTG(*),
@@ -290,11 +290,11 @@ C-----------------------------------------------
      .   DMSPH(*),CONDN(*),CONDNSKY ,TAB_MAT(NGROUP),FORNEQS(3,*)
       my_real
      .   FXBFP(*), FXBEFW(*), FXBEDP(*), FXBGRP(*), FXBGRW(*),IN0(*)
-      INTEGER*8 
+      INTEGER*8
      .  I8A(3,3,*),I8AR(3,3,*),I8STIFN(3,*),I8STIFR(3,*),
      .  I8VISCN(3,*)
 C
-      DOUBLE PRECISION XDP(3,*)     
+      DOUBLE PRECISION XDP(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
@@ -312,7 +312,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRPART) :: IGRPART
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
       TYPE (NLOCAL_STR_)   ,TARGET :: NLOC_DMG
       TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
       TYPE (STACK_PLY) :: STACK
@@ -331,9 +331,9 @@ C-----------------------------------------------
       CHARACTER ZONE*5
       INTEGER VALUES(8)
 C=======================================================================
-       IDUM = 0 
+       IDUM = 0
        RDUM = ZERO
-       ISECTR = 0         
+       ISECTR = 0
 C-----------------------------------------------
 C-----------------------------------------------
 C //
@@ -354,7 +354,7 @@ C
 C initialisation tableau de noeuds pour forces de reaction
 C
         CPTREAC = 0
-        IF (IREAC == 1 ) 
+        IF (IREAC == 1 )
      .      CALL INIT_REAC_NOD(CPTREAC,NODREAC,NTHGRP,ITHGRP,ITHBUF)
 C
 C initialisation tableau d elements pour TH de GROUPE D ELEMENTS
@@ -383,13 +383,13 @@ C
         ELSE
           R3SIZE = 10
         ENDIF
- 
+
 C---------RBE2----        
         IROTG=0
-        DO I=1,NRBE2 
-                IC = IRBE2(4,I)     
+        DO I=1,NRBE2
+                IC = IRBE2(4,I)
          ICR=(IC-512*(IC/512))/64
-         IROTG=MAX(IROTG,ICR)   
+         IROTG=MAX(IROTG,ICR)
                IF (IRBE2(11,I)==0) IROTG =1
         ENDDO
         CALL SPMD_MAX_I(IROTG)
@@ -427,7 +427,7 @@ C
      4       IXS16      ,IXTG1     ,GEO       ,ADDCNEL     ,CNEL      ,
      5       ADDTMPL    ,IPARG     )
         ENDIF
-     
+
 C                               
         IF (IRAD2R /= 0) THEN
           CALL R2R_INIT(IEXLNK ,ITAB,IGRNOD,X       ,
@@ -526,9 +526,9 @@ C----------------------------
 C---------------------------- 
         IF (ISPMD==0)THEN
           CALL DATE_AND_TIME(STARTDATE, STARTTIME, ZONE, VALUES)
-          WRITE(ISTDO,'(A,I2.2,A,I2.2,A,I4.4)') 
+          WRITE(ISTDO,'(A,I2.2,A,I2.2,A,I4.4)')
      *     ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
-          WRITE(IOUT,'(A,I2.2,A,I2.2,A,I4.4)') 
+          WRITE(IOUT,'(A,I2.2,A,I2.2,A,I4.4)')
      *     ' ',VALUES(3),'/',VALUES(2),'/',VALUES(1)
         END IF
 C
@@ -645,14 +645,14 @@ C----------------------------------------------------------
 C-----------------------------------------------------
 C   Calcul SQRT H1, H2, H3 pour elements coques
 C-----------------------------------------------------
-        DO I = 1, NUMGEO      
-          IGTYP = IGEO(11,I)  
-          IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN  
-            GEO(18,I) = SQRT(GEO(13,I))                        
-            GEO(19,I) = SQRT(GEO(14,I))                        
-            GEO(20,I) = SQRT(GEO(15,I))                        
-          ENDIF                                                
-        ENDDO                                                  
+        DO I = 1, NUMGEO
+          IGTYP = IGEO(11,I)
+          IF(IGTYP==1.OR.(IGTYP>=9 .AND. IGTYP<=11).OR.IGTYP==16) THEN
+            GEO(18,I) = SQRT(GEO(13,I))
+            GEO(19,I) = SQRT(GEO(14,I))
+            GEO(20,I) = SQRT(GEO(15,I))
+          ENDIF
+        ENDDO
 C-----------------------------------------------------
 C   Calcul optionel SQRT(G), SQRT(A11) SQRT(A12), SQRT(NU), SQRT(SHF) pour ancien restart
 C-----------------------------------------------------
@@ -681,7 +681,7 @@ C----------------------------------------------------------
              FXBGRW(I)=ZERO
              FXBEDP(I)=ZERO
           ENDDO
-       ENDIF          
+       ENDIF
 C----------------------------------------------------------
 C   LONGUEUR DES TABLEAUX DE TRAVAIL POUR AIRBAG BEM
 C----------------------------------------------------------
@@ -782,7 +782,7 @@ C-----------------------
 !         !NBRIC_L = IGRN(2, IPARI(45,I) )
 !         IF(IPARI(7,I)==22)THEN
 !           II=II+1
-!           J = MAX( J , IGRN(2,IPARI(45,I)) )     
+!           J = MAX( J , IGRN(2,IPARI(45,I)) )
 !         END IF
 !      ENDDO
 !      INT22  = II  !number of int22 interfaces.
@@ -811,7 +811,7 @@ C-----------------------
 C-----------------------
 C SENSOR INTERFACE
 C-----------------------
-      IF (STABSEN /= 0) THEN 
+      IF (STABSEN /= 0) THEN
         DO N=1,NINTER
           NISUB =IPARI(36,N)
           ISENSINT(1,N) = TABSENSOR(N+1 + NSECT) - TABSENSOR(N + NSECT)
@@ -861,7 +861,7 @@ C
 C--- // --------------------------------------
 C         INITIALISATION DES FORCES ET MOMENTS
 C---------------------------------------------
-      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0) 
+      IF(NINTER/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)
      .               CALL ZEROR(FANI(1,NODFT),NUMNTHREAD)
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0) THEN
         CALL ZEROR(FANI(1,NFNCA+NODFT),NUMNTHREAD)
@@ -913,7 +913,7 @@ C
 C
            IF(ITHERM_FE > 0) THEN
               CALL ZERO1(FTHE(NDTASK),NUMNOD)
-           ENDIF  
+           ENDIF
 C
           IF(SOL2SPH_FLAG/=0)THEN
             CALL ZERO1(DMSPH(NDTASK),NUMNOD)
@@ -921,21 +921,21 @@ C
 
           IF(NODADT_THERM > 0) THEN
              CALL ZERO1(CONDN(NDTASK),NUMNOD)
-          ENDIF  
+          ENDIF
 C  
           IF(NPINCH > 0) THEN
             CALL ZEROR(PINCH_DATA%APINCH(1,NDTASK),NPINCH)
             DO I=NDTASK,NDTASK+NUMNOD-1
               PINCH_DATA%STIFPINCH(I)=EM20
             ENDDO
-          ENDIF   
+          ENDIF
         ELSE    ! IPARIT>0
           CALL ZEROR(A(1,NODFT),NUMNTHREAD)
           IF(IRODDL/=0)CALL ZEROR(AR(1,NODFT),NUMNTHREAD)
           DO I=NODFT,NODLT
             STIFN(I)=EM20
           ENDDO
-          IF(IRODDL/=0)THEN 
+          IF(IRODDL/=0)THEN
             DO I=NODFT,NODLT
               STIFR(I)=EM20
             ENDDO
@@ -946,7 +946,7 @@ C
 C
           IF(ITHERM_FE > 0  ) THEN
             CALL ZERO1(FTHE(NODFT),NUMNTHREAD)
-          ENDIF 
+          ENDIF
 C
           IF(NSPHSOL/=0)THEN
             CALL ZERO1(DMSPH(NODFT),NUMNTHREAD)
@@ -954,7 +954,7 @@ C
 
           IF(NODADT_THERM > 0) THEN
              CALL ZERO1(CONDN(NODFT),NUMNTHREAD)
-          ENDIF  
+          ENDIF
 C
           IF(NPINCH > 0) THEN
             CALL ZEROR(PINCH_DATA%APINCH(1,NODFT),NUMNTHREAD)
@@ -1084,7 +1084,7 @@ C
 C
        END IF
 C
-      IF(ITASK == 0) THEN 
+      IF(ITASK == 0) THEN
        NISKY_SMS=0
 C enforce sorting contacts
       KFORSMS=0
@@ -1115,15 +1115,15 @@ C-----------------------
             ALLOCATE (IAD_CNDS(0),FR_CNDS(0))
           END IF
 
-          CALL CNDMASI2_DIM(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,NKEND) 
+          CALL CNDMASI2_DIM(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,NKEND)
             IF(NKEND>0) THEN
               ALLOCATE (IMAP2ND(NKEND),MASI2ND0(NKEND))
               CALL CNDMASI2_INI(IPARI,INTBUF_TAB,ICNDS10,ITAGND,
-     .                    NKEND,IMAP2ND,MASI2ND0,MS0,WEIGHT, itab ) 
+     .                    NKEND,IMAP2ND,MASI2ND0,MS0,WEIGHT, itab )
           IF(MCHECK>0) NKEND = -NKEND
         END IF
         CALL S10CNDI2_INI(IPARI,INTBUF_TAB,ICNDS10,ITAGND,WEIGHT,
-     .                   FR_CNDS,IAD_CNDS,itab ) 
+     .                   FR_CNDS,IAD_CNDS,itab )
         CALL S10CND_INI(ICNDS10,ITAGND,IAD_CNDM,FR_CNDM,FR_NBCCCND,
      1                 ADDCNCND,PROCNCND,VND   ,V    ,ITAB ,
      2                 IAD_CNDM1,FR_CNDM1,FR_NBCCCND1)
@@ -1156,8 +1156,8 @@ C
 C-----------------------
 C DT_DC OF TSH
 C-----------------------
-       NTSHEG =0       
-       NTSHEGG =0       
+       NTSHEG =0
+       NTSHEGG =0
        IF (IDTTSH>0) CALL DIM_TSHEDG(ELBUF_TAB  ,NTSHEG, IXS ,IPARG )
        IF(NSPMD>1) THEN
          NTSHEGG = NTSHEG
@@ -1222,7 +1222,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,*),IGEO(NPROPGI,*)
       my_real PM(NPROPM,*),GEO(NPROPG,*)
       my_real TAB_MAT(NGROUP)
-!     tab_mat_prop 
+!     tab_mat_prop
 !                 1 : shell
 !                 2 : tri
 !           3 --> 9 : solid
@@ -1282,7 +1282,7 @@ C
          IF(ITY==3.OR.ITY==7)THEN
            NGROUC = NGROUC + 1
            IGROUC(NGROUC)=NG
-           IF(ITY==3) THEN  
+           IF(ITY==3) THEN
             N_SHELL = N_SHELL + 1
             NFT   = IPARG(3,NG)+1
             MID = IXC(1,NFT)
@@ -1351,7 +1351,7 @@ C
             TAB_SOL_LOC(N_SOL(INDI),4,INDI) = PID
             TAB_SOL_LOC(N_SOL(INDI),5,INDI) = NGROUNC
 
-            MID_SOL(MID,INDI) = MID_SOL(MID,INDI) + 1 
+            MID_SOL(MID,INDI) = MID_SOL(MID,INDI) + 1
             POIN_GROUP_MID_SOL(N_SOL(INDI),INDI) = MID
             POIN_GROUP_PID_SOL(N_SOL(INDI),INDI) = PID
 
@@ -1375,10 +1375,10 @@ C
                 II = TAB_SHELL_LOC(I,5)
                 JJ = TAB_SHELL_LOC(J,2)
                 IGROUC(II) = JJ
-        ENDDO        
- 
+        ENDDO
+
         DEALLOCATE( TAB_LOC )
-       ENDIF ! N_SHELL>0 
+       ENDIF ! N_SHELL>0
 ! -------------------------
        IF(N_TRI>0) THEN
 
@@ -1397,9 +1397,9 @@ C
                 JJ = TAB_TRI_LOC(J,2)
                 IGROUC(II) = JJ
         ENDDO
- 
+
         DEALLOCATE( TAB_LOC )
-       ENDIF ! N_TRI>0 
+       ENDIF ! N_TRI>0
 ! -------------------------
        DO INDI=1,7
         IF(N_SOL(INDI)>0) THEN
@@ -1419,9 +1419,9 @@ C
                         JJ = TAB_SOL_LOC(J,2,INDI)
                         IGROUNC(II) = JJ
                 ENDDO
- 
+
                 DEALLOCATE( TAB_LOC )
-        ENDIF ! N_SOL>0 
+        ENDIF ! N_SOL>0
        ENDDO
 ! -------------------------
 
@@ -1603,7 +1603,7 @@ C
       IGMTSK = 1 + ITSK*NPSAV*NGPE
       GREFTSK = 1+ITSK*NPSAV*NGPE/ NTHREAD
       GRELTSK = (ITSK+1)*NPSAV*NGPE/NTHREAD
-c     NWALTSK = (ITSK+1)*LENWA_T     
+c     NWALTSK = (ITSK+1)*LENWA_T
 c     LOUT = ISPMD==0.AND.ITSK==0
 C
       RETURN
@@ -1670,7 +1670,7 @@ C-------------------------------------------
        K=K+NSN
       ENDDO
 C-------------------------------------------
-      DO N=1,NRBYLAG 
+      DO N=1,NRBYLAG
         NSN = NPBY(2,N)
         DO I=1,NSN
           J=LPBY(K+I)

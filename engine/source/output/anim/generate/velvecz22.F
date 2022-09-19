@@ -44,9 +44,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD  
-      USE I22BUFBRIC_MOD   
-      USE I22EDGE_MOD    
+      USE ELBUFDEF_MOD
+      USE I22BUFBRIC_MOD
+      USE I22EDGE_MOD
       USE I22TRI_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: ITAB(NUMNOD),IFLG
       my_real, INTENT(INOUT) :: X(3,NUMNOD)
       REAL R4
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (GROUP_)  , DIMENSION(NGRNOD) :: IGRNOD
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
@@ -91,60 +91,60 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   C o d e
 C----------------------------------------------- 
-       !---------------------------------------------------------!                 
-       NBF         = 1                                                                                                                                       
-       NBL         = NB                                                                                                                                                   
+       !---------------------------------------------------------!
+       NBF         = 1
+       NBL         = NB
        ALLOCATE(BUFFER(3,NUMNOD))
-       BUFFER(:,:) = ZERO  
-       !---------------------------------------------------------!  
-       
+       BUFFER(:,:) = ZERO
+       !---------------------------------------------------------!
+
        lStillNode = .TRUE.
        IGR         = IPARI(82,NIN)
        NNODES      = IGRNOD(IGR)%NENTITY
        IF(NNODES==0)RETURN
        II          = 1  ! start with the first node of the group
-       DO IB=NBF,NBL    
+       DO IB=NBF,NBL
          IE                    = BRICK_LIST(NIN,IB)%ID
-         ICELL                 =  0                                                                
-         NCELL                 = BRICK_LIST(NIN,IB)%NBCUT                                                                                                          
-         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
-           ICELL               = ICELL +1                                                                                                                        
-           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9   
+         ICELL                 =  0
+         NCELL                 = BRICK_LIST(NIN,IB)%NBCUT
+         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
+           ICELL               = ICELL +1
+           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
            IF(.NOT.lStillNode) CYCLE
-          ! nFACE               = BRICK_LIST(NIN,IB)%NFACE_Cell(ICELL)                                                                               
+          ! nFACE               = BRICK_LIST(NIN,IB)%NFACE_Cell(ICELL)
            DO J=1, 6
              IF(II>NNODES)THEN
-               lStillNode  = .FALSE. 
-               print *, "** Warning inter22 : no more node in group to mark cell center"  
-               EXIT                                                                                   
-             ENDIF  
+               lStillNode  = .FALSE.
+               print *, "** Warning inter22 : no more node in group to mark cell center"
+               EXIT
+             ENDIF
              NODE_ID           = IGRNOD(IGR)%ENTITY(II)
              IF(IFLG==1)THEN
                !velocity at faces
-               BUFFER(1,NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(1)                                                                             
-               BUFFER(2,NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(2)   
-               BUFFER(3,NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(3)  
+               BUFFER(1,NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(1)
+               BUFFER(2,NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(2)
+               BUFFER(3,NODE_ID) = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(3)
              ELSEIF(IFLG==2)THEN
                !internal forces at face int(P.dS)
-               BUFFER(1,NODE_ID) = -BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%F_FACE(1)                                                                             
-               BUFFER(2,NODE_ID) = -BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%F_FACE(2)  
-               BUFFER(3,NODE_ID) = -BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%F_FACE(3) 
+               BUFFER(1,NODE_ID) = -BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%F_FACE(1)
+               BUFFER(2,NODE_ID) = -BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%F_FACE(2)
+               BUFFER(3,NODE_ID) = -BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%F_FACE(3)
              ELSE
-               BUFFER(1,NODE_ID) = ZERO                                                                             
+               BUFFER(1,NODE_ID) = ZERO
                BUFFER(2,NODE_ID) = ZERO
                BUFFER(3,NODE_ID) = ZERO
-             ENDIF               
-             II                = II + 1 !next node  
-           ENDDO             
-         ENDDO !next ICELL          
+             ENDIF
+             II                = II + 1 !next node
+           ENDDO
+         ENDDO !next ICELL
        ENDDO!next IB
-       
+
        DO II=1,NNODES
          NODE_ID = IGRNOD(IGR)%ENTITY(II)
          X(1:3,NODE_ID) = ZERO
        ENDDO
-        
-       DO I=1,NUMNOD   
+
+       DO I=1,NUMNOD
          R4 = BUFFER(1,I)
          CALL WRITE_R_C(R4,1)
          R4 = BUFFER(2,I)
@@ -152,9 +152,9 @@ C-----------------------------------------------
          R4 = BUFFER(3,I)
          CALL WRITE_R_C(R4,1)
        ENDDO!next I
-          
-       DEALLOCATE(BUFFER)  
-        
+
+       DEALLOCATE(BUFFER)
+
 C----------------------------------------------- 
       RETURN
       END

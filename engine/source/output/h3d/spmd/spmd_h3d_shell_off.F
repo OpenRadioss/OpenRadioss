@@ -32,7 +32,7 @@ Chd|====================================================================
 C----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER OFFSET,ITY,MLW,NEL,NFT,ISOLNOD,NG,I,ILEV,ISEATBELT
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 
       DO NG=1,NGROUP
@@ -74,11 +74,11 @@ C
         IF (ITY == 7) OFFSET = NUMELC
 c
         IF(ITY == 3 .OR. ITY == 7)THEN
-          DO I=1,NEL 
+          DO I=1,NEL
             IF (ITY == 3) THEN
               ID_ELEM(OFFSET+NFT+I) = IXC(NIXC,NFT+I)
               ITY_ELEM(OFFSET+NFT+I) = 3
-            ELSEIF (ITY == 7) THEN 
+            ELSEIF (ITY == 7) THEN
               ID_ELEM(OFFSET+NFT+I) = IXTG(NIXTG,NFT+I)
               ITY_ELEM(OFFSET+NFT+I) = 7
             ENDIF

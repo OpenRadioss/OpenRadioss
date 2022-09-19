@@ -52,10 +52,10 @@ C-----------------------------------------------
 C
           IRX = 0
           IRY = 0
-          IRZ = 0 
+          IRZ = 0
           ITX = 0
           ITY = 0
-          ITZ = 0        
+          ITZ = 0
           NSL = IRBYM(2,M)
           DO  I=1, NSL
             N = LNRBYM(NSLT + I)
@@ -72,8 +72,8 @@ C rotation bcs
                  IF(LCOD == 4 .OR. LCOD == 5 .OR. LCOD == 6) IRX = 4
                  IF(LCOD == 2 .OR. LCOD == 3 .OR. LCOD == 6) IRY = 2
                  IF(LCOD == 1 .OR. LCOD == 3 .OR. LCOD == 5) IRZ = 1
-               ENDIF  
-            ENDIF          
+               ENDIF
+            ENDIF
 C translation
             LCOD = ICODT(N)
             IF(LCOD > 0) THEN
@@ -87,16 +87,16 @@ C translation
                  IF(LCOD == 4 .OR. LCOD == 5 .OR. LCOD == 6) ITX = 4
                  IF(LCOD == 2 .OR. LCOD == 3 .OR. LCOD == 6) ITY = 2
                  IF(LCOD == 1 .OR. LCOD == 3 .OR. LCOD == 5) ITZ = 1
-               ENDIF 
-            ENDIF 
-          ENDDO 
+               ENDIF
+            ENDIF
+          ENDDO
 C rotation       
            LCOD = IRX + IRY + IRZ
            ICODRBYM(1,M) = LCOD
 C C translation          
            LCOD = ITX + ITY + ITZ
            ICODRBYM(2,M) = LCOD
-          NSLT =    NSLT +  NSL   
+          NSLT =    NSLT +  NSL
       ENDDO
 C
       RETURN

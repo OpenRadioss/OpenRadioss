@@ -68,11 +68,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, LENBUF(2,NSPMD), NDF, NDM, IR, IC, IPROC, IFILE, LEN,
      .        IREC, IKC, NR, LENM, LENV, LENMR, LENVR, IADM(NSPMD+1),
-     .        IADV(NSPMD+1), IADMC(NSPMD), IADVC(NSPMD), 
+     .        IADV(NSPMD+1), IADMC(NSPMD), IADVC(NSPMD),
      .        IADMR(NSPMD+1), IADVR(NSPMD+1), IAD1, J, NNRP, NNCP,
      .        JJ, IMC, ICTXT, DESC_K(9), DESC_S(9), INFFAC, NRHS,
      .        INFRES, NDEPL, MAXNCV, ISTOP, IMDIAG, NIB, DESC_M(9),
-     .        NBLF0, NVD0, INOPRI, NEV, NCV, N, MAXN, MAXNEV, LDV, 
+     .        NBLF0, NVD0, INOPRI, NEV, NCV, N, MAXN, MAXNEV, LDV,
      .        ISHFTS, MODE, INFO, NUV, IDBL, IDF, LENBUFR(2,NSPMD),
      .        II
       my_real
@@ -87,7 +87,7 @@ C-----------------------------------------------
      .                                        VECT, V, RIGIS, FREQ, VV
 C
       INTEGER MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
       DATA MSGOFF2 /300000/
       DATA MSGOFF3 /400000/
       DATA MSGOFF4 /500000/
@@ -196,8 +196,8 @@ C
          ENDDO
       ENDDO
       CALL SPMD_DS_MEXCH(RIGI, NNRP,  IMEXCH, KEXCH, MSGOFF2,
-     .                   IADM, IADMR, LENM  ) 
-      DEALLOCATE(KEXCH)      
+     .                   IADM, IADMR, LENM  )
+      DEALLOCATE(KEXCH)
 C
       IF (IOPT==1) THEN
          DEALLOCATE(IMEXCH)
@@ -274,7 +274,7 @@ C
             ENDDO
          ENDDO
          CALL SPMD_DS_MEXCH(MASS, NNRP,  IMEXCH, MEXCH, MSGOFF4,
-     .                      IADM, IADMR, LENM  ) 
+     .                      IADM, IADMR, LENM  )
          DEALLOCATE(MEXCH, IMEXCH)
       ENDIF
 C Initialisation de la process grid
@@ -376,7 +376,7 @@ C
 #else
             CALL DSEIGP(N,       NEV,    NCV,    WHICH,  INFO,
      .                  MAXN,    MAXNEV, MAXNCV, LDV,    ISHFTS,
-     .                  MAXITR,  MODE,   TOL,    RIGIS,  MASS, 
+     .                  MAXITR,  MODE,   TOL,    RIGIS,  MASS,
      .                  FREQ,    VECT,   IPRI,   TSHIFT, DESC_K,
      .                  DESC_M,  NNRP,   ICTXT,  DSNROW, DSNCOL,
      .                  DSNBLOC)
@@ -457,7 +457,7 @@ C Redescente des deplacements
 C
       ALLOCATE(VV(NDDLC,NDEPL))
       CALL SPMD_DS_VDESC(V,       NDEPL, VV, NDDLC, NNRP,
-     .                   MSGOFF5) 
+     .                   MSGOFF5)
 C
       DO I=1,NDF
          II=PGRAPH%IPROW(3,I)
@@ -538,7 +538,7 @@ C-----------------------------------------------
      .       , DIMENSION(:,:), ALLOCATABLE :: FEXCH
 C
       INTEGER MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
       DATA MSGOFF2 /300000/
       DATA MSGOFF3 /400000/
       DATA MSGOFF4 /500000/
@@ -563,7 +563,7 @@ C
          IPROC=DSNCOL*(IR-1)+1
          LENBUF(2,IPROC)=LENBUF(2,IPROC)+1
       ENDDO
-      
+
       CALL SPMD_DS_IEXCH(LENBUF, LENBUFR, 2, MSGOFF)
 C
       IF (ISPMD==0.AND.IPMESS/=0) THEN
@@ -646,7 +646,7 @@ C
             ENDDO
          ENDDO
          CALL SPMD_DS_MEXCH(RIGI, NNRP,  IMEXCH, KEXCH, MSGOFF2,
-     .                      IADM, IADMR, LENM  ) 
+     .                      IADM, IADMR, LENM  )
          DEALLOCATE(KEXCH, IMEXCH)
       ENDIF
 C
@@ -732,7 +732,7 @@ C
 C Redescente des deplacements
 C
       CALL SPMD_DS_VDESC(V,       NDEPL, VV, NDDLC, NNRP,
-     .                   MSGOFF5) 
+     .                   MSGOFF5)
 C
       DO I=1,NDF
          II=PGRAPH%IPROW(3,I)
@@ -766,8 +766,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NLOC, N
       my_real
-     .        KLS(NLOC,*), KL(NLOC,*), ML(NLOC,*), SHIFT      
-     
+     .        KLS(NLOC,*), KL(NLOC,*), ML(NLOC,*), SHIFT
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -823,7 +823,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, LENBUF(2,NSPMD), NDF, NDM, IR, J, IC, IPROC, 
+      INTEGER I, LENBUF(2,NSPMD), NDF, NDM, IR, J, IC, IPROC,
      .        IFILE, LEN, IREC, IKC, NR, LENM, LENV, LENMR,LENVR,
      .        IADM(NSPMD+1), IADMC(NSPMD), IADMR(NSPMD+1),
      .        IAD1, NNRP, NNCP, IMC, DESC_K(9), DESC_KG(9), DESC_OP(9),
@@ -837,11 +837,11 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: KL, KEXCH, KGL, MEXCH
       my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: RIGI, RIGIG, OP, V, VAL, 
+     .       , DIMENSION(:,:), ALLOCATABLE :: RIGI, RIGIG, OP, V, VAL,
      .                                        VV
 C
       INTEGER MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
       DATA MSGOFF2 /300000/
       DATA MSGOFF3 /400000/
       DATA MSGOFF4 /500000/
@@ -940,8 +940,8 @@ C
          ENDDO
       ENDDO
       CALL SPMD_DS_MEXCH(RIGI, NNRP,  IMEXCH, KEXCH, MSGOFF2,
-     .                   IADM, IADMR, LENM  ) 
-      DEALLOCATE(KEXCH)      
+     .                   IADM, IADMR, LENM  )
+      DEALLOCATE(KEXCH)
 C Chargement de la matrice de rigidite geometrique
       ALLOCATE(KGL(LEN))
       IREC=PGRAPH%DGRAPH(1)%MREC
@@ -989,7 +989,7 @@ C
          ENDDO
       ENDDO
       CALL SPMD_DS_MEXCH(RIGIG, NNRP,  IMEXCH, MEXCH, MSGOFF4,
-     .                   IADM, IADMR, LENM  ) 
+     .                   IADM, IADMR, LENM  )
       DEALLOCATE(MEXCH, IMEXCH)
 C Initialisation de la process grid
       CALL SL_INIT(ICTXT, DSNROW, DSNCOL)
@@ -1055,18 +1055,18 @@ C
 #else
       CALL DSBUCKP(N,       NEV,    NCV,     WHICH,  INFO,
      .             MAXN,    MAXNEV, MAXNCV,  LDV,    ISHFTS,
-     .             MAXITR,  MODE,   TOL,     OP,     RIGI, 
-     .             RIGIG,   VAL,    V,       IPRI,   SHIFT, 
-     .             DESC_OP, DESC_K, DESC_KG, NNRP,   ICTXT, 
+     .             MAXITR,  MODE,   TOL,     OP,     RIGI,
+     .             RIGIG,   VAL,    V,       IPRI,   SHIFT,
+     .             DESC_OP, DESC_K, DESC_KG, NNRP,   ICTXT,
      .             DSNROW,  DSNCOL, DSNBLOC)
 #endif
       DO I=1,NBUCK
          EIG(I,1)=VAL(I,1)
          EIG(I,2)=VAL(I,2)
-      ENDDO   
+      ENDDO
       IF (ISPMD==0) THEN
          WRITE(IOUT,*)
-         WRITE(IOUT,'(A6,1PG11.4,A35,I10)') 
+         WRITE(IOUT,'(A6,1PG11.4,A35,I10)')
      .    'SHIFT ',SHIFT,' NUMBER OF BUCKLING CRITICAL LOADS ',NBUCK
          WRITE(IOUT,'(A)') ' CRITICAL LOADS:'
          WRITE(IOUT,'(A)') '         NUMBER  CRITICAL LOAD'
@@ -1074,14 +1074,14 @@ C
             WRITE(IOUT,'(5X,I10,4X,1PG11.4)') I,EIG(I,1)
          ENDDO
          WRITE(IOUT,*)
-      ENDIF 
+      ENDIF
       NDEPL=NBUCK
 C
 C Redescente des deplacements
 C
       ALLOCATE(VV(NDDLC,NDEPL))
       CALL SPMD_DS_VDESC(V,       NDEPL, VV, NDDLC, NNRP,
-     .                   MSGOFF5) 
+     .                   MSGOFF5)
 C
       DO I=1,NDF
          II=PGRAPH%IPROW(3,I)
@@ -1103,4 +1103,4 @@ C
 #endif
       RETURN
       END
-            
+

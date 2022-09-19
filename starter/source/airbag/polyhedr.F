@@ -39,7 +39,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPPMAX, IPOLY(6+NPPMAX,*), POLB(*), NPOLB, NPHMAX, 
+      INTEGER NPPMAX, IPOLY(6+NPPMAX,*), POLB(*), NPOLB, NPHMAX,
      .        POLH(NPHMAX+2,*),NPOLH, NRPMAX, IBRIC, INFO, NPOLHMAX
       my_real
      .        RPOLY(NRPMAX,*), LMIN

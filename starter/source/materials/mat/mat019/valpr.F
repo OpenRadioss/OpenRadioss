@@ -48,7 +48,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RANGE, ANORM, ANRMX, THR, X, Y, SINX, SINX2, COSX, COSX2,
-     .   SINCS   
+     .   SINCS
       RANGE = 1.0E-7
       IF (MV/=1)THEN
         IQ = -N

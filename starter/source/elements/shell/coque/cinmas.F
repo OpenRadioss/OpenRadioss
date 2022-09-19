@@ -49,18 +49,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c___________________________________________________          
+c___________________________________________________
       double precision
      .    R8_LOCAL,R8_DEUXP43,AA
       INTEGER*8 I8_DEUXP43
       DATA I8_DEUXP43 /'80000000000'x/
       DATA R8_DEUXP43 /'42A0000000000000'x/
       INTEGER I
-c___________________________________________________          
+c___________________________________________________
 C-----------------------------------------------
 C
       DO I=JFT,JLT
-c___________________________________________________          
+c___________________________________________________
           I8F(1,I)   = R8(I)
           AA         = I8F(1,I)
           R8_LOCAL   = (R8(I)    - AA) * R8_DEUXP43
@@ -69,7 +69,7 @@ c___________________________________________________
           R8_LOCAL   = (R8_LOCAL - AA) * R8_DEUXP43
           I8F(3,I)   = R8_LOCAL + HALF
       ENDDO
-c___________________________________________________          
+c___________________________________________________
       RETURN
       END
 C
@@ -91,10 +91,10 @@ Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|====================================================================
       SUBROUTINE CINMAS(
      .          X       ,XREFC   ,IX      ,GEO      ,PM       ,
-     .          MS      ,TINER   ,THKE    ,IHBE     ,PARTSAV  ,     
-     .          V       ,IPART   ,MSC     ,INC      ,AREA     ,         
-     .          I8MI    ,IGEO    ,ETNOD   ,IMID     ,IPROP    ,           
-     .          NSHNOD  ,STC     ,SH4TREE ,MCP      ,MCPS     ,         
+     .          MS      ,TINER   ,THKE    ,IHBE     ,PARTSAV  ,
+     .          V       ,IPART   ,MSC     ,INC      ,AREA     ,
+     .          I8MI    ,IGEO    ,ETNOD   ,IMID     ,IPROP    ,
+     .          NSHNOD  ,STC     ,SH4TREE ,MCP      ,MCPS     ,
      .          TEMP    ,MS_LAYER,ZI_LAYER,MS_LAYERC,ZI_LAYERC,
      .          MSZ2C   ,ZPLY    ,ISUBSTACK,NLAY    ,ELBUF_STR,
      .          STACK   ,THKI    ,RNOISE   ,DRAPE   ,
@@ -139,7 +139,7 @@ C-----------------------------------------------
      .        IGEO(NPROPGI,*),NSHNOD(*), SH4TREE(KSH4TREE,*),
      .        ISUBSTACK,NLAY,PERTURB(NPERTURB)
       INTEGER, DIMENSION(MVSIZ), INTENT(IN)  :: IX1,IX2,IX3,IX4
-      INTEGER*8 I8MI(6,*) 
+      INTEGER*8 I8MI(6,*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: AREA
       my_real
      .   X(3,*), GEO(NPROPG,*), PM(NPROPM,*), MS(*), TINER(*),THKE(*),
@@ -154,16 +154,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,II,J,K,N,IP,I1,I2,I3,I4,MATLY,IPTHK,IPMAT,IPPOS,ID,   
+      INTEGER I,II,J,K,N,IP,I1,I2,I3,I4,MATLY,IPTHK,IPMAT,IPPOS,ID,
      .   ERRM,IDPROP,IPID,IPPID,ISTACK(MVSIZ,NPT),ISLV,IPID_LY,
      .   IPANG,NTHK,IGTYP,IGMAT,ILAY,NPTT,IT,IINT,IPGMAT,MAX_NPTT
-      INTEGER*8 I8EMS(3,MVSIZ) 
+      INTEGER*8 I8EMS(3,MVSIZ)
       CHARACTER*nchartitle, TITR
       PARAMETER (MAX_NPTT = 10)
-      my_real 
+      my_real
      .   FAC,MST,DMS,THICKT,THKLY,POSLY,MSE,INS,MZI,EMS_NPTT,ET,ZJ,
      .   XX,YY,ZZ,XY,YZ,ZX,MSL,XIL,MS_NPTT,POS_0,THINNING
-      my_real 
+      my_real
      .   EMS_LAYER(MVSIZ,NLAY),LAYPOS(NPT,MVSIZ),RATIO_THKLY(NPT,MVSIZ),
      .   THK_IT(MAX_NPTT),POS_IT(MAX_NPTT)
       my_real, DIMENSION(MVSIZ) :: RHO,RHOCP,EMS,EMSCP,XI,THK
@@ -227,7 +227,7 @@ C-----------------------------------------------
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
 C=======================================================================
-      IGTYP=NINT(GEO(12,IPROP)) 
+      IGTYP=NINT(GEO(12,IPROP))
       IGMAT = IGEO(98,IPROP)
         IPANG  =  1   !  NPT
         IPTHK  =  IPANG + NLAY   !  NPT
@@ -238,7 +238,7 @@ c-----------------------------
 c-----------------------------
         DO I=LFT,LLT
           IF (NDRAPE == 0) THEN
-            IF (THKE(I)== ZERO) THEN          
+            IF (THKE(I)== ZERO) THEN
               THK(I) = STACK%GEO(1,ISUBSTACK)
               THKE(I)= THK(I)
             ELSE
@@ -249,7 +249,7 @@ c-----------------------------
             THK(I) = THKE(I)
             THKI(I)= THK(I)
           ENDIF ! IF (NDRAPE == 0)
-c      
+c
            IF (NPERTURB /= 0) THEN
             DO J=1,NPERTURB
              IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) /= ZERO) THEN
@@ -259,23 +259,23 @@ c
              ENDIF
             ENDDO
            ENDIF
-c      
+c
            RHO(I)   = PM(89,IMID)
-           RHOCP(I) = PM(69,IMID) 
+           RHOCP(I) = PM(69,IMID)
            IF(THK(I) == ZERO.AND.IGTYP/=0)THEN
               CALL ANCMSG(MSGID=495,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=IX(7,NFT+I))
-           ENDIF  
+           ENDIF
         ENDDO
 c-----------------------------
-      ELSEIF (IGTYP == 52 .OR. 
+      ELSEIF (IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
 c-----------------------------
         DO I=LFT,LLT
           IF (NDRAPE == 0) THEN
-            IF (THKE(I)== ZERO) THEN          
+            IF (THKE(I)== ZERO) THEN
               THK(I) = STACK%GEO(1,ISUBSTACK)
               THKE(I)= THK(I)
             ELSE
@@ -288,7 +288,7 @@ c-----------------------------
           ENDIF ! IF (NDRAPE == 0)
            RHO(I)   = STACK%PM(1,ISUBSTACK)
            RHOCP(I) = STACK%PM(15,ISUBSTACK)* RHO(I)/STACK%PM(14,ISUBSTACK)
-c      
+c
            IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
                IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) /= ZERO) THEN
@@ -298,28 +298,28 @@ c
                ENDIF
              ENDDO
            ENDIF
-c      
+c
            IF(THK(I) == ZERO.AND.IGTYP/=0)THEN
               CALL ANCMSG(MSGID=495,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO_BLIND_1,
      .                    I1=IX(7,NFT+I))
-           ENDIF  
+           ENDIF
          ENDDO
 c-----------------------------
       ELSE  ! IGTYP : std shell property
 c-----------------------------
           DO I=LFT,LLT
-             
-            IF (THKE(I) == ZERO) THEN          
+
+            IF (THKE(I) == ZERO) THEN
               THK(I) = GEO(1,IPROP)
               THKE(I)= THK(I)
             ELSE
               THK(I)=THKE(I)
-            ENDIF 
-c                            
+            ENDIF
+c
             THKI(I) = GEO(1,IPROP)
-c      
+c
             IF (NPERTURB /= 0) THEN
              DO J=1,NPERTURB
                 IF (PERTURB(J) == 1 .AND. RNOISE(J,I+NFT) /= ZERO) THEN
@@ -337,9 +337,9 @@ c
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=IX(7,NFT+I))
-            ENDIF  
+            ENDIF
           ENDDO
-        ENDIF 
+        ENDIF
 C----------------------------------------------
 C     MASSES ELEMENTS / 4
 C----------------------------------------------
@@ -374,19 +374,19 @@ C! for igtyp=17 --->IGMAT= 0
      .                  I1=IDPROP,
      .                  C1=TITR,I2=IX(NIXC,NFT+I),
      .                  R1=EMS(I),R2=MST)
-              ENDIF 
-           ENDIF            
+              ENDIF
+           ENDIF
         ENDDO
 c--------------------------------------------
       ELSEIF(IGTYP == 17 ) THEN
 c--------------------------------------------
-     
-        IPPID   = 2 
+
+        IPPID   = 2
         IPMAT   = IPPID + NPT
         IPANG  =  1
         IPTHK  =  IPANG + NPT
         IPPOS  =  IPTHK + NPT
-        NTHK   =  IPPOS + NPT 
+        NTHK   =  IPPOS + NPT
 C        
         DO I=LFT,LLT
           EMS(I)=ZERO
@@ -414,7 +414,7 @@ C
                 IF (N == 1) THEN
                   LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
-                  LAYPOS(N,I) = LAYPOS(N-1,I)            
+                  LAYPOS(N,I) = LAYPOS(N-1,I)
      .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 MZI = MZI + EMS_LAYER(I,N)*LAYPOS(N,I)
@@ -430,7 +430,7 @@ C
                 IF (N == 1) THEN
                   LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
-                  LAYPOS(N,I) = LAYPOS(N-1,I)            
+                  LAYPOS(N,I) = LAYPOS(N-1,I)
      .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 MZI = MZI + EMS_LAYER(I,N)*LAYPOS(N,I)
@@ -442,7 +442,7 @@ C
           MST = RHO(I)*THK(I)*AREA(I)*FOURTH
           DMS = ABS(EMS(I)-MST)/MST
            IF(DMS  > EM02) ERRM = 1
-           IF(IGMAT <= 0) THEN  
+           IF(IGMAT <= 0) THEN
                IF(DMS  >  EM02) THEN
                  IDPROP = IGEO(1,IPROP)
                  CALL FRETITL2(TITR,
@@ -454,21 +454,21 @@ C
      .                  C1=TITR,I2=IX(NIXC,NFT+I),
      .                  R1=EMS(I),R2=MST)
                ENDIF
-           ENDIF     
+           ENDIF
 C correction la position de la surface neutre au CDG
           DO N=1,NPT
             I4 = IPPOS + N
             IF(ABS(STACK%GEO(I4 ,ISUBSTACK)) < EM15)
      .                     STACK%GEO(I4 ,ISUBSTACK)=ZERO
-          ENDDO         
+          ENDDO
           IF(ABS(MZI) > EM02) THEN
             DO N=1,NPT
               I4 = IPPOS + N
               DMS = MZI/EMS(I)
               STACK%GEO(I4 ,ISUBSTACK) = STACK%GEO(I4 ,ISUBSTACK) - DMS
             ENDDO
-          ENDIF                      
-        ENDDO 
+          ENDIF
+        ENDDO
 c--------------------------------------------
       ELSEIF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
 c--------------------------------------------
@@ -506,7 +506,7 @@ C
                 IF (ILAY == 1) THEN
                   LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
-                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
+                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)
      .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (ILAY == 1)
                 POSLY   = LAYPOS(ILAY,I)*THK(I)
@@ -521,7 +521,7 @@ C
                 IF (ILAY == 1) THEN
                   LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
-                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
+                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)
      .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (ILAY == 1)
                 POSLY   = LAYPOS(ILAY,I)*THK(I)
@@ -534,7 +534,7 @@ cc            IINT = IGEO(47,IPID_LY)
 C----
               DO IT=1,NPTT
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
-              ENDDO 
+              ENDDO
 C 
               POS_0 = POSLY - HALF*THKLY
               IF (NLAY == 1) POS_0 = - HALF*THKLY !! special case
@@ -560,7 +560,7 @@ C----
           MST = RHO(I)*THK(I)*AREA(I)*FOURTH
           DMS = ABS(EMS(I)-MST)/MST
           IF (DMS  > EM02) ERRM = 1
-          IF(IGTYP == 51 .AND. IGMAT < 0) THEN 
+          IF(IGTYP == 51 .AND. IGMAT < 0) THEN
            IF (DMS  > EM02) THEN
               IDPROP = IGEO(1,IPROP)
              CALL FRETITL2(TITR,
@@ -572,25 +572,25 @@ C----
      .                  C1=TITR,I2=IX(NIXC,NFT+I),
      .                  R1=EMS(I),R2=MST)
            ENDIF
-          ENDIF 
+          ENDIF
 C correction la position de la surface neutre au CDG
           DO ILAY=1,NLAY   !  NPT
             I4 = IPPOS + ILAY
-            IF(ABS(STACK%GEO(I4,ISUBSTACK)) < EM15) 
+            IF(ABS(STACK%GEO(I4,ISUBSTACK)) < EM15)
      .                   STACK%GEO(I4,ISUBSTACK)=ZERO
-          ENDDO         
+          ENDDO
           IF(ABS(MZI) > EM02) THEN
             DO ILAY=1,NLAY   !  NPT
               I4 = IPPOS + ILAY
               DMS = MZI/EMS(I)
               STACK%GEO(I4,ISUBSTACK) = STACK%GEO(I4,ISUBSTACK) - DMS
             ENDDO
-          ENDIF       
-        ENDDO 
+          ENDIF
+        ENDDO
 C------
         IF( JTHE > 0 ) THEN
            DO I=LFT,LLT
-              EMSCP(I)=RHOCP(I)*THK(I)*AREA(I)*FOURTH  
+              EMSCP(I)=RHOCP(I)*THK(I)*AREA(I)*FOURTH
            ENDDO
         ENDIF
 c--------------------------------------------
@@ -604,23 +604,23 @@ C
           DO I=LFT,LLT
             EMSCP(I) = RHOCP(I)*THK(I)*AREA(I)*FOURTH
           ENDDO
-        ENDIF  
+        ENDIF
 C
       ENDIF  ! IGTYP
 C----------------------------------------------
 C     INITIALISATION DES MASSES NODALES
-c     elt mass (parith/on spmd + adaptive meshing) 
+c     elt mass (parith/on spmd + adaptive meshing)
 C----------------------------------------------
       IF(JTHE == 0 ) THEN
         DO I=LFT,LLT
-          MSC(I)=EMS(I)       
+          MSC(I)=EMS(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT            
-          MSC(I)=EMS(I)         
-          MCPS(I) = EMSCP(I)    
-        ENDDO                   
-      ENDIF 
+        DO I=LFT,LLT
+          MSC(I)=EMS(I)
+          MCPS(I) = EMSCP(I)
+        ENDDO
+      ENDIF
 c
       IF(ISHXFEM_PLY > 0 )THEN
          IPPID   = 2
@@ -628,45 +628,45 @@ c
          IPANG  =  1
          IPTHK  =  IPANG + NPT
          IPPOS  =  IPTHK + NPT
-         NTHK   =  IPPOS + NPT 
+         NTHK   =  IPPOS + NPT
          DO I=LFT,LLT
             II = NFT + I
             DO J=1,NPT
                 IP = ISTACK(I,J)
                 MS_LAYERC(II,IP)= EMS_LAYER(I,J)
 C
-                I4 = IPPOS + J  
-                THICKT = STACK%GEO(1 ,ISUBSTACK) 
-                ISLV = IGEO(32,IPROP) 
+                I4 = IPPOS + J
+                THICKT = STACK%GEO(1 ,ISUBSTACK)
+                ISLV = IGEO(32,IPROP)
                 IF(ISLV == 0)THEN
                   ZI_LAYERC(II,IP) = THICKT*STACK%GEO(I4 ,ISUBSTACK)
-                  ZPLY(IP) = ZI_LAYERC(II,IP) 
-                ENDIF  
+                  ZPLY(IP) = ZI_LAYERC(II,IP)
+                ENDIF
 cc                ZJ = ZI_LAYERC(II,IP)
 C to check
                  ZJ = THICKT*STACK%GEO(I4 ,ISUBSTACK)
                  MSZ2C(II) = MSZ2C(II)  +  EMS_LAYER(I,J)*ZJ*ZJ
-             ENDDO 
-         ENDDO 
+             ENDDO
+         ENDDO
       ENDIF
 C
-      IF(JTHE > 0 ) THEN                                          
-        IF(NINTEMP > 0 ) THEN                                   
-          DO I= LFT,LLT                                          
-            IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = PM(79,IMID)   
-            IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = PM(79,IMID)   
-            IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = PM(79,IMID)   
-            IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = PM(79,IMID)   
-          ENDDO                                                  
-        ELSE                                                     
-          DO I=LFT,LLT                                           
-            TEMP(IX1(I))=  PM(79,IMID)                           
-            TEMP(IX2(I))=  PM(79,IMID)                           
-            TEMP(IX3(I))=  PM(79,IMID)                           
-            TEMP(IX4(I))=  PM(79,IMID)                           
-          ENDDO                                                  
-        ENDIF                                                    
-      ENDIF                                                      
+      IF(JTHE > 0 ) THEN
+        IF(NINTEMP > 0 ) THEN
+          DO I= LFT,LLT
+            IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = PM(79,IMID)
+            IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = PM(79,IMID)
+            IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = PM(79,IMID)
+            IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = PM(79,IMID)
+          ENDDO
+        ELSE
+          DO I=LFT,LLT
+            TEMP(IX1(I))=  PM(79,IMID)
+            TEMP(IX2(I))=  PM(79,IMID)
+            TEMP(IX3(I))=  PM(79,IMID)
+            TEMP(IX4(I))=  PM(79,IMID)
+          ENDDO
+        ENDIF
+      ENDIF
 C----------------------------------------------
 C     INERTIES ELEMENTS /4
 C----------------------------------------------
@@ -701,7 +701,7 @@ C----------------------------------------------
         IPANG  =  1
         IPTHK  =  IPANG + NPT
         IPPOS  =  IPTHK + NPT
-        NTHK   =  IPPOS + NPT          
+        NTHK   =  IPPOS + NPT
 C         
         DO I=LFT,LLT
           XI(I)=ZERO
@@ -724,7 +724,7 @@ C
                 IF (N == 1) THEN
                   LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
-                  LAYPOS(N,I) = LAYPOS(N-1,I)            
+                  LAYPOS(N,I) = LAYPOS(N-1,I)
      .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
@@ -738,7 +738,7 @@ C
                 IF (N == 1) THEN
                   LAYPOS(N,I) = -HALF + HALF*RATIO_THKLY(N,I)
                 ELSE
-                  LAYPOS(N,I) = LAYPOS(N-1,I)            
+                  LAYPOS(N,I) = LAYPOS(N-1,I)
      .              + HALF*(RATIO_THKLY(N,I)+RATIO_THKLY(N-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(N,I)*THK(I)
@@ -747,15 +747,15 @@ C
             MSL   = PM(89,MATLY)*THKLY*AREA(I)*FOURTH
             XIL   = MSL*(AREA(I)/FAC+THKLY*THKLY*ONE_OVER_12+POSLY*POSLY)
             XI(I) = XI(I) + XIL
-          ENDDO  
-        ENDDO        
+          ENDDO
+        ENDDO
       ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
         IPANG  =  1
         IPPID  =  2
         IPMAT  =  IPPID + NLAY   !  NPT
         IPTHK  =  IPANG + NLAY   !  NPT
         IPPOS  =  IPTHK + NLAY   !  NPT
-        NTHK   =  IPPOS + NLAY   !  NPT         
+        NTHK   =  IPPOS + NLAY   !  NPT
 C         
         DO I=LFT,LLT
           XI(I)=ZERO
@@ -772,7 +772,7 @@ C
               THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT
               POSLY   = STACK%GEO(I4 ,ISUBSTACK)*THICKT
             ELSE
-               
+
               IF (DRAPE(I+NFT)%IDRAPE(ILAY) == 0) THEN
                 THICKT  = STACK%GEO(1,ISUBSTACK)
                 THKLY   = STACK%GEO(I3,ISUBSTACK)*THICKT
@@ -780,7 +780,7 @@ C
                 IF (ILAY == 1) THEN
                   LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
-                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
+                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)
      .              + HALF*(RATIO_THKLY(ILAY,I) + RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
@@ -793,7 +793,7 @@ C
                 IF (ILAY == 1) THEN
                   LAYPOS(ILAY,I) = -HALF + HALF*RATIO_THKLY(ILAY,I)
                 ELSE
-                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)            
+                  LAYPOS(ILAY,I) = LAYPOS(ILAY-1,I)
      .              + HALF*(RATIO_THKLY(ILAY,I)+RATIO_THKLY(ILAY-1,I))
                 ENDIF ! IF (N == 1)
                 POSLY = LAYPOS(ILAY,I)*THK(I)
@@ -806,7 +806,7 @@ cc            IINT = IGEO(47,IPID_LY)
 C----
               DO IT=1,NPTT
                 THK_IT(IT) = THKLY/NPTT  ! equally distribution of NPTT through layer
-              ENDDO 
+              ENDDO
 C
               POS_0 = POSLY - HALF*THKLY
               IF (NLAY == 1) POS_0 = - HALF*THKLY !! special case
@@ -828,7 +828,7 @@ C
      .                       POS_IT(IT)*POS_IT(IT))
               XI(I) = XI(I) + XIL
             ENDDO
-           ENDDO  
+           ENDDO
          ENDDO
       ELSE
         DO I=LFT,LLT
@@ -836,9 +836,9 @@ C
         ENDDO
       ENDIF
 C---  check stability condition
-      IF (IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17 
+      IF (IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17
      .                                 .OR. IGTYP == 51)THEN
-       IF(IGMAT <= 0) THEN ! 
+       IF(IGMAT <= 0) THEN !
          DO I=LFT,LLT
           INS = EMS(I)*(AREA(I)/FAC+THK(I)*THK(I)*ONE_OVER_12)
           DMS = ABS(XI(I)-INS)/INS
@@ -851,7 +851,7 @@ C---  check stability condition
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=IDPROP,
      .                  C1=TITR,I2=IX(NIXC,NFT+I))
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
       ENDIF
@@ -1096,22 +1096,22 @@ C
            PARTSAV(1,IP)=PARTSAV(1,IP) + FOUR*EMS(I)
            PARTSAV(2,IP)=PARTSAV(2,IP) + EMS(I)*
      .           (XREFC(1,1,I)+XREFC(2,1,I)+XREFC(3,1,I)+XREFC(4,1,I))
-           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*                        
-     .            (XREFC(1,2,I)+XREFC(2,2,I)+XREFC(3,2,I)+XREFC(4,2,I)) 
-           PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*                        
-     .            (XREFC(1,3,I)+XREFC(2,3,I)+XREFC(3,3,I)+XREFC(4,3,I)) 
-           XX = XREFC(1,1,I)**2 + XREFC(2,1,I)**2                       
-     .        + XREFC(3,1,I)**2 + XREFC(4,1,I)                          
-           XY = XREFC(1,1,I)*XREFC(1,2,I) + XREFC(2,1,I)*XREFC(2,2,I)   
-     .        + XREFC(3,1,I)*XREFC(3,2,I) + XREFC(4,1,I)*XREFC(4,2,I)   
-           YY = XREFC(1,2,I)**2 + XREFC(2,2,I)**2                       
-     .        + XREFC(3,2,I)**2 + XREFC(4,2,I)                          
-           YZ = XREFC(1,2,I)*XREFC(1,3,I) + XREFC(2,2,I)*XREFC(2,3,I)   
-     .        + XREFC(3,2,I)*XREFC(3,3,I) + XREFC(4,2,I)*XREFC(4,3,I)   
-           ZZ = XREFC(1,3,I)**2 + XREFC(2,3,I)**2                       
-     .        + XREFC(3,3,I)**2 + XREFC(4,3,I)                          
-           ZX = XREFC(1,3,I)*XREFC(1,1,I) + XREFC(2,3,I)*XREFC(2,1,I)   
-     .        + XREFC(3,3,I)*XREFC(3,1,I) + XREFC(4,3,I)*XREFC(4,1,I)   
+           PARTSAV(3,IP)=PARTSAV(3,IP) + EMS(I)*
+     .            (XREFC(1,2,I)+XREFC(2,2,I)+XREFC(3,2,I)+XREFC(4,2,I))
+           PARTSAV(4,IP)=PARTSAV(4,IP) + EMS(I)*
+     .            (XREFC(1,3,I)+XREFC(2,3,I)+XREFC(3,3,I)+XREFC(4,3,I))
+           XX = XREFC(1,1,I)**2 + XREFC(2,1,I)**2
+     .        + XREFC(3,1,I)**2 + XREFC(4,1,I)
+           XY = XREFC(1,1,I)*XREFC(1,2,I) + XREFC(2,1,I)*XREFC(2,2,I)
+     .        + XREFC(3,1,I)*XREFC(3,2,I) + XREFC(4,1,I)*XREFC(4,2,I)
+           YY = XREFC(1,2,I)**2 + XREFC(2,2,I)**2
+     .        + XREFC(3,2,I)**2 + XREFC(4,2,I)
+           YZ = XREFC(1,2,I)*XREFC(1,3,I) + XREFC(2,2,I)*XREFC(2,3,I)
+     .        + XREFC(3,2,I)*XREFC(3,3,I) + XREFC(4,2,I)*XREFC(4,3,I)
+           ZZ = XREFC(1,3,I)**2 + XREFC(2,3,I)**2
+     .        + XREFC(3,3,I)**2 + XREFC(4,3,I)
+           ZX = XREFC(1,3,I)*XREFC(1,1,I) + XREFC(2,3,I)*XREFC(2,1,I)
+     .        + XREFC(3,3,I)*XREFC(3,1,I) + XREFC(4,3,I)*XREFC(4,1,I)
 C
            PARTSAV(5,IP) =PARTSAV(5,IP) + FOUR*XI(I) + EMS(I)*(YY+ZZ)
            PARTSAV(6,IP) =PARTSAV(6,IP) + FOUR*XI(I) + EMS(I)*(ZZ+XX)
@@ -1240,11 +1240,11 @@ C
          END DO
        ENDIF
       END IF
-      
+
 C----------------------------------------------
 C     INITIALISATION DES RIGIDITES NODALES POUR INTERFACES
 C----------------------------------------------
-      IF (IGTYP == 52 .OR. 
+      IF (IGTYP == 52 .OR.
      .  ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
            IF(I7STIFS/=0)THEN
             IF (IMACH/=3) THEN
@@ -1321,7 +1321,7 @@ C----------------------------------------------
            ENDDO
           ENDIF
          ENDIF
-      ENDIF ! igmat      
+      ENDIF ! igmat
 C-----------
       RETURN
       END

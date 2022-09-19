@@ -71,11 +71,11 @@ C     /ADMESH
 C-----------------------------------------------
       IF (MYQAKEY('ADMESH')) THEN
 
-        IF (NADMESH > 0) THEN    
+        IF (NADMESH > 0) THEN
 
           WRITE(VARNAME,'(A)') 'NADMESH'
           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NADMESH,0.0_8)
-          
+
           IF(LEVELMAX /= 0) THEN
              WRITE(VARNAME,'(A)') 'LEVELMAX'
              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LEVELMAX,0.0_8)
@@ -155,7 +155,7 @@ C
 
           IF(IADMSTAT/=0)THEN
 
-            DO N=1,LSH4TRIM 
+            DO N=1,LSH4TRIM
                IF(SH4TRIM(N)/= 0) THEN
                  CALL QAPRINT('ELEM_ADMESH_STAT_4N_ID_', IXC(NIXC,N),0.0_8)
                  WRITE(VARNAME,'(A,I0)') 'SH4TRIM_',N

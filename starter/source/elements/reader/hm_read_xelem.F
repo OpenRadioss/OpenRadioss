@@ -109,7 +109,7 @@ C-----------------------------------------------
       INTEGER TABIDS(NUMELX)
       CHARACTER MESS*40
       my_real
-     .   BID 
+     .   BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_XELEM,IDEX,IDGU
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -131,17 +131,17 @@ C--------------------------------------------------
       ALLOCATE (SUB_XELEM(NUMELX),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_XELEM') 
+     .                             C1='SUB_XELEM')
       SUB_XELEM(1:NUMELX) = 0
       ALLOCATE (IDEX(NUMELX),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='IDEX') 
+     .                             C1='IDEX')
       IDEX(1:NUMELX) = 0
       ALLOCATE (IDGU(NUMELX),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='IDGU') 
+     .                             C1='IDGU')
       IDGU(1:NUMELX) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -155,18 +155,18 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_XELEM(N) /= 0)THEN
-          IF(IPARTX(N) /= 0) IPARTX(N) = IPARTX(N) + OFF_PART(SUB_XELEM(N)) 
-          IF(IDEX(N) /= 0) IDEX(N) = IDEX(N) + OFF_EL(SUB_XELEM(N)) 
+          IF(IPARTX(N) /= 0) IPARTX(N) = IPARTX(N) + OFF_PART(SUB_XELEM(N))
+          IF(IDEX(N) /= 0) IDEX(N) = IDEX(N) + OFF_EL(SUB_XELEM(N))
           IF(IDGU(N) /= 0) IDGU(N) = IDGU(N) + OFF_DEF(SUB_XELEM(N))
         ENDIF
 
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTX(N) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTX(N) ) INDEX_PART = J            
-          ENDDO  
+        IF( IPART(4,INDEX_PART) /= IPARTX(N) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTX(N) ) INDEX_PART = J
+          ENDDO
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTX(N)) THEN
           CALL ANCMSG(MSGID=402,
@@ -176,7 +176,7 @@ C--------------------------------------------------
      .                I1=IPARTX(N),
      .                I2=IPARTX(N),
      .                PRMOD=MSG_CUMU)
-        ENDIF             
+        ENDIF
         IPARTX(N) = INDEX_PART
 
 
@@ -216,9 +216,9 @@ C
         IAD     =IAD+NNOD
       ENDDO
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
      .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles

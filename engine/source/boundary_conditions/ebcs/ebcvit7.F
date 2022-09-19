@@ -97,7 +97,7 @@ c          AZ=0
           V(1,N)=V0(1,I)
           V(2,N)=V0(2,I)
           V(3,N)=V0(3,I)
-        ENDDO      
+        ENDDO
       ENDIF
       RETURN
-      END       
+      END

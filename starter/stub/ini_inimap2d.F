@@ -33,15 +33,15 @@ Chd|        INIMAP2D_MOD                  share/modules1/inimap2d_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE INI_INIMAP2D(INIMAP2D ,ELBUF_TAB ,IPART   ,IPARG   ,IPARTS   , 
+      SUBROUTINE INI_INIMAP2D(INIMAP2D ,ELBUF_TAB ,IPART   ,IPARG   ,IPARTS   ,
      .                        IPARTQ   ,XGRID     ,VEL     ,IXS     ,IXQ      ,
-     .                        IXTG     ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM, 
+     .                        IXTG     ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM,
      .                        FUNC2D   ,IGRBRIC   ,IGRQUAD ,IGRSH3N )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE INIMAP2D_MOD  
+      USE ELBUFDEF_MOD
+      USE INIMAP2D_MOD
       USE FUNC2D_MOD
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
       TYPE(INIMAP2D_STRUCT), DIMENSION(NINIMAP2D), INTENT(INOUT) :: INIMAP2D
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), INTENT(INOUT), TARGET :: ELBUF_TAB
       INTEGER, INTENT(IN) :: IPART(LIPART1, *)
-      INTEGER, INTENT(IN) :: IPARTS(*), IPARTQ(*),IPM(NPROPMI, *), 
+      INTEGER, INTENT(IN) :: IPARTS(*), IPARTQ(*),IPM(NPROPMI, *),
      .     IPARG(NPARG, NGROUP), IXS(NIXS, *), IXQ(NIXQ, *), IXTG(NIXTG, *)
       my_real, INTENT(IN) :: XGRID(3, *), PM(NPROPM, *), BUFMAT(*)
       my_real, INTENT(INOUT) :: VEL(3, *)
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      
+
       END SUBROUTINE INI_INIMAP2D
 
 #endif

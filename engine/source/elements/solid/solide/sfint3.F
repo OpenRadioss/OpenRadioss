@@ -49,7 +49,7 @@ C
       ! ISFINT=1 : volume integration for SIG_total     !
       ! ISFINT=2 : volume integration for SIG_dev only  !
       ! ISFINT=3 : surface integration for SIG_total    !
-      !-------------------------------------------------!  
+      !-------------------------------------------------!
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,12 +76,12 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*),NEL
       my_real
      .   SIG(NEL,6),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX5(*), PX6(*), PX7(*), PX8(*),
+     .   PY5(*), PY6(*), PY7(*), PY8(*),
+     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .   N1Y(*), N2Y(*), N3Y(*), N4Y(*), N5Y(*), N6Y(*),
      .   N1Z(*), N2Z(*), N3Z(*), N4Z(*), N5Z(*), N6Z(*),
      .   DFE(MVSIZ,3),Pbak(MVSIZ),
-     .   TX,TY,TZ     
+     .   TX,TY,TZ
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,101 +107,101 @@ C-----------------------------------------------
 
       !-------------------------------------------------!
       ! ISFINT=3 : surface integration for SIG_total    !
-      !-------------------------------------------------!  
+      !-------------------------------------------------!
       IF(ISFINT==3 .AND. JALE+JEUL/=0)THEN
         !------------------------------!
-        !    TOTAL STRESS TENSOR       ! 
-        !------------------------------!  
-        DO I=LFT,LLT                         
-          QVIS_LOC = QVIS(I)                 
-          S1(I)=SIG(I,1)+SVIS(I,1)-QVIS_LOC  
-          S2(I)=SIG(I,2)+SVIS(I,2)-QVIS_LOC  
-          S3(I)=SIG(I,3)+SVIS(I,3)-QVIS_LOC  
-          S4(I)=SIG(I,4)+SVIS(I,4)           
-          S5(I)=SIG(I,5)+SVIS(I,5)           
-          S6(I)=SIG(I,6)+SVIS(I,6)           
-        ENDDO  
+        !    TOTAL STRESS TENSOR       !
         !------------------------------!
-        !          PRESSURE            ! 
-        !------------------------------!  
-        DO I=LFT,LLT                         
-          P(I)=THIRD*(S1(I)+S2(I)+S3(I))    
-          Pbak(I)=ONE_OVER_8*P(I)                       
-        ENDDO          
+        DO I=LFT,LLT
+          QVIS_LOC = QVIS(I)
+          S1(I)=SIG(I,1)+SVIS(I,1)-QVIS_LOC
+          S2(I)=SIG(I,2)+SVIS(I,2)-QVIS_LOC
+          S3(I)=SIG(I,3)+SVIS(I,3)-QVIS_LOC
+          S4(I)=SIG(I,4)+SVIS(I,4)
+          S5(I)=SIG(I,5)+SVIS(I,5)
+          S6(I)=SIG(I,6)+SVIS(I,6)
+        ENDDO
         !------------------------------!
-        !          DIV(SIGMA)          ! 
-        !------------------------------!  
-        ! Integral ( div(sigma) ) dV = Integral (sigma:n) dS  
-        DO I=LFT,LLT 
+        !          PRESSURE            !
+        !------------------------------!
+        DO I=LFT,LLT
+          P(I)=THIRD*(S1(I)+S2(I)+S3(I))
+          Pbak(I)=ONE_OVER_8*P(I)
+        ENDDO
+        !------------------------------!
+        !          DIV(SIGMA)          !
+        !------------------------------!
+        ! Integral ( div(sigma) ) dV = Integral (sigma:n) dS
+        DO I=LFT,LLT
           ! node-1 : faces 1,4,6
           TX=N1X(I)+N4X(I)+N6X(I)
           TY=N1Y(I)+N4Y(I)+N6Y(I)
-          TZ=N1Z(I)+N4Z(I)+N6Z(I)                    
+          TZ=N1Z(I)+N4Z(I)+N6Z(I)
           F11(I)=F11(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
              !print *, "ID,FINT(11)=", IXS(11,I+NFT), -ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F21(I)=F21(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F31(I)=F31(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                    
+          F31(I)=F31(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-2 : faces 1,4,5
           TX=N1X(I)+N4X(I)+N5X(I)
           TY=N1Y(I)+N4Y(I)+N5Y(I)
-          TZ=N1Z(I)+N4Z(I)+N5Z(I)                    
+          TZ=N1Z(I)+N4Z(I)+N5Z(I)
           F12(I)=F12(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F22(I)=F22(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F32(I)=F32(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)          
+          F32(I)=F32(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-3 : faces 1,2,5
           TX=N1X(I)+N2X(I)+N5X(I)
           TY=N1Y(I)+N2Y(I)+N5Y(I)
-          TZ=N1Z(I)+N2Z(I)+N5Z(I)                    
+          TZ=N1Z(I)+N2Z(I)+N5Z(I)
           F13(I)=F13(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F23(I)=F23(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F33(I)=F33(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)         
+          F33(I)=F33(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-4 : faces 1,2,6
           TX=N1X(I)+N2X(I)+N6X(I)
           TY=N1Y(I)+N2Y(I)+N6Y(I)
-          TZ=N1Z(I)+N2Z(I)+N6Z(I)                    
+          TZ=N1Z(I)+N2Z(I)+N6Z(I)
           F14(I)=F14(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F24(I)=F24(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F34(I)=F34(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)   
+          F34(I)=F34(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-5 : faces 3,4,6
           TX=N3X(I)+N4X(I)+N6X(I)
           TY=N3Y(I)+N4Y(I)+N6Y(I)
-          TZ=N3Z(I)+N4Z(I)+N6Z(I)                    
+          TZ=N3Z(I)+N4Z(I)+N6Z(I)
           F15(I)=F15(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F25(I)=F25(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F35(I)=F35(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ) 
+          F35(I)=F35(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-6 : faces 3,4,5
           TX=N3X(I)+N4X(I)+N5X(I)
           TY=N3Y(I)+N4Y(I)+N5Y(I)
-          TZ=N3Z(I)+N4Z(I)+N5Z(I)                    
+          TZ=N3Z(I)+N4Z(I)+N5Z(I)
           F16(I)=F16(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F26(I)=F26(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F36(I)=F36(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                           
+          F36(I)=F36(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-7 : faces 2,3,5
           TX=N2X(I)+N3X(I)+N5X(I)
           TY=N2Y(I)+N3Y(I)+N5Y(I)
-          TZ=N2Z(I)+N3Z(I)+N5Z(I)                    
+          TZ=N2Z(I)+N3Z(I)+N5Z(I)
           F17(I)=F17(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F27(I)=F27(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F37(I)=F37(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)     
+          F37(I)=F37(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
           ! node-8 : faces 2,3,6
           TX=N2X(I)+N3X(I)+N6X(I)
           TY=N2Y(I)+N3Y(I)+N6Y(I)
-          TZ=N2Z(I)+N3Z(I)+N6Z(I)                    
+          TZ=N2Z(I)+N3Z(I)+N6Z(I)
           F18(I)=F18(I)-ONE_OVER_8*(S1(I)*TX + S4(I)*TY + S6(I)*TZ)
           F28(I)=F28(I)-ONE_OVER_8*(S4(I)*TX + S2(I)*TY + S5(I)*TZ)
-          F38(I)=F38(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)                              
-        ENDDO  
-        RETURN                          
+          F38(I)=F38(I)-ONE_OVER_8*(S6(I)*TX + S5(I)*TY + S3(I)*TZ)
+        ENDDO
+        RETURN
       ENDIF
 
       !-------------------------------------------------!
       ! ISFINT=1 : volume integration for SIG_total     !
       ! ISFINT=2 : volume integration for SIG_dev only  !
-      !-------------------------------------------------!       
+      !-------------------------------------------------!
       IF((ICAA==1.OR.ISFINT==2) .AND. JALE+JEUL/=0)THEN
         DO I=LFT,LLT
          QVIS_LOC = QVIS(I)
-         VOL_LOC = VOL(I) 
+         VOL_LOC = VOL(I)
          S1(I)=SIG(I,1)+SVIS(I,1)-QVIS_LOC
          S2(I)=SIG(I,2)+SVIS(I,2)-QVIS_LOC
          S3(I)=SIG(I,3)+SVIS(I,3)-QVIS_LOC
@@ -212,7 +212,7 @@ C-----------------------------------------------
          S4(I)=(SIG(I,4)+SVIS(I,4))*VOL_LOC
          S5(I)=(SIG(I,5)+SVIS(I,5))*VOL_LOC
          S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC
-         P(I)=P(I)*0.125 
+         P(I)=P(I)*0.125
         ENDDO
         DO I=LFT,LLT
           Pbak(I) = P(I)
@@ -244,30 +244,30 @@ C-----------------------------------------------
           F37(I)=F37(I)-P(I)*(      +N2Z(I)+N3Z(I)       +N5Z(I)       )
           F18(I)=F18(I)-P(I)*(      +N2X(I)+N3X(I)              +N6X(I))
           F28(I)=F28(I)-P(I)*(      +N2Y(I)+N3Y(I)              +N6Y(I))
-          F38(I)=F38(I)-P(I)*(      +N2Z(I)+N3Z(I)              +N6Z(I)) 
+          F38(I)=F38(I)-P(I)*(      +N2Z(I)+N3Z(I)              +N6Z(I))
         ENDDO
       ELSE !IF(ICAA == 0 .OR. JALE+JEUL==0 )
         DO I=LFT,LLT
          QVIS_LOC = QVIS(I)
-         VOL_LOC = VOL(I) 
+         VOL_LOC = VOL(I)
          S1(I)=(SIG(I,1)+SVIS(I,1)-QVIS_LOC)*VOL_LOC
          S2(I)=(SIG(I,2)+SVIS(I,2)-QVIS_LOC)*VOL_LOC
          S3(I)=(SIG(I,3)+SVIS(I,3)-QVIS_LOC)*VOL_LOC
          S4(I)=(SIG(I,4)+SVIS(I,4))*VOL_LOC
          S5(I)=(SIG(I,5)+SVIS(I,5))*VOL_LOC
-         S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC 
+         S6(I)=(SIG(I,6)+SVIS(I,6))*VOL_LOC
         ENDDO
         IF(IALEFVM/=0)THEN
           DO I=LFT,LLT
             Pbak(I) =0.125 * (S1(I)+S2(I)+S3(I))/THREE/VOL(I)
           ENDDO
         ENDIF
-      ENDIF      
+      ENDIF
       IF(INT22==0)THEN !no yet deviatoric stress contribution with inter22 to simplify (priority : ditching)
         !--------------------------------------------------------------!
         ! FEM internal forces                                          !
         !  /CAA or /INTER/TYPE22 : deviatoric stress tensor            !
-        !  otherwise             : total stress tensor                 !      
+        !  otherwise             : total stress tensor                 !
         !--------------------------------------------------------------!
         IF(JEUL==0 .OR. (JEUL==1.AND.INTEG8==0))THEN
          DO I=LFT,LLT
@@ -282,7 +282,7 @@ C-----------------------------------------------
           FINT=S3(I)*PZ1(I)+S6(I)*PX1(I)+S5(I)*PY1(I)
           F31(I)=F31(I)-FINT
           F37(I)=F37(I)+FINT
-          !---nodes 2-8 ---!          
+          !---nodes 2-8 ---!
           FINT=S1(I)*PX2(I)+S4(I)*PY2(I)+S6(I)*PZ2(I)
           F12(I)=F12(I)-FINT
           F18(I)=F18(I)+FINT
@@ -317,9 +317,9 @@ C-----------------------------------------------
         !--------------------------------------------------------------!
         ! FEM internal forces  + INTEG8                                !
         !  /CAA or /INTER/TYPE22 : deviatoric stress tensor            !
-        !  otherwise             : total stress tensor                 !   
+        !  otherwise             : total stress tensor                 !
         !--------------------------------------------------------------!
-        !shape functions are different with hidden flag INTEG8 in /ANALY control card     
+        !shape functions are different with hidden flag INTEG8 in /ANALY control card
          DO I=LFT,LLT
           F11(I)=F11(I)-(S1(I)*PX1(I)+S4(I)*PY1(I)+S6(I)*PZ1(I))
           F21(I)=F21(I)-(S2(I)*PY1(I)+S4(I)*PX1(I)+S5(I)*PZ1(I))
@@ -347,11 +347,11 @@ C-----------------------------------------------
           F38(I)=F38(I)-(S3(I)*PZ8(I)+S6(I)*PX8(I)+S5(I)*PY8(I))
          ENDDO
         ENDIF
-      ENDIF  
-      
+      ENDIF
+
       RETURN
       END
-    
+
 
 Chd|====================================================================
 Chd|  SFINT3B                       source/elements/solid/solide/sfint3.F
@@ -395,12 +395,12 @@ C-----------------------------------------------
      .   NC8(*),IXS(NIXS,*),NEL
       my_real
      .   SIG(NEL,6),SIGD(NEL,6),X(3,*),DR(3,*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX5(*), PX6(*), PX7(*), PX8(*),
+     .   PY5(*), PY6(*), PY7(*), PY8(*),
+     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
@@ -432,9 +432,9 @@ C-----------------------------------------------
         MZ(I) = (SIGD(I,1))*VOL(I)
         MX(I) = (SIGD(I,2))*VOL(I)
         MY(I) = (SIGD(I,3))*VOL(I)
-        SXY = S4 + MZ(I)  
-        SYZ = S5 + MX(I)  
-        SZX = S6 + MY(I)  
+        SXY = S4 + MZ(I)
+        SYZ = S5 + MX(I)
+        SZX = S6 + MY(I)
         SYX = S4 - MZ(I)
         SZY = S5 - MX(I)
         SXZ = S6 - MY(I)
@@ -525,13 +525,13 @@ C
 C
         AAA = 0.0125 * RHO(I) * CXX(I)**2 * VOL(I)
 C
-        DXR = 0.125 * 
+        DXR = 0.125 *
      .   (DR(1,NC1(I))+DR(1,NC2(I))+DR(1,NC3(I))+DR(1,NC4(I))
      .   +DR(1,NC5(I))+DR(1,NC6(I))+DR(1,NC7(I))+DR(1,NC8(I)))
-        DYR = 0.125 * 
+        DYR = 0.125 *
      .   (DR(2,NC1(I))+DR(2,NC2(I))+DR(2,NC3(I))+DR(2,NC4(I))
      .   +DR(2,NC5(I))+DR(2,NC6(I))+DR(2,NC7(I))+DR(2,NC8(I)))
-        DZR = 0.125 * 
+        DZR = 0.125 *
      .   (DR(3,NC1(I))+DR(3,NC2(I))+DR(3,NC3(I))+DR(3,NC4(I))
      .   +DR(3,NC5(I))+DR(3,NC6(I))+DR(3,NC7(I))+DR(3,NC8(I)))
 C

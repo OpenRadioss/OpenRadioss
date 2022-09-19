@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        GRADIENT_RECONSTRUCTION       source/ale/alemuscl/gradient_reconstruction.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CG (dim, mat, rhs, sol, max_iter, tol) 
+      SUBROUTINE CG (dim, mat, rhs, sol, max_iter, tol)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C   This subroutine computes the solution to the linear system
@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include "implicit_f.inc" 
+#include "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ii  ! matrix and vector indexes
       INTEGER iter  ! iteration count
-      my_real error, norm_init  ! error, initial norm 
+      my_real error, norm_init  ! error, initial norm
       my_real :: r(dim), rnew(dim), p(dim), temp(dim)
       my_real :: alpha, beta
 C-----------------------------------------------

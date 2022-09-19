@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG   
+      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,13 +102,13 @@ C-----------------------------------------------
       IEOS=0
       EOS_EMBEDDED=.FALSE.
       BULK=ZERO
-      
+
       BULK = ZERO
       PSH = ZERO
-      
+
       IS_ENCRYPTED=.FALSE.
       IS_AVAILABLE=.FALSE.
-            
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('MAT_RHO'        ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -137,18 +137,18 @@ C-----------------------------------------------
 
       IF(INVERS_INIT<=51)THEN
         EOS_EMBEDDED=.TRUE.
-      ENDIF          
+      ENDIF
 
 
         IF(EOS_EMBEDDED)THEN
-           CALL HM_GET_FLOATV('MAT_C0'       ,C0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C1'       ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C2'       ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C3'       ,C3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C4'       ,C4       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-           CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+           CALL HM_GET_FLOATV('MAT_C0'       ,C0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_C1'       ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_C2'       ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_C3'       ,C3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_C4'       ,C4       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+           CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
             BULK  = C1
             PM(23)= E0
             PM(31)= C0-PSH
@@ -157,14 +157,14 @@ C-----------------------------------------------
             PM(34)= C3
             PM(35)= C4
             PM(36)= C5
-            PM(88)= ZERO 
-            IEOS = 1 ! POLYNOMIAL EOS         
+            PM(88)= ZERO
+            IEOS = 1 ! POLYNOMIAL EOS
         ENDIF
 
       IF (PMIN==ZERO) PMIN=-EP20
       IF (RHOR==ZERO) RHOR=RHO0
       PM(1) = RHOR
-      PM(89)= RHO0     
+      PM(89)= RHO0
 
       IF(CF < ZERO) THEN
             CALL ANCMSG(MSGID=1513,MSGTYPE=MSGERROR,ANMODE=ANINFO,
@@ -182,7 +182,7 @@ C-----------------------------------------------
       G0 = YOUNG /TWO / (ONE+NU)
       IF(.NOT.EOS_EMBEDDED)BULK=YOUNG/(THREE*(ONE - TWO*NU))
 C
-      PM(20) = YOUNG 
+      PM(20) = YOUNG
       PM(21) = NU
       PM(22) = G0
       PM(24) = NU * YOUNG / (ONE-NU*NU)
@@ -207,12 +207,12 @@ C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = TWO*G0/(BULK+FOUR_OVER_3*G0) ! =(1-2*Nu)/(1-Nu)
 C
-      WRITE(IOUT,1000)          
+      WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,2001) TITR,MAT_ID,49
-        WRITE(IOUT,2002) RHO0,RHOR  
+        WRITE(IOUT,2002) RHO0,RHOR
         WRITE(IOUT,1100)YOUNG,SIG0,NU,CB,CN,SIGM,EPSM,
      .                T0,TMELT,SPH,PMIN,CB1,CB2,CH,CF
       ENDIF
@@ -220,19 +220,19 @@ C
       ! OLD FORMAT 100 (OBSOLETE)                        !
       !--------------------------------------------------!
       IF(EOS_EMBEDDED)THEN                    !
-        WRITE(IOUT,2000)                                 !      
+        WRITE(IOUT,2000)                                 !
         IF(IS_ENCRYPTED)THEN                              !
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     !
         ELSE                                             !
           WRITE(IOUT,2500)C0,C1,C2,C3,C4,C5,E0,PM(1),PSH !
         ENDIF                                            !
       ENDIF                                              !
-      !--------------------------------------------------!      
+      !--------------------------------------------------!
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
-      MTAG%G_TEMP  = 1    
+      MTAG%G_PLA   = 1
+      MTAG%G_TEMP  = 1
 c
       MTAG%L_PLA   = 1    ! NB10
       MTAG%L_TEMP  = 1    ! NB11
@@ -260,8 +260,8 @@ C--------------------------------
 C-----------
  2000 FORMAT(
      & 5X,'  POLYNOMIAL EOS                       ',/,
-     & 5X,'  --------------                       ',/,   
-     & 5X,'    INPUT 100 IS OBSOLETE              ',/,         
+     & 5X,'  --------------                       ',/,
+     & 5X,'    INPUT 100 IS OBSOLETE              ',/,
      & 5X,'    IT CAN BE REPLACED BY /EOS CARD    ',/)
  2001 FORMAT(/
      & 5X,A,/,
@@ -279,7 +279,7 @@ C-----------
      & 5X,'C5. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)     
+     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)
       RETURN
  999  CALL FREERR(3)
       RETURN

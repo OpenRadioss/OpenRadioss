@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT 
+      INTEGER JFT, JLT
       INTEGER NCC(NIXR,*),PID(*),NGL(*)
 C     REAL
       my_real
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ)
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),  
+     .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), NORM
 C-----------------------------------------------
 C
@@ -70,7 +70,7 @@ C
        NGL(I)=NCC(5,I)
        NC1(I)=NCC(2,I)
        NC2(I)=NCC(3,I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     COORDONNEES
 C----------------------------
@@ -81,7 +81,7 @@ C----------------------------
        X2(I)=X(1,NC2(I))
        Y2(I)=X(2,NC2(I))
        Z2(I)=X(3,NC2(I))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
@@ -89,14 +89,14 @@ C----------------------------
        R11(I)=ONE
        R21(I)=ZERO
        R31(I)=ZERO
-      ENDDO 
+      ENDDO
       DO  I=JFT, JLT
        R11(I)=X2(I)-X1(I)
        R21(I)=Y2(I)-Y1(I)
        R31(I)=Z2(I)-Z1(I)
        AL(I)=SQRT(R11(I)*R11(I)+R21(I)*R21(I)+R31(I)*R31(I))
        AL(I)=MAX(EM14,AL(I))
-      ENDDO 
+      ENDDO
       IF (IMP_CHK > 0) THEN
        DO I=JFT,JLT
         IF(OFFG(I)/=ZERO)THEN
@@ -106,10 +106,10 @@ C----------------------------
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IW = IMP_IW + 1
-         ENDIF 
-        ENDIF 
+         ENDIF
+        ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
 C
       DO I=JFT, JLT
        IF (AL(I)>EM14) THEN
@@ -117,8 +117,8 @@ C
         R11(I)=R11(I)*NORM
         R21(I)=R21(I)*NORM
         R31(I)=R31(I)*NORM
-       ENDIF 
-      ENDDO 
+       ENDIF
+      ENDDO
       DO I=JFT,JLT
        OFF(I)=OFFG(I)
       ENDDO

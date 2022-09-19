@@ -36,7 +36,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IGEO(NPROPGI,*) ,ITRIS(*), ISOLNODD00(*)
       INTEGER IE, NPT, ISOLNOD, JJHBE, IGTYP, ISROT, NLAY
-      CHARACTER*15,KEYWORD 
+      CHARACTER*15,KEYWORD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -120,17 +120,17 @@ C
 C      
       IF (JJHBED00 == 14 .AND.IGTYP==22 ) THEN
        SELECT CASE (ICSTR)
-        CASE(100)                                             
+        CASE(100)
          NLY = NPTR
-         IF (NLY ==0) NLY =IINT 
+         IF (NLY ==0) NLY =IINT
          NPTD00 = NLY*NPTS*NPTT
-        CASE(10)                                          
+        CASE(10)
          NLY = NPTS
-         IF (NLY ==0) NLY =IINT 
+         IF (NLY ==0) NLY =IINT
          NPTD00 = NLY*NPTR*NPTT
-        CASE(1)                                          
+        CASE(1)
          NLY = NPTT
-         IF (NLY ==0) NLY =IINT 
+         IF (NLY ==0) NLY =IINT
          NPTD00 = NLY*NPTR*NPTS
        END SELECT
 C
@@ -155,7 +155,7 @@ C
       ENDIF
 
       IF (NPTD00 == 0 .and. IGTYP == 43)   NPTD00 = 4
-			 
+			
       IF (NPTD00 == 0)   NPTD00 = 1
       IF (ISOLNOD == 10) NPTD00 = 4
       IF (ISOLNOD == 4 .AND. (ISROT == 0 .OR. ISROT == 3)) THEN

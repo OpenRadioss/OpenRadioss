@@ -33,7 +33,7 @@ Chd|====================================================================
      2                   SIGF ,EPSF ,DAM       ,EPE  ,EPC  ,
      3                   A    ,VOL  ,RX        ,RY   ,RZ   ,
      4                   SX   ,SY   ,SZ        ,MAT  ,VNEW ,
-     5                   DVOL ,SSP  ,D1        ,D2   ,D3   , 
+     5                   DVOL ,SSP  ,D1        ,D2   ,D3   ,
      6                   D4   ,D5   ,D6        ,SOLD1,SOLD2,
      7                   SOLD3,SOLD4,SOLD5     ,SOLD6,SIGY ,
      8                   DEFP ,NGL  ,SEQ_OUTPUT,NEL  )
@@ -64,23 +64,23 @@ C     REAL
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), PLA(*), SIGF(*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*),
      .   EPSF(*), DAM(NEL,5), EPE(NEL,3), EPC(NEL,3), A(MVSIZ,6), VOL(*),
-     .   VNEW(MVSIZ), DVOL(MVSIZ), SSP(MVSIZ), 
+     .   VNEW(MVSIZ), DVOL(MVSIZ), SSP(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ), SOLD4(MVSIZ),
      .   SOLD5(MVSIZ), SOLD6(MVSIZ),SIGY(*),DEFP(*),SEQ_OUTPUT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD1(MVSIZ), KD2(MVSIZ), KD3(MVSIZ), 
+      INTEGER KD1(MVSIZ), KD2(MVSIZ), KD3(MVSIZ),
      .   KD4(MVSIZ),ICC(MVSIZ),ICC_1,
      .   I, IDAM, KDX, MX, NINDX, INDEX(MVSIZ), J
 C     REAL
       my_real
-     .   AX(MVSIZ), AY(MVSIZ), AZ(MVSIZ), BX(MVSIZ), BY(MVSIZ), 
+     .   AX(MVSIZ), AY(MVSIZ), AZ(MVSIZ), BX(MVSIZ), BY(MVSIZ),
      .   BZ(MVSIZ), CX(MVSIZ), CY(MVSIZ),CZ(MVSIZ),
      .   WVEC(MVSIZ),S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
      .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ),T4(MVSIZ),T5(MVSIZ),T6(MVSIZ),
-     .   E1(MVSIZ), E2(MVSIZ), E3(MVSIZ),E4(MVSIZ),E5(MVSIZ),E6(MVSIZ), 
+     .   E1(MVSIZ), E2(MVSIZ), E3(MVSIZ),E4(MVSIZ),E5(MVSIZ),E6(MVSIZ),
      .   HARD(MVSIZ), SIGMY(MVSIZ), ALPHA(MVSIZ), EFIB(MVSIZ),
      .   EPSFT(MVSIZ), EPSFC(MVSIZ), SIGEQ(MVSIZ), P(MVSIZ),
      .   D11(MVSIZ), D12(MVSIZ), D13(MVSIZ), D22(MVSIZ),
@@ -138,10 +138,10 @@ C
 C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
 C--------------------------------------------
-        CALL M14AMA(PM, A,  RX, RY, RZ, SX, 
+        CALL M14AMA(PM, A,  RX, RY, RZ, SX,
      2              SY, SZ, AX, AY, AZ, BX,
      3              BY, BZ, CX, CY, CZ)
-        CALL M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,  
+        CALL M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,
      2              BZ ,CX ,CY ,CZ ,D1 ,D2,
      3              D3 ,D4 ,D5 ,D6 ,T1 ,T2,
      4              T3 ,T4 ,T5 ,T6 ,E1 ,E2,
@@ -308,9 +308,9 @@ C------------------
         DO I=LFT,LLT
           EFIB(I) = PM(36,MX)
           EPSFT(I)= PM(37,MX)
-          EPSFC(I)= PM(38,MX) 
+          EPSFC(I)= PM(38,MX)
           EPSF(I) = EPSF(I)+ E1(I)
-          SIGF(I) = EFIB(I)*EPSF(I) 
+          SIGF(I) = EFIB(I)*EPSF(I)
         ENDDO
 C
 C DEACTIVATED (DAM4 AND DAM5 TEMPORARILY USED FOR GENERAL DAMAGE INFO)
@@ -549,7 +549,7 @@ C
       ENDDO
 C
       MX  = MAT(LFT)
-      WPLAREF  = PM(98  ,MX)  
+      WPLAREF  = PM(98  ,MX)
       DO I=LFT,LLT
         DWPLA = HALF*
      .        (DP1(I)*(T1(I)+SO1(I))+
@@ -559,7 +559,7 @@ C
      .      TWO*DP5(I)*(T5(I)+SO5(I))+
      .      TWO*DP6(I)*(T6(I)+SO6(I)))
         DWPLA = MAX(DWPLA ,ZERO) / WPLAREF
-        PLA(I) = PLA(I) + DWPLA  
+        PLA(I) = PLA(I) + DWPLA
         PLA(I)= MAX(PLA(I),ZERO)
       ENDDO
 C-------------------
@@ -568,7 +568,7 @@ C-------------------
 C--------------------------------------------
 C     STRESS TRANSFORMATION (FIBER -> GLOBAL)
 C--------------------------------------------
-        CALL M14FTG(SIG,AX ,AY ,AZ ,BX ,BY ,  
+        CALL M14FTG(SIG,AX ,AY ,AZ ,BX ,BY ,
      2              BZ ,CX ,CY ,CZ ,T1 ,T2 ,
      3              T3 ,T4 ,T5 ,T6 ,NEL)
 C
@@ -600,7 +600,7 @@ C
        SIGYM = MAX(EM20,HALF*(ONE/F11(I)+ONE/F22(I)))
        SIGY(I)=SIGMY(I)*SQRT(SIGYM)
        DEFP(I)=PLA(I)
-      ENDDO 
+      ENDDO
 C
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
  6001 FORMAT(I6,' FAIL(14)   E(',I5,')   M(',A3,')   T(',6E10.3,')')

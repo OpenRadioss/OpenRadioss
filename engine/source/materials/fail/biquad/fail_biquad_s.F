@@ -79,7 +79,7 @@ C!-----------------------------------------------
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),UVAR(NEL,NUVAR),
      .   DPLA(NEL),EPSP(NEL),TSTAR(NEL),OFF(NEL),DFMAX(NEL),TDELE(NEL),
-     .   ALDT(NEL)     
+     .   ALDT(NEL)
 C!-----------------------------------------------
 C!   VARIABLES FOR FUNCTION INTERPOLATION 
 C!-----------------------------------------------
@@ -98,7 +98,7 @@ C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,
      .        INDEX(MVSIZ),IR,IFAIL,JJ,MATID,SEL
-      my_real 
+      my_real
      .        d1(MVSIZ),DF,
      .        EPSP0(MVSIZ),P,triaxs,SVM,SCALE,SXX,SYY,SZZ
       my_real EPS_FAIL
@@ -125,14 +125,14 @@ C-----------------------------------------------
        IF (TIME == ZERO .AND. MFUNC > 0) THEN
         DO I=1,NEL
           IF (NUVAR == 3) THEN
-            UVAR(I,3) = ALDT(I) 
+            UVAR(I,3) = ALDT(I)
             LAMBDA = UVAR(I,3) / REF_EL_LEN
-            FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
+            FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF)
             UVAR(I,3) = FAC
           ELSEIF (NUVAR ==9) THEN
-            UVAR(I,9) = ALDT(I) 
+            UVAR(I,9) = ALDT(I)
             LAMBDA = UVAR(I,9) / REF_EL_LEN
-            FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF) 
+            FAC = FINTER(KFUNC(1),LAMBDA,NPF,TF,DF)
             UVAR(I,9) = FAC
           ENDIF
         ENDDO
@@ -144,9 +144,9 @@ c! fast degradation
          IF(OFF(I)<ONE.AND.OFF(I)>ZERO) OFF(I)=OFF(I)*FOUR_OVER_5
         END DO
 C-------------------    
-       
-       NINDX = 0  
-       
+
+       NINDX = 0
+
        DO I=1,NEL
         IF(OFF(I)== ONE .AND. DPLA(I) /= ZERO)THEN
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
@@ -178,7 +178,7 @@ C-------------------
                    S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    B1       = -TWO * A1 * S1X
-                   C1       = A1 * S1X**2 + S1Y 
+                   C1       = A1 * S1X**2 + S1Y
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                    IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
@@ -189,7 +189,7 @@ C-------------------
                    S1Y      = X_2(1) + X_2(2) / SQR3  + X_2(3) * (ONE/SQR3)**2
                    A1       = (P1Y - S1Y) / (P1X - S1X)**2
                    B1       = -TWO * A1 * S1X
-                   C1       = A1 * S1X**2 + S1Y 
+                   C1       = A1 * S1X**2 + S1Y
                    EPS_FAIL = C1 + B1 * triaxs + A1 * triaxs**2
                    IF (NUVAR == 3) EPS_FAIL = EPS_FAIL * UVAR(I,3)
                    IF (NUVAR == 9) EPS_FAIL = EPS_FAIL * UVAR(I,9)
@@ -202,23 +202,23 @@ C-------------------
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
-          IDEL7NOK = 1   
-          TDELE(I) = TIME    
+          IDEL7NOK = 1
+          TDELE(I) = TIME
          ENDIF
-        ENDIF 
+        ENDIF
        ENDDO
-       
+
 c------------------------
-      
+
        IF(NINDX>0)THEN
          DO J=1,NINDX
-          I = INDX(J)     
+          I = INDX(J)
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I),TIME
           WRITE(ISTDO,1100) NGL(I),TIME
 #include "lockoff.inc"
          END DO
-       END IF         
+       END IF
 C---------Damage for output  0 < DFMAX < 1 --------------------
 c!       DO J=1,IR
 c!          I=JST(J)
@@ -226,8 +226,8 @@ c!          DFMAX(I)= MIN(ONE,DFMAX(I))
 c!       ENDDO
 C------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (BIQUAD) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
+     .          ' AT TIME :',1PE12.4)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER (BIQUAD) el#',I10,
-     .          ' AT TIME :',1PE12.4)     
+     .          ' AT TIME :',1PE12.4)
       RETURN
       END

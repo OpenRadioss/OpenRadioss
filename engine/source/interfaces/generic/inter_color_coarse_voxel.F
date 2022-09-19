@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  INTER_COLOR_COARSE_VOXEL      source/interfaces/generic/inter_color_coarse_voxel.F
 Chd|-- called by -----------
@@ -95,7 +95,7 @@ C-----------------------------------------------
         my_real :: XMAXB,YMAXB,ZMAXB
 !   ----------------------------------------
         ! ------------------
-        ! allocation of global omp array 
+        ! allocation of global omp array
         IF(ITASK==0) THEN
             ALLOCATE(CELL_BOOL(4,4,4))
             CELL_BOOL(1:4,1:4,1:4) = .FALSE.
@@ -132,7 +132,7 @@ C-----------------------------------------------
                     VALUE = NB_BOX_COARSE_GRID*(X(3,J)-ZMINB)/(ZMAXB-ZMINB)
                     IZ = MIN(INT(VALUE),NB_BOX_COARSE_GRID)
                     IZ = MAX(IZ,1)
-                    CELL_BOOL(IX,IY,IZ) = .TRUE.                
+                    CELL_BOOL(IX,IY,IZ) = .TRUE.
                 ENDDO
                 CALL MY_BARRIER()
                 ! ------------------
@@ -148,19 +148,19 @@ C-----------------------------------------------
                             DO IX=1,4
                                 IF(CELL_BOOL(IX,IY,IZ)) THEN
                                     NEXT = NEXT + 1
-                                    SORT_COMM(NIN)%COARSE_GRID(NEXT) = 
+                                    SORT_COMM(NIN)%COARSE_GRID(NEXT) =
      .                IX+(IY-1)*NB_BOX_COARSE_GRID+(IZ-1)*NB_BOX_COARSE_GRID**2
                                 ENDIF
                             ENDDO
                         ENDDO
                     ENDDO
                     SORT_COMM(NIN)%COARSE_GRID(NB_BOX_COARSE_GRID**3 + 1) = NEXT
-                ENDIF  
+                ENDIF
                 CALL MY_BARRIER()
-                ! ------------------  
+                ! ------------------
             ENDIF
             ! ------------------
-        ENDDO 
+        ENDDO
         ! ------------------
 
         CALL MY_BARRIER()

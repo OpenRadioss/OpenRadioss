@@ -46,9 +46,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD    
+      USE MATPARAM_DEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,7 +70,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA),INTENT(IN)        :: LSUBMODEL(*)
       TYPE(MLAW_TAG_), INTENT(INOUT)   :: MTAG
       CHARACTER*nchartitle, INTENT(IN)       :: TITR
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                    :: MAT_ID
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       my_real, INTENT(INOUT) :: PM(NPROPM)
@@ -81,7 +81,7 @@ C-----------------------------------------------
       INTEGER IOFF,ICC,IFLAG,ISRATE
       my_real
      .   N12, N21, E11, E22, G12, G23, G31, EPST1, EPST2, CB, CN,
-     .   FMAX, SIGYT1, SIGYT2, SIGYC1, SIGYC2, SIGYT12, SIGYC12, 
+     .   FMAX, SIGYT1, SIGYT2, SIGYC1, SIGYC2, SIGYT12, SIGYC12,
      .   C1, SSP, F1, F2, F11, F22, F33, F12, FT1, WPLAMX,
      .   EPSM1, EPSM2, DMAX, SHRDAM, SHRMAX, SHRDMAX,ALPHA,CC,EPS0,
      .   CBT1,CNT1,SIGMXT1,CCT1,CBT2,CNT2,SIGMXT2,CCT2,DETC, DE,
@@ -101,8 +101,8 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED) 
-    
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
+
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF (RHOR == ZERO) THEN
@@ -113,12 +113,12 @@ C-----------------------------------------------
 
       CB=ZERO
       CN=ZERO
-      FMAX=ZERO 
+      FMAX=ZERO
 C
       SIGYT1=ZERO
       SIGYT2=ZERO
-      SIGYC1=ZERO   
-      SIGYC2=ZERO     
+      SIGYC1=ZERO
+      SIGYC2=ZERO
       SIGYC12=ZERO
 C
       EPS1T1 = ZERO
@@ -132,7 +132,7 @@ C
       CALL HM_GET_FLOATV('MAT_EA', E11, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EB', E22, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_PRAB', N12, IS_AVAILABLE, LSUBMODEL, UNITAB)
-     
+
       CALL HM_GET_FLOATV('MAT_GAB', G12, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GBC', G23, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GCA', G31, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -140,34 +140,34 @@ C
       CALL HM_GET_FLOATV('MAT_BETA', CB, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_HARD', CN, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SIG', FMAX, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                          
+
       CALL HM_GET_FLOATV('WPMAX', WPLAMX, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('WPREF', WPLAREF, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('Itype', IOFF, IS_AVAILABLE, LSUBMODEL)
-                                 
+
       CALL HM_GET_FLOATV('MAT_SIGYT1', SIGYT1, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SIGYT2', SIGYT2, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SIGYC1', SIGYC1, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_SIGYC2', SIGYC2, IS_AVAILABLE, LSUBMODEL, UNITAB)                     
-      CALL HM_GET_FLOATV('MAT_ALPHA', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)             
+      CALL HM_GET_FLOATV('MAT_SIGYC2', SIGYC2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('MAT_SIGC12', SIGYT12, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_SIGT12', SIGYC12, IS_AVAILABLE, LSUBMODEL, UNITAB)               
+      CALL HM_GET_FLOATV('MAT_SIGT12', SIGYC12, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SRC', CC, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SRP', EPS0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('STRFLAG', ICC, IS_AVAILABLE, LSUBMODEL)
-        
+
       CALL HM_GET_FLOATV('MAT_Beta', BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_TMAX', TMAX, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MCHANG_S1', S1, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MCHANG_S2', S2, IS_AVAILABLE, LSUBMODEL, UNITAB)                     
-      CALL HM_GET_FLOATV('MCHANG_S12', S12, IS_AVAILABLE, LSUBMODEL, UNITAB)             
+      CALL HM_GET_FLOATV('MCHANG_S2', S2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MCHANG_S12', S12, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_INTV('Fsmooth', ISRATE, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Fcut', FCUT, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MCHANG_C1', C11, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MCHANG_C2', C22, IS_AVAILABLE, LSUBMODEL, UNITAB)
-    
+
       IF(E11==ZERO .OR. E22==ZERO .OR.
      &   G12==ZERO .OR. G23==ZERO.OR. G31==ZERO) THEN
          CALL ANCMSG(MSGID=306,
@@ -177,21 +177,21 @@ C
      .               I2=MAT_ID,
      .               C1=TITR,
      .               C2='E11, E22, G12, G23, G31')
-      ENDIF                      
+      ENDIF
 C-----
        IF(CC > ZERO .AND. EPS0 > ZERO  .AND. ISRATE == 0) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=MAT_ID, 
+     .                I1=MAT_ID,
      .                C1=TITR)
-       ENDIF 
+       ENDIF
 C-------------------------------------
        IF(ICC/=2.AND.ISRATE==0.AND.FCUT/=ZERO)ISRATE=1
        IF(CN==ZERO)    CN    = ONE
-       IF(FMAX==ZERO)   FMAX  = INFINITY    
+       IF(FMAX==ZERO)   FMAX  = INFINITY
        IF(WPLAMX==ZERO)WPLAMX = INFINITY
-       IF (WPLAREF == ZERO) WPLAREF = ONE        
+       IF (WPLAREF == ZERO) WPLAREF = ONE
        WPLAMX = WPLAMX / WPLAREF
        IF(ALPHA==ZERO)ALPHA = ONE
        IF(CC==ZERO)  EPS0  = ONE
@@ -199,14 +199,14 @@ C-------------------------------------
        IFLAG = 0
        IF(S1==ZERO.AND.S2==ZERO.AND.S12==ZERO.AND.
      . C11==ZERO.AND.C22==ZERO) IFLAG = 1
-       
+
        IF(S1==ZERO) S1 = INFINITY
-       IF(S2==ZERO) S2 = INFINITY 
+       IF(S2==ZERO) S2 = INFINITY
        IF(S12==ZERO) S12 = INFINITY
        IF(C11==ZERO) C11= INFINITY
-       IF(C22==ZERO) C22= INFINITY   
+       IF(C22==ZERO) C22= INFINITY
 C--------------------------------------------------------
-      IF(TMAX==ZERO)WRITE(*,*)'STOP ERROR IN TMAX INPUT'   
+      IF(TMAX==ZERO)WRITE(*,*)'STOP ERROR IN TMAX INPUT'
 C--------------------------------------------------------
       N21=N12*E22/E11
       DETC=ONE-N12*N21
@@ -235,15 +235,15 @@ C-------------------------------------
       ELSE
         WRITE(IOUT, 950) RHO0
         WRITE(IOUT,1100)E11,E22,N12
-        WRITE(IOUT,1300)G12,G23,G31    
+        WRITE(IOUT,1300)G12,G23,G31
 C               
-        WRITE(IOUT,1510)CB,CN,FMAX,WPLAMX,WPLAREF,IOFF             
-        WRITE(IOUT,1550)SIGYT1,SIGYT2,SIGYC1,SIGYC2,ALPHA  
-        WRITE(IOUT,1560)SIGYT12,SIGYC12                    
-        WRITE(IOUT,1610)CC,EPS0,ICC                        
+        WRITE(IOUT,1510)CB,CN,FMAX,WPLAMX,WPLAREF,IOFF
+        WRITE(IOUT,1550)SIGYT1,SIGYT2,SIGYC1,SIGYC2,ALPHA
+        WRITE(IOUT,1560)SIGYT12,SIGYC12
+        WRITE(IOUT,1610)CC,EPS0,ICC
         WRITE(IOUT,1611) ISRATE,FCUT
         WRITE(IOUT,1600)BETA, TMAX
-        WRITE(IOUT,2700) S1,S2,S12,C11,C22        
+        WRITE(IOUT,2700) S1,S2,S12,C11,C22
       ENDIF
 C-------------------------------------------------
       PM(8) =ISRATE
@@ -352,7 +352,7 @@ C
         F22 = 0
         F33 = 0
         F12 = 0
-      ENDIF    
+      ENDIF
       PM(60)= BETA
       PM(61)= TMAX
 	
@@ -369,12 +369,12 @@ C
      .               C1=TITR)
       ENDIF
 C---    
-      PM(141)= SIGYT1  
-      PM(142)= SIGYT2  
-      PM(143)= SIGYC1  
-      PM(144)= SIGYC2  
-      PM(145)= SIGYT12 
-      PM(146)= SIGYC12 
+      PM(141)= SIGYT1
+      PM(142)= SIGYT2
+      PM(143)= SIGYC1
+      PM(144)= SIGYC2
+      PM(145)= SIGYT12
+      PM(146)= SIGYC12
       PM(147) = IFLAG
       PM(148) = S1
       PM(149) = S2
@@ -384,7 +384,7 @@ C---
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
+      MTAG%G_PLA   = 1
       MTAG%L_PLA   = 1   ! NB10
 c-----------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
@@ -408,7 +408,7 @@ c-----------
      & 5X,40HSHEAR MODULUS   G12 . . . . . . . . . .=,E12.4/,
      & 5X,40HSHEAR MODULUS   G23 . . . . . . . . . .=,E12.4/,
      & 5X,40HSHEAR MODULUS   G31 . . . . . . . . . .=,E12.4/)
-c 
+c
  1510 FORMAT(
      & 5X,'COMPOSITE HARDENING PARAMETER  (B). . .=',1PG20.13/,
      & 5X,'COMPOSITE HARDENING PARAMETER  (N). . .=',1PG20.13/,
@@ -428,7 +428,7 @@ c
      & 5X,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1'/,
      & 5X,'         OR'/,
      & 5X,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 2'/,
-     & 5X,' IOFF=6: SHELL DELETE IF FOR EACH LAYER :'/, 
+     & 5X,' IOFF=6: SHELL DELETE IF FOR EACH LAYER :'/,
      & 5X,'         WPLA >= WPLAMX OR TENSILE FAILURE DIR 1 OR 2'//)
  1550 FORMAT(
      & 5X,'COMPOSITE YIELD IN TENSION DIR-1  . . . . . .=',1PG20.13/,

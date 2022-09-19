@@ -55,35 +55,35 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: TAGXREF(NUMNOD),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*)
       my_real, INTENT(IN) :: XREFC(4,3,NUMELC),XREFTG(3,3,NUMELTG),XREFS(8,3,NUMELS8),XYZREF(3,NUMNOD)
       INTEGER,INTENT(IN), DIMENSION(NUMNOD) :: ITAB
-      
+
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-  
+
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(.NOT. IS_REFSTA)RETURN
 
-      OK_QA = MYQAKEY('/REFSTA')  
-                                                         
-      IF (OK_QA) THEN   
-                                                                                  
-            WRITE(VARNAME,'(A)') 'REFSTA%NITRS                  ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NITRS,0.0_8)             
+      OK_QA = MYQAKEY('/REFSTA')
 
-            WRITE(VARNAME,'(A)') 'REFSTA%RS0_FMT                ='              
+      IF (OK_QA) THEN
+
+            WRITE(VARNAME,'(A)') 'REFSTA%NITRS                  ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NITRS,0.0_8)
+
+            WRITE(VARNAME,'(A)') 'REFSTA%RS0_FMT                ='
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),RS0_FMT,0.0_8)
 
-            WRITE(VARNAME,'(A,A)') 'REFSTA%XRFILE                 =',REFSTA_FILENAME(1:LEN_TRIM(REFSTA_FILENAME))            
+            WRITE(VARNAME,'(A,A)') 'REFSTA%XRFILE                 =',REFSTA_FILENAME(1:LEN_TRIM(REFSTA_FILENAME))
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,0.0_8)
-                                   
-            !WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%RATIO_FILL ='              
-            !CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,VFRAC)                             
-                
-      ENDIF                                                                             
+
+            !WRITE(VARNAME,'(A,I0,A,I0,A)') 'USER_INIVOL(',KK ,')%CONTY(',JJ,')%RATIO_FILL ='
+            !CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,VFRAC)
+
+      ENDIF
 C-----------------------------------------------
       RETURN
       END

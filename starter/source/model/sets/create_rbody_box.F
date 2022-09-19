@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER IWORK(70000)
 !
       INTEGER, ALLOCATABLE, DIMENSION(:) :: BOXNDS,BOXLIST
-     .                                      
+     .
 C
 !      INTEGER SET_USRTOS
 !      EXTERNAL SET_USRTOS
@@ -117,7 +117,7 @@ C=======================================================================
       ALLOCATE(BOXLIST(IDS_MAX))
       BOXLIST_SIZE=0
 
-      CALL READ_CLAUSE_BOX(IBOX   ,IS_AVAILABLE ,LSUBMODEL ,JCLAUSE, IDS_MAX ,   
+      CALL READ_CLAUSE_BOX(IBOX   ,IS_AVAILABLE ,LSUBMODEL ,JCLAUSE, IDS_MAX ,
      *                     BOXLIST, BOXLIST_SIZE)
 
 !

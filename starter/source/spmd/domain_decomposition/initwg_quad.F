@@ -47,12 +47,12 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  
+      INTEGER
      .  NUMELQ,
      .  NUMMAT,NUMGEO,
      .  IXQ(NIXQ,*),IGEO(NPROPGI,*),
@@ -69,16 +69,16 @@ C-----------------------------------------------
      .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
      .    I_PRO,ISOL2,MID_OLD,PID_OLD,MUID_OLD,PUID_OLD,
      .    TEST,NFUNC1,NFUNC2
-     
+
       REAL
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
      .   BATOZMULT,TMAT
       my_real INVTELT_PRO,TELT_PRO
-      
+
       my_real
      .        CC, INVTREF,A,B,A1,A2
-       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
+       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/
 C-----------------------------------------------
       DO I = 1, NUMELQ
         NPN=1
@@ -93,6 +93,6 @@ C   test elem delete
         IF (WD(I+OFF)==0.)
      .    WD(I+OFF) = WTYPE(2)
       ENDDO
-    
+
       RETURN
       END

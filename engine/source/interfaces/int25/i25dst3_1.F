@@ -65,16 +65,16 @@ C-----------------------------------------------
      .        CAND_N(*),
      .        CAND_E(*),NSVG(MVSIZ)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ), 
+     .        INTTH,MSEGLO(*),IRTLM(4,NSN), SUBTRIA(MVSIZ),
      .        MVOISN(MVSIZ,4), IBOUND(4,*)
       my_real
      .     TIME_S(2,NSN), GAPS(*), GAPM(*), GAPMXL(MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5), 
+     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .     NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
-     .     PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4), 
+     .     PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4),
      .     LBP(MVSIZ,4), LCP(MVSIZ,4), GAP_NM(4,MVSIZ), DD(MVSIZ,4)
       INTEGER IRECT(4,*),ITAB(*),ICONT_I(*), FAR(MVSIZ,4)
       REAL*4 VTX_BISECTOR(3,2,*)
@@ -96,9 +96,9 @@ C-----------------------------------------------
      .     XI1(MVSIZ),  XI2(MVSIZ),  XI0V(MVSIZ),  XI5,
      .     YI1(MVSIZ),  YI2(MVSIZ),  YI0V(MVSIZ),  YI5,
      .     ZI1(MVSIZ),  ZI2(MVSIZ),  ZI0V(MVSIZ),  ZI5,
-     .     XIJ(MVSIZ,4),  
-     .     YIJ(MVSIZ,4),  
-     .     ZIJ(MVSIZ,4),  
+     .     XIJ(MVSIZ,4),
+     .     YIJ(MVSIZ,4),
+     .     ZIJ(MVSIZ,4),
      .     X51,  X52,  X53, X54,
      .     Y51,  Y52,  Y53, Y54,
      .     Z51,  Z52,  Z53, Z54,
@@ -109,7 +109,7 @@ C-----------------------------------------------
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP2,
      .     XP, YP, ZP,
-     .     DX, DY, DZ, 
+     .     DX, DY, DZ,
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     AL(MVSIZ,4)
       my_real
@@ -117,11 +117,11 @@ C-----------------------------------------------
      .     SX1,SX2,SX3,SX4,
      .     SY1,SY2,SY3,SY4,
      .     SZ1,SZ2,SZ3,SZ4,
-     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
+     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4),
      .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),
-     .     SIDE(MVSIZ,4), 
-     .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ), 
-     .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ, 
+     .     SIDE(MVSIZ,4),
+     .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ),
+     .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ,
      .     LL,NN,PN,
      .     N1X,N1Y,N1Z,N1N,
      .     N2X,N2Y,N2Z,N2N,
@@ -370,7 +370,7 @@ C
 C
           IB1=IBOUND(I1,I)
           IB2=IBOUND(I2,I)
-          IF(MVOISN(I,IT)==0)THEN     
+          IF(MVOISN(I,IT)==0)THEN
 C
             IF( (XH-XX(I,I1))* NNX(I,IT)+
      .          (YH-YY(I,I1))* NNY(I,IT)+
@@ -412,21 +412,21 @@ C
           END IF
 C
 C         Cone
-          IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO)THEN     
+          IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO)THEN
 C          
             X12(I)=XX(I,I2)-XX(I,I1)
             Y12(I)=YY(I,I2)-YY(I,I1)
             Z12(I)=ZZ(I,I2)-ZZ(I,I1)
 C
 C           normal to the bisecting plane (pointing toward the inside)
-            PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)  
-            PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)  
-            PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)  
+            PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)
+            PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)
+            PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)
             PP = PX*PX+PY*PY+PZ*PZ
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-            SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))		  
+            SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))		
 C
 C           Projette a l'exterieur et Hors secteur angulaire (cf bissectrices) <=> Glissement
             IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
@@ -450,11 +450,11 @@ C
      .       (YH-YY(I,3))* NNY(I,4)+
      .       (ZH-ZZ(I,3))* NNZ(I,4)
 C
-          IF    ( MVOISN(I,1)==0 .AND. D1 >= GAPS(I)) THEN 
+          IF    ( MVOISN(I,1)==0 .AND. D1 >= GAPS(I)) THEN
             FAR(I,1)=2
-          ELSEIF( MVOISN(I,2)==0 .AND. D2 >= GAPS(I)) THEN  
+          ELSEIF( MVOISN(I,2)==0 .AND. D2 >= GAPS(I)) THEN
             FAR(I,2)=2
-          ELSEIF( MVOISN(I,4)==0 .AND. D3 >= GAPS(I)) THEN 	 
+          ELSEIF( MVOISN(I,4)==0 .AND. D3 >= GAPS(I)) THEN 	
             FAR(I,3)=2
           ELSEIF((IB1/=0 .AND. IB2==0 .AND. IB3==0).OR.
      .           (IB2/=0 .AND. IB3==0 .AND. IB1==0).OR.
@@ -501,16 +501,16 @@ C
 C
           IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO)THEN
 C
-            IF(MVOISN(I,1)/=0)THEN          
+            IF(MVOISN(I,1)/=0)THEN
 C          
               X12(I)=XX(I,2)-XX(I,1)
               Y12(I)=YY(I,2)-YY(I,1)
               Z12(I)=ZZ(I,2)-ZZ(I,1)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,1)-Y12(I)*NNZ(I,1)  
-              PY = X12(I)*NNZ(I,1)-Z12(I)*NNX(I,1)  
-              PZ = Y12(I)*NNX(I,1)-X12(I)*NNY(I,1)  
+              PX = Z12(I)*NNY(I,1)-Y12(I)*NNZ(I,1)
+              PY = X12(I)*NNZ(I,1)-Z12(I)*NNX(I,1)
+              PZ = Y12(I)*NNX(I,1)-X12(I)*NNY(I,1)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               XI1(I) = XX(I,1) - XI(I)
@@ -518,21 +518,21 @@ C
               ZI1(I) = ZZ(I,1) - ZI(I)
               LL = XI1(I)*XI1(I)+YI1(I)*YI1(I)+ZI1(I)*ZI1(I)
 C
-              SIDE(I,1)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))   
+              SIDE(I,1)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,1) < -ZEP01) FAR(I,1)=2
 C          
             END IF
 C
-            IF(MVOISN(I,2)/=0)THEN          
+            IF(MVOISN(I,2)/=0)THEN
 C          
               X12(I)=XX(I,3)-XX(I,2)
               Y12(I)=YY(I,3)-YY(I,2)
               Z12(I)=ZZ(I,3)-ZZ(I,2)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,2)-Y12(I)*NNZ(I,2)  
-              PY = X12(I)*NNZ(I,2)-Z12(I)*NNX(I,2)  
-              PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)  
+              PX = Z12(I)*NNY(I,2)-Y12(I)*NNZ(I,2)
+              PY = X12(I)*NNZ(I,2)-Z12(I)*NNX(I,2)
+              PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)
               PP = PX*PX+PY*PY+PZ*PZ
 C
 	      XI1(I) = XX(I,2) - XI(I)
@@ -540,21 +540,21 @@ C
 	      ZI1(I) = ZZ(I,2) - ZI(I)
               LL     = XI1(I)*XI1(I)+YI1(I)*YI1(I)+ZI1(I)*ZI1(I)
 C
-              SIDE(I,2)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))   
+              SIDE(I,2)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,2) < -ZEP01) FAR(I,2)=2
 C          
             END IF
 C
-            IF(MVOISN(I,4)/=0)THEN          
+            IF(MVOISN(I,4)/=0)THEN
 C          
               X12(I)=XX(I,1)-XX(I,3)
               Y12(I)=YY(I,1)-YY(I,3)
               Z12(I)=ZZ(I,1)-ZZ(I,3)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,4)-Y12(I)*NNZ(I,4)  
-              PY = X12(I)*NNZ(I,4)-Z12(I)*NNX(I,4)  
-              PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)  
+              PX = Z12(I)*NNY(I,4)-Y12(I)*NNZ(I,4)
+              PY = X12(I)*NNZ(I,4)-Z12(I)*NNX(I,4)
+              PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)
               PP = PX*PX+PY*PY+PZ*PZ
 C
 	      XI1(I) = XX(I,3) - XI(I)
@@ -562,7 +562,7 @@ C
 	      ZI1(I) = ZZ(I,3) - ZI(I)
               LL     = XI1(I)*XI1(I)+YI1(I)*YI1(I)+ZI1(I)*ZI1(I)
 C
-              SIDE(I,4)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))   
+              SIDE(I,4)=-(XI1(I)*PX+YI1(I)*PY+ZI1(I)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,4) < -ZEP01) FAR(I,3)=2
 C          
             END IF
@@ -668,7 +668,7 @@ C
 C
         IB1=IBOUND(I1,I)
         IB2=IBOUND(I2,I)
-        IF(MVOISN(I,IT)==0)THEN     
+        IF(MVOISN(I,IT)==0)THEN
 C
           IF( (XH-XX(I,I1))* NNX(I,IT)+
      .        (YH-YY(I,I1))* NNY(I,IT)+
@@ -718,14 +718,14 @@ C
  	 Z12(I)=ZZ(I,I2)-ZZ(I,I1)
 C
 C        normal to the bisecting plane (pointing toward the inside)
-         PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)  
-         PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)  
-         PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)  
+         PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)
+         PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)
+         PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)
          PP = PX*PX+PY*PY+PZ*PZ
 C
          LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-         SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))  	       
+         SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))  	
          IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
 C
         END IF
@@ -831,11 +831,11 @@ C
 C         Condition for sliding :
           IF(IX3(I)/=IX4(I))THEN
             IF(PENT(I,ITOLD)==ZERO.OR.FAR(I,ITOLD)>=2) THEN
-              IRTLM_FI(NIN)%P(2,N-NSN) = -IRTLM_FI(NIN)%P(2,N-NSN) 
+              IRTLM_FI(NIN)%P(2,N-NSN) = -IRTLM_FI(NIN)%P(2,N-NSN)
             END IF
           ELSE
             IF(PENT(I,ITOLD)==ZERO.OR.FAR(I,1)>=2.OR.FAR(I,2)>=2.OR.FAR(I,3)>=2) THEN
-              IRTLM_FI(NIN)%P(2,N-NSN) = -IRTLM_FI(NIN)%P(2,N-NSN) 
+              IRTLM_FI(NIN)%P(2,N-NSN) = -IRTLM_FI(NIN)%P(2,N-NSN)
             END IF
           END IF
 c	 it1=it
@@ -864,7 +864,7 @@ Chd|====================================================================
      3                  IX4    ,NSVG   ,STIF   ,INACTI ,MSEGLO ,
      4                  IRTLM  ,TIME_S ,ITAB   ,
      5                  FAR    ,PENT   ,LB     ,LC     ,
-     6                  FARM   ,PENM   ,LBM    ,LCM    ) 
+     6                  FARM   ,PENM   ,LBM    ,LCM    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -926,7 +926,7 @@ Chd|====================================================================
      4                  IRTLM  ,TIME_S ,ITAB   ,
      5                  FAR    ,PENT   ,LB     ,LC     ,
      6                  INDEX  ,FARM   ,PENM   ,LBM    ,
-     7                  LCM    ) 
+     7                  LCM    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -978,4 +978,4 @@ C--------------------------------------------------------
         END DO
       END DO
       RETURN
-      END 
+      END

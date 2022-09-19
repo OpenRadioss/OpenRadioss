@@ -29,8 +29,8 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE SHELL_ROTA(I        ,ILAY    ,NEL    ,IORTH  ,ITY      ,
      2                      IGTYP    ,MLW     ,JDIR   ,SIG    ,ELBUF_STR,
-     3                      RX       ,RY      ,RZ     ,SX     ,SY       ,  
-     4                      SZ       ,E1X     ,E2X    , E3X   ,E1Y      , 
+     3                      RX       ,RY      ,RZ     ,SX     ,SY       ,
+     4                      SZ       ,E1X     ,E2X    , E3X   ,E1Y      ,
      5                      E2Y      ,E3Y     ,E1Z    , E2Z   ,E3Z      ,
      6                      DIR_A    ,DIR_B    )
 C-----------------------------------------------
@@ -53,19 +53,19 @@ C-----------------------------------------------
       INTEGER NEL, ILAY,I , NS1,ITY, IORTH, IGTYP,MLW ,JDIR
       my_real SIG(6)
       my_real
-     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ), 
-     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),    
-     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
-     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ), 
+     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
+     .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
+     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
+     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
      .   DIR_A(*)  ,DIR_B(*)
- 
+
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILAW , II
-      my_real 
+      my_real
      .   DIR(2),
      .   V1,V2,V3,VR,VS,AA,BB,SUMA,
      .   R1,S1,S2,R2,RS1,RS2,R12A,R22A,S12B,S22B,
@@ -73,8 +73,8 @@ C-----------------------------------------------
      .   L11,L12,L13,L22,L23,L33,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,
      .   S11,S12,S21,S13,S31,S22,S23,S32,S33
-      my_real, 
-     .   DIMENSION(:) , POINTER :: DIR1 
+      my_real,
+     .   DIMENSION(:) , POINTER :: DIR1
 C=======================================================================
 C*******************************************
 C     Rotate to global system 
@@ -88,62 +88,62 @@ C*******************************************
 C-----------------------------------
 C      Rotation orthotrop > Element
 C------------------------------------
-       IF (IORTH > 0) THEN      
+       IF (IORTH > 0) THEN
 
-         IF (IGTYP == 16) THEN 
-            II = JDIR + I-1                                                 
+         IF (IGTYP == 16) THEN
+            II = JDIR + I-1
             R1 = DIR_A(II)
             S1 = DIR_A(II+NEL)
             R2 = DIR_B(II)
             S2 = DIR_B(II+NEL)
-                                           
-            RS1= R1*S1                                                         
-            RS2= R2*S2                                                         
-            R12A = R1*R1                                                       
-            R22A = R2*R2                                                       
-            S12B = S1*S1                                                       
-            S22B = S2*S2                                                       
 
-            RS3 = S1*S2-R1*R2                                                  
-            R3R3= ONE+S1*R2+R1*S2                                               
-            R3R3= HALF*R3R3                                                  
-            S3S3= ONE-S1*R2-R1*S2                                               
-            S3S3= HALF*S3S3                                                  
-            T1 = SIG(1)                                                     
-            T2 = SIG(2)                                                     
-            T3 = SIG(3)                                                     
-            SIG(1) = R12A*T1 + R22A*T2 - RS3*T3                             
-            SIG(2) = S12B*T1 + S22B*T2 + RS3*T3                             
-            SIG(3) = RS1*T1  + RS2*T2 + (R3R3 - S3S3)*T3                                                               
+            RS1= R1*S1
+            RS2= R2*S2
+            R12A = R1*R1
+            R22A = R2*R2
+            S12B = S1*S1
+            S22B = S2*S2
+
+            RS3 = S1*S2-R1*R2
+            R3R3= ONE+S1*R2+R1*S2
+            R3R3= HALF*R3R3
+            S3S3= ONE-S1*R2-R1*S2
+            S3S3= HALF*S3S3
+            T1 = SIG(1)
+            T2 = SIG(2)
+            T3 = SIG(3)
+            SIG(1) = R12A*T1 + R22A*T2 - RS3*T3
+            SIG(2) = S12B*T1 + S22B*T2 + RS3*T3
+            SIG(3) = RS1*T1  + RS2*T2 + (R3R3 - S3S3)*T3
 c
-         ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN    
-            II = JDIR + I-1                                                        
+         ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN
+            II = JDIR + I-1
             R1 = DIR_A(II)
             S1 = DIR_A(II+NEL)
             R2 = DIR_B(II)
             S2 = DIR_B(II+NEL)
 c
-            RS1= R1*S1                                                         
-            RS2= R2*S2                                                         
-            R12A = R1*R1                                                       
-            R22A = R2*R2                                                       
-            S12B = S1*S1                                                       
-            S22B = S2*S2                                                       
-            RS3 = S1*S2-R1*R2                                                  
-            R3R3= ONE+S1*R2+R1*S2                                               
-            R3R3= HALF*R3R3                                                  
-            S3S3= ONE-S1*R2-R1*S2                                               
-            S3S3= HALF*S3S3                                                  
-            T1 = SIG(1)                                                     
-            T2 = SIG(2)                                                     
-            T3 = SIG(3)                                                     
+            RS1= R1*S1
+            RS2= R2*S2
+            R12A = R1*R1
+            R22A = R2*R2
+            S12B = S1*S1
+            S22B = S2*S2
+            RS3 = S1*S2-R1*R2
+            R3R3= ONE+S1*R2+R1*S2
+            R3R3= HALF*R3R3
+            S3S3= ONE-S1*R2-R1*S2
+            S3S3= HALF*S3S3
+            T1 = SIG(1)
+            T2 = SIG(2)
+            T3 = SIG(3)
 c
-            SIG(1) = R12A*T1 + R22A*T2 - RS3*T3                             
-            SIG(2) = S12B*T1 + S22B*T2 + RS3*T3                             
-            SIG(3) = RS1*T1  + RS2*T2  + (R3R3 - S3S3)*T3                                                                 
-         ELSE                                                             
+            SIG(1) = R12A*T1 + R22A*T2 - RS3*T3
+            SIG(2) = S12B*T1 + S22B*T2 + RS3*T3
+            SIG(3) = RS1*T1  + RS2*T2  + (R3R3 - S3S3)*T3
+         ELSE
             IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 19 .and. ILAW /= 27 .and. ILAW /= 32) THEN
-                II = JDIR + I-1                                                        
+                II = JDIR + I-1
                 DIR(1) = DIR_A(II)
                 DIR(2) = DIR_A(II+NEL)
                 S1 = DIR(1)*DIR(1)*SIG(1)
@@ -164,7 +164,7 @@ c
                 SIG(4)=S4
                 SIG(5)=S5
             ENDIF
-         ENDIF 
+         ENDIF
 
        ENDIF
 C-----------------------------------
@@ -193,12 +193,12 @@ C------------------------------------
         R32 = E3Y(I)
         R33 = E3Z(I)
 
-        S11    =L11*R11+L12*R12+L13*R13 
-        S12    =L11*R21+L12*R22+L13*R23 
+        S11    =L11*R11+L12*R12+L13*R13
+        S12    =L11*R21+L12*R22+L13*R23
         S13    =L11*R31+L12*R32+L13*R33
         S21    =L12*R11+L22*R12+L23*R13
         S22    =L12*R21+L22*R22+L23*R23
-        S23    =L12*R31+L22*R32+L23*R33 
+        S23    =L12*R31+L22*R32+L23*R33
         S31    =L13*R11+L23*R12
         S32    =L13*R21+L23*R22
         S33    =L13*R31+L23*R32
@@ -223,8 +223,8 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE SHELL_LOCAL_FRAME(JFT    , JLT   ,ITY      ,IHBE     ,IGTYP   ,
      2                             IXC    ,IXTG   ,NFT      ,X        ,OFFG    ,
-     3                             RX     ,RY     ,RZ       ,SX       ,SY      ,  
-     4                             SZ     ,E1X    ,E2X      ,E3X      ,E1Y     , 
+     3                             RX     ,RY     ,RZ       ,SX       ,SY      ,
+     4                             SZ     ,E1X    ,E2X      ,E3X      ,E1Y     ,
      5                             E2Y    ,E3Y    ,E1Z      ,E2Z      ,E3Z     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -244,14 +244,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, ITY, NFT ,JFT, JLT , IHBE, IGTYP ,        
+      INTEGER NEL, ITY, NFT ,JFT, JLT , IHBE, IGTYP ,
      .        IXC(NIXC,*), IXTG(NIXTG,*)
       my_real X(3,*), OFFG(*)
       my_real
-     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
-     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ), 
-     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ), 
-     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ), 
+     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
+     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
+     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
+     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -289,13 +289,13 @@ C-------------------------
           SY(I)=X(2,I3)+X(2,I4)-X(2,I1)-X(2,I2)
           RZ(I)=X(3,I2)+X(3,I3)-X(3,I1)-X(3,I4)
           SZ(I)=X(3,I3)+X(3,I4)-X(3,I1)-X(3,I2)
-         ENDDO 
+         ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
          CALL CLSKEW3(JFT,JLT,IREL,
-     .     RX, RY, RZ, 
-     .     SX, SY, SZ, 
+     .     RX, RY, RZ,
+     .     SX, SY, SZ,
      .     E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,SUMA,OFFG  )
 
       ELSE
@@ -322,13 +322,13 @@ C---------------------
           SX(I)=X(1,I3)-X(1,I1)
           SY(I)=X(2,I3)-X(2,I1)
           SZ(I)=X(3,I3)-X(3,I1)
-         ENDDO 
+         ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
          CALL CLSKEW3(JFT,JLT,IREL,
-     .     RX, RY, RZ, 
-     .     SX, SY, SZ, 
+     .     RX, RY, RZ,
+     .     SX, SY, SZ,
      .     E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,SUMA,OFFG  )
 
       ENDIF

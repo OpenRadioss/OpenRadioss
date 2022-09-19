@@ -108,10 +108,10 @@ c
      .                                      OPTION_TITR = TITR  ,
      .                                      KEYWORD2    = KEY   )
 c-----------------------
-        CALL HM_GET_INTV  ('Nbox'     ,NBOX_POS ,IS_AVAILABLE, LSUBMODEL)        
+        CALL HM_GET_INTV  ('Nbox'     ,NBOX_POS ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV  ('Nboxneg'  ,NBOX_NEG ,IS_AVAILABLE, LSUBMODEL)
 c
-        NLIST = NBOX_POS + NBOX_NEG   
+        NLIST = NBOX_POS + NBOX_NEG
 c
         IAD = IAD + 1
         IBOX(IAD)%NBOXBOX = NLIST
@@ -126,7 +126,7 @@ c
         END IF
 c
         IF (NBOX_NEG > 0) THEN
-          DO J=1,NBOX_NEG    
+          DO J=1,NBOX_NEG
             II = II + 1
             CALL HM_GET_INT_ARRAY_INDEX('box_IDneg',IDNEG,J,IS_AVAILABLE,LSUBMODEL)
             IBOX(IAD)%IBOXBOX(II) = -IDNEG

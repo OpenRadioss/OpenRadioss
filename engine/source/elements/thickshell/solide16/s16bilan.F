@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER IEXPAN,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),ITASK
       my_real
-     .  PARTSAV(NPSAV,*), EINTG(*), RHOG(*), 
+     .  PARTSAV(NPSAV,*), EINTG(*), RHOG(*),
      .  VX(MVSIZ,*),VY(MVSIZ,*),VZ(MVSIZ,*),
      .  VOLG(*),VOL0G(*),GRESAV(*),EINTTH(*), FILL(*),
      .  X(MVSIZ,*),Y(MVSIZ,*),Z(MVSIZ,*)
@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER I, M, N, FLAG
       my_real
      .   X1, X2, X3, V1, V2, V3, FAC,
-     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ),
      .   VA2(MVSIZ), XMAS(MVSIZ),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
@@ -117,7 +117,7 @@ C
           VXA(I)=VXA(I)+V1
           VYA(I)=VYA(I)+V2
           VZA(I)=VZA(I)+V3
-          VA2(I)=VA2(I)+(V1**2+V2**2+V3**2)  
+          VA2(I)=VA2(I)+(V1**2+V2**2+V3**2)
         ENDDO
       ENDDO
 C
@@ -145,7 +145,7 @@ C
         PARTSAV(3,M)=PARTSAV(3,M) + XMAS(I)*VXA(I)
         PARTSAV(4,M)=PARTSAV(4,M) + XMAS(I)*VYA(I)
         PARTSAV(5,M)=PARTSAV(5,M) + XMAS(I)*VZA(I)
-        PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I) 
+        PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
       ENDDO
 C
 C-----------------------------------------------
@@ -285,7 +285,7 @@ C
       ENDIF
 
       OFF_L(LFT:LLT) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C-----------
       RETURN
       END

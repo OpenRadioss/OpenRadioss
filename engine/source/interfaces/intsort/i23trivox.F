@@ -53,7 +53,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -148,7 +148,7 @@ C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
-      XMIN = XYZM(1)  
+      XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
       XMAX = XYZM(4)
@@ -163,11 +163,11 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-  
+
 C En SPMD, retrouve ancienne numerotation des candidats non locaux
       IF(NSPMD>1) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
-      END IF 
+      END IF
 
 C=======================================================================
 C 1   mise des noeuds dans les boites
@@ -188,7 +188,7 @@ C elements du processeur
         IF(X(2,J) > YMAX)  CYCLE
         IF(X(3,J) < ZMIN)  CYCLE
         IF(X(3,J) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
@@ -274,8 +274,8 @@ C on ne retient pas les facettes detruites
      .       MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE))))
          ENDIF
 
-c     il est possible d'ameliorer l'algo en decoupant la facette 
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+c     il est possible d'ameliorer l'algo en decoupant la facette
+c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -393,7 +393,7 @@ cc             nnr0pelem = nnr0pelem + 1
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 200
                ENDIF

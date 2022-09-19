@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),IG,ISKN(LISKN,*),SUB_ID,IGTYP
       my_real GEO(NPROPG)
       my_real RTRANS(NTRANSF,*)
@@ -106,7 +106,7 @@ C      Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
        IGEO( 1)=IG
        IGEO(11)=IGTYP
        GEO(12) =IGTYP+PUN
-       
+
        NPT = 0
 
 C--------------------------------------------------
@@ -155,12 +155,12 @@ c        CALL ANCERR(175,ANINFO_BLIND_1)
      .              C1=IDTITL,
      .              I2=IHBE,
      .              I3=21)
-      ENDIF     
+      ENDIF
 C
 C  smstr
       IF(ISMSTR == 0) ISMSTR=ISST_DS
       IF(ISMSTR == 0) ISMSTR=4
-      IF (ISST_DS == -2.OR.ISMSTR<0) ISMSTR=4          
+      IF (ISST_DS == -2.OR.ISMSTR<0) ISMSTR=4
 C
 C  icpre/icstr
 C
@@ -308,7 +308,7 @@ C
 
       IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
          IGEO(33) = 1   ! ISVIS flag
-      ENDIF         
+      ENDIF
 
       IGEO(17)=1
 

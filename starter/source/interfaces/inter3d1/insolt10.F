@@ -114,7 +114,7 @@ C
             IW=1
             IXS10(IPERM3(K),J)=0
           END IF
-        ENDDO 
+        ENDDO
         IF(IW==1)THEN
              IDEGEN=0
              IF(IXS10(1,J)/=0)THEN

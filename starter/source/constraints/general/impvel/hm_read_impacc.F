@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ,INTENT(INOUT) :: NIMPACC,NUM
       INTEGER ,INTENT(IN)    :: NFXVEL0
       INTEGER ,DIMENSION(NIFV,NFXVEL0)   :: IBFV
@@ -177,10 +177,10 @@ c----
         NOFRAME = 0
 c----
         DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-          IF (INP_ID == ISKN(4,J+1)) THEN               
-            NOSKEW = J+1                         
-            EXIT                           
-          ENDIF                                   
+          IF (INP_ID == ISKN(4,J+1)) THEN
+            NOSKEW = J+1
+            EXIT
+          ENDIF
         ENDDO
         IF (INP_ID > 0 .and. NOSKEW == 0)
      .    CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,

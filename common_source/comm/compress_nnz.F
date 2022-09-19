@@ -39,8 +39,8 @@ C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
        INTEGER I,J,IBEGIN, NNZ
-       LOGICAL continue_loop 
-        
+       LOGICAL continue_loop
+
 
          IBEGIN = 1
          J = 1
@@ -74,9 +74,9 @@ C            COMPR(J+1) = NNZ
          ENDDO
 C        COMPR(J) = -1
          I = -1
-         CALL WRITE_I_C(I,1) 
+         CALL WRITE_I_C(I,1)
 C        WRITE(6,*) LEN,"compressed into ",J, dble(J)/dble(LEN)
-       END SUBROUTINE 
+       END SUBROUTINE
 
 
 Chd|====================================================================
@@ -100,7 +100,7 @@ C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
        INTEGER I,J,IBEGIN, NNZ
-       LOGICAL continue_loop 
+       LOGICAL continue_loop
 
          IBEGIN = 1
          J = 1
@@ -134,9 +134,9 @@ C            COMPR(J+1) = NNZ
          ENDDO
 C        COMPR(J) = -1
          I = -1
-         CALL WRITE_I_C(I,1) 
+         CALL WRITE_I_C(I,1)
 C        WRITE(6,*) LEN,"I compressed into ",J, dble(J)/dble(LEN)
-       END SUBROUTINE 
+       END SUBROUTINE
 
 Chd|====================================================================
 Chd|  COMPRESS_R_NNZ                comm/compress_nnz.F           
@@ -162,7 +162,7 @@ C---------------------------------------------
 C        Local Variables
 C---------------------------------------------
        INTEGER I,J,IBEGIN, NNZ
-       LOGICAL continue_loop 
+       LOGICAL continue_loop
 
          IBEGIN = 1
          J = 1
@@ -196,6 +196,6 @@ C            COMPR(J+1) = NNZ
          ENDDO
 C        COMPR(J) = -1
          I = -1
-         CALL WRITE_I_C(I,1) 
+         CALL WRITE_I_C(I,1)
 C        WRITE(6,*) LEN,"R compressed into ",J, dble(J)/dble(LEN)
-       END SUBROUTINE 
+       END SUBROUTINE

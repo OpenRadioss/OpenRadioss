@@ -64,13 +64,13 @@ C-----------------------------------------------
      .      IBZ,IBY,IBX,KS,
      .      NBOX,NBOY,NBOZ,NBX,NBY,NBZ,NBAND,IBOITE
 C
-      INTEGER 
+      INTEGER
      .    NOBX(NUMNOD),NOBY(NUMNOD),NOBZ(NUMNOD),
      .    NOBCX(NN2),NOBCY(NN2),NOBCZ(NN2),NUMNOD1,
      .    TABS(NB_MERGE_NODE),TABC(NB_MERGE_NODE),TAG
 C 
       INTEGER, DIMENSION(:),POINTER     :: ITABC
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .    NPX,IPX,NPY,IPY,NPZ,IPZ,NPCX,IPCX,NPCY,IPCY,NPCZ,IPCZ
 C 
       my_real
@@ -78,7 +78,7 @@ C
      .        DIST2,DVOIS,EPS,XMIN,XMAX,YMIN,YMAX,ZMIN,
      .        ZMAX,DMX,DMY,DMZ,DMERGE
 C-----------------------------------------------
-       INTEGER 
+       INTEGER
      .         USRTOS,USRTOSC
       EXTERNAL USRTOS,USRTOSC
 C
@@ -92,13 +92,13 @@ C - --> LIST2 / NN2 : list of destinations
 C=======================================================================
 C 
       DBUC = TWO*DBUC
-      EPS=EM3*DBUC 
+      EPS=EM3*DBUC
       XMIN=EP30
       XMAX=-EP30
       YMIN=EP30
       YMAX=-EP30
       ZMIN=EP30
-      ZMAX=-EP30    
+      ZMAX=-EP30
 C
       DO I=1,NN1
         N = LIST1(I)
@@ -126,7 +126,7 @@ C
       NBY =MAX(1,INT(DMY/DBUC))
       NBZ =MAX(1,INT(DMZ/DBUC))
 C              
-      DO I=1,NN1   
+      DO I=1,NN1
         N = LIST1(I)
         NN  = USRTOS(ITAB(N),ITABM1)
         NOBX(I) = (X(1,NN)-XMIN)/DBUC
@@ -139,7 +139,7 @@ C--     destinations are cnodes (NN2 = NUMCNOD)
         NUMNOD1 = NUMNOD0-NUMCNOD
         ITABC => ITAB(NUMNOD1+1:NUMNOD0)
         DO I=1,NN2
-          N = LIST2(I)       
+          N = LIST2(I)
           NN  = USRTOSC(ITABC(N),ITABM1)
           NOBCX(N) = (X(1,NN)-XMIN)/DBUC
           NOBCY(N) = (X(2,NN)-YMIN)/DBUC
@@ -148,21 +148,21 @@ C--     destinations are cnodes (NN2 = NUMCNOD)
       ELSE
 C--     destinations are nodes
         DO I=1,NN2
-          N = LIST2(I)       
+          N = LIST2(I)
           NN  = USRTOS(ITAB(N),ITABM1)
           NOBCX(I) = (X(1,NN)-XMIN)/DBUC
           NOBCY(I) = (X(2,NN)-YMIN)/DBUC
           NOBCZ(I) = (X(3,NN)-ZMIN)/DBUC
         ENDDO
-      ENDIF 
+      ENDIF
 C  
       NBAND = MAX(NBX, NBY,NBZ) + 1
 C      
-      ALLOCATE( NPX(0:NN1+NBAND  ) , NPY(0:3*(NN1+NBAND)), 
+      ALLOCATE( NPX(0:NN1+NBAND  ) , NPY(0:3*(NN1+NBAND)),
      .         NPZ(0:9*(NN1+NBAND)) , IPX(NN1+NBAND)   ,
      .         IPY(NN1+NBAND)     , IPZ(NN1+NBAND),
      .         NPCX(0:NN2+NBAND) , NPCY(0:NN2+NBAND) ,
-     .         NPCZ(0:NN2+NBAND)       , IPCX(NN2+NBAND)   , 
+     .         NPCZ(0:NN2+NBAND)       , IPCX(NN2+NBAND)   ,
      .         IPCY(NN2+NBAND)   , IPCZ(NN2+NBAND))
 
 C--------------------------------------------------
@@ -174,7 +174,7 @@ C
       DO IB=0,NBX+1
        NPX(IB)=0
       ENDDO
-      DO N=1,NN1       
+      DO N=1,NN1
          NBOX=NOBX(N)+1
          IF(NBOX >= 1.AND.NBOX <= NBX+1)THEN
            NPX(NBOX)=NPX(NBOX)+1
@@ -191,16 +191,16 @@ C
 C      bande NBX uniquement.
         IF(NBOX >= 1.AND.NBOX <= NBX+1)THEN
            NPX(NBOX)=NPX(NBOX)+1
-           IPX(NPX(NBOX))=N       
+           IPX(NPX(NBOX))=N
         ENDIF
-      ENDDO  
+      ENDDO
 C
 C    Cnode bande nbx 
 C  
       DO IB=0,NBX+1
          NPCX(IB)=0
       ENDDO
-      DO N=1,NN2      
+      DO N=1,NN2
           NBOX=NOBCX(N)+1
           IF(NBOX >= 1.AND.NBOX <= NBX+1)THEN
            NPCX(NBOX)=NPCX(NBOX)+1
@@ -217,23 +217,23 @@ C
 C      bande NBX uniquement.
          IF(NBOX >= 1.AND.NBOX <= NBX+1)THEN
            NPCX(NBOX)=NPCX(NBOX)+1
-           IPCX(NPCX(NBOX))=N               
+           IPCX(NPCX(NBOX))=N
         ENDIF
-      ENDDO   
+      ENDDO
 C-----
       DO IBX=1,NBX+1
          IBOITE = 0
          DO KP= NPCX(IBX-1)+1,NPCX(IBX)
-             IF(IPCX(KP)> 0)IBOITE =1  
-         ENDDO 
+             IF(IPCX(KP)> 0)IBOITE =1
+         ENDDO
 C
-         IF(IBOITE > 0) THEN   
+         IF(IBOITE > 0) THEN
               DO IBY=0,NBY+1
                  NPY(IBY)=0
-              ENDDO  
+              ENDDO
               DO KS=NPX(MAX(IBX-2,0))+1,NPX(MIN(IBX+1,NBX+1))
                  N  =IPX(KS)
-                 NBOY=NOBY(N)+1           
+                 NBOY=NOBY(N)+1
 C       bande NBY uniquement.
                  IF(NBOY >= 1 .AND. NBOY <= NBY+1)THEN
                      NPY(NBOY)=NPY(NBOY)+1
@@ -241,19 +241,19 @@ C       bande NBY uniquement.
              ENDDO
              DO IBY=1,NBY+1
                  NPY(IBY)=NPY(IBY)+NPY(IBY-1)
-             ENDDO 
+             ENDDO
              DO IBY=NBY+1,1,-1
                  NPY(IBY)=NPY(IBY-1)
-             ENDDO               
+             ENDDO
              DO KS=NPX(MAX(IBX-2,0))+1,NPX(MIN(IBX+1,NBX+1))
-                  N  =IPX(KS)      
+                  N  =IPX(KS)
                   NBOY=NOBY(N)+1
 C       bande NBY uniquement.
                   IF(NBOY >= 1 .AND. NBOY <= NBY+1)THEN
                        NPY(NBOY)=NPY(NBOY)+1
-                       IPY(NPY(NBOY))=N 
+                       IPY(NPY(NBOY))=N
                   ENDIF
-             ENDDO  
+             ENDDO
 C 
 C  Cnode Bande Y
 C
@@ -261,7 +261,7 @@ C
                  NPCY(IBY)=0
              ENDDO
              DO KS=NPCX(IBX-1)+1,NPCX(IBX)
-                 N  =IPCX(KS)      
+                 N  =IPCX(KS)
                  NBOY=NOBCY(N)+1
 C       bande NBY uniquement.
                  IF(NBOY >= 1.AND.NBOY <= NBY+1)THEN
@@ -277,29 +277,29 @@ C
                   NPCY(IBY)=NPCY(IBY-1)
              ENDDO
              DO KS=NPCX(IBX-1)+1,NPCX(IBX)
-                  N  =IPCX(KS)      
+                  N  =IPCX(KS)
                   NBOY=NOBCY(N)+1
 C       bande NBY uniquement.
                   IF(NBOY >= 1.AND. NBOY <= NBY+1)THEN
                      NPCY(NBOY)=NPCY(NBOY)+1
-                     IPCY(NPCY(NBOY))=N         
+                     IPCY(NPCY(NBOY))=N
                   ENDIF
              ENDDO
 C        
 C -- les boites suivantes z
 C 
-             DO IBY=1,NBY+1   
-                IBOITE = 0   
+             DO IBY=1,NBY+1
+                IBOITE = 0
                 DO KP= NPCY(IBY-1)+1,NPCY(IBY)
                     IF(IPCY(KP) > 0)IBOITE = 1
                 ENDDO
 C                    
-                IF(IBOITE > 0) THEN            
+                IF(IBOITE > 0) THEN
                   DO IBZ=0,NBZ+1
                       NPZ(IBZ)=0
                   ENDDO
                   DO KS=NPY(MAX(IBY-2,0))+1,NPY(MIN(IBY+1, NBY+1))
-                      N  =IPY(KS) 
+                      N  =IPY(KS)
                       NBOZ=NOBZ(N)+1
 C        bande NBZ uniquement.
                       IF(NBOZ >= 1.AND.NBOZ <= NBZ+1)THEN
@@ -318,8 +318,8 @@ C        bande NBZ uniquement.
 C        bande NBZ uniquement.
                       IF(NBOZ >= 1 .AND. NBOZ <= NBZ+1)THEN
                            NPZ(NBOZ)=NPZ(NBOZ)+1
-                           IPZ(NPZ(NBOZ))=N   
-                      ENDIF  
+                           IPZ(NPZ(NBOZ))=N
+                      ENDIF
                   ENDDO
 C
 C  Cnode Bande Z
@@ -328,7 +328,7 @@ C
                      NPCZ(IBZ)=0
                   ENDDO
                   DO KS=NPCY(IBY-1)+1,NPCY(IBY)
-                     N  =IPCY(KS) 
+                     N  =IPCY(KS)
                      NBOZ=NOBCZ(N)+1
                      IF(NBOZ >= 1.AND.NBOZ <= NBZ+1)THEN
                           NPCZ(NBOZ)=NPCZ(NBOZ)+1
@@ -341,35 +341,35 @@ C
                        NPCZ(IBZ)=NPCZ(IBZ-1)
                   ENDDO
                   DO KS=NPCY(IBY-1)+1,NPCY(IBY)
-                      N  =IPCY(KS)      
+                      N  =IPCY(KS)
                       NBOZ=NOBCZ(N)+1
                       IF(NBOZ >= 1.AND. NBOZ <= NBZ+1)THEN
                            NPCZ(NBOZ)=NPCZ(NBOZ)+1
                            IPCZ(NPCZ(NBOZ))=N
-                      ENDIF  
+                      ENDIF
                   ENDDO
 C
 C ---recherche cnode par boite tt d'abord
 C
                   DO IBZ=1,NBZ+1
-                     DO KP= NPCZ(IBZ-1)+1,NPCZ(IBZ) 
+                     DO KP= NPCZ(IBZ-1)+1,NPCZ(IBZ)
                        IF(IPCZ(KP) > 0) THEN
-                         DO KS=NPZ(MAX(IBZ-2,0))+1,NPZ(MIN(IBZ+1,NBZ+1))                   
+                         DO KS=NPZ(MAX(IBZ-2,0))+1,NPZ(MIN(IBZ+1,NBZ+1))
                             IF (FLAG == 1) THEN
 C----------------------------------------------------------------------------------------
 C--                           Merging with cnodes - cnode is destination for closest node
 C----------------------------------------------------------------------------------------
-                              NC =IPCZ(KP) 
-                              NS =IPZ(KS)       
+                              NC =IPCZ(KP)
+                              NS =IPZ(KS)
                               IG = USRTOSC(ITABC(NC),ITABM1)
                               XI =X(1,IG)
                               YI =X(2,IG)
                               ZI =X(3,IG)
-                              DMERGE = CMERGE(NC)*CMERGE(NC)  
+                              DMERGE = CMERGE(NC)*CMERGE(NC)
                               JG=USRTOS(ITAB(NS),ITABM1)
                               XJ =(X(1,JG)-XI)
                               YJ =(X(2,JG)-YI)
-                              ZJ =(X(3,JG)-ZI)               
+                              ZJ =(X(3,JG)-ZI)
                               DIST2=XJ**2 + YJ**2 + ZJ**2
                               IF(ITABC(NC)/=ITAB(NS).AND.DIST2<=DMERGE)THEN
                                 IF(IMERGE0(NC) == 0) THEN
@@ -385,7 +385,7 @@ C-------------------------------------------------------------------------------
 C--                           Merging with nodes - node with lowest user id is the destination
 C---------------------------------------------------------------------------------------------
                               NC = LIST2(IPCZ(KP))
-                              NS = LIST1(IPZ(KS))       
+                              NS = LIST1(IPZ(KS))
                               IG=USRTOS(ITAB(NC),ITABM1)
                               XI =X(1,IG)
                               YI =X(2,IG)
@@ -393,7 +393,7 @@ C-------------------------------------------------------------------------------
                               JG=USRTOS(ITAB(NS),ITABM1)
                               XJ =(X(1,JG)-XI)
                               YJ =(X(2,JG)-YI)
-                              ZJ =(X(3,JG)-ZI)               
+                              ZJ =(X(3,JG)-ZI)
                               DIST2=XJ**2 + YJ**2 + ZJ**2
 C
                               CALL DECODE_MERGE(LIST2_IDMERGE(IPCZ(KP)),LIST2_NBMERGE(IPCZ(KP)),TABC,NB_MERGE_NODE)
@@ -420,17 +420,17 @@ C
                                    DDD(IPZ(KS)) = DIST2
                                 ENDIF
 C
-                              ENDIF      
+                              ENDIF
                             ENDIF
-                          ENDDO   
-                        ENDIF           
-                      ENDDO 
-                      
+                          ENDDO
+                        ENDIF
+                      ENDDO
+
                     ENDDO
-                   
-                ENDIF          
+
+                ENDIF
               ENDDO
-            ENDIF 
+            ENDIF
           ENDDO
 
 C--------
@@ -468,13 +468,13 @@ C-----------------------------------------------
 C
 C--   decode id merge
 C
-      TAB(1:BASE) = 0 
+      TAB(1:BASE) = 0
 C   
       CODE_TEMP = CODE
       DO I=1,NVAL
         TAB(I) = CODE_TEMP / (BASE**(NVAL-I))
 C        TAB(I) = FLOOR(DIV)
         CODE_TEMP = CODE_TEMP - (BASE**(NVAL-I))*TAB(I)
-      ENDDO                   
+      ENDDO
 C
       END SUBROUTINE DECODE_MERGE

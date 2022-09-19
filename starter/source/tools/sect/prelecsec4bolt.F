@@ -82,8 +82,8 @@ C-----------------------------------------------
      .   FLAG_R2R,N1,N2,N3,POS_SEC_R2R,NSEG0,NSEG,
      .   COMPT,NG
       CHARACTER TITR*nchartitle
-      CHARACTER KEY2*ncharkey,MESS*40   
-      LOGICAL IS_AVAILABLE  
+      CHARACTER KEY2*ncharkey,MESS*40
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -98,31 +98,31 @@ C=======================================================================
       COMPT = 0
       NG = 0
       IGU = 0
-      
+
       CALL HM_OPTION_START('/SECT')
-                 
+
       DO I=1,NSECT
-        
+
         NG=NG+1
-        
+
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR, UNIT_ID=UID, KEYWORD2=KEY2)
         NOM_OPT(1,I)=ID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-          
-        CALL HM_GET_INTV('Axis_Origin_Node_N1', N1, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N2', N2, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N3', N3, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('ISAVE', ISAV, IS_AVAILABLE, LSUBMODEL)  
- 
+
+        CALL HM_GET_INTV('Axis_Origin_Node_N1', N1, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N2', N2, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N3', N3, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('ISAVE', ISAV, IS_AVAILABLE, LSUBMODEL)
+
         IF(KEY2(1:5) == 'PARAL' .OR. KEY2(1:6) == 'CIRCLE') THEN
           ISTYP = 1
         ELSE
           ISTYP = 0
-          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)  
-          CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)  
+          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)
         ENDIF
-                                            
-        CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)  
+
+        CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)
 
         IF (NFRAM == 0 .AND. ISTYP == 0) THEN
 	         NNOD  = GRSIZEN(IGU,IGRNOD,NGRNOD)
@@ -130,12 +130,12 @@ C=======================================================================
           NNOD = 20 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
         ENDIF
         NSEGS = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
-        SNSTRF = SNSTRF +30 + NNOD       !+ NBINTER              
+        SNSTRF = SNSTRF +30 + NNOD       !+ NBINTER
      .         + 2*(NSEGS)   !+NSEGQ+NSEGC+NSEGT+NSEGP+NSEGR+NSEGTG)
         SSECBUF=SSECBUF+10
 
       ENDDO
-            
+
 C-----------
       RETURN
 C-----------

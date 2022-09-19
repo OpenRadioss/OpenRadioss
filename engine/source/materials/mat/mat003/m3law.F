@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),NGL(MVSIZ),NEL
       my_real
      .   PM(NPROPM,*), OFF(MVSIZ), SIG(NEL,6), EPSEQ(MVSIZ),
-     .   SSP(MVSIZ), D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),   
+     .   SSP(MVSIZ), D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
      .   D5(MVSIZ), D6(MVSIZ), RHO0(MVSIZ), DPDM(MVSIZ),
      .   SIGY(MVSIZ), DEFP(MVSIZ), DPLA1(MVSIZ)
       INTEGER IPLA
@@ -69,9 +69,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, II, LIST(MVSIZ), K
       my_real
-     .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ), QS(MVSIZ), YLD(MVSIZ), 
-     .   QH(MVSIZ), AJ2(MVSIZ), DAV(MVSIZ), SJ2(MVSIZ), P(MVSIZ), 
-     .   EPMX(MVSIZ), CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), SIGMX(MVSIZ), 
+     .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ), QS(MVSIZ), YLD(MVSIZ),
+     .   QH(MVSIZ), AJ2(MVSIZ), DAV(MVSIZ), SJ2(MVSIZ), P(MVSIZ),
+     .   EPMX(MVSIZ), CA(MVSIZ), CB(MVSIZ), CN(MVSIZ), SIGMX(MVSIZ),
      .   SCALE, DPLA, G11, CA11, CB11, CN11, EPMX11,GDT,GGDT,
      .   SIGMX11
 C-----------------------------------------------
@@ -83,10 +83,10 @@ C
       CN11=PM(40,MX)
       EPMX11=PM(41,MX)
       SIGMX11=PM(42,MX)
-      
+
       GDT=DT1*G11
       GGDT=TWO*GDT
-       
+
       ! [D] = [EPS_DOT]
       !   D1 = EPS_DOT(x,x)
       !   D2 = EPS_DOT(y,y)
@@ -100,15 +100,15 @@ C
       ENDDO
 C
       !ELASTIC PREDICTION : S_prediction = S_old + 2 mu de
-      !where [e_dot] = [E_dot]_dev 
+      !where [e_dot] = [E_dot]_dev
       ! [de] = dt.[e_dot]
       ! mu = G
       !
       ! 2mu de_11 = 2G dt.e_dot_11 = 2G dt (EPS_DOT_11-DAV) = 2G dt (D1-DAV)
       ! 2mu de_12 = 2G dt.e_dot_12 = 2G dt D4/2 = G dt D4
       !
-      
-      DO I=LFT,LLT            
+
+      DO I=LFT,LLT
        SIG(I,1)=SIG(I,1)+P(I)+GGDT*(D1(I)+DAV(I))
        SIG(I,2)=SIG(I,2)+P(I)+GGDT*(D2(I)+DAV(I))
        SIG(I,3)=SIG(I,3)+P(I)+GGDT*(D3(I)+DAV(I))
@@ -128,18 +128,18 @@ C-----------------------
       IF(CN11==ONE)THEN
         DO I=LFT,LLT
           QH(I)= CB11
-        ENDDO   
+        ENDDO
       ELSEIF(CN11>ONE)THEN
         DO I=LFT,LLT
           QH(I)= CB11*CN11*MAX(ZERO,EPSEQ(I))**(CN11- ONE)
-        ENDDO    
+        ENDDO
       ELSE
         DO I=LFT,LLT
           IF(EPSEQ(I)/=ZERO)THEN
            QH(I)= CB11*CN11/MAX(ZERO,EPSEQ(I))**(ONE-CN11)
           ELSE
            QH(I)=ZERO
-          ENDIF              
+          ENDIF
         ENDDO
       ENDIF
 
@@ -172,7 +172,7 @@ C---------------------------------
         SIG(I,4)=SCALE*SIG(I,4)
         SIG(I,5)=SCALE*SIG(I,5)
         SIG(I,6)=SCALE*SIG(I,6)
-        DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15)    
+        DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15)
         EPSEQ(I)=EPSEQ(I)+ DPLA1(I)
        ENDDO
       ELSEIF(IPLA==2)THEN
@@ -185,7 +185,7 @@ C---------------------------------
         SIG(I,4)=SCALE*SIG(I,4)
         SIG(I,5)=SCALE*SIG(I,5)
         SIG(I,6)=SCALE*SIG(I,6)
-        DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11,EM15)     
+        DPLA1(I) = (ONE -SCALE)*SJ2(I)/MAX(THREE*G11,EM15)
         EPSEQ(I)=EPSEQ(I)+DPLA1(I)
        ENDDO
       ELSEIF(IPLA==1)THEN
@@ -193,7 +193,7 @@ C---------------------------------
         I=LIST(II)
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
         !--plastic strain increment.
-        DPLA=(ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15) 
+        DPLA=(ONE -SCALE)*SJ2(I)/MAX(THREE*G11+QH(I),EM15)
         !--actual yeld stress.
         YLD(I)=YLD(I)+DPLA*QH(I)
         SCALE= MIN(ONE,YLD(I)/ MAX(SJ2(I),EM15))
@@ -234,7 +234,7 @@ C---------------------------
       DO I=LFT,LLT
        SIGY(I)=YLD(I)
        DEFP(I)=EPSEQ(I)
-      ENDDO 
+      ENDDO
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
       RETURN
       END

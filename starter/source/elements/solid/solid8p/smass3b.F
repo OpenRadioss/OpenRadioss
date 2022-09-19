@@ -30,7 +30,7 @@ Chd|====================================================================
      1   RHO    ,MS ,VOLGP,LVLOC,MSS,
      2   PARTSAV,X  ,V    ,IPART,MSNF,
      3   MSSF   ,WMA,RHOCP,MCP   ,MCPS ,
-     4   MSSA, VOLU, 
+     4   MSSA, VOLU,
      5   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,7 +53,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LVLOC,IPART(*)
       my_real
-     .     RHO(*), MS(*), VOLGP(LVLOC,*), X(3,*), V(3,*), PARTSAV(20,*),    
+     .     RHO(*), MS(*), VOLGP(LVLOC,*), X(3,*), V(3,*), PARTSAV(20,*),
      .     MSNF(*), MSS(8,*), MSSF(8,*),WMA(*),RHOCP(*),MCP(*),MCPS(8,*),
      .     MSSA(*), VOLU(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*)
@@ -75,7 +75,7 @@ C
        ENDDO
       ENDIF
 C
-      
+
       DO I=LFT,LLT
         DMASGP(1,I)=RHO(I)*VOLGP(1,I)
         DMASGP(2,I)=RHO(I)*VOLGP(2,I)
@@ -96,8 +96,8 @@ C
         DMCPGP(6,I)=RHOCP(I)*VOLGP(6,I)
         DMCPGP(7,I)=RHOCP(I)*VOLGP(7,I)
         DMCPGP(8,I)=RHOCP(I)*VOLGP(8,I)
-       ENDDO  
-      ENDIF 
+       ENDDO
+      ENDIF
 C     mass init en parith/on si spmd
       IF (IMACH/=3) THEN
        DO I=LFT,LLT
@@ -251,7 +251,7 @@ C   de M_element/8. et non pas des masses associees aux noeuds.
 
 C
 c   For FEM  heat transfer
-c 
+c
       IF(JTHE < 0 ) THEN
        DO I=LFT,LLT
         I1 = NC1(I)
@@ -269,7 +269,7 @@ c
         MCP(I5)=MCP(I5)+DMCPGP(5,I)
         MCP(I6)=MCP(I6)+DMCPGP(6,I)
         MCP(I7)=MCP(I7)+DMCPGP(7,I)
-        MCP(I8)=MCP(I8)+DMCPGP(8,I) 
+        MCP(I8)=MCP(I8)+DMCPGP(8,I)
        ENDDO
       ENDIF
 C
@@ -468,7 +468,7 @@ C
 C
 C  For FEM heat trasnfert
 C
-       IF(JTHE < 0 ) THEN  
+       IF(JTHE < 0 ) THEN
          DO I=LFT,LLT
           MCPS(1,I)=DMCPGP(1,I)
           MCPS(2,I)=DMCPGP(2,I)

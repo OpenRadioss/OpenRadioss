@@ -76,12 +76,12 @@ C============================================================================
       IS_AVAILABLE = .FALSE.
 C----------------------------------------------
 C     global parameters for SPH.
-      SPASORT=FOURTH 
+      SPASORT=FOURTH
 C
       IF (INVERS < 130) THEN
         IF(LVOISPH==0) LVOISPH=120
-        IF(KVOISPH==0) KVOISPH=120  
-      ELSE    
+        IF(KVOISPH==0) KVOISPH=120
+      ELSE
         IF(LVOISPH==0) LVOISPH=120
         IF(KVOISPH==0) KVOISPH=240
       ENDIF
@@ -110,4 +110,4 @@ C         SPASORT=MIN(HALF,SPASORT)
 C
 C--------------------------------------------------------------
       RETURN
-      END 
+      END

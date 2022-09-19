@@ -35,8 +35,8 @@ Chd|====================================================================
      1                     R11,R12,R13,R21,R22,R23,R31,R32,R33,
      2                     K11,K12,K13,K22,K23,K33,
      3                     M11,M12,M13,M22,M23,M33,
-     4                     MF11,MF12,MF13,MF22,MF23,MF33, 
-     5                     FM12,FM13,FM23, 
+     4                     MF11,MF12,MF13,MF22,MF23,MF33,
+     5                     FM12,FM13,FM23,
      6                     KE11,KE22,KE33,KE12,KE13,KE23,
      7                     IDRIL,IORTH)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,IDRIL,IORTH
-      my_real 
+      my_real
      .    R11(*),R12(*),R13(*),
      .    R21(*),R22(*),R23(*),
      .    R31(*),R32(*),R33(*)
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, EP,IS,IAS,MI,MJ
-      my_real 
+      my_real
      .     Q(3,3,MVSIZ)
       DATA IS/1/,IAS/0/
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -81,7 +81,7 @@ C---------------------------------------
         Q(3,1,I)=R13(I)
         Q(3,2,I)=R23(I)
         Q(3,3,I)=R33(I)
-       ENDDO 
+       ENDDO
 C-----      CBATRAN233     QI^tKQJ K(1,3)>0,K(2,3)>0,K(3,1)>0,K(3,2)>0-------
        CALL CBATRAN2(JFT,JLT,Q,K11,Q,IS)
        CALL CBATRAN2(JFT,JLT,Q,K22,Q,IS)
@@ -139,9 +139,9 @@ C---------------------------------------
 C   ASSEMBLAGE
 C---------------------------------------
 C---------KII -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=I,3 
+        DO J=I,3
          MJ=J+3
          DO EP=JFT,JLT
           KE11(I,J,EP)=K11(I,J,EP)
@@ -154,8 +154,8 @@ C---------KII --------
         ENDDO
        ENDDO
 C
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          MJ=J+3
          DO EP=JFT,JLT
           KE11(I,MJ,EP)=MF11(I,J,EP)
@@ -165,8 +165,8 @@ C
         ENDDO
        ENDDO
 C
-       DO I=1,6 
-        DO J=I,6 
+       DO I=1,6
+        DO J=I,6
          DO EP=JFT,JLT
           KE11(J,I,EP)=KE11(I,J,EP)
           KE22(J,I,EP)=KE22(I,J,EP)
@@ -175,9 +175,9 @@ C
         ENDDO
        ENDDO
 C---------KIJ -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=1,3 
+        DO J=1,3
          MJ=J+3
          DO EP=JFT,JLT
           KE12(I,J,EP)=K12(I,J,EP)
@@ -198,4 +198,4 @@ C---------KIJ --------
 C
       RETURN
       END
- 
+

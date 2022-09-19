@@ -165,7 +165,7 @@ C
                 ENDDO
                 DO K=1,KXSP(5,N)-KXSP(4,N)+1
                     JPERM(KXSP(4,N)+K) = KXSP(5,N)-K+1
-                ENDDO                
+                ENDDO
            ENDIF
 
            DO K=1,NCAND
@@ -274,7 +274,7 @@ C car particule symetrique de particule inactive eventuellement active
           DO N = ITASK+1,NSPHR,NTHREAD
             ISPHR(N) = 1
           END DO
-        END IF        
+        END IF
 C       /---------------/
         CALL MY_BARRIER
 C       /---------------/
@@ -317,7 +317,7 @@ C
               IF (NINT(XSPHR(13,NN))/=0.AND.DD<DMS2) THEN
                 NVOIS1=NVOIS1+1
                 MWA(NVOIS1)=JNOD
-                ISPHR(NN) = 1          ! flag reperage cellule active          
+                ISPHR(NN) = 1          ! flag reperage cellule active
               ELSE
                 NVOIS2=NVOIS2+1
                 MWA(KVOISPH+NVOIS2)=JNOD
@@ -466,7 +466,7 @@ C petit tri bulle
                 NB = 1
               ELSE
                 NB = NB + 1
-              END IF 
+              END IF
             END DO
 C terminaison
             IF(NB>1)THEN
@@ -485,7 +485,7 @@ C petit tri bulle
                   END IF
                 END DO
               END DO
-            END IF          
+            END IF
           END IF
 C fin traitement special parith/on en spmd
          ENDDO
@@ -528,7 +528,7 @@ C--------------------------------------------
               IF (NINT(XSPHR(13,NN))/=0.AND.DD<DMS2) THEN
                 NVOIS1=NVOIS1+1
                 MWA(NVOIS1)=JNOD
-                ISPHR(NN) = 1          ! flag reperage cellule active          
+                ISPHR(NN) = 1          ! flag reperage cellule active
               ELSE
                 NVOIS2=NVOIS2+1
                 MWA(KVOISPH+NVOIS2)=JNOD
@@ -645,7 +645,7 @@ C-----------------------------------------------
              IF (NINT(XSPHR(13,NN))/=0.AND.DD<DMS2) THEN
                NVOIS1=NVOIS1+1
                MWA(NVOIS1)=JNOD
-               ISPHR(NN) = 1          ! flag reperage cellule active          
+               ISPHR(NN) = 1          ! flag reperage cellule active
              ELSE
                NVOIS2=NVOIS2+1
                MWA(KVOISPH+NVOIS2)=JNOD

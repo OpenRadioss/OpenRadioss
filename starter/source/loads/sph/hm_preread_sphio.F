@@ -41,7 +41,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
-      USE SUBMODEL_MOD      
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C
       ! Loop over /SPH/INOUT
       I = 0
       DO N = 1,NSPHIO
-        SKIP = 0        
+        SKIP = 0
 CC----------Multidomaines --> on ignore les inlets non tages------------
         IF (NSUBDOM > 0) THEN
          IF(TAGSPHIO(N) == 0) SKIP = 1
@@ -96,10 +96,10 @@ C----------------------------------------------------------------------
           I = I+1
 C
           ! Title and ID
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID   = ID, 
-     .                            OPTION_TITR = TITR)  
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID   = ID,
+     .                            OPTION_TITR = TITR)
           NOM_OPT(1,I)=ID
           CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 C         
@@ -118,9 +118,9 @@ C
             NSEG = IGRSURF(IDS)%NSEG
             LVAD = 4 + 2*NSEG
           ELSE
-            LVAD = 22        
+            LVAD = 22
           ENDIF
-          SVSPHIO = SVSPHIO + LVAD          
+          SVSPHIO = SVSPHIO + LVAD
         ENDIF
       ENDDO
 C-------------------------------------

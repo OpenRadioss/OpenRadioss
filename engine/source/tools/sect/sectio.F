@@ -34,7 +34,7 @@ Chd|====================================================================
      2         N2      ,N3      ,NSTRF   ,X          ,V       ,
      3         FSAV    ,IXS     ,FOPTA   ,SECFCUM    ,FX      ,
      4         FY      ,FZ      ,TYPE    ,NSINT      ,IFRAM   ,
-     5         NNOD    ,NOD     ,MS      ,XSEC       ,FBSAV6  , 
+     5         NNOD    ,NOD     ,MS      ,XSEC       ,FBSAV6  ,
      6         IPARSENS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER LFT, LLT, NFT, NSEG, N1, N2, N3,TYPE,NSINT
       INTEGER NSTRF(2,*),IXS(NIXS,*),IFRAM,NNOD,NOD(*)
       INTEGER IPARSENS
-      my_real 
+      my_real
      .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),XSEC(4,3),
      .   FX(MVSIZ,8), FY(MVSIZ,8), FZ(MVSIZ,8), V(3,*) ,MS(*)
       DOUBLE PRECISION FBSAV6(12,6)
@@ -70,7 +70,7 @@ C-----------------------------------------------
      .   NSA, J, I, K, I1, I2, IPACK, N,POWER2(8),IPERM(6),II,JJ
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
-     .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -180,8 +180,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -242,8 +242,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -260,21 +260,21 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
          ENDDO
-        ENDDO  
+        ENDDO
 C
         CALL SUM_6_FLOAT_SECT(FSTPARIT,12,NSA,1,NSA,FBSAV6,12,6)
 C
@@ -292,10 +292,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -304,12 +304,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
 
@@ -375,7 +375,7 @@ C-----------------------------------------------
       INTEGER NSTRF(2,*),IXS(NIXS,*),IFRAM,NNOD,NOD(*),
      .        IXS10(6,*),ISOLNOD
       INTEGER IPARSENS
-      my_real 
+      my_real
      .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),XSEC(4,3),
      .   FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10), V(3,*) ,MS(*)
       DOUBLE PRECISION FBSAV6(12,6)
@@ -386,7 +386,7 @@ C-----------------------------------------------
      .   NSA, J, I, K, I1, I2, IPACK, N,POWER2(14),IPERM(4),II,JJ
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
-     .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -395,15 +395,15 @@ C-----------------------------------------------
      .   MSXPHI, MSYPHI, MSZPHI, FSXPHI,
      .   FSYPHI, FSZPHI, FNPHI, FSNXPHI, FSNYPHI, FSNZPHI, FSTXPHI,
      .   FSTYPHI, FSTZPHI, DMXPHI, DMYPHI, DMZPHI
-      my_real 
+      my_real
      .   XX1PHI,XX3PHI,XX4PHI,XX5PHI,XX6PHI
-      my_real 
+      my_real
      .   YY1PHI,YY3PHI,YY4PHI,YY5PHI,YY6PHI
-      my_real 
+      my_real
      .  ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
-      my_real 
+      my_real
      .  AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       DATA POWER2/1,2,4,8,16,32,64,128,
      .            256,512,1024,2048,4096,8192/
@@ -510,8 +510,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -572,8 +572,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -590,22 +590,22 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
          ENDDO
         ENDDO
-       ENDIF  
+       ENDIF
 C
        IF(ISOLNOD==10)THEN
         IF(IPARSENS==0) THEN     ! Parith/Off
@@ -658,8 +658,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -720,8 +720,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -738,16 +738,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -767,10 +767,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -779,12 +779,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
        IF(IPARSENS/=0) THEN      ! Parith/On
@@ -870,7 +870,7 @@ C-----------------------------------------------
       INTEGER NSTRF(2,*),IXS(NIXS,*),IFRAM,NNOD,NOD(*),
      .        IXS20(12,*),IXS16(8,*),ISOLNOD
       INTEGER IPARSENS
-      my_real 
+      my_real
      .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),
      .   FX(MVSIZ,8), FY(MVSIZ,8), FZ(MVSIZ,8), V(3,*) ,MS(*),XSEC(4,3)
       DOUBLE PRECISION FBSAV6(12,6)
@@ -881,16 +881,16 @@ C-----------------------------------------------
      .   NSA, J, I, K, I1, I2, IPACK, N,POWER2(20), JJ
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
-     .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DX1(MVSIZ),DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
      .   FSTY, FSTZ, DMX, DMY, DMZ
-      my_real 
+      my_real
      .   MSXPHI, MSYPHI, MSZPHI, FSXPHI,
      .   FSYPHI, FSZPHI, FNPHI, FSNXPHI, FSNYPHI, FSNZPHI, FSTXPHI,
      .   FSTYPHI, FSTZPHI, DMXPHI, DMYPHI, DMZPHI
-      my_real 
+      my_real
      .   XX1PHI,XX3PHI,XX4PHI,XX5PHI,XX6PHI
       my_real
      .   YY1PHI,YY3PHI,YY4PHI,YY5PHI,YY6PHI
@@ -898,7 +898,7 @@ C-----------------------------------------------
      .    ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
       my_real
      .    AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
       DATA POWER2/1,2,4,8,16,32,64,128,256,512,
@@ -1004,8 +1004,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1065,8 +1065,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1083,16 +1083,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -1151,8 +1151,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1212,8 +1212,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1230,16 +1230,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -1297,8 +1297,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1358,8 +1358,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1376,16 +1376,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -1404,10 +1404,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -1416,19 +1416,19 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
        IF(IPARSENS/=0) THEN      ! Parith/On
           CALL SUM_6_FLOAT_SECT(FSTPARIT,12,NSA,1,NSA,FBSAV6,12,6)
         DEALLOCATE(FSTPARIT)
        ENDIF
-          
+
       ELSE
 C
 #include "lockon.inc"
@@ -1521,8 +1521,8 @@ C-----------------------------------------------
       INTEGER LFT, LLT, NFT, NSEG, N1, N2, N3,
      .        TYPE,NSINT,IPARSENS
       INTEGER NSTRF(2,*),IXC(NIXC,*),IFRAM,NNOD,NOD(*)
-      my_real 
-     .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*), 
+      my_real
+     .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),
      .   V(3,*), VR(3,*),MS(*),XSEC(4,3), FSAVSAV(NTHVKI)
       DOUBLE PRECISION FBSAV6(12,6)
 C-----------------------------------------------
@@ -1551,7 +1551,7 @@ C-----------------------------------------------
      .   ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
       my_real
      .   AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C-----------------------------------------------
@@ -1626,7 +1626,7 @@ C
      3                  XXN, YYN, ZZN, IFRAM, N1  , XSEC)
        END IF
 C
-     
+
       IF((IPARSENS==0)) THEN      ! Parith/Off
        IF (NSA>15.OR.IVECTOR==0) THEN
         DO K=1,NSA
@@ -1678,8 +1678,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1742,8 +1742,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1806,8 +1806,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1825,16 +1825,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
 C
@@ -1895,8 +1895,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -1914,16 +1914,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
 C
@@ -1941,15 +1941,15 @@ C
               FSAV(3)=FSAV(3)+DT12*FST(3)
               FSAV(4)=FSAV(4)+DT12*FST(4)
               FSAV(5)=FSAV(5)+DT12*FST(5)
-              FSAV(6)=FSAV(6)+DT12*FST(6) 
+              FSAV(6)=FSAV(6)+DT12*FST(6)
               FSAV(7)=FSAV(7)+DT12*FST(7)
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -1969,12 +1969,12 @@ C
                 FSAVSAV(8)=FSAVSAV(8)+FST(8)
                 FSAVSAV(9)=FSAVSAV(9)+FST(9)
               END IF
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       ELSE
@@ -2043,7 +2043,7 @@ C-----------------------------------------------
      4                   TYPE,NSINT
       INTEGER NSTRF(2,*),IXT(NIXT,*),IFRAM,NNOD,NOD(*)
       INTEGER IPARSENS
-      my_real 
+      my_real
      .   X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),
      .   FX(MVSIZ,2), FY(MVSIZ,2), FZ(MVSIZ,2),
      .        V(3,*), VR(3,*),MS(*),XSEC(4,3)
@@ -2056,7 +2056,7 @@ C-----------------------------------------------
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .   DX1(MVSIZ),
-     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -2073,7 +2073,7 @@ C-----------------------------------------------
      .   ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
       my_real
      .   AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C-----------------------------------------------
@@ -2122,7 +2122,7 @@ C
      3                  XXN, YYN, ZZN, IFRAM, N1  , XSEC)
        END IF
 C
-       IF(IPARSENS==0) THEN      ! Parith/Off	  
+       IF(IPARSENS==0) THEN      ! Parith/Off	
         DO K=1,NSA
          J  = JJJ(K)
          I  = NSTRF(1,J)-NFT
@@ -2171,8 +2171,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -2232,8 +2232,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -2250,16 +2250,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -2282,10 +2282,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -2294,12 +2294,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       ELSE
@@ -2376,7 +2376,7 @@ C-----------------------------------------------
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .   MX1(MVSIZ), MY1(MVSIZ), MZ1(MVSIZ), DX1(MVSIZ),
-     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -2393,7 +2393,7 @@ C-----------------------------------------------
      .   ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
       my_real
      .   AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C-----------------------------------------------
@@ -2499,8 +2499,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -2569,8 +2569,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -2588,16 +2588,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -2620,10 +2620,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -2632,12 +2632,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       ELSE
@@ -2717,7 +2717,7 @@ C-----------------------------------------------
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .   MX1(MVSIZ), MY1(MVSIZ), MZ1(MVSIZ), DX1(MVSIZ),
-     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -2734,7 +2734,7 @@ C-----------------------------------------------
      .   ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
       my_real
      .   AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C-----------------------------------------------
@@ -2764,7 +2764,7 @@ C
          FST(I)=0.
        ENDDO
 C
-       IF(IPARSENS/=0) THEN    
+       IF(IPARSENS/=0) THEN
          ALLOCATE(FSTPARIT(12,NSA))
          DO J=1,NSA
              DO I=1,12
@@ -2841,8 +2841,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -2911,8 +2911,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -2930,16 +2930,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -2962,10 +2962,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -2974,12 +2974,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       ELSE
@@ -3059,7 +3059,7 @@ C-----------------------------------------------
       my_real
      .   FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .   MX1(MVSIZ), MY1(MVSIZ), MZ1(MVSIZ), DX1(MVSIZ),
-     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16), 
+     .   DY1(MVSIZ), DZ1(MVSIZ),FST(16),
      .   MSX, MSY, MSZ,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -3076,7 +3076,7 @@ C-----------------------------------------------
      .   ZZ1PHI,ZZ3PHI,ZZ4PHI,ZZ5PHI,ZZ6PHI
       my_real
      .   AL4PHI,AL5PHI,AL6PHI,XX5T,YY5T,ZZ5T
-      my_real 
+      my_real
      .  AL4,AL5,AL6
       my_real, DIMENSION(:,:), ALLOCATABLE :: FSTPARIT
 C-----------------------------------------------
@@ -3183,8 +3183,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -3253,8 +3253,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -3272,16 +3272,16 @@ C
               FSTPARIT(7,K)=FSTPARIT(7,K)+MSX
               FSTPARIT(8,K)=FSTPARIT(8,K)+MSY
               FSTPARIT(9,K)=FSTPARIT(9,K)+MSZ
-              FSTPARIT(10,K)=FSTPARIT(10,K)     + 
-     .                 ( XX4*(FSNX+FSTX)  + 
+              FSTPARIT(10,K)=FSTPARIT(10,K)     +
+     .                 ( XX4*(FSNX+FSTX)  +
      .                 YY4*(FSNY+FSTY)          +
      .                 ZZ4*(FSNZ+FSTZ) )
-              FSTPARIT(11,K)=FSTPARIT(11,K)     + 
-     .                 ( XX5*(FSNX+FSTX)  + 
+              FSTPARIT(11,K)=FSTPARIT(11,K)     +
+     .                 ( XX5*(FSNX+FSTX)  +
      .                 YY5*(FSNY+FSTY)          +
      .                 ZZ5*(FSNZ+FSTZ) )
-              FSTPARIT(12,K)=FSTPARIT(12,K)     + 
-     .                 ( XX6*(FSNX+FSTX)  + 
+              FSTPARIT(12,K)=FSTPARIT(12,K)     +
+     .                 ( XX6*(FSNX+FSTX)  +
      .                 YY6*(FSNY+FSTY)          +
      .                 ZZ6*(FSNZ+FSTZ) )
            ENDIF
@@ -3303,10 +3303,10 @@ C
               FSAV(8)=FSAV(8)+DT12*FST(8)
               FSAV(9)=FSAV(9)+DT12*FST(9)
               FSAV(10)=FSAV(10)+DT12*FST(16)
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -3326,12 +3326,12 @@ C
                 FSAVSAV(8)=FSAVSAV(8)+FST(8)
                 FSAVSAV(9)=FSAVSAV(9)+FST(9)
               END IF
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       ELSE
@@ -3407,13 +3407,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSTRF(*),NOM_SECT(*),ISECTR,NSECT,IOLDSECT
-      my_real 
+      my_real
      .   SECBUF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IR, N, IR1, IR2, IFILNAM(2548),LROOTLEN,LEN,K0,ID_SEC
-      my_real 
+      my_real
      .   TT1, TT2, TT3, TMP(20)
       CHARACTER FILNAM*500,LCHRUN*2,LCHRUN_P1*2,CH_IDSEC*10
       LOGICAL FEXIST
@@ -3433,16 +3433,16 @@ C-----------------------------------------------
         K0 = NSTRF(25)
         DO J=1,NSECT
          IF(NSTRF(K0)>=1 .AND. NSTRF(K0)<=10 )THEN
-          WRITE(LCHRUN,'(I2.2)')IRUN 
-          LROOTLEN=0 
+          WRITE(LCHRUN,'(I2.2)')IRUN
+          LROOTLEN=0
           DO I=1,500
 c ncharline of starter =500
             FILNAM(I:I)=CHAR(NOM_SECT((J-1)*500+I))
             IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
-          ENDDO  
+          ENDDO
           IF (LROOTLEN == 0 .AND. ABS(IOLDSECT) == 1) THEN
             IOLDSECT = 1
-          ELSEIF( LROOTLEN /= 0 .AND. (IOLDSECT >= 1)) THEN 
+          ELSEIF( LROOTLEN /= 0 .AND. (IOLDSECT >= 1)) THEN
             IOLDSECT = 2
           ENDIF
          ENDIF
@@ -3450,9 +3450,9 @@ c ncharline of starter =500
         ENDDO
         IF(NSTRF(1)>=1 .AND. IOLDSECT == 1)THEN
 Csm  FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
-          WRITE(LCHRUN,'(I2.2)')IRUN      
+          WRITE(LCHRUN,'(I2.2)')IRUN
           FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//LCHRUN
-          LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 4      
+          LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 4
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+4)
           DO I=1,LEN_TMP_NAME
             IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -3463,28 +3463,28 @@ Csm  FILNAM=ROOTNAM(1:ROOTLEN)//'SC'//CHRUN
           K0 = NSTRF(25)
           DO J=1,NSECT
            IF(NSTRF(K0)>=1 .AND. NSTRF(K0)<=10 )THEN
-            WRITE(LCHRUN,'(I2.2)')IRUN 
-            LROOTLEN=0 
+            WRITE(LCHRUN,'(I2.2)')IRUN
+            LROOTLEN=0
             DO I=1,500
 c ncharline of starter =500
               IF(CHAR(NOM_SECT((J-1)*500+I))/=' ')THEN
                 LROOTLEN=LROOTLEN+1
                 FILNAM(LROOTLEN:LROOTLEN)=CHAR(NOM_SECT((J-1)*500+I))
               ENDIF
-            ENDDO 
-            IF (LROOTLEN == 0) THEN 
-              WRITE(CH_IDSEC,'(I10.10)')NSTRF(K0+23)     
+            ENDDO
+            IF (LROOTLEN == 0) THEN
+              WRITE(CH_IDSEC,'(I10.10)')NSTRF(K0+23)
               FILNAM=ROOTNAM(1:ROOTLEN)//CH_IDSEC//'SC'//LCHRUN
-              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 14      
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + 14
               TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+14)
               DO I=1,LEN_TMP_NAME
                 IFILNAM(I)=ICHAR(TMP_NAME(I:I))
               ENDDO
               CALL CUR_FIL_C(41+J)
               CALL OPEN_C(IFILNAM,LEN_TMP_NAME,0)
-            ELSE 
+            ELSE
               FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
-              LEN_TMP_NAME = OUTFILE_NAME_LEN + LROOTLEN + 4      
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + LROOTLEN + 4
               TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LROOTLEN+4)
               DO I=1,LEN_TMP_NAME
                 IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -3505,17 +3505,17 @@ C-----------------------------------------------
 c ncharline of starter =500
           FILNAM(I:I)=CHAR(NOM_SECT((ISECTR-1)*500+I))
           IF(FILNAM(I:I)/=' ')LROOTLEN=LROOTLEN+1
-        ENDDO 
+        ENDDO
         IF(TT==ZERO)THEN
           TT1=ZERO
           TT2=ZERO
           FILNAM=FILNAM(1:LROOTLEN)//'SC01'
-          LEN_TMP_NAME = OUTFILE_NAME_LEN + LROOTLEN + 4      
+          LEN_TMP_NAME = OUTFILE_NAME_LEN + LROOTLEN + 4
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LROOTLEN+4)
           INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
 
           IF(.NOT.FEXIST) THEN
-              LEN_TMP_NAME = LROOTLEN + 4      
+              LEN_TMP_NAME = LROOTLEN + 4
               TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LROOTLEN+4)
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
@@ -3538,13 +3538,13 @@ c ncharline of starter =500
             TSTOP = TT
           ENDIF
           FILNAM=FILNAM(1:LROOTLEN)//'SC02'
-          LEN_TMP_NAME = OUTFILE_NAME_LEN + LROOTLEN + 4      
+          LEN_TMP_NAME = OUTFILE_NAME_LEN + LROOTLEN + 4
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LROOTLEN+4)
 
           INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
 
           IF(.NOT.FEXIST) THEN
-              LEN_TMP_NAME = LROOTLEN + 4     
+              LEN_TMP_NAME = LROOTLEN + 4
               TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LROOTLEN+4)
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
@@ -3568,13 +3568,13 @@ c ncharline of starter =500
           TT2=ZERO
           WRITE(LCHRUN,'(I2.2)')IRUN
           FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
-          LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)  
+          LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
 
           INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
 
           IF(.NOT.FEXIST) THEN
-              LEN_TMP_NAME = LEN_TRIM(FILNAM)    
+              LEN_TMP_NAME = LEN_TRIM(FILNAM)
               TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TRIM(FILNAM))
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
@@ -3599,13 +3599,13 @@ c ncharline of starter =500
           ENDIF
           WRITE(LCHRUN_P1,'(I2.2)')IRUN+1
           FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN_P1
-          LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)  
+          LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
           TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
 
           INQUIRE(FILE=TMP_NAME,EXIST=FEXIST)
 
           IF(.NOT.FEXIST) THEN
-              LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
+              LEN_TMP_NAME =  LEN_TRIM(FILNAM)
               TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
               INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
           ENDIF
@@ -3628,7 +3628,7 @@ c ncharline of starter =500
 C
         WRITE(LCHRUN,'(I2.2)')IR1
         FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
-        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)  
+        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
         TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
 
         CALL CUR_FIL_C(4)
@@ -3723,15 +3723,15 @@ C-----------------------------------------------
       INTEGER NSTRF(*), WEIGHT(*), IAD_ELEM(2,*), FR_ELEM(*),
      .   RG_CUT(*), IAD_CUT(NSPMD+2,*), FR_CUT(*),WEIGHT_MD(*),
      .   IOLDSECT, STABSEN,DIMFB,TABS(STABSEN)
-      my_real 
-     .   D(3,*), DR(3,*), V(3,*), VR(3,*), A(3,*), AR(3,*), MS(*),  
+      my_real
+     .   D(3,*), DR(3,*), V(3,*), VR(3,*), A(3,*), AR(3,*), MS(*),
      .   FSAV(NTHVKI,*), SECFCUM(7,NUMNOD,*), SECBUF(*), IN(*),
      .   FANI(3,*), X(3,*), XSEC(4,3,*)
       DOUBLE PRECISION FBSAV6(12,6,DIMFB)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
      .   IFRL1, IFRL2, L, ID_SEC,TYPE, LREC, NNOD,KR11,KR12, LENR,
      .   KR21,KR22,NBINTER, NN, LEN, KC, NSIZE, NNODG, SIZE, NNODT,
@@ -3856,7 +3856,7 @@ C-----------------------------------------------------
                 CALL WRITE_R_C(R4,1)
                ENDDO
               ENDIF
-            ELSE 
+            ELSE
 C-----------------------------------------------------
 C Comm SPMD + Ecriture
 C-----------------------------------------------------
@@ -3949,7 +3949,7 @@ C-----------------------------------------------------
                 CALL WRITE_R_C(R4,1)
                ENDDO
               ENDIF
-            ENDIF            
+            ENDIF
           ENDIF
 
           K0  = NSTRF(K0+24)
@@ -3984,7 +3984,7 @@ C-----------------------------------------------
             ERR(8) = ZERO
             DO K=1,3
               ERR(K) = ZERO
-              ERR(K+4) = ZERO 
+              ERR(K+4) = ZERO
               DO I=1,NNOD
                 II = NSTRF(K2+I-1)
                 IF(WEIGHT_MD(II)==1)THEN
@@ -3995,7 +3995,7 @@ C-----------------------------------------------
                   ERR(K) = ERR(K) + (FF - FOLD)
                   ERR(4) = ERR(4) + (FF - FOLD)**2
                 END IF
-              ENDDO            
+              ENDDO
               IF(IRODDL/=0)THEN
                 DO I=1,NNOD
                   II = NSTRF(K2+I-1)
@@ -4007,9 +4007,9 @@ C-----------------------------------------------
                     ERR(K+4) = ERR(K+4) + (FF - FOLD)
                     ERR(8) = ERR(8) + (FF - FOLD)**2
                   END IF
-                ENDDO 
-              ENDIF           
-            ENDDO            
+                ENDDO
+              ENDIF
+            ENDDO
             FSAV(11,N) = FSAV(11,N) + ERR(1)*DT12
             FSAV(12,N) = FSAV(12,N) + ERR(2)*DT12
             FSAV(13,N) = FSAV(13,N) + ERR(3)*DT12
@@ -4076,10 +4076,10 @@ C-----------------------------------------------
             TFEXT=TFEXT + TFEXTL
             DW=ZERO
             ERR(4) = ZERO
-            ERR(8) = ZERO    
+            ERR(8) = ZERO
             DO K=1,3
               ERR(K) = ZERO
-              ERR(K+4) = ZERO      
+              ERR(K+4) = ZERO
               DO I=1,NNOD
                II = NSTRF(K2+I-1)
                D2 = SECBUF(KR12+6*I-7+K)
@@ -4095,7 +4095,7 @@ C-----------------------------------------------
                 ERR(4)=ERR(4)
      .               + WEIGHT_MD(II)*MS(II)*(VI**2-(V(K,II)+DV)**2)
                ENDIF
-              ENDDO            
+              ENDDO
               IF(IRODDL/=0)THEN
                 DO I=1,NNOD
                  II = NSTRF(K2+I-1)
@@ -4113,9 +4113,9 @@ C-----------------------------------------------
                   ERR(8)=ERR(8)
      .                 + WEIGHT_MD(II)*IN(II)*(VI**2-(VR(K,II)+DV)**2)
                  ENDIF
-                ENDDO 
-              ENDIF           
-            ENDDO            
+                ENDDO
+              ENDIF
+            ENDDO
             TFEXTL=TFEXTL + DT1*DW
             TFEXT=TFEXT + DT1*DW
             SECBUF(KR0+1) = DW
@@ -4141,7 +4141,7 @@ C-----------------------------------------------
               CALL SPMD_GLOB_DSUM9(WA,LEN)
               SECBUF(KR0+1) = ZERO
               SECBUF(KR0+3) = ZERO
-              SECBUF(KR0+4) = ZERO    
+              SECBUF(KR0+4) = ZERO
              ENDIF
             ENDIF
 C-----------------------------------------------
@@ -4177,7 +4177,7 @@ C---------------------------------------------------------
             SECFCUM(3,N,I)=ZERO
             SECFCUM(5,N,I)=ZERO
             SECFCUM(6,N,I)=ZERO
-            SECFCUM(7,N,I)=ZERO    
+            SECFCUM(7,N,I)=ZERO
           ENDDO
           K0=NSTRF(K0+24)
         ENDDO
@@ -4219,14 +4219,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSTRF(*),WEIGHT(*), IAD_CUT(NSPMD+2,*), FR_CUT(*)   
-      my_real 
-     .   V(3,*), VR(3,*), A(3,*), AR(3,*), MS(*),  
+      INTEGER NSTRF(*),WEIGHT(*), IAD_CUT(NSPMD+2,*), FR_CUT(*)
+      my_real
+     .   V(3,*), VR(3,*), A(3,*), AR(3,*), MS(*),
      .   FSAV(NTHVKI,*), SECBUF(*), IN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
      .   IFRL1, IFRL2, L,TYPE, NNOD,KR11,KR12,
      .   KR21,KR22,NBINTER,LEN,NNODT
@@ -4299,13 +4299,13 @@ C-----------------------------------------------
                 AA = (TT*(D2-D1)+TT2*D1-TT1*D2) / (TT2-TT1)
                 D2 = SECBUF(KR12+6*I-7+K)
                 D1 = SECBUF(KR11+6*I-7+K)
-                DD = MS(II)*(D2-D1) / (TT2-TT1) 
+                DD = MS(II)*(D2-D1) / (TT2-TT1)
                 AA = DD*DTINV + AA
                 A(K,II) = A(K,II) + AA
                 IF(WEIGHT(II)==1) THEN
                   DW = DW + HALF*V(K,II)*AA
                 ENDIF
-              ENDDO            
+              ENDDO
               IF(IRODDL/=0)THEN
                 DO I=1,NNOD
                   II = NSTRF(K2+I-1)
@@ -4314,15 +4314,15 @@ C-----------------------------------------------
                   AA = (TT*(D2-D1)+TT2*D1-TT1*D2) / (TT2-TT1)
                   D2 = SECBUF(KR12+6*I-4+K)
                   D1 = SECBUF(KR11+6*I-4+K)
-                  DD = IN(II)*(D2-D1) / (TT2-TT1) 
+                  DD = IN(II)*(D2-D1) / (TT2-TT1)
                   AA = DD*DTINV + AA
                   AR(K,II) = AR(K,II) + AA
                   IF(WEIGHT(II)==1) THEN
                     DW = DW + HALF*VR(K,II)*AA
                   ENDIF
                 ENDDO
-              ENDIF            
-            ENDDO            
+              ENDIF
+            ENDDO
             TFEXTL=TFEXTL + DT1*DW
             TFEXT=TFEXT + DT1*DW
             SECBUF(KR0+3) = DW
@@ -4368,15 +4368,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNOD,N1, N2, N3,TYPE,IFRAM
       INTEGER NSTRF(*)
-      my_real X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*), 
+      my_real X(3,*), FSAV(NTHVKI), FOPTA(6), SECFCUM(7,*),
      .        V(3,*), VR(3,*),MS(*),IN(*),XSEC(4,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   J, I, K, I1, I2, N
       my_real
-     .   FX1, FY1, FZ1,MX1, MY1, MZ1, DX1,DY1, DZ1,FST(35), 
+     .   FX1, FY1, FZ1,MX1, MY1, MZ1, DX1,DY1, DZ1,FST(35),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -4452,8 +4452,8 @@ C
              FST(7)=FST(7)+DMX
              FST(8)=FST(8)+DMY
              FST(9)=FST(9)+DMZ
-             FST(30) = FST(30) + FSX 
-             FST(31) = FST(31) + FSY 
+             FST(30) = FST(30) + FSX
+             FST(31) = FST(31) + FSY
              FST(32) = FST(32) + FSZ
              FST(33) = FST(33) + MSX
              FST(34) = FST(34) + MSY
@@ -4522,8 +4522,8 @@ C
              FST(7)=FST(7)+DMX
              FST(8)=FST(8)+DMY
              FST(9)=FST(9)+DMZ
-             FST(30) = FST(30) + FSX 
-             FST(31) = FST(31) + FSY 
+             FST(30) = FST(30) + FSX
+             FST(31) = FST(31) + FSY
              FST(32) = FST(32) + FSZ
              FST(33) = FST(33) + MSX
              FST(34) = FST(34) + MSY
@@ -4549,11 +4549,11 @@ C
               FSAV(10)=FSAV(10)+DT12*(FST(10)+FST(15))
               FSAV(15)=FSAV(15)+DT12*FST(15)
               FSAV(20)=HALF*FST(20)
-              FSAV(21)=HALF*FST(21)      
-              FSAV(31)=FSAV(31)+DT12*FST(33) 
+              FSAV(21)=HALF*FST(21)
+              FSAV(31)=FSAV(31)+DT12*FST(33)
               FSAV(32)=FSAV(32)+DT12*FST(34)
               FSAV(33)=FSAV(33)+DT12*FST(35)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -4563,12 +4563,12 @@ C
               FSAV(38)=YYC
               FSAV(39)=ZZC
 C
-              FOPTA(1) = FOPTA(1) + FST(30) 
-              FOPTA(2) = FOPTA(2) + FST(31)  
-              FOPTA(3) = FOPTA(3) + FST(32) 
-              FOPTA(4) = FOPTA(4) + FST(33) 
-              FOPTA(5) = FOPTA(5) + FST(34) 
-              FOPTA(6) = FOPTA(6) + FST(35) 
+              FOPTA(1) = FOPTA(1) + FST(30)
+              FOPTA(2) = FOPTA(2) + FST(31)
+              FOPTA(3) = FOPTA(3) + FST(32)
+              FOPTA(4) = FOPTA(4) + FST(33)
+              FOPTA(5) = FOPTA(5) + FST(34)
+              FOPTA(6) = FOPTA(6) + FST(35)
 #include "lockoff.inc"
 C
       RETURN
@@ -4619,17 +4619,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSTRF(*)
-      my_real 
+      my_real
      .   TTT, SECBUF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,
      .   IR1, IR2, IFRL1, IFRL2, FOUND, NR, L, NSECR, ID_SEC,
      .   TYPE, IFILNAM(2148), LROOTLEN, LREC, NNOD,IR, NNODR,KR11,KR12,
      .   KR21,KR22,NBINTER,IEXTRA
-      my_real 
+      my_real
      .   TT1, TT2, TT3
       CHARACTER FILNAM*12,LCHRUN*2
       LOGICAL FEXIST
@@ -4679,15 +4679,15 @@ C test EOF-------------------------------------------------------------------
               IR=IR+1
               WRITE(LCHRUN,'(I2.2)')IR
               FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
-              LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM) 
+              LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
               TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
               INQUIRE(FILE=TMP_NAME(1:LEN_TMP_NAME),EXIST=FEXIST)
 
               IF(.NOT.FEXIST) THEN
-                LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
+                LEN_TMP_NAME =  LEN_TRIM(FILNAM)
                 TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
-              ENDIF            
+              ENDIF
 
               IF(FEXIST)THEN
                 IR2=IR
@@ -4709,15 +4709,15 @@ C test EOF-------------------------------------------------------------------
             ENDIF
             WRITE(LCHRUN,'(I2.2)')IR1
             FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM) 
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
             TMP_NAME(1:LEN_TMP_NAME)=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
             INQUIRE(FILE=TMP_NAME(1:LEN_TMP_NAME),EXIST=FEXIST)
 
             IF(.NOT.FEXIST) THEN
-                LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
+                LEN_TMP_NAME =  LEN_TRIM(FILNAM)
                 TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
-            ENDIF 
+            ENDIF
 
             CALL CUR_FIL_C(4)
             DO I=1,LEN_TMP_NAME
@@ -4734,7 +4734,7 @@ C
             CALL READ_R_C(R4,1)
             TT1=TT2
             TT2=R4
-          ENDIF          
+          ENDIF
 C-----------------------------------------------
           CALL READ_I_C(L,1)
           CALL READ_I_C(NSECR,1)
@@ -4770,11 +4770,11 @@ C skip deplacements et forces
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
                 ENDDO
-              ENDIF            
+              ENDIF
               IF(TYPE>=2)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
-                ENDDO            
+                ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==100)THEN
 C lecture deplacements
@@ -4792,15 +4792,15 @@ C lecture deplacements
                   SECBUF(KR1+6*I-2)=R4
                   CALL READ_R_C(R4,1)
                   SECBUF(KR1+6*I-1)=R4
-                ENDDO 
+                ENDDO
               ELSE
 C Pb de compatibilite type_new>=100 et type_old<1
-              ENDIF           
+              ENDIF
               IF(TYPE>=2)THEN
 C skip forces
                 DO I=1,6*NNOD
                   CALL READ_R_C(R4,1)
-                ENDDO            
+                ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==101)THEN
 C lecture deplacements
@@ -4818,7 +4818,7 @@ C lecture deplacements
                   SECBUF(KR1+6*I-2)=R4
                   CALL READ_R_C(R4,1)
                   SECBUF(KR1+6*I-1)=R4
-                ENDDO            
+                ENDDO
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<1
               ENDIF
@@ -4837,7 +4837,7 @@ C lecture forces
                   SECBUF(KR2+6*I-2)=R4
                   CALL READ_R_C(R4,1)
                   SECBUF(KR2+6*I-1)=R4
-                ENDDO            
+                ENDDO
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<2
               ENDIF
@@ -4905,17 +4905,17 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNODT, NSTRF(*), IAD_CUT(NSPMD+2,*), FR_CUT(*)
-      my_real 
+      my_real
      .   TTT, SECBUF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   J, I, K, II, I1, I2, N, KR1,KR2,KR3,K0,KR0,K1,K2,KC,IFLG,
      .   IR1, IR2, IFRL1, IFRL2, FOUND, NR, L, LL, NSECR, ID_SEC,NNODG,
      .   TYPE, IFILNAM(2148), LROOTLEN, LREC, NNOD,IR, NNODR,KR11,KR12,
      .   KR21,KR22,NBINTER,IEXTRA, ADDSEC(2*NSECT)
-      my_real 
+      my_real
      .   TT1, TT2, TT3, BUFCOM(3*NSECT+7), SECBUFG(24*NNODT)
       CHARACTER FILNAM*12,LCHRUN*2
       LOGICAL FEXIST
@@ -4981,10 +4981,10 @@ C test EOF-------------------------------------------------------------------
               INQUIRE(FILE=FILNAM,EXIST=FEXIST)
 
               IF(.NOT.FEXIST) THEN
-                LEN_TMP_NAME =  OUTFILE_NAME_LEN +LEN_TRIM(FILNAM)   
+                LEN_TMP_NAME =  OUTFILE_NAME_LEN +LEN_TRIM(FILNAM)
                 TMP_NAME(1:LEN_TMP_NAME)=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LROOTLEN+4)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
-              ENDIF 
+              ENDIF
 
               IF(FEXIST)THEN
                 IR2=IR
@@ -5007,15 +5007,15 @@ C test EOF-------------------------------------------------------------------
             ENDIF
             WRITE(LCHRUN,'(I2.2)')IR1
             FILNAM=FILNAM(1:LROOTLEN)//'SC'//LCHRUN
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)      
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
             INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
 
             IF(.NOT.FEXIST) THEN
-                LEN_TMP_NAME =  LEN_TRIM(FILNAM)   
+                LEN_TMP_NAME =  LEN_TRIM(FILNAM)
                 TMP_NAME(1:LEN_TMP_NAME)=FILNAM(1:LEN_TMP_NAME)
                 INQUIRE(FILE=TMP_NAME(1:LEN_TRIM(TMP_NAME)),EXIST=FEXIST)
-            ENDIF 
+            ENDIF
 
             CALL CUR_FIL_C(4)
             DO I=1,LEN_TMP_NAME
@@ -5033,7 +5033,7 @@ C
             IF(R4 /= ZERO) L = 0
             TT1=TT2
             TT2=R4
-          ENDIF          
+          ENDIF
 C-----------------------------------------------
           CALL READ_I_C(LL,1)
           CALL READ_I_C(NSECR,1)
@@ -5072,11 +5072,11 @@ C skip deplacements et forces
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
                 ENDDO
-              ENDIF            
+              ENDIF
               IF(TYPE>=2)THEN
                 DO I=1,6*NNODR
                   CALL READ_R_C(R4,1)
-                ENDDO            
+                ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==100)THEN
 C lecture deplacements
@@ -5098,15 +5098,15 @@ C lecture deplacements
                   CALL READ_R_C(R4,1)
                   SECBUFG(L+6)=R4
                   L = L + 6
-                ENDDO 
+                ENDDO
               ELSE
 C Pb de compatibilite type_new>=100 et type_old<1
-              ENDIF           
+              ENDIF
               IF(TYPE>=2)THEN
 C skip forces
                 DO I=1,6*NNOD
                   CALL READ_R_C(R4,1)
-                ENDDO            
+                ENDDO
               ENDIF
             ELSEIF(NSTRF(K0)==101)THEN
 C lecture deplacements
@@ -5128,7 +5128,7 @@ C lecture deplacements
                   CALL READ_R_C(R4,1)
                   SECBUFG(L+6)=R4
                   L = L + 6
-                ENDDO            
+                ENDDO
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<1
               ENDIF
@@ -5151,7 +5151,7 @@ c                ADDSEC(N+IFRL1*NSECT) = L+1
                   CALL READ_R_C(R4,1)
                   SECBUFG(L+6)=R4
                   L = L + 6
-                ENDDO            
+                ENDDO
               ELSE
 C Pb de compatibilite type_new>=101 et type_old<2
               ENDIF
@@ -5266,7 +5266,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT, LLT, NFT, NSEG, N1, N2, N3
       INTEGER NSTRF(3,*),IXC(NIXC,*)
-      my_real 
+      my_real
      .   X(3,*), FOPTA(6),FSAV(NTHVKI)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -5276,7 +5276,7 @@ C-----------------------------------------------
       my_real
      .   FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10), MX(MVSIZ,4),
      .   MY(MVSIZ,4), MZ(MVSIZ,4),
-     .   DX1, DY1, DZ1, FST(15), 
+     .   DX1, DY1, DZ1, FST(15),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -5422,8 +5422,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -5481,8 +5481,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -5502,11 +5502,11 @@ C
               FSAV(6)=FSAV(6)+DT12*FST(6)
               FSAV(7)=FSAV(7)+DT12*FST(7)
               FSAV(8)=FSAV(8)+DT12*FST(8)
-              FSAV(9)=FSAV(9)+DT12*FST(9)      
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(9)=FSAV(9)+DT12*FST(9)
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -5515,12 +5515,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       RETURN
@@ -5554,7 +5554,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT, LLT, NFT, NSEG, N1, N2, N3
       INTEGER NSTRF(2,*),IXTG(NIXTG,*)
-      my_real 
+      my_real
      .   X(3,*), FSAV(NTHVKI), FOPTA(6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -5565,7 +5565,7 @@ C-----------------------------------------------
      .   FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10), MX(MVSIZ,4),
      .   MY(MVSIZ,4), MZ(MVSIZ,4), FX1(MVSIZ), FY1(MVSIZ), FZ1(MVSIZ),
      .   MX1(MVSIZ), MY1(MVSIZ), MZ1(MVSIZ), DX1(MVSIZ),
-     .   DY1(MVSIZ), DZ1(MVSIZ),FST(15), 
+     .   DY1(MVSIZ), DZ1(MVSIZ),FST(15),
      .   MSX, MSY, MSZ, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .   XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XXN, YYN, ZZN,
      .   D13, XXC, YYC, ZZC, FSX, FSY, FSZ, FN, FSNX, FSNY, FSNZ, FSTX,
@@ -5693,8 +5693,8 @@ C
               FST(7)=FST(7)+DMX
               FST(8)=FST(8)+DMY
               FST(9)=FST(9)+DMZ
-              FST(10) = FST(10) + FSX 
-              FST(11) = FST(11) + FSY 
+              FST(10) = FST(10) + FSX
+              FST(11) = FST(11) + FSY
               FST(12) = FST(12) + FSZ
               FST(13) = FST(13) + MSX
               FST(14) = FST(14) + MSY
@@ -5713,11 +5713,11 @@ C
               FSAV(6)=FSAV(6)+DT12*FST(6)
               FSAV(7)=FSAV(7)+DT12*FST(7)
               FSAV(8)=FSAV(8)+DT12*FST(8)
-              FSAV(9)=FSAV(9)+DT12*FST(9)      
-              FSAV(31)=FSAV(31)+DT12*FST(13) 
+              FSAV(9)=FSAV(9)+DT12*FST(9)
+              FSAV(31)=FSAV(31)+DT12*FST(13)
               FSAV(32)=FSAV(32)+DT12*FST(14)
               FSAV(33)=FSAV(33)+DT12*FST(15)
-              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) + 
+              FSAV(34)=FSAV(34) + DT12* (XX4*(FST(1)+FST(4)) +
      .                 YY4*(FST(2)+FST(5)) + ZZ4*(FST(3)+FST(6)))
               FSAV(35)=FSAV(35) + DT12* (XX5*(FST(1)+FST(4)) +
      .                 YY5*(FST(2)+FST(5)) + ZZ5*(FST(3)+FST(6)))
@@ -5726,12 +5726,12 @@ C
               FSAV(37)=XXC
               FSAV(38)=YYC
               FSAV(39)=ZZC
-              FOPTA(1) = FOPTA(1) + FST(10) 
-              FOPTA(2) = FOPTA(2) + FST(11)  
-              FOPTA(3) = FOPTA(3) + FST(12) 
-              FOPTA(4) = FOPTA(4) + FST(13) 
-              FOPTA(5) = FOPTA(5) + FST(14) 
-              FOPTA(6) = FOPTA(6) + FST(15) 
+              FOPTA(1) = FOPTA(1) + FST(10)
+              FOPTA(2) = FOPTA(2) + FST(11)
+              FOPTA(3) = FOPTA(3) + FST(12)
+              FOPTA(4) = FOPTA(4) + FST(13)
+              FOPTA(5) = FOPTA(5) + FST(14)
+              FOPTA(6) = FOPTA(6) + FST(15)
 #include "lockoff.inc"
 C
       RETURN
@@ -5841,7 +5841,7 @@ C
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=ONE     
+       ZZ6=ONE
        ELSE
        XXN=ZERO
        YYN=ZERO
@@ -5854,7 +5854,7 @@ C
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=ONE    
+       ZZ6=ONE
 C
       ENDIF
 C
@@ -5933,7 +5933,7 @@ Chd|        SECTIOT                       source/tools/sect/sectio.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SEC_SKEWP(
-     1   XXC, YYC, ZZC, XX4  , YY4 , ZZ4 , 
+     1   XXC, YYC, ZZC, XX4  , YY4 , ZZ4 ,
      2   XX5, YY5, ZZ5, XX6  , YY6 , ZZ6 ,
      3   XXN, YYN, ZZN, IFRAM, N1  , XSEC)
 C-----------------------------------------------
@@ -6022,7 +6022,7 @@ C
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=ONE     
+       ZZ6=ONE
        ELSE
        XXN=ZERO
        YYN=ZERO
@@ -6035,7 +6035,7 @@ C
        ZZ5=ZERO
        XX6=ZERO
        YY6=ZERO
-       ZZ6=ONE    
+       ZZ6=ONE
 C
       ENDIF
 C

@@ -78,7 +78,7 @@ C
         FLSW(6,IS) = ZERO
         FLSW(7,IS) = ZERO
         FLSW(8,IS) = ZERO
-        FLSW(9,IS) = ZERO        
+        FLSW(9,IS) = ZERO
 C
         NEL = NEFLSW(IS)
         I1=I2+1
@@ -91,7 +91,7 @@ C
         CNZ = CRFLSW(6,IS)
         SRT = ZERO
         SV2 = ZERO
-        FLVM = ZERO        
+        FLVM = ZERO
 C
         DO 400 I = I1, I2
           IN = NNFLSW(1,I)
@@ -201,7 +201,7 @@ C
 C
         FLSW(3,IS) = SQRT( SV2/SRT - (FLVM/SRT)**2 )
         IF(FLSW(4,IS)==ZERO)THEN
-         FLSW(3,IS)=ZERO         
+         FLSW(3,IS)=ZERO
         ELSE
          FLSW(3,IS)=FLSW(3,IS)/FLSW(4,IS)
         ENDIF

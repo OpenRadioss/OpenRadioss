@@ -68,14 +68,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II,IVOI,ML,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,J,IADBUF,IFLG,IAD2
       my_real
-     . X1,Y1,Z1,VX1,VY1,VZ1,   
-     . X2,Y2,Z2,VX2,VY2,VZ2,   
-     . X3,Y3,Z3,VX3,VY3,VZ3,   
-     . X4,Y4,Z4,VX4,VY4,VZ4,   
-     . X5,Y5,Z5,VX5,VY5,VZ5,   
-     . X6,Y6,Z6,VX6,VY6,VZ6,   
-     . X7,Y7,Z7,VX7,VY7,VZ7,   
-     . X8,Y8,Z8,VX8,VY8,VZ8,   
+     . X1,Y1,Z1,VX1,VY1,VZ1,
+     . X2,Y2,Z2,VX2,VY2,VZ2,
+     . X3,Y3,Z3,VX3,VY3,VZ3,
+     . X4,Y4,Z4,VX4,VY4,VZ4,
+     . X5,Y5,Z5,VX5,VY5,VZ5,
+     . X6,Y6,Z6,VX6,VY6,VZ6,
+     . X7,Y7,Z7,VX7,VY7,VZ7,
+     . X8,Y8,Z8,VX8,VY8,VZ8,
      . X17,X28,X35,X46,Y17,Y28,Y35,Y46,Z17,Z28,Z35,Z46,
      . VX17,VX28,VX35,VX46,VY17,VY28,VY35,VY46,VZ17,VZ28,VZ35,VZ46,
      . AJ1,AJ2,AJ3,AJ4,AJ5,AJ6,AJ7,AJ8,AJ9,
@@ -83,7 +83,7 @@ C-----------------------------------------------
      . JAC_59_68,JAC_67_49,JAC_48_57,AJ12,AJ45,AJ78,
      . PX1, PX2, PX3, PX4,
      . PY1, PY2, PY3, PY4,
-     . PZ1, PZ2, PZ3, PZ4, 
+     . PZ1, PZ2, PZ3, PZ4,
      . A17,A28,B17,B28,C17,C28,DT1D2,
      . DETT
 C-----------------------------------------------
@@ -100,12 +100,12 @@ c
         IF(ML/=11)EXIT
         IF(ML==51)THEN
           IADBUF = NINT(PM(27,IXS(1,IVOI)))
-          IFLG = NINT(BUFMAT(31+IADBUF-1)) 
+          IFLG = NINT(BUFMAT(31+IADBUF-1))
           IF(IFLG<=1)EXIT
-        ENDIF 
+        ENDIF
        ENDDO
-       
-       IF(ML==11 .OR. (ML==51.AND.(IFLG==6.OR.IFLG==3)))THEN  
+
+       IF(ML==11 .OR. (ML==51.AND.(IFLG==6.OR.IFLG==3)))THEN
          DXX(I)=ZERO
          DYY(I)=ZERO
          DZZ(I)=ZERO
@@ -121,7 +121,7 @@ c
          WZZ(I)=ZERO
          WYY(I)=ZERO
          WXX(I)=ZERO
-       ELSE       
+       ELSE
          NC1=IXS(2,IVOI)
          NC2=IXS(3,IVOI)
          NC3=IXS(4,IVOI)

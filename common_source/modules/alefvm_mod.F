@@ -70,7 +70,7 @@ C   G l o b a l   V a r i a b l e s   D e f i n i t i o n
 C-----------------------------------------------
         my_real, DIMENSION(:)    , ALLOCATABLE :: WFEXT_CELL
         my_real, DIMENSION(:,:)  , ALLOCATABLE :: FCELL, FEXT_CELL
-        my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX  , FINT_CELL      
+        my_real, DIMENSION(:,:)  , ALLOCATABLE :: VERTEX  , FINT_CELL
         my_real, DIMENSION(:,:,:), ALLOCATABLE :: F_FACE
 
       END MODULE ALEFVM_MOD

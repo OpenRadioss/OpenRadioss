@@ -41,7 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SEATBELT_MOD
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL 
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----Reset of TAG_RES from SEATBELT_TAB structure------------------------------
       DO I=1,N_SEATBELT
         DO J=1,SEATBELT_TAB(I)%NSPRING
           TAG_RES(SEATBELT_TAB(I)%SPRING(J)) = I
-        ENDDO 
+        ENDDO
       ENDDO
 
 C-----------------------------------------------------------------------------------
@@ -186,7 +186,7 @@ C
 C
             J = NFT + I
             N1 = IXR(2,J)
-            N2 = IXR(3,J)          
+            N2 = IXR(3,J)
             NTOOL = 0
 C
 C----------------------------------------------------------------------------
@@ -261,7 +261,7 @@ C-            element initially in the retractor
               GBUF%OFF(I) = ZERO
               K = TAG_RETRACTOR(J)
               ID = RETRACTOR(K)%ID
-              NN = RETRACTOR(K)%ANCHOR_NODE 
+              NN = RETRACTOR(K)%ANCHOR_NODE
               DIST1 = (X(1,NN)-X(1,N1))**2+(X(2,NN)-X(2,N1))**2+(X(3,NN)-X(3,N1))**2
               DIST2 = (X(1,NN)-X(1,N2))**2+(X(2,NN)-X(2,N2))**2+(X(3,NN)-X(3,N2))**2
 C
@@ -272,7 +272,7 @@ C--           compatibility with random noise
                 ALEA_MAX = ZERO
                 DO J=1,NRAND
                   ALEA_MAX = MAX(ALEA_MAX,ALEA(J))
-                ENDDO 
+                ENDDO
                 TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
               ENDIF
 
@@ -332,7 +332,7 @@ CCC-        Find node before node 1
                       NODE_NEXT = IXR(2,ELEM_NEXT)
                     ENDIF
                   ENDIF
-                ENDIF                
+                ENDIF
               ENDIF
             ENDDO
             GBUF%ADD_NODE(I) = NODE_NEXT
@@ -353,7 +353,7 @@ CCC-        Find node after node 2
                       NODE_NEXT = IXR(2,ELEM_NEXT)
                     ENDIF
                   ENDIF
-                ENDIF                
+                ENDIF
               ENDIF
             ENDDO
             GBUF%ADD_NODE(NEL+I) = NODE_NEXT
@@ -370,7 +370,7 @@ C
               ELEM_CUR = NOD2ELC(K)
               MID = IXC(1,ELEM_CUR)
               MTYP = IPM(2,MID)
-              IF (MTYP == 119) NB_SHELL = NB_SHELL + 1                
+              IF (MTYP == 119) NB_SHELL = NB_SHELL + 1
             ENDDO
 C
             NFRAM = SEATBELT_TAB(TAG_RES(J))%NFRAM
@@ -388,7 +388,7 @@ C--         element mass and inertia scaled by frame factor for elementary time 
             GBUF%MASS(I) = GBUF%MASS(I)*GBUF%FRAM_FACTOR(I)
             GBUF%INTVAR(I) = GBUF%INTVAR(I)*GBUF%FRAM_FACTOR(I)
 C
-          ENDDO  
+          ENDDO
 C
         ELSEIF ((ITY==3).AND.(ISEATBELT==1)) THEN
 C
@@ -398,7 +398,7 @@ C
 C
           DO I=1,NEL
 C
-            J = NFT + I        
+            J = NFT + I
 C
             N1 = IXC(2,J)
             N2 = IXC(3,J)
@@ -428,7 +428,7 @@ C
                 NODE_NEXT = 0
 C
                 DO K=KNOD2EL1D(NODE)+1,KNOD2EL1D(NODE+1)
-                  IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN          
+                  IF (NOD2EL1D(K) > NUMELT+NUMELP) THEN
                     ELEM_NEXT = NOD2EL1D(K)-NUMELT-NUMELP
                     IF (((IXR(2,ELEM_NEXT)==NODE).AND.(IXR(3,ELEM_NEXT)/=NODES)).OR.
      .                  ((IXR(3,ELEM_NEXT)==NODE).AND.(IXR(2,ELEM_NEXT)/=NODES))) THEN
@@ -442,8 +442,8 @@ C
                             NODE_NEXT = IXR(2,ELEM_NEXT)
                           ENDIF
                         ENDIF
-                      ENDIF  
-                    ENDIF              
+                      ENDIF
+                    ENDIF
                   ENDIF
                 ENDDO
                 GBUF%ADD_NODE((M-2)*NEL+I) = NODE_NEXT
@@ -454,7 +454,7 @@ C
 C
         ENDIF
 C
-      ENDDO         
+      ENDDO
 C
       DEALLOCATE(TAG_RES,TAG_RETRACTOR,TAGN_RETRACTOR)
 C

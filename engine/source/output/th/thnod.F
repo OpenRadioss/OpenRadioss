@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   DR(3,*)
       TYPE(PINCH) :: PINCH_DATA
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       NTHGRP2 : integer ; number of TH group 
+!       NTHGRP2 : integer ; number of TH group
 !       WA_SIZE : integer ; size of working array for node element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
@@ -602,7 +602,7 @@ C instruction pour contourner bug PGI si thermique
                     ARG(2)=ZERO
                     ARG(3)=ZERO
 C
-                    II=0                    
+                    II=0
                     DO J=IAD,IAD+NN-1
                         I=ITHBUF(J)
                         ISK = 1 + ITHBUF(J+NN)
@@ -875,7 +875,7 @@ C                   output with respect to a REFERENCE FRAME.
      .              XFRAME(34,IFRA) ,XFRAME(31,IFRA) ,
      3              XFRAME(28,IFRA) ,XL ,DL ,VL ,AL ,
      4              VRL ,ARL )
-                    II_SAVE = II 
+                    II_SAVE = II
                     DO L=IADV,IADV+NVAR-1
                         K=ITHBUF(L)
                         II=II+1

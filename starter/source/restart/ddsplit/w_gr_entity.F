@@ -69,7 +69,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (IGROUP_L(LENIGR), STAT=ERR)
-      IGROUP_L(1:LENIGR) = 0  
+      IGROUP_L(1:LENIGR) = 0
 !
       DO IGU=1,NGR
         NENTITY  = IGR(IGU)%NENTITY
@@ -184,7 +184,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (IGROUP_L(LENIGR), STAT=ERR)
-      IGROUP_L(1:LENIGR) = 0  
+      IGROUP_L(1:LENIGR) = 0
 !
       L_GROUP = 0
 !
@@ -302,7 +302,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (IGROUP_L(LENIGR), STAT=ERR)
-      IGROUP_L(1:LENIGR) = 0  
+      IGROUP_L(1:LENIGR) = 0
 !
       DO IGU=1,NGR
         NNOD  = IGR(IGU)%NENTITY

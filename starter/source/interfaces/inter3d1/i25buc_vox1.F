@@ -35,7 +35,7 @@ Chd|====================================================================
      1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
      3   CAND_N,GAP  ,NOINT ,I_STOK  ,
-     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,   
+     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,
      5   STF   ,STFN ,MULTIMP,ISTF  ,IDDLEVEL,
      6   ITAB  ,GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
      7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,I_MEM ,
@@ -119,7 +119,7 @@ C     REAL
       INTEGER NBX,NBY,NBZ
       INTEGER, DIMENSION(:), ALLOCATABLE :: IS_LARGE_NODE,LARGE_NODE
       INTEGER :: NB_LARGE_NODES
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 C-----------------------------------------------
       GAPMAX=EP30
       GAPMIN=ZERO
@@ -222,7 +222,7 @@ C DD + 2*TZINF : taille element augmentee de zone influence
       MINBOX0 = MINBOX
       MAXBOX0 = MAXBOX
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
-      DIST = ZERO     
+      DIST = ZERO
 
 C--------------------------------
 C     CALCUL DES BORNES DU DOMAINE
@@ -239,10 +239,10 @@ C
       YMIN=EP30
       YMAX=-EP30
       ZMIN=EP30
-      ZMAX=-EP30 
+      ZMAX=-EP30
 C
       DO 20 I=1,NMN
-        J=MSR(I) 
+        J=MSR(I)
         XMIN= MIN(XMIN,X(1,J))
         YMIN= MIN(YMIN,X(2,J))
         ZMIN= MIN(ZMIN,X(3,J))
@@ -300,7 +300,7 @@ C
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -313,12 +313,12 @@ C
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))
@@ -335,7 +335,7 @@ C     LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,((ZMAX-ZMIN)/ (ONE*NBZ+2.0)))
       LENGTH_TRESHOLD = LENGTH_TRESHOLD / 4.0
 ! Heuristic:
       LENGTH_TRESHOLD = MAX(LENGTH_TRESHOLD,MARGE_ST+BGAPSMX)
-     
+
 
 C--------------------------------
 C     Initializations case of IDDLEVEL=0 or INACTI/=5 and INACTI/=-1
@@ -344,7 +344,7 @@ C--------------------------------
 
       NPARTNS(1:NSN+1) = 0
       IELEM(1:NRTM)    = 0
-      EDGE_L2(1:NSN)   = ZERO 
+      EDGE_L2(1:NSN)   = ZERO
       LEDGMAX          = ZERO
 C--------------------------------
       NB_LARGE_NODES = 0
@@ -365,7 +365,7 @@ C
            IELEM(IE)=NELS
         END DO
 
-        IF(INACTI==5.OR.INACTI==-1)THEN 
+        IF(INACTI==5.OR.INACTI==-1)THEN
 
           ALLOCATE(EDGE_L2_TMP(NUMNOD))
           EDGE_L2_TMP(1:NUMNOD)=ZERO
@@ -378,7 +378,7 @@ C
 
                 AAA = (X(1,N2)-X(1,N1))*(X(1,N2)-X(1,N1))
      .              + (X(2,N2)-X(2,N1))*(X(2,N2)-X(2,N1))
-     .              + (X(3,N2)-X(3,N1))*(X(3,N2)-X(3,N1)) 
+     .              + (X(3,N2)-X(3,N1))*(X(3,N2)-X(3,N1))
                 EDGE_L2_TMP(N1) = MAX(EDGE_L2_TMP(N1), AAA )
                 EDGE_L2_TMP(N2) = MAX(EDGE_L2_TMP(N2), AAA )
               END DO
@@ -386,25 +386,25 @@ C
 
           END DO
 C
-          
+
           DO I=1,NSN
             N=NSV(I)
             IF(STFN(I)/=ZERO) THEN
               EDGE_L2(I) = SQRT(EDGE_L2_TMP(N))
               IF(EDGE_L2(I) > LENGTH_TRESHOLD) THEN
-! because of LEDGE_MAX, too many voxcell will be checked 
+! because of LEDGE_MAX, too many voxcell will be checked
 ! in i24trivox1. In order to avoid that, we deal with large
-! 'nodes' separately. They will be checked versus every segment, but they 
-! will not increase LEDGMAX 
+! 'nodes' separately. They will be checked versus every segment, but they
+! will not increase LEDGMAX
 C               WRITE(6,*) "LENGTH_TRESHOLD=",LENGTH_TRESHOLD,EDGE_L2(I)
-                NB_LARGE_NODES = NB_LARGE_NODES + 1 
-                IS_LARGE_NODE(I) = 1 
+                NB_LARGE_NODES = NB_LARGE_NODES + 1
+                IS_LARGE_NODE(I) = 1
                 LARGE_NODE(NB_LARGE_NODES) = I
               ELSE
                 LEDGMAX=MAX(LEDGMAX,EDGE_L2(I))
               ENDIF
             END IF
-          END DO 
+          END DO
 
           LEDGMAX=ONEP03*LEDGMAX
 C
@@ -548,7 +548,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "scr07_c.2.inc"
-#include      "scr03_c.inc" 
+#include      "scr03_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -557,7 +557,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, I
 C     REAL
-      INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
+      INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*),
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*)
 C     REAL
 C-----------------------------------------------

@@ -186,7 +186,7 @@ C facette element generant une force
               IDEB = IDEB + NB
             END IF
             SIZ = L+1-ADD
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
             CALL MPI_ISEND(
      .        BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
      .        MPI_COMM_WORLD,REQ_SI(P),IERROR    )

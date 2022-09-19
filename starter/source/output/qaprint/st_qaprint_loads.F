@@ -31,7 +31,7 @@ Chd|====================================================================
      2                            LOADP     ,IBCL      ,FORC      ,IPRES     ,PRES      ,
      3                            IBCR      ,FRADIA    ,IBCV      ,FCONV     , IGRV     ,
      4                            LGRV      ,AGRV      ,ICFIELD   ,LCFIELD   ,CFIELD    ,
-     5                            IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD, 
+     5                            IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD,
      6                            LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO    )
 C============================================================================
 C   M o d u l e s
@@ -119,10 +119,10 @@ C-----------------------------------------------
       my_real, INTENT(IN) ::
      .                       LOADP(LFACLOAD,NLOADP), CFIELD(LFACLOAD,NLOADC),
      .                       FORC(LFACCLD,NCONLD-NPRELD), PRES(LFACCLD,NPRELD),
-     .                       AGRV(LFACGRV,NGRAV),PRELOAD(6,*) 
-      my_real, INTENT(IN) ::  
+     .                       AGRV(LFACGRV,NGRAV),PRELOAD(6,*)
+      my_real, INTENT(IN) ::
      .                       FRADIA(LFACTHER,NUMRADIA)
-      my_real, INTENT(IN) ::  
+      my_real, INTENT(IN) ::
      .                       FCONV(LFACTHER,NUMCONV)
       INTEGER, INTENT(IN) :: LIFLOW, LRFLOW
       INTEGER, DIMENSION(LIFLOW), INTENT(IN) :: IFLOW
@@ -139,7 +139,7 @@ C-----------------------------------------------
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
       DOUBLE PRECISION TEMP_DOUBLE
-      LOGICAL :: OK_QA 
+      LOGICAL :: OK_QA
       INTEGER :: COUNT
 C-----------------------------------------------
 C     /LOAD/CENTRI
@@ -439,7 +439,7 @@ C
           DO I=IGRV(4,MY_LOAD),IGRV(4,MY_LOAD)+IGRV(1,MY_LOAD)-1
 C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LGRV_',I      
+            WRITE(VARNAME,'(A,I0)') 'LGRV_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LGRV(I),0.0_8)
           END DO
 C
@@ -461,7 +461,7 @@ C-----------------------------------------------
       IF (MYQAKEY('/PRELOAD')) THEN
 C       
         ! ID of /PRELOAD is not stored and so not retrieved
-        IF (NPRELOAD > 0) THEN 
+        IF (NPRELOAD > 0) THEN
 
           DO IPRE = 1,NUMPRELOAD
 c
@@ -474,19 +474,19 @@ c
 c
             DO J = 1 , 3
              IF(IPRELOAD(J,IPRE) /=0)THEN
-              WRITE(VARNAME,'(A,I0,I0)') 'IPRELOAD_',J,IPRE      
+              WRITE(VARNAME,'(A,I0,I0)') 'IPRELOAD_',J,IPRE
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPRELOAD(J,IPRE),0.0_8)
-             END IF           
+             END IF
             ENDDO
 c
             IF(IPRELOAD(1,IPRE) /=0)THEN
              J = IPRELOAD(1,IPRE)
              IF(IFLAG_BPRELOAD(J) /=0)THEN ! this table is used in PRELOAD but modified in sgrhead and SGRTAILS
-              WRITE(VARNAME,'(A,I0)') 'IFLAG_BPRELOAD_',J    
+              WRITE(VARNAME,'(A,I0)') 'IFLAG_BPRELOAD_',J
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IFLAG_BPRELOAD(J),0.0_8)
              END IF
             END IF
-c 
+c
             DO J = 1 , 6
              IF(PRELOAD(J,IPRE)/=ZERO)THEN
               WRITE(VARNAME,'(A,I0,I0)') 'PRELOAD_',J,IPRE
@@ -549,13 +549,13 @@ C-----------------------------------------------
 C     /SPH/INOUT
 C-----------------------------------------------
       IF (MYQAKEY('/SPH/INOUT')) THEN
-        IF (NSPHIO > 0) THEN 
+        IF (NSPHIO > 0) THEN
 C        
 !     Sort by ID to ensure internal order independant output
           DO I = 1, NSPHIO
             IDS(I) = ISPHIO(NISPHIO,I)
             IDX(I) = I
-            IF (I /= NSPHIO) THEN 
+            IF (I /= NSPHIO) THEN
               LVAD(I) = ISPHIO(4,I+1) - ISPHIO(4,I)
             ELSE
               LVAD(I) = SVSPHIO - ISPHIO(4,I)

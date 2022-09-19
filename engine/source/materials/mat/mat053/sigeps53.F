@@ -130,7 +130,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-        my_real 
+        my_real
      .        UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -156,7 +156,7 @@ C-----------------------------------------------
      .        IFUNC(MVSIZ,100),NFUNCV(MVSIZ),PFUN(MVSIZ),
      .        IPOSP(MVSIZ),IADP(MVSIZ),ILENP(MVSIZ),NFUNCM,NRATEM,
      .        IPFLAG,IPARAM,NPAR, IFLAG(MVSIZ)
-       my_real   
+       my_real
      .        RATE(MVSIZ,2),YFAC(MVSIZ,2),
      .        Y1(MVSIZ),Y2(MVSIZ),H(MVSIZ),DYDX1(MVSIZ),
      .        DYDX2(MVSIZ),PLA(MVSIZ),FAIL(MVSIZ),EPSR1(MVSIZ),
@@ -164,12 +164,12 @@ C-----------------------------------------------
      .        DFDP(MVSIZ),DPLA,
      .        EVL(MVSIZ),
      .        E11(MVSIZ), E22(MVSIZ), G12(MVSIZ),G23(MVSIZ),
-     .        F1(MVSIZ), F2(MVSIZ), F11(MVSIZ), F22(MVSIZ), F12(MVSIZ), 
-     .        F44(MVSIZ), F55(MVSIZ), F23(MVSIZ),F(MVSIZ), S1C(MVSIZ),   
+     .        F1(MVSIZ), F2(MVSIZ), F11(MVSIZ), F22(MVSIZ), F12(MVSIZ),
+     .        F44(MVSIZ), F55(MVSIZ), F23(MVSIZ),F(MVSIZ), S1C(MVSIZ),
      .        S2C(MVSIZ),S2T(MVSIZ), S3C(MVSIZ),S3T(MVSIZ), S4T(MVSIZ),
      .        S4C(MVSIZ), S45C(MVSIZ),S45T(MVSIZ),SCALE,BB,AA,DD,CC,SS1,
      .        SS2,S1T(MVSIZ), EVOL(MVSIZ)
-          
+
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -185,7 +185,7 @@ C
          NFUNC  = IPM(10,MAT(I))
          DO J=1,NFUNC
            IFUNC(I,J) = IPM(10+J,MAT(I))
-         ENDDO    
+         ENDDO
        ENDDO
 C
        IF(TIME==ZERO)THEN
@@ -253,14 +253,14 @@ C
           DO I=1, NEL
           IF(IFLAG(I)/=1)THEN
            IF(EVOL(I)>ZERO)THEN
-            S1C(I)= Y1(I) 
+            S1C(I)= Y1(I)
             S1T(I)= Y2(I)
             ELSE
-            S1C(I)= Y2(I) 
+            S1C(I)= Y2(I)
             S1T(I)= Y1(I)
            ENDIF
            ELSE
-          S1C(I)= Y1(I) 
+          S1C(I)= Y1(I)
             S1T(I)= Y1(I)
          ENDIF
           UVAR(I,1+J)= IPOS1(I)
@@ -273,14 +273,14 @@ C
         DO I=1, NEL
           IF(IFLAG(I)/=1)THEN
           IF(EVOL(I)>ZERO)THEN
-            S2C(I)= Y1(I) 
+            S2C(I)= Y1(I)
            S2T(I)= Y2(I)
             ELSE
-            S2C(I)= Y2(I) 
+            S2C(I)= Y2(I)
            S2T(I)= Y1(I)
           ENDIF
          ELSE
-         S2C(I)= Y1(I) 
+         S2C(I)= Y1(I)
           S2T(I)= Y1(I)
           ENDIF
         UVAR(I,1+J)= IPOS1(I)
@@ -293,14 +293,14 @@ C
        DO I=1, NEL
           IF(IFLAG(I)/=1)THEN
           IF(EVOL(I)>ZERO)THEN
-            S3C(I)= Y1(I) 
+            S3C(I)= Y1(I)
             S3T(I)= Y2(I)
           ELSE
-           S3C(I)= Y2(I) 
+           S3C(I)= Y2(I)
             S3T(I)= Y1(I)
            ENDIF
          ELSE
-           S3C(I)= Y1(I) 
+           S3C(I)= Y1(I)
            S3T(I)= Y1(I)
           ENDIF
          UVAR(I,1+J)= IPOS1(I)
@@ -313,18 +313,18 @@ C
       DO I=1, NEL
         IF(IFLAG(I)/=1)THEN
          IF(EVOL(I)>ZERO)THEN
-          S4C(I)= Y1(I) 
+          S4C(I)= Y1(I)
            S4T(I)= Y2(I)
              ELSE
-            S4C(I)= Y2(I) 
+            S4C(I)= Y2(I)
             S4T(I)= Y1(I)
            ENDIF
           ELSE
-           S4C(I)= Y1(I) 
+           S4C(I)= Y1(I)
            S4T(I)= Y1(I)
          ENDIF
            UVAR(I,1+J)= IPOS1(I)
-         ENDDO      
+         ENDDO
 CCCC 45 direction
         ELSEIF(J==5)THEN
 C          CALL VINTER(TF,IAD5,IPOS5,ILEN5,NEL,PLA,DYDX1,Y1)
@@ -333,22 +333,22 @@ C
           DO I=1, NEL
             IF(IFLAG(I)/=1)THEN
               IF(EVOL(I)>ZERO)THEN
-               S45C(I)= Y1(I) 
+               S45C(I)= Y1(I)
                S45T(I)= Y2(I)
               ELSE
-               S45C(I)= Y2(I) 
+               S45C(I)= Y2(I)
                S45T(I)= Y1(I)
               ENDIF
             ELSE
-              S45C(I)= Y1(I) 
+              S45C(I)= Y1(I)
               S45T(I)= Y1(I)
-            ENDIF   
-            UVAR(I,1+J)= IPOS1(I)   
+            ENDIF
+            UVAR(I,1+J)= IPOS1(I)
           ENDDO
         ENDIF
       ENDDO
 C--YEILD SURFACE COEFFICIENTS
-        DO I=1,NEL         
+        DO I=1,NEL
           F1(I) = -ONE/S1C(I) + ONE/S1T(I)
           F2(I) = -ONE/S2C(I) + ONE/S2T(I)
           F11(I)= ONE/(S1C(I)*S1T(I))
@@ -356,12 +356,12 @@ C--YEILD SURFACE COEFFICIENTS
           F44(I)= ONE/(S3C(I)*S3T(I))
           F55(I)= ONE/(S4C(I)*S4T(I))
           F12(I)=(-HALF)*SQRT(F11(I)*F22(I))
-          F23(I)=(-HALF)*F22(I)     
+          F23(I)=(-HALF)*F22(I)
 C... CORRECTION
            IF(IFUNC(I,5)>0)THEN
-           F12(I)= TWO/(S45C(I)*S45C(I)) - 
+           F12(I)= TWO/(S45C(I)*S45C(I)) -
      .        (HALF)*(F11(I)+ F22(I) + F44(I)) +
-     .         (F1(I) + F2(I))/S45C(I)     
+     .         (F1(I) + F2(I))/S45C(I)
            ENDIF
 C... Chek the yeil condition according to Tsay Wu.
        F(I) = F1(I)*SIGNXX(I) + F2(I)* SIGNYY(I) + F2(I)*SIGNZZ(I)+
@@ -391,8 +391,8 @@ C...
           SS1 = (-BB + SQRT(DD))/(TWO*AA)
           SS2 = (-BB - SQRT(DD))/(TWO*AA)
 C
-          IF(SS1<=ZERO) SCALE = SS2 
-          IF(SS2<=ZERO) SCALE = SS1 
+          IF(SS1<=ZERO) SCALE = SS2
+          IF(SS2<=ZERO) SCALE = SS1
 C
           IF(SS1>0.AND.SS2>0) THEN
             WRITE(*,*)' TWO POSITIVE ROOTS IN STRANDFOAM'
@@ -402,13 +402,13 @@ C
         ENDIF
 CCC STRESS SCALING
 C radial in stress space
-        SIGNXX(I) = SIGNXX(I) * SCALE   
-        SIGNYY(I) = SIGNYY(I) * SCALE   
-        SIGNZZ(I) = SIGNZZ(I) * SCALE   
-        SIGNXY(I) = SIGNXY(I) * SCALE   
-        SIGNYZ(I) = SIGNYZ(I) * SCALE   
-        SIGNZX(I) = SIGNZX(I) * SCALE   
- 
+        SIGNXX(I) = SIGNXX(I) * SCALE
+        SIGNYY(I) = SIGNYY(I) * SCALE
+        SIGNZZ(I) = SIGNZZ(I) * SCALE
+        SIGNXY(I) = SIGNXY(I) * SCALE
+        SIGNYZ(I) = SIGNYZ(I) * SCALE
+        SIGNZX(I) = SIGNZX(I) * SCALE
+
       ENDDO
 C-----
       RETURN

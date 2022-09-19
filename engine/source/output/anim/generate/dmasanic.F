@@ -34,8 +34,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
-      USE STACK_MOD           
+      USE ELBUFDEF_MOD
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,14 +70,14 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
-     .        IADD, N, J, LLT, MLW, 
+     .        IADD, N, J, LLT, MLW,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
      .        N1,N2,N3,N4,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        OFFSET,NEL_OLD,ITY_OLD,NFT_FA,N_FA
       INTEGER ISUBSTACK,NTHK,IADR,IIGEO,IGTYP
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1
       NN2 = 1
@@ -85,9 +85,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN4 = NN3 + NUMELQ
       NN5 = NN4 + NUMELC
       NN6 = NN5 + NUMELTG
-      NN7 = NN6 
-      NN8 = NN7 
-      NN9 = NN8 
+      NN7 = NN6
+      NN8 = NN7
+      NN9 = NN8
       NN10= NN9 + NUMELUR
 C-----------------------------------------------
 C
@@ -111,7 +111,7 @@ C
         LFT=1
         LLT=NEL
         IF (IMACH==3.AND.ISPMD==0) THEN
-            NFT_FA = NEL_OLD - NEL 
+            NFT_FA = NEL_OLD - NEL
         ELSE
             NFT_FA = NFT
         ENDIF
@@ -163,9 +163,9 @@ C
               MAS(EL2FA(NN4+N_FA)) = RHO0*THK0*A0
             ENDDO
           ELSE
-!!             IIGEO   =  40 + 5*(ISUBSTACK - 1) 
+!!             IIGEO   =  40 + 5*(ISUBSTACK - 1)
 !!             IADR    = IGEO(IIGEO + 4,IXC(6,NFT + 1))
-!!             NTHK   =  IADR + 3*NPT 
+!!             NTHK   =  IADR + 3*NPT
             DO I=LFT,LLT
               N = I + NFT
               N_FA = I + NFT_FA
@@ -186,8 +186,8 @@ C
               ZZ3 = XX1*YY2 - YY1*XX2
               A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
               MAS(EL2FA(NN4+N_FA)) = RHO0*THK0*A0
-            ENDDO 
-          ENDIF 
+            ENDDO
+          ENDIF
 C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
@@ -217,10 +217,10 @@ C
             MAS(EL2FA(NN5+N_FA)) = RHO0*THK0*A0
           ENDDO
           ELSE
-              N = 1 + NFT 
-!!             IIGEO   =  40 + 5*(ISUBSTACK - 1) 
+              N = 1 + NFT
+!!             IIGEO   =  40 + 5*(ISUBSTACK - 1)
 !!             IADR    = IGEO(IIGEO + 4,IXC(6,N))
-!!             NTHK   =  IADR + 3*NPT 
+!!             NTHK   =  IADR + 3*NPT
              DO I=LFT,LLT
               N = I + NFT
               N_FA = I + NFT_FA
@@ -240,7 +240,7 @@ C
               ZZ3 = XX1*YY2 - YY1*XX2
               A0  = HALF*SQRT(XX3*XX3 + YY3*YY3 + ZZ3*ZZ3)
               MAS(EL2FA(NN5+N_FA)) = RHO0*THK0*A0
-             ENDDO       
+             ENDDO
           ENDIF
 C
 C-----------------------------------------------

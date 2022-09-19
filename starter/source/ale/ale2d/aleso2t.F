@@ -72,7 +72,7 @@ C-----------------------------------------------
           JTHE_FROM_MAT = NINT(PM(71,IABS(IXTG(1,M)))) !/THERM/STRES/MAT
           JALE_FROM_MAT = NINT(PM(72,IABS(IXTG(1,M)))) !/EULER/MAT or /ALE/MAT
           JALE_FROM_PROP = IGEO(62,IABS(IXTG(5,M)))  !/PROP/TYPE14 (IALE_FLAG)
-          IAL = JTHE_FROM_MAT + JALE_FROM_MAT + JALE_FROM_PROP 
+          IAL = JTHE_FROM_MAT + JALE_FROM_MAT + JALE_FROM_PROP
           IF(IAL == 0)CYCLE
           IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(M)
           LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(M+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(M)

@@ -51,7 +51,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE HM_OPTION_READ_MOD
-      USE SUBMODEL_MOD    
+      USE SUBMODEL_MOD
       USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -81,7 +81,7 @@ C-----------------------------------------------
       my_real
      .   VSPHIO(*),X(3,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -106,7 +106,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER USR2SYS   
+      INTEGER USR2SYS
       my_real
      .         GET_U_GEO
       EXTERNAL GET_U_GEO
@@ -159,7 +159,7 @@ C
       IVAD = 1
 C
       ! Start reading the option
-      CALL HM_OPTION_START('/SPH/INOUT') 
+      CALL HM_OPTION_START('/SPH/INOUT')
 C
       ! Loop over /SPH/INOUT
       I = 0
@@ -173,10 +173,10 @@ C----------------------------------------------------------------------
         IF (SKIP == 0) THEN
 C
           ! Title and ID
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID   = ID, 
-     .                            OPTION_TITR = TITR) 
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID   = ID,
+     .                            OPTION_TITR = TITR)
 C        
           I = I+1
           ISPHIO(NISPHIO,I)=ID
@@ -186,11 +186,11 @@ C
           CALL HM_GET_INTV('pid'     ,IDPRT  ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('SURF_ID' ,IDSURF ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOATV('DIST'  ,DIST   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
-          
+
           CALL HM_GET_INTV('node_ID1',IN1 ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('node_ID2',IN2 ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('node_ID3',IN3 ,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_FLOATV('Fcut'  ,FCUT   ,IS_AVAILABLE,LSUBMODEL, UNITAB)      
+          CALL HM_GET_FLOATV('Fcut'  ,FCUT   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
           ISPHIO(1,I) =ITYPE
 C
           IDS = 0
@@ -236,24 +236,24 @@ C         input by surfid
           ELSEIF ((IN1 == 0).AND.(IN2 == 0).AND.(IN3 == 0)) THEN
 C         input by coordinates ->  ISPHIO(12,I) = 1
             ISPHIO(12,I) =1
-            CALL HM_GET_FLOATV('XM'  ,XX(1)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)   
-            CALL HM_GET_FLOATV('YM'  ,XX(2)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)  
-            CALL HM_GET_FLOATV('ZM'  ,XX(3)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)  
-            CALL HM_GET_FLOATV('XM1' ,XX(4)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)   
-            CALL HM_GET_FLOATV('YM1' ,XX(5)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)  
-            CALL HM_GET_FLOATV('ZM1' ,XX(6)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)              
-            CALL HM_GET_FLOATV('XM2' ,XX(7)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)   
-            CALL HM_GET_FLOATV('YM2' ,XX(8)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)  
-            CALL HM_GET_FLOATV('ZM2' ,XX(9)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)              
+            CALL HM_GET_FLOATV('XM'  ,XX(1)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('YM'  ,XX(2)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('ZM'  ,XX(3)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('XM1' ,XX(4)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('YM1' ,XX(5)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('ZM1' ,XX(6)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('XM2' ,XX(7)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('YM2' ,XX(8)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOATV('ZM2' ,XX(9)   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
             DO J = 1,9
               VSPHIO(IVAD+3+J) = XX(J)
-            ENDDO 
+            ENDDO
           ELSE
 C         input by node ID ->  ISPHIO(12,I) = 2
             ISPHIO(12,I) = 2
             ISPHIO(13,I) = USR2SYS(IN1,ITABM1,MESS,ID)
             ISPHIO(14,I) = USR2SYS(IN2,ITABM1,MESS,ID)
-            ISPHIO(15,I) = USR2SYS(IN3,ITABM1,MESS,ID)  
+            ISPHIO(15,I) = USR2SYS(IN3,ITABM1,MESS,ID)
           ENDIF
 C
           IF (ITYPE == 1) THEN
@@ -264,34 +264,34 @@ C
           ENDIF
 C
           IF (ITYPE == 1)THEN
-            CALL HM_GET_INTV('FUN_A1'  ,IFDENS ,IS_AVAILABLE,LSUBMODEL)         
-            CALL HM_GET_FLOATV('R0k0'  ,RHOIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+            CALL HM_GET_INTV('FUN_A1'  ,IFDENS ,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_FLOATV('R0k0'  ,RHOIN  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF ((RHOIN == ZERO).AND.(IFDENS>0)) THEN
               CALL HM_GET_FLOATV_DIM('R0k0' ,RHOIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               RHOIN = ONE * RHOIN_UNIT
             ENDIF
-            CALL HM_GET_INTV('FUN_A6'  ,IFENER ,IS_AVAILABLE,LSUBMODEL)         
-            CALL HM_GET_FLOATV('MAT_E0',EIN    ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+            CALL HM_GET_INTV('FUN_A6'  ,IFENER ,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_FLOATV('MAT_E0',EIN    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF ((EIN == ZERO).AND.(IFENER>0)) THEN
               CALL HM_GET_FLOATV_DIM('MAT_E0'  ,EIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               EIN = ONE * EIN_UNIT
             ENDIF
-            CALL HM_GET_INTV('FUN_A3'  ,IFVITS ,IS_AVAILABLE,LSUBMODEL)    
+            CALL HM_GET_INTV('FUN_A3'  ,IFVITS ,IS_AVAILABLE,LSUBMODEL)
           ELSEIF (ITYPE == 2) THEN
-            CALL HM_GET_INTV('FUN_A2'   ,IFPRES ,IS_AVAILABLE,LSUBMODEL)         
-            CALL HM_GET_FLOATV('MAT_P0' ,PIN    ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+            CALL HM_GET_INTV('FUN_A2'   ,IFPRES ,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_FLOATV('MAT_P0' ,PIN    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF ((PIN == ZERO).AND.(IFPRES>0)) THEN
               CALL HM_GET_FLOATV_DIM('MAT_P0'  ,PIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               PIN = ONE * PIN_UNIT
             ENDIF
           ELSEIF (ITYPE == 3) THEN
-            CALL HM_GET_INTV('FUN_A4'   ,IFPRES ,IS_AVAILABLE,LSUBMODEL)         
-            CALL HM_GET_FLOATV('MAT_PScale',PIN ,IS_AVAILABLE,LSUBMODEL, UNITAB) 
+            CALL HM_GET_INTV('FUN_A4'   ,IFPRES ,IS_AVAILABLE,LSUBMODEL)
+            CALL HM_GET_FLOATV('MAT_PScale',PIN ,IS_AVAILABLE,LSUBMODEL, UNITAB)
             IF ((PIN == ZERO).AND.(IFPRES>0)) THEN
               CALL HM_GET_FLOATV_DIM('MAT_PScale' ,PIN_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
               PIN = ONE * PIN_UNIT
             ENDIF
-            CALL HM_GET_FLOATV('Lc'     ,CARL   ,IS_AVAILABLE,LSUBMODEL, UNITAB)     
+            CALL HM_GET_FLOATV('Lc'     ,CARL   ,IS_AVAILABLE,LSUBMODEL, UNITAB)
           ENDIF
 C
           IF (ITYPE == 1) THEN
@@ -523,7 +523,7 @@ C            input by coordinates
              IVAD=ISPHIO(4,N)
              WRITE(IOUT,2100) VSPHIO(IVAD+4),VSPHIO(IVAD+5),VSPHIO(IVAD+6),
      .       VSPHIO(IVAD+7),VSPHIO(IVAD+8),VSPHIO(IVAD+9),VSPHIO(IVAD+10),
-     .       VSPHIO(IVAD+11),VSPHIO(IVAD+12) 
+     .       VSPHIO(IVAD+11),VSPHIO(IVAD+12)
            ELSEIF (ISPHIO(12,N)==2) THEN
 C            input by node ID
              WRITE(IOUT,2200) ITAB(ISPHIO(13,N)),ITAB(ISPHIO(14,N)),ITAB(ISPHIO(15,N))

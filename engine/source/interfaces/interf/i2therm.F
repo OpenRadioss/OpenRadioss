@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I2THERM(X       ,NSN     ,NSV     ,IRTL    ,MS      ,
      .                   WEIGHT  ,IRECT   ,CRST    ,IADI2   ,KTHE    ,
-     .                   TEMP    ,AREAS   ,FTHE    ,FTHESKYI,CONDN   ,   
+     .                   TEMP    ,AREAS   ,FTHE    ,FTHESKYI,CONDN   ,
      .                   CONDNSKYI,I0     ,ITAB    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -81,28 +81,28 @@ C
            L=IRTL(II)
 C
            W = WEIGHT(I)
-           S = CRST(1,II)  
-           T = CRST(2,II)  
-           SP=ONE + S          
-           SM=ONE - S          
-           TP=FOURTH*(ONE + T)  
-           TM=FOURTH*(ONE - T)  
+           S = CRST(1,II)
+           T = CRST(2,II)
+           SP=ONE + S
+           SM=ONE - S
+           TP=FOURTH*(ONE + T)
+           TM=FOURTH*(ONE - T)
 C
-           IX1 = IRECT(1,L)                                       
-           IX2 = IRECT(2,L)                                       
-           IX3 = IRECT(3,L)                                       
-           IX4 = IRECT(4,L)  
+           IX1 = IRECT(1,L)
+           IX2 = IRECT(2,L)
+           IX3 = IRECT(3,L)
+           IX4 = IRECT(4,L)
            IF(IX3==IX4) THEN
-              H1=TM*SM                                         
-              H2=TM*SP  
+              H1=TM*SM
+              H2=TM*SP
               H3=ONE-H1-H2
               H4=ZERO
            ELSE
-              H1=TM*SM                                         
-              H2=TM*SP                                         
-              H3=TP*SP                                         
-              H4=TP*SM      
-           ENDIF                                              
+              H1=TM*SM
+              H2=TM*SP
+              H3=TP*SP
+              H4=TP*SM
+           ENDIF
 C            
            AX1 = X(1,IX3) - X(1,IX1)
            AY1 = X(2,IX3) - X(2,IX1)
@@ -115,13 +115,13 @@ C
            AY  = AZ1*AX2 - AX1*AZ2
            AZ  = AX1*AY2 - AY1*AX2
 C
-           AREAM = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)      
+           AREAM = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)
            AREAC = MIN(AREAS(II),AREAM)
 C            
            TEMPS = TEMP(I)
            TEMPM = H1*TEMP(IX1)+H2*TEMP(IX2)+H3*TEMP(IX3)+H4*TEMP(IX4)
 C                    
-           PHI  =  AREAC*(TEMPM - TEMPS)*DT1*KTHE*THEACCFACT 
+           PHI  =  AREAC*(TEMPM - TEMPS)*DT1*KTHE*THEACCFACT
 
 C
            CONDINT = AREAC*KTHE*THEACCFACT
@@ -133,59 +133,59 @@ C
 c
            FTHE(I)=FTHE(I)+PHI
 
-           IF(IDT_THERM == 1) CONDN(I) = CONDN(I) + CONDINT*W   
+           IF(IDT_THERM == 1) CONDN(I) = CONDN(I) + CONDINT*W
 c
            IF (IPARIT == 0.AND.W == 1) THEN
-               FTHE(IX1)=FTHE(IX1)+PHI1 
-               FTHE(IX2)=FTHE(IX2)+PHI2 
-               FTHE(IX3)=FTHE(IX3)+PHI3              
-               FTHE(IX4)=FTHE(IX4)+PHI4   
+               FTHE(IX1)=FTHE(IX1)+PHI1
+               FTHE(IX2)=FTHE(IX2)+PHI2
+               FTHE(IX3)=FTHE(IX3)+PHI3
+               FTHE(IX4)=FTHE(IX4)+PHI4
                IF(IDT_THERM == 1) THEN
                   CONDN(IX1)=CONDN(IX1)+ABS(H1)*CONDINT
-                  CONDN(IX2)=CONDN(IX2)+ABS(H2)*CONDINT 
-                  CONDN(IX3)=CONDN(IX3)+ABS(H3)*CONDINT              
+                  CONDN(IX2)=CONDN(IX2)+ABS(H2)*CONDINT
+                  CONDN(IX3)=CONDN(IX3)+ABS(H3)*CONDINT
                   CONDN(IX4)=CONDN(IX4)+ABS(H4)*CONDINT
                ENDIF
            ELSEIF (IPARIT > 0.AND.W == 1) THEN
-               I0 = I0 + 1                                                                                                         
+               I0 = I0 + 1
                NN = IADI2(1,I0)
                FTHESKYI(NN)=PHI1
-               NN = IADI2(2,I0) 
-               FTHESKYI(NN)=PHI2 
+               NN = IADI2(2,I0)
+               FTHESKYI(NN)=PHI2
                NN = IADI2(3,I0)
                FTHESKYI(NN)=PHI3
-               NN = IADI2(4,I0) 
-               FTHESKYI(NN)=PHI4 
+               NN = IADI2(4,I0)
+               FTHESKYI(NN)=PHI4
                IF(IDT_THERM == 1) THEN
                   NN = IADI2(1,I0)
                   CONDNSKYI(NN)=ABS(H1)*CONDINT
-                  NN = IADI2(2,I0) 
+                  NN = IADI2(2,I0)
                   CONDNSKYI(NN)=ABS(H2)*CONDINT
                   NN = IADI2(3,I0)
                   CONDNSKYI(NN)=ABS(H3)*CONDINT
-                  NN = IADI2(4,I0)                            
+                  NN = IADI2(4,I0)
                   CONDNSKYI(NN)=ABS(H4)*CONDINT
-               ENDIF      
+               ENDIF
            ENDIF
          ELSE
            L = IRTL(II)
 C
-           IX1 = IRECT(1,L)                                       
-           IX2 = IRECT(2,L)                                       
-           IX3 = IRECT(3,L)                                          
-           IX4 = IRECT(4,L)  
+           IX1 = IRECT(1,L)
+           IX2 = IRECT(2,L)
+           IX3 = IRECT(3,L)
+           IX4 = IRECT(4,L)
            FTHE(I)= ZERO
-           FTHE(IX1)=ZERO 
-           FTHE(IX2)=ZERO 
-           FTHE(IX3)=ZERO             
-           FTHE(IX4)=ZERO  
+           FTHE(IX1)=ZERO
+           FTHE(IX2)=ZERO
+           FTHE(IX3)=ZERO
+           FTHE(IX4)=ZERO
            CONDN(I)= ZERO
-           CONDN(IX1)=ZERO 
-           CONDN(IX2)=ZERO 
-           CONDN(IX3)=ZERO             
-           CONDN(IX4)=ZERO    
+           CONDN(IX1)=ZERO
+           CONDN(IX2)=ZERO
+           CONDN(IX3)=ZERO
+           CONDN(IX4)=ZERO
          ENDIF
-        ENDDO   
+        ENDDO
 C
       RETURN
       END

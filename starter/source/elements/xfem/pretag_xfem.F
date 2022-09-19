@@ -57,7 +57,7 @@ C-----------------------------------------------
 C=======================================================================
       ITG = 1 + NUMELC
 C
-      NCRKXFE = 0   ! local par proc 
+      NCRKXFE = 0   ! local par proc
       DO I=1,NUMNOD
         IF(ITAGN(I) > 0)THEN
           NCRKXFE = NCRKXFE + 1
@@ -102,8 +102,8 @@ C
         IF (ICRK_ALL(1) > 0) ICRACK3D = ICRACK3D + 1
       ENDIF
 C---  Count Xfem elements
-      ECRKXFEC = 0            ! local par proc, coques 4N  
-      ECRKXFETG= 0            ! local par proc, coques 3N  
+      ECRKXFEC = 0            ! local par proc, coques 4N
+      ECRKXFETG= 0            ! local par proc, coques 3N
       DO I=1,NUMELC
         IF (IEL_CRKXFEM(I) > 0)        ECRKXFEC  = ECRKXFEC + 1
       END DO

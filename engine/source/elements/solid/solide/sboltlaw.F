@@ -30,13 +30,13 @@ Chd|        MQVISCB                       source/materials/mat_share/mqviscb.F
 Chd|====================================================================
       SUBROUTINE SBOLTLAW  (PM      ,SIG     ,MAT     ,D1     ,
      1                      D2      ,D3      ,D4      ,D5     ,
-     2                      D6      ,NEL     ,RHO     ,BPRELD ,  
+     2                      D6      ,NEL     ,RHO     ,BPRELD ,
      3                      EINT    ,QOLD    ,VOL0    ,STIFN  ,
      4                      DT2T    ,NELTST  ,ITYPTST ,OFFG   ,
      5                      GEO     ,PID     ,
      7                      MUMAX   ,NGL     ,SSP     ,DVOL   ,
      8                      AIRE    ,VNEW    ,VD2     ,DELTAX ,
-     9                      VIS     ,PNEW    ,PSH     ,QNEW   ,  
+     9                      VIS     ,PNEW    ,PSH     ,QNEW   ,
      A                      SSP_EQ  ,SOLD1   ,SOLD2   ,SOLD3  ,
      B                      SOLD4   ,SOLD5   ,SOLD6   ,MSSA   ,
      C                      DMELS   ,CONDE   ,AMU     ,VOL_AVG,
@@ -75,21 +75,21 @@ C
      .   EINT(*), QOLD(*),
      .   VOL0(*),STIFN(*), OFFG(*),GEO(NPROPG,*),MUMAX(*)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
+     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
      .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*),
      .   SOLD1(*), SOLD2(*), SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*),
      .   MSSA(*), DMELS(*),CONDE(*),AMU(*),VOL_AVG(*),DTEL(*),
-     .   RHOREF(*)  ,RHOSP(*) 
-      DOUBLE PRECISION VOL0DP(*) 
+     .   RHOREF(*)  ,RHOSP(*)
+      DOUBLE PRECISION VOL0DP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX,IBID !, J
       my_real
-     .   REDUC ,REDUC1 , T1, T2 , EE, NU, GGT, TREPS, P, TP 
+     .   REDUC ,REDUC1 , T1, T2 , EE, NU, GGT, TREPS, P, TP
       my_real
-     .   C1(MVSIZ), LMBD(MVSIZ), GG(MVSIZ),  
-     .   RHO0(MVSIZ), RHO0_1,C1_1 
+     .   C1(MVSIZ), LMBD(MVSIZ), GG(MVSIZ),
+     .   RHO0(MVSIZ), RHO0_1,C1_1
 C-----------------------------------------------
       my_real
      .   DF,DPDM,FACQ0,
@@ -97,26 +97,26 @@ C-----------------------------------------------
      .   BID1, BID2, BID3, DTA,  YM, DPDMP
 C-----------------------------------------------
       FACQ0 = ONE
-      REDUC1 = EM04 !EM03 !ONE 
+      REDUC1 = EM04 !EM03 !ONE
 
       DO I=LFT,LLT
        T1 = BPRELD(I,1)+ZEP4*(BPRELD(I,2)-BPRELD(I,1))
        T2 = BPRELD(I,1)+ZEP7*(BPRELD(I,2)-BPRELD(I,1))
        REDUC = REDUC1
        TP = TT-T1
-       IF(TP > ZERO ) THEN  
+       IF(TP > ZERO ) THEN
          REDUC = MIN(REDUC1*(ONE-TP/(T2-T1))+TP/(T2-T1), ONE)
        ENDIF
 C       
        MX = MAT(I)
-       RHO0_1 = PM(1, MX)      
+       RHO0_1 = PM(1, MX)
        NU = PM(21, MX)
        EE = PM(20, MX)*REDUC
        GG(I) = PM(22, MX)*REDUC
-       C1_1  = PM(32, MX)   
+       C1_1  = PM(32, MX)
        LMBD(I) = DT1*EE*NU/((ONE+NU)*(ONE-TWO*NU))
-       C1(I) = C1_1*REDUC 
-       RHO0(I) =RHO0_1  
+       C1(I) = C1_1*REDUC
+       RHO0(I) =RHO0_1
 C
        !SSP(I)=SQRT((ONEP333*GG(I)+C1(I))/RHO0(I))
        SSP(I)=SQRT((ONEP333*PM(22, MX)+C1_1)/RHO0(I))
@@ -165,7 +165,7 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
           DO I=LFT,LLT
            IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
              P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-             RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute 
+             RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute
                                        ! rho_new = rho_old - rho0 dV
                                        ! AMU = rho/rho0 - 1 in double precision
            ENDIF
@@ -186,7 +186,7 @@ C   cf Law1, Law2, etc <=> Pressure is computed using total formulation P = C1*(
             IF(OFFG(I) > ONE)THEN
               IF(TT >= (BPRELD(I,2)-TWO*DT1)) THEN
                 P = -THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
-                RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute 
+                RHO(I)=RHO0_1*(ONE+P/C1_1) ! rho will be used in next cycles to compute
                                           ! rho_new = rho_old - rho0 dV
                                           ! AMU = rho/rho0 - 1 in double precision
               ENDIF

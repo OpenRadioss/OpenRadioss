@@ -78,7 +78,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NE, NG, MT, MLN, I, J, MODE, II0, JJ0, 
+      INTEGER NE, NG, MT, MLN, I, J, MODE, II0, JJ0,
      .        II, JJ, II1, JJ1, II2, JJ2, II3, JJ3, II4, JJ4,
      .        N, IGTYP,IORDER,IPRT,ISLEEP,IUN,IFAIL,IEOS, IKIND, STAT,
      .        JALE_FROM_MAT, JALE_FROM_PROP
@@ -194,7 +194,7 @@ C
         JALE_FROM_MAT = NINT(PM(72,MT))
         JALE_FROM_PROP = IGEO(62,NG)
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
-        
+
         JLAG=0
         IF(JALE==0.AND.MLN/=18)JLAG=1
         JEUL=0
@@ -228,7 +228,7 @@ Clef 4
         IORDER= MY_SHIFTL(IORDER,0)
         ISORTH= MY_SHIFTL(ISORTH,2)
         ISRAT = MY_SHIFTL(ISRAT,3)
-        IEOS  = MY_SHIFTL(IEOS,5) 
+        IEOS  = MY_SHIFTL(IEOS,5)
 C       next  = MY_SHIFTL(next,9) 
         ITRI(5,I)=IORDER+ISRAT+ISORTH+IEOS
 Clef 5
@@ -252,7 +252,7 @@ C
 c      tri spbuf
        DO J=1,NSPBUF
          SPBUF(J,I) = RNUM(J,INDEX(I))
-       ENDDO 
+       ENDDO
       END DO
 C
       DO I=1,NUMSPH
@@ -302,7 +302,7 @@ C Rebuild SOL2SPH, SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
             SOL2SPH(1,N)=I-1
             SOL2SPH(2,N)=SOL2SPH(1,N)+1
           END IF
-        END DO          
+        END DO
 C
       END IF
 C ne pas oublier de renumeroter groupe de th et buffer de surface

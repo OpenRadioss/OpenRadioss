@@ -53,9 +53,9 @@ C----------------------------------------------------------------
 C  
       my_real,  INTENT(IN) :: A1,EXPC, EXPM , KSI ,TAUREF
 C
-      my_real, DIMENSION(NEL), INTENT(IN) ::  TBNORM 
+      my_real, DIMENSION(NEL), INTENT(IN) ::  TBNORM
 C
-      my_real, DIMENSION(NEL, 3,3) , INTENT(IN) ::  FP 
+      my_real, DIMENSION(NEL, 3,3) , INTENT(IN) ::  FP
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -68,18 +68,18 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I
 
-      my_real     
+      my_real
      .   TEMP, LPCHAIN(NEL), IP1(NEL)
 C----------------------------------------------------------------
 C----------------------------------------------------------------
-         DO I=1,NEL         
-          IP1(I) = FP(I,1,1)**2 + 
-     .             FP(I,2,2)**2 + 
-     .             FP(I,3,3)**2           
-          LPCHAIN (I) = SQRT(MAX(ZERO,THIRD*IP1(I)))          
+         DO I=1,NEL
+          IP1(I) = FP(I,1,1)**2 +
+     .             FP(I,2,2)**2 +
+     .             FP(I,3,3)**2
+          LPCHAIN (I) = SQRT(MAX(ZERO,THIRD*IP1(I)))
           !MAXL = MAX(MAXL, LPCHAIN (I))
-          TEMP = MAX(EM20,LPCHAIN(I) - ONE +KSI)       
-          DGAMMA(I) = A1* EXP(EXPC*LOG(TEMP))* ((TBNORM(I)**EXPM)/MAX(EM20, TAUREF**EXPM))   
+          TEMP = MAX(EM20,LPCHAIN(I) - ONE +KSI)
+          DGAMMA(I) = A1* EXP(EXPC*LOG(TEMP))* ((TBNORM(I)**EXPM)/MAX(EM20, TAUREF**EXPM))
          ENDDO
 
       RETURN

@@ -58,7 +58,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(*), A(*), V(*), RWL(*), MS(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6(7,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -73,11 +73,11 @@ C     REAL
      .   SX1M, SY1M, SZ1M, PS, SM1, SXM2, SYM2, SZM2, SM2, DV, DA, DVT,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE,AX,
-     .   XWL0, YWL0, ZWL0, DP0, XC0, YC0, ZC0, TOL, VN, VNOLD, 
+     .   XWL0, YWL0, ZWL0, DP0, XC0, YC0, ZC0, TOL, VN, VNOLD,
      .   DP0DT, DVX, DVY, DVZ, PREC, XPREC,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN),
      .   TFXT2, TFXTN2, WEWE2
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6_L(7,6)
 C-----------------------------------------------
       IF(IRESP==1)THEN
@@ -85,11 +85,11 @@ C-----------------------------------------------
       END IF
       ICONT=0
       CALL MY_BARRIER
-!       We need an OMP barrier here because each thread initializes 
-!       the variables : without barrier ICONT can be set to 1 by a 
-!       thread in the !$OMP DO loop whereas another (late) thread initializes 
+!       We need an OMP barrier here because each thread initializes
+!       the variables : without barrier ICONT can be set to 1 by a
+!       thread in the !$OMP DO loop whereas another (late) thread initializes
 !       ICONT to 0
-!       ICONT is a shared variable 
+!       ICONT is a shared variable
       IF(MSR==0)THEN
        XWL=RWL(4)
        YWL=RWL(5)
@@ -120,10 +120,10 @@ Cel changement formulation : plus d'impasse sur contribution force
        VN    =VXW*RWL(1)+VYW*RWL(2)+VZW*RWL(3)
        RWL(4)=VN
       ENDIF
-      TFXT =ZERO    
+      TFXT =ZERO
       TFXTN=ZERO
-      TFXT2 =ZERO    
-      TFXTN2=ZERO    
+      TFXT2 =ZERO
+      TFXTN2=ZERO
 C
       XL1=RWL(7)
       YL1=RWL(8)
@@ -148,7 +148,7 @@ C----
          AX=X(N2)
         ELSE
          AX=ONE
-        ENDIF   
+        ENDIF
 C
         XC0=X(N1)-XWL0
         YC0=X(N2)-YWL0
@@ -206,7 +206,7 @@ C
         NINDEX = NINDEX + 1
         INDEX(NINDEX) = I
        END DO
-!$OMP END DO       
+!$OMP END DO
       ELSE
 !$OMP DO
        DO I=1,NSN
@@ -219,7 +219,7 @@ C
          AX=X(N2)
         ELSE
          AX=ONE
-        ENDIF   
+        ENDIF
 C
         XC0=X(N1)-XWL0
         YC0=X(N2)-YWL0
@@ -306,9 +306,9 @@ C
        FNZN=DVT*RWL(3)*MS(N)
        TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
      . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
-       WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)     
+       WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
        TFXTN2 = TFXTN2 - WEWE2*FACT*
-     . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)     
+     . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
        F1(J) = FNXN*WEIGHT_MD(N)
        F2(J) = FNYN*WEIGHT_MD(N)*AX
        F3(J) = FNZN*WEIGHT_MD(N)*AX
@@ -324,7 +324,7 @@ C
 C        POINT SECND TIED
          A(N1)=ZERO
          A(N2)=ZERO
-         A(N3)=ZERO 
+         A(N3)=ZERO
          V(N1)=VXW+DVX
          V(N2)=VYW+DVY
          V(N3)=VZW+DVZ
@@ -350,7 +350,7 @@ C        POINT SECND SLIDING
             V(N1)=-DV
             A(N1)=RWL(1)
             A(N2)=RWL(2)
-            A(N3)=RWL(3)    
+            A(N3)=RWL(3)
             JJ=IDDL(N)+1
             IF (IKC(JJ)==0)IKC(JJ)=10
           ENDIF
@@ -360,7 +360,7 @@ C        POINT SECND SLIDING
          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
          TFXT2=TFXT2-
      .      ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
-     .       *WEWE2         
+     .       *WEWE2
        ENDIF
        F5(J) = FNXT*WEIGHT_MD(N)
        F6(J) = FNYT*WEIGHT_MD(N)*AX
@@ -389,9 +389,9 @@ C        POINT SECND SLIDING
        FNZN=DVT*RWL(3)*MS(N)
        TFXTN = TFXTN - WEIGHT_MD(N)*FACT*
      . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
-       WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)     
+       WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
        TFXTN2 = TFXTN2 - WEWE2*FACT*
-     . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)     
+     . ((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
        F1(J) = FNXN*WEIGHT_MD(N)
        F2(J) = FNYN*WEIGHT_MD(N)*AX
        F3(J) = FNZN*WEIGHT_MD(N)*AX
@@ -409,7 +409,7 @@ C        POINT SECND SLIDING
  60    CONTINUE
       ENDIF
 C
-      IF(IMCONV==1)THEN          
+      IF(IMCONV==1)THEN
           TFXT=TFXT+HALF*DT1*TFXTN
           TFXT2=TFXT2+HALF*DT1*TFXTN2
 #include "atomic.inc"
@@ -432,7 +432,7 @@ C
           CALL SUM_6_FLOAT(1, NINDEX, F5, FRWL6_L(5,1), 7)
           CALL SUM_6_FLOAT(1, NINDEX, F6, FRWL6_L(6,1), 7)
           CALL SUM_6_FLOAT(1, NINDEX, F7, FRWL6_L(7,1), 7)
-          
+
 #include "lockon.inc"
           DO K = 1, 6
             FRWL6(1,K) = FRWL6(1,K)+FRWL6_L(1,K)
@@ -445,7 +445,7 @@ C
           END DO
 #include "lockoff.inc"
       ENDIF
-      
+
       IF (IMP_S==1) THEN
         IF(ITIED==0)THEN
           DO J=1,NINDEX
@@ -457,10 +457,10 @@ C
            N1=N2-1
            A(N1)=RWL(1)
            A(N2)=RWL(2)
-           A(N3)=RWL(3)    
+           A(N3)=RWL(3)
            JJ=IDDL(N)+1
            IF (IKC(JJ)==0)IKC(JJ)=10
-           ENDIF 
+           ENDIF
           ENDDO
         ENDIF
         DO J=1,NINDEX

@@ -125,7 +125,7 @@ c
        LENP=0
        PATH=' '
 
-       PHELPI = 0 
+       PHELPI = 0
        PEXECI = 0
        PINPUTI = 0
        PNCPUI= 0
@@ -137,7 +137,7 @@ c
 !      domdec optimization
        DOMDEC_TUNING = 0
        DD_OPTIMIZATION = 0
-       !    /RFILE/OFF or -check command line 
+       !    /RFILE/OFF or -check command line
        !    --> avoid to write restart files at the end of the starter
        !    default = write restart files
        RESTART_FILE = 1
@@ -169,7 +169,7 @@ c
 !       -GRP_SIZE hidden option
         GRP_SIZE_BOOL=.FALSE.
         GOT_GRP_SIZE = 0
-        GRP_SIZE=128     
+        GRP_SIZE=128
 !       ------------------------
 
        ARGS2(1:2096) = ''
@@ -178,7 +178,7 @@ c
 
        DO I=1,ARGN
         CALL GET_COMMAND_ARGUMENT(I,ARGS)      !GETARG(I,ARGS)
-        strl=LEN_TRIM(ARGS) 
+        strl=LEN_TRIM(ARGS)
         ARGS2(1:2096) = ''
         ARGS2(1:strl) = ARGS(1:strl)
         CALL UPCASE(ARGS)
@@ -219,19 +219,19 @@ C -INPUT, -I
             CASE ( '-INPUT')
                 IF (PINPUTI==0) PINPUTI = I
             CASE ( '-I')
-                IF (PINPUTI==0) PINPUTI = I 
+                IF (PINPUTI==0) PINPUTI = I
 C------------------------------------------------
 C -NSPMD, -NP
             CASE ( '-NSPMD')
                 IF (PNCPUI==0) PNCPUI = I
             CASE ( '-NP')
-                IF (PNCPUI==0) PNCPUI = I 
+                IF (PNCPUI==0) PNCPUI = I
 C------------------------------------------------
 C -NTHREAD, -NT
             CASE ( '-NTHREAD')
                 IF (PNTHI==0) PNTHI = I
             CASE ( '-NT')
-                IF (PNTHI==0) PNTHI = I 
+                IF (PNTHI==0) PNTHI = I
 C------------------------------------------------
 C -TIMER
             CASE ( '-TIMER')
@@ -283,7 +283,7 @@ C------------------------------------------------
                 RANDM_ALEA = I
             CASE('-RSEED')
                 RANDM_SEED = I
-                
+
 C------------------------------------------------
             CASE ( '-GRP_SIZE')
                 GOT_GRP_SIZE = I
@@ -304,7 +304,7 @@ C Check if argument string is a variable to an argument
      *             ARGP == '-TIMER' .OR. ARGP =='-DYLIB'.OR.
      *             ARGP == '-DYNAMIC_LIB' .OR. ARGP == '-DD_TUNING'.OR.
      *             ARGP == '-RSEED' .OR. ARGP == '-RXALEA'.OR.
-     *             ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH'  )THEN 
+     *             ARGP == '-GRP_SIZE' .OR. ARGP == '-MDS_LIBPATH'  )THEN
                  ERR = 0
                ELSE
                  ERR = 1
@@ -312,9 +312,9 @@ C Check if argument string is a variable to an argument
             ENDIF
             IF (ERR == 1)THEN
                CALL GET_COMMAND_ARGUMENT(I,ARGP)       !GETARG(I,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
                WRITE(6,'(A,A)') ' '
-               WRITE(6,'(A,A)') 
+               WRITE(6,'(A,A)')
      *           '***  ERROR : Unknown command line argument: ',
      *            ARGP(1:STRLN)
                   WRITE(6,'(A,A)') ' '
@@ -354,7 +354,7 @@ C------------------------------------------------
                 OUTFILE_BOOL=.TRUE.
                 LAST_LETTER = OUTFILE_NAME(OUTFILE_NAME_LEN:OUTFILE_NAME_LEN)
                 IF(LAST_LETTER/=SEPARATOR) THEN
-                    OUTFILE_NAME(1:OUTFILE_NAME_LEN+1) = 
+                    OUTFILE_NAME(1:OUTFILE_NAME_LEN+1) =
      .                       OUTFILE_NAME(1:OUTFILE_NAME_LEN)//SEPARATOR
                     OUTFILE_NAME_LEN = OUTFILE_NAME_LEN + 1
                 ENDIF
@@ -370,7 +370,7 @@ C------------------------------------------------
                 INFILE_BOOL=.TRUE.
                 LAST_LETTER = INFILE_NAME(OUTFILE_NAME_LEN:OUTFILE_NAME_LEN)
                 IF(LAST_LETTER/=SEPARATOR) THEN
-                    INFILE_NAME(1:INFILE_NAME_LEN+1) = 
+                    INFILE_NAME(1:INFILE_NAME_LEN+1) =
      .                       INFILE_NAME(1:INFILE_NAME_LEN)//SEPARATOR
                     INFILE_NAME_LEN = INFILE_NAME_LEN + 1
                 ENDIF
@@ -404,7 +404,7 @@ C------------------------------------------------
 C          Case -I is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(IERRMSG,ARGP)       !GETARG(IERRMSG,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
@@ -424,13 +424,13 @@ C check if -i has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,INPUTC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(PINPUTI,ARGP)       !GETARG(PINPUTI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 !                MSG=ARGP
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                CALL MY_EXIT(2)
-           ENDIF 
+           ENDIF
            CALL READ_MSGFILE(LENI,INPUTR)
            CALL BUILD_MSG()
          ENDIF
@@ -444,14 +444,14 @@ C------------------------------------------------
 C          Case -I is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(PINPUTI,ARGP)       !GETARG(PINPUTI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 C           CALL PRHELPINFO()
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR = 1
            GOTO 100
- 
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(PINPUTI+1,INPUTR)       !GETARG(PINPUTI+1,INPUTR)
            LENI=LEN_TRIM(INPUTR)
@@ -465,14 +465,14 @@ C check if -i has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,INPUTC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(PINPUTI,ARGP)       !GETARG(PINPUTI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                GLOBAL_ERROR = 1
                GOTO 100
-           ENDIF 
+           ENDIF
 
            BEGIN=LEN_TRIM(INPUTR)
            CONDITION = .FALSE.
@@ -489,7 +489,7 @@ C               CALL PRHELPINFO()
            BEGIN=BEGIN+1
            INPUT(1:LENI) = INPUTR(BEGIN:LEN_TRIM(INPUTR))
 
-           IF (BEGIN > 1)THEN 
+           IF (BEGIN > 1)THEN
              GOT_PATH=1
              LENP=BEGIN-1
              PATH(1:LENP)=INPUTR(1:LENP)
@@ -513,14 +513,14 @@ C------------------------------------------------
 C          Case -np is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(PNCPUI,ARGP)       !GETARG(PNCPUI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 C           CALL PRHELPINFO()
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR=1
            GOTO 200
-          
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(PNCPUI+1,STRING)       !GETARG(PNCPUI+1,STRING)
 
@@ -530,14 +530,14 @@ C check if -np has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,STRING,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(PNCPUI,ARGP)       !GETARG(PNCPUI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                GLOBAL_ERROR=1
                GOTO 200
-           ENDIF 
+           ENDIF
 C convert the argument to an Integer
            GOT_NCPU = 1
            CALL GET_COMMAND_ARGUMENT(PNCPUI+1,STRING)       !GETARG(PNCPUI+1,STRING)
@@ -548,11 +548,11 @@ C Read converting was OK goto 1000
 
  999       CONTINUE
 C Error was found during Character to Integer translation
-           STRLN=LEN_TRIM(STRING) 
+           STRLN=LEN_TRIM(STRING)
            CALL GET_COMMAND_ARGUMENT(PNCPUI,ARGP)       !GETARG(PNCPUI,ARGP)
-           STRLNA=LEN_TRIM(ARGP) 
+           STRLNA=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
-           WRITE(6,'(A,A,A,A,A)') 
+           WRITE(6,'(A,A,A,A,A)')
      *         '*** ERROR in "',ARGP(1:STRLNA),'" argument : "',
      *          STRING(1:STRLN),'" is not an integer value'
            GLOBAL_ERROR=1
@@ -572,14 +572,14 @@ C------------------------------------------------
 C          Case -nt is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(PNTHI,ARGP)       !GETARG(PNTHI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 C           CALL PRHELPINFO()
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR=1
            GOTO 200
-          
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(PNTHI+1,STRING)       !GETARG(PNTHI+1,STRING)
 
@@ -589,14 +589,14 @@ C check if -nt has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,STRING,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(PNTHI,ARGP)       !GETARG(PNTHI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                GLOBAL_ERROR=1
                GOTO 200
-           ENDIF 
+           ENDIF
 C convert the argument to an Integer
            GOT_NTH = 1
            CALL GET_COMMAND_ARGUMENT(PNTHI+1,STRING)       !GETARG(PNTHI+1,STRING)
@@ -607,11 +607,11 @@ C Read converting was OK goto 2000
 
  1999      CONTINUE
 C Error was found during Character to Integer translation
-           STRLN=LEN_TRIM(STRING) 
+           STRLN=LEN_TRIM(STRING)
            CALL GET_COMMAND_ARGUMENT(PNTHI,ARGP)       !GETARG(PNTHI,ARGP)
-           STRLNA=LEN_TRIM(ARGP) 
+           STRLNA=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
-           WRITE(6,'(A,A,A,A,A)') 
+           WRITE(6,'(A,A,A,A,A)')
      *         '*** ERROR in "',ARGP(1:STRLNA),'" argument : "',
      *          STRING(1:STRLN),'" is not an integer value'
            GLOBAL_ERROR=1
@@ -629,12 +629,12 @@ C------------------------------------------------
 C          Case -DYLIB is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(PUSERLNAMI,ARGP)       !GETARG(PUSERLNAMI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 C           CALL PRHELPINFO()
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
            GLOBAL_ERROR = 1
- 
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(PUSERLNAMI+1,USERL_ALTNAME)       !GETARG(PUSERLNAMI+1,USERL_ALTNAME)
            LEN_USERL_ALTNAME=LEN_TRIM(USERL_ALTNAME)
@@ -648,14 +648,14 @@ C check if -dylib has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,ULIBC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(PUSERLNAMI,ARGP)       !GETARG(PUSERLNAMI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                GLOBAL_ERROR = 1
                GOTO 3000
-           ENDIF 
+           ENDIF
 
          ENDIF     !         IF (PUSERLNAMI+1  > ARGN) THEN
        ENDIF
@@ -669,15 +669,15 @@ C------------------------------------------------
 
 C          Case -DYLIB is last argument in the list.
 
-           CALL GET_COMMAND_ARGUMENT(MDS_PATHI,ARGP)       
-           STRLN=LEN_TRIM(ARGP) 
+           CALL GET_COMMAND_ARGUMENT(MDS_PATHI,ARGP)
+           STRLN=LEN_TRIM(ARGP)
 C           CALL PRHELPINFO()
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
            GLOBAL_ERROR = 1
- 
+
          ELSE
-           CALL GET_COMMAND_ARGUMENT(MDS_PATHI+1,MDS_PATH)       
+           CALL GET_COMMAND_ARGUMENT(MDS_PATHI+1,MDS_PATH)
            MDS_PATH_LEN=LEN_TRIM(MDS_PATH)
 C check if -mds has got an argument or if the next string is an input command
 
@@ -688,14 +688,14 @@ C check if -mds has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,ULIBC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(MDS_PATHI,ARGP)       !GETARG(PUSERLNAMI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                GLOBAL_ERROR = 1
                GOTO 4000
-           ENDIF 
+           ENDIF
 
          ENDIF     !         IF (MDS_PATHI+1  > ARGN) THEN
        ENDIF
@@ -721,13 +721,13 @@ C------------------------------------------------
 C          Case -DYLIB is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(DOMDEC_TUNING,ARGP)       !GETARG(DOMDEC_TUNING,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 C           CALL PRHELPINFO()
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR = 1
- 
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(DOMDEC_TUNING+1,DOMDEC_CPU_TYPE)       !GETARG(DOMDEC_TUNING+1,DOMDEC_CPU_TYPE)
            LEN_DOMDEC_CPU_TYPE=LEN_TRIM(DOMDEC_CPU_TYPE)
@@ -739,7 +739,7 @@ C check if -DD_TUNING has got an argument or if the next string is an input comm
            CALL ISANARGUMENT(ARGLIST,LENLIST,ULIBC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(DOMDEC_TUNING,ARGP)       !GETARG(DOMDEC_TUNING,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
@@ -747,7 +747,7 @@ C               CALL PRHELPINFO()
                GLOBAL_ERROR = 1
                GOTO 3010
            ENDIF
-           
+
            IF(DOMDEC_CPU_TYPE(1:LEN_DOMDEC_CPU_TYPE)=='AVX512') THEN
             DD_OPTIMIZATION = 1
            ELSEIF(DOMDEC_CPU_TYPE(1:LEN_DOMDEC_CPU_TYPE)=='SSE3') THEN
@@ -777,14 +777,14 @@ C               CALL PRHELPINFO()
 C          Case -rxalea is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(RANDM_ALEA,ARGP)       !GETARG(PNTHI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR=1
            GOTO 200
-          
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(RANDM_ALEA+1,STRING)
 
@@ -794,13 +794,13 @@ C check if -rxalea has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,STRING,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(RANDM_ALEA,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
                GLOBAL_ERROR=1
                GOTO 200
-           ENDIF 
+           ENDIF
 C convert the argument to a real
 
            CALL GET_COMMAND_ARGUMENT(RANDM_ALEA+1,STRING)
@@ -813,11 +813,11 @@ C Read converting was OK goto 2000
 
  5999      CONTINUE
 C Error was found during Character to real translation
-           STRLN=LEN_TRIM(STRING) 
+           STRLN=LEN_TRIM(STRING)
            CALL GET_COMMAND_ARGUMENT(RANDM_ALEA,ARGP)
-           STRLNA=LEN_TRIM(ARGP) 
+           STRLNA=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
-           WRITE(6,'(A,A,A,A,A)') 
+           WRITE(6,'(A,A,A,A,A)')
      *         '*** ERROR in "',ARGP(1:STRLNA),'" argument : "',
      *          STRING(1:STRLN),'" is not an real value'
            GLOBAL_ERROR=1
@@ -835,14 +835,14 @@ C Error was found during Character to real translation
 C          Case -rseed is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(RANDM_SEED,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
 
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR=1
            GOTO 200
-          
+
          ELSE
            CALL GET_COMMAND_ARGUMENT(RANDM_SEED+1,STRING)
 
@@ -852,13 +852,13 @@ C check if -rseed has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,STRING,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(RANDM_SEED,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',ARGP(1:STRLN)
                GLOBAL_ERROR=1
                GOTO 200
-           ENDIF 
+           ENDIF
 C convert the argument to a real
 
            CALL GET_COMMAND_ARGUMENT(RANDM_SEED+1,STRING)
@@ -871,11 +871,11 @@ C Read converting was OK goto 2000
 
  6999      CONTINUE
 C Error was found during Character to real translation
-           STRLN=LEN_TRIM(STRING) 
+           STRLN=LEN_TRIM(STRING)
            CALL GET_COMMAND_ARGUMENT(RANDM_ALEA,ARGP)
-           STRLNA=LEN_TRIM(ARGP) 
+           STRLNA=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
-           WRITE(6,'(A,A,A,A,A)') 
+           WRITE(6,'(A,A,A,A,A)')
      *         '*** ERROR in "',ARGP(1:STRLNA),'" argument : "',
      *          STRING(1:STRLN),'" is not an real value'
            GLOBAL_ERROR=1
@@ -894,12 +894,12 @@ C------------------------------------------------
 C          Case -grp_size is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(GOT_GRP_SIZE,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
            WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    ARGP(1:STRLN)
            GLOBAL_ERROR=1
-           GOTO 200          
+           GOTO 200
          ELSE
            CALL GET_COMMAND_ARGUMENT(GOT_GRP_SIZE+1,STRING)
 
@@ -909,14 +909,14 @@ C check if -grp_size has got an argument or if the next string is an input comma
            CALL ISANARGUMENT(ARGLIST,LENLIST,STRING,ISIN)
            IF ( ISIN==1 )THEN
                CALL GET_COMMAND_ARGUMENT(GOT_GRP_SIZE,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
 C               CALL PRHELPINFO()
                WRITE(6,'(A)') ' '
                WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                         ARGP(1:STRLN)
                GLOBAL_ERROR=1
                GOTO 200
-           ENDIF 
+           ENDIF
 C convert the argument to an Integer
            GOT_NTH = 1
            CALL GET_COMMAND_ARGUMENT(GOT_GRP_SIZE+1,STRING)
@@ -928,11 +928,11 @@ C Read converting was OK goto 2000
 
  3999      CONTINUE
 C Error was found during Character to Integer translation
-           STRLN=LEN_TRIM(STRING) 
+           STRLN=LEN_TRIM(STRING)
            CALL GET_COMMAND_ARGUMENT(GOT_GRP_SIZE,ARGP)
-           STRLNA=LEN_TRIM(ARGP) 
+           STRLNA=LEN_TRIM(ARGP)
            WRITE(6,'(A)') ' '
-           WRITE(6,'(A,A,A,A,A)') 
+           WRITE(6,'(A,A,A,A,A)')
      *         '*** ERROR in "',ARGP(1:STRLNA),'" argument : "',
      *          STRING(1:STRLN),'" is not an integer value'
            GLOBAL_ERROR=1
@@ -952,11 +952,11 @@ C Error was found during Character to Integer translation
  200   CONTINUE
        IF (GLOBAL_ERROR ==1)THEN
          WRITE(6,'(A)') ' '
-         CALL PRHELPINFO() 
+         CALL PRHELPINFO()
          CALL MY_EXIT(2)
        ENDIF
 
-       IF(INFILE_BOOL.or.OUTFILE_BOOL) INOUT_BOOL = .TRUE. 
+       IF(INFILE_BOOL.or.OUTFILE_BOOL) INOUT_BOOL = .TRUE.
 
 
        RETURN
@@ -970,7 +970,7 @@ Chd|-- called by -----------
 Chd|        EXECARGCHECK                  source/starter/execargcheck.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE UPCASE (STRING) 
+      SUBROUTINE UPCASE (STRING)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -990,7 +990,7 @@ C
        LS = LEN (STRING)
 C
        DO LC = 1,LS
-          IF (LGE(STRING(LC:LC),'a') .AND. 
+          IF (LGE(STRING(LC:LC),'a') .AND.
      1        LLE(STRING(LC:LC),'z')) THEN
 C
               STRING (LC:LC) = CHAR (ICHAR (STRING(LC:LC)) - 32)
@@ -1027,7 +1027,7 @@ C-----------------------------------------------
        ISIN = 0
        DO I=1,LENLIST
         IF (TRIM(ARGLIST(I))==TRIM(ARG)) ISIN=1
-       ENDDO 
+       ENDDO
        END
 
 
@@ -1103,7 +1103,7 @@ C-----------------------------------------------
          WRITE(6,'(A,A)') 'Platform release : ',CPUNAM
          WRITE(6,'(A,A)') 'Platform info : ',ARCHTITLE
          IF (IR4R8==1)THEN
-           WRITE(6,'(A,A)') 
+           WRITE(6,'(A,A)')
      *         '                Extended Single Precision Version'
          ENDIF
          WRITE(6,'(A,A)')   ' '

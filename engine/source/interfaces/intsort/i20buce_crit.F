@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD  
+      USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,14 +74,14 @@ C-----------------------------------------------
       INTEGER NSNE,NMNE,NSVE(NSNE),MSRE(NMNE),IXLINS(2,*),IKINE(NUMNOD)
       my_real
      .   X(3,*), V(3,*), XSAV(3,*), STFA(*),
-     .   XSLV_G(*),XMSR_G(*), VSLV_G(*), VMSR_G(*), MS(*), DIAG_SMS(*), 
+     .   XSLV_G(*),XMSR_G(*), VSLV_G(*), VMSR_G(*), MS(*), DIAG_SMS(*),
      .   XSAVE(3,*), STFES(*),PENISE(2,NLINSA),PENIME(2,NLINMA),
      .   PENIS(2,NSN),PENIM(2,NRTM),PENIA(5,NLN),STFAC
-      my_real 
+      my_real
      .       DVANC(3,*) ,DXANC(3,*),DAANC(3,*) ,DXANCG(3,*)
-      my_real 
+      my_real
      .       VA(3,NSN) ,XA(3,NSN),ALPHAK(3,NLN)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .       DAANC6(3,6,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, II, N,NLNF,NLNL,IL,IG,NRTMF,NRTML
       INTEGER NSNEF,NMNEF,NSNEL,NMNEL,NLINSAF,NLINSAL,NLINMAF,NLINMAL
       INTEGER IRBY
-      my_real 
+      my_real
      .       AAA,DA(3), XSLV(6), XMSR(6), VSLV(6), VMSR(6) ,AMASS
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -188,23 +188,23 @@ c           delta A parith on
               DAANC6(1,4,I) = ZERO
               DAANC6(1,5,I) = ZERO
               DAANC6(1,6,I) = ZERO
- 
+
               DAANC6(2,1,I) = ZERO
               DAANC6(2,2,I) = ZERO
               DAANC6(2,3,I) = ZERO
               DAANC6(2,4,I) = ZERO
               DAANC6(2,5,I) = ZERO
               DAANC6(2,6,I) = ZERO
- 
+
               DAANC6(3,1,I) = ZERO
               DAANC6(3,2,I) = ZERO
               DAANC6(3,3,I) = ZERO
               DAANC6(3,4,I) = ZERO
               DAANC6(3,5,I) = ZERO
               DAANC6(3,6,I) = ZERO
- 
+
             ENDIF
- 
+
             DVANC(1,I) = DVANC(1,I)  + DA(1)*AAA
             DVANC(2,I) = DVANC(2,I)  + DA(2)*AAA
             DVANC(3,I) = DVANC(3,I)  + DA(3)*AAA
@@ -212,7 +212,7 @@ c           delta A parith on
             DXANC(2,I) = DXANC(2,I)  + DVANC(2,I)*DT1
             DXANC(3,I) = DXANC(3,I)  + DVANC(3,I)*DT1
 
-          ELSE 
+          ELSE
 
             DVANC(1,I) = ZERO
             DVANC(2,I) = ZERO
@@ -259,14 +259,14 @@ c           delta A parith on
               DAANC6(1,4,I) = ZERO
               DAANC6(1,5,I) = ZERO
               DAANC6(1,6,I) = ZERO
- 
+
               DAANC6(2,1,I) = ZERO
               DAANC6(2,2,I) = ZERO
               DAANC6(2,3,I) = ZERO
               DAANC6(2,4,I) = ZERO
               DAANC6(2,5,I) = ZERO
               DAANC6(2,6,I) = ZERO
- 
+
               DAANC6(3,1,I) = ZERO
               DAANC6(3,2,I) = ZERO
               DAANC6(3,3,I) = ZERO
@@ -274,7 +274,7 @@ c           delta A parith on
               DAANC6(3,5,I) = ZERO
               DAANC6(3,6,I) = ZERO
             ENDIF
- 
+
             DVANC(1,I) = DVANC(1,I)  + DA(1)*AAA
             DVANC(2,I) = DVANC(2,I)  + DA(2)*AAA
             DVANC(3,I) = DVANC(3,I)  + DA(3)*AAA
@@ -282,7 +282,7 @@ c           delta A parith on
             DXANC(2,I) = DXANC(2,I)  + DVANC(2,I)*DT1
             DXANC(3,I) = DXANC(3,I)  + DVANC(3,I)*DT1
 
-        ELSE 
+        ELSE
 
           DVANC(1,I) = ZERO
           DVANC(2,I) = ZERO

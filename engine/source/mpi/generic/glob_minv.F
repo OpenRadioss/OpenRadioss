@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      VLEN = 3+NVOLU*7 
+      VLEN = 3+NVOLU*7
       DO I = 1,LEN
         RINOUT(1+(I-1)*VLEN) = MIN(RINOUT(1+(I-1)*VLEN),RIN(1+(I-1)*VLEN))
         IF(RIN(1+(I-1)*VLEN) == RINOUT(1+(I-1)*VLEN))THEN

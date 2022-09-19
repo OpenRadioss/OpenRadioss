@@ -30,7 +30,7 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SBOLTINI(E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .                    BPRELD     ,NEL  ,IX   ,NIX  ,VPRELOAD, IFLAG_BPRELOAD)  
+     .                    BPRELD     ,NEL  ,IX   ,NIX  ,VPRELOAD, IFLAG_BPRELOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER   IX(NIX,*), IFLAG_BPRELOAD(*)
       my_real
      .   VPRELOAD(7,*),BPRELD(NEL,NBPRELD),
-     .   E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*)  
+     .   E1X(*),E1Y(*),E1Z(*),E2X(*),E2Y(*),E2Z(*),E3X(*),E3Y(*),E3Z(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -110,14 +110,14 @@ C-----------
            BPRELD(I,1)=TSTART
            BPRELD(I,2)=TEND
            BPRELD(I,3)=ZERO
-           BPRELD(I,4)=T11  
-           BPRELD(I,5)=T22  
+           BPRELD(I,4)=T11
+           BPRELD(I,5)=T22
            BPRELD(I,6)=T33
            BPRELD(I,7)=T12
            BPRELD(I,8)=T23
            BPRELD(I,9)=T13
            BPRELD(I,10)=SENS
-          
+
           !write (957,'(3I5,1X,10E10.3)')II,I,N,BPRELD(I,1:10)
          ENDIF
   200    CONTINUE
@@ -147,14 +147,14 @@ C-----------
           BPRELD(I,1)=TSTART
           BPRELD(I,2)=TEND
           BPRELD(I,3)=ZERO
-          BPRELD(I,4)=L11  
-          BPRELD(I,5)=L22  
+          BPRELD(I,4)=L11
+          BPRELD(I,5)=L22
           BPRELD(I,6)=L33
           BPRELD(I,7)=L12
           BPRELD(I,8)=L23
           BPRELD(I,9)=L13
           BPRELD(I,10)=SENS
-          
+
           !write (917,'(3I5,1X,10E10.3)')II,I,N,BPRELD(I,1:10)
         ENDIF
   300   CONTINUE

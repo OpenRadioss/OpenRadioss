@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
-     .        IRTLM(2,*), MSR(*), NODNX_SMS(*),     
+     .        IRTLM(2,*), MSR(*), NODNX_SMS(*),
      .        JLT, NOINT, IGAP , NSN, NIN, IGSTI, IADM, NRADM, INTTH,
      .        IROT, MSTR, IFPEN(*), ILEV, IFORM,INVN
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -97,10 +97,10 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), PENE(MVSIZ),
      .   STIF(MVSIZ) ,GAPV(MVSIZ),
-     .   VXM, VYM, VZM, 
+     .   VXM, VYM, VZM,
      .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
      .   LB(MVSIZ), LC(MVSIZ), LS, ASI(MVSIZ), BSI(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
@@ -121,7 +121,7 @@ C-----------------------------------------------
      .   NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
      .   NX0(MVSIZ), NY0(MVSIZ), NZ0(MVSIZ), LA(MVSIZ),
      .   HX(MVSIZ), HY(MVSIZ), HZ(MVSIZ),
-     .   NN, HN,TEMP0 , TEMP1, TEMP2, TEMP3, 
+     .   NN, HN,TEMP0 , TEMP1, TEMP2, TEMP3,
      .   TEMP4,TOL,TOLFIX
 C-----------------------------------------------
       DO I=1,JLT
@@ -168,13 +168,13 @@ C
       IF(INTTH/=0)THEN
 
 C     SECONDARY TEMPERATURE
-         DO I=1,JLT             
+         DO I=1,JLT
            IG = NSV(CAND_N(I))
            NSVG(I) = IG
            TEMPI(I) = TEMP(IG)
            ASI(I)   = AS(CAND_N(I))
            BSI(I)   = BS(CAND_N(I))
-         END DO 
+         END DO
 
 C     MAIN TEMPERATURE
          IF(INTTH==2)THEN ! Case of MAIN temperature variable over MAIN surface
@@ -182,7 +182,7 @@ C     MAIN TEMPERATURE
             DO I=1,JLT
                I1 =  IX1(I)
                ND = MSR(I1)
-               IF(ND > 0) THEN                 
+               IF(ND > 0) THEN
                   TEMP1 = TEMP(ND)
                ELSE
                   TEMP1 = NMTEMP(NIN)%P(-ND)
@@ -190,7 +190,7 @@ C     MAIN TEMPERATURE
 
                I2 =  IX2(I)
                ND = MSR(I2)
-               IF(ND > 0) THEN                 
+               IF(ND > 0) THEN
                   TEMP2 = TEMP(ND)
                ELSE
                   TEMP2 = NMTEMP(NIN)%P(-ND)
@@ -198,7 +198,7 @@ C     MAIN TEMPERATURE
 
                I3 =  IX3(I)
                ND = MSR(I3)
-               IF(ND > 0) THEN                 
+               IF(ND > 0) THEN
                   TEMP3 = TEMP(ND)
                ELSE
                   TEMP3 = NMTEMP(NIN)%P(-ND)
@@ -206,16 +206,16 @@ C     MAIN TEMPERATURE
 
                I4 =  IX4(I)
                ND = MSR(I4)
-               IF(ND > 0) THEN                 
+               IF(ND > 0) THEN
                   TEMP4 = TEMP(ND)
                ELSE
                   TEMP4 = NMTEMP(NIN)%P(-ND)
                ENDIF
 C
                IF(IX3(I)/=IX4(I))THEN
-                 TEMP0 = FOURTH*(TEMP1+TEMP2+TEMP3+TEMP4) 
+                 TEMP0 = FOURTH*(TEMP1+TEMP2+TEMP3+TEMP4)
                ELSE
-                 TEMP0 = TEMP3 
+                 TEMP0 = TEMP3
                ENDIF
 C             
                IF(ITRIA(I)==1.OR.ITRIA(I)==-1)THEN
@@ -229,14 +229,14 @@ C
                ENDIF
 C
            END DO
-         ELSE    ! Case of MAIN temperature is constant 
+         ELSE    ! Case of MAIN temperature is constant
             DO I=1,JLT
                TEMPM(I) = TINT
             END DO
          ENDIF
       END IF
 
-      IF(IFORM==1)THEN 
+      IF(IFORM==1)THEN
         DO I=1,JLT
           IF(IX3(I)/=IX4(I))THEN
 C
@@ -263,8 +263,8 @@ C
            ENDIF
 C
           ELSE
-             H1(I) = LB(I) 
-             H2(I) = LC(I) 
+             H1(I) = LB(I)
+             H2(I) = LC(I)
              H3(I) = LA(I)
              H4(I) = ZERO
          ENDIF
@@ -433,7 +433,7 @@ C
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
          NX0(I)= FOURTH*(NX1(I)+NX2(I)+NX3(I)+NX4(I))
          NY0(I)= FOURTH*(NY1(I)+NY2(I)+NY3(I)+NY4(I))
          NZ0(I)= FOURTH*(NZ1(I)+NZ2(I)+NZ3(I)+NZ4(I))
@@ -534,13 +534,13 @@ c       LA(I) = LA(I)*LS
         NX(I)=NX(I)*NN
         NY(I)=NY(I)*NN
         NZ(I)=NZ(I)*NN
-        
+
         DIST(I)=DIST(I)*SIGN(ONE,HN)
 C3 DIST <= GAPV(I) a la precision machine pres.
         PENE(I)=MAX(ZERO,GAPV(I)-DIST(I))
       ENDDO
 
-       
+
 C
       DO I=1,JLT
        L  = CAND_E(I)
@@ -572,7 +572,7 @@ Cetait bug (pas la meme distance que dans i21dst3 : DIST <= Pi(I))
             IFPEN(CAND_N(I)) =0
           END IF
         END DO
-       END IF        
+       END IF
       ELSEIF(TT/=ZERO)THEN
         DO I=1,JLT
           IF(PENE(I)==ZERO)THEN
@@ -588,7 +588,7 @@ C (due to possible impact from the rear)
             PENI(CAND_N(I))    =PENE(I)
           END IF
         END DO
-      END IF        
+      END IF
 C
       IF(INVN > 0) THEN
         TOLFIX = (ONE-EM02)*DEPTH
@@ -603,12 +603,12 @@ C check if penetrations are important at 1st impact => detect if normals are inv
                 WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 21.'
                 WRITE(ISTDO,'(A)')'Maximum penetration is reached'
-                WRITE(ISTDO,'(A)')'You may need to check if contact normals 
+                WRITE(ISTDO,'(A)')'You may need to check if contact normals
      .of tools are oriented toward the blank,'
                 WRITE(IOUT, '(A)')'The run encountered a problem in an in
      .terface Type 21.'
                 WRITE(IOUT, '(A)')'Maximum penetration is reached'
-                WRITE(IOUT, '(A)')'You may need to check if contact normals 
+                WRITE(IOUT, '(A)')'You may need to check if contact normals
      .of tools are oriented toward the blank,'
 
                 NG = NSVG(I)

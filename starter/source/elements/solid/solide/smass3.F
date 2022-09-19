@@ -37,8 +37,8 @@ Chd|====================================================================
      1     RHO    ,MS   ,PARTSAV,X    ,V ,
      2     IPART  ,MSS  ,VOLU   ,
      3     MSNF   ,MSSF ,IN     ,
-     4     VR     ,INS  ,WMA    ,RHOCP,MCP,  
-     5     MCPS   ,MSSA ,RHOF   ,FRAC ,FILL, 
+     4     VR     ,INS  ,WMA    ,RHOCP,MCP,
+     5     MCPS   ,MSSA ,RHOF   ,FRAC ,FILL,
      6     NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -181,7 +181,7 @@ C
            MSSF(6,I)=MASSF(I)
            MSSF(7,I)=MASSF(I)
            MSSF(8,I)=MASSF(I)
-         ENDDO 
+         ENDDO
        ELSEIF(JALE+JEUL > 0)THEN
          DO I=LFT,LLT
            I1 = NC1(I)
@@ -203,7 +203,7 @@ C
          ENDDO
        ENDIF
 C
-       IF(JTHE < 0 ) THEN      
+       IF(JTHE < 0 ) THEN
          DO I=LFT,LLT
            RCP=FILL(I)*RHOCP(I)*VOLU(I)*ONE_OVER_8
            MCPS(1,I) =RCP
@@ -214,7 +214,7 @@ C
            MCPS(6,I)= RCP
            MCPS(7,I)= RCP
            MCPS(8,I)= RCP
-         ENDDO 
+         ENDDO
        ENDIF
 C
        IF(ISROT == 1)THEN

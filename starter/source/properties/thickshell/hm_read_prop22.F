@@ -61,9 +61,9 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD         
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MULTI_FVM_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IG,IGTYP,SUB_ID,ISKN(LISKN,*),IPM(NPROPMI,*)
       CHARACTER*nchartitle,INTENT(IN)::TITR
       my_real,
@@ -128,11 +128,11 @@ C=======================================================================
       IPPOS = IPTHK+NLYMAX
       IPMAT = 100
 C-----hide and removed flags:
-      IPLAST = 2                              
+      IPLAST = 2
       ID = IG
 C---- will branche later     
-      ICPRE = 0  
-      ISTRAIN = 1  
+      ICPRE = 0
+      ISTRAIN = 1
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -175,8 +175,8 @@ C-----------------------
 C---   Default values
 C-----------------------
 C  ihbe
-      IF (IHBE == 0) IHBE = IHBE_DS      
-      IF (IHBE /= 14 .AND. IHBE /= 15 ) THEN    
+      IF (IHBE == 0) IHBE = IHBE_DS
+      IF (IHBE /= 14 .AND. IHBE /= 15 ) THEN
         CALL ANCMSG(MSGID=549,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
@@ -184,18 +184,18 @@ C  ihbe
      .              C1=TITR,
      .              I2=IHBE,
      .              I3=22)
-      ENDIF                                                    
+      ENDIF
 C
 C   jcvt
 C 
-      IF (IHBE == 14 .OR. IHBE == 15) JCVT = 2 
-c      IF (IHBE == 16) JCVT = 1        
+      IF (IHBE == 14 .OR. IHBE == 15) JCVT = 2
+c      IF (IHBE == 16) JCVT = 1
 C
 C  smstr
 C
-      IF (ISMSTR == 0) ISMSTR=ISST_DS    
-      IF (ISMSTR == 0) ISMSTR=4          
-      IF (ISST_DS == -2.OR.ISMSTR<0) ISMSTR=4          
+      IF (ISMSTR == 0) ISMSTR=ISST_DS
+      IF (ISMSTR == 0) ISMSTR=4
+      IF (ISST_DS == -2.OR.ISMSTR<0) ISMSTR=4
 c       IF(GEO( 3)/=ZERO.AND.IGEO( 5)== 0)IGEO( 5)=NINT(GEO( 3))
 C
 C  icpre/icstr
@@ -220,7 +220,7 @@ C
 C  npt
 C
       SELECT CASE (IHBE)
-      CASE(15)                                             
+      CASE(15)
 c        NPT = NPTT
         NLY = NPT
         IP = 3
@@ -268,7 +268,7 @@ c        NPT = NPTT
 	ELSE
 	 IINT = 1
 	ENDIF
-      END SELECT      
+      END SELECT
       IF (NLY<=0) THEN
          CALL ANCMSG(MSGID=27,
      .               MSGTYPE=MSGERROR,
@@ -295,8 +295,8 @@ C
       ENDIF
 C igeo(31)  flag for default qa qb for law 70 can be used for other law
       IF(QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
-      IF (QA == ZERO) QA = ONEP1         
-      IF (QB == ZERO) QB = FIVEEM2  
+      IF (QA == ZERO) QA = ONEP1
+      IF (QB == ZERO) QB = FIVEEM2
 C      
       IF(ASHEAR==ZERO)ASHEAR=ONE
       IF(NLY==1) ASHEAR= EM10
@@ -402,7 +402,7 @@ C------------[-0.5,0.5]----------
         THK = ABS(TMAX-TMIN-ONE)
         IF ( TMIN<-HALF.OR.TMAX>HALF.OR.THK>EM10) THEN
          CALL ANCMSG(MSGID=674,
-         
+
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
@@ -443,7 +443,7 @@ C----------------------
       ELSE
        IF(ISK==0)THEN
          IF(IGEO(31) == 1)THEN
-           
+
            WRITE(IOUT,2100)IG,IHBE,ISMSTR,NPT,ICSTR,
      .                  CVIS,QA,QB,DTMIN,NLY,IPOS,ASHEAR,IREP,
      .                  VX,VY,VZ
@@ -481,7 +481,7 @@ C----Initialization in lecgeo:
        PROP_TAG(IGTYP)%L_VOL  = 1
        PROP_TAG(IGTYP)%L_QVIS = 1
        PROP_TAG(IGTYP)%G_FILL = 1
-       PROP_TAG(IGTYP)%L_STRA = 6 
+       PROP_TAG(IGTYP)%L_STRA = 6
        PROP_TAG(IGTYP)%G_GAMA = 6
        PROP_TAG(IGTYP)%L_GAMA = 6
 C

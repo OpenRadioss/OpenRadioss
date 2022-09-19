@@ -35,7 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT64(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      )
 C-----------------------------------------------
@@ -58,10 +58,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .    E,NU,CP,VMC,D,N,MD,
      .    C1, G,TEMP,V0,C2,YFAC(2),FAC_L,FAC_T,FAC_M,FAC_C
       INTEGER I,J
@@ -124,17 +124,17 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('M64_Md'         ,MD       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('M64_Vo'         ,V0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('M64_Vm'         ,VMC      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !line-4      
+      !line-4
       CALL HM_GET_INTV  ('M64_FUNCT_ID_0' ,IFUNC(1) ,IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV  ('M64_FUNCT_ID_1' ,IFUNC(2) ,IS_AVAILABLE, LSUBMODEL)    
+      CALL HM_GET_INTV  ('M64_FUNCT_ID_1' ,IFUNC(2) ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('M64_SCALE_0'    ,YFAC(1)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('M64_SCALE_1'    ,YFAC(2)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('M64_INI_TEMP'   ,TEMP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !CALL HM_GET_FLOATV(''       ,HL       ,IS_AVAILABLE, LSUBMODEL, UNITAB)   no longer read
       !units
       CALL HM_GET_FLOATV_DIM('M64_SCALE_0'    ,YFAC_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
-      !---DEFAULT VALUES---! 
+
+      !---DEFAULT VALUES---!
       IF(RHOR == ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
@@ -164,17 +164,17 @@ C-----------------------------------------------
       UPARAM(11) = CP
       UPARAM(12) = TEMP
       UPARAM(13) = YFAC(1)
-      UPARAM(14) = YFAC(2)      
+      UPARAM(14) = YFAC(2)
       UPARAM(15) = ZERO !HL
 
       PARMAT(1) = C1
       PARMAT(2) = E
-      PARMAT(3) = NU 
+      PARMAT(3) = NU
       !Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 
-       !---LISTING OUTPUT---!      
+       !---LISTING OUTPUT---!
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,64
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -182,7 +182,7 @@ C-----------------------------------------------
       ELSE
         WRITE(IOUT,1002) RHO0
         WRITE(IOUT,1100)E,NU,CP,N,D,V0,MD,VMC,TEMP
-        WRITE(IOUT,1200)(IFUNC(J),YFAC(J),J=1,2) 
+        WRITE(IOUT,1200)(IFUNC(J),YFAC(J),J=1,2)
       ENDIF
 
       RETURN
@@ -214,4 +214,4 @@ C     & 5X,'HEAT LATENT OF PHASE CHANGE . . . . . . . . . =',E12.4/
       END SUBROUTINE
 
 
-  
+

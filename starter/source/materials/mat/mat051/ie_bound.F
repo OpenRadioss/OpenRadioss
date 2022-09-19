@@ -37,12 +37,12 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       !INTEGER NEL
-      my_real 
+      my_real
      .   IE_BOUND, PEXT,C0,C1,C2,C3,C4,C5,E0,PM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real   
+      my_real
      . PCRIT, P0, MU, C45,TMP, MU0, x, E0_ref, P0_ref, C1_ref
 C
 C----------+------+----------------------------------------------------C
@@ -61,7 +61,7 @@ C
       C45=MAX(C4,C5)
       IE_BOUND=-INFINITY !default : pas de minimum
       E0_ref = ZERO
-      P0_ref = ZERO 
+      P0_ref = ZERO
       C1_ref = ZERO
 
       !===================!
@@ -70,19 +70,19 @@ C
       IF( (C0==ZERO).AND.(C1==ZERO).AND.(C2==ZERO).AND.
      .    (C3==ZERO).AND.(C4==ZERO).AND.(C5==ZERO)     )THEN
         IE_BOUND = ZERO
-        RETURN      
-      END IF      
-      
+        RETURN
+      END IF
+
       !===================!
       !    P(0) = 0       !
-      !  =>Einf = E0      ! 
-      ! dE=-(dP+Pext)dV=0 !           
+      !  =>Einf = E0      !
+      ! dE=-(dP+Pext)dV=0 !
       !===================!
       IF(ABS(P0+C4*E0)<EM20)THEN
         IE_BOUND = E0
-        RETURN      
-      END IF 
-       
+        RETURN
+      END IF
+
       !===================!
       !    PM+PEXT>0      !
       ! IE_BOUND DOES NOT !
@@ -90,16 +90,16 @@ C
       !===================!
       IF ((PM+PEXT)>EM20) THEN
       !In this case extremum does not exists. Pressure (P+Pext) will never be zero, then dE>0 is never zero and E has no extremum. limit E(->-1) = -INFINITY
-        IE_BOUND=-INFINITY         
+        IE_BOUND=-INFINITY
         RETURN
       END IF
-      
-      
-      
+
+
+
 
       !Otherwise for following cases : {PM+PEXT>0}
-  
- 
+
+
       !===================!
       !    PERFECT GAS    !
       !===================!
@@ -114,33 +114,33 @@ C
           IE_BOUND = -P0/C4
         END IF
         RETURN
-      END IF     
+      END IF
 
       !======================!
       ! INCOMPRESSIBLE GAS   !
-      ! LINEAR ELASTIC SOLID !      
-      !======================! 
+      ! LINEAR ELASTIC SOLID !
+      !======================!
       IF((C2==ZERO).AND.(C3==ZERO).AND.(C4==ZERO).AND.
-     .                    (C5==ZERO).AND.(C1/=ZERO))THEN 
+     .                    (C5==ZERO).AND.(C1/=ZERO))THEN
         IF (P0<C1)THEN
              x=-P0/C1  !C1-P0>0 donc x est plus grand que -1, l'extremum est bien defini
              IE_BOUND = -1/(1+x)*P0+C1/(1+x)+C1*LOG(1+x)+E0+P0-C1
         ELSE
-             IE_BOUND = -INFINITY  !limit E(mu=-1) = -sgn(C1) * infinity, avec C1>0        
-           END IF        
+             IE_BOUND = -INFINITY  !limit E(mu=-1) = -sgn(C1) * infinity, avec C1>0
+           END IF
            RETURN
-      END IF                
+      END IF
 
       !======================!
       ! MIE-GRUNEISEN        !
-      ! GAMMA 1st order      !      
-      !======================! 
+      ! GAMMA 1st order      !
+      !======================!
       !  estimation de l'extremum avec celui pour gamma constant
 
       !======================!
       ! MIE-GRUNEISEN        !
-      ! GAMMA CONSTANT       !      
-      !======================! 
+      ! GAMMA CONSTANT       !
+      !======================!
       IF((C1>ZERO).AND.(C4>=C5).AND.(C5>ZERO))THEN
       !on se ramene a E0=0
       !P=P0      +        C1x + C2x+C3x+(C4+C5x)(dE+E0)
@@ -153,7 +153,7 @@ C
           P0=P0+C4*E0_ref
           C1=C1+C4*E0_ref
         END IF
-      
+
       ! condition d'existence pour C4/=1 et C4/=2
       IF((C4/=1).AND.(C4/=2))THEN
         !test diverge en expansion
@@ -189,7 +189,7 @@ C
           !resolution numerique type point fixe.
           GOTO 100
         END IF
-        
+
       ELSEIF((C4==ONE).OR.(C4==TWO))THEN
         !test diverge en expansion
         IF(C1-P0<ZERO)THEN
@@ -227,13 +227,13 @@ C
         END IF
       END IF !condition sur C4 (1 ou 2)
       END IF !mie gruneisen gamma constant
-      
+
   100 IF (E0_ref/=ZERO)THEN !si l'energie a ete translatee.
         IF(IE_BOUND/=-INFINITY)IE_BOUND=IE_BOUND+E0_ref   !inutile de translater l'infini
         C1=C1_ref !retablissement
         E0=E0_ref !retablissement
       END IF
-      
+
       RETURN
 
-      END FUNCTION  
+      END FUNCTION

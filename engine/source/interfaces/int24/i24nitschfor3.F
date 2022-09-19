@@ -74,10 +74,10 @@ C-----------------------------------------------
       INTEGER I ,J ,NI ,NIN ,NTY ,NSN ,NRTS ,SN ,IE ,NF ,N1 ,N2 ,N3 ,N4 ,
      .        N ,K1 ,K2 ,K3 ,K4 ,INTNITSCHE ,ADS1 ,ADS2 ,ADS3 ,ADS4 ,IE10,
      .        NS1 ,NS2 ,NS3 ,NS4
-      my_real 
+      my_real
      .        SX1 ,SY1 ,SZ1 ,SX2 ,SY2 ,SZ2 ,SX3 ,SY3 ,
      .       SZ3 ,AREAS ,XNS ,YNS ,ZNS ,FOR ,FORX ,FORY ,FORZ,
-     .       SIGNX ,SIGNY ,SIGNZ   
+     .       SIGNX ,SIGNY ,SIGNZ
 C-----------------------------------------------
 C Equivalent nodal force computation using element mean stress:
 C               mean of contribution of all surrounded elements 
@@ -96,15 +96,15 @@ C-----------------------------------------------
            DO I=1,NRTS
               IE = INTBUF_TAB(NIN)%IELNRTS(I)
 
-              NS1 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+1)    
-              NS2 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+2)                           
-              NS3 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+3)                           
-              NS4 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+4)  
+              NS1 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+1)
+              NS2 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+2)
+              NS3 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+3)
+              NS4 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+4)
 
-              N1 = INTBUF_TAB(NIN)%NSV(NS1)                             
-              N2 = INTBUF_TAB(NIN)%NSV(NS2)                             
-              N3 = INTBUF_TAB(NIN)%NSV(NS3)                             
-              N4 = INTBUF_TAB(NIN)%NSV(NS4)     
+              N1 = INTBUF_TAB(NIN)%NSV(NS1)
+              N2 = INTBUF_TAB(NIN)%NSV(NS2)
+              N3 = INTBUF_TAB(NIN)%NSV(NS3)
+              N4 = INTBUF_TAB(NIN)%NSV(NS4)
 
               ADS1 = INTBUF_TAB(NIN)%ADRECTS(4*(I-1)+1)
               ADS2 = INTBUF_TAB(NIN)%ADRECTS(4*(I-1)+2)
@@ -126,13 +126,13 @@ C-----------------------------------------------
 c                  AREAS= HALF*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 
 C
-                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3 
-                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3 
-                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
+                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3
+                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3
+                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3
 
 
 C
-               
+
                    FORX = ONE_OVER_16*SIGNX
                    FORY = ONE_OVER_16*SIGNY
                    FORZ = ONE_OVER_16*SIGNZ
@@ -147,7 +147,7 @@ C
                      FORNEQS(2,N1) = FORNEQS(2,N1) + HALF*FORY
                      FORNEQS(3,N1) = FORNEQS(3,N1) + HALF*FORZ
                    ENDIF
-                   IF(ITAG(N2)==0.AND.ADS2 < 10) THEN  
+                   IF(ITAG(N2)==0.AND.ADS2 < 10) THEN
                      FORNEQS(1,N2) = FORNEQS(1,N2) + FORX
                      FORNEQS(2,N2) = FORNEQS(2,N2) + FORY
                      FORNEQS(3,N2) = FORNEQS(3,N2) + FORZ
@@ -155,8 +155,8 @@ C
                      FORNEQS(1,N2) = FORNEQS(1,N2) + HALF*FORX
                      FORNEQS(2,N2) = FORNEQS(2,N2) + HALF*FORY
                      FORNEQS(3,N2) = FORNEQS(3,N2) + HALF*FORZ
-                   ENDIF  
-                   IF(ITAG(N3)==0.AND.ADS3 < 10) THEN  
+                   ENDIF
+                   IF(ITAG(N3)==0.AND.ADS3 < 10) THEN
                      FORNEQS(1,N3) = FORNEQS(1,N3) + FORX
                      FORNEQS(2,N3) = FORNEQS(2,N3) + FORY
                      FORNEQS(3,N3) = FORNEQS(3,N3) + FORZ
@@ -164,7 +164,7 @@ C
                      FORNEQS(1,N3) = FORNEQS(1,N3) + HALF*FORX
                      FORNEQS(2,N3) = FORNEQS(2,N3) + HALF*FORY
                      FORNEQS(3,N3) = FORNEQS(3,N3) + HALF*FORZ
-                   ENDIF 
+                   ENDIF
                    IF (ITAG(N4)==0.AND.ADS1 < 10) THEN
                      FORNEQS(1,N4) = FORNEQS(1,N4) + FORX
                      FORNEQS(2,N4) = FORNEQS(2,N4) + FORY
@@ -173,7 +173,7 @@ C
                      FORNEQS(1,N4) = FORNEQS(1,N4) + HALF*FORX
                      FORNEQS(2,N4) = FORNEQS(2,N4) + HALF*FORY
                      FORNEQS(3,N4) = FORNEQS(3,N4) + HALF*FORZ
-                   ENDIF 
+                   ENDIF
 
                 ELSE
 
@@ -188,11 +188,11 @@ C
                    SZ3  = SX1*SY2 - SY1*SX2
 c                  AREAS= SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C
-                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3 
-                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3 
-                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
+                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3
+                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3
+                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3
 C
-               
+
                    FORX = ONE_OVER_8*SIGNX
                    FORY = ONE_OVER_8*SIGNY
                    FORZ = ONE_OVER_8*SIGNZ
@@ -205,8 +205,8 @@ C
                       FORNEQS(1,N1) = FORNEQS(1,N1) + THIRD*FORX
                       FORNEQS(2,N1) = FORNEQS(2,N1) + THIRD*FORY
                       FORNEQS(3,N1) = FORNEQS(3,N1) + THIRD*FORZ
-                   ENDIF 
-                   IF(ITAG(N2)==0.AND.ADS2 < 10) THEN  
+                   ENDIF
+                   IF(ITAG(N2)==0.AND.ADS2 < 10) THEN
                      FORNEQS(1,N2) = FORNEQS(1,N2) + FORX
                      FORNEQS(2,N2) = FORNEQS(2,N2) + FORY
                      FORNEQS(3,N2) = FORNEQS(3,N2) + FORZ
@@ -214,8 +214,8 @@ C
                      FORNEQS(1,N2) = FORNEQS(1,N2) + THIRD*FORX
                      FORNEQS(2,N2) = FORNEQS(2,N2) + THIRD*FORY
                      FORNEQS(3,N2) = FORNEQS(3,N2) + THIRD*FORZ
-                   ENDIF 
-                   IF(ITAG(N3)==0.AND.ADS3 < 10) THEN  
+                   ENDIF
+                   IF(ITAG(N3)==0.AND.ADS3 < 10) THEN
                      FORNEQS(1,N3) = FORNEQS(1,N3) + FORX
                      FORNEQS(2,N3) = FORNEQS(2,N3) + FORY
                      FORNEQS(3,N3) = FORNEQS(3,N3) + FORZ
@@ -223,7 +223,7 @@ C
                      FORNEQS(1,N3) = FORNEQS(1,N3) + THIRD*FORX
                      FORNEQS(2,N3) = FORNEQS(2,N3) + THIRD*FORY
                      FORNEQS(3,N3) = FORNEQS(3,N3) + THIRD*FORZ
-                   ENDIF 
+                   ENDIF
                ENDIF
 
               ENDIF
@@ -248,24 +248,24 @@ C
            DO I=1,NRTS
               IE = INTBUF_TAB(NIN)%IELNRTS(I)
               NF = INTBUF_TAB(NIN)%FACNRTS(I)
-              NS1 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+1)    
-              NS2 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+2)                           
-              NS3 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+3)                           
-              NS4 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+4) 
+              NS1 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+1)
+              NS2 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+2)
+              NS3 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+3)
+              NS4 = INTBUF_TAB(NIN)%IRECTS(4*(I-1)+4)
 
-              N1 = INTBUF_TAB(NIN)%NSV(NS1)    
-              N2 = INTBUF_TAB(NIN)%NSV(NS2)                             
-              N3 = INTBUF_TAB(NIN)%NSV(NS3)                             
-              N4 = INTBUF_TAB(NIN)%NSV(NS4)  
+              N1 = INTBUF_TAB(NIN)%NSV(NS1)
+              N2 = INTBUF_TAB(NIN)%NSV(NS2)
+              N3 = INTBUF_TAB(NIN)%NSV(NS3)
+              N4 = INTBUF_TAB(NIN)%NSV(NS4)
 
               ADS1 = INTBUF_TAB(NIN)%ADRECTS(4*(I-1)+1)
               ADS2 = INTBUF_TAB(NIN)%ADRECTS(4*(I-1)+2)
               ADS3 = INTBUF_TAB(NIN)%ADRECTS(4*(I-1)+3)
               ADS4 = INTBUF_TAB(NIN)%ADRECTS(4*(I-1)+4)
-   
+
 
               IF(IE > 0) THEN
-                
+
                 IF(N4 /=N3) THEN
                    SX1 = X(1,N3) - X(1,N1)
                    SY1 = X(2,N3) - X(2,N1)
@@ -278,11 +278,11 @@ C
                    SZ3  = SX1*SY2 - SY1*SX2
 c                  AREAS= SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C
-                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3 
-                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3 
-                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
+                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3
+                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3
+                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3
 C
-               
+
                    FORX = ONE_OVER_16*SIGNX
                    FORY = ONE_OVER_16*SIGNY
                    FORZ = ONE_OVER_16*SIGNZ
@@ -350,7 +350,7 @@ C
                      FORNEQSKY(3*(NF-1)+2,K3) = HALF*FORY
                      FORNEQSKY(3*(NF-1)+3,K3) = HALF*FORZ
                    ENDIF
- 
+
                    IF(ADS4 < 10) THEN
                      FORNEQSKY(3*(NF-1)+1,K4) = FORX
                      FORNEQSKY(3*(NF-1)+2,K4) = FORY
@@ -372,13 +372,13 @@ C
                    SX3  = SY1*SZ2 - SZ1*SY2
                    SY3  = SZ1*SX2 - SX1*SZ2
                    SZ3  = SX1*SY2 - SY1*SX2
-c                  AREAS= SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3) 
+c                  AREAS= SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C
-                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3 
-                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3 
-                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3 
+                   SIGNX  = STRESSMEAN(1,IE)*SX3 + STRESSMEAN(4,IE)*SY3 +STRESSMEAN(6,IE)*SZ3
+                   SIGNY  = STRESSMEAN(4,IE)*SX3 + STRESSMEAN(2,IE)*SY3 +STRESSMEAN(5,IE)*SZ3
+                   SIGNZ  = STRESSMEAN(6,IE)*SX3 + STRESSMEAN(5,IE)*SY3 +STRESSMEAN(3,IE)*SZ3
 C
-               
+
                    FORX = ONE_OVER_8*SIGNX
                    FORY = ONE_OVER_8*SIGNY
                    FORZ = ONE_OVER_8*SIGNZ
@@ -437,7 +437,7 @@ C
 C
               ENDIF
 
-       
+
             ENDDO
 
             DO N=1,NSN
@@ -452,4 +452,4 @@ C
 
 C-----------------------------------------------
       END SUBROUTINE I24NITSCHFOR3
-    
+

@@ -29,13 +29,13 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE REALLOC_MOD
       CONTAINS
-        
+
       FUNCTION IREALLOCATE(ptr, new_size)
 !reallocate INTEGER ARRAY
 C-----------------------------------------------
 C   I n c l u d e s
 C-----------------------------------------------      
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y  a r g u m e n t s 
 C-----------------------------------------------
@@ -50,15 +50,15 @@ C   P r e c o n d i t i o n s
 C-----------------------------------------------          
       !Precondition : le pointeur doit etre affecte
       IF(.NOT. ASSOCIATED(ptr)) RETURN
-      
+
       !il reste suffisamment de memoire
       ALLOCATE(IREALLOCATE(1:new_size), STAT=ierr)
       IF(ierr /= 0) STOP "memory allocation error"
 C-----------------------------------------------                                            
        old_size = MIN(SIZE(ptr), new_size)
-       IREALLOCATE(1:old_size) = ptr(1:old_size)                       
-       DEALLOCATE(ptr) ! a ne surtout pas oublier    
-            
+       IREALLOCATE(1:old_size) = ptr(1:old_size)
+       DEALLOCATE(ptr) ! a ne surtout pas oublier
+
       END FUNCTION IREALLOCATE
 C-----------------------------------------------
 
@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I n c l u d e s
 C-----------------------------------------------      
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y  a r g u m e n t s 
 C-----------------------------------------------
@@ -86,18 +86,18 @@ C   P r e c o n d i t i o n s
 C-----------------------------------------------          
       !Precondition : le pointeur doit etre affecte
       IF(.NOT. ASSOCIATED(ptr)) RETURN
-      
+
       !il reste suffisamment de memoire
       ALLOCATE(JREALLOCATE(1:new_size), STAT=ierr)
       IF(ierr /= 0) STOP "memory allocation error"
 C-----------------------------------------------                                            
        old_size = MIN(SIZE(ptr), new_size)
-       JREALLOCATE(1:old_size) = ptr(1:new_size)                       
-       DEALLOCATE(ptr) ! a ne surtout pas oublier    
-            
+       JREALLOCATE(1:old_size) = ptr(1:new_size)
+       DEALLOCATE(ptr) ! a ne surtout pas oublier
+
       END FUNCTION JREALLOCATE
 C-----------------------------------------------
 
 
-          
+
       END MODULE REALLOC_MOD

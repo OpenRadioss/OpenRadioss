@@ -82,7 +82,7 @@ C=======================================================================
 C---- tag elm /w /INIBRI/ORTHO
       INIORTH(LFT:LLT)=0
       IF (NVSOLID3 /= 0) THEN
-        IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
+        IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID
         DO I=LFT,LLT
          JJ=PT(NFT+I)
          IF(JJ ==0 ) CYCLE
@@ -90,17 +90,17 @@ C---- tag elm /w /INIBRI/ORTHO
            IF(SIGSP((ILAY-1)*6+IIS+1,JJ) /=ZERO.OR.
      .        SIGSP((ILAY-1)*6+IIS+2,JJ)/=ZERO  ) THEN
              INIORTH(I) = 1
-           ENDIF        
+           ENDIF
          ELSE            ! IF ORTHOTROPIC AXES IN GLOBAL REFERENCE
           IF(
      .     SIGSP((ILAY-1)*6+IIS+1,JJ) /= ZERO .OR.
      .     SIGSP((ILAY-1)*6+IIS+2,JJ) /= ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+3,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+3,JJ) /= ZERO .OR.
      .     SIGSP((ILAY-1)*6+IIS+4,JJ) /= ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+5,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+5,JJ) /= ZERO .OR.
      .     SIGSP((ILAY-1)*6+IIS+6,JJ) /= ZERO )THEN
              INIORTH(I) = 1
-          ENDIF         
+          ENDIF
          ENDIF
         ENDDO
       ENDIF
@@ -282,19 +282,19 @@ C
 C
 C---
       IF (NVSOLID3 /= 0) THEN
-        IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID 
+        IIS= NVSOLID1  + NVSOLID2 +  4 +NUSOLID
         DO I=LFT,LLT
          IF(ORTHOGLOB(I) == 0) THEN  ! IF COS(PHI), SIN(PHI)
            II=NFT+I
            JJ=PT(II)
            IFLAGINI = 1
            IF(JJ==0)IFLAGINI = 0
-           IF(IFLAGINI == 1 .AND. 
+           IF(IFLAGINI == 1 .AND.
      .       ( SIGSP((ILAY-1)*6+IIS+1,JJ) /= ZERO.OR.
      .        SIGSP((ILAY-1)*6+IIS+2,JJ)/=ZERO)  ) THEN
            GAMA(I,1) = SIGSP((ILAY-1)*6+IIS+1,JJ)
            GAMA(I,2) = SIGSP((ILAY-1)*6+IIS+2,JJ)
-          ENDIF        
+          ENDIF
          ELSE            ! IF ORTHOTROPIC AXES IN GLOBAL REFERENCE
           II=NFT+I
           JJ=PT(II)
@@ -305,9 +305,9 @@ C---
           IF(IFLAGINI == 1 .AND.
      .   ( SIGSP((ILAY-1)*6+IIS+1,JJ) /= ZERO .OR.
      .     SIGSP((ILAY-1)*6+IIS+2,JJ) /= ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+3,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+3,JJ) /= ZERO .OR.
      .     SIGSP((ILAY-1)*6+IIS+4,JJ) /= ZERO .OR.
-     .     SIGSP((ILAY-1)*6+IIS+5,JJ) /= ZERO .OR. 
+     .     SIGSP((ILAY-1)*6+IIS+5,JJ) /= ZERO .OR.
      .     SIGSP((ILAY-1)*6+IIS+6,JJ) /= ZERO) )THEN
                GAMATMP(1) = SIGSP((ILAY-1)*6+IIS+1,JJ)
                GAMATMP(2) = SIGSP((ILAY-1)*6+IIS+2,JJ)
@@ -333,7 +333,7 @@ C---
                  GAMA(I,2) = GAMATMP(1)*E2X(I)+
      .                       GAMATMP(2)*E2Y(I)+GAMATMP(3)*E2Z(I)
               END SELECT
-          ENDIF         
+          ENDIF
          ENDIF
         ENDDO
       ENDIF

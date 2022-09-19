@@ -30,7 +30,7 @@ Chd|        XYZLOC3N                      source/elements/xfem/lslocal.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CLSKEW3(JFT,JLT,IREP,
-     .           RX, RY, RZ,SX, SY, SZ, 
+     .           RX, RY, RZ,SX, SY, SZ,
      .           E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z, DET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -46,7 +46,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IREP
 C     REAL
       my_real
-     .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ), 
+     .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ),
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ),
      .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
@@ -64,30 +64,30 @@ C IREP=0 ->QEPH IREP=1 ->Q4, IREP=2-> E1=R(ISHFRAM=1)
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=JFT,JLT
 C---------E3------------
-       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I)
+       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I)
+       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I)
        DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
        DET(I) = MAX(EM20,DET(I))
        CC = ONE / DET(I)
-       E3X(I) = E3X(I) * CC 
-       E3Y(I) = E3Y(I) * CC 
-       E3Z(I) = E3Z(I) * CC 
-      ENDDO 
+       E3X(I) = E3X(I) * CC
+       E3Y(I) = E3Y(I) * CC
+       E3Z(I) = E3Z(I) * CC
+      ENDDO
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       IF (IREP==2) THEN
        DO I=JFT,JLT
         E1X(I) = RX(I)
         E1Y(I) = RY(I)
         E1Z(I) = RZ(I)
-       ENDDO 
+       ENDDO
       ELSEIF (IREP==1) THEN
        DO I=JFT,JLT
         C2 = SQRT(SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I))
         E1X(I) = RX(I)*C2+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))
         E1Y(I) = RY(I)*C2+(SZ(I)*E3X(I)-SX(I)*E3Z(I))
         E1Z(I) = RZ(I)*C2+(SX(I)*E3Y(I)-SY(I)*E3X(I))
-       ENDDO 
+       ENDDO
       ELSE
        DO I=JFT,JLT
         C1 = SQRT(RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I))
@@ -95,8 +95,8 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E1X(I) = RX(I)*C2+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1
         E1Y(I) = RY(I)*C2+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1
         E1Z(I) = RZ(I)*C2+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1
-       ENDDO 
-      ENDIF 
+       ENDDO
+      ENDIF
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=JFT,JLT
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
@@ -107,7 +107,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
         E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
         E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
-       ENDDO 
+       ENDDO
 c-----------
       RETURN
       END

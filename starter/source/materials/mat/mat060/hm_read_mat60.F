@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT60(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      )
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .    E,NU,G,C1,EPSMAX,EPSR1,EPSR2,FISOKIN,RATE(11),YFAC(11),
      .    PSCALE,FAC_L,FAC_T,FAC_M,FAC_C,ESCALE,EINF,CE,ASRATE
       INTEGER NRATE,J,I,IU,IFUNCE,ISRATE_LOC,MFUNC,OPTE,IPFUN
@@ -121,12 +121,12 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_EPS'    ,EPSMAX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPST1'  ,EPSR1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPST2'  ,EPSR2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !line-3    
+      !line-3
       CALL HM_GET_INTV('NFUNC'        ,NRATE       ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Fsmooth'      ,ISRATE_LOC  ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_HARD'   ,FISOKIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Fcut'       ,ASRATE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !line-4    
+      !line-4
       CALL HM_GET_INTV('Xr_fun'       ,IPFUN       ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('fct_ID_k'     ,IFUNCE      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_FScale' ,PSCALE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -144,59 +144,59 @@ C-----------------------------------------------
       CALL HM_GET_INTV('FUN_A5'       ,IFUNC(9)     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('FUN_B5'       ,IFUNC(10)    ,IS_AVAILABLE, LSUBMODEL)
 
-      CALL HM_GET_FLOATV('MAT_ALPHA1' ,YFAC(1)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA2' ,YFAC(2)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA3' ,YFAC(3)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA4' ,YFAC(4)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA5' ,YFAC(5)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA6' ,YFAC(6)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA7' ,YFAC(7)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA8' ,YFAC(8)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA9' ,YFAC(9)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      CALL HM_GET_FLOATV('MAT_ALPHA0' ,YFAC(10)     ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+      CALL HM_GET_FLOATV('MAT_ALPHA1' ,YFAC(1)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA2' ,YFAC(2)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA3' ,YFAC(3)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA4' ,YFAC(4)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA5' ,YFAC(5)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA6' ,YFAC(6)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA7' ,YFAC(7)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA8' ,YFAC(8)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA9' ,YFAC(9)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA0' ,YFAC(10)     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT_EPSR1'  ,RATE(1)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR2'  ,RATE(2)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR3'  ,RATE(3)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR4'  ,RATE(4)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR5'  ,RATE(5)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR6'  ,RATE(6)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR7'  ,RATE(7)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR8'  ,RATE(8)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR9'  ,RATE(9)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('MAT_EPSR10' ,RATE(10)     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('MAT_EPSR1'  ,RATE(1)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR2'  ,RATE(2)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR3'  ,RATE(3)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR4'  ,RATE(4)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR5'  ,RATE(5)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR6'  ,RATE(6)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR7'  ,RATE(7)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR8'  ,RATE(8)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR9'  ,RATE(9)      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPSR10' ,RATE(10)     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !units
-      CALL HM_GET_FLOATV_DIM('MAT_FScale' ,PSCALE_UNIT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+      CALL HM_GET_FLOATV_DIM('MAT_FScale' ,PSCALE_UNIT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
 C=======================================================================
 
 
       !---CHECK PARAMETERS
-      IF((EPSR1 /= ZERO).AND.(EPSR2 /= ZERO))THEN  
-       IF(EPSR1 >= EPSR2)THEN                  
-        CALL ANCMSG(MSGID=480,                 
-     .              MSGTYPE=MSGERROR,          
-     .              ANMODE=ANINFO_BLIND_1,     
-     .              I1=MAT_ID,                     
-     .              C1=TITR)                   
-       ENDIF                                   
-      ENDIF                                    
-                                               
-      IF(NRATE > 10)THEN                       
-        CALL ANCMSG(MSGID=215,                 
-     .              MSGTYPE=MSGERROR,          
-     .              ANMODE=ANINFO,             
-     .              I1=60,                     
-     .              I2=MAT_ID,                     
-     .              C1=TITR)                   
-      ELSEIF(NRATE < 4)THEN                    
-         CALL ANCMSG(MSGID=529,                
-     .               MSGTYPE=MSGERROR,         
-     .               ANMODE=ANINFO,            
-     .               I1=MAT_ID,                    
-     .               C1=TITR,                  
-     .               I2=NRATE)                 
-      ENDIF                                    
+      IF((EPSR1 /= ZERO).AND.(EPSR2 /= ZERO))THEN
+       IF(EPSR1 >= EPSR2)THEN
+        CALL ANCMSG(MSGID=480,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=MAT_ID,
+     .              C1=TITR)
+       ENDIF
+      ENDIF
+
+      IF(NRATE > 10)THEN
+        CALL ANCMSG(MSGID=215,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=60,
+     .              I2=MAT_ID,
+     .              C1=TITR)
+      ELSEIF(NRATE < 4)THEN
+         CALL ANCMSG(MSGID=529,
+     .               MSGTYPE=MSGERROR,
+     .               ANMODE=ANINFO,
+     .               I1=MAT_ID,
+     .               C1=TITR,
+     .               I2=NRATE)
+      ENDIF
 
       IF (IPFUN == 0) THEN
         PSCALE = ZERO
@@ -205,7 +205,7 @@ C=======================================================================
       ELSE
         PSCALE = ONE/PSCALE
       ENDIF
-      
+
       IF(NRATE == 5)THEN  !CFG file is forcing NRATE=5 whenever there is less than 5 functions
         DO I=5,2,-1
           IF(IFUNC(I) == 0)THEN
@@ -215,7 +215,7 @@ C=======================================================================
           ENDIF
         ENDDO
       ENDIF
-      
+
       DO I=1,NRATE-1
 	 IF(RATE(I) >= RATE(I+1))THEN
           CALL ANCMSG(MSGID=478,
@@ -226,11 +226,11 @@ C=======================================================================
           EXIT
          ENDIF
       ENDDO
- 
+
       DO I=1,NRATE
         IF(YFAC(I) == ZERO) YFAC(I)=ONE*PSCALE_UNIT
       ENDDO
-      
+
       DO I=1,NRATE
         IF(IFUNC(I) == 0)THEN
           CALL ANCMSG(MSGID=126,
@@ -241,15 +241,15 @@ C=======================================================================
      .                I2=IFUNC(I))
         ENDIF
       ENDDO
-  
-      IF(NRATE > 1 .AND. ISRATE_LOC == 0) THEN  
+
+      IF(NRATE > 1 .AND. ISRATE_LOC == 0) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF
-      
+
       IF(NRATE == 1)THEN
         MFUNC=2
         IFUNC(2)=IFUNC(1)
@@ -272,7 +272,7 @@ C
       IF(RHOR == ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
-      
+
       !---STORAGE
       UPARAM(1)=MFUNC
       UPARAM(2)=E
@@ -281,15 +281,15 @@ C
       G = HALF*E/(1.+NU)
       UPARAM(5)=G
       UPARAM(6)=NU
-      
+
       DO J=1,MFUNC
         UPARAM(6+J)=RATE(J)
       ENDDO
-      
+
       DO J=1,MFUNC
         UPARAM(6+MFUNC+J)=YFAC(J)
       ENDDO
-      
+
       IF(EPSR1 == ZERO)EPSR1=INFINITY
       IF(EPSR2 == ZERO)EPSR2=TWO*INFINITY
       UPARAM(6+2*MFUNC+1)=EPSMAX
@@ -315,12 +315,12 @@ C
 c --------------
       OPTE = 0
       IF (IFUNCE > 0 )OPTE = 1
-      NFUNC = NFUNC + 1 
+      NFUNC = NFUNC + 1
       IFUNC(NFUNC)= IFUNCE
-      UPARAM(IU+1) = NFUNC 
-      UPARAM(IU+2) = OPTE 
-      UPARAM(IU+3) = EINF 
-      UPARAM(IU+4) = CE 
+      UPARAM(IU+1) = NFUNC
+      UPARAM(IU+2) = OPTE
+      UPARAM(IU+3) = EINF
+      UPARAM(IU+4) = CE
       IU=IU+4
 c
       NUPARAM = IU
@@ -337,9 +337,9 @@ C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
 C
-      NUVAR = 5 + MFUNC 
+      NUVAR = 5 + MFUNC
 C
-       !---LISTING OUTPUT---!      
+       !---LISTING OUTPUT---!
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,60
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -351,7 +351,7 @@ C
         WRITE(IOUT,1300) IPFUN,PSCALE, IFUNCE,EINF,CE
         WRITE(IOUT,*)' '
       ENDIF
-      
+
 
       RETURN
  1000 FORMAT(

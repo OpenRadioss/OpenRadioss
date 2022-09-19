@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXEOS
       INTEGER, INTENT(INOUT)                       :: ISRATE
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
@@ -79,7 +79,7 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG      
+      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -87,11 +87,11 @@ C-----------------------------------------------
       INTEGER :: I,IFUNC,COUNT,ID,IFORM,IEOS
       my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C0,C1,C2,C3,FAC_Y
       my_real :: PMIN,PEXT,XMUMX,BUNL,E0,G,PSTAR,PSH,DELTA,DET,YOUNG,ANU
-      CHARACTER*64 :: chain,chain2  
+      CHARACTER*64 :: chain,chain2
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      PSTAR   = -INFINITY      
+      PSTAR   = -INFINITY
       C0      = ZERO
       C1      = ZERO
       C2      = ZERO
@@ -124,7 +124,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('EOS_COM_C2'      ,C2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('EOS_COM_C3'      ,C3    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('EOS_COM_B'       ,BUNL  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('EOS_COM_Mue_max' ,XMUMX ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV('EOS_COM_Mue_max' ,XMUMX ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('MAT_PC'          ,PMIN  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('PEXT'            ,PEXT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -159,8 +159,8 @@ C-----------------------------------------------
      .                C1='ERROR',
      .                C2=TITR,
      .                C3=chain,
-     .                C4=chain2)   
-      ENDIF 
+     .                C4=chain2)
+      ENDIF
 
       IF(ANU <= ZERO)THEN
         chain='POISSON RATIO MUST BE DEFINED                                   '
@@ -173,10 +173,10 @@ C-----------------------------------------------
      .                C1='ERROR',
      .                C2=TITR,
      .                C3=chain,
-     .                C4=chain2)   
-      ENDIF 
-      
-      IF(A1 < ZERO .AND. A2 == ZERO)THEN  
+     .                C4=chain2)
+      ENDIF
+
+      IF(A1 < ZERO .AND. A2 == ZERO)THEN
         chain ='INVERTED YIELD SURFACE BECAUSE A1 IS NEGATIVE.                  '
         chain2='CHECK A0,A1,A2 YIELD PARAMETERS                                 '
         CALL ANCMSG(MSGID=829,
@@ -187,9 +187,9 @@ C-----------------------------------------------
      .                C1='WARNING',
      .                C2=TITR,
      .                C3=chain,
-     .                C4=chain2)   
-      ENDIF 
-    
+     .                C4=chain2)
+      ENDIF
+
       IF(A2 < ZERO)THEN
         chain ='UNEXPECTED YIELD SURFACE : A2 IS NEGATIVE                       '
         chain2='CHECK A0,A1,A2 YIELD PARAMETERS                                 '
@@ -201,8 +201,8 @@ C-----------------------------------------------
      .                C1='WARNING',
      .                C2=TITR,
      .                C3=chain,
-     .                C4=chain2)     
-      ENDIF           
+     .                C4=chain2)
+      ENDIF
       IF(IFORM == 1 .AND. C1 <= ZERO) THEN
         chain='TENSILE BULK MODULUS C1 IS LOWER OR EQUAL TO 0.                 '
         chain2=''
@@ -215,22 +215,22 @@ C-----------------------------------------------
      .                C2=TITR,
      .                C3=chain,
      .                C4=chain2)
-      END IF  
+      END IF
 
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
-        PSTAR=-A0/A1 
+        PSTAR=-A0/A1
       ELSEIF(A2 /= ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
         IF(DELTA  >=  ZERO)THEN
-          DELTA=SQRT(DELTA) 
+          DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
-        
+
         ELSE
           PSTAR = -A1/TWO/A2 !extremum
           chain ='YIELD SURFACE J2(P)=A0+A1.P+A2.P^2 HAS NO INTERSECTION WITH     '
           chain2='PRESSURE AXIS. ASSUMING SURFACE CLOSURE AT P=                   '
-          WRITE(chain2(46:59),FMT=('(E13.6)'))   PSTAR   
+          WRITE(chain2(46:59),FMT=('(E13.6)'))   PSTAR
           CALL ANCMSG(  MSGID=829,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO,
@@ -239,7 +239,7 @@ C-----------------------------------------------
      .                  C1='WARNING',
      .                  C2=TITR,
      .                  C3=chain,
-     .                  C4=chain2)               
+     .                  C4=chain2)
         ENDIF
       ELSE
         !do nothing let user do what he wants
@@ -263,10 +263,10 @@ C
      .               C1='WARNING',
      .               C2=TITR,
      .               C3=chain,
-     .               C4=chain2)         
+     .               C4=chain2)
          IF(C3 == ZERO)THEN
           IF(C2 == ZERO)THEN
-           XMUMX=EP20 
+           XMUMX=EP20
           ELSE
            XMUMX=(BUNL-C1)/(TWO*C2)
           ENDIF
@@ -277,8 +277,8 @@ C
         ENDIF
 
         IF(XMUMX /= ZERO.AND.BUNL == ZERO)THEN
-         chain= 'MISSING BUNL VALUE IS AUTOMATICALLY ESTIMATED FROM MUMAX        '     
-         chain2='' 
+         chain= 'MISSING BUNL VALUE IS AUTOMATICALLY ESTIMATED FROM MUMAX        '
+         chain2=''
          CALL ANCMSG(MSGID=829,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO,
@@ -290,15 +290,15 @@ C
      .               C4=chain2)
          IF(C3 == ZERO)THEN
           IF(C2 == ZERO)THEN
-           BUNL = C1 
+           BUNL = C1
           ELSE
            BUNL = C1 + TWO*C2*XMUMX
           ENDIF
          ELSE
            BUNL = C1 + TWO*C2*XMUMX + THREE*C3*C3*XMUMX**TWO
          ENDIF
-        ENDIF  
-        IF(BUNL == ZERO) BUNL  = C1           
+        ENDIF
+        IF(BUNL == ZERO) BUNL  = C1
       ENDIF !IFORM == 1
 
       G=YOUNG/(TWO*(ONE + ANU))
@@ -307,7 +307,7 @@ C
       PM(20)=YOUNG
       PM(21)=ANU
       PM(22)=G
-      PM(23)=E0     
+      PM(23)=E0
       PM(31)=C0
       PM(32)=C1
       PM(33)=C2
@@ -320,17 +320,17 @@ C
       PM(39)=A1
       PM(40)=A2
       PM(41)=AMX
-      PM(43)=PEXT      
-      PM(44)=PSTAR 
+      PM(43)=PEXT
+      PM(44)=PSTAR
       PM(45)=BUNL
       PM(46)=XMUMX
       PM(47)=ZERO ! MUMIN
       PM(48)=IFORM
       PM(79)=THREE100
-      PM(88)=PSH 
-      PM(104)=C0     
+      PM(88)=PSH
+      PM(104)=C0
       PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
-      
+
       !Formulation for solid elements time step computation.
       IPM(252)= 2
 
@@ -340,7 +340,7 @@ C---- Buffer Size for specific element buffer allocations
       MTAG%G_EPSQ  = 1
 
       MTAG%L_PLA   = 1     ! /TH(VPLA)
-      MTAG%L_EPSQ  = 1     ! /TH(EPSP)  
+      MTAG%L_EPSQ  = 1     ! /TH(EPSP)
 
       !--- OUTPUT IN STARTER LISTING FILE ---!
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,10

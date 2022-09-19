@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE05(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2        IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
      3        LSENSOR    ,UNITAB     ,LSUBMODEL  ,TITR       )
 C============================================================================
@@ -75,7 +75,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -129,10 +129,10 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
-      ILEV=0 
-      IDSENS = 0 
-      IDELKEEP=0  
+      IGSTI = 0
+      ILEV=0
+      IDSENS = 0
+      IDELKEEP=0
       INTKG = 0
       INACTI = 0
       IDEL5 = 0
@@ -337,7 +337,7 @@ C
         IF(IDSENS/=0) THEN
            WRITE(IOUT,1505)IBC1,IBC2,IBC3,STFAC,GAP,IDSENS,IRM,PTMAX
         ELSE
-           WRITE(IOUT,1516)IBC1,IBC2,IBC3,STFAC,GAP,STARTT,STOPT,IRM,PTMAX 
+           WRITE(IOUT,1516)IBC1,IBC2,IBC3,STFAC,GAP,STARTT,STOPT,IRM,PTMAX
         ENDIF
         WRITE(IOUT,4000)INACTI
         IF(IDEL5/=0) THEN
@@ -347,7 +347,7 @@ C
           IF(IDELKEEP == 1)THEN
             WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-          ENDIF         
+          ENDIF
         ENDIF
         WRITE(IOUT,1520)IFQ, XFILTR
         IF(MFROT==0)THEN
@@ -386,7 +386,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

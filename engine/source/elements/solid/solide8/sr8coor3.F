@@ -34,7 +34,7 @@ Chd|====================================================================
      .                   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .                   IOUTPRT, VGAX, VGAY, VGAZ, VGA2,NEL,
      .                   XGAX, XGAY, XGAZ, XGXA2, XGYA2, XGZA2,
-     .                   XGXYA, XGYZA, XGZXA,IPARG) 
+     .                   XGXYA, XGYZA, XGZXA,IPARG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,8 +85,8 @@ C
      .   VZ5(MVSIZ), VZ6(MVSIZ), VZ7(MVSIZ), VZ8(MVSIZ),
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
-      my_real 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
+      my_real
      .   XL, YL, ZL, VXL, VYL, VZL, OFF_L
 C=======================================================================
       OFF_L  = ZERO

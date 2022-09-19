@@ -26,29 +26,29 @@ Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DRBYCNT(NERBY,NPBY)                                    
+      SUBROUTINE DRBYCNT(NERBY,NPBY)
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com04_c.inc"                                             
-#include      "scr05_c.inc"                                             
-#include      "param_c.inc"                                             
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER NERBY,NPBY(NNPBY,*)                                       
+      INTEGER NERBY,NPBY(NNPBY,*)
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I                                                         
+      INTEGER I
 C-----------------------------------------------                        
-      DO I=1,NRBODY                                                     
-        NERBY = NERBY + NPBY(2,I)                                       
-      ENDDO                                                             
+      DO I=1,NRBODY
+        NERBY = NERBY + NPBY(2,I)
+      ENDDO
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

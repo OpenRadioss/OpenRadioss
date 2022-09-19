@@ -87,7 +87,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real 
+      my_real
      .     OFF, MASSELE, EINTELE
       INTEGER IPRT, NG, MYNEL, MYNFT, MYIAD, MYITY,
      .   I, J, K, IPROP, IMAT, NX,
@@ -170,9 +170,9 @@ cc            MASSELE=ELBUF(NB3)
               CALL XANIM28(NX   ,UIX ,UID    ,XUSR  ,
      2        IOUT    ,IPROP ,IMAT   ,
      3        OFF     ,MASSELE ,EINTELE ,
-     4        NEDGE          , NFACET          , NSOLID         , 
+     4        NEDGE          , NFACET          , NSOLID         ,
      5        IXEDGE(1,NAX1D+1), IXFACET(1,NAX2D+1),IXSOLID(1,NAX3D+1),
-     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1), 
+     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1),
      7        XFUNC1(1,NAX1D+1) ,XFUNC2(1,NAX2D+1) ,XFUNC3(1,NAX3D+1) ,
      8        NUVAR   ,GBUF%VAR(KVAR) ,NUVARN  ,GBUF%VARN(KVARN))
 cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )
@@ -180,9 +180,9 @@ cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )
               CALL XANIM29(NX   ,UIX ,UID    ,XUSR  ,
      2        IOUT    ,IPROP ,IMAT   ,
      3        OFF     ,MASSELE ,EINTELE ,
-     4        NEDGE          , NFACET          , NSOLID         , 
+     4        NEDGE          , NFACET          , NSOLID         ,
      5        IXEDGE(1,NAX1D+1), IXFACET(1,NAX2D+1),IXSOLID(1,NAX3D+1),
-     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1), 
+     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1),
      7        XFUNC1(1,NAX1D+1) ,XFUNC2(1,NAX2D+1) ,XFUNC3(1,NAX3D+1) ,
      8        NUVAR   ,GBUF%VAR(KVAR) ,NUVARN  ,GBUF%VARN(KVARN))
 cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )
@@ -190,9 +190,9 @@ cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )
               CALL XANIM30(NX   ,UIX ,UID    ,XUSR  ,
      2        IOUT    ,IPROP ,IMAT   ,
      3        OFF     ,MASSELE ,EINTELE ,
-     4        NEDGE          , NFACET          , NSOLID         , 
+     4        NEDGE          , NFACET          , NSOLID         ,
      5        IXEDGE(1,NAX1D+1), IXFACET(1,NAX2D+1),IXSOLID(1,NAX3D+1),
-     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1), 
+     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1),
      7        XFUNC1(1,NAX1D+1) ,XFUNC2(1,NAX2D+1) ,XFUNC3(1,NAX3D+1) ,
      8        NUVAR   ,GBUF%VAR(KVAR),NUVARN  ,GBUF%VARN(KVARN))
 cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )
@@ -200,9 +200,9 @@ cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )
               CALL XANIM31(NX   ,UIX ,UID    ,XUSR  ,
      2        IOUT    ,IPROP ,IMAT   ,
      3        OFF     ,MASSELE ,EINTELE ,
-     4        NEDGE          , NFACET          , NSOLID         , 
+     4        NEDGE          , NFACET          , NSOLID         ,
      5        IXEDGE(1,NAX1D+1), IXFACET(1,NAX2D+1),IXSOLID(1,NAX3D+1),
-     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1), 
+     6        XMASS1(NAX1D+1) , XMASS2(NAX2D+1) , XMASS3(NAX3D+1),
      7        XFUNC1(1,NAX1D+1) ,XFUNC2(1,NAX2D+1) ,XFUNC3(1,NAX3D+1) ,
      8        NUVAR   ,GBUF%VAR(KVAR),NUVARN  ,GBUF%VARN(KVARN))
 cc     8        NUVAR   ,ELBUF(NB4) ,NUVARN  ,ELBUF(NB5) )

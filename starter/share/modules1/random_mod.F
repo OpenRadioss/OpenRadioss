@@ -36,8 +36,8 @@ Chd|====================================================================
 !       RANDOM_MOD description
 !       module for -rxalea / -rseed command line option
 !       allowing to run a starter with /RANDOM option
-!       wihtout input deck modification 
-!       
+!       wihtout input deck modification
+!
 !       RANDOM_MOD organization :
 !       - CMD : logical, true if -rxalea or -rseed are used
 !       - ALEA_NBR : double, value for rxalea

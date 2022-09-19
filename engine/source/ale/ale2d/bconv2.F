@@ -63,17 +63,17 @@ C-----------------------------------------------
           IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
           IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-          IF(IV1 <= 0.)THEN 
-            IV1=IE        
+          IF(IV1 <= 0.)THEN
+            IV1=IE
           ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV1)) /= ABS(BHOLE(NM,IE)))THEN
             IV1=IE
           ENDIF
-          IF(IV2 <= 0.)THEN 
+          IF(IV2 <= 0.)THEN
             IV2=IE
           ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV2)) /= ABS(BHOLE(NM,IE)))THEN
             IV2=IE
           ENDIF
-          IF(IV3 <= 0.)THEN 
+          IF(IV3 <= 0.)THEN
             IV3=IE
           ELSEIF(BHOLE(NM,IE) < 0. .AND.ABS(BHOLE(NM,IV3)) /= ABS(BHOLE(NM,IE)))THEN
             IV3=IE

@@ -30,7 +30,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
+      SUBROUTINE MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM,
      .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW, PRED)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -102,7 +102,7 @@ C     Update global quantities
       ENDDO
 C     Balance for output
       IF (.NOT. PRED) THEN
-         CALL MULTI_BILAN(PARTSAV, VOLNEW, MULTI_FVM, 
+         CALL MULTI_BILAN(PARTSAV, VOLNEW, MULTI_FVM,
      .        NEL, NFT, IPARTS(1 + NFT), GRESAV, IGRTH, GRTH)
       ENDIF
 C-----------------------------------------------

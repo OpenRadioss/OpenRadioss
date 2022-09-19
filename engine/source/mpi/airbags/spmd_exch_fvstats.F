@@ -27,7 +27,7 @@ Chd|        ECRIT                         source/output/ecrit.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
-      SUBROUTINE SPMD_EXCH_FVSTATS(MONVOL)                           
+      SUBROUTINE SPMD_EXCH_FVSTATS(MONVOL)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C
            IFV = IFV + 1
            ID=MONVOL(K1-1+1)
            IF((FVSPMD(IFV)%PMAIN-1 == ISPMD) .OR. (NSPMD == 1)) THEN
-             BUFS(1,IFV)=ID                       
+             BUFS(1,IFV)=ID
              BUFS(2,IFV)=MONVOL(K1-1+49)
              BUFS(3,IFV)=MONVOL(K1-1+70)
              BUFS(4,IFV)=MONVOL(K1-1+71)
@@ -78,7 +78,7 @@ C
              BUFS(6,IFV)=MONVOL(K1-1+73)
            ELSE
       !Each processor fills the buffer with 0 if not PMAIN of the
-      !FVMBAG                    
+      !FVMBAG
              BUFS(1,IFV) = 0
              BUFS(2,IFV) = 0
              BUFS(3,IFV) = 0
@@ -105,7 +105,7 @@ C
 
 
       ! Proc 0 updates its monvol
-      IF ( ISPMD == 0 ) THEN 
+      IF ( ISPMD == 0 ) THEN
         K1 = 1
         IFV = 0
         DO N=1,NVOLU
@@ -124,7 +124,7 @@ C
       ENDIF
 
 
- 
+
 #endif
       RETURN
       END

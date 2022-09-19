@@ -71,11 +71,11 @@ C-----------------------------------------------.
       LOGICAL :: IS_AVAILABLE
 
       CALL HM_OPTION_START('/FUNC_2D')
-      
+
       DO KK = 1, NFUNC2D
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
          CALL HM_GET_INTV('dim', DIM, IS_AVAILABLE, LSUBMODEL)
-         
+
 
          FUNC2D(KK)%ID = ID
          NPT = 0

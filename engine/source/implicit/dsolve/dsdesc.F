@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NBSD, ISD, ILVL, ISD2, I, J, IFILE, OFFSD, NDI, NDF, NDM,
      .        NMDYN, IPD, K, NDPI, NDPF, KK, L, IREC, LEN, IAD, NR,
-     .        M, ITAG(NDDL), NSLEVEL, NSDEC, ISUPEL, ISTEP, IPRIB 
+     .        M, ITAG(NDDL), NSLEVEL, NSDEC, ISUPEL, ISTEP, IPRIB
       INTEGER, DIMENSION(:), ALLOCATABLE :: PARENT
       my_real
      .        TEMP
@@ -209,7 +209,7 @@ C Chargement des modes dynamiques
                   ENDDO
                   IF (NMDYN>0)
      .               CALL DGEMM('N',  'N', NSCM, NDI+NDM, NMDYN,
-     .                          ONE,   DB,  NSCM, VD,      NMDYN, 
+     .                          ONE,   DB,  NSCM, VD,      NMDYN,
      .                          ZERO, DI,  NSCM)
                   DO L=1,NDI+NDM
                      DO K=1,NSCM
@@ -229,7 +229,7 @@ C
 C On fait un affichage interactif de l'avancement des procs si NSPMD
 C est inferieur a 16 
 C On affiche rien sinon
-                  IF (NSPMD<=16) 
+                  IF (NSPMD<=16)
      .          CALL PROGCONDP_C(ISUPEL, GRAPHE(I)%NSUPEL, ISPMD+1, ISD)
                ENDIF
             ENDDO
@@ -241,4 +241,4 @@ C
 C
       RETURN
       END
-      
+

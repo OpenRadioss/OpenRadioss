@@ -90,7 +90,7 @@ C
       ELSE
         XSAV(1,NSN+2)=ZERO
         XSAV(2,NSN+2)=ZERO
-        XSAV(3,NSN+2)=ZERO 
+        XSAV(3,NSN+2)=ZERO
       END IF
 C
       RETURN

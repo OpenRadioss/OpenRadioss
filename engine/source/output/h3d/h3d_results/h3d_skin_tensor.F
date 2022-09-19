@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SKIN_TENSOR(3,*),PM(NPROPM,*), X(3,*)
-      INTEGER IPARG(NPARG,*), 
+      INTEGER IPARG(NPARG,*),
      .   IXS(NIXS,*),IPM(NPROPMI,*),IPARTS(*),
      .   IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,
      .   IGEO(NPROPGI,*),IS_WRITTEN_SKIN(*),
@@ -96,11 +96,11 @@ C-----------------------------------------------
      .        ISTRAIN,KCVT,IOR_TSH,MT1,ICSIG,PTI,IOK,IPRT,IOK_PART(MVSIZ),
      .        JJ(6),IS_WRITTEN_TENSOR(MVSIZ),MLWI,MID,PID
 
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
 C----- facter of extrapolation
-      DATA F_GAUSS / 
+      DATA F_GAUSS /
      9 1.000000000000000,1.732050807568877,1.290994448735806,
      9 1.161256338324528,1.103533701926633,1.072421119155361,
      9 1.053620970803647,1.041352247171806,1.032886870574820/
@@ -113,19 +113,19 @@ C-----------------------------------------------
         ISTRAIN = IPARG(44,NG)
         ISOLNOD = IPARG(28,NG)
         IVISC = IPARG(61,NG)
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
        DO I=1,6
          JJ(I) = NEL*(I-1)
        ENDDO
 !
-       IF(MLW == 13 .OR. MLW == 0) CYCLE          
+       IF(MLW == 13 .OR. MLW == 0) CYCLE
 C-----------------------------------------------
 C       THICK-SHELL 
 C-----------------------------------------------
@@ -134,7 +134,7 @@ C-----------------------------------------------
 !              5--------------|6
 !              |  |           | |
 !              |  4-----------|-3
-!              | /            |/     
+!              | /            |/
 !              1--------------2
         IF (ITY == 1.AND.(IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22)) THEN
           IOR_TSH = 0
@@ -145,15 +145,15 @@ C-----------------------------------------------
           END IF
           IF (KCVT==1.AND.IOR_TSH/=0) KCVT=2
           IOK_PART(1:NEL) = 0
-          DO  I=1,NEL 
+          DO  I=1,NEL
             N = I + NFT
             IF( H3D_PART(IPARTS(N)) == 1) IOK_PART(I) = 1
             IS_WRITTEN_TENSOR(I) = 0
             EVAR(1:3,I) = ZERO
           ENDDO
-          NLAY = ELBUF_TAB(NG)%NLAY                
-          NPTR = ELBUF_TAB(NG)%NPTR                 
-          NPTS = ELBUF_TAB(NG)%NPTS                 
+          NLAY = ELBUF_TAB(NG)%NLAY
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
           NPTT = ELBUF_TAB(NG)%NPTT
             IF (IGTYP == 22 .AND. NLAY>9) THEN
              F_EXP = ONE
@@ -185,7 +185,7 @@ C-------- grp skin_inf first
            ELSE ! 14,16
              DO IR=1,NPTR
                DO IS=1,NPTS
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                   DO I=1,NEL
                     EVAR(1:2,I) = EVAR(1:2,I) + LBUF%SIG(JJ(1:2) + I)
                     EVAR(3,I)   = EVAR(3,I) + LBUF%SIG(JJ(4) + I)
@@ -196,10 +196,10 @@ C-------- grp skin_inf first
                        EVAR(3,I)   = EVAR(3,I) + LBUF%VISC(JJ(4) + I)
                       ENDDO
                   ENDIF
-               ENDDO 
+               ENDDO
              ENDDO
 C----------            
-           END IF !IF (JHBE==15)             
+           END IF !IF (JHBE==15)
            EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
 C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic              
            IF (KCVT==2) THEN
@@ -212,7 +212,7 @@ C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic
                  IR = 1
                  IS = 1
                 END IF
-                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 DO I=1,NEL
                  DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
                 ENDDO
@@ -247,7 +247,7 @@ C-------- grp skin_up
            ELSE ! 14,16
              DO IR=1,NPTR
                DO IS=1,NPTS
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                   DO I=1,NEL
                     EVAR(1:2,I) = EVAR(1:2,I) + LBUF%SIG(JJ(1:2) + I)
                     EVAR(3,I)   = EVAR(3,I) + LBUF%SIG(JJ(4) + I)
@@ -258,9 +258,9 @@ C-------- grp skin_up
                        EVAR(3,I)   = EVAR(3,I) + LBUF%VISC(JJ(4) + I)
                       ENDDO
                   ENDIF
-               ENDDO 
+               ENDDO
              ENDDO
-           END IF   !IF (JHBE==15)            
+           END IF   !IF (JHBE==15)
            EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
 C--- orthotropic              
            IF (KCVT==2) THEN
@@ -273,7 +273,7 @@ C--- orthotropic
                  IR = 1
                  IS = 1
                 END IF
-                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 DO I=1,NEL
                  DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
                 ENDDO
@@ -305,39 +305,39 @@ C-------- grp skin_inf first
               IS = 1
               LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                IF (MLWI == 12 .OR. MLWI == 14) THEN
-                 DO I=1,NEL						   
-                  EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
+                 DO I=1,NEL						
+                  EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)
                   EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
-               ELSEIF (MLWI /= 49 ) THEN                 
-                 DO I=1,NEL						   
-                  EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
+                 ENDDO						
+               ELSEIF (MLWI /= 49 ) THEN
+                 DO I=1,NEL						
+                  EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)
                   EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO						
                ELSE
                 IS_WRITTEN_TENSOR(1:NEL) = 0
-               END IF               
+               END IF
 C------to see if need rotate EVARL              
            ELSE ! 14,16
              DO IR=1,NPTR
                DO IS=1,NPTS
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                   IF (MLWI == 12 .OR. MLWI == 14) THEN
-                    DO I=1,NEL						   
-                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
+                    DO I=1,NEL						
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)
                      EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                    ENDDO						       
-                  ELSEIF (MLWI /= 49 ) THEN                 
-                    DO I=1,NEL						   
-                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
+                    ENDDO						
+                  ELSEIF (MLWI /= 49 ) THEN
+                    DO I=1,NEL						
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)
                      EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                    ENDDO						       
+                    ENDDO						
                   ELSE
                    IS_WRITTEN_TENSOR(1:NEL) = 0
-                  END IF               
-               ENDDO 
+                  END IF
+               ENDDO
              ENDDO
-           END IF               
+           END IF
            EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
 C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic              
            IF (KCVT==2) THEN
@@ -350,7 +350,7 @@ C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic
                  IR = 1
                  IS = 1
                 END IF
-                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 DO I=1,NEL
                  DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
                 ENDDO
@@ -379,39 +379,39 @@ C-------- grp skin_sup
               IS = 1
               LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                IF (MLWI == 12 .OR. MLWI == 14) THEN
-                 DO I=1,NEL						   
-                  EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)       
+                 DO I=1,NEL						
+                  EVAR(1:2,I) = LBUF%EPE(JJ(1:2) + I)
                   EVAR(3,I)   = HALF*LBUF%EPE(JJ(4) + I)
-                 ENDDO						       
-               ELSEIF (MLWI /= 49 ) THEN                 
-                 DO I=1,NEL						   
-                  EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)       
+                 ENDDO						
+               ELSEIF (MLWI /= 49 ) THEN
+                 DO I=1,NEL						
+                  EVAR(1:2,I) = LBUF%STRA(JJ(1:2) + I)
                   EVAR(3,I)   = HALF*LBUF%STRA(JJ(4) + I)
-                 ENDDO						       
+                 ENDDO						
                ELSE
                 IS_WRITTEN_TENSOR(1:NEL) = 0
-               END IF               
+               END IF
 C------to see if need rotate EVARL              
            ELSE ! 14,16
              DO IR=1,NPTR
                DO IS=1,NPTS
-                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                  LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                   IF (MLWI == 12 .OR. MLWI == 14) THEN
-                    DO I=1,NEL						   
-                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)       
+                    DO I=1,NEL						
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%EPE(JJ(1:2) + I)
                      EVAR(3,I)   = EVAR(3,I)+HALF*LBUF%EPE(JJ(4) + I)
-                    ENDDO						       
-                  ELSEIF (MLWI /= 49 ) THEN                 
-                    DO I=1,NEL						   
-                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)       
+                    ENDDO						
+                  ELSEIF (MLWI /= 49 ) THEN
+                    DO I=1,NEL						
+                     EVAR(1:2,I) = EVAR(1:2,I)+LBUF%STRA(JJ(1:2) + I)
                      EVAR(3,I)   = EVAR(3,I)+ HALF*LBUF%STRA(JJ(4) + I)
-                    ENDDO						       
+                    ENDDO						
                   ELSE
                    IS_WRITTEN_TENSOR(1:NEL) = 0
-                  END IF               
-               ENDDO 
+                  END IF
+               ENDDO
              ENDDO
-           END IF               
+           END IF
            EVAR(1:3,1:NEL) = F_EXP*EVAR(1:3,1:NEL)
 C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic              
            IF (KCVT==2) THEN
@@ -424,7 +424,7 @@ C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic
                  IR = 1
                  IS = 1
                 END IF
-                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)         
+                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 DO I=1,NEL
                  DIR(I,1:2)= LBUF%GAMA(JJ(1:2) + I)
                 ENDDO
@@ -439,11 +439,11 @@ C------to see if need rotate EVAR, Isolid=16 incompatible to orthotropic
            END DO
            NSKIN = NSKIN + NEL
           END IF  !(KEYWORD
-        ENDIF !IF (ITY == 1.AND.(IGTYP==20 
+        ENDIF !IF (ITY == 1.AND.(IGTYP==20
 C           
        END DO ! NG=1,NGROUP
 C------for solid elements
-       IF (NUMSKIN> NSKIN)       
+       IF (NUMSKIN> NSKIN)
      .  CALL H3D_SOL_SKIN_TENSOR(
      .                   ELBUF_TAB,SKIN_TENSOR, IPARG   ,IXS     ,X     ,PM  ,
      4                   IPARTS  ,IPM     ,IGEO    ,IXS10 ,IXS16 , IXS20  ,
@@ -484,12 +484,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N
-      INTEGER 
+      INTEGER
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),IX5(MVSIZ),
-     .   IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)        
+     .   IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)
 C     REAL
-      my_real 
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+      my_real
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
@@ -503,12 +503,12 @@ C     REAL
      .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
 C-----------------------------------------------
-      IF (IREP == 0) THEN                   
-        DO I=1,NEL                        
-          DIRB(I,1) = DIR(I,1)              
-          DIRB(I,2) = DIR(I,2)              
-        ENDDO                               
-      ELSE                                  
+      IF (IREP == 0) THEN
+        DO I=1,NEL
+          DIRB(I,1) = DIR(I,1)
+          DIRB(I,2) = DIR(I,2)
+        ENDDO
+      ELSE
         DO I=1,NEL
           IX1(I)=IXS(2,I)
           IX2(I)=IXS(3,I)
@@ -547,30 +547,30 @@ C-----------------------------------------------
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ) 
+     .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ)
         CALL SCORTHO3(
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
-       IF (JHBE == 15) THEN                   
-        DO I=1,NEL                        
-          AA = DIR(I,1)                     
-          BB = DIR(I,2)                     
-          V1 = AA*TX(I) + BB*RX(I)          
-          V2 = AA*TY(I) + BB*RY(I)          
-          V3 = AA*TZ(I) + BB*RZ(I)          
-          VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)  
-          VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)  
-          SUMA=SQRT(VR*VR + VS*VS)          
-          SUMA=ONE/MAX(EM20,SUMA)            
-          DIRB(I,1) = VR*SUMA               
-          DIRB(I,2) = VS*SUMA               
-        ENDDO                               
-       ELSEIF (JHBE == 14) THEN                   
-         SELECT CASE (ICSTR)                                             
-          CASE (1)                                                        
+       IF (JHBE == 15) THEN
+        DO I=1,NEL
+          AA = DIR(I,1)
+          BB = DIR(I,2)
+          V1 = AA*TX(I) + BB*RX(I)
+          V2 = AA*TY(I) + BB*RY(I)
+          V3 = AA*TZ(I) + BB*RZ(I)
+          VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
+          VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
+          SUMA=SQRT(VR*VR + VS*VS)
+          SUMA=ONE/MAX(EM20,SUMA)
+          DIRB(I,1) = VR*SUMA
+          DIRB(I,2) = VS*SUMA
+        ENDDO
+       ELSEIF (JHBE == 14) THEN
+         SELECT CASE (ICSTR)
+          CASE (1)
           DO I=1,NEL
-            AA = DIR(I,1)                     
-            BB = DIR(I,2)                     
+            AA = DIR(I,1)
+            BB = DIR(I,2)
             V1 = AA*RX(I) + BB*SX(I)
             V2 = AA*RY(I) + BB*SY(I)
             V3 = AA*RZ(I) + BB*SZ(I)
@@ -578,13 +578,13 @@ C-----------------------------------------------
             VS=V1*E3X(I)+V2*E3Y(I)+V3*E3Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
             SUMA=ONE/MAX(EM20,SUMA)
-            DIRB(I,1) = VR*SUMA               
-            DIRB(I,2) = VS*SUMA               
+            DIRB(I,1) = VR*SUMA
+            DIRB(I,2) = VS*SUMA
           ENDDO
-         CASE (100)                                                        
+         CASE (100)
           DO I=1,NEL
-            AA = DIR(I,1)                     
-            BB = DIR(I,2)                     
+            AA = DIR(I,1)
+            BB = DIR(I,2)
             V1 = AA*SX(I) + BB*TX(I)
             V2 = AA*SY(I) + BB*TY(I)
             V3 = AA*SZ(I) + BB*TZ(I)
@@ -592,13 +592,13 @@ C-----------------------------------------------
             VS=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
             SUMA=ONE/MAX(EM20,SUMA)
-            DIRB(I,1) = VR*SUMA               
-            DIRB(I,2) = VS*SUMA               
+            DIRB(I,1) = VR*SUMA
+            DIRB(I,2) = VS*SUMA
           ENDDO
-        CASE (10)                                                        
+        CASE (10)
           DO I=1,NEL
-            AA = DIR(I,1)                     
-            BB = DIR(I,2)                     
+            AA = DIR(I,1)
+            BB = DIR(I,2)
             V1 = AA*TX(I) + BB*RX(I)
             V2 = AA*TY(I) + BB*RY(I)
             V3 = AA*TZ(I) + BB*RZ(I)
@@ -606,12 +606,12 @@ C-----------------------------------------------
             VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
             SUMA=SQRT(VR*VR + VS*VS)
             SUMA=ONE/MAX(EM20,SUMA)
-            DIRB(I,1) = VR*SUMA               
-            DIRB(I,2) = VS*SUMA               
+            DIRB(I,1) = VR*SUMA
+            DIRB(I,2) = VS*SUMA
           ENDDO
-         END SELECT                                                      
-       END IF !(JHBE == 15) THEN                   
-      ENDIF                                 
+         END SELECT
+       END IF !(JHBE == 15) THEN
+      ENDIF
 C-----------
       RETURN
       END SUBROUTINE TSH_DIR2
@@ -694,11 +694,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, N , K
-      INTEGER 
+      INTEGER
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ)
 C     REAL
-      my_real 
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+      my_real
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,
@@ -707,7 +707,7 @@ C     REAL
      .   E1X(MVSIZ),E2X(MVSIZ),E3X(MVSIZ),
      .   E1Y(MVSIZ),E2Y(MVSIZ),E3Y(MVSIZ),
      .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),
-     .   DETA1(MVSIZ),OFFG(MVSIZ),TENS(6,MVSIZ)  
+     .   DETA1(MVSIZ),OFFG(MVSIZ),TENS(6,MVSIZ)
 C-----------------------------------------------
         DO I=1,NEL
           IX1(I)=IXC(2,I)
@@ -738,8 +738,8 @@ C-----------------------------------------------
        K = 0
        OFFG(1:NEL) = ONE
        CALL CLSKEW3(1,NEL,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z,
      .   DETA1,OFFG )
         DO I=1,NEL

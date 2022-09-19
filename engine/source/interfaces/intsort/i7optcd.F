@@ -154,7 +154,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
            IG(IS) = NSV(CAND_N(I))
            GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
            XI = X(1,IG(IS))
@@ -204,9 +204,9 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
            IG(IS) = NSV(CAND_N(I))
-           GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD) 
+           GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
            ZI = X(3,IG(IS))
            IX1(IS)=IRECT(1,L)
            Z1=X(3,IX1(IS))
@@ -286,7 +286,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
              GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
@@ -337,7 +337,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
               GAPF = MAX(GAPV(IS)+DGAPLOAD,DRAD)
               ZI = XFI(NIN)%P(3,II)
               IX1(IS)=IRECT(1,L)
@@ -418,7 +418,7 @@ C
       IF(COUNT_CAND > 0 .OR. CT > 0) THEN
 #include "lockon.inc"
         LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
-        COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT 
+        COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT
 #include "lockoff.inc"
       ENDIF
 

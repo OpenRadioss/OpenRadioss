@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
-      USE UNITAB_MOD       
+      USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,12 +76,12 @@ C-----------------------------------------------
      .   FRIGAP(*)
       CHARACTER TITR*nchartitle
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IS1,IS2,ISU1,ISU2,ISU10,ISU20,MULTIMP,ITIED,UID
       my_real
      .   STARTT,BUMULT,STOPT,FRIC,GAP
@@ -114,8 +114,8 @@ C------------------------------------------------------------
 C------------------------------------------------------------
 C  Card1
 C------------------------------------------------------------
-      CALL HM_GET_INTV('secondaryentityids'  ,ISU10 ,IS_AVAILABLE, LSUBMODEL)  
-      CALL HM_GET_INTV('mainentityids' ,ISU20 ,IS_AVAILABLE, LSUBMODEL)  
+      CALL HM_GET_INTV('secondaryentityids'  ,ISU10 ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('mainentityids' ,ISU20 ,IS_AVAILABLE, LSUBMODEL)
 C------------------------------------------------------------
 C  Card2
 C------------------------------------------------------------
@@ -162,7 +162,7 @@ C
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

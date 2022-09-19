@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ), PROP(MVSIZ)
       my_real
      .     EE1X(MVSIZ), EE1Y(MVSIZ), EE1Z(MVSIZ),
-     .     EE2X(MVSIZ), EE2Y(MVSIZ), EE2Z(MVSIZ),  
+     .     EE2X(MVSIZ), EE2Y(MVSIZ), EE2Z(MVSIZ),
      .     EE3X(MVSIZ), EE3Y(MVSIZ), EE3Z(MVSIZ)
       my_real
      .        VL(3,2,MVSIZ), VRL(3,2,MVSIZ)
@@ -138,25 +138,25 @@ C
             MOM(3,I)=ZERO
          ENDDO
 C
-         CALL PEVECII(X1,  Y1,  Z1,  X2, Y2, 
-     .        Z2,  VRL, RLOC, AL, LAST, 
-     .        EE1X, EE1Y, EE1Z, 
-     .        EE2X, EE2Y, EE2Z, 
+         CALL PEVECII(X1,  Y1,  Z1,  X2, Y2,
+     .        Z2,  VRL, RLOC, AL, LAST,
+     .        EE1X, EE1Y, EE1Z,
+     .        EE2X, EE2Y, EE2Z,
      .        EE3X, EE3Y, EE3Z)
 C     
-         CALL PDEFOI(VL , EXX , EXY, EXZ, AL, LAST, 
-     .        EE1X, EE1Y, EE1Z, 
-     .        EE2X, EE2Y, EE2Z, 
+         CALL PDEFOI(VL , EXX , EXY, EXZ, AL, LAST,
+     .        EE1X, EE1Y, EE1Z,
+     .        EE2X, EE2Y, EE2Z,
      .        EE3X, EE3Y, EE3Z)
          CALL PCURVI(VRL, GEO , KXX , KYY , KZZ ,
-     .        EXY , EXZ , AL  , LAST, PROP, 
-     .        EE1X, EE1Y, EE1Z, 
-     .        EE2X, EE2Y, EE2Z, 
+     .        EXY , EXZ , AL  , LAST, PROP,
+     .        EE1X, EE1Y, EE1Z,
+     .        EE2X, EE2Y, EE2Z,
      .        EE3X, EE3Y, EE3Z)
 C
          CALL PM1INIF(PM,   FOR, MOM , EINT, GEO,
      .                EXX,  EXY, EXZ , KXX , KYY,
-     .                KZZ,  AL , LAST, MAT , PROP) 
+     .                KZZ,  AL , LAST, MAT , PROP)
 C
          DO I=1,LAST
             FXBSIG(NFS+8*(I-1)+1)=FOR(1,I)
@@ -179,9 +179,9 @@ Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PEVECII(X1 , Y1, Z1  , X2, Y2 ,
-     .     Z2 , R , RLOC, AL, NEL, 
-     .     E1X, E1Y, E1Z, 
-     .     E2X, E2Y, E2Z, 
+     .     Z2 , R , RLOC, AL, NEL,
+     .     E1X, E1Y, E1Z,
+     .     E2X, E2Y, E2Z,
      .     E3X, E3Y, E3Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -199,7 +199,7 @@ C-----------------------------------------------
      .     X1(*), Y1(*), Z1(*), X2(*), Y2(*), Z2(*),
      .     R(3,2,*), RLOC(3,*), AL(*),
      .     E1X(*), E1Y(*), E1Z(*),
-     .     E2X(*), E2Y(*), E2Z(*),  
+     .     E2X(*), E2Y(*), E2Z(*),
      .     E3X(*), E3Y(*), E3Z(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -306,10 +306,10 @@ Chd|-- called by -----------
 Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PDEFOI(V  , EXX, EXY, EXZ, AL, NEL, 
-     .     E1X, E1Y, E1Z, 
-     .     E2X, E2Y, E2Z, 
-     .     E3X, E3Y, E3Z)            
+      SUBROUTINE PDEFOI(V  , EXX, EXY, EXZ, AL, NEL,
+     .     E1X, E1Y, E1Z,
+     .     E2X, E2Y, E2Z,
+     .     E3X, E3Y, E3Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -325,7 +325,7 @@ C-----------------------------------------------
       my_real
      .     V(3,2,*), EXX(*), EXY(*), EXZ(*), AL(*),
      .     E1X(*), E1Y(*), E1Z(*),
-     .     E2X(*), E2Y(*), E2Z(*),  
+     .     E2X(*), E2Y(*), E2Z(*),
      .     E3X(*), E3Y(*), E3Z(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -370,10 +370,10 @@ Chd|        FSIGPINI                      source/constraints/fxbody/fsigpini.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PCURVI(V  , GEO, KXX, KYY, KZZ,
-     .     EXY, EXZ, AL , NEL, MGM, 
-     .     E1X, E1Y, E1Z, 
-     .     E2X, E2Y, E2Z, 
-     .     E3X, E3Y, E3Z)      
+     .     EXY, EXZ, AL , NEL, MGM,
+     .     E1X, E1Y, E1Z,
+     .     E2X, E2Y, E2Z,
+     .     E3X, E3Y, E3Z)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -394,7 +394,7 @@ C-----------------------------------------------
      .     V(3,2,*), GEO(NPROPG,*), KXX(*), KYY(*), KZZ(*),
      .     EXY(*), EXZ(*), AL(*),
      .     E1X(*), E1Y(*), E1Z(*),
-     .     E2X(*), E2Y(*), E2Z(*),  
+     .     E2X(*), E2Y(*), E2Z(*),
      .     E3X(*), E3Y(*), E3Z(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -481,7 +481,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PM1INIF(PM , FOR, MOM, EINT, GEO,
      .                   EXX, EXY, EXZ, KXX , KYY,
-     .                   KZZ, AL , NEL, MAT , MGM)     
+     .                   KZZ, AL , NEL, MAT , MGM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -553,4 +553,4 @@ C
 C
       RETURN
       END SUBROUTINE PM1INIF
-            
+

@@ -89,22 +89,22 @@ C        Additional shape functions for distribution of mass / inertia - to avoi
           H2(1)=TM*SM
           H2(2)=TM*SP
           H2(3)=TP*SP
-          H2(4)=TP*SM       
+          H2(4)=TP*SM
 c
           IF (IRUPT(II) == 0) THEN
 C---------- pas de rupture                   
 c
             XMSI= MS(I)*W
             STFN= STIFN(I)*W
-            FXI = A(1,I)*W    
-            FYI = A(2,I)*W    
-            FZI = A(3,I)*W      
+            FXI = A(1,I)*W
+            FYI = A(2,I)*W
+            FZI = A(3,I)*W
             DO JJ=1,NIR
               J=IRECT(JJ,L)
-              A(1,J)  = A(1,J) + H(JJ) * FXI          
-              A(2,J)  = A(2,J) + H(JJ) * FYI          
-              A(3,J)  = A(3,J) + H(JJ) * FZI          
-              MS(J)   = MS(J)  + H2(JJ) * XMSI    
+              A(1,J)  = A(1,J) + H(JJ) * FXI
+              A(2,J)  = A(2,J) + H(JJ) * FYI
+              A(3,J)  = A(3,J) + H(JJ) * FZI
+              MS(J)   = MS(J)  + H2(JJ) * XMSI
               STIFN(J)= STIFN(J)+H(JJ) * STFN
             ENDDO
             IF(IRODDL == 0)THEN
@@ -117,19 +117,19 @@ c
           ELSEIF (IRUPT(II) == -1) THEN
 C---------- rupture partielle  
 C
-            FXI = FSM(1,II)  
-            FYI = FSM(2,II)  
-            FZI = FSM(3,II)  
+            FXI = FSM(1,II)
+            FYI = FSM(2,II)
+            FZI = FSM(3,II)
 C
             A(1,I) = A(1,I) - FXI
-            A(2,I) = A(2,I) - FYI   
-            A(3,I) = A(3,I) - FZI   
+            A(2,I) = A(2,I) - FYI
+            A(3,I) = A(3,I) - FZI
 C
             DO JJ=1,NIR
               J=IRECT(JJ,L)
-              A(1,J) = A(1,J) + H(JJ) * FXI *W          
-              A(2,J) = A(2,J) + H(JJ) * FYI *W          
-              A(3,J) = A(3,J) + H(JJ) * FZI *W         
+              A(1,J) = A(1,J) + H(JJ) * FXI *W
+              A(2,J) = A(2,J) + H(JJ) * FYI *W
+              A(3,J) = A(3,J) + H(JJ) * FZI *W
             ENDDO
           ENDIF
 C----------
@@ -146,10 +146,10 @@ Chd|-- called by -----------
 Chd|        INTTI2F                       source/interfaces/interf/intti2f.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I2MOM10(NSN    ,NMN    ,AR     ,IRECT   ,CRST    , 
-     2                   MSR    ,NSV    ,IRTL   ,IN      ,MS      , 
+      SUBROUTINE I2MOM10(NSN    ,NMN    ,AR     ,IRECT   ,CRST    ,
+     2                   MSR    ,NSV    ,IRTL   ,IN      ,MS      ,
      3                   A      ,X      ,WEIGHT ,STIFR   ,STIFN   ,
-     4                   IRUPT  ,ILEV   ,CSTS_BIS) 
+     4                   IRUPT  ,ILEV   ,CSTS_BIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -235,9 +235,9 @@ C
             Y4 = X(2,IRECT(4,L))
             Z4 = X(3,IRECT(4,L))
 C
-            XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
-            YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
-            ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4) 
+            XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)
+            YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)
+            ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4)
 C
             XC0=X0-XC
             YC0=Y0-YC
@@ -256,21 +256,21 @@ C
             MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
 C
             W = WEIGHT(I)
-            DO JJ=1,4                        
-              J=IRECT(JJ,L) 
-              AR(1,J) =AR(1,J) + MXI*H(JJ)*W    
-              AR(2,J) =AR(2,J) + MYI*H(JJ)*W    
-              AR(3,J) =AR(3,J) + MZI*H(JJ)*W    
-              IN(J)   =IN(J)   + INS*H2(JJ)*W     
-              STIFR(J)=STIFR(J)+ STF*H(JJ)*W  
-            ENDDO                            
-            STIFR(I)=EM20                    
-            STIFN(I)=EM20                    
-            IN(I)   =ZERO                    
-            MS(I)   =ZERO                    
-            A(1,I)  =ZERO                    
-            A(2,I)  =ZERO                    
-            A(3,I)  =ZERO                    
+            DO JJ=1,4
+              J=IRECT(JJ,L)
+              AR(1,J) =AR(1,J) + MXI*H(JJ)*W
+              AR(2,J) =AR(2,J) + MYI*H(JJ)*W
+              AR(3,J) =AR(3,J) + MZI*H(JJ)*W
+              IN(J)   =IN(J)   + INS*H2(JJ)*W
+              STIFR(J)=STIFR(J)+ STF*H(JJ)*W
+            ENDDO
+            STIFR(I)=EM20
+            STIFN(I)=EM20
+            IN(I)   =ZERO
+            MS(I)   =ZERO
+            A(1,I)  =ZERO
+            A(2,I)  =ZERO
+            A(3,I)  =ZERO
 C
           ENDIF
         ENDIF

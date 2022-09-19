@@ -35,7 +35,7 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SURF_MOD                      share/modules1/surf_mod.F     
 Chd|====================================================================
       SUBROUTINE FILL_IGR(SET,
-     .                    IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC, IGRQUAD ,   
+     .                    IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC, IGRQUAD ,
      .                    IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -220,6 +220,6 @@ C-----------------------------------------------
 
        ENDDO
 
-      END 
+      END
 
 

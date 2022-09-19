@@ -75,11 +75,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN
-      INTEGER IPARI(NPARI,NINTER), 
+      INTEGER IPARI(NPARI,NINTER),
      .        ITAB(*), KINET(*), ICODT(*), ISKEW(*)
       INTEGER NB_DST2,JTASK,LINDMAX
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER JD(50),KD(50), JFI, KFI,IEDGE,
      .        I, J, L, H, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
      .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
-     .        IGAP, INACTI, IFQ, MFROT, IGSTI, 
+     .        IGAP, INACTI, IFQ, MFROT, IGSTI,
      .        NB_LOC, I_STOK_LOC,DEBUT,
      .        ILAGM, LENR, INTTH,IFORM,INTPLY,
      .        NADMSR, I_STOK_GLO, MGLOB, MG, N, NSNR, NN, IERROR
@@ -96,13 +96,13 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ISHEL(MVSIZ),
      .        CAND_N_N(MVSIZ),CAND_E_N(MVSIZ),SUBTRIA(MVSIZ),
-     .        FAR(MVSIZ,4), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4), 
+     .        FAR(MVSIZ,4), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4),
      .        MVOISA(MVSIZ,4), MVOISB(MVSIZ,4), IBOUND(4,MVSIZ),
      .        IBOUNDA(4,MVSIZ), IBOUNDB(4,MVSIZ), ETYP(MVSIZ)
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
 C     REAL
       my_real
-     .   FRIC, GAP, 
+     .   FRIC, GAP,
      .   VISC,VISCF,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX,RSTIF,FHEAT,TINT,EPS
 C-----------------------------------------------
@@ -111,16 +111,16 @@ C     REAL
      .   NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
      .   NAX(MVSIZ,5), NAY(MVSIZ,5), NAZ(MVSIZ,5),
      .   NBX(MVSIZ,5), NBY(MVSIZ,5), NBZ(MVSIZ,5),
-     .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5), 
+     .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), 
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
-     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
+     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
+     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
+     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ),
      .   GAPV(MVSIZ),MSI(MVSIZ),
-     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
+     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ),
      .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ), GAPS(MVSIZ), GAPM(MVSIZ),
-     .   PENT(MVSIZ,4), LB(MVSIZ,4), LC(MVSIZ,4), 
+     .   PENT(MVSIZ,4), LB(MVSIZ,4), LC(MVSIZ,4),
      .   LBH(MVSIZ,4), LCH(MVSIZ,4), GAP_NM(4,MVSIZ),
      .   DIST(MVSIZ), GAPMXL(MVSIZ)
       my_real
@@ -141,16 +141,16 @@ C
       INACTI=IPARI(22,NIN)
       ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       ICURV =IPARI(39,NIN)
       IEDGE =IPARI(58,NIN)
       NADMSR=IPARI(67,NIN)
 
 C adaptive meshing
-      IADM =IPARI(44,NIN) 
-      NRADM=IPARI(49,NIN) 
+      IADM =IPARI(44,NIN)
+      NRADM=IPARI(49,NIN)
       PADM =INTBUF_TAB%VARIABLES(24)
       ANGLT=INTBUF_TAB%VARIABLES(25)
       MARGE=INTBUF_TAB%VARIABLES(25)
@@ -269,7 +269,7 @@ C
 C    5 FAR    ,PENT     ,LB     ,LC     ,
      6 INDEX2(NFT+1) ,INTBUF_TAB%FARM ,INTBUF_TAB%PENM ,
      .                                                  INTBUF_TAB%LBM   ,
-     7 INTBUF_TAB%LCM ) 
+     7 INTBUF_TAB%LCM )
 C
       ENDDO
 C-----------------------------------------------------------------------
@@ -357,7 +357,7 @@ C
 C    5 FAR     ,PENT    ,LBH     ,LCH      ,
      6 INDEX2(NFT+1) ,INTBUF_TAB%FARM ,INTBUF_TAB%PENM ,
      .                                                  INTBUF_TAB%LBM   ,
-     7 INTBUF_TAB%LCM ) 
+     7 INTBUF_TAB%LCM )
 C
       ENDDO
 C-----------------------------------------------------------------------

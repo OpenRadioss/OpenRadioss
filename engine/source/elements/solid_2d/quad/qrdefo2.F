@@ -113,7 +113,7 @@ C
         PY1(I)=HALF*(Z2(I)-Z4(I))
         PY2(I)=HALF*(Z3(I)-Z1(I))
         PZ1(I)=HALF*(Y4(I)-Y2(I))
-        PZ2(I)=HALF*(Y1(I)-Y3(I))	 
+        PZ2(I)=HALF*(Y1(I)-Y3(I))	
       END DO
 C
       DO I=LFT,LLT
@@ -190,7 +190,7 @@ C---------------------------------------
       RX(I)=ONE
       RY(I)=ZERO
       RZ(I)=ZERO
-      SX(I)=ZERO    
+      SX(I)=ZERO
       SY(I)=-PZ1(I)-PZ2(I)
       SZ(I)=+PY1(I)+PY2(I)
       TX(I)=ZERO

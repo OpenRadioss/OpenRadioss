@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),IG,SUB_ID,ISKN(LISKN,*),
      .        IPART(LIPART1,*),IGTYP
 C     REAL
@@ -128,7 +128,7 @@ C  double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
       GEO(12) =IGTYP+EM01
       GEO(171)=IHBE
 C
-      ICSTR = 0 
+      ICSTR = 0
 C--------------------------------------------------
 C EXTRACT DATA (IS OPTION CRYPTED)
 C--------------------------------------------------
@@ -172,7 +172,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Py',PY,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Pz',PZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-----removed flags:
-      ISTR=1 
+      ISTR=1
       IPLAS = 2
       IET = 0
 C----------------------
@@ -206,7 +206,7 @@ C---   Default values
 C
       IINT = 1
 C------  new solid17, IHBE will be changed to 17 in sgrtails.F    
-      IF (IHBE == 18 ) IINT = 2 
+      IF (IHBE == 18 ) IINT = 2
       CVIS = ZERO
 C
 C  ihbe
@@ -257,13 +257,13 @@ C
       IF (JCVT == 0)  JCVT = IFRAME_DS
       IF (IHBE == 14.OR.IHBE == 18) JCVT = 2
       IF (IHBE == 24) JCVT = 2
-      IF (IFRAME_DS == -2.OR.JCVT<0) JCVT = -1      
+      IF (IFRAME_DS == -2.OR.JCVT<0) JCVT = -1
 C
 C  smstr
 C
       IF(ISMSTR == 0) ISMSTR=ISST_DS
       IF(ISMSTR == 0.AND.IHBE /= 18) ISMSTR=4
-      IF (ISST_DS == -2) ISMSTR = -1      
+      IF (ISST_DS == -2) ISMSTR = -1
 C
 C  IPLAS
 C
@@ -287,7 +287,7 @@ c      ENDIF
 C
 C  icpre/icstr
 C
-      IF (ICPRE == 0) ICPRE = ICPRE_D      
+      IF (ICPRE == 0) ICPRE = ICPRE_D
       IF((N2D > 0 .AND. IHBE == 17) ) THEN
         IF(ICPRE/=1 .AND. ICPRE/=2) ICPRE=0
 C------ no effet for Axi Isolid17 for the moment	
@@ -302,9 +302,9 @@ C------ no effet for Axi Isolid17 for the moment
            ENDIF
         ENDIF
         IF (ICPRE == 3 .AND. IHBE /= 18) ICPRE =0
-      END IF!((N2D > 0 .AND. IHBE == 17) .OR. 
+      END IF!((N2D > 0 .AND. IHBE == 17) .OR.
       ICSTR = 0
-      IF (ICPRE_D == -2) ICPRE = -1      
+      IF (ICPRE_D == -2) ICPRE = -1
 C
 C  NPT
 C
@@ -341,10 +341,10 @@ C
         NPT = 8
       END SELECT
 C      
-      IF((N2D > 0 .AND. IHBE == 17) .OR. 
+      IF((N2D > 0 .AND. IHBE == 17) .OR.
      .   (N2D == 1 .AND. IHBE == 22)) THEN
-          NPT = 4                                                 
-      ENDIF                                                      
+          NPT = 4
+      ENDIF
 C
 C  viscosity / hourglass
 C
@@ -472,7 +472,7 @@ C
       ENDIF
 C
       PROP_TAG(IGTYP)%G_FILL = 1
-      PROP_TAG(IGTYP)%L_STRA = 6 
+      PROP_TAG(IGTYP)%L_STRA = 6
       IF (N2D /= 0 .AND. MULTI_FVM%IS_USED) THEN
 !     2D analysis
         PROP_TAG(IGTYP)%G_AREA = 1
@@ -481,7 +481,7 @@ C
       PROP_TAG(IGTYP)%L_SIGL = 6
       IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
         IGEO(33) = 1   ! ISVIS flag
-      ENDIF 
+      ENDIF
 
 C-------------------------------
 C  Double stockage temporaire : GEO() / IGEO() : a supprimer a terme
@@ -581,4 +581,4 @@ C---
      & 5X,'REFERENCE VECTOR VY . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE VECTOR VZ . . . . . . . . . .=',1PG20.13)
 C---
-      END SUBROUTINE 
+      END SUBROUTINE

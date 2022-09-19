@@ -52,7 +52,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIXPL,ND
-      INTEGER 
+      INTEGER
      .       IXP(NIXPL,*), NEL   ,IDDL(*)   ,NDOF(*)   ,
      .       IADK(*)  ,JDIK(*)
 C     REAL
@@ -67,12 +67,12 @@ C
        DO EP = 1,NEL
         N1(EP)=IXP(2,EP)
         N2(EP)=IXP(3,EP)
-       ENDDO 
+       ENDDO
 C-------block diagonal k11,k22...k33-----
-       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,KC11,ND,OFF) 
-       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,KC22,ND,OFF) 
+       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,KC11,ND,OFF)
+       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,KC22,ND,OFF)
 C-------non diag kij-----
-       CALL ASSEM_KIJ(N1,N2,NEL,IDDL,IADK,JDIK,K_DIAG,K_LT,KC12,ND,OFF) 
+       CALL ASSEM_KIJ(N1,N2,NEL,IDDL,IADK,JDIK,K_DIAG,K_LT,KC12,ND,OFF)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END

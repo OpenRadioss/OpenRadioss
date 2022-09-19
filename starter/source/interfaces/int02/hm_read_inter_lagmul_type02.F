@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C----------------------s-------------------------
 C   C o m m o n   B l o c k s
@@ -135,7 +135,7 @@ C------------------------------------------------------------
      .               MSGTYPE=MSGERROR,
      .               I1=NOINT,
      .               C1=TITR)
-       END IF 
+       END IF
 C
        IS1=2
        IS2=1
@@ -183,7 +183,7 @@ C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
 C
-      WRITE(IOUT,1602) IBUC,FRIGAP(4)          
+      WRITE(IOUT,1602) IBUC,FRIGAP(4)
 C
       IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -196,7 +196,7 @@ C
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

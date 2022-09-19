@@ -69,7 +69,7 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
 
       CALL HM_OPTION_COUNT('/ALE/SOLVER/FINT', NALESOLVER)
-      
+
       IF (NALESOLVER > 0) THEN
          CALL HM_OPTION_START('/ALE/SOLVER/FINT')
          CALL HM_OPTION_NEXT()
@@ -79,16 +79,16 @@ C-----------------------------------------------
      .                   MSGTYPE = MSGERROR,
      .                   ANMODE  = ANINFO  ,
      .                   C1      = 'ISFINT',
-     .                   I1      = ISFINT )           
-           ENDIF  
+     .                   I1      = ISFINT )
+           ENDIF
            IF (ISFINT == 2 .AND. ICAA == 1)THEN
              CALL ANCMSG(MSGID   = 1138    ,
      .                   MSGTYPE = MSGERROR,
      .                   ANMODE  = ANINFO  ,
      .                   C1      = 'ISFINT=2 NOT COMPATIBLE  WITH CAA',
-     .                   I1      = ICAA )             
+     .                   I1      = ICAA )
            ENDIF
            IF (ISFINT == 0) ISFINT = 3
       ENDIF
 
-      END 
+      END

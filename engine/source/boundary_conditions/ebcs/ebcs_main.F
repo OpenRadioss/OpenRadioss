@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
       USE EBCS_MOD
       USE MULTI_FVM_MOD
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r  c e   L i n e s
 C-----------------------------------------------
- 
+
       DO I = 1, NEBCS
          EBCS => EBCS_TAB%tab(i)%poly
          IF(EBCS%is_multifluid)return
@@ -89,9 +89,9 @@ C-----------------------------------------------
          NOD = EBCS%nb_node
          IF (TYP == 0) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
-            type is (t_ebcs_gradp0) 
+            type is (t_ebcs_gradp0)
             CALL EBCS0(NSEG, EBCS%iseg, SEGVAR,
-     .           A, V, X, 
+     .           A, V, X,
      .           EBCS%node_list, NOD, EBCS%elem_list,EBCS%ielem,
      .           EBCS%vold, EBCS%pold, EBCS%p0,
      .           EBCS%la, FV, MS, STIFN, IPARG, ELBUF_TAB, twf)
@@ -107,23 +107,23 @@ C           type is (t_ebcs_tab)
 C           end select
          ELSE IF (TYP == 4) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
-            type is (t_ebcs_vel) 
+            type is (t_ebcs_vel)
             CALL EBCS4(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
-     .           EBCS%la,FV,MS,STIFN,twf)     
+     .           EBCS%la,FV,MS,STIFN,twf)
             end select
          ELSE IF (TYP == 5) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
-            type is (t_ebcs_normv) 
+            type is (t_ebcs_normv)
             CALL EBCS5(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
-     .           EBCS%la,FV,MS,STIFN,twf)     
+     .           EBCS%la,FV,MS,STIFN,twf)
             end select
          ELSE IF (TYP == 6) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
-            type is (t_ebcs_inip) 
+            type is (t_ebcs_inip)
             CALL EBCS6(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
@@ -133,12 +133,12 @@ C           end select
             end select
          ELSE IF (TYP == 7) THEN
             select type (twf => EBCS_TAB%tab(i)%poly)
-            type is (t_ebcs_iniv) 
+            type is (t_ebcs_iniv)
             CALL EBCS7(NSEG,EBCS%iseg,SEGVAR,
      .           A,V,X,
      .           EBCS%node_list,NOD,EBCS%elem_list,
      .           EBCS%ro0,EBCS%en0,EBCS%v0,
-     .           EBCS%la,MS,STIFN,twf)     
+     .           EBCS%la,MS,STIFN,twf)
              end select
          ELSE IF (TYP == 10) THEN
             select type (twf => EBCS)
@@ -148,8 +148,8 @@ C           end select
      .             twf%node_list,NOD,twf%elem_list,twf%ielem,twf%iface,
      .             twf%ro0,twf%en0,
      .             twf%la,MS,STIFN,twf,IPARG,ELBUF_TAB,MULTI_FVM,IXQ,IXS,IXTG,
-     .             ITAB, NALE)  
-            end select  
+     .             ITAB, NALE)
+            end select
          ELSE IF (TYP == 100) THEN
             SELECT TYPE(EBCS)
             TYPE IS (t_ebcs_monvol)
@@ -162,4 +162,4 @@ C           end select
 c-----------
       RETURN
       END
-      
+

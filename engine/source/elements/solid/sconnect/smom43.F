@@ -43,18 +43,18 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
 C     REAL
-      my_real 
+      my_real
      .  TTHICK
-      my_real 
-     .  F1X(*),F2X(*),F3X(*),F4X(*),F5X(*),F6X(*),F7X(*),F8X(*),         
-     .  F1Y(*),F2Y(*),F3Y(*),F4Y(*),F5Y(*),F6Y(*),F7Y(*),F8Y(*),         
-     .  F1Z(*),F2Z(*),F3Z(*),F4Z(*),F5Z(*),F6Z(*),F7Z(*),F8Z(*),      
-     .  R1X(NEL),R2X(NEL),R3X(NEL),R4X(NEL),                  
-     .  R5X(NEL),R6X(NEL),R7X(NEL),R8X(NEL),                  
-     .  R1Y(NEL),R2Y(NEL),R3Y(NEL),R4Y(NEL),                  
-     .  R5Y(NEL),R6Y(NEL),R7Y(NEL),R8Y(NEL),                  
-     .  R1Z(NEL),R2Z(NEL),R3Z(NEL),R4Z(NEL),                  
-     .  R5Z(NEL),R6Z(NEL),R7Z(NEL),R8Z(NEL),RXX(NEL),RYY(NEL),RZZ(NEL) 
+      my_real
+     .  F1X(*),F2X(*),F3X(*),F4X(*),F5X(*),F6X(*),F7X(*),F8X(*),
+     .  F1Y(*),F2Y(*),F3Y(*),F4Y(*),F5Y(*),F6Y(*),F7Y(*),F8Y(*),
+     .  F1Z(*),F2Z(*),F3Z(*),F4Z(*),F5Z(*),F6Z(*),F7Z(*),F8Z(*),
+     .  R1X(NEL),R2X(NEL),R3X(NEL),R4X(NEL),
+     .  R5X(NEL),R6X(NEL),R7X(NEL),R8X(NEL),
+     .  R1Y(NEL),R2Y(NEL),R3Y(NEL),R4Y(NEL),
+     .  R5Y(NEL),R6Y(NEL),R7Y(NEL),R8Y(NEL),
+     .  R1Z(NEL),R2Z(NEL),R3Z(NEL),R4Z(NEL),
+     .  R5Z(NEL),R6Z(NEL),R7Z(NEL),R8Z(NEL),RXX(NEL),RYY(NEL),RZZ(NEL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -75,33 +75,33 @@ C=======================================================================
 c
 C---    Moment Z
 c
-        FYY = MXY/RXX(I)         
-        FXX =-MYX/RYY(I)         
+        FYY = MXY/RXX(I)
+        FXX =-MYX/RYY(I)
 c
-        F1X(I) = F1X(I) - FXX    
-        F2X(I) = F2X(I) - FXX    
-        F3X(I) = F3X(I) + FXX    
-        F4X(I) = F4X(I) + FXX    
-        F5X(I) = F5X(I) - FXX    
-        F6X(I) = F6X(I) - FXX    
-        F7X(I) = F7X(I) + FXX    
-        F8X(I) = F8X(I) + FXX    
+        F1X(I) = F1X(I) - FXX
+        F2X(I) = F2X(I) - FXX
+        F3X(I) = F3X(I) + FXX
+        F4X(I) = F4X(I) + FXX
+        F5X(I) = F5X(I) - FXX
+        F6X(I) = F6X(I) - FXX
+        F7X(I) = F7X(I) + FXX
+        F8X(I) = F8X(I) + FXX
 c
-        F1Y(I) = F1Y(I) + FYY    
-        F2Y(I) = F2Y(I) - FYY    
-        F3Y(I) = F3Y(I) - FYY    
-        F4Y(I) = F4Y(I) + FYY    
-        F5Y(I) = F5Y(I) + FYY    
-        F6Y(I) = F6Y(I) - FYY    
-        F7Y(I) = F7Y(I) - FYY    
-        F8Y(I) = F8Y(I) + FYY    
+        F1Y(I) = F1Y(I) + FYY
+        F2Y(I) = F2Y(I) - FYY
+        F3Y(I) = F3Y(I) - FYY
+        F4Y(I) = F4Y(I) + FYY
+        F5Y(I) = F5Y(I) + FYY
+        F6Y(I) = F6Y(I) - FYY
+        F7Y(I) = F7Y(I) - FYY
+        F8Y(I) = F8Y(I) + FYY
 c
 c---    Moments Mx, MY
 c
         IF(TTHICK >ZERO)THEN
         MYZ = R1Y(I)*F1Z(I)+R2Y(I)*F2Z(I)+R3Y(I)*F3Z(I)+R4Y(I)*F4Z(I)
      .       +R5Y(I)*F5Z(I)+R6Y(I)*F6Z(I)+R7Y(I)*F7Z(I)+R8Y(I)*F8Z(I)
-        MZY = TTHICK*HALF*(-F1Y(I)-F2Y(I)-F3Y(I)-F4Y(I) !car R1Z,R2Z,R3Z,R4Z <0 
+        MZY = TTHICK*HALF*(-F1Y(I)-F2Y(I)-F3Y(I)-F4Y(I) !car R1Z,R2Z,R3Z,R4Z <0
      .                      +F5Y(I)+F6Y(I)+F7Y(I)+F8Y(I))
         MXX(I) = MYZ - MZY
 
@@ -123,24 +123,24 @@ c
         MYY(I) = MZX - MXZ
         ENDIF
 c
-        RAX = R1X(I) + R5X(I) - R3X(I) - R7X(I)       
-        RBX = R4X(I) + R8X(I) - R2X(I) - R6X(I)       
-        RAY = R1Y(I) + R5Y(I) - R3Y(I) - R7Y(I)       
-        RBY = R4Y(I) + R8Y(I) - R2Y(I) - R6Y(I)       
-        D1 = -MXX(I)*RBX - MYY(I)*RBY            
-        D2 =  MXX(I)*RAX + MYY(I)*RAY            
-        DD =  RAY*RBX - RAX*RBY                   
-        FA = D1 / DD                             
-        FB = D2 / DD                             
+        RAX = R1X(I) + R5X(I) - R3X(I) - R7X(I)
+        RBX = R4X(I) + R8X(I) - R2X(I) - R6X(I)
+        RAY = R1Y(I) + R5Y(I) - R3Y(I) - R7Y(I)
+        RBY = R4Y(I) + R8Y(I) - R2Y(I) - R6Y(I)
+        D1 = -MXX(I)*RBX - MYY(I)*RBY
+        D2 =  MXX(I)*RAX + MYY(I)*RAY
+        DD =  RAY*RBX - RAX*RBY
+        FA = D1 / DD
+        FB = D2 / DD
 C
-        F1Z(I) = F1Z(I) + FA                     
-        F2Z(I) = F2Z(I) - FB                     
-        F3Z(I) = F3Z(I) - FA                     
-        F4Z(I) = F4Z(I) + FB                     
-        F5Z(I) = F5Z(I) + FA                     
-        F6Z(I) = F6Z(I) - FB                     
-        F7Z(I) = F7Z(I) - FA                     
-        F8Z(I) = F8Z(I) + FB                     
+        F1Z(I) = F1Z(I) + FA
+        F2Z(I) = F2Z(I) - FB
+        F3Z(I) = F3Z(I) - FA
+        F4Z(I) = F4Z(I) + FB
+        F5Z(I) = F5Z(I) + FA
+        F6Z(I) = F6Z(I) - FB
+        F7Z(I) = F7Z(I) - FA
+        F8Z(I) = F8Z(I) + FB
 C---
       ENDDO
 C-----------

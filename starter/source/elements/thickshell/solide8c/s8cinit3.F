@@ -65,9 +65,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE MESSAGE_MOD  
-      USE DETONATORS_MOD                
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -141,19 +141,19 @@ C-----------------------------------------------
      .   BID, FV, STI, WI
       my_real
      .   ANGLE(MVSIZ),DTX0(MVSIZ),WT,ZR,ZS,ZT,ZZ
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
       INTEGER NLYMAX, IPMAT,IPANG
       CHARACTER TITR*nchartitle
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
@@ -240,7 +240,7 @@ C
         RHOCP(I) =  PM(69,IXS(1,NFT+I))
         TEMP0(I) =  PM(79,IXS(1,NFT+I))
       ENDDO
-      
+
       IF (JCVT == 0) THEN
         CALL SCOOR3(X ,BID,IXS(1,NF1)   ,GEO  ,MAT  ,PID  ,NGL  ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
@@ -301,7 +301,7 @@ c
       CALL S8ZDERIC3(GBUF%VOL,HX, HY, HZ,
      .     AJC1,AJC2,AJC3,
      .     AJC4,AJC5,AJC6,
-     .     AJC7,AJC8,AJC9,SMAX, VOLU, NGL, 
+     .     AJC7,AJC8,AJC9,SMAX, VOLU, NGL,
      .     XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .     YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .     ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
@@ -310,7 +310,7 @@ c
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-      END IF        
+      END IF
 C
       IP=0
       CALL MATINI(PM       ,IXS    ,NIXS       ,X         ,
@@ -388,7 +388,7 @@ C
      .        AJC7,AJC8,AJC9,SMAX, DELTAX, NGL,LBUF%VOL0DP)
          IF (IDTTSH > 0) THEN
            DO I=1,NEL
-             IF (GBUF%IDT_TSH(I)>0) 
+             IF (GBUF%IDT_TSH(I)>0)
      .        DELTAX(I)=MAX(LLSH(I),DELTAX(I))
            ENDDO
          END IF
@@ -413,15 +413,15 @@ c
             IDEF =1
           ELSE
             NUVAR = 0
-            IF (MTN == 14 .OR. MTN == 12 .OR. MTN == 24) THEN       
-              IDEF =1                             
+            IF (MTN == 14 .OR. MTN == 12 .OR. MTN == 24) THEN
+              IDEF =1
             ELSEIF (ISTRAIN == 1 .AND.
      .             (MTN == 1  .OR. MTN == 2  .OR. MTN == 3  .OR.
      .              MTN == 4  .OR. MTN == 6  .OR. MTN == 10 .OR.
      .              MTN == 21 .OR. MTN == 22 .OR. MTN == 23 .OR.
-     .              MTN == 49)) THEN      
-              IDEF =1                             
-            ENDIF                                  
+     .              MTN == 49)) THEN
+              IDEF =1
+            ENDIF
           ENDIF
 c
           CALL SIGIN20B(
@@ -436,16 +436,16 @@ C
           IF (IGTYP == 22) THEN
             AIRE(:) = ZERO
             CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .           LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .           LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .           VOLU, DTX,IGEO)
 C Average density, stresses, ...
             CALL SVALUE0(
-     .           LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,       
+     .           LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,
      .           GBUF%RHO,GBUF%VOL,GBUF%OFF,GBUF%SIG,GBUF%EINT,DTX0,
      .           NEL     )
           ELSE
             CALL SVALUE0(
-     .           LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,       
+     .           LBUF%RHO,LBUF%VOL,LBUF%OFF,LBUF%SIG,LBUF%EINT,DTX,
      .           GBUF%RHO,GBUF%VOL,GBUF%OFF,GBUF%SIG,GBUF%EINT,DTX0,
      .           NEL     )
           ENDIF
@@ -487,7 +487,7 @@ C
 C Element time step
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .       VOLU, DTX,IGEO)
 c
        IF (IGTYP == 22) THEN
@@ -511,7 +511,7 @@ c
         ENDIF
         DTELEM(NFT+I)=DTX(I)
 C       STI = 0.25 * RHO * VOL / (DT*DT)
-        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I) 
+        STI = FOURTH * GBUF%FILL(I) * GBUF%RHO(I) * VOLU(I)
      .         / MAX(EM20,DTX(I)*DTX(I))
         STIFN(IXS(2,I+NFT))=STIFN(IXS(2,I+NFT))+STI
         STIFN(IXS(3,I+NFT))=STIFN(IXS(3,I+NFT))+STI

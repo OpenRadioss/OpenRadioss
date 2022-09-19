@@ -147,7 +147,7 @@ C-----------------------------------------------
      .        Y11,Y22,Y33,Y12,Y23,Y31,
      .        Y11M,Y22M,Y33M,Y12M,Y23M,Y31M,
      .        Y11P,Y22P,Y33P,Y12P,Y23P,Y31P
-      my_real 
+      my_real
      . DEP11(5),DEP22(5),DEP33(5),DEP12(5),DEP23(5),DEP31(5),
      . FAC11(5),FAC22(5),FAC33(5),FAC12(5),FAC23(5),FAC31(5),
      . MUOLD, DMUDT, ASRATE,  DMUDTF
@@ -353,7 +353,7 @@ C
 C-----------
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  INTEREPSP                     source/materials/mat/mat050/sigeps50.F
 Chd|-- called by -----------

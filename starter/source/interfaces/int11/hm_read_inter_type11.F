@@ -78,7 +78,7 @@ C-----------------------------------------------
      .   FRIGAP(*)
       CHARACTER TITR*nchartitle
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -110,7 +110,7 @@ C-----------------------------------------------
       my_real
      .   FRIC,GAP,STARTT,BUMULT,STOPT,STMIN,STMAX,
      .   PERCENT_SIZE,VISC,VISCF,TINT,KTHE, XTHE,
-     .    FRAD, DRAD,DTMIN,XTHE_UNIT,STFAC_UNIT 
+     .    FRAD, DRAD,DTMIN,XTHE_UNIT,STFAC_UNIT
       CHARACTER KEY1*ncharkey
       LOGICAL IS_AVAILABLE
 !
@@ -130,9 +130,9 @@ C=======================================================================
       IBC1M=0
       IBC2M=0
       IBC3M=0
-      IGSTI = 0        
-      INACTI = 0 
-      IDSENS = 0  
+      IGSTI = 0
+      INACTI = 0
+      IDSENS = 0
       IDEL11= 0
       INTTH = 0
       IFORM_TH= 0
@@ -172,7 +172,7 @@ C-- type11 generated from type19 - internal id of main type7 must be identified
             IPARI(71) = I
             EXIT
           ENDIF
-        ENDDO           
+        ENDDO
       ENDIF
 C
       IS_AVAILABLE = .FALSE.
@@ -221,7 +221,7 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('FRIC_DC',VISCF,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('SORT_FACT',BUMULT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
@@ -287,12 +287,12 @@ C
           IF (IEDGE==1) THEN
 C-- /LINE/EDGE are used instead of /LINE/SURFACE
             ISU1 = ISU1 + 1
-            ISU2 = ISU2 + 1 
+            ISU2 = ISU2 + 1
           ENDIF
 C
           IF (IGAP == 4) THEN
 C-- IGAP->4 constant gap = gapmin for edge/edge in TYPE19 contact
-            IGAP = 0          
+            IGAP = 0
           ENDIF
 C
         ENDIF
@@ -495,7 +495,7 @@ C-- For type19 if line1 or lin2 is empty type11 is deactivated
      .                  ANMODE=ANINFO,
      .                  I1=IPARI(15),
      .                  C1=TITR)
-        ENDIF        
+        ENDIF
 C------------------------------------------------------------
 C     RENUMBERING OF FUNCTIONS AND SENSOR - USER TO INTERNAL ID
 C------------------------------------------------------------
@@ -547,25 +547,25 @@ C
          IF(IDSENS/=0) THEN
            WRITE(IOUT,1511)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STMIN,STMAX,STFAC,
-     .                 FRIC,IGAP,GAP,IDSENS,          
+     .                 FRIC,IGAP,GAP,IDSENS,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP,FLAGREMNOD
          ELSE
            WRITE(IOUT,1592)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STMIN,STMAX,STFAC,
-     .                 FRIC,IGAP,GAP,STARTT,STOPT,        
+     .                 FRIC,IGAP,GAP,STARTT,STOPT,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP,FLAGREMNOD
          ENDIF
         ELSE
          IF(IDSENS/=0) THEN
            WRITE(IOUT,1591)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
-     .                 -STFAC,FRIC,IGAP,GAP,IDSENS,       
+     .                 -STFAC,FRIC,IGAP,GAP,IDSENS,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP,FLAGREMNOD
          ELSE
            WRITE(IOUT,1593)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
-     .                 -STFAC,FRIC,IGAP,GAP,STARTT,STOPT,  
+     .                 -STFAC,FRIC,IGAP,GAP,STARTT,STOPT,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP,FLAGREMNOD
          ENDIF
@@ -585,7 +585,7 @@ C
           IF(IDELKEEP == 1)THEN
             WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-          ENDIF         
+          ENDIF
         ENDIF
         IF(INTTH > 0 )THEN
          IF(IKTHE==0)THEN
@@ -609,7 +609,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

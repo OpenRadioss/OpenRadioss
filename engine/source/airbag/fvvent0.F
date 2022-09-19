@@ -62,13 +62,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NVENT, NELT, NEL, ITTF, ELEM(3,*), IBAGHOL(NIBHOL,*), ITAGEL(*),   
+      INTEGER NVENT, NELT, NEL, ITTF, ELEM(3,*), IBAGHOL(NIBHOL,*), ITAGEL(*),
      .        ELTG(*), IPARG(NPARG,*), IPM(NPROPMI,*),
      .        MATTG(*), IGROUPC(*),  IGROUPTG(*)
 
 C     REAL
       my_real
-     .   AOUTOT, 
+     .   AOUTOT,
      .   ELSOUT(*), ELAREA(*), ELSINI(*), RVOLU(*), SVENT(NVENT),
      .   RBAGHOL(NRBHOL,*), PORO(*), P(*), PM(NPROPM,*), POROSITY(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -76,7 +76,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEL, K, N1, N2, N3, 
+      INTEGER IEL, K, N1, N2, N3,
      .   IDEF,    IVENT,   IVENTYP,
      .   IPORT,   IPORP,   IPORA,  IPORT1, IPORP1, IPORA1,
      .   NG,      IM,      IFVENT,  NFUNC,    MTN,
@@ -85,8 +85,8 @@ C-----------------------------------------------
 C
 C     REAL
       my_real
-     .   PEXT,  AVENT, BVENT, AOUT,   AOUT1, 
-     .   FPORT, FPORP, FPORA, FPORT1, FPORP1, FPORA1, DERI, 
+     .   PEXT,  AVENT, BVENT, AOUT,   AOUT1,
+     .   FPORT, FPORP, FPORA, FPORT1, FPORP1, FPORA1, DERI,
      .   SCALT, SCALP, SCALS, AREA,   AINI,   EXTEN,
      .   TTF,   FLC,   FAC,   FAC1,   SVTFAC, PMEAN,  TT1,
      .   TVENT
@@ -95,8 +95,8 @@ C     REAL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
       PEXT =RVOLU(3)
-      SCALT=RVOLU(26)    
-      SCALP=RVOLU(27)    
+      SCALT=RVOLU(26)
+      SCALP=RVOLU(27)
       SCALS=RVOLU(28)
       TTF  =RVOLU(60)
 C
@@ -155,9 +155,9 @@ C
             IPORP1=IBAGHOL(7,IVENT)
             IPORA1=IBAGHOL(8,IVENT)
 C
-            FPORT =RBAGHOL(7,IVENT) 
-            FPORP =RBAGHOL(8,IVENT) 
-            FPORA =RBAGHOL(9,IVENT) 
+            FPORT =RBAGHOL(7,IVENT)
+            FPORP =RBAGHOL(8,IVENT)
+            FPORA =RBAGHOL(9,IVENT)
             FPORT1=RBAGHOL(10,IVENT)
             FPORP1=RBAGHOL(11,IVENT)
             FPORA1=RBAGHOL(12,IVENT)
@@ -166,7 +166,7 @@ C
             AOUT1=BVENT*AREA*PORO(IEL)
             TT1=TT-TTF
             IF (ITTF==13) TT1=TT-TTF-TVENT
-            IF (IPORA/=0) 
+            IF (IPORA/=0)
      .         AOUT=AOUT*FPORA
      .                  *GET_U_FUNC(IPORA,EXTEN,DERI)
             IF (IPORT/=0)
@@ -176,7 +176,7 @@ C
      .         AOUT=AOUT*FPORP
      .                  *GET_U_FUNC(IPORP,(PMEAN-PEXT)*SCALP,DERI)
 C
-            IF (IPORA1/=0) 
+            IF (IPORA1/=0)
      .         AOUT1=AOUT1*FPORA1
      .                    *GET_U_FUNC(IPORA1,EXTEN,DERI)
             IF (IPORT1/=0)

@@ -85,8 +85,8 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
       IF (FLAG == 0) ICOUNT=0
       IGS = 0
@@ -99,22 +99,22 @@ C     boucle sur les groupes
      .                          KEYWORD3    = KEY2)
             IGS=IGS+1
             IF (IGRELEM(IGS)%GRPGRP == 2) THEN
-            BUFTMP = 0 
-            NEL=0                                                                    
+            BUFTMP = 0
+            NEL=0
             NN = 0
             NONTRI = IGRELEM(IGS)%SORTED
 C-----------                                             
             IF (FLAG == 0 .AND. IGRELEM(IGS)%NENTITY == -1) THEN
-            
-              SKIPFLAG = 0 
-              IF (SKIPFLAG == 0) THEN  
-              
-               CALL GROUPS_GET_ELEM_LIST(LIST_ELEM, NENTITY, LSUBMODEL)                     
-               DO KK=1,NENTITY                                                                  
-                   JJ=LIST_ELEM(KK)    
-                   IF(JJ /= 0)THEN                                                              
-                     IGRS=0                                                                                                     
-                     DO K=1,NGRELN                                                                                              
+
+              SKIPFLAG = 0
+              IF (SKIPFLAG == 0) THEN
+
+               CALL GROUPS_GET_ELEM_LIST(LIST_ELEM, NENTITY, LSUBMODEL)
+               DO KK=1,NENTITY
+                   JJ=LIST_ELEM(KK)
+                   IF(JJ /= 0)THEN
+                     IGRS=0
+                     DO K=1,NGRELN
                        IF (IABS(JJ) == IGRELEM(K)%ID) THEN
                          IGRS=K
                          EXIT
@@ -153,26 +153,26 @@ C-----------
                          NEL = NEL + IGRELEM(IGRS)%NENTITY
                        ENDIF
                      ENDIF
-                   ENDIF                                                                        
-               ENDDO! NEXT KK      
-               IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)                                                             
-              ENDIF      
-              
+                   ENDIF
+               ENDDO! NEXT KK
+               IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)
+              ENDIF
+
 C-----
-              IF (SKIPFLAG == 0) THEN               
-                IF (NONTRI == 0 ) THEN              
+              IF (SKIPFLAG == 0) THEN
+                IF (NONTRI == 0 ) THEN
 C                  sorted group                     
-                  DO J=1,NUMEN                      
-                    IF (BUFTMP(J) > 0) NEL=NEL+1    
-                  ENDDO                             
-                ENDIF                               
+                  DO J=1,NUMEN
+                    IF (BUFTMP(J) > 0) NEL=NEL+1
+                  ENDDO
+                ENDIF
 C
                 IGRELEM(IGS)%NENTITY = NEL
                 MY_ALLOCATE(IGRELEM(IGS)%ENTITY,NEL)
                 IGRELEM(IGS)%ENTITY = 0
-              ENDIF                                 
+              ENDIF
 C-----------                                             
-            ELSEIF (FLAG == 1 .AND. IGRELEM(IGS)%LEVEL == 0 .AND. 
+            ELSEIF (FLAG == 1 .AND. IGRELEM(IGS)%LEVEL == 0 .AND.
      .                              IGRELEM(IGS)%NENTITY > -1) THEN
 
 
@@ -181,59 +181,59 @@ C-----------
               DO KK=1,NENTITY
                   JJ=LIST_ELEM(KK)
                   IF(JJ /= 0)THEN
-                  IGRS=0                                                          
-                    DO K=1,NGRELN                                                   
+                  IGRS=0
+                    DO K=1,NGRELN
                       IF (IABS(JJ) == IGRELEM(k)%ID) THEN
-                        IGRS=K                                                      
-                        EXIT                                                        
-                      ENDIF                                                         
-                    ENDDO                                                           
+                        IGRS=K
+                        EXIT
+                      ENDIF
+                    ENDDO
                     IF (IGRS == 0) THEN
                     ELSEIF (IGRELEM(IGRS)%NENTITY == -1) THEN
-                      CYCLE                                            
-                    ELSE                                                 
-                      IF (NONTRI == 0) THEN                                                       
+                      CYCLE
+                    ELSE
+                      IF (NONTRI == 0) THEN
 C                       tag les noeuds                                                            
                         DO L=1,IGRELEM(IGRS)%NENTITY
-                          IF (JJ < 0) THEN                                                    
+                          IF (JJ < 0) THEN
 C                           retire les noeuds du group si JJ < 0                                 
                             BUFTMP(IGRELEM(IGRS)%ENTITY(L))=-1
                           ELSEIF (BUFTMP(IGRELEM(IGRS)%ENTITY(L)) == 0) THEN
 C                           ajoute les noeuds au group si JJ > 0 et noeud non retire            
                             BUFTMP(IGRELEM(IGRS)%ENTITY(L))=1
-                          ENDIF                                                                   
-                        ENDDO                                                                     
-                      ELSE                                                                        
+                          ENDIF
+                        ENDDO
+                      ELSE
                         DO L=1,IGRELEM(IGRS)%NENTITY
                            NN = NN + 1
                            IGRELEM(IGS)%ENTITY(NN) = IGRELEM(IGRS)%ENTITY(L)
-                        ENDDO                                                                     
-                      ENDIF                                                                       
-                    ENDIF 
+                        ENDDO
+                      ENDIF
+                    ENDIF
                   ENDIF
               ENDDO! NEXT KK
               IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)
-                  
-                                                                          
+
+
 
 C-----                                                                          
-              IF (NONTRI == 0) THEN                    
-c               sorted group                                                                
-                DO J=1,NUMEN                                                       
-                 IF (BUFTMP(J) > 0) THEN                                            
+              IF (NONTRI == 0) THEN
+c               sorted group
+                DO J=1,NUMEN
+                 IF (BUFTMP(J) > 0) THEN
                    NN = NN + 1
                    IGRELEM(IGS)%ENTITY(NN)=J
-                 ENDIF                                                             
-                ENDDO                                                              
-              ENDIF                                                             
+                 ENDIF
+                ENDDO
+              ENDIF
                IGRELEM(IGS)%LEVEL = 1
 C-----------  end_ flag = 1                                           
-            ENDIF 
-          ENDIF                                                                   
-                                                                  
-      ENDDO                                                                        
+            ENDIF
+          ENDIF
 
-                                  
+      ENDDO
+
+
 C-----------
       RETURN
  900  CALL ANCMSG(MSGID=176,

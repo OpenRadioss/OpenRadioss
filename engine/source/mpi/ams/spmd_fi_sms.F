@@ -83,7 +83,7 @@ C-----------------------------------------------
         SIZ = SIZE*SIZ
 
         IF(SIZ/=0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -136,7 +136,7 @@ C
       DO I=1,NSPMD
 C--------------------------------------------------------------------
        IF(IAD_SEND(I+1)-IAD_SEND(I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(

@@ -53,7 +53,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -864,7 +864,7 @@ C
       DX = XYZM(4,I_ADD) - XYZM(1,I_ADD)
       DY = XYZM(5,I_ADD) - XYZM(2,I_ADD)
       DZ = XYZM(6,I_ADD) - XYZM(3,I_ADD)
-      DSUP= MAX(DX,DY,DZ) 
+      DSUP= MAX(DX,DY,DZ)
       GOTO 200
 C=======================================================================
  100  CONTINUE
@@ -945,10 +945,10 @@ c          Txmin
 c
 c       si la boite est reduite du cote de Xmin on pourrait utiliser:
 c           Txmin = Xmin  avec Xmin = min(Xmain)-Tzinf > Xmin_old
-c       
+c
 c       mais en utilisant:
-c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf) 
-c       on ne penalise pas I11INSIND 
+c           Txmin = Xmin-Tzinf (= min(Xmain) - 2*Tzinf)
+c       on ne penalise pas I11INSIND
 c       (il n'y a pas de main dans la zone surestimee)
 c       et le calcul de Xmin, Txmin ... est plus simple
 
@@ -967,7 +967,7 @@ c       et le calcul de Xmin, Txmin ... est plus simple
       TYMAX = YMAX + TZINF
       TZMAX = ZMAX + TZINF
 
-      DMX = XMAX-XMIN 
+      DMX = XMAX-XMIN
       DMY = YMAX-YMIN
       DMZ = ZMAX-ZMIN
 
@@ -1033,15 +1033,15 @@ C
 C    2- DIVISER LES SECONDS EN TWO ZONES 
 C
 
-c            +-----------+-----------+--Xjmax  
-c            |           |           |         
-c            |           |           |         
-c            |           |           |         
-c            |           |           |         
-c            +-----------+-----------+--Xjmin  
-c            |           |           |        
-c          Ximin       Seuil       Ximax  
-c            
+c            +-----------+-----------+--Xjmax
+c            |           |           |
+c            |           |           |
+c            |           |           |
+c            |           |           |
+c            +-----------+-----------+--Xjmin
+c            |           |           |
+c          Ximin       Seuil       Ximax
+c
 
 
 
@@ -1105,12 +1105,12 @@ c        .    +------,----+----.------+    ,--Xjmin   ^
 c        .           ,         .           ,          | Tzinf
 c        .           ,         .           ,          |
 c        ............,.,.,.,.,..,,,,,,,,,,,,--Tjmin   v
-c        |    |      |    |    |      |    |    
+c        |    |      |    |    |      |    |
 c        |  Ximin    |  Seuil  |    Ximax  |
 c      Timin       Tsmin     Tsmax       Timax
 c
 c        si la boite a ete reduite(Cf 1)
-c        il est possible que Timin=Ximin ... 
+c        il est possible que Timin=Ximin ...
 
 
       NB_ECN= 0
@@ -1195,7 +1195,7 @@ C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
 c     soit XMAX soit le max de la boite
-      XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+      XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
       XYZM(4,I_ADD+1) = XYZM(4,I_ADD)
@@ -1294,10 +1294,10 @@ C
               ELSE
                 NI = NN-NLINSA
                 IF(IR4R8 == 2) THEN
-                  NN1 = NINT(XREM(9,NI))              
+                  NN1 = NINT(XREM(9,NI))
                   NN2 = NINT(XREM(17,NI))
                 ELSE
-                  NN1 = IREM(1,NI)             
+                  NN1 = IREM(1,NI)
                   NN2 = IREM(2,NI)
                 END IF
                 N1 = ITAB(NLG(N1))
@@ -1326,7 +1326,7 @@ C
                 PROV_M(J) = PROV_M(J+NVSIZ)
               ENDDO
            ENDIF
-          ENDDO 
+          ENDDO
         ELSE
 C=======================================================================
           GOTO 100

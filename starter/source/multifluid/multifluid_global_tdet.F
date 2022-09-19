@@ -47,7 +47,7 @@ C Precondition : MULTI_FVM%IS_USED=.TRUE.
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
@@ -72,49 +72,49 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)                 :: IPARG(NPARG,NGROUP),IPM(NPROPMI,NUMMAT)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP),INTENT(INOUT) :: ELBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM     
+      TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL IS_JWL
       INTEGER :: NEL,IG,OFFSET,NG,SUBMATLAW,ILAY,NLAY,II
       my_real :: VFRAC
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-     
+
       IF(MULTI_FVM%IS_USED)THEN
 
-        DO NG=1,NGROUP    
+        DO NG=1,NGROUP
               MTN     = IPARG(1,NG)
               NEL     = IPARG(2,NG)
               NFT     = IPARG(3,NG)
               ITY     = IPARG(5,NG)
               GBUF => ELBUF_TAB(NG)%GBUF
               !---skip if Burn Fraction is not allocated
-              IF(GBUF%G_TB > 0)THEN                
+              IF(GBUF%G_TB > 0)THEN
                 !---skip if material law is not #151
                 IF (MTN == 151) THEN
                   NLAY = ELBUF_TAB(NG)%NLAY
-                  DO IG=1,NEL,NVSIZ                                                                               
-                    OFFSET   = IG - 1                                                                                
-                    LFT      = 1                                             
-                    LLT      = MIN(NVSIZ,NEL-OFFSET)                                                                 
-                    NFT      = IPARG(3,NG) + OFFSET  
+                  DO IG=1,NEL,NVSIZ
+                    OFFSET   = IG - 1
+                    LFT      = 1
+                    LLT      = MIN(NVSIZ,NEL-OFFSET)
+                    NFT      = IPARG(3,NG) + OFFSET
                     IS_JWL = .FALSE.
                     !Number of layers ( = number of material in law 151)
                     IF (NLAY > 1) THEN
                        GBUF%TB(LFT:LLT) = -EP37
                        DO ILAY = 1, NLAY
                           !SUBMATLAW = IPM(2, IPM(20 + ILAY, MTN))
-                          SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW  
+                          SUBMATLAW = ELBUF_TAB(NG)%BUFLY(ILAY)%ILAW
                           IF (SUBMATLAW == 5) THEN
                              LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
                              DO II = LFT, LLT
-                                VFRAC = LBUF%VOL(II)/GBUF%VOL(II) 
+                                VFRAC = LBUF%VOL(II)/GBUF%VOL(II)
                                 IF(VFRAC > ZERO)THEN
                                   GBUF%TB(II) = MAX(GBUF%TB(II), LBUF%TB(II))  !must be done only in case of initial volume fraction
                                 ENDIF
@@ -125,20 +125,20 @@ C-----------------------------------------------
                        IF(.NOT.IS_JWL)THEN
                          DO II = LFT, LLT
                            GBUF%TB(II) = ZERO
-                         ENDDO   
+                         ENDDO
                        ELSE
                          DO II = LFT, LLT
                            IF(GBUF%TB(II) == -EP37)THEN
                              GBUF%TB(II) = ZERO
                            ENDIF
-                         ENDDO                                        
+                         ENDDO
                        ENDIF
                      ENDIF  ! IF(NLAY > 1)
-                  ENDDO ! next IG                          
-                ENDIF ! IF(MTN == 151)                                      
+                  ENDDO ! next IG
+                ENDIF ! IF(MTN == 151)
               ENDIF ! IF(GBUF%G_TB > 0)
-         ENDDO ! next NG                                 
+         ENDDO ! next NG
 
-      ENDIF ! IF(MULTI_FVM%IS_USED)THEN  
-          
-      END SUBROUTINE  
+      ENDIF ! IF(MULTI_FVM%IS_USED)THEN
+
+      END SUBROUTINE

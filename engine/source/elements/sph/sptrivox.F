@@ -98,7 +98,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),BMINMA(12),
-     .   MARGE ,SPBUF(NSPBUF,*), DVOIS(*), GAUGE(LLGAUGE,*) 
+     .   MARGE ,SPBUF(NSPBUF,*), DVOIS(*), GAUGE(LLGAUGE,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, 
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ,
      .   D1X,D1Y,D1Z,D2,A2,ALPHA_MARGE,DISTMAX
       my_real, DIMENSION(:), ALLOCATABLE :: TAB_DK
 c provisoire
@@ -143,7 +143,7 @@ C
       XMIN = BMINMA(4)
       YMIN = BMINMA(5)
       ZMIN = BMINMA(6)
-      XMAX = BMINMA(1)  
+      XMAX = BMINMA(1)
       YMAX = BMINMA(2)
       ZMAX = BMINMA(3)
 
@@ -178,7 +178,7 @@ C elements du processeur
         IF(X(2,NN) > YMAX)  CYCLE
         IF(X(3,NN) < ZMIN)  CYCLE
         IF(X(3,NN) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,NN)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,NN)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,NN)-ZMINB)/(ZMAXB-ZMINB))
@@ -310,7 +310,7 @@ cc             nnpelem = nnpelem + 1
                  IF(SPBUF(1,JS) > SPBUF(1,J) .OR.
      .             (SPBUF(1,JS) == SPBUF(1,J) .AND. KXSP(8,JS)>=KXSP(8,J)))GOTO 200
 
-                 NS=KXSP(3,JS)	       
+                 NS=KXSP(3,JS)	
                  XS = X(1,NS)
                  YS = X(2,NS)
                  ZS = X(3,NS)
@@ -367,7 +367,7 @@ cc             nnrpelem = nnrpelem + 1
 cc             nbpelg = nbpelg + nbpelem
 cc             nnpelg = nnpelg + nnpelem
 cc             nnrpelg = nnrpelg + nnrpelem
-cc             nnr0pelg = nnr0pelg + nnr0pelem        
+cc             nnr0pelg = nnr0pelg + nnr0pelem
          CALL SPPRO3(J    ,KXSP  ,IXSP ,NOD2SP,JVOIS,
      .               JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE,
      .               KXSPR,IXSPR,TAB_DK)
@@ -434,7 +434,7 @@ cc             nnpelem = nnpelem + 1
                  IF(XSPHR(2,N) < SPBUF(1,JS).OR.
      .              (XSPHR(2,N)==SPBUF(1,JS).AND.NINT(XSPHR(6,N))<KXSP(8,JS)) )GOTO 250
 
-                 NS=KXSP(3,JS)        
+                 NS=KXSP(3,JS)
                  XS = X(1,NS)
                  YS = X(2,NS)
                  ZS = X(3,NS)
@@ -483,7 +483,7 @@ cc               nnrpelem = nnrpelem + 1
 cc             nbpelg = nbpelg + nbpelem
 cc             nnpelg = nnpelg + nnpelem
 cc             nnrpelg = nnrpelg + nnrpelem
-cc             nnr0pelg = nnr0pelg + nnr0pelem        
+cc             nnr0pelg = nnr0pelg + nnr0pelem
          CALL SPPRO3(J+NUMSPH,KXSP  ,IXSP ,NOD2SP,JVOIS,
      .               JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE,
      .               KXSPR,IXSPR,TAB_DK)
@@ -542,7 +542,7 @@ cc             nnpelem = nnpelem + 1
 
                JS=NLIST(JJ)
                IF(JJ<=NSN)THEN
-                 NS=KXSP(3,JS)	       
+                 NS=KXSP(3,JS)	
                  XS = X(1,NS)
                  YS = X(2,NS)
                  ZS = X(3,NS)
@@ -591,7 +591,7 @@ cc             nnrpelem = nnrpelem + 1
 cc             nbpelg = nbpelg + nbpelem
 cc             nnpelg = nnpelg + nnpelem
 cc             nnrpelg = nnrpelg + nnrpelem
-cc             nnr0pelg = nnr0pelg + nnr0pelem        
+cc             nnr0pelg = nnr0pelg + nnr0pelem
          IL=-J
          CALL SPPRO3(IL   ,KXSP  ,IXSP ,NOD2SP,JVOIS,
      .               JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE,

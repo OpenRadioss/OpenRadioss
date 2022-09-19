@@ -27,16 +27,16 @@ Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S4COOR3(X,IXS,V,W,
-     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
+     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4,
      .   Z1, Z2, Z3, Z4, VX1, VX2, VX3, VX4,
-     .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4, 
-     .   VDX1, VDX2, VDX3, VDX4, 
-     .   VDY1, VDY2, VDY3, VDY4, 
-     .   VDZ1, VDZ2, VDZ3, VDZ4, 
+     .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4,
+     .   VDX1, VDX2, VDX3, VDX4,
+     .   VDY1, VDY2, VDY3, VDY4,
+     .   VDZ1, VDZ2, VDZ3, VDZ4,
      .   VDX,VDY,VDZ,VD2,VIS,OFFG,OFF,SAV,RHO,RHOO,
      .   NC1,NC2,NC3,NC4,NGL,MXT,NGEO,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4, XDP,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,12 +59,12 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) ::  NEL
       my_real
      .   X(3,*),V(3,*),W(3,*), VIS(MVSIZ),
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
-     .  VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), 
-     .  VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
-     .  VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
+     .  VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
+     .  VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
+     .  VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
      .  VDX1(MVSIZ),VDX2(MVSIZ),VDX3(MVSIZ),VDX4(MVSIZ),
      .  VDY1(MVSIZ),VDY2(MVSIZ),VDY3(MVSIZ),VDY4(MVSIZ),
      .  VDZ1(MVSIZ),VDZ2(MVSIZ),VDZ3(MVSIZ),VDZ4(MVSIZ),
@@ -76,13 +76,13 @@ C-----------------------------------------------
       INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        MXT(MVSIZ), NGL(MVSIZ),NGEO(MVSIZ)
       INTEGER IXS(NIXS,*)
-      
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   XDP(3,*), SAV(NEL,9),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ)
-           
+
       my_real
      .   OFF_L
 C-----------------------------------------------
@@ -212,45 +212,45 @@ C             OFF_L  = MIN(OFF_L,OFFG(I))
 C
       ELSE
 C
-       IF(IRESP==1)THEN 
+       IF(IRESP==1)THEN
 #include "vectorize.inc"
          DO I=1,NEL
-           XD1(I)=XDP(1,NC1(I))  
-           YD1(I)=XDP(2,NC1(I))  
-           ZD1(I)=XDP(3,NC1(I))  
-           XD2(I)=XDP(1,NC2(I))  
-           YD2(I)=XDP(2,NC2(I))  
-           ZD2(I)=XDP(3,NC2(I))  
-           XD3(I)=XDP(1,NC3(I))  
-           YD3(I)=XDP(2,NC3(I))  
-           ZD3(I)=XDP(3,NC3(I))  
-           XD4(I)=XDP(1,NC4(I))  
-           YD4(I)=XDP(2,NC4(I))  
-           ZD4(I)=XDP(3,NC4(I))  
+           XD1(I)=XDP(1,NC1(I))
+           YD1(I)=XDP(2,NC1(I))
+           ZD1(I)=XDP(3,NC1(I))
+           XD2(I)=XDP(1,NC2(I))
+           YD2(I)=XDP(2,NC2(I))
+           ZD2(I)=XDP(3,NC2(I))
+           XD3(I)=XDP(1,NC3(I))
+           YD3(I)=XDP(2,NC3(I))
+           ZD3(I)=XDP(3,NC3(I))
+           XD4(I)=XDP(1,NC4(I))
+           YD4(I)=XDP(2,NC4(I))
+           ZD4(I)=XDP(3,NC4(I))
            OFF(I) = ABS(OFFG(I))
 C          OFF_L  = MIN(OFF_L,OFFG(I))                 
          ENDDO
          OFF_L = MIN(OFF_L,MINVAL(OFFG(1:NEL)))
-       ELSE  
+       ELSE
 #include "vectorize.inc"
          DO I=1,NEL
-           XD1(I)=X1(I) 
-           YD1(I)=Y1(I) 
-           ZD1(I)=Z1(I) 
-           XD2(I)=X2(I) 
-           YD2(I)=Y2(I) 
-           ZD2(I)=Z2(I) 
-           XD3(I)=X3(I) 
-           YD3(I)=Y3(I) 
-           ZD3(I)=Z3(I) 
-           XD4(I)=X4(I) 
-           YD4(I)=Y4(I) 
-           ZD4(I)=Z4(I)   
+           XD1(I)=X1(I)
+           YD1(I)=Y1(I)
+           ZD1(I)=Z1(I)
+           XD2(I)=X2(I)
+           YD2(I)=Y2(I)
+           ZD2(I)=Z2(I)
+           XD3(I)=X3(I)
+           YD3(I)=Y3(I)
+           ZD3(I)=Z3(I)
+           XD4(I)=X4(I)
+           YD4(I)=Y4(I)
+           ZD4(I)=Z4(I)
            OFF(I) = ABS(OFFG(I))
 C          OFF_L  = MIN(OFF_L,OFFG(I))     
-         ENDDO      
+         ENDDO
          OFF_L = MIN(OFF_L,MINVAL(OFFG(1:NEL)))
-       ENDIF     
+       ENDIF
 C
       ENDIF
 C
@@ -341,7 +341,7 @@ Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S4SAV3(OFFG,SAV,
-     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -361,11 +361,11 @@ C-----------------------------------------------
       INTEGER NEL
       my_real
      .   OFFG(NEL)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),SAV(NEL,9)
-           
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -395,7 +395,7 @@ Chd|-- calls ---------------
 Chd|        SMORTHO3                      source/elements/solid/solide4/s4coor3.F
 Chd|====================================================================
       SUBROUTINE S4RCOOR12(OFF,NC1,NC2,NC3   ,NC4   ,X     ,XDP   ,D     ,
-     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ) 
+     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -421,23 +421,23 @@ C     REAL
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XDP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      
+
       DOUBLE PRECISION
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
-    
+
 C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
       my_real
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43
 C=======================================================================
@@ -447,44 +447,44 @@ C----2) [H] = [B](t=0)*{u}, [B](t=0)<-JAC_I, {u}={d};
 C----3) in case of JCVT=0, [H] and [D] are transformed to local system and
 C-      return to global system for stress
 C ---------local system compute----------     
-      IF(IRESP==1)THEN 
+      IF(IRESP==1)THEN
         DO I=LFT,LLT
-         IF (OFF(I) <= ONE ) CYCLE 
-          X1(I)=XDP(1,NC1(I))  
-          Y1(I)=XDP(2,NC1(I))  
-          Z1(I)=XDP(3,NC1(I))  
-          X2(I)=XDP(1,NC2(I))  
-          Y2(I)=XDP(2,NC2(I))  
-          Z2(I)=XDP(3,NC2(I))  
-          X3(I)=XDP(1,NC3(I))  
-          Y3(I)=XDP(2,NC3(I))  
-          Z3(I)=XDP(3,NC3(I))  
-          X4(I)=XDP(1,NC4(I))  
-          Y4(I)=XDP(2,NC4(I))  
-          Z4(I)=XDP(3,NC4(I))  
+         IF (OFF(I) <= ONE ) CYCLE
+          X1(I)=XDP(1,NC1(I))
+          Y1(I)=XDP(2,NC1(I))
+          Z1(I)=XDP(3,NC1(I))
+          X2(I)=XDP(1,NC2(I))
+          Y2(I)=XDP(2,NC2(I))
+          Z2(I)=XDP(3,NC2(I))
+          X3(I)=XDP(1,NC3(I))
+          Y3(I)=XDP(2,NC3(I))
+          Z3(I)=XDP(3,NC3(I))
+          X4(I)=XDP(1,NC4(I))
+          Y4(I)=XDP(2,NC4(I))
+          Z4(I)=XDP(3,NC4(I))
         ENDDO
-      ELSE  
+      ELSE
         DO I=LFT,LLT
-         IF (OFF(I) <= ONE ) CYCLE 
-          X1(I)=X(1,NC1(I))  
-          Y1(I)=X(2,NC1(I))  
-          Z1(I)=X(3,NC1(I))  
-          X2(I)=X(1,NC2(I))  
-          Y2(I)=X(2,NC2(I))  
-          Z2(I)=X(3,NC2(I))  
-          X3(I)=X(1,NC3(I))  
-          Y3(I)=X(2,NC3(I))  
-          Z3(I)=X(3,NC3(I))  
-          X4(I)=X(1,NC4(I))  
-          Y4(I)=X(2,NC4(I))  
-          Z4(I)=X(3,NC4(I))    
-        ENDDO      
-      ENDIF     
+         IF (OFF(I) <= ONE ) CYCLE
+          X1(I)=X(1,NC1(I))
+          Y1(I)=X(2,NC1(I))
+          Z1(I)=X(3,NC1(I))
+          X2(I)=X(1,NC2(I))
+          Y2(I)=X(2,NC2(I))
+          Z2(I)=X(3,NC2(I))
+          X3(I)=X(1,NC3(I))
+          Y3(I)=X(2,NC3(I))
+          Z3(I)=X(3,NC3(I))
+          X4(I)=X(1,NC4(I))
+          Y4(I)=X(2,NC4(I))
+          Z4(I)=X(3,NC4(I))
+        ENDDO
+      ENDIF
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
       DO I=LFT,LLT
-       IF (OFF(I) <= ONE ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE
        X43 = X4(I) - X3(I)
        Y43 = Y4(I) - Y3(I)
        Z43 = Z4(I) - Z3(I)
@@ -505,11 +505,11 @@ C
        TX(I) =  -X43
        TY(I) =  -Y43
        TZ(I) =  -Z43
-      END DO 
+      END DO
       CALL SMORTHO3(OFF,
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33)
-     
+
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
@@ -571,7 +571,7 @@ C=======================================================================
 c     norme r s t
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=LFT,LLT
-       IF (OFF(I) <= ONE ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE
        aa = sqrt(rx(I)*rx(I) + ry(I)*ry(I) + rz(I)*rz(I))
        if ( aa/=ZERO) aa = ONE / aa
        Ux(I) = rx(I) * aa
@@ -596,7 +596,7 @@ c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       N=N+1
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=LFT,LLT
-       IF (OFF(I) <= ONE ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE
        e1x(I) = Vy(I) * Wz(I) - Vz(I) * Wy(I) + Ux(I)
        e1y(I) = Vz(I) * Wx(I) - Vx(I) * Wz(I) + Uy(I)
        e1z(I) = Vx(I) * Wy(I) - Vy(I) * Wx(I) + Uz(I)
@@ -632,7 +632,7 @@ c
 c     norme et orthogonalisation
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=LFT,LLT
-      IF (OFF(I) <= ONE ) CYCLE 
+      IF (OFF(I) <= ONE ) CYCLE
       e1x(I) = Ux(I)
       e1y(I) = Uy(I)
       e1z(I) = Uz(I)
@@ -661,8 +661,8 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S4RROTA3(OFF,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
-     .   X1, X2, X3, X4, 
-     .   Y1, Y2, Y3, Y4, 
+     .   X1, X2, X3, X4,
+     .   Y1, Y2, Y3, Y4,
      .   Z1, Z2, Z3, Z4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -680,8 +680,8 @@ C     REAL
      .   R11(*), R12(*), R13(*),
      .   R21(*), R22(*), R23(*),
      .   R31(*), R32(*), R33(*),OFF(*),
-     .   X1(*), X2(*), X3(*), X4(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*),   
+     .   X1(*), X2(*), X3(*), X4(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -734,7 +734,7 @@ Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S4SAV12(OFFG,OFFG0,SAV,
-     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -755,11 +755,11 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*),OFFG0(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),SAV(NEL,9)
-           
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

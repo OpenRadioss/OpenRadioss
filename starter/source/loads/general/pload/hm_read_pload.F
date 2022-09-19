@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NPREL
       INTEGER IPRES(NIBCLD,*), ITAB(*), ITABM1(*)
       my_real
@@ -116,7 +116,7 @@ C     3: /=0 <=> Pinching pressure
 C=======================================================================
       IS_AVAILABLE = .FALSE.
 
-      NPR0=NPRELD                                                
+      NPR0=NPRELD
       NPRELD=0
       K=0
       NPLOADPINCH=0
@@ -130,8 +130,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C BROWSING MODEL SurPRESe  1->NP0
 C--------------------------------------------------
-      DO I=1,NPR0     
-        TITR = ''                                           
+      DO I=1,NPR0
+        TITR = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = ID,
      .                       UNIT_ID = UID,
@@ -155,91 +155,91 @@ C--------------------------------------------------
         CALL HM_GET_FLOATV('magnitude',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV_DIM('magnitude',FAC_FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
-        IFLAGUNIT = 0 					       
-        DO J=1,NUNITS                           
-          IF (UNITAB%UNIT_ID(J) == UID) THEN                     
-            IFLAGUNIT = 1                       
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                  
+        IFLAGUNIT = 0 					
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='PRESSURE LOAD',
      .                 C2='PRESSURE LOAD',
-     .                 C3=TITR)                              
-        ENDIF                                    
+     .                 C3=TITR)
+        ENDIF
 
         IF (FCX == ZERO) FCX = FAC_FCX
         IF (FCY == ZERO) FCY = FAC_FCY
-        IS=0                                                     
+        IS=0
         DO J=1,NSURF
           IF (ISU==IGRSURF(J)%ID) IS=J
-        ENDDO        
+        ENDDO
         IF( IDEL /= 2) THEN
-            PDEL = 1    
+            PDEL = 1
             IDEL = 1
         ELSE
-            PDEL = 0    
+            PDEL = 0
             IDEL = 0
         ENDIF
-        IF(IS/=0)THEN                                          
+        IF(IS/=0)THEN
           NN=IGRSURF(IS)%NSEG
           KPINCH=NN+1
           DO J=1,NN
-	    IF (IDDOM/=0) THEN	  
+	    IF (IDDOM/=0) THEN	
 C-----------Multidomaines -> on elimine les seg communs, on ne les traite qu'une foi---
-	       CAPT=0 
+	       CAPT=0
                DO H=1,4
 	         IF (TAGNO(NPART+IGRSURF(IS)%NODES(J,H))==1) CAPT = 1
-               END DO	  
+               END DO	
 	       IF (CAPT==0) GOTO 150
-	    ENDIF   
+	    ENDIF
 C
             IF(FLAG_PINCH /= 1) THEN
-              K=K+1                                                
+              K=K+1
               IPRES(1,K)  = IGRSURF(IS)%NODES(J,1)
-              IPRES(2,K)  = IGRSURF(IS)%NODES(J,2)				    
+              IPRES(2,K)  = IGRSURF(IS)%NODES(J,2)				
               IPRES(3,K)  = IGRSURF(IS)%NODES(J,3)
               IF (IGRSURF(IS)%NODES(J,3)==IGRSURF(IS)%NODES(J,4)) THEN
 C               true triangles (not segments built from 3 nodes).   
-                IPRES(4,K) = 0                                           
-              ELSE                                                 
+                IPRES(4,K) = 0
+              ELSE
                 IPRES(4,K) = IGRSURF(IS)%NODES(J,4)
-              ENDIF     
-              IPRES(5,K)     = IFU                                           
-              IPRES(6,K)     = ISENS     
-              IPRES(7,K) = IDEL          
-              IPRES(8,K) = 0                                       
-              PRES(1,K) = FCY                                          
+              ENDIF
+              IPRES(5,K)     = IFU
+              IPRES(6,K)     = ISENS
+              IPRES(7,K) = IDEL
+              IPRES(8,K) = 0
+              PRES(1,K) = FCY
               PRES(2,K) = ONE/FCX
             ELSE
               NPLOADPINCH = NPLOADPINCH + 1
               KPINCH=KPINCH-1
               IPRES(1,KPINCH)  = IGRSURF(IS)%NODES(J,1)
-              IPRES(2,KPINCH)  = IGRSURF(IS)%NODES(J,2)				    
+              IPRES(2,KPINCH)  = IGRSURF(IS)%NODES(J,2)				
               IPRES(3,KPINCH)  = IGRSURF(IS)%NODES(J,3)
               IF (IGRSURF(IS)%ELTYP(J)==7) THEN
 C               true triangles (not segments built from 3 nodes).   
-                IPRES(4,KPINCH) = 0                                           
-              ELSE                                                 
+                IPRES(4,KPINCH) = 0
+              ELSE
                 IPRES(4,KPINCH) = IGRSURF(IS)%NODES(J,4)
-              ENDIF     
-              IPRES(5,KPINCH)     = IFU                                           
-              IPRES(6,KPINCH)     = ISENS    
-              IPRES(7,KPINCH) = IDEL  
-              IPRES(8,KPINCH) = 0                                      
-              PRES(1,KPINCH) = FCY                                          
-              PRES(2,KPINCH) = ONE/FCX              
-            ENDIF  
+              ENDIF
+              IPRES(5,KPINCH)     = IFU
+              IPRES(6,KPINCH)     = ISENS
+              IPRES(7,KPINCH) = IDEL
+              IPRES(8,KPINCH) = 0
+              PRES(1,KPINCH) = FCY
+              PRES(2,KPINCH) = ONE/FCX
+            ENDIF
 C                                  
   150        CONTINUE
           ENDDO
 C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---	  
-	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)                                                  
-          NPRELD=NPRELD+NN                                       
-        ELSE                                                     
-          GOTO 999                                               
-        ENDIF						 
+	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,IS)
+          NPRELD=NPRELD+NN
+        ELSE
+          GOTO 999
+        ENDIF						
       ENDDO
 C
       I1=1
@@ -267,7 +267,7 @@ C
      .        IPRES(5,I),IPRES(6,I),ONE/PRES(2,I),PRES(1,I)
          ENDIF
 
-       ENDDO 
+       ENDDO
 
        IF(I2==NPRELD)GOTO 200
        I1=I1+50

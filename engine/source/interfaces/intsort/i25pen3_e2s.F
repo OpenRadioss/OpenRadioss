@@ -31,7 +31,7 @@ Chd|====================================================================
      .                    NEDGE  ,LEDGE  ,MARGE   ,GAP_M ,GAP_M_L ,
      .                    GAPE  ,GAP_E_L ,IGAP    ,X     ,IRECT   ,
      .                    PENE  ,ADMSR   ,EDG_BISECTOR,VTX_BISECTOR,ITAB ,
-     .                    XREM_EDGE,S1_XREM,S2_XREM,DGAPLOAD)  
+     .                    XREM_EDGE,S1_XREM,S2_XREM,DGAPLOAD)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -78,13 +78,13 @@ C-----------------------------------------------
      .     XXA,YYA,ZZA,XXB,YYB,ZZB,
      .     XMAXS,YMAXS,ZMAXS,XMAXM,YMAXM,ZMAXM,DX,DY,DZ,
      .     XMINS,YMINS,ZMINS,XMINM,YMINM,ZMINM,GAPV(MVSIZ),
-     .     X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ), 
-     .     X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ), 
-     .     X3(MVSIZ), Y3(MVSIZ), Z3(MVSIZ), 
+     .     X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),
+     .     X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
+     .     X3(MVSIZ), Y3(MVSIZ), Z3(MVSIZ),
      .     X4(MVSIZ), Y4(MVSIZ), Z4(MVSIZ),
      .     X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ), X42(MVSIZ), Y42(MVSIZ),
-     .     Z42(MVSIZ), X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ), 
-     .     E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
+     .     Z42(MVSIZ), X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
+     .     E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .     E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .     E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ), SUMA
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C
         ELSE
           GAPV(I)=XREM_EDGE(E_GAP,CAND_S(I)-NEDGE )
 C
-          IF(IGAP == 3) 
+          IF(IGAP == 3)
      .      GAPV(I)=MIN(GAP_M_L(IE)+XREM_EDGE(E_GAPL,CAND_S(I)-NEDGE),GAPV(I))
 C verifier si E_GAPL  est bien ce qu'on veut ici 
         ENDIF
@@ -153,51 +153,51 @@ CDIR$ NOFUSION
       END DO
 
       DO I=1,JLT
-        X21(I)=X2(I)-X1(I)                              
-        Y21(I)=Y2(I)-Y1(I)                              
-        Z21(I)=Z2(I)-Z1(I)                              
-        X31(I)=X3(I)-X1(I)                              
-        Y31(I)=Y3(I)-Y1(I)                              
-        Z31(I)=Z3(I)-Z1(I)                              
-        X42(I)=X4(I)-X2(I)                              
-        Y42(I)=Y4(I)-Y2(I)                              
-        Z42(I)=Z4(I)-Z2(I)                              
+        X21(I)=X2(I)-X1(I)
+        Y21(I)=Y2(I)-Y1(I)
+        Z21(I)=Z2(I)-Z1(I)
+        X31(I)=X3(I)-X1(I)
+        Y31(I)=Y3(I)-Y1(I)
+        Z31(I)=Z3(I)-Z1(I)
+        X42(I)=X4(I)-X2(I)
+        Y42(I)=Y4(I)-Y2(I)
+        Z42(I)=Z4(I)-Z2(I)
 C
-        E3X(I)=Y31(I)*Z42(I)-Z31(I)*Y42(I)              
-        E3Y(I)=Z31(I)*X42(I)-X31(I)*Z42(I)              
-        E3Z(I)=X31(I)*Y42(I)-Y31(I)*X42(I)              
-        SUMA=E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-        SUMA=MAX(SQRT(SUMA),EM20)                       
-        E3X(I)=E3X(I)/SUMA                              
-        E3Y(I)=E3Y(I)/SUMA                              
-        E3Z(I)=E3Z(I)/SUMA                              
+        E3X(I)=Y31(I)*Z42(I)-Z31(I)*Y42(I)
+        E3Y(I)=Z31(I)*X42(I)-X31(I)*Z42(I)
+        E3Z(I)=X31(I)*Y42(I)-Y31(I)*X42(I)
+        SUMA=E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
+        SUMA=MAX(SQRT(SUMA),EM20)
+        E3X(I)=E3X(I)/SUMA
+        E3Y(I)=E3Y(I)/SUMA
+        E3Z(I)=E3Z(I)/SUMA
       END DO
 C
       DO I=1,JLT
-        SUMA= X21(I)*E3X(I)+Y21(I)*E3Y(I)+Z21(I)*E3Z(I)  
-        E1X(I)= X21(I)-E3X(I)*SUMA                       
-        E1Y(I)= Y21(I)-E3Y(I)*SUMA                       
-        E1Z(I)= Z21(I)-E3Z(I)*SUMA                       
-      ENDDO                                              
+        SUMA= X21(I)*E3X(I)+Y21(I)*E3Y(I)+Z21(I)*E3Z(I)
+        E1X(I)= X21(I)-E3X(I)*SUMA
+        E1Y(I)= Y21(I)-E3Y(I)*SUMA
+        E1Z(I)= Z21(I)-E3Z(I)*SUMA
+      ENDDO
 C
       DO I=1,JLT
-        SUMA=E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-        SUMA=MAX(SQRT(SUMA),EM20)                       
-        E1X(I)=E1X(I)/SUMA                              
-        E1Y(I)=E1Y(I)/SUMA                              
-        E1Z(I)=E1Z(I)/SUMA                              
-      ENDDO                                             
+        SUMA=E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+        SUMA=MAX(SQRT(SUMA),EM20)
+        E1X(I)=E1X(I)/SUMA
+        E1Y(I)=E1Y(I)/SUMA
+        E1Z(I)=E1Z(I)/SUMA
+      ENDDO
 C
       DO I=1,JLT
-        E2X(I)=E3Y(I)*E1Z(I)-E3Z(I)*E1Y(I)                
-        E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)                
-        E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)                
-        SUMA  =E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)  
-        SUMA  =MAX(SQRT(SUMA),EM20)                       
-        E2X(I)=E2X(I)/SUMA                                
-        E2Y(I)=E2Y(I)/SUMA                                
-        E2Z(I)=E2Z(I)/SUMA                                
-      ENDDO                                               
+        E2X(I)=E3Y(I)*E1Z(I)-E3Z(I)*E1Y(I)
+        E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)
+        E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)
+        SUMA  =E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
+        SUMA  =MAX(SQRT(SUMA),EM20)
+        E2X(I)=E2X(I)/SUMA
+        E2Y(I)=E2Y(I)/SUMA
+        E2Z(I)=E2Z(I)/SUMA
+      ENDDO
 C
       NLS=0
 CDIR$ NOFUSION
@@ -219,7 +219,7 @@ CDIR$ NOFUSION
          NLS=NLS+1
          LIST(NLS)=I
         ENDIF
-      ENDDO                                               
+      ENDDO
 
       NLT=NLS
       NLS=0
@@ -244,7 +244,7 @@ CDIR$ NOFUSION
          NLS=NLS+1
          LIST(NLS)=I
         ENDIF
-      ENDDO                                               
+      ENDDO
 
       NLT=NLS
       NLS=0
@@ -268,7 +268,7 @@ CDIR$ NOFUSION
          NLS=NLS+1
          LIST(NLS)=I
         ENDIF
-      ENDDO                                               
+      ENDDO
 
       PENE(1:JLT)=ZERO
 
@@ -277,7 +277,7 @@ C#include      "vectorize.inc"
       DO K=1,NLT
         I=LIST(K)
         PENE(I)=ONE
-      ENDDO                                               
+      ENDDO
 C
       RETURN
       END

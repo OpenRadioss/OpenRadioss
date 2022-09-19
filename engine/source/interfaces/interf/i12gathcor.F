@@ -34,27 +34,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, NMN,NSV(*),MSR(*)       
+      INTEGER NSN, NMN,NSV(*),MSR(*)
       my_real
      .        X(3,*),XS(3,*),XM(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
-     
+
       DO I=1,NSN
          N=NSV(I)
          XS(1,I)=X(1,N)
          XS(2,I)=X(2,N)
          XS(3,I)=X(3,N)
       ENDDO
-      
+
       DO I=1,NMN
          N=MSR(I)
          XM(1,I)=X(1,N)
          XM(2,I)=X(2,N)
          XM(3,I)=X(3,N)
       ENDDO
-      
+
       RETURN
       END

@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE M6LAW(PM   ,OFF  ,SIG  ,EINT ,RHO  ,RK   ,
      2                 RE   ,VORTI,VNEW ,RHO0 ,VIS  ,PSH  ,
      3                 D1   ,D2   ,D3   ,D4   ,D5   ,D6   ,
-     4                 C1   ,C2   ,C3   ,C4   ,C5   ,C6   , 
+     4                 C1   ,C2   ,C3   ,C4   ,C5   ,C6   ,
      5                 PC   ,AMU  ,AMU2 ,ESPE ,SSP  ,DF   ,
      6                 TMU  ,MAT  ,WXX  ,WYY  ,WZZ  ,NEL  ,
      7                 DPDM)
@@ -146,11 +146,11 @@ C         AMU(I) =ONE/DF(I)-ONE
        AMU2(I)= MAX(ZERO,AMU(I))**2
        ESPE(I)=DF(I)*EINT(I) / MAX(EM15,VNEW(I))
        RK2T = TWO*RK(I) / MAX(EM15,THREE*VNEW(I))
-       
+
        !------------------------------!
        !         SOUND SPEED          !
        !------------------------------!
-       
+
        DPDM(I) = DPDM(I)
      .       +(C5(I)+C6(I)*AMU(I))*DF(I)*DF(I)*RK2T + RK2T*DF(I)
        SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))

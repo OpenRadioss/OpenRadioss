@@ -27,7 +27,7 @@ Chd|        S4REFSTA3                     source/elements/solid/solide4/s4refsta
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SRHO3(PM ,VOLO    ,RHON    ,EINT    ,DXX    , 
+      SUBROUTINE SRHO3(PM ,VOLO    ,RHON    ,EINT    ,DXX    ,
      .            DYY     ,DZZ     ,VOLN    ,DVOL    ,MAT    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -78,7 +78,7 @@ C
           DO I=LFT,LLT
             DVOL(I)=VOLN(I)-(RHON(LLT+I)/RHON(I))*VOLO(I)
             RHON(I)=RHON(LLT+I)*(VOLO(I)/VOLN(I))
-          ENDDO        
+          ENDDO
         ENDIF
        END IF
 

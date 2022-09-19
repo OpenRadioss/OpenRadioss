@@ -164,7 +164,7 @@ C=======================================================================
       ITETRA10=0
       CALL HM_GET_INTV('idsmax' ,NEMAX,IS_AVAILABLE,LSUBMODEL)
       DO KK = 1,NEMAX
-        CALL HM_GET_INT_ARRAY_INDEX ('ids',JJ  ,KK,IS_AVAILABLE,LSUBMODEL)        
+        CALL HM_GET_INT_ARRAY_INDEX ('ids',JJ  ,KK,IS_AVAILABLE,LSUBMODEL)
         IF (JJ /= 0) THEN
           ISU = 0
           DO K = 1,NGRELE

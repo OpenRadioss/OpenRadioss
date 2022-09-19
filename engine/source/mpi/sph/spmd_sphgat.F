@@ -113,7 +113,7 @@ C
           IDEB = IDEB + NSP
           PSPHR(P) = NN-NN0
           MSGTYP = MSGOFF
-          SBUFCOM(2,P) = PSPHR(P) 
+          SBUFCOM(2,P) = PSPHR(P)
         ELSE
           SBUFCOM(1:2,P) = ZERO
         END IF
@@ -122,7 +122,7 @@ C
 !   -------------------------
 !   alltoall communication with uniform size
 !   for real array : send : SBUFCOM --> rcv : BUFCOM
-      CALL SPMD_IALLTOALL(SBUFCOM,BUFCOM,2*NSPMD,2, 
+      CALL SPMD_IALLTOALL(SBUFCOM,BUFCOM,2*NSPMD,2,
      .                     2*NSPMD,2,REQUEST_SBUF,MPI_COMM_WORLD)
 !   -------------------------
 
@@ -140,7 +140,7 @@ C reallocation WACOMPR en prevision echange spforcp et splissv
       IERROR = IERROR + IERROR1
 C reallocation des tags cellule active a recevoir
       IF(ALLOCATED(ISPHR))DEALLOCATE(ISPHR)
-         
+
       ALLOCATE(ISPHR(NSPHR),STAT=IERROR1)
       IERROR = IERROR + IERROR1
       IF(NSPCOND>0) THEN
@@ -227,9 +227,9 @@ C
           DO I = 1, NSP
             INDEX(IDEB+I) = NINT(XSPHR(1,I+IDEB))
           END DO
-          MSGTYP = MSGOFF2                
+          MSGTYP = MSGOFF2
           IDEB = IDEB + NSP
-        END IF 
+        END IF
       END DO
 C
 C Reception
@@ -269,7 +269,7 @@ C reallocation des tags cellule active a envoyer
       IDEB = 1
       DO P = 1, NSPMD
         IF(P/=LOC_PROC.AND.PSPHS(P)>0)THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           IDEB = IDEB + PSPHS(P)
         END IF
       END DO
@@ -428,7 +428,7 @@ C
           IDEB = IDEB + NSP
           PSPHR(P) = NN-NN0
           MSGTYP = MSGOFF
-          BUFCOM(2,P) = PSPHR(P) 
+          BUFCOM(2,P) = PSPHR(P)
           CALL MPI_ISEND(
      S      BUFCOM(1,P),2,REAL,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
@@ -448,7 +448,7 @@ C reallocation WACOMPR en prevision echange spforcp et splissv
       IERROR = IERROR + IERROR1
 C reallocation des tags cellule active a recevoir
       IF(ALLOCATED(ISPHR))DEALLOCATE(ISPHR)
-         
+
       ALLOCATE(ISPHR(NSPHR),STAT=IERROR1)
       IERROR = IERROR + IERROR1
       IF(NSPCOND>0) THEN
@@ -535,12 +535,12 @@ C
           DO I = 1, NSP
             INDEX(IDEB+I) = NINT(XSPHR(1,I+IDEB))
           END DO
-          MSGTYP = MSGOFF2    
+          MSGTYP = MSGOFF2
           CALL MPI_ISEND(
      S      INDEX(IDEB+1),NSP,MPI_INTEGER,IT_SPMD(P),MSGTYP,
-     G      MPI_COMM_WORLD,REQ_SD2(P),IERROR)                
+     G      MPI_COMM_WORLD,REQ_SD2(P),IERROR)
           IDEB = IDEB + NSP
-        END IF 
+        END IF
       END DO
 C
 C Reception
@@ -570,7 +570,7 @@ C reallocation des tags cellule active a envoyer
       IDEB = 1
       DO P = 1, NSPMD
         IF(P/=LOC_PROC.AND.PSPHS(P)>0)THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           CALL MPI_RECV(LSPHS(IDEB),PSPHS(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           IDEB = IDEB + PSPHS(P)

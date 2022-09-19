@@ -136,7 +136,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
-      SUBROUTINE DSOPEN(GRAPHE)      
+      SUBROUTINE DSOPEN(GRAPHE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -189,7 +189,7 @@ C Initialisation a zero des tableaux temporaires
                ENDDO
             ENDDO
          ENDDO
-      ENDDO   
+      ENDDO
 C
       RETURN
       END
@@ -199,7 +199,7 @@ Chd|-- called by -----------
 Chd|        RADIOSS2                      source/engine/radioss2.F      
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DSCLOSE      
+      SUBROUTINE DSCLOSE
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -224,4 +224,4 @@ C
 C
       RETURN
       END
-                     
+

@@ -134,7 +134,7 @@ C         plus proche voisin en amont de l'outlet.
                 IPPV=JNOD
                 DMIN=DD
                ENDIF
-             ENDIF  
+             ENDIF
            ENDIF
           ENDDO
 C-------

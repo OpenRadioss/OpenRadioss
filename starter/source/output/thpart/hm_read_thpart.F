@@ -98,8 +98,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      WRITE(IOUT,'(//A)')'     THPARTS' 
-      WRITE(IOUT,'(A//)')'       -----' 
+      WRITE(IOUT,'(//A)')'     THPARTS'
+      WRITE(IOUT,'(A//)')'       -----'
 
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -108,19 +108,19 @@ C-----------------------------------------------
       IGRELEM = 0
       IF(NTHPART>0) IGRELEM = 1
       CALL HM_OPTION_START('/THPART')
-      
+
       DO I=1,NTHPART
 
         TITR = ''
-        TYP  = ''            
+        TYP  = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = ID,OPTION_TITR = TITR ,KEYWORD2 = KEY   )
         CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
         TYP(1:6)=KEY(1:6)
         TITR1=TITR
         CALL FRETITL(TITR,IPART(LIPART1-LTITR+1,NPART+I),LTITR)
-         CALL HM_GET_INTV('grelem_ID',  GR  ,IS_AVAILABLE,LSUBMODEL)        
-        
+         CALL HM_GET_INTV('grelem_ID',  GR  ,IS_AVAILABLE,LSUBMODEL)
+
 C ITYP : 1 BRIC, 
 C        2 QUAD, 
 C        3 SHELL, 
@@ -143,32 +143,32 @@ C        7 SHELL_3N
           ITYP = 3
           IGR = NINTRIGR(GR,IGRSH4N,NGRSHEL)
           IF (ITYP == IGRSH4N(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
-          
+
         ELSEIF (TYP(1:6) == 'GRTRUS') THEN
           ITYP = 4
           IGR = NINTRIGR(GR,IGRTRUSS,NGRTRUS)
           IF (ITYP == IGRTRUSS(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
-          
+
         ELSEIF (TYP(1:6) == 'GRBEAM') THEN
           ITYP = 5
           IGR = NINTRIGR(GR,IGRBEAM,NGRBEAM)
           IF (ITYP == IGRBEAM(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
-          
+
         ELSEIF (TYP(1:6) == 'GRSPRI') THEN
           ITYP = 6
           IGR = NINTRIGR(GR,IGRSPRING,NGRSPRI)
           IF (ITYP == IGRSPRING(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
-          
+
         ELSEIF (TYP(1:6) == 'GRSH3N' .OR. TYP(1:6) == 'GRTRIA') THEN
           ITYP = 7
           IGR = NINTRIGR(GR,IGRSH3N,NGRSH3N)
           IF (ITYP == IGRSH3N(IGR)%GRTYPE) IS_FOUND_SURF = .TRUE.
         ENDIF
-        
+
         IF(.NOT. IS_FOUND_SURF)THEN
             CALL ANCMSG(MSGID=763,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=GR,C2=TYP(1:6))
-        ENDIF        
-        
+        ENDIF
+
         WRITE(IOUT,'(/A,I10,2A)')'THPART:',ID,',',TRIM(TITR)
         WRITE(IOUT,'(A)')       '----'
         WRITE(IOUT,'(A,A)')'TYPE OF ELEMENT GROUP : ',TYP(1:6)
@@ -181,7 +181,7 @@ C        7 SHELL_3N
         IF(IPART(4,NPART+I) == 0) THEN
           CALL ANCMSG(MSGID=493,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,C1=TITR1)
         ENDIF
-        
+
       ENDDO
 
       !-------------------------------------

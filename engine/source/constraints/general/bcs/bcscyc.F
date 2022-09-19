@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBCSCYC(4,*),LBCSCYC(2,*),ITAB(*)
       my_real
-     .     X(3,*),V(3,*),A(3,*),SKEW(LSKEW,*) 
+     .     X(3,*),V(3,*),A(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -62,8 +62,8 @@ C---Check Ncycle=0 V(,N1)=V(,N2) in c.s.
          NN  = IBCSCYC(3,I)
          ID  = IBCSCYC(4,I)
          CALL CHKV0_CY(NN,LBCSCYC(1,IAD),ISK,SKEW,X  ,V,ID,ITAB)
-        END DO 
-      END IF 
+        END DO
+      END IF
 C----case AMS done before in sms_pcg      
       IF(IDTMINS == 2.OR.IDTMINS_INT /= 0) RETURN
       DO I=1,NBCSCYC
@@ -72,7 +72,7 @@ C----case AMS done before in sms_pcg
         NN  = IBCSCYC(3,I)
         ID  = IBCSCYC(4,I)
         CALL ACC_CYCON(NN,LBCSCYC(1,IAD),ISK,SKEW,X  ,A)
-      END DO 
+      END DO
 C
       RETURN
       END
@@ -107,7 +107,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBCY_N,IXCYCL(2,*),ISK
       my_real
-     .     X(3,*),A(3,*),SKEW(LSKEW,*) 
+     .     X(3,*),A(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -165,7 +165,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J 
+      INTEGER I, J
 C
       my_real
      .     XX,YY,ZZ,XL,YL,ZL,R2,CR(NBCY),CZ(NBCY)
@@ -225,7 +225,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J 
+      INTEGER I, J
 C
       my_real
      .     XX,YY,ZZ,XL,YL,ZL
@@ -276,7 +276,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBCY_N,IXCYCL(2,*),ISK,ID,ITAB(*)
       my_real
-     .     X(3,*),V(3,*),SKEW(LSKEW,*) 
+     .     X(3,*),V(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -294,8 +294,8 @@ C-----for each cut-section nodes, compute cylindrical co-ordinates and vel
       CALL V_C2CYLIN(NBCY_N,N1,X,V,SKEW(1,ISK),SKEW(10,ISK),CCOS,CSIN,V_C1)
       CALL V_C2CYLIN(NBCY_N,N2,X,V,SKEW(1,ISK),SKEW(10,ISK),CCOS,CSIN,V_C2)
 C--- check  
-      DVMAX =ZERO  
-      J =1      
+      DVMAX =ZERO
+      J =1
       DVMEAN =ZERO
       DO I=1,NBCY_N
         DV = ABS(V_C1(2,I)-V_C2(2,I))
@@ -303,9 +303,9 @@ C--- check
          DVMAX = DV
          J = I
         END IF
-        DVMEAN =DVMEAN + ABS(V_C1(2,I))+ABS(V_C2(2,I))  
+        DVMEAN =DVMEAN + ABS(V_C1(2,I))+ABS(V_C2(2,I))
       ENDDO
-      IF (NBCY_N>0) DVMEAN =HALF*DVMEAN/NBCY_N  
+      IF (NBCY_N>0) DVMEAN =HALF*DVMEAN/NBCY_N
       IF (DVMAX>ZEP05*DVMEAN.AND.DVMEAN>EM06) THEN
         II1 = ITAB(N1(J))
         II2 = ITAB(N2(J))

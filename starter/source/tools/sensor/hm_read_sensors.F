@@ -117,7 +117,7 @@ C-----------------------------------------------
       TYPE (GROUP_)      ,DIMENSION(NGRNOD)    :: IGRNOD
       TYPE (SUBSET_)     ,DIMENSION(NSUBS)     :: SUBSET
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)  ,INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_)  ,INTENT(IN) ::UNITAB
       TARGET :: LSENSOR,SENSOR
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -139,7 +139,7 @@ c     Initialize sensor data structure
 c---------------------------------------------
 c
       CALL SENSOR_TAB_INIT(SENSOR_TAB,NSENSOR)
-c      
+c
       LSENSOR(2,1:NSENSOR) = -1       ! initialize sensor type to -1
       SENSOR (2,1:NSENSOR) = INFINITY ! Tstart
 c
@@ -162,7 +162,7 @@ c
         LSENS_PTR  => LSENSOR(:,ISEN)
         RSENS_PTR  => SENSOR (:,ISEN)
         SENSOR_PTR => SENSOR_TAB(ISEN)
-c            
+c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = SENS_ID,
      .                          OPTION_TITR = TITR  ,
@@ -183,7 +183,7 @@ c--------------------------------------------------
         IF (UNIT_ID > 0 .AND. IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UNIT_ID,I1=SENS_ID,
-     .                C1='SENSOR', C2='SENSOR', C3='TITR')                              
+     .                C1='SENSOR', C2='SENSOR', C3='TITR')
         ENDIF
 c
         KEY = KEY(1:LEN_TRIM(KEY))
@@ -191,16 +191,16 @@ c-----------------------
         SELECT CASE(KEY)
 c-----------------------
           CASE ('TIME' ,'TYPE0')
-            CALL READ_SENSOR_TIME(SENSOR_PTR ,SENS_ID  , 
-     .           LSENS_PTR ,RSENS_PTR  ,UNITAB   ,LSUBMODEL)  
+            CALL READ_SENSOR_TIME(SENSOR_PTR ,SENS_ID  ,
+     .           LSENS_PTR ,RSENS_PTR  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('ACCE' ,'TYPE1')
-            CALL READ_SENSOR_ACC(SENSOR_PTR ,SENS_ID  ,TITR     , 
-     .           LSENS_PTR ,RSENS_PTR  ,LACCELM  ,UNITAB   ,LSUBMODEL)  
+            CALL READ_SENSOR_ACC(SENSOR_PTR ,SENS_ID  ,TITR     ,
+     .           LSENS_PTR ,RSENS_PTR  ,LACCELM  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('DIST' ,'TYPE2')
             CALL READ_SENSOR_DISP(SENSOR_PTR ,SENS_ID  ,
-     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)   
+     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)
 c
           CASE ('SENS' ,'TYPE3')
             CALL READ_SENSOR_SENS(SENSOR_PTR ,SENS_ID  ,
@@ -228,9 +228,9 @@ c
 c
           CASE ('VEL' ,'TYPE9')
             CALL READ_SENSOR_VEL(SENSOR_PTR ,SENS_ID  ,
-     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)   
+     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)
 c
-          CASE ('GAUGE' ,'TYPE10')            
+          CASE ('GAUGE' ,'TYPE10')
             CALL READ_SENSOR_GAUGE(SENSOR_PTR ,SENS_ID  ,TITR     ,
      .           LGAUGE   ,LSENS_PTR ,RSENS_PTR  ,UNITAB   ,LSUBMODEL)
 c
@@ -244,7 +244,7 @@ c
 c
           CASE ('WORK' ,'TYPE13')
             CALL READ_SENSOR_WORK(SENSOR_PTR ,SENS_ID  ,
-     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)   
+     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)
 c
           CASE ('ENERGY' ,'TYPE14')
             CALL READ_SENSOR_ENERGY(SENSOR_PTR ,SENS_ID  ,TITR     ,
@@ -253,20 +253,20 @@ c
 c
           CASE ('DIST_SURF' ,'TYPE15')
             CALL READ_SENSOR_DIST_SURF(SENSOR_PTR ,SENS_ID  ,
-     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)   
+     .           LSENS_PTR ,RSENS_PTR  ,ITABM1   ,UNITAB   ,LSUBMODEL)
 c
           CASE ('HIC' ,'TYPE16')
-            CALL READ_SENSOR_HIC(SENSOR_PTR ,SENS_ID  ,TITR     , 
-     .           LSENS_PTR ,RSENS_PTR  ,LACCELM  ,UNITAB   ,LSUBMODEL)  
+            CALL READ_SENSOR_HIC(SENSOR_PTR ,SENS_ID  ,TITR     ,
+     .           LSENS_PTR ,RSENS_PTR  ,LACCELM  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('TEMP')
-            CALL READ_SENSOR_TEMP(SENSOR_PTR  ,SENS_ID     ,TITR     , 
-     .           IGRNOD   ,LSENS_PTR ,RSENS_PTR  ,UNITAB   ,LSUBMODEL)   
+            CALL READ_SENSOR_TEMP(SENSOR_PTR  ,SENS_ID     ,TITR     ,
+     .           IGRNOD   ,LSENS_PTR ,RSENS_PTR  ,UNITAB   ,LSUBMODEL)
 c
           CASE ('NIC_NIJ')
             CALL READ_SENSOR_NIC(
-     .           SENSOR_PTR  ,SENS_ID    ,TITR     , 
-     .           LSENS_PTR   ,RSENS_PTR  ,ISKWN    ,UNITAB   ,LSUBMODEL)   
+     .           SENSOR_PTR  ,SENS_ID    ,TITR     ,
+     .           LSENS_PTR   ,RSENS_PTR  ,ISKWN    ,UNITAB   ,LSUBMODEL)
 c
           CASE ('USER1' ,'USER2','USER3')
             CALL READ_SENSOR_USER(LSENSOR   ,SENSOR    ,HM_NSENS,ISEN    ,TITR,
@@ -276,8 +276,8 @@ c---
             CALL ANCMSG(MSGID=43, ANMODE=ANINFO, MSGTYPE=MSGERROR,
      .                  C2=KEY(1:LEN_TRIM(KEY)),
      .                  I1=SENS_ID,
-     .                  C1=TITR)        
-        END SELECT 
+     .                  C1=TITR)
+        END SELECT
 c-----------------
       END DO  ! NSENSOR
 c-------------------------------------

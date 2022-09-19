@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX
-      my_real EINT0, SPH, DMU, PLIM, C2MU, C1PSH, ECOLD      
+      my_real EINT0, SPH, DMU, PLIM, C2MU, C1PSH, ECOLD
 C=======================================================================
       MX = MAT(LFT)
       DO I=LFT,LLT

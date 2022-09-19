@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE FAIL_ORTHSTRAIN_C(
      1     NEL      ,NUPARAM  ,NUVAR    ,UPARAM   ,UVAR     ,
      2     NFUNC    ,IFUNC    ,NPF      ,TF       ,NGL      ,
-     3     TIME     ,TIMESTEP ,IPG      ,ILAY     ,IPT      ,   
+     3     TIME     ,TIMESTEP ,IPG      ,ILAY     ,IPT      ,
      4     EPSXX    ,EPSYY    ,EPSXY    ,DMG_FLAG ,DMG_SCALE,
      5     EPSPXX   ,EPSPYY   ,EPSPXY   ,ALDT     ,ISMSTR   ,
      6     SIGNXX   ,SIGNYY   ,SIGNXY   ,PTHKF    ,
@@ -128,7 +128,7 @@ C-----------------------------------------------
      .  ET31M,DI,ALPHA,DAMXX,DAMYY,DAMXY,ODAMXX,ODAMYY,ODAMXY,THETA,C,S,
      .  EPSPREF,EPDOT,DEPS,DEPSM,FACT,FSCALE_SIZ,REF_SIZ,EPSD1,EPSD2,
      .  EPST1,EPST2,EPST_A,EPST_B
-      my_real ,DIMENSION(NEL) :: EPS11,EPS22,EPS12,EPSP11,EPSP22,EPSP12 
+      my_real ,DIMENSION(NEL) :: EPS11,EPS22,EPS12,EPSP11,EPSP22,EPSP12
       my_real ,DIMENSION(:), POINTER :: FSIZE
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
@@ -142,7 +142,7 @@ C-----------------------------------------------
       STRDEF     = NINT(UPARAM(28))
       IFUNC_SIZ  = IFUNC(13)
 c
-c     et1  = mode1 , et2  = mode 2, ec1 = mode 3, ec2 = mode 4, 
+c     et1  = mode1 , et2  = mode 2, ec1 = mode 3, ec2 = mode 4,
 c     et12 = mode 5, ec12 = mode 6
 c     xx = dir 1, yy = dir 2, xy = dir 3
 c     xx => et1,  ec1
@@ -161,7 +161,7 @@ c-------------------
         IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN
           STRFLAG = 3
         END IF
-      END IF     
+      END IF
 c--------------------------
       SELECT CASE (STRFLAG)
 c
@@ -171,7 +171,7 @@ c
               THETA  = HALF*ATAN(EPSXY(I) / MAX((EPSXX(I)-EPSYY(I)),EM20))
               C = COS(THETA)
               S = SIN(THETA)
-c             strain principal + transformation              
+c             strain principal + transformation
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
               EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1  = EPST_A + EPST_B
@@ -190,7 +190,7 @@ c             strain rate
               EPSD2  = (ONE+EPST2)*EPSD2
               EPSP11(I) = C*C*EPSD1 + S*S*EPSD2
               EPSP22(I) = S*S*EPSD1 + C*C*EPSD2
-              EPSP12(I) = S*C*(EPSD2 - EPSD1) 
+              EPSP12(I) = S*C*(EPSD2 - EPSD1)
             END IF
           ENDDO
 c
@@ -200,7 +200,7 @@ c
               THETA  = HALF*ATAN(EPSXY(I) / MAX((EPSXX(I)-EPSYY(I)),EM20))
               C = COS(THETA)
               S = SIN(THETA)
-c             strain principal + transformation              
+c             strain principal + transformation
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
               EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1  = EPST_A + EPST_B
@@ -231,7 +231,7 @@ c
            EPSP11(1:NEL) = EPSPXX(1:NEL)
            EPSP22(1:NEL) = EPSPYY(1:NEL)
            EPSP12(1:NEL) = HALF*EPSPXY(1:NEL)
-      END SELECT 
+      END SELECT
 c----------------------------------------------
 c     Element size scale factor
       FSIZE => UVAR(1:NEL,32)
@@ -259,29 +259,29 @@ c     variable initialisation, current time
           ODAM(I,J) = MIN(DAM(I,J),0.999)
           EPSP(I,J) = UVAR(I,J+6)
         ENDDO
-      ENDDO  
-      DO I =1, NEL 
+      ENDDO
+      DO I =1, NEL
        SIGOXX(I) = UVAR(I,12+XX)
        SIGOYY(I) = UVAR(I,12+YY)
        SIGOXY(I) = UVAR(I,12+XY)
       ENDDO
-c      
+c
 c     strain rate filtering
       DO I=1,NEL
-        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (ONE-ALPHA)*EPSP(I,XX) 
-        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (ONE-ALPHA)*EPSP(I,YY) 
+        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (ONE-ALPHA)*EPSP(I,XX)
+        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (ONE-ALPHA)*EPSP(I,YY)
         EPSP(I,XY) = ALPHA * ABS(EPSP12(I)) + (ONE-ALPHA)*EPSP(I,XY)
-      ENDDO 
+      ENDDO
 c
 c     failure and damage calculation in each mode (dir)
 c
-      NINDX = 0  
+      NINDX = 0
       DO I=1, NEL
         IF (OFF(I) == ONE .and. OFFLY(I) == 1 .and. FOFF(I) == 1) THEN
           ET1    = UPARAM(4)
           ET1M   = UPARAM(5)
           ET2    = UPARAM(6)
-          ET2M   = UPARAM(7) 
+          ET2M   = UPARAM(7)
           EC1    = UPARAM(8)
           EC1M   = UPARAM(9)
           EC2    = UPARAM(10)
@@ -320,7 +320,7 @@ c
           IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = ET1M - ET1
             FACT  = ET1M / EPS11(I)
-            DI    = FACT * DEPS / DEPSM 
+            DI    = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
             IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
@@ -343,7 +343,7 @@ c
           IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET2M - ET2)
             FACT  = ET2M / EPS22(I)
-            DI    = FACT * DEPS / DEPSM 
+            DI    = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
             IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
@@ -446,18 +446,18 @@ c
 c-----
           IF (FAILI == 1) THEN
             FOFF(I) = 0
-            TDEL(I) = TIME 
-            NINDX   = NINDX + 1  
+            TDEL(I) = TIME
+            NINDX   = NINDX + 1
             INDX(NINDX) = I
           ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 c------------------------
-      IF (NINDX > 0) THEN 
-        DO J=1,NINDX    
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
           I = INDX(J)
 #include  "lockon.inc"
-          
+
           WRITE(IOUT, 1000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,1000) NGL(I),IPG,ILAY,IPT
           IF (FMODE(I,1)==1) WRITE(IOUT, 2000) 1,EPSP(I,XX)
@@ -468,7 +468,7 @@ c------------------------
           IF (FMODE(I,6)==1) WRITE(IOUT, 2000) 6,EPSP(I,XY)
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c-----------------------------------------------------------------------
 c     Damage stress reduction
 c     damage / diretion is equal to the max of damages par mode in the same direction
@@ -515,11 +515,11 @@ c     Update state variables
           UVAR(I,J)   = DAM(I,J)
           UVAR(I,J+6) = EPSP(I,J)
         ENDDO
-      ENDDO  
+      ENDDO
 c-----------------------------------------------------------------------
  1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)
  2000 FORMAT(1X,'MODE',1X,I2,' STRAIN RATE',1PE12.4)
 c-----------------------------------------------------------------------
-      RETURN          
+      RETURN
       END

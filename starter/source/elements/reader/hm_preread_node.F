@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)  :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)  :: UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(*)
       INTEGER,INTENT(IN)   :: NUMNUSR
       INTEGER,INTENT(IN)   :: IS_DYNA
@@ -95,7 +95,7 @@ C--------------------------------------------------
       DO I=1,NSUBMOD
         OFF_NOD(I) = LSUBMODEL(I)%OFF_NOD
         OFF_DEF(I) = LSUBMODEL(I)%OFF_DEF
-      ENDDO  
+      ENDDO
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
@@ -110,19 +110,19 @@ C--------------------------------------------------
       ALLOCATE (SUB_NOD(NUMNUSR+NUMCNOD),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_NOD') 
+     .                             C1='SUB_NOD')
       ALLOCATE (UID_NOD(NUMNUSR+NUMCNOD),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_NOD')  
+     .                             C1='UID_NOD')
       ALLOCATE (HM_X(3,NUMNUSR+NUMCNOD),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='HM_X') 
+     .                             C1='HM_X')
       ALLOCATE (DMERGE(NUMCNOD),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='DMERGE') 
+     .                             C1='DMERGE')
       SUB_NOD(1:NUMNUSR+NUMCNOD) = 0
       UID_NOD(1:NUMNUSR+NUMCNOD) = 0
       DMERGE(1:NUMCNOD) = ZERO
@@ -133,10 +133,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
-      UID = -1 
-      N=0                                              
-      DO I=1,NUMNUSR+NUMCNOD                                        
-        N=N+1  
+      UID = -1
+      N=0
+      DO I=1,NUMNUSR+NUMCNOD
+        N=N+1
         X(1,N) = HM_X(1,N)
         X(2,N) = HM_X(2,N)
         X(3,N) = HM_X(3,N)
@@ -146,42 +146,42 @@ C--------------------------------------------------
         IF(SUB_NOD(N) /= 0)THEN
           IF(ITAB(N) /= 0) ITAB(N) = ITAB(N) + OFF_NOD(SUB_NOD(N))
           IF(UID_NOD(N) /= 0) UID_NOD(N) = UID_NOD(N) + OFF_DEF(SUB_NOD(N))
-          IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0) 
+          IF(UID_NOD(N) == 0 .AND. LSUBMODEL(SUB_NOD(N))%UID /= 0)
      .        UID_NOD(N) = LSUBMODEL(SUB_NOD(N))%UID
         ENDIF
         IF ( ITAB(N) > ID_LIMIT )THEN
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=ITAB(N),C1=LINE,C2='/NODE')
-        ENDIF                    
+        ENDIF
 C--------------------------------------------------
 C      UNITS
 C--------------------------------------------------
         IF(UID_NOD(N) /= UID )THEN
           UID = UID_NOD(N)
-          IFLAGUNIT = 0          
-          DO J=1,NUNITS                   
-            IF (UNITAB%UNIT_ID(J) == UID) THEN  
-              FAC_L = UNITAB%FAC_L(J)                 
-              IFLAGUNIT = 1                 
-              EXIT                              
-            ENDIF                               
-          ENDDO                    
+          IFLAGUNIT = 0
+          DO J=1,NUNITS
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
+              FAC_L = UNITAB%FAC_L(J)
+              IFLAGUNIT = 1
+              EXIT
+            ENDIF
+          ENDDO
           IF (UID/=0 .AND. IFLAGUNIT==0 .AND. I <= NUMNUSR)THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/NODE')
           ELSEIF (UID/=0 .AND. IFLAGUNIT==0 .AND. I > NUMNUSR)THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/CNODE')
-          ENDIF 
+          ENDIF
         ENDIF
-        X(1,N) = X(1,N)*FAC_L  
-        X(2,N) = X(2,N)*FAC_L  
-        X(3,N) = X(3,N)*FAC_L 
+        X(1,N) = X(1,N)*FAC_L
+        X(2,N) = X(2,N)*FAC_L
+        X(3,N) = X(3,N)*FAC_L
       ENDDO
       IF(ALLOCATED(SUB_NOD)) DEALLOCATE(SUB_NOD)
       IF(ALLOCATED(UID_NOD)) DEALLOCATE(UID_NOD)
       IF(ALLOCATED(HM_X)) DEALLOCATE(HM_X)
-      IF(ALLOCATED(DMERGE)) DEALLOCATE(DMERGE)                             
+      IF(ALLOCATED(DMERGE)) DEALLOCATE(DMERGE)
 C--------------------------------------------------
 C     Check nodes within some tolerance (possibly merge nodes)
 C--------------------------------------------------

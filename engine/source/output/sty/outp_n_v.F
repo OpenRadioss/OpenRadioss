@@ -93,7 +93,7 @@ C
            WRITE(IUGEO,'(I10,1P3E20.13)')
      .          (ITABG(J),(VGLOB(I,J),I=1,3),J=1,NUMNODG)
          ENDIF
-       ENDIF 
+       ENDIF
       RETURN
       END
 C
@@ -331,6 +331,6 @@ C
          ENDIF
 
 
-       ENDIF 
+       ENDIF
       RETURN
       END

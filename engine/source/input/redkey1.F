@@ -80,7 +80,7 @@ C
       IOK = 0
       J=0
 
-      IF(IKEY==1.OR.IKEY==58)THEN  
+      IF(IKEY==1.OR.IKEY==58)THEN
        IF (GOT_INPUT == 0.OR.IKEY==58) THEN
         DO 410 I=5,ncharline
         IF(IOK==0.AND.CARTE(I:I)=='/')THEN

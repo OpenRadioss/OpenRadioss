@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE H3D_MOD 
+      USE H3D_MOD
 C-----------------------------------------------
 C     AIRBAGS INPUT FORMAT 4.4
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C     REAL
      .   XM,YM,ZM,NX3,NY3,NZ3,
      .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
      .   API,DIST,TSTART,TS,TMPO,FPT,FPA,FPZ,SCALT,SCALA,SCALD
-      my_real 
+      my_real
      .   FINTER
 C-----------------------------------------------
       API=HUNDRED80/PI
@@ -90,9 +90,9 @@ C-----------------------------------------------
       Q      =RVOLU(23)
       PEXT   =RVOLU(3)
       DP     =Q+PRES-PEXT
-      SCALT  =RVOLU(26)   
-      SCALA  =RVOLU(29)   
-      SCALD  =RVOLU(30)   
+      SCALT  =RVOLU(26)
+      SCALA  =RVOLU(29)
+      SCALD  =RVOLU(30)
 C cas vectoriel : ne pas oublier le cas scalaire
       IF (IVECTOR==1) THEN
        DO I=1,NN

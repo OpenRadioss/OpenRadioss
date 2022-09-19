@@ -46,7 +46,7 @@ C INTERFACE FLUIDE/FLUIDE DERIVEE DES INTERFACE 2 ET 5 (SLIDING)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD      
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
- 
+
       INTEGER ITIED,NOINT,NGROUS,NGROUM,NG,
      .  L1 ,L2 ,L3 ,L4,L5,L6
       INTEGER JCODV(LCONV),CODTOT,I,ITEST,ILEV,IREF,ICEN
@@ -147,7 +147,7 @@ C-----------------------------------------------
         IF(ILEV>0)
      &  CALL I12ROT3(WA(L1),WA(L2),X,SKEW,ISKWN,ILEV,IREF,ICEN,NSN,NMN,
      &               INTBUF_TAB%STFNS,INTBUF_TAB%STFNM)
- 
+
         DO NG=1,NGROUS
           NFT=(NG-1)*NVSIZ
           LFT=1
@@ -192,14 +192,14 @@ C-----------------------------------------------
         L1=1
         L2=L1+NSN*NVCONV
         L3=L2+NSN*NVCONV
-        L4=L3+NRTM        
+        L4=L3+NRTM
         L5=L4+NMN*NVCONV
         L6=L5+NMN
         !-----------------------------------------------------------------!
         !   ECHANGE DES INFORMATIONS ENTRE LES TWO FACES DE l'INTERFACE  !
         !-----------------------------------------------------------------!
-        ! 1- Transforme Valeurs elementaires en valeurs nodales cote second.     
-        !-----------------------------------------------------------------!      
+        ! 1- Transforme Valeurs elementaires en valeurs nodales cote second.
+        !-----------------------------------------------------------------!
         CALL I12NOD3(NRTS,INTBUF_TAB%IELES,INTBUF_TAB%IRECTS,SEGVAR,JCODV,
      .               WA(L1),INTBUF_TAB%FCOUNT,NSN)
         ! 2- Valeurs MAIN -> SECONDARY
@@ -284,7 +284,7 @@ C-----------------------------------------------
       !-----------------------------------------------------------------!
       IF(ITIED==2)CALL IN12R(A,INTBUF_TAB%VARIABLES(1),INTBUF_TAB%NSV,
      .                         NSN,1,INTBUF_TAB%FCOUNT)
-      !-----------------------------------------------------------------!     
+      !-----------------------------------------------------------------!
       ! CALCUL FORCES COTE MAIN (IDEM TYPE 2)                         !
       !-----------------------------------------------------------------!
       CALL I12FOR3(
@@ -294,8 +294,8 @@ C-----------------------------------------------
      4 INTBUF_TAB%STFNS,INTBUF_TAB%STFNM,ILEV,IREF)
       RETURN
       END
-      
-      
+
+
 Chd|====================================================================
 Chd|  INTTI12V                      source/interfaces/interf/intti12.F
 Chd|-- called by -----------
@@ -310,7 +310,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD      
+      USE INTBUFDEF_MOD
 !-----------------------------------------------------------------!
 ! INTERFACE FLUIDE/FLUIDE DERIVEE DES INTERFACE 2 ET 5 (SLIDING)  !
 !-----------------------------------------------------------------!
@@ -324,7 +324,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*)
       my_real
      .   X(*), V(*), A(*),MS(*),WA(*),SKEW(*)
-  
+
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -337,7 +337,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .  ITIED,ILEV,IREF
 C-----------------------------------------------
       NRTS  =IPARI(3)

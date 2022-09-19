@@ -212,7 +212,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        FLAGG,ICOUNT,ITER,BOXTYPE,NIX,
      .        IX(NIX,*),NIX1,IPARTE(*),IPART(LIPART1,*),
      .        KLEVTREE,KELTREE,ELTREE(KELTREE,*),NUMEL,

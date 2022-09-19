@@ -82,7 +82,7 @@ C-------------------------
         FZ1(I) = -F31(I)
         MX1(I) = ZERO
         MY1(I) = ZERO
-        MZ1(I) = ZERO   
+        MZ1(I) = ZERO
         STIFN(NC1(I))=STIFN(NC1(I)) + STI(1,I)
         F(1,NC2(I))=F(1,NC2(I))-F11(I)
         F(2,NC2(I))=F(2,NC2(I))-F21(I)
@@ -92,7 +92,7 @@ C-------------------------
         FZ2(I) = F31(I)
         MX2(I) = ZERO
         MY2(I) = ZERO
-        MZ2(I) = ZERO    
+        MZ2(I) = ZERO
         STIFN(NC2(I))=STIFN(NC2(I)) + STI(2,I)
       ENDDO
 C
@@ -163,7 +163,7 @@ C-------------------------
           FZ1(I) = -F31(I)
           MX1(I) = ZERO
           MY1(I) = ZERO
-          MZ1(I) = ZERO  
+          MZ1(I) = ZERO
           FSKYV(N,7)=STI(1,I)
           N = IADR(2,II)
           FSKYV(N,1)=-F11(I)
@@ -174,7 +174,7 @@ C-------------------------
           FZ2(I) = F31(I)
           MX2(I) = ZERO
           MY2(I) = ZERO
-          MZ2(I) = ZERO  
+          MZ2(I) = ZERO
           FSKYV(N,7)=STI(2,I)
         ENDDO
       ELSE
@@ -189,7 +189,7 @@ C-------------------------
           FZ1(I) = -F31(I)
           MX1(I) = ZERO
           MY1(I) = ZERO
-          MZ1(I) = ZERO  
+          MZ1(I) = ZERO
           FSKY(7,N)=STI(1,I)
           N = IADR(2,II)
           FSKY(1,N)=-F11(I)
@@ -200,7 +200,7 @@ C-------------------------
           FZ2(I) = F31(I)
           MX2(I) = ZERO
           MY2(I) = ZERO
-          MZ2(I) = ZERO  
+          MZ2(I) = ZERO
           FSKY(7,N)=STI(2,I)
         ENDDO
       ENDIF

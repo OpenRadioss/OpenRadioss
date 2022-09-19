@@ -54,9 +54,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -93,7 +93,7 @@ C   S o u r c e   L i n e s
 C--------------------------------------------------
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV    ('Alpha'         ,ALPHA     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -103,7 +103,7 @@ C--------------------------------------------------
 
       CALL HM_GET_INTV      ('Ifail_sh'      ,ISHELL    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV      ('Ifail_so'      ,ISOLID    ,IS_AVAILABLE,LSUBMODEL)
-            
+
       IF(ISHELL==0)ISHELL=1
       IF(ISOLID==0)ISOLID=1
       IF(PC == ZERO)PC=EP30
@@ -117,22 +117,22 @@ C--------------------------------------------------
       NUPARAM = 6
       NUVAR = 1
       NFUNC = 0
-      
+
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE       
-       WRITE(IOUT, 1000)ALPHA,BETA,PC,DF     
+      ELSE
+       WRITE(IOUT, 1000)ALPHA,BETA,PC,DF
        IF(ISHELL==1)THEN
         WRITE(IOUT, 1100)
        ELSEIF(ISHELL==2)THEN
         WRITE(IOUT, 1200)
-       ENDIF   
+       ENDIF
        IF(ISOLID==1)THEN
         WRITE(IOUT, 2100)
        ELSEIF(ISOLID==2)THEN
         WRITE(IOUT, 2200)
        ENDIF
-      ENDIF         
+      ENDIF
  1000 FORMAT(
      & 5X,40H    WILKINS DAMAGE MODEL                  /,
      & 5X,40H    --------------------                  /,
@@ -141,13 +141,13 @@ C--------------------------------------------------
      & 5X,40HLIMITE PRESSION     . . . . . . . . . .=,1PE20.13/,
      & 5X,40HCRITICAL DAMAGE     . . . . . . . . . .=,1PE20.13/     )
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION ') 
+     & 5X,'   SHELL ELEMENT DELETION ')
  2100 FORMAT(
-     & 5X,'   SOLID ELEMENT  DELETION ') 
+     & 5X,'   SOLID ELEMENT  DELETION ')
 
  1200 FORMAT(
-     & 5X,'    SHELL TENSOR STRESS OF LAYER WILL BE VANISHED ')    
+     & 5X,'    SHELL TENSOR STRESS OF LAYER WILL BE VANISHED ')
  2200 FORMAT(
-     & 5X,'    DEVIATORIC STRESS WILL BE VANISHED ')    
+     & 5X,'    DEVIATORIC STRESS WILL BE VANISHED ')
       RETURN
       END

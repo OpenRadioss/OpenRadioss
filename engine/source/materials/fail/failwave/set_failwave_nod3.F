@@ -56,13 +56,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NROT
       INTEGER ,DIMENSION(NIXTG,NEL),INTENT(IN)    :: IXTG
-      INTEGER ,DIMENSION(NUMNOD)   ,INTENT(IN)    :: ITAB 
+      INTEGER ,DIMENSION(NUMNOD)   ,INTENT(IN)    :: ITAB
       INTEGER ,DIMENSION(NEL)      ,INTENT(IN)    :: NGL,FWAVE_EL
 C
       my_real ,DIMENSION(NEL,NROT) ,INTENT(IN)    :: DIR_A
       my_real ,DIMENSION(NEL,2)    ,INTENT(IN)    :: CRKDIR
       my_real ,DIMENSION(NEL)      ,INTENT(IN)    :: XL2,XL3,YL2,YL3
-      TYPE (FAILWAVE_STR_)  :: FAILWAVE 
+      TYPE (FAILWAVE_STR_)  :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -125,33 +125,33 @@ c
             RAT1 = HALF * TAN(PI/SIX)
             RAT2 = ONE - RAT1
 c------------------------------------------------
-c             Propagation in first direction    
+c             Propagation in first direction
 c------------------------------------------------
             DO II=1,NEWCRK1
               I = INDX1(II)
               N1 = IXTG(2,I)
               N2 = IXTG(3,I)
               N3 = IXTG(4,I)
-              NOD_NN(1) = FAILWAVE%IDXI(N1)  
-              NOD_NN(2) = FAILWAVE%IDXI(N2)  
-              NOD_NN(3) = FAILWAVE%IDXI(N3)  
-              NOD_ID(1) = ITAB(N1)   
-              NOD_ID(2) = ITAB(N2)   
-              NOD_ID(3) = ITAB(N3)   
+              NOD_NN(1) = FAILWAVE%IDXI(N1)
+              NOD_NN(2) = FAILWAVE%IDXI(N2)
+              NOD_NN(3) = FAILWAVE%IDXI(N3)
+              NOD_ID(1) = ITAB(N1)
+              NOD_ID(2) = ITAB(N2)
+              NOD_ID(3) = ITAB(N3)
               IDF1(:) = 0
               IDF2(:) = 0
 c
               IDEBUG = 0
 c              if (NGL(I) == 15607559) IDEBUG= 1
-              
+
               IF (NROT == 0) THEN
                 DIR11 = -CRKDIR(I,2)
                 DIR22 =  CRKDIR(I,1)
               ELSE
                 COSX  = DIR_A(I,1)
                 SINX  = DIR_A(I,2)
-                COSY  =-CRKDIR(I,2)                  
-                SINY  = CRKDIR(I,1)                   
+                COSY  =-CRKDIR(I,2)
+                SINY  = CRKDIR(I,1)
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF
@@ -164,7 +164,7 @@ c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
               DX2 = XM + DIR11 * LMAX
-              DY2 = YM + DIR22 * LMAX        
+              DY2 = YM + DIR22 * LMAX
 c
               X1 = XL2(I)*RAT1
               Y1 = YL2(I)*RAT1
@@ -189,7 +189,7 @@ c
               INT4 = SEG_INTERSECT(X1,Y1,X2,Y2,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT5 = SEG_INTERSECT(X3,Y3,X4,Y4,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT6 = SEG_INTERSECT(X5,Y5,X6,Y6,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
-c              
+c
               INTERSECTION = 0
               IF (INT1 == 1) THEN        ! N1 + N2-N3
                 IDF1(1) = NOD_ID(3)
@@ -231,10 +231,10 @@ c
 c
               IF (INTERSECTION == 1) THEN
                 DO K=1,3
-                  NCURR  = NOD_NN(K)    
+                  NCURR  = NOD_NN(K)
 c--------------------------------------------------------------------
-!$OMP ATOMIC CAPTURE 
-                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1 
+!$OMP ATOMIC CAPTURE
+                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 !$OMP END ATOMIC
 c--------------------------------------------------------------------
@@ -250,28 +250,28 @@ c--------------------------------------------------------------------
                   FAILWAVE%FWAVE_NOD_STACK(2,NCURR,MAXLEV) = IDF2(K)
                 END DO ! K=1,3
 
-              ELSE    ! NO intersection found       
+              ELSE    ! NO intersection found
 c
 #include "lockon.inc"
-                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 1st DIR ',NGL(I)     
+                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 1st DIR ',NGL(I)
 #include "lockoff.inc"
               ENDIF
 c
-            ENDDO ! NEWCRK1 
+            ENDDO ! NEWCRK1
 c--------------------------------------
-c           Propagation in second direction    
+c           Propagation in second direction
 c--------------------------------------
             DO II=1,NEWCRK2
               I = INDX2(II)
               N1 = IXTG(2,I)
               N2 = IXTG(3,I)
               N3 = IXTG(4,I)
-              NOD_NN(1) = FAILWAVE%IDXI(N1)  
-              NOD_NN(2) = FAILWAVE%IDXI(N2)  
-              NOD_NN(3) = FAILWAVE%IDXI(N3)  
-              NOD_ID(1) = ITAB(N1)   
-              NOD_ID(2) = ITAB(N2)   
-              NOD_ID(3) = ITAB(N3)   
+              NOD_NN(1) = FAILWAVE%IDXI(N1)
+              NOD_NN(2) = FAILWAVE%IDXI(N2)
+              NOD_NN(3) = FAILWAVE%IDXI(N3)
+              NOD_ID(1) = ITAB(N1)
+              NOD_ID(2) = ITAB(N2)
+              NOD_ID(3) = ITAB(N3)
               IDF1(:) = 0
               IDF2(:) = 0
 c
@@ -281,8 +281,8 @@ c
               ELSE
                 COSX  = DIR_A(I,1)
                 SINX  = DIR_A(I,2)
-                COSY  = CRKDIR(I,1)                  
-                SINY  = CRKDIR(I,2)                    
+                COSY  = CRKDIR(I,1)
+                SINY  = CRKDIR(I,2)
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF
@@ -295,7 +295,7 @@ c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
               DX2 = XM + DIR11 * LMAX
-              DY2 = YM + DIR22 * LMAX        
+              DY2 = YM + DIR22 * LMAX
 c
               X1 = XL2(I)*RAT1
               Y1 = YL2(I)*RAT1
@@ -313,14 +313,14 @@ c
               Y5 = YL3(I) + RY * RAT1
               X6 = XL3(I) + RX * RAT2
               Y6 = YL3(I) + RY * RAT2
-c              
+c
               INT1 = SEG_INTERSECT(X6,Y6,X1,Y1,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT2 = SEG_INTERSECT(X2,Y2,X3,Y3,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT3 = SEG_INTERSECT(X4,Y4,X5,Y5,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT4 = SEG_INTERSECT(X1,Y1,X2,Y2,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT5 = SEG_INTERSECT(X3,Y3,X4,Y4,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
               INT6 = SEG_INTERSECT(X5,Y5,X6,Y6,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
-c              
+c
               INTERSECTION = 0
               IF (INT1 == 1) THEN        ! N1 + N2-N3
                 IDF1(1) = NOD_ID(3)
@@ -362,10 +362,10 @@ c
 c
               IF (INTERSECTION == 1) THEN
                 DO K=1,3
-                  NCURR  = NOD_NN(K)    
+                  NCURR  = NOD_NN(K)
 c--------------------------------------------------------------------
-!$OMP ATOMIC CAPTURE 
-                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1 
+!$OMP ATOMIC CAPTURE
+                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 !$OMP END ATOMIC
 c--------------------------------------------------------------------
@@ -381,14 +381,14 @@ c--------------------------------------------------------------------
                   FAILWAVE%FWAVE_NOD_STACK(2,NCURR,MAXLEV) = IDF2(K)
                 END DO ! K=1,3
 
-              ELSE    !  NO intersection found    
+              ELSE    !  NO intersection found
 c
 #include "lockon.inc"
-                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 2nd DIR ',NGL(I)     
+                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 2nd DIR ',NGL(I)
 #include "lockoff.inc"
               ENDIF
 c
-            ENDDO ! NEWCRK2 
+            ENDDO ! NEWCRK2
           END IF  ! NEWCRK1 + NEWCRK2 > 0
 c
 c---------------

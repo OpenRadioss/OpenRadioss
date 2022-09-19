@@ -55,22 +55,22 @@ C-----------------------------------------------
       INTEGER NC, IADLL(*), JLL(*), LLL(*), GJBUFI(LKJNI,*),
      .        ITAB(*)
       my_real
-     .        MASS(*), INER(*)        
+     .        MASS(*), INER(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, JTYP, N0, N1, N2, N3, J  
+      INTEGER I, JTYP, N0, N1, N2, N3, J
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
 C======================================================================|
       DO I=1,NGJOINT
-        JTYP= GJBUFI(2,I)           
-        N0  = GJBUFI(3,I)        
-        N1  = GJBUFI(4,I)      
-        N2  = GJBUFI(5,I)    
-        N3  = GJBUFI(6,I)    
+        JTYP= GJBUFI(2,I)
+        N0  = GJBUFI(3,I)
+        N1  = GJBUFI(4,I)
+        N2  = GJBUFI(5,I)
+        N3  = GJBUFI(6,I)
 C
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,
@@ -88,7 +88,7 @@ C
      .                    I2=ITAB(GJBUFI(J,I)))
 	    ENDIF
 	  END IF
-	  
+	
 	  IF(GJBUFI(J,I)/=0)THEN
 	    IF(INER(GJBUFI(J,I))==0)THEN
               CALL ANCMSG(MSGID=536,
@@ -99,7 +99,7 @@ C
      .                    C2='GEAR TYPE JOINT',
      .                    C3=TITR,
      .                    I2=ITAB(GJBUFI(J,I)))
-	    ENDIF 
+	    ENDIF
 	  END IF
 	ENDDO  	
 	

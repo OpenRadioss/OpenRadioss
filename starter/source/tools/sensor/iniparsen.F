@@ -87,10 +87,10 @@ c
           IF (LSENSOR(8,I) > 0) TABLOCAL(IINT)=I     ! sub-interface
 c
           IRWAL = LSENSOR(9,I) + NSECT + NINTER+ NINTSUB
-          IF (LSENSOR(9,I) > 0) TABLOCAL(IRWAL)=I 
+          IF (LSENSOR(9,I) > 0) TABLOCAL(IRWAL)=I
 c
           IRBOD = LSENSOR(10,I) + NSECT + NINTER+ NINTSUB + NRWALL
-          IF (LSENSOR(10,I) > 0) TABLOCAL(IRBOD)=I 
+          IF (LSENSOR(10,I) > 0) TABLOCAL(IRBOD)=I
         ENDIF
       ENDDO
 c------------
@@ -122,4 +122,4 @@ C
       ENDDO
 C------------
       RETURN
-      END 
+      END

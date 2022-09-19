@@ -106,7 +106,7 @@ C-----------------------------------------------
       INTEGER USR2SYS,NODGRNR6
       INTEGER FMAIN(PARASIZ)
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C
       DATA MESS/'RBE2 RIGID BODY  '/
 C-----------------------------------------------
@@ -242,14 +242,14 @@ C------can have the same MAIN node in several RBE2
          IAD = IRBE2(1,I)
          M = IRBE2(3,I)
          NSL = IRBE2(5,I)
-         IC  = IRBE2(4,I) 
-         DO J=1,NSL 
+         IC  = IRBE2(4,I)
+         DO J=1,NSL
           NS =LRBE2(IAD+J)
           IF (ITAGM(NS)==0) THEN
            ITAGM(NS) = M
           ELSEIF (ITAGM(NS)/=M) THEN
 C------- error-out          
-          END IF 
+          END IF
           ITAGIC(NS) = ITAGIC(NS) + IC
          END DO
         END DO
@@ -258,7 +258,7 @@ C------- error-out
          IAD = IRBE2(1,I)
          M = IRBE2(3,I)
          NSL = IRBE2(5,I)
-         NUSER = IRBE2(2,I) 
+         NUSER = IRBE2(2,I)
          CALL RBE2MODIF_ND(NSL,LRBE2(IAD+1),ITAGND,ICDNS10,NUSER,ITAB,
      .                     ITAGM,M,ITAGIC)
          IF (IRBE2(5,I)>NSL) THEN
@@ -766,7 +766,7 @@ C-----------------------------------------------
       INTEGER IRBE2(NRBE2L,*), LRBE2(*),ITAB(*),ITAGND(*)
       my_real
      .     X(3,*),MS(*),IN(*),STIFN(*)  ,STIFR(*),TOTMAS,
-     .     B1, B2, B3, B5, B6, B9,XGT ,YGT ,ZGT 
+     .     B1, B2, B3, B5, B6, B9,XGT ,YGT ,ZGT
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1469,7 +1469,7 @@ C========================================================================|
        NS1=LRBE2_1(I)
        NS2=LRBE2_2(I)
        IF (NS1/=NS2.OR.ITAG(NS1)/=ITAG(NS2).OR.ITAG(NS1)<=1) THEN
-        ISAME=0 
+        ISAME=0
         CYCLE
        END IF
       ENDDO
@@ -1544,7 +1544,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ICT,JT(3) 
+      INTEGER ICT,JT(3)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

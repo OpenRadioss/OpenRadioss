@@ -65,7 +65,7 @@ C-----------------------------------------------
      .   AREA,XX,YY,ZZ,X12,Y12,Z12,X13,Y13,Z13,X24,Y24,Z24,DIR,
      .     NX, NY, NZ
       my_real, DIMENSION(:), ALLOCATABLE :: F1, F2
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRMV6(2,6)
 C--------------------------------------------------------------
 C CALCUL DU VOLUME (variable locale dans MONVOL0)
@@ -89,7 +89,7 @@ C--------------------------------------------------------------
           NOD4 = SURF_NODES(I,4)
           XX=HALF*(X(1,NOD1)+X(1,NOD2))
           YY=HALF*(X(2,NOD1)+X(2,NOD2))
-          ZZ=HALF*(X(3,NOD1)+X(3,NOD2)) 
+          ZZ=HALF*(X(3,NOD1)+X(3,NOD2))
           X13=X(1,NOD3)-X(1,NOD1)
           Y13=X(2,NOD3)-X(2,NOD1)
           Z13=X(3,NOD3)-X(3,NOD1)
@@ -127,7 +127,7 @@ C--------------------------------------------------------------
             IF(ICONTACT(NOD1)/=0)PORO(II)=PORO(II)+FOURTH
             IF(ICONTACT(NOD2)/=0)PORO(II)=PORO(II)+FOURTH
             IF(ICONTACT(NOD3)/=0)PORO(II)=PORO(II)+FOURTH
-            IF(ICONTACT(NOD4)/=0)PORO(II)=PORO(II)+FOURTH    
+            IF(ICONTACT(NOD4)/=0)PORO(II)=PORO(II)+FOURTH
           ENDIF
           XX=HALF*(X(1,NOD1)+X(1,NOD2))
           YY=HALF*(X(2,NOD1)+X(2,NOD2))
@@ -153,7 +153,7 @@ C--------------------------------------------------------------
             NOD4 = NOD3
             XX=HALF*(X(1,NOD1)+X(1,NOD2))
             YY=HALF*(X(2,NOD1)+X(2,NOD2))
-            ZZ=HALF*(X(3,NOD1)+X(3,NOD2)) 
+            ZZ=HALF*(X(3,NOD1)+X(3,NOD2))
             X13=X(1,NOD3)-X(1,NOD1)
             Y13=X(2,NOD3)-X(2,NOD1)
             Z13=X(3,NOD3)-X(3,NOD1)
@@ -168,8 +168,8 @@ C--------------------------------------------------------------
          ENDDO
       ELSE
          DO II = 1, T_MONVOLN%NB_FILL_TRI
-            F1(NN + II) = ZERO                         
-            F2(NN + II) = ZERO                        
+            F1(NN + II) = ZERO
+            F2(NN + II) = ZERO
          ENDDO
       ENDIF
       DO K = 1, 6

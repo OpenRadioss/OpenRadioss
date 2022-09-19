@@ -102,10 +102,10 @@ C----------Multidomaines --> on ignore les rby tagés---------------
 	END IF
 C--------
          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)
-         NN = GRSIZEN(IGU,IGRNOD,NGRNOD) 
-         NM = NN+1                
-         SLPBYL = SLPBYL + 3*NM                    
-       END IF            
+         NN = GRSIZEN(IGU,IGRNOD,NGRNOD)
+         NM = NN+1
+         SLPBYL = SLPBYL + 3*NM
+       END IF
       ENDDO
 C-----------
       RETURN

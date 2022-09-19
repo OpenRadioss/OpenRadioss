@@ -43,7 +43,7 @@ C-----------------------------------------------
         my_real, INTENT(IN) :: VAL
         INTEGER, INTENT(IN) :: LEN
         my_real, INTENT(IN) :: ARRAY(LEN)
-        INTEGER :: DICHOTOMIC_SEARCH_R_DESC        
+        INTEGER :: DICHOTOMIC_SEARCH_R_DESC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -59,12 +59,12 @@ C-----------------------------------------------
          RETURN
         ENDIF
         !VAL LOWER THAN LOWER BOUND
-        IF(ARRAY(LEN)>VAL)THEN        
+        IF(ARRAY(LEN)>VAL)THEN
          RETURN
          DICHOTOMIC_SEARCH_R_DESC = LEN
-        ENDIF        
+        ENDIF
         !VAL IS BETWEEN THE BOUNDS
-        DO WHILE (ISTART+1<IEND)        
+        DO WHILE (ISTART+1<IEND)
             IMID=(IEND+ISTART)/2
             IF(ARRAY(IMID) < VAL)THEN
               !FOCUS ON LEFT PART
@@ -77,8 +77,8 @@ C-----------------------------------------------
               DICHOTOMIC_SEARCH_R_DESC = IMID
               RETURN
             ENDIF
-        ENDDO  
-         DICHOTOMIC_SEARCH_R_DESC = ISTART                          
-        RETURN      
+        ENDDO
+         DICHOTOMIC_SEARCH_R_DESC = ISTART
+        RETURN
       END FUNCTION DICHOTOMIC_SEARCH_R_DESC
 C----------------------------------------------- 

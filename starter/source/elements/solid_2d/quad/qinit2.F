@@ -53,7 +53,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -107,8 +107,8 @@ C-----------------------------------------------
       my_real
      .   FV
       CHARACTER TITR*nchartitle
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_), POINTER :: LBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_), POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       my_real
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -130,29 +130,29 @@ c
       NF1 = NFT+1
 c
       IF(JCVT == 0)THEN
-        CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT, 
-     .        PID, IX1, IX2, IX3, IX4, 
-     .        Y1, Y2, Y3, Y4, 
+        CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT,
+     .        PID, IX1, IX2, IX3, IX4,
+     .        Y1, Y2, Y3, Y4,
      .        Z1, Z2, Z3, Z4,
      .        SY, SZ, TY, TZ)
       ELSE
         CALL QRCOOR2(X   ,IXQ(1,NF1),NGL  ,MAT    ,
-     .         PID, IX1, IX2, IX3, IX4, 
-     .         Y1, Y2, Y3, Y4, 
-     .         Z1, Z2, Z3, Z4, 
+     .         PID, IX1, IX2, IX3, IX4,
+     .         Y1, Y2, Y3, Y4,
+     .         Z1, Z2, Z3, Z4,
      .         SY, SZ, TY, TZ,
      .         E1Y, E1Z, E2Y, E2Z)
       END IF
       IF (IGTYP == 6) CALL QMORTH2(PID  ,GEO  ,IGEO ,GBUF%GAMA, NEL,
      .                             SY   ,SZ   ,TY   ,TZ ,
      .                             E1Y  ,E1Z  , E2Y, E2Z)
-      CALL QVOLI2(GBUF%VOL,IXQ(1,NF1), 
-     .     NGL, AIRE, 
-     .     Y1, Y2, Y3, Y4, 
+      CALL QVOLI2(GBUF%VOL,IXQ(1,NF1),
+     .     NGL, AIRE,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3 ,Z4)
       CALL QDLEN2(IPARG(63),
-     .     AIRE, DELTAX, 
-     .     Y1, Y2, Y3, Y4, 
+     .     AIRE, DELTAX,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
       IF(JEUL/=0) CALL EDLEN2(VEUL(1,NF1), AIRE, DELTAX)
 C
@@ -181,7 +181,7 @@ C-------------------------------------------
 C      CALCUL DES DT ELEMENTAIRES
 C-------------------------------------------
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE,
      .     GBUF%VOL, DTX, IGEO)
 c
        DO I=LFT,LLT

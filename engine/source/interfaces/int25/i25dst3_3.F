@@ -36,7 +36,7 @@ Chd|====================================================================
      5 H3          ,H4          ,NIN         ,NSN         ,IX1         ,
      6 IX2         ,IX3         ,IX4         ,NSVG        ,STIF        ,
      7 INACTI      ,KINI        ,ITAB        ,LB          ,LC          ,
-     8 PENMIN      ,EPS         ,PENE        ,PENE_OLD    ,SUBTRIA     , 
+     8 PENMIN      ,EPS         ,PENE        ,PENE_OLD    ,SUBTRIA     ,
      9 GAPV        ,IVIS2       ,IF_ADH      ,IFADHI      ,BASE_ADH    ,
      A MVOISN      ,IBOUND      ,VTX_BISECTOR,DIST       )
 C-----------------------------------------------
@@ -72,10 +72,10 @@ C-----------------------------------------------
       my_real
      .     N1(MVSIZ), N2(MVSIZ), N3(MVSIZ),
      .     H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .     XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5), 
-     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .     XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
+     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .     NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
-     .     LB(MVSIZ), LC(MVSIZ), GAP_NM(4,MVSIZ), GAPS(MVSIZ), 
+     .     LB(MVSIZ), LC(MVSIZ), GAP_NM(4,MVSIZ), GAPS(MVSIZ),
      .     PENE(MVSIZ), GAPMXL(MVSIZ), GAPV(MVSIZ), BASE_ADH(MVSIZ)
       REAL*4 VTX_BISECTOR(3,2,*)
       my_real  , INTENT(INOUT) :: DIST(MVSIZ)
@@ -99,8 +99,8 @@ C-----------------------------------------------
      .        NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .        NN1(MVSIZ), NN2(MVSIZ), NN3(MVSIZ), DD, S,
      .        EPSEG, AX, BX, CX, GAP_MM(MVSIZ),
-     .        LBS(MVSIZ), LCS(MVSIZ), XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ), 
-     .        X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
+     .        LBS(MVSIZ), LCS(MVSIZ), XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
+     .        X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4),
      .        N1X,N1Y,N1Z,N1N,
      .        N2X,N2Y,N2Z,N2N,
      .        LINTERP, LBM, LCM, LAM, XL, YL, ZL,
@@ -252,7 +252,7 @@ C             All other cases : normal == normal to the segment
               DIST(I)=BB(I)
             END IF
 
-          END IF 
+          END IF
 
         ELSEIF(IX3(I)==IX4(I))THEN
 
@@ -279,7 +279,7 @@ C             All other cases : normal == normal to the segment
             DIST(I)=DD
 
           ELSEIF(BB(I) > ZERO .AND. ((LA(I) < EPSEG .AND. MVOISN(I,1)/=0).OR.
-     .                               (LB(I) < EPSEG .AND. MVOISN(I,2)/=0).OR. 
+     .                               (LB(I) < EPSEG .AND. MVOISN(I,2)/=0).OR.
      .                               (LC(I) < EPSEG .AND. MVOISN(I,4)/=0)))THEN
 C
 C           zone limite interpolation des normales
@@ -452,7 +452,7 @@ C
                 KBORD(NBORD)=I
 C
               ELSEIF(P1 < GAPS(I))THEN
-                
+
                 NN1(I)= VTX_BISECTOR(1,1,IBX)
                 NN2(I)= VTX_BISECTOR(2,1,IBX)
                 NN3(I)= VTX_BISECTOR(3,1,IBX)
@@ -462,7 +462,7 @@ C
                 KBORD(NBORD)=I
 
               ELSEIF(P2 < GAPS(I))THEN
-                
+
                 NN1(I)= VTX_BISECTOR(1,2,IBX)
                 NN2(I)= VTX_BISECTOR(2,2,IBX)
                 NN3(I)= VTX_BISECTOR(3,2,IBX)
@@ -491,7 +491,7 @@ C
               NN = ONE/MAX(EM20,SQRT(VX*VX+VY*VY+VZ*VZ))
               PN = ((XH(I)-XX(I,IX))*VX+(YH(I)-YY(I,IX))*VY+(ZH(I)-ZZ(I,IX))*VZ)*NN
               IF(PN < GAPS(I))THEN
-                
+
                 NN1(I)= VX*NN
                 NN2(I)= VY*NN
                 NN3(I)= VZ*NN
@@ -515,7 +515,7 @@ C
             END IF ! IF(VTX_BISECTOR(1,1,IBX)/=ZERO.OR.
 
           END IF
- 
+
         ELSEIF(IX3(I)==IX4(I))THEN
 
           IB1=IBOUND(1,I)
@@ -548,20 +548,20 @@ C         Projection sur le plan et Distance signee au plan
                   NNE(I)=NNE1
                   NN1(I)=NNX(I,I1)
                   NN2(I)=NNY(I,I1)
-                  NN3(I)=NNZ(I,I1)                
+                  NN3(I)=NNZ(I,I1)
               ENDIF
               IF(MVOISN(I,2) == 0 .AND. NNE2 < NNE(I))THEN
 C               Distance signee a l'arete
                   NNE(I)=NNE2
                   NN1(I)=NNX(I,I2)
                   NN2(I)=NNY(I,I2)
-                  NN3(I)=NNZ(I,I2)                
+                  NN3(I)=NNZ(I,I2)
               ENDIF
               IF(MVOISN(I,4) == 0 .AND. NNE4 < NNE(I)) THEN
                   NNE(I)=NNE4
                   NN1(I)=NNX(I,5)
                   NN2(I)=NNY(I,5)
-                  NN3(I)=NNZ(I,5)                
+                  NN3(I)=NNZ(I,5)
               END IF
             ENDIF
 C
@@ -615,7 +615,7 @@ C
                 KBORD(NBORD)=I
 C
               ELSEIF(P1 < GAPS(I))THEN
-                
+
                 NN1(I)= VTX_BISECTOR(1,1,IBX)
                 NN2(I)= VTX_BISECTOR(2,1,IBX)
                 NN3(I)= VTX_BISECTOR(3,1,IBX)
@@ -625,7 +625,7 @@ C
                 KBORD(NBORD)=I
 
               ELSEIF(P2 < GAPS(I))THEN
-                
+
                 NN1(I)= VTX_BISECTOR(1,2,IBX)
                 NN2(I)= VTX_BISECTOR(2,2,IBX)
                 NN3(I)= VTX_BISECTOR(3,2,IBX)
@@ -655,7 +655,7 @@ c                END IF
               PN = ((XH(I)-XX(I,IX))*VX+(YH(I)-YY(I,IX))*VY+(ZH(I)-ZZ(I,IX))*VZ)*NN
 
               IF(PN < GAPS(I))THEN
-                
+
                 NN1(I)= VX*NN
                 NN2(I)= VY*NN
                 NN3(I)= VZ*NN
@@ -675,7 +675,7 @@ c     .            itafi(nin)%p(-nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i))
 c                END IF
 
               END IF
- 
+
             END IF ! IF(VTX_BISECTOR(1,1,IBX)/=ZERO.OR.
 
           END IF
@@ -885,25 +885,25 @@ C
 C
           H0 = FOURTH * LA(I)
           IF(IT==1)THEN
-            H1(I) = H0 + LB(I) 
+            H1(I) = H0 + LB(I)
             H2(I) = H0 + LC(I)
-            H3(I) = H0 
-            H4(I) = H0 
+            H3(I) = H0
+            H4(I) = H0
           ELSEIF(IT==2)THEN
-            H1(I) = H0 
-            H2(I) = H0 + LB(I) 
+            H1(I) = H0
+            H2(I) = H0 + LB(I)
             H3(I) = H0 + LC(I)
             H4(I) = H0
           ELSEIF(IT==3)THEN
             H1(I) = H0
             H2(I) = H0
-            H3(I) = H0 + LB(I) 
+            H3(I) = H0 + LB(I)
             H4(I) = H0 + LC(I)
           ELSEIF(IT==4)THEN
             H1(I) = H0 + LC(I)
-            H2(I) = H0 
-            H3(I) = H0 
-            H4(I) = H0 + LB(I) 
+            H2(I) = H0
+            H3(I) = H0
+            H4(I) = H0 + LB(I)
           END IF
 C
         ELSE
@@ -924,7 +924,7 @@ C-----------------------------------------------------------------------
 C       IF(INACTI==5)THEN
         DO I=1,JLT
 C
-         IF(PENE(I) == ZERO)CYCLE 
+         IF(PENE(I) == ZERO)CYCLE
 C
          JG = NSVG(I)
          N  = CAND_N(I)
@@ -958,24 +958,24 @@ C       END IF !IF (INACTI==5)
 C pene_old(5,N) is defined from the real_gap, gap = 2*real_gap, pene is measured from real_gap
       ELSE ! IVIS2==-1 (Adhesion case)
         DO I=1,JLT
-          IF(PENE(I) == ZERO)CYCLE 
+          IF(PENE(I) == ZERO)CYCLE
           JG = NSVG(I)
           N  = CAND_N(I)
           IF(JG > 0)THEN
             IF(IRTLM(1,N) < 0)THEN ! new impact
-               PENE_OLD(5,N)= MAX(ZERO,PENE(I)-HALF*GAPV(I))              
+               PENE_OLD(5,N)= MAX(ZERO,PENE(I)-HALF*GAPV(I))
             ENDIF
             IF(PENE(I)>=HALF*GAPV(I)) IF_ADH(N) = 1
-            BASE_ADH(I) = PENE_OLD(5,N) + HALF*GAPV(I) 
-            IFADHI(I) = IF_ADH(N)        
+            BASE_ADH(I) = PENE_OLD(5,N) + HALF*GAPV(I)
+            IFADHI(I) = IF_ADH(N)
           ELSE
             JG = -JG
-            IF(IRTLM_FI(NIN)%P(1,JG) < 0)THEN 
+            IF(IRTLM_FI(NIN)%P(1,JG) < 0)THEN
               PENE_OLDFI(NIN)%P(5,JG)= MAX(ZERO,PENE(I)-HALF*GAPV(I))
             ENDIF
-            IF(PENE(I)>=HALF*GAPV(I)) IF_ADHFI(NIN)%P(JG) = 1 
+            IF(PENE(I)>=HALF*GAPV(I)) IF_ADHFI(NIN)%P(JG) = 1
             BASE_ADH(I) = PENE_OLDFI(NIN)%P(5,JG) + HALF*GAPV(I)
-            IFADHI(I) = IF_ADHFI(NIN)%P(JG)  
+            IFADHI(I) = IF_ADHFI(NIN)%P(JG)
           ENDIF
         ENDDO
       ENDIF

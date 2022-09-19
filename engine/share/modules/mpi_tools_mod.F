@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        RESOL                         source/engine/resol.F         
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE MPI_TOOLS_MOD 
+      MODULE MPI_TOOLS_MOD
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
@@ -34,7 +34,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-      TYPE MPI_MIN_REAL_STRUCT 
+      TYPE MPI_MIN_REAL_STRUCT
           my_real :: VAL
           INTEGER, DIMENSION(:), POINTER  :: TAB
           INTEGER :: LENGTH_TAB
@@ -44,7 +44,7 @@ C-----------------------------------------------
           INTEGER, DIMENSION(:), POINTER :: RQ_SEND_TAB
           INTEGER, DIMENSION(:), POINTER :: RQ_RECV_VAL
           INTEGER, DIMENSION(:), POINTER :: RQ_RECV_TAB
-      END TYPE MPI_MIN_REAL_STRUCT 
+      END TYPE MPI_MIN_REAL_STRUCT
 
       CONTAINS
 
@@ -68,7 +68,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE MPI_MIN_REAL_BEGIN(VAL,TAB,STAB,MY_STRUCT) 
+      SUBROUTINE MPI_MIN_REAL_BEGIN(VAL,TAB,STAB,MY_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -101,7 +101,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: VAL  ! value to be minimized
       INTEGER, INTENT(IN) :: STAB !size of integer tab
       INTEGER, INTENT(IN) :: TAB(STAB) !Tab of integer to send
-      TYPE(MPI_MIN_REAL_STRUCT),  INTENT(INOUT) :: MY_STRUCT 
+      TYPE(MPI_MIN_REAL_STRUCT),  INTENT(INOUT) :: MY_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -123,20 +123,20 @@ C-----------------------------------------------
       ALLOCATE(MY_STRUCT%RQ_RECV_TAB(NSPMD),stat=IERROR)
 
       MY_STRUCT%LENGTH_TAB = STAB
-      MY_STRUCT%VAL = VAL 
+      MY_STRUCT%VAL = VAL
       MY_STRUCT%TAB(1:STAB) = TAB(1:STAB)
-      MY_STRUCT%BUFFER_VAL(ISPMD+1) = VAL 
+      MY_STRUCT%BUFFER_VAL(ISPMD+1) = VAL
       MY_STRUCT%BUFFER_TAB(1:STAB,ISPMD+1) = TAB(1:STAB)
 
 
       DO P = 1, NSPMD
         IF( P /= ISPMD +1 ) THEN
-             MSGTYP = 17000 
+             MSGTYP = 17000
              CALL MPI_IRECV(
      1        MY_STRUCT%BUFFER_VAL(P) ,1,REAL,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD,MY_STRUCT%RQ_RECV_VAL(P),IERROR)
 
-             MSGTYP = 17001 
+             MSGTYP = 17001
              CALL MPI_IRECV(
      1        MY_STRUCT%BUFFER_TAB(1,P),MY_STRUCT%LENGTH_TAB,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD,MY_STRUCT%RQ_RECV_TAB(P),IERROR)
@@ -144,12 +144,12 @@ C-----------------------------------------------
       ENDDO
       DO P = 1, NSPMD
         IF( P /= ISPMD +1 ) THEN
-             MSGTYP = 17000 
+             MSGTYP = 17000
              CALL MPI_ISEND(
      1        MY_STRUCT%VAL ,1,REAL,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD,MY_STRUCT%RQ_SEND_VAL(P),IERROR)
 
-             MSGTYP = 17001 
+             MSGTYP = 17001
              CALL MPI_ISEND(
      1        MY_STRUCT%TAB,MY_STRUCT%LENGTH_TAB,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD,MY_STRUCT%RQ_SEND_TAB(P),IERROR)
@@ -167,7 +167,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE MPI_MIN_REAL_END(VAL,TAB,STAB,MY_STRUCT) 
+      SUBROUTINE MPI_MIN_REAL_END(VAL,TAB,STAB,MY_STRUCT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -200,7 +200,7 @@ C-----------------------------------------------
       my_real, INTENT(INOUT) :: VAL  ! value to be minimized
       INTEGER, INTENT(IN) :: STAB !size of integer tab
       INTEGER, INTENT(INOUT) :: TAB(STAB) !Tab of integer to send
-      TYPE(MPI_MIN_REAL_STRUCT),  INTENT(INOUT) :: MY_STRUCT 
+      TYPE(MPI_MIN_REAL_STRUCT),  INTENT(INOUT) :: MY_STRUCT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -219,12 +219,12 @@ C-----------------------------------------------
         ENDIF
       ENDDO
 
-      
+
       ! Find the mimimum value of VAL and the processor that has it
       PMIN = 1
-      VAL = MY_STRUCT%BUFFER_VAL(1) 
+      VAL = MY_STRUCT%BUFFER_VAL(1)
       DO P=2,NSPMD
-        IF(VAL > MY_STRUCT%BUFFER_VAL(P)) THEN 
+        IF(VAL > MY_STRUCT%BUFFER_VAL(P)) THEN
           VAL = MY_STRUCT%BUFFER_VAL(P)
           PMIN = P
         ENDIF
@@ -247,5 +247,5 @@ C-----------------------------------------------
 
 
 
-      END MODULE MPI_TOOLS_MOD 
+      END MODULE MPI_TOOLS_MOD
 

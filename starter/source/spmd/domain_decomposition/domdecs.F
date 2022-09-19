@@ -75,13 +75,13 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*),
      .        CEP(*), NELEM,IDDLEVEL, NELEMINT, IXINT(6,*), ISOLNOD(*),
-     .        KXX(NIXX,*),IXX(*), NSUB, NUMNOD, NUMELS, NUMELQ,  
+     .        KXX(NIXX,*),IXX(*), NSUB, NUMNOD, NUMELS, NUMELQ,
      .        NUMELC, NUMELT, NUMELP, NUMELR, NUMELTG, NUMELUR, NUMELX,
      .        ADSKY(0:*), IGEO(NPROPGI,NUMGEO), IWCONT(*), IWCIN2(*),
      .        DSDOF(*), DSARCH,times,IPM(*),TABMP_L,NPART
       INTEGER, DIMENSION(LIPART1,*), INTENT(IN) :: IPART
       INTEGER, DIMENSION(*), INTENT(IN) :: IPARTC,IPARTG,IPARTS
-      my_real 
+      my_real
      .        GEO(NPROPG,*),  PM(NPROPM,*), X(3,*),BUFMAT(*)
       REAL    WD(*)
       INTEGER, DIMENSION(2,NPART), INTENT(IN) :: POIN_PART_SHELL,POIN_PART_TRI
@@ -189,7 +189,7 @@ Celdev024
       ENDDO
 C
        DO I=1,NUMELX
-        NELX=KXX(3,I) 
+        NELX=KXX(3,I)
          DO K=1,NELX
            ADDX = KXX(4,I)+K-1
            N=IXX(ADDX)+1
@@ -247,7 +247,7 @@ Cel optimisation des poids par defaut
       CALL INITWG(WD,PM,GEO,IXS,IXQ,
      .            IXC,IXT,IXP,IXR,IXTG,
      .            IXUR,KXX,IGEO,ISOLNOD,DSARCH,
-     .            NUMELS, NUMELQ,NUMELC,NUMELT,NUMELP, 
+     .            NUMELS, NUMELQ,NUMELC,NUMELT,NUMELP,
      .            NUMELR, NUMELTG,NUMELUR,NUMELX,IPM,
      .            BUFMAT,NUMMAT,NUMGEO,TAILLE,POIN_UMP,
      .            TAB_UMP,POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
@@ -335,7 +335,7 @@ Cel poids int2
         ENDDO
       ENDDO
 C
-      OFF = OFF + NUMELP 
+      OFF = OFF + NUMELP
 C
       DO I = 1, NUMELR
         DO K=1,2
@@ -517,7 +517,7 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
             CEP(NUMG2) = 1
            ENDIF
           ENDIF
-         ENDDO 
+         ENDDO
         ENDDO
       ENDIF
 C
@@ -654,7 +654,7 @@ C normalisation des poids (elem delete a 0)
                 IWD(NCOND*(I-1)+1) = INT(WD(I)*1000)
               END IF
 C poids interface deja calcul
-            END DO 
+            END DO
           END IF
           IF(ELEMD>0)THEN
             DO I = 1, NELEM

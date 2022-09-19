@@ -83,7 +83,7 @@ C-----------------------------------------------
      .   FRIGAP(*)
       CHARACTER TITR*nchartitle,TITR1*nchartitle
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -126,7 +126,7 @@ C
       NTYP = 12
       IPARI(15)=NOINT
       IPARI(7)=NTYP
-      
+
       IS_AVAILABLE=.FALSE.
 
 C------------------------------------------------------------
@@ -302,7 +302,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

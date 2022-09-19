@@ -106,7 +106,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER IOUT,NUVAR,NEL,IPROP,   
+      INTEGER IOUT,NUVAR,NEL,IPROP,
      .        IX(4,NEL) ,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU,
      .        KFUNC,KMAT,KPROP

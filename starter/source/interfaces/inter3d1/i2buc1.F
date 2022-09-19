@@ -91,7 +91,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN, NRTM, NSN, NOINT, IGNORE, NINT,ILEV
       INTEGER IRECT(4,*),NSV(*),NSEG(*),MWA(*)
-      INTEGER MSR(*),IRTL(*),MAXSIZ,KNOD2ELS(*), KNOD2ELC(*), 
+      INTEGER MSR(*),IRTL(*),MAXSIZ,KNOD2ELS(*), KNOD2ELC(*),
      .   KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),
      .   IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),
      .   IXS(NIXS,*),IXS10(*), IXS16(*), IXS20(*),IPARTTG(*),IGEO(*),
@@ -166,20 +166,20 @@ C--         Cooques 4n
             IEL  = NOD2ELC(IAD)
             MG=IXC(6,IEL)
             IP = IPARTC(IEL)
-            IF ( THK_PART(IP) /= ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK_PART(IP))
             ELSEIF ( THK(I) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK(IEL))
             ELSE
               THKSECND = MAX(THKSECND,GEO(1,MG))
             ENDIF
-          ENDDO 
+          ENDDO
 C--         Cooques 3n
           DO IAD = KNOD2ELTG(IS)+1,KNOD2ELTG(IS+1)
-            IEL  = NOD2ELTG(IAD)  
+            IEL  = NOD2ELTG(IAD)
             MG=IXTG(5,IEL)
             IP = IPARTTG(IEL)
-            IF ( THK_PART(IP) /= ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK_PART(IP))
             ELSEIF ( THK(I) /= ZERO) THEN
               THKSECND = MAX(THKSECND,THK(IEL))
@@ -201,8 +201,8 @@ C--         Cooques 3n
      .            PM_STACK , IWORKSH)
           IF (NELC /= 0) THEN
             MG=IXC(6,NELC)
-            IP = IPARTC(NELC) 
-            IF ( THK_PART(IP) /= ZERO) THEN  
+            IP = IPARTC(NELC)
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK_PART(IP))
             ELSEIF ( THK(I) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK(NELC))
@@ -211,8 +211,8 @@ C--         Cooques 3n
             ENDIF
           ELSEIF (NELTG /= 0)THEN
             MG=IXTG(5,NELTG)
-            IP = IPARTTG(NELTG) 
-            IF ( THK_PART(IP) /= ZERO) THEN  
+            IP = IPARTTG(NELTG)
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK_PART(IP))
             ELSEIF ( THK(I) /= ZERO) THEN
               THKMAIN = MAX(THKMAIN,THK(NUMELC+NELTG))
@@ -285,7 +285,7 @@ C--------------------------------
       ZMAX=-EP30
 C
       DO 20 I=1,NMN
-         J=MSR(I) 
+         J=MSR(I)
          XMIN= MIN(XMIN,X(1,J))
          YMIN= MIN(YMIN,X(2,J))
          ZMIN= MIN(ZMIN,X(3,J))
@@ -391,7 +391,7 @@ C       SEPARER B ET N EN TWO
      1   MWA(IP1),MWA(IP2),MWA(IP21),MWA(IP22),MWA(IP31+2*(I_ADD-2)),
      2   IRECT   ,X       ,NB_NC    ,NB_EC    ,XYZM,
      3   I_ADD   ,NSV     ,I_AMAX   ,XMAX     ,YMAX,
-     4   ZMAX    ,3*MAXSIZ,I_MEM    ,NB_N_B   ,NSN , 
+     4   ZMAX    ,3*MAXSIZ,I_MEM    ,NB_N_B   ,NSN ,
      5   NOINT   ,TZINF05 ,MAXBOX   ,MINBOX   ,J_STOK,
      6   IRTL    ,ST       ,DMIN    ,IGNORE   ,THK   ,
      7   KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS  ,NOD2ELC,
@@ -442,7 +442,7 @@ C---------------------------------
          LLT = J_STOK
          CALL I2COR3(X  ,IRECT ,NSV  ,PROV_E ,PROV_N,
      .               BID ,BID ,GAPV  ,0      ,TZINF05,
-     .               BID ,BID ,0     ,NINT    ,IXC   , 
+     .               BID ,BID ,0     ,NINT    ,IXC   ,
      4               IXTG  ,THK_PART,IPARTC,GEO   , NOINT,
      5               IXS   ,IXS10 ,PM    ,THK     ,KNOD2ELS,
      6               KNOD2ELC,KNOD2ELTG,NOD2ELS,NOD2ELC,NOD2ELTG,
@@ -468,7 +468,7 @@ C--        Improved projections on triangles for spotflag27
      5                NX3,NY3,NZ3,NX4,NY4,
      6                NZ4,P1 ,P2 ,P3 ,P4 ,
      7                LB1,LB2,LB3,LB4,LC1,
-     8                LC2,LC3,LC4,S  ,T  ) 
+     8                LC2,LC3,LC4,S  ,T  )
          ELSE
            CALL I2DST3(GAPV,PROV_E ,PROV_N,TZINF05,IRTL,ST,DMIN,IGNORE,
      .                THK  ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS,
@@ -484,7 +484,7 @@ C--        Improved projections on triangles for spotflag27
      6                NZ4,P1 ,P2 ,P3 ,P4 ,
      7                LB1,LB2,LB3,LB4,LC1,
      8                LC2,LC3,LC4,S  ,T  )
-         ENDIF  
+         ENDIF
 C
       ENDIF
 C

@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -95,14 +95,14 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-      
+
       !ERREURS :
       ! GAMMA <=0
-      
+
       IF(GAMMA <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -111,7 +111,7 @@ C-----------------------------------------------
      .               C1='/EOS/LSZK',
      .               C2='GAMMA MUST BE GREATER THAN 1.0')
       ENDIF
-      
+
       PM(34) = GAMMA
       PM(32) = P0
       PM(88) = PSH
@@ -128,44 +128,44 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-      
+
       IF(MU0 <= -ONE)MU0=-ONE+EP12
-    
+
       IF(GAMMA > ONE)THEN
         E0 = (P0-A*EXP(B*LOG(ONE+MU0)))/(GAMMA-ONE)/(ONE+MU0)
       ELSE
         E0 = ZERO ! this error is managed above
       ENDIF
-      
+
       IF(E0 < ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO,
      .               I1=IMIDEOS,
      .               C1='/EOS/LSZK',
-     .               C2='PARAMETERS RESULTS INTO A NEGATIVE INITIAL ENERGY')      
+     .               C2='PARAMETERS RESULTS INTO A NEGATIVE INITIAL ENERGY')
       ENDIF
-                
+
       PM(23) = E0
       PM(31) = P0-PSH
       PM(104)= P0-PSH
-      
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       PP = (GAMMA-ONE)*(ONE+MU0)*E0 + A*EXP(B*LOG(ONE+MU0))
-      RHOI = PM(89)      
+      RHOI = PM(89)
       DPDMU = (GAMMA-ONE)*E0+A*B/(ONE+MU0)*EXP((B-ONE)*LOG(ONE+MU0))+(GAMMA-ONE)*DF*PP   !total derivative
       DPDMU = MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
       PM(27)=SSP0
-      
+
       WRITE(IOUT,1000)
 
       IF(IS_ENCRYPTED)THEN

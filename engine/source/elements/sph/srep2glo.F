@@ -80,7 +80,7 @@ C     REAL
      .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   S11,S22,S33,S12,S21,S23,S32,S13,S31,RR,XL,YL,ZL
-      INTEGER NC1, NC2, NC3, NC4, 
+      INTEGER NC1, NC2, NC3, NC4,
      .        NC5, NC6, NC7, NC8, I
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -221,7 +221,7 @@ C           MATRICE DE PASSAGE GLOBAL -> ORTHOTROPE.
       ENDIF
 C
       IF (JHBE==24) THEN
-        DO I=LFT,LLT      
+        DO I=LFT,LLT
                 XL=R11(I)*X1(I)+R21(I)*Y1(I)+R31(I)*Z1(I)
                 YL=R12(I)*X1(I)+R22(I)*Y1(I)+R32(I)*Z1(I)
                 ZL=R13(I)*X1(I)+R23(I)*Y1(I)+R33(I)*Z1(I)
@@ -269,7 +269,7 @@ C
                 ZL=R13(I)*X8(I)+R23(I)*Y8(I)+R33(I)*Z8(I)
                 X8(I)=XL
                 Y8(I)=YL
-                Z8(I)=ZL 
+                Z8(I)=ZL
         ENDDO
 C
         DO I=LFT,LLT

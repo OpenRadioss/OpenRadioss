@@ -135,7 +135,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE I22TRI_MOD
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -217,7 +217,7 @@ C
               print *, "      assembly iparit2 - node_id :   ", itab(IX1(I))
               print *, "       +--BRIQUE :   ", IXS(11,BRICK_LIST(NIN,CB_LOC(I))%ID)
               print *, "       +--FACETTE:   ", ITAB(IRECT(1:4,K))
-              print *, "       +--NCYCLE:    ", NCYCLE              
+              print *, "       +--NCYCLE:    ", NCYCLE
               write(*,FMT='(A,3E30.16)') "      +--Fxyz1:   ", FX1(I),FY1(I),FZ1(I)
             endif
         ENDDO
@@ -227,11 +227,11 @@ C
             FSKYI(NISKYL,2) = FY2(I)
             FSKYI(NISKYL,3) = FZ2(I)
             FSKYI(NISKYL,4) = ZERO
-            ISKY(NISKYL)    = IX2(I) 
+            ISKY(NISKYL)    = IX2(I)
             if(ibug22_fcontASS==-1)then
               print *, "      assembly iparit2 - node_id :   ", itab(IX2(I))
               write(*,FMT='(A,3E30.16)') "      +--Fxyz2:   ", FX2(I),FY2(I),FZ2(I)
-            endif                   
+            endif
         ENDDO
         DO I=1,JLT
             NISKYL          = NISKYL + 1
@@ -243,7 +243,7 @@ C
             if(ibug22_fcontASS==-1)then
               print *, "      assembly iparit2 - node_id :   ", itab(IX3(I))
               write(*,FMT='(A,3E30.16)') "      +--Fxyz3:   ", FX3(I),FY3(I),FZ3(I)
-            endif            
+            endif
         ENDDO
         DO I=1,JLT
             NISKYL          = NISKYL + 1
@@ -255,11 +255,11 @@ C
             if(ibug22_fcontASS==-1)then
               print *, "      assembly iparit2 - node_id :   ", itab(IX4(I))
               write(*,FMT='(A,3E30.16)') "      +--Fxyz4:   ", FX4(I),FY4(I),FZ4(I)
-            endif            
+            endif
         ENDDO
 
       !### Thermique ###!
-      ELSE     
+      ELSE
         !not planned yet
       ENDIF!(INTTH == 0 )
 C      

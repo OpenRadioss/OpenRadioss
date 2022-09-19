@@ -28,7 +28,7 @@ Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_opt
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE COMM_TRI7VOX_MOD
-#include      "my_real.inc"    
+#include      "my_real.inc"
 !$COMMENT
 !       COMM_TRI7VOX_MOD :
 !              create the comm_tri7vox_type
@@ -36,7 +36,7 @@ Chd|====================================================================
 !                        communicator creation
 !               - PROC_NUMBER : integer, number of processor
 !                               for a given interface
-!               - PROC_MIN : integer, main processor for a 
+!               - PROC_MIN : integer, main processor for a
 !                            a given interface
 !               - COLOR : integer, color of the processor for
 !                         a given interface (used only for
@@ -45,7 +45,7 @@ Chd|====================================================================
 !                        interface
 !               - RANK : integer, rank of the processor for
 !                        a given interface
-!               - PROC_LIST : integer, list of processors for 
+!               - PROC_LIST : integer, list of processors for
 !                             a given interface
 !$ENDCOMMENT
             TYPE comm_tri7vox_type

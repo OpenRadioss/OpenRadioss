@@ -45,31 +45,31 @@ Chd|        SPMD_SPLIT_COMM_INTER         source/mpi/interfaces/spmd_split_comm_
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE INTER_STRUCT_MOD
-#include      "my_real.inc"    
+#include      "my_real.inc"
 !$COMMENT
 !       INTER_STRUCT_MOD :
 !              create the inter_struct_type
-!                NMN_G : integer ; total number of main node of the interface  
-!                I_SK_OLD : integer ; 
+!                NMN_G : integer ; total number of main node of the interface
+!                I_SK_OLD : integer ;
 !                INACTI,INACTII : integer ; inacti option
 !                CURV_MAX_MAX : float ; max value of CURV_MAX
-!                CURV_MAX : float array ; 
+!                CURV_MAX : float array ;
 !                SIZE_CAND_A : integer ; size of cand_a array
-!                CAND_A : integer array ;  
+!                CAND_A : integer array ;
 !                NSNFIOLD : integer array ; old value of NSNFI
 !                BOX_LIMIT_MAIN : float array ; min&max position of main nodes
 !$ENDCOMMENT
             TYPE inter_struct_type
-                INTEGER :: NMN_G     
-                INTEGER :: I_SK_OLD    
+                INTEGER :: NMN_G
+                INTEGER :: I_SK_OLD
                 INTEGER :: INACTI,INACTII
                 my_real :: CURV_MAX_MAX
-                my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX     
+                my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX
                 INTEGER :: SIZE_CAND_A      !   size of cand_a array
-                INTEGER, DIMENSION(:), ALLOCATABLE :: CAND_A  
+                INTEGER, DIMENSION(:), ALLOCATABLE :: CAND_A
                 INTEGER, DIMENSION(:), ALLOCATABLE :: NSNFIOLD
                 my_real, DIMENSION(12) :: BOX_LIMIT_MAIN
-            END TYPE inter_struct_type  
+            END TYPE inter_struct_type
         END MODULE INTER_STRUCT_MOD
 
 

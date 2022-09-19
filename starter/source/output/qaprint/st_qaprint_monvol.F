@@ -78,7 +78,7 @@ C-----------------------------------------------
                DO JJ = 1, NVOLU * NVOLU
                   WRITE(VARNAME, '(A, I0, A,  I0)') 'ICBAG_', II, '_', JJ
                   IF (T_MONVOL_METADATA%ICBAG(II, JJ) /= 0) THEN
-                     CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)), 
+                     CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),
      .                    T_MONVOL_METADATA%ICBAG(II, JJ), 0.0_8)
                   ENDIF
                ENDDO
@@ -89,7 +89,7 @@ C-----------------------------------------------
                   WRITE(VARNAME, '(A, I0, A, I0)') 'RCBAG_', II, '_', JJ
                   IF (T_MONVOL_METADATA%RCBAG(II, JJ) /= ZERO) THEN
                      FVALUE = T_MONVOL_METADATA%RCBAG(II, JJ)
-                     CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)), 
+                     CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),
      .                    0, FVALUE)
                   ENDIF
                ENDDO

@@ -67,7 +67,7 @@ C-----------------------------------------------
       IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
          IF(OFFG(I)<ZERO)THEN
-           DO J=1,NCTRL    
+           DO J=1,NCTRL
             FX(I,J)=ZERO
             FY(I,J)=ZERO
             FZ(I,J)=ZERO
@@ -79,7 +79,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
        DO J=1,NCTRL
         IF( J <= KXIG3D(3,I+NFT) ) THEN
-         INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1)                   
+         INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1)
          E(1,INCTRL)=E(1,INCTRL)+FX(I,J)
          E(2,INCTRL)=E(2,INCTRL)+FY(I,J)
          E(3,INCTRL)=E(3,INCTRL)+FZ(I,J)

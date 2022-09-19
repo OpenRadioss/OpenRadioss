@@ -72,12 +72,12 @@ C-----------------------------------------------
       INTEGER JLT,JLT_NEW, IEDGE,INTFRIC
       INTEGER CAND_S(MVSIZ),CAND_M(MVSIZ),INDEX(*),CS_LOC4(*),CM_LOC4(*),
      .        N1(4,MVSIZ),N2(4,MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),ADMSR(4,*),
-     .        TYPEDGS(MVSIZ),IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),IAM(MVSIZ),    
-     .        NSMS(4,MVSIZ),IPARTFRIC_ES(4,MVSIZ),IPARTFRIC_EM(4,MVSIZ), 
+     .        TYPEDGS(MVSIZ),IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),IAM(MVSIZ),
+     .        NSMS(4,MVSIZ),IPARTFRIC_ES(4,MVSIZ),IPARTFRIC_EM(4,MVSIZ),
      .        IRECT(4,*),LEDGE(NLEDGE,*),ITAB(*), INDX1(4*MVSIZ), INDX2(4*MVSIZ)
       my_real
      .     H1S(4,*),H2S(4,*),H1M(4,*),H2M(4,*),NX(4,*),NY(4,*),NZ(4,*),STIF(4,*),
-     .     XXS1(4,*), XXS2(4,*), XYS1(4,*), XYS2(4,*), XZS1(4,*) , XZS2(4,*), 
+     .     XXS1(4,*), XXS2(4,*), XYS1(4,*), XYS2(4,*), XZS1(4,*) , XZS2(4,*),
      .     XXM1(4,*), XXM2(4,*) , XYM1(4,*), XYM2(4,*), XZM1(4,*), XZM2(4,*),
      .     VXS1(4,*), VXS2(4,*), VYS1(4,*), VYS2(4,*), VZS1(4,*), VZS2(4,*) ,
      .     VXM1(4,*), VXM2(4,*), VYM1(4,*), VYM2(4,*), VZM1(4,*), VZM2(4,*),
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A, 
+      INTEGER I, IA, JA, IB, JB, SOL_EDGE, SH_EDGE, K, NJNDX, N4A,
      .        EJ, I1, I2, I3, I4, I0, IT, EJ_NEW, I_NEW,
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        JX1(MVSIZ), JX2(MVSIZ), JX3(MVSIZ), JX4(MVSIZ),
@@ -214,7 +214,7 @@ C
           ZS2M2 = XZM2(EJ,I)-XZS2(EJ,I)
 
           XAA =  XS12(EJ,I)*XS2M2 + YS12(EJ,I)*YS2M2 + ZS12(EJ,I)*ZS2M2
-          XBB = -XM12(EJ,I)*XS2M2 - YM12(EJ,I)*YS2M2 - ZM12(EJ,I)*ZS2M2 
+          XBB = -XM12(EJ,I)*XS2M2 - YM12(EJ,I)*YS2M2 - ZM12(EJ,I)*ZS2M2
           DET = XM2(EJ,I)*XS2(EJ,I) - XSM*XSM
           DET = MAX(EM20,DET)
 C
@@ -317,21 +317,21 @@ C Computing cross product :
             CYCLE  ! no contact
           END IF
 
-          NNCX = YS12(EJ,I)*ZM12(EJ,I)- ZS12(EJ,I)*YM12(EJ,I) 
+          NNCX = YS12(EJ,I)*ZM12(EJ,I)- ZS12(EJ,I)*YM12(EJ,I)
           NNCY = ZS12(EJ,I)*XM12(EJ,I)- ZM12(EJ,I)*XS12(EJ,I)
-          NNCZ = XS12(EJ,I)*YM12(EJ,I)- YS12(EJ,I)*XM12(EJ,I)   
+          NNCZ = XS12(EJ,I)*YM12(EJ,I)- YS12(EJ,I)*XM12(EJ,I)
 
           NNCP = SQRT(NNCX*NNCX+NNCY*NNCY+NNCZ*NNCZ)
-         
+
           NNCX = NNCX / MAX(EM30,NNCP)
           NNCY = NNCY / MAX(EM30,NNCP)
-          NNCZ = NNCZ / MAX(EM30,NNCP) 
+          NNCZ = NNCZ / MAX(EM30,NNCP)
 
           DIST = NNCX*NX(EJ,I)+NNCY*NY(EJ,I)+NNCZ*NZ(EJ,I)
 
           NX(EJ,I)    = NNCX * DIST
           NY(EJ,I)    = NNCY * DIST
-          NZ(EJ,I)    = NNCZ * DIST 
+          NZ(EJ,I)    = NNCZ * DIST
 
           NN(EJ,I)=SQRT(NX(EJ,I)**2 + NY(EJ,I)**2 + NZ(EJ,I)**2)
 
@@ -356,17 +356,17 @@ C Exclusions :
           NS(1:3)=H1S(EJ,I)*NNS11(1:3)+H2S(EJ,I)*NNS22(1:3)
 
           P1=-(NX(EJ,I)*NM(1)+NY(EJ,I)*NM(2)+NZ(EJ,I)*NM(3))
-          P2=  NX(EJ,I)*NS(1)+NY(EJ,I)*NS(2)+NZ(EJ,I)*NS(3)  
- 
+          P2=  NX(EJ,I)*NS(1)+NY(EJ,I)*NS(2)+NZ(EJ,I)*NS(3)
+
           NNNN=NN(EJ,I)
 
 
            IF(P2 > EM04*NNNN.OR.P1 > EM04*NNNN)THEN ! Tolerance EM04
-            PENE2(EJ,I)=ZERO 
+            PENE2(EJ,I)=ZERO
            ENDIF
 
            IF(ABS(P1) <= ONE_FIFTH*NNNN .OR. ABS(P2) <= ONE_FIFTH*NNNN) THEN ! Tolerance :+-80deg
-             PENE2(EJ,I)=ZERO 
+             PENE2(EJ,I)=ZERO
              CYCLE  ! no contact
            ENDIF
 
@@ -383,7 +383,7 @@ C Exclusions :
           IF(PENE2(1,I)+PENE2(2,I)+PENE2(3,I)+PENE2(4,I)==ZERO) CYCLE
 
           IF(TYPEDGS(I)/=1)CYCLE
-       
+
 C         IF(CAND_S(I) <= NEDGE) THEN
 C---------------------------------------
 C         Solid on secnd side !
@@ -420,7 +420,7 @@ C---------------------------------------
           IF(IX3(I)/=IX4(I))THEN
            XA0(I) = FOURTH*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
            YA0(I) = FOURTH*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
-           ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
+           ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I))
           ELSE
            XA0(I) = XA3(I)
            YA0(I) = YA3(I)
@@ -443,7 +443,7 @@ C---------------------------------------
             IF(
      .         XA3(I) == XA4(I) .AND.
      .         YA3(I) == YA4(I) .AND.
-     .         ZA3(I) == ZA4(I) 
+     .         ZA3(I) == ZA4(I)
      .         )THEN
              XA0(I) = XA3(I)
              YA0(I) = YA3(I)
@@ -451,7 +451,7 @@ C---------------------------------------
             ELSE
              XA0(I) = FOURTH*(XA1(I)+XA2(I)+XA3(I)+XA4(I))
              YA0(I) = FOURTH*(YA1(I)+YA2(I)+YA3(I)+YA4(I))
-             ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I)) 
+             ZA0(I) = FOURTH*(ZA1(I)+ZA2(I)+ZA3(I)+ZA4(I))
             ENDIF
           ENDIF
         END DO
@@ -512,13 +512,13 @@ C---------------------------------------
 
             CNVX= (XA0(I)-XA1(I))*XNB(I,1)
      .           +(YA0(I)-YA1(I))*YNB(I,1)
-     .           +(ZA0(I)-ZA1(I))*ZNB(I,1) 
+     .           +(ZA0(I)-ZA1(I))*ZNB(I,1)
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,CNVX)
 
-            IF(CNVX >= ZERO)THEN 
+            IF(CNVX >= ZERO)THEN
               IF(.NOT.((DA >= ZERO .AND.  DB >= -EM04*CNVX) .OR.
      .                 (DA >= -EM04*CNVX .AND. DB >= ZERO)))PENE2(EJ,I)=ZERO ! Clip ok
-            ELSE 
+            ELSE
               IF(DA <= ZERO .AND. DB <= ZERO) PENE2(EJ,I)=ZERO
             END IF
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,PENE2(EJ,I))
@@ -559,7 +559,7 @@ C---------------------------------------
           IF(IX3(I)/=IX4(I))THEN
             XA(5,I) = FOURTH*(XA(1,I)+XA(2,I)+XA(3,I)+XA(4,I))
             YA(5,I) = FOURTH*(YA(1,I)+YA(2,I)+YA(3,I)+YA(4,I))
-            ZA(5,I) = FOURTH*(ZA(1,I)+ZA(2,I)+ZA(3,I)+ZA(4,I)) 
+            ZA(5,I) = FOURTH*(ZA(1,I)+ZA(2,I)+ZA(3,I)+ZA(4,I))
           ELSE
             XA(5,I) = XA(3,I)
             YA(5,I) = YA(3,I)
@@ -620,7 +620,7 @@ C
             YNA(I,4) = YNA(I,1)
             ZNA(I,4) = ZNA(I,1)
 C
-          END IF 
+          END IF
 C
         END DO
 
@@ -634,7 +634,7 @@ C---------------------------------------
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,PENE2(EJ,I))
 
             IF(PENE2(EJ,I)==ZERO) CYCLE
-            
+
             IF(IX3(I)==IX4(I))THEN
               IF(EJ==3) CYCLE
               I1=NTRIA(1,EJ)
@@ -671,7 +671,7 @@ C
 C
             CNVX= (XA(I0,I)-XA(I1,I))*XNB(I,EJ)
      .           +(YA(I0,I)-YA(I1,I))*YNB(I,EJ)
-     .           +(ZA(I0,I)-ZA(I1,I))*ZNB(I,EJ) 
+     .           +(ZA(I0,I)-ZA(I1,I))*ZNB(I,EJ)
 
             DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) ==  D_ES,CNVX)
 
@@ -679,7 +679,7 @@ C
               IF(DA <= ZERO .OR.  DB <= ZERO) THEN ! Don't compute a force in the wrong direction.
                 PENE2(EJ,I)=ZERO
               ENDIF
-            ELSE IF(DA <= ZERO .AND. DB <= ZERO) THEN 
+            ELSE IF(DA <= ZERO .AND. DB <= ZERO) THEN
                 PENE2(EJ,I)=ZERO
             END IF
 
@@ -955,7 +955,7 @@ C
                END IF
                EDGE_ID(1,JLT_NEW) = EDGE_ID_CP(1,I)
                EDGE_ID(2,JLT_NEW) = EDGE_ID_CP(2,I)
-               ASSERT(CAND_S(I) > 0) 
+               ASSERT(CAND_S(I) > 0)
                ASSERT(CAND_M(I) > 0)
                CS_LOC4(JLT_NEW)=CAND_S(I)
                CM_LOC4(JLT_NEW)=CAND_M(I)

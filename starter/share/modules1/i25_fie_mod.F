@@ -28,21 +28,21 @@ Chd|        SPLIT_CAND_I25_EDGE           source/restart/ddsplit/inter_tools.F
 Chd|        W_FI                          source/restart/ddsplit/w_fi.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE I25_FIE_MOD 
+      MODULE I25_FIE_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c
       TYPE I25_CAND_
 C candidates E2E
-        integer :: NB_CAND_E2E 
-        integer, DIMENSION(:), ALLOCATABLE :: ID_E2E 
-        integer, DIMENSION(:), ALLOCATABLE :: CANDS_E2E               
+        integer :: NB_CAND_E2E
+        integer, DIMENSION(:), ALLOCATABLE :: ID_E2E
+        integer, DIMENSION(:), ALLOCATABLE :: CANDS_E2E
         integer, DIMENSION(:), ALLOCATABLE :: CANDM_E2E
 C candidates E2S
-        integer :: NB_CAND_E2S 
-        integer, DIMENSION(:), ALLOCATABLE :: ID_E2S 
-        integer, DIMENSION(:), ALLOCATABLE :: CANDS_E2S               
+        integer :: NB_CAND_E2S
+        integer, DIMENSION(:), ALLOCATABLE :: ID_E2S
+        integer, DIMENSION(:), ALLOCATABLE :: CANDS_E2S
         integer, DIMENSION(:), ALLOCATABLE :: CANDM_E2S
       END TYPE I25_CAND_
       TYPE I25_FIE_

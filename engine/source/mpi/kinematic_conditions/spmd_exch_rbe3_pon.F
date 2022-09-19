@@ -81,7 +81,7 @@ C
           SIZ = LEN*ISIZE6
           L=L+1
           INDEXI(L)=I
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(IDEB),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(L),IERROR)
@@ -134,7 +134,7 @@ C
         I = INDEXI(L)
         LEN = IAD_M(I+1)-IAD_M(I)
         SIZ = LEN*ISIZE6
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S    SBUF(IDEB),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      G    MPI_COMM_WORLD,REQ_S(L),IERROR)

@@ -36,7 +36,7 @@ Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_PROP19(IG, IGTYP, ISTACK, GEO, IGEO, PM, IPM, UNITAB, 
+      SUBROUTINE HM_READ_PROP19(IG, IGTYP, ISTACK, GEO, IGEO, PM, IPM, UNITAB,
      .     IDRAPEID, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -87,28 +87,28 @@ C-------------------------------------------------
       IGEO(1) = IG
       IGEO(11) = IGTYP
       GEO(12) = IGTYP + PUN
-      
+
       IS_AVAILABLE = .FALSE.
       IS_ENCRYPTED = .FALSE.
 !     Encryption flag
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)      
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 !     Line 1
       CALL HM_GET_INTV('material', IMID, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_FLOATV('thickness1', GEO(1), IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('orientangle', GEO(2), IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('thickness1', GEO(1), IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('orientangle', GEO(2), IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('grsh4n_ID', IGEO(40), IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('grsh3n_ID', IGEO(41), IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('integrationpoints', IGEO(4), IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_FLOATV('orientangle2', GEO(212), IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('orientangle2', GEO(212), IS_AVAILABLE, LSUBMODEL, UNITAB)
 !     Line 2
       CALL HM_GET_INTV('table', DRAPE_ID, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('def_orth', IGEO(49), IS_AVAILABLE, LSUBMODEL)
 
-    
+
       IF (IGEO(4) <= 0) IGEO(4) = 1   ! default value
       IF (GEO(212) == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('orientangle2',FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         GEO(212) = NINTY * FAC_GEN ! default value   
+         GEO(212) = NINTY * FAC_GEN ! default value
       ENDIF
 
       IF (IS_ENCRYPTED) THEN
@@ -117,10 +117,10 @@ C-------------------------------------------------
          WRITE(IOUT, 2000) IG, IMID, GEO(1), GEO(2), IGEO(40), IGEO(41), IGEO(4),
      .        GEO(212), DRAPE_ID, IGEO(49)
       ENDIF
-     
+
       GEO(2) = GEO(2) * PI / HUNDRED80
       GEO(212) = GEO(212) * PI / HUNDRED80
-      IGEO(48) = 0 
+      IGEO(48) = 0
 
 !     *********************************************************    !
 !     Check for layer materials compatibility moved to "lecgeo"
@@ -137,16 +137,16 @@ C-------------------------------------------------
          CALL FRETITL2(TITR, IGEO(NPROPGI-LTITR+1), LTITR)
          IF (ISTACK == 0) THEN
             CALL ANCMSG(MSGID = 31, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_2,
-     .           I1 = IG, C1 = TITR, I2 = IMID)  
+     .           I1 = IG, C1 = TITR, I2 = IMID)
          ELSE
             CALL ANCMSG(MSGID = 1151, MSGTYPE = MSGERROR, ANMODE = ANINFO_BLIND_2,
-     .           I1 = IG, C1 = TITR, I2 = IMID) 
+     .           I1 = IG, C1 = TITR, I2 = IMID)
          ENDIF
-         IGEO(101) = 1   
-      ELSE 
-!     ***********************************    ! 
+         IGEO(101) = 1
+      ELSE
+!     ***********************************    !
 !     check for right drape id definition
-!     ***********************************    ! 
+!     ***********************************    !
          IF (NDRAPE > 0 .OR. DRAPE_ID > 0) THEN
             LFOUND = .FALSE.
             DO J=1,NDRAPE
@@ -154,7 +154,7 @@ C-------------------------------------------------
                   IGEO(48) = DRAPE_ID
                   LFOUND = .TRUE.
                   EXIT
-               ENDIF 
+               ENDIF
             ENDDO
             IF (.NOT. LFOUND) THEN
                IF (DRAPE_ID > 0)THEN
@@ -163,7 +163,7 @@ C-------------------------------------------------
      .                 I1 = IG, C1 = TITR, I2 = DRAPE_ID)
                ENDIF
             ENDIF
-         ENDIF                  
+         ENDIF
       ENDIF
       IF (IGEO(4) > 10) THEN
          CALL ANCMSG(MSGID = 788, MSGTYPE = MSGERROR, ANMODE = ANINFO,
@@ -183,7 +183,7 @@ C-------------------------------------------------
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . . . .  . .=',I10/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . .  . .=',I10/,
      & 5X,'LAYER THICKNESS . . . . . . . . . . . . . . .  .=',1PG20.13/,
-     & 5X,'INCRMENTAL ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . .=',1PG20.13/,      
+     & 5X,'INCRMENTAL ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . .=',1PG20.13/,
      & 5X,'SHELL 4-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
      & 5X,'SHELL 3-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
      & 5X,'NUMBER OF INTEGRATION POINTS THROUGH LAYER.  . .=',I10/,

@@ -59,7 +59,7 @@ C-----------------------------------------------
         LOGICAL, INTENT(IN) :: FLAG_FVM
         INTEGER, INTENT(IN) :: I24MAXNSNE
         INTEGER, INTENT(INOUT) :: SIZE_TAG
-        INTEGER, DIMENSION(NPARI,*), INTENT(IN) ::  IPARI       
+        INTEGER, DIMENSION(NPARI,*), INTENT(IN) ::  IPARI
 C-----------------------------------------------
 C-----------------------------------------------
 C   F u n c t i o n
@@ -78,12 +78,12 @@ C
                 INACTI = IPARI(22,NI)
                 IF( ITYP==7.OR.ITYP==20.OR.ITYP==22.OR.ITYP==23.OR.
      .              ITYP==24.OR.ITYP==25 )    THEN
-                        FLAG_TAG=.TRUE.                
+                        FLAG_TAG=.TRUE.
                         SIZE_TAG = NUMNOD+I24MAXNSNE
                         IF (FLAG_FVM .AND. INACTI == 7) SIZE_FVM = NUMELS
                 ENDIF
         ENDDO
-        IF(FLAG_TAG) SIZE_TAG = NUMNOD+I24MAXNSNE+SIZE_FVM  
+        IF(FLAG_TAG) SIZE_TAG = NUMNOD+I24MAXNSNE+SIZE_FVM
 
 
         RETURN
@@ -101,9 +101,9 @@ Chd|====================================================================
 !                     the size of NODLOCAL24
 !                     NODLOCAL24 is used for the following interfaces:
 !                     24 and 25
-!                     size of NODLOCAL24: NUMNOD + I24MAXNSNE 
-!                                                      |            
-!                           max NSNE for TYP24     ____|            
+!                     size of NODLOCAL24: NUMNOD + I24MAXNSNE
+!                                                      |
+!                           max NSNE for TYP24     ____|
 !
 !       ----------------------------------------------------------------
 C-----------------------------------------------
@@ -165,7 +165,7 @@ Chd|        PLIST_IFRONT                  source/spmd/node/ddtools.F
 Chd|====================================================================
         SUBROUTINE GET_SIZE_NUMNOD_LOCAL(NUMNOD,NUMNOD_L)
 !       ----------------------------------------------------------------
-!       Description : GET_SIZE_NUMNOD_LOCAL computes the local number of 
+!       Description : GET_SIZE_NUMNOD_LOCAL computes the local number of
 !                     element on each domain
 !       ----------------------------------------------------------------
 C-----------------------------------------------
@@ -186,7 +186,7 @@ C-----------------------------------------------
         INTEGER, INTENT(IN) :: NUMNOD
         INTEGER, DIMENSION(NSPMD), INTENT(INOUT) :: NUMNOD_L
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-!       NUMNOD : integer, 
+!       NUMNOD : integer,
 !                total number of element
 !       NSPMD  : integer,
 !                number of domain
@@ -200,9 +200,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I, J, ISPMD, NBR_PROC
-        INTEGER, DIMENSION(NSPMD) :: ID_SPMD      
+        INTEGER, DIMENSION(NSPMD) :: ID_SPMD
 C ----------------------------------------
-        NUMNOD_L(1:NSPMD) = 0   
+        NUMNOD_L(1:NSPMD) = 0
         DO I=1,NUMNOD
                 CALL PLIST_IFRONT(ID_SPMD,I,NBR_PROC)
 #include "vectorize.inc"

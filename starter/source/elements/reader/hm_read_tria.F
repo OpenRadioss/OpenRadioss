@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::ITAB(*)
       INTEGER,INTENT(IN)::ITABM1(*)
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
@@ -146,7 +146,7 @@ C--------------------------------------------------
       ALLOCATE (SUB_TRIA(NUMELTG0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_TRIA') 
+     .                             C1='SUB_TRIA')
       ALLOCATE (UID_TRIA(NUMELTG0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -154,7 +154,7 @@ C--------------------------------------------------
       ALLOCATE (TMP_IXTG(NIXTG,NUMELTG0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='TMP_IXTG') 
+     .                             C1='TMP_IXTG')
       ALLOCATE (TMP_IPARTTG(NUMELTG0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
@@ -164,7 +164,7 @@ C--------------------------------------------------
       TMP_IXTG(1:NIXTG,1:NUMELTG0) = 0
       TMP_IPARTTG(1:NUMELTG0) = 0
       INDEX_PART = 1
-      UID = -1 
+      UID = -1
       KK=3
       I = 0
 C--------------------------------------------------
@@ -175,39 +175,39 @@ C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
       NUMELTG6 = 0
-      DO WHILE (KK <= 6)       
-        DO N=1,NUMELTG0 
+      DO WHILE (KK <= 6)
+        DO N=1,NUMELTG0
           IPARTTG_TMP = TMP_IPARTTG(N)
           IF(SUB_TRIA(N) /= 0)THEN
-            IF(TMP_IPARTTG(N) /= 0) IPARTTG_TMP = TMP_IPARTTG(N) + OFF_PART(SUB_TRIA(N)) 
+            IF(TMP_IPARTTG(N) /= 0) IPARTTG_TMP = TMP_IPARTTG(N) + OFF_PART(SUB_TRIA(N))
           ENDIF
 
-          IF( IPART(4,INDEX_PART) /= IPARTTG_TMP)THEN  
-            DO J=1,NPART                            
+          IF( IPART(4,INDEX_PART) /= IPARTTG_TMP)THEN
+            DO J=1,NPART
               IF(IPART(4,J)== IPARTTG_TMP )INDEX_PART = J
-            ENDDO  
-          ENDIF           
-          ISH3N = IGEO(18,IPART(2,INDEX_PART)) 
+            ENDDO
+          ENDIF
+          ISH3N = IGEO(18,IPART(2,INDEX_PART))
           IF(KK == 6 .AND. ISH3N==31) NUMELTG6 = NUMELTG6 + 1
 
           IF((KK==3.AND.ISH3N/=31).OR.(KK==6.AND.ISH3N==31))THEN
             I = I + 1
             ICNOD(I)=KK
             DO J=1,NIXTG
-              IXTG(J,I) = TMP_IXTG(J,N) 
+              IXTG(J,I) = TMP_IXTG(J,N)
             ENDDO
             IPARTTG(I) = TMP_IPARTTG(N)
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
             IF(SUB_TRIA(N) /= 0)THEN
-              IF(IPARTTG(I) /= 0) IPARTTG(I) = IPARTTG(I) + OFF_PART(SUB_TRIA(N)) 
+              IF(IPARTTG(I) /= 0) IPARTTG(I) = IPARTTG(I) + OFF_PART(SUB_TRIA(N))
               IF(IXTG(NIXTG,I) /= 0) IXTG(NIXTG,I) = IXTG(NIXTG,I) + OFF_EL(SUB_TRIA(N))
               DO J=2,4
                 IF(IXTG(J,I) /= 0) IXTG(J,I) = IXTG(J,I) + OFF_NOD(SUB_TRIA(N))
               ENDDO
               IF(UID_TRIA(N) /= 0) UID_TRIA(N) = UID_TRIA(N) + OFF_DEF(SUB_TRIA(N))
-              IF(UID_TRIA(N) == 0 .AND. LSUBMODEL(SUB_TRIA(N))%UID /= 0) 
+              IF(UID_TRIA(N) == 0 .AND. LSUBMODEL(SUB_TRIA(N))%UID /= 0)
      .             UID_TRIA(N) = LSUBMODEL(SUB_TRIA(N))%UID
             ENDIF
 C--------------------------------------------------
@@ -215,25 +215,25 @@ C      UNITS
 C--------------------------------------------------
             IF(UID_TRIA(N) /= UID )THEN
               UID = UID_TRIA(N)
-              IFLAGUNIT = 0          
-              DO J=1,NUNITS                         
-                IF (UNITAB%UNIT_ID(J) == UID) THEN  
-                  FAC_L = UNITAB%FAC_L(J)                 
-                  IFLAGUNIT = 1                     
-                ENDIF                               
-              ENDDO                             
+              IFLAGUNIT = 0
+              DO J=1,NUNITS
+                IF (UNITAB%UNIT_ID(J) == UID) THEN
+                  FAC_L = UNITAB%FAC_L(J)
+                  IFLAGUNIT = 1
+                ENDIF
+              ENDDO
               IF (UID/=0.AND.IFLAGUNIT==0) THEN
                 CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                      I1=UID,C1='/TRIA')
-              ENDIF 
-            ENDIF   
+              ENDIF
+            ENDIF
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-            IF( IPART(4,INDEX_PART) /= IPARTTG(I) )THEN  
-              DO J=1,NPART                            
+            IF( IPART(4,INDEX_PART) /= IPARTTG(I) )THEN
+              DO J=1,NPART
                 IF(IPART(4,J)== IPARTTG(I) ) INDEX_PART = J
-              ENDDO  
+              ENDDO
             ENDIF
             IF( IPART(4,INDEX_PART) /= IPARTTG(I) ) THEN
               CALL ANCMSG(MSGID=402,
@@ -243,12 +243,12 @@ C--------------------------------------------------
      .                    I1=IPARTTG(I),
      .                    I2=IPARTTG(I),
      .                    PRMOD=MSG_CUMU)
-            ENDIF             
+            ENDIF
             IPARTTG(I) = INDEX_PART
 C--------------------------------------------------           
-            MT=IPART(1,INDEX_PART)                         
-            IPID=IPART(2,INDEX_PART)                                
-            IXTG(1,I)=MT                                
+            MT=IPART(1,INDEX_PART)
+            IPID=IPART(2,INDEX_PART)
+            IXTG(1,I)=MT
             IXTG(5,I)=IPID
             IF (IXTG(NIXTG,I)>ID_LIMIT)THEN
                 CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -256,16 +256,16 @@ C--------------------------------------------------
             ELSEIF (NADMESH/=0.AND.IXTG(NIXTG,I)>ID_LIMIT_ADMESH)THEN
                 CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                      I1=IXTG(NIXTG,I),C1=LINE,C2='/TRIA')
-            ENDIF       
-                                       
-            DO J=2,4                                                 
-              IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID)  
-              CALL ANODSET(IXTG(J,I), CHECK_SHELL)     
+            ENDIF
+
+            DO J=2,4
+              IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID)
+              CALL ANODSET(IXTG(J,I), CHECK_SHELL)
             ENDDO
           ENDIF
-          IF (I  == NUMELTG0) KK = 7 
+          IF (I  == NUMELTG0) KK = 7
         ENDDO
-        IF (I  < NUMELTG0) THEN 
+        IF (I  < NUMELTG0) THEN
           KK = 6
         ELSE
 c exit from DOWHILE (kk <=6)
@@ -298,10 +298,10 @@ C
 C
  200  CONTINUE
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------

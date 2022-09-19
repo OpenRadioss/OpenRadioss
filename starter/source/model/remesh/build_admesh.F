@@ -61,7 +61,7 @@ C-----------------------------------------------
         SONTYPE=NN-FATHER
       END IF
       RETURN
-      END     
+      END
 Chd|====================================================================
 Chd|  ORIGIN                        source/model/remesh/build_admesh.F
 Chd|-- called by -----------
@@ -110,7 +110,7 @@ C-----------------------------------------------
 
       ORIGIN=NN
       RETURN
-      END     
+      END
       RECURSIVE SUBROUTINE IDENTSON4(LEVEL,NN,IXC,SH4TREE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -161,7 +161,7 @@ C-----------------------------------------------
         CALL IDENTSON4(LEVEL+1,PP,IXC,SH4TREE)
       END IF
       RETURN
-      END     
+      END
       RECURSIVE SUBROUTINE IDENTSON3(LEVEL,NN,IXTG,SH3TREE)
 C-----------------------------------------------
 C   M o d u l e s
@@ -213,7 +213,7 @@ C-----------------------------------------------
       END IF
 
       RETURN
-      END     
+      END
 Chd|====================================================================
 Chd|  BUILD_ADMESH                  source/model/remesh/build_admesh.F
 Chd|-- called by -----------
@@ -269,7 +269,7 @@ C-----------------------------------------------
      .  NUMELC_OLD_OLD,NUMELTG_OLD_OLD,
      .  NUMELC_NEW,NUMELTG_NEW,NUMNOD_NEW,
      .  INILEV
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  KNOD2SH, NOD2SH
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: TAG
       my_real
@@ -305,7 +305,7 @@ C
       ALLOCATE(KNOD2SH(0:NUMNOD_NEW),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='KNOD2SH')     
+     .                         C1='KNOD2SH')
 C
       KNOD2SH=0
       DO N=NUMELC_OLD_OLD+1,NUMELC_OLD
@@ -329,7 +329,7 @@ C
       ALLOCATE(NOD2SH(4*NUMELC_LEV+3*NUMELTG_LEV),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='NOD2SH')     
+     .                         C1='NOD2SH')
 C
       DO N=1,NUMELC_LEV
         NN=NUMELC_OLD_OLD+N
@@ -358,7 +358,7 @@ C     allocation tag
       ALLOCATE(TAG(5,NUMELC_LEV+NUMELTG_LEV),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='TAG')     
+     .                         C1='TAG')
       TAG=0
 C
       DO N=1,NUMELC_LEV
@@ -370,7 +370,7 @@ C
           IF(TAG(I,N)==0)THEN
             NI=IXC(I+1,NN)
             NJ=IXC(MOD(I,4)+2,NN)
-            
+
             NUMNOD_NEW=NUMNOD_NEW+1
             TAG(I,N)=NUMNOD_NEW
             DO J=1,3
@@ -489,7 +489,7 @@ C
         IP  =IPARTC(NN)
         NLEV=IPART(10,IP)
         IF(NLEV<LEVEL) CYCLE
- 
+
         DO J=1,NIXC
           DO I=1,4
             IXC(J,NUMELC_NEW+I)=IXC(J,NN)
@@ -547,13 +547,13 @@ C
         IP  =IPARTTG(NN)
         NLEV=IPART(10,IP)
         IF(NLEV<LEVEL) CYCLE
- 
+
         DO J=1,NIXTG
           DO I=1,4
             IXTG(J,NUMELTG_NEW+I)=IXTG(J,NN)
           END DO
         END DO
-        
+
         NUMELTG_NEW=NUMELTG_NEW+1
         IXTG(2,NUMELTG_NEW)= IXTG(2,NN)
         IXTG(3,NUMELTG_NEW)= TAG(1,N+NUMELC_LEV)

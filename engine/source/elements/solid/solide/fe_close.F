@@ -69,7 +69,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     . FAC  
+     . FAC
 C      
       IF(DT1==ZERO)RETURN
       DO I=LFT,LLT

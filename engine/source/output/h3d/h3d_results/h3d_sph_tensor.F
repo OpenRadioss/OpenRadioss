@@ -42,9 +42,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD               
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SPH_TENSOR(6,*), TENS(6,*),EPSDOT(6,*),PM(NPROPM,*),X(3,*)
-      INTEGER IPARG(NPARG,*),ITENS, 
+      INTEGER IPARG(NPARG,*),ITENS,
      .   KXSP(NISP,*),EL2FA(*),IADG(NSPMD,*),IPM(NPROPMI,*),
      .   NBF,NBPART,IPART(LIPART1,*),IPARTSP(*),
      .   ISPH3D,IGEO(NPROPGI,*),IS_WRITTEN_SPH(*),ID_ELEM(*),
@@ -112,10 +112,10 @@ C-----------------------------------------------
      .        JJ(6),IS_WRITTEN_TENSOR(MVSIZ)
 
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
@@ -130,19 +130,19 @@ C-----------------------------------------------
         ISTRAIN = IPARG(44,NG)
         ISOLNOD = IPARG(28,NG)
         IVISC = IPARG(61,NG)
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
        DO I=1,6
          JJ(I) = NEL*(I-1)
        ENDDO
 !
-       IF(MLW /= 13) THEN 
+       IF(MLW /= 13) THEN
 C-----------------------------------------------
 C       SPH
 C-----------------------------------------------
@@ -153,7 +153,7 @@ C-----------------------------------------------
           IPRT=IPARTSP(1 + NFT)
           MT1 =IPART(1,IPRT)
 
-          DO  I=1,NEL 
+          DO  I=1,NEL
             ID_ELEM(NFT+I) = KXSP(NISP,NFT+I)
             IF( H3D_PART(IPARTSP(NFT+I)) == 1) IOK_PART(I) = 1
             IS_WRITTEN_TENSOR(I) = 0
@@ -187,9 +187,9 @@ C-----------------------------------------------
 C          STRAIN
             IPRT=IPARTSP(1 + NFT)
             MT1 =IPART(1,IPRT)
-            ISTRAIN= IPARG(44,NG)    
+            ISTRAIN= IPARG(44,NG)
             NUVAR  = IPM(8,MT1)
-            NUVARR = IPM(221,MT1) 
+            NUVARR = IPM(221,MT1)
             IF (MLW>=28.AND.MLW/=49)THEN
               DO I=1,NEL
                 EVAR(1,I) =  LBUF%STRA(JJ(1) + I)
@@ -199,9 +199,9 @@ C          STRAIN
                 EVAR(5,I) =  LBUF%STRA(JJ(5) + I)*HALF
                 EVAR(6,I) =  LBUF%STRA(JJ(6) + I)*HALF
                 IS_WRITTEN_TENSOR(I) = 1
-              ENDDO   
+              ENDDO
             ELSEIF(MLW == 14)THEN
-              DO I=1,NEL                                   
+              DO I=1,NEL
                 EVAR(1,I) = LBUF%EPE(JJ(1) + I)
                 EVAR(2,I) = LBUF%EPE(JJ(2) + I)
                 EVAR(3,I) = LBUF%EPE(JJ(3) + I)
@@ -211,7 +211,7 @@ C          STRAIN
                 IS_WRITTEN_TENSOR(I) = 1
               ENDDO
             ELSEIF(MLW == 24)THEN
-              DO I=1,NEL                                  
+              DO I=1,NEL
                 EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                 EVAR(2,I) = LBUF%STRA(JJ(2) + I)
                 EVAR(3,I) = LBUF%STRA(JJ(3) + I)
@@ -222,7 +222,7 @@ C          STRAIN
               ENDDO
             ELSEIF(ISTRAIN == 1)THEN
               IF(MLW/=14.AND.MLW/=24.AND.MLW<28.OR.
-     .            MLW == 49)THEN               
+     .            MLW == 49)THEN
                 DO I=1,NEL
                   EVAR(1,I) = LBUF%STRA(JJ(1) + I)
                   EVAR(2,I) = LBUF%STRA(JJ(2) + I)
@@ -251,11 +251,11 @@ C           CRACKS
              	 ENDDO
               ELSE
              	DO I=1,NEL	
-             	  L11 = LBUF%DGLO(JJ(1) + I)		 
-             	  L21 = LBUF%DGLO(JJ(2) + I)		 
-             	  L31 = LBUF%DGLO(JJ(3) + I)		 
-             	  L12 = LBUF%DGLO(JJ(4) + I)	  
-             	  L22 = LBUF%DGLO(JJ(5) + I)	  
+             	  L11 = LBUF%DGLO(JJ(1) + I)		
+             	  L21 = LBUF%DGLO(JJ(2) + I)		
+             	  L31 = LBUF%DGLO(JJ(3) + I)		
+             	  L12 = LBUF%DGLO(JJ(4) + I)	
+             	  L22 = LBUF%DGLO(JJ(5) + I)	
              	  L32 = LBUF%DGLO(JJ(6) + I)
              	  L13 = L21*L32-L31*L22
              	  L23 = L31*L12-L11*L32
@@ -269,12 +269,12 @@ C           CRACKS
              	  G13 = G21*G32-G31*G22
              	  G23 = G31*G12-G11*G32
              	  G33 = G11*G22-G21*G12
-             	  S11 =L11*G11+L12*G12+L13*G13 
-             	  S12 =L11*G21+L12*G22+L13*G23 
+             	  S11 =L11*G11+L12*G12+L13*G13
+             	  S12 =L11*G21+L12*G22+L13*G23
              	  S13 =L11*G31+L12*G32+L13*G33
              	  S21 =L12*G11+L22*G12+L23*G13
              	  S22 =L12*G21+L22*G22+L23*G23
-             	  S23 =L12*G31+L22*G32+L23*G33 
+             	  S23 =L12*G31+L22*G32+L23*G33
              	  S31 =L13*G11+L23*G12+L33*G13
              	  S32 =L13*G21+L23*G22+L33*G23
              	  S33 =L13*G31+L23*G32+L33*G33
@@ -285,8 +285,8 @@ C           CRACKS
              	  EVAR(5,I) = G21*S13+G22*S23+G23*S33
              	  EVAR(6,I) = G11*S13+G12*S23+G13*S33
                   IS_WRITTEN_TENSOR(I) = 1
-             	ENDDO							 
-              END IF								 
+             	ENDDO							
+              END IF								
             END IF	
           ENDIF
 
@@ -296,7 +296,7 @@ C
 C-----------------------------------------------
         ENDIF
 C           
-        ENDIF ! mlw /= 13 
+        ENDIF ! mlw /= 13
 490    CONTINUE
 C-----------
       RETURN

@@ -62,9 +62,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD 
-      USE STACK_MOD 
-      USE DRAPE_MOD           
+      USE ELBUFDEF_MOD
+      USE STACK_MOD
+      USE DRAPE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -181,17 +181,17 @@ C----6---------------------------------------------------------------7---------8
              IGTYP = NINT(GEO(12,IXS(10,NF1)))
              IF(ISOLNOD==4)THEN
                 IETY=1
-               IF (ISROT > 0 .AND. ISPMD==0) THEN     
-                IF (IPRMES_EL(IETY)==0) THEN     
+               IF (ISROT > 0 .AND. ISPMD==0) THEN
+                IF (IPRMES_EL(IETY)==0) THEN
 	              WRITE(IOUT,1005)ISROT
                   IPRMES_EL(IETY)=1
 	            ENDIF
 	           ENDIF
                CALL S4KE3(
-     1             PM    ,GEO   ,IXS    ,X      ,ELBUF_TAB(NG)%GBUF  ,      
-     2             ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,                    
-     3             IADK  ,JDIK  ,NEL    ,                                   
-     4             IPM   ,IGEO  ,IKGEO  ,BUFMAT )                           
+     1             PM    ,GEO   ,IXS    ,X      ,ELBUF_TAB(NG)%GBUF  ,
+     2             ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
+     3             IADK  ,JDIK  ,NEL    ,
+     4             IPM   ,IGEO  ,IKGEO  ,BUFMAT )
 
              ELSEIF(ISOLNOD==10)THEN
               CALL  S10KE3(PM    ,GEO   ,IXS  ,IXS10 ,X  ,ELBUF_TAB(NG),
@@ -224,21 +224,21 @@ C              L2 = L1 + MVSIZ * NIPMAX
 C              L3 = L2 + MVSIZ * NIPMAX
 	              IF (JHBE/=14.AND.JHBE/=15.AND.JHBE/=17) THEN
 	               IF (NCYCLE==1.AND.IMCONV==1)THEN
-                  IF(JHBE==24)THEN                                  
-                    IETY=3                                            
-                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN     
+                  IF(JHBE==24)THEN
+                    IETY=3
+                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
 	                     WRITE(IOUT,1002)JHBE
                       IPRMES_EL(IETY)=1
 	                   ENDIF
-                  ELSEIF(JHBE==12.OR.JHBE==112)THEN               
-                    IETY=4                                            
-                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN     
+                  ELSEIF(JHBE==12.OR.JHBE==112)THEN
+                    IETY=4
+                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
 	                     WRITE(IOUT,1002)JHBE
                       IPRMES_EL(IETY)=1
 	                   ENDIF
-                  ELSEIF(JHBE==0)THEN                               
-                    IETY=5                                             
-                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN      
+                  ELSEIF(JHBE==0)THEN
+                    IETY=5
+                    IF (IPRMES_EL(IETY)==0.AND.ISPMD==0) THEN
 	                     WRITE(IOUT,1002)JHBE
                           IPRMES_EL(IETY)=1
 	                   ENDIF
@@ -252,7 +252,7 @@ C              L3 = L2 + MVSIZ * NIPMAX
 	               ENDIF
 	              ENDIF
 c
-              IF (JHBE == 14 .AND. 
+              IF (JHBE == 14 .AND.
      .           (IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22)) THEN
                 CALL S8CKE3(
      .                   PM    ,GEO   ,IXS    ,X  ,ELBUF_TAB(NG),
@@ -262,19 +262,19 @@ c
                ELSE IF(JHBE == 17 .AND.  IPARG(36,NG) == 2) THEN
                  MPT = 222
                   CALL S8SKE3(
-     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),   
+     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),
      .                NEL    ,ICP    ,ICS    ,ETAG  ,
-     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,   
-     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,   
-     .                BUFMAT )                                        
-               ELSE 
+     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,
+     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,
+     .                BUFMAT )
+               ELSE
                  MPT = 222
                  CALL S8ZKE3(
-     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),   
+     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),
      .                NEL    ,ICP    ,ICS    ,ETAG  ,
-     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,   
-     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,   
-     .                BUFMAT )                                        
+     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,
+     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,
+     .                BUFMAT )
                ENDIF
 
 C         OPEN(UNIT=16,FILE='KE_S.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
@@ -2951,9 +2951,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE STACK_MOD        
-      USE DRAPE_MOD       
+      USE ELBUFDEF_MOD
+      USE STACK_MOD
+      USE DRAPE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3010,7 +3010,7 @@ C        /---------------/
       CALL  GRPREORDER(IPARG, IGROUC)
 !$OMP PARALLEL PRIVATE(ITASK)
        ITASK = OMP_GET_THREAD_NUM()
-       
+
 c
        CALL IMP_GLOB_K0(
      1    PM        ,GEO       ,IPM       ,IGEO      ,ELBUF     ,
@@ -3160,9 +3160,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD       
-      USE STACK_MOD             
-      USE DRAPE_MOD           
+      USE ELBUFDEF_MOD
+      USE STACK_MOD
+      USE DRAPE_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3281,16 +3281,16 @@ C----6---------------------------------------------------------------7---------8
              IGTYP = NINT(GEO(12,IXS(10,NF1)))
              IF(ISOLNOD==4)THEN
                 IETY=1
-               IF (ISROT > 0 .AND. ISPMD==0) THEN     
-                IF (IPRMES_EL(IETY)==0) THEN     
+               IF (ISROT > 0 .AND. ISPMD==0) THEN
+                IF (IPRMES_EL(IETY)==0) THEN
                   IPRMES_EL(IETY)=1
 	            ENDIF
 	           ENDIF
               CALL S4KE3(
-     1             PM    ,GEO   ,IXS    ,X      ,ELBUF_TAB(NG)%GBUF  ,      
-     2             ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,                    
-     3             IADK  ,JDIK  ,NEL   ,                                    
-     4             IPM   ,IGEO  ,IKGEO  ,BUFMAT )                           
+     1             PM    ,GEO   ,IXS    ,X      ,ELBUF_TAB(NG)%GBUF  ,
+     2             ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
+     3             IADK  ,JDIK  ,NEL   ,
+     4             IPM   ,IGEO  ,IKGEO  ,BUFMAT )
              ELSEIF(ISOLNOD==10)THEN
               NF2=NF1-NUMELS8
               CALL  S10KE3(PM    ,GEO   ,IXS  ,IXS10 ,X  ,ELBUF_TAB(NG),
@@ -3333,7 +3333,7 @@ C
 	              ENDIF
 	             ENDIF
 c
-              IF (JHBE == 14 .AND. 
+              IF (JHBE == 14 .AND.
      .           (IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22)) THEN
                 CALL S8CKE3(
      .                   PM    ,GEO   ,IXS    ,X  ,ELBUF_TAB(NG),
@@ -3343,19 +3343,19 @@ c
                ELSE IF(JHBE == 17 .AND.  IPARG(36,NG) == 3) THEN
                  MPT = 222
                   CALL S8SKE3(
-     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),   
+     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),
      .                NEL    ,ICP    ,ICS    ,ETAG  ,
-     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,   
-     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,   
-     .                BUFMAT )                                        
+     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,
+     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,
+     .                BUFMAT )
                ELSE
                  MPT = 222
                  CALL S8ZKE3(
-     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),   
-     .                NEL    ,ICP    ,ICS    ,ETAG  ,  
-     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,   
-     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,   
-     .                BUFMAT )                                        
+     .                PM     ,GEO    ,IXS    ,X     ,ELBUF_TAB(NG),
+     .                NEL    ,ICP    ,ICS    ,ETAG  ,
+     .                IDDL   ,NDOF   ,K_DIAG ,K_LT  ,IADK         ,
+     .                JDIK   ,MPT    ,IPM    ,IGEO  ,IKGEO        ,
+     .                BUFMAT )
                ENDIF
 c
 C         OPEN(UNIT=16,FILE='KE_S.TMP',STATUS='UNKNOWN',FORM='FORMATTED')
@@ -3448,7 +3448,7 @@ C----6---------------------------------------------------------------7---------8
      4        ELBUF_TAB(NG),BUFMAT   ,OFFSET    ,INDXOF     ,
      1        ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      7        JHBE       ,THKE(NF1)  ,ISMSTR   ,X         ,IKGEO      ,
-     8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK , 
+     8        IPM        ,IGEO     ,IEXPAN    ,IPARG(1,NG),ISUBSTACK ,
      9        STACK      ,DRAPE_Q4  )
              ELSE
 C
@@ -3507,7 +3507,7 @@ C----6---------------------------------------------------------------7---------8
               CALL RUSER32KE3 (JFT    ,JLT   ,NEL   ,MTN    ,PM    ,
      1                   	  GEO     ,IXR(1,NF1),X     ,ELBUF_TAB(NG),NPC   ,
      2                   	  TF     ,SKEW  ,OFFSET,FR_WAVE,
-     3                   	  IKGEO  ,IGEO, 
+     3                   	  IKGEO  ,IGEO,
      1                   	  ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  ,
      2                   	  IADK  ,JDIK  )
 

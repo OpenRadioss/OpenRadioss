@@ -36,9 +36,9 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NEL
-      MY_REAL 
-     .   FOR(NEL,5),MOM(NEL,3), 
-     .   PX2(*), PY2(*), PX3(*), PY3(*), 
+      MY_REAL
+     .   FOR(NEL,5),MOM(NEL,3),
+     .   PX2(*), PY2(*), PX3(*), PY3(*),
      .   PB1(MVSIZ,3,3),PB2(MVSIZ,3,3),PB3(MVSIZ,3,6),
      .   F11(*), F12(*), F13(*),
      .   F21(*), F22(*), F23(*), F31(*), F32(*), F33(*),
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
-      MY_REAL 
+      MY_REAL
      .    C2,FXX,FYY,FXY,FZ4,FZ5,FZ6,MXX,MYY,MXY,FXN,FYN,FXYN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       DO I=JFT,JLT
@@ -60,7 +60,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         F23(I) =VOL(I)*(PY3(I)*FOR(I,2)+PX3(I)*FOR(I,3))
         F11(I)=-F12(I)-F13(I)
         F21(I)=-F22(I)-F23(I)
-      ENDDO     
+      ENDDO
       DO I=JFT,JLT
  	C2=VOL(I)*THK0(I)
         MXX=C2*MOM(I,1)
@@ -104,7 +104,7 @@ C
         F31(I) = F31(I) + PB3(I,1,4)*FXN+PB3(I,2,4)*FYN+PB3(I,3,4)*FXYN
         F32(I) = F32(I) + PB3(I,1,5)*FXN+PB3(I,2,5)*FYN+PB3(I,3,5)*FXYN
         F33(I) = F33(I) + PB3(I,1,6)*FXN+PB3(I,2,6)*FYN+PB3(I,3,6)*FXYN
-      ENDDO     
+      ENDDO
 C    
       RETURN
       END

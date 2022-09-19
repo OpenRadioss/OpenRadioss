@@ -44,7 +44,7 @@ C-----------------------------------------------
       USE RESTMOD
       USE R2R_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD      
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C
 C--------------------------------------------------------------------C
 C------Prereading of domain names --> Child process -----------------C
 C--------------------------------------------------------------------C
-      	     
+      	
         FLAG_FMT = 0
 
         DO N=1,NSUBDOM
@@ -92,7 +92,7 @@ C
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                            OPTION_ID = ID,
      .                            OPTION_TITR = TITR,
-     .                            KEYWORD2 = KEY) 
+     .                            KEYWORD2 = KEY)
 C---
           IF(N == KDOM)THEN
             DOM_NAME = ''//TRIM(TITR)
@@ -101,12 +101,12 @@ C-----    Computation of total number of parts
           CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL)
           NB_PART_SUB = NB_PART_SUB + NEL
         END DO
-      
+
       ELSE
 C--------------------------------------------------------------------C
 C------Prereading of domain names --> father process ----------------C
 C--------------------------------------------------------------------C
-      	     
+      	
         N = 0
         DEB = 1
 
@@ -124,15 +124,15 @@ C
 	  DOM_NAME(DEB:DEB+RLEN-1)=LOCNAME(1:RLEN)	
 	  ISUBDOM(7,N)=RLEN
 	  ISUBDOM(8,N)=DEB
-	  DEB=DEB+RLEN	    	    
+	  DEB=DEB+RLEN	    	
 C-----    Computation of total number of parts
           CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL)
           NB_PART_SUB = NB_PART_SUB + NEL
 C 
-        END DO	  
+        END DO	
 
 C------Check of domain names ----------------C
-       
+
         DO N=1,NSUBDOM
           DO K=N+1,NSUBDOM
 	    IF (ISUBDOM(7,N)==ISUBDOM(7,K)) THEN
@@ -147,16 +147,16 @@ C------Check of domain names ----------------C
 		 IERR=IERR+1
               ENDIF
 	    ENDIF
-	  ENDDO	 
+	  ENDDO	
         ENDDO
-      
+
       ENDIF
-      
-      RETURN 
-            
+
+      RETURN
+
 C------------------------------------------------------------------
  999  CALL FREERR(3)
-      RETURN          
-      
+      RETURN
+
       END
-      
+

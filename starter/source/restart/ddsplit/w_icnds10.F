@@ -74,14 +74,14 @@ C-----only edge in front (>0) is tagged
          ICNDS10_L(3,N_L) = NODLOCAL(N2)
          NF = 0
          DO P = 1, NSPMD
-          NF = NF +NLOCAL(NN,P)           
+          NF = NF +NLOCAL(NN,P)
          ENDDO
          IF (NF >1) THEN
           IFRONT(NODLOCAL(N1))=1
           IFRONT(NODLOCAL(N2))=1
          END IF
          IF (ITAGND(NN) <0) ICNDS10_L(1,N_L)= -ICNDS10_L(1,N_L)
- 100    CONTINUE         
+ 100    CONTINUE
        ENDIF
       ENDDO
       IF (N_L /= NS10E_L) print *,'**error in W_ICNDS10,N_L,NS10E_L=',N_L,NS10E_L

@@ -59,7 +59,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER NN,NG,SZP0(2*NSPGROUP+2),RSZP0(2*NSPGROUP+2),NGF,NGL,JJ,
-     .        WASZ26,P0ARS26,MLW,NEL,NPT,JHBE,ISOLNOD, 
+     .        WASZ26,P0ARS26,MLW,NEL,NPT,JHBE,ISOLNOD,
      .        NUVAR,I,LFT,LLT,NFT,ITY
 
       INTEGER IERROR,STATUS(MPI_STATUS_SIZE)
@@ -69,7 +69,7 @@ C-----------------------------------------------
       CALL COUNT_ARSZ_SS(IPARG,DD_IAD,IPM,IXS,WASZ,SZP0)
 
       IF ( OUTP_SS(1)  == 1.OR.OUTP_SS(2)  == 1.OR.OUTP_SS(3)  == 1
-     . .OR.OUTP_SS(4)  == 1.OR.OUTP_SS(5)  == 1.OR.OUTP_SS(6)  == 1 
+     . .OR.OUTP_SS(4)  == 1.OR.OUTP_SS(5)  == 1.OR.OUTP_SS(6)  == 1
      . .OR.OUTP_SS(7)  == 1.OR.OUTP_SS(25) == 1.OR.OUTP_SS(20) == 1
      . .OR.OUTP_SS(21) == 1.OR.OUTP_SS(22) == 1.OR.OUTP_SS(23) == 1
      . .OR.OUTP_SS(24) == 1.OR.OUTP_SS(26) == 1 ) THEN
@@ -84,20 +84,20 @@ C-----------------------------------------------
           P0ARS(2) =RSZP0(2*NSPGROUP+2)
           WASZ_WR(:) = -1
           DO I=1,NSPGROUP
-           WASZ_WR(1) = MAX(WASZ_WR(1),RSZP0(I)) 
-           WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I)) 
+           WASZ_WR(1) = MAX(WASZ_WR(1),RSZP0(I))
+           WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I))
           ENDDO
           WASZ_WR(1) = WASZ_WR(1)+6
           WASZ_WR(2) = WASZ_WR(2)+6
         ELSE
-          P0ARS(:) = 1 
+          P0ARS(:) = 1
           WASZ_WR(:) = 1
         ENDIF
       END IF
 #endif
       RETURN
       END
- 
+
 
 Chd|====================================================================
 Chd|  OUTP_ARSZ_CS                  source/mpi/interfaces/spmd_outp.F
@@ -107,7 +107,7 @@ Chd|-- calls ---------------
 Chd|        COUNT_ARSZ_CS                 source/output/sty/outp_c_s.F  
 Chd|====================================================================
       SUBROUTINE OUTP_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,
-     .                         P0ARS,WASZ,WASZ_WR) 
+     .                         P0ARS,WASZ,WASZ_WR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -146,7 +146,7 @@ C-----------------------------------------------
       WASZ = 0
 
       CALL COUNT_ARSZ_CS(IPARG,IXC,IXTG,IGEO,IPM,DD_IAD,
-     .                         WASZ,SZP0)      
+     .                         WASZ,SZP0)
 
       IUSER_FULL = 0
       DO J=1,60
@@ -168,8 +168,8 @@ C-----------------------------------------------
           P0ARS(1:2) = RSZP0(2*NSPGROUP+1:2*NSPGROUP+2)
           WASZ_WR(1:2) = -1
           DO I=1,NSPGROUP
-           WASZ_WR(1) = MAX(WASZ_WR(1),RSZP0(I)) 
-           WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I)) 
+           WASZ_WR(1) = MAX(WASZ_WR(1),RSZP0(I))
+           WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I))
           ENDDO
           WASZ_WR(1) = WASZ_WR(1)+6
           WASZ_WR(2) = WASZ_WR(2)+6
@@ -194,7 +194,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -234,14 +234,14 @@ c------------------------------
         CALL MPI_REDUCE(SZP0,RSZP0,3*NSPGROUP+3,
      .                  MPI_INTEGER,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR )
-      
+
         IF (ISPMD == 0) THEN
           P0ARS(1:3) = RSZP0(3*NSPGROUP+1:3*NSPGROUP+3)+8
           WASZ_WR(1:3) = -1
           DO I=1,NSPGROUP
-           WASZ_WR(1) = MAX(WASZ_WR(1),RSZP0(I)) 
-           WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I)) 
-           WASZ_WR(3) = MAX(WASZ_WR(3),RSZP0(2*NSPGROUP+I)) 
+           WASZ_WR(1) = MAX(WASZ_WR(1),RSZP0(I))
+           WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I))
+           WASZ_WR(3) = MAX(WASZ_WR(3),RSZP0(2*NSPGROUP+I))
           ENDDO
         ELSE
           P0ARS(:) = 1
@@ -323,7 +323,7 @@ C-----------------------------------------------
 ! ------
         IF ( OUTP_CT(95) == 1)   THEN
          IF (ISPMD == 0) THEN
-           WASZP(2) = RSZP0(3*NSPGROUP+2) 
+           WASZP(2) = RSZP0(3*NSPGROUP+2)
            DO I=1,NSPGROUP
             WASZ_WR(2) = MAX(WASZ_WR(2),RSZP0(NSPGROUP+I))
            ENDDO
@@ -423,14 +423,14 @@ C-----------------------------------------------
          WASZP=RSZP0(NSPGROUP+1)
          WASZ_WR = -1
          DO I=1,NSPGROUP
-          WASZ_WR = MAX(WASZ_WR,RSZP0(I)) 
+          WASZ_WR = MAX(WASZ_WR,RSZP0(I))
          ENDDO
          WASZ_WR = WASZ_WR + 6
         ELSE
          WASZP = 1
          WASZ_WR = 1
         END IF
-      ENDIF 
+      ENDIF
 
 #endif
       RETURN
@@ -466,7 +466,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER IPARG(NPARG,*),DD_IAD(NSPMD+1,*),WASZ,WASZP,
      .           IXR(NIXR,*),IGEO(NPROPGI,*),WASZ_WR
-       my_real 
+       my_real
      .   GEO(NPROPG,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -482,7 +482,7 @@ C-----------------------------------------------
       WASZ = 0
       CALL COUNT_ARSZ_RT(IPARG,IGEO,GEO,IXR,DD_IAD,WASZ,SZP0)
 
-      IF (OUTP_RS(2) == 1) THEN          
+      IF (OUTP_RS(2) == 1) THEN
         CALL MPI_REDUCE(SZP0,RSZP0,NSPGROUP+1,
      .                MPI_INTEGER,MPI_SUM,IT_SPMD(1),
      .                MPI_COMM_WORLD,IERROR )
@@ -491,14 +491,14 @@ C-----------------------------------------------
          WASZP=RSZP0(NSPGROUP+1)
          WASZ_WR = -1
          DO I=1,NSPGROUP
-          WASZ_WR = MAX(WASZ_WR,RSZP0(I)) 
+          WASZ_WR = MAX(WASZ_WR,RSZP0(I))
          ENDDO
          WASZ_WR = WASZ_WR + 6
         ELSE
          WASZP = 1
          WASZ_WR = 1
         END IF
-      ENDIF 
+      ENDIF
 #endif
       RETURN
       END
@@ -562,14 +562,14 @@ C-----------------------------------------------
          WASZP=RSZP0(NSPGROUP+1)
          WASZ_WR = -1
          DO I=1,NSPGROUP
-          WASZ_WR = MAX(WASZ_WR,RSZP0(I)) 
+          WASZ_WR = MAX(WASZ_WR,RSZP0(I))
          ENDDO
-         WASZ_WR = WASZ_WR + 6 
+         WASZ_WR = WASZ_WR + 6
         ELSE
          WASZP = 1
          WASZ_WR = 1
         END IF
-      ENDIF 
+      ENDIF
 #endif
       RETURN
       END
@@ -625,14 +625,14 @@ C-----------------------------------------------
          WASZP=RSZP0(NSPGROUP+1)
          WASZ_WR = -1
          DO I=1,NSPGROUP
-          WASZ_WR = MAX(WASZ_WR,RSZP0(I)) 
+          WASZ_WR = MAX(WASZ_WR,RSZP0(I))
          ENDDO
-         WASZ_WR = WASZ_WR + 6 
+         WASZ_WR = WASZ_WR + 6
         ELSE
-         WASZP = 1 
+         WASZP = 1
          WASZ_WR = 1
         END IF
-      ENDIF 
+      ENDIF
 #endif
       RETURN
       END
@@ -691,11 +691,11 @@ C-----------------------------------------------
         ELSE
          WASZ_WR = -1
          DO I=1,NSPGROUP
-          WASZ_WR = MAX(WASZ_WR,RSZP0(I)) 
+          WASZ_WR = MAX(WASZ_WR,RSZP0(I))
          ENDDO
          WASZP = RSZP0(NSPGROUP+1)
         END IF
-      ENDIF 
+      ENDIF
 #endif
       RETURN
       END
@@ -737,11 +737,11 @@ C-----------------------------------------------
 
       DATA MSGOFF/9001/
       DATA MSGOFF2/9002/
-      my_real 
+      my_real
      .       BUFSR(3,NUMNODM)
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
-         
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -750,8 +750,8 @@ C   Tableau utilise par proc 0
              SIZ = SIZ + 1
              IBUF(SIZ) = NODGLOB(I)
              BUFSR(1,SIZ) = V(1,I)
-             BUFSR(2,SIZ) = V(2,I) 
-             BUFSR(3,SIZ) = V(3,I) 
+             BUFSR(2,SIZ) = V(2,I)
+             BUFSR(3,SIZ) = V(3,I)
            END IF
          END DO
 
@@ -767,7 +767,7 @@ C   de noeuds au max
          CALL MPI_SEND(BUFSR,3*SIZ,REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-          
+
        ELSE
 
           DO I=1,NUMNOD
@@ -797,7 +797,7 @@ C   Reception du buffer flottant double des adresses NODGLOB
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
            NREC = SIZ
            DO K = 1, NREC
              NG = IBUF(K)
@@ -852,11 +852,11 @@ C-----------------------------------------------
 
       DATA MSGOFF/9003/
       DATA MSGOFF2/9004/
-      my_real 
+      my_real
      .       BUFSR(NUMNODM)
       INTEGER IBUF(NUMNODM)
 C   Tableau utilise par proc 0
-         
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -872,14 +872,14 @@ C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
+         MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
-  
+
        ELSE
 
           DO I=1,NUMNOD
@@ -906,7 +906,7 @@ C   Reception du buffer flottant double des adresses NODGLOB
             MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-      
+
            NREC = SIZ
            DO K = 1, NREC
              NG = IBUF(K)
@@ -1042,7 +1042,7 @@ C-----------------------------------------------
 
 
 
-         
+
         CALL MPI_GATHER(
      S    LEN           ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
@@ -1108,7 +1108,7 @@ C-----------------------------------------------
       DATA MSGOFF/9005/
 
        INTEGER BUFSR(2,NUMNODM)
-         
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -1116,7 +1116,7 @@ C-----------------------------------------------
            IF (WEIGHT(I) == 1) THEN
              SIZ = SIZ + 1
              BUFSR(1,SIZ) = NODGLOB(I)
-             BUFSR(2,SIZ) = V(I) 
+             BUFSR(2,SIZ) = V(I)
            END IF
          END DO
 
@@ -1145,9 +1145,9 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_RECV(BUFSR,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ/2
- 
+
             DO K = 1, NREC
               NG = BUFSR(1,K)
               VGLOB(NG) = BUFSR(2,K)

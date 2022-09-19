@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER NP(5*NUMELR),
      .        NPGLOB(7*LENGR),
      .        WORK(70000),CLEF(2,NUMELRG)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C     SPRING
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
         IF (ITY == 6) THEN
           NEL = IPARG(2,NG)
           NFT = IPARG(3,NG)
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           LFT=1
           LLT=NEL
 c

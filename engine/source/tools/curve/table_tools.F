@@ -487,7 +487,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TTABLE) TABLE
-      my_real, 
+      my_real,
      .       DIMENSION(:) :: XX
       my_real
      .       YY
@@ -495,9 +495,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
-      INTEGER NDIM, K, NXK(4), I, IPOS(4), IB(2,2,2,2), 
+      INTEGER NDIM, K, NXK(4), I, IPOS(4), IB(2,2,2,2),
      .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
-      my_real 
+      my_real
      .       DX1,DX2,R(4),UNR(4)
 C-----------------------------------------------
       NDIM=TABLE%NDIM
@@ -683,7 +683,7 @@ C-----------------------------------------------
       TYPE(TTABLE) TABLE
       INTEGER NEL0
       INTEGER, DIMENSION(:,:) :: IPOS
-      my_real, 
+      my_real,
      .       DIMENSION(:,:) :: XX
       my_real
      .       YY(*), DYDX1(*)
@@ -691,9 +691,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
-      INTEGER NDIM, K, NXK(4), I, IB(2,2,2,2,NEL0), 
+      INTEGER NDIM, K, NXK(4), I, IB(2,2,2,2,NEL0),
      .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
-      my_real 
+      my_real
      .       DX1,DX2,R(4,NEL0),UNR(4,NEL0)
 C-----------------------------------------------
       R(1:4,1:NEL0) = zero
@@ -708,13 +708,13 @@ C-----
         NXK(K)=SIZE(TABLE%X(K)%VALUES)
         DO I=1,NEL0
           IPOS(I,K)=MAX(IPOS(I,K),1)
-          M = IPOS(I,K) 
+          M = IPOS(I,K)
           DX2 = TABLE%X(K)%VALUES(M) - XX(I,K)
           IF(DX2 >= ZERO)THEN
            DO N=M-1,1,-1
             DX2 = TABLE%X(K)%VALUES(N) - XX(I,K)
-            IF(DX2<ZERO.OR.N <=1)THEN 
-              IPOS(I,K)=MAX(N,1) !N 
+            IF(DX2<ZERO.OR.N <=1)THEN
+              IPOS(I,K)=MAX(N,1) !N
               EXIT
             ENDIF
            END DO
@@ -932,7 +932,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(TTABLE) TABLE
-      my_real, 
+      my_real,
      .       DIMENSION(:) :: XX
       my_real
      .       YY, R2,DYDX
@@ -941,9 +941,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(TTABLE_XY), POINTER :: TY
-      INTEGER NDIM, K, NXK, I, IPOS, IB(2,2,2,2), 
+      INTEGER NDIM, K, NXK, I, IPOS, IB(2,2,2,2),
      .        IP,IN,IM,IL,P,N,M,L,N1,N12,N123
-      my_real 
+      my_real
      .       DX1,DX,R(2),UNR(2)
 C-----------------------------------------------
 C-----------------------------------------------

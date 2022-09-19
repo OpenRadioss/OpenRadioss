@@ -35,7 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT83(UPARAM  ,MAXUPARAM ,NUPARAM  ,MTAG    ,PM       ,
-     .                         NUVAR   ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   , 
+     .                         NUVAR   ,IFUNC     ,MAXFUNC  ,NFUNC   ,PARMAT   ,
      .                         UNITAB  ,MAT_ID    ,TITR     ,ISRATE  ,LSUBMODEL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM,NUVAR,ISRATE
       INTEGER, INTENT(IN)             :: MAT_ID
       my_real, INTENT(INOUT)          :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
@@ -106,8 +106,8 @@ card2
       CALL HM_GET_FLOATV('MAT_E'        ,YOUNGT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G'        ,G           ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('MAT_IMASS'    ,RHOFLAG     ,IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV  ('COMP_OPT'     ,ICOMP       ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_FLOATV('MAT_ECOMP'    ,YOUNGC      ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_INTV  ('COMP_OPT'     ,ICOMP       ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('MAT_ECOMP'    ,YOUNGC      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card3
       CALL HM_GET_INTV  ('FUN_A1'       ,IDYIELD     ,IS_AVAILABLE ,LSUBMODEL)
       CALL HM_GET_FLOATV('FScale11'     ,YFAC        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -142,7 +142,7 @@ C---
       IPLAS = 0 ! hidden
       IF (IPLAS == 0)  IPLAS = 2
 C---
-      NFUNC = 3 
+      NFUNC = 3
       IFUNC(1) = IFUNN
       IFUNC(2) = IFUNT
       IFUNC(3) = IDYIELD
@@ -153,7 +153,7 @@ C---
      .               C1=TITR,
      .               I2=IFUNC(3))
       ENDIF
-   
+
       IF (YFAC == ZERO)   YFAC   = ONE*YFAC_UNIT
       IF (XSCALE == ZERO) XSCALE = ONE*XSCALE_UNIT
       IF( G == ZERO)  G = YOUNGT
@@ -183,10 +183,10 @@ C----------------
       PARMAT(5) = ASRATE
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) =  ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
+      PARMAT(17) =  ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0
 !
       MTAG%G_GAMA = 9
-      MTAG%G_EPSD = 1  
+      MTAG%G_EPSD = 1
       MTAG%G_PLA  = 1 !global
       MTAG%L_EPE  = 3
       MTAG%L_PLA  = 1
@@ -197,7 +197,7 @@ C----------------
       WRITE(IOUT,1000)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE                                                     
+      ELSE
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) YOUNGT,YOUNGC,G,ICOMP,RHOFLAG,IDYIELD,YFAC,XFAC,ALPHA,BETA
         WRITE(IOUT,1400)IFUNN,IFUNT,XSCALE,RN,RS,ISRATE,ASRATE
@@ -207,7 +207,7 @@ C-----------
 C-----------
  1000 FORMAT(
      & 5X,'  CONNECTION MATERIAL LAW 83                        ',/,
-     & 5X,'  --------------------------                        ',/)   
+     & 5X,'  --------------------------                        ',/)
  1100 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . . . . .=',I10/,

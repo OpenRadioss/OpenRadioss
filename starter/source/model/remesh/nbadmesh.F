@@ -42,7 +42,7 @@ Chd|====================================================================
 C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD   
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER NUMNUSR
 C     REAL
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C------
      .        TAG(4,NUMELC0+NUMELTG0),STAT=stat)
       IF(STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                          MSGTYPE=MSGERROR,
-     .                         C1='ITAB')     
+     .                         C1='ITAB')
       TAG=0
 C------
 C--------------------------------------------------
@@ -225,8 +225,8 @@ C--------------------------------------------------
 C--------------------------------------
 C     nb shells and 3-node shells + nb nodes estimation (NUMNUSR < ...)
 C---------------  
-      ALLOCATE (IPARTC(NUMELC)) 
-      ALLOCATE (SH_ANGLE(NUMELC)) 
+      ALLOCATE (IPARTC(NUMELC))
+      ALLOCATE (SH_ANGLE(NUMELC))
       ALLOCATE (SH_THK(NUMELC))
 C--------------------------------------------------
 C      ALLOCS & INITS
@@ -234,24 +234,24 @@ C--------------------------------------------------
       ALLOCATE (SUBID_SHELL(NUMELC),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUBID_SHELL') 
+     .                             C1='SUBID_SHELL')
       ALLOCATE (UID_SHELL(NUMELC),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_SHELL') 
+     .                             C1='UID_SHELL')
       SUBID_SHELL(1:NUMELC) = 0
       UID_SHELL(1:NUMELC) = 0
       INDEX_PART = -1
-      UID = -1 
+      UID = -1
 C--------------------------------------------------
 C      READING SHELLS INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
-      CALL CPP_SHELL_READ(IXC,NIXC,IPARTC,SH_ANGLE,SH_THK,SUBID_SHELL,UID_SHELL)       
+      CALL CPP_SHELL_READ(IXC,NIXC,IPARTC,SH_ANGLE,SH_THK,SUBID_SHELL,UID_SHELL)
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C-------------------------------------------------- 
-      IP = 0 
-      IP0 = 0 
+      IP = 0
+      IP0 = 0
       DO I=1,NUMELC
 C--------------------------------------------------
 C      SUBMODEL OFFSET
@@ -273,7 +273,7 @@ C--------------------------------------------------
               IP0 = IPART(1,J)
             ENDIF
           ENDDO
-        ENDIF 
+        ENDIF
 
         IF(IP==0)THEN
           CALL ANCMSG(MSGID=735,
@@ -282,40 +282,40 @@ C--------------------------------------------------
      .                I1=ID)
         ELSE
 	  IXC(1,I)=IP
-          IPART(2,IP)=IPART(2,IP)+1 
+          IPART(2,IP)=IPART(2,IP)+1
         END IF
       ENDDO
 c
       IF(ALLOCATED(SUBID_SHELL)) DEALLOCATE(SUBID_SHELL)
       IF(ALLOCATED(UID_SHELL)) DEALLOCATE(UID_SHELL)
 C------ 
-      ALLOCATE (IPARTTG(NUMELTG)) 
-      ALLOCATE (SH3_ANGLE(NUMELTG))  
-      ALLOCATE (SH3_THK(NUMELTG)) 
+      ALLOCATE (IPARTTG(NUMELTG))
+      ALLOCATE (SH3_ANGLE(NUMELTG))
+      ALLOCATE (SH3_THK(NUMELTG))
 C--------------------------------------------------
 C      ALLOCS & INITS
 C--------------------------------------------------
       ALLOCATE (SUBID_SH3N(NUMELTG),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUBID_SH3N') 
+     .                             C1='SUBID_SH3N')
       ALLOCATE (UID_SH3N(NUMELTG),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_SH3N') 
+     .                             C1='UID_SH3N')
       SUBID_SH3N(1:NUMELTG) = 0
       UID_SH3N(1:NUMELTG) = 0
       INDEX_PART = 1
-      UID = -1 
+      UID = -1
 C--------------------------------------------------
 C      READING SH3N INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
-      CALL CPP_SH3N_READ(IXTG,NIXTG,IPARTTG,SH3_ANGLE,SH3_THK,SUBID_SH3N,UID_SH3N)       
+      CALL CPP_SH3N_READ(IXTG,NIXTG,IPARTTG,SH3_ANGLE,SH3_THK,SUBID_SH3N,UID_SH3N)
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C-------------------------------------------------- 
-      IP = 0 
-      IP0 = 0  
+      IP = 0
+      IP0 = 0
       DO I=1,NUMELTG
 C--------------------------------------------------
 C      SUBMODEL OFFSET
@@ -337,7 +337,7 @@ C--------------------------------------------------
               IP0 = IPART(1,J)
             ENDIF
           ENDDO
-        ENDIF 
+        ENDIF
         IF(IP==0)THEN
           CALL ANCMSG(MSGID=735,
      .                MSGTYPE=MSGERROR,
@@ -345,7 +345,7 @@ C--------------------------------------------------
      .                I1=ID)
         ELSE
 	  IXTG(1,I)=IP
-          IPART(3,IP)=IPART(3,IP)+1 
+          IPART(3,IP)=IPART(3,IP)+1
         END IF
       ENDDO
 c
@@ -361,13 +361,13 @@ C--------------------------------------------------
       ALLOCATE (SUBID_NODES(NUMNUSR),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUBID_NODES') 
+     .                             C1='SUBID_NODES')
       SUBID_NODES(1:NUMNUSR) = 0
 C--------------------------------------------------
 C      READING NODES IDs IN HM STRUCTURE
 C-------------------------------------------------- 
       CALL CPP_NODE_COUNT(NUMNUSR1)
-      CALL CPP_NODE_ID_READ(ITAB,SUBID_NODES) 
+      CALL CPP_NODE_ID_READ(ITAB,SUBID_NODES)
 C--------------------------------------------------
 C      CHECKS NODES & CNODES IDs
 C--------------------------------------------------  
@@ -382,8 +382,8 @@ C--------------------------------------------------
      .        .AND. (ITAB(I) <  IDFT_NODE_AUTO.OR.
      .               ITAB(I) >= IDLT_NODE_AUTO)) THEN
               CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .                    I1=ITAB(I),C1=LINE,C2='/NODE') 
-	ENDIF 			 
+     .                    I1=ITAB(I),C1=LINE,C2='/NODE')
+	ENDIF 			
       ENDDO
       IF(ALLOCATED(SUBID_NODES)) DEALLOCATE(SUBID_NODES)
 C------
@@ -395,30 +395,30 @@ C------
 C     4-node shells
 C------			  
       DO I=1,NUMELC
-	  IF (IXC(NIXC,I)>ID_LIMIT_ADMESH) THEN	     
+	  IF (IXC(NIXC,I)>ID_LIMIT_ADMESH) THEN	
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
-     .            I1=IXC(NIXC,I),C1=LINE,C2='/SHELL') 
+     .            I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
 	  ENDIF
-	  DO J=2,5						   
-	    IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID)  
+	  DO J=2,5						
+	    IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID)
 	  ENDDO
       ENDDO
       IF(ALLOCATED(IPARTC)) DEALLOCATE(IPARTC)
-      IF(ALLOCATED(SH_ANGLE)) DEALLOCATE(SH_ANGLE) 
+      IF(ALLOCATED(SH_ANGLE)) DEALLOCATE(SH_ANGLE)
       IF(ALLOCATED(SH_THK)) DEALLOCATE (SH_THK)
 C------			  
       DO I=1,NUMELTG
-	  IF (IXTG(NIXTG,I)>ID_LIMIT_ADMESH) THEN	     
+	  IF (IXTG(NIXTG,I)>ID_LIMIT_ADMESH) THEN	
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .            I1=IXTG(NIXTG,I),C1=LINE,C2='/SH3N')
 	  ENDIF
-	  DO J=2,4						   
-	    IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID) 
+	  DO J=2,4						
+	    IXTG(J,I)=USR2SYS(IXTG(J,I),ITABM1,MESS,ID)
 	  ENDDO
       ENDDO
       IF(ALLOCATED(IPARTTG)) DEALLOCATE(IPARTTG)
-      IF(ALLOCATED(SH3_ANGLE)) DEALLOCATE (SH3_ANGLE)  
-      IF(ALLOCATED(SH3_THK)) DEALLOCATE (SH3_THK) 
+      IF(ALLOCATED(SH3_ANGLE)) DEALLOCATE (SH3_ANGLE)
+      IF(ALLOCATED(SH3_THK)) DEALLOCATE (SH3_THK)
 C------
 C     inverse connectivity at level 0
 C------

@@ -57,7 +57,7 @@ C-----------------------------------------------
      .                           NUMELTG_L
       INTEGER , DIMENSION(NUMNOD_L) , INTENT(IN) :: NODGLOB
       INTEGER , DIMENSION(NUMNOD)   , INTENT(IN) :: NODLOC
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .                                        PROCNE_L
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IADS,IADC,IADTG
 C=======================================================================
-      ! Flag for non-local computation 
+      ! Flag for non-local computation
       ILOC   = NLOC_DMG%IMOD
 c
       ! Flag = 0, no non-local computation
@@ -87,7 +87,7 @@ c
         ! Non-local global variables
         NNOD   = NLOC_DMG%NNOD
         L_NLOC = NLOC_DMG%L_NLOC
-c        
+c
         NNOD_L       = 0 ! Initialization of the number of non-local nodes (local)
         LNLOC_L      = 0 ! Local length of non-local vectors
 c
@@ -122,18 +122,18 @@ c
         NDDMAX_L = MAXVAL(NDDL(1:NNOD_L))
 c
         ! PARITH/ON
-        IF (IPARI0 == 1) THEN 
+        IF (IPARI0 == 1) THEN
 c
           ! Length of the PROCNE_L table
           LCNENL_L = 0
           DO I = 1, NNOD_L
             NL       = INDX_L(I)                                   ! Number of the local node in the domain (all node NUMNOD_L)
             NG       = NODGLOB(NL)                                 ! Number of the corresponding global node
-            NN       = NLOC_DMG%IDXI(NG)                           ! Number of the corresponding non-local nodes 
+            NN       = NLOC_DMG%IDXI(NG)                           ! Number of the corresponding non-local nodes
             N1       = NLOC_DMG%ADDCNE(NN)                         ! Number of the position in the FSKY vector
-            N2       = NLOC_DMG%ADDCNE(NN+1)                       ! Number of the following position in the FSKY vector            
+            N2       = NLOC_DMG%ADDCNE(NN+1)                       ! Number of the following position in the FSKY vector
             LCNENL_L = LCNENL_L + N2-N1
-          ENDDO  
+          ENDDO
 c
           ! Allocation of the local ADDCNE_L table
           ALLOCATE(ADDCNE_L(NNOD_L + 1))
@@ -155,13 +155,13 @@ c
 c
           ! Filling the ADDCNE_L table
           ADDCNE_L(1) = 1
-          CC_L        = 0 ! Counter of local element 
+          CC_L        = 0 ! Counter of local element
 c
           ! Loop over non-local local nodes
           DO I = 1, NNOD_L
             NL = INDX_L(I)                                        ! Number of the local node in the domain (all node NUMNOD_L)
             NG = NODGLOB(NL)                                      ! Number of the corresponding global node
-            NN = NLOC_DMG%IDXI(NG)                                ! Number of the corresponding non-local nodes 
+            NN = NLOC_DMG%IDXI(NG)                                ! Number of the corresponding non-local nodes
             N1 = NLOC_DMG%ADDCNE(NN)                              ! Number of the position in the FSKY vector
             N2 = NLOC_DMG%ADDCNE(NN+1)                            ! Number of the following position in the FSKY vector
             ADDCNE_L(I+1) = ADDCNE_L(I) + N2-N1                   ! Filling the corresponding case of ADDCNE_L
@@ -170,7 +170,7 @@ c
               NUML   = CEL(NUMG)                                  !   Local number of the element
               PROC_L = CEP(NUMG)+1                                !   Processor of the element
               CC_L   = CC_L + 1                                   !   Local element counter
-              PROCNE_L(CC_L) = PROC_L                             !   Processor on which the element is located                                           
+              PROCNE_L(CC_L) = PROC_L                             !   Processor on which the element is located
               IF (PROC==PROC_L) THEN                            !   If the current proc equals the processor of the element, filling the IADX table
                 IF (NUMG<=NUMELS) THEN                          !     If the element is solid
                   DO K = 1,8                                      !       Loop over the nodes of the brick
@@ -181,11 +181,11 @@ c
                       SOLTAG(NUMG) = SOLTAG(NUMG)+SHFT
                     ENDIF
                   ENDDO
-                ELSEIF (NUMG<=NUMELS+NUMELQ) THEN 
+                ELSEIF (NUMG<=NUMELS+NUMELQ) THEN
                   ! This case should not occur
-                  WRITE(*,*) "Error in non-local decomp"   
+                  WRITE(*,*) "Error in non-local decomp"
                   WRITE(*,*) "Quad element error"
-                  STOP 
+                  STOP
                 ELSEIF (NUMG<=NUMELS+NUMELQ+NUMELC) THEN                  !   If the element is a shell
                   NUMG = NUMG - (NUMELS+NUMELQ)                             !     Offset on NUMG
                   DO K=1,4                                                  !     Loop over the nodes of the shell
@@ -218,7 +218,7 @@ c
                   DO K=1,3                                                  !     Loop over the nodes of the shell
                     SHFT    = ISHFT(1,K-1)                                  !       Shift
                     TESTVAL = IAND(TGTAG(NUMG),SHFT)                        !       Testval
-                    IF (IXTG(K+1,NUMG)==NG.AND.TESTVAL==0) THEN           !       Filling IADTG 
+                    IF (IXTG(K+1,NUMG)==NG.AND.TESTVAL==0) THEN           !       Filling IADTG
                       IADTG(K,NUML) = CC_L
                       TGTAG(NUMG)   = TGTAG(NUMG)+SHFT
                     ENDIF
@@ -234,7 +234,7 @@ c
         ENDIF
 c
         HEAD(1) = ILOC
-        HEAD(2) = NNOD_L 
+        HEAD(2) = NNOD_L
         HEAD(3) = LNLOC_L
         HEAD(4) = NUMELS_L
         HEAD(5) = NUMELC_L
@@ -252,11 +252,11 @@ c
         CALL WRITE_DB(NLOC_DMG%LE_MAX,NUMMAT)       ! LEN
 c
         CALL WRITE_DB(NLOC_DMG%SSPNL,NUMMAT)        ! SSPNL
-c   
+c
         CALL WRITE_I_C(INDX_L,NNOD_L)               ! INDX_L(NNOD_L)
-c  
+c
         CALL WRITE_I_C(POSI,NNOD_L+1)               ! POSI(NNOD_L+1)
-c        
+c
         CALL WRITE_I_C(IDXI_L,NUMNOD_L)             ! IDXI_L(NUMNOD_L)
 c
         ! If PARITH/ON

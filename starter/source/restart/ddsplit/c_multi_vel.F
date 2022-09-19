@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-      
+
 Chd|====================================================================
 Chd|  C_MULTI_VEL                   source/restart/ddsplit/c_multi_vel.F
 Chd|-- called by -----------
@@ -28,7 +28,7 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE C_MULTI_VEL(CEP, NUMEL, NUMEL_L, PROC, 
+      SUBROUTINE C_MULTI_VEL(CEP, NUMEL, NUMEL_L, PROC,
      .     MULTI_FVM_VEL_L, MULTI_FVM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -53,7 +53,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------   
       INTEGER :: I
       INTEGER :: II, IELEM
-      
+
       IELEM = 0
       DO I = 1, NUMEL
          IF (CEP(I) == PROC) THEN

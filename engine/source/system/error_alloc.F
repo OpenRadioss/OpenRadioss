@@ -31,13 +31,13 @@ Chd|====================================================================
         SUBROUTINE ERROR_ALLOC(ARRAY,MY_IERR0)
 
       USE MESSAGE_MOD
-       
+
         IMPLICIT NONE
         INTEGER :: MY_IERR0
-        CHARACTER(*) :: ARRAY 
+        CHARACTER(*) :: ARRAY
         IF(MY_IERR0/=0) THEN
                 CALL ANCMSG(MSGID=19,ANMODE=ANINFO,C1=ARRAY)
                 CALL ARRET(2)
         ENDIF
-        
+
         END SUBROUTINE ERROR_ALLOC

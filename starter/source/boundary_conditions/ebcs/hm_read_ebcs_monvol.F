@@ -65,13 +65,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER LOCAL_ID, NPC(*)
       INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER*nchartitle, INTENT(IN) :: TITR
-      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)  
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(t_ebcs_monvol), INTENT(INOUT) :: EBCS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -87,20 +87,20 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       IFLAGUNIT=0
-      DO J=1,NUNITS                                              
-        IF (UNITAB%UNIT_ID(J) == UID) THEN    
-          IFLAGUNIT = 1                                          
-          EXIT                                                   
-        ENDIF                                                    
-      ENDDO                                                      
-      IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
-        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
+      DO J=1,NUNITS
+        IF (UNITAB%UNIT_ID(J) == UID) THEN
+          IFLAGUNIT = 1
+          EXIT
+        ENDIF
+      ENDDO
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN
+        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I2=UID,
      .              I1=ID,
-     .              C1='EBCS',           
-     .              C2='EBCS',                           
-     .              C3=TITR)                                      
-      ENDIF      
+     .              C1='EBCS',
+     .              C2='EBCS',
+     .              C3=TITR)
+      ENDIF
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
@@ -114,12 +114,12 @@ C-----------------------------------------------
       IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
       IF (SURF==0)THEN
          IERR=IERR+1
-         WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'           
+         WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
          WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
       ELSEIF(ISU==0)THEN
          IERR=IERR+1
          WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-         WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF           
+         WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
       ELSEIF(NSEG==0)THEN
          IERR=IERR+1
          WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE, ID=',SURF
@@ -127,10 +127,10 @@ C-----------------------------------------------
       ELSE
          WRITE(IOUT,1008)ID,TRIM(TITR),MONVOL,SURF,SENS,NSEG
       ENDIF
-      
+
       EBCS%monvol_id = MONVOL
       EBCS%sensor_id = SENS
-      
+
       IF (MULTI_FVM%IS_USED) THEN
          CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .        I1 = ID, C1 = TRIM(TITR), C2 = "NOT COMPATIBLE WITH LAW 151")
@@ -142,13 +142,13 @@ C-----------------------------------------------
      .        ANMODE=ANINFO,
      .        C1='ELEMENTARY BOUNDARY CONDITIONS')
       ENDIF
-      
+
 C-----------
       RETURN
 C-----------
 
  1008 FORMAT(//
-     .        'EBCS NUMBER :',I8,1X,A,/,    
+     .        'EBCS NUMBER :',I8,1X,A,/,
      .        '    CONNECTION TO MONITORED VOLUME. . . . . . ',I8,/,
      .        '    THROUGH SURFACE . . . . . . . . . . . . . ',I8,/,
      .        '    ACTIVATED BY SENSOR . . . . . . . . . . . ',I8,/,

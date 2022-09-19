@@ -47,7 +47,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE HM_OPTION_READ_MOD  
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
       INTEGER  SUB_ID,MM, NEL
       CHARACTER TITLE*ncharline,KEY1*ncharkey,KEY*ncharkey,MESS*40
       LOGICAL :: IS_AVAILABLE
-      DATA MESS/'EREF ELEMENT REFERENCE GEOMETRY'/              
+      DATA MESS/'EREF ELEMENT REFERENCE GEOMETRY'/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -96,29 +96,29 @@ C
       IS_AVAILABLE = .FALSE.
 C
       IF(NXREF == 0 .AND. IREFSTA == 0) THEN
-        DO IE=1,NUMELC                          
-          DO IN = 1,4                           
-            NN = IXC(IN+1,IE)                   
-            DO J = 1,3                          
+        DO IE=1,NUMELC
+          DO IN = 1,4
+            NN = IXC(IN+1,IE)
+            DO J = 1,3
               XREFC(IN,J,IE) = X(J,NN)
-            ENDDO                               
-          ENDDO                                 
-        ENDDO                                   
-        DO IE=1,NUMELTG                         
-          DO IN = 1,3                           
-            NN = IXTG(IN+1,IE)                  
-            DO J = 1,3                          
-              XREFTG(IN,J,IE) = X(J,NN)      
-            ENDDO                               
-          ENDDO                                 
-        ENDDO                                   
-        DO IE=1,NUMELS8                         
-          DO IN = 1,8                           
-            NN = IXS(IN+1,IE)                   
-            DO J = 1,3                          
-              XREFS(IN,J,IE) = X(J,NN)       
-            ENDDO                               
-          ENDDO                                 
+            ENDDO
+          ENDDO
+        ENDDO
+        DO IE=1,NUMELTG
+          DO IN = 1,3
+            NN = IXTG(IN+1,IE)
+            DO J = 1,3
+              XREFTG(IN,J,IE) = X(J,NN)
+            ENDDO
+          ENDDO
+        ENDDO
+        DO IE=1,NUMELS8
+          DO IN = 1,8
+            NN = IXS(IN+1,IE)
+            DO J = 1,3
+              XREFS(IN,J,IE) = X(J,NN)
+            ENDDO
+          ENDDO
         ENDDO
       ENDIF
 C
@@ -157,12 +157,12 @@ C
               ITYP = 1
             ENDIF
           ENDDO
-          DO IE=1,NUMELTG               
-            IF (IP == IPARTG(IE).OR.IP==0) THEN  
-              TAGELTG(IE) = 1           
-              ITYP = 1                  
-            ENDIF                       
-          ENDDO                         
+          DO IE=1,NUMELTG
+            IF (IP == IPARTG(IE).OR.IP==0) THEN
+              TAGELTG(IE) = 1
+              ITYP = 1
+            ENDIF
+          ENDDO
           IF (ITYP == 0) THEN
             DO IE=1,NUMELS8
               IF (IP == IPARTS(IE).OR.IP==0) THEN
@@ -196,7 +196,7 @@ C
                 DO IN=1,4
                   NN = USR2SYS(IX(IN),ITABM1,MESS,ID)
                   MM = IXC(IN+1,IE)
-                  TAGNOD(MM) = 1				  
+                  TAGNOD(MM) = 1				
                   XREFC(IN,1,IE) = X(1,NN)
                   XREFC(IN,2,IE) = X(2,NN)
                   XREFC(IN,3,IE) = X(3,NN)
@@ -312,7 +312,7 @@ C
             ENDDO
             IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1040) NEL		
           ENDIF
-          END SELECT 
+          END SELECT
 C
         ENDIF
       ENDDO

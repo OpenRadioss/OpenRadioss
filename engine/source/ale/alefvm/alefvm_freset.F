@@ -92,27 +92,27 @@ C-----------------------------------------------
 
       !-------------------------------------------------------------!
       ! FORCES INITIALIZATION                                       !
-      !-------------------------------------------------------------!  
-      IF(INT22==0)THEN    
+      !-------------------------------------------------------------!
+      IF(INT22==0)THEN
         DO I=LFT,LLT
           II                              = I + NFT
           FCELL(1,II)                     = ZERO
           FCELL(2,II)                     = ZERO
-          FCELL(3,II)                     = ZERO      
+          FCELL(3,II)                     = ZERO
         ENDDO!next I
       ELSE
         DO I=LFT,LLT
           II                              = I + NFT
           FCELL(1,II)                     = ZERO
           FCELL(2,II)                     = ZERO
-          FCELL(3,II)                     = ZERO 
+          FCELL(3,II)                     = ZERO
           IB                              = NINT(IAD22(I))
           IF(IB/=ZERO)THEN
             BRICK_LIST(NIN,IB)%FCELL(1:3) = ZERO
-          ENDIF               
-        ENDDO!next I             
+          ENDIF
+        ENDDO!next I
       ENDIF
-      
+
 C-----------------------------------------------
       RETURN
       END

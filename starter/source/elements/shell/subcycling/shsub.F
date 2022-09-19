@@ -54,84 +54,84 @@ C=======================================================================
 C
 C---  Solids
 C
-      DO I = 1, NUMELS                                               
-        DO J=2,9                                    
-          IF (LSHSUB(IXS(J,I)) < 2)  
+      DO I = 1, NUMELS
+        DO J=2,9
+          IF (LSHSUB(IXS(J,I)) < 2)
      .        LSHSUB(IXS(J,I))=LSHSUB(IXS(J,I))+2
-        ENDDO                                                  
-      ENDDO                                                   
+        ENDDO
+      ENDDO
 C
-      DO I = 1, NUMELS10                                               
-        DO J=1,6                                                      
-          IF(IXS10(J,I)/=0)THEN                                   
-            IF (LSHSUB(IXS10(J,I) ) < 2)                             
-     .          LSHSUB(IXS10(J,I)) = LSHSUB(IXS10(J,I))+2                
-          ENDIF                                                       
-        ENDDO                                                         
-      ENDDO                                                   
+      DO I = 1, NUMELS10
+        DO J=1,6
+          IF(IXS10(J,I)/=0)THEN
+            IF (LSHSUB(IXS10(J,I) ) < 2)
+     .          LSHSUB(IXS10(J,I)) = LSHSUB(IXS10(J,I))+2
+          ENDIF
+        ENDDO
+      ENDDO
 C
-      DO I = 1, NUMELS20                                               
-        DO J=1,12                      
-          IF(IXS20(J,I)/=0)THEN                                   
-            IF (LSHSUB(IXS20(J,I)) < 2)                            
-     .          LSHSUB(IXS20(J,I)) = LSHSUB(IXS20(J,I))+2               
-          ENDIF                                                       
-        ENDDO                                                         
-      ENDDO                                                   
+      DO I = 1, NUMELS20
+        DO J=1,12
+          IF(IXS20(J,I)/=0)THEN
+            IF (LSHSUB(IXS20(J,I)) < 2)
+     .          LSHSUB(IXS20(J,I)) = LSHSUB(IXS20(J,I))+2
+          ENDIF
+        ENDDO
+      ENDDO
 C
-      DO I = 1, NUMELS16                                               
-        DO J=1,8                      
-          IF(IXS16(J,I)/=0)THEN                                   
-            IF (LSHSUB(IXS16(J,I)) < 2)                            
-     .          LSHSUB(IXS16(J,I)) = LSHSUB(IXS16(J,I))+2               
-          ENDIF                                                       
-        ENDDO                                                         
-      ENDDO                                                   
+      DO I = 1, NUMELS16
+        DO J=1,8
+          IF(IXS16(J,I)/=0)THEN
+            IF (LSHSUB(IXS16(J,I)) < 2)
+     .          LSHSUB(IXS16(J,I)) = LSHSUB(IXS16(J,I))+2
+          ENDIF
+        ENDDO
+      ENDDO
 C
 C---  Shells
 C
-      DO I = 1, NUMELC                                               
-        DO J=2,5                                               
+      DO I = 1, NUMELC
+        DO J=2,5
           IF (LSHSUB(IXC(J,I)) == 0) LSHSUB(IXC(J,I)) = 1
-        ENDDO                                                  
-      ENDDO                                                   
+        ENDDO
+      ENDDO
 C
 C---  Truss
 C
-      DO I = 1, NUMELT                                               
-        DO J=2,3                                               
+      DO I = 1, NUMELT
+        DO J=2,3
           IF (LSHSUB(IXP(J,I)) < 2)
      .        LSHSUB(IXP(J,I))= LSHSUB(IXP(J,I)) + 2
-        ENDDO                                                  
-      ENDDO                                                   
+        ENDDO
+      ENDDO
 C
 C---  Beams
 C
-      DO I = 1, NUMELP                                               
-        DO J=2,4                                              
+      DO I = 1, NUMELP
+        DO J=2,4
             IF (LSHSUB(IXP(J,I)) < 2)
      .          LSHSUB(IXP(J,I)) = LSHSUB(IXP(J,I)) + 2
-        ENDDO                                                  
-      ENDDO                                                   
+        ENDDO
+      ENDDO
 C
 C---  Springs
 C
-      DO I = 1, NUMELR                                               
+      DO I = 1, NUMELR
         DO J=2,4
-          IF (IXR(J,I) /= 0) THEN                                             
+          IF (IXR(J,I) /= 0) THEN
             IF (LSHSUB(IXR(J,I)) < 2)
      .          LSHSUB(IXR(J,I)) = LSHSUB(IXR(J,I)) + 2
           END IF
-        ENDDO                                                  
-      ENDDO                                                   
+        ENDDO
+      ENDDO
 C
 C---  Triangle Shells
 C
-      DO I = 1, NUMELTG                                               
-        DO J=2,4                                               
+      DO I = 1, NUMELTG
+        DO J=2,4
           IF (LSHSUB(IXTG(J,I)) == 0) LSHSUB(IXTG(J,I)) = 1
-        ENDDO                                                  
-      ENDDO                                                   
+        ENDDO
+      ENDDO
 C
 C-----------
 C

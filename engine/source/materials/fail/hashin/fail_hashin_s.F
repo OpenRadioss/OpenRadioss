@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE FAIL_HASHIN_S(
      1     NEL     ,NUVAR   ,IP      ,ILAY    ,NPT0    ,
      2     NPF     ,TF      ,TIME    ,TIMESTEP,UPARAM  ,
-     3     MAT     ,NGL     ,OFF     ,NOFF    ,SIGNXX  , 
+     3     MAT     ,NGL     ,OFF     ,NOFF    ,SIGNXX  ,
      4     SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      5     UVAR    ,IPM     ,NUPARAM ,DFMAX   ,TDELE   ,
      6     EPSP )
@@ -90,7 +90,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,ILAY,NPT0,NUVAR
       INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
-      my_real 
+      my_real
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -118,7 +118,7 @@ C-----------------------------------------------
      .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,KK,IR,IMATLY,
      .        IMODEL,IUNIDIR,IFABRIC,IP,INDX0(MVSIZ),NINDX0,
      .        MODE(MVSIZ,7),IMODE,FAILNPT,TMOD
-      my_real 
+      my_real
      .   SIGT1,SIGT2,SIGT3,
      .   SIGC1,SIGC2,CSIG,FSIG12,
      .   MSIG12(MVSIZ),MSIG23(MVSIZ),MSIG13(MVSIZ),ANGLE,
@@ -139,18 +139,18 @@ C
       CSIG    = UPARAM(7)
       FSIG12  = UPARAM(8)
       MSIG12(1:MVSIZ)  = UPARAM(9)
-      MSIG13(1:MVSIZ)  = UPARAM(10)         
+      MSIG13(1:MVSIZ)  = UPARAM(10)
       MSIG23(1:MVSIZ)  = UPARAM(11)
       ANGLE   = UPARAM(12)
       SDEL    = UPARAM(13)
-      TMAX    = UPARAM(14) 
-      IFLAG   = INT(UPARAM(16))      
+      TMAX    = UPARAM(14)
+      IFLAG   = INT(UPARAM(16))
       RATIO   = UPARAM(17)
       TMOD     = INT(UPARAM(19))
       EPSPREF   = UPARAM(20)
       FILT     = UPARAM(21)
       KM      = UPARAM(22)
-      IF (IFLAG == 3) RATIO = ONE - ONE/ NPT0 
+      IF (IFLAG == 3) RATIO = ONE - ONE/ NPT0
       DO I=1,NEL
          INDX(I) = 0
          INDX0(I) = 0
@@ -162,9 +162,9 @@ C-----------------------------------------------
         IF(TIME == ZERO)THEN
          DO I=1,NEL
           UVAR(I,8)  = ONE
-         ENDDO   
-        ENDIF    
-      ENDIF       
+         ENDDO
+        ENDIF
+      ENDIF
 C-----------------------------------------------
       IUNIDIR = 0
       IFABRIC = 0
@@ -174,7 +174,7 @@ C-----------------------------------------------
          IFABRIC = 1
       ENDIF
 c        ELSEIF(IFLAG(I) == 3)THEN
-c   
+c
       DO I=1,NEL
         IF(OFF(I) < EM01) OFF(I)=ZERO
         IF(OFF(I) < ONE)   OFF(I)=OFF(I)*FOUR_OVER_5
@@ -189,16 +189,16 @@ C
       END DO
 C
 C initialisation 
-       
+
 C-------------------------------
 C      
 C     OFF = 0. si la matrice ou la fibre a rompu
 C-------------------------------
 C           
-       IF(IUNIDIR > 0)THEN   
-        NINDX=0 
+       IF(IUNIDIR > 0)THEN
+        NINDX=0
         INDX = 0
-        INDX0=0 
+        INDX0=0
         NINDX0 = 0
 c
         DO I=1,NEL
@@ -207,14 +207,14 @@ c
          F3 =ZERO
          F4 = ZERO
          F5 = ZERO
-c alpha = number of cycles  
-          DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20)    
+c alpha = number of cycles
+          DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20)
           ALPHA = INT(MAX(ONE,FILT*DTINV))
 c alpha coef de moyenne mobile exponentielle
           ALPHA = TWO/(ALPHA + ONE)
-          FS(I)=UVAR(I,10) 
-c smoothed strain rate 
-          EPSP(I)=(ONE - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I) 
+          FS(I)=UVAR(I,10)
+c smoothed strain rate
+          EPSP(I)=(ONE - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I)
           UVAR(I,11)=EPSP(I)
          IF(OFF(I) == ONE .AND. IMODEL == 1)THEN
 C         
@@ -222,36 +222,36 @@ C
 C-------------------------------     
 C           OFF = 0 when one layer fiber or matrix criteria is reached
 C-------------------------------                  
-            IF (UVAR(I,8) < ONE)THEN 
+            IF (UVAR(I,8) < ONE)THEN
               IF(TMOD == 1) THEN
                   TELEM = MAX((TIMESTEP(I)*1.0),TMAX*(EPSPREF/EPSP(I))**2)
                   UVAR(I,8)=UVAR(I,8)*EXP(-TIMESTEP(I)/TELEM)
               ELSEIF(TMOD == 2) THEN
                  TELEM = UVAR(I,12)
-                 UVAR(I,8) = EXP(-(TIME - UVAR(I,7))/TELEM)  
+                 UVAR(I,8) = EXP(-(TIME - UVAR(I,7))/TELEM)
               ELSE
-                  UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)  
-              ENDIF   
+                  UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)
+              ENDIF
               IF (UVAR(I,8) < EM02) UVAR(I,8) = ZERO
               SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
               SIGNYY(I) = UVAR(I,2)*UVAR(I,8)
               SIGNZZ(I) = UVAR(I,3)*UVAR(I,8)
               SIGNXY(I) = UVAR(I,4)*UVAR(I,8)
               SIGNYZ(I) = UVAR(I,5)*UVAR(I,8)
-              SIGNZX(I) = UVAR(I,6)*UVAR(I,8) 
+              SIGNZX(I) = UVAR(I,6)*UVAR(I,8)
               IF (UVAR(I,8) == ZERO ) THEN
-                OFF(I)=FOUR_OVER_5 
+                OFF(I)=FOUR_OVER_5
                 NINDX=NINDX+1
                 INDX(NINDX)=I
-                TDELE(I) = TIME  
+                TDELE(I) = TIME
 C                KK = 4711
-              ENDIF      
-            ELSE                  
+              ENDIF
+            ELSE
 C
 C   fiber criteria
 C
              SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
-             F1=(SIG/SIGT1)**2 
+             F1=(SIG/SIGT1)**2
      .                  + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
              SIG =  -HALF*(SIGNYY(I) + SIGNZZ(I))
              SIG = - SIGNXX(I) + HALF*(SIG + ABS(SIG))
@@ -268,18 +268,18 @@ C
               IF(SIGNYY(I) < ZERO) THEN
                 S12 = MSIG12(I) -   SIGNYY(I)*FAC
                 S23 = MSIG23(I) -   SIGNYY(I)*FAC
-              ENDIF           
+              ENDIF
 C                
               SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
-              F4=(SIG/SIGT2)**2 
+              F4=(SIG/SIGT2)**2
      .            + (SIGNYZ(I)/S23)**2 + (SIGNXY(I)/S12)**2
 C
               IF(SIGNZZ(I) < ZERO) THEN
                 MSIG13(I) = MSIG13(I) - SIGNZZ(I)*FAC
                 MSIG23(I) = MSIG23(I) - SIGNZZ(I)*FAC
-              ENDIF 
+              ENDIF
               SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
-         
+
               F5= (SIG/SIGT3)**2 +
      .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
               F5 = SDEL*SDEL*F5
@@ -288,19 +288,19 @@ C
               UVAR(I,10) = MAX(F1,F2,F3,F4,F5)
 C
               IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
-     .          F4 >= ONE .OR. F5 >= ONE )THEN 
+     .          F4 >= ONE .OR. F5 >= ONE )THEN
                UVAR(I,1) = SIGNXX(I)
                UVAR(I,2) = SIGNYY(I)
                UVAR(I,3) = SIGNZZ(I)
                UVAR(I,4) = SIGNXY(I)
                UVAR(I,5) = SIGNYZ(I)
                UVAR(I,6) = SIGNZX(I)
-               UVAR(I,7) = TIME 
+               UVAR(I,7) = TIME
                IF(TMOD == 0) THEN
                    UVAR(I,8) = FOUR_OVER_5
                ELSE
-                   UVAR(I,8) = ZEP99 
-               ENDIF 
+                   UVAR(I,8) = ZEP99
+               ENDIF
                FAC = HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
      .                    ABS(SIGNZZ(I)),ABS(SIGNXY(I)),ABS(SIGNYZ(I)),
      .                    ABS(SIGNZX(I)))
@@ -309,7 +309,7 @@ C
                K2 =  ZEP669741*FAC*EPSP(I)**2
                K2M = ZEP669741*FAC*KM*EPSPREF**2
                K2 = MAX(K2M,K2,EM20)
-               TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2 
+               TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2
                UVAR(I,12) = TELEM
                IF (F1>=ONE) THEN
                  MODE(I,1) = 1
@@ -331,13 +331,13 @@ C
                  MODE(I,5) = 5
                  KK = 5
                ENDIF
-               UVAR(I,9)   = KK 
+               UVAR(I,9)   = KK
                NINDX0=NINDX0+1
                INDX0(NINDX0)=I
               ENDIF
              ENDIF
 C             
-            ELSE    ! iflag/= 1 
+            ELSE    ! iflag/= 1
 C-------------------------------     
 C             OFF = 0 when all layer fiber or matrix criteria is reached
 C-------------------------------              
@@ -356,8 +356,8 @@ C-------------------------------
                  TELEM = UVAR(I,12)
                  UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TELEM )
                 ELSE
-                  UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)  
-               ENDIF 
+                  UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)
+               ENDIF
                 IF(UVAR(I,8) < EM02)UVAR(I,8) = ZERO
                 SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
                 SIGNYY(I) = UVAR(I,2)*UVAR(I,8)
@@ -372,22 +372,22 @@ C-------------------------------
                     NINDX=NINDX+1
                     INDX(NINDX)=I
                     OFF(I) = FOUR_OVER_5
-                    TDELE(I) = TIME  
-                   ENDIF 
-                ENDIF            
+                    TDELE(I) = TIME
+                   ENDIF
+                ENDIF
               ELSE
 C
 C   fiber criteria
 C
              SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
-             F1=(SIG/SIGT1)**2 
+             F1=(SIG/SIGT1)**2
      .                  + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
              SIG =  -HALF*(SIGNYY(I) + SIGNZZ(I))
              SIG = - SIGNXX(I) + HALF*(SIG + ABS(SIG))
              SIG = HALF*(SIG + ABS(SIG))
              F2 = (SIG /SIGC1)**2
              P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-             IF(P > 0) F3 = (P/CSIG)**2            
+             IF(P > 0) F3 = (P/CSIG)**2
 C
 C  matrice criteria
 C              
@@ -397,38 +397,38 @@ C
               IF(SIGNYY(I) < ZERO) THEN
                 S12 = MSIG12(I) -   SIGNYY(I)*FAC
                 S23 = MSIG23(I) -   SIGNYY(I)*FAC
-              ENDIF           
+              ENDIF
 C                
               SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
-              F4=(SIG/SIGT2)**2 
+              F4=(SIG/SIGT2)**2
      .            + (SIGNYZ(I)/S23)**2 + (SIGNXY(I)/S12)**2
 C
               IF(SIGNZZ(I) < ZERO) THEN
                 MSIG13(I) = MSIG13(I) - SIGNZZ(I)*FAC
                 MSIG23(I) = MSIG23(I) - SIGNZZ(I)*FAC
-              ENDIF 
+              ENDIF
               SIG = HALF*(SIGNZZ(I) + ABS(SIGNZZ(I)))
               F5= (SIG/SIGT3)**2 +
      .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
-              F5 = SDEL*SDEL*F5     
+              F5 = SDEL*SDEL*F5
 C
                 DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,F2,F3,F4,F5))
 C   
                 UVAR(I,10) = MAX(F1,F2,F3,F4,F5)
-                IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.               
-     .           F4 >= ONE .OR. F5 >= ONE )THEN                             
-                   UVAR(I,1) = SIGNXX(I)                                  
-                   UVAR(I,2) = SIGNYY(I)                                  
-                   UVAR(I,3) = SIGNZZ(I)                                  
-                   UVAR(I,4) = SIGNXY(I)                                  
-                   UVAR(I,5) = SIGNYZ(I)                                  
-                   UVAR(I,6) = SIGNZX(I)                                  
-                   UVAR(I,7) = TIME                                       
+                IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
+     .           F4 >= ONE .OR. F5 >= ONE )THEN
+                   UVAR(I,1) = SIGNXX(I)
+                   UVAR(I,2) = SIGNYY(I)
+                   UVAR(I,3) = SIGNZZ(I)
+                   UVAR(I,4) = SIGNXY(I)
+                   UVAR(I,5) = SIGNYZ(I)
+                   UVAR(I,6) = SIGNZX(I)
+                   UVAR(I,7) = TIME
                     IF(TMOD == 0) THEN
                        UVAR(I,8) = FOUR_OVER_5
                     ELSE
-                       UVAR(I,8) = ZEP99 
-                    ENDIF  
+                       UVAR(I,8) = ZEP99
+                    ENDIF
                      FAC = HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
      .                    ABS(SIGNZZ(I)),ABS(SIGNXY(I)),ABS(SIGNYZ(I)),
      .                    ABS(SIGNZX(I)))
@@ -437,47 +437,47 @@ C
                     K2 =  ZEP669741*FAC*EPSP(I)**2
                     K2M = ZEP669741*FAC*KM*EPSPREF**2
                     K2  = MAX(K2M,K2,EM20)
-                    TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2 
-                    UVAR(I,12) = TELEM                   
+                    TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2
+                    UVAR(I,12) = TELEM
                     NINDX0= NINDX0+1
                     INDX0(NINDX0)=I
                     IF (F1>=ONE) THEN
-                      MODE(I,1) = 1              
+                      MODE(I,1) = 1
                       KK =1
                     ENDIF
                     IF (F2>=ONE) THEN
-                      MODE(I,2) = 1              
+                      MODE(I,2) = 1
                       KK =2
                     ENDIF
                     IF (F3>=ONE) THEN
-                      MODE(I,3) = 1              
+                      MODE(I,3) = 1
                       KK =3
                     ENDIF
                     IF (F4>=ONE) THEN
-                      MODE(I,4) = 1              
+                      MODE(I,4) = 1
                       KK =4
                     ENDIF
                     IF (F5>=ONE) THEN
-                      MODE(I,5) = 1              
+                      MODE(I,5) = 1
                       KK =5
                     ENDIF
-                    UVAR(I,9)   = KK 
+                    UVAR(I,9)   = KK
                   ENDIF
               ENDIF
-c 
-             ENDIF  !  iflag choice            
+c
+             ENDIF  !  iflag choice
            ENDIF
-                   
-         ENDDO  
-        ENDIF 
+
+         ENDDO
+        ENDIF
 C ----------------------------------------------      
 C     fabric layer model
 C     OFF = 0. si la matrice ou la fibre a rompu
 C-------------------------------  
       IF(IFABRIC > 0)THEN
-        INDX = 0 
+        INDX = 0
         NINDX = 0
-        INDX0 = 0 
+        INDX0 = 0
         NINDX0 = 0
         DO I=1,NEL
           F1 = ZERO
@@ -486,19 +486,19 @@ C-------------------------------
           F4 = ZERO
           F5 = ZERO
           F6 = ZERO
-          F7 = ZERO 
-c alpha = number of cycles                                 
+          F7 = ZERO
+c alpha = number of cycles
           DTINV = TIMESTEP(I)/MAX(TIMESTEP(I)**2,EM20)
           ALPHA = INT(MAX(ONE,FILT*DTINV))
 c alpha coef de moyenne mobile exponentielle
           ALPHA = TWO/(ALPHA + ONE)
-          FS(I)=UVAR(I,10) 
-c smoothed strain rate 
-          EPSP(I)=(ONE - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I) 
+          FS(I)=UVAR(I,10)
+c smoothed strain rate
+          EPSP(I)=(ONE - ALPHA)*UVAR(I,11)  +  ALPHA*EPSP(I)
           UVAR(I,11)=EPSP(I)
-          IF(OFF(I) == ONE .AND. IMODEL /= 1)THEN     
+          IF(OFF(I) == ONE .AND. IMODEL /= 1)THEN
             IF(IFLAG == 1) THEN
-              IF(UVAR(I,8) < ONE)THEN 
+              IF(UVAR(I,8) < ONE)THEN
                IF(TMOD == 1) THEN
                   TELEM = MAX((TIMESTEP(I)*1.0),TMAX*(EPSPREF/EPSP(I))**2)
                   UVAR(I,8)=UVAR(I,8)*EXP(-TIMESTEP(I)/TELEM)
@@ -506,8 +506,8 @@ c smoothed strain rate
                  TELEM = UVAR(I,12)
                  UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TELEM)
                 ELSE
-                   UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)  
-                ENDIF    
+                   UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)
+                ENDIF
                  IF(UVAR(I,8) < EM02)UVAR(I,8) = ZERO
                  SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
                  SIGNYY(I) = UVAR(I,2)*UVAR(I,8)
@@ -519,24 +519,24 @@ c smoothed strain rate
                     OFF(I)=FOUR_OVER_5
                     NINDX=NINDX+1
                     INDX(NINDX)=I
-                    TDELE(I) = TIME  
-                 ENDIF   
-              ELSE                  
+                    TDELE(I) = TIME
+                 ENDIF
+              ELSE
 C
 C   Fill and warp directions
 C
                 SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
-                F1=(SIG/SIGT1)**2 
+                F1=(SIG/SIGT1)**2
      .                     + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
                 SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
                 FSIG12UP = FSIG12*SIGT2/SIGT1
-                F2=(SIG/SIGT2)**2 
-     .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2  
+                F2=(SIG/SIGT2)**2
+     .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2
 C                              
                 SIG = HALF*(-SIGNZZ(I) + ABS(SIGNZZ(I)))
-                IF(-SIGNXX(I) + SIG > ZERO) 
-     .                       F3 = ((-SIGNXX(I) + SIG)/SIGC1)**2     
-                IF(-SIGNYY(I) + SIG > ZERO) 
+                IF(-SIGNXX(I) + SIG > ZERO)
+     .                       F3 = ((-SIGNXX(I) + SIG)/SIGC1)**2
+                IF(-SIGNYY(I) + SIG > ZERO)
      .                       F4 = ((-SIGNYY(I) + SIG)/SIGC2)**2
                 P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
                 IF(P > ZERO) F5 = (P/CSIG)**2
@@ -547,12 +547,12 @@ C                F5 = (SIGNXY(I)/MSIG12(I))**2
                   FAC=TAN(ANGLE)
                   MSIG13(I) = MSIG13(I) - SIGNZZ(I)*FAC
                   MSIG23(I) = MSIG23(I) - SIGNZZ(I)*FAC
-                ENDIF 
+                ENDIF
 C                F6 = (SIG/SIGT3(I))**2 + 
 C     .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
 CC     
 C                F6 = SDEL(I)*SDEL(I)*F6
-                F7 = (SIG/SIGT3)**2 + 
+                F7 = (SIG/SIGT3)**2 +
      .            (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
 C     
                 F7 = SDEL*SDEL*F7
@@ -562,8 +562,8 @@ C
 C          
                 UVAR(I,10) = MAX(F1,F2,F3,F4,F5,F6,F7)
                 IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
-     .             F4 >= ONE .OR. F5 >= ONE .OR. F6 >= ONE .OR. 
-     .             F7 >= ONE )THEN 
+     .             F4 >= ONE .OR. F5 >= ONE .OR. F6 >= ONE .OR.
+     .             F7 >= ONE )THEN
                    UVAR(I,1) = SIGNXX(I)
                    UVAR(I,2) = SIGNYY(I)
                    UVAR(I,3) = SIGNZZ(I)
@@ -574,74 +574,74 @@ C
                     IF(TMOD == 0) THEN
                        UVAR(I,8) = FOUR_OVER_5
                     ELSE
-                       UVAR(I,8) = ZEP99 
-                    ENDIF 
-                   FAC = HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),              
-     .                        ABS(SIGNZZ(I)),ABS(SIGNXY(I)),ABS(SIGNYZ(I)),   
-     .                        ABS(SIGNZX(I)))                                 
-                   K0 =  FAC*EPSPREF**2*ZEP669741*TMAX**2 + ZEP9*EPSPREF*TMAX 
-                   K1 =  ZEP9*EPSP(I)                                         
-                   K2 =  ZEP669741*FAC*EPSP(I)**2                      
-                   K2M = ZEP669741*FAC*KM*EPSPREF**2 
-                   K2 = MAX(K2M,K2,EM20)                         
-                   TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2                      
-                   UVAR(I,12) = TELEM                                         
-                   IF (F1>=ONE) THEN 
-                     MODE(I,1) = 1    
-                     KK = 1           
-                   ENDIF            
+                       UVAR(I,8) = ZEP99
+                    ENDIF
+                   FAC = HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
+     .                        ABS(SIGNZZ(I)),ABS(SIGNXY(I)),ABS(SIGNYZ(I)),
+     .                        ABS(SIGNZX(I)))
+                   K0 =  FAC*EPSPREF**2*ZEP669741*TMAX**2 + ZEP9*EPSPREF*TMAX
+                   K1 =  ZEP9*EPSP(I)
+                   K2 =  ZEP669741*FAC*EPSP(I)**2
+                   K2M = ZEP669741*FAC*KM*EPSPREF**2
+                   K2 = MAX(K2M,K2,EM20)
+                   TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2
+                   UVAR(I,12) = TELEM
+                   IF (F1>=ONE) THEN
+                     MODE(I,1) = 1
+                     KK = 1
+                   ENDIF
 
-                   IF (F2>=ONE) THEN 
-                     MODE(I,2) = 1    
-                     KK = 2           
-                   ENDIF            
-                   IF (F3>=ONE) THEN 
-                     MODE(I,3) = 1    
-                     KK = 3           
-                   ENDIF            
-                   IF (F4>=ONE) THEN 
-                     MODE(I,4) = 1    
-                     KK = 4           
-                   ENDIF            
-                   IF (F5>=ONE) THEN 
-                     MODE(I,5) = 1    
-                     KK = 5           
-                   ENDIF            
-                   IF (F6>=ONE) THEN 
-                     MODE(I,6) = 1    
-                     KK = 5           
-                   ENDIF            
-                   IF (F7>=ONE) THEN 
-                     MODE(I,7) = 1    
-                     KK = 7           
-                   ENDIF            
-                    UVAR(I,9)   = KK 
+                   IF (F2>=ONE) THEN
+                     MODE(I,2) = 1
+                     KK = 2
+                   ENDIF
+                   IF (F3>=ONE) THEN
+                     MODE(I,3) = 1
+                     KK = 3
+                   ENDIF
+                   IF (F4>=ONE) THEN
+                     MODE(I,4) = 1
+                     KK = 4
+                   ENDIF
+                   IF (F5>=ONE) THEN
+                     MODE(I,5) = 1
+                     KK = 5
+                   ENDIF
+                   IF (F6>=ONE) THEN
+                     MODE(I,6) = 1
+                     KK = 5
+                   ENDIF
+                   IF (F7>=ONE) THEN
+                     MODE(I,7) = 1
+                     KK = 7
+                   ENDIF
+                    UVAR(I,9)   = KK
 C                  
                   NINDX0=NINDX0+1
                   INDX0(NINDX0)=I
                 ENDIF
               ENDIF
-             ELSE   ! iflag/= 1 
+             ELSE   ! iflag/= 1
 C-------------------------------     
 C     OFF = 0. all layer fiber or matrix criteria is reateched
 C-------------------------------
-              IF(UVAR(I,8) == ZERO) THEN                                    
+              IF(UVAR(I,8) == ZERO) THEN
                 SIGNXX(I) = ZERO
                 SIGNYY(I) = ZERO
                 SIGNZZ(I) = ZERO
                 SIGNXY(I) = ZERO
                 SIGNYZ(I) = ZERO
                 SIGNZX(I) = ZERO
-              ELSEIF(UVAR(I,8) < ONE)THEN 
+              ELSEIF(UVAR(I,8) < ONE)THEN
                 IF(TMOD == 1) THEN
                   TELEM = MAX((TIMESTEP(I)*1.0),TMAX*(EPSPREF/EPSP(I))**2)
                   UVAR(I,8)=UVAR(I,8)*EXP(-TIMESTEP(I)/TELEM)
                ELSEIF(TMOD == 2) THEN
-                 TELEM = UVAR(I,12) 
-                 UVAR(I,8)=EXP(-(TIME - UVAR(I,7))/TELEM)  
+                 TELEM = UVAR(I,12)
+                 UVAR(I,8)=EXP(-(TIME - UVAR(I,7))/TELEM)
                 ELSE
-                   UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)  
-                ENDIF    
+                   UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)
+                ENDIF
                 IF(UVAR(I,8) < EM02)UVAR(I,8) = ZERO
                 SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
                 SIGNYY(I) = UVAR(I,2)*UVAR(I,8)
@@ -656,26 +656,26 @@ C-------------------------------
                        OFF(I) = FOUR_OVER_5
                        NINDX=NINDX+1
                        INDX(NINDX)=I
-                       TDELE(I) = TIME  
+                       TDELE(I) = TIME
                     ENDIF
-                ENDIF         
-              ELSE                  
+                ENDIF
+              ELSE
 C
 C   Fill and warp directions 
 C
                 SIG = HALF*(SIGNXX(I) + ABS(SIGNXX(I)))
-                F1=(SIG/SIGT1)**2 
+                F1=(SIG/SIGT1)**2
      .                   + (SIGNXY(I)**2 + SIGNZX(I)**2)/FSIG12**2
-                  
+
                 SIG = HALF*(SIGNYY(I) + ABS(SIGNYY(I)))
                 FSIG12UP = FSIG12*SIGT2/SIGT1
-                F2=(SIG/SIGT2)**2 
-     .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2  
+                F2=(SIG/SIGT2)**2
+     .                   + (SIGNXY(I)**2 + SIGNYZ(I)**2)/FSIG12UP**2
 C                             
                 SIG = HALF*(-SIGNZZ(I) + ABS(SIGNZZ(I)))
-                IF(-SIGNXX(I) + SIG > ZERO) 
+                IF(-SIGNXX(I) + SIG > ZERO)
      .                       F3 = ((-SIGNXX(I) + SIG)/SIGC1)**2
-                IF(-SIGNYY(I) + SIG > ZERO) 
+                IF(-SIGNYY(I) + SIG > ZERO)
      .                       F4 = ((-SIGNYY(I) + SIG)/SIGC2)**2
                 P = -THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
                 IF(P > ZERO) F5 = (P/CSIG)**2
@@ -685,10 +685,10 @@ C
                   FAC=TAN(ANGLE)
                   MSIG13(I) = MSIG13(I) - SIGNZZ(I)*FAC
                   MSIG23(I) = MSIG23(I) - SIGNZZ(I)*FAC
-                ENDIF 
+                ENDIF
 C                F6 = (SIG/SIGT3(I))**2 + 
-                F7 = (SIG/SIGT3)**2 + 
-     .           (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2  
+                F7 = (SIG/SIGT3)**2 +
+     .           (SIGNYZ(I)/MSIG23(I))**2 + (SIGNZX(I)/MSIG13(I))**2
 C                 F6 = SDEL(I)*SDEL(I)*F6
                  F7 = SDEL*SDEL*F7
 C
@@ -697,7 +697,7 @@ C
 C  
                  IF(F1 >= ONE .OR. F2 >= ONE .OR. F3 >= ONE .OR.
      .              F4 >= ONE .OR. F5 >= ONE .OR. F6 >= ONE .OR.
-     .              F7 >= ONE )THEN 
+     .              F7 >= ONE )THEN
                     UVAR(I,1) = SIGNXX(I)
                     UVAR(I,2) = SIGNYY(I)
                     UVAR(I,3) = SIGNZZ(I)
@@ -708,8 +708,8 @@ C
                     IF(TMOD == 0) THEN
                        UVAR(I,8) = FOUR_OVER_5
                     ELSE
-                       UVAR(I,8) = ZEP99 
-                    ENDIF 
+                       UVAR(I,8) = ZEP99
+                    ENDIF
 C
                     FAC = HUNDRED*MAX(ABS(SIGNXX(I)),ABS(SIGNYY(I)),
      .                         ABS(SIGNZZ(I)),ABS(SIGNXY(I)),ABS(SIGNYZ(I)),
@@ -719,12 +719,12 @@ C
                     K2 =  ZEP669741*FAC*EPSP(I)**2
                     K2M = ZEP669741*FAC*KM*EPSPREF**2
                     K2 = MAX(K2M,K2,EM20)
-                    TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2 
+                    TELEM = (SQRT(K1**2+4*K2*K0)-K1)/2/K2
                     UVAR(I,12) = TELEM
 C                    
                     NINDX0= NINDX0+1
                     INDX0(NINDX0)=I
-                    IF (F1>=ONE) THEN 
+                    IF (F1>=ONE) THEN
                      MODE(I,1) = 1
                      KK = 1
                     ENDIF
@@ -732,35 +732,35 @@ C
                     MODE(I,2) = 1
                     KK = 2
                     ENDIF
-                    IF (F3>=ONE) THEN 
+                    IF (F3>=ONE) THEN
                     MODE(I,3) = 1
                     KK = 3
                     ENDIF
-                    IF (F4>=ONE) THEN 
+                    IF (F4>=ONE) THEN
                     MODE(I,4) = 1
                     KK = 4
                     ENDIF
-                    IF (F5>=ONE) THEN 
+                    IF (F5>=ONE) THEN
                     MODE(I,5) = 1
                     KK = 5
                     ENDIF
-                    IF (F6>=ONE) THEN 
+                    IF (F6>=ONE) THEN
                     MODE(I,6) = 1
                     KK = 6
                     ENDIF
-                    IF (F7>=ONE) THEN 
+                    IF (F7>=ONE) THEN
                     MODE(I,7) = 1
                     KK = 7
                     ENDIF
-                    UVAR(I,9)   = KK 
+                    UVAR(I,9)   = KK
                   ENDIF
-                ENDIF 
+                ENDIF
               ENDIF  ! iflag
             ENDIF
-         ENDDO 
+         ENDDO
 
       ENDIF
-         
+
         IF(NINDX0 > 0)THEN
           DO J=1,NINDX0
            I = INDX0(J)
@@ -779,7 +779,7 @@ C
              ENDIF
           END DO
           END DO
-        ENDIF         
+        ENDIF
 C                      
         IF(NINDX > 0)THEN
           DO J=1,NINDX
@@ -800,7 +800,7 @@ C               IMODE = JJ
 C             ENDIF
 C          END DO
           END DO
-        ENDIF                      
+        ENDIF
 C--------------------------------------------      
  1000 FORMAT(1X,'FAILURE ELEMENT-1 #',I10,1X,
      .'LAYER # ',I10,1X,'MODE #',I10)
@@ -815,9 +815,9 @@ C     . 1X, 'FAILURE NUMBER LAYER ', I10)
      .'LAYER # ',I10,1X,'MODE #',I10)
 C     . 1X, 'FAILURE NUMBER LAYER ', I10)
  2100 FORMAT(1X,'FAILURE ELEMENT-2 #',I10,1X,
-     .'LAYER #',I10,1X, 'AT TIME #:',1PE12.4,1X,'MODE #',I10) 
+     .'LAYER #',I10,1X, 'AT TIME #:',1PE12.4,1X,'MODE #',I10)
  1200 FORMAT(1X,'DELETE SOLID ELEMENT # ',I10,1X,'Failed layer # ',I10,
-     . 1X,' HASHIN mode # ',I10,1X,'AT TIME # ',1PE12.4)    
+     . 1X,' HASHIN mode # ',I10,1X,'AT TIME # ',1PE12.4)
  1210 FORMAT(1X,'RESPONSIBLE STRESS: SIG_11= ',1PE12.4,1X,
      .'SIG_22= ',1PE12.4,1X,'SIG_33= ',1PE12.4)
  1215 FORMAT(1X,'RESPONSIBLE STRESS: SIG_12= ',1PE12.4,1X,

@@ -36,7 +36,7 @@ Chd|====================================================================
      .    PX2H1, PX2H2, PX2H3, PX2H4,
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
      .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
@@ -83,19 +83,19 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
-     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
-     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
-     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),
+     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),
+     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -127,7 +127,7 @@ C     REAL
      .   JAC4,JAC5,JAC6,
      .   JAC7,JAC8,JAC9,
      .   SMAX(*),DELTAX(*),NU(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(MVSIZ),DETDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -136,7 +136,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DET(MVSIZ) ,DETT , NU1(MVSIZ),  
+     .   DET(MVSIZ) ,DETT , NU1(MVSIZ),
      .   JAC1,JAC2,JAC3,
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
@@ -148,9 +148,9 @@ C                                                                     12
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
      .   D1Z(MVSIZ) , D2Z(MVSIZ) , D3Z(MVSIZ) , D4Z(MVSIZ) ,
-     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),  
-     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),   
-     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ), 
+     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),
+     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),
+     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),
      .   F1,F2,F3,XS,XAS,YS,YAS,ZS,ZAS,CS,CAS ,BXHI,BYHI,BZHI
 C-----------------------------------------------
 C------ICP= 0 : Bindeman&Belytschko assumed strain
@@ -204,7 +204,7 @@ C
         DO I=LFT,LLT
           IF(VOL(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOL(I)= EM20
-            OFF(I) =ZERO 
+            OFF(I) =ZERO
            IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
@@ -216,8 +216,8 @@ C
             WRITE(ISTDO,2000) NGL(I)
             WRITE(IOUT ,2000) NGL(I)
 #include "lockoff.inc"
-            IDEL7NOK = 1   
-           ENDIF 
+            IDEL7NOK = 1
+           ENDIF
           ENDIF
         ENDDO
       END IF
@@ -769,7 +769,7 @@ C---- debug Isolid=14+Ismstr=10+law1
         BZX8(I)=ZERO
         BZY8(I)=ZERO
        ENDDO
-      ENDIF 
+      ENDIF
 C-----------for the imcompressible laws
 C-------|BXX BYX BZX |
 C-------|BXY BYY BZY |  same than H8A
@@ -916,7 +916,7 @@ Chd|====================================================================
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .   JAC1,JAC2,JAC3,
      .   JAC4,JAC5,JAC6,
      .   JAC7,JAC8,JAC9,SMAX,SAV,OFFG,NEL)
@@ -947,20 +947,20 @@ C-----------------------------------------------
 C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   SAV(NEL,21)
 
       my_real
-     .   OFF(*),DET(*), 
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   OFF(*),DET(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   JAC1(*),JAC2(*),JAC3(*),
      .   JAC4(*),JAC5(*),JAC6(*),
      .   JAC7(*),JAC8(*),JAC9(*),SMAX(*),OFFG(*)
@@ -971,7 +971,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DETT ,   
+     .   DETT ,
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
      .   JACI7, JACI8, JACI9,
@@ -1267,7 +1267,7 @@ Chd|====================================================================
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .   JAC1,JAC2,JAC3,
      .   JAC4,JAC5,JAC6,
      .   JAC7,JAC8,JAC9,SMAX)
@@ -1295,19 +1295,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
 C     REAL
       my_real
-     .   OFF(*),DET(*), 
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   OFF(*),DET(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   JAC1(*),JAC2(*),JAC3(*),
      .   JAC4(*),JAC5(*),JAC6(*),
      .   JAC7(*),JAC8(*),JAC9(*),SMAX(*)
@@ -1318,7 +1318,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DETT ,   
+     .   DETT ,
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
      .   JACI7, JACI8, JACI9,
@@ -1487,7 +1487,7 @@ C----surface max mediane-- *16
 C
  1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
-      END      
+      END
 Chd|====================================================================
 Chd|  S8ZDERIPR3                    source/elements/solid/solide8z/s8zderi3.F
 Chd|-- called by -----------
@@ -1500,7 +1500,7 @@ Chd|====================================================================
      .    CJ1,CJ2,CJ3,
      .    CJ4,CJ5,CJ6,
      .    CJ7,CJ8,CJ9,
-     .    HX, HY,  HZ,   
+     .    HX, HY,  HZ,
      .    JAC1,JAC2,JAC3,
      .    JAC4,JAC5,JAC6,
      .    JACI1,JACI2,JACI3,
@@ -1536,7 +1536,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*),KSI,ETA,ZETA,WI,
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   CJ1(*),CJ2(*),CJ3(*),
      .   CJ4(*),CJ5(*),CJ6(*),
      .   CJ7(*),CJ8(*),CJ9(*),
@@ -1545,7 +1545,7 @@ C     REAL
      .   JACI1(*),JACI2(*),JACI3(*),
      .   JACI4(*),JACI5(*),JACI6(*),
      .   JACI7(*),JACI8(*),JACI9(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1559,7 +1559,7 @@ C                                                                     12
      .   JAC_38_29(MVSIZ), JAC_19_37(MVSIZ), JAC_27_18(MVSIZ),
      .   JAC_26_35(MVSIZ), JAC_34_16(MVSIZ), JAC_15_24(MVSIZ),
      .   JAC7,JAC8,JAC9,VOL(MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DETDP
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -1627,7 +1627,7 @@ C
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IR = IMP_IR + 1
-           ENDIF 
+           ENDIF
           ENDIF
         ENDDO
       END IF
@@ -1682,7 +1682,7 @@ Chd|====================================================================
      .    CJ1,CJ2,CJ3,
      .    CJ4,CJ5,CJ6,
      .    CJ7,CJ8,CJ9,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .    JAC1,JAC2,JAC3,
      .    JAC4,JAC5,JAC6,
      .    JACI1,  JACI2,  JACI3,
@@ -1714,18 +1714,18 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
-     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
-     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
-     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
+     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),
+     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),
+     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -1754,14 +1754,14 @@ C     REAL
      .   CJ1(*),CJ2(*),CJ3(*),
      .   CJ4(*),CJ5(*),CJ6(*),
      .   CJ7(*),CJ8(*),CJ9(*),
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   JAC1(*),JAC2(*),JAC3(*),
      .   JAC4(*),JAC5(*),JAC6(*),
      .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
      .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
      .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   SMAX(*),DELTAX(*),NU(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1770,13 +1770,13 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   NU1(MVSIZ),  
+     .   NU1(MVSIZ),
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
      .   D1Z(MVSIZ) , D2Z(MVSIZ) , D3Z(MVSIZ) , D4Z(MVSIZ) ,
-     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),  
-     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),   
-     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),   
+     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),
+     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),
+     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),
      .   F1,F2,F3,XS,XAS,YS,YAS,ZS,ZAS,CS,CAS ,BXHI,BYHI,BZHI
 C-----------------------------------------------
 C------repeating but no memory
@@ -2279,7 +2279,7 @@ C
         PZX7(I)=PX7(I)
         PZX8(I)=PX8(I)
        ENDDO
-      ENDIF 
+      ENDIF
       IF ((ISMSTR==10.OR.ISMSTR==12).AND.MTN==1.AND.JHBE==14.AND.
      .    (ICP/=1.AND.ICP/=11)) THEN
        DO I=LFT,LLT
@@ -2332,7 +2332,7 @@ C
         BZX8(I)=ZERO
         BZY8(I)=ZERO
        ENDDO
-      ENDIF 
+      ENDIF
 C-----------for the imcompressible laws
 C-------|BXX BYX BZX |
 C-------|BXY BYY BZY |  same than H8A
@@ -2473,7 +2473,7 @@ Chd|====================================================================
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .   JAC1,JAC2,JAC3,
      .   JAC4,JAC5,JAC6,
      .   JAC7,JAC8,JAC9,SMAX,SAV,OFFG,NNEGA,INDEX,NEL)
@@ -2503,20 +2503,20 @@ C-----------------------------------------------
 C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   SAV(NEL,21)
 
       my_real
-     .   DET(*), 
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   DET(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   JAC1(*),JAC2(*),JAC3(*),
      .   JAC4(*),JAC5(*),JAC6(*),
      .   JAC7(*),JAC8(*),JAC9(*),SMAX(*),OFFG(*)
@@ -2527,7 +2527,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DETT ,   
+     .   DETT ,
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
      .   JACI7, JACI8, JACI9,
@@ -2737,7 +2737,7 @@ C
       RETURN
 C
  3000 FORMAT(/' ZERO OR NEGATIVE SUB-VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
+     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/)
       END
 Chd|====================================================================
 Chd|  S8ZDERIMS3                    source/elements/solid/solide8z/s8zderi3.F
@@ -2749,7 +2749,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S8ZDERIMS3(VOLDP,
      .    KSI,ETA,ZETA,WI,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .    CJ1,CJ2,CJ3,
      .    CJ4,CJ5,CJ6,
      .    CJ7,CJ8,CJ9,
@@ -2778,7 +2778,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   KSI,ETA,ZETA,WI,
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   CJ1(*),CJ2(*),CJ3(*),
      .   CJ4(*),CJ5(*),CJ6(*),
      .   CJ7(*),CJ8(*),CJ9(*),
@@ -2788,7 +2788,7 @@ C     REAL
      .   JACI1(*),JACI2(*),JACI3(*),
      .   JACI4(*),JACI5(*),JACI6(*),
      .   JACI7(*),JACI8(*),JACI9(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -2797,11 +2797,11 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DET ,DETT ,  
+     .   DET ,DETT ,
      .   JAC_59_68, JAC_67_49, JAC_48_57,
      .   JAC_38_29, JAC_19_37, JAC_27_18,
      .   JAC_26_35, JAC_34_16, JAC_15_24
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DETDP
 C-----------------------------------------------
 #include "vectorize.inc"
@@ -2862,7 +2862,7 @@ Chd|====================================================================
      .    PX2H1, PX2H2, PX2H3, PX2H4,
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
      .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
@@ -2909,19 +2909,19 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
-     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
-     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
-     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),
+     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),
+     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -2960,7 +2960,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DET(MVSIZ) ,DETT , NU1(MVSIZ),  
+     .   DET(MVSIZ) ,DETT , NU1(MVSIZ),
      .   JAC1,JAC2,JAC3,
      .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
      .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
@@ -2972,9 +2972,9 @@ C                                                                     12
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
      .   D1Z(MVSIZ) , D2Z(MVSIZ) , D3Z(MVSIZ) , D4Z(MVSIZ) ,
-     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),  
-     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),   
-     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),   
+     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),
+     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),
+     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),
      .   F1,F2,F3,XS,XAS,YS,YAS,ZS,ZAS,CS,CAS ,BXHI,BYHI,BZHI,x,y,z
 C-----------------------------------------------
 C------ICP= 0 : Bindeman&Belytschko assumed strain
@@ -3032,17 +3032,17 @@ C
 C------ISMSTR = 10      
       ELSE
       DO I=LFT,LLT
-       JACI1(I)=JAC_I(1,I) 
-       JACI4(I)=JAC_I(4,I) 
-       JACI7(I)=JAC_I(7,I) 
-       JACI2(I)=JAC_I(2,I) 
-       JACI5(I)=JAC_I(5,I) 
-       JACI8(I)=JAC_I(8,I) 
-       JACI3(I)=JAC_I(3,I) 
-       JACI6(I)=JAC_I(6,I) 
-       JACI9(I)=JAC_I(9,I) 
+       JACI1(I)=JAC_I(1,I)
+       JACI4(I)=JAC_I(4,I)
+       JACI7(I)=JAC_I(7,I)
+       JACI2(I)=JAC_I(2,I)
+       JACI5(I)=JAC_I(5,I)
+       JACI8(I)=JAC_I(8,I)
+       JACI3(I)=JAC_I(3,I)
+       JACI6(I)=JAC_I(6,I)
+       JACI9(I)=JAC_I(9,I)
        VOL(I) =JAC_I(10,I)
-      ENDDO    
+      ENDDO
       END IF !(ISMSTR==11) THEN
 C
       DO I=LFT,LLT
@@ -3517,7 +3517,7 @@ C
         PZX7(I)=PX7(I)
         PZX8(I)=PX8(I)
        ENDDO
-      ENDIF 
+      ENDIF
       IF ((ISMSTR==10.OR.ISMSTR==12).AND.MTN==1.AND.JHBE==14.AND.
      .    (ICP/=1.AND.ICP/=11)) THEN
        DO I=LFT,LLT
@@ -3570,7 +3570,7 @@ C
         BZX8(I)=ZERO
         BZY8(I)=ZERO
        ENDDO
-      ENDIF 
+      ENDIF
 C-----------for the imcompressible laws
 C-------|BXX BYX BZX |
 C-------|BXY BYY BZY |  same than H8A
@@ -3710,7 +3710,7 @@ Chd|====================================================================
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   HX,    HY,    HZ,   
+     .   HX,    HY,    HZ,
      .   JAC1,JAC2,JAC3,
      .   JAC4,JAC5,JAC6,
      .   JAC7,JAC8,JAC9,SMAX,JAC_I)
@@ -3740,19 +3740,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
 C     REAL   
       my_real
-     .   OFF(*),DET(*),  
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   OFF(*),DET(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   JAC1(*),JAC2(*),JAC3(*),
      .   JAC4(*),JAC5(*),JAC6(*),
      .   JAC7(*),JAC8(*),JAC9(*),SMAX(*),JAC_I(10,MVSIZ)
@@ -3763,7 +3763,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DETT(MVSIZ) ,   
+     .   DETT(MVSIZ) ,
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
      .   JACI7, JACI8, JACI9,
@@ -3922,7 +3922,7 @@ C----surface max mediane-- *16
        ENDDO
       RETURN
 C
-      END 
+      END
 Chd|====================================================================
 Chd|  S8ZDERII3                     source/elements/solid/solide8z/s8zderi3.F
 Chd|-- called by -----------
@@ -3938,7 +3938,7 @@ Chd|====================================================================
      .    PX2H1, PX2H2, PX2H3, PX2H4,
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,    HY,    HZ,   
+     .    HX,    HY,    HZ,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
      .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
@@ -3985,19 +3985,19 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF(*),OFFG(*),VOL(*),KSI,ETA,ZETA,WI,
-     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
-     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
-     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
-     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),   
+     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),
+     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),
+     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
+     .   HX(MVSIZ,4),  HY(MVSIZ,4), HZ(MVSIZ,4),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -4036,7 +4036,7 @@ C-----------------------------------------------
 C     REAL
 C                                                                     12
       my_real
-     .   DET(MVSIZ) ,DETT , NU1(MVSIZ),  
+     .   DET(MVSIZ) ,DETT , NU1(MVSIZ),
      .   JAC1,JAC2,JAC3,
      .   JACI1, JACI2, JACI3,
      .   JACI4, JACI5, JACI6,
@@ -4048,9 +4048,9 @@ C                                                                     12
      .   D1X(MVSIZ) , D2X(MVSIZ) , D3X(MVSIZ) , D4X(MVSIZ) ,
      .   D1Y(MVSIZ) , D2Y(MVSIZ) , D3Y(MVSIZ) , D4Y(MVSIZ) ,
      .   D1Z(MVSIZ) , D2Z(MVSIZ) , D3Z(MVSIZ) , D4Z(MVSIZ) ,
-     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),  
-     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),   
-     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ), 
+     .   XG1(MVSIZ), XG2(MVSIZ), XG3(MVSIZ), XG4(MVSIZ),
+     .   YG1(MVSIZ), YG2(MVSIZ), YG3(MVSIZ), YG4(MVSIZ),
+     .   ZG1(MVSIZ), ZG2(MVSIZ), ZG3(MVSIZ), ZG4(MVSIZ),
      .   F1,F2,F3,XS,XAS,YS,YAS,ZS,ZAS,CS,CAS ,BXHI,BYHI,BZHI
 C-----------------------------------------------
 C--debug for termes PXYj... consisting w/ S8ZFORC3----
@@ -4100,7 +4100,7 @@ C
         DO I=LFT,LLT
           IF(VOL(I)<=ZERO.AND.OFF(I)/=ZERO)THEN
             VOL(I)= EM20
-            OFF(I) =ZERO 
+            OFF(I) =ZERO
            IF (IMP_CHK>0) THEN
 #include "lockon.inc"
             WRITE(IOUT ,2001) NGL(I)
@@ -4112,8 +4112,8 @@ C
             WRITE(ISTDO,2000) NGL(I)
             WRITE(IOUT ,2000) NGL(I)
 #include "lockoff.inc"
-            IDEL7NOK = 1   
-           ENDIF 
+            IDEL7NOK = 1
+           ENDIF
           ENDIF
         ENDDO
       END IF
@@ -4610,7 +4610,7 @@ C
         PZX7(I)=PX7(I)
         PZX8(I)=PX8(I)
        ENDDO
-      ENDIF 
+      ENDIF
       IF ((ISMSTR==10.OR.ISMSTR==12).AND.MTN==1.AND.JHBE==14.AND.
      .    (ICP/=1.AND.ICP/=11)) THEN
        DO I=LFT,LLT
@@ -4663,7 +4663,7 @@ C
         BZX8(I)=ZERO
         BZY8(I)=ZERO
        ENDDO
-      ENDIF 
+      ENDIF
 C-----------for the imcompressible laws
 C-------|BXX BYX BZX |
 C-------|BXY BYY BZY |  same than H8A

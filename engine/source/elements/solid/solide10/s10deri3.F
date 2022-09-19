@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER ITER,NITER
       DOUBLE PRECISION
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
-     .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),   
+     .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),
      .   A4, B4, A4M1, B4M1
       DATA IPERM/
      .            2, 4, 3, 1, 9,10, 6, 5, 8, 7,
@@ -94,7 +94,7 @@ C-----------------------------------------------
       A4 = FOUR * ALPH(1)
       B4 = FOUR * BETA(1)
       A4M1  = A4 - ONE
-      B4M1  = B4 - ONE      
+      B4M1  = B4 - ONE
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)
@@ -169,7 +169,7 @@ C
 C
         DO I=LFT,LLT
           XA(I,1) = ZERO
-        ENDDO 
+        ENDDO
 C
         CALL S10JACOB(ALPH(IP),BETA(IP),WIP(IP),
      .   XA(1,1) ,XA(1,1) ,XA(1,1) ,XA(1,1) ,XX(1,K5),
@@ -262,7 +262,7 @@ C
          TY(I) = YY(I,3) - YY(I,4)
          TZ(I) = ZZ(I,3) - ZZ(I,4)
        ENDDO
-       
+
        DO N=1,4
 #include "vectorize.inc"
          DO J=1,NNEGA
@@ -270,13 +270,13 @@ C
            XA(I,N) = A4M1*XX(I,N)
            YA(I,N) = A4M1*YY(I,N)
            ZA(I,N) = A4M1*ZZ(I,N)
-       
+
            XB(I,N) = B4M1*XX(I,N)
            YB(I,N) = B4M1*YY(I,N)
            ZB(I,N) = B4M1*ZZ(I,N)
          ENDDO
        ENDDO
-       
+
        DO N=5,10
 #include "vectorize.inc"
          DO J=1,NNEGA
@@ -284,7 +284,7 @@ C
            XA(I,N) = A4*XX(I,N)
            YA(I,N) = A4*YY(I,N)
            ZA(I,N) = A4*ZZ(I,N)
-       
+
            XB(I,N) = B4*XX(I,N)
            YB(I,N) = B4*YY(I,N)
            ZB(I,N) = B4*ZZ(I,N)
@@ -318,17 +318,17 @@ C
      .   NX(1,K6,IP) ,NX(1,K7,IP),NX(1,K8,IP),NX(1,K9,IP),NX(1,K10,IP),
      .   VOL(1,IP) ,NNEGA, INDEX ,VOLDP(1,IP))
        ENDDO
-       
-       
+
+
        IF(NPT==5)THEN
          IP = 5
-       
+
 #include "vectorize.inc"
          DO J=1,NNEGA
            I = INDEX(J)
            XA(I,1) = ZERO
-         ENDDO 
-       
+         ENDDO
+
         CALL S10JACOB1(ALPH(IP),BETA(IP),WIP(IP),
      .   XA(1,1) ,XA(1,1) ,XA(1,1) ,XA(1,1) ,XX(1,K5),
      .   XX(1,K6),XX(1,K7),XX(1,K8),XX(1,K9),XX(1,K10),
@@ -371,8 +371,8 @@ C-----------
      .        ' INTEGRATION POINT NB ',I1/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
  3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
- 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/) 
+     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/)
+ 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/)
 C-----------
       RETURN
       END
@@ -393,7 +393,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -436,7 +436,7 @@ C-----------------------------------------------
       INTEGER ITER,NITER
       DOUBLE PRECISION
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
-     .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),   
+     .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),
      .   A4, B4, A4M1, B4M1
       DATA IPERM/
      .            2, 4, 3, 1, 9,10, 6, 5, 8, 7,
@@ -447,7 +447,7 @@ C-----------------------------------------------
       A4 = FOUR * ALPH(1)
       B4 = FOUR * BETA(1)
       A4M1  = A4 - ONE
-      B4M1  = B4 - ONE      
+      B4M1  = B4 - ONE
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)
@@ -522,7 +522,7 @@ C
 C
         DO I=LFT,LLT
           XA(I,1) = ZERO
-        ENDDO 
+        ENDDO
 CC
         CALL S10JACOB(ALPH(IP),BETA(IP),WIP(IP),
      .   XA(1,1) ,XA(1,1) ,XA(1,1) ,XA(1,1) ,XX(1,K5),
@@ -575,7 +575,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -620,7 +620,7 @@ C-----------------------------------------------
       my_real
      .   D,AA,BB,A1,A2,A3,
      .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,AA0
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       DATA IPERM/
      .            2, 4, 3, 1, 9,10, 6, 5, 8, 7,
      .            4, 1, 3, 2, 8, 7,10, 9, 5, 6,
@@ -630,7 +630,7 @@ C-----------------------------------------------
       A4 = FOUR * ALPH(1)
       B4 = FOUR * BETA(1)
       A4M1  = A4 - ONE
-      B4M1  = B4 - ONE      
+      B4M1  = B4 - ONE
 C
       DO I=LFT,LLT
         RX(I) = XX(I,1) - XX(I,4)
@@ -667,7 +667,7 @@ C
      .   PZ(1,K6,IP) ,PZ(1,K7,IP),PZ(1,K8,IP),PZ(1,K9,IP),PZ(1,K10,IP),
      .   NX(1,K1,IP) ,NX(1,K2,IP),NX(1,K3,IP),NX(1,K4,IP),NX(1,K5,IP),
      .   NX(1,K6,IP) ,NX(1,K7,IP),NX(1,K8,IP),NX(1,K9,IP),NX(1,K10,IP),
-     .   VOL(1,IP)   ,LBUF%JAC_I) 
+     .   VOL(1,IP)   ,LBUF%JAC_I)
 c
       ENDDO
 C

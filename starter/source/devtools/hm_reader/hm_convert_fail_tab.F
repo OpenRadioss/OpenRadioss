@@ -49,7 +49,7 @@ C     LSUBMODEL     SUBMODEL STRUCTURE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -102,11 +102,11 @@ C--------------------------------------------------
       IF (IS_CONVERT == 1) THEN
         DO I=1,NBFAILTAB
           CALL HM_OPTION_START('/FAIL/TAB')
-          KEY  = '' 
+          KEY  = ''
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          KEYWORD2    = KEY )
           DO WHILE(KEY == 'TAB1')
-            KEY  = '' 
+            KEY  = ''
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          KEYWORD2    = KEY )
           ENDDO

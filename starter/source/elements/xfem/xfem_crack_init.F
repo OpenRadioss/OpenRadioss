@@ -75,64 +75,64 @@ C-----------------------------------------------
         TYPE_SHELLS_C=0
         TYPE_SHELLS_TG=0
 c
-        DO NG=1,NGROUP          
-          IXFEM =IPARG(54,NG)   
-          IF (IXFEM > 0) THEN   
-            NEL   =IPARG(2,NG)   
-            NFT   =IPARG(3,NG)   
-            ITY   =IPARG(5,NG)   
-            NLEVXF=IPARG(65,NG)  
-            LFT=1                
-            LLT=NEL              
+        DO NG=1,NGROUP
+          IXFEM =IPARG(54,NG)
+          IF (IXFEM > 0) THEN
+            NEL   =IPARG(2,NG)
+            NFT   =IPARG(3,NG)
+            ITY   =IPARG(5,NG)
+            NLEVXF=IPARG(65,NG)
+            LFT=1
+            LLT=NEL
             IF (ITY == 3) THEN
 C-----------------------------------------------
 C             COQUES 4N
 C-----------------------------------------------
-              DO I=LFT,LLT                                  
-                N = I + NFT                                 
-                TAG_ARRAY(IXC(2,N))=1                                     
-                TAG_ARRAY(IXC(3,N))=1                                     
-                TAG_ARRAY(IXC(4,N))=1                                     
-                TAG_ARRAY(IXC(5,N))=1                                     
+              DO I=LFT,LLT
+                N = I + NFT
+                TAG_ARRAY(IXC(2,N))=1
+                TAG_ARRAY(IXC(3,N))=1
+                TAG_ARRAY(IXC(4,N))=1
+                TAG_ARRAY(IXC(5,N))=1
 C
-                NN(1) = INOD_CRK(IXC(2,N))                                
-                NN(2) = INOD_CRK(IXC(3,N))                                
-                NN(3) = INOD_CRK(IXC(4,N))                                
-                NN(4) = INOD_CRK(IXC(5,N))                                
+                NN(1) = INOD_CRK(IXC(2,N))
+                NN(2) = INOD_CRK(IXC(3,N))
+                NN(3) = INOD_CRK(IXC(4,N))
+                NN(4) = INOD_CRK(IXC(5,N))
 C
-                NODLEVXF(NN(1)) = NLEVXF                                  
-                NODLEVXF(NN(2)) = NLEVXF                                  
-                NODLEVXF(NN(3)) = NLEVXF                                  
-                NODLEVXF(NN(4)) = NLEVXF                                  
+                NODLEVXF(NN(1)) = NLEVXF
+                NODLEVXF(NN(2)) = NLEVXF
+                NODLEVXF(NN(3)) = NLEVXF
+                NODLEVXF(NN(4)) = NLEVXF
 C
-                TAG_SHELLS_C(N) = ILEV                                    
-                TYPE_SHELLS_C(N) = 4                                      
-                CRKSHELL(ILEV)%CRKNUMSHELL = CRKSHELL(ILEV)%CRKNUMSHELL+1 
-                CRKSHELL(ILEV)%CRKNUMSH4   = CRKSHELL(ILEV)%CRKNUMSH4+1                    
-              ENDDO                                         
+                TAG_SHELLS_C(N) = ILEV
+                TYPE_SHELLS_C(N) = 4
+                CRKSHELL(ILEV)%CRKNUMSHELL = CRKSHELL(ILEV)%CRKNUMSHELL+1
+                CRKSHELL(ILEV)%CRKNUMSH4   = CRKSHELL(ILEV)%CRKNUMSH4+1
+              ENDDO
             ELSEIF (ITY == 7) THEN
 C-----------------------------------------------
 C             COQUES 3N
 C-----------------------------------------------
-              DO I=LFT,LLT                                  
-                N = I + NFT                                 
-                TAG_ARRAY(IXTG(2,N))=1                      
-                TAG_ARRAY(IXTG(3,N))=1                      
-                TAG_ARRAY(IXTG(4,N))=1                      
+              DO I=LFT,LLT
+                N = I + NFT
+                TAG_ARRAY(IXTG(2,N))=1
+                TAG_ARRAY(IXTG(3,N))=1
+                TAG_ARRAY(IXTG(4,N))=1
 C
-                NN(1) = INOD_CRK(IXTG(2,N))                 
-                NN(2) = INOD_CRK(IXTG(3,N))                 
-                NN(3) = INOD_CRK(IXTG(4,N))                 
+                NN(1) = INOD_CRK(IXTG(2,N))
+                NN(2) = INOD_CRK(IXTG(3,N))
+                NN(3) = INOD_CRK(IXTG(4,N))
 C
-                NODLEVXF(NN(1)) = NLEVXF                    
-                NODLEVXF(NN(2)) = NLEVXF                    
-                NODLEVXF(NN(3)) = NLEVXF                    
+                NODLEVXF(NN(1)) = NLEVXF
+                NODLEVXF(NN(2)) = NLEVXF
+                NODLEVXF(NN(3)) = NLEVXF
 C
-                TAG_SHELLS_TG(N) = ILEV                     
-                TYPE_SHELLS_TG(N) = 3                       
-                CRKSHELL(ILEV)%CRKNUMSHELL = CRKSHELL(ILEV)%CRKNUMSHELL+1    
-                CRKSHELL(ILEV)%CRKNUMSH3   = CRKSHELL(ILEV)%CRKNUMSH3+1      
-              ENDDO                                         
+                TAG_SHELLS_TG(N) = ILEV
+                TYPE_SHELLS_TG(N) = 3
+                CRKSHELL(ILEV)%CRKNUMSHELL = CRKSHELL(ILEV)%CRKNUMSHELL+1
+                CRKSHELL(ILEV)%CRKNUMSH3   = CRKSHELL(ILEV)%CRKNUMSH3+1
+              ENDDO
             ENDIF
           ENDIF  ! IXFEM > 0
         ENDDO    ! NG=1,NGROUP
@@ -201,7 +201,7 @@ C
          DO J=1,4
            NCOUNT = NCOUNT + 1
            NCOUNTG = NCOUNTG + 1
-           CRKSHELL(ILEV)%XNODEG(J,I) = NCOUNTG ! global num de phantom nodes 
+           CRKSHELL(ILEV)%XNODEG(J,I) = NCOUNTG ! global num de phantom nodes
            CRKSHELL(ILEV)%XNODEL(J,I) = NCOUNT  ! or = 4*(I -1) + J = Num nodes phantomes d'un seul ilev
          END DO
         ENDDO

@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER LOCAL_ID, NPC(*)
       INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
@@ -107,10 +107,10 @@ C-----------------------------------------------
       FAC_L=ONE
       FAC_T=ONE
       FAC_C=ONE
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
-      
+
       ISU=0
       INGR2USR => IGRSURF(1:NSURF)%ID
       IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
@@ -118,20 +118,20 @@ C-----------------------------------------------
       IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
       IF(SURF==0)THEN
          IERR=IERR+1
-         WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
-         WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
+         WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+         WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
       ELSEIF(ISU==0)THEN
          IERR=IERR+1
          WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-         WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
+         WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
       ELSEIF(NSEG==0)THEN
          IERR=IERR+1
          WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
          WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
       ENDIF
-      
+
 !--line-2
-      CALL HM_GET_FLOATV('rad_ebcs_c',  C  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
+      CALL HM_GET_FLOATV('rad_ebcs_c',  C  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
 !--line-3
       CALL HM_GET_INTV('rad_fct_pr',  IPRES  ,IS_AVAILABLE,LSUBMODEL)
@@ -149,19 +149,19 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('rad_ebcs_lc',  LCAR  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('rad_ebcs_r1',  R1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('rad_ebcs_r2',  R2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      
+
         IF(SURF/=0 .AND. ISU/=0 .AND. NSEG/=0)THEN
            WRITE(IOUT,1003)ID,TRIM(TITR)
            WRITE(IOUT,1101)SURF,NSEG,C,PRES,IPRES,RHO,IRHO,ENER,IENER,LCAR,R1,R2
-        ENDIF        
+        ENDIF
         DO J=1,NFUNCT
-          IF(IPRES/=0 .AND. IPRES==NPC(J)) THEN 
+          IF(IPRES/=0 .AND. IPRES==NPC(J)) THEN
              IPRES=J
              EXIT
           ENDIF
         ENDDO
         DO J=1,NFUNCT
-           IF(IRHO/=0 .AND. IRHO==NPC(J)) THEN 
+           IF(IRHO/=0 .AND. IRHO==NPC(J)) THEN
               IRHO=J
               EXIT
            ENDIF
@@ -191,7 +191,7 @@ C-----------
       RETURN
 C-----------
 
- 1003 FORMAT( //'OUTLET VALVE  EBCS NUMBER  . . . . . . . :',I8,1X,A)    
+ 1003 FORMAT( //'OUTLET VALVE  EBCS NUMBER  . . . . . . . :',I8,1X,A)
  1101 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,

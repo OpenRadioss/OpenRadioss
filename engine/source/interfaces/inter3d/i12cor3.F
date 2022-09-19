@@ -106,7 +106,7 @@ C-----------------------------------------------
         Y4(I)=XM(2,NN)
         Z4(I)=XM(3,NN)
       ENDDO
-      
+
       IF(ILEV==1)THEN
       !--------------------------------------------------!
       !   CORRECTION DES TET SI A CHEVAL AXE Y NEGATIF   !
@@ -158,7 +158,7 @@ C-----------------------------------------------
               Y4(I)=X(2,NN)
               Z4(I)=X(3,NN)
               TETS(I)=10001.
-            ENDIF          
+            ENDIF
           ENDIF
         ENDDO !I=LFT,LLT
       ENDIF !(ILEV==1)

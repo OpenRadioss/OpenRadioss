@@ -353,7 +353,7 @@ C-----------------------------------------------
      .   NNX1, NNX2, NNX3, NNX4,
      .   NNY1, NNY2, NNY3, NNY4,
      .   NNZ1, NNZ2, NNZ3, NNZ4,
-     .   SURFX, SURFY, SURFZ, 
+     .   SURFX, SURFY, SURFZ,
      .   ERX, ERY, ERZ, DNX, DNY, DNZ, DNT, LL, AAA, RR,
      .   X13, Y13, Z13, X24, Y24, Z24, NX, NY, NZ, CC
 C-----------------------------------------------
@@ -372,21 +372,21 @@ C-----------------------------------------------
           N4 = NLG(N4)
         ENDIF
 
-        X1=X(1,N1)  
-        Y1=X(2,N1)  
-        Z1=X(3,N1)  
+        X1=X(1,N1)
+        Y1=X(2,N1)
+        Z1=X(3,N1)
 
-        X2=X(1,N2)  
-        Y2=X(2,N2)  
-        Z2=X(3,N2)  
+        X2=X(1,N2)
+        Y2=X(2,N2)
+        Z2=X(3,N2)
 
-        X3=X(1,N3)  
-        Y3=X(2,N3)  
-        Z3=X(3,N3)  
+        X3=X(1,N3)
+        Y3=X(2,N3)
+        Z3=X(3,N3)
 
-        X4=X(1,N4)  
-        Y4=X(2,N4)  
-        Z4=X(3,N4)  
+        X4=X(1,N4)
+        Y4=X(2,N4)
+        Z4=X(3,N4)
 
         NNX1=NOD_NORMAL(1,N1)
         NNY1=NOD_NORMAL(2,N1)

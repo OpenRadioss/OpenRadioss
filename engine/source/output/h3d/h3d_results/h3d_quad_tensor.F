@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITENS,INVERT(*),
-     .   EL2FA(*),IXQ(NIXQ,*), IGEO(NPROPGI,*), 
+     .   EL2FA(*),IXQ(NIXQ,*), IGEO(NPROPGI,*),
      .   NELCUT,IADP(*),NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),IPM(NPROPMI,*),ID_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_QUAD(*),IPARTQ(*),IPARTTG(*),H3D_PART(*),
@@ -136,14 +136,14 @@ c
         ISROT   = IPARG(41,NG)
         ISTRAIN = IPARG(44,NG)
         ISUBSTACK = IPARG(71,NG)
-        ISORTH  = IPARG(42,NG)      
+        ISORTH  = IPARG(42,NG)
         JCVT    = IPARG(37,NG)
         LFT=1
         LLT=NEL
-        IOK_PART(1:NEL) = 0   
+        IOK_PART(1:NEL) = 0
 c
-        NPTR = ELBUF_TAB(NG)%NPTR                 
-        NPTS = ELBUF_TAB(NG)%NPTS  
+        NPTR = ELBUF_TAB(NG)%NPTR
+        NPTS = ELBUF_TAB(NG)%NPTS
         NPTT = ELBUF_TAB(NG)%NPTT
 c
         IF (MLW /= 13) THEN
@@ -151,11 +151,11 @@ c
           IAD   =IPARG(4,NG)
           ISUBSTACK = IPARG(71,NG)
           IVISC = IPARG(61,NG)
-          IOK_PART(1:NEL) = 0  
+          IOK_PART(1:NEL) = 0
 !
           DO I=1,6
             JJ(I) = NEL*(I-1)
-          ENDDO  
+          ENDDO
 c
           EVAR(1:6,1:NEL) = ZERO
           IS_WRITTEN_TENSOR(1:NEL) = 0
@@ -170,12 +170,12 @@ C-----------------------------------------------
             JALE=(IPARG(7,NG)+IPARG(11,NG))
             JTURB=IPARG(12,NG)*JALE
 c
-            DO I=1,NEL 
+            DO I=1,NEL
               ID_ELEM(NFT+I) = IXQ(NIXQ,NFT+I)
               IF( H3D_PART(IPARTQ(NFT+I)) == 1) IOK_PART(I) = 1
             ENDDO
 c
-            DO I=1,NEL 
+            DO I=1,NEL
               IF (ISORTH == 0) THEN
                 GAMA(1,I)=ONE
                 GAMA(2,I)=ZERO
@@ -211,7 +211,7 @@ c ILAYER=NULL IR=NULL IS=NULL IT=NULL
                 ENDDO
 c
                 IF(IVISC > 0) THEN
-                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
+                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
                    DO I=1,NEL
                      II = 6*(I-1)
                      EVAR(1,I) =EVAR(1,I)+ LBUF%VISC(JJ(1) + I)
@@ -233,10 +233,10 @@ C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERED IN THE E
                  CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
                 ENDIF
 c
-              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
-     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN 
+              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND.
+     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN
 c
-                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)          
+                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                 DO I=1,NEL
                   II = 6*(I-1)
                   EVAR(1,I) = LBUF%SIG(JJ(1) + I)
@@ -275,11 +275,11 @@ C-----------------------------------------------
               IF( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1 )THEN
 c
                 DO I=1,NEL
-                  N = I + NFT   
-                  DO IS=1,NPTS               
+                  N = I + NFT
+                  DO IS=1,NPTS
                    DO IT=1,NPTT
                     DO IR=1,NPTR
-                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
+                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
                      EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)/NPT
                      EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)/NPT
                      EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)*HALF/NPT
@@ -294,16 +294,16 @@ C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERED IN THE E
                  CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
                 ENDIF
 c
-              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
-     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN 
+              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND.
+     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN
 c
-                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)          
+                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                 DO I=1,NEL
-                  N = I + NFT   
-                  EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)   
-                  EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)   
-                  EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I) 
-                  IS_WRITTEN_TENSOR(I) = 1  
+                  N = I + NFT
+                  EVAR(1,I) = EVAR(1,I) + LBUF%STRA(JJ(1) + I)
+                  EVAR(2,I) = EVAR(2,I) + LBUF%STRA(JJ(2) + I)
+                  EVAR(4,I) = EVAR(4,I) + LBUF%STRA(JJ(4) + I)
+                  IS_WRITTEN_TENSOR(I) = 1
                 ENDDO
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
@@ -319,31 +319,31 @@ C-----------------------------------------------
               IF( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1 )THEN
 c
                 DO I=1,NEL
-                  N = I + NFT   
-                  DO IS=1,NPTS               
+                  N = I + NFT
+                  DO IS=1,NPTS
                    DO IT=1,NPTT
                     DO IR=1,NPTR
-                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)                                         
+                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
                      EVAR(1,I) = EVAR(1,I)+LBUF%DGLO(JJ(1) + I)/NPT
                      EVAR(2,I) = EVAR(2,I)+LBUF%DGLO(JJ(2) + I)/NPT
                      EVAR(4,I) = EVAR(4,I)+LBUF%DGLO(JJ(4) + I)/NPT
                      IS_WRITTEN_TENSOR(I) = 1
-                   ENDDO                                                   
-                  ENDDO                                                    
-                 ENDDO                                                     
-                ENDDO   
-c                                                  
-              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
-     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN 
+                   ENDDO
+                  ENDDO
+                 ENDDO
+                ENDDO
 c
-                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)        
+              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND.
+     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN
+c
+                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                 DO I=1,NEL
-                  N = I + NFT                                                     
+                  N = I + NFT
                   EVAR(1,I) = EVAR(1,I)+LBUF%DGLO(JJ(1) + I)
                   EVAR(2,I) = EVAR(2,I)+LBUF%DGLO(JJ(2) + I)
                   EVAR(4,I) = EVAR(4,I)+LBUF%DGLO(JJ(4) + I)
                   IS_WRITTEN_TENSOR(I) = 1
-                ENDDO                                                      
+                ENDDO
 c
               ENDIF
 C-----------------------------------------------
@@ -352,11 +352,11 @@ C-----------------------------------------------
               IF( ILAY == -1 .AND. IR == -1 .AND. IS == -1 .AND. IT == -1 )THEN
 c
                 DO I=1,NEL
-                  N = I + NFT   
-                  DO IS=1,NPTS               
+                  N = I + NFT
+                  DO IS=1,NPTS
                    DO IT=1,NPTT
                     DO IR=1,NPTR
-                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)        
+                     LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IT)
                      EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)/NPT
                      EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)/NPT
                      EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)*HALF/NPT
@@ -371,16 +371,16 @@ C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERED IN THE E
                  CALL QROTA_GROUP(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
                 ENDIF
 c
-              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND. 
-     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN 
+              ELSEIF ( ILAY == -1 .AND. IABS(IT) == 1 .AND. IR >= 0 .AND.
+     .                IR <= NPTR .AND. IS >= 0 .AND. IS <= NPTS) THEN
 c
-                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)          
+                LBUF =>  ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                 DO I=1,NEL
-                  N = I + NFT   
-                  EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)   
-                  EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)   
-                  EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL) 
-                  IS_WRITTEN_TENSOR(I) = 1  
+                  N = I + NFT
+                  EVAR(1,I) = EVAR(1,I) + LBUF%PLA(JJ(1) + I + NEL)
+                  EVAR(2,I) = EVAR(2,I) + LBUF%PLA(JJ(2) + I + NEL)
+                  EVAR(4,I) = EVAR(4,I) + LBUF%PLA(JJ(4) + I + NEL)
+                  IS_WRITTEN_TENSOR(I) = 1
                 ENDDO
 
                 IF (JCVT == 0 .OR. ISORTH /= 0) THEN
@@ -397,31 +397,31 @@ C---------------------------------------------------------------------------
 c            IF (KEYWORD == 'NEWKEY') THEN ! New Output Example
 C---------------------------------------------------------------------------
 c ILAYER=NULL NPT=NULL
-c              IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
-c                  DO I=1,NEL 
+c              IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN
+c                  DO I=1,NEL
 c                    VALUE(I) =
-c                  ENDDO  
+c                  ENDDO
 c PLY=IPLY NPT=IPT
-c              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN      
-c                IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN 
+c              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+c                IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
 c
 c                ENDIF
 c
-c PLY=NULL ILAYER=ILAY NPT=IPT 
-c              ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN       
-c                IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+c PLY=NULL ILAYER=ILAY NPT=IPT
+c              ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+c                IF (IGTYP == 51 .OR. IGTYP == 52) THEN
 c
 c                ENDIF
 c PLY=NULL ILAYER=IL NPT=NULL
 c              ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
-c                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
+c                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
 c
-c                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+c                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
 c
 c                ENDIF
 c PLY=NULL ILAYER=NULL NPT=IPT
 c              ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
-c                IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+c                IF (IGTYP == 1 .OR. IGTYP == 9) THEN
 c
 c                ENDIF
 c              ENDIF

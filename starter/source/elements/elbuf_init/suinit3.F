@@ -56,9 +56,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
-      USE DETONATORS_MOD      
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -88,16 +88,16 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IPARG(NPARG),IPARTS(*),
-     .    NEL, IPART(LIPART1,*), 
+     .    NEL, IPART(LIPART1,*),
      .    IGEO(NPROPGI,*), IPM(NPROPMI,*), PTSOL(*), NSIGI, NSIGS,
      .    NPF(*),FAIL_INI(*),PERTURB(NPERTURB)
       my_real
      .   MS(*), X(3,*), GEO(NPROPG,*),PM(NPROPM,*),
      .   VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
-     .   PARTSAV(20,*), V(3,*), MSS(8,*),RNOISE(NPERTURB,*), 
+     .   PARTSAV(20,*), V(3,*), MSS(8,*),RNOISE(NPERTURB,*),
      . SIGSP(NSIGI,*) , IN(*), VR(3,*),
      . VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),BUFMAT(*), TF(*),
-     . INS(8,*)     
+     . INS(8,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
       my_real,INTENT(IN) :: FACLOAD(LFACLOAD,*)
@@ -135,16 +135,16 @@ C-----------------------------------------------
      .   PY1(MVSIZ),PY2(MVSIZ),PY3(MVSIZ),PY4(MVSIZ),
      .   PZ1(MVSIZ),PZ2(MVSIZ),PZ3(MVSIZ),PZ4(MVSIZ),
      .   SIG_LOC(6,NEL), DELTAX(MVSIZ), AIRE(1)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -214,20 +214,20 @@ c--------------------------
       CALL SDLEN3(
      .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
-     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, 
+     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8,
      .            DELTAX, VOLU)
 C
       IF (IGTYP /= 43) THEN
-        IP = 0                                                 
-        CALL MATINI(PM      ,IXS    ,NIXS      ,X         ,  
-     .              GEO     ,ALE_CONNECTIVITY  ,DETONATORS,IPARG     ,  
-     .              SIGI    ,NEL    ,SKEW      ,IGEO      ,  
-     .              IPART   ,IPARTS ,  
-     .              MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,  
-     .              IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,  
+        IP = 0
+        CALL MATINI(PM      ,IXS    ,NIXS      ,X         ,
+     .              GEO     ,ALE_CONNECTIVITY  ,DETONATORS,IPARG     ,
+     .              SIGI    ,NEL    ,SKEW      ,IGEO      ,
+     .              IPART   ,IPARTS ,
+     .              MAT     ,IPM    ,NSIGS     ,NUMSOL    ,PTSOL  ,
+     .              IP      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      .              GBUF    ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
      .              FACLOAD, DELTAX)
-      ENDIF      
+      ENDIF
 C-----------------------------------------------
       DO J=1,8
         DO I=LFT,LLT
@@ -313,7 +313,7 @@ C----------------------------------------
       ELSEIF(IGTYP == 31)THEN
         CONTINUE
       ELSEIF(IGTYP == 43)THEN
-c       initialization of strain, stress, uvar  
+c       initialization of strain, stress, uvar
         NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT
 c
         CALL SINI43(ELBUF_STR,
@@ -431,7 +431,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   MS(*),IN(*),X(3,*),V(3,*),PARTSAV(20,*),VOL(*),VOLU(*),MASS(*),
-     .   MSS(8,*),INS(8,*) ,FILL(*)   
+     .   MSS(8,*),INS(8,*) ,FILL(*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*),
      .   NC8(*)
 C-----------------------------------------------
@@ -448,7 +448,7 @@ C     REAL
      .   XX,YY,ZZ,XY,YZ,ZX,
      .   MAS(MVSIZ,8),INN(MVSIZ,8)
 C=======================================================================
-       DO I=LFT,LLT      
+       DO I=LFT,LLT
 C       
         VOLU(I) = VOL(I)
         MASS(I) = FILL(I)*(MAS(I,1)+MAS(I,2)+MAS(I,3)+MAS(I,4)

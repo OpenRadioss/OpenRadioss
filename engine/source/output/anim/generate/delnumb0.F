@@ -87,7 +87,7 @@ C-----------------------------------------------
       ELSE
         IF (ISPMD==0) THEN
           BUF = NUMSPHG
-        ELSE 
+        ELSE
           BUF = 1
         ENDIF
 

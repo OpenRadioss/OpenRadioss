@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      
+
       !------------------------------------------------!
       !       LOOK FOR RBODY WITH FAILURE              !
       !------------------------------------------------!
@@ -68,9 +68,9 @@ C-----------------------------------------------
           NRBFAIL   = NRBFAIL+1
         END IF
       ENDDO
-      IF(NRBFAIL/=0) COMPTREAC = 1  
+      IF(NRBFAIL/=0) COMPTREAC = 1
 
-      IF (ANIM_V(17) == 1 .OR. H3D_DATA%N_VECT_FREAC == 1 .OR. 
+      IF (ANIM_V(17) == 1 .OR. H3D_DATA%N_VECT_FREAC == 1 .OR.
      .    ANIM_V(18) == 1 .OR. H3D_DATA%N_VECT_MREAC == 1 ) THEN
         COMPTREAC = 1
       END IF
@@ -110,15 +110,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      
+
       !------------------------------------------------!
       !       SAVING FORCES (FEXT+FINT+FCONT)          !
       !------------------------------------------------!
 
       DO N=NODFT,NODLT
-        FREAC(1,N) = A(1,N) 
-        FREAC(2,N) = A(2,N) 
-        FREAC(3,N) = A(3,N) 
+        FREAC(1,N) = A(1,N)
+        FREAC(2,N) = A(2,N)
+        FREAC(3,N) = A(3,N)
       ENDDO
 
       IF (IRODDL/=0) THEN
@@ -128,7 +128,7 @@ C-----------------------------------------------
           FREAC(6,N) = AR(3,N)
         ENDDO
       END IF
-      
+
       !------------------------------------------------!
 
       RETURN
@@ -164,25 +164,25 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      
+
       !------------------------------------------------!
       !       COMPUTE REACTION FORCES (FINALIZATION)   !
       !------------------------------------------------!
 
       DO N=NODFT,NODLT
-        FREAC(1,N) = FREAC(1,N) + IFLAG * MS(N)*A(1,N) 
-        FREAC(2,N) = FREAC(2,N) + IFLAG * MS(N)*A(2,N) 
+        FREAC(1,N) = FREAC(1,N) + IFLAG * MS(N)*A(1,N)
+        FREAC(2,N) = FREAC(2,N) + IFLAG * MS(N)*A(2,N)
         FREAC(3,N) = FREAC(3,N) + IFLAG * MS(N)*A(3,N)
       ENDDO
 
       IF (IRODDL/=0) THEN
         DO N=NODFT,NODLT
-          FREAC(4,N) = FREAC(4,N) + IFLAG * IN(N)*AR(1,N) 
-          FREAC(5,N) = FREAC(5,N) + IFLAG * IN(N)*AR(2,N) 
-          FREAC(6,N) = FREAC(6,N) + IFLAG * IN(N)*AR(3,N) 
+          FREAC(4,N) = FREAC(4,N) + IFLAG * IN(N)*AR(1,N)
+          FREAC(5,N) = FREAC(5,N) + IFLAG * IN(N)*AR(2,N)
+          FREAC(6,N) = FREAC(6,N) + IFLAG * IN(N)*AR(3,N)
         ENDDO
       END IF
-      
+
       !------------------------------------------------!
 
       RETURN
@@ -218,15 +218,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      
+
       !------------------------------------------------!
       !       COMPUTE REACTION FORCES (FINALIZATION)   !
       !------------------------------------------------!
 
       DO N=NODFT,NODLT
-        FREAC(1,N) = MS(N)*A(1,N) - FREAC(1,N) 
-        FREAC(2,N) = MS(N)*A(2,N) - FREAC(2,N) 
-        FREAC(3,N) = MS(N)*A(3,N) - FREAC(3,N) 
+        FREAC(1,N) = MS(N)*A(1,N) - FREAC(1,N)
+        FREAC(2,N) = MS(N)*A(2,N) - FREAC(2,N)
+        FREAC(3,N) = MS(N)*A(3,N) - FREAC(3,N)
       ENDDO
 
       IF (IRODDL/=0) THEN
@@ -236,7 +236,7 @@ C-----------------------------------------------
           FREAC(6,N) = IN(N)*AR(3,N) - FREAC(6,N)
         ENDDO
       END IF
-      
+
       !------------------------------------------------!
 
       RETURN

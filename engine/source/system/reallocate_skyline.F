@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER SISKY_OLD,LSKYI_OLD
       CHARACTER MSG*50,ID*50
       my_real, DIMENSION(:,:),ALLOCATABLE :: TEMP_FSKYI_PLY
-     *                                       
+     *
 c      INTEGER, DIMENSION(:),ALLOCATABLE :: TEMP_ISKY
 
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C
          ENDIF
          TEMP_ISKY(1:NISKY)=ISKY(1:NISKY)
          DEALLOCATE(ISKY)
-          
+
 C
 C Allocate Tempo INTHEAT & FTHESKYI for copy
 C
@@ -140,7 +140,7 @@ C FSKYI
          ENDIF
          FSKYI(1:LSKYI_OLD,1:NFSKYI)=TEMP_FSKYI(1:LSKYI_OLD,1:NFSKYI)
          DEALLOCATE(TEMP_FSKYI)
-         
+
 C Reallocate & copy back stored stuff
 C ISKY
          ALLOCATE(ISKY(SISKY),STAT=IERROR)

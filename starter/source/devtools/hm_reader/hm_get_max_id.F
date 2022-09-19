@@ -50,7 +50,7 @@ C     LSUBMODEL    SUBMODEL STRUCTURE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C=======================================================================
 C--------------------------------------------------
 
-      OFFSET_CATEGORY = 0 
+      OFFSET_CATEGORY = 0
       VALUE_TYPE = 0
       SUB_ID = 0
       KEYWORD=''
@@ -105,7 +105,7 @@ C--------------------------------------------------
       IF(NBOPTION > 0)THEN
         DO I=1,NBOPTION
           CALL CPP_OPTION_READ(OPTION_ID,UNIT_ID,SUBMODEL_INDEX,KEYWORD,S_KEYWORD,
-     .                      TITR,S_TITR,OFFSET_CATEGORY,MY_POSITION) 
+     .                      TITR,S_TITR,OFFSET_CATEGORY,MY_POSITION)
 C--------------------------------------------------
 C      ID OFFSETS FOR //SUBMODEL 
 C--------------------------------------------------

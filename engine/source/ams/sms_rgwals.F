@@ -59,7 +59,7 @@ C     REAL
       my_real
      .   RA2, XWL, YWL, ZWL, VXW, VYW, VZW,
      .   TFXT, VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP,
-     .   XX, XN, YN, ZN, DV, DA, DVT, 
+     .   XX, XN, YN, ZN, DV, DA, DVT,
      .   XWL0, YWL0, ZWL0
 C-----------------------------------------------
       RA2=(HALF*RWL(7))**2
@@ -147,7 +147,7 @@ C-----------------------------------------------
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
 C     REAL
       my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*), FSAV(*), 
+     .   X(*), A(*), V(*), RWL(*), MS(*), FSAV(*),
      .   FOPT(*), RES(*), FREA(*), R(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -157,7 +157,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   XWL0, YWL0, ZWL0, 
+     .   XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, XX, XN, YN, ZN,
      .   TFXT, DV, DA, DVT, FN,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
@@ -190,7 +190,7 @@ Cel changement formulation : plus d'impasse sur contribution force
        ZWL=X(M3)+VZW*DT2
       ENDIF
 C
-      TFXT=ZERO     
+      TFXT=ZERO
 C
       IF(ITIED == 2)THEN
 C
@@ -293,7 +293,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   XWL0, YWL0, ZWL0, 
+     .   XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, XX, XN, YN, ZN,
      .   DV, DA, DVT
 C-----------------------------------------------
@@ -438,7 +438,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   XWL0, YWL0, ZWL0, 
+     .   XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, XX, XN, YN, ZN,
      .   DA
 C-----------------------------------------------
@@ -573,7 +573,7 @@ C     REAL
       my_real
      .   X(*), V(*), RWL(*), MS(*), FSAV(*), FREA(3,*),
      .   FOPT(*), A(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6(7,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -584,7 +584,7 @@ C     REAL
       my_real
      .   VXW, VYW, VZW, VX, VY, VZ, XWL0, YWL0, ZWL0,
      .   XC, YC, ZC, XX, XN, YN, ZN,
-     .   TFXT, 
+     .   TFXT,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FN,
      .   FXN, FYN, FZN, FXT, FYT, FZT,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN), F7(NSN)
@@ -638,7 +638,7 @@ C
         F1(J) = FXN
         F2(J) = FYN
         F3(J) = FZN
-        F4(J) = MS(N) 
+        F4(J) = MS(N)
         F5(J) = ZERO
         F6(J) = ZERO
         F7(J) = ZERO

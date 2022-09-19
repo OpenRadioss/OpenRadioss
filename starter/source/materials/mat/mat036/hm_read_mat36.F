@@ -42,7 +42,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT36(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR  ,NVARTMP  ,
      .                         IFUNC    ,MAXFUNC  ,MFUNC     , PARMAT,UNITAB   ,
      .                         ID       ,MTAG     ,TITR     , LSUBMODEL,PM     ,
-     .                         ISRATE   )                     
+     .                         ISRATE   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,11 +63,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
@@ -172,7 +172,7 @@ c
         DO J=1,NRATE
           CALL HM_GET_FLOAT_ARRAY_INDEX    ('SCALE_LOAD',YFAC(J)     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IF(YFAC(J) == ZERO) THEN
-            CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD',YFAC_UNIT(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+            CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD',YFAC_UNIT(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
             YFAC(J)=ONE * YFAC_UNIT(J)
           ENDIF
         ENDDO
@@ -181,14 +181,14 @@ c
           CALL HM_GET_FLOAT_ARRAY_INDEX    ('STRAINRATE_LOAD',RATE(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
 c
-        DO I=1,NRATE-1                        
-	         IF (RATE(I) >= RATE(I+1)) THEN        
+        DO I=1,NRATE-1
+	         IF (RATE(I) >= RATE(I+1)) THEN
             CALL ANCMSG(MSGID=478, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,
      .                  C1=TITR)
-            EXIT                         
-          ENDIF                               
-        ENDDO                                 
+            EXIT
+          ENDIF
+        ENDDO
         DO I=1,NRATE
           IF (IFUNC(I) == 0) THEN
             CALL ANCMSG(MSGID=126, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
@@ -208,7 +208,7 @@ c-------------------------
         ISRAT = 1
         IF (RATE(1) == ZERO) THEN
           NFUNC = NRATE
-        ELSE 
+        ELSE
           NFUNC = NRATE+1
           DO J=NRATE,1,-1
             IFUNC(J+1) =IFUNC(J)
@@ -220,9 +220,9 @@ c-------------------------
 c
         IF (FCUT == ZERO .or. VP == 1) THEN
           FCUT = 10000.0D0*FAC_T_WORK
-        END IF 
+        END IF
       ENDIF
-      ISRATE = MAX(ISRATE,ISRAT) 
+      ISRATE = MAX(ISRATE,ISRAT)
 c
       IF (NU == HALF) NU = ZEP499
       MFUNC = NFUNC + 1
@@ -240,7 +240,7 @@ C
         ELSE
           IFAIL = 1
         END IF
-      ELSE 
+      ELSE
         IFAIL = 2
       ENDIF
 c     IFAIL = 0 => no failure at all inside material
@@ -250,14 +250,14 @@ c
       IF (EPSMAX== ZERO) EPSMAX= INFINITY
       IF (EPSR1 == ZERO) EPSR1 = INFINITY
       IF (EPSR2 == ZERO) EPSR2 = TWO*INFINITY
-      IF (EPSF  == ZERO) EPSF  = THREE*INFINITY       
+      IF (EPSF  == ZERO) EPSF  = THREE*INFINITY
 c     Limit max failure values
       EPSMAX = MIN(EPSMAX  ,INFINITY)
       EPSR1  = MIN(EPSR1   ,INFINITY)
       EPSR2  = MIN(EPSR2   ,TWO*INFINITY)
       EPSF   = MIN(EPSF    ,THREE*INFINITY)
-c      
-      IF (EPSR1 /= ZERO .AND. EPSR2 /= ZERO) THEN 
+c
+      IF (EPSR1 /= ZERO .AND. EPSR2 /= ZERO) THEN
         IF (EPSR1 >= EPSR2) THEN
          CALL ANCMSG(MSGID=480, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
@@ -299,9 +299,9 @@ C---
       IF (IPFUN == 0) THEN
         UPARAM(2*NFUNC + 16) = 0
       ELSE
-        UPARAM(2*NFUNC + 16) = MFUNC 
+        UPARAM(2*NFUNC + 16) = MFUNC
       ENDIF
-      UPARAM(2*NFUNC + 17) = PSCALE 
+      UPARAM(2*NFUNC + 17) = PSCALE
 c sound speed coque
       UPARAM(2*NFUNC + 18) = SQRT(E/(ONE - NU*NU)/RHO0)  ! soundspeed shells
       UPARAM(2*NFUNC + 19) = NU / (ONE-NU)
@@ -309,12 +309,12 @@ c sound speed coque
       UPARAM(2*NFUNC + 21) = ONE / (ONE-NU)
 c -----------------------
       IF (IFUNCE > 0 ) OPTE = 1
-      MFUNC = MFUNC + 1 
+      MFUNC = MFUNC + 1
       IFUNC(MFUNC) = IFUNCE
-      UPARAM(2*NFUNC + 22) = MFUNC 
-      UPARAM(2*NFUNC + 23) = OPTE 
-      UPARAM(2*NFUNC + 24) = EINF 
-      UPARAM(2*NFUNC + 25) = CE 
+      UPARAM(2*NFUNC + 22) = MFUNC
+      UPARAM(2*NFUNC + 23) = OPTE
+      UPARAM(2*NFUNC + 24) = EINF
+      UPARAM(2*NFUNC + 25) = CE
       UPARAM(2*NFUNC + 26) = VP
       UPARAM(2*NFUNC + 27) = IFAIL
       UPARAM(2*NFUNC + 28) = YLDCHECK
@@ -323,7 +323,7 @@ c
 c--------------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
-      PM(89)= RHO0    
+      PM(89)= RHO0
       PM(27)= SQRT(E/RHO0)  ! Sound speed for beam elements
 c--------------------------------
       PARMAT(1) = C1
@@ -334,7 +334,7 @@ c--------------------------------
       !PARMAT(6) = NOFAIL
       PARMAT(7) = EPSR1
       PARMAT(8) = EPSR2
-      PARMAT(9) = EPSF 
+      PARMAT(9) = EPSF
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = TWO*G/(C1+FOUR_OVER_3*G) ! == (1-2*nu)/(1-nu)
@@ -354,11 +354,11 @@ C-----------------------
       ENDIF
 
 C-----------------------      
-      WRITE(IOUT,1001) TRIM(TITR),ID,36  
-      WRITE(IOUT,1000)   
-      IF (IS_ENCRYPTED)THEN                                
+      WRITE(IOUT,1001) TRIM(TITR),ID,36
+      WRITE(IOUT,1000)
+      IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
+      ELSE
         WRITE(IOUT,1002) RHO0
         WRITE(IOUT,1100) E,NU,EPSMAX,EPSR1,EPSR2,EPSF,FISOKIN,ISRATE,FCUT,VP
         WRITE(IOUT,1200)(IFUNC(J),YFAC(J),RATE(J),J=1,NFUNC)
@@ -376,14 +376,14 @@ C-----------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)  
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS. . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/
      & 5X,'MAXIMUM PLASTIC STRAIN . . . . . . . . =',1PG20.13/
      & 5X,'TENSION FAILURE STRAIN 1 . . . . . . . =',1PG20.13/
      & 5X,'TENSION FAILURE STRAIN 2 . . . . . . . =',1PG20.13/
-     & 5X,'MAXIMUM TENSION FAILURE STRAIN  .. . . =',1PG20.13/     
+     & 5X,'MAXIMUM TENSION FAILURE STRAIN  .. . . =',1PG20.13/
      & 5X,'ISO-KINEMATIC HARDENING FACTOR. . . .  =',1PG20.13/
      & 5X,'SMOOTH STRAIN RATE OPTION. . . . . . . =',I10/
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . .=',1PG20.13/

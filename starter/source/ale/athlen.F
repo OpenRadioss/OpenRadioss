@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real, INTENT(IN) :: DELTAX(MVSIZ)
-      my_real, INTENT(INOUT) :: DELT(MVSIZ) 
+      my_real, INTENT(INOUT) :: DELT(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

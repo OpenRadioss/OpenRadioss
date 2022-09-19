@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real
      .   VOL(MVSIZ),KSI,ETA,ZETA
       DOUBLE PRECISION
-     .   KL(24,24,MVSIZ), HH(2,MVSIZ), 
+     .   KL(24,24,MVSIZ), HH(2,MVSIZ),
      .   DN_X(MVSIZ,8),DN_Y(MVSIZ,8),DN_Z(MVSIZ,8),KTEMP(6,24),B(6,24),
      .   HV(6,6),DN_R(8),DN_S(8),DN_T(8),INVJ(9,MVSIZ)!,KLL(24,24)
       my_real
@@ -62,11 +62,11 @@ C-----------------------------------------------
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ) 
+     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ)
        my_real
-     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ), 
-     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ), 
-     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)      
+     .   A11(MVSIZ), A12(MVSIZ), A13(MVSIZ),
+     .   A21(MVSIZ), A22(MVSIZ), A23(MVSIZ),
+     .   A31(MVSIZ), A32(MVSIZ), A33(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,14 +95,14 @@ C-----------------------------------------------
 ! ANS formulation
        CALL S8SANSB(
      .    X1(I),X2(I),X3(I),X4(I),X5(I),X6(I),X7(I),X8(I),
-     .    Y1(I),Y2(I),Y3(I),Y4(I),Y5(I),Y6(I),Y7(I),Y8(I),                                                                
-     .    Z1(I),Z2(I),Z3(I),Z4(I),Z5(I),Z6(I),Z7(I),Z8(I), 
+     .    Y1(I),Y2(I),Y3(I),Y4(I),Y5(I),Y6(I),Y7(I),Y8(I),
+     .    Z1(I),Z2(I),Z3(I),Z4(I),Z5(I),Z6(I),Z7(I),Z8(I),
      .    INVJ(1,I),KSI,ETA,ZETA,
      .    A11(I),A12(I),A13(I),
      .    A21(I),A22(I),A23(I),
      .    A31(I),A32(I),A33(I),
      .    DN_R, DN_S, DN_T,B)
-       
+
        HV(1,1) = (HH(1,I)+TWO*HH(2,I))*VOL(I)
        HV(2,1) = HH(1,I)*VOL(I)
        HV(3,1) = HH(1,I)*VOL(I)
@@ -115,7 +115,7 @@ C-----------------------------------------------
        HV(4,4) = HH(2,I)*VOL(I)
        HV(5,5) = HH(2,I)*VOL(I)
        HV(6,6) = HH(2,I)*VOL(I)
-       
+
        KTEMP(1:6,1:24)=ZERO
        !DO J=1,6
        ! DO K=1,24
@@ -178,9 +178,9 @@ C     REAL
      .   X1,X2,X3,X4,X5,X6,X7,X8,
      .   Y1,Y2,Y3,Y4,Y5,Y6,Y7,Y8,
      .   Z1,Z2,Z3,Z4,Z5,Z6,Z7,Z8,
-     .   A11, A12, A13, 
-     .   A21, A22, A23, 
-     .   A31, A32, A33, 
+     .   A11, A12, A13,
+     .   A21, A22, A23,
+     .   A31, A32, A33,
      .   KSI,ETA,ZETA, BB(6,24)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -250,7 +250,7 @@ C-----------------------------------------------
         B(4,22) = UP*(A1B1-A2B1)
         B(4,23) = UP*(A1B2-A2B2)
         B(4,24) = UP*(A1B3-A2B3)
-      
+
 ! sortir cette partie car independante du PG
         B1A1 = (X2 +X6 -X1 -X5 )*FOURTH
         B1A2 = (Y2 +Y6 -Y1 -Y5 )*FOURTH
@@ -291,7 +291,7 @@ C-----------------------------------------------
         B(5,22)=  UP*(B1B1-B2B1)
         B(5,23)=  UP*(B1B2-B2B2)
         B(5,24)=  UP*(B1B3-B2B3)
-      
+
 ! sortir cette partie car independante du PG
         C1A1 = (X4 +X8 -X1 -X5 )*FOURTH
         C1A2 = (Y4 +Y8 -Y1 -Y5 )*FOURTH
@@ -331,7 +331,7 @@ C-----------------------------------------------
         B(6,21)=  UP*(C1B3+C2B3)
         B(6,22)=  UM*(C1A1+C2A1)
         B(6,23)=  UM*(C1A2+C2A2)
-        B(6,24)=  UM*(C1A3+C2A3)      
+        B(6,24)=  UM*(C1A3+C2A3)
 
         CA11 = INVJ(3)
         CA21 = INVJ(1)
@@ -342,7 +342,7 @@ C-----------------------------------------------
         CA13 = INVJ(9)
         CA23 = INVJ(7)
         CA33 = INVJ(8)
-       
+
         C(1,1) = CA11*CA11
         C(2,1) = CA12*CA12
         C(3,1) = CA13*CA13
@@ -379,7 +379,7 @@ C-----------------------------------------------
         C(4,6) = CA22*CA31+CA21*CA32
         C(5,6) = CA23*CA31+CA21*CA33
         C(6,6) = CA23*CA32+CA22*CA33
-        
+
         DO L=1,6
          DO M=1,24
           BB(L,M) = ZERO

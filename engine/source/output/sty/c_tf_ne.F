@@ -154,8 +154,8 @@ C
      .      MAT      ,PID  ,THKLY           ,MATLY            ,POSLY   ,
      .      IGTYP    ,IXFEM,IXLAY           ,NLAY             ,NPT     ,
      .      ISUBSTACK,STACK,DRAPE_Q4        ,NFT              ,GBUF%THK,
-     .      NEL      ,THK_LY   )      
-      ENDIF  
+     .      NEL      ,THK_LY   )
+      ENDIF
 C------------------------
 C        STRESS
 C------------------------
@@ -177,27 +177,27 @@ C
           SHK(1,I)= -GBUF%HOURG(II(11)+I)
           SHK(2,I)=  GBUF%HOURG(II(12)+I)
         ENDDO
-      ENDIF 
+      ENDIF
 C
       IF (IW == 0) THEN
 C
 C------SMP-USE--------------
 C
-        IF (IHBE == 23) THEN     ! QEPH 
+        IF (IHBE == 23) THEN     ! QEPH
           IF (MPT == 0) THEN
             DO I=1,NEL
-              SIG0(1,I) = GBUF%FOR(II(1)+I)  
-              SIG0(2,I) = GBUF%FOR(II(2)+I)  
-              SIG0(3,I) = GBUF%FOR(II(3)+I)  
-              SIG0(4,I) = GBUF%FOR(II(4)+I)  
-              SIG0(5,I) = GBUF%FOR(II(5)+I)  
+              SIG0(1,I) = GBUF%FOR(II(1)+I)
+              SIG0(2,I) = GBUF%FOR(II(2)+I)
+              SIG0(3,I) = GBUF%FOR(II(3)+I)
+              SIG0(4,I) = GBUF%FOR(II(4)+I)
+              SIG0(5,I) = GBUF%FOR(II(5)+I)
               IF (GBUF%G_PLA > 0) THEN
                 EPS(I) = GBUF%PLA(I)
               ELSE
                 EPS(I) = ZERO
               ENDIF
-              MOM0(1,I) = GBUF%MOM(II(1)+I)  
-              MOM0(2,I) = GBUF%MOM(II(2)+I)  
+              MOM0(1,I) = GBUF%MOM(II(1)+I)
+              MOM0(2,I) = GBUF%MOM(II(2)+I)
               MOM0(3,I) = GBUF%MOM(II(3)+I)
             ENDDO
 c
@@ -218,7 +218,7 @@ c
                   WRITE(IUGEO,'(2I10/,1P3E20.13)')
      .            MPT,NPG,THKE(I+NFT),GBUF%EINT(I),GBUF%EINT(I+NEL)
                 ENDIF
-              ENDIF 
+              ENDIF
               DO K=1,NPG
                 FUNC(1)=SIG0(1,I)+ST(1,I)*QPG(2,K)+SK(1,I)*QPG(1,K)
                 FUNC(2)=SIG0(2,I)+ST(2,I)*QPG(2,K)+SK(2,I)*QPG(1,K)
@@ -230,7 +230,7 @@ c
                   WRITE(IUGEO,'(1P6E12.5)')(FUNC(J),J=1,6)
                 ELSE
                   WRITE(IUGEO,'(1P6E20.13)')(FUNC(J),J=1,6)
-                ENDIF 
+                ENDIF
                 FUNC(1)=MOM0(1,I)+MT(1,I)*QPG(2,K)+MK(1,I)*QPG(1,K)
                 FUNC(2)=MOM0(2,I)+MT(2,I)*QPG(2,K)+MK(2,I)*QPG(1,K)
                 FUNC(3)=MOM0(3,I)
@@ -238,7 +238,7 @@ c
                   WRITE(IUGEO,'(1P3E12.5)')(FUNC(J),J=1,3)
                 ELSE
                   WRITE(IUGEO,'(1P3E20.13)')(FUNC(J),J=1,3)
-                ENDIF 
+                ENDIF
               ENDDO ! DO K=1,NPG
             ENDDO ! DO I=1,NEL
 c---
@@ -262,7 +262,7 @@ c---
                   WRITE(IUGEO,'(2I10/,1P3E20.13)')
      .            MPT,NPG,THKE(I+NFT),GBUF%EINT(I),GBUF%EINT(I+NEL)
                 ENDIF
-              ENDIF 
+              ENDIF
 C
               IF (NLAY == 1) THEN
                 BUFLY => ELBUF_STR%BUFLY(1)
@@ -292,7 +292,7 @@ C
                       WRITE(IUGEO,'(1P6E12.5)')(FUNC(J),J=1,6)
                     ELSE
                       WRITE(IUGEO,'(1P6E20.13)')(FUNC(J),J=1,6)
-                    ENDIF 
+                    ENDIF
                   ENDDO ! DO K=1,NPG
                 ENDDO ! DO IT = 1,NPTT
               ELSEIF (NLAY > 1) THEN
@@ -327,7 +327,7 @@ C
                         WRITE(IUGEO,'(1P6E12.5)')(FUNC(J),J=1,6)
                       ELSE
                         WRITE(IUGEO,'(1P6E20.13)')(FUNC(J),J=1,6)
-                      ENDIF 
+                      ENDIF
                     ENDDO ! DO K=1,NPG
                   ENDDO ! DO IT=1,NPTT
                   IPT_ALL = IPT_ALL + NPTT
@@ -359,11 +359,11 @@ c------
                   WRITE(IUGEO,'(2I10/,1P3E20.13)')
      .            MPT,NPG,THKE(I+NFT),GBUF%EINT(I),GBUF%EINT(I+NEL)
                 ENDIF
-              ENDIF 
+              ENDIF
 C---
               BUFLY => ELBUF_STR%BUFLY(1)
-              DO  IS=1,NPTS  
-                DO  IR=1,NPTR  
+              DO  IS=1,NPTS
+                DO  IR=1,NPTR
                   LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,1)
                   NG = NPTR*(IS-1) + IR
                   PTF = (NG-1)*LENF
@@ -373,11 +373,11 @@ C---
                   FUNC(3) = GBUF%FORPG(PTF+II(3)+I)
                   FUNC(4) = GBUF%FORPG(PTF+II(4)+I)
                   FUNC(5) = GBUF%FORPG(PTF+II(5)+I)
-                  IF (BUFLY%L_PLA > 0) THEN    
+                  IF (BUFLY%L_PLA > 0) THEN
                     FUNC(6) = LBUF%PLA(I)
-                  ELSE                             
-                    FUNC(6) = ZERO                  
-                  ENDIF                            
+                  ELSE
+                    FUNC(6) = ZERO
+                  ENDIF
                   IF (OUTYY_FMT == 2) THEN
                     WRITE(IUGEO,'(1P6E12.5)')(FUNC(J),J=1,6)
                   ELSE
@@ -392,7 +392,7 @@ C---
                    WRITE(IUGEO,'(1P3E20.13)')(FUNC(J),J=1,3)
                   ENDIF
                 ENDDO ! DO  IR=1,NPTR
-              ENDDO ! DO  IS=1,NPTS 
+              ENDDO ! DO  IS=1,NPTS
             ENDDO  !  DO I=1,NEL
 c---
           ELSE  ! MPT > 0
@@ -414,7 +414,7 @@ c---
                   WRITE(IUGEO,'(2I10/,1P3E20.13)')
      .            MPT,NPG,THKE(I+NFT),GBUF%EINT(I),GBUF%EINT(I+NEL)
                 ENDIF
-              ENDIF 
+              ENDIF
 c---
               IF (NLAY == 1) THEN
                 BUFLY => ELBUF_STR%BUFLY(1)
@@ -484,18 +484,18 @@ C---QEPH:------
 C---Transfert to QBAT------
           IF (MPT == 0) THEN
             DO I=1,NEL
-              SIG0(1,I) = GBUF%FOR(II(1)+I)  
-              SIG0(2,I) = GBUF%FOR(II(2)+I)  
-              SIG0(3,I) = GBUF%FOR(II(3)+I)  
-              SIG0(4,I) = GBUF%FOR(II(4)+I)  
-              SIG0(5,I) = GBUF%FOR(II(5)+I)  
+              SIG0(1,I) = GBUF%FOR(II(1)+I)
+              SIG0(2,I) = GBUF%FOR(II(2)+I)
+              SIG0(3,I) = GBUF%FOR(II(3)+I)
+              SIG0(4,I) = GBUF%FOR(II(4)+I)
+              SIG0(5,I) = GBUF%FOR(II(5)+I)
               IF (GBUF%G_PLA > 0) THEN
-                EPS(I) = GBUF%PLA(I)  
+                EPS(I) = GBUF%PLA(I)
               ELSE
                 EPS(I) = ZERO
               ENDIF
-              MOM0(1,I) = GBUF%MOM(II(1)+I)  
-              MOM0(2,I) = GBUF%MOM(II(2)+I)  
+              MOM0(1,I) = GBUF%MOM(II(1)+I)
+              MOM0(2,I) = GBUF%MOM(II(2)+I)
               MOM0(3,I) = GBUF%MOM(II(3)+I)
             ENDDO
 C
@@ -524,7 +524,7 @@ C
                 WA(JJ+9)=MOM0(3,I)
                 JJ = JJ + 9
               ENDDO
-            ENDDO 
+            ENDDO
           ELSE ! IF (MPT /= 0)
             DO I=1,NEL
 !!              I5 = (I-1) * 2
@@ -626,8 +626,8 @@ C-------QBAT,DKT18-----
               WA(JJ+5) = GBUF%EINT(I+NEL)
               JJ = JJ + 5
 C---
-              DO IR=1,NPTR  
-                DO IS=1,NPTS  
+              DO IR=1,NPTR
+                DO IS=1,NPTS
                   NG = NPTR*(IS-1) + IR
                   PTF = (NG-1)*LENF
                   PTM = (NG-1)*LENM

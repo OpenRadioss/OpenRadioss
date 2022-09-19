@@ -38,7 +38,7 @@ Chd|====================================================================
      1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
      3   CAND_N,GAP  ,XYZM   ,NOINT ,I_STOK  ,
-     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,   
+     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,
      5   STF   ,STFN ,MULTIMP,ISTF  ,IDDLEVEL,
      6   ITAB  ,GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
      7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,I_MEM ,
@@ -128,10 +128,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-     
+
       TYPE18=.FALSE.
       IF(INACTI==7)TYPE18=.TRUE.
-      
+
 
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
 C     DD EST LA LONGEUR MOYENNE ELEMENT
@@ -187,7 +187,7 @@ C DD + 2*TZINF : taille element augmentee de zone influence
       MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
       MINBOX_ST= HALF*MAXBOX_ST
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
-      DIST = ZERO     
+      DIST = ZERO
 C--------------------------------
 C     CALCUL DES BORNES DU DOMAINE
 C--------------------------------
@@ -197,10 +197,10 @@ C--------------------------------
       YMIN_M=EP30
       YMAX_M=-EP30
       ZMIN_M=EP30
-      ZMAX_M=-EP30 
+      ZMAX_M=-EP30
 
       DO 20 I=1,NMN
-         J=MSR(I) 
+         J=MSR(I)
          XMIN_M= MIN(XMIN_M,X(1,J))
          YMIN_M= MIN(YMIN_M,X(2,J))
          ZMIN_M= MIN(ZMIN_M,X(3,J))
@@ -214,7 +214,7 @@ C--------------------------------
       YMIN_S=EP30
       YMAX_S=-EP30
       ZMIN_S=EP30
-      ZMAX_S=-EP30 
+      ZMAX_S=-EP30
 
       DO 25 I=1,NSN
        J=NSV(I)
@@ -315,7 +315,7 @@ C       SEPARER B ET N EN TWO
      1   MWA(IP1) ,MWA(IP2) ,MWA(IP21),MWA(IP22),MWA(IP31+2*(I_ADD-2)),
      2   IRECT    ,X        ,NB_NC    ,NB_EC    ,XYZM     ,
      3   I_ADD    ,NSV      ,I_AMAX   ,XMAX     ,YMAX     ,
-     4   ZMAX     ,3*MAXSIZ ,I_STOK   ,I_MEM    ,NB_N_B   , 
+     4   ZMAX     ,3*MAXSIZ ,I_STOK   ,I_MEM    ,NB_N_B   ,
      5   CAND_N   ,CAND_E   ,NSN      ,NOINT    ,TZINF_ST ,
      6   MAXBOX_ST,MINBOX_ST,STF      ,STFN     ,J_STOK   ,
      7   MULTIMP  ,ISTF     , ITAB    ,GAP      ,GAP_S    ,
@@ -431,7 +431,7 @@ C
      .               C1=TITR)
         ENDIF
       ENDIF!(.NOT.TYPE18)
-      
+
 C
 C     MISE A ZERO DE TAG POUR I7PWR3
 C

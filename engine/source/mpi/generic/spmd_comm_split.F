@@ -27,7 +27,7 @@ Chd|        FVRREST                       source/output/restart/rdresb.F
 Chd|        SPMD_I25FRONT_INIT            source/mpi/interfaces/spmd_i25front.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SPMD_COMM_SPLIT(COLOR,KEY,SUBCOMM,RANK,SIZE_L) 
+      SUBROUTINE SPMD_COMM_SPLIT(COLOR,KEY,SUBCOMM,RANK,SIZE_L)
 C Wrapper to MPI_COMM_SPLIT: returns RANK = -1 and
 C  SUBCOMM = MPI_COMM_NULL if the processor does not belong the the
 C  subcommunicator 
@@ -69,7 +69,7 @@ C-----------------------------------------------
         CALL MPI_COMM_RANK(SUBCOMM, RANK, IERROR)
         CALL MPI_COMM_SIZE(SUBCOMM, SIZE_L, IERROR)
       ELSE
-        RANK = -1 
+        RANK = -1
         SUBCOMM = MPI_COMM_NULL
       ENDIF
       CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)

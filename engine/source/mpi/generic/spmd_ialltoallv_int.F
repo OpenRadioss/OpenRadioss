@@ -69,12 +69,12 @@ C-----------------------------------------------
 
 !       ------------------------------------------
 !       processor P(m) :
-!       send buffer 
+!       send buffer
 !          to proc :   P(1)     P(2)           P(n)
 !                   |  s1   |   s2   |  ...  |  sn    |
 !       size =         N(1)     N(2)             N(n)
 !
-!       rcv buffer 
+!       rcv buffer
 !       from proc :   P(1)     P(2)           P(n)
 !                   |  r1   |   r2   |  ...  |  rn    |
 !       size =         M(1)     M(2)             M(n)

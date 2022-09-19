@@ -191,7 +191,7 @@ C=======================================================================
               K=K+1
               IW1(K)=SURF_NODE_EXT(J2,I)
               IW2(K)=SURF_NODE_EXT(J1,I)
-              IW5(K)=SURF_ELTYP_EXT(I)  
+              IW5(K)=SURF_ELTYP_EXT(I)
               IW6(K)=SURF_ELEM_EXT(I)
             ELSEIF (SURF_NODE_EXT(J1,I) /= 0 .AND.
      .              SURF_NODE_EXT(J1,I) < SURF_NODE_EXT(J2,I)) THEN
@@ -336,7 +336,7 @@ C-----------------------------------------------
 ! ----------------------------------------------------------------------------
       IF (GO_IN_ARRAY .EQV. .TRUE.) THEN
         DELBUF%SZ_LINE = NSEG
-        IF(ALLOCATED(DELBUF%LINE)) DEALLOCATE(DELBUF%LINE)                                    
+        IF(ALLOCATED(DELBUF%LINE)) DEALLOCATE(DELBUF%LINE)
         ALLOCATE(DELBUF%LINE(NSEG,4))
         DO I=1,NSEG
           DELBUF%LINE(I,1) = LINE_ORD(1,INDEX(I))

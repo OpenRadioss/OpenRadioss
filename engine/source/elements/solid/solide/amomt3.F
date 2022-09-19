@@ -47,7 +47,7 @@ Chd|====================================================================
      .   VDZ1,VDZ2,VDZ3,VDZ4,VDZ5,VDZ6,VDZ7,VDZ8,
      .   VDX,VDY,VDZ,
      .   DELTAX,VIS,
-     .   MAT,  QMV,BUFMAT,IPARG1,IXS, IAD22, 
+     .   MAT,  QMV,BUFMAT,IPARG1,IXS, IAD22,
      .   NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,7 +83,7 @@ C-----------------------------------------------
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
      .   PX1(*),PX2(*),PX3(*),PX4(*),
      .   PY1(*),PY2(*),PY3(*),PY4(*),
-     .   PZ1(*),PZ2(*),PZ3(*),PZ4(*),    
+     .   PZ1(*),PZ2(*),PZ3(*),PZ4(*),
      .   DXX(*),DXY(*),DXZ(*),
      .   DYX(*),DYY(*),DYZ(*),
      .   DZX(*),DZY(*),DZZ(*),
@@ -95,8 +95,8 @@ C-----------------------------------------------
      .   VDZ5(*),VDZ6(*),VDZ7(*),VDZ8(*),
      .   VDX(*),VDY(*),VDZ(*),
      .   DELTAX(*),VIS(*),QMV(12,*),BUFMAT(*),IAD22(*)
-      INTEGER MAT(*),IPARG1(*),IXS(NIXS,*), 
-     .   NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*), 
+      INTEGER MAT(*),IPARG1(*),IXS(NIXS,*),
+     .   NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*),
      .   NALE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -124,11 +124,11 @@ C-----------------------------------------------
       !-------------------------------------------------------!
       IADBUF = NINT(PM(27,MAT(1)))
       IFLG = NINT(BUFMAT(31+IADBUF-1))
- 
+
        IF(IFLG>1)RETURN
 
-       !momentum advection with UPWIND method only. Even if SUPG or TG are activated. (UPSM=2 or 3)   
-       MX = MAT(LFT)       
+       !momentum advection with UPWIND method only. Even if SUPG or TG are activated. (UPSM=2 or 3)
+       MX = MAT(LFT)
        DO I=LFT,LLT
         GAM(I)= PM(15,MX)
        ENDDO
@@ -139,12 +139,12 @@ C-----------------------------------------------
           ENDIF
           AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)+QMV(5,I)+QMV(6,I)
           AAA = AAA/SIX
-          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)   
-          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)   
-          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)   
-          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)   
-          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)   
-          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)   
+          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)
+          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)
+          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)
+          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)
+          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)
+          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)
 
           DMX = ZERO
           DMY = ZERO
@@ -279,7 +279,7 @@ C-----------------------------------------------
         V58(I,2)=Y8(I)-Y5(I)
         V58(I,3)=Z8(I)-Z5(I)
        ENDDO
-       
+
        ! NOEUD 1 : V12,V14,V15
        ! NOEUD 2 : V12,V23,V26
        ! NOEUD 3 : V43,V23,V37
@@ -288,52 +288,52 @@ C-----------------------------------------------
        ! NOEUD 6 : V56,V67,V26
        ! NOEUD 7 : V87,V67,V37
        ! NOEUD 8 : V87,V58,V48
-              
+
        !PENTA6DG CASE
        !V43 is change to V43a for frame on node 3
-       !V43 is change to V43b for frame on node 4 
+       !V43 is change to V43b for frame on node 4
        !V87 is change to V87a for frame on node 3
-       !V87 is change to V87b for frame on node 4            
+       !V87 is change to V87b for frame on node 4
        DO I=LFT,LLT
-         
+
          IF(IXS(5,I+NFT)==IXS(4,I+NFT))THEN
            V43a(I,1)=X3(I)-X1(I)
            V43a(I,2)=Y3(I)-Y1(I)
-           V43a(I,3)=Z3(I)-Z1(I) 
+           V43a(I,3)=Z3(I)-Z1(I)
            V43b(I,1)=X2(I)-X3(I)
            V43b(I,2)=Y2(I)-Y3(I)
-           V43b(I,3)=Z2(I)-Z3(I)            
+           V43b(I,3)=Z2(I)-Z3(I)
          ELSE
-           V43a(I,1) = V43(I,1)  
-           V43b(I,1) = V43(I,1)            
-           V43a(I,2) = V43(I,2)  
-           V43b(I,2) = V43(I,2)            
-           V43a(I,3) = V43(I,3)  
-           V43b(I,3) = V43(I,3)            
+           V43a(I,1) = V43(I,1)
+           V43b(I,1) = V43(I,1)
+           V43a(I,2) = V43(I,2)
+           V43b(I,2) = V43(I,2)
+           V43a(I,3) = V43(I,3)
+           V43b(I,3) = V43(I,3)
          ENDIF
-         
+
          IF(IXS(9,I+NFT)==IXS(8,I+NFT))THEN
            V87a(I,1)=X7(I)-X5(I)
            V87a(I,2)=Y7(I)-Y5(I)
            V87a(I,3)=Z7(I)-Z5(I)
            V87b(I,1)=X6(I)-X7(I)
            V87b(I,2)=Y6(I)-Y7(I)
-           V87b(I,3)=Z6(I)-Z7(I)           
+           V87b(I,3)=Z6(I)-Z7(I)
           ELSE
-           V87a(I,1) = V87(I,1)  
+           V87a(I,1) = V87(I,1)
            V87b(I,1) = V87(I,1)
-           V87a(I,2) = V87(I,2)  
+           V87a(I,2) = V87(I,2)
            V87b(I,2) = V87(I,2)
-           V87a(I,3) = V87(I,3)  
+           V87a(I,3) = V87(I,3)
            V87b(I,3) = V87(I,3)
-         ENDIF         
+         ENDIF
        ENDDO
-       
+
        DO J=1,3
         DO I=LFT,LLT
          R(I,J)=FOURTH*(V12(I,J)+V56(I,J)+V43(I,J)+V87(I,J))
          S(I,J)=FOURTH*(V23(I,J)+V14(I,J)+V58(I,J)+V67(I,J))
-         T(I,J)=FOURTH*(V15(I,J)+V26(I,J)+V37(I,J)+V48(I,J))	 
+         T(I,J)=FOURTH*(V15(I,J)+V26(I,J)+V37(I,J)+V48(I,J))	
         ENDDO
        ENDDO
       ENDIF
@@ -343,7 +343,7 @@ C-----------------------------------------------
       ! CALCUL DE LA FORCE DE TRANSPORT AU CENTRE          !
       !----------------------------------------------------!
       IF(UPWM<=1 .OR.IPARG1(64)==1)THEN
-      
+
        IF((IPARG1(64)==1))THEN
        ! VDX,VDY,VDZ EST CALCULE DANS M11VS3 OU M51VS3
         DO I=LFT,LLT
@@ -354,7 +354,7 @@ C-----------------------------------------------
          A1(I) = SIGN(ONE,A1(I))
          A2(I) = SIGN(ONE,A2(I))
          A3(I) = SIGN(ONE,A3(I))
-         A4(I) = SIGN(ONE,A4(I))        
+         A4(I) = SIGN(ONE,A4(I))
         ENDDO
        ELSE
         IF(UPWM==ZERO)THEN
@@ -378,7 +378,7 @@ C-----------------------------------------------
          A4(I) = SIGN(GAM(LFT),A4(I))
         ENDDO
        ENDIF
-       
+
        DO I=LFT,LLT
         FAC = ONE_OVER_8*RHO(I)*VOL(I)
         F1(I) = (VDX(I)*DXX(I)+VDY(I)*DXY(I)+VDZ(I)*DXZ(I))*FAC
@@ -387,17 +387,17 @@ C-----------------------------------------------
        ENDDO
 
        !inter22
-       IF(INT22>0)THEN       
+       IF(INT22>0)THEN
          DO I=LFT,LLT
           !currently no momentum transport force for polyedra
            IF(NINT(IAD22(I))==0)CYCLE
           !no force for brick in cut cell buffer
            F1(I) = ZERO
            F2(I) = ZERO
-           F3(I) = ZERO                      
+           F3(I) = ZERO
           ENDDO
        ENDIF
-        
+
        !repartition nodale
        DO I=LFT,LLT
         F11(I) = F11(I) - (ONE+A1(I))*F1(I)
@@ -435,7 +435,7 @@ C
       ! FORMULATION DE LA FORCE DE TRANSPORT MINIMISANT LES PBS D'HOURGLASS   !
       ! ON EVALUE <PHI,UJ*DUI/DXJ> DIRECTEMENT AUX NOEUDS                     !
       !-----------------------------------------------------------------------!
-      ! NOEUD 1 (1,2,4,5)     
+      ! NOEUD 1 (1,2,4,5)
        CALL AJAC3_V(V12,V14,V15,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ0(I,1)=-(AJ1(I,1)+AJ2(I,1)+AJ3(I,1))
@@ -449,7 +449,7 @@ C
      .   F11,F21,F31,F12,F22,F32,F14,F24,F34,F15,F25,F35,
      .   F13,F23,F33,F16,F26,F36,F17,F27,F37,F18,F28,F38,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 2 (2,1,3,6)     
+       ! NOEUD 2 (2,1,3,6)
        CALL AJAC3_V(V12,V23,V26,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ1(I,1)=-AJ1(I,1)
@@ -466,7 +466,7 @@ C
      .   F12,F22,F32,F11,F21,F31,F13,F23,F33,F16,F26,F36,
      .   F14,F24,F34,F15,F25,F35,F17,F27,F37,F18,F28,F38,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 3  (3,4,2,8)    
+       ! NOEUD 3  (3,4,2,8)
        CALL AJAC3_V(V43a,V23,V37,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ1(I,1)=-AJ1(I,1)
@@ -486,7 +486,7 @@ C
      .   F13,F23,F33,F14,F24,F34,F12,F22,F32,F17,F27,F37,
      .   F11,F21,F31,F15,F25,F35,F16,F26,F36,F18,F28,F38,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 4 (4,3,1,8)     
+       ! NOEUD 4 (4,3,1,8)
        CALL AJAC3_V(V43b,V14,V48,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ2(I,1)=-AJ2(I,1)
@@ -503,7 +503,7 @@ C
      .   F14,F24,F34,F13,F23,F33,F11,F21,F31,F18,F28,F38,
      .   F12,F22,F32,F15,F25,F35,F16,F26,F36,F17,F27,F37,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 5  (5,6,8,1)    
+       ! NOEUD 5  (5,6,8,1)
        CALL AJAC3_V(V56,V58,V15,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ3(I,1)=-AJ3(I,1)
@@ -520,7 +520,7 @@ C
      .   F15,F25,F35,F16,F26,F36,F18,F28,F38,F11,F21,F31,
      .   F12,F22,F32,F13,F23,F33,F14,F24,F34,F17,F27,F37,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 6  (6,5,7,2)    
+       ! NOEUD 6  (6,5,7,2)
        CALL AJAC3_V(V56,V67,V26,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ3(I,1)=-AJ3(I,1)
@@ -540,7 +540,7 @@ C
      .   F16,F26,F36,F15,F25,F35,F17,F27,F37,F12,F22,F32,
      .   F11,F21,F31,F13,F23,F33,F14,F24,F34,F18,F28,F38,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 7 (7,8,6,3)     
+       ! NOEUD 7 (7,8,6,3)
        CALL AJAC3_V(V87a,V67,V37,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ1(I,1)=-AJ1(I,1)
@@ -563,7 +563,7 @@ C
      .   F17,F27,F37,F18,F28,F38,F16,F26,F36,F13,F23,F33,
      .   F11,F21,F31,F12,F22,F32,F14,F24,F34,F15,F25,F35,
      .   IAD22, NC1, NC2, NC3, NC4, NC5, NC6, NC7, NC8, NALE)
-       ! NOEUD 8      
+       ! NOEUD 8
        CALL AJAC3_V(V87b,V58,V48,AJ1,AJ2,AJ3,AJV)
        DO I=LFT,LLT
         AJ2(I,1)=-AJ2(I,1)

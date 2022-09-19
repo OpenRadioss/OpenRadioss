@@ -66,19 +66,19 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
-      TYPE INTBUF_FRIC_STRUCT_  
-      INTEGER ::    NSETPRTS       ! number of couple of parts 
+      TYPE INTBUF_FRIC_STRUCT_
+      INTEGER ::    NSETPRTS       ! number of couple of parts
       INTEGER ::    FRICMOD        ! the friction model
       INTEGER ::    FRICFORM        ! the friction formulation ( viscous or incremental)
-      INTEGER ::    IFFILTER       !Friction filtering flag 
-      INTEGER ::    S_TABPARTS_FRIC  ! number of parts  
+      INTEGER ::    IFFILTER       !Friction filtering flag
+      INTEGER ::    S_TABPARTS_FRIC  ! number of parts
       INTEGER ::    IORTHFRIC          ! Flag for orthotropic friction 0 isotropic / 1 orthotropic like main material / 2 orthotropic and orthotropy axes are defined in friction model
       my_real ::    XFILTR_FRIC        !Filtering coefficient
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: TABCOUPLEPARTS_FRIC    ! Table of couple of parts
       INTEGER, DIMENSION(:), ALLOCATABLE :: TABPARTS_FRIC          ! Table of parts
       INTEGER, DIMENSION(:), ALLOCATABLE :: ADPARTS_FRIC           ! Table of adress of couple of parts
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IFRICORTH              ! Table of Orthotropic type of couple of parts 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IFRICORTH              ! Table of Orthotropic type of couple of parts
       my_real, DIMENSION(:), ALLOCATABLE :: TABCOEF_FRIC           ! Table of friction coefficients
 
       END TYPE INTBUF_FRIC_STRUCT_

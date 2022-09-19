@@ -58,11 +58,11 @@ C-----------------------------------------------
          WRITE(RADVERS,'(A)') 'OpenRadioss Starter'
          LEN = LEN_TRIM(RADVERS)
        ENDIF
- 
+
        LBT=LEN_TRIM(BTAG)
        LENCPUNAM=LEN_TRIM(CPUNAM)
        LENARCHTIT=LEN_TRIM(ARCHTITLE)
-       YEARSTRING(1:4)=BDATE(8:11)    
+       YEARSTRING(1:4)=BDATE(8:11)
        WRITE(COPYRIGHTLINE,'(A,A,A)') 'COPYRIGHT (C) 1986-'//YEARSTRING(1:4)//' Altair Engineering, Inc.'
 
        CALL PRINTCENTER(" ",0,IOUT,1)
@@ -94,7 +94,7 @@ C-----------------------------------------------
        CALL PRINTCENTER("Licensed under GNU Affero General Public License.",49,IOUT,3)
        CALL PRINTCENTER("See License file.",17,IOUT,3)
        CALL PRINTCENTER(" ",0,IOUT,1)
-       WRITE(IOUT,'(A)') ' ' 
+       WRITE(IOUT,'(A)') ' '
 
       END
 
@@ -124,7 +124,7 @@ C-----------------------------------------------
        INTEGER POS,I
 C-----------------------------------------------
 C Initialisation
-       PRINTOUT=' ' 
+       PRINTOUT=' '
        PRINTOUT(1)='*'
        PRINTOUT(2)='*'
        PRINTOUT(71)='*'
@@ -135,7 +135,7 @@ C Flag = 0 ligne blanche
        IF (FLAG==1)THEN
 C Flag = 1 que des * dans la ligne
          PRINTOUT(1:72)='*'
- 
+
 
        ELSEIF (FLAG==2) THEN
 C du texte center

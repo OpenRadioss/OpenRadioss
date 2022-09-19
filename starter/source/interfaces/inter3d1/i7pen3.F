@@ -83,7 +83,7 @@ C
 !      EQUIVALENCE (NX3,BV(1,64)),(NY3,BV(1,65)),(NZ3,BV(1,66))
 !      EQUIVALENCE (NX4,BV(1,67)),(NY4,BV(1,68)),(NZ4,BV(1,69))
 !      EQUIVALENCE (P1,BV(1,71)) ,(P2,BV(1,72)) ,(P3,BV(1,73))
-!      EQUIVALENCE (P4,BV(1,74)) 
+!      EQUIVALENCE (P4,BV(1,74))
 C=======================================================================
        DO I=LFT,LLT
         D1 = SQRT(P1(I))
@@ -103,20 +103,20 @@ C
         PENE(I) = MAX(P1(I),P2(I),P3(I),P4(I))
         if(P1(I)==PENE(I))then
          N1(I) = NX1(I)
-         N2(I) = NY1(I) 
-         N3(I) = NZ1(I) 
+         N2(I) = NY1(I)
+         N3(I) = NZ1(I)
         elseif(P2(I)==PENE(I))then
          N1(I) = NX2(I)
-         N2(I) = NY2(I) 
-         N3(I) = NZ2(I) 
+         N2(I) = NY2(I)
+         N3(I) = NZ2(I)
         elseif(P3(I)==PENE(I))then
          N1(I) = NX3(I)
-         N2(I) = NY3(I) 
-         N3(I) = NZ3(I) 
+         N2(I) = NY3(I)
+         N3(I) = NZ3(I)
         elseif(P4(I)==PENE(I))then
          N1(I) = NX4(I)
-         N2(I) = NY4(I) 
-         N3(I) = NZ4(I) 
+         N2(I) = NY4(I)
+         N3(I) = NZ4(I)
         endif
        ENDDO
        DO I=LFT,LLT

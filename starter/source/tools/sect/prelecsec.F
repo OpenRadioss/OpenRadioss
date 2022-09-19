@@ -93,8 +93,8 @@ C-----------------------------------------------
      .   FLAG_R2R,N1,N2,N3,POS_SEC_R2R,NSEG0,NSEG,
      .   COMPT,NG
       CHARACTER TITR*nchartitle
-      CHARACTER KEY2*ncharkey,MESS*40  
-      LOGICAL IS_AVAILABLE   
+      CHARACTER KEY2*ncharkey,MESS*40
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -116,15 +116,15 @@ C=======================================================================
       L = 7
       COMPT = 0
       NG = 0
-      
-      IF (FLAG_R2R == 1) THEN          
+
+      IF (FLAG_R2R == 1) THEN
         ALLOCATE(TAGSEC(NSECT))
         TAGSEC = 0
-      ENDIF    
-      
+      ENDIF
+
 
       CALL HM_OPTION_START('/SECT')
-      
+
       DO I=1,NSECT
 
         NG=NG+1
@@ -139,28 +139,28 @@ C-----------------------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR, UNIT_ID=UID, KEYWORD2=KEY2)
         NOM_OPT(1,I)=ID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-                
-        CALL HM_GET_INTV('Axis_Origin_Node_N1', N1, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N2', N2, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N3', N3, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('ISAVE', ISAV, IS_AVAILABLE, LSUBMODEL)   
+
+        CALL HM_GET_INTV('Axis_Origin_Node_N1', N1, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N2', N2, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N3', N3, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('ISAVE', ISAV, IS_AVAILABLE, LSUBMODEL)
 
         IF(KEY2(1:5) == 'PARAL' .OR. KEY2(1:6) == 'CIRCLE') THEN
           ISTYP = 1
         ELSE
           ISTYP = 0
-          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)  
+          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)
         ENDIF
 
-        IGUQ=0                       
-        CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grshel_id', IGUC, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grtrus_id', IGUT, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grbeam_id', IGUP, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grsprg_id', IGUR, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grtria_id', IGUTG, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)  
+        IGUQ=0
+        CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grshel_id', IGUC, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grtrus_id', IGUT, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grbeam_id', IGUP, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grsprg_id', IGUR, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grtria_id', IGUTG, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)
 C---    
         IF (FLAG_R2R == 1) THEN
 C----------tag section s skew nodes---------------
@@ -170,7 +170,7 @@ C----------tag section s skew nodes---------------
 	  IF(TAGNO(N1+NPART) < 2) TAGNO(N1+NPART) = 2
 	  IF(TAGNO(N2+NPART) < 2) TAGNO(N2+NPART) = 2
 	  IF(TAGNO(N3+NPART) < 2) TAGNO(N3+NPART) = 2
-        ELSEIF (FLAG_R2R == 2) THEN     
+        ELSEIF (FLAG_R2R == 2) THEN
 C----------set section position  wrt multidomain interface
 C----------element groups
            NSEG  = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
@@ -178,28 +178,28 @@ C----------element groups
            NSEG0 = GRSIZE_R2R(IGUS,IGRBRIC,NGRBRIC,8)
 C
            NSEG  = NSEG  + GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)
-           NSEGC = NSEGC + GRSIZE_R2R(IGUQ,IGRQUAD,NGRQUAD,9)  
+           NSEGC = NSEGC + GRSIZE_R2R(IGUQ,IGRQUAD,NGRQUAD,9)
            NSEG0 = NSEG0 + GRSIZE_R2R(IGUQ,IGRQUAD,NGRQUAD,8)
 C
            NSEG  = NSEG  + GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)
-           NSEGC = NSEGC + GRSIZE_R2R(IGUC,IGRSH4N,NGRSHEL,9)           
+           NSEGC = NSEGC + GRSIZE_R2R(IGUC,IGRSH4N,NGRSHEL,9)
            NSEG0 = NSEG0 + GRSIZE_R2R(IGUC,IGRSH4N,NGRSHEL,8)
 C
            NSEG  = NSEG  + GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)
-           NSEGC = NSEGC + GRSIZE_R2R(IGUT,IGRTRUSS,NGRTRUS,9)            
+           NSEGC = NSEGC + GRSIZE_R2R(IGUT,IGRTRUSS,NGRTRUS,9)
            NSEG0 = NSEG0 + GRSIZE_R2R(IGUT,IGRTRUSS,NGRTRUS,8)
 C
            NSEG  = NSEG  + GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)
            NSEGC = NSEGC + GRSIZE_R2R(IGUP,IGRBEAM,NGRBEAM,9)
-           NSEG0 = NSEG0 + GRSIZE_R2R(IGUP,IGRBEAM,NGRBEAM,8)                        
+           NSEG0 = NSEG0 + GRSIZE_R2R(IGUP,IGRBEAM,NGRBEAM,8)
 C
            NSEG  = NSEG  + GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)
            NSEGC = NSEGC + GRSIZE_R2R(IGUR,IGRSPRING,NGRSPRI,9)
-           NSEG0 = NSEG0 + GRSIZE_R2R(IGUR,IGRSPRING,NGRSPRI,8)                        
+           NSEG0 = NSEG0 + GRSIZE_R2R(IGUR,IGRSPRING,NGRSPRI,8)
 C
            NSEG  = NSEG  + GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)
            NSEGC = NSEGC + GRSIZE_R2R(IGUTG,IGRSH3N,NGRSH3N,9)
-           NSEG0 = NSEG0 + GRSIZE_R2R(IGUTG,IGRSH3N,NGRSH3N,8)                         
+           NSEG0 = NSEG0 + GRSIZE_R2R(IGUTG,IGRSH3N,NGRSH3N,8)
 C                                                                                   
            TAGSEC(I)=ID
            COMPT = COMPT + 1
@@ -209,45 +209,45 @@ C-------------multidomains interface sections
               CALL ANCMSG(MSGID=1006,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID)         
+     .                 I1=ID)
            ELSEIF ((NSEG == 0).AND.(NSEG0 > 0)) THEN
 C------------ external sections : not keeped
              TAGSEC(I)=0
-             COMPT = COMPT - 1                          
-           ENDIF                                                                                                               
-        ELSE           
+             COMPT = COMPT - 1
+           ENDIF
+        ELSE
 C---    
         IF (NFRAM == 0 .AND. ISTYP == 0) THEN
 	         NNOD  = GRSIZEN(IGU,IGRNOD,NGRNOD)
        	ELSE
-          NNOD = 20 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)	   
-          NNOD = NNOD + 4 * GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)	   
-          NNOD = NNOD + 4 * GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)	   
-          NNOD = NNOD + 2 * GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)	   
-          NNOD = NNOD + 2 * GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)	   
-          NNOD = NNOD + 2 * GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)	   
+          NNOD = 20 * GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)	
+          NNOD = NNOD + 4 * GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)	
+          NNOD = NNOD + 4 * GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)	
+          NNOD = NNOD + 2 * GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)	
+          NNOD = NNOD + 2 * GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)	
+          NNOD = NNOD + 2 * GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)	
           NNOD = NNOD + 3 * GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)
 	ENDIF
-        NSEGS = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)        
-        NSEGQ = GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)        
-        NSEGC = GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)        
-        NSEGT = GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)        
-        NSEGP = GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM) 
+        NSEGS = GRSIZE_ELE(IGUS,IGRBRIC,NGRBRIC)
+        NSEGQ = GRSIZE_ELE(IGUQ,IGRQUAD,NGRQUAD)
+        NSEGC = GRSIZE_ELE(IGUC,IGRSH4N,NGRSHEL)
+        NSEGT = GRSIZE_ELE(IGUT,IGRTRUSS,NGRTRUS)
+        NSEGP = GRSIZE_ELE(IGUP,IGRBEAM,NGRBEAM)
         NSEGR = GRSIZE_ELE(IGUR,IGRSPRING,NGRSPRI)
         IF (NB_SEATBELT_SHELLS /=0)
      .    NSEGR = NSEGR + GRSIZE_ELE_TRANS(IGUC,IGRSH4N,NGRSHEL,SEATBELT_SHELL_TO_SPRING)
-        NSEGTG = GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)      
+        NSEGTG = GRSIZE_ELE(IGUTG,IGRSH3N,NGRSH3N)
 C---    
         SNSTRF = SNSTRF +30 + NBINTER + NNOD + 2*(NSEGS+NSEGQ+NSEGC+NSEGT+NSEGP+NSEGR+NSEGTG)
         SSECBUF=SSECBUF+10
         IF(ISAV >= 100) SSECBUF=SSECBUF+12*NNOD
         IF(ISAV >= 101) SSECBUF=SSECBUF+12*NNOD
-        IF(ISAV >= 102) SSECBUF=SSECBUF+6*NNOD 
-        ENDIF            
+        IF(ISAV >= 102) SSECBUF=SSECBUF+6*NNOD
+        ENDIF
       ENDDO
 C      
       IF (FLAG_R2R == 2) NSECT = COMPT
-            
+
 C-----------
       RETURN
 C-----------

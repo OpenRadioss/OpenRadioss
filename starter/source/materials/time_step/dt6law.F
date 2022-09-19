@@ -76,27 +76,27 @@ C=======================================================================
          TMU(I) =PM(81,MX)
          VIS(I) = ZERO
       END DO
-      
+
       IF(JTUR/=0)THEN
          DO I=LFT,LLT
             TMU(I)=TMU(I)*RK(I)*RK(I) / MAX(EM15,RE(I))
             VIS(I)=VIS(I)+TMU(I)
          END DO
       ENDIF
-      
+
       DO I=LFT,LLT
          ESPE(I)=EINT(I)
       END DO
-      
+
       DO I=LFT,LLT
          DPDM(I)=C2(I)+C6(I)*ESPE(I)
      .        +C5(I)*(C1(I)+C5(I)*ESPE(I))
       END DO
-      
+
       DO I=LFT,LLT
          SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       END DO
-      
+
       IF(JSPH==0)THEN
          CALL DTEL(SSP,PM,GEO,PID,MAT, RHO0, VIS, DELTAX, AIRE, VOL, DTX)
       ELSE

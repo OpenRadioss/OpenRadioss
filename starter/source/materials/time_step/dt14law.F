@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER I, MX
 C     REAL
       my_real
-     .   SSP(MVSIZ), RHO0(MVSIZ), VIS(MVSIZ)    
+     .   SSP(MVSIZ), RHO0(MVSIZ), VIS(MVSIZ)
 C---------------------------------
 C     RECUPERATION DE LA VITESSE DU SON
 C=======================================================================
@@ -62,7 +62,7 @@ C=======================================================================
       MX      =MAT(I)
       SSP(I)  =PM(49,MX)
       RHO0(I) =PM( 1,MX)
-      VIS(I)  =ZERO 
+      VIS(I)  =ZERO
       END DO
 C------------------------------
 C     CALCUL DU DT ELEM

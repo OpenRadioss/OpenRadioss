@@ -195,10 +195,10 @@ C
                CALL MPI_SEND(RBUF, LEN, REAL, IT_SPMD(1),
      .                       ITAG, MPI_COMM_WORLD, IERR)
 C
-               DEALLOCATE(RBUF)        
+               DEALLOCATE(RBUF)
             ENDIF
          ENDIF
-      ENDDO      
+      ENDDO
 C
 #endif
       RETURN

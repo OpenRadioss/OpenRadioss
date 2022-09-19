@@ -27,47 +27,47 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_R_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE VELVEC(V,NNWL,NNSRG)                                   
+      SUBROUTINE VELVEC(V,NNWL,NNSRG)
 C-----------------------------s------------------                       
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com01_c.inc"                                             
-#include      "com04_c.inc"                                             
-#include      "scr05_c.inc"                                             
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
 C     REAL                                                    
-      my_real                                                           
-     .   V(3,*)                                                         
+      my_real
+     .   V(3,*)
 C     REAL                                                    
-      my_real                                                           
-     .   S3000,S                                                        
-      REAL R4                                                           
-      INTEGER I,NNWL,K,P,BUF                                            
-      INTEGER NNSRG                                                     
+      my_real
+     .   S3000,S
+      REAL R4
+      INTEGER I,NNWL,K,P,BUF
+      INTEGER NNSRG
 C-----------------------------------------------                        
-      S3000 = 3000.                                                     
+      S3000 = 3000.
 C                                                                       
-      DO I=1,NUMNOD                                                     
-        R4 = V(1,I)                                                     
-        CALL WRITE_R_C(R4,1)                                            
-        R4 = V(2,I)                                                     
-        CALL WRITE_R_C(R4,1)                                            
-        R4 = V(3,I)                                                     
-        CALL WRITE_R_C(R4,1)                                            
-      ENDDO                                                             
+      DO I=1,NUMNOD
+        R4 = V(1,I)
+        CALL WRITE_R_C(R4,1)
+        R4 = V(2,I)
+        CALL WRITE_R_C(R4,1)
+        R4 = V(3,I)
+        CALL WRITE_R_C(R4,1)
+      ENDDO
 C                                                                       
-      R4 = 0.                                                           
-      DO I=1,NSECT+NRWALL+NNWL+NNSRG                                    
-       CALL WRITE_R_C(R4,1)                                             
-       CALL WRITE_R_C(R4,1)                                             
-       CALL WRITE_R_C(R4,1)                                             
-      ENDDO                                                             
+      R4 = 0.
+      DO I=1,NSECT+NRWALL+NNWL+NNSRG
+       CALL WRITE_R_C(R4,1)
+       CALL WRITE_R_C(R4,1)
+       CALL WRITE_R_C(R4,1)
+      ENDDO
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

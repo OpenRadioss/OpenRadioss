@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        IG3DONEBASIS                  source/elements/ige3d/ig3donebasis.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE DEPLAFAKEIGE(X     ,V    ,INTBUF_TAB,KXIG3D, 
+      SUBROUTINE DEPLAFAKEIGE(X     ,V    ,INTBUF_TAB,KXIG3D,
      .                        IXIG3D,IGEO ,KNOT      ,WIGE  ,
      .                        KNOTLOCPC,KNOTLOCEL  )
 C-----------------------------------------------
@@ -146,7 +146,7 @@ c     2        Z_IGEO    ,W_IGEO    ,IDX       ,IDY     ,
 c     3        IDZ       ,R         ,
 c     4        NCTRL     ,ZR        ,ZS        ,ZT      ,
 c     5        KNOT(IAD_KNOT+1) ,KNOT(IAD_KNOT+NKNOT1+1),
-c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    , 
+c     6        KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)  ,PX-1    ,
 c     7        PY-1      ,PZ-1      ,0)
 
           CALL IG3DONEBASIS(
@@ -155,7 +155,7 @@ c     7        PY-1      ,PZ-1      ,0)
      3      IDZ ,KNOTLOCX ,KNOTLOCY,KNOTLOCZ,
      4      R          ,NCTRL  ,
      5      ZR  ,ZS      ,ZT   ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2,IDY2    ,IDZ2   ,
      9      KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)

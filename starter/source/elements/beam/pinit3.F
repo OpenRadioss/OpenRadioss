@@ -84,15 +84,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IGTYP,NDEPAR,IPID
-      INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),MXT(MVSIZ),MXG(MVSIZ), 
+      INTEGER NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),MXT(MVSIZ),MXG(MVSIZ),
      .   IREL(6,MVSIZ)
       my_real
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),
-     .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ), 
+     .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),
      .   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),
-     .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ), 
-     .   E2X(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),AREA(MVSIZ) , 
-     .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ) 
+     .   E1X(MVSIZ),E1Y(MVSIZ),E1Z(MVSIZ),
+     .   E2X(MVSIZ),E2Y(MVSIZ),E2Z(MVSIZ),AREA(MVSIZ) ,
+     .   E3X(MVSIZ),E3Y(MVSIZ),E3Z(MVSIZ),DELTAX(MVSIZ),DTX(MVSIZ)
       INTEGER IDMIN,IDMAX
       DATA IDMIN /-1/,IDMAX /-1/
       my_real :: LGTHMIN,LGTHMAX
@@ -102,7 +102,7 @@ C
 C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
 C
-      CALL PCOORI(X,IC(1,NFT+1), 
+      CALL PCOORI(X,IC(1,NFT+1),
      .            MXT,MXG ,NC1,NC2,NC3,DELTAX,
      .            X1,X2,X3, Y1,Y2,Y3, Z1,Z2,Z3)
 c

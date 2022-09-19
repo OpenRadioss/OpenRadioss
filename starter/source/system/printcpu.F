@@ -49,30 +49,30 @@ C-----------------------------------------------
         CALL CPUINFO(HOSTNAME,LENH,CPUNAM, LENC, FREQUENCE,MEM,SWAP)
 
         IF(MEM>-1)THEN
-          WRITE(IOUT,*)' ' 
-          WRITE(IOUT,7000) 
-          WRITE(IOUT,*)' ' 
+          WRITE(IOUT,*)' '
+          WRITE(IOUT,7000)
+          WRITE(IOUT,*)' '
 
-          WRITE(IOUT,7400) 
+          WRITE(IOUT,7400)
 
           WRITE(IOUT,'(A,A,A,A,A,I4,A,I6,A,I6,A)') ' ',
      .    HOSTNAME(1:LENH),'   ',CPUNAM(1:LENC),', ',FREQUENCE,
      .    ' MHz, ',MEM,' MB RAM, ',SWAP,' MB swap'
 
-          WRITE(IOUT,*)' ' 
+          WRITE(IOUT,*)' '
 
         ELSE
-          WRITE(IOUT,*)' ' 
-          WRITE(IOUT,7000) 
-          WRITE(IOUT,*)' ' 
+          WRITE(IOUT,*)' '
+          WRITE(IOUT,7000)
+          WRITE(IOUT,*)' '
 
-          WRITE(IOUT,7450) 
+          WRITE(IOUT,7450)
 
           WRITE(IOUT,'(A,A,A,A,A,I4,A)') ' ',
      .    HOSTNAME(1:LENH),'   ',CPUNAM(1:LENC),', ',FREQUENCE,
      .    ' MHz '
 
-          WRITE(IOUT,*)' ' 
+          WRITE(IOUT,*)' '
         ENDIF
 
  7000 FORMAT (' COMPUTATION HARDWARE DESCRIPTION')

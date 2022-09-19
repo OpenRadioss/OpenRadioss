@@ -65,7 +65,7 @@ C   Tableau utilise par proc 0
 C=======================================================================
        ALLOCATE(BUFSR(NUMNODM), IBUF(NUMNODM))
        ALLOCATE(XGLOB(NUM))
-    
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -81,11 +81,11 @@ C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
+         MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -111,12 +111,12 @@ C   Reception du buffer entier des adresses NODGLOB
 
 C   Reception du buffer flottant des adresses NODGLOB
 
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ
- 
+
             DO K = 1, NREC
               NG = IBUF(K)
               XGLOB(NG) = BUFSR(K)

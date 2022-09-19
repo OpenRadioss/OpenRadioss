@@ -91,8 +91,8 @@ C--------------------------------
           TDELAY  = SENSOR(1,IS1)
           TSTART1 = SENSOR(2,IS1)
           TYP1    = LSENSOR(2,IS1)
-          IF (TYP1 == 0 .or. TYP1==3 .OR. TYP1==4 .OR. TYP1==5 .OR. TYP1==8 .OR.    
-     .        TYP1==9) THEN                                          
+          IF (TYP1 == 0 .or. TYP1==3 .OR. TYP1==4 .OR. TYP1==5 .OR. TYP1==8 .OR.
+     .        TYP1==9) THEN
             IF (LSENSOR(3,IS1) == 0) THEN
               TSTART1=EP20
             END IF
@@ -166,8 +166,8 @@ C--------------------------------
           TSTART1 = SENSOR(2,IS1)
           TSTART2 = SENSOR(2,IS2)
           IF (LSENSOR(3,K) == 0) THEN
-            IF (TYP1==0 .OR. TYP1==3 .OR. TYP1==4 .OR. TYP1==5 .OR. TYP1==8 .OR.    
-     .          TYP1==9) THEN                                          
+            IF (TYP1==0 .OR. TYP1==3 .OR. TYP1==4 .OR. TYP1==5 .OR. TYP1==8 .OR.
+     .          TYP1==9) THEN
               IF (LSENSOR(3,IS1) == 0) THEN
                 TSTART1=EP20
               END IF
@@ -184,7 +184,7 @@ C--------------------------------
             ENDIF
           ELSE IF (LSENSOR(3,K) == 1 .and. TT < TSTART1 .and. TT < TSTART2) THEN
               ACTI = 2
-              SENSOR(2,K) = EP20          
+              SENSOR(2,K) = EP20
           ENDIF
         ELSEIF(TYP == 8)THEN
 C--------------------------------
@@ -193,8 +193,8 @@ C--------------------------------
           NSENS = LSENSOR(1,K)
           IS1   = LSENSOR(4,K)
           TYP1  = LSENSOR(2,IS1)
-          IF (TYP1 == 0 .or. TYP1==3 .OR. TYP1==4 .OR. TYP1==5 .OR. TYP1==8 .OR.    
-     .        TYP1==9) THEN                                          
+          IF (TYP1 == 0 .or. TYP1==3 .OR. TYP1==4 .OR. TYP1==5 .OR. TYP1==8 .OR.
+     .        TYP1==9) THEN
             IF (LSENSOR(3,IS1) == 1)THEN
               IF (LSENSOR(3,K) == 1) THEN
                 ACTI = 2
@@ -206,7 +206,7 @@ C--------------------------------
                 SENSOR(2,K) = TT
               END IF
             ENDIF
-          ELSEIF  (TYP1==13) THEN    
+          ELSEIF  (TYP1==13) THEN
             TSTART1 = SENSOR(2,IS1)
             IF (TT >= TSTART1) THEN
               IF (LSENSOR(3,K) == 1) ACTI = 2
@@ -281,13 +281,13 @@ C
         IF (ACTI == 1) THEN
 C#include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 C#include "lockoff.inc"
         ELSEIF(ACTI == 2)THEN
 C#include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' DEACTIVATED AT TIME ',TT
 C#include "lockoff.inc"
          ENDIF

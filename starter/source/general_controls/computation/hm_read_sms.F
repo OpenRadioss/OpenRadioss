@@ -121,12 +121,12 @@ C
             WRITE(IOUT,2200) IDTGRS
             ISMS_SELEC = 4
           ENDIF
-          WRITE(IOUT,2300) DT_SMS_SWITCH    
+          WRITE(IOUT,2300) DT_SMS_SWITCH
         ENDIF
 C
         IDTGRS = -IDTGRS
         IREST_MSELT=1
-      END IF                            
+      END IF
 C--------------------------------------------------
  2000 FORMAT(//
      .  '    ADVANCED MASS SCALING:                           ',/
@@ -198,7 +198,7 @@ C
       TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:ROOTLEN+3)
          OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
-      ENDIF      
+      ENDIF
 
       IF (IO_ERR1==0) THEN
 C
@@ -213,7 +213,7 @@ C
           ENDIF
           READ(71,*,END=20) DTSCA,DTMINI
           IF (DTSCA == ZERO) DTSCA = ZEP9
-          DT_SMS_SWITCH = DTMINI / DTSCA      
+          DT_SMS_SWITCH = DTMINI / DTSCA
         ENDIF
 C
         GOTO 10
@@ -228,10 +228,10 @@ C
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_2,
      .              C1=ROOTNAM(1:ROOTLEN)//'_0001.rad',
-     .              C2=ROOTNAM(1:ROOTLEN)//'D01')   
+     .              C2=ROOTNAM(1:ROOTLEN)//'D01')
 C
       ENDIF
-                   
+
 C------------------------------------------- 
       RETURN
       END
@@ -279,7 +279,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KK, N, I, IAD, IP, 
+      INTEGER KK, N, I, IAD, IP,
      .        NG, J, ITY, NEL, NFT
 C--------------------------------------------------
        IF(IDTGRS/=0)THEN
@@ -303,7 +303,7 @@ C------
           DO I=1,IGRPART(IDTGRS)%NENTITY
             IP=IGRPART(IDTGRS)%ENTITY(I)
             TAGPRT_SMS(IP)=1
-          END DO       
+          END DO
         END IF
 C------
       ELSEIF (ISMS_SELEC/=3) THEN

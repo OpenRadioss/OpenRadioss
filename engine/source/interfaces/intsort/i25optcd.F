@@ -102,7 +102,7 @@ C-----------------------------------------------
 C------
 C initialize PMAX_GAP to Zero for future treatments in force computation.
       PMAX_GAP   = ZERO
- 
+
       MSEG = NVSIZ
       FIRST = 1 + I_STOK*ITASK / NTHREAD
       LAST = I_STOK*(ITASK+1) / NTHREAD
@@ -265,30 +265,30 @@ C---------
             MG = IRTLM_FI(NIN)%P(1,II)
             KLEAVE = IRTLM_FI(NIN)%P(3,II)
             IF(STIFI(NIN)%P(II)/=ZERO.AND.STF(L)/=ZERO.AND.MG==0.AND.KLEAVE/=-1)THEN
-              ZI = XFI(NIN)%P(3,II)                                     
-              IX1(IS)=IRECT(1,L)                                        
-              Z1=X(3,IX1(IS))                                           
-              IX2(IS)=IRECT(2,L)                                        
-              Z2=X(3,IX2(IS))                                           
-              IX3(IS)=IRECT(3,L)                                        
-              Z3=X(3,IX3(IS))                                           
-              IX4(IS)=IRECT(4,L)                                        
-              Z4=X(3,IX4(IS))                                           
-              VZI = VFI(NIN)%P(3,II)                                    
-              VZ1=V(3,IX1(IS))                                          
-              VZ2=V(3,IX2(IS))                                          
-              VZ3=V(3,IX3(IS))                                          
-              VZ4=V(3,IX4(IS))                                          
-              VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4)) 
+              ZI = XFI(NIN)%P(3,II)
+              IX1(IS)=IRECT(1,L)
+              Z1=X(3,IX1(IS))
+              IX2(IS)=IRECT(2,L)
+              Z2=X(3,IX2(IS))
+              IX3(IS)=IRECT(3,L)
+              Z3=X(3,IX3(IS))
+              IX4(IS)=IRECT(4,L)
+              Z4=X(3,IX4(IS))
+              VZI = VFI(NIN)%P(3,II)
+              VZ1=V(3,IX1(IS))
+              VZ2=V(3,IX2(IS))
+              VZ3=V(3,IX3(IS))
+              VZ4=V(3,IX4(IS))
+              VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
 C
               TZINF = MAX(MAX(GAPV(IS)+DGAPLOAD,DRAD),ONEP01*VZ*DT1)
               TZINF = MAX(PREC,TZINF)
-              ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
-              ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
-              IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN                       
-                NLS=NLS+1                                               
-                LIST(NLS)=IS                                            
-              ENDIF    
+              ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
+              ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
+              IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
+                NLS=NLS+1
+                LIST(NLS)=IS
+              ENDIF
             ENDIF
           ENDDO
 C

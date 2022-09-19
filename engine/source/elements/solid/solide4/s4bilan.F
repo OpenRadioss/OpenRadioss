@@ -29,10 +29,10 @@ Chd|        GRELEM_SAV                    source/output/th/grelem_sav.F
 Chd|        SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|====================================================================
       SUBROUTINE S4BILAN(PARTSAV,EINT,RHO,RK,VOL,
-     .   VX1, VX2, VX3, VX4, VY1, VY2, VY3, VY4, 
+     .   VX1, VX2, VX3, VX4, VY1, VY2, VY3, VY4,
      .   VZ1, VZ2, VZ3, VZ4, VNEW,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,EINTTH,FILL ,
-     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
+     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4,
      .   Z1, Z2, Z3, Z4,ITASK,IPARG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -53,14 +53,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .  PARTSAV(NPSAV,*), 
+     .  PARTSAV(NPSAV,*),
      .  EINT(*), RHO(*), RK(*), VOL(*),
-     .  VX1(*), VX2(*), VX3(*), VX4(*), 
-     .  VY1(*), VY2(*), VY3(*), VY4(*), 
-     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), 
+     .  VX1(*), VX2(*), VX3(*), VX4(*),
+     .  VY1(*), VY2(*), VY3(*), VY4(*),
+     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .  VNEW(*),GRESAV(*),EINTTH(*), FILL(*),
-     .  X1(*), X2(*), X3(*), X4(*), 
-     .  Y1(*), Y2(*), Y3(*), Y4(*), 
+     .  X1(*), X2(*), X3(*), X4(*),
+     .  Y1(*), Y2(*), Y3(*), Y4(*),
      .  Z1(*), Z2(*), Z3(*), Z4(*)
       INTEGER IEXPAN,ITASK,
      .  IPARTS(*),GRTH(*),IGRTH(*),IPARG(*)
@@ -70,8 +70,8 @@ C-----------------------------------------------
       INTEGER I, M,FLAG,NXS1,NXS2,NXS3,NXS4
 C     REAL
       my_real
-     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
-     .   VA2(MVSIZ), XMAS(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ),
+     .   VA2(MVSIZ), XMAS(MVSIZ),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ),
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES DEF 
 C-----------------------------------------------
-      DO I=LFT,LLT      
+      DO I=LFT,LLT
         VXA(I)=VX1(I)+VX2(I)+VX3(I)+VX4(I)
         VYA(I)=VY1(I)+VY2(I)+VY3(I)+VY4(I)
         VZA(I)=VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I)
@@ -120,12 +120,12 @@ C
         PARTSAV(4,M)=PARTSAV(4,M) + YM(I)
         PARTSAV(5,M)=PARTSAV(5,M) + ZM(I)
         PARTSAV(6,M)=PARTSAV(6,M) + XMAS(I)
-      ENDDO 
+      ENDDO
 C-----------------------------------------------
 C     CALCUL BILAN SORTIES ADDITIONNELLES 
 C-----------------------------------------------
       IF(FLAG==1) THEN
-        DO I=LFT,LLT      
+        DO I=LFT,LLT
           XX(I)= X1(I)+X2(I)+X3(I)+X4(I)
           YY(I)= Y1(I)+Y2(I)+Y3(I)+Y4(I)
           ZZ(I)= Z1(I)+Z2(I)+Z3(I)+Z4(I)
@@ -181,8 +181,8 @@ C
           PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-          PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
-        ENDDO 
+          PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
+        ENDDO
       ENDIF
 C
 C-----------------------------------------------
@@ -214,7 +214,7 @@ C
       ENDIF
 
       OFF_L(LFT:LLT) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
       RETURN
       END

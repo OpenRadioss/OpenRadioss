@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .        RXL,RYL,RZL,SXL,SYL,SSZL,R11L,R12L,R13L,
      .        R21L,R22L,R23L,R31L,R32L,R33L,XX,YY,ZZ,OFFBL,DETA1L
 C---------------------------------------------------------
@@ -69,8 +69,8 @@ C
 C
       OFFBL = ONE
       CALL CLSKEW3(1,1,IREP,
-     .             RXL, RYL, RZL, 
-     .             SXL, SYL, SSZL, 
+     .             RXL, RYL, RZL,
+     .             SXL, SYL, SSZL,
      .             R11L,R12L,R13L,R21L,R22L,R23L,R31L,R32L,R33L,DETA1L,OFFBL)
 C
       XX=X(1,IXC(3,J))-X(1,IXC(2,J))

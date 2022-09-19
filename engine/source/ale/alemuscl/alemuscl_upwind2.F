@@ -31,7 +31,7 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|        SEGVAR_MOD                    share/modules/segvar_mod.F    
 Chd|====================================================================
-      SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPH, X, IXQ, FLUX_VOIS, 
+      SUBROUTINE ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPH, X, IXQ, FLUX_VOIS,
      .     N4_VOIS, ITAB, NV46, ITRIMAT, SEGVAR)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -42,9 +42,9 @@ C     2 - reconstruct a value for volumic fraction on each edge of the mesh
 C         based on an affine approximation
 C     3 - upwind this value on the edge and store it in the flux
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
-      USE I22TRI_MOD 
-      USE ALEMUSCL_MOD 
+      USE I22BUFBRIC_MOD
+      USE I22TRI_MOD
+      USE ALEMUSCL_MOD
       USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
@@ -106,7 +106,7 @@ C-----------------------------------------------
          II = I + NFT
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
          !!! Element centroid
-         YK = ELCENTER(2, II) ; ZK = ELCENTER(3, II) 
+         YK = ELCENTER(2, II) ; ZK = ELCENTER(3, II)
          !!! Neighboors
          DO KK = 1, NV46
             !!! Only for outgoing fluxes
@@ -116,7 +116,7 @@ C-----------------------------------------------
                FACE_NEIGHBOOR(KK) = KK
                IF (NEIGHBOOR_LIST(KK) <= 0) THEN
                   IF(NEIGHBOOR_LIST(KK)==0)NEIGHBOOR_LIST(KK) = II
-                  !case <0 is for eBCS. -NEIGHBOR_LIST is then the segment number                  
+                  !case <0 is for eBCS. -NEIGHBOR_LIST is then the segment number
                ELSEIF (NEIGHBOOR_LIST(KK) <= NUMELQ) THEN
                   IAD3 = ALE_CONNECT%ee_connect%iad_connect(NEIGHBOOR_LIST(KK))
                   !!! Store the face number to which II and NEIGHBOR_LIST(KK) are adjacent
@@ -126,7 +126,7 @@ C-----------------------------------------------
                      ENDIF
                   ENDDO  ! JJ = 1, NV46
                ENDIF
-               
+
                NODEID1 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 1), II)
                NODEID2 = IXQ(1 + FACE_TO_NODE_LOCAL_ID(KK, 2), II)
 
@@ -134,10 +134,10 @@ C-----------------------------------------------
                ZF = HALF * (X(3, NODEID1) + X(3, NODEID2))
 
                !!! Reconstruct second order value for ALPHA(II) on the face
-               ALPHAK = VOLUME_FRACTION(ITRIMAT, II) 
-     .              + GRAD(ITRIMAT, 2, II) * (YF - YK) 
+               ALPHAK = VOLUME_FRACTION(ITRIMAT, II)
+     .              + GRAD(ITRIMAT, 2, II) * (YF - YK)
      .              + GRAD(ITRIMAT, 3, II) * (ZF - ZK)
-              
+
                !!! Partial volume flux is then computed as:
                FLUX(KK, II) = ALPHAK * FLUX(KK, II)
                IF (NEIGHBOOR_LIST(KK) > 0)THEN
@@ -156,21 +156,21 @@ C-----------------------------------------------
             ENDIF  ! (FLUX(KK, II) > ZERO)
          ENDDO  ! KK = 1, NV46
       ENDDO  ! I = LFT, LLT
-      
+
 C-----------------------------------------------
 C         flux entrant par EBCS 
 C-----------------------------------------------
           IF(NSEGFLU > 0)THEN
             DO I = LFT, LLT
-              II = I + NFT 
+              II = I + NFT
               IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
-              DO KK=1,4                                                                
-                IF(FLUX(KK,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN  
-                  FLUX(KK,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(KK,II)    
-                ENDIF                                                                 
-              ENDDO                                                                   
-             ENDDO  
-          ENDIF 
-                
+              DO KK=1,4
+                IF(FLUX(KK,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1) < 0)THEN
+                  FLUX(KK,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + KK - 1))*FLUX(KK,II)
+                ENDIF
+              ENDDO
+             ENDDO
+          ENDIF
+
 C-----------------------------------------------
       END SUBROUTINE ALEMUSCL_UPWIND2

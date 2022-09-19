@@ -86,39 +86,39 @@ CC dans INTBUF_TAB%NIGE, on ecrit tout les points fictifs secnd puis les points 
 c NIGE est offsete a l'appel de la routine
 
       DO J=1,MSN_IGE
-        NIGE(J)=NIGE_TMP(J+IADTABIGE) 
-        RIGE(:,J)=RIGE_TMP(:,J+IADTABIGE)       
-        XIGE(:,J)=XIGE_TMP(:,J+IADTABIGE)                                     
-        VIGE(:,J)=VIGE_TMP(:,J+IADTABIGE)  
-        XIGE(:,J)=XIGE_TMP(:,J+IADTABIGE) 
+        NIGE(J)=NIGE_TMP(J+IADTABIGE)
+        RIGE(:,J)=RIGE_TMP(:,J+IADTABIGE)
+        XIGE(:,J)=XIGE_TMP(:,J+IADTABIGE)
+        VIGE(:,J)=VIGE_TMP(:,J+IADTABIGE)
+        XIGE(:,J)=XIGE_TMP(:,J+IADTABIGE)
       ENDDO
-      DO J=OFFSET_SEG+1,OFFSET_SEG+NRT_IGE                                            
-        DO K=1,4                                          
+      DO J=OFFSET_SEG+1,OFFSET_SEG+NRT_IGE
+        DO K=1,4
           IRECT(K,J)=SURF_NODES_IGE(J,K)+OFFSET_NODE
-        ENDDO    
-      ENDDO                                                 
+        ENDDO
+      ENDDO
 C-------    
-      IF(IR/=0.AND.IR/=2)THEN              
-        DO J=OFFSET_SEG+1,OFFSET_SEG+NRT_IGE                 
-          IR1=IRECT(1,J)           
-          IRECT(1,J)=IRECT(2,J)    
-          IRECT(2,J)=IR1           
-          IR1=IRECT(3,J)           
-          IRECT(3,J)=IRECT(4,J)    
-          IRECT(4,J)=IR1            
-        ENDDO                      
-      ENDIF                        
-      N23=4                        
+      IF(IR/=0.AND.IR/=2)THEN
+        DO J=OFFSET_SEG+1,OFFSET_SEG+NRT_IGE
+          IR1=IRECT(1,J)
+          IRECT(1,J)=IRECT(2,J)
+          IRECT(2,J)=IR1
+          IR1=IRECT(3,J)
+          IRECT(3,J)=IRECT(4,J)
+          IRECT(4,J)=IR1
+        ENDDO
+      ENDIF
+      N23=4
 C-------          
-      IF(IPRI>=1) THEN                                              
-        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR ISOGEOMETRIC SURFACE DEFINITION'  
+      IF(IPRI>=1) THEN
+        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR ISOGEOMETRIC SURFACE DEFINITION'
         K=1
         K4=4
-        DO I=OFFSET_SEG+1,OFFSET_SEG+NRT_IGE  
+        DO I=OFFSET_SEG+1,OFFSET_SEG+NRT_IGE
           WRITE(IOUT,FMT=FMW_4I)(IRECT(K,I),K=1,K4)  !  ECRITURE NON DEFINITIVE
-        ENDDO                                                         
-      ENDIF                                                           
-      IF (NRT_IGE/=0) CALL COUNTIGEO(IRECT,MSV,MSN_IGE,NRT_IGE,OFFSET_SEG)                    
+        ENDDO
+      ENDIF
+      IF (NRT_IGE/=0) CALL COUNTIGEO(IRECT,MSV,MSN_IGE,NRT_IGE,OFFSET_SEG)
 C------------------------------------------------------------
       RETURN
       END

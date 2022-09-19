@@ -42,7 +42,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -73,8 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER
      .        IGTYP , IGEO(*) ,ISKN(LISKN,*) ,ITABM1(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real GEO(*)
@@ -83,10 +83,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IG, ISMSTR, NIP, J,K ,NPTS , 
+      INTEGER IG, ISMSTR, NIP, J,K ,NPTS ,
      .   IHBE,ISH3N,ISROT ,I8PT ,ISK,IHON ,ITU ,IRB,
      .    IGFLU ,IHBE_OLD
-     
+
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    FAC_L,FAC_T,FAC_M, PTHK, AN, PHI
@@ -154,7 +154,7 @@ C        Double stockage temporaire - supprimer GEO(12,I)=IGTYP apres tests
 	 I8PT=0
 C
 	 IF(ISMSTR==0)ISMSTR=ISST_DS
-         IF (ISMSTR < 0.OR.ISST_DS==-2) ISMSTR=4                            
+         IF (ISMSTR < 0.OR.ISST_DS==-2) ISMSTR=4
          IF(ISMSTR==0)ISMSTR=4
          IF(ISMSTR==3)GEO(5)=EP06
          GEO(3)   =ISMSTR
@@ -253,7 +253,7 @@ C
 
          IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
            IGEO(33) = 1   ! ISVIS flag
-         ENDIF         
+         ENDIF
 
 !     /ALE/CLOSE
 !     ----------
@@ -270,7 +270,7 @@ c----   Solids
           PROP_TAG(IGTYP)%L_VOL  = 1
           PROP_TAG(IGTYP)%L_QVIS = 1
           PROP_TAG(IGTYP)%G_FILL = 1
-          PROP_TAG(IGTYP)%L_STRA = 6 
+          PROP_TAG(IGTYP)%L_STRA = 6
 C-----------
       RETURN
  999  CALL FREERR(3)

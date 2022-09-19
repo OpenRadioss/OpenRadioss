@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -87,12 +87,12 @@ C-----------------------------------------------
 
       CALL HM_GET_INTV  ('A_FUNC'  ,A_fun_id  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('B_FUNC'  ,B_fun_id  ,IS_AVAILABLE,LSUBMODEL)
-      
+
       CALL HM_GET_FLOATV('XscaleA', XSCALE_A, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('XscaleB', XSCALE_B, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      
-      CALL HM_GET_FLOATV('FscaleA', FSCALE_A, IS_AVAILABLE,LSUBMODEL,UNITAB)              
-      CALL HM_GET_FLOATV('FscaleB', FSCALE_B, IS_AVAILABLE,LSUBMODEL,UNITAB)                    
+
+      CALL HM_GET_FLOATV('FscaleA', FSCALE_A, IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('FscaleB', FSCALE_B, IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       CALL HM_GET_FLOATV('PSH', PSH, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -107,7 +107,7 @@ C-----------------------------------------------
      .               C1='/EOS/TABULATED',
      .               C2='NO INPUT FUNCTION')
       ENDIF
-      
+
       IF(RHO0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -116,16 +116,16 @@ C-----------------------------------------------
      .               C1='/EOS/TABULATED',
      .               C2='REFERENCE DENSITY MUST BE STRICTLY POSITIVE')
       ENDIF
-      
+
       !REFERENCE DENSITY
       RHOR = PM(1)
       RHOI = PM(89)
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       !COMPUTE P0 (stress tensor)
@@ -138,7 +138,7 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
@@ -148,24 +148,24 @@ C-----------------------------------------------
       P0 = ZERO ! A(MU0) + B(MU0)*E0
 
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = ZERO
       RHOI = PM(89)
       DPDMU =  ZERO ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-            
-      !STORAGE    
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+
+      !STORAGE
       PM(23) = E0
-      PM(27) = SSP0      
+      PM(27) = SSP0
       PM(31) = P0-PSH
       PM(88) = PSH
       PM(33) = XSCALE_A
       PM(34) = XSCALE_B
       PM(35) = A_fun_id
       PM(36) = B_fun_id
-      PM(104)= P0-PSH      
+      PM(104)= P0-PSH
       PM(160) = FSCALE_A
       PM(161) = FSCALE_B
 
@@ -188,7 +188,7 @@ C-----------------------------------------------
      & 5X,'FUNCTION B IDENTIFIER . . . . . . . . . .=',1PG20.13/,
      & 5X,'XSCALE_B. . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'FSCALE_B. . . . . . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'E0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,          
+     & 5X,'E0. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PSH . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY. . . . .  . . . . . . .=',1PG20.13/)
 

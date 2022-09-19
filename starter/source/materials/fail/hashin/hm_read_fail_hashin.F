@@ -44,9 +44,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::MAT_ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -144,7 +144,7 @@ c--------------------------------------------------
       IF (SDELAM == ZERO) SDELAM = ONE
       IF (IMODEL == 0) IMODEL = 1
       IF (ISHELL == 0) ISHELL = 1
-      IF (ISOLID == 0) ISOLID = 1 
+      IF (ISOLID == 0) ISOLID = 1
       IF (RATIO == ZERO) RATIO = ONE
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
@@ -161,7 +161,7 @@ c--------------------------------------------------
       UPARAM(9)  = MSIG12
       UPARAM(10) = MSIG13
       UPARAM(11) = MSIG23
-      UPARAM(12) = ANGLE*PI/HUNDRED80   ! degre ---> radian 
+      UPARAM(12) = ANGLE*PI/HUNDRED80   ! degre ---> radian
       UPARAM(13) = SDELAM
       UPARAM(14) = TMAX
       UPARAM(15) = ISHELL
@@ -169,13 +169,13 @@ c--------------------------------------------------
       UPARAM(17) = RATIO
       UPARAM(18) = DMG_FLAG
       UPARAM(19) = TMOD
-      UPARAM(20) = EPSP_REF 
-      UPARAM(21) = TCUT 
-      UPARAM(22) = EPSP_MIN 
-      UPARAM(23) = FRWAVE 
-      UPARAM(24) = SOFT1 
-      UPARAM(25) = SOFT2 
-      UPARAM(26) = SOFT3 
+      UPARAM(20) = EPSP_REF
+      UPARAM(21) = TCUT
+      UPARAM(22) = EPSP_MIN
+      UPARAM(23) = FRWAVE
+      UPARAM(24) = SOFT1
+      UPARAM(25) = SOFT2
+      UPARAM(26) = SOFT3
 c-----------------------------------------------------
       NUPARAM = 26
       NFUNC   = 0
@@ -186,13 +186,13 @@ c-----------------------------------------------------
       ELSE
          WRITE(IOUT, 1100) MAT_ID,FAIL_ID,SIGT1,SIGT2,SIGT3,SIGC1,SIGC2,
      .                  CSIG,FSIG12,MSIG12,MSIG23,MSIG13,
-     .                  ANGLE,SDELAM, IMODEL,RATIO,TMAX, 
+     .                  ANGLE,SDELAM, IMODEL,RATIO,TMAX,
      .                  TMOD,EPSP_REF,TCUT,EPSP_MIN,FRWAVE
         IF (FRWAVE > 1) WRITE(IOUT, 1200) SOFT1
       ENDIF
 c-----------
       RETURN
-c-------------------------------------------------- 
+c--------------------------------------------------
  1000 FORMAT(
      & 5X,'    CRYPTED DATA IN FAILURE MODEL            '/,
      & 5X,'    -----------------------------            '/)
@@ -213,7 +213,7 @@ c--------------------------------------------------
      & 5X,'Matrix mode shear strength (plane 13 ) . . . =',E12.4/
      & 5X,'Coulomb friction angle and delamination' /,
      & 5X, '                              failure < 90°  =',E12.4/
-     & 5X,'Scale factor for delamination criteria . . . =',E12.4/     
+     & 5X,'Scale factor for delamination criteria . . . =',E12.4/
      & 5X,'Material failure model: . .  . . . . . . . . =',I10 /
      & 15X,          '1: Unidirectional layer model'  ,/
      & 15X,          '2: Fabric layer model        '  ,/
@@ -222,8 +222,8 @@ c--------------------------------------------------
      & 5X,'Relaxation time calculation  : . .  . . . . .=',I10 /
      & 15X,          '1     : Based on timestep'  ,/
      & 15X,           'Other value : Constant   ' ,/
-     & 5X,'Ref strain rate. . . . . . . . . . . . . . . =',E12.4/     
-     & 5X,'Strain rate cutoff period. . . . . . . . . . =',E12.4/      
+     & 5X,'Ref strain rate. . . . . . . . . . . . . . . =',E12.4/
+     & 5X,'Strain rate cutoff period. . . . . . . . . . =',E12.4/
      & 5X,'Low strain rate limit . . .. . . . . . . . . =',E12.4/
      & 5X,'Front Wave :  . . . .  . . . . . . . . . . . =',I10 /
      & 15X,          '1: No frontwave propagation        ',/

@@ -32,7 +32,7 @@ Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F
 Chd|====================================================================
       SUBROUTINE ASSEM_S8(
      1                   IXS   ,NEL   ,IDDL  ,NDOF  ,K_DIAG,
-     2                   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     
+     2                   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,
      3                   K13   ,K14   ,K15   ,K16   ,K17   ,
      4                   K18   ,K22   ,K23   ,K24   ,K25   ,
      5                   K26   ,K27   ,K28   ,K33   ,K34   ,
@@ -56,7 +56,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),NEL   ,IDDL(*)  ,NDOF(*)  ,
-     .          IADK(*)  ,JDIK(*)        
+     .          IADK(*)  ,JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,
@@ -67,7 +67,7 @@ C     REAL
      .   K33(3,3,*),K34(3,3,*),K35(3,3,*),K36(3,3,*),
      .   K37(3,3,*),K38(3,3,*),K44(3,3,*),K45(3,3,*),
      .   K46(3,3,*),K47(3,3,*),K48(3,3,*),
-     .   K55(3,3,*),K56(3,3,*),K57(3,3,*),K58(3,3,*), 
+     .   K55(3,3,*),K56(3,3,*),K57(3,3,*),K58(3,3,*),
      .   K66(3,3,*),K67(3,3,*),K68(3,3,*),
      .   K77(3,3,*),K78(3,3,*),K88(3,3,*),OFF(*)
 C-----------------------------------------------
@@ -78,74 +78,74 @@ C----6---------------------------------------------------------------7---------8
        DO K = 1,8
         DO EP = 1,NEL
          NN(EP,K)=IXS(K+1,EP)
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
 C-------block diagonal k11,k22...k88-----
-       CALL ASSEM_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,K11,3,OFF) 
-       CALL ASSEM_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,K22,3,OFF) 
-       CALL ASSEM_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,K33,3,OFF) 
-       CALL ASSEM_KII(NN(1,4),NEL,IDDL,IADK,K_DIAG,K_LT ,K44,3,OFF) 
-       CALL ASSEM_KII(NN(1,5),NEL,IDDL,IADK,K_DIAG,K_LT ,K55,3,OFF) 
-       CALL ASSEM_KII(NN(1,6),NEL,IDDL,IADK,K_DIAG,K_LT ,K66,3,OFF) 
-       CALL ASSEM_KII(NN(1,7),NEL,IDDL,IADK,K_DIAG,K_LT ,K77,3,OFF) 
-       CALL ASSEM_KII(NN(1,8),NEL,IDDL,IADK,K_DIAG,K_LT ,K88,3,OFF) 
+       CALL ASSEM_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,K11,3,OFF)
+       CALL ASSEM_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,K22,3,OFF)
+       CALL ASSEM_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,K33,3,OFF)
+       CALL ASSEM_KII(NN(1,4),NEL,IDDL,IADK,K_DIAG,K_LT ,K44,3,OFF)
+       CALL ASSEM_KII(NN(1,5),NEL,IDDL,IADK,K_DIAG,K_LT ,K55,3,OFF)
+       CALL ASSEM_KII(NN(1,6),NEL,IDDL,IADK,K_DIAG,K_LT ,K66,3,OFF)
+       CALL ASSEM_KII(NN(1,7),NEL,IDDL,IADK,K_DIAG,K_LT ,K77,3,OFF)
+       CALL ASSEM_KII(NN(1,8),NEL,IDDL,IADK,K_DIAG,K_LT ,K88,3,OFF)
 C-------non diag kij-----
        CALL ASSEM_KIJ(NN(1,1),NN(1,2),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K12,3,OFF) 
+     .                 K_DIAG,K_LT,K12,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K13,3,OFF) 
+     .                 K_DIAG,K_LT,K13,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K14,3,OFF) 
+     .                 K_DIAG,K_LT,K14,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,5),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K15,3,OFF) 
+     .                 K_DIAG,K_LT,K15,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K16,3,OFF) 
+     .                 K_DIAG,K_LT,K16,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K17,3,OFF) 
+     .                 K_DIAG,K_LT,K17,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K18,3,OFF) 
+     .                 K_DIAG,K_LT,K18,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K23,3,OFF) 
+     .                 K_DIAG,K_LT,K23,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K24,3,OFF) 
+     .                 K_DIAG,K_LT,K24,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,5),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K25,3,OFF) 
+     .                 K_DIAG,K_LT,K25,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K26,3,OFF) 
+     .                 K_DIAG,K_LT,K26,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K27,3,OFF) 
+     .                 K_DIAG,K_LT,K27,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K28,3,OFF) 
+     .                 K_DIAG,K_LT,K28,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K34,3,OFF) 
+     .                 K_DIAG,K_LT,K34,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,5),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K35,3,OFF) 
+     .                 K_DIAG,K_LT,K35,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K36,3,OFF) 
+     .                 K_DIAG,K_LT,K36,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K37,3,OFF) 
+     .                 K_DIAG,K_LT,K37,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K38,3,OFF) 
+     .                 K_DIAG,K_LT,K38,3,OFF)
        CALL ASSEM_KIJ(NN(1,4),NN(1,5),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K45,3,OFF) 
+     .                 K_DIAG,K_LT,K45,3,OFF)
        CALL ASSEM_KIJ(NN(1,4),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K46,3,OFF) 
+     .                 K_DIAG,K_LT,K46,3,OFF)
        CALL ASSEM_KIJ(NN(1,4),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K47,3,OFF) 
+     .                 K_DIAG,K_LT,K47,3,OFF)
        CALL ASSEM_KIJ(NN(1,4),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K48,3,OFF) 
+     .                 K_DIAG,K_LT,K48,3,OFF)
        CALL ASSEM_KIJ(NN(1,5),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K56,3,OFF) 
+     .                 K_DIAG,K_LT,K56,3,OFF)
        CALL ASSEM_KIJ(NN(1,5),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K57,3,OFF) 
+     .                 K_DIAG,K_LT,K57,3,OFF)
        CALL ASSEM_KIJ(NN(1,5),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K58,3,OFF) 
+     .                 K_DIAG,K_LT,K58,3,OFF)
        CALL ASSEM_KIJ(NN(1,6),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K67,3,OFF) 
+     .                 K_DIAG,K_LT,K67,3,OFF)
        CALL ASSEM_KIJ(NN(1,6),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K68,3,OFF) 
+     .                 K_DIAG,K_LT,K68,3,OFF)
        CALL ASSEM_KIJ(NN(1,7),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                K_DIAG, K_LT,K78,3,OFF) 
+     .                K_DIAG, K_LT,K78,3,OFF)
 C
 C----6---------------------------------------------------------------7---------8
       RETURN

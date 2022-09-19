@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER K, I1, IADNOD
 C     REAL
       my_real
-     .       XM, XK, XC, A     
+     .       XM, XK, XC, A
 C-----------------------------------------------
       IADNOD=KXX(4)
 C-----
@@ -67,7 +67,7 @@ C          were returned by user routine.
         XM= MS(I1)
         XC= UVISCM(K)
         A = XC/SQRT(FOUR*XK*XM)
-        XK= XK/(SQRT(A**2+ ONE)-A)**2  
+        XK= XK/(SQRT(A**2+ ONE)-A)**2
        ELSEIF (XK/=ZERO) THEN
        ELSE
         XC= UVISCM(K)
@@ -122,7 +122,7 @@ C-----------------------------------------------
       INTEGER K, I1, IADNOD
 C     REAL
       my_real
-     .       XM, XK, XC, A      
+     .       XM, XK, XC, A
 C-----------------------------------------------
 C     ASSEMBLE
 C-------------------------
@@ -138,7 +138,7 @@ C          were returned by user routine.
         XM= MS(I1)
         XC= UVISCM(K)
         A = XC/SQRT(FOUR*XK*XM)
-        XK= XK/(SQRT(A**2+ ONE)-A)**2  
+        XK= XK/(SQRT(A**2+ ONE)-A)**2
        ELSEIF (XK/=ZERO) THEN
        ELSE
         XC= UVISCM(K)

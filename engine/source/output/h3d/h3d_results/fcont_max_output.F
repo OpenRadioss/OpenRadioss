@@ -48,7 +48,7 @@ C-----------------------------------------------
       my_real
      .   CONT(3,*),FCONTG(3,*),FCONT_MAX(3,*)
       my_real  FOLD, FNEW, FMAX
-      INTEGER I,K,N  
+      INTEGER I,K,N
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: FCONT_TMP,FCONT_TMP_P
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
              FOLD = FCONT_MAX(1,N)**2 + FCONT_MAX(2,N)**2 +FCONT_MAX(3,N)**2
              FMAX = MAX(FNEW,FOLD)
              IF(FNEW > FOLD) THEN
-                FCONT_MAX(1:3,N) = CONT(1:3,N)   
+                FCONT_MAX(1:3,N) = CONT(1:3,N)
              ENDIF
             ELSE
              CONT(1:3,N) =  ZERO
@@ -69,8 +69,8 @@ C-----------------------------------------------
          ENDDO
       ELSE
 
-         ALLOCATE(FCONT_TMP(3,NUMNOD)) 
-         ALLOCATE(FCONT_TMP_P(3,NUMNODG)) 
+         ALLOCATE(FCONT_TMP(3,NUMNOD))
+         ALLOCATE(FCONT_TMP_P(3,NUMNODG))
 
          DO I=1,NUMNOD
            K=NODGLOB(I)
@@ -90,13 +90,13 @@ C-----------------------------------------------
                   FOLD = FCONT_MAX(1,N)**2 + FCONT_MAX(2,N)**2 +FCONT_MAX(3,N)**2
                   FMAX = MAX(FNEW,FOLD)
                   IF(FNEW > FOLD) THEN
-                     FCONT_MAX(1:3,N) = FCONT_TMP_P(1:3,N)   
+                     FCONT_MAX(1:3,N) = FCONT_TMP_P(1:3,N)
                   ENDIF
                ENDDO
              ENDIF
          ENDIF
          DEALLOCATE( FCONT_TMP_P, FCONT_TMP)
        ENDIF
- 
+
        RETURN
-       END 
+       END

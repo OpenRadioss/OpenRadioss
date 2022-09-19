@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -81,9 +81,9 @@ C-----------------------------------------------
        my_real
      .  FACX,FACY,H,FAC1,FAC2
 C=======================================================================
-      IS_AVAILABLE = .FALSE.                                    
-      NFXTEMP  = 0 
-      IGS = 0          
+      IS_AVAILABLE = .FALSE.
+      NFXTEMP  = 0
+      IGS = 0
 C--------------------------------------------------
 C START BROWSING MODEL IMPTEMP
 C--------------------------------------------------
@@ -95,13 +95,13 @@ C--------------------------------------------------
         TITR = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = ID,
-     .                       OPTION_TITR = TITR) 
+     .                       OPTION_TITR = TITR)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('curveid',IGU,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
-        IF (IGU == 0)THEN 
+        IF (IGU == 0)THEN
             CALL ANCMSG(MSGID=668,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -109,12 +109,12 @@ C--------------------------------------------------
      .                  C2='/IMPTEMP',
      .                  C3=TITR,
      .                  I1=ID)
-        ENDIF                                                       
-        DO J=1,NGRNOD                                               
+        ENDIF
+        DO J=1,NGRNOD
           IF (IGU == IGRNOD(J)%ID) IGS=J
-        ENDDO   
-        NN = 0                                                  
-        IF(IGS /= 0)THEN    
+        ENDDO
+        NN = 0
+        IF(IGS /= 0)THEN
           NN=IGRNOD(IGS)%NENTITY
         ELSE
           CALL ANCMSG(MSGID=53,
@@ -122,9 +122,9 @@ C--------------------------------------------------
      .                ANMODE=ANINFO,
      .                C1='IN /IMPTEM OPTION',
      .                I1=IGU)
-        ENDIF   
+        ENDIF
         NFXTEMP = NFXTEMP + NN
-      ENDDO                                 
+      ENDDO
 C
 C---
       RETURN

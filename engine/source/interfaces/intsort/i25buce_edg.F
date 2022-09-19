@@ -46,7 +46,7 @@ Chd|====================================================================
      D   GAP_E_L, NEDGE_LOCAL ,IFQ   ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,
      F   IFPEN_E  ,IFPEN_E2S ,KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,
-     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,DGAPLOAD) 
+     G   KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -73,15 +73,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, NMN,NOINT,IDT,INACTI,IGAP0,IFQ
-      INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T 
+      INTEGER IRECT(4,*),ITASK,ILEV, IGAP, IEDGE, NEDGE, ESHIFT,NEDGE_T,SSHIFT,NRTM_T
       INTEGER CANDM_E2E(*),CANDS_E2E(*),CAND_A(*),CANDM_E2S(*),CANDS_E2S(*),CAND_B(*),
      .        IFPEN_E(*), IFPEN_E2S(*)
       INTEGER MULNSNE,MULNSNS,NCONT,I_MEM(2),
      .        II_STOK, LL_STOK, ITAB(*),MBINFLG(*), LEDGE(NLEDGE,*), ADMSR(*), MSEGTYP(*)
       INTEGER EBINFLG(*)
       INTEGER :: NEDGE_LOCAL
-      INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ 
-      INTEGER , INTENT(IN) :: 
+      INTEGER , INTENT(IN) :: KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ
+      INTEGER , INTENT(IN) ::
      .        FLAGREMNODE, KREMNODE_EDG(KREMNODE_EDG_SIZ), REMNODE_EDG(REMNODE_EDG_SIZ),
      .        KREMNODE_E2S(KREMNODE_E2S_SIZ), REMNODE_E2S(REMNODE_E2S_SIZ)
 C     REAL
@@ -90,7 +90,7 @@ C     REAL
      .   BMINMA(6),BGAPEMX, MARGE
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .   X(3,*), V(3,*), STF(*), STFE(*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*), 
+     .   X(3,*), V(3,*), STF(*), STFE(*), GAP_M(*), GAP_M_L(*), GAPE(*), GAP_E_L(*),
      .   CAND_P(*), CAND_PS(*), CANDE2E_FX(*), CANDE2E_FY(*), CANDE2E_FZ(*),
      .   CANDE2S_FX(4,*) ,CANDE2S_FY(4,*),CANDE2S_FZ(4,*)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
@@ -107,7 +107,7 @@ C     REAL
       my_real
      .        XYZM(6), AAA, LX, LY, LZ, MY_LX, MY_LY, MY_LZ,DRAD2
       INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       SAVE LX, LY, LZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -157,7 +157,7 @@ c      LX=ZERO
 c      LY=ZERO
 c      LZ=ZERO
 c
-c      CALL MY_BARRIER      
+c      CALL MY_BARRIER
 c
 c      MY_LX=ZERO
 c      MY_LY=ZERO
@@ -176,7 +176,7 @@ c      LY=LY+MY_LY
 c      LZ=LZ+MY_LZ
 c#include      "lockoff.inc"
 c
-c      CALL MY_BARRIER      
+c      CALL MY_BARRIER
 c
 c!$OMP SINGLE
 c      LX=TWO*LX/NEDGE
@@ -196,7 +196,7 @@ c      NBZ = NINT((BMINMA(3)-BMINMA(6))/LZ)
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -209,12 +209,12 @@ c      NBZ = NINT((BMINMA(3)-BMINMA(6))/LZ)
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) stop 678
 c      IF(MAX(NBX,NBY,NBZ) > 100) stop 678
 
@@ -236,7 +236,7 @@ C
      C   CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D   GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
      E   CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
-     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ, 
+     F   KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
      G   DGAPLOAD )
 C
 C     I_MEM /= 0 ==> PAS ASSEZ DE MEMOIRE CANDIDATS

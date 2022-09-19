@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE CREATE_SETCOL_ARRAY(SET,SETCOL_ARRAY ,ARRAY_SIZE, 
+      SUBROUTINE CREATE_SETCOL_ARRAY(SET,SETCOL_ARRAY ,ARRAY_SIZE,
      .                               ISETCOLM  , NSET_COLLECT,
      .                               JCLAUSE ,OPT_G ,IS_AVAILABLE ,
      .                               LSUBMODEL)
@@ -188,7 +188,7 @@ C=======================================================================
            IF(ISETCOLM(J,1)>IDS) EXIT
          ENDDO
 
-         
+
          IF(SETCOL > 0)THEN                 ! 0 if SET was not found
            NINDX=NINDX+1                   !   nb of CLAUSE parts
            PART_READ_TMP(NINDX) = SETCOL
@@ -196,7 +196,7 @@ C=======================================================================
       ENDDO ! DO K=1,IDS_MAX
 
       ! Sort the Readed PARTs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       DO I=1,NINDX
         INDEX(I) = I
@@ -211,8 +211,8 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      ARRAY_SIZE = LIST_SIZE  
-      
+      ARRAY_SIZE = LIST_SIZE
+
 !---
 
 C-------------------------
@@ -278,7 +278,7 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
       INTEGER, INTENT(IN), DIMENSION(NSET_COLLECT,2) :: ISETCOLM
 !
-      
+
       TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -323,7 +323,7 @@ C=======================================================================
 
           PSTART = SET_USRTOS_NEAREST(START_GENE, SETCOL_DICHO, SZ_DICHO,1)
           PSTOP  = SET_USRTOS_NEAREST(END_GENE,   SETCOL_DICHO, SZ_DICHO,2)
-     
+
           STACK_ONE=0               ! assemble in PART_READ_ONE Stack_one
           DO P=PSTART, PSTOP
              P1 = SETCOL_DICHO(P,1)
@@ -525,7 +525,7 @@ C-----------------------------------------------
        INTEGER I,CUR
 C-----------------------------------------------
        DO I=1,ARRAY_SIZE
-          
+
           IF(SETCOL_ARRAY(I,1) == SET_ID .AND. SETCOL_ARRAY(I,2) /= IGS) THEN    ! The SET IGS is the active one...
              CUR =  SETCOL_ARRAY(I,2)                                             ! Others needs to be merged.
 

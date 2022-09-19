@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ c          IHBE  = IGEO(10,PID)   ! should be the same, GEO(171) is obsolete, ch
           IHBE  = NINT(GEO(171,PID))
           ISH3N = IGEO(18,PID)
 c
-c         Set default membrane shell viscosity parameter (DM)         
+c         Set default membrane shell viscosity parameter (DM)
 c
           IF (DM == ZERO) THEN
             IF (ILAW == 65 ) THEN
@@ -104,7 +104,7 @@ c
             ENDIF
           ENDIF
 c------   specific default dm for QEPH,QBAT
-          IF (IHBE == 23 .AND. ILAW==25) THEN                                             
+          IF (IHBE == 23 .AND. ILAW==25) THEN
             IF (DM == ZERO) DM=EM01
           ENDIF
 c
@@ -115,16 +115,16 @@ c
           ELSEIF ( ILAW == 15 .or. ILAW == 27 .or. ILAW == 25) THEN
             IF (DM == ZERO) DM = FIVEEM2
           ENDIF !(IGMAT > 0
-c          
-          GROUP_PARAM_TAB(NG)%VISC_DM = DM  
+c
+          GROUP_PARAM_TAB(NG)%VISC_DM = DM
 c
 c------   special settings for law119
-c          
+c
           IF (ILAW == 119) THEN
             IADD = MAX(1,IPM(7,IMAT))-1
             ICOAT = NINT(BUFMAT(IADD+14))
             ISMSTR = 11   ! force small strain formulation for law 119 regardless of input
-            IF (ICOAT > ZERO) THEN 
+            IF (ICOAT > ZERO) THEN
               NIP = 3
             ELSE
               NIP = 1
@@ -132,16 +132,16 @@ c
             IPARG(6,NG) = NIP
             IPARG(9,NG) = ISMSTR
           END IF
-           
+
 
         ELSE
 c
-          GROUP_PARAM_TAB(NG)%VISC_DM = ZERO  
+          GROUP_PARAM_TAB(NG)%VISC_DM = ZERO
 c
         ENDIF
 c
-        GROUP_PARAM_TAB(NG)%VISC_DN = ZERO  
-      
+        GROUP_PARAM_TAB(NG)%VISC_DN = ZERO
+
       ENDDO
 c-----------
       RETURN

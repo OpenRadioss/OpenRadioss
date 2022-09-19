@@ -100,11 +100,11 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
-      TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) :: 
-     .        BRICK_LIST 
-      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) :: 
-     .        EDGE_LIST 
-      
+      TYPE(BRICK_ENTITY), TARGET,ALLOCATABLE,DIMENSION(:,:) ::
+     .        BRICK_LIST
+      TYPE(EDGE_ENTITY),  TARGET,ALLOCATABLE,DIMENSION(:,:) ::
+     .        EDGE_LIST
+
       END MODULE I22BUFBRIC_MOD
 C
 C
@@ -196,108 +196,108 @@ C-----------------------------------------------
 
       !##########################################!
       !### OUTPUT : GENERAL DEBUG             ###!
-      !##########################################! 
+      !##########################################!
       INTEGER :: IBUG22
 
       !##########################################!
       !### OUTPUT : MAIN SEARCH ALGO          ###!
-      !##########################################! 
+      !##########################################!
       INTEGER :: IBUG22_tri
-        
+
       !##########################################!
       !### OUTPUT : VOXEL SEARCH              ###!
-      !##########################################! 
+      !##########################################!
       INTEGER :: IBUG22_trivox
 
       !###########################################!
       !### OUTPUT : INTERSECTIONS CALCULATION  ###!
-      !###########################################! 
+      !###########################################!
       INTEGER :: IBUG22_intersect
 
       !###########################################!
       !### OUTPUT : SUBVOLUME CALCULATION      ###!
-      !###########################################! 
+      !###########################################!
       INTEGER :: IBUG22_subvol
-      
+
       !###########################################!
       !### OUTPUT : SUBFACE CALCULATION        ###!
-      !###########################################! 
+      !###########################################!
       INTEGER :: IBUG22_aera
- 
+
       !###########################################!
       !### OUTPUT : SUBVOLUMES IDENTIFICATION   ##!
-      !###########################################! 
-      INTEGER :: IBUG22_ident    
-            
+      !###########################################!
+      INTEGER :: IBUG22_ident
+
       !###########################################!
       !### OUTPUT : CONVECTIVES FLUXES          ##!
-      !###########################################! 
+      !###########################################!
       INTEGER :: IBUG22_convec
 
       !###########################################!
       !### OUTPUT : EOS                         ##!
       !###########################################!
       INTEGER :: IBUG22_eos
-      
+
       !###########################################!
       !### OUTPUT : DVOL                        ##!
       !###########################################!
-      INTEGER :: IBUG22_dvol      
-      
+      INTEGER :: IBUG22_dvol
+
       !###########################################!
       !### OUTPUT : SIGEPS51                    ##!
       !###########################################!
-      INTEGER :: IBUG22_sigeps51     
+      INTEGER :: IBUG22_sigeps51
 
       !###########################################!
       !### OUTPUT : SIGEPS37                    ##!
       !###########################################!
-      INTEGER :: IBUG22_sigeps37    
-            
+      INTEGER :: IBUG22_sigeps37
+
       !###########################################!
       !### OUTPUT : SUBVOLUME SOUND SPEEDS      ##!
       !###########################################!
-      INTEGER :: IBUG22_ssp   
-      
+      INTEGER :: IBUG22_ssp
+
       !###########################################!
       !### OUTPUT : FLUXES                      ##!
       !###########################################!
       INTEGER :: IBUG22_flux
-      
+
       !###########################################!
       !### OUTPUT : INTER22 ADDITIONNAL FLUXES  ##!
       !###########################################!
       INTEGER :: IBUG22_flux22
-      
+
       !###########################################!
       !### OUTPUT : VOLUMETRIC FRACTIONS AFLUXT ##!
       !###########################################!
-      INTEGER :: IBUG22_volfrac     
-      
+      INTEGER :: IBUG22_volfrac
+
       !###########################################!
       !### OUTPUT : CONTINUITY CONDITIONS       ##!
       !###########################################!
-      INTEGER :: IBUG22_conti  
-      
+      INTEGER :: IBUG22_conti
+
       !###########################################!
       !### OUTPUT : INTERNAL FORCES             ##!
       !###########################################!
-      INTEGER :: IBUG22_fint    
-      
+      INTEGER :: IBUG22_fint
+
       !###########################################!
       !### OUTPUT : SININT                      ##!
       !###########################################!
-      INTEGER :: IBUG22_sinit                            
+      INTEGER :: IBUG22_sinit
 
       !###########################################!
       !### OUTPUT : NODALP                      ##!
       !###########################################!
-      INTEGER :: IBUG22_nodalp  
-      
+      INTEGER :: IBUG22_nodalp
+
       !###########################################!
       !### OUTPUT : AMOUIL                      ##!
       !###########################################!
-      INTEGER :: IBUG22_amouil                                          
+      INTEGER :: IBUG22_amouil
 
       !###########################################!
       !### OUTPUT : UPWIND/DOWNWIND TRANSPORT   ##!
@@ -307,8 +307,8 @@ C-----------------------------------------------
       !###########################################!
       !### OUTPUT : CONTACT FORCES              ##!
       !###########################################!
-      INTEGER :: IBUG22_fcont    
-      INTEGER :: IBUG22_fcontASS      
+      INTEGER :: IBUG22_fcont
+      INTEGER :: IBUG22_fcontASS
 
       !###########################################!
       !### OUTPUT : WET SURFACE                 ##!
@@ -318,34 +318,34 @@ C-----------------------------------------------
       !###########################################!
       !### OUTPUT : VELOCITY INTERPOLATION      ##!
       !###########################################!
-      INTEGER :: IBUG22_destroy                  
-      
+      INTEGER :: IBUG22_destroy
+
       !###########################################!
       !### OUTPUT : MERGE/DEMERGE INFO          ##!
       !###########################################!
-      INTEGER :: IBUG22_merge   
-      
+      INTEGER :: IBUG22_merge
+
       !###########################################!
       !### OUTPUT : MERGE/DEMERGE INFO          ##!
       !###########################################!
-      INTEGER :: IBUG22_UndirectLink    
-      
+      INTEGER :: IBUG22_UndirectLink
+
       !###########################################!
       !### OUTPUT : HM tcl for Cut Cell Buffer  ##!
       !###########################################!
-      INTEGER :: IBUG22_OUTP_CCbuffer      
+      INTEGER :: IBUG22_OUTP_CCbuffer
 
       !###########################################!
       !### OUTPUT : HM tcl for Intersec. Points ##!
       !###########################################!
-      INTEGER :: IBUG22_OUTP_IntPoint              
-      
+      INTEGER :: IBUG22_OUTP_IntPoint
+
       !###########################################!
       !### OUTPUT : HM tcl for Intersec. Points ##!
       !###########################################!
-      INTEGER :: IBUG22_TRUSS    
+      INTEGER :: IBUG22_TRUSS
       INTEGER :: IBUG22_OrphanNodes
-      
+
       !###########################################!
       !### OUTPUT : Velocity for CFL            ##!
       !###########################################!
@@ -359,28 +359,28 @@ C-----------------------------------------------
       !###########################################!
       !### OUTPUT : output on NVAR value        ##!
       !###########################################!
-      INTEGER :: IBUG22_NVAR      
-      
+      INTEGER :: IBUG22_NVAR
+
       !###########################################!
       !### OUTPUT : output on NVAR value        ##!
       !###########################################!
-      INTEGER :: IBUG22_ITRIMAT      
+      INTEGER :: IBUG22_ITRIMAT
 
       !###########################################!
       !### OUTPUT : LAW51 ANTIDIFFUSIVE ALGO    ##!
       !###########################################!
-      INTEGER :: IBUG22_ANTIDIFF     
+      INTEGER :: IBUG22_ANTIDIFF
 
       !###########################################!
       !### OUTPUT : LAW51 ANTIDIFFUSIVE ALGO    ##!
       !###########################################!
-      INTEGER :: IBUG22_UPWIND    
-      
+      INTEGER :: IBUG22_UPWIND
+
       !###########################################!
       !### OUTPUT : LINK SWITCHING              ##!
       !###########################################!
-      INTEGER :: IBUG22_LINK_SWITCH         
-      
+      INTEGER :: IBUG22_LINK_SWITCH
+
       !###########################################!
       !### OUTPUT : TOPOLOGICAL TRACKING        ##!
       !###########################################!
@@ -389,25 +389,25 @@ C-----------------------------------------------
       !###########################################!
       !### OUTPUT : PREDICTION/CORRECTION ALGO  ##!
       !###########################################!
-      INTEGER :: IBUG22_PREDICTION    
-      
+      INTEGER :: IBUG22_PREDICTION
+
       !###########################################!
       !### OUTPUT : MATERIAL BUFFER FILLING     ##!
       !###########################################!
-      INTEGER :: IBUG22_FILLMAT    
-            
+      INTEGER :: IBUG22_FILLMAT
+
       !###########################################!
       !### OUTPUT : CUT CELL BUFFER LIST        ##!
       !###########################################!
-      INTEGER :: IBUG22_CCBUFLIST  
+      INTEGER :: IBUG22_CCBUFLIST
 
       !###########################################!
       !### OUTPUT : CUT CELL BUFFER LENGTH      ##!
       !###########################################!
-      INTEGER :: IBUG22_CC_LENGTH                        
+      INTEGER :: IBUG22_CC_LENGTH
 C-----------------------------------------------      
-      
-      
+
+
       INTEGER ::
      .        MIN_IX, MIN_IY, MIN_IZ,            !indice voxel min utilise
      .        MAX_IX, MAX_IY, MAX_IZ             !indice voxel max utilise
@@ -419,12 +419,12 @@ C-----------------------------------------------
       my_real, ALLOCATABLE ::
      .        IRECT_L(:,:)    !IRECT_L <=> IRECT + XREM  (T=thread, L=Localdomain)
       INTEGER ::
-     .        NIRECT_L 
+     .        NIRECT_L
       INTEGER :: SIZ_IRECT_L
       PARAMETER (SIZ_IRECT_L = 26)  !longueur buffer (nodes, coordinates, min, max, stif...)
 
       INTEGER, ALLOCATABLE, DIMENSION(:)  ::
-     .        NSNR_G    
+     .        NSNR_G
 
       my_real, ALLOCATABLE,DIMENSION(:) ::
      .        XMAXS, XMINS,
@@ -445,22 +445,22 @@ C-----------------------------------------------
       INTEGER :: SIZ_XREM
       PARAMETER (SIZ_XREM = 26)
 
-      INTEGER, POINTER, DIMENSION(:) :: 
-     .        LCHAIN_ELEM, LCHAIN_NEXT, LCHAIN_LAST 
- 
-      INTEGER,  DIMENSION(:,:),ALLOCATABLE :: 
-     .        N1_TAB, ADD_EDGE, ADD_FACE  
-    
-      INTEGER :: 
+      INTEGER, POINTER, DIMENSION(:) ::
+     .        LCHAIN_ELEM, LCHAIN_NEXT, LCHAIN_LAST
+
+      INTEGER,  DIMENSION(:,:),ALLOCATABLE ::
+     .        N1_TAB, ADD_EDGE, ADD_FACE
+
+      INTEGER ::
      .        IMIN, IMAX
 
-      INTEGER,  DIMENSION(:),ALLOCATABLE :: 
+      INTEGER,  DIMENSION(:),ALLOCATABLE ::
      .        UBOUND, LBOUND,
-     .        ICANDB                             !ICANDB:(numero de la brique candidate pour l'acces dans BRICK_LIST)   IGROUP->ICANDB         
-!     .        MMTAG                
+     .        ICANDB                             !ICANDB:(numero de la brique candidate pour l'acces dans BRICK_LIST)   IGROUP->ICANDB
+!     .        MMTAG
       INTEGER ::
      .        NB                                 !NB: nombre de briques candidates
-     
+
       INTEGER, ALLOCATABLE, DIMENSION(:) ::
      .         EIX1,EIY1,
      .         EIZ1,EIX2,
@@ -484,15 +484,15 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: NbSubTriangles
 
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ID_,IDLOC_,NG_,NEL_   !sinit_22.F
-      
+
       my_real, ALLOCATABLE, DIMENSION(:) :: PHI22
       my_real, ALLOCATABLE, DIMENSION(:) :: INT22_FCELL_ANIM
 
       INTEGER :: NBCUT_MAX
       !PARAMETER (NB_CUT_MAX = 26)
-      
+
       INTEGER II_STOK2, ISKIP22, IN22
-      
+
       my_real, ALLOCATABLE, DIMENSION(:,:) :: TMP22ARRAY
 
       END MODULE I22TRI_MOD

@@ -56,14 +56,14 @@ C-----------------------------------------------
        INTEGER P
        INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF,MSGTYP
        my_real
-     .         XYZWL(3) 
+     .         XYZWL(3)
        DATA MSGOFF/7032/
 
        P = FR_WALL(NSPMD+2)
        IF (P==1.OR.P==0) THEN
          IF (ISPMD==0) THEN
            IF (MSR==0) THEN
-              XWL = ZERO 
+              XWL = ZERO
               YWL = ZERO
               ZWL = ZERO
            ELSE
@@ -75,7 +75,7 @@ C-----------------------------------------------
        ELSE
          IF (P==ISPMD+1) THEN
            IF (MSR==0) THEN
-             XWL = ZERO 
+             XWL = ZERO
              YWL = ZERO
              ZWL = ZERO
            ELSE
@@ -84,19 +84,19 @@ C-----------------------------------------------
              XYZWL(3)= DISP(3,MSR)
            END IF
 
-           MSGTYP = MSGOFF 
+           MSGTYP = MSGOFF
            CALL MPI_SEND(XYZWL,3,REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
          END IF
          IF (ISPMD==0) THEN
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV(XYZWL,3,REAL,IT_SPMD(P),MSGTYP,
      .              MPI_COMM_WORLD,STATUS,ierror)
             XWL = XYZWL(1)
-            YWL = XYZWL(2) 
-            ZWL = XYZWL(3) 
+            YWL = XYZWL(2)
+            ZWL = XYZWL(3)
          END IF
        END IF
 #endif
       RETURN
-      END  
+      END

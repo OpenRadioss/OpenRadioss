@@ -56,7 +56,7 @@ C-----------------------------------------------
       DO K =IADK(IL),IADK(IL+1)-1
        NC=NC+1
        JM(NC)=JDIK(K)
-      ENDDO 
+      ENDDO
       NC=NC+1
       JM(NC)=IL
 C--------------------------------------------
@@ -119,10 +119,10 @@ C-------pre-filtrage----
           NNZM = NNZM+1
           JDIM(NNZM)=J
          ENDIF
-        ENDDO 
+        ENDDO
         IADM(I+1)=NNZM+1
-       ENDDO 
-      ELSE 
+       ENDDO
+      ELSE
        DO I=2,NDDL+1
         IADM(I)=IADK(I)
        ENDDO
@@ -134,7 +134,7 @@ C-------pre-filtrage----
 C
       DO I=1,NDDL
        NC(I)=0
-      ENDDO 
+      ENDDO
 C
       IF (IOPT>1) THEN
        DO I=1,NDDL
@@ -147,8 +147,8 @@ C------------avec diag----
          JM(NC(J),J)=I
          NC(I) = NC(I)+1
          JM(NC(I),I)=J
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
        CALL SP_A2(NDDL,NC,JM,MAXC,IFSAI)
       ELSE
        IF (IFSAI==1) THEN
@@ -159,12 +159,12 @@ C------------avec diag----
           J=JDIM(K)
           NC(J) = NC(J)+1
           JM(NC(J),J)=I
-         ENDDO 
+         ENDDO
          IF (NC(I)>MAXC) THEN
           WRITE(*,*)'N>MAXB',NC(I),MAXC,I
           CALL ARRET(2)
-         ENDIF 
-        ENDDO 
+         ENDIF
+        ENDDO
        ELSE
         DO I=1,NDDL
          NC(I) = NC(I)+1
@@ -175,12 +175,12 @@ C------------avec diag----
           JM(NC(J),J)=I
           NC(I) = NC(I)+1
           JM(NC(I),I)=J
-         ENDDO 
+         ENDDO
          IF (NC(I)>MAXC) THEN
           WRITE(*,*)'N>MAXB',NC(I),MAXC,I
           CALL ARRET(2)
-         ENDIF 
-        ENDDO 
+         ENDIF
+        ENDDO
        ENDIF
       ENDIF
 C--------------------------------------------
@@ -225,8 +225,8 @@ C-----------------------------------------------
        NC(I)=0
        DO J=1,NN(I)
         JN(J,I)=JM(J,I)
-       ENDDO 
-      ENDDO 
+       ENDDO
+      ENDDO
       IF (IFSAI==1) THEN
        DO I=1,NDDL
         NC(I) = NC(I)+1
@@ -238,10 +238,10 @@ C-----------------------------------------------
           IF (NC(J)>MAXC) THEN
            WRITE(*,*)'N>MAXB',NC(J),MAXC,J
            CALL ARRET(2)
-          ENDIF 
+          ENDIF
          ENDIF
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
       ELSE
        DO I=1,NDDL
         NC(I) = NC(I)+1
@@ -255,11 +255,11 @@ C-----------------------------------------------
           IF (NC(I)>MAXC) THEN
            WRITE(*,*)'N>MAXB',NC(I),MAXC,I
            CALL ARRET(2)
-          ENDIF 
+          ENDIF
          ENDIF
-        ENDDO 
-       ENDDO 
-      ENDIF 
+        ENDDO
+       ENDDO
+      ENDIF
 C--------------------------------------------
       RETURN
       END
@@ -304,15 +304,15 @@ C-----------------------------------------------
      . LT_L(MAXA),WA1(N),DIAG_L(N)
 C-----------------------------------------------
         CALL IMP_FAC_ICJ(
-     1                    N     ,MAXA  ,IADA  ,JDIA  ,DIAG_A ,   
+     1                    N     ,MAXA  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,IADL  ,JDIL  ,DIAG_L,LT_L   ,
      3                    ZERO  ,NNZL  ,MAXA  ,IWA1  ,WA1    ,
      4                    NNE   )
 C 
 #ifdef MUMPS5
-        CALL PREC0_SOLV(N     ,NNZL  ,IADL  ,JDIL  ,DIAG_L ,   
+        CALL PREC0_SOLV(N     ,NNZL  ,IADL  ,JDIL  ,DIAG_L ,
      1                  LT_L  ,MJ    ,WA1   )
-#endif 
+#endif
         DO I=1,N
          MJ(I)=WA1(I)
         ENDDO
@@ -329,7 +329,7 @@ Chd|        IND_LT2LN                     source/implicit/imp_fsa_inv.F
 Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
 Chd|====================================================================
       SUBROUTINE GET_SUBS0(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                     JM    ,MAXA  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -392,7 +392,7 @@ Chd|        IND_LT2LN                     source/implicit/imp_fsa_inv.F
 Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
 Chd|====================================================================
       SUBROUTINE GET_SUBSP(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                     JM    ,MAXA  ,IDLFT0,IDLFT1 ,DIAG_C,
      .                     LT_C  ,DIAG_M ,LT_M  )
 C-----------------------------------------------
@@ -480,7 +480,7 @@ Chd|-- calls ---------------
 Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
 Chd|====================================================================
       SUBROUTINE GET_SUBSA(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                     JM    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -565,15 +565,15 @@ C----6-----IC est deja en ordre croissante---------------------------7---------8
          INTAB0=I
          RETURN
         ENDIF
-       ENDDO 
+       ENDDO
       ELSE
        DO I =NIC,1,-1
         IF (N==IC(I)) THEN
          INTAB0=I
          RETURN
         ENDIF
-       ENDDO 
-      ENDIF 
+       ENDDO
+      ENDIF
 C
       RETURN
       END
@@ -610,7 +610,7 @@ C      IF (NIC1>NIC2) THEN
        DO I =1,NIC2
         INTAB2=INTAB0(NIC1,IC1,IC2(I))
         IF (INTAB2>0) RETURN
-       ENDDO 
+       ENDDO
       RETURN
       END
 C  ------factorized sparse approximate inverse version spmd------- 
@@ -627,7 +627,7 @@ Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INVP(
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,DIAG_M ,LT_M  ,MAXC  ,MAX_A ,
      3                    NNE   ,IDLFT0 ,IDLFT1,MAX_D )
 C-----------------------------------------------
@@ -643,7 +643,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -651,7 +651,7 @@ C-----------------------------------------------
      .         IDLFT0 ,IDLFT1,MAX_D
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)   
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -668,7 +668,7 @@ C-----------------------------
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                C1='FOR IMPLICIT PRECONDITION')
           CALL ARRET(2)
-        ENDIF 
+        ENDIF
 C--------------copy la partie utile------
        I_CHK = NNE
        NNE = 0
@@ -677,12 +677,12 @@ C--------------copy la partie utile------
          DIAG_C(I-IDLFT1) = DIAG_M(I)
          DO J=IADK(I),IADK(I+1)-1
           LT_C(J-K)=LT_M(J)
-         ENDDO 
-       ENDDO 
+         ENDDO
+       ENDDO
        DO I=IDLFT0+1,NDDL
         CALL SP_STAT0(I  ,IADK  ,JDIK  ,NC    ,JM    )
         CALL GET_SUBSP(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 JM    ,MAX_A ,IDLFT0,IDLFT1 ,DIAG_C,
      .                 LT_C  ,DIAG_M ,LT_M  )
         DO J=1,NC-1
@@ -691,15 +691,15 @@ C--------------copy la partie utile------
         MJ(NC)=ONE
         IF (NC>10000) THEN
           MAX_L=MAX_A
-          CALL IMP_PCG1( 
-     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
+          CALL IMP_PCG1(
+     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,MJ     ,IERR  )
          IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
         MAX_L=1+(NC*(NC-1))/2
         CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .               MAX_L ,MJ    )
-        ENDIF 
+        ENDIF
 C------------filtrage----Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
@@ -731,8 +731,8 @@ Chd|        MAV_LT                        source/implicit/produt_v.F
 Chd|        PRODUT_V0                     source/implicit/produt_v.F    
 Chd|        CRIT_STOP                     source/implicit/imp_pcg.F     
 Chd|====================================================================
-      SUBROUTINE IMP_PCG1( 
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+      SUBROUTINE IMP_PCG1(
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,R     ,ISP   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -760,7 +760,7 @@ C-----------------------------------------------
       my_real
      .   S , R2, R02,ALPHA,BETA,G0,G1,RR,TOLS,TOLN,TOLS2
       my_real
-     .  X(NDDL) ,P(NDDL) ,Z(NDDL)  ,Y(NDDL),DIAG_M(NDDL) 
+     .  X(NDDL) ,P(NDDL) ,Z(NDDL)  ,Y(NDDL),DIAG_M(NDDL)
       INTEGER CRIT_STOP
       EXTERNAL CRIT_STOP
       my_real
@@ -783,22 +783,22 @@ C------X(I)=ZERO--------
        DO I=1,NDDL
         X(I) = ZERO
         DIAG_M(I)=ONE/MAX(EM20,DIAG_K(I))
-       ENDDO 
+       ENDDO
        CALL MAV_LT(
-     1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,X     ,Z     )
        DO I=1,NDDL
         R(I) = R(I)-Z(I)
-       ENDDO 
+       ENDDO
         DO I=1,NDDL
          Z(I) = R(I) *DIAG_M(I)
-        ENDDO 
+        ENDDO
        DO I=1,NDDL
         P(I) = Z(I)
-       ENDDO 
+       ENDDO
        CALL PRODUT_V0(NDDL,R,Z,G0)
        CALL MAV_LT(
-     1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,P     ,Y     )
        CALL PRODUT_V0(NDDL,P,Y,S)
        ALPHA = G0/S
@@ -833,10 +833,10 @@ C-------pour etre coherent avec lanzos for linear
        DO I=1,NDDL
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
-       ENDDO 
+       ENDDO
         DO I=1,NDDL
          Z(I) = R(I) *DIAG_M(I)
-        ENDDO 
+        ENDDO
        CALL PRODUT_V0(NDDL,R,Z,G1)
        BETA=G1/G0
        IF (ITOL==1) THEN
@@ -868,19 +868,19 @@ C*     INITIALIZE OTHER QUANTITIES.
        DO WHILE (ISTOP==1)
         DO I=1,NDDL
          P(I) = Z(I) + BETA*P(I)
-        ENDDO 
+        ENDDO
        CALL MAV_LT(
-     1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,   
+     1            NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,P     ,Y     )
         CALL PRODUT_V0(NDDL,P,Y,S)
         ALPHA=G0/S
         DO I=1,NDDL
          X(I) = X(I) + ALPHA*P(I)
          R(I) = R(I) - ALPHA*Y(I)
-        ENDDO 
+        ENDDO
         DO I=1,NDDL
          Z(I) = R(I) *DIAG_M(I)
-        ENDDO 
+        ENDDO
         CALL PRODUT_V0(NDDL,R,Z,G1)
         BETA=G1/G0
         G0 = G1
@@ -944,8 +944,8 @@ C        RR = SQRT(R2/R02)
 C        WRITE(*,1002)IT,RR
 C--------X->R--------
        DO I=1,NDDL
-        R(I) = X(I) 
-       ENDDO 
+        R(I) = X(I)
+       ENDDO
 C--------------------------------------------
  1002 FORMAT(3X,'TOTAL C.G. ITERATION=',I8,5X,
      .          ' RELATIVE RESIDUAL NORM=',E11.4)
@@ -968,7 +968,7 @@ Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INV2(
-     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K  ,   
+     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K  ,
      2                    IADM   ,JDIM   ,DIAG_M ,LT_M   ,MAXC  ,
      3                    MAX_A  ,NNE    ,D_TOL  ,P_MACH)
 C-----------------------------------------------
@@ -984,15 +984,15 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL ,IADK(*),JDIK(*),MAXC ,MAX_A ,NNE,
-     .         IADM(*),JDIM(*)   
+     .         IADM(*),JDIM(*)
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*) ,D_TOL  ,P_MACH  
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*) ,D_TOL  ,P_MACH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1018,7 +1018,7 @@ C-----------------------------
        DO I=1,NDDL
         CALL SP_STAT0(I  ,IADM  ,JDIM  ,NC    ,JM    )
         CALL GET_SUBS0(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 JM    ,MAX_A )
         DO J=1,NC-1
          MJ(J)=ZERO
@@ -1026,8 +1026,8 @@ C-----------------------------
         MJ(NC)=ONE
         IF (NC>10000) THEN
           MAX_L=MAX_A
-          CALL IMP_PCG1( 
-     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
+          CALL IMP_PCG1(
+     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,MJ     ,IERR  )
          IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
@@ -1074,7 +1074,7 @@ Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INVP2(
-     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,   
+     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,
      2                    IADM   ,JDIM   ,DIAG_M ,LT_M   ,MAXC   ,
      3                    MAX_A  ,NNE    ,IDLFT0 ,IDLFT1 ,MAX_D  ,
      4                    D_TOL  ,P_MACH)
@@ -1091,7 +1091,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1099,7 +1099,7 @@ C-----------------------------------------------
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*)
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH   
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1116,7 +1116,7 @@ C-----------------------------
           CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
           CALL ARRET(2)
-        ENDIF 
+        ENDIF
 C--------------copy la partie utile------
        I_CHK = NNE
        NNE = 0
@@ -1125,12 +1125,12 @@ C--------------copy la partie utile------
          DIAG_C(I-IDLFT1) = DIAG_M(I)
          DO J=IADK(I),IADK(I+1)-1
           LT_C(J-K)=LT_M(J)
-         ENDDO 
-       ENDDO 
+         ENDDO
+       ENDDO
        DO I=IDLFT0+1,NDDL
         CALL SP_STAT0(I  ,IADM  ,JDIM  ,NC    ,JM    )
         CALL GET_SUBSP(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 JM    ,MAX_A ,IDLFT0,IDLFT1 ,DIAG_C,
      .                 LT_C  ,DIAG_M,LT_M  )
         DO J=1,NC-1
@@ -1139,15 +1139,15 @@ C--------------copy la partie utile------
         MJ(NC)=ONE
         IF (NC>10000) THEN
           MAX_L=MAX_A
-          CALL IMP_PCG1( 
-     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
+          CALL IMP_PCG1(
+     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,MJ     ,IERR  )
          IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
          MAX_L=1+(NC*(NC-1))/2
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .               MAX_L ,MJ    )
-        ENDIF 
+        ENDIF
 C------------Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
@@ -1199,7 +1199,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1266,7 +1266,7 @@ C------post-filtration------
 c	print *,'mnz,nz=',mnz,nz,mtol
         print *,'filtrage factor=',TAUX
 C------retrun from M normalized------
-      ENDIF 
+      ENDIF
       INORM = 0
       IF (INORM>ZERO) THEN
        DO I  = NDF, ND
@@ -1276,7 +1276,7 @@ C------retrun from M normalized------
 	     LT_A(J) = DD*LT_A(J)
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 C--------------------------------------------
       RETURN
       END
@@ -1288,7 +1288,7 @@ Chd|        IND_LT2LN                     source/implicit/imp_fsa_inv.F
 Chd|        INTAB0                        source/implicit/imp_fsa_inv.F 
 Chd|====================================================================
       SUBROUTINE GET_SUBSN(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                     NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                     JM    ,MAXA  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1403,7 +1403,7 @@ C
          JDIK(K) = I
          LT_K(K) = LT_M(J)
          ICOL(JD) = ICOL(JD) + 1
-        ENDDO 
+        ENDDO
        ENDDO
 C--------------------------------------------
       RETURN
@@ -1423,7 +1423,7 @@ Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INVH(
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,DIAG_M ,LT_M  ,MAXC  ,MAX_A ,
      3                    NNE   ,IDLFT0 ,IDLFT1,MAX_D ,ITASK )
 C-----------------------------------------------
@@ -1439,8 +1439,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
-#include      "task_c.inc" 
+#include      "units_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1448,7 +1448,7 @@ C-----------------------------------------------
      .         IDLFT0 ,IDLFT1,MAX_D,ITASK
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)   
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1466,14 +1466,14 @@ C-----------------------------
 C
        ALLOCATE(IADA(MAXC+1),DIAG_A(MAXC),MJ(MAXC),STAT=IER1)
        ALLOCATE(LT_A(MAX_A),JDIA(MAX_A),STAT=IERR)
- 
+
         IF ((IERR+IER1)/=0) THEN
          IF (ITASK == 0 ) THEN
            CALL ANCMSG(MSGID=19,ANMODE=ANINFO,
      .                 C1='FOR IMPLICIT PRECONDITION')
            CALL ARRET(2)
          END IF !(ITASK == 0 ) THEN
-        ENDIF 
+        ENDIF
 
 C--------------copy la partie utile------
        K=IADK(IDLFT1+1)-1
@@ -1481,8 +1481,8 @@ C--------------copy la partie utile------
          DIAG_C(I-IDLFT1) = DIAG_M(I)
          DO J=IADK(I),IADK(I+1)-1
           LT_C(J-K)=LT_M(J)
-         ENDDO 
-       ENDDO 
+         ENDDO
+       ENDDO
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -1493,7 +1493,7 @@ C
       DO I=IDLFT0+1,NDDL
         CALL SP_STAT0(I  ,IADK  ,JDIK  ,NC    ,JM    )
         CALL GET_SUBSP(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 JM    ,MAX_A ,IDLFT0,IDLFT1 ,DIAG_C,
      .                 LT_C  ,DIAG_M ,LT_M  )
         DO J=1,NC-1
@@ -1503,8 +1503,8 @@ C
 C
         IF (NC>10000) THEN
           MAX_L=MAX_A
-          CALL IMP_PCG1( 
-     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
+          CALL IMP_PCG1(
+     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,MJ     ,IERR  )
 C
          IF (I_CHK>0.AND.IERR<0) NNE = I
@@ -1514,7 +1514,7 @@ C
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 MAX_L ,MJ    )
 C
-        ENDIF 
+        ENDIF
 C------------filtrage----Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
@@ -1552,7 +1552,7 @@ Chd|        SP_STAT0                      source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INVH2(
-     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,   
+     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,
      2                    IADM   ,JDIM   ,DIAG_M ,LT_M   ,MAXC   ,
      3                    MAX_A  ,NNE    ,IDLFT0 ,IDLFT1 ,MAX_D  ,
      4                    D_TOL  ,P_MACH ,ITASK  )
@@ -1569,7 +1569,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
+#include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1577,7 +1577,7 @@ C-----------------------------------------------
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*),ITASK
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH   
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1602,15 +1602,15 @@ C--------
      .                 C1='FOR IMPLICIT PRECONDITION')
            CALL ARRET(2)
          END IF !(ITASK == 0 ) THEN
-        ENDIF 
+        ENDIF
 C--------------copy la partie utile------
        K=IADK(IDLFT1+1)-1
        DO I=IDLFT1+1,NDDL
          DIAG_C(I-IDLFT1) = DIAG_M(I)
          DO J=IADK(I),IADK(I+1)-1
           LT_C(J-K)=LT_M(J)
-         ENDDO 
-       ENDDO 
+         ENDDO
+       ENDDO
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -1620,7 +1620,7 @@ C
        DO I=IDLFT0+1,NDDL
         CALL SP_STAT0(I  ,IADM  ,JDIM  ,NC    ,JM    )
         CALL GET_SUBSP(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 JM    ,MAX_A ,IDLFT0,IDLFT1 ,DIAG_C,
      .                 LT_C  ,DIAG_M,LT_M  )
         DO J=1,NC-1
@@ -1629,15 +1629,15 @@ C
         MJ(NC)=ONE
         IF (NC>10000) THEN
           MAX_L=MAX_A
-          CALL IMP_PCG1( 
-     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
+          CALL IMP_PCG1(
+     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,MJ     ,IERR  )
          IF (I_CHK>0.AND.IERR<0) NNE = I
         ELSE
          MAX_L=1+(NC*(NC-1))/2
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                MAX_L ,MJ    )
-        ENDIF 
+        ENDIF
 C------------Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
@@ -1663,7 +1663,7 @@ C
        IF (D_TOL>ZERO)
      .  CALL IMP_KFILTR(K     ,NDDL  ,IADM  ,JDIM  ,DIAG_M ,
      .                  LT_M  ,D_TOL ,P_MACH,DIAG_K)
-      END IF 
+      END IF
 C 
       RETURN
       END
@@ -1697,7 +1697,7 @@ C-----------------------------------------------
       NC=0
       DO K =IADK(IL),IADK(IL+1)-1
        NC=NC+1
-      ENDDO 
+      ENDDO
       NC=NC+1
 C------MAX_L<- MAX_A      
         IF (NC <= 10000) THEN
@@ -1719,7 +1719,7 @@ Chd|        IMP_FSAI                      source/implicit/imp_fsa_inv.F
 Chd|        IMP_PCG1                      source/implicit/imp_fsa_inv.F 
 Chd|====================================================================
       SUBROUTINE FSA_SOLV(
-     1                    NDDL  ,NC    ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NC    ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,DIAG_M,LT_M  ,DIAG_C,LT_C   ,
      3                    MAX_A ,IDLFT0,IDLFT1,NNE   ,I_CHK  ,
      4                    IADM  ,JDIM  ,I     )
@@ -1732,8 +1732,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
-#include      "task_c.inc" 
+#include      "units_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1741,7 +1741,7 @@ C-----------------------------------------------
      .         IDLFT0,IDLFT1 ,I_CHK,IADM(*),JDIM(*)
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*) ,DIAG_C(*),LT_C(*) 
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*) ,DIAG_C(*),LT_C(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1761,12 +1761,12 @@ C-----------------------------
       DO K =IADM(I),IADM(I+1)-1
        J=J+1
        JM(J)=JDIM(K)
-      ENDDO 
+      ENDDO
       J=J+1
       JM(J)=I
 C
         CALL GET_SUBSP(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
-     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,   
+     .                 NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 JM    ,MAX_A ,IDLFT0,IDLFT1 ,DIAG_C,
      .                 LT_C  ,DIAG_M ,LT_M  )
         DO J=1,NC-1
@@ -1776,8 +1776,8 @@ C
 C
         IF (NC > 10000) THEN
           MAX_L=MAX_A
-          CALL IMP_PCG1( 
-     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,   
+          CALL IMP_PCG1(
+     1                    NC    ,MAX_L  ,IADA  ,JDIA  ,DIAG_A ,
      2                    LT_A  ,MJ     ,IERR  )
 C
          IF (I_CHK>0.AND.IERR<0) NNE = I
@@ -1787,7 +1787,7 @@ C
          CALL IMP_FSAI(NC    ,IADA  ,JDIA  ,DIAG_A ,LT_A  ,
      .                 MAX_L ,MJ    )
 C
-        ENDIF 
+        ENDIF
 C------------filtrage----Diagonal est dans LT_M (last one)--
          DIAG_M(I)=MJ(NC)
          IF (DIAG_M(I)<EM20) THEN
@@ -1817,7 +1817,7 @@ Chd|        SP_DIM                        source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INVHP(
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,DIAG_M ,LT_M  ,MAXC  ,MAX_A ,
      3                    NNE   ,IDLFT0 ,IDLFT1,MAX_D )
 C-----------------------------------------------
@@ -1833,8 +1833,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
-#include      "task_c.inc" 
+#include      "units_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1842,7 +1842,7 @@ C-----------------------------------------------
      .         IDLFT0 ,IDLFT1,MAX_D
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)   
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1873,8 +1873,8 @@ C---------------------
          DIAG_C(I-IDLFT1) = DIAG_M(I)
          DO J=IADK(I),IADK(I+1)-1
           LT_C(J-K)=LT_M(J)
-         ENDDO 
-       ENDDO 
+         ENDDO
+       ENDDO
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -1885,7 +1885,7 @@ C
       DO I=IDLFT0+1,NDDL
         CALL SP_DIM(I  ,IADK  ,JDIK  ,NC   ,MAX_A ,MAX_L )
         CALL FSA_SOLV(
-     1                NDDL  ,NC    ,IADK  ,JDIK  ,DIAG_K ,   
+     1                NDDL  ,NC    ,IADK  ,JDIK  ,DIAG_K ,
      2                LT_K  ,DIAG_M,LT_M  ,DIAG_C,LT_C   ,
      3                MAX_L ,IDLFT0,IDLFT1,NNE   ,I_CHK  ,
      4                IADK  ,JDIK  ,I   )
@@ -1908,7 +1908,7 @@ Chd|        SP_DIM                        source/implicit/imp_fsa_inv.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_FSA_INV2HP(
-     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,   
+     1                    NDDL   ,IADK   ,JDIK   ,DIAG_K ,LT_K   ,
      2                    IADM   ,JDIM   ,DIAG_M ,LT_M   ,MAXC   ,
      3                    MAX_A  ,NNE    ,IDLFT0 ,IDLFT1 ,MAX_D  ,
      4                    D_TOL  ,P_MACH )
@@ -1925,8 +1925,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "units_c.inc" 
-#include      "task_c.inc" 
+#include      "units_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1934,7 +1934,7 @@ C-----------------------------------------------
      .         IDLFT0 ,IDLFT1,MAX_D,IADM(*),JDIM(*)
 C     REAL
       my_real
-     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH   
+     .  DIAG_K(*), LT_K(*),DIAG_M(*), LT_M(*),D_TOL  ,P_MACH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1961,8 +1961,8 @@ C--------------copy la partie utile------
          DIAG_C(I-IDLFT1) = DIAG_M(I)
          DO J=IADK(I),IADK(I+1)-1
           LT_C(J-K)=LT_M(J)
-         ENDDO 
-       ENDDO 
+         ENDDO
+       ENDDO
 C----------------------
       CALL MY_BARRIER
 C---------------------
@@ -1972,7 +1972,7 @@ C
        DO I=IDLFT0+1,NDDL
         CALL SP_DIM(I  ,IADM  ,JDIM  ,NC   ,MAX_A ,MAX_L )
         CALL FSA_SOLV(
-     1                NDDL  ,NC    ,IADK  ,JDIK  ,DIAG_K ,   
+     1                NDDL  ,NC    ,IADK  ,JDIK  ,DIAG_K ,
      2                LT_K  ,DIAG_M,LT_M  ,DIAG_C,LT_C   ,
      3                MAX_L ,IDLFT0,IDLFT1,NNE   ,I_CHK  ,
      4                IADM  ,JDIM  ,I   )
@@ -1990,5 +1990,5 @@ Citask0      END IF
 C 
       RETURN
       END
-     
-      
+
+

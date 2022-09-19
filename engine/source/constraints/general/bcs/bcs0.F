@@ -58,7 +58,7 @@ C
              IF(II == 10 ) IBC_PLY(N) = 1
              IF(II == 1 ) IBC_PLY(N) = -1
          ENDDO
-      ENDIF 
+      ENDIF
       IF(IRODDL>0)THEN
        DO 20 N=1,NUMNOD
        ICODR(N)=(ICODE(N)-512*(ICODE(N)/512))/64

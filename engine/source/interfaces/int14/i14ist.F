@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*)
-      my_real 
+      my_real
      .  BUFSF(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -76,11 +76,11 @@ C-----------------------------------------------
           !Forces exercees sur l'ellipsoide (somme des ... / interfaces).
           BUFSF(ADRBUF+25)=ZERO
           BUFSF(ADRBUF+26)=ZERO
-          BUFSF(ADRBUF+27)=ZERO   
+          BUFSF(ADRBUF+27)=ZERO
           !Moments exerces sur l'ellipsoide (somme des ... / interfaces).
           BUFSF(ADRBUF+28)=ZERO
           BUFSF(ADRBUF+29)=ZERO
-          BUFSF(ADRBUF+30)=ZERO   
+          BUFSF(ADRBUF+30)=ZERO
           !Rigidites d'interface en translation (somme des ... / interfaces).
           BUFSF(ADRBUF+31)=ZERO
           !Rigidites d'interface en rotation (somme des ... / interfaces).

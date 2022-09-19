@@ -32,7 +32,7 @@ Chd|====================================================================
 C----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      INTEGER IPARG(NPARG,*), IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*), 
+      INTEGER IPARG(NPARG,*), IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*),
      .   ID_ELEM(*), ITY_ELEM(*),IPART(LIPART1,*), IPARTT(*) ,IPARTP(*) ,IPARTR(*)
       my_real
      .   ONED_SCALAR(*)
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER OFFSET,ITY,MLW,NEL,NFT,NG,I
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 
       DO NG=1,NGROUP
@@ -71,14 +71,14 @@ C-----------------------------------------------
         IF (ITY == 6) OFFSET = NUMELT+NUMELP
 c
         IF(ITY == 4 .OR. ITY == 5 .OR. ITY == 6)THEN
-          DO I=1,NEL 
+          DO I=1,NEL
             IF (ITY == 4) THEN
               ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)
               ITY_ELEM(OFFSET+NFT+I) = 4
-            ELSEIF (ITY == 5) THEN 
+            ELSEIF (ITY == 5) THEN
               ID_ELEM(OFFSET+NFT+I) = IXP(NIXP,NFT+I)
               ITY_ELEM(OFFSET+NFT+I) = 5
-            ELSEIF (ITY == 6) THEN 
+            ELSEIF (ITY == 6) THEN
               ID_ELEM(OFFSET+NFT+I) = IXR(NIXR,NFT+I)
               ITY_ELEM(OFFSET+NFT+I) = 6
             ENDIF

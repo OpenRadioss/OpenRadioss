@@ -33,13 +33,13 @@ Chd|====================================================================
 !$COMMENT
 !       INTER_STRUCT_INIT description
 !       initialization of INTER_STRUCT structure
-!       
+!
 !       INTER_STRUCT_INIT organization :
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
 C-----------------------------------------------
@@ -75,12 +75,12 @@ C-----------------------------------------------
         INTEGER :: KK,NIN
 !   ----------------------------------------
         DO KK=1,NINTER
-            INTER_STRUCT(KK)%SIZE_CAND_A = 0   
-            INTER_STRUCT(KK)%I_SK_OLD = 0    
+            INTER_STRUCT(KK)%SIZE_CAND_A = 0
+            INTER_STRUCT(KK)%I_SK_OLD = 0
             INTER_STRUCT(KK)%INACTI = 0
             INTER_STRUCT(KK)%INACTII = 0
             INTER_STRUCT(KK)%CURV_MAX_MAX = ZERO
-            INTER_STRUCT(KK)%NMN_G = 0                
+            INTER_STRUCT(KK)%NMN_G = 0
         ENDDO
         DO KK=1,NB_INTER_7_INACTI
             NIN = LIST_INTER_7_INACTI(KK)

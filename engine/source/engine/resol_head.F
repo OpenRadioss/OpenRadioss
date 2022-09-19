@@ -61,7 +61,7 @@ Chd|====================================================================
      .           ELBUF_TAB ,XFEM_TAB    ,INTBUF_TAB     ,STACK   ,IRUNN_BIS ,
      .           MULTI_FVM ,H3D_DATA    ,INTBUF_FRIC_TAB,SUBSETS ,IGRNOD    ,
      .           IGRBRIC   ,IGRQUAD     ,IGRSH4N        ,IGRSH3N ,IGRTRUSS  ,
-     .           IGRBEAM   ,IGRSPRING   ,IGRPART        ,IGRSURF ,IGRSLIN   , 
+     .           IGRBEAM   ,IGRSPRING   ,IGRPART        ,IGRSURF ,IGRSLIN   ,
      .           FORNEQS   ,MATPARAM_TAB,GROUP_PARAM_TAB,PINCH_DATA, ALE_CONNECTIVITY,
      .           T_MONVOL  ,DRAPE_Q4    ,DRAPE_T3       ,SENSOR_TAB, EBCS_TAB, DIFFUSION,
      .           SEGVAR)
@@ -105,7 +105,7 @@ C------------------------------------------------
 #include      "com02_c.inc"
 #include      "com04_c.inc"
 #include      "scr_fac_c.inc"
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "scr01_c.inc"
 #include      "scr03_c.inc"
 #include      "scr06_c.inc"
@@ -180,7 +180,7 @@ C     TRACE BACK  (Init process principal == thread 0)
 C-----------------------------------------------
       ITASKP1 = 1
       ITASKP1_DEF = 1
-      ITRACE(1)=0          
+      ITRACE(1)=0
       ITRACE(2)=NTHREAD
       CALL TRACE_IN(2,ITRACE,ZERO)
 C
@@ -212,7 +212,7 @@ C
      O  FSAVD  ,IBVEL    ,LBVEL      ,WASPH  ,XDP    ,W16    ,
      P  ISPHIO ,LPRTSPH  ,LONFSPH    ,VSPHIO ,FBVEL  ,LAGBUF ,IBCSLAG,
      Q  IACTIV ,DAMPR    ,GJBUFI     ,GJBUFR , RBMPC , IBMPC ,SPHVELN,
-     R  ITHGRPA ,ITHGRPB ,ITHGRPC    ,ITHGRPD ,ITHGRPE , 
+     R  ITHGRPA ,ITHGRPB ,ITHGRPC    ,ITHGRPD ,ITHGRPE ,
      S  ITHGRPF ,ITHGRPG ,ITHGRPH    ,ITHGRPI ,
      T  NBRCVOIS,NBSDVOIS,LNRCVOIS   ,LNSDVOIS,NERCVOIS,NESDVOIS,LERCVOIS,
      U  LESDVOIS,NPSEGCOM,LSEGCOM ,NPORGEO ,FSKYM   ,
@@ -259,7 +259,7 @@ C
      C  TABSENSOR,FBSAV6,WSMCOMP,STACK,
      D  CPUTIME_MP_GLOB, CPUTIME_MP ,TAB_UMP,POIN_UMP,SOL2SPH_TYP,
      E  IRUNN_BIS,ADDCSRECT,IAD_FRNOR,FR_NOR  ,PROCNOR,
-     F  IAD_FREDG,FR_EDG    ,DRAPE_Q4 , DRAPE_T3   ,TAB_MAT, 
+     F  IAD_FREDG,FR_EDG    ,DRAPE_Q4 , DRAPE_T3   ,TAB_MAT,
      G  NATIV0_SMS,MULTI_FVM,DDP     ,SEGQUADFR,MS_2D  ,
      H  H3D_DATA  ,INTBUF_FRIC_TAB,SUBSETS,IGRNOD,IGRBRIC,
      I  IGRQUAD,IGRSH4N,IGRSH3N,IGRTRUSS,IGRBEAM,

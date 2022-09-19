@@ -214,7 +214,7 @@ C
 C
                 CRKEDGE(ILAY)%EDGETIP(1,IEDGE) = MAX(IED,
      .                                     CRKEDGE(ILAY)%EDGETIP(1,IEDGE))
-                CRKEDGE(ILAY)%EDGETIP(2,IEDGE) = 
+                CRKEDGE(ILAY)%EDGETIP(2,IEDGE) =
      .                        CRKEDGE(ILAY)%EDGETIP(2,IEDGE) + 1
 C
 c               add check if BETA (0:1)

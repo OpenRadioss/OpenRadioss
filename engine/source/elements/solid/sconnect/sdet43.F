@@ -59,16 +59,16 @@ C     REAL
      .   PG, XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
      .   L1,L2,XL1,XL2,XL3,XL4,YL2,YL3,YL4,
      .   MX13,MY13,MX23,MX34,MY23,MY34,J0,J1,J2
-      my_real 
+      my_real
      .   VCX(4),VCY(4),
      .   P1X(NEL), P2X(NEL), P3X(NEL), P4X(NEL),
      .   P1Y(NEL), P2Y(NEL), P3Y(NEL), P4Y(NEL),
      .   P1Z(NEL), P2Z(NEL), P3Z(NEL), P4Z(NEL)
       DATA   PG/0.5773502691896257645091488/
 C=======================================================================
-      NINDX = 0  
+      NINDX = 0
 C     Calcule AREA / P Gauss
-      DO I=1,NEL 
+      DO I=1,NEL
         P1X(I)=(X(I,1)+X(I,5))*HALF
         P1Y(I)=(Y(I,1)+Y(I,5))*HALF
         P1Z(I)=(Z(I,1)+Z(I,5))*HALF
@@ -83,7 +83,7 @@ C     Calcule AREA / P Gauss
         P4Z(I)=(Z(I,4)+Z(I,8))*HALF
       ENDDO
 C
-      DO I=1,NEL 
+      DO I=1,NEL
         XX1 = P2X(I)-P1X(I)
         YY1 = P2Y(I)-P1Y(I)
         ZZ1 = P2Z(I)-P1Z(I)
@@ -119,7 +119,7 @@ c
         MX23=(VCX(2)+VCX(3))*HALF
         MX34=(VCX(3)+VCX(4))*HALF
         MY23=(VCY(2)+VCY(3))*HALF
-        MY34=(VCY(3)+VCY(4))*HALF   
+        MY34=(VCY(3)+VCY(4))*HALF
 c
         J1 = (MX23*MY13-MX13*MY23)*PG
         J2 =-(MX13*MY34-MX34*MY13)*PG
@@ -145,14 +145,14 @@ C-----------
           WRITE(ISTDO,1100) SOLID_ID(INDX(I))
 #include "lockoff.inc"
         END DO
-      ENDIF         
+      ENDIF
 C-----------
  1000 FORMAT(5X,'NEGATIVE AREA: DELETE CONNECTION SOLID ELEMENT ',I10)
  1100 FORMAT(5X,'NEGATIVE AREA: DELETE CONNECTION SOLID ELEMENT ',I10)
 C-----------
       RETURN
       END
-        
-        
-        
-        
+
+
+
+

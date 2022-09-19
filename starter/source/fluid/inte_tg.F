@@ -27,8 +27,8 @@ Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F
 Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
-     .                  X3,  Y3,  Z3,  XP,  YP,  ZP,                    
+      SUBROUTINE INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,
+     .                  X3,  Y3,  Z3,  XP,  YP,  ZP,
      .                  NRX,NRY, NRZ,  D2, JAC,
      .                  XS,  YS,  ZS, RVAL )
 C-----------------------------------------------
@@ -43,14 +43,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
-     .        XP, YP, ZP, D2, JAC, NRX, NRY, NRZ, 
+     .        XP, YP, ZP, D2, JAC, NRX, NRY, NRZ,
      .        XS, YS, ZS, RVAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, IAD2, IP, IHG
       my_real
-     .        PG(50), WPG(25),  R2, 
+     .        PG(50), WPG(25),  R2,
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
      .        ETA1, ETA2
 C
@@ -120,8 +120,8 @@ C INTEGRATION
          IAD=IAD+1
          IAD2=IAD2+2
          VAL1=ONE-ETA1-ETA2
-         VAL2=ETA1         
-         VAL3=ETA2          
+         VAL2=ETA1
+         VAL3=ETA2
          XG=VAL1*X1+VAL2*X2+VAL3*X3
          YG=VAL1*Y1+VAL2*Y2+VAL3*Y3
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
@@ -143,8 +143,8 @@ Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F
 Chd|        MASS_FLUID_TG                 source/fluid/mass-fluid_tg.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INTGTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
-     .                  X3,  Y3,  Z3,  XP,  YP,  ZP,                    
+      SUBROUTINE INTGTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,
+     .                  X3,  Y3,  Z3,  XP,  YP,  ZP,
      .                  D2, JAC,
      .                  XS,  YS,  ZS, RVAL )
 C-----------------------------------------------
@@ -159,14 +159,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
-     .        XP, YP, ZP, D2, JAC, 
+     .        XP, YP, ZP, D2, JAC,
      .        XS, YS, ZS, RVAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, IAD2, IP, IHG
       my_real
-     .        PG(50), WPG(25),  R2, 
+     .        PG(50), WPG(25),  R2,
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
      .        ETA1, ETA2
 C
@@ -236,8 +236,8 @@ C INTEGRATION
          IAD=IAD+1
          IAD2=IAD2+2
          VAL1=ONE-ETA1-ETA2
-         VAL2=ETA1         
-         VAL3=ETA2          
+         VAL2=ETA1
+         VAL3=ETA2
          XG=VAL1*X1+VAL2*X2+VAL3*X3
          YG=VAL1*Y1+VAL2*Y2+VAL3*Y3
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3

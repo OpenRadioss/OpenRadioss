@@ -78,9 +78,9 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER)
       INTEGER NIN,IDDL(*),IADK(*)     ,JDIK(*),LREM
 C     REAL
-      my_real 
-     .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*) 
-      my_real 
+      my_real
+     .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*)
+      my_real
      .        GAP_IMP
 C     REAL
 
@@ -96,7 +96,7 @@ C-----------------------------------------------
      .        ILAGM, LENR, LENT, MAXCC,INTTH,IFORM,INTKG,
      .        IDNJ,IDHJ
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ),KINI(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ) 
+     .        NSVG(MVSIZ),KINI(MVSIZ),IXX(MVSIZ,13),ITRIV(4,MVSIZ)
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,
@@ -108,7 +108,7 @@ C     REAL
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
      .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .     SUBTRIA(MVSIZ), 
+     .     SUBTRIA(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -116,10 +116,10 @@ C     REAL
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
-     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
+     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
+     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ),
      .   GAPV(MVSIZ),MSI(MVSIZ),GAPS(MVSIZ),
 c     .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),
 c     .     XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
@@ -150,8 +150,8 @@ C      IVIS2 =IPARI(14,NIN)
 C      INACTI=IPARI(22,NIN)
 C      ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       NISUB =IPARI(36,NIN)
       ICURV =IPARI(39,NIN)
@@ -203,7 +203,7 @@ c------------------------------------------------
       IF(I_STOK== 0) RETURN
 C-----------in SPMD, should do the comm or simplifying the values--  
       INTKG1 = 0
-      IF (INTKG>0.AND.IIKGOFF/=1) INTKG1=1    
+      IF (INTKG>0.AND.IIKGOFF/=1) INTKG1=1
       IF(INTKG1 > 0) THEN
        ALLOCATE(TAG_S(NUMNOD),TAG_M(NUMNOD))
         TAG_S =0
@@ -229,11 +229,11 @@ c          CALL I24CORK3(
 c     1  JLT       ,X       ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
 c     2  CAND_E(NFT+1),CAND_N(NFT+1) ,INTBUF_TAB%STFM,
 c     2  INTBUF_TAB%STFNS,STIF  ,
-c     3  XX0       ,YY0        ,ZZ0       ,VX           ,VY           ,   
+c     3  XX0       ,YY0        ,ZZ0       ,VX           ,VY           ,
 c     5  VZ        ,XI         ,YI        ,ZI           ,VXI          ,
 c     7  VYI       ,VZI        ,IXX       ,NSVG         ,INTBUF_TAB%NVOISIN,
 c     9  MS,MSI    ,NSN        ,V         ,
-c     A  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,  
+c     A  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,
 c     B  KMAX      ,INTBUF_TAB%GAP_S,GAPS    ,ITRIV     )
 
 c          CALL I24DSTK3(
@@ -262,7 +262,7 @@ C
      +               XI     ,YI      ,ZI      ,
      3               VXI    ,VYI     ,VZI    ,IX1   ,
      4               IX2     ,IX3    ,IX4     ,NSVG  ,INTBUF_TAB%NVOISIN,
-     5               MS      ,MSI    ,NSN     ,V     ,NIN    , 
+     5               MS      ,MSI    ,NSN     ,V     ,NIN    ,
      6               N1      ,N2     ,N3     ,H1    ,H2      ,
      7               H3      ,H4     ,INTBUF_TAB_IMP%NJ(IDNJ),INTBUF_TAB_IMP%HJ(IDHJ),
      8               INTBUF_TAB_IMP%INDSUBT(NFT+1))
@@ -287,16 +287,16 @@ C
      5                    TAG_S  ,TAG_M  ,NSN    )
         DEALLOCATE(TAG_S,TAG_M)
        END IF
-     
+
            IF (NSPMD > 1) THEN
             LREM = LREM + JLT
-            CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,       
+            CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,
      1         IX4      ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,KI11      ,KI12      ,KJ11     ,
      3         KJ12     ,KK11      ,KK12      ,KL11      ,KL12     ,
      4         OFF      ,NIN       )
             LREM = LREM - JLT
-           ENDIF 
+           ENDIF
 C
             CALL ASSEM_INT(3       ,NSVG     ,IX1    ,IX2    ,IX3    ,
      1         IX4      ,JLT       ,IDDL      ,K_DIAG    ,K_LT     ,
@@ -305,7 +305,7 @@ C
      4         OFF      )
       ENDDO
 
-      INTBUF_TAB_IMP%I_STOK(1) = 0 
+      INTBUF_TAB_IMP%I_STOK(1) = 0
 C
       RETURN
       END
@@ -343,7 +343,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
-#include      "units_c.inc" 
+#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
 #include      "com08_c.inc"
@@ -360,7 +360,7 @@ C-----------------------------------------------
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
+     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ),
      .   STIF(MVSIZ),PENE_OLD(5,*),STIF_OLD(2,*),
      .    KI11(3,3,MVSIZ),KJ11(3,3,MVSIZ),
      .    KK11(3,3,MVSIZ),KL11(3,3,MVSIZ),KI12(3,3,MVSIZ),
@@ -370,7 +370,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, J, K,IG,ISF,NN,NS,JLTF,NE,JG,N,ip
       my_real
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
      .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ)
       my_real
@@ -413,21 +413,21 @@ C---------------------
           JG = NSVG(I)
           N  = CAND_N(I)
           IF(JG > 0)THEN
-           STIF(I) = STIF_OLD(1,N) 
+           STIF(I) = STIF_OLD(1,N)
           ELSE
-           STIF(I) = STIF_OLDFI(NIN)%P(1,-JG) 
+           STIF(I) = STIF_OLDFI(NIN)%P(1,-JG)
           END IF
-         END DO 
+         END DO
 c        ELSE
 c         DO I=1,JLT
 c          JG = NSVG(I)
 c          N  = CAND_N(I)
 c          IF(JG > 0)THEN
-c           STIF(I) = STIF_OLD(2,N) 
+c           STIF(I) = STIF_OLD(2,N)
 c          ELSE
-c           STIF(I) = STIF_OLDFI(NIN)%P(2,-JG) 
+c           STIF(I) = STIF_OLDFI(NIN)%P(2,-JG)
 c          END IF
-c         END DO 
+c         END DO
         END IF !(INCONV < 0 THEN
 c       ELSE
 C  ------(IGSTI/=6)     
@@ -438,23 +438,23 @@ c        JG = NSVG(I)
 c        N  = CAND_N(I)
 c        IF(JG > 0)THEN
 c          IF(PENE_OLD(2,N) /= ZERO.and.TT /= ZERO)THEN
-c            IF(PENE(I) > PENE_OLD(2,N) .and. 
+c            IF(PENE(I) > PENE_OLD(2,N) .and.
 c     .            DPENE(I) < PENE(I)-PENE_OLD(2,N))THEN
 c              STIF(I) = (STIF_OLD(2,N)*PENE_OLD(2,N)+ STIF(I)*DPENE(I))
 c     .                                /PENE(I)
 c            ELSE
-c              STIF(I) = STIF_OLD(2,N) 
+c              STIF(I) = STIF_OLD(2,N)
 c            ENDIF
 c          ENDIF
 c        ELSE
 c          JG = -JG
 c          IF(PENE_OLDFI(NIN)%P(2,JG) /= ZERO.and.TT /= ZERO)THEN
-c            IF(PENE(I) > PENE_OLDFI(NIN)%P(2,JG) .and. 
+c            IF(PENE(I) > PENE_OLDFI(NIN)%P(2,JG) .and.
 c     .       DPENE(I) < PENE(I)-PENE_OLDFI(NIN)%P(2,JG))THEN
 c              STIF(I) = (STIF_OLDFI(NIN)%P(2,JG)*PENE_OLDFI(NIN)%P(2,JG)
 c     .                  + STIF(I)*DPENE(I)) / PENE(I)
 c            ELSE
-c              STIF(I) = STIF_OLDFI(NIN)%P(2,JG) 
+c              STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
 c            ENDIF
 c          ENDIF
 c        ENDIF
@@ -463,9 +463,9 @@ c       ENDDO
 C-----
 c      DO I=1,JLT
 c       IF(STIGLO<=ZERO)THEN
-c        STIF(I) = HALF*STIF(I) 
+c        STIF(I) = HALF*STIF(I)
 c       ELSEIF(STIF(I)/=ZERO)THEN
-c        STIF(I) = STIGLO 
+c        STIF(I) = STIGLO
 c       ENDIF
 c      ENDDO
 C---------------------------------
@@ -555,8 +555,8 @@ C    ----sans frottement d'abord---
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
 C    ----avec frottement --- 
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
@@ -570,13 +570,13 @@ C    ----avec frottement ---
            KK11(J,K,I)=KK11(J,K,I)+KT3
            KT4=FAC*H4(I)
            KL11(J,K,I)=KL11(J,K,I)+KT4
-          ENDIF 
+          ENDIF
          ENDDO
         ENDDO
        ENDDO
 C
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           KI12(J,K,I)=-KI11(J,K,I)
           KJ12(J,K,I)=-KJ11(J,K,I)
@@ -585,8 +585,8 @@ C
          ENDDO
         ENDDO
        ENDDO
-       DO J=1,3 
-        DO K=J+1,3 
+       DO J=1,3
+        DO K=J+1,3
          DO I=1,JLT
           KI12(K,J,I)=-KI11(J,K,I)
           KJ12(K,J,I)=-KJ11(J,K,I)
@@ -644,7 +644,7 @@ C----pour temporairement diag_ss---
         ENDDO
 C
        END IF !IF (INTP_D>0)
-      END IF 
+      END IF
 C
        RETURN
       END
@@ -673,7 +673,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
-#include      "units_c.inc" 
+#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -704,9 +704,9 @@ C-----------------------------------------------
       IF (NSN == 0) RETURN
       DO I=1,JLT
        IF(STIGLO<=ZERO)THEN
-        STIF(I) = HALF*STIF(I) 
+        STIF(I) = HALF*STIF(I)
        ELSEIF(STIF(I)/=ZERO)THEN
-        STIF(I) = STIGLO 
+        STIF(I) = STIGLO
        ENDIF
         FNI(I)= -STIF(I) * PENE(I)
       ENDDO

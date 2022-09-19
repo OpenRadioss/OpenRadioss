@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL     
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C traitement de p1 a pmaxporc-1 (p0 par defaut)
         DO NT = 1, NTHGRP2
           ITYP=ITHGRP(2,NT)
           NNE =ITHGRP(4,NT)
-          IAD =ITHGRP(5,NT)            
+          IAD =ITHGRP(5,NT)
           IF((ITYP>=1.AND.ITYP<=7).OR.
      .        ITYP==50.OR.ITYP==51.OR.ITYP==100)THEN
             DO IH = 1, NNE
@@ -122,7 +122,7 @@ c            ENDDO
                 ENDIF
               ENDDO
  109          CONTINUE
-            ENDDO               
+            ENDDO
           ENDIF
         ENDDO
       ENDIF

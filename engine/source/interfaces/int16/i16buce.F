@@ -60,7 +60,7 @@ C     REAL
       my_real
      .   TZINF,MINBOX
       my_real
-     .   X(3,*),EMINX(6,*),XSAV(3,*),V(3,*) ,A(3,*)  
+     .   X(3,*),EMINX(6,*),XSAV(3,*),V(3,*) ,A(3,*)
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -120,7 +120,7 @@ C-----------------------------------------------
               XSAV(1,J) = X(1,J)+DT2*(V(1,J)+DT12*A(1,J))
               XSAV(2,J) = X(2,J)+DT2*(V(2,J)+DT12*A(2,J))
               XSAV(3,J) = X(3,J)+DT2*(V(3,J)+DT12*A(3,J))
-	    ENDIF	      
+	    ENDIF	
           ENDDO
         ELSEIF(N10>0)THEN
           DO K=1,6
@@ -147,7 +147,7 @@ C     P1........Elt Bas Pile        NME
 C     P2........Elt PILE            2*NME
 C     P21.......BPN                 NSN
 C     P22.......PN                  NSN
-      MAXSIZ = 3*(NME+100) 
+      MAXSIZ = 3*(NME+100)
       IP1 = 1
       IP2 = IP1+NME+100
       IP21= IP2+MAXSIZ

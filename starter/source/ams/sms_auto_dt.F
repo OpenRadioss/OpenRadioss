@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -99,9 +99,9 @@ C
 
         DO NG=1,NGROUP
 C
-          NEL = IPARG(2,NG) 
+          NEL = IPARG(2,NG)
           NFT = IPARG(3,NG)
-          IAD = IPARG(4,NG) 
+          IAD = IPARG(4,NG)
           ITY = IPARG(5,NG)
           ISOL = IPARG(28,NG)
           GBUF => ELBUF_TAB(NG)%GBUF
@@ -150,7 +150,7 @@ C
       NUME(4) = NUMELT
       NUME(5) = NUMELP
       NUME(6) = NUMELR
-      NUME(7) = NUMELTG 	 
+      NUME(7) = NUMELTG 	
       DT_INDEX(1)  = 0
       DO I=2,7
         DT_INDEX(I)  = DT_INDEX(I-1)  + NUME(I-1)
@@ -173,9 +173,9 @@ C--------------------------------------------------
 C
       DO NG=1,NGROUP
 C
-        NEL = IPARG(2,NG) 
+        NEL = IPARG(2,NG)
         NFT = IPARG(3,NG)
-        IAD = IPARG(4,NG) 
+        IAD = IPARG(4,NG)
         ITY = IPARG(5,NG)
         ISOL = IPARG(28,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
@@ -334,18 +334,18 @@ C---   Third node must be taken into account for spring pulley
         LIX = LIX_INPUT
         IF ((ITY==6).AND.(IGTYP==12)) LIX = 3
 C
-        DO K=1,LIX                               
-          I = IX(MIX+K,ID_ELT) 
+        DO K=1,LIX
+          I = IX(MIX+K,ID_ELT)
           IF(I/=0) TAG(I)=0
-        ENDDO                                    
-        DO K=1,LIX                               
-          I = IX(MIX+K,ID_ELT) 
+        ENDDO
+        DO K=1,LIX
+          I = IX(MIX+K,ID_ELT)
           IF(I/=0)THEN
             IF(TAG(I)==0)THEN
               TAGN_SMS(I)=1
               TAG(I)=1
-            END IF		    
-          END IF		    
+            END IF		
+          END IF		
         ENDDO
         IF (TAGPRT_SMS(ID_PART)==0) THEN
           COMPT = COMPT + 1
@@ -355,7 +355,7 @@ C
 C---   Tag per element
         TAGEL_SMS(J) = 1
 C                          
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -406,23 +406,23 @@ C
 C
 C-- > Tag of additional nodes for selected solides with more than 8 nodes      
 C
-          DO K=1,NIX                               
-            I = IXS(K,ID_ELT_B) 
+          DO K=1,NIX
+            I = IXS(K,ID_ELT_B)
             IF(I/=0) TAG(I)=0
-          ENDDO                                    
-          DO K=1,NIX                               
-            I = IXS(K,ID_ELT_B) 
+          ENDDO
+          DO K=1,NIX
+            I = IXS(K,ID_ELT_B)
             IF(I/=0)THEN
               IF(TAG(I)==0)THEN
                 TAGN_SMS(I)=1
                 TAG(I)=1
-              END IF		    
-            END IF		    
+              END IF		
+            END IF		
           ENDDO
 C
         ENDIF
 C                          
-      ENDDO 
+      ENDDO
 C
       RETURN
       END

@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE ELBUFTAG_MOD           
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,14 +69,14 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+--------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI)
       INTEGER IG,IGTYP
-      my_real   GEO(*) 
+      my_real   GEO(*)
 
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      my_real   
+      my_real
      .        PARGEO(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -109,17 +109,17 @@ C--------------------------------------------------
 C
       GEO(41) = TTHICK
 C
-      PARGEO(1) = 0                                                  
-      PARGEO(2) = 0                                                  
-      PARGEO(3) = 0                                                  
-      PARGEO(4) = NPG                                                
-      PARGEO(5) = JCVT                                               
-      IF (ISMSTR == 0) ISMSTR = ISST_DS                              
-      IF (ISMSTR  < 0 .OR. ISST_DS==-2) ISMSTR = 1                            
-      IF (ISMSTR == 0 .OR. ISMSTR == 2 .OR. ISMSTR == 3) ISMSTR = 1  
-      IF (ISMSTR == 10) ISMSTR = 4 
-                                   
-      IGEO(5) = ISMSTR   
+      PARGEO(1) = 0
+      PARGEO(2) = 0
+      PARGEO(3) = 0
+      PARGEO(4) = NPG
+      PARGEO(5) = JCVT
+      IF (ISMSTR == 0) ISMSTR = ISST_DS
+      IF (ISMSTR  < 0 .OR. ISST_DS==-2) ISMSTR = 1
+      IF (ISMSTR == 0 .OR. ISMSTR == 2 .OR. ISMSTR == 3) ISMSTR = 1
+      IF (ISMSTR == 10) ISMSTR = 4
+
+      IGEO(5) = ISMSTR
 c
 C-----------     
 c

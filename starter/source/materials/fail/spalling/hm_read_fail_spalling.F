@@ -55,9 +55,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -122,8 +122,8 @@ C-----------------------------------------------
 
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE       
-       WRITE(IOUT, 1000)D1,D2,D3,D4,D5,PMIN         
+      ELSE
+       WRITE(IOUT, 1000)D1,D2,D3,D4,D5,PMIN
        IF(ISOLID==1)THEN
          WRITE(IOUT, 1100)
        ELSEIF(ISOLID==2)THEN
@@ -131,7 +131,7 @@ C-----------------------------------------------
        ELSEIF(ISOLID==3)THEN
          WRITE(IOUT, 1300)
        ELSEIF(ISOLID==4)THEN
-         WRITE(IOUT, 1400)  
+         WRITE(IOUT, 1400)
        ENDIF
 
        IF(D3>0.)THEN
@@ -152,18 +152,18 @@ C
      & 5X,'FORTH FAILURE PARAMETER (D4). . . . . .=',E12.4/
      & 5X,'FIFTH FAILURE PARAMETER (D5).   . . . .=',E12.4/
      & 5X,'LIMIT PRESSURE . . . . . . ..   . . . .=',E12.4//)
-  
+
  1100 FORMAT(
-     & 5X,'    NO JOHNSON COOK DAMAGE AND ALLOWS  SPALL ')      
+     & 5X,'    NO JOHNSON COOK DAMAGE AND ALLOWS  SPALL ')
  1200 FORMAT(
-     & 5X,'    JOHNSON COOK DAMAGE WITH ELEMENT DELETE',/ 
-     & 5X, '           AND ALLOWS  SPALL              ') 
+     & 5X,'    JOHNSON COOK DAMAGE WITH ELEMENT DELETE',/
+     & 5X, '           AND ALLOWS  SPALL              ')
  1300 FORMAT(
      & 5X,'  JOHNSON COOK DAMAGE WITHOUT ELEMENT DELETE ',/
      & 5X,'          AND ALLOWS  SPALL           '    )
  1400 FORMAT(
-     & 5X,'    JOHNSON COOK DAMAGE AND ALLOWS  SPALL',/ 
-     & 5X, '           WITH ELEMENT DELETE          ')   
+     & 5X,'    JOHNSON COOK DAMAGE AND ALLOWS  SPALL',/
+     & 5X, '           WITH ELEMENT DELETE          ')
 
       RETURN
       END

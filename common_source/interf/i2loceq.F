@@ -68,18 +68,18 @@ C     REAL
 C=======================================================================
 C     Moment equilibrium in LOCAL coordinates
 C-------------------------------------------------
-      RSX(1) = RX(1) - RS(1)                      
-      RSY(1) = RY(1) - RS(2)                       
-      RSZ(1) = RZ(1) - RS(3)                       
-      RSX(2) = RX(2) - RS(1)                       
-      RSY(2) = RY(2) - RS(2)                       
-      RSZ(2) = RZ(2) - RS(3)                       
-      RSX(3) = RX(3) - RS(1)                      
-      RSY(3) = RY(3) - RS(2)                      
-      RSZ(3) = RZ(3) - RS(3) 
-      RSX(4) = RX(4) - RS(1)                      
-      RSY(4) = RY(4) - RS(2)                      
-      RSZ(4) = RZ(4) - RS(3) 
+      RSX(1) = RX(1) - RS(1)
+      RSY(1) = RY(1) - RS(2)
+      RSZ(1) = RZ(1) - RS(3)
+      RSX(2) = RX(2) - RS(1)
+      RSY(2) = RY(2) - RS(2)
+      RSZ(2) = RZ(2) - RS(3)
+      RSX(3) = RX(3) - RS(1)
+      RSY(3) = RY(3) - RS(2)
+      RSZ(3) = RZ(3) - RS(3)
+      RSX(4) = RX(4) - RS(1)
+      RSY(4) = RY(4) - RS(2)
+      RSZ(4) = RZ(4) - RS(3)
 c
       MX = ZERO
       MY = ZERO
@@ -104,20 +104,20 @@ c
         MXY = RSX(1)*FMY(1)+RSX(2)*FMY(2)+RSX(3)*FMY(3)+RSX(4)*FMY(4)
         MYX = RSY(1)*FMX(1)+RSY(2)*FMX(2)+RSY(3)*FMX(3)+RSY(4)*FMX(4)
         MZZ = MXY - MYX
-        FYY = MXY/RXX         
-        FXX = -MYX/RYY      
+        FYY = MXY/RXX
+        FXX = -MYX/RYY
 C
         STIFM=MAX(ABS(BX) / ABS(RXX),ABS(BY) / ABS(RYY))
 C
-        FMX(1) = FMX(1) - FXX    
-        FMX(2) = FMX(2) - FXX    
-        FMX(3) = FMX(3) + FXX    
-        FMX(4) = FMX(4) + FXX    
+        FMX(1) = FMX(1) - FXX
+        FMX(2) = FMX(2) - FXX
+        FMX(3) = FMX(3) + FXX
+        FMX(4) = FMX(4) + FXX
 
-        FMY(1) = FMY(1) + FYY    
-        FMY(2) = FMY(2) - FYY    
-        FMY(3) = FMY(3) - FYY    
-        FMY(4) = FMY(4) + FYY    
+        FMY(1) = FMY(1) + FYY
+        FMY(2) = FMY(2) - FYY
+        FMY(3) = FMY(3) - FYY
+        FMY(4) = FMY(4) + FYY
 c
 c---    Moments Mx, MY
 c
@@ -128,24 +128,24 @@ c
         MXZ = RSX(1)*FMZ(1)+RSX(2)*FMZ(2)+RSX(3)*FMZ(3)+RSX(4)*FMZ(4)
         MYY = MZX - MXZ
 c
-        RAX = RX(1) - RX(3)   
-        RBX = RX(4) - RX(2)   
-        RAY = RY(1) - RY(3)   
-        RBY = RY(4) - RY(2)   
-        D1 = -MXX*RBX - MYY*RBY            
-        D2 =  MXX*RAX + MYY*RAY            
-        DD =  RAY*RBX - RAX*RBY                   
-        FA = D1 / DD                             
-        FB = D2 / DD                             
+        RAX = RX(1) - RX(3)
+        RBX = RX(4) - RX(2)
+        RAY = RY(1) - RY(3)
+        RBY = RY(4) - RY(2)
+        D1 = -MXX*RBX - MYY*RBY
+        D2 =  MXX*RAX + MYY*RAY
+        DD =  RAY*RBX - RAX*RBY
+        FA = D1 / DD
+        FB = D2 / DD
 C
         STIFM=MAX(STIFM,
      .        SQRT((BY*BY+BZ*BZ)*RBX*RBX+(BZ*BZ+BX*BX)*RBY*RBY)/ABS(DD),
      .        SQRT((BY*BY+BZ*BZ)*RAX*RAX+(BZ*BZ+BX*BX)*RAY*RAY)/ABS(DD))
 C
-        FMZ(1) = FMZ(1) + FA                     
-        FMZ(2) = FMZ(2) - FB                     
-        FMZ(3) = FMZ(3) - FA                     
-        FMZ(4) = FMZ(4) + FB                     
+        FMZ(1) = FMZ(1) + FA
+        FMZ(2) = FMZ(2) - FB
+        FMZ(3) = FMZ(3) - FA
+        FMZ(4) = FMZ(4) + FB
 c
 
       ELSEIF (NIR == 3) THEN
@@ -162,13 +162,13 @@ C
 C
         STIFM=MAX(ABS(BX) / ABS(RXX),ABS(BY) / ABS(RYY))
 C
-        FMX(1) = FMX(1) - FXX   
-        FMX(2) = FMX(2) - FXX    
-        FMX(3) = FMX(3) + TWO * FXX    
+        FMX(1) = FMX(1) - FXX
+        FMX(2) = FMX(2) - FXX
+        FMX(3) = FMX(3) + TWO * FXX
 
         FMY(1) = FMY(1) - TWO * FYY
-        FMY(2) = FMY(2) + FYY    
-        FMY(3) = FMY(3) + FYY    
+        FMY(2) = FMY(2) + FYY
+        FMY(3) = FMY(3) + FYY
 c
         MX=MX+(TWO*RSZ(1)-RSZ(2)-RSZ(3))*FYY
         MY=MY+(TWO*RSZ(3)-RSZ(1)-RSZ(2))*FXX
@@ -211,7 +211,7 @@ C-----
       ENDIF
 C-----------
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  I2LOCEQ_27                    interf/i2loceq.F              
 Chd|-- called by -----------
@@ -259,18 +259,18 @@ C     REAL
 C=======================================================================
 C     Moment equilibrium in LOCAL coordinates
 C-------------------------------------------------
-      RSX(1) = RX(1) - RS(1)                      
-      RSY(1) = RY(1) - RS(2)                       
-      RSZ(1) = RZ(1) - RS(3)                       
-      RSX(2) = RX(2) - RS(1)                       
-      RSY(2) = RY(2) - RS(2)                       
-      RSZ(2) = RZ(2) - RS(3)                       
-      RSX(3) = RX(3) - RS(1)                      
-      RSY(3) = RY(3) - RS(2)                      
-      RSZ(3) = RZ(3) - RS(3) 
-      RSX(4) = RX(4) - RS(1)                      
-      RSY(4) = RY(4) - RS(2)                      
-      RSZ(4) = RZ(4) - RS(3) 
+      RSX(1) = RX(1) - RS(1)
+      RSY(1) = RY(1) - RS(2)
+      RSZ(1) = RZ(1) - RS(3)
+      RSX(2) = RX(2) - RS(1)
+      RSY(2) = RY(2) - RS(2)
+      RSZ(2) = RZ(2) - RS(3)
+      RSX(3) = RX(3) - RS(1)
+      RSY(3) = RY(3) - RS(2)
+      RSZ(3) = RZ(3) - RS(3)
+      RSX(4) = RX(4) - RS(1)
+      RSY(4) = RY(4) - RS(2)
+      RSZ(4) = RZ(4) - RS(3)
 c
       MX = ZERO
       MY = ZERO
@@ -306,21 +306,21 @@ C       standard situation  -> FXX = -MYX/RYY and FYY = MXY/RXX
 C       1D formulation in X -> FXX = 0 and FYY = MZ / RXX
 C       1D formulation in Y -> FYY = 0 and FXX = MZ / RYY
 C
-        FYY = (BETAY*MXY-(ONE-BETAX)*MYX)/RXX         
-        FXX = ((ONE-BETAY)*MXY-BETAX*MYX)/RYY      
+        FYY = (BETAY*MXY-(ONE-BETAX)*MYX)/RXX
+        FXX = ((ONE-BETAY)*MXY-BETAX*MYX)/RYY
 C
         STIFM=MAX(SQRT((ONE-BETAX)*BY*BY+ BETAY*BX*BX)/ABS(RXX),SQRT(BETAX*BY*BY+ (ONE-BETAY)*BX*BX)/ABS(RYY))
-        STIFMR=ONE/(ABS(RXX)+ABS(RYY))  
+        STIFMR=ONE/(ABS(RXX)+ABS(RYY))
 C
-        FMX(1) = FMX(1) - FXX    
-        FMX(2) = FMX(2) - FXX    
-        FMX(3) = FMX(3) + FXX    
-        FMX(4) = FMX(4) + FXX    
+        FMX(1) = FMX(1) - FXX
+        FMX(2) = FMX(2) - FXX
+        FMX(3) = FMX(3) + FXX
+        FMX(4) = FMX(4) + FXX
 
-        FMY(1) = FMY(1) + FYY    
-        FMY(2) = FMY(2) - FYY    
-        FMY(3) = FMY(3) - FYY    
-        FMY(4) = FMY(4) + FYY    
+        FMY(1) = FMY(1) + FYY
+        FMY(2) = FMY(2) - FYY
+        FMY(3) = FMY(3) - FYY
+        FMY(4) = FMY(4) + FYY
 c
 c---    Moments Mx, MY
 C
@@ -333,26 +333,26 @@ c
         MXZ = RSX(1)*FMZ(1)+RSX(2)*FMZ(2)+RSX(3)*FMZ(3)+RSX(4)*FMZ(4)
         MYY = BETAY*(MZX - MXZ - MYS)
 c
-        RAX = RX(1) - RX(3)   
-        RBX = RX(4) - RX(2)   
-        RAY = RY(1) - RY(3)   
-        RBY = RY(4) - RY(2)   
-        D1 = -MXX*RBX - MYY*RBY            
-        D2 =  MXX*RAX + MYY*RAY            
-        DD =  RAY*RBX - RAX*RBY                   
-        FA = D1 / DD                             
-        FB = D2 / DD                             
+        RAX = RX(1) - RX(3)
+        RBX = RX(4) - RX(2)
+        RAY = RY(1) - RY(3)
+        RBY = RY(4) - RY(2)
+        D1 = -MXX*RBX - MYY*RBY
+        D2 =  MXX*RAX + MYY*RAY
+        DD =  RAY*RBX - RAX*RBY
+        FA = D1 / DD
+        FB = D2 / DD
 C
         STIFM=MAX(STIFM,
      .        SQRT((BY*BY+BZ*BZ)*RBX*RBX*BETAX+(BZ*BZ+BX*BX)*RBY*RBY*BETAY)/ABS(DD),
      .        SQRT((BY*BY+BZ*BZ)*RAX*RAX*BETAX+(BZ*BZ+BX*BX)*RAY*RAY*BETAY)/ABS(DD))
 C
-        STIFMR=MAX(STIFMR,(ABS(RBX*BETAX)+ABS(RBY*BETAY))/ABS(DD),(ABS(RAX*BETAX)+ABS(RAY*BETAY))/ABS(DD)) 
+        STIFMR=MAX(STIFMR,(ABS(RBX*BETAX)+ABS(RBY*BETAY))/ABS(DD),(ABS(RAX*BETAX)+ABS(RAY*BETAY))/ABS(DD))
 C
-        FMZ(1) = FMZ(1) + FA                     
-        FMZ(2) = FMZ(2) - FB                     
-        FMZ(3) = FMZ(3) - FA                     
-        FMZ(4) = FMZ(4) + FB                     
+        FMZ(1) = FMZ(1) + FA
+        FMZ(2) = FMZ(2) - FB
+        FMZ(3) = FMZ(3) - FA
+        FMZ(4) = FMZ(4) + FB
 c
 
       ELSEIF (NIR == 3) THEN
@@ -375,19 +375,19 @@ C       standard situation  -> FXX = -MYX/RYY and FYY = MXY/RXX
 C       1D formulation in X -> FXX = 0 and FYY = MZ / RXX
 C       1D formulation in Y -> FYY = 0 and FXX = MZ / RYY
 C
-        FYY = -(BETAY*MXY-(ONE-BETAX)*MYX)/RXX         
-        FXX = ((ONE-BETAY)*MXY-BETAX*MYX)/RYY      
+        FYY = -(BETAY*MXY-(ONE-BETAX)*MYX)/RXX
+        FXX = ((ONE-BETAY)*MXY-BETAX*MYX)/RYY
 C
         STIFM=MAX(SQRT((ONE-BETAX)*BY*BY+ BETAY*BX*BX)/ABS(RXX),SQRT(BETAX*BY*BY+ (ONE-BETAY)*BX*BX)/ABS(RYY))
-        STIFMR=ONE/(ABS(RXX)+ABS(RYY))  
+        STIFMR=ONE/(ABS(RXX)+ABS(RYY))
 C
-        FMX(1) = FMX(1) - FXX   
-        FMX(2) = FMX(2) - FXX    
-        FMX(3) = FMX(3) + TWO * FXX    
+        FMX(1) = FMX(1) - FXX
+        FMX(2) = FMX(2) - FXX
+        FMX(3) = FMX(3) + TWO * FXX
 
         FMY(1) = FMY(1) - TWO * FYY
-        FMY(2) = FMY(2) + FYY    
-        FMY(3) = FMY(3) + FYY    
+        FMY(2) = FMY(2) + FYY
+        FMY(3) = FMY(3) + FYY
 c
 c---    Moments Mx, MY
 C
@@ -427,5 +427,5 @@ C-----
       ENDIF
 C-----------
       RETURN
-      END 
-      
+      END
+

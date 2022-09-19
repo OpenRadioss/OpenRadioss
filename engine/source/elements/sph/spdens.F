@@ -101,7 +101,7 @@ C-------------------------------------------
        WA(6,N)=ZERO
        WA(7,N)=ZERO
        WA(8,N)=ZERO
-       WA(9,N)=ZERO    
+       WA(9,N)=ZERO
 C      characteristic lenght = diameter.
        WA(11,N)=SPBUF(1,N)
        WA(12,N)=ZERO
@@ -128,7 +128,7 @@ C      for DT,SPCEL stability computation:
 C
        ROTVX=ZERO
        ROTVY=ZERO
-       ROTVZ=ZERO    
+       ROTVZ=ZERO
 C------
        ALPHAI=WACOMP(1,N)
        BETAXI=WACOMP(2,N)

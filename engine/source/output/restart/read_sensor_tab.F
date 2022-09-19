@@ -62,7 +62,7 @@ c
         SENSOR%TCRIT   = HEAD(4)
         SENSOR%TMIN    = HEAD(5)
         SENSOR%TDELAY  = HEAD(6)
-        SENSOR%TSTART  = HEAD(7) 
+        SENSOR%TSTART  = HEAD(7)
         SENSOR%VALUE   = HEAD(8)
         SENSOR%NPARI   = NINT(HEAD(9))
         SENSOR%NPARR   = NINT(HEAD(10))
@@ -71,7 +71,7 @@ c
         NPARI = SENSOR%NPARI
         NPARR = SENSOR%NPARR
         NVAR  = SENSOR%NVAR
-        
+
         ALLOCATE(SENSOR%IPARAM(NPARI))
         ALLOCATE(SENSOR%RPARAM(NPARR))
         ALLOCATE(SENSOR%VAR(NVAR))
@@ -99,7 +99,7 @@ c
           END DO
           IAD = IAD + NVAR
         END IF
-c         
+c
         DEALLOCATE (RBUF)
       END DO
 c

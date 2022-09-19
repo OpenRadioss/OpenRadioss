@@ -66,7 +66,7 @@ C     REAL
       my_real
      . GEO(NPROPG,*)
       TYPE(ELBUF_STRUCT_) :: ELBUF_STR
-      TYPE(ELBUF_STRUCT_), TARGET ,DIMENSION(NGROUP,*):: XFEM_STR        
+      TYPE(ELBUF_STRUCT_), TARGET ,DIMENSION(NGROUP,*):: XFEM_STR
       !   when XFEM is ON, XFEM_STR's dimension = NGROUP,NXEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -88,7 +88,7 @@ C
       DO IXEL=1,NXEL
         CALL LAYINI_XFE(ELBUF_STR,ISUBSTACK,STACK   ,
      .                  LFT    ,LLT    ,NPT    ,GEO    ,IGEO   ,
-     .                  MAT    ,PID    ,THKLY  ,MATLY  ,POSLY  ,  
+     .                  MAT    ,PID    ,THKLY  ,MATLY  ,POSLY  ,
      .                  IGTYP  )
         CALL THICK_ILEV(ELBUF_STR,XFEM_STR(NG,IXEL),
      .                  LFT      ,LLT  ,NLAY  ,IR   ,IS  ,
@@ -157,7 +157,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT,NPT,IGTYP,ISUBSTACK
-      INTEGER MAT(*), PID(*), MATLY(*), IGEO(NPROPGI,*) 
+      INTEGER MAT(*), PID(*), MATLY(*), IGEO(NPROPGI,*)
       my_real GEO(NPROPG,*), POSLY(MVSIZ,*), THKLY(*)
       TYPE (ELBUF_STRUCT_) :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
@@ -231,29 +231,29 @@ C-----------------------------------------------
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
 C=======================================================================
-      IPTHK = 300                               
-      IPPOS = 400                               
+      IPTHK = 300
+      IPPOS = 400
       IPMAT = 100
       NLAY = ELBUF_STR%NLAY
 c-----------
       IF (IGTYP==11) THEN
-        DO ILAY=1,NLAY 
+        DO ILAY=1,NLAY
           IADR = (ILAY-1)*LLT
-          DO I=LFT,LLT  
-            J = IADR+I                            
+          DO I=LFT,LLT
+            J = IADR+I
             MATLY(J) = IGEO(IPMAT+ILAY,PID(1))
-            THKLY(J) = GEO(IPTHK+ILAY,PID(1))        
+            THKLY(J) = GEO(IPTHK+ILAY,PID(1))
             POSLY(I,ILAY) = GEO(IPPOS+ILAY,PID(1))
-          ENDDO                                 
+          ENDDO
         ENDDO
 c-----------
       ELSEIF (IGTYP == 51.OR. IGTYP == 52) THEN
         IPT_ALL = 0
         IPANG  =  1
         IPPID  =  2
-        IPMAT  =  IPPID + NLAY ! layer material address 
+        IPMAT  =  IPPID + NLAY ! layer material address
         IPTHK  =  IPANG + NLAY ! layer thickness address
-        IPPOS  =  IPTHK + NLAY ! layer position address 
+        IPPOS  =  IPTHK + NLAY ! layer position address
         DO ILAY=1,NLAY
           NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
           THK_LY  = STACK%GEO(IPTHK  + ILAY,ISUBSTACK)  ! layer thickness ratio
@@ -265,7 +265,7 @@ c-----------
           IF (IINT == 1) THEN  !  uniform distribution - by default
             DO IT=1,NPTT
               THK_IT(IT) = THK_LY/NPTT  ! equally distribution of NPTT through layer
-            ENDDO 
+            ENDDO
             POS_0 = POS_LY - HALF*THK_LY
             IF (NLAY == 1) POS_0 = - HALF !! special case
             POS_IT(1) = POS_0 + HALF*THK_IT(1)
@@ -287,7 +287,7 @@ c         remplissage
               THK_NPTT = THK_LY
               POS_NPTT = POS_LY
             ENDIF
-            DO I=LFT,LLT 
+            DO I=LFT,LLT
               J = (IPT-1)*LLT + I
               JMLY = (ILAY-1)*LLT + I
 C
@@ -300,25 +300,25 @@ C
         ENDDO  !  DO ILAY=1,NPT
 c-----------
       ELSEIF (IGTYP==1) THEN
-        DO N=1,NPT                                
-          IADR = (N-1)*LLT                        
-          DO I = LFT,LLT                            
-             J = IADR+I         
-            THKLY(J)   = ONE/NPT    
-            POSLY(I,N) = GEO(IPPOS+N,PID(I))    
+        DO N=1,NPT
+          IADR = (N-1)*LLT
+          DO I = LFT,LLT
+             J = IADR+I
+            THKLY(J)   = ONE/NPT
+            POSLY(I,N) = GEO(IPPOS+N,PID(I))
             MATLY(J)   = MAT(I)
-          ENDDO                                   
-        ENDDO     
+          ENDDO
+        ENDDO
       ELSE
-        DO N=1,NPT                                
-          IADR = (N-1)*LLT                        
-          DO I = LFT,LLT                           
-            J = IADR+I         
-            THKLY(J)   = GEO(IPTHK+N,PID(I))      
-            POSLY(I,N) = GEO(IPPOS+N,PID(I))  
+        DO N=1,NPT
+          IADR = (N-1)*LLT
+          DO I = LFT,LLT
+            J = IADR+I
+            THKLY(J)   = GEO(IPTHK+N,PID(I))
+            POSLY(I,N) = GEO(IPPOS+N,PID(I))
             MATLY(J)   = MAT(I)
-          ENDDO                                   
-        ENDDO 
+          ENDDO
+        ENDDO
       ENDIF
 c-----------
       RETURN

@@ -29,7 +29,7 @@ Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        DRAPE_MOD                     share/modules1/drape_mod.F    
 Chd|====================================================================
-      SUBROUTINE W_DRAPE(DRAPE,CEP,P,NUMEL,NUMEL_L,LEN_IA,LEN_AM)          
+      SUBROUTINE W_DRAPE(DRAPE,CEP,P,NUMEL,NUMEL_L,LEN_IA,LEN_AM)
          USE DRAPE_MOD
 C---------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,7 +59,7 @@ C-----------------------------------------------
 ! --------------------------------------
 C
       EL = 0
-      ALLOCATE(NPT_ELT(NUMEL_L), INDEX(NUMEL_L+1)) 
+      ALLOCATE(NPT_ELT(NUMEL_L), INDEX(NUMEL_L+1))
 C    
       INDEX = 0
       NDIM = 0
@@ -74,7 +74,7 @@ C
 C      
       ALLOCATE(ITMP(NDIM),RTMP(NDIM,2))
 C      
-      IDX  = 0 
+      IDX  = 0
       DO I = 1, NUMEL
         IF(CEP(I)==P) THEN
           NPT = DRAPE(I)%NPT
@@ -87,14 +87,14 @@ C
         ENDIF
       ENDDO
 C     
-      CALL WRITE_I_C(NDIM, 1) 
+      CALL WRITE_I_C(NDIM, 1)
       CALL WRITE_I_C(INDEX,NUMEL_L)
-      CALL WRITE_I_C(NPT_ELT,NUMEL_L)      
-      CALL WRITE_I_C(ITMP,NDIM)            
+      CALL WRITE_I_C(NPT_ELT,NUMEL_L)
+      CALL WRITE_I_C(ITMP,NDIM)
       CALL WRITE_DB(RTMP,2*NDIM)
-      LEN_AM = LEN_AM + 2*NDIM            
-      LEN_IA = LEN_IA + 2*NUMEL_L + NDIM + 1   
-      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT)                
+      LEN_AM = LEN_AM + 2*NDIM
+      LEN_IA = LEN_IA + 2*NUMEL_L + NDIM + 1
+      DEALLOCATE(ITMP,RTMP,INDEX,NPT_ELT)
 ! --------------------------------------
       RETURN
       END

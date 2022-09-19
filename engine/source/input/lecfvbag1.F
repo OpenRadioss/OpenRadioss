@@ -90,7 +90,7 @@ C
          IF(IFOUND == 0) THEN
 	       IF(ISPMD==0)THEN
 	           WRITE(IOUT,'(A)')      ' '
-               WRITE(IOUT,'(A)')      ' /FVMBAG/MODIF : '                 
+               WRITE(IOUT,'(A)')      ' /FVMBAG/MODIF : '
 		       WRITE(IOUT,'(A,I10,A)')' MONITORED VOLUME ID ',ID,
      .                                ' DOES NOT EXIST '
                WRITE(IOUT,'(A)')      ' INPUT IS IGNORED '
@@ -108,4 +108,4 @@ C
 
       RETURN
       END
-      
+

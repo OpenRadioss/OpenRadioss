@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IEL, I, N1, N2, N3, NALL  
+      INTEGER IEL, I, N1, N2, N3, NALL
 C
       DO IEL=JFT,JLT
          N1=IXTG(2,IEL)
@@ -56,4 +56,4 @@ C
 C
       RETURN
       END
-      
+

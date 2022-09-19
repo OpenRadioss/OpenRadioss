@@ -61,9 +61,9 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT, ITYP, SKFLAG,IUNIT
-      my_real PARGEO(*) 
+      my_real PARGEO(*)
 
       INTEGER ID
       CHARACTER*nchartitle,
@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,IDSK1,IDSK2,IFUN_RX,IFUN_RY,IFUN_RZ,
      .        IFUN_CRX,IFUN_CRY,IFUN_CRZ, ZEROI,OFLAG
-      my_real 
+      my_real
      .   XK,XTYP,XFLG,XSK1,XSK2,KNN,KRX,KRY,KRZ,CR,CRX,CRY,CRZ,
      .   MASS,INER,FAC_M,FAC_L,FAC_T,FAC_CT,FAC_CR,FAC_KT,FAC_KR,
      .   FAC_CTX,FAC_CRX,FAC_MM
@@ -177,9 +177,9 @@ C-----------------------
       IF (IFUN_RX  /= 0) KRX = KRX * FAC_MM
       IF (IFUN_RY  /= 0) KRY = KRY * FAC_MM
       IF (IFUN_RZ  /= 0) KRZ = KRZ * FAC_MM
-      IF (IFUN_CRX /= 0) CRX = CRX * FAC_MM 
-      IF (IFUN_CRY /= 0) CRY = CRY * FAC_MM 
-      IF (IFUN_CRZ /= 0) CRZ = CRZ * FAC_MM 
+      IF (IFUN_CRX /= 0) CRX = CRX * FAC_MM
+      IF (IFUN_CRY /= 0) CRY = CRY * FAC_MM
+      IF (IFUN_CRZ /= 0) CRZ = CRZ * FAC_MM
 C-----------------------
       PARGEO(1) = 0
       PARGEO(2) = XK
@@ -211,8 +211,8 @@ C-----------------------
       IERROR = SET_U_GEO(24,CRX)
       IERROR = SET_U_GEO(25,CRY)
       IERROR = SET_U_GEO(26,CRZ)
-      IERROR = SET_U_GEO(27,FAC_CTX)            
-      IERROR = SET_U_GEO(28,FAC_CRX)            
+      IERROR = SET_U_GEO(27,FAC_CTX)
+      IERROR = SET_U_GEO(28,FAC_CRX)
       IERROR = SET_U_PNU(1,ZEROI,KFUNC)
       IERROR = SET_U_PNU(2,ZEROI,KFUNC)
       IERROR = SET_U_PNU(3,ZEROI,KFUNC)

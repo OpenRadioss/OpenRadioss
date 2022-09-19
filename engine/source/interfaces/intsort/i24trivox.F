@@ -36,7 +36,7 @@ Chd|====================================================================
      2      IRECT  ,X       ,STF     ,STFN    ,XYZM     ,
      3      NSV    ,II_STOK ,CAND_N  ,ESHIFT  ,CAND_E   ,
      4      MULNSN ,NOINT   ,V       ,BGAPSMX  ,
-     5      VOXEL  ,NBX     ,NBY     ,NBZ     ,PMAX_GAP ,  
+     5      VOXEL  ,NBX     ,NBY     ,NBZ     ,PMAX_GAP ,
      6      NRTM   ,GAP_S   ,GAP_M   ,MARGE   ,CURV_MAX ,
      7      NIN    ,ITASK   ,PENE_OLD,ITAB    ,NBINFLG  ,
      8      MBINFLG,ILEV    ,MSEGTYP ,EDGE_L2 ,IEDGE    ,
@@ -56,7 +56,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -161,7 +161,7 @@ C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
-      XMIN = XYZM(1)  
+      XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
       XMAX = XYZM(4)
@@ -176,12 +176,12 @@ c     dev future: xminb plus grand que xmin...
       YMAXB = YMAX
       ZMAXB = ZMAX
 
-c!!!!!!!!!!!!!!! A VERIFIER !!!!!!!!!!!!!!!  
+c!!!!!!!!!!!!!!! A VERIFIER !!!!!!!!!!!!!!!
 C En SPMD, pour IFQ, retrouve ancienne numerotation des candidats non locaux
 c INUTIL POUR INT 24 !!!!!!!!!!!!!!!!!
       IF(NSPMD>1) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
-      END IF 
+      END IF
 
 C=======================================================================
 C 1   mise des noeuds dans les boites
@@ -204,7 +204,7 @@ C elements du processeur
         IF(X(2,J) > YMAX)  CYCLE
         IF(X(3,J) < ZMIN)  CYCLE
         IF(X(3,J) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
@@ -293,8 +293,8 @@ C on ne retient pas les facettes detruites
      +       + GAP_M(NE)+DGAPLOAD
 
 
-c     il est possible d'ameliorer l'algo en decoupant la facette 
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+c     il est possible d'ameliorer l'algo en decoupant la facette
+c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -373,7 +373,7 @@ cc             nbpelem = nbpelem + 1
 cc             nnpelem = nnpelem + 1
 
                IF(JJ<=NSN)THEN
-                 NN=NSV(JJ)                 
+                 NN=NSV(JJ)
                  IF(NN == M1)GOTO 200
                  IF(NN == M2)GOTO 200
                  IF(NN == M3)GOTO 200
@@ -399,15 +399,15 @@ c NEED to communicate in SPMD
 c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
-                IF (IEDGE > 0) THEN 
-                 AAA = MARGE + CURV_MAX(NE) 
+                IF (IEDGE > 0) THEN
+                 AAA = MARGE + CURV_MAX(NE)
      +               + MAX(GAP_S(JJ)+GAP_M(NE)+EDGE_L2(JJ)+DGAPLOAD
-     +                    ,PENE_OLD(3,JJ))+VMAXDT 
+     +                    ,PENE_OLD(3,JJ))+VMAXDT
                 ELSE
-                 AAA = MARGE + CURV_MAX(NE) 
+                 AAA = MARGE + CURV_MAX(NE)
      +               + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD
-     +                    ,PENE_OLD(3,JJ))+VMAXDT 
-                END IF 
+     +                    ,PENE_OLD(3,JJ))+VMAXDT
+                END IF
                ELSE
                  J=JJ-NSN
                  IF(FLAGREMNODE == 2)THEN
@@ -429,7 +429,7 @@ C can happen with Remote nodes when Secnd Nodes are on border between 2 domains
 C and Fictive node is remote
                  IF(IREM(8,J)==1) THEN
                                                                ! Same than in I24FIC_GETN but for Remote Node
-                    I24IREMPNSNE=IREM(7,J)                     ! in IREM IRTSE is located in IREM(I24IREMPNSNE,J) to IREM(I24IREMPNSNE+4,J) 
+                    I24IREMPNSNE=IREM(7,J)                     ! in IREM IRTSE is located in IREM(I24IREMPNSNE,J) to IREM(I24IREMPNSNE+4,J)
                     IED = IREM(I24IREMPNSNE+4,J)               ! IED = IRTSE(5,xx)
                     NS1 = IREM(I24IREMPNSNE-1+IK1(IED),J)      ! NS1 = IRTSE(IK1(IED))
                     NS2 = IREM(I24IREMPNSNE-1+IK2(IED),J)      ! NS2 = IRTSE(IK2(IED))
@@ -448,7 +448,7 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,XREM(I24XREMP+6,J))
-     +        + VMAXDT 
+     +        + VMAXDT
                ENDIF
 
                IF(XS<=XMINE-AAA)GOTO 200
@@ -471,7 +471,7 @@ cc             nnr0pelem = nnr0pelem + 1
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 200
                ENDIF

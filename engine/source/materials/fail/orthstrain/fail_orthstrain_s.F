@@ -31,9 +31,9 @@ Chd|        JACOBIEW                      source/materials/mat/mat033/sigeps33.F
 Chd|        VINTER2                       source/tools/curve/vinter.F   
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
-              SUBROUTINE FAIL_ORTHSTRAIN ( 
-     1        NEL      ,NUPARAM,NUVAR  ,NFUNC   ,IFUNC , 
-     2        NPF      ,TF     ,TIME   ,TIMESTEP,UPARAM ,ISMSTR   , 
+              SUBROUTINE FAIL_ORTHSTRAIN (
+     1        NEL      ,NUPARAM,NUVAR  ,NFUNC   ,IFUNC ,
+     2        NPF      ,TF     ,TIME   ,TIMESTEP,UPARAM ,ISMSTR   ,
      3        EPSPXX   ,EPSPYY ,EPSPZZ ,EPSPXY  ,EPSPYZ ,EPSPZX   ,
      4        EPSXX    ,EPSYY  ,EPSZZ  ,EPSXY   ,EPSYZ  ,EPSZX    ,
      5        SIGNXX   ,SIGNYY ,SIGNZZ ,SIGNXY  ,SIGNYZ ,SIGNZX   ,
@@ -96,9 +96,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
-      INTEGER NPF(*), NFUNC, IFUNC(NFUNC) 
-      my_real FINTER ,TF(*) 
-      EXTERNAL FINTER 
+      INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
+      my_real FINTER ,TF(*)
+      EXTERNAL FINTER
 C-----------------------------------------------
 C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
 C        Y       : y = f(x)
@@ -117,11 +117,11 @@ C-----------------------------------------------
       my_real  DAM(NEL,12),ODAM(NEL,12),EPSP(NEL,6),SIGO(NEL,6),FSIZE(NEL),
      .   ESCAL(NEL),DYDX(NEL)
       my_real ,DIMENSION(NEL)  :: EPS11,EPS22,EPS33,EPS12,EPS23,EPS31,
-     .     EPSP11,EPSP22,EPSP33,EPSP12,EPSP23,EPSP31 
+     .     EPSP11,EPSP22,EPSP33,EPSP12,EPSP23,EPSP31
       my_real  FRATE,EPSPREF,EPDOT,ALPHA,DEPSM,DEPS,FACT,P,I1,I2,I3,Q,R,R_INTER,
      .    PHI,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
-     .    DI,DAMXX,DAMYY,DAMXY,DAMZZ,DAMYZ,DAMZX, 
+     .    DI,DAMXX,DAMYY,DAMXY,DAMZZ,DAMYZ,DAMZX,
      .    ODAMXX,ODAMYY,ODAMXY,ODAMZZ,ODAMYZ,ODAMZX,FSCALE_SIZ,REF_SIZ
       my_real  EPSTENS(3,3),EPSTENS2(3,3),EPS_PR(3),VECT_PR(3,3),
      .         EPSPTENS(3,3),EPSPTENS2(3,3),EPSP_PR(3)
@@ -145,13 +145,13 @@ c-------------------
         IF (ISMSTR == 1 .OR. ISMSTR == 3 .OR. ISMSTR == 11) THEN
           STRFLAG = 3
         END IF
-      END IF         
+      END IF
 c--------------------------
       SELECT CASE (STRFLAG)
 c
         CASE (2)  !  transform true strain to engineering
           DO I=1,NEL
-            IF (OFF(I) == ONE ) THEN 
+            IF (OFF(I) == ONE ) THEN
               ! -> Fill the strain tensor 3x3
               EPSTENS(1,1) = EPSXX(I)
               EPSTENS(2,2) = EPSYY(I)
@@ -167,8 +167,8 @@ c
               ! -> Transform true principal strains to engineering principal strains
               EPS_PR(1) = EXP(EPS_PR(1)) - ONE
               EPS_PR(2) = EXP(EPS_PR(2)) - ONE
-              EPS_PR(3) = EXP(EPS_PR(3)) - ONE 
-              ! -> Recover engineering strain tensor 
+              EPS_PR(3) = EXP(EPS_PR(3)) - ONE
+              ! -> Recover engineering strain tensor
               EPSTENS(1:3,1:3) = ZERO
               EPSTENS(1,1) = EPS_PR(1)
               EPSTENS(2,2) = EPS_PR(2)
@@ -213,7 +213,7 @@ c
               EPSP_PR(1) = (EPS_PR(1)+ONE)*EPSP_PR(1)
               EPSP_PR(2) = (EPS_PR(2)+ONE)*EPSP_PR(2)
               EPSP_PR(3) = (EPS_PR(3)+ONE)*EPSP_PR(3)
-              ! -> Recover engineering strain rate tensor 
+              ! -> Recover engineering strain rate tensor
               EPSPTENS(1:3,1:3) = ZERO
               EPSPTENS(1,1) = EPSP_PR(1)
               EPSPTENS(2,2) = EPSP_PR(2)
@@ -263,8 +263,8 @@ c
               ! -> Transform engineering principal strains to true principal strains
               EPS_PR(1) = LOG(ONE + EPS_PR(1))
               EPS_PR(2) = LOG(ONE + EPS_PR(2))
-              EPS_PR(3) = LOG(ONE + EPS_PR(3)) 
-              ! -> Recover true strain tensor 
+              EPS_PR(3) = LOG(ONE + EPS_PR(3))
+              ! -> Recover true strain tensor
               EPSTENS(1:3,1:3) = ZERO
               EPSTENS(1,1) = EPS_PR(1)
               EPSTENS(2,2) = EPS_PR(2)
@@ -309,7 +309,7 @@ c
               EPSP_PR(1) = (ONE/(EXP(EPS_PR(1))))*EPSP_PR(1)
               EPSP_PR(2) = (ONE/(EXP(EPS_PR(2))))*EPSP_PR(2)
               EPSP_PR(3) = (ONE/(EXP(EPS_PR(3))))*EPSP_PR(3)
-              ! -> Recover true strain rates tensor 
+              ! -> Recover true strain rates tensor
               EPSPTENS(1:3,1:3) = ZERO
               EPSPTENS(1,1) = EPSP_PR(1)
               EPSPTENS(2,2) = EPSP_PR(2)
@@ -378,7 +378,7 @@ c
       ZX=6
       M11T = 1
       M11C = 4
-      M22T = 2 
+      M22T = 2
       M22C = 5
       M33T = 7
       M33C = 8
@@ -398,34 +398,34 @@ c     current variable initialisation
           SIGO(I,J) = UVAR(I,J)
           EPSP(I,J) = UVAR(I,J+6)
         ENDDO
-      ENDDO  
-c     
+      ENDDO
+c
 c strain rate filtering
       DO I=1,NEL
-        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (ONE-ALPHA)*EPSP(I,XX) 
-        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (ONE-ALPHA)*EPSP(I,YY) 
-        EPSP(I,ZZ) = ALPHA * ABS(EPSP33(I)) + (ONE-ALPHA)*EPSP(I,ZZ) 
+        EPSP(I,XX) = ALPHA * ABS(EPSP11(I)) + (ONE-ALPHA)*EPSP(I,XX)
+        EPSP(I,YY) = ALPHA * ABS(EPSP22(I)) + (ONE-ALPHA)*EPSP(I,YY)
+        EPSP(I,ZZ) = ALPHA * ABS(EPSP33(I)) + (ONE-ALPHA)*EPSP(I,ZZ)
         EPSP(I,XY) = ALPHA * ABS(EPSP12(I)) + (ONE-ALPHA)*EPSP(I,XY)
         EPSP(I,YZ) = ALPHA * ABS(EPSP23(I)) + (ONE-ALPHA)*EPSP(I,YZ)
         EPSP(I,ZX) = ALPHA * ABS(EPSP31(I)) + (ONE-ALPHA)*EPSP(I,ZX)
-      ENDDO 
+      ENDDO
 c
 c damage and failure calculation in each mode (dir)
 c
-      NINDX = 0  
+      NINDX = 0
       DO I=1, NEL
         IF (OFF(I) == ONE) THEN
           ET1    = UPARAM(4)
           ET1M   = UPARAM(5)
           ET2    = UPARAM(6)
-          ET2M   = UPARAM(7) 
+          ET2M   = UPARAM(7)
           EC1    = UPARAM(8)
           EC1M   = UPARAM(9)
           EC2    = UPARAM(10)
           EC2M   = UPARAM(11)
           ET12   = UPARAM(12)
           ET12M  = UPARAM(13)
-          EC12   = UPARAM(14)                       
+          EC12   = UPARAM(14)
           EC12M  = UPARAM(15)
           ET3    = UPARAM(18)
           ET3M   = UPARAM(19)
@@ -484,7 +484,7 @@ c
           IF (DEPS > ZERO .and. DAM(I,MODE) < ONE) THEN
             DEPSM = (ET2M - ET2)
             FACT  = ET2M / EPS22(I)
-            DI    = FACT * DEPS / DEPSM 
+            DI    = FACT * DEPS / DEPSM
             DAM(I,MODE) = MAX(DAM(I,MODE), DI)
             IF (DAM(I,MODE) >= ONE) THEN
               FAILI = 1
@@ -543,7 +543,7 @@ c
             ENDIF
           ENDIF
 c
-c		       MODE YY COMPRESSION	 
+c		       MODE YY COMPRESSION	
 c         	
           MODE = 5
           EPDOT = ABS(EPSP(I,YY))/EPSPREF
@@ -747,12 +747,12 @@ c
           IF (FAILI == 1) THEN
             FAILI   = 0
             UELR(I) = UELR(I)+1
-            NINDX   = NINDX + 1  
+            NINDX   = NINDX + 1
             INDX(NINDX) = I
             IF (UELR(I) >= NPT) THEN
               UVAR(I,31) = ONE
-              TDEL(I)    = TIME 
-              OFF(I)     = FOUR_OVER_5 
+              TDEL(I)    = TIME
+              OFF(I)     = FOUR_OVER_5
               SIGNXX(I) = ZERO
               SIGNYY(I) = ZERO
               SIGNZZ(I) = ZERO
@@ -762,7 +762,7 @@ c
             ENDIF
           ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 c------------------------
 c     Apply damage to stress
 c------------------------
@@ -819,13 +819,13 @@ c------------------------
         DO I=1, NEL
           UVAR(I,J+12) = DAM(I,J)
         ENDDO
-      ENDDO  
+      ENDDO
       DO  J=1 ,6
         DO I=1, NEL
           UVAR(I,J+6) = EPSP(I,J)
         ENDDO
-      ENDDO  
-      DO I =1, NEL 
+      ENDDO
+      DO I =1, NEL
         UVAR(I,XX) = SIGNXX(I)
         UVAR(I,YY) = SIGNYY(I)
         UVAR(I,ZZ) = SIGNZZ(I)
@@ -836,10 +836,10 @@ c------------------------
 c------------------------
 c     Output
 c------------------------
-      IF (NINDX > 0) THEN 
-        DO J=1,NINDX    
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
           I = INDX(J)
-#include  "lockon.inc"      
+#include  "lockon.inc"
             WRITE(ISTDO,1000) NGL(I),IPT
             WRITE(IOUT, 2000) NGL(I),IPT
             IF (FMODE(I,1)  == 1) WRITE(IOUT,4000) 1 ,EPSP(I,XX)
@@ -859,19 +859,19 @@ c------------------------
           IF (OFF(I) == FOUR_OVER_5) WRITE(IOUT, 3000) NGL(I),TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c------------------------
-      IF (NINDX > 0) THEN 
-        DO J=1,NINDX    
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
           I = INDX(J)
           IF (OFF(I) == FOUR_OVER_5) OFF(I) = ZERO
         END DO
-      END IF              
+      END IF
 c-----------------------------------------------------------------------
  1000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5)
  2000 FORMAT(1X,'FAILURE (ORTHSTR) OF SOLID ELEMENT ',I10,1X,',GAUSS PT ',I5)
- 3000 FORMAT(1X,'RUPTURE OF ELEMENT #',I10,1X,'AT TIME # ',1PE12.4)   
- 4000 FORMAT(1X,'MODE',1X,I2,' STRAIN RATE',1PE12.4) 
+ 3000 FORMAT(1X,'RUPTURE OF ELEMENT #',I10,1X,'AT TIME # ',1PE12.4)
+ 4000 FORMAT(1X,'MODE',1X,I2,' STRAIN RATE',1PE12.4)
 c-----------------------------------------------------------------------
-      RETURN          
+      RETURN
       END

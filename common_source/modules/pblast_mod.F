@@ -47,7 +47,7 @@ Chd|====================================================================
         INTEGER SIZ
         my_real, ALLOCATABLE,DIMENSION(:)    :: PRES      ! pressure output(workarray)
         my_real, ALLOCATABLE,DIMENSION(:)    :: cos_theta ! angle on structural face
-        my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters  
+        my_real, ALLOCATABLE,DIMENSION(:)    :: P_inci,P_refl,ta,t0,decay_inci,decay_refl ! Friedlander parameters
         my_real, DIMENSION(:)  , ALLOCATABLE :: FX,FY,FZ,NPt !working arrays (forces)
         INTEGER, DIMENSION(:,:), ALLOCATABLE :: N !working array (normal vectors)
       END TYPE PBLAST_STRUCT_
@@ -162,7 +162,7 @@ C-----------------------------------------------
         ALLOCATE ( PBLAST_TAB(I)%FY(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE ( PBLAST_TAB(I)%FZ(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE ( PBLAST_TAB(I)%N(4,SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
-        ALLOCATE ( PBLAST_TAB(I)%NPt(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000                                
+        ALLOCATE ( PBLAST_TAB(I)%NPt(SIZ),STAT=IERR1); IF (IERR1/=0) GOTO 1000
         ALLOCATE(RTMP(7*SIZ))
         CALL READ_DB(RTMP,7*SIZ)
         IAD = 0
@@ -188,8 +188,8 @@ C-----------------------------------------------
 C-----------------------------------------------
       RETURN
       END
-      
-      
+
+
 Chd|====================================================================
 Chd|  PBLAST_DEALLOCATE             modules/pblast_mod.F          
 Chd|-- called by -----------
@@ -215,7 +215,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB      
+      TYPE(PBLAST_STRUCT_),INTENT(INOUT), ALLOCATABLE,DIMENSION(:) :: PBLAST_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -228,7 +228,7 @@ C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------      
       DO II=1,NLOADP_B
-        IF(ALLOCATED( PBLAST_TAB(II)%cos_theta ))  DEALLOCATE ( PBLAST_TAB(II)%cos_theta ) 
+        IF(ALLOCATED( PBLAST_TAB(II)%cos_theta ))  DEALLOCATE ( PBLAST_TAB(II)%cos_theta )
         IF(ALLOCATED( PBLAST_TAB(II)%P_inci ))     DEALLOCATE ( PBLAST_TAB(II)%P_inci )
         IF(ALLOCATED( PBLAST_TAB(II)%P_refl ))     DEALLOCATE ( PBLAST_TAB(II)%P_refl )
         IF(ALLOCATED( PBLAST_TAB(II)%ta ))         DEALLOCATE ( PBLAST_TAB(II)%ta )
@@ -242,12 +242,12 @@ C-----------------------------------------------
         IF(ALLOCATED( PBLAST_TAB(II)%N ))          DEALLOCATE ( PBLAST_TAB(II)%N )
         IF(ALLOCATED( PBLAST_TAB(II)%NPt ))        DEALLOCATE ( PBLAST_TAB(II)%NPt )
       ENDDO
-      
+
       IF(ALLOCATED(PBLAST_TAB))DEALLOCATE(PBLAST_TAB)
 C-----------------------------------------------
       RETURN
       END
-            
+
 
 Chd|====================================================================
 Chd|  PBLAST_WRITE_STARTER          modules/pblast_mod.F          

@@ -110,7 +110,7 @@ C
           V(1,N)=VX
           V(2,N)=VY
           V(3,N)=VZ
-        ENDDO      
+        ENDDO
       ENDIF
       RETURN
-      END       
+      END

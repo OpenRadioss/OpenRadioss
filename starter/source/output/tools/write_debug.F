@@ -90,7 +90,7 @@ Chd|====================================================================
 #endif
 
       INTEGER :: I
-  
+
       IF(FLUSH_RST_TO_TXT) THEN
         WRITE(777+OMP_GET_THREAD_NUM(),*) TRIM(SA),' '
         DO I = 1,N

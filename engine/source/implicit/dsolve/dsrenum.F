@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NDDL, J, INO, IDL, JJ, LDDLN(2,NDDL0), 
+      INTEGER I, NDDL, J, INO, IDL, JJ, LDDLN(2,NDDL0),
      .        RENUM(NDDL_INI0), NDF, NDI, K, LDDLG(NDDL0), NDDL1
 C
       DO I=1,NSPROC
@@ -74,7 +74,7 @@ C
             LDDLN(2,JJ)=IDL
             LDDLG(JJ)=GRAPHE(I)%LSDDL_GLOB_INI(J)
          ENDDO
-         IF (NDDL1/=NDDL0) THEN 
+         IF (NDDL1/=NDDL0) THEN
             CALL ANCMSG(MSGID=61,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF

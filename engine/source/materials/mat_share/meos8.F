@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C     REAL
      .   C5(MVSIZ), C6(MVSIZ), G(MVSIZ) , POLD(MVSIZ), DPDM(MVSIZ),
      .   A(MVSIZ) , B(MVSIZ) , PC(MVSIZ), PNEW(MVSIZ), DF(MVSIZ),
      .   PSH(MVSIZ),
-     .   DVV     
+     .   DVV
       my_real,
      .  DIMENSION(:), POINTER :: SIGP
       TYPE(L_BUFEL_) ,POINTER :: LBUF
@@ -174,9 +174,9 @@ C--------------------------------------------------
           SIGP(JJ(1)+I)= SIGP(JJ(1)+I)-PNEW(I)
           SIGP(JJ(2)+I)= SIGP(JJ(2)+I)-PNEW(I)
           SIGP(JJ(3)+I)= SIGP(JJ(3)+I)-PNEW(I)
-          SIGP(JJ(4)+I)= SIGP(JJ(4)+I)        
-          SIGP(JJ(5)+I)= SIGP(JJ(5)+I)        
-          SIGP(JJ(6)+I)= SIGP(JJ(6)+I)       
+          SIGP(JJ(4)+I)= SIGP(JJ(4)+I)
+          SIGP(JJ(5)+I)= SIGP(JJ(5)+I)
+          SIGP(JJ(6)+I)= SIGP(JJ(6)+I)
         ENDDO
 C--------------------------------------------------
 C     CONTRAINTE MOYENNE (OUTPUT)
@@ -187,7 +187,7 @@ C--------------------------------------------------
           SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
           SIG(I,4)=SIG(I,4)+ONE_OVER_8*SIGP(JJ(4)+I)
           SIG(I,5)=SIG(I,5)+ONE_OVER_8*SIGP(JJ(5)+I)
-          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)   
+          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)
         ENDDO
       ENDDO ! DO IPT=1,NPT
 C---------------------------------------------

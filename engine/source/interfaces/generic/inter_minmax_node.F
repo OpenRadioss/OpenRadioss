@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  INTER_MINMAX_NODE             source/interfaces/generic/inter_minmax_node.F
 Chd|-- called by -----------
@@ -34,7 +34,7 @@ Chd|====================================================================
         SUBROUTINE INTER_MINMAX_NODE( ITASK,X )
 !$COMMENT
 !       INTER_MINMAX_NODE description :
-!       compute the minimal & maximal positions      
+!       compute the minimal & maximal positions
 !
 !       INTER_MINMAX_NODE organization :
 !       loop over the nodes & min+max computation
@@ -42,7 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
         USE MESSAGE_MOD
@@ -89,17 +89,17 @@ C-----------------------------------------------
         FIRST = 1+ITASK*NUMNOD/NTHREAD
         LAST = (ITASK+1)*NUMNOD/NTHREAD
         !   ------------------
-        !   find the min & max position 
+        !   find the min & max position
         DO I=FIRST,LAST
             DO J=1,3
                 MAX_LIMIT(J) = MAX(MAX_LIMIT(J),X(J,I))
                 MIN_LIMIT(J) = MIN(MIN_LIMIT(J),X(J,I))
-            ENDDO            
+            ENDDO
         ENDDO
         !   ------------------
 
         !   ------------------
-        !   omp reduction 
+        !   omp reduction
 #include "lockon.inc"
         BOX_LIMIT(1) = MAX(BOX_LIMIT(1),MAX_LIMIT(1))
         BOX_LIMIT(2) = MAX(BOX_LIMIT(2),MAX_LIMIT(2))

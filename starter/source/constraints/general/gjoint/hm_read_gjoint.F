@@ -50,7 +50,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,11 +71,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER LAG_NCF ,LAG_NKF, LAG_NHF, 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER LAG_NCF ,LAG_NKF, LAG_NHF,
      .        GJBUFI(LKJNI,*), ITAB(*), ITABM(*), IKINE(*),
      .        IKINE1LAG(*)
-      my_real 
+      my_real
      .        GJBUFR(LKJNR,*), X(3,*), MASS(*), INER(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -165,15 +165,15 @@ C
           CALL HM_GET_FLOATV('r3z',R3(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDIF
 C------   
-        N0 = USR2SYS(N0,ITABM,MESS,ID)          
-        N1 = USR2SYS(N1,ITABM,MESS,ID)          
-        N2 = USR2SYS(N2,ITABM,MESS,ID) 
+        N0 = USR2SYS(N0,ITABM,MESS,ID)
+        N1 = USR2SYS(N1,ITABM,MESS,ID)
+        N2 = USR2SYS(N2,ITABM,MESS,ID)
         MASS(N0) =  MASS(N0) + MS0
         MASS(N1) =  MASS(N1) + MS1
         MASS(N2) =  MASS(N2) + MS2
-        INER(N0) =  INER(N0) + IN0   
-        INER(N1) =  INER(N1) + IN1   
-        INER(N2) =  INER(N2) + IN2  
+        INER(N0) =  INER(N0) + IN0
+        INER(N1) =  INER(N1) + IN1
+        INER(N2) =  INER(N2) + IN2
         IF (ALPHA==0) ALPHA = 1.0
         IF(R1(1)==ZERO.AND.R1(2)==ZERO.AND.R1(3)==ZERO) R1(1)=1.
         IF(R2(1)==ZERO.AND.R2(2)==ZERO.AND.R2(3)==ZERO) R2(1)=1.
@@ -189,11 +189,11 @@ C---
           R3(3) = ZERO
         ELSEIF(KEY(1:4)=='DIFF') THEN
           JTYP = 2
-          N3 = USR2SYS(N3,ITABM,MESS,ID) 
+          N3 = USR2SYS(N3,ITABM,MESS,ID)
           CALL KINSET(512,ITAB(N3),IKINE(N3),7,0,IKINE1LAG(N3))
           IF(R3(1)==ZERO.AND.R3(2)==ZERO.AND.R3(3)==ZERO) R3(1)=1.
           MASS(N3) =  MASS(N3) + MS3
-          INER(N3) =  INER(N3) + IN3   
+          INER(N3) =  INER(N3) + IN3
         ELSEIF(KEY(1:4)=='RACK') THEN
           JTYP = 3
           N3 = 0
@@ -203,7 +203,7 @@ C---
 
         ELSE
 c         unknown type
-        ENDIF  
+        ENDIF
 C------         
         L1 = ONE/SQRT(R1(1)*R1(1)+R1(2)*R1(2)+R1(3)*R1(3))
         L2 = ONE/SQRT(R2(1)*R2(1)+R2(2)*R2(2)+R2(3)*R2(3))
@@ -214,14 +214,14 @@ C------
           R2(J) = R2(J)*L2
           R3(J) = R3(J)*L3
         ENDDO
-        GJBUFI(1,I) = ID           
-        GJBUFI(2,I) = JTYP           
-        GJBUFI(3,I) = N0         
-        GJBUFI(4,I) = N1          
+        GJBUFI(1,I) = ID
+        GJBUFI(2,I) = JTYP
+        GJBUFI(3,I) = N0
+        GJBUFI(4,I) = N1
         GJBUFI(5,I) = N2
         GJBUFI(6,I) = N3
 C
-        GJBUFR( 1,I) = ONE/ALPHA 
+        GJBUFR( 1,I) = ONE/ALPHA
         GJBUFR( 2,I) = ONE
         GJBUFR( 3,I) = ZERO
         GJBUFR( 4,I) = ZERO
@@ -312,4 +312,4 @@ C---
 C---
       RETURN
       END
-      
+

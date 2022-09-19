@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MMAIN                         source/materials/mat_share/mmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE ATURBN(PM,OFF  ,RHO  ,RK   ,RE   ,GEO  , 
+      SUBROUTINE ATURBN(PM,OFF  ,RHO  ,RK   ,RE   ,GEO  ,
      2               EINC ,DVOL ,VNEW ,PNEW ,TMU  ,VIS  ,
      3               VD2  ,MAT  ,NGEO )
 C-----------------------------------------------
@@ -54,13 +54,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real EI, XFAC, ARK, C1, C2, C3, SGSL, CMU, SE, FAC, RESGS     
+      my_real EI, XFAC, ARK, C1, C2, C3, SGSL, CMU, SE, FAC, RESGS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
       IF(JPOR /= 2)THEN
-      
+
        DO I=LFT,LLT
          XFAC=TMU(I)/VIS(I)
          PNEW(I)=TWO*RK(I)/(VNEW(I)*THREE)
@@ -105,7 +105,7 @@ C
          RK(I)=RHO(I)*GEO(22,NGEO(I))**2*VD2(I)
          RE(I)=(RK(I)**3/RHO(I))**HALF/GEO(23,NGEO(I))
        ENDDO
-       
+
       ENDIF! (JPOR /= 2)
 C
       RETURN

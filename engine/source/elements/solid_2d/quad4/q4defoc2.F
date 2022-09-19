@@ -54,7 +54,7 @@ C     REAL
      .    EYZ(*),EXX(*),DSV(*)
       INTEGER ICP
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   VY1(*)~VZ4(*)      - NODAL VELOCITIES

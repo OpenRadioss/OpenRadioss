@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   G11(MVSIZ),G12(MVSIZ),G21(MVSIZ), 
+     .   G11(MVSIZ),G12(MVSIZ),G21(MVSIZ),
      .   G22(MVSIZ),G31(MVSIZ),G32(MVSIZ)
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -123,9 +123,9 @@ C
            FY2(I) = F22(I)
            FZ2(I) = F32(I)
            STIFN(NC2(I))=STIFN(NC2(I))+STI(I)
-         ENDDO         
-       
-       ENDIF  
+         ENDDO
+
+       ENDIF
 C-----------------------------------------------
       RETURN
       END
@@ -176,7 +176,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, K
       my_real
-     .   G11(MVSIZ),G12(MVSIZ),G21(MVSIZ), 
+     .   G11(MVSIZ),G12(MVSIZ),G21(MVSIZ),
      .   G22(MVSIZ),G31(MVSIZ),G32(MVSIZ)
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -262,9 +262,9 @@ C-------------------------
             FY2(I) = F22(I)
             FZ2(I) = F32(I)
             FSKY(7,K)=STI(I)
-          ENDDO        
-        
-        ENDIF  
+          ENDDO
+
+        ENDIF
       ENDIF
 C-------------------------
       RETURN

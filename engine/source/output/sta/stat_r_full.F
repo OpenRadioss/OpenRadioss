@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER SIZLOC,SIZP0
       INTEGER IXR(NIXR,*),IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTR(*),IPART_STATE(*),STAT_INDXR(*)
-      my_real   
+      my_real
      .   GEO(NPROPG,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       double precision WA(*),WAP0(*)
@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER PTWA(STAT_NUMELR),
      .        PTWA_P0(0:MAX(1,STAT_NUMELR_G))
       CHARACTER*100 DELIMIT,LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
       DATA DELIMIT(1:60)
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
@@ -90,7 +90,7 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 6) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
           IPROP = IXR(1,NFT+1)
@@ -134,7 +134,7 @@ C------------
 cc
               JJ = JJ + 8
 C------------
-            ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25 
+            ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25
      .                                          .OR. IGTYP == 23 ) THEN
 C------------
               DO J=1,6
@@ -194,7 +194,7 @@ C------------
                 IV = NUVAR*(I-1) + J
                 WA(JJ + J) = GBUF%VAR(IV)
               ENDDO
-              JJ = JJ + NUVAR 
+              JJ = JJ + NUVAR
 C------------
             ENDIF ! IF (IGTYP)
 C
@@ -237,7 +237,7 @@ C         retrouve l'adresse dans WAP0
 C
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             ID    = NINT(WAP0(J + 3))
             IGTYP = NINT(WAP0(J + 4))
             NUVAR = NINT(WAP0(J + 5))
@@ -296,7 +296,7 @@ C--------------------------------------
                 WRITE(IUGEO,'(A)')
      .          '#SPRING_ID PROP_TYPE     NUVAR'
                 WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FX(I),DX(I),FXEP(I),DPX(I),DPX2(I),I=SPRING_ID)'
-                WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FY(I),DY(I),FYEP(I),DPX(I),DPX2(I),I=SPRING_ID)' 
+                WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FY(I),DY(I),FYEP(I),DPX(I),DPX2(I),I=SPRING_ID)'
                 WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(FZ(I),DZ(I),FZEP(I),DPX(I),DPX2(I),I=SPRING_ID)'
                 WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(XMOM(I),RX(I),XMEP(I),RPX(I),RPX2(I),I=SPRING_ID)'
                 WRITE(IUGEO,'(A)')'#FORMAT:(1P5E20.13) #(YMOM(I),RY(I),YMEP(I),RPY(I),RPY2(I),I=SPRING_ID)'

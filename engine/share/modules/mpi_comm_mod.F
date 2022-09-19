@@ -51,7 +51,7 @@ Chd|====================================================================
          REAL(kind=4) , DIMENSION(:) , POINTER :: SEND_BUF, RECV_BUF
       END TYPE MPI_COMM_NOR_STRUCT
 
-      END MODULE MPI_COMMOD 
+      END MODULE MPI_COMMOD
 
 Chd|====================================================================
 Chd|  ALLOCATE_COMM_STRUCT          share/modules/mpi_comm_mod.F  
@@ -69,10 +69,10 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
         TYPE(MPI_COMM_STRUCT) :: OBJECT
         INTEGER, INTENT(IN) :: S1,S2
-        ALLOCATE(OBJECT%SEND_RQ(S1,S2)) 
-        ALLOCATE(OBJECT%RECV_RQ(S1,S2)) 
+        ALLOCATE(OBJECT%SEND_RQ(S1,S2))
+        ALLOCATE(OBJECT%RECV_RQ(S1,S2))
         ALLOCATE(OBJECT%TAG    (S1,S2))
-        ALLOCATE(OBJECT%SIZ    (S1,S2))     
+        ALLOCATE(OBJECT%SIZ    (S1,S2))
       END SUBROUTINE
 Chd|====================================================================
 Chd|  DEALLOCATE_COMM_STRUCT        share/modules/mpi_comm_mod.F  
@@ -89,10 +89,10 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
         TYPE(MPI_COMM_STRUCT) :: OBJECT
         INTEGER, INTENT(IN) :: S1,S2
-        DEALLOCATE(OBJECT%SEND_RQ) 
-        DEALLOCATE(OBJECT%RECV_RQ) 
+        DEALLOCATE(OBJECT%SEND_RQ)
+        DEALLOCATE(OBJECT%RECV_RQ)
         DEALLOCATE(OBJECT%TAG    )
-        DEALLOCATE(OBJECT%SIZ    )     
+        DEALLOCATE(OBJECT%SIZ    )
       END SUBROUTINE
 
 

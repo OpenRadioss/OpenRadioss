@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE REDEF_SEATBELT(FX      ,XK     ,DX     ,FXEP   ,DXOLD ,
      .                          DPX     ,TF     ,NPF    ,XC     ,OFF   ,
      .                          E       ,ANIM   ,IANI   ,POS    ,XL0   ,
-     .                          DMN     ,DMX    ,LSCALE ,YIELD  ,AK    ,  
+     .                          DMN     ,DMX    ,LSCALE ,YIELD  ,AK    ,
      .                          IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD ,FX_MAX,
      .                          XKC     ,LLT_LOC,INDEXA ,FLAG   ,XK_TAN,
      .                          EPS_OLD ,FRAM_FACTOR)
@@ -130,7 +130,7 @@ C
       IF(INTERP>0)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
-          JPOS(J)  = NINT(POS(I))          
+          JPOS(J)  = NINT(POS(I))
           JFUNC =MAX(1,IFUNC(I))
           JAD(J)   = NPF(JFUNC) / 2  + 1
           JLEN(J)  = NPF(JFUNC+1) / 2  - JAD(J)  - JPOS(J)
@@ -143,56 +143,56 @@ C        LINEAR ELASTIC
 C-------------------------------------
       IF(JECROU(1)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC
-          I = INDEXA(J) 
+          I = INDEXA(J)
           FX(I)=XK(I)*DX(I)
           XK_TAN(I) = XK(I)
         ENDDO
       ELSEIF(JECROU(1)>0)THEN
         DO J=LFT,LLT
-          I = INDEXA(J) 
+          I = INDEXA(J)
           IF(IFUNC(I)==0)THEN
             FX(I)=XK(I)*DX(I)
             XK_TAN(I) = XK(I)
           ENDIF
         ENDDO
-      ENDIF            
+      ENDIF
 C
 C-------------------------------------
 C        ELASTO PLASTIC (Isotropic hardening) - PERFECLTY PLASTIC IN COMPRESSION
 C-------------------------------------
       IF(JECROU(2)==LLT_LOC)THEN
         DO J=LFT,LLT_LOC
-          I = INDEXA(J)                                          
-          FUND = IFUNC2(I)     ! courbe N3 de unload                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          I = INDEXA(J)
+          FUND = IFUNC2(I)     ! courbe N3 de unload
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
 C--- Tension - load curve is used
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3) 
-              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3  
-                EXIT     
-              ENDIF 
+            DO  K=2,NP2
+              K1=2*(K-2)
+              X1=TF(NPF(FUND)+K1)
+              X2=TF(NPF(FUND)+K1+2)
+              Y1=TF(NPF(FUND)+K1+1)
+              Y2=TF(NPF(FUND)+K1+3)
+              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN
+                AN3Y0(J)=(Y2-Y1)/ (X2-X1)
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS DE N3
+                EXIT
+              ENDIF
             ENDDO
 C
             IF (AN3Y0(J)== ZERO)THEN ! extrapolation (outside of input curve points)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+              X1=TF(NPF(FUND)+(NP2-2)*2)
+              X2=TF(NPF(FUND)+(NP2-2)*2+2)
+              Y1=TF(NPF(FUND)+(NP2-2)*2+1)
+              Y2=TF(NPF(FUND)+(NP2-2)*2+3)
 C
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
+              XI1=TF(NPF(FUND))
+              XI2=TF(NPF(FUND)+2)
+              YI1=TF(NPF(FUND)+1)
+              YI2=TF(NPF(FUND)+3)
+              IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1)
               IF(FXEP(I)<YI1)AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
 C
@@ -214,36 +214,36 @@ C--- Compression - perfectly plastic behavior
         DO J=LFT,LLT_LOC
          I = INDEXA(J)
          IF(IFUNC(I)/=0.AND.IECROU(I)== 10)THEN
-          FUND = IFUNC2(I)     ! N3 curve for unloading                                                             
-          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF                       
+          FUND = IFUNC2(I)     ! N3 curve for unloading
+          NP2  = (NPF(FUND+1)-NPF(FUND))*HALF
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           IF (((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)).AND.(FUND > 0)) THEN
 C--- Tension - load curve is used
-            DO  K=2,NP2                                                       
-              K1=2*(K-2)                                                
-              X1=TF(NPF(FUND)+K1)                                       
-              X2=TF(NPF(FUND)+K1+2)                                     
-              Y1=TF(NPF(FUND)+K1+1)                                     
-              Y2=TF(NPF(FUND)+K1+3) 
-              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN  
-                AN3Y0(J)=(Y2-Y1)/ (X2-X1)                     
-                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS OF N3  
-                EXIT     
-              ENDIF 
+            DO  K=2,NP2
+              K1=2*(K-2)
+              X1=TF(NPF(FUND)+K1)
+              X2=TF(NPF(FUND)+K1+2)
+              Y1=TF(NPF(FUND)+K1+1)
+              Y2=TF(NPF(FUND)+K1+3)
+              IF((FXEP(I)< Y2.AND.FXEP(I)>=Y1))THEN
+                AN3Y0(J)=(Y2-Y1)/ (X2-X1)
+                XN3FY0(I)=(FXEP(I)-Y1)/AN3Y0(J) + X1   !ABS OF N3
+                EXIT
+              ENDIF
             ENDDO
 C
             IF (AN3Y0(J)== ZERO)THEN ! extrapolation (outside of input curve points)
-              X1=TF(NPF(FUND)+(NP2-2)*2)                                       
-              X2=TF(NPF(FUND)+(NP2-2)*2+2)                                     
-              Y1=TF(NPF(FUND)+(NP2-2)*2+1)                                     
-              Y2=TF(NPF(FUND)+(NP2-2)*2+3) 
+              X1=TF(NPF(FUND)+(NP2-2)*2)
+              X2=TF(NPF(FUND)+(NP2-2)*2+2)
+              Y1=TF(NPF(FUND)+(NP2-2)*2+1)
+              Y2=TF(NPF(FUND)+(NP2-2)*2+3)
 C
-              XI1=TF(NPF(FUND))                                       
-              XI2=TF(NPF(FUND)+2)                                     
-              YI1=TF(NPF(FUND)+1)                                     
-              YI2=TF(NPF(FUND)+3) 
-              IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1) 
+              XI1=TF(NPF(FUND))
+              XI2=TF(NPF(FUND)+2)
+              YI1=TF(NPF(FUND)+1)
+              YI2=TF(NPF(FUND)+3)
+              IF(FXEP(I)>Y2)AN3Y0(J)=(Y2-Y1)/ (X2-X1)
               IF(FXEP(I)<YI1)AN3Y0(J)=(YI2-YI1)/ (XI2-XI1)
             ENDIF
 C----       Crossing of compresion/tension line - mix stiffness computed
@@ -266,8 +266,8 @@ C-------------------------------------
 C        LINEAR ELASTIC in tension - perfleclty palstic in compression (same as 10 without curve)
 C-------------------------------------
       IF(JECROU(3)==LLT_LOC)THEN
-        DO J=LFT,LLT_LOC  
-          I = INDEXA(J)                                                            
+        DO J=LFT,LLT_LOC
+          I = INDEXA(J)
           AN3Y0(J)= ZERO
           DXELA(J)=DX(I)-DPX(I)
           AN3Y0(J)= XK(I)
@@ -280,13 +280,13 @@ C----       Crossing of compresion/tension line - mix stiffness computed
             ENDIF
           ELSE
             AN3Y0(J)= XKC(I)
-          ENDIF                                                          
+          ENDIF
           FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
         ENDDO
       ELSEIF(JECROU(3)>0)THEN
         DO J=LFT,LLT_LOC
           I = INDEXA(J)
-          IF(IECROU(I)== 11) THEN                      
+          IF(IECROU(I)== 11) THEN
             AN3Y0(J)= ZERO
             DXELA(J)=DX(I)-DPX(I)
             IF ((DXELA(J) >= ZERO).OR.(FXEP(I) >= ZERO)) THEN
@@ -299,7 +299,7 @@ C----       Crossing of compresion/tension line - mix stiffness computed
               ENDIF
             ELSE
               AN3Y0(J)= XKC(I)
-            ENDIF                                                          
+            ENDIF
             FX(I)=FXEP(I)+AN3Y0(J)*DDX(J)
           ENDIF
         ENDDO
@@ -309,8 +309,8 @@ c     VECTOR INTERPOLATION
 C-------------------------------------
       DO J=LFT,LLT_LOC
         I = INDEXA(J)
-        XX(J)  = XX(J) *LSCALE(I)        
-      ENDDO                          
+        XX(J)  = XX(J) *LSCALE(I)
+      ENDDO
 C-------------------------------------
 C     SEATBELT - ELASTO PLASTIQUE (ECOUISSAGE ISOTROPE) in tension - perfleclty plastic in compression
 C-------------------------------------
@@ -415,7 +415,7 @@ C--------------------------------------------------------------------
           E(I) = E(I) + (DX(I)-DXOLD(I)) * (FX(I)+FOLD(J)) * HALF
         ENDDO
       ENDIF
-c-------------------------  
+c-------------------------
       DO J=LFT,LLT_LOC
         I = INDEXA(J)
         DX(I)=DX(I)*XL0(I)

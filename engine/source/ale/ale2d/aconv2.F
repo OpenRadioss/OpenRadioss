@@ -69,13 +69,13 @@ C-----------------------------------------------
                VL(J,I)=PHI(IE)*FLUX(J,I)
             ELSE
             ! -IV is segment ID
-            !  ebcs : PHI(NUMEL + 1:NSEGFLU) is filled in aconve.F using 
+            !  ebcs : PHI(NUMEL + 1:NSEGFLU) is filled in aconve.F using
             ! SEGVAR (filled in ebcs[0-9][0-9].F)
-               VL(J,I) = PHI(-IV+IOFF) *FLUX(J,I)           
+               VL(J,I) = PHI(-IV+IOFF) *FLUX(J,I)
             ENDIF
          ENDDO
       ENDDO
-      
+
       DO I=LFT,LLT
         IE =NFT+I
         VTOT(I) = VTOT(I) + HALF * DT1 * (- PHI(IE)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I) )
@@ -96,18 +96,18 @@ C
                IF (R3  ==  ZERO) R3 = ONE
                IF (R4  ==  ZERO) R4 = ONE
                !!! Divide by mean radius
-               QMV(1,I) = QMV(1,I) - VL(1,I) / R1 - PHI(IE)*QMV(5,I) 
-               QMV(2,I) = QMV(2,I) - VL(2,I) / R2 - PHI(IE)*QMV(6,I) 
-               QMV(3,I) = QMV(3,I) - VL(3,I) / R3 - PHI(IE)*QMV(7,I) 
-               QMV(4,I) = QMV(4,I) - VL(4,I) / R4 - PHI(IE)*QMV(8,I) 
+               QMV(1,I) = QMV(1,I) - VL(1,I) / R1 - PHI(IE)*QMV(5,I)
+               QMV(2,I) = QMV(2,I) - VL(2,I) / R2 - PHI(IE)*QMV(6,I)
+               QMV(3,I) = QMV(3,I) - VL(3,I) / R3 - PHI(IE)*QMV(7,I)
+               QMV(4,I) = QMV(4,I) - VL(4,I) / R4 - PHI(IE)*QMV(8,I)
             ENDDO
          ELSE
             DO I=LFT,LLT
                IE =NFT+I
-               QMV(1,I) = QMV(1,I) - VL(1,I) - PHI(IE)*QMV(5,I) 
-               QMV(2,I) = QMV(2,I) - VL(2,I) - PHI(IE)*QMV(6,I) 
-               QMV(3,I) = QMV(3,I) - VL(3,I) - PHI(IE)*QMV(7,I) 
-               QMV(4,I) = QMV(4,I) - VL(4,I) - PHI(IE)*QMV(8,I) 
+               QMV(1,I) = QMV(1,I) - VL(1,I) - PHI(IE)*QMV(5,I)
+               QMV(2,I) = QMV(2,I) - VL(2,I) - PHI(IE)*QMV(6,I)
+               QMV(3,I) = QMV(3,I) - VL(3,I) - PHI(IE)*QMV(7,I)
+               QMV(4,I) = QMV(4,I) - VL(4,I) - PHI(IE)*QMV(8,I)
             ENDDO
          ENDIF
       ENDIF

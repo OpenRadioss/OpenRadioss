@@ -40,7 +40,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER EIGIPM(NEIPM,*), EIGIBUF(*), NODLOCAL(*), 
+      INTEGER EIGIPM(NEIPM,*), EIGIBUF(*), NODLOCAL(*),
      .        EIGIPM_L(NEIPM,*),EIGIBUF_L(*), LEIBUF_L
       my_real
      .        EIGRPM(NERPM,*)
@@ -82,4 +82,4 @@ C
 C
       RETURN
       END
-      
+

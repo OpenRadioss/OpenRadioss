@@ -41,12 +41,12 @@ Chd|====================================================================
      3         GAP_S_L ,GAP_M_L ,IGAP     ,GAP        ,DRAD    ,
      4         NREMNODE,NTY     ,IPARI   ,I_MEM_REM   ,GAPM_MX ,
      5         GAPS_MX ,GAPM_L_MX,GAPS_L_MX ,ILEV     ,NBINFLG ,
-     6         MBINFLG ,DGAPLOAD)  
+     6         MBINFLG ,DGAPLOAD)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -114,7 +114,7 @@ C-----------------------------------------------
      4         GAP     ,DRAD    ,NREMNODE ,ILEV    ,NBINFLG ,
      5         MBINFLG ,IPARI   ,I_MEM_REM,GAPM_MX ,GAPS_MX ,
      6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
-     7         GAPSECND   ,GAP_S_L_TMP,MINSEG )  
+     7         GAPSECND   ,GAP_S_L_TMP,MINSEG )
 C
       IF(ISELF_IMPACTANT==0) RETURN
 C
@@ -132,7 +132,7 @@ C-----------------------------------------------
      5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
      6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
      7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD   ,DIST1  ,
-     8         GAPV    ,GAP_S_L_TMP,ITAGSEG ,MINSEG  ,DGAPLOAD)   
+     8         GAPV    ,GAP_S_L_TMP,ITAGSEG ,MINSEG  ,DGAPLOAD)
 C
         IF (I_MEM_REM == 1) THEN
           NREMNODE = NREMNODE + 5*NRTM
@@ -152,7 +152,7 @@ C
             END IF
             DO I=IFIRST,ILAST
 C              end Starter properly without restart file.
-               INTBUF_TAB%KREMNODE(I+1)=INTBUF_TAB%KREMNODE(IFIRST) 
+               INTBUF_TAB%KREMNODE(I+1)=INTBUF_TAB%KREMNODE(IFIRST)
             END DO
             IREMNODE = IREMNODE + 1
             CALL MY_EXIT(2)
@@ -167,13 +167,13 @@ C-----------------------------------------------
      2                 INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE  ,INTBUF_TAB%KREMNOR ,
      .                                                   INTBUF_TAB%REMNOR ,IPARI  ,
      3                 TAGSECND )
-      END IF  
+      END IF
 C-----------------------------------------------
       DEALLOCATE(KNOD2SEG,NOD2SEG,NODDEL,ID_NOD,TAGNOD,ITAGSEG)
       DEALLOCATE(DIST1,GAPV,TAGSECND,GAPSECND,GAP_S_L_TMP)
 C-----------------------------------------------
       RETURN
-      END  
+      END
 Chd|====================================================================
 Chd|  I7REMNODE_INIT                source/interfaces/inter3d1/i7remnode.F
 Chd|-- called by -----------
@@ -188,7 +188,7 @@ Chd|====================================================================
      4         GAP     ,DRAD    ,NREMNODE ,ILEV    ,NBINFLG ,
      5         MBINFLG ,IPARI   ,I_MEM_REM,GAPM_MX ,GAPS_MX ,
      6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
-     7         GAPSECND   ,GAP_S_L_TMP,MINSEG )  
+     7         GAPSECND   ,GAP_S_L_TMP,MINSEG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -268,31 +268,31 @@ C
       IF (ISELF_IMPACTANT == 0) RETURN
 C
       DO I=1,NRTM
-        IF( IRECT(3,I) /= IRECT(4,I) ) THEN 
+        IF( IRECT(3,I) /= IRECT(4,I) ) THEN
 
          MINSEG = MIN( MINSEG,
-     .               (X(1,IRECT(1,I))-X(1,IRECT(2,I)))**2 + 
+     .               (X(1,IRECT(1,I))-X(1,IRECT(2,I)))**2 +
      .               (X(2,IRECT(1,I))-X(2,IRECT(2,I)))**2 +
      .               (X(3,IRECT(1,I))-X(3,IRECT(2,I)))**2 ,
-     .               (X(1,IRECT(2,I))-X(1,IRECT(3,I)))**2 + 
+     .               (X(1,IRECT(2,I))-X(1,IRECT(3,I)))**2 +
      .               (X(2,IRECT(2,I))-X(2,IRECT(3,I)))**2 +
      .               (X(3,IRECT(2,I))-X(3,IRECT(3,I)))**2 ,
-     .               (X(1,IRECT(3,I))-X(1,IRECT(4,I)))**2 + 
+     .               (X(1,IRECT(3,I))-X(1,IRECT(4,I)))**2 +
      .               (X(2,IRECT(3,I))-X(2,IRECT(4,I)))**2 +
      .               (X(3,IRECT(3,I))-X(3,IRECT(4,I)))**2 ,
-     .               (X(1,IRECT(4,I))-X(1,IRECT(1,I)))**2 + 
+     .               (X(1,IRECT(4,I))-X(1,IRECT(1,I)))**2 +
      .               (X(2,IRECT(4,I))-X(2,IRECT(1,I)))**2 +
      .               (X(3,IRECT(4,I))-X(3,IRECT(1,I)))**2 )
-        ELSEIF( IRECT(3,I) == IRECT(4,I) )THEN 
+        ELSEIF( IRECT(3,I) == IRECT(4,I) )THEN
 
          MINSEG = MIN( MINSEG,
-     .               (X(1,IRECT(1,I))-X(1,IRECT(2,I)))**2 + 
+     .               (X(1,IRECT(1,I))-X(1,IRECT(2,I)))**2 +
      .               (X(2,IRECT(1,I))-X(2,IRECT(2,I)))**2 +
      .               (X(3,IRECT(1,I))-X(3,IRECT(2,I)))**2 ,
-     .               (X(1,IRECT(2,I))-X(1,IRECT(3,I)))**2 + 
+     .               (X(1,IRECT(2,I))-X(1,IRECT(3,I)))**2 +
      .               (X(2,IRECT(2,I))-X(2,IRECT(3,I)))**2 +
      .               (X(3,IRECT(2,I))-X(3,IRECT(3,I)))**2 ,
-     .               (X(1,IRECT(3,I))-X(1,IRECT(1,I)))**2 + 
+     .               (X(1,IRECT(3,I))-X(1,IRECT(1,I)))**2 +
      .               (X(2,IRECT(3,I))-X(2,IRECT(1,I)))**2 +
      .               (X(3,IRECT(3,I))-X(3,IRECT(1,I)))**2 )
 
@@ -303,7 +303,7 @@ C
       DO I=1,NRTM
         CPT  = 0
         KMAX = 4
-        IF(IRECT(KMAX,I) == 0   .OR. 
+        IF(IRECT(KMAX,I) == 0   .OR.
      .    IRECT(3,I) == IRECT(4,I) ) KMAX = 3
         DO K=1,KMAX
           IF(TAGSECND(IRECT(K,I))  /= 0) CPT = CPT + 1
@@ -328,7 +328,7 @@ C
       DO I=1,NRTM
         KMAX = 4
         CPT = 0
-        IF(IRECT(KMAX,I) == 0   .OR. 
+        IF(IRECT(KMAX,I) == 0   .OR.
      .      IRECT(3,I) == IRECT(4,I) ) KMAX = 3
         DO K=1,KMAX
           IF(TAGSECND(IRECT(K,I))  /= 0) CPT = CPT + 1
@@ -377,7 +377,7 @@ Chd|====================================================================
      5         I_MEM_REM,GAPM_MX ,GAPS_MX ,
      6         GAPM_L_MX ,GAPS_L_MX ,KNOD2SEG,NOD2SEG,TAGSECND,
      7         GAPSECND ,NODDEL  ,TAGNOD   ,ID_NOD    ,DIST1  ,
-     8         GAPV    ,GAP_S_L_TMP,ITAGSEG,MINSEG    ,DGAPLOAD)  
+     8         GAPV    ,GAP_S_L_TMP,ITAGSEG,MINSEG    ,DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -405,7 +405,7 @@ C-----------------------------------------------
       my_real , INTENT(IN) :: DGAPLOAD
       my_real
      .        X(3,*),GAP_S(*),GAP_M(*),GAP_S_L(*),GAP_M_L(*)
-      my_real 
+      my_real
      .        DIST1(*), GAPV(*), GAPSECND(*), GAP_S_L_TMP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -459,7 +459,7 @@ C
             IF((IRECT(JMAX,SEG) == 0) .OR. IRECT(3,SEG) == IRECT(4,SEG) ) JMAX = 3
 
             TAGNOD(IRECT(1:JMAX,SEG))=2
-            
+
             DO J=1,JMAX
 C 
 C             If we already started from this node AT THIS LEVEL
@@ -479,15 +479,15 @@ C
                     LISTSEGTMP(CPT)=SEG1
                   ENDIF
                   ITAGSEG(SEG1)=LEVEL
-c 
+c
                   DO L=1,KMAX
-                    
+
                     IF(TAGSECND(IRECT(L,SEG1))== 0 .OR.
      .                 TAGNOD(IRECT(L,SEG1)) == 2)CYCLE
 
                     DIST1(IRECT(L,SEG1))=MIN(DIST1(IRECT(L,SEG1)),
      .                DIST1(IRECT(J,SEG))+
-     .                  SQRT((X(1,IRECT(L,SEG1)) - X(1,IRECT(J,SEG)))**2 + 
+     .                  SQRT((X(1,IRECT(L,SEG1)) - X(1,IRECT(J,SEG)))**2 +
      .                       (X(2,IRECT(L,SEG1)) - X(2,IRECT(J,SEG)))**2 +
      .                       (X(3,IRECT(L,SEG1)) - X(3,IRECT(J,SEG)))**2 ))
                     MINDIST=MIN(MINDIST,DIST1(IRECT(L,SEG1)))
@@ -495,7 +495,7 @@ c
                       CPTOPER = CPTOPER + 1
                       TAGNOD(IRECT(L,SEG1)) = 1
                       ID_NOD(CPTOPER)=IRECT(L,SEG1)
-                    ENDIF 
+                    ENDIF
 
                     IF(IGAP==1 .OR. IGAP==2)THEN
                       GAPV(IRECT(L,SEG1))=GAPSECND(IRECT(L,SEG1))+GAP_M(I)
@@ -513,8 +513,8 @@ c
 
                   ENDDO
                 ENDIF
-                 
-              ENDDO 
+
+              ENDDO
 C       
             ENDDO
 
@@ -552,16 +552,16 @@ C
         DIST1(IRECT(3,I)) = EP30
         DIST1(IRECT(4,I)) = EP30
 C
-        CPT1 = 0 
+        CPT1 = 0
         IF(IGAP==0)THEN
-          DO L=1,CPTOPER 
+          DO L=1,CPTOPER
             IF(DIST1(ID_NOD(L)) <= DMAX)THEN
               CPT1 = CPT1 + 1
               NODDEL(CPT1) = ID_NOD(L)
             ENDIF
           ENDDO
         ELSE
-          DO L=1,CPTOPER 
+          DO L=1,CPTOPER
             IF(DIST1(ID_NOD(L)) <= SQRT(TWO)*GAPV(ID_NOD(L)))THEN
               CPT1 = CPT1 + 1
               NODDEL(CPT1) = ID_NOD(L)
@@ -616,7 +616,7 @@ Chd|====================================================================
       SUBROUTINE I25REMNOR(
      1         NRTM    ,IRECT    ,NSV     ,NSN    ,NUMNOD ,
      2         KREMNODE,REMNODE  ,KREMNOR ,REMNOR  ,IPARI ,
-     3         TAGSECND )  
+     3         TAGSECND )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -648,7 +648,7 @@ C-----------------------------------------------
 C
       DO I=1,NRTM
         K = KREMNODE(I)+1
-        L = KREMNODE(I+1)         
+        L = KREMNODE(I+1)
         DO J=K,L
            NS = TAGSECND(REMNODE(J))
            KREMNOR(NS) = KREMNOR(NS)+1
@@ -666,7 +666,7 @@ C
 C
       DO I=1,NRTM
         K = KREMNODE(I)+1
-        L = KREMNODE(I+1)         
+        L = KREMNODE(I+1)
         DO J=K,L
            N = TAGSECND(REMNODE(J))
            KREMNOR(N) = KREMNOR(N)+1
@@ -708,7 +708,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -751,7 +751,7 @@ C---------IFLAG=0 : DIM
       TAGN(1:NUMNOD)=0
 C----------only during dimensioning
       IF (IFLAG==0) THEN
-       IACT=0  
+       IACT=0
         DO N=1,NINTER
          NTY=IPARI(7,N)
          IF7 =IPARI(54,N)
@@ -787,11 +787,11 @@ C-------tag int2 nodes------
           NMN   =IPARI(6,N)
           ILEV  =IPARI(20,N)
 C
-          DO II=1,NSN        
+          DO II=1,NSN
             J=INTBUF_TAB(N)%NSV(II)
             TAGN(J)=-N
           ENDDO
-          DO II=1,NMN        
+          DO II=1,NMN
             J=INTBUF_TAB(N)%MSR(II)
             IF (TAGN(J)>0) THEN
              TAGN(J)=N+NINTER
@@ -826,33 +826,33 @@ C----- --
            DO J=1,4
             NM = INTBUF_TAB(N)%IRECTM(4*(II-1)+J)
 C--------if it's a MAIN node (type2) ->add SECONDARY node(tagged) in the list
-            IF (TAGN(NM)>0) THEN            
+            IF (TAGN(NM)>0) THEN
              N2 = TAGN(NM)
              IF (N2 >NINTER) THEN
               NN2=N2-NINTER
               CALL ADDINT2S(NN2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
      1                 NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                 TAGD,IFLAG)    
+     2                 TAGD,IFLAG)
 C-----------Another N2 (NN2 will be updated after ANOTHERN2 )
               CALL ANOTHERN2(NN2     ,NINTER  ,INTBUF_TAB  ,IPARI   ,NM     )
-c              IF (N2==0) Message out                 
+c              IF (N2==0) Message out
               CALL ADDINT2S(NN2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
      1                 NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                 TAGD,IFLAG)    
+     2                 TAGD,IFLAG)
              ELSE
               CALL ADDINT2S(N2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
      1                 NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                 TAGD,IFLAG)    
-             END IF     
+     2                 TAGD,IFLAG)
+             END IF
 C--------if it's a SECONDARY node (type2) ->add MAIN nodes(tagged) in the list
             ELSEIF (TAGN(NM)<0) THEN
              N2 = -TAGN(NM)
               CALL ADDINT2M(N2     ,INTBUF_TAB  ,IPARI   ,II      ,NM     ,
      1                   NREMOV(N),INTBUF_TAB(N)%REMNODE,INTBUF_TAB(N)%KREMNODE,
-     2                   TAGD,IFLAG)    
+     2                   TAGD,IFLAG)
             END IF
            END DO !DO J=1,4
-          END DO 
+          END DO
 C------------update of IPARI(62,N) is out of subroutine    
          IF (IFLAG==0.AND.(NREMOV(N)>IPARI(62,N))) THEN
           NRE = NREMOV(N)-IPARI(62,N)
@@ -879,11 +879,11 @@ Chd|        ADD_NS                        source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ADDINT2S(N2     ,INTBUF_TAB  ,IPARI   ,MI      ,NM     ,
-     2                    NREMOV ,IREMOV  ,IADREM ,TAGD,IFLAG   )                  
+     2                    NREMOV ,IREMOV  ,IADREM ,TAGD,IFLAG   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -915,7 +915,7 @@ C-----------------------------------------------
         NSN   =IPARI(5,N2)
         IF (IFLAG==1) IADA=IADREM(MI)+1
         CALL ADD_NS(NSN,INTBUF_TAB(N2)%IRECTM,INTBUF_TAB(N2)%NSV,
-     1              INTBUF_TAB(N2)%IRTLM,NREMOV,IREMOV,IADA,NM,TAGD,IFLAG   )                  
+     1              INTBUF_TAB(N2)%IRTLM,NREMOV,IREMOV,IADA,NM,TAGD,IFLAG   )
         NEW = NREMOV-NEW
         IF (IFLAG==1) IADREM(MI+1)=IADREM(MI+1)+NEW
 C----
@@ -930,7 +930,7 @@ Chd|        INSERT_A                      source/interfaces/inter3d1/i7remnode.F
 Chd|        INTAB                         source/interfaces/inter3d1/i24tools.F
 Chd|====================================================================
       SUBROUTINE ADD_NS(NSN    ,IRECT   ,NSV    ,IRTL     ,NREMOV  ,
-     2                 IREMOV  ,IADA    ,NM     ,TAGD,IFLAG    )                  
+     2                 IREMOV  ,IADA    ,NM     ,TAGD,IFLAG    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -974,7 +974,7 @@ C-----------------------------------------------
            ELSE
             CALL INSERT_A(NREMOV,IREMOV,I  ,IADA)
             TAGD(I)=1
-           END IF 
+           END IF
           ENDIF
         END DO !II=1,NSN
 C----
@@ -989,7 +989,7 @@ Chd|        ADD_NM                        source/interfaces/inter3d1/i7remnode.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ADDINT2M(N2     ,INTBUF_TAB  ,IPARI   ,MI      ,NS     ,
-     2                    NREMOV ,IREMOV  ,IADREM ,TAGD,IFLAG   )                  
+     2                    NREMOV ,IREMOV  ,IADREM ,TAGD,IFLAG   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1025,7 +1025,7 @@ C-----------------------------------------------
         NSN   =IPARI(5,N2)
         IF (IFLAG==1) IADA=IADREM(MI)+1
         CALL ADD_NM(NSN,INTBUF_TAB(N2)%IRECTM,INTBUF_TAB(N2)%NSV,
-     1              INTBUF_TAB(N2)%IRTLM,NREMOV,IREMOV,IADA,NS,TAGD,IFLAG  )                  
+     1              INTBUF_TAB(N2)%IRTLM,NREMOV,IREMOV,IADA,NS,TAGD,IFLAG  )
         NEW = NREMOV-NEW
         IF (IFLAG==1)IADREM(MI+1)=IADREM(MI+1)+NEW
 C----
@@ -1039,7 +1039,7 @@ Chd|-- calls ---------------
 Chd|        INSERT_A                      source/interfaces/inter3d1/i7remnode.F
 Chd|====================================================================
       SUBROUTINE ADD_NM(NSN     ,IRECT   ,NSV    ,IRTL     ,NREMOV  ,
-     2                  IREMOV  ,IADA    ,NS     ,TAGD  ,IFLAG    )                  
+     2                  IREMOV  ,IADA    ,NS     ,TAGD  ,IFLAG    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1058,7 +1058,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),IRTL(*), NS, NREMOV,
-     .        IREMOV(*),IFLAG,NSN,IADA  ,TAGD(*)  
+     .        IREMOV(*),IFLAG,NSN,IADA  ,TAGD(*)
 C----IFLAG=0 -> dim   , IREMOV : Global node num. (SECONDARY) 
 C     REAL
 C-----------------------------------------------
@@ -1080,7 +1080,7 @@ C-----------------------------------------------
             ELSEIF (TAGD(NM)==0) THEN
              CALL INSERT_A(NREMOV,IREMOV,NM  ,IADA)
              TAGD(NM)=1
-            END IF 
+            END IF
            END DO
           ENDIF
         END DO !II=1,NSN
@@ -1094,11 +1094,11 @@ Chd|        REMN_I2                       source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ANOTHERN2(N2     ,NINTER  ,INTBUF_TAB  ,IPARI   ,NM     )                  
+      SUBROUTINE ANOTHERN2(N2     ,NINTER  ,INTBUF_TAB  ,IPARI   ,NM     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1131,7 +1131,7 @@ C-----------------------------------------------
           NMN   =IPARI(6,N)
           INCOM  =IPARI(11,N)
 C
-          DO II=1,NMN        
+          DO II=1,NMN
             J=INTBUF_TAB(N)%MSR(II)
             IF (NM==J) THEN
              NEW = N
@@ -1191,7 +1191,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1290,7 +1290,7 @@ C-----
         print *,'problem EDGE **** I,IE1,IE2=',I,IE1,IE2
        END IF
         IF (TAGN(NS1)>0.AND.TAGN(NS2)>0) NE2 = NE2 + 1
-      END DO ! I=1,NSNE        
+      END DO ! I=1,NSNE
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -1339,7 +1339,7 @@ C-----
           IEDGN2(2,NE2) = NS2
           IEDGN2(3,NE2) = I
          END IF
-      END DO ! I=1,NSNE        
+      END DO ! I=1,NSNE
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -1401,7 +1401,7 @@ C-----
           IF (KREMNODE(II+1)>KREMOV_OLD) THEN
            NNREM = KREMNODE(II+1) - KREMOV_OLD
            IADA = KREMNODE(II)+1
-           IADN = KREMNODE(II+1)+NEW+1 
+           IADN = KREMNODE(II+1)+NEW+1
            DO J=1,NE2
             NS1= IEDGN2(1,J)
             NS2= IEDGN2(2,J)
@@ -1411,7 +1411,7 @@ C-----
 C------if one of edge nodes in %REMNODE(iad+1:iad+NNREM+1), add fictive nodes  
              CALL INSERT_A(NREMOV,REMNODE,NN  ,IADN)
              NEW = NEW + 1
-            END IF !(INTAB(NSREM,INTBUF_TAB(N)%REMNODE(IADA),NS1)           
+            END IF !(INTAB(NSREM,INTBUF_TAB(N)%REMNODE(IADA),NS1)
            END DO ! J=1,NE2
            END IF !(KREMNODE(II+1)>KREMNODE(II)) THEN
           END DO !II=1,NRTM
@@ -1439,7 +1439,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1482,7 +1482,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: I2NODE,POINTS_I2N
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGNOD
 
-        
+
         INTEGER :: III,JJJ,NNOD_2
         INTEGER :: FIRST,LAST,NNREM_SAVE,FLAGREMNODE_SAV
         INTEGER :: OFFSET, NBR_INTRA,NBR_EXTRA,TOTAL_INSERTED
@@ -1502,7 +1502,7 @@ C-----------------------------------------------
 !       NBR_INSERT_II : integer, dimension = NRTM , number of inserted nodes for each II segment
 !       ADRESS_II : integer, dimension = NRTM , adress of the first inserted nodes for each II segment
 !       KREMNODE_SAVE : integer, dimension = NRTM+1 , list of old nodes
-!       SIZE_INSERTED_NODE : integer, size of the INSERTED_NODE array ; SIZE_INSERTED_NODE is an upper bound, 
+!       SIZE_INSERTED_NODE : integer, size of the INSERTED_NODE array ; SIZE_INSERTED_NODE is an upper bound,
 !                            can be optimized!
 !       INSERTED_NODE : integer, dimension = SIZE_INSERTED_NODE, list inserted nodes
 !       REMNODE : integer, dimension = NRTM + TOTAL_INSERTED, new array with old and inserted nodes
@@ -1510,7 +1510,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C----like Irem_gap of int7, creat list of SECONDARY nodes to be removed per M_seg
 C----------only during dimensioning
-        IACT=0  
+        IACT=0
         TYP25_USE = 0
         DO N=1,NINTER
                 NTY=IPARI(7,N)
@@ -1559,7 +1559,7 @@ C-------tag int2 nodes------
                 IF(NTY==2)THEN
                         NSN   =IPARI(5,N)
                         DO II=1,NSN
-                                L=INTBUF_TAB(N)%IRTLM(II)                                   
+                                L=INTBUF_TAB(N)%IRTLM(II)
                                 IF (INTBUF_TAB(N)%IRECTM(4*(L-1)+3)==INTBUF_TAB(N)%IRECTM(4*(L-1)+4)) THEN
                                         NNOD = 3
                                 ELSE
@@ -1571,18 +1571,18 @@ C-------tag int2 nodes------
         ENDDO
         IF (I2NODE_SIZE==0) RETURN
         ALLOCATE(I2NODE(I2NODE_SIZE,3))
-        ALLOCATE(POINTS_I2N(NUMNOD,2))   
+        ALLOCATE(POINTS_I2N(NUMNOD,2))
         ALLOCATE(TAGD(NUMNOD))
 
         CALL PRE_I2(IPARI  ,INTBUF_TAB ,I2NODE_SIZE, I2NODE,POINTS_I2N)
- 
+
 
 !   ------------------------------------------------
 
 !           remnode :
 !           1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 !
-!           inserted nodes : 
+!           inserted nodes :
 !           3 nodes for ii=1 ; adress of the 1st one = 3 ; iad1(1) --> iad1(3)
 !           1 nodes for ii=4 ; adress of the 1st one = 7 ; iad2(1) --> iad2(1)
 !           6 nodes for ii=1 ; adress of the 1st one = 10 ; iad3(1) --> iad3(6)
@@ -1606,7 +1606,7 @@ C-------tag int2 nodes------
 !               get the number of the inserted nodes for each II segment --> NBR_INSERT_II
 !               get the address of the first node for each II segment --> ADRESS_II
 !               save the inserted node --> INSERTED_NODE
-!           2nd step : 
+!           2nd step :
 !               allocate the new array REMNODE
 !               get the first/last block of inserted node --> FIRST/LAST
 !                   if ADRESS_II(FIRST) = 1 --> insert the NBR_INSERT_II(FIRST) node in REMNODE(1:NBR_INSERT_II(FIRST))
@@ -1615,14 +1615,14 @@ C-------tag int2 nodes------
 !               copy the old nodes in the new array for each II segment
 !               check if every old nodes were copied and if not, copy them!
 !
-!           example : 
-!               old remnode : 
-!           1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9    
-!               new remnode :           
+!           example :
+!               old remnode :
+!           1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+!               new remnode :
 !           1 | 2 | iad1(3) | iad1(2) | iad1(1) | 3 | iad2(1) | 4 | 5 | iad3(6) | ... | iad3(2) | iad3(1) | 6 | 7 | 8 | 9
 !
 !           ADRESS_II(FIRST) > 1 :
-!               new remnode :           
+!               new remnode :
 !           1 | 2 | . | . | ...
 !           for II=1, insert the iad1 nodes :
 !           1 | 2 | iad1(2) | iad1(1) | . | . | ...
@@ -1633,7 +1633,7 @@ C-------tag int2 nodes------
 !           for II=LAST, insert the iadlast nodes
 !           1 | 2 | iad1(3) | iad1(2) | iad1(1) | 3 | iad2(1) | 4 | 5 | iad3(6) | ... | iad3(2) | iad3(1) | . | . | ...
 !           if there are no old nodes to insert, the treatment is over
-!           else insert the remaining old nodes 
+!           else insert the remaining old nodes
 !           1 | 2 | iad1(3) | iad1(2) | iad1(1) | 3 | iad2(1) | 4 | 5 | iad3(6) | ... | iad3(2) | iad3(1) | 6 | 7 | 8 | 9
 !   ------------------------------------------------
 
@@ -1665,7 +1665,7 @@ C----- --
                             FLAGREMNODE=IPARI(63,N)
                             FLAGREMNODE_SAV=IPARI(63,N)
 C--------dim first  
-                            NNREM = 0      
+                            NNREM = 0
                             DO JJ=1,NSN
                                 NS = INTBUF_TAB(N)%NSV(JJ)
                                 IF (NS<=NUMNOD) TAGD(NS)=0
@@ -1682,12 +1682,12 @@ C--------dim first
                                     NNOD=3
                                 ELSE
                                     NNOD=4
-                                END IF           
+                                END IF
                                 DO J=1,NNOD
                                     NM = INTBUF_TAB(N)%IRECTM(4*(II-1)+J)
                                     IF (POINTS_I2N(NM,1)==0) CYCLE
                                     MAX_INSERTED_NODE = MAX( MAX_INSERTED_NODE,POINTS_I2N(NM,2)-POINTS_I2N(NM,1) )
-                                    
+
                                 ENDDO
                             ENDDO
 
@@ -1700,7 +1700,7 @@ C FOR TESTING ONLY: uncomment the following line to force reallocation
 C                          SIZE_INSERTED_NODE = MAX_INSERTED_NODE
 C
 
-                            MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE) 
+                            MY_ALLOCATE(INSERTED_NODE,SIZE_INSERTED_NODE)
 
                             DO II=1,NRTM
                                 NNREM_SAVE = NNREM
@@ -1708,7 +1708,7 @@ C
 C          Do not add nodes already stored w/IREM_GAP
                                 IF(FLAGREMNODE==2)THEN
                                     KI = INTBUF_TAB(N)%KREMNODE(II)+1
-                                    KL = INTBUF_TAB(N)%KREMNODE(II+1) 
+                                    KL = INTBUF_TAB(N)%KREMNODE(II+1)
                                     DO J=KI,KL
                                         NS = INTBUF_TAB(N)%REMNODE(J)
                                         TAGD(NS)=1
@@ -1719,8 +1719,8 @@ C
                                     NNOD=3
                                 ELSE
                                     NNOD=4
-                                END IF   
-                               
+                                END IF
+
                                 IF(JJJ + MAX_INSERTED_NODE > SIZE_INSERTED_NODE) THEN
 C extend INSERTED_NODE if needed
                                   OLDSIZE = SIZE_INSERTED_NODE
@@ -1740,10 +1740,10 @@ C extend INSERTED_NODE if needed
                                         IF (IS >0) THEN
                                             NS = INTBUF_TAB(N2)%NSV(IS)
                                             IF (TAGD(NS)==0) THEN
-                                                NNREM = NNREM + 1  
-                                                TAGD(NS)=1  
+                                                NNREM = NNREM + 1
+                                                TAGD(NS)=1
                                                 JJJ = JJJ + 1
-                                                INSERTED_NODE(JJJ) = NS        
+                                                INSERTED_NODE(JJJ) = NS
                                             END IF
                                         ELSEIF (IS <0) THEN
                                             IIS = -IS
@@ -1754,15 +1754,15 @@ C extend INSERTED_NODE if needed
                                                 NM = INTBUF_TAB(N2)%IRECTM(4*(L-1)+III)
                                                 IF(TAGD(NM)==0) THEN
                                                     NNREM = NNREM + 1
-                                                    TAGD(NM)=1 
+                                                    TAGD(NM)=1
                                                     JJJ = JJJ + 1
-                                                    INSERTED_NODE(JJJ) = NM   
+                                                    INSERTED_NODE(JJJ) = NM
                                                 ENDIF
-                                            ENDDO 
+                                            ENDDO
                                         END IF
                                     END DO
                                 END DO !DO J=1,4
-            
+
                                 !   -------------------
                                 !   number of inserted nodes
                                 NBR_INSERT_II(II) = NNREM - NNREM_SAVE
@@ -1773,7 +1773,7 @@ C extend INSERTED_NODE if needed
                                 KREMNODE_SAVE(II) = IADA + NBR_INSERT_II(II) - 1
                                 IADA = IADA + NBR_INSERT_II(II)
                                 !   -------------------
-                                
+
 C-----reset    TAGD=0        
                                 DO J=1,NNOD
                                         NM = INTBUF_TAB(N)%IRECTM(4*(II-1)+J)
@@ -1802,7 +1802,7 @@ C
 
 
                             IF(NNREM>0) THEN
-                              
+
                                 ! get the first and the last inserted node
                                 FIRST = 0
                                 LAST = 0
@@ -1821,19 +1821,19 @@ C
                                 ENDDO
                                 !       allocate the buffer array
                                 ALLOCATE( REMNODE(NREMOV(N)+TOTAL_INSERTED) )
-       
+
                                 J = 0
                                 I = 0
                                 OFFSET = 0
                                 IF( FIRST>0 ) THEN
                                     !   insertion of the first chunk of node : if ADRESS_II(FIRST) > 1
-                                    !   --> need to copy the old nodes 
+                                    !   --> need to copy the old nodes
                                     IF( ADRESS_II(FIRST)>1 ) THEN
                                         REMNODE(1:ADRESS_II(FIRST)-1) = INTBUF_TAB(N)%REMNODE(1:ADRESS_II(FIRST)-1)
                                         OFFSET = OFFSET + ADRESS_II(FIRST)-1
                                         I = I + ADRESS_II(FIRST)-1
                                     ENDIF
-        
+
                                     DO II=FIRST,LAST
                                         !       insertion of the nodes
                                         IF( NBR_INSERT_II(II)>0 ) THEN
@@ -1879,9 +1879,9 @@ C------------update of IPARI(62,N) is out of subroutine
 C----------used for Iedge=1     
                                 NREMOV(N) = NNREM
                             END IF !IF (NNREM>0) THEN
-                            IF(ALLOCATED(REMNODE)) DEALLOCATE( REMNODE )  
-                            IF(ALLOCATED(INSERTED_NODE)) DEALLOCATE( INSERTED_NODE )  
- 
+                            IF(ALLOCATED(REMNODE)) DEALLOCATE( REMNODE )
+                            IF(ALLOCATED(INSERTED_NODE)) DEALLOCATE( INSERTED_NODE )
+
                             !   -------------------
         !   ------------------------------------------------
                     END IF!(NTY==7.OR.NTY==24.OR.NTY==25)
@@ -1895,7 +1895,7 @@ C
 C-----    Inverse table of REMNODE for sliding in int25 : SECONDARY node -> MAIN segments---
                             DO I=1,NRTM
                                 K = INTBUF_TAB(N)%KREMNODE(I)+1
-                                L = INTBUF_TAB(N)%KREMNODE(I+1)       
+                                L = INTBUF_TAB(N)%KREMNODE(I+1)
                                 DO J=K,L
                                     NS = TAGNOD(INTBUF_TAB(N)%REMNODE(J))
                                     INTBUF_TAB(N)%KREMNOR(NS) = INTBUF_TAB(N)%KREMNOR(NS)+1
@@ -1913,7 +1913,7 @@ C
 C
                             DO I=1,NRTM
                                 K = INTBUF_TAB(N)%KREMNODE(I)+1
-                                L = INTBUF_TAB(N)%KREMNODE(I+1)       
+                                L = INTBUF_TAB(N)%KREMNODE(I+1)
                                 DO J=K,L
                                     NS = TAGNOD(INTBUF_TAB(N)%REMNODE(J))
                                     INTBUF_TAB(N)%KREMNOR(NS) = INTBUF_TAB(N)%KREMNOR(NS)+1
@@ -1957,7 +1957,7 @@ C-------  Reset IRTLM & PENE_OLD (cf INACTI)
 
                     DEALLOCATE( NBR_INSERT_II )
                     DEALLOCATE( ADRESS_II )
-                    DEALLOCATE( KREMNODE_SAVE ) 
+                    DEALLOCATE( KREMNODE_SAVE )
 C-------------------------------------------------
 C       IremI2 for edge to edge contact type 25
 C-----------------------------------------------
@@ -1965,8 +1965,8 @@ C-----------------------------------------------
                     IF(NTY==25.AND.IF25>0.AND.IEDGE>0)THEN
                       CALL REMN_I2OP_EDG25(N          ,FLAGREMNODE_SAV ,IPARI   ,INTBUF_TAB   ,I2NODE,
      .                                     POINTS_I2N ,I2NODE_SIZE     ,NOM_OPT  ,ITAB        )
-                    ENDIF      
-        END DO 
+                    ENDIF
+        END DO
 
         DEALLOCATE(TAGD,I2NODE,POINTS_I2N)
         IF(TYP25_USE==1) THEN
@@ -1987,7 +1987,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2034,7 +2034,7 @@ C-----------------------------------------------
 !      Compute the size of I2NODE array
 !     Allocate the temporary I2NODE array to I2NODE_SIZE , 3
       ALLOCATE(I2NODE_LOC(I2NODE_SIZE,3))
-      
+
        COMPTEUR=1
        DO N=1,NINTER
          NTY=IPARI(7,N)
@@ -2046,38 +2046,38 @@ C-----------------------------------------------
           ILEV  =IPARI(20,N)
           DO II=1,NSN
             I=INTBUF_TAB(N)%NSV(II)
-            L=INTBUF_TAB(N)%IRTLM(II) 
+            L=INTBUF_TAB(N)%IRTLM(II)
             L1 = 4*(L-1)
-            M1 = INTBUF_TAB(N)%IRECTM(L1+1)            
-            M2 = INTBUF_TAB(N)%IRECTM(L1+2)            
-            M3 = INTBUF_TAB(N)%IRECTM(L1+3)            
-            M4 = INTBUF_TAB(N)%IRECTM(L1+4)            
+            M1 = INTBUF_TAB(N)%IRECTM(L1+1)
+            M2 = INTBUF_TAB(N)%IRECTM(L1+2)
+            M3 = INTBUF_TAB(N)%IRECTM(L1+3)
+            M4 = INTBUF_TAB(N)%IRECTM(L1+4)
             ! 1
             I2NODE_LOC(COMPTEUR,1) = M1                                 ! node surf/MAIN
             I2NODE_LOC(COMPTEUR,2) = N                                  ! interface
             I2NODE_LOC(COMPTEUR,3) = II                                 ! SECONDARY_id
-            COMPTEUR = COMPTEUR + 1 
+            COMPTEUR = COMPTEUR + 1
             ! 2
-            I2NODE_LOC(COMPTEUR,1) = M2                                 
-            I2NODE_LOC(COMPTEUR,2) = N                                  
-            I2NODE_LOC(COMPTEUR,3) = II                                 
+            I2NODE_LOC(COMPTEUR,1) = M2
+            I2NODE_LOC(COMPTEUR,2) = N
+            I2NODE_LOC(COMPTEUR,3) = II
             COMPTEUR = COMPTEUR + 1
             ! 3
-            I2NODE_LOC(COMPTEUR,1) = M3    
-            I2NODE_LOC(COMPTEUR,2) = N                                  
-            I2NODE_LOC(COMPTEUR,3) = II                               
+            I2NODE_LOC(COMPTEUR,1) = M3
+            I2NODE_LOC(COMPTEUR,2) = N
+            I2NODE_LOC(COMPTEUR,3) = II
             COMPTEUR = COMPTEUR + 1
             ! 4
            IF (M4/=M3) THEN
             I2NODE_LOC(COMPTEUR,1) = M4    ! node surf/MAIN
             I2NODE_LOC(COMPTEUR,2) = N                                  ! interface
-            I2NODE_LOC(COMPTEUR,3) = II                                 ! SECONDARY 
+            I2NODE_LOC(COMPTEUR,3) = II                                 ! SECONDARY
             COMPTEUR = COMPTEUR + 1
            END IF !(M4/=M3) THEN
             ! 5
             I2NODE_LOC(COMPTEUR,1) = I                                  ! SECONDARY node
             I2NODE_LOC(COMPTEUR,2) = N                                  ! interface
-            I2NODE_LOC(COMPTEUR,3) = -II                                ! - SECONDARY 
+            I2NODE_LOC(COMPTEUR,3) = -II                                ! - SECONDARY
             COMPTEUR = COMPTEUR + 1
           ENDDO
          ENDIF
@@ -2091,21 +2091,21 @@ C-----------------------------------------------
 !               | NSM(2) | Inter(4) | SECONDARY(14)
 !               | NSM(2) | Inter(5) | SECONDARY(18)
 !               | NSM(3) | Inter(1) | SECONDARY(1)
-!               |  ...   |   ...    |   ...      
+!               |  ...   |   ...    |   ...
 !       Compute the pointer array POINT_I2NODE :
 !               | 0 | 0 | if 0,0 --> node not in type2 interface
-!               | 1 | 3 | 
-!               | 4 | 5 | 
-!               | 0 | 0 | 
+!               | 1 | 3 |
+!               | 4 | 5 |
+!               | 0 | 0 |
 
        ALLOCATE( INDEX(2*I2NODE_SIZE) )
        DO I=1,2*I2NODE_SIZE
         INDEX(I)=I
        ENDDO
 c       ALLOCATE(I2NODE(I2NODE_SIZE,3))
-       CALL MY_ORDERS( 0, WORK, I2NODE_LOC(1,1), INDEX, I2NODE_SIZE , 1)    
+       CALL MY_ORDERS( 0, WORK, I2NODE_LOC(1,1), INDEX, I2NODE_SIZE , 1)
        COMPTEUR = 1
-c       ALLOCATE(POINT_I2NODE(NUMNOD,2))   
+c       ALLOCATE(POINT_I2NODE(NUMNOD,2))
        POINT_I2NODE(1:NUMNOD,1:2) = 0
        POINT_I2NODE(I2NODE_LOC(INDEX(1),1),1) = 1
        DO I=1,I2NODE_SIZE
@@ -2114,7 +2114,7 @@ c       ALLOCATE(POINT_I2NODE(NUMNOD,2))
         I2NODE(COMPTEUR,2) = I2NODE_LOC(INDEX(I),2)
         I2NODE(COMPTEUR,3) = I2NODE_LOC(INDEX(I),3)
 !       Initialization of POINT_I2NODE array
-        IF(POINT_I2NODE(I2NODE_LOC(INDEX(I),1),1)==0) THEN 
+        IF(POINT_I2NODE(I2NODE_LOC(INDEX(I),1),1)==0) THEN
           POINT_I2NODE(I2NODE_LOC(INDEX(I),1),1) = COMPTEUR
           IF (I>1) POINT_I2NODE(I2NODE_LOC(INDEX(I-1),1),2) = COMPTEUR - 1
         ENDIF
@@ -2124,7 +2124,7 @@ c       ALLOCATE(POINT_I2NODE(NUMNOD,2))
 !       Deallocate the temporary I2NODE_LOC array and the INDEX array
        DEALLOCATE(INDEX)
        DEALLOCATE(I2NODE_LOC)
-! ********************************  
+! ********************************
 C----
       RETURN
       END
@@ -2135,7 +2135,7 @@ Chd|-- calls ---------------
 Chd|        INSERT_A                      source/interfaces/inter3d1/i7remnode.F
 Chd|====================================================================
       SUBROUTINE ADD_NM1(IS     ,IRECT   ,IRTL     ,NREMOV  ,IREMOV  ,
-     2                  IADA    ,TAGD   ,NEW       ,IFLAG    )                  
+     2                  IADA    ,TAGD   ,NEW       ,IFLAG    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2175,7 +2175,7 @@ C-----------------------------------------------
              CALL INSERT_A(NREMOV,IREMOV,NM  ,IADA)
              NEW =NEW+1
              TAGD(NM)=1
-            END IF 
+            END IF
            END DO
 C----
       RETURN
@@ -2186,7 +2186,7 @@ Chd|-- called by -----------
 Chd|        REMN_I2OP                     source/interfaces/inter3d1/i7remnode.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE ZERONM_TAGD(IS     ,IRECT   ,IRTL     ,TAGD   )                  
+      SUBROUTINE ZERONM_TAGD(IS     ,IRECT   ,IRTL     ,TAGD   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -2238,7 +2238,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2267,7 +2267,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: PT_E2NODE
 C-----------------------------------------------
 C----like Irem_gap of int7, creat list of SECONDARY nodes to be removed per M_seg
-       IACT=0  
+       IACT=0
        DO N=1,NINTER
         NTY=IPARI(7,N)
         NSNE  = IPARI(55,N)
@@ -2357,7 +2357,7 @@ C-----
        IF (TAGN(NS1)>0.AND.TAGN(NS2)>0) THEN
         NSIZE = NSIZE + 2
        END IF
-      END DO ! I=1,NSNE        
+      END DO ! I=1,NSNE
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -2402,7 +2402,7 @@ C-----
 !      Compute the size of E2NODE array
 !     Allocate the temporary E2NODE array to I2NODE_SIZE , 2
       ALLOCATE(E2NODE_LOC(NSIZE,2))
-      
+
        COMPTEUR=1
       DO I=1,NSNE
        IE1 = IS2SE(1,I)
@@ -2423,18 +2423,18 @@ C-----
        IF (TAGN(NS1)>0.AND.TAGN(NS2)>0) THEN
             E2NODE_LOC(COMPTEUR,1) = NS1                                 ! node surf/MAIN
             E2NODE_LOC(COMPTEUR,2) = I                                 ! SECONDARY_id
-            COMPTEUR = COMPTEUR + 1 
+            COMPTEUR = COMPTEUR + 1
             ! 2
             E2NODE_LOC(COMPTEUR,1) = NS2                                 ! node surf/MAIN
             E2NODE_LOC(COMPTEUR,2) = I                                 ! SECONDARY_id
-            COMPTEUR = COMPTEUR + 1 
+            COMPTEUR = COMPTEUR + 1
        END IF
-      END DO ! I=1,NSNE  
+      END DO ! I=1,NSNE
        ALLOCATE( INDEX(2*NSIZE) )
        DO I=1,2*NSIZE
         INDEX(I)=I
        ENDDO
-       CALL MY_ORDERS( 0, WORK, E2NODE_LOC(1,1), INDEX, NSIZE , 1)    
+       CALL MY_ORDERS( 0, WORK, E2NODE_LOC(1,1), INDEX, NSIZE , 1)
        COMPTEUR = 1
        PT_E2NODE(1:NUMNOD,1:2) = 0
        PT_E2NODE(E2NODE_LOC(INDEX(1),1),1) = 1
@@ -2442,7 +2442,7 @@ C-----
 !       Initialization of E2NODE array
         E2NODE(COMPTEUR) = E2NODE_LOC(INDEX(I),2)
 !       Initialization of POINT_I2NODE array
-        IF(PT_E2NODE(E2NODE_LOC(INDEX(I),1),1)==0) THEN 
+        IF(PT_E2NODE(E2NODE_LOC(INDEX(I),1),1)==0) THEN
           PT_E2NODE(E2NODE_LOC(INDEX(I),1),1) = COMPTEUR
           PT_E2NODE(E2NODE_LOC(INDEX(I-1),1),2) = COMPTEUR - 1
         ENDIF
@@ -2452,7 +2452,7 @@ C-----
 !       Deallocate the temporary I2NODE_LOC array and the INDEX array
        DEALLOCATE(INDEX)
        DEALLOCATE(E2NODE_LOC)
-! ********************************  
+! ********************************
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -2515,7 +2515,7 @@ C-------- copy KREMNODE,REMNODE in *_CP and re-build KREMNODE,REMNODE to avoid i
         REMN_CP(1:NREMOV)=REMNODE(1:NREMOV)
         DO II=1,NRTM
 C--------old first 
-         NII = KREMN_CP(II+1)-KREMN_CP(II)      
+         NII = KREMN_CP(II+1)-KREMN_CP(II)
          DO I = 1,NII
           REMNODE(KREMNODE(II)+I)=REMN_CP(KREMN_CP(II)+I)
          END DO
@@ -2531,9 +2531,9 @@ C--------fictive nodes
              NEW = NEW + 1
              REMNODE(NEW)=NM
              TAGN(NN)=1
-            END IF 
+            END IF
           END DO !J=
-         END DO !I = 
+         END DO !I =
 C reset  TAGN(NN) =0         
          DO I = KREMN_CP(II)+1,KREMN_CP(II+1)
           NS = REMN_CP(I)
@@ -2563,7 +2563,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2604,7 +2604,7 @@ C------INTBUF_TAB(N)%CAND_E,INTBUF_TAB(N)%CAND_N
      +                  INTBUF_TAB(N)%KREMNODE,INTBUF_TAB(N)%REMNODE,
      +                  INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
      +                  INTBUF_TAB(N)%PENE_OLD,ITAB )
-         INTBUF_TAB(N)%I_STOK(1) = I_STOK 
+         INTBUF_TAB(N)%I_STOK(1) = I_STOK
         END IF
        END DO
 C----
@@ -2666,30 +2666,30 @@ C-----------------------------------------------
              NE = CAND_E(I)
              NS = NSV(NI)
              K = KREMNODE(NE)+1
-             L = KREMNODE(NE+1)  
+             L = KREMNODE(NE+1)
              DO J=K,L
               IF (REMNOD(J)==NS) THEN
                I_RM(I) = 1
                CYCLE
               END IF
-             END DO             
-            END DO          
+             END DO
+            END DO
 C--------reput   IRTLM(1,NI)=0,PEN_OLD(5,NI)=0 et compact CAND_N,CAND_E ,I_STOK
-            II_STOK = 0       
+            II_STOK = 0
             DO I=1,I_STOK
              IF (I_RM(I) == 1) THEN
               NI = CAND_N(I)
               IRTLM(1,NI) = 0
               PENE_OLD(5,NI)=ZERO
              ELSE
-              II_STOK = II_STOK+1       
+              II_STOK = II_STOK+1
               CAND_N(II_STOK) = CAND_N(I)
               CAND_E(II_STOK) = CAND_E(I)
              END IF
             END DO
-            NRM =  I_STOK-II_STOK   
+            NRM =  I_STOK-II_STOK
 C ----- message out
-            IF (NRM >0) THEN            
+            IF (NRM >0) THEN
                                 CALL ANCMSG(MSGID=1637,
      .                                  MSGTYPE=MSGWARNING,
      .                                  ANMODE=ANINFO_BLIND_1,
@@ -2713,8 +2713,8 @@ C ----- message out
               END DO
               WRITE(IOUT,FMT=FMW_10I) (ITAB(I_RM(J)),J=1,NRM)
              END IF!(IPRI>=5) THEN
-            END IF !(NRM >0) THEN            
-            I_STOK= II_STOK 
+            END IF !(NRM >0) THEN
+            I_STOK= II_STOK
 C      
       RETURN
       END

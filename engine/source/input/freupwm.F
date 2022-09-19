@@ -73,13 +73,13 @@ C-----------------------------------------------
       CHARACTER KEY2*5, KEY3*5,KEY4*5
 C
       IKEY=KUPWM
-      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN              
+      IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        READ(IUSC1,REC=IKAD(IKEY),FMT='(A)',ERR=9990)TMPLINE
-       CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)       
+       CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)
        IF(KEY3(1:3)/='OFF' .AND. KEY3(1:2)/='ON')THEN
          READ(IUSC1,REC=IKAD(IKEY),FMT='(7X,A4)',ERR=9990)KEY2
-         CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))  
-         READ(IUSC2,*,ERR=9990)CUPWM  
+         CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
+         READ(IUSC2,*,ERR=9990)CUPWM
        ELSEIF(KEY3(1:3)=='OFF')THEN
           ! /UPWM/SUPG/OFF (obsolete, replaced by /ALE/SUPG/OFF)
            UPWM          = 0
@@ -99,7 +99,7 @@ C
         CALL GET_KEYS_ID(TMPLINE, KEY2, KEY3,KEY4, ID)
         IF(I_SUPG_ON_OFF==2)THEN
          CALL ANCMSG(MSGID=034,ANMODE=ANINFO)
-         UPWM=0        
+         UPWM=0
         ENDIF
        ELSE
         GOTO 9990

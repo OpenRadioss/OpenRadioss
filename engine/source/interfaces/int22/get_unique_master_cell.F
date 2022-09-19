@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE INITBUF_MOD
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
-#include      "i22edges.inc"  
+#include      "i22edges.inc"
 #include      "inter22.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
       IPOS          = 1
       LEVEL         = 3   !3:X, 2:Y, 1:Z
       SCORE(1:K)    = ZERO
-      
+
       DO ICELL = 1, 9
         IsMain = BRICK_LIST(NIN,IB)%POLY(ICELL)%IsMain
         IF(IsMain==0)CYCLE
@@ -86,7 +86,7 @@ C-----------------------------------------------
         CENTROID(1:3,N) = BRICK_LIST(NIN,IB)%POLY(ICELL)%CellCenter(1:3)
       ENDDO
 
-      DO WHILE(LEVEL >= 1) 
+      DO WHILE(LEVEL >= 1)
         IPOS        = MINLOC(CENTROID(4-LEVEL,1:K),1)
         MIN         = CENTROID(4-LEVEL,IPOS)       !init with maximum value
         DO WHILE (IPOS < K)
@@ -103,6 +103,6 @@ C-----------------------------------------------
 
       IPOS                   = MAXLOC(SCORE(1:K),1)
       GET_UNIQUE_MAIN_CELL = IPOS
-      
+
       RETURN
       END

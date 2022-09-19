@@ -30,7 +30,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
        SUBROUTINE I24BUCE(
-     1   X        ,V       ,IRECT   ,NSV      ,STFN     , 
+     1   X        ,V       ,IRECT   ,NSV      ,STFN     ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N   ,
      3   GAP      ,NOINT   ,II_STOK ,NCONTACT ,BMINMA   ,
      4   MARGE    ,CURV_MAX,PMAX_GAP,VMAXDT   ,NB_N_B   ,
@@ -40,7 +40,7 @@ Chd|====================================================================
      8   ILEV     ,MSEGTYP ,EDGE_L2 ,IEDGE    ,ISEADD   ,
      9   ISEDGE   ,CAND_T ,FLAGREMNODE,KREMNOD,REMNOD   ,
      A   CAND_A   ,RENUM  ,NSNROLD  ,IRTSE    ,IS2SE    ,
-     B   NSNE     ,DGAPLOAD) 
+     B   NSNE     ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NMN, NRTM, NSN, NOINT,IDT,NIN, NSNR
-      INTEGER IRECT(4,*),NSV(*),ITASK,ILEV,IEDGE,NSNE    
+      INTEGER IRECT(4,*),NSV(*),ITASK,ILEV,IEDGE,NSNE
       INTEGER CAND_E(*),CAND_N(*),MSEGTYP(*)
       INTEGER NCONTACT,ESHIFT,ILD,NB_N_B, NCONT,I_MEM,
      .        II_STOK,ITAB(*),NBINFLG(*),MBINFLG(*),ISEADD(*),
@@ -95,7 +95,7 @@ C     REAL
       my_real
      .        XYZM(6), AAA
       INTEGER NBX,NBY,NBZ,NSNF,NSNL
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -138,7 +138,7 @@ C=============================================================================
      .           +(BMINMA(2)-BMINMA(5))*(BMINMA(3)-BMINMA(6))
      .           +(BMINMA(3)-BMINMA(6))*(BMINMA(1)-BMINMA(4))))
       ELSE
-        AAA = 0 
+        AAA = 0
       ENDIF
 
       AAA = 0.75*AAA
@@ -154,7 +154,7 @@ C=============================================================================
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -167,12 +167,12 @@ C=============================================================================
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))

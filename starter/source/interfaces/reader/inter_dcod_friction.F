@@ -44,7 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
-      USE INTBUF_FRIC_MOD        
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,49 +93,49 @@ C-------------------------------------------
 C
       OK = 0
       IF(NTYP==7.OR.NTYP==11.OR.NTYP==19.OR.NTYP==24.OR.NTYP==25) THEN
-          IF (IPARI(72) > 0) THEN   
+          IF (IPARI(72) > 0) THEN
             OK = 0
-            DO J=1,NINTERFRIC  
+            DO J=1,NINTERFRIC
               IDF  = NOM_OPTFRIC(1,J)
-              IF(IPARI(72) == IDF) THEN 
-                 IPARI(72)=J                
-                 OK = 1               
+              IF(IPARI(72) == IDF) THEN
+                 IPARI(72)=J
+                 OK = 1
                  EXIT
-              ENDIF                           
-            ENDDO    
-            IF (OK == 0) THEN                         
-               CALL ANCMSG(MSGID=1592,            
-     .                 MSGTYPE=MSGERROR,        
-     .                 ANMODE=ANINFO_BLIND_1,   
-     .                 I1=ID,                   
-     .                 C1=TITR,                 
-     .                I2=IPARI(72))          
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+               CALL ANCMSG(MSGID=1592,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                I2=IPARI(72))
             ENDIF
           ENDIF
-          IF (NTYP==11.AND.IPARI(72) > 0) THEN  
-              INTFRIC = IPARI(72) 
+          IF (NTYP==11.AND.IPARI(72) > 0) THEN
+              INTFRIC = IPARI(72)
               IF(INTBUF_FRIC_TAB(INTFRIC)%FRICMOD > 0 ) THEN
                 CALL ANCMSG(MSGID=1595,
      .                  MSGTYPE=MSGWARNING,
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=NOM_OPTFRIC(1,INTFRIC))  
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=NOM_OPTFRIC(1,INTFRIC))
               ENDIF
              IPARI(30) = INTBUF_FRIC_TAB(INTFRIC)%FRICFORM  ! we put the iform  flag to the value set in friction interface
           ENDIF
 
           IF ((NTYP==24..OR.NTYP==25).AND.IPARI(72) > 0) THEN  ! correction of filtering parameter if Iform = 0 in friction interface
-             INTFRIC = IPARI(72) 
+             INTFRIC = IPARI(72)
              IFQ = INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
              IF (IFQ<10) IFQ = IFQ + 10
              INTBUF_FRIC_TAB(INTFRIC)%IFFILTER = IFQ
              IF (IFQ==10) INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC = ONE
           ENDIF
 
-          IF ((NTYP==7.OR.NTYP==24..OR.NTYP==25).AND.IPARI(72) > 0) THEN ! we put the MFROT ifq flag to the value set in friction interface 
-              INTFRIC = IPARI(72) 
-              IPARI(30) = INTBUF_FRIC_TAB(INTFRIC)%FRICMOD 
+          IF ((NTYP==7.OR.NTYP==24..OR.NTYP==25).AND.IPARI(72) > 0) THEN ! we put the MFROT ifq flag to the value set in friction interface
+              INTFRIC = IPARI(72)
+              IPARI(30) = INTBUF_FRIC_TAB(INTFRIC)%FRICMOD
               IPARI(31) = INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
           ENDIF
 

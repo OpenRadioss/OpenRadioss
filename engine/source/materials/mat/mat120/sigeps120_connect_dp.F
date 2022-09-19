@@ -54,7 +54,7 @@ C----------------------------------------------------------------
      .         SIGOZZ,SIGOYZ,SIGOZX,AREA
 c
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: EPSD
-      my_real ,DIMENSION(NEL) ,INTENT(OUT) :: 
+      my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
      .                   SIGNZZ,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,STIFM,DMELS
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -86,7 +86,7 @@ c     Paramters of yield function/hardening law and flow potential
       QQ    = UPARAM(6)
       BETA  = UPARAM(7)
       HH    = UPARAM(8)
-      A1F   = UPARAM(9) 
+      A1F   = UPARAM(9)
       A2F   = UPARAM(10)
       A1H   = UPARAM(11)
       A2H   = UPARAM(12)
@@ -98,16 +98,16 @@ c     Johnson-Cook failure parameters
       D2F   = UPARAM(17)
       D_TRX = UPARAM(18)
       D_JC  = UPARAM(19)
-      EXPN  = UPARAM(20) 
+      EXPN  = UPARAM(20)
 c     Johnson-Cook strain rate-dependency and distortional hardening
-      CC      = UPARAM(21) 
-      EPSDREF = UPARAM(22) 
-      EPSDMAX = UPARAM(23) 
+      CC      = UPARAM(21)
+      EPSDREF = UPARAM(22)
+      EPSDMAX = UPARAM(23)
       FCUT    = UPARAM(24)
 c
-      ITRX    = NINT(UPARAM(26)) 
+      ITRX    = NINT(UPARAM(26))
       IDAM    = NINT(UPARAM(27))
-  
+
 c
       !YOUNG  = YOUNG/THICK
       !G      = G/THICK
@@ -117,8 +117,8 @@ c
       ALPHAI = ONE - ALPHA
       DTINV   = ONE / (MAX(TIMESTEP, EM20))
 C---------------------------------------------
-      STF(1:NEL)     = YOUNG *  AREA(1:NEL)                                            
-      STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)                                              
+      STF(1:NEL)     = YOUNG *  AREA(1:NEL)
+      STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)
 C---------------------------------------------
       DAM (1:NEL) = UVAR(1:NEL,2)
       FDAM(1:NEL) = ONE - DAM(1:NEL)
@@ -142,7 +142,7 @@ c
       ENDDO
 c     Johnson & Cook rate dependency  (total strain rate)
       JCRATE(1:NEL)  = ONE
-      DO I=1,NEL   
+      DO I=1,NEL
         IF (OFF(I) == ONE) THEN
           EPSDOT  = SQRT(DEPSYZ(I)**2 + DEPSZX(I)**2 + DEPSZZ(I)**2)
           EPSDOT  = EPSDOT * DTINV / THICK(I)
@@ -189,22 +189,22 @@ c
         DO ITER = 1,NITER
           ! normal to non associated plastic flow surface = d_psi/d_sig
           JP    = THIRD * AS * I1P
-          TP    = TWO  * THIRD * AS * I1P 
+          TP    = TWO  * THIRD * AS * I1P
 c
-          NP_XX = SXX(I)  
-          NP_YY = SYY(I) 
+          NP_XX = SXX(I)
+          NP_YY = SYY(I)
           NP_ZZ = SZZ(I) + TP
           NP_YZ = SYZ(I)
           NP_ZX = SZX(I)
 c
           ! normal to plastic yield surface = d_sig_eff/d_sig
           IP = THIRD*(SQR3*YLD0*A1(I) + TWO*A2(I)*I1P)
-          NF_XX = SXX(I)  
-          NF_YY = SYY(I)  
+          NF_XX = SXX(I)
+          NF_YY = SYY(I)
           NF_ZZ = SZZ(I) + IP
           NF_YZ = SYZ(I)
           NF_ZX = SZX(I)
-c         
+c
           ! derivative of yld criterion : dphi/dlam = d_phi/d_sig * dsig/dlam
           DFDLAM = - NF_ZZ * (YOUNG * NP_ZZ )
      .             -(NF_YZ*NP_YZ + NF_ZX*NP_ZX)*TWO*G2
@@ -219,22 +219,22 @@ c
 c----------------------------------------------------------------
           DLAM = -PHI(I) / DPHI_DLAM
 c----------------------------------------------------------------
-          ! Plastic strains tensor update                        
-          DPZZ = DLAM*NP_ZZ                                                  
-          DPYZ = DLAM*NP_YZ                          
-          DPZX = DLAM*NP_ZX                 
-          ! Elasto-plastic stresses update   
-          SIGNZZ(I) = SIGNZZ(I) - YOUNG *DPZZ 
-          SIGNYZ(I) = SIGNYZ(I) - G2    *DPYZ  
+          ! Plastic strains tensor update
+          DPZZ = DLAM*NP_ZZ
+          DPYZ = DLAM*NP_YZ
+          DPZX = DLAM*NP_ZX
+          ! Elasto-plastic stresses update
+          SIGNZZ(I) = SIGNZZ(I) - YOUNG *DPZZ
+          SIGNYZ(I) = SIGNYZ(I) - G2    *DPYZ
           SIGNZX(I) = SIGNZX(I) - G2    *DPZX
 c
           ! Plastic strain increments update
           DDEP   = DLAM * DPLA_DLAM
           DPLA(I)= MAX(ZERO, DPLA(I) + DDEP)
           PLA(I) = PLA(I) + DDEP
-c----------------------        
-c         criterion update  
-c----------------------        
+c----------------------
+c         criterion update
+c----------------------
           I1(I)  = SIGNZZ(I)
           I1P    = MAX(ZERO, I1(I))
           SXX(I) =  - I1(I)*THIRD
@@ -253,7 +253,7 @@ c----------------------
         END DO  ! Newton iterations
 c
         !UVAR(I,4) = PHI(I) / YLD0**2
-      ENDDO   ! II = 1,NINDX    
+      ENDDO   ! II = 1,NINDX
 
 c---------------------------------------------------------------------
 c     Update damage
@@ -302,7 +302,7 @@ c       Update damaged stress
           FACD = ONE - DAM(I)
           SIGNZZ(I) = SIGNZZ(I) * FACD
           SIGNYZ(I) = SIGNYZ(I) * FACD
-          SIGNZX(I) = SIGNZX(I) * FACD        
+          SIGNZX(I) = SIGNZX(I) * FACD
         END DO
       END IF
 c-------------------------
@@ -316,15 +316,15 @@ c-------------------------
       END IF
 c-----------------------------------------------------------------
  1000 FORMAT(1X,'START DAMAGE IN SOLID ELEMENT NUMBER ',I10)
- 1100 FORMAT(1X,'START DAMAGE IN SOLID ELEMENT NUMBER ',I10,1X,' AT TIME :',G11.4) 
+ 1100 FORMAT(1X,'START DAMAGE IN SOLID ELEMENT NUMBER ',I10,1X,' AT TIME :',G11.4)
 c-----------------------------------------------------------------
-c-----------------------------------------------------      
+c-----------------------------------------------------
 c omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0 ) THEN
         DTB = (DTMINS/DTFACS)**2
-        DO I=1,NEL                                                 
+        DO I=1,NEL
           DMELS(I)=MAX(DMELS(I),HALF*DTB*STF(I)*OFF(I))
-        ENDDO                                                        
+        ENDDO
       ENDIF
 c-----------------------------------------------------------------
       RETURN

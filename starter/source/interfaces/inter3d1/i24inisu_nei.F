@@ -70,7 +70,7 @@ C-----------------------------------------------
 C init IRTLM (done before) MSEGLO
 C      IRTLM(1:2,1:NSN)=0
       DO I=1,NRTM
-        MSEGLO(I)=I      
+        MSEGLO(I)=I
       ENDDO
 C-----------shell segs have been duplicated w/ inverse order
 C-----------for the moment all antisymmetry surface will be stored at the end
@@ -272,7 +272,7 @@ C
        IF ((NE-NE0) >1 .OR.(NN-NN0)> 2) THEN
 C        print *,'!!!error (report to developer)!!!',(NE-NE0),(NN-NN0)
         IRR=12
-       END IF 
+       END IF
        DO I=1+NE0,NE
         IE(I)=ICE(I)
        END DO
@@ -304,7 +304,7 @@ C-----------------------------------------------
      .        I1,I2,IRECT(4,*),IASYM
 C-----------------------------------------------
 c FUNCTION: find neighbour segment and which share the same nodes I1,I2
-c        ---neighbour node arry will be buid after taking into account of treatment w/ IC 
+c        ---neighbour node arry will be buid after taking into account of treatment w/ IC
 c           (remains only one segment at the end)
 c
 c Note:
@@ -339,7 +339,7 @@ C----add 0 in IC as convention ----------------------------
          IF (.NOT.SAME_SEG(IRECT(1,ISELF),IRECT(1,NEW)))
      .      CALL ADD_ID(N,IC,NEW)
         END IF
-       END DO 
+       END DO
 C----add 0 for IC if find nothing -> consisting w/ ICN------------------------
        IF (NE==N) CALL ADD_ID(N,IC,LING)
       END IF !(I1==I2) THEN
@@ -399,7 +399,7 @@ C----add 0 in ICN as convention ----------------------------
 C----add 0 for tria ----------------------------
           CALL ADD_N_ID(NN,ICN,LING)
          END IF
-       END DO 
+       END DO
 C----add 0 for IC if find nothing -> consisting w/ ICN------------------------
        IF (NN==NN0) THEN
         CALL ADD_N_ID(NN,ICN,LING)
@@ -575,7 +575,7 @@ C
       ENDIF ! intply
 C-----reset MSEGTYP(I)=0 for coating shell, engine uses MSEGTYP only for symmetry
         DO I=1,NRTM
-        IF (MSEGTYP(I)>NRTM) MSEGTYP(I) =0 
+        IF (MSEGTYP(I)>NRTM) MSEGTYP(I) =0
         END DO  ! nrtm
 C        
       RETURN

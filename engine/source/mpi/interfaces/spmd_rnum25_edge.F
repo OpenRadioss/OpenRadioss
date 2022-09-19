@@ -71,7 +71,7 @@ C-----------------------------------------------
 
       ALLOCATE(OLDNUM_EDGE(NEDGE_REMOTE))
       DO I = 1, NEDGE_REMOTE
-        OLDNUM_EDGE(I) = 0 
+        OLDNUM_EDGE(I) = 0
 !       OLDNUM_EDGE(NEW) = OLD or 0
       END DO
 
@@ -104,7 +104,7 @@ Cas candidat non penetre et non retenu
             I = I + 1
           END IF
         END DO
-        JDEB = JDEB + NSNFIE(NIN)%P(P)  
+        JDEB = JDEB + NSNFIE(NIN)%P(P)
         IDEB = IDEB + NSNFIEOLD(P)
       END DO
 C
@@ -119,17 +119,17 @@ C
       DO I = 1, ISTOK_E2E
         NI = CAND_E2E(I)
         IF(NI>NEDGE) THEN
-          NI = NI - NEDGE 
+          NI = NI - NEDGE
           CAND_E2E(I) = RENUM_EDGE(NI) + NEDGE
-        END IF        
+        END IF
       END DO
 
       DO I = 1, ISTOK_E2S
         NI = CAND_E2S(I)
         IF(NI>NEDGE) THEN
-          NI = NI - NEDGE 
+          NI = NI - NEDGE
           CAND_E2S(I) = RENUM_EDGE(NI) + NEDGE
-        END IF        
+        END IF
       END DO
 
 

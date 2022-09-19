@@ -138,7 +138,7 @@ C-------------------------------
       DO I=LFT,LLT
         IF (OFF(I) < EM01) OFF(I)=ZERO
         IF (OFF(I) < ONE) OFF(I)=OFF(I)*FOUR_OVER_5
-      ENDDO 
+      ENDDO
 c
       DO I=LFT,LLT
         IF (OFF(I) < ONE)      CYCLE
@@ -157,7 +157,7 @@ c
 c
       DO I=LFT,LLT
         STI(I)=STI(I)*OFF(I)
-        FOR(I)= FOR(I)*OFF(I)  
+        FOR(I)= FOR(I)*OFF(I)
       ENDDO
 c
       DO I=LFT,LLT

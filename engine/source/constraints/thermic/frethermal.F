@@ -67,7 +67,7 @@ C--------------------------------------------------
       IF(IKAD(IKEY)/=IKAD(IKEY+1))THEN
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC2,*,ERR=9990)  THEACCFACT
-       IF(THEACCFACT == ZERO)  THEACCFACT=ONE 
+       IF(THEACCFACT == ZERO)  THEACCFACT=ONE
       ENDIF
 
       RETURN

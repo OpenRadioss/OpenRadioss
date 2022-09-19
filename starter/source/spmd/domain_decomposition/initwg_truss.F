@@ -47,7 +47,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -73,10 +73,10 @@ C-----------------------------------------------
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
      .   BATOZMULT,TMAT
-      
+
       my_real
      .        CC, INVTREF,A,B,A1,A2
-       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
+       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/
 C-----------------------------------------------  
       DO I = 1, NUMELT
         MID= IXT(1,I)

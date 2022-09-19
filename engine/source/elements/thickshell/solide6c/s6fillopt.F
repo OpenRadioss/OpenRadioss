@@ -76,7 +76,7 @@ C-----------------------------------------------
         F16(I)=FILL(I)*F16(I)
         F26(I)=FILL(I)*F26(I)
         F36(I)=FILL(I)*F36(I)
-      END DO              
+      END DO
 
       RETURN
       END

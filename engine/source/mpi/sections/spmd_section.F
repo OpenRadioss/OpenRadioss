@@ -60,7 +60,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,INFO,I,J,K,L,NELSEG,NNOD,NELC,NELTG,
      .        NN,P,ATID,ATAG,ALEN,IDEB,SIZ,K0,K1,K2,A_AR,IFRAM,
-     .        REM_PROC,MSGTYP,REM_PROC2,MSGTYP2,N1,N2,N3,NOD,        
+     .        REM_PROC,MSGTYP,REM_PROC2,MSGTYP2,N1,N2,N3,NOD,
      .        SENDTO(PARASIZ),RECVFR(PARASIZ),LOC_PROC,NB_NOD,
      .        REQ_R(PARASIZ),BUFSIZ,IALL
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
@@ -108,9 +108,9 @@ C
         IDEB = SIZ + 1
         DO I = 1, NSPMD
           REM_PROC = MOD(LOC_PROC + I-1,NSPMD)+1
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           REM_PROC2 = MOD(LOC_PROC+NSPMD-I-1,NSPMD)+1
-          MSGTYP2 = MSGOFF 
+          MSGTYP2 = MSGOFF
 
           IF(REM_PROC/=LOC_PROC.OR.REM_PROC2/=LOC_PROC) THEN
             CALL MPI_SENDRECV(
@@ -120,9 +120,9 @@ C
           ENDIF
           IF (REM_PROC2/=LOC_PROC) THEN
             DO J = 1, NSECT
-             SENDTO(REM_PROC2) = SENDTO(REM_PROC2) + 
+             SENDTO(REM_PROC2) = SENDTO(REM_PROC2) +
      +                           NINT(WA(J)*WA(IDEB+NSECT+J-1))
-             RECVFR(REM_PROC2) = RECVFR(REM_PROC2) + 
+             RECVFR(REM_PROC2) = RECVFR(REM_PROC2) +
      +                           NINT(WA(NSECT+J)*WA(IDEB+J-1))
             ENDDO
           ENDIF
@@ -131,12 +131,12 @@ C
 C
        DO I = 1, NSPMD
          IF(RECVFR(I)>0) THEN
-           MSGTYP = MSGOFF 
+           MSGTYP = MSGOFF
            CALL MPI_IRECV(
      S        WA(1+I*BUFSIZ),BUFSIZ,REAL,IT_SPMD(I),MSGTYP,
      G        MPI_COMM_WORLD,REQ_R(I),IERROR)
          ENDIF
-       ENDDO        
+       ENDDO
 C
        L = 0
        K1 = 1
@@ -265,9 +265,9 @@ C
         IDEB = SIZ + 1
         DO I = 1, NSPMD
           REM_PROC = MOD(LOC_PROC + I-1,NSPMD)+1
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           REM_PROC2 = MOD(LOC_PROC+NSPMD-I-1,NSPMD)+1
-          MSGTYP2 = MSGOFF 
+          MSGTYP2 = MSGOFF
 
           IF(REM_PROC/=LOC_PROC.OR.REM_PROC2/=LOC_PROC) THEN
             CALL MPI_SENDRECV(
@@ -278,9 +278,9 @@ C
 
           IF (REM_PROC2/=LOC_PROC) THEN
             DO J = 1, NSECT
-             SENDTO(REM_PROC2) = SENDTO(REM_PROC2) + 
+             SENDTO(REM_PROC2) = SENDTO(REM_PROC2) +
      +                           NINT(WA(J)*WA(IDEB+NSECT+J-1))
-             RECVFR(REM_PROC2) = RECVFR(REM_PROC2) + 
+             RECVFR(REM_PROC2) = RECVFR(REM_PROC2) +
      +                           NINT(WA(NSECT+J)*WA(IDEB+J-1))
             ENDDO
           ENDIF
@@ -294,7 +294,7 @@ C
      S        WA(1+I*BUFSIZ),BUFSIZ,REAL,IT_SPMD(I),MSGTYP,
      G        MPI_COMM_WORLD,REQ_R(I),IERROR)
          ENDIF
-       ENDDO        
+       ENDDO
 C
        L = 0
        K0=NSTRF(25)
@@ -368,7 +368,7 @@ C
        SIZ = L
        DO I=1,NSPMD
          IF(SENDTO(I)>0) THEN
-           MSGTYP = MSGOFF 
+           MSGTYP = MSGOFF
 
            CALL MPI_SEND(
      S     WA,SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -476,7 +476,7 @@ C
       DO I = 1, NSPMD
         IAD_RECV(I) = IDEBR
         IF(IAD_SEC(2,I)>0) THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           SIZ = IAD_SEC(2,I)*A_AR
@@ -493,7 +493,7 @@ C
           IDEBS = IDEBS + SIZ
           IAD_STMP(I)=IAD_SEND(I)
         ENDIF
-      ENDDO        
+      ENDDO
       IAD_RECV(NSPMD+1) = IDEBR
 C
       IDEB = 0
@@ -543,7 +543,7 @@ C
               END IF
             END IF
           END IF
-          IF(MOD(IFRAM,10)==1) THEN            
+          IF(MOD(IFRAM,10)==1) THEN
              XXC = ZERO
              YYC = ZERO
              ZZC = ZERO
@@ -616,7 +616,7 @@ C pmain => stockage direct
               END IF
             END IF
           END IF
-          IF(MOD(IFRAM,10)==1) THEN            
+          IF(MOD(IFRAM,10)==1) THEN
              XXC = ZERO
              YYC = ZERO
              ZZC = ZERO
@@ -665,7 +665,7 @@ C
         I = ISINDEX(L)
         SIZ = IAD_STMP(I)-IAD_SEND(I)
         IDEBS = IAD_SEND(I)
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S    SBUF(IDEBS),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G    MPI_COMM_WORLD,REQ_S(I),IERROR)
@@ -734,7 +734,7 @@ C
       DO I = 1, NSPMD
         IAD_RECV(I) = IDEBR
         IF(IAD_SEC(4,I)>0) THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           SIZ = IAD_SEC(4,I)*A_AR2
@@ -778,7 +778,7 @@ C reste a coder l'envoi des noeuds vers les procs concernes
               SBUF2(L+9) = ZERO
               SBUF2(L+10)= ZERO
             END IF
-            IF(MOD(IFRAM,10)==1.OR.MOD(IFRAM,10)==2) THEN            
+            IF(MOD(IFRAM,10)==1.OR.MOD(IFRAM,10)==2) THEN
               SBUF2(L+11) = XSEC(4,1,N)
               SBUF2(L+12) = XSEC(4,2,N)
               SBUF2(L+13) = XSEC(4,3,N)
@@ -794,7 +794,7 @@ C reste a coder l'envoi des noeuds vers les procs concernes
 C      
         DO I = 1, NSPMD
           IF(IAD_SEC(3,I)>0) THEN
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
             NBISEND = NBISEND + 1
             ISINDEX(NBISEND) = I
             CALL MPI_ISEND(
@@ -879,7 +879,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER LOC_PROC,N,L,I,K,LEN,II,INDEX,NB,
      .        MSGTYP,MSGOFF,SIZ,IDEBR,
-     .        IERROR, NBIRECV,IDEB, 
+     .        IERROR, NBIRECV,IDEB,
      .        IAD_RECV(NSPMD+1),REQ_R(NSPMD),IRINDEX(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/4003/
@@ -908,7 +908,7 @@ C
               L = L + 7
             END IF
           END DO
-        ELSEIF(IFLG==1) THEN 
+        ELSEIF(IFLG==1) THEN
           DO K = 1, NNOD
             N = NSTRF(K)
             IF(WEIGHT(N)==1) THEN
@@ -920,7 +920,7 @@ C
             END IF
           END DO
         END IF
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_SEND(SBUF,L,REAL,IT_SPMD(1),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
       ELSEIF(LOC_PROC==1) THEN
@@ -939,7 +939,7 @@ C P0
      G       MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
             IDEBR = IDEBR + SIZ
           ENDIF
-        END DO        
+        END DO
         IAD_RECV(NSPMD+1) = IDEBR
 C
         IF(IFLG==2) THEN
@@ -955,7 +955,7 @@ C
               SECBUFG(6,I) = DR(3,N)
             END IF
           END DO
-        ELSEIF(IFLG==1) THEN 
+        ELSEIF(IFLG==1) THEN
           DO K = 1, NNOD
             N = NSTRF(K)
             IF(WEIGHT(N)==1) THEN
@@ -974,7 +974,7 @@ C
           LEN = IFLG*3+1
           CALL MPI_GET_COUNT(STATUS,REAL,SIZ,IERROR)
           NB = SIZ/LEN
-          IF(IFLG==2) THEN               
+          IF(IFLG==2) THEN
             DO K = 1, NB
               I = NINT(RBUF(IDEB+(K-1)*LEN))
               SECBUFG(1,I) = RBUF(IDEB+(K-1)*LEN+1)
@@ -1072,7 +1072,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER LOC_PROC,N,L,I,K,LEN,II,INDEX,NB,
      .        MSGTYP,MSGOFF,SIZ,IDEBR,
-     .        IERROR, NBIRECV,IDEB, 
+     .        IERROR, NBIRECV,IDEB,
      .        IAD_RECV(NSPMD+1),REQ_R(NSPMD),IRINDEX(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/4004/
@@ -1101,7 +1101,7 @@ C
               L = L + 7
             END IF
           END DO
-        ELSEIF(IFLG==1) THEN 
+        ELSEIF(IFLG==1) THEN
           DO K = 1, NNOD
             N = NSTRF(K)
             IF(WEIGHT(N)==1) THEN
@@ -1113,7 +1113,7 @@ C
             END IF
           END DO
         END IF
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_SEND(SBUF,L,REAL,IT_SPMD(1),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
       ELSEIF(LOC_PROC==1) THEN
@@ -1123,7 +1123,7 @@ C P0
         DO I = 2, NSPMD
           IAD_RECV(I) = IDEBR
           IF(IAD_CUT(I)>0) THEN
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             NBIRECV = NBIRECV + 1
             IRINDEX(NBIRECV) = I
             SIZ = IAD_CUT(I)*(1+IFLG*3)
@@ -1132,7 +1132,7 @@ C P0
      G       MPI_COMM_WORLD,REQ_R(NBIRECV),IERROR)
             IDEBR = IDEBR + SIZ
           ENDIF
-        END DO        
+        END DO
         IAD_RECV(NSPMD+1) = IDEBR
 C
         IF(IFLG==2) THEN
@@ -1155,7 +1155,7 @@ C
             SECBUFG(5,I) = SECFCUM(6,N)
             SECBUFG(6,I) = SECFCUM(7,N)
           END DO
-        ELSEIF(IFLG==1) THEN 
+        ELSEIF(IFLG==1) THEN
           DO I = 1, NNODG
             SECBUFG(1,I) = ZERO
             SECBUFG(2,I) = ZERO
@@ -1178,7 +1178,7 @@ C
           IDEB = IAD_RECV(I)
           LEN = IFLG*3+1
           NB = NB / LEN
-          IF(IFLG==2) THEN               
+          IF(IFLG==2) THEN
             DO K = 1, NB
               I = NINT(RBUF(IDEB+(K-1)*LEN))
               SECBUFG(1,I) = SECBUFG(1,I) + RBUF(IDEB+(K-1)*LEN+1)
@@ -1295,7 +1295,7 @@ C-----------------------------------------------
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
-        IAD_RECV(I+1) = L               
+        IAD_RECV(I+1) = L
       END DO
       L = 1
       IAD_SEND(1) = 1
@@ -1336,7 +1336,7 @@ C--------------------------------------------------------------------
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-       ENDIF        
+       ENDIF
 C--------------------------------------------------------------------
       ENDDO
 C
@@ -1444,7 +1444,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER LOC_PROC,N,L,I,K,LEN,P,NN,N0,OFFG,
      .        MSGTYP,MSGOFF,SIZ,IDEBR,
-     .        IERROR, NBIRECV,IDEB, 
+     .        IERROR, NBIRECV,IDEB,
      .        IAD_RECV(NSPMD+1),
      .        STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/4006/
@@ -1477,7 +1477,7 @@ C Traitement P0
               SECBUF2(6*I-1) = SECBUFG(OFFG+(N-1)*6+5)
               SECBUF2(6*I)   = SECBUFG(OFFG+(N-1)*6+6)
             END DO
-          ELSEIF(IFLG==1) THEN 
+          ELSEIF(IFLG==1) THEN
             DO I = 1, NN
               N = FR_CUT(I+N0)
               SECBUF1(6*I-5) = SECBUFG((N-1)*6+1)
@@ -1512,7 +1512,7 @@ C Traitement autres procs
                 SBUF(L+12)= SECBUFG(OFFG+(N-1)*6+6)
                 L = L + 12
               END DO
-            ELSEIF(IFLG==1) THEN 
+            ELSEIF(IFLG==1) THEN
               DO K = 1, NN
                 N = FR_CUT(K+N0)
                 SBUF(L+1) = SECBUFG((N-1)*6+1)
@@ -1531,7 +1531,7 @@ C Traitement autres procs
           END IF
         END DO
       ELSEIF(LOC_PROC/=1.AND.NNOD>0) THEN
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         SIZ = NNOD*IFLG*6
         CALL MPI_RECV(
      S     RBUF,SIZ,REAL,IT_SPMD(1),MSGTYP,
@@ -1554,7 +1554,7 @@ C
             SECBUF2(6*I)   = RBUF(L+12)
             L = L + 12
           END DO
-        ELSEIF(IFLG==1) THEN 
+        ELSEIF(IFLG==1) THEN
           L = 0
           DO I = 1, NNOD
             SECBUF1(6*I-5) = RBUF(L+1)

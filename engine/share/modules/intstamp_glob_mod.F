@@ -71,10 +71,10 @@ C          by SPMD domain
 C NMVFI/NMVSI : Tab of pointers => remote main node 
 C TEMPNOD : Tab of pointers => Local nodes corresponding to main node in NMVFI
 C NTEMP : Tab of pointers => Temperature of main node in NMVFI
-      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE ::
      .  NMNFI,NMNSI,NMVFI,NMVSI,TEMPNOD
 
-      TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(real_pointer), DIMENSION(:), ALLOCATABLE ::
      . NMTEMP
 
       END MODULE INTSTAMP_GLOB_MOD

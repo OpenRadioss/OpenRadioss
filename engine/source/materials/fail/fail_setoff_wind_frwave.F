@@ -69,26 +69,26 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL   )   :: OFF,TFAIL,DMG_SCALE
       my_real, DIMENSION(NEL,*)    :: THK_LY
       TYPE(ELBUF_STRUCT_)  ,TARGET :: ELBUF_STR
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,IPG,JPG,NPTR,NPTS,NPTT,
      .   IDMG,COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY
-      INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY  
+      INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY
       INTEGER, DIMENSION(10) :: ISTRESS
       INTEGER, DIMENSION(:), POINTER :: OFFLY,OFFPG,FOFF
       my_real, DIMENSION(NEL) :: UEL1,DFMAX,TDEL,NPTTF,SIGSCALE
       my_real, DIMENSION(:), POINTER :: DMAX
       my_real, DIMENSION(NLAY) :: WEIGHT,P_THKLY
       my_real :: THK_LAY,P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
-      TYPE (STACK_PLY) :: STACK    
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE (STACK_PLY) :: STACK
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
 c     NPTTF      NUMBER OF FAILED INTEGRATION POINTS IN THE LAYER
 c     NPTTOT     NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
-c     OFFPG(NEL,NPG)  failure flag of PG in each layer  1=alive ,0=dead 
+c     OFFPG(NEL,NPG)  failure flag of PG in each layer  1=alive ,0=dead
 c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
 c     TFAIL(NEL) : global element variable - start of relaxation time before element suppression
@@ -103,7 +103,7 @@ c
       NPG  = NPTR*NPTS            ! number of in-plane Gauss points
       IPG  = (IS-1)*NPTR + IR     ! current Gauss point
       JPG  = (IPG-1)*NEL
-c                                                       
+c
 c------------------------------------
       IF (NLAY == 1) THEN
 c------------------------------------
@@ -123,16 +123,16 @@ c
           ENDDO
         ENDIF
 c------------------
-        IF (FAILWAVE%WAVE_MOD > 0) THEN                    
+        IF (FAILWAVE%WAVE_MOD > 0) THEN
           DO IFL = 1,NFAIL
             DO IPT=1,NPTT
               DMAX => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%DAMMX
               DO IEL=1,NEL
                 IF (OFFLY(IEL) < 0 .and. DMAX(IEL) == ONE) THEN
-                  FWAVE_EL(IEL) = OFFLY(IEL)  ! set element frontwave flag 
+                  FWAVE_EL(IEL) = OFFLY(IEL)  ! set element frontwave flag
                   OFFLY(IEL) = 0
                 ENDIF
-              ENDDO     ! IPT=1,NPTT        
+              ENDDO     ! IPT=1,NPTT
             ENDDO       ! IFL = 1,NFAIL
           ENDDO         ! IEL=1,NEL
         ENDIF
@@ -149,8 +149,8 @@ c------------------
               ENDIF
               IF (THFACT >= PTHKF(IL,IFL)) THEN  ! delete current PG in the layer
                 OFFPG(IEL) = 0
-              ENDIF 
-            ENDDO     ! IPT=1,NPTT        
+              ENDIF
+            ENDDO     ! IPT=1,NPTT
           ENDDO       ! IFL = 1,NFAIL
         ENDDO         ! IEL=1,NEL
 c------------------
@@ -172,7 +172,7 @@ c------------------
                   COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
                 ENDDO
                 IF (COUNTPG == 0) THEN  ! all Gauss pts have failed
-                  OFF(IEL) = FOUR_OVER_5        
+                  OFF(IEL) = FOUR_OVER_5
                 ENDIF
               ENDIF
             ENDDO  ! IEL=1,NEL
@@ -186,14 +186,14 @@ c------------------
                 ENDDO
                 IF (COUNTPG == 0) THEN  ! all Gauss pts have failed
                   OFF(IEL) = ONE - EM6
-                  TFAIL(IEL) = TIME             
+                  TFAIL(IEL) = TIME
                 ENDIF
               ENDIF
             ENDDO  ! IEL=1,NEL
             DO IEL=1,NEL
               IF (TFAIL(IEL) > ZERO) THEN
-                DMG_SCALE(IEL) = EXP(-(TIME - TFAIL(IEL))/TRELAX)   
-              END IF      
+                DMG_SCALE(IEL) = EXP(-(TIME - TFAIL(IEL))/TRELAX)
+              END IF
             ENDDO  ! IEL=1,NEL
           END IF   ! DMG_FLAG
         ENDIF      ! IPG == NPG

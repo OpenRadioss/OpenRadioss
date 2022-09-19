@@ -86,7 +86,7 @@ C--------------------------------------------------------------
             N=IXQ(I,M)
             IF(IABS(NALE(N)) == 2)THEN
               JWARN=1
-              !WARNING NODE CONNECTS LAGRANGIAN QUAD TO EULERIAN QUAD	      
+              !WARNING NODE CONNECTS LAGRANGIAN QUAD TO EULERIAN QUAD	
               CALL ANCMSG(MSGID=336,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,I1=ITAB(N),PRMOD=MSG_CUMU,C1='QUAD')
             ENDIF
           NALE(N)=0
@@ -94,7 +94,7 @@ C--------------------------------------------------------------
        ENDDO !M=1,NUMELQ
       ENDIF !IF(NUMELQ /= 0)
       CALL ANCMSG(MSGID=336,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1, PRMOD=MSG_PRINT,C1='QUAD',C2='QUAD')
-      
+
 C--------------------------------------------------------------
 C LAGRANGIAN CONDITION FOR NODES ON 3D LAGRANGIANS ELEMS
 C--------------------------------------------------------------
@@ -119,7 +119,7 @@ C--------------------------------------------------------------
        ENDDO !M=1,NUMELS
       ENDIF !IF(NUMELS /= 0)
       CALL ANCMSG(MSGID=336,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT,C1='SOLID',C2='SOLID')
-      
+
 C---------------------------------------------------
 C LAGRANGIAN CONDITION FOR NODES ON SHELLS
 C---------------------------------------------------
@@ -154,7 +154,7 @@ C---------------------------------------------------
        ENDDO
       ENDIF
       CALL ANCMSG(MSGID=336,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1,PRMOD=MSG_PRINT,C1='SHELL-3N',C2='SOLID')
-      
+
 C---------------------------------------------------
 C LAGRANGIAN CONDITION FOR NODES ON TRUSSES
 C---------------------------------------------------

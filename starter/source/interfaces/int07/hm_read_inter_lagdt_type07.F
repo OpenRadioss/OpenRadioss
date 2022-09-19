@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ISU1,ISU2,ILAGM,NI, NOINT
@@ -129,7 +129,7 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
+      IGSTI = 0
       IVIS2 = 0
 C
       IADM =0
@@ -218,7 +218,7 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('FRIC_DC',VISCF,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('SORT_FACT',BUMULT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
@@ -294,10 +294,10 @@ C-------*CHECKS*-------------------
 C-------*STORAGE IN IPARI AND FRIGAP *-------------------
        IPARI(45)=ISU1
        IPARI(46)=ISU2
-       IPARI(13)=IS1*10+IS2   
+       IPARI(13)=IS1*10+IS2
        IPARI(34)=IGSTI
        IPARI(21)=IGAP
-       
+
 C------------------------------------------------------------
 C  Card2
 C------------------------------------------------------------
@@ -338,7 +338,7 @@ C------------------------------------------------------------
 
         IF (STFAC == ZERO ) STFAC = ONE
         IF(IGSTI==1)STFAC=-STFAC
- 
+
         IF(FRIC/=ZERO.AND.VISCF==ZERO)VISCF=ONE
         IF(VISC==ZERO)THEN
           IF(IVIS2==5)THEN
@@ -454,14 +454,14 @@ C
          IF(IGSTI==1)THEN
             WRITE(IOUT,1538)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,FRIC,IGAP,GAP,GAPMAX,
-     .                 GAPSCALE,STARTT,STOPT,                 
+     .                 GAPSCALE,STARTT,STOPT,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
          ELSE
              WRITE(IOUT,1548)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,IGSTI,STMIN,STMAX,
      .                 FRIC,IGAP,GAP,GAPMAX,
-     .                 GAPSCALE,STARTT,STOPT,                 
+     .                 GAPSCALE,STARTT,STOPT,
      .                 BUMULT,INACTI,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
          ENDIF
@@ -487,7 +487,7 @@ C
           IF(IDELKEEP == 1)THEN
             WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-          ENDIF         
+          ENDIF
        ENDIF
 
        IF(IFQ>=10) THEN
@@ -526,7 +526,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

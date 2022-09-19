@@ -124,7 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL),  PLA(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -194,14 +194,14 @@ C     epst_spherique
 C-------------------       
         EPST(I) = EPSXX(I)**2+EPSYY(I)**2 + EPSZZ(I)**2 +
      .            HALF*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2)
-        EPST(I) = SQRT(EPST(I)) 
+        EPST(I) = SQRT(EPST(I))
         EPST(I) = MIN(ONE, EPST(I))
 C-------------------
 C     estimation elastique
 C-------------------
         EPS0(I) = UVAR(I,1)
         SIG0(I) = UVAR(I,2)
-      ENDDO            
+      ENDDO
 C-------------------
 C CRITERE
 C-------------------
@@ -212,69 +212,69 @@ C YLD_elast
           YFAC(I,1)=UPARAM(IADBUF + 9 + NFUNC )
           IF(EPST(I) >= EPSSMAX(I)) THEN
             YLDELAS(I)=YFAC(I,1)*FINTER(IFUNC(I,1),EPSSMAX(I),NPF,TF,DF)
-            YLDELAS(I)=EMAX*(EPST(I) - EPSSMAX(I)) +  YLDELAS(I)  
+            YLDELAS(I)=EMAX*(EPST(I) - EPSSMAX(I)) +  YLDELAS(I)
           ELSE
             YLDELAS(I) = YFAC(I,1)*FINTER(IFUNC(I,1),EPST(I),NPF,TF,DF)
-          ENDIF  
+          ENDIF
 C  yld_max
           NC = NLOAD(I)
           J1 = 1
           DO J=2,NC-1
-           IADBUF = IPM(7,MAT(I)) - 1        
+           IADBUF = IPM(7,MAT(I)) - 1
            IF(ABS(EPSP(I)) >= ABS(UPARAM(IADBUF+ 8 + J )))THEN
             J1 = J
            ENDIF
-          ENDDO    
+          ENDDO
           IADBUF = IPM(7,MAT(I))-1
           RATE(I,1)=UPARAM(IADBUF + 8 + J1)
           YFAC(I,1)=UPARAM(IADBUF + 8 + NFUNC + J1)
 C          
           IF(EPST(I) >= EPSSMAX(I)) THEN
-           IF(NC > 1)THEN   
-            J2 = J1+1      
-            RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
+           IF(NC > 1)THEN
+            J2 = J1+1
+            RATE(I,2)=UPARAM(IADBUF + 8 + J2 )
             YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
 C
             YP1 = YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF1)
-            YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPSSMAX(I),NPF,TF,DF2)     
+            YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPSSMAX(I),NPF,TF,DF2)
 C          
             FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
-            YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)   
-  
-               
-            YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX(I)) +  YLDMAX(I)  
+            YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
+
+
+            YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX(I)) +  YLDMAX(I)
 C           
            ELSE
-            YLDMAX(I) = 
-     .        YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF)    
-            YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX(I)) +  YLDMAX(I) 
-           ENDIF          
-          
+            YLDMAX(I) =
+     .        YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF)
+            YLDMAX(I) = EMAX*(EPST(I) - EPSSMAX(I)) +  YLDMAX(I)
+           ENDIF
+
           ELSE
-           IF(NC > 1)THEN   
-            J2 = J1+1      
-            RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
+           IF(NC > 1)THEN
+            J2 = J1+1
+            RATE(I,2)=UPARAM(IADBUF + 8 + J2 )
             YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
 C
             YP1 = YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF1)
             YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPST(I),NPF,TF,DF2)
-        
+
 C           
             FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
             YLDMAX(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
            ELSE
             YLDMAX(I) = YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF)
            ENDIF
-          ENDIF  
+          ENDIF
 C  yld_min  
           NC = NUNLOAD(I)
           J1 = 1 + NLOAD(I)
           YLDMIN(I) = ZERO
           IF(NC > 0 ) THEN
            DO J=2,NC-1
-             IADBUF = IPM(7,MAT(I)) - 1        
-             IF(ABS(EPSP(I)) >= 
-     .                     ABS(UPARAM(IADBUF+ NLOAD(I) + 8 + J )))THEN 
+             IADBUF = IPM(7,MAT(I)) - 1
+             IF(ABS(EPSP(I)) >=
+     .                     ABS(UPARAM(IADBUF+ NLOAD(I) + 8 + J )))THEN
                J1 = NLOAD(I) + J
              ENDIF
            ENDDO
@@ -283,15 +283,15 @@ C
            YFAC(I,1)=UPARAM(IADBUF + 8 + NFUNC + J1)
 
            IF(EPST(I) >= EPSSMAX(I)) THEN
-             IF(NC > 1)THEN   
-               J2 = J1+1      
-                RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
+             IF(NC > 1)THEN
+               J2 = J1+1
+                RATE(I,2)=UPARAM(IADBUF + 8 + J2 )
                 YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
 C
                 YP1 =YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF1)
-                YP2 =YFAC(I,2)*FINTER(IFUNC(I,J2),EPSSMAX(I),NPF,TF,DF2)  
+                YP2 =YFAC(I,2)*FINTER(IFUNC(I,J2),EPSSMAX(I),NPF,TF,DF2)
 C            
-                IF(YP2 < YP1 ) THEN          
+                IF(YP2 < YP1 ) THEN
                   FAC    = (RATE(I,2) - EPSP(I))/(RATE(I,2) - RATE(I,1))
                   YLDMIN(I) = MAX(YP2 + FAC*(YP1-YP2), EM20)
                ELSE
@@ -300,24 +300,24 @@ C
                ENDIF
                 YLDMIN(I) =  EMAX*(EPST(I) - EPSSMAX(I)) + YLDMIN(I)
              ELSE
-              YLDMIN(I)= 
-     .          YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF) 
+              YLDMIN(I)=
+     .          YFAC(I,1)*FINTER(IFUNC(I,J1),EPSSMAX(I),NPF,TF,DF)
                 YLDMIN(I) =  EMAX*(EPST(I) - EPSSMAX(I)) + YLDMIN(I)
-             ENDIF           
-            
+             ENDIF
+
            ELSE
-             IF(NC > 1)THEN   
-              J2 = J1+1      
-              RATE(I,2)=UPARAM(IADBUF + 8 + J2 )   
+             IF(NC > 1)THEN
+              J2 = J1+1
+              RATE(I,2)=UPARAM(IADBUF + 8 + J2 )
               YFAC(I,2)=UPARAM(IADBUF + 8 + NFUNC + J2 )
 C
                YP1 = YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF1)
-               YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPST(I),NPF,TF,DF2)       
+               YP2 = YFAC(I,2)*FINTER(IFUNC(I,J2),EPST(I),NPF,TF,DF2)
 C                           
-               IF(YP2 < YP1 ) THEN          
+               IF(YP2 < YP1 ) THEN
                   FAC    = (RATE(I,2) - EPSP(I))/(RATE(I,2) - RATE(I,1))
                   YLDMIN(I) = MAX(YP2 + FAC*(YP1-YP2), EM20)
-                
+
                ELSE
                   FAC    = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
                   YLDMIN(I) = MAX(YP1 + FAC*(YP2 - YP1), EM20)
@@ -325,9 +325,9 @@ C
              ELSE
                YLDMIN(I)=YFAC(I,1)*FINTER(IFUNC(I,J1),EPST(I),NPF,TF,DF)
              ENDIF
-            ENDIF  
-           ENDIF        
-         ENDDO 
+            ENDIF
+           ENDIF
+         ENDDO
 C
          IF(IFLAG > 0) THEN
            DO I=1,NEL
@@ -338,29 +338,29 @@ C
              SIG0XY(I) = ALPHA*SIG0XY(I)
              SIG0ZX(I) = ALPHA*SIG0ZX(I)
              SIG0YZ(I) = ALPHA*SIG0YZ(I)
-           ENDDO 
+           ENDDO
          ENDIF
 C                 
 C =====================================================
          DO I = 1,NEL
-          ILOAD0 = UVAR(I,5)        
+          ILOAD0 = UVAR(I,5)
           IE_CST(I)= 0
           DELTA = EPST(I) - UVAR(I,4)
           E = UVAR(I,3)
           UVAR(I,9) = UVAR(I,4)
           IF(DELTA >= ZERO)THEN
            YLD(I) = YLDMAX(I)
-           ILOAD(I) = 1     
+           ILOAD(I) = 1
           ELSEIF(DELTA < ZERO)THEN
            YLD(I) = YLDMIN(I)
            ILOAD(I) = -1
            IF(IDAMAGE /= 0 )THEN
              YLD(I) = YLDMAX(I)
            ENDIF
-          ENDIF  
+          ENDIF
 C         
           EPSS(I) = EPST(I) - YLD(I)/ E
-          EPSS(I) = MAX(ZERO, EPSS(I))  
+          EPSS(I) = MAX(ZERO, EPSS(I))
           DE = AA(I)*(EPSS(I) - UVAR(I,1))
 C          E = E0(I) + AA(I)*EPSS(I)
 c          IF(ILOAD(I) == 1)  THEN
@@ -381,7 +381,7 @@ CC          UVAR(I,1) = EPSS(I)
            UVAR(I,3) = E
 C==================================================       
           AA1(I) = E*(ONE-NU(I))/(ONE + NU(I))/(ONE - TWO*NU(I))
-          AA2(I) = AA1(I)*NU(I)/(ONE - NU(I))  
+          AA2(I) = AA1(I)*NU(I)/(ONE - NU(I))
           G(I) =HALF*E/(ONE + NU(I))
 C ---- 
           SIGNXX(I)= AA1(I)*DEPSXX(I) +  AA2(I)*(DEPSYY(I) + DEPSZZ(I))
@@ -390,9 +390,9 @@ C ----
           SIGNXY(I)= G(I) *DEPSXY(I)
           SIGNYZ(I)= G(I) *DEPSYZ(I)
           SIGNZX(I)= G(I) *DEPSZX(I)
-          DSIG = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
-          DSIG =SQRT(DSIG)                         
+          DSIG = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
+          DSIG =SQRT(DSIG)
 C   estimate stress   
           SIGNXX(I)=SIG0XX(I) +  AA1(I)*DEPSXX(I)
      .                       +  AA2(I)*(DEPSYY(I) + DEPSZZ(I))
@@ -404,12 +404,12 @@ C   estimate stress
           SIGNYZ(I)=SIG0YZ(I) + G(I) *DEPSYZ(I)
           SIGNZX(I)=SIG0ZX(I) + G(I) *DEPSZX(I)
 
-          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+          SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
           SVM =SQRT(SVM2)
 C sound velocity         
           SOUNDSP(I) = SQRT(AA1(I)/RHO0(I))
-          VISCMAX(I) = ZERO  
+          VISCMAX(I) = ZERO
 C            
          IF(IDAMAGE == 0 ) THEN
 !!           IF(SVM >= YLDMAX(I) )THEN
@@ -441,20 +441,20 @@ C
              YLD(I) = YLDMAX(I)
               IF(DELTA > ZERO .AND. SVM < YLDMAX(I))YLD(I)=SVM
 cc              IF(DELTA < ZERO .AND. SVM > YLDMAX(I)
-cc     .                         .AND. DSIG < SVM )YLD(I) = SVM    
-              UVAR(I,8) = UVAR(I,8) + 
+cc     .                         .AND. DSIG < SVM )YLD(I) = SVM
+              UVAR(I,8) = UVAR(I,8) +
      .                    HALF*(YLD(I) + UVAR(I,6))*DELTA
               UVAR(I,8) = MAX(ZERO, UVAR(I,8))
-              UVAR(I,2) = MAX(UVAR(I,2) , UVAR(I,8))  
+              UVAR(I,2) = MAX(UVAR(I,2) , UVAR(I,8))
           ENDIF
-         ENDDO 
+         ENDDO
 C 
 C-------------------
 C projection spherique
 C-------------------
-      
+
       IF(IDAMAGE == 0 ) THEN
-       DO I=1,NEL        
+       DO I=1,NEL
         SIGNXX(I)= AA1(I)*EPSXX(I) + AA2(I)*(EPSYY(I)  + EPSZZ(I))
         SIGNYY(I)= AA1(I)*EPSYY(I) + AA2(I)*(EPSXX(I)  + EPSZZ(I))
         SIGNZZ(I)= AA1(I)*EPSZZ(I) + AA2(I)*(EPSXX(I)  + EPSYY(I))
@@ -462,22 +462,22 @@ C-------------------
         SIGNYZ(I)= G(I) *EPSYZ(I)
         SIGNZX(I)= G(I) *EPSZX(I)
 C
-        SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+        SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
         SVM =SQRT(SVM2)
-        R  = YLD(I)/MAX(EM20,SVM)          
-        SIGNXX(I)=SIGNXX(I)*R                                
-        SIGNYY(I)=SIGNYY(I)*R                                
-        SIGNZZ(I)=SIGNZZ(I)*R                                
-        SIGNXY(I)=SIGNXY(I)*R                                
-        SIGNYZ(I)=SIGNYZ(I)*R                                
-        SIGNZX(I)=SIGNZX(I)*R     
+        R  = YLD(I)/MAX(EM20,SVM)
+        SIGNXX(I)=SIGNXX(I)*R
+        SIGNYY(I)=SIGNYY(I)*R
+        SIGNZZ(I)=SIGNZZ(I)*R
+        SIGNXY(I)=SIGNXY(I)*R
+        SIGNYZ(I)=SIGNYZ(I)*R
+        SIGNZX(I)=SIGNZX(I)*R
 c        E = E0(I) + AA(I)*EPS0(I)
 c        EPSS(I) = EPST(I) - YLD(I)/E
-c        EPSS(I) = MAX(EPSS(I), ZERO)        
+c        EPSS(I) = MAX(EPSS(I), ZERO)
 c        UVAR(I,1) = EPSS(I)
 c        E = E0(I) + AA(I)*EPSS(I)
-c        UVAR(I,3) = E 
+c        UVAR(I,3) = E
 C                  
         IF(IE_CST(I) == 1) THEN
          ILOAD0 = INT(UVAR(I,5))
@@ -486,7 +486,7 @@ C
            UVAR(I,1) = EPS0(I)
 cc           UVAR(I,3) = E0(I) + AA(I)*EPS0(I)
          ENDIF
-        ENDIF   
+        ENDIF
         UVAR(I,4) = EPST(I)
         UVAR(I,2) = SVM*R
         UVAR(I,5) = ILOAD(I)
@@ -505,42 +505,42 @@ C
          SIGNYZ(I)= G(I) *EPSYZ(I)
          SIGNZX(I)= G(I) *EPSZX(I)
 C
-         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
          SVM =SQRT(SVM2)
-         R  = (YLD(I)/MAX(EM20,SVM))        
-         SIGNXX(I)=SIGNXX(I)*R                                
-         SIGNYY(I)=SIGNYY(I)*R                                
-         SIGNZZ(I)=SIGNZZ(I)*R                                
-         SIGNXY(I)=SIGNXY(I)*R                                
-         SIGNYZ(I)=SIGNYZ(I)*R                                
-         SIGNZX(I)=SIGNZX(I)*R   
+         R  = (YLD(I)/MAX(EM20,SVM))
+         SIGNXX(I)=SIGNXX(I)*R
+         SIGNYY(I)=SIGNYY(I)*R
+         SIGNZZ(I)=SIGNZZ(I)*R
+         SIGNXY(I)=SIGNXY(I)*R
+         SIGNYZ(I)=SIGNYZ(I)*R
+         SIGNZX(I)=SIGNZX(I)*R
 C                 
          IF(ILOAD(I) == -1) THEN
             R = (YLDMIN(I)/MAX(EM20,YLDELAS(I)))
             P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-            SIGNXX(I)=(SIGNXX(I) - P)*R + P 
-            SIGNYY(I)=(SIGNYY(I) - P)*R + P                             
-            SIGNZZ(I)=(SIGNZZ(I) - P)*R + P                             
-            SIGNXY(I)=SIGNXY(I)*R                             
-            SIGNYZ(I)=SIGNYZ(I)*R                             
+            SIGNXX(I)=(SIGNXX(I) - P)*R + P
+            SIGNYY(I)=(SIGNYY(I) - P)*R + P
+            SIGNZZ(I)=(SIGNZZ(I) - P)*R + P
+            SIGNXY(I)=SIGNXY(I)*R
+            SIGNYZ(I)=SIGNYZ(I)*R
             SIGNZX(I)=SIGNZX(I)*R
 cc            UVAR(I,9) = R
-          ENDIF        
+          ENDIF
 C        
-         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)        
-     .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
-         SVM =SQRT(SVM2)                                          
-c         E = E0(I) + AA(I)*EPS0(I)                                
+         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
+         SVM =SQRT(SVM2)
+c         E = E0(I) + AA(I)*EPS0(I)
 c         EPSS(I) = EPST(I) - YLD(I)/E
-c         EPSS(I) = MAX(EPSS(I), ZERO)                  
+c         EPSS(I) = MAX(EPSS(I), ZERO)
 c         E = E0(I) + AA(I)*EPSS(I)
-c         UVAR(I,1) = EPSS(I) 
+c         UVAR(I,1) = EPSS(I)
 c         UVAR(I,3) = E
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
-         UVAR(I,7) = EPSP(I)       
+         UVAR(I,7) = EPSP(I)
         ENDDO
        ELSEIF(IDAMAGE == 2 ) THEN
         DO I=1,NEL
@@ -552,41 +552,41 @@ C
          SIGNYZ(I)= G(I) *EPSYZ(I)
          SIGNZX(I)= G(I) *EPSZX(I)
 C
-         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
          SVM =SQRT(SVM2)
-         R  = YLD(I)/MAX(EM20,SVM)         
-         SIGNXX(I)=SIGNXX(I)*R                                
-         SIGNYY(I)=SIGNYY(I)*R                                
-         SIGNZZ(I)=SIGNZZ(I)*R                                
-         SIGNXY(I)=SIGNXY(I)*R                                
-         SIGNYZ(I)=SIGNYZ(I)*R                                
-         SIGNZX(I)=SIGNZX(I)*R   
+         R  = YLD(I)/MAX(EM20,SVM)
+         SIGNXX(I)=SIGNXX(I)*R
+         SIGNYY(I)=SIGNYY(I)*R
+         SIGNZZ(I)=SIGNZZ(I)*R
+         SIGNXY(I)=SIGNXY(I)*R
+         SIGNYZ(I)=SIGNYZ(I)*R
+         SIGNZX(I)=SIGNZX(I)*R
 C         
          IF(ILOAD(I) == -1) THEN
             R = YLDMIN(I)/MAX(EM20,YLDELAS(I))
-            SIGNXX(I)=SIGNXX(I)*R 
-            SIGNYY(I)=SIGNYY(I)*R                             
-            SIGNZZ(I)=SIGNZZ(I)*R                             
-            SIGNXY(I)=SIGNXY(I)*R                             
-            SIGNYZ(I)=SIGNYZ(I)*R                             
+            SIGNXX(I)=SIGNXX(I)*R
+            SIGNYY(I)=SIGNYY(I)*R
+            SIGNZZ(I)=SIGNZZ(I)*R
+            SIGNXY(I)=SIGNXY(I)*R
+            SIGNYZ(I)=SIGNYZ(I)*R
             SIGNZX(I)=SIGNZX(I)*R
 CC            UVAR(I,9) = R
-          ENDIF        
+          ENDIF
 C        
-         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)        
-     .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)   
-         SVM =SQRT(SVM2)                                          
-c         E = E0(I) + AA(I)*EPS0(I)                                
+         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .     + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
+         SVM =SQRT(SVM2)
+c         E = E0(I) + AA(I)*EPS0(I)
 c         EPSS(I) = EPST(I) - YLD(I)/E
-c         EPSS(I) = MAX(EPSS(I), ZERO)                                    
-c         UVAR(I,3) = E0(I) + AA(I)*EPSS(I)  
-c         UVAR(I,1) = EPSS(I)  
+c         EPSS(I) = MAX(EPSS(I), ZERO)
+c         UVAR(I,3) = E0(I) + AA(I)*EPSS(I)
+c         UVAR(I,1) = EPSS(I)
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
          UVAR(I,7) = EPSP(I)
-        ENDDO       
+        ENDDO
 
       ELSEIF(IDAMAGE == 3) THEN
        DO I=1,NEL
@@ -598,36 +598,36 @@ C
          SIGNYZ(I)= G(I) *EPSYZ(I)
          SIGNZX(I)= G(I) *EPSZX(I)
 C
-         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
          SVM =SQRT(SVM2)
-         R  = (YLD(I)/MAX(EM20,SVM))        
-         SIGNXX(I)=SIGNXX(I)*R                                
-         SIGNYY(I)=SIGNYY(I)*R                                
-         SIGNZZ(I)=SIGNZZ(I)*R                                
-         SIGNXY(I)=SIGNXY(I)*R                                
-         SIGNYZ(I)=SIGNYZ(I)*R                                
-         SIGNZX(I)=SIGNZX(I)*R   
+         R  = (YLD(I)/MAX(EM20,SVM))
+         SIGNXX(I)=SIGNXX(I)*R
+         SIGNYY(I)=SIGNYY(I)*R
+         SIGNZZ(I)=SIGNZZ(I)*R
+         SIGNXY(I)=SIGNXY(I)*R
+         SIGNYZ(I)=SIGNYZ(I)*R
+         SIGNZX(I)=SIGNZX(I)*R
 C         
          IF(ILOAD(I) == -1) THEN
             R = ONE - (UVAR(I,8)/MAX(EM20,UVAR(I,2)))**EXPO
             R = ONE - (ONE - HYS)*R
             P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
-            SIGNXX(I)=(SIGNXX(I) - P)*R + P 
-            SIGNYY(I)=(SIGNYY(I) - P)*R + P                             
-            SIGNZZ(I)=(SIGNZZ(I) - P)*R + P                             
-            SIGNXY(I)=SIGNXY(I)*R                             
-            SIGNYZ(I)=SIGNYZ(I)*R                             
+            SIGNXX(I)=(SIGNXX(I) - P)*R + P
+            SIGNYY(I)=(SIGNYY(I) - P)*R + P
+            SIGNZZ(I)=(SIGNZZ(I) - P)*R + P
+            SIGNXY(I)=SIGNXY(I)*R
+            SIGNYZ(I)=SIGNYZ(I)*R
             SIGNZX(I)=SIGNZX(I)*R
 CC            UVAR(I,9) = R
-          ENDIF        
+          ENDIF
 C                             
-c         E = E0(I) + AA(I)*EPS0(I)                                
+c         E = E0(I) + AA(I)*EPS0(I)
 c         EPSS(I) = EPST(I) - YLD(I)/E
-c         EPSS(I) = MAX(EPSS(I), ZERO)                  
+c         EPSS(I) = MAX(EPSS(I), ZERO)
 c         E = E0(I) + AA(I)*EPSS(I)
-c         UVAR(I,1) = EPSS(I)    
-c         UVAR(I,3) = E                                            
+c         UVAR(I,1) = EPSS(I)
+c         UVAR(I,3) = E
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
@@ -643,40 +643,40 @@ C
          SIGNYZ(I)= G(I) *EPSYZ(I)
          SIGNZX(I)= G(I) *EPSZX(I)
 C
-         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)      
-     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2) 
+         SVM2 = (SIGNXX(I)**2 + SIGNYY(I)**2 + SIGNZZ(I)**2)
+     .       + TWO*(SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
          SVM =SQRT(SVM2)
-         R  = (YLD(I)/MAX(EM20,SVM))        
-         SIGNXX(I)=SIGNXX(I)*R                                
-         SIGNYY(I)=SIGNYY(I)*R                                
-         SIGNZZ(I)=SIGNZZ(I)*R                                
-         SIGNXY(I)=SIGNXY(I)*R                                
-         SIGNYZ(I)=SIGNYZ(I)*R                                
-         SIGNZX(I)=SIGNZX(I)*R    
+         R  = (YLD(I)/MAX(EM20,SVM))
+         SIGNXX(I)=SIGNXX(I)*R
+         SIGNYY(I)=SIGNYY(I)*R
+         SIGNZZ(I)=SIGNZZ(I)*R
+         SIGNXY(I)=SIGNXY(I)*R
+         SIGNYZ(I)=SIGNYZ(I)*R
+         SIGNZX(I)=SIGNZX(I)*R
 C         
          IF(ILOAD(I) == -1) THEN
             R = ONE - (UVAR(I,8)/MAX(EM20,UVAR(I,2)))**EXPO
             R = ONE - (ONE - HYS)*R
-            SIGNXX(I)=SIGNXX(I)*R 
-            SIGNYY(I)=SIGNYY(I)*R                             
-            SIGNZZ(I)=SIGNZZ(I)*R                             
-            SIGNXY(I)=SIGNXY(I)*R                             
-            SIGNYZ(I)=SIGNYZ(I)*R                             
+            SIGNXX(I)=SIGNXX(I)*R
+            SIGNYY(I)=SIGNYY(I)*R
+            SIGNZZ(I)=SIGNZZ(I)*R
+            SIGNXY(I)=SIGNXY(I)*R
+            SIGNYZ(I)=SIGNYZ(I)*R
             SIGNZX(I)=SIGNZX(I)*R
 cc            UVAR(I,9) = R
-          ENDIF   
-c         UVAR(I,3) = E 
+          ENDIF
+c         UVAR(I,3) = E
          UVAR(I,4) = EPST(I)
          UVAR(I,5) = ILOAD(I)
          UVAR(I,6) = YLD(I)
          UVAR(I,7) = EPSP(I)
-        ENDDO                           
+        ENDDO
       ENDIF
 C
       IF(IFLAG > 0 ) THEN
          IPFUNC = IFUNC(1,NFUNC)
          DO I=1,NEL
-             MU = 1 - RHO(I)/RHO0(I) 
+             MU = 1 - RHO(I)/RHO0(I)
              ALPHA = ONE
              IF(MU > 0) THEN
                 ALPHA = YFACC*FINTER(IPFUNC,MU,NPF,TF,DF)
@@ -689,8 +689,8 @@ C
              SIGNZX(I) = ALPHA*SIGNZX(I)
              SIGNYZ(I) = ALPHA*SIGNYZ(I)
              UVAR(I,10) = ALPHA
-         ENDDO     
-       ENDIF 
+         ENDDO
+       ENDIF
 C------------------------------------ 
       RETURN
       END

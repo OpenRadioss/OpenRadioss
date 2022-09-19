@@ -31,10 +31,10 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I12TID3(
      1                   X   , IRECT, CRST, MSR , NSV,
-     2                   ILOC, IRTL , NSN , ITAB, ALP, 
+     2                   ILOC, IRTL , NSN , ITAB, ALP,
      3                   ID  , TITR
      .                   )
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -89,31 +89,31 @@ C-----------------------------------------------
           XX2(JJ) = X(2,NN)
           XX3(JJ) = X(3,NN)
 	END DO
-        
+
         CALL INIST3(N1,N2,N3,SS,TT,IER,ALP)
         IF(IPRI>=1)WRITE(IOUT,FMT=FMW_7I_2F) ITAB(I),ITAB(K),L,(ITAB(MSR(IRECT(JJ,L))),JJ=1,4),SS,TT
-        IF(IER==-1)THEN                          
-          CALL ANCMSG(MSGID=1247,                  
-     .                 MSGTYPE=MSGERROR,           
-     .                 ANMODE=ANSTOP,              
-     .                 I1=ITAB(I),I2=ITAB(K),I3=L, 
-     .                 I4=ITAB(MSR(IRECT(1,L))),   
-     .                 I5=ITAB(MSR(IRECT(2,L))),   
-     .                 I6=ITAB(MSR(IRECT(3,L))),   
-     .                 I7=ITAB(MSR(IRECT(4,L))),   
-     .                 PRMOD=MSG_CUMU)             
-        ELSE IF(IER==1)THEN                      
-          CALL ANCMSG(MSGID=1248,                  
-     .                 MSGTYPE=MSGWARNING,         
-     .                 ANMODE=ANINFO_BLIND,        
-     .                 I1=ITAB(I),I2=L,            
-     .                 I3=ITAB(MSR(IRECT(1,L))),   
-     .                 I4=ITAB(MSR(IRECT(2,L))),   
-     .                 I5=ITAB(MSR(IRECT(3,L))),   
-     .                 I6=ITAB(MSR(IRECT(4,L))),   
-     .                 R1=SS,R2=TT,                
-     .                 PRMOD=MSG_CUMU)             
-        ENDIF                                      
+        IF(IER==-1)THEN
+          CALL ANCMSG(MSGID=1247,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANSTOP,
+     .                 I1=ITAB(I),I2=ITAB(K),I3=L,
+     .                 I4=ITAB(MSR(IRECT(1,L))),
+     .                 I5=ITAB(MSR(IRECT(2,L))),
+     .                 I6=ITAB(MSR(IRECT(3,L))),
+     .                 I7=ITAB(MSR(IRECT(4,L))),
+     .                 PRMOD=MSG_CUMU)
+        ELSE IF(IER==1)THEN
+          CALL ANCMSG(MSGID=1248,
+     .                 MSGTYPE=MSGWARNING,
+     .                 ANMODE=ANINFO_BLIND,
+     .                 I1=ITAB(I),I2=L,
+     .                 I3=ITAB(MSR(IRECT(1,L))),
+     .                 I4=ITAB(MSR(IRECT(2,L))),
+     .                 I5=ITAB(MSR(IRECT(3,L))),
+     .                 I6=ITAB(MSR(IRECT(4,L))),
+     .                 R1=SS,R2=TT,
+     .                 PRMOD=MSG_CUMU)
+        ENDIF
         CRST(1,II) = SS
         CRST(2,II) = TT
       END DO !II=1,NSN
@@ -128,7 +128,7 @@ C-----------------------------------------------
      .  	      ANMODE=ANINFO_BLIND,
      .  	      I1=ID,
      .  	      C1=TITR,
-     .  	      PRMOD=MSG_PRINT) 
+     .  	      PRMOD=MSG_PRINT)
 
       RETURN
       END

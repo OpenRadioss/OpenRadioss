@@ -164,13 +164,13 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO  
+      ENDDO
 C
 C RENUMEROTATION POUR SURFACES
 C
@@ -201,7 +201,7 @@ C
             ITAG(NOD2EL1D(I)) = 1
           END IF
 	END IF
-      END DO      
+      END DO
 C              
 C-------------------------------------------------------------------------
 C phase 2 : bornage en groupe de mvsiz
@@ -232,7 +232,7 @@ C
           CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
           NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
-          IPARG(1,NGROUP) = MLN      
+          IPARG(1,NGROUP) = MLN
           IPARG(2,NGROUP) = NE1
           IPARG(3,NGROUP) = EADD(N)-1 + NFT
           IPARG(4,NGROUP) = LBUFEL+1  !  kept in place for compatibility with

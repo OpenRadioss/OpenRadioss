@@ -49,9 +49,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE MESSAGE_MOD           
-      USE STACK_MOD          
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
+      USE STACK_MOD
       USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -97,9 +97,9 @@ C-----------------------------------------------
      .   TITR,TITR1
       my_real,
      .   DIMENSION(:),POINTER :: UVAR,DIR1,DIR2
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY      
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(DRAPE_) :: DRAPE(*)
 C=======================================================================
       COOR1 = ZERO
@@ -119,7 +119,7 @@ C----
      .   GEO_STACK  ,IGEO_STACK,E3X       ,E3Y        ,E3Z        ,
      .   GBUF%BETAORTH,X1      ,X2        ,Y1         ,Y2         ,
      .   Z1         ,Z2       )
-c---     
+c---
 C----      
       IF(IGTYP == 51 .OR. IGTYP == 52 .OR. IGMAT > 0) THEN
         CALL CORTHDIR(ELBUF_STR,
@@ -131,7 +131,7 @@ C----
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
-     
+
       ELSEIF (MTN == 27) THEN
         CALL CM27IN3(ELBUF_STR,
      .               GEO ,IGEO ,PM ,IPM ,IX ,NIX,
@@ -155,14 +155,14 @@ c
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
       ENDIF
 C-----
-      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
-        CALL ANCMSG(MSGID=658,                                               
-     .              MSGTYPE=MSGERROR,                                        
-     .              ANMODE=ANINFO_BLIND_1,                                   
-     .              I1=PROPID,                                               
-     .              C1=TITR,                                                 
-     .              I2=MTN,                                                  
-     .              I3=IGTYP)                                                
+      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
+        CALL ANCMSG(MSGID=658,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO_BLIND_1,
+     .              I1=PROPID,
+     .              C1=TITR,
+     .              I2=MTN,
+     .              I3=IGTYP)
       ELSEIF (MTN == 58 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
 C
         DO IL = 1,NLAY
@@ -174,7 +174,7 @@ C
             DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
             DO IT=1,NPTT
               LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
-              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR
               NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
               CALL CM58IN3(IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
      .                     BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,LBUF%ANG ,
@@ -187,7 +187,7 @@ c          ELSEIF (ILAW == 98) THEN
 c            DIR1 => ELBUF_STR%BUFLY(IL)%DIRA
 c            DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
 c            DO IT=1,NPTT
-c              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+c              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR
 c              NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
 c              CALL CM98IN3(IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
 c     .                     BUFMAT   ,UVAR     ,ALDT    ,NEL     ,NUVAR   ,

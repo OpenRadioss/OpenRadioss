@@ -86,7 +86,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   EVAR(MVSIZ),FUNC(LEN), 
+     .   EVAR(MVSIZ),FUNC(LEN),
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,
      .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, FAC, DAM1(MVSIZ),DAM2(MVSIZ),
      .   WPLA(MVSIZ), DMAX(MVSIZ),WPMAX(MVSIZ),
@@ -130,12 +130,12 @@ C---
         IXFEM  = IPARG(54,NG)
         IF (IXFEM /= 1 .AND. IXFEM /= 2) CYCLE
 C---
-        CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+        CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS)
 C---
         IF (ITY /= 3   .AND. ITY /= 7) CYCLE
@@ -182,10 +182,10 @@ C-----------------------------------------
 C---
                 ICRK = NXEL*(ILAY-1) + IXEL
 C---
-                IF (NLAY > 1) THEN                           
+                IF (NLAY > 1) THEN
                   LBUF  => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
                   XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(ILAY)%LBUF(1,1,1)
-                ELSE                                         
+                ELSE
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,ILAY)
                   XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(1)%LBUF(1,1,ILAY)
                 ENDIF
@@ -204,42 +204,42 @@ C
                   CONTINUE
 c---
                 ELSE IF (IFUNC == 1) THEN   ! plastic strain
-                  IF (NLAY > 1) THEN  ! multi                                                                           
-cc                    IPT = INT((1+NPT)/2)  ! NPT = 1                                                                   
-                    IPT = ILAY                                                                                          
-                    IF (ELBUF_TAB(NG)%BUFLY(IPT)%L_PLA > 0) THEN                                                        
-                      LBUF  => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)                                                       
-                      XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(IPT)%LBUF(1,1,1)                                                   
-                      DO I=LFT,LLT                                                                                        
-                        N = I + NI                                                                                        
-                        ELCRK = IEL_CRK(N)                                                                                
-                        IF (ELCRK > 0) THEN                                                                               
-                          ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)                                                           
-                          IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer                               
-                            EVAR(I) = ABS(LBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p   
-                          ELSE  !  cracked layer                                                                          
-                            EVAR(I) = ABS(XLBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p  
-                          ENDIF                                                                                           
-                        ENDIF                                                                                             
-                      ENDDO                                                                                               
+                  IF (NLAY > 1) THEN  ! multi
+cc                    IPT = INT((1+NPT)/2)  ! NPT = 1
+                    IPT = ILAY
+                    IF (ELBUF_TAB(NG)%BUFLY(IPT)%L_PLA > 0) THEN
+                      LBUF  => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)
+                      XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(IPT)%LBUF(1,1,1)
+                      DO I=LFT,LLT
+                        N = I + NI
+                        ELCRK = IEL_CRK(N)
+                        IF (ELCRK > 0) THEN
+                          ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
+                          IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer
+                            EVAR(I) = ABS(LBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p
+                          ELSE  !  cracked layer
+                            EVAR(I) = ABS(XLBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p
+                          ENDIF
+                        ENDIF
+                      ENDDO
                     ENDIF  !  IF (L_PLA > 0)
-                  ELSEIF (GBUF%G_PLA > 0 ) THEN  !  mono                                                                                         
-                    IPT = MAX(1,INT((1+NPT)/2))                                                                         
-                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)                                                        
-                    XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(1)%LBUF(1,1,IPT)                                                   
-                    DO I=LFT,LLT                                                                                        
-                      N = I + NI                                                                                        
-                      ELCRK = IEL_CRK(N)                                                                                
-                      IF (ELCRK > 0) THEN                                                                               
-                        ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)                                                           
-                        IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer                               
-                          EVAR(I) = ABS(LBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p   
-                        ELSE  !  cracked layer                                                                          
-                          EVAR(I) = ABS(XLBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p  
-                        ENDIF                                                                                           
-                      ENDIF                                                                                             
-                    ENDDO                                                                                               
-                  ENDIF !  IF (NLAY > 1)                                                                                
+                  ELSEIF (GBUF%G_PLA > 0 ) THEN  !  mono
+                    IPT = MAX(1,INT((1+NPT)/2))
+                    LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
+                    XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(1)%LBUF(1,1,IPT)
+                    DO I=LFT,LLT
+                      N = I + NI
+                      ELCRK = IEL_CRK(N)
+                      IF (ELCRK > 0) THEN
+                        ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
+                        IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer
+                          EVAR(I) = ABS(LBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p
+                        ELSE  !  cracked layer
+                          EVAR(I) = ABS(XLBUF%PLA(I)) ! for law25, plastic work < 0 if the layer has reached failure-p
+                        ENDIF
+                      ENDIF
+                    ENDDO
+                  ENDIF !  IF (NLAY > 1)
                 ELSEIF (IFUNC == 3) THEN   ! EINT
                   IF (NLAY > 1) THEN  ! multi
                     DO I=LFT,LLT
@@ -474,7 +474,7 @@ C---
                   ELSE
                     DO I=LFT,LLT
                       EVAR(I) = ZERO
-                    ENDDO 
+                    ENDDO
                   ENDIF  ! IF (BUFLY%L_PLA > 0)
 c------------------------------------
                 ELSEIF (IFUNC == 2041) THEN ! EPSP/LOWER
@@ -504,21 +504,21 @@ c------------------------------------
                   ELSE
                     DO I=LFT,LLT
                       EVAR(I) = ZERO
-                    ENDDO 
+                    ENDDO
                   ENDIF
 c------------------------------------
                 ELSEIF (IFUNC >= 2042 .AND. IFUNC <= 2141) THEN
 c------------------------------------
                   IF (NPT == 0) THEN
-                    IL  = 1 
-                    IPT = 1                            
-                  ELSEIF (NLAY > 1) THEN                   
-                    IL = MOD ((IFUNC - 2041), 100)     
-                    IPT = 1                            
+                    IL  = 1
+                    IPT = 1
+                  ELSEIF (NLAY > 1) THEN
+                    IL = MOD ((IFUNC - 2041), 100)
+                    IPT = 1
                     IF (IL == 0) IL = 100
-                  ELSE                                 
-                    IL  = 1                            
-                    IPT = MOD ((IFUNC - 2041), 100)     
+                  ELSE
+                    IL  = 1
+                    IPT = MOD ((IFUNC - 2041), 100)
                     IF (IPT == 0) IPT = 100
                   ENDIF
                   IF (ELBUF_TAB(NG)%BUFLY(IL)%L_PLA > 0) THEN
@@ -552,8 +552,8 @@ c------------------------------------
                   ELSE
                     DO  I=LFT,LLT
                       EVAR(I) = ZERO
-                    ENDDO 
-                  ENDIF 
+                    ENDDO
+                  ENDIF
                 ENDIF ! IFUNC
 C----------------------
                 IF(MLW == 0 .OR. MLW == 13)THEN
@@ -561,7 +561,7 @@ C----------------------
                     N = I + NI
                     IF(IEL_CRK(N) > 0) THEN
                       IE(ICRK) = IE(ICRK) + 1
-                      FUNC(EL2FA(NELCRK(ICRK) + IE(ICRK))) = ZERO 
+                      FUNC(EL2FA(NELCRK(ICRK) + IE(ICRK))) = ZERO
                     ENDIF
                   ENDDO
 C-------------------

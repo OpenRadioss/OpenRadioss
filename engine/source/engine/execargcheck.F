@@ -36,7 +36,7 @@ Chd|        CHECK_MOD                     ../common_source/modules/check_mod.F
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE EXECARGCHECK(GOT_INPUT,INPUT,LENI, 
+      SUBROUTINE EXECARGCHECK(GOT_INPUT,INPUT,LENI,
      *                        GOT_PATH,  PATH,  LENP)
       USE MESSAGE_MOD
       USE CHECK_MOD
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .    '-NTHREAD' ,  '-NT',
      .    '-ERROR_MSG','-EM',
      .    '-NOTRAP',
-     .    '-DYNAMIC_LIB', 
+     .    '-DYNAMIC_LIB',
      .    '-DYLIB',
      .    '-MEM-MAP' ,
      .    '-INSPIRE',
@@ -94,7 +94,7 @@ C-----------------------------------------------
        GOT_NTH = 0
        INPUT=' '
        LENI=0
-       PHELPI = 0 
+       PHELPI = 0
        PEXECI = 0
        PINPUTI = 0
        PNTHI= 0
@@ -172,7 +172,7 @@ C -INPUT, -I
           CASE ( '-INPUT')
              IF (PINPUTI==0) PINPUTI = I
           CASE ( '-I')
-             IF (PINPUTI==0) PINPUTI = I 
+             IF (PINPUTI==0) PINPUTI = I
 C------------------------------------------------
 C -RST / MADYMO RESTART
           CASE ( '-RST')
@@ -185,7 +185,7 @@ C -NTHREAD, -NT
           CASE ( '-NTHREAD')
              IF (PNTHI==0) PNTHI = I
           CASE ( '-NT')
-             IF (PNTHI==0) PNTHI = I 
+             IF (PNTHI==0) PNTHI = I
 C------------------------------------------------
 C -DYNAMIC_LIB, -DYLIB
           CASE ( '-DYNAMIC_LIB')
@@ -221,7 +221,7 @@ C Lignes de commande qui ne sont pas definies
 C Check if argument string is a variable to an argument
                IF (ARGP == '-I'      .OR. ARGP =='-INPUT' .OR.
      *             ARGP == '-RST'    .OR. ARGP =='-NT'    .OR.
-     *             ARGP == '-NTHREAD'.OR. 
+     *             ARGP == '-NTHREAD'.OR.
      *             ARGP == '-DYLIB'  .OR. ARGP =='-DYNAMIC_LIB'.OR.
      *             ARGP == '-MDS_LIBPATH')THEN
                  ERR = 0
@@ -238,7 +238,7 @@ C Specificife Radioss Madymo
              ENDIF
              IF (ERR == 1)THEN
                CALL GETARG(I,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
                CALL PHELPINFO(2,ARGP,STRLN)
                CALL ARRET(7)
              ENDIF
@@ -259,7 +259,7 @@ C------------------------------------------------
                     LAST_LETTER = OUTFILE_NAME(IJK:IJK)
                 ENDDO
                 IF(LAST_LETTER/=SEPARATOR) THEN
-                    OUTFILE_NAME(1:OUTFILE_NAME_LEN+1) = 
+                    OUTFILE_NAME(1:OUTFILE_NAME_LEN+1) =
      .                       OUTFILE_NAME(1:OUTFILE_NAME_LEN)//SEPARATOR
                     OUTFILE_NAME_LEN = OUTFILE_NAME_LEN + 1
                 ENDIF
@@ -274,7 +274,7 @@ C------------------------------------------------
                     LAST_LETTER = INFILE_NAME(IJK:IJK)
                 ENDDO
                 IF(LAST_LETTER/=SEPARATOR) THEN
-                    INFILE_NAME(1:INFILE_NAME_LEN+1) = 
+                    INFILE_NAME(1:INFILE_NAME_LEN+1) =
      .                       INFILE_NAME(1:INFILE_NAME_LEN)//SEPARATOR
                     INFILE_NAME_LEN = INFILE_NAME_LEN + 1
                 ENDIF
@@ -293,8 +293,8 @@ C------------------------------------------------
 C -HELP SET
 C------------------------------------------------
        IF (PHELPI==1) THEN
-          MSG= ' ' 
-          CALL PHELPINFO(0,MSG,0) 
+          MSG= ' '
+          CALL PHELPINFO(0,MSG,0)
        ENDIF
 
 C------------------------------------------------
@@ -306,7 +306,7 @@ C------------------------------------------------
 C          Case -I is last argument in the list.
 
            CALL GETARG(IERRMSG,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
            MSG = ARGP
            CALL PHELPINFO(1,MSG,STRLN)
            CALL ARRET(7)
@@ -322,11 +322,11 @@ C check if -i has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,INPUTC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GETARG(PINPUTI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
                MSG=ARGP
                CALL PHELPINFO(1,MSG,STRLN)
                CALL ARRET(7)
-           ENDIF 
+           ENDIF
            CALL READ_MSGFILE(LENI,INPUTR)
            CALL BUILD_MSG()
          ENDIF
@@ -341,7 +341,7 @@ C------------------------------------------------
 C          Case -I is last argument in the list.
 
            CALL GETARG(PINPUTI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
            MSG = ARGP
            CALL PHELPINFO(1,MSG,STRLN)
            CALL ARRET(7)
@@ -358,11 +358,11 @@ C check if -i has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,INPUTC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GETARG(PINPUTI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
                MSG=ARGP
                CALL PHELPINFO(1,MSG,STRLN)
                CALL ARRET(7)
-           ENDIF 
+           ENDIF
 
            BEGIN=LEN_TRIM(INPUTR)
            CONDITION = .FALSE.
@@ -379,7 +379,7 @@ C check if -i has got an argument or if the next string is an input command
            BEGIN=BEGIN+1
            INPUT(1:LENI) = INPUTR(BEGIN:LEN_TRIM(INPUTR))
 
-           IF (BEGIN > 1)THEN 
+           IF (BEGIN > 1)THEN
              GOT_PATH=1
              LENP=BEGIN-1
              PATH(1:LENP)=INPUTR(1:LENP)
@@ -387,7 +387,7 @@ C check if -i has got an argument or if the next string is an input command
          ENDIF
        ELSE
            ! -input/-i was not set. Exiting with error message.
-           MSG= ' ' 
+           MSG= ' '
            CALL PHELPINFO(6,MSG,0)
            CALL ARRET(7)
        ENDIF
@@ -411,7 +411,7 @@ C check if -nt has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,STRING,ISIN)
            IF ( ISIN==1 )THEN
              CALL GETARG(PNTHI,ARGP)
-             STRLN=LEN_TRIM(ARGP) 
+             STRLN=LEN_TRIM(ARGP)
              MSG=ARGP
              CALL PHELPINFO(1,MSG,STRLN)
              CALL ARRET(7)
@@ -424,14 +424,14 @@ C Read converting was OK goto 2000
            GOTO 2000
  1999      CONTINUE
 C Error was found during Character to Integer translation
-           STRLN=LEN_TRIM(STRING) 
+           STRLN=LEN_TRIM(STRING)
 c           CALL GETARG(PNTHI,ARGP)
            MSG=STRING
            CALL PHELPINFO(4,MSG,STRLN)
            CALL ARRET(7)
  2000      CONTINUE
          ENDIF
-       ENDIF 
+       ENDIF
 C------------------------------------------------
 C -DYLIB SET
 C------------------------------------------------
@@ -441,9 +441,9 @@ C------------------------------------------------
 C          Case -DYLIB is last argument in the list.
 
            CALL GETARG(PUSERLNAMI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
            CALL PHELPINFO(1,ARGP,STRLN)
- 
+
          ELSE
            CALL GETARG(PUSERLNAMI+1,USERL_ALTNAME)
            LEN_USERL_ALTNAME=LEN_TRIM(USERL_ALTNAME)
@@ -456,10 +456,10 @@ C check if -dylib has got an argument or if the next string is an input command
            CALL ISANARGUMENT(ARGLIST,LENLIST,ULIBC,ISIN)
            IF ( ISIN==1 )THEN
                CALL GETARG(PUSERLNAMI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
                CALL PHELPINFO(1,ARGP,STRLN)
                CALL ARRET(7)
-           ENDIF 
+           ENDIF
 
          ENDIF     !         IF (PUSERLNAMI+1  > ARGN) THEN
        ENDIF
@@ -474,11 +474,11 @@ C------------------------------------------------
 C          Case -DYLIB is last argument in the list.
 
            CALL GET_COMMAND_ARGUMENT(MDS_PATHI,ARGP)
-           STRLN=LEN_TRIM(ARGP) 
+           STRLN=LEN_TRIM(ARGP)
            CALL PHELPINFO(1,ARGP,STRLN)
- 
+
          ELSE
-           CALL GET_COMMAND_ARGUMENT(MDS_PATHI+1,MDS_PATH)       
+           CALL GET_COMMAND_ARGUMENT(MDS_PATHI+1,MDS_PATH)
            MDS_PATH_LEN=LEN_TRIM(MDS_PATH)
 C check if -mds has got an argument or if the next string is an input command
 
@@ -490,10 +490,10 @@ C check if -mds has got an argument or if the next string is an input command
 
            IF ( ISIN==1 )THEN
                CALL GETARG(MDS_PATHI,ARGP)
-               STRLN=LEN_TRIM(ARGP) 
+               STRLN=LEN_TRIM(ARGP)
                CALL PHELPINFO(1,ARGP,STRLN)
                CALL ARRET(7)
-           ENDIF 
+           ENDIF
 
          ENDIF     !         IF (MDS_PATHI+1  > ARGN) THEN
        ENDIF
@@ -510,7 +510,7 @@ Chd|-- called by -----------
 Chd|        EXECARGCHECK                  source/engine/execargcheck.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE UPCASE (STRING) 
+      SUBROUTINE UPCASE (STRING)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -530,7 +530,7 @@ C
        LS = LEN (STRING)
 C
        DO LC = 1,LS
-          IF (LGE(STRING(LC:LC),'a') .AND. 
+          IF (LGE(STRING(LC:LC),'a') .AND.
      1        LLE(STRING(LC:LC),'z')) THEN
 C
               STRING (LC:LC) = CHAR (ICHAR (STRING(LC:LC)) - 32)
@@ -577,7 +577,7 @@ C-----------------------------------------------
        ISIN = 0
        DO I=1,LENLIST
         IF (TRIM(ARGLIST(I))==TRIM(ARGC)) ISIN=1
-       ENDDO 
+       ENDDO
        END
 
 
@@ -614,7 +614,7 @@ C-----------------------------------------------
         CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
 
         if (MYRANK==0) CALL PREXECINFO(IDUM)
-        
+
         CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
 
         CALL MPI_FINALIZE(IERROR)
@@ -659,7 +659,7 @@ C-----------------------------------------------
          WRITE(6,'(A,A)') 'Platform info : ',ARCHTITLE
 
          IF (IR4R8==1)THEN
-           WRITE(6,'(A,A)') 
+           WRITE(6,'(A,A)')
      *         '                Extended Single Precision Version'
          ENDIF
          WRITE(6,'(A,A)')   ' '
@@ -703,7 +703,7 @@ C-----------------------------------------------
         CALL MPI_COMM_RANK(MPI_COMM_WORLD, MYRANK, IERROR)
 
         if (MYRANK==0) CALL PRHELPINFO(ERRN,EMSG,SMSG)
-        
+
         CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
 
         CALL MPI_FINALIZE(IERROR)
@@ -742,31 +742,31 @@ C-----------------------------------------------
          WRITE(6,'(A)') ' '
          WRITE(6,'(A,A)') '*** ERROR : Missing argument to ',
      *                    EMSG(1:SMSG)
-         WRITE(6,'(A)') ' '         
+         WRITE(6,'(A)') ' '
        ENDIF
 
        IF (ERRN == 2)THEN
          WRITE(6,'(A)') ' '
          WRITE(6,'(A,A)') '***  ERROR : Unknown command line argument:',
      *                    EMSG(1:SMSG)
-         WRITE(6,'(A)') ' '         
+         WRITE(6,'(A)') ' '
        ENDIF
 
        IF (ERRN == 3)THEN
-         WRITE(6,'(A)') ' ' 
+         WRITE(6,'(A)') ' '
          WRITE(6,'(A,A)') 'WRONG RADIOSS INPUT FILE NAME: ',EMSG(1:SMSG)
-         WRITE(6,'(A)') ' ' 
+         WRITE(6,'(A)') ' '
        ENDIF
 
        IF (ERRN == 4)THEN
          WRITE(6,'(A)') ' '
-         WRITE(6,'(A,A,A,A,A)') 
+         WRITE(6,'(A,A,A,A,A)')
      *     '*** ERROR : "',EMSG(1:SMSG),'" is not an integer value'
        ENDIF
 
        IF (ERRN == 5)THEN
          WRITE(6,'(A)') ' '
-         WRITE(6,'(A,A,A,A,A)') 
+         WRITE(6,'(A,A,A,A,A)')
      *     '*** ERROR : Wrong "',EMSG(1:SMSG),'" option'
        ENDIF
 

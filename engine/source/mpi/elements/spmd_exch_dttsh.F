@@ -46,9 +46,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"     
-#include      "com04_c.inc"     
-#include      "task_c.inc"      
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -64,8 +64,8 @@ C-----------------------------------------------
        INTEGER IERROR
        INTEGER I,P,J,NOD,SIZ,L,IAD
 C-----------------------------------------------
-       DATA MSGOFF/430/    
-       
+       DATA MSGOFF/430/
+
       DO I=1,NSPMD
         SIZ = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
         IF(SIZ>0)THEN
@@ -103,7 +103,7 @@ C
         ENDIF
       ENDDO
 #endif
-       
+
        END SUBROUTINE SPMD_EXCH_TAG_TSH
 Chd|====================================================================
 Chd|  SPMD_EXCH_VMAX                source/mpi/elements/spmd_exch_dttsh.F
@@ -133,9 +133,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"              
-#include      "com04_c.inc"              
-#include      "task_c.inc"               
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -151,10 +151,10 @@ C-----------------------------------------------
        INTEGER IERROR
        INTEGER P,J,NOD,SIZ,L,IAD
 C-----------------------------------------------
-       DATA MSGOFF/410/    
+       DATA MSGOFF/410/
        MSGTYP=MSGOFF
-       
-       LENCOM = IAD_STSH(NSPMD+1) - IAD_STSH(1) 
+
+       LENCOM = IAD_STSH(NSPMD+1) - IAD_STSH(1)
 
 C Allocation des Buffers           
        ALLOCATE(SEND_BUF(LENCOM),STAT=IERROR)
@@ -162,34 +162,34 @@ C Allocation des Buffers
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
        ENDIF
-       
-       LENCOM = IAD_RTSH(NSPMD+1) - IAD_RTSH(1) 
-       
+
+       LENCOM = IAD_RTSH(NSPMD+1) - IAD_RTSH(1)
+
        ALLOCATE(REC_BUF(LENCOM),STAT=IERROR)
        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
-       ENDIF   
+       ENDIF
 C 
 C ----------
 C Set IRECV
 C ----------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
           SIZ = IAD_RTSH(P+1)-IAD_RTSH(P)
-          IF(SIZ > 0) THEN 
+          IF(SIZ > 0) THEN
            CALL MPI_IRECV(
      S      REC_BUF(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(P),IERROR)
             L=L+SIZ
           ENDIF
        ENDDO
-       
+
 C -----------------
 C PREPARE SEND_BUF       
 C -----------------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
          SIZ = IAD_STSH(P+1)-IAD_STSH(P)
          IF(SIZ > 0)THEN
            IAD = L
@@ -197,12 +197,12 @@ C -----------------
               NOD = FR_STSH(J)
               SEND_BUF(L)=V_MAX(NOD)
               L=L+1
-           ENDDO         
-         
+           ENDDO
+
            CALL MPI_ISEND(
      S       SEND_BUF(IAD),SIZ,REAL,IT_SPMD(P),MSGTYP,
      G       MPI_COMM_WORLD,REQ_S(P),IERROR)
-     
+
          ENDIF
        ENDDO
 
@@ -210,11 +210,11 @@ C ------------
 C END RECIEVE
 C ------------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
          SIZ = IAD_RTSH(P+1)-IAD_RTSH(P)
          IF(SIZ > 0)THEN
            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-            
+
            DO J=IAD_RTSH(P),IAD_RTSH(P+1)-1
              NOD = FR_RTSH(J)
              V_MAX(NOD) = MAX(V_MAX(NOD), REC_BUF(L))
@@ -233,9 +233,9 @@ C ------------
       ENDDO
       IF (ALLOCATED(SEND_BUF)) DEALLOCATE(SEND_BUF)
       IF (ALLOCATED(REC_BUF)) DEALLOCATE(REC_BUF)
-       
+
 #endif
-       
+
        END SUBROUTINE SPMD_EXCH_VMAX
 Chd|====================================================================
 Chd|  SPMD_EXCH_FA                  source/mpi/elements/spmd_exch_dttsh.F
@@ -265,9 +265,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"              
-#include      "com04_c.inc"              
-#include      "task_c.inc"               
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -283,10 +283,10 @@ C-----------------------------------------------
        INTEGER IERROR
        INTEGER P,J,NOD,SIZ,L,IAD
 C-----------------------------------------------
-       DATA MSGOFF/420/    
+       DATA MSGOFF/420/
        MSGTYP=MSGOFF
-       
-       LENCOM = IAD_STSH(NSPMD+1) - IAD_STSH(1) 
+
+       LENCOM = IAD_STSH(NSPMD+1) - IAD_STSH(1)
 
 C Allocation des Buffers           
        ALLOCATE(SEND_BUF(3*LENCOM),STAT=IERROR)
@@ -294,33 +294,33 @@ C Allocation des Buffers
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
        ENDIF
-       LENCOM = IAD_RTSH(NSPMD+1) - IAD_RTSH(1) 
-       
+       LENCOM = IAD_RTSH(NSPMD+1) - IAD_RTSH(1)
+
        ALLOCATE(REC_BUF(3*LENCOM),STAT=IERROR)
        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
-       ENDIF   
+       ENDIF
 C 
 C ----------
 C Set IRECV
 C ----------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
           SIZ = 3*(IAD_RTSH(P+1)-IAD_RTSH(P))
-          IF(SIZ > 0) THEN 
+          IF(SIZ > 0) THEN
            CALL MPI_IRECV(
      S      REC_BUF(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(P),IERROR)
             L=L+SIZ
           ENDIF
        ENDDO
-       
+
 C -----------------
 C PREPARE SEND_BUF       
 C -----------------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
          SIZ = 3*(IAD_STSH(P+1)-IAD_STSH(P))
          IF(SIZ > 0)THEN
            IAD = L
@@ -330,12 +330,12 @@ C -----------------
               SEND_BUF(L+1)=A(2,NOD)
               SEND_BUF(L+2)=A(3,NOD)
               L=L+3
-           ENDDO         
-         
+           ENDDO
+
            CALL MPI_ISEND(
      S       SEND_BUF(IAD),SIZ,REAL,IT_SPMD(P),MSGTYP,
      G       MPI_COMM_WORLD,REQ_S(P),IERROR)
-     
+
          ENDIF
        ENDDO
 
@@ -343,11 +343,11 @@ C ------------
 C END RECIEVE
 C ------------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
          SIZ = 3*(IAD_RTSH(P+1)-IAD_RTSH(P))
          IF(SIZ > 0)THEN
            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-            
+
            DO J=IAD_RTSH(P),IAD_RTSH(P+1)-1
              NOD = FR_RTSH(J)
              A(1,NOD) = REC_BUF(L)
@@ -368,8 +368,8 @@ C ------------
       ENDDO
       IF (ALLOCATED(SEND_BUF)) DEALLOCATE(SEND_BUF)
       IF (ALLOCATED(REC_BUF)) DEALLOCATE(REC_BUF)
-       
+
 #endif
-       
+
        END SUBROUTINE SPMD_EXCH_FA
-       
+

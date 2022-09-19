@@ -28,15 +28,15 @@ Chd|-- calls ---------------
 Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_mod.F
 Chd|====================================================================
       SUBROUTINE CNDLENI(PM      ,GEO     ,STIFN    ,STIFR   ,IXC     ,
-     .           THK     ,IHBE    ,IGEO    ,SH4TREE ,ALDT    ,                 
-     .           UPARAM  ,IPM     ,NLAY    ,PM_STACK, ISUBSTACK,               
-     .           STRC    ,AREA    ,IMAT    ,IPROP   ,DTEL    ,  
+     .           THK     ,IHBE    ,IGEO    ,SH4TREE ,ALDT    ,
+     .           UPARAM  ,IPM     ,NLAY    ,PM_STACK, ISUBSTACK,
+     .           STRC    ,AREA    ,IMAT    ,IPROP   ,DTEL    ,
      .           X2L     ,X3L     ,X4L     ,Y2L     ,Y3L     ,Y4L    ,
-     .           IGEO_STACK       ,GROUP_PARAM)        
+     .           IGEO_STACK       ,GROUP_PARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER I, J, N, IMT, IPMAT, IGTYP,IADB,
      .        I1,I3,IPTHK,IPPOS,I2,MATLY,IPGMAT,IGMAT,IPOS,NIP,MLAWLY
       my_real
-     .   AREA(MVSIZ),SSP(MVSIZ), AL1(MVSIZ), 
+     .   AREA(MVSIZ),SSP(MVSIZ), AL1(MVSIZ),
      .   AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), AL5(MVSIZ),
      .   AL6(MVSIZ), AL(MVSIZ), ALMIN(MVSIZ),LXYZ0(2),COREL(2,4)
       my_real
@@ -100,17 +100,17 @@ C
                  DO N=1,NIP
                    J=I+(N-1)*LLT
                    IMT  = IGEO(IPMAT+N,IPROP)
-                   IADB = IPM(7,IMT)-1                                      
-                   BULK = UPARAM(IADB+11)                                     
+                   IADB = IPM(7,IMT)-1
+                   BULK = UPARAM(IADB+11)
                    NU   = UPARAM(IADB+14)
                    GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)
      .                  + UPARAM(IADB+2)*UPARAM(IADB+7)
-     .                  + UPARAM(IADB+3)*UPARAM(IADB+8)  
-     .                  + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .                  + UPARAM(IADB+5)*UPARAM(IADB+10) 
+     .                  + UPARAM(IADB+3)*UPARAM(IADB+8)
+     .                  + UPARAM(IADB+4)*UPARAM(IADB+9)
+     .                  + UPARAM(IADB+5)*UPARAM(IADB+10)
                    RHO  = PM(1,IMT)
                    A11  = GMAX*(ONE + NU)/(ONE - NU**2)
-                   SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(A11/RHO))
                  ENDDO
                ENDDO
              ELSEIF (MTN == 65) THEN
@@ -120,7 +120,7 @@ C
                    IMT =IGEO(IPMAT+N,IPROP)
                    RHO  =PM(1,IMT)
                    YOUNG=PM(20,IMT)
-                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/RHO))
                  ENDDO
                ENDDO
              ELSE
@@ -131,12 +131,12 @@ C
                    RHO  =PM(1,IMT)
                    YOUNG=PM(20,IMT)
                    NU   =PM(21,IMT)
-                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO))
                  ENDDO
                ENDDO
              ENDIF
 CCC      
-       ELSEIF (IGTYP == 17 .AND. IGMAT < 0) THEN  
+       ELSEIF (IGTYP == 17 .AND. IGMAT < 0) THEN
              NIP = NPT
              IPMAT = 2 + NIP
              IF (MTN<=28) THEN
@@ -152,17 +152,17 @@ CCC
                  DO N=1,NIP
                    J=I+(N-1)*LLT
                    IMT  = IGEO_STACK(IPMAT + N,ISUBSTACK)
-                   IADB = IPM(7,IMT)-1                                      
-                   BULK = UPARAM(IADB+11)                                     
+                   IADB = IPM(7,IMT)-1
+                   BULK = UPARAM(IADB+11)
                    NU   = UPARAM(IADB+14)
                    GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)
      .                  + UPARAM(IADB+2)*UPARAM(IADB+7)
-     .                  + UPARAM(IADB+3)*UPARAM(IADB+8)  
-     .                  + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .                  + UPARAM(IADB+5)*UPARAM(IADB+10) 
+     .                  + UPARAM(IADB+3)*UPARAM(IADB+8)
+     .                  + UPARAM(IADB+4)*UPARAM(IADB+9)
+     .                  + UPARAM(IADB+5)*UPARAM(IADB+10)
                    RHO  = PM(1,IMT)
                    A11  = GMAX*(ONE + NU)/(ONE - NU**2)
-                   SSP(I)=MAX(SSP(I), SQRT(A11/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(A11/RHO))
                  ENDDO
                ENDDO
              ELSEIF (MTN == 65) THEN
@@ -172,7 +172,7 @@ CCC
                    IMT =IGEO_STACK(IPMAT + N,ISUBSTACK)
                    RHO  =PM(1,IMT)
                    YOUNG=PM(20,IMT)
-                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/RHO))
                  ENDDO
                ENDDO
              ELSE
@@ -183,12 +183,12 @@ CCC
                    RHO  =PM(1,IMT)
                    YOUNG=PM(20,IMT)
                    NU   =PM(21,IMT)
-                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO)) 
+                   SSP(I)=MAX(SSP(I), SQRT(YOUNG/(ONE-NU*NU)/RHO))
                  ENDDO
                ENDDO
              ENDIF
       ELSEIF (IGTYP == 51 .AND. IGMAT <  0) THEN
-          NIP = NLAY 
+          NIP = NLAY
           IPMAT = 2 + NLAY
           DO I=LFT,LLT
             DO N=1,NIP
@@ -197,14 +197,14 @@ CCC
               IF (MLAWLY <= 28) THEN
                 SSP(I)=MAX(SSP(I),PM(27,IMT))
               ELSEIF (MLAWLY == 42 .OR. MLAWLY  == 69) THEN
-                IADB = IPM(7,IMT)-1                                         
-                BULK = UPARAM(IADB+11)                                        
+                IADB = IPM(7,IMT)-1
+                BULK = UPARAM(IADB+11)
                 NU = UPARAM(IADB+14)
                 GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)
      .               + UPARAM(IADB+2)*UPARAM(IADB+7)
-     .               + UPARAM(IADB+3)*UPARAM(IADB+8)  
-     .               + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .               + UPARAM(IADB+5)*UPARAM(IADB+10) 
+     .               + UPARAM(IADB+3)*UPARAM(IADB+8)
+     .               + UPARAM(IADB+4)*UPARAM(IADB+9)
+     .               + UPARAM(IADB+5)*UPARAM(IADB+10)
                 RHO  = PM(1,IMT)
                 A11  = GMAX*(ONE + NU)/(ONE - NU**2)
                 SSP(I)=MAX(SSP(I), SQRT(A11/RHO))
@@ -223,8 +223,8 @@ CCC
       ELSEIF (IGTYP == 11 .AND. IGMAT > 0) THEN
           DO I=LFT,LLT
             SSP(I) = GEO(IPGMAT +9 ,IPROP)
-          ENDDO  
-      ELSEIF (IGTYP == 52 .OR. 
+          ENDDO
+      ELSEIF (IGTYP == 52 .OR.
      .      ((IGTYP == 51 .OR. IGTYP == 17 ).AND. IGMAT > 0)) THEN
           DO I=LFT,LLT
              SSP(I) = PM_STACK(9 ,ISUBSTACK)
@@ -235,17 +235,17 @@ CCC
           ENDDO
       ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
           DO I=LFT,LLT
-            IADB = IPM(7,IMAT)-1                                             
-            BULK = UPARAM(IADB+11)                                             
-            NU = UPARAM(IADB+14)         
-            GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)               
-     .           + UPARAM(IADB+2)*UPARAM(IADB+7) 
-     .           + UPARAM(IADB+3)*UPARAM(IADB+8) 
-     .           + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .           + UPARAM(IADB+5)*UPARAM(IADB+10) 
-             RHO  = PM(1,IMAT) 
-             A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                
-             SSP(I)=MAX(SSP(I), SQRT(A11/RHO))    
+            IADB = IPM(7,IMAT)-1
+            BULK = UPARAM(IADB+11)
+            NU = UPARAM(IADB+14)
+            GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)
+     .           + UPARAM(IADB+2)*UPARAM(IADB+7)
+     .           + UPARAM(IADB+3)*UPARAM(IADB+8)
+     .           + UPARAM(IADB+4)*UPARAM(IADB+9)
+     .           + UPARAM(IADB+5)*UPARAM(IADB+10)
+             RHO  = PM(1,IMAT)
+             A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+             SSP(I)=MAX(SSP(I), SQRT(A11/RHO))
           ENDDO
       ELSEIF (MTN == 65) THEN
           DO I=LFT,LLT
@@ -302,22 +302,22 @@ C
         S1 = SQRT(FACI*(FAC11+AL2(I))*AL1(I))
         S1 = MAX(S1,EM20)
         AL1(I)=S1
-      ENDDO 
+      ENDDO
 c-------------------------------------------------------
       IF (IHBE == 11) THEN
        DO I=LFT,LLT
         ALMIN(I)= AREA(I)/AL1(I)
-       ENDDO 
+       ENDDO
        VISCE=EM3
       ELSEIF (IHBE == 23) THEN
        DO I=LFT,LLT
         ALMIN(I)= AREA(I)/AL1(I)
-       ENDDO 
+       ENDDO
        VISCE=ZEP015
       ELSE
        DO I=LFT,LLT
         ALMIN(I)= AREA(I)/SQRT(FAC*AL1(I))
-       ENDDO 
+       ENDDO
        VISCE=ZERO
       ENDIF
 C
@@ -349,11 +349,11 @@ C----------------------------------------------------------
        IF(IGTYP  == 11 .AND. IGMAT > 0)THEN
          DO I=LFT,LLT
              A11  =GEO(IPGMAT +5 ,IPROP)
-             A11R =GEO(IPGMAT +7 ,IPROP) 
+             A11R =GEO(IPGMAT +7 ,IPROP)
              VV = VISCMX * ALMIN(I)
              VV = VV*VV
              FAC = HALF*AREA(I)*THK(I) / VV
-             STI = FAC * A11 
+             STI = FAC * A11
              STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
              STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
              STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
@@ -364,7 +364,7 @@ C----------------------------------------------------------
              STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR
              STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR
              STRC(I) = STIR
-         ENDDO 
+         ENDDO
        ELSEIF(IGTYP == 52 .OR.
      .       ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
          DO I=LFT,LLT
@@ -373,7 +373,7 @@ C----------------------------------------------------------
               VV = VISCMX * ALMIN(I)
               VV = VV*VV
               FAC = HALF*AREA(I)*THK(I) / VV
-              STI = FAC * A11 
+              STI = FAC * A11
               STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
               STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
               STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
@@ -402,18 +402,18 @@ C----------------------------------------------------------
              STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR
              STRC(I) = STIR
          ENDDO
-       ENDIF  
+       ENDIF
       ELSE
         IF(IGTYP == 11 .AND. IGMAT > 0) THEN
           DO I=LFT,LLT
              N=NFT+I
              IF(SH4TREE(3,N) >= 0)THEN
                 A11  = GEO(IPGMAT +5 ,IPROP)
-                A11R = GEO(IPGMAT +7 ,IPROP) 
+                A11R = GEO(IPGMAT +7 ,IPROP)
                 VV = VISCMX * ALMIN(I)
                 VV = VV*VV
                 FAC = HALF*AREA(I)*THK(I) / VV
-                STI = FAC * A11 
+                STI = FAC * A11
                 STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
                 STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                 STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
@@ -426,17 +426,17 @@ C----------------------------------------------------------
                 STRC(I) = STIR
              END IF
            END DO
-        ELSEIF(IGTYP == 52 .OR. 
+        ELSEIF(IGTYP == 52 .OR.
      .       ((IGTYP == 17.OR. IGTYP == 51) .AND. IGMAT > 0 )) THEN
              DO I=LFT,LLT
               N=NFT+I
               IF(SH4TREE(3,N) >= 0)THEN
                  A11  = PM_STACK(5 ,ISUBSTACK)
-                 A11R = PM_STACK(7 ,ISUBSTACK) 
+                 A11R = PM_STACK(7 ,ISUBSTACK)
                 VV = VISCMX * ALMIN(I)
                 VV = VV*VV
                 FAC = HALF*AREA(I)*THK(I) / VV
-                STI = FAC * A11 
+                STI = FAC * A11
                 STIR = ONE_OVER_12*FAC*A11R*THK(I)**2
                 STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI
                 STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI
@@ -448,7 +448,7 @@ C----------------------------------------------------------
                 STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR
                 STRC(I) = STIR
                END IF
-             END DO      
+             END DO
          ELSE
             DO I=LFT,LLT
              N=NFT+I
@@ -469,7 +469,7 @@ C----------------------------------------------------------
                 STRC(I) = STIR
              END IF
          END DO
-        ENDIF 
+        ENDIF
       END IF
 C----------------------------------------------------------
       IF (ISMSTR == 3) THEN

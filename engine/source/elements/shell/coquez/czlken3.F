@@ -33,9 +33,9 @@ Chd|====================================================================
      4                   PH1  ,PH2  ,Z1   ,NPLAT,IPLAT,DHZ  ,
      5           K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      6           M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     7           MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
+     7           MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
      8           MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
-     9           IDRIL ) 
+     9           IDRIL )
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -48,7 +48,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,NPLAT,IPLAT(*),IDRIL
-      MY_REAL 
+      MY_REAL
      .    VOL(*),THK0(*),THK2(*),A_I(*),Z1(*),HM(MVSIZ,4),HZ(*),
      .    PX1(*)  ,PX2(*)   ,PY1(*)  ,PY2(*)  ,PH1(*)  ,PH2(*)  ,
      .    HXX(*),HYY(*),HXY(*),
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
-      MY_REAL 
+      MY_REAL
      .    DM(2,2,MVSIZ),C1,C2,GM(MVSIZ),
      .    G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
      .    G14(MVSIZ),G22(MVSIZ),G23(MVSIZ),
@@ -80,7 +80,7 @@ C-----------gama(I)=hI/4-PH(I), PH:anti-sym comme bxI------
        NF=NPLAT+1
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 #include "vectorize.inc"
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         C1=THK2(EP)*C2
@@ -137,16 +137,16 @@ C--------------gamaI--------
         GAMA(2,EP)=-FOURTH-PH2(EP)
         GAMA(3,EP)=FOURTH+PH1(EP)
         GAMA(4,EP)=-FOURTH+PH2(EP)
-        G11(EP) =GAMA(1,EP)*GAMA(1,EP) 
-        G12(EP) =GAMA(1,EP)*GAMA(2,EP) 
-        G13(EP) =GAMA(1,EP)*GAMA(3,EP) 
-        G14(EP) =GAMA(1,EP)*GAMA(4,EP) 
-        G22(EP) =GAMA(2,EP)*GAMA(2,EP) 
-        G23(EP) =GAMA(2,EP)*GAMA(3,EP) 
-        G24(EP) =GAMA(2,EP)*GAMA(4,EP) 
-        G33(EP) =GAMA(3,EP)*GAMA(3,EP) 
-        G34(EP) =GAMA(3,EP)*GAMA(4,EP) 
-        G44(EP) =GAMA(4,EP)*GAMA(4,EP) 
+        G11(EP) =GAMA(1,EP)*GAMA(1,EP)
+        G12(EP) =GAMA(1,EP)*GAMA(2,EP)
+        G13(EP) =GAMA(1,EP)*GAMA(3,EP)
+        G14(EP) =GAMA(1,EP)*GAMA(4,EP)
+        G22(EP) =GAMA(2,EP)*GAMA(2,EP)
+        G23(EP) =GAMA(2,EP)*GAMA(3,EP)
+        G24(EP) =GAMA(2,EP)*GAMA(4,EP)
+        G33(EP) =GAMA(3,EP)*GAMA(3,EP)
+        G34(EP) =GAMA(3,EP)*GAMA(4,EP)
+        G44(EP) =GAMA(4,EP)*GAMA(4,EP)
        ENDDO
 C-------
        DO I=1,2
@@ -183,8 +183,8 @@ C-------
        ENDDO
 C---+---------+---------+warped elements-------------
        DO EP=NF,JLT
-         CXX =ZR(EP)*CHM(1,1,EP) 
-         CYY =ZR(EP)*CHM(2,2,EP) 
+         CXX =ZR(EP)*CHM(1,1,EP)
+         CYY =ZR(EP)*CHM(2,2,EP)
          CXY =ZR(EP)*CHM(1,2,EP)
          CX1 = CXX*PX1(EP)+CXY*PY1(EP)
          CX2 = CXX*PX2(EP)+CXY*PY2(EP)
@@ -233,8 +233,8 @@ C---+---------+---------+warped elements-------------
        ENDDO
        DO EP=NF,JLT
          FAC = ZR(EP)*ZR(EP)
-         CXX =FAC*CHM(1,1,EP) 
-         CYY =FAC*CHM(2,2,EP) 
+         CXX =FAC*CHM(1,1,EP)
+         CYY =FAC*CHM(2,2,EP)
          CXY =FAC*CHM(1,2,EP)
          C11 = CXX*PX1(EP)*PX1(EP)+CYY*PY1(EP)*PY1(EP)+
      1         CXY*(PX1(EP)*PY1(EP)+PY1(EP)*PX1(EP))
@@ -285,10 +285,10 @@ Chd|====================================================================
      4                    PH1  ,PH2  ,Z1   ,NPLAT,IPLAT,DHZ  ,
      5           K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      6           M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     7           MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
+     7           MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
      8           MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      9           PHKRX,PHKRY,PHKRXY,PHERX,PHERY,PHERXY,
-     A           PHKRZ,PHERZ,PHKX ,PHKY ,PHEX ,PHEY  ) 
+     A           PHKRZ,PHERZ,PHKX ,PHKY ,PHEX ,PHEY  )
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -301,7 +301,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,NPLAT,IPLAT(*)
-      MY_REAL 
+      MY_REAL
      .    VOL(*),THK0(*),THK2(*),A_I(*),Z1(*),HM(MVSIZ,4),HZ(*),
      .    PX1(*)  ,PX2(*)   ,PY1(*)  ,PY2(*)  ,PH1(*)  ,PH2(*)  ,
      .    HXX(*),HYY(*),HXY(*),
@@ -315,10 +315,10 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .    FM23(3,3,*),FM24(3,3,*),FM34(3,3,*),
      .    K34(3,3,*),K44(3,3,*),M34(3,3,*),M44(3,3,*),
      .    MF34(3,3,*),MF44(3,3,*),DHZ(*)
-      my_real 
+      my_real
      .   PHKRX(4,*),PHKRY(4,*),
      .   PHKRXY(4,*),PHERX(4,*),PHERY(4,*),PHERXY(4,*),
-     .   PHKRZ(4,*),PHERZ(4,*),PHKX(*) ,PHKY(*) ,PHEX(*) ,PHEY(*) 
+     .   PHKRZ(4,*),PHERZ(4,*),PHKX(*) ,PHKY(*) ,PHEX(*) ,PHEY(*)
 C---------------|[KIJ][MFIJ]|----
 C-----KE(6x6)=  |           |
 C---------------|[FMIJ]{MIJ]|----
@@ -326,7 +326,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
-      MY_REAL 
+      MY_REAL
      .    DM(3,3,MVSIZ),C1,C2,GM(MVSIZ),
      .    G11(MVSIZ),G12(MVSIZ),G13(MVSIZ),
      .    G14(MVSIZ),G22(MVSIZ),G23(MVSIZ),
@@ -339,7 +339,7 @@ C-----------------------------------------------
 C-----------gama(I)=hI/4-PH(I), PH:anti-sym comme bxI------
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 #include "vectorize.inc"
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         C1= THIRD*C2
@@ -353,7 +353,7 @@ c        GM(M) =HM(EP,4)*C2
         ZR(M) = Z1(EP)
 c        zr(m)=zero
        ENDDO
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         DM(2,1,M)=DM(1,2,M)
         DM(3,1,M)=DM(1,3,M)
         DM(3,2,M)=DM(2,3,M)
@@ -373,16 +373,16 @@ C--------------gamaI--------
         GAMA(2,EP)=-FOURTH-PH2(EP)
         GAMA(3,EP)=FOURTH+PH1(EP)
         GAMA(4,EP)=-FOURTH+PH2(EP)
-        G11(EP) =GAMA(1,EP)*GAMA(1,EP) 
-        G12(EP) =GAMA(1,EP)*GAMA(2,EP) 
-        G13(EP) =GAMA(1,EP)*GAMA(3,EP) 
-        G14(EP) =GAMA(1,EP)*GAMA(4,EP) 
-        G22(EP) =GAMA(2,EP)*GAMA(2,EP) 
-        G23(EP) =GAMA(2,EP)*GAMA(3,EP) 
-        G24(EP) =GAMA(2,EP)*GAMA(4,EP) 
-        G33(EP) =GAMA(3,EP)*GAMA(3,EP) 
-        G34(EP) =GAMA(3,EP)*GAMA(4,EP) 
-        G44(EP) =GAMA(4,EP)*GAMA(4,EP) 
+        G11(EP) =GAMA(1,EP)*GAMA(1,EP)
+        G12(EP) =GAMA(1,EP)*GAMA(2,EP)
+        G13(EP) =GAMA(1,EP)*GAMA(3,EP)
+        G14(EP) =GAMA(1,EP)*GAMA(4,EP)
+        G22(EP) =GAMA(2,EP)*GAMA(2,EP)
+        G23(EP) =GAMA(2,EP)*GAMA(3,EP)
+        G24(EP) =GAMA(2,EP)*GAMA(4,EP)
+        G33(EP) =GAMA(3,EP)*GAMA(3,EP)
+        G34(EP) =GAMA(3,EP)*GAMA(4,EP)
+        G44(EP) =GAMA(4,EP)*GAMA(4,EP)
        ENDDO
 C-------
        DO I=1,2
@@ -519,8 +519,8 @@ C---------------|0 0 BRX       |----
 C-----BR(3x6)=  |0 0 BRY       |
 C---------------|0 0 BRXY+BRYX |----
 C---------------Ksi first---
-       DO J=1,4 
-       DO M=JFT,JLT 
+       DO J=1,4
+       DO M=JFT,JLT
         CBKRX(J,M) =DM(1,1,M)*PHKRX(J,M)+DM(1,2,M)*PHKRY(J,M)+
      .              DM(1,3,M)*PHKRXY(J,M)
         CBKRY(J,M) =DM(2,1,M)*PHKRX(J,M)+DM(2,2,M)*PHKRY(J,M)+
@@ -804,34 +804,34 @@ C-------------------------
         J=1
 C-----------------------        
         CX1=ZR2*(CHM(1,1,M)*PX1(M)+CHM(1,2,M)*PY1(M))
-        CY1=ZR2*(CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))  
+        CY1=ZR2*(CHM(1,2,M)*PX1(M)+CHM(2,2,M)*PY1(M))
 C I=1,3
-        C3=PX1(M)*CX1+PY1(M)*CY1   
-        K11(3,3,M)=K11(3,3,M)+ C3   
-c J=3  
-        K13(3,3,M)=K13(3,3,M)- C3  
-        K33(3,3,M)=K33(3,3,M)+ C3   
+        C3=PX1(M)*CX1+PY1(M)*CY1
+        K11(3,3,M)=K11(3,3,M)+ C3
+c J=3
+        K13(3,3,M)=K13(3,3,M)- C3
+        K33(3,3,M)=K33(3,3,M)+ C3
 C I=2,4
-        C3=PX2(M)*CX1+PY2(M)*CY1   
-c  J=3  
-        K23(3,3,M)=K23(3,3,M)- C3   
+        C3=PX2(M)*CX1+PY2(M)*CY1
+c  J=3
+        K23(3,3,M)=K23(3,3,M)- C3
 C-------------------------        
         J=2
 C---------------------------        
         CX1=ZR2*(CHM(1,1,M)*PX2(M)+CHM(1,2,M)*PY2(M))
-        CY1=ZR2*(CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))  
+        CY1=ZR2*(CHM(1,2,M)*PX2(M)+CHM(2,2,M)*PY2(M))
 C I=1,3
-        C3=PX1(M)*CX1+PY1(M)*CY1   
-        K12(3,3,M)=K12(3,3,M)+ C3   
-c  J=4   
-        K14(3,3,M)=K14(3,3,M)- C3   
-        K34(3,3,M)=K34(3,3,M)+ C3   
+        C3=PX1(M)*CX1+PY1(M)*CY1
+        K12(3,3,M)=K12(3,3,M)+ C3
+c  J=4
+        K14(3,3,M)=K14(3,3,M)- C3
+        K34(3,3,M)=K34(3,3,M)+ C3
 C I=2,4
-        C3=PX2(M)*CX1+PY2(M)*CY1   
-        K22(3,3,M)=K22(3,3,M)+ C3   
-c  J=4   
-        K24(3,3,M)=K24(3,3,M)- C3   
-        K44(3,3,M)=K44(3,3,M)+ C3   
+        C3=PX2(M)*CX1+PY2(M)*CY1
+        K22(3,3,M)=K22(3,3,M)+ C3
+c  J=4
+        K24(3,3,M)=K24(3,3,M)- C3
+        K44(3,3,M)=K44(3,3,M)+ C3
        ENDDO
 C-----MFIJ(3,3)=FMJI(3,3)=DHZ*Zr(-PHy*BxI*BRZJ+PHx*ByI*BRZJ)----------
        DO M=NF,JLT

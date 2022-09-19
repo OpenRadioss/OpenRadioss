@@ -74,7 +74,7 @@ C----------------------------------------------------------
           A(1,ANCHOR_NODE)=A(1,ANCHOR_NODE)+A(1,NODE2)
           A(2,ANCHOR_NODE)=A(2,ANCHOR_NODE)+A(2,NODE2)
           A(3,ANCHOR_NODE)=A(3,ANCHOR_NODE)+A(3,NODE2)
-          STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2) 
+          STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2)
           IF (SLIPRING(I)%FRAM(J)%N_REMOTE_PROC > 0) THEN
 C--         Contribution stored to be exhanged to remote anchor node
             BUF_EXCH(L)   = A(1,NODE2)
@@ -85,7 +85,7 @@ C--         Contribution stored to be exhanged to remote anchor node
           A(1,NODE2)=ZERO
           A(2,NODE2)=ZERO
           A(3,NODE2)=ZERO
-        ENDDO     
+        ENDDO
       ENDDO
 
 C----------------------------------------------------------
@@ -99,7 +99,7 @@ C----------------------------------------------------------
          A(1,ANCHOR_NODE)=A(1,ANCHOR_NODE)+A(1,NODE2)
          A(2,ANCHOR_NODE)=A(2,ANCHOR_NODE)+A(2,NODE2)
          A(3,ANCHOR_NODE)=A(3,ANCHOR_NODE)+A(3,NODE2)
-         STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2)  
+         STIFN(ANCHOR_NODE)=STIFN(ANCHOR_NODE)+STIFN(NODE2)
          IF (RETRACTOR(I)%N_REMOTE_PROC > 0) THEN
 C--        Contribution stored to be exhanged to remote anchor node
            BUF_EXCH(L)   = A(1,NODE2)
@@ -109,7 +109,7 @@ C--        Contribution stored to be exhanged to remote anchor node
          ENDIF
          A(1,NODE2)=ZERO
          A(2,NODE2)=ZERO
-         A(3,NODE2)=ZERO    
+         A(3,NODE2)=ZERO
       ENDDO
 
 C----------------------------------------------------------
@@ -128,5 +128,5 @@ C
 C----------------------------------------------------------      
 C
       RETURN
-                
+
       END

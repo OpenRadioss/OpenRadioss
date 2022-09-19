@@ -78,7 +78,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
-      TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -108,14 +108,14 @@ C-----------------------------------------------
 
       DO KK = 1, NINIMAP2D
          INIMAP2D(KK)%CORRECTLY_READ=.TRUE.
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR, 
+         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR,
      .        KEYWORD2 = KEY2)
-         INIMAP2D(KK)%TITLE = TRIM(TITR)                 
+         INIMAP2D(KK)%TITLE = TRIM(TITR)
          WRITE(IOUT, 2001) ID
          WRITE(IOUT, 2002) TRIM(TITR)
          INIMAP2D(KK)%ID = ID
          INIMAP2D(KK)%FILE = .FALSE.
-                     
+
          IF (KEY2(1:2) == 'VP') THEN
             INIMAP2D(KK)%FORMULATION = 1
             WRITE(IOUT, 2010)
@@ -132,7 +132,7 @@ C     Error message here
          CALL HM_GET_INTV('node_ID1', INIMAP2D(KK)%NODEID1, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('node_ID2', INIMAP2D(KK)%NODEID2, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('node_ID3', INIMAP2D(KK)%NODEID3, IS_AVAILABLE, LSUBMODEL)
-      
+
          INIMAP2D(KK)%GRBRICID = 0
          INIMAP2D(KK)%GRQUADID = 0
          INIMAP2D(KK)%GRSH3NID = 0
@@ -140,12 +140,12 @@ C     Error message here
          CALL HM_GET_INTV('grbric_ID', INIMAP2D(KK)%GRBRICID, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('grquad_ID', INIMAP2D(KK)%GRQUADID, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('grtria_ID', INIMAP2D(KK)%GRSH3NID, IS_AVAILABLE, LSUBMODEL)
-        
+
 C     ==============
 C     Check if found
 C     ==============
          IF (INIMAP2D(KK)%GRBRICID + INIMAP2D(KK)%GRQUADID + INIMAP2D(KK)%GRSH3NID == 0) THEN
-            CALL ANCMSG(MSGID=1554, MSGTYPE=MSGWARNING, ANMODE=ANINFO, 
+            CALL ANCMSG(MSGID=1554, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .           C1='IN /INIMAP2D OPTION')
          ELSE
             GRBRICID_LOC = -1
@@ -196,18 +196,18 @@ C     ==============
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 C1='IN /INIMAP2D OPTION',
-     .                 I1=INIMAP2D(KK)%GRSH3NID)                   
+     .                 I1=INIMAP2D(KK)%GRSH3NID)
                ENDIF
             ENDIF
          ENDIF
-         
+
 C     ==============
 C     functions
 C     ==============
-         IF(.NOT. INIMAP2D(KK)%FILE)THEN         
+         IF(.NOT. INIMAP2D(KK)%FILE)THEN
             CALL HM_GET_INTV('FUN_IDV', IFUNC3, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('FSCALEV', FAC_VEL, IS_AVAILABLE, LSUBMODEL, UNITAB)
-           MSG_DESCRIPTION = 'CANNOT READ VELOCITY FUNCTION ID'           
+           MSG_DESCRIPTION = 'CANNOT READ VELOCITY FUNCTION ID'
            IF (FAC_VEL == ZERO) FAC_VEL = ONE
            WRITE(IOUT, 2040) IFUNC3, FAC_VEL
            IF (IFUNC3 > 0) THEN
@@ -220,7 +220,7 @@ C     ==============
                  ENDIF
               ENDDO
               IF (.NOT. FOUND) THEN
-                 CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                 CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                C1 = 'IN /INIMAP2D OPTION', I1 = IFUNC3)
               ENDIF
            ELSE
@@ -230,19 +230,19 @@ C     ==============
            INIMAP2D(KK)%FAC_VEL = FAC_VEL
 
            CALL HM_GET_INTV('Nb_integr', SIZE, IS_AVAILABLE, LSUBMODEL)
-           
+
            INIMAP2D(KK)%NBMAT = SIZE
-           ALLOCATE(INIMAP2D(KK)%FUNC_ALPHA(SIZE), INIMAP2D(KK)%FUNC_RHO(SIZE), 
-     .          INIMAP2D(KK)%FUNC_ENER(SIZE), INIMAP2D(KK)%FUNC_PRES(SIZE), 
+           ALLOCATE(INIMAP2D(KK)%FUNC_ALPHA(SIZE), INIMAP2D(KK)%FUNC_RHO(SIZE),
+     .          INIMAP2D(KK)%FUNC_ENER(SIZE), INIMAP2D(KK)%FUNC_PRES(SIZE),
      .          INIMAP2D(KK)%FAC_PRES_ENER(SIZE), INIMAP2D(KK)%FAC_RHO(SIZE))
-           INIMAP2D(KK)%FUNC_ALPHA(1:SIZE) = 0         
+           INIMAP2D(KK)%FUNC_ALPHA(1:SIZE) = 0
            DO LL = 1, SIZE
               CALL HM_GET_INT_ARRAY_INDEX('fct_Idvfi', IFUNC1, LL, IS_AVAILABLE, LSUBMODEL)
               CALL HM_GET_INT_ARRAY_INDEX('fct_IDri', IFUNC2, LL, IS_AVAILABLE, LSUBMODEL)
               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalerhoi', FAC1, LL, IS_AVAILABLE, LSUBMODEL, UNITAB)
               CALL HM_GET_INT_ARRAY_INDEX('fct_IDpei', IFUNC3, LL, IS_AVAILABLE, LSUBMODEL)
               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalepei', FAC2, LL, IS_AVAILABLE, LSUBMODEL, UNITAB)
-              
+
               IF (IFUNC1 > 0) THEN
                  FOUND = .FALSE.
                  DO JJ = 1, NFUNC2D
@@ -253,7 +253,7 @@ C     ==============
                     ENDIF
                  ENDDO
                  IF (.NOT. FOUND) THEN
-                    CALL ANCMSG(MSGID = 1734, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                    CALL ANCMSG(MSGID = 1734, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                   C1 = 'IN /INIMAP2D OPTION', I1 = IFUNC1)
                  ENDIF
               ELSE
@@ -269,7 +269,7 @@ C     ==============
                     ENDIF
                  ENDDO
                  IF (.NOT. FOUND) THEN
-                    CALL ANCMSG(MSGID = 1734, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                    CALL ANCMSG(MSGID = 1734, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                   C1 = 'IN /INIMAP2D OPTION', I1 = IFUNC2)
                  ENDIF
               ELSE
@@ -291,7 +291,7 @@ C     ==============
                     ENDIF
                  ENDDO
                  IF (.NOT. FOUND) THEN
-                    CALL ANCMSG(MSGID = 1734, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                    CALL ANCMSG(MSGID = 1734, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                   C1 = 'IN /INIMAP2D OPTION', I1 = IFUNC3)
                  ENDIF
               ELSE
@@ -309,10 +309,10 @@ C     ==============
                  WRITE(IOUT, 2050) LL, IFUNC1, IFUNC2, FAC1, IFUNC3, FAC2
               ENDIF
            ENDDO
-           
+
         ELSEIF(KEY2(1:5) == 'FILE ')THEN
            CALL HM_GET_STRING('Filename', FILENAME, ncharline, IS_AVAILABLE)
-           MSG_DESCRIPTION = 'CANNOT READ FILENAME            '           
+           MSG_DESCRIPTION = 'CANNOT READ FILENAME            '
            WRITE(IOUT, 2026)TRIM(FILENAME)
            CALL LEC_INIMAP2D_FILE(INIMAP2D(KK), FILENAME, ID, TITR )
         ENDIF
@@ -340,18 +340,18 @@ C       Error here, we need 3 nodes to define a plane
             INIMAP2D(KK)%VEC1(1:3) = (X1(1:3) - X0(1:3)) / NORM
             NORM = SQRT(DOT_PRODUCT(X2(1:3) - X0(1:3), X2(1:3) - X0(1:3)))
             INIMAP2D(KK)%VEC2(1:3) = (X2(1:3) - X0(1:3)) / NORM
-            VEC3(1) = INIMAP2D(KK)%VEC1(2) * INIMAP2D(KK)%VEC2(3) - 
+            VEC3(1) = INIMAP2D(KK)%VEC1(2) * INIMAP2D(KK)%VEC2(3) -
      .             INIMAP2D(KK)%VEC1(3) * INIMAP2D(KK)%VEC2(2)
-            VEC3(2) = -INIMAP2D(KK)%VEC1(1) * INIMAP2D(KK)%VEC2(3) + 
+            VEC3(2) = -INIMAP2D(KK)%VEC1(1) * INIMAP2D(KK)%VEC2(3) +
      .             INIMAP2D(KK)%VEC1(3) * INIMAP2D(KK)%VEC2(1)
-            VEC3(3) = INIMAP2D(KK)%VEC1(1) * INIMAP2D(KK)%VEC2(2) - 
+            VEC3(3) = INIMAP2D(KK)%VEC1(1) * INIMAP2D(KK)%VEC2(2) -
      .             INIMAP2D(KK)%VEC1(2) * INIMAP2D(KK)%VEC2(1)
 
-            INIMAP2D(KK)%VEC2(1) = -INIMAP2D(KK)%VEC1(2) * VEC3(3) + 
+            INIMAP2D(KK)%VEC2(1) = -INIMAP2D(KK)%VEC1(2) * VEC3(3) +
      .             INIMAP2D(KK)%VEC1(3) * VEC3(2)
-            INIMAP2D(KK)%VEC2(2) = INIMAP2D(KK)%VEC1(1) * VEC3(3) - 
+            INIMAP2D(KK)%VEC2(2) = INIMAP2D(KK)%VEC1(1) * VEC3(3) -
      .             INIMAP2D(KK)%VEC1(3) * VEC3(1)
-            INIMAP2D(KK)%VEC2(3) = -INIMAP2D(KK)%VEC1(1) * VEC3(2) + 
+            INIMAP2D(KK)%VEC2(3) = -INIMAP2D(KK)%VEC1(1) * VEC3(2) +
      .             INIMAP2D(KK)%VEC1(2) * VEC3(1)
 
             INIMAP2D(KK)%VEC3(1) = VEC3(1)
@@ -360,10 +360,10 @@ C       Error here, we need 3 nodes to define a plane
 
 
          ENDIF
-                   
+
       ENDDO ! KK = 1, NINIMAP2D
       RETURN
-      
+
  998  CALL ANCMSG(MSGID = 1893, ANMODE = ANINFO, MSGTYPE = MSGERROR,I1=INIMAP2D(KK)%ID, C1=INIMAP2D(KK)%TITLE,C2=MSG_DESCRIPTION)
       CALL FREERR(3)
       RETURN

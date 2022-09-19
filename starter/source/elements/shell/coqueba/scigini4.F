@@ -48,7 +48,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,7 +80,7 @@ C-----------------------------------------------
      . THK(*)   ,EINT(JLT,2),GSTR(NEL,8),SIGSH(NSIGSH,*),
      .   E1X(MVSIZ),E2X(MVSIZ),E3X(MVSIZ),
      .   E1Y(MVSIZ),E2Y(MVSIZ),E3Y(MVSIZ),
-     .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),DIR_A(*),DIR_B(*),  
+     .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),DIR_A(*),DIR_B(*),
      .   FOR(NEL,5) ,MOM(NEL,3) ,HH(NEL,12),EPSP(*),THKE(*),POSLY(MVSIZ,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C------------------------------------------------------
@@ -98,11 +98,11 @@ C-----------------------------------------------
      . S1(LAYNPT_MAX*LAY_MAX),S2(LAYNPT_MAX*LAY_MAX),S3(LAYNPT_MAX*LAY_MAX),
      . S4(LAYNPT_MAX*LAY_MAX),SM(LAYNPT_MAX*LAY_MAX),PG2I,PG,FM,S6(6),
      . POSI(MVSIZ,NPT)
-      my_real 
+      my_real
      .    E1(6),E2(6),Z1,Z2,Z0,AA,E1G(6,4),E2G(6,4),Z1G(4),Z2G(4),UNG
 C--------------------------------------------------------------
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 c
       PARAMETER (PG=.577350269189626)
 C=======================================================================
@@ -145,7 +145,7 @@ C=======================================================================
         EINT(I,2)=SIGSH(5,II)
 C for IGTYP == 51, NPT now =NPTI
         IF (NPT /= NPTI .OR. NPG /= NPGI) THEN
-          IPID1=IX(NIX-1,NFT+I) 
+          IPID1=IX(NIX-1,NFT+I)
           PID1=IGEO(1,IPID1)
           CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
           IF (NPT >0 .AND. NPTI==0) THEN
@@ -169,7 +169,7 @@ c     .                C1=TITR,
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
 C--- in global sys NPGI=1 for QEPH not like stress
           IF(SIGSH(17,II) == ONE)THEN
-            PT = INISHVAR1          
+            PT = INISHVAR1
             IF(NPGI <= 1.OR.IHBE == 23)THEN
              IF (NPTI==1) THEN
               E1(1:6) = SIGSH(PT:PT+5,II)
@@ -224,21 +224,21 @@ C------   NPG > 1 : GSTR-> GBUF%STRPG
      8              E1Z(I) ,E2Z(I),E3Z(I),E1   )
 c                    GBUF%STRPG(PTS+KK(1:5))=E1(1:5)
                    GSTR(I,1:5) = E1(1:5)
-                 END IF !(IP==IPG) 
+                 END IF !(IP==IPG)
                  PT = PT + 7
-               END DO 
+               END DO
              ELSE
                AA = HALF*THKE(I)
                DO IP = 1,NPG
                  E1G(1:6,IP) = SIGSH(PT:PT+5,II)
                  Z1G(IP) = SIGSH(PT+6,II)
                  PT = PT + 7
-               END DO 
+               END DO
                DO IP = 1,NPG
                  E2G(1:6,IP) = SIGSH(PT:PT+5,II)
                  Z2G(IP) = SIGSH(PT+6,II)
                  PT = PT + 7
-               END DO 
+               END DO
                DO IP = 1,NPG
                 IF (IP==IPG) THEN
                  CALL CG2LEPS(
@@ -269,7 +269,7 @@ c                error out
                   GSTR(I,4:5)= HALF*(E2G(4:5,IP)+E1G(4:5,IP))
                  END IF
                 END IF !(IP==IPG) THEN
-               END DO 
+               END DO
              END IF
             END IF !IF(NPGI <= 1
           ELSE
@@ -292,7 +292,7 @@ C--- in global sys modifying directly SIGSH
                DO IP =1,NPG
                 PT = 22 + 13*(IP-1)
                 PTN= 22 + 9*(IP-1)
-!              
+!
                 S6(1:6)=SIGSH(PT:PT+5,II)
                 CALL CG2LSIG(
      7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
@@ -314,7 +314,7 @@ C--- in global sys modifying directly SIGSH
      7           E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8           E1Z    ,E2Z   ,E3Z   ,S6    )
 C     
-                IF (NPG<4) S6(4:5)=ZERO 
+                IF (NPG<4) S6(4:5)=ZERO
                 FOR(I,1:5)=S6(1:5)
                 IF (L_PLA > 0) LBUF%PLA(I)=SIGSH(PT+12,II)
                 S6(1:6)=SIGSH(PT+6:PT+11,II)
@@ -346,9 +346,9 @@ C---MOM
 C-------npt>1          
             IF (NPG>1) THEN
               IF (IHBE == 23) THEN      !  QEPH-----
-                PT = 22 
-                PTN = 22 
-                IPT_ALL = 0           
+                PT = 22
+                PTN = 22
+                IPT_ALL = 0
                 DO ILAY=1,NLAY
                    NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
                    ILAW = ELBUF_STR%BUFLY(ILAY)%ILAW
@@ -369,12 +369,12 @@ C-------npt>1
                        PTN = PTN + 6
                      END DO !IT=1,NPG
                    ENDDO
-                   IPT_ALL = IPT_ALL +  NPTT         
+                   IPT_ALL = IPT_ALL +  NPTT
                 ENDDO
               ELSE
 C----------unlike QEPH, SIGSH can't be updated w/ reduced dim              
                 PT = 22 + 8*(IPG -1)
-                IPT_ALL = 0           
+                IPT_ALL = 0
                 DO ILAY=1,NLAY
                    NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
                    ILAW = ELBUF_STR%BUFLY(ILAY)%ILAW
@@ -389,19 +389,19 @@ C----------unlike QEPH, SIGSH can't be updated w/ reduced dim
      7                 E1X    ,E2X   ,E3X   ,E1Y   ,E2Y  ,E3Y,
      8                 E1Z    ,E2Z   ,E3Z   ,S6    )
 C---------no transvers shear for DKT
-                      IF (NPG<4) S6(4:5)=ZERO 
+                      IF (NPG<4) S6(4:5)=ZERO
                        CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                        LBUF%SIG(KK(1:5)+I) = S6(1:5)
                        IF (L_PLA > 0) LBUF%PLA(I) = SIGSH(PT+6,II)
                        POSI(I,IPT)=SIGSH(PT+7,II)
                        PT = PT + 8*NPG
                    ENDDO
-                   IPT_ALL = IPT_ALL +  NPTT         
+                   IPT_ALL = IPT_ALL +  NPTT
                 ENDDO
               END IF !(IHBE == 23)
             ELSE
 C------ Q4,T3 
-              IPT_ALL = 0           
+              IPT_ALL = 0
               DO ILAY=1,NLAY
                  NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
                  ILAW = ELBUF_STR%BUFLY(ILAY)%ILAW
@@ -420,7 +420,7 @@ C------ Q4,T3
                   CALL LOC2ORTH(S6,DIR_A,DIR_B,JJ,ILAW,IGTYP,NEL)
                   SIGSH(PT:PT+4,II) = S6(1:5)
                  ENDDO
-                 IPT_ALL = IPT_ALL +  NPTT         
+                 IPT_ALL = IPT_ALL +  NPTT
               ENDDO
             END IF
           END IF
@@ -689,11 +689,11 @@ c
               L_PLA = ELBUF_STR%BUFLY(ILAY)%L_PLA
               DO IT=1,NPTT
                 LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
-                LBUF%SIG(KK(1)+I) = SIGSH(22 +(IT-1)*6,II) 
-                LBUF%SIG(KK(2)+I) = SIGSH(23 +(IT-1)*6,II) 
-                LBUF%SIG(KK(3)+I) = SIGSH(24 +(IT-1)*6,II) 
-                LBUF%SIG(KK(4)+I) = SIGSH(25 +(IT-1)*6,II) 
-                LBUF%SIG(KK(5)+I) = SIGSH(26 +(IT-1)*6,II) 
+                LBUF%SIG(KK(1)+I) = SIGSH(22 +(IT-1)*6,II)
+                LBUF%SIG(KK(2)+I) = SIGSH(23 +(IT-1)*6,II)
+                LBUF%SIG(KK(3)+I) = SIGSH(24 +(IT-1)*6,II)
+                LBUF%SIG(KK(4)+I) = SIGSH(25 +(IT-1)*6,II)
+                LBUF%SIG(KK(5)+I) = SIGSH(26 +(IT-1)*6,II)
                 IF (L_PLA > 0) LBUF%PLA(I) = SIGSH(27+(IT-1)*6,II)
               ENDDO
             ENDDO
@@ -701,10 +701,10 @@ c
         ENDIF ! IF (IHBE == 23)
  100  CONTINUE
       ENDDO
-      CALL ANCMSG(MSGID=2020,                 
+      CALL ANCMSG(MSGID=2020,
      .            ANMODE=ANINFO_BLIND_2,
      .            MSGTYPE=MSGERROR,
-     .            PRMOD=MSG_PRINT)       
+     .            PRMOD=MSG_PRINT)
 C-----------
       RETURN
       END
@@ -726,12 +726,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   EPS(6),E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z  
+     .   EPS(6),E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
 C---------out EPS : exx,eyy,2exy,2eyz,2ezx,0
              TXX = EPS(1)
@@ -741,23 +741,23 @@ C---------out EPS : exx,eyy,2exy,2eyz,2ezx,0
              TYZ = EPS(5)
              TZX = EPS(6)
 C
-              A = E1X*TXX + E1Y*TXY + E1Z*TZX   
-              B = E1X*TXY + E1Y*TYY + E1Z*TYZ   
-              C = E1X*TZX + E1Y*TYZ + E1Z*TZZ   
-              UXX = A*E1X + B*E1Y + C*E1Z   
-              UXY = A*E2X + B*E2Y + C*E2Z 
-              UZX = A*E3X + B*E3Y + C*E3Z   
-              A = E2X*TXX + E2Y*TXY + E2Z*TZX   
-              B = E2X*TXY + E2Y*TYY + E2Z*TYZ   
-              C = E2X*TZX + E2Y*TYZ + E2Z*TZZ   
-              UYY = A*E2X + B*E2Y + C*E2Z   
-              UYZ = A*E3X + B*E3Y + C*E3Z   
-             EPS(1) = UXX  
-             EPS(2) = UYY  
-             EPS(3) = TWO*UXY 
-             EPS(4) = TWO*UYZ 
-             EPS(5) = TWO*UZX 
-             EPS(6) = ZERO 
+              A = E1X*TXX + E1Y*TXY + E1Z*TZX
+              B = E1X*TXY + E1Y*TYY + E1Z*TYZ
+              C = E1X*TZX + E1Y*TYZ + E1Z*TZZ
+              UXX = A*E1X + B*E1Y + C*E1Z
+              UXY = A*E2X + B*E2Y + C*E2Z
+              UZX = A*E3X + B*E3Y + C*E3Z
+              A = E2X*TXX + E2Y*TXY + E2Z*TZX
+              B = E2X*TXY + E2Y*TYY + E2Z*TYZ
+              C = E2X*TZX + E2Y*TYZ + E2Z*TZZ
+              UYY = A*E2X + B*E2Y + C*E2Z
+              UYZ = A*E3X + B*E3Y + C*E3Z
+             EPS(1) = UXX
+             EPS(2) = UYY
+             EPS(3) = TWO*UXY
+             EPS(4) = TWO*UYZ
+             EPS(5) = TWO*UZX
+             EPS(6) = ZERO
       RETURN
       END
 Chd|====================================================================
@@ -778,12 +778,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   SIG(6),E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z  
+     .   SIG(6),E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
 C---------out EPS : exx,eyy,exy,eyz,ezx,0
              TXX = SIG(1)
@@ -793,23 +793,23 @@ C---------out EPS : exx,eyy,exy,eyz,ezx,0
              TYZ = SIG(5)
              TZX = SIG(6)
 C
-              A = E1X*TXX + E1Y*TXY + E1Z*TZX   
-              B = E1X*TXY + E1Y*TYY + E1Z*TYZ   
-              C = E1X*TZX + E1Y*TYZ + E1Z*TZZ   
-              UXX = A*E1X + B*E1Y + C*E1Z   
-              UXY = A*E2X + B*E2Y + C*E2Z 
-              UZX = A*E3X + B*E3Y + C*E3Z   
-              A = E2X*TXX + E2Y*TXY + E2Z*TZX   
-              B = E2X*TXY + E2Y*TYY + E2Z*TYZ   
-              C = E2X*TZX + E2Y*TYZ + E2Z*TZZ   
-              UYY = A*E2X + B*E2Y + C*E2Z   
-              UYZ = A*E3X + B*E3Y + C*E3Z   
-             SIG(1) = UXX  
-             SIG(2) = UYY  
-             SIG(3) = UXY 
-             SIG(4) = UYZ 
-             SIG(5) = UZX 
-             SIG(6) = ZERO 
+              A = E1X*TXX + E1Y*TXY + E1Z*TZX
+              B = E1X*TXY + E1Y*TYY + E1Z*TYZ
+              C = E1X*TZX + E1Y*TYZ + E1Z*TZZ
+              UXX = A*E1X + B*E1Y + C*E1Z
+              UXY = A*E2X + B*E2Y + C*E2Z
+              UZX = A*E3X + B*E3Y + C*E3Z
+              A = E2X*TXX + E2Y*TXY + E2Z*TZX
+              B = E2X*TXY + E2Y*TYY + E2Z*TYZ
+              C = E2X*TZX + E2Y*TYZ + E2Z*TZZ
+              UYY = A*E2X + B*E2Y + C*E2Z
+              UYZ = A*E3X + B*E3Y + C*E3Z
+             SIG(1) = UXX
+             SIG(2) = UYY
+             SIG(3) = UXY
+             SIG(4) = UYZ
+             SIG(5) = UZX
+             SIG(6) = ZERO
       RETURN
       END
 Chd|====================================================================
@@ -845,19 +845,19 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   R1,R2,R3,S1,S2,S3,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
-     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3 
+     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3
 c------------------------------------------------
-          IF (IGTYP /= 1) THEN                                                     
+          IF (IGTYP /= 1) THEN
 c------------------------------------------------
-            IF (IGTYP == 16) THEN                                                  
+            IF (IGTYP == 16) THEN
 c
-            ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN           
+            ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN
 c                II = JDIR + I-1
-            ELSE                                                             
+            ELSE
               IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 19 .and. ILAW /= 27 .and. ILAW /= 32)
      .          CALL ROTOVS(TENS,DIR_A(II),DIR_A(II+NEL))
-            ENDIF                                                                  
-          ENDIF   ! IGTYP                                                          
+            ENDIF
+          ENDIF   ! IGTYP
 C
       RETURN
       END

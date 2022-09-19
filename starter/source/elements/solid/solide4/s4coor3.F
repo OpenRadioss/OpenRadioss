@@ -61,7 +61,7 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .   X1(*),X2(*),X3(*),X4(*),
      .   Y1(*),Y2(*),Y3(*),Y4(*),
-     .   Z1(*),Z2(*),Z3(*),Z4(*) 
+     .   Z1(*),Z2(*),Z3(*),Z4(*)
 C     REAL
       my_real
      .   X(3,*),XREFS(8,3,*)
@@ -147,18 +147,18 @@ C           renumber connectivity
             Y4(I) = XREFS(5,2,I)
             Z4(I) = XREFS(5,3,I)
           ENDIF
-          XREFS(1,1,I) = X1(I)  
-          XREFS(1,2,I) = Y1(I)  
-          XREFS(1,3,I) = Z1(I)  
-          XREFS(2,1,I) = X2(I)  
-          XREFS(2,2,I) = Y2(I)  
-          XREFS(2,3,I) = Z2(I)  
-          XREFS(3,1,I) = X3(I)  
-          XREFS(3,2,I) = Y3(I)  
-          XREFS(3,3,I) = Z3(I)  
-          XREFS(4,1,I) = X4(I)  
-          XREFS(4,2,I) = Y4(I)  
-          XREFS(4,3,I) = Z4(I)  
+          XREFS(1,1,I) = X1(I)
+          XREFS(1,2,I) = Y1(I)
+          XREFS(1,3,I) = Z1(I)
+          XREFS(2,1,I) = X2(I)
+          XREFS(2,2,I) = Y2(I)
+          XREFS(2,3,I) = Z2(I)
+          XREFS(3,1,I) = X3(I)
+          XREFS(3,2,I) = Y3(I)
+          XREFS(3,3,I) = Z3(I)
+          XREFS(4,1,I) = X4(I)
+          XREFS(4,2,I) = Y4(I)
+          XREFS(4,3,I) = Z4(I)
         ENDDO
       ENDIF
 C-----------

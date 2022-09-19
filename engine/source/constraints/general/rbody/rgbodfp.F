@@ -66,7 +66,7 @@ C     REAL
      .   STIFN(*),STIFR(*),FOPTA(6),IN(*),MS(*), V(3,*),
      .   FTHREAC(6,*)
       DOUBLE PRECISION RBF6(8,6)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FBSAV6(12,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -185,7 +185,7 @@ C
            RBF6(5,K) = RBF6(5,K) + F5(I)
            RBF6(6,K) = RBF6(6,K) + F6(I)
            RBF6(7,K) = RBF6(7,K) + F7(I)
-           RBF6(8,K) = RBF6(8,K) + F8(I) 
+           RBF6(8,K) = RBF6(8,K) + F8(I)
          END DO
        END IF
 c
@@ -374,7 +374,7 @@ C                0 D C
           II8=RBY(12)*RBY(8)
           II9=RBY(12)*RBY(9)
 C
-          RBY(17)=RBY(1)*II1 
+          RBY(17)=RBY(1)*II1
           RBY(21)=RBY(5)*II5 + RBY(8)*II8
           RBY(22)=RBY(5)*II6 + RBY(8)*II9
           RBY(23)=ZERO
@@ -709,7 +709,7 @@ C MATRICE d'inertie -> repere globale
           II8=RBY(12)*RBY(8)
           II9=RBY(12)*RBY(9)
 C
-          RBY(17)=RBY(1)*II1 
+          RBY(17)=RBY(1)*II1
           RBY(21)=RBY(5)*II5 + RBY(8)*II8
           RBY(22)=RBY(5)*II6 + RBY(8)*II9
           RBY(23)=ZERO

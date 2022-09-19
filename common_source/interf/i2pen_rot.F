@@ -56,7 +56,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   CS,SN,KSI
-      my_real 
+      my_real
      .   R(3),DWDU,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
@@ -67,9 +67,9 @@ C=======================================================================
 C
       IF (TT == ZERO) THEN
 C       rayon vecteur HS a TT=0, en coord locales 
-        SKEW(1) = RS(1)-RM(1)                                                         
-        SKEW(2) = RS(2)-RM(2)                                                           
-        SKEW(3) = RS(3)-RM(3)                                                          
+        SKEW(1) = RS(1)-RM(1)
+        SKEW(2) = RS(2)-RM(2)
+        SKEW(3) = RS(3)-RM(3)
       ENDIF
 C--------------------   
 C
@@ -80,24 +80,24 @@ C
       Y12=RY(1)*RY(1)
       Y22=RY(2)*RY(2)
       Y32=RY(3)*RY(3)
-      Y42=RY(4)*RY(4) 
-      Z12=RZ(1)*RZ(1)           
+      Y42=RY(4)*RY(4)
+      Z12=RZ(1)*RZ(1)
       Z22=RZ(2)*RZ(2)
-      Z32=RZ(3)*RZ(3)           
-      Z42=RZ(4)*RZ(4)           
-      XX=X12 + X22 + X32 + X42 
-      YY=Y12 + Y22 + Y32 + Y42 
-      ZZ=Z12 + Z22 + Z32 + Z42 
-      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4) 
-      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4) 
+      Z32=RZ(3)*RZ(3)
+      Z42=RZ(4)*RZ(4)
+      XX=X12 + X22 + X32 + X42
+      YY=Y12 + Y22 + Y32 + Y42
+      ZZ=Z12 + Z22 + Z32 + Z42
+      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4)
+      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4)
       ZX=RZ(1)*RX(1) + RZ(2)*RX(2) + RZ(3)*RX(3) + RZ(4)*RX(4)
       ZZZ=XX+YY
       XXX=YY+ZZ
-      YYY=ZZ+XX 
+      YYY=ZZ+XX
       XY2=XY*XY
       YZ2=YZ*YZ
       ZX2=ZX*ZX
-      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .                                     - TWO*XY*YZ*ZX
       DET=ONE/DET
       B1=ZZZ*YYY-YZ2
@@ -107,11 +107,11 @@ C
       C1=XXX*YZ+ZX*XY
       C2=YYY*ZX+XY*YZ
 C--------------------   
-      MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3) 
+      MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3)
      .    - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
-      MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1) 
+      MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1)
      .    - RX(1)*VA(3) - RX(2)*VB(3) - RX(3)*VC(3) - RX(4)*VD(3)
-      MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2) 
+      MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2)
      .    - RY(1)*VA(1) - RY(2)*VB(1) - RY(3)*VC(1) - RY(4)*VD(1)
       VRX=DET*(MGX*B1+MGY*C3+MGZ*C2)
       VRY=DET*(MGY*B2+MGZ*C1+MGX*C3)
@@ -175,7 +175,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   CS,SN,KSI
-      my_real 
+      my_real
      .   R(3),DWDU,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
@@ -193,24 +193,24 @@ C
       Y12=RY(1)*RY(1)
       Y22=RY(2)*RY(2)
       Y32=RY(3)*RY(3)
-      Y42=RY(4)*RY(4) 
-      Z12=RZ(1)*RZ(1)           
+      Y42=RY(4)*RY(4)
+      Z12=RZ(1)*RZ(1)
       Z22=RZ(2)*RZ(2)
-      Z32=RZ(3)*RZ(3)           
-      Z42=RZ(4)*RZ(4)           
-      XX=X12 + X22 + X32 + X42 
-      YY=Y12 + Y22 + Y32 + Y42 
-      ZZ=Z12 + Z22 + Z32 + Z42 
-      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4) 
-      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4) 
+      Z32=RZ(3)*RZ(3)
+      Z42=RZ(4)*RZ(4)
+      XX=X12 + X22 + X32 + X42
+      YY=Y12 + Y22 + Y32 + Y42
+      ZZ=Z12 + Z22 + Z32 + Z42
+      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4)
+      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4)
       ZX=RZ(1)*RX(1) + RZ(2)*RX(2) + RZ(3)*RX(3) + RZ(4)*RX(4)
       ZZZ=XX+YY
       XXX=YY+ZZ
-      YYY=ZZ+XX 
+      YYY=ZZ+XX
       XY2=XY*XY
       YZ2=YZ*YZ
       ZX2=ZX*ZX
-      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .                                     - TWO*XY*YZ*ZX
       DET=ONE/DET
       B1=ZZZ*YYY-YZ2
@@ -237,11 +237,11 @@ c     MRY = (ABS(B2)+ABS(C1)+ABS(C3))
 c     MRZ = (ABS(B3)+ABS(C2)+ABS(C1))
 C
 C--------------------   
-      MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3) 
+      MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3)
      .    - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
-      MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1) 
+      MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1)
      .    - RX(1)*VA(3) - RX(2)*VB(3) - RX(3)*VC(3) - RX(4)*VD(3)
-      MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2) 
+      MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2)
      .    - RY(1)*VA(1) - RY(2)*VB(1) - RY(3)*VC(1) - RY(4)*VD(1)
 C
       WLX=DET*(MGX*B1+MGY*C3+MGZ*C2)
@@ -301,7 +301,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   CS,SN,KSI
-      my_real 
+      my_real
      .   R(3),DWDU,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
@@ -312,9 +312,9 @@ C=======================================================================
 C
       IF (TT == ZERO) THEN
 C       rayon vecteur HS a TT=0, en coord locales 
-        SKEW(1) = RS(1)-RM(1)                                                         
-        SKEW(2) = RS(2)-RM(2)                                                           
-        SKEW(3) = RS(3)-RM(3)                                                          
+        SKEW(1) = RS(1)-RM(1)
+        SKEW(2) = RS(2)-RM(2)
+        SKEW(3) = RS(3)-RM(3)
       ENDIF
 C--------------------   
 C
@@ -325,24 +325,24 @@ C
       Y12=RY(1)*RY(1)
       Y22=RY(2)*RY(2)
       Y32=RY(3)*RY(3)
-      Y42=RY(4)*RY(4) 
-      Z12=RZ(1)*RZ(1)           
+      Y42=RY(4)*RY(4)
+      Z12=RZ(1)*RZ(1)
       Z22=RZ(2)*RZ(2)
-      Z32=RZ(3)*RZ(3)           
-      Z42=RZ(4)*RZ(4)           
-      XX=X12 + X22 + X32 + X42 
-      YY=Y12 + Y22 + Y32 + Y42 
-      ZZ=Z12 + Z22 + Z32 + Z42 
-      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4) 
-      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4) 
+      Z32=RZ(3)*RZ(3)
+      Z42=RZ(4)*RZ(4)
+      XX=X12 + X22 + X32 + X42
+      YY=Y12 + Y22 + Y32 + Y42
+      ZZ=Z12 + Z22 + Z32 + Z42
+      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4)
+      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4)
       ZX=RZ(1)*RX(1) + RZ(2)*RX(2) + RZ(3)*RX(3) + RZ(4)*RX(4)
       ZZZ=XX+YY
       XXX=YY+ZZ
-      YYY=ZZ+XX 
+      YYY=ZZ+XX
       XY2=XY*XY
       YZ2=YZ*YZ
       ZX2=ZX*ZX
-      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .                                     - TWO*XY*YZ*ZX
       DET=ONE/DET
       B1=ZZZ*YYY-YZ2
@@ -354,11 +354,11 @@ C
 C
       IF (IRODDL == 0 .OR. IN_SECND == ZERO) THEN
 C--    For solid secnd node VRM=VRS=Velocity rotation main segment 
-        MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3) 
+        MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3)
      .      - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
-        MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1) 
+        MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1)
      .      - RX(1)*VA(3) - RX(2)*VB(3) - RX(3)*VC(3) - RX(4)*VD(3)
-        MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2) 
+        MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2)
      .      - RY(1)*VA(1) - RY(2)*VB(1) - RY(3)*VC(1) - RY(4)*VD(1)
 C
         VRM(1)=DET*(MGX*B1+MGY*C3+MGZ*C2)
@@ -439,7 +439,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   CS,SN,KSI
-      my_real 
+      my_real
      .   R(3),DWDU,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
@@ -450,9 +450,9 @@ C=======================================================================
 C
       IF (TT == ZERO) THEN
 C       rayon vecteur HS a TT=0, en coord locales 
-        SKEW(1) = RS(1)-RM(1)                                                         
-        SKEW(2) = RS(2)-RM(2)                                                           
-        SKEW(3) = RS(3)-RM(3)                                                          
+        SKEW(1) = RS(1)-RM(1)
+        SKEW(2) = RS(2)-RM(2)
+        SKEW(3) = RS(3)-RM(3)
       ENDIF
 C--------------------   
 C
@@ -463,24 +463,24 @@ C
       Y12=RY(1)*RY(1)
       Y22=RY(2)*RY(2)
       Y32=RY(3)*RY(3)
-      Y42=RY(4)*RY(4) 
-      Z12=RZ(1)*RZ(1)           
+      Y42=RY(4)*RY(4)
+      Z12=RZ(1)*RZ(1)
       Z22=RZ(2)*RZ(2)
-      Z32=RZ(3)*RZ(3)           
-      Z42=RZ(4)*RZ(4)           
-      XX=X12 + X22 + X32 + X42 
-      YY=Y12 + Y22 + Y32 + Y42 
-      ZZ=Z12 + Z22 + Z32 + Z42 
-      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4) 
-      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4) 
+      Z32=RZ(3)*RZ(3)
+      Z42=RZ(4)*RZ(4)
+      XX=X12 + X22 + X32 + X42
+      YY=Y12 + Y22 + Y32 + Y42
+      ZZ=Z12 + Z22 + Z32 + Z42
+      XY=RX(1)*RY(1) + RX(2)*RY(2) + RX(3)*RY(3) + RX(4)*RY(4)
+      YZ=RY(1)*RZ(1) + RY(2)*RZ(2) + RY(3)*RZ(3) + RY(4)*RZ(4)
       ZX=RZ(1)*RX(1) + RZ(2)*RX(2) + RZ(3)*RX(3) + RZ(4)*RX(4)
       ZZZ=XX+YY
       XXX=YY+ZZ
-      YYY=ZZ+XX 
+      YYY=ZZ+XX
       XY2=XY*XY
       YZ2=YZ*YZ
       ZX2=ZX*ZX
-      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .                                     - TWO*XY*YZ*ZX
       DET=ONE/DET
       B1=ZZZ*YYY-YZ2
@@ -490,11 +490,11 @@ C
       C1=XXX*YZ+ZX*XY
       C2=YYY*ZX+XY*YZ
 C  
-      MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3) 
+      MGX = RY(1)*VA(3) + RY(2)*VB(3) + RY(3)*VC(3) + RY(4)*VD(3)
      .    - RZ(1)*VA(2) - RZ(2)*VB(2) - RZ(3)*VC(2) - RZ(4)*VD(2)
-      MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1) 
+      MGY = RZ(1)*VA(1) + RZ(2)*VB(1) + RZ(3)*VC(1) + RZ(4)*VD(1)
      .    - RX(1)*VA(3) - RX(2)*VB(3) - RX(3)*VC(3) - RX(4)*VD(3)
-      MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2) 
+      MGZ = RX(1)*VA(2) + RX(2)*VB(2) + RX(3)*VC(2) + RX(4)*VD(2)
      .    - RY(1)*VA(1) - RY(2)*VB(1) - RY(3)*VC(1) - RY(4)*VD(1)
 C
       VRM(1)=DET*(MGX*B1+MGY*C3+MGZ*C2)

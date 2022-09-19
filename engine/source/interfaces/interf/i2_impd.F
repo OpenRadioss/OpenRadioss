@@ -63,7 +63,7 @@ C-----------------------------------------------
        CALL INT2_IMP2(
      .  IPARI(1,N),INTBUF_TAB(N) ,X  ,MS  ,  IN,WEIGHT,
      .  NDOF      ,D    ,DR  )
-      ENDDO 
+      ENDDO
 C
       RETURN
       END

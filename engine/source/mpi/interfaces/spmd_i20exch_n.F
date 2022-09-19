@@ -73,7 +73,7 @@ C   Mise en place des buffers de reception
       DO I=1,NSPMD
          SIZ = 3*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
          IF(SIZ/=0) THEN
-           MSGTYP = MSGOFF 
+           MSGTYP = MSGOFF
            CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -100,7 +100,7 @@ C   Remplissage des buffers d'envoi et envoi des donnees
 
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
 
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(

@@ -27,7 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|====================================================================
-      SUBROUTINE ASSPAR3( 
+      SUBROUTINE ASSPAR3(
      2   A          ,AR         ,ITASK                 ,NODFT      ,
      3   NODLT      ,STIFN      ,STIFR      ,ITAB      ,FSKY       ,
      4   FSKYV      ,ISKY       ,INDSKY     ,FSKYI     ,
@@ -61,7 +61,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      my_real 
+      my_real
      .   A(3,*)   ,AR(3,*), STIFN(*), STIFR(*),FSKYV(LSKY,8),
      .   FSKYI(LSKYI,4),PARTSAV(*),FSKY(8,LSKY), MS(*),
      .   FTHE(*), FTHESKY(*),FTHESKYI(LSKYI),GRESAV(*)
@@ -73,8 +73,8 @@ C-----------------------------------------------
       INTEGER I,J,K,L,N,KK,J1,J2,JJ1,JJ2,NN,KM,NUM7,LL,
      .        NISKYFT,NISKYLT, LDONE,IDONE,NC,NL,IFT,ILT,KFT,KLT,
      .        K1,K2,K3,K4,K5,K6,K7,K8,K9,K0,I0,IBAR,KKK,NCT
-      my_real 
-     .        FF, FSKYT(NISKY), FTHESKYT(NISKY)  
+      my_real
+     .        FF, FSKYT(NISKY), FTHESKYT(NISKY)
       COMMON /ASSP2/ LDONE, IDONE, IBAR
 C-----------------------------------------------
       IF(NTHREAD*NISKY+NUMNOD+2>LENWA)THEN
@@ -116,7 +116,7 @@ C-----------------------------------------------
 #include "lockoff.inc"
 C
         DO I=1,NISKY
-          N = ISKY(I) +1 
+          N = ISKY(I) +1
           ADSKYI(N) = ADSKYI(N) + 1
         ENDDO
 C-----------------------------------------------
@@ -149,8 +149,8 @@ C-----------------------------------------------
       IF(IVECTOR==1) THEN
       I0=0
       DO  L=1,NBLOC
-       NC  = NBCOL(L) 
-       NL  = (ADBLOC(L+1)-ADBLOC(L))/NC                                         
+       NC  = NBCOL(L)
+       NL  = (ADBLOC(L+1)-ADBLOC(L))/NC
        DO 300 IFT = 0,NL-1,NVSIZ
 #include "lockon.inc"
          IF(NBDONE(L)>=IFT)THEN
@@ -176,7 +176,7 @@ C
                   FSKYV(KK,LL) = FSKYV(K,LL)
                   FSKYV(K,LL)  = FF
                 ENDIF
-              ENDDO         
+              ENDDO
             ENDDO
           ENDDO
          ELSE
@@ -188,16 +188,16 @@ C
                   FSKYV(KK,LL) = FSKYV(K,LL)
                   FSKYV(K,LL)  = FF
                 ENDIF
-              ENDDO 
+              ENDDO
               IF(FTHESKY(KK)<FTHESKY(K))THEN
                   FF = FTHESKY(KK)
                   FTHESKY(KK) = FTHESKY(K)
                   FTHESKY(K)  = FF
-              ENDIF            
+              ENDIF
             ENDDO
           ENDDO
-         ENDIF 
-                 
+         ENDIF
+
 C
          IF(ITHERM_FE == 0 ) THEN
           DO K=KKK,KKK+NC-1
@@ -217,7 +217,7 @@ C
             AR(1,N)  = AR(1,N)  + MIN(ZERO,FSKYV(K,4))
             AR(2,N)  = AR(2,N)  + MIN(ZERO,FSKYV(K,5))
             AR(3,N)  = AR(3,N)  + MIN(ZERO,FSKYV(K,6))
-          ENDDO 
+          ENDDO
          ELSE
           DO K=KKK,KKK+NC-1
            A(1,N)  = A(1,N)  + MAX(ZERO,FSKYV(K,1))
@@ -229,7 +229,7 @@ C
            STIFN(N) = STIFN(N) + MAX(ZERO,FSKYV(K,7))
            STIFR(N) = STIFR(N) + MAX(ZERO,FSKYV(K,8))
            FTHE(N)   = FTHE(N) + MAX(ZERO,FTHESKY(K))
-          ENDDO      
+          ENDDO
           DO K=KKK+NC-1,KKK,-1
            A(1,N)  = A(1,N)  + MIN(ZERO,FSKYV(K,1))
            A(2,N)  = A(2,N)  + MIN(ZERO,FSKYV(K,2))
@@ -239,7 +239,7 @@ C
            AR(3,N)  = AR(3,N)  + MIN(ZERO,FSKYV(K,6))
            FTHE(N)   = FTHE(N) + MIN(ZERO,FTHESKY(K))
           ENDDO
-         ENDIF          
+         ENDIF
 C
        ENDDO
  300   CONTINUE
@@ -251,7 +251,7 @@ C
          NC = INDSKY(N+1)-INDSKY(N)
          IF(ITHERM_FE == 0 )THEN
             DO K = NCT+1, NCT+NC-1
-              DO KK=NCT+2,NCT+NC 
+              DO KK=NCT+2,NCT+NC
                  DO LL=1,8
                    IF(FSKY(LL,KK)<FSKY(LL,K))THEN
                      FF = FSKY(LL,KK)
@@ -263,7 +263,7 @@ C
             ENDDO
           ELSE
             DO K = NCT+1, NCT+NC-1
-              DO KK=NCT+2,NCT+NC 
+              DO KK=NCT+2,NCT+NC
                  DO LL=1,8
                    IF(FSKY(LL,KK)<FSKY(LL,K))THEN
                      FF = FSKY(LL,KK)
@@ -275,10 +275,10 @@ C
                      FF = FTHESKY(KK)
                      FTHESKY(KK) = FTHESKY(K)
                      FTHESKY(K)  = FF
-                   ENDIF 
+                   ENDIF
                ENDDO
-            ENDDO 
-          ENDIF  
+            ENDDO
+          ENDIF
 C
          IF(ITHERM_FE == 0 ) THEN
            DO K=NCT+1, NCT+NC
@@ -308,8 +308,8 @@ C
             AR(2,N)  = AR(2,N)  + MAX(ZERO,FSKY(5,K))
             AR(3,N)  = AR(3,N)  + MAX(ZERO,FSKY(6,K))
             STIFN(N) = STIFN(N) + MAX(ZERO,FSKY(7,K))
-            STIFR(N) = STIFR(N) + MAX(ZERO,FSKY(8,K)) 
-            FTHE(N)   = FTHE(N) + MAX(ZERO,FTHESKY(K)) 
+            STIFR(N) = STIFR(N) + MAX(ZERO,FSKY(8,K))
+            FTHE(N)   = FTHE(N) + MAX(ZERO,FTHESKY(K))
            ENDDO
            DO K=NCT+NC, NCT+1,-1
             A(1,N)  = A(1,N)  + MIN(ZERO,FSKY(1,K))
@@ -318,9 +318,9 @@ C
             AR(1,N)  = AR(1,N)  + MIN(ZERO,FSKY(4,K))
             AR(2,N)  = AR(2,N)  + MIN(ZERO,FSKY(5,K))
             AR(3,N)  = AR(3,N)  + MIN(ZERO,FSKY(6,K))
-            FTHE(N)   = FTHE(N) + MIN(ZERO,FTHESKY(K)) 
-           ENDDO            
-          ENDIF       
+            FTHE(N)   = FTHE(N) + MIN(ZERO,FTHESKY(K))
+           ENDDO
+          ENDIF
 C
        ENDDO
       ENDIF
@@ -361,12 +361,12 @@ C
             IF(INTHEAT > 0 .AND. L == 1) THEN
               DO  I=1,NISKY
                J = ISKY(I)
-               FTHESKYT(J) = FTHESKYI(I)      
+               FTHESKYT(J) = FTHESKYI(I)
               ENDDO
               DO  I=1,NISKY
                 FTHESKYI(I) = FTHESKYT(I)
               ENDDO
-            ENDIF               
+            ENDIF
 C         
           ENDIF
       ENDDO
@@ -408,14 +408,14 @@ C +  la thermique
                 FSKYI(KK,LL) = FSKYI(K,LL)
                 FSKYI(K,LL)  = FF
               ENDIF
-             ENDDO 
+             ENDDO
              IF(FTHESKYI(KK) < FTHESKYI(K))THEN
                 FF = FTHESKYI(KK)
                 FTHESKYI(KK) = FTHESKYI(K)
                 FTHESKYI(K)  = FF
              ENDIF
             ENDDO
-           ENDDO       
+           ENDDO
          ENDIF
 C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES 
@@ -446,8 +446,8 @@ C + la thermique
             A(2,N)  = A(2,N)  + MIN(ZERO,FSKYI(K,2))
             A(3,N)  = A(3,N)  + MIN(ZERO,FSKYI(K,3))
             FTHE(N)  = FTHE(N)  + MIN(ZERO,FTHESKYI(K))
-          ENDDO          
-        ENDIF      
+          ENDDO
+        ENDIF
  800  CONTINUE
 C-----------------------------------------------
 C

@@ -62,9 +62,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE I22BUFBRIC_MOD
-      USE I22TRI_MOD 
-      USE ELBUFDEF_MOD 
-      USE ALEFVM_MOD          
+      USE I22TRI_MOD
+      USE ELBUFDEF_MOD
+      USE ALEFVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -106,12 +106,12 @@ C-----------------------------------------------
      .   UPW(1),REDUC,UPWL(6),MLN
       my_real :: RATIOFACE(6), VF(3), Norm(3,6), LNorm(6),TERM2
       INTEGER :: NBF,NBL, MCELL,MNOD,iNOD,NNOD(6),ICELLv,ICELLvv, numnod, numnodV
-      INTEGER,DIMENSION(:),   POINTER     :: pIsMain, pIsMainV  
+      INTEGER,DIMENSION(:),   POINTER     :: pIsMain, pIsMainV
       INTEGER,                POINTER     :: pNum, pNumv
-      TYPE(G_BUFEL_)  ,POINTER            :: GBUF   
+      TYPE(G_BUFEL_)  ,POINTER            :: GBUF
       my_real                             :: AREA , BAK , PHI , SGN, FACE , Z(3), Zadj(3), ZZadj_, CF(3), ZCf(3),ZZadj(3)
       my_real                             :: PS, LAMBDA
-      INTEGER,POINTER                     :: pMainID, pMainIDv 
+      INTEGER,POINTER                     :: pMainID, pMainIDv
       INTEGER                             :: NUM, NADJ, IADJ, JV, NG, IE_M, IEm, IBm
       my_real                             :: FACEv, DDVOL, VALEL(6), VALVOIS(6,6,5), SR1, SR2, SRF
       LOGICAL debug_outp,bFOUND
@@ -119,14 +119,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n 
 C-----------------------------------------------
-      IF(INT22==0)RETURN      
+      IF(INT22==0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
 
       !======================================================!
       ! INITIALIZATIONS                                      !
-      !======================================================! 
+      !======================================================!
       NIN = 1
       NBF = 1+ITASK*NB/NTHREAD
       NBL = (ITASK+1)*NB/NTHREAD
@@ -134,7 +134,7 @@ C-----------------------------------------------
 
       !======================================================!
       ! DEBUG OUTPUT                                         !
-      !======================================================!             
+      !======================================================!
       !INTERFACE 22 ONLY - OUTPUT---------------!
       debug_outp = .false.
       if(ibug22_flux22/=0)then
@@ -151,80 +151,80 @@ C-----------------------------------------------
       if(debug_outp .AND. ITASK==0)then
         print *, "    |---------eflux3_int22_fvm.F---------|"
         print *, "    |       THREAD INFORMATION           |"
-        print *, "    |------------------------------------|" 
-        print *, "    NCYCLE  =", NCYCLE    
+        print *, "    |------------------------------------|"
+        print *, "    NCYCLE  =", NCYCLE
       endif
-      !INTERFACE 22 ONLY - OUTPUT---------------!      
+      !INTERFACE 22 ONLY - OUTPUT---------------!
 
 
 
       !======================================================!
       ! STEP A : CUT CELL FLUXES                             !
       !    A.1 : main & SECND CELLS FLUXES                 !
-      !======================================================!        
-      DO IB=NBF,NBL  
-        IE                =  BRICK_LIST(NIN,IB)%ID 
-        MLW               =  BRICK_LIST(NIN,IB)%MLW               
-        NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-        MCELL             =  BRICK_LIST(NIN,IB)%MainID       
-        ICELL             =  0  
-        
+      !======================================================!
+      DO IB=NBF,NBL
+        IE                =  BRICK_LIST(NIN,IB)%ID
+        MLW               =  BRICK_LIST(NIN,IB)%MLW
+        NCELL             =  BRICK_LIST(NIN,IB)%NBCUT
+        MCELL             =  BRICK_LIST(NIN,IB)%MainID
+        ICELL             =  0
+
         !======================================================!
         ! RESET FLUXES                                         !
         !======================================================!
         FLUX(1:6,IE) = ZERO
         FLU1(IE)     = ZERO
-        
+
         !======================================================!
         ! NORMAL VECTORS ON EACH DACE                          !
-        !    2S[n] = [diag1] x [diag2]                         ! 
+        !    2S[n] = [diag1] x [diag2]                         !
         !    where                                             !
         !      [n] : unitary normal vector on face             !
         !======================================================!
         Norm(1,1:6)   = BRICK_LIST(NIN,IB)%N(1:6,1) !VEUL(14:19,IE)
         Norm(2,1:6)   = BRICK_LIST(NIN,IB)%N(1:6,2) !VEUL(20:25,IE)
-        Norm(3,1:6)   = BRICK_LIST(NIN,IB)%N(1:6,3) !VEUL(26:31,IE) 
+        Norm(3,1:6)   = BRICK_LIST(NIN,IB)%N(1:6,3) !VEUL(26:31,IE)
         DO J=1,NV46
           LNorm(J)    = SQRT( Norm(1,J)**2 +  Norm(2,J)**2 + Norm(3,J)**2 )
           Norm(1:3,J) = Norm(1:3,J) / LNorm(J)
         ENDDO
-        
+
         !======================================================!
         !COMPUTES LOCAL(VALEL) AND ADJACENT (VALVOIS) MOMENTUMS!
-        !======================================================!        
+        !======================================================!
         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL      = ICELL +1
           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
           NBCUT                         = BRICK_LIST(NIN,IB)%NBCUT
           Jm                            = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
-          IEm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3) 
-          IBm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)          
+          IEm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3)
+          IBm                           = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
           IDm                           = BRICK_LIST(NIN,IBm)%ID
           NGm                           = BRICK_LIST(NIN,IBm)%NG
-          GBUF                          =>ELBUF_TAB(NGm)%GBUF                                
+          GBUF                          =>ELBUF_TAB(NGm)%GBUF
           VALEL(1)                      = FCELL(1,IEm) !rho.ux
           VALEL(2)                      = FCELL(2,IEm) !rho.uy
           VALEL(3)                      = FCELL(3,IEm) !rho.uz
           VALEL(4)                      = FCELL(4,IEm) !rho
           VALEL(5)                      = FCELL(5,IEm) !ssp
-          VALEL(6)                      = FCELL(6,IEm) !P  
-          SR1                           = SQRT(VALEL(4))     
+          VALEL(6)                      = FCELL(6,IEm) !P
+          SR1                           = SQRT(VALEL(4))
           DO J=1,NV46
             NAdj                        = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%NAdjCell
-            IEv                         = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1) 
+            IEv                         = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1)
             IBv                         = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
             Jv                          = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)
-            cellFLUX(J,ICELL,IB,1:5)    = ZERO             
+            cellFLUX(J,ICELL,IB,1:5)    = ZERO
             DO IADJ=1,NAdj
               ICELLv                    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)
               IF(ICELLv==0)THEN
-                VALVOIS(J,1:3,IADj)     = -VALEL(1:3)  
-                VALVOIS(J,4,IADj)       =  VALEL(4)                  
+                VALVOIS(J,1:3,IADj)     = -VALEL(1:3)
+                VALVOIS(J,4,IADj)       =  VALEL(4)
               ELSE
-                !IF INSIDE CUT CELL                
+                !IF INSIDE CUT CELL
                 IF(IBv/=0)THEN
                   IEvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(3)
-                  IBvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4) 
+                  IBvm                    = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%WhereIsMain(4)
                   NGvm                    = BRICK_LIST(NIN,IBvm)%NG
                   IDvm                    = BRICK_LIST(NIN,IBvm)%IDLOC
                   VALVOIS(J,1,IADj)       = FCELL(1,IEvm)
@@ -239,9 +239,9 @@ C-----------------------------------------------
                   VALVOIS(J,2,IADj)       = FCELL(2,IEv)
                   VALVOIS(J,3,IADj)       = FCELL(3,IEv)
                   VALVOIS(J,4,IADj)       = FCELL(4,IEv)
-                  VALVOIS(J,5,IADj)       = FCELL(5,IEv)  
-                  VALVOIS(J,6,IADj)       = FCELL(6,IEv)                                  
-                ENDIF                                             
+                  VALVOIS(J,5,IADj)       = FCELL(5,IEv)
+                  VALVOIS(J,6,IADj)       = FCELL(6,IEv)
+                ENDIF
               ENDIF
               SR2                         = SQRT(VALVOIS(J,4,IADj))
               !======================================================!
@@ -250,53 +250,53 @@ C-----------------------------------------------
               IMAT                          = IXS(1,IE)
               IALEFVM_FLG                   = IPM(251,IMAT)
               IF(IALEFVM_IFORM/=0)IALEFVM_FLG = IALEFVM_IFORM !for debug purpose if set in alefvm_init.F
-              
-              
+
+
               SELECT CASE(I_ALE_SOLVER)
                 CASE(1)
-                  !CENTERED FVM - U average              
+                  !CENTERED FVM - U average
                   VF(1)                     = HALF * (VALEL(1)/VALEL(4)+VALVOIS(J,1,IADj)/VALVOIS(J,4,IADj))
                   VF(2)                     = HALF * (VALEL(2)/VALEL(4)+VALVOIS(J,2,IADj)/VALVOIS(J,4,IADj))
-                  VF(3)                     = HALF * (VALEL(3)/VALEL(4)+VALVOIS(J,3,IADj)/VALVOIS(J,4,IADj))                         
+                  VF(3)                     = HALF * (VALEL(3)/VALEL(4)+VALVOIS(J,3,IADj)/VALVOIS(J,4,IADj))
                 CASE(2)
-                  !CENTERED FVM - rho.U average              
+                  !CENTERED FVM - rho.U average
                   VF(1)                     = (VALEL(1)+VALVOIS(J,1,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
                   VF(2)                     = (VALEL(2)+VALVOIS(J,2,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
-                  VF(3)                     = (VALEL(3)+VALVOIS(J,3,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))                                             
+                  VF(3)                     = (VALEL(3)+VALVOIS(J,3,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
                 CASE(3)
-                  !CENTERED FVM - Roe-average             
+                  !CENTERED FVM - Roe-average
                   VF(1)                     = (VALEL(1)/SR1+VALVOIS(J,1,IADj)/SR2)/(SR1+SR2)
                   VF(2)                     = (VALEL(2)/SR1+VALVOIS(J,2,IADj)/SR2)/(SR1+SR2)
-                  VF(3)                     = (VALEL(3)/SR1+VALVOIS(J,3,IADj)/SR2)/(SR1+SR2)                                         
+                  VF(3)                     = (VALEL(3)/SR1+VALVOIS(J,3,IADj)/SR2)/(SR1+SR2)
                 CASE(4)
                   IF(DT1==ZERO)THEN
-                    VF(1)                     = (VALEL(1)         +VALVOIS(J,1,IADj)                 ) 
+                    VF(1)                     = (VALEL(1)         +VALVOIS(J,1,IADj)                 )
      .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 )
                     VF(2)                     = (VALEL(2)         +VALVOIS(J,2,IADj)                 )
      .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 )
                     VF(3)                     = (VALEL(3)         +VALVOIS(J,3,IADj)                 )
-     .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 ) 
-                  ELSE                
-                
-                  !CENTERED FVM - rho.c.U average              
+     .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 )
+                  ELSE
+
+                  !CENTERED FVM - rho.c.U average
                   VF(1)                     = (VALEL(1)*VALEL(5)+VALVOIS(J,1,IADj)*VALVOIS(J,5,IADj))
      .                                       /(VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj))
                   VF(2)                     = (VALEL(2)*VALEL(5)+VALVOIS(J,2,IADj)*VALVOIS(J,5,IADj))
      .                                       /(VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj))
                   VF(3)                     = (VALEL(3)*VALEL(5)+VALVOIS(J,3,IADj)*VALVOIS(J,5,IADj))
      .                                       /(VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj))
-     
+
                   ENDIF
-                              
+
                 CASE(5)
                   !Godunoc/Riemann Acoustic
                   IF(DT1==ZERO)THEN
-                    VF(1)                     = (VALEL(1)         +VALVOIS(J,1,IADj)                 ) 
+                    VF(1)                     = (VALEL(1)         +VALVOIS(J,1,IADj)                 )
      .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 )
                     VF(2)                     = (VALEL(2)         +VALVOIS(J,2,IADj)                 )
      .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 )
                     VF(3)                     = (VALEL(3)         +VALVOIS(J,3,IADj)                 )
-     .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 ) 
+     .                                         /(VALEL(4)         +VALVOIS(J,4,IADj)                 )
                   ELSE
                     TERM2 = ( VALEL(6)-VALVOIS(J,6,IADj) )/ (VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj))
                     VF(1)                     = (VALEL(1)*VALEL(5)+VALVOIS(J,1,IADj)*VALVOIS(J,5,IADj))
@@ -304,68 +304,68 @@ C-----------------------------------------------
                     VF(2)                     = (VALEL(2)*VALEL(5)+VALVOIS(J,2,IADj)*VALVOIS(J,5,IADj))
      .                                         /(VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj)) + TERM2 *Norm(2,J)
                     VF(3)                     = (VALEL(3)*VALEL(5)+VALVOIS(J,3,IADj)*VALVOIS(J,5,IADj))
-     .                                         /(VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj)) + TERM2 *Norm(3,J)   
-                  ENDIF                         
-                CASE(6)              
+     .                                         /(VALEL(4)*VALEL(5)+VALVOIS(J,4,IADj)*VALVOIS(J,5,IADj)) + TERM2 *Norm(3,J)
+                  ENDIF
+                CASE(6)
                   Z(1:3)                    = BRICK_LIST(NIN,IBm)%SCellCenter(1:3)
                   IF(IBv /=0)THEN
                     Zadj(1:3)               = BRICK_LIST(NIN,IBvm)%ScellCenter(1:3)
                   ELSE
-                    NC(1)                   = IXS(2,IEv)    
-                    NC(2)                   = IXS(3,IEv)    
-                    NC(3)                   = IXS(4,IEv)    
-                    NC(4)                   = IXS(5,IEv)    
-                    NC(5)                   = IXS(6,IEv)    
-                    NC(6)                   = IXS(7,IEv)    
-                    NC(7)                   = IXS(8,IEv)    
-                    NC(8)                   = IXS(9,IEv)    
-                    Zadj(1)                 = ONE_OVER_8*SUM(X(1,NC(1:8)))          
-                    Zadj(2)                 = ONE_OVER_8*SUM(X(2,NC(1:8)))          
-                    Zadj(3)                 = ONE_OVER_8*SUM(X(3,NC(1:8)))          
+                    NC(1)                   = IXS(2,IEv)
+                    NC(2)                   = IXS(3,IEv)
+                    NC(3)                   = IXS(4,IEv)
+                    NC(4)                   = IXS(5,IEv)
+                    NC(5)                   = IXS(6,IEv)
+                    NC(6)                   = IXS(7,IEv)
+                    NC(7)                   = IXS(8,IEv)
+                    NC(8)                   = IXS(9,IEv)
+                    Zadj(1)                 = ONE_OVER_8*SUM(X(1,NC(1:8)))
+                    Zadj(2)                 = ONE_OVER_8*SUM(X(2,NC(1:8)))
+                    Zadj(3)                 = ONE_OVER_8*SUM(X(3,NC(1:8)))
                   ENDIF
-                  
+
                   CF(1:3)                   = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Center(1:3)
                   IF(IBv /= 0)THEN
                     FACE                    = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
-                    FACEv                   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf 
+                    FACEv                   = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf
                     IF(FACEv<FACE) CF(1:3) = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Center(1:3)
                   ENDIF
-                  ZZadj(1)                  = Zadj(1)-Z(1)                                            
-                  ZZadj(2)                  = Zadj(2)-Z(2)                                            
-                  ZZadj(3)                  = Zadj(3)-Z(3)                                            
-                  ZCf(1)                    = Cf(1) - Z(1)                                          
-                  ZCf(2)                    = Cf(2) - Z(2)                                          
-                  ZCf(3)                    = Cf(3) - Z(3)                                          
-                  PS                        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)     
-                  ZZadj_                    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2                 
-                  LAMBDA                    = PS / MAX(EM20,ZZadj_)                                   
-                  IF(lambda<ZERO .OR. lambda >ONE)then                          
-                    print *, "labmda=", lambda                                       
-c                   pause                                                            
-                  endif                                                              
-                  LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , ONE)                             
-                  LAMBDA                    = SIN(HALF*3.14159265358979D00*LAMBDA)                 
-                  LAMBDA                    = LAMBDA * LAMBDA                                        
-                  !face density                                                                      
-                  SR1                       = VALEL(4)                                             
-                  SR2                       = VALVOIS(J,4,IADj)                                         
-                  SRF                       = SR1 + LAMBDA*(SR2-SR1)                                 
-                  !face momentum density                                                             
-                  VF(1)                     = VALEL(1) + LAMBDA*(VALVOIS(J,1,IADj)-VALEL(1))            
-                  VF(2)                     = VALEL(2) + LAMBDA*(VALVOIS(J,2,IADj)-VALEL(2))            
-                  VF(3)                     = VALEL(3) + LAMBDA*(VALVOIS(J,3,IADj)-VALEL(3))            
-                  !face velocity                                                                     
-                  VF(1)                     = VF(1) / SRF                                         
-                  VF(2)                     = VF(2) / SRF                                         
-                  VF(3)                     = VF(3) / SRF                                         
+                  ZZadj(1)                  = Zadj(1)-Z(1)
+                  ZZadj(2)                  = Zadj(2)-Z(2)
+                  ZZadj(3)                  = Zadj(3)-Z(3)
+                  ZCf(1)                    = Cf(1) - Z(1)
+                  ZCf(2)                    = Cf(2) - Z(2)
+                  ZCf(3)                    = Cf(3) - Z(3)
+                  PS                        = ZCf(1)*ZZadj(1) + ZCf(2)*ZZadj(2) + ZCf(3)*ZZadj(3)
+                  ZZadj_                    = ZZadj(1)**2 + ZZadj(2)**2 + ZZadj(3)**2
+                  LAMBDA                    = PS / MAX(EM20,ZZadj_)
+                  IF(lambda<ZERO .OR. lambda >ONE)then
+                    print *, "labmda=", lambda
+c                   pause
+                  endif
+                  LAMBDA                    = MIN(MAX(ZERO,LAMBDA) , ONE)
+                  LAMBDA                    = SIN(HALF*3.14159265358979D00*LAMBDA)
+                  LAMBDA                    = LAMBDA * LAMBDA
+                  !face density
+                  SR1                       = VALEL(4)
+                  SR2                       = VALVOIS(J,4,IADj)
+                  SRF                       = SR1 + LAMBDA*(SR2-SR1)
+                  !face momentum density
+                  VF(1)                     = VALEL(1) + LAMBDA*(VALVOIS(J,1,IADj)-VALEL(1))
+                  VF(2)                     = VALEL(2) + LAMBDA*(VALVOIS(J,2,IADj)-VALEL(2))
+                  VF(3)                     = VALEL(3) + LAMBDA*(VALVOIS(J,3,IADj)-VALEL(3))
+                  !face velocity
+                  VF(1)                     = VF(1) / SRF
+                  VF(2)                     = VF(2) / SRF
+                  VF(3)                     = VF(3) / SRF
                   !CASE(2) gives
                   !VF(1)                     = (VALEL(1)+VALVOIS(J,1,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
                   !VF(2)                     = (VALEL(2)+VALVOIS(J,2,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
-                  !VF(3)                     = (VALEL(3)+VALVOIS(J,3,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))                   
+                  !VF(3)                     = (VALEL(3)+VALVOIS(J,3,IADj))/(VALEL(4)+VALVOIS(J,4,IADj))
               END SELECT
-              
-              
-              cellFLUX(J,ICELL,IB,IADj)      = (VF(1)*Norm(1,J) + VF(2)*Norm(2,J) + VF(3)*Norm(3,J)) 
+
+
+              cellFLUX(J,ICELL,IB,IADj)      = (VF(1)*Norm(1,J) + VF(2)*Norm(2,J) + VF(3)*Norm(3,J))
              !if(ncycle>=1 )then
              !if(ixs(11,ie)==1802081 )then
              ! print *, "brick   =", ixs(11,ie)
@@ -381,21 +381,21 @@ c                   pause
              ! print *, "FCELL   =", FCELL(1:4,IEvm)
              !endif
              !endif
-              
+
               BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(1) = VF(1)
               BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(2) = VF(2)
-              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(3) = VF(3)  
-                       
-                           
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Vel(3) = VF(3)
+
+
               !======================================================!
               ! REDUCTION FACTOR FOR POLYHEDRA FACES                 !
-              !======================================================!   
+              !======================================================!
               !facette non communicante
               NUMNOD                        = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
               K                             = 0
-              DO L=1,NUMNOD                                     
-                iNOD                        = BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(L)               
-                IF(IsNodeOnFace(iNOD,J))K   = K +1                         
+              DO L=1,NUMNOD
+                iNOD                        = BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(L)
+                IF(IsNodeOnFace(iNOD,J))K   = K +1
               ENDDO
               Face                          = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf
               IF(IBv==0)THEN
@@ -404,36 +404,36 @@ c                   pause
                 NUMNODv                     = 8
                 Kv                          = 1
               ELSE
-                FaceV                       = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf 
+                FaceV                       = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%FACE(Jv)%Surf
                 NUMNOD                      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%NumNOD
                 Kv                          = 0
-                DO L=1,NUMNOD                                     
-                  iNOD                      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(L)               
-                  IF(IsNodeOnFace(iNOD,Jv))Kv= Kv +1                         
-                ENDDO   
+                DO L=1,NUMNOD
+                  iNOD                      = BRICK_LIST(NIN,IBv)%POLY(ICELLv)%ListNodID(L)
+                  IF(IsNodeOnFace(iNOD,Jv))Kv= Kv +1
+                ENDDO
               ENDIF
               Face                          = min(Face,FaceV)
               If(K==0 .OR. Kv==0) Face = ZERO !facette non communicante si pas de noeud de brique.
               IF(IBv/=0 .AND. IBm==IBvm) Face=ZERO         !blocage flux entre le main et son escalve
               cellFLUX(J,ICELL,IB,IADj)     = Face * cellFLUX(J,ICELL,IB,IADj)
-!              write (*,FMT='(5I10,E30.16)') ixs(11,IE), J,ICELL,IB,IADj, Face 
+!              write (*,FMT='(5I10,E30.16)') ixs(11,IE), J,ICELL,IB,IADj, Face
               brick_list(nin,ib)%POLY(icell)%FACE(j)%Adjacent_FLUX(iadj) = cellFLUX(J,ICELL,IB,IADj)
             ENDDO!next IADj
           ENDDO!next J
         ENDDO!next ICELL
       ENDDO!next IB
 
-      !======================================================!                             
-      ! debug output                                         !                             
-      !======================================================!                             
-      if(debug_outp)then    
+      !======================================================!
+      ! debug output                                         !
+      !======================================================!
+      if(debug_outp)then
       call my_barrier
-        if(itask==0)then                                                               
-        if(ibug22_flux22>0 .OR. ibug22_flux22==-1)then                     
-          print *, "    |------e22flux3_int22_fvm.F------|"  
-          do ib=1,nb                                                    
-            ie = brick_list(nin,ib)%Id 
-            if (ibug22_flux22>0 .and. ibug22_flux22/= ixs(11,ie))CYCLE 
+        if(itask==0)then
+        if(ibug22_flux22>0 .OR. ibug22_flux22==-1)then
+          print *, "    |------e22flux3_int22_fvm.F------|"
+          do ib=1,nb
+            ie = brick_list(nin,ib)%Id
+            if (ibug22_flux22>0 .and. ibug22_flux22/= ixs(11,ie))CYCLE
             icell = 0
             ncell = brick_list(nin,ib)%nbcut
             mcell = brick_list(nin,ib)%mainid
@@ -441,59 +441,59 @@ c                   pause
             DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
               ICELL      = ICELL +1
               IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
-              !print *, "      brique     =", ixs(11,ie)      
-              !print *, "          id     =", brick_list(nin,ib)%id                                      
-              !print *, "      NCYCLE     =", NCYCLE                                              
-              !print *, "       icell     =", ICELL                                               
-              !print *, "      _mcell     =", mcell                                               
-              !print *, "       nbcut     =", NBCUT                                               
-              do i=1,6                    
-                NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(i)%NAdjCell  
+              !print *, "      brique     =", ixs(11,ie)
+              !print *, "          id     =", brick_list(nin,ib)%id
+              !print *, "      NCYCLE     =", NCYCLE
+              !print *, "       icell     =", ICELL
+              !print *, "      _mcell     =", mcell
+              !print *, "       nbcut     =", NBCUT
+              do i=1,6
+                NADJ = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(i)%NAdjCell
                 !do k=1,NADJ
-                !IF(ABS(cellFLUX(i,ICELL,IB,K))<=EM20)   cellFLUX(i,ICELL,IB,K) = ZERO 
+                !IF(ABS(cellFLUX(i,ICELL,IB,K))<=EM20)   cellFLUX(i,ICELL,IB,K) = ZERO
                 !enddo
-                                                                         
+
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(1)%Adjacent_FLUX(1:Nadj)
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(2)%Adjacent_FLUX(1:Nadj)
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(3)%Adjacent_FLUX(1:Nadj)
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(4)%Adjacent_FLUX(1:Nadj)
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(5)%Adjacent_FLUX(1:Nadj)
 !         write (*,FMT='(A,I10,A,5E26.14)') "        phi(1:5,",i,")=", brick_list(nin,ib)%POLY(icell)%FACE(6)%Adjacent_FLUX(1:Nadj)
-         
+
 !                write (*,FMT='(A,6E26.14)')       "        vel-x         =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Vel(1)
 !                write (*,FMT='(A,6E26.14)')       "        vel-y         =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Vel(2)
 !                write (*,FMT='(A,6E26.14)')       "        vel-z         =", BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Vel(3)
 !                write (*,FMT='(A,6E26.14)')       "          N-x         =", BRICK_LIST(NIN,IB)%N(1:6,1)
 !                write (*,FMT='(A,6E26.14)')       "          N-y         =", BRICK_LIST(NIN,IB)%N(1:6,2)
 !                write (*,FMT='(A,6E26.14)')       "          N-z         =", BRICK_LIST(NIN,IB)%N(1:6,3)
-              enddo 
+              enddo
             enddo! next ICELL
           enddo!next IB
-          print *, "    ------------------------"                                            
-        endif  
-        endif                                                                              
-      endif                                                                                
-        
+          print *, "    ------------------------"
+        endif
+        endif
+      endif
+
       !======================================================!
 
 
       !==============!
       CALL MY_BARRIER
       !==============!
-              
+
       !======================================================!
       ! STEP B : NON COFORM MESH                             !
       !    USE CONSISTENT FLUX                               !
-      !======================================================!        
-      DO IB=NBF,NBL  
-        IE                =  BRICK_LIST(NIN,IB)%ID 
-        MLW               =  BRICK_LIST(NIN,IB)%MLW               
-        NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-        MCELL             =  BRICK_LIST(NIN,IB)%MainID       
-        ICELL             =  0  
+      !======================================================!
+      DO IB=NBF,NBL
+        IE                =  BRICK_LIST(NIN,IB)%ID
+        MLW               =  BRICK_LIST(NIN,IB)%MLW
+        NCELL             =  BRICK_LIST(NIN,IB)%NBCUT
+        MCELL             =  BRICK_LIST(NIN,IB)%MainID
+        ICELL             =  0
         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
           ICELL = ICELL +1
-          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9 
+          IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
           DO J=1,6
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (1)  = ZERO
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (2)  = ZERO
@@ -501,13 +501,13 @@ c                   pause
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (4)  = ZERO
           BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX (5)  = ZERO
           ENDDO!next J
-          
+
           BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1         = ZERO
           !======================================================!
-          !  MONOMATERIAL UPWIND TREATMENT                       !          
-          !======================================================!          
+          !  MONOMATERIAL UPWIND TREATMENT                       !
+          !======================================================!
           IE_M      = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(3)
-          MAT       = IXS(1,IE_M)               
+          MAT       = IXS(1,IE_M)
           UPWL(1:6) = PM(16,MAT)
           REDUC     = PM(92,MAT)
           DDVOL     = ZERO
@@ -518,7 +518,7 @@ c                   pause
             DO IADJ = 1,NADJ
               IDV    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,1)
               IBv    = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,4)
-              Jv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)              
+              Jv     = BRICK_LIST(NIN,IB)%Adjacent_Brick(J,5)
               ICELLv = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_Cell(IADJ)
               IF(IDV==0)THEN
                cellFLUX(J,ICELL,IB,IADJ)=cellFLUX(J,ICELL,IB,IADJ)*REDUC
@@ -529,21 +529,21 @@ c                   pause
                  UPWL(J)=ONE
                  cellFLUX(J,ICELL,IB,IADJ)=cellFLUX(J,ICELL,IB,IADJ)*PM(92,IXS(1,IDV))
                ENDIF
-              ENDIF 
-              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ) = 
+              ENDIF
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Adjacent_upwFLUX(IADJ) =
      .         cellFLUX(J,ICELL,IB,IADJ)-UPWL(J)*ABS(cellFLUX(J,ICELL,IB,IADJ))
-              BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 = 
+              BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 =
      .        BRICK_LIST(NIN,IB)%POLY(ICELL)%Adjacent_FLU1 + cellFLUX(J,ICELL,IB,IADJ)+UPWL(J)*ABS(cellFLUX(J,ICELL,IB,IADJ))
               !-----DDVOL
-              DDVOL = DDVOL + cellFLUX(J,ICELL,IB,IADJ) 
-              !-----DDVOL*DT IS SUM FOR INCOMING AND OUTCOMING VOLUMES             
+              DDVOL = DDVOL + cellFLUX(J,ICELL,IB,IADJ)
+              !-----DDVOL*DT IS SUM FOR INCOMING AND OUTCOMING VOLUMES
             ENDDO!next IADJ
           ENDDO!next J
-          
-          BRICK_LIST(NIN,IB)%POLY(ICELL)%DDVOL = DDVOL          
 
-          !======================================================!                  
-        ENDDO!next ICELL                                                               
+          BRICK_LIST(NIN,IB)%POLY(ICELL)%DDVOL = DDVOL
+
+          !======================================================!
+        ENDDO!next ICELL
       ENDDO!next IB
 
       !==============!
@@ -553,24 +553,24 @@ c                   pause
       !---------------------------------------------------------!
       ! SECND CELLS STACK                                       !
       !---------------------------------------------------------!
-      !STACK Secnd cells values from ones connected to current main cell  
-      IF(INT22>0)THEN                                                       
-        NIN = 1                                                             
-        DO IB=NBF,NBL                                                                                                        
-          MLW   =  BRICK_LIST(NIN,IB)%MLW              
-          NUM   = BRICK_LIST(NIN,IB)%SecndList%Num                          
-          MCELL = BRICK_LIST(NIN,IB)%mainID      
-          DDVOL = ZERO 
-          DO K=1,NUM                                                        
-            IBV    = BRICK_LIST(NIN,IB)%SecndList%IBV(K)                    
-            ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)                 
-            DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL 
-          ENDDO                                                             
-          DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL 
+      !STACK Secnd cells values from ones connected to current main cell
+      IF(INT22>0)THEN
+        NIN = 1
+        DO IB=NBF,NBL
+          MLW   =  BRICK_LIST(NIN,IB)%MLW
+          NUM   = BRICK_LIST(NIN,IB)%SecndList%Num
+          MCELL = BRICK_LIST(NIN,IB)%mainID
+          DDVOL = ZERO
+          DO K=1,NUM
+            IBV    = BRICK_LIST(NIN,IB)%SecndList%IBV(K)
+            ICELLv = BRICK_LIST(NIN,IB)%SecndList%ICELLv(K)
+            DDVOL  = DDVOL + BRICK_LIST(NIN,IBv)%POLY(ICELLv)%DDVOL
+          ENDDO
+          DDVOL = DDVOL + BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL
           !updating ddvol cumulative stack
-          BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL = DDVOL                          
-        ENDDO!next IB                                                        
-      ENDIF              
+          BRICK_LIST(NIN,IB)%POLY(MCELL)%DDVOL = DDVOL
+        ENDDO!next IB
+      ENDIF
 
       !==============!
       CALL MY_BARRIER

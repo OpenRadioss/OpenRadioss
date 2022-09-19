@@ -28,7 +28,7 @@ Chd|        SPMD_I25FRONT_INIT            source/mpi/interfaces/spmd_i25front.F
 Chd|-- calls ---------------
 Chd|        DEBUG_MOD                     share/modules/debug_mod.F     
 Chd|====================================================================
-      SUBROUTINE I25FREE_BOUND( 
+      SUBROUTINE I25FREE_BOUND(
      . NRTM,
      . MVOISIN,
      . IRECT,
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NRTM
-      INTEGER, INTENT(IN) :: MVOISIN(4,NRTM),IRECT(4,NRTM) 
+      INTEGER, INTENT(IN) :: MVOISIN(4,NRTM),IRECT(4,NRTM)
       my_real, INTENT(IN) :: STIFM(NRTM)
       INTEGER, INTENT(INOUT) :: NRTM_FREE ! out: number of free irect
       INTEGER, INTENT(INOUT) :: FREE_IRECT_ID(NRTM)! [out] max size = NRTM, list of free irect

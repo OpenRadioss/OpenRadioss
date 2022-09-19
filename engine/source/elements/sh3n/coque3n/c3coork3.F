@@ -30,16 +30,16 @@ Chd|        CORTDIR3                      source/elements/shell/coque/cortdir3.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE C3COORK3(JFT     ,JLT    ,X     ,IXTG   ,  OFFG,
-     2                     GEO    ,PID    ,MAT    ,NGL   ,AREA   ,  
+     2                     GEO    ,PID    ,MAT    ,NGL   ,AREA   ,
      3                     IREP   ,NPT    ,ISMSTR ,NLAY  ,
      3                     ELBUF_STR,SMSTR,DIR_A  ,DIR_B  ,
      4                     XL2    ,XL3    ,YL3    ,
      5                     R11    ,R12    ,R13    ,R21  ,
      6                     R22    ,R23    ,R31    ,R32   ,R33  ,
      7                     K11    ,K12    ,K13    ,K22   ,K23  ,K33 ,
-     8                     M11    ,M12    ,M13    ,M22   ,M23  ,M33 , 
-     9                     MF11   ,MF12,MF13,MF22,MF23,MF33, 
-     A                     FM12   ,FM13,FM23,OFF  ,NEL) 
+     8                     M11    ,M12    ,M13    ,M22   ,M23  ,M33 ,
+     9                     MF11   ,MF12,MF13,MF22,MF23,MF33,
+     A                     FM12   ,FM13,FM23,OFF  ,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -122,14 +122,14 @@ C
         SY(I)=Y3(I)-Y1(I)
         RZ(I)=Z2(I)-Z1(I)
         SZ(I)=Z3(I)-Z1(I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       K = 2
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
 C----------------------------
 C     CHANGE TO LOCAL SYSTEM
@@ -166,7 +166,7 @@ C     ORTHOTROPY plus tard
 C----------------------------
       IF (IREP > 0) THEN
        CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,
-     .               NLAY   ,IREP   ,RX    ,RY     ,RZ     , 
+     .               NLAY   ,IREP   ,RX    ,RY     ,RZ     ,
      .               SX     ,SY     ,SZ    ,R11    ,R21    ,
      .               R31    ,R12    ,R22   ,R32    ,NEL    )
       ENDIF
@@ -185,8 +185,8 @@ c
           M22(J,I)=ZERO
           M23(J,I)=ZERO
           M33(J,I)=ZERO
-       ENDDO 
-      ENDDO 
+       ENDDO
+      ENDDO
       DO I=JFT,JLT
        OFF(I)=OFFG(I)
       ENDDO

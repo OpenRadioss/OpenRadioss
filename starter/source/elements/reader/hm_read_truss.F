@@ -99,7 +99,7 @@ C-----------------------------------------------
      .        OFF_EL(NSUBMOD),OFF_PART(NSUBMOD)
       CHARACTER MESS*40, MESS2*40
       my_real
-     .   BID 
+     .   BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_TRUSS
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -125,7 +125,7 @@ C--------------------------------------------------
       ALLOCATE (SUB_TRUSS(NUMELT),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_TRUSS') 
+     .                             C1='SUB_TRUSS')
       SUB_TRUSS(1:NUMELT) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -137,12 +137,12 @@ C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
         I=0
         DO N=1,NUMELT
-          I = I + 1 
+          I = I + 1
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
           IF(SUB_TRUSS(I) /= 0)THEN
-            IF(IPARTT(I) /= 0) IPARTT(I) = IPARTT(I) + OFF_PART(SUB_TRUSS(I)) 
+            IF(IPARTT(I) /= 0) IPARTT(I) = IPARTT(I) + OFF_PART(SUB_TRUSS(I))
             IF(IXT(NIXT,I) /= 0) IXT(NIXT,I) = IXT(NIXT,I) + OFF_EL(SUB_TRUSS(I))
             DO J=2,3
               IF(IXT(J,I) /= 0) IXT(J,I) = IXT(J,I) + OFF_NOD(SUB_TRUSS(I))
@@ -151,10 +151,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-          IF( IPART(4,INDEX_PART) /= IPARTT(I) )THEN  
-            DO J=1,NPART                            
+          IF( IPART(4,INDEX_PART) /= IPARTT(I) )THEN
+            DO J=1,NPART
               IF(IPART(4,J)== IPARTT(I) ) INDEX_PART = J
-            ENDDO  
+            ENDDO
           ENDIF
           IF( IPART(4,INDEX_PART) /= IPARTT(I) ) THEN
             CALL ANCMSG(MSGID=402,
@@ -164,30 +164,30 @@ C--------------------------------------------------
      .                  I1=IPARTT(I),
      .                  I2=IPARTT(I),
      .                  PRMOD=MSG_CUMU)
-          ENDIF 
+          ENDIF
           IPARTT(I) = INDEX_PART
 C--------------------------------------------------
-          MT=IPART(1,INDEX_PART)                         
-          IPID=IPART(2,INDEX_PART) 
+          MT=IPART(1,INDEX_PART)
+          IPID=IPART(2,INDEX_PART)
           IXT(1,I)=MT
-          IXT(4,I)=IPID 
+          IXT(4,I)=IPID
 
           IF (IXT(5,I)>ID_LIMIT) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXT(5,I),C1=LINE,C2='/TRUSS')
           ENDIF
 
-          DO J=2,3           
+          DO J=2,3
             IXT(J,I)=USR2SYS(IXT(J,I),ITABM1,MESS,IXT(5,I))
-            CALL ANODSET(IXT(J,I), CHECK_TRUSS)             
+            CALL ANODSET(IXT(J,I), CHECK_TRUSS)
           ENDDO
         ENDDO
       IF(ALLOCATED(SUB_TRUSS)) DEALLOCATE(SUB_TRUSS)
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C
       I1=1
       I2=MIN0(50,NUMELT)

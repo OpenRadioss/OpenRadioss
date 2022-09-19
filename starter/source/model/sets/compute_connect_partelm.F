@@ -34,13 +34,13 @@ Chd|====================================================================
 !$COMMENT
 !       COMPUTE_CONNECT_PARTELM description
 !       computation of the inverted connectivity between part and element
-!       
+!
 !       COMPUTE_CONNECT_PARTELM organization :
 !           for each kind of element :
 !            - compute an index array based on the number of
 !              element in each part
 !            - fill the INV_GROUP%PARTxxx array with the part ID
-!            
+!
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
@@ -90,7 +90,7 @@ C ------------------------------------------------
       DO I=1,NUMELS
         PART=IPARTS(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTS(1)=1
       DO I=2,NPART+1
@@ -104,7 +104,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTS(PART) + PART_COUNT(PART)
         INV_GROUP%PARTS(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO         
+      ENDDO
 C ------------------------------------------------
 C  Quad elements
 C ------------------------------------------------
@@ -113,7 +113,7 @@ C ------------------------------------------------
       DO I=1,NUMELQ
         PART=IPARTQ(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTQ(1)=1
       DO I=2,NPART+1
@@ -127,7 +127,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTQ(PART) + PART_COUNT(PART)
         INV_GROUP%PARTQ(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO        
+      ENDDO
 C ------------------------------------------------
 C  Shell elements
 C ------------------------------------------------
@@ -136,7 +136,7 @@ C ------------------------------------------------
       DO I=1,NUMELC
         PART=IPARTC(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTC(1)=1
       DO I=2,NPART+1
@@ -150,7 +150,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTC(PART) + PART_COUNT(PART)
         INV_GROUP%PARTC(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO       
+      ENDDO
 C ------------------------------------------------
 C  TRUSS elements
 C ------------------------------------------------
@@ -159,7 +159,7 @@ C ------------------------------------------------
       DO I=1,NUMELT
         PART=IPARTT(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTT(1)=1
       DO I=2,NPART+1
@@ -173,7 +173,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTT(PART) + PART_COUNT(PART)
         INV_GROUP%PARTT(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO       
+      ENDDO
 C ------------------------------------------------
 C  Beam elements
 C ------------------------------------------------
@@ -182,7 +182,7 @@ C ------------------------------------------------
       DO I=1,NUMELP
         PART=IPARTP(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTP(1)=1
       DO I=2,NPART+1
@@ -195,7 +195,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTP(PART) + PART_COUNT(PART)
         INV_GROUP%PARTP(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO                  
+      ENDDO
 C ------------------------------------------------
 C  Triangle elements
 C ------------------------------------------------
@@ -204,7 +204,7 @@ C ------------------------------------------------
       DO I=1,NUMELTG
         PART=IPARTTG(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTTG(1)=1
       DO I=2,NPART+1
@@ -218,7 +218,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTTG(PART) + PART_COUNT(PART)
         INV_GROUP%PARTTG(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO         
+      ENDDO
 C ------------------------------------------------
 C  TRIA ELTs
 C ------------------------------------------------
@@ -227,7 +227,7 @@ C ------------------------------------------------
       DO I=1,NUMELTRIA
         PART=IPARTTG(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTTRIA(1)=1
       DO I=2,NPART+1
@@ -241,7 +241,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTTRIA(PART) + PART_COUNT(PART)
         INV_GROUP%PARTTRIA(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO          
+      ENDDO
 
 C ------------------------------------------------
 C  Spring elements
@@ -251,7 +251,7 @@ C ------------------------------------------------
       DO I=1,NUMELR
         PART=IPARTR(I)
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO 
+      ENDDO
 
       INV_GROUP%INDPARTR(1)=1
       DO I=2,NPART+1
@@ -264,7 +264,7 @@ C ------------------------------------------------
         IND=INV_GROUP%INDPARTR(PART) + PART_COUNT(PART)
         INV_GROUP%PARTR(IND)=I
         PART_COUNT(PART)=PART_COUNT(PART)+1
-      ENDDO          
+      ENDDO
 
       DEALLOCATE(PART_COUNT)
 

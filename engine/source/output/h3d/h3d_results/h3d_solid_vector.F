@@ -50,10 +50,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD       
-      USE H3D_MOD  
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
+      USE H3D_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -127,11 +127,11 @@ C-----------------------------------------------
      .        IOK_PART(MVSIZ),JJ(6),IRUPT,IOK,NPG_PLANE,NUMLAY,IJK,IIR,
      .        IS_WRITTEN_VALUE(MVSIZ)
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DAMF,DFMAX,TDELE
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
@@ -143,29 +143,29 @@ C
 c
       DO 900 NG=1,NGROUP
 
-        CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+        CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
        IF (MLW /= 13) THEN
           NFT = IPARG(3,NG)
           ISOLNOD = IPARG(28,NG)
           IVISC = IPARG(61,NG)
-          IOK_PART(1:NEL) = 0 
+          IOK_PART(1:NEL) = 0
           LFT=1
           LLT=NEL
 c
           DO I=1,6
             JJ(I) = NEL*(I-1)
-          ENDDO  
+          ENDDO
 c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO	
 C-----------------------------------------------
           IF (ITY == 1) THEN
 c           SOLID ELEMENTS
@@ -173,28 +173,28 @@ c           SOLID ELEMENTS
 C-----------------------------------------------
             GBUF => ELBUF_TAB(NG)%GBUF
             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
-            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)       
-            NLAY = ELBUF_TAB(NG)%NLAY                    
-            NPTR = ELBUF_TAB(NG)%NPTR                     
-            NPTS = ELBUF_TAB(NG)%NPTS                     
-            NPTT = ELBUF_TAB(NG)%NPTT                     
+            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
+            NLAY = ELBUF_TAB(NG)%NLAY
+            NPTR = ELBUF_TAB(NG)%NPTR
+            NPTS = ELBUF_TAB(NG)%NPTS
+            NPTT = ELBUF_TAB(NG)%NPTT
             NPTG = NPTT*NPTS*NPTR*NLAY
-            TSHELL  = 0                                             
-            TSH_ORT = 0  
-            IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1 
-            IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1               
+            TSHELL  = 0
+            TSH_ORT = 0
+            IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1
+            IF (IGTYP==21 .OR. IGTYP==22) TSH_ORT = 1
 c	           PID=IXS(10,1 + NFT)
 c
 
             IF (ITY == 1) OFFSET = 0
 c
-            DO  I=1,NEL 
+            DO  I=1,NEL
               IF (ITY == 1) THEN
                 ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
                 ITY_ELEM(OFFSET+NFT+I) = 1
                 IF( H3D_PART(IPARTS(NFT+I)) == 1) IOK_PART(I) = 1
               ENDIF
-            ENDDO  
+            ENDDO
 c
             ILAY = LAYER_INPUT
             IUVAR = IUVAR_INPUT
@@ -216,7 +216,7 @@ C--------------------------------------------------
                ELSE
                   DO I=1,NEL
                      IF(GBUF%G_MOM>0 )THEN
-                        VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
+                        VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
                         VALUE(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                         VALUE(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
                         CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SOLID,SOLID_VECTOR,I,OFFSET,NFT,VALUE)
@@ -229,7 +229,7 @@ C--------------------------------------------------
 C--------------------------------------------------
                IF (MLW == 151) THEN
                   IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data
-                  ILEN=NUMELS+NUMELQ           
+                  ILEN=NUMELS+NUMELQ
                   DO I = 1, NEL
                      IPOS = IDX+3*(NFT+I-1)
                      VALUE(1) = FANI_CELL(IPOS+1)
@@ -243,7 +243,7 @@ C--------------------------------------------------
          ENDIF
        ENDIF
 
- 900  CONTINUE   ! NG 
+ 900  CONTINUE   ! NG
 C-----------------------------------------------
       RETURN
       END

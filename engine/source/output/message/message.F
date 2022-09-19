@@ -366,7 +366,7 @@ Chd|====================================================================
      .                  R5    ,R6    ,R7    ,R8    ,R9   ,
      .                  C1    ,C2    ,C3    ,C4    ,
      .                  C5    ,C6    ,C7    ,C8    ,C9    )
-      USE MESSAGE_MOD2 
+      USE MESSAGE_MOD2
 C-----------------------------------------------
 C Usage sample :
 C      USE MESSAGE_MOD 
@@ -400,7 +400,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MSGID,ANMODE,MSGTYPE 
+      INTEGER MSGID,ANMODE,MSGTYPE
       INTEGER
      .                 I1,I2,I3,I4,
      .                 I5,I6,I7,I8,I9
@@ -410,8 +410,8 @@ C-----------------------------------------------
       CHARACTER(*)
      .                 C1,C2,C3,C4,
      .                 C5,C6,C7,C8,C9
-      OPTIONAL ::       
-     .                 MSGTYPE, ! Warning : MSGTYPE is not optional in the Starter 
+      OPTIONAL ::
+     .                 MSGTYPE, ! Warning : MSGTYPE is not optional in the Starter
      .                          ! but is is not supported in the engine
      .                 I1,I2,I3,I4,
      .                 I5,I6,I7,I8,I9,
@@ -544,7 +544,7 @@ C
 C
         DO ITYPE=1,2
           IF (ALLOCATED(MESSAGES(ITYPE,MSGID)%MESSAGE)) THEN
-            DO ILINE=1,MESSAGES(ITYPE,MSGID)%SMESSAGE  
+            DO ILINE=1,MESSAGES(ITYPE,MSGID)%SMESSAGE
               TMPOUT=' '
               TMPBUF=' '
               TMPLINE=MESSAGES(ITYPE,MSGID)%MESSAGE(ILINE)
@@ -575,12 +575,12 @@ C
                     WRITE(TMPBUF,'(A)')TMPLINE(IOLD:I-2)
                     BUFLEN=I-2-IOLD+1
                     IF (BUFLEN>0) THEN
-                      TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN) 
+                      TMPOUT=TMPOUT(1:INDXTMPOUT)//TMPBUF(1:BUFLEN)
                       INDXTMPOUT=INDXTMPOUT+BUFLEN
                       BUFLEN=0
                     END IF
                   END IF
-                  IF (TMPLINE(I:I)=='d') THEN 
+                  IF (TMPLINE(I:I)=='d') THEN
                     I=I+1
                     IOLD=I
                     MYFMT='(I10)'
@@ -600,7 +600,7 @@ C
                     I=I+1
                     IOLD=I
                     MYFMT='(A)'
-                    IF (INDXC<10) INDXC=INDXC+1 
+                    IF (INDXC<10) INDXC=INDXC+1
                     WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)

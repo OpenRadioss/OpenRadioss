@@ -30,7 +30,7 @@ Chd|        TRI25EBOX                     share/modules/tri25ebox.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_TRI25EGAT(RESULT,
-     . NIN, 
+     . NIN,
      . NEDGE,
      . CANDS_E2E,
      . I_STOK_E2E,
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER :: LOC_PROC,P 
+      INTEGER :: LOC_PROC,P
       INTEGER, DIMENSION(:), ALLOCATABLE :: IAUX,INDEX
       INTEGER :: N,NN,I,J,NNP
       INTEGER :: N1,N2
@@ -186,7 +186,7 @@ C         Only for solids
           MY_ALLOCATE(NODAMSFIE(NIN)%P,NODFI)
           IF(ASSOCIATED(PROCAMSFIE(NIN)%P)) DEALLOCATE(PROCAMSFIE(NIN)%P)
           MY_ALLOCATE(PROCAMSFIE(NIN)%P,NODFI)
-        ENDIF 
+        ENDIF
 
         IF(INTFRIC > 0) THEN
           IF(ASSOCIATED(IPARTFRIC_FIE(NIN)%P)) DEALLOCATE(IPARTFRIC_FIE(NIN)%P)
@@ -207,18 +207,18 @@ C
         DO P = 1, NSPMD
           NNP = NN
 ! number of remote edges received from processor P in XREM
-          NEDGE_REMOTE_OLD = NSNFIE(NIN)%P(P)         
+          NEDGE_REMOTE_OLD = NSNFIE(NIN)%P(P)
 C         WRITE(6,*) ISPMD,"EDGE REMOTE TOTAL=",NEDGE_REMOTE_OLD
           IF(NEDGE_REMOTE_OLD/=0) THEN
             DO I = 1, NEDGE_REMOTE_OLD
-              IF(IREM_EDGE(1,I+IDEB)<0) THEN          
-                 IREM_EDGE(1,I+IDEB) = - IREM_EDGE(1,I+IDEB)                 
-! edge that are candidates     
+              IF(IREM_EDGE(1,I+IDEB)<0) THEN
+                 IREM_EDGE(1,I+IDEB) = - IREM_EDGE(1,I+IDEB)
+! edge that are candidates
                 NN = NN + 1
                 INDEX(I+IDEB) = NN
                 ASSERT(IREM_EDGE(E_LOCAL_ID,I+IDEB) > 0)
 c               WRITE(6,*) "KEEP",IREM_EDGE(E_LOCAL_ID,I+IDEB)
-                NSVFIE(NIN)%P(NN) = IREM_EDGE(E_LOCAL_ID,I+IDEB)      
+                NSVFIE(NIN)%P(NN) = IREM_EDGE(E_LOCAL_ID,I+IDEB)
                 LEDGE_FIE(NIN)%P(1:E_LEDGE_SIZE,NN) = IREM_EDGE(1:E_LEDGE_SIZE ,I+IDEB)
 
 C====================== AMS
@@ -250,7 +250,7 @@ C                   ENDIF
                 ENDIF ! IDTMINS /= 0
 
                 IF(INTFRIC > 0) THEN
-                   IPARTFRIC_FIE(NIN)%P(NN) = IREM_EDGE(E_IPARTFRIC_E,I+IDEB)      
+                   IPARTFRIC_FIE(NIN)%P(NN) = IREM_EDGE(E_IPARTFRIC_E,I+IDEB)
                 ENDIF
 C=======================================================================
 
@@ -274,18 +274,18 @@ C=======================================================================
                 VFIE(NIN)%P(3,N2) = XREM_EDGE(E_VZ2,I+IDEB)
                 MSFIE(NIN)%P(N2)  = XREM_EDGE(E_MS2,I+IDEB)
                 ITAFIE(NIN)%P(N2) = IREM_EDGE(E_NODE2_GLOBID,I+IDEB)
-           
+
                 GAPFIE(NIN)%p(NN) = XREM_EDGE(E_GAP,I+IDEB)
 
-                IF(IGAP == 3) THEN 
+                IF(IGAP == 3) THEN
                   GAPE_L_FIE(NIN)%P(NN) = XREM_EDGE(E_GAPL,I+IDEB)
                 ENDIF
-                 
+
                 STIFIE(NIN)%p(NN) = XREM_EDGE(E_STIFE,I+IDEB)
 
 C               MAIN_FIE(NIN)%P(NN) = XREM_EDGE(E_MAIN,I+IDEB)
-                
-                L2 = E_EDG_BIS 
+
+                L2 = E_EDG_BIS
 C Simple -> double -> simple = pb PON? 
                 EDG_BISECTOR_FIE(NIN)%p(1:3,1,NN) = XREM_EDGE(L2:L2+2,I+IDEB)
                 L2 = E_VTX_BIS
@@ -304,12 +304,12 @@ C Simple -> double -> simple = pb PON?
 
 
               ENDIF ! Kept edge
-            ENDDO  ! NEDGE_REMOTE_OLD 
-            IDEB = IDEB + NEDGE_REMOTE_OLD    
-          ENDIF !IF(NEDGE_REMOTE_OLD/=0) 
+            ENDDO  ! NEDGE_REMOTE_OLD
+            IDEB = IDEB + NEDGE_REMOTE_OLD
+          ENDIF !IF(NEDGE_REMOTE_OLD/=0)
           ASSERT(NN - NNP >= 0)
-          NSNFIE(NIN)%P(P) = NN-NNP 
-        ENDDO  ! end do NSPMD           
+          NSNFIE(NIN)%P(P) = NN-NNP
+        ENDDO  ! end do NSPMD
         LSKYFI = NN*MULTIMAX
 Cel nsnr nouveau utile pour inacti
         NEDGE_REMOTE = NN

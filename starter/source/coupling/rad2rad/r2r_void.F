@@ -63,12 +63,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARTL(LIPART1,*)   
+      INTEGER IPARTL(LIPART1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER STAT,I,J,LEN1,LEN2,NUM,LL,P,N,ANA,
-     .        MAT_ID,K,ADD,COMPT,NB_PART,F2,IGTYP,L      
+     .        MAT_ID,K,ADD,COMPT,NB_PART,F2,IGTYP,L
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPM_TEMP,IGEO_TEMP
       CHARACTER TITR*nchartitle
       my_real
@@ -76,21 +76,21 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: PM_TEMP,GEO_TEMP
       my_real
-     .       , DIMENSION(:,:,:), ALLOCATABLE :: DDW_TEMP      
+     .       , DIMENSION(:,:,:), ALLOCATABLE :: DDW_TEMP
 C-----------------------------------------------          
 
       NUMMAT0 = NUMMAT
       NUMGEO0 = NUMGEO
 
 C---------Remplissage de PM_R2R--------------------------------C
-      ALLOCATE (PM_R2R(NUMMAT+NPART+1),STAT=stat)      
+      ALLOCATE (PM_R2R(NUMMAT+NPART+1),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='PM_R2R')
       DO I=1,NUMMAT
-        PM_R2R(I) = PM(NPROPM*(I-1)+20)      
+        PM_R2R(I) = PM(NPROPM*(I-1)+20)
       END DO
-      
+
       IF (IPID==0) NSUBDOM = 1
 
 C---------Pr   tag des parts externes----------------------------C
@@ -100,33 +100,33 @@ C---------Pr   tag des parts externes----------------------------C
         IF (IPID==0) N = IDDOM
         ADD = ISUBDOM(3,N)
 	DO K=1,NPART
-          DO I=1,ISUBDOM(1,N)        
+          DO I=1,ISUBDOM(1,N)
              IF(K == ISUBDOM_PART(I+ADD)) THEN
-                TAG_PART(K)=1		  		  
+                TAG_PART(K)=1		  		
              ENDIF
           ENDDO	   	
         END DO	         	
       END DO
-      
+
       IF (IPID==0) THEN
       DO P=1,NPART
         IF (TAG_PART(P)==1) THEN
 	   TAG_PART(P)=0
-	ELSE   
-	   TAG_PART(P)=1        	   
+	ELSE
+	   TAG_PART(P)=1        	
 	ENDIF
       END DO
       ENDIF
-      		 
+      		
 C--------------------------------------------------------------C     
-		 
+		
       COMPT = 0
-      
+
       DO K=1,NPART
         IPART_R2R(1,K) = IPARTL(1,K) !mat_id
         IPART_R2R(2,K) = IPARTL(5,K) !user_mat_id
-        IPART_R2R(3,K) = 0		     
-        IPART_R2R(4,K) = IPARTL(2,K) !prop_id       
+        IPART_R2R(3,K) = 0		
+        IPART_R2R(4,K) = IPARTL(2,K) !prop_id
         IF (TAG_PART(K)==1) THEN
 	  COMPT=COMPT+1
           IGTYP = IGEO(NPROPGI*(IPARTL(2,K)-1)+11)
@@ -136,66 +136,66 @@ C-- Multilayer shells
           ENDIF
 	ENDIF
       END DO
-      
+
       IF (COMPT==0) GOTO 150
 
       WRITE(IOUT,1200)
-      
+
 C--------------------------------------------------------------C      
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C      
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C
-      
+
 C---------Allocation des tableaux temporaires------------------C
-      
-      NB_PART = COMPT    
-      
+
+      NB_PART = COMPT
+
       ALLOCATE (IPM_TEMP(NPROPMI,NUMMAT+NB_PART),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='IPM_TEMP')   
+     .                         C1='IPM_TEMP')
       ALLOCATE (PM_TEMP(NPROPM,NUMMAT+NB_PART),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='PM_TEMP')      
+     .                         C1='PM_TEMP')
       ALLOCATE (DDW_TEMP(2,2,NUMMAT+NB_PART+1),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='DDW_TEMP')
-  
+
       IPM_TEMP(:,:)=0
       PM_TEMP(:,:)=0
       DDW_TEMP(:,:,:)=0
-      
+
 C---------Transfert tableau mat dans tableau temporaire--------C
 
       DO I=1,NUMMAT
         DO J=1,NPROPMI
-          IPM_TEMP(J,I)=IPM(NPROPMI*(I-1)+J)	 
+          IPM_TEMP(J,I)=IPM(NPROPMI*(I-1)+J)	
         END DO
       END DO
-      
+
       DO I=1,NUMMAT
         DO J=1,NPROPM
-          PM_TEMP(J,I)=PM(NPROPM*(I-1)+J)	 
-        END DO     
-      END DO 
+          PM_TEMP(J,I)=PM(NPROPM*(I-1)+J)	
+        END DO
+      END DO
 
       DO I=1,NUMMAT
         DO J=1,2
           DO L=1,2
             DDW_TEMP(J,L,I)=DDWEIGHTS(J,L,I)
-          ENDDO	 
-        END DO     
+          ENDDO	
+        END DO
       END DO
 C
       DO J=1,2
         DO L=1,2
           DDW_TEMP(J,L,NUMMAT+NB_PART+1)=DDWEIGHTS(J,L,NUMMAT+1)
-        ENDDO	 
-      END DO      
+        ENDDO	
+      END DO
 
 C--------------- offset numero user des futurs mate void-------C
       NUM = 0
@@ -205,7 +205,7 @@ C--------------- offset numero user des futurs mate void-------C
 
 C---------------Creation des nouveaux materiaux VOID--------------C
 
-      DO K=1,NPART      
+      DO K=1,NPART
         IF (TAG_PART(K)>=1) THEN
 
           NUM = NUM+1
@@ -213,8 +213,8 @@ C---------------Creation des nouveaux materiaux VOID--------------C
 
           IF (TAG_PART(K)==1) THEN
 C--> standard elements 
-            F2 = IPARTL(1,K)         
-            PM_TEMP(1,NUMMAT)= 1e-20	  
+            F2 = IPARTL(1,K)
+            PM_TEMP(1,NUMMAT)= 1e-20	
             PM_TEMP(19,NUMMAT) =ZERO	  	  		
             PM_TEMP(20,NUMMAT) = PM_TEMP(20,F2)
             PM_R2R(NUMMAT)= PM_TEMP(20,F2)	       	
@@ -224,13 +224,13 @@ C--> standard elements
             PM_TEMP(71,NUMMAT) =ZERO
             PM_TEMP(72,NUMMAT) =ZERO
             PM_TEMP(75,NUMMAT) = PM_TEMP(75,F2)
-            PM_TEMP(76,NUMMAT) = PM_TEMP(76,F2)           
+            PM_TEMP(76,NUMMAT) = PM_TEMP(76,F2)
             PM_TEMP(89,NUMMAT) = PM_TEMP(1,NUMMAT)
             PM_TEMP(100,NUMMAT) = PM_TEMP(100,F2)
 C
           ELSE
 C-->  Multilayer shells
-            PM_TEMP(1,NUMMAT)= 1e-20	  
+            PM_TEMP(1,NUMMAT)= 1e-20	
             PM_TEMP(19,NUMMAT) =ZERO	  	  		       	
             PM_TEMP(70,NUMMAT) =ZERO
             PM_TEMP(71,NUMMAT) =ZERO
@@ -245,49 +245,49 @@ C-->  Multilayer shells
               PM_TEMP(21,NUMMAT) = PM_TEMP(21,NUMMAT) + ALPHAI*PM_TEMP(21,F2)
               PM_TEMP(32,NUMMAT) = PM_TEMP(32,NUMMAT) + ALPHAI*PM_TEMP(32,F2)
               PM_TEMP(75,NUMMAT) = PM_TEMP(75,NUMMAT) + ALPHAI*PM_TEMP(75,F2)
-              PM_TEMP(76,NUMMAT) = PM_TEMP(76,NUMMAT) + ALPHAI*PM_TEMP(76,F2)           
-              PM_TEMP(100,NUMMAT) = PM_TEMP(100,NUMMAT) + ALPHAI*PM_TEMP(100,F2)        
+              PM_TEMP(76,NUMMAT) = PM_TEMP(76,NUMMAT) + ALPHAI*PM_TEMP(76,F2)
+              PM_TEMP(100,NUMMAT) = PM_TEMP(100,NUMMAT) + ALPHAI*PM_TEMP(100,F2)
             END DO
 C
           ENDIF
 C     	  	  	  	  	
           IPM_TEMP(1,NUMMAT)= NUM
           IPM_TEMP(2,NUMMAT)= 0
-          TITR = "Multidomains void material"      
+          TITR = "Multidomains void material"
           CALL FRETITL(TITR,IPM_TEMP(NPROPMI-LTITR,NUMMAT),LTITR)
 
           WRITE(IOUT,1300) NUM,PM_TEMP(1,NUMMAT)
      .       ,PM_TEMP(20,NUMMAT),PM_TEMP(21,NUMMAT),IPARTL(4,K)
-          	                                
+          	
           IPARTL(5,K)= NUM
           IPARTL(1,K)= NUMMAT
 C
         ENDIF
 C
       END DO
-        	   
+        	
 C----------------Reallocation et remplissage IPM et PM---------C 
-     
+
       LEN1 = NPROPMI*NUMMAT
       LEN2 = NPROPM*NUMMAT
-       
-      DEALLOCATE(IPM,PM,DDWEIGHTS)        
-      ALLOCATE (IPM(LEN1),STAT=stat)       
+
+      DEALLOCATE(IPM,PM,DDWEIGHTS)
+      ALLOCATE (IPM(LEN1),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='IPM')           
+     .                         C1='IPM')
       ALLOCATE (PM(LEN2),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='PM')
-      CALL INIT_MAT_WEIGHT(NUMMAT)     
-      
+      CALL INIT_MAT_WEIGHT(NUMMAT)
+
       DO I=1,NUMMAT
        DO J=1,NPROPMI
          IPM(NPROPMI*(I-1)+J)=IPM_TEMP(J,I)
        END DO
       END DO
-      
+
       DO I=1,NUMMAT
        DO J=1,NPROPM
          PM(NPROPM*(I-1)+J)=PM_TEMP(J,I)
@@ -298,9 +298,9 @@ C----------------Reallocation et remplissage IPM et PM---------C
         DO J=1,2
           DO L=1,2
             DDWEIGHTS(J,L,I)=DDW_TEMP(J,L,I)
-          ENDDO	 
-        END DO     
-      END DO 
+          ENDDO	
+        END DO
+      END DO
 
       DEALLOCATE(IPM_TEMP,PM_TEMP,DDW_TEMP)
 
@@ -311,38 +311,38 @@ C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C
 
-      DO K=1,NPART      
+      DO K=1,NPART
       IF (TAG_PART(K)==2) THEN
-      
+
 C---------Allocation des tableaux temporaires------------------C
-      
-      NB_PART = 1    
-      
+
+      NB_PART = 1
+
       ALLOCATE (IGEO_TEMP(NPROPGI,NUMGEO+NB_PART),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='IGEO_TEMP')   
+     .                         C1='IGEO_TEMP')
       ALLOCATE (GEO_TEMP(NPROPG,NUMGEO+NB_PART),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='GEO_TEMP')      
+     .                         C1='GEO_TEMP')
 
       IGEO_TEMP(:,:)=0
       GEO_TEMP(:,:)=0
-      
+
 C---------Transfert tableau prop dans tableau temporaire-------C
 
       DO I=1,NUMGEO
         DO J=1,NPROPGI
-          IGEO_TEMP(J,I)=IGEO(NPROPGI*(I-1)+J)	 
+          IGEO_TEMP(J,I)=IGEO(NPROPGI*(I-1)+J)	
         END DO
       END DO
-      
+
       DO I=1,NUMGEO
         DO J=1,NPROPG
-          GEO_TEMP(J,I)=GEO(NPROPG*(I-1)+J)	 
-        END DO     
-      END DO 
+          GEO_TEMP(J,I)=GEO(NPROPG*(I-1)+J)	
+        END DO
+      END DO
 
 C----------- offset numero user des futurs prop shell ---------C
       NUM = 0
@@ -355,39 +355,39 @@ C-----------------Creation de la prop shell VOID---------------C
       F2 = IPARTL(2,K)
       NUMGEO = NUMGEO+1
 
-      IGEO_TEMP(1,NUMGEO)=NUM         
+      IGEO_TEMP(1,NUMGEO)=NUM
       GEO_TEMP(1,NUMGEO)=GEO_TEMP(1,F2)
 
-      TITR = "Multidomains void property"      
+      TITR = "Multidomains void property"
       CALL FRETITL(TITR,IGEO_TEMP(NPROPGI-LTITR,NUMGEO),LTITR)
 
       WRITE(IOUT,1400) NUM,GEO_TEMP(1,NUMGEO),IPARTL(4,K)
-          
+
 C---------------Affectation de la property shell---------------C	                                
       IPARTL(6,K)= NUM
       IPARTL(2,K)= NUMGEO
-        	   
+        	
 C----------------Reallocation et remplissage IPM et PM---------C 
-     
+
       LEN1 = NPROPGI*NUMGEO
       LEN2 = NPROPG*NUMGEO
-       
-      DEALLOCATE(IGEO,GEO)        
-      ALLOCATE (IGEO(LEN1),STAT=stat)       
+
+      DEALLOCATE(IGEO,GEO)
+      ALLOCATE (IGEO(LEN1),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='IGEO')           
+     .                         C1='IGEO')
       ALLOCATE (GEO(LEN2),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='GEO')     
-      
+     .                         C1='GEO')
+
       DO I=1,NUMGEO
        DO J=1,NPROPGI
          IGEO(NPROPGI*(I-1)+J)=IGEO_TEMP(J,I)
        END DO
       END DO
-      
+
       DO I=1,NUMGEO
        DO J=1,NPROPG
          GEO(NPROPG*(I-1)+J)=GEO_TEMP(J,I)
@@ -398,38 +398,38 @@ C----------------Reallocation et remplissage IPM et PM---------C
 
       ENDIF	
       END DO
-      
+
 C--------------------------------------------------------------C      
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C      
 C--------------------------------------------------------------C      
 C--------------------------------------------------------------C
 C--------------------------------------------------------------C
-         
+
 C--------------------------------------------------------------C
       TAG_PART(:)= 0
 C--------------------------------------------------------------C
 
 150   CONTINUE
- 
+
       RETURN
  1200 FORMAT(
      . //'      MULTIDOMAINS SPECIAL TREATMENTS '/
-     . '      --------------------------------- '/)    
+     . '      --------------------------------- '/)
  1300 FORMAT(
      & 5X,40HVOID MATERIAL CREATED                   ,/,
-     & 5X,40H  -----------                           ,/,     
-     & 5X,40HMATERIAL ID . . . .  . . . . . . . .  .=,I10/,      
+     & 5X,40H  -----------                           ,/,
+     & 5X,40HMATERIAL ID . . . .  . . . . . . . .  .=,I10/,
      & 5X,40HDENSITY . . . .  . . . . . . . .  . . .=,E12.4/,
      & 5X,40HYOUNG'S MODULUS . . . . . . . . . . . .=,E12.4/,
      & 5X,40HPOISSON'S RATIO . . . . . . . . . . . .=,E12.4/,
      & 5X,40HAPPLIED ON PART . . . .  . . . . . . . =,I10//)
  1400 FORMAT(
      & 5X,40HVOID PROPERTY CREATED                   ,/,
-     & 5X,40H  -----------                           ,/,     
+     & 5X,40H  -----------                           ,/,
      & 5X,40HPROPERTY ID . . . .  . . . . . . . .  .=,I10/,
-     & 5X,40HTHICKNESS. . . . . . . . . . . . . .  .=,E12.4/,      
-     & 5X,40HAPPLIED ON PART . . . .  . . . . . . . =,I10//)           
+     & 5X,40HTHICKNESS. . . . . . . . . . . . . .  .=,E12.4/,
+     & 5X,40HAPPLIED ON PART . . . .  . . . . . . . =,I10//)
  999  CALL FREERR(3)
 C-----------
       RETURN
@@ -470,42 +470,42 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ID_PART,IPARTL(LIPART1,*)   
+      INTEGER ID_PART,IPARTL(LIPART1,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IMAT,IMAT0,J
 C-----------------------------------------------
-      
+
       IMAT = IPARTL(1,ID_PART)
-      
+
 C---------------Si part deja traitee ou mat non void on saute---C      
       IF (IPART_R2R(3,ID_PART)==1) GOTO 150
       IF (IPM(NPROPMI*(IMAT-1)+2)/=0) GOTO 150
-        
+
 C---------------On recupere l'id du materiau original-----------C      
       IMAT0 = IPART_R2R(1,ID_PART)
-            
+
 C---------------On remplace le mat void par un mat bidon--------C      
       DO J=1,NPROPM
          PM(NPROPM*(IMAT-1)+J)=PM(NPROPM*(IMAT0-1)+J)
-      END DO          
+      END DO
       DO J=1,NPROPMI
          IPM(NPROPMI*(IMAT-1)+J)=IPM(NPROPMI*(IMAT0-1)+J)
       END DO
-       	 
+       	
       PM(NPROPM*(IMAT-1)+1)= 1e-20
-      PM(NPROPM*(IMAT-1)+19)= PM(NPROPM*(IMAT0-1)+19)    	 	 
+      PM(NPROPM*(IMAT-1)+19)= PM(NPROPM*(IMAT0-1)+19)    	 	
       PM(NPROPM*(IMAT-1)+20)= 1e-20
       PM(NPROPM*(IMAT-1)+70)= ZERO
       PM(NPROPM*(IMAT-1)+71)= ZERO
-      PM(NPROPM*(IMAT-1)+72)= ZERO                  
+      PM(NPROPM*(IMAT-1)+72)= ZERO
       PM(NPROPM*(IMAT-1)+89)= 1e-20
       PM_R2R(IMAT)= PM(NPROPM*(IMAT0-1)+20)
       IPART_R2R(3,ID_PART) = 1
 
 150   CONTINUE
-                        
+
 C-----------
       RETURN
       END

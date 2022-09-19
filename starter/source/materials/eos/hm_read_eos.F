@@ -60,7 +60,7 @@ C   A n a l y s e   M o d u l e
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  :: BUFLEN,MAXEOS,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(INOUT) :: IPM
 
@@ -94,32 +94,32 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 c--------------------------------------------------
 c     Routine reading EOS models :
-      !------------------------------------!                
-      !  IEOS     !    EOS                 !             
-      !-----------!------------------------!  
-      !   0       !     LINEAR             !                 
-      !   1       !     POLYNOMIAL         !             
-      !   2       !     GRUNEISEN          !             
-      !   3       !     TILLOTSON          !             
-      !   4       !     PUFF               !             
-      !   5       !     SESAME             !             
-      !   6       !     NOBLE-ABEL         ! 2017.0            
-      !   7       !     IDEAL GAS          ! 2018.0            
-      !   8       !     MUNAGHAN           ! 2018.0      
-      !   9       !     OSBORNE            ! 2018.0      
-      !  10       !     STIFFENED GAS      ! 2018.0      
-      !  11       !     LSZK               ! 2018.0  
+      !------------------------------------!
+      !  IEOS     !    EOS                 !
+      !-----------!------------------------!
+      !   0       !     LINEAR             !
+      !   1       !     POLYNOMIAL         !
+      !   2       !     GRUNEISEN          !
+      !   3       !     TILLOTSON          !
+      !   4       !     PUFF               !
+      !   5       !     SESAME             !
+      !   6       !     NOBLE-ABEL         ! 2017.0
+      !   7       !     IDEAL GAS          ! 2018.0
+      !   8       !     MUNAGHAN           ! 2018.0
+      !   9       !     OSBORNE            ! 2018.0
+      !  10       !     STIFFENED GAS      ! 2018.0
+      !  11       !     LSZK               ! 2018.0
       !  12       !     POWDER-BURN        ! 2019.1
-      !  13       !     COMPACTION         ! 2019.1 
-      !  14       !     NASG               ! 2020.0   
-      !  15       !     JWL                ! internal use : INIMAP   
+      !  13       !     COMPACTION         ! 2019.1
+      !  14       !     NASG               ! 2020.0
+      !  15       !     JWL                ! internal use : INIMAP
       !  16       !     IDEALGAS_VT        ! 2022.0
       !  17       !     TABULATED          ! 2022.2
-      !------------------------------------!                      
-c======================================================================-       
+      !------------------------------------!
+c======================================================================-
 c     COUNT EOS MODELS USING CFG FILES
 c--------------------------------------------------
-c      
+c
       CALL HM_OPTION_COUNT('/EOS',HM_NEOS)
 c
 c--------------------------------------------------
@@ -134,10 +134,10 @@ c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = IMIDEOS ,
      .                          OPTION_TITR = TITR   ,
-     .                          UNIT_ID     = UID    )   
-     
+     .                          UNIT_ID     = UID    )
+
         CALL HM_GET_STRING('EOS_Keyword',KEY2, 32,IS_AVAILABLE)
-        !CALL HM_GET_INTV('_ID_',IMIDEOS,IS_AVAILABLE,LSUBMODEL)       
+        !CALL HM_GET_INTV('_ID_',IMIDEOS,IS_AVAILABLE,LSUBMODEL)
 c--------------------------------------------------
 c       Check MAT_Id
 c--------------------------------------------------
@@ -149,13 +149,13 @@ c--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        
+
         IF (IMIDEOS > 0 .AND. FLAGMAT == 0) THEN
           CALL ANCMSG(MSGID=1663,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1= IMIDEOS,
      .                C1='EOS',
      .                C2= KEY,
-     .                C3= TITR)                              
+     .                C3= TITR)
         ENDIF
 c--------------------------------------------------
 c       Check Unit_ID
@@ -167,7 +167,7 @@ c--------------------------------------------------
             EXIT
           ENDIF
         ENDDO
-        
+
         IF (UID > 0 .AND. FLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,
      .                ANMODE=ANINFO,
@@ -176,18 +176,18 @@ c--------------------------------------------------
      .                I2= UID,
      .                C1='MATERIAL',
      .                C2='EOS MODEL',
-     .                C3= TITR)                             
+     .                C3= TITR)
         ENDIF
 
-        MTN = IPM(2,IMAT)  
-        IF(MTN/=3.AND.MTN/=4.AND.MTN/=6.AND.MTN/=10.AND.MTN/=12.AND.MTN/=49.AND.MTN/=102.AND.MTN/=103) THEN       
-          CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)                                                                        
-          CALL ANCMSG(MSGID=824,                                                                                                  
-     .                MSGTYPE=MSGERROR,                                                                                           
-     .                ANMODE=ANINFO,                                                                                              
-     .                I1=IPM(1,IMAT),                                                                                                
-     .                C1=TITR,I2=MTN)                                                                                             
-        ENDIF                                                                      
+        MTN = IPM(2,IMAT)
+        IF(MTN/=3.AND.MTN/=4.AND.MTN/=6.AND.MTN/=10.AND.MTN/=12.AND.MTN/=49.AND.MTN/=102.AND.MTN/=103) THEN
+          CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
+          CALL ANCMSG(MSGID=824,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1=IPM(1,IMAT),
+     .                C1=TITR,I2=MTN)
+        ENDIF
 c--------------------------------------------------
 c       Read EOS model
 c--------------------------------------------------
@@ -198,82 +198,82 @@ c-----------------------------
         SELECT CASE (EOS_key)
 c---
           CASE ('LINEAR')
-            IEOS = 0                          
+            IEOS = 0
             CALL HM_READ_EOS_LINEAR(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('POLYNOMIAL')
-            IEOS = 1     
-            CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                 
+            IEOS = 1
+            CALL HM_READ_EOS_POLYNOMIAL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('GRUNEISEN')
-            IEOS = 2                          
+            IEOS = 2
             CALL HM_READ_EOS_GRUNEISEN(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('TILLOTSON')
-            IEOS = 3  
-            CALL HM_READ_EOS_TILLOTSON(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            IEOS = 3
+            CALL HM_READ_EOS_TILLOTSON(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('PUFF')
-            IEOS = 4  
+            IEOS = 4
             CALL HM_READ_EOS_PUFF(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('SESAME')
-            IEOS = 5                          
-            CALL HM_READ_EOS_SESAME(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,BUFLEN,IADBUF)      
+            IEOS = 5
+            CALL HM_READ_EOS_SESAME(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,IMID,TITR,BUFMAT,BUFLEN,IADBUF)
 c---
           CASE ('NOBLE-ABEL','NA')
-            IEOS = 6  
-            CALL HM_READ_EOS_NOBLE_ABEL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            IEOS = 6
+            CALL HM_READ_EOS_NOBLE_ABEL(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('IDEAL-GAS','IDEAL-GAS-VE')
-            IEOS = 7      
-            CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+            IEOS = 7
+            CALL HM_READ_EOS_IDEAL_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('MURNAGHAN')
-            IEOS = 8                          
-            CALL HM_READ_EOS_MURNAGHAN(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+            IEOS = 8
+            CALL HM_READ_EOS_MURNAGHAN(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('OSBORNE')
-            IEOS = 9                          
-            CALL HM_READ_EOS_OSBORNE(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+            IEOS = 9
+            CALL HM_READ_EOS_OSBORNE(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('STIFF-GAS','SG')
-            IEOS = 10                          
-            CALL HM_READ_EOS_STIFFENED_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            IEOS = 10
+            CALL HM_READ_EOS_STIFFENED_GAS(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('LSZK')
-            IEOS = 11                          
-            CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                    
+            IEOS = 11
+            CALL HM_READ_EOS_LSZK(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('POWDER-BURN')
-            IEOS = 12 
-            !none                        
+            IEOS = 12
+            !none
 c---
           CASE ('COMPACTION')
-            IEOS = 13                          
-            CALL HM_READ_EOS_COMPACTION(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,MAXEOS)                                    
+            IEOS = 13
+            CALL HM_READ_EOS_COMPACTION(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS,EOS_TAG,IEOS,MAXEOS)
 c---
           CASE ('NASG')
-            IEOS = 14                          
-            CALL HM_READ_EOS_NASG(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS) 
+            IEOS = 14
+            CALL HM_READ_EOS_NASG(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('IDEAL-GAS-VT')
-            IEOS = 16     
-            CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
+            IEOS = 16
+            CALL HM_READ_EOS_IDEAL_GAS_VT(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
 c---
           CASE ('TABULATED')
-            IEOS = 17     
-            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)                                
-                                               
+            IEOS = 17
+            CALL HM_READ_EOS_TABULATED(IOUT,PM(1,IMAT),UNITAB,IUNIT,LSUBMODEL,IMIDEOS)
+
 c---
           CASE DEFAULT
-            IEOS = -1 
+            IEOS = -1
             CALL ANCMSG(MSGID=67,
      .                ANMODE=ANINFO,
      .                MSGTYPE=MSGERROR,
      .                I1= IMIDEOS,
      .                C1='EOS_key',
-     .                C2='EOS TYPE IS NOT VALID')                     
+     .                C2='EOS TYPE IS NOT VALID')
 c---
         END SELECT
 c
@@ -286,8 +286,8 @@ c
       DO I=1,NUMMAT-1
         MTN = IPM(2,I)
         IF (MTN /= 42) PM(100,I) = PM(32,I)
-      ENDDO  
-c-----------       
+      ENDDO
+c-----------
       RETURN
 c--------------------------------------------------
  1000 FORMAT(//

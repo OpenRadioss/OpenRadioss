@@ -101,18 +101,18 @@ C-----------------------------------------------
       my_real, INTENT(IN) :: PM(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
-      INTEGER, INTENT(IN) :: NALE(NUMNOD)      
+      INTEGER, INTENT(IN) :: NALE(NUMNOD)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF) ,TARGET  :: IGRSURF
       TYPE (SURF_)   , DIMENSION(NSLIN) ,TARGET  :: IGRSLIN
-      TYPE(MULTI_FVM_STRUCT)                     :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT)                     :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, K, IRS, IRM, NI, NSN, NMN,NMT,
-     .   NTYP,IS1,IS2,NOINT,NRTS,NRTM,NST,ILEV, 
+     .   NTYP,IS1,IS2,NOINT,NRTS,NRTM,NST,ILEV,
      .   MULTIMP,IGAP,INACTI,NME,IALLO,LINTER,
      .   ISU1,ISU2,NRTM0,NRTM_SH,
      .   NRTS_NEW, NRTM_NEW,IBID,INTTH,
@@ -269,13 +269,13 @@ c            END IF
      .                    NTAG)
             ELSEIF(IS1 == 5) THEN
               !INTER18 + GRBRIC_ID
-              NBRIC = IGRBRIC(GRBRIC_ID)%NENTITY              
+              NBRIC = IGRBRIC(GRBRIC_ID)%NENTITY
               IF (MULTI_FVM%IS_USED)THEN
                CALL INGRBRIC_CENTROIDS(NOINT, IGRBRIC(GRBRIC_ID)%ENTITY, ITAB, INTBUF_TAB(NI)%NSV,
-     .                       IXS, NBRIC)                            
+     .                       IXS, NBRIC)
               ELSE
                CALL INGRBRIC_NODES(    NSN_FE, NOINT, IGRBRIC(GRBRIC_ID)%ENTITY, ITAB, INTBUF_TAB(NI)%NSV,
-     .                       IXS, NBRIC, 2, NALE, IPM, BUFMAT, INTBUF_TAB(NI)%S_NSV)              
+     .                       IXS, NBRIC, 2, NALE, IPM, BUFMAT, INTBUF_TAB(NI)%S_NSV)
               ENDIF
             ENDIF
             IF (NTYP==3) THEN
@@ -386,7 +386,7 @@ C--------------------------------------------
             IF (NTYP==3 ) THEN
              CALL ELTY_SURF(NRTS,NRTM,IGRSURF(ISU2)%NSEG,IGRSURF(ISU2)%ELTYP,
      .                      INTBUF_TAB(NI)%MSEGTYP,ISU2)
-            ELSEIF (NTYP==2 .OR. NTYP==5 .OR. NTYP==7 .OR. 
+            ELSEIF (NTYP==2 .OR. NTYP==5 .OR. NTYP==7 .OR.
      +         NTYP==10 .OR. NTYP==21) THEN
              CALL ELTY_SURF(0,NRTM,IGRSURF(ISU2)%NSEG,IGRSURF(ISU2)%ELTYP,
      .                      INTBUF_TAB(NI)%MSEGTYP,ISU2)
@@ -406,14 +406,14 @@ C-------
           LIXINT = LIXINT+6*NSN
           IF (ILEV == 20 .OR. ILEV == 21 .OR. ILEV == 22.OR.INTTH >0) THEN
            DO J = 1,NSN
-            INTBUF_TAB(NI)%AREAS2(J) = AREASL(NI) 
+            INTBUF_TAB(NI)%AREAS2(J) = AREASL(NI)
            ENDDO
           ENDIF
           IF (ILEV == 20 .OR. ILEV == 21 .OR. ILEV == 22) THEN
 
-            INTBUF_TAB(NI)%RUPT(1)   = I2RUPT(1,NI) 
-            INTBUF_TAB(NI)%RUPT(2)   = I2RUPT(2,NI) 
-            INTBUF_TAB(NI)%RUPT(3)   = I2RUPT(3,NI) 
+            INTBUF_TAB(NI)%RUPT(1)   = I2RUPT(1,NI)
+            INTBUF_TAB(NI)%RUPT(2)   = I2RUPT(2,NI)
+            INTBUF_TAB(NI)%RUPT(3)   = I2RUPT(3,NI)
             INTBUF_TAB(NI)%RUPT(4)   = I2RUPT(4,NI)
             INTBUF_TAB(NI)%RUPT(5)   = I2RUPT(5,NI)
             INTBUF_TAB(NI)%RUPT(6)   = I2RUPT(6,NI)
@@ -487,7 +487,7 @@ C-------
      .         NMT,NRTM,NMN)
 C-------
         ELSEIF (NTYP == 11) THEN
-          CALL I11EDGE( IPARI(1,NI),INTBUF_TAB(NI) ) 
+          CALL I11EDGE( IPARI(1,NI),INTBUF_TAB(NI) )
 C-------
         ELSEIF (NTYP == 12) THEN
           CALL NSEGMT(

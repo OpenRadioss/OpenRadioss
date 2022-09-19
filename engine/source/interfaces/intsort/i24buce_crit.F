@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN,NMN,ITASK,IEDGE, NIN,
-     .   NSV(*),MSR(*),ISEADD(*) ,ISEDGE(*),INTPLY,DELTA_PMAX_GAP_NODE,ITAB(*) 
+     .   NSV(*),MSR(*),ISEADD(*) ,ISEDGE(*),INTPLY,DELTA_PMAX_GAP_NODE,ITAB(*)
       my_real
      .   X(3,*), V(3,*), XSAV(3,*), STFN(*),PENE_OLD(5,NSN),
      .   XSLV_G(*),XMSR_G(*), VSLV_G(*), VMSR_G(*),GAP_S(*),GAPN_M(*),
@@ -154,7 +154,7 @@ c             compute secnd edge half size
                   JG = ISEDGE(IAD+K)
                   AAA = (X(1,JG)-X(1,J))*(X(1,JG)-X(1,J))
      .                + (X(2,JG)-X(2,J))*(X(2,JG)-X(2,J))
-     .                + (X(3,JG)-X(3,J))*(X(3,JG)-X(3,J)) 
+     .                + (X(3,JG)-X(3,J))*(X(3,JG)-X(3,J))
                   EDGE_L2_NEW = MAX(EDGE_L2_NEW, AAA )
                 ENDDO
                 EDGE_L2_NEW = (HALF+EM3)*SQRT(EDGE_L2_NEW)
@@ -272,7 +272,7 @@ c             compute secnd edge half size
 c            DELTA_PMAX_GAP_L = MAX(DELTA_PMAX_GAP_L,
 c     .        MAX(PENE_OLD(3,I),EDGE_L2_NEW)
 c     .       -MAX(PENE_OLD(4,I),EDGE_L2_OLD) )
-              
+
 c a verifier en SPMD !!!!!!!!!!!!!!!!!!!
             PMAX_GAP_L = MAX(PMAX_GAP_L,EDGE_L2_NEW)
 
@@ -304,7 +304,7 @@ c            XSLV(18)=MIN(XSLV(18),X(3,J)-XSAV(3,J)-PENE_OLD(3,I))
             VSLV(5)=MIN(VSLV(5),V(2,J))
             VSLV(6)=MIN(VSLV(6),V(3,J))
 C            
-           
+
           ENDIF
         END DO
 #include "vectorize.inc"
@@ -334,7 +334,7 @@ c            XMSR(12)=MIN(XMSR(12),X(3,J)-XSAV(3,J)-GAPN_M(I))
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
-      ENDIF       
+      ENDIF
 C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
 C
       IF(NSPMD==1) THEN
@@ -351,7 +351,7 @@ C
          DELTA_PMAX_GAP_NODE=ITAB(DELTA_PMAX_GAP_NODE_L)
       ENDIF
 C
-c      DELTA_PMAX_GAP = MAX(DELTA_PMAX_GAP,DELTA_PMAX_GAP_L) 
+c      DELTA_PMAX_GAP = MAX(DELTA_PMAX_GAP,DELTA_PMAX_GAP_L)
 
       IF(INTPLY > 0) DELTA_PMAX_GAP = DELTA_PMAX_GAP + DELTA_PMAX_DGAP
 C      

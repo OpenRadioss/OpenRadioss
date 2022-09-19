@@ -38,10 +38,10 @@ Chd|====================================================================
 
         TYPE FUNC_DATA
           my_real, ALLOCATABLE, DIMENSION(:) :: RHO
-          my_real, ALLOCATABLE, DIMENSION(:) :: VFRAC                 
-          my_real, ALLOCATABLE, DIMENSION(:) :: PRES  
+          my_real, ALLOCATABLE, DIMENSION(:) :: VFRAC
+          my_real, ALLOCATABLE, DIMENSION(:) :: PRES
         END TYPE
-        
+
         TYPE INIMAP1D_STRUCT
           INTEGER :: FUNC_VEL, NBMAT
           my_real :: FAC_VEL
@@ -60,8 +60,8 @@ Chd|====================================================================
 
           !function - /INIMAP1D/FILE
           my_real, ALLOCATABLE, DIMENSION(:) :: X  , X_VEL
-          my_real, ALLOCATABLE, DIMENSION(:) :: VEL  
-          TYPE(FUNC_DATA),DIMENSION(:),ALLOCATABLE :: SUBMAT         
+          my_real, ALLOCATABLE, DIMENSION(:) :: VEL
+          TYPE(FUNC_DATA),DIMENSION(:),ALLOCATABLE :: SUBMAT
 
         END TYPE INIMAP1D_STRUCT
       END MODULE INIMAP1D_MOD

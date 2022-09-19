@@ -80,7 +80,7 @@ C-----------------------------------------------------------------------
                NTGT = NTG + NTGI
                KAD = KIBALE+MONVOL(K1-1+18)
                NNS = MONVOL(K1-1+32)
-               NNI = MONVOL(K1-1+68) 
+               NNI = MONVOL(K1-1+68)
                NNT = NNS + NNI
                KR1=KRBALE+MONVOL(K1-1+34)
                KR2=KR1+NNT
@@ -104,7 +104,7 @@ C-----------------------------------------------------------------------
                   CALL SURF_MASS_COM(MONVOL(K2), VOLMON(KK2), NCA, IDSURF,
      .                               FSAVSURF(2,I),FSAVSURF(3,I))
                ENDDO
-             ENDIF			 
+             ENDIF			
            ENDIF
            K1 = K1+NIMV
            K2 = K2+NICBAG*NCA

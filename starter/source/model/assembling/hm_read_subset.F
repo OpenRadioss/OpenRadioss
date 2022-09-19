@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE GROUPDEF_MOD     
+      USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -115,18 +115,18 @@ C  SUBSET(ISU)%NPART : SUBSET number of part (within one subset)
 C  SUBSET(ISU)%NTPART : Total number of parts (within parent subset)
 C  SUBSET(ISU)%THIAD : IAD for global ITHBUF storage variables
 C  SUBSET(ISU)%NVARTH : nb of subset TH/ATH variable (10)
-!     /iTH , i=A,,B, ... I 
+!     /iTH , i=A,,B, ... I
 !     (  /iTH --> 9 additional time history files + 1 for /TH )
 C=======================================================================
       IS_AVAILABLE = .FALSE.
       SUB_INDEX = 0
       UID = 0
       ISU = 0
-      BUFTMP(:) = 0 
+      BUFTMP(:) = 0
 C--------------------------------------------------
 C      START READING SUBSETS
 C-------------------------------------------------- 
-      CALL HM_OPTION_START('SUBSET')  
+      CALL HM_OPTION_START('SUBSET')
 C--------------------------------------------------
 C BROWSING SUBSETS 1->NSUBS-1 ( NSUBS = NUMBER OF /SUBSET + GLOBAL_SUBSET )
 C--------------------------------------------------
@@ -153,8 +153,8 @@ C--------------------------------------------------
         SUBSET(ISU)%NPART  = 0
         SUBSET(ISU)%NCHILD = NSU
         SUBSET(ISU)%TH_FLAG = 0
-        MY_ALLOCATE(SUBSET(ISU)%NVARTH,10) 
-c        /iTH , i=A,,B, ... I 
+        MY_ALLOCATE(SUBSET(ISU)%NVARTH,10)
+c        /iTH , i=A,,B, ... I
 c     (  /iTH --> 9 additional time history files + 1 for /TH )
         SUBSET(ISU)%NVARTH(1:10) = 0
         SUBSET(ISU)%THIAD = 0
@@ -223,7 +223,7 @@ C-------------------------------------
 C-------------------------------------
 c     CREATE GLOBAL SUBSET
 C-------------------------------------
-      BUFTMP(:) = 0 
+      BUFTMP(:) = 0
       TITR = 'GLOBAL MODEL'
       SUBSET(NSUBS)%TITLE = TITR
 c
@@ -233,7 +233,7 @@ c
       SUBSET(NSUBS)%NCHILD = 0
       SUBSET(NSUBS)%NPART  = 0
       SUBSET(NSUBS)%TH_FLAG = 0
-      MY_ALLOCATE(SUBSET(NSUBS)%NVARTH,10) !  /iTH , i=A,,B, ... I 
+      MY_ALLOCATE(SUBSET(NSUBS)%NVARTH,10) !  /iTH , i=A,,B, ... I
 !     (  /iTH --> 9 additional time history files + 1 for /TH )
       SUBSET(NSUBS)%NVARTH(1:10) = 0
       SUBSET(NSUBS)%THIAD = 0
@@ -267,10 +267,10 @@ C-------------------------------------
             BUFTMP(NP) = K
           ENDIF
         ENDDO
-        SUBSET(ISU)%NPART = NP   
+        SUBSET(ISU)%NPART = NP
         MY_ALLOCATE(SUBSET(ISU)%PART,NP)
         DO K=1,NP
-          SUBSET(ISU)%PART(K) = BUFTMP(K) 
+          SUBSET(ISU)%PART(K) = BUFTMP(K)
         ENDDO
       ENDDO
 C-------------------------------------
@@ -307,7 +307,7 @@ C-------------------------------------
         ENDDO
       ENDDO
 C-------------------------------------
-c     SEARCH PARTS IN DESCENDANCE (recursive) 
+c     SEARCH PARTS IN DESCENDANCE (recursive)
 C-------------------------------------
       DO ISU = 1,NSUBS
         BUFTMP(:) = 0
@@ -315,7 +315,7 @@ C-------------------------------------
         NC  = SUBSET(ISU)%NCHILD
         IF (NC == 0) NC = SUBSET(ISU)%NPART
         DO WHILE (NC > 0)
-          NC = SUBLVL(SUBSET,NSUBS,ISU,NTP,BUFTMP)               
+          NC = SUBLVL(SUBSET,NSUBS,ISU,NTP,BUFTMP)
         ENDDO
         SUBSET(ISU)%NTPART = NTP
         MY_ALLOCATE(SUBSET(ISU)%TPART,NTP)
@@ -326,8 +326,8 @@ C-------------------------------------
 C-------------------------------------
 c     WRITING SUBSETS  (TREE WRITING)
 C-------------------------------------
-      WRITE(IOUT,'(//A)')'       HIERARCHICAL SUBSET ORGANIZATION' 
-      WRITE(IOUT,'(A//)')'       --------------------------------' 
+      WRITE(IOUT,'(//A)')'       HIERARCHICAL SUBSET ORGANIZATION'
+      WRITE(IOUT,'(A//)')'       --------------------------------'
       IAD = 1
       BUFTMP(:) = 0
       DO ISU=1,NSUBS
@@ -336,14 +336,14 @@ C-------------------------------------
           DO WHILE (IAD > 0)
             I = BUFTMP(IAD)
             NSU = SUBSET(I)%NCHILD
-            IAD = IAD - 1                             
-            CALL ECRSUB2(SUBSET,NSUBS,I,IPART,NIVMAX)  
-            IF (NSU > 0) THEN                          
-              DO K = NSU,1,-1                          
-                IAD = IAD+1                            
-                BUFTMP(IAD) = SUBSET(I)%CHILD(K)       
-              ENDDO                                    
-            ENDIF                                      
+            IAD = IAD - 1
+            CALL ECRSUB2(SUBSET,NSUBS,I,IPART,NIVMAX)
+            IF (NSU > 0) THEN
+              DO K = NSU,1,-1
+                IAD = IAD+1
+                BUFTMP(IAD) = SUBSET(I)%CHILD(K)
+              ENDDO
+            ENDIF
           ENDDO
         ENDIF
       ENDDO
@@ -353,7 +353,7 @@ C=======================================================================
 C-----------
       RETURN
       END
-      
+
        RECURSIVE INTEGER FUNCTION SUBLVL(SUBSET,NSUBS,ISU,NP,BUFTMP)
      . RESULT(NS)
 C-----------------------------------------------
@@ -371,12 +371,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NC,IS,IP,NK
-c=======================================================================      
+c=======================================================================
       NS = SUBSET(ISU)%NCHILD
-      DO J=1,SUBSET(ISU)%NPART                  
-        NP = NP + 1                         
-        BUFTMP(NP) = SUBSET(ISU)%PART(J)     
-      ENDDO                                     
+      DO J=1,SUBSET(ISU)%NPART
+        NP = NP + 1
+        BUFTMP(NP) = SUBSET(ISU)%PART(J)
+      ENDDO
       IF (NS > 0) THEN
         NC = 0
         DO I = 1,NS
@@ -438,8 +438,8 @@ C=======================================================================
       CNT(NIVEAU+1)=0
 
       L = MIN(10,MAX(2,22/(NIVMAX+1)))
-      
-c     lignes vides avant subset 
+
+c     lignes vides avant subset
       K = 3
       DO I=1,NIVEAU
         LIGNE(K:K+L) = BAR(I)(1:L)
@@ -454,7 +454,7 @@ c--------------------------------
       ELSEIF (CNT(NIVEAU) == SUBSET(SUBSET(ISU)%PARENT)%NCHILD) THEN
         BAR(NIVEAU) = '          '
       ENDIF
-      
+
 c     ligne subset
       LIGNE=' '
       IF (NIVEAU == 0) THEN
@@ -490,7 +490,7 @@ Cmi---
         LIGNE(K:K) = SUBSET(ISU)%TITLE(I:I)
       ENDDO
       WRITE(IOUT,'(A)')LIGNE(1:K)
-      
+
 c    subset souligne + ligne vide apres subset
       K=3
       LIGNE=' '
@@ -501,7 +501,7 @@ c    subset souligne + ligne vide apres subset
       ENDDO
       K2 = K
       K  = K-1
-      WRITE(LIGNE(K:K+5),FMT='(A6)')'~~~~~~' 
+      WRITE(LIGNE(K:K+5),FMT='(A6)')'~~~~~~'
       WRITE(IOUT,'(A)')LIGNE(1:K+5)
 c     part
       NP = SUBSET(ISU)%NPART
@@ -555,4 +555,4 @@ c-----------
       RETURN
       END
 
-      
+

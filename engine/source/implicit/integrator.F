@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT 
+      INTEGER NODFT,NODLT
 C     REAL
       my_real
      . D(3,*),DR(3,*),V(3,*),VR(3,*),A(3,*),AR(3,*),X(3,*)
@@ -162,7 +162,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT 
+      INTEGER NODFT,NODLT
 C     REAL
       my_real
      . V(3,*),X(3,*)
@@ -197,7 +197,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT,NODLT 
+      INTEGER NODFT,NODLT
 C     REAL
       my_real
      . D(3,*),X(3,*)
@@ -415,7 +415,7 @@ C------- integrateur ----------
             AR(3,I)=ZERO
             ENDDO
            ENDIF
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -489,7 +489,7 @@ C
         AR(3,I)=ZERO
        ENDDO
       ENDIF
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END
@@ -530,7 +530,7 @@ C------- integrateur de base---------
             X(2,I)=X(2,I)+D(2,I)
             X(3,I)=X(3,I)+D(3,I)
            ENDDO
-!$OMP END PARALLEL 
+!$OMP END PARALLEL
 C--------------------------------------------
       RETURN
       END

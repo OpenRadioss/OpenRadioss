@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: I_STOK,NEDGE,NIN,NEDGE_L,IFQ
-      INTEGER :: LEDGE_FIE(E_LEDGE_SIZE,*) 
+      INTEGER :: LEDGE_FIE(E_LEDGE_SIZE,*)
       INTEGER :: CAND_S(I_STOK),CAND_M(I_STOK),CAND_A(*),IFPEN(*)
       my_real
      .        CAND_P(*),CAND_FX(*) ,CAND_FY(*) ,CAND_FZ(*)
@@ -95,7 +95,7 @@ C       IF(NN<=NEDGE_L)THEN
         ELSE
          IF(IFPEN(I)==0.AND.CAND_P(I)==ZERO)THEN
             CAND_S(I) = NEDGE+1
-          ENDIF 
+          ENDIF
         ENDIF
 C       ELSE ! remote
 C       ENDIF
@@ -109,7 +109,7 @@ C=======================================================================
         NN = CAND_S(I) + 2
         CAND_A(NN) = CAND_A(NN) + 1
       ENDDO
-      
+
 C=======================================================================
 C     CAND_A : ADRESSE DE CHAQUE NOEUD 
 C     APRES 400 CAND_A[2:NEDGE+2] : ADRESSE DES NOEUDS [1:NEDGE+1] 

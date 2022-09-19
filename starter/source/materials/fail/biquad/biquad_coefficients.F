@@ -52,15 +52,15 @@ C-----------------------------------------------
       INTEGER  I, J, K, IPIV2(2), IPIV3(3), INFO
       my_real TRIAX_1_LIN, TRIAX_2_LIN, TRIAX_3_LIN,
      .        TRIAX_4_LIN, TRIAX_5_LIN
-      my_real TRIAX_1_QUAD, TRIAX_2_QUAD, 
+      my_real TRIAX_1_QUAD, TRIAX_2_QUAD,
      .        TRIAX_3_QUAD, TRIAX_4_QUAD, TRIAX_5_QUAD
       my_real A_1(2,2), B_1(2)
       my_real A_2(3,3), B_2(3)
       DATA TRIAX_1_LIN, TRIAX_2_LIN, TRIAX_3_LIN, TRIAX_4_LIN,
-     .        TRIAX_5_LIN 
+     .        TRIAX_5_LIN
      .     / -0.33333333, 0.0, 0.33333333, 0.57735, 0.66666667 /
-      DATA TRIAX_1_QUAD, TRIAX_2_QUAD, TRIAX_3_QUAD, 
-     .     TRIAX_4_QUAD, TRIAX_5_QUAD 
+      DATA TRIAX_1_QUAD, TRIAX_2_QUAD, TRIAX_3_QUAD,
+     .     TRIAX_4_QUAD, TRIAX_5_QUAD
      .     / 0.111111, 0.0, 0.111111, 0.333333, 0.444444 /
 #ifndef WITHOUT_LINALG
 C=======================================================================
@@ -72,53 +72,53 @@ C=============================================
        IF (L/=0)THEN
          IF     (L == 1) THEN      ! Mild Seel (c3 = 0.6)
            c1 =  3.5 * c3
-           c2 =  1.6 * c3         
+           c2 =  1.6 * c3
            c4 =  0.6 * c3
            c5 =  1.5 * c3
          ELSEIF (L == 2) THEN      ! DP600 (c3 = 0.5)
            c1 =  4.3 * c3
-           c2 =  1.4 * c3          
+           c2 =  1.4 * c3
            c4 =  0.6 * c3
            c5 =  1.6 * c3
          ELSEIF (L == 3) THEN      ! Boron (c3 = 0.12)
            c1 =   5.2 * c3
-           c2 =   3.1 * c3         
+           c2 =   3.1 * c3
            c4 =   0.8 * c3
            c5 =   3.5 * c3
          ELSEIF (L == 4) THEN      ! Aluminium AA5182 (c3 = 0.3)
            c1 =   5.0 * c3
-           c2 =   1.0 * c3         
+           c2 =   1.0 * c3
            c4 =   0.4 * c3
            c5 =   0.8 * c3
          ELSEIF (L == 5) THEN      ! Aluminium AA6082-T6 (c3 = 0.17)
            c1 =   7.8 * c3
-           c2 =   3.5 * c3         
+           c2 =   3.5 * c3
            c4 =   0.6 * c3
            c5 =   2.8 * c3
          ELSEIF (L == 6) THEN      ! Plastic light_eBody PA6GF30 (c3 = 0.1)
            c1 =   3.6 * c3
-           c2 =   0.6 * c3         
+           c2 =   0.6 * c3
            c4 =   0.5 * c3
            c5 =   0.6 * c3
          ELSEIF (L == 7) THEN      ! Plastic light_eBody PP T40 ( c3=0.11 )
            c1 =  10.0 * c3
-           c2 =   2.7 * c3         
+           c2 =   2.7 * c3
            c4 =   0.6 * c3
            c5 =   0.7 * c3
          ELSEIF (L == 99) THEN     ! user scalling factors
            c1 =    e1 * c3
-           c2 =    e2 * c3        
+           c2 =    e2 * c3
            c4 =    e3 * c3
            c5 =    e4 * c3
          ELSE                      ! ELSE --> Mild Seel
            c1 =  3.5 * c3
-           c2 =  1.6 * c3          
+           c2 =  1.6 * c3
            c4 =  0.6 * c3
            c5 =  1.5 * c3
-         ENDIF        
+         ENDIF
        ELSEIF(c1 == ZERO .AND. c2 == ZERO .AND. c4 == ZERO .AND. c5 == ZERO) THEN
          c1 =  3.5 * c3
-         c2 =  1.6 * c3    
+         c2 =  1.6 * c3
          c4 =  0.6 * c3
          c5 =  1.5 * c3
        ENDIF
@@ -135,7 +135,7 @@ C=======================================================================
         B_1(2)   =   c3 - c2
 C
 C!      fitting the first quadratic function
-        IF (IRESP == 0) THEN 
+        IF (IRESP == 0) THEN
           CALL DGESV(2, 1, A_1, 2, IPIV2, B_1, 2, INFO)
         ELSE
           CALL SGESV(2, 1, A_1, 2, IPIV2, B_1, 2, INFO)
@@ -162,13 +162,13 @@ C=======================================================================
         B_2(3)   =   c5
 C
 C!      fitting the second quadratic function
-        IF (IRESP == 0) THEN 
+        IF (IRESP == 0) THEN
           CALL DGESV(3, 1, A_2, 3, IPIV3, B_2, 3, INFO)
         ELSE
           CALL SGESV(3, 1, A_2, 3, IPIV3, B_2, 3, INFO)
         ENDIF
         X_2(1:3) = B_2(1:3)
-#else 
+#else
         WRITE(6,*) "Error: Blas/Lapack required for /FAIL/BIQUAD"
 #endif
 C

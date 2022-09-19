@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT92(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -96,7 +96,7 @@ C-----------------------------------------------
       INTEGER ID,ITEST,IDAM
       my_real
      .  E,NU,G,MU,LAM,D,RBULK,SCALEFAC,C(5),
-     .  A1,A2,A3,A4,NU0 ,FAC_UNIT  
+     .  A1,A2,A3,A4,NU0 ,FAC_UNIT
       CHARACTER  STRING*ncharfield
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -122,29 +122,29 @@ C-----------------------------------------------
       CALL HM_GET_INTV  ('MAT_FCT_IDI'  ,IFUNC(1) ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_NU'       ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_FScale'   ,SCALEFAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF(SCALEFAC == ZERO)THEN 
+      IF(SCALEFAC == ZERO)THEN
         CALL HM_GET_FLOATV_DIM('MAT_FScale' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         SCALEFAC = ONE * FAC_UNIT
-      ENDIF       
+      ENDIF
 
-      !========== DEFAULT VALUES=============!              
+      !========== DEFAULT VALUES=============!
       RHOR=ZERO
       !IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 
-      !C By default we consider the uniaxial test 
+      !C By default we consider the uniaxial test
       IF(ITEST == 0) ITEST = 1
-      !C Uniaxial - itest = 1       
+      !C Uniaxial - itest = 1
       !C equibiaxial - Itest = 2
       !c Planar - Itest = 3
-      !C       
-      !the proposed one      READ(LINE,FMT=FMT_A_I_F)STRING,IFUNC(1),NU     
+      !C
+      !the proposed one      READ(LINE,FMT=FMT_A_I_F)STRING,IFUNC(1),NU
       !CSTRING = UNIAXIAL
-      !CSTRING = EQUIBIAXIAL 
-      !CSTRING = PLANAR 
-      !C By default we consider the unniaxial test  
-      !!the proposed one       ITEST = 1  
+      !CSTRING = EQUIBIAXIAL
+      !CSTRING = PLANAR
+      !C By default we consider the unniaxial test
+      !!the proposed one       ITEST = 1
       !!the proposed one       IF(STRING(1:8) == ' ' ) THEN
       !!the proposed one          ITEST = 1
       !!the proposed one       ELSEIF(STRING(1:10) == 'EQUIBIAXIA') THEN
@@ -158,14 +158,14 @@ C-----------------------------------------------
       C(4) = 19.D00/7000.D00
       C(5) = 519.D00/673750.D00
 C
-      IF(LAM == ZERO) LAM = SEVEN  
+      IF(LAM == ZERO) LAM = SEVEN
       A1 = ONE/LAM**2
       A2 = A1**2
       A3 = A1*A2
       A4 = A2**2
-      G= MU*(ONE +  THREE*A1/FIVE + EIGHTY19*A2/175.D00 
-     .         + 513.D00*A3/875.D00 + 42039.D00*A4/67375.D00) 
-        
+      G= MU*(ONE +  THREE*A1/FIVE + EIGHTY19*A2/175.D00
+     .         + 513.D00*A3/875.D00 + 42039.D00*A4/67375.D00)
+
       NFUNC= 0
       RBULK = ZERO
       IF(IFUNC(1) /= 0) THEN
@@ -174,14 +174,14 @@ C
       ELSEIF(D == ZERO) THEN
         NU = 0.495
         RBULK = TWO_THIRD*(ONE + NU)*G/(ONE - TWO*NU)
-        D  = TWO/RBULK 
+        D  = TWO/RBULK
       ELSE
-        RBULK =  TWO/D 
+        RBULK =  TWO/D
       ENDIF
 !
 ! computing E
 !
-      E = NINE*RBULK*G/MAX(EM20,(THREE*RBULK + G))  
+      E = NINE*RBULK*G/MAX(EM20,(THREE*RBULK + G))
       IF(IFUNC(1) == 0 ) NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
 C     
       UPARAM(1) = MU
@@ -193,11 +193,11 @@ C
       UPARAM(7) = C(2)
       UPARAM(8) = C(3)
       UPARAM(9) = C(4)
-      UPARAM(10) = C(5) 
-      UPARAM(11) = NU  
+      UPARAM(10) = C(5)
+      UPARAM(11) = NU
       UPARAM(12) = ITEST
       UPARAM(14) = SCALEFAC
-     
+
       NUPARAM = 14
       IF(NUPARAM > MAXUPARAM)THEN
         WRITE(IOUT,*)' ** ERROR : NUPARAM GT MAXUPARAM'
@@ -208,9 +208,9 @@ C
       PARMAT(1) = RBULK
       PARMAT(2) = E
       PARMAT(3) = NU
-      
+
        MTAG%L_EPSA  = 1 ! hyperelastic energy needed for mullins
-       IMATVIS = 1                 
+       IMATVIS = 1
        PM(100) = RBULK
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
@@ -221,19 +221,19 @@ c-----------------
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
         WRITE(IOUT,1002) RHO0
         IF(IFUNC(1) > 0) THEN
-           IF(ITEST == 1) THEN 
+           IF(ITEST == 1) THEN
               WRITE(IOUT,1200)IFUNC(1),SCALEFAC, NU
-           ELSEIF(ITEST == 2) THEN 
+           ELSEIF(ITEST == 2) THEN
               WRITE(IOUT,1300)IFUNC(1),SCALEFAC, NU
-           ELSEIF(ITEST == 3) THEN 
+           ELSEIF(ITEST == 3) THEN
               WRITE(IOUT,1400)IFUNC(1),SCALEFAC, NU
-           ENDIF   
+           ENDIF
         ELSE
           WRITE(IOUT,1100)MU,D,LAM, NU
-        ENDIF  
+        ENDIF
       ENDIF
 
 C-----------------------------------------------
@@ -250,11 +250,11 @@ C-----------------------------------------------
      & 5X,'MU . . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'D. . . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'LAM. . . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'POISSON RATIO. . . . . . . . . . . . . .=',E12.4//) 
+     & 5X,'POISSON RATIO. . . . . . . . . . . . . .=',E12.4//)
  1200 FORMAT(
      & 5X,'UNIAXIAL DATA TEST CURVE  .  . . . . . .=',I10/
      & 5X,'SCALE FACTOR FOR STRESS IN FUNCTION. . .=',1PG20.13/
-     & 5X,'POISSON RATIO. . . . . . . . . . . . . .=',E12.4///) 
+     & 5X,'POISSON RATIO. . . . . . . . . . . . . .=',E12.4///)
  1300 FORMAT(
      & 5X,'EQUIBIAXIAL DATA TEST CURVE. . . . . . .=',I10/
      & 5X,'SCALE FACTOR FOR STRESS IN FUNCTION. . .=',1PG20.13/

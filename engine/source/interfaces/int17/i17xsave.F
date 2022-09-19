@@ -80,7 +80,7 @@ C
       ZMAX=-EP30
 C
       DO K=1,8
-        DO I=1+ESH_T,NME_T+ESH_T                      
+        DO I=1+ESH_T,NME_T+ESH_T
           J=IXS(K+1,NELEM(I))
           XSAV(1,J) = X(1,J)+DT2*(V(1,J)+DT12*A(1,J))
           XSAV(2,J) = X(2,J)+DT2*(V(2,J)+DT12*A(2,J))

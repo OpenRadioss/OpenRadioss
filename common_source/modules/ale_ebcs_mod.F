@@ -36,6 +36,6 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE ALE_EBCS_MOD
 
-      INTEGER NEBCS   
+      INTEGER NEBCS
 
       END MODULE ALE_EBCS_MOD

@@ -79,22 +79,22 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       CALL ALE_CONNECTIVITY%ALE_COMPUTE_EE_CONNECTIVITY(
-     .     PM  , NPROPM, NUMMAT, NUMNOD , NUMELQ, NUMELTG, NUMELS, N2D, 
-     .     IALE, IEULER, ITHERM, IALELAG, 
-     .     NIXQ, NIXTG , NIXS  , ITAB   , 
+     .     PM  , NPROPM, NUMMAT, NUMNOD , NUMELQ, NUMELTG, NUMELS, N2D,
+     .     IALE, IEULER, ITHERM, IALELAG,
+     .     NIXQ, NIXTG , NIXS  , ITAB   ,
      .     IXQ , IXTG  , IXS)
-      
+
       IF (ALE_CONNECTIVITY%has_ne_connect .OR. ALE_CONNECTIVITY%has_nn_connect) THEN
          CALL ALE_CONNECTIVITY%ALE_COMPUTE_CONNECTIVITY(
-     .        NUMNOD, NUMELQ, NUMELTG, NUMELS, 
-     .        NIXQ  , NIXTG , NIXS   , ITAB, 
+     .        NUMNOD, NUMELQ, NUMELTG, NUMELS,
+     .        NIXQ  , NIXTG , NIXS   , ITAB,
      .        IXQ   , IXTG  , IXS)
       ENDIF
-      
-      CALL ALE_CHECK_LAG(ALE_CONNECTIVITY%NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R,IGEO)   
-      
-      IF (ALE_CONNECTIVITY%has_nn_connect) THEN 
-         CALL ALESOP(ALE_CONNECTIVITY%NALE, ALE_CONNECTIVITY%NN_CONNECT, ICODE, ITAB)        
+
+      CALL ALE_CHECK_LAG(ALE_CONNECTIVITY%NALE,IXS,IXQ,IXC,IXT,IXTG,PM,ITAB,NALE_R2R,FLAG_R2R,IGEO)
+
+      IF (ALE_CONNECTIVITY%has_nn_connect) THEN
+         CALL ALESOP(ALE_CONNECTIVITY%NALE, ALE_CONNECTIVITY%NN_CONNECT, ICODE, ITAB)
       ENDIF
 
 
@@ -102,7 +102,7 @@ C-----------------------------------------------
       IF (N2D == 0)THEN
          CALL ALESO3(ALE_CONNECTIVITY,PM,IXS,GEO,IGEO)
       ELSEIF( .NOT. MULTI_FVM%IS_USED .OR. NUMELQ /= 0) THEN
-         CALL ALESO2(ALE_CONNECTIVITY,PM,IXQ,IGEO)   
+         CALL ALESO2(ALE_CONNECTIVITY,PM,IXQ,IGEO)
       ELSE
          CALL ALESO2T(ALE_CONNECTIVITY, PM, IXTG,IGEO)
       ENDIF

@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE INIGRAV
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE EBCS_MOD      
+      USE EBCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN),TARGET          :: IPART(LIPART1,*)    
+      INTEGER, INTENT(IN),TARGET          :: IPART(LIPART1,*)
       TYPE (GROUP_)  , DIMENSION(NGRPART) :: IGRPART
       TYPE(T_EBCS_TAB), INTENT(INOUT)     :: EBCS_TAB
 C-----------------------------------------------
@@ -97,24 +97,24 @@ C-----------------------------------------------
       INIGRAV_PARTS%IS_ALLOCATED = .FALSE.
       ALLOCATE(INIGRAV_PARTS%TAGPART(NPART))
       ALLOCATE(INIGRAV_PARTS%GRAV0(NPART))
-      ALLOCATE(INIGRAV_PARTS%NG(3,NPART))      
+      ALLOCATE(INIGRAV_PARTS%NG(3,NPART))
       INIGRAV_PARTS%IS_ALLOCATED = .TRUE.
-                  
+
       !-- list of PARTs
       INIGRAV_PARTS%TAGPART(1:NPART) = 0
-      INIGRAV_PARTS%GRAV0(1:NPART) = ZERO      
-      DO KK=1,NINIGRAV 
-        IGRP    = INIGRV(1,KK)           
-        GRAV0   = LINIGRAV(07,KK)  
+      INIGRAV_PARTS%GRAV0(1:NPART) = ZERO
+      DO KK=1,NINIGRAV
+        IGRP    = INIGRV(1,KK)
+        GRAV0   = LINIGRAV(07,KK)
         NGX     = LINIGRAV(08,KK)
         NGY     = LINIGRAV(09,KK)
-        NGZ     = LINIGRAV(10,KK) 
+        NGZ     = LINIGRAV(10,KK)
         IF(IGRP == 0)CYCLE
         NP      = IGRPART(IGRP)%NENTITY
         DO JJ=1,NP
           ID_PART = IGRPART(IGRP)%ENTITY(JJ)   !  UID : IPART(4,IGRPART(IGRP)%ENTITY(JJ))
           INIGRAV_PARTS%TAGPART(ID_PART) = 1
-          INIGRAV_PARTS%GRAV0(ID_PART) = GRAV0       
+          INIGRAV_PARTS%GRAV0(ID_PART) = GRAV0
           INIGRAV_PARTS%NG(1,ID_PART) = NGX
           INIGRAV_PARTS%NG(2,ID_PART) = NGY
           INIGRAV_PARTS%NG(3,ID_PART) = NGZ
@@ -122,7 +122,7 @@ C-----------------------------------------------
       ENDDO    !next K
 
       !DEALLOCATE INIGRAV_PARTS WHEN NO LONGER USED BY /EBCS/NRF   (WHEN HYDROSTATIC PRESSURE WAS INITIALIZED)
-      
+
       RETURN
       END
 

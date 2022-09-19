@@ -74,10 +74,10 @@ C-----------------------------------------------
      .   YAVG(MVSIZ),A1(MVSIZ) , A2(MVSIZ)
 C-----------------------------------------------
       DTH=HALF*DT1
-      
+
       DO I=LFT,LLT
-        !from qforc2 subroutine : &W  = &V  
-        !from bforc2 subroutine : &W /= &V  
+        !from qforc2 subroutine : &W  = &V
+        !from bforc2 subroutine : &W /= &V
         VY1(I)=W(2,NC1(I))
         VZ1(I)=W(3,NC1(I))
         VY2(I)=W(2,NC2(I))
@@ -114,7 +114,7 @@ C-----------------------------------------------
         PY1(I)=HALF*(ZM2(I)-ZM4(I))
         PY2(I)=HALF*(ZM3(I)-ZM1(I))
         PZ1(I)=HALF*(YM4(I)-YM2(I))
-        PZ2(I)=HALF*(YM1(I)-YM3(I))      
+        PZ2(I)=HALF*(YM1(I)-YM3(I))
       ENDDO
 
       DO I=LFT,LLT
@@ -140,7 +140,7 @@ C-----------------------------------------------
           DZY(I)=(PY1(I)*VZ13(I)+PY2(I)*VZ24(I))/AIREM(I)
           DYZ(I)=(PZ1(I)*VY13(I)+PZ2(I)*VY24(I))/AIREM(I)
           EYT(I)=ZERO
-          EZT(I)=ZERO   
+          EZT(I)=ZERO
         ELSE
           EYY(I)=ZERO
           EZZ(I)=ZERO
@@ -170,7 +170,7 @@ C---------------------------------------
         PY1(I)=HALF*(Z2(I)-Z4(I))
         PY2(I)=HALF*(Z3(I)-Z1(I))
         PZ1(I)=HALF*(Y4(I)-Y2(I))
-        PZ2(I)=HALF*(Y1(I)-Y3(I))      
+        PZ2(I)=HALF*(Y1(I)-Y3(I))
       ENDDO
 C---------------------------------------
 C     REPERE LOCAL POUR MATERIAUX NON ISOTROPES
@@ -179,7 +179,7 @@ C---------------------------------------
         RX(I)=ONE
         RY(I)=ZERO
         RZ(I)=ZERO
-        SX(I)=ZERO    
+        SX(I)=ZERO
         SY(I)=-PZ1(I)-PZ2(I)
         SZ(I)=+PY1(I)+PY2(I)
         TX(I)=ZERO

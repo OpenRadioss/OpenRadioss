@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -75,7 +75,7 @@ C-----------------------------------------------
       my_real
      .   C0, C1, C2, C3, C4, C5,  PSH, RHO0,RHOR,MU0,
      .   FAC_L,FAC_T,FAC_M,FAC_C,RHOI,G0,SSP0,DPDMU
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -94,9 +94,9 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM( 23)=ZERO
@@ -108,7 +108,7 @@ C-----------------------------------------------
       PM( 36)=ZERO
       PM( 88)=PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
-  
+
       !initial pressure for stress tensor
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -119,17 +119,17 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       PM(31)=C0-PSH+C1*MU0
-      
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
       DPDMU = C1
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
       PM(27)=SSP0
 
       WRITE(IOUT,1000)

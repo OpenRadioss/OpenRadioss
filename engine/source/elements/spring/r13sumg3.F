@@ -38,7 +38,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .    AL(*),KX(*),KY(*),KZ(*),
      .    MX(*),MY(*),MZ(*),
      .    R11(*),R12(*),R13(*),
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, EP,IS,IAS,MI,MJ
-      my_real 
+      my_real
      .     Q(3,3,MVSIZ),K11(3,MVSIZ),M11(3,MVSIZ),MF32(MVSIZ),
      .     M12(3,MVSIZ),MF23(MVSIZ),ALDEMI,Q1,Q2,Q3,MF11(3,3,MVSIZ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -68,7 +68,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         M12(2,I)=AL(I)*MF32(I)-M11(2,I)
         M12(3,I)=AL(I)*MF23(I)-M11(3,I)
         MF32(I)=-MF32(I)
-       ENDDO 
+       ENDDO
 C---------------------------------------
 C   TRANS LOCAL-->GLOBAL 
 C---------------------------------------
@@ -82,14 +82,14 @@ C---------------------------------------
         Q(3,1,I)=R13(I)
         Q(3,2,I)=R23(I)
         Q(3,3,I)=R33(I)
-       ENDDO 
+       ENDDO
 C---------------------------------------
 C   ASSEMBLAGE
 C---------------------------------------
 C---------KII ----Keij=QkiQkj*Kkk---M12 est diag- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=I,3 
+        DO J=I,3
          MJ=J+3
          DO EP=JFT,JLT
           Q1 =Q(1,I,EP)*Q(1,J,EP)
@@ -104,8 +104,8 @@ C---------KII ----Keij=QkiQkj*Kkk---M12 est diag-
         ENDDO
        ENDDO
 C---------K23>0,K32>0-------------------------
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          DO EP=JFT,JLT
           MF11(I,J,EP)=Q(2,I,EP)*MF23(EP)*Q(3,J,EP)+
      .                 Q(3,I,EP)*MF32(EP)*Q(2,J,EP)
@@ -113,8 +113,8 @@ C---------K23>0,K32>0-------------------------
         ENDDO
        ENDDO
 C
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          MJ=J+3
          DO EP=JFT,JLT
           KE11(I,MJ,EP)=MF11(I,J,EP)
@@ -123,8 +123,8 @@ C
         ENDDO
        ENDDO
 C
-       DO I=1,6 
-        DO J=I,6 
+       DO I=1,6
+        DO J=I,6
          DO EP=JFT,JLT
           KE11(J,I,EP)=KE11(I,J,EP)
           KE22(J,I,EP)=KE22(I,J,EP)
@@ -132,9 +132,9 @@ C
         ENDDO
        ENDDO
 C---------KIJ -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=1,3 
+        DO J=1,3
          MJ=J+3
          DO EP=JFT,JLT
           KE12(I,J,EP)=-KE11(I,J,EP)
@@ -151,4 +151,4 @@ C---------KIJ --------
 C
       RETURN
       END
- 
+

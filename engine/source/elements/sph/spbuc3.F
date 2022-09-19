@@ -54,7 +54,7 @@ Chd|====================================================================
       SUBROUTINE SPBUC3(X     ,KXSP   ,IXSP  ,NOD2SP,NSN   ,
      2                  SPBUF ,MA     ,JVOIS ,JSTOR ,JPERM ,
      3                  DVOIS ,IREDUCE,BMINMA,NSNR  ,NSP2SORTF,
-     4                  NSP2SORTL,ITASK,KREDUCE,LGAUGE ,GAUGE ) 
+     4                  NSP2SORTL,ITASK,KREDUCE,LGAUGE ,GAUGE )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .  MY_ADRV,NVOISS
 C     REAL
       my_real
-     .        MARGE, AAA, 
+     .        MARGE, AAA,
      .        AAA2, XI,YI,ZI,XJ,YJ,ZJ, D2,D1X,D1Y,D1Z,DK
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
@@ -117,7 +117,7 @@ c!!!!      MARGE = TZINF-MAX(GAP,PMAX_GAP)  ! il s agit bien de la marge
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -130,12 +130,12 @@ c!!!!      MARGE = TZINF-MAX(GAP,PMAX_GAP)  ! il s agit bien de la marge
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))
@@ -219,7 +219,7 @@ C-------
 C on ne fait rien pour le remote
           ENDIF
         END DO
-      END DO      
+      END DO
 
       DO N=ITASK+1,NSNR,NTHREAD
         NVOIS=KXSPR(N)
@@ -235,7 +235,7 @@ C on ne fait rien pour le remote
           NV(MY_ADRV+MS)=NV(MY_ADRV+MS)+1
 
         END DO
-      END DO      
+      END DO
 C-------        
 C
       CALL MY_BARRIER
@@ -291,7 +291,7 @@ C-------
 C on ne fait rien pour le remote
           ENDIF
         END DO
-      END DO      
+      END DO
 
       DO N=ITASK+1,NSNR,NTHREAD
         NVOIS=KXSPR(N)
@@ -308,7 +308,7 @@ C on ne fait rien pour le remote
           IV(ITASK*NUMSPH+MS)=IV(ITASK*NUMSPH+MS)+1
 
         END DO
-      END DO      
+      END DO
 C-------        
 C
       CALL MY_BARRIER
@@ -321,7 +321,7 @@ C-------
         XI = X(1,INOD)
         YI = X(2,INOD)
         ZI = X(3,INOD)
- 
+
         NVOIS=KXSP(5,N)
         DO K=1,NVOIS
           JNOD=IXSP(K,N)
@@ -349,7 +349,7 @@ C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
 
           JVOIS(K)=JNOD
           DVOIS(K)=D2/AAA2
-       
+
         END DO
 
         NVOISS=0
@@ -388,7 +388,7 @@ C a faire : symetrie parfaite <=> X(hmin)-X(hmax)
 
           JVOIS(KXSP(5,N)+K)=JNOD
           DVOIS(KXSP(5,N)+K)=D2/AAA2
-       
+
         END DO
 
         BOOL_SPH_SORT(N) = .FALSE.
@@ -434,7 +434,7 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
         KXSP(4,N)=NVOIS1
         IF(NVOIS1>LVOISPH)IREDUCE=1
 
-      END DO      
+      END DO
 C-------        
 C
       CALL MY_BARRIER

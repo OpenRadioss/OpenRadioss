@@ -43,13 +43,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   FUNC(*), AL(*)
-      INTEGER IVOIS(2,*),NODCUT,I 
+      INTEGER IVOIS(2,*),NODCUT,I
 C-----------------------------------------------
 C     REAL
       REAL R4
 C-----------------------------------------------
       DO I=1,NODCUT
-         R4 =AL(I)*FUNC(IVOIS(2,I))+(ONE-AL(I))*FUNC(IVOIS(1,I)) 
+         R4 =AL(I)*FUNC(IVOIS(2,I))+(ONE-AL(I))*FUNC(IVOIS(1,I))
          CALL WRITE_R_C(R4,1)
       ENDDO
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,11 +97,11 @@ C-----------------------------------------------
       INTEGER I,J,N,IC,IL,IL_OLD,NG,NEL,MLW,JTURB,MT,G_PLA,II(6)
 C     REAL
       my_real
-     .   OFF,  P, VONM2, VONM, S1, S2, S12, S3, VALUE     
+     .   OFF,  P, VONM2, VONM, S1, S2, S12, S3, VALUE
       REAL R4
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C=======================================================================
       IL_OLD = -1
       DO IC=1,NUMEL
@@ -110,12 +110,12 @@ C=======================================================================
          IL_OLD = IL
 C
          DO 490 NG=1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           IF (ITY/=1)      GOTO 490
           IF (NEL+NFT<IL) GOTO 490
@@ -153,22 +153,22 @@ c-----------
              P = - (GBUF%SIG(II(1)+I)
      .            + GBUF%SIG(II(2)+I)
      .            + GBUF%SIG(II(3)+I)) / THREE
-             VALUE = P    
+             VALUE = P
              IF (IFUNC==7) THEN
                S1 = GBUF%SIG(II(1)+I) + P
                S2 = GBUF%SIG(II(2)+I) + P
                S3 = GBUF%SIG(II(3)+I) + P
-               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +      
-     .                        GBUF%SIG(II(5)+I)**2 +      
-     .                        GBUF%SIG(II(6)+I)**2 +      
-     .                   HALF*(S1*S1+S2*S2+S3*S3))              
+               VONM2 = THREE*(GBUF%SIG(II(4)+I)**2 +
+     .                        GBUF%SIG(II(5)+I)**2 +
+     .                        GBUF%SIG(II(6)+I)**2 +
+     .                   HALF*(S1*S1+S2*S2+S3*S3))
               VONM= SQRT(VONM2)
               VALUE = VONM
             ENDIF
 c-----------
            ELSEIF (IFUNC==8 . AND. JTURB/=0) THEN
 C            ENERGIE TURBULENTE     
-             VALUE = GBUF%RK(I) 
+             VALUE = GBUF%RK(I)
            ELSEIF (IFUNC==9) THEN
 C           VISCOSITE TURBULENTE
             IF((MLW==6 .OR. MLW==17).AND.JTURB/=0)THEN
@@ -184,9 +184,9 @@ C
            ELSEIF(IFUNC==10)THEN
 C            VORTICITE
              IF(MLW==6 .OR. MLW==17)THEN
-               VALUE = LBUF%VK(I)     
+               VALUE = LBUF%VK(I)
              ELSEIF(MLW==46 .OR. MLW==47)THEN
-               VALUE = MBUF%VAR(I)      
+               VALUE = MBUF%VAR(I)
              ELSE
                VALUE = ZERO
              ENDIF

@@ -138,14 +138,14 @@ C-----------------------------------------------
       FRIC   =INTBUF_TAB%VARIABLES(1)
 C-----------------------------------------------
       ANSMX =ZERO
-      DE    =ZERO    
+      DE    =ZERO
 C-----
       FTANGX=ZERO
       FTANGY=ZERO
       FTANGZ=ZERO
       FNORMX=ZERO
       FNORMY=ZERO
-      FNORMZ=ZERO     
+      FNORMZ=ZERO
 C-----------------------------------------------
 #include "vectorize.inc"
       DO I=1,NSN
@@ -168,7 +168,7 @@ C-----------------------------------------------
      3         XP1   ,XP2   ,XP3   ,XP4   ,GX	  ,
      4         XTK   ,YTK   ,ZTK   ,NTX   ,NTY    ,
      5         NTZ   ,ANS   ,DEPTH ,XI    ,YI	  ,
-     6         ZI    ,NXI   ,NYI   ,NZI   ,ANSMX  , 
+     6         ZI    ,NXI   ,NYI   ,NZI   ,ANSMX  ,
      7         INTBUF_TAB%HOLD ,INTBUF_TAB%IMPACT ,ITAB )
        CALL I15FOR1(NDEB, NSC, STFAC,X     ,V	   ,
      2       INTBUF_TAB%KSURF ,IGRSURF ,BUFSF ,WA(KSC) ,INTBUF_TAB%IRECTS,
@@ -199,7 +199,7 @@ C-----------------------------------------------
      2       INTBUF_TAB%KSURF(1) ,IGRSURF ,BUFSF ,WA(KTC) ,INTBUF_TAB%IRECTS,
      3       INTBUF_TAB%IMPACT,INTBUF_TAB%IOLD ,INTBUF_TAB%HOLD ,INTBUF_TAB%NOLD,
      4           INTBUF_TAB%DOLD ,XP1   ,XP2      ,XP3    ,XTK   ,YTK   ,
-     5           ZTK   ,NTX   ,NTY   ,NTZ   ,ANS   , 
+     5           ZTK   ,NTX   ,NTY   ,NTZ   ,ANS   ,
      6           DEPTH ,XI    ,YI    ,ZI     ,NXI   ,
      7           NYI   ,NZI   ,MS   ,DE    ,NPC   ,
      8           PLD    ,WA(KWNF) ,WA(KWTF) ,WA(KWNS) ,FNORMX,

@@ -69,7 +69,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         LEN_TMP = J
-         
+
         CALL MPI_GATHER(
      S    LEN_TMP       ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
@@ -124,7 +124,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER J,K 
+       INTEGER J,K
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
 
@@ -197,7 +197,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER J,K 
+       INTEGER J,K
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
 
@@ -212,9 +212,9 @@ C-----------------------------------------------
 
         DO K=1,LEN/3
            I=NODGLOB(K)
-           VP0_TMP(3*(I-1)+1)=V(3*(K-1)+1) 
-           VP0_TMP(3*(I-1)+2)=V(3*(K-1)+2) 
-           VP0_TMP(3*(I-1)+3)=V(3*(K-1)+3) 
+           VP0_TMP(3*(I-1)+1)=V(3*(K-1)+1)
+           VP0_TMP(3*(I-1)+2)=V(3*(K-1)+2)
+           VP0_TMP(3*(I-1)+3)=V(3*(K-1)+3)
         ENDDO
 
        IF (LENP0 > 0) THEN

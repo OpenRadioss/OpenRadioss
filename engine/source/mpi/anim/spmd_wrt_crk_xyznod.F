@@ -30,7 +30,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
        SUBROUTINE SPMD_WRT_CRK_XYZNOD(ICRK,NUM,NODGLOBXFE)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
 C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -87,7 +87,7 @@ C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 C
-         MSGTYP = MSGOFF2 
+         MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .                 MPI_COMM_WORLD,ierror)
 C  
@@ -127,7 +127,7 @@ c
             CALL MPI_RECV(BUFSR,SIZ*3,MPI_REAL4,IT_SPMD(I),MSGTYP2,
      .                    MPI_COMM_WORLD,STATUS,ierror)
 c
-            NREC = SIZ 
+            NREC = SIZ
 c
             DO K = 1, NREC
               NG = IBUF(K)

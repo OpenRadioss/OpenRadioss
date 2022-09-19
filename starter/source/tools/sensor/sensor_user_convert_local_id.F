@@ -32,7 +32,7 @@ Chd|====================================================================
 !$COMMENT
 !       SENSOR_USER_CONVERT_LOCAL_I description
 !       convert a list of User ID into a local ID
-!       
+!
 !       SENSOR_USER_CONVERT_LOCAL_I organization :
 !           - sort the list
 !           - remove the duplicated ID
@@ -109,7 +109,7 @@ C-----------------------------------------------
         ! compute the index of saved nodes
         K = 1
         LOCAL_ARRAY(1) = 1
-        J = 0 
+        J = 0
         DO I=2,SIZE_LOCAL
             J = J + 1
             IF(LIST_ENTITY(I)/=LIST_ENTITY(I-1)) THEN

@@ -79,7 +79,7 @@ C
       IF(VV<=HALF)THEN
         V1 = ZERO
         V2 = -ZEP707
-        V3 = ZEP707        
+        V3 = ZEP707
         VV1 = V2 * ZN - V3 * YN
         VV2 = V3 * XN - V1 * ZN
         VV3 = V1 * YN - V2 * XN

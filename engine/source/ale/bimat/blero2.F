@@ -30,9 +30,9 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE BLERO2(ALPH,ALPHC,VOLO,RHON,FLUX,FLU1,OFF,PM,NGL,VOLN,
-     .     AIRE, D1, D2, D3, D4, D5, D6, VD2, DVOL, 
+     .     AIRE, D1, D2, D3, D4, D5, D6, VD2, DVOL,
      .     VY1, VY2, VY3, VY4,
-     .     VZ1, VZ2, VZ3, VZ4, 
+     .     VZ1, VZ2, VZ3, VZ4,
      .     MAT)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -57,9 +57,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   ALPH(*), ALPHC(*), VOLO(*), RHON(*), FLUX(4,*), FLU1(*),
-     .   OFF(*), PM(NPROPM,*),VOLN(MVSIZ), 
+     .   OFF(*), PM(NPROPM,*),VOLN(MVSIZ),
      .   AIRE(*), D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), VD2(*), DVOL(*),
-     .   VY1(*), VY2(*), VY3(*), VY4(*), 
+     .   VY1(*), VY2(*), VY3(*), VY4(*),
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*)
       INTEGER MAT(*)
 C-----------------------------------------------

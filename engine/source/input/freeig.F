@@ -68,7 +68,7 @@ C
        IF (KEY2=='OFF  ')
      .    CALL READ10P(IKAD(IKEY)+KK,NBC,KEY0(IKEY),IV2,JJ)
       ENDDO
-      IF (JJ/=0) WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)  
+      IF (JJ/=0) WRITE(IIN,'(10I10)')(IV2(J),J=1,JJ)
 C
       RETURN
 C
@@ -78,4 +78,4 @@ C
       CALL ARRET(0)
 C
       END
-      
+

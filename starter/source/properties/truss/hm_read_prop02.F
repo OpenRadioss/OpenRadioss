@@ -38,8 +38,8 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD    
-      USE SUBMODEL_MOD        
+      USE ELBUFTAG_MOD
+      USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,8 +67,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER
      .        IGTYP , IGEO(*)
       my_real GEO(*)
 
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IG, J
-     
+
       my_real
      .    PUN,GAP
       CHARACTER*nchartitle,

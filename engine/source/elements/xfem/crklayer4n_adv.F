@@ -34,8 +34,8 @@ Chd|====================================================================
       SUBROUTINE CRKLAYER4N_ADV(
      .           XFEM_STR  ,NEL       ,NFT       ,IXC       ,ELCUTC    ,
      .           ILAY      ,NLAY      ,IEL_CRK   ,INOD_CRK  ,
-     .           IADC_CRK  ,NODENR    ,ELCRKINI  ,DIR1      ,DIR2      ,      
-     .           NODEDGE   ,CRKNODIAD ,KNOD2ELC  ,CRKEDGE   ,A_I       ,      
+     .           IADC_CRK  ,NODENR    ,ELCRKINI  ,DIR1      ,DIR2      ,
+     .           NODEDGE   ,CRKNODIAD ,KNOD2ELC  ,CRKEDGE   ,A_I       ,
      .           XL2       ,XL3       ,XL4       ,YL2       ,YL3       ,
      .           YL4       ,XEDGE4N   ,NGL       )
 C-----------------------------------------------
@@ -107,12 +107,12 @@ C=======================================================================
       IF (NEWCRK == 0) RETURN
 C---
       II  = NXEL*(ILAY-1)
-      PP1 = II + 1 
-      PP2 = II + 2   
-      PP3 = II + 3   
+      PP1 = II + 1
+      PP2 = II + 2
+      PP3 = II + 3
 C---
-      DO IR=1,NEWCRK 
-        I = JCT(IR)              
+      DO IR=1,NEWCRK
+        I = JCT(IR)
         ELFISS(I)= 0
         TIP(I)   = 0
         ECUT(1:2,I)  = 0
@@ -144,14 +144,14 @@ C------------------------------------------------
 c     First intersection (already cut edge)
 C------------------------------------------------
       DO IR=1,NEWCRK ! loop over elems (layers) with advancing cracks
-        I = JCT(IR)    
-        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem 
+        I = JCT(IR)
+        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem
         OK    = 0
         ICUT  = 0
         IED   = 0
         DO K=1,4  ! edges
           IEDGE = XEDGE4N(K,ELCRK)
-          IF (IEDGE > 0) THEN                                                     
+          IF (IEDGE > 0) THEN
             ICUT  = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)
             IF (ICUT == 1) THEN
               NOD1  = NODEDGE(1,IEDGE)  ! noeud std
@@ -163,28 +163,28 @@ C------------------------------------------------
                 p1 = dd(K)
                 p2 = K
               ENDIF
-              OK     = 1    
-              IED    = K                                                                             
-              ECUT(1,I)= K                                                                             
-              EXIT          
+              OK     = 1
+              IED    = K
+              ECUT(1,I)= K
+              EXIT
             ENDIF    !  IF (ICUT == 1) THEN
-          ENDIF                                                                   
+          ENDIF
         ENDDO      !  DO K=1,4
 C---
-        IF (OK == 1) THEN    ! edge found                                                              
-          BETA = CRKEDGE(ILAY)%RATIO(IEDGE)                                                 
-          XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))                                      
+        IF (OK == 1) THEN    ! edge found
+          BETA = CRKEDGE(ILAY)%RATIO(IEDGE)
+          XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))
           YIN(1,I) = YYL(p1,I) + BETA*(YYL(p2,I) - YYL(p1,I))
-c                                                                                    
-          ELFISS(I)   = CRKEDGE(ILAY)%EDGEICRK(IEDGE)    ! Id fissure qui avance                  
-          IENR0(p1,I) = CRKEDGE(ILAY)%EDGEENR(1,IEDGE)   ! enrichissement 1 noeud                 
-          IENR0(p2,I) = CRKEDGE(ILAY)%EDGEENR(2,IEDGE)   ! enrichissement 2 noeud                 
+c
+          ELFISS(I)   = CRKEDGE(ILAY)%EDGEICRK(IEDGE)    ! Id fissure qui avance
+          IENR0(p1,I) = CRKEDGE(ILAY)%EDGEENR(1,IEDGE)   ! enrichissement 1 noeud
+          IENR0(p2,I) = CRKEDGE(ILAY)%EDGEENR(2,IEDGE)   ! enrichissement 2 noeud
           EDGEL(IED,I) = 1              ! local : premier edge coupe
           IEDGE  = XEDGE4N(IED,ELCRK)    ! N  edge element sys xfem
           TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 ou 2 , debut ou fin de fissure
         ELSE
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK --- CHECK CRACK TIP'
-          CALL ARRET(2)           
+          CALL ARRET(2)
         ENDIF
 C---
       END DO !  DO IR=1,NEWCRK
@@ -219,15 +219,15 @@ C---
               M12 = DLY / DLX
               XINT = XINT0
               YINT = YYL(p1,I) + M12*(XINT-XXL(p1,I))
-              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.   
-     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN  
+              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.
+     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN
                 CROSS = (XXL(p1,I) - XINT)**2 + (YYL(p1,I) - YINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
-                  YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))   
-                ENDIF                                             
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
+                  YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))
+                ENDIF
 C
                 ECUT(2,I) = R
                 XIN(2,I)  = XINT
@@ -258,15 +258,15 @@ c
               M12 = DLX / DLY
               YINT = YINT0
               XINT = XXL(p1,I) + M12*(YINT-YYL(p1,I))
-              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.   
-     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN  
+              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.
+     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN
                 CROSS = (XXL(p1,I) - XINT)**2 + (YYL(p1,I) - YINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
-                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))           
-                ENDIF                                              
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
+                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))
+                ENDIF
 C
                 ECUT(2,I)  = R
                 XIN(2,I)   = XINT
@@ -301,9 +301,9 @@ C
               IF ((YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN
                 CROSS = (YYL(p1,I) - YINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
                   YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))
                 ENDIF
                 ECUT(2,I)  = R
@@ -319,10 +319,10 @@ C
               IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO) THEN
                 CROSS = (XXL(p1,I) - XINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
-                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))           
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
+                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))
                 ENDIF
                 ECUT(2,I)  = R
                 XIN(2,I)   = XINT
@@ -336,17 +336,17 @@ C
               IF (MM /= M12) THEN
                 XINT = (YINT0-YYL(p1,I) + M12*XXL(p1,I) - MM*XINT0)/(M12-MM)
                 YINT = YINT0 + MM*(XINT-XINT0)
-                ACD = (YINT-YYL(p1,I))*(XINT0 - XXL(p1,I)) 
-     .              - (XINT-XXL(p1,I))*(YINT0 - YYL(p1,I))  
-                BCD = (YINT-YYL(p2,I))*(XINT0 - XXL(p2,I)) 
-     .              - (XINT-XXL(p2,I))*(YINT0 - YYL(p2,I))  
+                ACD = (YINT-YYL(p1,I))*(XINT0 - XXL(p1,I))
+     .              - (XINT-XXL(p1,I))*(YINT0 - YYL(p1,I))
+                BCD = (YINT-YYL(p2,I))*(XINT0 - XXL(p2,I))
+     .              - (XINT-XXL(p2,I))*(YINT0 - YYL(p2,I))
                 IF (ACD*BCD <= ZERO) THEN
                   CROSS = (XXL(p1,I) - XINT)**2 + (YYL(p1,I) - YINT)**2
                   BETA  = SQRT(CROSS / LEN(r,I))
-                  IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                    BETA = MAX(BETA, BMIN)                                
-                    BETA = MIN(BETA, BMAX)                                
-                    XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))         
+                  IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                    BETA = MAX(BETA, BMIN)
+                    BETA = MIN(BETA, BMAX)
+                    XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))
                     YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))
                   ENDIF
                   ECUT(2,I)  = R
@@ -370,9 +370,9 @@ C-----------------------------------------------------------------------
         DO r=1,4
            IF (EDGEL(r,I)==1 .or. EDGEL(r,I)==2) FAC=FAC+1
         ENDDO
-        IF (FAC /= 2) THEN 
+        IF (FAC /= 2) THEN
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK. NO CUT EDGES'
-          CALL ARRET(2)           
+          CALL ARRET(2)
         ENDIF
       ENDDO
 c     tag cut edge numbers of each layer
@@ -389,10 +389,10 @@ C     SIGN DISTANCE FOR NEW CRACKED LAYER
 C----------------------------------------------------------------------
       DO IR=1,NEWCRK
         I = JCT(IR)
-        FIT(1,I) = ZERO 
-        FIT(2,I) = ZERO 
-        FIT(3,I) = ZERO 
-        FIT(4,I) = ZERO 
+        FIT(1,I) = ZERO
+        FIT(2,I) = ZERO
+        FIT(3,I) = ZERO
+        FIT(4,I) = ZERO
 c
         DO K=1,4
           p1  = K
@@ -417,14 +417,14 @@ C-------------------
         ELCRK = IEL_CRK(I+NFT)
 C
         K = ECUT(2,I)    ! second intersection (tip)
-        IEDGE = XEDGE4N(K,ELCRK)                                                              
-        ICUT  = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)                                                  
-        IF (ICUT > 0) THEN   ! already cut before => edge connecting two cracks               
-          CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 3   ! 2 cracks sur le meme edge    
-        ELSE                                                                                  
-          CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 2  ! edge cut                                       
-          CRKEDGE(ILAY)%RATIO(IEDGE) = BETA0(K,I)                                             
-        ENDIF                                                                                 
+        IEDGE = XEDGE4N(K,ELCRK)
+        ICUT  = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)
+        IF (ICUT > 0) THEN   ! already cut before => edge connecting two cracks
+          CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 3   ! 2 cracks sur le meme edge
+        ELSE
+          CRKEDGE(ILAY)%ICUTEDGE(IEDGE) = 2  ! edge cut
+          CRKEDGE(ILAY)%RATIO(IEDGE) = BETA0(K,I)
+        ENDIF
       ENDDO       !  IR=1,NEWCRK
 C-----------------------
 C     FILL new cut layer - main loop
@@ -444,7 +444,7 @@ c        if(ispmd==6.and.elcrk==1)    print*,'   ELCRK:,IAD=',ELCRK,IADC(1),IADC
 c        if(ispmd==3.and.elcrk==1220) print*,'   ELCRK:,IAD=',ELCRK,IADC(1),IADC(2),IADC(3),IADC(4)
 c        if(ispmd==1.and.elcrk==595)  print*,'   ELCRK:,IAD=',ELCRK,IADC(1),IADC(2),IADC(3),IADC(4)
 c        if(ispmd==1.and.elcrk==636)  print*,'   ELCRK:,IAD=',ELCRK,IADC(1),IADC(2),IADC(3),IADC(4)
-c        if(nspmd==1.and.(elcrk==4059.or.elcrk==3959.or.elcrk==3960.or.elcrk==3860)) 
+c        if(nspmd==1.and.(elcrk==4059.or.elcrk==3959.or.elcrk==3960.or.elcrk==3860))
 c
 c
         N(1) = IXC(2,I)               ! n  node sys std
@@ -481,38 +481,38 @@ c--------------------------------------------
 C
         SIGBETA = 0
         K = ECUT(2,I)  ! only new cut edge (tip)
-        IEDGE = XEDGE4N(K,ELCRK)                                          
-        NOD1  = NODEDGE(1,IEDGE)                                          
-        NOD2  = NODEDGE(2,IEDGE)                                          
-        IE10  = CRKEDGE(ILAY)%EDGEENR(1,IEDGE)                            
-        IE20  = CRKEDGE(ILAY)%EDGEENR(2,IEDGE)                            
-        IF (NOD1 == IXC(K+1,I) .and. NOD2 == IXC(dd(K)+1,I)) THEN         
-          IE1 = IENR(K)                                                   
-          IE2 = IENR(dd(K))                                               
-          IFI1 = ISIGN(K)                                                 
-          IFI2 = ISIGN(dd(K))                                             
-          SIGBETA = IEDGE                                                 
-        ELSE IF (NOD2 == IXC(K+1,I) .and. NOD1 == IXC(dd(K)+1,I)) THEN    
-          IE1 = IENR(dd(K))                                               
-          IE2 = IENR(K)                                                   
-          IFI1 = ISIGN(dd(K))                                             
-          IFI2 = ISIGN(K)                                                 
-          SIGBETA = -IEDGE                                                
-        END IF                                                            
-        CRKEDGE(ILAY)%EDGEENR(1,IEDGE) = MAX(IE1,IE10)                    
-        CRKEDGE(ILAY)%EDGEENR(2,IEDGE) = MAX(IE2,IE20)                    
-        IF (CRKEDGE(ILAY)%EDGEICRK(IEDGE) == 0)                           
-     .      CRKEDGE(ILAY)%EDGEICRK(IEDGE)  = ICRK                         
-c--------------------------          
-        ITRI = 0  
-        NM   = 0       
-        NP   = 0       
+        IEDGE = XEDGE4N(K,ELCRK)
+        NOD1  = NODEDGE(1,IEDGE)
+        NOD2  = NODEDGE(2,IEDGE)
+        IE10  = CRKEDGE(ILAY)%EDGEENR(1,IEDGE)
+        IE20  = CRKEDGE(ILAY)%EDGEENR(2,IEDGE)
+        IF (NOD1 == IXC(K+1,I) .and. NOD2 == IXC(dd(K)+1,I)) THEN
+          IE1 = IENR(K)
+          IE2 = IENR(dd(K))
+          IFI1 = ISIGN(K)
+          IFI2 = ISIGN(dd(K))
+          SIGBETA = IEDGE
+        ELSE IF (NOD2 == IXC(K+1,I) .and. NOD1 == IXC(dd(K)+1,I)) THEN
+          IE1 = IENR(dd(K))
+          IE2 = IENR(K)
+          IFI1 = ISIGN(dd(K))
+          IFI2 = ISIGN(K)
+          SIGBETA = -IEDGE
+        END IF
+        CRKEDGE(ILAY)%EDGEENR(1,IEDGE) = MAX(IE1,IE10)
+        CRKEDGE(ILAY)%EDGEENR(2,IEDGE) = MAX(IE2,IE20)
+        IF (CRKEDGE(ILAY)%EDGEICRK(IEDGE) == 0)
+     .      CRKEDGE(ILAY)%EDGEICRK(IEDGE)  = ICRK
+c--------------------------
+        ITRI = 0
+        NM   = 0
+        NP   = 0
         DO K=1,4
           IED = EDGEL(K,I)
           IF (IED > 0) THEN
             IEDGE = XEDGE4N(K,ELCRK)
             CRKEDGE(ILAY)%EDGETIP(1,IEDGE) = TIP(I)
-            CRKEDGE(ILAY)%EDGETIP(2,IEDGE) = 
+            CRKEDGE(ILAY)%EDGETIP(2,IEDGE) =
      .                  CRKEDGE(ILAY)%EDGETIP(2,IEDGE) + 1
           ENDIF
           IF (ISIGN(K) > 0) THEN
@@ -523,15 +523,15 @@ c--------------------------
           ENDIF
         ENDDO
 c---
-        IF (ITRI == 1) THEN                    
-          ITRI = -1  
-          NX1  = NP  
-        ELSEIF (ITRI == 3) THEN                
-          ITRI = 1   
-          NX1  = NM  
-        ELSEIF (ITRI == 2) THEN                
-          ITRI = 0   
-          IF (NP > 1 .and. ISIGN(NP-1) > 0)  THEN  
+        IF (ITRI == 1) THEN
+          ITRI = -1
+          NX1  = NP
+        ELSEIF (ITRI == 3) THEN
+          ITRI = 1
+          NX1  = NM
+        ELSEIF (ITRI == 2) THEN
+          ITRI = 0
+          IF (NP > 1 .and. ISIGN(NP-1) > 0)  THEN
             NX1 = NP-1
           ELSE
             NX1 = NP
@@ -542,13 +542,13 @@ c          print*,'   Avancement: IEL,ELCRK,proc=',I+NFT,ELCRK,ispmd
 c          print*,'               IAD=',IADC(1),IADC(2),IADC(3),IADC(4)
 c          print*,'               NSX=',NN(1),NN(2),NN(3),NN(4),ITRI
 c---
-        NX2 = KPERM(NX1+1)    
-        NX3 = KPERM(NX1+2)    
-        NX4 = KPERM(NX1+3)    
+        NX2 = KPERM(NX1+1)
+        NX3 = KPERM(NX1+2)
+        NX4 = KPERM(NX1+3)
 C
         CRKEDGE(ILAY)%LAYCUT(ELCRK) = 1
-        XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) = ITRI   
-        XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) = NX1    
+        XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) = ITRI
+        XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) = NX1
         XFEM_PHANTOM(ILAY)%ELCUT(ELCRK)  = ICRK
         XFEM_PHANTOM(ILAY)%IFI(IADC(1))  = ISIGN(1)
         XFEM_PHANTOM(ILAY)%IFI(IADC(2))  = ISIGN(2)
@@ -581,32 +581,32 @@ C
 C------------------
 C       IXEL = 3 => Third phantom element  (ILEV = PP3)
 C------------------
-        IF (ITRI == 0) THEN                
-          X1  = XXL(NX1,I)        
-          Y1  = YYL(NX1,I)                       
-          X2  = XXL(NX2,I)        
+        IF (ITRI == 0) THEN
+          X1  = XXL(NX1,I)
+          Y1  = YYL(NX1,I)
+          X2  = XXL(NX2,I)
           Y2  = YYL(NX2,I)
           IED = EDGEL(NX2,I)
-          IF (IED > 0) THEN     
-            X3 = XIN(IED,I)     
+          IF (IED > 0) THEN
+            X3 = XIN(IED,I)
             Y3 = YIN(IED,I)
           ELSE
           ENDIF
           IED = EDGEL(NX4,I)
-          IF (IED > 0) THEN     
-            X4 = XIN(IED,I)     
+          IF (IED > 0) THEN
+            X4 = XIN(IED,I)
             Y4 = YIN(IED,I)
           ELSE
           ENDIF
           AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
-     .            
+     .
           AREA1 = AREA1 * A_I(I)
           AREA2 = ONE - AREA1
           AREA3 = ZERO
 c
-          XFEM_STR(3)%GBUF%OFF(I) = ZERO                         
-c          XFEM_STR(3)%BUFLY(ILAY)%OFF(I) = 0   
-          XFEM_STR(3)%BUFLY(ILAY)%LBUF(1,1,1)%OFF(I) = ZERO   
+          XFEM_STR(3)%GBUF%OFF(I) = ZERO
+c          XFEM_STR(3)%BUFLY(ILAY)%OFF(I) = 0
+          XFEM_STR(3)%BUFLY(ILAY)%LBUF(1,1,1)%OFF(I) = ZERO
 c
         ELSEIF (ITRI < 0) THEN   ! cut en 3,  IPH3 = IPH2 < 0
             IE1 = XEDGE4N(NX2,ELCRK)
@@ -626,26 +626,26 @@ c
               CRKLVSET(PP3)%ENR0(1,IAD4) = CRKLVSET(PP2)%ENR0(1,IAD4)
               CRKLVSET(PP2)%ENR0(1,IAD1) = -CRKNODIAD(IAD1) - KNOD2ELC(NN(NX1))*(ILAY-1)
 c
-c--           IXEL=2 AREA factor                                     
-              IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)                    
-              X1  = XIN(IED,I)                                       
-              Y1  = YIN(IED,I)                                       
-              X2  = XXL(NX3,I)                                       
-              Y2  = YYL(NX3,I)                                       
-              X3  = XXL(NX4,I)                                       
-              Y3  = YYL(NX4,I)                                       
-              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
-c--           IXEL=1 AREA factor                                     
-              IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                    
-              X2  = XIN(IED,I)                                       
-              Y2  = YIN(IED,I)                                       
-              X3  = XXL(NX1,I)                                       
-              Y3  = YYL(NX1,I)                                       
-              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+c--           IXEL=2 AREA factor
+              IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)
+              X1  = XIN(IED,I)
+              Y1  = YIN(IED,I)
+              X2  = XXL(NX3,I)
+              Y2  = YYL(NX3,I)
+              X3  = XXL(NX4,I)
+              Y3  = YYL(NX4,I)
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+c--           IXEL=1 AREA factor
+              IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)
+              X2  = XIN(IED,I)
+              Y2  = YIN(IED,I)
+              X3  = XXL(NX1,I)
+              Y3  = YYL(NX1,I)
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
 c
-              AREA1 = AREA1 * A_I(I)                                
-              AREA2 = AREA2 * A_I(I)                                
-              AREA3 = ONE - AREA1 - AREA2                             
+              AREA1 = AREA1 * A_I(I)
+              AREA2 = AREA2 * A_I(I)
+              AREA3 = ONE - AREA1 - AREA2
             ELSEIF (CRKEDGE(ILAY)%ICUTEDGE(IE1) > 1) THEN
                print*,' IMPOSSIBLE CASE'
             ENDIF
@@ -666,39 +666,39 @@ c
               CRKLVSET(PP3)%ENR0(1,IAD3) = CRKLVSET(PP1)%ENR0(1,IAD3)
               CRKLVSET(PP3)%ENR0(1,IAD4) = CRKLVSET(PP1)%ENR0(1,IAD4)
               CRKLVSET(PP1)%ENR0(1,IAD1) = -CRKNODIAD(IAD1) - KNOD2ELC(NN(NX1))*(ILAY-1)
-c--           IXEL=1 AREA factor                                     
-              IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                    
-              X1  = XIN(IED,I)                                       
-              Y1  = YIN(IED,I)                                       
-              X2  = XXL(NX2,I)                                       
-              Y2  = YYL(NX2,I)                                       
-              X3  = XXL(NX3,I)                                       
-              Y3  = YYL(NX3,I)                                       
-              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
-c--           IXEL=2 AREA factor                                     
-              IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)                    
-              X2  = XIN(IED,I)                                       
-              Y2  = YIN(IED,I)                                       
-              X3  = XXL(NX1,I)                                       
-              Y3  = YYL(NX1,I)                                       
-              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
+c--           IXEL=1 AREA factor
+              IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)
+              X1  = XIN(IED,I)
+              Y1  = YIN(IED,I)
+              X2  = XXL(NX2,I)
+              Y2  = YYL(NX2,I)
+              X3  = XXL(NX3,I)
+              Y3  = YYL(NX3,I)
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+c--           IXEL=2 AREA factor
+              IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)
+              X2  = XIN(IED,I)
+              Y2  = YIN(IED,I)
+              X3  = XXL(NX1,I)
+              Y3  = YYL(NX1,I)
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
 c
-              AREA1 = AREA1 * A_I(I)                                
-              AREA2 = AREA2 * A_I(I)                                
-              AREA3 = ONE - AREA1 - AREA2                             
+              AREA1 = AREA1 * A_I(I)
+              AREA2 = AREA2 * A_I(I)
+              AREA3 = ONE - AREA1 - AREA2
             ELSEIF (CRKEDGE(ILAY)%ICUTEDGE(IE2) > 1) THEN
                print*,' IMPOSSIBLE CASE'
             ENDIF
-          ENDIF  ! ITRI        
+          ENDIF  ! ITRI
 c----
-          CRKLVSET(PP1)%AREA(ELCRK) = AREA1  
-          CRKLVSET(PP2)%AREA(ELCRK) = AREA2  
+          CRKLVSET(PP1)%AREA(ELCRK) = AREA1
+          CRKLVSET(PP2)%AREA(ELCRK) = AREA2
           CRKLVSET(PP3)%AREA(ELCRK) = AREA3
 c
           IF (AREA3 < ZERO .or. AREA1 > ONE .or. AREA2 > ONE .or. AREA3 > ONE ) THEN
             print*,'ERROR : XFEM PHANTOM ELEMENT AREA: ELCRK=',ELCRK
           ENDIF
-c        
+c
       ENDDO ! IR=1,NEWCRK
 c-----------
       RETURN

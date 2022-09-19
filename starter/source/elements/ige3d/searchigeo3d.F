@@ -47,7 +47,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PERMIGE(*)
 C     REAL
-      my_real 
+      my_real
      .  xigetmp(*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -74,7 +74,7 @@ c      CALL MYQSORT3D(NBTABIGE,XIGETMP,PERMIGE)
 c
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  SEARCHIGEO3D                  source/elements/ige3d/searchigeo3d.F
 Chd|-- called by -----------
@@ -82,7 +82,7 @@ Chd|        LECTUR                        source/starter/lectur.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SEARCHIGEO3D(IGRSURF,IADTABIGEINI, PERM, 
+      SUBROUTINE SEARCHIGEO3D(IGRSURF,IADTABIGEINI, PERM,
      .                  NIGETMP, NIGE, RIGETMP, RIGE,
      .                  XIGETMP, XIGE, VIGETMP, VIGE,
      .                  NDOUBLONSTOT)
@@ -106,7 +106,7 @@ C-----------------------------------------------
 c      INTEGER N,NDOUBLONSTOT,NSEGIGE,PERM(*), NIGETMP(*),NIGE(*),
 c     .        IGBUFSSGTMP(*), IGBUFSSG(*)
 C     REAL
-      my_real 
+      my_real
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -124,11 +124,11 @@ c
       ITSURF=1
       I=1
       NDOUBLONSTOT=0
-      IADTABIGE=0      
+      IADTABIGE=0
       DO ITSURF=1,NSURF
-      
+
         IF(IGRSURF(ITSURF)%NSEG_IGE>0) THEN !! on est sur une surface o   on a des elements isogeometriques
-       
+
           IGRSURF(ITSURF)%IAD_IGE = I-1
           DECALSURF=I+NDOUBLONSTOT-1
           NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9 ! nombre de points non tries de cette surface
@@ -156,7 +156,7 @@ c
             I=I+1
           ENDDO
           NDOUBLONSTOT=NDOUBLONSTOT+NDOUBLONS
-          
+
           DO J=1,IGRSURF(ITSURF)%NSEG_IGE!NSEGIGE
            DO K=1,4
             IGRSURF(ITSURF)%NODES_IGE(J,K)=PERMUTE(IGRSURF(ITSURF)%NODES_IGE(J,K)-NUMNOD)+NUMNOD
@@ -166,18 +166,18 @@ c
 
       ENDDO
 c
-      NUMFAKENODIGEO=NUMFAKENODIGEO-NDOUBLONSTOT 
-      
+      NUMFAKENODIGEO=NUMFAKENODIGEO-NDOUBLONSTOT
+
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  SEARCHIGEO3DOLD               source/elements/ige3d/searchigeo3d.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SEARCHIGEO3DOLD(IGRSURF,IADTABIGEINI, PERM, 
+      SUBROUTINE SEARCHIGEO3DOLD(IGRSURF,IADTABIGEINI, PERM,
      .                  NIGETMP, NIGE, RIGETMP, RIGE,
      .                  XIGETMP, XIGE, VIGETMP, VIGE,
      .                  NDOUBLONSTOT)
@@ -201,7 +201,7 @@ C-----------------------------------------------
 c      INTEGER N,NDOUBLONSTOT,NSEGIGE,PERM(*), NIGETMP(*),NIGE(*),
 c     .        IGBUFSSGTMP(*), IGBUFSSG(*)
 C     REAL
-      my_real 
+      my_real
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -263,11 +263,11 @@ c
           NBTABIGE=16*IGRSURF(ITSURF)%NSEG_IGE/9 ! nombre de points non tries de cette surface
           IADTABIGE = IADTABIGE + NBTABIGE
         ENDIF
-        
+
       ENDDO
 c
-      NUMFAKENODIGEO=NUMFAKENODIGEO-NDOUBLONSTOT 
-      
+      NUMFAKENODIGEO=NUMFAKENODIGEO-NDOUBLONSTOT
+
       RETURN
       END
 
@@ -277,8 +277,8 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SEARCHIGEO3D3(IGRSURF,N, PERM, 
-c      SUBROUTINE SEARCHIGEO3D(IGRSURF,N, NSEGIGE ,PERM, 
+      SUBROUTINE SEARCHIGEO3D3(IGRSURF,N, PERM,
+c      SUBROUTINE SEARCHIGEO3D(IGRSURF,N, NSEGIGE ,PERM,
      .                        NIGETMP, NIGE, RIGETMP, RIGE,
      .                        XIGETMP, XIGE, VIGETMP, VIGE,
      .                        NDOUBLONSTOT)
@@ -303,7 +303,7 @@ C-----------------------------------------------
 c      INTEGER N,NDOUBLONSTOT,NSEGIGE,PERM(*), NIGETMP(*),NIGE(*),
 c     .        IGBUFSSGTMP(*), IGBUFSSG(*)
 C     REAL
-      my_real 
+      my_real
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -328,7 +328,7 @@ c
       DECALSURF=0
       DECAL=0
       NBTABIGE=0
-      
+
       DO ITSURF=1,NSURF
         DECALSURF=DECALSURF+I-1 !+NDOUBLONS-1
         DECAL = DECAL+NBTABIGE
@@ -387,7 +387,7 @@ c
       NUMFAKENODIGEO=NUMFAKENODIGEO-NDOUBLONSTOT
 c      NUMFAKENODIGEO=IADTABIGEINI-NDOUBLONSTOT
 c      N=NUMFAKENODIGEO
-c     
+c
       RETURN
       END
 c
@@ -398,7 +398,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SEARCHIGEO3D2(IGRSURF,IADTABIGE, PERM, 
+      SUBROUTINE SEARCHIGEO3D2(IGRSURF,IADTABIGE, PERM,
      .                        NIGETMP, NIGE, RIGETMP, RIGE,
      .                        XIGETMP, XIGE, VIGETMP, VIGE,
      .                        NDOUBLONS)
@@ -421,7 +421,7 @@ C-----------------------------------------------
       INTEGER NDOUBLONS,PERM(*), NIGETMP(*),NIGE(*),
      .        IADTABIGE
 C     REAL
-      my_real 
+      my_real
      .  RIGETMP(3,*), XIGETMP(3,*), VIGETMP(3,*),
      .  RIGE(3,*)   , XIGE(3,*)   , VIGE(3,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -476,7 +476,7 @@ c     .                XIGETMP(3,I+NDOUBLONS+NVALEURS+1)) <= TOL))
 c
       NUMFAKENODIGEO=IADTABIGE-NDOUBLONS
       IADTABIGE=NUMFAKENODIGEO
-c     
+c
       RETURN
       END
 c
@@ -499,7 +499,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER n,perm (n)
 C     REAL
-      my_real 
+      my_real
      .  X (3,n)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -514,13 +514,13 @@ C-----------------------------------------------
        ALLOCATE(RKEY(n))
 
 
-       X_copy(1:3,1:n) = X(1:3,1:n) 
+       X_copy(1:3,1:n) = X(1:3,1:n)
        MAXI = 0
        DO i = 1,n
           MAXI = max(abs(X(1,i)),MAXI)
           MAXI = max(abs(X(2,i)),MAXI)
           MAXI = max(abs(X(3,i)),MAXI)
-       ENDDO                                
+       ENDDO
        DO I = 1,N
         RKEY(I) = (X(1,I)+MAXI) * MAXI * MAXI + (X(2,I)+MAXI) * MAXI + (X(3,I)+MAXI)
        ENDDO

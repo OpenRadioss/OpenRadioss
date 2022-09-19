@@ -127,7 +127,7 @@ C
 C 
         ELEM_CUR = ELEM_NEXT
         NODE_CUR = NODE_NEXT
-      ENDDO                      
+      ENDDO
 C
       END SUBROUTINE NEW_SEATBELT
 

@@ -40,7 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE SPHBOX
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ITYPE, IVAD, 
+      INTEGER I, ITYPE, IVAD,
      .        NEL,KAD,NG,K,
      .        II,IPT,JJ,NPF,
      .        NS,N,INOD,
@@ -89,8 +89,8 @@ C-----------------------------------------------
      .       XI,YI,ZI,XJ,YJ,ZJ,DMIN,DD,VX,VY,VZ,
      .       PMIN,VN,VO,PO,RHOI,SSPI,PINFINI,LC,ALP,
      .       TFEXTT,DVOL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF 
-      LOGICAL :: lBOOL    
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      LOGICAL :: lBOOL
 C=======================================================================
       TFEXTT= ZERO
 C-----------------------------------------------
@@ -193,19 +193,19 @@ C
           IF(IPPV>0)THEN
             NP=NOD2SP(IPPV)
             NG=MOD(KXSP(2,NP),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                   
-     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
-     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,    
-     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
+            CALL INITBUF (IPARG    ,NG      ,
+     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
             DO I=1,6
               KK(I) = NEL*(I-1)
             ENDDO
 !
-            GBUF => ELBUF_TAB(NG)%GBUF            
+            GBUF => ELBUF_TAB(NG)%GBUF
             K=NP-NFT
 !
             PN=-( GBUF%SIG(KK(1)+K)
@@ -221,24 +221,24 @@ C
          ENDIF
 C
          NG=MOD(KXSP(2,N),NGROUP+1)
-         CALL INITBUF (IPARG    ,NG      ,                   
-     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
-     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,    
-     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
+         CALL INITBUF (IPARG    ,NG      ,
+     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
          DO I=1,6
            KK(I) = NEL*(I-1)
          ENDDO
 !
-         GBUF => ELBUF_TAB(NG)%GBUF            
+         GBUF => ELBUF_TAB(NG)%GBUF
          K=N-NFT
 !
-         PX=-( GBUF%SIG(KK(1)+K)          
-     .        +GBUF%SIG(KK(2)+K)	  
-     .        +GBUF%SIG(KK(3)+K))*THIRD   
+         PX=-( GBUF%SIG(KK(1)+K)
+     .        +GBUF%SIG(KK(2)+K)	
+     .        +GBUF%SIG(KK(3)+K))*THIRD
          GBUF%SIG(KK(1)+K)=GBUF%SIG(KK(1)+K)+PX-PN
          GBUF%SIG(KK(2)+K)=GBUF%SIG(KK(2)+K)+PX-PN
          GBUF%SIG(KK(3)+K)=GBUF%SIG(KK(3)+K)+PX-PN
@@ -364,19 +364,19 @@ C
           PN=MAX(PN,PMIN)
 C
           NG=MOD(KXSP(2,N),NGROUP+1)
-          CALL INITBUF (IPARG    ,NG      ,                   
-     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
-     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,    
-     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
+          CALL INITBUF (IPARG    ,NG      ,
+     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
           DO I=1,6
             KK(I) = NEL*(I-1)
           ENDDO
 !
-          GBUF => ELBUF_TAB(NG)%GBUF            
+          GBUF => ELBUF_TAB(NG)%GBUF
           K=N-NFT
 !
           PX=-( GBUF%SIG(KK(1)+K)
@@ -395,19 +395,19 @@ C
           TFEXTT=TFEXTT+(PN-PX)*DVOL
          ELSE
           NG=MOD(KXSP(2,N),NGROUP+1)
-          CALL INITBUF (IPARG    ,NG      ,                   
-     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
-     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,    
-     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
+          CALL INITBUF (IPARG    ,NG      ,
+     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
           DO I=1,6
             KK(I) = NEL*(I-1)
           ENDDO
 !
-          GBUF => ELBUF_TAB(NG)%GBUF            
+          GBUF => ELBUF_TAB(NG)%GBUF
           K=N-NFT
 !
           PN=-( GBUF%SIG(KK(1)+K)

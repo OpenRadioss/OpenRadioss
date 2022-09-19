@@ -83,7 +83,7 @@ C NOFF                        NUMBER OF FAILED INTEGRATION POINTS (TOTAL)
 C---------+---------+---+---+--------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL, NUPARAM, NUVAR,IXFEM,IXEL,ILAY,NPTT, 
+      INTEGER NEL, NUPARAM, NUVAR,IXFEM,IXEL,ILAY,NPTT,
      .   IPT,IPTT,NPTOT
       INTEGER NGL(NEL),ELCRKINI(NXLAYMAX,*),NOFF(NEL)
       my_real TIME,UPARAM(*),DPLA(NEL),NPTTF(NEL),
@@ -120,14 +120,14 @@ c-----------------------------
       LAYXFEM = IXFEM
       IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL=2
 c-----------------------------
-      NINDX  = 0  
-      NINDXP = 0  
+      NINDX  = 0
+      NINDXP = 0
       DO I=1,NEL
         RFLAG(I) = 0
         RFLAGP(I)= 0
         INDXP(I) = 0
         INDX(I)  = 0
-      ENDDO 
+      ENDDO
 C---------
       DO I=1,NEL
         TENS(I,1) = SIGNXX(I)
@@ -147,47 +147,47 @@ C
         ENDIF
       ENDIF
 C-------------------------------------------------------------------
-      SELECT CASE (LAYXFEM)                           
+      SELECT CASE (LAYXFEM)
 c---------------
-        CASE (1)    ! multilayer Xfem     (with Ishell = 2)                               
+        CASE (1)    ! multilayer Xfem     (with Ishell = 2)
 C---------------
-          DO I=1,NEL                                                            
-            IF (OFF(I) == ONE) THEN                                              
-              IF (DFMAX(I) < ONE) THEN                                           
-                P   = THIRD*(SIGNXX(I) + SIGNYY(I))                               
-                SVM = SQRT(SIGNXX(I)*SIGNXX(I)                                  
-     .                   + SIGNYY(I)*SIGNYY(I)                                  
-     .                   - SIGNXX(I)*SIGNYY(I)                                  
-     .                   + THREE*SIGNXY(I)*SIGNXY(I))                           
-                EPSF = D3*P/MAX(EM20,SVM)                                       
-                EPSF = (D1 + D2*EXP(EPSF))*(ONE                                       
-     .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))                   
-     .                     * (ONE + D5*TSTAR(I))                                
-                IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF              
-c                                                                               
-                IF (IXEL == 0) THEN                                             
+          DO I=1,NEL
+            IF (OFF(I) == ONE) THEN
+              IF (DFMAX(I) < ONE) THEN
+                P   = THIRD*(SIGNXX(I) + SIGNYY(I))
+                SVM = SQRT(SIGNXX(I)*SIGNXX(I)
+     .                   + SIGNYY(I)*SIGNYY(I)
+     .                   - SIGNXX(I)*SIGNYY(I)
+     .                   + THREE*SIGNXY(I)*SIGNXY(I))
+                EPSF = D3*P/MAX(EM20,SVM)
+                EPSF = (D1 + D2*EXP(EPSF))*(ONE
+     .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                     * (ONE + D5*TSTAR(I))
+                IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
+c
+                IF (IXEL == 0) THEN
                   IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I) >= ONE) THEN
                     NINDXP = NINDXP+1
                     INDXP(NINDXP) = I
-                    OFFL(I)   = ZERO                                            
-                    NOFF(I)   = NOFF(I) + 1                                        
+                    OFFL(I)   = ZERO
+                    NOFF(I)   = NOFF(I) + 1
                     NPTTF(I)  = NPTTF(I) + ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
                       INDX(NINDX) = I
                       ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)
-                      RFLAG(I) = 1                                               
+                      RFLAG(I) = 1
                     ENDIF
-                    IF (NOFF(I) == NPTOT) THEN  ! total element rupture 
-                      OFF(I) = FOUR_OVER_5                                           
-                      TDEL(I)= TIME                                             
-                    ENDIF                                                       
+                    IF (NOFF(I) == NPTOT) THEN  ! total element rupture
+                      OFF(I) = FOUR_OVER_5
+                      TDEL(I)= TIME
+                    ENDIF
                   ELSEIF (ELCRKINI(ILAY,I) == 2 .AND. DFMAX(I) >= DADV) THEN
                     NINDXP   = NINDXP + 1
                     INDXP(NINDXP) = I
-                    OFFL(I)  = ZERO                                            
-                    NOFF(I)  = NOFF(I) + 1                                        
+                    OFFL(I)  = ZERO
+                    NOFF(I)  = NOFF(I) + 1
                     NPTTF(I) = NPTTF(I)+ ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
@@ -197,115 +197,115 @@ c
                       RFLAG(I) = -1
                     ENDIF
                     IF (NOFF(I) == NPTOT) THEN
-                      OFF(I) = FOUR_OVER_5                                           
+                      OFF(I) = FOUR_OVER_5
                       TDEL(I)= TIME
                     ENDIF
-                  ENDIF                                                       
-                ELSEIF (DFMAX(I) >= ONE) THEN  ! phantom element failure (IXEL > 0)                        
+                  ENDIF
+                ELSEIF (DFMAX(I) >= ONE) THEN  ! phantom element failure (IXEL > 0)
                   NINDXP = NINDXP + 1
                   INDXP(NINDXP) = I
-                  OFFL(I)  = ZERO                                            
+                  OFFL(I)  = ZERO
                   NPTTF(I) = NPTTF(I) + ONE
                   RFLAGP(I) = 1
                   IF (INT(NPTTF(I)) == NPTT) THEN
                     NINDX = NINDX+1
                     INDX(NINDX) = I
-                    OFF(I) = FOUR_OVER_5                                           
+                    OFF(I) = FOUR_OVER_5
                     TDEL(I)  = TIME
                     RFLAG(I) = 3
                   ENDIF
-                ENDIF  ! IXEL                                                   
-              ELSE     ! DFMAX(I) >= ONE                                              
-                SIGNXX(I) = ZERO                                                
-                SIGNYY(I) = ZERO                                                
-                SIGNXY(I) = ZERO                                                
-                SIGNYZ(I) = ZERO                                                
-                SIGNZX(I) = ZERO                                                
-              ENDIF                                                             
-            ENDIF  ! IF (OFF(I) == ONE)                                          
-          ENDDO    ! DO I=1,NEL                                                 
+                ENDIF  ! IXEL
+              ELSE     ! DFMAX(I) >= ONE
+                SIGNXX(I) = ZERO
+                SIGNYY(I) = ZERO
+                SIGNXY(I) = ZERO
+                SIGNYZ(I) = ZERO
+                SIGNZX(I) = ZERO
+              ENDIF
+            ENDIF  ! IF (OFF(I) == ONE)
+          ENDDO    ! DO I=1,NEL
 c
-          IF (NINDXP > 0) THEN                                             
-            DO J=1,NINDXP                                                  
-              I = INDXP(J)                                                 
-              SIGNXX(I) = ZERO                                                
-              SIGNYY(I) = ZERO                                                
-              SIGNXY(I) = ZERO                                                
-              SIGNYZ(I) = ZERO                                                
-              SIGNZX(I) = ZERO                                                
-#include      "lockon.inc"                                                
-              IF (RFLAGP(I) == 1) WRITE(IOUT, 3800)NGL(I),ILAY,IPTT        
-              IF (RFLAGP(I) == 1) WRITE(ISTDO,3900)NGL(I),ILAY,IPTT,TIME        
-#include     "lockoff.inc"                                                
-            ENDDO                                                          
-          ENDIF  !  NINDXP > 0                                              
-          IF (NINDX > 0) THEN      
-            DO J=1,NINDX           
-              I = INDX(J)          
+          IF (NINDXP > 0) THEN
+            DO J=1,NINDXP
+              I = INDXP(J)
+              SIGNXX(I) = ZERO
+              SIGNYY(I) = ZERO
+              SIGNXY(I) = ZERO
+              SIGNYZ(I) = ZERO
+              SIGNZX(I) = ZERO
 #include      "lockon.inc"
-c             initialization std element                                                
-              IF (RFLAG(I) == 1) WRITE(IOUT ,3000) NGL(I),ILAY    
-              IF (RFLAG(I) == 1) WRITE(ISTDO,3100) NGL(I),ILAY,TIME            
-c             advancement std element                                                   
-              IF (RFLAG(I) == -1) WRITE(IOUT ,3200) NGL(I),ILAY                
-              IF (RFLAG(I) == -1) WRITE(ISTDO,3300) NGL(I),ILAY,TIME           
-c             delete phantom element                                                       
-              IF (RFLAG(I) == 3) WRITE(IOUT, 3400)XCHAR,NGL(I),ILAY           
-              IF (RFLAG(I) == 3) WRITE(ISTDO,3500)XCHAR,NGL(I),ILAY,TIME      
+              IF (RFLAGP(I) == 1) WRITE(IOUT, 3800)NGL(I),ILAY,IPTT
+              IF (RFLAGP(I) == 1) WRITE(ISTDO,3900)NGL(I),ILAY,IPTT,TIME
+#include     "lockoff.inc"
+            ENDDO
+          ENDIF  !  NINDXP > 0
+          IF (NINDX > 0) THEN
+            DO J=1,NINDX
+              I = INDX(J)
+#include      "lockon.inc"
+c             initialization std element
+              IF (RFLAG(I) == 1) WRITE(IOUT ,3000) NGL(I),ILAY
+              IF (RFLAG(I) == 1) WRITE(ISTDO,3100) NGL(I),ILAY,TIME
+c             advancement std element
+              IF (RFLAG(I) == -1) WRITE(IOUT ,3200) NGL(I),ILAY
+              IF (RFLAG(I) == -1) WRITE(ISTDO,3300) NGL(I),ILAY,TIME
+c             delete phantom element
+              IF (RFLAG(I) == 3) WRITE(IOUT, 3400)XCHAR,NGL(I),ILAY
+              IF (RFLAG(I) == 3) WRITE(ISTDO,3500)XCHAR,NGL(I),ILAY,TIME
 #include      "lockoff.inc"
-            ENDDO               
-          ENDIF  !  NINDX > 0   
+            ENDDO
+          ENDIF  !  NINDX > 0
 c
 C---------------
-        CASE (2)    ! monolayer Xfem                                    
+        CASE (2)    ! monolayer Xfem
 C---------------
           IF (ISHELL == 1) THEN
 c
-            DO I=1,NEL                                               
-              IF (OFF(I) == ONE) THEN                                 
-                P   = THIRD*(SIGNXX(I) + SIGNYY(I))                    
-                SVM = SQRT(SIGNXX(I)*SIGNXX(I)                       
-     .                   + SIGNYY(I)*SIGNYY(I)                       
-     .                   - SIGNXX(I)*SIGNYY(I)                       
-     .                   + THREE*SIGNXY(I)*SIGNXY(I))                
-                EPSF = D3*P/MAX(EM20,SVM)                            
-                EPSF = (D1 + D2*EXP(EPSF))*(ONE                       
-     .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))       
-     .                     * (ONE + D5*TSTAR(I))                    
-                IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
+            DO I=1,NEL
+              IF (OFF(I) == ONE) THEN
+                P   = THIRD*(SIGNXX(I) + SIGNYY(I))
+                SVM = SQRT(SIGNXX(I)*SIGNXX(I)
+     .                   + SIGNYY(I)*SIGNYY(I)
+     .                   - SIGNXX(I)*SIGNYY(I)
+     .                   + THREE*SIGNXY(I)*SIGNXY(I))
+                EPSF = D3*P/MAX(EM20,SVM)
+                EPSF = (D1 + D2*EXP(EPSF))*(ONE
+     .                     + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                     * (ONE + D5*TSTAR(I))
+                IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
 c
-                IF (IXEL == 0) THEN                                  
-                  IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I)>=ONE) THEN   
-                    ELCRKINI(ILAY,I) = -1   ! Initialisation         
-                    NINDX = NINDX + 1                                    
-                    INDX(NINDX) = I                                    
-                    RFLAG(I)  = 1                                     
-                    TDEL(I)= TIME                                    
-                    OFF(I) = FOUR_OVER_5                                           
-                  ELSEIF (ELCRKINI(ILAY,I) == 2 .AND.                
-     .                    DFMAX(I) >= DADV) THEN                     
-                    ELCRKINI(ILAY,I) = 1    ! Advancement            
-                    NINDX = NINDX + 1                                    
-                    INDX(NINDX) = I                                    
-                    RFLAG(I)  =-1                                    
-                    TDEL(I)= TIME                                    
-                    OFF(I) = FOUR_OVER_5                                           
-                  ENDIF                                              
-                ELSEIF (DFMAX(I) >= ONE) THEN  ! IXEL > 0             
-                  NINDX = NINDX+1                                      
-                  INDX(NINDX) = I                                      
-                  RFLAG(I) = 3                                       
-                  OFF(I) = FOUR_OVER_5                                           
-                ENDIF ! IXEL                                         
-              ENDIF                                                  
-            ENDDO     ! I=1,NEL                                      
+                IF (IXEL == 0) THEN
+                  IF (ELCRKINI(ILAY,I)==0 .AND. DFMAX(I)>=ONE) THEN
+                    ELCRKINI(ILAY,I) = -1   ! Initialisation
+                    NINDX = NINDX + 1
+                    INDX(NINDX) = I
+                    RFLAG(I)  = 1
+                    TDEL(I)= TIME
+                    OFF(I) = FOUR_OVER_5
+                  ELSEIF (ELCRKINI(ILAY,I) == 2 .AND.
+     .                    DFMAX(I) >= DADV) THEN
+                    ELCRKINI(ILAY,I) = 1    ! Advancement
+                    NINDX = NINDX + 1
+                    INDX(NINDX) = I
+                    RFLAG(I)  =-1
+                    TDEL(I)= TIME
+                    OFF(I) = FOUR_OVER_5
+                  ENDIF
+                ELSEIF (DFMAX(I) >= ONE) THEN  ! IXEL > 0
+                  NINDX = NINDX+1
+                  INDX(NINDX) = I
+                  RFLAG(I) = 3
+                  OFF(I) = FOUR_OVER_5
+                ENDIF ! IXEL
+              ENDIF
+            ENDDO     ! I=1,NEL
 
             IF (NINDX > 0) THEN
               DO J=1,NINDX
                 I = INDX(J)
 #include "lockon.inc"
-                WRITE(IOUT, 4800)NGL(I),IPTT        
-                WRITE(ISTDO,4900)NGL(I),IPTT,TIME        
+                WRITE(IOUT, 4800)NGL(I),IPTT
+                WRITE(ISTDO,4900)NGL(I),IPTT,TIME
 c               initialization std element
                 IF (RFLAG(I) == 1) WRITE(IOUT, 4000) NGL(I)
                 IF (RFLAG(I) == 1) WRITE(ISTDO,4100) NGL(I),TIME
@@ -321,87 +321,87 @@ c               delete phantom
 c
           ELSEIF (ISHELL == 2) THEN  ! monolayer Xfem
 c
-            DO I=1,NEL                                                            
-              IF (OFF(I) == ONE) THEN                            
-                IF (DFMAX(I) < ONE) THEN                                           
-                  P = THIRD*(SIGNXX(I) + SIGNYY(I))                               
-                  SVM = SQRT(SIGNXX(I)*SIGNXX(I)                                  
-     .                     + SIGNYY(I)*SIGNYY(I)                                  
-     .                     - SIGNXX(I)*SIGNYY(I)                                  
-     .                     + THREE*SIGNXY(I)*SIGNXY(I))                           
-                  EPSF = D3*P/MAX(EM20,SVM)                                       
-                  EPSF = (D1 + D2*EXP(EPSF))*(ONE                                       
-     .                       + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))                   
-     .                       * (ONE + D5*TSTAR(I))                                
+            DO I=1,NEL
+              IF (OFF(I) == ONE) THEN
+                IF (DFMAX(I) < ONE) THEN
+                  P = THIRD*(SIGNXX(I) + SIGNYY(I))
+                  SVM = SQRT(SIGNXX(I)*SIGNXX(I)
+     .                     + SIGNYY(I)*SIGNYY(I)
+     .                     - SIGNXX(I)*SIGNYY(I)
+     .                     + THREE*SIGNXY(I)*SIGNXY(I))
+                  EPSF = D3*P/MAX(EM20,SVM)
+                  EPSF = (D1 + D2*EXP(EPSF))*(ONE
+     .                       + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
+     .                       * (ONE + D5*TSTAR(I))
                   IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
-c                                                                                 
-                  IF (IXEL == 0) THEN                                             
-                    IF (ELCRKINI(ILAY,I)==0 .and. DFMAX(I) >= ONE) THEN              
-                      NINDXP = NINDXP + 1                                                 
-                      INDXP(NINDXP) = I                                                 
-                      NOFF(I) = NOFF(I) + 1                                       
-                      OFFL(I) = ZERO                                     
-                      RFLAGP(I) = 1
-                      IF (NOFF(I) == NPTOT) THEN  ! all integration points failed                                
-                        NINDX = NINDX + 1                                               
-                        INDX(NINDX) = I                                               
-                        ELCRKINI(ILAY,I) = -1     ! initialize crack  
-                        RFLAG(I) = 1                                              
-                        TDEL(I)= TIME                                             
-                        OFF(I) = FOUR_OVER_5                                           
-                      ENDIF                                                       
-                    ELSEIF (ELCRKINI(ILAY,I) == 2 .AND. DFMAX(I) >= DADV) THEN                                
-                      NINDXP = NINDXP + 1                                                 
-                      INDXP(NINDXP) = I                                                 
-                      NOFF(I) = NOFF(I) + 1                                       
+c
+                  IF (IXEL == 0) THEN
+                    IF (ELCRKINI(ILAY,I)==0 .and. DFMAX(I) >= ONE) THEN
+                      NINDXP = NINDXP + 1
+                      INDXP(NINDXP) = I
+                      NOFF(I) = NOFF(I) + 1
                       OFFL(I) = ZERO
-                      DFMAX(I) = ONE                               
                       RFLAGP(I) = 1
-                      IF (NOFF(I) == NPTOT) THEN  ! all integration points failed                                  
-                        NINDX = NINDX + 1                                               
-                        INDX(NINDX) = I                                               
-                        ELCRKINI(ILAY,I) = 1      ! advance crack  
-                        RFLAG(I) = -1                                             
-                        TDEL(I)= TIME                                             
-                        OFF(I) = FOUR_OVER_5                                           
-                      ENDIF                                                       
-                    ENDIF                                                         
-                  ELSEIF (DFMAX(I) >= ONE) THEN  ! phantom element failure (IXEL > 0)                   
-                    NINDXP = NINDXP + 1                                                 
-                    INDXP(NINDXP) = I                                                 
-                    NOFF(I) = NOFF(I) + 1                                         
+                      IF (NOFF(I) == NPTOT) THEN  ! all integration points failed
+                        NINDX = NINDX + 1
+                        INDX(NINDX) = I
+                        ELCRKINI(ILAY,I) = -1     ! initialize crack
+                        RFLAG(I) = 1
+                        TDEL(I)= TIME
+                        OFF(I) = FOUR_OVER_5
+                      ENDIF
+                    ELSEIF (ELCRKINI(ILAY,I) == 2 .AND. DFMAX(I) >= DADV) THEN
+                      NINDXP = NINDXP + 1
+                      INDXP(NINDXP) = I
+                      NOFF(I) = NOFF(I) + 1
+                      OFFL(I) = ZERO
+                      DFMAX(I) = ONE
+                      RFLAGP(I) = 1
+                      IF (NOFF(I) == NPTOT) THEN  ! all integration points failed
+                        NINDX = NINDX + 1
+                        INDX(NINDX) = I
+                        ELCRKINI(ILAY,I) = 1      ! advance crack
+                        RFLAG(I) = -1
+                        TDEL(I)= TIME
+                        OFF(I) = FOUR_OVER_5
+                      ENDIF
+                    ENDIF
+                  ELSEIF (DFMAX(I) >= ONE) THEN  ! phantom element failure (IXEL > 0)
+                    NINDXP = NINDXP + 1
+                    INDXP(NINDXP) = I
+                    NOFF(I) = NOFF(I) + 1
                     RFLAGP(I) = 1
-                    IF (NOFF(I) == NPTOT) THEN                                    
-                      NINDX  = NINDX + 1                                                 
-                      INDX(NINDX)   = I                                                 
-                      OFF(I) = FOUR_OVER_5                                           
-                      RFLAG(I) = 3                                                
-                    ENDIF                                                         
-                  ENDIF  ! IXEL                                                   
-                ELSE     ! DFMAX >= 1                                                 
-                  SIGNXX(I) = ZERO                                                
-                  SIGNYY(I) = ZERO                                                
-                  SIGNXY(I) = ZERO                                                
-                  SIGNYZ(I) = ZERO                                                
-                  SIGNZX(I) = ZERO                                                
-                ENDIF                                                             
-              ENDIF  ! IF (OFF(I) == ONE)                           
-            ENDDO    ! DO I=1,NEL                                                 
+                    IF (NOFF(I) == NPTOT) THEN
+                      NINDX  = NINDX + 1
+                      INDX(NINDX)   = I
+                      OFF(I) = FOUR_OVER_5
+                      RFLAG(I) = 3
+                    ENDIF
+                  ENDIF  ! IXEL
+                ELSE     ! DFMAX >= 1
+                  SIGNXX(I) = ZERO
+                  SIGNYY(I) = ZERO
+                  SIGNXY(I) = ZERO
+                  SIGNYZ(I) = ZERO
+                  SIGNZX(I) = ZERO
+                ENDIF
+              ENDIF  ! IF (OFF(I) == ONE)
+            ENDDO    ! DO I=1,NEL
 C
-            IF (NINDXP > 0) THEN                                             
-              DO J=1,NINDXP                                                  
-                I = INDXP(J)                                                 
-                SIGNXX(I) = ZERO                                                
-                SIGNYY(I) = ZERO                                                
-                SIGNXY(I) = ZERO                                                
-                SIGNYZ(I) = ZERO                                                
-                SIGNZX(I) = ZERO                                                
-#include        "lockon.inc"                                                
-                IF (RFLAGP(I) == 1) WRITE(IOUT, 4800)NGL(I),IPTT        
-                IF (RFLAGP(I) == 1) WRITE(ISTDO,4900)NGL(I),IPTT,TIME        
-#include       "lockoff.inc"                                                
-              ENDDO                                                          
-            ENDIF  !  NINDXP > 0                                              
+            IF (NINDXP > 0) THEN
+              DO J=1,NINDXP
+                I = INDXP(J)
+                SIGNXX(I) = ZERO
+                SIGNYY(I) = ZERO
+                SIGNXY(I) = ZERO
+                SIGNYZ(I) = ZERO
+                SIGNZX(I) = ZERO
+#include        "lockon.inc"
+                IF (RFLAGP(I) == 1) WRITE(IOUT, 4800)NGL(I),IPTT
+                IF (RFLAGP(I) == 1) WRITE(ISTDO,4900)NGL(I),IPTT,TIME
+#include       "lockoff.inc"
+              ENDDO
+            ENDIF  !  NINDXP > 0
             IF (NINDX > 0) THEN
               DO J=1,NINDX
                 I = INDX(J)

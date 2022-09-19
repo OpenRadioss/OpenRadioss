@@ -31,7 +31,7 @@ Chd|====================================================================
 !$COMMENT
 !       SENSOR_USER_ALLOC description
 !       allocation of array for user sensor
-!       
+!
 !       SENSOR_USER_ALLOC organization :
 !$ENDCOMMENT
 C-----------------------------------------------

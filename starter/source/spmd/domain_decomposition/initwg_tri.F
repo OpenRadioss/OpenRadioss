@@ -53,7 +53,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -86,37 +86,37 @@ C-----------------------------------------------
       INTEGER :: INDI3,COST_CHECK,POIN_PART,POIN_MID,POIN_PID
       INTEGER :: FLAG_NICE_NEWTON,FLAG_GURSON,FLAG_NON_LOCAL
       INTEGER :: SPECIAL_OPTION,SPE_I_1,SPE_I_2,SPE_I_3
-     
+
       REAL
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
      .   BATOZMULT,TMAT,TRUP,TABRUP(3),TRUP_LOCAL,TMATADD,
      .   WD_LOCAL,MULT_SPE
-      
+
       my_real
      .        CC, A,B,A1,A2
       my_real
      .       INVTREF
-       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
+       DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/
 C-----------------------------------------------
       CALL BIDON()
 !     DD_OPTIMIZATION = 0 --> default case, DD optimized for Broadwell processor
-!     DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor 
-!     DD_OPTIMIZATION = 2 --> DD optimized for Sandy Bridge processor   
-!     DD_OPTIMIZATION = 3 --> default case for ARM processor, DD optimized for ThunderX2 processor (ARM)   
+!     DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor
+!     DD_OPTIMIZATION = 2 --> DD optimized for Sandy Bridge processor
+!     DD_OPTIMIZATION = 3 --> default case for ARM processor, DD optimized for ThunderX2 processor (ARM)
       IF(DD_OPTIMIZATION==1) THEN
-!       Skylake processor 
+!       Skylake processor
 #include "weights_p4linux964_spmd_avx512.inc"
       ELSEIF(DD_OPTIMIZATION==2) THEN
-!       Sandy Bridge processor   
+!       Sandy Bridge processor
 #include "weights_p4linux964_spmd_sse3.inc"
       ELSEIF(DD_OPTIMIZATION==3) THEN
-!       ThunderX2 processor (ARMV8.0)      
+!       ThunderX2 processor (ARMV8.0)
 #include "weights_p4linuxa964_spmd.inc"
       ELSE
 !       DEFAULT CASE
 #if ARCH_CPU
-!       ThunderX2 processor (ARMV8.0)      
+!       ThunderX2 processor (ARMV8.0)
 #include "weights_p4linuxa964_spmd.inc"
 #elif 1
 !       Broadwell processor
@@ -143,7 +143,7 @@ C-----------------------------------------------
         ITHK = NINT(GEO(35,PID))
         IPLA = NINT(GEO(39,PID))
         NPT = MAX(ABS(NPN),1)
-        FLAG_NON_LOCAL = 0  
+        FLAG_NON_LOCAL = 0
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
         SPE_I_2 = 1
@@ -194,7 +194,7 @@ C loi 36+86 en fonction des fct
            IF(MLN==62) NFUNC = NINT(BUFMAT(IAD+3))
            IF(MLN==69) THEN
             NFUNC = 0
-            IF(IPM(222,ABS(MID)) > 0) THEN 
+            IF(IPM(222,ABS(MID)) > 0) THEN
              IAD = IPM(223,ABS(MID))
              NFUNC =  NINT(BUFMAT(IAD +1 ))
             ENDIF
@@ -208,7 +208,7 @@ C loi 36+86 en fonction des fct
            ELSEIF(NFUNC>2) THEN
             INDI = 3
             MULT = NFUNC - 2
-            INDI2 = 2            
+            INDI2 = 2
            ENDIF
         ELSEIF((MLN==82)) THEN
            IAD=IPM(7,ABS(MID))-1
@@ -222,7 +222,7 @@ C loi 36+86 en fonction des fct
            ELSEIF(NFUNC>3) THEN
             INDI = 3
             MULT = NFUNC - 3
-            INDI2 = 2            
+            INDI2 = 2
            ENDIF
         ELSEIF(MLN==104) THEN
            IAD=IPM(7,ABS(MID))-1
@@ -244,11 +244,11 @@ C loi 36+86 en fonction des fct
              SPE_I_2 = 2
            ELSEIF(FLAG_GURSON==3) THEN
              SPE_I_2 = 3
-           ENDIF           
+           ENDIF
            FLAG_NON_LOCAL = IPM(253,ABS(MID))
         ELSE
          INDI = 1
-        ENDIF 
+        ENDIF
 
         MULT_SPE = 0.
         SPE_I_3 = 1
@@ -267,8 +267,8 @@ C loi 36+86 en fonction des fct
           POIN_PART = IPARTG(I)
           POIN_MID = POIN_PART_TRI(1,POIN_PART)
           POIN_PID = POIN_PART_TRI(2,POIN_PART)
-        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized 
-        ! from the .inc file 
+        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized
+        ! from the .inc file
           IF(POIN_MID/=0.AND.POIN_PID/=0) THEN
            IF(MID_PID_TRI(POIN_MID)%COST1D(POIN_PID)/=ZERO) THEN
                 COST_CHECK = 1
@@ -280,8 +280,8 @@ C loi 36+86 en fonction des fct
         IF(COST_CHECK==0) THEN
          IF( DDWEIGHTS(1,2,MID)/=ZERO)THEN
 !       Compute time according to integration points:
-            A1 = DDWEIGHTS(1,2,MID) * TPSREF 
-            A2 = DDWEIGHTS(2,2,MID) * TPSREF 
+            A1 = DDWEIGHTS(1,2,MID) * TPSREF
+            A2 = DDWEIGHTS(2,2,MID) * TPSREF
 
             IF (A2 /=ZERO)THEN
 !       Compute line function A1 ="Time for 1 int Point" - A2="time for 5 int points"
@@ -324,16 +324,16 @@ C loi 36+86 en fonction des fct
               TABX(3) = 5.
               ! *******--------*******
               DO J=1,3
-                IF(MULT/=0) TMATADD = MULT * 
+                IF(MULT/=0) TMATADD = MULT *
      .              (TRITNL(MIN(MLN,MAXLAW),J,INDI) - TRITNL(MIN(MLN,MAXLAW),J,INDI2) )
-                  IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SHTNL_OPTION(SPE_I_1,SPE_I_2) 
+                  IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SHTNL_OPTION(SPE_I_1,SPE_I_2)
                 TABMAT(J) = TRITNL(MIN(MLN,MAXLAW),J,INDI) + TMATADD
               ENDDO
               ! *******--------*******
               NPT = ABS(NPN)
               CALL INTERLAGRAN(TABMAT,TABX,3,NPT,TIMMAT)
 !              ----------------
-!               Failure 
+!               Failure
                 IF(IRUP/=0) THEN
                  DO J=1,IRUP
                   DO II=1,3
@@ -343,12 +343,12 @@ C loi 36+86 en fonction des fct
                   TRUP = TRUP + TRUP_LOCAL
                  ENDDO
                 ENDIF          !   <--- fin IRUP/=0
-!               ---------------- 
+!               ----------------
 
             ELSE
 !       0pt d integration doit etre traite a part
               ! *******--------*******
-              IF(MULT/=0) TMATADD = MULT * 
+              IF(MULT/=0) TMATADD = MULT *
      .              (TRITNL(MIN(MLN,MAXLAW),0,INDI) - TRITNL(MIN(MLN,MAXLAW),0,INDI2) )
               TIMMAT =  TRITNL(MIN(MLN,MAXLAW),0,INDI)  + TMATADD
               ! *******--------*******
@@ -357,12 +357,12 @@ C loi 36+86 en fonction des fct
               IF(IRUP/=0) THEN
                TRUP = 0.
               ENDIF          !   <--- fin IRUP/=0
-!             ----------------  
+!             ----------------
             ENDIF
           ENDIF
          ENDIF
          IF(MLN/=0)THEN
-              TELT = TRITELT(1) 
+              TELT = TRITELT(1)
          ENDIF
         ENDIF   !   fin TRITNL_OLD(MID,PID)
 !****************************************
@@ -376,7 +376,7 @@ C loi 36+86 en fonction des fct
           POIN_PART = IPARTG(I)
           POIN_MID = POIN_PART_TRI(1,POIN_PART)
           POIN_PID = POIN_PART_TRI(2,POIN_PART)
-          IF(POIN_MID/=0.AND.POIN_PID/=0) 
+          IF(POIN_MID/=0.AND.POIN_PID/=0)
      .    MID_PID_TRI(POIN_MID)%COST1D(POIN_PID) = TELT + TIMMAT + TRUP +
      .           MULT_SPE*NLOCAL_OPTION(SPE_I_3)
          ELSE

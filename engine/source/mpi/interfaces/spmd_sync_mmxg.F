@@ -130,7 +130,7 @@ C T25 main gap changes with thickness change
        END DO
 C
 !     -+-+-+-+-+-+-+-+-+-
-!     OLD FORMULATION : bug with intel MPI 
+!     OLD FORMULATION : bug with intel MPI
 !      call MPI_AllReduce(SBUF, RBUF, NINTC*I_LEN, real, myop,
 !     &                   COMM_CONT, ierror)
 !     -+-+-+-+-+-+-+-+-+-
@@ -142,7 +142,7 @@ C
 
 cc       call MPI_IAllReduce(SBUF, RBUF, NINTC*I_LEN, real, myop,
 cc     &                     COMM_CONT, REQ, IERROR)
-cc       call MPI_WAIT(req,status,ierror)   
+cc       call MPI_WAIT(req,status,ierror)
 C Unpack results
 
        L = 0

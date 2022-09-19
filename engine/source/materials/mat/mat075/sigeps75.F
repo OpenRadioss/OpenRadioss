@@ -34,7 +34,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VNEW   , EINT   , MUOLD   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -137,7 +137,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -166,7 +166,7 @@ C----------------------------------------------------------------
      .   ALPHAOLD(NEL),DPDAEL(NEL),EINTN(NEL),POLD(NEL)
       my_real
      .   SIGOLD(NEL,6), PNEWG(NEL)
-      DOUBLE PRECISION ALPHA1(NEL),ALPHA(NEL),DALPHA 
+      DOUBLE PRECISION ALPHA1(NEL),ALPHA(NEL),DALPHA
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       BULK=UPARAM(1)
       PE = UPARAM(2)

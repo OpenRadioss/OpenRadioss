@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE C3STRA3(JFT   ,JLT     ,PM     ,
      2                   MAT   ,AREA    ,EXX    ,EYY    ,EXY  ,
-     3                   EXZ   ,EYZ     ,KXX    ,KYY    ,KXY  , 
+     3                   EXZ   ,EYZ     ,KXX    ,KYY    ,KXY  ,
      4                   GEO   ,PID     ,NU     ,SHF    ,GSTR ,
      5                   SSP   ,RHO     ,EPSDOT ,
      6                   NFT   ,ISTRAIN ,ISMSTR ,
@@ -118,7 +118,7 @@ C-------- WXY
          GSTRW(I)=GSTRW(I)+WXY(I)*DT1/AREA(I)
         ENDDO
 C-----    
-        DO I=JFT,JLT 
+        DO I=JFT,JLT
           F_DEF(I,6) = GSTR(I,6)
           F_DEF(I,7) = GSTR(I,7)
           F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*HALF

@@ -38,9 +38,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------    
       USE MESSAGE_MOD
-      USE I7I10SPLITMOD 
-      USE FRONT_MOD   
-      USE INTBUFDEF_MOD    
+      USE I7I10SPLITMOD
+      USE FRONT_MOD
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,25 +77,25 @@ C-----------------------------------------------
       DATA KM1/1,2,3,4/
       DATA KM2/2,3,4,1/
       INTEGER  INTERSURFL
-      EXTERNAL INTERSURFL             
+      EXTERNAL INTERSURFL
 C--------------------------------------------------------------
       I24MAXNSNE = 0
       DO NI=1,NINTER
 
-        ITY    = IPARI(7,NI) 
+        ITY    = IPARI(7,NI)
         IEDGE4 = IPARI(59,NI)
         IF (ITY==24)THEN
 
 C First set SECONDARY surface to avoid issues : Same SECONDARY surface not on same
 C domain than MAIN surface
-          NRTSE = IPARI(52,NI) 
-          NSNE  = IPARI(55,NI) 
+          NRTSE = IPARI(52,NI)
+          NSNE  = IPARI(55,NI)
           I24MAXNSNE = MAX(I24MAXNSNE,NSNE)
           IF (IEDGE4 > 0 ) THEN
             IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
 C             In Type24 INTERCEP(2 gives Edge MPI Domain
               ALLOCATE(INTERCEP(2,NI)%P(NRTSE))
-            ENDIF	  
+            ENDIF	
 C 
             DO I=1,NRTSE
               N1= INTBUF_TAB(NI)%IRTSE((I-1)*5+1)
@@ -104,14 +104,14 @@ C
               N4= INTBUF_TAB(NI)%IRTSE((I-1)*5+4)
 
  	      PROC = INTERSURFL(N1,N2,N3,N4)
-    
+
               INTERCEP(2,NI)%P(I)=PROC
            ENDDO
           ENDIF
 
 
           NRTM   = IPARI(4,NI)
-          DO K=1,NRTM	  
+          DO K=1,NRTM	
              PROC = INTERCEP(1,NI)%P(K)
              IF(PROC==0)THEN
                  CALL ANCMSG(MSGID=978,
@@ -121,7 +121,7 @@ C
              ELSE
                DO I=1,8
                  N = IABS(INTBUF_TAB(NI)%NVOISIN((K-1)*8+I))
-                 IF(N /=0) THEN              
+                 IF(N /=0) THEN
                   CALL IFRONTPLUS(N,PROC)
                  ENDIF
                ENDDO
@@ -130,7 +130,7 @@ C
 
 
         ENDIF
-      ENDDO 
+      ENDDO
       END
 
 
@@ -145,8 +145,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------    
-      USE FRONT_MOD   
-      USE INTBUFDEF_MOD    
+      USE FRONT_MOD
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -176,7 +176,7 @@ C-----------------------------------------------
       SECND_SURFACE_ON_DOMAIN = 0
 
       P= INTERCEP%P(2+2*(SE-1)+1)
-      NEXT=INTERCEP%P(2+2*(SE-1)+2) 
+      NEXT=INTERCEP%P(2+2*(SE-1)+2)
 
       IF (P==PROC)THEN
          SECND_SURFACE_ON_DOMAIN = 1
@@ -191,7 +191,7 @@ C-----------------------------------------------
       IF(P==PROC)THEN
          SECND_SURFACE_ON_DOMAIN = 1
       ENDIF
-      
-      RETURN 
+
+      RETURN
 
       END

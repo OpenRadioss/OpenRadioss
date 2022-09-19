@@ -59,7 +59,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  
+      INTEGER
      .       J,K,N,NN,NPT
       my_real
      .         RTMP, FN1,FN2,FN3,FAC,MSI,FM1,FM2,FM3,INER,
@@ -67,9 +67,9 @@ C-----------------------------------------------
      .         FPLY, MPLY,DF1,DF2,DF3,KZI,MASS_NODE,BETA
 C----------------------------------------------------     
 C 
-       ALPHA = ONE 
-       IF(IPLYXFEM == 2 ) THEN 
-#include "vectorize.inc" 
+       ALPHA = ONE
+       IF(IPLYXFEM == 2 ) THEN
+#include "vectorize.inc"
           DO NN=NODFT,NODLT
             N = INOD(NN)
             F1 = ZERO
@@ -78,14 +78,14 @@ C
             MDT1 = ZERO
             MDT2 = ZERO
             MDT3 = ZERO
-            IF(N > 0) THEN 
+            IF(N > 0) THEN
              NPT = 0
 C
              MSZ2(N)=ZERO
              KZI    =ZERO
              DO J=1,NPLYMAX
-              IF(MS_LAYER(N,J) > ZERO) THEN 
-                  MSZ2(N) = MSZ2(N) + 
+              IF(MS_LAYER(N,J) > ZERO) THEN
+                  MSZ2(N) = MSZ2(N) +
      .                       MS_LAYER(N,J)*ZI_LAYER(N,J)*ZI_LAYER(N,J)
                   KZI=KZI+PLY(J)%A(4,N)*ZI_LAYER(N,J)
               END IF
@@ -94,17 +94,17 @@ C
 C          
              MASS_NODE = ZERO
              DO J=1,NPLYMAX
-                IF(MS_LAYER(N,J) > ZERO) THEN 
+                IF(MS_LAYER(N,J) > ZERO) THEN
                    MASS_NODE  = MASS_NODE + MS_LAYER(N,J)
                 ENDIF
              ENDDO
              DO J=1,NPLYMAX
-                IF(MS_LAYER(N,J) > ZERO) THEN 
+                IF(MS_LAYER(N,J) > ZERO) THEN
                    BETA = MS(NN)/MASS_NODE
                    FAC = ONE/(DTFACX*DTFACX)
                    MASS =FAC*DT2*DT2*PLY(J)%A(4,N)
 clm        .                             +KZI*MS_LAYER(N,J)*ABS(ZI_LAYER(N,J)))
-                   ALPHA(NN) = MAX(ALPHA(NN), MASS/MS_LAYER(N,J)/BETA) 
+                   ALPHA(NN) = MAX(ALPHA(NN), MASS/MS_LAYER(N,J)/BETA)
 C                  
                   MDT1 = MDT1 + PLY(J)%A(1,N)*ZI_LAYER(N,J)
                   MDT2 = MDT2 + PLY(J)%A(2,N)*ZI_LAYER(N,J)
@@ -117,26 +117,26 @@ C for fail of ply ! is desactivated for checking
 !to be checked                   IF(PLY(J)%A(4,N) == ZERO)THEN
 !to be checked                   PLY(J)%A(4,N) = EP30
 !to be checked                   PLY(J)%ITAG(N) = 1
-!to be checked                  ENDIF 
+!to be checked                  ENDIF
 C                               
                 ENDIF
              ENDDO
 C corre   ction des forces par plies
                DO J=1,NPLYMAX
-                IF(MS_LAYER(N,J) > ZERO) THEN  
-                  BETA  =  MS(NN)/MASS_NODE 
+                IF(MS_LAYER(N,J) > ZERO) THEN
+                  BETA  =  MS(NN)/MASS_NODE
                   FPLY  =  BETA*MS_LAYER(N,J)/MS(NN)
                   MPLY  = ZI_LAYER(N,J)*MS_LAYER(N,J)/MSZ2(N)
 C
-                  PLY(J)%A(1,N)= PLY(J)%A(1,N) -  F1*FPLY 
-                  PLY(J)%A(2,N)= PLY(J)%A(2,N) -  F2*FPLY 
-                  PLY(J)%A(3,N)= PLY(J)%A(3,N) -  F3*FPLY                
-                ENDIF    
-               ENDDO      
+                  PLY(J)%A(1,N)= PLY(J)%A(1,N) -  F1*FPLY
+                  PLY(J)%A(2,N)= PLY(J)%A(2,N) -  F2*FPLY
+                  PLY(J)%A(3,N)= PLY(J)%A(3,N) -  F3*FPLY
+                ENDIF
+               ENDDO
              ENDIF
-           ENDDO   
-       ELSE !old formulation 
-#include "vectorize.inc" 
+           ENDDO
+       ELSE !old formulation
+#include "vectorize.inc"
           DO NN=NODFT,NODLT
             N = INOD(NN)
             F1 = ZERO
@@ -145,14 +145,14 @@ C
             MDT1 = ZERO
             MDT2 = ZERO
             MDT3 = ZERO
-            IF(N > 0) THEN 
+            IF(N > 0) THEN
              NPT = 0
 C
              MSZ2(N)=ZERO
              KZI    =ZERO
              DO J=1,NPLYMAX
-              IF(MS_LAYER(N,J) > ZERO) THEN 
-                  MSZ2(N) = MSZ2(N) + 
+              IF(MS_LAYER(N,J) > ZERO) THEN
+                  MSZ2(N) = MSZ2(N) +
      .                       MS_LAYER(N,J)*ZI_LAYER(N,J)*ZI_LAYER(N,J)
                   KZI=KZI+PLY(J)%A(4,N)*ZI_LAYER(N,J)
               END IF
@@ -160,11 +160,11 @@ C
              KZI=KZI/MSZ2(N)
 C
              DO J=1,NPLYMAX
-                IF(MS_LAYER(N,J) > ZERO) THEN 
+                IF(MS_LAYER(N,J) > ZERO) THEN
                    FAC = ONE/(DTFACX*DTFACX)
                    MASS =FAC*DT2*DT2*PLY(J)%A(4,N)
 clm        .                             +KZI*MS_LAYER(N,J)*ABS(ZI_LAYER(N,J)))
-                   ALPHA(NN) = MAX(ALPHA(NN), MASS/MS_LAYER(N,J) ) 
+                   ALPHA(NN) = MAX(ALPHA(NN), MASS/MS_LAYER(N,J) )
 C                  
                   MDT1 = MDT1 + PLY(J)%A(1,N)*ZI_LAYER(N,J)
                   MDT2 = MDT2 + PLY(J)%A(2,N)*ZI_LAYER(N,J)
@@ -177,28 +177,28 @@ C is desactivated for checking
 !to be checked                  IF(PLY(J)%A(4,N) == ZERO)THEN
 !to be checked                     PLY(J)%A(4,N) = EP30
 !to be checked                     PLY(J)%ITAG(N) = 1
-!to be checked                  ENDIF 
+!to be checked                  ENDIF
 C                               
                 ENDIF
              ENDDO
 C corre   ction des forces par plies
                DO J=1,NPLYMAX
-                IF(MS_LAYER(N,J) > ZERO) THEN 
+                IF(MS_LAYER(N,J) > ZERO) THEN
                   FPLY  = MS_LAYER(N,J)/MS(NN)
                   MPLY  = ZI_LAYER(N,J)*MS_LAYER(N,J)/MSZ2(N)
-                  PLY(J)%A(1,N)= PLY(J)%A(1,N) -  F1*FPLY - MPLY*MDT1 
+                  PLY(J)%A(1,N)= PLY(J)%A(1,N) -  F1*FPLY - MPLY*MDT1
                   PLY(J)%A(2,N)= PLY(J)%A(2,N) -  F2*FPLY - MPLY*MDT2
                   PLY(J)%A(3,N)= PLY(J)%A(3,N) -  F3*FPLY - MPLY*MDT3
-                ENDIF    
-               ENDDO      
+                ENDIF
+               ENDDO
              ENDIF
            ENDDO
-        ENDIF ! formulation  
+        ENDIF ! formulation
 C     
-        DO J=1,NPLYMAX 
+        DO J=1,NPLYMAX
           CALL PLYA(J,NODFT,NODLT,NPLYXFE, INOD,ALPHA,
      .              MS_LAYER, PLY(J)%A(1,1))
-        ENDDO    
+        ENDDO
 C--------------------------------------------
       RETURN
       END
@@ -239,23 +239,23 @@ C-----------------------------------------------
      .         MASS,F1,F2,F3
 C----------------------------------------------------     
 C      
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO NN=NODFT,NODLT
-         N = INOD(NN)          
-         IF(N > 0) THEN   
-            IF(MS(N,J) > ZERO) THEN                         
+         N = INOD(NN)
+         IF(N > 0) THEN
+            IF(MS(N,J) > ZERO) THEN
                   MASS = ALPHA(NN)*MS(N,J)
-                  RTMP = ONE / MASS 
-                  A(1,N) = A(1,N)  * RTMP 
-                  A(2,N) = A(2,N)  * RTMP  
+                  RTMP = ONE / MASS
+                  A(1,N) = A(1,N)  * RTMP
+                  A(2,N) = A(2,N)  * RTMP
                   A(3,N) = A(3,N)  * RTMP
-              ELSE                                                       
-                  A(1,N) = ZERO                                 
-                  A(2,N) = ZERO                                 
-                  A(3,N) = ZERO                                  
-                  A(4,N) = ZERO                 
+              ELSE
+                  A(1,N) = ZERO
+                  A(2,N) = ZERO
+                  A(3,N) = ZERO
+                  A(4,N) = ZERO
                ENDIF
-         ENDIF                                                           
+         ENDIF
       ENDDO
 C                                    
 C--------------------------------------------

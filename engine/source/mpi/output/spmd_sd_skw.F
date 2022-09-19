@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real, DIMENSION(LSKEW,*), INTENT(INOUT) :: SKEW
       INTEGER, DIMENSION(NSPMD), INTENT(IN) :: RECVCOUNT
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       NUMSKW_L_SEND : integer 
+!       NUMSKW_L_SEND : integer
 !                       number of sent SKEW
 !       ISKWP_L_SEND : integer ; dimension=NUMSKW_L_SEND
 !                      index of sent SKEW
@@ -79,10 +79,10 @@ C-----------------------------------------------
 !$COMMENT
 !       SPMD_SD_SKW description
 !       communication of SKEW array with a ALLGATHERV comm
-!       
+!
 !       SPMD_SD_SKW organization :
 !       - initialize the SBUF buffer with the local SKEW value
-!       - initialize the displacement and the total number of 
+!       - initialize the displacement and the total number of
 !         recevied SKEW
 !       - ALLGATHERV comm
 !       - fill the SKEW array with the recevied RBUFF buffer
@@ -93,7 +93,7 @@ C-----------------------------------------------
 !               SBUF :   2 | 3                (--> 2 values)
 !       proc 3 :
 !               SBUF :   5 | 99 | 102 | 1000  (--> 4 values)
-!       displacement : 
+!       displacement :
 !                       DIPSPL(1) = 0
 !                       DIPSPL(2) = 3
 !                       DIPSPL(3) = 5
@@ -130,12 +130,12 @@ C-----------------------------------------------
                 DIPSPL(I)=RECVCOUNT(I-1)+DIPSPL(I-1)
                 TOTAL_RECV = TOTAL_RECV + RECVCOUNT(I)
         ENDDO
-        TOTAL_RECV = TOTAL_RECV / 10              
+        TOTAL_RECV = TOTAL_RECV / 10
 
-!       comm        
+!       comm
         CALL MPI_ALLGATHERV(SBUF,SENDCOUNT,REAL,RBUF,RECVCOUNT,DIPSPL,REAL,MPI_COMM_WORLD,IERROR)
-                
-!       fill the SKEW array 
+
+!       fill the SKEW array
         DO I=1,TOTAL_RECV
                 K = NINT(RBUF(10+(I-1)*10))
                 SKEW(1,K) = RBUF(1+(I-1)*10)
@@ -147,7 +147,7 @@ C-----------------------------------------------
                 SKEW(7,K) = RBUF(7+(I-1)*10)
                 SKEW(8,K) = RBUF(8+(I-1)*10)
                 SKEW(9,K) = RBUF(9+(I-1)*10)
-        ENDDO               
+        ENDDO
 C
 #endif
       RETURN
@@ -186,7 +186,7 @@ C-----------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       ISKWP : integer ; dimension=NUMSKW+1
 !               give the location of the SKEW
-!               a SKEW can be on several processor 
+!               a SKEW can be on several processor
 !       SKEW : integer ; dimension=LSKEW*number of SKEW
 !              SKEW array
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
@@ -208,10 +208,10 @@ C-----------------------------------------------
 !       SPMD_SD_SKW_ANIM description
 !       communication of SKEW array with a ALLGATHERV comm
 !       on main processor (proc 0) before the animation
-!       
+!
 !       SPMD_SD_SKW_ANIM organization :
 !       - initialize the SBUF buffer with the local SKEW value
-!       - initialize the displacement and the total number of 
+!       - initialize the displacement and the total number of
 !         recevied SKEW
 !       - ALLGATHER comm on 0 proc
 !       - fill the SKEW array with the recevied RBUFF buffer
@@ -222,7 +222,7 @@ C-----------------------------------------------
 !               SBUF :   2 | 3                (--> 2 values)
 !       proc 3 :
 !               SBUF :   5 | 99 | 102 | 1000  (--> 4 values)
-!       displacement : 
+!       displacement :
 !                       DIPSPL(1) = 0
 !                       DIPSPL(2) = 3
 !                       DIPSPL(3) = 5
@@ -261,11 +261,11 @@ C-----------------------------------------------
                 DIPSPL(I)=RECVCOUNT(I-1)+DIPSPL(I-1)
                 TOTAL_RECV = TOTAL_RECV + RECVCOUNT(I)
         ENDDO
-        TOTAL_RECV = TOTAL_RECV / 10              
+        TOTAL_RECV = TOTAL_RECV / 10
 
-!       comm on proc 0 (main)       
+!       comm on proc 0 (main)
         CALL MPI_GATHERV(SBUF,SENDCOUNT,REAL,RBUF,RECVCOUNT,DIPSPL,REAL,0,MPI_COMM_WORLD,IERROR)
-                
+
 !       fill the RBUF array (only main proc)
         IF(ISPMD==0) THEN
                 DO I=1,TOTAL_RECV
@@ -279,7 +279,7 @@ C-----------------------------------------------
                         SKEW(7,K) = RBUF(7+(I-1)*10)
                         SKEW(8,K) = RBUF(8+(I-1)*10)
                         SKEW(9,K) = RBUF(9+(I-1)*10)
-                ENDDO               
+                ENDDO
         ENDIF
 C
 #endif

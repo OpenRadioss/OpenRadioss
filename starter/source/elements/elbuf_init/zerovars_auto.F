@@ -32,8 +32,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE ELBUFTAG_MOD            
+      USE ELBUFDEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -51,77 +51,77 @@ C-----------------------------------------------
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IAD = 0
-c        
-      GBUF%G_NOFF  = 0  
+c
+      GBUF%G_NOFF  = 0
       IAD = IAD + 1
-      GBUF%G_IERR  = 0  
+      GBUF%G_IERR  = 0
       IAD = IAD + 1
-      GBUF%G_OFF   = 0  
+      GBUF%G_OFF   = 0
       IAD = IAD + 1
-      GBUF%G_GAMA  = 0   
+      GBUF%G_GAMA  = 0
       IAD = IAD + 1
-      GBUF%G_SMSTR = 0  
+      GBUF%G_SMSTR = 0
       IAD = IAD + 1
-      GBUF%G_HOURG = 0   
+      GBUF%G_HOURG = 0
       IAD = IAD + 1
-      GBUF%G_BFRAC = 0   
+      GBUF%G_BFRAC = 0
       IAD = IAD + 1
-      GBUF%G_EINT  = 0  
+      GBUF%G_EINT  = 0
       IAD = IAD + 1
-      GBUF%G_EINS  = 0  
+      GBUF%G_EINS  = 0
       IAD = IAD + 1
-      GBUF%G_RHO   = 0   
+      GBUF%G_RHO   = 0
       IAD = IAD + 1
-      GBUF%G_QVIS  = 0   
+      GBUF%G_QVIS  = 0
       IAD = IAD + 1
-      GBUF%G_DELTAX= 0   
+      GBUF%G_DELTAX= 0
       IAD = IAD + 1
-      GBUF%G_VOL   = 0   
+      GBUF%G_VOL   = 0
       IAD = IAD + 1
-      GBUF%G_EPSD  = 0   
+      GBUF%G_EPSD  = 0
       IAD = IAD + 1
-      GBUF%G_EPSQ  = 0   
+      GBUF%G_EPSQ  = 0
       IAD = IAD + 1
-      GBUF%G_PLA   = 0   
+      GBUF%G_PLA   = 0
       IAD = IAD + 1
-      GBUF%G_TEMP  = 0   
+      GBUF%G_TEMP  = 0
       IAD = IAD + 1
-      GBUF%G_TB    = 0   
+      GBUF%G_TB    = 0
       IAD = IAD + 1
-      GBUF%G_RK    = 0  
+      GBUF%G_RK    = 0
       IAD = IAD + 1
-      GBUF%G_RE    = 0   
+      GBUF%G_RE    = 0
       IAD = IAD + 1
-      GBUF%G_SIG   = 0   
+      GBUF%G_SIG   = 0
       IAD = IAD + 1
-      GBUF%G_FOR   = 0   
+      GBUF%G_FOR   = 0
       IAD = IAD + 1
-      GBUF%G_MOM   = 0   
+      GBUF%G_MOM   = 0
       IAD = IAD + 1
-      GBUF%G_THK   = 0   
+      GBUF%G_THK   = 0
       IAD = IAD + 1
-      GBUF%G_TAG22  = 0   
+      GBUF%G_TAG22  = 0
       IAD = IAD + 1
-      GBUF%G_STRA  = 0   
+      GBUF%G_STRA  = 0
       IAD = IAD + 1
-      GBUF%G_SIGI  = 0   
+      GBUF%G_SIGI  = 0
       IAD = IAD + 1
-      GBUF%G_DMG   = 0   
+      GBUF%G_DMG   = 0
       IAD = IAD + 1
-      GBUF%G_FORPG = 0   
+      GBUF%G_FORPG = 0
       IAD = IAD + 1
-      GBUF%G_MOMPG = 0   
+      GBUF%G_MOMPG = 0
       IAD = IAD + 1
 C
-      GBUF%G_FORPGPINCH = 0   
+      GBUF%G_FORPGPINCH = 0
       IAD = IAD + 1
-      GBUF%G_MOMPGPINCH = 0   
+      GBUF%G_MOMPGPINCH = 0
       IAD = IAD + 1
-      GBUF%G_EPGPINCHXZ = 0   
+      GBUF%G_EPGPINCHXZ = 0
       IAD = IAD + 1
-      GBUF%G_EPGPINCHYZ = 0   
+      GBUF%G_EPGPINCHYZ = 0
       IAD = IAD + 1
-      GBUF%G_EPGPINCHZZ = 0   
+      GBUF%G_EPGPINCHZZ = 0
       IAD = IAD + 1
 C
       GBUF%G_STRPG = 0
@@ -132,19 +132,19 @@ C
       IAD = IAD + 1
       GBUF%G_DAMDL = 0
       IAD = IAD + 1
-      GBUF%G_FORTH = 0   
+      GBUF%G_FORTH = 0
       IAD = IAD + 1
-      GBUF%G_EINTTH = 0   
+      GBUF%G_EINTTH = 0
       IAD = IAD + 1
-      GBUF%G_FILL  = 0   
+      GBUF%G_FILL  = 0
       IAD = IAD + 1
       GBUF%G_SEQ   = 0
       IAD = IAD + 1
-      GBUF%G_STRW = 0  
+      GBUF%G_STRW = 0
       IAD = IAD + 1
-      GBUF%G_STRWPG = 0  
+      GBUF%G_STRWPG = 0
       IAD = IAD + 1
-      GBUF%G_THK_I  = 0   
+      GBUF%G_THK_I  = 0
       IAD = IAD + 1
       GBUF%G_JAC_I  = 0
       IAD = IAD + 1
@@ -154,30 +154,30 @@ C
       IAD = IAD + 1
       GBUF%G_BPRELD = 0   ! Bolt preloading
       IAD = IAD + 1
-      GBUF%G_ABURN = 0   
+      GBUF%G_ABURN = 0
       IAD = IAD + 1
-      GBUF%G_MU = 0  
+      GBUF%G_MU = 0
       IAD = IAD + 1
-      GBUF%G_PLANL = 0  
+      GBUF%G_PLANL = 0
       IAD = IAD + 1
-      GBUF%G_EPSDNL = 0  
+      GBUF%G_EPSDNL = 0
       IAD = IAD + 1
-      GBUF%G_TEMPG = 0 
+      GBUF%G_TEMPG = 0
       IAD = IAD + 1
-      GBUF%G_COR_NF = 0   
+      GBUF%G_COR_NF = 0
       IAD = IAD + 1
-      GBUF%G_COR_FR = 0   
+      GBUF%G_COR_FR = 0
       IAD = IAD + 1
-      GBUF%G_COR_XR = 0 
+      GBUF%G_COR_XR = 0
       IAD = IAD + 1
-      GBUF%G_MAXFRAC = 0   
+      GBUF%G_MAXFRAC = 0
       IAD = IAD + 1
-      GBUF%G_MAXEPS = 0   
+      GBUF%G_MAXEPS = 0
       IAD = IAD + 1
-      GBUF%G_BETAORTH   = 0     
+      GBUF%G_BETAORTH   = 0
       IAD = IAD + 1
-      GBUF%G_AMU = 0   
-      
+      GBUF%G_AMU = 0
+
 C 1-D elements (TRUSS, BEAM, SPRING, NSTRAND)
       IAD = IAD + 1
       GBUF%G_AREA = 0
@@ -268,13 +268,13 @@ C seatbelts elements
       IAD = IAD + 1
       GBUF%G_ADD_NODE = 0
       IAD = IAD + 1
-      GBUF%G_UPDATE = 0  
+      GBUF%G_UPDATE = 0
       IAD = IAD + 1
-      GBUF%G_FRAM_FACTOR = 0 
+      GBUF%G_FRAM_FACTOR = 0
       IAD = IAD + 1
-      GBUF%G_INTVAR = 0  
+      GBUF%G_INTVAR = 0
       IAD = IAD + 1
-      GBUF%G_IDT_TSH = 0  
+      GBUF%G_IDT_TSH = 0
       IAD = IAD + 1
       GBUF%G_TM_YIELD=0
       IAD = IAD + 1
@@ -296,7 +296,7 @@ c---------------------
         BUFLY => ELBUF_STR%BUFLY(ILAY)
 C
         IAD = 0
-c        
+c
         BUFLY%L_OFF    = 0
         IAD = IAD + 1
         BUFLY%L_GAMA   = 0
@@ -417,7 +417,7 @@ c
         IAD = IAD + 1
         BUFLY%L_VOL0DP = 0
         IAD = IAD + 1
-c        
+c
 c---
 C  nb of local variable
         BUFLY%NVAR_LOC = IAD
@@ -451,7 +451,7 @@ c---
 C  nb of layer variable
         BUFLY%NVAR_LAY = IAD
 c---
-      ENDDO 
+      ENDDO
 c-----------------------------------------------
 c
       DO ILAY = 1, ELBUF_STR%NINTLAY

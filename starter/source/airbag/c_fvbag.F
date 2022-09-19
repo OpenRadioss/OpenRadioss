@@ -47,19 +47,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   MONVOL(*), NODLOCAL(*), IXS(NIXS,*), PROC, NB_NODE,
      .   FVMAIN(*)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------   
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL     
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K1, K2, IFV, I, ITYP, NN, KI1, J, NMAX, PMAIN, P, NN_L,
-     .        PP, JJ, NTG, NBA, NNA, KIA1, NNA_L, 
+     .        PP, JJ, NTG, NBA, NNA, KIA1, NNA_L,
      .        K, KK, NNSA, NNSA_L, KI2,
      .        NTGM, NNI, NTGI, NNI_L
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF, IBUFA,ITAG,REDIR,IBUFSA
@@ -150,7 +150,7 @@ C Identification du PMAIN
             IF ((ITYP==6.OR.ITYP==8) .AND. FVMAIN(IFV) >= 0) THEN
            !FVMAIN(IFV) > 0 : The main processor was computed during domain decomposition
               PMAIN = FVMAIN(IFV)
-            ENDIF 
+            ENDIF
             FVSPMD(IFV)%PMAIN=PMAIN
 C Noeuds locaux
             NN_L=0
@@ -198,7 +198,7 @@ C Solides additionnels
             FVSPMD(IFV)%NNSA=0
             FVSPMD(IFV)%NNSA_L=0
             FVSPMD(IFV)%NELSA=0
-            IF (NBA>0) THEN 
+            IF (NBA>0) THEN
                IF (PROC==PMAIN) ALLOCATE(FVSPMD(IFV)%IXSA(8,NBA))
                KIA1=K2+MONVOL(K1-1+19)-1
                DO J=1,NB_NODE
@@ -222,12 +222,12 @@ C Solides additionnels
                ENDDO
                FVSPMD(IFV)%NNSA=NNSA
                IF (PROC==PMAIN) THEN
-                  DO J=1,NBA                            
-                     JJ=MONVOL(KIA1-1+J)                
-                     DO K=1,8                           
-                        KK=IXS(1+K,JJ)                  
-                        FVSPMD(IFV)%IXSA(K,J)=REDIR(KK) 
-                     ENDDO                              
+                  DO J=1,NBA
+                     JJ=MONVOL(KIA1-1+J)
+                     DO K=1,8
+                        KK=IXS(1+K,JJ)
+                        FVSPMD(IFV)%IXSA(K,J)=REDIR(KK)
+                     ENDDO
                   ENDDO
 C
                   FVSPMD(IFV)%NELSA=NTG
@@ -245,7 +245,7 @@ C
                         FVDATA(IFV)%IFVNOD(2,J)=REDIR(JJ)
                      ENDIF
                   ENDDO
-               ENDIF                                
+               ENDIF
                NNSA_L=0
                DO J=1,NNSA
                   JJ=IBUFSA(J)
@@ -262,7 +262,7 @@ C
                      FVSPMD(IFV)%IBUFSA_L(2,NNSA_L)=NODLOCAL(JJ)
                   ENDIF
                ENDDO
-            ENDIF  
+            ENDIF
          ENDIF
          K1=K1+NIMV
       ENDDO

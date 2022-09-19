@@ -80,8 +80,8 @@ C----------------------------------------------
       IF (NB_ANALY>0) THEN
         CALL HM_OPTION_START('/ANALY')
         CALL HM_OPTION_READ_KEY(LSUBMODEL)
-        CALL HM_GET_INTV('N2D3D',NANALY,IS_AVAILABLE,LSUBMODEL)      
-        CALL HM_GET_INTV('IPARITH',IPARITH,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('N2D3D',NANALY,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('IPARITH',IPARITH,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('ISUBCYC',ISUB,IS_AVAILABLE,LSUBMODEL)
         IF(IPARITH==0)THEN
           IPARI0  = 1
@@ -102,7 +102,7 @@ C
       IF(ISUB==2)THEN
         MSHSUB = 1
         ISUB   = 0
-      END IF      
+      END IF
 C--------------------------------------------------------------
       RETURN
-      END 
+      END

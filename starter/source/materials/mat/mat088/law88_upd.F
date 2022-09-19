@@ -32,7 +32,7 @@ Chd|        FUNC_INTERS_C                 source/tools/curve/func_inters.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW88_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
+      SUBROUTINE LAW88_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,
      .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -62,24 +62,24 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,FUNC,FUND,PN,IOK,NL,IUNL_FOR,ICASE,NV,
      .  IC1,IC2,NOGD,II,JJ,ICHECK,ITENS
-      my_real KC,KT,KFC,KFT,GMAX,DERI,STIFF,STIFFMIN,STIFFINI, 
+      my_real KC,KT,KFC,KFT,GMAX,DERI,STIFF,STIFFMIN,STIFFINI,
      .  STIFFMAX,STIFFAVG,XINT1,YINT1,XINT2,YINT2,FAC,FAC1,FAC2,
      .  DX,DY, XINC,YINC,XINT,YINT
       my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH
 C=======================================================================
 C----------------------------
        DO J = 1, NFUNC
-         K = IFUNC(J) 
+         K = IFUNC(J)
          IC1  =  NPC(K)
          IC2  =  NPC(K+1)
          NOGD =  (IC2-IC1)/2
-         ALLOCATE (STRETCH(NOGD), STRESS(NOGD))   
-         JJ = 0       
+         ALLOCATE (STRETCH(NOGD), STRESS(NOGD))
+         JJ = 0
          ICHECK = 0
-         DO II = IC1,IC2-2,2                                 
-              JJ=JJ+1                                        
-              STRETCH(JJ) = PLD(II) + ONE                     
-              STRESS(JJ)  = PLD(II + 1)   
+         DO II = IC1,IC2-2,2
+              JJ=JJ+1
+              STRETCH(JJ) = PLD(II) + ONE
+              STRESS(JJ)  = PLD(II + 1)
                 IF(PLD(II) <=  - ONE) THEN
                   CALL ANCMSG(MSGID=1175,
      .                         MSGTYPE=MSGERROR,
@@ -91,7 +91,7 @@ C----------------------------
               ENDIF
               !! check if the curve don't have (0,0) point.
               IF( PLD(II) == ZERO .AND. PLD(II + 1) == ZERO )ICHECK = 1
-         ENDDO 
+         ENDDO
          IF(ICHECK == 0 ) THEN
                               ! Error message
                  CALL ANCMSG(MSGID=1896,
@@ -101,22 +101,22 @@ C----------------------------
      .                           C1=TITR,
      .                           I2=FUNC_ID(K)) ! Id_function
                    CALL ARRET(2)
-         ENDIF            
+         ENDIF
 C  check if the curve is monotonic
-         DO JJ =1,NOGD - 1                                
-           DX = STRETCH(JJ + 1) - STRETCH(JJ)               
-           DY = STRESS(JJ  + 1) - STRESS(JJ) 
-           IF(DX * DY < ZERO) THEN            
-             CALL ANCMSG(MSGID=1176,                     
-     .              MSGTYPE=MSGERROR,                  
-     .              ANMODE=ANINFO,                     
-     .              I1=MAT_ID,                         
-     .              C1=TITR,                           
-     .              I2=FUNC_ID(K))  
-           ENDIF                                    
-         ENDDO                              
-          DEALLOCATE( STRETCH,STRESS)   
-        ENDDO ! NFUNC   
+         DO JJ =1,NOGD - 1
+           DX = STRETCH(JJ + 1) - STRETCH(JJ)
+           DY = STRESS(JJ  + 1) - STRESS(JJ)
+           IF(DX * DY < ZERO) THEN
+             CALL ANCMSG(MSGID=1176,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=MAT_ID,
+     .              C1=TITR,
+     .              I2=FUNC_ID(K))
+           ENDIF
+         ENDDO
+          DEALLOCATE( STRETCH,STRESS)
+        ENDDO ! NFUNC
 c
 c       Intersection - quasistatic curve and unloading curve
 c
@@ -140,39 +140,39 @@ C intersection pt of tension if existing
           UPARAM(NV + 1) = 0  ! not existing
           CALL FUNC_INTERS(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINT  ,YINT  )
-          UPARAM(NV + 2) = XINT   
+          UPARAM(NV + 2) = XINT
           UPARAM(NV + 3) = YINT
-          IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension 
+          IF(XINT*YINT /= ZERO)UPARAM(NV + 1) = 1 ! only tension
 C intersection pt of compression if existing 
           CALL FUNC_INTERS_C(TITR   ,MAT_ID ,FUNC   ,FUND   ,FAC1   ,
      .                     FAC2   ,NPC    ,PLD    ,XINC  ,YINC  )
-          UPARAM(NV + 4) = XINC   
+          UPARAM(NV + 4) = XINC
           UPARAM(NV + 5) = YINC
           IF(XINC*YINC /= ZERO ) THEN
            IF(INT(UPARAM(NV + 1)) == 0 )THEN
-              UPARAM(NV + 1) = -1  ! only compression 
-            ELSE  
+              UPARAM(NV + 1) = -1  ! only compression
+            ELSE
                UPARAM(NV + 1) = 2  ! tension & compression
             ENDIF
           ENDIF
           IF(UPARAM(NV + 1) /= 2 .AND. ITENS == -2) THEN
-              CALL ANCMSG(MSGID=2040,                        
-     .              MSGTYPE=MSGERROR,                             
-     .              ANMODE=ANINFO,                                
-     .              I1=MAT_ID,                                    
-     .              C1=TITR,                                      
-     .              I2=FUNC_ID(FUNC),   ! Id function             
-     .              I3=FUNC_ID(FUND) ) ! Id_function              
+              CALL ANCMSG(MSGID=2040,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=MAT_ID,
+     .              C1=TITR,
+     .              I2=FUNC_ID(FUNC),   ! Id function
+     .              I3=FUNC_ID(FUND) ) ! Id_function
              CALL ARRET(2)
-          
+
           ENDIF
-            
-        ENDIF  
+
+        ENDIF
         WRITE(IOUT,1000)
-         
+
          IF(XINT*YINT > ZERO) WRITE(IOUT,1600) XINT,YINT
          IF(XINC*YINC > ZERO) WRITE(IOUT,1700) XINC,YINC
-            
+
 c----- ------
  1000 FORMAT
      & (5X,'TABULATED OGDEN LAW',/,
@@ -180,7 +180,7 @@ c----- ------
  1600 FORMAT
      & (5X,  'STRAIN TENSION OF INTERSECTION PT BETWEEN QUASISTAIC AND UNLOADING CURVES. . . . .  . . .=',1PG20.13/
      & ,5X,  'STRESS TENSION OF INTERSECTION PT BETWEEN QUASISTAIC AND UNLOADING CURVES. . . . . . . . =',1PG20.13//)
-     
+
  1700 FORMAT
      & (5X,  'STRAIN COMPRESSION OF INTERSECTION PT BETWEEN QUASISTAIC AND UNLOADING CURVES. . . . .  . . .=',1PG20.13/
      & ,5X,  'STRESS COMPRESSION OF INTERSECTION PT BETWEEN QUASISTAIC AND UNLOADING CURVES. . . . . . . . =',1PG20.13//)

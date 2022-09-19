@@ -47,14 +47,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"        
+#include      "implicit_f.inc"
           ! based on Sutherland Hodgman  algorithm
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
           type polygon
             my_real          :: node(16,2)
-            integer :: NumNodes          
+            integer :: NumNodes
           end type polygon
           type(polygon)    :: basePolygon, clipPolygon, resultPolygon
 C-----------------------------------------------
@@ -62,12 +62,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
           type(polygon)    :: tmpPolygon
           my_real          :: edge_P1(2),edge_P2(2)    ! vertices of edge to clipPolygon tmpPolygon
-          integer :: i  
+          integer :: i
           tmpPolygon%NumNodes = clipPolygon%NumNodes
           IF(tmpPolygon%NumNodes > 0)THEN
             tmpPolygon%node(1:tmpPolygon%NumNodes,:) = clipPolygon%node(1:tmpPolygon%NumNodes,:)
           END IF
-          
+
           do i=1,basePolygon%NumNodes-1 ! for each edge i of the polygon basePolygon
             edge_P1(:) = basePolygon%node(i,:)   !  node 1 of edge i
             edge_P2(:) = basePolygon%node(i+1,:) !  node 2 of edge i
@@ -76,7 +76,7 @@ C-----------------------------------------------
             ! tmpPolygon <= resultPolygon
             tmpPolygon%NumNodes = resultPolygon%NumNodes
             tmpPolygon%node(1:tmpPolygon%NumNodes,:) = resultPolygon%node(1:tmpPolygon%NumNodes,:)
-          end do 
+          end do
         end subroutine PolygonalClipping
 C----------------------------------------------- 
 
@@ -92,10 +92,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
           type polygon
             my_real          :: node(16,2)
-            integer :: NumNodes          
+            integer :: NumNodes
           end type polygon
           type(polygon) :: polyg, resultPolyg
-          my_real         , intent(inout) :: p1(2), p2(2) 
+          my_real         , intent(inout) :: p1(2), p2(2)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------         
@@ -120,7 +120,7 @@ C-----------------------------------------------
             x1(:) = polyg%node(i,:)   ! node 1 of edge i
             x2(:) = polyg%node(i+1,:) ! node 2 of edge i
 
-            if ( IS_ON_1ST_HALF_PLANE(x1, p1, p2) ) then 
+            if ( IS_ON_1ST_HALF_PLANE(x1, p1, p2) ) then
               if ( IS_ON_1ST_HALF_PLANE(x2, p1, p2) ) then
                 ! add the node 2 to the output polygon
                 k = k+1
@@ -160,17 +160,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------     
-          my_real         ,intent(inout) :: Seg_P1(2), Seg_P2(2)   
-          my_real         ,intent(inout) :: Line_P1(2), Line_P2(2)  
+          my_real         ,intent(inout) :: Seg_P1(2), Seg_P2(2)
+          my_real         ,intent(inout) :: Line_P1(2), Line_P2(2)
           INTEGER         ,intent(in)    :: IFLG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------         
-          my_real                     :: intersectP(2), v1(2), v2(2), Seg_P1_Line_P1(2) 
+          my_real                     :: intersectP(2), v1(2), v2(2), Seg_P1_Line_P1(2)
           my_real          :: alpha, tmp,tmp2, L
           my_real          :: CrossProd2D, TOL
           external CrossProd2D
@@ -178,13 +178,13 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------   
           TOL = EM06
-        
+
           intersectP(1:2) = EP30
-          v1(:) = Seg_P2(:) - Seg_P1(:) 
+          v1(:) = Seg_P2(:) - Seg_P1(:)
           v2(:) = Line_P2(:) - Line_P1(:)
           L=max(sum(v1(:)*v1(:)),sum(v2(:)*v2(:)))
           tmp =  CrossProd2D(v1,v2)
-          if (abs(tmp) <= TOL*L) then  
+          if (abs(tmp) <= TOL*L) then
 c          print *, "colinear"
 !          if (tmp == 0.0D00) then
             !colinear vectors
@@ -196,10 +196,10 @@ c          print *, "colinear"
               ! the intersection is the last point of the segment
               intersectP(:) = Seg_P2(:)
             end if
-          else 
-c          print *, "not colinear"          
+          else
+c          print *, "not colinear"
             ! non colinear vectors
-            Seg_P1_Line_P1(:) = Line_P1(:) - Seg_P1(:) 
+            Seg_P1_Line_P1(:) = Line_P1(:) - Seg_P1(:)
             ! parametric coordinates
             tmp2 = CrossProd2D(Seg_P1_Line_P1,v2)
             alpha = tmp2
@@ -212,16 +212,16 @@ c            print *, "alpha=", alpha
               intersectP(:) = Seg_P1(:) + alpha*v1(:)
             end if
           end if
-          
+
           !post-condition
 c22          IF(intersectP(1)==EP30 .AND. IFLG==1)THEN
 c22            print *, "**warning : inter22 polygonal clipping."
-c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Seg_P1(1:2)  ,ZERO                                             
-c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Seg_P2(1:2)  ,ZERO                                             
-c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Line_P1(1:2) ,ZERO                                             
-c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Line_P2(1:2) ,ZERO  
+c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Seg_P1(1:2)  ,ZERO
+c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Seg_P2(1:2)  ,ZERO
+c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Line_P1(1:2) ,ZERO
+c22            write (*,FMT='(A,3F45.35)')        " *createnode ",Line_P2(1:2) ,ZERO
 c22          ENDIF
-          
+
         end function intersectP
 C----------------------------------------------- 
 
@@ -231,7 +231,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"    
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------        
@@ -239,17 +239,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------         
-          my_real                         :: v1(2), v2 (2)         
+          my_real                         :: v1(2), v2 (2)
           logical :: IS_ON_1ST_HALF_PLANE
           my_real          :: crossP, L
           my_real          :: CrossProd2D
-          EXTERNAL         :: CrossProd2D  
+          EXTERNAL         :: CrossProd2D
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------                   
           v1(:) = p2(:) -  p1(:)
           v2(:) = point(:)  -  p1(:)
-          L=max(sum(v1(:)*v1(:)),sum(v2(:)*v2(:)))  
+          L=max(sum(v1(:)*v1(:)),sum(v2(:)*v2(:)))
           crossP = CrossProd2D(v1,v2)
 c          print *, "crossP",crossP, EM06*L,L
           !DONT BE TOO MUCH TOLERANT OTHERWISE ALGO WILL ADD AN EMPTY INTERSECTION POINT WHICH WOULD RECQUIRE ADDITIONAL CODE TO BE SKIPPED.
@@ -258,7 +258,7 @@ c          print *, "crossP",crossP, EM06*L,L
           if (  crossP >= -EM10*L) then
             IS_ON_1ST_HALF_PLANE = .true.
 c            print *, "IS_ON_1ST_HALF_PLANE"
-          else 
+          else
             IS_ON_1ST_HALF_PLANE = .false.
 c            print *, "NOT_ON_1ST_HALF_PLANE"
           end if
@@ -276,10 +276,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
           type polygon
             my_real          :: node(16,2)
-            integer :: NumNodes          
+            integer :: NumNodes
           end type polygon
           type(polygon)   ,intent(inout)  :: Polyg
-          my_real         , intent(inout) :: Area 
+          my_real         , intent(inout) :: Area
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------         
@@ -291,26 +291,26 @@ C-----------------------------------------------
 
           total = ZERO
           N     = Polyg%NumNodes
-          
+
           DO I=1,N
-            x(I) = Polyg%node(I,1)            
-            y(I) = Polyg%node(I,2)                        
+            x(I) = Polyg%node(I,1)
+            y(I) = Polyg%node(I,2)
           ENDDO
-          
+
           DO I=1,N-1
             total = total + (x(I+1)-x(I))*(y(I+1)+y(I))
           ENDDO
-          
+
           Area = HALF * ABS(total)
-          
+
           !setclockwise
           IF (total < ZERO) THEN
             DO I=1,N
-              Polyg%node(I,1) = x(N-I+1)           
-              Polyg%node(I,2) = y(N-I+1)                       
-            ENDDO 
-          ENDIF   
-          
+              Polyg%node(I,1) = x(N-I+1)
+              Polyg%node(I,2) = y(N-I+1)
+            ENDDO
+          ENDIF
+
       END SUBROUTINE
 C----------------------------------------------- 
 
@@ -326,10 +326,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
           type polygon
             my_real          :: node(16,2)
-            integer :: NumNodes          
+            integer :: NumNodes
           end type polygon
           type(polygon)   ,intent(inout)  :: Polyg
-          my_real         , intent(inout) :: Area 
+          my_real         , intent(inout) :: Area
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------         
@@ -341,25 +341,25 @@ C-----------------------------------------------
 
           total = ZERO
           N     = Polyg%NumNodes
-          
+
           DO I=1,N
-            x(I) = Polyg%node(I,1)            
-            y(I) = Polyg%node(I,2)                        
+            x(I) = Polyg%node(I,1)
+            y(I) = Polyg%node(I,2)
           ENDDO
-          
+
           DO I=1,N-1
             total = total + (x(I+1)-x(I))*(y(I+1)+y(I))
           ENDDO
-          
+
           Area = HALF * ABS(total)
-          
+
           !setclockwise
           IF (total > ZERO) THEN
             DO I=1,N
-              Polyg%node(I,1) = x(N-I+1)           
-              Polyg%node(I,2) = y(N-I+1)                       
-            ENDDO 
-          ENDIF   
-          
+              Polyg%node(I,1) = x(N-I+1)
+              Polyg%node(I,2) = y(N-I+1)
+            ENDDO
+          ENDIF
+
       END SUBROUTINE
 C----------------------------------------------- 

@@ -537,7 +537,7 @@ C-------------------------------
        IRTLO(IL)=0
        FRIC0(1,IL)=ZERO
        FRIC0(2,IL)=ZERO
-       FRIC0(3,IL)=ZERO      
+       FRIC0(3,IL)=ZERO
       ELSE
 C
        LOLD=IABS(IRTLO(IL))
@@ -606,9 +606,9 @@ C----        Filtrage du frottement
               FYI(I)= ALPHA*FYI(I) + ALPHI*FTSAV(K+2)
               FZI(I)= ALPHA*FZI(I) + ALPHI*FTSAV(K+3)
 	     IF (INCONV==1) THEN
-              FTSAV(K+1) = FXI(I) 
-              FTSAV(K+2) = FYI(I) 
-              FTSAV(K+3) = FZI(I) 
+              FTSAV(K+1) = FXI(I)
+              FTSAV(K+2) = FYI(I)
+              FTSAV(K+3) = FZI(I)
              ENDIF
             ENDIF
           ENDIF
@@ -660,7 +660,7 @@ C---        vitesse tangentielle
             VV = SQRT(MAX(EM30, V2))
           ENDIF
           IF(MFROT==1)THEN
-            XMU = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
+            XMU = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P
      .           +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
           ELSEIF(MFROT==2)THEN
 C---         Loi Darmstad
@@ -675,7 +675,7 @@ C---         Loi Renard
               VV1 = VV / FROT_P(5)
               XMU = FROT_P(1)+ DMU*VV1*(TWO-VV1)
             ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
-	          DMU  = FROT_P(4)-FROT_P(3) 
+	          DMU  = FROT_P(4)-FROT_P(3)
               VV1  = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
               XMU = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
 	        ELSE
@@ -713,8 +713,8 @@ C-----------------------------------------------------
      .                   - H(3)*V(2,IX3(I)) - H(4)*V(2,IX4(I))
             VZ = V(3,IG) - H(1)*V(3,IX1(I)) - H(2)*V(3,IX2(I))
      .                   - H(3)*V(3,IX3(I)) - H(4)*V(3,IX4(I))
-            VV = VX*VX + VY*VY + VZ*VZ 
-            XMU  = FRIC + ( CF(1) + CF(4)*P ) * P 
+            VV = VX*VX + VY*VY + VZ*VZ
+            XMU  = FRIC + ( CF(1) + CF(4)*P ) * P
      .           + ( CF(2) + CF(3)*P ) * SQRT(VV) + CF(5)*VV
             FMAX= -MIN(XMU*FNI(I),ZERO)
           IF(FTI>FMAX)THEN

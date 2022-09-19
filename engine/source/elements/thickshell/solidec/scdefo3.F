@@ -34,11 +34,11 @@ Chd|====================================================================
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .   WXX, WYY, WZZ, 
+     .   WXX, WYY, WZZ,
      .   DHXX, DHXY, DHYX, DHYY, DHZX, DHZY, DHZZ,DH4, DH5, DH6,
-     .   PX1H1, PX1H2 , PX2H1, PX2H2, PX3H1, PX3H2 , PX4H1, PX4H2, 
+     .   PX1H1, PX1H2 , PX2H1, PX2H2, PX3H1, PX3H2 , PX4H1, PX4H2,
      .   HGX1 , HGY2 , HGZ1 , HGZ2 ,
-     .   RX0, RY0, SX0, SY0,NU,DDHV) 
+     .   RX0, RY0, SX0, SY0,NU,DDHV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,18 +63,18 @@ C     REAL
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
-     .   WXX(*), WYY(*), WZZ(*), 
-     .   DHXX(*), DHXY(*), 
-     .   DHYX(*), DHYY(*), 
+     .   WXX(*), WYY(*), WZZ(*),
+     .   DHXX(*), DHXY(*),
+     .   DHYX(*), DHYY(*),
      .   DHZX(*), DHZY(*), DHZZ(*),DH4(*), DH5(*), DH6(*),
-     .   PX1H1(*), PX1H2(*) , PX2H1(*), PX2H2(*), 
-     .   PX3H1(*), PX3H2(*) , PX4H1(*), PX4H2(*), 
+     .   PX1H1(*), PX1H2(*) , PX2H1(*), PX2H2(*),
+     .   PX3H1(*), PX3H2(*) , PX4H1(*), PX4H2(*),
      .   HGX1(*),  HGY2(*)  , HGZ1(*), HGZ2(*),
-     .   RX0(*), RY0(*), SX0(*), SY0(*),NU(*),DDHV(*) 
+     .   RX0(*), RY0(*), SX0(*), SY0(*),NU(*),DDHV(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C     REAL
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
      .   VX35(MVSIZ), VY35(MVSIZ), VZ35(MVSIZ),
      .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ), DT1D2,DT1D1
-      my_real 
+      my_real
      .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,
      .   HGY1(MVSIZ), HGX2(MVSIZ),
      .   H1VX,H1VY,H1VZ,H2VX,H2VY,H2VZ,NU1,
@@ -180,7 +180,7 @@ C 1 -1 -1 1 -1 1 1 -1
        DHXX(I)= X1VX+X2VX+Y2VY_NU
        DHYY(I)= Y1VY+Y2VY+X1VX_NU
        DDHV(I)= X1VX_NU+Y2VY_NU
-       DHZZ(I)= DDHV(I)-NU1*(X2VX+Y1VY) 
+       DHZZ(I)= DDHV(I)-NU1*(X2VX+Y1VY)
        DHXY(I)=  RX0(I)*HGX1(I)-SX0(I)*HGX2(I)
        DHYX(I)= -RY0(I)*HGY1(I)+SY0(I)*HGY2(I)
        DHZX(I)= -RY0(I)*HGZ1(I)
@@ -197,7 +197,7 @@ Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6
 Chd|        SCFORC3                       source/elements/thickshell/solidec/scforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SCDEFO3( 
+      SUBROUTINE SCDEFO3(
      .   DXX, DXY,DXZ, DYX, DYY,DYZ, DZX, DZY, DZZ, D4, D5, D6,
      .   DCXX, DCXY,DCXZ, DCYX, DCYY,DCYZ,DCZX,DCZY, DCZZ,DC4, DC5,DC6,
      .   DHXX, DHXY,DHXZ, DHYX,DHYY,DHYZ, DHZX, DHZY, DHZZ,DH4,DH5,DH6,
@@ -225,17 +225,17 @@ C-----------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   DXX(*), DXY(*), DXZ(*), DYX(*), DYY(*),DYZ(*), 
+     .   DXX(*), DXY(*), DXZ(*), DYX(*), DYY(*),DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
-     .   DCXX(*), DCXY(*),DCXZ(*), DCYX(*), DCYY(*),DCYZ(*), 
+     .   DCXX(*), DCXY(*),DCXZ(*), DCYX(*), DCYY(*),DCYZ(*),
      .   DCZX(*), DCZY(*), DCZZ(*), DC4(*), DC5(*), DC6(*),
-     .   DHXX(*), DHXY(*),DHXZ(*), DHYX(*), DHYY(*),DHYZ(*), 
-     .   DHZX(*), DHZY(*), DHZZ(*), 
+     .   DHXX(*), DHXY(*),DHXZ(*), DHYX(*), DHYY(*),DHYZ(*),
+     .   DHZX(*), DHZY(*), DHZZ(*),
      .   DH4(*), DH5(*), DH6(*), DDHV(*),
      .   ZI,WI,VZL(*),VOL(*),VOLG(*),VOLO(*),
      .   SIG(NEL,6),SIGZM(*),VOLM(*),USB(*),EINT(*),OFF(*),OFFG(*),DTI,
      .   OFFS(*),DVC(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOL0DP(*),VOLDP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

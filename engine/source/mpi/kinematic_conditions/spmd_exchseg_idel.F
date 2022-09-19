@@ -96,12 +96,12 @@ C-----------------------------------------------
       REQ_R1(1:NSPMD) = MPI_REQUEST_NULL
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           CALL MPI_IRECV(
      .      BUFR(IDEB),IRECV(I),MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .      MPI_COMM_WORLD,REQ_R1(I),IERROR)
           LEN = LEN+IRECV(I)
-          IDEB = LEN + 1 
+          IDEB = LEN + 1
          ENDIF
        ENDDO
 
@@ -124,7 +124,7 @@ C Proc recieve only if IRECV(I) > 0
 C
       DO I = 1, NSPMD
         IF(IRECV(I)>0) THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
           LEN = LEN+IRECV(I)
           NBEL = IRECV(I)/FOUR

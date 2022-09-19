@@ -96,7 +96,7 @@ C
         ELSE
            BUF = 1
          ENDIF
-         CALL SPMD_VGATH(V,NODGLOB,WEIGHT,BUF)     
+         CALL SPMD_VGATH(V,NODGLOB,WEIGHT,BUF)
       ENDIF
       IF(NODCUT>0)THEN
         IF (NSPMD > 1) THEN
@@ -128,12 +128,12 @@ C
 C  node ply xfem
 C
       IF(ANIM_PLY > 0 ) THEN
-       IF (NSPMD == 1) THEN 
+       IF (NSPMD == 1) THEN
          IF (NFNOD_PXFEM>0) THEN
-            IF(IFUNC == 1) THEN    
+            IF(IFUNC == 1) THEN
               ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
               DO JJ =1,NPLYPART
-               IPLY = INDX(JJ) 
+               IPLY = INDX(JJ)
                DO ND=1,PLYNOD(IPLY)%PLYNUMNODS
                  I = PLYNOD(IPLY)%NODES(ND)
                  EMPL = PLYNOD(IPLY)%PLYNODID(ND)
@@ -141,31 +141,31 @@ C
                  PLYVELVEC(1,EMPL) =  PLY(IPLY)%V(1,N)
                  PLYVELVEC(2,EMPL) =  PLY(IPLY)%V(2,N)
                  PLYVELVEC(3,EMPL) =  PLY(IPLY)%V(3,N)
-               ENDDO  
-              ENDDO  
+               ENDDO
+              ENDDO
               CALL WRITE_R_C(PLYVELVEC,3*NFNOD_PXFEM)
               DEALLOCATE(PLYVELVEC)
 C
             ELSEIF(IFUNC == 2)THEN
               ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
               DO JJ =1,NPLYPART
-                 IPLY = INDX(JJ)              
+                 IPLY = INDX(JJ)
                  DO ND=1,PLYNOD(IPLY)%PLYNUMNODS
                    I = PLYNOD(IPLY)%NODES(ND)
                    EMPL = PLYNOD(IPLY)%PLYNODID(ND)
-                   N = NOD(I)                   
+                   N = NOD(I)
                    PLYVELVEC(1,EMPL) = PLY(IPLY)%U(1,N)
                    PLYVELVEC(2,EMPL) = PLY(IPLY)%U(2,N)
                    PLYVELVEC(3,EMPL) = PLY(IPLY)%U(3,N)
-                 ENDDO  
-               ENDDO  
+                 ENDDO
+               ENDDO
                CALL WRITE_R_C(PLYVELVEC,3*NFNOD_PXFEM)
                DEALLOCATE(PLYVELVEC)
 
             ELSEIF(IFUNC == 3) THEN
                 ALLOCATE(PLYVELVEC(3,NFNOD_PXFEM))
                 DO JJ =1,NPLYPART
-                  IPLY = INDX(JJ) 
+                  IPLY = INDX(JJ)
                   DO ND=1,PLYNOD(IPLY)%PLYNUMNODS
                      I = PLYNOD(IPLY)%NODES(ND)
                      EMPL = PLYNOD(IPLY)%PLYNODID(ND)
@@ -173,19 +173,19 @@ C
                      PLYVELVEC(1,EMPL) = PLY(IPLY)%A(1,N)
                      PLYVELVEC(2,EMPL) = PLY(IPLY)%A(2,N)
                      PLYVELVEC(3,EMPL) = PLY(IPLY)%A(3,N)
-                 ENDDO  
-               ENDDO 
+                 ENDDO
+               ENDDO
                CALL WRITE_R_C(PLYVELVEC,3*NFNOD_PXFEM)
                DEALLOCATE(PLYVELVEC)
-            ELSE 
+            ELSE
                R4 = ZERO
                DO I=1,NFNOD_PXFEM
                  CALL WRITE_R_C(R4,1)
                  CALL WRITE_R_C(R4,1)
                  CALL WRITE_R_C(R4,1)
                 ENDDO
-            ENDIF   
-         ENDIF 
+            ENDIF
+         ENDIF
         ELSE
 C
          EMPSIZPL = 0
@@ -194,31 +194,31 @@ C
             CALL SPMD_ANIM_PLY_VELVEC( NODGLOB,IPLY,
      *                                 NOD, IFUNC,EMPSIZPL )
          ENDDO
-       ENDIF       
+       ENDIF
       ENDIF
 c----------------------------
 C     nodes crk xfem
 c----------------------------
-      IF (ANIM_CRK > 0 ) THEN           
-        IF (ISPMD == 0) THEN            
-          R4 = ZERO                     
-          DO I=1,NFNOD_CRKXFEMG        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-          ENDDO                         
-        ENDIF                           
-      ENDIF                             
-c----------------------------    
-      IF (ISPMD==0)THEN          
-        IF (NFVNOD>0) THEN      
-           R4 = 0.                 
-           DO I=1,NFVNOD+3         
-              CALL WRITE_R_C(R4,1) 
-              CALL WRITE_R_C(R4,1) 
-              CALL WRITE_R_C(R4,1) 
-           ENDDO                   
-        ENDIF                      
+      IF (ANIM_CRK > 0 ) THEN
+        IF (ISPMD == 0) THEN
+          R4 = ZERO
+          DO I=1,NFNOD_CRKXFEMG
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+          ENDDO
+        ENDIF
+      ENDIF
+c----------------------------
+      IF (ISPMD==0)THEN
+        IF (NFVNOD>0) THEN
+           R4 = 0.
+           DO I=1,NFVNOD+3
+              CALL WRITE_R_C(R4,1)
+              CALL WRITE_R_C(R4,1)
+              CALL WRITE_R_C(R4,1)
+           ENDDO
+        ENDIF
       ENDIF
 C-------------
  300  CONTINUE
@@ -278,7 +278,7 @@ C
       DO I=1,NUMNOD
        V(1,I) = ZERO
        V(2,I) = ZERO
-       V(3,I) = ZERO        
+       V(3,I) = ZERO
       ENDDO
 C
       IF (NSPMD==1) THEN
@@ -420,7 +420,7 @@ C
         ENDDO
         IF (NRWALL>0)
      .    CALL SPMD_GLOB_DSUM9(RWAL,3*NRWALL)
-        IF (ISPMD==0) THEN 
+        IF (ISPMD==0) THEN
           DO I=1,NRWALL
             R4 = RWAL(1,I)
             CALL WRITE_R_C(R4,1)
@@ -458,17 +458,17 @@ C
 c----------------------------
 C     nodes crk xfem
 c----------------------------
-      IF (ANIM_CRK > 0 ) THEN           
-        IF (ISPMD == 0) THEN            
-          R4 = ZERO                     
-          DO I=1,NFNOD_CRKXFEMG        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-          ENDDO                         
-        ENDIF                           
-      ENDIF                             
-c----------------------------    
+      IF (ANIM_CRK > 0 ) THEN
+        IF (ISPMD == 0) THEN
+          R4 = ZERO
+          DO I=1,NFNOD_CRKXFEMG
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+          ENDDO
+        ENDIF
+      ENDIF
+c----------------------------
       IF (NFVNOD>0) THEN
          R4=ZERO
          DO I=1,NFVNOD+3
@@ -563,7 +563,7 @@ C-----------------------------------------------
            CALL WRITE_R_C(VG(2,I),1)
            CALL WRITE_R_C(VG(3,I),1)
          ENDDO
-        ENDIF        
+        ENDIF
       ENDIF
 
 C
@@ -600,17 +600,17 @@ C
 c----------------------------
 C     nodes crk xfem
 c----------------------------
-      IF (ANIM_CRK > 0 ) THEN           
-        IF (ISPMD == 0) THEN            
-          R4 = ZERO                     
-          DO I=1,NFNOD_CRKXFEMG        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-          ENDDO                         
-        ENDIF                           
-      ENDIF                             
-c----------------------------    
+      IF (ANIM_CRK > 0 ) THEN
+        IF (ISPMD == 0) THEN
+          R4 = ZERO
+          DO I=1,NFNOD_CRKXFEMG
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+          ENDDO
+        ENDIF
+      ENDIF
+c----------------------------
       IF (ISPMD==0) THEN
         R4 = 0.
         DO I=1,NSECT+NRWALL+NNWL+NNSRG
@@ -626,8 +626,8 @@ c----------------------------
               CALL WRITE_R_C(R4,1)
            ENDDO
         ENDIF
-      ENDIF!(ISPMD==0) 
-c----------------------------  
+      ENDIF!(ISPMD==0)
+c----------------------------
  300  CONTINUE
       RETURN
       END
@@ -759,17 +759,17 @@ C
 c----------------------------
 C     nodes crk xfem
 c----------------------------
-      IF (ANIM_CRK > 0 ) THEN           
-        IF (ISPMD == 0) THEN            
-          R4 = ZERO                     
-          DO I=1,NFNOD_CRKXFEMG        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-          ENDDO                         
-        ENDIF                           
-      ENDIF                             
-c----------------------------    
+      IF (ANIM_CRK > 0 ) THEN
+        IF (ISPMD == 0) THEN
+          R4 = ZERO
+          DO I=1,NFNOD_CRKXFEMG
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+          ENDDO
+        ENDIF
+      ENDIF
+c----------------------------
       IF (ISPMD/=0) GOTO 300
       R4 = 0.
       DO I=1,NSECT+NRWALL+NNWL+NNSRG
@@ -818,7 +818,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   VMAX(3,*)
-      REAL R4  
+      REAL R4
       INTEGER I,K,NODCUT,NNWL
       INTEGER NNSRG,NFVNOD,NFNOD_PXFEM,NFNOD_PXFEMG,NFNOD_CRKXFEMG
 C-----------------------------------------------
@@ -844,7 +844,7 @@ C-----------------------------------------------
               R4 = VMAX(3,I)
               CALL WRITE_R_C(R4,1)
            ENDDO
-        ENDIF        
+        ENDIF
       ENDIF
 
 C
@@ -881,17 +881,17 @@ C
 c----------------------------
 C     nodes crk xfem
 c----------------------------
-      IF (ANIM_CRK > 0 ) THEN           
-        IF (ISPMD == 0) THEN            
-          R4 = ZERO                     
-          DO I=1,NFNOD_CRKXFEMG        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-          ENDDO                         
-        ENDIF                           
-      ENDIF                             
-c----------------------------    
+      IF (ANIM_CRK > 0 ) THEN
+        IF (ISPMD == 0) THEN
+          R4 = ZERO
+          DO I=1,NFNOD_CRKXFEMG
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+          ENDDO
+        ENDIF
+      ENDIF
+c----------------------------
       IF (ISPMD/=0) GOTO 300
       R4 = 0.
       DO I=1,NSECT+NRWALL+NNWL+NNSRG
@@ -911,7 +911,7 @@ C
 C
  300  CONTINUE
 
-c----------------------------  
+c----------------------------
       RETURN
       END
 
@@ -1020,17 +1020,17 @@ C
 c----------------------------
 C     nodes crk xfem
 c----------------------------
-      IF (ANIM_CRK > 0 ) THEN           
-        IF (ISPMD == 0) THEN            
-          R4 = ZERO                     
-          DO I=1,NFNOD_CRKXFEMG        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-            CALL WRITE_R_C(R4,1)        
-          ENDDO                         
-        ENDIF                           
-      ENDIF                             
-c----------------------------    
+      IF (ANIM_CRK > 0 ) THEN
+        IF (ISPMD == 0) THEN
+          R4 = ZERO
+          DO I=1,NFNOD_CRKXFEMG
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+            CALL WRITE_R_C(R4,1)
+          ENDDO
+        ENDIF
+      ENDIF
+c----------------------------
       IF (ISPMD==0.AND.NFVNOD>0) THEN
          R4 = 0.
          DO I=1,NFVNOD+3
@@ -1072,10 +1072,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD  
-      USE I22BUFBRIC_MOD   
-      USE I22EDGE_MOD    
-      USE I22TRI_MOD         
+      USE ELBUFDEF_MOD
+      USE I22BUFBRIC_MOD
+      USE I22EDGE_MOD
+      USE I22TRI_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1095,9 +1095,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: IPARG(NPARG,*), IFLG,IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),ITAB(NUMNOD)
       REAL R4
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB      
-      TYPE(BUF_MAT_),POINTER                          :: MBUF   
-      TYPE(G_BUFEL_),POINTER                          :: GBUF     
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
+      TYPE(BUF_MAT_),POINTER                          :: MBUF
+      TYPE(G_BUFEL_),POINTER                          :: GBUF
 C-----------------------------------------------
 C   L o c a l   A r g u m e n t s
 C----------------------------------------------- 
@@ -1106,63 +1106,63 @@ C-----------------------------------------------
       REAL,DIMENSION(:,:),ALLOCATABLE :: BUFFER
 C-----------------------------------------------
 
-       !---------------------------------------------------------!                 
-       NBF = 1                                                                                                                                       
-       NBL = NB                                                                                                                                      
-       NIN = 1              
-       !---------------------------------------------------------!  
+       !---------------------------------------------------------!
+       NBF = 1
+       NBL = NB
+       NIN = 1
+       !---------------------------------------------------------!
        ALLOCATE(BUFFER(3,NUMNOD))
-       BUFFER(:,:)           = ZERO  
-             
-       DO IB=NBF,NBL    
-         ICELL               =  0                                                                
-         NCELL               = BRICK_LIST(NIN,IB)%NBCUT                                                                                                          
-         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}                                                                            
-           ICELL             = ICELL +1                                                                                                                        
-           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9   
+       BUFFER(:,:)           = ZERO
+
+       DO IB=NBF,NBL
+         ICELL               =  0
+         NCELL               = BRICK_LIST(NIN,IB)%NBCUT
+         DO WHILE (ICELL<=NCELL) ! loop on polyhedron {1:NCELL} U {9}
+           ICELL             = ICELL +1
+           IF (ICELL>NCELL .AND. NCELL/=0)ICELL=9
            IBM               = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(4)
            ICELLM            = BRICK_LIST(NIN,IBM)%mainID
            IF(IBM==0)THEN
-             IBM             = IB                                                         
-             ICELLM          = 1                                                          
+             IBM             = IB
+             ICELLM          = 1
            ENDIF
-           NGM               = BRICK_LIST(NIN,IBM)%NG                                     
-           IDLOCM            = BRICK_LIST(NIN,IBM)%IDLOC                                  
-           GBUF              =>ELBUF_TAB(NGM)%GBUF   
-           MBUF              =>ELBUF_TAB(NGM)%BUFLY(1)%MAT(1,1,1)                                                                                                            
-           NELm              = IPARG(2,NGM)   
-           MLW               = IPARG(1,NGM)                                             
+           NGM               = BRICK_LIST(NIN,IBM)%NG
+           IDLOCM            = BRICK_LIST(NIN,IBM)%IDLOC
+           GBUF              =>ELBUF_TAB(NGM)%GBUF
+           MBUF              =>ELBUF_TAB(NGM)%BUFLY(1)%MAT(1,1,1)
+           NELm              = IPARG(2,NGM)
+           MLW               = IPARG(1,NGM)
            IF(MLW==37)THEN
               !UVAR(I,1) : massic percentage of liquid * global density  (rho1*V1/V : it needs to give liquid mass multipling by element volume in aleconve.F)
               !UVAR(I,2) : density of gas
               !UVAR(I,3) : density of liquid
               !UVAR(I,4) : volumetric fraction of liquid
-              !UVAR(I,5) : volumetric fraction of gas               
+              !UVAR(I,5) : volumetric fraction of gas
               RHO(1)         = MBUF%VAR((3-1)*NELm+IDLOCM)
-              RHO(2)         = MBUF%VAR((2-1)*NELm+IDLOCM)  
+              RHO(2)         = MBUF%VAR((2-1)*NELm+IDLOCM)
               VFRAC(1)       = MBUF%VAR((4-1)*NELm+IDLOCM)
-              VFRAC(2)       = MBUF%VAR((5-1)*NELm+IDLOCM)            
+              VFRAC(2)       = MBUF%VAR((5-1)*NELm+IDLOCM)
               rho_cell       = RHO(1)*VFRAC(1) + RHO(2)*VFRAC(2)
            ELSEIF(MLW==51)THEN
               RHO(1)         = ZERO
-              RHO(2)         = ZERO                 
-              rho_cell       = ZERO              
-           ELSE 
+              RHO(2)         = ZERO
+              rho_cell       = ZERO
+           ELSE
               rho_cell       = GBUF%RHO(IDLOCM)
            ENDIF
-           NODE_ID           = BRICK_LIST(NIN,IB)%POLY(ICELL)%ID_FREE_NODE  
+           NODE_ID           = BRICK_LIST(NIN,IB)%POLY(ICELL)%ID_FREE_NODE
            IF(NODE_ID<=0)CYCLE ! not enough nodes in the group or SMP disabling
-           IF(IFLG==1)THEN       
-             !velocity vector : U                                                          
-             BUFFER(1,NODE_ID) = GBUF%MOM(NELm*(1-1) + IDLOCm) / rho_cell                                                                               
-             BUFFER(2,NODE_ID) = GBUF%MOM(NELm*(2-1) + IDLOCm) / rho_cell 
-             BUFFER(3,NODE_ID) = GBUF%MOM(NELm*(3-1) + IDLOCm) / rho_cell                      
+           IF(IFLG==1)THEN
+             !velocity vector : U
+             BUFFER(1,NODE_ID) = GBUF%MOM(NELm*(1-1) + IDLOCm) / rho_cell
+             BUFFER(2,NODE_ID) = GBUF%MOM(NELm*(2-1) + IDLOCm) / rho_cell
+             BUFFER(3,NODE_ID) = GBUF%MOM(NELm*(3-1) + IDLOCm) / rho_cell
            ELSEIF(IFLG==2)THEN
              !momentum density vector : rho.U
-             BUFFER(1,NODE_ID) = GBUF%MOM(NELm*(1-1) + IDLOCm) 
-             BUFFER(2,NODE_ID) = GBUF%MOM(NELm*(2-1) + IDLOCm) 
+             BUFFER(1,NODE_ID) = GBUF%MOM(NELm*(1-1) + IDLOCm)
+             BUFFER(2,NODE_ID) = GBUF%MOM(NELm*(2-1) + IDLOCm)
              BUFFER(3,NODE_ID) = GBUF%MOM(NELm*(3-1) + IDLOCm)
-           ELSEIF(IFLG==3)THEN   
+           ELSEIF(IFLG==3)THEN
              !internal force at centroid = sum(integral(P.dS))
              BUFFER(1,NODE_ID) = BRICK_LIST(NIN,IBM)%FCELL(1)
              BUFFER(2,NODE_ID) = BRICK_LIST(NIN,IBM)%FCELL(2)
@@ -1170,12 +1170,12 @@ C-----------------------------------------------
            ELSE
              BUFFER(1,NODE_ID) = ZERO
              BUFFER(2,NODE_ID) = ZERO
-             BUFFER(3,NODE_ID) = ZERO                          
+             BUFFER(3,NODE_ID) = ZERO
            ENDIF
-         ENDDO !next ICELL          
+         ENDDO !next ICELL
        ENDDO!next IB
-        
-       DO I=1,NUMNOD      
+
+       DO I=1,NUMNOD
          R4 = BUFFER(1,I)
          CALL WRITE_R_C(R4,1)
          R4 = BUFFER(2,I)
@@ -1183,9 +1183,9 @@ C-----------------------------------------------
          R4 = BUFFER(3,I)
          CALL WRITE_R_C(R4,1)
        ENDDO!next I
-          
-       DEALLOCATE(BUFFER)   
-      !---------------------------------------------------------! 
+
+       DEALLOCATE(BUFFER)
+      !---------------------------------------------------------!
 
       RETURN
       END

@@ -56,9 +56,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD   
+      USE ELBUFDEF_MOD
       USE STACK_MOD
-      USE DRAPE_MOD         
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C     REAL OU REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
-      my_real    
+      my_real
      .   KE11(36,MVSIZ),KE22(36,MVSIZ),KE33(36,MVSIZ),KE44(36,MVSIZ),
      .   KE12(36,MVSIZ),KE13(36,MVSIZ),KE14(36,MVSIZ),KE23(36,MVSIZ),
      .   KE24(36,MVSIZ),KE34(36,MVSIZ),OFF(MVSIZ),K_DIAG(*) ,K_LT(*)
@@ -95,9 +95,9 @@ C     REAL OU REAL*8
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   NPLAT,NLAY,IPLAT(MVSIZ)
-      INTEGER 
+      INTEGER
      .   I, J,J1,J2, IR, IS, NEL,  IUN,  MX,L_DIRA ,L_DIRB ,
      .   EP,NG,NPG,NNOD,IREP,PT1,PT2,PT3,LENF,LENM,NPTR,NPTS,
      .   PT0,PTF,PTM,PTE,PTEP,PTS,PPTF,PPTM,PPTE,PPTEP,PPTS
@@ -105,24 +105,24 @@ C-----------------------------------------------
       INTEGER  MPT,IORTH,IBID,IDRIL
       PARAMETER (NPG = 4)
       PARAMETER (NNOD = 4)
-      MY_REAL 
+      MY_REAL
      .   VCORE(MVSIZ,3*NNOD),
      .   VQN(MVSIZ,9*NNOD),VQG(MVSIZ,9*NNOD),VNRM(MVSIZ,3*NNOD),
      .   BM(MVSIZ,9*NNOD),BMF(MVSIZ,9*NNOD),BF(MVSIZ,6*NNOD),
      .   BC(MVSIZ,10*NNOD),VQ(MVSIZ,9),VJFI(MVSIZ,6,4),
      .   TC(MVSIZ,4),JAC(MVSIZ,NPG),HX(MVSIZ,NPG),HY(MVSIZ,NPG),
      .   VETA(4,NPG),VKSI(4,NPG),BZZ(MVSIZ,2*NNOD)
-      MY_REAL 
+      MY_REAL
      .      VASTN(MVSIZ,4*NNOD),AREA(MVSIZ),
      .      CDET(MVSIZ),THK2(MVSIZ)
-      INTEGER 
+      INTEGER
      .   NEL8,NEL5,NEL3,NPTM,IGTYP,PTMAT,NBM_S,NBDIR,NB16A
-      MY_REAL 
+      MY_REAL
      .   SIGY(MVSIZ),VOL0(MVSIZ),THK0(MVSIZ),
      .   X13(MVSIZ) ,Y13(MVSIZ), X24(MVSIZ) ,HZ(MVSIZ),
      .   VOLG(MVSIZ),Y24(MVSIZ),HM(MVSIZ,4),HF(MVSIZ,4),HC(MVSIZ,2),
      .   HMOR(MVSIZ,2),HFOR(MVSIZ,2),HMFOR(MVSIZ,6),GS(MVSIZ)
-      MY_REAL 
+      MY_REAL
      .    K11(9,MVSIZ),K12(9,MVSIZ),K13(9,MVSIZ),K14(9,MVSIZ),
      .    K22(9,MVSIZ),K23(9,MVSIZ),K24(9,MVSIZ),K33(9,MVSIZ),
      .    M11(9,MVSIZ),M12(9,MVSIZ),M13(9,MVSIZ),M14(9,MVSIZ),
@@ -138,9 +138,9 @@ C-----------------------------------------------
 C-----------------------------------------------
       my_real,
      .  DIMENSION(:) ,POINTER  :: DIR_A, DIR_B
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
 C     INITIALISATION
 C--------------------------
@@ -176,17 +176,17 @@ C
       ENDIF
 C
        CALL CBACOORK(JFT,JLT,X,IXC,PM,GBUF%OFF,
-     1               GEO,AREA,VCORE,JAC,HX,HY,                      
-     2               VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,        
-     3               X13  ,X24  ,Y13,Y24,                           
-     4               ELBUF_STR,NLAY, GBUF%SMSTR,                                    
-     5               IREP,NPT,ISMSTR,DIR_A,DIR_B ,      
-     6               PID ,MAT,NGL,OFF,IDRIL,NEL)                 
+     1               GEO,AREA,VCORE,JAC,HX,HY,
+     2               VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,
+     3               X13  ,X24  ,Y13,Y24,
+     4               ELBUF_STR,NLAY, GBUF%SMSTR,
+     5               IREP,NPT,ISMSTR,DIR_A,DIR_B ,
+     6               PID ,MAT,NGL,OFF,IDRIL,NEL)
        CALL CBAINI3(JFT,JLT,VKSI,VETA,
      1                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      2                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
+     3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34)
 C
       IF (IREP>0) THEN
       CALL CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
@@ -251,7 +251,7 @@ C----------------------------
      2                      IKGEO,GBUF%FORPG(PTF),GBUF%MOMPG(PTM),
      3                      K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      4                      M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     5                      MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
+     5                      MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
      6                      MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      7                      IORTH,HMOR,HFOR,IDRIL,HMFOR,
      8                      X13  ,X24  ,Y13  ,Y24,NEL)
@@ -286,19 +286,19 @@ C----------------------------
      1            JFT    ,JLT    ,VQN    ,VQ     ,NPLAT   ,IPLAT   ,
      2                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      3                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     4                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     5                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
+     4                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     5                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      6                     KE11,KE22,KE33,KE44,KE12,KE13,KE14,KE23,
      7                     KE24,KE34,VCORE,IDRIL,IORTH)
-     
+
              IF (NEIG>0) CALL C4EOFF(
      1                   JFT, JLT, IXC, ETAG, OFF)
 C
              CALL ASSEM_C4(
      1         IXC       ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,
      2         K_LT      ,IADK      ,JDIK      ,KE11      ,KE12      ,
-     3         KE13      ,KE14      ,KE22      ,KE23      ,KE24      ,     
-     5         KE33      ,KE34      ,KE44      ,OFF       )     
+     3         KE13      ,KE14      ,KE22      ,KE23      ,KE24      ,
+     5         KE33      ,KE34      ,KE44      ,OFF       )
 C
        RETURN
        END
@@ -318,8 +318,8 @@ Chd|====================================================================
         SUBROUTINE CBAINI3(JFT,JLT,VKSI,VETA,
      1                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      2                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
+     3                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     4                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34)
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -332,7 +332,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      MY_REAL 
+      MY_REAL
      .   VETA(4,4),VKSI(4,4)
       my_real
      .    K11(9,*),K12(9,*),K13(9,*),K14(9,*),
@@ -349,9 +349,9 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   PG
-      DATA 
+      DATA
      .    PG/.577350269189626/
 C-----------------------------------------------
       DO J=1,9
@@ -376,8 +376,8 @@ C-----------------------------------------------
           M33(J,I)=ZERO
           M34(J,I)=ZERO
           M44(J,I)=ZERO
-       ENDDO 
-      ENDDO 
+       ENDDO
+      ENDDO
       DO J=1,9
        DO I=JFT,JLT
           MF11(J,I)=ZERO
@@ -396,8 +396,8 @@ C-----------------------------------------------
           FM23(J,I)=ZERO
           FM24(J,I)=ZERO
           FM34(J,I)=ZERO
-       ENDDO 
-      ENDDO 
+       ENDDO
+      ENDDO
 C
        VKSI(1,1)=-FOURTH*(ONE+PG)
        VKSI(2,1)=-VKSI(1,1)

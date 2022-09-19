@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  IXC(NIXC,*),IXTG(NIXTG,*),NPC(*),
      .     ITABM1(*),ITAB(*),
      .     LSENSOR(NSENSI,*),
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .     GEO(NPROPG,*), PM(NPROPM,*), X(3,*), V(3,*),
-     .     PLD(2,*), MEMBAG, 
+     .     PLD(2,*), MEMBAG,
      .     SENSOR(NSENSR,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -125,7 +125,7 @@ C-----------------------------------------------
      .     IFVENT,ICURJETMAX,ICURJETMAX_OK,MID_INISYS, IADALE12,
      .     ITTF,IDTPDEF,NVB,KFRAME,IREF,IFOUND,JI,JI1,ITY,ITY1,
      .     NEL,CHKSURF,ITYPFUN,NVENTHOLES,NPORSURF,IBLOCKAGE,IVENTYP,
-     .     IE, NE, 
+     .     IE, NE,
      .     IERR1, IERR2, IERR3, IADBRIC, IADALE13, NTGT, II, IBID(1), JJ, ITMP
       INTEGER IVDP,IFLAGUNIT,ID1,ID2, NSWITCH, AUTO_UP_SWITCH
       INTEGER TITREVENT(20), MAX_ID
@@ -137,7 +137,7 @@ C-----------------------------------------------
       INTEGER :: RET_VAL,NFVMBAGS
       my_real :: PARAM, TMP
       INTEGER :: IMESH_ALL, ICOPY, NJET_NEW(NVOLU)
-      
+
 C     REAL
       my_real
      .     AMU, PEXT, PINI, TI,  RHOI, EI,RHOEI,
@@ -188,7 +188,7 @@ C---  +----1----+----2----+----3----+----4----+----5----+----6----+----7----+---
       K   = 0
       MFI = 0
       NVB = 0
-!     
+!
       IBID = 0
 
 C-------------------------------------
@@ -216,14 +216,14 @@ C-------------------------------------
       ENDDO
 !!!   Completion of ITAB
       MAX_ID = MAXVAL(ITAB(1:NUMNOD))
-      
+
       DO I = NUMNOD + 1, NB_TOTAL_NODE
          MAX_ID = MAX_ID + 1
-         ITAB_TMP(I) = MAX_ID    
+         ITAB_TMP(I) = MAX_ID
       ENDDO
-      
+
       CALL CONSTIT(ITAB_TMP,ITABM1_TMP,NB_TOTAL_NODE)
-      
+
       IADALE=1
       RADALE=1
 
@@ -289,14 +289,14 @@ C     Tag les noeuds des briques additionnelles
 C     
             ALLOCATE(TAGE(NN),ITABINV(NUMNOD),TAGVENT(NUMNOD))
 C     
-            
+
             CALL ALENO(NN  ,IGRSURF(T_MONVOL(N)%EXT_SURFID)%NODES,  NNS,ITABINV,
      .           TAGE, TAGVENT,  TAGNODBR, T_MONVOL(N))
-            
+
             DEALLOCATE(TAGNODBR)
 C     
             NNI=0
-            
+
             IF (T_MONVOL(N)%INT_SURFID /= 0) THEN
                ALLOCATE(ITABINV1(NUMNOD))
                ITABINV1(1:NUMNOD) = 0
@@ -333,7 +333,7 @@ C
             MY_ALLOCATE(T_MONVOL(N)%FVBAG_ELEMID,LENGTH)
             MY_ALLOCATE(T_MONVOL(N)%ELTG, (2 * (SIZE1 + SIZE2)))
             T_MONVOL(N)%ELTG(1:SIZE1 + SIZE2) = 0
-            CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE, 
+            CALL MONVOL_TRIANGULATE_SURFACE(T_MONVOL(N), IGRSURF, ITABINV, ITABINV1, TAGE,
      .           X, KMESH(N), NNS, NNI, NTG, NTGI, SIZE1, SIZE2, T_MONVOL(N)%FVBAG_ELEMID)
 
 !     Check for duplicated triangles on internal + external surface of the airbag
@@ -364,7 +364,7 @@ C
             ENDIF
             ALLOCATE(T_MONVOL(N)%ELAREA(NTG + NTGI))
             IADALE3=IADALE3+NNO*NTGI
-  
+
             IF (KMESH(N) >= 2) THEN
 !     Automatic tetrameshing
                SELECT CASE (KMESH(N))
@@ -372,12 +372,12 @@ C
 !     Meshgems (2), Meshgems + writing of mesh as an include file (4)
                   CALL MESHGEMS_TETRA(T_MONVOL(N), NIXS, N, KMESH(N),
      .                 NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES)
-               CASE (12, 14) 
+               CASE (12, 14)
 !     Hypermesh (12), Hypermesh + writing of mesh as an include file (14)
                   CALL HYPERMESH_TETRA(T_MONVOL(N), NIXS, N, KMESH(N),
      .                 NB_EXTRA_VERTICES, NB_TETRA, NB_VERTICES)
                CASE DEFAULT
-                  
+
                END SELECT
                WRITE(IOUT,1703) ID,NB_TETRA, NB_EXTRA_VERTICES
                IF (ALLOCATED(ITAB_SAVE)) DEALLOCATE(ITAB_SAVE)
@@ -395,22 +395,22 @@ C
 
                DO I = NB_TOTAL_NODE_OLD + 1, NB_TOTAL_NODE
                   MAX_ID = MAX_ID + 1
-                  ITAB_TMP(I) = MAX_ID    
+                  ITAB_TMP(I) = MAX_ID
                ENDDO
 
                CALL CONSTIT(ITAB_TMP,ITABM1_TMP,NB_TOTAL_NODE)
-               
+
 !!!   Output .inc file
                IF (KMESH(N) == 4 .OR. KMESH(N) == 14) THEN
                   CALL WRITEMESH(N)
                ENDIF
-               
+
                T_MONVOL(N)%NBRIC = NB_TETRA
                ALLOCATE(T_MONVOL(N)%TBRIC(2, NB_TETRA))
                ALLOCATE(T_MONVOL(N)%TFAC(12, NB_TETRA))
 
                IF (ALLOCATED(IBUFSSG_TEMP)) DEALLOCATE(IBUFSSG_TEMP)
-               ALLOCATE(IBUFSSG_TEMP(NB_TETRA))              
+               ALLOCATE(IBUFSSG_TEMP(NB_TETRA))
                DO I = 1, NB_TETRA
                   IBUFSSG_TEMP(I) = I + NB_TOTAL_SOLIDS_OLD
                ENDDO
@@ -418,16 +418,16 @@ C
                IF (ALLOCATED(TAGNODBR)) DEALLOCATE(TAGNODBR)
                ALLOCATE(TAGNODBR(NB_TOTAL_NODE))
                TAGNODBR(1:NB_TOTAL_NODE)=0
-               
+
                CALL FVBRIC0(
      .              IBUFSSG_TEMP,IXS_TEMP              ,2    ,NB_TETRA,
      .              T_MONVOL(N)%ID  ,T_MONVOL(N)%IVOLU(44)           ,TITR ,TAGNODBR,
      .              T_MONVOL(N)%TBRIC    ,T_MONVOL(N)%TFAC,NB_TOTAL_NODE ,IBID,IBRIC,ITYPE)
                IF (T_MONVOL(N)%INT_SURFID > 0) THEN
-                  CALL FVBRIC01(T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), NTGI, NB_TOTAL_NODE, 
+                  CALL FVBRIC01(T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), NTGI, NB_TOTAL_NODE,
      .                 NB_TETRA, IXS_TEMP, T_MONVOL(N)%TBRIC, T_MONVOL(N)%TFAC)
                ENDIF
-               
+
                DEALLOCATE(TAGNODBR)
             ENDIF
 
@@ -446,7 +446,7 @@ C--------------------------------------
      .           T_MONVOL(N)%ITAGEL,NNS+NNI,             NTG,
      .           T_MONVOL(N)%ID      ,TAGVENT,            TITR,
      .           ITAB )
-            
+
             NVENT=T_MONVOL(N)%IVOLU(11)
             NTGT=NTG+NTGI
             IADALE4=IADALE3+NTGT
@@ -474,7 +474,7 @@ C--------------------------------------
             ENDIF
             DEALLOCATE(TAGVENT)
             DEALLOCATE(T_MONVOL(N)%FVBAG_ELEMID)
-        
+
 C     
             IF (TETRAMESHER_USED) THEN
                CALL FVELPRINT(
@@ -509,9 +509,9 @@ C----------------------------------
                   IADALE8=IADALE7+2*NTGT
                   T_MONVOL(N)%IVOLU(19)=IADALE5
                   T_MONVOL(N)%IVOLU(20)=IADALE8
-                  
+
                ENDIF
-               
+
                ALLOCATE(T_MONVOL(N)%TAGELS(T_MONVOL(N)%NTG + 2 * T_MONVOL(N)%NTGI))
                T_MONVOL(N)%TAGELS(:) = 0
                IF (TETRAMESHER_USED) THEN
@@ -520,7 +520,7 @@ C----------------------------------
      .                 T_MONVOL(N)%TBRIC,NTG,              NTGA,    NBRIC,
      .                 T_MONVOL(N)%TFAC,T_MONVOL(N)%TAGELS, T_MONVOL(N)%ID, NTGI,
      .                 NNA,              T_MONVOL(N)%IVOLU(44),
-     .                 T_MONVOL(N)%ELTG,NODE_COORD,                TITR, 
+     .                 T_MONVOL(N)%ELTG,NODE_COORD,                TITR,
      .                 NB_TOTAL_NODE)
                ELSE
                   CALL FVBRIC1(T_MONVOL(N),
@@ -539,7 +539,7 @@ C
      .                 T_MONVOL(N)%NODES,   T_MONVOL(N)%ELEM, IXS_TEMP,  NTG+NTGI, NBRIC,
      .                 T_MONVOL(N)%TBRIC,  T_MONVOL(N)%TFAC, T_MONVOL(N)%TAGELS, NTGA,
      .                 T_MONVOL(N)%IBUFA,  NNA,              T_MONVOL(N)%ELEMA,
-     .                 T_MONVOL(N)%TAGELA, T_MONVOL(N)%BRNA, 
+     .                 T_MONVOL(N)%TAGELA, T_MONVOL(N)%BRNA,
      .                 NB_TOTAL_NODE)
                ELSE
                   CALL FVBRIC2(
@@ -555,13 +555,13 @@ C
      .                 T_MONVOL(N)%NODES,  T_MONVOL(N)%IBUFA,   NNS+NNI,    NBRIC, NNA,
      .                 T_MONVOL(N)%TBRIC, T_MONVOL(N)%BRNA,  T_MONVOL(N)%NCONA, ITAB_TMP,
      .                 ILVOUT, NB_TOTAL_NODE,T_MONVOL(N)%IVOLU(38),T_MONVOL(N)%RVOLU(67),KMESH(N), V )
-                  
+
                ELSE
                   CALL FVBRIC3(
      .                 T_MONVOL(N)%NODES,  T_MONVOL(N)%IBUFA,  NNS+NNI,    NBRIC, NNA,
      .                 T_MONVOL(N)%TBRIC, T_MONVOL(N)%BRNA, T_MONVOL(N)%NCONA, ITAB,
      .                 ILVOUT, NUMNOD,   T_MONVOL(N)%IVOLU(38),T_MONVOL(N)%RVOLU(67),KMESH(N), V )
-               ENDIF            
+               ENDIF
             ELSE
                NBRIC=0
                NTGA=NTG+NTGI
@@ -576,7 +576,7 @@ C
                IADALE12=IADALE11
                T_MONVOL(N)%IVOLU(19)=IADALE5
                T_MONVOL(N)%IVOLU(20)=IADALE8
-               
+
                T_MONVOL(N)%NTGA = NTGA
                ALLOCATE(T_MONVOL(N)%TAGELS(NTG + 2 * NTGI))
                DO I = 1, NTG + 2 * NTGI
@@ -623,7 +623,7 @@ C
 C     
             T_MONVOL(N)%IVOLU(56)=0
             LIBAGALE=IADALE-1
-         ENDIF     
+         ENDIF
       ENDDO
 C     
       LIBAGALE=IADALE-1
@@ -667,7 +667,7 @@ C
             LCA = LCA + NCA
          ENDIF
       ENDDO
-      
+
 !     Tag communicting airbags
       COMM_TAG(1:NVOLU) = 0
       LCA = 0
@@ -708,7 +708,7 @@ C
             T_MONVOL(NN)%IVOLU(12) = LIBHOL
             T_MONVOL(NN)%IVOLU(13) = LRBHOL
             NVENT = T_MONVOL(NN)%NVENT
-            LIBHOL = LIBHOL + NVENT * NIBHOL          
+            LIBHOL = LIBHOL + NVENT * NIBHOL
             LRBHOL = LRBHOL + NVENT * NRBHOL
          ENDIF
       ENDDO
@@ -784,7 +784,7 @@ C----------------------------------------------------------------------------
             IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) DEALLOCATE(T_MONVOL(NN)%RBAGJET)
             IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) DEALLOCATE(T_MONVOL(NN)%IBAGJET)
             IF (NJET_NEW(NN) > 0) THEN
-               ALLOCATE(T_MONVOL(NN)%RBAGJET(NRBJET, NJET_NEW(NN)), 
+               ALLOCATE(T_MONVOL(NN)%RBAGJET(NRBJET, NJET_NEW(NN)),
      .              T_MONVOL(NN)%IBAGJET(NIBJET, NJET_NEW(NN)))
                T_MONVOL(NN)%RBAGJET(1:NRBJET, 1:NJET_NEW(NN)) = ZERO
                T_MONVOL(NN)%IBAGJET(1:NIBJET, 1:NJET_NEW(NN)) = 0
@@ -793,7 +793,7 @@ C----------------------------------------------------------------------------
                       T_MONVOL(NN)%IBAGJET(JJ, II) = IBAGJET_SAVE(JJ, II)
                   ENDDO
                   DO JJ = 1, NRBJET
-                     T_MONVOL(NN)%RBAGJET(JJ, II) = RBAGJET_SAVE(JJ, II) 
+                     T_MONVOL(NN)%RBAGJET(JJ, II) = RBAGJET_SAVE(JJ, II)
                   ENDDO
                ENDDO
             ENDIF
@@ -820,7 +820,7 @@ C----------------------------------------------------------------------------
             IF (ALLOCATED(T_MONVOL(NN)%RBAGJET)) DEALLOCATE(T_MONVOL(NN)%RBAGJET)
             IF (ALLOCATED(T_MONVOL(NN)%IBAGJET)) DEALLOCATE(T_MONVOL(NN)%IBAGJET)
             IF (NJET_NEW(NN) > 0) THEN
-               ALLOCATE(T_MONVOL(NN)%RBAGJET(NRBJET, NJET_NEW(NN)), 
+               ALLOCATE(T_MONVOL(NN)%RBAGJET(NRBJET, NJET_NEW(NN)),
      .              T_MONVOL(NN)%IBAGJET(NIBJET, NJET_NEW(NN)))
                T_MONVOL(NN)%RBAGJET(1:NRBJET, 1:NJET_NEW(NN)) = ZERO
                T_MONVOL(NN)%IBAGJET(1:NIBJET, 1:NJET_NEW(NN)) = 0
@@ -829,7 +829,7 @@ C----------------------------------------------------------------------------
                       T_MONVOL(NN)%IBAGJET(JJ, II) = IBAGJET_SAVE(JJ, II)
                   ENDDO
                   DO JJ = 1, NRBJET
-                     T_MONVOL(NN)%RBAGJET(JJ, II) = RBAGJET_SAVE(JJ, II) 
+                     T_MONVOL(NN)%RBAGJET(JJ, II) = RBAGJET_SAVE(JJ, II)
                   ENDDO
                ENDDO
             ENDIF
@@ -837,7 +837,7 @@ C----------------------------------------------------------------------------
             IF (ALLOCATED(RBAGJET_SAVE)) DEALLOCATE(RBAGJET_SAVE)
          ENDIF
       ENDDO
-     
+
 
 C-------------------------------------
 C     airbags communiquants, echange des caracteristiques des gaz.
@@ -921,7 +921,7 @@ C
          IF (ITYPE >= 4 .AND. (ITYPE <= 9 .OR. ITYPE == 11)) THEN
             T_MONVOL(NN)%IVOLU(9) = LIBJET
             T_MONVOL(NN)%IVOLU(10) = LRBJET
-            LIBJET = LIBJET + T_MONVOL(NN)%NJET * NIBJET            
+            LIBJET = LIBJET + T_MONVOL(NN)%NJET * NIBJET
             LRBJET = LRBJET + T_MONVOL(NN)%NJET * NRBJET
          ENDIF
       ENDDO
@@ -1010,7 +1010,7 @@ C-------------------------------------
       ENDDO
 
       ! --------------------
-      ! allocation of NUMBER_TRI_PER_PROC : number of tri element per processor 
+      ! allocation of NUMBER_TRI_PER_PROC : number of tri element per processor
       ! for each N nvolu
       DO N = 1, NVOLU
             ALLOCATE( T_MONVOL(N)%NUMBER_TRI_PER_PROC(NSPMD) )
@@ -1069,7 +1069,7 @@ C
      .     /5X,'-----------------                       ',
      .     /15X,'TETRAMESH CREATED AUTOMATICALLY',
      .     /15X,'         NUMBER OF TETRAHEDRA',I10,
-     .     /15X,'         NUMBER OF ADDED INTERNAL NODES',I10) 
+     .     /15X,'         NUMBER OF ADDED INTERNAL NODES',I10)
  2000 FORMAT(/)
  3000 FORMAT(
      .     //,'      MONITORED VOLUMES TYPE COMMU : GAS ORGANIZATION'/

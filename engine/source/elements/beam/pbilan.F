@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER I, M, FLAG
 C     REAL
       my_real
-     .   VXA(MVSIZ), VYA(MVSIZ),VZA(MVSIZ), VA2(MVSIZ), XMAS(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ),VZA(MVSIZ), VA2(MVSIZ), XMAS(MVSIZ),
      .   EI(MVSIZ), EK(MVSIZ), XM(MVSIZ),
      .   YM(MVSIZ), ZM(MVSIZ), SECT(MVSIZ),
      .   RBIDON(1),OFF(MVSIZ),RHO(MVSIZ),
@@ -127,7 +127,7 @@ C
         EK(I)= XMAS(I)*VA2(I)*HALF
         XM(I)= XMAS(I)*VXA(I)
         YM(I)= XMAS(I)*VYA(I)
-        ZM(I)= XMAS(I)*VZA(I) 
+        ZM(I)= XMAS(I)*VZA(I)
       ENDDO
 C
       DO I=LFT,LLT
@@ -184,7 +184,7 @@ C
         PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
         PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
         PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-        PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+        PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
       ENDDO
 C
       IF (ANIM_FT(1) /= 0 .OR. H3D_DATA%UND_FORC /= 0) THEN
@@ -207,7 +207,7 @@ C          TANI(15,I)= E2Z(I)
         ENDDO
       ENDIF
       OFF(1:MVSIZ) = ONE
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTP,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTP,ITASK)
 C-----------------------------------------------
       RETURN
       END

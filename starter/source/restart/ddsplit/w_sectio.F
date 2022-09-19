@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -128,7 +128,7 @@ C noeuds
         NNOD_S_L = 0
         DO J = 1, NNOD_S
           K = NSTRF(IP + J)
-          IF(NLOCAL(K,PROC+1)==1)THEN     
+          IF(NLOCAL(K,PROC+1)==1)THEN
             NNOD_S_L = NNOD_S_L + 1
             NSTR_L(IP_L + NNOD_S_L) = NODLOCAL(K)
           END IF

@@ -105,7 +105,7 @@ C   Check sur TT
          ENDDO
 
        ENDIF
-#endif 
+#endif
       RETURN
       END
 

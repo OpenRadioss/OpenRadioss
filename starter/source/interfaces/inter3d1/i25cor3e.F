@@ -64,12 +64,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
-     .        LBOUND(*), JLT, NEDGE, IEDGE, ITAB(*), IGAP0, IGAP, 
-     .        N1(MVSIZ), N2(MVSIZ), 
+     .        LBOUND(*), JLT, NEDGE, IEDGE, ITAB(*), IGAP0, IGAP,
+     .        N1(MVSIZ), N2(MVSIZ),
      .        M1(MVSIZ), M2(MVSIZ)
 C     REAL
       my_real
-     .        X(3,*), 
+     .        X(3,*),
      .        XXS1(MVSIZ), XXS2(MVSIZ), XYS1(MVSIZ), XYS2(MVSIZ),
      .        XZS1(MVSIZ), XZS2(MVSIZ), XXM1(MVSIZ), XXM2(MVSIZ),
      .        XYM1(MVSIZ), XYM2(MVSIZ), XZM1(MVSIZ), XZM2(MVSIZ),
@@ -79,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, 
+      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2,
      .         IE, JE, SOL_EDGE, SH_EDGE, IM(MVSIZ), IS(MVSIZ)
       my_real
      .   AAA, DX, DY, DZ, DD, NNI, NI2, INVCOS, GAPE_M(MVSIZ), GAPE_S(MVSIZ)

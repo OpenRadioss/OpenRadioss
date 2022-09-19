@@ -90,15 +90,15 @@ c      NEL5 = 5 * NEL
 c      NB3 =NB2  + NEL3
 c      NB4 =NB3  + NEL
 c      NB5 =NB4  + NEL3
-c      NB6 =NB5  
-c      NB7 =NB6  
-c      NB8 =NB7  
+c      NB6 =NB5
+c      NB7 =NB6
+c      NB8 =NB7
 c      NB9 =NB8  + NEL3
 c      NB10=NB9  + NEL3
-c      NB11=NB10 
-c      NB12=NB11 
-c      NB13=NB12 
-c      NB14=NB13 
+c      NB11=NB10
+c      NB12=NB11
+c      NB13=NB12
+c      NB14=NB13
 C
 c       IF (SCODVER < 101) THEN
 c         NB15 =NB14  + NEL3

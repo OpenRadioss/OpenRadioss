@@ -56,7 +56,7 @@ Chd|====================================================================
      F                   MONVOL      , VOLMON    , IPM     , IGEO      , IPARG       ,
      G                   NODGLOB     , IAD_ELEM  , FR_ELEM , FR_SEC    , FR_RBY2     ,
      H                   IAD_RBY2    , FR_WALL   , NINT2   , IINT2     , IPARI       ,
-     I                   INTBUF_TAB  , D         , LDDL    , PARTSAV   , 
+     I                   INTBUF_TAB  , D         , LDDL    , PARTSAV   ,
      J                   FNCONT      , FTCONT    ,TEMP     , THKE      , ERR_THK_SH4 ,
      K                   ERR_THK_SH3 ,IRBE2      ,IRBE3    , LRBE2     ,
      M                   LRBE3       ,FR_RBE2    ,FR_RBE3M , IAD_RBE2  , WEIGHT_MD   ,
@@ -65,13 +65,13 @@ Chd|====================================================================
      P                   LERCVOIS    ,LESDVOIS   ,CRKEDGE  ,INDX_CRK   ,XEDGE4N      ,
      Q                   XEDGE3N     ,STACK      ,SPH2SOL  ,STIFN      ,STIFR        ,
      R                   DRAPE_Q4, DRAPE_T3      ,H3D_DATA ,SUBSET     ,IGRNOD       ,
-     S                   FCONT_MAX   ,FNCONTP2   ,FTCONTP2, ALE_CONNECTIVITY) 
+     S                   FCONT_MAX   ,FNCONTP2   ,FTCONTP2, ALE_CONNECTIVITY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE DSGRAPH_MOD
       USE GENANI_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD
       USE CRACKXFEM_MOD
@@ -118,7 +118,7 @@ C-----------------------------------------------
      .        IXS20(12,*), IXS16(8,*), MONVOL(*), IPM(*), IGEO(*),
      .        IPARG(*), NODGLOB(*), IAD_ELEM(2,*), FR_ELEM(*),
      .        FR_SEC(NSPMD+1,*), FR_RBY2(3,*), IAD_RBY2(4,*),
-     .        FR_WALL(*), NINT2, IINT2(*), IPARI(NPARI,*), 
+     .        FR_WALL(*), NINT2, IINT2(*), IPARI(NPARI,*),
      .        LDDL(*),WEIGHT_MD(*),NV46,SPH2SOL(*)
       INTEGER  IRBE2(NRBE2L,*),IRBE3(NRBE3L,*),LRBE2(*),LRBE3(*),
      .         FR_RBE2(3,*),FR_RBE3M(3,*),IAD_RBE2(4,*),NERCVOIS(*),
@@ -132,7 +132,7 @@ C-----------------------------------------------
      .        D(3,*), VR(3,*), PARTSAV(NPSAV,*), FNCONT(*),
      .        FTCONT(*),TEMP(*),THKE(*), ERR_THK_SH4(*), ERR_THK_SH3(*),
      .        FCLUSTER(*),MCLUSTER(*),W(*),STIFN(*),STIFR(*),FCONT_MAX(*),
-     .        FNCONTP2(3,*) ,FTCONTP2(3,*) 
+     .        FNCONTP2(3,*) ,FTCONTP2(3,*)
       TYPE(PRGRAPH) :: GRAPHE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB

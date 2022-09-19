@@ -67,10 +67,10 @@ C-----------------------------------------------
       TYPE ptrARRAY
         INTEGER, POINTER :: ptr
       END TYPE
-      
+
       TYPE(ptrARRAY),ALLOCATABLE,DIMENSION(:) :: FLAG
-      
-      INTEGER                                 :: NVAR, I 
+
+      INTEGER                                 :: NVAR, I
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------      
@@ -83,22 +83,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      
+
       ALLOCATE(FLAG(32))
       NVAR = 0
-      
+
       !----------------------------!
       !    ALL OUTPUTS             !
       !    0: all off              !
       !    1: all according below  !
-      !----------------------------!      
+      !----------------------------!
       IALEFVM_OUTP        = 0
       !----------------------------!
       !  SPECIFIC OUTPUTS          !
       !    0 OFF                   !
       !   -1 all elem in group     !
       !   >0 only given user id    !
-      !----------------------------!     
+      !----------------------------!
       IALEFVM_OUTP_GRAV   =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_GRAV
       IALEFVM_OUTP_STRESS = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_STRESS
       IALEFVM_OUTP_FINT   = -0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_FINT
@@ -107,27 +107,27 @@ C-----------------------------------------------
       IALEFVM_OUTP_EPSDOT =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_EPSDOT
       IALEFVM_OUTP_SCHEME = -1     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_SCHEME
       IALEFVM_OUTP_BCS    =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_BCS
-      IALEFVM_OUTP_TFEXT  =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_TFEXT      
+      IALEFVM_OUTP_TFEXT  =  0     ; NVAR=NVAR+1; FLAG(NVAR)%ptr => IALEFVM_OUTP_TFEXT
 
       DO I=1,NVAR
         FLAG(I)%ptr =FLAG(I)%ptr * IALEFVM_OUTP
       ENDDO
-      
+
       !----------------------------!
       !  FVM FORMULATION           !
-      !    IFORM=2 Mom. Weighted   !   
-      !    IFORM=3 Roe-averaged    ! 
+      !    IFORM=2 Mom. Weighted   !
+      !    IFORM=3 Roe-averaged    !
       !    IFORM=4 Centered        ! obsolete
       !    IFORM=5 Interpolated    ! obsolete
       !----------------------------!
       IALEFVM_IFORM       = 0      ;  !Now set through control card /EULER/MAT or /ALE/MAT
-      
+
       !----------------------------!
       !  FVM FORMULATION           !
       !    IFORM =0   +0*WFEXT     !
-      !    IFORM =1   +1*WFEXT     ! 
+      !    IFORM =1   +1*WFEXT     !
       !----------------------------!
-      IALEFVM_WFEXT       = 0      ;      
+      IALEFVM_WFEXT       = 0      ;
       !----------------------------!
 
 

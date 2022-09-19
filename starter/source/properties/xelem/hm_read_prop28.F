@@ -95,9 +95,9 @@ C     if index is larger than this maximum
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR(*),IGTYP,IUNIT
-      my_real   
+      my_real
      .        PARGEO(*)
       INTEGER SET_U_PNU,SET_U_GEO,
      .        KFUNC
@@ -113,7 +113,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,I
       INTEGER IFUNC, IFV, IVTYP, NIP
-      my_real 
+      my_real
      .  XK,XVTYP,RHO, XC, DMN, DMX, MU1, MU2, FRIC,Y_SCAL,X_SCAL
       my_real
      .   FAC_M, FAC_L, FAC_T
@@ -159,7 +159,7 @@ C   secnd only in interfaces.
         PARGEO(2) = 0.0
 C------------------------------------------------------- 
       NUVAR(1) = 3
-      NUVAR(2) = 5   
+      NUVAR(2) = 5
 C   
       FAC_M = UNITAB%FAC_M(IUNIT)
       FAC_L = UNITAB%FAC_L(IUNIT)
@@ -168,7 +168,7 @@ C
       IF (DMN == ZERO) DMN=-EP30
       IF (DMX == ZERO) DMX= EP30
       IF (Y_SCAL == ZERO) Y_SCAL = ONE * FAC_M * FAC_L / ( FAC_T * FAC_T )
-      IF (X_SCAL == ZERO) X_SCAL = ONE / FAC_T 
+      IF (X_SCAL == ZERO) X_SCAL = ONE / FAC_T
 C      
         IERROR = SET_U_GEO(10,MU1)
         IF (IERROR>0) THEN
@@ -289,7 +289,7 @@ C
      .                 C2='SET_U_GEO(13,X_SCAL)')
         ENDIF
 C
-        IF(.NOT. IS_ENCRYPTED)THEN 
+        IF(.NOT. IS_ENCRYPTED)THEN
           WRITE(IOUT,3000)  RHO,XK,XC,IFUNC,IFV,Y_SCAL,X_SCAL,
      .                    DMN,DMX,MU1,MU2
         ELSE

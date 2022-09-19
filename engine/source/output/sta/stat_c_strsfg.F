@@ -47,7 +47,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
      .        STAT_INDXC(*), STAT_INDXTG(*)
-      my_real   
+      my_real
      .   THKE(*),X(3,*),GEO(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -91,23 +91,23 @@ C-----------------------------------------------
      .   IGTYP,NPT_ALL,IL,KK(12),NF1,IREL,IBID0,MAT_1,PID_1,ILAY
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
-      double precision   
+      double precision
      .  THK, EM, EB, H1, H2, H3
-      my_real   
+      my_real
      .   PG,MPG,QPG(2,4),THKQ,
      .   SK(2),ST(2),MK(2),MT(2),SHK(2),SHT(2),ZZ
       CHARACTER*100 DELIMIT,LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       INTEGER LAYNPT_MAX,LAY_MAX,ISUBSTACK,IPT_ALL,JDIR,L_DIRA,L_DIRB,IREP
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
       INTEGER MATLY(MVSIZ*LAY_MAX),ILAW
-      my_real, 
-     .   DIMENSION(:),POINTER  :: DIR_A,DIR_B    
-      my_real 
-     .   QT(9,MVSIZ),TENS(6),ZH,THKP ,THK0(MVSIZ)   
+      my_real,
+     .   DIMENSION(:),POINTER  :: DIR_A,DIR_B
+      my_real
+     .   QT(9,MVSIZ),TENS(6),ZH,THKP ,THK0(MVSIZ)
       my_real
      .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
      .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
@@ -130,7 +130,7 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -140,12 +140,12 @@ C
           IGTYP= IPARG(38,NG)
           IREP = IPARG(35,NG)
           ISUBSTACK=IPARG(71,NG)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           IF (IHBE == 23) NPG=4
           LFT=1
           LLT=NEL
@@ -171,8 +171,8 @@ C
           THK0(LFT:LLT) = THKE(LFT+NFT:LLT+NFT)
          END IF
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
-     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
-     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,   
+     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    ,
+     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,
      .              ISUBSTACK,STACK    ,DRAPE_Q4 ,NFT      ,THK0     ,
      .              NEL      ,THK_LY   )
          L_DIRA = ELBUF_TAB(NG)%BUFLY(1)%LY_DIRA
@@ -245,7 +245,7 @@ C
             ELSE
               WA(JJ) = ZERO
             ENDIF
-c ----    Hourglass          
+c ----    Hourglass
             IF (IHBE==11 .or. IHBE==23 .or. MLW == 0 .or. MLW == 13) THEN
               JJ = JJ + 1
               WA(JJ) = ZERO
@@ -255,46 +255,46 @@ c ----    Hourglass
               WA(JJ) = ZERO
             ELSE  ! not Batoz & not QEPH
               JJ = JJ + 1
-              WA(JJ) = GBUF%HOURG(KK(1)+I) 
+              WA(JJ) = GBUF%HOURG(KK(1)+I)
               JJ = JJ + 1
-              WA(JJ) = GBUF%HOURG(KK(2)+I)  
+              WA(JJ) = GBUF%HOURG(KK(2)+I)
               JJ = JJ + 1
-              WA(JJ) = GBUF%HOURG(KK(3)+I)  
+              WA(JJ) = GBUF%HOURG(KK(3)+I)
             ENDIF
-c---------6 x2 +1(eps) for MPT=0 
+c---------6 x2 +1(eps) for MPT=0
             IF (IHBE /= 23) THEN
               IF (MPT == 0) THEN  ! global integration
                 IF (MLW == 0 .or. MLW == 13) THEN
-                  DO IPG=1,NPG 
+                  DO IPG=1,NPG
                     DO J=1,13        ! forces and moments           	
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                    ENDDO                                                               
+                    ENDDO
                   ENDDO
                 ELSEIF (NPG == 1) THEN
                   TENS(1:5) = GBUF%FOR(KK(1:5)+I)
                   CALL SHELL2G(TENS,QT(1,I))
                   DO J =1,6
-                   JJ = JJ + 1                                      
-                   WA(JJ) = TENS(J)             
+                   JJ = JJ + 1
+                   WA(JJ) = TENS(J)
                   END DO
 c
                   TENS(1:3) = GBUF%MOM(KK(1:3)+I)
                   CALL SHEML2G(TENS,QT(1,I))
                   DO J =1,6
-                   JJ = JJ + 1                                      
-                   WA(JJ) = TENS(J)             
+                   JJ = JJ + 1
+                   WA(JJ) = TENS(J)
                   END DO
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF                        
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
                 ELSE  ! NPG > 1
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
@@ -302,25 +302,25 @@ C
                       TENS(1:5) = GBUF%FORPG(K+KK(1:5)+I)
                       CALL SHELL2G(TENS,QT(1,I))
                       DO J =1,6
-                       JJ = JJ + 1                                      
-                       WA(JJ) = TENS(J)             
+                       JJ = JJ + 1
+                       WA(JJ) = TENS(J)
                       END DO
 c
                       JJ = JJ + 1
-                      IF (GBUF%G_PLA > 0) THEN    
+                      IF (GBUF%G_PLA > 0) THEN
             	        WA(JJ) = LBUF%PLA(I)
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF                        
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
 c
                       K = (IPG-1)*NEL*3
                       TENS(1:3) = GBUF%MOMPG(K+KK(1:3)+I)
                       CALL SHEML2G(TENS,QT(1,I))
                       DO J =1,6
-                       JJ = JJ + 1                                      
-                       WA(JJ) = TENS(J)             
+                       JJ = JJ + 1
+                       WA(JJ) = TENS(J)
                       END DO
-                    ENDDO                                                               
+                    ENDDO
                   ENDDO
                 ENDIF  !  IF (MLW == 0 .or. MLW == 13)
 C           (MPT >0 ):
@@ -330,10 +330,10 @@ C           (MPT >0 ):
                     DO J=1,8     ! Stress + plastic strain + T
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                    ENDDO                                                               
-                  ENDDO                                                                 
+                    ENDDO
+                  ENDDO
                 ENDDO
-              ELSE  !  NLAY >= 1, 
+              ELSE  !  NLAY >= 1,
                 IPT_ALL = 0
                 DO IL = 1,NLAY
                   BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
@@ -342,16 +342,16 @@ C           (MPT >0 ):
                   JDIR = 1 + (IL-1)*NEL*2
                   II = JDIR + I-1
                   DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
-                    DO IS=1,NPTS 
-                      DO IR=1,NPTR                                                         
+                    IPT = IPT_ALL + IT
+                    DO IS=1,NPTS
+                      DO IR=1,NPTR
                         LBUF => BUFLY%LBUF(IR,IS,IT)
-                        TENS(1:5) = LBUF%SIG(KK(1:5)+I)                        
+                        TENS(1:5) = LBUF%SIG(KK(1:5)+I)
                         CALL ORTH2LOC(TENS,DIR_A,DIR_B,II,ILAW,IGTYP,NEL)
                         CALL SHELL2G(TENS,QT(1,I))
                         DO J =1,6
-                         JJ = JJ + 1                                      
-                         WA(JJ) = TENS(J)             
+                         JJ = JJ + 1
+                         WA(JJ) = TENS(J)
                         END DO
                         JJ = JJ + 1
                         IF (BUFLY%L_PLA > 0) THEN
@@ -362,8 +362,8 @@ C           (MPT >0 ):
                         JJ    = JJ + 1
                         WA(JJ) = POSLY(I,IPT)*TWO
                       ENDDO
-                    ENDDO	    
-                  ENDDO	    
+                    ENDDO	
+                  ENDDO	
                   IPT_ALL = IPT_ALL + NPTT
                 ENDDO
               ENDIF    ! MPT, NLAY
@@ -385,30 +385,30 @@ c---------
                 SHK(2)= ZERO
                 IF (MPT == 0) THEN
                   DO IPG=1,NPG
-                    DO J=1,13           
+                    DO J=1,13
                       JJ = JJ + 1
-                      WA(JJ) = ZERO     
-                    ENDDO                                                               
-                  ENDDO               
+                      WA(JJ) = ZERO
+                    ENDDO
+                  ENDDO
                 ELSE
                   DO IPG=1,NPG
-              	   DO J=1,8         
-                     JJ = JJ + 1      
+              	   DO J=1,8
+                     JJ = JJ + 1
                      WA(JJ) = ZERO
-                   ENDDO                                                               
+                   ENDDO
                   ENDDO
                 ENDIF
               ELSE   ! MLW /= 0
-                ST(1) = GBUF%HOURG(KK(1)+I) 
-                ST(2) =-GBUF%HOURG(KK(2)+I) 
-                MT(1) = GBUF%HOURG(KK(3)+I) 
-                MT(2) =-GBUF%HOURG(KK(4)+I) 
-                SK(1) =-GBUF%HOURG(KK(7)+I) 
-                SK(2) = GBUF%HOURG(KK(8)+I) 
-                MK(1) =-GBUF%HOURG(KK(9)+I) 
-                MK(2) = GBUF%HOURG(KK(10)+I) 
-                SHT(1)= GBUF%HOURG(KK(5)+I) 
-                SHT(2)=-GBUF%HOURG(KK(6)+I) 
+                ST(1) = GBUF%HOURG(KK(1)+I)
+                ST(2) =-GBUF%HOURG(KK(2)+I)
+                MT(1) = GBUF%HOURG(KK(3)+I)
+                MT(2) =-GBUF%HOURG(KK(4)+I)
+                SK(1) =-GBUF%HOURG(KK(7)+I)
+                SK(2) = GBUF%HOURG(KK(8)+I)
+                MK(1) =-GBUF%HOURG(KK(9)+I)
+                MK(2) = GBUF%HOURG(KK(10)+I)
+                SHT(1)= GBUF%HOURG(KK(5)+I)
+                SHT(2)=-GBUF%HOURG(KK(6)+I)
                 SHK(1)=-GBUF%HOURG(KK(11)+I)
                 SHK(2)= GBUF%HOURG(KK(12)+I)
               ENDIF
@@ -424,24 +424,24 @@ c
      .	    	           + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
                   CALL SHELL2G(TENS,QT(1,I))
                   DO J =1,6
-                   JJ = JJ + 1                                      
-                   WA(JJ) = TENS(J)             
+                   JJ = JJ + 1
+                   WA(JJ) = TENS(J)
                   END DO
                   TENS(1:2) = GBUF%MOM(KK(1:2)+I)
      .	    	            + MT(1:2)*QPG(2,IPG)+MK(1:2)*QPG(1,IPG)
                   TENS(3) = GBUF%MOM(KK(3)+I)
                   CALL SHEML2G(TENS,QT(1,I))
                   DO J =1,6
-                   JJ = JJ + 1                                      
-                   WA(JJ) = TENS(J)             
+                   JJ = JJ + 1
+                   WA(JJ) = TENS(J)
                   END DO
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF                        
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
                 ENDDO
               ELSEIF (MLW /= 0 .and. MLW /= 13) THEN   ! NPT > 0
                 IPT_ALL = 0
@@ -452,14 +452,14 @@ c
                   JDIR = 1 + (IL-1)*NEL*2
                   II = JDIR + I-1
                   DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
+                    IPT = IPT_ALL + IT
                     LBUF => BUFLY%LBUF(1,1,IT)
                     L_PLA = BUFLY%L_PLA
                     ZZ = POSLY(I,IPT)*THKQ
                     DO IPG=1,NPG
-                      TENS(1:2) = LBUF%SIG(KK(1:2)+I)                        
-     .                           + (ST(1:2)+ZZ*MT(1:2))*QPG(2,IPG)              
-     .                           + (SK(1:2)+ZZ*MK(1:2))*QPG(1,IPG)              
+                      TENS(1:2) = LBUF%SIG(KK(1:2)+I)
+     .                           + (ST(1:2)+ZZ*MT(1:2))*QPG(2,IPG)
+     .                           + (SK(1:2)+ZZ*MK(1:2))*QPG(1,IPG)
                       TENS(3) = LBUF%SIG(KK(3)+I)
                       TENS(4) = LBUF%SIG(KK(4)+I)
      .	    	               + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)
@@ -468,21 +468,21 @@ c
                       CALL ORTH2LOC(TENS,DIR_A,DIR_B,II,ILAW,IGTYP,NEL)
                       CALL SHELL2G(TENS,QT(1,I))
                       DO J =1,6
-                       JJ = JJ + 1                                      
-                       WA(JJ) = TENS(J)             
+                       JJ = JJ + 1
+                       WA(JJ) = TENS(J)
                       END DO
-                      JJ = JJ + 1                                      
-                      IF (L_PLA > 0) THEN    
-            	        WA(JJ) = LBUF%PLA(I)       
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF                        
+                      JJ = JJ + 1
+                      IF (L_PLA > 0) THEN
+            	        WA(JJ) = LBUF%PLA(I)
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
                       JJ    = JJ + 1
                       WA(JJ) = POSLY(I,IPT)*TWO
-                    ENDDO  !  DO IPG=1,NPG      
+                    ENDDO  !  DO IPG=1,NPG
                   ENDDO  !  DO IT=1,NPTT
                   IPT_ALL = IPT_ALL + NPTT
-                ENDDO  !  DO IL=1,NLAY           
+                ENDDO  !  DO IL=1,NLAY
               ENDIF  !  IF (MPT == 0 .and. MLW /= 0 .and. MLW /= 13)
             ENDIF
 C
@@ -492,8 +492,8 @@ C         pointeur de fin de zone dans WA
           ENDDO  !  DO I=LFT,LLT
 c------- end loop over 4 node shell elements
         ENDIF ! ITY == 3
-        IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
+        IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)
+        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
       ENDDO   ! NG = 1, NGROUP
 C
  200  CONTINUE
@@ -526,16 +526,16 @@ C         retrouve l'adresse dans WAP0
 
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            IPRT = NINT(WAP0(J + 2)) 
+            IPRT = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INISHE/STRS_F/GLOB'
                 WRITE(IUGEO,'(A)')
-     .          '#------------------------ REPEAT --------------------------' 
+     .          '#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .          '#  SHELLID       NPT       NPG                 THK' 
-                WRITE(IUGEO,'(A)') '# EM, EB, H1, H2, H3' 
+     .          '#  SHELLID       NPT       NPG                 THK'
+                WRITE(IUGEO,'(A)') '# EM, EB, H1, H2, H3'
                 WRITE(IUGEO,'(A/A/A/A/A)')
      .          '# IF(NPT == 0), REPEAT I=1,NPG :',
      .          '#   N1,  N2,  N3 ',
@@ -547,7 +547,7 @@ C         retrouve l'adresse dans WAP0
      .          '#   S1,  S2,  S3 ',
      .          '#   S12, S23, S31, EPSP, T '
                 WRITE(IUGEO,'(A)')
-     .          '#---------------------- END REPEAT ------------------------' 
+     .          '#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -555,12 +555,12 @@ C         retrouve l'adresse dans WAP0
                 WRITE(LINE,'(A)')'/INISHE/STRS_F/GLOB'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .          '#------------------------ REPEAT --------------------------' 
+     .          '#------------------------ REPEAT --------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .          '#  SHELLID       NPT       NPG                 THK' 
+     .          '#  SHELLID       NPT       NPG                 THK'
                 CALL STRS_TXT50(LINE,100)
-                WRITE(LINE,'(A)') '# EM, EB, H1, H2, H3' 
+                WRITE(LINE,'(A)') '# EM, EB, H1, H2, H3'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') '# IF(NPT == 0), REPEAT I=1,NPG :'
                 CALL STRS_TXT50(LINE,100)
@@ -581,22 +581,22 @@ C         retrouve l'adresse dans WAP0
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .          '#---------------------- END REPEAT ------------------------'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF
               IPRT0=IPRT
             ENDIF
 c
-            ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
-            NPG = NINT(WAP0(J + 5)) 
-            THK = WAP0(J + 6) 
-            EM  = WAP0(J + 7) 
-            EB  = WAP0(J + 8) 
-            H1  = WAP0(J + 9) 
-            H2  = WAP0(J + 10) 
-            H3  = WAP0(J + 11) 
+            ID  = NINT(WAP0(J + 3))
+            NPT = NINT(WAP0(J + 4))
+            NPG = NINT(WAP0(J + 5))
+            THK = WAP0(J + 6)
+            EM  = WAP0(J + 7)
+            EB  = WAP0(J + 8)
+            H1  = WAP0(J + 9)
+            H2  = WAP0(J + 10)
+            H3  = WAP0(J + 11)
             J = J + 11
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -644,7 +644,7 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -654,12 +654,12 @@ C
           IGTYP= IPARG(38,NG)
           IREP = IPARG(35,NG)
           ISUBSTACK=IPARG(71,NG)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
          NF1 = NFT+1
@@ -682,8 +682,8 @@ C
           THK0(LFT:LLT) = THKE(LFT+NF3:LLT+NF3)
          END IF
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
-     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
-     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,   
+     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    ,
+     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,MPT      ,
      .              ISUBSTACK,STACK    ,DRAPE_T3 ,NFT      ,THK0     ,
      .              NEL      ,THK_LY   )
 !
@@ -763,39 +763,39 @@ C
             WA(JJ) = ZERO
             JJ = JJ + 1
             WA(JJ) = ZERO
-c----          
+c----
             IF (MPT == 0) THEN  ! global integration
               IF (MLW == 0 .or. MLW == 13) THEN
-                DO IPG=1,NPG 
-                  DO J=1,13                                     
-                    JJ = JJ + 1                                
-                    WA(JJ) = ZERO                              
-                  ENDDO                                        
-                ENDDO                                          
+                DO IPG=1,NPG
+                  DO J=1,13
+                    JJ = JJ + 1
+                    WA(JJ) = ZERO
+                  ENDDO
+                ENDDO
               ELSEIF (NPG == 1) THEN
                   TENS(1:5) = GBUF%FOR(KK(1:5)+I)
                   CALL SHELL2G(TENS,QT(1,I))
                   DO J =1,6
-                   JJ = JJ + 1                                      
-                   WA(JJ) = TENS(J)             
+                   JJ = JJ + 1
+                   WA(JJ) = TENS(J)
                   END DO
 c
                   TENS(1:3) = GBUF%MOM(KK(1:3)+I)
                   CALL SHEML2G(TENS,QT(1,I))
                   DO J =1,6
-                   JJ = JJ + 1                                      
-                   WA(JJ) = TENS(J)             
+                   JJ = JJ + 1
+                   WA(JJ) = TENS(J)
                   END DO
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF                        
-              ELSE                                              
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
+              ELSE
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
@@ -803,25 +803,25 @@ C
                       TENS(1:5) = GBUF%FORPG(K+KK(1:5)+I)
                       CALL SHELL2G(TENS,QT(1,I))
                       DO J =1,6
-                       JJ = JJ + 1                                      
-                       WA(JJ) = TENS(J)             
+                       JJ = JJ + 1
+                       WA(JJ) = TENS(J)
                       END DO
 c
                       JJ = JJ + 1
-                      IF (GBUF%G_PLA > 0) THEN    
+                      IF (GBUF%G_PLA > 0) THEN
             	        WA(JJ) = LBUF%PLA(I)
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF                        
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
 c
                       K = (IPG-1)*NEL*3
                       TENS(1:3) = GBUF%MOMPG(K+KK(1:3)+I)
                       CALL SHEML2G(TENS,QT(1,I))
                       DO J =1,6
-                       JJ = JJ + 1                                      
-                       WA(JJ) = TENS(J)             
+                       JJ = JJ + 1
+                       WA(JJ) = TENS(J)
                       END DO
-                    ENDDO                                                               
+                    ENDDO
                   ENDDO
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
             ELSE ! MPT > 0
@@ -843,15 +843,15 @@ c
                   JDIR = 1 + (IL-1)*NEL*2
                   II = JDIR + I-1
                   DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
+                    IPT = IPT_ALL + IT
                     DO IPG=1,NPG
                       LBUF => BUFLY%LBUF(IPG,1,IT)
-                      TENS(1:5) = LBUF%SIG(KK(1:5)+I)                        
+                      TENS(1:5) = LBUF%SIG(KK(1:5)+I)
                       CALL ORTH2LOC(TENS,DIR_A,DIR_B,II,ILAW,IGTYP,NEL)
                       CALL SHELL2G(TENS,QT(1,I))
                       DO J =1,6
-                       JJ = JJ + 1                                      
-                       WA(JJ) = TENS(J)             
+                       JJ = JJ + 1
+                       WA(JJ) = TENS(J)
                       END DO
                       JJ = JJ + 1
                       IF (BUFLY%L_PLA > 0) THEN
@@ -861,8 +861,8 @@ c
                       ENDIF
                       JJ    = JJ + 1
                       WA(JJ) = POSLY(I,IPT)*TWO
-                    ENDDO !IPG=1,NPG	    
-                  ENDDO	    
+                    ENDDO !IPG=1,NPG	
+                  ENDDO	
                   IPT_ALL = IPT_ALL + NPTT
                 ENDDO
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
@@ -873,8 +873,8 @@ C         pointeur de fin de zone
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
         ENDIF  !  IF (ITY == 7)
-        IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
+        IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)
+        IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
       ENDDO  !  DO NG=1,NGROUP
 C
  300  CONTINUE
@@ -905,17 +905,17 @@ C         retrouve l'adresse dans WAP0
 C
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INISH3/STRS_F/GLOB'
                 WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
                 WRITE(IUGEO,'(A)')
-     .'# EM, EB, H1, H2, H3' 
+     .'# EM, EB, H1, H2, H3'
                 WRITE(IUGEO,'(A/A/A/A/A)')
      .'# IF(NPT == 0), REPEAT I=1,NPG :',
      .'#   N1, N2, N3',
@@ -927,7 +927,7 @@ C
      .'#   S1, S2, S3 ',
      .'#   S12,S23,S31, EPSP, T '
                 WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -936,13 +936,13 @@ C
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'#------------------------ REPEAT --------------------------'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# EM, EB, H1, H2, H3'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# IF(NPT == 0), REPEAT I=1,NPG :'
                 CALL STRS_TXT50(LINE,100)
@@ -962,22 +962,22 @@ C
                 WRITE(LINE,'(A)')'#   S12, S23, S31, EPSP, T '
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF  !  IF (IZIPSTRS == 0)
               IPRT0=IPRT
             ENDIF  !  IF (IPRT /= IPRT0)
-            ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
-            NPG = NINT(WAP0(J + 5)) 
-            THK = WAP0(J + 6) 
-            EM  = WAP0(J + 7) 
-            EB  = WAP0(J + 8) 
-            H1  = WAP0(J + 9) 
-            H2  = WAP0(J + 10) 
-            H3  = WAP0(J + 11) 
+            ID  = NINT(WAP0(J + 3))
+            NPT = NINT(WAP0(J + 4))
+            NPG = NINT(WAP0(J + 5))
+            THK = WAP0(J + 6)
+            EM  = WAP0(J + 7)
+            EB  = WAP0(J + 8)
+            H1  = WAP0(J + 9)
+            H2  = WAP0(J + 10)
+            H3  = WAP0(J + 11)
             J = J + 11
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -1018,7 +1018,7 @@ C
 C
       RETURN
       END
-c                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)                     
+c                        TENS(JFT:JLT,1) = SIGNXX(JFT:JLT)
 c                        TENS(JFT:JLT,2) = SIGNYY(JFT:JLT)
 c                        TENS(JFT:JLT,3) = SIGNXY(JFT:JLT)
 c                        TENS(JFT:JLT,4) = SIGNYZ(JFT:JLT)
@@ -1055,66 +1055,66 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   R1,R2,R3,S1,S2,S3,R12A,R22A,S12B,S22B,RS1,RS2,RS3,
-     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3 
+     .   T1,T2,T3,PHI,SUM1,SUM2,FACT,R3R3,S3S3
 c------------------------------------------------
-          IF (IGTYP /= 1) THEN                                                     
+          IF (IGTYP /= 1) THEN
 c------------------------------------------------
-            IF (IGTYP == 16) THEN                                                  
+            IF (IGTYP == 16) THEN
 c                II = JDIR + I-1
                 R1 = DIR_A(II)
                 S1 = DIR_A(II+NEL)
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
-                                           
-                RS1= R1*S1                                                         
-                RS2= R2*S2                                                         
-                R12A = R1*R1                                                       
-                R22A = R2*R2                                                       
-                S12B = S1*S1                                                       
-                S22B = S2*S2                                                       
 
-                RS3 = S1*S2-R1*R2                                                  
-                R3R3= ONE+S1*R2+R1*S2                                               
-                R3R3= HALF*R3R3                                                  
-                S3S3= ONE-S1*R2-R1*S2                                               
-                S3S3= HALF*S3S3                                                  
-                T1 = TENS(1)                                                     
-                T2 = TENS(2)                                                     
-                T3 = TENS(3)                                                     
-                TENS(1) = R12A*T1 + R22A*T2 - RS3*T3                             
-                TENS(2) = S12B*T1 + S22B*T2 + RS3*T3                             
-                TENS(3) = RS1*T1  + RS2*T2 + (R3R3 - S3S3)*T3                    
+                RS1= R1*S1
+                RS2= R2*S2
+                R12A = R1*R1
+                R22A = R2*R2
+                S12B = S1*S1
+                S22B = S2*S2
+
+                RS3 = S1*S2-R1*R2
+                R3R3= ONE+S1*R2+R1*S2
+                R3R3= HALF*R3R3
+                S3S3= ONE-S1*R2-R1*S2
+                S3S3= HALF*S3S3
+                T1 = TENS(1)
+                T2 = TENS(2)
+                T3 = TENS(3)
+                TENS(1) = R12A*T1 + R22A*T2 - RS3*T3
+                TENS(2) = S12B*T1 + S22B*T2 + RS3*T3
+                TENS(3) = RS1*T1  + RS2*T2 + (R3R3 - S3S3)*T3
 c
-            ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN           
+            ELSEIF ((IGTYP == 51 .OR. IGTYP == 52) .AND. ILAW == 58) THEN
 c                II = JDIR + I-1
                 R1 = DIR_A(II)
                 S1 = DIR_A(II+NEL)
                 R2 = DIR_B(II)
                 S2 = DIR_B(II+NEL)
 c
-                RS1= R1*S1                                                         
-                RS2= R2*S2                                                         
-                R12A = R1*R1                                                       
-                R22A = R2*R2                                                       
-                S12B = S1*S1                                                       
-                S22B = S2*S2                                                       
-                RS3 = S1*S2-R1*R2                                                  
-                R3R3= ONE+S1*R2+R1*S2                                               
-                R3R3= HALF*R3R3                                                  
-                S3S3= ONE-S1*R2-R1*S2                                               
-                S3S3= HALF*S3S3                                                  
-                T1 = TENS(1)                                                     
-                T2 = TENS(2)                                                     
-                T3 = TENS(3)                                                     
+                RS1= R1*S1
+                RS2= R2*S2
+                R12A = R1*R1
+                R22A = R2*R2
+                S12B = S1*S1
+                S22B = S2*S2
+                RS3 = S1*S2-R1*R2
+                R3R3= ONE+S1*R2+R1*S2
+                R3R3= HALF*R3R3
+                S3S3= ONE-S1*R2-R1*S2
+                S3S3= HALF*S3S3
+                T1 = TENS(1)
+                T2 = TENS(2)
+                T3 = TENS(3)
 c
-                TENS(1) = R12A*T1 + R22A*T2 - RS3*T3                             
-                TENS(2) = S12B*T1 + S22B*T2 + RS3*T3                             
-                TENS(3) = RS1*T1  + RS2*T2  + (R3R3 - S3S3)*T3                   
-            ELSE                                                             
+                TENS(1) = R12A*T1 + R22A*T2 - RS3*T3
+                TENS(2) = S12B*T1 + S22B*T2 + RS3*T3
+                TENS(3) = RS1*T1  + RS2*T2  + (R3R3 - S3S3)*T3
+            ELSE
               IF (ILAW /= 1 .and. ILAW /= 2 .and. ILAW /= 19 .and. ILAW /= 27 .and. ILAW /= 32)
      .          CALL UROTOVS(TENS,DIR_A(II),DIR_A(II+NEL))
-            ENDIF                                                                  
-          ENDIF   ! IGTYP                                                          
+            ENDIF
+          ENDIF   ! IGTYP
 C
       RETURN
       END
@@ -1181,12 +1181,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   MOM(6),QT(3,3)  
+     .   MOM(6),QT(3,3)
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
 C--convention input MOM : mxx,myy,mxy,0,0,0; output mxx,myy,mzz,mxy,myz,mzx
              TXX = MOM(1)
@@ -1196,28 +1196,28 @@ C--convention input MOM : mxx,myy,mxy,0,0,0; output mxx,myy,mzz,mxy,myz,mzx
              TYZ = ZERO
              TZX = ZERO
 C
-              A = QT(1,1)*TXX + QT(2,1)*TXY    
-              B = QT(1,1)*TXY + QT(2,1)*TYY    
-c              C = ZERO   
-              UXX = A*QT(1,1) + B*QT(1,2)    
-              UXY = A*QT(2,1) + B*QT(2,2)    
-              UZX = A*QT(3,1) + B*QT(3,2)    
-              A = QT(1,2)*TXX + QT(2,2)*TXY    
-              B = QT(1,2)*TXY + QT(2,2)*TYY    
-c              C = ZERO    
-              UYY = A*QT(2,1) + B*QT(2,2)    
-              UYZ = A*QT(3,1) + B*QT(3,2)    
-              A = QT(1,3)*TXX + QT(2,3)*TXY    
-              B = QT(1,3)*TXY + QT(2,3)*TYY    
-c              C = ZERO   
-              UZZ = A*QT(3,1) + B*QT(3,2)  
+              A = QT(1,1)*TXX + QT(2,1)*TXY
+              B = QT(1,1)*TXY + QT(2,1)*TYY
+c              C = ZERO
+              UXX = A*QT(1,1) + B*QT(1,2)
+              UXY = A*QT(2,1) + B*QT(2,2)
+              UZX = A*QT(3,1) + B*QT(3,2)
+              A = QT(1,2)*TXX + QT(2,2)*TXY
+              B = QT(1,2)*TXY + QT(2,2)*TYY
+c              C = ZERO
+              UYY = A*QT(2,1) + B*QT(2,2)
+              UYZ = A*QT(3,1) + B*QT(3,2)
+              A = QT(1,3)*TXX + QT(2,3)*TXY
+              B = QT(1,3)*TXY + QT(2,3)*TYY
+c              C = ZERO
+              UZZ = A*QT(3,1) + B*QT(3,2)
 C              
-             MOM(1) = UXX  
-             MOM(2) = UYY  
-             MOM(3) = UZZ  
-             MOM(4) = UXY 
-             MOM(5) = UYZ 
-             MOM(6) = UZX 
+             MOM(1) = UXX
+             MOM(2) = UYY
+             MOM(3) = UZZ
+             MOM(4) = UXY
+             MOM(5) = UYZ
+             MOM(6) = UZX
 C             
       RETURN
       END

@@ -29,7 +29,7 @@ Chd|        DRAPE_MOD                     share/modules1/drape_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE SHELLTHK_UPD( 
+      SUBROUTINE SHELLTHK_UPD(
      .                     DRAPE    , STACK, THK ,IXC     ,IXTG ,
      .                     IGEO     ,IWORKSH    )
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: IXC(NIXC,*),
      .        IXTG(NIXTG,*),IGEO(NPROPGI,*),IWORKSH(3,*)
-      my_real :: 
+      my_real ::
      .      THK(*)
 C-----------------------------------------------
       TYPE (DRAPE_)  :: DRAPE(*)
@@ -81,27 +81,27 @@ C-----------------------------------------------
 C=======================================================================
 !!###########################################################
 C         
-          DO II=1,NUMELC 
+          DO II=1,NUMELC
             NPT = IWORKSH(1,II)
             PID = IXC(6,II)
             IGTYP = IGEO(11,PID)
             IF(IGTYP /=17 .AND. IGTYP /= 51 .AND. IGTYP /= 52) CYCLE
-            IPOS = IGEO(99,PID) 
+            IPOS = IGEO(99,PID)
 C---
 C  update the shell thickness if /DRAPE defined          
 C---            
 C  re-set the thickness of shell according to /DRAPE layer thinning
-             TMIN   = EP20                  
-             TMAX   = -EP20                 
-             THICKT = ZERO                
-             IPPID   = 2                  
-             IPMAT   = IPPID + NPT        
-             IPANG  =  1                  
-             IPTHK  =  IPANG + NPT        
-             IPPOS  =  IPTHK + NPT        
-             NTHK   =  IPPOS + NPT        
-             ISUBS  =  IWORKSH(3,II)         
-             THICKT = STACK%GEO(1 ,ISUBS) 
+             TMIN   = EP20
+             TMAX   = -EP20
+             THICKT = ZERO
+             IPPID   = 2
+             IPMAT   = IPPID + NPT
+             IPANG  =  1
+             IPTHK  =  IPANG + NPT
+             IPPOS  =  IPTHK + NPT
+             NTHK   =  IPPOS + NPT
+             ISUBS  =  IWORKSH(3,II)
+             THICKT = STACK%GEO(1 ,ISUBS)
 C
               IF (IPOS == 1) THEN
                   DO J=1,NPT
@@ -112,14 +112,14 @@ C
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     POS    = STACK%GEO(I4 ,ISUBS)*THICKT
                     DT   = HALF*THKLY*THINNING
-                    TMIN = MIN(TMIN,POS - DT)		  
-                    TMAX = MAX(TMAX,POS + DT)		  
-                  ENDDO                                                             
+                    TMIN = MIN(TMIN,POS - DT)		
+                    TMAX = MAX(TMAX,POS + DT)		
+                  ENDDO
                   THICKT = TMAX - TMIN
-                  IF (THK(II) == ZERO) THK(II) = THICKT ! 
-              ELSE 
+                  IF (THK(II) == ZERO) THK(II) = THICKT !
+              ELSE
                   DO J=1,NPT
-                    THINNING = ONE 
+                    THINNING = ONE
                     I3 = IPTHK + J
                     I4 = IPPOS + J
                     IF (DRAPE(II)%IDRAPE(J) > 0) THINNING = DRAPE(II)%RDRAPE(J,1)
@@ -130,28 +130,28 @@ C
               ENDIF ! IF (IPOS == 1)
             ENDDO ! numelc
 C --- T3
-          DO II=1,NUMELTG 
+          DO II=1,NUMELTG
             ISH3N = NUMELC + II
             NPT = IWORKSH(1,ISH3N)
             PID = IXTG(5,II)
             IGTYP = IGEO(11,PID)
             IF(IGTYP /=17 .AND. IGTYP /= 51 .AND. IGTYP /= 52) CYCLE
-            IPOS = IGEO(99,PID) 
+            IPOS = IGEO(99,PID)
 C---
 C  update the shell thickness if /DRAPE defined          
 C---            
 C  re-set the thickness of shell according to /DRAPE layer thinning
-             TMIN = EP20                  
-             TMAX = -EP20                 
-             THICKT = ZERO                
-             IPPID   = 2                  
-             IPMAT   = IPPID + NPT        
-             IPANG  =  1                  
-             IPTHK  =  IPANG + NPT        
-             IPPOS  =  IPTHK + NPT        
-             NTHK   =  IPPOS + NPT        
-             ISUBS =IWORKSH(3,ISH3N)         
-             THICKT = STACK%GEO(1 ,ISUBS) 
+             TMIN = EP20
+             TMAX = -EP20
+             THICKT = ZERO
+             IPPID   = 2
+             IPMAT   = IPPID + NPT
+             IPANG  =  1
+             IPTHK  =  IPANG + NPT
+             IPPOS  =  IPTHK + NPT
+             NTHK   =  IPPOS + NPT
+             ISUBS =IWORKSH(3,ISH3N)
+             THICKT = STACK%GEO(1 ,ISUBS)
 C
               IF (IPOS == 1) THEN
                   DO J=1,NPT
@@ -162,12 +162,12 @@ C
                     THKLY  = STACK%GEO(I3 ,ISUBS)*THICKT
                     POS    = STACK%GEO(I4 ,ISUBS)*THICKT
                     DT   = HALF*THKLY*THINNING
-                    TMIN = MIN(TMIN,POS - DT)		  
-                    TMAX = MAX(TMAX,POS + DT)		  
-                  ENDDO                                                             
+                    TMIN = MIN(TMIN,POS - DT)		
+                    TMAX = MAX(TMAX,POS + DT)		
+                  ENDDO
                   THICKT = TMAX - TMIN
-                  IF (THK(ISH3N) == ZERO) THK(ISH3N) = THICKT ! 
-              ELSE                              
+                  IF (THK(ISH3N) == ZERO) THK(ISH3N) = THICKT !
+              ELSE
                   DO J=1,NPT
                     THINNING = ONE
                     IF (DRAPE(ISH3N)%IDRAPE(J) > 0) THINNING = DRAPE(ISH3N)%RDRAPE(J,1)
@@ -176,8 +176,8 @@ C
                   ENDDO
                   IF (THK(ISH3N) == ZERO) THK(ISH3N) = THICKT
               ENDIF ! IF (IPOS == 1)
-            ENDDO ! numelc           
+            ENDDO ! numelc
 C============================================================================
-       
+
        RETURN
        END

@@ -294,11 +294,11 @@ C     Compression coefficient for phase advection
       my_real, DIMENSION(:), ALLOCATABLE :: V_APPEND
       my_real, DIMENSION(:), ALLOCATABLE :: MASS_APPEND
       INTEGER, DIMENSION(:), ALLOCATABLE :: KINET_APPEND
-      ! force accumulation (dt x fx) 
+      ! force accumulation (dt x fx)
       ! size : parith/on  : 3,0
       !        parith/off : 3,NUMELS*NTHREADS
       INTEGER :: SIZE_FORCE_INT_1   ! --> 1srt dimension = 3
-      INTEGER :: SIZE_FORCE_INT_2   ! --> 2ns dimension  = NUMELS*NTHREADS or 0 
+      INTEGER :: SIZE_FORCE_INT_2   ! --> 2ns dimension  = NUMELS*NTHREADS or 0
       my_real, DIMENSION(:,:), ALLOCATABLE :: FORCE_INT
 
       INTEGER :: SIZE_FORCE_INT_PON   ! --> 3rd dimension = NUMELSxNTHREADS (parith/on) or 0 (parith/off)

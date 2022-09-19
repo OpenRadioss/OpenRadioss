@@ -47,7 +47,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C     REAL
       my_real
      .   XMOM, YMOM, ZMOM,II1,II2,II3,II4,II5,II6,II7,II8,II9,
      .   IG1,IG2,IG3,IG4,IG5,IG6,IG7,IG8,IG9,
-     .   XXMOM, YYMOM, ZZMOM, WA1, WA2, WA3, 
+     .   XXMOM, YYMOM, ZZMOM, WA1, WA2, WA3,
      .   TSUM(100),
      .   FSKYRBK(NSKYRBK0*10+1),
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN),
@@ -158,7 +158,7 @@ C        ANALYSE 2D : Axisymetry
 C
          XXMOM = ZERO
          YYMOM = ZERO
-         ZZMOM = VR(3,M)*IN(M)   
+         ZZMOM = VR(3,M)*IN(M)
        ELSEIF(N2D==2) THEN
 C        ANALYSE 2D : Plane strain
          XMOM = ZERO
@@ -167,7 +167,7 @@ C        ANALYSE 2D : Plane strain
 C
          XXMOM = VR(1,M)*IN(M)
          YYMOM = ZERO
-         ZZMOM = ZERO    
+         ZZMOM = ZERO
        ENDIF
 C
        CALL RBYACT(RBY   ,M     ,LPBY  ,NSN   ,MS    ,
@@ -282,10 +282,10 @@ C MATRICE d'inertie -> repere globale
             IG5=RBYI(11,NI)
             IG9=RBYI(12,NI)
 C
-            F4(I) = VR(1,N)*IG1 
+            F4(I) = VR(1,N)*IG1
      .             +(X(2,N)-X(2,M))*V(3,N)*MS(N)
      .             -(X(3,N)-X(3,M))*V(2,N)*MS(N)
-            F5(I) = VR(2,N)*IG5 + 
+            F5(I) = VR(2,N)*IG5 +
      .             +(X(3,N)-X(3,M))*V(1,N)*MS(N)
      .             -(X(1,N)-X(1,M))*V(3,N)*MS(N)
             F6(I) = VR(3,N)*IG9
@@ -388,7 +388,7 @@ C
         CALL SUM_6_FLOAT(1  ,NSN  ,F5, RBF6(5,1), 6)
         CALL SUM_6_FLOAT(1  ,NSN  ,F6, RBF6(6,1), 6)
 
-        
+
         IF(NSPMD > 1) THEN
           CALL SPMD_EXCH_FR6(ICOMM,RBF6,6*6)
         ENDIF
@@ -497,7 +497,7 @@ C-----------------------
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXQ(2,II)) * ITAG(IXQ(3,II)) *
-     +          ITAG(IXQ(4,II)) * ITAG(IXQ(5,II)) 
+     +          ITAG(IXQ(4,II)) * ITAG(IXQ(5,II))
          IF(NALL /= 0)THEN
            IF (ONFELT == 1) THEN
              OFFG(I) = ABS(OFFG(I))

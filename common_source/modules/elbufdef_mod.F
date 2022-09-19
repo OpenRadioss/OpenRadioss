@@ -688,64 +688,64 @@ Chd|====================================================================
       MODULE ELBUFDEF_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c define type ELBUF_STRUCT_ for element buffer structure array
-c=======================================================================      
+c=======================================================================
 c
       TYPE G_BUFEL_      ! material and property variables (mean values for each element)
-        integer  NVAR_GLOB   
-        integer  G_NOFF   
+        integer  NVAR_GLOB
+        integer  G_NOFF
         integer  G_IERR
-        integer  G_OFF    
-        integer  G_GAMA   
-        integer  G_SMSTR  
-        integer  G_HOURG  
-        integer  G_BFRAC  
-        integer  G_EINT   
-        integer  G_EINS   
-        integer  G_RHO    
-        integer  G_QVIS   
-        integer  G_DELTAX 
-        integer  G_VOL    
-        integer  G_EPSD   
+        integer  G_OFF
+        integer  G_GAMA
+        integer  G_SMSTR
+        integer  G_HOURG
+        integer  G_BFRAC
+        integer  G_EINT
+        integer  G_EINS
+        integer  G_RHO
+        integer  G_QVIS
+        integer  G_DELTAX
+        integer  G_VOL
+        integer  G_EPSD
         integer  G_EPSQ
-        integer  G_PLA    
-        integer  G_TEMP   
-        integer  G_TB     
-        integer  G_RK     
-        integer  G_RE     
-        integer  G_SIG    
-        integer  G_FOR    
-        integer  G_MOM    
-        integer  G_THK    
+        integer  G_PLA
+        integer  G_TEMP
+        integer  G_TB
+        integer  G_RK
+        integer  G_RE
+        integer  G_SIG
+        integer  G_FOR
+        integer  G_MOM
+        integer  G_THK
         integer  G_TAG22
-        integer  G_STRA  
-        integer  G_SIGI   
-        integer  G_DMG   
-        integer  G_FORPG    
+        integer  G_STRA
+        integer  G_SIGI
+        integer  G_DMG
+        integer  G_FORPG
         integer  G_MOMPG
-        integer  G_GAMA_R   
+        integer  G_GAMA_R
 C
-        integer  G_FORPGPINCH  
-        integer  G_MOMPGPINCH 
+        integer  G_FORPGPINCH
+        integer  G_MOMPGPINCH
         integer  G_EPGPINCHXZ
-        integer  G_EPGPINCHYZ 
+        integer  G_EPGPINCHYZ
         integer  G_EPGPINCHZZ
 C    
         integer  G_STRPG
         integer  G_UELR
         integer  G_UELR1
         integer  G_DAMDL
-        integer  G_FORTH    
-        integer  G_EINTTH    
+        integer  G_FORTH
+        integer  G_EINTTH
         integer  G_FILL
         integer  G_SEQ
-        integer  G_STRW  
-        integer  G_STRWPG  
-        integer  G_THK_I    
-        integer  G_JAC_I   
+        integer  G_STRW
+        integer  G_STRWPG
+        integer  G_THK_I
+        integer  G_JAC_I
         integer  G_DT
-        integer  G_ISMS 
+        integer  G_ISMS
         integer  G_STRHG
         integer  G_BPRELD        ! bolt preloading
         integer  G_ABURN
@@ -756,8 +756,8 @@ C
         integer  G_COR_NF        ! Nodal forces for corotational formulation
         integer  G_COR_FR        ! Local frame for corotational formulation
         integer  G_COR_XR        ! Reference local coordinates for corotational formulation
-        integer  G_MAXFRAC 
-        integer  G_MAXEPS 
+        integer  G_MAXFRAC
+        integer  G_MAXEPS
         INTEGER  G_BETAORTH
         integer  G_AMU
 c---
@@ -811,7 +811,7 @@ c---
         integer  G_DT_PITER
 c---
         integer  G_IDT_TSH
-c-------  max_historic variables     
+c-------  max_historic variables
         integer  G_TM_YIELD
         integer  G_TM_SEQ
         integer  G_TM_EINT
@@ -819,68 +819,68 @@ c-------  max_historic variables
         integer  G_TM_SIG  ! max(p1)&min(p3) 3 for 2D, 6 for 3D
         integer  G_TM_STRA ! max(p1)&min(p3)
 c---
-        integer, DIMENSION(:) , POINTER ::   NOFF  
-        integer, DIMENSION(:) , POINTER ::   IERR  
-        my_real, DIMENSION(:) , POINTER ::   OFF   
-        my_real, DIMENSION(:) , POINTER ::   GAMA  
-        DOUBLE PRECISION, DIMENSION(:) , POINTER ::   SMSTR 
-        my_real, DIMENSION(:) , POINTER ::   HOURG 
-        my_real, DIMENSION(:) , POINTER ::   BFRAC    
-        my_real, DIMENSION(:) , POINTER ::   EINT  
-        my_real, DIMENSION(:) , POINTER ::   EINS  
-        my_real, DIMENSION(:) , POINTER ::   RHO   
-        my_real, DIMENSION(:) , POINTER ::   QVIS       
-        my_real, DIMENSION(:) , POINTER ::   DELTAX                 
-        my_real, DIMENSION(:) , POINTER ::   VOL                            
-        my_real, DIMENSION(:) , POINTER ::   EPSD  
+        integer, DIMENSION(:) , POINTER ::   NOFF
+        integer, DIMENSION(:) , POINTER ::   IERR
+        my_real, DIMENSION(:) , POINTER ::   OFF
+        my_real, DIMENSION(:) , POINTER ::   GAMA
+        DOUBLE PRECISION, DIMENSION(:) , POINTER ::   SMSTR
+        my_real, DIMENSION(:) , POINTER ::   HOURG
+        my_real, DIMENSION(:) , POINTER ::   BFRAC
+        my_real, DIMENSION(:) , POINTER ::   EINT
+        my_real, DIMENSION(:) , POINTER ::   EINS
+        my_real, DIMENSION(:) , POINTER ::   RHO
+        my_real, DIMENSION(:) , POINTER ::   QVIS
+        my_real, DIMENSION(:) , POINTER ::   DELTAX
+        my_real, DIMENSION(:) , POINTER ::   VOL
+        my_real, DIMENSION(:) , POINTER ::   EPSD
         my_real, DIMENSION(:) , POINTER ::   EPSQ	
-        my_real, DIMENSION(:) , POINTER ::   PLA   
-        my_real, DIMENSION(:) , POINTER ::   TEMP  
-        my_real, DIMENSION(:) , POINTER ::   TB    
-        my_real, DIMENSION(:) , POINTER ::   RK    
-        my_real, DIMENSION(:) , POINTER ::   RE    
-        my_real, DIMENSION(:) , POINTER ::   SIG                          
-        my_real, DIMENSION(:) , POINTER ::   FOR                        
-        my_real, DIMENSION(:) , POINTER ::   MOM                        
-        my_real, DIMENSION(:) , POINTER ::   THK                        
-        my_real, DIMENSION(:) , POINTER ::   TAG22                    
-        my_real, DIMENSION(:) , POINTER ::   STRA                     
-        my_real, DIMENSION(:) , POINTER ::   SIGI                     
-        my_real, DIMENSION(:) , POINTER ::   DMG                     
-        my_real, DIMENSION(:) , POINTER ::   FORPG   ! mean gauss point value    
+        my_real, DIMENSION(:) , POINTER ::   PLA
+        my_real, DIMENSION(:) , POINTER ::   TEMP
+        my_real, DIMENSION(:) , POINTER ::   TB
+        my_real, DIMENSION(:) , POINTER ::   RK
+        my_real, DIMENSION(:) , POINTER ::   RE
+        my_real, DIMENSION(:) , POINTER ::   SIG
+        my_real, DIMENSION(:) , POINTER ::   FOR
+        my_real, DIMENSION(:) , POINTER ::   MOM
+        my_real, DIMENSION(:) , POINTER ::   THK
+        my_real, DIMENSION(:) , POINTER ::   TAG22
+        my_real, DIMENSION(:) , POINTER ::   STRA
+        my_real, DIMENSION(:) , POINTER ::   SIGI
+        my_real, DIMENSION(:) , POINTER ::   DMG
+        my_real, DIMENSION(:) , POINTER ::   FORPG   ! mean gauss point value
         my_real, DIMENSION(:) , POINTER ::   MOMPG
-        my_real, DIMENSION(:) , POINTER ::   GAMA_R  ! Co-rotational local sys  
+        my_real, DIMENSION(:) , POINTER ::   GAMA_R  ! Co-rotational local sys
 C
-        my_real, DIMENSION(:) , POINTER ::   FORPGPINCH 
+        my_real, DIMENSION(:) , POINTER ::   FORPGPINCH
         my_real, DIMENSION(:) , POINTER ::   MOMPGPINCH
         my_real, DIMENSION(:) , POINTER ::   EPGPINCHXZ
         my_real, DIMENSION(:) , POINTER ::   EPGPINCHYZ
         my_real, DIMENSION(:) , POINTER ::   EPGPINCHZZ
 C                        
-        my_real, DIMENSION(:) , POINTER ::   STRPG                  
-        my_real, DIMENSION(:) , POINTER ::   TEMPG   
+        my_real, DIMENSION(:) , POINTER ::   STRPG
+        my_real, DIMENSION(:) , POINTER ::   TEMPG
         my_real, DIMENSION(:) , POINTER ::   UELR   !  failure global variable
         my_real, DIMENSION(:) , POINTER ::   UELR1  !  failure global variable
         my_real, DIMENSION(:) , POINTER ::   DAMDL  !  delamination failure (law25)
         my_real, DIMENSION(:) , POINTER ::   FORTH
-        my_real, DIMENSION(:) , POINTER ::   EINTTH                                                
+        my_real, DIMENSION(:) , POINTER ::   EINTTH
         my_real, DIMENSION(:) , POINTER ::   FILL
         my_real, DIMENSION(:) , POINTER ::   SEQ
-        my_real, DIMENSION(:) , POINTER ::   THK_I   !---- add for Ismstr=10 shell (XFEM not done) STRWPG total anti-symme curvature                         
-        my_real, DIMENSION(:) , POINTER ::   STRW 
+        my_real, DIMENSION(:) , POINTER ::   THK_I   !---- add for Ismstr=10 shell (XFEM not done) STRWPG total anti-symme curvature
+        my_real, DIMENSION(:) , POINTER ::   STRW
         my_real, DIMENSION(:) , POINTER ::   STRWPG         	
         my_real, DIMENSION(:) , POINTER ::   JAC_I   !--------inversed [J]
         my_real, DIMENSION(:) , POINTER ::   DT
-        my_real, DIMENSION(:) , POINTER ::   ABURN 
-        my_real, DIMENSION(:) , POINTER ::   MU 
-        integer, DIMENSION(:) , POINTER ::   ISMS 
-        my_real, DIMENSION(:) , POINTER ::   BPRELD  ! Bolt preloading 
-        my_real, DIMENSION(:) , POINTER ::   COR_NF  ! Corotational nodal forces 
-        my_real, DIMENSION(:) , POINTER ::   COR_FR  ! Corotational frame 
-        my_real, DIMENSION(:) , POINTER ::   COR_XR  ! Corotational reference coordinates 
+        my_real, DIMENSION(:) , POINTER ::   ABURN
+        my_real, DIMENSION(:) , POINTER ::   MU
+        integer, DIMENSION(:) , POINTER ::   ISMS
+        my_real, DIMENSION(:) , POINTER ::   BPRELD  ! Bolt preloading
+        my_real, DIMENSION(:) , POINTER ::   COR_NF  ! Corotational nodal forces
+        my_real, DIMENSION(:) , POINTER ::   COR_FR  ! Corotational frame
+        my_real, DIMENSION(:) , POINTER ::   COR_XR  ! Corotational reference coordinates
         my_real, DIMENSION(:) , POINTER ::   MAXFRAC
-        my_real, DIMENSION(:) , POINTER ::   MAXEPS 
-        my_real, DIMENSION(:) , POINTER ::   BETAORTH 
+        my_real, DIMENSION(:) , POINTER ::   MAXEPS
+        my_real, DIMENSION(:) , POINTER ::   BETAORTH
         my_real, DIMENSION(:) , POINTER ::   AMU
 c---
 C    - 1D - elem (TRUSS, BEAM, SPRING)
@@ -932,12 +932,12 @@ C    -  for seatbelt elements
         my_real, DIMENSION(:) , POINTER ::   INTVAR
 c---
         my_real, DIMENSION(:) , POINTER ::   DT_PITER ! Tetra10 Iterative Power for Time Step Computation
-        integer, DIMENSION(:) , POINTER ::   IDT_TSH  
-c-------  max_historic variables     
-        my_real, DIMENSION(:) , POINTER ::   TM_YIELD   
-        my_real, DIMENSION(:) , POINTER ::   TM_SEQ   
-        my_real, DIMENSION(:) , POINTER ::   TM_EINT   
-        my_real, DIMENSION(:) , POINTER ::   TM_DMG   
+        integer, DIMENSION(:) , POINTER ::   IDT_TSH
+c-------  max_historic variables
+        my_real, DIMENSION(:) , POINTER ::   TM_YIELD
+        my_real, DIMENSION(:) , POINTER ::   TM_SEQ
+        my_real, DIMENSION(:) , POINTER ::   TM_EINT
+        my_real, DIMENSION(:) , POINTER ::   TM_DMG
         my_real, DIMENSION(:) , POINTER ::   TM_SIG1
         my_real, DIMENSION(:) , POINTER ::   TM_STRA1
         my_real, DIMENSION(:) , POINTER ::   TM_SIG3
@@ -950,76 +950,76 @@ c---
 
 
       TYPE L_BUFEL_      ! element variables per integration point
-        integer  MLAW    ! material law type          
-        integer  LawID   ! material law ID    
-        my_real, DIMENSION(:) , POINTER ::   OFF    
-        my_real, DIMENSION(:) , POINTER ::   GAMA   
-        my_real, DIMENSION(:) , POINTER ::   STRA   
-        my_real, DIMENSION(:) , POINTER ::   FRAC          
+        integer  MLAW    ! material law type
+        integer  LawID   ! material law ID
+        my_real, DIMENSION(:) , POINTER ::   OFF
+        my_real, DIMENSION(:) , POINTER ::   GAMA
+        my_real, DIMENSION(:) , POINTER ::   STRA
+        my_real, DIMENSION(:) , POINTER ::   FRAC
         my_real, DIMENSION(:) , POINTER ::   BFRAC	
-        my_real, DIMENSION(:) , POINTER ::   EINT   
-        my_real, DIMENSION(:) , POINTER ::   EINS   
-        my_real, DIMENSION(:) , POINTER ::   RHO    
+        my_real, DIMENSION(:) , POINTER ::   EINT
+        my_real, DIMENSION(:) , POINTER ::   EINS
+        my_real, DIMENSION(:) , POINTER ::   RHO
         my_real, DIMENSION(:) , POINTER ::   DP_DRHO
-        my_real, DIMENSION(:) , POINTER ::   QVIS   
-        my_real, DIMENSION(:) , POINTER ::   DELTAX 
-        my_real, DIMENSION(:) , POINTER ::   VOL    
-        my_real, DIMENSION(:) , POINTER ::   EPSA   
-        my_real, DIMENSION(:) , POINTER ::   EPSD   
-        my_real, DIMENSION(:) , POINTER ::   EPSQ   
-        my_real, DIMENSION(:) , POINTER ::   EPSF   
-        my_real, DIMENSION(:) , POINTER ::   PLA    
-        my_real, DIMENSION(:) , POINTER ::   TEMP   
-        my_real, DIMENSION(:) , POINTER ::   TB     
-        my_real, DIMENSION(:) , POINTER ::   RK     
-        my_real, DIMENSION(:) , POINTER ::   RE         
-        my_real, DIMENSION(:) , POINTER ::   VK     
-        my_real, DIMENSION(:) , POINTER ::   SF     
-        my_real, DIMENSION(:) , POINTER ::   ROB    
-        my_real, DIMENSION(:) , POINTER ::   DAM    
-        my_real, DIMENSION(:) , POINTER ::   DSUM   
-        my_real, DIMENSION(:) , POINTER ::   DGLO   
-        my_real, DIMENSION(:) , POINTER ::   CRAK   
-        my_real, DIMENSION(:) , POINTER ::   ANG    
-        my_real, DIMENSION(:) , POINTER ::   EPE    
-        my_real, DIMENSION(:) , POINTER ::   EPC    
-        my_real, DIMENSION(:) , POINTER ::   XST    
-        my_real, DIMENSION(:) , POINTER ::   SSP    
-        my_real, DIMENSION(:) , POINTER ::   Z      
-        my_real, DIMENSION(:) , POINTER ::   VISC   
-        my_real, DIMENSION(:) , POINTER ::   SIGL   
-        my_real, DIMENSION(:) , POINTER ::   SIGV   
-        my_real, DIMENSION(:) , POINTER ::   SIGA   
-        my_real, DIMENSION(:) , POINTER ::   SIGB   
-        my_real, DIMENSION(:) , POINTER ::   SIGC   
-        my_real, DIMENSION(:) , POINTER ::   SIGD   
-        my_real, DIMENSION(:) , POINTER ::   SIGF   
-        my_real, DIMENSION(:) , POINTER ::   SIG    
-        my_real, DIMENSION(:) , POINTER ::   SIGPLY    
-        my_real, DIMENSION(:) , POINTER ::   FOR    
+        my_real, DIMENSION(:) , POINTER ::   QVIS
+        my_real, DIMENSION(:) , POINTER ::   DELTAX
+        my_real, DIMENSION(:) , POINTER ::   VOL
+        my_real, DIMENSION(:) , POINTER ::   EPSA
+        my_real, DIMENSION(:) , POINTER ::   EPSD
+        my_real, DIMENSION(:) , POINTER ::   EPSQ
+        my_real, DIMENSION(:) , POINTER ::   EPSF
+        my_real, DIMENSION(:) , POINTER ::   PLA
+        my_real, DIMENSION(:) , POINTER ::   TEMP
+        my_real, DIMENSION(:) , POINTER ::   TB
+        my_real, DIMENSION(:) , POINTER ::   RK
+        my_real, DIMENSION(:) , POINTER ::   RE
+        my_real, DIMENSION(:) , POINTER ::   VK
+        my_real, DIMENSION(:) , POINTER ::   SF
+        my_real, DIMENSION(:) , POINTER ::   ROB
+        my_real, DIMENSION(:) , POINTER ::   DAM
+        my_real, DIMENSION(:) , POINTER ::   DSUM
+        my_real, DIMENSION(:) , POINTER ::   DGLO
+        my_real, DIMENSION(:) , POINTER ::   CRAK
+        my_real, DIMENSION(:) , POINTER ::   ANG
+        my_real, DIMENSION(:) , POINTER ::   EPE
+        my_real, DIMENSION(:) , POINTER ::   EPC
+        my_real, DIMENSION(:) , POINTER ::   XST
+        my_real, DIMENSION(:) , POINTER ::   SSP
+        my_real, DIMENSION(:) , POINTER ::   Z
+        my_real, DIMENSION(:) , POINTER ::   VISC
+        my_real, DIMENSION(:) , POINTER ::   SIGL
+        my_real, DIMENSION(:) , POINTER ::   SIGV
+        my_real, DIMENSION(:) , POINTER ::   SIGA
+        my_real, DIMENSION(:) , POINTER ::   SIGB
+        my_real, DIMENSION(:) , POINTER ::   SIGC
+        my_real, DIMENSION(:) , POINTER ::   SIGD
+        my_real, DIMENSION(:) , POINTER ::   SIGF
+        my_real, DIMENSION(:) , POINTER ::   SIG
+        my_real, DIMENSION(:) , POINTER ::   SIGPLY
+        my_real, DIMENSION(:) , POINTER ::   FOR
         my_real, DIMENSION(:) , POINTER ::   MOM
-        my_real, DIMENSION(:) , POINTER ::   THK    
-        DOUBLE PRECISION, DIMENSION(:) , POINTER ::   SMSTR    
-        my_real, DIMENSION(:) , POINTER ::   DMG 
+        my_real, DIMENSION(:) , POINTER ::   THK
+        DOUBLE PRECISION, DIMENSION(:) , POINTER ::   SMSTR
+        my_real, DIMENSION(:) , POINTER ::   DMG
         my_real, DIMENSION(:) , POINTER ::   FORTH
-        my_real, DIMENSION(:) , POINTER ::   EINTTH    
+        my_real, DIMENSION(:) , POINTER ::   EINTTH
         my_real, DIMENSION(:) , POINTER ::   SEQ
-        my_real, DIMENSION(:) , POINTER ::   JAC_I    
-        my_real, DIMENSION(:) , POINTER ::   FAC_YLD  
+        my_real, DIMENSION(:) , POINTER ::   JAC_I
+        my_real, DIMENSION(:) , POINTER ::   FAC_YLD
         my_real, DIMENSION(:) , POINTER ::   ABURN
-        my_real, DIMENSION(:) , POINTER ::   MU	  
+        my_real, DIMENSION(:) , POINTER ::   MU	
         my_real, DIMENSION(:) , POINTER ::   PIJ   !--------[NI,J] for Imstr10
         DOUBLE PRECISION, DIMENSION(:) , POINTER ::   VOL0DP
         my_real, DIMENSION(:) , POINTER ::   PLANL
-        my_real, DIMENSION(:) , POINTER ::   EPSDNL            
-      END TYPE L_BUFEL_                             
+        my_real, DIMENSION(:) , POINTER ::   EPSDNL
+      END TYPE L_BUFEL_
 
       TYPE BUF_PROP_
         my_real, DIMENSION(:)  , POINTER ::  VAR
         my_real, DIMENSION(:)  , POINTER ::  VARN
       END TYPE BUF_PROP_
 
-!--------------------------------------------------------------------------------      
+!--------------------------------------------------------------------------------
 !     Non-local buffer for regularization in the shell thickness
       TYPE BUF_NLOC_
         my_real, DIMENSION(:,:), POINTER :: MASSTH ! Embedded wire nodal masses
@@ -1030,21 +1030,21 @@ c---
 !--------------------------------------------------------------------------------
 
       TYPE BUF_EOS_
-        my_real, DIMENSION(:)  , POINTER ::  VAR 
+        my_real, DIMENSION(:)  , POINTER ::  VAR
       END TYPE BUF_EOS_
 
       TYPE BUF_PORO_
-        my_real, DIMENSION(:)  , POINTER ::  VAR 
+        my_real, DIMENSION(:)  , POINTER ::  VAR
       END TYPE BUF_PORO_
 
       TYPE BUF_VISC_
 c        integer  ILAW    ! type de loi de viscosite
 c        integer  NVAR
-        my_real, DIMENSION(:)  , POINTER ::  VAR 
+        my_real, DIMENSION(:)  , POINTER ::  VAR
       END TYPE BUF_VISC_
 
       TYPE BUF_XFEM_       ! Buffer des elements XFEM crees par la fissuration
-c-------  layer variables     
+c-------  layer variables
         integer  LY_SMSTR
         integer  LY_HOURG
         my_real, DIMENSION(:) , POINTER ::   DMG
@@ -1060,7 +1060,7 @@ c-------  layer variables
         TYPE (BUF_MAT_)  , DIMENSION(:,:,:)  , POINTER :: XMAT    ! material buffer
         TYPE (BUF_FAIL_) , DIMENSION(:,:,:)  , POINTER :: XFAIL   ! failure models
       END TYPE BUF_XFEM_
- 
+
       TYPE FAIL_LOC_
         integer  ILAWF    ! type de loi de rupture
         integer  NVAR
@@ -1072,23 +1072,23 @@ c-------  layer variables
         integer, DIMENSION(:)  , POINTER ::  INDX
         integer, DIMENSION(:)  , POINTER ::  OFF
         my_real, DIMENSION(:)  , POINTER ::  DAM
-        my_real, DIMENSION(:)  , POINTER ::  VAR 
-        my_real, DIMENSION(:)  , POINTER ::  DAMMX 
+        my_real, DIMENSION(:)  , POINTER ::  VAR
+        my_real, DIMENSION(:)  , POINTER ::  DAMMX
         my_real, DIMENSION(:)  , POINTER ::  TDEL
       END TYPE FAIL_LOC_
 
       TYPE BUF_FAIL_
-        TYPE(FAIL_LOC_), DIMENSION(:)  , POINTER ::  FLOC 
+        TYPE(FAIL_LOC_), DIMENSION(:)  , POINTER ::  FLOC
       END TYPE BUF_FAIL_
 
       TYPE BUF_MAT_
-        my_real, DIMENSION(:)  , POINTER ::  VAR 
+        my_real, DIMENSION(:)  , POINTER ::  VAR
         INTEGER, DIMENSION(:)  , POINTER ::  VARTMP
       END TYPE BUF_MAT_
 
       TYPE BUF_LAY_
-        integer  ILAW     
-        integer  IMAT 
+        integer  ILAW
+        integer  IMAT
         integer  IEOS
         integer  IVISC
         integer  IPORO
@@ -1100,12 +1100,12 @@ c-------  layer variables
         integer  NVAR_LOC   ! max nb of local variables in LBUF = 51 (below)
         integer  NPTT       ! nb of integration points through layer (PID_51)
 c-------
-        integer  LY_DMG  
-        integer  LY_GAMA   
-        integer  LY_DIRA   
-        integer  LY_DIRB   
-        integer  LY_CRKDIR   
-        integer  LY_PLAPT  ! mean plastic strain value between gauss points 
+        integer  LY_DMG
+        integer  LY_GAMA
+        integer  LY_DIRA
+        integer  LY_DIRB
+        integer  LY_CRKDIR
+        integer  LY_PLAPT  ! mean plastic strain value between gauss points
         integer  LY_SIGPT  ! mean stress value between gauss points
         integer  LY_HOURG
         integer  LY_UELR
@@ -1113,57 +1113,57 @@ c-------
         integer  LY_OFFPG
         integer  LY_OFF
 c-------
-        integer  L_OFF    
-        integer  L_GAMA   
-        integer  L_STRA   
-        integer  L_FRAC   
+        integer  L_OFF
+        integer  L_GAMA
+        integer  L_STRA
+        integer  L_FRAC
         integer  L_BFRAC	
-        integer  L_EINT   
-        integer  L_EINS   
-        integer  L_RHO    
+        integer  L_EINT
+        integer  L_EINS
+        integer  L_RHO
         integer  L_DP_DRHO
-        integer  L_QVIS   
-        integer  L_DELTAX 
-        integer  L_VOL                        
-        integer  L_EPSA   
-        integer  L_EPSD                    
-        integer  L_EPSQ   
-        integer  L_EPSF   
-        integer  L_PLA             
-        integer  L_TEMP   
-        integer  L_TB     
-        integer  L_RK     
-        integer  L_RE     
-        integer  L_VK     
-        integer  L_SF     
-        integer  L_ROB    
-        integer  L_DAM    
-        integer  L_DSUM   
-        integer  L_DGLO   
-        integer  L_CRAK   
-        integer  L_ANG    
-        integer  L_EPE    
-        integer  L_EPC    
-        integer  L_XST         
-        integer  L_SSP    
-        integer  L_Z          
-        integer  L_VISC   
-        integer  L_SIGL   
-        integer  L_SIGV   
-        integer  L_SIGA   
-        integer  L_SIGB   
-        integer  L_SIGC   
-        integer  L_SIGD   
-        integer  L_SIGF   
-        integer  L_SIG    
+        integer  L_QVIS
+        integer  L_DELTAX
+        integer  L_VOL
+        integer  L_EPSA
+        integer  L_EPSD
+        integer  L_EPSQ
+        integer  L_EPSF
+        integer  L_PLA
+        integer  L_TEMP
+        integer  L_TB
+        integer  L_RK
+        integer  L_RE
+        integer  L_VK
+        integer  L_SF
+        integer  L_ROB
+        integer  L_DAM
+        integer  L_DSUM
+        integer  L_DGLO
+        integer  L_CRAK
+        integer  L_ANG
+        integer  L_EPE
+        integer  L_EPC
+        integer  L_XST
+        integer  L_SSP
+        integer  L_Z
+        integer  L_VISC
+        integer  L_SIGL
+        integer  L_SIGV
+        integer  L_SIGA
+        integer  L_SIGB
+        integer  L_SIGC
+        integer  L_SIGD
+        integer  L_SIGF
+        integer  L_SIG
         integer  L_SIGPLY ! PLYXFEM
-        integer  L_FOR    
+        integer  L_FOR
         integer  L_MOM
-        integer  L_THK 
-        integer  L_SMSTR      
-        integer  L_DMG  
+        integer  L_THK
+        integer  L_SMSTR
+        integer  L_DMG
         integer  L_FORTH
-        integer  L_EINTTH  
+        integer  L_EINTTH
         integer  L_SEQ
         integer  L_JAC_I
         integer  L_FAC_YLD
@@ -1173,7 +1173,7 @@ c-------
         integer  L_VOL0DP
         integer  L_PLANL
         integer  L_EPSDNL
-c-------  layer variables     
+c-------  layer variables
         my_real, DIMENSION(:) , POINTER ::   DMG
         my_real, DIMENSION(:) , POINTER ::   GAMA
         my_real, DIMENSION(:) , POINTER ::   DIRA
@@ -1186,53 +1186,53 @@ c-------  layer variables
         my_real, DIMENSION(:) , POINTER ::   UELR1  !  failure layer variable
         INTEGER, DIMENSION(:) , POINTER ::   OFFPG  !  failure of Gauss point
         INTEGER, DIMENSION(:) , POINTER ::   OFF    !  layer failure flag
-c-------       
+c-------
         TYPE (L_BUFEL_)  , DIMENSION(:,:,:)  , POINTER :: LBUF   ! local variables - per integration point
         TYPE (BUF_MAT_)  , DIMENSION(:,:,:)  , POINTER :: MAT    ! material buffer - per integration point
-        TYPE (BUF_FAIL_) , DIMENSION(:,:,:)  , POINTER :: FAIL  
-        TYPE (BUF_PROP_) , DIMENSION(:,:,:)  , POINTER :: PROP 
-        TYPE (BUF_EOS_)  , DIMENSION(:,:,:)  , POINTER :: EOS  
-        TYPE (BUF_VISC_) , DIMENSION(:,:,:)  , POINTER :: VISC  
-        TYPE (BUF_PORO_) , DIMENSION(:,:,:)  , POINTER :: PORO  
+        TYPE (BUF_FAIL_) , DIMENSION(:,:,:)  , POINTER :: FAIL
+        TYPE (BUF_PROP_) , DIMENSION(:,:,:)  , POINTER :: PROP
+        TYPE (BUF_EOS_)  , DIMENSION(:,:,:)  , POINTER :: EOS
+        TYPE (BUF_VISC_) , DIMENSION(:,:,:)  , POINTER :: VISC
+        TYPE (BUF_PORO_) , DIMENSION(:,:,:)  , POINTER :: PORO
         TYPE (BUF_XFEM_) , DIMENSION(:)      , POINTER :: XFEM   ! XFEM (NXEL)
       END TYPE BUF_LAY_
 c
-c--------------------       
-c 
+c--------------------
+c
       TYPE BUF_INTLOC_      ! element variables per integration point
         my_real, DIMENSION(:) , POINTER ::   EPS   ! (length=3)
         my_real, DIMENSION(:) , POINTER ::   SIG   ! (length=3)
-      END TYPE BUF_INTLOC_                             
+      END TYPE BUF_INTLOC_
 
       TYPE BUF_INTLAY_
-        integer  ILAW       ! inter ply material law type     
+        integer  ILAW       ! inter ply material law type
         integer  IMAT       ! inter ply material number
         integer  NFAIL
         integer  NVAR_MAT   ! number of user variables (UVAR) in the material buffer
         integer  NVARTMP    ! number of temp storage variables (VARTMP) in material laws
-c------ interlayer variables par couche   (length=1) 
-        my_real, DIMENSION(:) , POINTER ::   EINT         
+c------ interlayer variables par couche   (length=1)
+        my_real, DIMENSION(:) , POINTER ::   EINT
         my_real, DIMENSION(:) , POINTER ::   COUNT
-      
+
         TYPE (BUF_INTLOC_) , DIMENSION(:,:) , POINTER :: ILBUF
         TYPE (BUF_MAT_)    , DIMENSION(:,:) , POINTER :: MAT
-        TYPE (BUF_FAIL_)   , DIMENSION(:,:) , POINTER :: FAIL  
+        TYPE (BUF_FAIL_)   , DIMENSION(:,:) , POINTER :: FAIL
       END TYPE BUF_INTLAY_
-c--------------------       
- 
+c--------------------
+
       TYPE ELBUF_STRUCT_
-        integer     :: IGTYP    
-        integer     :: NEL      
-        integer     :: NLAY     
-        integer     :: NINTLAY  
-        integer     :: NPTR     
-        integer     :: NPTS     
-        integer     :: NPTT   
+        integer     :: IGTYP
+        integer     :: NEL
+        integer     :: NLAY
+        integer     :: NINTLAY
+        integer     :: NPTR
+        integer     :: NPTS
+        integer     :: NPTT
         integer     :: IXFEM
         integer     :: NXEL       ! number of xfem parts created after element crack
-       
+
         TYPE (G_BUFEL_)                              :: GBUF   ! global variables - mean element values
-        TYPE (BUF_LAY_)   , DIMENSION(:)   , POINTER :: BUFLY  ! BUFLY(NLAY) layer variables 
+        TYPE (BUF_LAY_)   , DIMENSION(:)   , POINTER :: BUFLY  ! BUFLY(NLAY) layer variables
         TYPE (BUF_INTLAY_), DIMENSION(:)   , POINTER :: INTLAY ! inter-layer (NLAY-1)
         TYPE (BUF_XFEM_)  , DIMENSION(:)   , POINTER :: XFEM   ! XFEM (NXEL)
         TYPE (BUF_NLOC_)  , DIMENSION(:,:) , POINTER :: NLOC   ! NLOC (NPTR,NPTS)

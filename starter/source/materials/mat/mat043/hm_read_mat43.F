@@ -38,7 +38,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT43(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      )
 C-----------------------------------------------
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,
      .                                         MAXUPARAM,NUPARAM, NUVAR,IMATVIS
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NRATE,NPS,IR0
-      MY_REAL 
+      MY_REAL
      .         E,NU,G,C1,EPSMAX,EPSR1,EPSR2,RATE(11),YFAC(11),
      .         R0,R45,R90,R,H,FISOKIN,M,
      .         EINF,CE,FAC_PRES
@@ -116,8 +116,8 @@ C-----------------------------------------------
       MTAG%G_EPSD = 1
       ISRATE  = 0
       IMATVIS = 0
- 
- 
+
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -137,15 +137,15 @@ C-----------------------------------------------
       !line-5
       CALL HM_GET_FLOATV('MAT_EPS'    ,EPSMAX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPST1'  ,EPSR1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_EPST2'  ,EPSR2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('MAT_EPST2'  ,EPSR2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Fcut'       ,ASRATE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('Fsmooth'    ,ISRATE      ,IS_AVAILABLE, LSUBMODEL)
       !unit
       CALL HM_GET_FLOATV_DIM('MAT_E'  ,FAC_PRES    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !num_curves      
+      !num_curves
       CALL HM_GET_INTV  ('NUM_CURVES' ,NUMCURVES   ,IS_AVAILABLE, LSUBMODEL)
 
-      !========== DEFAULT VALUES=============!              
+      !========== DEFAULT VALUES=============!
       RHOR=RHO0
       !IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
@@ -155,7 +155,7 @@ C-----------------------------------------------
       DO I=1,NUMCURVES
         CALL HM_GET_INT_ARRAY_INDEX      ('FunctionIds' ,IFUNC(I)  ,I ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX    ('ABG_cpa'     ,YFAC(I)   ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX    ('ABG_cpb'     ,RATE(I)   ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+        CALL HM_GET_FLOAT_ARRAY_INDEX    ('ABG_cpb'     ,RATE(I)   ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF(IFUNC(I)/=0) NRATE = I
       ENDDO
 
@@ -184,13 +184,13 @@ C
       ELSE
         ! If no filtering frequency is given but the flag is activated
         IF (ISRATE /= 0) THEN
-          ASRATE  = 10000.0D0*FAC_T_WORK  
+          ASRATE  = 10000.0D0*FAC_T_WORK
         ! If no filtering frequency and no flag is activated => no filtering
         ELSE
           ASRATE  = ZERO
         ENDIF
       ENDIF
-      !----------------------------------------------------------           
+      !----------------------------------------------------------
 C
       IF (NRATE == 1) THEN
        NUM_FUNC=2

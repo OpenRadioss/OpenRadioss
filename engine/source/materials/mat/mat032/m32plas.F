@@ -98,7 +98,7 @@ C-----------------------------------------------
       A12  = PM(48,IMAT)
       ICC  = NINT(PM(49,IMAT))
       A1   = PM(24,IMAT)
-      A2   = PM(25,IMAT) 
+      A2   = PM(25,IMAT)
       EPSMAX = PM(41,IMAT)
 C
       IF (IPLA == 0) THEN
@@ -120,9 +120,9 @@ C----------------------------
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
           EPSP = EPSP*DTINV
           EPSP = MAX(EPSP ,EPDR)
-          EPSPD(I) = EPSP     
-          NNU1(I) = NU / (ONE - NU)    
-          NU5(I) = ONE-NNU1(I) 
+          EPSPD(I) = EPSP
+          NNU1(I) = NU / (ONE - NU)
+          NU5(I) = ONE-NNU1(I)
 C-------------
 C     CRITERE
 C-------------
@@ -161,7 +161,7 @@ C----------------------------
           DTINV= DT1C(I)/MAX(DT1C(I)**2,EM20)
           EPSP = EPSP*DTINV
           EPSP = MAX(EPSP ,EPDR)
-          EPSPD(I) = EPSP          
+          EPSPD(I) = EPSP
 C-------------
 C     CRITERE
 C-------------
@@ -171,7 +171,7 @@ C------------------------------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
           NU1 = NU/(ONE - NU)
-          NU5(I) = ONE-NU1 
+          NU5(I) = ONE-NU1
           G3(I)  = THREE_HALF*E/(ONE + NU)
           P   = -(S11+S22) * THIRD
           Q   = (ONE -NU1)*P
@@ -187,7 +187,7 @@ C------------------------------------------
           SCALE = MIN(ONE,(-B + SQRT(MAX(ZERO,B*B-A*C)))/MAX(A ,EM20))
           UMR = ONE - SCALE
           Q = Q*UMR
-          SIGNXX(I) = SIGNXX(I)*SCALE - Q 
+          SIGNXX(I) = SIGNXX(I)*SCALE - Q
           SIGNYY(I) = SIGNYY(I)*SCALE - Q
           SIGNXY(I) = SIGNXY(I)*SCALE
           DPLA     = OFF(I)*SEQ*UMR/MAX(EM20,G3(I))
@@ -223,7 +223,7 @@ C--------------------------------
           S2=A22*S_22(I)*S_22(I)
           S3=A1122*S_11(I)*S_22(I)
           AXY(I)=A12*S_12(I)*S_12(I)
-          SEQH(I)=SQRT(S1+S2-S3+AXY(I))  
+          SEQH(I)=SQRT(S1+S2-S3+AXY(I))
           EZZ(I) = -(DEPSXX(I)+DEPSYY(I))*NNU1(I)
           G3(I)  = THREE_HALF*E/(ONE+NU)
           YLDP(I) = CA*(CE+EPSEQ(I))**CN*EPSP**CM
@@ -267,13 +267,13 @@ C---------------------------
             S2=A22*NU*TWO-A1122
             S12=A1122-NU*(A11+A22)
             S3=SQRT(NU2(I)*(A11-A22)*(A11-A22)+S12*S12)
-            IF (ABS(S1) < EM20) THEN 
+            IF (ABS(S1) < EM20) THEN
               Q12(I)=ZERO
             ELSE
               Q12(I)=-(A11-A22+S3)/S1
             ENDIF
-            IF (ABS(S2) < EM20) THEN 
-              Q21(I)=ZERO 
+            IF (ABS(S2) < EM20) THEN
+              Q21(I)=ZERO
             ELSE
               Q21(I)=(A11-A22+S3)/S2
             ENDIF
@@ -354,15 +354,15 @@ C
          DO I=JFT,JLT
             IF (EPSEQ(I) > EPSMAX .AND. OFF(I) == ONE) THEN
              NINDX=NINDX+1
-             INDX(NINDX)=I   
+             INDX(NINDX)=I
              OFF(I)=ZERO
             ENDIF
           ENDDO
 C 
           DO I=JFT,JLT
-            SIGE(I,1) = S_11(I) 
-            SIGE(I,2) = S_22(I) 
-            SIGE(I,3) = S_12(I) 
+            SIGE(I,1) = S_11(I)
+            SIGE(I,2) = S_22(I)
+            SIGE(I,3) = S_12(I)
             SIGE(I,4) = ZERO
             SIGE(I,5) = ZERO
           ENDDO

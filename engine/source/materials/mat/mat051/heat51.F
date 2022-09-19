@@ -143,17 +143,17 @@ csm        AV3(I) = ONE - AV1(I) - AV2(I)
         XK2 = UPARAM(164)+UPARAM(165)*T(I)
         XK3 = UPARAM(214)+UPARAM(215)*T(I)
 
-        
-        AL1 = AV1(I) 
-     .      - AV1(I)     *SQRT((ONE-AV1(I))*THIRD) 
+
+        AL1 = AV1(I)
+     .      - AV1(I)     *SQRT((ONE-AV1(I))*THIRD)
      .      + (ONE-AV1(I))*SQRT(AV1(I)*THIRD)
 
-        AL2 = AV2(I) 
-     .      - AV2(I)     *SQRT((ONE-AV2(I))*THIRD) 
+        AL2 = AV2(I)
+     .      - AV2(I)     *SQRT((ONE-AV2(I))*THIRD)
      .      + (ONE-AV2(I))*SQRT(AV2(I)*THIRD)
 
-        AL3 = AV3(I) 
-     .      - AV3(I)     *SQRT((ONE-AV3(I))*THIRD) 
+        AL3 = AV3(I)
+     .      - AV3(I)     *SQRT((ONE-AV3(I))*THIRD)
      .      + (ONE-AV3(I))*SQRT(AV3(I)*THIRD)
 
         AL12 = AL1*AL1
@@ -161,14 +161,14 @@ csm        AV3(I) = ONE - AV1(I) - AV2(I)
         AL32 = AL3*AL3
         AA = (AL1+AL2+AL3)*(ONE-AL12-AL22-AL32)
 
-        XK(I)= AL12 * XK1 + AL22 * XK2 + AL32 * XK3 
+        XK(I)= AL12 * XK1 + AL22 * XK2 + AL32 * XK3
      .         + AA / (AL1/XK1+AL2/XK2+AL3/XK3)
-          
+
       ENDDO
-       
+
 C
       RETURN
       END
-      
-      
-      
+
+
+

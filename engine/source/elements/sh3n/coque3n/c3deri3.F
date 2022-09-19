@@ -32,9 +32,9 @@ Chd|====================================================================
      .                   UX1      ,UX2      ,UX3     ,UY1      ,UY2      ,
      .                   UY3      ,NEL      ,AREA    ,X21G     ,Y21G     ,
      .                   Z21G     ,X31G     ,Y31G    ,Z31G     ,X2       ,
-     .                   Y2       ,X3       ,Y3      , 
-     .                   E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
+     .                   Y2       ,X3       ,Y3      ,
+     .                   E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -124,11 +124,11 @@ C
         Y3(I) = SIGN(MAX(EM15,ABS(Y3(I))),Y3(I))
         PX1(I)=-HALF*Y3(I)
         PY1(I)= HALF*(X3(I)-X2(I))
-        PY2(I)=-HALF*X3(I)      
+        PY2(I)=-HALF*X3(I)
       ENDDO
 C
       DO I=JFT,JLT
-        AL1 = X2(I) * X2(I)      
+        AL1 = X2(I) * X2(I)
         AL2 = (X3(I)-X2(I)) * (X3(I)-X2(I)) + Y3(I) * Y3(I)
         AL3 = X3(I) * X3(I) + Y3(I) * Y3(I)
         ALMAX = MAX(AL1,AL2,AL3)

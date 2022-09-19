@@ -30,7 +30,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE ALEW5( 
+      SUBROUTINE ALEW5(
      1     X         ,D       ,V       ,W       ,WA      ,
      2     ALE_NN_CONNECT     ,NALE    ,NODFT   ,NODLT   ,ITASK   ,
      3     NBRCVOIS  ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB    ,
@@ -69,8 +69,8 @@ C-----------------------------------------------
 #include      "com07_c.inc"
 #include      "com08_c.inc"
 #include      "param_c.inc"
-#include      "timeri_c.inc"    
-#include      "tabsiz_c.inc"  
+#include      "timeri_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .     NBRCVOIS(*),NBSDVOIS(*),
      .     LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD),ISKEW(*),ICODT(*)
-      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), SKEW(LSKEW,*)   
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), SKEW(LSKEW,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
@@ -97,10 +97,10 @@ C-----------------------------------------------
       LAMBDA=ALPHA
       NITER=NINT(VGX)
       IFORM=NINT(GAMMA)
-      
-      WA(1:3,NODFT:NODLT)=X(1:3,NODFT:NODLT)      
+
+      WA(1:3,NODFT:NODLT)=X(1:3,NODFT:NODLT)
       CALL MY_BARRIER
-      
+
       DO ITER=1,NITER
 
          IF(NSPMD > 1)THEN
@@ -110,8 +110,8 @@ C-----------------------------------------------
 !$OMP END SINGLE
          END IF
 
-         IF(IFORM == 1)THEN     
-         !default formulation (2020.0)         
+         IF(IFORM == 1)THEN
+         !default formulation (2020.0)
             DO I = NODFT, NODLT
                IF(IABS(NALE(I)) == 1) THEN
                   IAD1 = ALE_NN_CONNECT%IAD_CONNECT(I)
@@ -125,21 +125,21 @@ C-----------------------------------------------
                      VEC(2) = VEC(2) + WA(2, NODE_ID)
                      VEC(3) = VEC(3) + WA(3, NODE_ID)
                   ENDDO
-                  
+
                   VEC(1) = VEC(1) / NUM - WA(1,I)
                   VEC(2) = VEC(2) / NUM - WA(2,I)
-                  VEC(3) = VEC(3) / NUM - WA(3,I)     
+                  VEC(3) = VEC(3) / NUM - WA(3,I)
 
                   !update VEC depending on boundary conditions
                   CALL ALEWDX_GRID_BCS(SKEW, ISKEW,  ICODT, VEC, NALE, ITASK, I)   !set VEC to 0 depending on user BCS
                   W(1,I) = WA(1,I) + LAMBDA * VEC(1)
                   W(2,I) = WA(2,I) + LAMBDA * VEC(2)
                   W(3,I) = WA(3,I) + LAMBDA * VEC(3)
-                                  
+
                ELSE
                   W(1,I) = WA(1,I)
                   W(2,I) = WA(2,I)
-                  W(3,I) = WA(3,I)     
+                  W(3,I) = WA(3,I)
                ENDIF
             ENDDO
          ELSEIF(IFORM == 2)THEN
@@ -150,7 +150,7 @@ C-----------------------------------------------
                   IAD2 = ALE_NN_CONNECT%IAD_CONNECT(I + 1) - 1
                   NUM = 0
                   VEC(1:3) = ZERO
-                  ALLOCATE(DIST(IAD2 - IAD1 + 1))                        
+                  ALLOCATE(DIST(IAD2 - IAD1 + 1))
                   DO IAD = IAD1, IAD2
                      NUM = NUM + 1
                      NODE_ID = ALE_NN_CONNECT%CONNECTED(IAD)
@@ -161,17 +161,17 @@ C-----------------------------------------------
 
                   ENDDO
                   SOM = SUM(DIST(1:NUM))
-                  
+
                   MIN_DIST = MINVAL(DIST(1:NUM))
-                  MAX_DIST = MAXVAL(DIST(1:NUM))             
+                  MAX_DIST = MAXVAL(DIST(1:NUM))
                   SOM2 = ZERO
                   DO K=1,NUM
                      SOM2 = SOM2 + ONE / DIST(K)
                   ENDDO
-                  
+
                   DO K=1,NUM
                      WEIGHT(K)=DIST(K)/SOM
-                  ENDDO          
+                  ENDDO
                   VEC(1:3)=ZERO
                   DO IAD = IAD1, IAD2
                      NODE_ID = ALE_NN_CONNECT%CONNECTED(IAD)
@@ -179,43 +179,43 @@ C-----------------------------------------------
                      VEC(2) = VEC(2) + WEIGHT(K) * (WA(2,NODE_ID) - WA(2,I))
                      VEC(3) = VEC(3) + WEIGHT(K) * (WA(3,NODE_ID) - WA(3,I))
                   ENDDO
-                           
+
                   !update VEC depending on boundary conditions
                   CALL ALEWDX_GRID_BCS(SKEW, ISKEW,  ICODT, VEC ,NALE, ITASK, I)
                   W(1,I) = WA(1,I) + LAMBDA * VEC(1)
                   W(2,I) = WA(2,I) + LAMBDA * VEC(2)
-                  W(3,I) = WA(3,I) + LAMBDA * VEC(3)                  
+                  W(3,I) = WA(3,I) + LAMBDA * VEC(3)
 
                ELSE
                   W(1,I)=WA(1,I)
                   W(2,I)=WA(2,I)
-                  W(3,I)=WA(3,I)     
+                  W(3,I)=WA(3,I)
                ENDIF
                DEALLOCATE(DIST)
-            ENDDO        
+            ENDDO
          ENDIF
-         
+
          CALL MY_BARRIER
          WA(1:3,NODFT:NODLT)=W(1:3,NODFT:NODLT)
-         
-      ENDDO !next ITER
-      
 
-      DO I = NODFT, NODLT                              
-         IF(IABS(NALE(I)) == 1 .AND. DT2 > ZERO) THEN  
-            W(1,I)=(WA(1,I)-X(1,I))/DT2                             
-            W(2,I)=(WA(2,I)-X(2,I))/DT2                             
-            W(3,I)=(WA(3,I)-X(3,I))/DT2                             
-         ELSEIF(NALE(I) == 0)THEN                       
-            W(1,I)=V(1,I)                                 
-            W(2,I)=V(2,I)                                 
-            W(3,I)=V(3,I)                                 
-         ELSE                                           
-            W(1,I)=ZERO                                   
-            W(2,I)=ZERO                                   
-            W(3,I)=ZERO                                   
-         ENDIF                                          
-      ENDDO                                            
+      ENDDO !next ITER
+
+
+      DO I = NODFT, NODLT
+         IF(IABS(NALE(I)) == 1 .AND. DT2 > ZERO) THEN
+            W(1,I)=(WA(1,I)-X(1,I))/DT2
+            W(2,I)=(WA(2,I)-X(2,I))/DT2
+            W(3,I)=(WA(3,I)-X(3,I))/DT2
+         ELSEIF(NALE(I) == 0)THEN
+            W(1,I)=V(1,I)
+            W(2,I)=V(2,I)
+            W(3,I)=V(3,I)
+         ELSE
+            W(1,I)=ZERO
+            W(2,I)=ZERO
+            W(3,I)=ZERO
+         ENDIF
+      ENDDO
 
       RETURN
       END

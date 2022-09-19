@@ -69,20 +69,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  
+      INTEGER
      .   ISU1,ISU2,IGSTI,INTTH,IGAP,MULTIMP,FLAGREMNOD,IDEL11,IFORM,IDSENS,ITIED,INACTI,
      .         IPRINT,IASSIGN,INTFRIC,IRECC
       my_real
      .   STMIN,STMAX,PERCENT_SIZE,DTMIN,STFAC,FRIC,GAP,STARTT,STOPT,VISC,
      .   VISCF,BUMULT
-      CHARACTER 
+      CHARACTER
      .   BCFLAG*ncharfield, BCFLAGM*ncharfield,KEY*ncharkey,KEY1*ncharkey
       LOGICAL IS_AVAILABLE
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE11 (/DEFAULT/INTER/TYPE11)
 C============================================================================
 C
-      IGSTI = 0        
+      IGSTI = 0
       INTTH = 0
       INACTI = 0
       IDEL11= 0
@@ -101,8 +101,8 @@ C
       VISCF = ZERO
       VISC = ZERO
 C
-      IASSIGN = 0 
-      IPRINT = 0   
+      IASSIGN = 0
+      IPRINT = 0
 C
 C---------------------------------------------------------------
 C
@@ -184,4 +184,4 @@ C--------------------------------------------------------------
      .       '    TYPE OF FRICTION PENALTY FORMULATION. . . ',I5/)
 C
 C--------------------------------------------------------------
-      END 
+      END

@@ -55,9 +55,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -2535,10 +2535,10 @@ C=======================================================================
       NUPARAM = 7
       NUVAR   = 2
       NFUNC   = 0
-c! 
-c!   UVAR 1 = damage value falg for IP at DSSE instability 
-c!   UVAR 2 = damage value for DSSE 
-c!       
+c!
+c!   UVAR 1 = damage value falg for IP at DSSE instability
+c!   UVAR 2 = damage value for DSSE
+c!
 C=======================================================================
 C
 C pre definition for user-input data when only 
@@ -2556,7 +2556,7 @@ C=============================================
       ELSE                      ! parameter fitting
         BFRAC2 = BFRAC
         B16    = (AFRAC / BFRAC)**0.1
-        B17    = (CFRAC / BFRAC)**0.1          
+        B17    = (CFRAC / BFRAC)**0.1
         B18    = ONE/B16+TWO/sqrt(THREE)-ONE/B17
         B19    = -ONE/B16 + ONE/B17
         CFRAC2 = B19/B18
@@ -2586,18 +2586,18 @@ C=============================================
 C--------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
-      ELSE       
-        IF (IFLAG == 0) THEN 
-          WRITE(IOUT, 1001)AFRAC,BFRAC,CFRAC,INST,NFRAC      
+      ELSE
+        IF (IFLAG == 0) THEN
+          WRITE(IOUT, 1001)AFRAC,BFRAC,CFRAC,INST,NFRAC
           WRITE(IOUT, 1300)
           WRITE(IOUT, 1200)
           WRITE(IOUT, 1100)P_THICKFAIL
         ELSE
-          WRITE(IOUT, 1050)AFRAC,BFRAC,CFRAC,AFRAC2,BFRAC2,CFRAC2,INST2,NFRAC,INST       
+          WRITE(IOUT, 1050)AFRAC,BFRAC,CFRAC,AFRAC2,BFRAC2,CFRAC2,INST2,NFRAC,INST
           WRITE(IOUT, 1200)
           WRITE(IOUT, 1100)P_THICKFAIL
-        ENDIF       
-      ENDIF          
+        ENDIF
+      ENDIF
 C--------------------------------------------------
       RETURN
  1000 FORMAT(
@@ -2634,7 +2634,7 @@ C--------------------------------------------------
      & 5X,' CLASSIC INPUT METHOD ')
 
       END
-      
+
 Chd|====================================================================
 Chd|  LINEAR_INTERP                 source/materials/fail/hc_dsse/hm_read_fail_hc_dsse.F
 Chd|-- called by -----------
@@ -2658,11 +2658,11 @@ C-----------------------------------------------
       INTEGER XMIN,XMAX,XMID
       LOGICAL CONDITION
       my_real ALPHA
-      
+
       XMIN=1
       XMAX=LTAB
       CONDITION=.TRUE.
-      
+
       DO WHILE(CONDITION .eqv. .TRUE.)
 c!       print*,'XMIN-XMAX',XMIN,XMAX
        IF(TAB_X(XMIN)==X)THEN
@@ -2676,14 +2676,14 @@ c!       print*,'XMIN-XMAX',XMIN,XMAX
        ELSE
          CONDITION=.TRUE.
          XMID=XMIN+(XMAX-XMIN)/2
-         IF(TAB_X(XMID) > X)THEN 
+         IF(TAB_X(XMID) > X)THEN
             XMAX=XMID
          ELSE
             XMIN=XMID
          ENDIF
        ENDIF
-      ENDDO   
-      
+      ENDDO
+
 c!      print*,'-->',XMIN,XMAX,TAB_X(XMIN),TAB_X(XMAX)
       IF(XMIN /= XMAX)THEN
         ALPHA = (TAB_Y(XMAX)-TAB_Y(XMIN))/(TAB_X(XMAX)-TAB_X(XMIN))

@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG    
+      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER JTUR, I, EMPTY_LINE,COUNT,IEOS,LAW6_OPT
       INTEGER JTHE, IFLAGR
       my_real
-     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, BULK, 
+     .   YOUNG, ANU, CA, CB, CN, EPSM, SIGM, BULK,
      .   PMIN, CC, EPS0, CM, TMELT, TMAX, CS, T0, SPH, AS, BS,
      .   AL, BL, G, TBA, TBK, PCO, FAC_L, FAC_T, FAC_M, FAC_C,
      .   BID2 ,BID3 ,BID4 ,BID5 ,
@@ -104,7 +104,7 @@ C-----------------------------------------------
       BULK=ZERO
       ISRATE = 0
       IS_ENCRYPTED = .FALSE.
-      IS_AVAILABLE = .FALSE.      
+      IS_AVAILABLE = .FALSE.
 !---
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
@@ -119,7 +119,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_HARD'       ,CN       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS'        ,EPSM     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SIG'        ,SIGM     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_PC'         ,PMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('MAT_SRC'        ,CC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -140,47 +140,47 @@ C-----------------------------------------------
       ELSE
         EOS_EMBEDDED=.TRUE.
       ENDIF
-        
-        !----------------------------------------------------                                                          
-        !CHECK IF OLD CARD FORMAT 100 IS USED (OBSOLETE)                                                               
-        ! MAKES IT  COMPATIBLE + WARNING                                                                               
-        !----------------------------------------------------                                                          
-      IF(EOS_EMBEDDED)THEN                                                                          
-        IF(INVERS_INIT>=140) THEN                                                                 
-          CALL ANCMSG(MSGID=1072,                                                                   
-     .                MSGTYPE=MSGERROR,                                                             
-     .                ANMODE=ANINFO,                                                                
-     .                I1 = MAT_ID,                                                                  
-     .                C1 = TITR)                                                                    
-          RETURN                                                                                    
-        ENDIF                                                                                       
-        CALL HM_GET_FLOATV('MAT_C0'       ,C0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_C1'       ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_C2'       ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_C3'       ,C3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_C4'       ,C4       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)               
-        BULK  = C1                                                                                  
-        PM(23)= E0                                                                                  
-        PM(31)= C0-PSH                                                                              
-        PM(32)= C1                                                                                  
-        PM(33)= C2                                                                                  
-        PM(34)= C3                                                                                  
-        PM(35)= C4                                                                                  
-        PM(36)= C5                                                                                  
-        PM(88)= PSH                                                                                 
-        IEOS = 1 ! POLYNOMIAL EOS    
+
+        !----------------------------------------------------
+        !CHECK IF OLD CARD FORMAT 100 IS USED (OBSOLETE)
+        ! MAKES IT  COMPATIBLE + WARNING
+        !----------------------------------------------------
+      IF(EOS_EMBEDDED)THEN
+        IF(INVERS_INIT>=140) THEN
+          CALL ANCMSG(MSGID=1072,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1 = MAT_ID,
+     .                C1 = TITR)
+          RETURN
+        ENDIF
+        CALL HM_GET_FLOATV('MAT_C0'       ,C0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_C1'       ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_C2'       ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_C3'       ,C3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_C4'       ,C4       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_C5'       ,C5       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_E0'       ,E0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_PSH'      ,PSH      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        BULK  = C1
+        PM(23)= E0
+        PM(31)= C0-PSH
+        PM(32)= C1
+        PM(33)= C2
+        PM(34)= C3
+        PM(35)= C4
+        PM(36)= C5
+        PM(88)= PSH
+        IEOS = 1 ! POLYNOMIAL EOS
         IPM(4) = IEOS
-       ENDIF                                                                                        
-     
+       ENDIF
+
       IF (PMIN==ZERO) PMIN=-EP20
       IF (RHOR==ZERO) RHOR=RHO0
       PM(1) = RHOR
-      PM(89)= RHO0      
- 
-   
+      PM(89)= RHO0
+
+
       IF(CS == ZERO.AND.TMELT == ZERO)THEN
          CALL ANCMSG(MSGID=593,
      .               MSGTYPE=MSGWARNING,
@@ -230,8 +230,8 @@ C
 CC-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
-      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU) ! TWO*G/(BULK + FOUR_OVER_3*G)       
-      
+      PM(105) =  (ONE -TWO*ANU)/(ONE - ANU) ! TWO*G/(BULK + FOUR_OVER_3*G)
+
       !sizes for element buffer
       MTAG%G_PLA  = 1
       MTAG%G_TEMP = 1
@@ -239,8 +239,8 @@ C     Formulation for solid elements time step computation.
       !
       MTAG%L_PLA  = 1
       MTAG%L_TEMP = 1
-      MTAG%L_EPSD = 1   
-      
+      MTAG%L_EPSD = 1
+
 C--------------------------------
       WRITE(IOUT,1000)
 
@@ -248,18 +248,18 @@ C--------------------------------
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,2001) TITR,MAT_ID,4
-        WRITE(IOUT,2002) RHO0,RHOR           
+        WRITE(IOUT,2002) RHO0,RHOR
         WRITE(IOUT,1300)YOUNG,ANU,G,BULK
         WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM
         WRITE(IOUT,1500)PMIN
         WRITE(IOUT,1600)CC,EPS0,CM,TMELT,TMAX,CS,T0
       ENDIF
-      
+
       !--------------------------------------------------!
       ! OLD FORMAT 100 (OBSOLETE)                        !
       !--------------------------------------------------!
       IF(EOS_EMBEDDED)THEN                               !
-        WRITE(IOUT,2000)                                 !      
+        WRITE(IOUT,2000)                                 !
         IF(IS_ENCRYPTED)THEN                              !
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     !
         ELSE                                             !
@@ -303,8 +303,8 @@ C
      & 5X,'ROOM TEMPERATURE . . . . . . . . . . . =',1PG20.13//)
  2000 FORMAT(
      & 5X,'  POLYNOMIAL EOS                       ',/,
-     & 5X,'  --------------                       ',/,   
-     & 5X,'    INPUT 100 IS OBSOLETE              ',/,         
+     & 5X,'  --------------                       ',/,
+     & 5X,'    INPUT 100 IS OBSOLETE              ',/,
      & 5X,'    IT CAN BE ERASED BY /EOS CARD      ',/)
  2001 FORMAT(/
      & 5X,A,/,
@@ -322,7 +322,7 @@ C
      & 5X,'C5. . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'INITIAL INTERNAL ENERGY PER UNIT VOLUME .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)     
+     & 5X,'PRESSURE SHIFT. . . . . . . . . . . . . .=',1PG20.13//)
  999  CALL FREERR(3)
       RETURN
       END

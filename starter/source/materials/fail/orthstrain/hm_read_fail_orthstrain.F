@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::MAXUPARAM,MAXFUNC,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDAM,ISOLID,FT1,FT2,FT12,FC1,FC2,FC12,STRDEF
-      my_real 
+      my_real
      .    EPSPREF,ET1,ET2,ET12,EC1,EC2,EC12,ET3,EC3,EC23,ET23,EC31,ET31,
      .    ET1M,ET2M,ET12M,EC1M,EC2M,EC12M,ET3M,EC3M,EC23M,ET23M,EC31M,ET31M,
      .    FAC_M,FAC_L,FAC_T,FAC_E,PTHK,ALPHA,FSCALE_SIZ,REF_SIZ,
@@ -163,7 +163,7 @@ c
       CALL HM_GET_FLOATV         ('Epsilon_31cm'     ,EC31M         ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('Fct_ID_31c'       ,IFUNC(12)     ,IS_AVAILABLE,LSUBMODEL)
 !
-        !units 
+        !units
       CALL HM_GET_FLOATV_DIM('Epsilon_Dot_ref'      ,EPSPREF_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF (EPSPREF == ZERO) EPSPREF = ONE*EPSPREF_UNIT
 !
@@ -202,9 +202,9 @@ c-----------------------------------------------------
       IF (IDAM == 0) IDAM = 1 ! => linear damage, default value for shells
 c                    IDAM = 2   => linear stress softening, the only choice for solids
 c-----------------------------------------------------
-      UPARAM(1)  = IDAM    
+      UPARAM(1)  = IDAM
       UPARAM(2)  = PTHK
-      UPARAM(3)  = ISOLID   ! not used 
+      UPARAM(3)  = ISOLID   ! not used
 C
       UPARAM(4)   = ET1
       UPARAM(5)   = ET1M
@@ -259,12 +259,12 @@ c-----------------------------------------------------
      & 5X,'FAILURE MODEL ID. . . . . . . . . . . . =',I10/,
      & 5X,'PTHK (SHELLS) . . . . . . . . . . . . . =',E12.4/,
      & 5X,'FAILURE STRAIN INPUT TYPE (STRDEF). . . =',I10/
-     & 5X,' =1 (STRAIN MEASURE DEFINED IN PROPERTY) ',/                
-     & 5X,' =2 (ENGINEERING STRAIN) . . . . . . . . ',/                
-     & 5X,' =3 (TRUE STRAIN). . . . . . . . . . . . ',/                 
+     & 5X,' =1 (STRAIN MEASURE DEFINED IN PROPERTY) ',/
+     & 5X,' =2 (ENGINEERING STRAIN) . . . . . . . . ',/
+     & 5X,' =3 (TRUE STRAIN). . . . . . . . . . . . ',/
      & 5X,'REFERENCE STRAIN RATE . . . . . . . . . =',E12.4/,
      & 5X,'STRAIN RATE FILTERING FREQUENCY . . . . =',E12.4/,
-     & 5X,'ELEMENT SIZE FACTOR FUNCTION. . . . . . =',I10/, 
+     & 5X,'ELEMENT SIZE FACTOR FUNCTION. . . . . . =',I10/,
      & 5X,'SCALE FACTOR OF ELEMENT SIZE FUNCTION . =',E12.4/,
      & 5X,'REFERENCE ELEMENT SIZE. . . . . . . . . =',E12.4/,
      & 5X,'FAILURE STRAIN TENSION 1  . . . . . . . =',E12.4/,
@@ -304,6 +304,6 @@ c-----------------------------------------------------
      & 5X,'MAXIMUM STRAIN SHEAR COMPRESSION 31 . . =',E12.4/,
      & 5X,'STRAIN RATE FUNCTION SHEAR COMPRESSION 31=',I10/,
      & 5X,' -----------------------------------              ')
-c----------- 
+c-----------
       RETURN
       END

@@ -55,7 +55,7 @@ Chd|====================================================================
      6                  NSIGI      ,NSIGBEAM     ,NSIGTRUSS    ,
      7                  SIGI       ,SIGSH        ,SIGSP        ,SIGSPH       ,SIGRS     ,
      8                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB ,
-     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     , 
+     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     ,
      A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*) ,IXC(NIXC,*),
      .   IGEO(NPROPGI,*) , IXT(NIXT,*) ,IXP(NIXP,*), IXR(NIXR,*),
      .   IXTG(NIXTG,*)   , INDEX(*)    ,ITRI(*)    ,IPM(NPROPMI,*),
@@ -155,8 +155,8 @@ C-----------------------------------------------
      . KSYSUSRQ,INDEXQ,ITRIQ
 
       CHARACTER KEY2*ncharkey,KEY3*ncharkey
-      CHARACTER*nchartitle,TITR,TITR1  
-      CHARACTER*15,KEYWORD 
+      CHARACTER*nchartitle,TITR,TITR1
+      CHARACTER*15,KEYWORD
 C-----------------------------------------------
       EXTERNAL UEL2SYS
       INTEGER  UEL2SYS
@@ -215,7 +215,7 @@ C-----------------------------------------
 !
       IF ( NB_INIBRI > 0 ) THEN
 !
-        ! Start reading /INIBRI card 
+        ! Start reading /INIBRI card
         CALL HM_OPTION_START('/INIBRI')
         ISTRSF=0
 		ISTRSFG=0
@@ -242,7 +242,7 @@ C---------
             CASE ( 'STRA_F' )
 		      ISTRAF=1
           END SELECT ! SELECT CASE(KEY)
-        END DO 
+        END DO
         IF (ISTRSFG>0.AND.ISTRSF>0) THEN
            CALL ANCMSG(MSGID=2044,ANMODE=ANINFO,MSGTYPE=MSGWARNING)
         END IF
@@ -250,7 +250,7 @@ C---------
            CALL ANCMSG(MSGID=2045,ANMODE=ANINFO,MSGTYPE=MSGWARNING)
         END IF
       END IF !( NB_INIBRI > 0 ) THEN
-	  
+	
       BRIGLOB = 0
       NIBRICK = 0
       I = 0
@@ -258,7 +258,7 @@ C---------
 !
       IF ( NB_INIBRI > 0 ) THEN
 !
-        ! Start reading /INIBRI card 
+        ! Start reading /INIBRI card
         CALL HM_OPTION_START('/INIBRI')
 !---
 ! to be replaced by ---  MAP_TABLES%ISOLM ---
@@ -285,7 +285,7 @@ C---------
 !
           IFLAGUNIT = 0
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF
@@ -394,7 +394,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSRS,NUMELS)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -430,8 +430,8 @@ C---------
      .                          I2=IPM(1,IXS(10,IE)),
      .                         C3='/INIBRI/AUX')
                   ENDIF
-                  IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and. 
-     .                 NUVARD00 < NUVAR) .or. 
+                  IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and.
+     .                 NUVARD00 < NUVAR) .or.
      .                (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. NUVARD00 < NUVAR)) THEN
                     CALL ANCMSG(MSGID=695,
      .                          MSGTYPE=MSGERROR,
@@ -454,7 +454,7 @@ C---------
                       SIGSP(IIS + K,I) = TMPVAL(L)
                     ENDDO ! DO K=1,NUVAR
                   ENDDO ! DO JJ=1,NUM_LINES
-                ENDIF ! IF (IE == 0) THEN 
+                ENDIF ! IF (IE == 0) THEN
               ENDDO ! DO J=1,NB_ELEMENTS
 C---------
             CASE ( 'STRS_FGLO' )
@@ -496,14 +496,14 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSRS,NUMELS)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
      .                                   I2=ID_ELEM,
      .                                   C1='/INIBRI/STRS_FGLO',
      .                                   C2='SOLID')
-                ELSEIF (STRSGLOB(IE) >= 0) THEN   
+                ELSEIF (STRSGLOB(IE) >= 0) THEN
 ! ---     treated already				
                 ELSE
 !
@@ -519,7 +519,7 @@ C---------
      2              NPT            ,NLAY          ,ISOLNOD       ,JJHBE         ,IGTYP         ,
      3              ISROT          ,KEYWORD )
 !---------not have to distinquate 2 groupes, can be cleaned later
-                  IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24) 
+                  IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24)
      .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)
      .            .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
 !           -----------First Group of solids : 4 lines to be read-----------------
@@ -832,7 +832,7 @@ C---------
      1                  IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
      2                  NPT            ,NLAY          ,ISOLNOD       ,JJHBE         ,IGTYP         ,
      3                  ISROT          ,KEYWORD )				
-                    IF (STRSGLOB(IE) >= 0) CYCLE  
+                    IF (STRSGLOB(IE) >= 0) CYCLE
                     IF (BRIGLOB == 1) STRSGLOB(IE)=1
                     I = I+1
                     ID_SOLID_SIGI(I) = IXS(11,IE)
@@ -883,14 +883,14 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSRS,NUMELS)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
      .                                   I2=ID_ELEM,
      .                                   C1='/INIBRI/STRS_F',
      .                                   C2='SOLID')
-                ELSEIF (STRSGLOB(IE) >= 0) THEN   
+                ELSEIF (STRSGLOB(IE) >= 0) THEN
 ! ---     treated already				
                 ELSE
 !
@@ -905,7 +905,7 @@ C---------
      3              ISROT          ,KEYWORD )
 !
                   STRSGLOB(IE) = 0
-                  IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24) 
+                  IF ( (ISOLNOD == 8 .AND. (JJHBE==1.OR.JJHBE==2.OR.JJHBE==12.OR.JJHBE==24)
      .            .AND. IGTYP /= 43) .OR.(ISOLNOD == 4 .AND. ISROT == 0)
      .            .OR.(ISOLNOD == 4 .AND. ISROT == 3)) THEN
 !           -----------First Group of solids : 4 lines to be read-----------------
@@ -1142,7 +1142,7 @@ C---------
 !
 !
                         KK = 0
-! 
+!
                         DO JR=1,NPTR
                           DO JS=1,NPTS
                             DO JT=1,NPTT
@@ -1223,7 +1223,7 @@ C---------
      2                  NPT            ,NLAY          ,ISOLNOD       ,JJHBE         ,IGTYP         ,
      3                  ISROT          ,KEYWORD )				
 !!                    IF (BRIGLOB == 1) STRSGLOB(IE)=1
-                    IF (STRSGLOB(IE) >= 0) CYCLE  
+                    IF (STRSGLOB(IE) >= 0) CYCLE
                     STRSGLOB(IE)=0
                     I = I+1
                     ID_SOLID_SIGI(I) = IXS(11,IE)
@@ -1269,14 +1269,14 @@ C         STRAGLOB(IE)=0 -> strain read in element system
 C         STRAGLOB(IE)=1 -> strain read in global reference system
 C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
      .                                   I2=ID_ELEM,
      .                                   C1='/INIBRI/STRA_F',
      .                                   C2='SOLID')
-                ELSEIF (STRAGLOB(IE)>=0) THEN        
+                ELSEIF (STRAGLOB(IE)>=0) THEN
                 ELSE
                   CALL LEC_INISTATE_D00_BRICK_CHECK (
      1                 IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
@@ -1463,14 +1463,14 @@ C         STRAGLOB(IE)=1 -> strain read in global reference system
 C         STRAGLOB(IE)=10-> reference configuration /INIBRI/EREF
 !
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
      .                                   I2=ID_ELEM,
      .                                   C1='/INIBRI/STRA_FGLO',
      .                                   C2='SOLID')
-                ELSEIF (STRAGLOB(IE)>=0) THEN        
+                ELSEIF (STRAGLOB(IE)>=0) THEN
                 ELSE
                   CALL LEC_INISTATE_D00_BRICK_CHECK (
      1                 IXS            ,IGEO          ,ITRIS         ,ISOLNODD00    ,IE            ,
@@ -1671,7 +1671,7 @@ C---------
                 ENDIF
                 ID_SOLID_SIGI(I)  = ID_ELEM
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -1682,7 +1682,7 @@ C---------
                   IOK = 0
                   DO K=1,5
                     NFAIL(K) = IPM(236+K,IMAT)
-                    IF (IFAIL == NFAIL(K) .AND. 
+                    IF (IFAIL == NFAIL(K) .AND.
      .                IRUPT_TYP == IPM(241+K,IMAT)) THEN
                       IFAIL = K
                       FAIL_INI(IFAIL)=1
@@ -1738,7 +1738,7 @@ C---------
                   IF (NLAY == 0) NLAY = 1
                   SIGI( 7,I)  = ID_ELEM
                   ID_SOLID_SIGI(I)  = ID_ELEM
-                  IIS = NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4 
+                  IIS = NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4
                   SIGSP(IIS + 7,I)  = ID_ELEM
 !
                   SIGSP(IIS +1 , I) = NPTR
@@ -1746,7 +1746,7 @@ C---------
                   SIGSP(IIS +3 , I) = NPTT
                   SIGSP(IIS +4 , I) = NLAY
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -1798,7 +1798,7 @@ C---------
                   IE=UEL2SYS(ID_ELEM,KSYSUSRS,NUMELS)
 !
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -1811,7 +1811,7 @@ C---------
      2                   NPT            ,NLAY          ,ISOLNOD       ,JJHBE         ,IGTYP         ,
      3                   ISROT          ,KEYWORD )
 !
-                    IIS= NVSOLID1  + NVSOLID2 + 4 + NUSOLID 
+                    IIS= NVSOLID1  + NVSOLID2 + 4 + NUSOLID
 !!            IF(KEY2(8:10)=='GLO'.OR.
 !!     .          (IGTYP /= 21 .AND. IGTYP /= 22)) THEN
                     IF (IGTYP /= 21 .AND. IGTYP /= 22) THEN
@@ -1873,7 +1873,7 @@ C---------
                   IE=UEL2SYS(ID_ELEM,KSYSUSRS,NUMELS)
 !
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                   ! Solid was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -1910,7 +1910,7 @@ C---------!!!add check Ismstr
                       S(1) =TMPVAL1(K)
                       S(2) =TMPVAL2(K)
                       S(3) =TMPVAL3(K)
-                      IF(SUB_ID /= 0 .AND.(ISMSTR==1.OR.ISMSTR==11)) 
+                      IF(SUB_ID /= 0 .AND.(ISMSTR==1.OR.ISMSTR==11))
      .                  CALL SUBROTVECT (S(1),S(2),S(3),RTRANS,SUB_ID,LSUBMODEL)
                       SIGSP(IIS+(K-1)*3+1,I) =S(1)
                       SIGSP(IIS+(K-1)*3+2,I) =S(2)
@@ -1926,12 +1926,12 @@ C---------!!!add check Ismstr
                       S(1) =TMPVAL1(K)
                       S(2) =TMPVAL2(K)
                       S(3) =TMPVAL3(K)
-                      IF(SUB_ID /= 0 .AND.(ISMSTR==1.OR.ISMSTR==11)) 
+                      IF(SUB_ID /= 0 .AND.(ISMSTR==1.OR.ISMSTR==11))
      .                  CALL SUBROTVECT (S(1),S(2),S(3),RTRANS,SUB_ID,LSUBMODEL)
                       SIGSP(IIS+(K-1)*3+1,I) =S(1)
                       SIGSP(IIS+(K-1)*3+2,I) =S(2)
                       SIGSP(IIS+(K-1)*3+3,I) =S(3)
-                    ENDDO 
+                    ENDDO
                     STRAGLOB(IE)=10
 !
                   ENDIF ! IF (IE == 0)
@@ -1956,7 +1956,7 @@ C---------
 !
       IF ( NB_INISHE > 0 ) THEN
 !
-        ! Start reading /INISHE card 
+        ! Start reading /INISHE card
         CALL HM_OPTION_START('/INISHE')
 !---
 ! to be replaced by ---  MAP_TABLES%ISH4NM ---
@@ -1987,7 +1987,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
 !
           IFLAGUNIT = 0
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF
@@ -2020,7 +2020,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -2033,9 +2033,9 @@ C---------
                   IG   = IXC(6,IE)
                   IHBE = IGEO(10,IG)
                   IF (IHBE==12 .OR. IHBE==24) THEN
-                    NPGTMP = 4       
-                  ELSE               
-                    NPGTMP = 1       
+                    NPGTMP = 4
+                  ELSE
+                    NPGTMP = 1
                   ENDIF
                   IF (NPGTMP /= NPG) THEN
                     CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IG),LTITR)
@@ -2128,7 +2128,7 @@ C------------------------------------
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -2141,9 +2141,9 @@ C------------------------------------
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
                     IF (IHBE==12 .OR. IHBE==24) THEN
-                      NPGTMP = 4       
-                    ELSE               
-                      NPGTMP = 1       
+                      NPGTMP = 4
+                    ELSE
+                      NPGTMP = 1
                     ENDIF
                     IF (NPGTMP /= NPG) THEN
                       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IG),LTITR)
@@ -2277,7 +2277,7 @@ C------------potision Ti  [-1,1]  'pos_nip'       --->      undocumented FIELD
                         CALL HM_GET_FLOAT_ARRAY('eps_p'   ,TMPVAL7,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('pos_nip' ,TMPVAL8,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
-!                   
+!
                         PT = 22
                         DO N=1,NIP
                           DO K=1,NPG
@@ -2319,7 +2319,7 @@ C------------------------------------
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -2332,9 +2332,9 @@ C------------------------------------
                     IG   = IXC(6,IE)
                     IHBE = IGEO(10,IG)
                     IF (IHBE==12 .OR. IHBE==24) THEN
-                      NPGTMP = 4       
-                    ELSE               
-                      NPGTMP = 1       
+                      NPGTMP = 4
+                    ELSE
+                      NPGTMP = 1
                     ENDIF
                     IF (NPGTMP /= NPG) THEN
                       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IG),LTITR)
@@ -2392,7 +2392,7 @@ C------------------------------------
                         CALL HM_GET_FLOAT_ARRAY('sigma_23',TMPVAL4,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('sigma_31',TMPVAL5,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('eps_p'   ,TMPVAL6,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-! 
+!
 !
                         INISHVAR = 22 + NIP*6
                         DO N=1,NIP
@@ -2447,7 +2447,7 @@ C------------------------------------
                         CALL HM_GET_FLOAT_ARRAY('sigma_23',TMPVAL4,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('sigma_31',TMPVAL5,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('eps_p'   ,TMPVAL6,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-!                   
+!
                         PT = 22
                         DO N=1,NIP
                           DO K=1,NPG
@@ -2491,7 +2491,7 @@ C-------global sys with diff format
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -2562,7 +2562,7 @@ C                     CALL ANCERR(58,ANINFO_BLIND_2)
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -2649,7 +2649,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELC)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -2907,7 +2907,7 @@ c---
                         IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)
      .                       MLAWLY = NINT(PM(19,IGEO(IPMAT+JJ,IG)))
                         IF (IGTYP == 16 .OR.
-     .                     (IGTYP == 51  .AND. MLAWLY == 58) .OR. 
+     .                     (IGTYP == 51  .AND. MLAWLY == 58) .OR.
      .                     (IGTYP == 52  .AND. MLAWLY == 58) ) THEN
 !
                           ANGLE2 = ANGLE2 + ANGLE1
@@ -3017,8 +3017,8 @@ C----------
      .                            I2=IPM(1,IMAT),
      .                            C3='/INISHE/AUX')
                     ENDIF
-                    IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and. 
-     .                   NUVARD00 < NUVAR) .or.  
+                    IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and.
+     .                   NUVARD00 < NUVAR) .or.
      .                  (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. NUVARD00 < NUVAR)) THEN
                       CALL ANCMSG(MSGID=695,
      .                            MSGTYPE=MSGERROR,
@@ -3139,7 +3139,7 @@ C----------
                     IOK = 0
                     DO K=1,5
                       NFAIL(K) = IPM(236+K,IMAT)
-                      IF (IFAIL == NFAIL(K) .AND. 
+                      IF (IFAIL == NFAIL(K) .AND.
      .                    IRUPT_TYP == IPM(241+K,IMAT)) THEN
                         IFAIL = K
                         FAIL_INI(IFAIL)=1
@@ -3196,7 +3196,7 @@ C---------
 !
       IF ( NB_INISH3 > 0 ) THEN
 !
-        ! Start reading /INISH3 card 
+        ! Start reading /INISH3 card
         CALL HM_OPTION_START('/INISH3')
 !---
 ! to be replaced by ---  MAP_TABLES%ISH3NM ---
@@ -3228,7 +3228,7 @@ C         tri des elts du D00 par ID croissant (on ne trie qu'une fois)
 !          WRITE(iout,*) 'MIRC',KEY(1:LEN_TRIM(KEY))
 !
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF
@@ -3261,7 +3261,7 @@ C---------
 !
                 IE = UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -3270,7 +3270,7 @@ C---------
      .                                   C2='SH3N')
                 ELSE
 !
-                  I = I + 1 
+                  I = I + 1
 !
                   ID_SIGSH(I) = ID_ELEM
                   SIGSH(1,I) = ID_ELEM
@@ -3357,7 +3357,7 @@ C------------------------------------
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -3473,7 +3473,7 @@ C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
                           SIGSH(PT+11,I) = TMPVAL12(K)
                           SIGSH(PT+12,I) = TMPVAL13(K)
 !                          SIGSH(PT:PT+11,I) = SIGSH(PT:PT+11,I)
-!                          SIGSH(PT+12,I) = SIGSH(PT+12,I) 
+!                          SIGSH(PT+12,I) = SIGSH(PT+12,I)
                         ENDDO ! DO K=1,NPG
 !
                       ELSE  ! NIP > 0
@@ -3488,7 +3488,7 @@ C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
                         CALL HM_GET_FLOAT_ARRAY('eps_p'   ,TMPVAL7,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('pos_nip' ,TMPVAL8,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C------------potision Ti  [-1,1]   'pos_nip'      --->      undocumented FIELD
-!                    
+!
                         PT = 22
                         DO N=1,NIP
                           DO K=1,NPG
@@ -3536,7 +3536,7 @@ C---------
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -3645,7 +3645,7 @@ C---------
                         CALL HM_GET_FLOAT_ARRAY('sigma_23'  ,TMPVAL4,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('sigma_31'  ,TMPVAL5,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
                         CALL HM_GET_FLOAT_ARRAY('eps_p'     ,TMPVAL6,SIZE,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-!                   
+!
                         PT = 22
                         DO N=1,NIP
                           DO K=1,NPG
@@ -3690,7 +3690,7 @@ C-------global sys with diff format
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -3753,7 +3753,7 @@ C----
 !
                   IE=UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
-                  IF (IE == 0) THEN        
+                  IF (IE == 0) THEN
                     ! Shell was not found. Issue a Warning & Skip.
                     CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGWARNING,
@@ -3834,7 +3834,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSRTG,NUMELTG)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -4091,7 +4091,7 @@ c---
                         IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52)
      .                       MLAWLY = NINT(PM(19,IGEO(IPMAT+JJ,IG)))
                         IF (IGTYP == 16 .OR.
-     .                     (IGTYP == 51  .AND. MLAWLY == 58) .OR. 
+     .                     (IGTYP == 51  .AND. MLAWLY == 58) .OR.
      .                     (IGTYP == 52  .AND. MLAWLY == 58) ) THEN
 !
                           ANGLE2 = ANGLE2 + ANGLE1
@@ -4201,7 +4201,7 @@ C----------
      .                            I2=IPM(1,IMAT),
      .                            C3='/INISH3/AUX')
                     ENDIF
-                    IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and. 
+                    IF ((ILAW == 36 .and. (NUVAR < 4 .or. NUVARD00 > 3) .and.
      .                   NUVARD00 < NUVAR) .or.
      .                  (ILAW /= 36 .and. ILAW /= 78 .and. ILAW /= 87 .and. NUVARD00 < NUVAR)) THEN
                       CALL ANCMSG(MSGID=695,
@@ -4318,7 +4318,7 @@ C----------
                     IOK = 0
                     DO K=1,5
                       NFAIL(K) = IPM(236+K,IMAT)
-                      IF (IFAIL == NFAIL(K) .AND. 
+                      IF (IFAIL == NFAIL(K) .AND.
      .                    IRUPT_TYP == IPM(241+K,IMAT)) THEN
                         IFAIL = K
                         FAIL_INI(IFAIL)=1
@@ -4374,7 +4374,7 @@ C----------
 !
       IF ( NB_INITRUSS > 0 ) THEN
 !
-        ! Start reading /INITRUSS card 
+        ! Start reading /INITRUSS card
         CALL HM_OPTION_START('/INITRUSS')
 !---
 ! to be replaced by ---  MAP_TABLES%ITRUSSM ---
@@ -4402,7 +4402,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
 !
           IFLAGUNIT = 0
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF
@@ -4431,7 +4431,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELT)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -4479,7 +4479,7 @@ C---------
 !
       IF ( NB_INIBEAM > 0 ) THEN
 !
-        ! Start reading /INIBEAM card 
+        ! Start reading /INIBEAM card
         CALL HM_OPTION_START('/INIBEAM')
 !---
 ! to be replaced by ---  MAP_TABLES%IBEAMM ---
@@ -4507,7 +4507,7 @@ C---------
 !
           IFLAGUNIT = 0
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF
@@ -4537,7 +4537,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELP)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -4619,7 +4619,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELP)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -4687,7 +4687,7 @@ C---------
 !
       IF ( NB_INISPRI > 0 ) THEN
 !
-        ! Start reading /INISPRI card 
+        ! Start reading /INISPRI card
         CALL HM_OPTION_START('/INISPRI')
 !---
 ! to be replaced by ---  MAP_TABLES%ISPRINGM ---
@@ -4715,7 +4715,7 @@ C tri local des elts du D00 par ID croissant (on ne trie qu'une fois)
 !
           IFLAGUNIT = 0
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF
@@ -4745,7 +4745,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELR)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -4890,7 +4890,7 @@ C------!
 !
       IF ( NB_INIQUA > 0 ) THEN
 !
-        ! Start reading /INIQUA card 
+        ! Start reading /INIQUA card
         CALL HM_OPTION_START('/INIQUA')
 !---
 ! to be replaced by ---  MAP_TABLES%IQUADM ---
@@ -4918,7 +4918,7 @@ C             tri des elts du D00 par ID croissant (on ne trie qu'une fois)
 !
            IFLAGUNIT = 0
            DO IUNIT=1,NUNITS
-             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+             IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
                IFLAGUNIT = 1
                EXIT
              ENDIF
@@ -4947,7 +4947,7 @@ C---------
 !!                IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELQ)
                 IE=UEL2SYS(ID_ELEM,KSYSUSRQ,NUMELQ)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -4977,7 +4977,7 @@ C---------
 !!                IE=UEL2SYS(ID_ELEM,KSYSUSR,NUMELQ)
                 IE=UEL2SYS(ID_ELEM,KSYSUSRQ,NUMELQ)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -5006,7 +5006,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSRQ,NUMELQ)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,
@@ -5036,7 +5036,7 @@ C---------
 !
                 IE=UEL2SYS(ID_ELEM,KSYSUSRQ,NUMELQ)
 !
-                IF (IE == 0) THEN        
+                IF (IE == 0) THEN
                   ! Shell was not found. Issue a Warning & Skip.
                   CALL ANCMSG(MSGID=2034,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGWARNING,

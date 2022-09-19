@@ -42,7 +42,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -95,7 +95,7 @@ C     if index is larger than this maximum
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR,ISKN(LISKN,*),IG,IGTYP,IGEO(*)
       CHARACTER TITR*nchartitle
       my_real
@@ -212,13 +212,13 @@ C
           WRITE(IOUT,1003)
         END IF
       ENDIF
-        
+
       IF(MP<=ZERO)THEN
         CALL ANCMSG(MSGID=138,ANMODE=ANINFO,MSGTYPE=MSGWARNING,
      .              C1=TITR,I1=IG)
         MP=ONE
-      ENDIF                      
-        
+      ENDIF
+
       IERROR = SET_U_GEO(1,MP)
       IERROR = SET_U_GEO(2,QA)
       IERROR = SET_U_GEO(3,QB)
@@ -233,7 +233,7 @@ C
       GEO(15)=QB
       IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
         IGEO(33) = 1   ! ISVIS flag
-      ENDIF         
+      ENDIF
 C
       PROP_TAG(IGTYP)%G_SIG  = 6
       PROP_TAG(IGTYP)%G_VOL  = 1

@@ -32,9 +32,9 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE QVOLI2(VOLU,IXQ, 
-     .     NGL, AIRE, 
-     .     Y1, Y2, Y3, Y4, 
+      SUBROUTINE QVOLI2(VOLU,IXQ,
+     .     NGL, AIRE,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
       USE MESSAGE_MOD
 C
@@ -62,7 +62,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXQ(NIXQ,*), NGL(*)
       my_real
-     .   VOLU(*), AIRE(*), 
+     .   VOLU(*), AIRE(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*)
 C-----------------------------------------------

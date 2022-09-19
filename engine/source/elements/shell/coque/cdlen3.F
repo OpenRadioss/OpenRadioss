@@ -27,8 +27,8 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CDLEN3(JFT,JLT ,PM  ,OFF,AREA, 
-     2                  X2 ,X3  ,X4  ,Y2 ,Y3  ,  
+      SUBROUTINE CDLEN3(JFT,JLT ,PM  ,OFF,AREA,
+     2                  X2 ,X3  ,X4  ,Y2 ,Y3  ,
      3                  Y4 ,ALDT,MAT,GEO ,PID ,
      4                  IHBE)
 C  _clean     3                  Y4 ,ALDT,MAT,GEO ,PID)

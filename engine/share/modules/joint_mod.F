@@ -36,7 +36,7 @@ Chd|====================================================================
 !$COMMENT
 !       JOINT_MOD description
 !       module for /CYL_JOINT option
-!       
+!
 !       JOINT_MOD organization :
 !       the main /CYL_JOINT structure is CYL_JOINT
 !       the type(comm_mpi_joint) proc structure is used for mpi communication
@@ -45,7 +45,7 @@ Chd|====================================================================
             TYPE COMM_MPI_JOINT
                 INTEGER :: COLOR        ! color of the processor : 1 is the proc participates to the comm
                 INTEGER :: COMM,RANK    ! sub communicator for a given /CYL_JOINT + rank iin the sub communicator
-                INTEGER, DIMENSION(:), ALLOCATABLE :: SIZE_SR   ! 
+                INTEGER, DIMENSION(:), ALLOCATABLE :: SIZE_SR   !
             END TYPE COMM_MPI_JOINT
 
             TYPE JOINT_TYPE
@@ -63,7 +63,7 @@ Chd|====================================================================
             TYPE(joint_type), DIMENSION(:), ALLOCATABLE :: CYL_JOIN
             LOGICAL :: JOINT_SMS
 
-            my_real, SAVE :: MASSE_GLOBAL,INER_GLOBAL 
+            my_real, SAVE :: MASSE_GLOBAL,INER_GLOBAL
             my_real, SAVE :: AX_GLOBAL,AY_GLOBAL,AZ_GLOBAL
             my_real, SAVE :: AXX_GLOBAL,AYY_GLOBAL,AZZ_GLOBAL
             my_real, SAVE :: VX_GLOBAL,VY_GLOBAL,VZ_GLOBAL

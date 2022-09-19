@@ -81,29 +81,29 @@ C Boucle parallele dynamique SMP
           OFF   = IPARG(8,NG)
           IXFEM = IPARG(54,NG) * IPARG(70,NG)  ! IXFEM * ACTIVEXFEM
           IF (OFF == 0 .and. IXFEM > 0) THEN
-            IF (IDDW > 0) CALL STARTIMEG(NG)                                    
+            IF (IDDW > 0) CALL STARTIMEG(NG)
 C---
-            ITY   = IPARG(5,NG)                                                 
-            NEL   = IPARG(2,NG)                                                 
-            NFT   = IPARG(3,NG)                                                 
-            NXLAY = IPARG(59,NG)                                                
-            LFT   = 1                                                           
-            LLT   = MIN(NVSIZ,NEL)                                              
-            JFT = LFT                                                           
-            JLT = LLT                                                           
+            ITY   = IPARG(5,NG)
+            NEL   = IPARG(2,NG)
+            NFT   = IPARG(3,NG)
+            NXLAY = IPARG(59,NG)
+            LFT   = 1
+            LLT   = MIN(NVSIZ,NEL)
+            JFT = LFT
+            JLT = LLT
 C---
-            IF (ITY == 3) THEN                                                
-              CALL CRK_TAGXP4(IPARG  ,IXC     ,NFT    ,JFT     ,JLT   ,       
-     .                        ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,ENRTAG,         
-     .                        NXLAY  ,CRKEDGE ,XEDGE4N,ITAB    )                        
-            ELSEIF (ITY == 7) THEN                                            
-              CALL CRK_TAGXP3(                                                
-     .          IPARG         ,IXTG          ,NFT          ,JFT     ,JLT   ,  
-     .          ELCUTC(1,ITG1),IADC_CRK(ITG2),IEL_CRK(ITG1),INOD_CRK,ENRTAG,  
-     .          NXLAY         ,CRKEDGE       ,XEDGE3N      ,ITAB    )                  
-            ENDIF                                                             
+            IF (ITY == 3) THEN
+              CALL CRK_TAGXP4(IPARG  ,IXC     ,NFT    ,JFT     ,JLT   ,
+     .                        ELCUTC ,IADC_CRK,IEL_CRK,INOD_CRK,ENRTAG,
+     .                        NXLAY  ,CRKEDGE ,XEDGE4N,ITAB    )
+            ELSEIF (ITY == 7) THEN
+              CALL CRK_TAGXP3(
+     .          IPARG         ,IXTG          ,NFT          ,JFT     ,JLT   ,
+     .          ELCUTC(1,ITG1),IADC_CRK(ITG2),IEL_CRK(ITG1),INOD_CRK,ENRTAG,
+     .          NXLAY         ,CRKEDGE       ,XEDGE3N      ,ITAB    )
+            ENDIF
 C---
-            IF (IDDW > 0) CALL STOPTIMEG(NG)                                  
+            IF (IDDW > 0) CALL STOPTIMEG(NG)
           ENDIF
         ENDDO
 !$OMP END DO
@@ -120,7 +120,7 @@ C---
             ITY   = IPARG(5,NG)
             NEL   = IPARG(2,NG)
             NFT   = IPARG(3,NG)
-            LFT   = 1 
+            LFT   = 1
             LLT   = MIN(NVSIZ,NEL)
             JFT=LFT
             JLT=LLT
@@ -201,61 +201,61 @@ c--------------------
       DO ILAY=1,NXLAY
         DO IR=1,NELCRK
           I = JCT(IR)
-          ELCRK  = IEL_CRK(I+NFT)                       
+          ELCRK  = IEL_CRK(I+NFT)
           ELCUT  = XFEM_PHANTOM(ILAY)%ELCUT(ELCRK)
-          LAYCUT = ABS(CRKEDGE(ILAY)%LAYCUT(ELCRK))        
+          LAYCUT = ABS(CRKEDGE(ILAY)%LAYCUT(ELCRK))
           IF (ELCUT /= 0 .and. LAYCUT == 1) THEN  !  new advancing crack
-            ITRI    = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)    
-            NS(1)   = IXC(2,I+NFT)       
-            NS(2)   = IXC(3,I+NFT)       
-            NS(3)   = IXC(4,I+NFT)       
-            NS(4)   = IXC(5,I+NFT)       
-            IADC(1) = IADC_CRK(1,ELCRK)  
-            IADC(2) = IADC_CRK(2,ELCRK)  
-            IADC(3) = IADC_CRK(3,ELCRK)  
+            ITRI    = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)
+            NS(1)   = IXC(2,I+NFT)
+            NS(2)   = IXC(3,I+NFT)
+            NS(3)   = IXC(4,I+NFT)
+            NS(4)   = IXC(5,I+NFT)
+            IADC(1) = IADC_CRK(1,ELCRK)
+            IADC(2) = IADC_CRK(2,ELCRK)
+            IADC(3) = IADC_CRK(3,ELCRK)
             IADC(4) = IADC_CRK(4,ELCRK)
             ISEND_NSX = 0
             ISEND_IAD = 0
 c           Tag phantom nodes with new positive enrichment to copy the velocities
             IF (ITRI /= 0) THEN
-              IXEL = 3 
-              ILEV = NXEL*(ILAY-1) + IXEL 
+              IXEL = 3
+              ILEV = NXEL*(ILAY-1) + IXEL
               ! sender = third phantom
-              DO K=1,4                                                            
-                IAD  = IADC(K)                                                     
-                ENR0 = CRKLVSET(ILEV)%ENR0(2,IAD)                         
-                ENR  = CRKLVSET(ILEV)%ENR0(1,IAD)                         
-                EDGE = XEDGE4N(K,ELCRK) ! global egdge N                  
-                IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)                
-                NSX = INOD_CRK(NS(K))                                     
-                IF (ENR > 0 .and. IBOUNDEDGE /= 2) THEN                   
-                  XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,ENR) = IAD                                           
-                  XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,ENR) = ILEV              
+              DO K=1,4
+                IAD  = IADC(K)
+                ENR0 = CRKLVSET(ILEV)%ENR0(2,IAD)
+                ENR  = CRKLVSET(ILEV)%ENR0(1,IAD)
+                EDGE = XEDGE4N(K,ELCRK) ! global egdge N
+                IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
+                NSX = INOD_CRK(NS(K))
+                IF (ENR > 0 .and. IBOUNDEDGE /= 2) THEN
+                  XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,ENR) = IAD
+                  XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,ENR) = ILEV
                   XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,ENR) = 2   ! counter
-                  ISEND_NSX = NSX   
-                  ISEND_IAD = IAD   
-                ENDIF                                                                
-              ENDDO         
+                  ISEND_NSX = NSX
+                  ISEND_IAD = IAD
+                ENDIF
+              ENDDO
             ENDIF
 c
             NUMXEL = 2    ! receiver : first or second phantom
             DO IXEL=1,NUMXEL
               ILEV = NXEL*(ILAY-1) + IXEL
-              DO K=1,4                                                          
-                IAD  = IADC(K)                                                   
-                ENR0 = CRKLVSET(ILEV)%ENR0(2,IAD)                         
-                ENR  = ABS(CRKLVSET(ILEV)%ENR0(1,IAD))                    
-                EDGE = XEDGE4N(K,ELCRK) ! global egdge N                  
-                IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)                
-                NSX = INOD_CRK(NS(K)) 
-                IF (ISEND_NSX /= NSX  .and. ISEND_IAD /= IAD) THEN                                  
-                  IF (ENR > 0 .and. IBOUNDEDGE /= 2) THEN                   
-                    XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,ENR) = IAD                                  
-                    XFEM_PHANTOM(ILAY)%TAGXP(5,NSX,ENR) = ILEV                    
-                    XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,ENR) = 2      ! counter        
-                  ENDIF                                                             
-                ENDIF                                                               
-              ENDDO                                                               
+              DO K=1,4
+                IAD  = IADC(K)
+                ENR0 = CRKLVSET(ILEV)%ENR0(2,IAD)
+                ENR  = ABS(CRKLVSET(ILEV)%ENR0(1,IAD))
+                EDGE = XEDGE4N(K,ELCRK) ! global egdge N
+                IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
+                NSX = INOD_CRK(NS(K))
+                IF (ISEND_NSX /= NSX  .and. ISEND_IAD /= IAD) THEN
+                  IF (ENR > 0 .and. IBOUNDEDGE /= 2) THEN
+                    XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,ENR) = IAD
+                    XFEM_PHANTOM(ILAY)%TAGXP(5,NSX,ENR) = ILEV
+                    XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,ENR) = 2      ! counter
+                  ENDIF
+                ENDIF
+              ENDDO
             ENDDO  !  DO IXEL=1,NUMXEL
 C--------------------------------------------------------------------------
           ENDIF    !  IF (ELCUT /= 0 .and. LAYCUT == 1)
@@ -341,35 +341,35 @@ c               new advancing crack
 c               Tag phantom nodes with positive enrichment to copy the velocities
 c---------------------------------------
                 IF (IXEL == 3) THEN         ! sender
-                  DO K=1,3                                                       
-                    IAD  = IADC(K)                                                 
+                  DO K=1,3
+                    IAD  = IADC(K)
                     ENR0 = CRKLVSET(ILEV)%ENR0(2,IAD)
                     ENR  = CRKLVSET(ILEV)%ENR0(1,IAD)
-                    EDGE = XEDGE3N(K,ELCRKTG) ! global egdge N       
+                    EDGE = XEDGE3N(K,ELCRKTG) ! global egdge N
                     IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
                     NSX = INOD_CRK(NS(K))
                     IF (ENR > 0 .and. IBOUNDEDGE /= 2) THEN
-                      XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,ENR) = IAD                                       
-                      XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,ENR) = ILEV 
+                      XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,ENR) = IAD
+                      XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,ENR) = ILEV
                       XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,ENR) = 2   ! counter
-                    ENDIF                                                             
-                  ENDDO                                                               
-                ELSE                        ! receiver                                             
-                  DO K=1,3                                                        
-                    IAD  = IADC(K)                                                 
+                    ENDIF
+                  ENDDO
+                ELSE                        ! receiver
+                  DO K=1,3
+                    IAD  = IADC(K)
                     ENR0 = CRKLVSET(ILEV)%ENR0(2,IAD)
                     ENR  = ABS(CRKLVSET(ILEV)%ENR0(1,IAD))
-                    EDGE = XEDGE3N(K,ELCRKTG) ! global egdge N       
+                    EDGE = XEDGE3N(K,ELCRKTG) ! global egdge N
                     IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
                     NSX = INOD_CRK(NS(K))
                     IF (ENR > 0 .and. IBOUNDEDGE /= 2) THEN
-                      XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,ENR) = IAD                                  
+                      XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,ENR) = IAD
                       XFEM_PHANTOM(ILAY)%TAGXP(5,NSX,ENR) = ILEV
                       XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,ENR) = 2      ! counter
-                    ENDIF                                                             
+                    ENDIF
                   ENDDO
-                ENDIF                                                             
-              ENDIF   ! LAYCUT = 1                                                            
+                ENDIF
+              ENDIF   ! LAYCUT = 1
 C--------------------------------------------------------------------------
             ENDIF  ! IF(ELCUT /= 0)THEN
           ENDDO  !  DO IR=1,NELCRK

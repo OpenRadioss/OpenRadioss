@@ -106,19 +106,19 @@ c
       ELSEIF (IFAIL_SH == 2) THEN
         PTHKF = ONE
       ENDIF
-      NINDX  = 0  
+      NINDX  = 0
 C-----------------------------------------------
       DO I=1,NEL
-        IF (FOFF(I) == 1) THEN                               
-          SS1 = HALF*(SIGNXX(I) + SIGNYY(I))  
-          SS2 = HALF*(SIGNXX(I) - SIGNYY(I))  
-          SS0 = SQRT(SS2**2 + SIGNXY(I)**2)     
-          SIG1 = SS1  + SS0                       
-          SIG2 = SS1  - SS0                       
-          SS = SIG1                               
-          IF (SIG2 > SIG1) THEN                     
-            SIG1 = SIG2                              
-            SIG2  = SS                             
+        IF (FOFF(I) == 1) THEN
+          SS1 = HALF*(SIGNXX(I) + SIGNYY(I))
+          SS2 = HALF*(SIGNXX(I) - SIGNYY(I))
+          SS0 = SQRT(SS2**2 + SIGNXY(I)**2)
+          SIG1 = SS1  + SS0
+          SIG2 = SS1  - SS0
+          SS = SIG1
+          IF (SIG2 > SIG1) THEN
+            SIG1 = SIG2
+            SIG2  = SS
           ENDIF
           P   = THIRD*(SIGNXX(I) + SIGNYY(I))
           SS1 = SS1 - P
@@ -142,20 +142,20 @@ C-----------------------------------------------
           W1 = MAX(EM20,(TWO - A))**BE
           W2 = ONE - P/PC
           W2 = (MAX(EM20,ONE/W2))**AL
-          UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)             
+          UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
           IF (UVAR(I,1) >= DC) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I
             FOFF(I) = 0
             TDEL(I) = TIME
-          ENDIF          
-        ENDIF 
-      ENDDO      
+          ENDIF
+        ENDIF
+      ENDDO
 c
 c---  Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
         DFMAX(I) = MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DC))
-      ENDDO      
+      ENDDO
 c------------------------
       IF (NINDX > 0) THEN
         DO J=1,NINDX
@@ -165,7 +165,7 @@ c------------------------
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c------------------------
  2000 FORMAT(1X,'FAILURE (WILKINS) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

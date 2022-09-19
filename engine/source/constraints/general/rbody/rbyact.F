@@ -163,7 +163,7 @@ C
       CALL SUM_6_FLOAT(1  ,NSL  ,F4, RBF6(4,1), 5)
       CALL SUM_6_FLOAT(1  ,NSL  ,F5, RBF6(5,1), 5)
 
-      
+
       IF(NSPMD>1) THEN
         CALL SPMD_EXCH_FR6(ICOMM,RBF6,5*6)
       ENDIF
@@ -338,7 +338,7 @@ C MATRICE d'inertie -> repere globale
            II8=RBYI(12,NI)*RBYI(8,NI)
            II9=RBYI(12,NI)*RBYI(9,NI)
 C
-           RBY17=RBYI(1,NI)*II1 
+           RBY17=RBYI(1,NI)*II1
            RBY18= ZERO
            RBY19= ZERO
            RBY20= ZERO

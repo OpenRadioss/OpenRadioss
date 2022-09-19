@@ -53,7 +53,7 @@ C-----------------------------------------------
       my_real
      .   VOLN(*),DELTAX(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   N1X(*), N2X(*), N3X(*), N4X(*), N5X(*), N6X(*),
      .   N1Y(*), N2Y(*), N3Y(*), N4Y(*), N5Y(*), N6Y(*),
@@ -84,7 +84,7 @@ C-----------------------------------------------
      .     N1Z, N2Z, N3Z, N4Z, N5Z, N6Z,
      .     X1, X2, X3, X4, X5, X6, X7, X8,
      .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
-     .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,AREAM)     
+     .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,AREAM)
         DO I=LFT,LLT
           DELTAX(I)=TWO*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
         ENDDO
@@ -105,26 +105,26 @@ C-----------------------------------------------
         IF(MTN==5.OR.MTN==41)THEN
           DO I=LFT,LLT
             ATEST(I)=EM4*AREAM(I)
-          ENDDO       
-          DO I=LFT,LLT                            
-            NFAC=0                                
-            IF(AREA(I,1)<ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,2)<ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,3)<ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,4)<ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,5)<ATEST(I)) NFAC=NFAC+1 
-            IF(AREA(I,6)<ATEST(I)) NFAC=NFAC+1 
-            IF(NFAC>=3) XIOFF(I)=EP03           
-          ENDDO                                          
+          ENDDO
+          DO I=LFT,LLT
+            NFAC=0
+            IF(AREA(I,1)<ATEST(I)) NFAC=NFAC+1
+            IF(AREA(I,2)<ATEST(I)) NFAC=NFAC+1
+            IF(AREA(I,3)<ATEST(I)) NFAC=NFAC+1
+            IF(AREA(I,4)<ATEST(I)) NFAC=NFAC+1
+            IF(AREA(I,5)<ATEST(I)) NFAC=NFAC+1
+            IF(AREA(I,6)<ATEST(I)) NFAC=NFAC+1
+            IF(NFAC>=3) XIOFF(I)=EP03
+          ENDDO
        END IF
        DO  I=LFT,LLT
          DELTAX(I)=FOUR*VOLN(I)*XIOFF(I)/SQRT(AREAM(I))
-       ENDDO      
+       ENDDO
       ENDIF
 C-----------------------------------------------      
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  SLDEGE                        source/elements/solid/solide/sdlen3.F
 Chd|-- called by -----------
@@ -151,7 +151,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   AREA(MVSIZ,6),AREAM(*),VOLG(*)
 C-----------------------------------------------
@@ -204,7 +204,7 @@ C----tetra 4  ,pyrami
      .             Z3,Z4,Z8,Z7,AREA(1,5),AREAM,FAC,IDET4,IT,INDX,N_INDX)
         CALL IDEGE(X4,X1,X5,X8,Y4,Y1,Y5,Y8,
      .             Z4,Z1,Z5,Z8,AREA(1,6),AREAM,FAC,IDET4,IT,INDX,N_INDX)
-        
+
 #include      "vectorize.inc"
           DO J=1,N_INDX
                 I = INDX(J)
@@ -339,18 +339,18 @@ C
        CALL NODEDEGE(X2,Y2,Z2,XYZ,NNOD)
        CALL NODEDEGE(X3,Y3,Z3,XYZ,NNOD)
        CALL NODEDEGE(X4,Y4,Z4,XYZ,NNOD)
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X5,Y5,Z5,XYZ,NNOD)	   
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X6,Y6,Z6,XYZ,NNOD)	   
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X7,Y7,Z7,XYZ,NNOD)	   
-       IF (NNOD==4) GOTO 100	   
-       CALL NODEDEGE(X8,Y8,Z8,XYZ,NNOD)	   
+       IF (NNOD==4) GOTO 100	
+       CALL NODEDEGE(X5,Y5,Z5,XYZ,NNOD)	
+       IF (NNOD==4) GOTO 100	
+       CALL NODEDEGE(X6,Y6,Z6,XYZ,NNOD)	
+       IF (NNOD==4) GOTO 100	
+       CALL NODEDEGE(X7,Y7,Z7,XYZ,NNOD)	
+       IF (NNOD==4) GOTO 100	
+       CALL NODEDEGE(X8,Y8,Z8,XYZ,NNOD)	
  100   CONTINUE
        CALL TETRA4V(DET,
-     .   XYZ(1,1), XYZ(1,2), XYZ(1,3), XYZ(1,4), 
-     .   XYZ(2,1), XYZ(2,2), XYZ(2,3), XYZ(2,4), 
+     .   XYZ(1,1), XYZ(1,2), XYZ(1,3), XYZ(1,4),
+     .   XYZ(2,1), XYZ(2,2), XYZ(2,3), XYZ(2,4),
      .   XYZ(3,1), XYZ(3,2), XYZ(3,3), XYZ(3,4))
 C      
       RETURN
@@ -399,7 +399,7 @@ Chd|        DEGES4V                       source/elements/solid/solide/sdlen3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE TETRA4V(DET,
-     .   X1, X2, X3, X4, 
+     .   X1, X2, X3, X4,
      .   Y1, Y2, Y3, Y4,
      .   Z1, Z2, Z3, Z4)
 C-----------------------------------------------
@@ -499,7 +499,7 @@ C-----------------------------------------------
       my_real
      .   VOLG(*),LAT(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -593,9 +593,9 @@ C-----------------------------------------------
        SX = X3+X4-X1-X2
        SY = Y3+Y4-Y1-Y2
        SZ = Z3+Z4-Z1-Z2
-       NX = RY * SZ - RZ * SY 
-       NY = RZ * SX - RX * SZ 
-       NZ = RX * SY - RY * SX 
+       NX = RY * SZ - RZ * SY
+       NY = RZ * SX - RX * SZ
+       NZ = RX * SY - RY * SX
 C--------A: (2*AREA)^2-----       
        A = NX*NX+NY*NY+NZ*NZ
        IDE = 0
@@ -691,7 +691,7 @@ C-----------------------------------------------
         NC(J)=NJ
        END DO
 C------number of degene nodes       
-       IDEGE(I)=IDEGE(I)/2 
+       IDEGE(I)=IDEGE(I)/2
       ENDDO
 C      
       RETURN

@@ -33,7 +33,7 @@ Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_SAHRAEI(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,    
+      SUBROUTINE HM_READ_FAIL_SAHRAEI(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,
      .                                NFUNC    ,IFUNC    ,MAXFUNC  ,FAIL_ID  ,
      .                                MAT_ID   ,LSUBMODEL,UNITAB   ,TITR     )
 C-----------------------------------------------
@@ -59,17 +59,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
       INTEGER MAXUPARAM,NUPARAM,NUVAR,NFUNC,FAIL_ID,
      .        MAT_ID,MAXFUNC,IFUNC(MAXFUNC)
-      my_real UPARAM(MAXUPARAM) 
+      my_real UPARAM(MAXUPARAM)
       CHARACTER TITR*nchartitle
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NUM,DEN,ORDI,COMP_DIR,IDEL
-      my_real 
+      my_real
      .    VOL_STRAIN,MAX_COMP_STRAIN,RATIO,EL_REF,EL_REF_UNIT
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -83,19 +83,19 @@ C-----------------------------------------------
 C-----
 c!#---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
 c!#
-c!# NUMERATOR    =  1  ==> Eps_xx 
-c!# NUMERATOR    =  2  ==> Eps_yy 
-c!# NUMERATOR    =  3  ==> Eps_zz 
+c!# NUMERATOR    =  1  ==> Eps_xx
+c!# NUMERATOR    =  2  ==> Eps_yy
+c!# NUMERATOR    =  3  ==> Eps_zz
 c!# NUMERATOR    =  4  ==> Eps_1   1st. 3d-principal
 c!# NUMERATOR    =  5  ==> Eps_2   2nd. 3d-principal
 c!# NUMERATOR    =  6  ==> Eps_3   3rd. 3d-principal
 c!#
-c!# Denominator  =  1  ==> 2D e1 = x-z - plane 
-c!# Denominator  =  2  ==> 2D e1 = x-y - plane 
-c!# Denominator  =  3  ==> 2D e1 = y-z - plane 
+c!# Denominator  =  1  ==> 2D e1 = x-z - plane
+c!# Denominator  =  2  ==> 2D e1 = x-y - plane
+c!# Denominator  =  3  ==> 2D e1 = y-z - plane
 c!# Denominator  =  4  ==> Eps_1   1st. 3d-principal
-c!# Denominator  =  5  ==> Eps_2   2nd. 3d-principal 
-c!# Denominator  =  6  ==> Eps_3   3rd. 3d-principal 
+c!# Denominator  =  5  ==> Eps_2   2nd. 3d-principal
+c!# Denominator  =  6  ==> Eps_3   3rd. 3d-principal
 c!#
 c!# Ordinate     =  1  ==> MAX(Eps_xx,Eps_yy,Eps_zz)
 c!# Ordinate     =  2  ==> Eps_xx
@@ -114,27 +114,27 @@ c!#
 c!# MAX_COMP_STRAIN = In-plane failure compression strain (not deleting, only damage=1)
 c!# if value is negative, the element will NOT be deleted, only DAMAGE set to 1
 c!# RATIO        = RATIO of the two other failure strains (default = 1.0)
-c!# 
+c!#
 C===================================================================================
 C READING CARD 1
 C===================================================================================
-      CALL HM_GET_INTV   ('Fct_Ratio'      ,IFUNC(1)        ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV   ('NUM'            ,NUM             ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('Fct_Ratio'      ,IFUNC(1)        ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('NUM'            ,NUM             ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('DEN'            ,DEN             ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV   ('ORDI'           ,ORDI            ,IS_AVAILABLE,LSUBMODEL)  
+      CALL HM_GET_INTV   ('ORDI'           ,ORDI            ,IS_AVAILABLE,LSUBMODEL)
       IF (ORDI == 0) ORDI = 1
       CALL HM_GET_FLOATV ('Vol_strain'     ,VOL_STRAIN      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('Fct_Elsize'     ,IFUNC(2)        ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EL_REF'         ,EL_REF          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((EL_REF == ZERO).AND.(IFUNC(2) > 0)) THEN 
+      IF ((EL_REF == ZERO).AND.(IFUNC(2) > 0)) THEN
         CALL HM_GET_FLOATV_DIM('EL_REF' ,EL_REF_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
         EL_REF = ONE*EL_REF_UNIT
-      ENDIF 
+      ENDIF
 C===================================================================================
 C READING CARD 2 
 C===================================================================================    
-      CALL HM_GET_INTV   ('Comp_dir'       ,COMP_DIR        ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV   ('IDEL'           ,IDEL            ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('Comp_dir'       ,COMP_DIR        ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV   ('IDEL'           ,IDEL            ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('Max_Comp_Strain',MAX_COMP_STRAIN ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (MAX_COMP_STRAIN == ZERO) MAX_COMP_STRAIN = INFINITY
       CALL HM_GET_FLOATV ('Ratio'          ,RATIO           ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -171,10 +171,10 @@ C PRINTING OUT DATA
 C===================================================================================
       IF (IS_ENCRYPTED) THEN
         WRITE (IOUT,'(5X,A,//)') 'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
         WRITE (IOUT, 1000) IFUNC(1),VOL_STRAIN
         WRITE (IOUT, 2000) NUM,DEN,ORDI
-        IF (IFUNC(2) > 0) THEN 
+        IF (IFUNC(2) > 0) THEN
           WRITE (IOUT, 3000) IFUNC(2),EL_REF
         ENDIF
         IF (COMP_DIR /= ZERO) THEN

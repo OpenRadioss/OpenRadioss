@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER IERROR, LOC_PROC, MSTOP1, MSTOP2, LEN, myop,
      .        STATUS(MPI_STATUS_SIZE)
       my_real,
-     . DIMENSION(:),ALLOCATABLE :: RBUF, SBUF 
+     . DIMENSION(:),ALLOCATABLE :: RBUF, SBUF
 C interface type 24 comm Addon
       INTEGER NIN,NI,NTY
       INTEGER ::  MY_TYPE
@@ -86,7 +86,7 @@ C-----------------------------------------------
       ALLOCATE(RBUF(LEN))
       ALLOCATE(SBUF(LEN))
       RBUF(1:LEN)=ZERO
-      
+
       MSTOP1=0
       MSTOP2=0
       IF(MSTOP==1)MSTOP1=1
@@ -96,7 +96,7 @@ C
 C
       SBUF(1) = DT2
       SBUF(2) = ITYPTS
-      SBUF(3) = NELTS 
+      SBUF(3) = NELTS
       SBUF(4) = IEXICODT
       SBUF(5) = IMSCH
       SBUF(6) = TSTOP
@@ -104,7 +104,7 @@ C
       SBUF(8) = MSTOP1
       SBUF(9) = MSTOP2
       SBUF(10)= ISMSCH
-      
+
       IF (INT24USE==1)THEN
          DO NI=1,NBINTC
             NIN = INTLIST(NI)
@@ -121,10 +121,10 @@ C
       CALL MPI_TYPE_COMMIT(MY_TYPE,IERROR)
 C
       CALL MPI_OP_CREATE(GLOB_MIN, .TRUE., MYOP, IERROR)
-      
+
       CALL MPI_ALLREDUCE(SBUF, RBUF, 1, MY_TYPE, MYOP,
      &                   MPI_COMM_WORLD, IERROR)
-     
+
       IF (INT24USE==1)THEN
         CALL MPI_ALLREDUCE(SBUF(11), RBUF(11), NBINTC, REAL , MPI_MAX,
      &                   MPI_COMM_WORLD, IERROR)
@@ -162,4 +162,4 @@ C
 C
 #endif
       RETURN
-      END  
+      END

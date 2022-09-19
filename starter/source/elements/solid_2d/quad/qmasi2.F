@@ -28,7 +28,7 @@ Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QMASI2(PM,MAT,MS,VOL,MSQ,WMA,IPART,PARTSAV, 
+      SUBROUTINE QMASI2(PM,MAT,MS,VOL,MSQ,WMA,IPART,PARTSAV,
      .     IX1, IX2, IX3, IX4 ,X ,V)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -112,5 +112,5 @@ C
       ENDDO
 
       RETURN
-      
+
       END

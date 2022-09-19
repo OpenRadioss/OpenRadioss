@@ -49,7 +49,7 @@ C     LSUBMODEL     SUBMODEL STRUCTURE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -91,7 +91,7 @@ C--------------------------------------------------
 C DELETE TYPE19 INTERFACES
 C--------------------------------------------------
       DO I=1,NBINTER19
-        CALL HM_OPTION_START('/INTER/TYPE19') 
+        CALL HM_OPTION_START('/INTER/TYPE19')
         CALL HM_OPTION_NEXT()
         CALL CPP_DELETE_ENTITY()
       ENDDO

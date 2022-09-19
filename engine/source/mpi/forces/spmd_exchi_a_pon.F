@@ -34,7 +34,7 @@ Chd|====================================================================
      3   NBIRCP  ,NBISDP  ,FTHESKYI, FTHESKYIF,CONDNSKYI,
      4   CONDNSKYIF,FSKYIF_PXFEM)
 C
-       USE PLYXFEM_MOD       
+       USE PLYXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C
       DO I = 1, NSPMD
         IF(NBIRCP(I)>0) THEN
           SIZ = (SIZI)*NBIRCP(I)
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           CALL MPI_IRECV(
@@ -291,7 +291,7 @@ C
                    SBUF(L+8) = FSKYIF_PXFEM(2,CC)
                    SBUF(L+9) = FSKYIF_PXFEM(3,CC)
                    SBUF(L+10)= FSKYIF_PXFEM(4,CC)
-                   SBUF(L+11)= FSKYIF_PXFEM(5,CC)                   
+                   SBUF(L+11)= FSKYIF_PXFEM(5,CC)
                    L = L + SIZI
                  END DO
                END IF
@@ -369,7 +369,7 @@ C
               END DO
              ENDIF
             END IF
-           ENDIF ! INTHEAT 
+           ENDIF ! INTHEAT
          ENDIF ! INTPLYXFEM
 C
          SIZ = NBISDP(I)*(SIZI)
@@ -611,9 +611,9 @@ C
             ENDIF
            ENDIF
 
-          ENDIF ! INTHEAT      
-      
-      ENDIF ! INTPLYXFEM 
+          ENDIF ! INTHEAT
+
+      ENDIF ! INTPLYXFEM
         NISKY = NISKY + NB_NOD
       END DO
 C

@@ -88,7 +88,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       ALLOCATE(SAV_A(SIZE+NFACNIT+LENC,NB_FR))
       SHIFT=0
-      
+
       LOC_PROC = ISPMD + 1
       L = 1
       IAD_RECV(1) = 1
@@ -110,7 +110,7 @@ C-----------------------------------------------
 
         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
           NOD = FR_ELEM(J)
-          SBUF(L)   =  A(1,NOD) 
+          SBUF(L)   =  A(1,NOD)
           SBUF(L+1) =  A(2,NOD)
           SBUF(L+2) =  A(3,NOD)
           SBUF(L+3) =  STIFN(NOD)
@@ -151,7 +151,7 @@ C-----------------------------------------------
               SHIFT = SHIFT+1
              ENDIF
           ENDIF
-        
+
           IF(NITSCHE/=0) THEN
             SBUF(SHIFT+1) = FORNEQS(1,NOD)
             SBUF(SHIFT+2) = FORNEQS(2,NOD)
@@ -193,8 +193,8 @@ C--------------------------------------------------------------------
 C SAUVEGARGE VALEURS ACCEL
       DO J=1,NB_FR
          NOD=FR_LOC(J)
-         
-         SAV_A(1,J) =  A(1,NOD) 
+
+         SAV_A(1,J) =  A(1,NOD)
          SAV_A(2,J) =  A(2,NOD)
          SAV_A(3,J) =  A(3,NOD)
          SAV_A(4,J) =  STIFN(NOD)
@@ -241,7 +241,7 @@ C SAUVEGARGE VALEURS ACCEL
              SAV_A(SHIFT+1,J) =  FTHE(NOD)
              FTHE(NOD) = ZERO
              SHIFT = SHIFT+1
-             IF(ITHERM_FE /= 0 ) THEN 
+             IF(ITHERM_FE /= 0 ) THEN
                SAV_A(SHIFT+1,J) =  MCP(NOD)
                MCP(NOD) = ZERO
                SHIFT = SHIFT+1
@@ -296,7 +296,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
                A(2,NOD) = A(2,NOD) + RBUF(L+1)
                A(3,NOD) = A(3,NOD) + RBUF(L+2)
                STIFN(NOD)= STIFN(NOD)+ RBUF(L+3)
-  
+
                SHIFT = L+3
 
                IF(IRODDL/=0) THEN
@@ -311,7 +311,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
                   MS(NOD) = MS(NOD)+ RBUF(SHIFT+1)
                   SHIFT = SHIFT+1
                ENDIF
-   
+
                IF(N2D /=0.AND.IFSUBM ==1) THEN
                   MS_2D(NOD) = MS_2D(NOD)+ RBUF(SHIFT+1)
                   SHIFT = SHIFT+1
@@ -360,7 +360,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
            STIFN(NOD)= STIFN(NOD)+ SAV_A(4,J)
            SHIFT = 4
 
-           IF(IRODDL/=0) THEN 
+           IF(IRODDL/=0) THEN
              AR(1,NOD) = AR(1,NOD) + SAV_A(SHIFT+1,J)
              AR(2,NOD) = AR(2,NOD) + SAV_A(SHIFT+2,J)
              AR(3,NOD) = AR(3,NOD) + SAV_A(SHIFT+3,J)
@@ -394,7 +394,7 @@ Cel test si msg necessaire a envoyer a completer par test interface
             ENDIF
           ENDIF
 
-           IF(NITSCHE/=0) THEN 
+           IF(NITSCHE/=0) THEN
              FORNEQS(1,NOD) = FORNEQS(1,NOD) + SAV_A(SHIFT+1,J)
              FORNEQS(2,NOD) = FORNEQS(2,NOD) + SAV_A(SHIFT+2,J)
              FORNEQS(3,NOD) = FORNEQS(3,NOD) + SAV_A(SHIFT+3,J)

@@ -52,7 +52,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_STRUCT(
      1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   ,FRIC_P   ,
-     2        IGRNOD      ,IGRSURF    ,IGRSLIN        ,NPC      ,ILAGM    ,   
+     2        IGRNOD      ,IGRSURF    ,IGRSLIN        ,NPC      ,ILAGM    ,
      3        ITABM1      ,ITAB       ,ISKN           ,UNITAB   ,I2RUPT   ,
      4        AREASL      ,NI         ,NOM_OPT        ,TITR     ,DEF_INTER,
      5        IDINT7      ,IDINT7B    ,IDINT11        ,NPC1     ,LSENSOR  ,
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NOM_OPT(LNOPT1,*), NOM_OPTFRIC(LNOPT1,*)
       INTEGER ILAGM,NI,NOINT
       INTEGER IPARI(*),NPC(*),ITABM1(*),ISKN(LISKN,*),ITAB(*),
@@ -123,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,
      .   SUB_ID,IFIX_TMP,ID_TYPE19
       CHARACTER KEY*ncharkey
@@ -213,8 +213,8 @@ C--------------------------------------------------
               NTYP=20
               CALL HM_READ_INTER_TYPE20(
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2          IGRNOD     ,IGRSURF    ,IGRSLIN    ,XFILTR    ,FRIC_P   ,  
-     3          UNITAB     ,LSUBMODEL  ,TITR       )    
+     2          IGRNOD     ,IGRSURF    ,IGRSLIN    ,XFILTR    ,FRIC_P   ,
+     3          UNITAB     ,LSUBMODEL  ,TITR       )
 
           CASE ('HERTZ')
 C--------------------------------------------------
@@ -231,7 +231,7 @@ C--------------------------------------------------
 C            HM READING INTER TYPE16 
 C--------------------------------------------------
              NTYP = 16
-             ILAGM = 1 
+             ILAGM = 1
 
           CASE ('TYPE15')
 C--------------------------------------------------
@@ -293,7 +293,7 @@ C            HM READING INTER TYPE7
 C--------------------------------------------------
              NTYP = 7
              CALL HM_READ_INTER_TYPE07(
-     1           IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1           IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2           IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,NOM_OPT    ,
      3           DEF_INTER  ,NPC1       ,LSENSOR    ,UNITAB    ,LSUBMODEL  ,
      4           TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
@@ -305,7 +305,7 @@ C            HM READING INTER TYPE6
 C--------------------------------------------------
              NTYP = 6
              CALL HM_READ_INTER_TYPE06(
-     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
+     1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2            IGRSURF    ,NPC1       ,TITR       ,LSUBMODEL ,UNITAB   )
 
           CASE ('TYPE5')
@@ -314,7 +314,7 @@ C            HM READING INTER TYPE5
 C--------------------------------------------------
              NTYP = 5
            CALL HM_READ_INTER_TYPE05(
-     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,    
+     1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2          IGRNOD     ,IGRSURF    ,NOM_OPT    ,XFILTR    ,FRIC_P   ,
      3          LSENSOR    ,UNITAB     ,LSUBMODEL  ,TITR       )
 
@@ -322,12 +322,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C            HM READING INTER TYPE4 
 C--------------------------------------------------
-          CALL ANCMSG(MSGID=1615,               
-     .                MSGTYPE=MSGERROR,        
-     .                ANMODE=ANINFO,           
-     .                I1=NOINT,                
-     .                C1=TITR)      
-c        WRITE(IOUT,1504) STFAC,FRIC,GAP,STARTT,STOPT,IBUC 
+          CALL ANCMSG(MSGID=1615,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1=NOINT,
+     .                C1=TITR)
+c        WRITE(IOUT,1504) STFAC,FRIC,GAP,STARTT,STOPT,IBUC
 
           CASE ('TYPE3')
 C--------------------------------------------------

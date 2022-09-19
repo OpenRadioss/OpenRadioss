@@ -64,8 +64,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE I23MAINF_MOD
-      USE INTBUFDEF_MOD 
-      USE H3D_MOD 
+      USE INTBUFDEF_MOD
+      USE H3D_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        LINDMAX,DIMFB
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*)
 C     REAL
-      my_real 
+      my_real
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
      .   SECFCUM(7,NUMNOD,NSECT), VISCN(*),
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, I_STOK, JLT_NEW, JLT , NFT, J,
-     .        IBC, NOINT, NSEG, ISECIN, IBAG, 
+     .        IBC, NOINT, NSEG, ISECIN, IBAG,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB,
      .        NB_LOC, I_STOK_LOC,DEBUT,
      .        INTTH,IFORM, NCAND, IKTHE, IFSTF, H, IERROR
@@ -132,14 +132,14 @@ C-----------------------------------------------
      .        NSMS(MVSIZ), ISENSINT(*)
 C     REAL
       my_real
-     .   STARTT, FRIC, GAP, STOPT, 
+     .   STARTT, FRIC, GAP, STOPT,
      .   VISC,STIGLO,GAPMIN,
      .   KMIN, KMAX, GAPMAX, KTHE, XTHE, TINT, RHOH,
      .   SCAL_T, DERI
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      my_real  
+      my_real
      .        FINTER
 C-----------------------------------------------
 C     REAL
@@ -157,7 +157,7 @@ C     REAL
      .   MXI(MVSIZ), MYI(MVSIZ), MZI(MVSIZ), STRI(MVSIZ),
      .   PENRAD(MVSIZ), FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
       my_real
-     .    VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ), 
+     .    VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ),
      .    H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .    FX, FY, FZ, STF
       INTEGER ICURV, IP0, IP1, IP2, IS, SFSAVPARIT
@@ -165,7 +165,7 @@ C     REAL
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
 C---------------------------------------------------- 
 C
-      NSN   =IPARI(5,NIN) 
+      NSN   =IPARI(5,NIN)
       NMN   =IPARI(6,NIN)
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
@@ -175,8 +175,8 @@ C
       INACTI=IPARI(22,NIN)
       ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       NISUB =IPARI(36,NIN)
       ICURV =IPARI(39,NIN)

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BEMOM2(PM,V,RHO,ALPH,ALPHC,FILL,
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  MAT, NC1, NC2, NC3, NC4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -128,7 +128,7 @@ C---------------------------------------
         B21(I) =  (ONE+G1(I))*F2(I)
         B22(I) =  (ONE+G2(I))*F2(I)
         B23(I) =  (ONE-G1(I))*F2(I)
-        B24(I) =  (ONE-G2(I))*F2(I)      
+        B24(I) =  (ONE-G2(I))*F2(I)
       ENDDO
 
       DO I=LFT,LLT
@@ -139,7 +139,7 @@ C---------------------------------------
         IF(ALPH(I)<ONE
      .   .AND.ALPH(I)>ZERO
      .   .AND.ALPHC(I)==ZERO
-     .   .AND.DT1>ZERO)THEN     
+     .   .AND.DT1>ZERO)THEN
 
          FF1=FILL(NC1(I))
          FF2=FILL(NC2(I))
@@ -150,7 +150,7 @@ C  1
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF2>ZERO)THEN	 
+         IF(FF2>ZERO)THEN	
           NV=NV+1
           DVY=DVY+(V(2,NC2(I))-V(2,NC1(I)))
           DVZ=DVZ+(V(3,NC2(I))-V(3,NC1(I)))
@@ -173,7 +173,7 @@ C  2
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF3>ZERO)THEN	 
+         IF(FF3>ZERO)THEN	
           NV=NV+1
           DVY=DVY+(V(2,NC3(I))-V(2,NC2(I)))
           DVZ=DVZ+(V(3,NC3(I))-V(3,NC2(I)))
@@ -196,7 +196,7 @@ C  3
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF4>ZERO)THEN	 
+         IF(FF4>ZERO)THEN	
           NV=NV+1
           DVY=DVY+(V(2,NC4(I))-V(2,NC3(I)))
           DVZ=DVZ+(V(3,NC4(I))-V(3,NC3(I)))
@@ -219,7 +219,7 @@ C  4
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF1>ZERO)THEN	 
+         IF(FF1>ZERO)THEN	
           NV=NV+1
           DVY=DVY+(V(2,NC1(I))-V(2,NC4(I)))
           DVZ=DVZ+(V(3,NC1(I))-V(3,NC4(I)))

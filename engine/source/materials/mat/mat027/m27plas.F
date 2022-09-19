@@ -73,9 +73,9 @@ C     REAL
      .   S22,S12,S1S2,S122,UMR,VM2,QQ,SMALL
       DATA NMAX/3/
 C-----------------------------------------------
-      SMALL = EM7     
+      SMALL = EM7
 C
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO I=JFT,JLT
         YOUNG(I)= PM(20,IMAT)
         NU(I)   = PM(21,IMAT)
@@ -104,7 +104,7 @@ C
       ENDDO
 C
       DO I=JFT,JLT
-        DPLA(I) = ZERO      
+        DPLA(I) = ZERO
         YLD(I) = (CA(I)+CB(I)*EPSEQ(I)**CN(I)) * Q(I)
         YLD(I) = MIN(YLD(I),YMAX(I))
         CA(I) = CA(I)*Q(I)
@@ -126,7 +126,7 @@ C-------------------
 C
 C projection radiale 
 C
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO I=JFT,JLT
           R = MIN(ONE,YLD(I)/(SVM(I)+ EM15))
           SIG(I,1) = SIG(I,1)*R
@@ -138,7 +138,7 @@ C
           ETSE(I)= H(I)/(H(I)+YOUNG(I))
           S1 = HALF*(SIG(I,1)+SIG(I,2))
           EZZ(I) = DPLA(I) * S1 /YLD(I)
-          EPSEQ(I) = EPSEQ(I) + DPLA(I)          
+          EPSEQ(I) = EPSEQ(I) + DPLA(I)
         ENDDO
 C-------------------------
       ELSEIF (IPLA == 1) THEN
@@ -151,7 +151,7 @@ C-------------------------
           S3 = SIG(I,3)
           A(I) = FOURTH*S1*S1
           B(I) = THREE_OVER_4*S2*S2+THREE*S3*S3
-          SVM(I) = SQRT(A(I)+B(I))  
+          SVM(I) = SQRT(A(I)+B(I))
         ENDDO
 C-------------------------
 C     GATHER PLASTIC FLOW
@@ -167,7 +167,7 @@ C-------------------------
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO  J=1,NINDX
           I = INDEX(J)
           NU1(I) = ONE/(ONE-NU(I))
@@ -179,11 +179,11 @@ C---------------------------
         ENDDO
 C            
         DO N=1,NMAX
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO J=1,NINDX
             I = INDEX(J)
             DPLA_I(I) = DPLA_J(I)
-            DPLA(I)   = DPLA_I(I)       
+            DPLA(I)   = DPLA_I(I)
             PLA_I = EPSEQ(I)+DPLA_I(I)
             YLD_I = MIN(YMAX(I),CA(I)+CB(I)*PLA_I**CN(I))
             DR(I) = HALF*YOUNG(I)*DPLA_I(I)/YLD_I
@@ -199,13 +199,13 @@ C
               DPLA_J(I) = MAX(ZERO,DPLA_I(I)-F/DF)
             ELSE
               DPLA_J(I) = ZERO
-            ENDIF        
+            ENDIF
           ENDDO
         ENDDO
 C------------------------------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO J=1,NINDX
           I = INDEX(J)
           EPSEQ(I) = EPSEQ(I) + DPLA_I(I)
@@ -253,7 +253,7 @@ C
           ETSE(I) = H(I)/(H(I)+YOUNG(I))
           S1 = HALF*(SIG(I,1)+SIG(I,2))
           EZZ(I) = DPLA(I) * S1 / YLD(I)
-          EPSEQ(I) = EPSEQ(I) + DPLA(I)          
+          EPSEQ(I) = EPSEQ(I) + DPLA(I)
         ENDDO
       ENDIF
 C

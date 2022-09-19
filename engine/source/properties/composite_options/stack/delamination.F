@@ -38,7 +38,7 @@ Chd|====================================================================
      5           MOM      ,PLY_F   ,THK0   ,SHF    ,EXZ      ,
      6           EYZ      ,AREA    ,PID    ,GEO    ,SSP      ,
      7           POSLY    ,THKLY   ,KXX    ,KYY    ,KXY      ,
-     .           DEXZ     ,DEYZ    ,EINT   ,GSTR   ,NEL      )   
+     .           DEXZ     ,DEYZ    ,EINT   ,GSTR   ,NEL      )
 C----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IR,IS,NPT,NEL
       INTEGER MAT_IPLY(MVSIZ,*),IPM(NPROPMI,*),NGL(*),NPF(*),PID(*)
 C     REAL
-      my_real  
+      my_real
      .   PM(NPROPM,*),  TH_IPLY(MVSIZ,NPT),
      .   DEL_PLY(MVSIZ,3,NPT),OFF(*),TF(*),DT1C(*),
      .   BUFMAT(*), SIG(MVSIZ,3,NPT),OFFI(MVSIZ,*),A11(MVSIZ,NPT),
@@ -75,7 +75,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,JJ,IG,IC,II,IFL,IPLY,NVARF,IP,NFAIL,JVAR,NVARF_MAX, 
+      INTEGER I,J,K,JJ,IG,IC,II,IFL,IPLY,NVARF,IP,NFAIL,JVAR,NVARF_MAX,
      .   IPMAT_IPLY,JINF,JSUP,NUPAR,NFUNC,
      .   IADBUF,ILAW,IRUPT,IMAT,JJINF,JJSUP,NBDEL,NF,NL,KK(5)
        INTEGER  MAT(MVSIZ),IFAIL(MVSIZ),MATF(MVSIZ),
@@ -93,11 +93,11 @@ C     REAL
      . DEZZ_IP(MVSIZ),DEYZ_IP(MVSIZ),DEXZ_IP(MVSIZ),THI(MVSIZ)
 c
       my_real,
-     .  DIMENSION(:) ,POINTER    :: UVARF 
+     .  DIMENSION(:) ,POINTER    :: UVARF
       TYPE(BUF_INTLAY_) ,POINTER :: INTLAY
       TYPE(BUF_INTLOC_) ,POINTER :: ILBUF
       TYPE(BUF_FAIL_)   ,POINTER :: FBUF
-      TYPE(L_BUFEL_)    ,POINTER :: LBUF     
+      TYPE(L_BUFEL_)    ,POINTER :: LBUF
 C======================================================================|
 C     EPS POINT EQUIVALENT (au sens energetique)
 C-----------------------------------------------------------
@@ -117,8 +117,8 @@ C
            NINDX=NINDX+1
            INDX(NINDX)=I
         END IF
-      ENDDO    
-             
+      ENDDO
+
       DO K=1,NINDX
         I=INDX(K)
         NBIPLY_DEL(I) = 0
@@ -126,7 +126,7 @@ C
           NIPLY_DEL(I,IPLY) = 0
           THI(I) = THI(I) + TH_IPLY(I,IPLY)
         ENDDO
-      ENDDO    
+      ENDDO
 
       DO IPLY  = 1,ELBUF_STR%NINTLAY
         JINF   = IPLY
@@ -143,47 +143,47 @@ c
 C
 C Actuallement on utilise qu'une interface elastique isotrope. (Law01)
 C  
-c         ILAW = IPM(2,MAT_IPLY(I,IPLY))                                
+c         ILAW = IPM(2,MAT_IPLY(I,IPLY))
 C         Only with  law59 (K33, K13, K23)                              
 c
-          E33 = PM(20, MAT_IPLY(I, IPLY))*OFF(I)                        
-          G   = PM(22, MAT_IPLY(I, IPLY))*OFF(I)                        
-          G0 =  G*TH_IPLY(I,IPLY)*OFF(I)                                
+          E33 = PM(20, MAT_IPLY(I, IPLY))*OFF(I)
+          G   = PM(22, MAT_IPLY(I, IPLY))*OFF(I)
+          G0 =  G*TH_IPLY(I,IPLY)*OFF(I)
 !!          FAC = TH_IPLY(I,IPLY)/THK0(I)
            FAC=   TH_IPLY(I,IPLY)/THI(I)
 C                                                                       
-          A11(I,IPLY) = E33 + G                                         
-          IF(ILAW /= 59) THEN                                           
-            G   =  TWO*G/TH_IPLY(I,IPLY)*OFF(I)                        
-            E33 =  E33/TH_IPLY(I,IPLY)*OFF(I)                           
-            A11(I,IPLY) = E33 + G                                       
-            G0 = PM(22, MAT_IPLY(I, IPLY))*OFF(I)                       
-          ENDIF                                                         
-          SXZ0(I) = G*(DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))           
-          SYZ0(I) = G*(DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))           
+          A11(I,IPLY) = E33 + G
+          IF(ILAW /= 59) THEN
+            G   =  TWO*G/TH_IPLY(I,IPLY)*OFF(I)
+            E33 =  E33/TH_IPLY(I,IPLY)*OFF(I)
+            A11(I,IPLY) = E33 + G
+            G0 = PM(22, MAT_IPLY(I, IPLY))*OFF(I)
+          ENDIF
+          SXZ0(I) = G*(DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))
+          SYZ0(I) = G*(DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))
 C
 C   warns G*GSTR <=> G shell or G interply ? ::
           SIG(I,2,IPLY)=  G*(DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))
-     .                  + G0*GSTR(I,5)  
+     .                  + G0*GSTR(I,5)
           SIG(I,1,IPLY)=  G*(DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))
-     .                  + G0*GSTR(I,4) 
-          SIG(I,3,IPLY)=  E33*(DEL_PLY(I,3,JSUP) - DEL_PLY(I,3,JINF))         
+     .                  + G0*GSTR(I,4)
+          SIG(I,3,IPLY)=  E33*(DEL_PLY(I,3,JSUP) - DEL_PLY(I,3,JINF))
 C                                                                       
-          MAT(I) = MAT_IPLY(I,IPLY)                                     
-          SYZ(I) =  SIG(I,1,IPLY) ! syz                                 
-          SXZ(I) =  SIG(I,2,IPLY) ! sxz                                 
-          SZZ(I) =  SIG(I,3,IPLY) ! szz                                 
-          SZZ0(I) = SZZ(I)                                              
+          MAT(I) = MAT_IPLY(I,IPLY)
+          SYZ(I) =  SIG(I,1,IPLY) ! syz
+          SXZ(I) =  SIG(I,2,IPLY) ! sxz
+          SZZ(I) =  SIG(I,3,IPLY) ! szz
+          SZZ0(I) = SZZ(I)
 C
 C         compute ply sliding                                           
 C 
-          DU_IPLY(1,I) = (DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))        
-          DU_IPLY(2,I) = (DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))        
-          DU_IPLY(3,I) = (DEL_PLY(I,3,JSUP) - DEL_PLY(I,3,JINF))        
+          DU_IPLY(1,I) = (DEL_PLY(I,1,JSUP) - DEL_PLY(I,1,JINF))
+          DU_IPLY(2,I) = (DEL_PLY(I,2,JSUP) - DEL_PLY(I,2,JINF))
+          DU_IPLY(3,I) = (DEL_PLY(I,3,JSUP) - DEL_PLY(I,3,JINF))
 C                                                                       
 C         compute strain                                                
-          EPSZZ_IP(I)= DU_IPLY(3,I)/TH_IPLY(I,IPLY)                        
-          EPSYZ_IP(I)= DU_IPLY(2,I)/TH_IPLY(I,IPLY)                        
+          EPSZZ_IP(I)= DU_IPLY(3,I)/TH_IPLY(I,IPLY)
+          EPSYZ_IP(I)= DU_IPLY(2,I)/TH_IPLY(I,IPLY)
           EPSXZ_IP(I)= DU_IPLY(1,I)/TH_IPLY(I,IPLY)
 C 
           II = 3*(I-1)
@@ -199,17 +199,17 @@ C----------------------- -----------------------
 C              delamination damage model 
 C-----------------------------------------------
          DO IFL = 1, NFAIL
-           IP = (IFL - 1)*15    
+           IP = (IFL - 1)*15
            UVARF  => FBUF%FLOC(IFL)%VAR
            NVARF  =  FBUF%FLOC(IFL)%NVAR
-           IRUPT  =  FBUF%FLOC(IFL)%ILAWF  
-           NUPAR  = IPM(112+IP, IMAT)                            
-           IADBUF = IPM(114+IP, IMAT)                          
-           NFUNC  = IPM(115+IP, IMAT) 
-           DO I=1,NFUNC                                             
-             IFUNC(I)=IPM(115+IP+I,IMAT)                        
+           IRUPT  =  FBUF%FLOC(IFL)%ILAWF
+           NUPAR  = IPM(112+IP, IMAT)
+           IADBUF = IPM(114+IP, IMAT)
+           NFUNC  = IPM(115+IP, IMAT)
+           DO I=1,NFUNC
+             IFUNC(I)=IPM(115+IP+I,IMAT)
            ENDDO
-           
+
 !           IFAIL(IC) = IPM(111 + IP ,MAT(1))
 !           MATF(IC) = MAT(1)
 !           DO I=JFT +1 ,JLT
@@ -229,17 +229,17 @@ C
 !            IADBUF  = IPM(114 + IP ,MATF(II))
 !            NVARF   = IPM(113 + IP ,MATF(II))
 !            NVARF_MAX = MAX(NVARF_MAX, NVARF)
-!            DO I=1,NFUNC                
+!            DO I=1,NFUNC
 !              IFUNC(I)=IPM(115+ IP + I,MATF(II))
-!            ENDDO 
+!            ENDDO
 C     
-          IF (IRUPT == 18) THEN 
+          IF (IRUPT == 18) THEN
 C-- ladeveze delamination model
            CALL DELM01LAW(
      1                JLT  ,NUPAR ,NVARF ,NFUNC ,IFUNC,
      2                NPF  ,TF    ,TT    ,DT1C  ,BUFMAT ,
      3                NGL  ,IPLY  ,IPM   ,MAT   ,IP     ,
-     4                OFF  ,SYZ0  ,SXZ0  ,SZZ   ,UVARF  , 
+     4                OFF  ,SYZ0  ,SXZ0  ,SZZ   ,UVARF  ,
      5                OFFI(1,IPLY),REDUC(1,IPLY),INTLAY%COUNT,
      .                                               SYZ, SXZ)
 C--- power law
@@ -260,7 +260,7 @@ C--- total strain per direction
      4                OFF  ,SYZ0  ,SXZ0  ,SZZ   ,EPSYZ_IP,
      5                EPSXZ_IP,EPSZZ_IP,UVARF ,OFFI(1,IPLY),REDUC(1,IPLY),
      6                INTLAY%COUNT)
-          ENDIF 
+          ENDIF
 c
         ENDDO !  IFL = 1, NFAIL
 c----------------------------
@@ -276,28 +276,28 @@ C
                 SIG(I,3,IPLY) =  SZZ(I)  *REDUC(I,IPLY)
                 IF(SZZ0(I) < ZERO)SIG(I,3,IPLY) = SZZ0(I)
 C
-                NBIPLY_DEL(I) = NBIPLY_DEL(I) + 1 
+                NBIPLY_DEL(I) = NBIPLY_DEL(I) + 1
                 NBDEL = NBIPLY_DEL(I)
                 NIPLY_DEL(I,NBDEL) = IPLY
 C
                 OFFI(I,IPLY) = REDUC(I,IPLY)
 C
-c                DEGMB(I) = - FOR(I,4)*DEXZ(I) - FOR(I,5)*DEYZ(I)                 
-c                FAC = TH_IPLY(I,IPLY)/THK0(I) 
-c                F4=FOR(I,4)-FAC*G0*EXZ(I)*SHF(I)*OFF(I)                                                         
-c                F5=FOR(I,5)-FAC*G0*EYZ(I)*SHF(I)*OFF(I)  
+c                DEGMB(I) = - FOR(I,4)*DEXZ(I) - FOR(I,5)*DEYZ(I)
+c                FAC = TH_IPLY(I,IPLY)/THK0(I)
+c                F4=FOR(I,4)-FAC*G0*EXZ(I)*SHF(I)*OFF(I)
+c                F5=FOR(I,5)-FAC*G0*EYZ(I)*SHF(I)*OFF(I)
 c                IF(F4*FOR(I,4)<=ZERO)THEN
 c                  FOR(I,4)=ZERO
 c                ELSE
 c                  FOR(I,4)=F4
-c                END IF                                                       
+c                END IF
 c                IF(F5*FOR(I,5)<=ZERO)THEN
 c                  FOR(I,5)=ZERO
 c                ELSE
 c                  FOR(I,5)=F5
-c                END IF                                                       
-c                DEGMB(I) = DEGMB(I) + FOR(I,4)*DEXZ(I)+FOR(I,5)*DEYZ(I)               
-c                EINT(I,1)= EINT(I,1) + DEGMB(I)*HALF*THK0(I)*AREA(I)               
+c                END IF
+c                DEGMB(I) = DEGMB(I) + FOR(I,4)*DEXZ(I)+FOR(I,5)*DEYZ(I)
+c                EINT(I,1)= EINT(I,1) + DEGMB(I)*HALF*THK0(I)*AREA(I)
 C            
             ELSEIF(OFFI(I,IPLY) <  ONE) THEN
 C             
@@ -309,8 +309,8 @@ C
            ELSE
                SIG(I,1,IPLY) =  SYZ0(I)
                SIG(I,2,IPLY) =  SXZ0(I)
-               SIG(I,3,IPLY) =  SZZ(I) 
-           ENDIF  
+               SIG(I,3,IPLY) =  SZZ(I)
+           ENDIF
 C viscosity 
             VISC    =GEO(20,PID(I))
 !!          VISC    =GEO(16,PID(I))
@@ -331,13 +331,13 @@ C
 C
 C  stress interply (output only)      
 !!            II = 3*(I-1)
-            ILBUF%SIG(KK(1) + I) = SIG(I,3,IPLY) 
-            ILBUF%SIG(KK(2) + I) = SIG(I,1,IPLY) 
-            ILBUF%SIG(KK(3) + I) = SIG(I,2,IPLY) 
+            ILBUF%SIG(KK(1) + I) = SIG(I,3,IPLY)
+            ILBUF%SIG(KK(2) + I) = SIG(I,1,IPLY)
+            ILBUF%SIG(KK(3) + I) = SIG(I,2,IPLY)
 C
 C stability condition  
-            A11(I,IPLY) =   A11(I,IPLY) * FAC*FAC	 
- 
+            A11(I,IPLY) =   A11(I,IPLY) * FAC*FAC	
+
 C  stress       
 !!           ILBUF%SIG(KK(1) + I) = SIG(3,I,IPLY)
 !!           ILBUF%SIG(KK(2) + I) = SIG(1,I,IPLY)
@@ -345,7 +345,7 @@ C  stress
 !!           ILBUF%EPS(II + 1) = EPSZZ_IP(I)
 !!           ILBUF%EPS(II + 2) = EPSYZ_IP(I)
 !!           ILBUF%EPS(II + 3) = EPSXZ_IP(I)
-c           
+c
 C Energie          
             IF (IR == 1 .and. IS == 1) INTLAY%EINT(I) = ZERO
             VOL  =   AREA(I)*TH_IPLY(I,IPLY)
@@ -353,7 +353,7 @@ C Energie
      .         SIG(I,3,IPLY)*EPSZZ_IP(I) +
      .         SIG(I,1,IPLY)*EPSYZ_IP(I)+ SIG(I,2,IPLY)*EPSXZ_IP(I))*VOL
 c
-        ENDDO   ! I=JFT,JLT 
+        ENDDO   ! I=JFT,JLT
        ENDDO     ! inter ply
 C         
 C reduction of mom  for shell
@@ -362,39 +362,39 @@ C reduction of mom  for shell
            NBDEL = NBIPLY_DEL(I)
            IF(NBDEL > 0 ) THEN
               DO JJ  =1,NBDEL + 1
-                  TH(JJ) = ZERO   
-              ENDDO 
-              NF = 1                                          
-              DO JJ  =1,NBDEL                                 
-                 NL = NIPLY_DEL(I,JJ)             
-                 DO J =NF,NL  
-                     JLY = (J-1)*JLT + I                               
-                     TH(JJ) = TH(JJ) + THKLY(JLY)             
-                 ENDDO                                        
-                 NF = NL                                  
-              ENDDO                                           
-              JJ = NBDEL + 1                                               
-              NL = ELBUF_STR%NINTLAY + 1                               
-              DO J = NF,NL 
-                  JLY = (J-1)*JLT + I                         
-                  TH(JJ) = TH(JJ) + THKLY(JLY)                             
-              ENDDO                                                        
-              SCALE =ZERO                                                  
-              DO JJ  =1,NBDEL + 1                                          
-                 SCALE = SCALE + TH(JJ)**3                                 
-              ENDDO   
+                  TH(JJ) = ZERO
+              ENDDO
+              NF = 1
+              DO JJ  =1,NBDEL
+                 NL = NIPLY_DEL(I,JJ)
+                 DO J =NF,NL
+                     JLY = (J-1)*JLT + I
+                     TH(JJ) = TH(JJ) + THKLY(JLY)
+                 ENDDO
+                 NF = NL
+              ENDDO
+              JJ = NBDEL + 1
+              NL = ELBUF_STR%NINTLAY + 1
+              DO J = NF,NL
+                  JLY = (J-1)*JLT + I
+                  TH(JJ) = TH(JJ) + THKLY(JLY)
+              ENDDO
+              SCALE =ZERO
+              DO JJ  =1,NBDEL + 1
+                 SCALE = SCALE + TH(JJ)**3
+              ENDDO
               SCALE = MAX(SCALE, 0.1)
 C
-              DEGFX(I) = - MOM(I,1)*KXX(I) - MOM(I,2)*KYY(I)                   
-     +              - MOM(I,3)*KXY(I)                                     
-              MOM(I,1) = SCALE*MOM(I,1) 					    
-              MOM(I,2) = SCALE*MOM(I,2) 					    
-              MOM(I,3) = SCALE*MOM(I,3) 		   
+              DEGFX(I) = - MOM(I,1)*KXX(I) - MOM(I,2)*KYY(I)
+     +              - MOM(I,3)*KXY(I)
+              MOM(I,1) = SCALE*MOM(I,1) 					
+              MOM(I,2) = SCALE*MOM(I,2) 					
+              MOM(I,3) = SCALE*MOM(I,3) 		
 C
-              DEGFX(I) = DEGFX(I) + MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)                 
-     +                  + MOM(I,3)*KXY(I)                                            
-              EINT(I,2)= EINT(I,2) + DEGFX(I)*HALF*THK0(I)*THK0(I)*AREA(I) 
-         ENDIF                
+              DEGFX(I) = DEGFX(I) + MOM(I,1)*KXX(I)+MOM(I,2)*KYY(I)
+     +                  + MOM(I,3)*KXY(I)
+              EINT(I,2)= EINT(I,2) + DEGFX(I)*HALF*THK0(I)*THK0(I)*AREA(I)
+         ENDIF
         ENDDO   ! I=JFT,JLT
 C -----------------------------------------------------------------
       RETURN

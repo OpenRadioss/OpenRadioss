@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        PRERAFIG3D                    source/elements/ige3d/prerafig3d.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TEST_SUPPORT_NEWFCT(KNOTLOCPC, DIRDEG, DEGTANG1, DEGTANG2, 
+      SUBROUTINE TEST_SUPPORT_NEWFCT(KNOTLOCPC, DIRDEG, DEGTANG1, DEGTANG2,
      .                               DIR,NEWKNOT,
      .                               TAB_COINKNOT,L_TAB_COINKNOT,TAB_NEWFCT,
      .                               TAB_NEWFCTCUT,L_TAB_NEWFCTCUT,DECALGEO,TAB_REMOVE,FLAG)
@@ -86,7 +86,7 @@ C
 C
       DO I=1,NEWFCT ! les nouvelles fonctions ajoutees par le dernier rafig3d.F
 
-        IDFCT = TAB_NEWFCT(OFFSET_NEWFCT+I) 
+        IDFCT = TAB_NEWFCT(OFFSET_NEWFCT+I)
 C       Fonctions stockees dans le tableau tab_newfct offsete 
 c       pour ne pas prendre les newfct des anciennes coupes terminees
 
@@ -144,14 +144,14 @@ C
               T2 = ((XB-XA(J))*(YC-YA(J))-(XC-XA(J))*(YB-YA(J)))/DET
               IF(T1>1.OR.T1<0.OR.T2>1.OR.T2<=0) THEN
               ELSE
-                INTERSEC = INTERSEC + 1 
+                INTERSEC = INTERSEC + 1
               ENDIF
             ENDIF
           ENDDO
           IF(MOD(INTERSEC,2)==0) IOUT=1
         ENDDO
 C
-        DO J=1,4  
+        DO J=1,4
           DO K=1,L_TAB_COINKNOT-1
             XC=TAB_COINKNOT(1,K)
             YC=TAB_COINKNOT(2,K)

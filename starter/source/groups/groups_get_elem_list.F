@@ -79,19 +79,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C CONSTITUTION DE LIST
 C-----------------------------------------------
-        CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL)                 
+        CALL HM_GET_INTV  ('idsmax' ,NENTITY_POS,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('negativeIdsmax' ,NENTITY_NEG,IS_AVAILABLE,LSUBMODEL)
-        NENTITY = NENTITY_POS + NENTITY_NEG 
-        ALLOCATE(LIST_ENTITY(NENTITY))    
-        DO KK=1,NENTITY_POS                                                             
-         CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)  
+        NENTITY = NENTITY_POS + NENTITY_NEG
+        ALLOCATE(LIST_ENTITY(NENTITY))
+        DO KK=1,NENTITY_POS
+         CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
          LIST_ENTITY(KK)=JJ
-        ENDDO  
-        DO KK=1,NENTITY_NEG                                                            
-         CALL HM_GET_INT_ARRAY_INDEX ('negativeIds' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)  
+        ENDDO
+        DO KK=1,NENTITY_NEG
+         CALL HM_GET_INT_ARRAY_INDEX ('negativeIds' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
          LIST_ENTITY(NENTITY_POS+KK)=-JJ
-        ENDDO        
+        ENDDO
 C-----------------------
 
       RETURN
-      END     
+      END

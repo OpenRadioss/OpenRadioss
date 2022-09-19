@@ -40,9 +40,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT87(UPARAM   ,MAXUPARAM,NUPARAM,ISRATE ,NUVAR  , 
-     .                         NFUNC ,MAXFUNC ,IFUNC    ,MTAG    ,PARMAT , 
-     .                         UNITAB,PM      ,LSUBMODEL, ID     ,TITR      )                     
+      SUBROUTINE HM_READ_MAT87(UPARAM   ,MAXUPARAM,NUPARAM,ISRATE ,NUVAR  ,
+     .                         NFUNC ,MAXFUNC ,IFUNC    ,MTAG    ,PARMAT ,
+     .                         UNITAB,PM      ,LSUBMODEL, ID     ,TITR      )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,11 +63,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .          K1    , K2    , AHS   , BHS   , MHS   , EPS0HS,
      .          NHS   , HMART , TEMP0 , TREF  , ETA   , CP    , AM    ,
      .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0 ,
-     .          CKH(4), AKH(4)  
+     .          CKH(4), AKH(4)
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -185,9 +185,9 @@ Card3
 
       ENDIF
 Card5 
-      CALL HM_GET_INTV  ('A'          ,EXPA     ,IS_AVAILABLE,LSUBMODEL)  
-      CALL HM_GET_FLOATV('MAT_kin' ,FISOKIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-     
+      CALL HM_GET_INTV  ('A'          ,EXPA     ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV('MAT_kin' ,FISOKIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
 
       IF (IFLAG == 0) THEN
         CALL HM_GET_INTV('MAT_NRATE'   ,NRATE    ,IS_AVAILABLE,LSUBMODEL)
@@ -196,13 +196,13 @@ Card5
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ID,
-     .                C1=TITR)         
+     .                C1=TITR)
         ENDIF
         DO I=1,NRATE
           CALL HM_GET_INT_ARRAY_INDEX        ('FUN_LOAD'    ,IFUNC(I)    ,I,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX      ('SCALE_LOAD'  ,YFAC(I)     ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           IF(YFAC(I) == ZERO) THEN
-            CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+            CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             YFAC(I)=ONE * YFAC_UNIT(I)
           ENDIF
           CALL HM_GET_FLOAT_ARRAY_INDEX   ('STRAINRATE_LOAD',RATE(I)     ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -237,7 +237,7 @@ Card5
 
       IF (IFLAG == 1) THEN ! SWIFT VOCE
         CALL HM_GET_FLOATV('MAT_VOL'     ,ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('FScale33'    ,NEXP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+        CALL HM_GET_FLOATV('FScale33'    ,NEXP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C 
         CALL HM_GET_FLOATV('MAT_A'        ,ASWIFT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('FScale22'     ,EPSO   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -255,14 +255,14 @@ C
         CALL HM_GET_FLOATV('MAT_QM'    , QM    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_E0MART', E0MART,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_VM0'   , VM0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('MAT_AHS'   , AHS   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        CALL HM_GET_FLOATV('MAT_BHS'   , BHS   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV('MAT_AHS'   , AHS   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_BHS'   , BHS   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_MHS'   , MHS   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_EPS0HS', EPS0HS,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_NHS'   , NHS   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_HMART' , HMART ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('MAT_K1'    , K1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_K2'    , K2    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV('MAT_K1'    , K1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_K2'    , K2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_TEMP0' , TEMP0 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_TREF'  , TREF  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_ETA'   , ETA   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -270,14 +270,14 @@ C
       ENDIF
 C
       IF (FISOKIN >ZERO) THEN
-        CALL HM_GET_FLOATV('MAT_CRC1' , CKH(1),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRA1' , AKH(1),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRC2' , CKH(2),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRA2' , AKH(2),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRC3' , CKH(3),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRA3' , AKH(3),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRC4' , CKH(4),IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        CALL HM_GET_FLOATV('MAT_CRA4' , AKH(4),IS_AVAILABLE, LSUBMODEL, UNITAB)  
+        CALL HM_GET_FLOATV('MAT_CRC1' , CKH(1),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRA1' , AKH(1),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRC2' , CKH(2),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRA2' , AKH(2),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRC3' , CKH(3),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRA3' , AKH(3),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRC4' , CKH(4),IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_CRA4' , AKH(4),IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDIF
 c-------------------------------------------------------------
       NFUNC =NRATE
@@ -298,8 +298,8 @@ c-------------------------------------------------------------
           YFAC(J+1) =YFAC(J)
         ENDDO
         RATE(1)= ZERO
-       ENDIF  
-      ENDIF    
+       ENDIF
+      ENDIF
 c-------------------------------------------------------------
       IF( INVP == ZERO .OR. INVC == ZERO)THEN
         UNSP  = ZERO
@@ -308,10 +308,10 @@ c-------------------------------------------------------------
         UNSCT = ZERO
       ELSEIF(IFLAGSR == 0)THEN
         UNSPT = ONE/INVP
-        UNSCT = ONE/INVC  
+        UNSCT = ONE/INVC
       ELSEIF(IFLAGSR == 1)THEN
         UNSP = ONE/INVP
-        UNSC = ONE/INVC  
+        UNSC = ONE/INVC
       ENDIF
 c-------------------------------------------------------------
       IF (EXPA == 0) EXPA = 2
@@ -319,9 +319,9 @@ c-------------------------------------------------------------
 c-------------------------------------------------------------
 c     strain rate filtering
       IF(IFLAGSR==1) THEN
-        ISRATE  = 1 
+        ISRATE  = 1
         FCUT    = 10000.0D0*FAC_T_WORK
-      ELSE 
+      ELSE
         IF(ISRATE == 1 .AND. FCUT == ZERO)FCUT   = 10000.0D0*FAC_T_WORK
       ENDIF
 c-------------------------------------------------------------
@@ -339,7 +339,7 @@ c
       UPARAM(2) = NU
 C
       UPARAM(3) = AL1
-      UPARAM(4) = AL2     
+      UPARAM(4) = AL2
       UPARAM(5) = AL3
       UPARAM(6) = AL4
       UPARAM(7) = AL5
@@ -358,17 +358,17 @@ C
        UPARAM(17)= NEXP
        UPARAM(18)= EPSO
        UPARAM(19)= ASWIFT
-      ENDIF 
+      ENDIF
 
       G  = HALF*E/(ONE+NU)
 
       UPARAM(21) = ONE/(ONE - NU*NU)
       UPARAM(22) = NU*UPARAM(21)
-      UPARAM(23) = G 
+      UPARAM(23) = G
 
       UPARAM(24) = IFLAG
 
-      UPARAM(25) = NFUNC 
+      UPARAM(25) = NFUNC
       DO I=1,NFUNC
         UPARAM(25+I)=RATE(I)
         UPARAM(25 + I + NFUNC)=YFAC(I)
@@ -380,15 +380,15 @@ C
       ENDIF !
 
       IF (IFLAG == 0 .OR.IFLAG == 1) THEN
-         UPARAM(25+2*NFUNC+4) =UNSP   
-         UPARAM(25+2*NFUNC+5) =UNSC   
+         UPARAM(25+2*NFUNC+4) =UNSP
+         UPARAM(25+2*NFUNC+5) =UNSC
 
-         UPARAM(25+2*NFUNC+6) =UNSPT   
-         UPARAM(25+2*NFUNC+7) =UNSCT   
- 
-         UPARAM(25+2*NFUNC+8) =IFLAGSR  
+         UPARAM(25+2*NFUNC+6) =UNSPT
+         UPARAM(25+2*NFUNC+7) =UNSCT
+
+         UPARAM(25+2*NFUNC+8) =IFLAGSR
       ENDIF !(IFLAG == 0 .OR.IFLAG == 1) THEN
-      UPARAM(25+2*NFUNC+9) =FLAG_FIT 
+      UPARAM(25+2*NFUNC+9) =FLAG_FIT
 
 
       IF(IFLAG == 1) THEN
@@ -397,9 +397,9 @@ C
         IYIELD = 2 !HAnsel
       ELSE
         IF(IFLAGSR == 1) THEN
-         IYIELD = 3 ! tabulated + Plas Strain rate 
+         IYIELD = 3 ! tabulated + Plas Strain rate
         ELSE
-         IYIELD = 4 ! tabulated +  Strain rate 
+         IYIELD = 4 ! tabulated +  Strain rate
         ENDIF
       ENDIF
 c-------------------------------------------------------------
@@ -407,35 +407,35 @@ c-------------------------------------------------------------
 c-------------------------------------------------------------
       NFLAG3 = 34 + 2*NFUNC
       IF (IFLAG == 2) THEN
-        UPARAM(NFLAG3+1)   = K1    
-        UPARAM(NFLAG3+2)   = K2    
-        UPARAM(NFLAG3+3)   = AHS   
-        UPARAM(NFLAG3+4)   = BHS   
-        UPARAM(NFLAG3+5)   = MHS   
+        UPARAM(NFLAG3+1)   = K1
+        UPARAM(NFLAG3+2)   = K2
+        UPARAM(NFLAG3+3)   = AHS
+        UPARAM(NFLAG3+4)   = BHS
+        UPARAM(NFLAG3+5)   = MHS
         UPARAM(NFLAG3+6)   = EPS0HS
-        UPARAM(NFLAG3+7)   = NHS   
-        UPARAM(NFLAG3+8)   = HMART 
-        UPARAM(NFLAG3+9)   = TEMP0 
-        UPARAM(NFLAG3+10)  = ETA   
-        UPARAM(NFLAG3+11)  = CP    
+        UPARAM(NFLAG3+7)   = NHS
+        UPARAM(NFLAG3+8)   = HMART
+        UPARAM(NFLAG3+9)   = TEMP0
+        UPARAM(NFLAG3+10)  = ETA
+        UPARAM(NFLAG3+11)  = CP
         UPARAM(NFLAG3+12)  = TREF
         UPARAM(NFLAG3+13)  = AM
-        UPARAM(NFLAG3+14)  = BM        
-        UPARAM(NFLAG3+15)  = CM        
-        UPARAM(NFLAG3+16)  = DM 
-        UPARAM(NFLAG3+17)  = QM       
-        UPARAM(NFLAG3+18)  = PPM        
-        UPARAM(NFLAG3+19)  = E0MART        
-        UPARAM(NFLAG3+20)  = VM0              
+        UPARAM(NFLAG3+14)  = BM
+        UPARAM(NFLAG3+15)  = CM
+        UPARAM(NFLAG3+16)  = DM
+        UPARAM(NFLAG3+17)  = QM
+        UPARAM(NFLAG3+18)  = PPM
+        UPARAM(NFLAG3+19)  = E0MART
+        UPARAM(NFLAG3+20)  = VM0
       ENDIF !(IFLAG == 2) THEN
-      UPARAM(NFLAG3+21)  = IYIELD        
+      UPARAM(NFLAG3+21)  = IYIELD
 c---------------------------------
 C IF KINEMATIC HARDENING
 c---------------------------------
       NFLAG4 = NFLAG3 + 21
-      UPARAM(NFLAG4+1)  = FISOKIN        
+      UPARAM(NFLAG4+1)  = FISOKIN
 
-      IF (FISOKIN >ZERO) THEN       
+      IF (FISOKIN >ZERO) THEN
        UPARAM(NFLAG4+2)   =  CKH(1)
        UPARAM(NFLAG4+3)   =  AKH(1)
        UPARAM(NFLAG4+4)   =  CKH(2)
@@ -451,8 +451,8 @@ C      PM PARMAT
 C---------------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
-      PM(89)= RHO0 
-      PM(9) = TWO*PI *FCUT   
+      PM(89)= RHO0
+      PM(9) = TWO*PI *FCUT
 
       PARMAT(1) = BULK
       PARMAT(2) = E
@@ -473,11 +473,11 @@ c-------------------------------------------------------------
 c-------------------------------------------------------------
       WRITE(IOUT,1001) TRIM(TITR),ID,87
       WRITE(IOUT,1000)
-      IF (IS_ENCRYPTED)THEN                                     
+      IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
+      ELSE
         WRITE(IOUT,1002) RHO0
-        WRITE(IOUT,1100)E,NU 
+        WRITE(IOUT,1100)E,NU
         IF(FLAG_FIT /=1) THEN
           WRITE(IOUT,1200)AL1, AL2, AL3, AL4 ,
      .    AL5, AL6, AL7, AL8
@@ -490,9 +490,9 @@ c-------------------------------------------------------------
         IF(IFLAG==1)THEN
           WRITE(IOUT,1401)INVP , INVC,QVOCE,BETA,KO,ALPHA,ASWIFT,NEXP,EPSO
         ELSEIF (IFLAG==2)THEN
-          WRITE(IOUT,1402) 
+          WRITE(IOUT,1402)
      .    K1    ,K2    ,AHS   ,BHS   ,MHS   ,EPS0HS,NHS   ,HMART ,TEMP0 ,
-     .    TREF  ,ETA   ,CP    ,AM    ,BM    ,CM    ,DM    ,PPM   ,QM    ,E0MART,VM0   
+     .    TREF  ,ETA   ,CP    ,AM    ,BM    ,CM    ,DM    ,PPM   ,QM    ,E0MART,VM0
         ENDIF
 
         IF(NRATE>0.AND.IFLAG==0)
@@ -513,7 +513,7 @@ c-------------------------------------------------------------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
-     &  5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)  
+     &  5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/)
@@ -548,13 +548,13 @@ c-------------------------------------------------------------
      & 5X,'REFERENCE TEMPERATURE. . . . . . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'TAYLOR QUINEY COEFFICIENT ETA. . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'SPECIFIC HEAT FOR TEMPERATURE CALCULATION. . . . . . . . . . .=',E12.4/
-     & 5X,'PARAMETER AM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/ 
-     & 5X,'PARAMETER BM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/ 
-     & 5X,'PARAMETER CM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/ 
-     & 5X,'PARAMETER DM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/ 
-     & 5X,'PARAMETER PM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/ 
-     & 5X,'PARAMETER QM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/ 
-     & 5X,'MARTENSITE STARTING VALUE E0MART . . . . . . . . . . . . . . .=',E12.4/      
+     & 5X,'PARAMETER AM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/
+     & 5X,'PARAMETER BM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/
+     & 5X,'PARAMETER CM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/
+     & 5X,'PARAMETER DM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/
+     & 5X,'PARAMETER PM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/
+     & 5X,'PARAMETER QM FOR MARTENSITE RATE EQUATION. . . . . . . . . . .=',E12.4/
+     & 5X,'MARTENSITE STARTING VALUE E0MART . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'INITIAL FRACTION OF MARTENSITE VM0 . . . . . . . . . . . . . .=',E12.4)
  1200 FORMAT(
      & 5X,'ANISOTROPY COEFFICIENT ALPHA1. . . . . .=',1PG20.13/

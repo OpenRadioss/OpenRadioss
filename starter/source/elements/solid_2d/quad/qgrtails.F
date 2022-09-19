@@ -107,7 +107,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   NGR1, MLN, NG, N, MID, PID, II, NEL, NE1,
      .   P, NEL_PREC, LB_L, IGT, JHBE, I,
      .   ML1, ML2, MT1, MT2,NB,INEG,IEOS,
@@ -154,7 +154,7 @@ C
           INUM(8,I)=IXQ(7,NFT+I)
           INUM(9,I)=IQUAOFF(NFT+I)
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -195,10 +195,10 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
       ENDDO
@@ -225,7 +225,7 @@ C
 C
       INEG =  0
       DO 300 N=1,ND
-      
+
        NFT = 0
        LB_L = LBUFEL
        DO P = 1, NSPMD
@@ -303,7 +303,7 @@ C--------------------
             IF (ICPRE < 0) ICPRE =0
             IF (ISMST < 0) ISMST =4
             IF (JCVT<0) THEN
-             JCVT = 0 
+             JCVT = 0
              IF (JLAG>0) JCVT = 1
             END IF
           END IF
@@ -328,7 +328,7 @@ C--------------------
      .                    I1=ID,
      .                    C1=TITR)
           ENDIF
-          IF (JHBE==17.AND.(JALE+JEUL /= 0)) THEN   
+          IF (JHBE==17.AND.(JALE+JEUL /= 0)) THEN
             CALL ANCMSG(MSGID=1222,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_2,
@@ -363,7 +363,7 @@ C
               IF (FAILMODEL == 10 .OR. FAILMODEL == 4 .OR.
      .            FAILMODEL == 5  .OR. FAILMODEL == 6) ISTRAIN = 1
             ENDDO
-          ENDIF 
+          ENDIF
           IEOS=IPM(4,MID)
 
 C
@@ -386,7 +386,7 @@ C
               ENDDO
             END DO
           END IF
-                      
+
 C-------------------------------------------------
 C STOCKAGE IPARG
 C-------------------------------------------------
@@ -432,7 +432,7 @@ C         equation of state
           IPARG(55,NGROUP)= IEOS
           IPARG(62,NGROUP)= PID
 C         flag for group of duplicated elements in multidomains
-          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R 
+          IF (NSUBDOM>0) IPARG(77,NGROUP)= IPARTR2R
           NFT = NFT + NE1
   220    CONTINUE
          NGP(P)=NGROUP-NGP(P)
@@ -458,7 +458,7 @@ C Traitement CFD sur MID negatif sur tous les solides si ineg=1
 C
       WRITE(IOUT,1000)
       WRITE(IOUT,1001)(N,IPARG(1,N),IPARG(2,N),IPARG(3,N)+1,
-     +                IPARG(4,N),IPARG(6,N),IPARG(7,N),IPARG(11,N),    
+     +                IPARG(4,N),IPARG(6,N),IPARG(7,N),IPARG(11,N),
      +                IPARG(12,N),IPARG(13,N),IPARG(23,N),
      +                IPARG(24,N),IPARG(18,N),IPARG(27,N),
      +                IPARG(29,N)+1,IPARG(43,N),IPARG(55,N),

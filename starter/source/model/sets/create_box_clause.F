@@ -38,7 +38,7 @@ Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE CREATE_BOX_CLAUSE( 
+      SUBROUTINE CREATE_BOX_CLAUSE(
      *                  CLAUSE   ,JCLAUSE  ,IS_AVAILABLE,LSUBMODEL ,KEYSET   ,
      *                  ITABM1   ,IBOX     ,X           ,SKEW      ,IXS10    ,
      *                  SET_TITLE,IPART    ,SH4TREE     ,SH3TREE   ,IPARTS   ,
@@ -216,7 +216,7 @@ C-----------------------------------------------
 !------------------------------------------------------
 !------------------------------------------------------
       ! Surface's in box
-      SURF_LIST = CLAUSE%NB_SOLID + CLAUSE%NB_QUAD + 
+      SURF_LIST = CLAUSE%NB_SOLID + CLAUSE%NB_QUAD +
      +            CLAUSE%NB_SH4N  + CLAUSE%NB_SH3N
       IF (SURF_LIST > 0) THEN
           ! Surface from ELEMENT

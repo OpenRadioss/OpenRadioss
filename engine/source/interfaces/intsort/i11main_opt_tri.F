@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER NIN ,ITASK
       INTEGER IPARI(NPARI,NINTER), COUNT_REMSLV(NINTER)
 C     REAL
-      my_real 
+      my_real
      .    X(*), V(3,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -101,7 +101,7 @@ C-----------------------------------------------------------
      1  INTBUF_TAB%CAND_E, INTBUF_TAB%CAND_N, X  , INTBUF_TAB%I_STOK(1),
      2  INTBUF_TAB%IRECTS, INTBUF_TAB%IRECTM, GAP, NIN,V,INTBUF_TAB%GAP_S,
      3  INTBUF_TAB%GAP_M , IPARI(21,NIN)    , INTBUF_TAB%STFS  , ITASK,NRTS,
-     4  INTBUF_TAB%STFM  , INTBUF_TAB%GAP_SL, INTBUF_TAB%GAP_ML, COUNT_REMSLV,  
+     4  INTBUF_TAB%STFM  , INTBUF_TAB%GAP_SL, INTBUF_TAB%GAP_ML, COUNT_REMSLV,
      5  INTBUF_TAB%IFPEN , INTBUF_TAB%FTSAVX, INTBUF_TAB%FTSAVY, INTBUF_TAB%FTSAVZ,
      6  IPARI(30,NIN)    , DRAD             , DGAPLOADP)
 C-----------------------------------------------------------

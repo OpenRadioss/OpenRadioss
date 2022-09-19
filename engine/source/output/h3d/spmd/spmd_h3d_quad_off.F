@@ -27,12 +27,12 @@ Chd|        GENH3D                        source/output/h3d/h3d_results/genh3d.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-       SUBROUTINE H3D_QUAD_OFF(ELBUF_TAB, IPARG, IXQ, QUAD_SCALAR, ID_ELEM, 
+       SUBROUTINE H3D_QUAD_OFF(ELBUF_TAB, IPARG, IXQ, QUAD_SCALAR, ID_ELEM,
      .                          IPART , IPARTQ)
 C----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER ITY,MLW,NEL,NFT,NG,I   
+      INTEGER ITY,MLW,NEL,NFT,NG,I
 C-----------------------------------------------
 c
       DO NG=1,NGROUP

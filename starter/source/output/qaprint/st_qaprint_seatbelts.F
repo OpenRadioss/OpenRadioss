@@ -64,7 +64,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(NSLIPRING + NRETRACTOR == 0)RETURN
 C
-      OK_QA = MYQAKEY('/SLIPRING')  
+      OK_QA = MYQAKEY('/SLIPRING')
 C                                                         
       IF (OK_QA) THEN
 C   
@@ -132,12 +132,12 @@ C
 C
             ENDDO
 C
-         ENDDO 
+         ENDDO
       ENDIF
 C        
-      OK_QA = MYQAKEY('/RETRACTOR')  
+      OK_QA = MYQAKEY('/RETRACTOR')
 C                                                         
-      IF (OK_QA) THEN   
+      IF (OK_QA) THEN
          DO I = 1, NRETRACTOR
 C
             CALL QAPRINT('RETRACTOR ID ',RETRACTOR(I)%ID,0.0_8)
@@ -181,8 +181,8 @@ C
             TMPVAL = RETRACTOR(I)%PULLOUT
             CALL QAPRINT('RETRACTOR PULLOUT ',0,TMPVAL)
 C
-         ENDDO 
-      ENDIF                                                                        
+         ENDDO
+      ENDIF
 C-----------------------------------------------
       RETURN
       END

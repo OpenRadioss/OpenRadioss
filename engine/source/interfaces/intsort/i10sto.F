@@ -80,7 +80,7 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ), RBID
 C-----------------------------------------------
 #include "sync_dir.inc"
@@ -119,7 +119,7 @@ Cel attention au shift
             ENDDO
             K_STOK = K_STOK + 1
  100        CONTINUE
-          ENDIF                        
+          ENDIF
         ENDDO
 C
         IF(K_STOK==0)RETURN
@@ -147,7 +147,7 @@ Cel attention au shift
             NE = PROV_E(I)+ESHIFT
             DO J = CAND_A(N),CAND_A(N+1)-1
               IF (CAND_E(J)==NE) GOTO 200
-            ENDDO 
+            ENDDO
             I_STOK = I_STOK + 1
             CAND_N(I_STOK) = NN
             CAND_E(I_STOK) = NE

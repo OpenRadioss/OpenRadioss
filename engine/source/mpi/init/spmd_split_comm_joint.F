@@ -35,7 +35,7 @@ Chd|====================================================================
 !       SPMD_SPLIT_COMM_JOINT organization :
 !              - loop over the joints in order to
 !                tag all the processors
-!              - then create a communicator for a given 
+!              - then create a communicator for a given
 !                joint
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      
+
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
         P = ISPMD + 1
 !           -----------------------------
-!       loop over the interface        
+!       loop over the interface
         DO KK=1,NJOINT
 !           -----------------------------
             !   color the processor
@@ -93,7 +93,7 @@ C-----------------------------------------------
             ELSE
                         CYL_JOIN(KK)%COMM_MPI%COLOR=0
                         KEY = 0
-            ENDIF       
+            ENDIF
             !   create the communicator
             CALL MPI_COMM_SPLIT(MPI_COMM_WORLD,CYL_JOIN(KK)%COMM_MPI%COLOR,P,CYL_JOIN(KK)%COMM_MPI%COMM,CODE)
             IF(CYL_JOIN(KK)%COMM_MPI%COLOR==1) THEN

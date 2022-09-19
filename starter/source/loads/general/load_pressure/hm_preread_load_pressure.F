@@ -104,10 +104,10 @@ C EXTRACT DATAS (INTEGER VALUES)
        ENDIF
 
 C-------
-        IS = 0                                              
+        IS = 0
         DO J=1,NSURF
           IF(ISU==IGRSURF(J)%ID)IS=J
-        ENDDO 
+        ENDDO
         IF(IS == 0)THEN
           CALL ANCMSG(MSGID=931,
      .                MSGTYPE=MSGERROR,
@@ -115,7 +115,7 @@ C-------
      .                I1=ID,
      .                C1=TITR,
      .                I2=ISU)
-        ENDIF   
+        ENDIF
 C-----------                                      
         NUMLOADP = NUMLOADP + 4*IGRSURF(IS)%NSEG
         NINTLOADP = NINTLOADP + NINTERS

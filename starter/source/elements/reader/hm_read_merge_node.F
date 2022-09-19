@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER MERGE_NODE_TAB(4,*),NMERGE_NODE_CAND,NMERGE_NODE_DEST
       my_real
      .   X(3,*),MERGE_NODE_TOL(*)
-      TYPE(UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE(UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -110,7 +110,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('tol'      ,TOL               ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+        CALL HM_GET_FLOATV('tol'      ,TOL               ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_INTV  ('Type'     ,MERGE_TYPE        ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV  ('grnod_id' ,GR_ID             ,IS_AVAILABLE, LSUBMODEL)
 C
@@ -139,18 +139,18 @@ C--     computation of default tolerance (only one time)
           ZMIN =  EP20
           ZMAX = -EP20
           DO J = 1,NUMNOD
-            XMIN = MIN(XMIN,X(1,J))       
-            XMAX = MAX(XMAX,X(1,J))       
-            YMIN = MIN(YMIN,X(2,J))       
-            YMAX = MAX(YMAX,X(2,J))       
-            ZMIN = MIN(ZMIN,X(3,J))       
-            ZMAX = MAX(ZMAX,X(3,J))     
+            XMIN = MIN(XMIN,X(1,J))
+            XMAX = MAX(XMAX,X(1,J))
+            YMIN = MIN(YMIN,X(2,J))
+            YMAX = MAX(YMAX,X(2,J))
+            ZMIN = MIN(ZMIN,X(3,J))
+            ZMAX = MAX(ZMAX,X(3,J))
           END DO
           DX  = XMAX-XMIN
           DY  = YMAX-YMIN
           DZ  = ZMAX-ZMIN
           TOL_DEF = EM05*(DX+DY+DZ)/(THREE*EXP(THIRD*LOG(XN)))
-        ENDIF        
+        ENDIF
 C
         IF (GR_IDS > 0) THEN
 C--       Grnod id is defined
@@ -189,7 +189,7 @@ C
         MERGE_NODE_TAB(4,I) = ID
         MERGE_NODE_TOL(I) = TOL
 C
-        WRITE(IOUT,1100) ID,TRIM(TITR),TOL,MERGE_TYPE,GR_ID    
+        WRITE(IOUT,1100) ID,TRIM(TITR),TOL,MERGE_TYPE,GR_ID
 C
       ENDDO
 C
@@ -203,5 +203,5 @@ C
      .       /5X,'TOLERANCE. . . . . . . . . . . . . . . . .',1PG20.4
      .       /5X,'MERGING TYPE. . . . . . . . . . . . . . . ',I10
      .       /5X,'GROUP OF NODES. . . . . . . . . . . . . . ',I10)
-      END 
+      END
 C

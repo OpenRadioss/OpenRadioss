@@ -27,7 +27,7 @@ Chd|        INIT_TH                       source/output/th/init_th.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE THRES_COUNT(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR, 
+      SUBROUTINE THRES_COUNT(IPARG,ITHBUF,ELBUF_TAB,IGEO,IXR,
      .                       ITHGRP,NTHGRP2,WA_SIZE,INDEX_WA_SPRING)
 C-----------------------------------------------
 C   M o d u l e s
@@ -56,10 +56,10 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       NTHGRP2 : integer ; number of TH group 
+!       NTHGRP2 : integer ; number of TH group
 !       WA_SIZE : integer ; size of working array for spring element
 !       INDEX_WA_SPRING : integer ; dimension=NTHGRP2
-!               local index of WA array, sent to PROC0 
+!               local index of WA array, sent to PROC0
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -78,17 +78,17 @@ C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
 !$COMMENT
 !       THRES_COUNT description
-!       count the size of working array for 
+!       count the size of working array for
 !       spring element
-!       
+!
 !       THRES_COUNT organization :
 !       loop over the NTHGRP2 TH group and
 !       if a group is a spring group, then :
-!           - add the size of the group NVAR to the 
+!           - add the size of the group NVAR to the
 !             global size WA_SIZE (WA_SIZE=WA_SIZE+NVAR)
 !           - add another case for the local position
 !             WA_SIZE = WA_SIZE + 1
-!             the local position is usefull to build 
+!             the local position is usefull to build
 !             the glaobl index SPRING_STRUCT(I)%TH_SPRING on PROC0
 !$ENDCOMMENT
 
@@ -150,7 +150,7 @@ C recherche du ii correct
                                 ENDIF
 C
                                 IF (IH > IAD+NN) GOTO 666
-                                WA_SIZE = WA_SIZE + NVAR + 1 
+                                WA_SIZE = WA_SIZE + NVAR + 1
                             ENDIF
                         ENDDO
                     ELSEIF (IGTYP == 26) THEN
@@ -209,10 +209,10 @@ C
                                 ENDIF
 C
                                 IF (IH > IAD+NN) GOTO 666
-                                WA_SIZE = WA_SIZE + NVAR + 1 
+                                WA_SIZE = WA_SIZE + NVAR + 1
                             ENDIF
                         ENDDO
-                    ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25 
+                    ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25
      .                                .OR. IGTYP == 23 ) THEN
                         DO I=1,NEL
                             N=I+NFT
@@ -235,7 +235,7 @@ C
                             ENDIF
                         ENDDO
                     ELSEIF (IGTYP >= 29) THEN
-                            IF (IGTYP <= 31 .OR. IGTYP == 35 .OR. IGTYP == 36. OR. 
+                            IF (IGTYP <= 31 .OR. IGTYP == 35 .OR. IGTYP == 36. OR.
      .                      IGTYP == 44) THEN
                                 DO I=1,NEL
                                     N=I+NFT

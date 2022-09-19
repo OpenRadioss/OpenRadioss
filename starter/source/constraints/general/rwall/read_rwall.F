@@ -44,7 +44,7 @@ Chd|====================================================================
      .                  IXQ     ,NPC     ,IKINE   ,IGRNOD  ,
      .                  MFI     ,IMERGE  ,UNITAB  ,
      .                  IKINE1LAG,IDDLEVEL,LSUBMODEL,RTRANS,NOM_OPT ,
-     .                  ITAGND ) 
+     .                  ITAGND )
 C-------------------------------------
 C     LECTURE MUR RIGIDE
 C-----------------------------------------------
@@ -83,8 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IFI,MFI,IDDLEVEL 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER IFI,MFI,IDDLEVEL
       INTEGER NPRW(*), LPRW(*), ITAB(*), ITABM1(*),IXS(NIXS,*),
      .        IXQ(NIXQ,*), NPC(*), IKINE(*),
      .        IMERGE(*),
@@ -139,7 +139,7 @@ C     Counting RWALL type
       CALL HM_OPTION_COUNT('/RWALL/THERM' ,NCHTHERM )
 C     
 C     /RWALL/PLANE
-      IF (NCHPLAN > 0) THEN 
+      IF (NCHPLAN > 0) THEN
         CALL HM_READ_RWALL_PLANE(RWL     ,NPRW    ,LPRW    ,IFI     ,MS      ,
      .                           V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                           IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
@@ -153,7 +153,7 @@ C     /RWALL/CYL
      .                         V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                         IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
      .                        LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHCYL  ,
-     .                         K       ,OFFS    ,IKINE1  )  
+     .                         K       ,OFFS    ,IKINE1  )
       ENDIF
 C
 C     /RWALL/SPHER
@@ -162,7 +162,7 @@ C     /RWALL/SPHER
      .                           V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                           IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
      .                          LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHSPHER,
-     .                           K       ,OFFS    ,IKINE1  ) 
+     .                           K       ,OFFS    ,IKINE1  )
       ENDIF
 C
 C     /RWALL/PARAL
@@ -171,11 +171,11 @@ C     /RWALL/PARAL
      .                           V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                           IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
      .                          LSUBMODEL,RTRANS  ,NOM_OPT ,ITAGND  ,NCHPARAL,
-     .                           K       ,OFFS    ,IKINE1  ) 
+     .                           K       ,OFFS    ,IKINE1  )
       ENDIF
 C
 C     /RWALL/LAGMUL
-      IF (NCHLAGM > 0) THEN 
+      IF (NCHLAGM > 0) THEN
         CALL HM_READ_RWALL_LAGMUL(RWL     ,NPRW    ,LPRW    ,IFI     ,MS      ,
      .                            V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                            IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,
@@ -184,7 +184,7 @@ C     /RWALL/LAGMUL
       ENDIF
 C
 C     /RWALL/THERM
-      IF (NCHTHERM > 0) THEN 
+      IF (NCHTHERM > 0) THEN
         CALL HM_READ_RWALL_THERM(RWL      ,NPRW    ,LPRW    ,IFI     ,MS      ,
      .                            V       ,ITAB    ,ITABM1  ,X       ,IKINE   ,
      .                            IGRNOD  ,MFI     ,IMERGE  ,UNITAB  ,IDDLEVEL,

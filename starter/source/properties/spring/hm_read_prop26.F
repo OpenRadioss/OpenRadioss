@@ -43,9 +43,9 @@ Chd|====================================================================
      .                          PROP_TAG, IDTITL, LSUBMODEL)
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD    
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD     
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  IGEO(NPROPGI),IG,IGTYP,FLAG_FMT
 C     REAL
       my_real
@@ -107,7 +107,7 @@ C--------------------------------------------------
       CALL HM_GET_INTV('Ileng',ILENG,IS_AVAILABLE,LSUBMODEL)
 
       CALL HM_GET_INTV('NFUNC',NFUNC,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV('NRATEN',NFUND,IS_AVAILABLE,LSUBMODEL)   
+      CALL HM_GET_INTV('NRATEN',NFUND,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('DMIN',DMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -119,7 +119,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('DMAX',DMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('ALPHA1',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----
-      IRTYP = 7                                                       
+      IRTYP = 7
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 c
       ! Check if at least one loading curve is defined
@@ -131,17 +131,17 @@ c
      .              C1=TITR)
       ENDIF
 c
-      IF (ALPHA == ZERO) ALPHA = ONE                                   
-      IF (XFAC == ZERO)  XFAC  = ONE * XFAC_DIM    
+      IF (ALPHA == ZERO) ALPHA = ONE
+      IF (XFAC == ZERO)  XFAC  = ONE * XFAC_DIM
       DMIN = -ABS(DMIN)
       DMAX = ABS(DMAX)
-      IF (DMIN == ZERO)  DMIN  = -INFINITY              
+      IF (DMIN == ZERO)  DMIN  = -INFINITY
       IF (DMAX == ZERO)  DMAX  =  INFINITY
       IF (ILENG == 1)    XFAC  = ONE
 c
 C---  Loading curves                                                 
-      IAD = 100                                                       
-      DO I = 1, NFUNC                                              
+      IAD = 100
+      DO I = 1, NFUNC
         CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD',IFUN,I,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD',YFAC,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD',RATE,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -166,14 +166,14 @@ C
         IF (YFAC == ZERO) YFAC = ONE * YFAC_DIM
 C
         IGEO(IAD+I)     = IFUN
-        GEO (IAD+100+I) = RATE                                         
-        GEO (IAD+200+I) = YFAC                                     
-      ENDDO                                                           
+        GEO (IAD+100+I) = RATE
+        GEO (IAD+200+I) = YFAC
+      ENDDO
 C---  Unloading curves                                              
       IAD = 100+NFUNC
       ! -> defined by user
-      IF (NFUND > 0) THEN                                            
-        DO I = 1, NFUND                                              
+      IF (NFUND > 0) THEN
+        DO I = 1, NFUND
           CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD',IFUN,I,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD',YFAC,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD',RATE,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -197,11 +197,11 @@ C
           ENDIF
           IF (YFAC == ZERO) YFAC = ONE * YFAC_DIM
 C
-          IGEO(IAD+I)     = IFUN                                        
-          GEO (IAD+100+I) = RATE                                         
-          GEO (IAD+200+I) = YFAC                                       
+          IGEO(IAD+I)     = IFUN
+          GEO (IAD+100+I) = RATE
+          GEO (IAD+200+I) = YFAC
         ENDDO
-      ! -> defined by default 
+      ! -> defined by default
       ELSE
         CALL ANCMSG(MSGID=2079,
      .              MSGTYPE=MSGWARNING,
@@ -210,48 +210,48 @@ C
      .              C1=TITR)
         NFUND = NFUNC
         DO I = 1,NFUND
-          IGEO(IAD+I)     = IGEO(100+I)                                      
-          GEO (IAD+100+I) = GEO (200+I)                                       
-          GEO (IAD+200+I) = GEO (300+I)       
+          IGEO(IAD+I)     = IGEO(100+I)
+          GEO (IAD+100+I) = GEO (200+I)
+          GEO (IAD+200+I) = GEO (300+I)
         ENDDO
-      ENDIF                                                          
+      ENDIF
 C
-      IGEO(20) = NFUNC                                             
+      IGEO(20) = NFUNC
       IGEO(21) = NFUND
-      GEO(1)   = MASS                                                   
-      GEO(2)   = KMAX                                                   
-      GEO(4)   = ALPHA   
-      GEO(5)   = XFAC                                               
-      GEO(8)   = IRTYP + EM20   
-      GEO(15)  = DMIN                          
-      GEO(16)  = DMAX                                        
+      GEO(1)   = MASS
+      GEO(2)   = KMAX
+      GEO(4)   = ALPHA
+      GEO(5)   = XFAC
+      GEO(8)   = IRTYP + EM20
+      GEO(15)  = DMIN
+      GEO(16)  = DMAX
 C
-      IF (MASS < EM15)THEN                                            
+      IF (MASS < EM15)THEN
          CALL ANCMSG(MSGID=229,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF                                                           
-      IF (IFL == 0)THEN                                               
-        IGEO(3)=ISENS                                                 
-      ELSEIF (IFL == 1)THEN                                           
-        IGEO(3)=-ISENS                                                
-      ELSEIF (IFL == 2)THEN                                           
-        IGEO(3)=ISENS                                                 
-      ENDIF                                                           
-      GEO(80)=IFL                                                     
-      GEO(93)=ILENG                                                   
+      ENDIF
+      IF (IFL == 0)THEN
+        IGEO(3)=ISENS
+      ELSEIF (IFL == 1)THEN
+        IGEO(3)=-ISENS
+      ELSEIF (IFL == 2)THEN
+        IGEO(3)=ISENS
+      ENDIF
+      GEO(80)=IFL
+      GEO(93)=ILENG
 C
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,1000)IG
       ELSE
         WRITE(IOUT,1500)IG,MASS,KMAX,NFUNC,NFUND,DMIN,DMAX,ALPHA,XFAC,ILENG
-        IAD = 100                                                       
+        IAD = 100
         DO I=1,NFUNC
           WRITE(IOUT,1700) IGEO(IAD+I),GEO(IAD+200+I),GEO(IAD+100+I)
         ENDDO
-        IAD = 100+NFUNC                                               
+        IAD = 100+NFUNC
         DO I=1,NFUND
           WRITE(IOUT,1800) IGEO(IAD+I),GEO(IAD+200+I),GEO(IAD+100+I)
         ENDDO
@@ -263,7 +263,7 @@ C
       PROP_TAG(IGTYP)%G_TOTDEPL = 1
       PROP_TAG(IGTYP)%G_FOREP = 1
       PROP_TAG(IGTYP)%G_DEP_IN_COMP = 1
-      PROP_TAG(IGTYP)%G_POSX = 5  !  just temp - not really used - 
+      PROP_TAG(IGTYP)%G_POSX = 5  !  just temp - not really used -
       PROP_TAG(IGTYP)%G_LENGTH_ERR = 1
       PROP_TAG(IGTYP)%G_DV = 1
 C
@@ -298,7 +298,7 @@ C-----------
      & 5X,'UNLOADING FUNCTION NUMBER . . . . . . . =',I10/
      & 7X,'SCALE FACTOR. . . . . . . . . . . . . . =',1PG20.13/
      & 7X,'STRAIN RATE . . . . . . . . . . . . . . =',1PG20.13)
-c      sensor and sensor flag not used    
+c      sensor and sensor flag not used
  999  CALL FREERR(1)
 C-----------
       RETURN

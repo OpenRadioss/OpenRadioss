@@ -64,7 +64,7 @@ C-----------------------------------------------
      .        ITASK
 C     REAL
       my_real
-     .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*), 
+     .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*),
      .   XFRAME(NXFRAME,*), XSPSYM(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -171,7 +171,7 @@ C-----------------------------------------------
      .        ITASK
 C     REAL
       my_real
-     .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*), 
+     .   X(3,*), V(3,*), MS(*), SPBUF(NSPBUF,*),
      .   XFRAME(NXFRAME,*), VSPSYM(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

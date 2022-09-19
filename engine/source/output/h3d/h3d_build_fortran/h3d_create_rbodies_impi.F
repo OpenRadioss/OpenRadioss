@@ -81,7 +81,7 @@ C   MPI variables
       DATA MSGOFF/7018/
       DATA MSGOFF2/7019/
 
-      LOC_PROC = ISPMD + 1 
+      LOC_PROC = ISPMD + 1
 
 C SEND main NODES TO PROC 0
       DO J=1,NRBYKIN
@@ -91,8 +91,8 @@ C SEND main NODES TO PROC 0
         ELSE
             MAINND(J)= 0
         ENDIF
-        ID_RBY(J)= NPBY(6,J) 
-      ENDDO   
+        ID_RBY(J)= NPBY(6,J)
+      ENDDO
 
       CALL SPMD_GLOB_ISUM9(MAINND,NRBYKIN)
 C   init
@@ -136,7 +136,7 @@ C
 
 C   Envoi du buffer BUFSPM vers les differents procs
         DO I=1,NSPMD
-  
+
           IF (IAD_RBY2(1,I)>0) THEN
 
             MSGTYP = MSGOFF
@@ -173,7 +173,7 @@ C   differents processeurs
         ENDDO
 C  52d19+++
         DO I=1,NSPMD
-  
+
           IF (IAD_RBY2(1,I)>0) THEN
             CALL MPI_WAIT(ISD(I),STATUS,IERROR)
           ENDIF
@@ -274,11 +274,11 @@ C   Je remplis ma file pour PO
             PORBY(I)=BUFSPO(I)
           ENDDO
           LPO = LPO+L
-          
+
           DO I=2,NSPMD
 
             IF (RECOISDE(I)==1) THEN
-ccc             
+ccc
               MSGTYP = MSGOFF2
               PTRPO(I) = LPO
               CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
@@ -291,17 +291,17 @@ ccc
             ELSE
               PTRPO(I) = LPO
             ENDIF
-          ENDDO                
+          ENDDO
           PTRPO(NSPMD+1)=LPO
 
           PTRPOO=PTRPO
           CALL C_H3D_CREATE_RBODIES_IMPI(ITAB,NRBYKIN,MAINND,ID_RBY,PTRPO,PTRPOO,PORBY,NSPMD,
      .                                   COMPID_RBODIES)
-           
-          
-           
+
+
+
 
         ENDIF
 #endif
         RETURN
-      END 
+      END

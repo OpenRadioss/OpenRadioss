@@ -36,11 +36,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
-       ! computes knots for solving 4-point spline path. 
+       ! computes knots for solving 4-point spline path.
        ! CATMULL-ROM PARAMETER
        !  ALPHA = 0.0 : uniform
        !  ALPHA = 0.5 : centripetal
-       !  ALPHA = 1.0 : chordal   
+       !  ALPHA = 1.0 : chordal
        !      INPUT  - PTS(0:3,:) are 4 control points
        !      INPUT  - ALPHA CCR SPLINE PARAMETER
        !      OUTPU  - KNOTS() : t0,t1,t2,t3
@@ -59,14 +59,14 @@ C-----------------------------------------------
           KNOTS(0)=0.0
           X=PTS(1-1,1)-PTS(1,1)
           Y=PTS(1-1,2)-PTS(1,2)
-          Z=PTS(1-1,3)-PTS(1,3)  
+          Z=PTS(1-1,3)-PTS(1,3)
           KNOTS(1)=KNOTS(0)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
           X=PTS(1,1)-PTS(1+1,1)
           Y=PTS(1,2)-PTS(1+1,2)
-          Z=PTS(1,3)-PTS(1+1,3)  
+          Z=PTS(1,3)-PTS(1+1,3)
           KNOTS(2)=KNOTS(1)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
           X=PTS(1+1,1)-PTS(1+2,1)
           Y=PTS(1+1,2)-PTS(1+2,2)
-          Z=PTS(1+1,3)-PTS(1+2,3)  
+          Z=PTS(1+1,3)-PTS(1+2,3)
           KNOTS(3)=KNOTS(2)+ EXP(ALPHA*LOG(SQRT(X*X+Y*Y+Z*Z)))
-       END SUBROUTINE CR_SPLINE_KNOTS     
+       END SUBROUTINE CR_SPLINE_KNOTS

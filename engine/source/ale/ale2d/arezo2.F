@@ -73,7 +73,7 @@ C-----------------------------------------------
            VAR(IDX,I)=VAR(IDX,I) + HALF*DT1*(PHI(IE)* (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      .                -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)) / VOL(I)
          ENDIF
-        ENDDO    
+        ENDDO
       ELSE
         DO I=LFT,LLT
         IE =NFT+I
@@ -82,7 +82,7 @@ C-----------------------------------------------
         IV2=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
         IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
         IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
-       
+
         IF(IV1 <= 0)IV1=IE
         IF(IV2 <= 0)IV2=IE
         IF(IV3 <= 0)IV3=IE
@@ -154,7 +154,7 @@ C-----------------------------------------------
      3                -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4                -PHI(IV4)*FLUX(4,I)) / VOL(I)
          ENDIF
-        ENDDO    
+        ENDDO
       ELSE
         DO I=LFT,LLT
         IE =NFT+I
@@ -169,7 +169,7 @@ C-----------------------------------------------
         IF(IV4 <= 0)IV4=IE
         VOLN=VOL(I)-DT1 * (FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
         IF (VOLN > EM15) THEN
-          SIG(I,IDX) = SIG(I,IDX) + HALF * DT1 * ( 
+          SIG(I,IDX) = SIG(I,IDX) + HALF * DT1 * (
      .                                             PHI(IE)*(FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I))
      .                                            -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)
      .                                           ) / MAX(EM15,VOLN)

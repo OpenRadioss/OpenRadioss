@@ -35,12 +35,12 @@ Chd|====================================================================
      4                  EIV   ,REV  ,RKV  ,TV     ,
      5                  SSP_EQ,VxV  ,VyV  ,VzV    ,IALEFVM_FLG,
      6                  Vx    ,Vy   ,Vz   ,MOM    ,RHO        ,VOL,
-     7                  XmomV ,YmomV,ZmomV,BUFVOIS,NEL        )     
+     7                  XmomV ,YmomV,ZmomV,BUFVOIS,NEL        )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD      
-      USE ALEFVM_MOD            
+      USE ELBUFDEF_MOD
+      USE ALEFVM_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,10 +67,10 @@ C-----------------------------------------------
       my_real
      .  PM(NPROPM,*), V(3,*),X(3,*),DVP(*),VN(*),W(3,*),
      .  VEL(*),VD2(*),VDY(*),VDZ(*),
-     .  RHOV(*), PV(*), EIV(*), REV(*), RKV(*), 
+     .  RHOV(*), PV(*), EIV(*), REV(*), RKV(*),
      .  TV(*),VIS(*), BUFVOIS(6,*),SSP_EQ(*), VxV(MVSIZ), VyV(MVSIZ), VzV(MVSIZ),
      .  Vx(MVSIZ), Vy(MVSIZ), Vz(MVSIZ),MOM(NEL,3),RHO(MVSIZ),VOL(MVSIZ),
-     . XmomV(MVSIZ), YmomV(Mvsiz), ZmomV(MVSIZ)     
+     . XmomV(MVSIZ), YmomV(Mvsiz), ZmomV(MVSIZ)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
 C-----------------------------------------------
@@ -79,8 +79,8 @@ C-----------------------------------------------
       INTEGER                  :: I,II,J,JJ(3),IVOI,ML,N,KTY,KLT,MFT,IS,IX1,IX2,
      .                            INOD,ICF(2,4),MV,MT,K,KK(6),IAD2
       my_real                  :: YN, ZN, FAC, VN1, VN2, DVY, DVZ, MASSv, Mass
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF   
-      LOGICAL                  :: bFOUND  
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      LOGICAL                  :: bFOUND
 C-----------------------------------------------
       DATA ICF/1,2,2,3,3,4,4,1/
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C-----------------------------------------------
 !
         !
         !  SEARCH ADJACENT ELEMENT (MTN /= 11). (HYPOTHESIS : THIS ADJ ELEM IS SUPPOSED TO BE UNIQUE)
-        !        
+        !
         DO J=1,4
           IVOI=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
           ML=11
@@ -108,22 +108,22 @@ C-----------------------------------------------
         IF(ML/=11)THEN
           !
           !      ADJACENT VALUES
-          !    
+          !
           IF(IVOI<=NUMELQ)THEN
-            !                                                        
+            !
             !  LOCAL ADJACENT ELEM : REFER TO GBUF%
-            !  
-            bFOUND = .FALSE.          
+            !
+            bFOUND = .FALSE.
             DO N=1,NGROUP
               KTY = IPARG(5,N)
               KLT = IPARG(2,N)
               MFT = IPARG(3,N)
-               IF (KTY==2 .AND. IVOI<=KLT+MFT)THEN      
-                 bFOUND = .TRUE.                            
-                 EXIT                                       
-               ENDIF                 
+               IF (KTY==2 .AND. IVOI<=KLT+MFT)THEN
+                 bFOUND = .TRUE.
+                 EXIT
+               ENDIF
             ENDDO
-            IF(.NOT.bFOUND)CYCLE !next I            
+            IF(.NOT.bFOUND)CYCLE !next I
             GBUF    => ELBUF_TAB(N)%GBUF
             !PRESSURE
             IS      =  IVOI-MFT-1
@@ -148,43 +148,43 @@ C-----------------------------------------------
             ENDIF
             IF (JTHE>0) TV(I)  = GBUF%TEMP(IS+1)
             !MOMENTUM
-            IF(IALEFVM == 1)THEN          
+            IF(IALEFVM == 1)THEN
               IS       = IVOI-MFT
-              MassV    = RHOV(I)*GBUF%VOL(IS)                      
+              MassV    = RHOV(I)*GBUF%VOL(IS)
               VxV(I)   = GBUF%MOM(JJ(1) + IS)/MassV
               VyV(I)   = GBUF%MOM(JJ(2) + IS)/MassV
-              VzV(I)   = GBUF%MOM(JJ(3) + IS)/MassV 
+              VzV(I)   = GBUF%MOM(JJ(3) + IS)/MassV
               XmomV(I) = GBUF%MOM(JJ(1) + IS)
               YmomV(I) = GBUF%MOM(JJ(2) + IS)
-              ZmomV(I) = GBUF%MOM(JJ(3) + IS)		   
+              ZmomV(I) = GBUF%MOM(JJ(3) + IS)		
             ENDIF
           ELSE
-            !                                                        
-            !  SPMD case : FOR REMOTE ADJACENT ELEM REFER TO BUFVOIS (filled in ALEMAIN)         
-            !                                 
-            IS = IVOI-NUMELQ                                              
-            PV(I)  =BUFVOIS(1,IS)                                         
-            EIV(I) =BUFVOIS(2,IS)                                         
-            RHOV(I)=BUFVOIS(3,IS)                                         
-            IF(ML==6.OR.ML==17) VIS(I) =PM(24,MV)*RHOV(I)             
-            IF(JTUR>0)THEN                                             
-              RKV(I) =BUFVOIS(4,IS)                                       
-              REV(I) =BUFVOIS(6,IS)                                       
-              VIS(I) =VIS(I)+PM(81,MV)*RKV(I)**2/REV(I)                   
-            ENDIF                                                         
+            !
+            !  SPMD case : FOR REMOTE ADJACENT ELEM REFER TO BUFVOIS (filled in ALEMAIN)
+            !
+            IS = IVOI-NUMELQ
+            PV(I)  =BUFVOIS(1,IS)
+            EIV(I) =BUFVOIS(2,IS)
+            RHOV(I)=BUFVOIS(3,IS)
+            IF(ML==6.OR.ML==17) VIS(I) =PM(24,MV)*RHOV(I)
+            IF(JTUR>0)THEN
+              RKV(I) =BUFVOIS(4,IS)
+              REV(I) =BUFVOIS(6,IS)
+              VIS(I) =VIS(I)+PM(81,MV)*RKV(I)**2/REV(I)
+            ENDIF
             IF(JTHE>0) TV(I) = BUFVOIS(5,IS)
-            !VxV(I)    = BUFVOIS(07,IS)                                 
-            !VyV(I)    = BUFVOIS(08,IS)                                 
-            !VzV(I)    = BUFVOIS(09,IS)  
-            !XmomV(I)  = BUFVOIS(10,IS)                                 
-            !YmomV(I)  = BUFVOIS(11,IS)                                 
-            !ZmomV(I)  = BUFVOIS(12,IS)                                           
-          ENDIF        
-        
-        
-          !                               
-          !      FACE VELOCITY            
-          !            
+            !VxV(I)    = BUFVOIS(07,IS)
+            !VyV(I)    = BUFVOIS(08,IS)
+            !VzV(I)    = BUFVOIS(09,IS)
+            !XmomV(I)  = BUFVOIS(10,IS)
+            !YmomV(I)  = BUFVOIS(11,IS)
+            !ZmomV(I)  = BUFVOIS(12,IS)
+          ENDIF
+
+
+          !
+          !      FACE VELOCITY
+          !
           IX1  = IXQ(ICF(1,J)+1,II)
           IX2  = IXQ(ICF(2,J)+1,II)
           YN   = (X(2,IX2)-X(2,IX1))
@@ -193,7 +193,7 @@ C-----------------------------------------------
           INOD = NINT(PM(51,MT))
           !
           !      STANDARD FEM FOR MOMENTUM (VELOCITY ON NODES)
-          !       
+          !
           IF(IALEFVM_FLG <= 1)THEN
             !
             !      SUPG&ITG
@@ -228,18 +228,18 @@ C-----------------------------------------------
                 DVP(I)=DVP(I)+(V(2,IX1)+V(2,IX2))*DT1/(X(2,IX1)+X(2,IX2))
               ENDIF
             ENDIF
-          
+
           !
           !      SWITCH TO FVM FOR MOMENTUM (VELOCITY ON CELL CENTROID)
-          !              
+          !
           ELSE ! => (IALEFVM_FLG >= 2)
             VDY(I)   = HALF * (Vy(I) + VyV(I))
-            VDZ(I)   = HALF * (Vz(I) + VzV(I)) 
-            VD2(I)   = VDY(I)**2 + VDZ(I)**2                                  
-            IF(VDY(I)*YN + VDZ(I)*ZN <= ZERO)THEN                                                                              
-              VDY(I) = ZERO                                                         
-              VDZ(I) = ZERO                                                         
-            ENDIF   
+            VDZ(I)   = HALF * (Vz(I) + VzV(I))
+            VD2(I)   = VDY(I)**2 + VDZ(I)**2
+            IF(VDY(I)*YN + VDZ(I)*ZN <= ZERO)THEN
+              VDY(I) = ZERO
+              VDZ(I) = ZERO
+            ENDIF
             !
             ! NON REFLECTING BOUNDARY : VN et DVP
             !
@@ -254,28 +254,28 @@ C-----------------------------------------------
               DVP(I) = ZERO !NOT YET CALCULATED : USUALLY NOT USED : EXPERIMENTAL FORMULATION
             ENDIF
           ENDIF! IF(IALEFVM_FLG <= 1)THEN
-          
-        ELSE          
-          VDY(I)   = ZERO 
-          VDZ(I)   = ZERO 
-          VD2(I)   = ZERO 
-          VN(I)    = ZERO  
-          DVP(I)   = ZERO 
-          PV(I)    = ZERO  
-          EIV(I)   = ZERO 
-          RHOV(I)  = ZERO 
-          VIS(I)   = ZERO 
-          RKV(I)   = ZERO 
-          TV(I)    = ZERO  
-          REV(I)   = ZERO   
-          VxV(I)   = ZERO    
+
+        ELSE
+          VDY(I)   = ZERO
+          VDZ(I)   = ZERO
+          VD2(I)   = ZERO
+          VN(I)    = ZERO
+          DVP(I)   = ZERO
+          PV(I)    = ZERO
+          EIV(I)   = ZERO
+          RHOV(I)  = ZERO
+          VIS(I)   = ZERO
+          RKV(I)   = ZERO
+          TV(I)    = ZERO
+          REV(I)   = ZERO
+          VxV(I)   = ZERO
           VyV(I)   = ZERO
-          VzV(I)   = ZERO                   
-          XmomV(I) = ZERO    
+          VzV(I)   = ZERO
+          XmomV(I) = ZERO
           YmomV(I) = ZERO
-          ZmomV(I) = ZERO    
-        ENDIF  
-      
+          ZmomV(I) = ZERO
+        ENDIF
+
       ENDDO!next I
 C
       RETURN

@@ -52,8 +52,8 @@ Chd|====================================================================
      G   ADMSR,
      H   IRECT,
      I   EBINFLG,
-     J   MVOISIN, 
-     K   IEDGE, 
+     J   MVOISIN,
+     K   IEDGE,
      L   ICODT,
      M   ISKEW,IPARTFRIC_E,
      N   E2S_NOD_NORMAL)
@@ -100,7 +100,7 @@ C-----------------------------------------------
      .        IELES(*),NUM_IMP, NODNX_SMS(*),IRTLM(*),ITYP,
      .        NBINFLG(*),ILEV,I24_ICONT_I(*),IPARTFRICS(*),IF_ADH(*),
      .        IPARTFRIC_E(*)
-      INTEGER :: NEDGE, LNDEDGE, LEDGE(LNDEDGE,NEDGE) 
+      INTEGER :: NEDGE, LNDEDGE, LEDGE(LNDEDGE,NEDGE)
       INTEGER :: ADMSR(4,*),IRECT(4,*)
       INTEGER, INTENT(IN) :: EBINFLG(*)
       INTEGER, INTENT(IN) :: NEDGE_LOCAL
@@ -130,7 +130,7 @@ C-----------------------------------------------
      .        REQ_RB(NSPMD),KK,NBIRECV,IRINDEXI(NSPMD),
      .        REQ_RD(NSPMD),REQ_SD(NSPMD),REQ_SD2(NSPMD),
      .        REQ_RC(NSPMD),REQ_SC(NSPMD),
-     .        INDEXI,ISINDEXI(NSPMD),INDEX(NUMNOD),                    
+     .        INDEXI,ISINDEXI(NSPMD),INDEX(NUMNOD),
      .        NBOX2(2,NSPMD),NBOX(2,NSPMD),
      .        NBX,NBY,NBZ,IX,IY,IZ,
      .        MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5,MSGOFF6,
@@ -147,29 +147,29 @@ C-----------------------------------------------
       INTEGER :: N1,N2 ,NN1,NN2
       INTEGER :: IX1,IX2,IY1,IY2,IZ1,IZ2
       INTEGER :: IE,JE,I1,I2
-     
+
       my_real :: DX,DY,DZ
       my_real :: STF
 
       DATA MSGOFF/6000/
       DATA MSGOFF2/6001/
       DATA MSGOFF3/6002/
-      DATA MSGOFF4/6003/ 
-      DATA MSGOFF5/6004/ 
-      DATA MSGOFF6/6006/ 
-      DATA MSGOFF7/6007/ 
+      DATA MSGOFF4/6003/
+      DATA MSGOFF5/6004/
+      DATA MSGOFF6/6006/
+      DATA MSGOFF7/6007/
 
       my_real
      .        BMINMA(6,NSPMD),
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
-     
-      TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF
-      TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF   
-      TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF_EDGE   
-      TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF_EDGE   
 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
-      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_EDGE 
+      TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF
+      TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF
+      TYPE(int_pointer) , DIMENSION(NSPMD) :: IBUF_EDGE
+      TYPE(real_pointer), DIMENSION(NSPMD) :: RBUF_EDGE
+
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI
+      INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX_EDGE
 
       INTEGER :: NBIRECV_NODE,NBIRECV_EDGE
       INTEGER :: IAM,JAM,IM,M1,M2
@@ -190,7 +190,7 @@ C
 C Sauvegarde valeur ancienne des nsn frontieres
 C
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
-     .   .OR.NUM_IMP>0.OR.ITIED/=0.OR.ITYP==23.OR.ITYP==24   
+     .   .OR.NUM_IMP>0.OR.ITIED/=0.OR.ITYP==23.OR.ITYP==24
      .   .OR.ITYP==25) THEN
          DO P = 1, NSPMD
            NSNFIOLD(P) = NSNFI(NIN)%P(P)
@@ -218,13 +218,13 @@ C
         DO P = 1, NSPMD
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(P/=LOC_PROC) THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          CRVOXEL25(0,0,1,LOC_PROC),
      .          2*(LRVOXEL25+1)*(LRVOXEL25+1),
      .          MPI_INTEGER,
      .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
-              MSGTYP = MSGOFF2 
+              MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
@@ -242,13 +242,13 @@ C
             IF(LOC_PROC/=P) THEN
               NBIRECV=NBIRECV+1
               IRINDEXI(NBIRECV)=P
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               CALL MPI_IRECV(
      .          CRVOXEL25(0,0,1,P),
      .         2*(LRVOXEL+1)*(LRVOXEL+1),
      .          MPI_INTEGER,
      .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_RC(NBIRECV),IERROR)
-              MSGTYP = MSGOFF2 
+              MSGTYP = MSGOFF2
               CALL MPI_IRECV(
      .          BMINMA(1,P)   ,6              ,REAL  ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_RB(NBIRECV),IERROR)
@@ -261,63 +261,63 @@ Cel envoi de XREM
 C
 C computation of real and integer sending buffers sizes
 c general case
-      RSIZ = 8    
+      RSIZ = 8
       ISIZ = 6
 
       IF(.TRUE.) THEN
-        ISIZ = ISIZ + 2 
+        ISIZ = ISIZ + 2
       ENDIF
 
-c specific cases 
+c specific cases
 c IGAP=1 or IGAP=2
       IF(IGAP==1 .OR. IGAP==2)THEN
         RSIZ = RSIZ + 1
-c IGAP=3        
+c IGAP=3
       ELSEIF(IGAP==3)THEN
         RSIZ = RSIZ + 2
       ENDIF
 
 C thermic      
-      IF(INTTH > 0 ) THEN    
+      IF(INTTH > 0 ) THEN
         RSIZ = RSIZ + 2
         ISIZ = ISIZ + 1
       ENDIF
 
 C Interface Adhesion      
-      IF(ITYP==25.AND.(IVIS2==-1.AND.INTTH == 0) ) THEN    
+      IF(ITYP==25.AND.(IVIS2==-1.AND.INTTH == 0) ) THEN
         RSIZ = RSIZ + 1 ! areas
         ISIZ = ISIZ + 2 ! if_adh+ioldnsnfi
       ENDIF
 
 C Friction      
-      IF(INTFRIC > 0 ) THEN    
+      IF(INTFRIC > 0 ) THEN
         ISIZ = ISIZ + 1
       ENDIF
 
 C -- IDTMINS==2      
-      IF(IDTMINS == 2)THEN     
+      IF(IDTMINS == 2)THEN
         ISIZ = ISIZ + 2
 C -- IDTMINS_INT /= 0           
-      ELSEIF(IDTMINS_INT/=0)THEN    
+      ELSEIF(IDTMINS_INT/=0)THEN
         ISIZ = ISIZ + 1
       END IF
 
-c INT24      
+c INT24
       IF(ITYP==24)THEN
         RSIZ = RSIZ + 8
         ISIZ = ISIZ + 3
 C-----for   NBINFLG      
         IF (ILEV==2) ISIZ = ISIZ + 1
 
-      ENDIF    
+      ENDIF
 
-c INT25     
+c INT25
       IF(ITYP==25)THEN
         RSIZ = RSIZ + 3
         ISIZ = ISIZ + 6
 C-----for   NBINFLG      
         IF (ILEV==2) ISIZ = ISIZ + 1
-      ENDIF    
+      ENDIF
       IDEB = 1
       REQ_SD4(1:NSPMD) = MPI_REQUEST_NULL
       REQ_SD5(1:NSPMD) = MPI_REQUEST_NULL
@@ -333,9 +333,9 @@ C-----for   NBINFLG
         ALLOCATE(ITAGNSNFI(NUMNOD),STAT=IERROR)
         ITAGNSNFI(1:NUMNOD) = 0
         ALLOCATE(INDEX_EDGE(NEDGE),STAT=IERROR)
-        INDEX_EDGE(1:NEDGE) = 0 
+        INDEX_EDGE(1:NEDGE) = 0
       END IF
-      
+
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
@@ -408,14 +408,14 @@ C ==================== Secnd edges =============================
 ! even if it is a boundary edge
           IF(IEDGE /= 0) THEN
           DO I=1,NEDGE_LOCAL
-           ASSERT(LEDGE(9,I) == 1) 
+           ASSERT(LEDGE(9,I) == 1)
            N1=LEDGE(5,I)
            N2=LEDGE(6,I)
-           ASSERT(N1 > 0) 
+           ASSERT(N1 > 0)
            ASSERT(N2 > 0)
            ASSERT(N1 <= NUMNOD)
            ASSERT(N2 <= NUMNOD)
- 
+
            IF(LEDGE(1,I) > 0) THEN
 C            First segment is local
              STF = STFM(LEDGE(1,I))
@@ -423,8 +423,8 @@ C            First segment is local
 C            First segment is on the other side of the boundary
              STF = ONE
              IF(MVOISIN(LEDGE(4,I),LEDGE(3,I)) == 0) STF = 0
-           ELSE ! 
-             
+           ELSE !
+
              ! ISPMD owns a boundary edge, but the local segment is deleted
              STF = ONE
            ENDIF
@@ -436,12 +436,12 @@ C            First segment is on the other side of the boundary
            IF( STF > ZERO .AND. LEDGE(7,I) >= 0)  THEN
 C
 C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
-             XMINS = MIN(X(1,N1),X(1,N2))!- GAPE(I)      
-             YMINS = MIN(X(2,N1),X(2,N2))!- GAPE(I)      
-             ZMINS = MIN(X(3,N1),X(3,N2))!- GAPE(I)      
-             XMAXS = MAX(X(1,N1),X(1,N2))!+ GAPE(I)      
-             YMAXS = MAX(X(2,N1),X(2,N2))!+ GAPE(I)      
-             ZMAXS = MAX(X(3,N1),X(3,N2))!+ GAPE(I)      
+             XMINS = MIN(X(1,N1),X(1,N2))!- GAPE(I)
+             YMINS = MIN(X(2,N1),X(2,N2))!- GAPE(I)
+             ZMINS = MIN(X(3,N1),X(3,N2))!- GAPE(I)
+             XMAXS = MAX(X(1,N1),X(1,N2))!+ GAPE(I)
+             YMAXS = MAX(X(2,N1),X(2,N2))!+ GAPE(I)
+             ZMAXS = MAX(X(3,N1),X(3,N2))!+ GAPE(I)
 
              DEBUG_E2E(LEDGE(8,I) == D_ES, XMINS)
              DEBUG_E2E(LEDGE(8,I) == D_ES, YMINS)
@@ -451,11 +451,11 @@ C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
              DEBUG_E2E(LEDGE(8,I) == D_ES, ZMAXS)
 
              IX1=INT(NBX*(XMINS-XMINB)/DX)
-             IX2=INT(NBX*(XMAXS-XMINB)/DX)       
+             IX2=INT(NBX*(XMAXS-XMINB)/DX)
 
              IF(IX2>=0.AND.IX1<=NBX)THEN
               IY1=INT(NBY*(YMINS-YMINB)/DY)
-              IY2=INT(NBY*(YMAXS-YMINB)/DY) 
+              IY2=INT(NBY*(YMAXS-YMINB)/DY)
 
                IF(IY2>=0.AND.IY1<=NBY)THEN
                IZ1=INT(NBZ*(ZMINS-ZMINB)/DZ)
@@ -467,7 +467,7 @@ C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
                 IY1=MAX(IY1,0)
                 IY2=MIN(IY2,NBX)
                 IZ1=MAX(IZ1,0)
-                IZ2=MIN(IZ2,NBX) 
+                IZ2=MIN(IZ2,NBX)
                 DO IX=IX1,IX2
                  DO IY=IY1,IY2
                   DO IZ=IZ1,IZ2
@@ -483,7 +483,7 @@ C            GAPE inutile ici (Redondant avec BGAPEMAX cote main) !
                ENDIF
               ENDIF
              ENDIF
-  111      CONTINUE       
+  111      CONTINUE
            ENDIF !
           ENDDO
           ENDIF ! IEDGE
@@ -505,7 +505,7 @@ C         WRITE(6,*) ISPMD,"sends ",NB_EDGE,"to,",P-1
 C
 C Envoi taille msg
 C
-          MSGTYP = MSGOFF3 
+          MSGTYP = MSGOFF3
           CALL MPI_ISEND(NBOX(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
 C
@@ -518,7 +518,7 @@ C
             L = 0
             DO J=1,NB_EDGE
                I = INDEX_EDGE(J)
-               ASSERT(I > 0) 
+               ASSERT(I > 0)
                ASSERT(I <= NEDGE)
                IBUF_EDGE(P)%p(E_GLOBAL_ID    + L) = LEDGE(8,I)
                IBUF_EDGE(P)%p(E_LEFT_SEG     + L) = LEDGE(1,I)
@@ -527,11 +527,11 @@ C
                IBUF_EDGE(P)%p(E_RIGHT_ID     + L) = LEDGE(4,I)
                IBUF_EDGE(P)%p(E_NODE1_ID     + L) = LEDGE(5,I)
                IBUF_EDGE(P)%p(E_NODE2_ID     + L) = LEDGE(6,I)
-               IBUF_EDGE(P)%p(E_TYPE         + L) = LEDGE(7,I) 
-! It is possible that one of the node is not sent 
-               IBUF_EDGE(P)%p(E_NODE1_GLOBID + L) = ITAB((LEDGE(5,I))) 
-               IBUF_EDGE(P)%p(E_NODE2_GLOBID + L) = ITAB((LEDGE(6,I))) 
-               IBUF_EDGE(P)%p(E_LOCAL_ID     + L) = I 
+               IBUF_EDGE(P)%p(E_TYPE         + L) = LEDGE(7,I)
+! It is possible that one of the node is not sent
+               IBUF_EDGE(P)%p(E_NODE1_GLOBID + L) = ITAB((LEDGE(5,I)))
+               IBUF_EDGE(P)%p(E_NODE2_GLOBID + L) = ITAB((LEDGE(6,I)))
+               IBUF_EDGE(P)%p(E_LOCAL_ID     + L) = I
                IF(ILEV == 2) THEN
                  IBUF_EDGE(P)%p(E_EBINFLG      + L) = EBINFLG(I)
                ELSE
@@ -542,19 +542,19 @@ C
                M1 = LEDGE(5,I)
                M2 = LEDGE(6,I)
                IM = LEDGE(10,I)
-               IBUF_EDGE(P)%p(E_IM     + L) = IM 
+               IBUF_EDGE(P)%p(E_IM     + L) = IM
                IF(IDTMINS /= 0) THEN
                  IF(IDTMINS/=2 .AND. IDTMINS_INT == 0) THEN
                  ELSEIF(IDTMINS==2) THEN
                    IBUF_EDGE(P)%p(E_NODNX1  + L) = NODNX_SMS(M1)
-                   IBUF_EDGE(P)%p(E_NODAMS1 + L) = M1 
+                   IBUF_EDGE(P)%p(E_NODAMS1 + L) = M1
                    IBUF_EDGE(P)%p(E_NODNX2  + L) = NODNX_SMS(M2)
-                   IBUF_EDGE(P)%p(E_NODAMS2 + L) = M2 
+                   IBUF_EDGE(P)%p(E_NODAMS2 + L) = M2
                  ELSE ! IDTMINS_INT == 0
                    IBUF_EDGE(P)%p(E_NODNX1  + L) = 0
-                   IBUF_EDGE(P)%p(E_NODAMS1 + L) = M1 
+                   IBUF_EDGE(P)%p(E_NODAMS1 + L) = M1
                    IBUF_EDGE(P)%p(E_NODNX2  + L) = 0
-                   IBUF_EDGE(P)%p(E_NODAMS2 + L) = M2 
+                   IBUF_EDGE(P)%p(E_NODAMS2 + L) = M2
                  ENDIF
                    ASSERT(NODNX_SMS(M1) >=0)
                    ASSERT(NODNX_SMS(M2) >=0)
@@ -572,34 +572,34 @@ C
             L = 0
             DO J=1,NB_EDGE
                I = INDEX_EDGE(J)
-               RBUF_EDGE(P)%p(E_X1+ L) =  X(1,(LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_Y1+ L) =  X(2,(LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_Z1+ L) =  X(3,(LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_X2+ L) =  X(1,(LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_Y2+ L) =  X(2,(LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_Z2+ L) =  X(3,(LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_VX1+ L) = V(1,(LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_VY1+ L) = V(2,(LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_VZ1+ L) = V(3,(LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_VX2+ L) = V(1,(LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_VY2+ L) = V(2,(LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_VZ2+ L) = V(3,(LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_MS1+ L) = MS((LEDGE(5,I))) 
-               RBUF_EDGE(P)%p(E_MS2+ L) = MS((LEDGE(6,I))) 
-               RBUF_EDGE(P)%p(E_GAP+ L) = GAPE(I) 
-               IF(IGAP == 3) THEN 
-                 RBUF_EDGE(P)%p(E_GAPL+ L) = GAP_E_L(I) 
+               RBUF_EDGE(P)%p(E_X1+ L) =  X(1,(LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_Y1+ L) =  X(2,(LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_Z1+ L) =  X(3,(LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_X2+ L) =  X(1,(LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_Y2+ L) =  X(2,(LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_Z2+ L) =  X(3,(LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_VX1+ L) = V(1,(LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_VY1+ L) = V(2,(LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_VZ1+ L) = V(3,(LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_VX2+ L) = V(1,(LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_VY2+ L) = V(2,(LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_VZ2+ L) = V(3,(LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_MS1+ L) = MS((LEDGE(5,I)))
+               RBUF_EDGE(P)%p(E_MS2+ L) = MS((LEDGE(6,I)))
+               RBUF_EDGE(P)%p(E_GAP+ L) = GAPE(I)
+               IF(IGAP == 3) THEN
+                 RBUF_EDGE(P)%p(E_GAPL+ L) = GAP_E_L(I)
                ELSE
-                 RBUF_EDGE(P)%p(E_GAPL+ L) = 0 
+                 RBUF_EDGE(P)%p(E_GAPL+ L) = 0
                ENDIF
                ASSERT(NOT(ISNAN( RBUF_EDGE(P)%p(E_GAPL+ L))))
 
 C              RBUF_EDGE(P)%p(E_STIFE+ L) = STFM(LEDGE(1,I)) 
-               RBUF_EDGE(P)%p(E_STIFE+ L) = STFE(I) 
+               RBUF_EDGE(P)%p(E_STIFE+ L) = STFE(I)
                ASSERT(NOT(isnan(STFE(I))))
 
 C TO DO: single precision
-               L2 = E_EDG_BIS + L 
+               L2 = E_EDG_BIS + L
 
                IE  = ABS(LEDGE(1,I))
                JE  = LEDGE(2,I)
@@ -636,7 +636,7 @@ C TO DO: single precision
 
                L = L + E_RBUF_SIZE
             ENDDO
-            
+
 c           DO J = 1, L-1
 c             IF(ISNAN(RBUF_EDGE(P)%p(J))) THEN
 c               WRITE(6,*) ISPMD,"NaN found",J,"/",L
@@ -648,8 +648,8 @@ C           ENDDO
             ALLOCATE(RBUF(P)%P(RSIZ*NB),STAT=IERROR)
             ALLOCATE(IBUF(P)%P(ISIZ*NB),STAT=IERROR)
             L = 0
-            L2= 0           
-              
+            L2= 0
+
 #include      "vectorize.inc"
             DO J = 1, NB
                I = INDEX(J)
@@ -661,33 +661,33 @@ C           ENDDO
                RBUF(P)%p(L+5) = V(2,NOD)
                RBUF(P)%p(L+6) = V(3,NOD)
                RBUF(P)%p(L+7) = MS(NOD)
-               RBUF(P)%p(L+8) = STIFN(I)          
+               RBUF(P)%p(L+8) = STIFN(I)
                IBUF(P)%p(L2+1) = I
-               IBUF(P)%p(L2+2) = ITAB(NOD)      
+               IBUF(P)%p(L2+2) = ITAB(NOD)
                IBUF(P)%p(L2+3) = KINET(NOD)
 !     save specifics IREM and XREM indexes for INT24 sorting
                IBUF(P)%p(L2+4) = 0 !IGAPXREMP
-               IBUF(P)%p(L2+5) = 0 !I24XREMP    
+               IBUF(P)%p(L2+5) = 0 !I24XREMP
                IBUF(P)%p(L2+6) = 0 !I24IREMP
                L = L + RSIZ
                L2 = L2 + ISIZ
             END DO
 
-c shift for real variables (prepare for next setting)       
+c shift for real variables (prepare for next setting)
             RSHIFT = 9
-c shift for integer variables (prepare for next setting) 
-            ISHIFT = 7 
+c shift for integer variables (prepare for next setting)
+            ISHIFT = 7
 
 C  symmetric plane
           IF(.TRUE. )THEN
-            L = 0        
+            L = 0
 #include    "vectorize.inc"
             DO J = 1, NB
               I = INDEX(J)
-              NOD = NSV(I)   
-              IBUF(P)%p(L+ISHIFT+0)= ICODT(NOD) 
-              IBUF(P)%p(L+ISHIFT+1)= ISKEW(NOD) 
-              L = L + ISIZ    
+              NOD = NSV(I)
+              IBUF(P)%p(L+ISHIFT+0)= ICODT(NOD)
+              IBUF(P)%p(L+ISHIFT+1)= ISKEW(NOD)
+              L = L + ISIZ
             ENDDO
             ISHIFT = ISHIFT + 2
           ENDIF
@@ -697,23 +697,23 @@ C  symmetric plane
 
 
 c specific cases
-c IGAP=1 or IGAP=2               
+c IGAP=1 or IGAP=2
             IF(IGAP==1 .OR. IGAP==2)THEN
-               L = 0        
-               IGAPXREMP = RSHIFT       
-#include      "vectorize.inc"          
+               L = 0
+               IGAPXREMP = RSHIFT
+#include      "vectorize.inc"
                DO J = 1, NB
-                 I = INDEX(J)   
+                 I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)= GAP_S(I)
-                 L = L + RSIZ    
+                 L = L + RSIZ
                ENDDO
-               RSHIFT = RSHIFT + 1    
-                  
-c IGAP=3                       
-            ELSEIF(IGAP==3)THEN 
-               L = 0     
-               IGAPXREMP = RSHIFT       
-#include      "vectorize.inc"            
+               RSHIFT = RSHIFT + 1
+
+c IGAP=3
+            ELSEIF(IGAP==3)THEN
+               L = 0
+               IGAPXREMP = RSHIFT
+#include      "vectorize.inc"
                DO J = 1, NB
                  I = INDEX(J)
                  RBUF(P)%p(L+RSHIFT)  = GAP_S(I)
@@ -722,12 +722,12 @@ c IGAP=3
                END DO
                RSHIFT = RSHIFT + 2
             ENDIF
-                     
+
 C thermic
             IF(INTTH>0)THEN
                L = 0
-               L2 = 0           
-#include      "vectorize.inc"                       
+               L2 = 0
+#include      "vectorize.inc"
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -738,14 +738,14 @@ C thermic
                  L2 = L2 + ISIZ
                END DO
                RSHIFT = RSHIFT + 2
-               ISHIFT = ISHIFT + 1             
+               ISHIFT = ISHIFT + 1
             ENDIF
 
 C Interface Adhesion
-            IF(ITYP==25.AND.IVIS2==-1.AND.INTTH==0)THEN                                                  
+            IF(ITYP==25.AND.IVIS2==-1.AND.INTTH==0)THEN
               L = 0
               L2 = 0
-#include      "vectorize.inc"                       
+#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
@@ -756,25 +756,25 @@ C Interface Adhesion
                 L2 = L2 + ISIZ
               END DO
               RSHIFT = RSHIFT + 1
-              ISHIFT = ISHIFT + 2 
-            ENDIF 
+              ISHIFT = ISHIFT + 2
+            ENDIF
 
 C Friction
             IF(INTFRIC>0)THEN
-               L2 = 0           
-#include      "vectorize.inc"                       
+               L2 = 0
+#include      "vectorize.inc"
                DO J = 1, NB
                  I = INDEX(J)
                  IBUF(P)%p(L2+ISHIFT) = IPARTFRICS(I)
                  L2 = L2 + ISIZ
                END DO
-               ISHIFT = ISHIFT + 1             
+               ISHIFT = ISHIFT + 1
             ENDIF
-               
+
 C -- IDTMINS==2
             IF(IDTMINS==2)THEN
                L2 = 0
-#include      "vectorize.inc"                  
+#include      "vectorize.inc"
                DO J = 1, NB
                  I = INDEX(J)
                  NOD = NSV(I)
@@ -783,20 +783,20 @@ C -- IDTMINS==2
                  L2 = L2 + ISIZ
                END DO
                ISHIFT = ISHIFT + 2
-               
+
 C -- IDTMINS_INT /= 0          
             ELSEIF(IDTMINS_INT/=0)THEN
-              L2 = 0             
-#include      "vectorize.inc"         
+              L2 = 0
+#include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
                 NOD = NSV(I)
                 IBUF(P)%p(L2+ISHIFT)= NOD
                 L2 = L2 + ISIZ
               END DO
-              ISHIFT = ISHIFT + 1             
+              ISHIFT = ISHIFT + 1
             ENDIF
-             
+
 c INT24
             IF(ITYP==24)THEN
 
@@ -810,15 +810,15 @@ c INT24
                 RBUF(P)%p(L+RSHIFT+2)  =I24_FRFI(2,I)
                 RBUF(P)%p(L+RSHIFT+3)  =I24_FRFI(3,I)
                 RBUF(P)%p(L+RSHIFT+4)  =I24_PENE_OLD(1,I)
-                RBUF(P)%p(L+RSHIFT+5)  =I24_STIF_OLD(1,I) 
+                RBUF(P)%p(L+RSHIFT+5)  =I24_STIF_OLD(1,I)
                 RBUF(P)%p(L+RSHIFT+6)  =I24_PENE_OLD(3,I)
                 RBUF(P)%p(L+RSHIFT+7)  =I24_PENE_OLD(5,I)
                 L = L + RSIZ
-              END DO          
-              RSHIFT = RSHIFT + 8  
-                
-              L2 = 0      
-              I24IREMP = ISHIFT 
+              END DO
+              RSHIFT = RSHIFT + 8
+
+              L2 = 0
+              I24IREMP = ISHIFT
 #include      "vectorize.inc"
               DO J = 1, NB
                 I = INDEX(J)
@@ -827,23 +827,23 @@ C               IRTLM(2,NSN) in TYPE24
                 IBUF(P)%p(L2+ISHIFT+1)=IRTLM(2*(I-1)+2)
                 IBUF(P)%p(L2+ISHIFT+2)=I24_ICONT_I(I)
                 L2 = L2 + ISIZ
-              END DO          
+              END DO
               ISHIFT = ISHIFT + 3
 C---pay attention in i24sto.F IREM(I24IREMP+3,N-NSN) is used, 
 C----change the shift value when new tabel was added like I24_ICONT_I           
-              IF (ILEV==2) THEN  
-                L2 = 0                
-#include      "vectorize.inc"       
+              IF (ILEV==2) THEN
+                L2 = 0
+#include      "vectorize.inc"
                 DO J = 1, NB
                   I = INDEX(J)
                   IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
                   L2 = L2 + ISIZ
-                END DO        
+                END DO
               END IF
               ISHIFT = ISHIFT + 1
 
-            END IF !(ITYP==24)                
-             
+            END IF !(ITYP==24)
+
 c INT25
             IF(ITYP==25)THEN
               L = 0
@@ -855,11 +855,11 @@ c INT25
                 RBUF(P)%p(L+RSHIFT+1)  =I24_TIME_S(2*(I-1)+2)
                 RBUF(P)%p(L+RSHIFT+2)  =I24_PENE_OLD(5,I) !  used only at time=0
                 L = L + RSIZ
-              END DO          
-              RSHIFT = RSHIFT + 3 
-                
-              L2 = 0      
-              I24IREMP = ISHIFT 
+              END DO
+              RSHIFT = RSHIFT + 3
+
+              L2 = 0
+              I24IREMP = ISHIFT
 
 #include      "vectorize.inc"
               DO J = 1, NB
@@ -875,22 +875,22 @@ C               IRTLM(3,I) == local n    of the impacted segment is shared but o
                 IBUF(P)%p(L2+ISHIFT+4)=I24_ICONT_I(I)
                 IBUF(P)%p(L2+ISHIFT+5)=ITAGNSNFI(NOD)
                 L2 = L2 + ISIZ
-              END DO          
+              END DO
               ISHIFT = ISHIFT + 6
 C---pay attention in i25sto.F IREM(I24IREMP+4,N-NSN) is used, 
 C----change the shift value when new tabel was added like IRTLM(3*(I-1)+2)              
-              IF (ILEV==2) THEN  
-                L2 = 0                
-#include      "vectorize.inc"       
+              IF (ILEV==2) THEN
+                L2 = 0
+#include      "vectorize.inc"
                 DO J = 1, NB
                   I = INDEX(J)
                   IBUF(P)%p(L2+ISHIFT)=NBINFLG(I)
                   L2 = L2 + ISIZ
-                END DO        
+                END DO
               END IF
               ISHIFT = ISHIFT + 1
 
-            END IF !(ITYP==25)                
+            END IF !(ITYP==25)
 C
             !save specifics IREM and XREM indexes for INT24 sorting
             L2 = 0
@@ -912,7 +912,7 @@ C             WRITE(6,*) "Sends",NB,"nodes to",P-1
               CALL MPI_ISEND(
      1          RBUF(P)%P(1),NB*RSIZ,REAL,IT_SPMD(P),MSGTYP,
      2          MPI_COMM_WORLD,REQ_SD2(P),ierror)
-              
+
               MSGTYP = MSGOFF5
               CALL MPI_ISEND(
      1          IBUF(P)%P(1),NB*ISIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -924,7 +924,7 @@ C             WRITE(6,*) "Sends",NB,"nodes to",P-1
               CALL MPI_ISEND(
      1          IBUF_EDGE(P)%P(1),E_IBUF_SIZE*NB_EDGE ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      2          MPI_COMM_WORLD,REQ_SD4(P),ierror)
-              
+
               MSGTYP = MSGOFF7
               CALL MPI_ISEND(
      1          RBUF_EDGE(P)%P(1),E_RBUF_SIZE*NB_EDGE ,REAL,IT_SPMD(P),MSGTYP,
@@ -943,11 +943,11 @@ C reset
             END DO
           END IF
         ENDDO
-      ENDIF       
+      ENDIF
 C
       IF(ITYP==25) THEN
         DEALLOCATE(ITAGNSNFI)
-        DEALLOCATE(INDEX_EDGE) 
+        DEALLOCATE(INDEX_EDGE)
       ENDIF
 C
 Cel reception  des donnees XREM
@@ -963,7 +963,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD
           IF(ISENDTO(NIN,P)/=0) THEN
 C           WRITE(6,*) __FILE__,__LINE__,ISPMD
             IF(LOC_PROC/=P) THEN
-              MSGTYP = MSGOFF3 
+              MSGTYP = MSGOFF3
               CALL MPI_RECV(NBOX2(1,P),2,MPI_INTEGER,IT_SPMD(P),
      .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
               NSNFI(NIN)%P(P) = NBOX2(1,P)
@@ -996,18 +996,18 @@ C
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
-          ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)   
+          ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
           ENDIF
           IF(IEDGE /= 0) THEN
-            ALLOCATE(IREM_EDGE(E_IBUF_SIZE,NEDGE_REMOTE),STAT=IERROR)   
+            ALLOCATE(IREM_EDGE(E_IBUF_SIZE,NEDGE_REMOTE),STAT=IERROR)
             IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
             ENDIF
-            ALLOCATE(XREM_EDGE(E_RBUF_SIZE,NEDGE_REMOTE),STAT=IERROR)   
+            ALLOCATE(XREM_EDGE(E_RBUF_SIZE,NEDGE_REMOTE),STAT=IERROR)
             IF(IERROR/=0) THEN
               CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
               CALL ARRET(2)
@@ -1021,31 +1021,31 @@ C
             P = ISINDEXI(L)
             IF(NSNFI(NIN)%P(P) > 0 ) THEN
               LEN = NSNFI(NIN)%P(P)*RSIZ
-              MSGTYP = MSGOFF4 
+              MSGTYP = MSGOFF4
               NBIRECV_NODE = NBIRECV_NODE + 1
               CALL MPI_IRECV(
      1          XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
      2          MSGTYP,MPI_COMM_WORLD,REQ_RD(NBIRECV_NODE),IERROR)
-              
+
               LEN2 = NSNFI(NIN)%P(P)*ISIZ
-              MSGTYP = MSGOFF5 
+              MSGTYP = MSGOFF5
               CALL MPI_IRECV(
      1          IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
      2          MSGTYP,MPI_COMM_WORLD,REQ_RD2(NBIRECV_NODE),IERROR)
-              IDEB = IDEB + NSNFI(NIN)%P(P)                   
+              IDEB = IDEB + NSNFI(NIN)%P(P)
             ENDIF
 
             IF(IEDGE /= 0) THEN
             IF(EDGE_FI(NIN)%P(P) > 0 ) THEN
-              MSGTYP = MSGOFF6 
+              MSGTYP = MSGOFF6
               LEN2 = EDGE_FI(NIN)%P(P)*E_IBUF_SIZE
               NBIRECV_EDGE = NBIRECV_EDGE + 1
 
               CALL MPI_IRECV(
      1          IREM_EDGE(1,IDEB_EDGE),LEN2,MPI_INTEGER,IT_SPMD(P),
      2          MSGTYP,MPI_COMM_WORLD,REQ_RD4(NBIRECV_EDGE),IERROR)
-              
-              MSGTYP = MSGOFF7 
+
+              MSGTYP = MSGOFF7
               LEN2 = EDGE_FI(NIN)%P(P)*E_RBUF_SIZE
               CALL MPI_IRECV(
      1          XREM_EDGE(1,IDEB_EDGE),LEN2,REAL,IT_SPMD(P),
@@ -1056,7 +1056,7 @@ C
           ENDDO
 
 
-          
+
           CALL MPI_WAITALL(NBIRECV_NODE,REQ_RD ,MPI_STATUSES_IGNORE,IERROR)
           CALL MPI_WAITALL(NBIRECV_NODE,REQ_RD2,MPI_STATUSES_IGNORE,IERROR)
           CALL MPI_WAITALL(NBIRECV_EDGE,REQ_RD4,MPI_STATUSES_IGNORE,IERROR)
@@ -1089,13 +1089,13 @@ C
                 CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
                 DEALLOCATE(RBUF(P)%p)
                 CALL MPI_WAIT(REQ_SD3(P),STATUS,IERROR)
-                DEALLOCATE(IBUF(P)%p)                   
+                DEALLOCATE(IBUF(P)%p)
               ENDIF
               IF(NBOX(2,P) > 0) THEN
                 CALL MPI_WAIT(REQ_SD4(P),STATUS,IERROR)
-                DEALLOCATE(IBUF_EDGE(P)%p)                   
+                DEALLOCATE(IBUF_EDGE(P)%p)
                 CALL MPI_WAIT(REQ_SD5(P),STATUS,IERROR)
-                DEALLOCATE(RBUF_EDGE(P)%p)                   
+                DEALLOCATE(RBUF_EDGE(P)%p)
               END IF
             ENDIF
           ENDIF

@@ -102,7 +102,7 @@ C-----------------------------------------------
           ENDIF
          ENDDO
         ENDIF
-       ENDIF  
+       ENDIF
       ENDIF
 C-----------------------------------------------
 C
@@ -110,7 +110,7 @@ C     because 2*Mnodal = 2*Melement/4
       DO I=LFT,LLT
         STI(I)=HALF*STI(I)
       END DO
-      IF(NODADT_THERM == 1 ) THEN  
+      IF(NODADT_THERM == 1 ) THEN
         DO I=LFT,LLT
            CONDE(I)=FOURTH*CONDE(I)
         END DO
@@ -178,7 +178,7 @@ C
 C
          ENDDO
         ENDIF
-       ELSE  
+       ELSE
           DO 100 I=LFT,LLT
 C
           E(1,NC1(I))=E(1,NC1(I))+F11(I)
@@ -201,10 +201,10 @@ C
           E(3,NC4(I))=E(3,NC4(I))+F34(I)
           STIFN(NC4(I))=STIFN(NC4(I))+STI(I)
 C
-  100     CONTINUE       
-       
+  100     CONTINUE
+
        ENDIF
- 
+
       RETURN
       END
 Chd|====================================================================
@@ -291,14 +291,14 @@ Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
           ENDIF
          ENDDO
         ENDIF
-       ENDIF  
+       ENDIF
       ENDIF
 C
 C     because 2*Mnodal = 2*Melement/4
       DO I=LFT,LLT
         STI(I)=HALF*STI(I)
       END DO
-      IF(NODADT_THERM == 1 ) THEN  
+      IF(NODADT_THERM == 1 ) THEN
         DO I=LFT,LLT
            CONDE(I)=FOURTH*CONDE(I)
         END DO
@@ -323,7 +323,7 @@ C
           FSKYV(K,3)=F32(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
           K = IADS(6,II)
@@ -332,7 +332,7 @@ C
           FSKYV(K,3)=F33(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
           K = IADS(5,II)
@@ -341,7 +341,7 @@ C
           FSKYV(K,3)=F34(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
         ENDDO
@@ -379,7 +379,7 @@ C
         DO I=LFT,LLT
           II=I+NFT
           K = IADS(1,II)
-          FTHESKY(K)=THEM(I,1) 
+          FTHESKY(K)=THEM(I,1)
 C
           K = IADS(3,II)
           FTHESKY(K)=THEM(I,2)
@@ -391,11 +391,11 @@ C
           FTHESKY(K)=THEM(I,4)
 C
         ENDDO
-        IF(NODADT_THERM == 1 ) THEN  
+        IF(NODADT_THERM == 1 ) THEN
          DO I=LFT,LLT
           II=I+NFT
           K = IADS(1,II)
-          CONDNSKY(K)=CONDE(I) 
+          CONDNSKY(K)=CONDE(I)
 C
           K = IADS(3,II)
           CONDNSKY(K)=CONDE(I)

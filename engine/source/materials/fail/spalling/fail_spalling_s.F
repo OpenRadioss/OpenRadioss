@@ -83,12 +83,12 @@ C
       my_real TIME,TIMESTEP,UPARAM(*),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .   DPLA(NEL),EPSP(NEL),TSTAR(NEL), OFFG(*)     
+     .   DPLA(NEL),EPSP(NEL),TSTAR(NEL), OFFG(*)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -103,7 +103,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,ISPALL
-      my_real 
+      my_real
      .        D1,D2,D3,D4,D5,
      .        EPSP0,P,PMIN,EPSF,SVM,SCALE,SXX,SYY,SZZ
 C--------------------------------------------------------------
@@ -111,10 +111,10 @@ C--------------------------------------------------------------
        D2 = UPARAM(2)
        D3 = UPARAM(3)
        D4 = UPARAM(4)
-       D5 = UPARAM(5)        
+       D5 = UPARAM(5)
        EPSP0 = UPARAM(6)
        PMIN = UPARAM(7)
-       IFLAG = INT(UPARAM(8)) 
+       IFLAG = INT(UPARAM(8))
 C-----------------------------------------------
       IDEL=0
       IDEV=0
@@ -124,7 +124,7 @@ C
         IF(IFLAG==2)THEN
           IDEL = 1
         ELSEIF(IFLAG==3)THEN
-          IDEV = 1  
+          IDEV = 1
         ELSEIF(IFLAG==4)THEN
          IDEL = 1
          ISPALL = 2
@@ -137,7 +137,7 @@ C
         END DO
 C      
       IF(IDEL==1)THEN
-       NINDX=0  
+       NINDX=0
        DO I=1,NEL
         IF((IFLAG==2.OR.IFLAG==4).
      .                AND.OFF(I)==ONE.AND.DPLA(I)/=ZERO
@@ -150,19 +150,19 @@ C
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
          SVM=SQRT(THREE*SVM)
          EPSF = D3*P/MAX(EM20,SVM)
-         EPSF = (D1 + 
-     .           D2*EXP(EPSF))*(ONE 
+         EPSF = (D1 +
+     .           D2*EXP(EPSF))*(ONE
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
-         IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF       
+         IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
          IF(DFMAX(I)>=ONE.AND.OFF(I)==ONE) THEN
           OFF(I)=FOUR_OVER_5
           NINDX=NINDX+1
           INDX(NINDX)=I
-          IDEL7NOK = 1  
-          TDELE(I) = TIME                  
+          IDEL7NOK = 1
+          TDELE(I) = TIME
          ENDIF
-        ENDIF 
+        ENDIF
        ENDDO
        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
@@ -171,12 +171,12 @@ C
          WRITE(ISTDO,1100) NGL(INDX(J)),TIME
 #include "lockoff.inc"
         END DO
-       END IF         
+       END IF
       ENDIF
 Cc deviatoric will be vanished      
       IF(IDEV==1)THEN
-       NINDX=0 
-       NINDEX = 0 
+       NINDX=0
+       NINDEX = 0
        DO I=1,NEL
         IF(IFLAG==3.AND.OFF(I)==ONE.AND.DPLA(I)/=ZERO.AND.
      .         OFFG(I)>ZERO)THEN
@@ -189,8 +189,8 @@ Cc deviatoric will be vanished
      .          +SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
           SVM=SQRT(THREE*SVM)
           EPSF = D3*P/MAX(EM20,SVM)
-          EPSF = (D1 + 
-     .           D2*EXP(EPSF))*(ONE 
+          EPSF = (D1 +
+     .           D2*EXP(EPSF))*(ONE
      .                  + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .                    *(ONE + D5*TSTAR(I))
           IF(EPSF>ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
@@ -202,9 +202,9 @@ Cc deviatoric will be vanished
            SIGNZZ(I) =   P
            SIGNXY(I) = ZERO
            SIGNYZ(I) = ZERO
-           SIGNZX(I) = ZERO                 
+           SIGNZX(I) = ZERO
           ENDIF
-         ELSE 
+         ELSE
           P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
           SIGNXX(I) =   P
           SIGNYY(I) =   P
@@ -213,7 +213,7 @@ Cc deviatoric will be vanished
           SIGNYZ(I) = ZERO
           SIGNZX(I) = ZERO
          ENDIF
-        ENDIF  
+        ENDIF
        ENDDO
        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
@@ -223,7 +223,7 @@ Cc deviatoric will be vanished
          WRITE(ISTDO,2100) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-       END IF           
+       END IF
       ENDIF
 C...Spalling
         NINDEX = 0
@@ -240,7 +240,7 @@ C...Spalling
            SIGNZX(I)= ZERO
            SIGNYZ(I)= ZERO
            NINDX=NINDX+1
-           INDX(NINDX)=I 
+           INDX(NINDX)=I
           ELSEIF(UVAR(I,1)==ONE)THEN
            SIGNXX(I) = -MAX(P , ZERO)
            SIGNYY(I) = -MAX(P , ZERO)
@@ -254,9 +254,9 @@ C...Spalling
           OFF(I)= FOUR_OVER_5
           NINDEX=NINDEX+1
           INDEX(NINDEX)=I
-          IDEL7NOK = 1  
-          TDELE(I) = TIME  
-        ENDIF 
+          IDEL7NOK = 1
+          TDELE(I) = TIME
+        ENDIF
         ENDDO
 C
         IF(NINDX>0.AND.IMCONV==1)THEN
@@ -275,11 +275,11 @@ C
         WRITE(ISTDO,3300) NGL(INDEX(J)),TIME
 #include "lockoff.inc"
         END DO
-       END IF  
+       END IF
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
           DFMAX(I) = MIN(ONE,DFMAX(I))
-       ENDDO                   
+       ENDDO
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10,
@@ -294,6 +294,6 @@ CC
 C     
  3200 FORMAT(1X,'DELETE SOLID ELEMENT (SPALLING) NUMBER ',I10)
  3300 FORMAT(1X,'DELETE SOLID ELEMENT (SPALLING) NUMBER ',I10,
-     .          ' AT TIME :',G11.4)          
+     .          ' AT TIME :',G11.4)
       RETURN
       END

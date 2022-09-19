@@ -110,7 +110,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER
      . I,J,II
-      my_real 
+      my_real
      .  CC,G,DAV,EPXX,EPYY,EPZZ,SVXX,
      .  SVYY,SVZZ,P,
      .  AA(MVSIZ,NPRONY),BB(MVSIZ,NPRONY),H0(6),EPSPZZ(MVSIZ),
@@ -125,23 +125,23 @@ C------------------------------------------
 C       
        DO J=1,NPRONY
           G = G + GI(J)
-       ENDDO   
+       ENDDO
        DO I=1,NEL
           A1(I) = ZERO
           A2(I) = ZERO
           EPSPZZ(I) = ZERO
 C          
          DO J=1,NPRONY
-          AA(I,J) =  EXP(-BETA(J)*TIMESTEP(I)) 
+          AA(I,J) =  EXP(-BETA(J)*TIMESTEP(I))
           BB(I,J) =  TIMESTEP(I)*GI(J)*EXP(-HALF*BETA(J)*TIMESTEP(I))
 C
 C  for computing epszz_dot (sigzz=0)
 C
           H0(3) = UVAR(I,NV + (J - 1)*6 + 3)
-          A1(I)  = A1(I) +  AA(I,J)*H0(3) 
+          A1(I)  = A1(I) +  AA(I,J)*H0(3)
           A2(I)  = A2(I) +  BB(I,J)
          ENDDO
-       ENDDO  
+       ENDDO
 C
 C  compute epszz_dot  sig33= 0
 C            
@@ -151,14 +151,14 @@ C
          EPSPZZ(I)= FAC*EPSPZZ(I)
        ENDDO
 C                
-       DO I=1,NEL 
+       DO I=1,NEL
 C spherique part
            DAV = THIRD*(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
            P = -THREE*KV*DAV
-c deviatorique part           
+c deviatorique part
           EPXX = EPSPXX(I) - DAV
           EPYY = EPSPYY(I) - DAV
-          EPZZ = EPSPZZ(I) - DAV          
+          EPZZ = EPSPZZ(I) - DAV
 C  
           DO J= 1,NPRONY
 C         
@@ -169,11 +169,11 @@ C
            H0(5) = UVAR(I,NV + (J - 1)*6 + 5)
            H0(6) = UVAR(I,NV + (J - 1)*6 + 6)
 C
-           
+
            H(1,J) =    AA(I,J)*H0(1) + BB(I,J)*EPXX
-           H(2,J) =    AA(I,J)*H0(2) + BB(I,J)*EPYY          
+           H(2,J) =    AA(I,J)*H0(2) + BB(I,J)*EPYY
            H(3,J) =    AA(I,J)*H0(3) + BB(I,J)*EPZZ
-           H(4,J) =    AA(I,J)*H0(4) + HALF*BB(I,J)*EPSPXY(I)          
+           H(4,J) =    AA(I,J)*H0(4) + HALF*BB(I,J)*EPSPXY(I)
            H(5,J) =    AA(I,J)*H0(5) + HALF*BB(I,J)*EPSPYZ(I)
            H(6,J) =    AA(I,J)*H0(6) + HALF*BB(I,J)*EPSPZX(I)
 C
@@ -183,16 +183,16 @@ C
            UVAR(I,NV + (J - 1)*6 + 3) = H(3,J)
            UVAR(I,NV + (J - 1)*6 + 4) = H(4,J)
            UVAR(I,NV + (J - 1)*6 + 5) = H(5,J)
-           UVAR(I,NV + (J - 1)*6 + 6) = H(6,J)  
-           
-         ENDDO 
+           UVAR(I,NV + (J - 1)*6 + 6) = H(6,J)
+
+         ENDDO
 C     
 C  comppute stress
 C
-           
+
           DO II = 1,6
            S(II) = ZERO
-          ENDDO        
+          ENDDO
 
           DO  J= 1,NPRONY
             S(1) = S(1) + H(1,J)
@@ -206,9 +206,9 @@ cc            S(3) = S(3) + H(3,J)
           SIGVXX(I) = S(1)  - P
           SIGVYY(I) = S(2)  - P
 cc          SIGVZZ(I) = S(3)  - P
-          SIGVXY(I) = S(4) 
-          SIGVYZ(I) = S(5) 
-          SIGVZX(I) = S(6)           
+          SIGVXY(I) = S(4)
+          SIGVYZ(I) = S(5)
+          SIGVZX(I) = S(6)
 C                  
           VISCMAX(I) = ZERO
        ENDDO

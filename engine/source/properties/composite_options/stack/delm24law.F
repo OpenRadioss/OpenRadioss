@@ -89,7 +89,7 @@ C-----------------------------------------------
 C
       INTEGER NEL, NUPARAM, NUVAR,NGL(*),IPM(NPROPMI,*),
      .        MAT(*),IP, IPLY
-      my_real 
+      my_real
      .   TIME,TIMESTEP(*),UPARAM(*),SIGNZZ(*),
      .   SIGNYZ(*),SIGNXZ(*),EPSYZ(*),EPSXZ(*),EPSZZ(*),
      .   OFFI(*),REDUC(*),COUNT(*)
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -118,11 +118,11 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IFAIL,JST(MVSIZ),IR,JJ,IMATLY,IMOD,
      .        MODE(MVSIZ)
-      my_real 
+      my_real
      .   DAM1,DAM2,DAM3,DAM
       my_real
      .  EPST3(MVSIZ),EPSF3(MVSIZ),EPST13(MVSIZ),EPSF13(MVSIZ),
@@ -134,9 +134,9 @@ C
 C
         IF(OFF(I)==ZERO) CYCLE
 C
-        IMATLY=MAT(I)  
+        IMATLY=MAT(I)
         IFAIL = IPM(111 +IP,IMATLY)
-        IF(IFAIL == 24)THEN  
+        IF(IFAIL == 24)THEN
          IADBUF     =  IPM(114 +IP, IMATLY)
 cc         EPST1(I) = UPARAM(IADBUF)
 cc         EPSF1(I) = UPARAM(IADBUF+1)
@@ -152,62 +152,62 @@ cc         EPSF12(I) = UPARAM(IADBUF+7)
          EPSF13(I) = UPARAM(IADBUF+11)
          REDUC(I) = UPARAM(IADBUF+15)
          IR = IR + 1
-         JST(IR) = I 
-        ENDIF 
+         JST(IR) = I
+        ENDIF
 C
          INDX(I) = 0
          INDEX(I) = 0
-      ENDDO 
+      ENDDO
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF(TIME == ZERO)THEN
        DO JJ=1,IR
         I = JST(JJ)
-        DO J=1,NUVAR  
+        DO J=1,NUVAR
           UVAR(I,J)= ZERO
         ENDDO
        ENDDO
-      ENDIF   
+      ENDIF
 C-------------------------------
 C      
 C     OFF = 0.
 C-------------------------------
 C           
-        NINDX=0 
+        NINDX=0
         NINDEX = 0
         DO J =1,IR
          I=JST(J)
 C         
          DAM1 = ZERO
          DAM2 = ZERO
-         DAM3 = ZERO 
-         IMOD = 0 
-         MODE(I)  = 0      
+         DAM3 = ZERO
+         IMOD = 0
+         MODE(I)  = 0
          IF(OFF(I) == ONE )THEN
 C------------------------------- 
 C direction 33                
-           IF(UVAR(I,1) < ONE )THEN 
+           IF(UVAR(I,1) < ONE )THEN
 C direction 23
                IF(EPSYZ(I) >= EPST23(I) ) THEN
                    DAM2 = (EPSYZ(I) - EPST23(I))/(EPSF23(I) - EPST23(I))
-                   DAM2 = MIN(ONE, DAM2) 
+                   DAM2 = MIN(ONE, DAM2)
                    IF(DAM2 >= ONE) IMOD = 3
-               ENDIF         
+               ENDIF
 C direction 13
                IF(EPSXZ(I) >= EPST13(I) ) THEN
                    DAM3 = (EPSXZ(I) - EPST13(I))/(EPSF13(I) - EPST13(I))
                    DAM3 = MIN(ONE, DAM3)
                   IF(DAM3 >= ONE) IMOD = 2
-               ENDIF     
-                                 
+               ENDIF
+
                IF(EPSZZ(I) >= EPST3(I) ) THEN
                    DAM1= (EPSZZ(I) - EPST3(I))/(EPSF3(I) - EPST3(I))
-                   DAM1 = MIN(ONE, DAM1)  
+                   DAM1 = MIN(ONE, DAM1)
                    IF(DAM1 >= ONE) IMOD = 1
                ENDIF
 C
-               DAM = MAX (UVAR(I,1),DAM1, DAM2, DAM3) 
+               DAM = MAX (UVAR(I,1),DAM1, DAM2, DAM3)
                UVAR(I,1) = DAM
                SIGNXZ(I) = SIGNXZ(I)*MAX(ONE  - DAM,REDUC(I))
                SIGNYZ(I) = SIGNYZ(I)*MAX(ONE  - DAM,REDUC(I))
@@ -224,15 +224,15 @@ C
                     WRITE(ISTDO,1300) NGL(I),IPLY,MODE(I), TIME
                   ENDIF
                ENDIF
-          ELSE            
+          ELSE
 !!              SIGNXZ(I) = ZERO
 !!              SIGNYZ(I) = ZERO
 !!              SIGNZZ(I) = ZERO
 !!              OFFI(I) = MIN(OFFI(I), ZERO)
               OFFI(I) = REDUC(I)
           ENDIF
-         ENDIF   
-        ENDDO  
+         ENDIF
+        ENDDO
 
         IF(NINDX > 0)THEN
           DO J=1,NINDX
@@ -242,7 +242,7 @@ C
            WRITE(ISTDO,1200) NGL(I),IPLY,MODE(I), TIME
 #include "lockoff.inc"
           END DO
-         ENDIF            
+         ENDIF
 C--------------------------------------------
 
  1200 FORMAT(1X,'DELAMINATION OF SHELL #',I10,1X,
@@ -250,6 +250,6 @@ C--------------------------------------------
      . 'AT TIME # ',1PE20.13)
  1300 FORMAT(1X,'FULL DELAMINATION OF SHELL #',I10,1X,
      . 'INTERPLY', I10, 1X,'MODE #',I10,1X,
-     . 'AT TIME # ',1PE20.13)    
+     . 'AT TIME # ',1PE20.13)
       RETURN
       END

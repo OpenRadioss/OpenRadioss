@@ -40,15 +40,15 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_FVM2FEM(TIMESTEP, ELBUF_TAB, ITASK, 
+      SUBROUTINE MULTI_FVM2FEM(TIMESTEP, ELBUF_TAB, ITASK,
      .     IXS, IXQ, IPARG, XGRID, ACCELE, VEL, WGRID, MS, MSNF, VEUL,
-     .     STIFN, FSKY, IADS, FSKYM, 
-     .     CONDN, CONDNSKY, MULTI_FVM)     
+     .     STIFN, FSKY, IADS, FSKYM,
+     .     CONDN, CONDNSKY, MULTI_FVM)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
@@ -86,7 +86,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP), INTENT(IN) :: ELBUF_TAB
       INTEGER, INTENT(IN) ::  ITASK, IPARG(NPARG, *), IXS(NIXS, *), IXQ(NIXQ, *),
      .     IADS(8, *)
-      
+
       my_real, INTENT(IN) ::
      .     XGRID(3, *), ACCELE(*),  WGRID(3, *), VEUL(*), VEL(3, *), TIMESTEP
       my_real, INTENT(INOUT) ::
@@ -116,7 +116,7 @@ C-----------------------------------------------
      .     MX5(MVSIZ),MY5(MVSIZ),MZ5(MVSIZ),
      .     MX6(MVSIZ),MY6(MVSIZ),MZ6(MVSIZ),
      .     MX7(MVSIZ),MY7(MVSIZ),MZ7(MVSIZ),
-     .     MX8(MVSIZ),MY8(MVSIZ),MZ8(MVSIZ),    
+     .     MX8(MVSIZ),MY8(MVSIZ),MZ8(MVSIZ),
      .     F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
      .     F12(MVSIZ),F22(MVSIZ),F32(MVSIZ),
      .     F13(MVSIZ),F23(MVSIZ),F33(MVSIZ),
@@ -125,16 +125,16 @@ C-----------------------------------------------
      .     F16(MVSIZ),F26(MVSIZ),F36(MVSIZ),
      .     F17(MVSIZ),F27(MVSIZ),F37(MVSIZ),
      .     F18(MVSIZ),F28(MVSIZ),F38(MVSIZ),
-     .     DMASS1(MVSIZ), DMASS2(MVSIZ), DMASS3(MVSIZ), DMASS4(MVSIZ), 
+     .     DMASS1(MVSIZ), DMASS2(MVSIZ), DMASS3(MVSIZ), DMASS4(MVSIZ),
      .     DMASS5(MVSIZ), DMASS6(MVSIZ), DMASS7(MVSIZ), DMASS8(MVSIZ),
      .     X(3), XC(3)
       INTEGER
-     .     NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
+     .     NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .     NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       INTEGER :: IBID
       my_real
      .     AR, FR_WAVE, FTHE, FTHESKY, FFSKY, T1,T2,T3
-      
+
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 
 C-----------------------------------------------
@@ -171,7 +171,7 @@ C
 C     HEXA CASE
                      GBUF => ELBUF_TAB(NG)%GBUF
 
-                     CALL SNORM3(NEL, NFT, JALE, IXS, XGRID, WGRID, 
+                     CALL SNORM3(NEL, NFT, JALE, IXS, XGRID, WGRID,
      .                    NORM(1:3, 1:6, 1:NEL), WFAC(1:3, 1:6, 1:NEL), SURF(1:6, 1:NEL))
 
                      F11(:) = ZERO ; F21(:) = ZERO ; F31(:) = ZERO
@@ -196,63 +196,63 @@ C     Assemblage des forces nodales
 C     Pressure
                         PRES(II) = THIRD * (GBUF%SIG(II) + GBUF%SIG(II + NEL) + GBUF%SIG(II + 2 * NEL))
 C     Node 1
-                        F11(II) = F11(II) - FOURTH * PRES(II) * 
+                        F11(II) = F11(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 6, II) * SURF(6, II))
-                        F21(II) = F21(II) - FOURTH * PRES(II) *  
+                        F21(II) = F21(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 6, II) * SURF(6, II))
-                        F31(II) = F31(II) - FOURTH * PRES(II) *  
+                        F31(II) = F31(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 2
-                        F12(II) = F12(II) - FOURTH * PRES(II) *  
+                        F12(II) = F12(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II))
-                        F22(II) = F22(II) - FOURTH * PRES(II) *  
+                        F22(II) = F22(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II))
-                        F32(II) = F32(II) - FOURTH * PRES(II) *  
+                        F32(II) = F32(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 3
-                        F13(II) = F13(II) - FOURTH * PRES(II) *  
+                        F13(II) = F13(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 2, II) * SURF(2, II) + NORM(1, 5, II) * SURF(5, II))
-                        F23(II) = F23(II) - FOURTH * PRES(II) *  
+                        F23(II) = F23(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 2, II) * SURF(2, II) + NORM(2, 5, II) * SURF(5, II))
-                        F33(II) = F33(II) - FOURTH * PRES(II) *  
+                        F33(II) = F33(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 4
-                        F14(II) = F14(II) - FOURTH * PRES(II) *  
+                        F14(II) = F14(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 1, II) * SURF(1, II) + NORM(1, 2, II) * SURF(2, II) + NORM(1, 6, II) * SURF(6, II))
-                        F24(II) = F24(II) - FOURTH * PRES(II) *  
+                        F24(II) = F24(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 1, II) * SURF(1, II) + NORM(2, 2, II) * SURF(2, II) + NORM(2, 6, II) * SURF(6, II))
-                        F34(II) = F34(II) - FOURTH * PRES(II) *  
+                        F34(II) = F34(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 1, II) * SURF(1, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 5
-                        F15(II) = F15(II) - FOURTH * PRES(II) *  
+                        F15(II) = F15(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 3, II) * SURF(3, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 6, II) * SURF(6, II))
-                        F25(II) = F25(II) - FOURTH * PRES(II) *  
+                        F25(II) = F25(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 3, II) * SURF(3, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 6, II) * SURF(6, II))
-                        F35(II) = F35(II) - FOURTH * PRES(II) *  
+                        F35(II) = F35(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 3, II) * SURF(3, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 6
-                        F16(II) = F16(II) - FOURTH * PRES(II) *  
+                        F16(II) = F16(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 3, II) * SURF(3, II) + NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II))
-                        F26(II) = F26(II) - FOURTH * PRES(II) *  
+                        F26(II) = F26(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 3, II) * SURF(3, II) + NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II))
-                        F36(II) = F36(II) - FOURTH * PRES(II) *  
+                        F36(II) = F36(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 3, II) * SURF(3, II) + NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 7
-                        F17(II) = F17(II) - FOURTH * PRES(II) *  
+                        F17(II) = F17(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 2, II) * SURF(2, II) + NORM(1, 3, II) * SURF(3, II) + NORM(1, 5, II) * SURF(5, II))
-                        F27(II) = F27(II) - FOURTH * PRES(II) *  
+                        F27(II) = F27(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 2, II) * SURF(2, II) + NORM(2, 3, II) * SURF(3, II) + NORM(2, 5, II) * SURF(5, II))
-                        F37(II) = F37(II) - FOURTH * PRES(II) *  
+                        F37(II) = F37(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 2, II) * SURF(2, II) + NORM(3, 3, II) * SURF(3, II) + NORM(3, 5, II) * SURF(5, II))
 C     Node 8
-                        F18(II) = F18(II) - FOURTH * PRES(II) *  
+                        F18(II) = F18(II) - FOURTH * PRES(II) *
      .                       (NORM(1, 2, II) * SURF(2, II) + NORM(1, 3, II) * SURF(3, II) + NORM(1, 6, II) * SURF(6, II))
-                        F28(II) = F28(II) - FOURTH * PRES(II) *  
+                        F28(II) = F28(II) - FOURTH * PRES(II) *
      .                       (NORM(2, 2, II) * SURF(2, II) + NORM(2, 3, II) * SURF(3, II) + NORM(2, 6, II) * SURF(6, II))
-                        F38(II) = F38(II) - FOURTH * PRES(II) *  
+                        F38(II) = F38(II) - FOURTH * PRES(II) *
      .                       (NORM(3, 2, II) * SURF(2, II) + NORM(3, 3, II) * SURF(3, II) + NORM(3, 6, II) * SURF(6, II))
                      ENDDO
-                     
+
 C--------------------------
 C     UPDATE DES MASSES
 C----------------------------
@@ -261,7 +261,7 @@ C----------------------------
      .                       GBUF%VOL,NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      .                       MSNF,NVC,GBUF%OFF,IXS)
                      ELSE
-                        CALL AMASS3P(FSKYM,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,GBUF%VOL,IADS,GBUF%OFF,IXS)          
+                        CALL AMASS3P(FSKYM,GBUF%RHO,VEUL(LVEUL*NFT+44),GBUF%TAG22,GBUF%VOL,IADS,GBUF%OFF,IXS)
                      ENDIF
 
 C     ASSEMBLE
@@ -293,7 +293,7 @@ C     TETRA CASE
 C-----------------------------------------------
 C     Compute nodal normals
 C-----------------------------------------------
-                     CALL SNORM3T(NEL, NFT, JALE, IXS, XGRID, WGRID, 
+                     CALL SNORM3T(NEL, NFT, JALE, IXS, XGRID, WGRID,
      .                    NORM(1:3, 1:6, 1:NEL), WFAC(1:3, 1:6, 1:NEL), SURF(1:6, 1:NEL))
                      F11(:) = ZERO ; F21(:) = ZERO ; F31(:) = ZERO
                      F12(:) = ZERO ; F22(:) = ZERO ; F32(:) = ZERO
@@ -311,32 +311,32 @@ C     Assemblage des forces nodales
 C     Pressure
                            PRES(II) = THIRD * (GBUF%SIG(II) + GBUF%SIG(II + NEL) + GBUF%SIG(II + 2 * NEL))
 C     Node 1
-                           F11(II) = F11(II) - THIRD * PRES(II) * 
+                           F11(II) = F11(II) - THIRD * PRES(II) *
      .                          (NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II) + NORM(1, 6, II) * SURF(6, II))
-                           F21(II) = F21(II) - THIRD * PRES(II) * 
+                           F21(II) = F21(II) - THIRD * PRES(II) *
      .                          (NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II) + NORM(2, 6, II) * SURF(6, II))
-                           F31(II) = F31(II) - THIRD * PRES(II) * 
+                           F31(II) = F31(II) - THIRD * PRES(II) *
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 2
-                           F12(II) = F12(II) - THIRD * PRES(II) * 
+                           F12(II) = F12(II) - THIRD * PRES(II) *
      .                          (NORM(1, 2, II) * SURF(2, II) + NORM(1, 5, II) * SURF(5, II) + NORM(1, 6, II) * SURF(6, II))
-                           F22(II) = F22(II) - THIRD * PRES(II) * 
+                           F22(II) = F22(II) - THIRD * PRES(II) *
      .                          (NORM(2, 2, II) * SURF(2, II) + NORM(2, 5, II) * SURF(5, II) + NORM(2, 6, II) * SURF(6, II))
-                           F32(II) = F32(II) - THIRD * PRES(II) * 
+                           F32(II) = F32(II) - THIRD * PRES(II) *
      .                          (NORM(3, 2, II) * SURF(2, II) + NORM(3, 5, II) * SURF(5, II) + NORM(3, 6, II) * SURF(6, II))
 C     Node 3
-                           F13(II) = F13(II) - THIRD * PRES(II) * 
+                           F13(II) = F13(II) - THIRD * PRES(II) *
      .                          (NORM(1, 4, II) * SURF(4, II) + NORM(1, 5, II) * SURF(5, II) + NORM(1, 2, II) * SURF(2, II))
-                           F23(II) = F23(II) - THIRD * PRES(II) * 
+                           F23(II) = F23(II) - THIRD * PRES(II) *
      .                          (NORM(2, 4, II) * SURF(4, II) + NORM(2, 5, II) * SURF(5, II) + NORM(2, 2, II) * SURF(2, II))
-                           F33(II) = F33(II) - THIRD * PRES(II) * 
+                           F33(II) = F33(II) - THIRD * PRES(II) *
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 5, II) * SURF(5, II) + NORM(3, 2, II) * SURF(2, II))
 C     Node 4
-                           F14(II) = F14(II) - THIRD * PRES(II) * 
+                           F14(II) = F14(II) - THIRD * PRES(II) *
      .                          (NORM(1, 4, II) * SURF(4, II) + NORM(1, 2, II) * SURF(2, II) + NORM(1, 6, II) * SURF(6, II))
-                           F24(II) = F24(II) - THIRD * PRES(II) * 
+                           F24(II) = F24(II) - THIRD * PRES(II) *
      .                          (NORM(2, 4, II) * SURF(4, II) + NORM(2, 2, II) * SURF(2, II) + NORM(2, 6, II) * SURF(6, II))
-                           F34(II) = F34(II) - THIRD * PRES(II) * 
+                           F34(II) = F34(II) - THIRD * PRES(II) *
      .                          (NORM(3, 4, II) * SURF(4, II) + NORM(3, 2, II) * SURF(2, II) + NORM(3, 6, II) * SURF(6, II))
                      ENDDO
 C--------------------------
@@ -347,7 +347,7 @@ C----------------------------
                      ELSE
                         CALL A4MASS3P(FSKYM, GBUF%RHO, GBUF%VOL, IADS, GBUF%OFF)
                      ENDIF
-                     
+
 C     ASSEMBLE
                      STI(:) = ZERO
                      FR_WAV(:) = ZERO
@@ -384,7 +384,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
       my_real, INTENT(IN) :: X(3), Y(3), FAC
       my_real, INTENT(OUT) :: RES(3)
-      
+
       RES(1) = FAC * (X(2) * Y(3) - X(3) * Y(2))
       RES(2) = FAC * (X(3) * Y(1) - X(1) * Y(3))
       RES(3) = FAC * (X(1) * Y(2) - X(2) * Y(1))

@@ -27,8 +27,8 @@ Chd|        S16FORC3                      source/elements/thickshell/solide16/s1
 Chd|        S20FORC3                      source/elements/solid/solide20/s20forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S20THERM(NPE ,PM   ,MAT   ,NC, VOL, 
-     .                  PX , PY , PZ,NI, 
+      SUBROUTINE S20THERM(NPE ,PM   ,MAT   ,NC, VOL,
+     .                  PX , PY , PZ,NI,
      .                  DT1 ,TEMPNC ,TEL ,DIE  ,FPHI,
      .                  OFFG,OFF)
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C
       ENDDO
       DO I= LFT,LLT
         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
-        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
         PHIX(I) = KC*PHIX(I)
         PHIY(I) = KC*PHIY(I)
         PHIZ(I) = KC*PHIZ(I)
@@ -88,7 +88,7 @@ C force thermique nodale
 C
       DO N=1,NPE
        DO I= LFT,LLT
-         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE        
+         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
          FPHI(I,N) = FPHI(I,N) +
      .      DIE(I)*NI(N) - (PHIX(I)*PX(I,N) + PHIY(I)*PY(I,N) + PHIZ(I)*PZ(I,N))
        ENDDO
@@ -108,7 +108,7 @@ C
 !        PHIZ = PHIZ +  TEMPNC(NC(I,N))*PZ(I,N)
 !       ENDDO
 C
-!        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+!        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
 !        PHIX = KC*PHIX
 !        PHIY = KC*PHIY
 !        PHIZ = KC*PHIZ

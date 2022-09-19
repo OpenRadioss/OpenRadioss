@@ -182,13 +182,13 @@ Chd|====================================================================
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
 #include "nchar_c.inc"
-c=======================================================================      
+c=======================================================================
 c define type MATPARAM_STRUCT_ for general material data structure table
 c allocatable dimension : NUMMAT
-c=======================================================================      
-c 
+c=======================================================================
+c
       TYPE MATPARAM_STRUCT_
-        integer     :: ILAW    
+        integer     :: ILAW
         integer     :: MAT_ID
         integer     :: COMPRESSIBILITY      ! "compressible","incompressible","elasto_plastic"
         integer     :: SMSTR                ! "small_strain", "large_strain"
@@ -197,13 +197,13 @@ c
         integer     :: NTABLE
         TYPE (TTABLE) ,DIMENSION(:) ,ALLOCATABLE :: TABLE   ! local table of functions
       END TYPE MATPARAM_STRUCT_
-c=======================================================================      
+c=======================================================================
 c define type GRP_PARAM_STRUCT_ for element group parameters depending on property/material
 c allocatable dimension : NGROUP
-c=======================================================================      
-c 
+c=======================================================================
+c
       TYPE GRP_PARAM_STRUCT_
-c        integer     :: IMAT    
+c        integer     :: IMAT
 c        integer     :: IPROP
         my_real     :: VISC_DN
         my_real     :: VISC_DM

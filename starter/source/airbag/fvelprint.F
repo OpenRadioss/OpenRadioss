@@ -27,7 +27,7 @@ Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|        INIT_MONVOL                   source/airbag/init_monvol.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FVELPRINT(IXC,  IXTG,  NEL,  ITAGEL,  ELTG, 
+      SUBROUTINE FVELPRINT(IXC,  IXTG,  NEL,  ITAGEL,  ELTG,
      .                     IBAGHOL,  ILVOUT,  IFLAG )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,7 +76,7 @@ C--------------------------
             IF (IFLAG == 0.AND.ITAGEL(I) == 0.AND.ILVOUT >= 2) THEN
                 WRITE(IOUT,1110) I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC)
             ELSEIF (ITAGEL(I) > 0) THEN
-                WRITE(IOUT,1111) 
+                WRITE(IOUT,1111)
      .                I,IXTG(NIXTG,IFOUND-NUMELQ-NUMELC),ITAGEL(I)
             ELSEIF (IFLAG == 0.AND.ITAGEL(I) < 0) THEN
                 IVENT  =-ITAGEL(I)

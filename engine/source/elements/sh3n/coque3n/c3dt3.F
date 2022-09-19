@@ -84,7 +84,7 @@ C=======================================================================
 c---------------------------------------------------
 C
       IF (NODADT/=0) THEN
-        IF(IGTYP == 52 .OR. 
+        IF(IGTYP == 52 .OR.
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
            DO  I=JFT,JLT
@@ -98,7 +98,7 @@ C
                  STIR(I) = FAC*(ONE_OVER_12* THK0(I)**3
      .                 + THK0(I)*HALF * SHF(I) * AREA(I) * G(I)/A1(I))
                 ENDIF
-          ENDDO       
+          ENDDO
         ELSE
            DO  I=JFT,JLT
             A1(I) = PM(24,IMAT)
@@ -111,19 +111,19 @@ C
                ELSE
                  ATHK   = AREA(I) * THK0(I)
                  STI(I) = ATHK * A1(I) / ALDT(I)**2
-                 STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12 
+                 STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12
      .                   + HALF * SHF(I) * AREA(I) * G(I)/A1(I))
 c                 STI(I) = 0.5 * ATHK * A1(I) / ALDT(I)**2
-c                 STIR(I) = STI(I) * (THK0(I) * THK0(I) / 12. 
-c     .                   + AREA(I) /9.) 
+c                 STIR(I) = STI(I) * (THK0(I) * THK0(I) / 12.
+c     .                   + AREA(I) /9.)
                ENDIF
           ENDDO
-        ENDIF 
+        ENDIF
 C
         IF (IDTMIN(7) == 0) RETURN
 C
       ELSEIF(IDTMINS == 2)THEN
-       IF(IGTYP == 52 .OR. 
+       IF(IGTYP == 52 .OR.
      .    ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
           DO I=JFT,JLT
@@ -133,11 +133,11 @@ C
               ELSE
                 ATHK   = AREA(I) * THK0(I)
                 STI(I) = ATHK * A1(I) / ALDT(I)**2
-                FAC = A11R(I)*AREA(I)/ ALDT(I)**2 
+                FAC = A11R(I)*AREA(I)/ ALDT(I)**2
                 STIR(I) = FAC * (ONE_OVER_12* (THK0(I)**3)
      .                 + HALF * THK0(I)*SHF(I) * AREA(I) * G(I)/A1(I))
               ENDIF
-           END DO 
+           END DO
         ELSE
            DO  I=JFT,JLT
             A1(I) = PM(24,IMAT)
@@ -150,11 +150,11 @@ C
               ELSE
                 ATHK   = AREA(I) * THK0(I)
                 STI(I) = ATHK * A1(I) / ALDT(I)**2
-                STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12 
+                STIR(I) = STI(I) * (THK0(I) * THK0(I) * ONE_OVER_12
      .                 + HALF * SHF(I) * AREA(I) * G(I)/A1(I))
               ENDIF
            END DO
-        ENDIF  
+        ENDIF
 C
         IF(JSMS /= 0)THEN
          DO I=JFT,JLT
@@ -162,7 +162,7 @@ C
 c
           MMIN=MSTG(I)*MIN(PTG(1,I),PTG(2,I),PTG(3,I))
 c
-c dmelc = 2*dmelc !!   
+c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/2) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
           DMELTG(I)=MAX(DMELTG(I),
@@ -189,8 +189,8 @@ C
            DTEL(I) = DT(I)
          ENDDO
       ENDIF
-      
-      
+
+
 C
       NINDX=IOFC
       IF(IDTMIN(7)==1)THEN

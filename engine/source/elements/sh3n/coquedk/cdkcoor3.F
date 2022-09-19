@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER NC1, NC2, NC3,I, J,I1, I2, I3, N, NLYMAX,II(4),IBID,MAT_1
 C     REAL
       my_real
-     .   VX2(MVSIZ), VX3(MVSIZ),VY2(MVSIZ), VY3(MVSIZ), 
+     .   VX2(MVSIZ), VX3(MVSIZ),VY2(MVSIZ), VY3(MVSIZ),
      .   VZ2(MVSIZ), VZ3(MVSIZ),
      .   RX1(MVSIZ), RX2(MVSIZ), RX3(MVSIZ), RY1(MVSIZ),
      .   RY2(MVSIZ), RY3(MVSIZ), RZ1(MVSIZ), RZ2(MVSIZ),RZ3(MVSIZ),
@@ -155,7 +155,7 @@ C-----------------------------------------------
        M13(I) =ZERO
        M21(I) =ZERO
        M22(I) =ZERO
-       M23(I) =ZERO      
+       M23(I) =ZERO
       ENDDO
       DO I=JFT,JLT
        RX(I)=X2(I)-X1(I)
@@ -170,8 +170,8 @@ C     LOCAL SYSTEM
 C----------------------------
       I1 = 0
       CALL CLSKEW3(JFT,JLT,I1,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,AREA2,OFFG)
 C
       DO I=JFT,JLT
@@ -225,7 +225,7 @@ C----------------------------
 C     ORTHOTROPY/ANISOTHROPY
 C----------------------------
       CALL CORTDIR3(ELBUF_STR,DIR_A  ,DIR_B ,JFT    ,JLT    ,
-     .              NLAY     ,IREP   ,RX    ,RY     ,RZ     , 
+     .              NLAY     ,IREP   ,RX    ,RY     ,RZ     ,
      .              SX       ,SY     ,SZ    ,R11    ,R21    ,
      .              R31      ,R12    ,R22   ,R32    ,NEL    )
 C--------------------------
@@ -247,7 +247,7 @@ C--------------------------
          VLY(I,1) = VLY(I,1)-DDRX*VLZ(I,1)-DDRZ2*V21X
          VLY(I,2) = VLY(I,2)-DDRX*VLZ(I,2)-DDRZ2*V31X
          ENDDO
-       ENDIF 
+       ENDIF
 C----------------------------
 C     OFF
 C----------------------------
@@ -270,7 +270,7 @@ C----------------------------
           RLX(I,3)=ZERO
           RLY(I,1)=ZERO
           RLY(I,2)=ZERO
-          RLY(I,3)=ZERO	  
+          RLY(I,3)=ZERO	
          ENDIF
         ENDDO
       ENDIF
@@ -306,7 +306,7 @@ Chd|        TENS3DTO2D                    source/output/h3d/h3d_results/h3d_skin
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CLSKEW3(JFT,JLT,IREP,
-     .   RX, RY, RZ, SX, SY, SZ, 
+     .   RX, RY, RZ, SX, SY, SZ,
      .   E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z,
      .   DET,OFF )
 C-----------------------------------------------
@@ -324,7 +324,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IREP
 C     REAL
       my_real
-     .   RX(*) , RY(*) , RZ(*), 
+     .   RX(*) , RY(*) , RZ(*),
      .   SX(*) , SY(*) , SZ(*),
      .   E1X(*), E1Y(*), E1Z(*),
      .   E2X(*), E2Y(*), E2Z(*),
@@ -345,9 +345,9 @@ C IREP=0 ->QEPH IREP=1 ->Q4, IREP=2-> E1=R(ISHFRAM=1)
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=JFT,JLT
 C---------E3------------
-       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I)
+       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I)
+       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I)
        DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
        IF (DET(I) < EM20 .AND. OFF(I) /= ZERO) THEN
          OFF(I)=ZERO
@@ -358,24 +358,24 @@ C---------E3------------
        DET(I)=MAX(EM20,DET(I))
        CC = OFF_LOC/DET(I)
        CC = MAX(CC,EM20)
-       E3X(I) = E3X(I) * CC 
-       E3Y(I) = E3Y(I) * CC 
-       E3Z(I) = E3Z(I) * CC 
-      ENDDO 
+       E3X(I) = E3X(I) * CC
+       E3Y(I) = E3Y(I) * CC
+       E3Z(I) = E3Z(I) * CC
+      ENDDO
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       IF (IREP==2) THEN
        DO I=JFT,JLT
         E1X(I) = RX(I)
         E1Y(I) = RY(I)
         E1Z(I) = RZ(I)
-       ENDDO 
+       ENDDO
       ELSEIF (IREP==1) THEN
        DO I=JFT,JLT
         C2 = SQRT(SX(I)*SX(I) + SY(I)*SY(I) + SZ(I)*SZ(I))
         E1X(I) = RX(I)*C2+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))
         E1Y(I) = RY(I)*C2+(SZ(I)*E3X(I)-SX(I)*E3Z(I))
         E1Z(I) = RZ(I)*C2+(SX(I)*E3Y(I)-SY(I)*E3X(I))
-       ENDDO 
+       ENDDO
       ELSE
        DO I=JFT,JLT
         C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
@@ -386,14 +386,14 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         ELSEIF(C2C2 /= ZERO)THEN
           C2_1(I) = ONE
           C1_1(I) = SQRT(C1C1/MAX(EM20,C2C2))
-        END IF 
+        END IF
        ENDDO
        DO I=JFT,JLT
           E1X(I) = RX(I)*C2_1(I)+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1(I)
-          E1Y(I) = RY(I)*C2_1(I)+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1(I) 
+          E1Y(I) = RY(I)*C2_1(I)+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1(I)
           E1Z(I) = RZ(I)*C2_1(I)+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1_1(I)
-       ENDDO 
-      ENDIF 
+       ENDDO
+      ENDIF
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=JFT,JLT
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
@@ -404,7 +404,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
         E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
         E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
-       ENDDO 
+       ENDDO
 c-----------
       RETURN
       END

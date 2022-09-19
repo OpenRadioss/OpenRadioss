@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,N1,N2,N3,N4,POS,NEL_L,CORES(MVSIZ+1),FLAG
-      my_real 
+      my_real
      .        DIST,DISTB
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C---------------------------------------------------------
@@ -69,7 +69,7 @@ C-----------------------------------------------------------------------
 C
       NEL_L = 0
 C
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO I=JFT,JLT
         FLAG = MIN(1,ABS(GBUF%UPDATE(I)))
         NEL_L = NEL_L + FLAG

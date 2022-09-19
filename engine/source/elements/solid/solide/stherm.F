@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE STHERM(PM   ,MAT  ,VOL,
      .                 NC1,  NC2, NC3,NC4,
-     .                 NC5,  NC6, NC7,NC8,  
+     .                 NC5,  NC6, NC7,NC8,
      .                 PX1, PX2, PX3, PX4,
      .                 PY1, PY2, PY3, PY4,
      .                 PZ1, PZ2, PZ3, PZ4,
@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER IPARTS(*)
 C     REAL
       my_real
-     .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*), 
+     .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*),
      .    PY1(*), PY2(*), PY3(*), PY4(*),
      .    PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .    TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*),DIE(*),
@@ -81,27 +81,27 @@ C
           PHIX =  TEMPNC(NC1(I))*PX1(I) + TEMPNC(NC2(I))*PX2(I)  +
      .            TEMPNC(NC3(I))*PX3(I) + TEMPNC(NC4(I))*PX4(I)  -
      .            TEMPNC(NC5(I))*PX3(I) - TEMPNC(NC6(I))*PX4(I)  -
-     .            TEMPNC(NC7(I))*PX1(I) - TEMPNC(NC8(I))*PX2(I)       
-          
+     .            TEMPNC(NC7(I))*PX1(I) - TEMPNC(NC8(I))*PX2(I)
+
           PHIY =  TEMPNC(NC1(I))*PY1(I) + TEMPNC(NC2(I))*PY2(I)  +
      .            TEMPNC(NC3(I))*PY3(I) + TEMPNC(NC4(I))*PY4(I)  -
      .            TEMPNC(NC5(I))*PY3(I) - TEMPNC(NC6(I))*PY4(I)  -
      .            TEMPNC(NC7(I))*PY1(I) - TEMPNC(NC8(I))*PY2(I)
-      
+
           PHIZ =  TEMPNC(NC1(I))*PZ1(I) + TEMPNC(NC2(I))*PZ2(I)  +
      .            TEMPNC(NC3(I))*PZ3(I) + TEMPNC(NC4(I))*PZ4(I)  -
      .            TEMPNC(NC5(I))*PZ3(I) - TEMPNC(NC6(I))*PZ4(I)  -
-     .            TEMPNC(NC7(I))*PZ1(I) - TEMPNC(NC8(I))*PZ2(I)          
+     .            TEMPNC(NC7(I))*PZ1(I) - TEMPNC(NC8(I))*PZ2(I)
 C
           KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
           PHIX = KC*PHIX
           PHIY = KC*PHIY
-          PHIZ = KC*PHIZ         
+          PHIZ = KC*PHIZ
 C
 C force thermique nodale
 C
           A = ONE_OVER_8* DIE(I)
-          B = PHIX*PX1(I) + PHIY*PY1(I) + PZ1(I)*PHIZ        
+          B = PHIX*PX1(I) + PHIY*PY1(I) + PZ1(I)*PHIZ
           FPHI(I,1) = A - B
           FPHI(I,7) = A + B
           B = PHIX*PX2(I) + PHIY*PY2(I) + PZ2(I)*PHIZ
@@ -111,7 +111,7 @@ C
           FPHI(I,3) = A - B
           FPHI(I,5) = A + B
           B = PHIX*PX4(I) + PHIY*PY4(I) + PZ4(I)*PHIZ
-          FPHI(I,4) = A - B 
+          FPHI(I,4) = A - B
           FPHI(I,6) = A + B
       ENDDO
 C  

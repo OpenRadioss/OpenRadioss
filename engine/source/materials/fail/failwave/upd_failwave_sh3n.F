@@ -54,10 +54,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,IXTG(NIXTG,*)
       INTEGER, DIMENSION(NEL)   , INTENT(IN)    :: NGL,OFFLY
-      INTEGER, DIMENSION(NUMNOD), INTENT(IN   ) :: ITAB 
-      my_real ,DIMENSION(NEL)   , INTENT(IN)    :: DADV  
+      INTEGER, DIMENSION(NUMNOD), INTENT(IN   ) :: ITAB
+      my_real ,DIMENSION(NEL)   , INTENT(IN)    :: DADV
       INTEGER, DIMENSION(NEL)   , INTENT(OUT)   :: FWAVE_EL
-      TYPE (FAILWAVE_STR_)  :: FAILWAVE 
+      TYPE (FAILWAVE_STR_)  :: FAILWAVE
 CC-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ c---------------
               N1 = FAILWAVE%IDXI(IXTG(2,I))
               N2 = FAILWAVE%IDXI(IXTG(3,I))
               N3 = FAILWAVE%IDXI(IXTG(4,I))
-              NFAIL = FAILWAVE%FWAVE_NOD(1,N1,1) 
+              NFAIL = FAILWAVE%FWAVE_NOD(1,N1,1)
      .              + FAILWAVE%FWAVE_NOD(1,N2,1)
      .              + FAILWAVE%FWAVE_NOD(1,N3,1)
               IF (NFAIL > 0) THEN
@@ -106,27 +106,27 @@ c
             N1 = IXTG(2,I)
             N2 = IXTG(3,I)
             N3 = IXTG(4,I)
-            NOD_NN(1) = FAILWAVE%IDXI(N1)  
-            NOD_NN(2) = FAILWAVE%IDXI(N2)  
-            NOD_NN(3) = FAILWAVE%IDXI(N3)  
-            NOD_ID(1) = ITAB(N1)   
-            NOD_ID(2) = ITAB(N2)   
-            NOD_ID(3) = ITAB(N3)   
-            FOUND = 0   
+            NOD_NN(1) = FAILWAVE%IDXI(N1)
+            NOD_NN(2) = FAILWAVE%IDXI(N2)
+            NOD_NN(3) = FAILWAVE%IDXI(N3)
+            NOD_ID(1) = ITAB(N1)
+            NOD_ID(2) = ITAB(N2)
+            NOD_ID(3) = ITAB(N3)
+            FOUND = 0
 c
             DO K=1,3
               NCURR = NOD_NN(K)
               IF (FAILWAVE%MAXLEV(NCURR) > 0) THEN
-                KNEXT = NDR(K)  
+                KNEXT = NDR(K)
                 KPREV = NDL(K)
 c
                 DO LEVEL = 1,FAILWAVE%MAXLEV(NCURR)
                   FNOD1 = FAILWAVE%FWAVE_NOD(1,NCURR,LEVEL)
                   FNOD2 = FAILWAVE%FWAVE_NOD(2,NCURR,LEVEL)
 c
-                  IF ((FNOD2 == 0 .and. 
-     .                (FNOD1 == NOD_ID(KNEXT) .or. FNOD1 == NOD_ID(KPREV))) 
-     .              .or. 
+                  IF ((FNOD2 == 0 .and.
+     .                (FNOD1 == NOD_ID(KNEXT) .or. FNOD1 == NOD_ID(KPREV)))
+     .              .or.
      .                (FNOD1 > 0 .and. FNOD2 > 0 .and.
      .              FNOD1 /= NOD_ID(KPREV) .and. FNOD1 /= NOD_ID(KNEXT) .and.
      .              FNOD2 /= NOD_ID(KPREV) .and. FNOD2 /= NOD_ID(KNEXT)) ) THEN
@@ -138,7 +138,7 @@ c
                 IF (FOUND == 1) EXIT
 c
               ENDIF
-            ENDDO    !  K=1,3 
+            ENDDO    !  K=1,3
 c
 c            IF (FOUND == 1) THEN
 c#include "lockon.inc"
@@ -146,7 +146,7 @@ c              write(iout,'(A,I10)')'set failwave flag to element=',ngl(I)
 c#include "lockoff.inc"
 c            ENDIF
 c
-          ENDDO     !  II=1,NINDX   
+          ENDDO     !  II=1,NINDX
 c---------------
       END SELECT
 c---------------

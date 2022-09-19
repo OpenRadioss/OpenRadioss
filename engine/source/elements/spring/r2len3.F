@@ -93,7 +93,7 @@ C
         ELSEIF(XKM(I)/=ZERO)THEN
          STI(1,I) = XKM(I)
         ELSEIF(XCM(I)/=ZERO.AND.MASS2/=ZERO)THEN
-         A = FOUR * XCM(I)**2 
+         A = FOUR * XCM(I)**2
          STI(1,I) = A / MASS2
         ENDIF
 C
@@ -108,7 +108,7 @@ C
         ELSEIF(XKM(I)/=ZERO)THEN
          STI(2,I) = XKM(I)
         ELSEIF(XCM(I)/=ZERO.AND.MASS2/=ZERO)THEN
-         A = FOUR * XCM(I)**2 
+         A = FOUR * XCM(I)**2
          STI(2,I) = A / MASS2
         ENDIF
 C
@@ -123,7 +123,7 @@ C
         ELSEIF(XKR(I)/=ZERO)THEN
          STIR(1,I) = XKR(I)
         ELSEIF(XCR(I)/=ZERO.AND.IN2/=ZERO)THEN
-         A = FOUR * XCR(I)**2 
+         A = FOUR * XCR(I)**2
          STIR(1,I) = A / IN2
         ENDIF
 C
@@ -138,7 +138,7 @@ C
         ELSEIF(XKR(I)/=ZERo)THEN
          STIR(2,I) = XKR(I)
         ELSEIF(XCR(I)/=ZERO.AND.IN2/=ZERO)THEN
-         A = FOUR * XCR(I)**2 
+         A = FOUR * XCR(I)**2
          STIR(2,I) = A / IN2
         ENDIF
        ENDIF
@@ -175,7 +175,7 @@ C
             ITYPTST=6
           ENDIF
         ENDDO
-       ELSE 
+       ELSE
 C
         DO I=JFT,JLT
           IF(XCM(I)+XKM(I)<EM15)XM(I) =ONE
@@ -230,7 +230,7 @@ C
          STI(2,I) = ZERO
          STIR(1,I) = ZERO
          STIR(2,I) = ZERO
-         IF(OFF(I)>ZERO) THEN	 
+         IF(OFF(I)>ZERO) THEN	
            STI(1,I) = XM(I) / DT(I)**2
            STI(2,I) = STI(1,I)
          ENDIF

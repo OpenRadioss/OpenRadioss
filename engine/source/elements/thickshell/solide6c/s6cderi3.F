@@ -31,15 +31,15 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE S6CDERI3(OFF,DET,NGL,
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
+     .   X1, X2, X3, X4, X5, X6,
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
+     .   PX1H, PX2H, PX3H,
+     .   PY1H, PY2H, PY3H,
+     .   PZ1H, PZ2H, PZ3H,
      .   JACOB5,JACOB6,JACOB4,
      .   JACOB8,JACOB9,JACOB7,
      .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
@@ -74,15 +74,15 @@ C-----------------------------------------------
 C
       my_real
      .   OFF(*),DET(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*),   
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H(*), PX2H(*), PX3H(*),  
-     .   PY1H(*), PY2H(*), PY3H(*),   
-     .   PZ1H(*), PZ2H(*), PZ3H(*),   
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H(*), PX2H(*), PX3H(*),
+     .   PY1H(*), PY2H(*), PY3H(*),
+     .   PZ1H(*), PZ2H(*), PZ3H(*),
      .   JACOB7(*),JACOB8(*),JACOB9(*),
      .   JACOB4(*),JACOB5(*),JACOB6(*),
      .   JACI33(*),B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER :: I, J,ICOR,NNEGA,INDEX(MVSIZ)
 C                                                                     12
       my_real
-     .   DETT(MVSIZ), JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), 
+     .   DETT(MVSIZ), JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
      .   JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
      .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ),
      .   JACI1, JACI2, JACI3,
@@ -107,7 +107,7 @@ C                                                                     12
      .   X21(MVSIZ) , X31(MVSIZ) , X54(MVSIZ) , X64(MVSIZ),
      .   Y21(MVSIZ) , Y31(MVSIZ) , Y54(MVSIZ) , Y64(MVSIZ),
      .   Z21(MVSIZ) , Z31(MVSIZ) , Z54(MVSIZ) , Z64(MVSIZ),
-     .   X41(MVSIZ) , Y41(MVSIZ) , Z41(MVSIZ) , 
+     .   X41(MVSIZ) , Y41(MVSIZ) , Z41(MVSIZ) ,
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JACI12, JACI45, JACI78,
      .   FAC
@@ -157,7 +157,7 @@ C
        JACOB7(I)=JAC7(I)
        JACOB8(I)=JAC8(I)
        JACOB9(I)=JAC9(I)
-      ENDDO 
+      ENDDO
 C
       DO I=1,NEL
       JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
@@ -233,7 +233,7 @@ C
           IF(OFF(I) == ZERO)THEN
             DET(I)=ONE
           ELSEIF(OFFG(I) > ONE)THEN
-	  
+	
           ELSEIF((DET(I)<=VOLMIN).OR.(DET(I)<=ZERO))THEN
             NNEGA=NNEGA+1
 	    INDEX(NNEGA)=I
@@ -458,5 +458,5 @@ C
  1000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB',I10/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
  3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +    ' SOLID-SHELL ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
+     +    ' SOLID-SHELL ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/)
       END SUBROUTINE S6CDERI3

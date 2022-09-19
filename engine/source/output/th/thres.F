@@ -59,7 +59,7 @@ C-----------------------------------------------
 C
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       NTHGRP2 : integer ; number of TH group 
+!       NTHGRP2 : integer ; number of TH group
 !       WA_SIZE : integer ; size of working array for spring element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C
 !$COMMENT
 !       THRES description
 !       initialization of WA array for spring element
-!       
+!
 !       THRES organization :
 !       loop over the NTHGRP2 TH group and
 !       if a group is a spring group, then :
@@ -95,7 +95,7 @@ C-----------------------------------------------
           IAD =ITHGRP(5,NITER)
           NVAR=ITHGRP(6,NITER)
           IADV=ITHGRP(7,NITER)
-        
+
           IF(ITYP==6) THEN
             IH=IAD
 Cel specifique spmd
@@ -104,7 +104,7 @@ C decalage IH
                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                     IH = IH + 1
                 ENDDO
-                IF (IH >= IAD+NN) CYCLE 
+                IF (IH >= IAD+NN) CYCLE
             ENDIF
 C
             DO NG=1,NGROUP
@@ -149,13 +149,13 @@ C
                                 WWA(4)=ZERO
                                 WWA(5)=ZERO
                                 WWA(6)=ZERO
-                                WWA(7)=ZERO            
+                                WWA(7)=ZERO
                                 WWA(8)=GBUF%TOTDEPL(I)
                                 WWA(9)=ZERO
                                 WWA(10)=ZERO
                                 WWA(11)=ZERO
                                 WWA(12)=ZERO
-                                WWA(13)=ZERO            
+                                WWA(13)=ZERO
                                 WWA(14)=GBUF%EINT(I)
                                 WWA(15)=ZERO
                                 WWA(16)=ZERO
@@ -164,8 +164,8 @@ C
                                 ENDDO
                                 ! Absolute spring length
                                 WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -201,13 +201,13 @@ C
                                 WWA(4)=ZERO
                                 WWA(5)=ZERO
                                 WWA(6)=ZERO
-                                WWA(7)=ZERO            
+                                WWA(7)=ZERO
                                 WWA(8)=GBUF%TOTDEPL(I)
                                 WWA(9)=ZERO
                                 WWA(10)=ZERO
                                 WWA(11)=ZERO
                                 WWA(12)=ZERO
-                                WWA(13)=ZERO            
+                                WWA(13)=ZERO
                                 WWA(14)=GBUF%EINT(I)
                                 WWA(15)=ZERO
                                 WWA(16)=ZERO
@@ -216,8 +216,8 @@ C
                                 ENDDO
                                 ! Absolute spring length
                                 WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -253,13 +253,13 @@ C
                                 WWA(4)=ZERO
                                 WWA(5)=ZERO
                                 WWA(6)=ZERO
-                                WWA(7)=ZERO            
+                                WWA(7)=ZERO
                                 WWA(8)=GBUF%TOTDEPL(I)
                                 WWA(9)=ZERO
                                 WWA(10)=ZERO
                                 WWA(11)=ZERO
                                 WWA(12)=ZERO
-                                WWA(13)=ZERO            
+                                WWA(13)=ZERO
                                 WWA(14)=GBUF%EINT(I)
                                 WWA(15)=ZERO
                                 WWA(16)=ZERO
@@ -268,8 +268,8 @@ C
                                 ENDDO
                                 ! Absolute spring length
                                 WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -305,13 +305,13 @@ C
                                 WWA(4)=ZERO
                                 WWA(5)=ZERO
                                 WWA(6)=ZERO
-                                WWA(7)=ZERO            
+                                WWA(7)=ZERO
                                 WWA(8)=GBUF%TOTDEPL(I)
                                 WWA(9)=ZERO
                                 WWA(10)=ZERO
                                 WWA(11)=ZERO
                                 WWA(12)=ZERO
-                                WWA(13)=ZERO            
+                                WWA(13)=ZERO
                                 WWA(14)=GBUF%EINT(I)
                                 WWA(15)=GBUF%FOR(I) + GBUF%DFS(I)
                                 WWA(16)=GBUF%FOR(I) - GBUF%DFS(I)
@@ -320,11 +320,11 @@ C
                                 ENDDO
                                 ! Absolute spring length
                                 WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                        (X(3,NODE2)-X(3,NODE1))**2) 
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)
      .                                 + SQRT((X(1,NODE3)-X(1,NODE2))**2 +
-     .                                        (X(2,NODE3)-X(2,NODE2))**2 + 
-     .                                        (X(3,NODE3)-X(3,NODE2))**2) 
+     .                                        (X(2,NODE3)-X(2,NODE2))**2 +
+     .                                        (X(3,NODE3)-X(3,NODE2))**2)
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -334,7 +334,7 @@ C
                                 WA(IJK) = II
                             ENDIF
                         ENDDO
-                    ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25 
+                    ELSEIF (IGTYP == 8 .OR. IGTYP == 13 .OR. IGTYP == 25
      .                                .OR. IGTYP == 23 ) THEN
                         DO I=1,NEL
                             N=I+NFT
@@ -373,12 +373,12 @@ C
                                 WWA(15)=ZERO
                                 WWA(16)=ZERO
                                 DO L=17,64
-                                    WWA(L)= ZERO 
+                                    WWA(L)= ZERO
                                 ENDDO
                                 ! Absolute spring length
                                 WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                        (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                        (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                        (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                        (X(3,NODE2)-X(3,NODE1))**2)
                                 DO L=IADV,IADV+NVAR-1
                                     K=ITHBUF(L)
                                     IJK=IJK+1
@@ -389,7 +389,7 @@ C
                             ENDIF
                         ENDDO
                     ELSEIF (IGTYP >= 29) THEN
-                            IF (IGTYP <= 31 .OR. IGTYP == 35 .OR. IGTYP == 36. OR. 
+                            IF (IGTYP <= 31 .OR. IGTYP == 35 .OR. IGTYP == 36. OR.
      .                      IGTYP == 44) THEN
                                 DO I=1,NEL
                                     N=I+NFT
@@ -435,83 +435,83 @@ C---            repere
                                         E2X = GBUF%SKEW(6*(I-1) + 4)
                                         E2Y = GBUF%SKEW(6*(I-1) + 5)
                                         E2Z = GBUF%SKEW(6*(I-1) + 6)
-                                        E3X = E1Y*E2Z - E1Z*E2Y                    
-                                        E3Y = E1Z*E2X - E1X*E2Z                    
-                                        E3Z = E1X*E2Y - E1Y*E2X                    
+                                        E3X = E1Y*E2Z - E1Z*E2Y
+                                        E3Y = E1Z*E2X - E1X*E2Z
+                                        E3Z = E1X*E2Y - E1Y*E2X
 C---            force locale                           
                                         V1 = GBUF%FOR(JJ(1)+I-1)
                                         V2 = GBUF%FOR(JJ(2)+I-1)
                                         V3 = GBUF%FOR(JJ(3)+I-1)
-                                        WWA(23)=-V1                            
-                                        WWA(24)=-V2                            
-                                        WWA(25)=-V3                            
-                                        WWA(26)= V1                            
-                                        WWA(27)= V2                            
-                                        WWA(28)= V3                            
+                                        WWA(23)=-V1
+                                        WWA(24)=-V2
+                                        WWA(25)=-V3
+                                        WWA(26)= V1
+                                        WWA(27)= V2
+                                        WWA(28)= V3
 C---            force globale                          
-                                        WWA(20)= V1*E1X+V2*E1Y+V3*E1Z              
-                                        WWA(21)= V1*E2X+V2*E2Y+V3*E2Z              
-                                        WWA(22)= V1*E3X+V2*E3Y+V3*E3Z              
-                                        WWA(17)=-WWA(20)                       
-                                        WWA(18)=-WWA(21)                       
-                                        WWA(19)=-WWA(22)                       
+                                        WWA(20)= V1*E1X+V2*E1Y+V3*E1Z
+                                        WWA(21)= V1*E2X+V2*E2Y+V3*E2Z
+                                        WWA(22)= V1*E3X+V2*E3Y+V3*E3Z
+                                        WWA(17)=-WWA(20)
+                                        WWA(18)=-WWA(21)
+                                        WWA(19)=-WWA(22)
 C---            moment local                           
                                         V1 = GBUF%MOM(JJ(1)+I-1)
                                         V2 = GBUF%MOM(JJ(4)+I-1)
                                         V3 = GBUF%MOM(JJ(5)+I-1)
-                                        WWA(35)= V1                            
-                                        WWA(36)= V2                            
-                                        WWA(37)= V3                            
-                                        WWA(38)=-V1                            
+                                        WWA(35)= V1
+                                        WWA(36)= V2
+                                        WWA(37)= V3
+                                        WWA(38)=-V1
                                         WWA(39)= V2 + TWO*GBUF%MOM(JJ(2)+I-1)
                                         WWA(40)= V3 + TWO*GBUF%MOM(JJ(3)+I-1)
 C---            moment global                          
-                                        WWA(29)= V1*E1X+V2*E1Y+V3*E1Z              
-                                        WWA(30)= V1*E2X+V2*E2Y+V3*E2Z              
-                                        WWA(31)= V1*E3X+V2*E3Y+V3*E3Z              
-                                        WWA(32)= WWA(38)*E1X+WWA(39)*E1Y+WWA(40)*E1Z   
-                                        WWA(33)= WWA(38)*E2X+WWA(39)*E2Y+WWA(40)*E2Z   
-                                        WWA(34)= WWA(38)*E3X+WWA(39)*E3Y+WWA(40)*E3Z   
+                                        WWA(29)= V1*E1X+V2*E1Y+V3*E1Z
+                                        WWA(30)= V1*E2X+V2*E2Y+V3*E2Z
+                                        WWA(31)= V1*E3X+V2*E3Y+V3*E3Z
+                                        WWA(32)= WWA(38)*E1X+WWA(39)*E1Y+WWA(40)*E1Z
+                                        WWA(33)= WWA(38)*E2X+WWA(39)*E2Y+WWA(40)*E2Z
+                                        WWA(34)= WWA(38)*E3X+WWA(39)*E3Y+WWA(40)*E3Z
 C---            deformation locale                         
                                         V1 = -GBUF%V_REPCVT(JJ(1)+I-1)
-                                        WWA(47)= V1                            
-                                        WWA(48)= ZERO                          
-                                        WWA(49)= ZERO                          
-                                        WWA(50)=-V1                            
-                                        WWA(51)= ZERO                          
-                                        WWA(52)= ZERO                          
+                                        WWA(47)= V1
+                                        WWA(48)= ZERO
+                                        WWA(49)= ZERO
+                                        WWA(50)=-V1
+                                        WWA(51)= ZERO
+                                        WWA(52)= ZERO
 C---            deformation globale                        
-                                        WWA(41)= V1*E1X                        
-                                        WWA(42)= V1*E2X                        
-                                        WWA(43)= V1*E3X                        
-                                        WWA(44)=-WWA(41)                       
-                                        WWA(45)=-WWA(42)                       
-                                        WWA(46)=-WWA(43)                       
+                                        WWA(41)= V1*E1X
+                                        WWA(42)= V1*E2X
+                                        WWA(43)= V1*E3X
+                                        WWA(44)=-WWA(41)
+                                        WWA(45)=-WWA(42)
+                                        WWA(46)=-WWA(43)
 C---            rotation locale Noeud1                     
                                         V1 = -GBUF%VR_REPCVT(JJ(1)+I-1)
                                         V2 = GBUF%V_REPCVT(JJ(2)+I-1)
                                         V3 = GBUF%V_REPCVT(JJ(3)+I-1)
-                                        WWA(59)= V1                            
-                                        WWA(60)= V2                            
-                                        WWA(61)= V3                            
+                                        WWA(59)= V1
+                                        WWA(60)= V2
+                                        WWA(61)= V3
 C---            rotation globale Noeud1                    
-                                        WWA(53)= V1*E1X+V2*E1Y+V3*E1Z              
-                                        WWA(54)= V1*E2X+V2*E2Y+V3*E2Z              
-                                        WWA(55)= V1*E3X+V2*E3Y+V3*E3Z              
+                                        WWA(53)= V1*E1X+V2*E1Y+V3*E1Z
+                                        WWA(54)= V1*E2X+V2*E2Y+V3*E2Z
+                                        WWA(55)= V1*E3X+V2*E3Y+V3*E3Z
 C---            rotation locale Noeud2                     
                                         V2 = GBUF%VR_REPCVT(JJ(2)+I-1)
                                         V3 = GBUF%VR_REPCVT(JJ(3)+I-1)
-                                        WWA(62)=-V1                            
-                                        WWA(63)= V2                            
-                                        WWA(64)= V3                            
+                                        WWA(62)=-V1
+                                        WWA(63)= V2
+                                        WWA(64)= V3
 C---            rotation globale Noeud2                    
-                                        WWA(56)=-V1*E1X+V2*E1Y+V3*E1Z              
-                                        WWA(57)=-V1*E2X+V2*E2Y+V3*E2Z              
-                                        WWA(58)=-V1*E3X+V2*E3Y+V3*E3Z  
+                                        WWA(56)=-V1*E1X+V2*E1Y+V3*E1Z
+                                        WWA(57)=-V1*E2X+V2*E2Y+V3*E2Z
+                                        WWA(58)=-V1*E3X+V2*E3Y+V3*E3Z
 C---            absolute spring length
                                         WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                                (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                                (X(3,NODE2)-X(3,NODE1))**2)            
+     .                                                (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                                (X(3,NODE2)-X(3,NODE1))**2)
 c
                                         DO L=IADV,IADV+NVAR-1
                                             K=ITHBUF(L)
@@ -564,8 +564,8 @@ C
                                         ENDDO
                                         ! Absolute spring length
                                         WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                                (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                                (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                                (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                                (X(3,NODE2)-X(3,NODE1))**2)
                                         DO L=IADV,IADV+NVAR-1
                                             K=ITHBUF(L)
                                             IJK=IJK+1
@@ -617,8 +617,8 @@ C
                                         ENDDO
                                         ! Absolute spring length
                                         WWA(65)= SQRT((X(1,NODE2)-X(1,NODE1))**2 +
-     .                                                (X(2,NODE2)-X(2,NODE1))**2 + 
-     .                                                (X(3,NODE2)-X(3,NODE1))**2)   
+     .                                                (X(2,NODE2)-X(2,NODE1))**2 +
+     .                                                (X(3,NODE2)-X(3,NODE1))**2)
                                         DO L=IADV,IADV+NVAR-1
                                             K=ITHBUF(L)
                                             IJK=IJK+1

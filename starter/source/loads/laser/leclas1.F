@@ -65,7 +65,7 @@ C---------------------------------
         CALL HM_GET_INT_ARRAY_INDEX('location_unit_element', J10(J), J, IS_AVAILABLE, LSUBMODEL)
         LAS(1,J) = J10(J)
       ENDDO
-      
+
       !---OUTPUT
       N  = 0
       NN = NL / 10
@@ -73,9 +73,9 @@ C---------------------------------
       DO J=1,NN
         WRITE(IOUT,FMT_10I)J10((J-1)*10+1:J*10)
       ENDDO
-      WRITE(IOUT,FMT_10I)J10(NN*10+1:NN*10+NK) 
-      
-      !---STORAGE              
+      WRITE(IOUT,FMT_10I)J10(NN*10+1:NN*10+NK)
+
+      !---STORAGE
       LAS(1,NL+1)=NC
 
       RETURN

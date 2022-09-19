@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -93,11 +93,11 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-      
+
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
       ELSE
@@ -107,13 +107,13 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-      
+
       IF(GAMMA > ONE) THEN
         E0 = P0/(GAMMA-ONE)/(ONE+MU0)
       ELSE
@@ -131,7 +131,7 @@ C-----------------------------------------------
      .               C1='/EOS/IDEAL-GAS',
      .               C2='INITIAL PRESSURE MUST BE POSITIVE')
       ENDIF
-      
+
       IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -143,7 +143,7 @@ C-----------------------------------------------
 
       IF(T0 == ZERO)T0=THREE100
       Cv = E0/RHO0/T0
-      
+
       PM(32) = GAMMA
       PM(88) = PSH
       PM(23) = E0
@@ -152,16 +152,16 @@ C-----------------------------------------------
       PM(31) = P0-PSH
       PM(79) = T0
       PM(104)=P0-PSH
-      
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
       DPDMU =  (GAMMA-ONE)*E0+(ONE+MU0)*(GAMMA-ONE)*DF*DF*(PM(31)+PSH)
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0      
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
 
       WRITE(IOUT,1000)
 

@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-       my_real 
+       my_real
      .    XSEC(3,3,NSECT),X(3,*)
        INTEGER NSTRF(*),WEIGHT(*),ITAB(*)
 C-----------------------------------------------
@@ -118,10 +118,10 @@ C-----------------------------------------------
 
             K1= NSTRF(K1+22)+2
          ENDDO
-         
+
            LEN = 9*NSECT
 
-          
+
            CALL MPI_REDUCE(XSECTMP,XSEC,LEN,
      .                  REAL,MPI_SUM,IT_SPMD(1),
      .                  MPI_COMM_WORLD,IERROR)

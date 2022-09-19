@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE ELBUFTAG_MOD            
+      USE MATPARAM_DEF_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(MAXTABL) ,INTENT(INOUT) :: ITABLE
       CHARACTER*nchartitle,INTENT(IN)::TITR
       my_real ,INTENT(INOUT):: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
-      TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB 
+      TYPE (UNIT_TYPE_)      ,INTENT(IN)    :: UNITAB
       TYPE(SUBMODEL_DATA)    ,INTENT(IN)    :: LSUBMODEL(*)
       TYPE(MLAW_TAG_)        ,INTENT(OUT)   :: MTAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
@@ -104,8 +104,8 @@ c=======================================================================
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 card1
-      CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
-      CALL HM_GET_FLOATV('LMIN'     ,LMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
+      CALL HM_GET_FLOATV('MAT_RHO'  ,RHO0     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('LMIN'     ,LMIN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 card2
       CALL HM_GET_FLOATV('STIFF1'   ,E11      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('DAMP1'    ,DAMP     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -172,10 +172,10 @@ c-----------------------------------------
       UPARAM(1)  = E11*EM02
       UPARAM(2)  = E22
       UPARAM(3)  = N12
-      UPARAM(6)  = G12  
-      UPARAM(10) = RCOMP                          
-      UPARAM(11) = FSCALE1                           
-      UPARAM(12) = FSCALE2  
+      UPARAM(6)  = G12
+      UPARAM(10) = RCOMP
+      UPARAM(11) = FSCALE1
+      UPARAM(12) = FSCALE2
       UPARAM(13) = FSCALET
       UPARAM(14) = A1C
       UPARAM(15) = A2C
@@ -189,8 +189,8 @@ c
       NUVAR   = 6
       NUMTABL = 2
 c
-      ITABLE(1) = FUNC1                
-      ITABLE(2) = FUNC2                
+      ITABLE(1) = FUNC1
+      ITABLE(2) = FUNC2
 c --------------------------
 C--   Values of C1,E11,E22 and N21 are computed in create_seatbelt.F when section is available
 C     PARMAT(1)  = C1
@@ -208,9 +208,9 @@ c
       MTAG%G_ADD_NODE = 4
       MTAG%G_POSX = 2
 c
-c--------------------- 
+c---------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN")
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
 c----------------------------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,119
@@ -238,7 +238,7 @@ c--------------------------------------
      &(5X,'ORTHOTROPIC MATERIAL FOR SEATBELTS (LAW119)       ',/,
      & 5X,'-------------------------------------------       ',/)
  1200 FORMAT(
-     & 5X,'MASS PER UNIT LENGTH  . . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'MASS PER UNIT LENGTH  . . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'STIFFNESS PER UNIT LENGTH (TENSION) . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS E22 (TENSION) . . . . . . . . . . .=',1PG20.13/

@@ -54,20 +54,20 @@ C-----------------------------------------------
       INTEGER NC,ISKIP,NCF_S,
      .        LLL(*),JLL(*),SLL(*),IADLL(*),GJBUFI(LKJNI,*),
      .        COMNTAG(*),ICFTAG(*),JCFTAG(*)
-      my_real 
+      my_real
      .        GJBUFR(LKJNR,*),LTSM(6,*),XLL(*),MS(*),IN(*),
-     .        X(3,*),V(3,*),A(3,*),VR(3,*),AR(3,*)     
+     .        X(3,*),V(3,*),A(3,*),VR(3,*),AR(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,JTYP,N0,N1,N2,N3,IC,NC_INI,NCL,COMFLAG
-      my_real 
+      my_real
      .        VRN(3),DVR(3),VL(3),P(9),L1(3),L2(3),L3(3),ALPHA, DTD
 C======================================================================|
       DO I=1,NGJOINT
-        JTYP= GJBUFI(2,I)        
-        N0  = GJBUFI(3,I)        
-        N1  = GJBUFI(4,I)        
+        JTYP= GJBUFI(2,I)
+        N0  = GJBUFI(3,I)
+        N1  = GJBUFI(4,I)
         N2  = GJBUFI(5,I)
         N3  = GJBUFI(6,I)
 C
@@ -124,7 +124,7 @@ C---
           NCL = 11
           CALL GJNT_GEAR(P      ,L1     ,L2     ,ALPHA  ,X      ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
-     3                   N0     ,N1     ,N2     ,NC     )  
+     3                   N0     ,N1     ,N2     ,NC     )
         ELSEIF (JTYP==2) THEN
           IF (COMNTAG(N3)>1) COMFLAG = 1
           NCL = 13
@@ -134,12 +134,12 @@ C---
           CALL GJNT_DIFF(P      ,L1     ,L2     ,L3     ,ALPHA  ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
      3                   X      ,N0     ,N1     ,N2     ,N3     ,
-     4                   NC     )  
+     4                   NC     )
         ELSEIF (JTYP==3) THEN
           NCL = 9
           CALL GJNT_RACK(P      ,L1     ,L2     ,ALPHA  ,X      ,
      2                   IADLL  ,LLL    ,JLL    ,SLL    ,XLL    ,
-     3                   N0     ,N1     ,N2     ,NC     )  
+     3                   N0     ,N1     ,N2     ,NC     )
         ENDIF
 C
 C---    Solving local Lagrange multipliers

@@ -58,12 +58,12 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NUMSKW+1), INTENT(INOUT) :: ISKWP_L
         TYPE(SKEW_TYPE), DIMENSION(NUMSKW+1), INTENT(IN) :: MULTIPLE_SKEW
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       CURR_PROC : integer 
-!                   current ID processor 
+!       CURR_PROC : integer
+!                   current ID processor
 !       TAG_SKN : integer ; dimension=NUMSKW+1
 !                 tag array --> tag the i SKEW if a SPRING uses it
 !                 tag array=0 --> the SKEW is not used by a SPRING
-!                 tag array=1 --> the SKEW is used by one SPRING      
+!                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
 !       ISKWP : integer ; dimension=NUMSKW+1
 !               gives the ID processir of the current i SKEW
@@ -89,7 +89,7 @@ C=======================================================================
 !$COMMENT
 !       SPLIT_SKEW description
 !       SPLIT_SKEW initializes the SKEW index ISKWP_L used in the engine
-!       
+!
 !       SPLIT_SKEW organization :
 !       - loop over the NUMSKW and check if the SKEW is on the curent
 !         processor
@@ -112,7 +112,7 @@ C=======================================================================
                                 NN = NN + 1
                                 ISKWP_L( NN ) = I
                         ENDIF
-                ENDIF                       
+                ENDIF
         ENDDO
 
         RETURN
@@ -194,7 +194,7 @@ C=======================================================================
                                 NN = NN + 1
                                 ISKWP_L( NN ) = I
                         ENDIF
-                ENDIF                       
+                ENDIF
         ENDDO
 
         j = 0

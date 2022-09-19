@@ -36,7 +36,7 @@ Chd|====================================================================
      6                   GAP_M   ,GAPV  ,CURV_MAX,ITYP  ,NIN    ,
      7                   V       ,IGAP  ,GAP_S_L ,GAP_M_L,MSEGTYP,
      8                   ETYP    ,ICODT ,ISKEW   ,IBC    ,DRAD  ,
-     9                   DGAPLOAD)        
+     9                   DGAPLOAD)
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*), 
+      INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .    JLT,IDT, NOINT, NSN ,ITYP, NIN, IGAP, MSEGTYP(*), ICODT(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        ETYP(MVSIZ), IBC(MVSIZ)
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD,
-     .        IBCS, ISKS, IBCM(4), ISKM(4) 
+     .        IBCS, ISKS, IBCM(4), ISKM(4)
       my_real
      .    VDT(MVSIZ)
       my_real
@@ -189,7 +189,7 @@ C
           IBCS =ICODT(NSV(J))
         ELSE
           IG = J - NSN
-          ! ICODT 
+          ! ICODT
           IBCS = IREM(7,IG)
         END IF
 

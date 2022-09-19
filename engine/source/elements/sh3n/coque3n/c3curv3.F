@@ -30,8 +30,8 @@ Chd|====================================================================
       SUBROUTINE C3CURV3(JFT,JLT,VRL1,VRL2,VRL3,
      .                   IXTG,WXY,ISMSTR,KXX,KYY,KXY,
      .                   PX1 ,PY1 ,PY2  ,EYZ   ,EZX  ,
-     .                   E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
+     .                   E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .                   E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,9 +49,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT,IXTG(NIXTG,*),ISMSTR
       my_real VRL1(MVSIZ,3), VRL2(MVSIZ,3), VRL3(MVSIZ,3),WXY(*),
-     .  E1X(MVSIZ),  E1Y(MVSIZ),  E1Z(MVSIZ),  E2X(MVSIZ), 
-     .  E2Y(MVSIZ),  E2Z(MVSIZ),  E3X(MVSIZ),  E3Y(MVSIZ), 
-     .  E3Z(MVSIZ),  EZX(MVSIZ),  EYZ(MVSIZ),               
+     .  E1X(MVSIZ),  E1Y(MVSIZ),  E1Z(MVSIZ),  E2X(MVSIZ),
+     .  E2Y(MVSIZ),  E2Z(MVSIZ),  E3X(MVSIZ),  E3Y(MVSIZ),
+     .  E3Z(MVSIZ),  EZX(MVSIZ),  EYZ(MVSIZ),
      .  PX1(MVSIZ),  PY1(MVSIZ),  PY2(MVSIZ),
      .  KXX(MVSIZ),  KYY(MVSIZ),  KXY(MVSIZ)
 C-----------------------------------------------
@@ -87,12 +87,12 @@ C
         KXY(I) = PY1(I) * RY13T + PY2(I) * RY23T - KXY(I)
 C
         RYAVT  = PX1(I) * (
-     .              PX1(I) * (-RX1(I)+RX2(I)) 
+     .              PX1(I) * (-RX1(I)+RX2(I))
      .            + (TWO*PY1(I)+THREE*PY2(I)) * RY1(I)
      .            + (THREE*PY1(I)+TWO*PY2(I)) * RY2(I)
 
      .            + ( PY1(I) + PY2(I) )   * RY3(I) )
-        RXAVT  = -PX1(I) * (   
+        RXAVT  = -PX1(I) * (
      .           + (TWO*PY1(I)+PY2(I)) * RX1(I)
      .           + (PY1(I)+TWO*PY2(I)) * RX2(I)
      .           + THREE*(PY1(I)+PY2(I)) * RX3(I) )
@@ -101,7 +101,7 @@ C
      .           + ( PY2(I)**2 - PY1(I)**2 )   * RY3(I)
 C
         EZX(I) = EZX(I) + RYAVT * THIRD
-        EYZ(I) = EYZ(I) + RXAVT * THIRD   
+        EYZ(I) = EYZ(I) + RXAVT * THIRD
       ENDDO
 c
       IF (ISMSTR==10) THEN
@@ -111,7 +111,7 @@ c
          RY23T = RY2(I) - RY3(I)
 C
          WXY(I) = PY1(I) * RY13T + PY2(I) * RY23T + PX1(I) * RX12T
-        ENDDO 
+        ENDDO
       ENDIF
 c-----------
       RETURN

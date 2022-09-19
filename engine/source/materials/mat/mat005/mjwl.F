@@ -63,7 +63,7 @@ C-----------------------------------------------
       my_real
      .   EINC(MVSIZ) , ESPE(MVSIZ), W1DF(MVSIZ)
       my_real
-     .   TBEGIN, TEND, TT0, 
+     .   TBEGIN, TEND, TT0,
      .   VOLO(MVSIZ),FACM(MVSIZ),POLD(MVSIZ),PNEW(MVSIZ),
      .   EADD, LAMBDA,RR,RR2,A,M,N,XSI, BULK
 C-----------------------------------------------
@@ -92,13 +92,13 @@ C-----------------------------------------------
       ALPHA_UNIT = PM(168,MAT(1))
       BULK       = PM(044,MAT(1))
       IF(EADD==ZERO)THEN
-      !=== no afterburning  
-      ! EINT(I) = EINT(I)  
+      !=== no afterburning
+      ! EINT(I) = EINT(I)
       ELSEIF(QOPT==0)THEN
       !=== instantaneous release
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I)==ONE)THEN   
+          IF(TT > TEND .AND. ABURN(I)==ONE)THEN
             LAMBDA   = ONE
             ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
@@ -109,12 +109,12 @@ C-----------------------------------------------
             EINT(I)  = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I) = ONE
           ENDIF
-        ENDDO   
+        ENDDO
       ELSEIF(QOPT==1)THEN
       !=== afterburning with constant rate from Tbegin to Tend
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(TT > TEND .AND. ABURN(I)==ONE)THEN 
+          IF(TT > TEND .AND. ABURN(I)==ONE)THEN
             LAMBDA   = ONE
             ABURN(I) = ONE
           ELSEIF (TT <= TBEGIN)THEN
@@ -125,8 +125,8 @@ C-----------------------------------------------
             LAMBDA   = MIN(ONE,LAMBDA)
             EINT(I)  = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I) = LAMBDA
-          ENDIF          
-        ENDDO        
+          ENDIF
+        ENDDO
       ELSEIF(QOPT==2)THEN
       !=== afterburning with linear rate from Tbegin to Tend
         DO I=LFT,LLT
@@ -143,19 +143,19 @@ C-----------------------------------------------
             EINT(I)  = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I) = LAMBDA
           ENDIF
-        ENDDO    
+        ENDDO
       ELSEIF(QOPT==3)THEN
       !=== Miller s extension, rate is depedent on Pressure
         DO I=LFT,LLT
           LAMBDA = ZERO
-          IF(-POLD(I)-PSH(I) > ZERO )THEN 
+          IF(-POLD(I)-PSH(I) > ZERO )THEN
             LAMBDA=ABURN(I)+ DT1*A*EXP( M*LOG(ONE+ABURN(I)) )*EXP(N*LOG(ALPHA_UNIT*(-POLD(I)-PSH(I))))
             LAMBDA  = MAX(LAMBDA,ZERO)
             LAMBDA  = MIN(LAMBDA,ONE)
             EINT(I) = EINT(I)+(LAMBDA-ABURN(I))*EADD*MAX(EM20,VOLO(I))
             ABURN(I)= LAMBDA
           ENDIF
-        ENDDO 
+        ENDDO
       ENDIF
       !================  END AFTERBURNING     ============================!
 
@@ -166,7 +166,7 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        PNEW(I)= - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
+        PNEW(I)= - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) +
      .        (FACM(I)+(ESPE(I))*W1DF(I))/(ONE +W1DF(I)*DVOL(I)/MAX(EM20,VOLO(I)))
       ENDDO
 
@@ -185,7 +185,7 @@ C-----------------------------------------------
         SIG(I,2)=SIG(I,2)*OFF(I)-PNEW(I)
         SIG(I,3)=SIG(I,3)*OFF(I)-PNEW(I)
       ENDDO
-      
+
 C-----------------------------------------------
       RETURN
       END

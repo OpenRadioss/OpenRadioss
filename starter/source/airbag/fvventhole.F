@@ -31,7 +31,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FVVENTHOLE(IBUF  , ELEM   , IBAGHOL,
      .                      NVENT , IGRSURF,
-     .                      ITAGEL, NN     , NEL    , 
+     .                      ITAGEL, NN     , NEL    ,
      .                      ID    , TAGVENT, TITR   ,
      .                      ELTG, NB_NODE)
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBUF(*), ELEM(3,NEL), IBAGHOL(NIBHOL,*), 
+      INTEGER IBUF(*), ELEM(3,NEL), IBAGHOL(NIBHOL,*),
      .        NVENT,
      .        NN, NEL, ID, TAGVENT(NB_NODE)
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: ITAGEL
@@ -163,8 +163,8 @@ C Element IEL is an injector
                    ELSEIF(ITAGEL(IEL) < 0) THEN
 C Element IEL belongs to a previous vent hole
                      IERROR1=IERROR1+1
-                   ENDIF                    
-                 ENDIF                 
+                   ENDIF
+                 ENDIF
               ENDDO
             ELSE
               DO IEL=1,NEL
@@ -187,7 +187,7 @@ C Element IEL belongs to a previous vent hole
                         IERROR1=IERROR1+1
                       ENDIF
                     ENDIF
-                 ENDIF 
+                 ENDIF
               ENDDO
             ENDIF
          ENDDO

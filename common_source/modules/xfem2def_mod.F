@@ -44,62 +44,62 @@ C-----------------------------------------------
 C=======================================================================
 C Structures needed for cracking of layered shell process
 C---------------------------------------------
-      TYPE XFEM_SHELL_      !   (NLEVMAX)  phantom element data structure  
+      TYPE XFEM_SHELL_      !   (NLEVMAX)  phantom element data structure
          INTEGER  CRKNUMSHELL                                 ! Number of shell elements for each level
          INTEGER  CRKNUMSH3                                   ! Number of SH3N  elements for each level
          INTEGER  CRKNUMSH4                                   ! Number of SH4N  elements for each level
-         INTEGER, DIMENSION(:)   , ALLOCATABLE :: PHANTOML    ! Local  shell N for each level = old CRKSHID - local starter 
+         INTEGER, DIMENSION(:)   , ALLOCATABLE :: PHANTOML    ! Local  shell N for each level = old CRKSHID - local starter
          INTEGER, DIMENSION(:)   , ALLOCATABLE :: PHANTOMG    ! Global shell N for each level = old CRKSHELLID
          INTEGER, DIMENSION(:)   , ALLOCATABLE :: ELTYPE      ! shell element type (xfem elements)
-c        nodal connectivities of phantom shells   
+c        nodal connectivities of phantom shells
          INTEGER, DIMENSION(:,:) , ALLOCATABLE :: XNODEG      ! global phantom node num  (KNOD2ELC - not used)
          INTEGER, DIMENSION(:,:) , ALLOCATABLE :: XNODEL      ! local  phantom node num per ilev = old XFENODES
       END TYPE XFEM_SHELL_
 C====================================================================================
 
-      TYPE XFEM_PHANTOM_       !  (NXLAYMAX)  
-           INTEGER, DIMENSION(:,:)   ,ALLOCATABLE :: ITRI      
+      TYPE XFEM_PHANTOM_       !  (NXLAYMAX)
+           INTEGER, DIMENSION(:,:)   ,ALLOCATABLE :: ITRI
            INTEGER, DIMENSION(:,:,:) ,ALLOCATABLE :: TAGXP ! velocity link flag
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: ELCUT ! flag of cut xfem element     
-           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: IFI   ! sign within partitioned superposed element     
+           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: ELCUT ! flag of cut xfem element
+           INTEGER, DIMENSION(:)     ,ALLOCATABLE :: IFI   ! sign within partitioned superposed element
       END TYPE XFEM_PHANTOM_
 c-------------------------------------------------------------------------------------
 c
-      TYPE XFEM_LVSET_     !    (NLEVMAX)                                                    
+      TYPE XFEM_LVSET_     !    (NLEVMAX)
          INTEGER, DIMENSION(:),    ALLOCATABLE :: ELCUT       !  +/- ICRK (element N)
-         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: HFI0                                               
-         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: ENRICH0                                            
-         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: EDGE0                                              
-         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: EDGE                                               
-         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: EDGETG                                             
-         INTEGER, DIMENSION(:)   , ALLOCATABLE :: ICUTEDGE                                           
-         my_real, DIMENSION(:)   , ALLOCATABLE :: RATIOEDGE                                          
-      END TYPE XFEM_LVSET_                                                                           
+         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: HFI0
+         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: ENRICH0
+         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: EDGE0
+         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: EDGE
+         INTEGER, DIMENSION(:,:) , ALLOCATABLE :: EDGETG
+         INTEGER, DIMENSION(:)   , ALLOCATABLE :: ICUTEDGE
+         my_real, DIMENSION(:)   , ALLOCATABLE :: RATIOEDGE
+      END TYPE XFEM_LVSET_
 C---------------------------------------------
 c
-      TYPE XFEM_EDGE_       !  (NXLAYMAX)         
+      TYPE XFEM_EDGE_       !  (NXLAYMAX)
          INTEGER, DIMENSION(:)    , ALLOCATABLE :: LAYCUT     ! cut xfem element flag = (0,1,2)
          INTEGER, DIMENSION(:)    , ALLOCATABLE :: EDGEICRK   ! Id of cracked element if cut
-         INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: EDGEIFI   
-         INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: EDGEENR   
-         INTEGER, DIMENSION(:,: ) , ALLOCATABLE :: EDGETIP   
-      END TYPE XFEM_EDGE_                                    
+         INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: EDGEIFI
+         INTEGER, DIMENSION(:,:)  , ALLOCATABLE :: EDGEENR
+         INTEGER, DIMENSION(:,: ) , ALLOCATABLE :: EDGETIP
+      END TYPE XFEM_EDGE_
 C-------------------------------
 c
       TYPE XFEM_AVX_        !  (NLEVMAX)
-         my_real, DIMENSION(:,:), ALLOCATABLE :: A   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: AR  
-         my_real, DIMENSION(:,:), ALLOCATABLE :: V   
+         my_real, DIMENSION(:,:), ALLOCATABLE :: A
+         my_real, DIMENSION(:,:), ALLOCATABLE :: AR
+         my_real, DIMENSION(:,:), ALLOCATABLE :: V
          my_real, DIMENSION(:,:), ALLOCATABLE :: VR
-         my_real, DIMENSION(:,:), ALLOCATABLE :: X   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: U   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: XX  
-      END TYPE XFEM_AVX_                             
+         my_real, DIMENSION(:,:), ALLOCATABLE :: X
+         my_real, DIMENSION(:,:), ALLOCATABLE :: U
+         my_real, DIMENSION(:,:), ALLOCATABLE :: XX
+      END TYPE XFEM_AVX_
 C-------------------------------
 c
-      TYPE XFEM_SKY_      !       
-         my_real, DIMENSION(:,:), ALLOCATABLE :: FSKY  
-      END TYPE XFEM_SKY_                               
+      TYPE XFEM_SKY_      !
+         my_real, DIMENSION(:,:), ALLOCATABLE :: FSKY
+      END TYPE XFEM_SKY_
 c
 C----------------------------
       END MODULE XFEM2DEF_MOD

@@ -33,7 +33,7 @@ Chd|        STARTIME                      source/system/timer.F
 Chd|        STOPTIME                      source/system/timer.F         
 Chd|        SMS_PCG_PROJ                  share/modules/sms_mod.F       
 Chd|====================================================================
-       SUBROUTINE SMS_INIST( 
+       SUBROUTINE SMS_INIST(
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
      3           FR_ELEM   ,WEIGHT    ,JADI_SMS ,JDII_SMS ,LTI_SMS  ,
@@ -413,7 +413,7 @@ Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        SMS_PCG_PROJ                  share/modules/sms_mod.F       
 Chd|====================================================================
-       SUBROUTINE SMS_UPDST( 
+       SUBROUTINE SMS_UPDST(
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
      3           FR_ELEM   ,WEIGHT    ,JADI_SMS ,JDII_SMS ,LTI_SMS  ,
@@ -509,7 +509,7 @@ Chd|        SMS_MORTHO_GS                 source/ams/sms_proj.F
 Chd|        SPMD_EXCH_SMS                 source/mpi/ams/spmd_exch_sms.F
 Chd|        SMS_PCG_PROJ                  share/modules/sms_mod.F       
 Chd|====================================================================
-      SUBROUTINE SMS_INISI( 
+      SUBROUTINE SMS_INISI(
      1           IADK  ,JDIK  ,DIAG_K ,LT_K  ,ITASK ,
      2           NODFT1_SMS,NODLT1_SMS,INDX1_SMS,NODNX_SMS,IAD_ELEM ,
      3           FR_ELEM   ,WEIGHT    ,JADI_SMS ,JDII_SMS ,LTI_SMS  ,
@@ -649,7 +649,7 @@ C     REAL
       my_real
      .  S(NUMNOD,*)
 C-----------------------------------------------
-c FUNCTION: initialization of [S] 
+c FUNCTION: initialization of [S]
 c
 c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
@@ -659,8 +659,8 @@ c  I   NODFT, NODLT      - equation dimension divised by Nthead
 c  I   NPF,NPL           - projection vector number (first to last)
 c  I   NUMNOD            - equation dimension
 c  I   S(NUMNOD,NPV)     - S-Matrix
-c  I   NODNX_SMS()       - 
-c  I   KINET()           - 
+c  I   NODNX_SMS()       -
+c  I   KINET()           -
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -740,7 +740,7 @@ C
          DO I=1,LLT
           RL = RL + RTMP(I)
          ENDDO
-        END DO 
+        END DO
 #include "lockon.inc"
          R_N2_SMS = R_N2_SMS + RL
 #include "lockoff.inc"
@@ -756,7 +756,7 @@ C---------------------
 C
         DO K=1,6
           R6SMS(K)=ZERO
-        ENDDO 
+        ENDDO
 C----------------------
         CALL MY_BARRIER
 C---------------------
@@ -769,12 +769,12 @@ C
           ENDDO
           DO K=1,6
            R6T(K) = ZERO
-          ENDDO 
+          ENDDO
           CALL SUM_6_FLOAT(1,LLT,RTMP,R6T,1)
 #include "lockon.inc"
           DO K=1,6
             R6SMS(K)=R6SMS(K)+R6T(K)
-          ENDDO 
+          ENDDO
 #include "lockoff.inc"
         END DO
 C----------------------
@@ -873,7 +873,7 @@ C
           RL(2) = RL(2) + RTMP(2,I)
           RL(3) = RL(3) + RTMP(3,I)
          ENDDO
-        END DO 
+        END DO
 #include "lockon.inc"
          R_N2_SMS1 = R_N2_SMS1 + RL(1)
          R_N2_SMS2 = R_N2_SMS2 + RL(2)
@@ -903,7 +903,7 @@ C
           X6SMS(1,K)=ZERO
           X6SMS(2,K)=ZERO
           X6SMS(3,K)=ZERO
-        ENDDO 
+        ENDDO
 C----------------------
         CALL MY_BARRIER
 C---------------------
@@ -925,14 +925,14 @@ C
              R6T(1,K) = R6T(1,K) + R6(K,1,L)
              R6T(2,K) = R6T(2,K) + R6(K,2,L)
              R6T(3,K) = R6T(3,K) + R6(K,3,L)
-           ENDDO 
-          ENDDO 
+           ENDDO
+          ENDDO
 #include "lockon.inc"
           DO K=1,6
             X6SMS(1,K)=X6SMS(1,K)+R6T(1,K)
             X6SMS(2,K)=X6SMS(2,K)+R6T(2,K)
             X6SMS(3,K)=X6SMS(3,K)+R6T(3,K)
-          ENDDO 
+          ENDDO
 #include "lockoff.inc"
         END DO
 C----------------------
@@ -1002,7 +1002,7 @@ C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD ,MD   ,ITASK ,WEIGHT(*)
 C     REAL
       my_real
-     .  A(NUMNOD,*), B(3,*), C(3,*)  
+     .  A(NUMNOD,*), B(3,*), C(3,*)
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]^t{B}
 c
@@ -1050,7 +1050,7 @@ C-----------------------------------------------
       INTEGER  NODFT ,NODLT ,NUMNOD,MD   ,ITASK,WEIGHT(*)
 C     REAL
       my_real
-     .  A(NUMNOD,*), B(NUMNOD,*), C(MD,*)  
+     .  A(NUMNOD,*), B(NUMNOD,*), C(MD,*)
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]^t[B]
 c
@@ -1122,9 +1122,9 @@ C-----------------------------------------------
       my_real
      .  SII,SIJ,S,SJJ
 C-----------------------------
-       DO J= MD_F ,MD_L 
+       DO J= MD_F ,MD_L
         DO I=1,J-1
-          CALL SMS_PRODUT_H(NODFT ,NODLT ,A(1,I) ,A(1,J) ,WEIGHT, 
+          CALL SMS_PRODUT_H(NODFT ,NODLT ,A(1,I) ,A(1,J) ,WEIGHT,
      .                      SIJ ,ITASK)
           S = -SIJ
           CALL VAXPY_H(NODFT ,NODLT ,A(1,I) ,A(1,J) ,S  ,ITASK )
@@ -1132,7 +1132,7 @@ C----------------------
           CALL MY_BARRIER
 C---------------------
         END DO
-        CALL SMS_PRODUT_H(NODFT ,NODLT ,A(1,J) ,A(1,J) ,WEIGHT, 
+        CALL SMS_PRODUT_H(NODFT ,NODLT ,A(1,J) ,A(1,J) ,WEIGHT,
      .                    SJJ ,ITASK)
         S= ONE/MAX(EM20,SQRT(SJJ))
         CALL VSCAL_H(NODFT ,NODLT ,A(1,J) ,S  ,ITASK )
@@ -1167,7 +1167,7 @@ C-----------------------------------------------
       INTEGER  ND  ,MD   ,ITASK
 C     REAL
       my_real
-     .  A(ND,*), B(3,*), C(3,*)  
+     .  A(ND,*), B(3,*), C(3,*)
 C-----------------------------------------------
 c FUNCTION: product {C}=[A]{B}
 c
@@ -1184,7 +1184,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
       my_real
-     .  W(MD) 
+     .  W(MD)
 C-----------------------------
       IF (ITASK /= 0) RETURN
 C------------may add dynamic smp on ND after--      
@@ -1219,7 +1219,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL  
+      INTEGER  NDDL
 C     REAL
       my_real
      .  X(*), Y(3,*)  ,R(3)

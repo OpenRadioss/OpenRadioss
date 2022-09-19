@@ -93,12 +93,12 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NPE = DETONATORS%NPE
-      NPE2 = NP2      
+      NPE2 = NP2
       DTOS = EP30
 
       IF(IOPT == 2)THEN
       !INSTANTANEOUS IGNITION OF THE WHOLE CORD
-        DO J=1,NPE2-1 
+        DO J=1,NPE2-1
           !first node
           I       = N2+J-1
           II      = DETONATORS%ICORD(I)
@@ -108,42 +108,42 @@ C-----------------------------------------------
           !second node
           I       = N2+J
           II      = DETONATORS%ICORD(I)
-          XLP2    = X(1,II)       
+          XLP2    = X(1,II)
           YLP2    = X(2,II)
           ZLP2    = X(3,II)
-          !loop on elems to compute burning time from line [P1,P2]       
-          DO I=LFT,LLT                                                   
-            XL0   = (XLP1-XLP2)                                          
-            YL0   = (YLP1-YLP2)                                          
-            ZL0   = (ZLP1-ZLP2)                                          
-            XL1   = (XC(I)-XLP1)                                         
-            YL1   = (YC(I)-YLP1)                                         
-            ZL1   = (ZC(I)-ZLP1)                                         
-            XL2   = (XC(I)-XLP2)                                         
-            YL2   = (YC(I)-YLP2)                                         
-            ZL2   = (ZC(I)-ZLP2)                                         
-            PS1   = XL1*XL0+YL1*YL0+ZL1*ZL0                               
-            PS2   = XL2*XL0+YL2*YL0+ZL2*ZL0                               
-            IF(PS1*PS2 > ZERO)THEN   
-              !projection point not on the segment [P1,P2]                                  
-              DL1 = SQRT(XL1**2+YL1**2+ZL1**2)                            
-              DL2 = SQRT(XL2**2+YL2**2+ZL2**2)                            
-              DL(I)=MIN(DL1,DL2)                                         
-            ELSE              
-              !projection along the segment [P1,P2]                                        
-              S1  = YL1*ZL0 - ZL1*YL0                                     
-              S2  = ZL1*XL0 - XL1*ZL0                                     
-              S3  = XL1*YL0 - YL1*XL0                                     
-              DL(I)=SQRT((S1**2+S2**2+S3**2)/(XL0**2+YL0**2+ZL0**2))     
-            ENDIF                                                        
-            BT(I) =ALT+DL(I)/VDET                                        
-            IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)                       
-          END DO !next I                                              
-        END DO !J=1,NPE      
-      
+          !loop on elems to compute burning time from line [P1,P2]
+          DO I=LFT,LLT
+            XL0   = (XLP1-XLP2)
+            YL0   = (YLP1-YLP2)
+            ZL0   = (ZLP1-ZLP2)
+            XL1   = (XC(I)-XLP1)
+            YL1   = (YC(I)-YLP1)
+            ZL1   = (ZC(I)-ZLP1)
+            XL2   = (XC(I)-XLP2)
+            YL2   = (YC(I)-YLP2)
+            ZL2   = (ZC(I)-ZLP2)
+            PS1   = XL1*XL0+YL1*YL0+ZL1*ZL0
+            PS2   = XL2*XL0+YL2*YL0+ZL2*ZL0
+            IF(PS1*PS2 > ZERO)THEN
+              !projection point not on the segment [P1,P2]
+              DL1 = SQRT(XL1**2+YL1**2+ZL1**2)
+              DL2 = SQRT(XL2**2+YL2**2+ZL2**2)
+              DL(I)=MIN(DL1,DL2)
+            ELSE
+              !projection along the segment [P1,P2]
+              S1  = YL1*ZL0 - ZL1*YL0
+              S2  = ZL1*XL0 - XL1*ZL0
+              S3  = XL1*YL0 - YL1*XL0
+              DL(I)=SQRT((S1**2+S2**2+S3**2)/(XL0**2+YL0**2+ZL0**2))
+            ENDIF
+            BT(I) =ALT+DL(I)/VDET
+            IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
+          END DO !next I
+        END DO !J=1,NPE
+
       ELSEIF(IOPT==1)THEN
-      ! DETONATING CORD HAS ITS OWN DETONATION VELOCITY ALONG THE PATH  
-        DO J=1,NPE2-1 
+      ! DETONATING CORD HAS ITS OWN DETONATION VELOCITY ALONG THE PATH
+        DO J=1,NPE2-1
           !first node
           I1          = N2+J-1
           II          = DETONATORS%ICORD(I1)
@@ -154,53 +154,53 @@ C-----------------------------------------------
           !second node
           I2          = N2+J
           II          = DETONATORS%ICORD(I2)
-          XLP2        = X(1,II)       
+          XLP2        = X(1,II)
           YLP2        = X(2,II)
           ZLP2        = X(3,II)
           TP2         = DETONATORS%DCORD(I2)
-          !loop on elems to compute burning time from line [P1,P2]       
-          DO I=LFT,LLT     
-            TdetC     = ZERO                                            
-            XL0       = (XLP1-XLP2)                                      
-            YL0       = (YLP1-YLP2)                                      
-            ZL0       = (ZLP1-ZLP2)                                      
-            XL1       = (XC(I)-XLP1)                                     
-            YL1       = (YC(I)-YLP1)                                     
-            ZL1       = (ZC(I)-ZLP1)                                     
-            XL2       = (XC(I)-XLP2)                                     
-            YL2       = (YC(I)-YLP2)                                     
-            ZL2       = (ZC(I)-ZLP2) 
-            PS1       = XL1*XL0+YL1*YL0+ZL1*ZL0                               
-            PS2       = XL2*XL0+YL2*YL0+ZL2*ZL0                                                 
-            DL1       = SQRT(XL1**2+YL1**2+ZL1**2)                            
-            DL2       = SQRT(XL2**2+YL2**2+ZL2**2)  
-            TC1       = TP1 + DL1  /VDET                                                    
-            TC2       = TP2 + DL2  /VDET   
-            TC        = MIN(TC1,TC2) 
-            IF(PS1*PS2 <= ZERO)THEN            
-              S1        = YL1*ZL0 - ZL1*YL0                                                    
-              S2        = ZL1*XL0 - XL1*ZL0                                                    
-              S3        = XL1*YL0 - YL1*XL0                                                    
+          !loop on elems to compute burning time from line [P1,P2]
+          DO I=LFT,LLT
+            TdetC     = ZERO
+            XL0       = (XLP1-XLP2)
+            YL0       = (YLP1-YLP2)
+            ZL0       = (ZLP1-ZLP2)
+            XL1       = (XC(I)-XLP1)
+            YL1       = (YC(I)-YLP1)
+            ZL1       = (ZC(I)-ZLP1)
+            XL2       = (XC(I)-XLP2)
+            YL2       = (YC(I)-YLP2)
+            ZL2       = (ZC(I)-ZLP2)
+            PS1       = XL1*XL0+YL1*YL0+ZL1*ZL0
+            PS2       = XL2*XL0+YL2*YL0+ZL2*ZL0
+            DL1       = SQRT(XL1**2+YL1**2+ZL1**2)
+            DL2       = SQRT(XL2**2+YL2**2+ZL2**2)
+            TC1       = TP1 + DL1  /VDET
+            TC2       = TP2 + DL2  /VDET
+            TC        = MIN(TC1,TC2)
+            IF(PS1*PS2 <= ZERO)THEN
+              S1        = YL1*ZL0 - ZL1*YL0
+              S2        = ZL1*XL0 - XL1*ZL0
+              S3        = XL1*YL0 - YL1*XL0
               !
-              P1P2      = (XL0**2+YL0**2+ZL0**2)                                               
-              DL2       = (S1**2+S2**2+S3**2)/P1P2                                             
-              DL(I)     = SQRT(DL2)                                                            
-              P1P2      = SQRT(P1P2)                                                           
-              DH        = SQRT((XL1**2+YL1**2+ZL1**2)-DL2)  !P1H 
+              P1P2      = (XL0**2+YL0**2+ZL0**2)
+              DL2       = (S1**2+S2**2+S3**2)/P1P2
+              DL(I)     = SQRT(DL2)
+              P1P2      = SQRT(P1P2)
+              DH        = SQRT((XL1**2+YL1**2+ZL1**2)-DL2)  !P1H
               !
-              TH1       = TP1 + DH/VDET2                                                       
-              TH2       = TP2 + (P1P2-DH)/VDET2                                                
-              TH        = MIN(TH1,TH2)                                                         
-              TC0       = TH  + DL(I)/VDET        
-              TC        = MIN(TC,TC0) 
-            ENDIF                                                         
-            BT(I)     = TC                                                                   
-            IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I) 
-          END DO !next I                                              
+              TH1       = TP1 + DH/VDET2
+              TH2       = TP2 + (P1P2-DH)/VDET2
+              TH        = MIN(TH1,TH2)
+              TC0       = TH  + DL(I)/VDET
+              TC        = MIN(TC,TC0)
+            ENDIF
+            BT(I)     = TC
+            IF(BT(I) < ABS(TB(I))) TB(I)=-BT(I)
+          END DO !next I
         END DO !J=1,NPE
 
       ELSEIF(IOPT==3)THEN
- 
+
         !CATMULL-ROM PARAMETER
         ! ALPHA = 0.0 : uniform
         ! ALPHA = 0.5 : centripetal
@@ -209,77 +209,77 @@ C-----------------------------------------------
 
         IF(VDET2 == ZERO)VDET2=VDET
 
-        !initialize burning times by following the neutral fiber.        
-        NPTS = NPE2                                                      
-        NSEG = NPE2-1                                                     
-        ALLOCATE(USER_SPLINE_PATH%control_point(0:NPTS+1,3))              
-        ALLOCATE(USER_SPLINE_PATH%length(NPTS-1))                         
-        ALLOCATE(USER_SPLINE_PATH%cumulative_length(NPTS-1)) 
-        ALLOCATE(USER_SPLINE_PATH%knots(NPTS-1,4) )                  
-        !PT(0    ,1:3)= will be defined by energy minimum                
-        !PT(NPTS+1,1:3)= will be defined by energy minimum                
+        !initialize burning times by following the neutral fiber.
+        NPTS = NPE2
+        NSEG = NPE2-1
+        ALLOCATE(USER_SPLINE_PATH%control_point(0:NPTS+1,3))
+        ALLOCATE(USER_SPLINE_PATH%length(NPTS-1))
+        ALLOCATE(USER_SPLINE_PATH%cumulative_length(NPTS-1))
+        ALLOCATE(USER_SPLINE_PATH%knots(NPTS-1,4) )
+        !PT(0    ,1:3)= will be defined by energy minimum
+        !PT(NPTS+1,1:3)= will be defined by energy minimum
 
-        !===CONTROL POINTS===!                                           
-        DO J=1,NPE2                                                      
-            I1          = N2+J-1                                         
-            II          = DETONATORS%ICORD(I1)                                      
-            XLP1        = X(1,II)                                        
-            YLP1        = X(2,II)                                        
-            ZLP1        = X(3,II)                                        
-          USER_SPLINE_PATH%control_point(J,1:3)=(/XLP1, YLP1, ZLP1/)     
-        ENDDO                                                            
+        !===CONTROL POINTS===!
+        DO J=1,NPE2
+            I1          = N2+J-1
+            II          = DETONATORS%ICORD(I1)
+            XLP1        = X(1,II)
+            YLP1        = X(2,II)
+            ZLP1        = X(3,II)
+          USER_SPLINE_PATH%control_point(J,1:3)=(/XLP1, YLP1, ZLP1/)
+        ENDDO
 
-        !===END POINTS===!                                               
-        ptr=>USER_SPLINE_PATH%control_point(0:NPTS+1,1:3)                 
-        !ADDING FIRST END POINTS - BENDING ENERGY MINIMUM                
-        ptr(1+0,1)=0.5*(5.*ptr(1+1,1)-4.*ptr(1+2,1)+ptr(1+3,1))                  
-        ptr(1+0,2)=0.5*(5.*ptr(1+1,2)-4.*ptr(1+2,2)+ptr(1+3,2))                  
-        ptr(1+0,3)=0.5*(5.*ptr(1+1,3)-4.*ptr(1+2,3)+ptr(1+3,3))                  
-        !ADDING LAST END POINTS - BENDING ENERGY MINIMUM                 
-        ptr(1+NPTS+1,1)=0.5*(1.*ptr(1+NPTS-2,1)-4.*ptr(1+NPTS-1,1)+5.*ptr(1+NPTS,1)) 
-        ptr(1+NPTS+1,2)=0.5*(1.*ptr(1+NPTS-2,2)-4.*ptr(1+NPTS-1,2)+5.*ptr(1+NPTS,2)) 
-        ptr(1+NPTS+1,3)=0.5*(1.*ptr(1+NPTS-2,3)-4.*ptr(1+NPTS-1,3)+5.*ptr(1+NPTS,3)) 
+        !===END POINTS===!
+        ptr=>USER_SPLINE_PATH%control_point(0:NPTS+1,1:3)
+        !ADDING FIRST END POINTS - BENDING ENERGY MINIMUM
+        ptr(1+0,1)=0.5*(5.*ptr(1+1,1)-4.*ptr(1+2,1)+ptr(1+3,1))
+        ptr(1+0,2)=0.5*(5.*ptr(1+1,2)-4.*ptr(1+2,2)+ptr(1+3,2))
+        ptr(1+0,3)=0.5*(5.*ptr(1+1,3)-4.*ptr(1+2,3)+ptr(1+3,3))
+        !ADDING LAST END POINTS - BENDING ENERGY MINIMUM
+        ptr(1+NPTS+1,1)=0.5*(1.*ptr(1+NPTS-2,1)-4.*ptr(1+NPTS-1,1)+5.*ptr(1+NPTS,1))
+        ptr(1+NPTS+1,2)=0.5*(1.*ptr(1+NPTS-2,2)-4.*ptr(1+NPTS-1,2)+5.*ptr(1+NPTS,2))
+        ptr(1+NPTS+1,3)=0.5*(1.*ptr(1+NPTS-2,3)-4.*ptr(1+NPTS-1,3)+5.*ptr(1+NPTS,3))
 
-        !DEFINE KNOTS                                                    
-        DO J=1,NSEG                                                      
+        !DEFINE KNOTS
+        DO J=1,NSEG
           CALL CR_SPLINE_KNOTS(PTR(1+J,1:3), KNOTS, ALPHA)
-          USER_SPLINE_PATH%knots(J,1:4)=KNOTS(1:4)     
-        ENDDO    
+          USER_SPLINE_PATH%knots(J,1:4)=KNOTS(1:4)
+        ENDDO
 
        !COMPUTE DISTANCE FROM CENTROID Z TO CONTROL POINT ptr(1+:)
        !  idist(J) is the shortest point in PT from Z(J)
-       DO J=LFT,LLT                      
-         DIST(J)  = 1E30                  
-         IDIST(J) = 0                     
-         DO I=1,NPTS                       
-           XX = XC(J)-PTR(1+I,1)            
-           YY = YC(J)-PTR(1+I,2)            
-           ZZ = ZC(J)-PTR(1+I,3)            
-           DD = SQRT(XX*XX+YY*YY+ZZ*ZZ)          
-           IF(DD < DIST(J))THEN            
-             DIST(J)  = DD                 
-             IDIST(J) = I                 
-           ENDIF                          
-         ENDDO                            
-       ENDDO                                                       
+       DO J=LFT,LLT
+         DIST(J)  = 1E30
+         IDIST(J) = 0
+         DO I=1,NPTS
+           XX = XC(J)-PTR(1+I,1)
+           YY = YC(J)-PTR(1+I,2)
+           ZZ = ZC(J)-PTR(1+I,3)
+           DD = SQRT(XX*XX+YY*YY+ZZ*ZZ)
+           IF(DD < DIST(J))THEN
+             DIST(J)  = DD
+             IDIST(J) = I
+           ENDIF
+         ENDDO
+       ENDDO
 
-       !CALCUL DES LONGUEUR DE SPLINE  
-       DO I=1,NSEG                                      
-         LOCAL_PT(1,1:3)=PTR(1+I-1,1:3)                    
-         LOCAL_PT(2,1:3)=PTR(1+I+0,1:3)                    
-         LOCAL_PT(3,1:3)=PTR(1+I+1,1:3)                    
-         LOCAL_PT(4,1:3)=PTR(1+I+2,1:3)                    
-         T=1.0                                          
-         CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)    
-         USER_SPLINE_PATH%length(I) = LEN 
+       !CALCUL DES LONGUEUR DE SPLINE
+       DO I=1,NSEG
+         LOCAL_PT(1,1:3)=PTR(1+I-1,1:3)
+         LOCAL_PT(2,1:3)=PTR(1+I+0,1:3)
+         LOCAL_PT(3,1:3)=PTR(1+I+1,1:3)
+         LOCAL_PT(4,1:3)=PTR(1+I+2,1:3)
+         T=1.0
+         CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
+         USER_SPLINE_PATH%length(I) = LEN
          IF(I>1)THEN
-           USER_SPLINE_PATH%cumulative_length(I) = USER_SPLINE_PATH%cumulative_length(I-1)  + LEN 
+           USER_SPLINE_PATH%cumulative_length(I) = USER_SPLINE_PATH%cumulative_length(I-1)  + LEN
          ELSE
            USER_SPLINE_PATH%cumulative_length(1) =  LEN
-         ENDIF            
-         !print *, "spline-i=", I                        
-         !print *, "len =", len                                              
-       ENDDO                                            
+         ENDIF
+         !print *, "spline-i=", I
+         !print *, "len =", len
+       ENDDO
 
        !PROJECTION DES POINTS TESTS
        DO J=LFT,LLT
@@ -318,17 +318,17 @@ C-----------------------------------------------
          !print *, "    ->", C(1:3)
          !!CALL CR_SPLINE_LENGTH(LOCAL_PT,ALPHA,T,LEN)
          IF(K>1)LEN=LEN+USER_SPLINE_PATH%cumulative_length(K-1)
-         BT(J)     = DETONATORS%DCORD(N2) + LEN/VDET2                                                                  
-         IF(BT(J) < ABS(TB(J))) TB(J)=-BT(J) 
+         BT(J)     = DETONATORS%DCORD(N2) + LEN/VDET2
+         IF(BT(J) < ABS(TB(J))) TB(J)=-BT(J)
        ENDDO
 
       ENDIF
 
       DO I=LFT,LLT
-        JJ(I) = JJ(I)-1 
+        JJ(I) = JJ(I)-1
       ENDDO
-      
-      DTO=DTOS 
+
+      DTO=DTOS
 
 C-----------------------------------------------
       RETURN

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        IG3DUFORC3                    source/elements/ige3d/ig3duforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IG3DFINT(PM, MXT, KXIG3D, SIG, NCTRL, MATB, FX, FY, FZ, 
+      SUBROUTINE IG3DFINT(PM, MXT, KXIG3D, SIG, NCTRL, MATB, FX, FY, FZ,
      1                    VOL, BtDBA, DBA, SSP_EQ,STIG,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -77,7 +77,7 @@ C         [dNj/dz  dNl/dz  ..  ] |  R
 C         [  ..      ..    ..  ] /  L
 C
       DO I=LFT,LLT
-       SUMX=ZERO 
+       SUMX=ZERO
        SUMY=ZERO
        SUMZ=ZERO
        DO J=1,NCTRL
@@ -92,7 +92,7 @@ C
         IF( J <= KXIG3D(3,I+NFT) ) THEN
          INCTRL = (J-1)*3
          FX(I,J)=FX(I,J)-VOL(I)*(MATB(INCTRL+1,I)*SIG(I,1)
-     +                         + MATB(INCTRL+2,I)*SIG(I,4)  
+     +                         + MATB(INCTRL+2,I)*SIG(I,4)
      +                         + MATB(INCTRL+3,I)*SIG(I,6))
 
          FY(I,J)=FY(I,J)-VOL(I)*(MATB(INCTRL+1,I)*SIG(I,4)
@@ -100,11 +100,11 @@ C
      +                         + MATB(INCTRL+3,I)*SIG(I,5))
 
          FZ(I,J)=FZ(I,J)-VOL(I)*(MATB(INCTRL+1,I)*SIG(I,6)
-     +                         + MATB(INCTRL+2,I)*SIG(I,5) 
+     +                         + MATB(INCTRL+2,I)*SIG(I,5)
      +                         + MATB(INCTRL+3,I)*SIG(I,3))
          STIN(I,J)= HALF*VOL(I)*
-     .      (ABS(MATB(INCTRL+1,I))*SUMX 
-     .     + ABS(MATB(INCTRL+2,I))*SUMY 
+     .      (ABS(MATB(INCTRL+1,I))*SUMX
+     .     + ABS(MATB(INCTRL+2,I))*SUMY
      .     + ABS(MATB(INCTRL+3,I))*SUMZ)
          AA=PM(89,MXT(I))*SSP_EQ(I)*SSP_EQ(I)
          STIG(I,J)=STIG(I,J)+STIN(I,J)*AA
@@ -159,26 +159,26 @@ C-----------------------------------------------
      .   WIP(MVSIZ)
 C-----------------------------------------------
 c
-      DO I=LFT,LLT  
-       WIP(I) = VOL(I)/VOLG(I)                                       
-       SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)		     
-       SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)		     
-       SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)		     
-       SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)		     
-       SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)		     
-       SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)		     
-       RHOG(I)   = RHOG(I)   + WIP(I) * RHO(I)                       
+      DO I=LFT,LLT
+       WIP(I) = VOL(I)/VOLG(I)
+       SIGG(I,1) = SIGG(I,1) + WIP(I) * SIG(I,1)		
+       SIGG(I,2) = SIGG(I,2) + WIP(I) * SIG(I,2)		
+       SIGG(I,3) = SIGG(I,3) + WIP(I) * SIG(I,3)		
+       SIGG(I,4) = SIGG(I,4) + WIP(I) * SIG(I,4)		
+       SIGG(I,5) = SIGG(I,5) + WIP(I) * SIG(I,5)		
+       SIGG(I,6) = SIGG(I,6) + WIP(I) * SIG(I,6)		
+       RHOG(I)   = RHOG(I)   + WIP(I) * RHO(I)
        EINTG(I)  = EINTG(I)  + EINT(I) * VOL0(I)/VOL0G(I)
       ENDDO
-      IF (ISRAT > 0) THEN                                                    
-        DO I=LFT,LLT                                                         
-          EPSDG(I) = EPSDG(I) + WIP(I) * EPSD(I)                                
-        ENDDO                                                                
-      ENDIF 
-      IF (G_PLA > 0) THEN                                                    
-        DO I=LFT,LLT                                                          
-          EPLASG(I)  = EPLASG(I)  + WIP(I) * EPLAS(I)                              
-        ENDDO                                                                 
+      IF (ISRAT > 0) THEN
+        DO I=LFT,LLT
+          EPSDG(I) = EPSDG(I) + WIP(I) * EPSD(I)
+        ENDDO
+      ENDIF
+      IF (G_PLA > 0) THEN
+        DO I=LFT,LLT
+          EPLASG(I)  = EPLASG(I)  + WIP(I) * EPLAS(I)
+        ENDDO
       ENDIF
 c
 C-----------

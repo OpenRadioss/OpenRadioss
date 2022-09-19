@@ -186,7 +186,7 @@ C-------------------------------------
             IFLAGDBL=0
           END IF
         END IF
-        IOLD=TABSL(1,INDEX(I))     
+        IOLD=TABSL(1,INDEX(I))
         END DO
       END IF
       END IF

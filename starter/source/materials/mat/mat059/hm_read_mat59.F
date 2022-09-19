@@ -39,7 +39,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT59(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,ID       ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     )
 C-----------------------------------------------
@@ -63,10 +63,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,8 +86,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
@@ -117,36 +117,36 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('Refer_Rho',RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_E'    ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_G0'   ,G        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV  ('MAT_IMASS',RHOFLAG  ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('COMP_OPT' ,ICOMP    ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_FLOATV('Ecomp'    ,ECOMP    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_INTV  ('NFUNC'    ,NRATE    ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('Fsmooth'  ,IFILTR   ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('MAT_IMASS',RHOFLAG  ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('COMP_OPT' ,ICOMP    ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('Ecomp'    ,ECOMP    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV  ('NFUNC'    ,NRATE    ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('Fsmooth'  ,IFILTR   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Fcut'     ,FCUT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV_DIM('Fcut' ,FCUT_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
-      DO I=1,NRATE 
+
+      DO I=1,NRATE
         CALL HM_GET_INT_ARRAY_INDEX  ('ABG_IPt'  ,IFUNN(I)      ,I ,IS_AVAILABLE, LSUBMODEL)
-        CALL HM_GET_INT_ARRAY_INDEX  ('ABG_IPdel',IFUNT(I)      ,I ,IS_AVAILABLE, LSUBMODEL)        
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Fp1'      ,RATE(I)       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp1'  ,RATE_UNIT(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Fp2'      ,YFAC(I)       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp2'  ,YFAC_UNIT(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
-      ENDDO                                                                              
+        CALL HM_GET_INT_ARRAY_INDEX  ('ABG_IPdel',IFUNT(I)      ,I ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Fp1'      ,RATE(I)       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp1'  ,RATE_UNIT(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Fp2'      ,YFAC(I)       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp2'  ,YFAC_UNIT(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      ENDDO
 
       IF (ICOMP /= 1 .OR. ECOMP <= 0) THEN
         ECOMP = E
-      ENDIF      
+      ENDIF
       IF (ICOMP /= 1) ICOMP = 0
-      
+
       IF (FCUT == ZERO) FCUT = ONE * FCUT_UNIT
-      
-      NFUNC = NRATE*2          
-      DO I=1,NRATE             
-        J = (I-1)*2            
-        IFUNC(J+1) = IFUNN(I)  
-        IFUNC(J+2) = IFUNT(I)  
-      ENDDO                    
+
+      NFUNC = NRATE*2
+      DO I=1,NRATE
+        J = (I-1)*2
+        IFUNC(J+1) = IFUNN(I)
+        IFUNC(J+2) = IFUNT(I)
+      ENDDO
 C---
       DO I=1,NFUNC
         IF (IFUNC(I) == 0) THEN
@@ -158,18 +158,18 @@ C---
      .                 I2=IFUNC(I))
         ENDIF
       ENDDO
-      IF(NRATE > 1 .AND. IFILTR == 0) THEN  
+      IF(NRATE > 1 .AND. IFILTR == 0) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ID,
      .                C1=TITR)
-      ENDIF      
-      DO I=1,NRATE     
+      ENDIF
+      DO I=1,NRATE
         IF (YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)
       ENDDO
       RATE0 = RATE(1)
-      DO I=2,NRATE     
+      DO I=2,NRATE
         IF (RATE(I) < RATE0) THEN
 c         error
         ENDIF
@@ -213,17 +213,17 @@ C-----------
       MTAG%L_EPE =3
       MTAG%L_PLA =2
 C-----------------------  
-      WRITE(IOUT,1010) TRIM(TITR),ID,59  
-      WRITE(IOUT,1000)          
-      IF (IS_ENCRYPTED)THEN                                     
+      WRITE(IOUT,1010) TRIM(TITR),ID,59
+      WRITE(IOUT,1000)
+      IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE        
-        WRITE(IOUT,1100)RHO0                                            
-        WRITE(IOUT,1002) E,ECOMP,G,ICOMP,RHOFLAG,NRATE      
-        IF (NRATE > 0) THEN                                                   
+      ELSE
+        WRITE(IOUT,1100)RHO0
+        WRITE(IOUT,1002) E,ECOMP,G,ICOMP,RHOFLAG,NRATE
+        IF (NRATE > 0) THEN
           WRITE(IOUT,1001)IFILTR,FCUT
           WRITE(IOUT,1200)(RATE(J),IFUNN(J),IFUNT(J),YFAC(J),J=1,NRATE)
-        ENDIF                                                  
+        ENDIF
       ENDIF
 C-----------        
       RETURN
@@ -235,7 +235,7 @@ C-----------
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . .=',I10/)
- 1002 FORMAT(     
+ 1002 FORMAT(
      & 5X,'YOUNG MODULUS PER THICKNESS UNIT IN TENSION     =',1PG20.13/,
      & 5X,'YOUNG MODULUS PER THICKNESS UNIT IN COMPRESSION =',1PG20.13/,
      & 5X,'SHEAR MODULUS PER THICKNESS UNIT . . . .        =',1PG20.13/,
@@ -248,7 +248,7 @@ C-----------
      & 5X,'STRAIN RATE FILTERING FLAG . . . . . . . . .    =',I10/,
      & 5X,'CUT FREQ FOR STRAIN RATE FILTERING . . . . .    =',1PG20.13/)
  1100 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . . . =',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . . . . . . =',1PG20.13/)
  1200 FORMAT(
      & 5X,'STRAIN RATE . . . . . . . . . . . . . .         =',1PG20.13/,
      &10X,'YIELD STRESS FUNCTION IN NORMAL DIRECTION  .    =',I10/,

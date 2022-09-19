@@ -38,7 +38,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
         SUBROUTINE CZCORC1(ELBUF_STR,
      1                     JFT    ,JLT    ,X      ,V      ,VR     ,
-     2                     IXC    ,PM     ,PLAT   ,AREA   , 
+     2                     IXC    ,PM     ,PLAT   ,AREA   ,
      3                     AREA_I ,V13    ,V24    ,VHI    ,RLXYZ  ,
      4                     VQN    ,VQ     ,LL     ,L13    ,L24    ,
      5                     X13    ,X24    ,Y13    ,Y24    ,MX13   ,
@@ -58,7 +58,7 @@ Chd|====================================================================
      K                     Y2G    ,Y3G    ,Y4G    ,Z1G    ,Z2G    ,
      L                     Z3G    ,Z4G    ,THK    ,DIZ    ,UX1    ,
      M                     UX2    ,UX3    ,UX4    ,UY1    ,UY2    ,
-     N                     UY3    ,UY4    ,XL2    ,XL3    ,XL4    ,   
+     N                     UY3    ,UY4    ,XL2    ,XL3    ,XL4    ,
      O                     YL2    ,YL3    ,YL4    ,VL1    ,VL2    ,
      P                     VL3    ,VL4    ,NEL    ,Z2     )
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,IREP,NPT,NLAY,ISMSTR,IDRIL,IXFEM,NEL
-      my_real 
+      my_real
      .   PM(NPROPM,*), X(3,*), V(3,*), VR(3,*),RLXYZ(MVSIZ,2,4),
      .   V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),MX23(NEL),MY13(NEL),MY23(NEL),MY34(NEL),
      .   LL(NEL),L13(NEL),L24(NEL),X13(NEL),X24(NEL),Y13(NEL),Y24(NEL),MX13(NEL),
@@ -117,7 +117,7 @@ C-----------------------------------------------
       INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
       INTEGER NNOD,I,J,K,L,II(6)
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   LXYZ0(3),DETA,DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),SSZ(MVSIZ),
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
@@ -158,7 +158,7 @@ C
           SY(I)=X(2,IXCTMP4)+X(2,IXCTMP5)-X(2,IXCTMP2)-X(2,IXCTMP3)
           RZ(I)=X(3,IXCTMP3)+X(3,IXCTMP4)-X(3,IXCTMP2)-X(3,IXCTMP5)
           SSZ(I)=X(3,IXCTMP4)+X(3,IXCTMP5)-X(3,IXCTMP2)-X(3,IXCTMP3)
-        ENDDO 
+        ENDDO
       ELSE IF(IXFEM==1)THEN
         DO I=JFT,JLT
           RX(I)=X2G(I)+X3G(I)-X1G(I)-X4G(I)
@@ -174,8 +174,8 @@ C     LOCAL SYSTEM
 C----------------------------
       K = 0
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SSZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SSZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         AREA(I)=FOURTH*DETA1(I)
@@ -192,7 +192,7 @@ C----------------------------
         VQ(I,1,3)=R13(I)
         VQ(I,2,3)=R23(I)
         VQ(I,3,3)=R33(I)
-      ENDDO 
+      ENDDO
 C--------------------------
 C     TRANSMET GLOBAL-->LOCAL
 C--------------------------
@@ -202,7 +202,7 @@ C--------------------------
           IXCTMP3=IXC(3,I)
           IXCTMP4=IXC(4,I)
           IXCTMP5=IXC(5,I)
-          
+
           LXYZ0(1)=FOURTH*(X(1,IXCTMP4)+X(1,IXCTMP5)
      .                  + X(1,IXCTMP2)+X(1,IXCTMP3))
           LXYZ0(2)=FOURTH*(X(2,IXCTMP4)+X(2,IXCTMP5)
@@ -273,7 +273,7 @@ C----------------------------
 C     SMALL STRAIN
 C----------------------------
       IF(ISMSTR == 11)THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO I=JFT,JLT
           IF(ABS(OFFG(I)) == ONE)OFFG(I)=SIGN(TWO,OFFG(I))
           UX1(I) = ZERO
@@ -303,7 +303,7 @@ C----------------------------
             AREA_I(I) = ONE/MAX(EM20,AREA(I))
           ELSE
             SMSTR(II(1)+I) = XL2(I)
-            SMSTR(II(2)+I) = YL2(I) 
+            SMSTR(II(2)+I) = YL2(I)
             SMSTR(II(3)+I) = XL3(I)
             SMSTR(II(4)+I) = YL3(I)
             SMSTR(II(5)+I) = XL4(I)
@@ -311,7 +311,7 @@ C----------------------------
           ENDIF
         ENDDO
       ELSEIF(ISMSTR == 1.OR.ISMSTR == 2)THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO I=JFT,JLT
           IF(ABS(OFFG(I)) == TWO)THEN
             XL2(I) = SMSTR(II(1)+I)
@@ -343,7 +343,7 @@ C----------------------------
 C     ORTHOTROPY
 C----------------------------
       CALL CORTDIR3(ELBUF_STR,DIR_A ,DIR_B  ,JFT    ,JLT    ,
-     .              NLAY     ,IREP  ,RX     ,RY     ,RZ     , 
+     .              NLAY     ,IREP  ,RX     ,RY     ,RZ     ,
      .              SX       ,SY    ,SSZ    ,R11    ,R21    ,
      .              R31      ,R12   ,R22    ,R32    ,NEL    )
 C----------------------------
@@ -481,7 +481,7 @@ C-----------cas explicite revient comme avant---
         DO I=JFT,JLT
          LM(I) = LL(I)
         ENDDO
-       END IF 
+       END IF
        IF (IVECTOR == 1)THEN
         DO I=JFT,JLT
          K=IXC(2,I)
@@ -553,7 +553,7 @@ C         K=IXC(5,I)
      1                +VQ(I,3,2)*VRZ4(I)
         ENDDO
         ENDIF
-       ENDIF 
+       ENDIF
 C 
        IF(IXFEM==0)THEN
        DO I=JFT,JLT
@@ -689,7 +689,7 @@ C--------------------------
          V24(I,2) = V24(I,2)-DDRX*V24(I,3)-DDRZ2*V24X
          VHI(I,2) = VHI(I,2)-DDRX*VHI(I,3)-DDRZ2*VHIX
         ENDDO
-       ENDIF 
+       ENDIF
 C--------------------------
 C-------TRANSMET 3DDL ROTATIONS A 2DDL ROTATIONS----
 C--------------------------
@@ -861,7 +861,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,NPT
-      my_real 
+      my_real
      .   VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
@@ -874,7 +874,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   DETA,
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
@@ -943,7 +943,7 @@ C
           RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
          K=IXC(4,I)
-          RRXYZ(1,3) =RLXYZV(I,1,3) 
+          RRXYZ(1,3) =RLXYZV(I,1,3)
           RRXYZ(2,3) =RLXYZV(I,2,3)
           RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
@@ -993,7 +993,7 @@ C
         IF (DETA<=EM20) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
-        ELSE         
+        ELSE
          DETA = ONE/DETA
          DI(I,1) = D(2)*DETA
          DI(I,2) = D(1)*DETA
@@ -1052,7 +1052,7 @@ C
           RLXYZV(I,2,2)= RRXYZ(2,2)-ALR(2)-VQN(I,2,2)*ALD(2)
           RLXYZV(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZV(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
-        ENDIF 
+        ENDIF
 C
         END IF !IF(Z2(I)<LL(I)*TOL.OR.NPT == 1)
 C
@@ -1088,7 +1088,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,NPT
-      my_real 
+      my_real
      .   VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
@@ -1101,7 +1101,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   DETA,
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
@@ -1170,7 +1170,7 @@ C
          RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1              +VQ(I,3,3)*VR(3,K)
         K=IXC(4,I)
-         RRXYZ(1,3) =RLXYZ(I,1,3) 
+         RRXYZ(1,3) =RLXYZ(I,1,3)
          RRXYZ(2,3) =RLXYZ(I,2,3)
          RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1              +VQ(I,3,3)*VR(3,K)
@@ -1221,7 +1221,7 @@ C
        IF (DETA<=EM20) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
-       ELSE         
+       ELSE
         DETA = ONE/DETA
         DI(I,1) = D(2)*DETA
         DI(I,2) = D(1)*DETA
@@ -1280,7 +1280,7 @@ C
           RLXYZ(I,2,2)= RRXYZ(2,2)-ALR(2)-VQN(I,2,2)*ALD(2)
           RLXYZ(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZ(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
-       ENDIF 
+       ENDIF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C
        ENDIF
@@ -1318,7 +1318,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,NPT
-      my_real 
+      my_real
      .   VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
@@ -1334,7 +1334,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   DETA,
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
@@ -1403,7 +1403,7 @@ C
          RRXYZ(3,2) =VQ(I,1,3)*VRX2(I)+VQ(I,2,3)*VRY2(I)
      1              +VQ(I,3,3)*VRZ2(I)
         K=IXC(4,I)
-         RRXYZ(1,3) =RLXYZ(I,1,3) 
+         RRXYZ(1,3) =RLXYZ(I,1,3)
          RRXYZ(2,3) =RLXYZ(I,2,3)
          RRXYZ(3,3) =VQ(I,1,3)*VRX3(I)+VQ(I,2,3)*VRY3(I)
      1              +VQ(I,3,3)*VRZ3(I)
@@ -1453,7 +1453,7 @@ C
        IF (DETA<=EM20) THEN
          Z1(I)=ZERO
          PLAT(I)=.TRUE.
-       ELSE         
+       ELSE
         DETA = ONE/DETA
         DI(I,1) = D(2)*DETA
         DI(I,2) = D(1)*DETA
@@ -1512,7 +1512,7 @@ C
           RLXYZ(I,2,2)= RRXYZ(2,2)-ALR(2)-VQN(I,2,2)*ALD(2)
           RLXYZ(I,2,3)= RRXYZ(2,3)-ALR(2)-VQN(I,2,3)*ALD(3)
           RLXYZ(I,2,4)= RRXYZ(2,4)-ALR(2)-VQN(I,2,4)*ALD(4)
-       ENDIF 
+       ENDIF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C
        ENDIF
@@ -1552,7 +1552,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,IDRIL,NPT
-      my_real 
+      my_real
      .   VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
@@ -1565,7 +1565,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   DETA,
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
@@ -1634,7 +1634,7 @@ C
           RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
          K=IXC(4,I)
-          RRXYZ(1,3) =RLXYZV(I,1,3) 
+          RRXYZ(1,3) =RLXYZV(I,1,3)
           RRXYZ(2,3) =RLXYZV(I,2,3)
           RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
@@ -1877,7 +1877,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,IDRIL,NPT
-      my_real 
+      my_real
      .   VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
@@ -1890,7 +1890,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   DETA,
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
@@ -1959,7 +1959,7 @@ C
           RRXYZ(3,2) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
          K=IXC(4,I)
-          RRXYZ(1,3) =RLXYZ(I,1,3) 
+          RRXYZ(1,3) =RLXYZ(I,1,3)
           RRXYZ(2,3) =RLXYZ(I,2,3)
           RRXYZ(3,3) =VQ(I,1,3)*VR(1,K)+VQ(I,2,3)*VR(2,K)
      1               +VQ(I,3,3)*VR(3,K)
@@ -2164,7 +2164,7 @@ C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
        END IF !((IMPL_S>0.AND.IKPROJ<0).OR.IDRIL>0) THEN
 C
-       END IF 
+       END IF
       ENDDO
 C
       RETURN
@@ -2202,7 +2202,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER IXC(NIXC,*),JFT,JLT,IDRIL,NPT
-      my_real 
+      my_real
      .   VR(3,*),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
@@ -2218,7 +2218,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   DETA,
      .   VCORE(3,NNOD),RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
@@ -2287,7 +2287,7 @@ C
           RRXYZ(3,2) =VQ(I,1,3)*VRX2(I)+VQ(I,2,3)*VRY2(I)
      1               +VQ(I,3,3)*VRZ2(I)
          K=IXC(4,I)
-          RRXYZ(1,3) =RLXYZ(I,1,3) 
+          RRXYZ(1,3) =RLXYZ(I,1,3)
           RRXYZ(2,3) =RLXYZ(I,2,3)
           RRXYZ(3,3) =VQ(I,1,3)*VRX3(I)+VQ(I,2,3)*VRY3(I)
      1               +VQ(I,3,3)*VRZ3(I)
@@ -2493,7 +2493,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),JFT,JLT,IREP,NPT,ISMSTR,IDRIL,NEL
-      my_real 
+      my_real
      .   PM(NPROPM,*), X(3,*), V(3,*), VR(3,*),RLXYZ(MVSIZ,4),
      .   V13(MVSIZ,2),V24(MVSIZ,2),OFFG(*),DR(3,*),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
@@ -2509,7 +2509,7 @@ C-----------------------------------------------
       INTEGER NNOD,I,J,K,L,II(9),IFPROJ
       INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   LXYZ0(3),DETA,DETA1(MVSIZ),ALRZ,COREL(MVSIZ,2,4),
      .   DI(MVSIZ,6),DB(MVSIZ,3,4),L13(MVSIZ),L24(MVSIZ),
      .   RRXYZ(3,NNOD),VG13(3),VG24(3),VGHI(3),
@@ -2519,7 +2519,7 @@ C-----------------------------------------------
      .   ALR(3),ALD(NNOD),DBAD(3),BTB_C,LM(MVSIZ),
      .   FACDT,LL(MVSIZ),AXYZ(MVSIZ,3,NNOD),
      .   VHI(MVSIZ,3),V13X,V24X,VHIX,DDRZ1,DDRZ2
-      my_real 
+      my_real
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),OFF_L,
      .   X13(MVSIZ),X24(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
@@ -2564,7 +2564,7 @@ C
             AXYZ(I,2,4) = DR(2,IXCTMP5)
             AXYZ(I,3,4) = DR(3,IXCTMP5)
            END IF !(ISROT > 0  ) THEN
-            
+
             X0G2(I) = SMSTR(II(1)+I)
             Y0G2(I) = SMSTR(II(2)+I)
             Z0G2(I) = SMSTR(II(3)+I)
@@ -2583,14 +2583,14 @@ C--       normal in initial conf. to compute Z1
         SY(I)=Y0G3(I)+Y0G4(I)-Y0G2(I)
         RZ(I)=Z0G2(I)+Z0G3(I)-Z0G4(I)
         SSZ(I)=Z0G3(I)+Z0G4(I)-Z0G2(I)
-       ENDDO 
+       ENDDO
 C----------------------------
 C     LOCAL SYSTEM VQ0
 C----------------------------
       K = 0
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SSZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SSZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         AREA(I)=FOURTH*DETA1(I)
@@ -2604,13 +2604,13 @@ C----------------------------
         VQ0(I,1,3)=R13(I)
         VQ0(I,2,3)=R23(I)
         VQ0(I,3,3)=R33(I)
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         LXYZ0(1)=FOURTH*(X0G2(I)+X0G3(I)+X0G4(I))
         LXYZ0(2)=FOURTH*(Y0G2(I)+Y0G3(I)+Y0G4(I))
         LXYZ0(3)=FOURTH*(Z0G2(I)+Z0G3(I)+Z0G4(I))
         Z1(I)=-(VQ0(I,1,3)*LXYZ0(1)+VQ0(I,2,3)*LXYZ0(2)+VQ0(I,3,3)*LXYZ0(3))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     xl =R1^t x0l; R1^t=(VQ0^t*VQ)^t---extract Rz0 of R1
 C----------------------------
@@ -2620,7 +2620,7 @@ C----------------------------
        DIRZ(I,2) = HALF*(VR1_12-VR1_21)
        DET_1 = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,DET_1))
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         X0L2(I)=VQ0(I,1,1)*X0G2(I)+VQ0(I,2,1)*Y0G2(I)+VQ0(I,3,1)*Z0G2(I)
         Y0L2(I)=VQ0(I,1,2)*X0G2(I)+VQ0(I,2,2)*Y0G2(I)+VQ0(I,3,2)*Z0G2(I)
@@ -2663,7 +2663,7 @@ C-----------UL : xl - x0l' (rotated of rz0)
         V24(I,2)=YL2(I)-YL4(I)-(Y0L2(I)-Y0L4(I))
         VHI(I,2)=-YL2(I)+YL3(I)-YL4(I)-(-Y0L2(I)+Y0L3(I)-Y0L4(I))
         VHI(I,3)=FOUR*(ZL(I)-Z1(I))
-      ENDDO 
+      ENDDO
 C-------set up B_l by rotating B0_l (Rz0)      
       DO I=JFT,JLT
         XL2(I)=X0L2(I)
@@ -2714,7 +2714,7 @@ C-------cas thk >>L----
 	     S1=EM01*THK(I)*THK(I)
          LM(I)=MAX(LM(I),S1)
         ENDDO
-       END IF 
+       END IF
 C--------------------------
        IF (IDRIL>0) THEN
         DO I=JFT,JLT
@@ -2773,7 +2773,7 @@ C-------------------------------------
         END IF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C
-       END IF 
+       END IF
       ENDDO
       OFF_L = ZERO
       DO I=JFT,JLT
@@ -2827,7 +2827,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),JFT,JLT,NPT,ISMSTR,NEL,IINT
-      my_real 
+      my_real
      .   PM(NPROPM,*), X(3,*), V(3,*), VR(3,*),
      .   OFFG(*),VQ(MVSIZ,3,3),THK(*),XLCOR(MVSIZ,2,4),ZL2(*)
       my_real
@@ -2837,7 +2837,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L,II(9),IFPROJ
-      my_real 
+      my_real
      .   LXYZ0(3),DETA,DETA1(MVSIZ),ALRZ,COREL(MVSIZ,2,4),
      .   L13(MVSIZ),L24(MVSIZ),
      .   VG13(3),VG24(3),VGHI(3),
@@ -2846,7 +2846,7 @@ C-----------------------------------------------
      .   MY13(MVSIZ),MX13(MVSIZ),
      .   V13(MVSIZ,2),V24(MVSIZ,2),AREA(MVSIZ),AREA_I(MVSIZ),
      .   VHI(MVSIZ,3),V13X,V24X,VHIX,BXV2,BYV1
-      my_real 
+      my_real
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),Z1(MVSIZ),OFF_L,
      .   X13(MVSIZ),X24(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
@@ -2866,20 +2866,20 @@ C----------------------------------------------
       END IF
 C
 	  IF (IINT==0.AND.TT==ZERO) THEN
-       DO I=JFT,JLT           
-         HOURG(I,1) = X(1,IXC(3,I))-X(1,IXC(2,I))  
-         HOURG(I,2) = X(2,IXC(3,I))-X(2,IXC(2,I))  
-         HOURG(I,3) = X(3,IXC(3,I))-X(3,IXC(2,I))  
-         HOURG(I,4) = X(1,IXC(4,I))-X(1,IXC(2,I))  
-         HOURG(I,5) = X(2,IXC(4,I))-X(2,IXC(2,I))  
-         HOURG(I,6) = X(3,IXC(4,I))-X(3,IXC(2,I))  
-         HOURG(I,7) = X(1,IXC(5,I))-X(1,IXC(2,I))  
-         HOURG(I,8) = X(2,IXC(5,I))-X(2,IXC(2,I))  
-         HOURG(I,9) = X(3,IXC(5,I))-X(3,IXC(2,I))  
-       ENDDO	  
+       DO I=JFT,JLT
+         HOURG(I,1) = X(1,IXC(3,I))-X(1,IXC(2,I))
+         HOURG(I,2) = X(2,IXC(3,I))-X(2,IXC(2,I))
+         HOURG(I,3) = X(3,IXC(3,I))-X(3,IXC(2,I))
+         HOURG(I,4) = X(1,IXC(4,I))-X(1,IXC(2,I))
+         HOURG(I,5) = X(2,IXC(4,I))-X(2,IXC(2,I))
+         HOURG(I,6) = X(3,IXC(4,I))-X(3,IXC(2,I))
+         HOURG(I,7) = X(1,IXC(5,I))-X(1,IXC(2,I))
+         HOURG(I,8) = X(2,IXC(5,I))-X(2,IXC(2,I))
+         HOURG(I,9) = X(3,IXC(5,I))-X(3,IXC(2,I))
+       ENDDO	
 	  END IF
 C	  
-       DO I=JFT,JLT           
+       DO I=JFT,JLT
          X0G2(I) = HOURG(I,1)
          Y0G2(I) = HOURG(I,2)
          Z0G2(I) = HOURG(I,3)
@@ -2898,14 +2898,14 @@ C--       normal in initial conf. to compute Z1
         SY(I)=Y0G3(I)+Y0G4(I)-Y0G2(I)
         RZ(I)=Z0G2(I)+Z0G3(I)-Z0G4(I)
         SSZ(I)=Z0G3(I)+Z0G4(I)-Z0G2(I)
-       ENDDO 
+       ENDDO
 C----------------------------
 C     LOCAL SYSTEM VQ0
 C----------------------------
       K = 0
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SSZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SSZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         AREA(I)=FOURTH*DETA1(I)
@@ -2919,13 +2919,13 @@ C----------------------------
         VQ0(I,1,3)=R13(I)
         VQ0(I,2,3)=R23(I)
         VQ0(I,3,3)=R33(I)
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         LXYZ0(1)=FOURTH*(X0G2(I)+X0G3(I)+X0G4(I))
         LXYZ0(2)=FOURTH*(Y0G2(I)+Y0G3(I)+Y0G4(I))
         LXYZ0(3)=FOURTH*(Z0G2(I)+Z0G3(I)+Z0G4(I))
         Z1(I)=-(VQ0(I,1,3)*LXYZ0(1)+VQ0(I,2,3)*LXYZ0(2)+VQ0(I,3,3)*LXYZ0(3))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     xl =R1^t x0l; R1^t=(VQ0^t*VQ)^t---extract Rz0 of R1
 C----------------------------
@@ -2935,7 +2935,7 @@ C----------------------------
        DIRZ(I,2) = HALF*(VR1_12-VR1_21)
        DET_1 = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,DET_1))
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         X0L2(I)=VQ0(I,1,1)*X0G2(I)+VQ0(I,2,1)*Y0G2(I)+VQ0(I,3,1)*Z0G2(I)
         Y0L2(I)=VQ0(I,1,2)*X0G2(I)+VQ0(I,2,2)*Y0G2(I)+VQ0(I,3,2)*Z0G2(I)
@@ -2979,7 +2979,7 @@ C-----------UL : xl - x0l' (rotated of rz0)
         VHI(I,2)=-YL2(I)+YL3(I)-YL4(I)-(-Y0L2(I)+Y0L3(I)-Y0L4(I))
 C----zl -zl zl -zl w 1/4
         VHI(I,3)=SQRT(ZL2(I))-Z1(I)
-      ENDDO 
+      ENDDO
 C-------set up B_l by rotating B0_l (Rz0)      
       DO I=JFT,JLT
         XL2(I)=X0L2(I)
@@ -3029,7 +3029,7 @@ C--------------------------
          Z2(I)=Z1(I)*Z1(I)
         IF (Z2(I)<LM(I)*TOL.OR.NPT == 1) THEN
          Z1(I)=ZERO
-        END IF 
+        END IF
        ENDDO
       DO I=JFT,JLT
         VDEF1= Y24(I)*V13(I,1)-Y13(I)*V24(I,1)
@@ -3039,7 +3039,7 @@ C--------------------------
 C----------------------------------
 C  VITESSE DE DEFORMATION HOURGLASS
 C----------------------------------
-        HG1=VHI(I,1)-MX13(I)*VDEF1-MY13(I)*BYV1     
+        HG1=VHI(I,1)-MX13(I)*VDEF1-MY13(I)*BYV1
         HG2=VHI(I,2)-MX13(I)*BXV2 -MY13(I)*VDEF2
 C 
 c        HG1=HG1+( Y24(I)*V13(I,3)-Y13(I)*V24(I,3))*Z1(I)

@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER  J,K,N,KK,IFAIL,ICOMM
       my_real
      .       FN, FT,EXPN,EXPT
-      my_real, DIMENSION(:), ALLOCATABLE ::  
+      my_real, DIMENSION(:), ALLOCATABLE ::
      .       CRIT
 C     REAL
       SAVE CRIT

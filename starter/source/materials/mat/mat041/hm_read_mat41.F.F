@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"   
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       character*40 nom
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER MAXUPARAM,NUPARAM,NUVAR,MAXFUNC,NFUNC,
      .        IFUNC(MAXFUNC),IUNIT
       my_real   UPARAM(MAXUPARAM),STIFINT
@@ -93,7 +93,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle,
      .   TITR
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM     
+      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s 
@@ -111,8 +111,8 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
 !     Check input encryption
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      NUPARAM = 40  
-             
+      NUPARAM = 40
+
 !     Initial and reference density
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -120,8 +120,8 @@ C-----------------------------------------------
          RHOR = RHO0
       ENDIF
       PM(1) = RHOR
-      PM(89) = RHO0 
-      
+      PM(89) = RHO0
+
       CALL HM_GET_INTV('Ireac', IREAC, IS_AVAILABLE, LSUBMODEL)
 
       CALL HM_GET_FLOATV('a_r', AR, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -135,24 +135,24 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('r_1p', R1P, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('r_2p', R2P, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('r_3p', R3P, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                             
+
       CALL HM_GET_FLOATV('C_vr', CVR, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('C_vp', CVP, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('enq', ENQ, IS_AVAILABLE, LSUBMODEL, UNITAB)
-    
+
       CALL HM_GET_INTV('NITRS', ITER, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Epsilon_0', EPSILON, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('check', FC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                                  
+
       CALL HM_GET_FLOATV('rki', RKI, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('ex', EX, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('ri', RI, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('rkg', RKG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('yg', YG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('zg', ZG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('ex1', EX1, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                                     
+
       CALL HM_GET_FLOATV('Kn', CAPPA, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('chi', CHI, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_Tol', TOL, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -161,101 +161,101 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('ex2', EX2, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('yg2', YG2, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('zg2', ZG2, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                                   
+
       CALL HM_GET_FLOATV('ccrit', CCRIT, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('fmxig', FMXIG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('fmxgr', FMXGR, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('fmngr', FMNGR, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       CALL HM_GET_FLOATV('MAT_G0', SHR, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('T_Initial', T, IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('T_Initial', T, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
 
       !------------------------!
       !       DEFAULTS         !
       !------------------------!
-      !IREAC=1 : LEE-TARVER ORIGINAL METHOD                                  
-      !IREAC=2 : MODIFIED METHOD                                             
-      IF(IREAC/=1 .AND. IREAC /=2)IREAC=1                                    
-      WR = R3R/CVR                                                           
-      WP = R3P/CVP                                                           
-      IF (EPSILON==ZERO) EPSILON = EM3                                     
-      IF (ITER==0) ITER = 80                                               
-      IF (FC==ZERO) FC = EM5                                               
-      IF (CAPPA==ZERO) CAPPA = EIGHTY19                               
-      IF (CHI==ZERO) CHI = EIGHTY19                                   
-      NFUNC = 0                                                              
-      NUVAR = 8                                                              
-      STIFINT = SHR          
+      !IREAC=1 : LEE-TARVER ORIGINAL METHOD
+      !IREAC=2 : MODIFIED METHOD
+      IF(IREAC/=1 .AND. IREAC /=2)IREAC=1
+      WR = R3R/CVR
+      WP = R3P/CVP
+      IF (EPSILON==ZERO) EPSILON = EM3
+      IF (ITER==0) ITER = 80
+      IF (FC==ZERO) FC = EM5
+      IF (CAPPA==ZERO) CAPPA = EIGHTY19
+      IF (CHI==ZERO) CHI = EIGHTY19
+      NFUNC = 0
+      NUVAR = 8
+      STIFINT = SHR
 
       !------------------------!
       !       STORAGE          !
       !------------------------!
-      UPARAM(1) = IREAC                                                      
-      UPARAM(2) = AR                                                         
-      UPARAM(3) = BR                                                         
-      UPARAM(4) = R1R                                                        
-      UPARAM(5) = R2R                                                        
-      UPARAM(6) = R3R                                                        
-      UPARAM(7) = WR                                                         
-      UPARAM(8) = AP                                                         
-      UPARAM(9) = BP                                                         
-      UPARAM(10) = R1P                                                       
-      UPARAM(11) = R2P                                                       
-      UPARAM(12) = R3P                                                       
-      UPARAM(13) = WP                                                        
-      UPARAM(14) = CVR                                                       
-      UPARAM(15) = CVP                                                       
-      UPARAM(16) = ENQ                                                       
-      UPARAM(17) = EPSILON                                                   
-      UPARAM(18) = ITER                                                      
-      UPARAM(19) = FC           
-      UPARAM(20) = rki                                                       
-      UPARAM(21) = ex                                                        
-      UPARAM(22) = ri                                                        
-      UPARAM(23) = RKG                                                       
-      UPARAM(24) = YG                                                        
-      UPARAM(25) = ZG                                                        
-      UPARAM(31) = EX1                                                       
-      UPARAM(26) = CAPPA                                                     
-      UPARAM(27) = CHI                                                       
+      UPARAM(1) = IREAC
+      UPARAM(2) = AR
+      UPARAM(3) = BR
+      UPARAM(4) = R1R
+      UPARAM(5) = R2R
+      UPARAM(6) = R3R
+      UPARAM(7) = WR
+      UPARAM(8) = AP
+      UPARAM(9) = BP
+      UPARAM(10) = R1P
+      UPARAM(11) = R2P
+      UPARAM(12) = R3P
+      UPARAM(13) = WP
+      UPARAM(14) = CVR
+      UPARAM(15) = CVP
+      UPARAM(16) = ENQ
+      UPARAM(17) = EPSILON
+      UPARAM(18) = ITER
+      UPARAM(19) = FC
+      UPARAM(20) = rki
+      UPARAM(21) = ex
+      UPARAM(22) = ri
+      UPARAM(23) = RKG
+      UPARAM(24) = YG
+      UPARAM(25) = ZG
+      UPARAM(31) = EX1
+      UPARAM(26) = CAPPA
+      UPARAM(27) = CHI
       UPARAM(28) = TOL
-      UPARAM(32) = EX2                                                       
-      UPARAM(33) = YG2                                                       
-      UPARAM(34) = ZG2                                                       
+      UPARAM(32) = EX2
+      UPARAM(33) = YG2
+      UPARAM(34) = ZG2
       UPARAM(30) = GROW2
-      UPARAM(29) = CCRIT                                                     
-      UPARAM(35) = FMXIG                                                     
-      UPARAM(36) = FMXGR                                                     
-      UPARAM(37) = FMNGR 
-      UPARAM(38) = SHR                                                       
-      UPARAM(39) = T                                                         
-      UPARAM(40) = ZERO                                                            
+      UPARAM(29) = CCRIT
+      UPARAM(35) = FMXIG
+      UPARAM(36) = FMXGR
+      UPARAM(37) = FMNGR
+      UPARAM(38) = SHR
+      UPARAM(39) = T
+      UPARAM(40) = ZERO
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
 c-----------------
       !------------------------!
       !    LISTING OUTPUT      !
       !------------------------!
-      IF(IS_ENCRYPTED)THEN                                                    
-        WRITE(IOUT,7000)                                                     
-      ELSE                                                                   
-        WRITE(IOUT,1000)UPARAM(1),  UPARAM(2),  UPARAM(3),                    
-     .     UPARAM(4),   UPARAM(5),  UPARAM(6),  UPARAM(7),                       
-     .     UPARAM(8),   UPARAM(9),  UPARAM(10), UPARAM(11),                     
-     .     UPARAM(12),  UPARAM(13), UPARAM(14), UPARAM(15),                   
-     .     UPARAM(16),  UPARAM(17), UPARAM(18), UPARAM(19),                   
-     .     UPARAM(20),  UPARAM(21), UPARAM(22), UPARAM(23),                   
-     .     UPARAM(24),  UPARAM(25), UPARAM(26), UPARAM(27),                   
-     .     UPARAM(28),  UPARAM(29), UPARAM(31), UPARAM(30),                   
-     .     UPARAM(32),  UPARAM(33), UPARAM(34), UPARAM(35),                   
-     .     UPARAM(36),  UPARAM(37), UPARAM(38), UPARAM(39)                    
-      ENDIF                                                                  
-      
+      IF(IS_ENCRYPTED)THEN
+        WRITE(IOUT,7000)
+      ELSE
+        WRITE(IOUT,1000)UPARAM(1),  UPARAM(2),  UPARAM(3),
+     .     UPARAM(4),   UPARAM(5),  UPARAM(6),  UPARAM(7),
+     .     UPARAM(8),   UPARAM(9),  UPARAM(10), UPARAM(11),
+     .     UPARAM(12),  UPARAM(13), UPARAM(14), UPARAM(15),
+     .     UPARAM(16),  UPARAM(17), UPARAM(18), UPARAM(19),
+     .     UPARAM(20),  UPARAM(21), UPARAM(22), UPARAM(23),
+     .     UPARAM(24),  UPARAM(25), UPARAM(26), UPARAM(27),
+     .     UPARAM(28),  UPARAM(29), UPARAM(31), UPARAM(30),
+     .     UPARAM(32),  UPARAM(33), UPARAM(34), UPARAM(35),
+     .     UPARAM(36),  UPARAM(37), UPARAM(38), UPARAM(39)
+      ENDIF
+
  7000 FORMAT(
      & 5X,'  LEE TARVER REACTIVE EXPLOSIVE         ',/,
      & 5X,'  -----------------------------         ',/,
-     & 5X,  'CONFIDENTIAL DATA'//) 
+     & 5X,  'CONFIDENTIAL DATA'//)
  1000 FORMAT(
      & 5X,'  LEE TARVER REACTIVE EXPLOSIVE         ',/,
      & 5X,'  -----------------------------         ',/,

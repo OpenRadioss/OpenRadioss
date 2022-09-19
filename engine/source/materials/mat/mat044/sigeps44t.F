@@ -70,7 +70,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       my_real :: CVMGT,FINTER
       EXTERNAL FINTER
-c=======================================================================     
+c=======================================================================
       EPIF   = ZERO
 c
       DO I=1,NEL
@@ -86,7 +86,7 @@ c
         CN(I)    = UPARAM(IADBUF+9)
         ICC(I)   = NINT(UPARAM(IADBUF+10))
         EPDR(I)  = UPARAM(IADBUF+11)
-        EPIF     = MAX(EPIF,EPDR(I))              
+        EPIF     = MAX(EPIF,EPDR(I))
         CP(I)    = UPARAM(IADBUF+12)
         ISRATE(I)= NINT(UPARAM(IADBUF+13))
         ASRATE(I)= UPARAM(IADBUF+14)
@@ -117,7 +117,7 @@ c
       ENDDO
 c
       DO I=1,NEL
-        IF (NFUNC>0) THEN 
+        IF (NFUNC>0) THEN
           YLD(I) = YSCALE(I)*FINTER(IFUNC(1),PLA(I),NPF,TF,HH(I))
           HH(I)  = YSCALE(I)*HH(I)
         ELSE
@@ -161,7 +161,7 @@ C-------------
                   HH(I) = HH(I) + CB(I)*CN(I)/PLA(I)**(ONE-CN(I))*(FRATE-ONE)
                 ENDIF
               ENDIF
-            ELSE           
+            ELSE
               YLD(I) = YLD(I) * FRATE
               HH(I)  = HH(I)  * FRATE
             ENDIF
@@ -192,7 +192,7 @@ C-------------------------------
         IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c--------------------------------
-c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 
+c     AXIAL TENSION OR PLASTIC STRAIN FAILURE
 c--------------------------------
       NINDX = 0
       DO I = 1,NEL
@@ -209,7 +209,7 @@ c         test strain failure
             IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX) = I
-          ENDIF          
+          ENDIF
 c
           IF (VFLAG(I)==1) THEN
             ALPHA  = MIN(ONE, ASRATE(I)*DT1)
@@ -217,7 +217,7 @@ c
             UVAR(I,1) = ALPHA*EPSDOT + (ONE - ALPHA)*UVAR(I,1)
           ENDIF
         ENDIF
-      ENDDO                                          
+      ENDDO
 c
       IF (NINDX > 0) THEN
         DO J=1,NINDX
@@ -231,7 +231,7 @@ c
 c
       DO I=1,NEL
         STI(I) = STI(I)*OFF(I)
-        FOR(I) = FOR(I)*OFF(I)  
+        FOR(I) = FOR(I)*OFF(I)
       ENDDO
 c
       DO I=1,NEL

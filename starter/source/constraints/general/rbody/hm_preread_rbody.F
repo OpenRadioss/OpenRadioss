@@ -103,9 +103,9 @@ C----------Multidomaines --> on ignore les rby tages---------------
          ENDIF
 C--------
          CALL HM_GET_INTV('grnd_ID',IGU,IS_AVAILABLE,LSUBMODEL)
-         NN = GRSIZEN(IGU,IGRNOD,NGRNOD) 
-         SLPBY = SLPBY + NN 
-       END IF            
+         NN = GRSIZEN(IGU,IGRNOD,NGRNOD)
+         SLPBY = SLPBY + NN
+       END IF
       ENDDO
 C-----------
       RETURN

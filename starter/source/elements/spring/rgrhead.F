@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
      .        II, J, II3,JJ3,II2,JJ2,JJ,L,II4,JJ4,IGTYP,
      .        IFLAG_GTYP,
@@ -108,7 +108,7 @@ C
       DATA MSKPID /O'07777777777'/
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
- 
+
 C----------------------------------------------------------
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
 C----------------------------------------------------------
@@ -135,7 +135,7 @@ C
       ENDIF
 C
 C
-      
+
       DO I = 1, NUMELR
         II = I
         PID= IXR(1,II)
@@ -146,10 +146,10 @@ C
         IFLAG_GTYP = 0
         IF(IGTYP == 23)THEN
           IFLAG_GTYP = 1
-          MID = IXR(5,II)  
-          MTN = IPM(2,MID)      
-        ENDIF  
-          
+          MID = IXR(5,II)
+          MTN = IPM(2,MID)
+        ENDIF
+
 !!        MID = 0
 !!        IF(IGTYP == 23) MID = IXR(5,II)
 C
@@ -167,10 +167,10 @@ C       NEXT=MY_SHIFTL(NEXT,1)
         MTN=MY_SHIFTL(MTN,21)
 C
         ITRI(1,I)=JSMS + ISSN + MTN
- 
-        ITRI(2,I)=PID 
+
+        ITRI(2,I)=PID
 C
-        ITRI(3,I)=IRESOFF(I)   
+        ITRI(3,I)=IRESOFF(I)
 C        
         ITRI(4,I)=IFLAG_GTYP
       ENDDO
@@ -262,7 +262,7 @@ C
         II4=ITRI(4,INDEX(I))
         JJ4=ITRI(4,INDEX(I-1))
 
-        MTN = NINT(GEO(8,II2))       
+        MTN = NINT(GEO(8,II2))
         IF(II/=JJ.OR.(II2/=JJ2 .AND.MTN==5).OR.(II3/=JJ3) .OR.
      .                                                II4/=JJ4) THEN
           ND=ND+1

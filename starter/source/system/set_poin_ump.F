@@ -117,7 +117,7 @@ C=======================================================================
        IF(TAILLE>1) THEN
         MARQUEUR = 0
         IF(NUMMAT>1) THEN
-         DO WHILE ((MARQUEUR==0).AND.(I>0)) 
+         DO WHILE ((MARQUEUR==0).AND.(I>0))
            MARQUEUR=1
            DO J=1,I-1
              IF(TAB_UMP(1,J) > TAB_UMP(1,J+1)) THEN
@@ -140,7 +140,7 @@ C=======================================================================
              ENDIF
            ENDDO
            I=I-1
-         ENDDO    
+         ENDDO
          J = 1
          MARQUEUR = 1
          POIN_UMP = 0
@@ -154,18 +154,18 @@ C=======================================================================
             TAB_LOCAL2(MARQUEUR) = I
            ENDIF
          ENDDO
-        ELSE      
-         POIN_UMP(1) = 1    
-        ENDIF 
+        ELSE
+         POIN_UMP(1) = 1
+        ENDIF
 
         IF(MARQUEUR>1) THEN
          K1=TAB_LOCAL2(1)
-         DO I=2,MARQUEUR    
+         DO I=2,MARQUEUR
           MARQUEUR2 = 0
           K2 = TAB_LOCAL2(I)-1
 
           DO WHILE ((MARQUEUR2==0).AND.(K2>K1).AND.
-     .              (K2*K1>0)) 
+     .              (K2*K1>0))
            MARQUEUR2=1
            DO J=K1,K2-1
              IF(TAB_UMP(2,J) > TAB_UMP(2,J+1)) THEN
@@ -185,7 +185,7 @@ C=======================================================================
         ELSEIF(MARQUEUR==1) THEN
          MARQUEUR2 = 0
          I=TAILLE
-         DO WHILE ((MARQUEUR2==0).AND.(I>0)) 
+         DO WHILE ((MARQUEUR2==0).AND.(I>0))
            MARQUEUR2=1
            DO J=1,I-1
              IF(TAB_UMP(2,J) > TAB_UMP(2,J+1)) THEN
@@ -204,7 +204,7 @@ C=======================================================================
        ELSE
         POIN_UMP(1:NUMMAT) = 0
         IF(TAB_UMP(3,1) > 0) POIN_UMP(TAB_UMP(3,1)) = 1
-       ENDIF    
+       ENDIF
       ENDIF
 C
       END

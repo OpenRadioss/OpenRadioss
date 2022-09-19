@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
 C----6---------------------------------------------------------------7---------8
@@ -111,7 +111,7 @@ C     REAL
      .       X1,X2,X3,X4,XP,Y1,Y2,Y3,Y4,YP,Z1,Z2,Z3,Z4,ZP,
      .       X12,Y12,Z12,X23,Y23,Z23,X31,Y31,Z31,NX,NY,NZ,NN,
      .       XI,YI,ZI,DD,DIAM,DMAX,DPS,VOL,BID
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
       my_real
      .         GET_U_GEO
@@ -228,13 +228,13 @@ C------
 C      specific energy related to V0=MP/RHO0.
        RHO0 =PM(1 ,IMAT)
        EI   =EN*(RHO0/RHON)
-       
-c default value        
+
+c default value
        IF(DIAM==ZERO) THEN
          MP  = GET_U_GEO(1,IPROP)
          VOL = MP/RHO0
          DIAM= (SQR2*VOL)**THIRD
-       END IF             
+       END IF
 C------
 C      boite englobante / surface entiere.
        XBMIN =EP20
@@ -242,7 +242,7 @@ C      boite englobante / surface entiere.
        ZBMIN =EP20
        XBMAX=-EP20
        YBMAX=-EP20
-       ZBMAX=-EP20       
+       ZBMAX=-EP20
 C------
        ISU =ISPHIO(3,I)
 c NSEGB on split surface (IBUFSSG)
@@ -471,7 +471,7 @@ c          IN4=IBUFSSG_IO(IAD2+NIBSPH*(J-1)+3)
           Z4=X(3,IN4)
           XP=FOURTH*(X1+X2+X3+X4)
           YP=FOURTH*(Y1+Y2+Y3+Y4)
-          ZP=FOURTH*(Z1+Z2+Z3+Z4)	  
+          ZP=FOURTH*(Z1+Z2+Z3+Z4)	
          ELSE
           X4=X3
           Y4=Y3
@@ -486,7 +486,7 @@ C--------
          Z12=HALF*(Z2+Z3-Z1-Z4)
          X23=HALF*(X3+X4-X1-X2)
          Y23=HALF*(Y3+Y4-Y1-Y2)
-         Z23=HALF*(Z3+Z4-Z1-Z2)	 
+         Z23=HALF*(Z3+Z4-Z1-Z2)	
          NX = Y12*Z23-Z12*Y23
          NY =-X12*Z23+Z12*X23
          NZ = X12*Y23-Y12*X23
@@ -519,13 +519,13 @@ C--------
           NG=-KXSP(2,N)
           IPARG(8,NG) =0
           IPARG(10,NG)=IPARG(10,NG)+1
-          CALL INITBUF (IPARG    ,NG      ,                   
-     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,    
-     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,    
-     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                      
+          CALL INITBUF (IPARG    ,NG      ,
+     2       MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           GBUF => ELBUF_TAB(NG)%GBUF
           K=N-NFT
           VOLO=GBUF%VOL(K)

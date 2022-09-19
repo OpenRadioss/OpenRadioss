@@ -59,7 +59,7 @@ C-----------------------------------------------
       integer*8 I8F(3,3,*), I8M(3,3,*), I8STIFN(3,*), I8STIFR(3,*)
 C     REAL
       my_real
-     .   OFFG(*), OFF(*), STI(*), STIR(*), 
+     .   OFFG(*), OFF(*), STI(*), STIR(*),
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
      .   F31(MVSIZ), F32(MVSIZ), F33(MVSIZ), F34(MVSIZ),
@@ -70,8 +70,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      integer*8 
-     .  I8STI(3,MVSIZ), I8STIR(3,MVSIZ), 
+      integer*8
+     .  I8STI(3,MVSIZ), I8STIR(3,MVSIZ),
      .  I8F11(3,MVSIZ), I8F12(3,MVSIZ), I8F13(3,MVSIZ), I8F14(3,MVSIZ),
      .  I8F21(3,MVSIZ), I8F22(3,MVSIZ), I8F23(3,MVSIZ), I8F24(3,MVSIZ),
      .  I8F31(3,MVSIZ), I8F32(3,MVSIZ), I8F33(3,MVSIZ), I8F34(3,MVSIZ),
@@ -182,77 +182,77 @@ c        STIFN(N)=STIFN(N)+STI(I)
 c        STIFR(N)=STIFR(N)+STIR(I)
 c         <ent1.dec1,dec2> = <ent1.dec1,dec2> - F11(I)
           N = IXC(2,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F11(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F11(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F11(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F11(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F21(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F21(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F21(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F31(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F31(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F31(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M11(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M11(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M11(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M11(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M21(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M21(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M21(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M21(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M31(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M31(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M31(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
 C
       ELSE
        DO I=JFT,JLT
           N = IXC(2,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F11(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F11(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F11(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F11(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F21(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F21(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F21(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F31(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F31(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F31(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M11(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M11(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M11(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M11(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M21(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M21(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M21(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M21(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M31(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M31(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M31(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ENDIF
 C
@@ -268,76 +268,76 @@ c        M(3,IXC(3,I))=M(3,IXC(3,I))-M32(I)
 c        STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)
 c        STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
           N = IXC(3,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F12(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F12(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F12(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F12(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F22(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F22(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F22(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F32(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F32(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F32(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M12(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M12(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M12(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M12(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M22(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M22(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M22(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M22(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M32(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M32(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M32(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ELSE
        DO I=JFT,JLT
           N = IXC(3,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F12(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F12(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F12(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F12(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F22(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F22(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F22(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F32(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F32(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F32(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M12(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M12(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M12(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M12(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M22(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M22(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M22(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M22(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M32(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M32(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M32(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ENDIF
 C
@@ -353,76 +353,76 @@ c        M(3,IXC(4,I))=M(3,IXC(4,I))-M33(I)
 c        STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)
 c        STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
           N = IXC(4,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F13(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F13(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F13(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F13(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F23(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F23(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F23(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F33(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F33(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F33(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M13(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M13(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M13(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M13(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M23(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M23(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M23(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M23(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M33(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M33(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M33(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ELSE
        DO I=JFT,JLT
           N = IXC(4,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F13(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F13(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F13(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F13(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F23(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F23(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F23(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F33(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F33(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F33(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M13(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M13(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M13(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M13(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M23(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M23(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M23(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M23(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M33(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M33(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M33(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ENDIF
 C
@@ -438,76 +438,76 @@ c        M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
 c        STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)
 c        STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
           N = IXC(5,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F14(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F14(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F14(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F14(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F24(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F24(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F24(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F34(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F34(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F34(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M14(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M14(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M14(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M14(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M24(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M24(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M24(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M24(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M34(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M34(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M34(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) - I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) - I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) - I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) - I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) - I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) - I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) - I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) - I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) - I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ELSE
        DO I=JFT,JLT
           N = IXC(5,I)
-c___________________________________________________          
-          I8F(1,1,N) = I8F(1,1,N) - I8F14(1,I) 
+c___________________________________________________
+          I8F(1,1,N) = I8F(1,1,N) - I8F14(1,I)
           I8F(2,1,N) = I8F(2,1,N) - I8F14(2,I)
           I8F(3,1,N) = I8F(3,1,N) - I8F14(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,2,N) = I8F(1,2,N) - I8F24(1,I)
           I8F(2,2,N) = I8F(2,2,N) - I8F24(2,I)
           I8F(3,2,N) = I8F(3,2,N) - I8F24(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8F(1,3,N) = I8F(1,3,N) - I8F34(1,I)
           I8F(2,3,N) = I8F(2,3,N) - I8F34(1,I)
           I8F(3,3,N) = I8F(3,3,N) - I8F34(1,I)
-c___________________________________________________          
-          I8M(1,1,N) = I8M(1,1,N) - I8M14(1,I) 
+c___________________________________________________
+          I8M(1,1,N) = I8M(1,1,N) - I8M14(1,I)
           I8M(2,1,N) = I8M(2,1,N) - I8M14(2,I)
           I8M(3,1,N) = I8M(3,1,N) - I8M14(3,I)
-c___________________________________________________          
-          I8M(1,2,N) = I8M(1,2,N) - I8M24(1,I) 
+c___________________________________________________
+          I8M(1,2,N) = I8M(1,2,N) - I8M24(1,I)
           I8M(2,2,N) = I8M(2,2,N) - I8M24(2,I)
           I8M(3,2,N) = I8M(3,2,N) - I8M24(3,I)
-c___________________________________________________          
+c___________________________________________________
           I8M(1,3,N) = I8M(1,3,N) - I8M34(1,I)
           I8M(2,3,N) = I8M(2,3,N) - I8M34(2,I)
           I8M(3,3,N) = I8M(3,3,N) - I8M34(3,I)
-c___________________________________________________          
-          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I) 
-          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I) 
-          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I) 
-c___________________________________________________          
+c___________________________________________________
+          I8STIFN(1,N) = I8STIFN(1,N) + I8STI(1,I)
+          I8STIFN(2,N) = I8STIFN(2,N) + I8STI(2,I)
+          I8STIFN(3,N) = I8STIFN(3,N) + I8STI(3,I)
+c___________________________________________________
           I8STIFR(1,N) = I8STIFR(1,N) + I8STIR(1,I)
           I8STIFR(2,N) = I8STIFR(2,N) + I8STIR(2,I)
           I8STIFR(3,N) = I8STIFR(3,N) + I8STIR(3,I)
-c___________________________________________________          
+c___________________________________________________
        ENDDO
       ENDIF
 C
@@ -551,7 +551,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
 C     REAL
       my_real
-     .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*), 
+     .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*),
      .   STIFN(*), STIFR(*),
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
@@ -639,7 +639,7 @@ C
           M(2,IXC(2,I))=M(2,IXC(2,I))-M21(I)
           M(3,IXC(2,I))=M(3,IXC(2,I))-M31(I)
           STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI(I)
-          STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)     
+          STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)
          ENDDO
         ELSE
          IF(NODADT_THERM == 1 ) THEN
@@ -655,7 +655,7 @@ C
                STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)
                FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
                CONDN(IXC(2,I))=CONDN(IXC(2,I))+CONDE(I)
-            ENDDO 
+            ENDDO
          ELSE
 #include "vectorize.inc"
             DO I=JFT,JLT
@@ -668,9 +668,9 @@ C
                STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI(I)
                STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)
                FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
-            ENDDO 
+            ENDDO
          ENDIF
-        
+
         ENDIF
 C
       ELSE
@@ -686,7 +686,7 @@ C
           STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
             DO I=JFT,JLT
                F(1,IXC(2,I))=F(1,IXC(2,I))-F11(I)
                F(2,IXC(2,I))=F(2,IXC(2,I))-F21(I)
@@ -712,7 +712,7 @@ C
                FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
             ENDDO
          ENDIF
-        ENDIF 
+        ENDIF
 C
       ENDIF
 C
@@ -730,7 +730,7 @@ C
            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
            DO I=JFT,JLT
               F(1,IXC(3,I))=F(1,IXC(3,I))-F12(I)
@@ -743,7 +743,7 @@ C
               STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
               FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
               CONDN(IXC(3,I))=CONDN(IXC(3,I))+CONDE(I)
-           ENDDO 
+           ENDDO
          ELSE
 #include "vectorize.inc"
            DO I=JFT,JLT
@@ -756,8 +756,8 @@ C
               STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)
               STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
               FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
-           ENDDO 
-         ENDIF        
+           ENDDO
+         ENDIF
         ENDIF
 C   
       ELSE
@@ -773,7 +773,7 @@ C
            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
           ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
             DO I=JFT,JLT
                F(1,IXC(3,I))=F(1,IXC(3,I))-F12(I)
                F(2,IXC(3,I))=F(2,IXC(3,I))-F22(I)
@@ -785,8 +785,8 @@ C
                STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
                FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
                CONDN(IXC(3,I))=CONDN(IXC(3,I))+CONDE(I)
-            ENDDO   
-         ELSE  
+            ENDDO
+         ELSE
             DO I=JFT,JLT
                F(1,IXC(3,I))=F(1,IXC(3,I))-F12(I)
                F(2,IXC(3,I))=F(2,IXC(3,I))-F22(I)
@@ -797,8 +797,8 @@ C
                STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)
                STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)
                FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
-            ENDDO   
-         ENDIF           
+            ENDDO
+         ENDIF
         ENDIF
 C       
       ENDIF
@@ -817,7 +817,7 @@ C
             STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
             DO I=JFT,JLT
                F(1,IXC(4,I))=F(1,IXC(4,I))-F13(I)
@@ -830,8 +830,8 @@ C
                STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
                FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
                CONDN(IXC(4,I))=CONDN(IXC(4,I))+CONDE(I)
-            ENDDO  
-         ELSE  
+            ENDDO
+         ELSE
 #include "vectorize.inc"
             DO I=JFT,JLT
                F(1,IXC(4,I))=F(1,IXC(4,I))-F13(I)
@@ -843,7 +843,7 @@ C
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)
                STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
                FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
-            ENDDO  
+            ENDDO
           ENDIF
         ENDIF
       ELSE
@@ -859,7 +859,7 @@ C
           STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
          ENDDO
        ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
             DO I=JFT,JLT
                F(1,IXC(4,I))=F(1,IXC(4,I))-F13(I)
                F(2,IXC(4,I))=F(2,IXC(4,I))-F23(I)
@@ -871,8 +871,8 @@ C
                STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
                FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
                CONDN(IXC(4,I))=CONDN(IXC(4,I))+CONDE(I)
-            ENDDO  
-         ELSE  
+            ENDDO
+         ELSE
             DO I=JFT,JLT
                F(1,IXC(4,I))=F(1,IXC(4,I))-F13(I)
                F(2,IXC(4,I))=F(2,IXC(4,I))-F23(I)
@@ -883,8 +883,8 @@ C
                STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)
                STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)
                FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
-            ENDDO  
-          ENDIF       
+            ENDDO
+          ENDIF
         ENDIF
 C       
       ENDIF
@@ -903,7 +903,7 @@ C
           STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
             DO I=JFT,JLT
                F(1,IXC(5,I))=F(1,IXC(5,I))-F14(I)
@@ -913,10 +913,10 @@ C
                M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
                M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
                STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)
-               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)          
+               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
                FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
                CONDN(IXC(5,I))=CONDN(IXC(5,I))+CONDE(I)
-            ENDDO  
+            ENDDO
           ELSE
 #include "vectorize.inc"
             DO I=JFT,JLT
@@ -927,9 +927,9 @@ C
                M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
                M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
                STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)
-               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)          
+               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
                FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
-            ENDDO  
+            ENDDO
           ENDIF
         ENDIF
 C     
@@ -945,8 +945,8 @@ C
            STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)
            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
          ENDDO
-        ELSE 
-         IF(NODADT_THERM == 1 ) THEN  
+        ELSE
+         IF(NODADT_THERM == 1 ) THEN
             DO I=JFT,JLT
                F(1,IXC(5,I))=F(1,IXC(5,I))-F14(I)
                F(2,IXC(5,I))=F(2,IXC(5,I))-F24(I)
@@ -955,23 +955,23 @@ C
                M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
                M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
                STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)
-               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)          
+               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
                FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
                CONDN(IXC(5,I))=CONDN(IXC(5,I))+CONDE(I)
-            ENDDO  
+            ENDDO
           ELSE
             DO I=JFT,JLT
                F(1,IXC(5,I))=F(1,IXC(5,I))-F14(I)
                F(2,IXC(5,I))=F(2,IXC(5,I))-F24(I)
-               F(3,IXC(5,I))=F(3,IXC(5,I))-F34(I) 
+               F(3,IXC(5,I))=F(3,IXC(5,I))-F34(I)
                M(1,IXC(5,I))=M(1,IXC(5,I))-M14(I)
                M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
                M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
                STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)
-               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)          
+               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)
                FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
-            ENDDO  
-          ENDIF       
+            ENDDO
+          ENDIF
         ENDIF
 C
       ENDIF
@@ -1018,18 +1018,18 @@ C-----------------------------------------------
       INTEGER JFT, JLT, JTHE
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*),IADC(4,*)
       my_real
-     .   OFFG(*), OFF(*), STI(*), STIR(*), 
+     .   OFFG(*), OFF(*), STI(*), STIR(*),
      .   FSKYV(LSKY,8), FSKY(8,LSKY)
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
-     .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),             
-     .   F31(MVSIZ), F32(MVSIZ), F33(MVSIZ), F34(MVSIZ),            
-     .   M11(MVSIZ), M12(MVSIZ), M13(MVSIZ), M14(MVSIZ),            
-     .   M21(MVSIZ), M22(MVSIZ), M23(MVSIZ), M24(MVSIZ),            
-     .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ), M34(MVSIZ),            
-     .   CONDE(MVSIZ),                                              
-     .   EINT(JLT,2),PM(NPROPM,*),PARTSAV(NPSAV,*), AREA(*) ,THK(*),  
-     .   FTHESKY(LSKY),THEM(MVSIZ,4),CONDNSKY(*)                        
+     .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
+     .   F31(MVSIZ), F32(MVSIZ), F33(MVSIZ), F34(MVSIZ),
+     .   M11(MVSIZ), M12(MVSIZ), M13(MVSIZ), M14(MVSIZ),
+     .   M21(MVSIZ), M22(MVSIZ), M23(MVSIZ), M24(MVSIZ),
+     .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ), M34(MVSIZ),
+     .   CONDE(MVSIZ),
+     .   EINT(JLT,2),PM(NPROPM,*),PARTSAV(NPSAV,*), AREA(*) ,THK(*),
+     .   FTHESKY(LSKY),THEM(MVSIZ,4),CONDNSKY(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1137,8 +1137,8 @@ C
             FTHESKY(IADC(2,I)) = THEM(I,2)
             FTHESKY(IADC(3,I)) = THEM(I,3)
             FTHESKY(IADC(4,I)) = THEM(I,4)
-          ENDDO   
-          IF (NODADT_THERM == 1) THEN  
+          ENDDO
+          IF (NODADT_THERM == 1) THEN
 #include "vectorize.inc"
             DO I=JFT,JLT
                CONDNSKY(IADC(1,I)) = CONDE(I)
@@ -1146,7 +1146,7 @@ C
                CONDNSKY(IADC(3,I)) = CONDE(I)
                CONDNSKY(IADC(4,I)) = CONDE(I)
             ENDDO
-          ENDIF      
+          ENDIF
         ENDIF
 C----------        
       ELSE   ! Scalar  (IVECTOR=0)
@@ -1217,15 +1217,15 @@ c#include "cupdt3_pf.inc"
             FTHESKY(IADC(2,I)) = THEM(I,2)
             FTHESKY(IADC(3,I)) = THEM(I,3)
             FTHESKY(IADC(4,I)) = THEM(I,4)
-          ENDDO    
-          IF(NODADT_THERM == 1) THEN  
+          ENDDO
+          IF(NODADT_THERM == 1) THEN
             DO I=JFT,JLT
                CONDNSKY(IADC(1,I)) = CONDE(I)
                CONDNSKY(IADC(2,I)) = CONDE(I)
                CONDNSKY(IADC(3,I)) = CONDE(I)
                CONDNSKY(IADC(4,I)) = CONDE(I)
             ENDDO
-          ENDIF      
+          ENDIF
         ENDIF
 C   
       ENDIF

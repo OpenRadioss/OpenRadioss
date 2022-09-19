@@ -49,7 +49,7 @@ C     LSUBMODEL    SUBMODEL STRUCTURE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

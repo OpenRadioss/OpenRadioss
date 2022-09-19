@@ -27,7 +27,7 @@ Chd|        FREFORM                       source/input/freform.F
 Chd|-- calls ---------------
 Chd|        ERRMSG                        source/input/errmsg.F         
 Chd|====================================================================
-      SUBROUTINE REDKEY0(KEY0,NKEY,CARTE,IKEY,NSLASH) 
+      SUBROUTINE REDKEY0(KEY0,NKEY,CARTE,IKEY,NSLASH)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -49,7 +49,7 @@ C-----------------------------------------------
       J=0
       KEY(1:5)='     '
 
-      DO I=2,ncharline 
+      DO I=2,ncharline
       IF(CARTE(I:I)=='/')EXIT
       IF(CARTE(I:I)==' ')CYCLE
        J=J+1

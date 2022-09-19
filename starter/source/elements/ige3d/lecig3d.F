@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),ITAB(*), 
+      INTEGER KXIG3D(NIXIG3D,*),IXIG3D(*),ITAB(*),
      .        IPART(LIPART1,*),IPARTIG3D(*),
      .        IPM(NPROPMI,*),IGEO(NPROPGI,*),ITABM1(*),
      .        NCTRLMAX
@@ -97,7 +97,7 @@ C-----------------------------------------------
       INTEGER TABIDS(NUMELIG3D0),J10(10)
       CHARACTER MESS*40
       my_real
-     .   BID 
+     .   BID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -116,18 +116,18 @@ c
         IREC=IREC+1
         READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         DO WHILE( LINE(1:1) /= '/' .OR. LINE(1:6) == '/IGE3D')
-        
+
          IF (LINE(1:1) == '/')THEN  ! CHANGEMENT DE PART
           IREC=IREC+1
           READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
          ENDIF
-       
+
          READ(LINE,ERR=999,FMT=FMT_8I)
      .   ID,IDX1,IDY1,IDZ1,NCTRL,NRAFX,NRAFY,NRAFZ
          NBIG3D_PATCH=NBIG3D_PATCH+1
          IREC = IREC + ((NCTRL-1)/10)+2
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-         
+
          IF (LINE(1:6) == '/IGE3D')THEN  !  ON A ONE CHANGEMENT DE PART
            TABCONPATCH(NBPART_IG3D)%L_TAB_IG3D=NBIG3D_PATCH
            ALLOCATE(TABCONPATCH(NBPART_IG3D)%TAB_IG3D(NBIG3D_PATCH))
@@ -148,16 +148,16 @@ c
         BID =0
         IAD =1
         KCUR=KIGE3D
-        IREC=KOPTAD(KCUR)-1 
+        IREC=KOPTAD(KCUR)-1
         I = 0
         INOD_IGE = FIRSTNOD_ISOGEO
-        DO WHILE( I < NUMELIG3D0 )              
-         IREC=IREC+1                        
+        DO WHILE( I < NUMELIG3D0 )
+         IREC=IREC+1
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
          IF (LINE(1:1) == '/')THEN
           NBPART_IG3D = NBPART_IG3D+1
           NBIG3D_PATCH = 0
-          KLINE=LINE                                     
+          KLINE=LINE
           CALL FREDEC0(ID)
           IDS=0
           DO J=1,NPART
@@ -215,10 +215,10 @@ C
          ENDIF
         ENDDO
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------

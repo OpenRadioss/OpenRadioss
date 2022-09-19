@@ -91,11 +91,11 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTS(IP)
           EL_LAST  = INV_GROUP%INDPARTS(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTS(EL)
             CLAUSE%SOLID(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
 
         IWORK(1:70000) = 0
@@ -107,7 +107,7 @@ C=======================================================================
         ENDDO
 
       ENDIF ! IF (NUMELS > 0)
-      
+
 !
 !               QUAD
       IF (NUMELQ > 0) THEN
@@ -126,11 +126,11 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTQ(IP)
           EL_LAST  = INV_GROUP%INDPARTQ(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTQ(EL)
             CLAUSE%QUAD(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
 
         IWORK(1:70000) = 0
@@ -160,11 +160,11 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTC(IP)
           EL_LAST  = INV_GROUP%INDPARTC(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTC(EL)
             CLAUSE%SH4N(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
 
         IWORK(1:70000) = 0
@@ -195,11 +195,11 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTTG(IP)
           EL_LAST  = INV_GROUP%INDPARTTG(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTTG(EL)
             CLAUSE%SH3N(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
         IWORK(1:70000) = 0
         SORT(1:CLAUSE%NB_SH3N) = CLAUSE%SH3N(1:CLAUSE%NB_SH3N)
@@ -229,11 +229,11 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTTRIA(IP)
           EL_LAST  = INV_GROUP%INDPARTTRIA(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTTRIA(EL)
             CLAUSE%TRIA(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
         IWORK(1:70000) = 0
         SORT(1:CLAUSE%NB_TRIA) = CLAUSE%SH3N(1:CLAUSE%NB_TRIA)
@@ -262,17 +262,17 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTT(IP)
           EL_LAST  = INV_GROUP%INDPARTT(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTT(EL)
             CLAUSE%TRUSS(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
 
         IWORK(1:70000) = 0
         SORT(1:CLAUSE%NB_TRUSS) = CLAUSE%TRUSS(1:CLAUSE%NB_TRUSS)
         CALL MY_ORDERS(0,IWORK,SORT,INDX,CLAUSE%NB_TRUSS,1)
-        
+
         DO I=1,CLAUSE%NB_TRUSS
            CLAUSE%TRUSS(I) = SORT(INDX(I))
         ENDDO
@@ -298,16 +298,16 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTP(IP)
           EL_LAST  = INV_GROUP%INDPARTP(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTP(EL)
             CLAUSE%BEAM(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
         IWORK(1:70000) = 0
         SORT(1:CLAUSE%NB_BEAM) = CLAUSE%BEAM(1:CLAUSE%NB_BEAM)
         CALL MY_ORDERS(0,IWORK,SORT,INDX,CLAUSE%NB_BEAM,1)
-        
+
         DO I=1,CLAUSE%NB_BEAM
            CLAUSE%BEAM(I) = SORT(INDX(I))
         ENDDO
@@ -335,16 +335,16 @@ C=======================================================================
           IP=CLAUSE%PART(ID)
           EL_FIRST = INV_GROUP%INDPARTR(IP)
           EL_LAST  = INV_GROUP%INDPARTR(IP+1)-1
-          DO EL=EL_FIRST,EL_LAST 
+          DO EL=EL_FIRST,EL_LAST
             IND = IND+1
             IE = INV_GROUP%PARTR(EL)
             CLAUSE%SPRING(IND) = IE
-          ENDDO 
+          ENDDO
         ENDDO
         IWORK(1:70000) = 0
         SORT(1:CLAUSE%NB_SPRING) = CLAUSE%SPRING(1:CLAUSE%NB_SPRING)
         CALL MY_ORDERS(0,IWORK,SORT,INDX,CLAUSE%NB_SPRING,1)
-        
+
         DO I=1,CLAUSE%NB_SPRING
            CLAUSE%SPRING(I) = SORT(INDX(I))
         ENDDO

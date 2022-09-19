@@ -50,7 +50,7 @@ C----------------------------------------------------------
       my_real :: ABX,ABY,ABZ,ACX,ACY,ACZ,BCX,BCY,BCZ,CDX,CDY,CDZ,DAX,DAY,DAZ,
      .   UX,UY,UZ,VX,VY,VZ,WX,WY,WZ,QX,QY,QZ,QA_X,QA_Y,QA_Z,QB_X,QB_Y,QB_Z,
      .   QC_X,QC_Y,QC_Z,MX,MY,MZ,MPX,MPY,MPZ,
-     .   AMX,AMY,AMZ,BMX,BMY,BMZ,CMX,CMY,CMZ,DMX,DMY,DMZ, 
+     .   AMX,AMY,AMZ,BMX,BMY,BMZ,CMX,CMY,CMZ,DMX,DMY,DMZ,
      .   N1X,N1Y,N1Z,N2X,N2Y,N2Z,N3X,N3Y,N3Z,N4X,N4Y,N4Z,
      .   SX,SY,SZ,D,D1,D2,D3,D4,NORM1,A1,A2,NORM2,NORM3,NORM4
 C=======================================================================
@@ -75,7 +75,7 @@ c     calculate distance to 4 planes defined by each segment
       N1Z = AMX*ABY - AMY*ABX
       NORM1 = SQRT(N1X*N1X + N1Y*N1Y + N1Z*N1Z)
       D1    = ABS(N1X*MPX + N1Y*MPY + N1Z*MPZ) / NORM1
-c      
+c
       BCX = CX - BX
       BCY = CY - BY
       BCZ = CZ - BZ
@@ -87,7 +87,7 @@ c
       N2Z = BMX*BCY - BMY*BCX
       NORM2 = SQRT(N2X*N2X + N2Y*N2Y + N2Z*N2Z)
       D2    = ABS(N2X*MPX + N2Y*MPY + N2Z*MPZ) / NORM2
-c      
+c
       CDX = DX - CX
       CDY = DY - CY
       CDZ = DZ - CZ
@@ -99,7 +99,7 @@ c
       N3Z = CMX*CDY - CMY*CDX
       NORM3 = SQRT(N3X*N3X + N3Y*N3Y + N3Z*N3Z)
       D3    = ABS(N3X*MPX + N3Y*MPY + N3Z*MPZ) / NORM3
-c      
+c
       DAX = AX - DX
       DAY = AY - DY
       DAZ = AZ - DZ
@@ -111,16 +111,16 @@ c
       N4Z = DMX*DAY - DMY*DAX
       NORM4 = SQRT(N4X*N4X + N4Y*N4Y + N4Z*N4Z)
       D4    = ABS(N4X*MPX + N4Y*MPY + N4Z*MPZ) / NORM4
-c---------------------------------------------------     
+c---------------------------------------------------
       DIST = MIN(D1,D2)
       DIST = MIN(DIST,D3)
-      DIST = MIN(DIST,D4)      
+      DIST = MIN(DIST,D4)
       IF (DIST > DMAX .or. DIST < DMIN) RETURN  ! distance is outside of valid range
 c---------------------------------------------------
 c     check if projection is inside sub-segments
 c     Q = projection of NODE on segment plane using normal(NPX,NPY,NPZ)
 c---------------------------------------------------
-c     1st sub-segment :       
+c     1st sub-segment :
       QX = NOD_X - D1*N1X / NORM1
       QY = NOD_Y - D1*N1Y / NORM1
       QZ = NOD_Z - D1*N1Z / NORM1
@@ -138,9 +138,9 @@ c
         DIST = D1
         OK   = 1
       END IF
-c      
+c
       IF (OK == 0) THEN
-c       Test 2nd sub-segment :       
+c       Test 2nd sub-segment :
         QX = NOD_X - D2*N2X / NORM2
         QY = NOD_Y - D2*N2Y / NORM2
         QZ = NOD_Z - D2*N2Z / NORM2
@@ -159,7 +159,7 @@ c
         END IF
       END IF
       IF (OK == 0) THEN
-c       Test 3rd sub-segment :       
+c       Test 3rd sub-segment :
         QX = NOD_X - D3*N3X / NORM3
         QY = NOD_Y - D3*N3Y / NORM3
         QZ = NOD_Z - D3*N3Z / NORM3
@@ -178,7 +178,7 @@ c
         END IF
       END IF
       IF (OK == 0) THEN
-c       Test 4rd sub-segment :       
+c       Test 4rd sub-segment :
         QX = NOD_X - D3*N3X / NORM4
         QY = NOD_Y - D3*N3Y / NORM4
         QZ = NOD_Z - D3*N3Z / NORM4

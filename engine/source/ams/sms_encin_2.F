@@ -101,7 +101,7 @@ C-----------------------------------------------
      .         FR_RBE2M(*), NMRBE2, R2SIZE, IRBE3(NRBE3L,*), LRBE3(*),
      .         IAD_RBE3M(*) ,FR_RBE3M(*) ,FR_RBE3MP(*),
      .         FR_RBY6(*) ,IAD_RBY(*) ,LPBY(*) ,TAGMSR_RBY_SMS(*),R3SIZE,
-     .         NODII_SMS(*),INDX2_SMS(*),IBCSCYC(*),LBCSCYC(*) 
+     .         NODII_SMS(*),INDX2_SMS(*),IBCSCYC(*),LBCSCYC(*)
       my_real
      .    MS(*), DIAG_SMS(*), LT_SMS(*),
      .    V(3,*), A(3,*), WV(3,*), WMV(3,*), WDG(*),  XMOM_SMS(3,*),
@@ -353,7 +353,7 @@ C----
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2>0.OR.R2SIZE>0) THEN      
+      IF (NRBE2>0.OR.R2SIZE>0) THEN
 C
         CALL MY_BARRIER
 C

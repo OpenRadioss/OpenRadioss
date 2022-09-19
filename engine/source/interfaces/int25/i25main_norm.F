@@ -78,10 +78,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JTASK
       INTEGER IPARI(NPARI,NINTER), INTLIST25(*), ITAB(*),
-     .        IAD_FRNOR(NINTER25,*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*), 
+     .        IAD_FRNOR(NINTER25,*), FR_NOR(*), IAD_FREDG(NINTER25,*), FR_EDG(*),
      .        IAD_ELEM(2,*), FR_ELEM(*),ADDCSRECT(*), PROCNOR(*)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), SENSOR(NSENSR,*)
       TYPE(INTBUF_STRUCT_),DIMENSION(NINTER) :: INTBUF_TAB
       TYPE(MPI_COMM_NOR_STRUCT) , DIMENSION(NINTER25) :: BUFFERS
@@ -112,7 +112,7 @@ C
       NCSHIFT = 1
       ISHIFT = 0
       DO NI25=1,NINTER25
-     
+
         N = INTLIST25(NI25)
 C
         STARTT=INTBUF_TAB(N)%VARIABLES(3)
@@ -120,7 +120,7 @@ C
         IF(STARTT>TT) CYCLE
         IF(TT>STOPT)  CYCLE
 C
-        ISENS = IPARI(64,N)  
+        ISENS = IPARI(64,N)
         IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
@@ -173,8 +173,8 @@ C
         NSN    = IPARI(5,N)
         NSNR   = IPARI(24,N)
 
-        
- 
+
+
         NRTM_SH=IPARI(42,N)
         NRTM0  =NRTM-NRTM_SH
         FLAGREMN = IPARI(63,N)
@@ -186,9 +186,9 @@ C
 
         CALL I25TAGN(NI25    ,N       ,NRTM     ,NSN         ,NSNR      ,
      2               JTASK   ,IAD_FRNOR ,FR_NOR  ,INTBUF_TAB(N)%IRTLM,INTBUF_TAB(N)%MSEGTYP24  ,
-     3               INTBUF_TAB(N)%I_STOK(2), INTBUF_TAB(N)%I_STOK(3), INTBUF_TAB(N)%CAND_OPT_E, 
-     .                           INTBUF_TAB(N)%STFNS, INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%IRECTM,    
-     4               TAGNOD,IAD_ELEM,FR_ELEM ,INTBUF_TAB(N)%ADMSR,INTBUF_TAB(N)%KNOR2MSR, 
+     3               INTBUF_TAB(N)%I_STOK(2), INTBUF_TAB(N)%I_STOK(3), INTBUF_TAB(N)%CAND_OPT_E,
+     .                           INTBUF_TAB(N)%STFNS, INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%IRECTM,
+     4               TAGNOD,IAD_ELEM,FR_ELEM ,INTBUF_TAB(N)%ADMSR,INTBUF_TAB(N)%KNOR2MSR,
      5               INTBUF_TAB(N)%NOR2MSR,FLAGREMN,INTBUF_TAB(N)%KREMNOR,INTBUF_TAB(N)%REMNOR,
      6               IEDGE, NEDGE, INTBUF_TAB(N)%LEDGE,INTBUF_TAB(N)%NRTM_FREE,
      .                                    INTBUF_TAB(N)%FREE_IRECT_ID,INTBUF_TAB(N)%I_STOK_E(2),
@@ -208,7 +208,7 @@ C
 
         CALL I25NORMP(
      1    NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
-     2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
+     2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   ,
      .                        JTASK,INTBUF_TAB(N)%STFM,INTBUF_TAB(N)%STFE,
      3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,TAGNOD,
      .                        INTBUF_TAB(N)%MVOISIN,INTBUF_TAB(N)%EVOISIN,
@@ -235,7 +235,7 @@ C     ALLOCATE(TAGSEG(1,1))
       NCSHIFT = 1
       ISHIFT = 0
       DO NI25=1,NINTER25
-     
+
         N = INTLIST25(NI25)
 C
         STARTT=INTBUF_TAB(N)%VARIABLES(3)
@@ -243,7 +243,7 @@ C
         IF(STARTT>TT) CYCLE
         IF(TT>STOPT)  CYCLE
 C
-        ISENS = IPARI(64,N)  
+        ISENS = IPARI(64,N)
         IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
@@ -268,7 +268,7 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
 
         CALL I25NORMP(
      1    NI25,NRTM,NRTM0,INTBUF_TAB(N)%IRECTM,X           ,
-     2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   , 
+     2    INTBUF_TAB(N)%EDGE_BISECTOR,IPARI(6,N),INTBUF_TAB(N)%MSR   ,
      .                    JTASK,INTBUF_TAB(N)%STFM,INTBUF_TAB(N)%STFE,
      3    INTBUF_TAB(N)%ACTNOR,INTBUF_TAB(N)%MSEGTYP24,TAGNOD,
      .                    INTBUF_TAB(N)%MVOISIN,INTBUF_TAB(N)%EVOISIN,
@@ -312,7 +312,7 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
 
         IF(SOL_EDGE/=0)THEN
 
-          ISENS = IPARI(64,N)  
+          ISENS = IPARI(64,N)
           IF(ISENS/=0)  THEN         ! Interface activated by sensor
              TS = SENSOR(2,ISENS)
           ELSE
@@ -330,7 +330,7 @@ C       NEDGE  = IPARI(68,N) ! Updated in i25normp
         ENDIF
 
       END DO
-c          CALL STARTIME(MACRO_TIMER_T25NORM,1)  
+c          CALL STARTIME(MACRO_TIMER_T25NORM,1)
 C
       CALL MY_BARRIER()
       IF(JTASK==1) DEALLOCATE(TAGNOD, WNOD_NORMAL,TAGE)

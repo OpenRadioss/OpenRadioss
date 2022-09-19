@@ -27,9 +27,9 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE SIGEPS103(
-     A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   , 
-     B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  , 
-     C      RHO0   , RHO    , VOLUME , EINT    ,  
+     A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   ,
+     B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  ,
+     C      RHO0   , RHO    , VOLUME , EINT    ,
      D      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX,
      E      EPSXX  , EPSYY  , EPSZZ  , EPSXY   , EPSYZ   , EPSZX ,
      F      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX,
@@ -102,13 +102,13 @@ C----------------------------------------------------------------
       M1      = UPARAM(4)
       M2      = UPARAM(5)
       M3      = UPARAM(6)
-      M4      = UPARAM(7) 
-      M5      = UPARAM(8) 
-      M7      = UPARAM(9) 
-      RCP     = UPARAM(10) 
-      TINI    = UPARAM(11) 
-      ETA     = UPARAM(12) 
-      T0K     = UPARAM(13) 
+      M4      = UPARAM(7)
+      M5      = UPARAM(8)
+      M7      = UPARAM(9)
+      RCP     = UPARAM(10)
+      TINI    = UPARAM(11)
+      ETA     = UPARAM(12)
+      T0K     = UPARAM(13)
       EPS0    = UPARAM(14)
       G2      = TWO*G
       G3      = THREE*G
@@ -116,14 +116,14 @@ C----------------------------------------------------------------
       IF(DT1 == ZERO)THEN
         DO I=1,NEL
            UVAR(I,1) = TINI
-        ENDDO  
+        ENDDO
       ENDIF
 
       DO I=1,NEL
          POLD(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
          DAVG(I) =  (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
          EPS(I)  = EPS0 + PLA(I)
-      ENDDO  
+      ENDDO
 C-----------------------------------------------------------------------
 C  Elastic deviatoric stress tensor
 C-----------------------------------------------------------------------
@@ -181,8 +181,8 @@ C Hardening scale factor
       IF(M7 /= ZERO) THEN
           DO I=1,NEL
              IF(EPS(I) > ZERO) YLD_H(I) = YLD_H(I) * EXP(M7*EPS(I))
-          ENDDO          
-      ENDIF 
+          ENDDO
+      ENDIF
 C Strain rate scale factor; convert strain rate in second-1
       IF(M3 /= ZERO) THEN
 	    DO I=1,NEL

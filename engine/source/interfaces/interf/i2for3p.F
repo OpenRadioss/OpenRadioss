@@ -52,7 +52,7 @@ C     REAL
       my_real
      .   X(*),V(*),A(*), CRST(2,*), MS(*), STIFN(*), MMASS(*),
      .   FSKYI2(I2SIZE,*), SMASS(*),FSAV(*),FNCONT(3,*),CSTS_BIS(2,*),
-     .   FNCONTP(3,*)   ,FTCONTP(3,*) 
+     .   FNCONTP(3,*)   ,FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -217,7 +217,7 @@ C
            MS(I)=ZERO
            A(I1)=ZERO
            A(I2)=ZERO
-           A(I3)=ZERO  
+           A(I3)=ZERO
           ENDIF
 
 C stokage ZERO pour noeuds delete par idel2
@@ -284,7 +284,7 @@ C-----------------------------------------------
      .   MSR(*), NSV(*), WEIGHT(*), IRTL(*)
 C     REAL
       my_real
-     .   X(*),V(*),A(*),CRST(2,*),MS(*),STIFN(*), MMASS(*),FSAV(*), 
+     .   X(*),V(*),A(*),CRST(2,*),MS(*),STIFN(*), MMASS(*),FSAV(*),
      .   FSKYI2(I2SIZE,*),FNCONT(3,*), CSTS_BIS(2,*),
      .   FNCONTP(3,*),FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
@@ -520,7 +520,7 @@ C-----------------------------------------------
      .   MSR(*), NSV(*), WEIGHT(*), IRTL(*)
 C     REAL
       my_real
-     .   X(*),V(*),A(*), CRST(2,*), MS(*), STIFN(*), MMASS(*),FSAV(*), 
+     .   X(*),V(*),A(*), CRST(2,*), MS(*), STIFN(*), MMASS(*),FSAV(*),
      .   FSKYI2(I2SIZE,*),FNCONT(3,*),CSTS_BIS(2,*),
      .   FNCONTP(3,*),FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
@@ -791,8 +791,8 @@ C
          Y4 = X(2,IRECT(4,L))
          Z4 = X(3,IRECT(4,L))
 C
-         XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
-         YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
+         XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)
+         YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)
          ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4)
 C
          XC0=X0-XC
@@ -986,8 +986,8 @@ C
        Y4 = X(2,IRECT(4,L))
        Z4 = X(3,IRECT(4,L))
 C
-       XC = X1 * H1 + X2 * H2 + X3 * H3 + X4 * H4  
-       YC = Y1 * H1 + Y2 * H2 + Y3 * H3 + Y4 * H4  
+       XC = X1 * H1 + X2 * H2 + X3 * H3 + X4 * H4
+       YC = Y1 * H1 + Y2 * H2 + Y3 * H3 + Y4 * H4
        ZC = Z1 * H1 + Z2 * H2 + Z3 * H3 + Z4 * H4
 C
        XC0=X0-XC
@@ -1007,67 +1007,67 @@ C
        MZI = AR(3,I) + XC0 * FYI - YC0 * FXI
 C
        I0 = I0 + 1
-       INMX = ZERO                        
-       DO J = 1,NIR                       
-         INMX = MAX(INMX,IN(IRECT(J,L)))  
-       ENDDO                              
-       IF (INMX > EM20) THEN  
+       INMX = ZERO
+       DO J = 1,NIR
+         INMX = MAX(INMX,IN(IRECT(J,L)))
+       ENDDO
+       IF (INMX > EM20) THEN
          NN = IADI2(1,I0)
-         FSKYI2(6,NN) = MXI*H1 
-         FSKYI2(7,NN) = MYI*H1 
-         FSKYI2(8,NN) = MZI*H1 
-         FSKYI2(9,NN) = INS*H21 
-         FSKYI2(10,NN)= STF*H1 
+         FSKYI2(6,NN) = MXI*H1
+         FSKYI2(7,NN) = MYI*H1
+         FSKYI2(8,NN) = MZI*H1
+         FSKYI2(9,NN) = INS*H21
+         FSKYI2(10,NN)= STF*H1
 C
-         NN = IADI2(2,I0)      
-         FSKYI2(6,NN) = MXI*H2 
-         FSKYI2(7,NN) = MYI*H2 
-         FSKYI2(8,NN) = MZI*H2 
-         FSKYI2(9,NN) = INS*H22 
-         FSKYI2(10,NN)= STF*H2 
+         NN = IADI2(2,I0)
+         FSKYI2(6,NN) = MXI*H2
+         FSKYI2(7,NN) = MYI*H2
+         FSKYI2(8,NN) = MZI*H2
+         FSKYI2(9,NN) = INS*H22
+         FSKYI2(10,NN)= STF*H2
 C
-         NN = IADI2(3,I0)      
-         FSKYI2(6,NN) = MXI*H3 
-         FSKYI2(7,NN) = MYI*H3 
-         FSKYI2(8,NN) = MZI*H3 
-         FSKYI2(9,NN) = INS*H23 
-         FSKYI2(10,NN)= STF*H3 
+         NN = IADI2(3,I0)
+         FSKYI2(6,NN) = MXI*H3
+         FSKYI2(7,NN) = MYI*H3
+         FSKYI2(8,NN) = MZI*H3
+         FSKYI2(9,NN) = INS*H23
+         FSKYI2(10,NN)= STF*H3
 C
-         NN = IADI2(4,I0)      
-         FSKYI2(6,NN) = MXI*H4 
-         FSKYI2(7,NN) = MYI*H4 
-         FSKYI2(8,NN) = MZI*H4 
-         FSKYI2(9,NN) = INS*H24 
-         FSKYI2(10,NN)= STF*H4 
-       ELSE                   
-         NN = IADI2(1,I0)     
-         FSKYI2(6,NN) = ZERO  
-         FSKYI2(7,NN) = ZERO  
-         FSKYI2(8,NN) = ZERO  
-         FSKYI2(9,NN) = ZERO  
-         FSKYI2(10,NN)= ZERO  
+         NN = IADI2(4,I0)
+         FSKYI2(6,NN) = MXI*H4
+         FSKYI2(7,NN) = MYI*H4
+         FSKYI2(8,NN) = MZI*H4
+         FSKYI2(9,NN) = INS*H24
+         FSKYI2(10,NN)= STF*H4
+       ELSE
+         NN = IADI2(1,I0)
+         FSKYI2(6,NN) = ZERO
+         FSKYI2(7,NN) = ZERO
+         FSKYI2(8,NN) = ZERO
+         FSKYI2(9,NN) = ZERO
+         FSKYI2(10,NN)= ZERO
 C
-         NN = IADI2(2,I0)     
-         FSKYI2(6,NN) = ZERO  
-         FSKYI2(7,NN) = ZERO  
-         FSKYI2(8,NN) = ZERO  
-         FSKYI2(9,NN) = ZERO  
-         FSKYI2(10,NN)= ZERO  
+         NN = IADI2(2,I0)
+         FSKYI2(6,NN) = ZERO
+         FSKYI2(7,NN) = ZERO
+         FSKYI2(8,NN) = ZERO
+         FSKYI2(9,NN) = ZERO
+         FSKYI2(10,NN)= ZERO
 C
-         NN = IADI2(3,I0)     
-         FSKYI2(6,NN) = ZERO  
-         FSKYI2(7,NN) = ZERO  
-         FSKYI2(8,NN) = ZERO  
-         FSKYI2(9,NN) = ZERO  
-         FSKYI2(10,NN)= ZERO  
+         NN = IADI2(3,I0)
+         FSKYI2(6,NN) = ZERO
+         FSKYI2(7,NN) = ZERO
+         FSKYI2(8,NN) = ZERO
+         FSKYI2(9,NN) = ZERO
+         FSKYI2(10,NN)= ZERO
 C
-         NN = IADI2(4,I0)     
-         FSKYI2(6,NN) = ZERO  
-         FSKYI2(7,NN) = ZERO  
-         FSKYI2(8,NN) = ZERO  
-         FSKYI2(9,NN) = ZERO  
-         FSKYI2(10,NN)= ZERO  
-       END IF                 
+         NN = IADI2(4,I0)
+         FSKYI2(6,NN) = ZERO
+         FSKYI2(7,NN) = ZERO
+         FSKYI2(8,NN) = ZERO
+         FSKYI2(9,NN) = ZERO
+         FSKYI2(10,NN)= ZERO
+       END IF
       ENDIF
       STIFR(I)=EM20
       IN(I)=ZERO
@@ -1169,17 +1169,17 @@ C
        IF(I>0)THEN
         L=IRTL(II)
 C
-        S = CRST(1,II)    
-        T = CRST(2,II)    
-        SP=ONE + S          
-        SM=ONE - S          
-        TP=FOURTH*(ONE + T)  
+        S = CRST(1,II)
+        T = CRST(2,II)
+        SP=ONE + S
+        SM=ONE - S
+        TP=FOURTH*(ONE + T)
         TM=FOURTH*(ONE - T)
 C  
-        H(1)=ONE/NIR                                         
-        H(2)=ONE/NIR                                          
-        H(3)=ONE/NIR                                          
-        H(4)=ONE/NIR                                        
+        H(1)=ONE/NIR
+        H(2)=ONE/NIR
+        H(3)=ONE/NIR
+        H(4)=ONE/NIR
 C
         J1=IRECT(1,L)
         J2=IRECT(2,L)
@@ -1219,28 +1219,28 @@ C
         X12=X1*X1
         X22=X2*X2
         X32=X3*X3
-        X42=X4*X4 
+        X42=X4*X4
         Y12=Y1*Y1
         Y22=Y2*Y2
         Y32=Y3*Y3
-        Y42=Y4*Y4 
-        Z12=Z1*Z1 
+        Y42=Y4*Y4
+        Z12=Z1*Z1
         Z22=Z2*Z2
-        Z32=Z3*Z3 
-        Z42=Z4*Z4 
-        XX=X12 + X22 + X32 + X42 
-        YY=Y12 + Y22 + Y32 + Y42 
-        ZZ=Z12 + Z22 + Z32 + Z42 
-        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4 
-        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4 
+        Z32=Z3*Z3
+        Z42=Z4*Z4
+        XX=X12 + X22 + X32 + X42
+        YY=Y12 + Y22 + Y32 + Y42
+        ZZ=Z12 + Z22 + Z32 + Z42
+        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4
+        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4
         ZX=Z1*X1 + Z2*X2 + Z3*X3 + Z4*X4
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
-        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+        DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .                                       - TWO*XY*YZ*ZX
         DET=ONE/DET
         B1=ZZZ*YYY-YZ2
@@ -1330,7 +1330,7 @@ C
          FSKYI2(7,NN) = ZERO
          FSKYI2(8,NN) = ZERO
          FSKYI2(9,NN) = ZERO
-         FSKYI2(10,NN)= ZERO     
+         FSKYI2(10,NN)= ZERO
          NN = IADI2(4,I0)
          FSKYI2(1,NN) =  FX0 + A2*Z4 - A3*Y4
          FSKYI2(2,NN) =  FY0 + A3*X4 - A1*Z4
@@ -1341,7 +1341,7 @@ C
          FSKYI2(7,NN) = ZERO
          FSKYI2(8,NN) = ZERO
          FSKYI2(9,NN) = ZERO
-         FSKYI2(10,NN)= ZERO       
+         FSKYI2(10,NN)= ZERO
 C
          DMAST = DMAST + 4.*XMSI - MS(I)
          IF (ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS >0) THEN
@@ -1361,7 +1361,7 @@ C
 C---    output of tied contact forces
  	CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	              IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
-     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)                       
+     .                FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
 C----
 C stokage ZERO pour noeuds delete par idel2
        ELSEIF(WEIGHT(-I)==1) THEN
@@ -1398,7 +1398,7 @@ C stokage ZERO pour noeuds delete par idel2
          FSKYI2(7,NN) = ZERO
          FSKYI2(8,NN) = ZERO
          FSKYI2(9,NN) = ZERO
-         FSKYI2(10,NN)= ZERO     
+         FSKYI2(10,NN)= ZERO
          NN = IADI2(4,I0)
          FSKYI2(1,NN) = ZERO
          FSKYI2(2,NN) = ZERO
@@ -1409,7 +1409,7 @@ C stokage ZERO pour noeuds delete par idel2
          FSKYI2(7,NN) = ZERO
          FSKYI2(8,NN) = ZERO
          FSKYI2(9,NN) = ZERO
-         FSKYI2(10,NN)= ZERO 
+         FSKYI2(10,NN)= ZERO
        ENDIF
       ENDDO
 C

@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD    
+      USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -81,11 +81,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK ,NC,N_MUL_MX ,NKMAX , NME, NMES  
+      INTEGER NIN,ITASK ,NC,N_MUL_MX ,NKMAX , NME, NMES
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*)
 C     REAL
-      my_real 
+      my_real
      .        X(3,*), EMINX(6,*), SIZE_T(*),
      .        XSLV_L(*), XMSR_L(*)
 
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NAD,EAD,LWAT,
-     .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND 
+     .        IGN,IGE,MULTIMP,NOINT,I,MX_CAND
 C     REAL
       my_real
      .        STARTT, STOPT,XX,XY,XZ,TZINF,MINBOX,
@@ -168,7 +168,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE GROUPDEF_MOD   
+      USE GROUPDEF_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C
@@ -208,11 +208,11 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc" 
+#include      "warn_c.inc"
 #include      "scr17_c.inc"
       COMMON /I17MAINC/BMINMA,NMESR
       INTEGER NMESR
-      my_real 
+      my_real
      .        BMINMA(6)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -221,9 +221,9 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*),WEIGHT(*),
      .        ISENDTO(*),IRECVFROM(*),IAD_ELEM(*),FR_ELEM(*),
-     .        ITAB(*)   
+     .        ITAB(*)
 C     REAL
-      my_real 
+      my_real
      .    X(3,*), V(3,*), EMINX(6,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -387,7 +387,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
       USE H3D_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -431,13 +431,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NIN,ITASK,NISKYFI   
+      INTEGER NIN,ITASK,NISKYFI
       INTEGER IPARI(NPARI,NINTER),
      .        IXS(NIXS,*)  ,IXS16(8,*)  ,IXS20(12,*) ,ISKY(*)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),EMINX(6,*),STIFN(*),
-     .   FSKYI(*), FSAV(*),FCONT(3,*)   
+     .   FSKYI(*), FSAV(*),FCONT(3,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -479,7 +479,7 @@ C LSKYI17 fonction de IMAXIMP : nombre d'impacts max defini dans starter/lecint
       IF(TT>STOPT)  RETURN
 C -------------------------------------------------------------
 C -------------------------------------------------------------
-       CALL MY_BARRIER 
+       CALL MY_BARRIER
 C=======================================================================
 C      CONTACT
 C=======================================================================

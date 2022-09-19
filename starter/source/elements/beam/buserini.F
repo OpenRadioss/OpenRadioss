@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      USE MESSAGE_MOD           
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C=======================================================================
             NUVAR = ELBUF_STR%BUFLY(ILAY)%NVAR_MAT
             UVAR => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IPT)%VAR
             DO NU = 1,MIN(NVARS,NUVAR)
-              UVAR((NU-1)*NEL + I) = 
+              UVAR((NU-1)*NEL + I) =
      .              SIGBEAM(NVBEAM + 4  + NU + (IPT -1)*NVARS,JJ)
             ENDDO
           ENDDO  !  DO ILAY=1,NPT

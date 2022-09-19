@@ -37,8 +37,8 @@ Chd|====================================================================
      4                           F37,F18,F28,F38,OFF,
      5                           LFT,LLT,NEL)
 !       **********************************************
-!       For ALE computation, ones needs to set Fij to 
-!       0 for inactive elements because the cumulative 
+!       For ALE computation, ones needs to set Fij to
+!       0 for inactive elements because the cumulative
 !       terms B are non-zero for ALE computation :
 !       Fij = Fij + B
 !       ALE --> B /= 0 --> Fij /= 0

@@ -67,9 +67,9 @@ C Boucle parallele dynamique SMP
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
-        IXFEM = IPARG(54,NG) 
+        IXFEM = IPARG(54,NG)
         GOFF  = IPARG(8,NG)     ! GROUP OFF
-        XOFF  = IPARG(70,NG)    ! XFEEM GROUP ACTIVITY FLAG   
+        XOFF  = IPARG(70,NG)    ! XFEEM GROUP ACTIVITY FLAG
         IF (IXFEM == 0 .or. GOFF == 1 .or. XOFF == 0) CYCLE
         ITY  = IPARG(5,NG)
         NEL  = IPARG(2,NG)
@@ -94,9 +94,9 @@ C Boucle parallele dynamique SMP
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
-        IXFEM = IPARG(54,NG) 
+        IXFEM = IPARG(54,NG)
         GOFF  = IPARG(8,NG)     ! GROUP OFF
-        XOFF  = IPARG(70,NG)    ! XFEEM GROUP ACTIVITY FLAG   
+        XOFF  = IPARG(70,NG)    ! XFEEM GROUP ACTIVITY FLAG
         IF (IXFEM == 0 .or. GOFF == 1 .or. XOFF == 0) CYCLE
         ITY  = IPARG(5,NG)
         NEL  = IPARG(2,NG)
@@ -156,14 +156,14 @@ C-----------------------------------------------
       INTEGER I,II,K,ILAY,IXEL,ILEV,IL,ICUT,ELEM,ELCRK,IAD,ITRI,EN,EN0,EN1
 C=======================================================================
       DO ILAY=1,NXLAY
-        II = NXEL*(ILAY-1)    
+        II = NXEL*(ILAY-1)
         DO I=1,NEL
-          ELEM = I+NFT                                              
+          ELEM = I+NFT
           ELCRK = IEL_CRK(ELEM)
-          ICUT  = ELCUTC(1,ELEM)                                       
+          ICUT  = ELCUTC(1,ELEM)
           IF (ELCRK > 0 .and. ICUT > 0) THEN
-            ITRI = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)                 
-c                  print*,'vit2 :ELCRK,ITRI=',  ELCRK,ITRI                                
+            ITRI = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)
+c                  print*,'vit2 :ELCRK,ITRI=',  ELCRK,ITRI
 c----
             IF (ITRI < 0) THEN    ! copy IXEL=3 => IXEL=2
               IXEL = 2
@@ -173,22 +173,22 @@ c----
                 EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
                 EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
-                  IL  = ILEV+1                                         
-                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
+                  IL  = ILEV+1
+                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)
                   IF (EN1 > 0) THEN
-                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)        
-                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)        
-                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)        
-                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)        
-                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)        
-                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)        
-                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)       
-                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)       
-                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)       
-                  ENDIF                                                
-                ENDIF                                                
+                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)
+                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)
+                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)
+                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)
+                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)
+                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)
+                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)
+                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)
+                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)
+                  ENDIF
+                ENDIF
               ENDDO
-            ELSEIF (ITRI > 0) THEN        ! copy IXEL=3 => IXEL=1          
+            ELSEIF (ITRI > 0) THEN        ! copy IXEL=3 => IXEL=1
               IXEL = 1
               ILEV = II + IXEL
               DO K=1,4
@@ -196,26 +196,26 @@ c----
                 EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
                 EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
-                  IL  = ILEV+2                                            
-                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
-                  IF (EN1 > 0) THEN                                    
-                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)        
-                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)        
-                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)        
-                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)        
-                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)        
-                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)        
-                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)       
-                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)       
-                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)       
-                  ENDIF                                                
-                ENDIF                                                
-              ENDDO                                            
+                  IL  = ILEV+2
+                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)
+                  IF (EN1 > 0) THEN
+                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)
+                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)
+                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)
+                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)
+                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)
+                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)
+                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)
+                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)
+                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)
+                  ENDIF
+                ENDIF
+              ENDDO
             END IF
 c----
           END IF
-        ENDDO      
-      ENDDO        
+        ENDDO
+      ENDDO
 c-----------
       RETURN
       END
@@ -257,16 +257,16 @@ C-----------------------------------------------
      .   IAD,ITRI,EN,EN0,EN1
 C=======================================================================
       DO ILAY=1,NXLAY
-        II = NXEL*(ILAY-1)    
+        II = NXEL*(ILAY-1)
         DO I=1,NEL
-          ELEM    = I+NFT                                              
-          ELCRKTG = IEL_XTG(ELEM)                                              
-          ICUT    = ELCUTG(1,ELEM)                                       
+          ELEM    = I+NFT
+          ELCRKTG = IEL_XTG(ELEM)
+          ICUT    = ELCUTG(1,ELEM)
           IF (ELCRKTG > 0 .and. ICUT > 0) THEN
             ELCRK = ELCRKTG + ECRKXFEC
-            ITRI  = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)                 
+            ITRI  = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)
 c----
-            IF (ITRI < 0) THEN    
+            IF (ITRI < 0) THEN
               IXEL = 2
               ILEV = II + IXEL
               DO K=1,3
@@ -274,22 +274,22 @@ c----
                 EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
                 EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
-                  IL  = ILEV+1                                         
-                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
-                  IF (EN1 > 0) THEN                                    
-                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)        
-                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)        
-                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)        
-                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)        
-                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)        
-                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)        
-                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)       
-                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)       
-                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)       
-                  ENDIF                                                
-                ENDIF                                                
+                  IL  = ILEV+1
+                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)
+                  IF (EN1 > 0) THEN
+                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)
+                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)
+                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)
+                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)
+                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)
+                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)
+                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)
+                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)
+                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)
+                  ENDIF
+                ENDIF
               ENDDO
-            ELSEIF (ITRI > 0) THEN              
+            ELSEIF (ITRI > 0) THEN
               IXEL = 1
               ILEV = II + IXEL
               DO K=1,3
@@ -297,26 +297,26 @@ c----
                 EN0 = CRKLVSET(ILEV)%ENR0(2,IAD)  ! enr initial du debut de cycle
                 EN  = CRKLVSET(ILEV)%ENR0(1,IAD)  ! enr mise a jour dans le cycle
                 IF (EN0 < 0 .and. EN > 0) THEN
-                  IL  = ILEV+2                                            
-                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)                        
-                  IF (EN1 > 0) THEN                                    
-                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)        
-                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)        
-                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)        
-                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)        
-                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)        
-                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)        
-                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)       
-                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)       
-                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)       
-                  ENDIF                                                
-                ENDIF                                                
-              ENDDO                                            
+                  IL  = ILEV+2
+                  EN1 = CRKLVSET(IL)%ENR0(2,IAD)
+                  IF (EN1 > 0) THEN
+                    CRKAVX(ILEV)%X(1,IAD)  = CRKAVX(IL)%X(1,IAD)
+                    CRKAVX(ILEV)%X(2,IAD)  = CRKAVX(IL)%X(2,IAD)
+                    CRKAVX(ILEV)%X(3,IAD)  = CRKAVX(IL)%X(3,IAD)
+                    CRKAVX(ILEV)%V(1,IAD)  = CRKAVX(IL)%V(1,IAD)
+                    CRKAVX(ILEV)%V(2,IAD)  = CRKAVX(IL)%V(2,IAD)
+                    CRKAVX(ILEV)%V(3,IAD)  = CRKAVX(IL)%V(3,IAD)
+                    CRKAVX(ILEV)%VR(1,IAD) = CRKAVX(IL)%VR(1,IAD)
+                    CRKAVX(ILEV)%VR(2,IAD) = CRKAVX(IL)%VR(2,IAD)
+                    CRKAVX(ILEV)%VR(3,IAD) = CRKAVX(IL)%VR(3,IAD)
+                  ENDIF
+                ENDIF
+              ENDDO
             END IF
 c----
           END IF
-        ENDDO      
-      ENDDO        
+        ENDDO
+      ENDDO
 c-----------
       RETURN
       END
@@ -358,69 +358,69 @@ C-----------------------------------------------
      .   ICUT,ELCRK,IADS,IADR,EN,EN0,EN1,EDGE,BOUNDEDGE
 C=======================================================================
       DO ILAY=1,NXLAY
-        II = NXEL*(ILAY-1)    
+        II = NXEL*(ILAY-1)
         DO I=1,NEL
-          IEL   = I+NFT                                              
+          IEL   = I+NFT
           ELCRK = IEL_CRK(IEL)
-          ICUT  = ELCUTC(1,IEL)                                       
+          ICUT  = ELCUTC(1,IEL)
           IF (ELCRK > 0 .and. ICUT > 0) THEN
 c----
             DO IXEL=1,2   ! receiver is IXEL=1 or IXEL=2
               ILEV = II + IXEL
               DO K=1,4
                 KK  = IADC_CRK(K,ELCRK)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial de debut du cycle 
-                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle 
+                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial de debut du cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle
 c
                 IF (EN0 <= 0 .and. EN > 0) THEN
                   NN  = IXC(K+1,IEL)        ! n  node sys std
                   NSX = INOD_CRK(NN)        ! n  node sys xfem
                   IADS    = XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,EN) ! IAD  sender
-                  IL_SEND = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) ! ILEV sender 
+                  IL_SEND = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) ! ILEV sender
                   IADR    = XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,EN) ! IAD  receiver
-                  COUNT   = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) 
+                  COUNT   = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN)
 c----
                   IF (IADS > 0 .and. IL_SEND > 0 .and. COUNT > 0.and.
      .                IADR == KK .and. IADS /= KK) THEN
 !!!                    EN1 = CRKLVSET(IL_SEND)%ENR0(2,IADS)
                     EN1 = CRKLVSET(IL_SEND)%ENR0(1,IADS)
-                    IF (EN1 == EN) THEN                
+                    IF (EN1 == EN) THEN
                       NOD1 = 0
                       NOD2 = 0
-                      EDGE = XEDGE4N(K,ELCRK) ! global egdge number         
+                      EDGE = XEDGE4N(K,ELCRK) ! global egdge number
                       BOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
                       IF (BOUNDEDGE == 2) THEN  ! Node N is boundary
                         NOD1 = NODEDGE(1,EDGE)
                         NOD2 = NODEDGE(2,EDGE)
                       ENDIF
                       IF (NN /= NOD1 .and. NN /= NOD2) THEN
-                        CRKAVX(ILEV)%X(1,KK)  = CRKAVX(IL_SEND)%X(1,IADS)            
-                        CRKAVX(ILEV)%X(2,KK)  = CRKAVX(IL_SEND)%X(2,IADS)            
-                        CRKAVX(ILEV)%X(3,KK)  = CRKAVX(IL_SEND)%X(3,IADS)            
-                        CRKAVX(ILEV)%V(1,KK)  = CRKAVX(IL_SEND)%V(1,IADS)            
-                        CRKAVX(ILEV)%V(2,KK)  = CRKAVX(IL_SEND)%V(2,IADS)            
-                        CRKAVX(ILEV)%V(3,KK)  = CRKAVX(IL_SEND)%V(3,IADS)            
-                        CRKAVX(ILEV)%VR(1,KK) = CRKAVX(IL_SEND)%VR(1,IADS)           
-                        CRKAVX(ILEV)%VR(2,KK) = CRKAVX(IL_SEND)%VR(2,IADS)           
-                        CRKAVX(ILEV)%VR(3,KK) = CRKAVX(IL_SEND)%VR(3,IADS)        
-                        COUNT = COUNT - 1                                    
-                        XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) = COUNT    
+                        CRKAVX(ILEV)%X(1,KK)  = CRKAVX(IL_SEND)%X(1,IADS)
+                        CRKAVX(ILEV)%X(2,KK)  = CRKAVX(IL_SEND)%X(2,IADS)
+                        CRKAVX(ILEV)%X(3,KK)  = CRKAVX(IL_SEND)%X(3,IADS)
+                        CRKAVX(ILEV)%V(1,KK)  = CRKAVX(IL_SEND)%V(1,IADS)
+                        CRKAVX(ILEV)%V(2,KK)  = CRKAVX(IL_SEND)%V(2,IADS)
+                        CRKAVX(ILEV)%V(3,KK)  = CRKAVX(IL_SEND)%V(3,IADS)
+                        CRKAVX(ILEV)%VR(1,KK) = CRKAVX(IL_SEND)%VR(1,IADS)
+                        CRKAVX(ILEV)%VR(2,KK) = CRKAVX(IL_SEND)%VR(2,IADS)
+                        CRKAVX(ILEV)%VR(3,KK) = CRKAVX(IL_SEND)%VR(3,IADS)
+                        COUNT = COUNT - 1
+                        XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) = COUNT
 c
-                        IF (XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) == 0) THEN    
-                          XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,EN) = 0             
-                          XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) = 0             
-                        ENDIF                                                
+                        IF (XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) == 0) THEN
+                          XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,EN) = 0
+                          XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) = 0
+                        ENDIF
                       ENDIF
-                    ENDIF    
-                  ENDIF 
+                    ENDIF
+                  ENDIF
 c----
-                ENDIF   
-              ENDDO     
-            ENDDO       
+                ENDIF
+              ENDDO
+            ENDDO
 c----
-          ENDIF         
-        ENDDO           
-      ENDDO             
+          ENDIF
+        ENDDO
+      ENDDO
 c-----------
       RETURN
       END
@@ -463,11 +463,11 @@ C-----------------------------------------------
      .   ICUT,ELCRK,ELCRKTG,IADS,IADR,EN,EN0,EN1,EDGE,BOUNDEDGE
 C=======================================================================
       DO ILAY=1,NXLAY
-        II = NXEL*(ILAY-1)    
+        II = NXEL*(ILAY-1)
         DO I=1,NEL
-          IEL     = I+NFT                                              
-          ELCRKTG = IEL_XTG(IEL)                                              
-          ICUT  = ELCUTG(1,IEL)                                       
+          IEL     = I+NFT
+          ELCRKTG = IEL_XTG(IEL)
+          ICUT  = ELCUTG(1,IEL)
           IF (ELCRKTG > 0 .and. ICUT > 0) THEN
             ELCRK = ELCRKTG + ECRKXFEC
 c----
@@ -475,56 +475,56 @@ c----
               ILEV = II + IXEL
               DO K=1,3
                 KK  = IADC_XTG(K,ELCRKTG)
-                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial de debut du cycle 
-                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle 
+                EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! enr initial de debut du cycle
+                EN  = CRKLVSET(ILEV)%ENR0(1,KK)  ! enr mise a jour dans le cycle
                 IF (EN0 <= 0 .and. EN > 0) THEN
                   NN  = IXTG(K+1,IEL)        ! n  node sys std
                   NSX = INOD_CRK(NN)        ! n  node sys xfem
                   IADS  = XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,EN) ! IAD  sender
-                  IL    = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) ! ILEV sender 
+                  IL    = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) ! ILEV sender
                   IADR  = XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,EN) ! IAD  receiver
-                  COUNT = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) 
+                  COUNT = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN)
 c----
                   IF (IADS > 0 .and. IL > 0 .and. COUNT > 0.and.
      .                IADR == KK .and. IADS /= KK) THEN
 c                    EN1 = CRKLVSET(IL)%ENR0(2,IADS)
                     EN1 = CRKLVSET(IL)%ENR0(1,IADS)
-                    IF (EN1 == EN) THEN                
+                    IF (EN1 == EN) THEN
                       NOD1 = 0
                       NOD2 = 0
-                      EDGE = XEDGE3N(K,ELCRKTG) ! global egdge N           
+                      EDGE = XEDGE3N(K,ELCRKTG) ! global egdge N
                       BOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
                       IF (BOUNDEDGE == 2) THEN  ! Node N is boundary
                         NOD1 = NODEDGE(1,EDGE)
                         NOD2 = NODEDGE(2,EDGE)
                       ENDIF
                       IF (NN /= NOD1 .and. NN /= NOD2) THEN
-                        CRKAVX(ILEV)%X(1,KK)  = CRKAVX(IL)%X(1,IADS)            
-                        CRKAVX(ILEV)%X(2,KK)  = CRKAVX(IL)%X(2,IADS)            
-                        CRKAVX(ILEV)%X(3,KK)  = CRKAVX(IL)%X(3,IADS)            
-                        CRKAVX(ILEV)%V(1,KK)  = CRKAVX(IL)%V(1,IADS)            
-                        CRKAVX(ILEV)%V(2,KK)  = CRKAVX(IL)%V(2,IADS)            
-                        CRKAVX(ILEV)%V(3,KK)  = CRKAVX(IL)%V(3,IADS)            
-                        CRKAVX(ILEV)%VR(1,KK) = CRKAVX(IL)%VR(1,IADS)           
-                        CRKAVX(ILEV)%VR(2,KK) = CRKAVX(IL)%VR(2,IADS)           
-                        CRKAVX(ILEV)%VR(3,KK) = CRKAVX(IL)%VR(3,IADS)        
-                        COUNT = COUNT - 1                                    
-                        XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) = COUNT           
-                        IF (XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) == 0) THEN    
-                          XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,EN) = 0             
-                          XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) = 0             
-                        ENDIF                                                
+                        CRKAVX(ILEV)%X(1,KK)  = CRKAVX(IL)%X(1,IADS)
+                        CRKAVX(ILEV)%X(2,KK)  = CRKAVX(IL)%X(2,IADS)
+                        CRKAVX(ILEV)%X(3,KK)  = CRKAVX(IL)%X(3,IADS)
+                        CRKAVX(ILEV)%V(1,KK)  = CRKAVX(IL)%V(1,IADS)
+                        CRKAVX(ILEV)%V(2,KK)  = CRKAVX(IL)%V(2,IADS)
+                        CRKAVX(ILEV)%V(3,KK)  = CRKAVX(IL)%V(3,IADS)
+                        CRKAVX(ILEV)%VR(1,KK) = CRKAVX(IL)%VR(1,IADS)
+                        CRKAVX(ILEV)%VR(2,KK) = CRKAVX(IL)%VR(2,IADS)
+                        CRKAVX(ILEV)%VR(3,KK) = CRKAVX(IL)%VR(3,IADS)
+                        COUNT = COUNT - 1
+                        XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) = COUNT
+                        IF (XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,EN) == 0) THEN
+                          XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,EN) = 0
+                          XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,EN) = 0
+                        ENDIF
                       ENDIF
-                    ENDIF    
-                  ENDIF 
+                    ENDIF
+                  ENDIF
 c----
-                ENDIF   
-              ENDDO     
-            ENDDO       
+                ENDIF
+              ENDDO
+            ENDDO
 c----
-          ENDIF         
-        ENDDO           
-      ENDDO             
+          ENDIF
+        ENDDO
+      ENDDO
 c-----------
       RETURN
       END

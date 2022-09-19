@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, IXR(NIXR,*), NELTST, ITYPTST,
      .   NUVAR,JNTYP
-      my_real DT2T, STI(3,*), STIR(3,*), OFF(*), EINT(*) ,  
+      my_real DT2T, STI(3,*), STIR(3,*), OFF(*), EINT(*) ,
      .   XKM(*),XKR(*),XCM(*),XCR(*),UMAS(*),UINER(*),
      .   FX(*), FY(*), FZ(*), XMOM(*), YMOM(*),ZMOM(*),
      .   ROT1(*), ROT2(*), MSRT(*), DMELRT(*),
@@ -66,16 +66,16 @@ C-----------------------------------------------
 C     REAL
       my_real DX(3),THETA(3),E0(MVSIZ),TH1,TH2,TH3,
      .   DT(JLT-JFT+1), DTC(1), DTINV,  A, MASS2, IN2, DTA, DTB, MX2,
-     .   MS, IN	 
+     .   MS, IN	
 C=======================================================================
 C     nodal time step
 C--------------------------------------------
       IF((IDTMINS/=2).AND.(JNTYP==33)) NODADT = 1
 C
       DO I=JFT,JLT
-        STI(1,I) = XKM(I) 
+        STI(1,I) = XKM(I)
         STIR(1,I) = XKR(I)
-        STI(2,I) = STI(1,I) 
+        STI(2,I) = STI(1,I)
         STIR(2,I) = STIR(1,I)
 	
 C-------- Masse harmonique --------------
@@ -87,11 +87,11 @@ C-------- Node 1--------------
      .    STI(1,I) = ((XCM(I)+SQRT(XCM(I)**2+XKM(I)*MS))**2)/MS		
 	IF (IN>EM15)
      .    STIR(1,I) = ((XCR(I)+SQRT(XCR(I)**2+XKR(I)*IN))**2)/IN
-     
+
 C-------- Node 2--------------					
-        STI(2,I) = STI(1,I) 
+        STI(2,I) = STI(1,I)
         STIR(2,I) = STIR(1,I)
-	 
+	
       ENDDO
 C
       IF(IDTMINS==2.AND.JSMS/=0)THEN

@@ -54,24 +54,24 @@ Chd|====================================================================
       USE NLOCAL_REG_MOD
 #include "my_real.inc"
 
-        INTEGER , DIMENSION(:), ALLOCATABLE :: 
-     .      ICODE,   LSHSUB,  ISKEW,    ISKWN,   IFRAME,  NETH,  
+        INTEGER , DIMENSION(:), ALLOCATABLE ::
+     .      ICODE,   LSHSUB,  ISKEW,    ISKWN,   IFRAME,  NETH,
      .      IBCSLAG,
      .      IPART,   NOM_OPT, NPC,      IXUR,    IXTG,    IXTG1,
      .      IXS,     IXQ,     IXC,      IXT,     IXP,     IXR,
-     .      ITAB,    ITABM1,  GJBUFI,   
+     .      ITAB,    ITABM1,  GJBUFI,
      .      IFILL,   IMS,     ISUBS,
      .      KXX,     IXX,      KXSP,    IXSP,    NOD2SP,
      .      ISPSYM,  ISPCOND, ISPHIO,   LPRTSPH, LONFSPH, IBCL,
      .      IBFV,    IECRAN,  ILAS,     LACCELM, LSENSOR,
-     .      NNLINK,  LNLINK,  IUSER,    IPARG,   DD_IAD,  IGRV, 
-     .      IEXLNK,  IBVEL,    LBVEL,   IACTIV,  IBMPC, 
-     .      KINET,   IPARI,   NPRW,    LPRW,    
+     .      NNLINK,  LNLINK,  IUSER,    IPARG,   DD_IAD,  IGRV,
+     .      IEXLNK,  IBVEL,    LBVEL,   IACTIV,  IBMPC,
+     .      KINET,   IPARI,   NPRW,    LPRW,
      .      ICONX,   LGAUGE,
-     .      MADPRT,  MADSH4,  MADSH3,   MADSOL,  MADNOD,  MADFAIL, 
+     .      MADPRT,  MADSH4,  MADSH3,   MADSOL,  MADNOD,  MADFAIL,
      .      NPBY,    NPBYL,   LPBY,     LPBYL,   LRIVET,  NSTRF,
      .      LJOINT,  NODPOR,  MONVOL,   LAGBUF,  ITHGRP,  ITHBUF,
-     .      ITHGRPA, ITHBUFA, ITHGRPB, ITHBUFB,  ITHGRPC, ITHBUFC, 
+     .      ITHGRPA, ITHBUFA, ITHGRPB, ITHBUFB,  ITHGRPC, ITHBUFC,
      .      ITHGRPD, ITHBUFD, ITHGRPE, ITHBUFE,  ITHGRPF, ITHBUFF,
      .      ITHGRPG, ITHBUFG, ITHGRPH, ITHBUFH,  ITHGRPI, ITHBUFI,
      .      IPART_STATE,IRBYM ,LNRBYM, WEIGHT_RM,ICODRBYM,
@@ -85,22 +85,22 @@ Chd|====================================================================
      .      CRKNODIAD,DD_R2R_ELEM,KXIG3D,IXIG3D,
      .      MAIN_PROC ,TAG_SKINS6,IBCSCYC,LBCSCYC,
      .      IPART_DYNAIN,INTERLOADP,KLOADPINTER,LOADPINTER
-            !rank (1 to NSPMD) of the processor that is the main of the node 
+            !rank (1 to NSPMD) of the processor that is the main of the node
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_GLOBAL_VOIS,FACE_VOIS
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBFTEMP, IBCV, IBCR, IBFFLUX
 
-        INTEGER , DIMENSION(:), ALLOCATABLE :: 
-     .      IAD_ELEM,  IAD_RBY,  IAD_RBY2, IAD_I2M, 
-     .      IADCJ,     IAD_RBM,  IAD_RBM2, IAD_SEC,    IAD_CUT,   FR_ELEM, 
-     .      FR_RBY,    FR_WALL,  FR_RBY2,  FR_I2M,     FR_MV,	  FR_LL, 
-     .      FR_CJ,     FR_RBM,   FR_RBM2,  FR_SEC,     FR_CUT,    RG_CUT, 
-     .      FR_MAD,    FR_I18,   WEIGHT,   NEWFRONT,   NODGLOB,   NBRCVOIS, 
-     .      LNRCVOIS,  NBSDVOIS, LNSDVOIS, NERCVOIS,   LERCVOIS,  NESDVOIS, 
-     .      LESDVOIS,  NPSEGCOM, LSEGCOM,  NPORGEO, 
+        INTEGER , DIMENSION(:), ALLOCATABLE ::
+     .      IAD_ELEM,  IAD_RBY,  IAD_RBY2, IAD_I2M,
+     .      IADCJ,     IAD_RBM,  IAD_RBM2, IAD_SEC,    IAD_CUT,   FR_ELEM,
+     .      FR_RBY,    FR_WALL,  FR_RBY2,  FR_I2M,     FR_MV,	  FR_LL,
+     .      FR_CJ,     FR_RBM,   FR_RBM2,  FR_SEC,     FR_CUT,    RG_CUT,
+     .      FR_MAD,    FR_I18,   WEIGHT,   NEWFRONT,   NODGLOB,   NBRCVOIS,
+     .      LNRCVOIS,  NBSDVOIS, LNSDVOIS, NERCVOIS,   LERCVOIS,  NESDVOIS,
+     .      LESDVOIS,  NPSEGCOM, LSEGCOM,  NPORGEO,
      .      LNODPOR,   ICODT,	 ICODR, 	       ADSKY,	  PROCNE,
-     .      ADDCNI2,   PROCNI2,  IADSDP,   IADRCP,     IADS,	  IADWAL, 
-     .      IADRBK,    IADI2,	 IADMV2,   IADMV3,     IADLL,	  IADRBM, 
+     .      ADDCNI2,   PROCNI2,  IADSDP,   IADRCP,     IADS,	  IADWAL,
+     .      IADRBK,    IADI2,	 IADMV2,   IADMV3,     IADLL,	  IADRBM,
      .      IADI18,    ILINK,	 FR_RL,    LLINK,      IADRL,	  LINALE,
      .      NEFLSW,    NNFLSW,   ICUT,     LGRAV,      FASOLFR,   DD_R2R,
      .      FR_LAGF,   LLAGF,	 IGEO,     IPM,        ICONTACT,  ISKWP,
@@ -111,28 +111,28 @@ Chd|====================================================================
      .      LCFIELD   ,FR_USERWI,IADUSERW ,LLOADP,
      .      IAD_EDGE  ,FR_EDGE,  FR_NBEDGE,IGAUP      ,NGAUP,     NODLEVXF,WEIGHT_MD,
      .      NODGLOBXFE,ELCUTC,   NODENR,   KXFENOD2ELC,ENRTAG,
-     .      TABSENSOR ,ADDCSRECT,FR_NOR,   IAD_FRNOR  , PROCNOR,    
-     .      FR_EDG,    IAD_FREDG,IDRAPE,   NATIV0_SMS , SEGQUADFR,ISKWP_L, NE_NERCVOIS,  
+     .      TABSENSOR ,ADDCSRECT,FR_NOR,   IAD_FRNOR  , PROCNOR,
+     .      FR_EDG,    IAD_FREDG,IDRAPE,   NATIV0_SMS , SEGQUADFR,ISKWP_L, NE_NERCVOIS,
      .      NE_LERCVOIS,  NE_NESDVOIS, NE_LESDVOIS
 
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE :: 
+        my_real ,
+     .    DIMENSION(:), ALLOCATABLE ::
      .      X,       D,       V,       VR,      DR,      THKE,
-     .      DAMPR,   DAMP,    MS,      IN,      TF,      PM, 
+     .      DAMPR,   DAMP,    MS,      IN,      TF,      PM,
      .      SKEW,    XFRAME,  GEO,     EANI,    BUFMAT,  BUFGEO,
-     .      BUFSF,   RBMPC,   GJBUFR,  W,       VEUL,    FILL, 
-     .      DFILL,   ALPH,    WB,      DSAVE,   DRSAVE,  ASAVE, 
+     .      BUFSF,   RBMPC,   GJBUFR,  W,       VEUL,    FILL,
+     .      DFILL,   ALPH,    WB,      DSAVE,   DRSAVE,  ASAVE,
      .      ARSAVE,  STSAVE,  STRSAVE, FSAVSAV, SPBUF,
      .      VSPHIO,  SPHVELN, MSNF,    FORC    ,
-     .      VEL,     FSAV,    FZERO,   XLAS,   ACCELM, 
-     .      SENSOR,  FBVEL,   GRAV,    FR_WAVE, PARTS0,  USER, 
-     .      ELBUF,   
-     .      RWBUF,   RWSAV,   RBY,     RBYL,    
-     .      RIVET,   SECBUF,  VOLMON,  LAMBDA,  WA,      FV, 
+     .      VEL,     FSAV,    FZERO,   XLAS,   ACCELM,
+     .      SENSOR,  FBVEL,   GRAV,    FR_WAVE, PARTS0,  USER,
+     .      ELBUF,
+     .      RWBUF,   RWSAV,   RBY,     RBYL,
+     .      RIVET,   SECBUF,  VOLMON,  LAMBDA,  WA,      FV,
      .      A,       AR,      STIFN,   VISCN,   STIFR,   PARTSAV,
      .      FSKY,    FSKYM,   FSKYD,   UWA,     VAL2,    PHI,
      .      R,       ESTIF,   CRFLSW,  FLSW,    FANI,
-     .      XCUT,    ANIN,    TANI,    SECFCUM, WASPH, 
+     .      XCUT,    ANIN,    TANI,    SECFCUM, WASPH,
      .      W16,     DRETRIO, LBVRS,   PV,      RCONX  , RCONTACT,
      .      ACONTACT,PCONTACT,
      .      FACTIV,           RBYM,    FRBE3 ,
@@ -143,21 +143,21 @@ Chd|====================================================================
      .      POR,     GAUGE,   WAGAP   ,RTHBUF,  KNOT,
      .      WIGE,    RDRAPE,  TAB_MAT, MS_2D ,KNOTLOCPC,KNOTLOCEL,
      .      FCONT_MAX,IN0  ,  DGAPLOADINT
-        
-      my_real, 
+
+      my_real,
      .    DIMENSION(:, :), ALLOCATABLE :: XCELL
-      my_real, 
+      my_real,
      .    DIMENSION(:, :, :), ALLOCATABLE :: XFACE
 
-      my_real , 
+      my_real ,
      .    DIMENSION(:), ALLOCATABLE :: FCONV, FBFTEMP, FRADIA, FBFFLUX
 
       TYPE (CLUSTER_) ,DIMENSION(:), ALLOCATABLE :: CLUSTER
 C Double Precision array FBSAV6 (sensor 11 or 12 and parith/on)
       DOUBLE PRECISION, DIMENSION(:,:,:), ALLOCATABLE :: FBSAV6
       TYPE (SPSYM_STRUCT)  :: XSPSYM,VSPSYM,WSMCOMP
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (NLOCAL_STR_)   :: NLOC_DMG 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
+      TYPE (NLOCAL_STR_)   :: NLOC_DMG
 C Mat+ Prop timers (DDW/MONON)
       INTEGER, DIMENSION(:), ALLOCATABLE :: POIN_UMP
       INTEGER, DIMENSION(:,:), ALLOCATABLE ::TAB_UMP
@@ -181,7 +181,7 @@ C     PADMESH(1,IP) = cos(angle criteria)
 C     PADMESH (2,IP) = criteria for error on thickness
 C-----------------------------------------------
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: IPADMESH
-      my_real, 
+      my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: PADMESH
 C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: SH4TRIM, SH3TRIM
@@ -189,19 +189,19 @@ C-----------------------------------------------
 C     MSC(N) = mass of shell element N
 C     INC(N) = inertia of shell element N
 C-----------------------------------------------
-      my_real, 
+      my_real,
      .         DIMENSION(:),ALLOCATABLE :: MSC,MSTG,INC,INTG
-      my_real, 
+      my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: PTG
 C-----------------------------------------------
 C     Condensation
 C-----------------------------------------------
-      my_real, 
+      my_real,
      .         DIMENSION(:),ALLOCATABLE :: MSCND,INCND
 C-----------------------------------------------
 C     Thermic
 C-----------------------------------------------
-      my_real, 
+      my_real,
      .         DIMENSION(:),ALLOCATABLE :: MCPC, MCPTG
 C=======================================================================
       DOUBLE PRECISION,
@@ -251,7 +251,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       MODULE INTBUF_MOD
 
-        USE INTBUFDEF_MOD      
+        USE INTBUFDEF_MOD
         USE INT8_MOD
         TYPE(INTBUF_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: INTBUF_TAB
         TYPE(INT8_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: T8
@@ -284,7 +284,7 @@ Chd|        INTBUF_FRIC_MOD               share/modules/intbuf_fric_mod.F
 Chd|====================================================================
       MODULE INTBUFFRIC_MOD
 
-        USE INTBUF_FRIC_MOD                     
+        USE INTBUF_FRIC_MOD
 
         TYPE(INTBUF_FRIC_STRUCT_),TARGET,DIMENSION(:),ALLOCATABLE :: INTBUF_FRIC_TAB
 

@@ -76,7 +76,7 @@ C-----------------------------------------------
       INTEGER TAG
       INTEGER TAB_RANK(NSPMD-1),TAB_BUFPOS(NSPMD-1)
       INTEGER BUFLEN,BUFPOS,RMAX_UID_LOCAL,RMAX_UID_REMOTE
-       my_real DIST1,DIST2 
+       my_real DIST1,DIST2
       INTEGER MSGOFF,MSGOFF2
       DATA MSGOFF/15000/
       DATA MSGOFF2/15001/
@@ -91,11 +91,11 @@ C-----------------------------------------------
          BUFLEN = BUFLEN+BUFFER(I)%NBSECND_TOT
          ENDIF
       ENDDO
-      ALLOCATE(BUFR_ID(BUFLEN)) 
-      ALLOCATE(BUFS_ID(BUFLEN)) 
-      ALLOCATE(BUFR_DIST(BUFLEN)) 
-      ALLOCATE(BUFS_DIST(BUFLEN)) 
-      BUFR_ID(1:BUFLEN)    = 0 
+      ALLOCATE(BUFR_ID(BUFLEN))
+      ALLOCATE(BUFS_ID(BUFLEN))
+      ALLOCATE(BUFR_DIST(BUFLEN))
+      ALLOCATE(BUFS_DIST(BUFLEN))
+      BUFR_ID(1:BUFLEN)    = 0
       BUFS_ID(1:BUFLEN)    = 0
       BUFR_DIST(1:BUFLEN)  = 0
       BUFS_DIST(1:BUFLEN)  = 0
@@ -108,7 +108,7 @@ C-----------------------------------------------
         DO J = 1,BUFFER(I)%NBSECND_TOT
          N = BUFFER(I)%SECND_ID(J)
 C        BUFFER(I)%DISTANCE(J) = DISTANCE(N) 
-         BUFS_DIST(BUFPOS + J -1) = DISTANCE(N) 
+         BUFS_DIST(BUFPOS + J -1) = DISTANCE(N)
 C        BUFFER(I)%NEW_MAIN_UID(J) = ITAB(MSR(ILOC(N)))
          BUFS_ID(BUFPOS + J -1) = ITAB(MSR(ILOC(N)))
 
@@ -145,7 +145,7 @@ C        BUFFER(I)%NEW_MAIN_UID(J) = ITAB(MSR(ILOC(N)))
       IF(K > 0)  CALL MPI_WAITALL(K, RQS,STAT,IERR)
       BUFPOS = 0
       DO P = 1,K1
-         CALL MPI_WAITANY(K2,RQR2,I,STAT,IERR) 
+         CALL MPI_WAITANY(K2,RQR2,I,STAT,IERR)
          CALL MPI_WAIT(RQR1(I),STAT2,IERR)
          BUFPOS = TAB_BUFPOS(I) - 1
          I = TAB_RANK(I)
@@ -160,10 +160,10 @@ C           DIST1 = DISTANCE(K)
 
             !IF ISPMD STILL HAS THE SECND
             IF(ILOC(K) > 0) THEN
-            RMAX_UID_LOCAL = ITAB(MSR(ILOC(K))) 
+            RMAX_UID_LOCAL = ITAB(MSR(ILOC(K)))
             IF(DIST1 > DIST2 .OR.
      .  (DIST1 == DIST2 .AND. RMAX_UID_LOCAL > RMAX_UID_REMOTE) .OR.
-     .  (RMAX_UID_LOCAL == RMAX_UID_REMOTE .AND. I-1 < ISPMD)) THEN 
+     .  (RMAX_UID_LOCAL == RMAX_UID_REMOTE .AND. I-1 < ISPMD)) THEN
 !       IF the main remote is closer than the main local
 !       OR the distance is the same, but the user id of the remote
 !       main is lower
@@ -172,21 +172,21 @@ C           DIST1 = DISTANCE(K)
 !       and ISPMD, but ISPMD > i-1
 !       THEN we remove the secnd (it will be kept by the Proc i-1)
                 DISTANCE(K)=DIST2
-                ILOC(k)= -1                                             
+                ILOC(k)= -1
 !        Here, the secnd will
-!        not have a new main internal to the ISPMD           
+!        not have a new main internal to the ISPMD
 !        Still it can be put at the boundary of ISPMD by another
 !        process
              ENDIF
              ENDIF
          ENDDO
-         BUFPOS = BUFPOS + N 
+         BUFPOS = BUFPOS + N
          ENDIF
       ENDDO
 
 !     CALL MPI_BARRIER(MPI_COMM_WORLD,ierr)
-      DEALLOCATE(BUFR_ID,BUFS_ID) 
-      DEALLOCATE(BUFR_DIST,BUFS_DIST) 
+      DEALLOCATE(BUFR_ID,BUFS_ID)
+      DEALLOCATE(BUFR_DIST,BUFS_DIST)
       !CALL STOPTIME(97,1)
 #endif
       END SUBROUTINE
@@ -314,9 +314,9 @@ C-----------------------------------------------
       NB_SECND_TOT = 0
       DO I = 1,NBSECNDS
         ! if the secnd is active, and its main is in the frontier
-        IF(ILOC(I) > 0) THEN 
+        IF(ILOC(I) > 0) THEN
         IF(INDEX_IN_COMM(ILOC(I))>0)THEN
-           K = INDEX_IN_COMM(ILOC(I)) 
+           K = INDEX_IN_COMM(ILOC(I))
            DO J = 1,FRONTIER(K)%NBCOM
            P = FRONTIER(K)%PROCLIST(J)
            NB_SECND_SENT(P) = NB_SECND_SENT(P) + 1
@@ -330,34 +330,34 @@ C-----------------------------------------------
       ALLOCATE(BUFR_ID(NB_SECND_TOT*2))
 
 
-      BUFPOS = 0          
+      BUFPOS = 0
       BUFPOS(1) = 1
       DO I = 1,NSPMD-1
-        BUFPOS(I+1) = 2*NB_SECND_SENT(I) + BUFPOS(I) 
+        BUFPOS(I+1) = 2*NB_SECND_SENT(I) + BUFPOS(I)
       ENDDO
 
 
       DO I = 1,NBSECNDS
          ! if the secnd is active, and its main is in the frontier
-         IF(ILOC(I)>0) THEN 
+         IF(ILOC(I)>0) THEN
          IF(INDEX_IN_COMM(ILOC(I))>0)THEN
-            K = INDEX_IN_COMM(ILOC(I)) 
+            K = INDEX_IN_COMM(ILOC(I))
             DO J = 1,FRONTIER(K)%NBCOM
             P = FRONTIER(K)%PROCLIST(J)
             N = FRONTIER(K)%BUF_INDEX(J)
             ! we have to send the secnd uid and the position in the
             ! frontier
             ! this position is also the position in the remote domain
-            BUFR_ID(BUFPOS(P)) = ITAB(NSV(I)) 
-            BUFR_ID(BUFPOS(P)+1) = N 
-            BUFPOS(P) = BUFPOS(P) + 2 
+            BUFR_ID(BUFPOS(P)) = ITAB(NSV(I))
+            BUFR_ID(BUFPOS(P)+1) = N
+            BUFPOS(P) = BUFPOS(P) + 2
             ENDDO
          ENDIF
          ENDIF
       ENDDO
-     
+
       NB_SECND_RECV(1:NSPMD) = 0
-      K = 1 
+      K = 1
       N = 1
 
       TAG =  MSGOFF
@@ -374,7 +374,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
      .    MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(K),IERR)
         ENDIF
       ENDDO
- 
+
       IF( K > 0 ) CALL MPI_WAITALL(K,RQR,STAT,IERR)
 
 
@@ -382,7 +382,7 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       BUFLEN = 0
       DO I = 1,NSPMD
         IF(ISPMD /= I-1) THEN
-        BUFLEN = BUFLEN + NB_SECND_RECV(I) 
+        BUFLEN = BUFLEN + NB_SECND_RECV(I)
         ENDIF
       ENDDO
       !write(6,*) __file__,__line__,"nbsr(:)=",nb_secnd_recv(1:nspmd)
@@ -390,10 +390,10 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
 
       IF( K > 0 ) CALL MPI_WAITALL(K, RQS,STAT,IERR)
 
-     
-      TAG = MSGOFF2 
+
+      TAG = MSGOFF2
       K = 1
-      L = 1 
+      L = 1
       KSENT = 0
       KRECV = 0
       !send the data corresponding of the secnds to exchange
@@ -404,14 +404,14 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
             KSENT = KSENT + 1
             CALL MPI_ISEND(BUFR_ID(N),J,
      .      MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(KSENT),IERR)
-            N = N + J                
+            N = N + J
           ENDIF
           J = NB_SECND_RECV(I)*2
           IF(J > 0) THEN
             KRECV = KRECV + 1
             CALL MPI_IRECV(BUFR_IDR(L),J,
      .      MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(KRECV),IERR)
-            L = L + J       
+            L = L + J
           ENDIF
         ENDIF
       ENDDO
@@ -419,9 +419,9 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
       IF(KSENT > 0 ) CALL MPI_WAITALL(KSENT, RQS,STAT,IERR)
       IF(KRECV > 0 ) CALL MPI_WAITALL(KRECV, RQR,STAT,IERR)
 
-!                                                    
+!
       K = 1
-      L = 1 
+      L = 1
       N = 1
       !In the following we suppose that only one SPMD domain
       !has a secnd activated
@@ -434,13 +434,13 @@ C       WRITE(6,*) __FILE__,__LINE__,ISPMD,I-1
            ! if ISPMD recieves secnds from proc I
            ! then find out if one these secnds is ISECND
            ! using user ids.
-           DO K = L,L+J-1 
-            RMAX_UID_REMOTE = BUFR_IDR(2*K-1) 
+           DO K = L,L+J-1
+            RMAX_UID_REMOTE = BUFR_IDR(2*K-1)
             IF(RMAX_UID_LOCAL == RMAX_UID_REMOTE) THEN
             IMAIN = BUFR_IDR(2*K)
             ILOC(ISECND) = BUFFER(I)%MAIN_ID(IMAIN)
-            ENDIF 
-           ENDDO 
+            ENDIF
+           ENDDO
            ENDIF
           L = L + J
           ENDIF !ISPMD
@@ -505,17 +505,17 @@ C-----------------------------------------------
 
 #ifdef MPI
          !CALL STARTIME(99,1)
-         !compute the number of secnd nodes per frontier main node 
+         !compute the number of secnd nodes per frontier main node
          DO P = 1,NSPMD
           IF(ISPMD /= P-1) THEN
-          BUFFER(P)%NBSECND = 0 
+          BUFFER(P)%NBSECND = 0
           ENDIF
          ENDDO
          DO I = 1,NBSECNDS
             ! If the secnd is active, and its main is in the frontier
-            IF(ILOC(I)>0) THEN 
+            IF(ILOC(I)>0) THEN
             IF(INDEX_IN_COMM(ILOC(I))>0)THEN
-               K = INDEX_IN_COMM(ILOC(I)) 
+               K = INDEX_IN_COMM(ILOC(I))
                DO J = 1,FRONTIER(K)%NBCOM
                P = FRONTIER(K)%PROCLIST(J)
                N = FRONTIER(K)%BUF_INDEX(J)
@@ -528,9 +528,9 @@ C-----------------------------------------------
          DO I =1, NSPMD
          ! compute the global number of secnd nodes to send to proc i
             BUFFER(I)%NBSECND_TOT = 0
-            DO J = 1,BUFFER(I)%NBMAIN          
+            DO J = 1,BUFFER(I)%NBMAIN
                BUFFER(I)%NBSECND_TOT =  BUFFER(I)%NBSECND_TOT +
-     .         BUFFER(I)%NBSECND(J) 
+     .         BUFFER(I)%NBSECND(J)
             ENDDO
 C           IF(ASSOCIATED(BUFFER(I)%SECND_UID)) THEN
 C          
@@ -549,15 +549,15 @@ C           ALLOCATE(BUFFER(I)%BUFR(BUFFER(I)%NBSECND_TOT*2))
 C           ALLOCATE(BUFFER(I)%BUFI(BUFFER(I)%NBSECND_TOT*9))
 C           BUFFER(I)%BUFR(1:BUFFER(I)%NBSECND_TOT)=0
 C           BUFFER(I)%BUFI(1:BUFFER(I)%NBSECND_TOT)=0
-         ENDDO 
-         
-         ! Fill the buffer of secnd uid to send                                      
+         ENDDO
+
+         ! Fill the buffer of secnd uid to send
          PT = 0
          DO I = 1,NBSECNDS
             ! if the secnd is active, and its main is in the frontier
            IF(ILOC(I) > 0) THEN
            IF(INDEX_IN_COMM(ILOC(I)) > 0)THEN
-               K = INDEX_IN_COMM(ILOC(I)) 
+               K = INDEX_IN_COMM(ILOC(I))
                DO J = 1,FRONTIER(K)%NBCOM
                P = FRONTIER(K)%PROCLIST(J)
                N = FRONTIER(K)%BUF_INDEX(J)
@@ -635,7 +635,7 @@ C-----------------------------------------------
       INTEGER RMAX_UID_LOCAL(4),RMAX_UID_REMOTE(4)
       INTEGER BUFPOS1,BUFPOS2,HAS_MOVED_ON_REMOTE
       my_real RMAX1,RMAX2
-      INTEGER NBRQ                                   
+      INTEGER NBRQ
       INTEGER MSGOFF,MSGOFF2
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -647,20 +647,20 @@ C-----------------------------------------------
       DATA MSGOFF2/15005/
 
       !AFTER THE EXCHANGE OF FRONT SECND, AND THE UPDATE OF THE BUFFER
-      !THE SECND AT EACH BOUNDARY ARE SHARED 
+      !THE SECND AT EACH BOUNDARY ARE SHARED
       BUFLEN=0
       DO I = 1,NSPMD
          BUFLEN = BUFLEN+BUFFER(I)%NBSECND_TOT
       ENDDO
 
-      ALLOCATE(BUFR_ID(BUFLEN*5)) 
-      ALLOCATE(BUFR(BUFLEN)) 
-      ALLOCATE(BUFS_ID(BUFLEN*5)) 
-      ALLOCATE(BUFS(BUFLEN)) 
-      BUFR_ID(1:BUFLEN*5) = 0 
+      ALLOCATE(BUFR_ID(BUFLEN*5))
+      ALLOCATE(BUFR(BUFLEN))
+      ALLOCATE(BUFS_ID(BUFLEN*5))
+      ALLOCATE(BUFS(BUFLEN))
+      BUFR_ID(1:BUFLEN*5) = 0
       BUFR(1:BUFLEN)      = ZERO
-      BUFS_ID(1:BUFLEN*5) = 0 
-      BUFS(1:BUFLEN)      = ZERO 
+      BUFS_ID(1:BUFLEN*5) = 0
+      BUFS(1:BUFLEN)      = ZERO
 
       K = 1
       BUFPOS1 = 1
@@ -671,12 +671,12 @@ C-----------------------------------------------
         DO J = 1,BUFFER(I)%NBSECND_TOT
          N = BUFFER(I)%SECND_ID(J)
 C
-         BUFS(BUFPOS2 - 1+(J-1)+1) = TAB_RMAX(N) 
-         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+1) = TAB_RMAX_UID(1,N) 
-         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+2) = TAB_RMAX_UID(2,N) 
-         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+3) = TAB_RMAX_UID(3,N) 
-         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+4) = TAB_RMAX_UID(4,N) 
-         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+5) = HAS_MOVED(N) 
+         BUFS(BUFPOS2 - 1+(J-1)+1) = TAB_RMAX(N)
+         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+1) = TAB_RMAX_UID(1,N)
+         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+2) = TAB_RMAX_UID(2,N)
+         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+3) = TAB_RMAX_UID(3,N)
+         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+4) = TAB_RMAX_UID(4,N)
+         BUFS_ID(BUFPOS1 - 1 + (J-1)*5+5) = HAS_MOVED(N)
 
         ENDDO
         N =  BUFFER(I)%NBSECND_TOT
@@ -688,7 +688,7 @@ C
           CALL MPI_ISEND(BUFS_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQS(NBRQ),IERR)
           CALL MPI_IRECV(BUFR_ID(BUFPOS1),N*5,MPI_INT,I-1,TAG,MPI_COMM_WORLD,RQR(NBRQ),IERR)
           BUFPOS1 = BUFPOS1 + 5*N
-          TAG = MSGOFF2 
+          TAG = MSGOFF2
           NBRQ = NBRQ + 1
           CALL MPI_ISEND(BUFS(BUFPOS2),N,REAL,I-1,TAG,MPI_COMM_WORLD,RQS(NBRQ),IERR)
           CALL MPI_IRECV(BUFR(BUFPOS2),N,REAL,I-1,TAG,MPI_COMM_WORLD,RQR(NBRQ),IERR)
@@ -696,7 +696,7 @@ C
         ENDIF
        ENDIF
       ENDDO !ISPMD
-      IF(NBRQ > 0) THEN 
+      IF(NBRQ > 0) THEN
         CALL MPI_WAITALL(NBRQ, RQS,STAT,IERR)
         CALL MPI_WAITALL(NBRQ, RQR,STAT,IERR)
       ENDIF
@@ -731,8 +731,8 @@ C
           ! in the follwing cases
             IF(HAS_MOVED_ON_REMOTE == 0) THEN
           ! the main face has not changed on the remote proc.
-              IRTL(K) =  0			  
-            ELSEIF( RMAX1 < RMAX2 .OR. (RMAX1 == RMAX2 .AND. IFLAG == 1)) THEN			  
+              IRTL(K) =  0			
+            ELSEIF( RMAX1 < RMAX2 .OR. (RMAX1 == RMAX2 .AND. IFLAG == 1)) THEN			
               IRTL(K) =  0
             ENDIF
           ENDIF
@@ -741,8 +741,8 @@ C
         BUFPOS2 = BUFPOS2 + N
         ENDIF
       ENDDO
-      DEALLOCATE(BUFR_ID,BUFS_ID) 
-      DEALLOCATE(BUFR,BUFS) 
+      DEALLOCATE(BUFR_ID,BUFS_ID)
+      DEALLOCATE(BUFR,BUFS)
 
 #endif
 
@@ -785,7 +785,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real :: TAB(N)                
+      my_real :: TAB(N)
       INTEGER :: N
 C     INTEGER :: FLAG,RQ(NSPMD)
 C-----------------------------------------------
@@ -799,7 +799,7 @@ C-----------------------------------------------
       INTEGER STAT(MPI_STATUS_SIZE)
       my_real, DIMENSION(:), ALLOCATABLE :: BUF
       !CALL STARTIME(101,1)
-      TAG = MSGOFF 
+      TAG = MSGOFF
 c     IF(FLAG == 1) THEN
 c       POS = 0
 c       DO I=1,NSPMD
@@ -807,7 +807,7 @@ c         IF(ISPMD /= I-1) THEN
 c           POS = POS + 1
 c           CALL MPI_ISEND(TAB,N,REAL,I-1,TAG,MPI_COMM_WORLD,RQ(POS),IERR)
 c         ENDIF
-c       ENDDO 
+c       ENDDO
 c       CALL MPI_WAITALL(NSPMD-1,RQ,MPI_STATUSES_IGNORE,IERR)
 c     ELSEIF(FLAG ==2) THEN
 c       ALLOCATE(BUF(N),STAT=IERR)
@@ -819,8 +819,8 @@ c           DO J=1,N
 c              TAB(J) = TAB(J) + BUF(J)
 c           ENDDO
 c         ENDIF
-c       ENDDO 
-c       CALL MPI_WAIT(RQ,STAT,IERR) 
+c       ENDDO
+c       CALL MPI_WAIT(RQ,STAT,IERR)
 c       DEALLOCATE(BUF)
 c     ELSEIF(FLAG == 3) THEN
         ALLOCATE(BUF(N),STAT=IERR)
@@ -828,7 +828,7 @@ c     ELSEIF(FLAG == 3) THEN
         CALL MPI_ALLREDUCE(BUF,TAB,N,REAL,MPI_SUM,
      .  MPI_COMM_WORLD,IERR)
         DEALLOCATE(BUF)
-       
+
 
 c     ENDIF
       !CALL STOPTIME(101,1)

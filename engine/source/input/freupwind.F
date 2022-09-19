@@ -70,7 +70,7 @@ C  initially defined with starter card /UPWIND or from previous run
 C  with engine card /UPWIND
 C  Additionnal details
          ! UPWSM2 : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT UPWSM=UPWSM2
-         ! UPWMG  : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT PM(15,IMAT)=UPWMG2                                 
+         ! UPWMG  : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT PM(15,IMAT)=UPWMG2
          ! UPWOG  : READ HERE BUT UPDATED IN LECTUR.F FOR ALE PRINTOUT PM(16,IMAT)=UPWOG2
 C
          ! UPW_UPDATE == 1 : ENGINE /UPWIND CARD DETECTED
@@ -87,11 +87,11 @@ C-----------------------------------------------
        CALL WRIUSC2(IKAD(IKEY)+1,1,KEY0(IKEY))
        READ(IUSC2,*,ERR=9990)UPWMG2, UPWOG2, UPWSM2
 
-       UPW_UPDATE = 1       
+       UPW_UPDATE = 1
 
-       IF(UPWMG2==ZERO)UPWMG2=ONE 
-       IF(UPWOG2==ZERO)UPWOG2=ONE 
-       IF(UPWSM2==ZERO)UPWSM2=ONE 
+       IF(UPWMG2==ZERO)UPWMG2=ONE
+       IF(UPWOG2==ZERO)UPWOG2=ONE
+       IF(UPWSM2==ZERO)UPWSM2=ONE
 
        !Upwind coefficient for Momentum Advection
        IF(UPWMG2<=ZERO.OR.UPWMG2>ONE)THEN
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .    ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
      .    '     MOMENTUM COEFFICIENT IS OUT OF BOUNDS [0,1]'
-         CALL ARRET(2)          
+         CALL ARRET(2)
        ENDIF
 
        !Upwind coefficient for Mass and Energy Advection
@@ -108,16 +108,16 @@ C-----------------------------------------------
      .    ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
      .    '     MASS & ENERGY COEFFICIENT IS OUT OF BOUNDS [0,1]'
-         CALL ARRET(2)          
+         CALL ARRET(2)
        ENDIF
-       
+
        !Upwind coefficient for Wet Surface (Mulimaterial specific advection)
        IF(UPWSM2<-ONE.OR.UPWSM2>ONE)THEN
          WRITE(ISTDO,*)
      .   ' ** ERROR IN CARD /UPWIND'
          WRITE(ISTDO,*)
-     .   '     WET SURFACE COEFFICIENT IS OUT OF BOUNDS [-1,1]'          
-         CALL ARRET(2) 
+     .   '     WET SURFACE COEFFICIENT IS OUT OF BOUNDS [-1,1]'
+         CALL ARRET(2)
        ENDIF
 
       ENDIF

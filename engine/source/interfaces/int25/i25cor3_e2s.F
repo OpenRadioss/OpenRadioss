@@ -80,10 +80,10 @@ C-----------------------------------------------
       INTEGER :: EDGE_ID(2,4*MVSIZ)
       INTEGER :: INTFRIC ,IPARTFRIC_E(*),IPARTFRIC_ES(4,MVSIZ),IPARTFRIC_EM(4,MVSIZ)
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
-     .        LBOUND(*), JLT, NEDGE, NIN, IEDGE, 
-     .        N1(4,MVSIZ), N2(4,MVSIZ), 
-     .        M1(4,MVSIZ), M2(4,MVSIZ), 
-     .        NODNX_SMS(*), NSMS(4,MVSIZ), 
+     .        LBOUND(*), JLT, NEDGE, NIN, IEDGE,
+     .        N1(4,MVSIZ), N2(4,MVSIZ),
+     .        M1(4,MVSIZ), M2(4,MVSIZ),
+     .        NODNX_SMS(*), NSMS(4,MVSIZ),
      .        TYPEDGS(MVSIZ),IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),IAM(MVSIZ)
 C     REAL
       my_real
@@ -196,8 +196,8 @@ C
             TYPEDGS(I)=LEDGE(7,ES)
 C
           ELSE
-            NN = CAND_S(I) - NEDGE           
-            IS(I) = LEDGE_FIE(NIN)%P(E_IM,NN) 
+            NN = CAND_S(I) - NEDGE
+            IS(I) = LEDGE_FIE(NIN)%P(E_IM,NN)
             N1(EJ,I)=2*(NN-1)+1
             N2(EJ,I)=2*NN
 
@@ -234,7 +234,7 @@ c
             VXS2(EJ,I) = VFIE(NIN)%P(1,N2(EJ,I))
             VYS2(EJ,I) = VFIE(NIN)%P(2,N2(EJ,I))
             VZS2(EJ,I) = VFIE(NIN)%P(3,N2(EJ,I))
-            MS1(EJ,I) = MSFIE(NIN)%P(N1(EJ,I)) 
+            MS1(EJ,I) = MSFIE(NIN)%P(N1(EJ,I))
             MS2(EJ,I) = MSFIE(NIN)%P(N2(EJ,I))
           END IF
         END DO
@@ -243,7 +243,7 @@ c
 C
 C     THIS is provisional (solids => Zero gap even if secnd shell edge)
       DO I=1,JLT
-        GAPE_M(I)=ZERO ! Solids 
+        GAPE_M(I)=ZERO ! Solids
                        ! If edge is shared by solid and shell : edge is considered as a shell edge
         IF(CAND_S(I)<=NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
@@ -259,7 +259,7 @@ C     THIS is provisional (solids => Zero gap even if secnd shell edge)
       DO I=1,JLT
         DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) == D_ES, STFM(IAM(I)))
 
-        IF ( STFM(IAM(I)) > ZERO) THEN 
+        IF ( STFM(IAM(I)) > ZERO) THEN
         DO EJ=1,4
 C Comment savoir si EDG_BiSECTOR a ete calcule
           EX(EJ,I)=EDG_BISECTOR(1,EJ,IAM(I))
@@ -271,7 +271,7 @@ C Comment savoir si EDG_BiSECTOR a ete calcule
         END DO
         ELSE
          EX(1:4,I) = ZERO
-         EY(1:4,I) = ZERO 
+         EY(1:4,I) = ZERO
          EZ(1:4,I) = ZERO
          DEBUG_E2E(EDGE_ID(1,I)==D_EM .AND. EDGE_ID(2,I) == D_ES,ZERO)
         END IF
@@ -334,7 +334,7 @@ C----Friction model : secnd part IDs---------
            IF(CAND_S(I)<=NEDGE)THEN
              IPARTFRIC_ES(1:4,I) = IPARTFRIC_E(CAND_S(I))
            ELSE
-             NN = CAND_S(I) - NEDGE            
+             NN = CAND_S(I) - NEDGE
              IPARTFRIC_ES(1:4,I)= IPARTFRIC_FIE(NIN)%P(NN)
            ENDIF
 C

@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITABM1(*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXT(NIXT,*),
      .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),IPARTS(*),
@@ -134,15 +134,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D e s c r i p t i o n 
 C-----------------------------------------------
-!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
+!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
-!                     and optimize an old and expensive treatment in SSURFTAG 
-!                     NOT USED IN THIS ROUTINE !!!!!!!!!!!!     
+!                     and optimize an old and expensive treatment in SSURFTAG
+!                     NOT USED IN THIS ROUTINE !!!!!!!!!!!!
 !       MODE : integer
 !              switch to initialize solid/shell/shell3n or truss/beam/spring
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structur
 !                  %Nxxx : number of element per part
-!                  %xxx_PART : ID of the element 
+!                  %xxx_PART : ID of the element
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
 !   IGRSLIN(IGS)%ID   :: LINE identifier
@@ -196,86 +196,86 @@ C-----------------------------------------------
      .                          UNIT_ID     = UID,
      .                          KEYWORD2    = KEY   ,
      .                          KEYWORD3    = KEY2)
-        ISEG = 0                                                           
-        IF (FLAG == 0) THEN                                                
-          IGRSLIN(IGS)%ID = 0                                              
-          IGRSLIN(IGS)%NSEG = 0                                            
-          IGRSLIN(IGS)%TYPE = 0                                            
-          IGRSLIN(IGS)%LEVEL = 0                                           
-          IGRSLIN(IGS)%NSEG_R2R_ALL = 0                                    
-          IGRSLIN(IGS)%NSEG_R2R_SHARE = 0                                  
-        ENDIF                                                              
-        IGRSLIN(IGS)%ID = ID                                               
-        IGRSLIN(IGS)%LEVEL = 1                                             
-        IGRSLIN(IGS)%TITLE = TITR                                          
-        IF(KEY(1:4) == 'LINE') THEN !tag des lines of lines                
-          IGRSLIN(IGS)%NSEG = -1                                           
-          IGRSLIN(IGS)%LEVEL = 0                                           
-          IT0=IT0+1                                                        
-        ELSEIF(KEY(1:3) == 'SEG') THEN                                     
-          IT1=IT1+1                                                        
-          IF (FLAG == 0) THEN                                              
-            CALL HM_GET_INTV('segmax',NSEG,IS_AVAILABLE,LSUBMODEL)                                             
-            IGRSLIN(IGS)%NSEG = NSEG                                       
-            MY_ALLOCATE2D(IGRSLIN(IGS)%NODES,NSEG,2)                       
-            IGRSLIN(IGS)%NODES(1:NSEG,1:2) = 0                             
-            MY_ALLOCATE(IGRSLIN(IGS)%ELTYP,NSEG)                           
-            IGRSLIN(IGS)%ELTYP(1:NSEG) = 0                                 
-            MY_ALLOCATE(IGRSLIN(IGS)%ELEM,NSEG)                            
-            IGRSLIN(IGS)%ELEM(1:NSEG) = 0                                  
-            MY_ALLOCATE(IGRSLIN(IGS)%PROC,NSEG)                            
-            IGRSLIN(IGS)%PROC(1:NSEG) = 0                                  
-          ENDIF  
-          IF(FLAG == 1) THEN                    
-            CALL HM_GET_INTV  ('segmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                 
-            DO KK=1,NENTITY                                                              
-              CALL HM_GET_INT_ARRAY_INDEX ('N1' ,N1 ,KK,IS_AVAILABLE,LSUBMODEL)       
-              CALL HM_GET_INT_ARRAY_INDEX ('N2' ,N2 ,KK,IS_AVAILABLE,LSUBMODEL)       
-              IGRSLIN(IGS)%NODES(KK,1) = USR2SYS(N1,ITABM1,MESS,ID)      
-              IGRSLIN(IGS)%NODES(KK,2) = USR2SYS(N2,ITABM1,MESS,ID)      
-              IGRSLIN(IGS)%ELTYP(KK) = 0                                     
-              IGRSLIN(IGS)%ELEM(KK)  = 0 
-            ENDDO   
-          ENDIF                                                                                   
-        ELSEIF(KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR. KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN              
+        ISEG = 0
+        IF (FLAG == 0) THEN
+          IGRSLIN(IGS)%ID = 0
+          IGRSLIN(IGS)%NSEG = 0
+          IGRSLIN(IGS)%TYPE = 0
+          IGRSLIN(IGS)%LEVEL = 0
+          IGRSLIN(IGS)%NSEG_R2R_ALL = 0
+          IGRSLIN(IGS)%NSEG_R2R_SHARE = 0
+        ENDIF
+        IGRSLIN(IGS)%ID = ID
+        IGRSLIN(IGS)%LEVEL = 1
+        IGRSLIN(IGS)%TITLE = TITR
+        IF(KEY(1:4) == 'LINE') THEN !tag des lines of lines
+          IGRSLIN(IGS)%NSEG = -1
+          IGRSLIN(IGS)%LEVEL = 0
+          IT0=IT0+1
+        ELSEIF(KEY(1:3) == 'SEG') THEN
+          IT1=IT1+1
+          IF (FLAG == 0) THEN
+            CALL HM_GET_INTV('segmax',NSEG,IS_AVAILABLE,LSUBMODEL)
+            IGRSLIN(IGS)%NSEG = NSEG
+            MY_ALLOCATE2D(IGRSLIN(IGS)%NODES,NSEG,2)
+            IGRSLIN(IGS)%NODES(1:NSEG,1:2) = 0
+            MY_ALLOCATE(IGRSLIN(IGS)%ELTYP,NSEG)
+            IGRSLIN(IGS)%ELTYP(1:NSEG) = 0
+            MY_ALLOCATE(IGRSLIN(IGS)%ELEM,NSEG)
+            IGRSLIN(IGS)%ELEM(1:NSEG) = 0
+            MY_ALLOCATE(IGRSLIN(IGS)%PROC,NSEG)
+            IGRSLIN(IGS)%PROC(1:NSEG) = 0
+          ENDIF
+          IF(FLAG == 1) THEN
+            CALL HM_GET_INTV  ('segmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+            DO KK=1,NENTITY
+              CALL HM_GET_INT_ARRAY_INDEX ('N1' ,N1 ,KK,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX ('N2' ,N2 ,KK,IS_AVAILABLE,LSUBMODEL)
+              IGRSLIN(IGS)%NODES(KK,1) = USR2SYS(N1,ITABM1,MESS,ID)
+              IGRSLIN(IGS)%NODES(KK,2) = USR2SYS(N2,ITABM1,MESS,ID)
+              IGRSLIN(IGS)%ELTYP(KK) = 0
+              IGRSLIN(IGS)%ELEM(KK)  = 0
+            ENDDO
+          ENDIF
+        ELSEIF(KEY(1:4) == 'PART'.OR.KEY(1:6) == 'SUBSET'.OR. KEY(1:3) == 'MAT' .OR.KEY(1:4) == 'PROP') THEN
 C         line de SUBSET PART MAT OU PROP                                  
-          IT2=IT2+1                                                        
-          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
-        ELSEIF(KEY(1:3) == 'BOX'.AND.NBBOX == 0 .AND.(KEY2(1:5) /= 'RECTA'.AND.KEY2(1:5) /= 'CYLIN'.AND.KEY2(1:5) /= 'SPHER'))THEN             
+          IT2=IT2+1
+          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0
+        ELSEIF(KEY(1:3) == 'BOX'.AND.NBBOX == 0 .AND.(KEY2(1:5) /= 'RECTA'.AND.KEY2(1:5) /= 'CYLIN'.AND.KEY2(1:5) /= 'SPHER'))THEN
 C         line dans un box (old)                                           
-          lERROR=.TRUE.                           
-        ELSEIF(KEY(1:2) == 'GR'.OR.KEY(1:4) == 'WIRE') THEN                
+          lERROR=.TRUE.
+        ELSEIF(KEY(1:2) == 'GR'.OR.KEY(1:4) == 'WIRE') THEN
 C         line d'ele 2N dans un group d'elements                           
-          IT4=IT4+1                                                        
-          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
-        ELSEIF(KEY(1:4) == 'SURF'.OR.KEY(1:4) == 'EDGE') THEN              
+          IT4=IT4+1
+          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0
+        ELSEIF(KEY(1:4) == 'SURF'.OR.KEY(1:4) == 'EDGE') THEN
 C         line d'ele 2N dans une surface ou son bord                       
-          IT5=IT5+1                                                        
-          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
-        ELSEIF(KEY(1:6) == 'SUBMOD') THEN                                  
+          IT5=IT5+1
+          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0
+        ELSEIF(KEY(1:6) == 'SUBMOD') THEN
 C         line de submodel                                                 
-          IT6=IT6+1                                                        
-          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0                             
-        ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR. KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN               
-          !old /grnod/box (not /BOX/BOX)                                    
-          !line dans un box (classical box, parallelepiped (oriented),      
-          !          cylindrical, spherical)                                
-          lERROR=.TRUE.                             
-        ELSEIF(KEY(1:3) == 'BOX' .AND. NBBOX > 0)THEN                      
-          !multi box (box de box)                                           
-          IT8=IT8+1 
+          IT6=IT6+1
+          IF (FLAG == 0) IGRSLIN(IGS)%NSEG = 0
+        ELSEIF(KEY(1:3) == 'BOX'.AND.(KEY2(1:5) == 'RECTA'.OR. KEY2(1:5) == 'CYLIN'.OR.KEY2(1:5) == 'SPHER'))THEN
+          !old /grnod/box (not /BOX/BOX)
+          !line dans un box (classical box, parallelepiped (oriented),
+          !          cylindrical, spherical)
+          lERROR=.TRUE.
+        ELSEIF(KEY(1:3) == 'BOX' .AND. NBBOX > 0)THEN
+          !multi box (box de box)
+          IT8=IT8+1
         ELSE
-          lERROR=.TRUE.                                                                         
-        ENDIF                                                              
-        
+          lERROR=.TRUE.
+        ENDIF
+
         IF(lERROR)THEN
           !INVALID KEYWORD
           STRING=' '
           STRING = "/LINE/"//KEY(1:LEN_TRIM(KEY)-1)
           IF(LEN_TRIM(KEY2)>1)STRING = STRING//KEY2(1:LEN_TRIM(KEY2)-1)
-          CALL ANCMSG(MSGID=688,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID, C1=TITR, C2=STRING)         
+          CALL ANCMSG(MSGID=688,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID, C1=TITR, C2=STRING)
         ENDIF
-                    
+
       ENDDO
 
 C-------------------------------------
@@ -362,7 +362,7 @@ C-------------------------
      .                        SBUFBOX,TITR     ,MESS        ,TAGT,
      .                        NN     ,LSUBMODEL)
               IADBOXMAX = MAX(IADBOX,IADBOXMAX)
-             IF (IADBOX>SBUFBOX .OR. IADBOX<0) 
+             IF (IADBOX>SBUFBOX .OR. IADBOX<0)
      .        CALL ANCMSG(MSGID=1007,MSGTYPE=MSGERROR,ANMODE=ANSTOP)
               IF(NUMELP > 0)
      .        CALL HM_BIGSBOX(NUMELP ,IXP    ,NIXP        ,2    ,3     ,5   ,
@@ -371,7 +371,7 @@ C-------------------------
      .                        ID     ,BUFBOX ,IGRSLIN(IGS),IADBOX, KEY ,
      .                        SBUFBOX,TITR   ,MESS        ,TAGP ,
      .                        NN    ,LSUBMODEL)
-             IF (IADBOX>SBUFBOX .OR. IADBOX<0) 
+             IF (IADBOX>SBUFBOX .OR. IADBOX<0)
      .        CALL ANCMSG(MSGID=1007,MSGTYPE=MSGERROR,ANMODE=ANSTOP)
               IADBOXMAX = MAX(IADBOX,IADBOXMAX)
               IF (FLAG == 0) THEN
@@ -389,7 +389,7 @@ C=======================================================================
 C ligne de SUBSETS,PART,MAT,PROP
 C=======================================================================
       IF(IT2/=0.OR.IT6/=0) THEN
-        ALLOCATE( SURF_ELM(NPART) )        
+        ALLOCATE( SURF_ELM(NPART) )
         MODE = 2
         CALL INIT_SURF_ELM(IBID    ,IBID   ,IBID    ,IBID   ,IBID    ,
      1                     NUMELT  ,NUMELP ,NUMELR  ,NPART  ,IBID    ,
@@ -513,34 +513,34 @@ C=======================================================================
               IAD0 =1
               NSEG =0
               NSEG0=0
-              CALL HM_GET_INTV  ('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                 
-              DO KK=1,NENTITY                                                              
-                CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)         
-                IF (JJ /= 0) THEN                                                          
-                  IGRS=0                                                                   
-                  DO K=1,NSURF                                                             
-                    IF (JJ == IGRSURF(K)%ID) THEN                                          
-                      IGRS=K                                                               
-                      EXIT                                                                 
-                    ENDIF                                                                  
-                  ENDDO                                                                    
-                  IF (IGRS /= 0) THEN                                                      
-                    NSEG0=NSEG0+IGRSURF(IGRS)%NSEG                                         
-                    DO K=0,IGRSURF(IGRS)%NSEG-1                                            
-                      BUFTMP(IAD0+6*K)   = IGRSURF(IGRS)%NODES(K+1,1)                      
-                      BUFTMP(IAD0+6*K+1) = IGRSURF(IGRS)%NODES(K+1,2)                      
-                      BUFTMP(IAD0+6*K+2) = IGRSURF(IGRS)%NODES(K+1,3)                      
-                      BUFTMP(IAD0+6*K+3) = IGRSURF(IGRS)%NODES(K+1,4)                      
-                      BUFTMP(IAD0+6*K+4) = IGRSURF(IGRS)%ELTYP(K+1)                        
-                      BUFTMP(IAD0+6*K+5) = IGRSURF(IGRS)%ELEM(K+1)                         
-                      DO JJ=1,6                                                            
-                        NINDX=NINDX+1                                                      
-                        INDX(NINDX)=IAD0+6*K+JJ-1                                          
-                      ENDDO                                                                
-                    ENDDO                                                                  
-                    IAD0=IAD0+6*IGRSURF(IGRS)%NSEG                                         
-                  ENDIF                                                                    
-                ENDIF                                                                      
+              CALL HM_GET_INTV  ('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+              DO KK=1,NENTITY
+                CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
+                IF (JJ /= 0) THEN
+                  IGRS=0
+                  DO K=1,NSURF
+                    IF (JJ == IGRSURF(K)%ID) THEN
+                      IGRS=K
+                      EXIT
+                    ENDIF
+                  ENDDO
+                  IF (IGRS /= 0) THEN
+                    NSEG0=NSEG0+IGRSURF(IGRS)%NSEG
+                    DO K=0,IGRSURF(IGRS)%NSEG-1
+                      BUFTMP(IAD0+6*K)   = IGRSURF(IGRS)%NODES(K+1,1)
+                      BUFTMP(IAD0+6*K+1) = IGRSURF(IGRS)%NODES(K+1,2)
+                      BUFTMP(IAD0+6*K+2) = IGRSURF(IGRS)%NODES(K+1,3)
+                      BUFTMP(IAD0+6*K+3) = IGRSURF(IGRS)%NODES(K+1,4)
+                      BUFTMP(IAD0+6*K+4) = IGRSURF(IGRS)%ELTYP(K+1)
+                      BUFTMP(IAD0+6*K+5) = IGRSURF(IGRS)%ELEM(K+1)
+                      DO JJ=1,6
+                        NINDX=NINDX+1
+                        INDX(NINDX)=IAD0+6*K+JJ-1
+                      ENDDO
+                    ENDDO
+                    IAD0=IAD0+6*IGRSURF(IGRS)%NSEG
+                  ENDIF
+                ENDIF
               ENDDO
               IF (FLAG == 1) THEN ! NSEG counted at FLAG = 0
                 MY_ALLOCATE2D(IGRSLIN(IGS)%NODES, IGRSLIN(IGS)%NSEG,2)
@@ -629,7 +629,7 @@ C=======================================================================
             DO II=1,NINDX
               BUFTMP(INDX(II))=0
             END DO
-            NINDX=0            
+            NINDX=0
 C-----------
         ENDDO
       ENDIF
@@ -639,7 +639,7 @@ C=======================================================================
 !       deallocation of SURT_ELM structur
         MODE = 2
         CALL DEALLOCATE_SURF_ELM(NPART,SURF_ELM,MODE)
-        DEALLOCATE( SURF_ELM ) 
+        DEALLOCATE( SURF_ELM )
       ENDIF
       RETURN
  900  CONTINUE

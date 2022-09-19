@@ -66,7 +66,7 @@ C-----------------------------------------------
       CHARACTER FILNAM*100
       CHARACTER LINE*200
       CHARACTER*100  FMW
-      
+
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
 C=======================================================================
@@ -194,7 +194,7 @@ cc
        WRITE(IOUTMVW,'(A)')'                    *EndSelection()'
        WRITE(IOUTMVW,'(A)')'                *EndGroup()'
 cc
-c 
+c
 cc
        WRITE(IOUTMVW,'(A)')'                *BeginDeformed()'
        WRITE(IOUTMVW,'(A)')'                    *ScaleMode("ScaleFactor")'
@@ -219,9 +219,9 @@ cc
        WRITE(IOUTMVW,'(A)')'                *Attach("WINDOW")'
        WRITE(IOUTMVW,'(A)')'                *Position(0.500000, 0.500000)'
        WRITE(IOUTMVW,'(A)')'                *Text("{for (i = 0; i != numpts(window.modeltitlelist); ++i) }\n
-     .    {window.modelidlist[i]}:{window.modeltitlelist[i]}\n{window.loadcaselist[i]} : 
+     .    {window.modelidlist[i]}:{window.modeltitlelist[i]}\n{window.loadcaselist[i]} :
      . {window.simulationsteplist[i]} : {window.framelist[i]}\n{endloop}")'
-                
+
        WRITE(IOUTMVW,'(A)')'                *Font("Arial", "regular", "regular", 10)'
        WRITE(IOUTMVW,'(A)')'                *Color(1)'
        WRITE(IOUTMVW,'(A)')'                *BorderWidth(0)'
@@ -1728,7 +1728,7 @@ cc
        WRITE(IOUTMVW,'(A)')'                    *EndSelection()'
        WRITE(IOUTMVW,'(A)')'                *EndGroup()'
 cc
-c 
+c
 cc
        WRITE(IOUTMVW,'(A)')'                *BeginDeformed()'
        WRITE(IOUTMVW,'(A)')'                    *ScaleMode("ScaleFactor")'
@@ -1753,9 +1753,9 @@ cc
        WRITE(IOUTMVW,'(A)')'                *Attach("WINDOW")'
        WRITE(IOUTMVW,'(A)')'                *Position(0.500000, 0.500000)'
        WRITE(IOUTMVW,'(A)')'                *Text("{for (i = 0; i != numpts(window.modeltitlelist); ++i) }\n
-     .    {window.modelidlist[i]}:{window.modeltitlelist[i]}\n{window.loadcaselist[i]} : 
+     .    {window.modelidlist[i]}:{window.modeltitlelist[i]}\n{window.loadcaselist[i]} :
      . {window.simulationsteplist[i]} : {window.framelist[i]}\n{endloop}")'
-                
+
        WRITE(IOUTMVW,'(A)')'                *Font("Arial", "regular", "regular", 10)'
        WRITE(IOUTMVW,'(A)')'                *Color(1)'
        WRITE(IOUTMVW,'(A)')'                *BorderWidth(0)'
@@ -2363,7 +2363,7 @@ c       WRITE(IOUTMVW,'(A)')'                *Max(2.5e+007)'
 
 
 
-        
+
       ENDIF
 c-----------
       RETURN

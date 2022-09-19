@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE EMOMT2(PM,RHO,
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .                  T11, T12, T13, T14, T21, T22, T23 , T24, 
+     .                  T11, T12, T13, T14, T21, T22, T23 , T24,
      .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  DYY, DZZ, DYZ, DZY,VDY,VDZ,
      .                  DELTAX,VIS,VD2,
@@ -59,7 +59,7 @@ C-----------------------------------------------
       my_real PM(NPROPM,NUMMAT), RHO(*),
      .        Y1(*),Y2(*),Y3(*),Y4(*),Z1(*),Z2(*),Z3(*),Z4(*),
      .        VY1(*), VY2(*), VY3(*), VY4(*), VZ1(*), VZ2(*), VZ3(*), VZ4(*),
-     .        T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*), 
+     .        T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*), T24(*),
      .        PY1(*), PY2(*), PZ1(*), PZ2(*), AIRE(*),
      .        DYY(*), DZZ(*), DYZ(*), DZY(*),VDY(*),VDZ(*),
      .        DELTAX(*),VIS(*),VD2(*),QMV(8,*),BUFMAT(*)
@@ -107,10 +107,10 @@ C
         DO I=LFT,LLT
           AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)
           AAA = FOURTH * AAA
-          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)   
-          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)   
-          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)   
-          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)   
+          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)
+          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)
+          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)
+          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)
           DMY = ZERO
           DMZ = ZERO
           DM = QMV(4,I)+QMV(1,I)
@@ -171,7 +171,7 @@ C
          S(2,I)=HALF*(Y12(I)-Y34(I))
          S(3,I)=HALF*(Z12(I)-Z34(I))
          T(2,I)=HALF*(-Y41(I)+Y23(I))
-         T(3,I)=HALF*(-Z41(I)+Z23(I))	 
+         T(3,I)=HALF*(-Z41(I)+Z23(I))	
        ENDDO
       ENDIF
 C

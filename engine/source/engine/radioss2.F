@@ -149,7 +149,7 @@ Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        TIME_MOD                      share/modules/time_mod.F      
 Chd|        UNITS_MOD                     share/modules/units_mod.F     
 Chd|====================================================================
-      SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA) 
+      SUBROUTINE RADIOSS2(IDATA,MIDATA,RDATA,MRDATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -161,8 +161,8 @@ C-----------------------------------------------
       USE INTSTAMP_GLOB_MOD
       USE TABLE_GLOB_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD      
-      USE ELBUF_MOD      
+      USE ELBUFDEF_MOD
+      USE ELBUF_MOD
       USE RAD2R_MOD
       USE SOLTOSPH_MOD
       USE STACK_MOD
@@ -353,7 +353,7 @@ C MDS Table
 !      TYPE(T_CG_SOLVER) :: LINEAR_SOLVER
 #ifdef MUMPS5
       TYPE(T_MUMPS_SOLVER) :: LINEAR_SOLVER
-#else 
+#else
       TYPE(T_CG_SOLVER) :: LINEAR_SOLVER
 
 #endif
@@ -377,7 +377,7 @@ C------------------------------------------------
       ISTDO=6
       CALL INI_MSG()
       CALL BUILD_MSG()
-    
+
       CALL CHECK_MESSAGE_DEFINITION()
 C
       CALL INITIME()
@@ -434,7 +434,7 @@ C------------------------------------------------------------------
       ISTDI=5
       IUGEO=4
 !       ----------------------------------------
-!       in order to open a file, need a FILE 
+!       in order to open a file, need a FILE
 !       pointer
 !       FILE pointer already used :
 !       0-->4
@@ -522,7 +522,7 @@ C--------------------------------------------------
         ENDIF
         USERL_AVAIL=0
         DLIB_ARRAY(1:NBR_DLIB) = 0
-#ifndef SANITIZE 
+#ifndef SANITIZE
         CALL DYN_USERLIB_INIT(DLIBFILE,DLIBFILE_SIZE,USERL_AVAIL,DLIBTKVERS,IRESP,GOT_USERL_ALTNAME,
      1                        DLIB_ARRAY)
 #endif
@@ -601,7 +601,7 @@ c
                 ISTDI = 80
                 OPEN(UNIT=ISTDI,FORM='FORMATTED',FILE=INAME(1:LFNAME),
      .               ACTION='READ',STATUS='OLD',IOSTAT=IO_ERR)
-        ELSE 
+        ELSE
            CALL ANCMSG(MSGID=144,ANMODE=ANINFO,
      .            C1=FNAME(1:LFNAME))
            CALL ARRET(5)
@@ -659,7 +659,7 @@ C------------------------------------------------
       CALL LECINP(IRUNN,IRFL,IRFE,H3D_DATA,FLAG_CST_AMS)
       NFSKYI=5
       IF(KDTINT==0 )NFSKYI=4
-      
+
       IF (GOT_INPUT==0)THEN
 C --------------------------------
 C when stdi indirection is used need to rebuild Engine input deck
@@ -681,27 +681,27 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
           ISOLPGRS = 666666
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.progress'
           LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+14
-          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+14)          
+          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+14)
           OPEN(UNIT=ISOLPGRS,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
      .         FORM='FORMATTED',STATUS='UNKNOWN')
-          WRITE(ISOLPGRS,'(I4)') 0     
+          WRITE(ISOLPGRS,'(I4)') 0
           WRITE(ISOLPGRS,'(E11.4)') ZERO
           WRITE(ISOLPGRS,'(I4)') 0
           WRITE(ISOLPGRS,'(I4)') 0
           WRITE(ISOLPGRS,'(I4)') 0
-          CALL FLUSH(ISOLPGRS)       
+          CALL FLUSH(ISOLPGRS)
           ISOLMNTR = 66666
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.monitor'
           LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+13
-          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+13)          
+          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+13)
           OPEN(UNIT=ISOLMNTR,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
-     .         FORM='FORMATTED',STATUS='UNKNOWN')         
+     .         FORM='FORMATTED',STATUS='UNKNOWN')
           ISOLHIST = 66
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_implicit.hist'
           LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+19
-          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+19)          
+          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+19)
           OPEN(UNIT=ISOLHIST,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
      .         FORM='FORMATTED',STATUS='UNKNOWN')
@@ -711,31 +711,31 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
      .    'Residual disp.','Residual force','Residual energy',
      .    'Tolerance disp.','Tolerance force','Tolerance energy',
      .    'Converged step','Diverged step',
-     .    'Time','Line search coefficient','Load factor','Arc length' 
+     .    'Time','Line search coefficient','Load factor','Arc length'
           ELSE
           WRITE(ISOLHIST,1003) 'Cumulative iterations','Cycle',
      .    'Iteration per cycle',
      .    'Residual disp.','Residual force','Residual energy',
      .    'Tolerance disp.','Tolerance force','Tolerance energy',
      .    'Converged step','Diverged step',
-     .    'Time','Line search coefficient'           
-          ENDIF     
+     .    'Time','Line search coefficient'
+          ENDIF
 1003      FORMAT(A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,
-     .           ',',A,',',A,',',A,',',A) 
+     .           ',',A,',',A,',',A,',',A)
 1007      FORMAT(A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,',',A,
-     .           ',',A,',',A,',',A,',',A,',',A,',',A)     
+     .           ',',A,',',A,',',A,',',A,',',A,',',A)
           ISOLINFO = 666
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_implicit.info'
           INPUTNAM='CHECK_DATA'
           LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+19
-          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+19)  
+          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+19)
           OPEN(UNIT=ISOLINFO,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
-     .         FORM='FORMATTED',STATUS='UNKNOWN')    
+     .         FORM='FORMATTED',STATUS='UNKNOWN')
           ISOLTPL = 6666
           FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_implicit.tpl'
           LEN_TMP_NAME = OUTFILE_NAME_LEN+ROOTLEN+18
-          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+18)  
+          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:ROOTLEN+18)
           INPUTNAM='CHECK_DATA'
           OPEN(UNIT=ISOLTPL,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
@@ -754,7 +754,7 @@ C       Create info, hist, monitor, progress and tpl files for writing implicit 
           FILNAM=ROOTNAM(1:ROOTLEN)
           CALL WRITE_TPL_FILE(FILNAM(1:ROOTLEN),IOFF1,IOFF2,IOFF3)
 1004      FORMAT('*DefineReport(',A,', PLOT_FILE_1)')
-1005      FORMAT('    *Id("HyperWorks", "Report")')           
+1005      FORMAT('    *Id("HyperWorks", "Report")')
 1006      FORMAT('    *Parameter(PLOT_FILE_1, PLOT_FILE_1, FILENAME, "*", "',
      .           A,'")')
         ENDIF
@@ -823,7 +823,7 @@ C
          LEN = LEN + 4
        ENDIF
        !    ---------------------------------
-       !    restarts are read into outfile folder 
+       !    restarts are read into outfile folder
        !    even if -inline is used in order to
        !    satisfy the PO :-(
        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN
@@ -913,7 +913,7 @@ C Specific case with different number of threads per MPI domain
      .                           NBTASK(NSPMD+1)
         WRITE(ISTDO,'(1X,A,I5)')'NUMBER OF HMPP PROCESSES ',
      .                           NBTASK(NSPMD+1)
-      
+
        END IF
 C Open the qaprint file
        CALL QAOPEN('engine')
@@ -1080,10 +1080,10 @@ C--------------------------------------------
       ! linked to a PART                 !
       !  YES: MMALE=1                    !
       !  NO : MMALE=0                    !
-      ! +JWL EOS for burn fraction       !      
-      !----------------------------------!      
+      ! +JWL EOS for burn fraction       !
+      !----------------------------------!
       MMALE = 0
-      ILAW37 = 0     
+      ILAW37 = 0
       ILAW51 = 0
       ILAW20 = 0
       DO I=1,NPART
@@ -1095,130 +1095,130 @@ C--------------------------------------------
          IF (MLN==51 .OR. MLN==37 .OR. MLN==20 .OR. MLN == 151) MMALE = 1
          IF (MLN==51) ILAW51=1
          IF (MLN==37) ILAW37=1
-         IF (MLN==20) ILAW20=1 
+         IF (MLN==20) ILAW20=1
       ENDDO
       !----------------------------------!
       !  Updating contour output request !
       !  according multimaterial law type!
       !  and usage                       !
-      !----------------------------------!      
+      !----------------------------------!
       !COMMUN LAW51/LAW37
       !Removing /ANIM/ELEM/VFRAC if no multimaterial law
-      IF(MMALE==0)THEN  
+      IF(MMALE==0)THEN
         DO I=283,286
           IF(ANIM_SE(I)==1)THEN
             ANIM_SE(I)=0
             NSE_ANI=NSE_ANI-1
-          END IF      
-        ENDDO 
+          END IF
+        ENDDO
         DO I=10248,10251
           IF(ANIM_CE(I)==1)THEN
             ANIM_CE(I)=0
             NCE_ANI=NCE_ANI-1
-          END IF      
+          END IF
         ENDDO  	
         !/ANIM/ELEM/VFRAC not relevant in this case
         NN_ANI     = NN_ANI - ANIM_N(20) 	
-        NN_ANI     = NN_ANI - ANIM_N(21) 
-        NN_ANI     = NN_ANI - ANIM_N(22) 
-        NN_ANI     = NN_ANI - ANIM_N(23)                         
+        NN_ANI     = NN_ANI - ANIM_N(21)
+        NN_ANI     = NN_ANI - ANIM_N(22)
+        NN_ANI     = NN_ANI - ANIM_N(23)
         ANIM_N(20) = 0
         ANIM_N(21) = 0
         ANIM_N(22) = 0
-        ANIM_N(23) = 0                 
+        ANIM_N(23) = 0
       ENDIF
 
       IF(MMALE==0 .OR. INT22==0)THEN
-        !/ANIM/ELEM/ZVFRAC not relevant in this case               
+        !/ANIM/ELEM/ZVFRAC not relevant in this case
         NN_ANI     = NN_ANI - ANIM_N(24) 	
-        NN_ANI     = NN_ANI - ANIM_N(25) 
-        NN_ANI     = NN_ANI - ANIM_N(26) 
-        NN_ANI     = NN_ANI - ANIM_N(27)                                         
+        NN_ANI     = NN_ANI - ANIM_N(25)
+        NN_ANI     = NN_ANI - ANIM_N(26)
+        NN_ANI     = NN_ANI - ANIM_N(27)
         ANIM_N(24) = 0
         ANIM_N(25) = 0
         ANIM_N(26) = 0
-        ANIM_N(27) = 0                       
+        ANIM_N(27) = 0
       ENDIF
-      
-      IF(INT22==0)THEN 
+
+      IF(INT22==0)THEN
         !/ANIM/ELEM/ZVOLD  not relevant in this case
-        !/ANIM/ELEM/ZVNEW  not relevant in this case       
-        NN_ANI     = NN_ANI - ANIM_N(28) 
-        NN_ANI     = NN_ANI - ANIM_N(29)       
+        !/ANIM/ELEM/ZVNEW  not relevant in this case
+        NN_ANI     = NN_ANI - ANIM_N(28)
+        NN_ANI     = NN_ANI - ANIM_N(29)
         ANIM_N(28) = 0
-        ANIM_N(29) = 0   
-        !/ANIM/VECT/ZVEL  not relevant in this case 
+        ANIM_N(29) = 0
+        !/ANIM/VECT/ZVEL  not relevant in this case
         NV_ANI     = NV_ANI - ANIM_V(21)
-        ANIM_V(21) = 0    
-        !/ANIM/VECT/ZFVEL  not relevant in this case 
+        ANIM_V(21) = 0
+        !/ANIM/VECT/ZFVEL  not relevant in this case
         NV_ANI     = NV_ANI - ANIM_V(22)
-        ANIM_V(22) = 0 
-        !/ANIM/VECT/ZMOM  not relevant in this case 
+        ANIM_V(22) = 0
+        !/ANIM/VECT/ZMOM  not relevant in this case
         NV_ANI     = NV_ANI - ANIM_V(23)
-        ANIM_V(23) = 0       
-        !/ANIM/VECT/ZFP  not relevant in this case 
+        ANIM_V(23) = 0
+        !/ANIM/VECT/ZFP  not relevant in this case
         NV_ANI     = NV_ANI - ANIM_V(24)
-        ANIM_V(24) = 0    
-        !/ANIM/VECT/ZFINT  not relevant in this case 
+        ANIM_V(24) = 0
+        !/ANIM/VECT/ZFINT  not relevant in this case
         NV_ANI     = NV_ANI - ANIM_V(25)
-        ANIM_V(25) = 0                                    
-      ENDIF     
+        ANIM_V(25) = 0
+      ENDIF
 
       !COMMUN LAW51/LAW37
       !if multimaterial law then removing useless phases output (phases 3 or/and 4)
-      IF(MMALE==1)THEN     
-	IF(N2D==0)THEN 
-	  !no 2D output 
+      IF(MMALE==1)THEN
+	IF(N2D==0)THEN
+	  !no 2D output
           DO I=10248,10251
             IF(ANIM_CE(I)==1)THEN
               ANIM_CE(I)=0
               NCE_ANI=NCE_ANI-1
-            END IF      
-          ENDDO  
+            END IF
+          ENDDO
           !multimaterial with law51
-          IF(TRIMAT/=4)THEN  !if anim keyword present : removing phasis which are not defined        
+          IF(TRIMAT/=4)THEN  !if anim keyword present : removing phasis which are not defined
             IF(ANIM_SE(286)==1)THEN       !removing phase4 (jwl)
               ANIM_SE(286)=0
               NSE_ANI=NSE_ANI-1
             END IF
           ENDIF
           !multimaterial with law37
-          IF(TRIMAT==-2)THEN 
+          IF(TRIMAT==-2)THEN
             IF(ANIM_SE(285)==1)THEN       !removing phase3 (only 2 phases with law37 or law20), phase 4 already removed
               ANIM_SE(285)=0
               NSE_ANI=NSE_ANI-1
-            END IF      
+            END IF
           ENDIF	
-	ELSEIF(N2D>0)THEN 
+	ELSEIF(N2D>0)THEN
 	  !no 3D output	
           DO I=283,286
             IF(ANIM_SE(I)==1)THEN
               ANIM_SE(I)=0
               NSE_ANI=NSE_ANI-1
-            END IF      
-          ENDDO 
+            END IF
+          ENDDO
           !!multimaterial with law51
-          !IF(TRIMAT/=4)THEN  !if anim keyword present : removing phasis which are not defined        
+          !IF(TRIMAT/=4)THEN  !if anim keyword present : removing phasis which are not defined
           !  IF(ANIM_CE(10251)==1)THEN       !removing phase4 (jwl)
           !    ANIM_CE(10251)=0
           !    NCE_ANI=NCE_ANI-1
           !  END IF
-          !0ENDIF  
-          !IF(TRIMAT==0)THEN        
+          !0ENDIF
+          !IF(TRIMAT==0)THEN
           !  DO I=10250,10251
           !    IF(ANIM_CE(I)==1)THEN
           !      ANIM_CE(I) = 0
           !      NCE_ANI    = NCE_ANI-1
-          !    END IF      
+          !    END IF
           !  ENDDO
-          !ENDIF          
+          !ENDIF
 	ENDIF	
       ENDIF
-      
-      IF(MMALE==1)THEN 
+
+      IF(MMALE==1)THEN
         IF(TRIMAT==-2)TRIMAT=0  !skip law51 loops with law37
       ENDIF
-      
+
       !no need to output zero contour for ALE ANIM keywords if ALE not defined. (example: schlieren +SH3N)
       IF(IALE+IEULER+ITHERM == 0)THEN
         NCE_ANI = NCE_ANI - ANIM_CE(10672)
@@ -1228,9 +1228,9 @@ C--------------------------------------------
         ANIM_CE(10672) = 0 !quad schlieren
         ANIM_SE(4892)  = 0 !solid schlieren
         ANIM_CE(10671) = 0 !quad ssp
-        ANIM_SE(4891)  = 0 !solid ssp        
+        ANIM_SE(4891)  = 0 !solid ssp
       ENDIF
-            
+
       !no need to output phase contour if no law51
       IF(ILAW51 == 0)THEN
         !densities
@@ -1272,32 +1272,32 @@ C--------------------------------------------
         DO I=4926,4929
           NSE_ANI    = NSE_ANI - ANIM_SE(I)
           ANIM_SE(I) = 0
-        ENDDO     
+        ENDDO
         !artificial viscosities
         DO I=4931,4934
           NSE_ANI    = NSE_ANI - ANIM_SE(I)
           ANIM_SE(I) = 0
-        ENDDO       
+        ENDDO
         !nodal volumetric fraction : no phase 3 & 4
-        NN_ANI       = NN_ANI - ANIM_N(22) 
-        NN_ANI       = NN_ANI - ANIM_N(23)                         
+        NN_ANI       = NN_ANI - ANIM_N(22)
+        NN_ANI       = NN_ANI - ANIM_N(23)
         ANIM_N(22)   = 0
-        ANIM_N(23)   = 0 
+        ANIM_N(23)   = 0
         !centroid volumetric fraction : no phase 3 & 4
-        NN_ANI       = NN_ANI - ANIM_N(26) 
-        NN_ANI       = NN_ANI - ANIM_N(27)                         
+        NN_ANI       = NN_ANI - ANIM_N(26)
+        NN_ANI       = NN_ANI - ANIM_N(27)
         ANIM_N(26)   = 0
-        ANIM_N(27)   = 0                          
+        ANIM_N(27)   = 0
       ENDIF !IF(ILAW51 == 0)
-      
+
       IF(ILAW37==0)THEN
         !submat densities
         NSE_ANI       = NSE_ANI - ANIM_SE(4935)
-        NSE_ANI       = NSE_ANI - ANIM_SE(4936)          
+        NSE_ANI       = NSE_ANI - ANIM_SE(4936)
         ANIM_SE(4935) = 0
-        ANIM_SE(4936) = 0            
-      ENDIF    
-                          
+        ANIM_SE(4936) = 0
+      ENDIF
+
       !no need to output phase contour if no law20
       IF(ILAW20 == 0 .AND. ILAW51 == 0)THEN
         DO I= 11890,11925
@@ -1307,7 +1307,7 @@ C--------------------------------------------
       ENDIF !IF(ILAW20 == 0)
 
       IF(I_DT_NODA_ALE_ON_KEY==1) I_DT_NODA_ALE_ON = 1
-                          
+
 C--------------------------------------------
 C     UNIT restart info
       CALL READ_UNITS(UNITAB)
@@ -1370,14 +1370,14 @@ C--------------------------------------------
         CALL STACK_RREST(STACK%IGEO,STACK%GEO, STACK%PM )
       ELSE
          ALLOCATE(STACK%IGEO(0,0),STACK%GEO(0,0),STACK%PM(0,0))
-      ENDIF 
+      ENDIF
       IF (NDRAPE > 0) THEN
         CALL DRAPE_RREST(DRAPE_Q4,DRAPE_T3)
       ELSE
         ALLOCATE(DRAPE_Q4%NPT(0), DRAPE_Q4%INDX(0),DRAPE_Q4%IDRAPE(0),
      .     DRAPE_Q4%RDRAPE(0,0), DRAPE_T3%NPT(0), DRAPE_T3%INDX(0),DRAPE_T3%IDRAPE(0),
-     .     DRAPE_T3%RDRAPE(0,0)  )   
-      ENDIF 
+     .     DRAPE_T3%RDRAPE(0,0)  )
+      ENDIF
 C--------------------------------------------
       IF (NUMPLY > 0) CALL PLY_INFO_REST(PLY_INFO)
 C--------------------------------------------
@@ -1386,7 +1386,7 @@ C--------------------------------------------
 !       read the previous engine elapsed time
         IF(GLOBAL_COMP_TIME%RUN_NBR>1) THEN
                 CALL READ_DPDB(GLOBAL_COMP_TIME%ENGINE_TIME,GLOBAL_COMP_TIME%RUN_NBR-1)
-        ENDIF      
+        ENDIF
 
 C     Close restart file
       CALL CLOSE_C
@@ -1517,7 +1517,7 @@ C------------------------------------------------
         DO I=1,MDS_NMAT
            MAX_DEPVAR=MAX(MAX_DEPVAR,MDS_NDEPSVAR(I) )
         ENDDO
-        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) ) 
+        ALLOCATE (MDS_OUTPUT_TABLE(MDS_NMAT*MAX_DEPVAR) )
 
         CALL MDS_ENGINE_USER_INITIALIZE(NSPMD_USER,NTASK_USER,ISPMD_USER,TSTOP,
      *                                  MDS_NMAT,MDS_MATID,MDS_FILES,MDS_LABEL,MDS_NDEPSVAR,MAX_DEPVAR,MDS_OUTPUT_TABLE)
@@ -1551,8 +1551,8 @@ C------------------------------------------------
       CALL TRACE_OUT(19)
 C------------------------------------------------
       IF ((IRAD2R==1).AND.(R2R_SIU==1))THEN
-        CALL R2R_INPUT_INIT(IRUNN)          
-      ENDIF         
+        CALL R2R_INPUT_INIT(IRUNN)
+      ENDIF
 C------------------------------------------------
 C     Check NXT FAIL for output 
 C------------------------------------------------
@@ -1565,7 +1565,7 @@ C------------------------------------------------
           ENDDO
        ENDDO
       IF(IFAILURE_NXT == 1) THEN
-            NCE_ANI=NCE_ANI + 3           
+            NCE_ANI=NCE_ANI + 3
            ANIM_CE(10253) = 1
            ANIM_CE(10254) = 1
            ANIM_CE(10255) = 1
@@ -1865,17 +1865,17 @@ C   Multiple th files
      5        12	 ,ITHVAR  ,ITHFLAG)
             FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.abf'
             LONG = 9
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
             ENDDO
             DO I=1,LEN_TMP_NAME2!ROOTLEN+LONG_TMP
               IFILNAM_TMP(I)=ICHAR(TMP_NAME2(I:I))
-            ENDDO            
+            ENDDO
 C            NB_INDEX_ABF = MAX(2147483647,NINT((TSTOP-TT)/DTABF(1))+1)
 C           avoid SIGFPE
             RMAXINT=1073741824
@@ -1898,10 +1898,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_a.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -1926,10 +1926,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_b.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -1954,10 +1954,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_c.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -1982,10 +1982,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_d.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -2010,10 +2010,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_e.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -2038,10 +2038,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_f.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -2066,10 +2066,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_g.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -2094,10 +2094,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_h.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))
@@ -2122,10 +2122,10 @@ c
      5      1   ,ITHVAR,ITHFLAG)
               FILNAMABF=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_i.abf'
               LONG = 11
-            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG        
+            LEN_TMP_NAME = OUTFILE_NAME_LEN + ROOTLEN + LONG
             TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF(1:ROOTLEN+LONG)
 
-            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP        
+            LEN_TMP_NAME2 = OUTFILE_NAME_LEN + ROOTLEN + LONG_TMP
             TMP_NAME2=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAMABF_TMP(1:ROOTLEN+LONG_TMP)
             DO I=1,LEN_TMP_NAME!ROOTLEN+LONG
               IFILNAM(I)=ICHAR(TMP_NAME(I:I))

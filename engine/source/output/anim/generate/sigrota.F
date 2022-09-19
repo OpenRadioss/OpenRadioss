@@ -64,21 +64,21 @@ C-----------------------------------------------
      .   X1(NEL),  X2(NEL),  X3(NEL), X4(NEL),
      .   Y1(NEL),  Y2(NEL),  Y3(NEL), Y4(NEL),
      .   Z1(NEL),  Z2(NEL),  Z3(NEL), Z4(NEL),
-     .   X21(NEL), Y21(NEL), Z21(NEL), 
-     .   X31(NEL), Y31(NEL), Z31(NEL), 
-     .   X32(NEL), Y32(NEL), Z32(NEL), 
+     .   X21(NEL), Y21(NEL), Z21(NEL),
+     .   X31(NEL), Y31(NEL), Z31(NEL),
+     .   X32(NEL), Y32(NEL), Z32(NEL),
      .   X42(NEL), Y42(NEL), Z42(NEL),
-     .   E1X(NEL), E1Y(NEL), E1Z(NEL), 
-     .   E2X(NEL), E2Y(NEL), E2Z(NEL), 
-     .   E3X(NEL), E3Y(NEL), E3Z(NEL), 
+     .   E1X(NEL), E1Y(NEL), E1Z(NEL),
+     .   E2X(NEL), E2Y(NEL), E2Z(NEL),
+     .   E3X(NEL), E3Y(NEL), E3Z(NEL),
      .   E11(NEL),E12(NEL),E13(NEL),
      .   E21(NEL),E22(NEL),E23(NEL), DIR(NEL,2),
      .   PHI,CSP,SNP,U(3,NEL),
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
-      my_real, 
+      my_real,
      .   DIMENSION(:) , POINTER :: DIR1
-      TYPE(G_BUFEL_)  , POINTER :: GBUF   
-      TYPE(L_BUFEL_)  , POINTER :: LBUF   
+      TYPE(G_BUFEL_)  , POINTER :: GBUF
+      TYPE(L_BUFEL_)  , POINTER :: LBUF
 C=======================================================================
       NPTR = ELBUF_STR%NPTR
       NPTS = ELBUF_STR%NPTS
@@ -238,8 +238,8 @@ C
       ENDIF
 C--------------------------------------------------      
       DO I=JFT,JLT
-        AA = DIR1(I)                              
-        BB = DIR1(I + NEL)                             
+        AA = DIR1(I)
+        BB = DIR1(I + NEL)
         V1 = AA*E11(I) + BB*E21(I)
         V2 = AA*E12(I) + BB*E22(I)
         V3 = AA*E13(I) + BB*E23(I)
@@ -279,19 +279,19 @@ C
                 ELSE
                   LBUF => ELBUF_STR%BUFLY(1)%LBUF(IR,IS,IPT)
                 ENDIF
-                DO J = 1,5                                
+                DO J = 1,5
                   SIG(I,J) = SIG(I,J) + LBUF%VISC(JJ(J) + I)/NPG
-                ENDDO                                     
+                ENDDO
               ENDDO
-            ENDDO 
-          ENDDO 
+            ENDDO
+          ENDDO
         ENDIF
       ELSE
-        IF (NLAY > 1) THEN                                
-          LBUF => ELBUF_STR%BUFLY(IPT)%LBUF(1,1,1)      
-        ELSE                                              
-          LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)      
-        ENDIF                                             
+        IF (NLAY > 1) THEN
+          LBUF => ELBUF_STR%BUFLY(IPT)%LBUF(1,1,1)
+        ELSE
+          LBUF => ELBUF_STR%BUFLY(1)%LBUF(1,1,IPT)
+        ENDIF
         DO I=JFT,JLT
           DO J = 1,5
             SIG(I,J) = LBUF%SIG(JJ(J) + I)
@@ -299,11 +299,11 @@ C
         ENDDO
         IF (IVISC > 0) THEN
           DO I=JFT,JLT
-            DO J = 1,5                                
-              SIG(I,J) = SIG(I,J) + LBUF%VISC(JJ(J) + I)  
-            ENDDO                                      
+            DO J = 1,5
+              SIG(I,J) = SIG(I,J) + LBUF%VISC(JJ(J) + I)
+            ENDDO
           ENDDO
-        ENDIF  
+        ENDIF
       ENDIF
 C
       CALL UROTOV(JFT,JLT,SIG,DIR,NEL)

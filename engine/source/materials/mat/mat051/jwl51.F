@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .          TIME,XL,TBURN,VISCMAX,DD,MU,
      .          VOLUME,V1OLD,EINT1,
      .          P1OLD,Q1,Q1OLD,PEXT,P1,PM1,
@@ -53,15 +53,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ibug, IBFRAC
-      my_real 
+      my_real
      .   AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
-     .   QAL,QBL,DPDMU,MUP1,C01,C11, 
+     .   QAL,QBL,DPDMU,MUP1,C01,C11,
      .   Psol, Pgas, Psol_min, Pgas_min, SSP_unreacted, SSP_reacted
 C-----------------------------------------------
       VDET  = UPARAM(42)
       BHE   = UPARAM(44)
       B1    = UPARAM(45)
-      C01   = UPARAM(49) 
+      C01   = UPARAM(49)
       C11   = UPARAM(50)
       B2    = UPARAM(51)
       R1    = UPARAM(52)
@@ -86,7 +86,7 @@ C=======================================================================
       RHO = MAS1 / VOLUME
       IF(BFRAC < ONE) THEN
        BFRAC = ZERO
-       IF(IBFRAC/=1 .AND. TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+       IF(IBFRAC/=1 .AND. TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL
        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO) )
        IF(BFRAC < EM03) THEN
          BFRAC = ZERO
@@ -94,7 +94,7 @@ C=======================================================================
          BFRAC = ONE
        ENDIF
       ENDIF
-      
+
 
       !--------------------------------!
       ! SSP & ARTIFICIAL VISCO         !
@@ -102,28 +102,28 @@ C=======================================================================
       MUP1          = RHO/RHO10
       MU            = MUP1 - ONE
       R1M           = R1/MUP1
-      R2M           = R2/MUP1     
+      R2M           = R2/MUP1
       ER1M          = EXP(-R1M)
       ER2M          = EXP(-R2M)
       AA            = W1/VOLUME
       P0            = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
-      P             = P0 + AA*EINT1   !total jwl pressure for ssp              
+      P             = P0 + AA*EINT1   !total jwl pressure for ssp
       DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) + W1*EINT1/VOLUME +P*W1
       DPDMU         = ABS(DPDMU) / MUP1  ! if DPDMU <0 => numerical error during energy integration (increase iteration number or reduce submaterial volume change ratio)
       SSP_reacted   = SQRT(DPDMU/RHO10)
-      SSP_unreacted = SQRT(C11/RHO10)          
+      SSP_unreacted = SQRT(C11/RHO10)
       SOUNDSP       = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
       QAL           = QA*XL
       QAL           = QAL*QAL
       QBL           = QB*XL
       VISCMAX       = RHO*(QAL*MAX(ZERO,DD) + QBL*SOUNDSP)
       Q1            = VISCMAX*MAX(ZERO,DD)
-      BB            = HALF*(VOLUME-V1OLD)   
+      BB            = HALF*(VOLUME-V1OLD)
 !      EINT1         = EINT1 - (P1OLD+PEXT+PEXT)*BB
       AA            = AA
-      P1            = ( P0-PEXT + AA*EINT1 )!  /  (ONE+AA*BB) 
+      P1            = ( P0-PEXT + AA*EINT1 )!  /  (ONE+AA*BB)
 
-     
+
       !--------------------------------!
       ! Linear and jwl eos             !
       !--------------------------------!
@@ -131,12 +131,12 @@ C=======================================================================
       Psol_min = PM1                  !p<0 allowed for solid phase. Default : -EP30
       Psol     = MAX(Psol,Psol_min)
 
-      Pgas     = P1                   !jwl eos relative to Pext  
+      Pgas     = P1                   !jwl eos relative to Pext
       Pgas_min = -PEXT                !p>0 for detonation products
       Pgas     = MAX(Pgas,Pgas_min)
-      
+
       P1       = BFRAC*Pgas + (ONE-BFRAC)*Psol
-      
+
 !      EINT1    = EINT1 - P1*BB
 !      EINT1    = MAX (EINT1, ZERO)
 
@@ -146,17 +146,17 @@ C=======================================================================
       DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) + W1*EINT1/VOLUME +(P1+PEXT)*W1
       DPDMU         = ABS(DPDMU) / MUP1  ! if DPDMU <0 => numerical error during energy integration (increase iteration number or reduce submaterial volume change ratio)
       SSP_reacted   = SQRT(DPDMU/RHO10)
-      SSP_unreacted = SQRT(C11/RHO10)          
+      SSP_unreacted = SQRT(C11/RHO10)
       SOUNDSP       = MAX(BFRAC*SSP_reacted,(ONE-BFRAC)*SSP_unreacted)
 
- 
+
       !--------------------------------!
       ! Returning values               !
-      !--------------------------------!     
-      P        = P1     !return pressure relative to Pext                             
-      Q        = Q1                                       
-      RHO1     = RHO                                       
-      V1       = VOLUME                                     
+      !--------------------------------!
+      P        = P1     !return pressure relative to Pext
+      Q        = Q1
+      RHO1     = RHO
+      V1       = VOLUME
       SSP1     = SOUNDSP
 C     
       RETURN
@@ -184,7 +184,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .          TIME,XL,TBURN,
      .          VOLUME,V1,V1OLD,MU1,EINT1,
      .          P1OLD,Q1,Q1OLD,PEXT,P1,PM1,P1I,
@@ -195,7 +195,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ibug, IBFRAC
-      my_real 
+      my_real
      .   AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
      .   MUP1,DVDP1I,C11,C01,SSP_PRODUCTS,SSP_UNREACTED,
      .   Psol, Pgas, Psol_min, Pgas_min,DPDMU,DPDV1_REACTED,DPDV1_UNREACTED
@@ -209,7 +209,7 @@ C-----------------------------------------------
       R1     = UPARAM(52)
       R2     = UPARAM(53)
       W1     = UPARAM(54)
-      IBFRAC = UPARAM(68)      
+      IBFRAC = UPARAM(68)
 C------------------------
       DVDP1I = DVDP1
       RHO1   = MAS1/V1
@@ -229,7 +229,7 @@ c$$$      IF(BFRAC < ONE) THEN
 c$$$        BFRAC = ZERO
 c$$$        IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
 c$$$          XL = V1**THIRD
-c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL
 c$$$        ENDIF
 c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
 c$$$        IF(BFRAC < EM03) THEN
@@ -240,26 +240,26 @@ c$$$        ENDIF
 c$$$      ENDIF
 c$$$      ENDIF
 
-      AA       = W1*MUP1/V10 !W1/V1    same digits this way                                 
-      AA       = AA                                        
-      BB       = HALF*(V1-V1OLD)                         
-      IF (FLAG == 1) EINT1    = EINT1 - (P1OLD+PEXT+PEXT)*BB     
-      P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
+      AA       = W1*MUP1/V10 !W1/V1    same digits this way
+      AA       = AA
+      BB       = HALF*(V1-V1OLD)
+      IF (FLAG == 1) EINT1    = EINT1 - (P1OLD+PEXT+PEXT)*BB
+      P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
       IF (FLAG == 1) THEN
-         P1       = ( P0-PEXT + AA*EINT1 )  /  (ONE+AA*BB)   
+         P1       = ( P0-PEXT + AA*EINT1 )  /  (ONE+AA*BB)
       ELSE
          P1 = P0 - PEXT + AA * EINT1
       ENDIF
       GRUN = BFRAC * W1
-           
+
       !--------------------------------!
       ! Linear and jwl eos             !
       !--------------------------------!
       Psol     = C01+C11*MU1          !linear eos relative pressure
       Psol_min = PM1                  !p<0 allowed for solid phase. Default : -EP30
       Psol     = MAX(Psol,Psol_min)
-      
-      Pgas     = P1                   !jwl eos relative to Pext  
+
+      Pgas     = P1                   !jwl eos relative to Pext
       Pgas_min = -PEXT                !p>0 for detonation products
       Pgas     = MAX(Pgas,Pgas_min)
 
@@ -269,8 +269,8 @@ c$$$      ENDIF
 
       !--------------------------------!
       ! Sound Speed                    !
-      !--------------------------------! 
-      DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) 
+      !--------------------------------!
+      DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1)
      .              + W1*EINT1/V1 + (Pgas+PEXT)*W1
       DPDMU         = ABS(DPDMU) / MUP1
       SSP_PRODUCTS  = SQRT(DPDMU/RHO10)
@@ -287,14 +287,14 @@ c$$$      ENDIF
       DPDV1_REACTED    = -DPDMU*MUP1/V1
       DPDV1_UNREACTED  = -C11*MUP1/V1
       DPDV1            = BFRAC*DPDV1_REACTED + (ONE-BFRAC)*DPDV1_UNREACTED
-      
+
       IF(ABS(DPDV1)<EM20)THEN
-        DVDP1 = ZERO 
+        DVDP1 = ZERO
       ELSE
         DVDP1 = ONE/DPDV1
       ENDIF
 
-      
+
 c     dvdp < 0
 c      IF(DVDP1<TWO*DVDP1I)THEN
 c        DVDP1 = TWO*DVDP1I
@@ -331,7 +331,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .          TIME,XL,TBURN,DD,
      .          V1,V1OLD,MU1,EINT1,VISCMAX,
      .          Q1,Q1OLD,PEXT,P1,PM1,P1I,
@@ -341,7 +341,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ibug
-      my_real 
+      my_real
      .   AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
      .   DPDMU,QAL,QBL,P,MUP1,C11,C01,
      .   Psol,Pgas,Psol_min,Pgas_min,SSP_PRODUCTS,SSP_UNREACTED
@@ -370,7 +370,7 @@ C=======================================================================
       XL   = V1**THIRD
       IF(BFRAC < ONE) THEN
        BFRAC = ZERO
-       IF(TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+       IF(TIME > -TBURN) BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL
        BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
        IF(BFRAC < EM03) THEN
          BFRAC = ZERO
@@ -379,29 +379,29 @@ C=======================================================================
        ENDIF
       ENDIF
 
-      R1M      = R1/MUP1                                   
-      R2M      = R2/MUP1                                   
-      ER1M     = EXP(-R1M)                                 
-      ER2M     = EXP(-R2M)                                 
-      AA       = W1/V1                                     
-      P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
+      R1M      = R1/MUP1
+      R2M      = R2/MUP1
+      ER1M     = EXP(-R1M)
+      ER2M     = EXP(-R2M)
+      AA       = W1/V1
+      P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
 
       !--------------------------------!
       ! SSP & ARTIFICIAL VISCO         !
       !--------------------------------!
       P        = P0 + AA*EINT1
-      
+
       !--------------------------------!
       ! Linear and jwl eos             !
       !--------------------------------!
       Psol     = C01+C11*MU1           !linear eos relative pressure
       Psol_min = PM1                   !p<0 allowed for solid phase. Default : -EP30
       Psol     = MAX(Psol,Psol_min)
-      
-      Pgas     = P-PEXT                !jwl eos total pressure  
+
+      Pgas     = P-PEXT                !jwl eos total pressure
       Pgas_min = -PEXT                 !p>0 for detonation products
       Pgas     = MAX(Pgas,Pgas_min)
-      
+
       P1I      = BFRAC*Pgas + (ONE-BFRAC)*Psol
 
 
@@ -428,14 +428,14 @@ C=======================================================================
 !      ENDIF
 
       IF(ABS(DPDV1)<EM20)THEN
-        DVDP1 = ZERO 
+        DVDP1 = ZERO
       ELSE
         DVDP1 = ONE/DPDV1
       ENDIF
-      
+
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  JWL51_EINT                    source/materials/mat/mat051/jwl51.F
 Chd|-- called by -----------
@@ -456,7 +456,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .          TIME,XL,TBURN,
      .          VOLUME,V1,V1OLD,MU1,EINT1,
      .          P1OLD,Q1,Q1OLD,PEXT,P1,PM1,P1I,
@@ -467,7 +467,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ibug, IBFRAC
-      my_real 
+      my_real
      .   AA,BB,P0,VDET,BHE,B1,B2,W1,R1,R2,R1M,ER1M,R2M,ER2M,
      .   MUP1,DVDP1I,C11,C01,SSP_PRODUCTS,SSP_UNREACTED,
      .   Psol, Pgas, Psol_min, Pgas_min,DPDMU,DPDV1_REACTED,DPDV1_UNREACTED
@@ -481,7 +481,7 @@ C-----------------------------------------------
       R1     = UPARAM(52)
       R2     = UPARAM(53)
       W1     = UPARAM(54)
-      IBFRAC = UPARAM(68)      
+      IBFRAC = UPARAM(68)
 C------------------------
       DVDP1I = DVDP1
       RHO1   = MAS1/V1
@@ -500,7 +500,7 @@ c$$$      IF(BFRAC < ONE) THEN
 c$$$        BFRAC = ZERO
 c$$$        IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
 c$$$          XL = V1**THIRD
-c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+c$$$          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL
 c$$$        ENDIF
 c$$$        IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
 c$$$        IF(BFRAC < EM03) THEN
@@ -515,20 +515,20 @@ c$$$      ENDIF
          GRUN = ZERO
          RETURN
       ELSE
-         AA       = W1*MUP1/V10 !W1/V1    same digits this way                                 
-         AA       = AA                                        
-         BB       = HALF*(V1-V1OLD)                         
-         P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M 
+         AA       = W1*MUP1/V10 !W1/V1    same digits this way
+         AA       = AA
+         BB       = HALF*(V1-V1OLD)
+         P0       = B1*(ONE-W1/R1M)*ER1M + B2*(ONE-W1/R2M)*ER2M
          Psol     = C01+C11*MU1 !linear eos relative pressure
 
          EINT1 = (P1 - (ONE - BFRAC) * Psol) / BFRAC + PEXT - P0
          GRUN = BFRAC * W1
          PGAS = (P1 - (ONE - BFRAC) * Psol) / BFRAC
-         
+
 !--------------------------------!
 ! Sound Speed                    !
-!--------------------------------! 
-         DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1) 
+!--------------------------------!
+         DPDMU         = B1*ER1M*( (-W1*MUP1/R1) + R1M - W1) + B2*ER2M*( (-W1*MUP1/R2) + R2M - W1)
      .        + W1*EINT1/V1 + (Pgas+PEXT)*W1
          DPDMU         = ABS(DPDMU) / MUP1
          SSP_PRODUCTS  = SQRT(DPDMU/RHO10)

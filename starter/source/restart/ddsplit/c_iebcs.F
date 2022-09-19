@@ -27,9 +27,9 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|====================================================================
-       SUBROUTINE C_IEBCS(IXS, IXQ, IXTG, 
+       SUBROUTINE C_IEBCS(IXS, IXQ, IXTG,
      .     NUMELS, NUMELQ, NUMELTG,
-     .     IPM, NEBCS, CEP, NUMEL, NUMEL_L, PROC, 
+     .     IPM, NEBCS, CEP, NUMEL, NUMEL_L, PROC,
      .     IEBCS_NELEM_L, IEBCS_TYPE, IEBCS_LISTELEM_L, IEBCS_LISTFAC_L,IEBCS_LISTDP0_L, LENGTH, N2D,
      .     MULTI_FVM_IS_USED,FLAG,EBCS_TAB)
        USE EBCS_MOD
@@ -53,11 +53,11 @@ C-----------------------------------------------
      .     NUMELS, NUMELQ, NUMELTG
       INTEGER, INTENT(IN) :: IPM(NPROPMI, *)
       INTEGER, INTENT(IN) :: NEBCS, CEP(*), NUMEL, NUMEL_L, PROC, N2D
-      INTEGER, INTENT(INOUT) :: LENGTH, IEBCS_NELEM_L(NEBCS), IEBCS_TYPE(NEBCS), 
+      INTEGER, INTENT(INOUT) :: LENGTH, IEBCS_NELEM_L(NEBCS), IEBCS_TYPE(NEBCS),
      .     IEBCS_LISTELEM_L(*), IEBCS_LISTFAC_L(*)
       my_real, INTENT(INOUT) :: IEBCS_LISTDP0_L(*)
       LOGICAL, INTENT(IN) :: MULTI_FVM_IS_USED
-      INTEGER, INTENT(IN) :: FLAG ! 0 = count, 1 = fill 
+      INTEGER, INTENT(IN) :: FLAG ! 0 = count, 1 = fill
       TYPE(t_ebcs_tab), TARGET, INTENT(IN) :: EBCS_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -78,8 +78,8 @@ C-----------------------------------------------
       ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
          IX => IXTG(1:NIXTG, 1:NUMELTG)
       ENDIF
-         
-      
+
+
       IELEM = 0
       DO I = 1, NUMEL
          IF (CEP(I) == PROC) THEN

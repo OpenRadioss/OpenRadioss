@@ -33,7 +33,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -86,7 +86,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -109,7 +109,7 @@ C----------------------------------------------------------------
      .   SIGYY(MVSIZ),SIGZZ(MVSIZ),SIGXY(MVSIZ),SIGZX(MVSIZ),
      .   SIGYZ(MVSIZ),DVISC,A11,A12,A13,A22,A21,A23,
      .   A31,A32,A33,SDG0(MVSIZ,6),SDG(MVSIZ,6),HG(MVSIZ,6),HG0(6),H(MVSIZ,3,100)
-     
+
       my_real
      .   A(3,3),DPRA(3,3),EIGEN(3),AMAX,ETI(MVSIZ),EFAC,RV_PUI,RV_PUI_TAB(MVSIZ),
      .   CJ(MVSIZ),LAM_AL(3),RVL,LAMIN,CIMAX(MVSIZ),GVIS,CMAX,CMAX0,
@@ -136,14 +136,14 @@ C       GMAX = GMAX + AL(I)*MU(I)
 !!      IVISC = 0
       IVISC =  UPARAM(2*NORDRE + 2*NPRONY + 7 )
       IF(NPRONY /= ZERO)THEN
-        DO I=1,NPRONY 
+        DO I=1,NPRONY
           GAMA(I)  = UPARAM(6 + 2*NORDRE + I)
           TAUX(I)  = UPARAM(6 + 2*NORDRE + NPRONY + I)
-        ENDDO 
-      ENDIF 
-!!      IF(IVISC == 1 .AND.  ITYPE >= 2 ) IVISC = 2 
+        ENDDO
+      ENDIF
+!!      IF(IVISC == 1 .AND.  ITYPE >= 2 ) IVISC = 2
 Csm +1
-       GMAX = TWO*GMAX      
+       GMAX = TWO*GMAX
 C iniialisation des variabesl users 
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
@@ -151,7 +151,7 @@ C iniialisation des variabesl users
          UVAR(I,J) = ZERO
         ENDDO
        ENDDO
-      ENDIF                         
+      ENDIF
       DO I=1,NEL
        AV(I,1)=EPSXX(I)
        AV(I,2)=EPSYY(I)
@@ -159,7 +159,7 @@ C iniialisation des variabesl users
        AV(I,4)=EPSXY(I)/2
        AV(I,5)=EPSYZ(I)/2
        AV(I,6)=EPSZX(I)/2
-      ENDDO       
+      ENDDO
 CEigenvalues needed to be calcultated in double precision
 C        for a simple precision executing
       IF (IRESP==1) THEN
@@ -177,7 +177,7 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))
          EV(I,2)=EXP(EVV(I,2))
          EV(I,3)=EXP(EVV(I,3))
-        ENDDO 
+        ENDDO
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
         IF(OFFG(I)<=ONE) THEN
@@ -189,14 +189,14 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
         END IF
-        ENDDO 
+        ENDDO
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
-        ENDDO 
+        ENDDO
       ENDIF
 C----------------
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
@@ -230,28 +230,28 @@ C----------------
       ENDIF
 C 
 C----  RV = RHO0/RHO = RELATIVE VOLUME = DET A (A = GRADIENT OF DEFORMATION)
-       RV(1:NEL) = EV(1:NEL,1)*EV(1:NEL,2)*EV(1:NEL,3)         
-       EC(1:NEL,1:3) = EV(1:NEL,1:3)**2 
+       RV(1:NEL) = EV(1:NEL,1)*EV(1:NEL,2)*EV(1:NEL,3)
+       EC(1:NEL,1:3) = EV(1:NEL,1:3)**2
 C----  RV = RHO0/RHO = RELATIVE VOLUME = DET A (A = GRADIENT OF DEFORMATION)            
 C----THERM STRESS COMPUTATION-----
       IF(IEXPAN > 0.AND.(ISMSTR==10.OR.ISMSTR==11.OR.ISMSTR==12)) RV(1:NEL)= RV(1:NEL)-EPSTH3(1:NEL)
 C
 C calcul de la pression
-      P(1:NEL) = ZERO     
+      P(1:NEL) = ZERO
       DO II = 1,NORDRE
         FAC = TWO*MU(II)/(AL(II))
         IF(FAC/=ZERO) THEN
          IF(AL(II)/=ZERO) THEN
           DO I=1,NEL
             FAC1 = FAC / RV(I)
-            IF(EV(I,1)>ZERO) P(I) = P(I) + 
+            IF(EV(I,1)>ZERO) P(I) = P(I) +
      .       FAC1*THIRD*( EXP(AL(II)*LOG(EV(I,1))) )
-            IF(EV(I,2)>ZERO) P(I) = P(I) + 
+            IF(EV(I,2)>ZERO) P(I) = P(I) +
      .       FAC1*THIRD*( EXP(AL(II)*LOG(EV(I,2))) )
-            IF(EV(I,3)>ZERO) P(I) = P(I) + 
-     .       FAC1*THIRD*( EXP(AL(II)*LOG(EV(I,3)))    )   
-     
-            IF(RV(I)>ZERO) P(I) = P(I) 
+            IF(EV(I,3)>ZERO) P(I) = P(I) +
+     .       FAC1*THIRD*( EXP(AL(II)*LOG(EV(I,3)))    )
+
+            IF(RV(I)>ZERO) P(I) = P(I)
      .          - FAC1*EXP((-BETA(II)*AL(II))*LOG(RV(I)))
           ENDDO
          ELSE
@@ -259,32 +259,32 @@ C calcul de la pression
             FAC1 = FAC / RV(I)
             IF(EV(I,1)/=ZERO) P(I) = P(I) + FAC1*THIRD
             IF(EV(I,2)/=ZERO) P(I) = P(I) + FAC1*THIRD
-            IF(EV(I,3)/=ZERO) P(I) = P(I) + FAC1*THIRD     
+            IF(EV(I,3)/=ZERO) P(I) = P(I) + FAC1*THIRD
             IF(RV(I)>ZERO) P(I) = P(I) - FAC1
          ENDDO
         ENDIF
-        ELSE 
+        ELSE
           P(1:NEL) = ZERO
         ENDIF
-      ENDDO 
+      ENDDO
 C compute de piola kirchoff stress 2emme espece---
       DO J=1,3
-      S(1:NEL,J)= ZERO 
+      S(1:NEL,J)= ZERO
        DO II= 1, NORDRE
          FAC = TWO*MU(II)/(AL(II))
          IF(FAC/=ZERO) THEN
           DO I=1,NEL
           FAC1 = FAC/(EV(I,J)**2)
            IF(AL(II)/=ZERO) THEN
-            IF(EV(I,J)>ZERO) S(I,J)= S(I,J) + FAC1*EXP(AL(II)*LOG(EV(I,J)))  
+            IF(EV(I,J)>ZERO) S(I,J)= S(I,J) + FAC1*EXP(AL(II)*LOG(EV(I,J)))
             IF(RV(I)>ZERO) S(I,J)= S(I,J) - FAC1*EXP((-BETA(II)*AL(II))*LOG(RV(I)))
            ELSE
             IF(EV(I,J)==ZERO) THEN
              S(I,J)= S(I,J) - FAC1
             ENDIF
-           ENDIF       
-          ENDDO ! I=1,NEL 
-         ENDIF ! Fac /= 0 
+           ENDIF
+          ENDDO ! I=1,NEL
+         ENDIF ! Fac /= 0
        ENDDO   ! II=1,Nordre
       ENDDO    ! J=1,3
 CCC devaitoric piola kirchoff stress 2nd espece SD         
@@ -300,8 +300,8 @@ CCC devaitoric piola kirchoff stress 2nd espece SD
          ENDIF
        ENDDO
        DO J=1,3
-        SSP(1:NEL,J) = P(1:NEL)/(EV(1:NEL,J)**2) 
-        SD(1:NEL,J)  = S(1:NEL,J) - SSP(1:NEL,J)*RV(1:NEL) 
+        SSP(1:NEL,J) = P(1:NEL)/(EV(1:NEL,J)**2)
+        SD(1:NEL,J)  = S(1:NEL,J) - SSP(1:NEL,J)*RV(1:NEL)
         SD(1:NEL,J)  = RV_PUI_TAB(1:NEL)*SD(1:NEL,J) !  viscosity is deviatoric
        ENDDO
 C we consider spherical and deviatoric viscosity compared to ivisc =1      
@@ -313,30 +313,30 @@ C Calcul de H^i_n+1
         GVIS = GMAX
 c        GMAX = TWO*GMAX
         SDG0(1:NEL,1:6) = UVAR(1:NEL,1:6)
-        DO I=1,NEL 
+        DO I=1,NEL
 C 
 C compute SD ---> glabal repere
 C
            SDG(I,1)   =  DIRPRV(I,1,1)*DIRPRV(I,1,1)*SD(I,1)
      .               + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SD(I,2)
      .               + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SD(I,3)
-          
+
            SDG(I,2)   = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SD(I,2)
      .               + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SD(I,3)
      .               + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SD(I,1)
-                                                          
-           SDG(I,3)    = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SD(I,3)     
+
+           SDG(I,3)    = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SD(I,3)
      .               + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SD(I,1)
      .               + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SD(I,2)
-          
-           SDG(I,4)    = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SD(I,1)   
-     .               + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SD(I,2)  
+
+           SDG(I,4)    = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SD(I,1)
+     .               + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SD(I,2)
      .               + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SD(I,3)
-          
+
            SDG(I,5)    = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SD(I,2)
      .               + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SD(I,3)
      .               + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SD(I,1)
-          
+
            SDG(I,6)    = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SD(I,3)
      .               + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SD(I,1)
      .               + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SD(I,2)
@@ -346,10 +346,10 @@ C
           UVAR(1:NEL,J) = SDG(1:NEL,J)
         ENDDO
 C                         
-        DO II= 1,NPRONY 
-          FAC= -TIMESTEP/TAUX(II) 
+        DO II= 1,NPRONY
+          FAC= -TIMESTEP/TAUX(II)
           DO J= 1,6
-            DO I=1,NEL 
+            DO I=1,NEL
               HG0(J) = UVAR(I, 6 + (II - 1)*6 + J)
               HG(I,J) = EXP(FAC)*HG0(J) + EXP(HALF*FAC)*(SDG(I,J)-SDG0(I,J))
               UVAR(I, 6 + (II - 1)*6 + J)=  HG(I,J)
@@ -358,95 +358,95 @@ C
 C 
 C HGlobal --- H principal
 C         
-            DO I=1,NEL 
+            DO I=1,NEL
              A11 =    DIRPRV(I,1,1)*HG(I,1) + DIRPRV(I,2,1)*HG(I,4)
-     .              + DIRPRV(I,3,1)*HG(I,6) 
+     .              + DIRPRV(I,3,1)*HG(I,6)
              A12 =    DIRPRV(I,1,2)*HG(I,1) + DIRPRV(I,2,2)*HG(I,4)
      .              + DIRPRV(I,3,2)*HG(I,6)
              A13 =    DIRPRV(I,1,3)*HG(I,1) + DIRPRV(I,2,3)*HG(I,4)
      .              + DIRPRV(I,3,3)*HG(I,6)
-     
-!     
+
+!
              A21 =    DIRPRV(I,1,1)*HG(I,4) + DIRPRV(I,2,1)*HG(I,2)
-     .              + DIRPRV(I,3,1)*HG(I,5) 
+     .              + DIRPRV(I,3,1)*HG(I,5)
              A22 =    DIRPRV(I,1,2)*HG(I,4) + DIRPRV(I,2,2)*HG(I,2)
      .              + DIRPRV(I,3,2)*HG(I,5)
              A23 =    DIRPRV(I,1,3)*HG(I,4) + DIRPRV(I,2,3)*HG(I,2)
      .              + DIRPRV(I,3,3)*HG(I,5)
 
              A31 =    DIRPRV(I,1,1)*HG(I,6) + DIRPRV(I,2,1)*HG(I,5)
-     .              + DIRPRV(I,3,1)*HG(I,3) 
+     .              + DIRPRV(I,3,1)*HG(I,3)
              A32 =    DIRPRV(I,1,2)*HG(I,6) + DIRPRV(I,2,2)*HG(I,5)
      .              + DIRPRV(I,3,2)*HG(I,3)
              A33 =    DIRPRV(I,1,3)*HG(I,6) + DIRPRV(I,2,3)*HG(I,5)
      .              + DIRPRV(I,3,3)*HG(I,3)
 C H dans la direction H               
              H(I,1,II) = DIRPRV(I,1,1)*A11  + DIRPRV(I,2,1)*A21
-     .                                      + DIRPRV(I,3,1)*A31 
+     .                                      + DIRPRV(I,3,1)*A31
              H(I,2,II) = DIRPRV(I,1,2)*A12  + DIRPRV(I,2,2)*A22
      .                                      + DIRPRV(I,3,2)*A32
              H(I,3,II) = DIRPRV(I,1,3)*A13  + DIRPRV(I,2,3)*A23
      .                                      + DIRPRV(I,3,3)*A33
            ENDDO
            DO J=1,3
-            DO I=1,NEL 
+            DO I=1,NEL
 C calcul de la partie deviatorique        
-             FAC = THIRD*(H(I,1,II)*EC(I,1) + H(I,2,II)*EC(I,2) 
+             FAC = THIRD*(H(I,1,II)*EC(I,1) + H(I,2,II)*EC(I,2)
      .                                      + H(I,3,II)*EC(I,3))
               HD(I,J,II) = H(I,J,II) - FAC/MAX(EM20,EC(I,J))
             ENDDO
            ENDDO
-        ENDDO            
-      ENDIF  
+        ENDDO
+      ENDIF
 C calcul du tenseur de piola kirchoff   
       IF(IVISC == 1) THEN ! viscosity is deviatoric
-         DO I =1,NEL                                               
-            ! FAC= GAMAINF*RV(I)**(-TWO_THIRD) = GAMAINF * PUI        
-            ! if rv > 0 --> pui = exp(-dtier * ln(rv))             
-            ! else pui = 0                                         
-            IF(RV(I)>ZERO) THEN                                    
-               RV_PUI_TAB(I) = EXP( (-TWO_THIRD)*LOG(RV(I)) )                 
-            ELSE                                                   
-               RV_PUI_TAB(I) = ZERO                                       
+         DO I =1,NEL
+            ! FAC= GAMAINF*RV(I)**(-TWO_THIRD) = GAMAINF * PUI
+            ! if rv > 0 --> pui = exp(-dtier * ln(rv))
+            ! else pui = 0
+            IF(RV(I)>ZERO) THEN
+               RV_PUI_TAB(I) = EXP( (-TWO_THIRD)*LOG(RV(I)) )
+            ELSE
+               RV_PUI_TAB(I) = ZERO
             ENDIF
-         ENDDO                                                  
+         ENDDO
 C                                 
          DO J=1,3
-          DO I =1,NEL                                              
-            FAC= GAMAINF*RV_PUI_TAB(I)     
-            S(I,J) = SSP(I,J)*RV(I) + FAC*SD(I,J)  
-          ENDDO             
-          DO II=1,NPRONY 
-           DO I =1,NEL                                          
-             S(I,J) = S(I,J) + GAMA(II)*RV_PUI_TAB(I)*HD(I,J,II)  
-           ENDDO       
-          ENDDO 
+          DO I =1,NEL
+            FAC= GAMAINF*RV_PUI_TAB(I)
+            S(I,J) = SSP(I,J)*RV(I) + FAC*SD(I,J)
+          ENDDO
+          DO II=1,NPRONY
+           DO I =1,NEL
+             S(I,J) = S(I,J) + GAMA(II)*RV_PUI_TAB(I)*HD(I,J,II)
+           ENDDO
+          ENDDO
 C cauchy stress   from PK2 
-          DO I =1,NEL     
-           S(I,J) = (S(I,J)*EV(I,J)**2)/RV(I)                   
-          ENDDO                                                    
-        ENDDO  
-      ELSEIF(IVISC == 2) THEN  ! spherical + deviatoric                
+          DO I =1,NEL
+           S(I,J) = (S(I,J)*EV(I,J)**2)/RV(I)
+          ENDDO
+        ENDDO
+      ELSEIF(IVISC == 2) THEN  ! spherical + deviatoric
         DO J=1,3
           DO I =1,NEL
-           S(I,J) = GAMAINF*S(I,J) 
-          ENDDO                            
-          DO II=1,NPRONY 
-           DO I =1,NEL                                             
-            S(I,J) = S(I,J) + GAMA(II)*H(I,J,II)  
-           ENDDO              
-          ENDDO  
+           S(I,J) = GAMAINF*S(I,J)
+          ENDDO
+          DO II=1,NPRONY
+           DO I =1,NEL
+            S(I,J) = S(I,J) + GAMA(II)*H(I,J,II)
+           ENDDO
+          ENDDO
 C cauchy stress    from PK2
-          DO I =1,NEL                                                     
-           S(I,J) = (S(I,J)*EV(I,J)**2)/RV(I)                 
-          ENDDO                                                    
+          DO I =1,NEL
+           S(I,J) = (S(I,J)*EV(I,J)**2)/RV(I)
+          ENDDO
         ENDDO
       ELSE
 C cauchy stress    from PK2     
         DO J=1,3
-          DO I =1,NEL                                            
-              S(I,J) = S(I,J)*EV(I,J)**2/RV(I)                 
-          ENDDO                                                    
+          DO I =1,NEL
+              S(I,J) = S(I,J)*EV(I,J)**2/RV(I)
+          ENDDO
         ENDDO
       ENDIF
 C----- 
@@ -480,27 +480,27 @@ C
          ET(I)= ONE
        ENDDO
 C TRANSFORM PRINCIPAL PIOLA KIRCHOFF STRESSES TO GLOBAL DIRECTIONS
-      DO I=1,NEL 
+      DO I=1,NEL
         SIGNXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*S(I,1)
      .            + DIRPRV(I,1,2)*DIRPRV(I,1,2)*S(I,2)
      .            + DIRPRV(I,1,3)*DIRPRV(I,1,3)*S(I,3)
-     
+
         SIGNYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*S(I,2)
      .            + DIRPRV(I,2,3)*DIRPRV(I,2,3)*S(I,3)
      .            + DIRPRV(I,2,1)*DIRPRV(I,2,1)*S(I,1)
-     
-        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*S(I,3)        
+
+        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*S(I,3)
      .            + DIRPRV(I,3,1)*DIRPRV(I,3,1)*S(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,3,2)*S(I,2)
-     
+
         SIGNXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*S(I,1)
-     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*S(I,2)     
+     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*S(I,2)
      .            + DIRPRV(I,1,3)*DIRPRV(I,2,3)*S(I,3)
-     
+
         SIGNYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*S(I,2)
      .            + DIRPRV(I,2,3)*DIRPRV(I,3,3)*S(I,3)
      .            + DIRPRV(I,2,1)*DIRPRV(I,3,1)*S(I,1)
-     
+
         SIGNZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*S(I,3)
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*S(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*S(I,2)

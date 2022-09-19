@@ -85,14 +85,14 @@ C-----------------------------------------------
 #include "vectorize.inc"
           !---TROTATIONS---!
           DO N=NODFT,NODLT
-              IF(NALE(N)==0)CYCLE          
+              IF(NALE(N)==0)CYCLE
               AR(1,N) = ZERO
               AR(2,N) = ZERO
-              AR(3,N) = ZERO      
+              AR(3,N) = ZERO
           ENDDO
         ENDIF
 
-       
+
 C-----------------------------------------------        
       RETURN
       END

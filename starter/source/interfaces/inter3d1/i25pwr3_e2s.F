@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_M(*),CAND_S(*),IRECT(4,*), 
+      INTEGER ITAB(*),CAND_M(*),CAND_S(*),IRECT(4,*),
      .        N1(*), N2(*), M1(4,*), M2(4,*),
      .        CAND_M_G(*),CAND_S_G(*)
       INTEGER LLT,IWPENE,INACTI,NOINT,NTY,NSN,ISTOK

@@ -38,7 +38,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------      
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C=======================================================================
       ENDIF
       ALLOCATE(ITRI2(2*NSETMAX), STAT=Stat)
       ALLOCATE(INDEX2(4*NSETMAX), STAT=Stat)
-      ALLOCATE(TRIFRIORTH(NSETMAX), STAT=Stat)    
+      ALLOCATE(TRIFRIORTH(NSETMAX), STAT=Stat)
 
 C
        DO NIF=1,NINTERFRIC
@@ -116,35 +116,35 @@ C------Copy-----------------------------
                 DO J=1,16
                    TRICOEF(I,J) = TABCOEF_FRIC_TMP(NIF,8+16*(I-1)+J)
                 ENDDO
-             ENDDO     
+             ENDDO
          ENDIF
 C----------------------
           CALL MY_ORDERS( 0, WORK, ITRI, INDEX, NSET , 2)
 C
-           J = 1 
+           J = 1
           DO I=1,NSET
              TABCOUPLEPARTS_FRIC_TMP(NIF,J)= ITRI(1,INDEX(I))
              TABCOUPLEPARTS_FRIC_TMP(NIF,J+1)= ITRI(2,INDEX(I))
              J = J+2
-          ENDDO 
+          ENDDO
 
 C------Delete duplicated parts pairs-----------------------------
           NSETINIT(NIF) = NSET
           J = 1
           K = NSET
           DO I=1,NSET-1
-             IF(TABCOUPLEPARTS_FRIC_TMP(NIF,J)==TABCOUPLEPARTS_FRIC_TMP(NIF,J+2).AND. 
+             IF(TABCOUPLEPARTS_FRIC_TMP(NIF,J)==TABCOUPLEPARTS_FRIC_TMP(NIF,J+2).AND.
      .          TABCOUPLEPARTS_FRIC_TMP(NIF,J+1)==TABCOUPLEPARTS_FRIC_TMP(NIF,J+3)  ) THEN
                 TABCOUPLEPARTS_FRIC_TMP(NIF,J) = 0
                 TABCOUPLEPARTS_FRIC_TMP(NIF,J+1) = 0
                 K = K - 1
-             ENDIF  
+             ENDIF
             J = J + 2
-          ENDDO 
+          ENDDO
           INTBUF_FRIC_TAB(NIF)%NSETPRTS = K
 
 C---------Tabs of tagged parts--------------------------------- 
-          K = 0 
+          K = 0
           J = 1
           DO I =1,NSET
              IF(TABCOUPLEPARTS_FRIC_TMP(NIF,J) /= 0 ) THEN
@@ -169,14 +169,14 @@ c
           CALL MY_ORDERS( 0, WORK, ITRI2, INDEX2, NSETT , 1)
 
           DO I =1,NSETT
-             TABPARTS_FRIC_TMP(NIF,I) = ITRI2(INDEX2(I)) 
+             TABPARTS_FRIC_TMP(NIF,I) = ITRI2(INDEX2(I))
           ENDDO
 
           K = 1
           DO I =1,NSETT
              IF(TABPARTS_FRIC_TMP(NIF,K) /= TABPARTS_FRIC_TMP(NIF,I)) THEN
                 K = K +1
-                TABPARTS_FRIC_TMP(NIF,K) = TABPARTS_FRIC_TMP(NIF,I)  
+                TABPARTS_FRIC_TMP(NIF,K) = TABPARTS_FRIC_TMP(NIF,I)
               ENDIF
           ENDDO
           INTBUF_FRIC_TAB(NIF)%S_TABPARTS_FRIC = K
@@ -184,7 +184,7 @@ C------Coefs-----------------------------
           DO I=1,NSET
             IFRICORTH_TMP(NIF,I) = TRIFRIORTH(INDEX(I))
           ENDDO
-  
+
           IF(IORTH == 0 ) THEN
             DO I=1,NSET
                DO J=1,8
@@ -204,7 +204,7 @@ C
        DEALLOCATE(ITRI)
        DEALLOCATE(TRICOEF)
        DEALLOCATE(ITRI2,INDEX2)
-       DEALLOCATE(TRIFRIORTH)    
+       DEALLOCATE(TRIFRIORTH)
 C
        RETURN
       END SUBROUTINE TRIINTFRIC

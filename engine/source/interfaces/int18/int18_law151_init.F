@@ -35,11 +35,11 @@ Chd|====================================================================
      2                               X       ,V       ,MS         ,KINET       ,
      3                               X_APPEND,V_APPEND,MASS_APPEND,KINET_APPEND,
      4                               FORCE_INT_PON)
-        
+
 !$COMMENT
 !       INT18_LAW151_INIT description
 !       initialization of array for /INT18 + LAW 151
-!       
+!
 !       INT18_LAW151_INIT organization :
 !       - x/V/MASS_append :
 !            * (1:NUMNOD) : classical x/v/mass
@@ -57,7 +57,7 @@ C     M o d u l e s
 C-----------------------------------------------   
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
-        USE ELBUFDEF_MOD 
+        USE ELBUFDEF_MOD
         USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -66,7 +66,7 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc" 
+#include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "parit_c.inc"
 #include      "my_allocate.inc"
@@ -103,9 +103,9 @@ C-----------------------------------------------
         INTEGER :: ISU1,NSN,NTY,INACTI,NODE_ID,IBRIC
         LOGICAL, DIMENSION(:), ALLOCATABLE :: TAG
 C-----------------------------------------------
-        !   X/V/MASS extended 
+        !   X/V/MASS extended
         !   1:NUMNOD --> classical x/v/mass
-        !   NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of 
+        !   NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of
         !                              the ALE elements)
         !   INT18_GLOBAL_LIST --> true if /INT18 + LAW151 for the NIN interface
         MULTI_FVM%INT18_GLOBAL_LIST(1:NINTER) = .FALSE.
@@ -135,7 +135,7 @@ C-----------------------------------------------
             DO NN=1,MULTI_FVM%NUMBER_INT18
                 N = MULTI_FVM%INT18_LIST(NN)
                 ISU1 = IPARI(45,N)
-                NSN = IPARI(5,N)    ! number of secondary nodes 
+                NSN = IPARI(5,N)    ! number of secondary nodes
                 DO II = 1,NSN
                     IBRIC = IGRBRIC(ISU1)%ENTITY(II) ! id of the phantom element
                     IF(.NOT. TAG(IBRIC)) THEN ! otherwise already done with a previous interface
@@ -148,8 +148,8 @@ C-----------------------------------------------
                       DO JJ = 2, 9
                         NODE_ID = IXS(JJ, IBRIC) ! id of node of the phantom element
                         X_APPEND(1, NUMNOD + IBRIC) = X_APPEND(1, NUMNOD + IBRIC) + ONE_OVER_8 * X(1, NODE_ID)
-                        X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + ONE_OVER_8 * X(2, NODE_ID) 
-                        X_APPEND(3, NUMNOD + IBRIC) = X_APPEND(3, NUMNOD + IBRIC) + ONE_OVER_8 * X(3, NODE_ID)         
+                        X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + ONE_OVER_8 * X(2, NODE_ID)
+                        X_APPEND(3, NUMNOD + IBRIC) = X_APPEND(3, NUMNOD + IBRIC) + ONE_OVER_8 * X(3, NODE_ID)
                       ENDDO
                       !   velocity
                       V_APPEND(1, NUMNOD + IBRIC) = MULTI_FVM%VEL(1, IBRIC)

@@ -35,7 +35,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW87_UPD(IOUT, TITR,MAT_ID,UPARAM,NFUNC, 
+      SUBROUTINE LAW87_UPD(IOUT, TITR,MAT_ID,UPARAM,NFUNC,
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM)
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,8 +57,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
       INTEGER MAT_ID,IOUT, NFUNC
-      INTEGER NPC(*), FUNC_ID(*) 
-      my_real 
+      INTEGER NPC(*), FUNC_ID(*)
+      my_real
      .         FINTER,UPARAM(*),PLD(*),PM(NPROPM)
       EXTERNAL FINTER
       INTEGER, DIMENSION(NFUNC):: IFUNC
@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K,J, EXPA,EXPAM2,ERROR,IFLAG,NITER,IOK
- 
-      my_real 
+
+      my_real
      .         GAMMA, DELTA ,FCT,YIELD,DX,DY,SCALE,
      .      G1,G2,G3,G13,G23,G33,G15,G25,G35,DYDX,
      .       DF1,DF2,DF3,DF13,DF23,DF33,DF15,DF25,DF35,F1,F2,
@@ -78,7 +78,7 @@ C-----------------------------------------------
      .      ASWIFT ,EPSO,QVOCE,BETA,KO,ALPHA,NEXP,CONJTF4A8,TF4A8,DAL78(2),
      .      EXPV,KSWIFT,KVOCE,PUIS,PLA,RESIDU,G(2),DAL(8),DFTEST(6,6),DG(2,2),
      .      AL(8),F(8),DF(6,6),DFINV(6,6),RES(6,6),test(3,3),testinv(3,3),DGINV(2,2)
-!      
+!
       LOGICAL  IS_ENCRYPTED
 C=======================================================================
       IS_ENCRYPTED = .FALSE.
@@ -92,33 +92,33 @@ C=======================================================================
       R90  = UPARAM(9)
       RB   = UPARAM(10)
       EXPA = INT(UPARAM(15))
-      EXPAM2 = EXPA - 2 
-      ALPHA   =  UPARAM(16) 
+      EXPAM2 = EXPA - 2
+      ALPHA   =  UPARAM(16)
       NEXP    =  UPARAM(17)
-      EPSO    =  UPARAM(18) 
-      ASWIFT  =  UPARAM(19) 
-      IFLAG    =  INT(UPARAM(24)) 
+      EPSO    =  UPARAM(18)
+      ASWIFT  =  UPARAM(19)
+      IFLAG    =  INT(UPARAM(24))
       NFUNC   = NINT(UPARAM(25))
       QVOCE = UPARAM(25+2*NFUNC+1)
       BETA  = UPARAM(25+2*NFUNC+2)
       KO    = UPARAM(25+2*NFUNC+3)
 
       PLA = TWO*EM03
-      IF (IFLAG == 1) THEN 
-c-----    Yield                                                    
+      IF (IFLAG == 1) THEN
+c-----    Yield
           PUIS  = EXP(NEXP*LOG((PLA + EPSO)))
-!         KSWIFT = ASWIFT*(PLA(I) + EPSO)**NEXP                                       
+!         KSWIFT = ASWIFT*(PLA(I) + EPSO)**NEXP
           KSWIFT = ASWIFT*PUIS
 !         VOCE = K0 + Q *(1-EXP (-B*PLA))
           EXPV   = EXP(-BETA*PLA)
-          KVOCE  = KO + QVOCE*(ONE - EXPV)                                       
-          YIELD  = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE 
+          KVOCE  = KO + QVOCE*(ONE - EXPV)
+          YIELD  = ALPHA*KSWIFT + (ONE-ALPHA)*KVOCE
       ELSE !IF TABULATED
           YIELD = FINTER(IFUNC(1),PLA,NPC,PLD,DYDX)
           SCALE = UPARAM(25+1+NFUNC)
           YIELD = YIELD * SCALE
 
-      ENDIF  
+      ENDIF
 
       !YIELD TO BE COMPUTED FROM VOCE OR TABULATED FOR 0.05 PLASTIC STRAIN
       AL(1:8) = ONE
@@ -139,10 +139,10 @@ c-----    Yield
       RESIDU = EP30
       NITER  = 0
       IOK = 0
-      DO WHILE (ABS(RESIDU) > EM06 .AND. NITER < 100. AND . IOK == 0) 
+      DO WHILE (ABS(RESIDU) > EM06 .AND. NITER < 100. AND . IOK == 0)
 
-       
-      CALL CRITYLD2000(FCT,GAMMA, DELTA, EXPA, AL)      
+
+      CALL CRITYLD2000(FCT,GAMMA, DELTA, EXPA, AL)
       F(1) = FCT - TWO * (YIELD /S00 )**EXPA
 
       CALL CRITYLD2000(FCT,DELTA,GAMMA,  EXPA, AL)
@@ -159,7 +159,7 @@ c-----    Yield
 
       CALL R_YLD2000(DX,DY,DELTA, DELTA, EXPA, AL)
       F(6) = (ONE+TWO *RB)*DX - (TWO + RB )*DY
- 
+
       !JACOBIAN MATRIX
       DF1 = (AL(1)*TWO_THIRD + AL(2)*THIRD)*ABS(AL(1)*TWO_THIRD + AL(2)*THIRD)**EXPAM2
       DF(1,1) = TWO_THIRD*EXPA*DF1
@@ -222,11 +222,11 @@ C
       DF(6,5) = ( TWO*(ONE+TWO*RB)*G35 - TWO*THIRD*(EXPA-ONE)*( TWO*AL(5)*(ONE+TWO*RB)-AL(6)*(TWO+RB) )) *ABS(G35)**EXPAM2
       DF(6,6) = ( -      (TWO+RB) *G35 - THIRD     *(EXPA-ONE)*( TWO*AL(5)*(ONE+TWO*RB)-AL(6)*(TWO+RB) )) *ABS(G35)**EXPAM2
 
-      
+
       CALL INVERT (DF,DFINV,6,ERROR)
 
       CALL PRODMATVECT(DFINV, F, DAL, 6)
-     
+
       DO K = 1, 6
         AL(K) = AL(K) - DAL(K)
         IF (AL(K) > EP05)THEN
@@ -240,7 +240,7 @@ C
         ENDIF
       ENDDO
       RESIDU = SQRT(F(1)**2+F(2)**2+F(3)**2+F(4)**2+F(5)**2+F(6)**2)/6
-      NITER = NITER + 1 
+      NITER = NITER + 1
       ENDDO ! WHILE ITERATIONS
 
       !COMPUTE AL(7) AND AL(8)
@@ -254,12 +254,12 @@ C
       RESIDU = EP30
       NITER  = 0
 
-      DO WHILE (ABS(RESIDU) > EM06 .AND. NITER < 100 .AND. IOK == 0) 
+      DO WHILE (ABS(RESIDU) > EM06 .AND. NITER < 100 .AND. IOK == 0)
 
       TAL7 = SQRT(MAX(ZERO,X2**2  + FOUR * AL(7)**2) )/TWO
       TAL8 = SQRT(MAX(ZERO,X22**2 + FOUR * AL(8)**2) )
-      TF4A8=      (THREE*X11 + TAL8 ) / FOUR 
-      CONJTF4A8 = (THREE*X11 - TAL8 ) / FOUR 
+      TF4A8=      (THREE*X11 + TAL8 ) / FOUR
+      CONJTF4A8 = (THREE*X11 - TAL8 ) / FOUR
 	 V1 =EXPA*(TAL7)**(EXPA-1)
 	 V11=EXPA*(CONJTF4A8)*(ABS(CONJTF4A8))**(EXPA-2)
 	 W11=EXPA*(TF4A8)*(ABS(TF4A8))**(EXPA-2)
@@ -267,13 +267,13 @@ C
       F1= TAL7**EXPA + ABS(CONJTF4A8)**EXPA + ABS(TF4A8)**EXPA
       F2 =v1* (X2**2/(TWO*TAL7) )   +  THREE_HALF*X11*(v11+w11) + HALF*(X22**2/TAL8) * (w11-v11)
 
-            
+
 	 G(1) = F1 - TWO*(YIELD/S45)**EXPA
 	 G(2) = F2 - (TWO*EXPA/(ONE+R45))*(YIELD/S45)**EXPA
       !DF(4,7)
       DG(1,1) = EXPA * (AL(7)/(TWO*TAL7) )* ABS(TAL7)**(EXPA-1)
       !DF(4,8)
-      DG(1,2) = EXPA *( AL(8) /TAL8) * ( TF4A8 * ABS (TF4A8)**(EXPA-2) 
+      DG(1,2) = EXPA *( AL(8) /TAL8) * ( TF4A8 * ABS (TF4A8)**(EXPA-2)
      .                                - CONJTF4A8 *ABS (CONJTF4A8)**(EXPA-2)  )
       DG(2,1) = (AL(7) * X2**2)/(TWO*TAL7) * (EXPA * (EXPA - ONE) * TAL7**(EXPA-3)
      .                                        - V1 /TAL7/TAL7 )
@@ -296,7 +296,7 @@ C
         ENDIF
       ENDDO
       RESIDU = SQRT(G(1)**2+G(2)**2)/2
-      NITER = NITER + 1 
+      NITER = NITER + 1
       ENDDO ! WHILE ITERATIONS
 
       IF (IOK ==0) THEN
@@ -315,7 +315,7 @@ C
       ENDIF
 
       UPARAM(3) = AL(1)
-      UPARAM(4) = AL(2)    
+      UPARAM(4) = AL(2)
       UPARAM(5) = AL(3)
       UPARAM(6) = AL(4)
       UPARAM(7) = AL(5)
@@ -325,21 +325,21 @@ C
       !!
        IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-       ELSE  
+       ELSE
          IF (IOK == 0) THEN
-           WRITE(IOUT,1000) 
+           WRITE(IOUT,1000)
            WRITE(IOUT,1001)TRIM(TITR),MAT_ID
            WRITE(IOUT,1200)AL(1), AL(2), AL(3), AL(4 ),
      .     AL(5), AL(6), AL(7), AL(8)
          ENDIF
-       ENDIF  
+       ENDIF
 c----------------
 c     end of optimization loop
 c----------------
       RETURN
  1000 FORMAT
      & (//5X, 'FITTED ALPHA PARAMETERS FOR MATERIAL LAW87 : ' ,/,
-     &    5X, ' -----------------------------------------------') 
+     &    5X, ' -----------------------------------------------')
  1001 FORMAT(
      & 5X,A,/,
      &    5X, 'MATERIAL NUMBER =',I10,//)
@@ -387,7 +387,7 @@ C     A r g u m e n t s
 C-----------------------------------------------
       INTEGER,  INTENT(IN) ::       AA
 C
-      my_real, DIMENSION(8), INTENT(IN) ::  AL 
+      my_real, DIMENSION(8), INTENT(IN) ::  AL
 C
       my_real , INTENT(IN) ::  G, D
 C
@@ -397,8 +397,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 
 C=======================================================================
-      F =  ( ABS(G*AL(1)      - D*AL(2) ) ) **AA 
-     .   + ( ABS(G*AL(3)      + D*TWO*AL(4)) )**AA 
+      F =  ( ABS(G*AL(1)      - D*AL(2) ) ) **AA
+     .   + ( ABS(G*AL(3)      + D*TWO*AL(4)) )**AA
      .   + ( ABS(G*TWO*AL(5)+ D*AL(6)))**AA
 	
       !PRINT*, ' FK ', F
@@ -432,7 +432,7 @@ C     A r g u m e n t s
 C-----------------------------------------------
       INTEGER,  INTENT(IN) ::       A
 C
-      my_real, DIMENSION(8), INTENT(IN) ::  AL 
+      my_real, DIMENSION(8), INTENT(IN) ::  AL
 C
       my_real , INTENT(IN) ::  GAMMA, DELTA
 C
@@ -441,19 +441,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDFC,IDFD ,AA
- 
-      my_real 
+
+      my_real
      .      S00, S45 , S90 , SB  ,
-     .      R00,R45  , R90 , RB  
+     .      R00,R45  , R90 , RB
 
 C=======================================================================
-       AA = A - 2 
-       DX =   AL(1)*(GAMMA*AL(1)-DELTA*AL(2))     *(ABS(GAMMA*AL(1)     - DELTA*AL(2)     ))**AA 
-     . +      AL(3)*(GAMMA*AL(3)+DELTA*TWO*AL(4))*(ABS(GAMMA*AL(3)     + DELTA*TWO*AL(4)))**AA 
+       AA = A - 2
+       DX =   AL(1)*(GAMMA*AL(1)-DELTA*AL(2))     *(ABS(GAMMA*AL(1)     - DELTA*AL(2)     ))**AA
+     . +      AL(3)*(GAMMA*AL(3)+DELTA*TWO*AL(4))*(ABS(GAMMA*AL(3)     + DELTA*TWO*AL(4)))**AA
      . + TWO*AL(5)*(GAMMA*TWO*AL(5)+DELTA*AL(6))*(ABS(GAMMA*TWO*AL(5)+DELTA*AL(6)))**AA
 
        DY = - AL(2)*(GAMMA*AL(1)-DELTA*AL(2))     *(ABS(GAMMA*AL(1)-DELTA*AL(2)  ))**AA
-     .  +   2*AL(4)*(GAMMA*AL(3)+DELTA*2*AL(4))   *(ABS(GAMMA*AL(3)+DELTA*2*AL(4)))**AA 
+     .  +   2*AL(4)*(GAMMA*AL(3)+DELTA*2*AL(4))   *(ABS(GAMMA*AL(3)+DELTA*2*AL(4)))**AA
      .  +     AL(6)*(GAMMA*2*AL(5)+DELTA*AL(6))   *(ABS(GAMMA*2*AL(5)+DELTA*AL(6)))**AA
       RETURN
       END
@@ -486,13 +486,13 @@ C-----------------------------------------------
 C
       my_real, DIMENSION(8), INTENT(IN) ::  AL
 C
-      my_real , INTENT(IN) ::  X1,X2,X11,X22 
+      my_real , INTENT(IN) ::  X1,X2,X11,X22
 C
       my_real , INTENT(OUT) ::  F1,F2
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .      T1,T2,T3,V1,V11,W11
 C-----------------------------------------------
 
@@ -537,7 +537,7 @@ C
       ENDDO
 C
       RETURN
-      END 
+      END
 C
 C=======================================================================
 C=======================================================================
@@ -566,7 +566,7 @@ C
       ENDDO
 C
       RETURN
-      END 
+      END
 C
 C
 C

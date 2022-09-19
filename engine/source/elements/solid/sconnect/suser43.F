@@ -50,8 +50,8 @@ Chd|        TABLE_MOD                     share/modules/table_mod.F
 Chd|====================================================================
       SUBROUTINE SUSER43(
      1 ELBUF_STR,IOUT  ,IPROP  ,IMAT   ,NGL    ,TIME  ,TIMESTEP,FR_WAVE,
-     2 XX1      ,XX2   ,XX3    ,XX4    ,XX5    ,XX6    ,XX7    ,XX8    ,   
-     3 YY1      ,YY2   ,YY3    ,YY4    ,YY5    ,YY6    ,YY7    ,YY8    , 
+     2 XX1      ,XX2   ,XX3    ,XX4    ,XX5    ,XX6    ,XX7    ,XX8    ,
+     3 YY1      ,YY2   ,YY3    ,YY4    ,YY5    ,YY6    ,YY7    ,YY8    ,
      4 ZZ1      ,ZZ2   ,ZZ3    ,ZZ4    ,ZZ5    ,ZZ6    ,ZZ7    ,ZZ8    ,
      5 UX1      ,UX2   ,UX3    ,UX4    ,UX5    ,UX6    ,UX7    ,UX8    ,
      6 UY1      ,UY2   ,UY3    ,UY4    ,UY5    ,UY6    ,UY7    ,UY8    ,
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE LAW_USERSO
 C-------------------------------------------------------------------------
 C     This subroutine compute user 8 nodes solids forces and moments.
@@ -155,18 +155,18 @@ C----------------------------------------------------------
       TARGET  :: IPM
       my_real
      .  TIME,TIMESTEP,PARTSAV(NPSAV,*),DMELS(*),PM(NPROPM,*),
-     .  STIFM(*) ,STIFR(*) , VISCM(*) ,VISCR(*) ,FR_WAVE(*),TF(*),             
-     .  XX1(*),XX2(*),XX3(*),XX4(*),XX5(*),XX6(*),XX7(*),XX8(*),         
-     .  YY1(*),YY2(*),YY3(*),YY4(*),YY5(*),YY6(*),YY7(*),YY8(*),         
-     .  ZZ1(*),ZZ2(*),ZZ3(*),ZZ4(*),ZZ5(*),ZZ6(*),ZZ7(*),ZZ8(*),         
-     .  UX1(*),UX2(*),UX3(*),UX4(*),UX5(*),UX6(*),UX7(*),UX8(*),         
-     .  UY1(*),UY2(*),UY3(*),UY4(*),UY5(*),UY6(*),UY7(*),UY8(*),         
-     .  UZ1(*),UZ2(*),UZ3(*),UZ4(*),UZ5(*),UZ6(*),UZ7(*),UZ8(*),         
-     .  VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),         
-     .  VY1(*),VY2(*),VY3(*),VY4(*),VY5(*),VY6(*),VY7(*),VY8(*),         
-     .  VZ1(*),VZ2(*),VZ3(*),VZ4(*),VZ5(*),VZ6(*),VZ7(*),VZ8(*),         
-     .  FX1(*),FX2(*),FX3(*),FX4(*),FX5(*),FX6(*),FX7(*),FX8(*),         
-     .  FY1(*),FY2(*),FY3(*),FY4(*),FY5(*),FY6(*),FY7(*),FY8(*),         
+     .  STIFM(*) ,STIFR(*) , VISCM(*) ,VISCR(*) ,FR_WAVE(*),TF(*),
+     .  XX1(*),XX2(*),XX3(*),XX4(*),XX5(*),XX6(*),XX7(*),XX8(*),
+     .  YY1(*),YY2(*),YY3(*),YY4(*),YY5(*),YY6(*),YY7(*),YY8(*),
+     .  ZZ1(*),ZZ2(*),ZZ3(*),ZZ4(*),ZZ5(*),ZZ6(*),ZZ7(*),ZZ8(*),
+     .  UX1(*),UX2(*),UX3(*),UX4(*),UX5(*),UX6(*),UX7(*),UX8(*),
+     .  UY1(*),UY2(*),UY3(*),UY4(*),UY5(*),UY6(*),UY7(*),UY8(*),
+     .  UZ1(*),UZ2(*),UZ3(*),UZ4(*),UZ5(*),UZ6(*),UZ7(*),UZ8(*),
+     .  VX1(*),VX2(*),VX3(*),VX4(*),VX5(*),VX6(*),VX7(*),VX8(*),
+     .  VY1(*),VY2(*),VY3(*),VY4(*),VY5(*),VY6(*),VY7(*),VY8(*),
+     .  VZ1(*),VZ2(*),VZ3(*),VZ4(*),VZ5(*),VZ6(*),VZ7(*),VZ8(*),
+     .  FX1(*),FX2(*),FX3(*),FX4(*),FX5(*),FX6(*),FX7(*),FX8(*),
+     .  FY1(*),FY2(*),FY3(*),FY4(*),FY5(*),FY6(*),FY7(*),FY8(*),
      .  FZ1(*),FZ2(*),FZ3(*),FZ4(*),FZ5(*),FZ6(*),FZ7(*),FZ8(*),
      .  GEO(NPROPG,*)
       TYPE (ELBUF_STRUCT_)  ,TARGET :: ELBUF_STR
@@ -179,7 +179,7 @@ C-----------------------------------------------
      .  IADBUF,IADBUFR,IFAIL,NUVAR,MTN,NDAMF,ISOLID,ISOLIDF,NUMTABL,NVARTMP
       INTEGER IFUNC(MAXFUNC),IFUNCR(MAXFUNC)
       my_real :: A,B,C,ALPHA,EPSP,ASRATE,TTHICK,OFF_EL
-      my_real 
+      my_real
      .   HH(NPG,NPG),AREAP(MVSIZ,NPG),AREAT(MVSIZ),
      .   UXLOC(MVSIZ,8),UYLOC(MVSIZ,8),UZLOC(MVSIZ,8),
      .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8),
@@ -200,43 +200,43 @@ C-----------------------------------------------
      .   EPSZX(MVSIZ),DEPSZZ(MVSIZ),DEPSYZ(MVSIZ),DEPSZX(MVSIZ),
      .   SIGNZZ(MVSIZ),SIGNYZ(MVSIZ),SIGNZX(MVSIZ),SOFT(NEL),DELTAE(NEL),
      .   USER_PLA(MVSIZ),USER_OFF(MVSIZ),USER_EINT(MVSIZ),USER_RHO(MVSIZ),USER_VOL(MVSIZ)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       TYPE(BUF_MAT_)  ,POINTER :: MATBUF
       TYPE(FAIL_LOC_) ,POINTER :: FLOC
-      TARGET :: AREAP   
+      TARGET :: AREAP
       TYPE(BUF_FAIL_), POINTER  :: FBUF
       TYPE(ULAWINTBUF) :: USERBUF
       TYPE (TTABLE)  , DIMENSION(NTABLE) ::  TABLE
       INTEGER, DIMENSION(:) ,POINTER   :: ITABLE,VARTMP
       my_real, DIMENSION(:),POINTER :: EPLASN,EPLAST,EPSD,UPARAM,UVAR,AREA,AREAN,OFFI
-     
+
 C=======================================================================
       GBUF  => ELBUF_STR%GBUF
-      
+
       I7KGLO = 1
       ISOLID = 4  ! All Gauss points must fail before deleting the element
-      IADBUF = IPM(7,IMAT) 
+      IADBUF = IPM(7,IMAT)
       NUVAR  = IPM(8,IMAT)
       NPAR   = IPM(9,IMAT)
-      NFUNC  = IPM(10,IMAT) 
-      NUMTABL= IPM(226,IMAT)                 
+      NFUNC  = IPM(10,IMAT)
+      NUMTABL= IPM(226,IMAT)
 
-      MTN = IPM(2,IMAT)   
-      DO I=1,NFUNC               
-        IFUNC(I)=IPM(10+I,IMAT)  
-      ENDDO 
+      MTN = IPM(2,IMAT)
+      DO I=1,NFUNC
+        IFUNC(I)=IPM(10+I,IMAT)
+      ENDDO
 
       ITABLE => IPM(226+1:226+NUMTABL,IMAT)
-                     
+
       ISRATE = IPM(3,IMAT)
       ALPHA  = PM(9,IMAT)
-      
+
       ISMSTR = IGEO(5,IPROP)
       TTHICK = GEO(41,IPROP)
       ISOLIDF = 4
 c
-      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1) 
+      UPARAM => BUFMAT(IADBUF:IADBUF+NPAR-1)
 !
       DO I=1,6
         JJ(I) = NEL*(I-1)
@@ -245,12 +245,12 @@ c
 C
       CALL SCOOR43(
      .         GBUF%OFF   ,NEL  ,IOUTPRT    ,GBUF%GAMA ,
-     .         XX1  ,XX2  ,XX3  ,XX4  ,XX5  ,XX6  ,XX7  ,XX8  ,   
-     .         YY1  ,YY2  ,YY3  ,YY4  ,YY5  ,YY6  ,YY7  ,YY8  ,   
-     .         ZZ1  ,ZZ2  ,ZZ3  ,ZZ4  ,ZZ5  ,ZZ6  ,ZZ7  ,ZZ8  ,   
-     .         VX1  ,VX2  ,VX3  ,VX4  ,VX5  ,VX6  ,VX7  ,VX8  ,   
-     .         VY1  ,VY2  ,VY3  ,VY4  ,VY5  ,VY6  ,VY7  ,VY8  ,   
-     .         VZ1  ,VZ2  ,VZ3  ,VZ4  ,VZ5  ,VZ6  ,VZ7  ,VZ8  ,   
+     .         XX1  ,XX2  ,XX3  ,XX4  ,XX5  ,XX6  ,XX7  ,XX8  ,
+     .         YY1  ,YY2  ,YY3  ,YY4  ,YY5  ,YY6  ,YY7  ,YY8  ,
+     .         ZZ1  ,ZZ2  ,ZZ3  ,ZZ4  ,ZZ5  ,ZZ6  ,ZZ7  ,ZZ8  ,
+     .         VX1  ,VX2  ,VX3  ,VX4  ,VX5  ,VX6  ,VX7  ,VX8  ,
+     .         VY1  ,VY2  ,VY3  ,VY4  ,VY5  ,VY6  ,VY7  ,VY8  ,
+     .         VZ1  ,VZ2  ,VZ3  ,VZ4  ,VZ5  ,VZ6  ,VZ7  ,VZ8  ,
      .         R1X  ,R2X  ,R3X  ,R4X  ,R5X  ,R6X  ,R7X  ,R8X  ,
      .         R1Y  ,R2Y  ,R3Y  ,R4Y  ,R5Y  ,R6Y  ,R7Y  ,R8Y  ,
      .         R1Z  ,R2Z  ,R3Z  ,R4Z  ,R5Z  ,R6Z  ,R7Z  ,R8Z  ,
@@ -261,19 +261,19 @@ C
 c
       CALL SDEF43(NEL    ,NPG    ,HH     ,
      .            VXZ    ,VYZ    ,VZZ    ,VXLOC,VYLOC,VZLOC)
-c-----------------------------------------------------------------------  
-      DO I=1,NEL               
-        AREAT(I) = ZERO           
-        VISCM(I) = ZERO            
-        VISCR(I) = ZERO            
-        STIFM(I) = ZERO           
-        STIFR(I) = ZERO            
+c-----------------------------------------------------------------------
+      DO I=1,NEL
+        AREAT(I) = ZERO
+        VISCM(I) = ZERO
+        VISCR(I) = ZERO
+        STIFM(I) = ZERO
+        STIFR(I) = ZERO
         GBUF%SIG(JJ(3)+I) = ZERO
         GBUF%SIG(JJ(5)+I) = ZERO
         GBUF%SIG(JJ(6)+I) = ZERO
-        EP1(I)   = ZERO 
-        EP2(I)   = ZERO 
-        EP3(I)   = ZERO 
+        EP1(I)   = ZERO
+        EP2(I)   = ZERO
+        EP3(I)   = ZERO
         FX1(I)   = ZERO
         FX2(I)   = ZERO
         FX3(I)   = ZERO
@@ -298,10 +298,10 @@ c-----------------------------------------------------------------------
         FZ6(I)   = ZERO
         FZ7(I)   = ZERO
         FZ8(I)   = ZERO
-      ENDDO       
+      ENDDO
       IF (GBUF%G_PLA > 0) GBUF%PLA(:NEL) = ZERO
       IF (ISMSTR == 1 .AND. TIME == ZERO) THEN
-        DO IPG = 1,NPG         
+        DO IPG = 1,NPG
           ELBUF_STR%BUFLY(1)%LBUF(IPG,1,1)%VOL(1:NEL)=AREAP(1:NEL,IPG)
         ENDDO
       ENDIF
@@ -311,26 +311,26 @@ C-------------------
       IF (MTN == 116) THEN
         CONTINUE
       ELSE
-        DO IPG=1,NPG                                          
-          DO I=1,NEL                                          
+        DO IPG=1,NPG
+          DO I=1,NEL
             EP1(I) = EP1(I) + VXZ(I,IPG)
-            EP2(I) = EP2(I) + VYZ(I,IPG)                       
-            EP3(I) = EP3(I) + VZZ(I,IPG)                       
-          ENDDO                                               
-        ENDDO                                                 
-        DO I=1,NEL                                            
-          EP1(I) = EP1(I)*FOURTH                               
-          EP2(I) = EP2(I)*FOURTH                               
-          EP3(I) = EP3(I)*FOURTH                               
-          EPSP   = SQRT(EP1(I)**2 + EP2(I)**2 + EP3(I)**2)    
-                                                              
-          IF (ISRATE > 0) THEN                                
-            ASRATE = MIN(ONE,ALPHA*TIMESTEP)                    
-            EPSP = ASRATE*EPSP + (ONE - ASRATE)*GBUF%EPSD(I)    
-          ENDIF                                               
-          GBUF%EPSD(I)=EPSP                                   
+            EP2(I) = EP2(I) + VYZ(I,IPG)
+            EP3(I) = EP3(I) + VZZ(I,IPG)
+          ENDDO
         ENDDO
-      END IF                                            
+        DO I=1,NEL
+          EP1(I) = EP1(I)*FOURTH
+          EP2(I) = EP2(I)*FOURTH
+          EP3(I) = EP3(I)*FOURTH
+          EPSP   = SQRT(EP1(I)**2 + EP2(I)**2 + EP3(I)**2)
+
+          IF (ISRATE > 0) THEN
+            ASRATE = MIN(ONE,ALPHA*TIMESTEP)
+            EPSP = ASRATE*EPSP + (ONE - ASRATE)*GBUF%EPSD(I)
+          ENDIF
+          GBUF%EPSD(I)=EPSP
+        ENDDO
+      END IF
 C--------------------------------------------------
       DELTAE(1:NEL) = ZERO
 c--------------------------------------------------
@@ -366,18 +366,18 @@ C
           SIGNZZ(IEL) = ZERO
           SIGNYZ(IEL) = ZERO
           SIGNZX(IEL) = ZERO
-          DEIN(IEL)   = ZERO           
-          DEIT(IEL)   = ZERO           
+          DEIN(IEL)   = ZERO
+          DEIT(IEL)   = ZERO
         ENDDO
         IF (ELBUF_STR%BUFLY(1)%L_EPE > 0) THEN
           DO IEL=1,NEL
-            EPSZZ(IEL)  = LBUF%EPE(JJ(1)+IEL) + DEPSZZ(IEL) 
-            EPSYZ(IEL)  = LBUF%EPE(JJ(2)+IEL) + DEPSYZ(IEL) 
-            EPSZX(IEL)  = LBUF%EPE(JJ(3)+IEL) + DEPSZX(IEL) 
+            EPSZZ(IEL)  = LBUF%EPE(JJ(1)+IEL) + DEPSZZ(IEL)
+            EPSYZ(IEL)  = LBUF%EPE(JJ(2)+IEL) + DEPSYZ(IEL)
+            EPSZX(IEL)  = LBUF%EPE(JJ(3)+IEL) + DEPSZX(IEL)
           ENDDO
         END IF
 c--------------------------------------------------
-c       material laws           
+c       material laws
 c--------------------------------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 c--------------------------------------------------
@@ -400,13 +400,13 @@ c-------
           CASE (83)
 c
             CALL SIGEPS83(
-     1         NEL      ,TIME     ,TIMESTEP ,UPARAM   ,GBUF%OFF     ,  
-     2         LBUF%EPSD,STIFM    ,IFUNC    ,MAXFUNC  ,NPF      ,TF      ,                                     
-     3         AREA     ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,NPAR     ,EPSZZ   ,  
-     4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,  
-     5         LBUF%PLA ,JSMS     ,DMELS    ,SYM      ,UVAR     ,NUVAR   ,  
-     6         LBUF%DMG ,ASRATE   ,ISRATE   )                                                      
-c           mean Gauss point values for element output                                                     
+     1         NEL      ,TIME     ,TIMESTEP ,UPARAM   ,GBUF%OFF     ,
+     2         LBUF%EPSD,STIFM    ,IFUNC    ,MAXFUNC  ,NPF      ,TF      ,
+     3         AREA     ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,NPAR     ,EPSZZ   ,
+     4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,
+     5         LBUF%PLA ,JSMS     ,DMELS    ,SYM      ,UVAR     ,NUVAR   ,
+     6         LBUF%DMG ,ASRATE   ,ISRATE   )
+c           mean Gauss point values for element output
             DO IEL=1,NEL
               GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + FOURTH*LBUF%PLA(IEL)
               GBUF%EPSD(IEL) = GBUF%EPSD(IEL) + FOURTH*LBUF%EPSD(IEL)
@@ -419,7 +419,7 @@ c
 c
             CALL SIGEPS116(
      1        NEL      ,NPAR     ,NUVAR    ,JSMS     ,TIME     ,TIMESTEP ,
-     2        UPARAM   ,UVAR     ,AREA     ,EPSD     ,GBUF%OFF ,LBUF%OFF ,   
+     2        UPARAM   ,UVAR     ,AREA     ,EPSD     ,GBUF%OFF ,LBUF%OFF ,
      3        EPSZZ    ,EPSYZ    ,EPSZX    ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,
      4        SIGNZZ   ,SIGNYZ   ,SIGNZX   ,STIFM    ,DMELS    ,LBUF%DMG ,
      5        EPLASN   ,EPLAST   ,IPG      ,ISOLIDF  ,NGL      )
@@ -431,24 +431,24 @@ c
 c
             CALL SIGEPS117(
      1        NEL      ,NPAR     ,NUVAR    ,JSMS     ,TIME     ,TIMESTEP ,
-     2        UPARAM   ,UVAR     ,AREA     ,GBUF%OFF ,LBUF%OFF ,   
+     2        UPARAM   ,UVAR     ,AREA     ,GBUF%OFF ,LBUF%OFF ,
      3        EPSZZ    ,EPSYZ    ,EPSZX    ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,
      4        SIGNZZ   ,SIGNYZ   ,SIGNZX   ,STIFM    ,DMELS    ,LBUF%DMG ,
      5        IPG      ,ISOLIDF  ,NGL      ,NFUNC    ,IFUNC    ,NPF      ,TF)
 
           CASE (120) ! TAPO model
             CALL SIGEPS120_CONNECT_MAIN(
-     1         NEL      ,NGL      ,TIME     ,TIMESTEP ,UPARAM   ,GBUF%OFF     ,  
-     2         LBUF%EPSD,STIFM    ,JTHE     ,      
+     1         NEL      ,NGL      ,TIME     ,TIMESTEP ,UPARAM   ,GBUF%OFF     ,
+     2         LBUF%EPSD,STIFM    ,JTHE     ,
      3         AREA     ,DEPSZZ   ,DEPSYZ   ,DEPSZX   ,EPSZZ    ,NPAR     ,
-     4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,  
+     4         SIG0ZZ   ,SIG0YZ   ,SIG0ZX   ,SIGNZZ   ,SIGNYZ   ,SIGNZX  ,
      5         LBUF%PLA ,JSMS     ,DMELS    ,UVAR     ,NUVAR    ,
-     6         NUMTABL  ,ITABLE   ,TABLE    ,NVARTMP  ,VARTMP   ,LBUF%TEMP    )                                           
-c           mean Gauss point values for element output                                                     
+     6         NUMTABL  ,ITABLE   ,TABLE    ,NVARTMP  ,VARTMP   ,LBUF%TEMP    )
+c           mean Gauss point values for element output
             DO IEL=1,NEL
               GBUF%PLA(IEL)  = GBUF%PLA(IEL)  + FOURTH*LBUF%PLA(IEL)
               GBUF%EPSD(IEL) = GBUF%EPSD(IEL) + FOURTH*LBUF%EPSD(IEL)
-            ENDDO 
+            ENDDO
 C-----------------------------------------------
 
 
@@ -475,11 +475,11 @@ C           Fill Structure in dynamical library
      *           NCYCLE, IMAT,IPTR, IPTS,IPTT,
      *           E1X  ,E1Y  ,E1Z   ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .           BID  ,BID, SIG0ZZ, BID,  SIG0YZ,
-     *           SIG0ZX,    BID, BID, EP1, BID, EP2,  EP3,  
-     *           BID,    BID, BID, BID, BID, BID,  BID,  
-     *           BID,    DEPSZZ, BID, DEPSYZ, DEPSZX, RHO0, BID,   
-     *           BID,    SIGNZZ,  BID,  SIGNYZ,  SIGNZX,  BID,  BID,  
-     *  	        BID,    BID, BID, BID )                 
+     *           SIG0ZX,    BID, BID, EP1, BID, EP2,  EP3,
+     *           BID,    BID, BID, BID, BID, BID,  BID,
+     *           BID,    DEPSZZ, BID, DEPSYZ, DEPSZX, RHO0, BID,
+     *           BID,    SIGNZZ,  BID,  SIGNYZ,  SIGNZX,  BID,  BID,
+     *  	        BID,    BID, BID, BID )
 c
 c           Call user law in dynamical user library
             CALL  ENG_USERLIB_SIGEPS99(
@@ -495,7 +495,7 @@ C           Get back results from user library structure
      *           BID   ,BID   ,BID   ,BID    ,BID   ,BID     ,
      *           DPLA  )
 c
-            DO IEL=1,NEL              
+            DO IEL=1,NEL
               LBUF%PLA(IEL)  = USER_PLA(IEL)
               GBUF%OFF(IEL)  = USER_OFF(IEL)
               GBUF%EINT(IEL) = USER_EINT(IEL)
@@ -503,16 +503,16 @@ c
               GBUF%VOL(IEL)  =  USER_VOL(IEL)
               STIFM(IEL) = SSP(IEL)*SSP(IEL)*AREA(IEL)*GBUF%RHO(IEL)
             ENDDO
-          ENDIF  
-c-------  
+          ENDIF
+c-------
         END SELECT     !  MTN
 c--------------------------------------------------
         DO IEL=1,NEL
-          DEIN(IEL) = LBUF%OFF(IEL)*HALF*                     
-     .                DEPSZZ(IEL)*(SIG0ZZ(IEL) + SIGNZZ(IEL))   
-          DEIT(IEL) = LBUF%OFF(IEL)*HALF*(                    
-     .                DEPSYZ(IEL)*(SIG0YZ(IEL) + SIGNYZ(IEL))+  
-     .                DEPSZX(IEL)*(SIG0ZX(IEL) + SIGNZX(IEL)) ) 
+          DEIN(IEL) = LBUF%OFF(IEL)*HALF*
+     .                DEPSZZ(IEL)*(SIG0ZZ(IEL) + SIGNZZ(IEL))
+          DEIT(IEL) = LBUF%OFF(IEL)*HALF*(
+     .                DEPSYZ(IEL)*(SIG0YZ(IEL) + SIGNYZ(IEL))+
+     .                DEPSZX(IEL)*(SIG0ZX(IEL) + SIGNZX(IEL)) )
         ENDDO
 c--------------------------------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
@@ -523,52 +523,52 @@ c--------------------------------------------------
 c--------------------------------------------------
         SOFT(1:NEL) = ONE
 c
-        IF (IFAILURE == 1) THEN                                                
-          NFAILS = IPM(220, IMAT)       
-                           
-          DO IR = 1,NFAILS                                                     
-            IP = (IR -1)*15                                                    
-            IFAI L = IPM(111 +IP ,IMAT)                                        
-            NPARF  = IPM(112 +IP ,IMAT)                                        
-            NVARF  = IPM(113 +IP ,IMAT)    
-            IADBUFR= IPM(114 +IP ,IMAT)                                        
-            NFUNCR = IPM(115 +IP ,IMAT)                                        
-            DO I=1,NFUNCR                                                      
+        IF (IFAILURE == 1) THEN
+          NFAILS = IPM(220, IMAT)
+
+          DO IR = 1,NFAILS
+            IP = (IR -1)*15
+            IFAI L = IPM(111 +IP ,IMAT)
+            NPARF  = IPM(112 +IP ,IMAT)
+            NVARF  = IPM(113 +IP ,IMAT)
+            IADBUFR= IPM(114 +IP ,IMAT)
+            NFUNCR = IPM(115 +IP ,IMAT)
+            DO I=1,NFUNCR
               IFUNCR(I) = IPM(115 + IP + I,IMAT)
-            ENDDO                                                              
+            ENDDO
 C
-            FLOC  => ELBUF_STR%BUFLY(1)%FAIL(IPG,1,1)%FLOC(IR)                      
+            FLOC  => ELBUF_STR%BUFLY(1)%FAIL(IPG,1,1)%FLOC(IR)
 c
-            IF (IFAIL == 20)THEN                                                   
+            IF (IFAIL == 20)THEN
 C
-              CALL FAIL_CONNECT(                                                          
-     1        NEL       ,NPARF    ,NVARF   ,NFUNCR   ,IFUNCR    ,                    
-     2        NPF       ,TF       ,TIME    ,TIMESTEP ,BUFMAT(IADBUFR),                
-     3        FLOC%VAR  ,NGL      ,EPSZZ   ,EPSZX    ,EPSYZ     ,                           
-     4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF,IPG      ,ISOLIDF   ,                       
-     5        SIGNZZ    ,SIGNYZ   ,SIGNZX  ,DEIN     ,DEIT      ,              
-     6        FLOC%DAMMX,FLOC%TDEL,AREAN   ,SOFT     )                                                   
+              CALL FAIL_CONNECT(
+     1        NEL       ,NPARF    ,NVARF   ,NFUNCR   ,IFUNCR    ,
+     2        NPF       ,TF       ,TIME    ,TIMESTEP ,BUFMAT(IADBUFR),
+     3        FLOC%VAR  ,NGL      ,EPSZZ   ,EPSZX    ,EPSYZ     ,
+     4        GBUF%EPSD ,GBUF%OFF ,LBUF%OFF,IPG      ,ISOLIDF   ,
+     5        SIGNZZ    ,SIGNYZ   ,SIGNZX  ,DEIN     ,DEIT      ,
+     6        FLOC%DAMMX,FLOC%TDEL,AREAN   ,SOFT     )
 c
-            ELSEIF (IFAIL == 26)THEN                                               
+            ELSEIF (IFAIL == 26)THEN
 C
-              NDAMF =  FLOC%LF_DAM                                                  
-              CALL FAIL_SNCONNECT(                                                          
-     1        NEL       ,NPARF     ,NVARF     ,NFUNCR    ,IFUNCR    ,             
-     2        NPF       ,TF        ,TIME      ,TIMESTEP  ,BUFMAT(IADBUFR),         
-     3        FLOC%VAR  ,NGL       ,IPG       ,NPG       ,NDAMF     ,              
-     4        LBUF%EPSD ,LBUF%PLA  ,GBUF%OFF  ,LBUF%OFF  ,ISOLIDF   ,         
-     5        SIGNZZ    ,SIGNYZ    ,SIGNZX    ,SYM       ,AREAN     ,               
-     6        LBUF%DMG  ,FLOC%DAM  ,FLOC%DAMMX,FLOC%TDEL )                    
+              NDAMF =  FLOC%LF_DAM
+              CALL FAIL_SNCONNECT(
+     1        NEL       ,NPARF     ,NVARF     ,NFUNCR    ,IFUNCR    ,
+     2        NPF       ,TF        ,TIME      ,TIMESTEP  ,BUFMAT(IADBUFR),
+     3        FLOC%VAR  ,NGL       ,IPG       ,NPG       ,NDAMF     ,
+     4        LBUF%EPSD ,LBUF%PLA  ,GBUF%OFF  ,LBUF%OFF  ,ISOLIDF   ,
+     5        SIGNZZ    ,SIGNYZ    ,SIGNZX    ,SYM       ,AREAN     ,
+     6        LBUF%DMG  ,FLOC%DAM  ,FLOC%DAMMX,FLOC%TDEL )
 
             ENDIF
 c
-          ENDDO     ! IR = 1,NFAILS                                                               
-        ENDIF       ! Failure 
+          ENDDO     ! IR = 1,NFAILS
+        ENDIF       ! Failure
 c
 c--------------------------------------------------
         ISOLID = MIN(ISOLID, ISOLIDF)
 c--------------------------------------------------
-        IF (ITASK==0 .and. IMON_MAT==1) CALL STOPTIME(121,1)                                                           
+        IF (ITASK==0 .and. IMON_MAT==1) CALL STOPTIME(121,1)
 c--------------------------------------------------
 c       global element constraints in local frame (for output)
 c
@@ -584,7 +584,7 @@ c
         CALL SFINT43(IPG  ,NPG   ,NEL   ,HH    ,AREA  ,SOFT  ,
      .       FX1   ,FX2   ,FX3   ,FX4   ,FX5   ,FX6   ,FX7   ,FX8   ,
      .       FY1   ,FY2   ,FY3   ,FY4   ,FY5   ,FY6   ,FY7   ,FY8   ,
-     .       FZ1   ,FZ2   ,FZ3   ,FZ4   ,FZ5   ,FZ6   ,FZ7   ,FZ8   ,  
+     .       FZ1   ,FZ2   ,FZ3   ,FZ4   ,FZ5   ,FZ6   ,FZ7   ,FZ8   ,
      .       SIGNZZ,SIGNYZ,SIGNZX)
 c
 c       energy
@@ -594,22 +594,22 @@ c
           DELTAE(IEL) = DELTAE(IEL) + (DEIN(IEL) + DEIT(IEL))*AREA(IEL)*SOFT(IEL)
         ENDDO
 c--------------------------------------------------
-c       save current strain and stress              
-        DO IEL=1,NEL                        
-          LBUF%SIG(JJ(3)+IEL) = SIGNZZ(IEL)*LBUF%OFF(IEL)      
-          LBUF%SIG(JJ(5)+IEL) = SIGNYZ(IEL)*LBUF%OFF(IEL)      
-          LBUF%SIG(JJ(6)+IEL) = SIGNZX(IEL)*LBUF%OFF(IEL)      
-        ENDDO                               
+c       save current strain and stress
+        DO IEL=1,NEL
+          LBUF%SIG(JJ(3)+IEL) = SIGNZZ(IEL)*LBUF%OFF(IEL)
+          LBUF%SIG(JJ(5)+IEL) = SIGNYZ(IEL)*LBUF%OFF(IEL)
+          LBUF%SIG(JJ(6)+IEL) = SIGNZX(IEL)*LBUF%OFF(IEL)
+        ENDDO
         IF (ELBUF_STR%BUFLY(1)%L_EPE > 0) THEN
           DO IEL=1,NEL
-            LBUF%EPE(JJ(1)+IEL) = EPSZZ(IEL)	 
-            LBUF%EPE(JJ(2)+IEL) = EPSYZ(IEL)	 
-            LBUF%EPE(JJ(3)+IEL) = EPSZX(IEL)	 
+            LBUF%EPE(JJ(1)+IEL) = EPSZZ(IEL)	
+            LBUF%EPE(JJ(2)+IEL) = EPSYZ(IEL)	
+            LBUF%EPE(JJ(3)+IEL) = EPSZX(IEL)	
           ENDDO
         END IF
 c
 C----
-      ENDDO   ! IPG=1,NPG                                                               
+      ENDDO   ! IPG=1,NPG
 c--------------------------------------------------
 c     FIN BOUCLE SUR LES POINTS DE GAUSS
 c--------------------------------------------------
@@ -635,7 +635,7 @@ C     Add forces for moment equilibrium
      .     R1X   ,R2X   ,R3X   ,R4X   ,R5X   ,R6X   ,R7X   ,R8X   ,
      .     R1Y   ,R2Y   ,R3Y   ,R4Y   ,R5Y   ,R6Y   ,R7Y   ,R8Y   ,
      .     R1Z   ,R2Z   ,R3Z   ,R4Z   ,R5Z   ,R6Z   ,R7Z   ,R8Z   ,
-     .     RXX   ,RYY   ,RZZ   ,TTHICK ) 
+     .     RXX   ,RYY   ,RZZ   ,TTHICK )
 C     Nodal forces : corotationnal --> global
       CALL SRROTA3(
      .     E1X   ,E1Y   ,E1Z   ,E2X   ,E2Y   ,E2Z   ,E3X   ,E3Y   ,E3Z ,

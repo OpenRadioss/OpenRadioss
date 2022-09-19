@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SKIN_TENSOR(3,*),PM(NPROPM,*), X(3,*)
-      INTEGER IPARG(NPARG,*), 
+      INTEGER IPARG(NPARG,*),
      .   IXS(NIXS,*),IPM(NPROPMI,*),IPARTS(*),
      .   IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,
      .   IGEO(NPROPGI,*),IS_WRITTEN_SKIN(*),
@@ -89,10 +89,10 @@ C-----------------------------------------------
 
       INTEGER IXSKIN(7,NUMSKIN),ISKIN(MVSIZ),IXSK(5,MVSIZ),IDEB,ie
       INTEGER JJ,N1,N2
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU,VALUE
       INTEGER FACES(4,6),NS,K1,PWR(7),LL
@@ -112,14 +112,14 @@ C
       VALUE = ZERO
       ITAGPS = 0
 C------TAG_SKIN_ND only the big seg(mid-node of S10 not include)
-        TAG_SKIN_ND(1:NUMNOD) = 0 
+        TAG_SKIN_ND(1:NUMNOD) = 0
         DO I=1,NUMELS
             LL=TAG_SKINS6(I)
             DO JJ=1,6
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ) /= 0)CYCLE
               DO K1=1,4
                 NS=IXS(FACES(K1,JJ)+1,I)
-                TAG_SKIN_ND(NS) = 1 
+                TAG_SKIN_ND(NS) = 1
               END DO
             END DO
         END DO
@@ -170,10 +170,10 @@ C------------change shear to eij
              IF (ITAGPS(N)>0) VALUE(J,N)=HALF*AFLU(J-3,N)/ITAGPS(N)
            ENDDO
          ENDDO
-       END IF 
+       END IF
 C
-       NFT = NSKIN 
-       IXSKIN(1:7,1:NUMSKIN)=0       
+       NFT = NSKIN
+       IXSKIN(1:7,1:NUMSKIN)=0
        CALL H3D_SOL_SKIN_IXSKIN(ELBUF_TAB,IPARG,IPARTS,IXS,IXS10,
      .                          IXSKIN  ,TAG_SKINS6,NSKIN )
        IDEB = NFT
@@ -199,8 +199,8 @@ C-------------check for strain case still eij=0.5*shear
             END DO
          END IF
          IDEB = IDEB + NEL
-       END DO 
+       END DO
        DEALLOCATE(AFLU,VFLU,VALUE,ITAGPS)
 C-----------
       RETURN
-      END       
+      END

@@ -47,7 +47,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
       USE TABLE_MOD
 C-----------------------------------------------
 C-----------------------------------------------
@@ -80,11 +80,11 @@ C----------+---------+---+---+--------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
       INTEGER MAXUPARAM,NUPARAM,NUVAR,MAXFUNC,NFUNC,
      .        IFUNC(MAXFUNC),IUNIT,MAT_ID
-      my_real   UPARAM(MAXUPARAM) 
+      my_real   UPARAM(MAXUPARAM)
       TYPE(TTABLE) TABLE(NTABLE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -92,7 +92,7 @@ C-----------------------------------------------
       INTEGER :: FctID_G,FctID_K,ITAB,ISHAPE,
      .           FctID_Gs,FctID_Ks,FctID_Gl,FctID_Kl
       INTEGER I,NPRONY,IFLAG,IMOD
-      my_real 
+      my_real
      . KV,G(100),BETA(100),K(100),BETAK(100),
      . XGscale,XKscale,XGscale_UNIT,XKscale_UNIT,
      . YGscale,YKscale,YGscale_UNIT,YKscale_UNIT,
@@ -117,15 +117,15 @@ C
       BETAK(1:100) = ZERO
 C
       !IFLAG = 0 this flag was dedicated to keep old fomrulation for version older than
-      ! 1st Card - Flags and prony order 
-      CALL HM_GET_INTV   ('Model_Order' ,NPRONY ,IS_AVAILABLE,LSUBMODEL) 
+      ! 1st Card - Flags and prony order
+      CALL HM_GET_INTV   ('Model_Order' ,NPRONY ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_K'       ,KV     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV   ('MAT_Itab'    ,ITAB   ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('MAT_Itab'    ,ITAB   ,IS_AVAILABLE,LSUBMODEL)
       IF (ITAB > 2) ITAB = 0
-      CALL HM_GET_INTV   ('MAT_Ishape'  ,ISHAPE ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('MAT_Ishape'  ,ISHAPE ,IS_AVAILABLE,LSUBMODEL)
 C
       IF (NPRONY == 0)CALL ANCMSG(MSGID=2026,MSGTYPE=MSGERROR,
-     .                            ANMODE=ANINFO_BLIND_1,I1=MAT_ID)    
+     .                            ANMODE=ANINFO_BLIND_1,I1=MAT_ID)
 C
       IF (ISHAPE > 1) ISHAPE = 0
 C
@@ -134,34 +134,34 @@ C
       ! Tabulated inputs
       ! =======================================================================================
       !  -> Itab = 1 : functions of time
-      IF (ITAB == 1) THEN 
+      IF (ITAB == 1) THEN
         !----------------------------------------------------------------------------------
         ! -> Shear modulus VS time
         !----------------------------------------------------------------------------------
-        CALL HM_GET_INTV   ('Fct_G'  ,FctID_G,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV   ('Fct_G'  ,FctID_G,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XGscale',XGscale,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (XGscale == ZERO) THEN 
+        IF (XGscale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('XGscale',XGscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XGscale = ONE * XGscale_UNIT      
+          XGscale = ONE * XGscale_UNIT
         ENDIF
         CALL HM_GET_FLOATV ('YGscale',YGscale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (YGscale == ZERO) THEN 
+        IF (YGscale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('YGscale' ,YGscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YGscale = ONE * YGscale_UNIT      
+          YGscale = ONE * YGscale_UNIT
         ENDIF
         !----------------------------------------------------------------------------------
         ! -> Bulk modulus VS time
         !----------------------------------------------------------------------------------
-        CALL HM_GET_INTV   ('Fct_K'  ,FctID_K,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV   ('Fct_K'  ,FctID_K,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XKscale',XKscale,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (XKscale == ZERO) THEN 
+        IF (XKscale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('XKscale',XKscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XKscale = ONE * XKscale_UNIT      
+          XKscale = ONE * XKscale_UNIT
         ENDIF
         CALL HM_GET_FLOATV ('YKscale',YKscale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (YKscale == ZERO) THEN 
+        IF (YKscale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('YKscale' ,YKscale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YKscale = ONE * YKscale_UNIT      
+          YKscale = ONE * YKscale_UNIT
         ENDIF
         !----------------------------------------------------------------------------------------
         ! Fit Prony series parameters to approximate tabulated functions by Least Squares method
@@ -175,94 +175,94 @@ C
      .                               K        ,BETAK    ,COSTFK   ,DERIVK   ,ISHAPE   ,KINFINI  )
         ENDIF
       !  -> Itab = 2 ! loss and storage moduli as functions of frequencies
-      ELSEIF (ITAB == 2) THEN 
+      ELSEIF (ITAB == 2) THEN
         !----------------------------------------------------------------------------------
         ! -> Shear storage modulus VS frequency
         !----------------------------------------------------------------------------------
         CALL HM_GET_INTV   ('Fct_Gs'    ,FctID_Gs  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XGs_scale' ,XGs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (XGs_scale == ZERO) THEN 
+        IF (XGs_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('XGs_scale',XGs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XGs_scale = ONE * XGs_scale_UNIT      
+          XGs_scale = ONE * XGs_scale_UNIT
         ENDIF
         CALL HM_GET_FLOATV ('YGs_scale' ,YGs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (YGs_scale == ZERO) THEN 
+        IF (YGs_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('YGs_scale',YGs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YGs_scale = ONE * YGs_scale_UNIT      
-        ENDIF        
+          YGs_scale = ONE * YGs_scale_UNIT
+        ENDIF
         !----------------------------------------------------------------------------------
         ! -> Shear loss modulus VS frequency
         !----------------------------------------------------------------------------------
-        CALL HM_GET_INTV   ('Fct_Gl'    ,FctID_Gl  ,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV   ('Fct_Gl'    ,FctID_Gl  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XGl_scale' ,XGl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (XGl_scale == ZERO) THEN 
+        IF (XGl_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('XGl_scale',XGl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XGl_scale = ONE * XGl_scale_UNIT      
+          XGl_scale = ONE * XGl_scale_UNIT
         ENDIF
         CALL HM_GET_FLOATV ('YGl_scale' ,YGl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (YGl_scale == ZERO) THEN 
+        IF (YGl_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('YGl_scale',YGl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YGl_scale = ONE * YGl_scale_UNIT      
-        ENDIF 
+          YGl_scale = ONE * YGl_scale_UNIT
+        ENDIF
         !----------------------------------------------------------------------------------
         ! -> Bulk storage modulus VS frequency
         !----------------------------------------------------------------------------------
         CALL HM_GET_INTV   ('Fct_Ks'    ,FctID_Ks  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XKs_scale' ,XKs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (XKs_scale == ZERO) THEN 
+        IF (XKs_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('XKs_scale',XKs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XKs_scale = ONE * XKs_scale_UNIT      
+          XKs_scale = ONE * XKs_scale_UNIT
         ENDIF
         CALL HM_GET_FLOATV ('YKs_scale' ,YKs_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (YKs_scale == ZERO) THEN 
+        IF (YKs_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('YKs_scale',YKs_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YKs_scale = ONE * YKs_scale_UNIT      
-        ENDIF    
+          YKs_scale = ONE * YKs_scale_UNIT
+        ENDIF
         !----------------------------------------------------------------------------------
         ! -> Bulk loss modulus VS frequency
         !----------------------------------------------------------------------------------
         CALL HM_GET_INTV   ('Fct_Kl'    ,FctID_Kl  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV ('XKl_scale' ,XKl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (XKl_scale == ZERO) THEN 
+        IF (XKl_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('XKl_scale',XKl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          XKl_scale = ONE * XKl_scale_UNIT      
+          XKl_scale = ONE * XKl_scale_UNIT
         ENDIF
         CALL HM_GET_FLOATV ('YKl_scale' ,YKl_scale ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF (YKl_scale == ZERO) THEN 
+        IF (YKl_scale == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('YKl_scale',YKl_scale_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          YKl_scale = ONE * YKl_scale_UNIT      
-        ENDIF  
+          YKl_scale = ONE * YKl_scale_UNIT
+        ENDIF
         !----------------------------------------------------------------------------------------
         ! Fit Prony series parameters to approximate tabulated functions by Least Squares method
         !----------------------------------------------------------------------------------------
         IF ((FctID_Gs > 0).AND.(FctID_Gl > 0).AND.(NPRONY > 0)) THEN
           CALL LM_LEAST_SQUARE_PRONY_2(MAT_ID   ,NPRONY   ,TABLE    ,FctID_Gs ,XGs_scale,YGs_scale,
      .                                 FctID_Gl ,XGl_scale,YGl_scale,G        ,BETA     ,COSTFG   ,
-     .                                 DERIVG   ,ISHAPE   ,GINFINI  )      
+     .                                 DERIVG   ,ISHAPE   ,GINFINI  )
         ENDIF
         IF ((FctID_Ks > 0).AND.(FctID_Kl > 0).AND.(NPRONY > 0).AND.(KV == ZERO)) THEN
           CALL LM_LEAST_SQUARE_PRONY_2(MAT_ID   ,NPRONY   ,TABLE    ,FctID_Ks ,XKs_scale,YKs_scale,
      .                                 FctID_Kl ,XKl_scale,YKl_scale,K        ,BETAK    ,COSTFK   ,
-     .                                 DERIVK   ,ISHAPE   ,KINFINI  )      
+     .                                 DERIVK   ,ISHAPE   ,KINFINI  )
         ENDIF
       ! =======================================================================================
       ! Classical input
       ! =======================================================================================
       !  -> Itab = 0 ! classical input of prony series
-      ELSE 
+      ELSE
         ISHAPE = 0
         IF(NPRONY > 0) THEN
           DO I=1,NPRONY
             CALL HM_GET_FLOAT_ARRAY_INDEX('Fport1' ,G(I)    ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Fporp1' ,BETA(I) ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-            CALL HM_GET_FLOAT_ARRAY_INDEX('Ki'     ,K(I)    ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)          
+            CALL HM_GET_FLOAT_ARRAY_INDEX('Ki'     ,K(I)    ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Beta_ki',BETAK(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           ENDDO
         ENDIF
       ENDIF
 C     
       ! Taking into account the infinite value shape (+ 1 prony function with beta = 0)
-      IF ((ITAB /= 0) .AND. (ISHAPE == 1)) THEN 
+      IF ((ITAB /= 0) .AND. (ISHAPE == 1)) THEN
         NPRONY = NPRONY + 1
       ENDIF
 C
@@ -270,32 +270,32 @@ C
       IMOD = 0
       UPARAM(1) = KV
       UPARAM(2) = NPRONY
-      DO I=1,NPRONY 
+      DO I=1,NPRONY
         UPARAM(2 + I) = G(I)
-        UPARAM(2 + NPRONY + I) = BETA(I)  
+        UPARAM(2 + NPRONY + I) = BETA(I)
         UPARAM(2 + 2*NPRONY + I) = K(I)
         UPARAM(2 + 3*NPRONY + I) = BETAK(I)
         IF(K(I) > ZERO) IMOD  = 1
-      ENDDO 
-      NUPARAM = 3 + 4*NPRONY 
-      NUPARAM = 4 + 4*NPRONY 
+      ENDDO
+      NUPARAM = 3 + 4*NPRONY
+      NUPARAM = 4 + 4*NPRONY
       UPARAM(NUPARAM) = IMOD
       NUVAR = 7*NPRONY
 C
       NFUNC = 0
 C
-      IF (IS_ENCRYPTED)THEN                                
+      IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
+      ELSE
 C      
         IF(NPRONY > 0) THEN
          WRITE(IOUT,1000)
-         IF(IMOD == 0) THEN 
+         IF(IMOD == 0) THEN
           WRITE(IOUT,1100) KV,NPRONY-ISHAPE
-          IF (ITAB > 0) THEN 
+          IF (ITAB > 0) THEN
             WRITE(IOUT,1500) ITAB,ISHAPE
             IF (ISHAPE == 1) WRITE(IOUT,3000) GINFINI
-            IF (ITAB == 1) THEN 
+            IF (ITAB == 1) THEN
               WRITE(IOUT,1600) FctID_G,XGscale,YGscale,COSTFG,DERIVG
             ELSEIF (ITAB == 2) THEN
               WRITE(IOUT,2000) FctID_Gs,XGs_scale,YGs_scale,
@@ -309,9 +309,9 @@ C
           ENDDO
          ELSE
            WRITE(IOUT,1300) NPRONY-ISHAPE
-           IF (ITAB > 0) THEN 
+           IF (ITAB > 0) THEN
              WRITE(IOUT,1500) ITAB,ISHAPE
-             IF (ITAB == 1) THEN 
+             IF (ITAB == 1) THEN
                IF (ISHAPE == 1) WRITE(IOUT,3000) GINFINI
                WRITE(IOUT,1600) FctID_G,XGscale,YGscale,COSTFG,DERIVG
                IF (ISHAPE == 1) WRITE(IOUT,3500) KINFINI
@@ -331,10 +331,10 @@ C
               WRITE(IOUT,1150) I
               WRITE(IOUT,1200) G(I+ISHAPE),BETA(I+ISHAPE)
               WRITE(IOUT,1400) K(I+ISHAPE),BETAK(I+ISHAPE)
-           ENDDO 
-         ENDIF 
-        ENDIF 
-      ENDIF               
+           ENDDO
+         ENDIF
+        ENDIF
+      ENDIF
 C-----------        
 
 C-----------
@@ -342,33 +342,33 @@ C-----------
      & 5X,'  PRONY SERIES MODEL  :'         ,/,
      & 5X,' --------------------- '         ,/)
  1100 FORMAT(
-     & 5X,'BULK MODULUS FOR VISCO ELASTIC MATERIAL . . . . . . . . . . . . . . . =',1PG20.13/   
-     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10/)    
+     & 5X,'BULK MODULUS FOR VISCO ELASTIC MATERIAL . . . . . . . . . . . . . . . =',1PG20.13/
+     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10/)
  1150 FORMAT(
      & 5X,' ----------------------------------------------------------------------'/
      & 5X,' PARAMETERS FOR PRONY FUNCTION NUMBER #',I10/
-     & 5X,' ----------------------------------------------------------------------'/)   
+     & 5X,' ----------------------------------------------------------------------'/)
  1200 FORMAT(
      & 5X,'SHEAR RELAXATION G MODULUS  . . . . . . . . . . . . . . . . . . . . . = '1PG20.13/
-     & 5X,'BETA DECAY SHEAR MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13) 
- 1300 FORMAT(   
-     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10//) 
+     & 5X,'BETA DECAY SHEAR MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13)
+ 1300 FORMAT(
+     & 5X,'ORDER OF PRONY SERIES . . . . . . . . . . . . . . . . . . . . . . . . =',I10//)
  1400 FORMAT(
      & 5X,'BULK RELAXATION K MODULUS . . . . . . . . . . . . . . . . . . . . . . = '1PG20.13/
-     & 5X,'BETAK DECAY BULK MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13//)  
- 1500 FORMAT(   
+     & 5X,'BETAK DECAY BULK MODULUS  . . . . . . . . . . . . . . . . . . . . . . =',1PG20.13//)
+ 1500 FORMAT(
      & 5X,'TABULATED PRONY SERIES FLAG  . . . . . . . . . . . . . . . . . . . . .=',I10/
      & 5X,'  ITAB=1  FITTING FROM MODULUS VS TIME CURVES'/
      & 5X,'  ITAB=2  FITTING FROM STORAGE AND LOSS MODULI VS FREQUENCY CURVES'/
      & 5X,'SHAPE PRONY SERIES FLAG  . . . . . . . . . . . . . . . . . . . . . . .=',I10/
      & 5X,'  ISHAPE=0 WITHOUT INFINITE MODULUS (DEFAULT)'/
-     & 5X,'  ISHAPE=1 WITH INFINITE MODULUS'/)          
+     & 5X,'  ISHAPE=1 WITH INFINITE MODULUS'/)
  1600 FORMAT(
      & 5X,'LEAST SQUARE FITTING FROM SHEAR MODULUS G FUNCTION ID. . . . . . . . .= 'I10/
      & 5X,'TIME SCALE FACTOR FOR SHEAR MODULUS  . . . . . . . . . . . . . . . . .= '1PG20.13/
      & 5X,'SCALE FACTOR FOR SHEAR MODULUS . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
      & 5X,'FINAL COST FUNCTION VALUE  . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/
-     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/)     
+     & 5X,'FINAL DERIVATIVE VALUE . . . . . . . . . . . . . . . . . . . . . . . .= '1PG20.13/)
  1800 FORMAT(
      & 5X,'LEAST SQUARE FITTING FROM BULK MODULUS K FUNCTION ID . . . . . . . . .= 'I10/
      & 5X,'TIME SCALE FACTOR FOR BULK MODULUS . . . . . . . . . . . . . . . . . .= '1PG20.13/
@@ -397,7 +397,7 @@ C-----------
      & 5X,'SHEAR MODULUS INFINITE VALUE GINF  . . . . . . . . . . . . . . . . . .= '1PG20.13/)
  3500 FORMAT(
      & 5X,'BULK MODULUS INFINITE VALUE KINF . . . . . . . . . . . . . . . . . . .= '1PG20.13/)
-     
+
       RETURN
       END
 C--------------------------------------------------------------------------
@@ -414,7 +414,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
       SUBROUTINE LM_LEAST_SQUARE_PRONY(MAT_ID   ,NPRONY   ,TABLE    ,FCT_ID   ,XGSCALE  ,YGSCALE  ,
-     .                                 G        ,BETA     ,COST     ,DERIV    ,ISHAPE   ,GINFINI  )  
+     .                                 G        ,BETA     ,COST     ,DERIV    ,ISHAPE   ,GINFINI  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -440,13 +440,13 @@ C-----------------------------------------------
       my_real
      .        XGSCALE,YGSCALE,COST,DERIV,GINFINI
       my_real, DIMENSION(100) :: G,BETA
-      TYPE(TTABLE) TABLE(NTABLE)     
+      TYPE(TTABLE) TABLE(NTABLE)
 C-----------------------------------------------
 C   Local arguments
 C-----------------------------------------------
       INTEGER I,II,INFO,SIZE_TIME,NITER
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPIV
-      DOUBLE PRECISION :: 
+      DOUBLE PRECISION ::
      .        RI2,RI2_OLD,MXVALT,MXVALY,LAMBDA,
      .        JACTDY_N2,RHO,NU,DENOM,XI_N2
       DOUBLE PRECISION, PARAMETER :: EPS1   = 1.0D-8
@@ -455,7 +455,7 @@ C-----------------------------------------------
       DOUBLE PRECISION, PARAMETER :: MXITER = 10000
       DOUBLE PRECISION, DIMENSION(:), ALLOCATABLE :: XI,FXI,DELTAY,JACTDY,YI,TIME,
      .                                               XI_TR,FXI_TR,VECT,MU
-      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: JAC,JACTJAC,JACT,ID    
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: JAC,JACTJAC,JACT,ID
       LOGICAL :: CONV,FOUND
 C
       ! Find the function and recover the experimental data
@@ -483,11 +483,11 @@ C
           YI      = YI/MXVALY
           FOUND   = .TRUE.
           EXIT
-        ENDIF        
-      ENDDO  
-      IF (.NOT.FOUND) THEN 
+        ENDIF
+      ENDDO
+      IF (.NOT.FOUND) THEN
         CALL ANCMSG(MSGID=1928,MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=FCT_ID)     
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=FCT_ID)
       ENDIF
 C
       ! Order of prony series to high for the number of data points
@@ -523,7 +523,7 @@ C
           JAC(I,2*II-1) = -EXP(-XI(2*II)*TIME(I))
           JAC(I,2*II)   = TIME(I)*XI(2*II-1)*EXP(-XI(2*II)*TIME(I))
         ENDDO
-      ENDDO     
+      ENDDO
       DELTAY = YI - FXI
 C
       ! Computation of the squared sum of residues
@@ -553,7 +553,7 @@ C
 c
         ! b) Compute the trial values of XI
         CALL DGESV(2*NPRONY, 1, JACTJAC, 2*NPRONY, IPIV, JACTDY , 2*NPRONY, INFO)
-        XI_TR = XI + JACTDY     
+        XI_TR = XI + JACTDY
 C
         ! Checking convergence
         IF (SQRT(DOT_PRODUCT(JACTDY,JACTDY)) <= EPS2*(SQRT(DOT_PRODUCT(XI,XI))+EPS2)) THEN
@@ -565,10 +565,10 @@ C
             DO II = 1,NPRONY
               FXI_TR(I) = FXI_TR(I) + XI_TR(2*II-1)*EXP(-XI_TR(2*II)*TIME(I))
             ENDDO
-          ENDDO    
+          ENDDO
           ! d) Computation of the squared sum of residues
           RI2_OLD = RI2
-          RI2     = DOT_PRODUCT(YI-FXI_TR,YI-FXI_TR)          
+          RI2     = DOT_PRODUCT(YI-FXI_TR,YI-FXI_TR)
 C
           ! Compute gain ration
           VECT  = MATMUL(JACT,DELTAY)
@@ -591,14 +591,14 @@ C
                 MU(I) = MIN(ONE,((ONE-ALPHA)/(-JACTDY(I)))*XI(I))
               ENDIF
               XI(I) = XI(I) + MU(I)*JACTDY(I)
-            ENDDO  
+            ENDDO
             ! Update FXI vector
             FXI(:) = GINFINI
             DO I = 1,SIZE_TIME
               DO II = 1,NPRONY
                 FXI(I) = FXI(I) + XI(2*II-1)*EXP(-XI(2*II)*TIME(I))
               ENDDO
-            ENDDO  
+            ENDDO
             ! Update residue vector
             DELTAY = YI - FXI
             RI2    = DOT_PRODUCT(DELTAY,DELTAY)
@@ -609,14 +609,14 @@ C
                 JAC(I,2*II-1) = -EXP(-XI(2*II)*TIME(I))
                 JAC(I,2*II)   = TIME(I)*XI(2*II-1)*EXP(-XI(2*II)*TIME(I))
               ENDDO
-            ENDDO    
+            ENDDO
             JACT = TRANSPOSE(JAC)
           !  -> Step not accepted
           ELSE
-            ! Update damping parameter            
-            LAMBDA = LAMBDA*NU 
+            ! Update damping parameter
+            LAMBDA = LAMBDA*NU
             NU     = NU*TWO
-          ENDIF          
+          ENDIF
 C          
           ! f) Computing the convergence criterion
           JACTDY    = TWO*MATMUL(JACT,DELTAY)
@@ -631,7 +631,7 @@ C
       ENDDO
 #else
       CONV = .FALSE.
-      WRITE(6,*) "Error: Blas/Lapack required" 
+      WRITE(6,*) "Error: Blas/Lapack required"
 #endif
 
 C      
@@ -642,13 +642,13 @@ C
       ! Solutions values must be checked
       ELSEIF (ABS(JACTDY_N2)>EPS1 .OR. MAXVAL(XI)>EP20 .OR. MINVAL(XI)<EM20) THEN
         CALL ANCMSG(MSGID=1927,MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID)   
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID)
       ENDIF
 C
       ! Storage of the results in Prony parameters (accounting for normalizing values)
       G    = ZERO
       BETA = ZERO
-      IF (ISHAPE == 1) THEN 
+      IF (ISHAPE == 1) THEN
         GINFINI = GINFINI*MXVALY
         G(1)    = GINFINI
         BETA(1) = ZERO
@@ -661,7 +661,7 @@ C
       DERIV = JACTDY_N2
 C
       ! Deallocation of tables
-      DEALLOCATE(XI,XI_TR,JAC,FXI,DELTAY,JACTJAC,ID,JACTDY,IPIV,JACT,FXI_TR,VECT,YI,TIME,MU)      
+      DEALLOCATE(XI,XI_TR,JAC,FXI,DELTAY,JACTJAC,ID,JACTDY,IPIV,JACT,FXI_TR,VECT,YI,TIME,MU)
       END
 C--------------------------------------------------------------------------
 C--------------------------------------------------------------------------
@@ -678,7 +678,7 @@ Chd|        TABLE_MOD                     share/modules1/table_mod.F
 Chd|====================================================================
       SUBROUTINE LM_LEAST_SQUARE_PRONY_2(MAT_ID   ,NPRONY   ,TABLE    ,FCT_IDS  ,XGS_SCALE,YGS_SCALE,
      .                                   FCT_IDL  ,XGL_SCALE,YGL_SCALE,G        ,BETA     ,COST     ,
-     .                                   DERIV    ,ISHAPE   ,GINFINI  )  
+     .                                   DERIV    ,ISHAPE   ,GINFINI  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -704,7 +704,7 @@ C-----------------------------------------------
       my_real
      .        XGS_SCALE,YGS_SCALE,XGL_SCALE,YGL_SCALE,COST,DERIV,GINFINI
       my_real, DIMENSION(100) :: G,BETA
-      TYPE(TTABLE) TABLE(NTABLE)     
+      TYPE(TTABLE) TABLE(NTABLE)
 C-----------------------------------------------
 C   Local arguments
 C-----------------------------------------------
@@ -722,24 +722,24 @@ C-----------------------------------------------
      .                                        JACTDY,YIS,YIL,FREQ,XI_TR,FXIS_TR,
      .                                        FXIL_TR,VECT,MU,FREQS,FREQL,YIS_TEMP,
      .                                        YIL_TEMP
-      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: JACS,JACL,JACTJAC,JACST,JACLT,ID,WEIGHT    
-      LOGICAL :: CONV   
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: JACS,JACL,JACTJAC,JACST,JACLT,ID,WEIGHT
+      LOGICAL :: CONV
 C
       ! Finding the functions for Storage and Loss moduli
       ITABS = 0
       ITABL = 0
       DO I = 1,NTABLE
-        IF (TABLE(I)%NOTABLE == FCT_IDS) ITABS = I  
-        IF (TABLE(I)%NOTABLE == FCT_IDL) ITABL = I  
+        IF (TABLE(I)%NOTABLE == FCT_IDS) ITABS = I
+        IF (TABLE(I)%NOTABLE == FCT_IDL) ITABL = I
         IF (ITABS /= 0 .AND. ITABL /= 0) EXIT
-      ENDDO  
+      ENDDO
       IF (ITABS == 0) THEN
         CALL ANCMSG(MSGID=1924,MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=FCT_IDS)      
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=FCT_IDS)
       ENDIF
       IF (ITABL == 0) THEN
         CALL ANCMSG(MSGID=1925,MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=FCT_IDL)      
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,I2=FCT_IDL)
       ENDIF
 C
       ! --------------------------------------------------------------------------
@@ -756,10 +756,10 @@ C
       FREQL(1:SIZE_FREQL)    = TABLE(ITABL)%X(1)%VALUES(1:SIZE_FREQL)*XGL_SCALE
       YIL_TEMP(1:SIZE_FREQL) = TABLE(ITABL)%Y%VALUES(1:SIZE_FREQL)*YGL_SCALE
 C
-      ! -> Number of abscissa is the same 
+      ! -> Number of abscissa is the same
       ! --------------------------------------------------------------------
       FLAG = 0
-      IF (SIZE_FREQS == SIZE_FREQL) THEN 
+      IF (SIZE_FREQS == SIZE_FREQL) THEN
         ! If there is no difference at all between abscissa
         IF (SQRT(DOT_PRODUCT(FREQS-FREQL,FREQS-FREQL))<EM08) THEN
           FLAG = 0
@@ -785,27 +785,27 @@ C
         DO I = 1,SIZE_FREQL
           FLAG = 0
           DO II = 1,SIZE_FREQS
-            IF (ABS(FREQS(II)-FREQL(I))<EM08) THEN 
+            IF (ABS(FREQS(II)-FREQL(I))<EM08) THEN
               FLAG = 1
             ENDIF
           ENDDO
           IF (FLAG == 1) SIZE_FREQ = SIZE_FREQ - 1
         ENDDO
         ! -> Allocating and filling tables
-        !----------------------------------------------------------------------------        
+        !----------------------------------------------------------------------------
         ALLOCATE(IDX(SIZE_FREQ),FREQ(SIZE_FREQ),YIS(SIZE_FREQ),YIL(SIZE_FREQ))
         FREQ(1:SIZE_FREQS) = FREQS(1:SIZE_FREQS)
         K = 0
         DO I = 1,SIZE_FREQL
           FLAG = 0
           DO II = 1,SIZE_FREQS
-            IF (ABS(FREQS(II)-FREQL(I))<EM08) THEN 
+            IF (ABS(FREQS(II)-FREQL(I))<EM08) THEN
               FLAG = 1
               K = K + 1
             ENDIF
           ENDDO
           IF (FLAG == 0) FREQ(SIZE_FREQS+I-K) = FREQL(I)
-        ENDDO        
+        ENDDO
         ! -> Sorting abscissa
         !--------------------
         DO II = 1,SIZE_FREQ
@@ -817,10 +817,10 @@ C
         FREQS  = FREQS*(HUNDRED/MXFREQ)
         FREQL  = FREQL*(HUNDRED/MXFREQ)
         ! -> Data interpolation with new abscissa
-        !----------------------------------------------------------------------------         
+        !----------------------------------------------------------------------------
         II = 1
         DO I = 1,SIZE_FREQ
-          IF (FREQ(I)<FREQS(1)) THEN 
+          IF (FREQ(I)<FREQS(1)) THEN
             YIS(I) = YIS_TEMP(1) + ((YIS_TEMP(2)-YIS_TEMP(1))/(FREQS(2)-FREQS(1)))*(FREQ(I)-FREQS(1))
           ELSEIF (FREQ(I)>FREQS(SIZE_FREQS)) THEN
             YIS(I) = YIS_TEMP(SIZE_FREQS-1) + ((YIS_TEMP(SIZE_FREQS)-YIS_TEMP(SIZE_FREQS-1))/
@@ -830,12 +830,12 @@ C
               II = II + 1
               II = MIN(II,SIZE_FREQS-1)
             ENDIF
-            YIS(I) = YIS_TEMP(II) + ((YIS_TEMP(II+1)-YIS_TEMP(II))/(FREQS(II+1)-FREQS(II)))*(FREQ(I)-FREQS(II))    
+            YIS(I) = YIS_TEMP(II) + ((YIS_TEMP(II+1)-YIS_TEMP(II))/(FREQS(II+1)-FREQS(II)))*(FREQ(I)-FREQS(II))
           ENDIF
         ENDDO
         II = 1
         DO I = 1,SIZE_FREQ
-          IF (FREQ(I)<FREQL(1)) THEN 
+          IF (FREQ(I)<FREQL(1)) THEN
             YIL(I) = YIL_TEMP(1) + ((YIL_TEMP(2)-YIL_TEMP(1))/(FREQL(2)-FREQL(1)))*(FREQ(I)-FREQL(1))
           ELSEIF (FREQ(I)>FREQL(SIZE_FREQL)) THEN
             YIL(I) = YIL_TEMP(SIZE_FREQL-1) + ((YIL_TEMP(SIZE_FREQL)-YIL_TEMP(SIZE_FREQL-1))/
@@ -845,10 +845,10 @@ C
               II = II + 1
               II = MIN(II,SIZE_FREQL-1)
             ENDIF
-            YIL(I) = YIL_TEMP(II) + ((YIL_TEMP(II+1)-YIL_TEMP(II))/(FREQL(II+1)-FREQL(II)))*(FREQ(I)-FREQL(II))    
+            YIL(I) = YIL_TEMP(II) + ((YIL_TEMP(II+1)-YIL_TEMP(II))/(FREQL(II+1)-FREQL(II)))*(FREQ(I)-FREQL(II))
           ENDIF
         ENDDO
-      ENDIF 
+      ENDIF
 C
       ! Order of prony series to high for the number of data points
       IF (2*NPRONY >= SIZE_FREQ) THEN
@@ -888,7 +888,7 @@ C
       MXNORM = MAX(MAXVAL(YIS),MAXVAL(YIL))
       DO I = 1,SIZE_FREQ
         WEIGHT(I,I) = ONE/(MXNORM**2)
-      ENDDO      
+      ENDDO
 C        
       ! Initialization of the Prony series and the residues
       FXIS(:) = GINFINI
@@ -896,15 +896,15 @@ C
       DO I = 1,SIZE_FREQ
         DO II = 1,NPRONY
           ! Storage modulus series
-          FXIS(I)        = FXIS(I) + ((XI(2*II-1)*(FREQ(I)**2))/(XI(2*II)**2 + FREQ(I)**2)) 
+          FXIS(I)        = FXIS(I) + ((XI(2*II-1)*(FREQ(I)**2))/(XI(2*II)**2 + FREQ(I)**2))
           JACS(I,2*II-1) = -(FREQ(I)**2)/(XI(2*II)**2 + FREQ(I)**2)
           JACS(I,2*II)   = TWO*XI(2*II-1)*XI(2*II)*(FREQ(I)**2)/((XI(2*II)**2 + FREQ(I)**2)**2)
           ! Loss modulus series
-          FXIL(I)        = FXIL(I) + ((XI(2*II-1)*XI(2*II)*FREQ(I))/(XI(2*II)**2 + FREQ(I)**2)) 
+          FXIL(I)        = FXIL(I) + ((XI(2*II-1)*XI(2*II)*FREQ(I))/(XI(2*II)**2 + FREQ(I)**2))
           JACL(I,2*II-1) = -(FREQ(I)*XI(2*II))/(XI(2*II)**2 + FREQ(I)**2)
           JACL(I,2*II)   = XI(2*II-1)*FREQ(I)*((XI(2*II)**2 - FREQ(I)**2)/(XI(2*II)**2 + FREQ(I)**2)**2)
         ENDDO
-      ENDDO     
+      ENDDO
       DELTAYS = YIS - FXIS
       DELTAYL = YIL - FXIL
 C
@@ -932,13 +932,13 @@ C
         JACTJAC = JACTJAC + MATMUL(JACLT,MATMUL(WEIGHT,JACL))
         !  -> Adding the damping parameter
         JACTJAC = JACTJAC + LAMBDA*ID
-        !  -> Compute the gradient of residues 
+        !  -> Compute the gradient of residues
         JACTDY  = -MATMUL(JACST,MATMUL(WEIGHT,DELTAYS))
         JACTDY  = JACTDY - MATMUL(JACLT,MATMUL(WEIGHT,DELTAYL))
 c
         ! b) Compute the trial values of XI
         CALL DGESV(2*NPRONY, 1, JACTJAC, 2*NPRONY, IPIV, JACTDY , 2*NPRONY, INFO)
-        XI_TR = XI + JACTDY  
+        XI_TR = XI + JACTDY
 C
         ! Checking convergence
         IF (SQRT(DOT_PRODUCT(JACTDY,JACTDY)) <= EPS2*(SQRT(DOT_PRODUCT(XI,XI))+EPS2)) THEN
@@ -949,13 +949,13 @@ C
           FXIL_TR(:) = ZERO
           DO I = 1,SIZE_FREQ
             DO II = 1,NPRONY
-              FXIS_TR(I) = FXIS_TR(I) + ((XI_TR(2*II-1)*(FREQ(I)**2))/(XI_TR(2*II)**2 + FREQ(I)**2)) 
-              FXIL_TR(I) = FXIL_TR(I) + ((XI_TR(2*II-1)*XI_TR(2*II)*FREQ(I))/(XI_TR(2*II)**2 + FREQ(I)**2)) 
+              FXIS_TR(I) = FXIS_TR(I) + ((XI_TR(2*II-1)*(FREQ(I)**2))/(XI_TR(2*II)**2 + FREQ(I)**2))
+              FXIL_TR(I) = FXIL_TR(I) + ((XI_TR(2*II-1)*XI_TR(2*II)*FREQ(I))/(XI_TR(2*II)**2 + FREQ(I)**2))
             ENDDO
-          ENDDO    
+          ENDDO
           ! d) Computation of the squared sum of residues
           RI2_OLD = RI2
-          RI2     = ((ONE/MXNORM)**2)*(DOT_PRODUCT((YIS-FXIS_TR),(YIS-FXIS_TR)) + 
+          RI2     = ((ONE/MXNORM)**2)*(DOT_PRODUCT((YIS-FXIS_TR),(YIS-FXIS_TR)) +
      .                                DOT_PRODUCT((YIL-FXIL_TR),(YIL-FXIL_TR)))
 C
           ! Compute gain ratio
@@ -979,16 +979,16 @@ C
                 MU(I) = MIN(ONE,((ONE-ALPHA)/(-JACTDY(I)))*XI(I))
               ENDIF
               XI(I) = XI(I) + MU(I)*JACTDY(I)
-            ENDDO  
+            ENDDO
             ! Update FXI vector
             FXIS(:) = GINFINI
             FXIL(:) = ZERO
             DO I = 1,SIZE_FREQ
               DO II = 1,NPRONY
-                FXIS(I) = FXIS(I) + ((XI(2*II-1)*(FREQ(I)**2))/(XI(2*II)**2 + FREQ(I)**2)) 
+                FXIS(I) = FXIS(I) + ((XI(2*II-1)*(FREQ(I)**2))/(XI(2*II)**2 + FREQ(I)**2))
                 FXIL(I) = FXIL(I) + ((XI(2*II-1)*XI(2*II)*FREQ(I))/(XI(2*II)**2 + FREQ(I)**2))
               ENDDO
-            ENDDO  
+            ENDDO
             ! Update residue vector
             DELTAYS = YIS - FXIS
             DELTAYL = YIL - FXIL
@@ -1002,15 +1002,15 @@ C
                 JACL(I,2*II-1) = -(FREQ(I)*XI(2*II))/(XI(2*II)**2 + FREQ(I)**2)
                 JACL(I,2*II)   = XI(2*II-1)*FREQ(I)*((XI(2*II)**2 - FREQ(I)**2)/(XI(2*II)**2 + FREQ(I)**2)**2)
               ENDDO
-            ENDDO    
+            ENDDO
             JACST = TRANSPOSE(JACS)
             JACLT = TRANSPOSE(JACL)
           !  -> Step not accepted
           ELSE
-            ! Update damping parameter            
-            LAMBDA = LAMBDA*NU 
+            ! Update damping parameter
+            LAMBDA = LAMBDA*NU
             NU     = NU*TWO
-          ENDIF          
+          ENDIF
 C          
           ! f) Computing the convergence criterion
           JACTDY    = TWO*MATMUL(JACST,MATMUL(WEIGHT,DELTAYS)) + TWO*MATMUL(JACLT,MATMUL(WEIGHT,DELTAYL))
@@ -1025,7 +1025,7 @@ C
       ENDDO
 #else
       CONV = .FALSE.
-      WRITE(6,*) "Error: Blas/Lapack required" 
+      WRITE(6,*) "Error: Blas/Lapack required"
 #endif
 
 C      
@@ -1036,13 +1036,13 @@ C
       ! Solutions values must be checked
       ELSEIF (ABS(JACTDY_N2)>EPS1 .OR. MAXVAL(XI)>EP10 .OR. MINVAL(XI)<EM10) THEN
         CALL ANCMSG(MSGID=1927,MSGTYPE=MSGWARNING,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID)   
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID)
       ENDIF
 C
       ! Storage of the results in Prony parameters (accounting for normalizing values)
       G    = ZERO
       BETA = ZERO
-      IF (ISHAPE == 1) THEN 
+      IF (ISHAPE == 1) THEN
         G(1)    = GINFINI
         BETA(1) = ZERO
       ENDIF
@@ -1055,7 +1055,7 @@ C
 C
       ! Deallocation of tables
       DEALLOCATE(XI,XI_TR,JACS,JACL,FXIS,FXIL,DELTAYS,DELTAYL,JACTJAC,ID,JACTDY,IPIV,
-     .           JACST,JACLT,FXIS_TR,FXIL_TR,VECT,MU,FREQS,YIS_TEMP,FREQL,YIL_TEMP)    
+     .           JACST,JACLT,FXIS_TR,FXIL_TR,VECT,MU,FREQS,YIS_TEMP,FREQL,YIL_TEMP)
       IF (ALLOCATED(IDX)) DEALLOCATE(IDX)
       END
 C---------------------------------------------------------------------------------------
@@ -1099,12 +1099,12 @@ C-----------------------------------------------
          T = A(I)
          A(I) = A(J)
          A(J) = T
-         I1 = IDX(i) 
-         IDX(I) = IDX(J) 
+         I1 = IDX(i)
+         IDX(I) = IDX(J)
          IDX(J) = I1
          I = I + 1
          J = J - 1
       ENDDO
       IF (FIRST < I - 1) CALL QSORT(A, IDX, FIRST, I - 1)
       IF (J + 1 < LAST)  CALL QSORT(A, IDX, J + 1, LAST)
-      END SUBROUTINE 
+      END SUBROUTINE

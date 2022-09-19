@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QNORM2 (NEL, NFT, JALE, SYM, IXQ, XGRID, WGRID, 
+      SUBROUTINE QNORM2 (NEL, NFT, JALE, SYM, IXQ, XGRID, WGRID,
      .     NORM, WFAC, SURF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL, NFT, JALE, SYM, IXQ(NIXQ, *)
-      my_real, INTENT(IN) :: 
+      my_real, INTENT(IN) ::
      .     XGRID(3, *), WGRID(*)
       my_real, INTENT(OUT) :: WFAC(3, 4, NEL), SURF(4, NEL)
       my_real, INTENT(OUT), TARGET :: NORM(3, 4, NEL)
@@ -57,8 +57,8 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II, NODE1, NODE2, NODE3, NODE4, KFACE
-      my_real ::  
-     .     X1(3), X2(3), X3(3), X4(3), 
+      my_real ::
+     .     X1(3), X2(3), X3(3), X4(3),
      .     W1(3), W2(3), W3(3), W4(3)
       my_real, POINTER :: NX, NY, NZ
 
@@ -127,7 +127,7 @@ C     Face 3
 C     Face 4
          KFACE = 4
          NORM(1, KFACE, II) = ZERO
-         NORM(2, KFACE, II) = X1(3) - X4(3) 
+         NORM(2, KFACE, II) = X1(3) - X4(3)
          NORM(3, KFACE, II) = -(X1(2) - X4(2))
          NY => NORM(2, KFACE, II)
          NZ => NORM(3, KFACE, II)

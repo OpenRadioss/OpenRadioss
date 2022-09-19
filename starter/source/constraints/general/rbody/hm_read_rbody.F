@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NPBY(NNPBY,*), LPBY(*), ITAB(*), ITABM1(*)
       INTEGER IBFV(NIFV,*)
       INTEGER LSENSOR(NSENSI,*),IGRV(NIGRV,*),IBGR(*),IMERGE(*),
@@ -105,7 +105,7 @@ C     REAL
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF        
+      TYPE (SURF_)   ,TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -176,7 +176,7 @@ C--------------------------------------------------
       IS_AVAILABLE = .FALSE.
       CALL HM_OPTION_START('/RBODY')
 C
-      MY_ALLOCATE(ITAG,NUMNOD) 
+      MY_ALLOCATE(ITAG,NUMNOD)
       ITAG(1:NUMNOD) = 0
 C
       K=0
@@ -189,7 +189,7 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /RBODY/... LINE
 C--------------------------------------------------
 C
-       NRB_R2R = NRB_R2R + 1     
+       NRB_R2R = NRB_R2R + 1
        IF (NSUBDOM > 0) THEN
          IF(TAGRBY(NRB_R2R) == 0) CALL HM_SZ_R2R(TAGRBY,NRB_R2R,LSUBMODEL)
        ENDIF
@@ -201,7 +201,7 @@ C
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY,
      .                       SUBMODEL_INDEX = SUB_INDEX)
-       IF(KEY=='')THEN ! not a /RBODY/LAGMUL     
+       IF(KEY=='')THEN ! not a /RBODY/LAGMUL
         NRB = NRB + 1
 C-------
         IFLAGUNIT = 0
@@ -215,7 +215,7 @@ C-------
         CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I2=UID,I1=ID,C1='RIGID BODY',
      .               C2='RIGID BODY',
-     .               C3=TITR) 
+     .               C3=TITR)
         ENDIF
 C
         NOM_OPT(1,NRB)=ID
@@ -486,13 +486,13 @@ C
       ENDDO
 C
       DO K=1,NLOADC
-	NN   = ICFIELD(1,K) 
+	NN   = ICFIELD(1,K)
         IAD  = ICFIELD(4,K)
         DO I=1,NN
          N=LCFIELD(IAD+I-1)
          IF(ITAG(N) == 1)LCFIELD(IAD+I-1) = -N
         END DO
-      ENDDO 
+      ENDDO
 C------------------------------------
       IF(ALLOCATED(ITAG)) DEALLOCATE(ITAG)
       IF(ALLOCATED(TABSL))DEALLOCATE(TABSL)
@@ -626,7 +626,7 @@ C
       END DO
 C
 C init a 0 de itag
-      MY_ALLOCATE(ITAG,NUMNOD) 
+      MY_ALLOCATE(ITAG,NUMNOD)
       DO I=1,NUMNOD
         ITAG(I)=0
       ENDDO
@@ -798,7 +798,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, MLW, ITY, NEL, NFT, IAD, I, II, IGOF, NR, IG,
      .        NSN, NALL, ISHFT, IOK, IRBYON
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
 C-----------------------
 C     MISE DE OFF A -OFF
@@ -812,7 +812,7 @@ C======================================================================|
 C
       IRBYON = 1
 C
-      MY_ALLOCATE(ITAG,NUMNOD) 
+      MY_ALLOCATE(ITAG,NUMNOD)
 C init initiale sur numnod
       DO I=1,NUMNOD
         ITAG(I)=0

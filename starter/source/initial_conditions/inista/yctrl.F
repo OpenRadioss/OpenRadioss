@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .      I,J,NGAUSS,NLAYER ,
      .      NUMS,NIP,NUVAR,JJHBE,J1,NU,IP,N,NPSOLID,
      .      K,IHBE,NPG,ND,NVAR_SHELL,NPT,NE,
@@ -82,8 +82,8 @@ C=======================================================================
       NUMSPRI=0
       NUMSH3N=0
       NVSHELL0   = 32
-      NUSHELL0   = 4 
-      NORTSHEL0  = 3 
+      NUSHELL0   = 4
+      NORTSHEL0  = 3
       NVAR_SHELL = 0
       NUBEAM0 = 4
       NUBEAM  = 0
@@ -122,7 +122,7 @@ C
          IF(LINE(1:10)=='          ')GOTO 306
        END IF
 C
-       IF(LINE(1:1)=='/')GOTO 309 
+       IF(LINE(1:1)=='/')GOTO 309
        IF (IOUTP_FMT==2) THEN
          READ(LINE,'(8I8)')
      .   NUMSOL,NUMQUAD,NUMSHEL,NUMTRUS,NUMBEAM,NUMSPRI,NUMSH3N,
@@ -141,12 +141,12 @@ C
        NUSHELL = 0
        NVSHELL1 = 0
        NVSHELL2 = 0
-cc       NGAUSS = 0       
+cc       NGAUSS = 0
 cc       NLAYER = 0
 cc       NVSHELL = 0
        IUSOLID = 0
        NUSOLID = 0
-       NVSOLID1 = 0     
+       NVSOLID1 = 0
        NVSOLID2 = 0
        NVSOLID3 = 0
        NVSOLID4 = 0
@@ -159,22 +159,22 @@ cc       NVSOLID = 0
        IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GO TO 409
-       ENDIF 
+       ENDIF
        IF(LINE(1:28)/='/SHELL     /SCALAR    /USERS')GOTO 400
        READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
-        IUSHELL = 1        
+        IUSHELL = 1
 C
         I = 0
         J = 0
   405   READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
         IF(LINE(1:1)=='#')GOTO 405
-        IF(LINE(1:1)=='/')GOTO 410         
+        IF(LINE(1:1)=='/')GOTO 410
          J=J+1
          I=I+1
-         IF(J>NUMSHEL+NUMSH3N) GOTO 410 
+         IF(J>NUMSHEL+NUMSH3N) GOTO 410
          IF(IOUTP_FMT==2)THEN
-           READ(LINE,FMT='(4I8)')IHBE,NIP,NPG,NUVAR          
-         ELSE 
+           READ(LINE,FMT='(4I8)')IHBE,NIP,NPG,NUVAR
+         ELSE
           READ(LINE,FMT='(4I10)')IHBE,NIP,NPG,NUVAR
          ENDIF
 cc          NGAUSS = MAX(NPG,NGAUSS)
@@ -184,13 +184,13 @@ cc          NVSHELL   = MAX(NUVAR,NVSHELL)
           ND = MOD(NUVAR,6)
           NU = (NUVAR - ND)/6
           IF(ND/=0) NU = NU +1
-          IF(NUVAR < 6) NU = 1 
+          IF(NUVAR < 6) NU = 1
 C --- coque standard.
            DO J1 = 1,NU * MAX(1,NIP)*MAX(1,NPG)
  406       READ(IIN4,FMT='(A)',END=449,ERR=449)LINE
             IF(LINE(1:1)=='#')GOTO 406
-            IF(LINE(1:1)=='/')GOTO 410                
-           ENDDO          
+            IF(LINE(1:1)=='/')GOTO 410
+           ENDDO
           GO TO 405
  449  CONTINUE
 C-----------------------------------------------------------------
@@ -221,21 +221,21 @@ C
            READ(LINE,'(2I8)')NIP,NPG
          ELSE
            READ(LINE,FMT=FMT_2I) NIP,NPG
-         ENDIF 
+         ENDIF
 C
-         READ(IIN4,FMT='(A)',END=443,ERR=499)LINE         
+         READ(IIN4,FMT='(A)',END=443,ERR=499)LINE
           IF(NIP==0)THEN
             NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
           ELSE
             NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-          ENDIF  
+          ENDIF
 C           
-          NVSHELL = NVAR_SHELL  
+          NVSHELL = NVAR_SHELL
          IF (NPG==0.OR.NPG==1)THEN
           IF(NIP==0)THEN
            READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
            READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
-         ELSE  
+         ELSE
            DO K=1,NIP
             READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
            ENDDO
@@ -245,18 +245,18 @@ C
             DO N=1,NPG
             READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
             READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
-            ENDDO 
+            ENDDO
           ELSE
-c           PT = 60         
+c           PT = 60
            DO K=1,NIP
             DO N=1,NPG
              READ(IIN4,FMT='(A)',END=443,ERR=399)LINE
 C             PT = PT + 6
             ENDDO
-           ENDDO 
+           ENDDO
           ENDIF
          ELSE
-        ENDIF 
+        ENDIF
         GO TO 411
  443    CONTINUE
         REWIND(IIN4)
@@ -274,38 +274,38 @@ C
        I = 0
        J = 0
   426  READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
-       IF(LINE(1:1) == '#')GOTO 426 
+       IF(LINE(1:1) == '#')GOTO 426
        IF(LINE(1:1) == '/')GOTO 429
-        I=I+1         
+        I=I+1
         IF(I > NUMSOL+NUMQUAD) GOTO 450
 
         IF (IOUTP_FMT == 2) THEN
-          READ(LINE,'(3I8)')NIP,NUMS,JJHBE 
+          READ(LINE,'(3I8)')NIP,NUMS,JJHBE
          ELSE
-          READ(LINE,'(3I10)')NIP,NUMS, JJHBE  
+          READ(LINE,'(3I10)')NIP,NUMS, JJHBE
         ENDIF
         NVSOLID1 = MAX(NVSOLID1,NIP*9 + 4)
-        IF((NUMS == 8.OR.NUMS == 4).AND.JJHBE == 0)THEN  
+        IF((NUMS == 8.OR.NUMS == 4).AND.JJHBE == 0)THEN
 C
           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
-          IF(NIP == 1)THEN            
-           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE  
-           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE         
+          IF(NIP == 1)THEN
+           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
+           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
           ELSE
-            DO K=1,NIP  
+            DO K=1,NIP
              READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
-             READ(IIN4,FMT='(A)',END=429,ERR=399)LINE                      
+             READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
             ENDDO
-          ENDIF 
+          ENDIF
         ELSEIF(NUMS == 10 .OR. NUMS == 16 .OR. NUMS == 20.OR.
      .    (NUMS == 8.AND.JJHBE == 14) .OR .(NUMS == 8.AND.JJHBE == 17).OR.
-     .    ((NUMS == 6.OR.NUMS == 8) .AND. (JJHBE==15 .or. JJHBE==12)))THEN  
+     .    ((NUMS == 6.OR.NUMS == 8) .AND. (JJHBE==15 .or. JJHBE==12)))THEN
 C        
-          DO K=1,NIP  
+          DO K=1,NIP
            READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
-           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE                      
+           READ(IIN4,FMT='(A)',END=429,ERR=399)LINE
           ENDDO
-        ENDIF 
+        ENDIF
          GO TO 426
 C
  429  CONTINUE
@@ -322,8 +322,8 @@ C
        READ(IIN4,FMT='(A)',END=235,ERR=399)LINE
 C         
         NVSOLID1 = MAX(NVSOLID1, 6)
- 235  CONTINUE 
-      REWIND(IIN4)       
+ 235  CONTINUE
+      REWIND(IIN4)
 
 C
  430  READ(IIN4,FMT='(A)',END=435,ERR=399)LINE
@@ -340,28 +340,28 @@ C
        IF(LINE(1:1)=='#')GOTO 434
        IF(LINE(1:1)=='/')GOTO 435
        J=J+1
-       I=I+1      
+       I=I+1
        IF(I>NUMSOL+NUMQUAD) GOTO 435
-       IF (IOUTP_FMT==2) THEN 
+       IF (IOUTP_FMT==2) THEN
           READ(LINE,'(3I8)')NIP,NUMS,NELS
        ELSE
-        READ(LINE,'(3I10)')NIP,NUMS, NELS  
+        READ(LINE,'(3I10)')NIP,NUMS, NELS
        ENDIF
         NVSOLID2 = MAX(NVSOLID2, MAX(1,NIP)*6)
-       DO KK = 1, NELS  
-        DO K=1,NIP  
-        READ(IIN4,FMT='(A)',END=435,ERR=399)LINE  
-        ENDDO 
-       ENDDO 
+       DO KK = 1, NELS
+        DO K=1,NIP
+        READ(IIN4,FMT='(A)',END=435,ERR=399)LINE
+        ENDDO
+       ENDDO
       GOTO 434
- 435  CONTINUE 
-      REWIND(IIN4)       
+ 435  CONTINUE
+      REWIND(IIN4)
 C     Brick ( variables users)         
  444  READ(IIN4,FMT='(A)',END=499,ERR=499)LINE
        IF(LINE(1:8)=='/ENDDATA')THEN
          REWIND(IIN4)
          GOTO 498
-       ENDIF        
+       ENDIF
  450   IF(LINE(1:28)/='/SOLID     /SCALAR    /USERS')GOTO 444
        READ(IIN4,FMT='(A)',END=498,ERR=399)LINE
         IUSOLID = 1
@@ -374,7 +374,7 @@ C     Brick ( variables users)
         ELSE
          READ(LINE,'(4I10)')NUMS,NIP,NUVAR,JJHBE
         ENDIF
-        NUSOLID = MAX(NUSOLID,NIP*NUVAR)         
+        NUSOLID = MAX(NUSOLID,NIP*NUVAR)
        I=I+1
        ND = MOD(NUVAR,6)
        NU = (NUVAR - ND)/6
@@ -385,15 +385,15 @@ C     Brick ( variables users)
           DO J1 = 1,NU *  MAX(1,NIP)
   459      READ(IIN4,FMT='(A)',END=498,ERR=399)LINE
            IF(LINE(1:1)=='#')GOTO 459
-           IF(LINE(1:1)=='/')GOTO 498               
-         ENDDO     
+           IF(LINE(1:1)=='/')GOTO 498
+         ENDDO
 cc       ENDIF
-       GO TO 455              
- 498   CONTINUE        
- 499   CONTINUE   
+       GO TO 455
+ 498   CONTINUE
+ 499   CONTINUE
        NVSHELL = NVSHELL + NVSHELL0
        REWIND(IIN4)
-      ENDIF        
+      ENDIF
 C-----------------------------------------
 C     CONTRAINTES INITIALES FICHIER D00
 C-----------------------------------------
@@ -419,25 +419,25 @@ C-----
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
-              ENDIF  
+              ENDIF
             ELSE
               IF(NIP==0)THEN
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-              ENDIF  
+              ENDIF
             END IF!(KEY3(1:4)== 'GLOB') THEN
-cc            NVSHELL = NVAR_SHELL + NVSHELL0 
+cc            NVSHELL = NVAR_SHELL + NVSHELL0
             IREC=IREC+1
             IF (NPG==0.OR.NPG==1) THEN
              IF(NIP==0)THEN
               IF(KEY3(1:4)=='GLOB')THEN
                 IREC=IREC + 2
               ELSE
-                IREC=IREC+1  
+                IREC=IREC+1
               ENDIF
               IF(KEY3(1:4)=='GLOB')THEN
-                IREC=IREC+2 
+                IREC=IREC+2
               ELSE
                 IREC=IREC+1
               ENDIF
@@ -446,13 +446,13 @@ cc            NVSHELL = NVAR_SHELL + NVSHELL0
                 IREC=IREC+2
               ENDDO
              ENDIF
-            ELSEIF (NPG>1 )THEN   
+            ELSEIF (NPG>1 )THEN
              IF(NIP==0)THEN
               DO N=1,NPG
                 IREC=IREC+2
-              ENDDO 
+              ENDDO
               IF(KEY3(1:4)=='GLOB') IREC=IREC +2*NPG
-             ELSE             
+             ELSE
               DO J=1,NIP
                DO N=1,NPG
                 IREC=IREC+2
@@ -468,7 +468,7 @@ C-----
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-            ENDIF  
+            ENDIF
             JJ=MAX(1,NIP)*MAX(1,NPG)
             DO WHILE(JJ > 0)
               IREC=IREC+1
@@ -499,14 +499,14 @@ C-----
             ENDIF
 C-----
           ELSEIF(KEY2(1:3)=='AUX')THEN
-            IUSHELL = 1        
+            IUSHELL = 1
             NUMSHEL=NUMSHEL+1
-            READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NUVAR    
+            READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NUVAR
             IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-            ENDIF 
+            ENDIF
             NUSHELL = MAX(NUSHELL,NUSHELL0+MAX(1,NPG)*MAX(1,NIP)*NUVAR)
             JJ=MAX(1,NIP)*MAX(1,NPG)
             KK = NUVAR /5
@@ -539,10 +539,10 @@ C-----
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-            ENDIF 
+            ENDIF
             IORTSHEL = 2
             NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*2)
-	       IF (NDIR == 2) 
+	       IF (NDIR == 2)
      .        NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*4)
             IREC=IREC+NIP
 C-----
@@ -556,7 +556,7 @@ C-----
            NLAY = MAX(1,NLAY)
            NPT_MAX = MAX(NPTT,NLAY)
            NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NLAY)*24)
-            
+
             IREC=IREC+NPG*NPTT*((NVAR_RUPT+2)/3)
             NVSHELL1 = MAX(NVSHELL1,NPG*NPT_MAX*5*NVAR_RUPT)
 C-----
@@ -569,11 +569,11 @@ C-----
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-            ENDIF  
-            !MAX(1,NIP)*MAX(1,NPG)            
+            ENDIF
+            !MAX(1,NIP)*MAX(1,NPG)
             IREC=IREC+MAX(1,NIP)*MAX(1,NPG)
             NVSHELL2 = MAX(NVSHELL2,MAX(1,NPG)*MAX(1,NIP))
-            
+
 C-----
 C-----
           ENDIF
@@ -600,13 +600,13 @@ C-----
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*13)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*8)
-              ENDIF  
+              ENDIF
             ELSE
               IF(NIP==0)THEN
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
               ELSE
                 NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-              ENDIF  
+              ENDIF
            END IF!(KEY3(1:4)== 'GLOB') THEN
            IREC=IREC+1
            IF (NPG==0.OR.NPG==1) THEN
@@ -621,9 +621,9 @@ C-----
               ELSE
                 IREC=IREC+1
               ENDIF
-            ELSEIF(NIP/=0)THEN                 
+            ELSEIF(NIP/=0)THEN
               DO J=1,NIP
-                IREC=IREC+2 
+                IREC=IREC+2
               ENDDO
             ENDIF
            ELSEIF (NPG>1 )THEN
@@ -635,7 +635,7 @@ C            END IF
             IF(NIP==0)THEN
              DO N=1,NPG
                 IREC=IREC +2
-             ENDDO 
+             ENDDO
              IF(KEY3(1:4)=='GLOB') IREC=IREC +2*NPG
             ELSEIF(NIP/=0)THEN
               DO J=1,NIP
@@ -653,7 +653,7 @@ C-----
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-            ENDIF  
+            ENDIF
             JJ=MAX(1,NIP)*MAX(1,NPG)
             DO WHILE(JJ > 0)
               IREC=IREC+1
@@ -684,14 +684,14 @@ C-----
             ENDIF
 C-----
           ELSEIF(KEY2(1:3)=='AUX')THEN
-            IUSHELL = 1        
+            IUSHELL = 1
             NUMSH3N=NUMSH3N+1
-            READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NUVAR 
+            READ(LINE,ERR=999,FMT=FMT_4I) NE,NIP,NPG,NUVAR
             IF(NIP==0)THEN
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-            ENDIF   
+            ENDIF
             NUSHELL = MAX(NUSHELL,NUSHELL0+MAX(1,NPG)*MAX(1,NIP)*NUVAR)
             JJ=MAX(1,NIP)*MAX(1,NPG)
             KK = NUVAR /5
@@ -724,7 +724,7 @@ C-----
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
               NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-            ENDIF  
+            ENDIF
             IORTSHEL = 2
             NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*2)
             IF (NDIR == 2) NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*4)
@@ -737,10 +737,10 @@ C-----
      .                                   NVAR_RUPT,IMAT
             NPG = MAX(1,NPG)
             NPTT = MAX(1,NPTT)
-            NLAY = MAX(1,NLAY) 
+            NLAY = MAX(1,NLAY)
             NPT_MAX = MAX(NPTT,NLAY)
             NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NLAY)*24)
-            
+
             IREC=IREC+NPG*NPTT*((NVAR_RUPT+2)/3)
             NVSHELL1 = MAX(NVSHELL1,NPG*NPT_MAX*5*NVAR_RUPT)
 c-------------
@@ -753,14 +753,14 @@ c-------------
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
             ELSE
              NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*MAX(1,NPG)*6)
-            ENDIF  
+            ENDIF
             NVSHELL2 = MAX(NVSHELL2,MAX(1,NPG)*MAX(1,NIP))
-      
+
             IREC=IREC+MAX(1,NIP)*MAX(1,NPG)
 C-----
-          ENDIF    
+          ENDIF
         ENDDO
-        INISHVAR1 = NVAR_SHELL + NVSHELL0 + NPT 
+        INISHVAR1 = NVAR_SHELL + NVSHELL0 + NPT
         NVSHELL = INISHVAR1 + NVSH_STRA
 C------------------------------------
 C INIBEAM
@@ -898,7 +898,7 @@ C--------------------First Group of solids : 4 lines to be read-----------------
                    IREC = IREC + 4
                  ENDDO
                ELSE
-                IREC = IREC + 4  
+                IREC = IREC + 4
                ENDIF
             ELSE
 C--------------------Second Group of solids : 3 lines to be read-----------------
@@ -913,7 +913,7 @@ C-----
             NVSOLID2 = MAX(NVSOLID2, MAX(1,NPT)*6)
             IREC=IREC+1
             IF (NPT == 0 ) THEN
-              IREC = IREC + 1 
+              IREC = IREC + 1
             ELSE
               DO J=1,NPT
                 IREC = IREC + 2
@@ -938,13 +938,13 @@ C-----
      .            NPTR,NPTS,NPTT,ILAY,IFAIL,IRUPT_TYP,NVAR_RUPT,IMAT
             IREC=IREC+NPTR*NPTS*NPTT*((NVAR_RUPT+2)/3)
             NVSOLID4 = MAX(NVSOLID4,NPTR*NPTS*NPTT*NLAY*5*NVAR_RUPT)
-c -    - - -  
+c -    - - -
           ELSEIF(KEY2(1:9)=='SCALE_YLD')THEN
             IUFACYLD = 1
             NUMSOL = NUMSOL + 1
             READ(LINE,ERR=999,FMT=FMT_5I) NE,NPTR,NPTS,NPTT,ILAY
             IREC=IREC+1
-            
+
             NVSOLID5 = MAX(NVSOLID5,NPTR*NPTS*NPTT*ILAY + 7 )
 c
             IREC = IREC + NPTR*NPTS*NPTT*ILAY

@@ -125,8 +125,8 @@ C
       L = 1
       DO II=1,NBISEND
         I = INDEXS(II)
-        SIZ = ISIZE*FR_NBCCCDN(1,I) 
-        MSGTYP = MSGOFF 
+        SIZ = ISIZE*FR_NBCCCDN(1,I)
+        MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(II),IERROR)
@@ -146,7 +146,7 @@ C
               IF(PROCNCDN(CC)==I) THEN
                DO K = 1, ISIZE
                 FSKYCDN(K,CC) = RBUF(L+K-1)
-               END DO 
+               END DO
                 L = L + ISIZE
               ENDIF
             ENDDO

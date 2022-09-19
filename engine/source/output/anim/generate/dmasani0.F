@@ -35,7 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C     REAL
      .   OFF, VALUE
       INTEGER I, NG, NEL, N, MT,IALEL,NN1,NN2,IPRT
       REAL R4
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
       NN1 = 1
       NN2 = NN1 + (NUMSPH+MAXPJET)
@@ -80,13 +80,13 @@ C-----------------------------------------------
 C       face ext
 C-----------------------------------------------
       DO 490 NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )            
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF (ITY == 51) THEN
 C-----------------------------------------------
 C          PARTICULES SPH.

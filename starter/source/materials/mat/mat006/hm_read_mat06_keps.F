@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(INOUT)                       :: MAT_ID
       INTEGER, INTENT(IN)                          :: MAXEOS
       INTEGER, INTENT(INOUT)                       :: ISRATE
@@ -80,8 +80,8 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG6,MTAG17
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG  
-      INTEGER,INTENT(IN)                           :: ITYP    
+      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG
+      INTEGER,INTENT(IN)                           :: ITYP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -106,7 +106,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'    ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_INTV  ('Law6_opt'     ,LAW6_OPT ,IS_AVAILABLE,LSUBMODEL)  
+      CALL HM_GET_INTV  ('Law6_opt'     ,LAW6_OPT ,IS_AVAILABLE,LSUBMODEL)
       !1,2,3  (3=K-EPS)
 
       CALL HM_GET_FLOATV('DAMP1'        ,VIS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -120,15 +120,15 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('C_MU'      ,CTM     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SIG_k'      ,SK      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SIG_EPS'      ,SE      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('P_R_ON_P_RT'      ,RPR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV('P_R_ON_P_RT'      ,RPR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('C_1'      ,CT1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('C_2'      ,CT2     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('C_3'      ,CT3     ,IS_AVAILABLE, LSUBMODEL, UNITAB)            
+      CALL HM_GET_FLOATV('C_3'      ,CT3     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('KAPPA'      ,AK      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('E'      ,E       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('ALPHA'      ,A     ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
-      CALL HM_GET_FLOATV('GSI_T'      ,B     ,IS_AVAILABLE, LSUBMODEL, UNITAB)            
-      
+      CALL HM_GET_FLOATV('ALPHA'      ,A     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('GSI_T'      ,B     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
       E0 = ZERO
       C0 = ZERO
       C1 = ZERO
@@ -151,11 +151,11 @@ C-----------------------------------------------
       PM(37)=PMIN
 
       IF(RHOR /= ZERO) THEN
-        MU = RHO0/RHOR-ONE  
+        MU = RHO0/RHOR-ONE
       ELSE
         MU = ZERO  ! RHOR=0.0 => error 683 will be displayed in hm_read_mat.F
       ENDIf
-            
+
       IF(MU < ZERO)THEN
         PM(31) = -PSH + C0+C1*MU+         C3*MU**3+(C4+C5*MU)*E0
       ELSE
@@ -163,57 +163,57 @@ C-----------------------------------------------
       ENDIF
 
       PM(80)=INFINITY
-      
+
       IF(SSL == ZERO)SSL= EP10
       PM(46)=SSL
-      PM(95)=RPR      
+      PM(95)=RPR
 
-      IF(CTM == ZERO)CTM=NINEEM2                           
-      IF(CT1 == ZERO)CT1=ONEP44                             
-      IF(CT2 == ZERO)CT2=ONEP92                             
-      IF(CT3 == ZERO)CT3=-ZEP373                           
-      IF(SK == ZERO)SK=ONE                                  
-      IF(SE == ZERO)SE=ONEP3                                
-      IF(RPR == ZERO)RPR=SEVEN_OVER_9                            
-      !PARAMETRES MUR TURBULENT                            
-      IF(AK == ZERO) AK=ZEP4187                            
-      IF(E == ZERO)  E=NINEP793                            
-      IF(A == ZERO)  A=HALF                              
-      PM(47)=A*AK                                          
-      PM(48)=E                                             
-      PM(49)=A                                             
-      PM(50)=B                                             
-      YP0=ELEVENP5                                           
-      DO I=1,100                                        
-        YP1=LOG(E*YP0)/AK                                    
-        IF(YP1 == YP0)EXIT                                
-        YP0=YP1                                              
-      ENDDO                                           
-      PM(51)=YP1                                           
-      PM(79)=THREE100                                      
-      ! FIN PARAMS MUR TURBULENT                           
-      PM(81)=CTM                                           
-      PM(82)=CT1                                           
-      PM(83)=CT2                                           
-      PM(84)=CT3                                           
-      PM(85)=SK                                            
-      PM(86)=SE                                            
-      PM(95)=RPR                                           
-      PM(87)=RK0/RHO0                                      
+      IF(CTM == ZERO)CTM=NINEEM2
+      IF(CT1 == ZERO)CT1=ONEP44
+      IF(CT2 == ZERO)CT2=ONEP92
+      IF(CT3 == ZERO)CT3=-ZEP373
+      IF(SK == ZERO)SK=ONE
+      IF(SE == ZERO)SE=ONEP3
+      IF(RPR == ZERO)RPR=SEVEN_OVER_9
+      !PARAMETRES MUR TURBULENT
+      IF(AK == ZERO) AK=ZEP4187
+      IF(E == ZERO)  E=NINEP793
+      IF(A == ZERO)  A=HALF
+      PM(47)=A*AK
+      PM(48)=E
+      PM(49)=A
+      PM(50)=B
+      YP0=ELEVENP5
+      DO I=1,100
+        YP1=LOG(E*YP0)/AK
+        IF(YP1 == YP0)EXIT
+        YP0=YP1
+      ENDDO
+      PM(51)=YP1
+      PM(79)=THREE100
+      ! FIN PARAMS MUR TURBULENT
+      PM(81)=CTM
+      PM(82)=CT1
+      PM(83)=CT2
+      PM(84)=CT3
+      PM(85)=SK
+      PM(86)=SE
+      PM(95)=RPR
+      PM(87)=RK0/RHO0
 
 
       WRITE(IOUT,1001)
       WRITE(IOUT,2001) TRIM(TITR),MAT_ID,6
-      WRITE(IOUT,2002) RHO0,RHOR           
-               
+      WRITE(IOUT,2002) RHO0,RHOR
+
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
          WRITE(IOUT,1300)VIS
-         WRITE(IOUT,1501)PMIN 
+         WRITE(IOUT,1501)PMIN
       ENDIF
-      WRITE(IOUT,1600)RK0,SSL,CTM,SK,SE,RPR,CT1,CT2,CT3  
-      WRITE(IOUT,1601)AK,E,A,B       
+      WRITE(IOUT,1600)RK0,SSL,CTM,SK,SE,RPR,CT1,CT2,CT3
+      WRITE(IOUT,1601)AK,E,A,B
 
       PM(88)=PSH
 c
@@ -221,19 +221,19 @@ C---- Definition des variables internes (stockage elementaire)
 c
       MTAG6%G_RK    = 1
       MTAG6%G_RE    = 1
-      MTAG6%L_RK    = 1 
-      MTAG6%L_RE    = 1 
-      MTAG6%L_VK    = 1 
+      MTAG6%L_RK    = 1
+      MTAG6%L_RE    = 1
+      MTAG6%L_VK    = 1
       MTAG6%G_TEMP  = 1
       MTAG6%L_TEMP  = 1
 c
       MTAG17%G_RK   = 1
       MTAG17%G_RE   = 1
-      MTAG17%L_RK   = 1 
-      MTAG17%L_RE   = 1 
+      MTAG17%L_RK   = 1
+      MTAG17%L_RE   = 1
       MTAG17%L_VK   = 1
       MTAG17%G_TEMP = 1
-      MTAG17%L_TEMP = 1 
+      MTAG17%L_TEMP = 1
 C--------------------------------
  1001 FORMAT(
      & 5X,'  K-EPSILON TURBULENT FLUID ',/,

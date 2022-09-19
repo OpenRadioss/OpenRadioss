@@ -41,8 +41,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE GROUPDEF_MOD    
-      USE SUBMODEL_MOD        
+      USE GROUPDEF_MOD
+      USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -162,7 +162,7 @@ C-----------------------------------------------
       INTEGER IBCSCYC(4,*),LBCSCYC(2,*),ITAB(*),ICODE(*),IBFV(NIFV,*),
      .        ITAGCYC(*)
       my_real
-     .     X(3,*),SKEW(LSKEW,*) 
+     .     X(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -174,7 +174,7 @@ C----- ini
        NN  = IBCSCYC(3,I)
        ID  = IBCSCYC(4,I)
        CALL INIBCS_CY(NN,LBCSCYC(1,IAD),ISK,SKEW,X  ,ITAB,ID)
-      END DO 
+      END DO
 C------  ITAGCYC :ID  for incompatibility check   
       ITAGCYC(1:NUMNOD) =0
       DO I=1,NBCSCYC
@@ -186,8 +186,8 @@ C------  ITAGCYC :ID  for incompatibility check
         N2 = LBCSCYC(2,IAD+J)
         ITAGCYC(N1) =ID
         ITAGCYC(N2) =ID
-       END DO 
-      END DO 
+       END DO
+      END DO
 C----- check
 C-------BCS for the moment uncompatible
       DO I=1,NBCSCYC
@@ -198,16 +198,16 @@ C-------BCS for the moment uncompatible
        DO J = 1,NN
         N1 = LBCSCYC(1,IAD+J)
         N2 = LBCSCYC(2,IAD+J)
-        IF (ICODE(N1) >= 512 ) THEN 
+        IF (ICODE(N1) >= 512 ) THEN
           CALL ANCMSG(MSGID=1749,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=ID,I2=ITAB(N1))
-        END IF      
-        IF (ICODE(N2) >= 512 ) THEN 
+        END IF
+        IF (ICODE(N2) >= 512 ) THEN
           CALL ANCMSG(MSGID=1750,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=ID,I2=ITAB(N2))
-        END IF      
-       END DO 
-      END DO 
+        END IF
+       END DO
+      END DO
 C-------/IMPDIS,IMPVEL,IMPACC
         ITAGIMP(1:NUMNOD)=0
         DO J=1,NFXVEL
@@ -248,9 +248,9 @@ C------ok for NF1=0,NF2=0; NF1=NF2=ISK
         ELSE
           CALL ANCMSG(MSGID=1752,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=ID ,I2=ITAB(N1),I3=ITAB(N2))
-        END IF        
-       END DO 
-      END DO 
+        END IF
+       END DO
+      END DO
 C
       RETURN
       END SUBROUTINE INI_BCSCYC
@@ -286,7 +286,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBCY_N,IXCYCL(2,*),ITAB(*),ISK,ID
       my_real
-     .     X(3,*),SKEW(LSKEW,*) 
+     .     X(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -305,10 +305,10 @@ C-------5% error
       ERR_TH=ZEP05
       CALL CAR2CYLIN(NBCY_N,N1,X,CY_X1,DIS1,
      .               SKEW(1,ISK),SKEW(10,ISK),ERR_TH,IER1)
-c--------check  (r,cos(theta),z), cos(theta) not too diff 
-      IF (IER1<0 ) THEN 
+c--------check  (r,cos(theta),z), cos(theta) not too diff
+      IF (IER1<0 ) THEN
          CALL ANCMSG(MSGID=1761,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID)
-      END IF      
+      END IF
 C------sorting by dis      
       CALL MYQSORT(NBCY_N, DIS1, INDEX, IER1)
       CY_TMP(1:3,1:NBCY_N) = CY_X1(1:3,1:NBCY_N)
@@ -316,19 +316,19 @@ C------sorting by dis
         J = INDEX(I)
         N1(I) = IXCYCL(1,J)
         CY_X1(1:3,I)=CY_TMP(1:3,J)
-      ENDDO 
-      LMIN = EP20     
+      ENDDO
+      LMIN = EP20
       DO I=2,NBCY_N
         RI = ABS(CY_X1(1,I)-CY_X1(1,I-1))
         ZI = ABS(CY_X1(3,I)-CY_X1(3,I-1))
         LMIN =MIN(LMIN,MAX(RI,ZI))
-      ENDDO 
+      ENDDO
       CALL CAR2CYLIN(NBCY_N,N2,X,CY_X2,DIS2,
      .               SKEW(1,ISK),SKEW(10,ISK),ERR_TH,IER1)
-c--------check  (r,cos(theta),z), cos(theta) not too diff     
-      IF (IER1<0 ) THEN 
+c--------check  (r,cos(theta),z), cos(theta) not too diff
+      IF (IER1<0 ) THEN
          CALL ANCMSG(MSGID=1762,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID)
-      END IF      
+      END IF
 C------sorting by dis      
       CALL MYQSORT(NBCY_N, DIS2, INDEX, IER1)
       CY_TMP(1:3,1:NBCY_N) = CY_X2(1:3,1:NBCY_N)
@@ -336,13 +336,13 @@ C------sorting by dis
         J = INDEX(I)
         N2(I) = IXCYCL(2,J)
         CY_X2(1:3,I)=CY_TMP(1:3,J)
-      ENDDO 
+      ENDDO
       DO I=2,NBCY_N
         RI = ABS(CY_X2(1,I)-CY_X2(1,I-1))
         ZI = ABS(CY_X2(3,I)-CY_X2(3,I-1))
         LMIN =MIN(LMIN,MAX(RI,ZI))
       ENDDO
-      TOL =  LMIN*ERR_TH    
+      TOL =  LMIN*ERR_TH
       ERMAX = ZERO
       J = 1
       DO I=1,NBCY_N
@@ -355,14 +355,14 @@ C------sorting by dis
         END IF
       ENDDO
 c      print *,'ERMAX , n1,n2 =',ERMAX ,ITAB(N1(J)),ITAB(N2(J))
-      IF (ERMAX>TOL ) THEN 
+      IF (ERMAX>TOL ) THEN
           CALL ANCMSG(MSGID=1763,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=ID,I2=ITAB(N1(J)),I3=ITAB(N2(J)))
-      END IF      
+      END IF
       DO I=1,NBCY_N
         IXCYCL(1,I) = N1(I)
-        IXCYCL(2,I) = N2(I) 
-      ENDDO      
+        IXCYCL(2,I) = N2(I)
+      ENDDO
 C
       RETURN
       END SUBROUTINE INIBCS_CY
@@ -393,7 +393,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J 
+      INTEGER I, J
 C
       my_real
      .     XX,YY,ZZ,XL,YL,ZL,R2,TH_MEAN,TH_MAX
@@ -441,7 +441,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -487,9 +487,9 @@ C----------only kinematic ones
               CALL ANCMSG(MSGID=1758,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=ITAGCYC(ISL),I2=ITAB(ISL),I3=NOINT)
            END IF
-         END DO 
+         END DO
         END IF
-       END DO 
+       END DO
 C       
 c-----------
       RETURN

@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN) :: ID
       CHARACTER(LEN = nchartitle) :: TITR
       INTEGER, DIMENSION(NPROPMI), INTENT(INOUT) :: IPM
@@ -101,7 +101,7 @@ C-----------------------------------------------
          IGAS = 4
          IMOLE = 1
       CASE DEFAULT
-         
+
       END SELECT
 
       FAC = ONE
@@ -123,7 +123,7 @@ C-----------------------------------------------
          CALL HM_GET_FLOATV('MAT_E1', CPE, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
          CALL HM_GET_FLOATV_DIM('MASS', FAC, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          CPF = ZERO
          IF (IGAS == 2) THEN
             CALL HM_GET_FLOATV('MAT_F', CPF, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -146,7 +146,7 @@ C-----------------------------------------------
      .           I1 = ID, C1 = TITR)
          END IF
       CASE(4)
-         CALL HM_GET_STRING('GAS', USERGAS_NAME, ncharfield, IS_AVAILABLE)         
+         CALL HM_GET_STRING('GAS', USERGAS_NAME, ncharfield, IS_AVAILABLE)
          IF (USERGAS_NAME(1:3) == 'N2O') THEN
             GASTYPE = 'Nitrous oxide'
             MW = 0.04401
@@ -313,7 +313,7 @@ C-----------------------------------------------
       IF (IGAS == 3) THEN
          MW = R_IGC1 / (CPA - CV)
       ENDIF
-      
+
 !     **************************
 !     Store in IPM and PM arrays
       IPM(1) = ID
@@ -324,7 +324,7 @@ C-----------------------------------------------
       PM(24) = CPD
       PM(25) = CPE
       PM(26) = CPF
-      PM(27) = R_IGC1 
+      PM(27) = R_IGC1
 
 !     *********
 !     Print out

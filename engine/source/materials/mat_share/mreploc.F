@@ -56,13 +56,13 @@ C-----------------------------------------------
      .R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .   RX(MVSIZ)    ,RY(MVSIZ)    ,RZ(MVSIZ)    ,
      .   SX(MVSIZ)    ,SY(MVSIZ)    ,SZ(MVSIZ)    ,
-     .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)  
+     .   TX(MVSIZ)    ,TY(MVSIZ)    ,TZ(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
-     .   S11, S12, S13, S21, 
+      my_real
+     .   S11, S12, S13, S21,
      .   S22, S23, S31,
      .   S32, S33, RR,  RRD
 C
@@ -112,7 +112,7 @@ C---------------------------------------------
               SZ(I)= ZERO
               TX(I)= ZERO
               TY(I)= ZERO
-              TZ(I)= ONE     
+              TZ(I)= ONE
  120      CONTINUE
         ENDIF
 C

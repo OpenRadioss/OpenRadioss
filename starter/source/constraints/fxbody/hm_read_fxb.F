@@ -102,7 +102,7 @@ C=======================================================================
 C
       WRITE(IOUT,2000)
 C
-      SIZE_MAX = 0 
+      SIZE_MAX = 0
       DO NFX=1,NFXBODY
         SIZE_MAX = MAX(SIZE_MAX,FXBIPM(3,NFX))
       ENDDO
@@ -128,16 +128,16 @@ C
       DO NFX = 1,NFXBODY
 C
         ! Title and ID
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID   = ID, 
-     .                          OPTION_TITR = TITR)   
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID   = ID,
+     .                          OPTION_TITR = TITR)
 C
         NOM_OPT(1,NFX) = ID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,NFX),LTITR)
 C
         ! Integer data card
-        CALL HM_GET_INTV('node_IDm',IDMAST,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('node_IDm',IDMAST,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Ianim'   ,IANIM ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Imin'    ,IMIN  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Imax'    ,IMAX  ,IS_AVAILABLE,LSUBMODEL)
@@ -178,7 +178,7 @@ C --       Storage of nodes
 C--           Local id is stored in ITAG
               ITAG(I) = ADRNOD-ADRNOD0
             ENDIF
-          ENDDO          
+          ENDDO
 C
           NMOD   = 0
           ISHELL = 0
@@ -206,7 +206,7 @@ C --          oversizing - number of modes can be lower
               NMOD = NMOD + 1
               IF (IDOF2 > 3) ISHELL = 1
                ITAG_DOF(IDOF2,IL2) = 1
-            ENDIF                  
+            ENDIF
           ENDDO
 C
           DO I=1,SIZE_MASS
@@ -217,7 +217,7 @@ C            In FXB_MATRIX_ADD -> local id in FXBNOD us used instead on internal
             IL1 = ITAG(I1)
             IL2 = ITAG(I2)
             FXB_MATRIX_ADD(1,ADR_MASS0+I-1) = IL1
-            FXB_MATRIX_ADD(2,ADR_MASS0+I-1) = IL2              
+            FXB_MATRIX_ADD(2,ADR_MASS0+I-1) = IL2
           ENDDO
 
 C--  RAZ of ITAG arrays
@@ -251,7 +251,7 @@ C Reading of first lines
 C-------------------------------------
 C
           CALL FXRLINE(IFICM,NWLINE,ID,TITR)
-          READ(NWLINE,FMT='(7I8)',ERR=9999) 
+          READ(NWLINE,FMT='(7I8)',ERR=9999)
      .       NMOD, NMST, NBNO, ISHELL, IDAMP, IBLO, IFILE
 C Print-out of errors
           IF (NMOD < 0) THEN
@@ -340,7 +340,7 @@ C
             ENDDO
           ENDIF
 C
-        ENDIF      
+        ENDIF
 C
         NTR = 9
         IF (ISHELL == 0) THEN
@@ -415,7 +415,7 @@ C-------------------------------------
               IF (IFLAGDBL==0) THEN
                 IFLAGI1=I-1
               END IF
-              IFLAGDBL=1          
+              IFLAGDBL=1
             ELSE
               IF (IFLAGDBL/=0) THEN
                 DO J=IFLAGI1,I-1
@@ -437,8 +437,8 @@ C-------------------------------------
                 IFLAGDBL=0
               END IF
             END IF
-            IOLD=TABSL(1,INDEX(I)) 
-          ENDIF    
+            IOLD=TABSL(1,INDEX(I))
+          ENDIF
         END DO
       END IF
       END IF
@@ -497,7 +497,7 @@ Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FXB2(FXBIPM, FXBRPM, FXBNOD, FXBGLM,  
+      SUBROUTINE HM_READ_FXB2(FXBIPM, FXBRPM, FXBNOD, FXBGLM,
      .                   FXBCPM , FXBCPS, FXBLM , FXBFLS, FXBDLS,
      .                   FXBMOD , ITAB   , ITABM1, NOM_OPT,FXB_LAST_ADRESS,
      .                   LSUBMODEL)
@@ -525,8 +525,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*),
      .        ITAB(*),ITABM1(*),FXB_LAST_ADRESS(*)
-      my_real 
-     .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), 
+      my_real
+     .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*),
      .        FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBMOD(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -538,7 +538,7 @@ C-----------------------------------------------
      .        NLIG,NRES,ILIG,ADRCP2,IR,ADRNOD,IDAMP,ISHELL,
      .        ADRMCD,J,INFO,IBLO,IFILE, IANIM, IMIN, IMAX, ADRMOD,IRCM,
      .        NTAG,ADRM1,ADRM2,ADRN1,ADRN2,CNOD(NUMNOD)
-      my_real 
+      my_real
      .        FREQ,BETA,OMEGA,DTC1,DTC2,VV(6)
       CHARACTER TITR*nchartitle,NWLINE*100,
      .          FXBFILE*100
@@ -569,10 +569,10 @@ C
         IF (FXBIPM(41,NFX) == 2) CYCLE
 C
         ! Title and ID
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID   = ID, 
-     .                          OPTION_TITR = TITR)   
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID   = ID,
+     .                          OPTION_TITR = TITR)
 C 
         ! Read file name
         CALL HM_GET_STRING('Filename',FXBFILE   ,100   ,IS_AVAILABLE)
@@ -583,7 +583,7 @@ C
      .       STATUS='OLD',ERR=999)
 C
         CALL FXRLINE(IFICM,NWLINE,ID,TITR)
-        READ(NWLINE,FMT='(7I8)',ERR=9999) 
+        READ(NWLINE,FMT='(7I8)',ERR=9999)
      .       NMOD, NMST, NBNO, ISHELL, IDAMP, IBLO, IFILE
 C
         FXBIPM(7,NFX)  = ADRMOD
@@ -707,7 +707,7 @@ C Store modes in memory
                   ENDDO
                   ADRMOD = ADRM2
                ENDDO
-            ENDIF   
+            ENDIF
             DO IMOD = 1,NMOD
                ADRM1 = ADRMOD
                ADRM2 = ADRMOD+NTAG*6
@@ -815,7 +815,7 @@ C
             NRES = LEN-NLIG*5
             DO ILIG = 1,NLIG
                CALL FXRLINE(IFICM,NWLINE,ID,TITR)
-               READ(NWLINE,'(5F16.0)',ERR=9999) 
+               READ(NWLINE,'(5F16.0)',ERR=9999)
      .              (FXBLM(ADRLM+I-1),I=1,5)
                ADRLM = ADRLM+5
             ENDDO
@@ -977,7 +977,7 @@ C
 C
          WRITE(IOUT,1100) ID,TRIM(TITR),ITAB(FXBIPM(2,NFX)),NBNO,NME,NMOD,
      .                    NMST,(FXBRPM(FXBIPM(14,NFX)+I),I=1,NTR),
-     .                    FXBRPM(FXBIPM(14,NFX))      
+     .                    FXBRPM(FXBIPM(14,NFX))
       ENDDO
 C
 C -- Last adresses are stored for storage of other fxbodies in initia
@@ -1026,7 +1026,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FXRLINE(IFIC, NWLINE, ID,TITR)                     
+      SUBROUTINE FXRLINE(IFIC, NWLINE, ID,TITR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1049,7 +1049,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISTOP     
+      INTEGER ISTOP
 C
       ISTOP=0
       DO WHILE (ISTOP==0)

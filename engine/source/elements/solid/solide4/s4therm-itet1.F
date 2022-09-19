@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER NEL, MAT(*),NC(MVSIZ,10)
       my_real
      .    TEMP(*), DIE(*),
-     .    FPHI(MVSIZ,10), PM(NPROPM,*), 
+     .    FPHI(MVSIZ,10), PM(NPROPM,*),
      .    DT1, OFF(*), OFFG(*)
       DOUBLE PRECISION
      .    XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
@@ -58,11 +58,11 @@ C-----------------------------------------------
       INTEGER I, J, MX
       my_real
      .   DET(NEL),
-     .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),  
-     .   PY1(NEL), PY2(NEL), PY3(NEL), PY4(NEL),  
+     .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),
+     .   PY1(NEL), PY2(NEL), PY3(NEL), PY4(NEL),
      .   PZ1(NEL), PZ2(NEL), PZ3(NEL), PZ4(NEL)
       my_real
-     .   B1(NEL), B2(NEL), B3(NEL), B4(NEL), 
+     .   B1(NEL), B2(NEL), B3(NEL), B4(NEL),
      .   C1(NEL), C2(NEL), C3(NEL), C4(NEL),
      .   D1(NEL), D2(NEL), D3(NEL), D4(NEL)
       my_real
@@ -132,9 +132,9 @@ C
 C 
 C - flux
 C      
-         PHIX =  TEMP1*PX1(I) + TEMP2*PX2(I) + TEMP3*PX3(I) + TEMP4*PX4(I)                
-         PHIY =  TEMP1*PY1(I) + TEMP2*PY2(I) + TEMP3*PY3(I) + TEMP4*PY4(I)       
-         PHIZ =  TEMP1*PZ1(I) + TEMP2*PZ2(I) + TEMP3*PZ3(I) + TEMP4*PZ4(I)        
+         PHIX =  TEMP1*PX1(I) + TEMP2*PX2(I) + TEMP3*PX3(I) + TEMP4*PX4(I)
+         PHIY =  TEMP1*PY1(I) + TEMP2*PY2(I) + TEMP3*PY3(I) + TEMP4*PY4(I)
+         PHIZ =  TEMP1*PZ1(I) + TEMP2*PZ2(I) + TEMP3*PZ3(I) + TEMP4*PZ4(I)
 C
          TEMPEL = FOURTH * (TEMP1 + TEMP2 + TEMP3 + TEMP4)
          KC = (CA + CB*TEMPEL)*DT1*DET(I)*THEACCFACT

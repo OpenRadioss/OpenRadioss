@@ -42,7 +42,7 @@ Chd|====================================================================
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT      ,X         ,V         ,W           ,
      .                  NV46        ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,INFO1       ,INFO2      , 
+     .                  STACK       ,ID_ELEM   ,ITY_ELEM  ,INFO1       ,INFO2      ,
      .                  IS_WRITTEN_SHELL,IPARTC,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD    ,
      .                  D           ,NG        ,MULTI_FVM)
@@ -50,10 +50,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD 
-      USE MULTI_FVM_MOD              
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
+      USE MULTI_FVM_MOD
       USE ALEFVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -123,38 +123,38 @@ C-----------------------------------------------
      .        IS_WRITTEN_VALUE(MVSIZ)
       CHARACTER*5 BUFF
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
 C----------------------------------------------- 
 
-       CALL INITBUF (IPARG    ,NG     ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+       CALL INITBUF (IPARG    ,NG     ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 
-       IF(MLW /= 13) THEN 
-  
+       IF(MLW /= 13) THEN
+
           NFT = IPARG(3,NG)
-          IAD = IPARG(4,NG)  
+          IAD = IPARG(4,NG)
           ISUBSTACK = IPARG(71,NG)
 
-          IOK_PART(1:NEL) = 0  
+          IOK_PART(1:NEL) = 0
 !
           DO I=1,5
             JJ(I) = NEL*(I-1)
-          ENDDO  
+          ENDDO
 c
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO	
 C----------------------------------------------- 
 C           COQUES 3 N 4 N
 C-----------------------------------------------
@@ -177,12 +177,12 @@ c
             IF (ITY == 3) OFFSET = 0
             IF (ITY == 7) OFFSET = NUMELC
 c
-            DO  I=1,NEL 
+            DO  I=1,NEL
               IF (ITY == 3) THEN
                 ID_ELEM(OFFSET+NFT+I) = IXC(NIXC,NFT+I)
                 ITY_ELEM(OFFSET+NFT+I) = 3
                 IF( H3D_PART(IPARTC(NFT+I)) == 1) IOK_PART(I) = 1
-              ELSEIF (ITY == 7) THEN 
+              ELSEIF (ITY == 7) THEN
                 ID_ELEM(OFFSET+NFT+I) = IXTG(NIXTG,NFT+I)
                 ITY_ELEM(OFFSET+NFT+I) = 7
                 IF( H3D_PART(IPARTTG(NFT+I)) == 1) IOK_PART(I) = 1
@@ -213,7 +213,7 @@ C---------------------
             ENDDO
 c
 C--------------------------------------------------
-            IF (KEYWORD == 'VECT/VEL') THEN 
+            IF (KEYWORD == 'VECT/VEL') THEN
 C--------------------------------------------------
                IF (MLW == 151) THEN
                   DO I = 1, NEL
@@ -226,7 +226,7 @@ C--------------------------------------------------
                ELSE
                   DO I=1,NEL
                      IF(GBUF%G_MOM>0  .AND. IALEFVM > 0)THEN
-                        VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
+                        VALUE(1) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
                         VALUE(2) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                         VALUE(3) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
                         CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_SHELL,SHELL_VECTOR,I,OFFSET,NFT,
@@ -234,12 +234,12 @@ C--------------------------------------------------
                      ENDIF
                   ENDDO
                ENDIF
-c 
+c
             ENDIF  ! KEYWORD
-          ENDIF  ! ITY 
+          ENDIF  ! ITY
 c
 C-----------------------------------------------
-       ENDIF     ! MLW /= 13  
+       ENDIF     ! MLW /= 13
 C-----------------------------------------------
       RETURN
       END

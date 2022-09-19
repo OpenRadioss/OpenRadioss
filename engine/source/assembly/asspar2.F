@@ -30,7 +30,7 @@ Chd|        IDP_LOCK                      source/system/machine.F
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|        ORDER_V                       source/assembly/asspar2.F     
 Chd|====================================================================
-      SUBROUTINE ASSPAR2( 
+      SUBROUTINE ASSPAR2(
      2   A          ,AR         ,ITASK      ,NODFT     ,
      3   NODLT      ,STIFN      ,STIFR      ,ITAB      ,FSKY      ,
      4   FSKYV      ,ISKY       ,INDSKY     ,FSKYI     ,
@@ -69,7 +69,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      my_real 
+      my_real
      .   A(3,*)  ,AR(3,*),STIFN(*),STIFR(*),FSKYV(LSKY,8),
      .   FSKYI(LSKYI,NFSKYI),PARTSAV(*),FSKY(8,LSKY), MS(*),
      .   FSKYM(*), MSNF(*), VISCN(*),FTHE(*), FTHESKY(LSKY),
@@ -93,7 +93,7 @@ C-----------------------------------------------
 Cel attention 21   = NBCC+1   == nb contact critiques + 1 (test qsort ci-dessous)
 Cel attention NBCC+1 utilisee dans REALLY_ORDER_V
 Cel attention 8192 = VSIZE  == taille vecteurs travail boucle interface
-      my_real 
+      my_real
      .        FF, FSKYT(NISKY)
       COMMON /ASSP2/ LDONE, IDONE, IBAR
 C----------------------------------------------- 
@@ -137,7 +137,7 @@ C-----------------------------------------------
         CALL IDP_FREE(1)
 C
         DO 120 I=1,NISKY
-          N = ISKY(I) +1 
+          N = ISKY(I) +1
           ADSKYI(N) = ADSKYI(N) + 1
  120    CONTINUE
 C-----------------------------------------------
@@ -173,8 +173,8 @@ C-----------------------------------------------
       I0=0
       DO  L=1,NBLOC
        LMOD=MOD(l,INTSEG)
-       NC  = NBCOL(L) 
-       NL  = (ADBLOC(L+1)-ADBLOC(L))/NC                                         
+       NC  = NBCOL(L)
+       NL  = (ADBLOC(L+1)-ADBLOC(L))/NC
  300   CONTINUE
 C
        CALL IDP_LOCK(7+LMOD)
@@ -197,7 +197,7 @@ C
             DO  K1=KFT,KLT,NC
              I=I+1
              N=INDSKY(I)
-             A(1,N)   = A(1,N) +FSKYV(K1,1) 
+             A(1,N)   = A(1,N) +FSKYV(K1,1)
              A(2,N)   = A(2,N) +FSKYV(K1,2)
              A(3,N)   = A(3,N) +FSKYV(K1,3)
              AR(1,N)  = AR(1,N) +FSKYV(K1,4)
@@ -211,7 +211,7 @@ C
             DO  K1=KFT,KLT,NC
              I=I+1
              N=INDSKY(I)
-             A(1,N)   = A(1,N) +FSKYV(K1,1) 
+             A(1,N)   = A(1,N) +FSKYV(K1,1)
              A(2,N)   = A(2,N) +FSKYV(K1,2)
              A(3,N)   = A(3,N) +FSKYV(K1,3)
              AR(1,N)  = AR(1,N) +FSKYV(K1,4)
@@ -229,7 +229,7 @@ C la thermique
             DO  K1=KFT,KLT,NC
              I=I+1
              N=INDSKY(I)
-             A(1,N)   = A(1,N) +FSKYV(K1,1) 
+             A(1,N)   = A(1,N) +FSKYV(K1,1)
              A(2,N)   = A(2,N) +FSKYV(K1,2)
              A(3,N)   = A(3,N) +FSKYV(K1,3)
              AR(1,N)  = AR(1,N) +FSKYV(K1,4)
@@ -244,7 +244,7 @@ C la thermique
             DO  K1=KFT,KLT,NC
              I=I+1
              N=INDSKY(I)
-             A(1,N)   = A(1,N) +FSKYV(K1,1) 
+             A(1,N)   = A(1,N) +FSKYV(K1,1)
              A(2,N)   = A(2,N) +FSKYV(K1,2)
              A(3,N)   = A(3,N) +FSKYV(K1,3)
              AR(1,N)  = AR(1,N) +FSKYV(K1,4)
@@ -255,7 +255,7 @@ C la thermique
              MSNF(N)  = MSNF(N)  +FSKYM(K1)
              FTHE(N)  = FTHE(N) + FTHESKY(K1)
             ENDDO
-           ENDIF           
+           ENDIF
          ENDIF
        ELSEIF(NC==2)THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -265,22 +265,22 @@ C la thermique
           I=I+1
           N=INDSKY(I)
           K2=K1+1
-          A(1,N)  = A(1,N)  
+          A(1,N)  = A(1,N)
      .     +FSKYV(K1,1) +FSKYV(K2,1)
-          A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2) 
-          A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3) 
-          AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4) 
-          AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5) 
-          AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6) 
-          STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7) 
-          STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8) 
+          A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)
+          A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)
+          AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)
+          AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)
+          AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)
+          STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)
+          STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)
          ENDDO
         ELSE
 #include "vectorize.inc"
@@ -288,22 +288,22 @@ C la thermique
           I=I+1
           N=INDSKY(I)
           K2=K1+1
-          A(1,N)  = A(1,N)  
+          A(1,N)  = A(1,N)
      .     +FSKYV(K1,1) +FSKYV(K2,1)
-          A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2) 
-          A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3) 
-          AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4) 
-          AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5) 
-          AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6) 
-          STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7) 
-          STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8) 
+          A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)
+          A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)
+          AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)
+          AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)
+          AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)
+          STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)
+          STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)
           MSNF(N)  = MSNF(N)
      .     +FSKYM(K1) +FSKYM(K2)
           ENDDO
@@ -315,22 +315,22 @@ C la thermique
           I=I+1
           N=INDSKY(I)
           K2=K1+1
-          A(1,N)  = A(1,N)  
+          A(1,N)  = A(1,N)
      .     +FSKYV(K1,1) +FSKYV(K2,1)
-          A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2) 
-          A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3) 
-          AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4) 
-          AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5) 
-          AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6) 
-          STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7) 
-          STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8) 
+          A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)
+          A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)
+          AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)
+          AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)
+          AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)
+          STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)
+          STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)
            FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)
          ENDDO
         ELSE
@@ -339,27 +339,27 @@ C la thermique
           I=I+1
           N=INDSKY(I)
           K2=K1+1
-          A(1,N)  = A(1,N)  
+          A(1,N)  = A(1,N)
      .     +FSKYV(K1,1) +FSKYV(K2,1)
-          A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2) 
-          A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3) 
-          AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4) 
-          AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5) 
-          AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6) 
-          STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7) 
-          STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8) 
+          A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)
+          A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)
+          AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)
+          AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)
+          AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)
+          STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)
+          STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)
           MSNF(N)  = MSNF(N)
      .     +FSKYM(K1) +FSKYM(K2)
-           FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2) 
+           FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)
           ENDDO
-         ENDIF          
+         ENDIF
         ENDIF
        ELSEIF(NC==3)THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -370,21 +370,21 @@ C la thermique
              N=INDSKY(I)
              K2=K1+1
              K3=K1+2
-             A(1,N)  = A(1,N)  
+             A(1,N)  = A(1,N)
      .        +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1)
-             A(2,N)  = A(2,N)  
+             A(2,N)  = A(2,N)
      .        +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2)
-             A(3,N)  = A(3,N)  
+             A(3,N)  = A(3,N)
      .        +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3)
-             AR(1,N)  = AR(1,N)  
-     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) 
-             AR(2,N)  = AR(2,N)  
-     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) 
-             AR(3,N)  = AR(3,N)  
+             AR(1,N)  = AR(1,N)
+     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4)
+             AR(2,N)  = AR(2,N)
+     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5)
+             AR(3,N)  = AR(3,N)
      .        +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6)
-             STIFN(N)  = STIFN(N)  
-     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) 
-             STIFR(N)  = STIFR(N)  
+             STIFN(N)  = STIFN(N)
+     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7)
+             STIFR(N)  = STIFR(N)
      .        +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8)
             ENDDO
            ELSE
@@ -394,21 +394,21 @@ C la thermique
              N=INDSKY(I)
              K2=K1+1
              K3=K1+2
-             A(1,N)  = A(1,N)  
+             A(1,N)  = A(1,N)
      .        +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1)
-             A(2,N)  = A(2,N)  
+             A(2,N)  = A(2,N)
      .        +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2)
-             A(3,N)  = A(3,N)  
+             A(3,N)  = A(3,N)
      .        +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3)
-             AR(1,N)  = AR(1,N)  
-     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) 
-             AR(2,N)  = AR(2,N)  
-     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) 
-             AR(3,N)  = AR(3,N)  
+             AR(1,N)  = AR(1,N)
+     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4)
+             AR(2,N)  = AR(2,N)
+     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5)
+             AR(3,N)  = AR(3,N)
      .        +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6)
-             STIFN(N)  = STIFN(N)  
-     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) 
-             STIFR(N)  = STIFR(N)  
+             STIFN(N)  = STIFN(N)
+     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7)
+             STIFR(N)  = STIFR(N)
      .        +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8)
              MSNF(N)  = MSNF(N)
      .        +FSKYM(K1) +FSKYM(K2) +FSKYM(K3)
@@ -422,24 +422,24 @@ C la thermique
              N=INDSKY(I)
              K2=K1+1
              K3=K1+2
-             A(1,N)  = A(1,N)  
+             A(1,N)  = A(1,N)
      .        +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1)
-             A(2,N)  = A(2,N)  
+             A(2,N)  = A(2,N)
      .        +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2)
-             A(3,N)  = A(3,N)  
+             A(3,N)  = A(3,N)
      .        +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3)
-             AR(1,N)  = AR(1,N)  
-     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) 
-             AR(2,N)  = AR(2,N)  
-     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) 
-             AR(3,N)  = AR(3,N)  
+             AR(1,N)  = AR(1,N)
+     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4)
+             AR(2,N)  = AR(2,N)
+     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5)
+             AR(3,N)  = AR(3,N)
      .        +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6)
-             STIFN(N)  = STIFN(N)  
-     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) 
-             STIFR(N)  = STIFR(N)  
+             STIFN(N)  = STIFN(N)
+     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7)
+             STIFR(N)  = STIFR(N)
      .        +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8)
-              FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)  
-     .                            + FTHESKY(K3)     
+              FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)
+     .                            + FTHESKY(K3)
             ENDDO
            ELSE
 #include "vectorize.inc"
@@ -448,29 +448,29 @@ C la thermique
              N=INDSKY(I)
              K2=K1+1
              K3=K1+2
-             A(1,N)  = A(1,N)  
+             A(1,N)  = A(1,N)
      .        +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1)
-             A(2,N)  = A(2,N)  
+             A(2,N)  = A(2,N)
      .        +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2)
-             A(3,N)  = A(3,N)  
+             A(3,N)  = A(3,N)
      .        +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3)
-             AR(1,N)  = AR(1,N)  
-     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) 
-             AR(2,N)  = AR(2,N)  
-     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) 
-             AR(3,N)  = AR(3,N)  
+             AR(1,N)  = AR(1,N)
+     .        +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4)
+             AR(2,N)  = AR(2,N)
+     .        +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5)
+             AR(3,N)  = AR(3,N)
      .        +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6)
-             STIFN(N)  = STIFN(N)  
-     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) 
-             STIFR(N)  = STIFR(N)  
+             STIFN(N)  = STIFN(N)
+     .        +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7)
+             STIFR(N)  = STIFR(N)
      .        +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8)
              MSNF(N)  = MSNF(N)
-     .        +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) 
-             FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)  
+     .        +FSKYM(K1) +FSKYM(K2) +FSKYM(K3)
+             FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)
      .                           + FTHESKY(K3)
             ENDDO
-           ENDIF        
-         
+           ENDIF
+
         ENDIF
        ELSEIF(NC==4)THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -483,21 +483,21 @@ C la thermique
               K3=K1+2
               K4=K1+3
               K5=K1+4
-              A(1,N)  = A(1,N)  
+              A(1,N)  = A(1,N)
      .         +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1) +FSKYV(K4,1)
-              A(2,N)  = A(2,N)  
+              A(2,N)  = A(2,N)
      .         +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2) +FSKYV(K4,2)
-              A(3,N)  = A(3,N)  
+              A(3,N)  = A(3,N)
      .         +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3) +FSKYV(K4,3)
-              AR(1,N)  = AR(1,N)  
+              AR(1,N)  = AR(1,N)
      .         +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) +FSKYV(K4,4)
-              AR(2,N)  = AR(2,N)  
-     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5) 
-              AR(3,N)  = AR(3,N)  
+              AR(2,N)  = AR(2,N)
+     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5)
+              AR(3,N)  = AR(3,N)
      .         +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6) +FSKYV(K4,6)
-              STIFN(N)  = STIFN(N)  
+              STIFN(N)  = STIFN(N)
      .         +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) +FSKYV(K4,7)
-              STIFR(N)  = STIFR(N)  
+              STIFR(N)  = STIFR(N)
      .         +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8) +FSKYV(K4,8)
              ENDDO
             ELSE
@@ -509,21 +509,21 @@ C la thermique
               K3=K1+2
               K4=K1+3
               K5=K1+4
-              A(1,N)  = A(1,N)  
+              A(1,N)  = A(1,N)
      .         +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1) +FSKYV(K4,1)
-              A(2,N)  = A(2,N)  
+              A(2,N)  = A(2,N)
      .         +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2) +FSKYV(K4,2)
-              A(3,N)  = A(3,N)  
+              A(3,N)  = A(3,N)
      .         +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3) +FSKYV(K4,3)
-              AR(1,N)  = AR(1,N)  
+              AR(1,N)  = AR(1,N)
      .         +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) +FSKYV(K4,4)
-              AR(2,N)  = AR(2,N)  
-     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5) 
-              AR(3,N)  = AR(3,N)  
+              AR(2,N)  = AR(2,N)
+     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5)
+              AR(3,N)  = AR(3,N)
      .         +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6) +FSKYV(K4,6)
-              STIFN(N)  = STIFN(N)  
+              STIFN(N)  = STIFN(N)
      .         +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) +FSKYV(K4,7)
-              STIFR(N)  = STIFR(N)  
+              STIFR(N)  = STIFR(N)
      .         +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8) +FSKYV(K4,8)
               MSNF(N)  = MSNF(N)
      .         +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4)
@@ -539,24 +539,24 @@ C la thermique
               K3=K1+2
               K4=K1+3
               K5=K1+4
-              A(1,N)  = A(1,N)  
+              A(1,N)  = A(1,N)
      .         +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1) +FSKYV(K4,1)
-              A(2,N)  = A(2,N)  
+              A(2,N)  = A(2,N)
      .         +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2) +FSKYV(K4,2)
-              A(3,N)  = A(3,N)  
+              A(3,N)  = A(3,N)
      .         +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3) +FSKYV(K4,3)
-              AR(1,N)  = AR(1,N)  
+              AR(1,N)  = AR(1,N)
      .         +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) +FSKYV(K4,4)
-              AR(2,N)  = AR(2,N)  
-     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5) 
-              AR(3,N)  = AR(3,N)  
+              AR(2,N)  = AR(2,N)
+     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5)
+              AR(3,N)  = AR(3,N)
      .         +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6) +FSKYV(K4,6)
-              STIFN(N)  = STIFN(N)  
+              STIFN(N)  = STIFN(N)
      .         +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) +FSKYV(K4,7)
-              STIFR(N)  = STIFR(N)  
+              STIFR(N)  = STIFR(N)
      .         +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8) +FSKYV(K4,8)
-                FTHE(N)   = FTHE(N)    + FTHESKY(K1) + FTHESKY(K2) 
-     .                                 + FTHESKY(K3) + FTHESKY(K4)     
+                FTHE(N)   = FTHE(N)    + FTHESKY(K1) + FTHESKY(K2)
+     .                                 + FTHESKY(K3) + FTHESKY(K4)
              ENDDO
             ELSE
 #include "vectorize.inc"
@@ -567,471 +567,471 @@ C la thermique
               K3=K1+2
               K4=K1+3
               K5=K1+4
-              A(1,N)  = A(1,N)  
+              A(1,N)  = A(1,N)
      .         +FSKYV(K1,1) +FSKYV(K2,1) +FSKYV(K3,1) +FSKYV(K4,1)
-              A(2,N)  = A(2,N)  
+              A(2,N)  = A(2,N)
      .         +FSKYV(K1,2) +FSKYV(K2,2) +FSKYV(K3,2) +FSKYV(K4,2)
-              A(3,N)  = A(3,N)  
+              A(3,N)  = A(3,N)
      .         +FSKYV(K1,3) +FSKYV(K2,3) +FSKYV(K3,3) +FSKYV(K4,3)
-              AR(1,N)  = AR(1,N)  
+              AR(1,N)  = AR(1,N)
      .         +FSKYV(K1,4) +FSKYV(K2,4) +FSKYV(K3,4) +FSKYV(K4,4)
-              AR(2,N)  = AR(2,N)  
-     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5) 
-              AR(3,N)  = AR(3,N)  
+              AR(2,N)  = AR(2,N)
+     .         +FSKYV(K1,5) +FSKYV(K2,5) +FSKYV(K3,5) +FSKYV(K4,5)
+              AR(3,N)  = AR(3,N)
      .         +FSKYV(K1,6) +FSKYV(K2,6) +FSKYV(K3,6) +FSKYV(K4,6)
-              STIFN(N)  = STIFN(N)  
+              STIFN(N)  = STIFN(N)
      .         +FSKYV(K1,7) +FSKYV(K2,7) +FSKYV(K3,7) +FSKYV(K4,7)
-              STIFR(N)  = STIFR(N)  
+              STIFR(N)  = STIFR(N)
      .         +FSKYV(K1,8) +FSKYV(K2,8) +FSKYV(K3,8) +FSKYV(K4,8)
               MSNF(N)  = MSNF(N)
      .         +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4)
-               FTHE(N)   = FTHE(N)    + FTHESKY(K1) + FTHESKY(K2) 
+               FTHE(N)   = FTHE(N)    + FTHESKY(K1) + FTHESKY(K2)
      .                                + FTHESKY(K3) + FTHESKY(K4)
              ENDDO
-            ENDIF           
-         ENDIF  
+            ENDIF
+         ENDIF
 C
        ELSEIF(NC==5)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D/=0.OR.IFSUBM==0)THEN                                    
-#include "vectorize.inc" 
-          DO  K1=KFT,KLT,NC                                                 
-           I=I+1                                                            
-           N=INDSKY(I)                                                      
-           K2=K1+1                                                          
-           K3=K1+2                                                          
-           K4=K1+3                                                          
-           K5=K1+4                                                          
-           A(1,N)  = A(1,N)                                                 
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)    
-           A(2,N)  = A(2,N)                                                 
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)    
-           A(3,N)  = A(3,N)                                                 
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)   
-           AR(1,N)  = AR(1,N)                                               
-     .     +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)    
-           AR(2,N)  = AR(2,N)                                               
-     .     +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)    
-           AR(3,N)  = AR(3,N)                                               
-     .     +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)    
-           STIFN(N)  = STIFN(N)                                             
-     .     +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)    
-           STIFR(N)  = STIFR(N)                                             
-     .     +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)    
-          ENDDO                                                             
-         ELSE                                                               
+         IF(N2D/=0.OR.IFSUBM==0)THEN
 #include "vectorize.inc"
-          DO  K1=KFT,KLT,NC                                                 
-           I=I+1                                                            
-           N=INDSKY(I)                                                      
-           K2=K1+1                                                          
-           K3=K1+2                                                          
-           K4=K1+3                                                          
-           K5=K1+4                                                          
-           A(1,N)  = A(1,N)                                                 
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)    
-           A(2,N)  = A(2,N)                                                 
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+           A(2,N)  = A(2,N)
      .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
            A(3,N)  = A(3,N)
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)   
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
            AR(1,N)  = AR(1,N)
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)    
+     .     +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
            AR(2,N)  = AR(2,N)
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)    
+     .     +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
            AR(3,N)  = AR(3,N)
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)    
-           STIFN(N)  = STIFN(N) 
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)    
-           STIFR(N)  = STIFR(N) 
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)    
-           MSNF(N)  = MSNF(N) 
-     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)          
-          ENDDO                                                             
-         ENDIF                                                              
-        ELSE
-         IF(N2D/=0.OR.IFSUBM==0)THEN                                   
+     .     +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+           STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+           STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+          ENDDO
+         ELSE
 #include "vectorize.inc"
-          DO  K1=KFT,KLT,NC                                                
-           I=I+1                                                           
-           N=INDSKY(I)                                                     
-           K2=K1+1                                                         
-           K3=K1+2                                                         
-           K4=K1+3                                                         
-           K5=K1+4                                                         
-           A(1,N)  = A(1,N)                                                
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)   
-           A(2,N)  = A(2,N)                                                
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)   
-           A(3,N)  = A(3,N)                                                
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)   
-           AR(1,N)  = AR(1,N)                                              
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)   
-           AR(2,N)  = AR(2,N)                                              
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)   
-           AR(3,N)  = AR(3,N)                                              
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)   
-           STIFN(N)  = STIFN(N)                                            
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)   
-           STIFR(N)  = STIFR(N)                                            
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)   
-            FTHE(N)   = FTHE(N)     +  FTHESKY(K1) + FTHESKY(K2)           
-     .                              +  FTHESKY(K3) + FTHESKY(K4)           
-     .                              +  FTHESKY(K5)                         
-          ENDDO                                                            
-         ELSE                                                              
-#include "vectorize.inc"                                                
-          DO  K1=KFT,KLT,NC                                                
-           I=I+1                                                           
-           N=INDSKY(I)                                                     
-           K2=K1+1                                                         
-           K3=K1+2                                                         
-           K4=K1+3                                                         
-           K5=K1+4                                                         
-           A(1,N)  = A(1,N)                                                
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)   
-           A(2,N)  = A(2,N)                                                
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)   
-           A(3,N)  = A(3,N)                                                
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)   
-           AR(1,N)  = AR(1,N)                                              
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)   
-           AR(2,N)  = AR(2,N)                                              
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)   
-           AR(3,N)  = AR(3,N)                                              
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)   
-           STIFN(N)  = STIFN(N)                                            
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)   
-           STIFR(N)  = STIFR(N)                                            
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)   
-           MSNF(N)  = MSNF(N)                                              
-     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)         
-            FTHE(N)   = FTHE(N)     +  FTHESKY(K1) + FTHESKY(K2)           
-     .                              +  FTHESKY(K3) + FTHESKY(K4)           
-     .                              +  FTHESKY(K5)                         
-          ENDDO                                                            
-         ENDIF                                                             
-        
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+           MSNF(N)  = MSNF(N)
+     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
+          ENDDO
+         ENDIF
+        ELSE
+         IF(N2D/=0.OR.IFSUBM==0)THEN
+#include "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+            FTHE(N)   = FTHE(N)     +  FTHESKY(K1) + FTHESKY(K2)
+     .                              +  FTHESKY(K3) + FTHESKY(K4)
+     .                              +  FTHESKY(K5)
+          ENDDO
+         ELSE
+#include "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+           MSNF(N)  = MSNF(N)
+     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
+            FTHE(N)   = FTHE(N)     +  FTHESKY(K1) + FTHESKY(K2)
+     .                              +  FTHESKY(K3) + FTHESKY(K4)
+     .                              +  FTHESKY(K5)
+          ENDDO
+         ENDIF
+
         ENDIF
        ELSEIF(NC==6)THEN
         IF(ITHERM_FE == 0) THEN
-         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
-#include  "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1)                                                  
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2)                                                  
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3)                                                  
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4)                                                  
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5)                                                  
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6)                                                  
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7)                                                  
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8)                                                  
-          ENDDO                                                           
-         ELSE                                                             
-#include  "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1)                                                  
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2)                                                  
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3)                                                  
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4)                                                  
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5)                                                  
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6)                                                  
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7)                                                  
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8)                                                  
-           MSNF(N)  = MSNF(N)                                             
-     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)        
-     .      +FSKYM(K6)                                                    
+         IF(N2D/=0.OR.IFSUBM==0)THEN
+#include  "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8)
+          ENDDO
+         ELSE
+#include  "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8)
+           MSNF(N)  = MSNF(N)
+     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
+     .      +FSKYM(K6)
            ENDDO
           ENDIF
         ELSE
-         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
-#include  "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1)                                                  
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2)                                                  
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3)                                                  
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4)                                                  
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5)                                                  
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6)                                                  
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7)                                                  
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8)                                                  
-              FTHE(N)   = FTHE(N)     +  FTHESKY(K1) + FTHESKY(K2) 
-     .                                +  FTHESKY(K3) + FTHESKY(K4) 
+         IF(N2D/=0.OR.IFSUBM==0)THEN
+#include  "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8)
+              FTHE(N)   = FTHE(N)     +  FTHESKY(K1) + FTHESKY(K2)
+     .                                +  FTHESKY(K3) + FTHESKY(K4)
      .                                +  FTHESKY(K5) + FTHESKY(K6)
-          ENDDO                                                         
-         ELSE                                                             
-#include  "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1)                                                  
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2)                                                  
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3)                                                  
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4)                                                  
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5)                                                  
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6)                                                  
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7)                                                  
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8)                                                  
-           MSNF(N)  = MSNF(N)                                             
-     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)        
-     .      +FSKYM(K6)                                                    
-            FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2) 
+          ENDDO
+         ELSE
+#include  "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8)
+           MSNF(N)  = MSNF(N)
+     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
+     .      +FSKYM(K6)
+            FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)
      .                          + FTHESKY(K3) + FTHESKY(K4)
      .                          + FTHESKY(K5) + FTHESKY(K6)
            ENDDO
-          ENDIF          
+          ENDIF
         ENDIF
        ELSEIF(NC==7)THEN
         IF(ITHERM_FE == 0 ) THEN
-         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
-#include "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           K7=K1+6                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1) +FSKYV(K7,1)                                     
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2) +FSKYV(K7,2)                                     
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3) +FSKYV(K7,3)                                     
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4) +FSKYV(K7,4)                                     
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5) +FSKYV(K7,5)                                     
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6) +FSKYV(K7,6)                                     
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7) +FSKYV(K7,7)                                     
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8) +FSKYV(K7,8)                                     
-          ENDDO                                                           
-         ELSE                                                             
-#include "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           K7=K1+6                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1) +FSKYV(K7,1)                                     
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2) +FSKYV(K7,2)                                     
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3) +FSKYV(K7,3)                                     
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4) +FSKYV(K7,4)                                     
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5) +FSKYV(K7,5)                                     
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6) +FSKYV(K7,6)                                     
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7) +FSKYV(K7,7)                                     
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8) +FSKYV(K7,8)                                     
-           MSNF(N)  = MSNF(N)                                             
-     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)        
-     .      +FSKYM(K6) +FSKYM(K7)
-          ENDDO                                                           
-         ENDIF                                                            
-        ELSE
-         IF(N2D/=0.OR.IFSUBM==0)THEN                                  
-#include "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           K7=K1+6                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1) +FSKYV(K7,1)                                     
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2) +FSKYV(K7,2)                                     
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3) +FSKYV(K7,3)                                     
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4) +FSKYV(K7,4)                                     
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5) +FSKYV(K7,5)                                     
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6) +FSKYV(K7,6)                                     
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7) +FSKYV(K7,7)                                     
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
+         IF(N2D/=0.OR.IFSUBM==0)THEN
+#include "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           K7=K1+6
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4) +FSKYV(K7,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5) +FSKYV(K7,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6) +FSKYV(K7,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7) +FSKYV(K7,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8)
-            FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2) 
-     .                          +  FTHESKY(K3) + FTHESKY(K4) 
-     .                          +  FTHESKY(K5) + FTHESKY(K6)
-     .                          +  FTHESKY(K7)                                         
-          ENDDO                                                           
-         ELSE                                                             
-#include "vectorize.inc"                                                 
-          DO  K1=KFT,KLT,NC                                               
-           I=I+1                                                          
-           N=INDSKY(I)                                                    
-           K2=K1+1                                                        
-           K3=K1+2                                                        
-           K4=K1+3                                                        
-           K5=K1+4                                                        
-           K6=K1+5                                                        
-           K7=K1+6                                                        
-           A(1,N)  = A(1,N)                                               
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)  
-     .      +FSKYV(K6,1) +FSKYV(K7,1)                                     
-           A(2,N)  = A(2,N)                                               
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)  
-     .      +FSKYV(K6,2) +FSKYV(K7,2)                                     
-           A(3,N)  = A(3,N)                                               
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)  
-     .      +FSKYV(K6,3) +FSKYV(K7,3)                                     
-           AR(1,N)  = AR(1,N)                                             
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)  
-     .      +FSKYV(K6,4) +FSKYV(K7,4)                                     
-           AR(2,N)  = AR(2,N)                                             
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)  
-     .      +FSKYV(K6,5) +FSKYV(K7,5)                                     
-           AR(3,N)  = AR(3,N)                                             
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)  
-     .      +FSKYV(K6,6) +FSKYV(K7,6)                                     
-           STIFN(N)  = STIFN(N)                                           
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)  
-     .      +FSKYV(K6,7) +FSKYV(K7,7)                                     
-           STIFR(N)  = STIFR(N)                                           
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)  
-     .      +FSKYV(K6,8) +FSKYV(K7,8)                                     
-           MSNF(N)  = MSNF(N)                                             
-     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)        
+          ENDDO
+         ELSE
+#include "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           K7=K1+6
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4) +FSKYV(K7,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5) +FSKYV(K7,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6) +FSKYV(K7,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7) +FSKYV(K7,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8) +FSKYV(K7,8)
+           MSNF(N)  = MSNF(N)
+     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
      .      +FSKYM(K6) +FSKYM(K7)
-            FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2) 
-     .                          +  FTHESKY(K3) + FTHESKY(K4) 
+          ENDDO
+         ENDIF
+        ELSE
+         IF(N2D/=0.OR.IFSUBM==0)THEN
+#include "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           K7=K1+6
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4) +FSKYV(K7,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5) +FSKYV(K7,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6) +FSKYV(K7,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7) +FSKYV(K7,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8) +FSKYV(K7,8)
+            FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2)
+     .                          +  FTHESKY(K3) + FTHESKY(K4)
      .                          +  FTHESKY(K5) + FTHESKY(K6)
      .                          +  FTHESKY(K7)
-          ENDDO                                                           
+          ENDDO
+         ELSE
+#include "vectorize.inc"
+          DO  K1=KFT,KLT,NC
+           I=I+1
+           N=INDSKY(I)
+           K2=K1+1
+           K3=K1+2
+           K4=K1+3
+           K5=K1+4
+           K6=K1+5
+           K7=K1+6
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
+     .      +FSKYV(K6,4) +FSKYV(K7,4)
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
+     .      +FSKYV(K6,5) +FSKYV(K7,5)
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
+     .      +FSKYV(K6,6) +FSKYV(K7,6)
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
+     .      +FSKYV(K6,7) +FSKYV(K7,7)
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
+     .      +FSKYV(K6,8) +FSKYV(K7,8)
+           MSNF(N)  = MSNF(N)
+     .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
+     .      +FSKYM(K6) +FSKYM(K7)
+            FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2)
+     .                          +  FTHESKY(K3) + FTHESKY(K4)
+     .                          +  FTHESKY(K5) + FTHESKY(K6)
+     .                          +  FTHESKY(K7)
+          ENDDO
          ENDIF
         ENDIF
        ELSEIF(NC==8)THEN
@@ -1048,29 +1048,29 @@ C
            K6=K1+5
            K7=K1+6
            K8=K1+7
-           A(1,N)  = A(1,N)  
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
-     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) 
-           A(2,N)  = A(2,N)  
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
-     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) 
-           A(3,N)  = A(3,N)  
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
-     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) 
-           AR(1,N)  = AR(1,N)  
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4)
-           AR(2,N)  = AR(2,N)  
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5)
-           AR(3,N)  = AR(3,N)  
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6)
-           STIFN(N)  = STIFN(N)  
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7)
-           STIFR(N)  = STIFR(N)  
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8)
           ENDDO
          ELSE
@@ -1085,29 +1085,29 @@ C
            K6=K1+5
            K7=K1+6
            K8=K1+7
-           A(1,N)  = A(1,N)  
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
-     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) 
-           A(2,N)  = A(2,N)  
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
-     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) 
-           A(3,N)  = A(3,N)  
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
-     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) 
-           AR(1,N)  = AR(1,N)  
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4)
-           AR(2,N)  = AR(2,N)  
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5)
-           AR(3,N)  = AR(3,N)  
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6)
-           STIFN(N)  = STIFN(N)  
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7)
-           STIFR(N)  = STIFR(N)  
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8)
            MSNF(N)  = MSNF(N)
      .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
@@ -1127,34 +1127,34 @@ C
            K6=K1+5
            K7=K1+6
            K8=K1+7
-           A(1,N)  = A(1,N)  
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
-     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) 
-           A(2,N)  = A(2,N)  
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
-     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) 
-           A(3,N)  = A(3,N)  
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
-     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) 
-           AR(1,N)  = AR(1,N)  
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4)
-           AR(2,N)  = AR(2,N)  
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5)
-           AR(3,N)  = AR(3,N)  
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6)
-           STIFN(N)  = STIFN(N)  
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7)
-           STIFR(N)  = STIFR(N)  
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8)
-              FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2) 
-     .                            +  FTHESKY(K3) + FTHESKY(K4) 
-     .                            +  FTHESKY(K5) + FTHESKY(K6)  
-     .                            +  FTHESKY(K7) + FTHESKY(K8)     
+              FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2)
+     .                            +  FTHESKY(K3) + FTHESKY(K4)
+     .                            +  FTHESKY(K5) + FTHESKY(K6)
+     .                            +  FTHESKY(K7) + FTHESKY(K8)
           ENDDO
          ELSE
 #include "vectorize.inc"
@@ -1168,39 +1168,39 @@ C
            K6=K1+5
            K7=K1+6
            K8=K1+7
-           A(1,N)  = A(1,N)  
-     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
-     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) 
-           A(2,N)  = A(2,N)  
-     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
-     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) 
-           A(3,N)  = A(3,N)  
-     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
-     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) 
-           AR(1,N)  = AR(1,N)  
-     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           A(1,N)  = A(1,N)
+     .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
+     .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1)
+           A(2,N)  = A(2,N)
+     .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
+     .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2)
+           A(3,N)  = A(3,N)
+     .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
+     .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3)
+           AR(1,N)  = AR(1,N)
+     .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4)
-           AR(2,N)  = AR(2,N)  
-     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5)
-           AR(3,N)  = AR(3,N)  
-     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6)
-           STIFN(N)  = STIFN(N)  
-     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7)
-           STIFR(N)  = STIFR(N)  
-     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8)
            MSNF(N)  = MSNF(N)
      .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
      .      +FSKYM(K6) +FSKYM(K7) +FSKYM(K8)
-              FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2) 
-     .                            +  FTHESKY(K3) + FTHESKY(K4) 
-     .                            +  FTHESKY(K5) + FTHESKY(K6)  
-     .                            +  FTHESKY(K7) + FTHESKY(K8)     
+              FTHE(N)   = FTHE(N) +  FTHESKY(K1) + FTHESKY(K2)
+     .                            +  FTHESKY(K3) + FTHESKY(K4)
+     .                            +  FTHESKY(K5) + FTHESKY(K6)
+     .                            +  FTHESKY(K7) + FTHESKY(K8)
           ENDDO
-         ENDIF          
+         ENDIF
         ENDIF
        ELSEIF(NC==9)THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -1217,29 +1217,29 @@ C
            K7=K1+6
            K8=K1+7
            K9=K1+8
-           A(1,N)  = A(1,N)  
-     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
+           A(1,N)  = A(1,N)
+     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) +FSKYV(K9,1)
-           A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
+           A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) +FSKYV(K9,2)
-           A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) +FSKYV(K9,3)
-           AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4) +FSKYV(K9,4)
-           AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5) +FSKYV(K9,5)
-           AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6) +FSKYV(K9,6)
-           STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7) +FSKYV(K9,7)
-           STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8) +FSKYV(K9,8)
           ENDDO
          ELSE
@@ -1255,29 +1255,29 @@ C
            K7=K1+6
            K8=K1+7
            K9=K1+8
-           A(1,N)  = A(1,N)  
-     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
+           A(1,N)  = A(1,N)
+     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .     +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) +FSKYV(K9,1)
-           A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
+           A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .     +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) +FSKYV(K9,2)
-           A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .     +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) +FSKYV(K9,3)
-           AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4) +FSKYV(K9,4)
-           AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5) +FSKYV(K9,5)
-           AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6) +FSKYV(K9,6)
-           STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7) +FSKYV(K9,7)
-           STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8) +FSKYV(K9,8)
            MSNF(N)  = MSNF(N)
      .     +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
@@ -1298,35 +1298,35 @@ C
            K7=K1+6
            K8=K1+7
            K9=K1+8
-           A(1,N)  = A(1,N)  
-     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
+           A(1,N)  = A(1,N)
+     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .      +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) +FSKYV(K9,1)
-           A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
+           A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .      +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) +FSKYV(K9,2)
-           A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .      +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) +FSKYV(K9,3)
-           AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4) +FSKYV(K9,4)
-           AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5) +FSKYV(K9,5)
-           AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6) +FSKYV(K9,6)
-           STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7) +FSKYV(K9,7)
-           STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8) +FSKYV(K9,8)
              FTHE(N)   = FTHE(N) + FTHESKY(K1) + FTHESKY(K2)
      .                           + FTHESKY(K3) + FTHESKY(K4)
      .                           + FTHESKY(K5) + FTHESKY(K6)
      .                           + FTHESKY(K7) + FTHESKY(K8)
-     .                           + FTHESKY(K9) 
+     .                           + FTHESKY(K9)
           ENDDO
          ELSE
 #include "vectorize.inc"
@@ -1341,29 +1341,29 @@ C
            K7=K1+6
            K8=K1+7
            K9=K1+8
-           A(1,N)  = A(1,N)  
-     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1) 
+           A(1,N)  = A(1,N)
+     .     +FSKYV(K1,1) +FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .     +FSKYV(K6,1) +FSKYV(K7,1) +FSKYV(K8,1) +FSKYV(K9,1)
-           A(2,N)  = A(2,N)  
-     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2) 
+           A(2,N)  = A(2,N)
+     .     +FSKYV(K1,2) +FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .     +FSKYV(K6,2) +FSKYV(K7,2) +FSKYV(K8,2) +FSKYV(K9,2)
-           A(3,N)  = A(3,N)  
-     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3) 
+           A(3,N)  = A(3,N)
+     .     +FSKYV(K1,3) +FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .     +FSKYV(K6,3) +FSKYV(K7,3) +FSKYV(K8,3) +FSKYV(K9,3)
-           AR(1,N)  = AR(1,N)  
-     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4) 
+           AR(1,N)  = AR(1,N)
+     .     +FSKYV(K1,4) +FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4) +FSKYV(K7,4) +FSKYV(K8,4) +FSKYV(K9,4)
-           AR(2,N)  = AR(2,N)  
-     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5) 
+           AR(2,N)  = AR(2,N)
+     .     +FSKYV(K1,5) +FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5) +FSKYV(K7,5) +FSKYV(K8,5) +FSKYV(K9,5)
-           AR(3,N)  = AR(3,N)  
-     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6) 
+           AR(3,N)  = AR(3,N)
+     .     +FSKYV(K1,6) +FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6) +FSKYV(K7,6) +FSKYV(K8,6) +FSKYV(K9,6)
-           STIFN(N)  = STIFN(N)  
-     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7) 
+           STIFN(N)  = STIFN(N)
+     .     +FSKYV(K1,7) +FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7) +FSKYV(K7,7) +FSKYV(K8,7) +FSKYV(K9,7)
-           STIFR(N)  = STIFR(N)  
-     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8) 
+           STIFR(N)  = STIFR(N)
+     .     +FSKYV(K1,8) +FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8) +FSKYV(K7,8) +FSKYV(K8,8) +FSKYV(K9,8)
            MSNF(N)  = MSNF(N)
      .     +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
@@ -1372,10 +1372,10 @@ C
      .                           + FTHESKY(K3) + FTHESKY(K4)
      .                           + FTHESKY(K5) + FTHESKY(K6)
      .                           + FTHESKY(K7) + FTHESKY(K8)
-     .                           + FTHESKY(K9)      
+     .                           + FTHESKY(K9)
           ENDDO
-         ENDIF        
-        
+         ENDIF
+
         ENDIF
        ELSEIF(NC==10)THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -1393,28 +1393,28 @@ C
            K8=K1+7
            K9=K1+8
            K0=K1+9
-           A(1,N)  = A(1,N)  
+           A(1,N)  = A(1,N)
      .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .      +FSKYV(K6,1)+FSKYV(K7,1)+FSKYV(K8,1)+FSKYV(K9,1)+FSKYV(K0,1)
-           A(2,N)  = A(2,N)  
+           A(2,N)  = A(2,N)
      .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .      +FSKYV(K6,2)+FSKYV(K7,2)+FSKYV(K8,2)+FSKYV(K9,2)+FSKYV(K0,2)
-           A(3,N)  = A(3,N)  
+           A(3,N)  = A(3,N)
      .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .      +FSKYV(K6,3)+FSKYV(K7,3)+FSKYV(K8,3)+FSKYV(K9,3)+FSKYV(K0,3)
-           AR(1,N)  = AR(1,N)  
+           AR(1,N)  = AR(1,N)
      .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4)+FSKYV(K7,4)+FSKYV(K8,4)+FSKYV(K9,4)+FSKYV(K0,4)
-           AR(2,N)  = AR(2,N)  
+           AR(2,N)  = AR(2,N)
      .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5)+FSKYV(K7,5)+FSKYV(K8,5)+FSKYV(K9,5)+FSKYV(K0,5)
-           AR(3,N)  = AR(3,N)  
+           AR(3,N)  = AR(3,N)
      .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6)+FSKYV(K7,6)+FSKYV(K8,6)+FSKYV(K9,6)+FSKYV(K0,6)
-           STIFN(N)  = STIFN(N)  
+           STIFN(N)  = STIFN(N)
      .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7)+FSKYV(K7,7)+FSKYV(K8,7)+FSKYV(K9,7)+FSKYV(K0,7)
-           STIFR(N)  = STIFR(N)  
+           STIFR(N)  = STIFR(N)
      .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8)+FSKYV(K7,8)+FSKYV(K8,8)+FSKYV(K9,8)+FSKYV(K0,8)
           ENDDO
@@ -1432,28 +1432,28 @@ C
            K8=K1+7
            K9=K1+8
            K0=K1+9
-           A(1,N)  = A(1,N)  
+           A(1,N)  = A(1,N)
      .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .      +FSKYV(K6,1)+FSKYV(K7,1)+FSKYV(K8,1)+FSKYV(K9,1)+FSKYV(K0,1)
-           A(2,N)  = A(2,N)  
+           A(2,N)  = A(2,N)
      .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .      +FSKYV(K6,2)+FSKYV(K7,2)+FSKYV(K8,2)+FSKYV(K9,2)+FSKYV(K0,2)
-           A(3,N)  = A(3,N)  
+           A(3,N)  = A(3,N)
      .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .      +FSKYV(K6,3)+FSKYV(K7,3)+FSKYV(K8,3)+FSKYV(K9,3)+FSKYV(K0,3)
-           AR(1,N)  = AR(1,N)  
+           AR(1,N)  = AR(1,N)
      .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4)+FSKYV(K7,4)+FSKYV(K8,4)+FSKYV(K9,4)+FSKYV(K0,4)
-           AR(2,N)  = AR(2,N)  
+           AR(2,N)  = AR(2,N)
      .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5)+FSKYV(K7,5)+FSKYV(K8,5)+FSKYV(K9,5)+FSKYV(K0,5)
-           AR(3,N)  = AR(3,N)  
+           AR(3,N)  = AR(3,N)
      .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6)+FSKYV(K7,6)+FSKYV(K8,6)+FSKYV(K9,6)+FSKYV(K0,6)
-           STIFN(N)  = STIFN(N)  
+           STIFN(N)  = STIFN(N)
      .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7)+FSKYV(K7,7)+FSKYV(K8,7)+FSKYV(K9,7)+FSKYV(K0,7)
-           STIFR(N)  = STIFR(N)  
+           STIFR(N)  = STIFR(N)
      .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8)+FSKYV(K7,8)+FSKYV(K8,8)+FSKYV(K9,8)+FSKYV(K0,8)
            MSNF(N)  = MSNF(N)
@@ -1476,34 +1476,34 @@ C
            K8=K1+7
            K9=K1+8
            K0=K1+9
-           A(1,N)  = A(1,N)  
+           A(1,N)  = A(1,N)
      .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .      +FSKYV(K6,1)+FSKYV(K7,1)+FSKYV(K8,1)+FSKYV(K9,1)+FSKYV(K0,1)
-           A(2,N)  = A(2,N)  
+           A(2,N)  = A(2,N)
      .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .      +FSKYV(K6,2)+FSKYV(K7,2)+FSKYV(K8,2)+FSKYV(K9,2)+FSKYV(K0,2)
-           A(3,N)  = A(3,N)  
+           A(3,N)  = A(3,N)
      .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .      +FSKYV(K6,3)+FSKYV(K7,3)+FSKYV(K8,3)+FSKYV(K9,3)+FSKYV(K0,3)
-           AR(1,N)  = AR(1,N)  
+           AR(1,N)  = AR(1,N)
      .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4)+FSKYV(K7,4)+FSKYV(K8,4)+FSKYV(K9,4)+FSKYV(K0,4)
-           AR(2,N)  = AR(2,N)  
+           AR(2,N)  = AR(2,N)
      .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5)+FSKYV(K7,5)+FSKYV(K8,5)+FSKYV(K9,5)+FSKYV(K0,5)
-           AR(3,N)  = AR(3,N)  
+           AR(3,N)  = AR(3,N)
      .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6)+FSKYV(K7,6)+FSKYV(K8,6)+FSKYV(K9,6)+FSKYV(K0,6)
-           STIFN(N)  = STIFN(N)  
+           STIFN(N)  = STIFN(N)
      .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7)+FSKYV(K7,7)+FSKYV(K8,7)+FSKYV(K9,7)+FSKYV(K0,7)
-           STIFR(N)  = STIFR(N)  
+           STIFR(N)  = STIFR(N)
      .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8)+FSKYV(K7,8)+FSKYV(K8,8)+FSKYV(K9,8)+FSKYV(K0,8)
-            FTHE(N)   = FTHE(N)  + FTHESKY(K1) + FTHESKY(K2)                
-     .                           + FTHESKY(K3) + FTHESKY(K4)                
-     .                           + FTHESKY(K5) + FTHESKY(K6)                
-     .                           + FTHESKY(K7) + FTHESKY(K8)                
+            FTHE(N)   = FTHE(N)  + FTHESKY(K1) + FTHESKY(K2)
+     .                           + FTHESKY(K3) + FTHESKY(K4)
+     .                           + FTHESKY(K5) + FTHESKY(K6)
+     .                           + FTHESKY(K7) + FTHESKY(K8)
      .                           + FTHESKY(K9) + FTHESKY(K0)
           ENDDO
          ELSE
@@ -1520,37 +1520,37 @@ C
            K8=K1+7
            K9=K1+8
            K0=K1+9
-           A(1,N)  = A(1,N)  
+           A(1,N)  = A(1,N)
      .      +FSKYV(K1,1)+FSKYV(K2,1)+FSKYV(K3,1)+FSKYV(K4,1)+FSKYV(K5,1)
      .      +FSKYV(K6,1)+FSKYV(K7,1)+FSKYV(K8,1)+FSKYV(K9,1)+FSKYV(K0,1)
-           A(2,N)  = A(2,N)  
+           A(2,N)  = A(2,N)
      .      +FSKYV(K1,2)+FSKYV(K2,2)+FSKYV(K3,2)+FSKYV(K4,2)+FSKYV(K5,2)
      .      +FSKYV(K6,2)+FSKYV(K7,2)+FSKYV(K8,2)+FSKYV(K9,2)+FSKYV(K0,2)
-           A(3,N)  = A(3,N)  
+           A(3,N)  = A(3,N)
      .      +FSKYV(K1,3)+FSKYV(K2,3)+FSKYV(K3,3)+FSKYV(K4,3)+FSKYV(K5,3)
      .      +FSKYV(K6,3)+FSKYV(K7,3)+FSKYV(K8,3)+FSKYV(K9,3)+FSKYV(K0,3)
-           AR(1,N)  = AR(1,N)  
+           AR(1,N)  = AR(1,N)
      .      +FSKYV(K1,4)+FSKYV(K2,4)+FSKYV(K3,4)+FSKYV(K4,4)+FSKYV(K5,4)
      .      +FSKYV(K6,4)+FSKYV(K7,4)+FSKYV(K8,4)+FSKYV(K9,4)+FSKYV(K0,4)
-           AR(2,N)  = AR(2,N)  
+           AR(2,N)  = AR(2,N)
      .      +FSKYV(K1,5)+FSKYV(K2,5)+FSKYV(K3,5)+FSKYV(K4,5)+FSKYV(K5,5)
      .      +FSKYV(K6,5)+FSKYV(K7,5)+FSKYV(K8,5)+FSKYV(K9,5)+FSKYV(K0,5)
-           AR(3,N)  = AR(3,N)  
+           AR(3,N)  = AR(3,N)
      .      +FSKYV(K1,6)+FSKYV(K2,6)+FSKYV(K3,6)+FSKYV(K4,6)+FSKYV(K5,6)
      .      +FSKYV(K6,6)+FSKYV(K7,6)+FSKYV(K8,6)+FSKYV(K9,6)+FSKYV(K0,6)
-           STIFN(N)  = STIFN(N)  
+           STIFN(N)  = STIFN(N)
      .      +FSKYV(K1,7)+FSKYV(K2,7)+FSKYV(K3,7)+FSKYV(K4,7)+FSKYV(K5,7)
      .      +FSKYV(K6,7)+FSKYV(K7,7)+FSKYV(K8,7)+FSKYV(K9,7)+FSKYV(K0,7)
-           STIFR(N)  = STIFR(N)  
+           STIFR(N)  = STIFR(N)
      .      +FSKYV(K1,8)+FSKYV(K2,8)+FSKYV(K3,8)+FSKYV(K4,8)+FSKYV(K5,8)
      .      +FSKYV(K6,8)+FSKYV(K7,8)+FSKYV(K8,8)+FSKYV(K9,8)+FSKYV(K0,8)
            MSNF(N)  = MSNF(N)
      .      +FSKYM(K1) +FSKYM(K2) +FSKYM(K3) +FSKYM(K4) +FSKYM(K5)
      .      +FSKYM(K6) +FSKYM(K7) +FSKYM(K8) +FSKYM(K9) +FSKYM(K0)
-            FTHE(N)   = FTHE(N)  + FTHESKY(K1) + FTHESKY(K2)                
-     .                           + FTHESKY(K3) + FTHESKY(K4)                
-     .                           + FTHESKY(K5) + FTHESKY(K6)                
-     .                           + FTHESKY(K7) + FTHESKY(K8)                
+            FTHE(N)   = FTHE(N)  + FTHESKY(K1) + FTHESKY(K2)
+     .                           + FTHESKY(K3) + FTHESKY(K4)
+     .                           + FTHESKY(K5) + FTHESKY(K6)
+     .                           + FTHESKY(K7) + FTHESKY(K8)
      .                           + FTHESKY(K9) + FTHESKY(K0)
           ENDDO
          ENDIF
@@ -1563,7 +1563,7 @@ C
             I=I+1
             N=INDSKY(I)
             DO K2=1,11
-             K = K1+K2-1 
+             K = K1+K2-1
              A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
@@ -1580,7 +1580,7 @@ C
             I=I+1
             N=INDSKY(I)
             DO K2=1,11
-             K = K1+K2-1 
+             K = K1+K2-1
              A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
@@ -1600,7 +1600,7 @@ C
             I=I+1
             N=INDSKY(I)
             DO K2=1,11
-             K = K1+K2-1 
+             K = K1+K2-1
              A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
@@ -1618,7 +1618,7 @@ C
             I=I+1
             N=INDSKY(I)
             DO K2=1,11
-             K = K1+K2-1 
+             K = K1+K2-1
              A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
@@ -1631,8 +1631,8 @@ C
              FTHE(N)   = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
-          ENDIF           
-         
+          ENDIF
+
          ENDIF
        ELSEIF (NC==12) THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -1710,7 +1710,7 @@ C
              FTHE(N)   = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
-          ENDIF       
+          ENDIF
         ENDIF
        ELSEIF (NC==13) THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -1788,7 +1788,7 @@ C
             FTHE(N)   = FTHE(N) + FTHESKY(K)
            ENDDO
           ENDDO
-         ENDIF           
+         ENDIF
         ENDIF
        ELSEIF (NC==14) THEN
         IF(ITHERM_FE == 0) THEN
@@ -1866,8 +1866,8 @@ C
               FTHE(N)  = FTHE(N)  + FTHESKY(K)
              ENDDO
             ENDDO
-           ENDIF         
-        
+           ENDIF
+
         ENDIF
        ELSEIF (NC==15) THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -1945,7 +1945,7 @@ C
               FTHE(N)  = FTHE(N)  + FTHESKY(K)
              ENDDO
             ENDDO
-           ENDIF          
+           ENDIF
         ENDIF
        ELSEIF (NC==16) THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -2001,7 +2001,7 @@ C
               AR(3,N)  = AR(3,N)  + FSKYV(K,6)
               STIFN(N) = STIFN(N) + FSKYV(K,7)
               STIFR(N) = STIFR(N) + FSKYV(K,8)
-              FTHE(N)   = FTHE(N) + FTHESKY(K) 
+              FTHE(N)   = FTHE(N) + FTHESKY(K)
              ENDDO
             ENDDO
            ELSE
@@ -2020,7 +2020,7 @@ C
               STIFN(N) = STIFN(N) + FSKYV(K,7)
               STIFR(N) = STIFR(N) + FSKYV(K,8)
               MSNF(N)  = MSNF(N)  + FSKYM(K)
-              FTHE(N)   = FTHE(N) + FTHESKY(K) 
+              FTHE(N)   = FTHE(N) + FTHESKY(K)
              ENDDO
             ENDDO
            ENDIF
@@ -2079,7 +2079,7 @@ C
              AR(3,N)  = AR(3,N)  + FSKYV(K,6)
              STIFN(N) = STIFN(N) + FSKYV(K,7)
              STIFR(N) = STIFR(N) + FSKYV(K,8)
-             FTHE(N)   = FTHE(N) + FTHESKY(K) 
+             FTHE(N)   = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
           ELSE
@@ -2098,10 +2098,10 @@ C
              STIFN(N) = STIFN(N) + FSKYV(K,7)
              STIFR(N) = STIFR(N) + FSKYV(K,8)
              MSNF(N)  = MSNF(N)  + FSKYM(K)
-             FTHE(N)   = FTHE(N) + FTHESKY(K) 
+             FTHE(N)   = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
-          ENDIF          
+          ENDIF
         ENDIF
        ELSEIF (NC==18) THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -2157,7 +2157,7 @@ C
                AR(3,N)  = AR(3,N)  + FSKYV(K,6)
                STIFN(N) = STIFN(N) + FSKYV(K,7)
                STIFR(N) = STIFR(N) + FSKYV(K,8)
-               FTHE(N)   = FTHE(N) + FTHESKY(K) 
+               FTHE(N)   = FTHE(N) + FTHESKY(K)
               ENDDO
              ENDDO
             ELSE
@@ -2176,10 +2176,10 @@ C
                STIFN(N) = STIFN(N) + FSKYV(K,7)
                STIFR(N) = STIFR(N) + FSKYV(K,8)
                MSNF(N)  = MSNF(N)  + FSKYM(K)
-               FTHE(N)   = FTHE(N) + FTHESKY(K) 
+               FTHE(N)   = FTHE(N) + FTHESKY(K)
               ENDDO
              ENDDO
-            ENDIF           
+            ENDIF
         ENDIF
        ELSEIF (NC==19) THEN
         IF(ITHERM_FE == 0 ) THEN
@@ -2257,7 +2257,7 @@ C
                FTHE(N)   = FTHE(N) + FTHESKY(K)
               ENDDO
              ENDDO
-            ENDIF         
+            ENDIF
         ENDIF
        ELSEIF (NC==20) THEN
         IF(ITHERM_FE == 0) THEN
@@ -2335,7 +2335,7 @@ C
              FTHE(N)   = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
-          ENDIF          
+          ENDIF
         ENDIF
        ELSE
         IF(ITHERM_FE == 0 ) THEN
@@ -2344,14 +2344,14 @@ C
             I=I+1
             N=INDSKY(I)
             DO K=KK,KK+NC-1
-             A(1,N)   = A(1,N)   + FSKYV(K,1) 
+             A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
-             AR(1,N)  = AR(1,N)  + FSKYV(K,4) 
-             AR(2,N)  = AR(2,N)  + FSKYV(K,5) 
-             AR(3,N)  = AR(3,N)  + FSKYV(K,6) 
+             AR(1,N)  = AR(1,N)  + FSKYV(K,4)
+             AR(2,N)  = AR(2,N)  + FSKYV(K,5)
+             AR(3,N)  = AR(3,N)  + FSKYV(K,6)
              STIFN(N) = STIFN(N) + FSKYV(K,7)
-             STIFR(N) = STIFR(N) + FSKYV(K,8) 
+             STIFR(N) = STIFR(N) + FSKYV(K,8)
             ENDDO
            ENDDO
           ELSE
@@ -2359,33 +2359,33 @@ C
             I=I+1
             N=INDSKY(I)
             DO K=KK,KK+NC-1
-             A(1,N)   = A(1,N)   + FSKYV(K,1) 
+             A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
-             AR(1,N)  = AR(1,N)  + FSKYV(K,4) 
-             AR(2,N)  = AR(2,N)  + FSKYV(K,5) 
-             AR(3,N)  = AR(3,N)  + FSKYV(K,6) 
+             AR(1,N)  = AR(1,N)  + FSKYV(K,4)
+             AR(2,N)  = AR(2,N)  + FSKYV(K,5)
+             AR(3,N)  = AR(3,N)  + FSKYV(K,6)
              STIFN(N) = STIFN(N) + FSKYV(K,7)
              STIFR(N) = STIFR(N) + FSKYV(K,8)
              MSNF(N)  = MSNF(N)  + FSKYM(K)
             ENDDO
            ENDDO
           ENDIF
-         ELSE 
+         ELSE
           IF(N2D/=0.OR.IFSUBM==0)THEN
            DO  KK=KFT,KLT,NC
             I=I+1
             N=INDSKY(I)
             DO K=KK,KK+NC-1
-             A(1,N)   = A(1,N)   + FSKYV(K,1) 
+             A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
-             AR(1,N)  = AR(1,N)  + FSKYV(K,4) 
-             AR(2,N)  = AR(2,N)  + FSKYV(K,5) 
-             AR(3,N)  = AR(3,N)  + FSKYV(K,6) 
+             AR(1,N)  = AR(1,N)  + FSKYV(K,4)
+             AR(2,N)  = AR(2,N)  + FSKYV(K,5)
+             AR(3,N)  = AR(3,N)  + FSKYV(K,6)
              STIFN(N) = STIFN(N) + FSKYV(K,7)
              STIFR(N) = STIFR(N) + FSKYV(K,8)
-             FTHE(N)  = FTHE(N) + FTHESKY(K) 
+             FTHE(N)  = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
           ELSE
@@ -2393,19 +2393,19 @@ C
             I=I+1
             N=INDSKY(I)
             DO K=KK,KK+NC-1
-             A(1,N)   = A(1,N)   + FSKYV(K,1) 
+             A(1,N)   = A(1,N)   + FSKYV(K,1)
              A(2,N)   = A(2,N)   + FSKYV(K,2)
              A(3,N)   = A(3,N)   + FSKYV(K,3)
-             AR(1,N)  = AR(1,N)  + FSKYV(K,4) 
-             AR(2,N)  = AR(2,N)  + FSKYV(K,5) 
-             AR(3,N)  = AR(3,N)  + FSKYV(K,6) 
+             AR(1,N)  = AR(1,N)  + FSKYV(K,4)
+             AR(2,N)  = AR(2,N)  + FSKYV(K,5)
+             AR(3,N)  = AR(3,N)  + FSKYV(K,6)
              STIFN(N) = STIFN(N) + FSKYV(K,7)
              STIFR(N) = STIFR(N) + FSKYV(K,8)
              MSNF(N)  = MSNF(N)  + FSKYM(K)
              FTHE(N)  = FTHE(N) + FTHESKY(K)
             ENDDO
            ENDDO
-          ENDIF           
+          ENDIF
          ENDIF
        ENDIF
        GOTO 300
@@ -2481,7 +2481,7 @@ C else ivector machine scalaire
              FTHE(N)   = FTHE(N) + FTHESKY(K)
            ENDDO
           ENDDO
-         ENDIF         
+         ENDIF
        ENDIF
       ENDIF
 C
@@ -2517,7 +2517,7 @@ C
         DO I = NODFT, NODLT
           MSF(I) = MSF(I) + MSNF(I)
         ENDDO
-      ENDIF 
+      ENDIF
 C-----------------------------------------------
 C     LE CALL BARRIER EST FAIT SUR TOUS LES PROCES. 
 C     SI ET SEULEMENT SI LA TACHE IDONE N'EST PAS FAITE 
@@ -2549,12 +2549,12 @@ C
         IF(INTHEAT > 0 .AND. L == 1) THEN
           DO  I=1,NISKY
            J = ISKY(I)
-           FSKYT(J) = FTHESKYI(I)          
+           FSKYT(J) = FTHESKYI(I)
           ENDDO
           DO  I=1,NISKY
             FTHESKYI(I) = FSKYT(I)
           ENDDO
-        ENDIF          
+        ENDIF
 C
         GOTO 400
        ENDIF
@@ -2689,7 +2689,7 @@ C-----------------------------------------------
                  FF = FSKYI(KK,L)
                  FSKYI(KK,L) = FSKYI(K,L)
                  FSKYI(K,L)  = FF
-               ENDIF            
+               ENDIF
  500       CONTINUE
          ELSE
           DO  K=JJ1,JJ2-1
@@ -2709,7 +2709,7 @@ C
              ENDIF
             ENDDO
            ENDDO
-          ENDIF       
+          ENDIF
 C-----------------------------------------------
 C       ASSEMBLAGE DES FORCES 
 C-----------------------------------------------
@@ -2737,7 +2737,7 @@ C  + la thermique
             A(1,N)  = A(1,N)  + FSKYI(K,1)
             A(2,N)  = A(2,N)  + FSKYI(K,2)
             A(3,N)  = A(3,N)  + FSKYI(K,3)
-            STIFN(N) = STIFN(N) + FSKYI(K,4) 
+            STIFN(N) = STIFN(N) + FSKYI(K,4)
             FTHE(N)  = FTHE(N)  + FTHESKYI(K)
            ENDDO
           ELSE
@@ -2749,7 +2749,7 @@ C  + la thermique
             VISCN(N) = VISCN(N) + FSKYI(K,5)
             FTHE(N)  = FTHE(N)  + FTHESKYI(K)
            ENDDO
-          ENDIF          
+          ENDIF
          ENDIF
 C contact stiffness (static condensation)
          IF(ISTATCND/=0)THEN
@@ -2829,7 +2829,7 @@ C L=4
                     FSKYI(J,4) =FF
                  ENDIF
 C
-                 IF(INTHEAT > 0) THEN 
+                 IF(INTHEAT > 0) THEN
                   IF (FTHESKYI(JJ)>FTHESKYI(J)) THEN
                     FF=FTHESKYI(JJ)
                     FTHESKYI(JJ)=FTHESKYI(J)
@@ -2926,7 +2926,7 @@ C + la thermique
               FTHE(N) = FTHE(N) + FTHESKYI(J)
            ENDDO
          ENDDO
-        ENDIF         
+        ENDIF
        ENDIF
 C contact stiffness (static condensation)
        IF(ISTATCND/=0)THEN
@@ -2976,7 +2976,7 @@ C --- DO THE REST IN OLD WAY - SUM UP ALL CONTRIBUTIONS PER NODE
              ENDDO
            ENDIF
 C
-        IF(INTHEAT == 0 )THEN  
+        IF(INTHEAT == 0 )THEN
           IF(KDTINT==0)THEN
 #include "scalar.inc"
              DO K=JJ1,JJ2
@@ -2993,8 +2993,8 @@ C
                 A(3,N) = A(3,N) + FSKYI(K,3)
                 STIFN(N) = STIFN(N) + FSKYI(K,4)
                 VISCN(N) = VISCN(N) + FSKYI(K,5)
-             ENDDO        
-          ENDIF        
+             ENDDO
+          ENDIF
          ELSE
           IF(KDTINT==0)THEN
 #include "scalar.inc"
@@ -3014,8 +3014,8 @@ C
                 STIFN(N) = STIFN(N) + FSKYI(K,4)
                 VISCN(N) = VISCN(N) + FSKYI(K,5)
                 FTHE(N) = FTHE(N) + FTHESKYI(K)
-             ENDDO        
-          ENDIF           
+             ENDDO
+          ENDIF
         ENDIF
 C contact stiffness (static condensation)
         IF(ISTATCND/=0)THEN
@@ -3069,7 +3069,7 @@ C + la thermique
              A(1,N)  = A(1,N)  + FSKYI(K,1)
              A(2,N)  = A(2,N)  + FSKYI(K,2)
              A(3,N)  = A(3,N)  + FSKYI(K,3)
-             STIFN(N) = STIFN(N) + FSKYI(K,4) 
+             STIFN(N) = STIFN(N) + FSKYI(K,4)
              FTHE(N) = FTHE(N) + FTHESKYI(K)
            ENDDO
           ELSE
@@ -3078,11 +3078,11 @@ C + la thermique
              A(2,N)  = A(2,N)  + FSKYI(K,2)
              A(3,N)  = A(3,N)  + FSKYI(K,3)
              STIFN(N) = STIFN(N) + FSKYI(K,4)
-             VISCN(N) = VISCN(N) + FSKYI(K,5) 
+             VISCN(N) = VISCN(N) + FSKYI(K,5)
              FTHE(N) = FTHE(N) + FTHESKYI(K)
            ENDDO
           ENDIF
-        ENDIF 
+        ENDIF
 C contact stiffness (static condensation)
         IF(ISTATCND/=0)THEN
           DO K=JJ1,JJ2
@@ -3205,11 +3205,11 @@ C
           DIVNN = 2
         ELSE
           DIVNN = 1
-        END IF      
-        DELNN = (DIFFNN + DIVNN) / DIVNN        
+        END IF
+        DELNN = (DIFFNN + DIVNN) / DIVNN
         IC0 = 1
         DO MINNN = MINNN_GLB, MAXNN_GLB - 1, DELNN
-          MAXNN = MIN(MAXNN_GLB, MINNN + DELNN - 1)         
+          MAXNN = MIN(MAXNN_GLB, MINNN + DELNN - 1)
           CALL REALLY_ORDER_V(N, MINNN, MAXNN, NN_A,
      &                        IARRAY, IC, IC0)
         END DO
@@ -3250,7 +3250,7 @@ C
             COUNT = COUNT + 1
             IARRAY(COUNT) = I
           END IF
-        END DO        
+        END DO
       END DO
 C
       RETURN
@@ -3273,7 +3273,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER n, minnn, maxnn, iarray(*), nn_a(*), ic(*) 
+      INTEGER n, minnn, maxnn, iarray(*), nn_a(*), ic(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

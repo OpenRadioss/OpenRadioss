@@ -88,15 +88,15 @@ C decalage IH
           IH = IH + 1
         ENDDO
 C----
-        IF (IH>=IADB+NN) GOTO 666 
+        IF (IH>=IADB+NN) GOTO 666
 C----
 c
       DO NG=1,NGROUP
        ITY=IPARG(5,NG)
        IF (ITY == ITYP) THEN
-         NFT     = IPARG(3,NG)  
+         NFT     = IPARG(3,NG)
          MTE = IPARG(1,NG)
-         NEL = IPARG(2,NG)  
+         NEL = IPARG(2,NG)
          IF(MTE /= 13) THEN
 C
           DO I=1,NEL
@@ -117,14 +117,14 @@ C recherche du ii correct
                 WA_SIZE = WA_SIZE + NVAR + 1
             ENDIF
           ENDDO
-c --------------          
-         ENDIF  ! mte /= 13 
-        ENDIF  
+c --------------
+         ENDIF  ! mte /= 13
+        ENDIF
       ENDDO ! groupe
 !   -----------------------------
             ENDIF
- 666    continue 
-            INDEX_QUAD(NITER) = WA_SIZE   
+ 666    continue
+            INDEX_QUAD(NITER) = WA_SIZE
         ENDDO
 
 

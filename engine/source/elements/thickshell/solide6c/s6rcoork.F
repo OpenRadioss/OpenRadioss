@@ -30,9 +30,9 @@ Chd|        S6CORTHO3                     source/elements/thickshell/solide6c/s6
 Chd|        VRROTA3                       source/elements/thickshell/solide6c/vrrota3.F
 Chd|====================================================================
       SUBROUTINE S6RCOORK(X,IXS,
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
+     .   X1, X2, X3, X4, X5, X6,
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
      .   OFFG,OFF,SAV,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   NC1,NC2,NC3,NC4,NC5,NC6,NGL,MXT,NGEO,
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), 
-     .   OFFG(*), OFF(*),  
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*),
+     .   OFFG(*), OFF(*),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
@@ -75,7 +75,7 @@ C     REAL
      .   K16(9,*)   ,K22(9,*)    ,K23(9,*)   ,K24(9,*)   ,K25(9,*)   ,
      .   K26(9,*)   ,K33(9,*)   ,K34(9,*)   ,K35(9,*)    ,K36(9,*)    ,
      .   K44(9,*)   ,K45(9,*)    ,K46(9,*)    ,K55(9,*)   ,K56(9,*)    ,
-     .   K66(9,*)   
+     .   K66(9,*)
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
      .        NC5(*), NC6(*), MXT(*), NGL(*),NGEO(*)
       INTEGER IXS(NIXS,*)
@@ -89,7 +89,7 @@ C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
 C-----------------------------------------------
 C
       DO I=LFT,LLT
@@ -156,7 +156,7 @@ C-----------
        CALL S6CORTHO3(
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ )
 C-----------
@@ -291,7 +291,7 @@ C
 C
        ENDIF
 C-----------
-      DO J=1,9      
+      DO J=1,9
       DO I=LFT,LLT
         K11(J,I)=ZERO
         K12(J,I)=ZERO

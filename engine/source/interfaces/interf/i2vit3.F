@@ -169,7 +169,7 @@ C
         AMZ=ZERO
         VMX=ZERO
         VMY=ZERO
-        VMZ=ZERO    
+        VMZ=ZERO
 Cel   XMSI=MS(I)*WEIGHT(I)
 C
         DO JJ=1,NIR
@@ -267,7 +267,7 @@ C
         AMZ=ZERO
         VMX=ZERO
         VMY=ZERO
-        VMZ=ZERO     
+        VMZ=ZERO
 C
         DO JJ=1,4
 C          J=MSR(IRECT(JJ,L))
@@ -347,7 +347,7 @@ C     REAL
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
      .   VRX,VRY,VRZ,B1,B2,B3,C1,C2,C3,
-     .   XMSI     
+     .   XMSI
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
@@ -472,18 +472,18 @@ C
         C2=DPARA(6,II)
         C3=DPARA(7,II)
 C
-        MGX = Y1*V(3,J1) + Y2*V(3,J2) + Y3*V(3,J3) + Y4*V(3,J4) 
+        MGX = Y1*V(3,J1) + Y2*V(3,J2) + Y3*V(3,J3) + Y4*V(3,J4)
      .      - Z1*V(2,J1) - Z2*V(2,J2) - Z3*V(2,J3) - Z4*V(2,J4)
-        MGY = Z1*V(1,J1) + Z2*V(1,J2) + Z3*V(1,J3) + Z4*V(1,J4) 
+        MGY = Z1*V(1,J1) + Z2*V(1,J2) + Z3*V(1,J3) + Z4*V(1,J4)
      .      - X1*V(3,J1) - X2*V(3,J2) - X3*V(3,J3) - X4*V(3,J4)
-        MGZ = X1*V(2,J1) + X2*V(2,J2) + X3*V(2,J3) + X4*V(2,J4) 
+        MGZ = X1*V(2,J1) + X2*V(2,J2) + X3*V(2,J3) + X4*V(2,J4)
      .      - Y1*V(1,J1) - Y2*V(1,J2) - Y3*V(1,J3) - Y4*V(1,J4)
 C
-        MRX = Y1*A(3,J1) + Y2*A(3,J2) + Y3*A(3,J3) + Y4*A(3,J4) 
+        MRX = Y1*A(3,J1) + Y2*A(3,J2) + Y3*A(3,J3) + Y4*A(3,J4)
      .      - Z1*A(2,J1) - Z2*A(2,J2) - Z3*A(2,J3) - Z4*A(2,J4)
-        MRY = Z1*A(1,J1) + Z2*A(1,J2) + Z3*A(1,J3) + Z4*A(1,J4) 
+        MRY = Z1*A(1,J1) + Z2*A(1,J2) + Z3*A(1,J3) + Z4*A(1,J4)
      .      - X1*A(3,J1) - X2*A(3,J2) - X3*A(3,J3) - X4*A(3,J4)
-        MRZ = X1*A(2,J1) + X2*A(2,J2) + X3*A(2,J3) + X4*A(2,J4) 
+        MRZ = X1*A(2,J1) + X2*A(2,J2) + X3*A(2,J3) + X4*A(2,J4)
      .      - Y1*A(1,J1) - Y2*A(1,J2) - Y3*A(1,J3) - Y4*A(1,J4)
 C
 
@@ -555,7 +555,7 @@ C-----------------------------------------------
      .   X0,X1,X2,X3,X4,Y0,Y1,Y2,Y3,Y4,Z0,Z1,Z2,Z3,Z4,AA,
      .   NX,NY,NZ,X13,X24,Y13,Y24,Z13,Z24,XC0,YC0,ZC0,SP,SM,TP,TM,
      .   XC,YC,ZC,MGX,MGY,MGZ,MRX,MRY,MRZ,VMXX,VMYY,VMZZ,
-     .   DET,C1,C2,C3,B1,B2,B3  
+     .   DET,C1,C2,C3,B1,B2,B3
 C
 C-----------------------------------------------
 C
@@ -577,15 +577,15 @@ C--      Shape functions of triangles
           H(4) = ZERO
         ELSE
 C--       Shape functions of quadrangles         
-          SP = ONE + SS           
-          SM = ONE - SS           
-          TP = FOURTH*(ONE + TT)    
+          SP = ONE + SS
+          SM = ONE - SS
+          TP = FOURTH*(ONE + TT)
           TM = FOURTH*(ONE - TT)
 C       
-          H(1)=TM*SM           
-          H(2)=TM*SP           
-          H(3)=TP*SP           
-          H(4)=TP*SM 
+          H(1)=TM*SM
+          H(2)=TM*SP
+          H(3)=TP*SP
+          H(4)=TP*SM
         ENDIF
 C
         XC0 = X(1,I)
@@ -660,18 +660,18 @@ C
           C2=DPARA(6,II)
           C3=DPARA(7,II)
 C
-          MGX = Y1*V(3,J1) + Y2*V(3,J2) + Y3*V(3,J3) + Y4*V(3,J4) 
+          MGX = Y1*V(3,J1) + Y2*V(3,J2) + Y3*V(3,J3) + Y4*V(3,J4)
      .        - Z1*V(2,J1) - Z2*V(2,J2) - Z3*V(2,J3) - Z4*V(2,J4)
-          MGY = Z1*V(1,J1) + Z2*V(1,J2) + Z3*V(1,J3) + Z4*V(1,J4) 
+          MGY = Z1*V(1,J1) + Z2*V(1,J2) + Z3*V(1,J3) + Z4*V(1,J4)
      .        - X1*V(3,J1) - X2*V(3,J2) - X3*V(3,J3) - X4*V(3,J4)
-          MGZ = X1*V(2,J1) + X2*V(2,J2) + X3*V(2,J3) + X4*V(2,J4) 
+          MGZ = X1*V(2,J1) + X2*V(2,J2) + X3*V(2,J3) + X4*V(2,J4)
      .        - Y1*V(1,J1) - Y2*V(1,J2) - Y3*V(1,J3) - Y4*V(1,J4)
 C
-          MRX = Y1*A(3,J1) + Y2*A(3,J2) + Y3*A(3,J3) + Y4*A(3,J4) 
+          MRX = Y1*A(3,J1) + Y2*A(3,J2) + Y3*A(3,J3) + Y4*A(3,J4)
      .        - Z1*A(2,J1) - Z2*A(2,J2) - Z3*A(2,J3) - Z4*A(2,J4)
-          MRY = Z1*A(1,J1) + Z2*A(1,J2) + Z3*A(1,J3) + Z4*A(1,J4) 
+          MRY = Z1*A(1,J1) + Z2*A(1,J2) + Z3*A(1,J3) + Z4*A(1,J4)
      .        - X1*A(3,J1) - X2*A(3,J2) - X3*A(3,J3) - X4*A(3,J4)
-          MRZ = X1*A(2,J1) + X2*A(2,J2) + X3*A(2,J3) + X4*A(2,J4) 
+          MRZ = X1*A(2,J1) + X2*A(2,J2) + X3*A(2,J3) + X4*A(2,J4)
      .        - Y1*A(1,J1) - Y2*A(1,J2) - Y3*A(1,J3) - Y4*A(1,J4)
 C
           VMX=DET*(MGX*B1+MGY*C3+MGZ*C2)
@@ -784,15 +784,15 @@ C--        Shape functions of triangles
             H(4) = ZERO
           ELSE
 C--         Shape functions of quadrangles         
-            SP = ONE + SS           
-            SM = ONE - SS           
-            TP = FOURTH*(ONE + TT)    
+            SP = ONE + SS
+            SM = ONE - SS
+            TP = FOURTH*(ONE + TT)
             TM = FOURTH*(ONE - TT)
 C       
-            H(1)=TM*SM           
-            H(2)=TM*SP           
-            H(3)=TP*SP           
-            H(4)=TP*SM 
+            H(1)=TM*SM
+            H(2)=TM*SP
+            H(3)=TP*SP
+            H(4)=TP*SM
           ENDIF
 C
           I3=3*I

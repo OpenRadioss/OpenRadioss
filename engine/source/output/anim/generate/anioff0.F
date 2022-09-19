@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,10 +63,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT,
-     .        N, LLT, MLW, NB1, 
+     .        N, LLT, MLW, NB1,
      .        NN1,NN2,
      .        IOFFBUF(NBF),RBUF,IOFF_LOC(SIOFF)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       NN1 = 1
       NN2 = NN1 + (NUMSPH+MAXPJET)
@@ -101,7 +101,7 @@ C---      sleeping sol2sph particles considered as deleted in anim
               ELSE
                 IOFF_LOC(EL2FA(NN1+N)) = 0
               ENDIF
-            ENDDO           
+            ENDDO
           ELSE
             GBUF => ELBUF_TAB(NG)%GBUF
             DO I=LFT,LLT
@@ -123,7 +123,7 @@ C-----------------------------------------------
         ENDDO
 
         IF (ISPMD == 0) THEN
-           RBUF = NUMSPHG 
+           RBUF = NUMSPHG
         ELSE
            RBUF = 1
         ENDIF

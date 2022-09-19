@@ -60,34 +60,34 @@ C   D e s c r i p t i o n
 C-----------------------------------------------
 C This subroutines call the expected EOS solver
 C depending on EOSTYP(INTEGER) value.
-      !------------------------------------!                
-      !  IEOS     !    EOS                 !             
-      !-----------!------------------------!  
-      !   0       !     LINEAR             !                 
-      !   1       !     POLYNOMIAL         !             
-      !   2       !     GRUNEISEN          !             
-      !   3       !     TILLOTSON          !             
-      !   4       !     PUFF               !             
-      !   5       !     SESAME             !             
-      !   6       !     NOBLE-ABEL         ! 2017.0            
-      !   7       !     IDEAL GAS          ! 2018.0            
-      !   8       !     MUNAGHAN           ! 2018.0      
-      !   9       !     OSBORNE            ! 2018.0      
-      !  10       !     STIFFENED GAS      ! 2018.0      
-      !  11       !     LSZK               ! 2018.0  
+      !------------------------------------!
+      !  IEOS     !    EOS                 !
+      !-----------!------------------------!
+      !   0       !     LINEAR             !
+      !   1       !     POLYNOMIAL         !
+      !   2       !     GRUNEISEN          !
+      !   3       !     TILLOTSON          !
+      !   4       !     PUFF               !
+      !   5       !     SESAME             !
+      !   6       !     NOBLE-ABEL         ! 2017.0
+      !   7       !     IDEAL GAS          ! 2018.0
+      !   8       !     MUNAGHAN           ! 2018.0
+      !   9       !     OSBORNE            ! 2018.0
+      !  10       !     STIFFENED GAS      ! 2018.0
+      !  11       !     LSZK               ! 2018.0
       !  12       !     POWDER-BURN        ! 2019.1
-      !  13       !     COMPACTION         ! 2019.1 
-      !  14       !     NASG               ! 2020.0   
-      !  15       !     JWL                ! internal use : INIMAP   
+      !  13       !     COMPACTION         ! 2019.1
+      !  14       !     NASG               ! 2020.0
+      !  15       !     JWL                ! internal use : INIMAP
       !  16       !     IDEALGAS_VT        ! 2022.0
       !  17       !     TABULATED          ! 2022.2
-      !------------------------------------!  
+      !------------------------------------!
 !
 !  input   EINT(:) :  rho.e   (law151    , unit J/m**3)
 !                     rho.e.V (other laws, unit J)
 !
 ! output   EPSE(:) :  rho0.e (=E)   (all laws, used such as P_eos:=P(mu,E) )
-!     
+!
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc" 
+#include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "com06_c.inc"
 #include      "com08_c.inc"
@@ -112,9 +112,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(NEL),IFLAG, EOSTYP, NEL, MLW
       my_real
-     .   PM(NPROPM,NUMMAT),BUFMAT(NEL)   ,OFF(NEL)  , 
-     .   EINT(NEL) ,RHO(NEL)  ,RHO0(NEL) , 
-     .   MU(NEL)   ,MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL), 
+     .   PM(NPROPM,NUMMAT),BUFMAT(NEL)   ,OFF(NEL)  ,
+     .   EINT(NEL) ,RHO(NEL)  ,RHO0(NEL) ,
+     .   MU(NEL)   ,MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL),
      .   DF(NEL)   ,VNEW(NEL) ,PSH(NEL)  ,PNEW(NEL),
      .   DPDM(NEL) ,DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
      .   SIG(NEL,6), MU_OLD(NEL),POLD(NEL)
@@ -134,7 +134,7 @@ C-----------------------------------------------
          DO I = 1, NEL
            POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
          ENDDO
-       ENDIF                
+       ENDIF
       ELSEIF (IFLAG == 2) THEN
       !LAW151 ONLY
          DO I = 1, NEL
@@ -147,9 +147,9 @@ C-----------------------------------------------
            DO I = 1, NEL
              POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
            ENDDO
-         ENDIF         
-      ENDIF    
-      
+         ENDIF
+      ENDIF
+
       ! inutile de conserver cela, si PNEW a une expression cumulative avec IEOSTYP=1 mais dans tous les autres cas il est ecrase.
       ! a quoi bon mettre a 0.0 quelque chose qui va etre ecrase dans le bloc SELECT CASE ce dessous.
       !IF (IFLAG==1)THEN
@@ -157,171 +157,171 @@ C-----------------------------------------------
       !      IF(EOSTYP/=13)PNEW(1:NEL) = ZERO
       !  ENDIF
       !ENDIF
-           
+
       SELECT CASE (EOSTYP)
 
         CASE (0)
          !--------------------------------------------------!
          !         LINEAR EOS                               !
-         !--------------------------------------------------! 
+         !--------------------------------------------------!
          CALL EOSLINEAR(
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
      2                  DVOL   ,DF     ,VNEW   ,MAT    ,PNEW  ,DPDM,
      3                  DPDE   ,THETA  ,ECOLD  )
 
        CASE (1)
          !--------------------------------------------------!
          !         POLYNOMIAL EOS                           !
-         !--------------------------------------------------! 
+         !--------------------------------------------------!
          CALL EOSPOLYNO(
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
      2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,PSH ,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )
 
        CASE (2)
          !--------------------------------------------------!
          !         GRUNEISEN EOS                            !
-         !--------------------------------------------------! 
+         !--------------------------------------------------!
          CALL GRUNEISEN(
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
      2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,RHO0,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )
 
        CASE (3)
          !--------------------------------------------------!
          !         TILLOTSON EOS                            !
-         !--------------------------------------------------! 
+         !--------------------------------------------------!
          CALL TILLOTSON(
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,      
-     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,          
-     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )  
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
+     2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,
+     3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )
 
-       CASE (4) 
+       CASE (4)
          !--------------------------------------------------!
          !         PUFF EOS                                 !
-         !--------------------------------------------------! 
+         !--------------------------------------------------!
          CALL PUFF(
-     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2, 
+     1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,MU  ,MU2,
      2                  ESPE   ,DVOL   ,DF     ,VNEW   ,MAT   ,
      3                  PNEW   ,DPDM   ,DPDE   ,THETA  ,ECOLD )
 
        CASE (5)
          !--------------------------------------------------!
          !         SESAME EOS                               !
-         !--------------------------------------------------! 
+         !--------------------------------------------------!
          CALL SESAME(
      1                  IFLAG  ,NEL    ,PM     ,OFF    ,EINT  ,RHO ,RHO0 ,
-     2                  ESPE   ,DVOL   ,MAT    ,PNEW   ,DPDM  ,DPDE,  
+     2                  ESPE   ,DVOL   ,MAT    ,PNEW   ,DPDM  ,DPDE,
      3                  THETA  ,BUFMAT )
 
         CASE(6)
          !--------------------------------------------------!
          !         NOBLE-ABEL EOS (COVOLUME EOS)            !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL NOBLE_ABEL(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
         CASE(7)
          !--------------------------------------------------!
          !         IDEAL GAS EOS                            !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL IDEALGAS(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
         CASE(8)
          !--------------------------------------------------!
          !         OSBORNE EOS                              !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL MURNAGHAN(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)  
-             
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
+
         CASE(9)
          !--------------------------------------------------!
          !         OSBORNE EOS                              !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL OSBORNE(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)     
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
         CASE(10)
          !--------------------------------------------------!
          !         STIFFENED GAS EOS                        !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL STIFFGAS(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)     
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
         CASE(11)
          !--------------------------------------------------!
          !         STIFFENED GAS EOS                        !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL LSZK(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD) 
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
         CASE(12)
          !--------------------------------------------------!
          !         POWDER BURN EOS                          !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL POWDER_BURN(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD) 
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
 
         CASE(13)
          !--------------------------------------------------!
          !         COMPACTION EOS                           !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL COMPACTION(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT  ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,POLD,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,SIG  ,MU_OLD) 
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,SIG  ,MU_OLD)
 
         CASE(14)
          !--------------------------------------------------!
          !         NASG EOS                                 !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL NASG(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)    
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD)
         CASE(15)
          !--------------------------------------------------!
          !         JWL EOS (inernal use, no /EOS/JWL so far)!
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL JWL(
-     1                  IFLAG ,NEL  ,PM   ,OFF  , EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  , EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW , MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA, ECOLD)  
-     
+     3                  PNEW  ,DPDM ,DPDE ,THETA, ECOLD)
+
         CASE(16)
          !--------------------------------------------------!
          !         IDEAL GAS EOS                            !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL IDEALGAS_VT(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,POLD) 
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,POLD)
         CASE(17)
          !--------------------------------------------------!
          !         TABULATED EOS                            !
-         !--------------------------------------------------!          
+         !--------------------------------------------------!
           CALL TABULATED(
-     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2, 
+     1                  IFLAG ,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2,
      2                  ESPE  ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD, 
-     4                  NPF   ,TF)                     
+     3                  PNEW  ,DPDM ,DPDE ,THETA,ECOLD,
+     4                  NPF   ,TF)
        END SELECT
-      
-      
+
+
       RETURN
       END

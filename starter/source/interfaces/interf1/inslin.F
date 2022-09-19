@@ -81,7 +81,7 @@ C=======================================================================
           K=1
           DO I=1,NRT
             WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,2)
-          ENDDO      
+          ENDDO
         ENDIF
         IF (NRT > 0) CALL COUNT3(IRECT,MSV,MSN,NRT,NTAG)
 C------------------------------------------------------------

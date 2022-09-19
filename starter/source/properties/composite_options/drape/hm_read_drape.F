@@ -76,8 +76,8 @@ C======================================================================|
       CALL HM_OPTION_START('/DRAPE')
       ! Loop over DRAPE
       DO I=1,NDRAPE
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID      = ID,
      .                          OPTION_TITR    = TITR)
         IDRAPEID(I) = ID
@@ -157,7 +157,7 @@ C-----------------------------------------------
       TYPE (DRAPE_)    :: DRAPE(*)
       TYPE (STACK_PLY) :: STACK
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -219,8 +219,8 @@ C
         !---------------------------------
         ! Read TITLE and ID
         !---------------------------------
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID      = ID,
      .                          OPTION_TITR    = TITR)
         DRAPE_ID(I) = ID
@@ -247,7 +247,7 @@ C
             ! Thinning
             CALL HM_GET_FLOAT_ARRAY_INDEX('thinning',THINNING,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
             ! Angle of the drape
-            CALL HM_GET_FLOAT_ARRAY_INDEX('theta_drope',THETA_DRAPE,II,IS_AVAILABLE,LSUBMODEL,UNITAB)       
+            CALL HM_GET_FLOAT_ARRAY_INDEX('theta_drope',THETA_DRAPE,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
             ! Checking shell ID
             IF (SHELL_ID == 0) THEN
                CALL ANCMSG(MSGID=1163,
@@ -313,7 +313,7 @@ C
             ! Thinning
             CALL HM_GET_FLOAT_ARRAY_INDEX('thinning',THINNING,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
             ! Angle of the drape
-            CALL HM_GET_FLOAT_ARRAY_INDEX('theta_drope',THETA_DRAPE,II,IS_AVAILABLE,LSUBMODEL,UNITAB)          
+            CALL HM_GET_FLOAT_ARRAY_INDEX('theta_drope',THETA_DRAPE,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
             ! Checking grshell ID
             IF (GRSHEL_ID == 0) THEN
                CALL ANCMSG(MSGID=1163,
@@ -346,7 +346,7 @@ C
             ! Thinning
             CALL HM_GET_FLOAT_ARRAY_INDEX('thinning',THINNING,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
             ! Angle of the drape
-            CALL HM_GET_FLOAT_ARRAY_INDEX('theta_drope',THETA_DRAPE,II,IS_AVAILABLE,LSUBMODEL,UNITAB)                
+            CALL HM_GET_FLOAT_ARRAY_INDEX('theta_drope',THETA_DRAPE,II,IS_AVAILABLE,LSUBMODEL,UNITAB)
             ! Checking grsh3n ID
             IF (GRSH3N_ID == 0) THEN
                CALL ANCMSG(MSGID=1163,
@@ -381,7 +381,7 @@ C
           IX = IXC(NIXC,IE)
           PID = IXC(6,IE)
           IGTYP = IGEO(11,PID)
-          NPT = IWORKSH(1,IE) 
+          NPT = IWORKSH(1,IE)
           ISUBSTACK = IWORKSH(3,IE)
           IF (IGTYP == 17 .OR. IGTYP == 51) THEN
             DO IP=1,NPT
@@ -403,7 +403,7 @@ c                      IGEO(1, JPID)       ! ply pid ID
                   IF (ID == JDRP)THEN
                     NO_USED_DRAPE = NO_USED_DRAPE + 1
                   ENDIF
-                ENDIF 
+                ENDIF
               ENDDO ! DO IP=1,N1
           ENDIF ! IF (IGTYP == 17 .OR. IGTYP == 51)
         ENDDO ! DO IE=1,NUMELC
@@ -412,7 +412,7 @@ C
           IX = IXTG(NIXTG,IE)
           PID = IXTG(5,IE)
           IGTYP = IGEO(11,PID)
-          NPT = DRAPE(NUMELC + IE)%NPT 
+          NPT = DRAPE(NUMELC + IE)%NPT
           ISUBSTACK = IWORKSH(3,NUMELC + IE)
           IF (IGTYP == 17 .OR. IGTYP == 51) THEN
             DO IP=1,NPT
@@ -434,7 +434,7 @@ c                      IGEO(1, JPID)       ! ply pid ID
                   IF (ID == JDRP)THEN
                     NO_USED_DRAPE = NO_USED_DRAPE + 1
                   ENDIF
-                ENDIF 
+                ENDIF
               ENDDO ! DO IP=1,N1
           ENDIF ! IF (IGTYP == 17 .OR. IGTYP == 51)
         ENDDO ! DO IE=1,NUMELTG
@@ -499,7 +499,7 @@ C
 check if SH4N of the DRAPE is inside any plys
                           NIS = NIS + 1
                         ENDIF
-                      ENDIF 
+                      ENDIF
                     ENDDO ! DO IP=1,NPT
                   ELSEIF (IGTYP == 52) THEN
                     ISUBSTACK =IWORKSH(3,IE)
@@ -510,20 +510,20 @@ c                                   IGEO(1, JPID)       ! ply pid ID
                         IF (JPID > 0) THEN
                           JDRP = IGEO_STACK(48,JPID)
                           IF (IDRP==JDRP)THEN
-                             DRAPE(IE)%IDRAPE(IP) = IDRP         
-                             DRAPE(IE)%RDRAPE(IP,1) = RSHEL(1,J) 
-                             DRAPE(IE)%RDRAPE(IP,2) = RSHEL(2,J) 
+                             DRAPE(IE)%IDRAPE(IP) = IDRP
+                             DRAPE(IE)%RDRAPE(IP,1) = RSHEL(1,J)
+                             DRAPE(IE)%RDRAPE(IP,2) = RSHEL(2,J)
 C
 C  count DRAPE entities for printing out
 c                            DRP_SHEL(I) = DRP_SHEL(I) + 1
 check if SH4N of the DRAPE is inside any plys
                             NIS = NIS + 1
                           ENDIF
-                        ENDIF 
+                        ENDIF
                       ENDDO ! DO IP=1,NPT
                   ENDIF ! F (IGTYP == 17 .OR. IGTYP == 51)
 C---
-                  IF (NIS == 0 .AND. 
+                  IF (NIS == 0 .AND.
      .               (IGTYP == 17. OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
 C
 C  error message to be add
@@ -537,7 +537,7 @@ C
      .                          I1=ID,
      .                          C2=MESS1,
      .                          I2=ISH)
-                  ELSEIF (NIS == 0 .AND. 
+                  ELSEIF (NIS == 0 .AND.
      .                    IGTYP /= 17. AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
 C  --- SH4N --- from /DRAPE belong to a not allowed PID
                     CALL ANCMSG(MSGID=1171,
@@ -593,9 +593,9 @@ c                            IGEO(1, JPID)       ! ply pid ID
                       IF (JPID > 0) THEN
                         JDRP = IGEO(48,JPID)
                         IF (IDRP==JDRP)THEN
-                             DRAPE(NUMELC + IE)%IDRAPE(IP) = IDRP         
-                             DRAPE(NUMELC + IE)%RDRAPE(IP,1) = RSH3N(1,J) 
-                             DRAPE(NUMELC + IE)%RDRAPE(IP,2) = RSH3N(2,J) 
+                             DRAPE(NUMELC + IE)%IDRAPE(IP) = IDRP
+                             DRAPE(NUMELC + IE)%RDRAPE(IP,1) = RSH3N(1,J)
+                             DRAPE(NUMELC + IE)%RDRAPE(IP,2) = RSH3N(2,J)
 C
 C  count DRAPE entities for printing out
 c                          DRP_SH3N(I) = DRP_SH3N(I) + 1
@@ -603,10 +603,10 @@ C
 check if SH3N of grshel of the DRAPE is inside any plys
                           NIS = NIS + 1
                         ENDIF
-                      ENDIF 
+                      ENDIF
                     ENDDO ! DO IP=1,NPT
                   ELSEIF (IGTYP == 52) THEN
-                    
+
                       DO IP=1,NPT
                         JPID = STACK%IGEO(IPPID + IP ,ISUBSTACK) ! ply pid number
 c                              IGEO(1, JPID)       ! ply pid ID
@@ -614,8 +614,8 @@ c                              IGEO(1, JPID)       ! ply pid ID
                           JDRP = IGEO_STACK(48,JPID)
                           IF (IDRP==JDRP)THEN
 C                          
-                             DRAPE(NUMELC + IE)%IDRAPE(IP) = IDRP         
-                             DRAPE(NUMELC + IE)%RDRAPE(IP,1) = RSH3N(1,J) 
+                             DRAPE(NUMELC + IE)%IDRAPE(IP) = IDRP
+                             DRAPE(NUMELC + IE)%RDRAPE(IP,1) = RSH3N(1,J)
                              DRAPE(NUMELC + IE)%RDRAPE(IP,2) = RSH3N(2,J)
 C
 C  count DRAPE entities for printing out
@@ -624,11 +624,11 @@ C
 check if SH3N of grshel of the DRAPE is inside any plys
                             NIS = NIS + 1
                           ENDIF
-                        ENDIF 
+                        ENDIF
                       ENDDO ! DO IP=1,NPT
                   ENDIF ! IF (IGTYP == 17 .OR. IGTYP == 51)
 C---
-                  IF (NIS == 0 .AND. 
+                  IF (NIS == 0 .AND.
      .               (IGTYP == 17. OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
 C  --- SH3N --- from /DRAPE not associated to a PID = 17, 51, 52 plys
                     CALL ANCMSG(MSGID=1172,
@@ -638,7 +638,7 @@ C  --- SH3N --- from /DRAPE not associated to a PID = 17, 51, 52 plys
      .                          I1=ID,
      .                          C2=MESS3,
      .                          I2=ISH)
-                  ELSEIF (NIS == 0 .AND. 
+                  ELSEIF (NIS == 0 .AND.
      .                    IGTYP /= 17. AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
 C  --- SH3N --- from /DRAPE belong to a not allowed PID
                     CALL ANCMSG(MSGID=1171,
@@ -682,7 +682,7 @@ C element type Q4
                     IDSHEL = IGRSH4N(JJ)%ENTITY(II)
                     PID = IXC(6,IDSHEL)
                     IGTYP = IGEO(11,PID)
-                    NPT = DRAPE(IDSHEL)%NPT 
+                    NPT = DRAPE(IDSHEL)%NPT
                     IF (TAGSH(IDSHEL) == 0) THEN
                       TAGSH(IDSHEL) = IXC(NIXC,IDSHEL)
                       NIS = 0
@@ -699,9 +699,9 @@ c                           IGEO(1, JPID)       ! ply pid ID
                           IF (JPID > 0) THEN
                             JDRP = IGEO(48,JPID)
                             IF (IDRP==JDRP)THEN
-                             DRAPE(IDSHEL)%IDRAPE(IP) = IDRP         
-                             DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH4N(1,J) 
-                             DRAPE(IDSHEL)%RDRAPE(IP,2) = RGRSH4N(2,J) 
+                             DRAPE(IDSHEL)%IDRAPE(IP) = IDRP
+                             DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH4N(1,J)
+                             DRAPE(IDSHEL)%RDRAPE(IP,2) = RGRSH4N(2,J)
 C
 C  count DRAPE entities for printing out
 c                              DRP_SHEL(I) = DRP_SHEL(I) + 1
@@ -713,24 +713,24 @@ check if SH4N of grshel of the DRAPE is inside any plys
                         ENDDO
                       ELSEIF (IGTYP == 52) THEN
                           DO IP=1,NPT
-                            JPID = STACK%IGEO(IPPID + IP ,ISUBSTACK) 
+                            JPID = STACK%IGEO(IPPID + IP ,ISUBSTACK)
                             IF (JPID > 0) THEN
                               JDRP = IGEO_STACK(48,JPID)
                               IF (IDRP==JDRP)THEN
-                                DRAPE(IDSHEL)%IDRAPE(IP) = IDRP         
-                                DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH4N(1,J) 
-                                DRAPE(IDSHEL)%RDRAPE(IP,2) = RGRSH4N(2,J) 
+                                DRAPE(IDSHEL)%IDRAPE(IP) = IDRP
+                                DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH4N(1,J)
+                                DRAPE(IDSHEL)%RDRAPE(IP,2) = RGRSH4N(2,J)
 C  count DRAPE entities for printing out
 c                                DRP_SHEL(I) = DRP_SHEL(I) + 1
 C
 check if SH4N of grshel of the DRAPE is inside any plys
                                 NIS = NIS + 1
                               ENDIF
-                            ENDIF 
+                            ENDIF
                           ENDDO
                       ENDIF ! IF (IGTYP == 17 .OR. IGTYP == 51)
 C---
-                      IF (NIS == 0 .AND. 
+                      IF (NIS == 0 .AND.
      .                   (IGTYP == 17. OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
 C  --- SH4N --- from /DRAPE not associated to a PID = 17, 51, 52 plys
                         CALL ANCMSG(MSGID=1173,
@@ -742,7 +742,7 @@ C  --- SH4N --- from /DRAPE not associated to a PID = 17, 51, 52 plys
      .                              I2=IGR,
      .                              C3=MESS1,
      .                              I3=TAGSH(IDSHEL))
-                      ELSEIF (NIS == 0 .AND. 
+                      ELSEIF (NIS == 0 .AND.
      .                        IGTYP /= 17. AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
 C  --- SH4N --- from /DRAPE belong to a not allowed PID
                         CALL ANCMSG(MSGID=1170,
@@ -778,7 +778,7 @@ C---
             IGR  = IGR_SH3N(1,J)
             IDRP = IGR_SH3N(2,J)
             DO JJ=1,NGRSHEL
-              OFFC = NGRNOD + NGRBRIC + NGRQUAD + NGRSHEL + NGRTRUS + 
+              OFFC = NGRNOD + NGRBRIC + NGRQUAD + NGRSHEL + NGRTRUS +
      .               NGRBEAM + NGRSPRI + JJ
               JGR = IGRSH3N(JJ)%ID
               NEL = IGRSH3N(JJ)%NENTITY
@@ -808,8 +808,8 @@ c                           IGEO(1, JPID)       ! ply pid ID
                           IF (JPID > 0) THEN
                             JDRP = IGEO(48,JPID)
                             IF (IDRP==JDRP)THEN
-                                DRAPE(IDSHEL)%IDRAPE(IP) = IDRP         
-                                DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH3N(1,J) 
+                                DRAPE(IDSHEL)%IDRAPE(IP) = IDRP
+                                DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH3N(1,J)
                                 DRAPE(IDSHEL)%RDRAPE(IP,2) = RGRSH3N(2,J)
 C
 C  count DRAPE entities for printing out
@@ -822,13 +822,13 @@ check if SH3N of grshel of the DRAPE is inside any plys
                         ENDDO ! DO IP=1,N1
                       ELSEIF (IGTYP == 52) THEN
                           DO IP=1,NPT
-                            JPID = STACK%IGEO(IPPID + IP ,ISUBSTACK) 
+                            JPID = STACK%IGEO(IPPID + IP ,ISUBSTACK)
 c                             IGEO(1, JPID)       ! ply pid ID
                             IF (JPID > 0) THEN
                               JDRP = IGEO_STACK(48,JPID)
                               IF (IDRP==JDRP)THEN
-                                DRAPE(IDSHEL)%IDRAPE(IP) = IDRP         
-                                DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH3N(1,J) 
+                                DRAPE(IDSHEL)%IDRAPE(IP) = IDRP
+                                DRAPE(IDSHEL)%RDRAPE(IP,1) = RGRSH3N(1,J)
                                 DRAPE(IDSHEL)%RDRAPE(IP,2) = RGRSH3N(2,J)
 C  count DRAPE entities for printing out
 c                                DRP_SH3N(I) = DRP_SH3N(I) + 1
@@ -840,7 +840,7 @@ check if SH3N of grshel of the DRAPE is inside any plys
                           ENDDO
                       ENDIF ! IF (IGTYP == 17 .OR. IGTYP == 51)
 C---
-                      IF (NIS == 0 .AND. 
+                      IF (NIS == 0 .AND.
      .                   (IGTYP == 17. OR. IGTYP == 51 .OR. IGTYP == 52)) THEN
 C  --- SH3N --- from /DRAPE not associated to a PID = 17, 51, 52 plys
                         CALL ANCMSG(MSGID=1173,
@@ -852,7 +852,7 @@ C  --- SH3N --- from /DRAPE not associated to a PID = 17, 51, 52 plys
      .                              I2=IGR,
      .                              C3=MESS3,
      .                              I3=TAGSH(IDSHEL))
-                      ELSEIF (NIS == 0 .AND. 
+                      ELSEIF (NIS == 0 .AND.
      .                        IGTYP /= 17. AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
 C  --- SH3N --- from /DRAPE belong to a not allowed PID
                         CALL ANCMSG(MSGID=1170,

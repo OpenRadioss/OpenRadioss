@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  
+      INTEGER JFT, JLT
       INTEGER MAT(*)
 C     REAL
       my_real
@@ -92,8 +92,8 @@ C
          ENDDO
         ENDDO
         ISYM = 1
-        CALL CBATRAN3V(JFT   ,JLT    ,QC   ,CC ,QC ,ISYM) 
-        CALL CBATRAN3V(JFT   ,JLT    ,QGC  ,B ,QGC,ISYM) 
+        CALL CBATRAN3V(JFT   ,JLT    ,QC   ,CC ,QC ,ISYM)
+        CALL CBATRAN3V(JFT   ,JLT    ,QGC  ,B ,QGC,ISYM)
 C      
         DO J= 1,3
          DO I=JFT,JLT

@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-      
+
 Chd|====================================================================
 Chd|  SENSOR_ENERGY_BILAN           source/tools/sensor/sensor_energy_bilan.F
 Chd|-- called by -----------
@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,II,J,IC,NEL,IJK
       INTEGER :: K,IPART_SENS,LOCAL_INDEX
-      my_real, DIMENSION(MVSIZ,2) :: FSTPARIT   
+      my_real, DIMENSION(MVSIZ,2) :: FSTPARIT
 C-----------------------------------------------
       IF(IPARIT>0) THEN
          IF(SENS_GROUP(NGR_SENSOR)%NUM_PART>0) THEN
@@ -101,13 +101,13 @@ C-----------------------------------------------
 
                DO J=1,SENS_GROUP(NGR_SENSOR)%NUM_PART
                     IPART_SENS = SENS_GROUP(NGR_SENSOR)%PART(J,1)   !   id of the part linked to the sensor
-                    LOCAL_INDEX = 0     
+                    LOCAL_INDEX = 0
                     DO I=JFT,JLT
                         MX=IPART(I)
                         IF( (IPART_SENS==MX).AND.(OFF(I)/=ZERO) ) THEN
                             LOCAL_INDEX = LOCAL_INDEX + 1
                             FSTPARIT(LOCAL_INDEX,1) = EI(I)
-                            FSTPARIT(LOCAL_INDEX,2) = EK(I)   
+                            FSTPARIT(LOCAL_INDEX,2) = EK(I)
                         ENDIF
                     ENDDO
 
@@ -118,7 +118,7 @@ C-----------------------------------------------
                 ENDDO
             ENDIF
          ENDIF
-      ENDIF          
+      ENDIF
 C---
       RETURN
       END SUBROUTINE SENSOR_ENERGY_BILAN

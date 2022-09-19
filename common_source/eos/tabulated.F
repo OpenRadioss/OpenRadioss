@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TABULATED(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
+      SUBROUTINE TABULATED(IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
-     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD, 
+     3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD,
      4                     NPF  ,TF)
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -52,9 +52,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: MAT(NEL), IFLAG, NEL,NPF(SNPC)
-      my_real, INTENT(INOUT) :: PM(NPROPM,NUMMAT), 
-     .   OFF(NEL)  ,EINT(NEL) ,MU(NEL)   , 
-     .   MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  , 
+      my_real, INTENT(INOUT) :: PM(NPROPM,NUMMAT),
+     .   OFF(NEL)  ,EINT(NEL) ,MU(NEL)   ,
+     .   MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL) ,DF(NEL)  ,
      .   VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
      .   DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
      .   PSH(NEL), TF(STF)
@@ -79,17 +79,17 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
          MX = MAT(1)
-         E0 = PM(23,MX)         
+         E0 = PM(23,MX)
          PSH(LFT:LLT) = PM(88,MX)
          SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
          A_fun_id = PM(35,MX)
          B_fun_id = PM(36,MX)
-         PC  = PM( 37,MX)          
+         PC  = PM( 37,MX)
          FSCALE_A = PM(160,MX)
          FSCALE_B = PM(161,MX)
-         
+
          ! both A_fun_id & B_fun_id cannot be 0. This is ensured by the reader during the Starter process
          IF(A_fun_id == 0)THEN
            DO I=LFT,LLT
@@ -101,21 +101,21 @@ C-----------------------------------------------
            DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
-             DERI_B(I) = ZERO             
-           ENDDO         
+             DERI_B(I) = ZERO
+           ENDDO
          ELSE
-           DO I=LFT,LLT         
+           DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ENDIF
-         
+
          DO I=LFT,LLT
            PP      = RES_A(I) + RES_B(I) * ESPE(I) - PSH(I) ! A(MU(I))+B(MU(I))*ESPE(I)
            DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
            DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
          ENDDO
-         
+
          DO I=LFT,LLT
            ECOLD(I)=-THREE100*SPH
            IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*ONE
@@ -124,14 +124,14 @@ C-----------------------------------------------
       ELSEIF(IFLAG == 1) THEN
          TFEXTT       =ZERO
          MX = MAT(1)
-         E0 = PM(23,MX)         
+         E0 = PM(23,MX)
          PSH(LFT:LLT) = PM(88,MX)
          SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
          A_fun_id = PM(35,MX)
-         B_fun_id = PM(36,MX) 
-         PC  = PM( 37,MX)         
+         B_fun_id = PM(36,MX)
+         PC  = PM( 37,MX)
          FSCALE_A = PM(160,MX)
          FSCALE_B = PM(161,MX)
 
@@ -145,14 +145,14 @@ C-----------------------------------------------
            DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
-           ENDDO         
+           ENDDO
          ELSE
-           DO I=LFT,LLT         
+           DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ENDIF
-         
+
          DO I=LFT,LLT
            AA      = RES_A(I)
            BB      = RES_B(I)
@@ -162,7 +162,7 @@ C-----------------------------------------------
            PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
            EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
            TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
-         ENDDO       
+         ENDDO
 #include "atomic.inc"
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
@@ -181,14 +181,14 @@ C-----------------------------------------------
 C-----------------------------------------------
        ELSEIF (IFLAG == 2) THEN
          MX = MAT(1)
-         E0 = PM(23,MX)         
+         E0 = PM(23,MX)
          PSH(LFT:LLT) = PM(88,MX)
          SPH = PM(69,MX)
          XSCALE_A = PM(33,MX)
          XSCALE_B = PM(34,MX)
          A_fun_id = PM(35,MX)
-         B_fun_id = PM(36,MX) 
-         PC  = PM( 37,MX)         
+         B_fun_id = PM(36,MX)
+         PC  = PM( 37,MX)
          FSCALE_A = PM(160,MX)
          FSCALE_B = PM(161,MX)
 
@@ -202,22 +202,22 @@ C-----------------------------------------------
            DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = ZERO
-           ENDDO         
+           ENDDO
          ELSE
-           DO I=LFT,LLT         
+           DO I=LFT,LLT
              RES_A(I) = FSCALE_A*FINTER(A_fun_id,MU(I),NPF,TF,DERI_A(I))
              RES_B(I) = FSCALE_B*FINTER(B_fun_id,MU(I),NPF,TF,DERI_B(I))
            ENDDO
          ENDIF
-                  
-         DO I=1, NEL                                                               
-            IF (VNEW(I) > ZERO) THEN    
-               PP      = RES_A(I) + RES_B(I)*ESPE(I) - PSH(I)                  
+
+         DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+               PP      = RES_A(I) + RES_B(I)*ESPE(I) - PSH(I)
                DPDM(I) = DERI_A(I)+DERI_B(I)*ESPE(I) + RES_B(I)*(PP+PSH(I))/( (ONE+MU(I))*(ONE+MU(I)) ) ! A'(MU0) + B'(MU0)*E0+B(MU0)/(ONE+MU0)/(ONE+MU0)*P0     !total derivative
                DPDE(I) = RES_B(I) ! B(MU(I))                                               !partial derivative
-               PNEW(I) = PP                                                        
-            ENDIF                                                                  
-         ENDDO                                                                     
+               PNEW(I) = PP
+            ENDIF
+         ENDDO
       ENDIF
 C-----------------------------------------------
       RETURN

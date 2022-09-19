@@ -106,13 +106,13 @@ C-----------------------------------------------
       INTEGER :: I,II,J,IENG,LENF,NINDX,IMARGIN
       INTEGER ,DIMENSION(NEL) :: INDX,INDXF
       my_real :: RANI,R1,R2,S1,S2,SS,Q,DYDX,E12,FACT_MARGIN,FACT_LOOSEMETAL
-      my_real ,ALLOCATABLE, DIMENSION(:) :: XF  
+      my_real ,ALLOCATABLE, DIMENSION(:) :: XF
       my_real ,DIMENSION(NEL) :: EMAJ,EMIN,EM
 C=======================================================================
       IENG     = INT(UPARAM(6))
       RANI     = UPARAM(7)
       IMARGIN  = NINT(UPARAM(2))
-      FACT_MARGIN     = UPARAM(3) 
+      FACT_MARGIN     = UPARAM(3)
       FACT_LOOSEMETAL = UPARAM(8)
 c-----------------------------
       NINDX  = 0
@@ -121,7 +121,7 @@ c-----------------------------
           NINDX = NINDX + 1
           INDX(NINDX) = I
         ENDIF
-      ENDDO 
+      ENDDO
 C
 c --- Minor and major (true) strain deformation.
 C
@@ -140,7 +140,7 @@ C
         ENDIF
       ENDDO
 c-----
-c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1 
+c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1
 c-----
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
@@ -164,13 +164,13 @@ c
           DAM(I)   = EMAJ(I) / EM(I)
           DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
-      ENDIF 
+      ENDIF
 c--------------------------------------------------------------------
 c     FLD zone index calculation for ANIM output
 c
       R1 = FACT_LOOSEMETAL
       R2 = RANI/(RANI+ONE)
-      
+
       IF (IMARGIN == 3) THEN
         DO J = 1,NINDX
           I = INDX(J)
@@ -209,4 +209,4 @@ c
 C------------------------
       RETURN
       END
-c      
+c

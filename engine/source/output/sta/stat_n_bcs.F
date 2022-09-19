@@ -86,7 +86,7 @@ C
       IF (NSPMD == 1) THEN
         DO N=1,NUMNOD
            IF(NODTAG(N) /= 0) THEN
-             IC=ICODE(N)       
+             IC=ICODE(N)
              IC1=IC/512
              ITRA = 1
              IROT = 1
@@ -107,9 +107,9 @@ C
              ELSEIF(IC1 == 1) THEN
                 TRA = '001'
              ELSE
-                ITRA = 0    
+                ITRA = 0
              ENDIF
-             IF(IRODDL>0)THEN 
+             IF(IRODDL>0)THEN
                 IC2=(IC-512*IC1)/64
                 IF(IC2 == 7) THEN
                    ROT = '111'
@@ -126,10 +126,10 @@ C
                 ELSEIF(IC2 == 1) THEN
                    ROT = '001'
                 ELSE
-                   IROT = 0        
+                   IROT = 0
                 ENDIF
              ELSE
-                IROT = 0        
+                IROT = 0
              ENDIF
 C
              IF(ITRA/=0.AND.IROT/=0)THEN
@@ -148,7 +148,7 @@ C
       ELSE
         DO N=1,NUMNODG
            IF(NODTAGLOB(N) /= 0) THEN
-             IC=ICODEG(N)       
+             IC=ICODEG(N)
              IC1=IC/512
              ITRA = 1
              IROT = 1
@@ -169,9 +169,9 @@ C
              ELSEIF(IC1 == 1) THEN
                 TRA = '001'
              ELSE
-                ITRA = 0    
+                ITRA = 0
              ENDIF
-             IF(IRODDL>0)THEN 
+             IF(IRODDL>0)THEN
                 IC2=(IC-512*IC1)/64
                 IF(IC2 == 7) THEN
                    ROT = '111'
@@ -188,10 +188,10 @@ C
                 ELSEIF(IC2 == 1) THEN
                    ROT = '001'
                 ELSE
-                   IROT = 0        
+                   IROT = 0
                 ENDIF
              ELSE
-                IROT = 0        
+                IROT = 0
              ENDIF
 C
              IF(ITRA/=0.AND.IROT/=0)THEN

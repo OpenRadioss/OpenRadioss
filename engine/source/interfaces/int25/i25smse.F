@@ -64,12 +64,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NIN, NOINT, CS_LOC(*), 
+      INTEGER JLT, NIN, NOINT, CS_LOC(*),
      .        N1(*), N2(*), M1(*), M2(*),
      .        NSMS(*), ISKYI_SMS(LSKYI_SMS,*), NRTS, IBM(*)
       my_real
-     .    HS1(*),HS2(*),HM1(*),HM2(*),STIF(*), MSKYI_SMS(*), 
-     .    K1(*), K2(*), K3(*), K4(*), 
+     .    HS1(*),HS2(*),HM1(*),HM2(*),STIF(*), MSKYI_SMS(*),
+     .    K1(*), K2(*), K3(*), K4(*),
      .    C1(*), C2(*), C3(*), C4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -216,7 +216,7 @@ C        lies onto the same domain
           END IF
          END IF
        END IF
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END
@@ -264,12 +264,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NIN, NOINT, CS_LOC(*), 
+      INTEGER JLT, NIN, NOINT, CS_LOC(*),
      .        N1(*), N2(*), M1(*), M2(*),
      .        NSMS(*), ISKYI_SMS(LSKYI_SMS,*), NRTS, IBM(*)
       my_real
-     .    HS1(*),HS2(*),HM1(*),HM2(*),STIF(*), MSKYI_SMS(*), 
-     .    K1(*), K2(*), K3(*), K4(*), 
+     .    HS1(*),HS2(*),HM1(*),HM2(*),STIF(*), MSKYI_SMS(*),
+     .    K1(*), K2(*), K3(*), K4(*),
      .    C1(*), C2(*), C3(*), C4(*)
       INTEGER, INTENT(IN) :: EDGE_ID(4*MVSIZ,2)
 C-----------------------------------------------
@@ -411,7 +411,7 @@ C
          ISKYI_SMS(NISKYL,3)=PROCAMSFIE(NIN)%P(N2(I))
         END IF
        END IF
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

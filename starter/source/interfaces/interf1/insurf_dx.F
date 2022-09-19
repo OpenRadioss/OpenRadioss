@@ -82,11 +82,11 @@ C-----------------------------------------------
       SURF_MIN = EP20
       SURF_MAX = ZERO
       SURF_MEAN = ZERO
-      DO I=1,NRT                                                     
+      DO I=1,NRT
         IF(IRECT(3,I)==IRECT(4,I)) THEN
           D1(1)=X(1,IRECT(1,I))-X(1,IRECT(3,I))
           D1(2)=X(2,IRECT(1,I))-X(2,IRECT(3,I))
-          D1(3)=X(3,IRECT(1,I))-X(3,IRECT(3,I))                    
+          D1(3)=X(3,IRECT(1,I))-X(3,IRECT(3,I))
           D2(1)=X(1,IRECT(2,I))-X(1,IRECT(1,I))
           D2(2)=X(2,IRECT(2,I))-X(2,IRECT(1,I))
           D2(3)=X(3,IRECT(2,I))-X(3,IRECT(1,I))
@@ -94,11 +94,11 @@ C-----------------------------------------------
           S2n(2) = - D1(1)*D2(3)+D1(3)*D2(1)
           S2n(3) =   D1(1)*D2(2)-D1(2)*D2(1)
           SURF = S2n(1)*S2n(1) + S2n(2)*S2n(2) + S2n(3)*S2n(3)
-          SURF = SQRT(FOURTH*SURF)        
+          SURF = SQRT(FOURTH*SURF)
         ELSE
           D1(1)=X(1,IRECT(1,I))-X(1,IRECT(3,I))
           D1(2)=X(2,IRECT(1,I))-X(2,IRECT(3,I))
-          D1(3)=X(3,IRECT(1,I))-X(3,IRECT(3,I))                    
+          D1(3)=X(3,IRECT(1,I))-X(3,IRECT(3,I))
           D2(1)=X(1,IRECT(2,I))-X(1,IRECT(4,I))
           D2(2)=X(2,IRECT(2,I))-X(2,IRECT(4,I))
           D2(3)=X(3,IRECT(2,I))-X(3,IRECT(4,I))
@@ -107,40 +107,40 @@ C-----------------------------------------------
           S2n(3) =   D1(1)*D2(2)-D1(2)*D2(1)
           SURF = S2n(1)*S2n(1) + S2n(2)*S2n(2) + S2n(3)*S2n(3)
           SURF = SQRT(FOURTH*SURF)
-        ENDIF 
-        
+        ENDIF
+
         SURF_MAX = MAX(SURF_MAX,SURF)
         SURF_MIN = MIN(SURF_MIN,SURF)
         SURF_MEAN = SURF_MEAN + SURF/REAL(NRT)
-                                                      
-      ENDDO   
+
+      ENDDO
 
       STVAL = STIFF_STAT(1)*STIFF_STAT(2)*SURF_MEAN/STIFF_STAT(3)
-      
+
       STIFF_STAT(1) = -STVAL
-      
-      
+
+
       WRITE(IOUT,1000)NOINT
       WRITE(IOUT,3021)STVAL, STIFF_STAT(2),  SURF_MEAN, SURF_MIN, SURF_MAX
-      IF(IPRI>=1) THEN                                              
-        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'  
-        K=1                                                           
-        K4=4                                                          
-        IF(N2D/=0)K4=2                                              
-        DO I=1,NRT                                                    
-          WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)             
-        ENDDO                                               
-      ENDIF 
-                                                    
+      IF(IPRI>=1) THEN
+        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'
+        K=1
+        K4=4
+        IF(N2D/=0)K4=2
+        DO I=1,NRT
+          WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)
+        ENDDO
+      ENDIF
+
 C------------------------------------------------------------
       RETURN
-1000  FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)      
+1000  FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 3021  FORMAT(
      .    '    COMPUTED STIFFNESS VALUE. . . . . . . . . . ',1PG20.13,/,
-     .    '                      . . .USING DENSITY. . . . ',1PG20.13,/,     
-     .    '                      . . .USING MEAN AREA. . . ',1PG20.13,/,          
-     .    '                      . . . . . . . . .MIN. . . ',1PG20.13,/,        
-     .    '                      . . . . . . . . .MAX  . . ',1PG20.13)                    
+     .    '                      . . .USING DENSITY. . . . ',1PG20.13,/,
+     .    '                      . . .USING MEAN AREA. . . ',1PG20.13,/,
+     .    '                      . . . . . . . . .MIN. . . ',1PG20.13,/,
+     .    '                      . . . . . . . . .MAX  . . ',1PG20.13)
 
-      
+
       END

@@ -78,7 +78,7 @@ C
          ENDDO
         ENDDO
        END IF
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -152,13 +152,13 @@ C
 	   END IF
           END IF
          END DO
-        END DO 
+        END DO
        END IF
-      ENDDO 
+      ENDDO
       IF (NEDG/=NS10E) THEN
        print *,'error!!! NEDG,NS10EDG=',NEDG,NS10E
       END IF
-      
+
 C ----- ITAGND : > 0 < NS10E : Id of ICNDS10 (Nd)
 C                < 0           to be degenerated      
 C                > NS10E : to be tagged first and be degenerated after      
@@ -197,7 +197,7 @@ C     REAL
 C------reordering for P/ON----------------------------
       ICND_CP(1:3,1:NS10E)=ICNDS10(1:3,1:NS10E)
 C
-      IE = 0      
+      IE = 0
       DO N= 1,NUMNOD
        IF (ITAGND(N)>0) THEN
         J = ITAGND(N)
@@ -253,7 +253,7 @@ C------remove tagged nodes in INN(*)----------------------------
         ND = ND + 1
 	INN(ND) =INN(I)
        END IF
-      ENDDO 
+      ENDDO
 C      
       NN = ND
 C
@@ -297,7 +297,7 @@ C------remove tagged nodes in INN(*) and will be degenerated-----------
        ELSEIF (ITAGND(N) >0 ) THEN
         ITAGND(N) = -ITAGND(N)
        END IF
-      ENDDO 
+      ENDDO
 C
       NN = ND
 C
@@ -398,7 +398,7 @@ C----removed from INN directely----------
         NNEW = NNEW + 1
         INN(NNEW) =INN(I)
        END IF
-      ENDDO 
+      ENDDO
 C      
       NN = NNEW
        IF (IER1 >0.AND.IPRI>=5) THEN
@@ -409,7 +409,7 @@ C
      .                C2='RIGID BODY ',
      .                I1=IU,
      .                PRMOD=MSG_PRINT)
-       END IF 
+       END IF
        IF (IER2 >0.AND.IPRI>=5) THEN
           CALL ANCMSG(MSGID=1210,
      .                MSGTYPE=MSGINFO,
@@ -418,7 +418,7 @@ C
      .                C2='RIGID BODY ',
      .                I1=IU,
      .                PRMOD=MSG_PRINT)
-       END IF 
+       END IF
       RETURN
       END
 Chd|====================================================================
@@ -528,7 +528,7 @@ C----Allow only +2 Hierarchy levers
        M_2=0
       ELSE
        M_2= ITAGM(M_1)
-      END IF      
+      END IF
       DO I=1,NN
        N = INN(I)
 C---- ITAGND(N) > NS10E  due the same N defined in sereval RBE2 (per dof)   
@@ -536,7 +536,7 @@ C---- ITAGND(N) > NS10E  due the same N defined in sereval RBE2 (per dof)
 C---- removed in the 2nd passe
         NNEW = NNEW + 1
         INN(NNEW) =INN(I)
-       ELSEIF (ITAGND(N) /=0 ) THEN 
+       ELSEIF (ITAGND(N) /=0 ) THEN
         ID = IABS(ITAGND(N))
         ND = ICNDS10(1,ID)
         N1 = ICNDS10(2,ID)
@@ -606,7 +606,7 @@ C----remove Nd from RBE2	directely
         NNEW = NNEW + 1
         INN(NNEW) =INN(I)
        END IF !IF (ITAGND(N) /=0 )
-      ENDDO 
+      ENDDO
 C      
       NN = NNEW
        IF (IER1 >0.AND.IPRI>=5) THEN
@@ -617,7 +617,7 @@ C
      .                C2='RBE2 ',
      .                I1=IU,
      .                PRMOD=MSG_PRINT)
-       END IF 
+       END IF
        IF (IER2 >0.AND.IPRI>=5) THEN
           CALL ANCMSG(MSGID=1210,
      .                MSGTYPE=MSGINFO,
@@ -626,7 +626,7 @@ C
      .                C2='RBE2 ',
      .                I1=IU,
      .                PRMOD=MSG_PRINT)
-       END IF 
+       END IF
 C
       RETURN
       END
@@ -664,7 +664,7 @@ C-----------------------------------------------
       INTEGER ITAG(NUMNOD)
 C     REAL
 C-----
-      IF (NRBE2==0) RETURN 
+      IF (NRBE2==0) RETURN
       ITAG(1:NUMNOD) = ITAGND(1:NUMNOD)
       DO I = 1, NRBE2
         NSL = IRBE2(5,I)
@@ -731,7 +731,7 @@ C------treatment for /BCS ----------------------------
 c	IF (IS1==IS2.AND.ICODE(N)==IS1) THEN
 C----remove Nd from ICNDS10
 c         ITAGND(N) = ITAGND(N) + NS10E	
-c-----no need warning like gravity-----	 
+c-----no need warning like gravity-----	
 c          CALL ANCMSG(MSGID=1205,
 c     .                MSGTYPE=MSGINFO,
 c     .                ANMODE=ANINFO_BLIND_1,
@@ -751,7 +751,7 @@ C----error out	ND is along in /BCS
 C----remove Nd from /BCS +degenerating	
          ICODE(N) = 0
          IPR = 1
-         IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
+         IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N)
          IF (IPRI>=5)
      .    CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
@@ -760,7 +760,7 @@ C----remove Nd from /BCS +degenerating
      .                PRMOD=MSG_CUMU)
 	END IF
        END IF
-      ENDDO 
+      ENDDO
        IF (IPR >0.AND.IPRI>=5) THEN
           CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
@@ -768,7 +768,7 @@ C----remove Nd from /BCS +degenerating
      .                C1='Boundary conditions ',
      .                C2='Boundary conditions',
      .                PRMOD=MSG_PRINT)
-       END IF 
+       END IF
 C
       RETURN
       END
@@ -841,8 +841,8 @@ C----error out	ND is along in FV
 C----remove Nd from FV and warning out-- will be done in ddsplit
          IPR = 1
          IF (IBFV(3,I)>0) IBFV(3,I) = -IBFV(3,I)
-         IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N) 
-         IF (IPRI>=5) 
+         IF (ITAGND(N)>0)ITAGND(N) = -ITAGND(N)
+         IF (IPRI>=5)
      .    CALL ANCMSG(MSGID=1207,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
@@ -850,7 +850,7 @@ C----remove Nd from FV and warning out-- will be done in ddsplit
      .                PRMOD=MSG_CUMU)
 	END IF
        END IF
-      ENDDO 
+      ENDDO
 C      
        IF (IPR >0.AND.IPRI>=5) THEN
           CALL ANCMSG(MSGID=1207,
@@ -859,7 +859,7 @@ C
      .                C1='Imposed VEL/DISP/ACC',
      .                C2='Imposed VEL/DISP/ACC',
      .                PRMOD=MSG_PRINT)
-       END IF 
+       END IF
 C
       RETURN
       END
@@ -896,7 +896,7 @@ C----6---------------------------------------------------------------7---------8
          IF (K==ID) SAMEFVID=.TRUE.
          RETURN
         ENDIF
-       ENDDO 
+       ENDDO
 C
       RETURN
       END
@@ -914,7 +914,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -976,25 +976,25 @@ c     .                I2=ITAB(N1),
 c     .                I3=ITAB(N2),
 c     .                PRMOD=MSG_CUMU)
 c	    END IF
-c           END IF	    
-c          END IF 
-c         END DO 
+c           END IF	
+c          END IF
+c         END DO
 c         IF (IPR >0) THEN
 c          CALL ANCMSG(MSGID=1212,
 c     .                MSGTYPE=MSGWARNING,
 c     .                ANMODE=ANINFO_BLIND_1,
 c     .                I1=NOINT,
 c     .                PRMOD=MSG_PRINT)
-c         END IF 
+c         END IF
 c        END IF !(NTY == 2 ) THEN
-c      END DO 
+c      END DO
 C--error out in case N1,N2 are S of int2 (kinematic)and Nd is M or S (/w penality)
       ITAGMD(1:NUMNOD)   = 0
       ITAGS(1:NUMNOD)   = 0
        DO N=1,NINTER
         NTY  = IPARI(7,N)
         IF (NTY == 2 ) THEN
-         NMN =IPARI(6,N)                                 
+         NMN =IPARI(6,N)
          NSN   = IPARI(5,N)
          ILEV = IPARI(20,N)
          NOINT   = IPARI(15,N)
@@ -1002,10 +1002,10 @@ C--error out in case N1,N2 are S of int2 (kinematic)and Nd is M or S (/w penalit
           DO I=1,NSN
            ISL = INTBUF_TAB(N)%NSV(I)
            IF (ITAGS(ISL)==0) ITAGS(ISL)=NOINT
-          END DO 
+          END DO
          END IF
         END IF
-       END DO 
+       END DO
 C       
        DO I = 1, NS10E
         N = IABS(ICNDS10(1,I))
@@ -1015,12 +1015,12 @@ C
         NTY  = IPARI(7,N)
         ILEV = IPARI(20,N)
         IF (NTY == 2 ) THEN
-         NMN =IPARI(6,N)                                 
+         NMN =IPARI(6,N)
           DO I=1,NMN
            IML = INTBUF_TAB(N)%MSR(I)
            IF (ITAGMD(IML)>0) ITAGMD(IML) = ITAGMD(IML) + NS10E
           ENDDO
-         NSN   = IPARI(5,N)        
+         NSN   = IPARI(5,N)
          IF (ILEV == 27 .or. ILEV == 28) THEN
           DO I=1,NSN
            ISL = INTBUF_TAB(N)%NSV(I)
@@ -1035,9 +1035,9 @@ C
         END IF
       END DO
 C
-      ICOM = 0 
+      ICOM = 0
       ISL=0
-      NOINT =0      
+      NOINT =0
        DO I = 1, NS10E
         N = IABS(ICNDS10(1,I))
         N1 = ICNDS10(2,I)
@@ -1061,7 +1061,7 @@ C
      .                I2=ITAB(ISL),
      .                I3=NOINT,
      .                I4=NOINT)
-      END IF      
+      END IF
 C
       DO N=1,NINTER
         NTY  = IPARI(7,N)
@@ -1095,13 +1095,13 @@ C-----------------------------------------------
 C     Compact INT,REAL BUFFER
 C-----------------------------------------------
          IF (IMODI > 0 ) THEN
-          IDEL7N = IPARI(17,N)                
+          IDEL7N = IPARI(17,N)
           NUVAR  = IPARI(35,N)
           INTTH  = IPARI(47,N)
-           II = 0                                  
+           II = 0
            DO I = 1,NSN
-             IF (INTBUF_TAB(N)%NSV(I) > 0) THEN               
-               II = II+1   
+             IF (INTBUF_TAB(N)%NSV(I) > 0) THEN
+               II = II+1
                INTBUF_TAB(N)%NSV(II) = INTBUF_TAB(N)%NSV(I)
                INTBUF_TAB(N)%IRTLM(II) = INTBUF_TAB(N)%IRTLM(I)
                IF ((ILEV >= 10.AND.ILEV <= 22).OR.ILEV == 27.OR.ILEV == 28) THEN
@@ -1123,22 +1123,22 @@ C-----------------------------------------------
               IF ((ILEV>=10 .AND. ILEV<=22 ).OR. INTTH > 0) THEN
                INTBUF_TAB(N)%AREAS2(II) = INTBUF_TAB(N)%AREAS2(I)
                 DO K = 0,NUVAR-1
-                 INTBUF_TAB(N)%UVAR(1+NUVAR*(II-1)+K) = 
+                 INTBUF_TAB(N)%UVAR(1+NUVAR*(II-1)+K) =
      .                     INTBUF_TAB(N)%UVAR(1+NUVAR*(I-1)+K)
-                ENDDO                                  
+                ENDDO
 	      END IF
               IF (( ILEV>=10 .AND. ILEV<=12).OR.( ILEV>=20 .AND. ILEV<=22)) THEN
                INTBUF_TAB(N)%SMAS(II)  = INTBUF_TAB(N)%SMAS(I)
                INTBUF_TAB(N)%SINER(II) = INTBUF_TAB(N)%SINER(I)
                DO K = 0,NUVAR-1
-                INTBUF_TAB(N)%UVAR(1+NUVAR*(II-1)+K) = 
+                INTBUF_TAB(N)%UVAR(1+NUVAR*(II-1)+K) =
      .                     INTBUF_TAB(N)%UVAR(1+NUVAR*(I-1)+K)
-               ENDDO                       
+               ENDDO
                DO K = 0,2
                 INTBUF_TAB(N)%XM0(1+3*(II-1)+K) = INTBUF_TAB(N)%XM0(1+3*(I-1)+K)
                 INTBUF_TAB(N)%DSM(1+3*(II-1)+K) = INTBUF_TAB(N)%DSM(1+3*(I-1)+K)
                 INTBUF_TAB(N)%FSM(1+3*(II-1)+K) = INTBUF_TAB(N)%FSM(1+3*(I-1)+K)
-               ENDDO             
+               ENDDO
               ELSEIF (ILEV==27 .OR. ILEV==28) THEN
                INTBUF_TAB(N)%SMAS(II)  = INTBUF_TAB(N)%SMAS(I)
                INTBUF_TAB(N)%SINER(II) = INTBUF_TAB(N)%SINER(I)
@@ -1146,30 +1146,30 @@ C-----------------------------------------------
                INTBUF_TAB(N)%STFR_PENALTY(II) = INTBUF_TAB(N)%STFR_PENALTY(I)
                DO K = 0,8
                 INTBUF_TAB(N)%SKEW(1+9*(II-1)+K) = INTBUF_TAB(N)%SKEW(1+9*(I-1)+K)
-               ENDDO                       
+               ENDDO
                DO K = 0,2
                 INTBUF_TAB(N)%DSM(1+3*(II-1)+K) = INTBUF_TAB(N)%DSM(1+3*(I-1)+K)
                 INTBUF_TAB(N)%FSM(1+3*(II-1)+K) = INTBUF_TAB(N)%FSM(1+3*(I-1)+K)
                 INTBUF_TAB(N)%FINI(1+3*(II-1)+K) = INTBUF_TAB(N)%FINI(1+3*(I-1)+K)
-               ENDDO             
+               ENDDO
  	      END IF
               IF (INTBUF_TAB(N)%S_CSTS_BIS>0) THEN
                DO K = 0,1
                 INTBUF_TAB(N)%CSTS_BIS(1+2*(II-1)+K) = INTBUF_TAB(N)%CSTS_BIS(1+2*(I-1)+K)
-               ENDDO             
+               ENDDO
               END IF
 	     ELSE
 C-----warning out	 
              ISL = -INTBUF_TAB(N)%NSV(I)
              IPR = 1
-           IF (IPRI>=5) 
+           IF (IPRI>=5)
      .       CALL ANCMSG(MSGID=1209,
      .                MSGTYPE=MSGINFO,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ITAB(ISL),
      .                PRMOD=MSG_CUMU)
-             ENDIF                                
-           ENDDO                                  
+             ENDIF
+           ENDDO
            IPARI(5,N) = II
 	 END IF !(IMODI > 0 )
          IF (IPR >0.AND.IPRI>=5) THEN
@@ -1179,7 +1179,7 @@ C-----warning out
      .                C1='Interface Type2 ',
      .                I1=NOINT,
      .                PRMOD=MSG_PRINT)
-         END IF 
+         END IF
         END IF !(NTY == 2 )
       ENDDO
 C
@@ -1214,13 +1214,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        ICNDS10(3,*), ADSKYCND(0:*),CEPCND(*),CELCND(*),ITAGND(*)
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL    
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1401,7 +1401,7 @@ C-----------------------------------------------
       INTEGER ICNDS10(3,*)
 C     REAL
       my_real
-     .   STIFN(*) 
+     .   STIFN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1411,7 +1411,7 @@ C------put STIFN(ND)=0 for mscalling dt estimation
       DO I=1,NS10E
        ND = IABS(ICNDS10(1,I))
        STIFN(ND)=ZERO
-      ENDDO 
+      ENDDO
 C      
       RETURN
       END
@@ -1440,14 +1440,14 @@ C-----------------------------------------------
       INTEGER ICNDS10(3,*)
 C     REAL
       my_real
-     .   STIFN(*) 
+     .   STIFN(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ND,N1,N2
 C     REAL
       my_real
-     .   STIF 
+     .   STIF
 C------condense STIFN(ND)
       DO I=1,NS10E
        ND = IABS(ICNDS10(1,I))
@@ -1458,7 +1458,7 @@ C------condense STIFN(ND)
        STIFN(N1)=STIFN(N1)+STIF
        STIFN(N2)=STIFN(N2)+STIF
        STIFN(ND)=ZERO
-      ENDDO 
+      ENDDO
 C      
       RETURN
       END

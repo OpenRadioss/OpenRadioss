@@ -107,7 +107,7 @@ C            P = INDEXI(INDEX)
 C
         DO P = 1, NSPMD
           IF(LOC_PROC/=P.AND.FR(P)/=0)THEN
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_SEND(FS6   ,LEN ,MPI_DOUBLE_PRECISION,IT_SPMD(P),
      .                    MSGTYP,MPI_COMM_WORLD,IERROR)
           ENDIF

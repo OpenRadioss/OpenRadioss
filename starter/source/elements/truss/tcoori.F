@@ -28,7 +28,7 @@ Chd|        INIVOID                       source/elements/initia/inivoid.F
 Chd|        TINIT3                        source/elements/truss/tinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TCOORI(X,NCP,MXT, MXG, NC1, NC2, 
+      SUBROUTINE TCOORI(X,NCP,MXT, MXG, NC1, NC2,
      .     X1, X2, Y1, Y2, Z1, Z2)
 C
 C-----------------------------------------------

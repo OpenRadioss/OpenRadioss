@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN,NMN,ITASK,NSV(*),MSR(*), NIN 
+      INTEGER NSN,NMN,ITASK,NSV(*),MSR(*), NIN
       my_real
      .   X(3,*), V(3,*), XSAV(3,*), STFN(*),
      .   XSLV_G(*),XMSR_G(*), VSLV_G(*), VMSR_G(*)
@@ -82,7 +82,7 @@ C
         VMSR(I)   = -EP30
         VMSR(3+I) = EP30
       END DO
-      NSNF = 1 + ITASK*NSN / NTHREAD 
+      NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
       NMNF = 1 + ITASK*NMN / NTHREAD
       NMNL = (ITASK+1)*NMN / NTHREAD
@@ -91,7 +91,7 @@ C=======================================================================
 
       IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO)THEN
 C
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies
         DO I=NSNF,NSNL
           J=NSV(I)
           IF(STFN(I)/=ZERO) THEN
@@ -112,7 +112,7 @@ C
 
           ENDIF
         END DO
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies
         DO I=NMNF,NMNL
           II = I+NSN
           J=MSR(I)
@@ -134,7 +134,7 @@ C
         END DO
       ELSE
 C
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies
         DO I=NSNF,NSNL
           J=NSV(I)
           IF(STFN(I)/=ZERO) THEN
@@ -155,7 +155,7 @@ C
 
           ENDIF
         END DO
-!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies 
+!#include "simd.inc" --> this loop can't be vectorized because there are somes dependencies
         DO I=NMNF,NMNL
           J=MSR(I)
           IF(J>0) THEN
@@ -174,7 +174,7 @@ C
             VMSR(6)=MIN(VMSR(6),V(3,J))
           ENDIF
         ENDDO
-      ENDIF       
+      ENDIF
 C dist calcule une fois pour toutes les interfaces dans COMCRIT (ci-dessous)
 C
       IF(NSPMD==1) THEN

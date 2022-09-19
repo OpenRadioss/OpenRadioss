@@ -134,17 +134,17 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFUNC1,IFUNC2,ISENS,ITYP,IACT,ILOCK
-      my_real 
+      my_real
      .   STIF0,STIF1,DSCAL,FSCAL,TSCAL,X,DXDY,DX,TACTI,F0,FF,D1,
      .   DXDY2,FF2
 C=======================================================================
-      STIF0  = GET_U_GEO(2,IPROP)       
-      STIF1  = GET_U_GEO(3,IPROP)       
-      TSCAL  = GET_U_GEO(7,IPROP)    
-      DSCAL  = GET_U_GEO(8,IPROP)    
-      FSCAL  = GET_U_GEO(9,IPROP)    
+      STIF0  = GET_U_GEO(2,IPROP)
+      STIF1  = GET_U_GEO(3,IPROP)
+      TSCAL  = GET_U_GEO(7,IPROP)
+      DSCAL  = GET_U_GEO(8,IPROP)
+      FSCAL  = GET_U_GEO(9,IPROP)
       D1     = GET_U_GEO(11,IPROP)
-      ISENS  = NINT(GET_U_GEO(5,IPROP)) 
+      ISENS  = NINT(GET_U_GEO(5,IPROP))
       ITYP   = NINT(GET_U_GEO(6,IPROP))
       ILOCK  = NINT(GET_U_GEO(10,IPROP))
       TACTI  = GET_U_SENS(ISENS)
@@ -164,7 +164,7 @@ C
         DO I=1,NEL
           IF (UVAR(2,I) == ZERO) THEN
             UVAR(1,I) = ZERO
-            UVAR(2,I) = ONE    
+            UVAR(2,I) = ONE
           ENDIF
           UVAR(1,I) = UVAR(1,I) + DT * VX(I)
           FX(I)     = FX(I) + STIF0 * DT * VX(I)
@@ -180,7 +180,7 @@ C
           X  = UVAR(1,I)
           FF = F0 + STIF1 * X
           IF (FX(I) >  FF .AND. ILOCK == 2) UVAR(3,I) = ONE
-          IF (FF > ZERO  .AND. UVAR(3,I) == ZERO) THEN 
+          IF (FF > ZERO  .AND. UVAR(3,I) == ZERO) THEN
             FX(I) = MAX(FF,FX(I))
             IF (IMPL_S > ZERO) THEN
               FF2 = F0 + STIF1 * (X-DT * VX(I))
@@ -191,9 +191,9 @@ C
           ENDIF
         ENDDO
       ELSEIF (ITYP == 2) THEN
-        IFUNC1   = GET_U_PNU(1,IPROP,KFUNC) 
+        IFUNC1   = GET_U_PNU(1,IPROP,KFUNC)
         DO I=1,NEL
-          X  = UVAR(1,I) 
+          X  = UVAR(1,I)
           FF = FSCAL*GET_U_FUNC(IFUNC1,X*DSCAL,DXDY)
           IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = ONE
           IF (FX(I) > FF .AND. ILOCK == 2) UVAR(3,I) = ONE
@@ -208,10 +208,10 @@ C
           ENDIF
         ENDDO
       ELSEIF (ITYP == 3) THEN
-        IFUNC2   = GET_U_PNU(2,IPROP,KFUNC) 
+        IFUNC2   = GET_U_PNU(2,IPROP,KFUNC)
         F0 = FSCAL*GET_U_FUNC(IFUNC2,TACTI*TSCAL,DXDY)
         DO I=1,NEL
-          X = UVAR(1,I) 
+          X = UVAR(1,I)
           IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = ONE
           IF (FX(I) > F0 .AND. ILOCK == 2) UVAR(3,I) = ONE
           IF (F0 > ZERO .AND. UVAR(3,I) == ZERO) THEN
@@ -219,31 +219,31 @@ C
           ENDIF
         ENDDO
       ELSEIF (ITYP == 4) THEN
-        IFUNC1   = GET_U_PNU(1,IPROP,KFUNC) 
-        IFUNC2   = GET_U_PNU(2,IPROP,KFUNC) 
+        IFUNC1   = GET_U_PNU(1,IPROP,KFUNC)
+        IFUNC2   = GET_U_PNU(2,IPROP,KFUNC)
         F0 = FSCAL*GET_U_FUNC(IFUNC2,TACTI*TSCAL,DXDY)
         DO I=1,NEL
-          X  = UVAR(1,I) 
+          X  = UVAR(1,I)
           FF = F0*GET_U_FUNC(IFUNC1,X*DSCAL,DXDY)
           IF (X < D1 .AND. D1 /= ZERO) UVAR(3,I) = ONE
           IF (FX(I) > FF .AND. ILOCK == 2) UVAR(3,I) = ONE
           IF (FF > ZERO .AND. UVAR(3,I) == ZERO) THEN
             FX(I) = MAX(FF,FX(I))
             IF (IMPL_S > ZERO) THEN
-              FF2   = GET_U_FUNC(IFUNC1,(X-DT * VX(I))*DSCAL,DXDY2)            
+              FF2   = GET_U_FUNC(IFUNC1,(X-DT * VX(I))*DSCAL,DXDY2)
               IF (FF2 > FF) THEN
                 UVAR(4,I) = MIN(STIF0,ABS(DXDY))
               ENDIF
-            ENDIF  
+            ENDIF
           ENDIF
         ENDDO
       ENDIF
 C-------------------------------
-      DO I=1,NEL 
-        STIFR(I) = ZERO   
-        VISCM(I) = ZERO   
-        VISCR(I) = ZERO   
-        XINER(I) = ZERO   
+      DO I=1,NEL
+        STIFR(I) = ZERO
+        VISCM(I) = ZERO
+        VISCR(I) = ZERO
+        XINER(I) = ZERO
       ENDDO
 C-----------
       RETURN

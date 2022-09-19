@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -111,7 +111,7 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /RANDOM
 C--------------------------------------------------
             CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                           KEYWORD2 = KEY, 
+     .                           KEYWORD2 = KEY,
      .                           SUBMODEL_ID = SUB_ID)
 C
             IF(SUB_ID == 0) THEN
@@ -121,12 +121,12 @@ C
 C
               IRAND(I) = ID
               IF (ALEA(I) > ZERO) THEN
-                SEED  = XSEED(I) 
+                SEED  = XSEED(I)
                 IF(KEY(1:5) == 'GRNOD') THEN
                   NRANDG = NRANDG+1
                   INGR2USR => IGRNOD(1:NGRNOD)%ID
                   IRAND(NRANDG) = NGR2USR(ID,INGR2USR,NGRNOD)
-                  IF (IRAND(NRANDG) == 0) THEN       
+                  IF (IRAND(NRANDG) == 0) THEN
                     CALL ANCMSG(MSGID=173,
      .                        MSGTYPE=MSGERROR,
      .                          ANMODE=ANINFO,
@@ -136,22 +136,22 @@ C
                     NRANDG = NRANDG-1
                   ENDIF
                 ELSE
-                  IALL = IALL+1               
+                  IALL = IALL+1
                   XALEA = ALEA(I)
-                ENDIF                
-              ENDIF 
-            ENDIF 
+                ENDIF
+              ENDIF
+            ENDIF
         ! --------------------------------
         ELSE
         ! -rxalea or -rseed command line option are used
-            IALL = IALL+1   
+            IALL = IALL+1
             IRAND(I) = 0
             ALEA(I) = RAND_STRUCT%ALEA_NBR
             XSEED(I) = RAND_STRUCT%SEED_NBR
-            SEED = XSEED(I) 
+            SEED = XSEED(I)
             XALEA = ALEA(I)
-        ENDIF     
-        ! --------------------------------         
+        ENDIF
+        ! --------------------------------
       ENDDO
       IF ((NRANDG == 0 .AND. XALEA > ZERO).OR.(NRANDG > 0 .AND. IALL == 0) ) THEN
         IF(.NOT.RAND_STRUCT%CMD) WRITE(IOUT,1000)
@@ -161,49 +161,49 @@ C---
 C-----------------------
 C       All nodes
 C-----------------------
-        DO I=1,NUMNOD                
+        DO I=1,NUMNOD
           X(1,I)=X(1,I)+XALEA*ALEAT()
           X(2,I)=X(2,I)+XALEA*ALEAT()
           X(3,I)=X(3,I)+XALEA*ALEAT()
         ENDDO
 C
         WRITE (IOUT,'(8X,A)')'NODE GROUP           :          ALL NODES'
-        WRITE (IOUT,1100) XALEA                                         
-        IF (SEED /= ZERO) WRITE (IOUT,1200) SEED                        
-        IF (IPRI >= 4) THEN                                             
-          WRITE (IOUT,1400)                                 
-          DO I=1,NUMNOD                                     
-            WRITE(IOUT,1500)ITAB(I),X(1,I),X(2,I),X(3,I)   
-          ENDDO                                             
-        ENDIF                                                           
+        WRITE (IOUT,1100) XALEA
+        IF (SEED /= ZERO) WRITE (IOUT,1200) SEED
+        IF (IPRI >= 4) THEN
+          WRITE (IOUT,1400)
+          DO I=1,NUMNOD
+            WRITE(IOUT,1500)ITAB(I),X(1,I),X(2,I),X(3,I)
+          ENDDO
+        ENDIF
       ELSEIF (NRANDG > 0 .AND. IALL == 0) THEN
 C-----------------------
 C       Node groups only
 C-----------------------
-        DO I=1,NRANDG                                                     
-          IGRS = IRAND(I)                                                 
+        DO I=1,NRANDG
+          IGRS = IRAND(I)
           SEED = XSEED(I)
           DO J=1,IGRNOD(IGRS)%NENTITY
             IS=IGRNOD(IGRS)%ENTITY(J)
-            X(1,IS)=X(1,IS)+ALEA(I)*ALEAT()                                 
-            X(2,IS)=X(2,IS)+ALEA(I)*ALEAT()                                 
-            X(3,IS)=X(3,IS)+ALEA(I)*ALEAT()                                 
-          ENDDO                                                           
+            X(1,IS)=X(1,IS)+ALEA(I)*ALEAT()
+            X(2,IS)=X(2,IS)+ALEA(I)*ALEAT()
+            X(3,IS)=X(3,IS)+ALEA(I)*ALEAT()
+          ENDDO
           WRITE (IOUT,1050) IGRNOD(IGRS)%ID
-          WRITE (IOUT,1100) ALEA(I)                                          
-          IF (SEED /= ZERO) WRITE (IOUT,1200) SEED                                              
+          WRITE (IOUT,1100) ALEA(I)
+          IF (SEED /= ZERO) WRITE (IOUT,1200) SEED
         ENDDO
-        IF (IPRI >= 4) THEN                                               
-          WRITE (IOUT,1400)                                               
-          DO I=1,NRANDG                                                   
-            IGRS = IRAND(I)                                      
+        IF (IPRI >= 4) THEN
+          WRITE (IOUT,1400)
+          DO I=1,NRANDG
+            IGRS = IRAND(I)
             DO J=1,IGRNOD(IGRS)%NENTITY
               IS=IGRNOD(IGRS)%ENTITY(J)
-              WRITE(IOUT,1500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
-            ENDDO                                                          
-          ENDDO                                                           
-        ENDIF                                                    
-      ENDIF                      
+              WRITE(IOUT,1500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)
+            ENDDO
+          ENDDO
+        ENDIF
+      ENDIF
 C-----------------------
       RETURN
  999  CALL FREERR(3)

@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IP,NLEV,N1,N2,IC1,IC2,ICOD,IS1,IS2, 
+      INTEGER IP,NLEV,N1,N2,IC1,IC2,ICOD,IS1,IS2,
      .        DIR, N
 C-----------------------------------------------
       INTEGER MY_AND
@@ -124,7 +124,7 @@ C
       END DO
 
       RETURN
-      END     
+      END
 
 
       RECURSIVE SUBROUTINE ADMBCS4(DIR,ICOD ,ISK  ,N    ,IXC    ,
@@ -184,7 +184,7 @@ C-----------------------------------------------
       END IF
 
       RETURN
-      END     
+      END
       RECURSIVE SUBROUTINE ADMBCS3(DIR,ICOD,ISK,N,IXTG,
      .                         IPARTTG,IPART,ICODE,ISKEW,SH3TREE)
 C-----------------------------------------------
@@ -243,4 +243,4 @@ C-----------------------------------------------
       END IF
 
       RETURN
-      END     
+      END

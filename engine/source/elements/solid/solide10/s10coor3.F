@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10COOR3(
      1   X    ,IXS  ,IXS10,V   ,W    ,
-     2   XX   ,YY   ,ZZ   ,VX  ,VY   , 
-     3   VZ   ,VDXX ,VDYY ,VDZZ,VDX  , 
+     2   XX   ,YY   ,ZZ   ,VX  ,VY   ,
+     3   VZ   ,VDXX ,VDYY ,VDZZ,VDX  ,
      4   VDY  ,VDZ  ,VD2  ,VIS ,OFFG ,
      5   OFF  ,SAV  ,NC   ,NGL ,MXT  ,
      6   NGEO ,FX   ,FY   ,FZ  ,STIG ,
@@ -59,10 +59,10 @@ C-----------------------------------------------
       INTEGER G_PLA,NEL
       INTEGER NC(MVSIZ,10), MXT(*), NGL(*), NGEO(*),
      .        IXS(NIXS,*), IXS10(6,*)
-     
+
       DOUBLE PRECISION
      .  XDP(3,*),XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
-     
+
 C     REAL
       my_real
      .  X(3,*),V(3,*),W(3,*), VIS(*),
@@ -71,7 +71,7 @@ C     REAL
      .  VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),
      .  FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10),EPSDG(*),
      .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),STIG(*),EPLASM(*),
-     .  VR(3,*),DR(3,*),D(3,*), 
+     .  VR(3,*),DR(3,*),D(3,*),
      .  WXXG(MVSIZ),WYYG(MVSIZ),WZZG(MVSIZ),CONDEG(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -108,7 +108,7 @@ C
       SIGG(LFT:LLT,6)=ZERO
       STIG(LFT:LLT)=ZERO
       CONDEG(LFT:LLT)=ZERO
-      
+
       IF (ISRAT /= 0) THEN
           EPSDG(LFT:LLT)=ZERO
       ENDIF
@@ -143,7 +143,7 @@ C
       IF (JLAG==0)THEN
           VDX(LFT:LLT)=ZERO
           VDY(LFT:LLT)=ZERO
-          VDZ(LFT:LLT)=ZERO  
+          VDZ(LFT:LLT)=ZERO
       ENDIF
 C----------------------------
 C     NODAL COORDINATES     |
@@ -165,7 +165,7 @@ C--
                 XX(I,N)=XDP(1,NN)
                 YY(I,N)=XDP(2,NN)
                 ZZ(I,N)=XDP(3,NN)
-              ELSE	      
+              ELSE	
                 XX(I,N)=X(1,NN)
                 YY(I,N)=X(2,NN)
                 ZZ(I,N)=X(3,NN)
@@ -180,16 +180,16 @@ C              SAV(I,N+20)=ZZ(I,N)
         ELSE
 C--
           DO I=LFT,LLT
-            NN = NC(I,N)           
+            NN = NC(I,N)
             IF(IRESP==1)THEN
               XX(I,N)=XDP(1,NN)
               YY(I,N)=XDP(2,NN)
-              ZZ(I,N)=XDP(3,NN)	      
+              ZZ(I,N)=XDP(3,NN)	
 	    ELSE
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
-            ENDIF	    
+              ZZ(I,N)=X(3,NN)			
+            ENDIF	
             OFF(I) = MIN(ONE,ABS(OFFG(I)))
             OFF_L  = MIN(OFF_L,OFFG(I))
           ENDDO
@@ -214,12 +214,12 @@ C--
                IF(IRESP==1)THEN
                  XX(I,N)=XDP(1,NN)
                  YY(I,N)=XDP(2,NN)
-                 ZZ(I,N)=XDP(3,NN)	      
+                 ZZ(I,N)=XDP(3,NN)	
 	       ELSE
                  XX(I,N)=X(1,NN)
                  YY(I,N)=X(2,NN)
-                 ZZ(I,N)=X(3,NN)			 
-               ENDIF	      
+                 ZZ(I,N)=X(3,NN)			
+               ENDIF	
               ELSE
                 N1=IPERM1(N)
                 N2=IPERM2(N)
@@ -280,11 +280,11 @@ C
                IF(IRESP==1)THEN
                  XX(I,N)=XDP(1,NN)
                  YY(I,N)=XDP(2,NN)
-                 ZZ(I,N)=XDP(3,NN)	      
+                 ZZ(I,N)=XDP(3,NN)	
 	       ELSE
                  XX(I,N)=X(1,NN)
                  YY(I,N)=X(2,NN)
-                 ZZ(I,N)=X(3,NN)			 
+                 ZZ(I,N)=X(3,NN)			
                ENDIF
             ELSE
               N1=IPERM1(N)
@@ -326,7 +326,7 @@ c              XX(I,N) = HALF*(XX(I,N1)+XX(I,N2))
 c              YY(I,N) = HALF*(YY(I,N1)+YY(I,N2))
 c              ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
 c            ELSE
-c --------------will be done in resol	    
+c --------------will be done in resol	
 c              XX(I,N) = D(1,NC(I,N)) + HALF*(XX(I,N1)+XX(I,N2))
 c              YY(I,N) = D(2,NC(I,N)) + HALF*(YY(I,N1)+YY(I,N2))
 c              ZZ(I,N) = D(3,NC(I,N)) + HALF*(ZZ(I,N1)+ZZ(I,N2))
@@ -337,7 +337,7 @@ c              X(3,NC(I,N)) = ZZ(I,N)
 c	      IF(IRESP==1)THEN
 c                XDP(1,NC(I,N)) = XX(I,N)
 c                XDP(2,NC(I,N)) = YY(I,N)
-c                XDP(3,NC(I,N)) = ZZ(I,N)	        
+c                XDP(3,NC(I,N)) = ZZ(I,N)	
 c              ENDIF
 c            END IF
 c            OFF(I) = MIN(ONE,ABS(OFFG(I)))
@@ -359,17 +359,17 @@ C
             IF (NN /= 0) THEN
               VX(I,N)=V(1,NN)
               VY(I,N)=V(2,NN)
-              VZ(I,N)=V(3,NN)  
+              VZ(I,N)=V(3,NN)
             ENDIF
         ENDDO
        ENDDO
-      ELSE 
+      ELSE
        DO N=1,4
         DO I=LFT,LLT
             NN = NC(I,N)
             VX(I,N)=V(1,NN)
             VY(I,N)=V(2,NN)
-            VZ(I,N)=V(3,NN)  
+            VZ(I,N)=V(3,NN)
         ENDDO
        ENDDO
        DO N=5,10
@@ -377,7 +377,7 @@ C
         DO I=LFT,LLT
             VX(I,N)=V(1,NN)
             VY(I,N)=V(2,NN)
-            VZ(I,N)=V(3,NN)  
+            VZ(I,N)=V(3,NN)
         ENDDO
        ENDDO
       ENDIF
@@ -386,7 +386,7 @@ C
         DO I=LFT,LLT
             FX(I,N)=ZERO
             FY(I,N)=ZERO
-            FZ(I,N)=ZERO    
+            FZ(I,N)=ZERO
         ENDDO
         IF(OFF_L<ZERO)THEN
           DO I=LFT,LLT
@@ -427,8 +427,8 @@ C
         DO I=LFT,LLT
           VDX(I)=FOURTH*VDX(I)
           VDY(I)=FOURTH*VDY(I)
-          VDZ(I)=FOURTH*VDZ(I)  
-          VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
+          VDZ(I)=FOURTH*VDZ(I)
+          VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
         ENDDO
       ENDIF
 C
@@ -440,7 +440,7 @@ C
             IF(NC(I,N)==0)THEN
               VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
               VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
             ENDIF
           ENDDO
         ENDDO
@@ -457,7 +457,7 @@ C
      .         	- (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2)) + ONE_OVER_8 * DVX
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2)) + ONE_OVER_8 * DVY
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ   
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ
           ENDDO
         ENDDO
 c      ELSE IF(ISROT == 2)THEN
@@ -468,7 +468,7 @@ c          DO I=LFT,LLT
 c            IF(NC(I,N) == 0)THEN
 c              VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
 c              VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-c              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) 
+c              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
 c            ELSE
 c              VX(I,N) = VX(I,N) + HALF*(VX(I,N1)+VX(I,N2))
 c              VY(I,N) = VY(I,N) + HALF*(VY(I,N1)+VY(I,N2))
@@ -506,7 +506,7 @@ C-----------------------------------------------
       INTEGER NC(MVSIZ,10),NEL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
-     
+
 C     REAL
       my_real
      .  OFFG(*)
@@ -536,7 +536,7 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SGCOOR10(XX,YY,ZZ,X  ,XDP   ,
-     1   X0, Y0, Z0, VX0,VY0, VZ0, 
+     1   X0, Y0, Z0, VX0,VY0, VZ0,
      2   SAV,NC,D ,OFF,OFF0,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -561,7 +561,7 @@ C     REAL
       my_real
      .  VX0(MVSIZ,10),VY0(MVSIZ,10),VZ0(MVSIZ,10),
      .  D(3,*) ,OFF(*),OFF0(*),X(3,*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),XDP(3,*),
      .   X0(MVSIZ,10), Y0(MVSIZ,10), Z0(MVSIZ,10),SAV(NEL,30)
 C-----------------------------------------------
@@ -580,7 +580,7 @@ C----------------------------
         Y0(I,N)=SAV(I,N+NPE)
         Z0(I,N)=SAV(I,N+2*NPE)
        ENDDO
-      ENDDO 
+      ENDDO
 C----------------------------
 C     DISPLACEMENT     |
 C----------------------------
@@ -596,7 +596,7 @@ C----------------------------
         VY0(I,N)=YY(I,N)-Y0(I,N)-VY0(I,NPE)
         VZ0(I,N)=ZZ(I,N)-Z0(I,N)-VZ0(I,NPE)
         ENDDO
-       ENDDO 
+       ENDDO
 C---   w/ /DT/BRICK/CST    
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
         DO I=LFT,LLT
@@ -605,44 +605,44 @@ C---   w/ /DT/BRICK/CST
        IF (MTN==1) THEN
          IF(IRESP==1)THEN
           DO I=LFT,LLT
-            IF (OFF(I) <= ONE ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE
             N3 = NC(I,NPE)
             VX0(I,NPE)=XDP(1,N3)-X0(I,NPE)
             VY0(I,NPE)=XDP(2,N3)-Y0(I,NPE)
             VZ0(I,NPE)=XDP(3,N3)-Z0(I,NPE)
-          ENDDO 
+          ENDDO
           DO N=1,NPE
            DO I=LFT,LLT
-            IF (OFF(I) <= ONE ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE
             N2 = NC(I,N)
             VX0(I,N) =XDP(1,N2)-X0(I,N)-VX0(I,NPE)
             VY0(I,N) =XDP(2,N2)-Y0(I,N)-VY0(I,NPE)
             VZ0(I,N) =XDP(3,N2)-Z0(I,N)-VZ0(I,NPE)
            ENDDO
-          ENDDO 
-         ELSE      
+          ENDDO
+         ELSE
           DO I=LFT,LLT
-            IF (OFF(I) <= ONE ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE
             N3 = NC(I,NPE)
             VX0(I,NPE)=X(1,N3)-X0(I,NPE)
             VY0(I,NPE)=X(2,N3)-Y0(I,NPE)
             VZ0(I,NPE)=X(3,N3)-Z0(I,NPE)
-          ENDDO 
+          ENDDO
           DO N=1,NPE
            DO I=LFT,LLT
-            IF (OFF(I) <= ONE ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE
             N2 = NC(I,N)
             VX0(I,N) =X(1,N2)-X0(I,N)-VX0(I,NPE)
             VY0(I,N) =X(2,N2)-Y0(I,N)-VY0(I,NPE)
             VZ0(I,N) =X(3,N2)-Z0(I,N)-VZ0(I,NPE)
            ENDDO
-          ENDDO 
+          ENDDO
          END IF !(IRESP==1)THEN
        ELSE
          DO N=1,NPE
           DO I=LFT,LLT
-           IF (OFF(I) <= ONE ) CYCLE 
-            VX0(I,N)=D(1,NC(I,N))-D(1,NC(I,NPE))  
+           IF (OFF(I) <= ONE ) CYCLE
+            VX0(I,N)=D(1,NC(I,N))-D(1,NC(I,NPE))
             VY0(I,N)=D(2,NC(I,N))-D(2,NC(I,NPE))
             VZ0(I,N)=D(3,NC(I,N))-D(3,NC(I,NPE))
           ENDDO
@@ -660,7 +660,7 @@ Chd|-- calls ---------------
 Chd|        SMORTHO3                      source/elements/solid/solide4/s4coor3.F
 Chd|====================================================================
       SUBROUTINE S10RCOOR12(OFF,X ,XDP ,NC ,
-     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ) 
+     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -681,7 +681,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC(MVSIZ,10)
-     
+
       DOUBLE PRECISION
      .  XDP(3,*)
 C     REAL
@@ -690,37 +690,37 @@ C     REAL
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),OFF(*),
      .   X(3,*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XX(MVSIZ,4), YY(MVSIZ,4), ZZ(MVSIZ,4)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,N ,NN   
+      INTEGER I,N ,NN
 C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
 C=======================================================================
          DO N=1,4
           DO I=LFT,LLT
-            NN = NC(I,N)           
+            NN = NC(I,N)
             IF(IRESP==1)THEN
               XX(I,N)=XDP(1,NN)
               YY(I,N)=XDP(2,NN)
-              ZZ(I,N)=XDP(3,NN)	      
+              ZZ(I,N)=XDP(3,NN)	
 	    ELSE
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
-            ENDIF	    
-          END DO 
-         END DO 
+              ZZ(I,N)=X(3,NN)			
+            ENDIF	
+          END DO
+         END DO
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
 C-----------
       DO I=LFT,LLT
-        IF (OFF(I) <= ONE ) CYCLE 
+        IF (OFF(I) <= ONE ) CYCLE
         RX(I) = XX(I,1) - XX(I,4)
         RY(I) = YY(I,1) - YY(I,4)
         RZ(I) = ZZ(I,1) - ZZ(I,4)
@@ -730,7 +730,7 @@ C-----------
         TX(I) = XX(I,3) - XX(I,4)
         TY(I) = YY(I,3) - YY(I,4)
         TZ(I) = ZZ(I,3) - ZZ(I,4)
-      END DO 
+      END DO
       CALL SMORTHO3(OFF,
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33)
@@ -797,8 +797,8 @@ Chd|-- calls ---------------
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|====================================================================
       SUBROUTINE S10RCOOR10(
-     .   XX    ,YY    ,ZZ    , 
-     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ) 
+     .   XX    ,YY    ,ZZ    ,
+     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -823,18 +823,18 @@ C     REAL
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
-      
+
 C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
 C=======================================================================
 C-----------
 C     REPERE CONVECTE (ITERATIONS).
@@ -849,7 +849,7 @@ C-----------
         TX(I) = XX(I,3) - XX(I,4)
         TY(I) = YY(I,3) - YY(I,4)
         TZ(I) = ZZ(I,3) - ZZ(I,4)
-      END DO 
+      END DO
       CALL SORTHO3(
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33)
@@ -918,8 +918,8 @@ Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|====================================================================
       SUBROUTINE SR10COOR3(
      1   X    ,IXS  ,IXS10,V   ,W    ,
-     2   XX   ,YY   ,ZZ   ,VX  ,VY   , 
-     3   VZ   ,VDXX ,VDYY ,VDZZ,VDX  , 
+     2   XX   ,YY   ,ZZ   ,VX  ,VY   ,
+     3   VZ   ,VDXX ,VDYY ,VDZZ,VDX  ,
      4   VDY  ,VDZ  ,VD2  ,VIS ,OFFG ,
      5   OFF  ,SAV  ,NC   ,NGL ,MXT  ,
      6   NGEO ,FX   ,FY   ,FZ  ,STIG ,
@@ -927,7 +927,7 @@ Chd|====================================================================
      8   EPSDG,VR   ,DR   ,D   ,WXXG ,
      9   WYYG,WZZG  ,G_PLA,XDP ,
      .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ,
-     .   NEL  ) 
+     .   NEL  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -950,11 +950,11 @@ C-----------------------------------------------
       INTEGER G_PLA,NEL
       INTEGER NC(MVSIZ,10), MXT(*), NGL(*), NGEO(*),
      .        IXS(NIXS,*), IXS10(6,*)
-     
+
       DOUBLE PRECISION
      .  XDP(3,*),XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
      .  XDL,YDL,ZDL,SAV(NEL,30)
-     
+
       my_real
      .   R11(*), R12(*), R13(*),
      .   R21(*), R22(*), R23(*),
@@ -967,7 +967,7 @@ C     REAL
      .  VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),
      .  FX(MVSIZ,10), FY(MVSIZ,10), FZ(MVSIZ,10),EPSDG(*),
      .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),STIG(*),EPLASM(*),
-     .  VR(3,*),DR(3,*),D(3,*), 
+     .  VR(3,*),DR(3,*),D(3,*),
      .  WXXG(MVSIZ),WYYG(MVSIZ),WZZG(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -979,7 +979,7 @@ C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C-----------------------------------------------
@@ -1010,7 +1010,7 @@ C
         OFF(I) = MIN(ONE,ABS(OFFG(I)))
         OFF_L  = MIN(OFF_L,OFFG(I))
       ENDDO
-      
+
       IF (ISRAT /= 0) THEN
         DO I=LFT,LLT
           EPSDG(I)=ZERO
@@ -1054,21 +1054,21 @@ C
         DO I=LFT,LLT
           VDX(I)=ZERO
           VDY(I)=ZERO
-          VDZ(I)=ZERO  
+          VDZ(I)=ZERO
         ENDDO
       ENDIF
       DO N=1,4
           DO I=LFT,LLT
-            NN = NC(I,N)           
+            NN = NC(I,N)
             IF(IRESP==1)THEN
               XX(I,N)=XDP(1,NN)
               YY(I,N)=XDP(2,NN)
-              ZZ(I,N)=XDP(3,NN)	      
+              ZZ(I,N)=XDP(3,NN)	
 	    ELSE
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
-            ENDIF	    
+              ZZ(I,N)=X(3,NN)			
+            ENDIF	
           ENDDO
       END DO
 C
@@ -1081,11 +1081,11 @@ C
                IF(IRESP==1)THEN
                  XX(I,N)=XDP(1,NN)
                  YY(I,N)=XDP(2,NN)
-                 ZZ(I,N)=XDP(3,NN)	      
+                 ZZ(I,N)=XDP(3,NN)	
 	       ELSE
                  XX(I,N)=X(1,NN)
                  YY(I,N)=X(2,NN)
-                 ZZ(I,N)=X(3,NN)			 
+                 ZZ(I,N)=X(3,NN)			
                ENDIF
             ELSE
               N1=IPERM1(N)
@@ -1125,7 +1125,7 @@ C
         TX(I) = XX(I,3) - XX(I,4)
         TY(I) = YY(I,3) - YY(I,4)
         TZ(I) = ZZ(I,3) - ZZ(I,4)
-      END DO 
+      END DO
       CALL SORTHO3(
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33)
@@ -1264,7 +1264,7 @@ C
             VZ(I,N)=V(3,NN)
             FX(I,N)=ZERO
             FY(I,N)=ZERO
-            FZ(I,N)=ZERO    
+            FZ(I,N)=ZERO
         ENDDO
       ENDDO
       CALL S10RROTA10(
@@ -1310,8 +1310,8 @@ C
         DO I=LFT,LLT
           VDX(I)=FOURTH*VDX(I)
           VDY(I)=FOURTH*VDY(I)
-          VDZ(I)=FOURTH*VDZ(I)  
-          VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
+          VDZ(I)=FOURTH*VDZ(I)
+          VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
         ENDDO
       ENDIF
 C
@@ -1323,7 +1323,7 @@ C
             IF(NC(I,N)==0)THEN
               VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
               VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
+              VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
             ENDIF
           ENDDO
         ENDDO
@@ -1340,7 +1340,7 @@ C
      .         	- (YY(I,N2)-YY(I,N1))*(VR(1,NC(I,N2))-VR(1,NC(I,N1)))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2)) + ONE_OVER_8 * DVX
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2)) + ONE_OVER_8 * DVY
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ   
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2)) + ONE_OVER_8 * DVZ
           ENDDO
         ENDDO
       ENDIF
@@ -1354,7 +1354,7 @@ Chd|-- calls ---------------
 Chd|        SORTHO3                       source/elements/solid/solide/sortho3.F
 Chd|====================================================================
       SUBROUTINE S10LOC_S(NC, X,
-     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   ) 
+     .   R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,R31   ,R32   ,R33   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1380,25 +1380,25 @@ C     REAL
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),X(3,*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,NN
-      
+
 C     REAL
       my_real
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) 
+     .   TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ)
 C=======================================================================
       DO N=1,4
           DO I=LFT,LLT
-            NN = NC(I,N)           
+            NN = NC(I,N)
               XX(I,N)=X(1,NN)
               YY(I,N)=X(2,NN)
-              ZZ(I,N)=X(3,NN)			 
+              ZZ(I,N)=X(3,NN)			
           ENDDO
       END DO
 C-----------
@@ -1414,7 +1414,7 @@ C-----------
         TX(I) = XX(I,3) - XX(I,4)
         TY(I) = YY(I,3) - YY(I,4)
         TZ(I) = ZZ(I,3) - ZZ(I,4)
-      END DO 
+      END DO
       CALL SORTHO3(
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ ,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33)
@@ -1447,7 +1447,7 @@ C-----------------------------------------------
       INTEGER NC(MVSIZ,10),NEL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),SAV(NEL,30)
-     
+
 C     REAL
       my_real
      .  OFFG(*),OFFG0(*)

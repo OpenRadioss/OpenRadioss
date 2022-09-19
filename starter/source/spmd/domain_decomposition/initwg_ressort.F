@@ -47,7 +47,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -66,17 +66,17 @@ C-----------------------------------------------
      .    ELM_TYP,ELM_TYP_OLD,ILAW,ILAW_OLD,TEST_MAT,
      .    I_PRO,ISOL2,MID_OLD,PID_OLD,MUID_OLD,PUID_OLD,
      .    TEST,NFUNC1,NFUNC2,ITY
-     
+
       REAL
      .   WTYPE(3),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
-     .   BATOZMULT,TMAT   
+     .   BATOZMULT,TMAT
       my_real
      .        CC, INVTREF,A,B,A1,A2
        DATA WTYPE /0.5 ,1.4 , 1.4/
 !      different spring kind : wtype(1) = type 4    /SPRING
 !                              wtype(2) = type 13   /SPR_BEAM
-!                              wtype(3) = default   
+!                              wtype(3) = default
 C-----------------------------------------------
       DO I = 1, NUMELR
         PID= IXR(1,I)

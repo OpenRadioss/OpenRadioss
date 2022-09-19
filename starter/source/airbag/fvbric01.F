@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE FVBRIC01(IBUF, ELEM, NTGI, NB_NODE, NBRIC, IXS, 
+      SUBROUTINE FVBRIC01(IBUF, ELEM, NTGI, NB_NODE, NBRIC, IXS,
      .     TBRIC, TFAC)
 C-----------------------------------------------  
 C     D e s c r i p t i o n
@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"     
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER :: NSEG, IFACE, ITYPE, NNODE, NSURFNODE, SUM, NNF
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFLAG
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: N_E_CONNECT, N_E_CONNECT_LOCID
-      INTEGER, TARGET :: REDIRT(4), REDIRP(6), REDIRB(8), REDIRPY(5), 
+      INTEGER, TARGET :: REDIRT(4), REDIRP(6), REDIRB(8), REDIRPY(5),
      .     NOD8(6), NOD3(4), NOD6(5), NOD5(5),
      .     FAC8(4,6), FAC4(3,4), FAC6(4,5), FAC5(4,5), NFACE(4)
       INTEGER, DIMENSION(:), POINTER :: REDIR, NOD
@@ -93,7 +93,7 @@ C-----------------------------------------------
      .           1,4,3,2/
       DATA NOD5 /3,3,3,3,4/
       DATA NFACE/6,4,5,5/
-      
+
       LOGICAL :: FACE_OK
 C-----------------------------------------------
 C     S o u r c e  l i n e s
@@ -118,7 +118,7 @@ C     PYRAMIDE indirection
       DO KK = 1, 5
          REDIRPY(KK) = KK
       ENDDO
-     
+
 
 C     Start 
 
@@ -131,7 +131,7 @@ C     Count maximum connectivity
          ELID = TBRIC(1, II)
          ITYPE = TBRIC(2, II)
          SELECT CASE(ITYPE)
-         CASE(1) 
+         CASE(1)
 C     Brick
             NNODE = 8
             REDIR => REDIRB(1:8)
@@ -167,7 +167,7 @@ C     Node element connectivity
          ELID = TBRIC(1, II)
          ITYPE = TBRIC(2, II)
          SELECT CASE(ITYPE)
-         CASE(1) 
+         CASE(1)
 C     Brick
             NNODE = 8
             REDIR => REDIRB(1:8)
@@ -213,7 +213,7 @@ C     Flag surface element nodes
                ELID = N_E_CONNECT(KKK, 1 + JJ)
                ITYPE = TBRIC(2, II)
                SELECT CASE(ITYPE)
-               CASE(1) 
+               CASE(1)
 C     Brick
                   NNODE = 8
                   REDIR => REDIRB(1:8)
@@ -273,8 +273,8 @@ C     Find the corresponding face
 C     Unflag surface element nodes
          DO KK = 1, NSURFNODE
             KKK = IBUF(ELEM(KK, II))
-            IFLAG(KKK) = 0               
-         ENDDO                     
+            IFLAG(KKK) = 0
+         ENDDO
       ENDDO
 
 C     Memory deallocation

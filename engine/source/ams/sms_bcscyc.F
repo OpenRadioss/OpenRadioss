@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBCSCYC(4,*),LBCSCYC(2,*)
       my_real
-     .     X(3,*),A(3,*),SKEW(LSKEW,*) 
+     .     X(3,*),A(3,*),SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
         NN  = IBCSCYC(3,I)
         ID  = IBCSCYC(4,I)
         CALL ACC_CYCON(NN,LBCSCYC(1,IAD),ISK,SKEW,X  ,A)
-      END DO 
+      END DO
 !$OMP END DO
 C
       RETURN

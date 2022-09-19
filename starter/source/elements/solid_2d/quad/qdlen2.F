@@ -31,9 +31,9 @@ Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|        LOI_FLUID                     source/fluid/loi_fluid.F      
 Chd|====================================================================
-      SUBROUTINE QDLEN2(IPARG, 
-     .     AIRE, DELTAX, 
-     .     Y1, Y2, Y3, Y4, 
+      SUBROUTINE QDLEN2(IPARG,
+     .     AIRE, DELTAX,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
 C
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C   D u m m y    A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(63:63)
       my_real
-     .     AIRE(*), DELTAX(*), 
+     .     AIRE(*), DELTAX(*),
      .     Y1(*), Y2(*), Y3(*), Y4(*),
      .     Z1(*), Z2(*), Z3(*), Z4(*)
 C-----------------------------------------------
@@ -65,8 +65,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NFAC, ISFLUID
       my_real
-     .   AL1(MVSIZ), AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ), 
-     .   ALMX(MVSIZ), 
+     .   AL1(MVSIZ), AL2(MVSIZ), AL3(MVSIZ), AL4(MVSIZ),
+     .   ALMX(MVSIZ),
      .   XOFF(MVSIZ), ATEST(MVSIZ)
 C--------------------------------------------------------------------
 C
@@ -105,7 +105,7 @@ C
 	END DO
         IF(ICAA==0)THEN
           DO I=LFT,LLT
-            ATEST(I)=EM4*ALMX(I) 
+            ATEST(I)=EM4*ALMX(I)
             NFAC=0
             IF(AL1(I)<ATEST(I)) NFAC=NFAC+1
             IF(AL2(I)<ATEST(I)) NFAC=NFAC+1
@@ -115,11 +115,11 @@ C
           END DO
         ENDIF
       ENDIF
-      
+
       DO I=LFT,LLT
         DELTAX(I)=AIRE(I)*XOFF(I)/SQRT(ALMX(I))
       END DO
-      
+
       RETURN
-      
+
       END

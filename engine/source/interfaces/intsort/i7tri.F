@@ -54,7 +54,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -349,7 +349,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           BPE(NB_ECN) = NE
          ENDIF
         ENDDO
-       ELSEIF(NB_NCN == 0) THEN 
+       ELSEIF(NB_NCN == 0) THEN
 #include "vectorize.inc"
         DO I=1,NB_EC
          NE = BPE(I)
@@ -391,7 +391,7 @@ C         ON STOCKE DANS LE BAS DE LA PILE BP
            AAA=  -MAX(DRAD,DGAPLOAD+MIN(MAX(GAPSMX+GAP_M(NE),GAPMIN),GAPMAX))
      -       -MARGE-CURV_MAX(NE)
          ENDIF
-         XMIN =  MIN(XX1,XX2,XX3,XX4) + AAA 
+         XMIN =  MIN(XX1,XX2,XX3,XX4) + AAA
          IF(XMIN < SMOINS) THEN
 C         ON STOCKE DANS LE BAS DE LA PILE BP
           ADDNE = ADDNE + 1

@@ -59,9 +59,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, IK, J, JJ, K, N, N1, N2, N3, M1, M2, M3, NINDEX, 
+      INTEGER I, IK, J, JJ, K, N, N1, N2, N3, M1, M2, M3, NINDEX,
      .   ICONT
-      my_real 
+      my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW, VNW,
      .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP0, DP, DV
 C-----------------------------------------------
@@ -169,7 +169,7 @@ C---------------------------
             SLL(IK) = 0
             XLL(IK) = RWL(3)
             COMNTAG(N) = COMNTAG(N) + 1
-          ENDDO          
+          ENDDO
 C
         ELSEIF(ITIED==1)THEN
 C

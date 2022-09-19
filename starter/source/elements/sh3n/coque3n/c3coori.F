@@ -32,8 +32,8 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE C3COORI(X ,XREFTG,IXP ,NGL ,         
-     .                   X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  , 
+      SUBROUTINE C3COORI(X ,XREFTG,IXP ,NGL ,
+     .                   X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .                   Z1  ,Z2  ,Z3  ,IX1 ,IX2 ,IX3 )
 C-----------------------------------------------
       USE MESSAGE_MOD
@@ -72,25 +72,25 @@ C-----------------------------------------------
 C=======================================================================
 C     CONNECTIVITES ET MATERIEL                  
 C--------------------------------------------------
-      DO I=LFT,LLT                                                     
-        NGL(I)=IXP(6,I)                                                  
-        IX1(I)=IXP(2,I)                                                  
-        IX2(I)=IXP(3,I)                                                  
+      DO I=LFT,LLT
+        NGL(I)=IXP(6,I)
+        IX1(I)=IXP(2,I)
+        IX2(I)=IXP(3,I)
         IX3(I)=IXP(4,I)
       ENDDO
 C     COORDONNEES           
 C----------------------------
       IF (NXREF == 0) THEN
         DO I=LFT,LLT
-          X1(I)=X(1,IX1(I))   
-          Y1(I)=X(2,IX1(I))   
-          Z1(I)=X(3,IX1(I))   
-          X2(I)=X(1,IX2(I))   
-          Y2(I)=X(2,IX2(I))   
-          Z2(I)=X(3,IX2(I))   
-          X3(I)=X(1,IX3(I))   
-          Y3(I)=X(2,IX3(I))   
-          Z3(I)=X(3,IX3(I))   
+          X1(I)=X(1,IX1(I))
+          Y1(I)=X(2,IX1(I))
+          Z1(I)=X(3,IX1(I))
+          X2(I)=X(1,IX2(I))
+          Y2(I)=X(2,IX2(I))
+          Z2(I)=X(3,IX2(I))
+          X3(I)=X(1,IX3(I))
+          Y3(I)=X(2,IX3(I))
+          Z3(I)=X(3,IX3(I))
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -106,7 +106,7 @@ C----------------------------
         ENDDO
       ENDIF
 c
-      DO I=LFT,LLT                                                           
+      DO I=LFT,LLT
         XN13=(X1(I)-X3(I))**2+(Y1(I)-Y3(I))**2+(Z1(I)-Z3(I))**2
         XN23=(X2(I)-X3(I))**2+(Y2(I)-Y3(I))**2+(Z2(I)-Z3(I))**2
         XN12=(X1(I)-X2(I))**2+(Y1(I)-Y2(I))**2+(Z1(I)-Z2(I))**2
@@ -142,7 +142,7 @@ C
      .                 ANMODE=ANINFO_BLIND_1,
      .                 I1=IXP(NIXTG,I))
            TEST2=1
-        ENDIF  
+        ENDIF
         IF(TEST0==1.OR.TEST1==1.OR.TEST2==1) THEN
           X1(I)=ZERO
           Y1(I)=ZERO

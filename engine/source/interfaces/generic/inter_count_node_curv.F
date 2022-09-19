@@ -38,7 +38,7 @@ Chd|====================================================================
      1                                    X,WEIGHT,INTER_STRUCT)
 !$COMMENT
 !       INTER_COUNT_NODE_CURV description :
-!       compute the number of main node & compute the curv for each interface       
+!       compute the number of main node & compute the curv for each interface
 !
 !       INTER_CURV_COMPUTATION organization :
 !       loop over the main nodes & secondary nodes to save the position if ICONV/=0
@@ -47,7 +47,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
         USE MESSAGE_MOD
@@ -94,7 +94,7 @@ C-----------------------------------------------
         INTEGER :: NSN,NMN,NRTM,NRTM_T
         INTEGER :: ADRESS,ESHIFT
         INTEGER :: ICURV
-        INTEGER :: NMN_L 
+        INTEGER :: NMN_L
         INTEGER :: NOINT
         my_real :: CURV_MAX_LOCAL,CURV_MAX_MAX,TZINF
         my_real :: DX,DY,DZ
@@ -124,9 +124,9 @@ C-----------------------------------------------
         NMN = IPARI(6,NIN)
         NMN_L = 0
         FIRST = 1+ITASK*NMN/NTHREAD
-        LAST = (ITASK+1)*NMN/NTHREAD 
+        LAST = (ITASK+1)*NMN/NTHREAD
         SIGMA = ZERO
-        SIGMA2 = ZERO        
+        SIGMA2 = ZERO
         DO I=FIRST,LAST
             NOD = INTBUF_TAB(NIN)%MSR(I)
             IF(NOD>0) THEN
@@ -140,14 +140,14 @@ C-----------------------------------------------
             ENDIF
             IF(INCONV==1) THEN
                 IF( NOD>0 ) THEN
-                    IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO) THEN 
+                    IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO) THEN
                         SHIFT = (I+NSN-1)*3
                     ELSE
-                        SHIFT = (NOD-1)*3    
+                        SHIFT = (NOD-1)*3
                     ENDIF
-                    INTBUF_TAB(NIN)%XSAV(1+SHIFT)=X(1,NOD)  
-                    INTBUF_TAB(NIN)%XSAV(2+SHIFT)=X(2,NOD)  
-                    INTBUF_TAB(NIN)%XSAV(3+SHIFT)=X(3,NOD)                                    
+                    INTBUF_TAB(NIN)%XSAV(1+SHIFT)=X(1,NOD)
+                    INTBUF_TAB(NIN)%XSAV(2+SHIFT)=X(2,NOD)
+                    INTBUF_TAB(NIN)%XSAV(3+SHIFT)=X(3,NOD)
                 ENDIF
             ENDIF
         ENDDO
@@ -155,22 +155,22 @@ C-----------------------------------------------
         MIN_LIMIT_MAIN(1:3) = MIN_LIMIT(1:3)
 
         !   ------------------
-        !   MIN/MAX secondary node computation 
+        !   MIN/MAX secondary node computation
 
         IF(INCONV==1) THEN
             FIRST = 1+ITASK*NSN/NTHREAD
             LAST = (ITASK+1)*NSN/NTHREAD
             DO I=FIRST,LAST
                 NOD = INTBUF_TAB(NIN)%NSV(I)
-                IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO) THEN 
+                IF(NSN+NMN < NUMNOD+NUMFAKENODIGEO) THEN
                     SHIFT = (I-1)*3
                 ELSE
-                    SHIFT = (NOD-1)*3    
+                    SHIFT = (NOD-1)*3
                 ENDIF
-                IF( NOD>0.AND.NOD<=(NUMNOD+NUMFAKENODIGEO) ) THEN                        
-                    INTBUF_TAB(NIN)%XSAV(1+SHIFT)=X(1,NOD)  
-                    INTBUF_TAB(NIN)%XSAV(2+SHIFT)=X(2,NOD)  
-                    INTBUF_TAB(NIN)%XSAV(3+SHIFT)=X(3,NOD)                                    
+                IF( NOD>0.AND.NOD<=(NUMNOD+NUMFAKENODIGEO) ) THEN
+                    INTBUF_TAB(NIN)%XSAV(1+SHIFT)=X(1,NOD)
+                    INTBUF_TAB(NIN)%XSAV(2+SHIFT)=X(2,NOD)
+                    INTBUF_TAB(NIN)%XSAV(3+SHIFT)=X(3,NOD)
                 ENDIF
             ENDDO
         ENDIF
@@ -191,7 +191,7 @@ C-----------------------------------------------
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(1) = MAX(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(1),MAX_LIMIT_MAIN(1))
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(2) = MAX(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(2),MAX_LIMIT_MAIN(2))
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(3) = MAX(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(3),MAX_LIMIT_MAIN(3))
-        
+
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(4) = MIN(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(4),MIN_LIMIT_MAIN(1))
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(5) = MIN(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(5),MIN_LIMIT_MAIN(2))
         INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(6) = MIN(INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(6),MIN_LIMIT_MAIN(3))
@@ -262,7 +262,7 @@ C
                 INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(12)=INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(6)
                 INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(9)=INTER_STRUCT(NIN)%BOX_LIMIT_MAIN(3)
             END IF
-        END IF    
+        END IF
         !   ------------------
         CALL MY_BARRIER()
 

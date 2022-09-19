@@ -46,7 +46,7 @@ Chd|====================================================================
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C
      .         ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 C
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*),
      . K11(9,MVSIZ),K12(9,MVSIZ),K13(9,MVSIZ),K14(9,MVSIZ),K15(9,MVSIZ),
      . K16(9,MVSIZ),K17(9,MVSIZ),K18(9,MVSIZ),K19(9,MVSIZ),K10(9,MVSIZ),
      . K22(9,MVSIZ),K23(9,MVSIZ),K24(9,MVSIZ),K25(9,MVSIZ),K26(9,MVSIZ),
@@ -97,8 +97,8 @@ C-----------------------------------------------
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      . TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) ,
-     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
-     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) , 
+     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
+     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
      .  E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,
      .  VOLN(MVSIZ), DELTAX(MVSIZ), DELTAX2(MVSIZ),VOLG(MVSIZ)
 C----------------
@@ -119,8 +119,8 @@ C                                                                     12
        my_real
      .  HH(2,MVSIZ),DD(9,MVSIZ),GG(MVSIZ),DM(9,MVSIZ),GM(9,MVSIZ),
      .      DGM(9,MVSIZ),DG(9,MVSIZ),G33(9,MVSIZ),GAMA(MVSIZ,6)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       DOUBLE PRECISION
      .   VOLDP(MVSIZ,5)
 C----HH(1,):lamda,HH(2,):G
@@ -165,7 +165,7 @@ C-----------
 C-----------
       CALL S10COORK(
      .   X,IXS(1,NF1),IXS10(1,NF2),
-     .   XX, YY, ZZ,  
+     .   XX, YY, ZZ,
      .   GBUF%OFF,OFFG,GBUF%SMSTR,
      .   NC,NGL,MXT,NGEO,
      .   K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
@@ -182,20 +182,20 @@ C-----------
      .   NC ,GBUF%SMSTR,GBUF%OFF ,NEL)
         CALL SREPLOC3(
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ) 
-      IF (ISORTH == 0) THEN            
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                               
-          GAMA(I,2) = ZERO                                
-          GAMA(I,3) = ZERO             
-          GAMA(I,4) = ZERO                                
-          GAMA(I,5) = ONE                                
-          GAMA(I,6) = ZERO             
-        ENDDO                          
-      ELSE                             
+     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
+      IF (ISORTH == 0) THEN
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
+          GAMA(I,3) = ZERO
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
+        ENDDO
+      ELSE
         CALL SORTHDIR3(
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
+     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .       GBUF%GAMA,GAMA )
         CALL MORTHLOCK3(LFT,LLT ,GAMA,E1X,E2X,E3X,
      +                  E1Y,E2Y ,E3Y ,E1Z,E2Z,E3Z)
@@ -222,7 +222,7 @@ C
      .               GM   ,DGM  ,IKORTH,LBUF%SIG,IUN  ,
      .               IUN  ,IP   ,NEL   )
         CALL S10CUMG3(
-     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
+     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
      .   DD  ,GG   ,DG   ,G33  ,IKORTH,
      .   K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
      .   K22,K23,K24,K25,K26,K27,K28,K29,K20,K33,
@@ -235,21 +235,21 @@ C     geometrical stiffness
 C----------------------------
         IF (IKGEO>0) THEN
          CALL S10KGEO3(LBUF%SIG,VOLP(1,IP) ,
-     .    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
+     .    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
      .    K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
      .    K22,K23,K24,K25,K26,K27,K28,K29,K20,K33,
      .    K34,K35,K36,K37,K38,K39,K30,K44,K45,K46,
      .    K47,K48,K49,K40,K55,K56,K57,K58,K59,K50,
      .    K66,K67,K68,K69,K60,K77,K78,K79,K70,K88,
      .    K89,K80,K99,K90,K00,NEL)
-        ENDIF 
+        ENDIF
       ENDDO
-      
+
          IF (NEIG>0) CALL S10EOFF(
      1      LFT, LLT, IXS(1,NF1),IXS10(1,NF2), ETAG, OFFG)
          CALL ASSEM_S10(
      1                   IXS(1,NF1),IXS10(1,NF2),NEL,IDDL  ,NDOF  ,
-     2                   K_DIAG,K_LT  ,IADK  ,JDIK  ,K11   ,    
+     2                   K_DIAG,K_LT  ,IADK  ,JDIK  ,K11   ,
      3                   K12   ,K13   ,K14   ,K15   ,K16   ,
      4                   K17   ,K18   ,K19   ,K10   ,K22   ,
      5                   K23   ,K24   ,K25   ,K26   ,K27   ,
@@ -272,7 +272,7 @@ Chd|-- calls ---------------
 Chd|        S4KEH3                        source/elements/solid/solide4/s4ke3.F
 Chd|====================================================================
       SUBROUTINE S10KGEO3(SIG , VOL,
-     .    PX, PY, PZ, 
+     .    PX, PY, PZ,
      .    K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
      .    K22,K23,K24,K25,K26,K27,K28,K29,K20,K33,
      .    K34,K35,K36,K37,K38,K39,K30,K44,K45,K46,
@@ -310,7 +310,7 @@ C     REAL
      .   K56(9,*)   ,K57(9,*)   ,K58(9,*)   ,K59(9,*)    ,K50(9,*)   ,
      .   K66(9,*)   ,K67(9,*)   ,K68(9,*)   ,K69(9,*)    ,K60(9,*)   ,
      .   K77(9,*)   ,K78(9,*)   ,K79(9,*)   ,K70(9,*)    ,K88(9,*)   ,
-     .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)    ,K00(9,*)   
+     .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)    ,K00(9,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

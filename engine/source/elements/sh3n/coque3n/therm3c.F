@@ -27,8 +27,8 @@ Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE THERM3C(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXTG , 
-c     2                   X  ,AREA   ,DT1C ,      
+      SUBROUTINE THERM3C(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXTG ,
+c     2                   X  ,AREA   ,DT1C ,
      2                  PX1  ,PY1  ,PY2   ,AREA   ,DT1C ,
      3                  TEMPNC ,TEL   ,DIE  ,FPHI)
 C-----------------------------------------------
@@ -75,11 +75,11 @@ cc          PX2(I) = HALF*(X(2,IXTG(4,I)) - X(2,IXTG(2,I)))/AREA(I)
 C
 cc          PY1(I) = HALF*(X(1,IXTG(4,I)) - X(1,IXTG(3,I)))/AREA(I)
 cc          PY2(I) = HALF*(X(1,IXTG(2,I)) - X(1,IXTG(4,I)))/AREA(I)
-          
+
 
           KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))
           PHIX =  TEMPNC(IXTG(2,I))*PX1(I) - TEMPNC(IXTG(3,I))*PX1(I)
-          
+
            PHIY =  TEMPNC(IXTG(2,I))*PY1(I) + TEMPNC(IXTG(3,I))*PY2(I) -
      .            TEMPNC(IXTG(4,I))*(PY1(I) + PY2(I))
 C     
@@ -94,6 +94,6 @@ C
           FPHI(I,3) = A + PHIY*(PY1(I)+PY2(I))
        ENDDO
 C 
-      
+
       RETURN
       END

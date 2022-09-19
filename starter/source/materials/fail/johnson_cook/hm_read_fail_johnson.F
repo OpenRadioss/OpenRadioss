@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::MAXUPARAM,MAXFUNC,FAIL_ID,IMID_F
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -97,7 +97,7 @@ C-----------------------------------------------
       my_real D1,D2,D3,D4,D5,EPSP0,UNIT_T,P_THICKFAIL,DADV
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------    
-!!      FAC_T = UNITAB(4) 
+!!      FAC_T = UNITAB(4)
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
@@ -144,7 +144,7 @@ C--------------------------------------------------
 C
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
 C---
 C for shell      
 C---
@@ -187,16 +187,16 @@ C
      & 5X,'FORTH FAILURE PARAMETER (D4). . . . . .=',E12.4/
      & 5X,'FIFTH FAILURE PARAMETER (D5).   . . . .=',E12.4//)
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE')
  2100 FORMAT(
-     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE')
 
  1200 FORMAT(
-     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')   
+     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')
  1400 FORMAT(
-     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')   
+     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')
  2200 FORMAT(
-     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')    
+     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')
 C
  1010 FORMAT(
      & 5X,40H  XFEM JOHNSON COOK DAMAGE PARAMETER    ,/,

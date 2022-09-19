@@ -67,7 +67,7 @@ C-----------------------------------------------
       AA = (TWO*ALPH - ONE)*ALPH
       BB = (TWO*BETA - ONE)*BETA
       B2 = FOUR*BETA*BETA
-      AB = FOUR*ALPH*BETA      
+      AB = FOUR*ALPH*BETA
 C
       DO IP=1,4
         K1 = IPERM(1,IP)
@@ -94,7 +94,7 @@ C
        ENDDO
       ENDDO
 C
-      IF (NPT==5) THEN      
+      IF (NPT==5) THEN
         NX(LFT:LLT,1:10,5) = ZERO
       ENDIF
 C-----------

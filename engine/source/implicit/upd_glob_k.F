@@ -1238,7 +1238,7 @@ C--------secnd node-----add case Ud_s >0
          IF (ABS(US(1))>ABS(UD(1,N1))) UD(1,N1)= US(1)
          IF (ABS(US(2))>ABS(UD(2,N1))) UD(2,N1)= US(2)
          IF (ABS(US(3))>ABS(UD(3,N1))) UD(3,N1)= US(3)
-        END IF 
+        END IF
        ENDIF
        ENDDO
 C----6---------------------------------------------------------------7---------8

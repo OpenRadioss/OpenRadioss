@@ -122,7 +122,7 @@ C=======================================================================
         ELSE
           NODSYS_1 = ITABM1(NODSYS_1,2)
         ENDIF
-        
+
 
         NODSYS_2 = SET_USRTOS(NOD_2,ITABM1,NUMNOD)
         IF (NODSYS_2 == 0) THEN

@@ -69,7 +69,7 @@ C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUVAR, NGL(NEL), MAT(NEL),ISRATE,IPLA
      .        ,IPM(NPROPMI,*)
-      my_real 
+      my_real
      .   TIME,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THK0(NEL),PLA(NEL),
@@ -185,44 +185,44 @@ c ---
          A1(I)  = UPARAM(IADBUFV+3)
          A2(I)  = UPARAM(IADBUFV+4)
          G(I)   = UPARAM(IADBUFV+5)
-         G3(I)  = 3.*G(I)    
+         G3(I)  = 3.*G(I)
 C        GCT(I) = G(I)*R    
          C1=THK0(I)*ONE_OVER_12
-         AM1(I)  = A1(I)*C1  
-         AM2(I)  = A2(I)*C1  
-         GM(I)   = G(I)*C1   
-c --- 
+         AM1(I)  = A1(I)*C1
+         AM2(I)  = A2(I)*C1
+         GM(I)   = G(I)*C1
+c ---
         ENDDO
         IF (OPTE == 1)THEN
-          DO I=1,NEL        
-           IF(PLA(I) > ZERO)THEN  
-              IFUNCE =  UPARAM(IADBUFV+2*NRATE+17) 
-              ESCALE(I) =FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I)) 
-              E(I) =  ESCALE(I)* E(I)                                      
-              G(I) =  HALF*E(I)/(ONE+NU) 
-              GS(I) =   G(I)*SHF(I)                              
-              G3(I) = THREE*G(I) 
-              A1(I) = E(I)/(ONE - NU*NU)                         
-              A2(I) = NU*A1(I)                                     
-              AM1(I)  = A1(I)*C1  
-              AM2(I)  = A2(I)*C1  
-              GM(I)   = G(I)*C1   
-           ENDIF 
-          ENDDO           
-         ELSEIF ( CE /= ZERO) THEN 
-          DO I=1,NEL         
-           IF(PLA(I) > ZERO)THEN                                                       
-              E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))                     
-              G(I) =  HALF*E(I)/(ONE+NU)  
-              GS(I) =   G(I)*SHF(I)                                                                
-              G3(I) = THREE*G(I)                                              
-              A1(I) = E(I)/(ONE - NU*NU)                         
-              A2(I) = NU*A1(I)                                     
-              AM1(I)  = A1(I)*C1  
-              AM2(I)  = A2(I)*C1  
-              GM(I)   = G(I)*C1    
+          DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+              IFUNCE =  UPARAM(IADBUFV+2*NRATE+17)
+              ESCALE(I) =FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
+              E(I) =  ESCALE(I)* E(I)
+              G(I) =  HALF*E(I)/(ONE+NU)
+              GS(I) =   G(I)*SHF(I)
+              G3(I) = THREE*G(I)
+              A1(I) = E(I)/(ONE - NU*NU)
+              A2(I) = NU*A1(I)
+              AM1(I)  = A1(I)*C1
+              AM2(I)  = A2(I)*C1
+              GM(I)   = G(I)*C1
            ENDIF
-          ENDDO           
+          ENDDO
+         ELSEIF ( CE /= ZERO) THEN
+          DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+              E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
+              G(I) =  HALF*E(I)/(ONE+NU)
+              GS(I) =   G(I)*SHF(I)
+              G3(I) = THREE*G(I)
+              A1(I) = E(I)/(ONE - NU*NU)
+              A2(I) = NU*A1(I)
+              AM1(I)  = A1(I)*C1
+              AM2(I)  = A2(I)*C1
+              GM(I)   = G(I)*C1
+           ENDIF
+          ENDDO
          ENDIF
        ELSE ! ivector = 1 only
          NFUNCM = 0
@@ -266,44 +266,44 @@ C
            A2(I)  = UPARAM(IADBUFV+4)
            G(I)   = UPARAM(IADBUFV+5)
 
-           G3(I)  = 3.*G(I)  
+           G3(I)  = 3.*G(I)
 C          GCT(I) = G(I)*R
            C1=THK0(I)*ONE_OVER_12
-           AM1(I)  = A1(I)*C1  
-           AM2(I)  = A2(I)*C1  
-           GM(I)   = G(I)*C1  
-c --- 
+           AM1(I)  = A1(I)*C1
+           AM2(I)  = A2(I)*C1
+           GM(I)   = G(I)*C1
+c ---
          ENDDO
-         IF (OPTE == 1)THEN 
-           DO I=1,NEL         
-             IF(PLA(I) > ZERO)THEN  
-                IFUNCE =  UPARAM(IADBUFV+2*NRATE+17)                 
-               ESCALE(I)=FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))       
-                E(I) =  ESCALE(I)* E(I)  
-                G(I) =  HALF*E(I)/(ONE+NU)                              
-                GS(I) =   G(I)*SHF(I)                              
-                G3(I) = THREE*G(I) 
-                A1(I) = E(I)/(ONE - NU*NU)                         
-                A2(I) = NU*A1(I)                                     
-                AM1(I)  = A1(I)*C1  
-                AM2(I)  = A2(I)*C1  
-                GM(I)   = G(I)*C1   
-              ENDIF 
-            ENDDO              
-         ELSEIF ( CE /= ZERO) THEN   
-            DO I=1,NEL         
-              IF(PLA(I) > ZERO)THEN                                                     
-                E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))                   
-                G(I) =  HALF*E(I)/(ONE+NU)                                  
-                GS(I) =   G(I)*SHF(I)                              
-                G3(I) = THREE*G(I)                                            
-                A1(I) = E(I)/(ONE - NU*NU)                         
-                A2(I) = NU*A1(I)                                     
-                AM1(I)  = A1(I)*C1  
-                AM2(I)  = A2(I)*C1  
-                GM(I)   = G(I)*C1    
-              ENDIF   
-            ENDDO              
+         IF (OPTE == 1)THEN
+           DO I=1,NEL
+             IF(PLA(I) > ZERO)THEN
+                IFUNCE =  UPARAM(IADBUFV+2*NRATE+17)
+               ESCALE(I)=FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
+                E(I) =  ESCALE(I)* E(I)
+                G(I) =  HALF*E(I)/(ONE+NU)
+                GS(I) =   G(I)*SHF(I)
+                G3(I) = THREE*G(I)
+                A1(I) = E(I)/(ONE - NU*NU)
+                A2(I) = NU*A1(I)
+                AM1(I)  = A1(I)*C1
+                AM2(I)  = A2(I)*C1
+                GM(I)   = G(I)*C1
+              ENDIF
+            ENDDO
+         ELSEIF ( CE /= ZERO) THEN
+            DO I=1,NEL
+              IF(PLA(I) > ZERO)THEN
+                E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
+                G(I) =  HALF*E(I)/(ONE+NU)
+                GS(I) =   G(I)*SHF(I)
+                G3(I) = THREE*G(I)
+                A1(I) = E(I)/(ONE - NU*NU)
+                A2(I) = NU*A1(I)
+                AM1(I)  = A1(I)*C1
+                AM2(I)  = A2(I)*C1
+                GM(I)   = G(I)*C1
+              ENDIF
+            ENDDO
          ENDIF
       ENDIF
 C
@@ -323,7 +323,7 @@ C
 C-----------------------------------------------
 C
       DO I=1,NEL
-       SIGNXX(I)=SIGOXX(I)+A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I) 
+       SIGNXX(I)=SIGOXX(I)+A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I)
        SIGNYY(I)=SIGOYY(I)+A2(I)*DEPSXX(I)+A1(I)*DEPSYY(I)
        SIGNXY(I)=SIGOXY(I)+G(I) *DEPSXY(I)
        MOMNXX(I)=MOMOXX(I)+AM1(I)*DEPBXX(I)+AM2(I)*DEPBYY(I)
@@ -332,7 +332,7 @@ C
        SIGNYZ(I)=SIGOYZ(I)+GS(I) *DEPSYZ(I)
        SIGNZX(I)=SIGOZX(I)+GS(I) *DEPSZX(I)
 C
-       SOUNDSP(I) = SQRT(A1(I)/RHO0(I)) 
+       SOUNDSP(I) = SQRT(A1(I)/RHO0(I))
        ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
@@ -373,49 +373,49 @@ C
       ENDIF
 C
       DO I=1,NEL
-         IF(JJ(I)==1)THEN 
+         IF(JJ(I)==1)THEN
            J1 = JJ(I)
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ELSEIF(JJ(I)==(NRATE-1))THEN
            J1 = JJ(I) - 2
-           J2 = J1+1 
-           J3 = J2+1 
-           J4 = J3+1 
+           J2 = J1+1
+           J3 = J2+1
+           J4 = J3+1
           ELSE
            J1 = JJ(I) - 1
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ENDIF
         RATE(I,1)=UPARAM(IADBUFV + 6 +  J1 )
         RATE(I,2)=UPARAM(IADBUFV + 6 +  J2 )
         RATE(I,3)=UPARAM(IADBUFV + 6 +  J3 )
         RATE(I,4)=UPARAM(IADBUFV + 6 +  J4 )
-        YFAC(I,1)=UPARAM(IADBUFV+6+NRATE + J1 )     
+        YFAC(I,1)=UPARAM(IADBUFV+6+NRATE + J1 )
         YFAC(I,2)=UPARAM(IADBUFV+6+NRATE + J2 )
         YFAC(I,3)=UPARAM(IADBUFV+6+NRATE + J3 )
-        YFAC(I,4)=UPARAM(IADBUFV+6+NRATE + J4 )               
+        YFAC(I,4)=UPARAM(IADBUFV+6+NRATE + J4 )
       ENDDO
 C
 C
-      DO I=1,NEL 
-         IF(JJ(I)==1)THEN 
+      DO I=1,NEL
+         IF(JJ(I)==1)THEN
            J1 = JJ(I)
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ELSEIF(JJ(I)==(NRATE-1))THEN
            J1 = JJ(I) - 2
-           J2 = J1+1 
-           J3 = J2+1 
-           J4 = J3+1 
+           J2 = J1+1
+           J3 = J2+1
+           J4 = J3+1
           ELSE
            J1 = JJ(I) - 1
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ENDIF
         IPOS1(I) = NINT(UVAR(I,J1))
         IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
@@ -428,7 +428,7 @@ C
         ILEN3(I) = NPF(IFUNC(J3)+1) / 2 - IAD3(I) - IPOS3(I)
         IPOS4(I) = NINT(UVAR(I,J4+4))
         IAD4(I)  = NPF(IFUNC(J4)) / 2 + 1
-        ILEN4(I) = NPF(IFUNC(J4)+1) / 2 - IAD4(I) - IPOS4(I)   
+        ILEN4(I) = NPF(IFUNC(J4)+1) / 2 - IAD4(I) - IPOS4(I)
       ENDDO
 C
       CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
@@ -436,34 +436,34 @@ C
       CALL VINTER(TF,IAD3,IPOS3,ILEN3,NEL,PLA,DYDX3,Y3)
       CALL VINTER(TF,IAD4,IPOS4,ILEN4,NEL,PLA,DYDX4,Y4)
 C
-      DO I=1,NEL          
-        IF(JJ(I)==1)THEN 
+      DO I=1,NEL
+        IF(JJ(I)==1)THEN
          J1 = JJ(I)
          J2 = J1+1
          J3 = J2+1
          J4 = J3+1
          DYDX1(I)= DYDX1(I)*YFAC(I,1)
-         DYDX2 (I) = DYDX2(I)*YFAC(I,2)          
-         FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1)) 
+         DYDX2 (I) = DYDX2(I)*YFAC(I,2)
+         FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
          H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
         ELSEIF(JJ(I)==(NRATE-1))THEN
          J1 = JJ(I) - 2
-         J2 = J1+1 
-         J3 = J2+1 
+         J2 = J1+1
+         J3 = J2+1
          J4 = J3+1
          DYDX3(I) = DYDX3(I)*YFAC(I,3)
          DYDX4(I) = DYDX4(I)*YFAC(I,4)
-         FAC   = (EPSP(I) - RATE(I,3))/(RATE(I,4) - RATE(I,3)) 
-         H(I)   = FAIL(I)*(DYDX3(I) + FAC*(DYDX4(I)-DYDX3(I)))  
+         FAC   = (EPSP(I) - RATE(I,3))/(RATE(I,4) - RATE(I,3))
+         H(I)   = FAIL(I)*(DYDX3(I) + FAC*(DYDX4(I)-DYDX3(I)))
         ELSE
          J1 = JJ(I) - 1
          J2 = J1+1
          J3 = J2+1
-         J4 = J3+1 
+         J4 = J3+1
          DYDX2(I) = DYDX2(I)*YFAC(I,2)
          DYDX3(I) = DYDX3(I)*YFAC(I,3)
-         FAC   = (EPSP(I) - RATE(I,2))/(RATE(I,3) - RATE(I,2))  
-         H(I)   = FAIL(I)*(DYDX2(I) + FAC*(DYDX3(I)-DYDX2(I)))  
+         FAC   = (EPSP(I) - RATE(I,2))/(RATE(I,3) - RATE(I,2))
+         H(I)   = FAIL(I)*(DYDX2(I) + FAC*(DYDX3(I)-DYDX2(I)))
         ENDIF
         NN = NRATE
         X1 = RATE(I,1)
@@ -477,7 +477,7 @@ C
         Y44 = Y4(I)*YFAC(I,4)
         CALL  INTER_RAT(X1,X2,X3,X4,Y11,Y22,Y33,Y44,
      .                                           X,Y,YP,JJ(I),NN)
-        YLD(I) = FAIL(I)*Y   
+        YLD(I) = FAIL(I)*Y
         YLD(I) = MAX(YLD(I),EM20)
 Cc        Y11 = DYDX1(I)*YFAC(I,1)
 Cc        Y22 = DYDX2(I)*YFAC(I,2)
@@ -498,12 +498,12 @@ C---------------------------
       DO  I=1,NEL
        MS=MOMNXX(I)+MOMNYY(I)
        FS=SIGNXX(I)+SIGNYY(I)
-       SVM(I) = SIXTEEN*(MS*MS +THREE*(MOMNXY(I)*MOMNXY(I) 
+       SVM(I) = SIXTEEN*(MS*MS +THREE*(MOMNXY(I)*MOMNXY(I)
      .                                    - MOMNXX(I)*MOMNYY(I)))
      .          + FS*FS+ THREE*(SIGNXY(I)*SIGNXY(I)-SIGNXX(I)*SIGNYY(I))
        SVM(I) = SQRT(MAX(SVM(I),EM20))
        RR(I) = MIN(ONE,YLD(I)/SVM(I))
-       IF(RR(I)<ONE) ETSE(I)= H(I)/(H(I)+E(I)) 
+       IF(RR(I)<ONE) ETSE(I)= H(I)/(H(I)+E(I))
       ENDDO
       DO  I=1,NEL
        SIGNXX(I) = SIGNXX(I)*RR(I)
@@ -516,14 +516,14 @@ C---------------------------
        D2 = SIGNYY(I)-SIGOYY(I)
        NU  = UPARAM(IADBUFV+6)
        DWE =((SIGNXX(I)+SIGOXX(I))*(D1-NU*D2)+
-     .       (SIGNYY(I)+SIGOYY(I))*(-NU*D1+D2))/E(I)+ 
-     .      (SIGNXY(I)+SIGOXY(I))*(SIGNXY(I)-SIGOXY(I))/G(I) 
+     .       (SIGNYY(I)+SIGOYY(I))*(-NU*D1+D2))/E(I)+
+     .      (SIGNXY(I)+SIGOXY(I))*(SIGNXY(I)-SIGOXY(I))/G(I)
        D1 = MOMNXX(I)-MOMOXX(I)
        D2 = MOMNYY(I)-MOMOYY(I)
        DWE =DWE+ TWELVE*(
      .          ((MOMNXX(I)+MOMOXX(I))*(D1-NU*D2)
-     .         +(MOMNYY(I)+MOMOYY(I))*(-NU*D1+D2))/E(I)  
-     .         +(MOMNXY(I)+MOMOXY(I))*(MOMNXY(I)-MOMOXY(I))/G(I) ) 
+     .         +(MOMNYY(I)+MOMOYY(I))*(-NU*D1+D2))/E(I)
+     .         +(MOMNXY(I)+MOMOXY(I))*(MOMNXY(I)-MOMOXY(I))/G(I) )
        DWT =   (SIGNXX(I)+SIGOXX(I))*DEPSXX(I)+
      .         (SIGNYY(I)+SIGOYY(I))*DEPSYY(I)+
      .         (SIGNXY(I)+SIGOXY(I))*DEPSXY(I)
@@ -549,22 +549,22 @@ C-------------------------
 C-------------------------------------------------------------------------
 C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) A ETE PRIS A 2/3 PAR DEFAUT
 C-------------------------------------------------------------------------
-       C1 = PLA(I)*E(I)     
-       GAMA(I) = THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I)) 
-       GAMA2(I) = GAMA(I)*GAMA(I)    
+       C1 = PLA(I)*E(I)
+       GAMA(I) = THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I))
+       GAMA2(I) = GAMA(I)*GAMA(I)
        CM(I) = SIXTEEN*GAMA2(I)
-       CNM(I) = SQR16_3*GAMA(I)  
+       CNM(I) = SQR16_3*GAMA(I)
        QTIER(I) = FOUR_OVER_3*GAMA2(I)
        H(I) = MAX(ZERO,H(I))
        S1(I) = (SIGNXX(I)+SIGNYY(I))*HALF
        S2(I) = (SIGNXX(I)-SIGNYY(I))*HALF
        S3 = SIGNXY(I)
        SM1(I) = (MOMNXX(I)+MOMNYY(I))*HALF
-       SM2(I) = (MOMNXX(I)-MOMNYY(I))*HALF    
+       SM2(I) = (MOMNXX(I)-MOMNYY(I))*HALF
        SM3 = MOMNXY(I)
        AN(I) = S1(I)*S1(I)
        BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
-       NVM(I) = AN(I)+BN(I)  
+       NVM(I) = AN(I)+BN(I)
        AM(I) = SM1(I)*SM1(I)*CM(I)
        BM(I) =THREE*(SM2(I)*SM2(I)+SM3*SM3)*CM(I)
        MVM(I) = AM(I)+BM(I)
@@ -573,7 +573,7 @@ C-------------------------------------------------------------------------
        NMVM(I) = ANM(I)+BNM(I)
        SVM(I) = SQRT(NVM(I)+MVM(I)+ABS(NMVM(I)))
        DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
-       THK(I) = THK(I) +THK(I)* DEZZ*OFF(I) 
+       THK(I) = THK(I) +THK(I)* DEZZ*OFF(I)
       ENDDO
 C-------------------------
 C     GATHER PLASTIC FLOW
@@ -598,7 +598,7 @@ C---------------------------
         NUM1(I) = NU1(I)*QTIER(I)
         NUM2(I) = NU2(I)*QTIER(I)
         DPLA_J(I)=(SVM(I)-YLD(I))/(G3(I)*QTIER(I)+H(I))
-        ETSE(I)= H(I)/(H(I)+E(I)) 
+        ETSE(I)= H(I)/(H(I)+E(I))
       ENDDO
 C-------------------------------
 C     TIENT COMPTE DU COUPLAGE
@@ -643,7 +643,7 @@ C-------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         F    =FN+FM+FNM-YLD_I*YLD_I
         C1=NU1(I)*AA*A_I
         CP1=C1*A
@@ -659,9 +659,9 @@ C-------------------------------
         DFNM=ANM(I)*(CP1*DFNMP-FNMP*CP2)
      .      + BNM(I)*(CQ1*DFNMQ-FNMQ*CQ2)
         DF    =(DFN+DFM+S*DFNM)*
-     .         (E(I)*HALF-DR*H(I))/YLD_I-2.*H(I)*YLD_I 
- 
-     
+     .         (E(I)*HALF-DR*H(I))/YLD_I-2.*H(I)*YLD_I
+
+
 C DEBUG
 C          IF(I==21) THEN
 C            WRITE(12,*) 'DFN,DFM,DFNM'
@@ -702,7 +702,7 @@ C------------------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         PN=(ONE+QTIER(I)*XP)*A_I
         P_M=(ONE+XP)*A_I
         PNM1=-SQR4_3*GAMA(I)*S*XP*A_I
@@ -723,7 +723,7 @@ C------------------------------------------
         MOMNXX(I)=M1+M2
         MOMNYY(I)=M1-M2
         DEZZ = - NU3(I)*DR*SN1*2./E(I)
-        THK(I) = THK(I) + DEZZ*THK(I)*OFF(I)       
+        THK(I) = THK(I) + DEZZ*THK(I)*OFF(I)
       ENDDO
       ELSE
 C-------------------------
@@ -742,7 +742,7 @@ C-------------------------------------------------------------------------
        GAMA(I) = TWO/(THREE-CCC)
        GAMA2(I) = GAMA(I)*GAMA(I)
        CM(I) = THIRTY6*GAMA2(I)
-       CNM(I) = THREEP4641*GAMA(I)  
+       CNM(I) = THREEP4641*GAMA(I)
        QTIER(I) = THREE*GAMA2(I)
        H(I) = MAX(ZERO,H(I))
        S1(I) = (SIGNXX(I)+SIGNYY(I))*HALF
@@ -753,7 +753,7 @@ C-------------------------------------------------------------------------
        SM3 = MOMNXY(I)
        AN(I) = S1(I)*S1(I)
        BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
-       NVM(I) = AN(I)+BN(I)  
+       NVM(I) = AN(I)+BN(I)
        AM(I) = SM1(I)*SM1(I)*CM(I)
        BM(I) = THREE*(SM2(I)*SM2(I)+SM3*SM3)*CM(I)
        MVM(I) = AM(I)+BM(I)
@@ -831,7 +831,7 @@ C-------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         CP1 =(FNP*AN(I)+S*FNMP*ANM(I)+FMP*AM(I))*AA
         CQ1 =(FNQ*BN(I)+S*FNMQ*BNM(I)+FMQ*BM(I))*BB
         CP2 =(DFNP*AN(I)+S*DFNMP*ANM(I)+DFMP*AM(I))*AA
@@ -871,7 +871,7 @@ C------------------------------------------
          S=-ONEP732*GAMA(I)
         ELSE
          S=ONEP732*GAMA(I)
-        ENDIF 
+        ENDIF
         QN=ONE+QTIER(I)*XQ
         QNM1=XQ*S
         QNM2=QNM1*ONE_OVER_12

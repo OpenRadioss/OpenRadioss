@@ -30,7 +30,7 @@ Chd|====================================================================
      1                  JLT    ,LIST   ,CAND_N ,CAND_E ,IX1    ,
      2                  IX2    ,IX3    ,IX4    ,GAPV   ,XI     ,
      3                  YI     ,ZI     ,IRTLM ,CSTS    ,DEPTH2 ,
-     4                 NNX1    ,NNY1   ,NNZ1  ,NNX2    ,NNY2   , 
+     4                 NNX1    ,NNY1   ,NNZ1  ,NNX2    ,NNY2   ,
      5                 NNZ2    ,NNX3   ,NNY3  ,NNZ3    ,NNX4   ,
      6                 NNY4    ,NNZ4   ,X1    ,Y1      ,Z1     ,
      7                 X2      ,Y2     ,Z2    ,X3      ,Y3     ,
@@ -56,7 +56,7 @@ C-----------------------------------------------
      .        IX1(*), IX2(*), IX3(*),IX4(*)
       my_real  , INTENT(IN) :: DGAPLOAD
       my_real
-     .     GAPV(*), CSTS(2,*), DEPTH2, DRAD2, 
+     .     GAPV(*), CSTS(2,*), DEPTH2, DRAD2,
      .     XI(*)  , YI(*), ZI(*),
      .     X1(*), X2(*), X3(*), X4(*),
      .     Y1(*), Y2(*), Y3(*), Y4(*),
@@ -104,7 +104,7 @@ C-----------------------------------------------
      .     XI0V(MVSIZ),  YI0V(MVSIZ),  ZI0V(MVSIZ),
      .     XH(MVSIZ),  YH(MVSIZ),  ZH(MVSIZ),
      .     NX(MVSIZ),  NY(MVSIZ),  NZ(MVSIZ),
-     .     GAP2(MVSIZ), NN, 
+     .     GAP2(MVSIZ), NN,
      .     X0H(MVSIZ), Y0H(MVSIZ), Z0H(MVSIZ),
      .     X1H(MVSIZ), Y1H(MVSIZ), Z1H(MVSIZ),
      .     X2H(MVSIZ), Y2H(MVSIZ), Z2H(MVSIZ), HH(MVSIZ), LL,
@@ -137,7 +137,7 @@ C--------------------------------------------------------
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -450,7 +450,7 @@ C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = CAND_E(IS)
-               IRTLM_L(2,I) = NINT(SIDE) 
+               IRTLM_L(2,I) = NINT(SIDE)
                CSTS_L(1,I)  = LB1(I)
                CSTS_L(2,I)  = LC1(I)
              END IF
@@ -466,7 +466,7 @@ C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = -CAND_E(IS)
-               IRTLM_L(2,I) = NINT(SIDE) 
+               IRTLM_L(2,I) = NINT(SIDE)
                CSTS_L(1,I)  = LB1(I)
                CSTS_L(2,I)  = LC1(I)
              END IF
@@ -700,7 +700,7 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = CAND_E(IS)
-               IRTLM_L(2,I) = NINT(TWO*SIDE) 
+               IRTLM_L(2,I) = NINT(TWO*SIDE)
                CSTS_L(1,I)  = LB2(I)
                CSTS_L(2,I)  = LC2(I)
              END IF
@@ -716,7 +716,7 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = -CAND_E(IS)
-               IRTLM_L(2,I) = NINT(TWO*SIDE) 
+               IRTLM_L(2,I) = NINT(TWO*SIDE)
                CSTS_L(1,I)  = LB2(I)
                CSTS_L(2,I)  = LC2(I)
              END IF
@@ -941,7 +941,7 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = CAND_E(IS)
-               IRTLM_L(2,I) = NINT(THREE*SIDE) 
+               IRTLM_L(2,I) = NINT(THREE*SIDE)
                CSTS_L(1,I)  = LB3(I)
                CSTS_L(2,I)  = LC3(I)
              END IF
@@ -957,7 +957,7 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = -CAND_E(IS)
-               IRTLM_L(2,I) = NINT(THREE*SIDE) 
+               IRTLM_L(2,I) = NINT(THREE*SIDE)
                CSTS_L(1,I)  = LB3(I)
                CSTS_L(2,I)  = LC3(I)
              END IF
@@ -1183,7 +1183,7 @@ C        SIDE=NX4(I)*NX(I)+NY4(I)*NY(I)+NZ4(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = CAND_E(IS)
-               IRTLM_L(2,I) = NINT(FOUR*SIDE) 
+               IRTLM_L(2,I) = NINT(FOUR*SIDE)
                CSTS_L(1,I)  = LB4(I)
                CSTS_L(2,I)  = LC4(I)
              END IF
@@ -1199,7 +1199,7 @@ C        SIDE=NX4(I)*NX(I)+NY4(I)*NY(I)+NZ4(I)*NZ(I)
              IF(CRIT < CRITO)THEN
                IS=LIST(I)
                IRTLM_L(1,I) = -CAND_E(IS)
-               IRTLM_L(2,I) = NINT(FOUR*SIDE) 
+               IRTLM_L(2,I) = NINT(FOUR*SIDE)
                CSTS_L(1,I)  = LB4(I)
                CSTS_L(2,I)  = LC4(I)
              END IF
@@ -1231,7 +1231,7 @@ C---------------------
                CSTS(1,CAND_N(IS))  = LB
                CSTS(2,CAND_N(IS))  = LC
              END IF
-           
+
 #include "lockoff.inc"
          END IF
 C

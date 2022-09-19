@@ -48,9 +48,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER,  INTENT(IN) ::    NEL  
+      INTEGER,  INTENT(IN) ::    NEL
 C
-      my_real,  INTENT(IN) :: A1, EXPN ,B0  
+      my_real,  INTENT(IN) :: A1, EXPN ,B0
 C
       my_real, DIMENSION(NEL), INTENT(IN) ::  TBNORM
 C----------------------------------------------------------------
@@ -65,15 +65,15 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I
 
-      my_real     
+      my_real
      .   TEMP,  IP1(NEL)
 C----------------------------------------------------------------
 
 
-        DO I=1,NEL 
+        DO I=1,NEL
 
-          TEMP =( SINH (B0 *  TBNORM(I) ) )**EXPN  
-          DGAMMA(I) = A1* TEMP 
+          TEMP =( SINH (B0 *  TBNORM(I) ) )**EXPN
+          DGAMMA(I) = A1* TEMP
         ENDDO
       RETURN
       END

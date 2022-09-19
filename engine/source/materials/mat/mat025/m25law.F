@@ -33,8 +33,8 @@ Chd|====================================================================
      1                    S01       ,S02  ,S03  ,S04  ,S05  ,S06 ,
      2                    D1        ,D2   ,D3   ,D4   ,D5   ,D6  ,
      3                    RX        ,RY   ,RZ   ,SX   ,SY   ,SZ  ,
-     4                    TX        ,TY   ,TZ   ,GAMA ,VNEW ,SSP , 
-     5                    VOL       ,EPSP ,WPLA ,DAMT ,CRAK ,EPST, 
+     4                    TX        ,TY   ,TZ   ,GAMA ,VNEW ,SSP ,
+     5                    VOL       ,EPSP ,WPLA ,DAMT ,CRAK ,EPST,
      6                    DEFP      ,SIGY ,SIGL ,NGL  ,ILAY ,FLAY,
      7                    SEQ_OUTPUT,NEL  ,IPM  ,IPG  )
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ), NGL(MVSIZ),IPM(NPROPMI,*),ILAY,NEL,IPG
 C     REAL
       my_real
-     .   PM(NPROPM,*),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6), 
+     .   PM(NPROPM,*),OFF(*), SIG(NEL,6), WPLA(*), GAMA(MVSIZ,6),
      .   EINT(*), DAMT(NEL,2), CRAK(*),  EPSP(*),
      .   RX(*) ,RY(*),RZ(*) ,SX(*),SY(*),SZ(*),
      .   TX(*) ,TY(*) ,TZ(*),DEFP(*), SIGY(*),SEQ_OUTPUT(*)
@@ -89,8 +89,8 @@ C     REAL
      .   EP6(MVSIZ),EPST1(MVSIZ),EPST2(MVSIZ),EPSM1(MVSIZ),EPSM2(MVSIZ),
      .   DMAX(MVSIZ),R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),
      .   R22(MVSIZ),R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ)
-       my_real 
-     .   ASRATE,EPS_K2, EPS_M2, SIGT1, SIGT2, 
+       my_real
+     .   ASRATE,EPS_K2, EPS_M2, SIGT1, SIGT2,
      .   ZT, WMC, VISC, DTINV ,EPD,DAV,DAM1,DAM2,DT5,
      .   EPST1_1,EPST2_1,EPSM1_1,EPSM2_1,DMAX_1,SSP_1
 C=======================================================================
@@ -103,38 +103,38 @@ C
 !         DAMCR(I,1)=ZERO
 !         DAMCR(I,2)=ZERO
          DMAXT(I)=ZERO
-       ENDDO  
+       ENDDO
 C-----------------------------------------------------------
 C     STRAIN RATE FILTERING (EQUIVALENT EPSP)
 C-----------------------------------------------------------
        MX = MAT(LFT)
        ISRATE = IPM(3,MX)
-       ASRATE = PM(9,MX)*DT1     
-       ASRATE = ASRATE / (ASRATE + ONE)   
-       DO I=LFT,LLT                                                                                                    
-         IF(ISRATE >= 1)THEN                                     
-           DAV = -THIRD*(D1(I)+D2(I)+D3(I))                         
-           EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2          
-     .                                   +(D3(I)+DAV)**2)           
-     .            + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)              
-           EPD = SQRT(THREE*EPD)/THREE_HALF                        
-           EPSP(I) = ASRATE*EPD + (ONE - ASRATE)*EPSP(I)     
-         ELSE                                                       
-           EPSP(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), 
-     .     HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))   
-         ENDIF                                         
-       ENDDO                                                        
+       ASRATE = PM(9,MX)*DT1
+       ASRATE = ASRATE / (ASRATE + ONE)
+       DO I=LFT,LLT
+         IF(ISRATE >= 1)THEN
+           DAV = -THIRD*(D1(I)+D2(I)+D3(I))
+           EPD = HALF*((D1(I)+DAV )**2+(D2(I)+DAV)**2
+     .                                   +(D3(I)+DAV)**2)
+     .            + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)
+           EPD = SQRT(THREE*EPD)/THREE_HALF
+           EPSP(I) = ASRATE*EPD + (ONE - ASRATE)*EPSP(I)
+         ELSE
+           EPSP(I)=OFF(I)* MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)),
+     .     HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
+         ENDIF
+       ENDDO
 C--------------------------------------------
 C     STRESS TRANSFORMATION (GLOBAL -> FIBER)
 C-------------------------------------------- 
-       
+
         DO I=LFT,LLT
           EP1(I) = D1(I)*DT1
           EP2(I) = D2(I)*DT1
           EP3(I) = D3(I)*DT1
           EP4(I) = D4(I)*DT1
           EP5(I) = D5(I)*DT1
-          EP6(I) = D6(I)*DT1 
+          EP6(I) = D6(I)*DT1
           S1(I) = SIG(I,1)
           S2(I) = SIG(I,2)
           S3(I) = SIG(I,3)
@@ -164,8 +164,8 @@ C stress
         CALL MROTENS(LFT,LLT,S1,S2,S3,S4,S5,S6,
      .               R11,R12,R13,
      .               R21,R22,R23,
-     .               R31,R32,R33) 
-       ENDIF  
+     .               R31,R32,R33)
+       ENDIF
 C-----------------------------------------------------------
 C-----------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
@@ -185,7 +185,7 @@ C
      .              R12,R22,R32,
      .              R13,R23,R33 )
         ENDIF
-     
+
           DO I=LFT,LLT
               SIG(I,1) = S1(I)*OFF(I)
               SIG(I,2) = S2(I)*OFF(I)
@@ -194,8 +194,8 @@ C
               SIG(I,5) = S5(I)*OFF(I)
               SIG(I,6) = S6(I)*OFF(I)
           ENDDO
-          
-         
+
+
 C-----------------------
 C     TENSILE RUPTURE
 C-----------------------
@@ -223,7 +223,7 @@ C.....GATHER DIRECTION 1
      +    .AND. DAMT(I,1) == ZERO .AND. OFF(I) == ONE)THEN
           NINDX=NINDX+1
           INDX(NINDX)=I
-        ENDIF  
+        ENDIF
       ENDDO
 C.....1.FIRST FAILURE DIRECTION 1
       IF(NINDX>0)THEN
@@ -238,11 +238,11 @@ C.....1.FIRST FAILURE DIRECTION 1
                WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),
      +        ', LAYER #',ILAY,', INTEGRATION POINT #',IPG,
-     +        ', TIME=',TT      
+     +        ', TIME=',TT
 #include "lockoff.inc"
-            ENDIF      
+            ENDIF
          ENDDO
-       ENDIF      
+       ENDIF
 C.....GATHER DIRECTION 2
        NINDX=0
       DO  I=LFT,LLT
@@ -250,7 +250,7 @@ C.....GATHER DIRECTION 2
      +         .AND. DAMT(I,2) == ZERO .AND. OFF(I) == ONE) THEN
           NINDX=NINDX+1
           INDX(NINDX)=I
-        ENDIF  
+        ENDIF
       ENDDO
 C.....1.FIRST FAILURE DIRECTION 2
       IF(NINDX > 0)THEN
@@ -265,11 +265,11 @@ C.....1.FIRST FAILURE DIRECTION 2
               WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),
      +        ', LAYER #',ILAY,', INTEGRATION POINT #',IPG,
-     +        ', TIME=',TT      
+     +        ', TIME=',TT
 #include "lockoff.inc"
-          ENDIF      
+          ENDIF
         ENDDO
-      ENDIF      
+      ENDIF
 C.....DOMMAGE GLOBAL
 c      DO  I=LFT,LLT
 c      DAMCR(I,1)=DAMCR(I,1)+THLY(I)*DAMT(I,1)
@@ -295,7 +295,7 @@ c             IF(IOFF == 0 .AND. WPLAR(I) >= ONE) JOFF=1
 c             IF(IOFF == 1 .AND. NINT(WPLAR(I)) >= NPT) JOFF=1
 c             IF(IOFF == 2 .AND. NFIS1(I) == NPT) JOFF=1
 c             IF(IOFF == 3 .AND. NFIS2(I) == NPT) JOFF=1
-c             IF(IOFF == 4 .AND. NFIS1(I) == NPT 
+c             IF(IOFF == 4 .AND. NFIS1(I) == NPT
 c     .                     .AND. NFIS2(I) == NPT) JOFF=1
 c             IF(IOFF == 5 .AND. NFIS1(I) == NPT) JOFF=1
 c             IF(IOFF == 5 .AND. NFIS2(I) == NPT) JOFF=1
@@ -326,7 +326,7 @@ c             IF(IOFF == 6 .AND. NFIS3(I) == NPT) JOFF=1
      .           + D6(I)*(S06(I)+SIG(I,6)))
         EINT(I)=EINT(I)/VOL(I)
       ENDDO
-       
+
  1000 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT :',I10,' AT TIME :',G11.4)
       RETURN

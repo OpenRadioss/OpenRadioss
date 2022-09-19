@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
 C     REAL
       my_real
-     .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*), 
+     .   F(3,*), M(3,*), OFFG(*), OFF(*), STI(*), STIR(*),
      .   STIFN(*), STIFR(*),PM(NPROPM,*),
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
      .   F21(MVSIZ), F22(MVSIZ), F23(MVSIZ), F24(MVSIZ),
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
 C cumul de l'energie des elements deletes AU moment du delete
-            
+
       IOFF=0
       DO I=JFT,JLT
         IF(OFF(I)==ZERO.AND.OFFG(I)>ZERO)IOFF=1
@@ -152,7 +152,7 @@ C
              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)
           ENDDO
        ELSE
-          IF(NODADT_THERM == 1 ) THEN  
+          IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
            DO I=JFT,JLT
              F(1,IXC(2,I))=F(1,IXC(2,I))-F11(I)
@@ -165,7 +165,7 @@ C
              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)
              FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
              CONDN(IXC(2,I))=CONDN(IXC(2,I))+CONDE(I)
-           ENDDO  
+           ENDDO
           ELSE
 #include "vectorize.inc"
            DO I=JFT,JLT
@@ -178,8 +178,8 @@ C
              STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI(I)*FAC(I,1)
              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)
              FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
-           ENDDO 
-          ENDIF       
+           ENDDO
+          ENDIF
         ENDIF
 
       ELSE
@@ -196,7 +196,7 @@ C
             STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)
           ENDDO
        ELSE
-          IF(NODADT_THERM == 1 ) THEN  
+          IF(NODADT_THERM == 1 ) THEN
             DO I=JFT,JLT
               F(1,IXC(2,I))=F(1,IXC(2,I))-F11(I)
               F(2,IXC(2,I))=F(2,IXC(2,I))-F21(I)
@@ -205,10 +205,10 @@ C
               M(2,IXC(2,I))=M(2,IXC(2,I))-M21(I)
               M(3,IXC(2,I))=M(3,IXC(2,I))-M31(I)
               STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI(I)*FAC(I,1)
-              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)        
+              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)
               FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
               CONDN(IXC(2,I))=CONDN(IXC(2,I))+CONDE(I)
-            ENDDO  
+            ENDDO
           ELSE
             DO I=JFT,JLT
               F(1,IXC(2,I))=F(1,IXC(2,I))-F11(I)
@@ -218,10 +218,10 @@ C
               M(2,IXC(2,I))=M(2,IXC(2,I))-M21(I)
               M(3,IXC(2,I))=M(3,IXC(2,I))-M31(I)
               STIFN(IXC(2,I))=STIFN(IXC(2,I))+STI(I)*FAC(I,1)
-              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)        
+              STIFR(IXC(2,I))=STIFR(IXC(2,I))+STIR(I)*FAC(I,1)
               FTHE(IXC(2,I))=FTHE(IXC(2,I)) + THEM(I,1)
-            ENDDO  
-          ENDIF       
+            ENDDO
+          ENDIF
        ENDIF
       ENDIF
 C
@@ -237,9 +237,9 @@ C
             M(3,IXC(3,I))=M(3,IXC(3,I))-M32(I)
             STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)*FAC(I,2)
             STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)
-         ENDDO  
+         ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
           DO I=JFT,JLT
             F(1,IXC(3,I))=F(1,IXC(3,I))-F12(I)
@@ -249,10 +249,10 @@ C
             M(2,IXC(3,I))=M(2,IXC(3,I))-M22(I)
             M(3,IXC(3,I))=M(3,IXC(3,I))-M32(I)
             STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)        
-            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2) 
-            CONDN(IXC(3,I))=CONDN(IXC(3,I))+CONDE(I)         
-          ENDDO  
+            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)
+            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
+            CONDN(IXC(3,I))=CONDN(IXC(3,I))+CONDE(I)
+          ENDDO
          ELSE
 #include "vectorize.inc"
           DO I=JFT,JLT
@@ -263,10 +263,10 @@ C
             M(2,IXC(3,I))=M(2,IXC(3,I))-M22(I)
             M(3,IXC(3,I))=M(3,IXC(3,I))-M32(I)
             STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)        
-            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2) 
-          ENDDO  
-         ENDIF       
+            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)
+            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
+          ENDDO
+         ENDIF
         ENDIF
 C   
       ELSE
@@ -282,7 +282,7 @@ C
             STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
           DO I=JFT,JLT
             F(1,IXC(3,I))=F(1,IXC(3,I))-F12(I)
             F(2,IXC(3,I))=F(2,IXC(3,I))-F22(I)
@@ -291,10 +291,10 @@ C
             M(2,IXC(3,I))=M(2,IXC(3,I))-M22(I)
             M(3,IXC(3,I))=M(3,IXC(3,I))-M32(I)
             STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)        
-            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2) 
-            CONDN(IXC(3,I))=CONDN(IXC(3,I))+CONDE(I)         
-          ENDDO  
+            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)
+            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
+            CONDN(IXC(3,I))=CONDN(IXC(3,I))+CONDE(I)
+          ENDDO
          ELSE
           DO I=JFT,JLT
             F(1,IXC(3,I))=F(1,IXC(3,I))-F12(I)
@@ -304,10 +304,10 @@ C
             M(2,IXC(3,I))=M(2,IXC(3,I))-M22(I)
             M(3,IXC(3,I))=M(3,IXC(3,I))-M32(I)
             STIFN(IXC(3,I))=STIFN(IXC(3,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)        
-            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2) 
-          ENDDO  
-         ENDIF        
+            STIFR(IXC(3,I))=STIFR(IXC(3,I))+STIR(I)*FAC(I,2)
+            FTHE(IXC(3,I))=FTHE(IXC(3,I)) + THEM(I,2)
+          ENDDO
+         ENDIF
         ENDIF
 C     
       ENDIF
@@ -326,7 +326,7 @@ C
            STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
           DO I=JFT,JLT
            F(1,IXC(4,I))=F(1,IXC(4,I))-F13(I)
@@ -336,10 +336,10 @@ C
            M(2,IXC(4,I))=M(2,IXC(4,I))-M23(I)
            M(3,IXC(4,I))=M(3,IXC(4,I))-M33(I)
            STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)*FAC(I,1)
-           STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)        
+           STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)
            FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
            CONDN(IXC(4,I))=CONDN(IXC(4,I))+CONDE(I)
-          ENDDO 
+          ENDDO
          ELSE
 #include "vectorize.inc"
           DO I=JFT,JLT
@@ -350,10 +350,10 @@ C
            M(2,IXC(4,I))=M(2,IXC(4,I))-M23(I)
            M(3,IXC(4,I))=M(3,IXC(4,I))-M33(I)
            STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)*FAC(I,1)
-           STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)        
+           STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)
            FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
           ENDDO
-         ENDIF        
+         ENDIF
         ENDIF
 C    
       ELSE
@@ -369,7 +369,7 @@ C
              STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)
           ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
            DO I=JFT,JLT
              F(1,IXC(4,I))=F(1,IXC(4,I))-F13(I)
              F(2,IXC(4,I))=F(2,IXC(4,I))-F23(I)
@@ -378,9 +378,9 @@ C
              M(2,IXC(4,I))=M(2,IXC(4,I))-M23(I)
              M(3,IXC(4,I))=M(3,IXC(4,I))-M33(I)
              STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)*FAC(I,1)
-             STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)        
+             STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)
              FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
-             CONDN(IXC(4,I))=CONDN(IXC(4,I))+CONDE(I)   
+             CONDN(IXC(4,I))=CONDN(IXC(4,I))+CONDE(I)
            ENDDO
          ELSE
            DO I=JFT,JLT
@@ -391,10 +391,10 @@ C
              M(2,IXC(4,I))=M(2,IXC(4,I))-M23(I)
              M(3,IXC(4,I))=M(3,IXC(4,I))-M33(I)
              STIFN(IXC(4,I))=STIFN(IXC(4,I))+STI(I)*FAC(I,1)
-             STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)        
+             STIFR(IXC(4,I))=STIFR(IXC(4,I))+STIR(I)*FAC(I,1)
              FTHE(IXC(4,I))=FTHE(IXC(4,I)) + THEM(I,3)
            ENDDO
-         ENDIF         
+         ENDIF
         ENDIF
 C       
       ENDIF
@@ -413,7 +413,7 @@ C
               STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)
            ENDDO
          ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
 #include "vectorize.inc"
            DO I=JFT,JLT
             F(1,IXC(5,I))=F(1,IXC(5,I))-F14(I)
@@ -423,9 +423,9 @@ C
             M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
             M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
             STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)        
+            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)
             FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
-            CONDN(IXC(5,I))=CONDN(IXC(5,I))+CONDE(I) 
+            CONDN(IXC(5,I))=CONDN(IXC(5,I))+CONDE(I)
            ENDDO
          ELSE
 #include "vectorize.inc"
@@ -437,11 +437,11 @@ C
             M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
             M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
             STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)        
+            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)
             FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
            ENDDO
-         ENDIF         
-       
+         ENDIF
+
         ENDIF
 C     
       ELSE
@@ -457,7 +457,7 @@ C
             STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)
          ENDDO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
           DO I=JFT,JLT
             F(1,IXC(5,I))=F(1,IXC(5,I))-F14(I)
             F(2,IXC(5,I))=F(2,IXC(5,I))-F24(I)
@@ -466,7 +466,7 @@ C
             M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
             M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
             STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)        
+            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)
             FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
             CONDN(IXC(5,I))=CONDN(IXC(5,I))+CONDE(I)
           ENDDO
@@ -479,10 +479,10 @@ C
             M(2,IXC(5,I))=M(2,IXC(5,I))-M24(I)
             M(3,IXC(5,I))=M(3,IXC(5,I))-M34(I)
             STIFN(IXC(5,I))=STIFN(IXC(5,I))+STI(I)*FAC(I,2)
-            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)        
+            STIFR(IXC(5,I))=STIFR(IXC(5,I))+STIR(I)*FAC(I,2)
             FTHE(IXC(5,I))=FTHE(IXC(5,I)) + THEM(I,4)
           ENDDO
-         ENDIF         
+         ENDIF
         ENDIF
 C        
       ENDIF
@@ -505,7 +505,7 @@ Chd|====================================================================
      8                   M31  ,M32  ,M33 ,M34 ,IXC,
      A                   EINT ,PARTSAV,MAT,IPARTC,PM,
      B                   AREA ,THK  ,FAC , JTHE , THEM,
-     C                   FTHESKY,CONDNSKY,CONDE )  
+     C                   FTHESKY,CONDNSKY,CONDE )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -531,7 +531,7 @@ C     INTEGER JFT, JLT, IADC(4,*)
       INTEGER IXC(NIXC,MVSIZ),MAT(MVSIZ),IPARTC(*)
 C     REAL
       my_real
-     .   OFFG(*), OFF(*), STI(*), STIR(*),PM(NPROPM,*), 
+     .   OFFG(*), OFF(*), STI(*), STIR(*),PM(NPROPM,*),
      .   FSKYV(LSKY,8), FSKY(8,LSKY)
       my_real
      .   F11(MVSIZ), F12(MVSIZ), F13(MVSIZ), F14(MVSIZ),
@@ -539,7 +539,7 @@ C     REAL
      .     F31(MVSIZ), F32(MVSIZ), F33(MVSIZ), F34(MVSIZ),
      .     M11(MVSIZ), M12(MVSIZ), M13(MVSIZ), M14(MVSIZ),
      .     M21(MVSIZ), M22(MVSIZ), M23(MVSIZ), M24(MVSIZ),
-     .     M31(MVSIZ), M32(MVSIZ), M33(MVSIZ), M34(MVSIZ), 
+     .     M31(MVSIZ), M32(MVSIZ), M33(MVSIZ), M34(MVSIZ),
      .     CONDE(MVSIZ),
      .     EINT(JLT,2),PARTSAV(NPSAV,*), AREA(*) ,THK(*),FAC(MVSIZ,2),
      .     THEM(MVSIZ,4), FTHESKY(LSKY),CONDNSKY(*)
@@ -653,7 +653,7 @@ C
              FTHESKY(IADC(2,I)) = THEM(I,2)
              FTHESKY(IADC(3,I)) = THEM(I,3)
              FTHESKY(IADC(4,I)) = THEM(I,4)
-           ENDDO   
+           ENDDO
            IF(NODADT_THERM ==1) THEN
 #include "vectorize.inc"
             DO I=JFT,JLT
@@ -662,7 +662,7 @@ C
              CONDNSKY(IADC(3,I)) = CONDE(I)
              CONDNSKY(IADC(4,I)) = CONDE(I)
             ENDDO
-           ENDIF     
+           ENDIF
          ENDIF
 C   
       ELSE
@@ -730,7 +730,7 @@ c#include "cupdt3_pf.inc"
             FTHESKY(IADC(2,I)) = THEM(I,2)
             FTHESKY(IADC(3,I)) = THEM(I,3)
             FTHESKY(IADC(4,I)) = THEM(I,4)
-          ENDDO  
+          ENDDO
            IF(NODADT_THERM ==1) THEN
             DO I=JFT,JLT
              CONDNSKY(IADC(1,I)) = CONDE(I)*FAC(I,1)
@@ -738,7 +738,7 @@ c#include "cupdt3_pf.inc"
              CONDNSKY(IADC(3,I)) = CONDE(I)*FAC(I,1)
              CONDNSKY(IADC(4,I)) = CONDE(I)*FAC(I,2)
             ENDDO
-           ENDIF         
+           ENDIF
          ENDIF
 C  
       ENDIF

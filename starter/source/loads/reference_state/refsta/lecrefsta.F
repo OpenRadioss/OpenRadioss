@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITABM1(*),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*),TAGNOD(*)
       INTEGER IDDLEVEL,TAGREF(*)
       my_real
@@ -72,7 +72,7 @@ C     REAL
       my_real
      .  XX,YY,ZZ,FAC_L
       CHARACTER MESS*40
-      DATA MESS/'REFSTA'/      
+      DATA MESS/'REFSTA'/
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -87,12 +87,12 @@ C--------------------------------------
       ENDIF
       NNOD=0
       DO
-        READ(IIN6,FMT='(A)',END=799,ERR=798)LINE          
-        IF (LINE(1:1) == '#') CYCLE                    
-        IF (RS0_FMT == 1)THEN                             
-          READ(LINE,'(I8,3F16.0)', ERR=797) ID,XX,YY,ZZ   
-        ELSE                                              
-          READ(LINE,'(I10,3F20.0)',ERR=797) ID,XX,YY,ZZ   
+        READ(IIN6,FMT='(A)',END=799,ERR=798)LINE
+        IF (LINE(1:1) == '#') CYCLE
+        IF (RS0_FMT == 1)THEN
+          READ(LINE,'(I8,3F16.0)', ERR=797) ID,XX,YY,ZZ
+        ELSE
+          READ(LINE,'(I10,3F20.0)',ERR=797) ID,XX,YY,ZZ
         ENDIF
         IF (ID <= 0) CYCLE
         IF (NSUBDOM == 0) NN = USR2SYS(ID,ITABM1,MESS,0)
@@ -104,59 +104,59 @@ C--------------------------------------
         IF (TAGNOD(NN) == 0) THEN
           NNOD=NNOD+1
           IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,I10,5X,1P3G20.13)') ID,XX,YY,ZZ
-          XYZREF(1,NN) = XX                                   
-          XYZREF(2,NN) = YY                                   
+          XYZREF(1,NN) = XX
+          XYZREF(2,NN) = YY
           XYZREF(3,NN) = ZZ
         ELSEIF(IDDLEVEL == 0) THEN
 C   ERROR : THIS NODE IS ALSO DEFINED IN XREF
           CALL ANCMSG(MSGID=1034,
      .                MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                I1=ID)
-        ENDIF                                  
-      ENDDO                                          
+        ENDIF
+      ENDDO
 C-------------                                                       
- 797  CONTINUE                                          
+ 797  CONTINUE
       CALL ANCMSG(MSGID=733,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,
      .            C1=LINE)
- 798  CONTINUE                                          
+ 798  CONTINUE
       CALL ANCMSG(MSGID=734,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO)
- 799  CONTINUE                                          
+ 799  CONTINUE
       IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1010) NNOD		
 C-------------                                                       
-      DO IE=1,NUMELC                                    
-        DO IN=1,4                                       
+      DO IE=1,NUMELC
+        DO IN=1,4
           NN = IXC(IN+1,IE)
           IF (TAGNOD(NN) == 0)THEN
-            XREFC(IN,1,IE) = XYZREF(1,NN)               
-            XREFC(IN,2,IE) = XYZREF(2,NN)               
-            XREFC(IN,3,IE) = XYZREF(3,NN)               
-          ENDIF                          
-        ENDDO                                           
-      ENDDO                                             
-      DO IE=1,NUMELTG                                   
-        DO IN=1,3                                       
-          NN = IXTG(IN+1,IE)                            
+            XREFC(IN,1,IE) = XYZREF(1,NN)
+            XREFC(IN,2,IE) = XYZREF(2,NN)
+            XREFC(IN,3,IE) = XYZREF(3,NN)
+          ENDIF
+        ENDDO
+      ENDDO
+      DO IE=1,NUMELTG
+        DO IN=1,3
+          NN = IXTG(IN+1,IE)
           IF (TAGNOD(NN) == 0)THEN
-            XREFTG(IN,1,IE) = XYZREF(1,NN)                
-            XREFTG(IN,2,IE) = XYZREF(2,NN)                
-            XREFTG(IN,3,IE) = XYZREF(3,NN)                
-          ENDIF                          
-        ENDDO                                           
-      ENDDO                                             
-      DO IE=1,NUMELS8                                   
-        DO IN=1,8                                       
-          NN = IXS(IN+1,IE)                             
+            XREFTG(IN,1,IE) = XYZREF(1,NN)
+            XREFTG(IN,2,IE) = XYZREF(2,NN)
+            XREFTG(IN,3,IE) = XYZREF(3,NN)
+          ENDIF
+        ENDDO
+      ENDDO
+      DO IE=1,NUMELS8
+        DO IN=1,8
+          NN = IXS(IN+1,IE)
           IF (TAGNOD(NN) == 0)THEN
-            XREFS(IN,1,IE) = XYZREF(1,NN)                 
-            XREFS(IN,2,IE) = XYZREF(2,NN)                 
-            XREFS(IN,3,IE) = XYZREF(3,NN)                 
-          ENDIF                          
-        ENDDO                                           
-      ENDDO 
+            XREFS(IN,1,IE) = XYZREF(1,NN)
+            XREFS(IN,2,IE) = XYZREF(2,NN)
+            XREFS(IN,3,IE) = XYZREF(3,NN)
+          ENDIF
+        ENDDO
+      ENDDO
 C-----------
       RETURN
  1000 FORMAT(//

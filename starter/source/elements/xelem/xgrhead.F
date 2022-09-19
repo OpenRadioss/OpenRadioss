@@ -32,7 +32,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE XGRHEAD(
      1       KXX,  GEO,     INUM,    ITR1,
-     2       EADD, INDEX,   ITRI,    IPARTX,     
+     2       EADD, INDEX,   ITRI,    IPARTX,
      3       ND,   IGRSURF,
      4       CEP,  XEP,IPM)
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C     REAL OU REAL*8
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
      .        II, J, II2,JJ2,JJ, II3, JJ3, L,NGROU,
      .        MSKMTN,MSKISN,MSKPID, MODE, WORK(70000)
@@ -173,7 +173,7 @@ C RENUMEROTATION POUR SURFACES
 C ow a verifier IBUFSSG - ITYP == 100
        DO I=1,NSURF
          NN=IGRSURF(I)%NSEG
-         DO J=1,NN 
+         DO J=1,NN
            IF(IGRSURF(I)%ELTYP(J) == 100)
      .        IGRSURF(I)%ELEM(J) = ITR1(IGRSURF(I)%ELEM(J))
          ENDDO

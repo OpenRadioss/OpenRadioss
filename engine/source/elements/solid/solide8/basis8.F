@@ -64,7 +64,7 @@ C     REAL
       H(6)=ONE_OVER_8*RP*SM*TP
       H(7)=ONE_OVER_8*RP*SP*TP
       H(8)=ONE_OVER_8*RM*SP*TP
-      PR(1)=-ONE_OVER_8*SM*TM      
+      PR(1)=-ONE_OVER_8*SM*TM
       PR(2)=-PR(1)
       PR(3)= ONE_OVER_8*SP*TM
       PR(4)=-PR(3)
@@ -83,7 +83,7 @@ C     REAL
       PT(1)=-ONE_OVER_8*RM*SM
       PT(2)=-ONE_OVER_8*RP*SM
       PT(3)=-ONE_OVER_8*RP*SP
-      PT(4)=-ONE_OVER_8*RM*SP      
+      PT(4)=-ONE_OVER_8*RM*SP
       PT(5)=-PT(1)
       PT(6)=-PT(2)
       PT(7)=-PT(3)

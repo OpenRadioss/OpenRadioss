@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*), ITABG(*), LENG, 
+      INTEGER ITAB(*), ITABG(*), LENG,
      .        IGEO(NPROPGI,*), IXC(NIXC,*), IXTG(NIXTG,*),
      .        IPARTC(*), IPARTTG(*), IPART_DYNAIN(*),
      .        NODTAG(*), DYNAIN_INDXC(*), DYNAIN_INDXTG(*),
@@ -74,11 +74,11 @@ C-----------------------------------------------
       INTEGER IADD(NPART+1), IADG(NSPMD,NPART)
       INTEGER WORK(70000)
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: NPC , NPTG ,NPGLOBC ,NPGLOBTG
-      INTEGER ,  DIMENSION(:,:),ALLOCATABLE :: CLEF 
+      INTEGER ,  DIMENSION(:,:),ALLOCATABLE :: CLEF
       double precision  THKN ,BETA
-      double precision ,  DIMENSION(:),ALLOCATABLE :: THKC, THKC0 , THKTG, THKTG0, 
+      double precision ,  DIMENSION(:),ALLOCATABLE :: THKC, THKC0 , THKTG, THKTG0,
      .        BETAC, BETAC0, BETATG, BETATG0
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C--------------------------------------------------------
 
 C-----------------------
@@ -112,7 +112,7 @@ C SPMD: Need to send infos even if 0 elems
        IF(ITY==3) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          ITHK  =IPARG(28,NG)
          IPROP =IPARG(62,NG)
@@ -184,7 +184,7 @@ C SPMD: Need to send infos even if 0 elems
        IF(ITY==7) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          ITHK  =IPARG(28,NG)
          IPROP =IPARG(62,NG)
@@ -275,13 +275,13 @@ C---------Non Orthotropic elements ------------
           THKN = THKC0(K)
           IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
-              IF(IGTYP/=IGTYP0) THEN 
-                 IGTYP0 = IGTYP         
+              IF(IGTYP/=IGTYP0) THEN
+                 IGTYP0 = IGTYP
                  WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS'
                  WRITE(IUDYNAIN,'(A)')
      .            '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
                  WRITE(IUDYNAIN,'(A)')
-     .            '$          THIC1           THIC2           THIC3           THIC4' 
+     .            '$          THIC1           THIC2           THIC3           THIC4'
               ENDIF
               WRITE(IUDYNAIN,'(6I8)')
      .        NPGLOBC(JJ+1),NPGLOBC(JJ+6),
@@ -295,7 +295,7 @@ C---------Non Orthotropic elements ------------
           ENDIF
         END DO
 
-        N4SHELL = N 
+        N4SHELL = N
 
 C-----
         DO N=1,DYNAIN_NUMELTG_G
@@ -318,7 +318,7 @@ C-----
           ENDIF
         END DO
 
-        N3SHELL = N 
+        N3SHELL = N
 
 C--------- Orthotropic elements ------------
 
@@ -333,13 +333,13 @@ C--------- Orthotropic elements ------------
            BETA = BETAC0(K)
            IF(IOFF >= 1) THEN
 
-             IF(IGTYP/=IGTYP0) THEN  
-                 IGTYP0 = IGTYP                  
+             IF(IGTYP/=IGTYP0) THEN
+                 IGTYP0 = IGTYP
                 WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS_BETA'
                 WRITE(IUDYNAIN,'(A)')
      .           '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
                 WRITE(IUDYNAIN,'(A)')
-     .          '$          THIC1           THIC2           THIC3           THIC4            BETA'          
+     .          '$          THIC1           THIC2           THIC3           THIC4            BETA'
              ENDIF
 
              WRITE(IUDYNAIN,'(6I8)')

@@ -81,9 +81,9 @@ C     REAL
 C-----------------------------------------------
       DT11 = DT1
       IF (DT11 == ZERO) DT11 = EP30
-c      
+c
       DO I=LFT,LLT
-        PID = MGN(I) 
+        PID = MGN(I)
         XM(I)   =GEO(1,PID)
         XK(I)   =GEO(2,PID)
         XC(I)   =ZERO
@@ -110,7 +110,7 @@ C
 C
       DO I=LFT,LLT
         AL0DP(I) = AL0(I)                  ! cast My_real en double
-        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP   
+        AL0DP(I) = AL0DP(I) + AL0_ERR(I)   ! AL_DP doit etre recalcule ainsi afin de garantir la coherence absolue entre AL0_DP et AL_DP
       ENDDO
 C
       DO I=LFT,LLT
@@ -138,9 +138,9 @@ C
 C
 C-----
       CALL R26SIG(F       ,XK       ,DL        ,DLOLD    ,
-     .            E       ,OFF      ,XL0       ,TF       ,NPF      , 
-     .            ANIM    ,ANIM_FE(11),FR_WAVE ,DMN      ,DMX      , 
-     .            IGEO     ,GEO       ,MGN     ,DV0      ,ALPHA    )                    
+     .            E       ,OFF      ,XL0       ,TF       ,NPF      ,
+     .            ANIM    ,ANIM_FE(11),FR_WAVE ,DMN      ,DMX      ,
+     .            IGEO     ,GEO       ,MGN     ,DV0      ,ALPHA    )
 C-----
       NINDX = 0
       DO I=LFT,LLT

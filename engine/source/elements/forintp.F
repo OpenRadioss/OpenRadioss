@@ -30,14 +30,14 @@ Chd|====================================================================
       implicit none
 #include      "my_real.inc"
       my_real
-     .       , DIMENSION(:), ALLOCATABLE :: 
+     .       , DIMENSION(:), ALLOCATABLE ::
      .       WT, WGRADT, WLAPLT, LAMBDA, WGRADTSM,
      .       WTR,LAMBDR,WASIGSM
       my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: 
+     .       , DIMENSION(:,:), ALLOCATABLE ::
      .       WAR, WGR, WAR2
       my_real
-     .      , DIMENSION(:,:), ALLOCATABLE :: 
+     .      , DIMENSION(:,:), ALLOCATABLE ::
      .    STAB
       END MODULE MOD_FORINTP
 Chd|====================================================================
@@ -102,7 +102,7 @@ C-----------------------------------------------
       USE SPHBOX
       USE MOD_FORINTP
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE MATPARAM_DEF_MOD
 C----6---------------------------------------------------------------7---------8
@@ -144,7 +144,7 @@ C-----------------------------------------------
      .   ISPCOND(NISPCOND,*),ISPSYM(NSPCOND,*),
      .   IGEO(NPROPGI,*),
      .   LPRTSPH(2,0:NPART),LONFSPH(*),WASPACT(*),ISPHIO(NISPHIO,*),
-     .   ITASK,GRTH(*),IGRTH(*), LGAUGE(3,*), NGROUNC, IGROUNC(*), 
+     .   ITASK,GRTH(*),IGRTH(*), LGAUGE(3,*), NGROUNC, IGROUNC(*),
      .   IXS(NIXS,*), IRST(3,*), SOL2SPH(2,*), SPH2SOL(*), SOL2SPH_TYP(*)
       my_real
      .   X(3,*), V(3,*), MS(*), W(*), PM(NPROPM,*), GEO(NPROPG,*),
@@ -157,7 +157,7 @@ C-----------------------------------------------
      .   FSKYV(LSKY,8),FSKY(8,LSKY),TEMP(*),FTHE(*),FTHESKYI(*),WSMCOMP(*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       DOUBLE PRECISION SPHG_F6(4,6,NBGAUGE)
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -174,9 +174,9 @@ C-----------------------------------------------
      .   OFF,DTX,DT05,RHOI,VI,
      .   PHI1,PHI2,PHI3,PHI4,PHI5,PHI6,PHI7,PHI8,
      .   KSI, ETA, ZETA,
-     .   VOLN(MVSIZ)  !local array to get rid of equivalence statments       
+     .   VOLN(MVSIZ)  !local array to get rid of equivalence statments
 C
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),A_GAUSS_TETRA(9,9)
@@ -256,7 +256,7 @@ C
           ALLOCATE(WASIGSM(6*NSPHSYM))
           WASIGSM = ZERO
         ENDIF
-        IF(ITASK==0 .AND. NSPMD > 1)THEN 
+        IF(ITASK==0 .AND. NSPMD > 1)THEN
           ALLOCATE(WAR(10,NSPHR),WTR(NSPHR),WGR(3,NSPHR),LAMBDR(NSPHR),
      .             WAR2(9,NSPHR))
         END IF
@@ -294,12 +294,12 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
-     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,       
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,       
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
@@ -386,12 +386,12 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
-     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,       
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,       
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
@@ -458,12 +458,12 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
-     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,       
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,       
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
@@ -518,7 +518,7 @@ C       /---------------/
 C       /---------------/
 C
          IF(ITASK==0) DEALLOCATE(WT, WGRADT, WLAPLT, LAMBDA, WGRADTSM)
-       
+
         END IF
 C-----------------------------------------------
 C
@@ -584,7 +584,7 @@ C on a besoin potentiellement de WA remote
      3             ISPHIO  ,IPART   ,IPARTSP ,WASPACT ,WA      ,
      4             WASPH(KVNORM), WAR2  )
 
-          ENDIF 
+          ENDIF
         ENDIF
 C
         NGDONE = 1
@@ -612,12 +612,12 @@ C--------
             OFFSET = NELEM - 1
             NSG   =IPARG(10,NG)
             NVC   =IPARG(19,NG)
-            CALL INITBUF (IPARG    ,NG      ,                      
-     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,       
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,       
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,       
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,       
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,       
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)
@@ -626,7 +626,7 @@ C--------
              JCVT=0
 C            full plasticity correction (radial return) by default.
              JPLASOL=1
-             ISTRA  = IPARG(44,NG) 
+             ISTRA  = IPARG(44,NG)
              ISPH2SOL=IPARG(69,NG)
              IEXPAN = IPARG(49,NG)
              IPARTSPH=0
@@ -720,7 +720,7 @@ c on doit mettre a jour wa(1),wa(2),wa(3) suite a sponfprs
               CALL SPMD_SPHGETW(SPBUF,WASPH,WA,WAR)
               CALL STOPTIME(93,1)
             ENDIF
-          ENDIF 
+          ENDIF
        END IF
 C-----------------------------------------------
 C        PREPARE SYMMETRIC PARTICLES STRESSES.
@@ -1196,12 +1196,12 @@ C--------
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
             OFFSET = NELEM - 1
-            CALL INITBUF (IPARG    ,NG      ,                    
-     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,     
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,     
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,     
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,     
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,     
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             LFT=1
             LLT=MIN(NVSIZ,NEL-NELEM+1)

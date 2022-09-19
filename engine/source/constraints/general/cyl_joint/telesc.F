@@ -35,7 +35,7 @@ Chd|====================================================================
 !       TELESC description
 !       telesc computes the inertia/force/acc/... of the secondary node on each processor
 !       then reduces the inertia/force/acc/... and update the force/acc of the main & secondary nodes
-!       
+!
 !       TELESC organization :
 !        - mass / position computations for the secondary nodes
 !           --> done by the processor with weight = 1
@@ -43,8 +43,8 @@ Chd|====================================================================
 !        - inertia / acc / force computations for the secondary nodes
 !           --> done by the processor with weight = 1
 !        - reduction of inertia / acc / force (omp reduction + mpi reduction)
-!        - all the processor (weight = 1 or 0) computes the acc / ... of the secondary nodes        
-!       
+!        - all the processor (weight = 1 or 0) computes the acc / ... of the secondary nodes
+!
 !$ENDCOMMENT
         USE JOINT_MOD
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
         INTEGER NSN, NA, NB, I, N
 C     REAL
         my_real :: N1,N2,N3,S,XX, YY, ZZ, RR,A0
-        my_real :: MASSE, INER 
+        my_real :: MASSE, INER
         my_real :: AX,AY,AZ,AXX,AYY,AZZ
         my_real :: VX,VY,VZ,VXX,VYY,VZZ
         my_real :: XCDG, YCDG, ZCDG
@@ -98,7 +98,7 @@ C----------------------------
         N2=X(2,NB)-X(2,NA)
         N3=X(3,NB)-X(3,NA)
         S=SQRT(N1**2+N2**2+N3**2)
- 
+
         N1=N1/S
         N2=N2/S
         N3=N3/S
@@ -172,7 +172,7 @@ C
         ENDIF
         !   --------------------
 
-        CALL MY_BARRIER   
+        CALL MY_BARRIER
 
         MASS_6(1:6,ITASK+1) = ZERO
         X_MS_6(1:6,ITASK+1) = ZERO
@@ -195,7 +195,7 @@ C
 
         VXX_6(1:6,ITASK+1) = ZERO
         VYY_6(1:6,ITASK+1) = ZERO
-        VZZ_6(1:6,ITASK+1) = ZERO  
+        VZZ_6(1:6,ITASK+1) = ZERO
 
 C----------------------------
 C     CALCUL DU CDG + MASSE
@@ -227,7 +227,7 @@ C----------------------------
         CALL MY_BARRIER
 
         !   --------------------
-        !   mpi communication : reduction    
+        !   mpi communication : reduction
         IF(ITASK==0) THEN
             ALLOCATE( BUF_S(13*6) )
             ALLOCATE( BUF_R(13*6) )
@@ -244,7 +244,7 @@ C----------------------------
                 ENDDO
             ENDIF
             BUF_R(1:24) = ZERO
-            IF(NSPMD>1) THEN    
+            IF(NSPMD>1) THEN
                 CALL SPMD_ALLREDUCE_DB_COMM(BUF_S,BUF_R,4*6,"SUM",CYL_JOIN(N_JOINT)%COMM_MPI%COMM)
             ELSE
                 BUF_R(1:24) = BUF_S(1:24)
@@ -277,7 +277,7 @@ C     CALCUL FORCES,MOMENTS,INERTIE(PTS ALIGNES SUR N)
 C----------------------------
 
         !   --------------------
-        !   partial reduction of INER / AX / AY / AZ / AXX / AYY / AZZ / VXX / VYY / VZZ 
+        !   partial reduction of INER / AX / AY / AZ / AXX / AYY / AZZ / VXX / VYY / VZZ
         !   VX / VY / VZ  --> done by 1 proc with weight = 1
         IF(NUMBER_NODE_WEIGHT>0) THEN
             !   --------------------
@@ -332,7 +332,7 @@ C----------------------------
             !   --------------------
         ENDIF
         !   --------------------
-        CALL MY_BARRIER        
+        CALL MY_BARRIER
         !   --------------------
         !   mpi communication : reduction
         IF(ITASK==0) THEN
@@ -354,7 +354,7 @@ C----------------------------
             BUF_S(73:78) = VZZ_6(1:6,ITASK+1)
 
             BUF_R(1:78) = ZERO
-    
+
             IF(NTHREAD>1) THEN
                 DO I=2,NTHREAD
                     BUF_S(1:6) = BUF_S(1:6) + INER_6(1:6,I)
@@ -412,17 +412,17 @@ C----------------------------
         AZ = AZ_GLOBAL
 
         AXX = AXX_GLOBAL
-        AYY = AYY_GLOBAL 
-        AZZ = AZZ_GLOBAL 
+        AYY = AYY_GLOBAL
+        AZZ = AZZ_GLOBAL
 
-        VX = VX_GLOBAL 
-        VY = VY_GLOBAL 
+        VX = VX_GLOBAL
+        VY = VY_GLOBAL
         VZ = VZ_GLOBAL
 
         VXX = VXX_GLOBAL
-        VYY = VYY_GLOBAL 
-        VZZ = VZZ_GLOBAL 
-      
+        VYY = VYY_GLOBAL
+        VZZ = VZZ_GLOBAL
+
         A0=N1*AX+N2*AY+N3*AZ
         AX=AX-N1*A0
         AY=AY-N2*A0

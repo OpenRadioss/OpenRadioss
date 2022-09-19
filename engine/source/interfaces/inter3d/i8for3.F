@@ -36,7 +36,7 @@ Chd|====================================================================
      5                  FSKYI ,ISKY  ,FCONT ,RCONTACT,IFORM,
      6                  FTSAVX,FTSAVY,FTSAVZ,VISC  ,FNOR  ,
      7                  DEPTH ,DIST  ,GAPN  ,SLOPEN,STIFN ,
-     8                  FNCONT,FTCONT,ITAB  ,IFT0, 
+     8                  FNCONT,FTCONT,ITAB  ,IFT0,
      9                  IX1   ,IX2   ,IX3   ,IX4,
      A                  XI    ,YI    ,ZI,
      B                  N1    ,N2    ,N3,
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBC, IGIMP, NSN,LFT, LLT, NFT, IFORM,IFT0,NINSKID ,NINTERSKID,NIN 
+      INTEGER IBC, IGIMP, NSN,LFT, LLT, NFT, IFORM,IFT0,NINSKID ,NINTERSKID,NIN
       INTEGER MSR(*), NSV(*), IRTL(*), ICODT(*), ISKY(*),ITAB(*)
       INTEGER NSVGLO(*),NSV2(*),ILOC(*),IRECT(4,*)
 C     REAL
@@ -89,7 +89,7 @@ C     REAL
      .  TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .  KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .  LOADP_HYD_INTER(NLOADP_HYD)
-      my_real 
+      my_real
      .  E(*), STF(*), STFN(*), FSAV(*), X(3,*),V(3,*),MS(*),
      .  FSKYI(LSKYI,NFSKYI),FCONT(3,*),FMAX, RCONTACT(*),
      .  FTSAVX(*), FTSAVY(*), FTSAVZ(*), VISC,SLOPEN(*),
@@ -111,7 +111,7 @@ C-----------------------------------------------
       my_real
      .   NX,NY,NZ,LX,LY,LZ,NX2,CC2,ST,LI2(NSN),
      .   VX(NSN),VY(NSN),VZ(NSN),VV(NSN),VN(NSN),
-     .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN),NNX, 
+     .   NN1(NSN),NN2(NSN),NN3(NSN),FNNI(NSN),NNX,
      .   FELAST, FTRY, DELTAG, DT1INV, VIS2,PEN(NSN),FFAC,
      .   FNXI(NSN),FNYI(NSN),FNZI(NSN),FNX1(NSN),FNY1(NSN),
      .   FNZ1(NSN),FNX2(NSN),FNY2(NSN),FNZ2(NSN),FNX3(NSN),
@@ -137,15 +137,15 @@ C     EQUIVALENCE (FX4,BV(1,53)),(FY4,BV(1,54)),(FZ4,BV(1,55))
 C     EQUIVALENCE (THK,BV(1,70))
 C
 C--------------Before Nj change----       
-       IF(FNOR /=ZERO) THEN 
+       IF(FNOR /=ZERO) THEN
          DO I=LFT,LLT
             NN1(I) = N1(I)
             NN2(I) = N2(I)
-            NN3(I) = N3(I)  
-         END DO 
-       END IF 
+            NN3(I) = N3(I)
+         END DO
+       END IF
 C--------------Pene computation----     
-       IF(DEPTH > ZERO) THEN 
+       IF(DEPTH > ZERO) THEN
            DO I=LFT,LLT
              IL=I+NFT
              L=IRTL(IL)
@@ -153,12 +153,12 @@ C--------------Pene computation----
              IF(L > 0) THEN
               PEN(I) = (DEPTH - DIST(I) + GAPN(L))*ABS(XFACE(I))
              ENDIF
-           END DO 
+           END DO
         ELSE
             DO I=LFT,LLT
                PEN(I) = ONE
             ENDDO
-        END IF 
+        END IF
 
 C-------Output Skid line for type 8 ----
       IF(NINSKID > 0) THEN
@@ -176,7 +176,7 @@ C-------Output Skid line for type 8 ----
 
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
       IF(NINTLOADP > 0) THEN
-         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1)
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
             DO I=LFT,LLT
@@ -210,7 +210,7 @@ C-------------------
 C     VISCOOUS FORMULATION
 C-------------------
       DO I=LFT,LLT
-        IF(PEN(I)>ZERO) THEN    
+        IF(PEN(I)>ZERO) THEN
           IL=I+NFT
           IG=NSV(IL)
           I1 = NSVGLO(MAX(1,NSV2(IL)-1))
@@ -226,11 +226,11 @@ c
 c
 c (vitesse SECONDARY = 0)
           VX(I) =  V(1,IX1(I))*H1(I) + V(1,IX2(I))*H2(I)
-     .         + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)  
+     .         + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)
           VY(I) =  V(2,IX1(I))*H1(I) + V(2,IX2(I))*H2(I)
-     .         + V(2,IX3(I))*H3(I) + V(2,IX4(I))*H4(I)  
+     .         + V(2,IX3(I))*H3(I) + V(2,IX4(I))*H4(I)
           VZ(I) =  V(3,IX1(I))*H1(I) + V(3,IX2(I))*H2(I)
-     .         + V(3,IX3(I))*H3(I) + V(3,IX4(I))*H4(I)  
+     .         + V(3,IX3(I))*H3(I) + V(3,IX4(I))*H4(I)
           VV(I) = VX(I)*NX + VY(I)*NY + VZ(I)*NZ
           IF(VV(I)<ZERO)THEN
             NX=-NX
@@ -246,7 +246,7 @@ C
       END DO
 C
       DO 150 I=LFT,LLT
-        IF(PEN(I)>ZERO) THEN    
+        IF(PEN(I)>ZERO) THEN
           IL=I+NFT
           IG=NSV(IL)
           L=IRTL(IL)
@@ -264,7 +264,7 @@ C
           FYI(I)=N2(I)*FNI(I)
           FZI(I)=N3(I)*FNI(I)
         ENDIF
-       
+
  150  CONTINUE
 C
       CASE(2)
@@ -275,7 +275,7 @@ C-------------------
       DO I=LFT,LLT
         IL=I+NFT
         IG=NSV(IL)
-        IF(PEN(I)>ZERO) THEN    
+        IF(PEN(I)>ZERO) THEN
         !IF the proc MAIN handles the face
         I1 = NSVGLO(MAX(1,NSV2(IL)-1))
         I2 = NSVGLO(MIN(NSN,NSV2(IL)+1))
@@ -290,11 +290,11 @@ c
 c
 c (vitesse SECONDARY = 0)
         VX(I) = V(1,IX1(I))*H1(I) + V(1,IX2(I))*H2(I)
-     .        + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)  
+     .        + V(1,IX3(I))*H3(I) + V(1,IX4(I))*H4(I)
         VY(I) = V(2,IX1(I))*H1(I) + V(2,IX2(I))*H2(I)
-     .        + V(2,IX3(I))*H3(I) + V(2,IX4(I))*H4(I)  
+     .        + V(2,IX3(I))*H3(I) + V(2,IX4(I))*H4(I)
         VZ(I) = V(3,IX1(I))*H1(I) + V(3,IX2(I))*H2(I)
-     .        + V(3,IX3(I))*H3(I) + V(3,IX4(I))*H4(I)  
+     .        + V(3,IX3(I))*H3(I) + V(3,IX4(I))*H4(I)
 C
         VV(I) = VX(I)*NX + VY(I)*NY + VZ(I)*NZ
         IF(VV(I)<ZERO)THEN
@@ -323,7 +323,7 @@ C
         IG=NSV2(IL)
         L=IRTL(IL)
 C  
-        IF(PEN(I)>ZERO) THEN    
+        IF(PEN(I)>ZERO) THEN
           ST  = STF(L)
           CC2 = VIS2*STF(L)
      .    * FOURTH*( MS(IX1(I))+MS(IX2(I))+MS(IX3(I))+MS(IX4(I)) )
@@ -356,7 +356,7 @@ C
           FYI(I)= FNI(I)*N2(I)
           FZI(I)= FNI(I)*N3(I)
         ENDIF
- 
+
       END DO
 C
       END SELECT
@@ -372,15 +372,15 @@ C     NORMAL FORCE
 C-------------------------------
 c       SLOPE = ZERO
 c       IF(FNOR/=0) SLOPE = FNOR/MAX(DEPTH,EM20)
-c      
+c
        FNNI = ZERO
-       IF(FNOR /=ZERO) THEN 
+       IF(FNOR /=ZERO) THEN
          DO I=LFT,LLT
           IL=I+NFT
           !Global SECONDARY index
           IG=NSV2(IL)
           L=IRTL(IL)
-          IF(IRTL(IL) > 0) THEN 
+          IF(IRTL(IL) > 0) THEN
 c            PEN(I) = (DEPTH - DIST(I) + GAPN(L))*ABS(XFACE(I))
 C    
             IF(PEN(I)>=DEPTH) THEN
@@ -410,7 +410,7 @@ C-----add normal forces
         DO I=LFT,LLT
          FXI(I)= FXI(I) + FNXI(I)
          FYI(I)= FYI(I) + FNYI(I)
-         FZI(I)= FZI(I) + FNZI(I) 
+         FZI(I)= FZI(I) + FNZI(I)
         ENDDO
        ELSE
         DO I=LFT,LLT

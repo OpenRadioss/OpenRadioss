@@ -64,28 +64,28 @@ C=======================================================================
         !NFUNC =  IPM(10,IMAT)+IPM(6,IMAT)in updmat.f
         !IFUNC => IPM(10+1:10+NFUNC,IMAT) in updmat.f
 c-----------------------------------------------------
-      DO I=1,NFUNC                           
+      DO I=1,NFUNC
         ID = IFUNC(I)
         OK = 0
         IF (ID > 0) THEN
-          DO J=1,NFUNCT     ! total number of functions                   
-           IF (ID == FUNC_ID(J)) THEN           
+          DO J=1,NFUNCT     ! total number of functions
+           IF (ID == FUNC_ID(J)) THEN
               IFUNC(I) = J
               OK = 1
-              EXIT                            
-            ENDIF                              
-          ENDDO                                
+              EXIT
+            ENDIF
+          ENDDO
           IF (OK == 0) THEN
-            CALL ANCMSG(MSGID = 126,             
-     .                  MSGTYPE=MSGERROR,       
-     .                  ANMODE=ANINFO_BLIND_1,  
-     .                  I1 = MAT_ID,              
-     .                  C1 = TITR  ,              
-     .                  I2 = ID    )              
-          ENDIF                                 
-        ENDIF                                 
+            CALL ANCMSG(MSGID = 126,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1 = MAT_ID,
+     .                  C1 = TITR  ,
+     .                  I2 = ID    )
+          ENDIF
+        ENDIF
 c-----------
-      ENDDO  ! I=1,NFUNC 
+      ENDDO  ! I=1,NFUNC
 c-----------
       RETURN
       END

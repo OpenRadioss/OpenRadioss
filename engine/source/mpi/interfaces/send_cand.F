@@ -114,18 +114,18 @@ C
 C temporary change for exchange and cumul
       IF(INACTI < 0) INACTI=0
       IF (LOC_PROC/=PMAIN) THEN
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         CALL MPI_SEND(INACTI,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,ierror)
 C p0 envoi la liste des noeuds pour lesquels stfn=0
-        CALL MPI_RECV(INACTI,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(INACTI,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,ierror)
       ELSE
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(isendto(NIN,K)/=0.OR.
      .   ircvfrom(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(INACTI_R,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
+            CALL MPI_RECV(INACTI_R,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
             INACTI = INACTI+INACTI_R
           ENDIF
@@ -141,7 +141,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(isendto(NIN,K)/=0.OR.
      .   ircvfrom(NIN,K)/=0)) THEN
-            MSGTYP=MSGOFF      
+            MSGTYP=MSGOFF
             CALL MPI_SEND(INACTI,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,ierror)
           ENDIF
@@ -270,10 +270,10 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -281,9 +281,9 @@ Calcul taille totale
         DO K = 1, NSPMD
           IENVOI(K) = 0
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
-     .        IRCVFROM(NIN,K)/=0)) THEN            
+     .        IRCVFROM(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
+            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,IERROR)
             LENX = LENX + LENR
             IENVOI(K) = LENR
@@ -293,7 +293,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
          ENDIF
@@ -412,10 +412,10 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -423,9 +423,9 @@ Calcul taille totale
         DO K = 1, NSPMD
           IENVOI(K) = 0
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
-     .        IRCVFROM(NIN,K)/=0)) THEN            
+     .        IRCVFROM(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
+            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,IERROR)
             LENX = LENX + LENR
             IENVOI(K) = LENR
@@ -435,7 +435,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
          ENDIF
@@ -569,10 +569,10 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -580,9 +580,9 @@ Calcul taille totale
         DO K = 1, NSPMD
           IENVOI(K) = 0
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
-     .        IRCVFROM(NIN,K)/=0)) THEN            
+     .        IRCVFROM(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
+            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,IERROR)
             LENX = LENX + LENR
             IENVOI(K) = LENR
@@ -592,7 +592,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
          ENDIF
@@ -726,10 +726,10 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -737,9 +737,9 @@ Calcul taille totale
         DO K = 1, NSPMD
           IENVOI(K) = 0
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
-     .        IRCVFROM(NIN,K)/=0)) THEN            
+     .        IRCVFROM(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
+            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,IERROR)
             LENX = LENX + LENR
             IENVOI(K) = LENR
@@ -749,7 +749,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
          ENDIF
@@ -883,10 +883,10 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         CALL MPI_SEND(LEN,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,IERROR)
-        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(LENX,1,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
@@ -894,9 +894,9 @@ Calcul taille totale
         DO K = 1, NSPMD
           IENVOI(K) = 0
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
-     .        IRCVFROM(NIN,K)/=0)) THEN            
+     .        IRCVFROM(NIN,K)/=0)) THEN
             MSGTYP=MSGOFF
-            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,  
+            CALL MPI_RECV(LENR,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,IERROR)
             LENX = LENX + LENR
             IENVOI(K) = LENR
@@ -906,7 +906,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(LENX,1,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
          ENDIF
@@ -1024,18 +1024,18 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K)/=0) THEN            
+          IF (IENVOI(K)/=0) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1047,7 +1047,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
           ENDIF
@@ -1167,18 +1167,18 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K)/=0) THEN            
+          IF (IENVOI(K)/=0) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1190,7 +1190,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
           ENDIF
@@ -1326,18 +1326,18 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K)/=0) THEN            
+          IF (IENVOI(K)/=0) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1349,7 +1349,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .        IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
           ENDIF
@@ -1498,18 +1498,18 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K)/=0) THEN            
+          IF (IENVOI(K)/=0) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1521,7 +1521,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
           ENDIF
@@ -1680,18 +1680,18 @@ C
       IF (LOC_PROC/=PMAIN) THEN
 Cel pack des candidats ayant stifness negative
 C
-        MSGTYP=MSGOFF        
+        MSGTYP=MSGOFF
         IF(LEN>0) THEN
           CALL MPI_SEND(IBUFFER,LEN,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
         ENDIF
-        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,   
+        CALL MPI_RECV(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(PMAIN),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       ELSE
 Calcul taille totale
         LENR = LEN
         DO K = 1, NSPMD
-          IF (IENVOI(K)/=0) THEN            
+          IF (IENVOI(K)/=0) THEN
             MSGTYP=MSGOFF
             CALL MPI_RECV(
      .        IBUFFER(LENR+1),IENVOI(K),MPI_INTEGER,IT_SPMD(K),MSGTYP,
@@ -1703,7 +1703,7 @@ C
         DO K = 1, NSPMD
           IF (K/=LOC_PROC.AND.(ISENDTO(NIN,K)/=0.OR.
      .   IRCVFROM(NIN,K)/=0)) THEN
-          MSGTYP=MSGOFF      
+          MSGTYP=MSGOFF
           CALL MPI_SEND(IBUFFER,LENX,MPI_INTEGER,IT_SPMD(K),MSGTYP,
      .                  MPI_COMM_WORLD,IERROR)
           ENDIF
@@ -1767,7 +1767,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE INTSTAMP_GLOB_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1836,29 +1836,29 @@ C Check inactif interfaces and end of tri ( I21buce)
 C------------------------------------------------------------------------------
       NIACTIF = 0 ! Number of actif and Tri interfaces
       NODFITOT = 0  ! Global Number of remote main node
-      NODFITOTS = 0 
-      NODFITOTR = 0 
+      NODFITOTS = 0
+      NODFITOTR = 0
       INTERACTIF = 0
       NODFI = 0
 
-      DO KK = 1, NBINTC21 
+      DO KK = 1, NBINTC21
          NI = INTLIST21(KK)
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
-         IF(ISENS/=0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
          ELSE
            STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
            STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
            IF (STARTT<=TT.AND.TT<=STOPT) INTERACT = 1
-         ENDIF          
+         ENDIF
 C
          IFLAGLOADP = 0 !IPARI(95,NIN)
          INTTH = IPARI(47,NIN)
 
-         IF (RETRI(NIN)== 1.AND.INTERACT/=0.AND.(INTTH==2.OR.IFLAGLOADP > 0))THEN  
+         IF (RETRI(NIN)== 1.AND.INTERACT/=0.AND.(INTTH==2.OR.IFLAGLOADP > 0))THEN
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODFI(NIACTIF) = 0
@@ -1888,24 +1888,24 @@ C FILL comm structure
         IDEB = 1
         DO P=1,NSPMD
           LENS(P) = 0
-          IF (P/= LOC_PROC)THEN 
+          IF (P/= LOC_PROC)THEN
            IAD(P) = IDEB
            DO NI = 1, NIACTIF
               NIN = INTERACTIF(NI)
               IBUFS(IDEB)= NMNFI(NIN)%P(P)
               LENS(P) = LENS(P) + NMNFI(NIN)%P(P)
-              IDEB = IDEB +1 
+              IDEB = IDEB +1
               NODFITOTS = NODFITOTS+NMNFI(NIN)%P(P)
            ENDDO
-          
+
 C SEND comm structure 
-           MSGTYP = MSGOFF1 
+           MSGTYP = MSGOFF1
            CALL MPI_ISEND(
      S      IBUFS(IAD(P)),NIACTIF,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(P),IERROR)
 
-          ENDIF 
-        ENDDO  
+          ENDIF
+        ENDDO
 C RECEIVE comm structure 
         DO NI = 1, NIACTIF
            NODSI(NI) = 0
@@ -1913,16 +1913,16 @@ C RECEIVE comm structure
 c
         DO P=1,NSPMD
           LENR(P) = 0
-          MSGTYP = MSGOFF1 
-          IF (P/= LOC_PROC)THEN 
-   
+          MSGTYP = MSGOFF1
+          IF (P/= LOC_PROC)THEN
+
             CALL MPI_RECV(IBUFR(IAD(P)),NIACTIF,MPI_INTEGER,IT_SPMD(P),
      .                 MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
 
             IDEB= IAD(P)
             LENR(P) = 0
             DO NI = 1, NIACTIF
-              NIN = INTERACTIF(NI)         
+              NIN = INTERACTIF(NI)
               NMNSI(NIN)%P(P)= IBUFR(IDEB)
               LENR(P) = LENR(P) + NMNSI(NIN)%P(P)
               NODSI(NI) = NODSI(NI) + NMNSI(NIN)%P(P)
@@ -1959,7 +1959,7 @@ C alloc comm structure
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
          ENDIF
-         
+
          IF(ALLOCATED(IBUFR)) DEALLOCATE(IBUFR)
          ALLOCATE(IBUFR(NSPMD*NODFITOTR),STAT=IERROR)
 
@@ -1969,24 +1969,24 @@ C alloc comm structure
          ENDIF
 C FILL comm structure
           IADS(1) = 1
-          IADR(1) = 1           
+          IADR(1) = 1
           DO P=1,NSPMD-1
              IADS(P+1) =IADS(P)+LENS(P)
              IADR(P+1) =IADR(P)+LENR(P)
-          ENDDO 
+          ENDDO
           IDEB = 0
           DO NI = 1, NIACTIF
              IDEBUT2(NI) = 0
           ENDDO
 
-          DO P = 1, NSPMD    
+          DO P = 1, NSPMD
             IF(P/= LOC_PROC.AND.LENS(P)/=0)THEN
               DO NI = 1, NIACTIF
                 NIN = INTERACTIF(NI)
                 LEN = NMNFI(NIN)%P(P)
 
-                IF(LEN /= 0) THEN 
-                  IDEB2 = IDEBUT2(NI)             
+                IF(LEN /= 0) THEN
+                  IDEB2 = IDEBUT2(NI)
                   DO I = 1,LEN
                     IBUFS(IDEB+I)= NMVFI(NIN)%P(IDEB2+I)
                   ENDDO
@@ -1996,8 +1996,8 @@ C FILL comm structure
               ENDDO
 
 C SEND comm structure 
-             MSGTYP = MSGOFF2 
-   
+             MSGTYP = MSGOFF2
+
              CALL MPI_ISEND(
      S       IBUFS(IADS(P)),LENS(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G       MPI_COMM_WORLD,REQ_S(P),IERROR)
@@ -2013,18 +2013,18 @@ c          IDEB = 0
 
           DO P=1,NSPMD
              IF(P/= LOC_PROC.AND.LENR(P)/=0)THEN
-               MSGTYP = MSGOFF2 
+               MSGTYP = MSGOFF2
 
                CALL MPI_RECV(IBUFR(IADR(P)),LENR(P),MPI_INTEGER,IT_SPMD(P),
      .                 MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
               IDEB = IADR(P)-1
               DO NI = 1, NIACTIF
-                NIN = INTERACTIF(NI) 
-                LEN = NMNSI(NIN)%P(P)    
-                IF(LEN /= 0) THEN 
-                   IDEB2 = IDEBUT2(NI)   
-  
-                   DO I = 1,LEN         
+                NIN = INTERACTIF(NI)
+                LEN = NMNSI(NIN)%P(P)
+                IF(LEN /= 0) THEN
+                   IDEB2 = IDEBUT2(NI)
+
+                   DO I = 1,LEN
                     NMVSI(NIN)%P(IDEB2+I)= IBUFR(IDEB+I)
                     NOD = INTBUF_TAB(NIN)%MSR_L(NMVSI(NIN)%P(IDEB2+I))
                     TEMPNOD(NIN)%P(IDEB2+I)= NOD
@@ -2075,23 +2075,23 @@ C alloc comm structure
           DO NI = 1, NIACTIF
              IDEBUT2(NI) = 0
           ENDDO
-          DO P = 1, NSPMD    
+          DO P = 1, NSPMD
              IDEB = IADR(P)-1
              LENI(P) = 0
              IF(P/= LOC_PROC.AND.LENR(P)/=0)THEN
                DO NI = 1, NIACTIF
                  NIN = INTERACTIF(NI)
-                 LEN = NMNSI(NIN)%P(P)    
-                 IF(LEN /= 0) THEN 
-                  IDEB2 = IDEBUT2(NI)       
-                   DO I = 1,LEN 
+                 LEN = NMNSI(NIN)%P(P)
+                 IF(LEN /= 0) THEN
+                  IDEB2 = IDEBUT2(NI)
+                   DO I = 1,LEN
                      RBUFS(IDEB+I)= TEMP(TEMPNOD(NIN)%P(IDEB2+I))
                    ENDDO
                    IDEB = IDEB + LEN
-                   IDEBUT2(NI) = IDEBUT2(NI) + LEN 
-                   LENI(P) = LENI(P) + LEN    
+                   IDEBUT2(NI) = IDEBUT2(NI) + LEN
+                   LENI(P) = LENI(P) + LEN
                  ENDIF
-              ENDDO  
+              ENDDO
 
 C SEND comm structure 
              MSGTYP = MSGOFF3
@@ -2105,24 +2105,24 @@ C RECEIVE comm structure
            DO NI = 1, NIACTIF
               IDEBUT2(NI) = 0
            ENDDO
-      
+
          DO P=1,NSPMD
            IF(P/= LOC_PROC.AND.LENS(P)/=0)THEN
-            MSGTYP = MSGOFF3 
+            MSGTYP = MSGOFF3
            CALL MPI_RECV(RBUFR(IADS(P)),LENS(P),REAL,IT_SPMD(P),
      .                 MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
 
             IDEB = IADS(P)-1
             DO NI = 1, NIACTIF
-               NIN = INTERACTIF(NI) 
-               LEN = NMNFI(NIN)%P(P)    
-               IF(LEN /= 0) THEN 
-                 IDEB2 = IDEBUT2(NI) 
-                 DO I = 1,LEN                 
+               NIN = INTERACTIF(NI)
+               LEN = NMNFI(NIN)%P(P)
+               IF(LEN /= 0) THEN
+                 IDEB2 = IDEBUT2(NI)
+                 DO I = 1,LEN
                  NMTEMP(NIN)%P(IDEB2+I)= RBUFR(IDEB+I)
                 ENDDO
                 IDEB = IDEB + LEN
-                IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                IDEBUT2(NI) = IDEBUT2(NI) + LEN
               ENDIF
            ENDDO
           ENDIF
@@ -2158,14 +2158,14 @@ Chd|        INTSTAMP_GLOB_MOD             share/modules/intstamp_glob_mod.F
 Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F  
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR) 
+      SUBROUTINE SPMD_I21TEMPCOM(IPARI,TEMP,INTBUF_TAB,SENSOR)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE INTSTAMP_GLOB_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2222,13 +2222,13 @@ C
       NODSITOT = 0  ! Global Number of remote main node
       NODFITOT = 0  ! Global Number of remote main node
 C 
-      LENS = 0   
-      LENR = 0               
+      LENS = 0
+      LENR = 0
       DO NI = 1, NINTSTAMP
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
-         IF(ISENS/=0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
          ELSE
@@ -2239,7 +2239,7 @@ C
 C
          INTTH = IPARI(47,NIN)
 C
-         IF (INTERACT/=0.AND.INTTH==2)THEN  
+         IF (INTERACT/=0.AND.INTTH==2)THEN
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -2255,7 +2255,7 @@ C
          ENDIF
        ENDDO
 
-       IF(NIACTIF /= 0 ) THEN 
+       IF(NIACTIF /= 0 ) THEN
 C alloc comm structure      
          ALLOCATE(RBUFS(NSPMD*NODSITOT),STAT=IERROR)
          IF(IERROR/=0) THEN
@@ -2274,24 +2274,24 @@ C FILL comm structure
             IDEBUT2(NI) = 0
          ENDDO
         IF(NODSITOT/= 0) THEN
-         DO P = 1, NSPMD    
-           IADS(P) = IDEB +1         
+         DO P = 1, NSPMD
+           IADS(P) = IDEB +1
            IF(P/= LOC_PROC.AND.LENS(P)/= 0)THEN
              DO NI = 1, NIACTIF
                 NIN = INTERACTIF(NI)
-                LEN = NMNSI(NIN)%P(P) 
-                LENI = NMNFI(NIN)%P(P)   
-                IF(LEN /= 0) THEN 
-                  IDEB2 = IDEBUT2(NI)       
-                  DO I = 1,LEN 
+                LEN = NMNSI(NIN)%P(P)
+                LENI = NMNFI(NIN)%P(P)
+                IF(LEN /= 0) THEN
+                  IDEB2 = IDEBUT2(NI)
+                  DO I = 1,LEN
                      RBUFS(IDEB+I)= TEMP(TEMPNOD(NIN)%P(IDEB2+I))
                   ENDDO
                   IDEB = IDEB + LEN
-                  IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                  IDEBUT2(NI) = IDEBUT2(NI) + LEN
                 ENDIF
-             ENDDO  
+             ENDDO
 C SEND comm structure 
-           
+
              MSGTYP = MSGOFF
              CALL MPI_ISEND(
      S        RBUFS(IADS(P)),LENS(P),REAL,IT_SPMD(P),MSGTYP,
@@ -2299,11 +2299,11 @@ C SEND comm structure
             ENDIF
          ENDDO
         ENDIF
-       
-          IADR(1) = 1           
+
+          IADR(1) = 1
           DO P=1,NSPMD-1
              IADR(P+1) =IADR(P)+LENR(P)
-          ENDDO 
+          ENDDO
 C RECEIVE comm structure 
            DO NI = 1, NIACTIF
               IDEBUT2(NI) = 0
@@ -2311,20 +2311,20 @@ C RECEIVE comm structure
         IF(NODFITOT /=0) THEN
          DO P=1,NSPMD
             IF(P/= LOC_PROC.AND.LENR(P)/= 0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
            CALL MPI_RECV(RBUFR(IADR(P)),LENR(P),REAL,IT_SPMD(P),
      .                 MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
            IDEB= IADR(P)-1
 
             DO NI = 1, NIACTIF
-               NIN = INTERACTIF(NI) 
-               LEN = NMNFI(NIN)%P(P)    
-               IF(LEN /= 0) THEN 
-                 IDEB2 = IDEBUT2(NI) 
-                 DO I = 1,LEN                 
+               NIN = INTERACTIF(NI)
+               LEN = NMNFI(NIN)%P(P)
+               IF(LEN /= 0) THEN
+                 IDEB2 = IDEBUT2(NI)
+                 DO I = 1,LEN
                  NMTEMP(NIN)%P(IDEB2+I)= RBUFR(IDEB+I)
                 ENDDO
-                IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                IDEBUT2(NI) = IDEBUT2(NI) + LEN
               ENDIF
            ENDDO
            ENDIF
@@ -2360,14 +2360,14 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_I21FTHECOM(IPARI    ,FTHE  ,INTBUF_TAB,SENSOR ,NISKYFI ,
-     .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI ) 
+     .                           FTHESKYI ,ISKY  ,FSKYI     ,CONDNSKYI )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE INTSTAMP_GLOB_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2432,16 +2432,16 @@ C
       NODSITOT = 0  ! Global Number of remote main node
       NODFITOT = 0  ! Global Number of remote main node
 C 
-      LENS(1:NSPMD) = 0   
-      LENR(1:NSPMD) = 0  
-      LENR2(1:NSPMD) = 0  
+      LENS(1:NSPMD) = 0
+      LENR(1:NSPMD) = 0
+      LENR2(1:NSPMD) = 0
       IF(IPARIT==0) THEN
        DO NI = 1, NINTSTAMP
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
 
-         IF(ISENS/=0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
          ELSE
@@ -2453,7 +2453,7 @@ C
          INTTH = IPARI(47,NIN)
          IFORM = IPARI(48,NIN)
 C
-         IF (INTERACT/=0.AND.INTTH==2.AND.IFORM/=0)THEN  
+         IF (INTERACT/=0.AND.INTTH==2.AND.IFORM/=0)THEN
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -2468,7 +2468,7 @@ C
             NODFITOT = NODFITOT + NODFI(NIACTIF)
          ENDIF
         ENDDO
-        IF(NIACTIF /= 0 ) THEN 
+        IF(NIACTIF /= 0 ) THEN
 C alloc comm structure      
          ALLOCATE(RBUFS(2*NSPMD*NODFITOT),STAT=IERROR)
          IF(IERROR/=0) THEN
@@ -2487,25 +2487,25 @@ C FILL comm structure
             IDEBUT2(NI) = 0
          ENDDO
          IF(NODFITOT/= 0) THEN
-          DO P = 1, NSPMD    
-           IADS(P) = IDEB +1         
+          DO P = 1, NSPMD
+           IADS(P) = IDEB +1
            IF(P/= LOC_PROC.AND.LENR(P)/= 0)THEN
              DO NI = 1, NIACTIF
                 NIN = INTERACTIF(NI)
-                LEN = NMNFI(NIN)%P(P) 
-                IF(LEN /= 0) THEN 
-                  IDEB2 = IDEBUT2(NI)       
-                  DO I = 1,LEN 
+                LEN = NMNFI(NIN)%P(P)
+                IF(LEN /= 0) THEN
+                  IDEB2 = IDEBUT2(NI)
+                  DO I = 1,LEN
                      RBUFS(IDEB+1)= NMVFI(NIN)%P(IDEB2+I)
                      RBUFS(IDEB+2)= FTHEFI(NIN)%P(IDEB2+I)
                      FTHEFI(NIN)%P(IDEB2+I)= ZERO
                      IDEB = IDEB + 2
                   ENDDO
-                  IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                  IDEBUT2(NI) = IDEBUT2(NI) + LEN
                 ENDIF
-             ENDDO  
+             ENDDO
 C SEND comm structure 
-           
+
              MSGTYP = MSGOFF
              CALL MPI_ISEND(
      S        RBUFS(IADS(P)),2*LENR(P),REAL,IT_SPMD(P),MSGTYP,
@@ -2513,11 +2513,11 @@ C SEND comm structure
             ENDIF
           ENDDO
          ENDIF
-       
-          IADR(1) = 1           
+
+          IADR(1) = 1
           DO P=1,NSPMD-1
              IADR(P+1) =IADR(P)+2*LENS(P)
-          ENDDO 
+          ENDDO
 C RECEIVE comm structure 
            DO NI = 1, NIACTIF
               IDEBUT2(NI) = 0
@@ -2525,23 +2525,23 @@ C RECEIVE comm structure
          IF(NODSITOT /=0) THEN
           DO P=1,NSPMD
             IF(P/= LOC_PROC.AND.LENS(P)/= 0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
            CALL MPI_RECV(RBUFR(IADR(P)),2*LENS(P),REAL,IT_SPMD(P),
      .                 MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
            IDEB= IADR(P)-1
 
             DO NI = 1, NIACTIF
-               NIN = INTERACTIF(NI) 
-               LEN = NMNSI(NIN)%P(P)    
-               IF(LEN /= 0) THEN 
-                 IDEB2 = IDEBUT2(NI) 
+               NIN = INTERACTIF(NI)
+               LEN = NMNSI(NIN)%P(P)
+               IF(LEN /= 0) THEN
+                 IDEB2 = IDEBUT2(NI)
                  DO I = 1,LEN
                    N = NINT(RBUFR(IDEB+1))
                    NOD = INTBUF_TAB(NIN)%MSR_L(N)
                    FTHE(NOD) = FTHE(NOD) + RBUFR(IDEB+2)
-                   IDEB = IDEB + 2	   
+                   IDEB = IDEB + 2	
                 ENDDO
-                IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                IDEBUT2(NI) = IDEBUT2(NI) + LEN
               ENDIF
            ENDDO
            ENDIF
@@ -2557,13 +2557,13 @@ C WAITING for receiving msg
           IF(ALLOCATED(RBUFR)) DEALLOCATE(RBUFR)
         ENDIF
 C
-      ELSE    ! PARTITH   
+      ELSE    ! PARTITH
 C  
        DO NI = 1, NINTSTAMP
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
 
-         IF(ISENS/=0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
          ELSE
@@ -2575,7 +2575,7 @@ C
          INTTH = IPARI(47,NIN)
          IFORM = IPARI(48,NIN)
 C
-         IF (INTERACT/=0.AND.INTTH==2.AND.IFORM/=0)THEN  
+         IF (INTERACT/=0.AND.INTTH==2.AND.IFORM/=0)THEN
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -2603,7 +2603,7 @@ C
           IF(P/=LOC_PROC)THEN
             SIZ = LENS(P)
             IF(SIZ>0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               CALL MPI_IRECV(
      .          ISIZRCV(1,P),2,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_R(P),IERROR   )
@@ -2619,7 +2619,7 @@ C
           NIF = NISKYFI(NIN)
           IF(NIF>0) THEN
             INTTH = IPARI(47,NIN)
-     
+
               ALLOCATE(INDEX(NIF),STAT=IERROR)
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
@@ -2627,19 +2627,19 @@ C
               END IF
 
               ALLOCATE( TEMPO(NIF),STAT=IERROR)
-                           
+
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
               END IF
-	                    
+	
               DO J=1,NIF
                  INDEX(J)=J
                  TEMPO(J)=FTHESKYFI(NIN)%P(J)
               ENDDO
 
               CALL SORTINT(NIF,ISKYFI(NIN)%P(1),INDEX)
-              
+
               DO J=1,NIF
                  K=INDEX(J)
                  FTHESKYFI(NIN)%P(J)=TEMPO(K)
@@ -2677,7 +2677,7 @@ C
 C Send
 C
 
-        IF(NIACTIF /= 0 ) THEN 
+        IF(NIACTIF /= 0 ) THEN
 C FILL comm structure 
          IDEB = 0
          DO NI = 1, NIACTIF
@@ -2685,18 +2685,18 @@ C FILL comm structure
             IDEBUT2(NI) = 1
          ENDDO
          L=0
-         SIZ = 0 
-         DO P = 1, NSPMD    
-           IADS(P) = L +1         
+         SIZ = 0
+         DO P = 1, NSPMD
+           IADS(P) = L +1
            IF(P/= LOC_PROC.AND.ISIZENV(1,P)/= 0)THEN
              DO NI = 1, NIACTIF
                 NIN = INTERACTIF(NI)
-                LEN = NMNFI(NIN)%P(P) 
-                IF(LEN /= 0) THEN 
-                  IDEB2 = IDEBUT2(NI)  
-                  IDEB  = IDEBUT(NI)  
-                  L = L + 1     
-                  DO I = 1,LEN 
+                LEN = NMNFI(NIN)%P(P)
+                IF(LEN /= 0) THEN
+                  IDEB2 = IDEBUT2(NI)
+                  IDEB  = IDEBUT(NI)
+                  L = L + 1
+                  DO I = 1,LEN
 C noeud generant une force
                       NOD = NMVFI(NIN)%P(IDEB+I)
                       IF(IDEB2<=NISKYFI(NIN)) THEN
@@ -2719,10 +2719,10 @@ C noeud generant une force
                   RBUFS(IADS(P)) = (L-IADS(P))/2
                   IDEBUT2(NI) = IDEB2
                 ENDIF
-             ENDDO  
+             ENDDO
 C SEND comm structure 
-              SIZ = L+1-IADS(P)  
-             siztemp(P) = SIZ         
+              SIZ = L+1-IADS(P)
+             siztemp(P) = SIZ
              MSGTYP = MSGOFF2
              CALL MPI_ISEND(
      S        RBUFS(IADS(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
@@ -2730,7 +2730,7 @@ C SEND comm structure
             ENDIF
             DO NI = 1, NIACTIF
                 NIN = INTERACTIF(NI)
-                LEN = NMNFI(NIN)%P(P) 
+                LEN = NMNFI(NIN)%P(P)
                IDEBUT(NI) = IDEBUT(NI) + LEN
             ENDDO
           ENDDO
@@ -2738,7 +2738,7 @@ C SEND comm structure
           NIN = INTERACTIF(NI)
           NISKYFI(NIN)  = 0
         ENDDO
-       
+
 C
 C Receive 1er message : taille communication
 C
@@ -2762,19 +2762,19 @@ C
 
           DO P=1,NSPMD
             IF(P/= LOC_PROC.AND.ISIZRCV(1,P)/= 0)THEN
-              MSGTYP = MSGOFF2 
+              MSGTYP = MSGOFF2
             L = 1           ! envoi bloquant + opti alloc memoire sur max des comm
             CALL MPI_RECV(
      .        RBUFR(L),ISIZRCV(1,P)+NIACTIF,REAL  ,IT_SPMD(P),MSGTYP,
      .        MPI_COMM_WORLD            ,STATUS,IERROR    )
 
             DO NI = 1, NIACTIF
-               NIN = INTERACTIF(NI) 
-               LEN = NMNSI(NIN)%P(P)    
-               IF(LEN /= 0) THEN               
+               NIN = INTERACTIF(NI)
+               LEN = NMNSI(NIN)%P(P)
+               IF(LEN /= 0) THEN
                  NB = NINT(RBUFR(L))
                  L = L + 1
-                 IF(NB /= 0) THEN 
+                 IF(NB /= 0) THEN
                    IDEB = 1
                    DO I = 1,NB
                       N = NINT(RBUFR(IDEB+1))
@@ -2786,7 +2786,7 @@ C
                       FSKYI(NISKY,4)=ZERO
                       IF(NODADT_THERM == 1 )  CONDNSKYI(NISKY)=ZERO
                       FTHESKYI(NISKY)=RBUFR(IDEB+2)	
-                      ISKY(NISKY) = NOD  
+                      ISKY(NISKY) = NOD
                       IDEB = IDEB + 2
                    ENDDO
                    L = L + 2*NB
@@ -2912,7 +2912,7 @@ C
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
               IDEB = IDEB + NB
-            END IF      
+            END IF
           END IF
         END DO
 C
@@ -2923,7 +2923,7 @@ C
           IF(P/=LOC_PROC)THEN
             NB = NSNSI(NIN)%P(P)
             IF(NB>0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               CALL MPI_RECV(
      .          BUFR,NB,REAL  ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,STATUS,IERROR    )
@@ -2931,9 +2931,9 @@ C
                 NOD = NSVSI(NIN)%P(IDEB+N)
                 PENIS(2,NOD) = MAX(PENIS(2,NOD),BUFR(N))
               END DO
-              IDEB = IDEB + NB              
+              IDEB = IDEB + NB
             END IF
-          END IF      
+          END IF
         END DO
 C
 C Attente reception 1er envoi
@@ -2943,7 +2943,7 @@ C
             NB = NSNFI(NIN)%P(P)
             IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
-            ENDIF      
+            ENDIF
           END IF
         END DO
 
@@ -2964,7 +2964,7 @@ C
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
               IDEB = IDEB + NB
-            END IF      
+            END IF
           END IF
         END DO
 C
@@ -2986,7 +2986,7 @@ C
               END DO
               IDEB = IDEB + NB
             END IF
-          END IF      
+          END IF
         END DO
 C
 C Attente reception 2eme envoi
@@ -2996,7 +2996,7 @@ C
             NB = NSNSI(NIN)%P(P)
             IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
-            ENDIF      
+            ENDIF
           END IF
         END DO
 C
@@ -3107,19 +3107,19 @@ C
             NB2 = NSNFIE(NIN)%P(P)
             DO N = 1, NB2
               BUFS(IDEB+2*NB1+N)       = PENFIE(NIN)%P(2,IDEB2+N)
-              BUFS(IDEB+2*NB1+NB2+2*(N-1)+1)= 
+              BUFS(IDEB+2*NB1+NB2+2*(N-1)+1)=
      +                             PENFIAE(NIN)%P(5,2*IDEB2+2*(N-1)+1)
               BUFS(IDEB+2*NB1+NB2+2*N) = PENFIAE(NIN)%P(5,2*IDEB2+2*N)
             END DO
             IDEB2 = IDEB2 + NB2
             NB=2*NB1+3*NB2
             IF(NB>0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               CALL MPI_ISEND(
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
               IDEB = IDEB + NB
-            END IF      
+            END IF
           END IF
         END DO
 C
@@ -3139,7 +3139,7 @@ C
      .          MPI_COMM_WORLD,STATUS,IERROR    )
               DO N = 1, NB1
                 II = NSVSI(NIN)%P(IDEB1+N)
-                IL = NSV(II)                      
+                IL = NSV(II)
                 PENIS(2,II) = MAX(PENIS(2,II),BUFR(N))
                 PENIA(5,IL) = MAX(PENIA(5,IL),BUFR(NB1+N))
               END DO
@@ -3152,9 +3152,9 @@ C
                 PENIA(5,IL1)=MAX(PENIA(5,IL1),BUFR(2*NB1+NB2+2*(N-1)+1))
                 PENIA(5,IL2)=MAX(PENIA(5,IL2),BUFR(2*NB1+NB2+2*N))
               END DO
-              IDEB2 = IDEB2 + NB2              
+              IDEB2 = IDEB2 + NB2
             END IF
-          END IF      
+          END IF
         END DO
 C
 C Attente reception 1er envoi
@@ -3164,7 +3164,7 @@ C
             NB = NSNFI(NIN)%P(P)+NSNFIE(NIN)%P(P)
             IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
-            ENDIF      
+            ENDIF
           END IF
         END DO
 
@@ -3179,7 +3179,7 @@ C
             NB1 = NSNSI(NIN)%P(P)
             DO N = 1, NB1
               II = NSVSI(NIN)%P(IDEB1+N)
-              IL = NSV(II)                      
+              IL = NSV(II)
               BUFS(IDEB+N) = PENIS(2,II)
               BUFS(IDEB+NB1+N) = PENIA(5,IL)
             END DO
@@ -3194,14 +3194,14 @@ C
               BUFS(IDEB+2*NB1+NB2+2*N) = PENIA(5,IL2)
             END DO
             IDEB2 = IDEB2 + NB2
-            NB=2*NB1+3*NB2            
+            NB=2*NB1+3*NB2
             IF(NB>0)THEN
               MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BUFS(IDEB+1),NB,REAL     ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,REQ_SI(P),IERROR    )
               IDEB = IDEB + NB
-            END IF      
+            END IF
           END IF
         END DO
 C
@@ -3213,9 +3213,9 @@ C
           IF(P/=LOC_PROC)THEN
             NB1 = NSNFI(NIN)%P(P)
             NB2 = NSNFIE(NIN)%P(P)
-            NB=2*NB1+3*NB2            
+            NB=2*NB1+3*NB2
             IF(NB>0)THEN
-              MSGTYP = MSGOFF2 
+              MSGTYP = MSGOFF2
               CALL MPI_RECV(
      .          BUFR,NB,REAL     ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD,STATUS,IERROR    )
@@ -3232,18 +3232,18 @@ C
                 PENFIE(NIN)%P(1,IDEB2+N) = MIN(PENFIE(NIN)%P(1,IDEB2+N),
      .                                         BUFR(2*NB1+N))
                 PENFIE(NIN)%P(2,IDEB2+N) = ZERO
-                PENFIAE(NIN)%P(4,2*IDEB2+2*(N-1)+1) = 
+                PENFIAE(NIN)%P(4,2*IDEB2+2*(N-1)+1) =
      .            MIN(PENFIAE(NIN)%P(4,2*IDEB2+2*(N-1)+1),
      .                BUFR(2*NB1+NB2+2*(N-1)+1))
                 PENFIAE(NIN)%P(5,2*IDEB2+2*(N-1)+1) = ZERO
-                PENFIAE(NIN)%P(4,2*IDEB2+2*N) = 
+                PENFIAE(NIN)%P(4,2*IDEB2+2*N) =
      .            MIN(PENFIAE(NIN)%P(4,2*IDEB2+2*N),
      .                BUFR(2*NB1+NB2+2*N))
                 PENFIAE(NIN)%P(5,2*IDEB2+2*N) = ZERO
               END DO
               IDEB2 = IDEB2 + NB2
             END IF
-          END IF      
+          END IF
         END DO
 C
 C Attente reception 2eme envoi
@@ -3253,7 +3253,7 @@ C
             NB = NSNSI(NIN)%P(P)+NSNSIE(NIN)%P(P)
             IF(NB>0)THEN
               CALL MPI_WAIT(REQ_SI(P),STATUS,IERROR)
-            ENDIF      
+            ENDIF
           END IF
         END DO
 C

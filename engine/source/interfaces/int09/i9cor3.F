@@ -75,7 +75,7 @@ C-----------------------------------------------
         YI(I)=X(2,IG) + (V(2,IG) + A(2,IG)*DT12)*DT2
         ZI(I)=X(3,IG) + (V(3,IG) + A(3,IG)*DT12)*DT2
       ENDDO
-      
+
       DO I=LFT,LLT
       IL=I+NFT
       IG=NSV(IL)

@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER II, IGROU, IELN, IERR, IX(4), IXQ(NIXQ),IPARG(NPARG,*) 
+      INTEGER II, IGROU, IELN, IERR, IX(4), IXQ(NIXQ),IPARG(NPARG,*)
 C     REAL
       my_real
      .   DIST, AREA, TSTIF, T, VOL, X(3,*), PM(NPROPM,*)
@@ -70,7 +70,7 @@ C---------------------------------
 C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
 C---------------------------------
           DO 200 NG=1,NGROUP
-            CALL INITBUF (IPARG    ,NG      ,                  
+            CALL INITBUF (IPARG    ,NG      ,
      2            MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
      3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
      4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
@@ -124,7 +124,7 @@ C
 C----------------------------------------------------------
 C         CALCUL DISTANCE ET 1/2 SURFACE(SURFACE NODALE))
 C----------------------------------------------------------
-            DIST = FOURTH*(DY*NY+DZ*NZ) / MAX(EM15,NORM) 
+            DIST = FOURTH*(DY*NY+DZ*NZ) / MAX(EM15,NORM)
             AREA = HALF*NORM
 C--------------------------------------------
 C         CALCUL DE LA RESISTANCE THERMIQUE

@@ -48,14 +48,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NNOD,NDDL,LEVEL
 C=======================================================================
-      NNOD = FAILWAVE%NNOD 
-      NDDL = FAILWAVE%NDDL 
+      NNOD = FAILWAVE%NNOD
+      NDDL = FAILWAVE%NDDL
       FAILWAVE%MAXLEV(1:NNOD) = FAILWAVE%MAXLEV_STACK(1:NNOD)
       FAILWAVE%MAXLEV_STACK(1:NNOD) = 0
 c

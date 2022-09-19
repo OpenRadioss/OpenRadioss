@@ -183,7 +183,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 C
       INTEGER IFUNC,I,NPFI,NPFIP,DEPLA
-      my_real 
+      my_real
      .    ABC,DERI,XX,DX1,DX2,TFI,TFI1,TFI2,TFIP,VAL
 C-----------------------------------------------
         CALL GET_VAR_USER_I(5,IFUNC,NPFI)
@@ -324,7 +324,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 C
       INTEGER IFUNC,I,NPFI,NPFIP,DEPLA
-      my_real 
+      my_real
      .    ABC,YY,DERI,DY1,DY2,TFI,TFI1,TFI2,TFIP,VAL
 C-----------------------------------------------
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)

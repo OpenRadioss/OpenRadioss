@@ -79,7 +79,7 @@ C-----------------------------------------------
       CHARACTER TITR*nchartitle
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -109,7 +109,7 @@ C-----------------------------------------------
      .    IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,ILEV,
      .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,ISYM,IEDGE,NOD1,
      .    IDEL25,KK,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,
-     .    IREM25I2,IPRINT,INTFRIC,MULTIMPE,IASSIGN,ISHARP,   
+     .    IREM25I2,IPRINT,INTFRIC,MULTIMPE,IASSIGN,ISHARP,
      .    ITHK,NOTUSED,INTTH,IFORM,IKTHE,FCOND,IFRICTH,NPREF
       my_real
      .    FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
@@ -143,12 +143,12 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
-      ILEV=0 
-      IDSENS = 0 
+      IGSTI = 0
+      ILEV=0
+      IDSENS = 0
       IDELKEEP=0
       INTFRIC = 0
-      NOD1 = 0    
+      NOD1 = 0
       INTKG = 0
       FLAGREMNOD = 0
       MULTIMP  = 0
@@ -268,9 +268,9 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Pmax',PMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('Tpressfit',TPFIT,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('Tpressfit',TPFIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
@@ -299,7 +299,7 @@ C
       ENDIF
 C
       IF(INTTH > 0 ) THEN
-         CALL HM_GET_FLOATV('Kthe',KTHE,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+         CALL HM_GET_FLOATV('Kthe',KTHE,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('T_Initial',TINT,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('Crx',XTHE,IS_AVAILABLE,LSUBMODEL,UNITAB)
          CALL HM_GET_FLOATV('F_RAD',FRAD,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -352,7 +352,7 @@ C
 C
         KEY1='ITHK'
         CALL DEFINTER(KEY1     ,ITHK    ,IASSIGN   ,IPRINT   ,
-     .                NTYP     ,DEF_INTER)  
+     .                NTYP     ,DEF_INTER)
 C
 C--------------------------------------------------
 C CHECKS And  Storage IPARI FRIGAP 
@@ -371,7 +371,7 @@ C.....* Storage IPARI FRIGAP *........
         IPARI(63) = FLAGREMNOD
         IPARI(83) = IREM25I2
 C         IPARI(83) is used temporarily before determined only by FLAGREMNOD   
-        IF (IREM25I2 /= 1) IPARI(83)=0 
+        IF (IREM25I2 /= 1) IPARI(83)=0
 
         IF(IGAP==2) THEN
            IPARI(21)=1
@@ -423,7 +423,7 @@ C            3 : ISU1=0,ISU2>0;IS3>0
         ISYM = 1
 
         SELECT CASE (ILEV)
-          CASE(1)          
+          CASE(1)
             INGR2USR => IGRSURF(1:NSURF)%ID
             ISU1=NGR2USR(ISU1,INGR2USR,NSURF)
             ISU2=ISU1
@@ -490,7 +490,7 @@ c       FRIGAP(16) = EP30
         FRIGAP(18) = STMAX
 C
 C-------- default EDG_ANGL=135         
-        IF(IEDGE /= 0 .AND. EDG_ANGL==ZERO) 
+        IF(IEDGE /= 0 .AND. EDG_ANGL==ZERO)
      +           EDG_ANGL=HUNDRED+THIRTY+FIVE
         FRIGAP(26)  = COS((HUNDRED80-EDG_ANGL)*PI/HUNDRED80)
 
@@ -500,7 +500,7 @@ C-------- default EDG_ANGL=135
 	IF(GAPSCALE==ZERO)GAPSCALE=ONE
 	FRIGAP(13) = GAPSCALE ! historically stored, get modified in I25STI3 (GAPMIN)
         FRIGAP(45) = GAPSCALE
-        
+
 
         IF(GAPMAX_S==ZERO)GAPMAX_S=EP30
         IF(GAPMAX_M==ZERO)GAPMAX_M=EP30
@@ -609,7 +609,7 @@ C
         IPARI(91)=ITHK
 
 C------------remove BUMULT   
-        BUMULT=ZERO  
+        BUMULT=ZERO
 
         IF(BUMULT==ZERO) THEN
           BUMULT = BMUL0
@@ -749,7 +749,7 @@ C
         ENDIF
 C
         IF(FCOND ==0) DCOND = ZERO
- 
+
         IF(FRAD==ZERO ) DRAD = ZERO
 
         IF(FCOND /= 0.AND.DCOND/=ZERO.AND.DRAD==ZERO) THEN
@@ -850,12 +850,12 @@ C
 C
         KEY1='ITHK'
         CALL DEFINTER(KEY1     ,ITHK    ,IASSIGN   ,IPRINT   ,
-     .                NTYP     ,DEF_INTER)  
+     .                NTYP     ,DEF_INTER)
 C
 
 C........* PRINT INTERFACES INPUT *.....................
 
-        IF(IDSENS/=0) THEN 
+        IF(IDSENS/=0) THEN
          WRITE(IOUT,3526)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STFAC,ILEV,IEDGE,EDG_ANGL,
      .                 STMIN,STMAX,
@@ -879,7 +879,7 @@ C........* PRINT INTERFACES INPUT *.....................
           IF(IDELKEEP == 1)THEN
             WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-          ENDIF         
+          ENDIF
         ENDIF
 C
         IF(INTFRIC > 0 ) THEN
@@ -891,7 +891,7 @@ C
                 WRITE(IOUT,1524) FRIC
               ELSE
                 WRITE(IOUT,1525) IFRICTH,FRIC
-              ENDIF 
+              ENDIF
           ELSEIF(MFROT==1)THEN
             WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .      FRIC_P(4),FRIC_P(5)
@@ -927,7 +927,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -1079,7 +1079,7 @@ C
      .       '    INTERFACE ADHESION MODEL                ' /,
      .       '    INTERFACE FLUID VISCOSITY . . . . . . . ',1PG20.13/,
      .       '    MAXIMUM ADHESIVE FORCE PER UNIT AREA. . ',1PG20.13/,
-     .       '    TANGENTIAL VISCOUS FORCE SCALE FACTOR . ',1PG20.13/)  
+     .       '    TANGENTIAL VISCOUS FORCE SCALE FACTOR . ',1PG20.13/)
 C
  2102   FORMAT(//
      .      '    Thermal interface                          ' //,

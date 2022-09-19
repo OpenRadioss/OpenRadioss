@@ -33,19 +33,19 @@ Chd|        H3D_MOD                       share/modules/h3d_mod.F
 Chd|====================================================================
       SUBROUTINE I2FOR27P_PEN(
      .            X        ,V       ,VR      ,A       ,AR      ,
-     .            MS       ,IN      ,STIFN   ,STIFR   ,WEIGHT  ,            
-     .            NSV      ,IRTL    ,CRST    ,SKEW    ,DX      ,            
-     .            DR       ,FINI    ,FSAV    ,FNCONT  ,NSN     ,            
-     .            I0       ,I2SIZE  ,IADI2   ,FSKYI2  ,STFN    ,            
-     .            STFR     ,VISC    ,PENFLAG ,IROTB    ,NOINT   ,            
-     .            NODNX_SMS,DMINT2  ,DT2T    ,NELTST  ,ITYPTST ,            
+     .            MS       ,IN      ,STIFN   ,STIFR   ,WEIGHT  ,
+     .            NSV      ,IRTL    ,CRST    ,SKEW    ,DX      ,
+     .            DR       ,FINI    ,FSAV    ,FNCONT  ,NSN     ,
+     .            I0       ,I2SIZE  ,IADI2   ,FSKYI2  ,STFN    ,
+     .            STFR     ,VISC    ,PENFLAG ,IROTB    ,NOINT   ,
+     .            NODNX_SMS,DMINT2  ,DT2T    ,NELTST  ,ITYPTST ,
      .            IRECT    ,INDXP    ,IADX    ,
      .            H3D_DATA,MSEGTYP2,
-     .            FNCONTP  ,FTCONTP  )   
+     .            FNCONTP  ,FTCONTP  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD         
+      USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C     REAL
      .   VRX0,VRX1,VRX2,VRX3,VRX4,VRY0,VRY1,VRY2,VRY3,VRY4,VRZ0,VRZ1,VRZ2,VRZ3,VRZ4,
      .   VRSX,VRSY,VRSZ,VRX,VRY,VRZ,MLX,MLY,MLZ,MX(4),MY(4),MZ(4),MRX,MRY,MRZ,FTX,FTY,FTZ,
      .   MGX,MGY,MGZ,MSX,MSY,MSZ,MVX,MVY,MVZ,STR,VISR(MVSIZ),DKI,INHARM,VRMX,VRMY,VRMZ,
-     .   LEN2,FAC_TRIANG 
+     .   LEN2,FAC_TRIANG
       my_real
      .   IROT
 C=======================================================================
@@ -134,9 +134,9 @@ C
           T = CRST(2,II)
           L = IRTL(II)
 C
-          IX1(K) = IRECT(1,L)                                       
-          IX2(K) = IRECT(2,L)                                       
-          IX3(K) = IRECT(3,L)                                       
+          IX1(K) = IRECT(1,L)
+          IX2(K) = IRECT(2,L)
+          IX3(K) = IRECT(3,L)
           IX4(K) = IRECT(4,L)
 C
           IF ((MSEGTYP2(L)==1).AND.(IN(I)>EM20)) THEN
@@ -145,7 +145,7 @@ C-- shell main segment --
           ELSE
 C-- solid main segment --
             IROT = ZERO
-          ENDIF  
+          ENDIF
 
           IF (IX3(K) == IX4(K)) THEN
 C--        Shape functions of triangles
@@ -156,66 +156,66 @@ C--        Shape functions of triangles
             H(4,K) = ZERO
           ELSE
 C--         Shape functions of quadrangles
-            NIR = 4           
-            SP = ONE + S           
-            SM = ONE - S           
-            TP = FOURTH*(ONE + T)    
+            NIR = 4
+            SP = ONE + S
+            SM = ONE - S
+            TP = FOURTH*(ONE + T)
             TM = FOURTH*(ONE - T)
 C       
-            H(1,K)=TM*SM           
-            H(2,K)=TM*SP           
-            H(3,K)=TP*SP           
-            H(4,K)=TP*SM 
+            H(1,K)=TM*SM
+            H(2,K)=TM*SP
+            H(3,K)=TP*SP
+            H(4,K)=TP*SM
           ENDIF
 C
 C------------------------------------------------                  
 C         rep local facette main
 C------------------------------------------------   
-          X1  = X(1,IX1(K))                                       
-          Y1  = X(2,IX1(K))                                          
-          Z1  = X(3,IX1(K))                                          
-          X2  = X(1,IX2(K))					     
-          Y2  = X(2,IX2(K))					     
-          Z2  = X(3,IX2(K))					     
-          X3  = X(1,IX3(K))					     
-          Y3  = X(2,IX3(K))					     
-          Z3  = X(3,IX3(K))					     
-          X4  = X(1,IX4(K))					     
-          Y4  = X(2,IX4(K))					     
-          Z4  = X(3,IX4(K))					     
-          XS  = X(1,I)                                          
-          YS  = X(2,I)                                         
-          ZS  = X(3,I)                                           
-          VSX = V(1,I)                                                   
-          VSY = V(2,I)                                                   
-          VSZ = V(3,I)                                                
-          VX1 = V(1,IX1(K))						      
-          VY1 = V(2,IX1(K))						      
-          VZ1 = V(3,IX1(K))						      
-          VX2 = V(1,IX2(K))						      
-          VY2 = V(2,IX2(K))						      
-          VZ2 = V(3,IX2(K))						      
-          VX3 = V(1,IX3(K))						      
-          VY3 = V(2,IX3(K))						      
-          VZ3 = V(3,IX3(K))						      
-          VX4 = V(1,IX4(K))						      
-          VY4 = V(2,IX4(K))						      
+          X1  = X(1,IX1(K))
+          Y1  = X(2,IX1(K))
+          Z1  = X(3,IX1(K))
+          X2  = X(1,IX2(K))					
+          Y2  = X(2,IX2(K))					
+          Z2  = X(3,IX2(K))					
+          X3  = X(1,IX3(K))					
+          Y3  = X(2,IX3(K))					
+          Z3  = X(3,IX3(K))					
+          X4  = X(1,IX4(K))					
+          Y4  = X(2,IX4(K))					
+          Z4  = X(3,IX4(K))					
+          XS  = X(1,I)
+          YS  = X(2,I)
+          ZS  = X(3,I)
+          VSX = V(1,I)
+          VSY = V(2,I)
+          VSZ = V(3,I)
+          VX1 = V(1,IX1(K))						
+          VY1 = V(2,IX1(K))						
+          VZ1 = V(3,IX1(K))						
+          VX2 = V(1,IX2(K))						
+          VY2 = V(2,IX2(K))						
+          VZ2 = V(3,IX2(K))						
+          VX3 = V(1,IX3(K))						
+          VY3 = V(2,IX3(K))						
+          VZ3 = V(3,IX3(K))						
+          VX4 = V(1,IX4(K))						
+          VY4 = V(2,IX4(K))						
           VZ4 = V(3,IX4(K))
           IF (IROT > ZERO) THEN
             VRSX = VR(1,I)
             VRSY = VR(2,I)
-            VRSZ = VR(3,I)   
-            VRX1 = VR(1,IX1(K))						      
-            VRY1 = VR(2,IX1(K))						      
-            VRZ1 = VR(3,IX1(K))						      
-            VRX2 = VR(1,IX2(K))						      
-            VRY2 = VR(2,IX2(K))						      
-            VRZ2 = VR(3,IX2(K))						      
-            VRX3 = VR(1,IX3(K))						      
-            VRY3 = VR(2,IX3(K))						      
-            VRZ3 = VR(3,IX3(K))						      
-            VRX4 = VR(1,IX4(K))						      
-            VRY4 = VR(2,IX4(K))						      
+            VRSZ = VR(3,I)
+            VRX1 = VR(1,IX1(K))						
+            VRY1 = VR(2,IX1(K))						
+            VRZ1 = VR(3,IX1(K))						
+            VRX2 = VR(1,IX2(K))						
+            VRY2 = VR(2,IX2(K))						
+            VRZ2 = VR(3,IX2(K))						
+            VRX3 = VR(1,IX3(K))						
+            VRY3 = VR(2,IX3(K))						
+            VRZ3 = VR(3,IX3(K))						
+            VRX4 = VR(1,IX4(K))						
+            VRY4 = VR(2,IX4(K))						
             VRZ4 = VR(3,IX4(K))
           ENDIF								
 C---------------------
@@ -247,10 +247,10 @@ C
           ZSM = ZS - ZM
 c
           VX0 = (VX1 + VX2 + VX3 + VX4)/NIR
-          VY0 = (VY1 + VY2 + VY3 + VY4)/NIR  
+          VY0 = (VY1 + VY2 + VY3 + VY4)/NIR
           VZ0 = (VZ1 + VZ2 + VZ3 + VZ4)/NIR
-          VMX = VX1*H(1,K) + VX2*H(2,K) + VX3*H(3,K) + VX4*H(4,K) - VX0 
-          VMY = VY1*H(1,K) + VY2*H(2,K) + VY3*H(3,K) + VY4*H(4,K) - VY0 
+          VMX = VX1*H(1,K) + VX2*H(2,K) + VX3*H(3,K) + VX4*H(4,K) - VX0
+          VMY = VY1*H(1,K) + VY2*H(2,K) + VY3*H(3,K) + VY4*H(4,K) - VY0
           VMZ = VZ1*H(1,K) + VZ2*H(2,K) + VZ3*H(3,K) + VZ4*H(4,K) - VZ0
 C
         ELSE
@@ -275,24 +275,24 @@ C
           ZSM = ZS - ZM
 
           VX0 = (VX1 + VX2 + VX3)/NIR
-          VY0 = (VY1 + VY2 + VY3)/NIR  
+          VY0 = (VY1 + VY2 + VY3)/NIR
           VZ0 = (VZ1 + VZ2 + VZ3)/NIR
           VMX = VX1*H(1,K) + VX2*H(2,K) + VX3*H(3,K) - VX0
           VMY = VY1*H(1,K) + VY2*H(2,K) + VY3*H(3,K) - VY0
           VMZ = VZ1*H(1,K) + VZ2*H(2,K) + VZ3*H(3,K) - VZ0
-        ENDIF                                      
-        X1 = X1 - X0                                              
-        Y1 = Y1 - Y0                                              
-        Z1 = Z1 - Z0                                              
-        X2 = X2 - X0                                              
-        Y2 = Y2 - Y0                                              
-        Z2 = Z2 - Z0                                              
-        X3 = X3 - X0                                              
-        Y3 = Y3 - Y0                                              
-        Z3 = Z3 - Z0                                              
-        X4 = X4 - X0                                              
-        Y4 = Y4 - Y0                                              
-        Z4 = Z4 - Z0                                              
+        ENDIF
+        X1 = X1 - X0
+        Y1 = Y1 - Y0
+        Z1 = Z1 - Z0
+        X2 = X2 - X0
+        Y2 = Y2 - Y0
+        Z2 = Z2 - Z0
+        X3 = X3 - X0
+        Y3 = Y3 - Y0
+        Z3 = Z3 - Z0
+        X4 = X4 - X0
+        Y4 = Y4 - Y0
+        Z4 = Z4 - Z0
         VSX = VSX  - VX0
         VSY = VSY  - VY0
         VSZ = VSZ  - VZ0
@@ -306,18 +306,18 @@ c
         RM(2) = XM*E2X + YM*E2Y + ZM*E2Z
         RM(3) = XM*E3X + YM*E3Y + ZM*E3Z
 c
-        RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1        
-        RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1         
-        RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1         
-        RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2         
-        RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2         
-        RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2         
-        RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3         
-        RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3         
-        RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3         
-        RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4         
-        RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4         
-        RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4         
+        RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1
+        RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1
+        RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1
+        RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2
+        RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2
+        RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2
+        RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3
+        RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3
+        RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3
+        RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4
+        RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4
+        RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4
 C
         IF (NIR==3) THEN
  	  RX(4)=ZERO
@@ -332,7 +332,7 @@ C
           VRS(1) = VRSX*E1X + VRSY*E1Y + VRSZ*E1Z
           VRS(2) = VRSX*E2X + VRSY*E2Y + VRSZ*E2Z
           VRS(3) = VRSX*E3X + VRSY*E3Y + VRSZ*E3Z
-          VRMX = VRX1*H(1,K) + VRX2*H(2,K) + VRX3*H(3,K) + VRX4*H(4,K) 
+          VRMX = VRX1*H(1,K) + VRX2*H(2,K) + VRX3*H(3,K) + VRX4*H(4,K)
           VRMY = VRY1*H(1,K) + VRY2*H(2,K) + VRY3*H(3,K) + VRY4*H(4,K)
           VRMZ = VRZ1*H(1,K) + VRZ2*H(2,K) + VRZ3*H(3,K) + VRZ4*H(4,K)
           VRM(1) = VRMX*E1X + VRMY*E1Y + VRMZ*E1Z
@@ -343,19 +343,19 @@ C
         VM(1) = VMX*E1X + VMY*E1Y + VMZ*E1Z
         VM(2) = VMX*E2X + VMY*E2Y + VMZ*E2Z
         VM(3) = VMX*E3X + VMY*E3Y + VMZ*E3Z
- 
+
         VA(1) = VX1*E1X + VY1*E1Y + VZ1*E1Z
         VA(2) = VX1*E2X + VY1*E2Y + VZ1*E2Z
         VA(3) = VX1*E3X + VY1*E3Y + VZ1*E3Z
- 
+
         VB(1) = VX2*E1X + VY2*E1Y + VZ2*E1Z
         VB(2) = VX2*E2X + VY2*E2Y + VZ2*E2Z
         VB(3) = VX2*E3X + VY2*E3Y + VZ2*E3Z
- 
+
         VC(1) = VX3*E1X + VY3*E1Y + VZ3*E1Z
         VC(2) = VX3*E2X + VY3*E2Y + VZ3*E2Z
         VC(3) = VX3*E3X + VY3*E3Y + VZ3*E3Z
- 
+
         VD(1) = VX4*E1X + VY4*E1Y + VZ4*E1Z
         VD(2) = VX4*E2X + VY4*E2Y + VZ4*E2Z
         VD(3) = VX4*E3X + VY4*E3Y + VZ4*E3Z
@@ -383,7 +383,7 @@ C
 C---------  Vi = Vi -VR ^ MS 
           CALL I2PEN_ROT27(
      .    SKEW(1,II) ,TT   ,DT1  ,STBRK,
-     .    RS   ,RM   ,VX   ,VY   ,VZ   ,                        
+     .    RS   ,RM   ,VX   ,VY   ,VZ   ,
      .    RX   ,RY   ,RZ   ,VA   ,VB   ,
      .    VC   ,VD   ,VRM  ,VRS  ,DET  ,
      .    B1   ,B2   ,B3   ,C1   ,C2   ,
@@ -422,11 +422,11 @@ C
      .                      MS(IX4(K))==ZERO)THEN
             MHARM = ZERO
           ELSEIF(NIR==4)THEN
-            MHARM = ONE/MS(I) + 
+            MHARM = ONE/MS(I) +
      .              ONE/MS(IX1(K)) + ONE/MS(IX2(K)) + ONE/MS(IX3(K)) + ONE/MS(IX4(K))
             MHARM = ONE/MHARM
           ELSE
-            MHARM = ONE/MS(I) + 
+            MHARM = ONE/MS(I) +
      .              ONE/MS(IX1(K)) + ONE/MS(IX2(K)) + ONE/MS(IX3(K))
             MHARM = ONE/MHARM
           END IF
@@ -473,11 +473,11 @@ C
      .                      IN(IX4(K))==ZERO)THEN
             INHARM = ZERO
           ELSEIF(NIR==4)THEN
-            INHARM = ONE/IN(I) + 
+            INHARM = ONE/IN(I) +
      .              ONE/IN(IX1(K)) + ONE/IN(IX2(K)) + ONE/IN(IX3(K)) + ONE/IN(IX4(K))
             INHARM = ONE/INHARM
           ELSE
-            INHARM = ONE/IN(I) + 
+            INHARM = ONE/IN(I) +
      .              ONE/IN(IX1(K)) + ONE/IN(IX2(K)) + ONE/IN(IX3(K))
             INHARM = ONE/INHARM
           END IF
@@ -496,16 +496,16 @@ C
           DXT = DR(1,II)**2  + DR(2,II)**2 + DR(3,II)**2
           ECONTT = ECONTT + HALF*STFR(II)*DXT
 
-          ECONVT = ECONVT    + (MVX*VRX 
-     .                       +  MVY*VRY 
+          ECONVT = ECONVT    + (MVX*VRX
+     .                       +  MVY*VRY
      .                       +  MVZ*VRZ)*DT1
 C
           MLX = MLX + MVX
           MLY = MLY + MVY
           MLZ = MLZ + MVZ
 C
-          MGX = E1X*MLX + E2X*MLY + E3X*MLZ 
-          MGY = E1Y*MLX + E2Y*MLY + E3Y*MLZ 
+          MGX = E1X*MLX + E2X*MLY + E3X*MLZ
+          MGY = E1Y*MLX + E2Y*MLY + E3Y*MLZ
           MGZ = E1Z*MLX + E2Z*MLY + E3Z*MLZ
 C
           MRX = HALF*(YSM*FTZ - ZSM*FTY)
@@ -518,7 +518,7 @@ C
             MZ(J) = H(J,K)*(MGZ+MRZ)
           ENDDO
 C
-          LEN2 = XSM**2+YSM**2+ZSM**2  
+          LEN2 = XSM**2+YSM**2+ZSM**2
           STR = (STFR(II)+STFN(II)*LEN2)*(VISC + SQRT(VISC**2 + ONE))**2
 C
           ELSE
@@ -530,16 +530,16 @@ C
           MZ(1:4) = ZERO
           STR = ZERO
 C
-c         update main forces (moment balance)  
-          CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
+c         update main forces (moment balance)
+          CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .                  FMX    ,FMY    ,FMZ    ,H(1,K) ,STIFM(K))
 C
           ENDIF
 C
           DO J=1,4
-            FX(J) = E1X*FMX(J) + E2X*FMY(J) + E3X*FMZ(J) 
-            FY(J) = E1Y*FMX(J) + E2Y*FMY(J) + E3Y*FMZ(J) 
-            FZ(J) = E1Z*FMX(J) + E2Z*FMY(J) + E3Z*FMZ(J) 
+            FX(J) = E1X*FMX(J) + E2X*FMY(J) + E3X*FMZ(J)
+            FY(J) = E1Y*FMX(J) + E2Y*FMY(J) + E3Y*FMZ(J)
+            FZ(J) = E1Z*FMX(J) + E2Z*FMY(J) + E3Z*FMZ(J)
           ENDDO
 C
           FTX = ZERO
@@ -556,7 +556,7 @@ C         Secnd forces/moments -> global coordinates
 C----------------------------------------------------
 C
           A(1,I) = A(1,I) - FTX
-          A(2,I) = A(2,I) - FTY   
+          A(2,I) = A(2,I) - FTY
           A(3,I) = A(3,I) - FTZ
           STIFN(I) = STIFN(I) + STF
 C
@@ -564,81 +564,81 @@ C         for SMS ::
           STIF(K) = (ONE+STBRK)*STFN(II)
 C
           IF (IRODDL == 1) THEN
-            IF (IROT > ZERO) THEN 
+            IF (IROT > ZERO) THEN
               AR(1,I) = AR(1,I) - MGX + MRX
-              AR(2,I) = AR(2,I) - MGY + MRY  
+              AR(2,I) = AR(2,I) - MGY + MRY
               AR(3,I) = AR(3,I) - MGZ + MRZ
               STIFR(I) = STIFR(I) + STR
             ENDIF
-          ENDIF 
+          ENDIF
 C
 C----------------------------------------------------
 C         Main forces/moments 
 C----------------------------------------------------
 C
           IF (W == 1) THEN
-            I0 = I0BASE + IADX(II)                                                  
-            JJ = 1                                                        
+            I0 = I0BASE + IADX(II)
+            JJ = 1
             NN = IADI2(JJ,I0)
 c
-            FSKYI2(1,NN) = FX(JJ)                                     
-            FSKYI2(2,NN) = FY(JJ)                                      
-            FSKYI2(3,NN) = FZ(JJ)                                      
-            FSKYI2(4,NN) = ZERO                                       
+            FSKYI2(1,NN) = FX(JJ)
+            FSKYI2(2,NN) = FY(JJ)
+            FSKYI2(3,NN) = FZ(JJ)
+            FSKYI2(4,NN) = ZERO
             FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = MX(JJ)                         
-              FSKYI2(7,NN) = MY(JJ)                         
-              FSKYI2(8,NN) = MZ(JJ)                          
-              FSKYI2(9,NN) = ZERO                         
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = MX(JJ)
+              FSKYI2(7,NN) = MY(JJ)
+              FSKYI2(8,NN) = MZ(JJ)
+              FSKYI2(9,NN) = ZERO
               FSKYI2(10,NN)= ABS(STR*H(JJ,K))
-            ENDIF                                   
+            ENDIF
 c
-            JJ = 2                                                        
-            NN = IADI2(JJ,I0)                                             
-            FSKYI2(1,NN) = FX(JJ)                                    
-            FSKYI2(2,NN) = FY(JJ)                                     
-            FSKYI2(3,NN) = FZ(JJ)                                     
-            FSKYI2(4,NN) = ZERO                                 
-            FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF                      
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = MX(JJ)                           
-              FSKYI2(7,NN) = MY(JJ)                          
-              FSKYI2(8,NN) = MZ(JJ)                    
-              FSKYI2(9,NN) =  ZERO                  
-              FSKYI2(10,NN)=  ABS(STR*H(JJ,K))                  
-            ENDIF                                   
+            JJ = 2
+            NN = IADI2(JJ,I0)
+            FSKYI2(1,NN) = FX(JJ)
+            FSKYI2(2,NN) = FY(JJ)
+            FSKYI2(3,NN) = FZ(JJ)
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = MX(JJ)
+              FSKYI2(7,NN) = MY(JJ)
+              FSKYI2(8,NN) = MZ(JJ)
+              FSKYI2(9,NN) =  ZERO
+              FSKYI2(10,NN)=  ABS(STR*H(JJ,K))
+            ENDIF
 c
-            JJ = 3                                                        
-            NN = IADI2(JJ,I0)                                             
-            FSKYI2(1,NN) = FX(JJ)                                   
-            FSKYI2(2,NN) = FY(JJ)                                    
-            FSKYI2(3,NN) = FZ(JJ)                                    
-            FSKYI2(4,NN) = ZERO                                
-            FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF                 
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = MX(JJ)                         
-              FSKYI2(7,NN) = MY(JJ)                          
-              FSKYI2(8,NN) = MZ(JJ)                       
-              FSKYI2(9,NN) =  ZERO                    
-              FSKYI2(10,NN)=  ABS(STR*H(JJ,K))                     
-            ENDIF                                   
+            JJ = 3
+            NN = IADI2(JJ,I0)
+            FSKYI2(1,NN) = FX(JJ)
+            FSKYI2(2,NN) = FY(JJ)
+            FSKYI2(3,NN) = FZ(JJ)
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = MX(JJ)
+              FSKYI2(7,NN) = MY(JJ)
+              FSKYI2(8,NN) = MZ(JJ)
+              FSKYI2(9,NN) =  ZERO
+              FSKYI2(10,NN)=  ABS(STR*H(JJ,K))
+            ENDIF
 c
-            JJ = 4                                                        
-            NN = IADI2(JJ,I0)     
-            FSKYI2(1,NN) = FX(JJ)                                      
-            FSKYI2(2,NN) = FY(JJ)                                       
-            FSKYI2(3,NN) = FZ(JJ)                                       
-            FSKYI2(4,NN) = ZERO                                 
-            FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF*FAC_TRIANG                     
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = MX(JJ)                          
-              FSKYI2(7,NN) = MY(JJ)                          
-              FSKYI2(8,NN) = MZ(JJ)                     
-              FSKYI2(9,NN) =  ZERO                    
-              FSKYI2(10,NN)=  ABS(STR*H(JJ,K))                     
-            ENDIF                                   
-          ENDIF   
+            JJ = 4
+            NN = IADI2(JJ,I0)
+            FSKYI2(1,NN) = FX(JJ)
+            FSKYI2(2,NN) = FY(JJ)
+            FSKYI2(3,NN) = FZ(JJ)
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ABS(STF*H(JJ,K))+STIFM(K)*STF*FAC_TRIANG
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = MX(JJ)
+              FSKYI2(7,NN) = MY(JJ)
+              FSKYI2(8,NN) = MZ(JJ)
+              FSKYI2(9,NN) =  ZERO
+              FSKYI2(10,NN)=  ABS(STR*H(JJ,K))
+            ENDIF
+          ENDIF
 C
 C------------------------------------------------                  
           FINI(1,II) = FLX
@@ -734,70 +734,70 @@ C----------
           NSVG(K)= -I
           L = IRTL(II)
 C
-          IX1(K) = IRECT(1,L)                                       
-          IX2(K) = IRECT(2,L)                                       
-          IX3(K) = IRECT(3,L)                                       
-          IX4(K) = IRECT(4,L)  
+          IX1(K) = IRECT(1,L)
+          IX2(K) = IRECT(2,L)
+          IX3(K) = IRECT(3,L)
+          IX4(K) = IRECT(4,L)
           STIF(K)= ZERO
           VIS(K) = ZERO
           IF (WEIGHT(-I) == 1) THEN  ! stokage ZERO pour noeuds delete par idel2
             I0 = I0BASE + IADX(II)
-            JJ = 1                                                       
-            NN = IADI2(JJ,I0)                                            
+            JJ = 1
+            NN = IADI2(JJ,I0)
             FSKYI2(1,NN) = ZERO
             FSKYI2(2,NN) = ZERO
             FSKYI2(3,NN) = ZERO
             FSKYI2(4,NN) = ZERO
             FSKYI2(5,NN) = ZERO
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = ZERO                 
-              FSKYI2(7,NN) = ZERO                 
-              FSKYI2(8,NN) = ZERO                
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = ZERO
+              FSKYI2(7,NN) = ZERO
+              FSKYI2(8,NN) = ZERO
               FSKYI2(9,NN) = ZERO
               FSKYI2(10,NN)= ZERO
-            ENDIF              
-            JJ = 2                                                      
-            NN = IADI2(JJ,I0)                                            
+            ENDIF
+            JJ = 2
+            NN = IADI2(JJ,I0)
             FSKYI2(1,NN) = ZERO
             FSKYI2(2,NN) = ZERO
             FSKYI2(3,NN) = ZERO
             FSKYI2(4,NN) = ZERO
             FSKYI2(5,NN) = ZERO
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = ZERO                 
-              FSKYI2(7,NN) = ZERO                 
-              FSKYI2(8,NN) = ZERO                
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = ZERO
+              FSKYI2(7,NN) = ZERO
+              FSKYI2(8,NN) = ZERO
               FSKYI2(9,NN) = ZERO
               FSKYI2(10,NN)= ZERO
-            ENDIF              
-            JJ = 3                                                       
-            NN = IADI2(JJ,I0)                                            
+            ENDIF
+            JJ = 3
+            NN = IADI2(JJ,I0)
             FSKYI2(1,NN) = ZERO
             FSKYI2(2,NN) = ZERO
             FSKYI2(3,NN) = ZERO
             FSKYI2(4,NN) = ZERO
             FSKYI2(5,NN) = ZERO
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = ZERO                 
-              FSKYI2(7,NN) = ZERO                 
-              FSKYI2(8,NN) = ZERO                
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = ZERO
+              FSKYI2(7,NN) = ZERO
+              FSKYI2(8,NN) = ZERO
               FSKYI2(9,NN) = ZERO
               FSKYI2(10,NN)= ZERO
-            ENDIF              
-            JJ = 4                                                       
-            NN = IADI2(JJ,I0)                                            
+            ENDIF
+            JJ = 4
+            NN = IADI2(JJ,I0)
             FSKYI2(1,NN) = ZERO
             FSKYI2(2,NN) = ZERO
             FSKYI2(3,NN) = ZERO
             FSKYI2(4,NN) = ZERO
             FSKYI2(5,NN) = ZERO
-            IF (IRODDL == 1) THEN                                  
-              FSKYI2(6,NN) = ZERO                 
-              FSKYI2(7,NN) = ZERO                 
-              FSKYI2(8,NN) = ZERO                
+            IF (IRODDL == 1) THEN
+              FSKYI2(6,NN) = ZERO
+              FSKYI2(7,NN) = ZERO
+              FSKYI2(8,NN) = ZERO
               FSKYI2(9,NN) = ZERO
               FSKYI2(10,NN)= ZERO
-            ENDIF              
+            ENDIF
           ENDIF
         ENDIF
        ENDDO
@@ -813,7 +813,7 @@ c
            NELTST  = NOINT
            ITYPTST = 10
          ENDIF
-       END IF  
+       END IF
       ENDDO
 C----------
 #include "lockon.inc"

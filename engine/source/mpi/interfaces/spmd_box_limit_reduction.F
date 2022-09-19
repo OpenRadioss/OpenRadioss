@@ -1,4 +1,3 @@
-
 Copyright>        OpenRadioss
 Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
 Copyright>    
@@ -20,7 +19,8 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
+
 Chd|====================================================================
 Chd|  SPMD_BOX_LIMIT_REDUCTION      source/mpi/interfaces/spmd_box_limit_reduction.F
 Chd|-- called by -----------
@@ -33,7 +33,7 @@ Chd|====================================================================
         SUBROUTINE SPMD_BOX_LIMIT_REDUCTION(NB_INTER_SORTED)
 !$COMMENT
 !       SPMD_GRID_LIMIT_REDUCTION description :
-!       compute the minimal & maximal positions      
+!       compute the minimal & maximal positions
 !
 !       SPMD_GRID_LIMIT_REDUCTION organization :
 !       loop over the nodes & min+max computation
@@ -81,13 +81,13 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: I
         REAL(kind=8), DIMENSION(6) :: BUFFER_S,BUFFER_R
-#ifdef MPI        
+#ifdef MPI
         INTEGER :: ierror
         INTEGER :: STATUS_(MPI_STATUS_SIZE)
         CHARACTER(len=4) :: MY_OPERATION
 C-----------------------------------------------
-        !   ------------------  
-        !   globalization of min/max position      
+        !   ------------------
+        !   globalization of min/max position
         DO I=1,3
             BUFFER_S(I) = BOX_LIMIT(I)  ! max values
             BUFFER_S(3+I) = -ONE * BOX_LIMIT(3+I)   ! min values
@@ -95,14 +95,14 @@ C-----------------------------------------------
         !   ------------------
         MY_OPERATION(1:4) = ''
         MY_OPERATION(1:3) = "MAX"
-        
+
         CALL SPMD_ALLREDUCE_DB(BUFFER_S,BUFFER_R,6,MY_OPERATION)
         !   ------------------
         IF(NB_INTER_SORTED>0) THEN
             DO I=1,3
                 BOX_LIMIT(I) = BUFFER_R(I)
                 BOX_LIMIT(3+I) = -ONE * BUFFER_R(3+I)
-            ENDDO 
+            ENDDO
         ENDIF
         !   ------------------
 #endif

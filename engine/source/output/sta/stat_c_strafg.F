@@ -41,11 +41,11 @@ Chd|====================================================================
      1                        X    ,IPARG ,IPM ,IGEO ,IXC ,
      2                        IXTG  ,WA,WAP0 ,IPARTC, IPARTTG,
      3                      IPART_STATE,STAT_INDXC,STAT_INDXTG,THKE,SIZP0,
-     4                       GEO   ,STACK,DRAPE_Q4,DRAPE_T3) 
+     4                       GEO   ,STACK,DRAPE_Q4,DRAPE_T3)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE STACK_MOD
       USE DRAPE_MOD
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
      .        STAT_INDXC(*), STAT_INDXTG(*)
-      my_real   
+      my_real
      .   THKE(*),X(3,*),GEO(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -88,20 +88,20 @@ C-----------------------------------------------
      .    ITHK,KK(8),NF1,IGTYP,IREL,IHBE,NLAY,IBID0,MAT_1,PID_1,ILAY,NF3
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
-      double precision   
+      double precision
      .   THK, EM, EB, H1, H2, H3
       CHARACTER*100 DELIMIT,LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       INTEGER LAYNPT_MAX,LAY_MAX,ISUBSTACK,IPT_ALL,NPTT,IT,IPT,NPT_ALL,MPT
       PARAMETER (LAYNPT_MAX = 10)
       PARAMETER (LAY_MAX = 100)
       INTEGER MATLY(MVSIZ*LAY_MAX)
-      my_real, 
-     .   DIMENSION(:),POINTER  :: STRAIN    
-      my_real 
-     .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)   
+      my_real,
+     .   DIMENSION(:),POINTER  :: STRAIN
+      my_real
+     .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)
       my_real
      .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
      .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
@@ -120,14 +120,14 @@ C-----------------------------------------------
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF (ITY == 3) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          NPT  = IPARG(6,NG)
          ITHK  =IPARG(28,NG)
-         NPTR = ELBUF_TAB(NG)%NPTR    
-         NPTS = ELBUF_TAB(NG)%NPTS    
+         NPTR = ELBUF_TAB(NG)%NPTR
+         NPTS = ELBUF_TAB(NG)%NPTS
          NLAY = ELBUF_TAB(NG)%NLAY
          IHBE  =IPARG(23,NG)
          IGTYP= IPARG(38,NG)
@@ -158,8 +158,8 @@ C-----------------------------------------------
           THK0(LFT:LLT) = THKE(LFT+NFT:LLT+NFT)
          END IF
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
-     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
-     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,   
+     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    ,
+     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,
      .              ISUBSTACK,STACK    ,DRAPE_Q4 ,NFT      ,THK0     ,
      .              NEL      ,THK_LY   )
          CALL GET_Q4L(LFT ,LLT ,IXC(1,NF1),X ,GBUF%OFF,IREL ,QT )
@@ -204,8 +204,8 @@ c         Strain in Gauss points
               DO J=1,14
                 JJ    = JJ + 1
                 WA(JJ)=ZERO
-              END DO      
-            END DO        
+              END DO
+            END DO
           ELSEIF (NPT==0 .AND. G_STRA /= 0) THEN
             IF (NPG > 1) THEN
               STRAIN => GBUF%STRPG
@@ -214,34 +214,34 @@ c         Strain in Gauss points
             ENDIF
 C------first point Z=0  7 real  to print npg w/ QEPH     
             DO IPG=1,NPG
-              K = (IPG-1)*NEL*G_STRA 
+              K = (IPG-1)*NEL*G_STRA
               STRAING(1:2)=STRAIN(KK(1:2)+I+K)
               STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
-              CALL SHELL2G(STRAING,QT(1,I))             
+              CALL SHELL2G(STRAING,QT(1,I))
 C
               DO J=1,6
                 JJ    = JJ + 1
                 WA(JJ) = STRAING(J)
-              END DO      
+              END DO
                JJ    = JJ + 1
                WA(JJ) = ZERO
-            END DO        
+            END DO
 C------2nd point Z=0.5-> 1.0(LSD) 7 real      
             DO IPG=1,NPG
-              K = (IPG-1)*NEL*G_STRA 
+              K = (IPG-1)*NEL*G_STRA
               ZH = 1.0*THKP
               STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
               STRAING(3)=HALF*STRAING(3)
               STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
-              CALL SHELL2G(STRAING,QT(1,I))             
+              CALL SHELL2G(STRAING,QT(1,I))
 C
               DO J=1,6
                 JJ    = JJ + 1
                 WA(JJ) = STRAING(J)
-              END DO      
+              END DO
                JJ    = JJ + 1
                WA(JJ) = ONE
-            END DO        
+            END DO
           ELSEIF (G_STRA /= 0) THEN
             IF (NPG > 1) THEN
               STRAIN => GBUF%STRPG
@@ -253,23 +253,23 @@ C
               BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
               NPTT   = BUFLY%NPTT
               DO IT=1,NPTT
-                IPT = IPT_ALL + IT        
+                IPT = IPT_ALL + IT
 C--   
                 DO IPG=1,NPG
-                  K = (IPG-1)*NEL*G_STRA 
+                  K = (IPG-1)*NEL*G_STRA
                   ZH = POSLY(I,IPT)*THKP
                   STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                   STRAING(3)=HALF*STRAING(3)
                   STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
-                  CALL SHELL2G(STRAING,QT(1,I))             
+                  CALL SHELL2G(STRAING,QT(1,I))
 C               
                   DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                  END DO      
+                  END DO
                    JJ    = JJ + 1
                    WA(JJ) = POSLY(I,IPT)*TWO
-                END DO        
+                END DO
               END DO !IT=1,NPTT
               IPT_ALL = IPT_ALL + NPTT
             END DO !ILAY =1,NLAY
@@ -313,21 +313,21 @@ C         retrouve l'adresse dans WAP0
 
           IOFF  = NINT(WAP0(J + 1))
           IF(IOFF >= 1)THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             IF(IPRT /= IPRT0)THEN
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(A)') DELIMIT
                WRITE(IUGEO,'(A)')'/INISHE/STRA_F/GLOB'
                WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                WRITE(IUGEO,'(A)')
-     .      '#  SHELLID       NPT       NPG                 THK' 
+     .      '#  SHELLID       NPT       NPG                 THK'
                WRITE(IUGEO,'(A/A/A)')
      .'# REPEAT I=1,NPG :',
      .'#   E11, E22, E33,',
      .'#   E12, E23, E31, T,'
                WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
              ELSE
                WRITE(LINE,'(A)') DELIMIT
@@ -335,10 +335,10 @@ C         retrouve l'adresse dans WAP0
                WRITE(LINE,'(A)')'/INISHE/STRA_F/GLOB'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .      '#  SHELLID       NPT       NPG                 THK' 
+     .      '#  SHELLID       NPT       NPG                 THK'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'# REPEAT I=1,NPG :'
                CALL STRS_TXT50(LINE,100)
@@ -347,17 +347,17 @@ C         retrouve l'adresse dans WAP0
                WRITE(LINE,'(A)')'#   E12, E23, E31, T '
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)') DELIMIT
                CALL STRS_TXT50(LINE,100)
              ENDIF
               IPRT0=IPRT
             END IF
-            ID    = NINT(WAP0(J + 3)) 
-            NPT   = NINT(WAP0(J + 4)) 
-            NPG   = NINT(WAP0(J + 5)) 
-            THK   = WAP0(J + 6) 
+            ID    = NINT(WAP0(J + 3))
+            NPT   = NINT(WAP0(J + 4))
+            NPG   = NINT(WAP0(J + 5))
+            THK   = WAP0(J + 6)
             J = J + 6
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -403,7 +403,7 @@ C----- 2nd point
             ENDIF
           END IF
 C
-        ENDDO		    
+        ENDDO		
       ENDIF
 C-----------------------------------------------
 C     3-NODE SHELLS
@@ -415,7 +415,7 @@ C-----------------------------------------------
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF (ITY == 7) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          G_STRA = GBUF%G_STRA
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
@@ -425,8 +425,8 @@ C-----------------------------------------------
          IHBE  =IPARG(23,NG)
          IGTYP= IPARG(38,NG)
          ISUBSTACK=IPARG(71,NG)
-         NPTR = ELBUF_TAB(NG)%NPTR    
-         NPTS = ELBUF_TAB(NG)%NPTS    
+         NPTR = ELBUF_TAB(NG)%NPTR
+         NPTS = ELBUF_TAB(NG)%NPTS
          NLAY = ELBUF_TAB(NG)%NLAY
          NPG  = NPTR*NPTS
          LFT=1
@@ -452,8 +452,8 @@ C-----------------------------------------------
           THK0(LFT:LLT) = THKE(LFT+NF3:LLT+NF3)
          END IF
          CALL LAYINI(ELBUF_TAB(NG),LFT      ,LLT      ,GEO      ,IGEO    ,
-     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    , 
-     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,   
+     .              MAT_1    ,PID_1    ,THKLY    ,MATLY    ,POSLY    ,
+     .              IGTYP    ,IBID0    ,IBID0    ,NLAY     ,NPT      ,
      .              ISUBSTACK,STACK    ,DRAPE_T3 ,NFT      ,THK0     ,
      .              NEL      ,THK_LY   )
          CALL GET_T3L(LFT    ,LLT    ,IXTG(1,NF1),X    ,GBUF%OFF,
@@ -500,8 +500,8 @@ c         Strain in Gauss points
               DO J=1,14
                 JJ    = JJ + 1
                 WA(JJ) = ZERO
-              END DO      
-            END DO        
+              END DO
+            END DO
           ELSEIF (NPT==0 .AND. G_STRA /= 0) THEN
             IF (NPG > 1) THEN
               STRAIN => GBUF%STRPG
@@ -510,34 +510,34 @@ c         Strain in Gauss points
             ENDIF
 C------first point Z=0  7 real     
             DO IPG=1,NPG
-              K = (IPG-1)*NEL*G_STRA 
+              K = (IPG-1)*NEL*G_STRA
               STRAING(1:2)=STRAIN(KK(1:2)+I+K)
               STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
-              CALL SHELL2G(STRAING,QT(1,I))             
+              CALL SHELL2G(STRAING,QT(1,I))
 C
               DO J=1,6
                 JJ    = JJ + 1
                 WA(JJ) = STRAING(J)
-              END DO      
+              END DO
                JJ    = JJ + 1
                WA(JJ) = ZERO
-            END DO        
+            END DO
 C------2nd point Z=0.5-> 1.0(LSD) 7 real      
             DO IPG=1,NPG
-              K = (IPG-1)*NEL*G_STRA 
+              K = (IPG-1)*NEL*G_STRA
               ZH = 1.0*THKP
               STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
               STRAING(3)=HALF*STRAING(3)
               STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
-              CALL SHELL2G(STRAING,QT(1,I))             
+              CALL SHELL2G(STRAING,QT(1,I))
 C
               DO J=1,6
                 JJ    = JJ + 1
                 WA(JJ) = STRAING(J)
-              END DO      
+              END DO
                JJ    = JJ + 1
                WA(JJ) = ONE
-            END DO        
+            END DO
           ELSEIF (G_STRA > 0) THEN
             IF (NPG > 1) THEN
               STRAIN => GBUF%STRPG
@@ -549,23 +549,23 @@ C
               BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
               NPTT   = BUFLY%NPTT
               DO IT=1,NPTT
-                IPT = IPT_ALL + IT        
+                IPT = IPT_ALL + IT
 C--   
                 DO IPG=1,NPG
-                  K = (IPG-1)*NEL*G_STRA 
+                  K = (IPG-1)*NEL*G_STRA
                   ZH = POSLY(I,IPT)*THKP
                   STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                   STRAING(3)=HALF*STRAING(3)
                   STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
-                  CALL SHELL2G(STRAING,QT(1,I))             
+                  CALL SHELL2G(STRAING,QT(1,I))
 C               
                   DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                  END DO      
+                  END DO
                    JJ    = JJ + 1
                    WA(JJ) = POSLY(I,IPT)*TWO
-                END DO        
+                END DO
               END DO !IT=1,NPTT
               IPT_ALL = IPT_ALL + NPTT
             END DO !ILAY =1,NLAY
@@ -609,21 +609,21 @@ C         retrouve l'adresse dans WAP0
 
           IOFF  = NINT(WAP0(J + 1))
           IF(IOFF >= 1)THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             IF(IPRT /= IPRT0)THEN
              IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(A)') DELIMIT
               WRITE(IUGEO,'(A)')'/INISH3/STRA_F/GLOB'
               WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
               WRITE(IUGEO,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
              WRITE(IUGEO,'(A/A/A)')
      .'# REPEAT I=1,NPG :',
      .'#   E11, E22, E33,',
      .'#   E12, E23, E31, T '
               WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
               WRITE(IUGEO,'(A)') DELIMIT
              ELSE
               WRITE(LINE,'(A)') DELIMIT
@@ -632,28 +632,28 @@ C         retrouve l'adresse dans WAP0
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'#------------------------ REPEAT --------------------------'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
               CALL STRS_TXT50(LINE,100)
-              WRITE(LINE,'(A)')'# REPEAT I=1,NPG :' 
+              WRITE(LINE,'(A)')'# REPEAT I=1,NPG :'
               CALL STRS_TXT50(LINE,100)
-              WRITE(LINE,'(A)')'#   E11, E22, E33,' 
+              WRITE(LINE,'(A)')'#   E11, E22, E33,'
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')'#   E12, E23, E31, T '
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'#---------------------- END REPEAT ------------------------'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)') DELIMIT
               CALL STRS_TXT50(LINE,100)
              END IF
              IPRT0=IPRT
             END IF
-            ID    = NINT(WAP0(J + 3)) 
-            NPT   = NINT(WAP0(J + 4)) 
-            NPG   = NINT(WAP0(J + 5)) 
-            THK   = WAP0(J + 6) 
+            ID    = NINT(WAP0(J + 3))
+            NPT   = NINT(WAP0(J + 4))
+            NPG   = NINT(WAP0(J + 5))
+            THK   = WAP0(J + 6)
             J = J + 6
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -699,7 +699,7 @@ C----- 2nd point
             ENDIF
           END IF
 
-        ENDDO		    
+        ENDDO		
       ENDIF
 
       RETURN
@@ -726,14 +726,14 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),JFT,JLT,IREL
-      my_real 
+      my_real
      .   X(3,*), OFFG(*),VQ(3,3,MVSIZ)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,K,L
       INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
-      my_real 
+      my_real
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -751,13 +751,13 @@ C----------------------------------------------
           SY(I)=X(2,IXCTMP4)+X(2,IXCTMP5)-X(2,IXCTMP2)-X(2,IXCTMP3)
           RZ(I)=X(3,IXCTMP3)+X(3,IXCTMP4)-X(3,IXCTMP2)-X(3,IXCTMP5)
           SZ(I)=X(3,IXCTMP4)+X(3,IXCTMP5)-X(3,IXCTMP2)-X(3,IXCTMP3)
-        ENDDO 
+        ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       CALL CLSKEW3(JFT,JLT,IREL,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         VQ(1,1,I)=R11(I)
@@ -769,7 +769,7 @@ C----------------------------
         VQ(1,3,I)=R13(I)
         VQ(2,3,I)=R23(I)
         VQ(3,3,I)=R33(I)
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -795,14 +795,14 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXTG(NIXTG,*),JFT,JLT,IREL
-      my_real 
+      my_real
      .   X(3,*), OFFG(*),VQ(3,3,MVSIZ)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,K,L
       INTEGER I2,I3,I1
-      my_real 
+      my_real
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -819,13 +819,13 @@ C----------------------------------------------
           SX(I)=X(1,I3)-X(1,I1)
           SY(I)=X(2,I3)-X(2,I1)
           SZ(I)=X(3,I3)-X(3,I1)
-        ENDDO 
+        ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       CALL CLSKEW3(JFT,JLT,IREL,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         VQ(1,1,I)=R11(I)
@@ -837,7 +837,7 @@ C----------------------------
         VQ(1,3,I)=R13(I)
         VQ(2,3,I)=R23(I)
         VQ(3,3,I)=R33(I)
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -857,12 +857,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   EPS(6),QT(3,3)  
+     .   EPS(6),QT(3,3)
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .       TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C
 C--convention input EPS : exx,eyy,exy,eyz,ezx,0; output exx,eyy,ezz,exy,eyz,ezx
              TXX = EPS(1)
@@ -872,28 +872,28 @@ C--convention input EPS : exx,eyy,exy,eyz,ezx,0; output exx,eyy,ezz,exy,eyz,ezx
              TYZ = EPS(4)
              TZX = EPS(5)
 C
-              A = QT(1,1)*TXX + QT(1,2)*TXY + QT(1,3)*TZX   
-              B = QT(1,1)*TXY + QT(1,2)*TYY + QT(1,3)*TYZ   
-              C = QT(1,1)*TZX + QT(1,2)*TYZ + QT(1,3)*TZZ   
-              UXX = A*QT(1,1) + B*QT(1,2) + C*QT(1,3)   
-              UXY = A*QT(2,1) + B*QT(2,2) + C*QT(2,3)   
-              UZX = A*QT(3,1) + B*QT(3,2) + C*QT(3,3)   
-              A = QT(2,1)*TXX + QT(2,2)*TXY + QT(2,3)*TZX   
-              B = QT(2,1)*TXY + QT(2,2)*TYY + QT(2,3)*TYZ   
-              C = QT(2,1)*TZX + QT(2,2)*TYZ + QT(2,3)*TZZ   
-              UYY = A*QT(2,1) + B*QT(2,2) + C*QT(2,3)   
-              UYZ = A*QT(3,1) + B*QT(3,2) + C*QT(3,3)   
-              A = QT(3,1)*TXX + QT(3,2)*TXY + QT(3,3)*TZX   
-              B = QT(3,1)*TXY + QT(3,2)*TYY + QT(3,3)*TYZ   
-              C = QT(3,1)*TZX + QT(3,2)*TYZ + QT(3,3)*TZZ   
-              UZZ = A*QT(3,1) + B*QT(3,2) + C*QT(3,3) 
+              A = QT(1,1)*TXX + QT(1,2)*TXY + QT(1,3)*TZX
+              B = QT(1,1)*TXY + QT(1,2)*TYY + QT(1,3)*TYZ
+              C = QT(1,1)*TZX + QT(1,2)*TYZ + QT(1,3)*TZZ
+              UXX = A*QT(1,1) + B*QT(1,2) + C*QT(1,3)
+              UXY = A*QT(2,1) + B*QT(2,2) + C*QT(2,3)
+              UZX = A*QT(3,1) + B*QT(3,2) + C*QT(3,3)
+              A = QT(2,1)*TXX + QT(2,2)*TXY + QT(2,3)*TZX
+              B = QT(2,1)*TXY + QT(2,2)*TYY + QT(2,3)*TYZ
+              C = QT(2,1)*TZX + QT(2,2)*TYZ + QT(2,3)*TZZ
+              UYY = A*QT(2,1) + B*QT(2,2) + C*QT(2,3)
+              UYZ = A*QT(3,1) + B*QT(3,2) + C*QT(3,3)
+              A = QT(3,1)*TXX + QT(3,2)*TXY + QT(3,3)*TZX
+              B = QT(3,1)*TXY + QT(3,2)*TYY + QT(3,3)*TYZ
+              C = QT(3,1)*TZX + QT(3,2)*TYZ + QT(3,3)*TZZ
+              UZZ = A*QT(3,1) + B*QT(3,2) + C*QT(3,3)
 C              
-             EPS(1) = UXX  
-             EPS(2) = UYY  
-             EPS(3) = UZZ  
-             EPS(4) = UXY 
-             EPS(5) = UYZ 
-             EPS(6) = UZX 
+             EPS(1) = UXX
+             EPS(2) = UYY
+             EPS(3) = UZZ
+             EPS(4) = UXY
+             EPS(5) = UYZ
+             EPS(6) = UZX
 C             
       RETURN
       END

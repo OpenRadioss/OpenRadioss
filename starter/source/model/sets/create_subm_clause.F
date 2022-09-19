@@ -204,7 +204,7 @@ C=======================================================================
          CALL HM_GET_INT_ARRAY_2INDEXES('ids',IDS,JCLAUSE,I,IS_AVAILABLE,LSUBMODEL)
 
          SUBMM = SET_USRTOS(IDS,ISUBMM,NSUBMOD)
-         IF(SUBMM == 0)THEN        
+         IF(SUBMM == 0)THEN
            ! Submodel was not found. Issue a Warning & Skip.
            CALL ANCMSG(MSGID=1902,ANMODE=ANINFO,
      .                             MSGTYPE=MSGWARNING,
@@ -224,14 +224,14 @@ C=======================================================================
 
 
       ! Sort the Readed SUBSETs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       IWORK(:) = 0
       DO I=1,NINDX
         INDEXS(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,SUBM_READ_TMP,INDEXS,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_SUBM(I) = SUBM_READ_TMP(INDEXS(I))
       ENDDO
@@ -240,7 +240,7 @@ C=======================================================================
 
 
       ! TAG Parts from Readed SUBSETs
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       NINDX = 0
       DO I=1,LIST_SIZE_S
@@ -260,14 +260,14 @@ C=======================================================================
 
 
       ! Sort of TAG Parts from Readed SUBMODELs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       IWORK(:) = 0
       DO I=1,NINDX
         INDEXP(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,PART_READ_TMP,INDEXP,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_PARTS(I) = PART_READ_TMP(INDEXP(I))
       ENDDO
@@ -310,7 +310,7 @@ C=======================================================================
 
 
       ! Sort of TAG Nodess from Readed SUBMODELs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       ALLOCATE(SORTED_NODES(NINDX))
       ALLOCATE(INDEXN(2*NINDX))
@@ -321,7 +321,7 @@ C=======================================================================
         INDEXN(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,NODE_READ_TMP,INDEXN,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_NODES(I) = NODE_READ_TMP(INDEXN(I))
       ENDDO
@@ -332,7 +332,7 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      CLAUSE%NB_NODE = LIST_SIZE_N  
+      CLAUSE%NB_NODE = LIST_SIZE_N
       ALLOCATE( CLAUSE%NODE( LIST_SIZE_N ) )
 
       DO I=1,LIST_SIZE_N
@@ -460,7 +460,7 @@ C=======================================================================
 
           SSTART = SET_USRTOS_NEAREST(START_GENE,ISUBMM,NSUBMOD,1)
           SSTOP  = SET_USRTOS_NEAREST(END_GENE,ISUBMM,NSUBMOD,2)
-     
+
           STACK_ONE=0
 
           DO S=SSTART, SSTOP
@@ -487,7 +487,7 @@ C=======================================================================
 
 
       ! TAG Parts from Readed SUBSETs
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       NINDX = 0
       DO I=1,STACK
@@ -507,14 +507,14 @@ C=======================================================================
 
 
       ! Sort of TAG Parts from Readed SUBMODELs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
 
       DO I=1,NINDX
         INDEX(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,PART_READ_TMP,INDEX,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_PARTS(I) = PART_READ_TMP(INDEX(I))
       ENDDO
@@ -556,7 +556,7 @@ C=======================================================================
 
 
       ! Sort of TAG Nodess from Readed SUBMODELs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       ALLOCATE(SORTED_NODES(NINDX))
       ALLOCATE(INDEXN(2*NINDX))
@@ -567,7 +567,7 @@ C=======================================================================
         INDEXN(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,NODE_READ_TMP,INDEXN,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_NODES(I) = NODE_READ_TMP(INDEXN(I))
       ENDDO
@@ -578,7 +578,7 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      CLAUSE%NB_NODE = LIST_SIZE  
+      CLAUSE%NB_NODE = LIST_SIZE
       ALLOCATE( CLAUSE%NODE( LIST_SIZE ) )
 
       DO I=1,LIST_SIZE

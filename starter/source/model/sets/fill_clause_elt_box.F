@@ -74,9 +74,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,B_ELTS_SIZE,NB_RESULT,
-     .        ID,IB,NB_BOX_OF_BOX,J,CLAUSE_OPERATOR 
+     .        ID,IB,NB_BOX_OF_BOX,J,CLAUSE_OPERATOR
       LOGICAL BOOL
-      INTEGER, DIMENSION(:) , ALLOCATABLE :: B_ELTS,RESULT      
+      INTEGER, DIMENSION(:) , ALLOCATABLE :: B_ELTS,RESULT
 C-----------------------------------------------
       ALLOCATE(B_ELTS(NUMEL))
       ALLOCATE(RESULT(NUMEL))
@@ -84,18 +84,18 @@ C-----------------------------------------------
 !
       ! Tag nodes from boxes
       ! ---------------------
-      CLAUSE_OPERATOR = SET_ADD 
+      CLAUSE_OPERATOR = SET_ADD
       SZ_BOXELTS = 0
       DO I=1,BOXLIST_SIZE
         IB = BOXLIST(I)
         B_ELTS_SIZE = 0
-        
+
         CALL ELT_BOX(IB  ,
      *           IBOX    ,X          ,SKEW   ,SET_TITLE ,KEYSET,
      *           B_ELTS  ,B_ELTS_SIZE,NIX    ,IX        ,NIX1   ,
      *           IPARTE  ,IPART      ,ELTREE ,KLEVTREE  ,KELTREE,
      *           NUMEL   ,BOXTYPE    )
-        
+
 
         CALL SET_MERGE_SIMPLE( BOXELTS,  SZ_BOXELTS  ,
      *                          B_ELTS,   B_ELTS_SIZE ,
@@ -103,7 +103,7 @@ C-----------------------------------------------
      *                          CLAUSE_OPERATOR)
 
          BOXELTS(1:NB_RESULT) = RESULT(1:NB_RESULT)
-         SZ_BOXELTS = NB_RESULT        
+         SZ_BOXELTS = NB_RESULT
       ENDDO ! DO I=1,BOXLIST_SIZE
 
 C-------
@@ -175,9 +175,9 @@ C-----------------------------------------------
      .        NB_BOX_OF_BOX,J,NEW_BOX,CLAUSE_OPERATOR
       LOGICAL BOOL
       INTEGER, DIMENSION(:) , ALLOCATABLE :: B_ELTS,RESULT
-      
+
 C-----------------------------------------------
-        
+
 
       NB_BOX_OF_BOX   = IBOX(IB)%NBOXBOX
 
@@ -209,11 +209,11 @@ C-----------------------------------------------
      *                    B_ELTS  ,B_ELTS_SIZE,NIX    ,IX        ,NIX1   ,
      *                    IPARTE  ,IPART      ,ELTREE ,KLEVTREE  ,KELTREE,
      *                    NUMEL   ,BOXTYPE    )
-            
+
             IF (J < 0)THEN
                 CLAUSE_OPERATOR = SET_DELETE
             ELSE
-                CLAUSE_OPERATOR = SET_ADD 
+                CLAUSE_OPERATOR = SET_ADD
             ENDIF
 
             CALL SET_MERGE_SIMPLE( BOXELTS,  SZ_BOXELTS  ,

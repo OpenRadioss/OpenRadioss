@@ -27,8 +27,8 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ENORM3(VEUL ,
-     .                  X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   , 
-     .                  Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   , 
+     .                  X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .                  Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .                  Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   )
 C-----------------------------------------------
 C   Description
@@ -62,12 +62,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ), 
+     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-     
+
 C ---- NORMAL VECTORS ON FACES -----------------
       DO I=LFT,LLT
         VEUL(14,I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))

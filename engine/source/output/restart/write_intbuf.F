@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-     
+
 
 Chd|====================================================================
 Chd|  WRITE_INTBUF                  source/output/restart/write_intbuf.F
@@ -33,11 +33,11 @@ Chd|        WRITE_INTBUF_T8               source/output/restart/write_intbuf.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_INTBUF(INTBUF_TAB)  
+      SUBROUTINE WRITE_INTBUF(INTBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD                
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 c      my_real
-c     .   
+c     .
       INTEGER, DIMENSION(:),ALLOCATABLE :: INTBUF_SIZE
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -242,7 +242,7 @@ C------- to be cleaned later
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_ISEGPT
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_IS2ID 
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_IS2ID
 !type25
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_EVOISIN
@@ -299,15 +299,15 @@ C------- to be cleaned later
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_IREP_FRICM
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_E2S_ACTNOR  
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_E2S_ACTNOR
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_KREMNODE_EDG  
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_KREMNODE_EDG
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_EDG 
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_EDG
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_KREMNODE_E2S  
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_KREMNODE_E2S
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_E2S   
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_REMNODE_E2S
 
 C=======================================================================
 C real arrays sizes
@@ -321,11 +321,11 @@ C=======================================================================
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_DPARA
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_NMAS 
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_NMAS
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_AREAS2
         N = N+1
-        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_SMAS 
+        INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_SMAS
         N = N+1
         INTBUF_SIZE(N) =  INTBUF_TAB(NI)%S_SINER
         N = N+1
@@ -495,7 +495,7 @@ C=======================================================================
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_FROTS
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_FROTM
-!type 21 
+!type 21
         N = N+1
         INTBUF_SIZE(N) = INTBUF_TAB(NI)%S_NOD_NORMAL
 !type21
@@ -589,7 +589,7 @@ C=======================================================================
 
         L_INTBUF_SIZE=N
         IF(L_INTBUF_SIZE > L_INTBUF_SIZE_MAX)THEN
-          WRITE(ISTDO,'(A,/,A)') 
+          WRITE(ISTDO,'(A,/,A)')
      .  ' ** Internal error in routine WRITE_INTBUF:',
      .  '    Hard coded value for L_INTBUF_SIZE_MAX needs to be updated'
           CALL ARRET(2)
@@ -639,7 +639,7 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_ADDSUBS
         CALL WRITE_I_C(INTBUF_TAB(NI)%ADDSUBS,SIZ)
- 
+
         SIZ = INTBUF_TAB(NI)%S_ADDSUBM
         CALL WRITE_I_C(INTBUF_TAB(NI)%ADDSUBM,SIZ)
 
@@ -708,7 +708,7 @@ C        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_IREP_FRICM
         CALL WRITE_I_C(INTBUF_TAB(NI)%IREP_FRICM,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_KREMNODE
         CALL WRITE_I_C(INTBUF_TAB(NI)%KREMNODE,SIZ)
 
@@ -841,7 +841,7 @@ C        ENDIF
 !type24
         SIZ = INTBUF_TAB(NI)%S_CAND_T
         CALL WRITE_I_C(INTBUF_TAB(NI)%CAND_T,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_MVOISIN
         CALL WRITE_I_C(INTBUF_TAB(NI)%MVOISIN,SIZ)
 
@@ -865,7 +865,7 @@ C        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_ISEG_PLY
         CALL WRITE_I_C(INTBUF_TAB(NI)%ISEG_PLY,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ICONT_I
         CALL WRITE_I_C(INTBUF_TAB(NI)%ICONT_I,SIZ)
 
@@ -878,13 +878,13 @@ C        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_IS2PT
         CALL WRITE_I_C(INTBUF_TAB(NI)%IS2PT,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ISPT2
         CALL WRITE_I_C(INTBUF_TAB(NI)%ISPT2,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ISEGPT
         CALL WRITE_I_C(INTBUF_TAB(NI)%ISEGPT,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_IS2ID
         CALL WRITE_I_C(INTBUF_TAB(NI)%IS2ID,SIZ)
 
@@ -900,31 +900,31 @@ C        ENDIF
 
         SIZ = INTBUF_TAB(NI)%S_LBOUND
         CALL WRITE_I_C(INTBUF_TAB(NI)%LBOUND,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ACTNOR
         CALL WRITE_I_C(INTBUF_TAB(NI)%ACTNOR,SIZ)
-        
+
 c       SIZ = INTBUF_TAB(NI)%S_FARM
 c       CALL WRITE_I_C(INTBUF_TAB(NI)%FARM,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_ADSKYN
         CALL WRITE_I_C(INTBUF_TAB(NI)%ADSKYN,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_IADNOR
         CALL WRITE_I_C(INTBUF_TAB(NI)%IADNOR,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ISLIDE
         CALL WRITE_I_C(INTBUF_TAB(NI)%ISLIDE,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_KNOR2MSR
         CALL WRITE_I_C(INTBUF_TAB(NI)%KNOR2MSR,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_NOR2MSR
         CALL WRITE_I_C(INTBUF_TAB(NI)%NOR2MSR,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_CAND_OPT_N
         CALL WRITE_I_C(INTBUF_TAB(NI)%CAND_OPT_N,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_CAND_OPT_E
         CALL WRITE_I_C(INTBUF_TAB(NI)%CAND_OPT_E,SIZ)
 
@@ -1111,7 +1111,7 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_CAND_FZ
         CALL WRITE_DB(INTBUF_TAB(NI)%CAND_FZ,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_XA
         CALL WRITE_DB(INTBUF_TAB(NI)%XA,SIZ)
 
@@ -1129,16 +1129,16 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_GAP_SH
         CALL WRITE_DB(INTBUF_TAB(NI)%GAP_SH,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_AVX_ANCR
         CALL WRITE_DB(INTBUF_TAB(NI)%AVX_ANCR,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_CRITX
         CALL WRITE_DB(INTBUF_TAB(NI)%CRITX,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_GAP_ME
         CALL WRITE_DB(INTBUF_TAB(NI)%GAP_ME,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_STF
         CALL WRITE_DB(INTBUF_TAB(NI)%STF,SIZ)
 
@@ -1162,10 +1162,10 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_EE
         CALL WRITE_DB(INTBUF_TAB(NI)%EE,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_STFNM
         CALL WRITE_DB(INTBUF_TAB(NI)%STFNM,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_FRICOS
         CALL WRITE_DB(INTBUF_TAB(NI)%FRICOS,SIZ)
 
@@ -1178,10 +1178,10 @@ C=======================================================================
 !type 6
         SIZ = INTBUF_TAB(NI)%S_FCONT
         CALL WRITE_DB(INTBUF_TAB(NI)%FCONT,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_FS
         CALL WRITE_DB(INTBUF_TAB(NI)%FS,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_FM
         CALL WRITE_DB(INTBUF_TAB(NI)%FM,SIZ)
 
@@ -1195,59 +1195,59 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_GAPN
         CALL WRITE_DB(INTBUF_TAB(NI)%GAPN,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_STF8
         CALL WRITE_DB(INTBUF_TAB(NI)%STF8,SIZ)
 
 !type 14
         SIZ = INTBUF_TAB(NI)%S_CIMP
         CALL WRITE_DB(INTBUF_TAB(NI)%CIMP,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_NIMP
         CALL WRITE_DB(INTBUF_TAB(NI)%NIMP,SIZ)
 
 !type 15
         SIZ = INTBUF_TAB(NI)%S_IOLD
         CALL WRITE_DB(INTBUF_TAB(NI)%IOLD,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_HOLD
         CALL WRITE_DB(INTBUF_TAB(NI)%HOLD,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_NOLD
         CALL WRITE_DB(INTBUF_TAB(NI)%NOLD,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_DOLD
         CALL WRITE_DB(INTBUF_TAB(NI)%DOLD,SIZ)
 
 !type 17
         SIZ = INTBUF_TAB(NI)%S_KS
         CALL WRITE_DB(INTBUF_TAB(NI)%KS,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_KM
         CALL WRITE_DB(INTBUF_TAB(NI)%KM,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_FROTS
         CALL WRITE_DB(INTBUF_TAB(NI)%FROTS,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_FROTM
         CALL WRITE_DB(INTBUF_TAB(NI)%FROTM,SIZ)
 
 !
         SIZ = INTBUF_TAB(NI)%S_RCURV
         CALL WRITE_DB(INTBUF_TAB(NI)%RCURV,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ANGLM
         CALL WRITE_DB(INTBUF_TAB(NI)%ANGLM,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_FROT_P
         CALL WRITE_DB(INTBUF_TAB(NI)%FROT_P,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_ALPHA0
         CALL WRITE_DB(INTBUF_TAB(NI)%ALPHA0,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_AS
         CALL WRITE_DB(INTBUF_TAB(NI)%AS,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_BS
         CALL WRITE_DB(INTBUF_TAB(NI)%BS,SIZ)
 
@@ -1260,19 +1260,19 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_SECND_FR
         CALL WRITE_DB(INTBUF_TAB(NI)%SECND_FR,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_PENE_OLD
         CALL WRITE_DB(INTBUF_TAB(NI)%PENE_OLD,SIZ)
 
         SIZ = INTBUF_TAB(NI)%S_STIF_OLD
         CALL WRITE_DB(INTBUF_TAB(NI)%STIF_OLD,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_TIME_S
         CALL WRITE_DB(INTBUF_TAB(NI)%TIME_S,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_GAP_NM
         CALL WRITE_DB(INTBUF_TAB(NI)%GAP_NM,SIZ)
- 
+
         SIZ = INTBUF_TAB(NI)%S_EDGE8L2
         CALL WRITE_DB(INTBUF_TAB(NI)%EDGE8L2,SIZ)
 
@@ -1284,7 +1284,7 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_GAP_N0
         CALL WRITE_DB(INTBUF_TAB(NI)%GAP_N0,SIZ)
- 
+
         SIZ = INTBUF_TAB(NI)%S_DGAP_NM
         CALL WRITE_DB(INTBUF_TAB(NI)%DGAP_NM,SIZ)
 
@@ -1293,7 +1293,7 @@ C=======================================================================
 
         SIZ = INTBUF_TAB(NI)%S_DELTA_PMAX_DGAP
         CALL WRITE_DB(INTBUF_TAB(NI)%DELTA_PMAX_DGAP,SIZ)
-        
+
         SIZ = INTBUF_TAB(NI)%S_XFIC
         CALL WRITE_DB(INTBUF_TAB(NI)%XFIC,SIZ)
 
@@ -1373,11 +1373,11 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|====================================================================
-      SUBROUTINE WRITE_INTBUF_T8(T8)  
+      SUBROUTINE WRITE_INTBUF_T8(T8)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INT8_MOD 
+      USE INT8_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1398,10 +1398,10 @@ C-----------------------------------------------
       INTEGER I,K,NBS_INTERF,NBM_INTERF,SIZ,P2
 
       IF(NSPMD > 1) THEN
-         SIZ = T8%S_COMM 
+         SIZ = T8%S_COMM
          CALL WRITE_I_C(SIZ,1)
 
-         DO K=1,T8%S_COMM 
+         DO K=1,T8%S_COMM
           CALL WRITE_I_C(T8%SPMD_COMM_PATTERN(K)%NUMLOC,1)
           CALL WRITE_I_C(T8%SPMD_COMM_PATTERN(K)%UID,1)
           CALL WRITE_I_C(T8%SPMD_COMM_PATTERN(K)%NBCOM,1)
@@ -1410,8 +1410,8 @@ C-----------------------------------------------
 
          ENDDO
          DO P2=1,NSPMD
-          NBS_INTERF = T8%BUFFER(P2)%NBSECND_TOT 
-          NBM_INTERF = T8%BUFFER(P2)%NBMAIN    
+          NBS_INTERF = T8%BUFFER(P2)%NBSECND_TOT
+          NBM_INTERF = T8%BUFFER(P2)%NBMAIN
 
           CALL WRITE_I_C(NBM_INTERF,1)
           CALL WRITE_I_C(NBS_INTERF,1)
@@ -1427,4 +1427,4 @@ C-----------------------------------------------
        ENDIF
 
       RETURN
-      END SUBROUTINE WRITE_INTBUF_T8          
+      END SUBROUTINE WRITE_INTBUF_T8

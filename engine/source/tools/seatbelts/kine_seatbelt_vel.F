@@ -117,7 +117,7 @@ C
 C
              V(1,NODE2)=V(1,ANCHOR_NODE)-SLIPRING(I)%FRAM(J)%MATERIAL_FLOW*SLIPRING(I)%FRAM(J)%VECTOR(1)
              V(2,NODE2)=V(2,ANCHOR_NODE)-SLIPRING(I)%FRAM(J)%MATERIAL_FLOW*SLIPRING(I)%FRAM(J)%VECTOR(2)
-             V(3,NODE2)=V(3,ANCHOR_NODE)-SLIPRING(I)%FRAM(J)%MATERIAL_FLOW*SLIPRING(I)%FRAM(J)%VECTOR(3)     
+             V(3,NODE2)=V(3,ANCHOR_NODE)-SLIPRING(I)%FRAM(J)%MATERIAL_FLOW*SLIPRING(I)%FRAM(J)%VECTOR(3)
 C
              V(1,NODE3)=V(1,ANCHOR_NODE)
              V(2,NODE3)=V(2,ANCHOR_NODE)
@@ -134,8 +134,8 @@ C
              IF (IRESP == 1) THEN
                XDP(1,NODE3)=XDP(1,ANCHOR_NODE)
                XDP(2,NODE3)=XDP(2,ANCHOR_NODE)
-               XDP(3,NODE3)=XDP(3,ANCHOR_NODE)  
-             ENDIF    
+               XDP(3,NODE3)=XDP(3,ANCHOR_NODE)
+             ENDIF
 C
          ELSEIF(SLIPRING(I)%FRAM(J)%UPDATE > ZERO) THEN
 
@@ -158,7 +158,7 @@ C
              IF (IRESP == 1) THEN
                XDP(1,NODE1)=XDP(1,ANCHOR_NODE)
                XDP(2,NODE1)=XDP(2,ANCHOR_NODE)
-               XDP(3,NODE1)=XDP(3,ANCHOR_NODE)  
+               XDP(3,NODE1)=XDP(3,ANCHOR_NODE)
              ENDIF
 C
            ELSE
@@ -204,9 +204,9 @@ C
 C
            SWIP = 0
            DO K=1,RETRACTOR(I)%INACTI_NNOD
-             IF (RETRACTOR(I)%INACTI_NODE(K)==NODE2) SWIP = 1           
-             IF (SWIP == 1) RETRACTOR(I)%INACTI_NODE(K) = RETRACTOR(I)%INACTI_NODE(K+1) 
-           ENDDO          
+             IF (RETRACTOR(I)%INACTI_NODE(K)==NODE2) SWIP = 1
+             IF (SWIP == 1) RETRACTOR(I)%INACTI_NODE(K) = RETRACTOR(I)%INACTI_NODE(K+1)
+           ENDDO
            RETRACTOR(I)%INACTI_NNOD = RETRACTOR(I)%INACTI_NNOD - 1
 C
          ELSEIF (RETRACTOR(I)%UPDATE < 0) THEN
@@ -230,7 +230,7 @@ C
            IF (IRESP == 1) THEN
              XDP(1,NODE1)=XDP(1,ANCHOR_NODE)
              XDP(2,NODE1)=XDP(2,ANCHOR_NODE)
-             XDP(3,NODE1)=XDP(3,ANCHOR_NODE)  
+             XDP(3,NODE1)=XDP(3,ANCHOR_NODE)
            ENDIF
 C
            INDEX = RETRACTOR(I)%INACTI_NNOD
@@ -270,5 +270,5 @@ C
 C----------------------------------------------------------      
 C
       RETURN
-                
+
       END

@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER)
 C     REAL
-      my_real 
+      my_real
      .   THKNOD(*), MAXDGAP
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -93,7 +93,7 @@ C
 C
       CALL I25GAP3(
      1  ITASK ,
-     2  NRTM  ,INTBUF_TAB%IRECTM   ,INTBUF_TAB%GAP_NM   ,INTBUF_TAB%GAP_M,   
+     2  NRTM  ,INTBUF_TAB%IRECTM   ,INTBUF_TAB%GAP_NM   ,INTBUF_TAB%GAP_M,
      3  NMN   ,INTBUF_TAB%MSR      ,INTBUF_TAB%GAPN_M   ,
      4  GAPMAX_M   ,GAPSCALE   ,INTBUF_TAB%MSEGTYP24   ,THKNOD,
      5  INTBUF_TAB%GAPMSAV, MAXDGAP)

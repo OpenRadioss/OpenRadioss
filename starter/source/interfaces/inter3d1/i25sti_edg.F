@@ -33,7 +33,7 @@ Chd|====================================================================
      3 BGAPEMX,INTFRIC,IPARTFRIC_E,IPARTFRICM,
      4 IPARTSM,BGAPEMX_L,NSN ,NSV)
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD  
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
         END IF
       END DO
 C
-      BGAPEMX=ZERO        
+      BGAPEMX=ZERO
       DO I=1,NEDGE
 
         GAPA=ZERO
@@ -93,11 +93,11 @@ C
         IF(B/=0) GAPB=GAP_M(B)
         GAPE(I)=MAX(GAPA,GAPB)
 
-        BGAPEMX   = MAX(BGAPEMX,GAPE(I)) ! BGAPEMX overall the model 
+        BGAPEMX   = MAX(BGAPEMX,GAPE(I)) ! BGAPEMX overall the model
 
       END DO
 
-      BGAPEMX_L=ZERO        
+      BGAPEMX_L=ZERO
       IF(IGAP==3)THEN
         ALLOCATE(TAGSLAV(NUMNOD))
         TAGSLAV (1:NUMNOD)   = 0
@@ -110,14 +110,14 @@ C
           GAP_E_L(I)=MIN(GAP_S_L(TAGSLAV(N1)),GAP_S_L(TAGSLAV(N2)))   !    O-----------------O
                                                     !   Edge1             Edge2
 
-          BGAPEMX_L   = MAX(BGAPEMX_L,GAP_E_L(I)) ! BGAPEMX_L overall the model 
+          BGAPEMX_L   = MAX(BGAPEMX_L,GAP_E_L(I)) ! BGAPEMX_L overall the model
         END DO
         DEALLOCATE(TAGSLAV)
       END IF
 
       IF(INTFRIC > 0) THEN
         DO I=1,NEDGE
-           IPRTA=0 
+           IPRTA=0
            IPRTB=0
 
            IPRTGA=0

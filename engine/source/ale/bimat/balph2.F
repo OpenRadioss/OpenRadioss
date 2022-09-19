@@ -34,7 +34,7 @@ Chd|====================================================================
      .                  SIG2,EINT2,VOLO2,RHON2,FLUX2,FLU12,OFF2,
      .                  SIGT,EINTT,RHOT ,TEMPT,MTN1,MTN2,NGL,L_TEMP,
      .                  BFRACT,L_BFRAC,PLAST,L_PLAS,VOLN, BULKT, L_BULK,NEL,
-     .                  AIRE, AIRES, 
+     .                  AIRE, AIRES,
      .                  D1, D2, D3, D4, D5, D6,
      .                  D1S, D2S, D3S, D4S, D5S, D6S,
      .                  MAT, NC1, NC2, NC3, NC4,
@@ -67,7 +67,7 @@ C-----------------------------------------------
      .   OFF1(*), SIG2(NEL,6), EINT2(*), VOLO2(*), RHON2(*), FLUX2(4,*),
      .   FLU12(*), OFF2(*), SIGT(NEL,6), EINTT(*), RHOT(*), TEMPT(*),
      .   PLAST(*), BFRACT(*),VOLN(MVSIZ),BULKT(*),
-     .   AIRE(*), AIRES(*), 
+     .   AIRE(*), AIRES(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
      .   D1S(*), D2S(*), D3S(*), D4S(*), D5S(*), D6S(*),
      .   DALPH1(*), DALPH2(*)
@@ -89,7 +89,7 @@ C-----------------------------------------------
         SIGT(I,5)=ZERO
         SIGT(I,6)=ZERO
         EINTT(I) =ZERO
-        RHOT(I)  =ZERO  
+        RHOT(I)  =ZERO
         VOLT(I)  =VOLN(I)
         AIRES(I) =AIRE(I)
         D1S(I)   =D1(I)
@@ -102,33 +102,33 @@ C-----------------------------------------------
 
       IF(L_TEMP>0)THEN
         DO I=LFT,LLT
-          TEMPT(I)=ZERO     
+          TEMPT(I)=ZERO
         ENDDO
       ENDIF
 
       IF(L_PLAS>0)THEN
         DO I=LFT,LLT
-          PLAST(I)=ZERO     
+          PLAST(I)=ZERO
         ENDDO
       ENDIF
-      
+
       IF(L_BFRAC>0)THEN
         DO I=LFT,LLT
-          BFRACT(I)=ZERO     
+          BFRACT(I)=ZERO
         ENDDO
-      ENDIF         
-      
+      ENDIF
+
       IF(L_BULK>0)THEN
         DO I=LFT,LLT
-          BULKT(I)=ZERO     
+          BULKT(I)=ZERO
         ENDDO
-      ENDIF            
+      ENDIF
 C-----------------------------------------------
 C     MULTIMATERIAUX TAUX DE REMPLISSAGE
 C-----------------------------------------------
        DO I=LFT,LLT
-         ALPH1N(I)=ZERO      
-         ALPH2N(I)=ZERO        
+         ALPH1N(I)=ZERO
+         ALPH2N(I)=ZERO
          ALPN1= MAX(ZERO,FILL(NC1(I),1))
          ALPN2= MAX(ZERO,FILL(NC2(I),1))
          ALPN3= MAX(ZERO,FILL(NC3(I),1))
@@ -154,7 +154,7 @@ C-----------------------------------------------
            ALPD4=ABS(FILL(NC4(I),2))
            ALPD=ALPD1+ALPD2+ALPD3+ALPD4
            ALPN=ALPN1+ALPN2+ALPN3+ALPN4
-           IF(ALPD>EM20)ALPH2N(I)=ALPN/ALPD  
+           IF(ALPD>EM20)ALPH2N(I)=ALPN/ALPD
          ENDDO
        ENDIF
 

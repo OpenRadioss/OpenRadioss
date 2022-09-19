@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD        
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -68,20 +68,20 @@ C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,INLOC,
      .        IPG,NPG,NPF(*),NGL(NEL),
      .        IFUNC(NFUNC)
-      my_real 
+      my_real
      .   TIME,TIMESTEP,TF(*),UPARAM(NUPARAM)
-      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+      my_real,DIMENSION(NEL), INTENT(IN)     ::
      .   RHO,DT,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   EPSPXX,EPSPYY,EPSPZZ,EPSPXY,EPSPYZ,EPSPZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
       my_real,DIMENSION(NEL) ::
      .   SIGY,ET
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT)       ::
      .   PLA,DPLA,EPSD,VARNL,LOFF,OFF
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_TAB
 C-----------------------------------------------
@@ -93,22 +93,22 @@ C-----------------------------------------------
      .        S22,R_INTER,DFDEPSD(NEL),FAIL(NEL),SEQ(NEL),
      .        I1,I2,I3,R,PSI,S33
 C=======================================================================
-c  
+c
       IRES        = NINT(UPARAM(11)) ! Plastic projection method
                                      !  = 1 => Nice method
                                      !  = 2 => Newton-iteration method
       Ifail       = NINT(UPARAM(13)) ! Failure criterion flag
                                      !  = 0 => Von Mises stress
                                      !  = 1 => Plastic strain
-                                     !  = 2 => Maximum princ. stress + 
+                                     !  = 2 => Maximum princ. stress +
                                      !         abs(Minimum princ. stress)
                                      !  = 3 => Maximum princ. stress
       DTMIN       = UPARAM(15)       ! Minimal timestep for element deletion
       Xscale_FAIL = UPARAM(22)       ! Strain-rate scale factor for failure criterion function
       Yscale_FAIL = UPARAM(23)       ! Ordinate scale factor for failure criterion function
-c--------------------------                           
+c--------------------------
       SELECT CASE (IRES)
-c      
+c
         CASE(1)
 c
           CALL MAT121_NICE(
@@ -120,7 +120,7 @@ c
      6         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      8         SIGY    ,ET      ,SEQ     )
-c        
+c
         CASE(2)
 c
           CALL MAT121_NEWTON(
@@ -132,35 +132,35 @@ c
      6         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      8         SIGY    ,ET      ,SEQ     )
-c      
-      END SELECT   
+c
+      END SELECT
 c
       !--------------------------------------------------------------------
       ! Failure
       !--------------------------------------------------------------------
 c
       ! Compute failure criterion value
-      IF (IFUNC(4) > 0) THEN 
+      IF (IFUNC(4) > 0) THEN
         IPOS(1:NEL) = 1
         IAD (1:NEL) = NPF(IFUNC(4)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
         CALL VINTER2(TF,IAD,IPOS,ILEN,NEL,EPSD/Xscale_FAIL,DFDEPSD,FAIL)
         FAIL(1:NEL) = Yscale_FAIL*FAIL(1:NEL)
-      ENDIF     
+      ENDIF
 c
       ! Checking elements deletion criteria
       NINDX  = 0
       NINDX2 = 0
       IF (DTMIN > ZERO .OR. IFUNC(4) > 0) THEN
-        DO I = 1,NEL  
+        DO I = 1,NEL
 c
           ! Minimum timestep
-          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == ONE)) THEN 
+          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == ONE)) THEN
             OFF(I)      = ZERO
             NINDX       = NINDX+1
             INDX(NINDX) = I
-          ENDIF   
-c     
+          ENDIF
+c
           ! Failure criterion
           IF ((IFUNC(4) > 0).AND.(OFF(I) == ONE)) THEN
             ! Failure indicator evolution
@@ -170,7 +170,7 @@ c
             ! Fully integrated solid elements
             IF (NPG > 1) THEN
               ! Checking full failure of the element
-              IF (IPG == NPG) THEN 
+              IF (IPG == NPG) THEN
                 ! Initialization of OFFG
                 OFF(I) = ZERO
                 ! Loop over integration points
@@ -193,7 +193,7 @@ c
               IF (LOFF(I)>ZERO) OFF(I) = ONE
             ENDIF
             ! Check integration point failure
-            IF (LOFF(I) == ONE) THEN 
+            IF (LOFF(I) == ONE) THEN
               ! -> Von Mises stress
               IF (Ifail == 0) THEN
                 IF (SEQ(I) >= FAIL(I)) LOFF(I) = FOUR_OVER_5
@@ -217,11 +217,11 @@ c
                 S22 = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
                 S33 = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
                 ! Sorting principal strains
-                IF (S11 < S22) THEN 
+                IF (S11 < S22) THEN
                   R_INTER = S11
                   S11     = S22
                   S22     = R_INTER
-                ENDIF 
+                ENDIF
                 IF (S22 < S33)THEN
                   R_INTER = S22
                   S22     = S33
@@ -231,10 +231,10 @@ c
                   R_INTER = S11
                   S11     = S22
                   S22     = R_INTER
-                ENDIF     
+                ENDIF
                 IF ((S11>=FAIL(I)).OR.(ABS(S33)>=FAIL(I))) LOFF(I) = FOUR_OVER_5
               ! -> Maximum principal stress
-              ELSEIF (Ifail == 3) THEN 
+              ELSEIF (Ifail == 3) THEN
                 ! Computing the principal stresses
                 I1 = SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
                 I2 = SIGNXX(I)*SIGNYY(I)+SIGNYY(I)*SIGNZZ(I)+SIGNZZ(I)*SIGNXX(I)-
@@ -250,11 +250,11 @@ c
                 S22 = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
                 S33 = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
                 ! Sorting principal strains
-                IF (S11 < S22) THEN 
+                IF (S11 < S22) THEN
                   R_INTER = S11
                   S11     = S22
                   S22     = R_INTER
-                ENDIF 
+                ENDIF
                 IF (S22 < S33)THEN
                   R_INTER = S22
                   S22     = S33
@@ -264,9 +264,9 @@ c
                   R_INTER = S11
                   S11     = S22
                   S22     = R_INTER
-                ENDIF     
+                ENDIF
                 IF (S11>=FAIL(I)) LOFF(I) = FOUR_OVER_5
-              ENDIF  
+              ENDIF
               !Integration point failure
               IF (LOFF(I) == FOUR_OVER_5) THEN
                 IDEL7NOK      = 1
@@ -302,7 +302,7 @@ c
  1100 FORMAT(1X,'MINIMUM TIMESTEP (PLAS_RATE) REACHED, DELETED SOLID ELEMENT ',I10,1X,'AT TIME :',1PE12.4)
  2000 FORMAT(1X,'FAILURE (PLAS_RATE) IN SOLID ELEMENT ',I10,1X,',GAUSS PT',I2)
  2100 FORMAT(1X,'FAILURE (PLAS_RATE) IN SOLID ELEMENT ',I10,1X,',GAUSS PT',I2,1X,'AT TIME :',1PE12.4)
-c  
+c
 c-----------
       RETURN
       END

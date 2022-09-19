@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-------------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,9 +68,9 @@ C-----------------------------------------------
      .   IFLAGINI,NVAR_TMP,J
       my_real MASS,INER
       my_real GAMA(6)
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
-      my_real, DIMENSION(:)  , POINTER  :: UVAR,PLA,EPS,SIG  
+      my_real, DIMENSION(:)  , POINTER  :: UVAR,PLA,EPS,SIG
 C-----------------------------------------------------------------------
 C     SIMPLIFIED MASS AND INERTIA COMPUTATION
 C=======================================================================
@@ -123,7 +123,7 @@ c
           MAS8(I) = MASS
         ENDDO
       ENDIF
-c        
+c
       INER = ZERO
       DO I=1,NEL
         INN1(I) = INER
@@ -142,13 +142,13 @@ c
 c---------------------------
       IF (ISIGI /= 0) THEN     ! CONTRAINTES INITIALES
         L_PLA = ELBUF_STR%BUFLY(1)%L_PLA
-c        GAMA(1)=ONE        
-c        GAMA(2)=ZERO      
-c        GAMA(3)=ZERO      
-c        GAMA(4)=ZERO      
-c        GAMA(5)=ONE        
-c        GAMA(6)=ZERO      
-c       Initialize variables per integration point  
+c        GAMA(1)=ONE
+c        GAMA(2)=ZERO
+c        GAMA(3)=ZERO
+c        GAMA(4)=ZERO
+c        GAMA(5)=ONE
+c        GAMA(6)=ZERO
+c       Initialize variables per integration point
         DO IP=1,4
           LBUF => ELBUF_STR%BUFLY(1)%LBUF(IP,1,1)
           MBUF => ELBUF_STR%BUFLY(1)%MAT(IP,1,1)
@@ -165,48 +165,48 @@ c       Initialize variables per integration point
             IFLAGINI = 1
             IF (JJ == 0) IFLAGINI = 0
 c
-            IF (IFLAGINI == 1) THEN   
-              IPP = I  
-              IF (NVSOLID1 /= 0 ) THEN                 
+            IF (IFLAGINI == 1) THEN
+              IPP = I
+              IF (NVSOLID1 /= 0 ) THEN
                 SIG(KK(1) + I) = SIGSP(JPS+1,JJ)
                 SIG(KK(2) + I) = SIGSP(JPS+2,JJ)
                 SIG(KK(3) + I) = SIGSP(JPS+3,JJ)
                 SIG(KK(4) + I) = SIGSP(JPS+4,JJ)
                 SIG(KK(5) + I) = SIGSP(JPS+5,JJ)
                 SIG(KK(6) + I) = SIGSP(JPS+6,JJ)
-c                IF (STRSGLOB(I) == 1) 
-c     .           CALL SROTA6_M1(X,IX(1,II),JCVT,SIG(1,I),GAMA,JHBE,IGTYP)                    
+c                IF (STRSGLOB(I) == 1)
+c     .           CALL SROTA6_M1(X,IX(1,II),JCVT,SIG(1,I),GAMA,JHBE,IGTYP)
 
                  IF (SIGSP(JPS+7,JJ) /= ZERO) LBUF%EINT(I)=SIGSP(JPS+7,JJ)
-                 IF (L_PLA > 0 .AND. SIGSP(JPS+8,JJ) /= ZERO) 
-     .                   PLA(I) = SIGSP(JPS+8,JJ)       
-                 IF (L_PLA == 2 .AND. SIGSP(JPS+9,JJ) /= ZERO) 
-     .                   PLA(I+NEL) = SIGSP(JPS+9,JJ)       
+                 IF (L_PLA > 0 .AND. SIGSP(JPS+8,JJ) /= ZERO)
+     .                   PLA(I) = SIGSP(JPS+8,JJ)
+                 IF (L_PLA == 2 .AND. SIGSP(JPS+9,JJ) /= ZERO)
+     .                   PLA(I+NEL) = SIGSP(JPS+9,JJ)
                ENDIF
-               NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)  
+               NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)
                IPSU = NVSOLID1 + NVSOLID2 + 4 + (IP - 1)*NVAR_TMP
-               DO IUS = 1, NVAR_TMP             
+               DO IUS = 1, NVAR_TMP
                  IPP = I + (IUS -1)*NEL
-                 UVAR(IPP) = SIGSP(IPSU + IUS, JJ)          
-               ENDDO 
-               DO IUS = NVAR_TMP + 1, NUVAR             
-                 IPP = I + (IUS -1)*NEL
-                 UVAR(IPP) = ZERO        
+                 UVAR(IPP) = SIGSP(IPSU + IUS, JJ)
                ENDDO
-               IF (NVSOLID2 /= 0) THEN      
+               DO IUS = NVAR_TMP + 1, NUVAR
+                 IPP = I + (IUS -1)*NEL
+                 UVAR(IPP) = ZERO
+               ENDDO
+               IF (NVSOLID2 /= 0) THEN
                  EPS(KK(1) + I) = SIGSP(JPS1 + 3 , JJ)
                  EPS(KK(2) + I) = SIGSP(JPS1 + 5 , JJ)
                  EPS(KK(3) + I) = SIGSP(JPS1 + 6 , JJ)
 c                 IF (STRAGLOB(I) == 1)
 c     .           CALL SROTA6_M1(X,IX(1,II),JCVT,EPS(1,I),GAMA,JHBE,IGTYP)
-               ENDIF  
+               ENDIF
              ENDIF
-        
+
           ENDDO !  I=1,NEL
         ENDDO   !  IP=1,4
 C-----------
       ENDIF  ! ISIGI /= 0
-c      
+c
 C-----------
       RETURN
       END

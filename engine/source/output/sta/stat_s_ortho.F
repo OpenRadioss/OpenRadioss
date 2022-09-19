@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C-----------------------------------------------
       DATA DELIMIT(61:100)
      ./'----7----|----8----|----9----|----10---|'/
 C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
 C     8 NODES BRICK
 C======================================================================|
@@ -99,21 +99,21 @@ C======================================================================|
       DO NG=1,NGROUP
         ITY   =IPARG(5,NG)
         ISOLNOD = IPARG(28,NG)
-        MLW   =IPARG(1,NG)  
-        NEL   =IPARG(2,NG)    
-        NFT   =IPARG(3,NG)   
-        IAD   =IPARG(4,NG) 
+        MLW   =IPARG(1,NG)
+        NEL   =IPARG(2,NG)
+        NFT   =IPARG(3,NG)
+        IAD   =IPARG(4,NG)
         ICSIG =IPARG(17,NG)
         LFT=1
         LLT = NEL
 c
         IF (ITY == 1) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 
           IPRT=IPARTS(LFT+NFT)
@@ -123,13 +123,13 @@ c
           GBUF => ELBUF_TAB(NG)%GBUF
           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
           IF(IGTYP == 22) THEN
-             NLAY = ELBUF_TAB(NG)%NLAY  
+             NLAY = ELBUF_TAB(NG)%NLAY
           ELSE
             NLAY = 1
-          ENDIF                        
-          NPTR = ELBUF_TAB(NG)%NPTR                        
-          NPTS = ELBUF_TAB(NG)%NPTS                        
-          NPTT = ELBUF_TAB(NG)%NPTT                        
+          ENDIF
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NPT  = NPTR * NPTS * NPTT * NLAY
 !
           DO J=1,6
@@ -138,35 +138,35 @@ c
 !
 c
           DO I=LFT,LLT
-            N = I + NFT 
+            N = I + NFT
             IPRT=IPARTS(N)
             IF(IPART_STATE(IPRT)==0)CYCLE
 c
             WA(JJ+ 1)= IPRT
             WA(JJ+ 2)= IXS(NIXS,N)
             WA(JJ+ 3)= ISORTH
-            WA(JJ+ 4)= NLAY                                           
-            WA(JJ+ 5)= NPTR                                 
-            WA(JJ+ 6)= NPTS                                 
-            WA(JJ+ 7)= NPTT                                 
-            WA(JJ+ 8)= ISOLNOD                                              
-            WA(JJ+ 9)= JHBE                                             
+            WA(JJ+ 4)= NLAY
+            WA(JJ+ 5)= NPTR
+            WA(JJ+ 6)= NPTS
+            WA(JJ+ 7)= NPTT
+            WA(JJ+ 8)= ISOLNOD
+            WA(JJ+ 9)= JHBE
             WA(JJ+10)= IGTYP
             WA(JJ+11)= GBUF%OFF(I)
-            JJ = JJ + 11                                    
+            JJ = JJ + 11
 c
             DO J=1,NLAY
               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,1)
               IF (ISORTH == 1) THEN
                 IF(IGTYP == 21 .OR. IGTYP == 22) THEN
                   IF (IGLOB == 1)THEN        ! Orthotropic directions in global reference
-                   IF (IGTYP == 22) THEN                   
+                   IF (IGTYP == 22) THEN
                       GAMA(1)= LBUF%GAMA(II(1)+I)
                       GAMA(2)= LBUF%GAMA(II(2)+I)
-                    ELSEIF (IGTYP == 21) THEN  
+                    ELSEIF (IGTYP == 21) THEN
                       GAMA(1)= GBUF%GAMA(II(1)+I)
                       GAMA(2)= GBUF%GAMA(II(2)+I)
-                    ENDIF           
+                    ENDIF
                     GAMA(3)= ZERO
                     GAMA(4)= ZERO
                     GAMA(5)= ZERO
@@ -178,12 +178,12 @@ c
                     WA(JJ+3)=GAMA(3)
                     WA(JJ+4)=GAMA(4)
                     WA(JJ+5)=GAMA(5)
-                    WA(JJ+6)=GAMA(6)                  
-                  ELSE 
-                   IF (IGTYP == 22) THEN 
+                    WA(JJ+6)=GAMA(6)
+                  ELSE
+                   IF (IGTYP == 22) THEN
                      WA(JJ+1)= LBUF%GAMA(II(1)+I)
                      WA(JJ+2)= LBUF%GAMA(II(2)+I)
-                    ELSEIF (IGTYP == 21) THEN    
+                    ELSEIF (IGTYP == 21) THEN
                       WA(JJ+1)= GBUF%GAMA(II(1)+I)
                       WA(JJ+2)= GBUF%GAMA(II(2)+I)
                     ENDIF
@@ -192,7 +192,7 @@ c
                       WA(JJ+5)= ZERO
                       WA(JJ+6)= ZERO
                  ENDIF
-                ELSEIF (JHBE == 1 .OR. 
+                ELSEIF (JHBE == 1 .OR.
      .                  JHBE == 2  .OR. JHBE == 12) THEN
                   WA(JJ+1)= GBUF%GAMA(II(1)+I)
                   WA(JJ+2)= GBUF%GAMA(II(2)+I)
@@ -216,7 +216,7 @@ c
                   WA(JJ+5)=GAMA(5)
                   WA(JJ+6)=GAMA(6)
                ENDIF
-              ELSE     
+              ELSE
                 WA(JJ+1)= ZERO
                 WA(JJ+2)= ZERO
                 WA(JJ+3)= ZERO
@@ -230,7 +230,7 @@ c
 C         pointeur de fin de zone dans WA
               PTWA(IE)=JJ
           ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
  200  CONTINUE
 c-----------------------
@@ -271,7 +271,7 @@ c
           IOFF  = NINT(WAP0(J + 11))
           IF(IDEL==0.OR.(IDEL==1.AND.IOFF >=1))THEN
 c
-            IF(IPRT /= IPRT0 .AND. ISORTH /= 0)THEN 
+            IF(IPRT /= IPRT0 .AND. ISORTH /= 0)THEN
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(A)') DELIMIT
                IF(IGLOB==1.) THEN
@@ -280,24 +280,24 @@ c
                   WRITE(IUGEO,'(A)')'/INIBRI/ORTHO'
                ENDIF
                WRITE(IUGEO,'(A)')
-     .      '#  BRICKID    NLAY  ISOLNOD  IGTYP  JJHBE' 
+     .      '#  BRICKID    NLAY  ISOLNOD  IGTYP  JJHBE'
                WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
               IF(IGLOB==1.OR.(IGTYP /= 21 .AND. IGTYP /= 22)) THEN
                 WRITE(IUGEO,'(A)')
-     .            '#  X1, Y1, Z1, X2, Y2' 
+     .            '#  X1, Y1, Z1, X2, Y2'
                 WRITE(IUGEO,'(A)')
-     .            '#  Z2' 
+     .            '#  Z2'
               ELSE
                 WRITE(IUGEO,'(A)')
      .            '#  COS(PHI), SIN(PHI)'
               ENDIF
                WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                WRITE(IUGEO,'(A)') DELIMIT
              ELSE
                WRITE(LINE,'(A)') DELIMIT
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
                IF(IGLOB==1.) THEN
                   WRITE(LINE,'(A)')'/INIBRI/ORTHO_FGLO'
                ELSE
@@ -305,17 +305,17 @@ c
                ENDIF
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .    '#------------------------ REPEAT --------------------------' 
+     .    '#------------------------ REPEAT --------------------------'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .      '#  BRICKID    NLAY  ISOLNOD  IGTYP  JJHBE' 
-               CALL STRS_TXT50(LINE,100) 
+     .      '#  BRICKID    NLAY  ISOLNOD  IGTYP  JJHBE'
+               CALL STRS_TXT50(LINE,100)
               IF(IGTYP /= 21 .AND. IGTYP /= 22) THEN
                 WRITE(LINE,'(A)')
-     .            '#  X1, Y1, Z1, X2, Y2' 
+     .            '#  X1, Y1, Z1, X2, Y2'
                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .            '#  Z2' 
+     .            '#  Z2'
                CALL STRS_TXT50(LINE,100)
               ELSE
                 WRITE(LINE,'(A)')
@@ -323,10 +323,10 @@ c
                CALL STRS_TXT50(LINE,100)
               ENDIF
                WRITE(LINE,'(A)')
-     .    '#------------------------ REPEAT --------------------------' 
+     .    '#------------------------ REPEAT --------------------------'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)') DELIMIT
-               CALL STRS_TXT50(LINE,100) 
+               CALL STRS_TXT50(LINE,100)
              END IF
              IPRT0=IPRT
             END IF
@@ -364,7 +364,7 @@ c
               ENDIF
             ENDIF
           ENDIF !IOFF
-        ENDDO		    
+        ENDDO		
       ENDIF
 c-----------
       RETURN

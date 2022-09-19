@@ -58,7 +58,7 @@ C
           N=N+1
           MNN(N)=NN
           NTAG(NN)=1
-        END IF            
+        END IF
       ENDDO
 C
       RETURN

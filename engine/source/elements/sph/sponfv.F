@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE SPHBOX    
+      USE SPHBOX
       USE MOD_SPLISSV
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -95,7 +95,7 @@ C     REAL
      .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,DT1D2,
      .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
      .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP
-     
+
       LOGICAL lBOOL
 
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: DSPHR
@@ -188,7 +188,7 @@ C-------------------------------------------
        IMPOSE=KXSP(2,N)/(NGROUP+1)
        lBOOL=.FALSE.
        IF(IMPOSE /= 0)THEN
-         IF(ISPHIO(1,IMPOSE)==2.OR.ISPHIO(1,IMPOSE)==3)lBOOL=.TRUE.       
+         IF(ISPHIO(1,IMPOSE)==2.OR.ISPHIO(1,IMPOSE)==3)lBOOL=.TRUE.
        ENDIF
        IF(lBOOL)THEN
           INOD=KXSP(3,N)
@@ -199,9 +199,9 @@ C-------
 C         plus proche voisin en amont de l'outlet => IPPV.
           IPPV=0
           DMIN=1.E+20
-          DO  K=1,KXSP(4,N)  
+          DO  K=1,KXSP(4,N)
            JNOD=IXSP(K,N)
-  
+
            IF(JNOD>0)THEN
              M   =NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
@@ -409,7 +409,7 @@ C------
           ENDDO
 C------           
           ELSEIF(IPPV<0)THEN! fin traitement IPPV > 0
-c traitement IPPV negatif on utilise infos recuperres ds routine comm  
+c traitement IPPV negatif on utilise infos recuperres ds routine comm
            DXX = DSPHR(1,-IPPV)
            DXY = DSPHR(2,-IPPV)
            DXZ = DSPHR(3,-IPPV)
@@ -424,7 +424,7 @@ c traitement IPPV negatif on utilise infos recuperres ds routine comm
            VZ = DSPHR(12,-IPPV)
            XP=XSPHR(3,-IPPV)
            YP=XSPHR(4,-IPPV)
-           ZP=XSPHR(5,-IPPV)               
+           ZP=XSPHR(5,-IPPV)
 c          ELSE ! cas IPPV=0 error
 c            print*,'IPPV nul ERROR'
           ENDIF! fin traitement IPPV < 0

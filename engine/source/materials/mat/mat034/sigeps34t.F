@@ -62,7 +62,7 @@ C-----------------------------------------------
      .  DEXX,DEPSVXX,DP
       my_real, DIMENSION(NEL) :: BULK,G_INS,G_INF,GE,GE2,GV,GV2,BETA,
      .   DEPS,GAP,EPS,C1,C2
-c=======================================================================     
+c=======================================================================
       DO I=1,NEL
         IADBUF   = IPM(7,MAT(I))-1
         BULK(I)  = UPARAM(IADBUF+1)
@@ -71,17 +71,17 @@ c=======================================================================
         BETA(I)  = UPARAM(IADBUF+4)
         GAP(I)   = GEO(2,PID(I))
       ENDDO
-c        
+c
       GE(1:NEL)  = G_INF(1:NEL)                ! elastic part of shear modulus
       GV(1:NEL)  = G_INS(1:NEL)-G_INF(1:NEL)   ! viscous part of shear modulus
       GE2(1:NEL) = GE(1:NEL) * TWO
-      GV2(1:NEL) = GV(1:NEL) * TWO 
+      GV2(1:NEL) = GV(1:NEL) * TWO
       C1(1:NEL)  = ONE - EXP(-BETA(1:NEL)*DT1)
       C2(1:NEL)  =-C1(1:NEL) / BETA(1:NEL)
-c      
+c
       DEPS(1:NEL) = EPSP(1:NEL) * DT1   ! strain increment
       EPS(1:NEL) = UVAR(1:NEL,2) + DEPS(1:NEL) ! total normal strain
-      UVAR(1:NEL,2) = EPS(1:NEL) 
+      UVAR(1:NEL,2) = EPS(1:NEL)
 c
       DO I=1,NEL
         IF (GAP(I) > ZERO .AND. AL(I) <= (AL0(I)-GAP(I))) OFF(I)=ONE
@@ -97,18 +97,18 @@ c
       ENDDO
 c
       DO I=1,NEL
-        DDEXX = DEPS(I)*TWO_THIRD   ! strain increment deviator    
+        DDEXX = DEPS(I)*TWO_THIRD   ! strain increment deviator
         DEPSDXX = TWO_THIRD*EPSP(I)
         DEXX = TWO_THIRD*EPS(I)
         !
         DEPSVXX = C1(I)*(DEXX - UVAR(I,1))     + C2(I)*DEPSDXX
         DP  = BULK(I)*DEPS(I)
-        !!        
+        !!
         DSIG = GE2(I)*DDEXX - GV2(I)*DEPSVXX + DP
         FOR(I) = FOR(I) + DSIG * AREA(I)
         STI(I) = MAX(STI(I), ABS(DSIG / MAX(DDEXX,EM20)))
         STI(I) = STI(I)*OFF(I)
-        FOR(I) = FOR(I)*OFF(I)  
+        FOR(I) = FOR(I)*OFF(I)
         UVAR(I,1) =  UVAR(I,1) + DEPSVXX + DDEXX
       END DO
 c

@@ -87,17 +87,17 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, IV, J, MT, IALEFVM_FLG
-      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ), P(MVSIZ) , 
-     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
+      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ), P(MVSIZ) ,
+     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ),
      .           S4(MVSIZ)     , S5(MVSIZ)          , S6(MVSIZ),
      .           PVOIS(6,MVSIZ), Vface(3,6)         , GradV(3,3) ,
-     .           EPSDOT(6) 
+     .           EPSDOT(6)
       INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ)
-     
+
       LOGICAL :: debug_outp
       INTEGER :: idbf,idbl
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C-----------------------------------------------
 
       !-------------------------------------------------------------!
       ! NORMAL VECTOR FOR ALE                                       !
-      !-------------------------------------------------------------!                                       
+      !-------------------------------------------------------------!
       IF(JALE==1)THEN
         DO I=LFT,LLT
           II     = I + NFT
@@ -159,8 +159,8 @@ C-----------------------------------------------
           X8(I)=X(1,NC8(I))
           Y8(I)=X(2,NC8(I))
           Z8(I)=X(3,NC8(I))
-        ENDDO    
-        DO I=LFT,LLT        
+        ENDDO
+        DO I=LFT,LLT
           ! Face-1
           N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
           N1Y(I)=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
@@ -186,72 +186,72 @@ C-----------------------------------------------
           N6Y(I)=(Z8(I)-Z1(I))*(X4(I)-X5(I)) - (X8(I)-X1(I))*(Z4(I)-Z5(I))
           N6Z(I)=(X8(I)-X1(I))*(Y4(I)-Y5(I)) - (Y8(I)-Y1(I))*(X4(I)-X5(I))
         ENDDO
-      ENDIF      
+      ENDIF
 
       !-------------------------------------------------------------!
       ! TOTAL TENSOR                                                !
-      !-------------------------------------------------------------! 
-      DO I=LFT,LLT   
+      !-------------------------------------------------------------!
+      DO I=LFT,LLT
         II           = I + NFT
         Vface(1:3,1) = F_FACE(1:3,1,II)
         Vface(1:3,2) = F_FACE(1:3,2,II)
         Vface(1:3,3) = F_FACE(1:3,3,II)
-        Vface(1:3,4) = F_FACE(1:3,4,II)                
+        Vface(1:3,4) = F_FACE(1:3,4,II)
         Vface(1:3,5) = F_FACE(1:3,5,II)
-        Vface(1:3,6) = F_FACE(1:3,6,II)                
-      ENDDO  
-      
+        Vface(1:3,6) = F_FACE(1:3,6,II)
+      ENDDO
+
       !-------------------------------------------------------------!
       ! VELOCITY GRADIENT : Grad(v(1:3)) \in Matrix(3,3)            !
-      !-------------------------------------------------------------! 
+      !-------------------------------------------------------------!
       ![EPSDOT]=1/2 (grad V + t{gradV} )   -> EPSDOT_if = 1/2 (dvi/dxj + dvj/dxi )
       ! mean (grad V) = 1/V * Integral (grad V, dV) = 1/V * Integral (V (*) n , dS)   where (*) is tensorial product
       !               = 1/V * SUM(  Vf (*) nf . Sf )
       !               = 1/2/V * SUM (  Vf (*) Nf ) where Nf=2Sf.n
-      
+
       ! WARNING : Tangentiel velocity is here missing since F_FACE is godunov normal velocity
-      
+
       DO I=LFT,LLT
         II=I+NFT
-        GradV(1,1) =  HALF/VOL(I) * ( Vface(1,1)*N1X(I) + Vface(1,2)*N2X(I) + Vface(1,3)*N3X(I) 
+        GradV(1,1) =  HALF/VOL(I) * ( Vface(1,1)*N1X(I) + Vface(1,2)*N2X(I) + Vface(1,3)*N3X(I)
      .                                + Vface(1,4)*N4X(I) + Vface(1,5)*N5X(I) + Vface(1,6)*N6X(I) )
-        GradV(1,2) =  HALF/VOL(I) * ( Vface(1,1)*N1Y(I) + Vface(1,2)*N2Y(I) + Vface(1,3)*N3Y(I) 
+        GradV(1,2) =  HALF/VOL(I) * ( Vface(1,1)*N1Y(I) + Vface(1,2)*N2Y(I) + Vface(1,3)*N3Y(I)
      .                                + Vface(1,4)*N4Y(I) + Vface(1,5)*N5Y(I) + Vface(1,6)*N6Y(I) )
-        GradV(1,3) =  HALF/VOL(I) * ( Vface(1,1)*N1Z(I) + Vface(1,2)*N2Z(I) + Vface(1,3)*N3Z(I) 
+        GradV(1,3) =  HALF/VOL(I) * ( Vface(1,1)*N1Z(I) + Vface(1,2)*N2Z(I) + Vface(1,3)*N3Z(I)
      .                                + Vface(1,4)*N4Z(I) + Vface(1,5)*N5Z(I) + Vface(1,6)*N6Z(I) )
-      
-        GradV(2,1) =  HALF/VOL(I) * ( Vface(2,1)*N1X(I) + Vface(2,2)*N2X(I) + Vface(2,3)*N3X(I) 
+
+        GradV(2,1) =  HALF/VOL(I) * ( Vface(2,1)*N1X(I) + Vface(2,2)*N2X(I) + Vface(2,3)*N3X(I)
      .                                + Vface(2,4)*N4X(I) + Vface(2,5)*N5X(I) + Vface(2,6)*N6X(I) )
-        GradV(2,2) =  HALF/VOL(I) * ( Vface(2,1)*N1Y(I) + Vface(2,2)*N2Y(I) + Vface(2,3)*N3Y(I) 
+        GradV(2,2) =  HALF/VOL(I) * ( Vface(2,1)*N1Y(I) + Vface(2,2)*N2Y(I) + Vface(2,3)*N3Y(I)
      .                                + Vface(2,4)*N4Y(I) + Vface(2,5)*N5Y(I) + Vface(2,6)*N6Y(I) )
-        GradV(2,3) =  HALF/VOL(I) * ( Vface(2,1)*N1Z(I) + Vface(2,2)*N2Z(I) + Vface(2,3)*N3Z(I) 
+        GradV(2,3) =  HALF/VOL(I) * ( Vface(2,1)*N1Z(I) + Vface(2,2)*N2Z(I) + Vface(2,3)*N3Z(I)
      .                                + Vface(2,4)*N4Z(I) + Vface(2,5)*N5Z(I) + Vface(2,6)*N6Z(I) )
-     
-        GradV(3,1) =  HALF/VOL(I) * ( Vface(3,1)*N1X(I) + Vface(3,2)*N2X(I) + Vface(3,3)*N3X(I) 
-     .                                + Vface(3,4)*N4X(I) + Vface(3,5)*N5X(I) + Vface(3,6)*N6X(I) )      
-        GradV(3,2) =  HALF/VOL(I) * ( Vface(3,1)*N1Y(I) + Vface(3,2)*N2Y(I) + Vface(3,3)*N3Y(I) 
-     .                                + Vface(3,4)*N4Y(I) + Vface(3,5)*N5Y(I) + Vface(3,6)*N6Y(I) )    
-        GradV(3,3) =  HALF/VOL(I) * ( Vface(3,1)*N1Z(I) + Vface(3,2)*N2Z(I) + Vface(3,3)*N3Z(I) 
-     .                                + Vface(3,4)*N4Z(I) + Vface(3,5)*N5Z(I) + Vface(3,6)*N6Z(I) )    
+
+        GradV(3,1) =  HALF/VOL(I) * ( Vface(3,1)*N1X(I) + Vface(3,2)*N2X(I) + Vface(3,3)*N3X(I)
+     .                                + Vface(3,4)*N4X(I) + Vface(3,5)*N5X(I) + Vface(3,6)*N6X(I) )
+        GradV(3,2) =  HALF/VOL(I) * ( Vface(3,1)*N1Y(I) + Vface(3,2)*N2Y(I) + Vface(3,3)*N3Y(I)
+     .                                + Vface(3,4)*N4Y(I) + Vface(3,5)*N5Y(I) + Vface(3,6)*N6Y(I) )
+        GradV(3,3) =  HALF/VOL(I) * ( Vface(3,1)*N1Z(I) + Vface(3,2)*N2Z(I) + Vface(3,3)*N3Z(I)
+     .                                + Vface(3,4)*N4Z(I) + Vface(3,5)*N5Z(I) + Vface(3,6)*N6Z(I) )
 
         EPSDOT(1) = GradV(1,1)
         EPSDOT(2) = GradV(2,2)
-        EPSDOT(3) = GradV(3,3)                
+        EPSDOT(3) = GradV(3,3)
         EPSDOT(4) = HALF*(GradV(1,2)+GradV(2,1))
         EPSDOT(5) = HALF*(GradV(2,3)+GradV(3,2))
-        EPSDOT(6) = HALF*(GradV(1,3)+GradV(3,1)) 
-        
+        EPSDOT(6) = HALF*(GradV(1,3)+GradV(3,1))
+
         DXX(I)    = EPSDOT(1)
         DYY(I)    = EPSDOT(2)
-        DZZ(I)    = EPSDOT(3)                
+        DZZ(I)    = EPSDOT(3)
 
         !14.0.220 : strain rate not yet validated. Set to zero while waiting for specification validation
         DXX(I)    = ZERO
         DYY(I)    = ZERO
-        DZZ(I)    = ZERO   
+        DZZ(I)    = ZERO
 
       ENDDO
-      
+
 
         !DEBUG-OUTPUT---------------!
         if(IALEFVM_OUTP_EPSDOT /= 0)then
@@ -269,34 +269,34 @@ C-----------------------------------------------
           elseif(IALEFVM_OUTP_EPSDOT==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
-                idbl   = llt          
+                idbl   = llt
           endif
-          if(debug_outp)then     
-!#!include "lockon.inc"       
+          if(debug_outp)then
+!#!include "lockon.inc"
           print *, "    |----alefvm_stress.F-----|"
           print *, "    |   THREAD INFORMATION   |"
-          print *, "    |------------------------|" 
+          print *, "    |------------------------|"
           print *, "     NCYCLE =", NCYCLE
           do i=idbf,idbl
             ii = nft + i
             print *,                    "      brique=", ixs(11,nft+i)
-            write(*,FMT='(A24,1A26)')   "                        ",                     
-     .                                  "#-stress Tensor (P+VIS+Q)#"          
+            write(*,FMT='(A24,1A26)')   "                        ",
+     .                                  "#-stress Tensor (P+VIS+Q)#"
 
 !!            write (*,FMT='(A,3E26.14,A)')  "                            | ", GradV(1,1),GradV(1,2),GradV(1,3),   " |"
-!!            write (*,FMT='(A,3E26.14,A)')  "           GradV           =| ", GradV(2,1),GradV(2,2),GradV(2,3),   " |"  
-!!            write (*,FMT='(A,3E26.14,A)')  "                            |_", GradV(3,1),GradV(3,2),GradV(3,3),   "_|" 
+!!            write (*,FMT='(A,3E26.14,A)')  "           GradV           =| ", GradV(2,1),GradV(2,2),GradV(2,3),   " |"
+!!            write (*,FMT='(A,3E26.14,A)')  "                            |_", GradV(3,1),GradV(3,2),GradV(3,3),   "_|"
 
 !            write (*,FMT='(A,3E26.14,A)')  "                            | ", EPSDOT(1),EPSDOT(4),EPSDOT(6),   " |"
-!            write (*,FMT='(A,3E26.14,A)')  "         Eps_dot           =| ", EPSDOT(4),EPSDOT(2),EPSDOT(5),   " |"  
-!            write (*,FMT='(A,3E26.14,A)')  "                            |_", EPSDOT(6),EPSDOT(5),EPSDOT(3),   "_|" 
+!            write (*,FMT='(A,3E26.14,A)')  "         Eps_dot           =| ", EPSDOT(4),EPSDOT(2),EPSDOT(5),   " |"
+!            write (*,FMT='(A,3E26.14,A)')  "                            |_", EPSDOT(6),EPSDOT(5),EPSDOT(3),   "_|"
             write (*,FMT='(A,1E26.14  )')  "         tr(Eps_dot)/3.    =  ", THIRD*(EPSDOT(1)+EPSDOT(2)+EPSDOT(3))
- 
+
           enddo
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
         endif
         endif
       !-----------------------------------------!
-        
+
       RETURN
       END

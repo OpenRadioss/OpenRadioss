@@ -61,7 +61,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(NSENSR) ,INTENT(OUT) :: SENSOR
       TYPE (SENSOR_STR_) :: SENSOR_TAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C=======================================================================
 c--------------------------------------------------
 card1
       CALL HM_GET_FLOATV('Tdelay'  ,TDEL ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-card2 
+card2
       CALL HM_GET_INTV  ('Sensor1' ,ID1  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('Sensor2' ,ID2  ,IS_AVAILABLE,LSUBMODEL)
 c--------------------------------------------------

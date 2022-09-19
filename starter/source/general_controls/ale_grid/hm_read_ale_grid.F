@@ -110,7 +110,7 @@ C-----------------------------------------------
             IF (N2D /= 0) THEN
                CALL ANCMSG(MSGID = 787, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .              C1='SPRING')
-            ENDIF 
+            ENDIF
             NWALE = 2
             VGZ = ZERO
             CALL HM_GET_FLOATV('deltaT', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -154,18 +154,18 @@ C-----------------------------------------------
          ELSEIF (KEY(1:6) == 'VOLUME') THEN
             NWALE = 6
          ENDIF
-        
+
       ENDDO
-      
+
        ! NO /ALE/GRID formulation => DEFAULT = DONEA & its default values are set here
        IF(NWALE==0 .OR. NWALE==-1)THEN
          NWALE=0
          CALL HM_OPTION_COUNT('/TETRA4', NTETRA4)
-         IF(NTETRA4 > 0) NALENOVS=12              
+         IF(NTETRA4 > 0) NALENOVS=12
          IF(GAMMA == ZERO) GAMMA=HUNDRED
          IF(VGX == ZERO)   VGX=ONE
          IF(VGY == ZERO)   VGY=ONE
          IF(VGZ == ZERO)   VGZ=ONE
-       ENDIF      
+       ENDIF
 
       END SUBROUTINE HM_READ_ALE_GRID

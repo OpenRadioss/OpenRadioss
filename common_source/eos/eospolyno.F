@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE EOSPOLYNO(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE EOSPOLYNO(IFLAG,NEL,PM   ,OFF  ,EINT ,MU   ,MU2 ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -53,9 +53,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,PSH(*)  ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
 C-----------------------------------------------
@@ -96,7 +96,7 @@ C-----------------------------------------
        ENDDO
 
        DO I=LFT,LLT
-         ECOLD(I)=-THREE100*SPH 
+         ECOLD(I)=-THREE100*SPH
          IF(MU(I)>ZERO) ECOLD(I)=ECOLD(I)*(ONE+C4 *MU(I)*(ONE-MU(I)))+HALF*C1 *MU2(I)
        ENDDO
 
@@ -123,9 +123,9 @@ C
          PNEW(I) = PNEW(I) + (AA+BB*(ESPE(I)-PSH(I) *DVV))/(ONE+BB*DVV)
          PNEW(I) = MAX(PNEW(I),PC )*OFF(I)
          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
-         TFEXTT  = TFEXTT-DVOL(I)*PSH(I) 
+         TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
        ENDDO
-       
+
 #include "atomic.inc"
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
@@ -156,7 +156,7 @@ C------------------------
           DO I=1, NEL
              IF (VNEW(I) > ZERO) THEN
                 PNEW(I) = C0 +(C1 +C3 *MU(I)*MU(I))*MU(I)+C2 *MU2(I) + (C4 +C5 *MU(I))*ESPE(I)
-                DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) + 
+                DPDM(I) = C1 + TWO*C2 *MAX(ZERO,MU(I))+THREE*C3 *MU(I)*MU(I) +
      .               C5 *ESPE(I)+(C4 +C5 *MU(I))*DF(I)*DF(I)*(PNEW(I)+PSH(I) )
                 DPDE(I) = C4 +C5 *MU(I)
                 PNEW(I) = MAX(PNEW(I),PC )*OFF(I)

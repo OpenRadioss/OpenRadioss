@@ -88,9 +88,9 @@ C
             KIA5=KIA4+NNA
             KIA6=KIA5+3*NTGA
 C
-            NBX=MONVOL(K1-1+54)          
-            NBY=MONVOL(K1-1+55)          
-            NBRIC=NBX*NBY          
+            NBX=MONVOL(K1-1+54)
+            NBY=MONVOL(K1-1+55)
+            NBRIC=NBX*NBY
             NNB=(NBX+1)*(NBY+1)*2
             IF (ISPMD/=FVSPMD(IFV)%PMAIN-1) THEN
                ALLOCATE(FVDATA(IFV)%BRIC(8,0),

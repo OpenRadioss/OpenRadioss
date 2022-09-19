@@ -79,7 +79,7 @@ C
      .       NOIADD(K+1)=NOIADD(K+1)+1
          ENDDO
         ENDDO
-      ENDIF      
+      ENDIF
 C
 C ADRESSE PAR NOEUD DANS LE TABLEAU DES ELEMENTS A SAUVER DANS NOEUDS
 C
@@ -165,7 +165,7 @@ C
           ENDDO
          ENDDO
         ENDIF
-        
+
       ENDDO
 C
       IF(NNOISE>0)THEN
@@ -180,4 +180,4 @@ C-----------
 
 
 
-         
+

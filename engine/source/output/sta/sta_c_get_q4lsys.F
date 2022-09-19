@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),JFT,JLT,IREL,NLAY,IREP,NEL
-      my_real 
+      my_real
      .   X(3,*), OFFG(*),VQ(3,3,MVSIZ),DIR_A(*),DIR_B(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,K,L
       INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
-      my_real 
+      my_real
      .   RX(MVSIZ),RY(MVSIZ),RZ(MVSIZ),SX(MVSIZ),SY(MVSIZ),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -74,13 +74,13 @@ C----------------------------------------------
           SY(I)=X(2,IXCTMP4)+X(2,IXCTMP5)-X(2,IXCTMP2)-X(2,IXCTMP3)
           RZ(I)=X(3,IXCTMP3)+X(3,IXCTMP4)-X(3,IXCTMP2)-X(3,IXCTMP5)
           SZ(I)=X(3,IXCTMP4)+X(3,IXCTMP5)-X(3,IXCTMP2)-X(3,IXCTMP3)
-        ENDDO 
+        ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       CALL CLSKEW3(JFT,JLT,IREL,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         VQ(1,1,I)=R11(I)
@@ -92,9 +92,9 @@ C----------------------------
         VQ(1,3,I)=R13(I)
         VQ(2,3,I)=R23(I)
         VQ(3,3,I)=R33(I)
-      ENDDO 
+      ENDDO
          CALL CORTDIR3(ELBUF_STR,DIR_A  ,DIR_B ,JFT    ,JLT   ,
-     .                NLAY     ,IREP   ,RX    ,RY     ,RZ     , 
+     .                NLAY     ,IREP   ,RX    ,RY     ,RZ     ,
      .                SX       ,SY     ,SZ    ,R11    ,R21    ,
      .                R31      ,R12    ,R22   ,R32    ,NEL    )
 C

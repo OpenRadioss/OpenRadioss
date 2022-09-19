@@ -30,7 +30,7 @@ Chd|        MULTI_NRF_EBCS                source/multifluid/multi_nrf_ebcs.F
 Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, 
+      SUBROUTINE MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM,
      .     FUNC_VALUE, EBCS_TAB,NPF,TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n

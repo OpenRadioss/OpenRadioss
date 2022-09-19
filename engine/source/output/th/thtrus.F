@@ -82,7 +82,7 @@ C-------------------------
                     DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                         IH = IH + 1
                     ENDDO
-                    IF (IH >= IAD+NN) GOTO 666 
+                    IF (IH >= IAD+NN) GOTO 666
                 ENDIF
 C
                 DO NG=1,NGROUP

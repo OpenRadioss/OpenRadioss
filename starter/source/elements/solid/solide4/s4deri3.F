@@ -40,9 +40,9 @@ Chd|====================================================================
      .                   Y3    ,Y4    ,Z1    ,Z2     ,Z3     ,Z4     ,
      .                   PX1   ,PX2   ,PX3   ,PX4    ,
      .                   PY1   ,PY2   ,PY3   ,PY4    ,
-     .                   PZ1   ,PZ2   ,PZ3   ,PZ4    ,JAC_I, 
+     .                   PZ1   ,PZ2   ,PZ3   ,PZ4    ,JAC_I,
      .                   DELTAX,DET   ,NGL   ,NGEO   ,MXT  ,
-     .                   PM    ,VOLDP ) 
+     .                   PM    ,VOLDP )
       USE MESSAGE_MOD
 C------------------------------------------------------
 C
@@ -73,16 +73,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGEO(NPROPGI,*), MXT(MVSIZ)
       DOUBLE PRECISION
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),VOLDP(*) 
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),VOLDP(*)
 C     REAL
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*), PM(NPROPM,*),
      .   RX(*), RY(*), RZ(*), SX(*), SY(*), SZ(*), TX(*), TY(*), TZ(*), DET(*),
-     .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),  
-     .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),  
-     .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ),  
+     .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),
+     .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),
+     .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ),
      .   DELTAX(MVSIZ),JAC_I(10,MVSIZ)
       INTEGER NGL(*), NGEO(*)
 C-----------------------------------------------
@@ -90,9 +90,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
+     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
-     .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ) 
+     .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ)
       DOUBLE PRECISION
      .   X41, Y41, Z41, X42, Y42, Z42, X43, Y43, Z43,B1DP,C1DP,D1DP
       my_real
@@ -149,7 +149,7 @@ C
      .                  ANMODE=ANINFO,
      .                  I1=NGL(I))
             VOL(I) = EM20    ! to prevent crash
-            DET(I) = EM20    
+            DET(I) = EM20
           ELSE
             CALL ANCMSG(MSGID=635,
      .                  MSGTYPE=MSGWARNING,
@@ -208,7 +208,7 @@ C
            PYZ=PY1(I)*PZ1(I)+PY2(I)*PZ2(I)+PY3(I)*PZ3(I)+PY4(I)*PZ4(I)
 C
            AA = -(PXX+PYY+PZZ)
-           BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
+           BB =  (PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2)
            P  = BB-THIRD*AA*AA
            D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -229,7 +229,7 @@ C
            PYZ=PY1(I)*PZ1(I)+PY2(I)*PZ2(I)+PY3(I)*PZ3(I)+PY4(I)*PZ4(I)
 C
            AA = -(PXX+PYY+PZZ)
-           BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2) 
+           BB =  GFAC*(PXX*PYY+PXX*PZZ+PYY*PZZ-PXY**2-PXZ**2-PYZ**2)
            P  = BB-THIRD*AA*AA
            D  = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -295,8 +295,8 @@ C
 C
         IF (IGEO(11,NGEO(LFT)) == 15) THEN
           DO I=LFT,LLT
-            VOL(I)=VOL(I)*GEO(1,NGEO(I))    
-            VOLDP(I)=VOLDP(I)*GEO(1,NGEO(I))    
+            VOL(I)=VOL(I)*GEO(1,NGEO(I))
+            VOLDP(I)=VOLDP(I)*GEO(1,NGEO(I))
           ENDDO
         ENDIF
       ENDIF

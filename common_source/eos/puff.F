@@ -35,7 +35,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PUFF(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2, 
+      SUBROUTINE PUFF(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2,
      2                ESPE ,DVOL ,DF   ,VNEW ,MAT  ,
      3                PNEW ,DPDM ,DPDE ,THETA, ECOLD)
 C-----------------------------------------------
@@ -52,9 +52,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(MVSIZ) , EINT(MVSIZ), MU(MVSIZ)  , 
-     .   MU2(MVSIZ) , ESPE(MVSIZ), DVOL(MVSIZ), DF(MVSIZ)   , 
+     .   PM(NPROPM,*),
+     .   OFF(MVSIZ) , EINT(MVSIZ), MU(MVSIZ)  ,
+     .   MU2(MVSIZ) , ESPE(MVSIZ), DVOL(MVSIZ), DF(MVSIZ)   ,
      .   VNEW(MVSIZ), PNEW(MVSIZ), DPDM(MVSIZ), DPDE(MVSIZ) ,
      .   THETA(MVSIZ),ECOLD(MVSIZ)
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C
      .            G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
           DPDE(I)=BB
         ELSE
-          ETA=ONE+MU(I)        
+          ETA=ONE+MU(I)
           EE=SQRT(ETA)
           BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
           CC= C1(I)/(G0(I)*ESUBL(I))
@@ -130,7 +130,7 @@ C
         ECOLD(I)=-THREE100*SPH(I)
         IF(MU(I)>ZERO) THEN
            XX  = MU(I)/(ONE+MU(I))
-           ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+HALF*C1(I)*MU2(I) 
+           ECOLD(I)=ECOLD(I)*EXP(G0(I)*XX)+HALF*C1(I)*MU2(I)
         ENDIF
        ENDDO
 C
@@ -164,7 +164,7 @@ C
           AA=AA*(ONE-G0(I)*HALF*XX)
           BB=G0(I)
         ELSE
-          ETA=ONE+MU(I)        
+          ETA=ONE+MU(I)
           BB=(HH(I)+(G0(I)-HH(I))*SQRT(ETA))*ETA
           CC= C1(I)/(G0(I)*ESUBL(I))
           EXPA=EXP(CC*XX)
@@ -223,7 +223,7 @@ C
      .                 G0(I)*DF(I)*DF(I)*(PRES-HALF*AA)
                   DPDE(I)=BB
                ELSE
-                  ETA=ONE+MU(I)        
+                  ETA=ONE+MU(I)
                   EE=SQRT(ETA)
                   BB=(HH(I)+(G0(I)-HH(I))*EE)*ETA
                   CC= C1(I)/(G0(I)*ESUBL(I))

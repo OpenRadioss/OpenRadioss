@@ -91,21 +91,21 @@ C
             TAG(1:NMN)=0
             NODFI = 0
             NMNFI(NIN)%P(1:NSPMD) = 0
-            DO I=1,II_STOK 
+            DO I=1,II_STOK
                 L = CAND_E(I)
-                IF(L/=0) THEN             
+                IF(L/=0) THEN
                     NM(1:4) = IRECTT(1:4,L)
                     DO J=1,4
                         II = NM(J)
                         PP = MNDD(II)
-                        IF(PP/=0.AND.TAG(II) == 0) THEN                     
+                        IF(PP/=0.AND.TAG(II) == 0) THEN
                             NODFI = NODFI + 1
                             NMNFI(NIN)%P(PP) = NMNFI(NIN)%P(PP) +1
                             TAG(II)=1
-                        ENDIF 
+                        ENDIF
                     ENDDO
                 ENDIF
-            ENDDO 
+            ENDDO
 
             IF(ASSOCIATED( NMVFI(NIN)%P )) DEALLOCATE(NMVFI(NIN)%P)
             ALLOCATE(NMVFI(NIN)%P(NODFI),STAT=IERROR1)
@@ -117,10 +117,10 @@ C
 
 C
             TAG(1:NMN)=0
-            DO I=1,II_STOK 
+            DO I=1,II_STOK
                 L = CAND_E(I)
-                IF(L/=0) THEN 
-                    NM(1:4) = IRECTT(1:4,L)  
+                IF(L/=0) THEN
+                    NM(1:4) = IRECTT(1:4,L)
                     DO J=1,4
                         II=NM(J)
                         PP = MNDD(II)
@@ -133,11 +133,11 @@ C
                         ENDIF
                     ENDDO
                 ENDIF
-            ENDDO 
-       
+            ENDDO
+
 
 C
-            IF(IFORM /= 0) THEN 
+            IF(IFORM /= 0) THEN
                 IF(IPARIT==0) THEN
                     IF(NODFI>0)ALLOCATE(FTHEFI(NIN)%P(NODFI*NTHREAD),STAT=IERROR2)
                     DO I = 1, NODFI*NTHREAD
@@ -155,18 +155,18 @@ C
             ENDIF
 
             IF (IFLAGLOADP > 0) THEN
-                IF(NODFI>0) THEN 
+                IF(NODFI>0) THEN
                   IF(ASSOCIATED( TAGNCONTFI(NIN)%P )) DEALLOCATE(TAGNCONTFI(NIN)%P)
-                   ALLOCATE(TAGNCONTFI(NIN)%P(NODFI),STAT=IERROR2)   
+                   ALLOCATE(TAGNCONTFI(NIN)%P(NODFI),STAT=IERROR2)
                      DO I = 1, NODFI
                         TAGNCONTFI(NIN)%P(I) = 0
                     ENDDO
-                ENDIF            
+                ENDIF
             ENDIF
 !$OMP END MASTER
-            CALL MY_BARRIER     !   there isn't any implicit barrier at the end 
+            CALL MY_BARRIER     !   there isn't any implicit barrier at the end
                                 !   of an omp main condition
-        ENDIF    
+        ENDIF
 
         RETURN
         END SUBROUTINE UPDATE_STRUCT_INT21

@@ -128,10 +128,10 @@ C
 #include "lockon.inc"
           WRITE(IOUT, '(A,I1,A,I10,5X,A,I3)')
      +        ' FAILURE-',IDIR,' ELEMENT #',NGL(I),
-     +        ' LAYER #',ILAYER     
+     +        ' LAYER #',ILAYER
 #include "lockoff.inc"
         ENDDO
-      ENDIF      
+      ENDIF
 C
       RETURN
       END

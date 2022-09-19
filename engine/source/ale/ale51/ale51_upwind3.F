@@ -90,7 +90,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
         FLUX5(I) = FLUX(5,I)
         FLUX6(I) = FLUX(6,I)
-      ENDDO      
+      ENDDO
       ENDIF
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -112,7 +112,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        REDUC=PM(92,MAT(I))
-       !---face1---!       
+       !---face1---!
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
        IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
@@ -146,35 +146,35 @@ C-----------------------------------------------
        ENDIF
        ! IF(NV46==6)THEN
       ENDDO
-      
+
       DO I=LFT,LLT
         FLUX(1,I) = FLUX1(I)-UPWL(1,I)*ABS(FLUX1(I))
         FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
         FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
         FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-      ENDDO  
+      ENDDO
       IF(NV46==6)THEN
       DO I=LFT,LLT
         FLUX(5,I) = FLUX5(I)-UPWL(5,I)*ABS(FLUX5(I))
         FLUX(6,I) = FLUX6(I)-UPWL(6,I)*ABS(FLUX6(I))
-      ENDDO            
-      ENDIF    
-      
+      ENDDO
+      ENDIF
+
       IF(IFLG == 1)THEN
         pQMV7  => QMV(07,LFT:LLT)
         pQMV8  => QMV(08,LFT:LLT)
         pQMV9  => QMV(09,LFT:LLT)
         pQMV10 => QMV(10,LFT:LLT)
         pQMV11 => QMV(11,LFT:LLT)
-        pQMV12 => QMV(12,LFT:LLT)                                        
+        pQMV12 => QMV(12,LFT:LLT)
       ELSE
         pQMV7  => QMVL(07,LFT:LLT)
         pQMV8  => QMVL(08,LFT:LLT)
         pQMV9  => QMVL(09,LFT:LLT)
         pQMV10 => QMVL(10,LFT:LLT)
         pQMV11 => QMVL(11,LFT:LLT)
-        pQMV12 => QMVL(12,LFT:LLT)      
-      ENDIF           
+        pQMV12 => QMVL(12,LFT:LLT)
+      ENDIF
       !MOMENTUM ADVECTION NEEDED FOR AMOMT3.F
 
       IF(NV46==6)THEN
@@ -184,31 +184,31 @@ C-----------------------------------------------
           pQMV9(I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
           pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
           pQMV11(I) = FLUX5(I)+UPWL(5,I)*ABS(FLUX5(I))
-          pQMV12(I) = FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))                    
+          pQMV12(I) = FLUX6(I)+UPWL(6,I)*ABS(FLUX6(I))
           FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I) +pQMV11(I) + pQMV12(I)
-        ENDDO           
+        ENDDO
         IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
             DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I) )
           ENDDO
-        ENDIF                
+        ENDIF
       ELSE
         DO I=LFT,LLT
           pQMV7(I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
           pQMV8(I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
           pQMV9(I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
-          pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))                
+          pQMV10(I) = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
           FLU1(I) = pQMV7(I) + pQMV8(I) + pQMV9(I) + pQMV10(I)
-        ENDDO        
+        ENDDO
         IF(ITRIMAT  > 0)THEN
           DO I=LFT,LLT
             DDVOL(I)=HALF*( FLU1(I)+ FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I) )
           ENDDO
-        ENDIF        
+        ENDIF
       ENDIF
- 
+
       !INTERFACE 22 ONLY - OUTPUT---------------! OBSOLETE
-      debug_outp = .false.      
+      debug_outp = .false.
       if(ibug22_upwind /= 0)then
         if(ibug22_upwind  > 0)then
           do i=lft,llt
@@ -219,11 +219,11 @@ C-----------------------------------------------
         endif
         if(((itrimat /= ibug22_itrimat).and.(ibug22_itrimat /= -1)))debug_outp=.false.
       endif
-!#!include "lockon.inc"      
+!#!include "lockon.inc"
       if(debug_outp)then
         print *, "    |----ale51_upwind3.F-----|"
         print *, "    |   THREAD INFORMATION   |"
-        print *, "    |------------------------|" 
+        print *, "    |------------------------|"
         print *, "    NCYCLE=", NCYCLE
         do i=lft,llt
           if(ibug22_upwind/=ixs(11,I+NFT).and.ibug22_upwind/=-1)cycle
@@ -232,9 +232,9 @@ C-----------------------------------------------
           print *,                    "      itrimat   =", itrimat
           write (*,FMT='(A,6E26.14)')"       Flux(1:6) =", FLUX(1:6,I)
           write (*,FMT='(A,1E26.14)')"       Flu1      =", FLU1(I)
-          print *, "      ------------------------"          
+          print *, "      ------------------------"
         enddo
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
       endif
       !-----------------------------------------!
 

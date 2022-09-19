@@ -102,14 +102,14 @@ C-----------------------------------------------
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        LINDMAX, NCONT,NISKYFI
-      INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*), 
+      INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*), WEIGHT(*),
      .        ISENSINT(*),DIMFB
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
 C     REAL
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real 
+      my_real
      .   X(*), A(3,*), FSAV(*), V(3,*),
      .   MS(*),STIFN(*),FSKYI(LSKYI,4), FCONT(3,*),
      .   SECFCUM(7,NUMNOD,NSECT), VISCN(*),
@@ -169,7 +169,7 @@ C     REAL
      .     , DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
 C---------------------------------------------------- 
 C
-      NSN   =IPARI(5,NIN) 
+      NSN   =IPARI(5,NIN)
       NTY   =IPARI(7,NIN)
       IBC   =IPARI(11,NIN)
       IF(IPARI(33,NIN)==1) RETURN
@@ -179,13 +179,13 @@ C
       INACTI=IPARI(22,NIN)
       ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       NISUB =IPARI(36,NIN)
       ICURV =IPARI(39,NIN)
 C adaptive meshing
-      IADM =IPARI(44,NIN) 
+      IADM =IPARI(44,NIN)
       NRADM=IPARI(49,NIN)
       PADM =INTBUF_TAB%VARIABLES(24)
       ANGLT=INTBUF_TAB%VARIABLES(25)
@@ -226,7 +226,7 @@ C
 C
       INVN =IPARI(51,NIN) ! Flag to detect inverted normals
 C
-      IFTLIM =IPARI(52,NIN) ! Flag to limit tangential force using YLD/sqrt(3) 
+      IFTLIM =IPARI(52,NIN) ! Flag to limit tangential force using YLD/sqrt(3)
 C
       VXM=INTSTAMP%V(1)
       VYM=INTSTAMP%V(2)
@@ -340,19 +340,19 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
      E  AREA0	 ,INTTH     ,TEMP	,TEMPI     ,IROT	 ,
      F  XG	 ,ROT	    ,INTBUF_TAB%AS,INTBUF_TAB%BS,ASI	 ,
      G  BSI	 ,XP	    ,YP 	,ZP	   ,NODNX_SMS	 ,
-     H  NSMS	 ,MSTR      ,INTBUF_TAB%PENIS,INTBUF_TAB%IFPEN,ILEV,   
+     H  NSMS	 ,MSTR      ,INTBUF_TAB%PENIS,INTBUF_TAB%IFPEN,ILEV,
      I  X1	 ,Y1	    ,Z1 	  ,X2	   ,Y2  	 ,
      J  Z2	 ,X3	    ,Y3 	  ,Z3	   ,X4  	 ,
      K  Y4	 ,Z4	    ,DRAD	  ,PENRAD  ,TINT	 ,
      L  TEMPM	 ,IFORM_THE ,H1           ,H2      ,H3           ,
      M  H4       ,DIST      ,ITAB         ,NOINT   ,INTBUF_TAB%VARIABLES(23),
      N  INVN     )
-          
+
           IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
 
           IPARI(29,NIN) = 1
           IF (DEBUG(3)>=1)
-     .      NB_JLT_NEW = NB_JLT_NEW + JLT         
+     .      NB_JLT_NEW = NB_JLT_NEW + JLT
 C
 	    CALL I21FOR3(
      1  JLT	     ,NIN	,NOINT        ,IBC	,ICODT        ,
@@ -379,7 +379,7 @@ C
      M  KINET        ,NISUB     ,ISENSINT     ,FSAVPARIT,NFT          ,
      N  IFTLIM       ,NINSKID   ,PRATIO       ,PMAXSKID )
 C
-          IF( INTTH > 0 ) THEN 
+          IF( INTTH > 0 ) THEN
            CALL I21THERM(JLT   ,XI     ,YI    ,ZI    ,KTHE  ,
      2                   TEMPI ,PHI    ,AREA0 ,NOINT ,ASI   ,
      3                   BSI    ,GAPV  ,PENE  ,IKTHE ,XTHE  ,
@@ -391,8 +391,8 @@ C
      9                   X3     ,Y3    ,Z3    ,X4    ,Y4    ,
      A                   Z4     ,ITAB  ,NSVG  ,INTBUF_TAB%MSR_L,IX1   ,
      B                   IX2    ,IX3   ,IX4    ,TEMP ,FCOND ,
-     C                   DCOND )      
-          ENDIF 
+     C                   DCOND )
+          ENDIF
 C
           IF(IDTMINS==2.OR.IDTMINS_INT/=0)THEN
             DTI=DT2T
@@ -427,7 +427,7 @@ C
      D                  INTBUF_TAB%MSR_L   ,ITAB ,H3D_DATA,NINSKID,
      E                  PRATIO,H3D_DATA%N_SCAL_SKID,PSKIDS,IPARI(95,NIN),
      F                  TAGNCONT,KLOADPINTER,LOADPINTER ,LOADP_HYD_INTER,
-     G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER   )  
+     G                  DGAPLOADINT,DIST,GAPV,S_LOADPINTER   )
 C
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 C

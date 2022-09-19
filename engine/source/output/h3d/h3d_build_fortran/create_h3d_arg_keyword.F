@@ -31,7 +31,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE CREATE_H3D_ARG_KEYWORD(KEY2, KEY3 , KEY4  , KEY5 , KEY6 ,
      .                                  KEY7, KEY8 , IS_ALL,IS_LOWER, IS_UPPER ,
-     .                                   ARG , S_ARG, IS_ARG, VALUE, 
+     .                                   ARG , S_ARG, IS_ARG, VALUE,
      .                                   IS_ARG_ALL,IS_ARG_LOWER,IS_ARG_UPPER, IS_DEF,
      .                                   IS_ARG_DEF)
 C-----------------------------------------------
@@ -81,31 +81,31 @@ C-----------------------------------------------
          ELSEIF ( IS_ARG_KEY(1) + IS_ARG_KEY(2) + IS_ARG_KEY(3) + IS_ARG_KEY(4) + IS_ARG_KEY(5) == 1)THEN
            IS_ARG = 1
            IF ( IS_ALL == 1 .AND.
-     .          ((KEY4(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(1) == 1) .OR. 
-     .          (KEY5(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(2) == 1) .OR. 
-     .          (KEY6(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(3) == 1)  .OR. 
-     .          (KEY7(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(4) == 1)  .OR. 
+     .          ((KEY4(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(1) == 1) .OR.
+     .          (KEY5(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(2) == 1) .OR.
+     .          (KEY6(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(3) == 1)  .OR.
+     .          (KEY7(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(4) == 1)  .OR.
      .          (KEY8(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(5) == 1)) )THEN
              IS_ARG_ALL = 1
            ELSEIF ( IS_LOWER == 1 .AND.
-     .          ((KEY4(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(1) == 1) .OR. 
-     .          (KEY5(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(2) == 1) .OR. 
-     .          (KEY6(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(3) == 1)  .OR. 
-     .          (KEY7(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(4) == 1)  .OR. 
+     .          ((KEY4(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(1) == 1) .OR.
+     .          (KEY5(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(2) == 1) .OR.
+     .          (KEY6(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(3) == 1)  .OR.
+     .          (KEY7(S_ARG+1:S_ARG+6) == '=LOWER' .AND. IS_ARG_KEY(4) == 1)  .OR.
      .          (KEY8(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(5) == 1)) )THEN
              IS_ARG_LOWER = 1
            ELSEIF ( IS_UPPER == 1 .AND.
-     .          ((KEY4(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(1) == 1) .OR. 
-     .          (KEY5(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(2) == 1) .OR. 
-     .          (KEY6(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(3) == 1)  .OR. 
-     .          (KEY7(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(4) == 1)  .OR. 
+     .          ((KEY4(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(1) == 1) .OR.
+     .          (KEY5(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(2) == 1) .OR.
+     .          (KEY6(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(3) == 1)  .OR.
+     .          (KEY7(S_ARG+1:S_ARG+6) == '=UPPER' .AND. IS_ARG_KEY(4) == 1)  .OR.
      .          (KEY8(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(5) == 1)) )THEN
              IS_ARG_UPPER = 1
            ELSEIF ( IS_DEF == 1 .AND.
-     .          ((KEY4(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(1) == 1) .OR. 
-     .          (KEY5(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(2) == 1) .OR. 
-     .          (KEY6(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(3) == 1)  .OR. 
-     .          (KEY7(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(4) == 1)  .OR. 
+     .          ((KEY4(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(1) == 1) .OR.
+     .          (KEY5(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(2) == 1) .OR.
+     .          (KEY6(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(3) == 1)  .OR.
+     .          (KEY7(S_ARG+1:S_ARG+4) == '=DEF' .AND. IS_ARG_KEY(4) == 1)  .OR.
      .          (KEY8(S_ARG+1:S_ARG+4) == '=ALL' .AND. IS_ARG_KEY(5) == 1)) )THEN
              IS_ARG_DEF = 1
            ELSE

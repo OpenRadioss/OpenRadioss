@@ -51,7 +51,7 @@ C-----------------------------------------------
       CHARACTER*nchartitle  :: TITR
       INTEGER MAT_ID,IOUT,ID_F1,ID_F2
       INTEGER NPC(*), FUNC_ID(*), IPM(NPROPMI)
-      my_real 
+      my_real
      .         UPARAM(*),PLD(*),PM(NPROPM)
 !      TYPE(TTABLE) TABLE(*)
       TARGET IPM
@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NFUNC,I,J
       INTEGER IPRINT, LP,IndexDesign0
 
-      my_real 
+      my_real
      .      STIFF,STIFFC,STIFFT, EMAX, EMIN,EINI,
      .     STIFFMIN,STIFFMAX,STIFFINI,STFAVG,SCALEFAC,E0,
      .     EPSMAX
@@ -78,26 +78,26 @@ c
            EMIN = EP20
            EINI = ZERO
            EPSMAX = ONE
-          DO J = 1, NFUNC 
-              SCALEFAC= UPARAM(10 + NFUNC + J )  
-              CALL FUNC_SLOPE(IFUNC(J),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STFAVG)  
+          DO J = 1, NFUNC
+              SCALEFAC= UPARAM(10 + NFUNC + J )
+              CALL FUNC_SLOPE(IFUNC(J),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STFAVG)
               EMAX = MAX(EMAX,  STIFFMAX )
               EMIN = MIN(EMIN,  STIFFMIN)
               EINI = MAX(EINI, STIFFINI)
-          ENDDO ! NFUNC 
+          ENDDO ! NFUNC
           E0 = UPARAM(1)
           IF(EMAX <= E0) THEN
             EMAX = E0
-          ELSE  
-!!          EMAX= MIN(EMAX, HUNDRED*E0) 
-           EMAX = HUNDRED*E0 ! by default value 
-          ENDIF   
+          ELSE
+!!          EMAX= MIN(EMAX, HUNDRED*E0)
+           EMAX = HUNDRED*E0 ! by default value
+          ENDIF
           UPARAM(11 + 2*NFUNC) = EMAX
           UPARAM(12 + 2*NFUNC) = EPSMAX
 !
          WRITE(IOUT,1000)
-         WRITE(IOUT,1001) TRIM(TITR),MAT_ID,90   
-         WRITE(IOUT,1002) EMAX       
+         WRITE(IOUT,1001) TRIM(TITR),MAT_ID,90
+         WRITE(IOUT,1002) EMAX
 c----------------
       RETURN
 1000  FORMAT(

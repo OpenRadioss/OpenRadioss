@@ -45,7 +45,7 @@ Chd|        INTBUFMOD                     share/modules/restart_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE I24MAIN_TRI( 
+      SUBROUTINE I24MAIN_TRI(
      1                  IPARI   ,X       ,V       ,INTBUF_TAB,
      2                  MS      ,NIN     ,ITASK   ,MWAG    ,WEIGHT  ,
      3                  ISENDTO ,IRCVFROM,RETRI   ,IAD_ELEM,FR_ELEM ,
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C common pour variable globale en memoire partagee
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
-      my_real 
+      my_real
      .        BMINMA(6),CURV_MAX_MAX
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -102,7 +102,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(NUMNOD), NSNFIOLD(NSPMD), NODNX_SMS(*), T2MAIN_SMS(6,*)
 C     REAL
-      my_real 
+      my_real
      .    X(3,*), V(*), MS(*),TEMP(*),T2FAC_SMS(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -110,10 +110,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER LOC_PROC,IEDGE,IGSTI,
-     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1, 
+     .        I, IP0, IP1, IP2, IP21, K11_T, I_SK_OLD, I_STOK1,
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ ,
      .        INTNITSCHE
-      INTEGER 
+      INTEGER
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,ILEV,FLAGREMN, NRTSE ,NMN_L
 C     REAL
@@ -300,7 +300,7 @@ c        goto 150
      2      CURV_MAX,INTBUF_TAB%GAP_M(1+ESHIFT),INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP,
      +                                                    INTBUF_TAB%VARIABLES(7),
      3      PMAX_GAP,VMAXDT      ,DGAPLOAD )
- 
+
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
@@ -317,7 +317,7 @@ C
      5      NSNFIOLD,IPARI(47,NIN),INTBUF_TAB%IELEC,INTBUF_TAB%AREAS,TEMP,
      6      NUM_IMP     ,NODNX_SMS,INTBUF_TAB%STIF_OLD,NTY   ,
      7      INTBUF_TAB%IRTLM,INTBUF_TAB%TIME_S,INTBUF_TAB%SECND_FR,INTBUF_TAB%PENE_OLD,
-     8      INTBUF_TAB%STIF_OLD , INTBUF_TAB%NBINFLG,ILEV ,INTBUF_TAB%ICONT_I  , 
+     8      INTBUF_TAB%STIF_OLD , INTBUF_TAB%NBINFLG,ILEV ,INTBUF_TAB%ICONT_I  ,
      9      INTBUF_TAB%XFIC ,INTBUF_TAB%VFIC ,IPARI(59,NIN),NSNE,INTBUF_TAB%IS2SE,
      A      INTBUF_TAB%IRTSE, INTBUF_TAB%IS2PT,INTBUF_TAB%ISEGPT,INTBUF_TAB%MSFIC,NRTSE,
      B      INTBUF_TAB%IS2ID,INTBUF_TAB%ISPT2,IPARI(72,NIN),INTBUF_TAB%IPARTFRICS,T2MAIN_SMS,
@@ -415,7 +415,7 @@ C
      3      ILEV  ,IPARI(59,NIN) ,H3D_DATA  ,IPARI(72,NIN)    ,INTNITSCHE )
         IPARI(24,NIN) = NSNR
 C
-        IF (NTY==24.AND.RESULT==0.AND.IMPL_S>0.AND.IGSTI==6) THEN 
+        IF (NTY==24.AND.RESULT==0.AND.IMPL_S>0.AND.IGSTI==6) THEN
           STIF_OLDFI(NIN)%P(1,1:NSNR)=STIF_OLDFI(NIN)%P(2,1:NSNR)
         END IF
 C

@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  CHECK_COARSE_GRID             source/interfaces/generic/check_coarse_grid.F
 Chd|-- called by -----------
@@ -80,7 +80,7 @@ C-----------------------------------------------
         INTEGER :: I,J,IJK
         INTEGER :: IX,IY,IZ
         INTEGER :: IX_R,IY_R,IZ_R
-        INTEGER :: ID_PROC,DISPL        
+        INTEGER :: ID_PROC,DISPL
 !   ----------------------------------------
 
         !   allocatio of KEEP_PROC : true if need to send/rcv to proc P

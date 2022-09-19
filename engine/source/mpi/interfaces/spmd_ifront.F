@@ -82,7 +82,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NBINTC,ISLEN7,IRLEN7,ISLEN11,IRLEN11,ISLEN17,IRLEN17,
      .        IRLEN7T,ISLEN7T,IRLEN20,ISLEN20 ,IRLEN20T,ISLEN20T,
-     .        IRLEN20E,ISLEN20E,  
+     .        IRLEN20E,ISLEN20E,
      .        IPARI(NPARI,NINTER),
      .        NEWFRONT(*), INTLIST(*),
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*)
@@ -131,7 +131,7 @@ c     DO NIN = 1,NINTER
 c       IF(IPARI(7,NIN) == 25) THEN
 c         NBINTC = NBINTC + 1
 c         INTLIST(NBINTC) = NIN
-c       ENDIF 
+c       ENDIF
 c     ENDDO
 c     DO II = 1, NBINTC
 c       NIN = INTLIST(II)
@@ -140,7 +140,7 @@ c       IF(ITY /= 25) THEN
 c         NBINTC = NBINTC + 1
 c         INTLIST(NBINTC) = NIN
 c       ENDIF
-c     ENDDO 
+c     ENDDO
 C Attention aux interfaces inactives
 
 C ===========================================================
@@ -173,8 +173,8 @@ c       MSGBUF_R_LEN(1:NSPMD) = 0
       ENDIF
 
       !Initialization
-      REQ_RECV_SIZ(1:NSPMD) = MPI_REQUEST_NULL 
-      REQ_RECV_MSG(1:NSPMD) = MPI_REQUEST_NULL 
+      REQ_RECV_SIZ(1:NSPMD) = MPI_REQUEST_NULL
+      REQ_RECV_MSG(1:NSPMD) = MPI_REQUEST_NULL
       PROC_LIST(1:NSPMD) = 0
       ISCOM(1:NSPMD) = 0
       ISCOMS(1:NSPMD) = 0
@@ -197,8 +197,8 @@ C
         ISENS = 0
         IF(ITY == 7.OR.ITY == 11.OR.ITY == 24.OR.ITY == 25) THEN
            ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
-        ENDIF 
-        IF(ISENS/=0) THEN             ! Sensor ID  
+        ENDIF
+        IF(ISENS/=0) THEN             ! Sensor ID
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
         ELSE
@@ -214,7 +214,7 @@ c         WRITE(6,*) "DIST=",DIST
 c         WRITE(6,*) "INTERACT=",INTERACT
 c       ENDIF
 
-        IF (ITY == 25 .OR. (DIST<=ZERO.AND.INTERACT/=0))THEN  
+        IF (ITY == 25 .OR. (DIST<=ZERO.AND.INTERACT/=0))THEN
           IF(ISENDTO(NIN,LOC_PROC)/=0.OR.
      .       IRCVFROM(NIN,LOC_PROC)/=0) THEN
 
@@ -258,7 +258,7 @@ C
             ELSE
               DO P = 1, NSPMD
                 SIZBUF_S(P)%P(II+NBINTC)= 0
-              END DO              
+              END DO
             END IF
 C
             L = L + SIZE
@@ -288,7 +288,7 @@ C
           ENDIF
         ENDDO
         IF(.NOT.ONLY_INTER_7) THEN
-            ICOMM2_RCV(P) = ICOMM2(P)  
+            ICOMM2_RCV(P) = ICOMM2(P)
             ICOMM2_SEND(P) = ICOMM2(P)
         ENDIF
        END IF
@@ -367,8 +367,8 @@ C                 WRITE(6,*) __FILE__,ISPMD,"RECV",P-1,LEN
           CALL MPI_ISEND(
      S        MSGBUF_S(P)%P(1),IDEB,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G        MPI_COMM_WORLD,REQ_SEND_MSG(P),IERROR)
-        ENDIF   
-      ENDDO  
+        ENDIF
+      ENDDO
       ENDIF ! ICOMM /= 0)
 
       ELSEIF( MODE == 2 ) THEN
@@ -494,7 +494,7 @@ C test si proc a envoye qqchose
 C               WRITE(6,*) __FILE__,ISPMD,"SEND",P-1,LEN
                 IDEB2 = IDEBUT(P)
                 DO I = 1, LEN
-                  ASSERT(MSGBUF_R(P)%P(IDEB2+I) > 0) 
+                  ASSERT(MSGBUF_R(P)%P(IDEB2+I) > 0)
                   NSVSIE(NIN)%P(IDEB+I) = ABS(MSGBUF_R(P)%P(IDEB2+I))
                 ENDDO
                 IDEB = IDEB + LEN
@@ -502,8 +502,8 @@ C               WRITE(6,*) __FILE__,ISPMD,"SEND",P-1,LEN
               ENDIF
             ENDDO
           END IF
-        ENDIF 
-      ENDDO  
+        ENDIF
+      ENDDO
 C Attente reception de msg
       DO P = 1, NSPMD
         IF(IRCOM(P)>0) THEN
@@ -512,7 +512,7 @@ C Attente reception de msg
         IF(ISCOM(P)>0) THEN
           CALL MPI_WAIT(REQ_SEND_MSG(P),STATUS,IERROR)
           DEALLOCATE(MSGBUF_S(P)%P)
-        ENDIF   
+        ENDIF
       ENDDO
 
 C
@@ -547,7 +547,7 @@ C rajout +1 pour envoyer le nb de sous interface par noeud
      .                     INTBUF_TAB(NIN)%ADDSUBS(NS) + 1
                 END DO
                 IDEB = IDEB + LEN
-              END IF          
+              END IF
               ISUBTMP(NIN,1,P) = LENOUT
             ENDDO
             IF(IPARI(7,NIN) ==25 .AND. IPARI(58,NIN) > 0) THEN
@@ -566,7 +566,7 @@ C                   WRITE(6,*) "Node",I,INTBUF_TAB(NIN)%ADDSUBE(NS),
 C    .                         INTBUF_TAB(NIN)%ADDSUBE(NS+1)-1
                   END DO
                   IDEB = IDEB + LEN
-                END IF          
+                END IF
 C               WRITE(6,*) "ISUBTMP(",P-1,")=",LENOUT
                 ISUBTMP(NIN,2,P) = LENOUT
               END DO ! NSPMD
@@ -586,13 +586,13 @@ C
               ENDIF
               IF(NEWFRONT(NIN)==2.AND.IPARI(36,NIN)>0.AND.
      +           IPARI(7,NIN)==25) THEN
-                 IF(IPARI(58,NIN) /= 0) THEN 
+                 IF(IPARI(58,NIN) /= 0) THEN
                   LENOUT = LENOUT + 2*ISUBTMP(NIN,2,P) - NSNSIE(NIN)%P(P)
                  ENDIF
               ENDIF
             END DO
 C longueur comm sauvegardee ds ircom
-            IRCOM(P) = LENOUT           
+            IRCOM(P) = LENOUT
             IF(LENOUT>0) THEN
 C alloc structure de comm
               ALLOCATE(MSGBUF_S(P)%P(LENOUT),STAT=IERROR)
@@ -626,7 +626,7 @@ C interface retriee avec sous interfaces ?
      +           IPARI(7,NIN)/=17) THEN
 C on retranche le nbre de noeuds pour retrouver la longeur des sous interfaces
                 NB_SUBINT = ISUBTMP2(NIN,1,P) - NSNFI(NIN)%P(P)
-                NISUBSFI(NIN)%P(P) = NB_SUBINT 
+                NISUBSFI(NIN)%P(P) = NB_SUBINT
                 LENOUT = LENOUT + ISUBTMP2(NIN,1,P)
                 IF(IPARI(7,NIN) == 7.OR.IPARI(7,NIN) == 11.OR.IPARI(7,NIN) == 24.OR.IPARI(7,NIN) == 25) THEN
                   LENOUT = LENOUT + NB_SUBINT
@@ -643,7 +643,7 @@ C                   WRITE(6,*) "NISUBSFIE(NIN)%P(",P-1,")=",NISUBSFIE(NIN)%P(P),
             END DO
 C longueur comm sauvegardee ds iscom
             ISCOM(P) = LENOUT
-            IF(LENOUT>0) THEN          
+            IF(LENOUT>0) THEN
               ALLOCATE(MSGBUF_R(P)%P(LENOUT),STAT=IERROR)
               IF(IERROR/=0) THEN
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
@@ -698,9 +698,9 @@ C recupere le nbre de sous interface pour le noeud
                 END DO
                 IDEBUT(P) = I0
                 IDEB = IDEB + LEN
-              END IF          
+              END IF
             END DO
-            IF(IPARI(7,NIN) == 25 .AND. IPARI(58,NIN) /= 0)THEN 
+            IF(IPARI(7,NIN) == 25 .AND. IPARI(58,NIN) /= 0)THEN
               IDEB_EDGE = 0
               DO P = 1,NSPMD
 C                Sub interface for Edges
@@ -713,7 +713,7 @@ C                Sub interface for Edges
 C recupere le   nbre de sous interface pour le noeud
                     MSGBUF_S(P)%P(I0) = INTBUF_TAB(NIN)%ADDSUBE(NS+1)-
      .                               INTBUF_TAB(NIN)%ADDSUBE(NS)
-                
+
 C                   WRITE(6,*) P-1,"MSGBUF_S(",I0,")=",LEN
 
                     DO J = INTBUF_TAB(NIN)%ADDSUBE(NS),
@@ -731,7 +731,7 @@ C                     WRITE(6,*) P-1,"INFLG---MSGBUF_S(",I0,")=",MSGBUF_S(P)%P(I
                   END DO
                   IDEBUT(P) = I0
                   IDEB_EDGE = IDEB_EDGE + LEN
-                END IF ! LEN 
+                END IF ! LEN
               END DO
             ENDIF ! IEDGE
           END IF
@@ -740,13 +740,13 @@ C
         DO P = 1, NSPMD
 C longueur comm sauvegardee ds ircom
           IF(IRCOM(P)>0) THEN
-            MSGTYP = MSGOFF4        
+            MSGTYP = MSGOFF4
 C           WRITE(6,*) "SEND",IRCOM(P) ,"TO",P-1
             CALL MPI_ISEND(
      S         MSGBUF_S(P)%P(1),IRCOM(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G         MPI_COMM_WORLD,REQ_S(P),IERROR)
           END IF
-        END DO  
+        END DO
 C
 C Reception des parties sous interfaces sur partie frontiere
 C
@@ -809,23 +809,23 @@ C interface retriee avec sous interfaces ?
               IDEB3 = 0
               ADDSUBSFI(NIN)%P(1) = 1
               DO P = 1, NSPMD
-               IF(ISCOM(P)>0) THEN 
+               IF(ISCOM(P)>0) THEN
                 DO I = 1, NSNFI(NIN)%P(P)
                   IDEB2 = IDEBUT(P)
                   IDEB2 = IDEB2 + 1
                   LEN = MSGBUF_R(P)%P(IDEB2)
-                  ADDSUBSFI(NIN)%P(IDEB3+I+1) = 
+                  ADDSUBSFI(NIN)%P(IDEB3+I+1) =
      +              ADDSUBSFI(NIN)%P(IDEB3+I) + LEN
                   DO J = 1, LEN
                     LISUBSFI(NIN)%P(IDEB+J) = MSGBUF_R(P)%P(IDEB2+J)
                   END DO
-                  IDEBUT(P) = IDEBUT(P) + LEN + 1  
+                  IDEBUT(P) = IDEBUT(P) + LEN + 1
                   IF(IPARI(7,NIN) == 7.OR.IPARI(7,NIN) == 11.OR.IPARI(7,NIN) == 24.OR.IPARI(7,NIN) == 25) THEN
                     IDEB2 = IDEB2 + LEN
                     DO J = 1, LEN
                       INFLG_SUBSFI(NIN)%P(IDEB+J) = MSGBUF_R(P)%P(IDEB2+J)
                     END DO
-                    IDEBUT(P) = IDEBUT(P) + LEN                
+                    IDEBUT(P) = IDEBUT(P) + LEN
                   END IF
                   IDEB = IDEB + LEN
                 END DO
@@ -848,7 +848,7 @@ C interface retriee avec sous interfaces ?
               ADDSUBSFI(NIN)%P(1) = 1
               DO P = 1, NSPMD
                 DO I = 1, NSNFI(NIN)%P(P)
-                  ADDSUBSFI(NIN)%P(IDEB3+I+1) = 
+                  ADDSUBSFI(NIN)%P(IDEB3+I+1) =
      +              ADDSUBSFI(NIN)%P(IDEB3+I)
                 END DO
                 IDEB3 = IDEB3 + NSNFI(NIN)%P(P)
@@ -893,26 +893,26 @@ C               WRITE(6,*) NIN,"ADDSUBSFIE size:",LEN
                 IDEB3 = 0
                 ADDSUBSFIE(NIN)%P(1) = 1
                 DO P = 1, NSPMD
-                 IF(ISCOM(P)>0) THEN 
+                 IF(ISCOM(P)>0) THEN
                   DO I = 1, NSNFIE(NIN)%P(P)
                     IDEB2 = IDEBUT(P)
                     IDEB2 = IDEB2 + 1
                     LEN = MSGBUF_R(P)%P(IDEB2)
 C                   WRITE(6,*) P-1,"MSGBUF_R(",IDEB2,")=",LEN
-                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) = 
+                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) =
      +                ADDSUBSFIE(NIN)%P(IDEB3+I) + LEN
 C                   WRITE(6,*) "ADDSUBSFIE(NIN)%P(",IDEB3+I+1,") =", ADDSUBSFIE(NIN)%P(IDEB3+I+1)
                     DO J = 1, LEN
                       LISUBSFIE(NIN)%P(IDEB+J) = MSGBUF_R(P)%P(IDEB2+J)
 C                   WRITE(6,*) P-1,"LISUBFIE --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_R(P)%P(IDEB2+J)
                     END DO
-                    IDEBUT(P) = IDEBUT(P) + LEN + 1  
+                    IDEBUT(P) = IDEBUT(P) + LEN + 1
                     IDEB2 = IDEB2 + LEN
                     DO J = 1, LEN
                       INFLG_SUBSFIE(NIN)%P(IDEB+J) = MSGBUF_R(P)%P(IDEB2+J)
 C                     WRITE(6,*) P-1,"INFLG --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_R(P)%P(IDEB2+J)
                     END DO
-                    IDEBUT(P) = IDEBUT(P) + LEN                
+                    IDEBUT(P) = IDEBUT(P) + LEN
                     IDEB = IDEB + LEN
                   END DO
                   IDEB3 = IDEB3 + NSNFIE(NIN)%P(P)
@@ -934,7 +934,7 @@ C                     WRITE(6,*) P-1,"INFLG --- MSGBUF_R(",IDEB2+J,")=", MSGBUF_
                 ADDSUBSFIE(NIN)%P(1) = 1
                 DO P = 1, NSPMD
                   DO I = 1, NSNFI(NIN)%P(P)
-                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) = 
+                    ADDSUBSFIE(NIN)%P(IDEB3+I+1) =
      +                ADDSUBSFIE(NIN)%P(IDEB3+I)
                   END DO
                   IDEB3 = IDEB3 + NSNFI(NIN)%P(P)
@@ -959,7 +959,7 @@ C
 C   remise a 0 de newfront + recalcul size msg
 C
       ISLEN7 = 0
-      IRLEN7 = 0 
+      IRLEN7 = 0
       ISLEN7T = 0
       IRLEN7T = 0
       ISLEN11 = 0
@@ -984,15 +984,15 @@ C type 25
 
       DO II = 1, NBINTC
         NIN = INTLIST(II)
-      
+
         IF(NEWFRONT(NIN)==2) NEWFRONT(NIN)=0
         ITYP = IPARI(7,NIN)
-        INTTH = IPARI(47,NIN)  
-        
+        INTTH = IPARI(47,NIN)
+
 C type 7 
         IF(ITYP==7.OR.ITYP==10.OR.ITYP==22.OR.
      .     ITYP==23.OR.ITYP==24)THEN
-          IF(INTTH == 0 ) THEN 
+          IF(INTTH == 0 ) THEN
            DO P = 1, NSPMD
              ISLEN7 = ISLEN7 + NSNSI(NIN)%P(P)
              IRLEN7 = IRLEN7 + NSNFI(NIN)%P(P)
@@ -1003,7 +1003,7 @@ C type 7 + heat trasfert
              ISLEN7T = ISLEN7T + NSNSI(NIN)%P(P)
              IRLEN7T = IRLEN7T + NSNFI(NIN)%P(P)
            END DO
-          ENDIF  
+          ENDIF
         ELSEIF(ITYP == 11) THEN
 C type 11
            DO P = 1, NSPMD
@@ -1018,7 +1018,7 @@ C type 17
            END DO
         ELSEIF(ITYP == 20)THEN
 C type 20
-           IF(INTTH == 0) THEN 
+           IF(INTTH == 0) THEN
              DO P = 1, NSPMD
                ISLEN20 = ISLEN20 + NSNSI(NIN)%P(P)
                IRLEN20 = IRLEN20 + NSNFI(NIN)%P(P)
@@ -1036,11 +1036,11 @@ C type 20
         ELSEIF(ITYP == 25)THEN
 C type 25
            IEDGE = IPARI(58,NIN)
-           IF(INTTH == 0) THEN 
+           IF(INTTH == 0) THEN
              DO P = 1, NSPMD
                ISLEN25 = ISLEN25 + NSNSI(NIN)%P(P)
                IRLEN25 = IRLEN25 + NSNFI(NIN)%P(P)
-               IF( IEDGE /= 0) THEN 
+               IF( IEDGE /= 0) THEN
                  ISLEN25E= ISLEN25E+ NSNSIE(NIN)%P(P)
                  IRLEN25E= IRLEN25E+ NSNFIE(NIN)%P(P)
                ENDIF
@@ -1049,7 +1049,7 @@ C type 25
              DO P = 1, NSPMD
                ISLEN25T = ISLEN25T + NSNSI(NIN)%P(P)
                IRLEN25T = IRLEN25T + NSNFI(NIN)%P(P)
-               IF( IEDGE /= 0) THEN 
+               IF( IEDGE /= 0) THEN
                  ISLEN25E= ISLEN25E+ NSNSIE(NIN)%P(P)
                  IRLEN25E= IRLEN25E+ NSNFIE(NIN)%P(P)
                ENDIF

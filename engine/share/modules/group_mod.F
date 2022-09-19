@@ -35,7 +35,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|====================================================================
       MODULE GROUP_MOD
 !
-        USE GROUPDEF_MOD      
+        USE GROUPDEF_MOD
 ! GROUPS
         TYPE(GROUP_)  ,TARGET,DIMENSION(:),ALLOCATABLE :: IGRNOD    !  NGRNOD
         TYPE(GROUP_)  ,TARGET,DIMENSION(:),ALLOCATABLE :: IGRBRIC   !  NGRBRIC
@@ -47,7 +47,7 @@ Chd|====================================================================
         TYPE(GROUP_)  ,TARGET,DIMENSION(:),ALLOCATABLE :: IGRSPRING !  NGRSPRI
         TYPE(GROUP_)  ,TARGET,DIMENSION(:),ALLOCATABLE :: IGRPART   !  NGRPART
 !
-! OTHER ENTITIES 
+! OTHER ENTITIES
 !
         TYPE(SUBSET_) ,TARGET,DIMENSION(:),ALLOCATABLE :: SUBSETS
         TYPE(SURF_)   ,TARGET,DIMENSION(:),ALLOCATABLE :: IGRSURF   !  NSURF  ---> old ISURF

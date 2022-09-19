@@ -64,20 +64,20 @@ C-----------------------------------------------
       INTEGER I, II, IE, IV1, IV2, IV3, IV4, IV5, IV6, IAD1
       my_real X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .        X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
-     .        Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ), 
-     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
+     .        Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .        Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
+     .        Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .        Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
-     .        XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ), 
-     .        N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), 
+     .        XC(MVSIZ), YC(MVSIZ), ZC(MVSIZ),
+     .        N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ),
      .        N4X(MVSIZ), N5X(MVSIZ), N6X(MVSIZ),
-     .        N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), 
+     .        N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ),
      .        N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
-     .        N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), 
+     .        N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ),
      .        N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),
      .        DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ),
      .        DD4(MVSIZ), DD5(MVSIZ), DD6(MVSIZ),
-     .        D1X(MVSIZ), D2X(MVSIZ), D3X(MVSIZ), 
+     .        D1X(MVSIZ), D2X(MVSIZ), D3X(MVSIZ),
      .        D4X(MVSIZ), D5X(MVSIZ), D6X(MVSIZ),
      .        D1Y(MVSIZ), D2Y(MVSIZ), D3Y(MVSIZ),
      .        D4Y(MVSIZ), D5Y(MVSIZ), D6Y(MVSIZ),
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
- 
+
 C ---- COORDINATES -----------------------------     
       DO I=LFT,LLT
         II=I+NFT
@@ -122,7 +122,7 @@ C ---- COORDINATES -----------------------------
         Y8(I)=X(2,IXS(9,II))
         Z8(I)=X(3,IXS(9,II))
       END DO
-      
+
 C ---- NORMAL VECTORS ON FACES (*2.)------------
       DO I=LFT,LLT
       N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
@@ -153,7 +153,7 @@ C
       YC(I) = (Y1(I)+Y2(I)+Y3(I)+Y4(I)+Y5(I)+Y6(I)+Y7(I)+Y8(I))
       ZC(I) = (Z1(I)+Z2(I)+Z3(I)+Z4(I)+Z5(I)+Z6(I)+Z7(I)+Z8(I))
       END DO
-      
+
 C ---- DISTANCES BETWEEN ELEMS (*8.)------------
       DO I=LFT,LLT
         IE =NFT+I
@@ -245,7 +245,7 @@ C ---- GRADIENT * SURFACE-----------------------
         GRAD(I,4)= FOUR*(D4X(I)*N4X(I)+D4Y(I)*N4Y(I)+D4Z(I)*N4Z(I)) / MAX(EM15,DD4(I))
         GRAD(I,5)= FOUR*(D5X(I)*N5X(I)+D5Y(I)*N5Y(I)+D5Z(I)*N5Z(I)) / MAX(EM15,DD5(I))
         GRAD(I,6)= FOUR*(D6X(I)*N6X(I)+D6Y(I)*N6Y(I)+D6Z(I)*N6Z(I)) / MAX(EM15,DD6(I))
-      END DO 
+      END DO
 C-----------------------------------------------
       RETURN
       END

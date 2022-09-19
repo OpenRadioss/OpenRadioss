@@ -62,7 +62,7 @@ C-----------------------------------------------
       USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)    :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)    :: UNITAB
       INTEGER ,INTENT(IN   )          :: MAXUPARAM,MAXTABL,MAT_ID
       INTEGER ,INTENT(OUT)            :: NUMTABL,NUPARAM,NUVAR,NVARTMP
       INTEGER ,DIMENSION(MAXTABL) ,INTENT(OUT)  :: ITABLE
@@ -107,7 +107,7 @@ c     Read input cards
 c----------------
 card1
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card2 Elasticity parameters and formulation flags
       CALL HM_GET_FLOATV('MAT_E'     ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'    ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -158,10 +158,10 @@ c-------------------
       IF (CC > ZERO) THEN
         FCUT = 1000.0D0 * FAC_T_WORK
       END IF
-      IF (EXP_N == ZERO) EXP_N = ONE  
-      IF (IFORM == 0) IFORM = 1  
-      IF (ITRX  == 0) ITRX  = 1  
-      IF (IDAM  == 0) IDAM  = 1  
+      IF (EXP_N == ZERO) EXP_N = ONE
+      IF (IFORM == 0) IFORM = 1
+      IF (ITRX  == 0) ITRX  = 1
+      IF (IDAM  == 0) IDAM  = 1
       IF (XSCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('MAT_Xscale' ,XSCALE_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         XSCALE = ONE * XSCALE_UNIT
@@ -193,42 +193,42 @@ c-----------------
       ENDIF
 c-------------------
       UPARAM(1)  = E
-      UPARAM(2)  = NU   
-      UPARAM(3)  = G    
-      UPARAM(4)  = BULK 
-      UPARAM(5)  = Y0  
+      UPARAM(2)  = NU
+      UPARAM(3)  = G
+      UPARAM(4)  = BULK
+      UPARAM(5)  = Y0
       UPARAM(6)  = Q
-      UPARAM(7)  = B  
+      UPARAM(7)  = B
       UPARAM(8)  = H
-      UPARAM(9)  = A1F 
-      UPARAM(10) = A2F 
-      UPARAM(11) = A1H   
+      UPARAM(9)  = A1F
+      UPARAM(10) = A2F
+      UPARAM(11) = A1H
       UPARAM(12) = A2H
-      UPARAM(13) = AS 
+      UPARAM(13) = AS
 c     Johnson/Cook failure parameters
-      UPARAM(14) = D1C 
-      UPARAM(15) = D2C 
-      UPARAM(16) = D1F 
-      UPARAM(17) = D2F 
+      UPARAM(14) = D1C
+      UPARAM(15) = D2C
+      UPARAM(16) = D1F
+      UPARAM(17) = D2F
       UPARAM(18) = D_TRX
       UPARAM(19) = D_JC
-      UPARAM(20) = EXP_N 
+      UPARAM(20) = EXP_N
 c     Parameters: Johnson & Cook rate-dependency
-      UPARAM(21) = CC    
-      UPARAM(22) = EPSPMIN   
-      UPARAM(23) = EPSPMAX   
-      UPARAM(24) = FCUT   
-c 
-      UPARAM(25) = IFORM 
-      UPARAM(26) = ITRX   
-      UPARAM(27) = IDAM 
+      UPARAM(21) = CC
+      UPARAM(22) = EPSPMIN
+      UPARAM(23) = EPSPMAX
+      UPARAM(24) = FCUT
 c
-      UPARAM(28) = SSP   
+      UPARAM(25) = IFORM
+      UPARAM(26) = ITRX
+      UPARAM(27) = IDAM
+c
+      UPARAM(28) = SSP
       UPARAM(29) = YTAB_ID
-      UPARAM(30) = ONE / XSCALE   
-      UPARAM(31) = YSCALE            
-      UPARAM(32) = C11            
-      UPARAM(33) = C12            
+      UPARAM(30) = ONE / XSCALE
+      UPARAM(31) = YSCALE
+      UPARAM(32) = C11
+      UPARAM(33) = C12
 c
       UPARAM(34) = THICK ! For connect element  (type43)
       ITABLE(1) = YTAB_ID     ! Yield function table = f(epsp,epsdot,temp)
@@ -236,7 +236,7 @@ c------------------
       PM(1)  = RHOR
       PM(89) = RHO0
       PM(27) = SSP
-      PM(100)= BULK      
+      PM(100)= BULK
 c--------------------------------
       PARMAT(1)  = C11
       PARMAT(2)  = E
@@ -271,7 +271,7 @@ c-----------------
         END IF
         WRITE(IOUT,1500) A1F,A2F,A1H,A2H,AS,D1C,D2C,D1F,D2F,
      .                   D_TRX,D_JC,EXP_N,ITRX,IDAM
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -281,10 +281,10 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : TOUGHENED ADHESIVE POLYMER',/,
      & 5X,'-------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'REFERENCE THICKNESS . . . . . . . . . .=',1PG20.13/    
+     & 5X,'REFERENCE THICKNESS . . . . . . . . . .=',1PG20.13/
      & 5X,'YIELD CRITERION FLAG  . . . . . . . . .=',I3)
  1300 FORMAT(
      & 5X,'YIELD FUNCTON TABLE IDENTIFIER. . . . .=',I10/

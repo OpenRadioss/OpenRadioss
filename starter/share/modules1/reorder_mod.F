@@ -42,14 +42,14 @@ Chd|        T3GRTAILS                     source/elements/solid_2d/tria/t3grtail
 Chd|-- calls ---------------
 Chd|====================================================================
           MODULE REORDER_MOD
-          
+
           TYPE REORDER_STRUCT_
             INTEGER, DIMENSION(:),ALLOCATABLE :: SOLID
             INTEGER, DIMENSION(:),ALLOCATABLE :: SHELL
             INTEGER, DIMENSION(:),ALLOCATABLE :: TRIANGLE
             INTEGER, DIMENSION(:),ALLOCATABLE :: QUAD
           END TYPE REORDER_STRUCT_
-          
-          TYPE(REORDER_STRUCT_) PERMUTATION 
+
+          TYPE(REORDER_STRUCT_) PERMUTATION
           END MODULE REORDER_MOD
 C=======================================================================        

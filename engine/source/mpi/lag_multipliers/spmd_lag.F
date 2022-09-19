@@ -63,7 +63,7 @@ C-----------------------------------------------
       DATA MSGOFF2/12002/
 
        LOC_PROC = ISPMD+1
-         
+
        IF (ISPMD/=0) THEN
         IF(FR_LAGF(1,LOC_PROC)>0) THEN
 
@@ -91,17 +91,17 @@ Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
            XLL(N) = LAGCOMK(4,N)
 Cel mise a jour du flag directement ici et non dans LTAG_FXV
            COMNTAG(LLL(N)) = COMNTAG(LLL(N))+1
-         END DO     
+         END DO
 C
          DO I=2,NSPMD
            NCL = FR_LAGF(1,I)
            IF(NCL>0)THEN
-             MSGTYP = MSGOFF 
+             MSGTYP = MSGOFF
 
              CALL MPI_RECV(
      1         LAGCOMC(1,N_MULT+1),2*NCL ,REAL  ,IT_SPMD(I),MSGTYP,
      2         MPI_COMM_WORLD     ,STATUS,IERROR)
-             
+
              DO N = 1, NCL
                IADLL(N_MULT+N+1) = IADLL(N_MULT+N)
      +                            +NINT(LAGCOMC(1,N_MULT+N))
@@ -112,7 +112,7 @@ Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
              END DO
              N_MULT=N_MULT+NCL
 C
-             MSGTYP = MSGOFF2 
+             MSGTYP = MSGOFF2
              IKL = FR_LAGF(2,I)
              CALL MPI_RECV(
      1         LAGCOMK(1,N_IK+1),4*IKL ,REAL  ,IT_SPMD(I),MSGTYP,
@@ -126,7 +126,7 @@ Cel mise a jour du flag directement ici et non dans LTAG_FXV
                COMNTAG(LLL(N_IK+N)) = COMNTAG(LLL(N_IK+N))+1
              END DO
              N_IK = N_IK + IKL
-           END IF             
+           END IF
          END DO
 c         IF(N_MULT/=FR_LAGF(1,NSPMD+1))
 c     .     print*,'**error : wrong gather of LAG MULT EQUATIONS',
@@ -263,7 +263,7 @@ C
          DO P=2,NSPMD
            NNOD = FR_LAGF(3,P)
            IF(NNOD>0)THEN
-             MSGTYP = MSGOFF 
+             MSGTYP = MSGOFF
              CALL MPI_RECV(
      1         BUFCOM,ISIZ*NNOD ,REAL  ,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD   ,STATUS,IERROR)
@@ -271,14 +271,14 @@ C
                DO I = 1, NNOD
                  N = NINT(BUFCOM(1,I))
                  INDEXLAG(N) = NLAGF_G+I
-                 AG(1,NLAGF_G+I) = BUFCOM(2,I) 
-                 AG(2,NLAGF_G+I) = BUFCOM(3,I) 
-                 AG(3,NLAGF_G+I) = BUFCOM(4,I) 
-                 MSG(NLAGF_G+I)  = BUFCOM(5,I) 
-                 VG(1,NLAGF_G+I) = BUFCOM(6,I) 
-                 VG(2,NLAGF_G+I) = BUFCOM(7,I) 
-                 VG(3,NLAGF_G+I) = BUFCOM(8,I) 
-                 ARG(1,NLAGF_G+I)= BUFCOM(9,I) 
+                 AG(1,NLAGF_G+I) = BUFCOM(2,I)
+                 AG(2,NLAGF_G+I) = BUFCOM(3,I)
+                 AG(3,NLAGF_G+I) = BUFCOM(4,I)
+                 MSG(NLAGF_G+I)  = BUFCOM(5,I)
+                 VG(1,NLAGF_G+I) = BUFCOM(6,I)
+                 VG(2,NLAGF_G+I) = BUFCOM(7,I)
+                 VG(3,NLAGF_G+I) = BUFCOM(8,I)
+                 ARG(1,NLAGF_G+I)= BUFCOM(9,I)
                  ARG(2,NLAGF_G+I)= BUFCOM(10,I)
                  ARG(3,NLAGF_G+I)= BUFCOM(11,I)
                  ING(NLAGF_G+I)  = BUFCOM(12,I)
@@ -290,17 +290,17 @@ C
                DO I = 1, NNOD
                  N = NINT(BUFCOM(1,I))
                  INDEXLAG(N) = NLAGF_G+I
-                 AG(1,NLAGF_G+I) = BUFCOM(2,I) 
-                 AG(2,NLAGF_G+I) = BUFCOM(3,I) 
-                 AG(3,NLAGF_G+I) = BUFCOM(4,I) 
-                 MSG(NLAGF_G+I)  = BUFCOM(5,I) 
-                 VG(1,NLAGF_G+I) = BUFCOM(6,I) 
-                 VG(2,NLAGF_G+I) = BUFCOM(7,I) 
-                 VG(3,NLAGF_G+I) = BUFCOM(8,I) 
+                 AG(1,NLAGF_G+I) = BUFCOM(2,I)
+                 AG(2,NLAGF_G+I) = BUFCOM(3,I)
+                 AG(3,NLAGF_G+I) = BUFCOM(4,I)
+                 MSG(NLAGF_G+I)  = BUFCOM(5,I)
+                 VG(1,NLAGF_G+I) = BUFCOM(6,I)
+                 VG(2,NLAGF_G+I) = BUFCOM(7,I)
+                 VG(3,NLAGF_G+I) = BUFCOM(8,I)
                END DO
              END IF
              NLAGF_G=NLAGF_G+NNOD
-           END IF             
+           END IF
          END DO
 c         IF(NLAGF_G/=FR_LAGF(3,NSPMD+1))
 c     .     print*,'**error : wrong gather of LAG MULT NODAL VALUES',
@@ -356,7 +356,7 @@ C
        IF(ISPMD/=0) THEN
         IF(NLAGF_L>0) THEN
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_RECV(
      1     BUFCOM,ISIZ*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
      2     MPI_COMM_WORLD    ,STATUS,IERROR)
@@ -384,9 +384,9 @@ Code processeur0
          IF(IRODDL/=0)THEN
            DO I = 1, NLAGF_L
              N = LLAGF(I)
-             A(1,N)  = AG(1,I) 
-             A(2,N)  = AG(2,I) 
-             A(3,N)  = AG(3,I) 
+             A(1,N)  = AG(1,I)
+             A(2,N)  = AG(2,I)
+             A(3,N)  = AG(3,I)
              AR(1,N) = ARG(1,I)
              AR(2,N) = ARG(2,I)
              AR(3,N) = ARG(3,I)
@@ -406,26 +406,26 @@ C
            IF(NNOD>0)THEN
              IF(IRODDL/=0)THEN
                DO I = 1, NNOD
-                 BUFCOM(1,I) = AG(1,NLAGF_G+I) 
-                 BUFCOM(2,I) = AG(2,NLAGF_G+I) 
-                 BUFCOM(3,I) = AG(3,NLAGF_G+I) 
+                 BUFCOM(1,I) = AG(1,NLAGF_G+I)
+                 BUFCOM(2,I) = AG(2,NLAGF_G+I)
+                 BUFCOM(3,I) = AG(3,NLAGF_G+I)
                  BUFCOM(4,I) = ARG(1,NLAGF_G+I)
                  BUFCOM(5,I) = ARG(2,NLAGF_G+I)
                  BUFCOM(6,I) = ARG(3,NLAGF_G+I)
                END DO
              ELSE
                DO I = 1, NNOD
-                 BUFCOM(1,I) = AG(1,NLAGF_G+I) 
-                 BUFCOM(2,I) = AG(2,NLAGF_G+I) 
-                 BUFCOM(3,I) = AG(3,NLAGF_G+I) 
+                 BUFCOM(1,I) = AG(1,NLAGF_G+I)
+                 BUFCOM(2,I) = AG(2,NLAGF_G+I)
+                 BUFCOM(3,I) = AG(3,NLAGF_G+I)
                END DO
              END IF
-             MSGTYP = MSGOFF 
+             MSGTYP = MSGOFF
              CALL MPI_SEND(
      1         BUFCOM        ,ISIZ*NNOD,REAL  ,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD,IERROR)
              NLAGF_G=NLAGF_G+NNOD
-           END IF             
+           END IF
          END DO
 
        END IF
@@ -476,7 +476,7 @@ C
        IF(ISPMD/=0) THEN
         IF(NLAGF_L>0) THEN
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_RECV(
      1     BUFCOM,3*NLAGF_L,REAL  ,IT_SPMD(1),MSGTYP,
      2     MPI_COMM_WORLD    ,STATUS,IERROR)
@@ -491,9 +491,9 @@ Code processeur0
        ELSE
          DO I = 1, NLAGF_L
            N = LLAGF(I)
-           FANI(1,N)  = FANIG(1,I) 
-           FANI(2,N)  = FANIG(2,I) 
-           FANI(3,N)  = FANIG(3,I) 
+           FANI(1,N)  = FANIG(1,I)
+           FANI(2,N)  = FANIG(2,I)
+           FANI(3,N)  = FANIG(3,I)
          END DO
          NLAGF_G = NLAGF_L
 C
@@ -501,16 +501,16 @@ C
            NNOD = FR_LAGF(3,P)
            IF(NNOD>0)THEN
              DO I = 1, NNOD
-               BUFCOM(1,I) = FANIG(1,NLAGF_G+I) 
-               BUFCOM(2,I) = FANIG(2,NLAGF_G+I) 
-               BUFCOM(3,I) = FANIG(3,NLAGF_G+I) 
+               BUFCOM(1,I) = FANIG(1,NLAGF_G+I)
+               BUFCOM(2,I) = FANIG(2,NLAGF_G+I)
+               BUFCOM(3,I) = FANIG(3,NLAGF_G+I)
              END DO
-             MSGTYP = MSGOFF 
+             MSGTYP = MSGOFF
              CALL MPI_SEND(
      1         BUFCOM        ,3*NNOD,REAL  ,IT_SPMD(P),MSGTYP,
      2         MPI_COMM_WORLD,IERROR)
              NLAGF_G=NLAGF_G+NNOD
-           END IF             
+           END IF
          END DO
 
        END IF
@@ -593,7 +593,7 @@ C
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
           L = L + SIZ
         ENDIF
-        IAD_RECV(I+1) = L               
+        IAD_RECV(I+1) = L
       END DO
 C
       IAD_SEND(1) = L
@@ -650,7 +650,7 @@ C
           CALL MPI_ISEND(
      S      RBUF(LSEND),L,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-        ENDIF        
+        ENDIF
       ENDDO
 C
 C decompactage
@@ -769,7 +769,7 @@ Cel ICTAG et JCFTAG : id (pas de cond. autre que fixe pour le moment !)
         XLL(N) = LAGCOMK(4,N)
 Cel mise a jour du flag directement ici et non dans LTAG_FXV
         COMNTAG(LLL(N)) = COMNTAG(LLL(N))+1
-      END DO     
+      END DO
 C
       RETURN
       END
@@ -882,9 +882,9 @@ C
       IF(IRODDL/=0)THEN
         DO I = 1, NLAGF_L
           N = LLAGF(I)
-          A(1,N)  = AG(1,I) 
-          A(2,N)  = AG(2,I) 
-          A(3,N)  = AG(3,I) 
+          A(1,N)  = AG(1,I)
+          A(2,N)  = AG(2,I)
+          A(3,N)  = AG(3,I)
           AR(1,N) = ARG(1,I)
           AR(2,N) = ARG(2,I)
           AR(3,N) = ARG(3,I)

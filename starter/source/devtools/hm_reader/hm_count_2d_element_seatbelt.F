@@ -50,7 +50,7 @@ C     LSUBMODEL     SUBMODEL STRUCTURE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .                          OPTION_ID   = ID,
      .                          KEYWORD2    = KEY,
      .                          SUBMODEL_INDEX = SUBMODEL_INDEX)
-          IF(KEY(1:6) == 'LAW119' .OR. KEY(1:11) == 'SH_SEATBELT') THEN 
+          IF(KEY(1:6) == 'LAW119' .OR. KEY(1:11) == 'SH_SEATBELT') THEN
             J = J + 1
             MAT119_IDS(J) = ID
           ENDIF
@@ -137,7 +137,7 @@ C   Count /SHELLs
 C-----------------------------------------------
 c
       NB_SHELLS = 0
-      NB_SHELLS_PART = 0 
+      NB_SHELLS_PART = 0
       CALL HM_OPTION_START('/PART')
       DO I=1,NB_PART
         CALL HM_OPTION_NEXT()

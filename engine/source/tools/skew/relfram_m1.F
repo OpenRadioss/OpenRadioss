@@ -73,13 +73,13 @@ C      ANGULAR VELOCITY at time T-1/2 and acceleration at time T.
 C-----------
        W(1)=XFRAME(13)
        W(2)=XFRAME(14)
-       W(3)=XFRAME(15)          
+       W(3)=XFRAME(15)
 C-----------
 C      local coordinates.
 C-----------
        OM(1)=XG(1)-O(1)
        OM(2)=XG(2)-O(2)
-       OM(3)=XG(3)-O(3)   
+       OM(3)=XG(3)-O(3)
 C-----------
 C      vitesse d'entrainement (T-1/2).
 C-----------
@@ -104,7 +104,7 @@ C      RELATIVE ACCELERATIONS.
 C-----------
        DWDT(1)=XFRAME(16)
        DWDT(2)=XFRAME(17)
-       DWDT(3)=XFRAME(18) 
+       DWDT(3)=XFRAME(18)
 C      second order correction.
 C      W(1)=W(1)+DWDT(1)*DT05
 C      W(2)=W(2)+DWDT(2)*DT05

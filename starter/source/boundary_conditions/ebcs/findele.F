@@ -145,16 +145,16 @@ C-----------------------------------------------
           ZS1=ZS1+FOURTH*X(3,NN)
         ENDDO
 
-        IF (N2D == 0) THEN               
-           CALL NORMA1(N1,N2,N3,AREA)      
-        ELSE                               
-           N1 = ZERO                       
-           N2 = XX3(2) - XX3(1)            
-           N3 = -(XX2(2) - XX2(1))         
-           AREA = SQRT(N2 * N2 + N3 * N3)  
-           N2 = N2 / AREA                  
-           N3 = N3 / AREA                  
-        ENDIF                              
+        IF (N2D == 0) THEN
+           CALL NORMA1(N1,N2,N3,AREA)
+        ELSE
+           N1 = ZERO
+           N2 = XX3(2) - XX3(1)
+           N3 = -(XX2(2) - XX2(1))
+           AREA = SQRT(N2 * N2 + N3 * N3)
+           N2 = N2 / AREA
+           N3 = N3 / AREA
+        ENDIF
 
         XC=ZERO
         YC=ZERO
@@ -175,7 +175,7 @@ C-----------------------------------------------
         ELSE
           IS=1
         ENDIF
- 
+
         IELE(J)=NEL
         ITYPE(J)=NNODE
         IF (TYPE == 8 .OR. TYPE == 9 .OR. TYPE == 10) THEN
@@ -185,7 +185,7 @@ C-----------------------------------------------
         PP=IX(NIX-1,NEL)
         JALE_FROM_MAT = INT(PM(72,M))
         JALE_FROM_PROP = IGEO(62,PP)
-        ALE = JALE_FROM_MAT + JALE_FROM_PROP 
+        ALE = JALE_FROM_MAT + JALE_FROM_PROP
         IF(ALE/=0)THEN
           SEGINDX = SEGINDX+1
           ISEG(J) = IS*SEGINDX
@@ -198,7 +198,7 @@ C-----------------------------------------------
         TURBU=MAX(TURBU,INT(PM(70,M)))
  500    CONTINUE
       ENDDO
-      
+
       IF(TURBU/=0)THEN
         IERR=IERR+1
         WRITE(ISTDO,*)' ** ERROR EBCS ',ID,' TURBULENCE NOT YET SUPPORTED'
@@ -211,6 +211,6 @@ C-----------------------------------------------
       RETURN
 C-----------------------------------------------
  1000 FORMAT(//,'ELEMENTARY BCS',I10,' SURFACE ',I10,/,
-     .          '-----------------------------------------',/, 
+     .          '-----------------------------------------',/,
      .          ' SEGMENT     ELT      FACE      SEGINDX  ')
       END

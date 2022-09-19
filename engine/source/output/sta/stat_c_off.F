@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER I,J,K,N,JJ,LEN,NG, NEL, NFT, ITY, LFT,
      .   LLT, MLW, IPRT,ID,IOFF
       CHARACTER*100 LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF(ITY==3) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
@@ -101,7 +101,7 @@ C
             WA(JJ) = ZERO
           ENDIF
          ENDDO
-       ENDIF        
+       ENDIF
       ENDDO
 
  200  CONTINUE
@@ -121,12 +121,12 @@ C
         IF (IZIPSTRS == 0) THEN
           WRITE(IUGEO,'(A)')'/INISHE/OFF'
           WRITE(IUGEO,'(A)')
-     .      '#  SHELLID      IOFF' 
+     .      '#  SHELLID      IOFF'
         ELSE
-          WRITE(LINE,'(A)')'/INISHE/OFF' 
+          WRITE(LINE,'(A)')'/INISHE/OFF'
                CALL STRS_TXT50(LINE,100)
           WRITE(LINE,'(A)')
-     .      '#  SHELLID      IOFF' 
+     .      '#  SHELLID      IOFF'
                CALL STRS_TXT50(LINE,100)
         ENDIF
         DO N=1,STAT_NUMELC_G
@@ -153,7 +153,7 @@ C
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF(ITY==7) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
@@ -175,7 +175,7 @@ c
             WA(JJ) = ZERO
           ENDIF
          ENDDO
-       ENDIF        
+       ENDIF
       ENDDO
 
  300  CONTINUE
@@ -195,12 +195,12 @@ c
         IF (IZIPSTRS == 0) THEN
           WRITE(IUGEO,'(A)')'/INISH3/OFF'
           WRITE(IUGEO,'(A)')
-     .      '#   SH3NID      IOFF' 
+     .      '#   SH3NID      IOFF'
         ELSE
-          WRITE(LINE,'(A)')'/INISH3/OFF' 
+          WRITE(LINE,'(A)')'/INISH3/OFF'
                CALL STRS_TXT50(LINE,100)
           WRITE(LINE,'(A)')
-     .      '#   SH3NID      IOFF' 
+     .      '#   SH3NID      IOFF'
                CALL STRS_TXT50(LINE,100)
         ENDIF
 

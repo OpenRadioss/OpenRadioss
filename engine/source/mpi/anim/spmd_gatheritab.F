@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,MSGOFF
       INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2
 
-      INTEGER, DIMENSION(:,:) , ALLOCATABLE :: BUFSR 
+      INTEGER, DIMENSION(:,:) , ALLOCATABLE :: BUFSR
       INTEGER, DIMENSION(:) , ALLOCATABLE :: XGLOB
 C-----------------------------------------------
       DATA MSGOFF/7018/
@@ -75,12 +75,12 @@ C-----------------------------------------------
            IF (WEIGHT(I)==1) THEN
              SIZ = SIZ + 1
              BUFSR(1,SIZ) = NODGLOB(I)
-             BUFSR(2,SIZ) = V(I) 
+             BUFSR(2,SIZ) = V(I)
            END IF
          END DO
 
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,2*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -103,9 +103,9 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_RECV(BUFSR,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ/2
- 
+
             DO K = 1, NREC
               NG = BUFSR(1,K)
               XGLOB(NG) = BUFSR(2,K)

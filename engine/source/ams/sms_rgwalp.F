@@ -62,7 +62,7 @@ C     REAL
      .   VX, VY, VZ, UX, UY, UZ, XC, YC, ZC, DP, DN, XCP, YCP, ZCP,
      .   SX1M, SY1M, SZ1M, PS, SM1, SXM2, SYM2, SZM2, SM2, DV, DA, DVT,
      .   AX,
-     .   XWL0, YWL0, ZWL0, DP0, XC0, YC0, ZC0, TOL, VN, VNOLD, 
+     .   XWL0, YWL0, ZWL0, DP0, XC0, YC0, ZC0, TOL, VN, VNOLD,
      .   DP0DT, DVX, DVY, DVZ, PREC, XPREC
 C-----------------------------------------------
       IF(IRESP==1)THEN
@@ -129,7 +129,7 @@ C
          AX=X(N2)
         ELSE
          AX=ONE
-        ENDIF   
+        ENDIF
         XC=UX-XWL
         YC=UY-YWL
         ZC=UZ-ZWL
@@ -216,7 +216,7 @@ C-----------------------------------------------
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
 C     REAL
       my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*), FSAV(*), 
+     .   X(*), A(*), V(*), RWL(*), MS(*), FSAV(*),
      .   FOPT(*), RES(*), FREA(*), R(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -226,7 +226,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   XWL0, YWL0, ZWL0, XC0, YC0, ZC0, DP0, 
+     .   XWL0, YWL0, ZWL0, XC0, YC0, ZC0, DP0,
      .   DP0DT, DVX, DVY, DVZ,
      .   DV, DA, DVT, FN,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
@@ -354,7 +354,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   XWL, YWL, ZWL, VXW, VYW, VZW,
-     .   XWL0, YWL0, ZWL0, XC0, YC0, ZC0, DP0, 
+     .   XWL0, YWL0, ZWL0, XC0, YC0, ZC0, DP0,
      .   DV, DA, DVT, DP0DT, DVX, DVY, DVZ
 C-----------------------------------------------
 C
@@ -601,7 +601,7 @@ C     REAL
       my_real
      .   X(*), V(*), RWL(*), MS(*), FSAV(*), FREA(3,*),
      .   FOPT(*), A(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6(7,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -648,7 +648,7 @@ C
         F1(J) = FXN
         F2(J) = FYN
         F3(J) = FZN
-        F4(J) = MS(N) 
+        F4(J) = MS(N)
         F5(J) = ZERO
         F6(J) = ZERO
         F7(J) = ZERO

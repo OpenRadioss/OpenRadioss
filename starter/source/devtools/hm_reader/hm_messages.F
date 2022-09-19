@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,NBMESSAGES,MSG_ID,MSG_TYPE,LINE_NB
-      CHARACTER*ncharline FILE_NAME 
+      CHARACTER*ncharline FILE_NAME
       CHARACTER*1000 MSG_DESCR,MSG_BLOCK,MSG_LINE
       INTEGER  IS_READER_KO,FILE_END
 C-----------------------------------------------

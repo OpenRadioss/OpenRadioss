@@ -59,7 +59,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NNO, NEL, NINOUT, NNI, IFLOW(*), IBUF(*), ELEM(3,*),
-     .        IINOUT(NIIOFLOW,*), IBUFI(*), IBUFR(*), IBUFC(*), 
+     .        IINOUT(NIIOFLOW,*), IBUFI(*), IBUFR(*), IBUFC(*),
      .        IBUFL(*), NPC(*),CNP(*),
      .        ITAGEL(*), IBUFELR(*), IBUFELC(*), IPIV(*), IBUFIL(*),
      .        CNPI(*), IPINT, ISMOOTH
@@ -70,23 +70,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ILVOUT, I, II, NNO_L, III, LENBUF, PP, NNO_L2, J, 
+      INTEGER ILVOUT, I, II, NNO_L, III, LENBUF, PP, NNO_L2, J,
      .        IBUFL2(NNO), JJ, N1, N2, N3, NN1, NN2, NN3, NNRP, NNCP,
      .        CR_LOC_GLOB(NNO), CR_GLOB_LOC(NNO), CC_LOC_GLOB(NNO),
      .        CC_GLOB_LOC(NNO), NREIP, NCEIP, NEP, NR1, NR2, NR3, NC1,
-     .        NC2, NC3, CREI_LOC_GLOB(NEL), CCEI_LOC_GLOB(NEL), 
+     .        NC2, NC3, CREI_LOC_GLOB(NEL), CCEI_LOC_GLOB(NEL),
      .        CE_LOC_GLOB(NEL), CE_GLOB_LOC(NEL), NPROW, NPCOL, NBLOC,
      .        IFORM, IFREE, ISENS, IFUNC, IIO, NERP, IC, NNI_L2,
      .        IBUFIL2(NNI), ITEST, ITAGNI(NNI), NNI_L, IFT, ILT, IR, NL,
      .        IFPA, IFPRES, NELF, LELF(NEL), K, IAD, IAD2, IFVINI
       my_real
-     .        DTSUB, TL, XL(3,NNO+NNI), VL(3,NNO+NNI), X1, Y1, Z1, X2, 
-     .        Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, X13, Y13, Z13, X23, 
-     .        Y23, Z23, NRX, NRY, NRZ, NORM(3,NEL),Q(NEL), QL(NEL),  
-     .        AREA, VX, VY, VZ, QI(NINOUT), VEL, TSG, TSTART, DYDX, 
+     .        DTSUB, TL, XL(3,NNO+NNI), VL(3,NNO+NNI), X1, Y1, Z1, X2,
+     .        Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, X13, Y13, Z13, X23,
+     .        Y23, Z23, NRX, NRY, NRZ, NORM(3,NEL),Q(NEL), QL(NEL),
+     .        AREA, VX, VY, VZ, QI(NINOUT), VEL, TSG, TSTART, DYDX,
      .        SFREE, ISQ, VFREE, ELAREA(NEL), SCALT, NODAREA(NNO),
-     .        PHI1, PHI2, PHI3, UX, UY, UZ, AREAN1, AREAN2, AREAN3, 
-     .        XMIN, XMAX, YMIN, YMAX, ZMIN, ZMAX, XX, YY, ZZ, ST, 
+     .        PHI1, PHI2, PHI3, UX, UY, UZ, AREAN1, AREAN2, AREAN3,
+     .        XMIN, XMAX, YMIN, YMAX, ZMIN, ZMAX, XX, YY, ZZ, ST,
      .        VX1, VY1, VZ1, VX2, VY2, VZ2, VX3, VY3, VZ3, NX1, NY1,
      .        NZ1, NX2, NY2, NZ2, NX3, NY3, NZ3, RR1, RR2, RR3, SS1,
      .        SS2, SS3, SAREA, NX, NY, NZ, XC, YC ,ZC, SS, PHIM, QM,
@@ -162,8 +162,8 @@ C Subcycling
             L_ASSEMB=.TRUE.
             TL=MAX(TL+DTSUB,TT)
             RFLOW(4)=TL
-         ENDIF 
-      ENDIF  
+         ENDIF
+      ENDIF
 C---------------------------------------------------
 C 0- Preliminaires
 C---------------------------------------------------
@@ -217,7 +217,7 @@ C
             SBUF(6*NNO+6*(II-1)+4)=V(1,III)/CNPI(II)
             SBUF(6*NNO+6*(II-1)+5)=V(2,III)/CNPI(II)
             SBUF(6*NNO+6*(II-1)+6)=V(3,III)/CNPI(II)
-         ENDDO   
+         ENDDO
          CALL SPMD_FL_SUM(SBUF, LENBUF, RBUF)
          DO I=1,NNO+NNI
             XL(1,I)=RBUF(6*(I-1)+1)
@@ -320,7 +320,7 @@ C Potentiel du champ infini
       ELSE
          DO I=1,NNO+NNI
             PHI_INF(I)=ZERO
-         ENDDO      
+         ENDDO
       ENDIF
 C---------------------------------------------------
 C 1- Flux sur la surface
@@ -334,14 +334,14 @@ C---------------------------------------------------
          NRZ=NORM(3,I)
          AREA=ELAREA(I)
          IF(AREA>EM20)THEN
-           AREA2=TWO*AREA         
+           AREA2=TWO*AREA
            NRX=NRX/AREA2
            NRY=NRY/AREA2
            NRZ=NRZ/AREA2
            VX=THIRD*(VL(1,N1)+VL(1,N2)+VL(1,N3))
            VY=THIRD*(VL(2,N1)+VL(2,N2)+VL(2,N3))
            VZ=THIRD*(VL(3,N1)+VL(3,N2)+VL(3,N3))
-           Q(I)=VX*NRX+VY*NRY+VZ*NRZ           
+           Q(I)=VX*NRX+VY*NRY+VZ*NRZ
          ELSE
            Q(I)=ZERO
          ENDIF
@@ -417,7 +417,7 @@ C
                ENDIF
             ENDDO
          ENDIF
-      ENDIF     
+      ENDIF
 C---------------------------------------------------
 C 2- Resolution BEM
 C---------------------------------------------------
@@ -486,7 +486,7 @@ C
          NPROW=IFLOW(18)
          NPCOL=IFLOW(19)
          NBLOC=IFLOW(12)
-         IF (DT1>ZERO) 
+         IF (DT1>ZERO)
      .      CALL BEMSOLVP(
      . ELEM,          NORM,  XL,          NNRP,        CR_LOC_GLOB,
      . CR_GLOB_LOC,   NNCP,  CC_LOC_GLOB, CC_GLOB_LOC, NCEIP,
@@ -812,10 +812,10 @@ C
               U(3,N2)=U(3,N2)+UZ*THIRD*AREA/AREAN2
               U(1,N3)=U(1,N3)+UX*THIRD*AREA/AREAN3
               U(2,N3)=U(2,N3)+UY*THIRD*AREA/AREAN3
-              U(3,N3)=U(3,N3)+UZ*THIRD*AREA/AREAN3              
-            ENDIF              
+              U(3,N3)=U(3,N3)+UZ*THIRD*AREA/AREAN3
+            ENDIF
 
-         ENDDO    
+         ENDDO
 C On repartit les noeuds auxiliaires sur les procs
          IF (NNI>0.AND.IPINT==1) THEN
             NL=NNI/NSPMD+1
@@ -1038,10 +1038,10 @@ C Echange des potentiels et vitesses sur noeuds internes
             CALL SPMD_FL_SUM(SBUF, LENBUF, RBUF)
             DO I=1,NNI
                PHI(NNO+I)=RBUF(4*(I-1)+1)
-               U(1,NNO+I)=RBUF(4*(I-1)+2)   
-               U(2,NNO+I)=RBUF(4*(I-1)+3)   
-               U(3,NNO+I)=RBUF(4*(I-1)+4) 
-            ENDDO  
+               U(1,NNO+I)=RBUF(4*(I-1)+2)
+               U(2,NNO+I)=RBUF(4*(I-1)+3)
+               U(3,NNO+I)=RBUF(4*(I-1)+4)
+            ENDDO
          ENDIF
       ENDIF
 C---------------------------------------------------
@@ -1114,7 +1114,7 @@ C
          DO I=1,NNO+NNI
             PRES(I)=ZERO
          ENDDO
-      ENDIF   
+      ENDIF
 C---------------------------------------------------
 C 5- Forces sur l'enveloppe
 C---------------------------------------------------
@@ -1196,8 +1196,8 @@ C---------------------------------------------------
      .                    +COEF*NRY*V(2,NN3)*DT1
      .                    +COEF*NRZ*V(3,NN3)*DT1
             ENDIF
-         ENDDO      
-      ENDIF 
+         ENDDO
+      ENDIF
 C
       RETURN
       END
@@ -1253,7 +1253,7 @@ C
       VY2=VY2-EX2*VY1
       VZ2=VZ2-EX2*VZ1
       EY2=SQRT(VX2**2+VY2**2+VZ2**2)
-      IF(EY2>EM20)THEN      
+      IF(EY2>EM20)THEN
         VX2=VX2/EY2
         VY2=VY2/EY2
         VZ2=VZ2/EY2
@@ -1291,4 +1291,4 @@ C
 C
       RETURN
       END
-      
+

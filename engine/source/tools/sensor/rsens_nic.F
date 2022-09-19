@@ -1,3 +1,25 @@
+Copyright>        OpenRadioss
+Copyright>        Copyright (C) 1986-2022 Altair Engineering Inc.
+Copyright>    
+Copyright>        This program is free software: you can redistribute it and/or modify
+Copyright>        it under the terms of the GNU Affero General Public License as published by
+Copyright>        the Free Software Foundation, either version 3 of the License, or
+Copyright>        (at your option) any later version.
+Copyright>    
+Copyright>        This program is distributed in the hope that it will be useful,
+Copyright>        but WITHOUT ANY WARRANTY; without even the implied warranty of
+Copyright>        MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+Copyright>        GNU Affero General Public License for more details.
+Copyright>    
+Copyright>        You should have received a copy of the GNU Affero General Public License
+Copyright>        along with this program.  If not, see <https://www.gnu.org/licenses/>.
+Copyright>    
+Copyright>    
+Copyright>        Commercial Alternative: Altair Radioss Software 
+Copyright>    
+Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
+Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  RSENS_NIC                     source/tools/sensor/rsens_nic.F
 Chd|-- called by -----------
@@ -43,18 +65,18 @@ c=======================================================================
           ISENS = J
           SEN_SKW   = SENSOR_TAB(ISENS)%IPARAM(3)
           SPR_SKW = SENSOR_TAB(ISENS)%IPARAM(4)
-          IDIR_F = SENSOR_TAB(ISENS)%IPARAM(5) 
-          IDIR_M = SENSOR_TAB(ISENS)%IPARAM(6) 
+          IDIR_F = SENSOR_TAB(ISENS)%IPARAM(5)
+          IDIR_M = SENSOR_TAB(ISENS)%IPARAM(6)
 c
-          FTENS  = SENSOR_TAB(ISENS)%RPARAM(2) 
-          FCOMP  = SENSOR_TAB(ISENS)%RPARAM(3) 
-          MFLEX  = SENSOR_TAB(ISENS)%RPARAM(4) 
-          MEXT   = SENSOR_TAB(ISENS)%RPARAM(5) 
+          FTENS  = SENSOR_TAB(ISENS)%RPARAM(2)
+          FCOMP  = SENSOR_TAB(ISENS)%RPARAM(3)
+          MFLEX  = SENSOR_TAB(ISENS)%RPARAM(4)
+          MEXT   = SENSOR_TAB(ISENS)%RPARAM(5)
           EXIT
         END IF
       END DO
 c     we assume theres only one NIC-Nij sensor in the model
-      IF (ISENS > 0) THEN   
+      IF (ISENS > 0) THEN
         DO I = 1,NEL
           SPRING_ID = IXR(6,I)
           IF (SENSOR_TAB(ISENS)%IPARAM(1) == SPRING_ID) THEN
@@ -86,12 +108,12 @@ c           rotate to sensor skew if necessary
 c           save normalized FZ and My values
             IF (FZ >= ZERO) THEN
               FZ = FZ / FTENS
-            ELSE 
+            ELSE
               FZ = ABS(FZ) / FCOMP
             END IF
             IF (MY >= ZERO) THEN
               MY = MY / MFLEX
-            ELSE 
+            ELSE
               MY = ABS(MY) / MEXT
             END IF
             SENSOR_TAB(ISENS)%VAR(1) = FZ

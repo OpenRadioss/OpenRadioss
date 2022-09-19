@@ -43,7 +43,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD           
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  IGEO(NPROPGI),IGTYP,IUNIT
 C     REAL
       my_real
@@ -80,10 +80,10 @@ C-----------------------------------------------
      .         IFL, ILENG, IFORM
 C     REAL
       my_real
-     .   A0, A, B, D, E, F, XM, XIN, XK, XC, DN, DX, PUN, 
+     .   A0, A, B, D, E, F, XM, XIN, XK, XC, DN, DX, PUN,
      .   LSCALE,GF3,A_UNIT,B_UNIT,D_UNIT,E_UNIT,F_UNIT,LSCALE_UNIT,GF3_UNIT
       CHARACTER*nchartitle,
-     .   TITR      
+     .   TITR
       CHARACTER IDTITL*nchartitle
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
@@ -140,42 +140,42 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV_DIM('ffac',GF3_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----------------------
 C----
-      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)                                        
-      IF(GEO(1)<=EM15)THEN                                 
+      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
+      IF(GEO(1)<=EM15)THEN
          CALL ANCMSG(MSGID=229,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF                                                  
-!      IF(IFUNC/=0.AND.IECROU>=1.AND.GEO(2) == 0.0)THEN   
+      ENDIF
+!      IF(IFUNC/=0.AND.IECROU>=1.AND.GEO(2) == 0.0)THEN
 !         CALL ANCMSG(MSGID=230,
 !     .               MSGTYPE=MSGERROR,
 !     .               ANMODE=ANINFO_BLIND_1,
 !     .               I1=IG,
 !     .               C1=TITR)
-!      ENDIF                                                  
-      IF(IECROU == 4.AND.(IFUNC == 0.OR.IFUNC2 == 0))THEN    
+!      ENDIF
+      IF(IECROU == 4.AND.(IFUNC == 0.OR.IFUNC2 == 0))THEN
          CALL ANCMSG(MSGID=231,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF                                                  
-      IF(IECROU == 4.AND.GEO(2) == ZERO)THEN                  
+      ENDIF
+      IF(IECROU == 4.AND.GEO(2) == ZERO)THEN
          CALL ANCMSG(MSGID=230,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF                                                  
-      IF(IECROU == 5.AND.(IFUNC == 0.OR.IFUNC2 == 0))THEN    
+      ENDIF
+      IF(IECROU == 5.AND.(IFUNC == 0.OR.IFUNC2 == 0))THEN
          CALL ANCMSG(MSGID=231,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF    
+      ENDIF
        IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
@@ -189,7 +189,7 @@ C----
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=TITR)
-       
+
        ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
@@ -200,44 +200,44 @@ C----
          IECROU = 2
        ENDIF
 
-      IF(IECROU == 8.AND. IFUNC == 0)THEN    
+      IF(IECROU == 8.AND. IFUNC == 0)THEN
          CALL ANCMSG(MSGID=231,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF    
+      ENDIF
       IF (IFUNC == 0 .AND. A /= ZERO .AND. A /= ONE) THEN
         CALL ANCMSG(MSGID=663,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
      .              I1=IG,
      .              C1=TITR)
-      ENDIF                                        
+      ENDIF
 C----
-      IF (A == ZERO) A = ONE * A_UNIT               
-      IF (D == ZERO) D = ONE * D_UNIT         
+      IF (A == ZERO) A = ONE * A_UNIT
+      IF (D == ZERO) D = ONE * D_UNIT
       IF (E == ZERO) E = ONE * E_UNIT
       IF (F == ZERO) F = ONE * F_UNIT
       IF (GF3 == ZERO) GF3 = ONE * GF3_UNIT
       IF (LSCALE == ZERO) THEN
-        IF (ILENG == 0) THEN                                 
+        IF (ILENG == 0) THEN
           LSCALE = ONE * LSCALE_UNIT
         ELSE
           LSCALE = ONE
-        ENDIF  
-      ENDIF 
+        ENDIF
+      ENDIF
       IF (IFUNC == 0) THEN
         A = ONE
         B = ZERO
         E = ZERO
       ENDIF
       IF (DN == ZERO)DN=-EP30
-      IF (DX == ZERO)DX= EP30             
-      IF (IFL == 1) ISENS=-ISENS  
+      IF (DX == ZERO)DX= EP30
+      IF (IFL == 1) ISENS=-ISENS
 C------------------------
-      DN = DN * LSCALE                                      
-      DX = DX * LSCALE                    
+      DN = DN * LSCALE
+      DX = DX * LSCALE
 C------------------------
       IF(.NOT. IS_ENCRYPTED)THEN
        IF(IECROU/=5) THEN
@@ -255,19 +255,19 @@ C------------------------
       ENDIF
 C------------------------
       GEO(2)  = GEO(2) / A
-      GEO(7)  = IECROU+PUN                  
-      GEO(8)  = ONEP1                        
-      GEO(9)  = ZERO                        
-      GEO(10) = A                           
-      GEO(11) = B                           
-      GEO(13) = D                           
-      GEO(40) = E 
-      GEO(132)= GF3                       
-      GEO(18) = ONE/F             
-      GEO(39) = ONE/LSCALE                        
-      GEO(15) = DN                          
-      GEO(16) = DX                          
-      GEO(80) = IFL                         
+      GEO(7)  = IECROU+PUN
+      GEO(8)  = ONEP1
+      GEO(9)  = ZERO
+      GEO(10) = A
+      GEO(11) = B
+      GEO(13) = D
+      GEO(40) = E
+      GEO(132)= GF3
+      GEO(18) = ONE/F
+      GEO(39) = ONE/LSCALE
+      GEO(15) = DN
+      GEO(16) = DX
+      GEO(80) = IFL
       GEO(93) = ILENG
 C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25) = NUVAR
       IF (IECROU == 6) THEN
@@ -275,8 +275,8 @@ C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25
       ENDIF
 C                       
       IGEO(3)   = ISENS
-      IGEO(101) = IFUNC                     
-      IGEO(102) = IFV                       
+      IGEO(101) = IFUNC
+      IGEO(102) = IFV
       IGEO(103) = IFUNC2
       IGEO(119) = IFUNC3
 

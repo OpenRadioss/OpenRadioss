@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE CR_SPLINE_INTERPOL( PTS , KNOTS, T, C, C_D, C_DD)
 C-----------------------------------------------
-       !FOR A GIVEN POSITION T in [0,1] which is position on [P1,P2], GET VALUE ON SPLINE P0-P1-P2-P3 
+       !FOR A GIVEN POSITION T in [0,1] which is position on [P1,P2], GET VALUE ON SPLINE P0-P1-P2-P3
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,21 +63,21 @@ C-----------------------------------------------
          A3(1:3)   = ((KNOTS(3)-TT)*PTS(2,1:3)+(TT-KNOTS(2))*PTS(3,1:3)) /(KNOTS(3)-KNOTS(2))
          B1(1:3)   = ((KNOTS(2)-TT)*A1(1:3) + (TT-KNOTS(0))*A2(1:3)) / (KNOTS(2)-KNOTS(0))
          B2(1:3)   = ((KNOTS(3)-TT)*A2(1:3) + (TT-KNOTS(1))*A3(1:3)) / (KNOTS(3)-KNOTS(1))
-         C(1:3)    = ((KNOTS(2)-TT)*B1(1:3) + (TT-KNOTS(1))*B2(1:3)) / (KNOTS(2)-KNOTS(1)) 
+         C(1:3)    = ((KNOTS(2)-TT)*B1(1:3) + (TT-KNOTS(1))*B2(1:3)) / (KNOTS(2)-KNOTS(1))
          A1P(1:3)  = (PTS(1,1:3)-PTS(0,1:3))/(KNOTS(1)-KNOTS(0))
          A2P(1:3)  = (PTS(2,1:3)-PTS(1,1:3))/(KNOTS(2)-KNOTS(1))
          A3P(1:3)  = (PTS(3,1:3)-PTS(2,1:3))/(KNOTS(3)-KNOTS(2))
-         B1P(1:3)  =  (A2(1:3)-A1(1:3))/(KNOTS(2)-KNOTS(0))  
-     .             + (KNOTS(2)-TT)/(KNOTS(2)-KNOTS(0))*A1P(1:3)  
-     .             + (TT-KNOTS(0))/(KNOTS(2)-KNOTS(0))*A2P(1:3)  
-         B2P(1:3)  =  (A3(1:3)-A2(1:3))/(KNOTS(3)-KNOTS(1)) 
-     .             + (KNOTS(3)-TT)/(KNOTS(3)-KNOTS(1))*A2P(1:3) 
-     .             + (TT-KNOTS(1))/(KNOTS(3)-KNOTS(1))*A3P(1:3) 
-         C_D(1:3)  =  (B2(1:3)-B1(1:3))/(KNOTS(2)-KNOTS(1)) 
-     .             + (KNOTS(2)-TT)/(KNOTS(2)-KNOTS(1))*B1P(1:3) 
+         B1P(1:3)  =  (A2(1:3)-A1(1:3))/(KNOTS(2)-KNOTS(0))
+     .             + (KNOTS(2)-TT)/(KNOTS(2)-KNOTS(0))*A1P(1:3)
+     .             + (TT-KNOTS(0))/(KNOTS(2)-KNOTS(0))*A2P(1:3)
+         B2P(1:3)  =  (A3(1:3)-A2(1:3))/(KNOTS(3)-KNOTS(1))
+     .             + (KNOTS(3)-TT)/(KNOTS(3)-KNOTS(1))*A2P(1:3)
+     .             + (TT-KNOTS(1))/(KNOTS(3)-KNOTS(1))*A3P(1:3)
+         C_D(1:3)  =  (B2(1:3)-B1(1:3))/(KNOTS(2)-KNOTS(1))
+     .             + (KNOTS(2)-TT)/(KNOTS(2)-KNOTS(1))*B1P(1:3)
      .             + (TT-KNOTS(1))/(KNOTS(2)-KNOTS(1))*B2P(1:3)
-         B1PP(1:3) =  (2.*A2P(1:3)-2.*A1P(1:3))/(KNOTS(2)-KNOTS(0))  
-         B2PP(1:3) =  (2.*A3P(1:3)-2.*A2P(1:3))/(KNOTS(3)-KNOTS(1))   
+         B1PP(1:3) =  (2.*A2P(1:3)-2.*A1P(1:3))/(KNOTS(2)-KNOTS(0))
+         B2PP(1:3) =  (2.*A3P(1:3)-2.*A2P(1:3))/(KNOTS(3)-KNOTS(1))
          C_DD(1:3) = (2.*B2P(1:3)-2.*B1P(1:3)+(KNOTS(2)-TT)*B1PP(1:3)+(TT-KNOTS(1))*B2PP(1:3))/(KNOTS(2)-KNOTS(1))
          RETURN
-       END SUBROUTINE CR_SPLINE_INTERPOL     
+       END SUBROUTINE CR_SPLINE_INTERPOL

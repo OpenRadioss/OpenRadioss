@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*), ITABM1(*),ISKN(LISKN,*),
      .        INIVIDS(*),IFRAME(LISKN,*),KXSP(NISP,*),RBY_MSN(2,*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -138,7 +138,7 @@ C--------------------------------------------------
 C START BROWSING MODEL PROPERTIES
 C--------------------------------------------------
       CALL HM_OPTION_START('/INIVEL')
-      I = 0 
+      I = 0
 
       DO CPT=1,HM_NINVEL
         I = I + 1
@@ -163,7 +163,7 @@ C
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='INITIAL VELOCITY',
      .                 C2='INITIAL VELOCITY',
-     .                 C3=TITR) 
+     .                 C3=TITR)
         ENDIF
 
         FVM_INIVEL(I)%FLAG = .FALSE.
@@ -309,7 +309,7 @@ C
                  VR(3,NOSYS) = VR3
               ENDIF
             ENDIF
-          ENDDO 
+          ENDDO
           ISK = 0
         ENDIF
 C
@@ -357,7 +357,7 @@ C
             V1 = VL1
             V2 = VL2
             V3 = VL3
-          ENDIF 
+          ENDIF
         ENDIF
         IF (ITYPE == 5) THEN
            IF (.NOT. MULTI_FVM%IS_USED) THEN
@@ -388,7 +388,7 @@ C
                  IF (IDGRQUAD /= 0) THEN
                     DO J = 1,NGRQUAD
                        IF (IDGRQUAD == IGRQUAD(J)%ID) IDGRQUAD_LOC = J
-                    ENDDO    
+                    ENDDO
                     IF (IDGRQUAD_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
@@ -400,13 +400,13 @@ C
                  IF (IDGRSH3N /= 0) THEN
                     DO J = 1,NGRSH3N
                        IF (IDGRSH3N == IGRSH3N(J)%ID) IDGRSH3N_LOC = J
-                    ENDDO      
+                    ENDDO
                     IF (IDGRSH3N_LOC == -1) THEN
                        CALL ANCMSG(MSGID=1554,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO,
      .                      C1='IN /INIVEL OPTION',
-     .                      I1=IDGRSH3N)                   
+     .                      I1=IDGRSH3N)
                     ENDIF
                  ENDIF
               ENDIF
@@ -419,8 +419,8 @@ C     Brick groups
               FVM_INIVEL(I)%VX = V1
               FVM_INIVEL(I)%VY = V2
               FVM_INIVEL(I)%VZ = V3
-           ENDIF 
-        ENDIF 
+           ENDIF
+        ENDIF
 C
         IF (ITYPE /= 5 .AND. ITYPE /= 6) THEN
            IGRS=0
@@ -563,7 +563,7 @@ C--                 /INIVEL/AXIS -> data must be stored to update initial veloci
                           RBY_INIAXIS(5,TAGNO_RBY(NOSYS)) = VR(1,NOSYS)
                           RBY_INIAXIS(6,TAGNO_RBY(NOSYS)) = VR(2,NOSYS)
                           RBY_INIAXIS(7,TAGNO_RBY(NOSYS)) = VR(3,NOSYS)
-                        ENDIF                   
+                        ENDIF
                       ENDIF
                     ENDIF
 C
@@ -596,7 +596,7 @@ C--- RAZ vitesses for SPH Reserve particles
             VR(2,INOD) = ZERO
             VR(3,INOD) = ZERO
           ENDIF
-        END DO   
+        END DO
       ENDIF
 C--------------------------------------------------
 C     PRINT
@@ -735,7 +735,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IG,CPT
-      CHARACTER IDTITL*nchartitle,KEY*ncharkey, 
+      CHARACTER IDTITL*nchartitle,KEY*ncharkey,
      .          SOLVERKEYWORD*ncharline
       LOGICAL IS_AVAILABLE
 C=======================================================================

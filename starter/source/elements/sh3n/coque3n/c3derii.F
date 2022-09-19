@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +83,8 @@ C-----------------------------------------------
      .     C1,IZ,THICKT,THKLY,POSLY,A1THK,C1THK,
      .     GTHK,A11R,FAC,A12,E,ETHK,NUTHK,A12THK,RHOG
 C=======================================================================
-      SSP = ZERO 
-      
+      SSP = ZERO
+
       IGTYP = IGEO(11,IPROP)
       IGMAT = IGEO(98,IPROP) ! global material
       IPGMAT = 700
@@ -102,30 +102,30 @@ C
            VISCDEF=ZERO
       ENDIF
       DO 40 I=JFT,JLT
-        AL1 = X2(I) * X2(I)      
+        AL1 = X2(I) * X2(I)
         AL2 = (X3(I)-X2(I)) * (X3(I)-X2(I)) + Y3(I) * Y3(I)
         AL3 = X3(I) * X3(I) + Y3(I) * Y3(I)
         ALMAX = MAX(AL1,AL2,AL3)
         IF(IGTYP == 11 .AND. IGMAT > 0) THEN
           SSP  = GEO(IPGMAT +9 ,IPROP)
-        ELSEIF(IGTYP == 52 .OR. 
+        ELSEIF(IGTYP == 52 .OR.
      .       ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0 )) THEN
            SSP = PM_STACK(9 ,ISUBSTACK)
         ELSE
          IF (MTN<=28) THEN
           SSP=PM(27,IMAT)
          ELSEIF (MTN == 42 .OR. MTN  == 69 ) THEN
-          IADB = IPM(7,IMAT)-1                                               
-          BULK = UPARAM(IADB+11) 
-          NU   = UPARAM(IADB+14)                             
-          GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)                 
+          IADB = IPM(7,IMAT)-1
+          BULK = UPARAM(IADB+11)
+          NU   = UPARAM(IADB+14)
+          GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)
      .         + UPARAM(IADB+2)*UPARAM(IADB+7)
-     .         + UPARAM(IADB+3)*UPARAM(IADB+8) 
-     .         + UPARAM(IADB+4)*UPARAM(IADB+9) 
-     .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
-          RHO  = PM(1,IMAT)      
-          A11 = GMAX*(ONE + NU)/(ONE - NU**2)                             
-          SSP=MAX(SSP, SQRT(A11/RHO))     
+     .         + UPARAM(IADB+3)*UPARAM(IADB+8)
+     .         + UPARAM(IADB+4)*UPARAM(IADB+9)
+     .         + UPARAM(IADB+5)*UPARAM(IADB+10)
+          RHO  = PM(1,IMAT)
+          A11 = GMAX*(ONE + NU)/(ONE - NU**2)
+          SSP=MAX(SSP, SQRT(A11/RHO))
          ELSEIF (MTN == 65) THEN
           RHO  =PM(1,IMAT)
           YOUNG=PM(20,IMAT)
@@ -136,7 +136,7 @@ C
           NU   =PM(21,IMAT)
           SSP=SQRT(YOUNG/(ONE-NU*NU)/RHO)
          ENDIF
-        ENDIF 
+        ENDIF
         VISCMX = GROUP_PARAM%VISC_DM
         IF (VISCMX == ZERO) VISCMX = VISCDEF
         IF(MTN==1.OR.MTN==2.OR.MTN==3.OR.
@@ -149,7 +149,7 @@ C
 C-------------------------
 C     DT NODAL
 C-------------------------
-      IPGMAT = 700 
+      IPGMAT = 700
       IF(NADMESH==0)THEN
        IF(IGTYP == 11 .AND. IGMAT > 0) THEN
          VISCMX = GROUP_PARAM%VISC_DM
@@ -161,7 +161,7 @@ C-------------------------
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
            STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
-     .               + HALF * SHF * AREA(I) * G/A11) 
+     .               + HALF * SHF * AREA(I) * G/A11)
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -170,7 +170,7 @@ C-------------------------
            STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
            STRTG(I) = STIR
           END DO
-       ELSEIF(IGTYP == 52 .OR. 
+       ELSEIF(IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51 ).AND. IGMAT > 0 )) THEN
          VISCMX = GROUP_PARAM%VISC_DM
          DO I=JFT,JLT
@@ -181,24 +181,7 @@ C-------------------------
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
            STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
-     .               + HALF * SHF * AREA(I) * G/A11) 
-           STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
-           STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
-           STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
-           STIFR(IXTG(2,I))=STIFR(IXTG(2,I))+STIR
-           STIFR(IXTG(3,I))=STIFR(IXTG(3,I))+STIR
-           STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
-           STRTG(I) = STIR
-          END DO  
-       ELSE
-          VISCMX = GROUP_PARAM%VISC_DM
-          DO I=JFT,JLT
-           A11 =PM(24,IMAT)
-           G   =PM(22,IMAT)
-           SHF=1.
-           STI = AREA(I) * THK(I) * A11 / (ALDTV(I))**2
-           STIR = STI * (THK(I) * THK(I) * ONE_OVER_12
-     .               + HALF * SHF * AREA(I) * G/A11) 
+     .               + HALF * SHF * AREA(I) * G/A11)
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -207,7 +190,24 @@ C-------------------------
            STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
            STRTG(I) = STIR
           END DO
-       ENDIF 
+       ELSE
+          VISCMX = GROUP_PARAM%VISC_DM
+          DO I=JFT,JLT
+           A11 =PM(24,IMAT)
+           G   =PM(22,IMAT)
+           SHF=1.
+           STI = AREA(I) * THK(I) * A11 / (ALDTV(I))**2
+           STIR = STI * (THK(I) * THK(I) * ONE_OVER_12
+     .               + HALF * SHF * AREA(I) * G/A11)
+           STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
+           STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
+           STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
+           STIFR(IXTG(2,I))=STIFR(IXTG(2,I))+STIR
+           STIFR(IXTG(3,I))=STIFR(IXTG(3,I))+STIR
+           STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
+           STRTG(I) = STIR
+          END DO
+       ENDIF
       ELSE
       IF(IGTYP == 11 .AND. IGMAT > 0) THEN
         VISCMX = GROUP_PARAM%VISC_DM
@@ -221,7 +221,7 @@ C-------------------------
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
            STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
-     .               + HALF * SHF * AREA(I) * G/A11) 
+     .               + HALF * SHF * AREA(I) * G/A11)
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -231,13 +231,13 @@ C-------------------------
            STRTG(I) = STIR
           END IF
          END DO
-      ELSEIF(IGTYP == 52 .OR. 
+      ELSEIF(IGTYP == 52 .OR.
      . ((IGTYP == 17 .OR. IGTYP == 51 ).AND. IGMAT > 0 ) ) THEN
         VISCMX = GROUP_PARAM%VISC_DM
         DO I=JFT,JLT
           N=NFT+I
           IF(SH3TREE(3,N) >= 0)THEN
-          
+
            G    = PM_STACK(4 ,ISUBSTACK)
            A11  = PM_STACK(5 ,ISUBSTACK)
            A11R = PM_STACK(7 ,ISUBSTACK)
@@ -245,7 +245,7 @@ C-------------------------
            FAC= AREA(I) / (ALDTV(I))**2
            STI = FAC* THK(I) * A11
            STIR = FAC*A11R* (ONE_OVER_12*THK(I)**3
-     .               + HALF * SHF * AREA(I) * G/A11) 
+     .               + HALF * SHF * AREA(I) * G/A11)
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -255,7 +255,7 @@ C-------------------------
            STRTG(I) = STIR
           END IF
          END DO
-      
+
       ELSE
          VISCMX = GROUP_PARAM%VISC_DM
          DO I=JFT,JLT
@@ -266,7 +266,7 @@ C-------------------------
            SHF=1.
            STI = AREA(I) * THK(I) * A11 / (ALDTV(I))**2
            STIR = STI * (THK(I) * THK(I) * ONE_OVER_12
-     .               + HALF * SHF * AREA(I) * G/A11) 
+     .               + HALF * SHF * AREA(I) * G/A11)
            STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
            STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
            STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI

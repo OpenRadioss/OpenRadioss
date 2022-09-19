@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NUMNOD)  ,INTENT(IN)  :: ITABM1
       my_real            ,DIMENSION(3,NUMNOD)  ,INTENT(IN) :: X
       my_real            ,DIMENSION(NTRANSF,*) ,INTENT(IN) :: RTRANS
-      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA),DIMENSION(*)         ,INTENT(IN) :: LSUBMODEL
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
 C-----------------------------------------------
@@ -135,7 +135,7 @@ c-----------------------
      .                  I2= UID  ,I1=BOXID,
      .                  C1='BOX' ,
      .                  C2='BOX' ,
-     .                  C3='TITR')                              
+     .                  C3='TITR')
           ENDIF
         ENDIF
 c-----------------------
@@ -147,7 +147,7 @@ c
         CALL HM_GET_FLOATV('sphere_center_y'    ,YP1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('sphere_center_z'    ,ZP1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c-----------------------
-c       
+c
         IF (N1 > 0) THEN
           CALL HM_GET_FLOATV_DIM('sphere_diameter',FAC_L,IS_AVAILABLE,LSUBMODEL,UNITAB)
           XP1 = X(1,USR2SYS(N1,ITABM1,MESS,BOXID)) * FAC_L
@@ -155,7 +155,7 @@ c
           ZP1 = X(3,USR2SYS(N1,ITABM1,MESS,BOXID)) * FAC_L
 c
         ELSE
-c         Submodel rotation 
+c         Submodel rotation
           IF (SUB_ID > 0) CALL SUBROTPOINT(XP1,YP1,ZP1,RTRANS,SUB_ID,LSUBMODEL)
 c
         ENDIF

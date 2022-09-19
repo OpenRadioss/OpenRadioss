@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -79,13 +79,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       INTEGER I,ISOLNOD,ICS,NG,N,J,K
-      INTEGER 
-     .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
+      INTEGER
+     .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ,
      .        NN,NN1,N1,IDB,IOK_PART(MVSIZ),IS_WRITTEN_VALUE(MVSIZ)
       INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL,IXSK(5,6*MVSIZ)
       INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
@@ -93,10 +93,10 @@ C-----------------------------------------------
       INTEGER NPAR,IADBUF,NFUNC,MX,NSK,IL,IR,IS,IT,NFAIL,IFAIL,IP,NSKI
       my_real
      .   EVAR(3,MVSIZ),VALUE(MVSIZ)
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       DATA PWR/1,2,4,8,16,32,64/
       DATA FACES/4,3,2,1,
      .           5,6,7,8,
@@ -119,20 +119,20 @@ c              N2=N1
 c              N1=N1
 C       
        DO NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
-        IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE   
+        IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE
 C------     
         IF (IGTYP==6 .OR. IGTYP==14 ) THEN
            ISOLNOD = IPARG(28,NG)
            ICS     = IPARG(17,NG)
-           NSK = 0           
+           NSK = 0
            IOK_PART(1:NEL) = 0
            IF(ISOLNOD == 4)THEN
              DO I=1,NEL
@@ -143,14 +143,14 @@ C------
                NC(4,I)=IXS(6,N)
              ENDDO
 C---------each face             
-             DO I=1,NEL 
+             DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
                JJ = 5
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
 C---------3,2,1
                 NSK = NSK + 1
-                IXSK(1,NSK) = IPARTS(N)   
+                IXSK(1,NSK) = IPARTS(N)
                 IXSK(2,NSK) = NC(3,I)
                 IXSK(3,NSK) = NC(2,I)
                 IXSK(4,NSK) = NC(1,I)
@@ -160,7 +160,7 @@ C---------2,3 ,4
                JJ = 4
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                 NSK = NSK + 1
-                IXSK(1,NSK) = IPARTS(N)   
+                IXSK(1,NSK) = IPARTS(N)
                 IXSK(2,NSK) = NC(2,I)
                 IXSK(3,NSK) = NC(3,I)
                 IXSK(4,NSK) = NC(4,I)
@@ -170,7 +170,7 @@ C---------1,4,3
                JJ = 3
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                 NSK = NSK + 1
-                IXSK(1,NSK) = IPARTS(N)   
+                IXSK(1,NSK) = IPARTS(N)
                 IXSK(2,NSK) = NC(1,I)
                 IXSK(3,NSK) = NC(4,I)
                 IXSK(4,NSK) = NC(3,I)
@@ -180,7 +180,7 @@ C---------1,2,4
                JJ = 6
                IF(MOD(LL,PWR(JJ+1))/PWR(JJ) == 0) THEN
                 NSK = NSK + 1
-                IXSK(1,NSK) = IPARTS(N)   
+                IXSK(1,NSK) = IPARTS(N)
                 IXSK(2,NSK) = NC(1,I)
                 IXSK(3,NSK) = NC(2,I)
                 IXSK(4,NSK) = NC(4,I)
@@ -199,7 +199,7 @@ C---------1,2,4
              NC(5:10,I) = IXS10(1:6,NN1)
              ENDDO
 C---------each face    4x4         
-             DO I=1,NEL 
+             DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
 C---------1,2,3             
@@ -209,11 +209,11 @@ C---------1,2,3
                 T6(4:6) = NC(5:7,I)
                   DO J=1,4
                      NSK = NSK + 1
-                     IXSK(1,NSK) = IPARTS(N)   
+                     IXSK(1,NSK) = IPARTS(N)
                      T3(1:3) = T6(TIA4S(1:3,J))
                      IXSK(2:4,NSK) = T3(1:3)
                      IXSK(5,NSK) = IXSK(4,NSK)
-                  END DO 
+                  END DO
                END IF
 C---------2,3 ,4            
                JJ = 4
@@ -228,7 +228,7 @@ C---------2,3 ,4
                      T3(1:3) = T6(TIA4S(1:3,J))
                      IXSK(2:4,NSK) = T3(1:3)
                      IXSK(5,NSK) = IXSK(4,NSK)
-                  END DO 
+                  END DO
                END IF
 C---------1,4,3           
                JJ = 3
@@ -245,7 +245,7 @@ C---------1,4,3
                      T3(1:3) = T6(TIA4S(1:3,J))
                      IXSK(2:4,NSK) = T3(1:3)
                      IXSK(5,NSK) = IXSK(4,NSK)
-                  END DO 
+                  END DO
                END IF
 C---------1,2,4            
                JJ = 6
@@ -261,12 +261,12 @@ C---------1,2,4
                      T3(1:3) = T6(TIA4S(1:3,J))
                      IXSK(2:4,NSK) = T3(1:3)
                      IXSK(5,NSK) = IXSK(4,NSK)
-                  END DO 
+                  END DO
                END IF
              ENDDO
 C-----------S8 (&degenerated),S20           
            ELSE
-             DO I=1,NEL 
+             DO I=1,NEL
                 N = I + NFT
                 NC(1:8,I) = IXS(2:9,N)
                 LL=TAG_SKINS6(N)
@@ -310,9 +310,9 @@ C----------- NSK could be > mvsiz
               IS = 1
               IT = 1
               BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
-              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL              
+              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL
               FBUF => BUFLY%FAIL(IR,IS,IT)
-              MX = IXS(1,1+NFT)             
+              MX = IXS(1,1+NFT)
              IDEB = 0
              DO II=1,NSK,MVSIZ
                NSKI = MIN(NSK-IDEB,MVSIZ)
@@ -322,26 +322,26 @@ C----------- NSK could be > mvsiz
                  VALUE(I) = ZERO
                  IS_WRITTEN_VALUE(I) = 0
                  IOK_PART(I) = H3D_PART(IXSK(1,I+IDEB))
-               ENDDO	     
+               ENDDO	
 C-----------------------------------------------
               IF (KEYWORD == 'FLDZ/OUTER') THEN
 C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
-                DO IFAIL=1,NFAIL                                                          
-                  IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    IP=(IFAIL -1)*15         
-                    NPAR   = IPM(112+IP, MX)   
+                DO IFAIL=1,NFAIL
+                  IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model
+                    IP=(IFAIL -1)*15
+                    NPAR   = IPM(112+IP, MX)
                     IADBUF = IPM(114+IP ,MX)
-                    NFUNC  = IPM(115+IP, MX)             
+                    NFUNC  = IPM(115+IP, MX)
                     DO I=1,NFUNC
-                      IFUNC(I) = IPM(115+IP+I, MX)         
+                      IFUNC(I) = IPM(115+IP+I, MX)
                     END DO
                    CALL IDX_FLD_SOL(
      1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
      2                            NPF      ,TF       ,BUFMAT(IADBUF),
      4                            EVAR     ,VALUE    )
 C
-                  ENDIF                                                                   
+                  ENDIF
                 ENDDO
                 DO I=1,NSKI
                   SKIN_SCALAR(NSKIN+I) = VALUE(I)
@@ -351,21 +351,21 @@ C-----------------------------------------------
               ELSEIF (KEYWORD == 'FLDF/OUTER') THEN
 C-----------------------------------------------
                 IS_WRITTEN_VALUE(1:NSKI) = 1
-                DO IFAIL=1,NFAIL                                                          
-                  IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model                
-                    IP=(IFAIL -1)*15         
-                    NPAR   = IPM(112+IP, MX)   
+                DO IFAIL=1,NFAIL
+                  IF (FBUF%FLOC(IFAIL)%ILAWF == 7) THEN ! check /FLD model
+                    IP=(IFAIL -1)*15
+                    NPAR   = IPM(112+IP, MX)
                     IADBUF = IPM(114+IP ,MX)
-                    NFUNC  = IPM(115+IP, MX)             
+                    NFUNC  = IPM(115+IP, MX)
                     DO I=1,NFUNC
-                      IFUNC(I) = IPM(115+IP+I, MX)         
+                      IFUNC(I) = IPM(115+IP+I, MX)
                     END DO
                    CALL DAM_FLD_SOL(
      1                            NSKI     ,NPAR     ,NFUNC    ,IFUNC    ,
      2                            NPF      ,TF       ,BUFMAT(IADBUF),
      4                            EVAR     ,VALUE    )
 C
-                  ENDIF                                                                   
+                  ENDIF
                 ENDDO
                 DO I=1,NSKI
                   SKIN_SCALAR(NSKIN+I) = VALUE(I)
@@ -376,7 +376,7 @@ C
               IDEB = IDEB + NSKI
              END DO ! II=1,NSK,MVSIZ
            END IF !(NSK>0) THEN
-        ENDIF !IF (IGTYP== 
+        ENDIF !IF (IGTYP==
        END DO ! NG=1,NGROUP
 C-----------
       RETURN

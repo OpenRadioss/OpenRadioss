@@ -39,7 +39,7 @@ Chd|====================================================================
 C----------------------------------------------------------------
 C  MODULES
 C----------------------------------------------------------------     
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
@@ -60,12 +60,12 @@ C----------------------------------------------------------------
 C  D U M M Y   A R G U M E N T S
 C----------------------------------------------------------------
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
-      INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXFUNC      
+      INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXFUNC
       INTEGER, INTENT(INOUT)                       :: NUPARAM,NUVAR,IMATVIS,
-     .                                                IFUNC(MAXFUNC),NFUNC      
-      my_real, DIMENSION(100),INTENT(INOUT)        :: PARMAT  
-      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB      
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM       
+     .                                                IFUNC(MAXFUNC),NFUNC
+      my_real, DIMENSION(100),INTENT(INOUT)        :: PARMAT
+      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT) :: MATPARAM
@@ -73,14 +73,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     . RHO0,DR,DEREF,DE1,DPOISS,DVE1,DVE2,DEDOT_REF, 
+     . RHO0,DR,DEREF,DE1,DPOISS,DVE1,DVE2,DEDOT_REF,
      . GAMV_REF, ALPHAP, DQ, DV, DM, DC3, DC4, CALPHAK1, CALPHAK2, H0,
      . DES1_0, DC5, DC6, DC7, DC8, DC9, DC10, H1, DES2_0, DC11, DC12,
      . DC13, DC14, DC1, DC2, DLAMBDA, RHOA, CV, THETA0, BETA0, BTHETA0,
      . FACTOR, TEMP_OPT, THETAI, THETAG,STIFINT,
      . C1,C2,C3,C4,C5,MU,LM,D,BETA,FACPL, SCALE1, SCALE2
       CHARACTER  STRING*ncharfield
-      CHARACTER KEY*nchartitle,KEYNET*ncharfield      
+      CHARACTER KEY*nchartitle,KEYNET*ncharfield
       INTEGER ILAW
 C     
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -95,60 +95,60 @@ c------------------------------------------
 card1 - Density
       CALL HM_GET_FLOATV('MAT_RHO'     ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card2
-      CALL HM_GET_FLOATV('MAT_E'       ,DEREF    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_ALPHA1'  ,DE1      ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_NU'      ,DPOISS   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('VE1'         ,DVE1     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('MAT_E'       ,DEREF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_ALPHA1'  ,DE1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_NU'      ,DPOISS   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('VE1'         ,DVE1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card3
-      CALL HM_GET_FLOATV('VE2'         ,DVE2       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('EPSILONref'  ,DEDOT_REF  ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('GAMMA0'      ,GAMV_REF   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('ALPHA_p'     ,ALPHAP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)       
-card4      
-      CALL HM_GET_FLOATV('DELTAH'      ,DQ         ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_VOL'     ,DV         ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_M'       ,DM         ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C3'      ,DC3        ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-card5      
-      CALL HM_GET_FLOATV('MAT_C4'      ,DC4        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('ALPHAK1'     ,CALPHAK1   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('ALPHAK2'     ,CALPHAK2   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_HARD'    ,H0         ,IS_AVAILABLE, LSUBMODEL, UNITAB)       
-card6      
-      CALL HM_GET_FLOATV('ZETA1i'      ,DES1_0     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C5'      ,DC5        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C6'      ,DC6        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C7'      ,DC7        ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-card7      
-      CALL HM_GET_FLOATV('MAT_C8'      ,DC8        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C9'      ,DC9        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C_10'    ,DC10       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_HARD1'   ,H1         ,IS_AVAILABLE, LSUBMODEL, UNITAB)          
-card8      
-      CALL HM_GET_FLOATV('ZETA2i'      ,DES2_0     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C_11'    ,DC11       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C_12'    ,DC12       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C13'     ,DC13       ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-card10      
-      CALL HM_GET_FLOATV('MAT_C14'     ,DC14       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C1'      ,DC1        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_C2'      ,DC2        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('LAMBDAL'     ,DLAMBDA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-card11      
-      CALL HM_GET_FLOATV('MAT_RHO_REF' ,RHOA       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_CV_REF'  ,CV         ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_TREF'    ,THETA0     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('ALPHA_TH'    ,BETA0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV('VE2'         ,DVE2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('EPSILONref'  ,DEDOT_REF  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('GAMMA0'      ,GAMV_REF   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('ALPHA_p'     ,ALPHAP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card4
+      CALL HM_GET_FLOATV('DELTAH'      ,DQ         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_VOL'     ,DV         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_M'       ,DM         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C3'      ,DC3        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card5
+      CALL HM_GET_FLOATV('MAT_C4'      ,DC4        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('ALPHAK1'     ,CALPHAK1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('ALPHAK2'     ,CALPHAK2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_HARD'    ,H0         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card6
+      CALL HM_GET_FLOATV('ZETA1i'      ,DES1_0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C5'      ,DC5        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C6'      ,DC6        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C7'      ,DC7        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card7
+      CALL HM_GET_FLOATV('MAT_C8'      ,DC8        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C9'      ,DC9        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C_10'    ,DC10       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_HARD1'   ,H1         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card8
+      CALL HM_GET_FLOATV('ZETA2i'      ,DES2_0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C_11'    ,DC11       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C_12'    ,DC12       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C13'     ,DC13       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card10
+      CALL HM_GET_FLOATV('MAT_C14'     ,DC14       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C1'      ,DC1        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_C2'      ,DC2        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('LAMBDAL'     ,DLAMBDA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+card11
+      CALL HM_GET_FLOATV('MAT_RHO_REF' ,RHOA       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_CV_REF'  ,CV         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_TREF'    ,THETA0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('ALPHA_TH'    ,BETA0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card12
-      CALL HM_GET_FLOATV('THETA_GLASS' ,THETAG     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('Omega'       ,FACTOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('THETA_FLAG'  ,TEMP_OPT   ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('HEAT_T0'     ,THETAI     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      
+      CALL HM_GET_FLOATV('THETA_GLASS' ,THETAG     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Omega'       ,FACTOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('THETA_FLAG'  ,TEMP_OPT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('HEAT_T0'     ,THETAI     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
       DR = 8.314 ! J/K/mol
 
       DR = DR * FAC_T_WORK* FAC_T_WORK / FAC_M_WORK /FAC_L_WORK / FAC_L_WORK
-      NUPARAM = 42 
+      NUPARAM = 42
 C----------------------------------------------- 
 C     USER MATERIAL PARAMETERS DEFINITION   
 C----------------------------------------------- 
@@ -179,7 +179,7 @@ C-----------------------------------------------
       UPARAM(24) = H1
       UPARAM(25) = DES2_0
       UPARAM(26) = DC11
-      UPARAM(27) = DC12  
+      UPARAM(27) = DC12
       UPARAM(28) = DC13
       UPARAM(29) = DC14
       UPARAM(30) = DC1
@@ -199,8 +199,8 @@ C-------------------------------------------------
 C     NUMBER OF USER ELEMENT VARIABLES AND CURVES  
 C------------------------------------------------- 
 C   
-      NUVAR = 42 
-      NFUNC = 0 
+      NUVAR = 42
+      NFUNC = 0
 C used for interface (solid+shell) 
       STIFINT = DEREF*(1-DPOISS)/(1+DPOISS)/(1-2*DPOISS)
       PARMAT(1) = STIFINT/THREE !RBULK
@@ -217,15 +217,15 @@ c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
 c-----------------------------------------------------------------------
       WRITE(IOUT,900) TRIM(TITR),MAT_ID,ILAW
-      WRITE(IOUT,1000)      
+      WRITE(IOUT,1000)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1050) RHO0
-        WRITE(IOUT,1100) DEREF, DE1, DPOISS, DVE1, DVE2, DEDOT_REF, 
+        WRITE(IOUT,1100) DEREF, DE1, DPOISS, DVE1, DVE2, DEDOT_REF,
      .  GAMV_REF, ALPHAP, DQ, DV, DM, DC3, DC4, CALPHAK1, CALPHAK2, H0,
      .  DES1_0, DC5, DC6, DC7, DC8, DC9, DC10, H1, DES2_0, DC11, DC12,
-     .  DC13, DC14, DC1, DC2, DLAMBDA, RHOA, CV, THETA0, BETA0, 
+     .  DC13, DC14, DC1, DC2, DLAMBDA, RHOA, CV, THETA0, BETA0,
      .  FACTOR, TEMP_OPT, THETAI, THETAG
       ENDIF
 C
@@ -237,49 +237,49 @@ C
      & 5X,'  MATERIAL MODEL : VISCOPLASTIC MODEL - BOUVARD  ',/,
      & 5X,'  ---------------------------------------------  ',/)
  1050 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      & 5X,'DEREF . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'DE1 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'DPOISS. . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'DVE1. . . . . . . . . . . . . . . . . .=',1PG20.13/      
-     & 5X,'DVE2. . . . . . . . . . . . . . . . . .=',1PG20.13/      
-     & 5X,'DEDOT_REF . . . . . . . . . . . . . . .=',1PG20.13/ 
-     & 5X,'GAMV_REF. . . . . . . . . . . . . . . .=',1PG20.13/  
-     & 5X,'ALPHAP. . . . . . . . . . . . . . . . .=',1PG20.13/  
-     & 5X,'DQ. . . . . . . . . . . . . . . . . . .=',1PG20.13/       
-     & 5X,'DV. . . . . . . . . . . . . . . . . . .=',1PG20.13/       
-     & 5X,'DM. . . . . . . . . . . . . . . . . . .=',1PG20.13/       
-     & 5X,'DC3 . . . . . . . . . . . . . . . . . .=',1PG20.13/      
-     & 5X,'DC4 . . . . . . . . . . . . . . . . . .=',1PG20.13/      
-     & 5X,'CALPHAK1. . . . . . . . . . . . . . . .=',1PG20.13/  
-     & 5X,'CALPHAK2. . . . . . . . . . . . . . . .=',1PG20.13/  
+     & 5X,'DVE1. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DVE2. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DEDOT_REF . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'GAMV_REF. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'ALPHAP. . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DQ. . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DV. . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DM. . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC3 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC4 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'CALPHAK1. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'CALPHAK2. . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'H0. . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'DES1_0. . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'DC5 . . . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'DC6 . . . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'DC7 . . . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'DC8 . . . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'DC9 . . . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'DC10. . . . . . . . . . . . . . . . . .=',1PG20.13/   
-     & 5X,'H1. . . . . . . . . . . . . . . . . . .=',1PG20.13/   
-     & 5X,'DES2_0. . . . . . . . . . . . . . . . .=',1PG20.13/ 
+     & 5X,'DC5 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC6 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC7 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC8 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC9 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC10. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'H1. . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DES2_0. . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'DC11. . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'DC12. . . . . . . . . . . . . . . . . .=',1PG20.13/     
-     & 5X,'DC13. . . . . . . . . . . . . . . . . .=',1PG20.13/     
-     & 5X,'DC14. . . . . . . . . . . . . . . . . .=',1PG20.13/     
-     & 5X,'DC1 . . . . . . . . . . . . . . . . . .=',1PG20.13/       
-     & 5X,'DC2 . . . . . . . . . . . . . . . . . .=',1PG20.13/     
-     & 5X,'DLAMBDA . . . . . . . . . . . . . . . .=',1PG20.13/ 
-     & 5X,'RHOA. . . . . . . . . . . . . . . . . .=',1PG20.13/     
-     & 5X,'CV. . . . . . . . . . . . . . . . . . .=',1PG20.13/     
-     & 5X,'THETA0. . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'BETA0 . . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'FACTOR. . . . . . . . . . . . . . . . .=',1PG20.13/    
-     & 5X,'TEMP_OPT. . . . . . . . . . . . . . . .=',1PG20.13/ 
-     & 5X,'THETAI. . . . . . . . . . . . . . . . .=',1PG20.13/   
+     & 5X,'DC12. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC13. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC14. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC1 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DC2 . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'DLAMBDA . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'RHOA. . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'CV. . . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'THETA0. . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'BETA0 . . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'FACTOR. . . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'TEMP_OPT. . . . . . . . . . . . . . . .=',1PG20.13/
+     & 5X,'THETAI. . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'THETAG. . . . . . . . . . . . . . . . .=',1PG20.13/)
-     
+
 C
       RETURN
       END

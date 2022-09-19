@@ -81,7 +81,7 @@ C Preparation du recv
         IADR(P) = L
         SIZ = (IAD_ELEM(1,P+1)-IAD_ELEM(1,P))*9
         IF(SIZ/=0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      BBUFR(L),SIZ,REAL,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_RI(P),IERROR)
@@ -113,7 +113,7 @@ C
 
        DO P=1,NSPMD
        IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IADS(1+P)-IADS(P)
           L = IADS(P)
           CALL MPI_ISEND(
@@ -154,6 +154,6 @@ C Fin du send
           ENDIF
       ENDDO
 
-#endif 
+#endif
       RETURN
       END

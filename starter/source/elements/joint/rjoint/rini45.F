@@ -83,7 +83,7 @@ C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER NEL,IOUT,IPROP,NUVAR,IX(4,MVSIZ),IXR(NIXR,*),
      .        IXR_KJ(5,*)
-      my_real 
+      my_real
      .        MASS(NEL) ,XINER(NEL) ,STIFN(NEL),XL(MVSIZ,3) ,
      .        STIFR(NEL),VISCM(NEL) ,VISCR(NEL),UVAR(NUVAR,*),
      .        X(3,*)
@@ -103,7 +103,7 @@ C-----------------------------------------------
      .        THETA0(3)
 C-----------------------------------------------
       EXTERNAL  GET_U_GEO,GET_SKEW45,GET_U_FUNC_DERI
-      PARAMETER (KFUNC=29)      
+      PARAMETER (KFUNC=29)
 C=======================================================================
       JTYP = NINT(GET_U_GEO(1,IPROP))
 C      
@@ -115,11 +115,11 @@ C
       KRZ  = GET_U_GEO(9,IPROP)
       KNN  = GET_U_GEO(10,IPROP)
       SCF  = GET_U_GEO(11,IPROP)
-      IFKNX = GET_U_PNU(1,IPROP,KFUNC) 
-      IFKNY = GET_U_PNU(2,IPROP,KFUNC) 
-      IFKNZ = GET_U_PNU(3,IPROP,KFUNC) 
-      IFKRX = GET_U_PNU(4,IPROP,KFUNC) 
-      IFKRY = GET_U_PNU(5,IPROP,KFUNC) 
+      IFKNX = GET_U_PNU(1,IPROP,KFUNC)
+      IFKNY = GET_U_PNU(2,IPROP,KFUNC)
+      IFKNZ = GET_U_PNU(3,IPROP,KFUNC)
+      IFKRX = GET_U_PNU(4,IPROP,KFUNC)
+      IFKRY = GET_U_PNU(5,IPROP,KFUNC)
       IFKRZ = GET_U_PNU(6,IPROP,KFUNC)
 C----
       K1 = KXX
@@ -146,7 +146,7 @@ C----
       ENDIF
       IF (IFKRY/=0) THEN
         XF = GET_U_FUNC(IFKRY,ZERO,DERI)
-        K5  = MAX(KRY*DERI, EM20) 
+        K5  = MAX(KRY*DERI, EM20)
       ENDIF
       IF (IFKRZ/=0) THEN
         XF = GET_U_FUNC(IFKRZ,ZERO,DERI)
@@ -159,11 +159,11 @@ C----
       CRY = GET_U_GEO(25,IPROP)
       CRZ = GET_U_GEO(26,IPROP)
 C
-      IFCNX = GET_U_PNU(7,IPROP,KFUNC) 
-      IFCNY = GET_U_PNU(8,IPROP,KFUNC) 
-      IFCNZ = GET_U_PNU(9,IPROP,KFUNC) 
-      IFCRX = GET_U_PNU(10,IPROP,KFUNC) 
-      IFCRY = GET_U_PNU(11,IPROP,KFUNC) 
+      IFCNX = GET_U_PNU(7,IPROP,KFUNC)
+      IFCNY = GET_U_PNU(8,IPROP,KFUNC)
+      IFCNZ = GET_U_PNU(9,IPROP,KFUNC)
+      IFCRX = GET_U_PNU(10,IPROP,KFUNC)
+      IFCRY = GET_U_PNU(11,IPROP,KFUNC)
       IFCRZ = GET_U_PNU(12,IPROP,KFUNC)
 C
       C1 = CXX
@@ -190,7 +190,7 @@ C
       ENDIF
       IF (IFCRY/=0) THEN
         XF = GET_U_FUNC(IFCRY,ZERO,DERI)
-        C5  = MAX(CRY*DERI, EM20) 
+        C5  = MAX(CRY*DERI, EM20)
       ENDIF
       IF (IFCRZ/=0) THEN
         XF = GET_U_FUNC(IFCRZ,ZERO,DERI)
@@ -201,7 +201,7 @@ C
         KFM  = GET_U_GEO(40+I,IPROP)
         FM = GET_U_GEO(46+I,IPROP)
         IF (IFM/=0) THEN
-          DERIMAX = FM*GET_U_FUNC_DERI(IFM) 
+          DERIMAX = FM*GET_U_FUNC_DERI(IFM)
 	      IF (DERIMAX>KFM) THEN
             CALL ANCMSG(MSGID=979,
      .                  MSGTYPE=MSGWARNING,
@@ -235,7 +235,7 @@ C-------    local frame computation from spring nodes
           ENDIF
           X1 = XL(I,1)
           Y1 = XL(I,2)
-          Z1 = XL(I,3)	  
+          Z1 = XL(I,3)	
           XL(I,1)=EX(1)*X1+EX(2)*Y1+EX(3)*Z1
           XL(I,2)=EX(4)*X1+EX(5)*Y1+EX(6)*Z1
           XL(I,3)=EX(7)*X1+EX(8)*Y1+EX(9)*Z1
@@ -271,7 +271,7 @@ C-------  stockage des raideurs
           UVAR(18,I)= KR
           UVAR(19,I)= KXX
           UVAR(20,I)= KYY
-          UVAR(21,I)= KZZ	  	  
+          UVAR(21,I)= KZZ	  	
 C 
           IF(JTYP>=2.AND.JTYP<=4) THEN
             UVAR(31,I)= KRX
@@ -286,7 +286,7 @@ C
             UVAR(12,I)= EX(6)
             UVAR(13,I)= EX(7)
             UVAR(14,I)= EX(8)
-            UVAR(15,I)= EX(9)	    	    
+            UVAR(15,I)= EX(9)	    	
           ELSEIF(JTYP>=6.AND.JTYP<=8) THEN
             UVAR(31,I)= KR
             UVAR(32,I)= KR
@@ -302,7 +302,7 @@ C
           UVAR(36,I)= ZERO
           UVAR(37,I)= ZERO
           UVAR(38,I)= ZERO
-          UVAR(39,I)= ZERO	  
+          UVAR(39,I)= ZERO	
 C
           STIFN(I) = KTT
           STIFR(I) = KRR+KTT*LEN2
@@ -312,11 +312,11 @@ C
         ENDDO
 C
       RETURN
-        
+
   999 CALL FREERR(3)
-      RETURN    
+      RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  GET_SKEW45                    source/elements/joint/rjoint/rini45.F
 Chd|-- called by -----------
@@ -351,9 +351,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NNOD,N1,N2,N3,N4,IERR1,IELUSR,NN(6),HH
       INTEGER NUMEL_KJ,ID_KJ,NNOD2,NNOD_REQ(9)
-      my_real 
+      my_real
      .        PP1,PP2,PP3,PP4,LEN,SCAL,MAX
- 
+
 C=======================================================================
 C
       IERR1 = 0
@@ -363,7 +363,7 @@ C
       N2 = 0
       N3 = 0
       N4 = 0
-      NUMEL_KJ = IXR_KJ(1,NUMELR+1)      
+      NUMEL_KJ = IXR_KJ(1,NUMELR+1)
       IELUSR = IXR(NIXR,IEL)
 C---- Nb de noeuds min par type de joint
       NNOD_REQ(1) = 2
@@ -374,31 +374,31 @@ C---- Nb de noeuds min par type de joint
       NNOD_REQ(6) = 3
       NNOD_REQ(7) = 3
       NNOD_REQ(8) = 2
-      NNOD_REQ(9) = 4                                   
+      NNOD_REQ(9) = 4
 C---- Check des vrais noeuds      
       DO J=1,3
-        IF (IXR(1+J,IEL)/=0) THEN	  
+        IF (IXR(1+J,IEL)/=0) THEN	
 	    NNOD = NNOD + 1
 	    NN(NNOD) = IXR(1+J,IEL)
-	ENDIF   
+	ENDIF
       END DO
 C---- Check des noeuds additionnels
       DO J=1,NUMEL_KJ
         IF (IXR_KJ(4,J)==IELUSR) ID_KJ = J
       END DO
-      
-      IF (ID_KJ>0) THEN                
+
+      IF (ID_KJ>0) THEN
       DO J=1,3
-        IF (IXR_KJ(J,ID_KJ)/=0) THEN	  
+        IF (IXR_KJ(J,ID_KJ)/=0) THEN	
 	    NNOD = NNOD + 1
 	    NN(NNOD) = IXR_KJ(J,ID_KJ)
-	ENDIF   
+	ENDIF
       END DO
       ENDIF
-      
-      NNOD2 = NNOD   
+
+      NNOD2 = NNOD
 C      
-      LEN = SQRT((X(1,NN(1))-X(1,NN(2)))**2+(X(2,NN(1))-X(2,NN(2)))**2   
+      LEN = SQRT((X(1,NN(1))-X(1,NN(2)))**2+(X(2,NN(1))-X(2,NN(2)))**2
      .          +(X(3,NN(1))-X(3,NN(2)))**2)
       IF ((NNOD==2).AND.(LEN>EM10)) NNOD2=3
 C
@@ -436,7 +436,7 @@ C-----------------------------------------------
 C---  1 axis joint definit avec le 2e noeud
 C-----------------------------------------------
              N1 = NN(1)
-	     N2 = NN(2)        
+	     N2 = NN(2)
 C-- calcul de x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
@@ -457,9 +457,9 @@ C-- calcul de y
 	     ELSE
                EX(4)= ZERO
                EX(5)= EX(3)
-               EX(6)= -EX(2)	     
-	     ENDIF  
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	     
+               EX(6)= -EX(2)	
+	     ENDIF
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	
 C-- calcul de z = x ^ y	     
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
@@ -470,7 +470,7 @@ C-----------------------------------------------
 C---  1 axis joint definit avec le 3e noeud
 C-----------------------------------------------
              N1 = NN(1)
-	     N2 = NN(3)        
+	     N2 = NN(3)
 C-- calcul de x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
@@ -491,9 +491,9 @@ C-- calcul de y
 	     ELSE
                EX(4)= ZERO
                EX(5)= EX(3)
-               EX(6)= -EX(2)	     
-	     ENDIF  
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	     
+               EX(6)= -EX(2)	
+	     ENDIF
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	
 C-- calcul de z = x ^ y	     
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
@@ -507,31 +507,31 @@ C-- control longeur de l'axe
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-	     ENDIF	     	     
+	     ENDIF	     	
       ELSEIF ((NNOD>=4).AND.(JTYP/=5)) THEN
 C-----------------------------------------------      
 C---  Cas general : skew quelconque
 C-----------------------------------------------
              N1 = NN(1)
 	     N2 = NN(3)
-	     N3 = NN(4)        
+	     N3 = NN(4)
 C-- calcul de x
              EX(1)=X(1,N2)-X(1,N1)
              EX(2)=X(2,N2)-X(2,N1)
              EX(3)=X(3,N2)-X(3,N1)
-             PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))	      
+             PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))	
 C-- calcul de y
              EX(4)=X(1,N3)-X(1,N1)
              EX(5)=X(2,N3)-X(2,N1)
-             EX(6)=X(3,N3)-X(3,N1)	     
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	     
+             EX(6)=X(3,N3)-X(3,N1)	
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	
 C-- calcul de z = x ^ y	     
              EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
              EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
-             EX(9)=EX(1)*EX(5)-EX(2)*EX(4)     
+             EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
              PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
 C-- control orthogonalite
-             SCAL =ABS(EX(1)*EX(4)+EX(2)*EX(5)+EX(3)*EX(6))/(PP1*PP2)    
+             SCAL =ABS(EX(1)*EX(4)+EX(2)*EX(5)+EX(3)*EX(6))/(PP1*PP2)
              IF (ABS(SCAL)>=0.98) THEN
                 CALL ANCMSG(MSGID=1009,
      .                      MSGTYPE=MSGERROR,
@@ -551,9 +551,9 @@ C-- control de N4
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=IELUSR)
-	     ENDIF	     
+	     ENDIF	
 C-- control longeur des axes
-             PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
+             PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2
      .                 +(X(3,N3)-X(3,N2))**2)
              IF ((PP1<=EM10).OR.(PP2<=EM10).OR.(PP4<=EM10)) THEN
                 CALL ANCMSG(MSGID=934,
@@ -569,21 +569,21 @@ C---  Universal Joint : local skew
 C-----------------------------------------------
              N1 = NN(1)
 	     N2 = NN(3)
-	     N3 = NN(4)        
+	     N3 = NN(4)
 C-- calcul de y
              EX(4)=X(1,N2)-X(1,N1)
              EX(5)=X(2,N2)-X(2,N1)
              EX(6)=X(3,N2)-X(3,N1)
-             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	      
+             PP2=SQRT(EX(4)*EX(4)+EX(5)*EX(5)+EX(6)*EX(6))	
 C-- calcul de z
              EX(7)=X(1,N3)-X(1,N1)
              EX(8)=X(2,N3)-X(2,N1)
-             EX(9)=X(3,N3)-X(3,N1)	     
-             PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))	     
+             EX(9)=X(3,N3)-X(3,N1)	
+             PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))	
 C-- calcul de x = y ^ z	     
              EX(1)=EX(5)*EX(9)-EX(6)*EX(8)
              EX(2)=EX(6)*EX(7)-EX(4)*EX(9)
-             EX(3)=EX(4)*EX(8)-EX(5)*EX(7)     
+             EX(3)=EX(4)*EX(8)-EX(5)*EX(7)
              PP1=SQRT(EX(1)*EX(1)+EX(2)*EX(2)+EX(3)*EX(3))
 C-- control orthogonalite
              SCAL =ABS(EX(7)*EX(4)+EX(8)*EX(5)+EX(9)*EX(6))/(PP1+PP2)
@@ -593,7 +593,7 @@ C-- control orthogonalite
      .                      ANMODE=ANINFO_BLIND_2,
      .                      I1=ID,
      .                      C1=TITR,
-     .                      I2=IELUSR)    
+     .                      I2=IELUSR)
              ELSEIF (SCAL>=1e-4) THEN
 C-- Orthogonalization of the skew
                 CALL ANCMSG(MSGID=940,
@@ -605,11 +605,11 @@ C-- Orthogonalization of the skew
 C-- Recalcul de z = x ^ y	
 	        EX(7)=EX(2)*EX(6)-EX(3)*EX(5)
                 EX(8)=EX(3)*EX(4)-EX(1)*EX(6)
-                EX(9)=EX(1)*EX(5)-EX(2)*EX(4)     
+                EX(9)=EX(1)*EX(5)-EX(2)*EX(4)
                 PP3=SQRT(EX(7)*EX(7)+EX(8)*EX(8)+EX(9)*EX(9))
-             ENDIF	     
+             ENDIF	
 C-- control longeur des axes
-             PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2   
+             PP4 = SQRT((X(1,N3)-X(1,N2))**2+(X(2,N3)-X(2,N2))**2
      .                 +(X(3,N3)-X(3,N2))**2)
              IF ((PP1<=EM10).OR.(PP2<=EM10).OR.(PP4<=EM10)) THEN
                 CALL ANCMSG(MSGID=934,
@@ -618,7 +618,7 @@ C-- control longeur des axes
      .                      I1=ID,
      .                      C1=TITR,
      .                      I2=IELUSR)
-	     ENDIF	     
+	     ENDIF	
       ELSE
              CALL ANCMSG(MSGID=937,
      .                   MSGTYPE=MSGERROR,
@@ -638,12 +638,12 @@ C-----------------------------------------------
       EX(6)=EX(6)/PP2
       EX(7)=EX(7)/PP3
       EX(8)=EX(8)/PP3
-      EX(9)=EX(9)/PP3      
-     
+      EX(9)=EX(9)/PP3
+
 C-----------------------------------------------
       GET_SKEW45 = IERR1
-   
-      RETURN      
+
+      RETURN
       END
 
 Chd|====================================================================
@@ -684,12 +684,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,GET_U_SKEW,N1,N2,N3,ISK
-      my_real 
+      my_real
      .        U(LSKEW),V(LSKEW),Q(LSKEW),GET_U_GEO,NR,T(3),COSK,SINK,
      .        SI2,E,KSI,UMI,ERR,STOP_ANGL
       DATA  UMI/-1.0/
 C-----------------------------------------------
-      EXTERNAL  GET_U_GEO,GET_U_SKEW 
+      EXTERNAL  GET_U_GEO,GET_U_SKEW
 C-----------------------------------------------
 
       IDSK1 = NINT(GET_U_GEO(53,IPROP))
@@ -816,11 +816,11 @@ C--      Check of initial angles vs stoping angles
      .                 R2=STOP_ANGL)
               ENDIF
             ENDIF
-          ENDDO 
+          ENDDO
 C 
-        ENDIF   
+        ENDIF
 C
       ENDIF
-   
-      RETURN      
+
+      RETURN
       END

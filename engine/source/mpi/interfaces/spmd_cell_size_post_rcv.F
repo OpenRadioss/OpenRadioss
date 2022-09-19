@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-#ifdef MPI        
+#ifdef MPI
         INTEGER :: I,J,KK,IJK,KJI
         INTEGER :: P,P_LOC
         INTEGER IERROR1,STATUS(MPI_STATUS_SIZE),IERROR
@@ -86,13 +86,13 @@ C-----------------------------------------------
         INTEGER :: MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4, MSGOFF5
         INTEGER :: MSGTYP,INFO
         LOGICAL :: NEED_TO_RCV
-!   --------------------------------------------------------------------     
+!   --------------------------------------------------------------------
         DATA MSGOFF/6021/
         DATA MSGOFF2/6022/
         DATA MSGOFF3/6023/
-        DATA MSGOFF4/6024/ 
-        DATA MSGOFF5/6025/ 
-        
+        DATA MSGOFF4/6024/
+        DATA MSGOFF5/6025/
+
         !   --------------------------------
         LOC_PROC = ISPMD + 1
         IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
@@ -101,8 +101,8 @@ C-----------------------------------------------
             DO P_LOC = 1,SORT_COMM(NIN)%PROC_NUMBER
                 P = SORT_COMM(NIN)%PROC_LIST(P_LOC)
                 NSNFI(NIN)%P(P) = 0
-                !   -----------------------  
-                !   prepare the reception : only for proc with main node & remote proc with secondary nodes     
+                !   -----------------------
+                !   prepare the reception : only for proc with main node & remote proc with secondary nodes
                 IF(ISENDTO(NIN,P)/=0) THEN  !   remote nsn>0
                     IF(LOC_PROC/=P) THEN
                         NEED_TO_RCV = .TRUE.
@@ -113,7 +113,7 @@ C-----------------------------------------------
                         ENDIF
                         IF(ITIED/=0) NEED_TO_RCV = .TRUE.    ! itied option : force the exchnage
                         IF(NEED_TO_RCV) THEN
-                            MSGTYP = MSGOFF3 
+                            MSGTYP = MSGOFF3
                             SORT_COMM(NIN)%NBRECV_NB=SORT_COMM(NIN)%NBRECV_NB+1
                             SORT_COMM(NIN)%RECV_NB(SORT_COMM(NIN)%NBRECV_NB)=P   !   proc with nmn>0
                             CALL MPI_IRECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
@@ -121,7 +121,7 @@ C-----------------------------------------------
                         ENDIF
                     ENDIF
                 ENDIF
-                !   -----------------------          
+                !   -----------------------
             ENDDO
             !   -----------------------
         ENDIF

@@ -62,7 +62,7 @@ C-----------------------------------------------
       XI = XS1
       YI = YS1
       ZI = ZS1
-      
+
       !MAIN segment coordinates
       X1 = XX1(1)
       X2 = XX1(2)
@@ -84,7 +84,7 @@ C-----------------------------------------------
       XL1 = X1-X0
       XL2 = X2-X0
       XL3 = X3-X0
-      XL4 = X4-X0      
+      XL4 = X4-X0
       YY1 = Y1-Y0
       YY2 = Y2-Y0
       YY3 = Y3-Y0
@@ -106,7 +106,7 @@ C-----------------------------------------------
       ZI2 = Z2-ZI
       ZI3 = Z3-ZI
       ZI4 = Z4-ZI
-      
+
       !1st mater triangle
       XN1 = YY1*ZZ2 - YY2*ZZ1
       YN1 = ZZ1*XL2 - ZZ2*XL1

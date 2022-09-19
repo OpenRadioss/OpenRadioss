@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       RECURSIVE SUBROUTINE int22ListCombi( ITASK      ,
      .                                     arg_ListFIX, arg_SizeFIX, arg_ListVAR, arg_SizeVAR ,
      .                                     NINTP      , ICODE      , IDBLE      , lvl         ,
-     .                                     RESULT     , bFOUND)   
+     .                                     RESULT     , bFOUND)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -41,7 +41,7 @@ C this edge has to be taged in IDBLE binary code.
 C ListFIX : sublist of combination which is used
 C           with other taken from ListVAR
 C ListVAR : sublist of combination from which 
-c           combination are taken to test a 
+c           combination are taken to test a
 C           potential combination. Is Updated 
 C           to remove incompatibility with
 C           combination in ListFIX. Is expanded
@@ -76,12 +76,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER,INTENT(IN)    :: arg_SizeFIX,arg_SizeVAR  ,NINTP,ICODE,IDBLE
         INTEGER,INTENT(INOUT) :: RESULT(8)
-        INTEGER,INTENT(IN)    :: arg_ListFIX(arg_SizeFIX),arg_ListVAR(arg_SizeVAR)    
-        LOGICAL,INTENT(INOUT) :: bFOUND 
+        INTEGER,INTENT(IN)    :: arg_ListFIX(arg_SizeFIX),arg_ListVAR(arg_SizeVAR)
+        LOGICAL,INTENT(INOUT) :: bFOUND
         INTEGER,INTENT(IN)    :: ITASK
-        
-        INTEGER :: SizeFIX,SizeVAR 
-        INTEGER :: ListFIX(arg_SizeFIX),ListVAR(arg_SizeVAR)           
+
+        INTEGER :: SizeFIX,SizeVAR
+        INTEGER :: ListFIX(arg_SizeFIX),ListVAR(arg_SizeVAR)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
         INTEGER :: LIST(32+8),SizeL
         INTEGER :: IBIN
         INTEGER :: LLVAR(arg_SizeVAR,arg_SizeVAR-1), SizeLLVAR
-        INTEGER :: LLFIX(arg_SizeVAR,arg_SizeFIX+1), SizeLLFIX        
+        INTEGER :: LLFIX(arg_SizeVAR,arg_SizeFIX+1), SizeLLFIX
         INTEGER :: SizeLLVAR_bak
         INTEGER :: IKEEP
         INTEGER :: TAG(12),TAG_nod(8),TAG_edg(12), Lnbit, Lcode, Ldble, NNOD, NEDG
@@ -110,45 +110,45 @@ ccc        print *, arg_ListVAR(1:arg_SizeVAR)
 
         !--------------------------------------------------!
         !  CREATING LOCAL COPY                             !
-        !--------------------------------------------------! 
+        !--------------------------------------------------!
         SizeFIX    = arg_SizeFIX
         SizeVAR    = arg_SizeVAR
         ListFIX    = arg_ListFIX
         ListVAR    = arg_ListVAR
-        
-        
+
+
         !--------------------------------------------------!
         !  COUNTING ACTIVATES BITS                         !
-        !--------------------------------------------------! 
+        !--------------------------------------------------!
         COUNT      = 0
         CountFIX   = 0
         CountVAR   = 0
-        !accumulation of intersection points recquired by each combination present in the Fixed List.          
+        !accumulation of intersection points recquired by each combination present in the Fixed List.
         DO I=1,SizeFIX
           pCODE    = IABS(ListFIX(I))
           ITYP     = GetPolyhedraType(pCODE)
           CountFIX = CountFIX + C_POLYH(ITYP)
         ENDDO !next I
-        !accumulation of intersection points recquired by each combination present in the Variable List.    
+        !accumulation of intersection points recquired by each combination present in the Variable List.
         DO I=1,SizeVAR
           pCODE    = ListVAR(I)
           ITYP     = GetPolyhedraType(pCODE)
           CountVAR = CountVAR + C_POLYH(ITYP)
-        ENDDO !next I      
+        ENDDO !next I
         COUNT = CountFIX + CountVAR
 
 ccc        print *, COUNT,COUNTfix,COUNTVAR,NINTP
 
         !--------------------------------------------------!
         !  NOT ENOUGH BITS                                 !
-        !--------------------------------------------------! 
+        !--------------------------------------------------!
         IF(COUNT < NINTP .OR. COUNTfix > NINTP)THEN
           !DO NOTHING : LIST OF COMBINATION IS NOT RETAINED
 ccc          print *, "   *** SKIPPED"
            RETURN
         !--------------------------------------------------!
         ! EXACT NUMBER OF BITS - CHECK COMBINATION         !
-        !--------------------------------------------------! 
+        !--------------------------------------------------!
         ELSEIF(COUNTfix == NINTP)THEN
           !List concatenation
           SizeL         = SizeFIX !+ SizeVAR
@@ -177,14 +177,14 @@ ccc            print*,"return1";RETURN;
           Lnbit = 0
           DO J=1,12
             IF(TAG_edg(J)>2) RETURN
-            IF(TAG_edg(J)==2) Ldble = IBSET(Ldble,12-J)            
+            IF(TAG_edg(J)==2) Ldble = IBSET(Ldble,12-J)
             IF(TAG_edg(J)>=1) THEN
               Lcode = IBSET(Lcode,12-J)
-              !Lnbit = Lnbit + 1 
+              !Lnbit = Lnbit + 1
             ENDIF
           ENDDO
           IF(ICODE /= LCODE) RETURN
-          IF(IDBLE /= LDBLE) RETURN                
+          IF(IDBLE /= LDBLE) RETURN
           !Storing the correct combination
 #include "lockon.inc"
           RESULT(1:SizeL)=LIST(1:SizeL)
@@ -192,18 +192,18 @@ ccc            print*,"return1";RETURN;
 #include "lockoff.inc"
         !--------------------------------------------------!
         !  TOO MUCH BITS                                   !
-        !--------------------------------------------------! 
+        !--------------------------------------------------!
         ELSE
 c          print *, "   *** EXPAND"
           IF(arg_SizeVAR==0)  RETURN
           !------------------------------------------------!
           ! UPDATE FIXED LIST AND VARIABLE LIST (NEW LOCAL)!
-          !------------------------------------------------!         
+          !------------------------------------------------!
           !Expanding the varaible sublist & taking each combination in varaible list to add it in a new fix list.
           SizeLLFIX = SizeFIX + 1
-          !SizeLLVAR = SizeVAR - 1 
-          !SizeLLVAR_bak =  SizeLLVAR        
-          DO II=1,SizeVAR        
+          !SizeLLVAR = SizeVAR - 1
+          !SizeLLVAR_bak =  SizeLLVAR
+          DO II=1,SizeVAR
             IKEEP = ListVAR(II)
             LLFIX(II,1:SizeLLFIX) = (/ListFIX(1:SizeFIX), IKEEP /)
 ccc            IF(SizeLLVAR>=1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(1:II-1),ListVAR(II+1:SizeVAR)/)  !retirer IKEEP
@@ -211,21 +211,21 @@ ccc            IF(SizeLLVAR>=1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(1:II-1),ListVAR
             IF(SizeLLVAR>=1)LLVAR(II,1:SizeLLVAR) = (/ListVAR(II+1:SizeVAR)/)  !retirer IKEEP
           ENDDO
           DO II=1,SizeVAR
-            SizeLLVAR = SizeVAR-II!SizeLLVAR_bak 
+            SizeLLVAR = SizeVAR-II!SizeLLVAR_bak
 ccc            print *, "=====II = ",II
 ccc            print *, "=====LLFIX(II,1:SizeLLFIX) = ",LLFIX(II,1:SizeLLFIX)
-ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)                       
-                                  
+ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
+
             !------------------------------------------------!
             ! CHECKING FIXED LIST CONSISTENCY                !
-            !------------------------------------------------!          
+            !------------------------------------------------!
             !--verifier nombre de bits
             CountFIX   = 0
             DO I=1,SizeLLFIX
               pCODE    = IABS(LLFIX(II,I))
               ITYP     = GetPolyhedraType(pCODE)
               CountFIX = CountFIX + C_POLYH(ITYP)
-            ENDDO !next I        
+            ENDDO !next I
             IF(CountFIX > NINTP)CYCLE
             !--verifier les sommets isdoles dans LLFIX : doublon impossible
             TAG_nod_fix(1:8) = 0
@@ -237,7 +237,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               ITYP             = GetPolyhedraType(pCODE)
               NNOD             = N_POLYH(ITYP)
               bool             = .false.
-              TAG_nod_bak(1:8) = TAG_nod_fix(1:8)              
+              TAG_nod_bak(1:8) = TAG_nod_fix(1:8)
               IF(bCOMPL)THEN
                 TAG_nod_tmp(1:8) = 1
                 DO J=1,NNOD
@@ -247,7 +247,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 DO J=1,8
                   IF( TAG_nod_tmp(J)==0)CYCLE
                   TAG_nod_fix(J) = TAG_nod_fix(J)+1
-                  IF(TAG_nod_fix(J) >= 2)GOTO 50 !already a complementary polyhjedron, the original one is incomaptible with the previous in the list, so exit                
+                  IF(TAG_nod_fix(J) >= 2)GOTO 50 !already a complementary polyhjedron, the original one is incomaptible with the previous in the list, so exit
                 ENDDO
               ELSE
                 DO J=1,NNOD
@@ -259,7 +259,7 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               !this polyhedron also isolate same nodes. Check complementary polyhedron
               IF(BOOL)THEN
                 !restor TAG_nod_fix
-                TAG_nod_fix(1:8) = TAG_nod_bak(1:8)       
+                TAG_nod_fix(1:8) = TAG_nod_bak(1:8)
                 !check complementary nodes
                 TAG_nod_tmp(1:8) = 1
                 DO J=1,NNOD
@@ -269,13 +269,13 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
                 DO J=1,8
                   IF( TAG_nod_tmp(J)==0)CYCLE
                   TAG_nod_fix(J) = TAG_nod_fix(J)+1
-                  IF(TAG_nod_fix(J) >= 2)GOTO 50                 
+                  IF(TAG_nod_fix(J) >= 2)GOTO 50
                 ENDDO
                 !set negative ID to tag a complementary polyhedron
                 LLFIX(II,I) = -LLFIX(II,I)
               ENDIF
-            ENDDO !next I        
-            !--verifiers les edges de LLFIX : doublon possible seuelemnt si defini dans IDBLE       
+            ENDDO !next I
+            !--verifiers les edges de LLFIX : doublon possible seuelemnt si defini dans IDBLE
             TAG_edg_fix(1:12) = 0
             DO I=1,SizeLLFIX
               pCODE    = IABS(LLFIX(II,I))
@@ -284,21 +284,21 @@ ccc            print *, "=====LLVAR(II,1:SizeLLVAR) = ",LLVAR(II,1:SizeLLVAR)
               DO J=1,NEDG
                 TAG_edg_fix(IABS(Gcorner(J,pCODE))) = TAG_edg_fix(IABS(Gcorner(J,pCODE)))+1
                 IF(TAG_edg_fix(IABS(Gcorner(J,pCODE))) > 2)GOTO 50
-                !IF(TAG_edg_fix(IABS(Gcorner(J,pCODE)))==2 .AND. BTEST(IDBLE,12-IABS(Gcorner(J,pCODE)))==0      )GOTO 50  
-                
-                !check : 14.31 FEM file abS ( 8:15:59) = ../tests/inter22/INTERSECTIONS/ALL-POLY-TEST/EULER/0.FVM/ALL-POLY-TEST_0000.rad                      
+                !IF(TAG_edg_fix(IABS(Gcorner(J,pCODE)))==2 .AND. BTEST(IDBLE,12-IABS(Gcorner(J,pCODE)))==0      )GOTO 50
+
+                !check : 14.31 FEM file abS ( 8:15:59) = ../tests/inter22/INTERSECTIONS/ALL-POLY-TEST/EULER/0.FVM/ALL-POLY-TEST_0000.rad
                 IF(TAG_edg_fix(IABS(Gcorner(J,pCODE)))==2 )THEN
-                  IF(BTEST(IDBLE,12-IABS(Gcorner(J,pCODE))) .EQV. (.FALSE.))GOTO 50 
-                ENDIF 
+                  IF(BTEST(IDBLE,12-IABS(Gcorner(J,pCODE))) .EQV. (.FALSE.))GOTO 50
+                ENDIF
               ENDDO
             ENDDO !next I
             !------------------------------------------------!
             ! VARIABLE LIST REDUCTION                        !
             !------------------------------------------------!
             !--verifier les sommets isoles dans LLVAR : doublon impossible
-            !conserver les tags de LLVAR ne pas faire de reset : TAG_nod(1:8) = 0 
-            I = 1    
-ccc            print *, "LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)      
+            !conserver les tags de LLVAR ne pas faire de reset : TAG_nod(1:8) = 0
+            I = 1
+ccc            print *, "LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)
             DO WHILE(I < SizeLLVAR)
               TAG_nod (:) = TAG_nod_fix
               pCODE    = LLVAR(II,I)
@@ -310,9 +310,9 @@ ccc            print *, "LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)
                 IF(TAG_nod(K) >= 2)THEN
                   !removing polyhedra from list
 ccc                  print *, "     removing_a:", LLVAR(II,I)
-ccc                  print *, "     SizeLLVAR,I=:", SizeLLVAR,I                  
+ccc                  print *, "     SizeLLVAR,I=:", SizeLLVAR,I
                   SizeLLVAR = SizeLLVAR - 1
-                  TAG_nod(K) = TAG_nod(K)-1 !restore previous tag value since polhedra is removed from list              
+                  TAG_nod(K) = TAG_nod(K)-1 !restore previous tag value since polhedra is removed from list
                   L=I
                   DO WHILE(L<=SizeLLVAR)
                     LLVAR(II,L)=LLVAR(II,L+1)
@@ -324,8 +324,8 @@ ccc                  print *, " after removing : LLVAR(II,1:SizeLLVAR)=", LLVAR(
               ENDDO
    51         CONTINUE
               I = I + 1
-            ENDDO !next I 
-            !--verifiers les edges de LLVAR : doublon possible seuelement si defini dans IDBLE                 
+            ENDDO !next I
+            !--verifiers les edges de LLVAR : doublon possible seuelement si defini dans IDBLE
             !conserver les tags de LLFIX, ne pas faire de reset : TAG_edg(1:12) = 0
             I = 1
             DO WHILE(I < SizeLLVAR)
@@ -340,22 +340,22 @@ ccc              print *, "testing LLVAR=", LLVAR(II,I)
                 !suppression
                 IF(TAG_edg(K) > 2 .OR. (TAG_edg(K)==2 .AND. .NOT.BTEST(IDBLE,12-K)))THEN
                   !removing polyhedra from list
-ccc                  print *, "     removing_b:", LLVAR(II,I)  
-ccc                  print *, "     SizeLLVAR,I=:", SizeLLVAR,I                                     
+ccc                  print *, "     removing_b:", LLVAR(II,I)
+ccc                  print *, "     SizeLLVAR,I=:", SizeLLVAR,I
                   SizeLLVAR = SizeLLVAR - 1
-                  TAG_edg(K) = TAG_edg(K)-1 !restore previous tag value since polhedra is removed from list 
-                  L = I             
+                  TAG_edg(K) = TAG_edg(K)-1 !restore previous tag value since polhedra is removed from list
+                  L = I
                   DO WHILE (L <= SizeLLVAR)
                     LLVAR(II,L)=LLVAR(II,L+1)
                     L = L + 1
-                  ENDDO 
-ccc                  print *, " after removing : LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)                  
-                  GOTO 52            
-                ENDIF              
+                  ENDDO
+ccc                  print *, " after removing : LLVAR(II,1:SizeLLVAR)=", LLVAR(II,1:SizeLLVAR)
+                  GOTO 52
+                ENDIF
               ENDDO
-   52         CONTINUE              
+   52         CONTINUE
               I = I + 1
-            ENDDO !next I 
+            ENDDO !next I
             !------------------------------------------------!
             ! RECURSION                                      !
             !------------------------------------------------!

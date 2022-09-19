@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::ID
       CHARACTER*nchartitle,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
@@ -114,7 +114,7 @@ C
      .                C1=TITR,
      .                C2='YOUNG''S MODULUS')
       ENDIF
-      IF(ANU==HALF)ANU=ZEP499                  
+      IF(ANU==HALF)ANU=ZEP499
 C
       G=YOUNG/(TWO*(ONE+ANU))
       C0=ZERO
@@ -123,8 +123,8 @@ C
       E1MN2=YOUNG/(ONE-ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(RHOR,EM20))
-      ISRATE = 0 
-      
+      ISRATE = 0
+
       PM(1) =RHOR
       PM(20)=YOUNG
       PM(21)=ANU
@@ -136,7 +136,7 @@ C
       PM(27)=SDSP
       PM(31)=C0
       PM(32)=C1
-      PM(89) =RHO0     
+      PM(89) =RHO0
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
       IF (ANU >= 0.49) THEN
@@ -166,7 +166,7 @@ C-----------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1100 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',E12.4/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',E12.4/,

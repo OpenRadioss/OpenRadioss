@@ -140,7 +140,7 @@ C--     deactivated interface
 C
         JINSCR=IPARI(10,N)
         NINT=N
-       
+
         ID=NOM_OPT(1,NINT)
         CALL FRETITL2(TITR,
      .                NOM_OPT(LNOPT1-LTITR+1,NINT),LTITR)
@@ -182,8 +182,8 @@ C
       ENDDO
 C Xgement ply xfem
 !!      IF(IPLYXFEM > 0) THEN
- 
-      IF(INTPLYXFEM > 0) THEN         
+
+      IF(INTPLYXFEM > 0) THEN
         DO N=1,NINTER
             NTY=IPARI(7,N)
             INTPLY = IPARI(66,N)
@@ -195,7 +195,7 @@ C Xgement ply xfem
      .              INTBUF_TAB(N)%NVOISIN,INTBUF_TAB(N)%MSEGTYP24,MS_PLY ,
      .              INTBUF_TAB(N)%ISEG_PXFEM,INTBUF_TAB(N)%ISEG_PLY)
           ENDIF
-        ENDDO      
+        ENDDO
       ENDIF
 C
 C     DYNAMIC CONDENSATION FOR TETRA10 - MIDDLE NODES REMOVED FROM INTERFACE
@@ -221,11 +221,11 @@ C
         ENDIF
       END DO
 C
-       IF (N2D==0 .AND. NINT2 >0 ) THEN      
+       IF (N2D==0 .AND. NINT2 >0 ) THEN
          CALL REMN_I2OP(IPARI   ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
          CALL REMN_I2_EDGOP(IPARI   ,INTBUF_TAB   ,ITAB, NREMN )
          CALL RI2_INT24P_INI(IPARI  ,INTBUF_TAB   ,ITAB, NOM_OPT,NREMN )
-       END IF !(NINT2 >0) THEN   
+       END IF !(NINT2 >0) THEN
 C-----------
       RETURN
       END
@@ -244,7 +244,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -463,23 +463,23 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,K,J1,J2,J3,J4,J5,J6,J7,J8,J9,J10,J11,J12,NN,ILY
       INTEGER IXX(NRTM,12)
-      
+
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
 C=======================================================================  
-      DO J=1,NRTM  
-          ISEG_PXFEM(J) = 0                      
-          DO K=1,4  
-             IXX(J,K) = IRECT(K,J)  
+      DO J=1,NRTM
+          ISEG_PXFEM(J) = 0
+          DO K=1,4
+             IXX(J,K) = IRECT(K,J)
             IF(INOD_PXFEM(IRECT(K,J)) > 0) THEN
               INTPLY = 1
-               ISEG_PXFEM(J) = 1           
-            ENDIF 
-          ENDDO 
-          
-          
+               ISEG_PXFEM(J) = 1
+            ENDIF
+          ENDDO
+
+
 C voisin 
          IXX(J,5) = IABS(NVOISIN(1,J))
          IXX(J,6) = IABS(NVOISIN(2,J))
@@ -488,20 +488,20 @@ C voisin
          IXX(J,9) = IABS(NVOISIN(5,J))
          IXX(J,10)= IABS(NVOISIN(6,J))
          IXX(J,11)= IABS(NVOISIN(7,J))
-         IXX(J,12)= IABS(NVOISIN(8,J))     
-                        
-      ENDDO  
+         IXX(J,12)= IABS(NVOISIN(8,J))
+
+      ENDDO
 C Impacted ply node
         DO I=1,NRTM
           ISEG_PLY(1,I) = 0
           ISEG_PLY(2,I) = 0
           ISEG_PLY(3,I) = 0
           ISEG_PLY(4,I) = 0
-                      
+
           ISEG_PLY(5,I) = 0
           ISEG_PLY(6,I) = 0
           ISEG_PLY(7,I) = 0
-          ISEG_PLY(8,I) = 0 
+          ISEG_PLY(8,I) = 0
           ISEG_PLY(9,I) = 0
           ISEG_PLY(10,I) = 0
           ISEG_PLY(11,I) = 0
@@ -510,44 +510,44 @@ C Impacted ply node
 C or by node segement if it needed            
  !!          ISEG(I) = 0
 
-          IF(MSEGTYP(I) == ZERO) CYCLE  
+          IF(MSEGTYP(I) == ZERO) CYCLE
 C                          
           IF(MSEGTYP(I) > 0) THEN
-           
+
 !!               ISEG(I) = 1
              J1 = IXX(I,1)
-             IF(J1 > 0) THEN   
-               NN = INOD_PXFEM(J1)                
-               IF(NN > 0) THEN         
-                    ILY = NPLYMAX                     
-                    DO WHILE(MS_PLY(NN,ILY) == ZERO)  
-                      ILY = ILY - 1                    
-                    ENDDO                             
-                    ISEG_PLY(1,I) = ILY                    
-               ENDIF 
-             ENDIF  
+             IF(J1 > 0) THEN
+               NN = INOD_PXFEM(J1)
+               IF(NN > 0) THEN
+                    ILY = NPLYMAX
+                    DO WHILE(MS_PLY(NN,ILY) == ZERO)
+                      ILY = ILY - 1
+                    ENDDO
+                    ISEG_PLY(1,I) = ILY
+               ENDIF
+             ENDIF
              J1 = IXX(I,2)
              IF(J1 > 0) THEN
                NN = INOD_PXFEM(J1)
                IF(NN > 0) THEN
                   ILY = NPLYMAX
-                  DO WHILE(MS_PLY(NN,ILY) == ZERO) 
+                  DO WHILE(MS_PLY(NN,ILY) == ZERO)
                      ILY = ILY - 1
                   ENDDO
                   ISEG_PLY(2,I) = ILY
-               ENDIF 
-             ENDIF  
+               ENDIF
+             ENDIF
              J1 = IXX(I,3)
              IF(J1 > 0) THEN
                NN = INOD_PXFEM(J1)
                IF(NN > 0) THEN
                  ILY = NPLYMAX
-                 DO WHILE(MS_PLY(NN,ILY) == ZERO) 
+                 DO WHILE(MS_PLY(NN,ILY) == ZERO)
                    ILY = ILY - 1
-                 ENDDO    
+                 ENDDO
                  ISEG_PLY(3,I) = ILY
-               ENDIF 
-             ENDIF     
+               ENDIF
+             ENDIF
              J1= IXX(I,4)
              IF(J1 > 0) THEN
               NN = INOD_PXFEM(J1)
@@ -555,102 +555,102 @@ C
                  ILY = NPLYMAX
                  DO WHILE(MS_PLY(NN,ILY) == ZERO)
                   ILY = ILY - 1
-                 ENDDO 
-                 ISEG_PLY(4,I) = ILY 
+                 ENDDO
+                 ISEG_PLY(4,I) = ILY
                ENDIF
-             ENDIF  
+             ENDIF
 C voisin
              J5 = IXX(I,5)
              IF(J5 > 0) THEN
-                 NN = INOD_PXFEM(J5)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J5)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(5,I) = ILY                  
-                 ENDIF 
-               ENDIF 
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(5,I) = ILY
+                 ENDIF
+               ENDIF
                J6 = IXX(I,6)
                IF(J6 > 0) THEN
-                 NN = INOD_PXFEM(J6)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J6)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(6,I) = ILY                  
-                 ENDIF 
-               ENDIF 
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(6,I) = ILY
+                 ENDIF
+               ENDIF
 C               
                J7 = IXX(I,7)
                IF(J7 > 0) THEN
-                 NN = INOD_PXFEM(J7)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J7)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(7,I) = ILY                  
-                 ENDIF 
-               ENDIF           
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(7,I) = ILY
+                 ENDIF
+               ENDIF
                J8 = IXX(I,8)
                IF(J8 > 0) THEN
-                 NN = INOD_PXFEM(J8)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J8)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(8,I) = ILY                  
-                 ENDIF 
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(8,I) = ILY
+                 ENDIF
                ENDIF
                 J9 = IXX(I,9)
                IF(J9 > 0) THEN
-                 NN = INOD_PXFEM(J9)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J9)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(9,I) = ILY                  
-                 ENDIF 
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(9,I) = ILY
+                 ENDIF
                ENDIF
                 J10 = IXX(I,10)
                IF(J10 > 0) THEN
-                 NN = INOD_PXFEM(J10)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J10)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(10,I) = ILY                  
-                 ENDIF 
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(10,I) = ILY
+                 ENDIF
                ENDIF
                  J11 = IXX(I,11)
                IF(J11 > 0) THEN
-                 NN = INOD_PXFEM(J11)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J11)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(11,I) = ILY                  
-                 ENDIF 
-               ENDIF   
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(11,I) = ILY
+                 ENDIF
+               ENDIF
                 J12 = IXX(I,12)
                IF(J12 > 0) THEN
-                 NN = INOD_PXFEM(J12)                
-                 IF(NN > 0) THEN         
-                      ILY = NPLYMAX                   
+                 NN = INOD_PXFEM(J12)
+                 IF(NN > 0) THEN
+                      ILY = NPLYMAX
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                        ILY = ILY - 1                  
-                      ENDDO                           
-                      ISEG_PLY(12,I) = ILY                  
-                 ENDIF 
-               ENDIF  
-           ELSE ! 
-                
+                        ILY = ILY - 1
+                      ENDDO
+                      ISEG_PLY(12,I) = ILY
+                 ENDIF
+               ENDIF
+           ELSE !
+
 !!               ISEG(I) = 2
              J1= IXX(I,1)
              IF(J1 > 0) THEN
@@ -666,17 +666,17 @@ C
 C  
              J1= IXX(I,2)
              IF(J1 > 0) THEN
-               NN = INOD_PXFEM(J1)                
-               IF(NN > 0) THEN                    
-                  ILY = 1                         
+               NN = INOD_PXFEM(J1)
+               IF(NN > 0) THEN
+                  ILY = 1
                   DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                     ILY = ILY + 1                
-                  ENDDO                           
-                  ISEG_PLY(2,I) = ILY                 
-                ENDIF                             
-             ENDIF   
+                     ILY = ILY + 1
+                  ENDDO
+                  ISEG_PLY(2,I) = ILY
+                ENDIF
+             ENDIF
 C
-             J1= IXX(I,3) 
+             J1= IXX(I,3)
              IF(J1 > 0) THEN
                NN = INOD_PXFEM(J1)
                IF(NN > 0) THEN
@@ -685,7 +685,7 @@ C
                     ILY = ILY + 1
                   ENDDO
                   ISEG_PLY(3,I) = ILY
-               ENDIF 
+               ENDIF
              ENDIF
              J1= IXX(I,4)
              IF(J1 > 0) THEN
@@ -696,107 +696,107 @@ C
                      ILY = ILY + 1
                     ENDDO
                     ISEG_PLY(4,I) = ILY
-               ENDIF 
+               ENDIF
              ENDIF
 C
 C voisin
                J5 = IXX(I,5)
                IF(J5 > 0) THEN
-                 NN = INOD_PXFEM(J5)                
-                 IF(NN > 0) THEN         
+                 NN = INOD_PXFEM(J5)
+                 IF(NN > 0) THEN
                     ILY = 1
                     DO WHILE(MS_PLY(NN,ILY) == ZERO)
                      ILY = ILY + 1
-                    ENDDO                         
-                    ISEG_PLY(5,I) = ILY                  
-                 ENDIF 
-               ENDIF 
+                    ENDDO
+                    ISEG_PLY(5,I) = ILY
+                 ENDIF
+               ENDIF
                J6 = IXX(I,6)
                IF(J6 > 0) THEN
-                 NN = INOD_PXFEM(J6)                
-                 IF(NN > 0) THEN         
-                      ILY = 1
-                      DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                       ILY = ILY + 1                   
-                      ENDDO                         
-                      ISEG_PLY(6,I) = ILY                  
-                 ENDIF 
-               ENDIF 
-C               
-               J7 = IXX(I,7)
-               IF(J7 > 0) THEN
-                 NN = INOD_PXFEM(J7)                
-                 IF(NN > 0) THEN         
-                      ILY = 1
-                      DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                       ILY = ILY + 1                   
-                      ENDDO                         
-                      ISEG_PLY(7,I) = ILY                  
-                 ENDIF 
-               ENDIF                
-               J8 = IXX(I,8)
-               IF(J8 > 0) THEN
-                 NN = INOD_PXFEM(J8)                
-                 IF(NN > 0) THEN         
-                      ILY = 1
-                      DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                       ILY = ILY + 1                   
-                      ENDDO                         
-                      ISEG_PLY(8,I) = ILY                  
-                 ENDIF 
-               ENDIF
-                J9 = IXX(I,9)
-               IF(J9 > 0) THEN
-                 NN = INOD_PXFEM(J9)                
-                 IF(NN > 0) THEN         
+                 NN = INOD_PXFEM(J6)
+                 IF(NN > 0) THEN
                       ILY = 1
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
                        ILY = ILY + 1
-                      ENDDO                         
-                      ISEG_PLY(9,I) = ILY                  
-                 ENDIF 
+                      ENDDO
+                      ISEG_PLY(6,I) = ILY
+                 ENDIF
+               ENDIF
+C               
+               J7 = IXX(I,7)
+               IF(J7 > 0) THEN
+                 NN = INOD_PXFEM(J7)
+                 IF(NN > 0) THEN
+                      ILY = 1
+                      DO WHILE(MS_PLY(NN,ILY) == ZERO)
+                       ILY = ILY + 1
+                      ENDDO
+                      ISEG_PLY(7,I) = ILY
+                 ENDIF
+               ENDIF
+               J8 = IXX(I,8)
+               IF(J8 > 0) THEN
+                 NN = INOD_PXFEM(J8)
+                 IF(NN > 0) THEN
+                      ILY = 1
+                      DO WHILE(MS_PLY(NN,ILY) == ZERO)
+                       ILY = ILY + 1
+                      ENDDO
+                      ISEG_PLY(8,I) = ILY
+                 ENDIF
+               ENDIF
+                J9 = IXX(I,9)
+               IF(J9 > 0) THEN
+                 NN = INOD_PXFEM(J9)
+                 IF(NN > 0) THEN
+                      ILY = 1
+                      DO WHILE(MS_PLY(NN,ILY) == ZERO)
+                       ILY = ILY + 1
+                      ENDDO
+                      ISEG_PLY(9,I) = ILY
+                 ENDIF
                ENDIF
                 J10 = IXX(I,10)
                IF(J10 > 0) THEN
-                 NN = INOD_PXFEM(J10)                
-                 IF(NN > 0) THEN         
+                 NN = INOD_PXFEM(J10)
+                 IF(NN > 0) THEN
                       ILY = 1
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                       ILY = ILY + 1                   
-                      ENDDO                         
-                      ISEG_PLY(10,I) = ILY                  
-                 ENDIF 
+                       ILY = ILY + 1
+                      ENDDO
+                      ISEG_PLY(10,I) = ILY
+                 ENDIF
                ENDIF
                  J11 = IXX(I,11)
                IF(J11 > 0) THEN
-                 NN = INOD_PXFEM(J11)                
-                 IF(NN > 0) THEN         
+                 NN = INOD_PXFEM(J11)
+                 IF(NN > 0) THEN
                       ILY = 1
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                       ILY = ILY + 1                   
-                      ENDDO                         
-                      ISEG_PLY(11,I) = ILY                  
-                 ENDIF 
-               ENDIF   
+                       ILY = ILY + 1
+                      ENDDO
+                      ISEG_PLY(11,I) = ILY
+                 ENDIF
+               ENDIF
                 J12 = IXX(I,12)
                IF(J12 > 0) THEN
-                 NN = INOD_PXFEM(J12)                
-                 IF(NN > 0) THEN         
+                 NN = INOD_PXFEM(J12)
+                 IF(NN > 0) THEN
                       ILY = 1
                       DO WHILE(MS_PLY(NN,ILY) == ZERO)
-                       ILY = ILY + 1                   
-                      ENDDO                         
-                      ISEG_PLY(12,I) = ILY                  
-                 ENDIF 
-               ENDIF 
+                       ILY = ILY + 1
+                      ENDDO
+                      ISEG_PLY(12,I) = ILY
+                 ENDIF
+               ENDIF
 C                  
             ENDIF
-        ENDDO  
+        ENDDO
 C             
 C------------------------------------------------------------
       RETURN
       END
- 
- 
- 
- 
+
+
+
+

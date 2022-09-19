@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -54,13 +54,13 @@ C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-!     NUMELS      
+!     NUMELS
 #include      "com04_c.inc"
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "mvsiz_p.inc"
 !     DTFAC1
-#include      "scr18_c.inc" 
+#include      "scr18_c.inc"
 #include      "macro.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
@@ -82,19 +82,19 @@ C-----------------------------------------------
       INTEGER :: II, I, J, NB_FACE, NB_FACE2, KFACE, IFACE, NG, IMAT
       my_real :: VALK, VALL, NX(6), NY(6), NZ(6),
      .     XK(3), XF(3, 6), DELTA, LIM_RHO, XL(3, 6)
-      my_real :: MAXVAL_RHO, MINVAL_RHO, 
-     .     MAXVAL_U, MINVAL_U, 
-     .     MAXVAL_V, MINVAL_V, 
+      my_real :: MAXVAL_RHO, MINVAL_RHO,
+     .     MAXVAL_U, MINVAL_U,
+     .     MAXVAL_V, MINVAL_V,
      .     MAXVAL_W, MINVAL_W, LIM_VELX, LIM_VELY, LIM_VELZ, LIM_VEL
       my_real :: MAXVAL_PRES, MINVAL_PRES, LIM_PRES
-      my_real :: PHASE_MAXVAL_RHO(NBMAT), PHASE_MINVAL_RHO(NBMAT), 
-     .     PHASE_MAXVAL_ALPHA(NBMAT), PHASE_MINVAL_ALPHA(NBMAT), 
-     .     PHASE_MAXVAL_PRES(NBMAT), PHASE_MINVAL_PRES(NBMAT), 
+      my_real :: PHASE_MAXVAL_RHO(NBMAT), PHASE_MINVAL_RHO(NBMAT),
+     .     PHASE_MAXVAL_ALPHA(NBMAT), PHASE_MINVAL_ALPHA(NBMAT),
+     .     PHASE_MAXVAL_PRES(NBMAT), PHASE_MINVAL_PRES(NBMAT),
      .     PHASE_LIM_ALPHA(NBMAT), PHASE_LIM_RHO(NBMAT), PHASE_LIM_PRES(NBMAT)
       my_real :: PEPS, MEPS, LIMFACE(6)
       TYPE(G_BUFEL_), POINTER :: GBUF
-      TYPE(L_BUFEL_), POINTER :: LBUF 
-      INTEGER :: VOIS(6), FACE_LIST(6), NEL, ITY, ISOLNOD, NFT, MATLAW, 
+      TYPE(L_BUFEL_), POINTER :: LBUF
+      INTEGER :: VOIS(6), FACE_LIST(6), NEL, ITY, ISOLNOD, NFT, MATLAW,
      .     NODE1, NODE2, NODE3, NODE4
       my_real :: SUMX, SUMY, SUMZ, VOL, ONE_OVER_VOL, LIM_ALPHA
       my_real :: EPS_INT
@@ -164,7 +164,7 @@ C     TRIANGLES
             DO II = 1, NEL
                I = II + NFT
                IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-!               NB_FACE = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) - 
+!               NB_FACE = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) -
 !     .              ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                VOIS(1:6) = -1
                NX(1:6) = -EP30
@@ -207,8 +207,8 @@ C     Matrice
                   MAT(2, 1) = ZERO
                   MAT(3, 1) = ZERO
                ENDIF
-               
-               DET = MAT(1, 1) * MAT(2, 2) * MAT(3, 3) - MAT(1, 1) * MAT(2, 3)**2 
+
+               DET = MAT(1, 1) * MAT(2, 2) * MAT(3, 3) - MAT(1, 1) * MAT(2, 3)**2
      .              - MAT(2, 2) * MAT(1, 3)**2 - MAT(3, 3) * MAT(1, 2)**2
      .              + TWO * MAT(1, 2) * MAT(1, 3) * MAT(2, 3)
                IF (DET /= ZERO) THEN
@@ -216,7 +216,7 @@ C     Matrice
                ELSE
                   CALL ARRET(2)
                ENDIF
-               
+
                MATM1(1, 1) = MAT(2, 2) * MAT(3, 3) - MAT(2, 3)**2
                MATM1(1, 2) = -MAT(1, 2) * MAT(3, 3) + MAT(1, 3) * MAT(2, 3)
                MATM1(1, 3) = MAT(1, 2) * MAT(2, 3) - MAT(1, 3) * MAT(2, 2)
@@ -226,11 +226,11 @@ C     Matrice
                MATM1(2, 1) = MATM1(1, 2)
                MATM1(3, 1) = MATM1(1, 3)
                MATM1(3, 2) = MATM1(2, 3)
-               
+
                MATM1(1:3, 1:3) = MATM1(1:3, 1:3) * DET
 
 C               MATTEST(1:3, 1:3) = MATMUL(MAT(1:3, 1:3), MATM1(1:3, 1:3))
-               
+
                IF (MULTI_FVM%SYM == 1) THEN
 C     Use planar surface here
                   IF (ITY == 2) THEN
@@ -253,7 +253,7 @@ C     TRIANGLES
                      X3(1:3) = XGRID(1:3, NODE3)
                   ENDIF
                ENDIF
-               
+
 C     Velocity gradient
                MAXVAL_U = MULTI_FVM%VEL(1, I)
                MINVAL_U = MAXVAL_U
@@ -306,7 +306,7 @@ C     Velocity gradient -> X component
                         RHS(3) = RHS(3) + (VALK - VALL) * (XL(3, KFACE) - XK(3))
                      ENDIF
                   ENDDO
-                  
+
                   SOL(1:3) = MATMUL(MATM1(1:3, 1:3), RHS(1:3))
                   SUMX = -SOL(1)
                   SUMY = -SOL(2)
@@ -317,7 +317,7 @@ C     Component X limitation
                      KFACE = FACE_LIST(IFACE)
                      DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                    SUMY * (XF(2, KFACE) - XK(2)) +
-     .                    SUMZ * (XF(3, KFACE) - XK(3))  
+     .                    SUMZ * (XF(3, KFACE) - XK(3))
                      IF (DELTA > ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MAXVAL_U - VALK) / DELTA
                      ELSE IF (DELTA < ZERO) THEN
@@ -355,7 +355,7 @@ C     Component Y limitation
                      KFACE = FACE_LIST(IFACE)
                      DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                    SUMY * (XF(2, KFACE) - XK(2)) +
-     .                    SUMZ * (XF(3, KFACE) - XK(3))  
+     .                    SUMZ * (XF(3, KFACE) - XK(3))
                      IF (DELTA > ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MAXVAL_V - VALK) / DELTA
                      ELSE IF (DELTA < ZERO) THEN
@@ -364,9 +364,9 @@ C     Component Y limitation
                      CALL LIMITER(LIMFACE(KFACE), ONE)
                   ENDDO
                   LIM_VELY = MINVAL(LIMFACE(1:6))
-                  MULTI_FVM%GRAD_V(1, I) = SUMX * LIM_VELY 
-                  MULTI_FVM%GRAD_V(2, I) = SUMY * LIM_VELY 
-                  MULTI_FVM%GRAD_V(3, I) = SUMZ * LIM_VELY 
+                  MULTI_FVM%GRAD_V(1, I) = SUMX * LIM_VELY
+                  MULTI_FVM%GRAD_V(2, I) = SUMY * LIM_VELY
+                  MULTI_FVM%GRAD_V(3, I) = SUMZ * LIM_VELY
 C     Velocity gradient -> Z component
                   VALK = MULTI_FVM%VEL(3, I)
                   RHS(1:3) = ZERO
@@ -393,18 +393,18 @@ C     Component Z limitation
                      KFACE = FACE_LIST(IFACE)
                      DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                    SUMY * (XF(2, KFACE) - XK(2)) +
-     .                    SUMZ * (XF(3, KFACE) - XK(3))  
+     .                    SUMZ * (XF(3, KFACE) - XK(3))
                      IF (DELTA > ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MAXVAL_W - VALK) / DELTA
                      ELSE IF (DELTA < ZERO) THEN
                         LIMFACE(KFACE) = HALF * (MINVAL_W - VALK) / DELTA
                      ENDIF
                      CALL LIMITER(LIMFACE(KFACE), ONE)
-                  ENDDO  
+                  ENDDO
                   LIM_VELZ = MINVAL(LIMFACE(1:6))
-                  MULTI_FVM%GRAD_W(1, I) = SUMX * LIM_VELZ 
-                  MULTI_FVM%GRAD_W(2, I) = SUMY * LIM_VELZ 
-                  MULTI_FVM%GRAD_W(3, I) = SUMZ * LIM_VELZ 
+                  MULTI_FVM%GRAD_W(1, I) = SUMX * LIM_VELZ
+                  MULTI_FVM%GRAD_W(2, I) = SUMY * LIM_VELZ
+                  MULTI_FVM%GRAD_W(3, I) = SUMZ * LIM_VELZ
                ENDIF !MUSCL == 1
 
                IF (NBMAT == 1) THEN
@@ -425,8 +425,8 @@ C     Density gradient
                            MINVAL_RHO = MIN(MINVAL_RHO, VALL)
                            RHS(1) = RHS(1) + (VALK - VALL) * (XL(1, KFACE) - XK(1))
                            RHS(2) = RHS(2) + (VALK - VALL) * (XL(2, KFACE) - XK(2))
-                           RHS(3) = RHS(3) + (VALK - VALL) * (XL(3, KFACE) - XK(3))  
-                        ENDIF         
+                           RHS(3) = RHS(3) + (VALK - VALL) * (XL(3, KFACE) - XK(3))
+                        ENDIF
                      ENDDO
                      SOL(1:3) = MATMUL(MATM1(1:3, 1:3), RHS(1:3))
                      SUMX = -SOL(1)
@@ -438,7 +438,7 @@ C     Density gradient limitation
                         KFACE = FACE_LIST(IFACE)
                         DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                       SUMY * (XF(2, KFACE) - XK(2)) +
-     .                       SUMZ * (XF(3, KFACE) - XK(3)) 
+     .                       SUMZ * (XF(3, KFACE) - XK(3))
                         IF (DELTA > ZERO) THEN
                            LIMFACE(KFACE) = HALF * (MAXVAL_RHO - VALK) / DELTA
                         ELSE IF (DELTA < ZERO) THEN
@@ -465,7 +465,7 @@ C     Pressure gradient
                            RHS(2) = RHS(2) + (VALK - VALL) * (XL(2, KFACE) - XK(2))
                            RHS(3) = RHS(3) + (VALK - VALL) * (XL(3, KFACE) - XK(3))
                         ENDIF
-                     ENDDO                  
+                     ENDDO
                      SOL(1:3) = MATMUL(MATM1(1:3, 1:3), RHS(1:3))
                      SUMX = -SOL(1)
                      SUMY = -SOL(2)
@@ -477,7 +477,7 @@ C     pressure limitation
                         KFACE = FACE_LIST(IFACE)
                         DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                       SUMY * (XF(2, KFACE) - XK(2)) +
-     .                       SUMZ * (XF(3, KFACE) - XK(3)) 
+     .                       SUMZ * (XF(3, KFACE) - XK(3))
                         IF (DELTA > ZERO) THEN
                            LIMFACE(KFACE) = HALF * (MAXVAL_PRES - VALK) / DELTA
                         ELSE IF (DELTA < ZERO) THEN
@@ -514,14 +514,14 @@ C     Volume fraction gradient
                      SOL(1:3) = MATMUL(MATM1(1:3, 1:3), RHS(1:3))
                      SUMX = -SOL(1)
                      SUMY = -SOL(2)
-                     SUMZ = -SOL(3)                     
+                     SUMZ = -SOL(3)
 C     Volume fraction gradient limitation
                      LIMFACE(1:6) = ONE
                      DO IFACE = 1, NB_FACE
                         KFACE = FACE_LIST(IFACE)
                         DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                       SUMY * (XF(2, KFACE) - XK(2)) +
-     .                       SUMZ * (XF(3, KFACE) - XK(3)) 
+     .                       SUMZ * (XF(3, KFACE) - XK(3))
                         IF (DELTA > ZERO) THEN
                            LIMFACE(KFACE) = HALF * (PHASE_MAXVAL_ALPHA(IMAT) - VALK) / DELTA
                         ELSE IF (DELTA < ZERO) THEN
@@ -553,14 +553,14 @@ C     Density gradient
                         SOL(1:3) = MATMUL(MATM1(1:3, 1:3), RHS(1:3))
                         SUMX = -SOL(1)
                         SUMY = -SOL(2)
-                        SUMZ = -SOL(3) 
+                        SUMZ = -SOL(3)
 C     Density gradient limitation
                         LIMFACE(1:6) = ONE
                         DO IFACE = 1, NB_FACE
                            KFACE = FACE_LIST(IFACE)
                            DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                          SUMY * (XF(2, KFACE) - XK(2)) +
-     .                          SUMZ * (XF(3, KFACE) - XK(3)) 
+     .                          SUMZ * (XF(3, KFACE) - XK(3))
                            IF (DELTA > ZERO) THEN
                               LIMFACE(KFACE) = HALF * (PHASE_MAXVAL_RHO(IMAT) - VALK) / DELTA
                            ELSE IF (DELTA < ZERO) THEN
@@ -602,7 +602,7 @@ C     Pressure gradient limitation
                            KFACE = FACE_LIST(IFACE)
                            DELTA = SUMX * (XF(1, KFACE) - XK(1)) +
      .                          SUMY * (XF(2, KFACE) - XK(2)) +
-     .                          SUMZ * (XF(3, KFACE) - XK(3)) 
+     .                          SUMZ * (XF(3, KFACE) - XK(3))
                            IF (DELTA > ZERO) THEN
                               LIMFACE(KFACE) = HALF * (PHASE_MAXVAL_PRES(IMAT) - VALK) / DELTA
                            ELSE IF (DELTA < ZERO) THEN
@@ -635,7 +635,7 @@ Chd|====================================================================
       my_real, INTENT(INOUT) :: PHI
       my_real, INTENT(IN) :: BETA
       my_real :: LIM
-      
+
       LIM = MAX(ZERO, MAX(MIN(ONE, BETA * PHI), MIN(PHI, BETA)))
       PHI = LIM
       END SUBROUTINE LIMITER

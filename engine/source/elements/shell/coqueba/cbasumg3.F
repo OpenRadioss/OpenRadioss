@@ -36,8 +36,8 @@ Chd|====================================================================
      1            JFT    ,JLT    ,VQN    ,VQ     ,NPLAT   ,IPLAT   ,
      2                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      3                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     4                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     5                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
+     4                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     5                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      6                     KE11,KE22,KE33,KE44,KE12,KE13,KE14,KE23,
      7                     KE24,KE34,VCORE,IDRIL,IORTH)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT ,IPLAT(*),IDRIL,IORTH
-      my_real 
+      my_real
      .   VQN(MVSIZ,3,3,4),VQ(MVSIZ,3,3)
       my_real
      .    K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*),
@@ -67,15 +67,15 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K,EP,IS,IAS,NF,MI,MJ,M
-      my_real 
+      my_real
      .     Q(3,3,MVSIZ),QN(3,3,4,MVSIZ),CORELV(MVSIZ,2,4),Z1(MVSIZ)
-      DATA IS/1/,IAS/0/ 
+      DATA IS/1/,IAS/0/
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C---------------------------------------
 C   TRANS LOCAL-->GLOBAL ET 5DDL-->6DDL w/  rigid mode projection
 C---------------------------------------
-        DO I=1,3 
-        DO J=1,3 
+        DO I=1,3
+        DO J=1,3
 #include "vectorize.inc"
         DO M=JFT,NPLAT
          EP=IPLAT(M)
@@ -173,14 +173,14 @@ C---------------------------------------
 C   ASSEMBLAGE
 C---------------------------------------
 C---------KII -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=I,3 
+        DO J=I,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=JFT,NPLAT
           EP=IPLAT(M)
-          KE11(I,J,EP)=K11(I,J,M) 
+          KE11(I,J,EP)=K11(I,J,M)
           KE11(MI,MJ,EP)=M11(I,J,M)
           KE22(I,J,EP)=K22(I,J,M)
           KE22(MI,MJ,EP)=M22(I,J,M)
@@ -192,8 +192,8 @@ C---------KII --------
         ENDDO
        ENDDO
 C
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=JFT,NPLAT
@@ -207,9 +207,9 @@ C
        ENDDO
 C
 C---------KIJ -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=1,3 
+        DO J=1,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=JFT,NPLAT
@@ -245,33 +245,33 @@ C----------------warped elements--------------
        NF=NPLAT+1
        IF (NF > JLT) RETURN
 C       
-       DO I=1,3 
-       DO J=1,3 
+       DO I=1,3
+       DO J=1,3
 #include "vectorize.inc"
-        DO M=NF,JLT 
+        DO M=NF,JLT
          EP=IPLAT(M)
          Q(J,I,M)=VQ(EP,I,J)
         ENDDO
        ENDDO
        ENDDO
 C--------projection free Rigid rotation---- 
-       DO J=1,4 
-         DO I=1,2 
+       DO J=1,4
+         DO I=1,2
 #include "vectorize.inc"
-          DO M=NF,JLT 
+          DO M=NF,JLT
            EP=IPLAT(M)
            CORELV(M,I,J)=VCORE(EP,I,J)
           ENDDO
          ENDDO
 #include "vectorize.inc"
-         DO M=NF,JLT 
+         DO M=NF,JLT
            EP=IPLAT(M)
            Z1(M)=VCORE(EP,3,1)
          ENDDO
-         DO I=1,3 
-         DO K=1,3 
+         DO I=1,3
+         DO K=1,3
 #include "vectorize.inc"
-          DO M=NF,JLT 
+          DO M=NF,JLT
            EP=IPLAT(M)
            QN(I,K,J,M)=VQN(EP,I,K,J)
           ENDDO
@@ -282,16 +282,16 @@ C--------projection free Rigid rotation----
      1               NF    ,JLT    ,QN    ,Q     ,
      3               K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      4               M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     5               MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     6               MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
+     5               MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     6               MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      7               CORELV,Z1   )
 C---------------------------------------
 C   ASSEMBLAGE
 C---------------------------------------
 C---------KII -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=I,3 
+        DO J=I,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=NF,JLT
@@ -308,8 +308,8 @@ C---------KII --------
         ENDDO
        ENDDO
 C
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=NF,JLT
@@ -322,9 +322,9 @@ C
         ENDDO
        ENDDO
 C---------KIJ -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=1,3 
+        DO J=1,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=NF,JLT
@@ -357,8 +357,8 @@ C---------KIJ --------
         ENDDO
        ENDDO
 C
-       DO I=1,6 
-        DO J=I+1,6 
+       DO I=1,6
+        DO J=I+1,6
          DO M=JFT,JLT
           KE11(J,I,M)=KE11(I,J,M)
           KE22(J,I,M)=KE22(I,J,M)
@@ -379,7 +379,7 @@ Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|        MSTIFORTH                     source/elements/solid/solide8z/mmats.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN3(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM) 
+      SUBROUTINE CBATRAN3(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -387,7 +387,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,ISYM
-      my_real 
+      my_real
      .   VQI(3,3,*), VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -397,9 +397,9 @@ C-----------------------------------------------
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
        IF (ISYM==1) THEN
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(1,I,EP)*(KK(1,1,EP)*VQJ(1,J,EP)+
      1                  KK(1,2,EP)*VQJ(2,J,EP)+KK(1,3,EP)*VQJ(3,J,EP))+
      2              VQI(2,I,EP)*(KK(1,2,EP)*VQJ(1,J,EP)+
@@ -410,17 +410,17 @@ C-----------------------------------------------
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
        ELSE
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(1,I,EP)*(KK(1,1,EP)*VQJ(1,J,EP)+
      1                  KK(1,2,EP)*VQJ(2,J,EP)+KK(1,3,EP)*VQJ(3,J,EP))+
      2              VQI(2,I,EP)*(KK(2,1,EP)*VQJ(1,J,EP)+
@@ -431,9 +431,9 @@ C
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -449,7 +449,7 @@ Chd|        CBASUMG3                      source/elements/shell/coqueba/cbasumg3
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN2(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM) 
+      SUBROUTINE CBATRAN2(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -457,7 +457,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQI(3,3,*),VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -467,9 +467,9 @@ C-----------------------------------------------
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
        IF (ISYM==1) THEN
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(1,I,EP)*(
      1                  KK(1,1,EP)*VQJ(1,J,EP)+KK(1,2,EP)*VQJ(2,J,EP))+
      2              VQI(2,I,EP)*(
@@ -479,17 +479,17 @@ C-----------------------------------------------
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
        ELSE
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(1,I,EP)*(
      1                  KK(1,1,EP)*VQJ(1,J,EP)+KK(1,2,EP)*VQJ(2,J,EP))+
      2              VQI(2,I,EP)*(
@@ -499,9 +499,9 @@ C
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -515,7 +515,7 @@ Chd|-- called by -----------
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN32(JFT   ,JLT    ,VQI   ,KK,VQJ) 
+      SUBROUTINE CBATRAN32(JFT   ,JLT    ,VQI   ,KK,VQJ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -523,7 +523,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQI(3,3,*),VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -532,9 +532,9 @@ C-----------------------------------------------
       my_real
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(1,I,EP)*(KK(1,1,EP)*VQJ(1,J,EP)+
      1                           KK(1,2,EP)*VQJ(2,J,EP))+
      2              VQI(2,I,EP)*(KK(2,1,EP)*VQJ(1,J,EP)+
@@ -545,9 +545,9 @@ C-----------------------------------------------
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -560,7 +560,7 @@ Chd|-- called by -----------
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN23(JFT   ,JLT    ,VQI   ,KK,VQJ) 
+      SUBROUTINE CBATRAN23(JFT   ,JLT    ,VQI   ,KK,VQJ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -568,7 +568,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQI(3,3,*),VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -578,9 +578,9 @@ C-----------------------------------------------
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(1,I,EP)*(KK(1,1,EP)*VQJ(1,J,EP)+
      1                  KK(1,2,EP)*VQJ(2,J,EP)+KK(1,3,EP)*VQJ(3,J,EP))+
      2              VQI(2,I,EP)*(KK(2,1,EP)*VQJ(1,J,EP)+
@@ -589,9 +589,9 @@ C
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -606,7 +606,7 @@ Chd|        CBASUMG3                      source/elements/shell/coqueba/cbasumg3
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN232(JFT   ,JLT    ,VQI   ,KK,VQJ) 
+      SUBROUTINE CBATRAN232(JFT   ,JLT    ,VQI   ,KK,VQJ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -614,7 +614,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQI(3,3,*),VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -623,18 +623,18 @@ C-----------------------------------------------
       my_real
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQI(3,I,EP)*(KK(3,1,EP)*VQJ(1,J,EP)+
      1                           KK(3,2,EP)*VQJ(2,J,EP))
          ENDDO
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -649,7 +649,7 @@ Chd|        CBASUMG3                      source/elements/shell/coqueba/cbasumg3
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN223(JFT   ,JLT    ,VQI   ,KK,VQJ) 
+      SUBROUTINE CBATRAN223(JFT   ,JLT    ,VQI   ,KK,VQJ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -657,7 +657,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQI(3,3,*),VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -667,18 +667,18 @@ C-----------------------------------------------
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=(VQI(1,I,EP)*KK(1,3,EP)+
      1               VQI(2,I,EP)*KK(2,3,EP))*VQJ(3,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -693,7 +693,7 @@ Chd|        CBASUMG3                      source/elements/shell/coqueba/cbasumg3
 Chd|        CZSUMG3                       source/elements/shell/coquez/czsumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN233(JFT   ,JLT    ,VQI   ,KK,VQJ) 
+      SUBROUTINE CBATRAN233(JFT   ,JLT    ,VQI   ,KK,VQJ)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -701,7 +701,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQI(3,3,*),VQJ(3,3,*),KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -712,9 +712,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C----- QI^tKQJ K(1,3)>0,K(2,3)>0,K(3,1)>0,K(3,2)>0-------
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=(VQI(1,I,EP)*KK(1,3,EP)+
      1               VQI(2,I,EP)*KK(2,3,EP))*VQJ(3,J,EP)+
      3               VQI(3,I,EP)*(KK(3,1,EP)*VQJ(1,J,EP)+
@@ -723,9 +723,9 @@ C
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
@@ -945,9 +945,9 @@ Chd|====================================================================
       SUBROUTINE SETPROJKBA(DR    ,R1     ,R2     ,R3     ,R4    ,
      3                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      4                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     5                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     6                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
-     .                     VQ  ,VQN ,JFT  ,JLT   ) 
+     5                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     6                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
+     .                     VQ  ,VQN ,JFT  ,JLT   )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -955,7 +955,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .    DR(3,3,*),VQ(3,3,*),VQN(3,3,4,*),
      .    R1(3,3,*),R2(3,3,*),R3(3,3,*),R4(3,3,*),
      .    K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*),
@@ -982,9 +982,9 @@ C-------------------------------------------------------------
         ALLOCATE(P(24,24,MVSIZ))
         ALLOCATE(KE(24,24,MVSIZ))
 C	
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           VQ1(I,J,EP)= VQN(J,I,1,EP)
           VQ2(I,J,EP)= VQN(J,I,2,EP)
           VQ3(I,J,EP)= VQN(J,I,3,EP)
@@ -993,120 +993,120 @@ C
         ENDDO
         ENDDO
 C-----------P11=Q1Pr11Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R1 ,KL, IS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R1 ,KL, IS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I,J,EP)= K11(I,J,EP)
           KE(I+3,J+3,EP)= M11(I,J,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I,J+3,EP)= MF11(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P22=Q2Pr22Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R2  ,DR , R2 ,KL, IS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ  ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R2  ,DR , R2 ,KL, IS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ  ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+6,J+6,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+6,J+6,EP)= K22(I,J,EP)
           KE(I+9,J+9,EP)= M22(I,J,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I+6,J+9,EP)= MF22(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P33=Q3Pr33Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R3  ,DR , R3 ,KL, IS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R3  ,DR , R3 ,KL, IS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+12,J+12,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+12,J+12,EP)= K33(I,J,EP)
           KE(I+15,J+15,EP)= M33(I,J,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I+12,J+15,EP)= MF33(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P44=Q4Pr44Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R4  ,DR , R4 ,KL, IS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R4  ,DR , R4 ,KL, IS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+18,J+18,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+18,J+18,EP)= K44(I,J,EP)
           KE(I+21,J+21,EP)= M44(I,J,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I+18,J+21,EP)= MF44(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P12=Q1Pr12Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R2 ,KL, IAS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R2 ,KL, IAS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I,J+6,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I,J+6,EP)= K12(I,J,EP)
           KE(I+3,J+9,EP)= M12(I,J,EP)
           KE(I,J+9,EP)= MF12(I,J,EP)
@@ -1115,30 +1115,30 @@ C-----------P12=Q1Pr12Q
         ENDDO
         ENDDO
 C-----------P21=Q2Pr21Q
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ  ,IAT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ  ,IAT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+6,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P13=Q1Pr13Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R3 ,KL, IAS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ  ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R3 ,KL, IAS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ  ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I,J+12,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I,J+12,EP)= K13(I,J,EP)
           KE(I+3,J+15,EP)= M13(I,J,EP)
           KE(I,J+15,EP)= MF13(I,J,EP)
@@ -1147,30 +1147,30 @@ C-----------P13=Q1Pr13Q
         ENDDO
         ENDDO
 C-----------P31=Q3Pr31Q
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+12,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P14=Q1Pr14Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R4 ,KL, IAS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R1  ,DR , R4 ,KL, IAS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ1  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I,J+18,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I,J+18,EP)= K14(I,J,EP)
           KE(I+3,J+21,EP)= M14(I,J,EP)
           KE(I,J+21,EP)= MF14(I,J,EP)
@@ -1179,30 +1179,30 @@ C-----------P14=Q1Pr14Q
         ENDDO
         ENDDO
 C-----------P41=Q4P41Q
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+18,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P23=Q2Pr23Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R2  ,DR , R3 ,KL, IAS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R2  ,DR , R3 ,KL, IAS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+6,J+12,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I+6,J+12,EP)= K23(I,J,EP)
           KE(I+9,J+15,EP)= M23(I,J,EP)
           KE(I+6,J+15,EP)= MF23(I,J,EP)
@@ -1211,30 +1211,30 @@ C-----------P23=Q2Pr23Q
         ENDDO
         ENDDO
 C-----------P32=Q3Pr32Q
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+12,J+6,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P24=Q2Pr24Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R2  ,DR , R4 ,KL, IAS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R2  ,DR , R4 ,KL, IAS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ2  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+6,J+18,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I+6,J+18,EP)= K24(I,J,EP)
           KE(I+9,J+21,EP)= M24(I,J,EP)
           KE(I+6,J+21,EP)= MF24(I,J,EP)
@@ -1243,30 +1243,30 @@ C-----------P24=Q2Pr24Q
         ENDDO
         ENDDO
 C-----------P42=Q4Pr42Q
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+18,J+6,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------P34=Q3Pr34Q
-       CALL TRANQIKQJ33(JFT   ,JLT    ,R3  ,DR , R4 ,KL, IAS) 
-       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS ) 
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANQIKQJ33(JFT   ,JLT    ,R3  ,DR , R4 ,KL, IAS)
+       CALL TRANKL1(JFT   ,JLT    ,KL  ,IAS )
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ3  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+12,J+18,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KE(I+12,J+18,EP)= K34(I,J,EP)
           KE(I+15,J+21,EP)= M34(I,J,EP)
           KE(I+12,J+21,EP)= MF34(I,J,EP)
@@ -1275,87 +1275,87 @@ C-----------P34=Q3Pr34Q
         ENDDO
         ENDDO
 C-----------P43=Q4Pr43Q
-       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT ) 
-       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   ) 
-        DO I=1,6 
-        DO J=1,6 
-         DO EP=JFT,JLT 
+       CALL TRANKLQ(JFT   ,JLT    ,VQ   ,KL ,KQ ,IAT )
+       CALL TRANQNKQ(JFT  ,JLT    ,VQ4  ,KQ   )
+        DO I=1,6
+        DO J=1,6
+         DO EP=JFT,JLT
           P(I+18,J+12,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------
-        DO I=1,24 
-        DO J=I+1,24 
-         DO EP=JFT,JLT 
+        DO I=1,24
+        DO J=I+1,24
+         DO EP=JFT,JLT
           KE(J,I,EP)= KE(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------
-        CALL TRANQIKQJ(JFT   ,JLT    ,P  ,KE,P ,24 ,IS ) 
+        CALL TRANQIKQJ(JFT   ,JLT    ,P  ,KE,P ,24 ,IS )
 C-----------after projection----
 C-----------K11
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K11(I,J,EP) =KE(I,J,EP)
           M11(I,J,EP) =KE(I+3,J+3,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO J=1,3
+         DO EP=JFT,JLT
           MF11(I,J,EP) = KE(I,J+3,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------K22
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K22(I,J,EP) = KE(I+6,J+6,EP)
           M22(I,J,EP) = KE(I+9,J+9,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
-          MF22(I,J,EP) = KE(I+6,J+9,EP) 
+        DO J=1,3
+         DO EP=JFT,JLT
+          MF22(I,J,EP) = KE(I+6,J+9,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------K33
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K33(I,J,EP) = KE(I+12,J+12,EP)
-          M33(I,J,EP) = KE(I+15,J+15,EP) 
+          M33(I,J,EP) = KE(I+15,J+15,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
-          MF33(I,J,EP) = KE(I+12,J+15,EP) 
+        DO J=1,3
+         DO EP=JFT,JLT
+          MF33(I,J,EP) = KE(I+12,J+15,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------K44
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K44(I,J,EP) = KE(I+18,J+18,EP)
           M44(I,J,EP) = KE(I+21,J+21,EP)
          ENDDO
         ENDDO
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO J=1,3
+         DO EP=JFT,JLT
           MF44(I,J,EP) = KE(I+18,J+21,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------K12
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
-          K12(I,J,EP) =KE(I,J+6,EP) 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
+          K12(I,J,EP) =KE(I,J+6,EP)
           M12(I,J,EP) =KE(I+3,J+9,EP)
           MF12(I,J,EP)=KE(I,J+9,EP)
           FM12(I,J,EP)=KE(I+3,J+6,EP)
@@ -1363,20 +1363,20 @@ C-----------K12
         ENDDO
         ENDDO
 C-----------K13
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K13(I,J,EP) = KE(I,J+12,EP)
-          M13(I,J,EP) = KE(I+3,J+15,EP) 
+          M13(I,J,EP) = KE(I+3,J+15,EP)
           MF13(I,J,EP) = KE(I,J+15,EP)
           FM13(I,J,EP) = KE(I+3,J+12,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------K14
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K14(I,J,EP) =KE(I,J+18,EP)
           M14(I,J,EP) =KE(I+3,J+21,EP)
           MF14(I,J,EP)=KE(I,J+21,EP)
@@ -1385,20 +1385,20 @@ C-----------K14
         ENDDO
         ENDDO
 C-----------K23
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
-          K23(I,J,EP) = KE(I+6,J+12,EP) 
-          M23(I,J,EP) = KE(I+9,J+15,EP) 
-          MF23(I,J,EP) =KE(I+6,J+15,EP) 
-          FM23(I,J,EP) =KE(I+9,J+12,EP) 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
+          K23(I,J,EP) = KE(I+6,J+12,EP)
+          M23(I,J,EP) = KE(I+9,J+15,EP)
+          MF23(I,J,EP) =KE(I+6,J+15,EP)
+          FM23(I,J,EP) =KE(I+9,J+12,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------K24
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K24(I,J,EP) = KE(I+6,J+18,EP)
           M24(I,J,EP) = KE(I+9,J+21,EP)
           MF24(I,J,EP) =KE(I+6,J+21,EP)
@@ -1407,13 +1407,13 @@ C-----------K24
         ENDDO
         ENDDO
 C-----------K34
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
-          K34(I,J,EP) = KE(I+12,J+18,EP) 
-          M34(I,J,EP) = KE(I+15,J+21,EP) 
-          MF34(I,J,EP) =KE(I+12,J+21,EP) 
-          FM34(I,J,EP) =KE(I+15,J+18,EP) 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
+          K34(I,J,EP) = KE(I+12,J+18,EP)
+          M34(I,J,EP) = KE(I+15,J+21,EP)
+          MF34(I,J,EP) =KE(I+12,J+21,EP)
+          FM34(I,J,EP) =KE(I+15,J+18,EP)
          ENDDO
         ENDDO
         ENDDO
@@ -1541,7 +1541,7 @@ Chd|-- called by -----------
 Chd|        SETPROJKBA                    source/elements/shell/coqueba/cbasumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TRANQNKQ(JFT   ,JLT    ,VQN   ,KQ   ) 
+      SUBROUTINE TRANQNKQ(JFT   ,JLT    ,VQN   ,KQ   )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -1549,42 +1549,42 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,IT
-      my_real 
+      my_real
      .   VQN(3,3,*), KQ(6,6,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
 C-----------------------------------------------
       INTEGER I,J,EP,K,L,J1,I1
-      my_real 
+      my_real
      .   KD(3,3,MVSIZ),KK(3,3,MVSIZ)
 C--------------KQ<-VQ*KQ----VQ=|I   0 |
 C------------------------------|0 VQN|---------------------
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KD(I,J,EP)= ZERO
           KK(I,J,EP)= ZERO
          ENDDO
         ENDDO
         ENDDO
 C        
-        DO J=1,3 
+        DO J=1,3
 	 J1=J+3
-        DO I=1,3 
-         DO EP=JFT,JLT 
-          DO K=1,3 
+        DO I=1,3
+         DO EP=JFT,JLT
+          DO K=1,3
             KD(I,J,EP)=KD(I,J,EP)+VQN(I,K,EP)*KQ(K+3,J,EP)
             KK(I,J,EP)=KK(I,J,EP)+VQN(I,K,EP)*KQ(K+3,J1,EP)
-          ENDDO 
+          ENDDO
          ENDDO
         ENDDO
         ENDDO
 C	
-        DO I=1,3 
+        DO I=1,3
 	 I1=I+3
-        DO J=1,3 
+        DO J=1,3
 	 J1=J+3
-         DO EP=JFT,JLT 
+         DO EP=JFT,JLT
             KQ(I1,J,EP)=KD(I,J,EP)
             KQ(I1,J1,EP)=KK(I,J,EP)
          ENDDO
@@ -1602,8 +1602,8 @@ Chd|====================================================================
      1                     JFT    ,JLT    ,IPLAT   ,
      2                     K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      3                     M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     4                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     5                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
+     4                     MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     5                     MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      6                     KE11,KE22,KE33,KE44,KE12,KE13,KE14,KE23,
      7                     KE24,KE34)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
@@ -1632,9 +1632,9 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K,EP,M,MI,MJ
 C---------KII -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=I,3 
+        DO J=I,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=JFT,JLT
@@ -1651,8 +1651,8 @@ C---------KII --------
         ENDDO
        ENDDO
 C
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=JFT,JLT
@@ -1666,9 +1666,9 @@ C
        ENDDO
 C
 C---------KIJ -------- 
-       DO I=1,3 
+       DO I=1,3
         MI=I+3
-        DO J=1,3 
+        DO J=1,3
          MJ=J+3
 #include "vectorize.inc"
          DO M=JFT,JLT
@@ -1701,8 +1701,8 @@ C---------KIJ --------
         ENDDO
        ENDDO
 C
-       DO I=1,6 
-        DO J=I+1,6 
+       DO I=1,6
+        DO J=I+1,6
          DO M=JFT,JLT
           KE11(J,I,M)=KE11(I,J,M)
           KE22(J,I,M)=KE22(I,J,M)
@@ -1735,7 +1735,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IUGEO
 C     REAL
-      my_real    
+      my_real
      .   KE11(6,6,*),KE22(6,6,*),KE33(6,6,*),KE44(6,6,*),
      .   KE12(6,6,*),KE13(6,6,*),KE14(6,6,*),KE23(6,6,*),
      .   KE24(6,6,*),KE34(6,6,*)
@@ -1776,7 +1776,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IN
       CHARACTER CH*3
 C     REAL
-      my_real    
+      my_real
      .   KIJ(6,6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1794,8 +1794,8 @@ C-----------------------------------------------
        DO N= JFT,JLT
         WRITE(IN,'(6(/,1P6E12.5),/)'
      .    )((KIJ(I,J,N),I=1,6),J=1,6)
-       ENDDO 
+       ENDDO
       RETURN
       END
 C
- 
+

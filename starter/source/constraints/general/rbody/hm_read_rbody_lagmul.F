@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPBYL(NNPBY,*),LPBYL(*), 
+      INTEGER NPBYL(NNPBY,*),LPBYL(*),
      .        ITAB(*), ITABM1(*),IKINE(*),IKINE1LAG(*)
 C     REAL
       my_real
@@ -120,7 +120,7 @@ C--------------------------------------------------
 C EXTRACT DATAS OF /RBODY/... LINE
 C--------------------------------------------------
 C
-       NRB_R2R = NRB_R2R + 1     
+       NRB_R2R = NRB_R2R + 1
        IF (NSUBDOM > 0) THEN
          IF(TAGRBY(NRB_R2R) == 0) CALL HM_SZ_R2R(TAGRBY,NRB_R2R,LSUBMODEL)
        ENDIF
@@ -131,7 +131,7 @@ C
      .                       OPTION_TITR = TITR,
      .                       KEYWORD2 = KEY,
      .                       SUBMODEL_INDEX = SUB_INDEX)
-       IF(KEY(1:6)=='LAGMUL')THEN     
+       IF(KEY(1:6)=='LAGMUL')THEN
         NRB = NRB + 1
         IF (NSUBDOM > 0) THEN ! TAGRBY is allocated only if NSUBDOM>0
           IF(TAGRBY(NRB) == 0) CALL HM_SZ_R2R(TAGRBY,NRB,LSUBMODEL)
@@ -176,7 +176,7 @@ C---
         WRITE(IOUT,1101)
         WRITE(IOUT,1102) (ITAB(LPBYL(J+K)),J=1,NSL)
         K = K + 3*MSL
-       END IF ! IF(KEY(1:6)=='LAGMUL')THEN  
+       END IF ! IF(KEY(1:6)=='LAGMUL')THEN
       ENDDO
 C---
       RETURN

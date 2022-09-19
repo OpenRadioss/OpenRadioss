@@ -34,7 +34,7 @@ Chd|====================================================================
      3           DT2T   ,NELTST  ,ITYPTST ,OFFG   ,GEO     ,
      4           PID    ,AMU     ,VOL_AVG,
      6           MUMAX  ,MAT     ,NGL     ,SSP    ,DVOL    ,
-     7           AIRE   ,VNEW    ,VD2     ,DELTAX ,VIS     ,  
+     7           AIRE   ,VNEW    ,VD2     ,DELTAX ,VIS     ,
      8           D1     ,D2      ,D3      ,D4     ,D5      ,
      9           D6     ,PNEW    ,PSH     ,QNEW   ,SSP_EQ  ,
      A           SOLD1  ,SOLD2   ,SOLD3   ,SOLD4  ,SOLD5   ,
@@ -72,9 +72,9 @@ C
      .   EPXE(*), EPSD(*), VOL(*), STIFN(*), OFFG(*),GEO(NPROPG,*),
      .   MUMAX(*),AMU(*),VOL_AVG(*)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*), 
-     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), 
+     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
+     .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*),
+     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
      .   TSTAR(MVSIZ), DPLA1(MVSIZ), EPSP(MVSIZ)
@@ -82,21 +82,21 @@ C
       my_real
      .   SIGY(*) ,DEFP(*),ETSE(*), MSSA(*), DMELS(*), TEMPEL(*),
      .   SIGBAK(NEL,6),AL_IMP(*),SIGNOR(MVSIZ,6),CONDE(*),DTEL(*),
-     .   RHOREF(*)  ,RHOSP(*)  
+     .   RHOREF(*)  ,RHOSP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC,IRTY,ISRATE,
      .   I, MX , NPIF,IBID,IKFLG
       my_real
-     .   RHO0, 
+     .   RHO0,
      .   EPD(MVSIZ),
      .   G(MVSIZ), AK(MVSIZ),
      .   PC(MVSIZ), QH(MVSIZ), C1,T(MVSIZ),
      .   AJ2(MVSIZ), DAV(MVSIZ),
-     .   P, EPMX, 
+     .   P, EPMX,
      .   CA(MVSIZ), CB(MVSIZ), CC, CN,
-     .   EPDR, CMX, 
+     .   EPDR, CMX,
      .   SIGMX(MVSIZ),Z3,Z4,CP,
      .   ASRATE,
      .   E1, E2, E3, E4, E5,E6, EINC, G2, G1,
@@ -161,7 +161,7 @@ C------------------------------------------
           SIG(I,5)=SIG(I,5)-SIGBAK(I,5)
           SIG(I,6)=SIG(I,6)-SIGBAK(I,6)
           IKFLG = IKFLG + 1
-         ENDIF           
+         ENDIF
       ENDDO
 C      
       DO I=LFT,LLT
@@ -192,7 +192,7 @@ c     --  storing elastic predictors for stiffness computation
         DO I=LFT,LLT
          SIGEXX(I) = SIG(I,1)
          SIGEYY(I) = SIG(I,2)
-         SIGEZZ(I) = SIG(I,3)		    
+         SIGEZZ(I) = SIG(I,3)		
          SIGEXY(I) = SIG(I,4)
          SIGEYZ(I) = SIG(I,5)
          SIGEZX(I) = SIG(I,6)
@@ -204,7 +204,7 @@ C-------------
       IF (ISRATE > 0) THEN
         DO I=LFT,LLT
           EPD(I) = HALF*((D1(I)+DAV(I))**2+(D2(I)+DAV(I))**2
-     .                                  +(D3(I)+DAV(I))**2) 
+     .                                  +(D3(I)+DAV(I))**2)
      .           + FOURTH*(D4(I)**2+D5(I)**2+D6(I)**2)
           EPD(I) = SQRT(THREE*EPD(I))/THREE_HALF
           EPSD(I) = ASRATE*EPD(I) + (ONE -ASRATE)*EPSD(I)
@@ -215,22 +215,22 @@ C-------------
      .      HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
         ENDDO
       ENDIF   ! israte
-      EPSP(1:NEL) = EPSD(1:NEL)                   
+      EPSP(1:NEL) = EPSD(1:NEL)
 c
       IF (EPIF/=0.0)THEN
         DO I=LFT,LLT
            EPD(I)= MAX(EPSD(I),EM15)
            EPD(I)= LOG(EPD(I)/EPDR)
         ENDDO
-        IF(JTHE >= 0 ) THEN     
+        IF(JTHE >= 0 ) THEN
           TM=Z4
-          IF(TM==ZERO)TM=EP30   
+          IF(TM==ZERO)TM=EP30
           DO I=LFT,LLT
             T(I) = T(I) +CP*EINT(I)/MAX(EM15,VOL(I))
-            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1))) 
+            TSTAR(I)=MIN(ONE,MAX(ZERO,(T(I)-T_1)/(TM-T_1)))
           ENDDO
-        ENDIF  
-  
+        ENDIF
+
         IF(NPIF==ZERO)THEN
           DO I=LFT,LLT
              MT=MAX(EM15,Z3)
@@ -388,7 +388,7 @@ C
           AK(I)=ZERO
           QH(I)=ZERO
          ENDIF
-        END DO 
+        END DO
        ENDIF
       END IF !(IKFLG == 0 ) THEN
 C
@@ -403,7 +403,7 @@ C
        SIG(I,6)=SCALE*SIG(I,6)
        EPXE(I)=EPXE(I)+(ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
 C
-       DPLA1(I) = (ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)     
+       DPLA1(I) = (ONE-SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
   110 CONTINUE
 C
       ELSEIF(IPLA==2)THEN
@@ -436,7 +436,7 @@ C      actual yield stress.
        SIG(I,5)=SCALE*SIG(I,5)
        SIG(I,6)=SCALE*SIG(I,6)
        EPXE(I)=EPXE(I)+DPLA
-       DPLA1(I) = DPLA       
+       DPLA1(I) = DPLA
        ENDDO
       ELSE
 c ---- nonlinear hardening requires iterations in radial return ---
@@ -447,11 +447,11 @@ c ---- nonlinear hardening requires iterations in radial return ---
      4                  NEL)
 C
       END IF !(IMPL_S==0) THEN
-      ENDIF 
+      ENDIF
 c-----------------------------------------
       IF (IKFLG > 0 ) THEN
        DO I=LFT,LLT
-          DSXX = SIGEXX(I) - SIG(I,1) 
+          DSXX = SIGEXX(I) - SIG(I,1)
           DSYY = SIGEYY(I) - SIG(I,2)
           DSZZ = SIGEZZ(I) - SIG(I,3)
           DSXY = SIGEXY(I) - SIG(I,4)
@@ -459,14 +459,14 @@ c-----------------------------------------
           DSZX = SIGEZX(I) - SIG(I,6)
 C 
           HKIN = TWO_THIRD*FISOKIN*QH(I)
-          ALPHA = HKIN/MAX(TWO*G(I)+HKIN,EM15)  
+          ALPHA = HKIN/MAX(TWO*G(I)+HKIN,EM15)
 C       ..updates back stresses
-          SIGBAK(I,1) = SIGBAK(I,1) + ALPHA*DSXX 
-          SIGBAK(I,2) = SIGBAK(I,2) + ALPHA*DSYY 
-          SIGBAK(I,3) = SIGBAK(I,3) + ALPHA*DSZZ 
-          SIGBAK(I,4) = SIGBAK(I,4) + ALPHA*DSXY 
-          SIGBAK(I,5) = SIGBAK(I,5) + ALPHA*DSYZ 
-          SIGBAK(I,6) = SIGBAK(I,6) + ALPHA*DSZX 
+          SIGBAK(I,1) = SIGBAK(I,1) + ALPHA*DSXX
+          SIGBAK(I,2) = SIGBAK(I,2) + ALPHA*DSYY
+          SIGBAK(I,3) = SIGBAK(I,3) + ALPHA*DSZZ
+          SIGBAK(I,4) = SIGBAK(I,4) + ALPHA*DSXY
+          SIGBAK(I,5) = SIGBAK(I,5) + ALPHA*DSYZ
+          SIGBAK(I,6) = SIGBAK(I,6) + ALPHA*DSZX
 C       ..gets stresses from shifted stresses and back stresses
           SIG(I,1)=SIG(I,1) + SIGBAK(I,1)
           SIG(I,2)=SIG(I,2) + SIGBAK(I,2)
@@ -599,11 +599,11 @@ c
 c    CA, CB, CN = coefficients of the hardening rule
 c                 Sigma_Yield =   CA + CB * (equiv_pl_strn)**CN
 c    EPD   = scalling fac due to velocity effect
-c    SIGMX = max allowable von Mises stress   
+c    SIGMX = max allowable von Mises stress
 c    EPMX  = max allowable equivalent plastic strain
 c    FISOKIN= Mixed hardening ratio
 c    --------------------
-c    -- parameters out --      
+c    -- parameters out --
 c    --------------------
 c
 c    DPLA1 = equivalent plastic strain increment
@@ -633,7 +633,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SIG(NEL,6), EPXE(*),EPD(*),
-     .   G(*), AK(*),QH(*), AJ2(*), 
+     .   G(*), AK(*),QH(*), AJ2(*),
      .   CA(*), CB(*), CN,FISOKIN,
      .   SIGMX(*),DPLA1(*),EPMX  ,SIGY(*)
 C-----------------------------------------------
@@ -662,7 +662,7 @@ C      -- PREVIOUS TIME-STEP YIELD STRESS !!!!! if EPXE=0!!!!!
 C       AK(I)=CA(I)+CB(I)*EPXE(I)**CN(I) !..SIGMA0(EPS_P)
 C
 C      -- COMPARE IT WITH ELASTIC PREDICTOR
-       IF(AJ2(I)<AK(I)) GO TO 90 
+       IF(AJ2(I)<AK(I)) GO TO 90
 C
        BETA = ONE-FISOKIN
        DO 80 ITER = 1,NITER ! .. NR ITERATIONS ..
@@ -687,7 +687,7 @@ C
 C
          IF(CN>ONE )THEN
                QH(I) = ZERO
-         ELSEIF(CN==ONE) THEN 
+         ELSEIF(CN==ONE) THEN
                QH(I) = CB(I)*EPD(I)
          ELSE
                QH(I) = EP10 *EPD(I) !.. SHOULD BE +INFINITY
@@ -705,7 +705,7 @@ C
        DXSI = RHS/LHS
        XSI = XSI + DXSI
 C
-       EPXE(I) = EPXE(I) + DXSI 
+       EPXE(I) = EPXE(I) + DXSI
        EPXE(I) = MAX(ZERO,EPXE(I))
           IF( ABS(DXSI)<EM10.AND.
      $        ABS(RHS )<EM10) GO TO 90

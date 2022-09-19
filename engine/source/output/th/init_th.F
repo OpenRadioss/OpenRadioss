@@ -47,8 +47,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
-      USE CLUSTER_MOD        
+      USE ELBUFDEF_MOD
+      USE CLUSTER_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE TH_MOD
@@ -82,7 +82,7 @@ C-----------------------------------------------
 #include      "impl1_c.inc"
 #include      "rad2r_c.inc"
 #include      "thermal_c.inc"
-#include      "tabsiz_c.inc" 
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: WA_INDEX_DIPLS
       TYPE(TH_COMM), DIMENSION(:), POINTER :: WA_COMM
       INTEGER, DIMENSION(:), POINTER :: WA_SIZE,TOTAL_WA_SIZE
-      TYPE(TH_PROC_TYPE), DIMENSION(:), POINTER :: ELTYPE_STRUCT 
+      TYPE(TH_PROC_TYPE), DIMENSION(:), POINTER :: ELTYPE_STRUCT
       TYPE(TH_WA_REAL), DIMENSION(:), POINTER :: WA_P0,WA
 C=======================================================================
 
@@ -117,18 +117,18 @@ C-------------------------------------------------------
 !   TH optimization for spring elements
 !           local data on each proc:
 !
-!   N=                     1              2   
-!                   ________________   ______ 
+!   N=                     1              2
+!                   ________________   ______
 !                  /                \ /      \
 !   proc=    1    |    a1  |   a2    |   b1   |
 
-!   N=                          1        2       3 
-!                   ________________   ______  ______ 
+!   N=                          1        2       3
+!                   ________________   ______  ______
 !                  /                \ /      \/      \
 !   proc=    2    |    a3  |   a4    |  b3    |   c1  |
 !
-!   N=                 2       3 
-!                   ______   ______ 
+!   N=                 2       3
+!                   ______   ______
 !                  /      \ /      \
 !   proc=    3    |  b2    |   c2  |
 !
@@ -137,14 +137,14 @@ C-------------------------------------------------------
 !                 | a1 | a2 | b1 ||| a3 | a4 | b3 | c1 ||| b2 | c2 |
 !   local proc=           1      |||         2         |||    3
 !
-!   --> need to know where are the data in WA_SPRING_P0 and where the data must be 
+!   --> need to know where are the data in WA_SPRING_P0 and where the data must be
 !       written in the TH file
 !       for this, the local index (INDEX_WA_ELTYPE) for each proc is sent to PROC0 (INDEX_WA_ELTYPE_P0)
 !       in order to build the global index SPRING_STRUCT(I)%TH_ELM(:,:)
 !       SPRING_STRUCT(I)%TH_ELM(:,1) = position in the buffer
 !       SPRING_STRUCT(I)%TH_ELM(:,2) = N
 !
-!       the position of the first element in the TH file is added at the end of each chunk ax, bx, cx... 
+!       the position of the first element in the TH file is added at the end of each chunk ax, bx, cx...
 !
 
 !   proc=    1    1    2    2
@@ -153,18 +153,18 @@ C-------------------------------------------------------
 !   pos= a1(NVAR+1)..|  a4(NVAR+1)
 !                    a3(NVAR+1)
 !
-!   proc=    1    3    2 
+!   proc=    1    3    2
 !   N=2    | b1 | b2 | b3 |
 !          |    |    |
 !   pos= b1(NVAR+1)..|b3(NVAR+1)
 !               b2(NVAR+1)
 !
-!   proc=     2    3   
+!   proc=     2    3
 !   N=3    | c1 | c2 |
 !
 !   -------------------------------------
         !   ----------------------------------
-        
+
         !   allocation of local arraies
         ALLOCATE( INDEX_WA_ELTYPE(2*NTHGRP2+1) )
         ALLOCATE( INDEX_WA_SIZE_P0(NSPMD) )
@@ -183,63 +183,63 @@ C-------------------------------------------------------
             IF(ELTYPE==1) THEN
                 WA_COMM=>WA_SPRING_COMM
                 WA_SIZE=>WA_SPRING_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_SPRING_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_SPRING_SIZE
                 ELTYPE_STRUCT=>SPRING_STRUCT
                 WA=>WA_SPRING
                 WA_P0=>WA_SPRING_P0
             ELSEIF(ELTYPE==2) THEN
                 WA_COMM=>WA_NOD_COMM
                 WA_SIZE=>WA_NOD_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_NOD_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_NOD_SIZE
                 ELTYPE_STRUCT=>NOD_STRUCT
                 WA=>WA_NOD
                 WA_P0=>WA_NOD_P0
             ELSEIF(ELTYPE==3) THEN
                 WA_COMM=>WA_SOL_COMM
                 WA_SIZE=>WA_SOL_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_SOL_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_SOL_SIZE
                 ELTYPE_STRUCT=>SOL_STRUCT
                 WA=>WA_SOL
                 WA_P0=>WA_SOL_P0
             ELSEIF(ELTYPE==4) THEN
                 WA_COMM=>WA_QUAD_COMM
                 WA_SIZE=>WA_QUAD_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_QUAD_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_QUAD_SIZE
                 ELTYPE_STRUCT=>QUAD_STRUCT
                 WA=>WA_QUAD
                 WA_P0=>WA_QUAD_P0
             ELSEIF(ELTYPE==5) THEN
                 WA_COMM=>WA_COQ_COMM
                 WA_SIZE=>WA_COQ_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_COQ_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_COQ_SIZE
                 ELTYPE_STRUCT=>COQ_STRUCT
                 WA=>WA_COQ
                 WA_P0=>WA_COQ_P0
             ELSEIF(ELTYPE==6) THEN
                 WA_COMM=>WA_TRUS_COMM
                 WA_SIZE=>WA_TRUS_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_TRUS_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_TRUS_SIZE
                 ELTYPE_STRUCT=>TRUS_STRUCT
                 WA=>WA_TRUS
                 WA_P0=>WA_TRUS_P0
             ELSEIF(ELTYPE==7) THEN
                 WA_COMM=>WA_POUT_COMM
                 WA_SIZE=>WA_POUT_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_POUT_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_POUT_SIZE
                 ELTYPE_STRUCT=>POUT_STRUCT
                 WA=>WA_POUT
                 WA_P0=>WA_POUT_P0
             ELSEIF(ELTYPE==8) THEN
                 WA_COMM=>WA_SPH_COMM
                 WA_SIZE=>WA_SPH_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_SPH_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_SPH_SIZE
                 ELTYPE_STRUCT=>SPH_STRUCT
                 WA=>WA_SPH
                 WA_P0=>WA_SPH_P0
             ELSEIF(ELTYPE==9) THEN
                 WA_COMM=>WA_NST_COMM
                 WA_SIZE=>WA_NST_SIZE
-                TOTAL_WA_SIZE=>TOTAL_WA_NST_SIZE           
+                TOTAL_WA_SIZE=>TOTAL_WA_NST_SIZE
                 ELTYPE_STRUCT=>NST_STRUCT
                 WA=>WA_NST
                 WA_P0=>WA_NST_P0
@@ -276,7 +276,7 @@ C-------------------------------------------------------
                 CALL THPOUT_COUNT(NTHGRP2, ITHGRP, WA_SIZE(ID),INDEX_WA_ELTYPE,
      .                            IPARG  , ITHBUF )
             ELSEIF(ELTYPE==8) THEN
-                CALL THSPH_COUNT(NTHGRP2, ITHGRP, WA_SIZE(ID),INDEX_WA_ELTYPE, 
+                CALL THSPH_COUNT(NTHGRP2, ITHGRP, WA_SIZE(ID),INDEX_WA_ELTYPE,
      .                           IPARG, ITHBUF )
             ELSEIF(ELTYPE==9) THEN
                 CALL THNST_COUNT(NTHGRP2, ITHGRP, WA_SIZE(ID),INDEX_WA_ELTYPE,
@@ -291,7 +291,7 @@ C-------------------------------------------------------
                 INDEX_WA_SIZE_P0 = MY_SIZE
             ENDIF
 
-    
+
             WA_COMM(ID)%TH_DIPLS(1:NSPMD) = 0
             TOTAL_WA_SIZE(ID) = 0
             TOTAL_INDEX_WA_SIZE = 0
@@ -305,7 +305,7 @@ C-------------------------------------------------------
             ENDIF
             !   allocation of INDEX_WA_ELTYPE_P0
             ALLOCATE( INDEX_WA_ELTYPE_P0(TOTAL_INDEX_WA_SIZE) )
-    
+
             IF(NSPMD>1) THEN
                 !   send the local index to PROC0
                 CALL SPMD_GATHERV_INT(INDEX_WA_ELTYPE,INDEX_WA_ELTYPE_P0,0,MY_SIZE,TOTAL_INDEX_WA_SIZE,
@@ -317,7 +317,7 @@ C-------------------------------------------------------
                 INDEX_WA_ELTYPE_P0 = INDEX_WA_ELTYPE
                 WA_COMM(ID)%TH_SIZE(1) = WA_SIZE(ID)
             ENDIF
-    
+
             IF(ISPMD==0) THEN
                 !   displacement for the gatherv comm and total size of WA_SPRING_P0
                 WA_COMM(ID)%TH_DIPLS(1) = 0
@@ -331,7 +331,7 @@ C-------------------------------------------------------
             IF(ISPMD==0) THEN
                 !   allocation of SPRING_STRUCT + initialization
                 ALLOCATE( ELTYPE_STRUCT(ID)%TH_PROC(NSPMD) )
-                DO I=1,NSPMD                
+                DO I=1,NSPMD
                     LOCAL_WA(1:NTHGRP2+1) = 0
                     J = WA_INDEX_DIPLS(I)
                     LOCAL_WA(1) = WA_COMM(ID)%TH_DIPLS(I)
@@ -346,28 +346,28 @@ C-------------------------------------------------------
                             LOCAL_WA(N)=LOCAL_WA(N-1)
                         ENDIF
                     ENDDO
-    
+
                     !   if PROC I must send its data to PROC0
                     IF(INDEX_WA_SIZE_P0(I)/2>0) THEN
-                        !   count the number of N in order to reduce the size 
+                        !   count the number of N in order to reduce the size
                         IJK = 0
                         DO N=2,NTHGRP2+1
                             IF(LOCAL_WA(N)-LOCAL_WA(N-1)>0) THEN
-                                IJK=IJK+1                  
+                                IJK=IJK+1
                             ENDIF
                         ENDDO
                         IJK=IJK+1
-                        !   allocation of %TH_ELM_SIZE 
+                        !   allocation of %TH_ELM_SIZE
                         ELTYPE_STRUCT(ID)%TH_PROC(I)%TH_ELM_SIZE = IJK
                         IJK = ELTYPE_STRUCT(ID)%TH_PROC(I)%TH_ELM_SIZE
                         ALLOCATE( ELTYPE_STRUCT(ID)%TH_PROC(I)%TH_ELM(IJK,2) )
-                        !   initialization of %TH_ELM_SIZE 
+                        !   initialization of %TH_ELM_SIZE
                         IJK = 0
                         DO N=2,NTHGRP2+1
                             IF(LOCAL_WA(N)-LOCAL_WA(N-1)>0) THEN
                                 IJK=IJK+1
                                 ELTYPE_STRUCT(ID)%TH_PROC(I)%TH_ELM(IJK,1) = LOCAL_WA(N-1)
-                                ELTYPE_STRUCT(ID)%TH_PROC(I)%TH_ELM(IJK,2) = N-1                        
+                                ELTYPE_STRUCT(ID)%TH_PROC(I)%TH_ELM(IJK,2) = N-1
                             ENDIF
                         ENDDO
                         IJK=IJK+1
@@ -391,6 +391,6 @@ C-------------------------------------------------------
         DEALLOCATE( INDEX_WA_ELTYPE )
         DEALLOCATE( INDEX_WA_SIZE_P0 )
         DEALLOCATE( WA_INDEX_DIPLS )
-        !   ----------------------------------    
+        !   ----------------------------------
         RETURN
         END SUBROUTINE INIT_TH

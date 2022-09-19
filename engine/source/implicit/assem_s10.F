@@ -33,7 +33,7 @@ Chd|        ASSEM_KIJ                     source/implicit/imp_glob_k.F
 Chd|====================================================================
       SUBROUTINE ASSEM_S10(
      1                   IXS   ,IXS10 ,NEL   ,IDDL  ,NDOF  ,
-     2                   K_DIAG,K_LT  ,IADK  ,JDIK  ,K11   ,     
+     2                   K_DIAG,K_LT  ,IADK  ,JDIK  ,K11   ,
      3                   K12   ,K13   ,K14   ,K15   ,K16   ,
      4                   K17   ,K18   ,K19   ,K10   ,K22   ,
      5                   K23   ,K24   ,K25   ,K26   ,K27   ,
@@ -61,7 +61,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS10(6,*),NEL   ,IDDL(*)  ,NDOF(*)  ,
-     .          IADK(*)  ,JDIK(*)        
+     .          IADK(*)  ,JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,OFF(*),
@@ -75,7 +75,7 @@ C     REAL
      .   K56(9,*)   ,K57(9,*)   ,K58(9,*)   ,K59(9,*)    ,K50(9,*)   ,
      .   K66(9,*)   ,K67(9,*)   ,K68(9,*)   ,K69(9,*)    ,K60(9,*)   ,
      .   K77(9,*)   ,K78(9,*)   ,K79(9,*)   ,K70(9,*)    ,K88(9,*)   ,
-     .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)    ,K00(9,*)   
+     .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)    ,K00(9,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -97,8 +97,8 @@ C----6---------------------------------------------------------------7---------8
          NN(EP,9) =IXS10(5,EP)
          NN(EP,10)=IXS10(6,EP)
          IF (NN(EP,5)>0.AND.NN(EP,6)>0.AND.NN(EP,7)>0.AND.
-     .       NN(EP,8)>0.AND.NN(EP,9)>0.AND.NN(EP,10)>0) 
-     .    N10 = N10 + 1  
+     .       NN(EP,8)>0.AND.NN(EP,9)>0.AND.NN(EP,10)>0)
+     .    N10 = N10 + 1
         ENDDO
 C---------condense first in KIJ--for degenerated element------------
       IF (N10<NEL) THEN
@@ -139,8 +139,8 @@ C------- k10,k20,k30,k40,50,60,70,80,90-----
           CALL ASS10_KKIJ(9     ,N1    ,N2    ,3     ,
      1                  K33(1,EP),K44(1,EP),K39(1,EP),K49(1,EP),
      2                  K90(1,EP))
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
 C-------block k99,k19,k29,k39,k49,k59,k69,k79,k89-----
        N=9
 C---------N1=2,N2=4--------------
@@ -178,8 +178,8 @@ C------- k19,k29,k39,k49,59,69,79,89-----
           CALL ASS10_KKJI(10     ,N1    ,N2    ,3     ,
      1                  K22(1,EP),K44(1,EP),K20(1,EP),K40(1,EP),
      2                  K90(1,EP))
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
 C-------block k88,k18,k28,k38,k48,k58,k68,k78-----
        N=8
 C---------N1=1,N2=4--------------
@@ -217,8 +217,8 @@ C------- k18,k28,k38,k48,58,68,78-----
           CALL ASS10_KKJI(10     ,N1    ,N2    ,3     ,
      1                  K11(1,EP),K44(1,EP),K10(1,EP),K40(1,EP),
      2                  K80(1,EP))
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
 C-------block k77,k17,k27,k37,k47,k57,k67-----
        N=7
 C---------N1=3,N2=1--------------
@@ -256,8 +256,8 @@ C------- k17,k27,k37,k47,57,67-----
           CALL ASS10_KKJI(10     ,N1    ,N2    ,3     ,
      1                  K11(1,EP),K44(1,EP),K30(1,EP),K10(1,EP),
      2                  K70(1,EP))
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
 C-------block k66,k16,k26,k36,k46,k56-----
        N=6
 C---------N1=2,N2=3--------------
@@ -295,8 +295,8 @@ C------- k16,k26,k36,k46,56-----
           CALL ASS10_KKJI(10     ,N1    ,N2    ,3     ,
      1                  K22(1,EP),K33(1,EP),K20(1,EP),K30(1,EP),
      2                  K60(1,EP))
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
 C-------block k55,k15,k25,k35,k45-----
        N=5
 C---------N1=1,N2=2--------------
@@ -334,59 +334,59 @@ C------- k15,k25,k35,k45-----
           CALL ASS10_KKJI(10     ,N1    ,N2    ,3     ,
      1                  K11(1,EP),K22(1,EP),K10(1,EP),K20(1,EP),
      2                  K50(1,EP))
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
       END IF !(N10<NEL) THEN
 C-------block diagonal k11,k22...k44-----
-       CALL ASSEM_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,K11,3,OFF) 
-       CALL ASSEM_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,K22,3,OFF) 
-       CALL ASSEM_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,K33,3,OFF) 
-       CALL ASSEM_KII(NN(1,4),NEL,IDDL,IADK,K_DIAG,K_LT ,K44,3,OFF) 
+       CALL ASSEM_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,K11,3,OFF)
+       CALL ASSEM_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,K22,3,OFF)
+       CALL ASSEM_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,K33,3,OFF)
+       CALL ASSEM_KII(NN(1,4),NEL,IDDL,IADK,K_DIAG,K_LT ,K44,3,OFF)
 C-------non diag kij-----
        CALL ASSEM_KIJ(NN(1,1),NN(1,2),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K12,3,OFF) 
+     .                 K_DIAG,K_LT,K12,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K13,3,OFF) 
+     .                 K_DIAG,K_LT,K13,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K14,3,OFF) 
+     .                 K_DIAG,K_LT,K14,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K23,3,OFF) 
+     .                 K_DIAG,K_LT,K23,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K24,3,OFF) 
+     .                 K_DIAG,K_LT,K24,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,4),NEL,IDDL,IADK,JDIK,
      .                 K_DIAG,K_LT,K34,3,OFF)
 C-------- 
-        CALL ASSEM_KII(NN(1,5),NEL,IDDL,IADK,K_DIAG,K_LT ,K55,3,OFF) 
-        CALL ASSEM_KII(NN(1,6),NEL,IDDL,IADK,K_DIAG,K_LT ,K66,3,OFF) 
-        CALL ASSEM_KII(NN(1,7),NEL,IDDL,IADK,K_DIAG,K_LT ,K77,3,OFF) 
-        CALL ASSEM_KII(NN(1,8),NEL,IDDL,IADK,K_DIAG,K_LT ,K88,3,OFF) 
-        CALL ASSEM_KII(NN(1,9),NEL,IDDL,IADK,K_DIAG,K_LT ,K99,3,OFF) 
-        CALL ASSEM_KII(NN(1,10),NEL,IDDL,IADK,K_DIAG,K_LT ,K00,3,OFF) 
+        CALL ASSEM_KII(NN(1,5),NEL,IDDL,IADK,K_DIAG,K_LT ,K55,3,OFF)
+        CALL ASSEM_KII(NN(1,6),NEL,IDDL,IADK,K_DIAG,K_LT ,K66,3,OFF)
+        CALL ASSEM_KII(NN(1,7),NEL,IDDL,IADK,K_DIAG,K_LT ,K77,3,OFF)
+        CALL ASSEM_KII(NN(1,8),NEL,IDDL,IADK,K_DIAG,K_LT ,K88,3,OFF)
+        CALL ASSEM_KII(NN(1,9),NEL,IDDL,IADK,K_DIAG,K_LT ,K99,3,OFF)
+        CALL ASSEM_KII(NN(1,10),NEL,IDDL,IADK,K_DIAG,K_LT ,K00,3,OFF)
 C-------non diag kij-----
        CALL ASSEM_KIJ(NN(1,1),NN(1,5),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K15,3,OFF) 
+     .                 K_DIAG,K_LT,K15,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K16,3,OFF) 
+     .                 K_DIAG,K_LT,K16,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K17,3,OFF) 
+     .                 K_DIAG,K_LT,K17,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K18,3,OFF) 
+     .                 K_DIAG,K_LT,K18,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,9),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K19,3,OFF) 
+     .                 K_DIAG,K_LT,K19,3,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,10),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K10,3,OFF) 
+     .                 K_DIAG,K_LT,K10,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,5),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K25,3,OFF) 
+     .                 K_DIAG,K_LT,K25,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,6),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K26,3,OFF) 
+     .                 K_DIAG,K_LT,K26,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,7),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K27,3,OFF) 
+     .                 K_DIAG,K_LT,K27,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,8),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K28,3,OFF) 
+     .                 K_DIAG,K_LT,K28,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,9),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K29,3,OFF) 
+     .                 K_DIAG,K_LT,K29,3,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,10),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K20,3,OFF) 
+     .                 K_DIAG,K_LT,K20,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,5),NEL,IDDL,IADK,JDIK,
      .                 K_DIAG,K_LT,K35,3,OFF)
        CALL ASSEM_KIJ(NN(1,3),NN(1,6),NEL,IDDL,IADK,JDIK,
@@ -468,7 +468,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NC(10),N1,N2,IDDL(*) , IADK(*) ,JDIK(*)      
+      INTEGER ND,NC(10),N1,N2,IDDL(*) , IADK(*) ,JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KJJ(ND,ND)
@@ -482,13 +482,13 @@ C------------------------------
          DO I =1,ND
          DO J =I,ND
           KII(I,J) = FOURTH*KJJ(I,J)
-         ENDDO 
-         ENDDO 
+         ENDDO
+         ENDDO
          DO I =1,ND
          DO J =I+1,ND
           KII(J,I) = KII(I,J)
-         ENDDO 
-         ENDDO 
+         ENDDO
+         ENDDO
 C
           CALL ASSEM_KII1(NC(N1),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
@@ -523,7 +523,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NC(10),NI,NJ1,NJ2,IDDL(*) , IADK(*) ,JDIK(*)      
+      INTEGER ND,NC(10),NI,NJ1,NJ2,IDDL(*) , IADK(*) ,JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KIJ0(ND,ND)
@@ -537,7 +537,7 @@ C------------------------------
         DO I =1,ND
         DO J =1,ND
          KIJ(I,J) = HALF*KIJ0(I,J)
-        ENDDO 
+        ENDDO
         ENDDO
 C 
         NJ=NJ1
@@ -545,8 +545,8 @@ C
           DO I =1,ND
           DO J =I,ND
            KII(I,J) = KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
           CALL ASSEM_KII1(NC(NI),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
         ELSEIF (NI>NJ) THEN
@@ -561,8 +561,8 @@ C
           DO I =1,ND
           DO J =I,ND
            KII(I,J) = KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
           CALL ASSEM_KII1(NC(NI),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
         ELSEIF (NI>NJ) THEN
@@ -599,7 +599,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NC(10),NI1,NI2,NJ1,NJ2,IDDL(*) , IADK(*) ,JDIK(*)      
+      INTEGER ND,NC(10),NI1,NI2,NJ1,NJ2,IDDL(*) , IADK(*) ,JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*) ,KIJ0(ND,ND)
@@ -613,7 +613,7 @@ C------------------------------
         DO I =1,ND
         DO J =1,ND
          KIJ(I,J) = FOURTH*KIJ0(I,J)
-        ENDDO 
+        ENDDO
         ENDDO
 C 
         NI=NI1
@@ -622,8 +622,8 @@ C
           DO I =1,ND
           DO J =I,ND
            KII(I,J) = KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
           CALL ASSEM_KII1(NC(NI),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
         ELSEIF (NI>NJ) THEN
@@ -639,8 +639,8 @@ C
           DO I =1,ND
           DO J =I,ND
            KII(I,J) = KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
           CALL ASSEM_KII1(NC(NI),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
         ELSEIF (NI>NJ) THEN
@@ -657,8 +657,8 @@ C
           DO I =1,ND
           DO J =I,ND
            KII(I,J) = KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
           CALL ASSEM_KII1(NC(NI),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
         ELSEIF (NI>NJ) THEN
@@ -674,8 +674,8 @@ C
           DO I =1,ND
           DO J =I,ND
            KII(I,J) = KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
           CALL ASSEM_KII1(NC(NI),IDDL  ,IADK ,K_DIAG,
      1                    K_LT  ,KII   ,ND   )
         ELSEIF (NI>NJ) THEN
@@ -714,8 +714,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND        
-      INTEGER NI,IDDL(*)  , IADK(*)        
+      INTEGER ND
+      INTEGER NI,IDDL(*)  , IADK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KII(ND,ND)
@@ -740,7 +740,7 @@ c#include "lockon.inc"
            K_LT(IK) = K_LT(IK) + KII(K,L)
 c#include "lockoff.inc"
           ENDDO
-        ENDDO 
+        ENDDO
 #include "lockoff.inc"
         ELSE
 #include "lockon.inc"
@@ -755,9 +755,9 @@ c#include "lockon.inc"
            K_LT(IK) = K_LT(IK) + KII(L,K)
 c#include "lockoff.inc"
           ENDDO
-        ENDDO 
+        ENDDO
 #include "lockoff.inc"
-       ENDIF 
+       ENDIF
 C
       RETURN
       END
@@ -788,7 +788,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NI,NJ,IDDL(*)  ,IADK(*),JDIK(*)       
+      INTEGER ND,NI,NJ,IDDL(*)  ,IADK(*),JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*),K_LT(*)   ,KIJ(ND,ND)
@@ -810,7 +810,7 @@ C---------find l'adress dans LT-----
             JDL = JJ-1
             GOTO 100
            ENDIF
-          ENDDO 
+          ENDDO
  100      CONTINUE
 Cel minimize lockon/lockoff
 #include "lockon.inc"
@@ -820,7 +820,7 @@ c#include "lockon.inc"
 c#include "lockoff.inc"
           ENDDO
 #include "lockoff.inc"
-         ENDDO 
+         ENDDO
         ELSE
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
@@ -828,7 +828,7 @@ c#include "lockoff.inc"
             JDL = JJ-1
             GOTO 200
            ENDIF
-          ENDDO 
+          ENDDO
  200      CONTINUE
 #include "lockon.inc"
           DO L=1,ND
@@ -837,9 +837,9 @@ c#include "lockon.inc"
 c#include "lockoff.inc"
           ENDDO
 #include "lockoff.inc"
-         ENDDO 
+         ENDDO
         ENDIF
-      ELSE 
+      ELSE
         I = IDDL(NI)
         J = IDDL(NJ)
         ID = MAX(I,J)
@@ -852,7 +852,7 @@ C---------find l'adress dans LT-----
             JDL = JJ-1
             GOTO 300
            ENDIF
-          ENDDO 
+          ENDDO
  300      CONTINUE
 #include "lockon.inc"
           DO L=1,ND
@@ -861,7 +861,7 @@ c#include "lockon.inc"
 c#include "lockoff.inc"
           ENDDO
 #include "lockoff.inc"
-         ENDDO 
+         ENDDO
         ELSE
          DO K=1,ND
           DO JJ = IADK(ID+K),IADK(ID+1+K)-1
@@ -869,7 +869,7 @@ c#include "lockoff.inc"
             JDL = JJ-1
             GOTO 400
            ENDIF
-          ENDDO 
+          ENDDO
  400      CONTINUE
 #include "lockon.inc"
           DO L=1,ND
@@ -878,9 +878,9 @@ c#include "lockon.inc"
 c#include "lockoff.inc"
           ENDDO
 #include "lockoff.inc"
-         ENDDO 
+         ENDDO
         ENDIF
-       ENDIF 
+       ENDIF
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -907,7 +907,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NC(10),NI,NJ1,NJ2,IDDL(*) , IADK(*) ,JDIK(*)      
+      INTEGER ND,NC(10),NI,NJ1,NJ2,IDDL(*) , IADK(*) ,JDIK(*)
 C     REAL
       my_real
      .   K_DIAG(*) ,K_LT(*)   ,KIJ0(ND,ND)
@@ -921,7 +921,7 @@ C------------------------------
         DO I =1,ND
         DO J =1,ND
          KIJ(I,J) = HALF*KIJ0(I,J)
-        ENDDO 
+        ENDDO
         ENDDO
 C 
         NJ=NJ1
@@ -957,7 +957,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,N1,N2      
+      INTEGER ND,N1,N2
 C     REAL
       my_real
      .   K11(ND,ND) ,K22(ND,ND),K12(ND,ND),KJJ(ND,ND)
@@ -971,26 +971,26 @@ C------------------------------
          DO I =1,ND
          DO J =I,ND
           KII(I,J) = FOURTH*KJJ(I,J)
-         ENDDO 
-         ENDDO 
+         ENDDO
+         ENDDO
          DO I =1,ND
          DO J =I+1,ND
           KII(J,I) = KII(I,J)
-         ENDDO 
-         ENDDO 
+         ENDDO
+         ENDDO
 C
          DO I =1,ND
          DO J =I,ND
           K11(I,J) = K11(I,J)+ KII(I,J)
           K22(I,J) = K22(I,J)+ KII(I,J)
-         ENDDO 
-         ENDDO 
+         ENDDO
+         ENDDO
 C	 
          DO I =1,ND
          DO J =1,ND
           K12(I,J) = K12(I,J)+ KII(I,J)
-         ENDDO 
-         ENDDO 
+         ENDDO
+         ENDDO
 C
       RETURN
       END
@@ -1016,7 +1016,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NI,NJ1,NJ2   
+      INTEGER ND,NI,NJ1,NJ2
 C     REAL
       my_real
      .   K11(ND,ND),K22(ND,ND),KI1(ND,ND),KI2(ND,ND),KIJ0(ND,ND)
@@ -1030,7 +1030,7 @@ C------------------------------
         DO I =1,ND
         DO J =1,ND
          KIJ(I,J) = HALF*KIJ0(I,J)
-        ENDDO 
+        ENDDO
         ENDDO
 C 
         NJ=NJ1
@@ -1038,40 +1038,40 @@ C
           DO I =1,ND
           DO J =I,ND
            K11(I,J) = K11(I,J)+KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSEIF (NI>NJ) THEN
           DO I =1,ND
           DO J =1,ND
            KI1(I,J) = KI1(I,J)+KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSE
           DO I =1,ND
           DO J =1,ND
            KI1(I,J) = KI1(I,J)+KIJ(I,J)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         END IF
         NJ=NJ2
         IF (NI==NJ) THEN
           DO I =1,ND
           DO J =I,ND
            K22(I,J) = K22(I,J)+KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSEIF (NI>NJ) THEN
           DO I =1,ND
           DO J =1,ND
            KI2(I,J) = KI2(I,J)+KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSE
           DO I =1,ND
           DO J =1,ND
            KI2(I,J) = KI2(I,J)+KIJ(I,J)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         END IF
 C
       RETURN
@@ -1098,7 +1098,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND,NI,NJ1,NJ2   
+      INTEGER ND,NI,NJ1,NJ2
 C     REAL
       my_real
      .   K11(ND,ND),K22(ND,ND),KI1(ND,ND),KI2(ND,ND),KIJ0(ND,ND)
@@ -1112,7 +1112,7 @@ C------------------------------
         DO I =1,ND
         DO J =1,ND
          KIJ(I,J) = HALF*KIJ0(J,I)
-        ENDDO 
+        ENDDO
         ENDDO
 C 
         NJ=NJ1
@@ -1120,40 +1120,40 @@ C
           DO I =1,ND
           DO J =I,ND
            K11(I,J) = K11(I,J)+KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSEIF (NI>NJ) THEN
           DO I =1,ND
           DO J =1,ND
            KI1(I,J) = KI1(I,J)+KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSE
           DO I =1,ND
           DO J =1,ND
            KI1(I,J) = KI1(I,J)+KIJ(I,J)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         END IF
         NJ=NJ2
         IF (NI==NJ) THEN
           DO I =1,ND
           DO J =I,ND
            K22(I,J) = K22(I,J)+KIJ(I,J)+ KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSEIF (NI>NJ) THEN
           DO I =1,ND
           DO J =1,ND
            KI2(I,J) = KI2(I,J)+KIJ(J,I)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         ELSE
           DO I =1,ND
           DO J =1,ND
            KI2(I,J) = KI2(I,J)+KIJ(I,J)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
         END IF
 C
       RETURN

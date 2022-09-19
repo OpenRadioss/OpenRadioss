@@ -412,7 +412,7 @@ C XREM(112): KSFI(2)
 C Pointeur dans XREM vers le debut des valeurs de l interface 24 & 25
 C On utlise PANE_OLD
       INTEGER I24XREMP,IGAPXREMP,I24IREMP,I24IREMPNSNE
-       
+
       INTEGER, DIMENSION(:), ALLOCATABLE :: CURRENT_NODFI
       INTEGER, DIMENSION(:), ALLOCATABLE :: CURRENT_FI_SIZE
 
@@ -428,7 +428,7 @@ C secnds nodes
 C tableau de pointeurs NSNFI de taille NINTER
 C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
 C par processeur
-      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(int_pointer), DIMENSION(:), ALLOCATABLE ::
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,IPARTFRICSFI,IF_ADHFI,
      .  IPARTFRIC_FIE,
 C tableau i20 specifique (flag nodal)
@@ -437,7 +437,7 @@ C tableau i20 specifique (flag nodal)
 C tableau i20 partie edge
      .  NSNFIE,NSVFIE,ITAFIE,NODNXFIE, NODAMSFIE, PROCAMSFIE
 C tableaux frontieres interfaces pour MS, STFN, STIFN
-      TYPE(real_pointer), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(real_pointer), DIMENSION(:), ALLOCATABLE ::
      .  MSFI, STIFI, STNFI, GAPFI,VSCFI, FTHEFI, FTHESKYFI,
      .  AREASFI, TEMPFI, ALPHAKFI, DIAG_SMSFI,GAP_LFI,CONDNFI,
      .  CONDNSKYFI,
@@ -447,7 +447,7 @@ C tableau i20 partie edge
 C tableau I18 Kine
      .  MTFI_PENE,MTFI_PENEMIN
 C tableaux frontieres interfaces pour X, V A ou FSKY
-      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE ::
      .  XFI, VFI, AFI, FSKYFI, PENFI, PENFIA,MTFI_V,MTFI_A,
      .  I18KAFI,MTFI_N,DAANCFI,
 C tableau i20 partie edge
@@ -455,16 +455,16 @@ C tableau i20 partie edge
 C NITSCHE METHOD
      .  FORNEQSFI
 C tableaux frontieres interfaces 17 pour
-      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE ::
      .  EMINXFI, KSFI, FROTSFI, STNFI17
 C tableaux frontieres interfaces 17 pour XFI17, VFI17, AFI17
-      TYPE(real_pointer3), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(real_pointer3), DIMENSION(:), ALLOCATABLE ::
      .  XFI17, VFI17, AFI17
 C tableaux frontieres interfaces 20 pour DXANC,DVANC
-      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(real_pointer2), DIMENSION(:), ALLOCATABLE ::
      .  DXANCFI, DVANCFI, DXANCFIE, DVANCFIE
 C tableaux frontieres interfaces 20 pour DAANC6
-      TYPE(r8_pointer3), DIMENSION(:), ALLOCATABLE :: 
+      TYPE(r8_pointer3), DIMENSION(:), ALLOCATABLE ::
      .  DAANC6FI, DAANC6FIE
 C tableau de pointeurs ISKYFI de taille NINTER indiquant pour chaque interface
 C la liste des noeuds remote associe a une force dans FSKYI
@@ -503,7 +503,7 @@ C son adresse de depart dans LISUBSFI et INFLG_SUBSFI (tableau dimensionne a NSN
 C Temporary array for VOXEL SORTING
       INTEGER , DIMENSION(:), ALLOCATABLE :: NEXT_NOD
       INTEGER , DIMENSION(:), ALLOCATABLE :: CHAIN_ELEM,CHAIN_NEXT
-      INTEGER , DIMENSION(:), ALLOCATABLE :: CHAIN_LAST 
+      INTEGER , DIMENSION(:), ALLOCATABLE :: CHAIN_LAST
       INTEGER LVOXEL
       PARAMETER(LVOXEL = 8000000)
       INTEGER INIVOXEL, VOXEL1(LVOXEL)

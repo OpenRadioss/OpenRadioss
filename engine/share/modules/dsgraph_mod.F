@@ -88,7 +88,7 @@ C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE SUPEL
          INTEGER :: NDDL_I, NDDL_F, NSDMAX,
-     .              NDDL_M, NMDYN, KREC, MREC, MDREC, KIREC, 
+     .              NDDL_M, NMDYN, KREC, MREC, MDREC, KIREC,
      .              NDDL_I_INI, NDDL_F_INI
          INTEGER, DIMENSION(:), POINTER :: DDLS, DDLS_INI, CHILD, CMDYN,
      .                                     IFACM, IFACM_INI
@@ -109,4 +109,4 @@ C
       END TYPE PRGRAPH
 C
       END MODULE DSGRAPH_MOD
-      
+

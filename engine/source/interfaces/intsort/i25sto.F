@@ -84,7 +84,7 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ)
       DATA ITYPE/25/
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .               IX3   ,IX4   ,GAPV  ,NRTM   ,ETYP ,
      .               IBC   )
 C-----------------------------------------------
-      IF (ILEV==2) 
+      IF (ILEV==2)
      .  CALL I25S1S2(J_STOK,NSN,ESHIFT,PROV_N,PROV_E,
      .               NBINFLG,MBINFLG,PENE)
 C-----------------------------------------------
@@ -116,7 +116,7 @@ C-----------------------------------------------
       DO I=1,J_STOK
           IF(PENE(I)/=ZERO) THEN
             K_STOK = K_STOK + 1
-          END IF 
+          END IF
       ENDDO
       IF(K_STOK==0)RETURN
 C
@@ -190,8 +190,8 @@ C=======================================================================
              ISS1 = BITGET(NBINFLG(N),0)
              ISS2 = BITGET(NBINFLG(N),1)
            ELSE
-             ISS1 = BITGET(IREM(I24IREMP+6,N-NSN),0) 
-             ISS2 = BITGET(IREM(I24IREMP+6,N-NSN),1) 
+             ISS1 = BITGET(IREM(I24IREMP+6,N-NSN),0)
+             ISS2 = BITGET(IREM(I24IREMP+6,N-NSN),1)
            ENDIF
            IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
      .              (IMS2 == 1 .and. ISS1==1)))THEN

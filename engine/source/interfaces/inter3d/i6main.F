@@ -47,8 +47,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
-      USE H3D_MOD 
+      USE INTBUFDEF_MOD
+      USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER KD(50), JD(50), KFI, JFI, 
+      INTEGER KD(50), JD(50), KFI, JFI,
      .   INACTI,NOINT, NGROUS, NGROUM, NG, IGIMP,INTY,IFRICF,IFRICV,
      .   IDAMPV,IDAMPF
       INTEGER LOLD(MVSIZ)
@@ -105,7 +105,7 @@ C-----------------------------------------------
       my_real
      .   VNI(MVSIZ),VNT(MVSIZ)
       my_real
-     .   ANSMX,ASCALV,ASCALF,FSCALV,FMX,FMY,FMZ,STARTT,FRIC,SFRIC,VISC, 
+     .   ANSMX,ASCALV,ASCALF,FSCALV,FMX,FMY,FMZ,STARTT,FRIC,SFRIC,VISC,
      .   STIFF, GAP, STOPT,DIST
 C=======================================================================
       NSN   = IPARI(5)
@@ -182,8 +182,8 @@ c
         IF(IGIMP == 0)CYCLE
 
         CALL I6FOR3(
-     .      INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM         ,  
-     .      INTBUF_TAB%STFM,INTBUF_TAB%STFNS,IGIMP                 ,INTBUF_TAB%FS    , 
+     .      INTBUF_TAB%IRECTM,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM         ,
+     .      INTBUF_TAB%STFM,INTBUF_TAB%STFNS,IGIMP                 ,INTBUF_TAB%FS    ,
      .      INTBUF_TAB%FM,ANSMX        , FMX     ,FMY   , FMZ      ,INTBUF_TAB%FCONT ,
      4      N1  ,N2    ,N3    ,XFACE ,ANS   ,
      5      H1    ,H2    ,H3    ,H4    ,THK,
@@ -192,7 +192,7 @@ c
      8      ZI2   ,ZI3   ,XI1   ,XI2   ,XI3   ,
      9      XI4)
 c
-        IF (VISC > ZERO .or. IDAMPV > 0 .or. FRIC > ZERO) 
+        IF (VISC > ZERO .or. IDAMPV > 0 .or. FRIC > ZERO)
      .    CALL I6IPMACT(
      1         LOLD  ,INTBUF_TAB%IRTLM,INTBUF_TAB%IRTLOM,INTBUF_TAB%CSTS,
      2         INTBUF_TAB%IRECTM  ,INTBUF_TAB%MSR,INTBUF_TAB%NSV,V      ,
@@ -200,7 +200,7 @@ c
      4         N3     ,SSC    ,TTC     ,H1    ,
      5         H2     ,H3     ,H4      ,XFACE)
 
-        IF (VISC > ZERO .or. IDAMPV > 0) 
+        IF (VISC > ZERO .or. IDAMPV > 0)
      .    CALL I6DAMP(
      .         V            ,NPC          ,TF           ,INTBUF_TAB%IRECTM,
      1         INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,INTBUF_TAB%IRTLOM,
@@ -234,9 +234,9 @@ c
        FMX=-FMX
        FMY=-FMY
        FMZ=-FMZ
-c      
-c---  Loop over main group 
-c       
+c
+c---  Loop over main group
+c
        DO NG=1,NGROUM
          NFT=(NG-1)*NVSIZ
          LFT=1
@@ -288,7 +288,7 @@ c
      8      ZI2   ,ZI3   ,XI1   ,XI2   ,XI3   ,
      9      XI4)
 c
-        IF (VISC > ZERO .or. IDAMPV > 0 .or. FRIC > ZERO) 
+        IF (VISC > ZERO .or. IDAMPV > 0 .or. FRIC > ZERO)
      .    CALL I6IPMACT(
      .         LOLD  ,INTBUF_TAB%IRTLS,INTBUF_TAB%IRTLOS,INTBUF_TAB%CSTM,
      .         INTBUF_TAB%IRECTS  ,INTBUF_TAB%NSV,INTBUF_TAB%MSR,V      ,
@@ -296,7 +296,7 @@ c
      4         N3     ,SSC    ,TTC     ,H1    ,
      5         H2     ,H3     ,H4      ,XFACE)
 
-        IF (VISC > ZERO .or. IDAMPV > 0) 
+        IF (VISC > ZERO .or. IDAMPV > 0)
      .    CALL I6DAMP(
      .         V            ,NPC          ,TF           ,INTBUF_TAB%IRECTS,
      .         INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%IRTLOS,
@@ -324,15 +324,15 @@ c
       ENDDO
 C-----------
       CALL I6ASS3(
-     1     A		 ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,INTBUF_TAB%FS  ,	    
-     2  INTBUF_TAB%FM  ,NPC	       ,TF	       ,ANSMX	       ,     
-     3  FMX	       ,FMY	       ,FMZ	       ,INTBUF_TAB%VARIABLES(4),      
-     4  IPARI(11)      ,V	       ,NOINT	       ,NSN	       ,      
-     5  NMN	       ,FSAV	       ,DT2T	       ,NELTST         ,      
-     6  ITYPTST        ,INTBUF_TAB%STFAC(1)  ,FSKYI	       ,ISKY	       ,     
+     1     A		 ,INTBUF_TAB%MSR ,INTBUF_TAB%NSV ,INTBUF_TAB%FS  ,	
+     2  INTBUF_TAB%FM  ,NPC	       ,TF	       ,ANSMX	       ,
+     3  FMX	       ,FMY	       ,FMZ	       ,INTBUF_TAB%VARIABLES(4),
+     4  IPARI(11)      ,V	       ,NOINT	       ,NSN	       ,
+     5  NMN	       ,FSAV	       ,DT2T	       ,NELTST         ,
+     6  ITYPTST        ,INTBUF_TAB%STFAC(1)  ,FSKYI	       ,ISKY	       ,
      7  FCONT,INTBUF_TAB%VARIABLES(19),INTBUF_TAB%VARIABLES(20),STIFF    ,	
      8  IPARI(47)      ,IPARI(49)      ,IPARI(58)      ,INTBUF_TAB%FCONT  ,
-     9  INTBUF_TAB%ANSMX0(1)  ,INTBUF_TAB%ANSMX0(2),H3D_DATA )   
+     9  INTBUF_TAB%ANSMX0(1)  ,INTBUF_TAB%ANSMX0(2),H3D_DATA )
 C-----------
       RETURN
       END

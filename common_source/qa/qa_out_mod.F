@@ -22,7 +22,7 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
       module QA_OUT_MOD
 
-!#if CPP_mach == CPP_p4win64 
+!#if CPP_mach == CPP_p4win64
 !      use IFPORT
 !#endif
 
@@ -62,7 +62,7 @@ C     At least one card is one char, so we do 1039 / 2 (one char one comma...)
       contains
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       open QA extract file
 !>    @ingroup utl_qa
       subroutine qaopen (step)
@@ -141,7 +141,7 @@ C     Get possible defined env variable QAKEY
       end subroutine qaopen
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       get and store the possible values of the QAKEY env variable
 !>    @ingroup utl_qa
       subroutine qagetqakeyenv ()
@@ -195,7 +195,7 @@ C       WRITE(*,'(a,i12)') "TRACE qaprint_limit is ",qaprint_limit,"END"
             else
                 temp_qakey(k:k)=QAKEY_ENV(i:i)
                 k=k+1
-            endif  
+            endif
         end do
 
         call get_environment_variable("QAKEY_SPECIFIC",QAKEY_SPECIFIC,QAKEY_SPECIFIC_len,QAKEY_SPECIFIC_status,.TRUE.)
@@ -223,7 +223,7 @@ C       WRITE(*,'(a,i12)') "TRACE qaprint_limit is ",qaprint_limit,"END"
             else
                 temp_qakey(k:k)=QAKEY_SPECIFIC(i:i)
                 k=k+1
-            endif  
+            endif
         end do
 
 C       TRACE
@@ -237,7 +237,7 @@ C         enddo
 
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       replace blank char with _ for a given string
       subroutine blank2underscore(textin,textout)
           character(len=*), intent(in) :: textin
@@ -249,12 +249,12 @@ C         enddo
               if (textout(i:i) == ' ') then
                   textout(i:i)='_';
               endif
-          enddo     
+          enddo
 
       end subroutine blank2underscore
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       print one entry to QA extract file
 !>    example of call for real print
 !>      CALL QAPRINT('MY_LABEL',0,12345.6_8)  (2nd argument is 0, 3rd is the real value to be printed followed with '_8')
@@ -279,7 +279,7 @@ C         enddo
       data ma4cmplx/-999/
       character *40 qaprint_limit_char
       character(len=512) :: warning_msg
-      
+
       qaprint_limit_char = ' '
 
       if ( doqa /= 1  ) return
@@ -324,7 +324,7 @@ C       Forcing the id to 0, we don't want to add any name suffix in this case
       else
         write(srvalue,qa_format) value    !(i)
       endif
-      
+
 C       Replace possible blank char in name (when it comes from array print)
       call blank2underscore(name,name2)
 
@@ -337,7 +337,7 @@ C       We don't go over 9999 lines, this is a default limitation
      .'_LINES_(use_variable_QAPRINT_LIMIT_in_QA.files_to_change_limit)', siid(intstart:6), simg(is:4), 0
 
         PRINT*,"!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-      write ( warning_msg, 1003 ) 'WARNING : The QAPRINT max number of lines to be printed in the extract file has been reached (' 
+      write ( warning_msg, 1003 ) 'WARNING : The QAPRINT max number of lines to be printed in the extract file has been reached ('
      .,qaprint_limit_char(1:LEN_TRIM(qaprint_limit_char)),' lines).'
         PRINT*,warning_msg(1:LEN_TRIM(warning_msg))
         PRINT*,'To change this limit please setenv the variable QAPRINT_LIMIT'
@@ -365,7 +365,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       end subroutine qaprint
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       print one entry to QA extract file in an energy style (<value> <value max>)
 !>    @ingroup utl_qa
       subroutine qaprint2 ( name, idin, value, value2 )
@@ -389,7 +389,7 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       if ( doqa /= 1  ) return
 
       qaid = qaid + 1
-      
+
       id = abs(idin)
       if ( id > 99999 ) id = 90000 + mod(id,10000)
 
@@ -421,12 +421,12 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       else
         write(srvalue2,qa_format) value2    !(i)
       endif
-      
-      write ( lunitqa, 1000 ) qaid, name(1:LEN_TRIM(name)), siid(intstart:6), simg(is:4), 
+
+      write ( lunitqa, 1000 ) qaid, name(1:LEN_TRIM(name)), siid(intstart:6), simg(is:4),
      .                                      srvalue(1:lastchar(srvalue)),
      .                                      srvalue2(1:lastchar(srvalue2))
  1000 format( i10, 2x, a, a, a, a, a )
-      
+
       is = 1
 
       call flush(lunitqa)
@@ -434,9 +434,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       end subroutine qaprint2
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>      get QA status
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
       subroutine qastatus (istatus)
 #include "implicit_f.inc"
       integer istatus
@@ -450,9 +450,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       end subroutine qastatus
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>      write an integer value in standard values array qa_storage
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
       subroutine qaseti (pos,title,i)
 #include "implicit_f.inc"
       integer          pos
@@ -468,9 +468,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       end subroutine qaseti
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>      write a real value in standard values array qa_storage
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
       subroutine qasetr (pos,title,r)
 #include "implicit_f.inc"
       integer          pos
@@ -486,9 +486,9 @@ C       If the value (double precision) variable is 0.0 we consider using the id
       end subroutine qasetr
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>      close QA extract file
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
 !>    Care when routine is called from Fortan (because of binding)
       subroutine qaclose ( ) bind ( C, name="qaclose_" )
 #include "implicit_f.inc"
@@ -535,11 +535,11 @@ C             A trick to pass an integer is to use idin (2nd parameter) and valu
       end subroutine qaclose
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>    Check if a given value is part of the values set by env variable
 !>    Useful to make a condition on a qaprint
 !>    Return true or false
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
       function myqakey ( value ) result (tf)
 #include "implicit_f.inc"
       integer i
@@ -549,7 +549,7 @@ C             A trick to pass an integer is to use idin (2nd parameter) and valu
 
       tf = .FALSE.
       if ( doqa /= 1  ) return
-      
+
       do i=1,size(split_qakey_env)
 C         Remove leading blank if any
           value_without_leading_blank=ADJUSTL(split_qakey_env(i))
@@ -557,16 +557,16 @@ C         Remove leading blank if any
                 tf = .TRUE.
                 exit
           endif
-      enddo 
+      enddo
 
       end function myqakey
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>    Check if a given value is the predefined array fo available qakeys
 !>    Useful to check if a qakey is allowed/available
 !>    Return true or false (false = program must exit with an error)
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
       function is_value_in_qakeylist_avail ( value ) result (tf)
 #include "implicit_f.inc"
       integer i,len1,len2
@@ -586,7 +586,7 @@ C         Remove leading blank if any
                 exit
             endif
           endif
-      enddo 
+      enddo
 
       end function is_value_in_qakeylist_avail
 
@@ -611,12 +611,12 @@ c      lastchar = l
 !!!!!!!!!!!!!!!!!!!!!!!!!!
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       print 'QASKIP' into extract and terminate the program
 !>    @note
 !>       'QASKIP' in the extract file will be identified by qa_script
 !>       and will be regarded as a test to be skipped by QA
-!>    @ingroup utl_qa 
+!>    @ingroup utl_qa
 C       subroutine qaskip()
 C #include "implicit_f.inc"      
 C       integer iqa
@@ -629,7 +629,7 @@ C       RETURN
 C       end subroutine qaskip
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       qa print for integer array
 !>    @ingroup utl_qa
 C       subroutine qaprint_ia ( name,ivar,ndim,index,ilast )
@@ -718,7 +718,7 @@ C       RETURN
 C       end subroutine qaprint_ia
 
 ! ----------------------------------------------------------------------
-!>    @purpose 
+!>    @purpose
 !>       qa print for real array
 !>    @ingroup utl_qa
 C       subroutine qaprint_ra ( name,rvar,ndim,index,ilast )
@@ -800,9 +800,9 @@ C !
 C       return
 C       RETURN
 C       end subroutine qaprint_ra
-      
+
 !! ----------------------------------------------------------------------
-!!>    @purpose 
+!!>    @purpose
 !!>       print a complex value in magnitude and radian to QA extract file
 !!>    @ingroup utl_qa
 !      subroutine qaprint_c ( name, idin, value )
@@ -823,7 +823,7 @@ C       end subroutine qaprint_ra
 !      if ( doqa /= 1  ) return
 !
 !      qaid = qaid + 1
-!      
+!
 !      id = abs(idin)
 !      if ( id > 99999 ) &
 !        id = 90000 + mod(id,10000)
@@ -848,7 +848,7 @@ C       end subroutine qaprint_ra
 !        else
 !           write(srvalue,qa_format) rvalue
 !        endif
-!        
+!
 !        write ( lunitqa, 1000 ) qaid, name, &
 !          siid(intstart:6), simg, srvalue(1:lastchar(srvalue))
 ! 1000   format( i10, 2x, a, a, a, a )
@@ -858,14 +858,14 @@ C       end subroutine qaprint_ra
 !        if ( rvalue /= 0.0D0 ) then
 !           rvalue = ATAN2(value(2),value(1))
 !        end if
-!        
+!
 !        if ( rvalue == 0.0D0 ) then
 !!     normalize zero to limit p4 differences between platforms
 !           srvalue = ' 0.00000'
 !        else
 !           write(srvalue,qa_format) rvalue
 !        endif
-!        
+!
 !        write ( lunitqa, 1000 ) qaid, name, &
 !          siid(intstart:6), simg, srvalue(1:lastchar(srvalue))
 !

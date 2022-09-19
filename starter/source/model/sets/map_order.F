@@ -45,7 +45,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(70000) :: IWORK
         INTEGER, DIMENSION(:), ALLOCATABLE :: ISORT,INDEX_SORT
 C-----------------------------------------------
-        
+
         ALLOCATE(ISORT(NUM_ELM))
         ALLOCATE(INDEX_SORT(2*NUM_ELM))
 

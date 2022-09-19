@@ -35,7 +35,7 @@ Chd|        KMATINV3                      source/materials/tools/kmatinv.F
 Chd|        PRODAAT                       source/materials/tools/prodAAT.F
 Chd|        PRODMAT                       source/materials/tools/prodmat.F
 Chd|====================================================================
-       SUBROUTINE CALCMATB (NEL, F, FP, MATB)    
+       SUBROUTINE CALCMATB (NEL, F, FP, MATB)
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -52,26 +52,26 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL  
+      INTEGER       NEL
       my_real
-     .    F (NEL, 3,3),    FP (NEL, 3,3)   
+     .    F (NEL, 3,3),    FP (NEL, 3,3)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .       MATB(NEL, 3,3) 
+     .       MATB(NEL, 3,3)
 C----------------------------------------------------------------
       INTEGER    I
       my_real
      .       INVFPO(NEL, 3,3) , FE(NEL, 3,3), FET(NEL, 3,3)
 C----------------------------------------------------------------
-      
-       !COMPUTE FP viscous GRADIENT OF DEF
-       !------------------------------------   
-       !F=FE*FP
-       CALL KMATINV3(FP , INVFPO, NEL) !INVFPO = INVERSE (FP)  
-       CALL PRODMAT  (F , INVFPO, FE, NEL) ! FE = F * INVFPO      
 
-       CALL PRODAAT(FE , MATB, NEL) ! 
+       !COMPUTE FP viscous GRADIENT OF DEF
+       !------------------------------------
+       !F=FE*FP
+       CALL KMATINV3(FP , INVFPO, NEL) !INVFPO = INVERSE (FP)
+       CALL PRODMAT  (F , INVFPO, FE, NEL) ! FE = F * INVFPO
+
+       CALL PRODAAT(FE , MATB, NEL) !
       RETURN
       END

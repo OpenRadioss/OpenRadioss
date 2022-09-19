@@ -97,10 +97,10 @@ C     REAL
       my_real
      .   PA1,PA2,PA3,PA4,PA5,
      .   E,NU,G,GS,SIGY,HM,SIGY0,
-     .   MS,FS,D1,D2,D3,C1,C2,C3, 
+     .   MS,FS,D1,D2,D3,C1,C2,C3,
      .   AAA,BBB,CCC,P,BULK
       my_real
-     .   VOL(MVSIZ),SPHEPS(MVSIZ), 
+     .   VOL(MVSIZ),SPHEPS(MVSIZ),
      .   DEVDEPSXX(MVSIZ),DEVDEPSYY(MVSIZ),DEVDEPSZZ(MVSIZ),
      .   DEVDEPSXY(MVSIZ),DEVDEPSYZ(MVSIZ),DEVDEPSXZ(MVSIZ),
      .   B1(MVSIZ),B2(MVSIZ),B3(MVSIZ),B4(MVSIZ),B5(MVSIZ),
@@ -120,7 +120,7 @@ C
 C initialize
       IF (TIME == ZERO) THEN
         DO I=1,NEL
-          UVAR(I,1) = AREAPINCH(I)*THK(I) 
+          UVAR(I,1) = AREAPINCH(I)*THK(I)
           UVAR(I,2) = THK(I)
         ENDDO
       ENDIF
@@ -139,7 +139,7 @@ C other derived material parameters
         PA2  = E*NU/(ONE+NU)/(ONE-TWO*NU)
         PA3  = G
         PA4  = (ONE+NU)*(ONE-TWO*NU)/(ONE-NU**2)/(ONE-NU)*PA1
-        PA5  = (ONE+NU)*(ONE-TWO*NU)/(ONE-NU**2)*PA2 
+        PA5  = (ONE+NU)*(ONE-TWO*NU)/(ONE-NU**2)*PA2
 C C1/C2/C3 are PM(28:30) [ref:sigeps02g]
         C1 = ONE/E
         C2 = -NU*C1
@@ -166,14 +166,14 @@ C        THKX(I) = UVAR(I,2)*(1+HALF*DEPSZZ(I))/(1-HALF*DEPSZZ(I))
 C        print*, NGL(I),PNEW(I)
       ENDDO
 
-        
+
       DO I=JFT,JLT
 C       energy of transverse shear + pinching
         DEGSH_LOC(I) = SIGOYZ(I)*DEPSYZ(I)+SIGOZX(I)*DEPSZX(I)
 C       energy of only in plane components, xx,yy,xy
-        DEGMB_LOC(I) = DEGMB(I) - DEGSH_LOC(I) 
+        DEGMB_LOC(I) = DEGMB(I) - DEGSH_LOC(I)
 C       bending energy
-        DEGFX_LOC(I) = DEGFX(I) 
+        DEGFX_LOC(I) = DEGFX(I)
 C       calculate old pressure and old derivatoric stress
         POLD(I) = -THIRD*(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))
         SIGODEVXX(I) = SIGOXX(I)+POLD(I)
@@ -262,6 +262,6 @@ C     equivalent plastic strain
       DO I=JFT,JLT
           DPLA(I) = MAX(ZERO,HALF*DWPLA(I)/SIGY)
           PLA(I) = PLA(I) + DPLA(I)
-      ENDDO  
+      ENDDO
       RETURN
       END

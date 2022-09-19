@@ -81,19 +81,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK, NODFT, NODLT,
      .        JAD_SMS(*), JDI_SMS(*),
-     .        INDX1_SMS(*), INDX2_SMS(*), 
+     .        INDX1_SMS(*), INDX2_SMS(*),
      .        IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*),
-     .        NPBY(NNPBY,*), LPBY(*), 
-     .        LAD_SMS(*), KAD_SMS(*), JRB_SMS(*), 
+     .        NPBY(NNPBY,*), LPBY(*),
+     .        LAD_SMS(*), KAD_SMS(*), JRB_SMS(*),
      .        ISKYI_SMS(LSKYI_SMS,*),
      .        JADI_SMS(*), JDII_SMS(*), NODXI_SMS(*), NODII_SMS(*),
      .      FR_SMS(NSPMD+1), FR_RMS(NSPMD+1), LIST_SMS(*), LIST_RMS(*),
-     .        ILINK(*), RLINK(*), NNLINK(10,*), LNLINK(*), 
+     .        ILINK(*), RLINK(*), NNLINK(10,*), LNLINK(*),
      .        TAG_LNK_SMS(*), LJOINT(*), FR_CJ(*),IADCJ(NSPMD+1,*),
      .        ITAB(*), WEIGHT(*), IMV(*),
      .        NPRW(*), LPRW(*), FR_WALL(NSPMD+2,*), NRWL_SMS(*),
      .        TAGMSR_RBY_SMS(*), TAGSLV_RBY_SMS(*),
-     .        IRBE2(*)  ,LRBE2(*), 
+     .        IRBE2(*)  ,LRBE2(*),
      .        IRBE3(*), LRBE3(*), IAD_RBE3M(*),FR_RBE3M(*)
       my_real
      .        MS(*), LT_SMS(*), DIAG_SMS(*),
@@ -110,7 +110,7 @@ C-----------------------------------------------
       INTEGER K1, IC, ISMS,
      .        NOD2ADD(NUMNOD), ICSIZE, IMOV, ITYP, ILAGM, ICOUNT,
      .        N2, N3, N4, N5, N6, N7
-      INTEGER SIZE, LENR, IAD, L, LLT, KAD, JI, 
+      INTEGER SIZE, LENR, IAD, L, LLT, KAD, JI,
      .        NODFT1_SMS, NODLT1_SMS, NODFT2_SMS, NODLT2_SMS,
      .        KADI_SMS(NUMNOD), NADI_SMS(NUMNOD), NINDXT
       my_real
@@ -232,7 +232,7 @@ C---
               END DO
 
               IF(NSPMD > 1) CALL SPMD_ALLGLOB_ISUM9(ISMS,1)
-              
+
               IF(ISMS==0)THEN
                 TAG_LNK_SMS(I)=-ABS(TAG_LNK_SMS(I))
               ELSE
@@ -274,7 +274,7 @@ C---
 
               IF(NSPMD > 1) CALL SPMD_ALLGLOB_ISUM9(ISMS,1)
 
-              
+
               IF(ISMS==0)THEN
                 TAG_LNK_SMS(NRLINK+I)=-ABS(TAG_LNK_SMS(NRLINK+I))
               ELSE
@@ -319,7 +319,7 @@ C-----------------------------------------------
               END DO
             END IF
 C
-            IF(NSPMD > 1) 
+            IF(NSPMD > 1)
      .        CALL SPMD_IBCAST(TAG_LNK_SMS(NRLINK+NLINK+1),
      .   		       TAG_LNK_SMS(NRLINK+NLINK+1),NJOINT,1,0,2)
 C
@@ -445,7 +445,7 @@ C
             I=INDX1_SMS(N)
             DO IJ=JAD_SMS(I),JAD_SMS(I+1)-1
               KMV=KMV+1
-              IMV(KMV)=I            
+              IMV(KMV)=I
               MV(KMV)=-LT_SMS(IJ)
             END DO
           END DO
@@ -529,7 +529,7 @@ C---------------------------------------------------------------------
           I=INDX2_SMS(N)
           DO IJ=JADI_SMS(I),JADI_SMS(I+1)-1
             KMV=KMV+1
-            IMV(KMV)=I  	  
+            IMV(KMV)=I  	
             MV(KMV)=-LTI_SMS(IJ)
           END DO
         END DO
@@ -540,7 +540,7 @@ C
           DO K=1,FR_SMS(LOC_PROC)-1
             I=LIST_SMS(M)
             M = M + 1
-            IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR. 
+            IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR.
      .                     NODLT2_SMS < NODII_SMS(I))CYCLE
             KMV=KMV+1
             IMV(KMV)=I
@@ -550,7 +550,7 @@ C
           DO K=FR_SMS(LOC_PROC+1),FR_SMS(NSPMD+1)-1
             I=LIST_SMS(M)
             M = M + 1
-            IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR. 
+            IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR.
      .                     NODLT2_SMS < NODII_SMS(I))CYCLE
             KMV=KMV+1
             IMV(KMV)=I
@@ -567,7 +567,7 @@ C
 C
           DO K=1,FR_RMS(NSPMD+1)-1
             I=LIST_RMS(K)
-            IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR. 
+            IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR.
      .                     NODLT2_SMS < NODII_SMS(I))CYCLE
             KMV=KMV+1
             IMV(KMV)=I
@@ -632,7 +632,7 @@ C
           I=INDX1_SMS(N)
           DO IJ=JADI_SMS(I),JADI_SMS(I+1)-1
             KMV=KMV+1
-            IMV(KMV)=I  	  
+            IMV(KMV)=I  	
             MV(KMV)=-LTI_SMS(IJ)
           END DO
         END DO
@@ -643,7 +643,7 @@ C
           DO K=1,FR_SMS(LOC_PROC)-1
             I=LIST_SMS(M)
             M = M + 1
-            IF(I == 0 .OR. NODXI_SMS(I) < NODFT1_SMS .OR. 
+            IF(I == 0 .OR. NODXI_SMS(I) < NODFT1_SMS .OR.
      .                     NODLT1_SMS < NODXI_SMS(I))CYCLE
             KMV=KMV+1
             IMV(KMV)=I
@@ -653,7 +653,7 @@ C
           DO K=FR_SMS(LOC_PROC+1),FR_SMS(NSPMD+1)-1
             I=LIST_SMS(M)
             M = M + 1
-            IF(I == 0 .OR. NODXI_SMS(I) < NODFT1_SMS .OR. 
+            IF(I == 0 .OR. NODXI_SMS(I) < NODFT1_SMS .OR.
      .                     NODLT1_SMS < NODXI_SMS(I))CYCLE
             KMV=KMV+1
             IMV(KMV)=I
@@ -670,7 +670,7 @@ C
 C
           DO K=1,FR_RMS(NSPMD+1)-1
             I=LIST_RMS(K)
-            IF(I == 0 .OR. NODXI_SMS(I) < NODFT1_SMS .OR. 
+            IF(I == 0 .OR. NODXI_SMS(I) < NODFT1_SMS .OR.
      .                     NODLT1_SMS < NODXI_SMS(I))CYCLE
             KMV=KMV+1
             IMV(KMV)=I

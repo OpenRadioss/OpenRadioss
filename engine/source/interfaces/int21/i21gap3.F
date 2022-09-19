@@ -65,7 +65,7 @@ C     GAP VARIABLE NOEUDS SECONDS
 C------------------------------------
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
-      
+
       IF(IGAP>=2)THEN
        DO I=NSNF,NSNL
         GAP_S(I) = MAX(HALF*GAPSCALE*(THKNOD(NSV(I))-THKNOD0(I))
@@ -100,7 +100,7 @@ C assure le retri et remet la marge initiale (on a forcement depth  <= gapsupl)
           DIST =-ONE
         END IF
 #include "lockoff.inc"
-      ENDIF      
+      ENDIF
 C------------------------------------
       RETURN
       END

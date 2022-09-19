@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CBAFINT_PLY(JFT,JLT,NPT,NG,NPLAT,IPLAT,CDET,THKLY,TH12,
      .                        VOL,FF0,BM,BC,TC,SIG_IPLY,VNI,AREA,
-     .                        VF,VFI,IXC) 
+     .                        VF,VFI,IXC)
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C	CALCUL DES FORCES INTERNES AUX NOEUDS 
@@ -47,9 +47,9 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPT,NPLAT,IPLAT(*),NG,IXC(NIXC,*)
-      my_real 
-c     .   FF(5,MVSIZ,NPT),CDET(*),VOL(MVSIZ,NPT), 
-     .   FF0(MVSIZ,5,NPT),CDET(*),VOL(*), 
+      my_real
+c     .   FF(5,MVSIZ,NPT),CDET(*),VOL(MVSIZ,NPT),
+     .   FF0(MVSIZ,5,NPT),CDET(*),VOL(*),
      .   BM(MVSIZ,36),BC(MVSIZ,40),
      .   THKLY(MVSIZ,*),VF(MVSIZ,12,NPT),TH12(*),
      .   TC(MVSIZ,2,2),SIG_IPLY(MVSIZ,3,NPT),
@@ -62,19 +62,19 @@ C-----------------------------------------------
       my_real
      .  C1,C2,BC1,BC3,BC5,BCX,BCY,FL1,FL2,FL3,
      .  FF(MVSIZ,5,NPT)
-     
+
 C--------------------------------------------------------------------------------------------------$
 !!        NPLAT0 = JLT
           NPLAT0 = NPLAT
        DO J=1,NPT
 #include "vectorize.inc"
-        DO I=JFT,NPLAT0 
+        DO I=JFT,NPLAT0
           EP=IPLAT(I)
-          FF(EP,1,J)=FF0(EP,1,J) 
-          FF(EP,2,J)=FF0(EP,2,J) 
-          FF(EP,3,J)=FF0(EP,3,J) 
-          FF(EP,5,J)=FF0(EP,4,J) 
-          FF(EP,4,J)=FF0(EP,5,J) 
+          FF(EP,1,J)=FF0(EP,1,J)
+          FF(EP,2,J)=FF0(EP,2,J)
+          FF(EP,3,J)=FF0(EP,3,J)
+          FF(EP,5,J)=FF0(EP,4,J)
+          FF(EP,4,J)=FF0(EP,5,J)
 C          
 cc 	  C2=VOL(EP)/NPT
 !!          C2=VOL(EP)
@@ -89,14 +89,14 @@ C----------NOEUD 1 ------------
           VF(EP,3,J) = VF(EP,3,J) + C2*(BC1+BC(EP,2)*FF(EP,5,J))
 C integration complete du cisaillement
 cc          VF(1,EP,J) = VF(1,EP,J) + C2*(BM(EP,5)*FF(3,EP,J))
-cc          VF(2,EP,J) = VF(2,EP,J) + C2*(BM(EP,1)*FF(3,EP,J)) 
-          
+cc          VF(2,EP,J) = VF(2,EP,J) + C2*(BM(EP,1)*FF(3,EP,J))
+
 C         
           VF(EP,7,J) = VF(EP,7,J) + C2*(BM(EP,3)*FF(EP,1,J))
           VF(EP,8,J) = VF(EP,8,J) + C2*(BM(EP,7)*FF(EP,2,J))
 C integration complete du cisaillement
 cc          VF(7,EP,J) = VF(7,EP,J) + C2*(BM(7,EP)*FF(3,EP,J))
-cc          VF(8,EP,J) = VF(8,EP,J) + C2*(BM(3,EP)*FF(3,EP,J))                 
+cc          VF(8,EP,J) = VF(8,EP,J) + C2*(BM(3,EP)*FF(3,EP,J))
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
           VF(EP,9,J) = VF(EP,9,J) + C2*(BC(EP,13)*FF(EP,4,J)
      .                            + BC(EP,14)*FF(EP,5,J))
@@ -104,26 +104,26 @@ C----------NOEUD 2 ------------
           VF(EP,4,J) = VF(EP,4,J) + C2*(BM(EP,2)*FF(EP,1,J))
           VF(EP,5,J) = VF(EP,5,J) + C2*(BM(EP,6)*FF(EP,2,J))
           VF(EP,6,J) = VF(EP,6,J) + C2*(BC(EP,7)*FF(EP,4,J)
-     .                            + BC(EP,8)*FF(EP,5,J)) 
+     .                            + BC(EP,8)*FF(EP,5,J))
 C integration complete du cisaillement
 cc          VF(4,EP,J) = VF(4,EP,J) + C2*(BM(EP,6)*FF(3,EP,J))
-cc          VF(5,EP,J) = VF(5,EP,J) + C2*(BM(EP,2)*FF(3,EP,J)) 
+cc          VF(5,EP,J) = VF(5,EP,J) + C2*(BM(EP,2)*FF(3,EP,J))
 C
           VF(EP,10,J) =-VF(EP,7,J)
           VF(EP,11,J) =-VF(EP,8,J)
-          VF(EP,12,J) =-VF(EP,9,J) 
-       ENDDO  
+          VF(EP,12,J) =-VF(EP,9,J)
+       ENDDO
 #include "vectorize.inc"
        DO I=NPLAT0+1,JLT
           EP=IPLAT(I)
 C
-          FF(EP,1,J)=FF0(EP,1,J) 
-          FF(EP,2,J)=FF0(EP,2,J) 
-          FF(EP,3,J)=FF0(EP,3,J) 
-          FF(EP,5,J)=FF0(EP,4,J) 
+          FF(EP,1,J)=FF0(EP,1,J)
+          FF(EP,2,J)=FF0(EP,2,J)
+          FF(EP,3,J)=FF0(EP,3,J)
+          FF(EP,5,J)=FF0(EP,4,J)
           FF(EP,4,J)=FF0(EP,5,J)
 C          
-!! 	  C2=VOL(EP)          
+!! 	  C2=VOL(EP)
           C2=THKLY(EP,J)*CDET(EP)
           C1=TH12(EP)*CDET(EP)
 	  BCX=TC(EP,1,1)*FF(EP,4,J)+TC(EP,1,2)*FF(EP,5,J)
@@ -227,52 +227,52 @@ c     6                         +C1*(BMF(EP,34)*MM(1,EP)+
 c     7                              BMF(EP,35)*MM(2,EP)+
 c     8                              BMF(EP,36)*MM(3,EP))
 C 
-       ENDDO 
-      ENDDO   
+       ENDDO
+      ENDDO
 C
 C  interface
-       DO IPLY = 1 , NPT - 1 
-        JINF = IPLY  
-        JSUP = IPLY + 1 
-        DO EP=JFT,JLT 
+       DO IPLY = 1 , NPT - 1
+        JINF = IPLY
+        JSUP = IPLY + 1
+        DO EP=JFT,JLT
 C         
          FL1 = CDET(EP)*SIG_IPLY(EP,2,IPLY)
          FL2 = CDET(EP)*SIG_IPLY(EP,1,IPLY)
          FL3 = CDET(EP)*SIG_IPLY(EP,3,IPLY)
 C----------NOEUD 1 ------------
-         VFI(EP,1,JSUP) = VFI(EP,1,JSUP) + FL1*VNI(1,NG) 
+         VFI(EP,1,JSUP) = VFI(EP,1,JSUP) + FL1*VNI(1,NG)
          VFI(EP,2,JSUP) = VFI(EP,2,JSUP) + FL2*VNI(1,NG)
-         VFI(EP,3,JSUP) = VFI(EP,3,JSUP) + FL3*VNI(1,NG) 
+         VFI(EP,3,JSUP) = VFI(EP,3,JSUP) + FL3*VNI(1,NG)
 C ----------NOEUD 2 ------------        
-         VFI(EP,4,JSUP) = VFI(EP,4,JSUP) + FL1*VNI(2,NG) 
+         VFI(EP,4,JSUP) = VFI(EP,4,JSUP) + FL1*VNI(2,NG)
          VFI(EP,5,JSUP) = VFI(EP,5,JSUP) + FL2*VNI(2,NG)
-         VFI(EP,6,JSUP) = VFI(EP,6,JSUP) + FL3*VNI(2,NG) 
+         VFI(EP,6,JSUP) = VFI(EP,6,JSUP) + FL3*VNI(2,NG)
 C----------NOEUD 3 ------------
-         VFI(EP,7,JSUP) = VFI(EP,7,JSUP) + FL1*VNI(3,NG) 
+         VFI(EP,7,JSUP) = VFI(EP,7,JSUP) + FL1*VNI(3,NG)
          VFI(EP,8,JSUP) = VFI(EP,8,JSUP) + FL2*VNI(3,NG)
-         VFI(EP,9,JSUP) = VFI(EP,9,JSUP) + FL3*VNI(3,NG)         
+         VFI(EP,9,JSUP) = VFI(EP,9,JSUP) + FL3*VNI(3,NG)
 C----------NOEUD 4 ------------
-         VFI(EP,10,JSUP) = VFI(EP,10,JSUP) + FL1*VNI(4,NG) 
+         VFI(EP,10,JSUP) = VFI(EP,10,JSUP) + FL1*VNI(4,NG)
          VFI(EP,11,JSUP) = VFI(EP,11,JSUP) + FL2*VNI(4,NG)
          VFI(EP,12,JSUP) = VFI(EP,12,JSUP) + FL3*VNI(4,NG)
 cc -----------ply inf
 C----------NOEUD 1 ------------
-         VFI(EP,1,JINF) = VFI(EP,1,JINF) - FL1*VNI(1,NG) 
+         VFI(EP,1,JINF) = VFI(EP,1,JINF) - FL1*VNI(1,NG)
          VFI(EP,2,JINF) = VFI(EP,2,JINF) - FL2*VNI(1,NG)
-         VFI(EP,3,JINF) = VFI(EP,3,JINF) - FL3*VNI(1,NG) 
+         VFI(EP,3,JINF) = VFI(EP,3,JINF) - FL3*VNI(1,NG)
 C ----------NOEUD 2 ------------        
-         VFI(EP,4,JINF) = VFI(EP,4,JINF) - FL1*VNI(2,NG) 
+         VFI(EP,4,JINF) = VFI(EP,4,JINF) - FL1*VNI(2,NG)
          VFI(EP,5,JINF) = VFI(EP,5,JINF) - FL2*VNI(2,NG)
-         VFI(EP,6,JINF) = VFI(EP,6,JINF) - FL3*VNI(2,NG) 
+         VFI(EP,6,JINF) = VFI(EP,6,JINF) - FL3*VNI(2,NG)
 C----------NOEUD 3 ------------
-         VFI(EP,7,JINF) = VFI(EP,7,JINF) - FL1*VNI(3,NG) 
+         VFI(EP,7,JINF) = VFI(EP,7,JINF) - FL1*VNI(3,NG)
          VFI(EP,8,JINF) = VFI(EP,8,JINF) - FL2*VNI(3,NG)
-         VFI(EP,9,JINF) = VFI(EP,9,JINF) - FL3*VNI(3,NG)         
+         VFI(EP,9,JINF) = VFI(EP,9,JINF) - FL3*VNI(3,NG)
 C----------NOEUD 4 ------------
-         VFI(EP,10,JINF) = VFI(EP,10,JINF) - FL1*VNI(4,NG) 
+         VFI(EP,10,JINF) = VFI(EP,10,JINF) - FL1*VNI(4,NG)
          VFI(EP,11,JINF) = VFI(EP,11,JINF) - FL2*VNI(4,NG)
          VFI(EP,12,JINF) = VFI(EP,12,JINF) - FL3*VNI(4,NG)
-        ENDDO 
-       ENDDO     
+        ENDDO
+       ENDDO
       RETURN
       END

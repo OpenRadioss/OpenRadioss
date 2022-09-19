@@ -66,7 +66,7 @@ C------------------------------------
 C         /USERWI
 C------------------------------------
 
-      OK_QA = MYQAKEY('/USERWI')  
+      OK_QA = MYQAKEY('/USERWI')
 
       IF (OK_QA) THEN
 
@@ -84,7 +84,7 @@ C------------------------------------
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
         ENDDO ! DO I=1,NUVAR
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 C------------------------------------

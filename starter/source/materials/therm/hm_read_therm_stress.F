@@ -45,7 +45,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(OUT)   :: PM
       TYPE(MLAW_TAG_) , DIMENSION(NUMMAT  ) , INTENT(INOUT)     :: MLAW_TAG
-      TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -81,7 +81,7 @@ C=======================================================================
 c--------------------------------------------------
 c     COUNT EOS MODELS USING CFG FILES
 c--------------------------------------------------
-c      
+c
       CALL HM_OPTION_COUNT('/THERM_STRESS',NTHERM_ST)
 c
 c--------------------------------------------------
@@ -99,8 +99,8 @@ c
      .                          KEYWORD2    = KEY    )
 
 
-         IF(KEY(1:3) == 'MAT')THEN   
-            CALL HM_GET_INTV  ('FUNCT_ID'      ,IFUNC_ALPHA    ,IS_AVAILABLE, LSUBMODEL) 
+         IF(KEY(1:3) == 'MAT')THEN
+            CALL HM_GET_INTV  ('FUNCT_ID'      ,IFUNC_ALPHA    ,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('CLOAD_SCALE_Y' ,FSCAL_ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
             IF (FSCAL_ALPHA == ZERO) FSCAL_ALPHA=ONE
@@ -131,14 +131,14 @@ c
      .                          I1=IMAT,
      .                          C1=TITR)
                  ENDIF
-              ENDIF  
+              ENDIF
             ENDDO
           ENDIF
 
        ENDDO
 
 
-c-----------------------------------------      
+c-----------------------------------------
  4000 FORMAT(
      & 5X,'    THERMAL MATERIAL EXPANSION  ',/,
      & 5X,'    --------------------------  ',/,
@@ -146,6 +146,6 @@ c-----------------------------------------
      & 5X,'CURVE ID DEFINING THERMAL EXPANSION COEFFICIENT '/,
      & 5X,'   AS A FUNCTION OF TEMPERATURE .=',1PG20.13/,
      & 5X,'THERMAL EXPANSION FUNCTION SCALE FACTOR .=',1PG20.13//)
-c-----------------------------------------      
+c-----------------------------------------
       RETURN
       END

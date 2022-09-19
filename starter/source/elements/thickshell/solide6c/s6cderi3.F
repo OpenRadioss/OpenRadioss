@@ -30,8 +30,8 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        SLEN                          source/elements/solid/solide/slen.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE S6CDERI3(NEL ,VOL  ,GEO   ,VZL   ,NGL, DELTAX, DET, 
-     .     X1, X2, X3, X4, X5, X6, 
+      SUBROUTINE S6CDERI3(NEL ,VOL  ,GEO   ,VZL   ,NGL, DELTAX, DET,
+     .     X1, X2, X3, X4, X5, X6,
      .     Y1, Y2, Y3, Y4, Y5, Y6,
      .     Z1, Z2, Z3, Z4, Z5, Z6)
 C-----------------------------------------------
@@ -56,9 +56,9 @@ C-----------------------------------------------
       INTEGER NEL,NGL(*)
       my_real
      .   VOL(*), GEO(NPROPG,*),VZL(*), DELTAX(*), DET(*)
-      my_real 
-     .     X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
-     .     Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), 
+      my_real
+     .     X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
+     .     Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),
      .     Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -68,15 +68,15 @@ C-----------------------------------------------
      .   X21(MVSIZ) , X31(MVSIZ) , X41(MVSIZ) , X54(MVSIZ),X64(MVSIZ),
      .   Y21(MVSIZ) , Y31(MVSIZ) , Y41(MVSIZ) , Y54(MVSIZ),Y64(MVSIZ),
      .   Z21(MVSIZ) , Z31(MVSIZ) , Z41(MVSIZ) , Z54(MVSIZ),Z64(MVSIZ),
-     .   JAC1(MVSIZ), JAC2(MVSIZ) ,JAC3(MVSIZ), 
-     .   JAC4(MVSIZ), JAC5(MVSIZ) ,JAC6(MVSIZ), 
-     .   JAC7(MVSIZ), JAC8(MVSIZ) ,JAC9(MVSIZ), 
+     .   JAC1(MVSIZ), JAC2(MVSIZ) ,JAC3(MVSIZ),
+     .   JAC4(MVSIZ), JAC5(MVSIZ) ,JAC6(MVSIZ),
+     .   JAC7(MVSIZ), JAC8(MVSIZ) ,JAC9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
 
       my_real
      .   XIOFF(MVSIZ), AREAM(MVSIZ),
      .   ATEST(MVSIZ), AREA(6,MVSIZ)
- 
+
 C=======================================================================
 
       DO I=1,NEL

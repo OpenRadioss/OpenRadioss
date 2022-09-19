@@ -131,7 +131,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      INTEGER 
+      INTEGER
      . I, J,JPOS(MVSIZ), JLEN(MVSIZ),JAD(MVSIZ),
      . JPOS0(MVSIZ),JFUNC,JFUNC2,INDEX(MVSIZ),NC
       my_real
@@ -152,7 +152,7 @@ C-------------------------------------
        IF (IFUNC(I)>0) THEN
         NC = NC + 1
         INDEX(NC) = I
-       ENDIF 
+       ENDIF
        ENDDO
        DO J=1,NC
         I = INDEX(J)
@@ -164,7 +164,7 @@ C-------------------------------------
        IF (IFUNC(I)>0.AND.IECROU(I)==0.AND.ABS(DX(I))>EM20) THEN
         NC = NC + 1
         INDEX(NC) = I
-       ENDIF 
+       ENDIF
       ENDDO
       IF (NC==0) RETURN
 C
@@ -186,7 +186,7 @@ C
       ELSE
         CALL VINTER2(TF,JAD ,JPOS0,JLEN ,NC,X0 ,DYDX ,F0 )
         CALL VINTER2(TF,JAD ,JPOS ,JLEN ,NC,XX ,DYDX ,YY )
-      ENDIF 
+      ENDIF
 C
       DO J=1,NC
        I = INDEX(J)
@@ -195,7 +195,7 @@ C
        E_MIN = EM06*KX(I)
        KX(I)= A(I)*MAX(E_MIN,E_SEG,E_T)
       ENDDO
-      ENDIF 
+      ENDIF
 C
       RETURN
       END
@@ -226,12 +226,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      INTEGER 
+      INTEGER
      . J,J1,NPOINT,N0
       my_real
      .   X,Y,Y0,E1,E2,XN,YN
 C----s---1----+----2----+----3----+----4----+----5----+----6----+----7--
-      E_S = ZERO 
+      E_S = ZERO
        NPOINT=(NPF(IFUNCT+1)-NPF(IFUNCT))/2+1
        Y0 = ZERO
        N0 = 0

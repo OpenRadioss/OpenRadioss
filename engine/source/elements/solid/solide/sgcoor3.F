@@ -31,7 +31,7 @@ Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SGCOOR3(TIME,NPE,X,IXS,
-     1   X0, Y0, Z0, VX0,VY0, VZ0, 
+     1   X0, Y0, Z0, VX0,VY0, VZ0,
      2   SAV,D ,OFF,OFF0,NEL,XDP )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +57,7 @@ C     REAL
       my_real
      .  X(3,*),TIME,D(3,*),OFF(*),OFF0(*),
      .  VX0(MVSIZ,NPE),VY0(MVSIZ,NPE),VZ0(MVSIZ,NPE)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   X0(MVSIZ,NPE), Y0(MVSIZ,NPE), Z0(MVSIZ,NPE),
      .  SAV(NEL,3*(NPE-1)),XDP(3,*),XD,YD,ZD
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C
          NC(I,N)=IXS(N+1,I)
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 C----------------------------
 C     NODAL COORDINATES INITIALES    |
 C----------------------------
@@ -94,13 +94,13 @@ C----------------------------
         Y0(I,N)=SAV(I,N2)
         Z0(I,N)=SAV(I,N3)
        ENDDO
-      ENDDO 
+      ENDDO
 C--------ISMSTR == 12 diff format of SAV 
       IF (ISMSTR == 12.AND.IDTMIN(1)==3 .AND.MTN==1) THEN
          DO N=1,NPE1
            N2 = 3*(N-1)+1
            DO I=LFT,LLT
-            IF (OFF(I) <= ONE ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE
             X0(I,N)=SAV(I,N2)
             Y0(I,N)=SAV(I,N2+1)
             Z0(I,N)=SAV(I,N2+2)
@@ -122,8 +122,8 @@ C----------------------------
          VY0(I,N) = YD
          VZ0(I,N) = ZD
         ENDDO
-       ENDDO 
-      ELSE      
+       ENDDO
+      ELSE
       DO N=1,NPE1
        DO I=LFT,LLT
         N2 = NC(I,N)
@@ -132,7 +132,7 @@ C----------------------------
         VY0(I,N)=X(2,N2)-X(2,N3)-Y0(I,N)
         VZ0(I,N)=X(3,N2)-X(3,N3)-Z0(I,N)
        ENDDO
-      ENDDO 
+      ENDDO
       END IF !(IRESP==1)THEN
 C      
       DO I=LFT,LLT
@@ -152,16 +152,16 @@ C-------law1 special two increment
        IF (MTN/=1) THEN
          DO N=1,NPE1
           DO I=LFT,LLT
-           IF (OFF(I) <= ONE ) CYCLE 
-            VX0(I,N)=D(1,NC(I,N))-D(1,NC(I,NPE)) 
-            VY0(I,N)=D(2,NC(I,N))-D(2,NC(I,NPE))  
-            VZ0(I,N)=D(3,NC(I,N))-D(3,NC(I,NPE)) 
+           IF (OFF(I) <= ONE ) CYCLE
+            VX0(I,N)=D(1,NC(I,N))-D(1,NC(I,NPE))
+            VY0(I,N)=D(2,NC(I,N))-D(2,NC(I,NPE))
+            VZ0(I,N)=D(3,NC(I,N))-D(3,NC(I,NPE))
           ENDDO
          ENDDO
          DO N=1,NPE1
            N2 = 3*(N-1)+1
            DO I=LFT,LLT
-            IF (OFF(I) <= ONE ) CYCLE 
+            IF (OFF(I) <= ONE ) CYCLE
             X0(I,N)=SAV(I,N2)
             Y0(I,N)=SAV(I,N2+1)
             Z0(I,N)=SAV(I,N2+2)
@@ -238,7 +238,7 @@ C
          NC(I,N)=IXS(N+1,I)
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 C----------------------------
 C     NODAL COORDINATES     /
 C----------------------------
@@ -248,12 +248,12 @@ C----------------------------
         Y0(I,N)=X(2,NC(I,N))
         Z0(I,N)=X(3,NC(I,N))
        ENDDO
-      ENDDO 
+      ENDDO
 C----------------------------
 C     R,S,T     |
 C----------------------------
       SELECT CASE (NPE)
-      CASE(4,10)                                             
+      CASE(4,10)
        DO I=LFT,LLT
         RX(I) =  X0(I,1) - X0(I,4)
         RY(I) =  Y0(I,1) - Y0(I,4)
@@ -267,7 +267,7 @@ C
         TY(I) =  Y0(I,3) - Y0(I,4)
         TZ(I) =  Z0(I,3) - Z0(I,4)
        ENDDO
-      CASE(6)                                          
+      CASE(6)
        DO I=LFT,LLT
         RX(I) =  X0(I,3) + X0(I,6) - X0(I,1)- X0(I,4)
         RY(I) =  Y0(I,3) + Y0(I,6) - Y0(I,1)- Y0(I,4)
@@ -281,31 +281,31 @@ C
         TY(I) = Y0(I,2) + Y0(I,5)- Y0(I,1) - Y0(I,4)
         TZ(I) = Z0(I,2) + Z0(I,5)- Z0(I,1) - Z0(I,4)
        ENDDO
-      CASE(8)                                          
+      CASE(8)
        DO I=LFT,LLT
         RX(I) = X0(I,3)+X0(I,4)+X0(I,7)+X0(I,8)-
-     .         (X0(I,1)+X0(I,2)+X0(I,5)+X0(I,6)) 
+     .         (X0(I,1)+X0(I,2)+X0(I,5)+X0(I,6))
         RY(I) = Y0(I,3)+Y0(I,4)+Y0(I,7)+Y0(I,8)-
      .         (Y0(I,1)+Y0(I,2)+Y0(I,5)+Y0(I,6))
         RZ(I) = Z0(I,3)+Z0(I,4)+Z0(I,7)+Z0(I,8)-
      .         (Z0(I,1)+Z0(I,2)+Z0(I,5)+Z0(I,6))
 C
         SX(I) = X0(I,5)+X0(I,6)+X0(I,7)+X0(I,8)-
-     .         (X0(I,1)+X0(I,2)+X0(I,3)+X0(I,4)) 
+     .         (X0(I,1)+X0(I,2)+X0(I,3)+X0(I,4))
         SY(I) = Y0(I,5)+Y0(I,6)+Y0(I,7)+Y0(I,8)-
      .         (Y0(I,1)+Y0(I,2)+Y0(I,3)+Y0(I,4))
         SZ(I) = Z0(I,5)+Z0(I,6)+Z0(I,7)+Z0(I,8)-
      .         (Z0(I,1)+Z0(I,2)+Z0(I,3)+Z0(I,4))
 C
         TX(I) = X0(I,3)+X0(I,2)+X0(I,7)+X0(I,6)-
-     .         (X0(I,1)+X0(I,4)+X0(I,5)+X0(I,8)) 
+     .         (X0(I,1)+X0(I,4)+X0(I,5)+X0(I,8))
         TY(I) = Y0(I,3)+Y0(I,2)+Y0(I,7)+Y0(I,6)-
      .         (Y0(I,1)+Y0(I,4)+Y0(I,5)+Y0(I,8))
         TZ(I) = Z0(I,3)+Z0(I,2)+Z0(I,7)+Z0(I,6)-
      .         (Z0(I,1)+Z0(I,4)+Z0(I,5)+Z0(I,8))
 C
        ENDDO
-      END SELECT 
+      END SELECT
 C
       RETURN
       END

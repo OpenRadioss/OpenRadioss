@@ -32,7 +32,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE DESACTI(IXS     ,IXQ      ,IXC     ,IXP     ,IXT      ,
-     .                   IXR     ,IXTG     ,IPARG   , 
+     .                   IXR     ,IXTG     ,IPARG   ,
      .                   IACTIV  ,SENSOR   ,FSKY    ,X       ,ELBUF_TAB,
      .                   IBCV    ,FCONV    ,IBCR    ,FRADIA  ,IGROUPS  ,
      .                   FACTIV  ,TEMP     ,MCP     ,PM      ,MCP_OFF  ,
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IACTIV(LACTIV,*),IPARG(NPARG,*),
-     .        IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),  
+     .        IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),
      .        IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*)
       INTEGER IBCV(*), IBCR(*), IGROUPS(*)
       my_real SENSOR(NSENSR,*), FSKY(*), FCONV(*), FRADIA(*)
@@ -120,7 +120,7 @@ C----------------------------------------------------------------------
             IACTIV(1,N) = 1
             OFFCHANGE=1
           ENDIF
-         ENDIF        
+         ENDIF
 
         ELSEIF(IACTIV(10,N) == 2) THEN
 C----------------------------------------------------------------------
@@ -169,7 +169,7 @@ C----------------------------------------------------------------------
      .                 IGRTRUSS,IGRBEAM ,IGRSPRING)
             IACTIV(1,N) = 0
             OFFCHANGE=1
-          ENDIF		  
+          ENDIF		
         ENDIF
       ENDDO ! N=1,NACTIV
 C
@@ -178,7 +178,7 @@ C
          IF(NUMRADIA > 0) CALL RADIATOFF(IBCR, FRADIA,IPARG, IGROUPS, IXS, ELBUF_TAB)
       ENDIF
 
-      IF(ITHERM_FE > 0 .AND. TT == ZERO) THEN 
+      IF(ITHERM_FE > 0 .AND. TT == ZERO) THEN
 C     Final call to set MCP_OFF(i) = 0 if all nodes 
             IFLAG=-1
             CALL ELOFF(IXS     ,IXQ     ,IXC      ,IXP     ,IXT      ,

@@ -91,7 +91,7 @@ C
                CNS(JJ,1+2*(NC-1)+1)=1
                CNS(JJ,1+2*(NC-1)+2)=I
             ENDDO
-         ENDDO   
+         ENDDO
          DO I=1,NUMELTG
             DO J=1,3
                JJ=IXTG(1+J,I)
@@ -101,7 +101,7 @@ C
                CNS(JJ,1+2*(NC-1)+1)=2
                CNS(JJ,1+2*(NC-1)+2)=I
             ENDDO
-         ENDDO   
+         ENDDO
 C     
          DO I=1,NB_NODE
             ITAG(I)=ZERO

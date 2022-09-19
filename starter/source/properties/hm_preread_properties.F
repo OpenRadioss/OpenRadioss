@@ -80,12 +80,12 @@ C-----------------------------------------------
       my_real
      .    FN, FT, DX, ANGL,PUN,HTEST,HCLOS,CVIS,RBID,VX,VY,VZ,
      .    KNOT1,KNOT2,KNOT3,R5(5),DN
-      CHARACTER IDTITL*nchartitle,MESS*40,KEY*ncharline, 
+      CHARACTER IDTITL*nchartitle,MESS*40,KEY*ncharline,
      .          STRING*ncharfield,CHROT*7,SOLVERKEYWORD*ncharline
       INTEGER ISH3N,ITET4,IPLAS,NPT,ISROT,NP,LAMIN,NSUB_STACK,NISUB_STACK,
      .        NPLY_STACK,NPLY_SUB
       LOGICAL IS_AVAILABLE
-     
+
 !!      TYPE(STACK_INFO_ ) , DIMENSION(:), POINTER :: STACK_INFO
 C=======================================================================
 
@@ -135,24 +135,24 @@ C--------------------------------------------------
            CALL HM_GET_INTV('ISH3',ISH3N,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INTV('CVIS',CVIS,IS_AVAILABLE,LSUBMODEL)
            IF(ISH3N==31.AND.NUMELTG>0) NUMELTG6 = 1
-           
+
           CASE ('TYPE17','STACK')
 C--------------------------------------------------
 C      HM READING PROPERTY TYPE17 (SHELL)
 C-------------------------------------------------- 
             IGTYP=17
             NPROP_STACK = NPROP_STACK + 1
-            NUMGEOSTACK(I) = NPROP_STACK  
+            NUMGEOSTACK(I) = NPROP_STACK
 C
            CALL HM_GET_INTV('laminateconfig'    ,LAMIN, IS_AVAILABLE, LSUBMODEL)
 c
            NSUB_STACK = 0
-           NISUB_STACK = 0 
+           NISUB_STACK = 0
            NPLY_STACK = 0
            IF (LAMIN  > 0) THEN
              CALL HM_GET_INTV('sublaminateidlistmax' ,NSUB_STACK,  IS_AVAILABLE, LSUBMODEL)
              CALL HM_GET_INTV('interfacepairsize'    ,NISUB_STACK,  IS_AVAILABLE, LSUBMODEL)
-            
+
              DO IS = 1,NSUB_STACK
                 CALL HM_GET_INT_ARRAY_INDEX('plyidlistmax',NPLY_SUB,IS,IS_AVAILABLE,LSUBMODEL)
                 NPLY_STACK = NPLY_STACK + NPLY_SUB
@@ -160,10 +160,10 @@ c
 c
            ELSE  ! property defined by a list of plies
              CALL HM_GET_INTV('plyidlistmax' ,NPLY_STACK ,IS_AVAILABLE ,LSUBMODEL)
-           END IF  
+           END IF
            NPLY(NPROP_STACK) = NPLY_STACK
            NSUB(NPROP_STACK) = NSUB_STACK
-           NISUB(NPROP_STACK)= NISUB_STACK 
+           NISUB(NPROP_STACK)= NISUB_STACK
 C--------------------------------------------------
 C          HM READING PROPERTY TYPE14,6 (SOLID)
 C--------------------------------------------------
@@ -181,7 +181,7 @@ C--------------------------------------------------
           CASE ('TYPE51')
             NPROP_STACK    = NPROP_STACK + 1
             NUMGEOSTACK(I) = NPROP_STACK
-c  
+c
            CALL HM_GET_INTV('laminateconfig'    ,LAMINATE, IS_AVAILABLE, LSUBMODEL)
            IF (LAMINATE > 0) THEN
              CALL HM_GET_INTV('sublaminateidlistmax' ,NLAM,  IS_AVAILABLE, LSUBMODEL)
@@ -226,25 +226,25 @@ C
       IF(NUMSTACK > 0) THEN
            CALL HM_OPTION_START('/STACK')
            CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID = IG,KEYWORD2 = KEY)
-           DO 700 I=1,NUMSTACK 
+           DO 700 I=1,NUMSTACK
             NPROP_STACK = NPROP_STACK + 1
             NUMGEOSTACK(NUMGEO + I) = NPROP_STACK
             CALL HM_GET_INTV('laminateconfig'    ,LAMINATE, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_INTV('laminateconfig'    ,LAMIN   , IS_AVAILABLE, LSUBMODEL)  
-                   
-            IF (LAMINATE > 0) THEN                                                            
-              CALL HM_GET_INTV('sublaminateidlistmax' ,NLAM,  IS_AVAILABLE, LSUBMODEL)        
-              CALL HM_GET_INTV('interfacepairsize'    ,NINTS,  IS_AVAILABLE, LSUBMODEL) 
-              NSUB(NPROP_STACK)  = NLAM                                                       
-              NISUB(NPROP_STACK) = NINTS                                                      
-              DO IS = 1,NLAM                                                                  
-                CALL HM_GET_INT_ARRAY_2INDEXES('plyidlistmax',NP,IS,1,IS_AVAILABLE,LSUBMODEL) 
-                NPLY(NPROP_STACK) = NPLY(NPROP_STACK) + NP                                    
-              END DO                                                                          
-            ELSE                                                                              
-              CALL HM_GET_INTV('plyidlistmax'      ,NP,  IS_AVAILABLE, LSUBMODEL)             
-              NPLY(NPROP_STACK) = NPLY(NPROP_STACK) + NP                                      
-            END IF                                                                            
+            CALL HM_GET_INTV('laminateconfig'    ,LAMIN   , IS_AVAILABLE, LSUBMODEL)
+
+            IF (LAMINATE > 0) THEN
+              CALL HM_GET_INTV('sublaminateidlistmax' ,NLAM,  IS_AVAILABLE, LSUBMODEL)
+              CALL HM_GET_INTV('interfacepairsize'    ,NINTS,  IS_AVAILABLE, LSUBMODEL)
+              NSUB(NPROP_STACK)  = NLAM
+              NISUB(NPROP_STACK) = NINTS
+              DO IS = 1,NLAM
+                CALL HM_GET_INT_ARRAY_2INDEXES('plyidlistmax',NP,IS,1,IS_AVAILABLE,LSUBMODEL)
+                NPLY(NPROP_STACK) = NPLY(NPROP_STACK) + NP
+              END DO
+            ELSE
+              CALL HM_GET_INTV('plyidlistmax'      ,NP,  IS_AVAILABLE, LSUBMODEL)
+              NPLY(NPROP_STACK) = NPLY(NPROP_STACK) + NP
+            END IF
 C          
  700      CONTINUE
       ENDIF
@@ -264,34 +264,34 @@ C
      .                STACK_INFO(NUMS)%THK,STACK_INFO(NUMS)%ANG,
      .                STACK_INFO(NUMS)%POS,STACK_INFO(NUMS)%DIR,
      .                STACK_INFO(NUMS)%THKLY,STACK_INFO(NUMS)%WEIGHT)
-    
+
              IF(NN > 0 ) THEN
                  ALLOCATE(STACK_INFO(NUMS)%PID(NN),STACK_INFO(NUMS)%MID(NN),
      .                     STACK_INFO(NUMS)%MID_IP(NN),
      .                     STACK_INFO(NUMS)%THK(NN),STACK_INFO(NUMS)%ANG(NN),
      .                     STACK_INFO(NUMS)%POS(NN),STACK_INFO(NUMS)%DIR(NN),
-     .                     STACK_INFO(NUMS)%THKLY(NN),STACK_INFO(NUMS)%WEIGHT(NN)) 
-                 STACK_INFO(NUMS)%PID(1:NN)= 0     
+     .                     STACK_INFO(NUMS)%THKLY(NN),STACK_INFO(NUMS)%WEIGHT(NN))
+                 STACK_INFO(NUMS)%PID(1:NN)= 0
                  STACK_INFO(NUMS)%MID(1:NN)= 0
                  STACK_INFO(NUMS)%MID_IP(1:NN)= 0
                  STACK_INFO(NUMS)%THK(1:NN)= ZERO
                  STACK_INFO(NUMS)%ANG(1:NN)= ZERO
                  STACK_INFO(NUMS)%POS(1:NN)= ZERO
-                 STACK_INFO(NUMS)%THKLY(1:NN)= ONE   
-                 STACK_INFO(NUMS)%WEIGHT(1:NN)= ONE 
+                 STACK_INFO(NUMS)%THKLY(1:NN)= ONE
+                 STACK_INFO(NUMS)%WEIGHT(1:NN)= ONE
              ENDIF
              IF(NS  > 0)THEN
                ALLOCATE(STACK_INFO(NUMS)%SUB(2*NS))
-               STACK_INFO(NUMS)%SUB(1:2*NS)= 0  
-             ENDIF  
+               STACK_INFO(NUMS)%SUB(1:2*NS)= 0
+             ENDIF
              IF(NIS > 0)THEN
               ALLOCATE(STACK_INFO(NUMS)%ISUB(3*NIS))
               STACK_INFO(NUMS)%ISUB(1:3*NIS)= 0
-             ENDIF 
-          ENDDO 
+             ENDIF
+          ENDDO
          ELSE
             ALLOCATE(STACK_INFO(0))
-         ENDIF ! NPROP_STACK   
-        !! stop      
+         ENDIF ! NPROP_STACK
+        !! stop
       RETURN
       END

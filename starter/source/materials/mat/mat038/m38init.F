@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M38INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
-     2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ) 
+     2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C     REAL
      .   E0,VT,VC,RV,BETA,HYSTER,
      .   RATEDAMP,THETA,P0,RELAXP,MAXPRES,PHI,
      .   GAMMA,VISCOSITY,EXPONAS,EXPONBS,FUNLOAD,RUNLOAD,
-     .   PSCALE   
+     .   PSCALE
 C=======================================================================
 C SET INITIAL MATERIAL CONSTANTS
 

@@ -28,7 +28,7 @@ Chd|        MULTI_FVM2FEM                 source/multifluid/multi_fvm2fem.F
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================
-      SUBROUTINE SNORM3T (NEL, NFT, JALE, IXS, XGRID, WGRID, 
+      SUBROUTINE SNORM3T (NEL, NFT, JALE, IXS, XGRID, WGRID,
      .     NORM, WFAC, SURF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -51,10 +51,10 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL, NFT, JALE, IXS(NIXS, *)
-      my_real, INTENT(IN) :: 
+      my_real, INTENT(IN) ::
      .     XGRID(3, *), WGRID(*)
       my_real, INTENT(OUT) :: WFAC(3, 6, NEL), SURF(6, NEL)
-      my_real, INTENT(OUT), TARGET :: NORM(3, 6, NEL) 
+      my_real, INTENT(OUT), TARGET :: NORM(3, 6, NEL)
 C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -93,11 +93,11 @@ C     Node grid velocities
 C     Face normal
 C     Face 1 -> nodes 1 2 3
          KFACE = 5
-         NORM(1, KFACE, II) = HALF * ((X3(2) - X1(2)) * (X2(3) - X1(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X3(2) - X1(2)) * (X2(3) - X1(3)) -
      .        (X3(3) - X1(3)) * (X2(2) - X1(2)))
-         NORM(2, KFACE, II) = HALF * ((X3(3) - X1(3)) * (X2(1) - X1(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X3(3) - X1(3)) * (X2(1) - X1(1)) -
      .        (X3(1) - X1(1)) * (X2(3) - X1(3)))
-         NORM(3, KFACE, II) = HALF * ((X3(1) - X1(1)) * (X2(2) - X1(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X3(1) - X1(1)) * (X2(2) - X1(2)) -
      .        (X3(2) - X1(2)) * (X2(1) - X1(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -112,11 +112,11 @@ C     Face 1 -> nodes 1 2 3
          ENDIF
 C     Face 2
          KFACE = 6
-         NORM(1, KFACE, II) = HALF * ((X1(2) - X4(2)) * (X2(3) - X4(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X1(2) - X4(2)) * (X2(3) - X4(3)) -
      .        (X1(3) - X4(3)) * (X2(2) - X4(2)))
-         NORM(2, KFACE, II) = HALF * ((X1(3) - X4(3)) * (X2(1) - X4(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X1(3) - X4(3)) * (X2(1) - X4(1)) -
      .        (X1(1) - X4(1)) * (X2(3) - X4(3)))
-         NORM(3, KFACE, II) = HALF * ((X1(1) - X4(1)) * (X2(2) - X4(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X1(1) - X4(1)) * (X2(2) - X4(2)) -
      .        (X1(2) - X4(2)) * (X2(1) - X4(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -124,18 +124,18 @@ C     Face 2
          SURF(KFACE, II) = SQRT(NX * NX + NY * NY + NZ * NZ)
          NX = -NX / SURF(KFACE, II)
          NY = -NY / SURF(KFACE, II)
-         NZ = -NZ / SURF(KFACE, II) 
+         NZ = -NZ / SURF(KFACE, II)
          XF(1:3) = THIRD * (X1 + X2 + X4)
          IF ((XF(1) - XC(1)) * NX + (XF(2) - XC(2)) * NY + (XF(3) - XC(3)) * NZ < ZERO) THEN
             CALL ARRET(2)
          ENDIF
 C     Face 3
          KFACE = 2
-         NORM(1, KFACE, II) = HALF * ((X2(2) - X4(2)) * (X3(3) - X4(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X2(2) - X4(2)) * (X3(3) - X4(3)) -
      .        (X2(3) - X4(3)) * (X3(2) - X4(2)))
-         NORM(2, KFACE, II) = HALF * ((X2(3) - X4(3)) * (X3(1) - X4(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X2(3) - X4(3)) * (X3(1) - X4(1)) -
      .        (X2(1) - X4(1)) * (X3(3) - X4(3)))
-         NORM(3, KFACE, II) = HALF * ((X2(1) - X4(1)) * (X3(2) - X4(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X2(1) - X4(1)) * (X3(2) - X4(2)) -
      .        (X2(2) - X4(2)) * (X3(1) - X4(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -150,11 +150,11 @@ C     Face 3
          ENDIF
 C     Face 4
          KFACE = 4
-         NORM(1, KFACE, II) = HALF * ((X3(2) - X4(2)) * (X1(3) - X4(3)) - 
+         NORM(1, KFACE, II) = HALF * ((X3(2) - X4(2)) * (X1(3) - X4(3)) -
      .        (X3(3) - X4(3)) * (X1(2) - X4(2)))
-         NORM(2, KFACE, II) = HALF * ((X3(3) - X4(3)) * (X1(1) - X4(1)) - 
+         NORM(2, KFACE, II) = HALF * ((X3(3) - X4(3)) * (X1(1) - X4(1)) -
      .        (X3(1) - X4(1)) * (X1(3) - X4(3)))
-         NORM(3, KFACE, II) = HALF * ((X3(1) - X4(1)) * (X1(2) - X4(2)) - 
+         NORM(3, KFACE, II) = HALF * ((X3(1) - X4(1)) * (X1(2) - X4(2)) -
      .        (X3(2) - X4(2)) * (X1(1) - X4(1)))
          NX => NORM(1, KFACE, II)
          NY => NORM(2, KFACE, II)
@@ -174,7 +174,7 @@ C     Face grid velocity 2
 C     Face grid velocity 3
          WFAC(1:3, 2, II) = THIRD * (W2(1:3) + W4(1:3) + W3(1:3))
 C     Face grid velocity 4
-         WFAC(1:3, 4, II) = THIRD * (W1(1:3) + W3(1:3) + W4(1:3)) 
+         WFAC(1:3, 4, II) = THIRD * (W1(1:3) + W3(1:3) + W4(1:3))
 C     Nullify quantities for KFACE = 1, 3
          WFAC(1:3, 1, II) = ZERO
          WFAC(1:3, 3, II) = ZERO

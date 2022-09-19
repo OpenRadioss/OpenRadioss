@@ -75,7 +75,7 @@ C-----------------------------------------------
 c                                  123456789012345678901234567890
       DATA LL /14,26,17,18,19,14,18,23,18,17,16, 3,19,15,16,15,17,17,10,-1,-1/
       DATA TYP/ 1, 3, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1,-1,-1/
-          
+
 C-----------------------------------------------
       IF(ITRACE/=1)RETURN
       NIVEAU_PILE = TRACE_PILE(1)
@@ -85,7 +85,7 @@ C-----------------------------------------------
       ENDIF
 C-----------------------------------------------
       IF(NSUB<=0.OR.NSUB> NSUB_MAX )THEN
-          LINE=' ?????? '  
+          LINE=' ?????? '
       ELSE
         GOTO(1,2,3)TYP(NSUB)
  1      CONTINUE
@@ -285,7 +285,7 @@ C
 C------------------------------------------------------------------------
 C       Ajout d'une ligne a TEXT (1 ou plusieurs X par descente de pile)
 C------------------------------------------------------------------------
-        NLIGNES_PILE(NIVEAU_PILE,IT) 
+        NLIGNES_PILE(NIVEAU_PILE,IT)
      .         = NLIGNES_PILE(NIVEAU_PILE,IT) + 1
         NLIGNES_PILE(NIVEAU_PILE+1,IT)
      .         = NLIGNES_PILE(NIVEAU_PILE,IT)
@@ -298,7 +298,7 @@ C------------------------------------------
 C       remonte de pile 
 C------------------------------------------
         IF(NS_SIGNAL1==CHECK_PILE(NIVEAU_PILE,IT))THEN
-          NLIGNES_PILE(NIVEAU_PILE,IT) 
+          NLIGNES_PILE(NIVEAU_PILE,IT)
      .           = NLIGNES_PILE(NIVEAU_PILE-1,IT)
         ELSE
           NS_SIGNAL1 = 4

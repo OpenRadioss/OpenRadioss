@@ -75,7 +75,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -117,8 +117,8 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*), 
-     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*), 
+     .   PM(NPROPM,*), GEO(*), X(*), A(*), V(*), MS(*), W(*),
+     .   FLUX(6,*),FLU1(*), VEUL(*), FV(*), TF(*),
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*)
       my_real
      .  FX(MVSIZ,NPE),FY(MVSIZ,NPE),FZ(MVSIZ,NPE),
@@ -136,7 +136,7 @@ C-----------------------------------------------
      .  CONDNSKY(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -154,7 +154,7 @@ C-----------------------------------------------
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . VDX(MVSIZ),VDY(MVSIZ),VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),CONDE(MVSIZ),CONDEG(MVSIZ,NPE),DIVDE(MVSIZ)
 
@@ -165,12 +165,12 @@ C-----------------------------------------------
       my_real
      .   MUVOID(MVSIZ)
 
-      !  Variables void MMAIN 
+      !  Variables void MMAIN
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
-     
+
       ! Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC(MVSIZ,NPE)
       my_real
@@ -180,17 +180,17 @@ C-----------------------------------------------
      .  DYZ(MVSIZ),DZY(MVSIZ),VOLG(MVSIZ),
      .  DZX(MVSIZ),DXZ(MVSIZ),  WI,BID(MVSIZ),AA,BB, MBID(1),AMU(MVSIZ)
       my_real VARNL(NEL)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(MVSIZ,NIPMAX)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9),W_LOBATTO(9,9),A_LOBATTO(9,9),
      .  W_NEWTON(9,9),A_NEWTON(9,9)
 C-----------------------------------------------
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -218,7 +218,7 @@ C-----------------------------------------------
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -247,7 +247,7 @@ C-----------------------------------------------
      9 -.324253423403809,0.               ,0.324253423403809,
      9 0.613371432700590,0.836031107326636,0.968160239507626/
 C-----
-      DATA W_LOBATTO / 
+      DATA W_LOBATTO /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -275,7 +275,7 @@ C-----
      9 0.027777777777778,0.1654953616     ,0.2745387126     ,
      9 0.3464285110     ,0.3715192744     ,0.3464285110     ,
      9 0.2745387126     ,0.1654953616     ,0.027777777777778/
-      DATA A_LOBATTO / 
+      DATA A_LOBATTO /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -305,7 +305,7 @@ C-----
      9 0.6771862795     ,0.8997579954     , 1.              /
 C-----
 C-----
-      DATA W_NEWTON / 
+      DATA W_NEWTON /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -333,7 +333,7 @@ C-----
      9 0.027777777777778,0.1654953616     ,0.2745387126     ,
      9 0.3464285110     ,0.3715192744     ,0.3464285110     ,
      9 0.2745387126     ,0.1654953616     ,0.027777777777778/
-      DATA A_NEWTON / 
+      DATA A_NEWTON /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -386,7 +386,7 @@ C=======================================================================
 !
       CALL S20COOR3(
      1   X,IXS(1,NF1),IXS16(1,NF2),V,W, IPERM1,IPERM2,NPE,
-     2   XX, YY, ZZ, VX, VY, VZ,VDXX, VDYY, VDZZ, 
+     2   XX, YY, ZZ, VX, VY, VZ,VDXX, VDYY, VDZZ,
      3   VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,
      4   NC,NGL,MXT,NGEO,   FX,FY,FZ,STIG,
      5   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
@@ -470,7 +470,7 @@ C-----------
              SIGSM(I)    = SIGSM(I) + SIGS(I,IP)*LBUF%VOL(I)
              VOLSM(I)    = VOLSM(I) + LBUF%VOL(I)
             ENDDO!next I
-          ENDDO!next ILAY 
+          ENDDO!next ILAY
           DO I=LFT,LLT
             SIGSM(I) = SIGSM(I) / VOLSM(I)
           ENDDO
@@ -494,8 +494,8 @@ C-------------------------
       ENDDO
       IF (ICP == 1 .OR. ICP == 2) THEN
         CALL S16SIGP3(LFT,LLT,NEL,NPTR,NLAY,
-     .                NPTT,ICP,MTN,NPE,NIPMAX, 
-     .                PX, PY, PZ, VX, VY, VZ, 
+     .                NPTT,ICP,MTN,NPE,NIPMAX,
+     .                PX, PY, PZ, VX, VY, VZ,
      .                W_GAUSS,GBUF%PLA,PM,MXT,GBUF%SIG,DT1,
      .                ELBUF_TAB(NG))
       ENDIF
@@ -520,11 +520,11 @@ C
      3    TX(1,IP) ,TY(1,IP) ,TZ(1,IP) ,GBUF%EINT,LBUF%VOL,SIGS(1,IP) ,
      4    MXT      ,PM       ,DT1      ,LBUF%VOL0DP)
 C
-         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
+         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))
          CALL SRHO3( PM         , LBUF%VOL  ,LBUF%RHO ,LBUF%EINT, DIVDE,
      2               FLUX(1,NF1), FLU1(NF1) ,VOLN     ,DVOL     , NGL, MXT, OFF,
      3               0          , GBUF%TAG22,VOLDP(1,IP),LBUF%VOL0DP,AMU  ,GBUF%OFF )
-     
+
          CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
      .               S5      ,S6   ,WXX  ,WYY  ,WZZ,
      .               NEL     )
@@ -561,13 +561,13 @@ C
      I    BID      ,BID      ,BID      ,IPARG(1,NG),IGEO     ,CONDE    ,
      J    ITASK    ,NLOC_DMG ,VARNL    ,MATPARAM_TAB,H3D_STRAIN)
 c
-      IF (ISTRAIN == 1)THEN 
+      IF (ISTRAIN == 1)THEN
         CALL SSTRA3(DXX,DYY,DZZ,D4,D5,
      .              D6, LBUF%STRA, WXX, WYY, WZZ,
      .              OFF,NEL      )
       ENDIF
       !-----------------------------
-      !       SMALL STRAIN 
+      !       SMALL STRAIN
       !-----------------------------
          CALL SMALLB3(GBUF%OFF,OFF)
       !-------------------------
@@ -590,13 +590,13 @@ C
      4    GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,WI,VOLG,
      5    LBUF%VOL,GBUF%VOL,L_PLA,NEL,CONDE,DELTAX,CONDEG)
       !-------------------------
-      !    finite element heat transfert  
+      !    finite element heat transfert
       !--------------------------
 
          IF (JTHE < 0) THEN
-           CALL S20THERM(NPE,PM     ,MXT  , NC ,VOLN, 
+           CALL S20THERM(NPE,PM     ,MXT  , NC ,VOLN,
      .               PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),NI(1,IP),
-     .               DT1 ,TEMP  ,TEMPEL ,DIE  , THEM,GBUF%OFF,LBUF%OFF) 
+     .               DT1 ,TEMP  ,TEMPEL ,DIE  , THEM,GBUF%OFF,LBUF%OFF)
           ENDIF
         ENDDO   ! IL=1,NLAY
        ENDDO    ! IR=1,NPTR

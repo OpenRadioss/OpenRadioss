@@ -114,11 +114,11 @@ C Initializations
       IBC2M=0
       IBC3M=0
       IGSTI = 0
-      ILEV = 0  
+      ILEV = 0
       INTKG = 0
-      IBUC = 0 
-      IFORM = 0  
-      INACTI = 0   
+      IBUC = 0
+      IFORM = 0
+      INACTI = 0
 C
       FRIC = ZERO
       GAP = ZERO
@@ -249,7 +249,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

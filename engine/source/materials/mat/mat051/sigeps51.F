@@ -307,9 +307,9 @@ C
       MU1P1  = ONE
       MU2P1  = ONE
       MU3P1  = ONE
-      MU4P1  = ONE   
-      
-      GBUF   => ELBUF_TAB(NG)%GBUF           
+      MU4P1  = ONE
+
+      GBUF   => ELBUF_TAB(NG)%GBUF
       LBUF   => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
       BUFLY  => ELBUF_TAB(NG)%BUFLY(ILAY)
 C
@@ -779,7 +779,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
         DO I=1,NEL
           DD = -EPSPXX(I)-EPSPYY(I)-EPSPZZ(I)
-          BBB = ONE - ALPHA          
+          BBB = ONE - ALPHA
           IF(DD > ZERO)THEN
             SIGNXX(I) = SIGOXX(I)
             SIGNYY(I) = SIGOYY(I)
@@ -965,7 +965,7 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
           E03=E03f
           RHO1=RHO1f
           RHO2=RHO2f
-          RHO3=RHO3f                    
+          RHO3=RHO3f
           MU1=RHO1*UVAR(I,20+K1)/RHO10 - ONE
           P1 = ( C01 + C11*MU1+ MAX(MU1,ZERO)*(C21*MU1 + C31*MU1*MU1) + (C41 + C51*MU1)*E01*UVAR(I,21+K1)*RHO10/RHO1/UVAR(I,20+K1) )
           P1 = MAX(P1,PM1)
@@ -1381,8 +1381,8 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
         ELSE
           BETA   = ONE
           ALPHA  = ONE
-        ENDIF  
-       
+        ENDIF
+
         !RHOC2(1)  = MAX(RHO1*SSP1*SSP1,EM20)
         !RHOC2(2)  = MAX(RHO2*SSP2*SSP2,EM20)
         !RHOC2(3)  = MAX(RHO3*SSP3*SSP3,EM20)
@@ -1473,13 +1473,13 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
             IF(AVV(3,I)>EM06)RHOC20=RHOC20 + AVV(3,I)/RHOC2(3)
             IF(AVV(4,I)>EM06)RHOC20=RHOC20 + AVV(4,I)/RHOC2(4)
             RHOC20=ONE/RHOC20 !average stiffness
-            RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)  
+            RHO(I) = AVV(1,I)*RHOV(1,I)+ AVV(2,I)*RHOV(2,I)+ AVV(3,I)*RHOV(3,I) + AVV(4,I)*RHOV(4,I)
             !RHOC2(1)  = MAX(EM20,RHOV(1,I)*SSPV(1,I)*SSPV(1,I))
             !RHOC2(2)  = MAX(EM20,RHOV(2,I)*SSPV(2,I)*SSPV(2,I))
             !RHOC2(3)  = MAX(EM20,RHOV(3,I)*SSPV(3,I)*SSPV(3,I))
-            !RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I)) 
+            !RHOC2(4)  = MAX(EM20,RHOV(4,I)*SSPV(4,I)*SSPV(4,I))
             !RHOC2_    = ONE/(AVV(1,I)/RHOC2(1)+AVV(2,I)/RHOC2(2)+AVV(3,I)/RHOC2(3)  + AVV(4,I)/RHOC2(4))
-            !SOUNDSP(I) = RHOC2_/RHO(I)                                                                                     
+            !SOUNDSP(I) = RHOC2_/RHO(I)
             SOUNDSP(I)  = SSPV(0,I)
             MACH        = VEL_N(I) / SOUNDSP(I)
             ISUPERSONIC = 0
@@ -1496,20 +1496,20 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
               DP0   = (P0_NRF-P0_NRFv(I)) ! assuming rho0*g(t)*(z-zvois) = cst ; otherwise complicated: get g(t) and compute z-zvois
               P     = ONE/(ONE+ALPHA)*(POLD+ROC*(VEL_N(I)-VEL_O(I)))+ALPHA*(PV(0,I)+DP0)/(ALPHA + ONE)
             ENDIF
-            
-            IF(VEL_N(I)<ZERO)THEN     !flux rentrant relaxation du pourcentage volumique  
-               KK = N0PHAS 
-               AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)                                                                        
+
+            IF(VEL_N(I)<ZERO)THEN     !flux rentrant relaxation du pourcentage volumique
+               KK = N0PHAS
+               AVV(1,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV1(I)
                KK = N0PHAS + NVPHAS
-               AVV(2,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV2(I)                                                                        
+               AVV(2,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV2(I)
                KK = N0PHAS + 2*NVPHAS
-               AVV(3,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV3(I)                                                                        
+               AVV(3,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV3(I)
                KK = N0PHAS + 3*NVPHAS
                AVV(4,I)  = (ONE-BETA)*UVAR(I,1+KK) + BETA* AV4(I)
-            ELSE  
-                        
-            ENDIF   
-          ENDIF 
+            ELSE
+
+            ENDIF
+          ENDIF
           EEE       = EIV(0,I) * VOLUME(I)
           RHO(I)    = RHOV(0,I)
           SIGNXX(I) = -P
@@ -1754,7 +1754,7 @@ C=======================================================================
           DEPS(5,I) = DEPSYZ(I)
           DEPS(6,I) = DEPSZX(I)
           EPD(I)=OFF(I)*MAX(   ABS(EPSPXX(I)),   ABS(EPSPYY(I)),   ABS(EPSPZZ(I)),
-     .         HALF*ABS(EPSPXY(I)),HALF*ABS(EPSPYZ(I)),HALF*ABS(EPSPZX(I))) 
+     .         HALF*ABS(EPSPXY(I)),HALF*ABS(EPSPYZ(I)),HALF*ABS(EPSPZX(I)))
         ENDDO
         IF(BUFLY%L_EPSD > 0)THEN
           DO I=1,NEL
@@ -2857,9 +2857,9 @@ C=======================================================================
 
         !---------------------------------------------------------------------------------------------!
         !ENERGY INTEGRATION WITH PRESSURE CONTRIBUTION IS DONE AT ENT OF MULAW SUBROUTINE             !
-        !---------------------------------------------------------------------------------------------!        
+        !---------------------------------------------------------------------------------------------!
         !EINT(I) = EINT(I) - (PEXT+PEXT+QOLD+Q)*DVOL*HALF !Attention : Q est retranche ici car stocke dans Svis pour mulaw et sfint
-     
+
         !---------------------------!
         !   TOTAL STRESS TENSOR     !
         !---------------------------!
@@ -2897,9 +2897,9 @@ C=======================================================================
         !---------------------------!
         !   VISCOUS STRESS TENSOR   !
         !---------------------------!
-        SIGVXX(I) = TWO*RHO(I)*VISA1*EPSPXX(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))      
-        SIGVYY(I) = TWO*RHO(I)*VISA1*EPSPYY(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))              
-        SIGVZZ(I) = TWO*RHO(I)*VISA1*EPSPZZ(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))              
+        SIGVXX(I) = TWO*RHO(I)*VISA1*EPSPXX(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
+        SIGVYY(I) = TWO*RHO(I)*VISA1*EPSPYY(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
+        SIGVZZ(I) = TWO*RHO(I)*VISA1*EPSPZZ(I) + RHO(I)*VISB1*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
         SIGVXY(I) = RHO(I)* VISA1 * EPSPXY(I)
         SIGVYZ(I) = RHO(I)* VISA1 * EPSPYZ(I)
         SIGVZX(I) = RHO(I)* VISA1 * EPSPZX(I)

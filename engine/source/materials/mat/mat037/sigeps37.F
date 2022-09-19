@@ -148,7 +148,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, ISOLVER, NITER, ITER
-      my_real 
+      my_real
      .   SSP,VIS,VIS2,VIS3,VV,C1,C2,C12,R1,R2,PMIN,A2,RHO10,RHO20,
      .   RHO1,RHO2,A1,A,B,C, B1,B2,P,GAM,P0,GPR,POLD,
      .   PN2,RHN2,VISA1,VISB1,VISA2,VISB2,DYDX,RHOSCALE,TOL, VOL, MAS, MAS1, MAS2,
@@ -184,7 +184,7 @@ C-----------------------------------------------
       !------------------------------------!
       IF(TIME==ZERO)THEN
        DO I=1,NEL
-         P = MAX(EM30,(-SIGOXX(I)-SIGOYY(I)-SIGOZZ(I))*THIRD)         
+         P = MAX(EM30,(-SIGOXX(I)-SIGOYY(I)-SIGOZZ(I))*THIRD)
          IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
           MU1P1     = (P/C1+ONE)
           MU2P1     =( ONE+P/P0)**(ONE/GAM)
@@ -225,7 +225,7 @@ C-----------------------------------------------
          RHO(I)    = UVAR(I,3)
          UVAR(I,4) = ONE
          UVAR(I,5) = ZERO
-        ENDIF                                   
+        ENDIF
         SOUNDSP(I) = EM30
         SIGNXX(I)  = DP0+SIGOXX(I)
         SIGNYY(I)  = DP0+SIGOYY(I)
@@ -251,14 +251,14 @@ C-----------------------------------------------
                 !      print *, " 0    ELEM_ID    =", IX(11,I+NFT)
                 !      print *, " 0    PRES       =", P0 * RHO2T**GAM
                 !      print *, " 0    DENS       =", RHO(I)
-                !     print *, " 0    VOL        =", VOLUME(I)                  
+                !     print *, " 0    VOL        =", VOLUME(I)
                 !      print *, " 0     m_liq     =", UVAR(I,1)
                 !      print *, " 0     rho_liq   =", UVAR(I,3)
                 !      print *, " 0     rho_gas   =", UVAR(I,2)
                 !      print *, " 0     Vfrac_liq =", UVAR(I,4)
                 !      print *, " 0     Vfrac_gas =", UVAR(I,5)
-                !      print *, " 0    ------------------------"       
-                ! endif      
+                !      print *, " 0    ------------------------"
+                ! endif
           VOL = VOLUME(I)
           MAS = RHO(I) * VOL
           MAS1 = UVAR(I, 1) * VOL
@@ -324,14 +324,14 @@ C-----------------------------------------------
              P = R1 * RHO1 - C1 + P0
           ENDIF
           SSP1 = R1 * RHO1
-          SSP2 = GAM * P0 * (RHO2/RHO20)**GAM 
+          SSP2 = GAM * P0 * (RHO2/RHO20)**GAM
           B1 = UVAR(I, 1)
           B2 = RHO(I) - B1
           ! P2 = P0 * ((RHO2/RHO20)**GAM-ONE)
           !---output
           UVAR(I,2)  = RHO2
           UVAR(I,3)  = RHO1
-          UVAR(I,4)  = UVAR(I,1)/RHO1 
+          UVAR(I,4)  = UVAR(I,1)/RHO1
           IF(UVAR(I,4)<EM20)UVAR(I,4)=ZERO
           UVAR(I,5)  = ONE-UVAR(I,4)
           IF (SSP1 > ZERO) THEN
@@ -361,7 +361,7 @@ C-----------------------------------------------
           SIGVYZ(I)  = VIS *EPSPYZ(I)
           SIGVZX(I)  = VIS *EPSPZX(I)
           SOUNDSP(I) = SSP
-          VISCMAX(I) = VIS2 + VIS3 
+          VISCMAX(I) = VIS2 + VIS3
           UVAR(I,1)  = MAX(ZERO, UVAR(I,1))
           UVAR(I,2)  = MAX(ZERO, UVAR(I,2))
           UVAR(I,3)  = MAX(ZERO, UVAR(I,3))
@@ -371,16 +371,16 @@ C-----------------------------------------------
                   !    print *, " 1    ELEM_ID    =", IX(11,I+NFT)
                   !    print *, " 1    PRES       =", -SIGNXX(I)
                   !    print *, " 1    DENS       =", RHO(I)
-                  !    print *, " 1    VOL        =", VOLUME(I)                  
+                  !    print *, " 1    VOL        =", VOLUME(I)
                   !    print *, " 1     m_liq     =", UVAR(I,1)
                   !    print *, " 1     rho_liq   =", UVAR(I,3)
                   !    print *, " 1     rho_gas   =", UVAR(I,2)
                   !    print *, " 1     Vfrac_liq =", UVAR(I,4)
                   !    print *, " 1     Vfrac_gas =", UVAR(I,5)
-                  !    print *, " 1    ________________________"       
+                  !    print *, " 1    ________________________"
                   ! endif
         ENDDO!next I
-      ELSE !ISOLVER 
+      ELSE !ISOLVER
         !------------------------------------!
         !    HISTORICAL SOLVER (ISOLVER=1)   !  Default
         !------------------------------------!
@@ -398,18 +398,18 @@ C-----------------------------------------------
           C          = B1*C12
           RHO1       = ( B + SQRT(MAX(ZERO,B*B - A*C)) ) / A
           P          = R1*RHO1 - C1
-          RHN2       = MAX(EM30,(P + C2) / R2)       
+          RHN2       = MAX(EM30,(P + C2) / R2)
           !---iter 1
           PN2        = (POLD + P0 * (RHN2/RHO20)**GAM)
           R2         = GAM * PN2 / (RHO2+RHN2)
           B          = HALF*(B1*R1+B2*R2+C12)
           RHO1       = ( B + SQRT(MAX(ZERO,B*B - A*C)) ) / A
           P          = R1*RHO1 - C1
-          RHO2 = MAX(EM30,(P + C2) / R2)         
+          RHO2 = MAX(EM30,(P + C2) / R2)
           !---output
           UVAR(I,2)  = RHO2
           UVAR(I,3)  = RHO1
-          UVAR(I,4)  = UVAR(I,1)/RHO1 
+          UVAR(I,4)  = UVAR(I,1)/RHO1
           IF(UVAR(I,4)<EM20)UVAR(I,4)=ZERO
           UVAR(I,5)  = ONE-UVAR(I,4)
           P          = MAX(PMIN, P) + DP0
@@ -427,7 +427,7 @@ C-----------------------------------------------
           SIGVYZ(I)  = VIS *EPSPYZ(I)
           SIGVZX(I)  = VIS *EPSPZX(I)
           SOUNDSP(I) = SQRT(C1/RHO1)
-          VISCMAX(I) = VIS2 + VIS3 
+          VISCMAX(I) = VIS2 + VIS3
           UVAR(I,1)  = MAX(ZERO, UVAR(I,1))
           UVAR(I,2)  = MAX(ZERO, UVAR(I,2))
           UVAR(I,3)  = MAX(ZERO, UVAR(I,3))
@@ -437,7 +437,7 @@ C-----------------------------------------------
           !IF(UVAR(I,2)<=EM20)UVAR(I,2) = ZERO
           !IF(UVAR(I,3)<=EM20)UVAR(I,3) = ZERO
           !IF(UVAR(I,4)<=EM20)UVAR(I,4) = ZERO
-          !IF(UVAR(I,5)<=EM20)UVAR(I,5) = ZERO                              
+          !IF(UVAR(I,5)<=EM20)UVAR(I,5) = ZERO
         ENDDO!next I
       ENDIF
 

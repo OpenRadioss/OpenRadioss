@@ -27,7 +27,7 @@ Chd|        IMP_SOLV                      source/implicit/imp_solv.F
 Chd|-- calls ---------------
 Chd|        IMP_BFGS                      share/modules/impbufdef_mod.F 
 Chd|====================================================================
-      SUBROUTINE BFGS_INI(NDDL,MAX_BFGS) 
+      SUBROUTINE BFGS_INI(NDDL,MAX_BFGS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C
 C
        IF(ALLOCATED(BFGS_W)) DEALLOCATE(BFGS_W)
        ALLOCATE(BFGS_W(NDDL,LV),STAT=IER3)
-      ENDIF 
+      ENDIF
 C
       RETURN
       END
@@ -100,7 +100,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
 C------------------------------------------
        N_BFGS = 0
        S_LIN = ONE
@@ -135,11 +135,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   LS 
+     .   LS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
 C------------------------------------------
        S_LIN = LS
 C
@@ -199,7 +199,7 @@ C--------W->b1*du----------------------------------
           BFGS_W(I,N) = B1*BFGS_W(I,N)
          ENDDO
        ELSE
-       ENDIF 
+       ENDIF
        DO I=N_BFGS,1,-1
         CALL BFGS_RHD(NDDL,W_DDL,BFGS_W(1,I),BFGS_V(1,I),F)
        ENDDO
@@ -232,13 +232,13 @@ C-----------------------------------------------
 C     REAL
       INTEGER NDDL,W_DDL(*)
       my_real
-     .   BW(*),BV(*),B(*) 
+     .   BW(*),BV(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
       my_real
-     .  A1 
+     .  A1
 C------------------------------------------
       CALL PRODUT_W(NDDL,BW,B,W_DDL,A1)
 C
@@ -293,8 +293,8 @@ C------------------------------------------
          DO I=1,NDDL
           U(I) = U(I) - A2*BFGS_W(I,N_BFGS)
          ENDDO
-        ENDIF 
-       ENDIF 
+        ENDIF
+       ENDIF
        IF (L_BFGS>0) THEN
         IF (N_BFGS<L_BFGS) THEN
          N = N_BFGS + 1
@@ -314,7 +314,7 @@ C------------------------------------------
           BFGS_W(I,N_BFGS+1) = U(I)
           BFGS_V(I,N_BFGS+1) = F(I)
          ENDDO
-        ENDIF 
+        ENDIF
        ELSE
        IF (N_BFGS<MAX_BFGS) THEN
         N = N_BFGS + 1
@@ -322,8 +322,8 @@ C------------------------------------------
          BFGS_W(I,N) = U(I)
          BFGS_V(I,N) = F(I)
         ENDDO
-       ENDIF 
-       ENDIF 
+       ENDIF
+       ENDIF
 C
       RETURN
       END
@@ -382,8 +382,8 @@ C--------W->b1*du----------------------------------
           BFGS_W(I,N) = BFGS_W(I,N)/A1
           BFGS_V(I,N) = BFGS_V(I,N)-B1*F(I)
          ENDDO
-        ENDIF 
-       ENDIF 
+        ENDIF
+       ENDIF
        DO I=N_BFGS,1,-1
         CALL BFGS_RHD(NDDL,W_DDL,BFGS_W(1,I),BFGS_V(1,I),F)
        ENDDO
@@ -432,7 +432,7 @@ C
         DO I=1,N_BFGS
          CALL BFGS_RHD(NDDL,W_DDL,BFGS_V(1,I),BFGS_W(1,I),U)
         ENDDO
-       ENDIF 
+       ENDIF
 C
        IF (L_BFGS>0) THEN
         IF (N_BFGS<L_BFGS) THEN
@@ -453,7 +453,7 @@ C
           BFGS_W(I,N_BFGS+1) = U(I)
           BFGS_V(I,N_BFGS+1) = F(I)
          ENDDO
-        ENDIF 
+        ENDIF
        ELSE
         IF (N_BFGS<MAX_BFGS) THEN
          N = N_BFGS + 1
@@ -461,8 +461,8 @@ C
           BFGS_W(I,N) = U(I)
           BFGS_V(I,N) = F(I)
          ENDDO
-        ENDIF 
-       ENDIF 
+        ENDIF
+       ENDIF
 C
       RETURN
       END
@@ -538,7 +538,7 @@ C-----------------------------------------------
      .   UOLD(NDDL),RE,REP
 C------------------------------------------
        IF (ICONV==0) THEN
-        NDDL0 = N_BFGS 
+        NDDL0 = N_BFGS
         CALL D_TO_U(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .             DD    ,DDR   ,UOLD  )
         CALL PRODUT_W(NDDL,UOLD,UOLD,W_DDL,RE)
@@ -546,14 +546,14 @@ C------------------------------------------
         S_LIN = S_LIN + REP/MAX(EM20,RE)
         S_LIN = MAX(S_LIN,EM10)
         DO I=1,NDDL
-         U(I) = U(I) + UOLD(I) 
-         F(I) = BFGS_V(I,1) 
+         U(I) = U(I) + UOLD(I)
+         F(I) = BFGS_V(I,1)
         ENDDO
        ELSE
         DO I=1,NDDL
          BFGS_V(I,1) =  F(I)
         ENDDO
-       ENDIF 
+       ENDIF
 C
       RETURN
       END
@@ -587,7 +587,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       FR = S_LIN 
+       FR = S_LIN
 C------------------------------------------
 C
       RETURN
@@ -688,13 +688,13 @@ C-----------------------------------------------
 C     REAL
       INTEGER F_DDL,L_DDL,ITASK,W_DDL(*)
       my_real
-     .   BW(*),BV(*),B(*) 
+     .   BW(*),BV(*),B(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
       my_real
-     .  A1 
+     .  A1
 C------------------------------------------
       CALL PRODUT_H(F_DDL,L_DDL,BW,B,W_DDL,A1,ITASK)
       DO I=F_DDL,L_DDL
@@ -759,8 +759,8 @@ C---------------------
          DO I=F_DDL,L_DDL
           U(I) = U(I) - A2*BFGS_W(I,N_BFGS)
          ENDDO
-        ENDIF 
-       ENDIF 
+        ENDIF
+       ENDIF
 C
        IF (L_BFGS>0) THEN
         IF (N_BFGS<L_BFGS) THEN
@@ -780,7 +780,7 @@ C
           BFGS_W(I,N_BFGS) = U(I)
           BFGS_V(I,N_BFGS) = F(I)
          ENDDO
-        ENDIF 
+        ENDIF
        ELSE
 C
         IF (N_BFGS<MAX_BFGS) THEN
@@ -811,7 +811,7 @@ C---------------------
          IF (N_BFGS==L_BFGS) N_BFGS=L_BFGS-1
         ELSEIF (N_BFGS==MAX_BFGS) THEN
          N_BFGS=MAX_BFGS-1
-        END IF 
+        END IF
        END IF !(ITASK==0) THEN
 C
       RETURN
@@ -869,7 +869,7 @@ C
         IF (ABS(A2)>EM10) THEN
          B1=-A1/A2
          IF (ABS(A1)>EM10.AND.B1>ZERO) N_BFGS = N
-        END IF 
+        END IF
        END IF
 C----------------------
       CALL MY_BARRIER
@@ -883,7 +883,7 @@ C--------W->b1*du----------------------------------
           BFGS_W(I,N) = BFGS_W(I,N)/A1
           BFGS_V(I,N) = BFGS_V(I,N)-B1*F(I)
          ENDDO
-        ENDIF 
+        ENDIF
        ENDIF
 C----------------------
       CALL MY_BARRIER
@@ -947,7 +947,7 @@ C---------------------
          CALL BFGS_RHDH(F_DDL,L_DDL,W_DDL,BFGS_V(1,I),BFGS_W(1,I),U,
      .                  ITASK)
         ENDDO
-       ENDIF 
+       ENDIF
 C
        IF (L_BFGS>0) THEN
         IF (N_BFGS<L_BFGS) THEN
@@ -967,7 +967,7 @@ C
           BFGS_W(I,N_BFGS) = U(I)
           BFGS_V(I,N_BFGS) = F(I)
          ENDDO
-        ENDIF 
+        ENDIF
        ELSE
         IF (N_BFGS<MAX_BFGS) THEN
          N = N_BFGS + 1
@@ -996,7 +996,7 @@ C---------------------
          IF (N_BFGS==L_BFGS) N_BFGS=L_BFGS-1
         ELSEIF (N_BFGS==MAX_BFGS) THEN
          N_BFGS=MAX_BFGS-1
-        END IF 
+        END IF
        END IF !(ITASK==0) THEN
 C
       RETURN

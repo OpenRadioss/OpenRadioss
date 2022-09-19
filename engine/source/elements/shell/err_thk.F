@@ -29,12 +29,12 @@ Chd|====================================================================
       MODULE ERR_THK_MOD
 #include "my_real.inc"
 
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE :: 
+        my_real ,
+     .    DIMENSION(:), ALLOCATABLE ::
      .      THICK_SH4, THICK_SH3,
      .      THICK_NOD, AREA_NOD
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE :: 
+        my_real ,
+     .    DIMENSION(:), ALLOCATABLE ::
      .      AREA_SH4, AREA_SH3
 
       END MODULE ERR_THK_MOD
@@ -87,9 +87,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   IXC(NIXC,*), IXTG(NIXTG,*),IPARG(NPARG,*),
-     .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), 
+     .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
       INTEGER ITASK, NODFT, NODLT
@@ -104,11 +104,11 @@ C-----------------------------------------------
      .        I,N,NG,NEL,LENR,PRT,IADM
 C     REAL
        my_real
-     .     AREA, A, AT, THK, 
+     .     AREA, A, AT, THK,
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
      .     TN1,TN2,TN3,TN4,TPG1,TPG2,TPG3,TPG4,UNT
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
       IF(ITASK==0)THEN
         ALLOCATE(
@@ -222,7 +222,7 @@ C
         IADM= IPART(10,PRT)
         IF(IADM==0)THEN
          DO I=LFT,LLT
-           N=NFT+I  
+           N=NFT+I
            IF (GBUF%OFF(I) <= ZERO) CYCLE
 
            N1=IXTG(2,N)

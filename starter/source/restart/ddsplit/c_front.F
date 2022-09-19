@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FRONT_MOD
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER  PROC, NBDDACC, NBDDKIN, NBDDNRB,NRBYKIN_L, NBDDNCJ,
-     .          NBDDNRBM, NLAGF_L,NRBYMK_L ,NBDDNRBYM, NBDDNORT, 
+     .          NBDDNRBM, NLAGF_L,NRBYMK_L ,NBDDNRBYM, NBDDNORT,
      .          NBDDNOR_MAX, NBCCNOR, NBCCFR25, NBDDEDGT,NBDDEDG_MAX,NRTMX25,
      .          NPBY(NNPBY,*), LJOINT(*),
      .          IBVEL(NBVELP,*) , IADLL(*), LLL(*),FRONT_RM(NRBYM,*),
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------     
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL   
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -112,13 +112,13 @@ C
       CPT = 0
 
       DO II = 1,NUMNOD_L
-        I = NODGLOB(II)        
+        I = NODGLOB(II)
           CALL C_IFRONT(I,CPT)
-          !returns in CPT the number of procs on which node I is sticked  
+          !returns in CPT the number of procs on which node I is sticked
           IF(FLAGKIN(I)==0)THEN
            !FLAGKIN array identies boundary nodes with kinematic constraints
-           !(FLAGKIN(N)=1 <=> old FRONT TAG=10)  
-           !FLAGKIN(N) can be set to one only for first SPMD domain       
+           !(FLAGKIN(N)=1 <=> old FRONT TAG=10)
+           !FLAGKIN(N) can be set to one only for first SPMD domain
            !Add CPT-1 in order to don't take into account current proc himself
             NBDDACC = NBDDACC + (CPT - 1)
           ELSE
@@ -128,7 +128,7 @@ C
               !do not count proc itself and proc 1
               NBDDACC = NBDDACC + (CPT - 2)
             ELSE
-              !Add CPT-1 in order to don't take into account current proc himself 
+              !Add CPT-1 in order to don't take into account current proc himself
               NBDDKIN = NBDDKIN + (CPT - 1)
             ENDIF
           ENDIF
@@ -136,10 +136,10 @@ C
 C
 C Frontiere Multidomaines
 C      
-      SDD_R2R_ELEM = 0       
+      SDD_R2R_ELEM = 0
       IF ((NSUBDOM>0).AND.(IDDOM==0)) THEN
-        SDD_R2R_ELEM = 2*(NBDDKIN + NBDDACC)       
-      ENDIF     
+        SDD_R2R_ELEM = 2*(NBDDKIN + NBDDACC)
+      ENDIF
 C
 C Frontiere RBY (main nodes)
 C
@@ -192,7 +192,7 @@ C
         IF(NODLOCAL(M)/=0.AND.NODLOCAL(M)<=NUMNOD_L)THEN
           DO P = 1, NSPMD
             IF(P/=PROC) THEN
-              IF(NLOCAL(M,P)==1) THEN         
+              IF(NLOCAL(M,P)==1) THEN
                 NBDDNRBM = NBDDNRBM + 1
               ENDIF
             ENDIF
@@ -234,7 +234,7 @@ C
           IF(ITAG(N)==0) THEN
             ITAG(N) = 1
             DO P = 1, NSPMD
-              IF(NLOCAL(N,P)==1)THEN          
+              IF(NLOCAL(N,P)==1)THEN
                 IFRLAG(P) = IFRLAG(P) + 1
                 GOTO 100
               END IF
@@ -258,11 +258,11 @@ C ---------------------
       NBDDNOR_MAX = 0
       NBDDNORT    = 0
       IF(NINTER25/=0)THEN
-   
+
         NI25=0
         ISHIFT = 0
 
-        DO NI=1,NINTER 
+        DO NI=1,NINTER
           NTY=IPARI(7,NI)
           IF(NTY/=25) CYCLE
 
@@ -281,7 +281,7 @@ C ---------------------
             N1 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+1)
             N2 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+2)
             N3 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+3)
-            N4 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+4) 
+            N4 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+4)
             IF(INTERCEP(1,NI)%P(K)==PROC)THEN
               IF(TAG_SM(N1)==0)THEN
                 NADMSR_L=NADMSR_L+1
@@ -300,16 +300,16 @@ C ---------------------
                 TAG_SM(N4)=NADMSR_L
               END IF
             ENDIF
-          ENDDO 
-          
-          DO I = 1, NADMSR  
-            K = TAG_SM(I)        
+          ENDDO
+
+          DO I = 1, NADMSR
+            K = TAG_SM(I)
             IF(K/=0)THEN
                TAG_MS(K)=I
             END IF
           END DO
 
-          DO I = 1, NADMSR_L         
+          DO I = 1, NADMSR_L
             N = TAG_MS(I) + ISHIFT
             ISBOUND=0
             TAGP(1:NSPMD)=0
@@ -345,10 +345,10 @@ C ---------------------
 
       NRTMX25=0
       IF(NINTER25/=0)THEN
-   
+
         NI25=0
 
-        DO NI=1,NINTER 
+        DO NI=1,NINTER
           NTY=IPARI(7,NI)
           IF(NTY/=25) CYCLE
 
@@ -367,18 +367,18 @@ C ---------------------
               NRTM_L=NRTM_L+1
               TAG_SM(K)=NRTM_L
             ENDIF
-          ENDDO 
+          ENDDO
 
-          NRTMX25 = MAX(NRTMX25,NRTM_L) 
-                   
-          DO I = 1, NRTM 
-            K = TAG_SM(I)        
+          NRTMX25 = MAX(NRTMX25,NRTM_L)
+
+          DO I = 1, NRTM
+            K = TAG_SM(I)
             IF(K/=0)THEN
                TAG_MS(K)=I
             END IF
           END DO
 
-          DO I = 1, NRTM_L         
+          DO I = 1, NRTM_L
             N = TAG_MS(I)
 
             DO J = 1,4
@@ -419,7 +419,7 @@ C dont on va recevoir les accels.
           DO I=1,NUMNOD
              IF(USERNODS(I)==1)THEN
                DO P=2,NSPMD
-                 IF(NLOCAL(I,P)==1)THEN          
+                 IF(NLOCAL(I,P)==1)THEN
                     SFR_USERWI_L=SFR_USERWI_L+1
                  ENDIF
                ENDDO

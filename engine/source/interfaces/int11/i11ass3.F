@@ -36,7 +36,7 @@ Chd|====================================================================
      1                  JLT    ,A      ,NIN     ,NOINT  ,CS_LOC   ,
      2                  STIFN  ,STIF   ,FSKYI   ,ISKY   ,FCONT    ,
      3                  HS1    ,HS2     ,HM1    ,HM2    ,N1       ,
-     4                  N2     ,M1      ,M2     ,NISKYFI,ISECIN   , 
+     4                  N2     ,M1      ,M2     ,NISKYFI,ISECIN   ,
      5                  NSTRF  ,SECFCUM,VISCN   ,NRTS   ,ISKYI_SMS,
      6                  NSMS ,ICONTACT,MSKYI_SMS,FX1    ,FY1      ,
      7                  FZ1     ,FX2    ,FY2    ,FZ2    ,FX3      ,
@@ -45,7 +45,7 @@ Chd|====================================================================
      A                  C2      ,C3     ,C4     ,INTTH  ,PHIS1    ,
      B                  PHIS2   ,PHIM1  ,PHIM2  ,FTHE  ,FTHESKYI  ,
      C                  CONDINTS1,CONDINTS2,CONDINTM1,CONDINTM2,CONDN,
-     D                  CONDNSKYI,JTASK ,H3D_DATA) 
+     D                  CONDNSKYI,JTASK ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -136,7 +136,7 @@ C
      6                NRTS ,NIN   ,INTTH,PHIS1,PHIS2,
      7                PHIM1,PHIM2 ,FTHE ,CONDINTS1  ,
      8                CONDINTS2,CONDINTM1,CONDINTM2,CONDN ,
-     9                JTASK )             
+     9                JTASK )
        ELSE
          CALL I11ASS05(JLT   ,CS_LOC,N1    ,N2   ,M1   ,
      2                 M2    ,HS1   ,HS2   ,HM1  ,HM2  ,
@@ -172,7 +172,7 @@ C
      9                 FTHESKYI,CONDINTS1,CONDINTS2,CONDINTM1,
      A                 CONDINTM2,CONDNSKYI)
        END IF
-      END IF            
+      END IF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
          IF (INCONV==1) THEN
@@ -247,19 +247,19 @@ C-----------------------------------------------------
         DO I=1,JLT
           IF(CS_LOC(I)<=NRTS) THEN
           IF(FX1(I)/=ZERO.OR.FY1(I)/=ZERO.OR.FZ1(I)/=ZERO)THEN
-            ICONTACT(N1(I))=1	  
+            ICONTACT(N1(I))=1	
           ENDIF
           IF(FX2(I)/=ZERO.OR.FY2(I)/=ZERO.OR.FZ2(I)/=ZERO)THEN
-            ICONTACT(N2(I))=1	    	  
-          ENDIF		  
+            ICONTACT(N2(I))=1	    	
+          ENDIF		
 	  ENDIF	
 C test modifie pour coherence avec communication SPMD (spmd_i7tools)
           IF(FX3(I)/=ZERO.OR.FY3(I)/=ZERO.OR.FZ3(I)/=ZERO)THEN
-            ICONTACT(M1(I))=1	    	  
+            ICONTACT(M1(I))=1	    	
           ENDIF
           IF(FX4(I)/=ZERO.OR.FY4(I)/=ZERO.OR.FZ4(I)/=ZERO)THEN
-            ICONTACT(M2(I))=1	    	  
-          ENDIF	  
+            ICONTACT(M2(I))=1	    	
+          ENDIF	
         ENDDO
       ENDIF
 C      
@@ -281,7 +281,7 @@ Chd|====================================================================
      6                   NRTS ,NIN   ,INTTH ,PHIS1,PHIS2,
      7                   PHIM1,PHIM2 ,FTHE ,CONDINTS1  ,
      8                   CONDINTS2,CONDINTM1,CONDINTM2,CONDN,
-     9                   JTASK )  
+     9                   JTASK )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -354,7 +354,7 @@ C
           END IF
         END DO
       ELSE
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
           IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
@@ -442,7 +442,7 @@ C
        ENDDO
 C
       ELSE
-       IF(NODADT_THERM == 1 ) THEN        
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
          J1=M1(I)
          A(1,J1)=A(1,J1)+FX3(I)
@@ -578,7 +578,7 @@ C
           END IF
         END DO
       ELSE
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
           IF(CS_LOC(I)<=NRTS) THEN
             J1=N1(I)
@@ -675,7 +675,7 @@ C
        ENDDO
 C
       ELSE
-       IF(NODADT_THERM == 1 ) THEN   
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
          J1=M1(I)
          A(1,J1)=A(1,J1)+FX3(I)
@@ -694,7 +694,7 @@ C
          VISCN(J1)=VISCN(J1)+C4(I)
          FTHE(J1)  = FTHE(J1) + PHIM2(I)
          CONDN(J1) = CONDN(J1) + CONDINTM2(I)
-        ENDDO     
+        ENDDO
 C
        ELSE
 C
@@ -714,7 +714,7 @@ C
          STIFN(J1)=STIFN(J1)+K4(I)
          VISCN(J1)=VISCN(J1)+C4(I)
          FTHE(J1)  = FTHE(J1) + PHIM2(I)
-        ENDDO     
+        ENDDO
        ENDIF
       ENDIF
       RETURN
@@ -798,8 +798,8 @@ C
         ELSE
            IGM = IGM+1
         ENDIF
-      ENDDO   
-     
+      ENDDO
+
 #include "lockon.inc"
       NISKYL = NISKY
       NISKY = NISKY + NISKYL1 + IGP
@@ -808,7 +808,7 @@ C
 #include "lockoff.inc"
 
       IF (NISKYL+NISKYL1+IGP > LSKYI) THEN
-         CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)   
+         CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)
          CALL ARRET(2)
       ENDIF
       IF (NISKYFIL+IGM > NLSKYFI(NIN)) THEN
@@ -847,7 +847,7 @@ C
           END IF
         END DO
       ELSE
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
           IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
@@ -942,7 +942,7 @@ C
         ENDIF
        ENDDO
       ELSE
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
          IF (HM1(I)/=ZERO) THEN
           NISKYL = NISKYL + 1
@@ -1077,7 +1077,7 @@ C
         ELSE
            IGM = IGM+1
         ENDIF
-      ENDDO        
+      ENDDO
 
 #include "lockon.inc"
       NISKYL = NISKY
@@ -1130,7 +1130,7 @@ C
           END IF
          END DO
        ELSE
-        IF(NODADT_THERM == 1 ) THEN  
+        IF(NODADT_THERM == 1 ) THEN
          DO I=1,JLT
           IF(CS_LOC(I)<=NRTS) THEN
             NISKYL = NISKYL + 1
@@ -1235,7 +1235,7 @@ C
           ENDIF
         ENDDO
       ELSE
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
         DO I=1,JLT
           IF (HM1(I)/=ZERO) THEN
            NISKYL = NISKYL + 1

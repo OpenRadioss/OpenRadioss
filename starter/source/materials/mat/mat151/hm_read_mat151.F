@@ -56,12 +56,12 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
-      USE MULTI_FVM_MOD       
-      USE SUBMODEL_MOD 
+      USE MULTI_FVM_MOD
+      USE SUBMODEL_MOD
       USE INIVOL_DEF_MOD
-      USE INIVOL_ARRAY_MOD   
+      USE INIVOL_ARRAY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real
      .   PM(*)
       INTEGER :: IPM(*)
@@ -128,21 +128,21 @@ C     Reading submaterial IDS and corresponding volumic fractions
          SUM_FRAC_VOL = SUM_FRAC_VOL + FRAC_VOL
          IF (FRAC_VOL < ZERO .OR. FRAC_VOL > ONE) THEN
             IF (NINIVOL == 0) THEN
-               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
-     .              C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL) 
+               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGERROR, ANMODE = ANINFO,
+     .              C1 = "ERROR", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
             ELSE
-               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGWARNING, ANMODE = ANINFO, 
-     .              C1 = "WARNING", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL) 
+               CALL ANCMSG(MSGID = 1511, MSGTYPE = MSGWARNING, ANMODE = ANINFO,
+     .              C1 = "WARNING", I1 = ID, I2 = MAT_ID, R1 = FRAC_VOL)
             ENDIF
          ENDIF
       ENDDO
       IF (SUM_FRAC_VOL /= ONE) THEN
          IF (NINIVOL == 0) THEN
-            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
-     .           C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL) 
+            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGERROR, ANMODE = ANINFO,
+     .           C1 = "ERROR", I1 = ID, R1 = SUM_FRAC_VOL)
          ELSE
-            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO, 
-     .           C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL) 
+            CALL ANCMSG(MSGID = 1512, MSGTYPE = MSGWARNING, ANMODE = ANINFO,
+     .           C1 = "WARNING", I1 = ID, R1 = SUM_FRAC_VOL)
          ENDIF
       ENDIF
 
@@ -156,7 +156,7 @@ C     Reading submaterial IDS and corresponding volumic fractions
       DO II = 1, NBMAT
          WRITE(IOUT, 1010) IPM(20 + II), PM(20 + II)
       ENDDO
-      
+
  1000 FORMAT(
      & 5X,'  MULTIFLUID LAW   ',/,
      & 5X,'  --------------  ',/,
@@ -165,6 +165,6 @@ C     Reading submaterial IDS and corresponding volumic fractions
      & 5X,'  MATERIAL ID', I8, ' ; VOLUME FRACTION',1PG20.13/)
       RETURN
  999  CALL FREERR(3)
- 
+
 C-----------------------------------------------
       END SUBROUTINE HM_READ_MAT151

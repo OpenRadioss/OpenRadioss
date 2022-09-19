@@ -59,78 +59,78 @@ C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
       INTEGER K,J,DET_IID,I1,I2,I3,I4,I5,I6
-      DOUBLE PRECISION TEMP_DOUBLE      
+      DOUBLE PRECISION TEMP_DOUBLE
       INTEGER :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      OK_QA = MYQAKEY('DETONATORS')  
+      OK_QA = MYQAKEY('DETONATORS')
 
       NDETPS = DETONATORS%NDETPS
       NDETSG = DETONATORS%NDETSG
       NECRAN = DETONATORS%NECRAN
       NDETPL = DETONATORS%NDETPL
       NDETCORD = DETONATORS%NDETCORD
-                                                         
-      IF (OK_QA) THEN                                                                   
-        I1       = 0                                                                  
-        I2       = NDETPS                                                          
-        I3       = NDETPS+NDETSG                                                
-        I4       = NDETPS+NDETSG+NECRAN                                      
-        I5       = NDETPS+NDETSG+NECRAN+NDETPL 
+
+      IF (OK_QA) THEN
+        I1       = 0
+        I2       = NDETPS
+        I3       = NDETPS+NDETSG
+        I4       = NDETPS+NDETSG+NECRAN
+        I5       = NDETPS+NDETSG+NECRAN+NDETPL
         I6       = NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
-        
-        !/DFS/DETPOINT                           
-        DO K=1+I1,I2        
-          DET_IID=K-I1                                                             
-          DO J=1,5                                                                    
-            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETPOINT_',DET_IID ,'__POS_',J 
+
+        !/DFS/DETPOINT
+        DO K=1+I1,I2
+          DET_IID=K-I1
+          DO J=1,5
+            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETPOINT_',DET_IID ,'__POS_',J
             TEMP_DOUBLE = DETONATORS%BURN(J,K)
-            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)              
-          ENDDO                                                                         
-        ENDDO !next K                                                                   
+            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          ENDDO
+        ENDDO !next K
 
         !/DFS/DETLINE
-        DO K=1+I2,I3        
-          DET_IID=K-I2                                                             
-          DO J=1,8                                                                      
-            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETLINE_',DET_IID ,'__POS_',J 
+        DO K=1+I2,I3
+          DET_IID=K-I2
+          DO J=1,8
+            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETLINE_',DET_IID ,'__POS_',J
             TEMP_DOUBLE = DETONATORS%BURN(J,K)
-            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)              
-          ENDDO                                                                         
-        ENDDO !next K   
+            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          ENDDO
+        ENDDO !next K
 
         !/DFS/WAV_SHA
-        DO K=1+I3,I4        
-          DET_IID=K-I3                                                              
-          DO J=1,7                                                                     
-            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_WAVSHA_',DET_IID ,'__POS_',J 
+        DO K=1+I3,I4
+          DET_IID=K-I3
+          DO J=1,7
+            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_WAVSHA_',DET_IID ,'__POS_',J
             TEMP_DOUBLE = DETONATORS%BURN(J,K)
-            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)              
-          ENDDO                                                                         
-        ENDDO !next K          
+            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          ENDDO
+        ENDDO !next K
 
         !/DFS/DETPLAN
-        DO K=1+I4,I5        
-          DET_IID=K-I4                                                              
-          DO J=1,8                                                                      
-            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETPLAN_',DET_IID ,'__POS_',J 
+        DO K=1+I4,I5
+          DET_IID=K-I4
+          DO J=1,8
+            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETPLAN_',DET_IID ,'__POS_',J
             TEMP_DOUBLE = DETONATORS%BURN(J,K)
-            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)              
-          ENDDO                                                                         
-        ENDDO !next K          
+            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          ENDDO
+        ENDDO !next K
 
         !/DFS/DETCORD
-        DO K=1+I5,I6       
-          DET_IID=K-I5                                                              
-          DO J=1,7                                                                    
-            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETCORD_',DET_IID ,'__POS_',J 
+        DO K=1+I5,I6
+          DET_IID=K-I5
+          DO J=1,7
+            WRITE(VARNAME,'(A,I0,A,I1)') 'BURN_DFS_DETCORD_',DET_IID ,'__POS_',J
             TEMP_DOUBLE = DETONATORS%BURN(J,K)
-            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)              
-          ENDDO                                                                         
-        ENDDO !next K  
-                
-      ENDIF                                                                             
+            IF(TEMP_DOUBLE/=ZERO)CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          ENDDO
+        ENDDO !next K
+
+      ENDIF
 C-----------------------------------------------
         RETURN
       END

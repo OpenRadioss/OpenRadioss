@@ -64,7 +64,7 @@ C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, NGL(NEL),ITABLE(*),
      .   INLOC
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THKLY(NEL),PLA(NEL),
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION
 C-----------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
+      my_real
      .     FINTER ,TF(*)
       EXTERNAL FINTER
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,NXK,J1,J2,N,NINDX,NMAX,
      .        INDEX(MVSIZ),OPTE,IFUNCE,FUNC_TAB
-      my_real 
+      my_real
      .        A,B,S12,FAC,DEZZ,SIGZ,S1,S2,S3,DPLA,VM2,EPST,
      .        A_1,A_2,A_3,P_1,P_2,P_3,PP1,PP2,PP3,DR,DR0,
      .        E,A1,A2,G,G3,
@@ -122,7 +122,7 @@ C-----------------------------------------------
      .        FISOKIN,HK(MVSIZ),FHK,FA01,FA02,FA03,NU1,XFAC,YFAC,CE,
      .        E1(MVSIZ), A11(MVSIZ),A21(MVSIZ),G1(MVSIZ),G31(MVSIZ),
      .        DYDXE(MVSIZ),ESCALE(MVSIZ),EINF,NORMXX,NORMYY
-      my_real 
+      my_real
      .        TEMP(MVSIZ), VOL0, RHOCP
       my_real,
      .        DIMENSION(NEL,3) :: XX
@@ -136,7 +136,7 @@ C-----------------------------------------------
       FISOKIN = UPARAM(1)
       OPTE    = UPARAM(23)
       CE    = UPARAM(25)
-c--------Two options with or without young evolution with 
+c--------Two options with or without young evolution with
 c--------plastic strain
       IF (OPTE==1.OR. CE > ZERO)THEN
       DO I=1,NEL
@@ -162,30 +162,30 @@ c      ELSE
 c      ENDIF
       ENDIF
 C
-      IF (OPTE == 1)THEN    
+      IF (OPTE == 1)THEN
        DO I=1,NEL
-         IF(PLA(I) > ZERO)THEN       
-           IFUNCE  = UPARAM(22)                                               
-           ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))     
+         IF(PLA(I) > ZERO)THEN
+           IFUNCE  = UPARAM(22)
+           ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
            E1(I) =  ESCALE(I)* E1(I)
            A11(I) = E1(I)/(ONE - NU*NU)
-           A21(I) = NU*A11(I) 
-           G1(I) =  HALF*E1(I)/(ONE+NU)                                   
-           G31(I) = THREE*G1(I)     
-           GS(I) = G1(I) * SHF(I)            
-         ENDIF  
-       ENDDO                                          
-      ELSEIF ( CE /= ZERO) THEN   
-       DO I=1,NEL                                     
-         IF(PLA(I) > ZERO)THEN                                                        
-           E1(I) = E1(I)-(E1(I)-EINF)*(ONE-EXP(-CE*PLA(I)))   
+           A21(I) = NU*A11(I)
+           G1(I) =  HALF*E1(I)/(ONE+NU)
+           G31(I) = THREE*G1(I)
+           GS(I) = G1(I) * SHF(I)
+         ENDIF
+       ENDDO
+      ELSEIF ( CE /= ZERO) THEN
+       DO I=1,NEL
+         IF(PLA(I) > ZERO)THEN
+           E1(I) = E1(I)-(E1(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
            A11(I) = E1(I)/(ONE - NU*NU)
-           A21(I) = NU*A11(I)                                             
-           G1(I) =  HALF*E1(I)/(ONE+NU)                                    
-           G31(I) = THREE*G1(I)                                               
-           GS(I) = G1(I) * SHF(I)            
-         ENDIF   
-       ENDDO                                                                
+           A21(I) = NU*A11(I)
+           G1(I) =  HALF*E1(I)/(ONE+NU)
+           G31(I) = THREE*G1(I)
+           GS(I) = G1(I) * SHF(I)
+         ENDIF
+       ENDDO
       ENDIF
       XFAC  =UPARAM(11)
       YFAC  =UPARAM(12)
@@ -198,18 +198,18 @@ C
 !        SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
 !        SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
 !        SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
-        DPLA1(I) = ZERO           
+        DPLA1(I) = ZERO
       ENDDO
 C
 C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
-        DO I=1,NEL    
+        DO I=1,NEL
           COEF(I) = ONE
         END DO
 C
         IF(JTHE > 0 ) THEN
-         DO I=1,NEL     
+         DO I=1,NEL
            TEMP(I) = TEMPEL(I)
          ENDDO
         ELSE
@@ -217,7 +217,7 @@ C
          DO I=1,NEL
            TEMP(I) = UPARAM(20)
            VOL0    = VOL(I) * RHO0(I)
-           TEMP(I) = TEMP(I) 
+           TEMP(I) = TEMP(I)
      .             + COEF(I)*RHOCP*(EINT(I,1)+ EINT(I,2))/VOL0
          ENDDO
         ENDIF
@@ -280,12 +280,12 @@ C
          XX(I,1)=ZERO
          XX(I,2)=EPSP(I)*XFAC
          XX(I,3)=TEMP(I)
-       END DO      
+       END DO
        CALL TABLE_VINTERP(TABLE(FUNC_TAB),NEL,IPOS,XX,YK,DYDX)
 
        DO I=1,NEL
 C        ECROUISSAGE CINEMATIQUE
-         YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+         YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .        FISOKIN * FAIL(I) * YFAC * YK(I)
          YLD(I) = MAX(YLD(I),EM20)
        ENDDO
@@ -300,7 +300,7 @@ C-------------------------
        S2=A02*SIGNYY(I)*SIGNYY(I)
        S3=A03*SIGNXX(I)*SIGNYY(I)
        AXY(I)=A12*SIGNXY(I)*SIGNXY(I)
-       SVM(I)=SQRT(S1+S2-S3+AXY(I))  
+       SVM(I)=SQRT(S1+S2-S3+AXY(I))
        IF (INLOC == 0) THEN
          DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -340,12 +340,12 @@ C   ---
        S2=A02*NU1*TWO-A03-FA03
        S12=A03-NU1*(A01+A02)+FA03
        S3=SQRT(NU2*(A01-A02)*(A01-A02)+S12*S12)
-       IF (ABS(S1)<EM20) THEN 
+       IF (ABS(S1)<EM20) THEN
         Q12(I)=ZERO
        ELSE
         Q12(I)=-(A01-A02+S3+FA01-FA02)/S1
        ENDIF
-       IF (ABS(S2)<EM20) THEN 
+       IF (ABS(S2)<EM20) THEN
         Q21(I)=ZERO
        ELSE
         Q21(I)=(A01-A02+S3+FA01-FA02)/S2
@@ -393,7 +393,7 @@ C
          DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*HALF/DF)
         ELSE
          DPLA_J(I)=ZERO
-        ENDIF        
+        ENDIF
        ENDDO
       ENDDO
 
@@ -439,7 +439,7 @@ C
         SIGNXX(I) = SIGNXX(I) + UVAR(I,2)
         SIGNYY(I) = SIGNYY(I) + UVAR(I,3)
         SIGNXY(I) = SIGNXY(I) + UVAR(I,4)
-      ENDDO    
+      ENDDO
 
       ELSE
       E       = UPARAM(2)
@@ -473,18 +473,18 @@ C
 !        SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
 !        SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
 !        SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
-        DPLA1(I) = ZERO           
+        DPLA1(I) = ZERO
       ENDDO
 C
 C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
-        DO I=1,NEL    
+        DO I=1,NEL
           COEF(I) = ONE
         END DO
 C
         IF(JTHE > 0 ) THEN
-         DO I=1,NEL     
+         DO I=1,NEL
            TEMP(I) = TEMPEL(I)
          ENDDO
         ELSE
@@ -492,7 +492,7 @@ C
          DO I=1,NEL
            TEMP(I) = UPARAM(20)
            VOL0    = VOL(I) * RHO0(I)
-           TEMP(I) = TEMP(I) 
+           TEMP(I) = TEMP(I)
      .             + COEF(I)*RHOCP*(EINT(I,1)+ EINT(I,2))/VOL0
          ENDDO
         ENDIF
@@ -534,7 +534,7 @@ C
         XX(I,2)=EPSP(I)*XFAC
 c        print *,xx(i,2)
         XX(I,3)=TEMP(I)
-      END DO      
+      END DO
 C
       CALL TABLE_VINTERP(TABLE(FUNC_TAB),NEL,IPOS,XX,YLD,DYDX)
 C
@@ -555,12 +555,12 @@ C
          XX(I,1)=ZERO
          XX(I,2)=EPSP(I)*XFAC
          XX(I,3)=TEMP(I)
-       END DO      
+       END DO
        CALL TABLE_VINTERP(TABLE(FUNC_TAB),NEL,IPOS,XX,YK,DYDX)
 
        DO I=1,NEL
 C        ECROUISSAGE CINEMATIQUE
-         YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+         YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .        FISOKIN * FAIL(I) * YFAC * YK(I)
          YLD(I) = MAX(YLD(I),EM20)
        ENDDO
@@ -575,7 +575,7 @@ C-------------------------
        S2=A02*SIGNYY(I)*SIGNYY(I)
        S3=A03*SIGNXX(I)*SIGNYY(I)
        AXY(I)=A12*SIGNXY(I)*SIGNXY(I)
-       SVM(I)=SQRT(S1+S2-S3+AXY(I))  
+       SVM(I)=SQRT(S1+S2-S3+AXY(I))
        IF (INLOC == 0) THEN
          DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -615,12 +615,12 @@ C   ---
        S2=A02*NU1*TWO-A03-FA03
        S12=A03-NU1*(A01+A02)+FA03
        S3=SQRT(NU2*(A01-A02)*(A01-A02)+S12*S12)
-       IF (ABS(S1)<EM20) THEN 
+       IF (ABS(S1)<EM20) THEN
         Q12(I)=ZERO
        ELSE
         Q12(I)=-(A01-A02+S3+FA01-FA02)/S1
        ENDIF
-       IF (ABS(S2)<EM20) THEN 
+       IF (ABS(S2)<EM20) THEN
         Q21(I)=ZERO
        ELSE
         Q21(I)=(A01-A02+S3+FA01-FA02)/S2
@@ -668,7 +668,7 @@ C
          DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*HALF/DF)
         ELSE
          DPLA_J(I)=ZERO
-        ENDIF        
+        ENDIF
        ENDDO
       ENDDO
 C------------------------------------------
@@ -731,13 +731,13 @@ C------------------------------------------------------------------
         S3      = A03*SIGNXX(I)*SIGNYY(I)
         AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
         SVM(I)  = SQRT(S1+S2-S3+AXY(I))
-        SEQ_OUTPUT(I) = SVM(I) 
-        IF (INLOC > 0) THEN 
+        SEQ_OUTPUT(I) = SVM(I)
+        IF (INLOC > 0) THEN
           NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SVM(I),EM20))
           NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SVM(I),EM20))
           DEZZ    = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
           DEZZ    = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E) - DEZZ
-          THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)          
+          THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)
         ENDIF
       ENDDO
 !-------------------------

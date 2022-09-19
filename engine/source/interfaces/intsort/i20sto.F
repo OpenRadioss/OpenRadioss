@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I_MEM, NSN, NSNROLD,IGAP,NIN,ISYM 
+      INTEGER I_MEM, NSN, NSNROLD,IGAP,NIN,ISYM
       INTEGER J_STOK,MULNSN,NOINT,INACTI,IFQ,ESHIFT
       INTEGER IRECT(4,*),NSV(*),CAND_N(*),CAND_E(*),CAND_A(*)
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ),IFPEN(*), OLDNUM(*),
@@ -81,7 +81,7 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ)
       INTEGER BITGET
       EXTERNAL BITGET
@@ -94,7 +94,7 @@ C-----------------------------------------------
      3                Y4     ,Z1    ,Z2    ,Z3   ,Z4       ,
      4                XI     ,YI    ,ZI    ,STIF  ,IX1     ,
      5                IX2    ,IX3   ,IX4   ,NSN   ,GAP_S   ,
-     6                GAP_M  ,GAPV  ,GAPMAX,GAPMIN,CURV_MAX, 
+     6                GAP_M  ,GAPV  ,GAPMAX,GAPMIN,CURV_MAX,
      7                NIN    ,GAP_SH)
 C-----------------------------------------------
         CALL I7PEN3(J_STOK ,MARGE ,X1    ,X2     ,X3   ,
@@ -115,8 +115,8 @@ C-----------------------------------------------
              ISS1 = BITGET(NBINFLG(NSV(N)),0)
              ISS2 = BITGET(NBINFLG(NSV(N)),1)
            ELSE
-             ISS1 = BITGET(NINT(XREM(12,N-NSN)),0) 
-             ISS2 = BITGET(NINT(XREM(12,N-NSN)),1) 
+             ISS1 = BITGET(NINT(XREM(12,N-NSN)),0)
+             ISS2 = BITGET(NINT(XREM(12,N-NSN)),1)
            ENDIF
            IF((IMS1 == 0 .and. ISS1==0).or.
      .        (IMS2 == 0 .and. ISS2==0))THEN
@@ -166,7 +166,7 @@ C
           II_STOK   = I_STOK + K_STOK
 #include "lockoff.inc"
 C-----------------------------------------------
-      IF(IFQ > 0 .AND. 
+      IF(IFQ > 0 .AND.
      .   (INACTI == 5 .OR. INACTI ==6 .OR. INACTI ==7))THEN
         DO I=1,J_STOK
           IF(PENE(I)/=0.0)THEN
@@ -440,7 +440,7 @@ c         calcul de la distance^2
           YS2M2 = XA(2,M2)-XA(2,N2)
           ZS2M2 = XA(3,M2)-XA(3,N2)
           XXA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-          XXB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+          XXB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
           DET = XM2*XS2 - XSM*XSM
           DET = MAX(EM20,DET)
 
@@ -525,7 +525,7 @@ c         calcul de la distance^2
           XM2 = XM12*XM12 + YM12*YM12 + ZM12*ZM12
           XSM = - (XS12*XM12 + YS12*YM12 + ZS12*ZM12)
           XXA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-          XXB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+          XXB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
           DET = XM2*XS2 - XSM*XSM
           DET = MAX(EM20,DET)
 C
@@ -594,6 +594,6 @@ Chd|====================================================================
 
       S = I/I2P(N)
       BITGET = S - (S/2)*2
-      RETURN 
+      RETURN
       END
-      
+

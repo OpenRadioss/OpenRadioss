@@ -54,12 +54,12 @@ C     REAL
 !               and we don't need to communicate the data
 !               ISKWP > 0 --> the SKEW is global and the data must be
 !               communicated
-!       NUMSKW_L : integer 
+!       NUMSKW_L : integer
 !                  number of local SKEW
 !       ISKWP_L : integer ; dimension=NUMSKW_L_SEND
 !                 index of local SKEW
-!       NUMSKW_L_SEND : integer 
-!                       number of sent SKEW 
+!       NUMSKW_L_SEND : integer
+!                       number of sent SKEW
 !       ISKWP_L_SEND : integer ; dimension=NUMSKW_L_SEND
 !                      index of sent SKEW
 !       RECVCOUNT : integer ; dimension=NSPMD
@@ -91,7 +91,7 @@ C-----------------------------------------------
 !$COMMENT
 !       NEWSKW description
 !       compute the SKEW and send it if required
-!       
+!
 !       NEWSKW organization :
 !       - compute SKEW
 !       - send SKEW
@@ -171,7 +171,7 @@ C------------------
                   P(3)=ZERO
                   PP1 =ONE
                 ENDIF
-              ELSE IF (IDIR == 2)THEN 
+              ELSE IF (IDIR == 2)THEN
                 PP2=SQRT(P(4)*P(4)+P(5)*P(5)+P(6)*P(6))
                 IF(PP2==ZERO)THEN
                   P(4)=ZERO
@@ -400,10 +400,10 @@ C-----------------------------------------------
 !               and we don't need to communicate the data
 !               ISKWP > 0 --> the SKEW is global and the data must be
 !               communicated
-!       NUMSKW_L : integer 
+!       NUMSKW_L : integer
 !                  number of local SKEW
-!       NUMSKW_L_SEND : integer 
-!                       number of sent SKEW 
+!       NUMSKW_L_SEND : integer
+!                       number of sent SKEW
 !       ISKWP_L_SEND : integer ; dimension=NUMSKW_L_SEND
 !                      index of sent SKEW
 !       RECVCOUNT : integer ; dimension=NSPMD
@@ -434,13 +434,13 @@ C-----------------------------------------------
 !       NEWSKW_INIT description
 !       initialization of the sent index array ISKWP_L_SEND
 !       and the number of recevied SKEW value (for the comm)
-!       
+!
 !       NEWSKW_INIT organization :
 !       - initialize the ISKWP_L_SEND index array :
 !         if ISKWP(N+A) = local proc, N+1 must be sent
-!         if ISKWP(N+A) = -local proc, N+1 is local to 
-!         the processor and the comm is not mandatory 
-!         if LAG MULT method is used, need to always 
+!         if ISKWP(N+A) = -local proc, N+1 is local to
+!         the processor and the comm is not mandatory
+!         if LAG MULT method is used, need to always
 !         communicate the SKEW arraies
 !$ENDCOMMENT
 
@@ -472,7 +472,7 @@ C-----------------------------------------------
         ENDDO
         IF(NUMSKW>0) THEN
                 NUMSKW_L = NSKWP(ISPMD+1)
-                NUMSKW_L_SEND = NN2    
+                NUMSKW_L_SEND = NN2
         ELSE
                 NUMSKW_L = 0
                 NUMSKW_L_SEND = 0

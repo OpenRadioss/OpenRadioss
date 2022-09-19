@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   TITR
       INTEGER I,II,J,JJ,N,NPTI,I1,I2,PT,NPGI,NU,NUVAR,NVARS,IPT,NPI,
      .  IPID1,PID1,C1,IPT_ALL,IT,ILAY,NPTT
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C--------------------------------------------------------------
       DO I=JFT,JLT
         IF (ABS(ISIGI)/=3 .AND. ABS(ISIGI)/=4 .AND. ABS(ISIGI)/=5)THEN
@@ -105,7 +105,7 @@ C
         PT = NVSHELL+NUSHELL+NORTSHEL+NVSHELL1+3
 C
 C for IGTYP == 51, usually NPT <= NPTI (NPTI = NTPP --> for all layers)
-        IF ((NPGI /= NPG.OR.NPI /= NPT) .AND. IGTYP /= 51 
+        IF ((NPGI /= NPG.OR.NPI /= NPT) .AND. IGTYP /= 51
      .                                  .AND. IGTYP /=52) THEN
           IPID1=IX(NIX-1,NFT+I)
           PID1=IGEO(1,IPID1)
@@ -138,8 +138,8 @@ c
 !!  ILAY --> not initialised here
 !!  SIGSH(PT, II) --> not filled within initia for NIP = 0
 !----------------------------------------------------------
-!!             LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)                         
-!!             LBUF%FAC_YLD(I) = SIGSH(PT+IPG, II)                                          
+!!             LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
+!!             LBUF%FAC_YLD(I) = SIGSH(PT+IPG, II)
             ENDIF ! IF (NPI > 0)
           ELSE
           ENDIF ! IF (NPGI > 0)

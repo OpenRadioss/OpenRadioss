@@ -136,11 +136,11 @@ c--------------------------------------------------
 c--------------------------------------------------
         IF (KEY(1:4) == 'FGEO')   CYCLE
         IF (KEY(1:6) == 'LAGMUL') CYCLE
-c        
+c
         IOPT = IOPT + 1
         NOM_OPT(1,IOPT) = OPTID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,IOPT),LTITR)
-c        
+c
         FRAME_ID = 0
         SYS_TYPE = 1  ! skew = 1 ,frame =2
         ICOOR    = 0  ! ICOOR = 1 => axial coordinates
@@ -154,7 +154,7 @@ c--------------------------------------------------
 c       READ STRING VALUES from /IMPVEL
 c--------------------------------------------------
         CALL HM_GET_INTV('rad_system_input_type'   ,SYS_TYPE ,IS_AVAILABLE,LSUBMODEL)
-c        
+c
         CALL HM_GET_INTV  ('curveid'       ,FCT_ID   ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_STRING('rad_dir'       ,XYZ      ,ncharfield,IS_AVAILABLE)
         CALL HM_GET_INTV  ('skew_ID'       ,SKEW_ID  ,IS_AVAILABLE,LSUBMODEL)
@@ -184,7 +184,7 @@ c--------------------------------------------------
      .                I2= UID,
      .                C1='IMPDISP',
      .                C2='IMPDISP',
-     .                C3= TITR)                              
+     .                C3= TITR)
         ENDIF
 c--------------------------------------------------
 c       Check skew and frame IDs
@@ -198,10 +198,10 @@ c----
 c----
         IF ((SYS_TYPE == 0).OR.(SYS_TYPE == 1)) THEN
           DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-            IF (SKEW_ID == ISKN(4,J+1)) THEN               
-              NOSKEW = J+1                         
-              EXIT                           
-            ENDIF                                   
+            IF (SKEW_ID == ISKN(4,J+1)) THEN
+              NOSKEW = J+1
+              EXIT
+            ENDIF
           ENDDO
           IF (SKEW_ID > 0 .and. NOSKEW == 0)
      .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -212,14 +212,14 @@ c----
      .                  C3= TITR)
 c----
         ELSEIF (SYS_TYPE == 2) THEN
-          JJ = (NUMSKW+1) + MIN(1,NSPCOND)*NUMSPH+1 + NSUBMOD        
-          DO J=1,NUMFRAM                    
+          JJ = (NUMSKW+1) + MIN(1,NSPCOND)*NUMSPH+1 + NSUBMOD
+          DO J=1,NUMFRAM
             JJ = JJ+1
-            IF (FRAME_ID == ISKN(4,JJ)) THEN               
-              NOFRAME = J+1                         
-              EXIT                           
-            ENDIF                                   
-          ENDDO            
+            IF (FRAME_ID == ISKN(4,JJ)) THEN
+              NOFRAME = J+1
+              EXIT
+            ENDIF
+          ENDDO
           IF (FRAME_ID > 0 .and. NOFRAME == 0)
      .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1= OPTID,

@@ -62,8 +62,8 @@ C-----------------------------------------------
         CALL ANCMSG(MSGID=1097,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                           I1=INTID )
-      ENDIF      
-      
+      ENDIF
+
       CALL ARRET(2)
 
       END
@@ -97,9 +97,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C-----------------------------------------------
-        CALL ANCMSG(MSGID=1182,ANMODE=ANINFO, 
+        CALL ANCMSG(MSGID=1182,ANMODE=ANINFO,
      .              MSGTYPE=MSGERROR,
-     .              I1=INTID )    
+     .              I1=INTID )
       CALL ARRET(2)
 
       END

@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE FIXFINGEO(IBFV   ,A     ,V      ,NPC    ,TF       ,
      2                     VEL    ,MS    ,X      ,D      ,SENSOR   ,
      3                     LSENSOR,WEIGHT,CPTREAC,NODREAC,NODNX_SMS,
-     4                     FTHREAC,ITABM1,ITAB   ) 
+     4                     FTHREAC,ITABM1,ITAB   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C     REAL
      .   XI, YI, ZI, XF, YF, ZF, XA, YA, ZA,
      .   AOLD0(3),
      .   VX1, VY1, VZ1, VX2, VY2, VZ2
-      my_real, DIMENSION(:), ALLOCATABLE :: MASS, VX, VY, VZ      
+      my_real, DIMENSION(:), ALLOCATABLE :: MASS, VX, VY, VZ
 C
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -129,7 +129,7 @@ C
         STOPT  = VEL(3,N)
         IF(TT>STOPT)  THEN
            N1 = IABS(IBFV(1,N))
-           N2 = IBFV(14,N)		   
+           N2 = IBFV(14,N)		
            A(1,N1)=(VX(N2)-V(1,N1))/DT12
            A(2,N1)=(VY(N2)-V(2,N1))/DT12
            A(3,N1)=(VZ(N2)-V(3,N1))/DT12
@@ -216,7 +216,7 @@ C
            IF(FAC < VEL(7,N)) THEN
               VEL(3,N) = TT
               YC = ZERO
-              WRITE(IOUT,'(A,I10,1X,I10,A,1PE12.5)') 
+              WRITE(IOUT,'(A,I10,1X,I10,A,1PE12.5)')
      .       ' RIGID LINK ON NODES',ITAB(IBFV(1,N)),IBFV(14,N),
      .       ' ACTIVATED AT TIME',TT
            ENDIF

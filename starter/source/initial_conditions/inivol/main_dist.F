@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-!#define SIZE_X1 1220000 
+!#define SIZE_X1 1220000
 !#define SIZE_X2 5000
 !#define my_real REAL(KIND=8)
 !      program MAIN
@@ -155,9 +155,9 @@ C - Expected in practice: O(N1 log(N1)) + O (N1 x (N2)^(1/3))
 C      which is good enough for cases where N2 << N1
        IMPLICIT NONE
 #include      "com04_c.inc"
-       
+
        INTEGER, INTENT(IN)    ::  NBCONTY,IDC,IDSURF,IVOLSURF(NSURF),NSURF_INVOL
-       my_real, INTENT(IN)    ::  X1(3,N1) ! Coordinates 
+       my_real, INTENT(IN)    ::  X1(3,N1) ! Coordinates
        my_real, INTENT(IN)    ::  EPS  ! Minimum distance between two disctinct points
        INTEGER, INTENT(IN)    ::  ID_X2(N2)  ! Indexes of 'root' coordinates
        INTEGER, INTENT(IN)    ::  N1,N2      ! N1: total number of nodes
@@ -183,22 +183,22 @@ C      LOCAL VARIABLES
 
        ! Pick a direction
        DIR = 1
-       L = (XMAX(1) - XMIN(1)) 
+       L = (XMAX(1) - XMIN(1))
        DO I = 2,3
-          IF (L < XMAX(1) - XMIN(1) ) THEN 
-            DIR = I 
-            L = (XMAX(I) - XMIN(I)) 
+          IF (L < XMAX(1) - XMIN(1) ) THEN
+            DIR = I
+            L = (XMAX(I) - XMIN(I))
           ENDIF
        ENDDO
 
        ALLOCATE (XTMP1(N1),KEY1(N1))
        ALLOCATE (XTMP2(N2),KEY2(N2))
 
-       DO I=1,N1 
+       DO I=1,N1
          XTMP1(I) = X1(DIR,I)
          KEY1(I) = I
        ENDDO
-       DO I=1,N2 
+       DO I=1,N2
          XTMP2(I) = X1(DIR,ID_X2(I))
          KEY2(I) = I
        ENDDO
@@ -207,13 +207,13 @@ C      LOCAL VARIABLES
        CALL MYQSORT(N1,XTMP1,KEY1,info)
        CALL MYQSORT(N2,XTMP2,KEY2,info)
 
-       LAST_POSITION = 1 
+       LAST_POSITION = 1
        JMIN = 1
        DO I = 1,N1
 
-         DX =ABS(X1(1,ID_X2(KEY2(LAST_POSITION))) - X1(1,KEY1(I)))   
-         DY =ABS(X1(2,ID_X2(KEY2(LAST_POSITION))) - X1(2,KEY1(I)))   
-         DZ =ABS(X1(3,ID_X2(KEY2(LAST_POSITION))) - X1(3,KEY1(I)))   
+         DX =ABS(X1(1,ID_X2(KEY2(LAST_POSITION))) - X1(1,KEY1(I)))
+         DY =ABS(X1(2,ID_X2(KEY2(LAST_POSITION))) - X1(2,KEY1(I)))
+         DZ =ABS(X1(3,ID_X2(KEY2(LAST_POSITION))) - X1(3,KEY1(I)))
          DELTA = SQRT(DX*DX+DY*DY+DZ*DZ)
 
 C        Avoid nodes closer than EPS
@@ -225,9 +225,9 @@ C        Upward search
          ID = KEY2(LAST_POSITION)
          DXL = DX
          DO WHILE (J <= N2 .AND. (DXL <= DELTA .OR. DELTA < EPS))
-           DXL =ABS(X1(1,ID_X2(KEY2(J))) - X1(1,KEY1(I)))   
-           DYL =ABS(X1(2,ID_X2(KEY2(J))) - X1(2,KEY1(I)))   
-           DZL =ABS(X1(3,ID_X2(KEY2(J))) - X1(3,KEY1(I)))   
+           DXL =ABS(X1(1,ID_X2(KEY2(J))) - X1(1,KEY1(I)))
+           DYL =ABS(X1(2,ID_X2(KEY2(J))) - X1(2,KEY1(I)))
+           DZL =ABS(X1(3,ID_X2(KEY2(J))) - X1(3,KEY1(I)))
            DL = SQRT(DXL*DXL+DYL*DYL+DZL*DZL)
            IF (DL  < DELTA .AND. DL  > EPS) THEN
              DELTA = DL
@@ -235,16 +235,16 @@ C        Upward search
              JMIN = J
            ENDIF
            J = J + 1
-           IF (J <= N2) DXL =ABS(X1(DIR,ID_X2(KEY2(J)))-X1(DIR,KEY1(I)))  
+           IF (J <= N2) DXL =ABS(X1(DIR,ID_X2(KEY2(J)))-X1(DIR,KEY1(I)))
          ENDDO
 
 C        Backward search
          J = LAST_POSITION
          DXL = DX
          DO WHILE (J > 0 .AND. (DXL <= DELTA .OR. DELTA < EPS))
-           DXL =ABS(X1(1,ID_X2(KEY2(J))) - X1(1,KEY1(I)))   
-           DYL =ABS(X1(2,ID_X2(KEY2(J))) - X1(2,KEY1(I)))   
-           DZL =ABS(X1(3,ID_X2(KEY2(J))) - X1(3,KEY1(I)))   
+           DXL =ABS(X1(1,ID_X2(KEY2(J))) - X1(1,KEY1(I)))
+           DYL =ABS(X1(2,ID_X2(KEY2(J))) - X1(2,KEY1(I)))
+           DZL =ABS(X1(3,ID_X2(KEY2(J))) - X1(3,KEY1(I)))
            DL = SQRT(DXL*DXL+DYL*DYL+DZL*DZL)
            IF (DL  < DELTA .AND. DL > EPS) THEN
              DELTA = DL
@@ -252,9 +252,9 @@ C        Backward search
              JMIN = J
            ENDIF
            J = J - 1
-           IF (J > 0)  DXL =ABS(X1(DIR,ID_X2(KEY2(J)))-X1(DIR,KEY1(I)))  
+           IF (J > 0)  DXL =ABS(X1(DIR,ID_X2(KEY2(J)))-X1(DIR,KEY1(I)))
          ENDDO
-         LAST_POSITION = JMIN 
+         LAST_POSITION = JMIN
          ID_LIST(KEY1(I)) = ID
 !!         DIST(IDC,KEY1(I)) = DELTA
          DIST(IVOLSURF(IDSURF),KEY1(I)) = DELTA

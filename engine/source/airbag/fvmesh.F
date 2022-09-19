@@ -91,7 +91,7 @@ C-----------------------------------------------
      .        NNSA
       PARAMETER (NVMAX=12)
       my_real
-     .        VOLG, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, 
+     .        VOLG, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X12, Y12, Z12,
      .        X13, Y13, Z13, NRX, NRY, NRZ, AREA2, ELAREA(NEL),
      .        NORM(3,NEL), XBMAX, YBMAX, ZBMAX, XBMIN, YBMIN, ZBMIN,
      .        XC, YC, ZC, XX, YY, ZZ, PP(3,3), XL7(3), BCENTER(3),
@@ -99,8 +99,8 @@ C-----------------------------------------------
      .        TVERTS(9), TMPTRI(3,3), TMPBOX(3,8), TMPNORM(3,6), TOLE,
      .        XG, YG, ZG, FV0(3), FV1(3), FV2(3), FU0(3), FU1(3),
      .        FU2(3), QUAD(3,4), NR(3), AREA, NX, NY, NZ, NNX,
-     .        NNY, NNZ, X0, Y0, Z0, LMAX2, TOLE2, DD, VM, VOLUMIN, 
-     .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ, 
+     .        NNY, NNZ, X0, Y0, Z0, LMAX2, TOLE2, DD, VM, VOLUMIN,
+     .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ,
      .        V1X, V1Y, V1Z, V2X, V2Y, V2Z, NRM1, VX, VY, VZ, SS,
      .        NORMF(3,4), KSI, ETA, VX1, VY1, VZ1, VX2, VY2, VZ2,
      .        VMIN, VTMP, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
@@ -125,7 +125,7 @@ C
      .                        PHOLES(:,:), RPOLY_OLD(:), VOLUSORT(:),
      .                        VOLU_OLD(:), RPOLY_F_OLD(:,:),
      .                        RFVNOD_OLD(:,:), XNEW(:,:), RNEDGE(:,:),
-     .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:), 
+     .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:),
      .                        XNS2(:,:), XXXSA(:,:)
 C
       INTEGER FAC(4,6), FACNOR(4,6), FAC4(3,4)
@@ -231,7 +231,7 @@ C
          DO J=1,6
             TBRIC(7+J,I)=0
          ENDDO
-      ENDDO    
+      ENDDO
 C---------------------------------------------------
 C Normales elementaires et volume de l'airbag
 C---------------------------------------------------
@@ -305,7 +305,7 @@ C
          NORMA(1,IEL)=NRX/AREA2
          NORMA(2,IEL)=NRY/AREA2
          NORMA(3,IEL)=NRZ/AREA2
-      ENDDO   
+      ENDDO
 C---------------------------------------------------
 C Creation de tous les polygones
 C---------------------------------------------------
@@ -325,7 +325,7 @@ C
 C 1. Facettes airbag coupees
       IF (ILVOUT/=0) THEN
          WRITE(ISTDO,*)
-         WRITE(ISTDO,'(A25,I10,A23)') 
+         WRITE(ISTDO,'(A25,I10,A23)')
      . ' ** MONITORED VOLUME ID: ',IVOLU(1),' - BUILDING POLYGONS **'
       ENDIF
 C
@@ -427,7 +427,7 @@ C
             YTMIN=MIN(Y1,Y2,Y3)
             ZTMIN=MIN(Z1,Z2,Z3)
             IF (XBMAX<XTMIN.OR.YBMAX<YTMIN.OR.ZBMAX<ZTMIN.OR.
-     .          XBMIN>XTMAX.OR.YBMIN>YTMAX.OR.ZBMIN>ZTMAX) 
+     .          XBMIN>XTMAX.OR.YBMIN>YTMAX.OR.ZBMIN>ZTMAX)
      .         CYCLE
 C
             TVERTS(1)=PP(1,1)*(X1-XC)+PP(2,1)*(Y1-YC)+PP(3,1)*(Z1-ZC)
@@ -620,7 +620,7 @@ C Destruction des polygones crees pour rien
             ENDIF
             DO J=1,NPOLY-NPOLY_OLD
                PTR_TMP => PTR_CUR%PTR
-               DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY, 
+               DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY,
      .                    PTR_CUR%IELNOD)
                DEALLOCATE(PTR_CUR)
                PTR_CUR => PTR_TMP
@@ -687,7 +687,7 @@ C
                IF (ALLOCATED(IPOLY))  DEALLOCATE(IPOLY)
                IF (ALLOCATED(RPOLY))  DEALLOCATE(RPOLY)
                IF (ALLOCATED(IELNOD)) DEALLOCATE(IELNOD)
-               ALLOCATE(IPOLY(6+NPPMAX+1+NPOLMAX,NPOLMAX), 
+               ALLOCATE(IPOLY(6+NPPMAX+1+NPOLMAX,NPOLMAX),
      .                  RPOLY(NRPMAX+3*NPOLMAX,NPOLMAX),
      .                  IELNOD(NPPMAX,NPOLMAX))
 C
@@ -907,8 +907,8 @@ C Clipping des polygones
      .                     IZ(3,NN))
                   CALL GPOLCUT(
      .    IPOLY,   RPOLY,   PTR_CUR%IPOLY, PTR_CUR%RPOLY,  INEDGE,
-     .    RNEDGE,  NBNEDGE, VX3,           VY3,            VZ3,   
-     .    X0,      Y0,      Z0,            NREF,           AREF,    
+     .    RNEDGE,  NBNEDGE, VX3,           VY3,            VZ3,
+     .    X0,      Y0,      Z0,            NREF,           AREF,
      .    NN,      NHOL,    IIZ,           IZ,             NNS3,
      .    NNP   ,  NNSP,    IELNOD,        PTR_CUR%IELNOD)
 C
@@ -987,7 +987,7 @@ C
      .                 NNSP         )
 C
                      IF (NNSP>0) THEN
-                        ALLOCATE(PTR_CUR%NREF(3,NNSP), 
+                        ALLOCATE(PTR_CUR%NREF(3,NNSP),
      .                           PTR_CUR%AREF(4,NNSP))
                         PTR_CUR%NNSP=NNSP
                         DO N=1,NNSP
@@ -1001,9 +1001,9 @@ C
                            PTR_CUR%AREF(4,N)=AREF(4,N)
                         ENDDO
                      ENDIF
-                     DEALLOCATE(NREF, AREF)   
+                     DEALLOCATE(NREF, AREF)
                   ENDIF
-                  IF (ZLMIN>=ZERO) THEN 
+                  IF (ZLMIN>=ZERO) THEN
                      PTR_CUR%IZ(1)=1
                      PTR_CUR%IZ(2)=IIZ+1
                   ELSEIF (IIZ==1.AND.ZLMAX<=ZERO) THEN
@@ -1064,12 +1064,12 @@ C Creation des nouveaux polygones horizontaux
                   IF (INEDGE(6,K)/=I) CYCLE
                   IF (INEDGE(1,K)==1.AND.INEDGE(5,K)/=J) CYCLE
                   IF (INEDGE(1,K)==2.AND.INEDGE(4,K)/=J.AND.
-     .                                     INEDGE(5,K)/=J) CYCLE 
+     .                                     INEDGE(5,K)/=J) CYCLE
                   NEDGE=NEDGE+1
                   LEDGE(NEDGE)=K
                ENDDO
                IF (NEDGE==0) CYCLE
-               ALLOCATE(IPOLY(6+2*NEDGE+1+NEDGE,NEDGE), 
+               ALLOCATE(IPOLY(6+2*NEDGE+1+NEDGE,NEDGE),
      .                  RPOLY(4+6*NEDGE+3*NEDGE,NEDGE),
      .                  IZ(3,NEDGE), IELNOD(NEDGE,NEDGE))
 C               
@@ -1084,7 +1084,7 @@ C
                   PTR_PREC%PTR => PTR_CUR
                   NN=IPOLY(2,N)
                   NHOL=IPOLY(6+NN+1,N)
-                  ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL), 
+                  ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL),
      .                     PTR_CUR%RPOLY(4+3*NN+3*NHOL),
      .                     PTR_CUR%IELNOD(NN))
                   PTR_CUR%NNSP=0
@@ -1136,7 +1136,7 @@ C---------------------------------------------------
 C Construction des polyhedres
 C---------------------------------------------------
       NPOLH=0
-      IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I10,A24)') 
+      IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I10,A24)')
      . ' ** MONITORED VOLUME ID: ',IVOLU(1),' - BUILDING POLYHEDRA **'
 C     
       DO I=1,NBRIC
@@ -1250,7 +1250,7 @@ C
 C---------------------------------------------------
 C Passage listes chainees -> tableaux classiques pour la suite des traitements
 C---------------------------------------------------
-  370 CONTINUE     
+  370 CONTINUE
 C      
       PTR_CUR => FIRST
       LENIMAX=0
@@ -1283,7 +1283,7 @@ C
       NPOLH_OLD=NPOLH
       IF (NBA>0) THEN
 c         IF (NSPMD == 1) THEN
-c            ALLOCATE(ITAGN(NUMNOD))            
+c            ALLOCATE(ITAGN(NUMNOD))
 c            NPOLH=NPOLH+NBA
 c            DO I=1,NBA
 c               ITAGBA(I)=0
@@ -1457,7 +1457,7 @@ c         ENDIF
 C
       ALLOCATE(IPOLY_F(LENIMAX,NPOLY), RPOLY_F(LENRMAX,NPOLY),
      .         POLH_F(2+NPHMAX,NPOLH), IFVNOD(NNS), VOLU(NPOLH),
-     .         IFVNOD2(2,NNS2), RFVNOD2(4,NNS2), XNS(3,NNS), 
+     .         IFVNOD2(2,NNS2), RFVNOD2(4,NNS2), XNS(3,NNS),
      .         XNS2(3,NNS2))
 C
       NPOLY=NPOLY_OLD
@@ -1810,7 +1810,7 @@ C
                         ENDIF
                      ENDDO
                   ENDIF
-               ELSEIF (ITY==2) THEN        
+               ELSEIF (ITY==2) THEN
 C Face brique appuyee sur surface (traitee plus loin)
                ELSEIF (ITY==3) THEN
 C Face interne brique/polyhedres
@@ -1920,7 +1920,7 @@ C
                POLH_F(2+NNP,NPOLH_OLD+TAGELS(IEL))=NPOLY
             ENDIF
          ENDDO
-      ENDIF   
+      ENDIF
 C---------------------------------------------------
 C Surface des polygones
 C---------------------------------------------------
@@ -2192,23 +2192,23 @@ C
                   Z1=RPOLY_OLD(3*(K-1)+3)
                   DD=(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2
                   IF (DD>TOLE2) THEN
-                     NNP=NNP+1                       
-                     IF (IPOLY_OLD(K)>0) THEN           
-                        NNS=NNS+1                       
-                        IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD) 
-                        RPOLY_F(4+3*(NNP-1)+1,I)=X1     
-                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1     
-                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1     
+                     NNP=NNP+1
+                     IF (IPOLY_OLD(K)>0) THEN
+                        NNS=NNS+1
+                        IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD)
+                        RPOLY_F(4+3*(NNP-1)+1,I)=X1
+                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1
+                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1
                         IPOLY_F(6+NNP,I)=NNS
                      ELSE
-                        RPOLY_F(4+3*(NNP-1)+1,I)=X1     
-                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1     
-                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1     
+                        RPOLY_F(4+3*(NNP-1)+1,I)=X1
+                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1
+                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1
                         IPOLY_F(6+NNP,I)=IPOLY_OLD(K)
-                     ENDIF           
-                     X0=X1                           
-                     Y0=Y1                           
-                     Z0=Z1                           
+                     ENDIF
+                     X0=X1
+                     Y0=Y1
+                     Z0=Z1
                   ELSEIF (IPOLY_OLD(K)>0.AND.
      .                    IPOLY_OLD(K0)<0) THEN
                      NNS=NNS+1
@@ -2237,7 +2237,7 @@ C
                   RPOLY_F(4+3*(ADR(J)-1)+3,I)=Z0
                   IPOLY_F(6+ADR(J)+1,I)=NNS
                ENDIF
-               ADR(J+1)=NNP                             
+               ADR(J+1)=NNP
             ENDDO
             IPOLY_F(6+NNP+1,I)=NHOL
             DO J=1,NHOL
@@ -2249,7 +2249,7 @@ C
                RPOLY_F(4+3*NNP+3*(J-1)+3,I)=
      .                 RPOLY_F(4+3*NNP_OLD+3*(J-1)+3,I)
             ENDDO
-         ENDIF      
+         ENDIF
          IPOLY_F(2,I)=NNP
 C
          IF (NNP<NNP_OLD) THEN
@@ -2492,7 +2492,7 @@ C On merge tous les polyhedres de volume nul avec le polyhedre 1
                ENDIF
             ENDDO
             POLH_NEW(2,I)=IMAX
-            IF (INFO==0) POLH_NEW(1,IMAX)=NP   
+            IF (INFO==0) POLH_NEW(1,IMAX)=NP
          ENDIF
       ENDDO
       IF (INFO==1) GOTO 400
@@ -2596,7 +2596,7 @@ C
                VPZ=ZZ-Z1
                V1X=X2-X1
                V1Y=Y2-Y1
-               V1Z=Z2-Z1            
+               V1Z=Z2-Z1
                V2X=X3-X1
                V2Y=Y3-Y1
                V2Z=Z3-Z1
@@ -2657,7 +2657,7 @@ C
          NHOL=0
          IF (IPOLY_F(1,I)==2) NHOL=IPOLY_F(6+NNP+1,I)
          ALLOCATE(PNODES(2,NNP), PSEG(2,NNP), PHOLES(2,NHOL),
-     .            PTRI(3,NNP), REDIR(NNP))   
+     .            PTRI(3,NNP), REDIR(NNP))
          PTRI(1:3,1:NNP)=0
 C
          DO J=1,NNP
@@ -2677,7 +2677,7 @@ C
             IPSURF=0
             IC1=IPOLY_F(5,I)
             IC2=IPOLY_F(6,I)
-         ENDIF 
+         ENDIF
 C
 C Coordonnees des sommets dans le plan du polygone
          NX=RPOLY_F(2,I)
@@ -2815,7 +2815,7 @@ C
                FVDATA(IFV)%IFVTRI(1,NNTR)=REDIR(N1)
                FVDATA(IFV)%IFVTRI(2,NNTR)=REDIR(N3)
                FVDATA(IFV)%IFVTRI(3,NNTR)=REDIR(N2)
-            ENDIF 
+            ENDIF
             FVDATA(IFV)%IFVTRI(4,NNTR)=IPSURF
             FVDATA(IFV)%IFVTRI(5,NNTR)=IC1
             FVDATA(IFV)%IFVTRI(6,NNTR)=IC2
@@ -2913,17 +2913,17 @@ C---------------------------------------------------
       ENDDO
 C
       WRITE(ISTDO,*)
-      WRITE(ISTDO,'(A25,I10,A24)') 
+      WRITE(ISTDO,'(A25,I10,A24)')
      .' ** MONITORED VOLUME ID: ',IVOLU(1),' - FINITE VOLUME MESH **'
-       WRITE(ISTDO,'(A42,I8)') 
+       WRITE(ISTDO,'(A42,I8)')
      .   '    NUMBER OF SURFACE POLYGONS          : ',NSPOLY
-       WRITE(ISTDO,'(A42,I8)') 
+       WRITE(ISTDO,'(A42,I8)')
      .   '    NUMBER OF SURFACE TRIANGLES         : ',NSTR
-       WRITE(ISTDO,'(A42,I8)') 
+       WRITE(ISTDO,'(A42,I8)')
      .   '    NUMBER OF COMMUNICATION POLYGONS    : ',NCPOLY
-       WRITE(ISTDO,'(A42,I8)') 
+       WRITE(ISTDO,'(A42,I8)')
      .   '    NUMBER OF COMMUNICATION TRIANGLES   : ',NCTR
-       WRITE(ISTDO,'(A42,I8)') 
+       WRITE(ISTDO,'(A42,I8)')
      .   '    NUMBER OF POLYHEDRA (FINITE VOLUMES): ',NPOLHF
        IF (ILVOUT>=1) WRITE(ISTDO,'(A29,G16.9,A8,I8,A1)')
      .   '    MIN. POLYHEDRON VOLUME : ',VMIN,' (POLY. ',IMIN,')'
@@ -2931,18 +2931,18 @@ C
      .   '    INITIAL MERGING VOLUME : ',VOLUMIN
        WRITE(ISTDO,'(A29,G16.9,A17,G16.9,A1)')
      .'    SUM VOLUME POLYHEDRA   : ',VOLPH,' (VOLUME AIRBAG: ',VOLG,')'
-       WRITE(ISTDO,'(A29,G16.9,A17,G16.9,A1)') 
+       WRITE(ISTDO,'(A29,G16.9,A17,G16.9,A1)')
      .'    SUM AREA SURF. POLYGONS: ',AREAP,
      .                   ' (AREA AIRBAG  : ',AREAEL,')'
        WRITE(ISTDO,*)
        WRITE(IOUT,*)
-       WRITE(IOUT,'(A25,I10,A24)') 
+       WRITE(IOUT,'(A25,I10,A24)')
      .' ** MONITORED VOLUME ID: ',IVOLU(1),' - FINITE VOLUME MESH **'
-       WRITE(IOUT,'(A42,I8)') 
+       WRITE(IOUT,'(A42,I8)')
      .   '    NUMBER OF SURFACE POLYGONS          : ',NSPOLY
-       WRITE(IOUT,'(A42,I8)') 
+       WRITE(IOUT,'(A42,I8)')
      .   '    NUMBER OF COMMUNICATION POLYGONS    : ',NCPOLY
-       WRITE(IOUT,'(A42,I8)') 
+       WRITE(IOUT,'(A42,I8)')
      .   '    NUMBER OF POLYHEDRA (FINITE VOLUMES): ',NPOLHF
        IF (ILVOUT>=1) WRITE(IOUT,'(A29,G16.9,A8,I8,A1)')
      .   '    MIN. POLYHEDRON VOLUME : ',VMIN,' (POLY. ',IMIN,')'
@@ -2950,7 +2950,7 @@ C
      .   '    INITIAL MERGING VOLUME : ',VOLUMIN
        WRITE(IOUT,'(A29,G16.9,A17,G16.9,A1)')
      .'    SUM VOLUME POLYHEDRA   : ',VOLPH,' (VOLUME AIRBAG: ',VOLG,')'
-       WRITE(IOUT,'(A29,G16.9,A17,G16.9,A1)') 
+       WRITE(IOUT,'(A29,G16.9,A17,G16.9,A1)')
      .'    SUM AREA SURF. POLYGONS: ',AREAP,
      .                   ' (AREA AIRBAG  : ',AREAEL,')'
        WRITE(IOUT,*)
@@ -3065,7 +3065,7 @@ C
             REDIR(I)=NNS_ANIM
             FVDATA(IFV)%REDIR_ANIM(NNS_ANIM)=I
             FVDATA(IFV)%NOD_ANIM(1,NNS_ANIM)=XX
-            FVDATA(IFV)%NOD_ANIM(2,NNS_ANIM)=YY         
+            FVDATA(IFV)%NOD_ANIM(2,NNS_ANIM)=YY
             FVDATA(IFV)%NOD_ANIM(3,NNS_ANIM)=ZZ
          ELSE
             REDIR(I)=IFOUND
@@ -3075,7 +3075,7 @@ C
       FVDATA(IFV)%ID=IVOLU(1)
 C
       DO I=1,NNTR
-         N1=FVDATA(IFV)%IFVTRI(1,I)        
+         N1=FVDATA(IFV)%IFVTRI(1,I)
          N2=FVDATA(IFV)%IFVTRI(2,I)
          N3=FVDATA(IFV)%IFVTRI(3,I)
          FVDATA(IFV)%IFVTRI_ANIM(1,I)=REDIR(N1)
@@ -3151,7 +3151,7 @@ C
             POLY(2,J)=POLYOUT(2,J)
             POLY(3,J)=POLYOUT(3,J)
          ENDDO
-      ENDDO   
+      ENDDO
 C
       RETURN
       END
@@ -3176,7 +3176,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPIN, NPOUT
       my_real
-     .        POLYIN(3,*), A(*), N(*), POLYOUT(3,*)   
+     .        POLYIN(3,*), A(*), N(*), POLYOUT(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3196,7 +3196,7 @@ C Clipping d'un polygone par un plan
             II=I+1
          ELSE
             II=1
-         ENDIF 
+         ENDIF
 C
          X1=POLYIN(1,I)
          Y1=POLYIN(2,I)
@@ -3214,7 +3214,7 @@ C
             POLYOUT(2,NPOUT)=Y1
             POLYOUT(3,NPOUT)=Z1
             CYCLE
-         ENDIF       
+         ENDIF
 C
          X12=X2-X1
          Y12=Y2-Y1
@@ -3240,9 +3240,9 @@ C
             NPOUT=NPOUT+1
             POLYOUT(1,NPOUT)=XM
             POLYOUT(2,NPOUT)=YM
-            POLYOUT(3,NPOUT)=ZM        
+            POLYOUT(3,NPOUT)=ZM
          ENDIF
-      ENDDO       
+      ENDDO
 C
       RETURN
       END
@@ -3261,7 +3261,7 @@ Chd|====================================================================
      .                    NRPMAX, NB   , NV    , LMIN , NPOLMAX,
      .                    NPPMAX, INFO , IELNOD, XXX  , ELEMA  ,
      .                    IBUF  , NELA , IBRIC , IFAC , MVID   ,
-     .                    ILVOUT, IBUFA, TAGELA, XXXA ) 
+     .                    ILVOUT, IBUFA, TAGELA, XXXA )
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3274,12 +3274,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER TRI(NSMAX,*), NTRI, NPPMAX, IPOLY(6+NPPMAX+1+NPOLMAX,*), 
-     .        NSMAX, NRPMAX, NNP, NB, NV, NPOLMAX, INFO, 
+      INTEGER TRI(NSMAX,*), NTRI, NPPMAX, IPOLY(6+NPPMAX+1+NPOLMAX,*),
+     .        NSMAX, NRPMAX, NNP, NB, NV, NPOLMAX, INFO,
      .        IELNOD(NPPMAX,*), ELEMA(3,*), IBUF(*), NELA, IBRIC, IFAC,
      .        MVID, ILVOUT, IBUFA(*), TAGELA(*)
       my_real
-     .        QUAD(3,*), RPOLY(NRPMAX+3*NPOLMAX,*), N(*), NORMF(3,*), 
+     .        QUAD(3,*), RPOLY(NRPMAX+3*NPOLMAX,*), N(*), NORMF(3,*),
      .        NORMT(3,*), LMIN, XXX(3,*), XXXA(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3290,16 +3290,16 @@ C-----------------------------------------------
      .        INEXT, NN, NPOLY, IADPOLY(NTRI), LENPOLY(NTRI), IAD, II,
      .        POLY(2,5*NTRI+1), I0, JJJ, REDIR_TMP(NTRI), NPI_TMP,
      .        ELSEG(5*NTRI,2), ELINTER(4,NTRI), ELNODE(5*NTRI*2),
-     .        NNS, LENMAX, NEDGE, J1, J2, IEDGE, K1, K2, 
+     .        NNS, LENMAX, NEDGE, J1, J2, IEDGE, K1, K2,
      .        TEDGE(3*NTRI,3), EDGE(3*NTRI,3), N1, N2, IPOUT, M, MM,
      .        NHOL, IADHOL(NPOLMAX), ISEG3_OLD(5*NTRI), IDIFF, NSEC,
      .        KSMIN
       my_real
      .        TOLE, TOLE2, A(3), X1, Y1, Z1, X2, Y2, Z2, SS1, SS2,
-     .        X12, Y12, Z12, XA1, YA1, ZA1, ALPHA, XM, YM, ZM, 
+     .        X12, Y12, Z12, XA1, YA1, ZA1, ALPHA, XM, YM, ZM,
      .        STMP(4,3), SEG(5*NTRI,3,2), NX, NY, NZ, XA2, YA2, ZA2,
-     .        XA12, YA12, ZA12, XA1P1, YA1P1, ZA1P1, BETA, 
-     .        PINTER(4,NTRI,4), XL(NTRI), XLREF, XP1, YP1, ZP1, XP2, 
+     .        XA12, YA12, ZA12, XA1P1, YA1P1, ZA1P1, BETA,
+     .        PINTER(4,NTRI,4), XL(NTRI), XLREF, XP1, YP1, ZP1, XP2,
      .        YP2, ZP2, NODE(3,5*NTRI*2), XX1, YY1, ZZ1, DD1, DD2,
      .        XLC, LL, TOLEI, T1, T2, DD, XA1P2, YA1P2, ZA1P2,
      .        XEDGE(3*NTRI,4), XX2, YY2, ZZ2, NR1, NR2, VX1, VY1, VZ1,
@@ -3391,7 +3391,7 @@ C
          XEDGE(I,2)=YM
          XEDGE(I,3)=ZM
          XEDGE(I,4)=SS1*SS2
-      ENDDO   
+      ENDDO
 C Calcul des intersections des triangles avec le plan de la facette (segments)
       DO I=1,4
          NINTER(I)=0
@@ -3524,8 +3524,8 @@ C
                   SEG(I,1,1)=XM
                   SEG(I,2,1)=YM
                   SEG(I,3,1)=ZM
-               ENDIF   
-            ELSE     
+               ENDIF
+            ELSE
                IF (SS1==ZERO) THEN
                   IF (SS2<ZERO) THEN
                      SEG(I,1,1)=XM
@@ -3852,7 +3852,7 @@ C
                ENDIF
             ENDDO
             LENPOLY(NPOLY)=NP-IADPOLY(NPOLY)
-         ENDIF      
+         ENDIF
 C
          IDIFF=0
          DO J=1,NSEG
@@ -3897,7 +3897,7 @@ C
          RPOLY(1,I)=ZERO
          RPOLY(2,I)=N(1)
          RPOLY(3,I)=N(2)
-         RPOLY(4,I)=N(3) 
+         RPOLY(4,I)=N(3)
          DO J=1,LENPOLY(I)
             JJ=POLY(1,IAD+J)
             JJJ=POLY(2,IAD+J)
@@ -4139,7 +4139,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPPMAX, IPOLY(6+NPPMAX,*), POLB(*), NPOLB, NPHMAX, 
+      INTEGER NPPMAX, IPOLY(6+NPPMAX,*), POLB(*), NPOLB, NPHMAX,
      .        POLH(NPHMAX+2,*),NPOLH, NRPMAX, IBRIC, INFO, NPOLHMAX
       my_real
      .        RPOLY(NRPMAX,*), LMIN, TOLE2
@@ -4333,7 +4333,7 @@ Chd|        FVMESH1                       source/airbag/fvmesh.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GPOLCUT(IPOLY , RPOLY  , IPOLY_OLD, RPOLY_OLD , INEDGE,
-     .                   RNEDGE, NBNEDGE, NX       , NY        , NZ    , 
+     .                   RNEDGE, NBNEDGE, NX       , NY        , NZ    ,
      .                   X0    , Y0     , Z0       , INS       , RNS   ,
      .                   NN    , NHOL   , INZ      , IZ        , NNS3  ,
      .                   NPOLY , NS     , IELNOD   , IELNOD_OLD)
@@ -4347,8 +4347,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NN, NHOL, IPOLY(6+2*NN+1+NHOL,*), IPOLY_OLD(*), 
-     .        INEDGE(6,*), NBNEDGE, INS(2,*), INZ, IZ(3,*), NNS3, 
+      INTEGER NN, NHOL, IPOLY(6+2*NN+1+NHOL,*), IPOLY_OLD(*),
+     .        INEDGE(6,*), NBNEDGE, INS(2,*), INZ, IZ(3,*), NNS3,
      .        NPOLY, NS, IELNOD(2*NN,*), IELNOD_OLD(*)
       my_real
      .        RPOLY(4+3*2*NN+3*NHOL,*), RPOLY_OLD(*), RNEDGE(6,*), NX,
@@ -4365,8 +4365,8 @@ C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, ALPHA, NPX, NPY, NPZ,
      .        XP0, YP0, ZP0, VX, VY, VZ, XX, YY, ZZ, XL(NN), XLMIN,
-     .        XLC, XX1, YY1, ZZ1, XX2, YY2, ZZ2, VX1, VY1, 
-     .        VZ1, VX2, VY2, VZ2, NR1, NR2, SS, VVX, VVY, VVZ, 
+     .        XLC, XX1, YY1, ZZ1, XX2, YY2, ZZ2, VX1, VY1,
+     .        VZ1, VX2, VY2, VZ2, NR1, NR2, SS, VVX, VVY, VVZ,
      .        SS1, ZL, XNS(3,NN), TOLE, LL, ZLM
 C
 C
@@ -4664,7 +4664,7 @@ C Nouveaux polygones
       NNP=0
       DO WHILE (ISTOP==0)
          I=1
-         DO WHILE (ITAG(I)/=0.AND.I<=NSEG) 
+         DO WHILE (ITAG(I)/=0.AND.I<=NSEG)
             I=I+1
          ENDDO
          IF (I==NSEG+1) THEN
@@ -4736,8 +4736,8 @@ C Attribution des trous
                N1=POLY(K,I)
                N2=POLY(KK,I)
                IF (N1>0) THEN
-                  XX1=RPOLY_OLD(4+3*(N1-1)+1)      
-                  YY1=RPOLY_OLD(4+3*(N1-1)+2)      
+                  XX1=RPOLY_OLD(4+3*(N1-1)+1)
+                  YY1=RPOLY_OLD(4+3*(N1-1)+2)
                   ZZ1=RPOLY_OLD(4+3*(N1-1)+3)
                ELSE
                   XX1=XNS(1,-N1)
@@ -4745,8 +4745,8 @@ C Attribution des trous
                   ZZ1=XNS(3,-N1)
                ENDIF
                IF (N2>0) THEN
-                  XX2=RPOLY_OLD(4+3*(N2-1)+1)      
-                  YY2=RPOLY_OLD(4+3*(N2-1)+2)      
+                  XX2=RPOLY_OLD(4+3*(N2-1)+1)
+                  YY2=RPOLY_OLD(4+3*(N2-1)+2)
                   ZZ2=RPOLY_OLD(4+3*(N2-1)+3)
                ELSE
                   XX2=XNS(1,-N2)
@@ -4846,7 +4846,7 @@ C
          ENDDO
 C
          NHOLP=0
-         
+
          DO J=1,NHOL
             IF (THOL(J)==I) THEN
                NHOLP=NHOLP+1
@@ -4889,11 +4889,11 @@ C
          YY2=XNS(2,N2)
          ZZ2=XNS(3,N2)
 C
-         RNEDGE(1,NBNEDGE)=XX1         
-         RNEDGE(2,NBNEDGE)=YY1         
-         RNEDGE(3,NBNEDGE)=ZZ1         
-         RNEDGE(4,NBNEDGE)=XX2         
-         RNEDGE(5,NBNEDGE)=YY2         
+         RNEDGE(1,NBNEDGE)=XX1
+         RNEDGE(2,NBNEDGE)=YY1
+         RNEDGE(3,NBNEDGE)=ZZ1
+         RNEDGE(4,NBNEDGE)=XX2
+         RNEDGE(5,NBNEDGE)=YY2
          RNEDGE(6,NBNEDGE)=ZZ2
       ENDDO
 C
@@ -4902,7 +4902,7 @@ C
          ZLM=ZERO
          DO J=1,IPOLY(2,I)
             XX=RPOLY(4+3*(J-1)+1,I)
-            YY=RPOLY(4+3*(J-1)+2,I)       
+            YY=RPOLY(4+3*(J-1)+2,I)
             ZZ=RPOLY(4+3*(J-1)+3,I)
             ZL=(XX-X0)*NX+(YY-Y0)*NY+(ZZ-Z0)*NZ
             IF (ABS(ZL)>ABS(ZLM)) ZLM=ZL
@@ -4913,7 +4913,7 @@ C
          ELSEIF (ZLM<ZERO) THEN
             IZ(2,I)=INZ
          ENDIF
-      ENDDO     
+      ENDDO
 C 
       RETURN
       END
@@ -4927,7 +4927,7 @@ Chd|====================================================================
       SUBROUTINE HORIEDGE(IPOLY  , RPOLY , NX    , NY  , NZ  ,
      .                    NBNEDGE, INEDGE, RNEDGE, X0  , Y0  ,
      .                    Z0     , INZ   , NNS3  , NREF, AREF,
-     .                    NNSP   ) 
+     .                    NNSP   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4946,10 +4946,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, I, II
       my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, TOLE, DD 
+     .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, TOLE, DD
 C
 *      TOLE=DLAMCH('Epsmach')
-      TOLE=EM10   
+      TOLE=EM10
       NN=IPOLY(2)
       NNSP=0
       DO I=1,NN
@@ -4989,11 +4989,11 @@ C
             INEDGE(5,NBNEDGE)=IPOLY(4)
             INEDGE(6,NBNEDGE)=INZ
 C
-            RNEDGE(1,NBNEDGE)=RPOLY(4+3*(I-1)+1)    
-            RNEDGE(2,NBNEDGE)=RPOLY(4+3*(I-1)+2)      
-            RNEDGE(3,NBNEDGE)=RPOLY(4+3*(I-1)+3)     
-            RNEDGE(4,NBNEDGE)=RPOLY(4+3*(II-1)+1)      
-            RNEDGE(5,NBNEDGE)=RPOLY(4+3*(II-1)+2)      
+            RNEDGE(1,NBNEDGE)=RPOLY(4+3*(I-1)+1)
+            RNEDGE(2,NBNEDGE)=RPOLY(4+3*(I-1)+2)
+            RNEDGE(3,NBNEDGE)=RPOLY(4+3*(I-1)+3)
+            RNEDGE(4,NBNEDGE)=RPOLY(4+3*(II-1)+1)
+            RNEDGE(5,NBNEDGE)=RPOLY(4+3*(II-1)+2)
             RNEDGE(6,NBNEDGE)=RPOLY(4+3*(II-1)+3)
          ENDIF
       ENDDO
@@ -5029,7 +5029,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, I, II, TNOD(2*NEDGE), TSEG(2,NEDGE), NN_OLD, JFOUND,
      .        J, JJ, REDIR1(2*NEDGE), REDIR2(2*NEDGE), ITAG(2*NEDGE),
-     .        ITAGSEG(NEDGE+1), ISTOP, ICLOSE, N1, N2, IN, NNP, 
+     .        ITAGSEG(NEDGE+1), ISTOP, ICLOSE, N1, N2, IN, NNP,
      .        POLY(2*NEDGE,NEDGE), ISEG, LENPOLY(NEDGE), IFOUND,
      .        IADHOL(NEDGE), NHOL, K, KK, IPOUT, M, MM, NSEC, KSMIN,
      .        NEDGE_OLD, TSEG_OLD(2,NEDGE)
@@ -5045,7 +5045,7 @@ C
       EXTERNAL DLAMCH
 C
 *      TOLE=DLAMCH('Epsmach')
-      TOLE=EM10   
+      TOLE=EM10
 C Creation de la liste des noeuds
       NN=0
       LMAX=ZERO
@@ -5058,7 +5058,7 @@ C Creation de la liste des noeuds
          XNOD(3,NN)=RNEDGE(3,II)
          TSEG(1,I)=NN
          NN=NN+1
-         TNOD(NN)=INEDGE(3,II)  
+         TNOD(NN)=INEDGE(3,II)
          XNOD(1,NN)=RNEDGE(4,II)
          XNOD(2,NN)=RNEDGE(5,II)
          XNOD(3,NN)=RNEDGE(6,II)

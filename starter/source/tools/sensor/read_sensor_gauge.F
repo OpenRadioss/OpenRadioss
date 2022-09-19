@@ -68,7 +68,7 @@ C-----------------------------------------------
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_TAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

@@ -43,7 +43,7 @@ Chd|====================================================================
      6 NOD2ELTG ,IGRSURFS ,IGRSURFM  ,IELEM21 ,
      7 THK      ,AS        ,BS       ,IXS10   ,IXS16    ,
      8 IXS20    ,ID        ,TITR     ,IGEO    ,SH4TREE  ,
-     9 SH3TREE  ,IPART    ,IPARTC    ,IPARTTG ,PM_STACK , 
+     9 SH3TREE  ,IPART    ,IPARTC    ,IPARTTG ,PM_STACK ,
      A IWORKSH )
 C-----------------------------------------------
 C   M o d u l e s
@@ -80,8 +80,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTS, NRTM, NINT, NTY, NOINT, NSN, NMN
       INTEGER IRECTS(4,*), IRECTM(4,*), IXS(NIXS,*), IXC(NIXC,*),
-     .   NSV(*), IXTG(NIXTG,*), 
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   NSV(*), IXTG(NIXTG,*),
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*),
      .   INTTH, IELES(*), MSR(*), IELEM21(*), IXS10(*),
      .   IXS16(*), IXS20(*),IGEO(*),SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),
@@ -132,7 +132,7 @@ C----------------------
       ELSE
         CALL INELTC(NELC ,NELTG ,INRT ,IGRSURFS%ELTYP, IGRSURFS%ELEM)
         IF(NELTG/=0) THEN
-          IELES(I)=NELTG+NUMELS+NUMELC 
+          IELES(I)=NELTG+NUMELS+NUMELC
           GO TO 250
         ELSEIF(NELC/=0) THEN
           IELES(I)=NELC+NUMELS
@@ -303,7 +303,7 @@ C
        IF(NUMELC/=0) THEN
 C
         IF(NADMESH==0)THEN
-          DO I = 1,NSN    
+          DO I = 1,NSN
              AREAS(I) = ZERO
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                IE = NOD2ELC(J)
@@ -346,7 +346,7 @@ C overwrite
              BS(I)=BS(I)/MAX(EM20,AREAS(I))
           END DO
         ELSE
-          DO I = 1,NSN    
+          DO I = 1,NSN
              AREAS(I) = ZERO
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                IE = NOD2ELC(J)
@@ -356,7 +356,7 @@ C overwrite
                MYLEV=SH4TREE(3,IE)
                IF(MYLEV < 0) MYLEV=-(MYLEV+1)
 
-               IF(MYLEV==NLEV)THEN                 
+               IF(MYLEV==NLEV)THEN
                  SX1 = X(1,IXC(4,IE)) - X(1,IXC(2,IE))
                  SY1 = X(2,IXC(4,IE)) - X(2,IXC(2,IE))
                  SZ1 = X(3,IXC(4,IE)) - X(3,IXC(2,IE))
@@ -384,7 +384,7 @@ C
                MYLEV=SH3TREE(3,IE)
                IF(MYLEV < 0) MYLEV=-(MYLEV+1)
 
-               IF(MYLEV==NLEV)THEN                 
+               IF(MYLEV==NLEV)THEN
                  SX1 = X(1,IXTG(3,IE)) - X(1,IXTG(2,IE))
                  SY1 = X(2,IXTG(3,IE)) - X(2,IXTG(2,IE))
                  SZ1 = X(3,IXTG(3,IE)) - X(3,IXTG(2,IE))
@@ -412,7 +412,7 @@ C
       ENDIF
 C     
       IF(NUMELS/=0)THEN
-          DO I = 1,NSN    
+          DO I = 1,NSN
              AREAS(I) = ZERO
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
                IE = NOD2ELS(J)

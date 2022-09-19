@@ -65,13 +65,13 @@ C-----------------------------------------------
       INTEGER LEN, OFF, IPROC, ISUBS, NBSD, ILVL, ISUBS2, I, IDEC,
      .        NELS, NELQ, NELC, NELT, NELP, NELR, NELTG, NELUR, NELX,
      .        OFFP, IPART, NUMELS, NUMELQ, NUMELC, NUMELT, NUMELP,
-     .        NUMELR, NUMELTG,NUMELUR, NUMELX, OFFSD, OFFEL, IS, IEL, 
+     .        NUMELR, NUMELTG,NUMELUR, NUMELX, OFFSD, OFFEL, IS, IEL,
      .        J, N, IGRN, LNOD(NUMNOD), NN, INO, INO2, IDDL, NSDDL,
      .        IGRN2, NFDDL, II, ITAG(NUMNOD), IAD, NSN, NSLEVEL, NSDEC,
      .        INR3
       CHARACTER NAME*2148, FRM1*6, FRM2*7, FRM3*20, FRM4*16, LCASE*100
 C
-      WRITE(ISTDO,'(A)') 
+      WRITE(ISTDO,'(A)')
      .    '    --> DOMAIN DECOMPOSITION VERIFICATION FILE'
 C
 C
@@ -101,7 +101,7 @@ C
          OPEN(UNIT=IFICM,FILE=NAME(1:LEN+5+OUTFILE_NAME_LEN),
      .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
          WRITE(IFICM,FMT='(A8,A8,I8,A8,I8,I8)')
-     .    '#RADIOSS',' STARTER',VERS,NAME(1:LEN+2),0,0    
+     .    '#RADIOSS',' STARTER',VERS,NAME(1:LEN+2),0,0
          FRM1="(A80)"
          FRM2="(10I8)"
          FRM3="(I8,3(1X,1PE15.8))"
@@ -115,7 +115,7 @@ C Ecriture des noeuds
       WRITE(IFICM,'(A)') '/NODE'
       DO I=1,NUMNOD
          WRITE(IFICM,FMT=FRM3) ITAB(I),(X(J,I),J=1,3)
-      ENDDO    
+      ENDDO
 C Ecriture des RBODIES
       IAD=0
       DO I=1,NRBYKIN
@@ -126,7 +126,7 @@ C Ecriture des RBODIES
             WRITE(IFICM,'(A7,I8.8)') '/RBODY/',I
             WRITE(IFICM,'(A11,I8)') 'Rigid body ',I
          ELSE
-            WRITE(IFICM,'(A7,I8.8,A12,I8)') 
+            WRITE(IFICM,'(A7,I8.8,A12,I8)')
      .          '/RBODY/',I,'/Rigid body ',I
          ENDIF
          WRITE(IFICM,FMT=FRM2) ITAB(N),(0,J=1,9)
@@ -176,11 +176,11 @@ C Ecriture des SUBSETS
                   WRITE(IFICM,'(A3,I4,A8,I4,A9,I4)')
      . 'Id ',OFF+ISUBS,' - Proc ',IPROC,' - Level ',ILVL
                ELSE
-                  WRITE(IFICM,'(A8,I4.4,A4,I4,A8,I4,A9,I4)') 
+                  WRITE(IFICM,'(A8,I4.4,A4,I4,A8,I4,A9,I4)')
      .            '/SUBSET/',OFF+ISUBS,
      .'/Id ',OFF+ISUBS,' - Proc ',IPROC,' - Level ',ILVL
                ENDIF
-               IF (ILVL/=NSLEVEL) 
+               IF (ILVL/=NSLEVEL)
      .    WRITE(IFICM,FMT=FRM2) (OFF+ISUBS2+(IDEC-1)*NSDEC+I,I=1,NSDEC)
             ENDDO
             ISUBS=ISUBS2
@@ -214,7 +214,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A19,I4)') 'Part solide - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A20,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A20,I4)')
      .      '/PART/',OFFP+IPART,'/Part solide - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -240,7 +240,7 @@ C
                    WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                    WRITE(IFICM,'(A19,I4)') 'Part 2D - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A20,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A20,I4)')
      .      '/PART/',OFFP+IPART,'/Part 2D - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -249,7 +249,7 @@ C
                   IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELQ=NELQ+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                       NELQ,(ITAB(IXQ(J,IEL)),J=2,5)
                   ENDIF
                ENDDO
@@ -266,7 +266,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A18,I4)') 'Part shell - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A19,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A19,I4)')
      .      '/PART/',OFFP+IPART,'/Part shell - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -275,7 +275,7 @@ C
                   IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELC=NELC+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                       NELC,(ITAB(IXC(J,IEL)),J=2,5)
                   ENDIF
                ENDDO
@@ -292,7 +292,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A18,I4)') 'Part truss - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A19,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A19,I4)')
      .      '/PART/',OFFP+IPART,'/Part truss - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -301,7 +301,7 @@ C
                   IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELT=NELT+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                       NELT,(ITAB(IXT(J,IEL)),J=2,3)
                   ENDIF
                ENDDO
@@ -318,7 +318,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A17,I4)') 'Part beam - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A18,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A18,I4)')
      .      '/PART/',OFFP+IPART,'/Part beam - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -327,7 +327,7 @@ C
                   IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELP=NELP+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                       NELP,(ITAB(IXP(J,IEL)),J=2,4)
                   ENDIF
                ENDDO
@@ -344,7 +344,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A19,I4)') 'Part spring - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A20,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A20,I4)')
      .      '/PART/',OFFP+IPART,'/Part spring - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -355,7 +355,7 @@ C
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      INR3=IXR(4,IEL)
                      IF (INR3/=0) INR3=ITAB(INR3)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                       NELR,(ITAB(IXR(J,IEL)),J=2,3),INR3
                   ENDIF
                ENDDO
@@ -372,7 +372,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A17,I4)') 'Part sh3n - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A18,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A18,I4)')
      .      '/PART/',OFFP+IPART,'/Part sh3n - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -381,7 +381,7 @@ C
                   IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) THEN
                      NELC=NELC+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                       NELC,(ITAB(IXTG(J,IEL)),J=2,4)
                   ENDIF
                ENDDO
@@ -392,7 +392,7 @@ C
             DO I=1,NUMELUR
                IF (ELDOM(IPROC,2,I+OFFEL)==OFFSD+IDEC) IS=IS+1
             ENDDO
-            IF (IS>0) WRITE(ISTDO,'(A)') 
+            IF (IS>0) WRITE(ISTDO,'(A)')
      .  '  WARNING : RNUR ELEMENTS ARE NOT DISPLAYED'
 C               
             IS=0
@@ -405,7 +405,7 @@ C
                   WRITE(IFICM,'(A6,I8.8)') '/PART/',OFFP+IPART
                   WRITE(IFICM,'(A18,I4)') 'Part xelem - Proc ',IPROC
                ELSE
-                  WRITE(IFICM,'(A6,I8.8,A19,I4)') 
+                  WRITE(IFICM,'(A6,I8.8,A19,I4)')
      .      '/PART/',OFFP+IPART,'/Part xelem - Proc ',IPROC
                ENDIF
                WRITE(IFICM,FMT=FRM2) 1,1,OFF+OFFSD+IDEC
@@ -415,9 +415,9 @@ C
                      NELX=NELX+1
                      IEL=ELDOM(IPROC,1,I+OFFEL)
                      N=KXX(3,IEL)
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                     NELC,0
-                     WRITE(IFICM,FMT=FRM2) 
+                     WRITE(IFICM,FMT=FRM2)
      .                     (ITAB(IXX(KXX(4,IEL)+J-1)),J=1,N)
                   ENDIF
                ENDDO
@@ -440,7 +440,7 @@ C Ecriture des GRNODS
      . 'Id ',OFF+IGRN,' - Proc ',IPROC,' - Level ',ILVL,' Ndofs (T/I) ',
      .NSDDL,GRAPHE(IPROC)%DGRAPH(IGRN)%NDDL_I
                ELSE
-                  WRITE(IFICM,'(A12,I4.4,A4,I4,A8,I4,A9,I4,A13,2I8)') 
+                  WRITE(IFICM,'(A12,I4.4,A4,I4,A8,I4,A9,I4,A13,2I8)')
      .     '/GRNOD/NODE/',OFF+IGRN,
      .'/Id ',OFF+IGRN,' - Proc ',IPROC,' - Level ',ILVL,' Ndofs (T/I) ',
      .NSDDL,GRAPHE(IPROC)%DGRAPH(IGRN)%NDDL_I
@@ -488,10 +488,10 @@ C
       WRITE(IFICM,FMT=FRM1) LCASE
       IF (VERS>=50) THEN
          WRITE(IFICM,'(A12,I4.4)') '/GRNOD/NODE/',1
-         WRITE(IFICM,'(A3,I4,A29,I10)') 
+         WRITE(IFICM,'(A3,I4,A29,I10)')
      .'Id ',1,' - Condensed problem - Ndofs ',NFDDL
       ELSE
-         WRITE(IFICM,'(A12,I4.4,A4,I4,A29,I10)') 
+         WRITE(IFICM,'(A12,I4.4,A4,I4,A29,I10)')
      .'/GRNOD/NODE/',1,'/Id ',1,' - Condensed problem - Ndofs ',NFDDL
       ENDIF
       WRITE(IFICM,FMT=FRM2) (ITAB(LNOD(I)),I=1,II)
@@ -503,4 +503,4 @@ C
 C
       RETURN
       END
-      
+

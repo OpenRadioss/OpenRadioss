@@ -646,85 +646,85 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NEL,NOLD,K,
      .        IWORK(70000),
-     .        INDEX(LENI*2) 
+     .        INDEX(LENI*2)
 C-----------------------
-        DO I=1,NUMELS  
-          IXS_S_IND(I) = IXS(NIXS,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXS_S_IND,INDEX,NUMELS,1)  
-        DO I=1,NUMELS  
-          IXS_S(I) = IXS_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELS  
-          IXS_S_IND(I) = INDEX(I)  
-        ENDDO  
+        DO I=1,NUMELS
+          IXS_S_IND(I) = IXS(NIXS,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXS_S_IND,INDEX,NUMELS,1)
+        DO I=1,NUMELS
+          IXS_S(I) = IXS_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELS
+          IXS_S_IND(I) = INDEX(I)
+        ENDDO
 
-        DO I=1,NUMELQ  
-          IXQ_S_IND(I) = IXQ(NIXQ,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXQ_S_IND,INDEX,NUMELQ,1)  
-        DO I=1,NUMELQ  
-          IXQ_S(I) = IXQ_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELQ  
-          IXQ_S_IND(I) = INDEX(I)  
-        ENDDO  
-        
-        DO I=1,NUMELC  
-          IXC_S_IND(I) = IXC(NIXC,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXC_S_IND,INDEX,NUMELC,1)  
-        DO I=1,NUMELC  
-          IXC_S(I) = IXC_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELC  
-          IXC_S_IND(I) = INDEX(I)  
-        ENDDO  
-       
-        DO I=1,NUMELT  
-          IXT_S_IND(I) = IXT(NIXT,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXT_S_IND,INDEX,NUMELT,1)  
-        DO I=1,NUMELT  
-          IXT_S(I) = IXT_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELT  
-          IXT_S_IND(I) = INDEX(I)  
-        ENDDO  
+        DO I=1,NUMELQ
+          IXQ_S_IND(I) = IXQ(NIXQ,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXQ_S_IND,INDEX,NUMELQ,1)
+        DO I=1,NUMELQ
+          IXQ_S(I) = IXQ_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELQ
+          IXQ_S_IND(I) = INDEX(I)
+        ENDDO
 
-        DO I=1,NUMELP  
-          IXP_S_IND(I) = IXP(NIXP,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXP_S_IND,INDEX,NUMELP,1)  
-        DO I=1,NUMELP  
-          IXP_S(I) = IXP_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELP  
-          IXP_S_IND(I) = INDEX(I)  
-        ENDDO  
+        DO I=1,NUMELC
+          IXC_S_IND(I) = IXC(NIXC,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXC_S_IND,INDEX,NUMELC,1)
+        DO I=1,NUMELC
+          IXC_S(I) = IXC_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELC
+          IXC_S_IND(I) = INDEX(I)
+        ENDDO
 
-        DO I=1,NUMELR  
-          IXR_S_IND(I) = IXR(NIXR,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXR_S_IND,INDEX,NUMELR,1)  
-        DO I=1,NUMELR  
-          IXR_S(I) = IXR_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELR  
-          IXR_S_IND(I) = INDEX(I)  
-        ENDDO  
-        
-        DO I=1,NUMELTG  
-          IXTG_S_IND(I) = IXTG(NIXTG,I)  
-        ENDDO  
-        CALL MY_ORDERS(0,IWORK,IXTG_S_IND,INDEX,NUMELTG,1)  
-        DO I=1,NUMELTG  
-          IXTG_S(I) = IXTG_S_IND(INDEX(I))  
-        ENDDO  
-        DO I=1,NUMELTG  
-          IXTG_S_IND(I) = INDEX(I)  
-        ENDDO  
-          
+        DO I=1,NUMELT
+          IXT_S_IND(I) = IXT(NIXT,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXT_S_IND,INDEX,NUMELT,1)
+        DO I=1,NUMELT
+          IXT_S(I) = IXT_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELT
+          IXT_S_IND(I) = INDEX(I)
+        ENDDO
+
+        DO I=1,NUMELP
+          IXP_S_IND(I) = IXP(NIXP,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXP_S_IND,INDEX,NUMELP,1)
+        DO I=1,NUMELP
+          IXP_S(I) = IXP_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELP
+          IXP_S_IND(I) = INDEX(I)
+        ENDDO
+
+        DO I=1,NUMELR
+          IXR_S_IND(I) = IXR(NIXR,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXR_S_IND,INDEX,NUMELR,1)
+        DO I=1,NUMELR
+          IXR_S(I) = IXR_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELR
+          IXR_S_IND(I) = INDEX(I)
+        ENDDO
+
+        DO I=1,NUMELTG
+          IXTG_S_IND(I) = IXTG(NIXTG,I)
+        ENDDO
+        CALL MY_ORDERS(0,IWORK,IXTG_S_IND,INDEX,NUMELTG,1)
+        DO I=1,NUMELTG
+          IXTG_S(I) = IXTG_S_IND(INDEX(I))
+        ENDDO
+        DO I=1,NUMELTG
+          IXTG_S_IND(I) = INDEX(I)
+        ENDDO
+
         RETURN
         END
 
@@ -783,12 +783,12 @@ C     >CAS IU>TABM
       ENDIF
       J=(JSUP+JINF)/2
       GO TO 10
-      
+
       RETURN
       END
 
 C
-        
+
 Chd|====================================================================
 Chd|  NINTLSTN                      source/system/nintrr.F        
 Chd|-- called by -----------
@@ -868,7 +868,7 @@ C-----------------------
         ENDDO
 C
         NINTLSTN=NEL
-        
+
         RETURN
         END
 C

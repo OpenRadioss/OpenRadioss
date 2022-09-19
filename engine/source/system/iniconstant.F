@@ -27,7 +27,7 @@ Chd|        RADIOSS2                      source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE INICONSTANT
-#include "implicit_f.inc"   
+#include "implicit_f.inc"
 C--------------------------------------
 C      INTEGERS
 C--------------------------------------
@@ -73,73 +73,73 @@ C--------------------------------------
        TWOHUNDRED93    = 293.
        THREEHUNDRED24   = 324.
        FIVEHUNDRED12    = 512.
-       TWO1000      = 2000. 
-       THREE1000     = 3000.  
+       TWO1000      = 2000.
+       THREE1000     = 3000.
 C--------------------------------------
 C      10^n
 C--------------------------------------
-       EP02  = HUNDRED     
-       EP03  = EP02 * TEN    
-       EP04  = EP03 * TEN   
-       EP05  = EP04 * TEN    
-       EP06  = EP05 * TEN     
-       EP07  = EP06 * TEN              
-       EP08  = EP07 * TEN              
-       EP09  = EP08 * TEN              
-       EP10  = EP09 * TEN              
-       EP11  = EP10 * TEN           
-       EP12  = EP11 * TEN           
-       EP13  = EP12 * TEN           
-       EP14  = EP13 * TEN           
-       EP15  = EP14 * TEN           
-       EP16  = EP15 * TEN             
-       EP17  = EP16 * TEN             
-       EP18  = EP17 * TEN             
-       EP19  = EP18 * TEN             
-       EP20  = EP19 * TEN             
-       EP29  = EP20 * EP09           
-       EP30  = EP20 * EP10            
-       EP31  = EP30 * TEN        
-       EP35  = EP30 * EP05             
-       EP36  = EP30 * EP06             
-       EP37  = EP30 * EP07               
+       EP02  = HUNDRED
+       EP03  = EP02 * TEN
+       EP04  = EP03 * TEN
+       EP05  = EP04 * TEN
+       EP06  = EP05 * TEN
+       EP07  = EP06 * TEN
+       EP08  = EP07 * TEN
+       EP09  = EP08 * TEN
+       EP10  = EP09 * TEN
+       EP11  = EP10 * TEN
+       EP12  = EP11 * TEN
+       EP13  = EP12 * TEN
+       EP14  = EP13 * TEN
+       EP15  = EP14 * TEN
+       EP16  = EP15 * TEN
+       EP17  = EP16 * TEN
+       EP18  = EP17 * TEN
+       EP19  = EP18 * TEN
+       EP20  = EP19 * TEN
+       EP29  = EP20 * EP09
+       EP30  = EP20 * EP10
+       EP31  = EP30 * TEN
+       EP35  = EP30 * EP05
+       EP36  = EP30 * EP06
+       EP37  = EP30 * EP07
 C--------------------------------------
 C      10^-n
 C--------------------------------------
-       EM01 = ONE / TEN  
-       EM02 = ONE / EP02 
-       EM03 = ONE / EP03 
-       EM04 = ONE / EP04 
-       EM05 = ONE / EP05 
-       EM06 = ONE / EP06 
-       EM07 = ONE / EP07 
-       EM08 = ONE / EP08 
-       EM09 = ONE / EP09 
-       EM10 = ONE / EP10 
-       EM11 = ONE / EP11 
-       EM12 = ONE / EP12 
-       EM13 = ONE / EP13 
-       EM14 = ONE / EP14 
-       EM15 = ONE / EP15 
-       EM16 = ONE / EP16 
-       EM17 = ONE / EP17 
-       EM18 = ONE / EP18 
-       EM19 = ONE / EP19 
-       EM20 = ONE / EP20 
+       EM01 = ONE / TEN
+       EM02 = ONE / EP02
+       EM03 = ONE / EP03
+       EM04 = ONE / EP04
+       EM05 = ONE / EP05
+       EM06 = ONE / EP06
+       EM07 = ONE / EP07
+       EM08 = ONE / EP08
+       EM09 = ONE / EP09
+       EM10 = ONE / EP10
+       EM11 = ONE / EP11
+       EM12 = ONE / EP12
+       EM13 = ONE / EP13
+       EM14 = ONE / EP14
+       EM15 = ONE / EP15
+       EM16 = ONE / EP16
+       EM17 = ONE / EP17
+       EM18 = ONE / EP18
+       EM19 = ONE / EP19
+       EM20 = ONE / EP20
        EM30 = ONE / EP30
-       EM35 = ONE / EP35 
+       EM35 = ONE / EP35
 C--------------------------------------
 C      m10^-n
 C--------------------------------------
-       ZEP1      = EM01 
-       ZEP2      = TWO   / TEN 
-       ZEP3      = THREE  / TEN 
-       ZEP4      = FOUR / TEN 
-       ZEP5      = FIVE   / TEN 
-       ZEP6      = ONE - ZEP4 
-       ZEP7      = ONE - ZEP3 
-       ZEP8      = ONE - ZEP2 
-       ZEP9      = ONE - ZEP1 
+       ZEP1      = EM01
+       ZEP2      = TWO   / TEN
+       ZEP3      = THREE  / TEN
+       ZEP4      = FOUR / TEN
+       ZEP5      = FIVE   / TEN
+       ZEP6      = ONE - ZEP4
+       ZEP7      = ONE - ZEP3
+       ZEP8      = ONE - ZEP2
+       ZEP9      = ONE - ZEP1
 C
        ZEP01     =        EM02
        ZEP02     = TWO   / EP02
@@ -149,34 +149,34 @@ C
        ZEP06     = ZEP1 - ZEP04
        ZEP07     = ZEP1 - ZEP03
        ZEP08     = ZEP1 - ZEP02
-       ZEP09     = ZEP1 - ZEP01   
+       ZEP09     = ZEP1 - ZEP01
 C
        TWOEM3   = TWO   / EP03
        THREEEM3  = THREE  / EP03
        FOUREM3 = FOUR / EP03
        FIVEEM3   = FIVE   / EP03
        SIXEM3    = ZEP01 - FOUREM3
-       SEVENEM3   = ZEP01 - THREEEM3 
+       SEVENEM3   = ZEP01 - THREEEM3
        EIGHTEM3   = ZEP01 - TWOEM3
-       NINEEM3   = ZEP01 - EM03      
+       NINEEM3   = ZEP01 - EM03
 C
        TWOEM4   = TWO   / EP04
        THREEEM4  = THREE  / EP04
        FOUREM4 = FOUR / EP04
        FIVEEM4   = FIVE   / EP04
-       SIXEM4    = EM03 - FOUREM4 
-       SEVENEM4   = EM03 - THREEEM4 
+       SIXEM4    = EM03 - FOUREM4
+       SEVENEM4   = EM03 - THREEEM4
        EIGHTEM4   = EM03 - TWOEM4
-       NINEEM4   = EM03 - EM04             
+       NINEEM4   = EM03 - EM04
 C
        TWOEM5   = TWO   / EP05
        THREEEM5  = THREE  / EP05
        FOUREM5 = FOUR / EP05
        FIVEEM5   = FIVE   / EP05
        SIXEM5    = EM04 - FOUREM5
-       SEVENEM5   = EM04 - THREEEM5 
+       SEVENEM5   = EM04 - THREEEM5
        EIGHTEM5   = EM04 - TWOEM5
-       NINEEM5   = EM04 - EM05             
+       NINEEM5   = EM04 - EM05
 C
        TWOEM6   = TWO   / EP06
        THREEEM6  = THREE  / EP06
@@ -185,48 +185,48 @@ C
        SIXEM6    = EM05 - FOUREM6
        SEVENEM6   = EM05 - THREEEM6
        EIGHTEM6   = EM05 - TWOEM6
-       NINEEM6   = EM05 - EM06        
+       NINEEM6   = EM05 - EM06
 C--------------------------------------
 C      m10^n
 C--------------------------------------
        TWOEP30   = TWO  *EP30
        THREEEP30  = THREE *EP30
-       FOUREP30 = FOUR*EP30  
+       FOUREP30 = FOUR*EP30
        ZEP9EP30   = NINE  *EP29
        ONEP1EP30   = ELEVEN  * EP29
-       ONEP2EP30   = TWELVE * EP29 
+       ONEP2EP30   = TWELVE * EP29
 C--------------------------------------
 C      Fractions
 C--------------------------------------
-       HALF    = ONE/TWO         
-       THIRD     = ONE/THREE        
-       FOURTH     = ONE/FOUR       
-       ONE_FIFTH    = ONE/FIVE         
-       ONE_OVER_6     = ONE/SIX          
-       ONE_OVER_8    = ONE/EIGHT         
-       ONE_OVER_9    = ONE/NINE         
-       ONE_OVER_12   = ONE/TWELVE        
-       ONE_OVER_16   = ONE/SIXTEEN        
-       ONE_OVER_64     = ONE/SIXTY4    
-       ONE_OVER_512    = ONE/FIVEHUNDRED12 
-       TWO_THIRD    = TWO/THREE      
-       THREE_HALF     = THREE/TWO      
-       THREE_OVER_4    = THREE/FOUR    
-       TRHEE_OVER_14 = THREE/FOURTEEN  
+       HALF    = ONE/TWO
+       THIRD     = ONE/THREE
+       FOURTH     = ONE/FOUR
+       ONE_FIFTH    = ONE/FIVE
+       ONE_OVER_6     = ONE/SIX
+       ONE_OVER_8    = ONE/EIGHT
+       ONE_OVER_9    = ONE/NINE
+       ONE_OVER_12   = ONE/TWELVE
+       ONE_OVER_16   = ONE/SIXTEEN
+       ONE_OVER_64     = ONE/SIXTY4
+       ONE_OVER_512    = ONE/FIVEHUNDRED12
+       TWO_THIRD    = TWO/THREE
+       THREE_HALF     = THREE/TWO
+       THREE_OVER_4    = THREE/FOUR
+       TRHEE_OVER_14 = THREE/FOURTEEN
        TSEIZE    = THREE/SIXTEEN
-       FOUR_OVER_3    = FOUR/THREE    
-       FOUR_OVER_5     = FOUR/FIVE     
+       FOUR_OVER_3    = FOUR/THREE
+       FOUR_OVER_5     = FOUR/FIVE
        QNEUF     = FOUR/NINE
-       FIVE_OVER_3    = FIVE/THREE      
-       FIVE_OVER_4   = FIVE/FOUR     
-       FIVE_OVER_6      = FIVE/SIX        
-       SIX_OVER_5    = SIX/FIVE        
-       SEVEN_HALF    = SEVEN/TWO       
-       SEVEN_OVER_5     = SEVEN/FIVE       
-       SEVEN_OVER_9    = SEVEN/NINE       
-       NINE_OVER_2  = NINE/TWO       
+       FIVE_OVER_3    = FIVE/THREE
+       FIVE_OVER_4   = FIVE/FOUR
+       FIVE_OVER_6      = FIVE/SIX
+       SIX_OVER_5    = SIX/FIVE
+       SEVEN_HALF    = SEVEN/TWO
+       SEVEN_OVER_5     = SEVEN/FIVE
+       SEVEN_OVER_9    = SEVEN/NINE
+       NINE_OVER_2  = NINE/TWO
        NSEIZE    = NINE/SIXTEEN
-       NINE_OVER_20    = NINE/TWENTY      
+       NINE_OVER_20    = NINE/TWENTY
 C--------------------------------------
 C      0.xxxx
 C--------------------------------------
@@ -253,7 +253,7 @@ C
        ZEP37     = ZEP3  + ZEP07
        ZEP38     = ZEP3  + ZEP08
        ZEP333    = ZEP33 + THREEEM3
-       ZEP373    = ZEP37 + THREEEM3         
+       ZEP373    = ZEP37 + THREEEM3
 C
        ZEP41     = ZEP4  + ZEP01
        ZEP43     = ZEP4  + ZEP03
@@ -265,24 +265,24 @@ C
 C
        ZEP62     = ONE   - ZEP38
        ZEP65     = ONE   - ZEP35
-       ZEP66     = ONE   - ZEP34 
+       ZEP66     = ONE   - ZEP34
        ZEP67     = ONE   - ZEP33
 c
        ZEP71     = ONE   - ZEP29
-       ZEP74     = ONE   - ZEP26         
+       ZEP74     = ONE   - ZEP26
        ZEP707    = ONE   - ZEP3 + SEVENEM3
 C
        ZEP81     = ONE   - ZEP19
        ZEP82     = ONE   - ZEP18
-       ZEP84     = ONE   - ZEP16         
+       ZEP84     = ONE   - ZEP16
        ZEP85     = ONE   - ZEP15
        ZEP87     = ONE   - ZEP13
        ZEP89     = ONE   - ZEP11
 C
        ZEP92     = ONE   - ZEP08
-       ZEP93     = ONE   - ZEP07       
+       ZEP93     = ONE   - ZEP07
        ZEP94     = ONE   - ZEP06
-       ZEP95     = ONE   - ZEP05 
+       ZEP95     = ONE   - ZEP05
        ZEP96     = ONE   - ZEP04
        ZEP97     = ONE   - ZEP03
        ZEP99     = ONE   - ZEP01
@@ -291,18 +291,18 @@ C
        ZEP999    = ONE   - EM03
        ZEP9999   = ONE   - EM04
        ZEP99999  = ONE   - EM05
-       ZEP931    = ZEP93  + EM03        
+       ZEP931    = ZEP93  + EM03
 c
        ZEP015    = ZEP15 / TEN
        ZEP015625 = ONE / SIXTY4
        ZEP025    = ONE / FOURTY
-       ZEP037    = ZEP03 + SEVENEM3                                          
+       ZEP037    = ZEP03 + SEVENEM3
        ZEP072169 = ZEP07 + TWOEM3 + EM04 + SIXEM5 + NINEEM6
        ZEP075    = THREE / FOURTY
 C
        ONEP01    = ONE + ZEP01
        ONEP001   = ONE + EM03
-       ONEP0001  = ONE + EM04        
+       ONEP0001  = ONE + EM04
        ONEP00001 = ONE + EM05
        ONEP02  = ONE + ZEP02
        ONEP03  = ONE + ZEP03
@@ -313,11 +313,11 @@ C
        ONEP09  = ONE + ZEP09
 C
        ONEP1   = ONE    + ZEP1
-       ONEP11  = ONEP1  + ZEP01 
+       ONEP11  = ONEP1  + ZEP01
        ONEP12  = ONEP1  + ZEP02
        ONEP13  = ONEP1  + ZEP03
        ONEP14  = ONEP1  + ZEP04
-       ONEP15  = ONEP1  + ZEP05 
+       ONEP15  = ONEP1  + ZEP05
        ONEP16  = ONEP1  + ZEP06
        ONEP17  = ONEP1  + ZEP07
        ONEP18  = ONEP1  + ZEP08
@@ -325,19 +325,19 @@ C
        ONEP136 = ONEP13  + SIXEM3
        ONEP138 = ONEP13  + EIGHTEM3
 C
-       ONEP2   = ONE + ZEP2 
+       ONEP2   = ONE + ZEP2
        ONEP21  = ONEP2  + ZEP01
        ONEP23  = ONEP2  + ZEP03
        ONEP24  = ONEP2  + ZEP04
-       ONEP25  = FIVE / FOUR      
+       ONEP25  = FIVE / FOUR
        ONEP26  = ONEP2  + ZEP06
        ONEP27  = ONEP2  + ZEP07
-       ONEP28  = ONEP2  + ZEP08        
+       ONEP28  = ONEP2  + ZEP08
        ONEP251 = ONEP25  + EM03
        ONEP252 = ONEP25  + TWOEM3
 C
        ONEP3   = ONE + ZEP3
-       ONEP31  = ONEP3  + ZEP01  
+       ONEP31  = ONEP3  + ZEP01
        ONEP32  = ONEP3  + ZEP02
        ONEP33  = ONEP3  + ZEP03
        ONEP34  = ONEP3  + ZEP04
@@ -347,13 +347,13 @@ C
        ONEP38  = ONEP3  + ZEP08
        ONEP39  = ONEP3  + ZEP09
        ONEP333 = ONEP33  + THREEEM3
-       ONEP3348= ONEP33  + FOUREM3 + EIGHTEM4      
+       ONEP3348= ONEP33  + FOUREM3 + EIGHTEM4
        ONEP369 = ONEP36  + NINEEM3
 C
        ONEP4   = ONE + ZEP4
        ONEP41  = ONEP4  + ZEP01
        ONEP42  = ONEP4  + ZEP02
-       ONEP44  = ONEP4  + ZEP04         
+       ONEP44  = ONEP4  + ZEP04
        ONEP45  = ONEP4  + ZEP05
        ONEP46  = ONEP4  + ZEP06
        ONEP48  = ONEP4  + ZEP08
@@ -372,18 +372,18 @@ C
        ONEP65  = ONEP6 + ZEP05
        ONEP66  = ONEP6 + ZEP06
        ONEP67  = ONEP6 + ZEP07
-       ONEP68  = ONEP6 + ZEP08 
+       ONEP68  = ONEP6 + ZEP08
 C
        ONEP7   = ONE + ZEP7
        ONEP72  = ONEP7 + ZEP02
-       ONEP73  = ONEP7 + ZEP03        
-       ONEP75  = ONEP7 + ZEP05                
+       ONEP73  = ONEP7 + ZEP03
+       ONEP75  = ONEP7 + ZEP05
        ONEP78  = ONEP7 + ZEP08
        ONEP732 = ONEP73 + TWOEM3
 C
        ONEP8   = ONE + ZEP8
        ONEP82  = ONEP8 + ZEP02
-       ONEP84  = ONEP8 + ZEP04     
+       ONEP84  = ONEP8 + ZEP04
        ONEP88  = ONEP8 + ZEP08
        ONEP833  = ONEP8 + ZEP03 + THREEEM3
        ONEP8333 = ONE   + FIVE_OVER_6
@@ -396,10 +396,10 @@ C
 CC  
        TWOP03 = TWO + ZEP03
        TWOP05 = TWO + ZEP05
-       TWOP06 = TWO + ZEP06        
+       TWOP06 = TWO + ZEP06
        TWOP07 = TWO + ZEP07
        TWOP08 = TWO + ZEP08
-       TWOP1  = TWO + ZEP1    
+       TWOP1  = TWO + ZEP1
        TWOP2  = TWO + ZEP2
        TWOP30 = TWO + ZEP3
        TWOP4  = TWO + ZEP4
@@ -410,7 +410,7 @@ C
        TWOP11 = TWOP1 + ZEP01
        TWOP12 = TWOP1 + ZEP02
        TWOP13 = TWOP1 + ZEP03
-       TWOP16 = TWOP1 + ZEP06    
+       TWOP16 = TWOP1 + ZEP06
        TWOP19 = TWOP1 + ZEP09
        TWOP23 = TWOP2 + ZEP03
        TWOP24 = TWOP2 + ZEP04
@@ -420,12 +420,12 @@ C
        TWOP45 = TWOP4 + ZEP05
        TWOP47 = TWOP4 + ZEP07
        TWOP52 = TWOP5 + ZEP02
-       TWOP83 = TWOP8 + ZEP03        
-       TWOP84 = TWOP8 + ZEP04        
+       TWOP83 = TWOP8 + ZEP03
+       TWOP84 = TWOP8 + ZEP04
        TWOP85 = TWOP8 + ZEP05
 C
-       TWOP185 = TWOP1 + ZEP08 + FIVEEM3  
-       TWOP261 = TWOP2 + ZEP06 + EM03    
+       TWOP185 = TWOP1 + ZEP08 + FIVEEM3
+       TWOP261 = TWOP2 + ZEP06 + EM03
        TWOP645 = TWOP60 + ZEP04 + FIVEEM3
 C
        THREEP02  = THREE + ZEP02
@@ -453,7 +453,7 @@ C
        FIVEP56 = FIVE + ZEP5 + ZEP06
        FIVEP76 = FIVE + ZEP7 + ZEP06
 C
-       SIP2832 = SIX + ZEP2 + ZEP08 + THREEEM3 + TWOEM4 
+       SIP2832 = SIX + ZEP2 + ZEP08 + THREEEM3 + TWOEM4
 C       
        NINEP24  = NINE + ZEP2 + ZEP04
        NINEP38  = NINE + ZEP3 + ZEP08
@@ -463,30 +463,30 @@ C
        ONZEP225   = ELEVEN  + ZEP2 + ZEP02+FIVEEM3
        TWELVEP6    = TWELVE    + ZEP6
        FOURTEENP2 = FOURTEEN + ZEP2
-       SIXTEENP5    = SIXTEEN    + ZEP5 
+       SIXTEENP5    = SIXTEEN    + ZEP5
        O88P9844   = 88. + ZEP9 + ZEP08 + FOUREM3 + FOUREM4
 C
        ONEP3EM5     = ONEP3 * EM05
        ONEP001EM32  = 1001. * EM35
        NINEP637EM5 = 9637. * EM08
-       EIGHTP314EM5 = 8314. * EM08        
+       EIGHTP314EM5 = 8314. * EM08
 C
        ONEP1EP30 = ONEP1 * EP30
-       ONEP2EP30 = ONEP2 * EP30 
+       ONEP2EP30 = ONEP2 * EP30
 C
        ZEP999EP31 = ZEP999 * EP31
 C--------------------------------------
-       ZEP54     = ONE   - ZEP46    
-       ZEP1381966= ZEP13 + EIGHTEM3 + EM04 + NINEEM5 + SIXEM6 
-     +           + SIX  *EM07  
+       ZEP54     = ONE   - ZEP46
+       ZEP1381966= ZEP13 + EIGHTEM3 + EM04 + NINEEM5 + SIXEM6
+     +           + SIX  *EM07
        ZEP5854102= ZEP5 + ZEP08 + FIVEEM3 + FOUREM4 + EM05
-     +           + TWO * EM07  
+     +           + TWO * EM07
 C--------------------------------------
         ONEP001EM32  = 1001. * EM35
         NINEP637EM5 = 9637. * EM08
         ONEP3EM5     = ONEP3  * EM05
         EIGHTP314EM5 = 8314.* EM08
-        NINEEM2 = ZEP09        
+        NINEEM2 = ZEP09
 C--------------------------------------
 C      Fractions
 C--------------------------------------
@@ -497,10 +497,10 @@ C--------------------------------------
        ZEP444    = HUNDRED / TWOHUNDRED25
        ONEP222    = ONE + ZEP222
        ONEP8333   = ONE + TWENTY5 / THIRTY
-       TWOP444  = TWO + ZEP444                  
-       TWOP6666666667= EIGHT / THREE 
+       TWOP444  = TWO + ZEP444
+       TWOP6666666667= EIGHT / THREE
        TWOP6667 = TWOP6666666667
-       FIVEP333 = SIXTEEN / THREE    
+       FIVEP333 = SIXTEEN / THREE
 C--------------------------------------
 C      Physics 
 C--------------------------------------
@@ -519,24 +519,24 @@ C--------------------------------------
        PI      = ATAN2(ZERO,-ONE)
        INVPI   = ONE / PI
 c ------------------------------
-        EM3 = EM03        
-        EM4 = EM04 
-        EM5 = EM05 
-        EM6 = EM06 
-        EM7 = EM07 
-        EM8 = EM08 
+        EM3 = EM03
+        EM4 = EM04
+        EM5 = EM05
+        EM6 = EM06
+        EM7 = EM07
+        EM8 = EM08
         EM9 = EM09
-        EP9 = EP09 
+        EP9 = EP09
 C ------------------------       
         FIVEEM2  = ZEP05
         TWOEM2  = ZEP02
         NINEEM2   = ZEP09
-        ZEP80 = ZEP8              
-        UNP20 = ONEP2                                             
+        ZEP80 = ZEP8
+        UNP20 = ONEP2
         UNP30 = ONEP3
         UNP70 = ONEP7
         UNP90 = ONEP9
 C-----------------------------   
        RETURN
-    
+
        END

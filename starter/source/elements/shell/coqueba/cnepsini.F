@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EYZ(MVSIZ),EZX(MVSIZ),
      .   VL(3,4,MVSIZ), XL(3,4,MVSIZ)
-      my_real, 
+      my_real,
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
 C=======================================================================
 c     initial state
@@ -245,16 +245,16 @@ C
         DIR2 => ELBUF_STR%BUFLY(1)%DIRB
 c
         DO NT=1,NITRS
-          CALL CDEFOI(JFT  ,JLT  ,VL   ,GSTR ,                             
-     .                PX1  ,PX2  ,PY1  ,PY2  ,NEL  ,                       
-     .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,                 
-     .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )  
+          CALL CDEFOI(JFT  ,JLT  ,VL   ,GSTR ,
+     .                PX1  ,PX2  ,PY1  ,PY2  ,NEL  ,
+     .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
+     .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )
 c
-          CALL CMLAWI(JFT,JLT,MTN,ITHK,PM,                                 
-     .                FOR,THK,EINT,GSTR,DIR1,                              
-     .                DIR2,UVAR,UPARAM,IPM,IGEO,                           
-     .                NEL,SIGI,ISMSTR,NPF ,TF,                             
-     .                AREA,EXX    ,EYY    ,EXY, IMAT )                     
+          CALL CMLAWI(JFT,JLT,MTN,ITHK,PM,
+     .                FOR,THK,EINT,GSTR,DIR1,
+     .                DIR2,UVAR,UPARAM,IPM,IGEO,
+     .                NEL,SIGI,ISMSTR,NPF ,TF,
+     .                AREA,EXX    ,EYY    ,EXY, IMAT )
         ENDDO
       ENDIF
       IF (MTN==58) NITRS = NITRS0

@@ -75,7 +75,7 @@ C KEY3
       KEY3 = CART(I1:I2)
 C KEY4
       I1=I2+2
-      I1=MIN(I1,120)      
+      I1=MIN(I1,120)
       I2=I1
       DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
@@ -84,7 +84,7 @@ C KEY4
       KEY4 = CART(I1:I2)
 C KEY5
       I1=I2+2
-      I1=MIN(I1,120)      
+      I1=MIN(I1,120)
       I2=I1
       DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
@@ -93,7 +93,7 @@ C KEY5
       KEY5 = CART(I1:I2)
 C KEY6
       I1=I2+2
-      I1=MIN(I1,120)      
+      I1=MIN(I1,120)
       I2=I1
       DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
@@ -102,7 +102,7 @@ C KEY6
       KEY6 = CART(I1:I2)
 C KEY7
       I1=I2+2
-      I1=MIN(I1,120)      
+      I1=MIN(I1,120)
       I2=I1
       DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
@@ -111,7 +111,7 @@ C KEY7
       KEY7 = CART(I1:I2)
 C KEY8
       I1=I2+2
-      I1=MIN(I1,120)      
+      I1=MIN(I1,120)
       I2=I1
       DO WHILE(CART(I2:I2)/='/' .AND. I2 < 120)
         I2=I2+1
@@ -119,7 +119,7 @@ C KEY8
       I2=I2-1
       KEY8 = CART(I1:I2)
 C NBC
-      I1=101   
+      I1=101
       I2=110
       MOT1= CART(I1:I2)
       READ(MOT1,FMT='(I10)')NBC

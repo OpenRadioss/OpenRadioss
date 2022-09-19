@@ -37,17 +37,17 @@ Chd|        ROTTOLOC                      source/materials/mat/mat095/sigeps95.F
 Chd|        VISCBB                        source/materials/mat/mat100/viscbb.F
 Chd|====================================================================
        SUBROUTINE SIGEPS95(
-     1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC , 
-     2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM, 
+     1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC ,
+     2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM,
      3      RHO0  , RHO     ,VOLUME   , EINT   , NGL     ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
-     A      MFXX   ,MFXY    ,MFXZ,MFYX, MFYY  , MFYZ  ,  
-     B      MFZX   ,MFZY    ,MFZZ     ,                  
+     A      MFXX   ,MFXY    ,MFXZ,MFYX, MFYY  , MFYZ  ,
+     B      MFZX   ,MFZY    ,MFZZ     ,
      C      SOUNDSP, VISCMAX, UVAR    , OFF   , ISMSTR, ET  ,
      D      IHET   ,OFFG    , EPSTH3  , IEXPAN,
      E      UPARAMF,UVARF   ,NVARF    ,JCVT   ,GAMA_R)
@@ -69,7 +69,7 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL, JCVT,    NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN,NVARF 
+      INTEGER       NEL, JCVT,    NUPARAM, NUVAR,ISMSTR,NGL(*),IHET,IEXPAN,NVARF
       my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),UPARAMF(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
@@ -82,7 +82,7 @@ C----------------------------------------------------------------
      .      SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),OFFG(NEL),
      .      MFXX(NEL)  , MFXY(NEL)  ,MFXZ(NEL)  ,MFYX(NEL) ,
-     .      MFYY(NEL)  , MFYZ(NEL)  ,MFZX(NEL)  ,MFZY(NEL)  ,MFZZ(NEL), 
+     .      MFYY(NEL)  , MFYZ(NEL)  ,MFZX(NEL)  ,MFZY(NEL)  ,MFZZ(NEL),
      .      EPSTH3(NEL), GAMA_R(NEL,6)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
@@ -116,7 +116,7 @@ C----------------------------------------------------------------
      .   EVB12,EVB22,EVB32,JDET2,JM1,ETVOL,FACTOR,TAUREF,R3R3,R2R2,R1R1,
      .   C10,C01,C20,C11,C02,C30,C21,C12,C03,D1,D2,D3,EXPC,EXPM,R(3),JCST(3),
      .   BI1(NEL),BI2(NEL),JDET(NEL),STIFF(NEL),
-     .   TA1(NEL), TA2(NEL),TA3(NEL),T1(NEL), T2(NEL),T3(NEL),LPCHAIN(NEL), 
+     .   TA1(NEL), TA2(NEL),TA3(NEL),T1(NEL), T2(NEL),T3(NEL),LPCHAIN(NEL),
      .   TB1(NEL), TB2(NEL),TB3(NEL),TRACE(NEL),TRACEB(NEL),ETA(NEL),ETB(NEL),
      .   SB1(NEL), SB2(NEL),SB3(NEL),SB4(NEL), SB5(NEL),SB6(NEL),
      .   TBNORM(NEL),DGAMMA(NEL),
@@ -136,27 +136,27 @@ C----------------------------------------------------------------
       COEFM = ONE
 
 c    material parameters
-      C10  =  UPARAM(1)   
-      C01  =  UPARAM(2)   
-      C20  =  UPARAM(3)   
-      C11  =  UPARAM(4)   
-      C02  =  UPARAM(5)   
-      C30  =  UPARAM(6)   
-      C21  =  UPARAM(7)   
-      C12  =  UPARAM(8)   
-      C03  =  UPARAM(9)   
+      C10  =  UPARAM(1)
+      C01  =  UPARAM(2)
+      C20  =  UPARAM(3)
+      C11  =  UPARAM(4)
+      C02  =  UPARAM(5)
+      C30  =  UPARAM(6)
+      C21  =  UPARAM(7)
+      C12  =  UPARAM(8)
+      C03  =  UPARAM(9)
       D1   =  UPARAM(11)  !ONE/D1
       D2   =  UPARAM(12)  !ONE/D2
       D3   =  UPARAM(13)  !ONE/D3
       SB   =  UPARAM(14)
-      A10  =  UPARAM(15)  
+      A10  =  UPARAM(15)
       A1   =  A10*TIMESTEP
-      EXPC =  UPARAM(16)  
-      EXPM =  UPARAM(17)  
-      KSI  =  UPARAM(18)  
-      G    =  UPARAM(19) 
-      RBULK=  UPARAM(20) 
-      TAUREF= UPARAM(22) 
+      EXPC =  UPARAM(16)
+      EXPM =  UPARAM(17)
+      KSI  =  UPARAM(18)
+      G    =  UPARAM(19)
+      RBULK=  UPARAM(20)
+      TAUREF= UPARAM(22)
       !
       STIFF0 = FOUR_OVER_3*G + RBULK
       MAXL = ONE
@@ -165,9 +165,9 @@ c    material parameters
 
       FLAG_MUL   =  UPARAM(21)  !CALCULATED IN UPDMAT = 1 IF IRUP==33
       IF (FLAG_MUL > ZERO)THEN
-       COEFR = UPARAMF(1)    
-       BETAF = UPARAMF(2)    
-       COEFM = UPARAMF(3)    
+       COEFR = UPARAMF(1)
+       BETAF = UPARAMF(2)
+       COEFM = UPARAMF(3)
       ENDIF
 
       IF(TIME == ZERO)THEN
@@ -184,18 +184,18 @@ c    material parameters
         ENDDO
       ENDIF
 C	  
-      IF (IAVIS>0) THEN	  
+      IF (IAVIS>0) THEN	
       DO  I = 1, NEL
          !retreive previous viscous deformation gradient
-         FPO(I,1,1)  = UVAR(I,1) 
-         FPO(I,2,2)  = UVAR(I,2) 
-         FPO(I,3,3)  = UVAR(I,3) 
-         FPO(I,1,2)  = UVAR(I,4) 
-         FPO(I,2,3)  = UVAR(I,5) 
-         FPO(I,3,1)  = UVAR(I,6)         
-         FPO(I,2,1)  = UVAR(I,7) 
-         FPO(I,3,2)  = UVAR(I,8) 
-         FPO(I,1,3)  = UVAR(I,9)         
+         FPO(I,1,1)  = UVAR(I,1)
+         FPO(I,2,2)  = UVAR(I,2)
+         FPO(I,3,3)  = UVAR(I,3)
+         FPO(I,1,2)  = UVAR(I,4)
+         FPO(I,2,3)  = UVAR(I,5)
+         FPO(I,3,1)  = UVAR(I,6)
+         FPO(I,2,1)  = UVAR(I,7)
+         FPO(I,3,2)  = UVAR(I,8)
+         FPO(I,1,3)  = UVAR(I,9)
       ENDDO
 
       IF (JCVT >0 ) THEN ! corotational => need to rotate Fp in the LOCAL frame
@@ -205,7 +205,7 @@ C
         R2X (1:NEL) =  GAMA_R(1:NEL,4)
         R2Y (1:NEL) =  GAMA_R(1:NEL,5)
         R2Z (1:NEL) =  GAMA_R(1:NEL,6)
-        
+
         R3X (1:NEL) = R1Y (1:NEL)*  R2Z (1:NEL) - R1Z (1:NEL) * R2Y (1:NEL)
         R3Y (1:NEL) = R1Z (1:NEL)*  R2X (1:NEL) - R1X (1:NEL) * R2Z (1:NEL)
         R3Z (1:NEL) = R1X (1:NEL)*  R2Y (1:NEL) - R1Y (1:NEL) * R2X (1:NEL)
@@ -223,17 +223,17 @@ C
       ENDIF
       ENDIF !(IAVIS>0)
 
-      DO I=1,NEL       
+      DO I=1,NEL
        F(I,1,1)  = ONE+MFXX(I)
        F(I,2,2)  = ONE+MFYY(I)
        F(I,3,3)  = ONE+MFZZ(I)
        F(I,1,2)  = MFXY(I)
        F(I,2,3)  = MFYZ(I)
-       F(I,3,1)  = MFZX(I)      
+       F(I,3,1)  = MFZX(I)
        F(I,2,1)  = MFYX(I)
        F(I,3,2)  = MFZY(I)
-       F(I,1,3)  = MFXZ(I) 
-      ENDDO 
+       F(I,1,3)  = MFXZ(I)
+      ENDDO
 
 
       CALL PRODAAT(F , FFT, NEL) ! b = F * FT
@@ -242,120 +242,120 @@ C
       !-------------------------
       !chain A: compute stress :      cauchy stress in chain A
       !-------------------------
-      !entry B=F*FT matrix --  output hyperelastic stress 
+      !entry B=F*FT matrix --  output hyperelastic stress
        CALL POLYSTREST2(
-     1                NEL , FFT , C10, C01, C20, 
+     1                NEL , FFT , C10, C01, C20,
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGA ,
      4                BI1,BI2,JDET ,FLAG_MUL,
      5                NVARF,COEFR, BETAF,COEFM  ,UVARF,CAII)
-     
-      
-      IF (IAVIS>0) THEN	  
+
+
+      IF (IAVIS>0) THEN	
       !-------------------------
-      !chain B: compute stress : 
+      !chain B: compute stress :
       !-------------------------
       DO I=1,NEL
-         SIGB(I,1,1) = ZERO  
-         SIGB(I,2,2) = ZERO 
-         SIGB(I,3,3) = ZERO 
-         SIGB(I,1,2) = ZERO  
-         SIGB(I,2,3) = ZERO  
-         SIGB(I,3,1) = ZERO  
+         SIGB(I,1,1) = ZERO
+         SIGB(I,2,2) = ZERO
+         SIGB(I,3,3) = ZERO
+         SIGB(I,1,2) = ZERO
+         SIGB(I,2,3) = ZERO
+         SIGB(I,3,1) = ZERO
       ENDDO
 
-      !CALL CALCMATB (NEL, F, FPO, MATB) 
+      !CALL CALCMATB (NEL, F, FPO, MATB)
       !FE ={F}{Fp_old}^(-1) then  MATB = FE FE^(T) (elastic part)
-      CALL KMATINV3 (FPO , INVFPO, NEL)      !INVFPO = INVERSE (FP)  
-      CALL PRODMAT  (F   , INVFPO, FE, NEL)  ! FE = F * INVFPO      
+      CALL KMATINV3 (FPO , INVFPO, NEL)      !INVFPO = INVERSE (FP)
+      CALL PRODMAT  (F   , INVFPO, FE, NEL)  ! FE = F * INVFPO
       CALL PRODAAT  (FE  , MATB  , NEL)      ! MATB = FE FE^(T)
 
-      !---------------------------------  
+      !---------------------------------
       !ESTIMATE TRIAL CAUCHY STRESS : cauchy stress in chain B
-      !---------------------------------  
-      !entry B matrix --  output hyperelastic stress 
+      !---------------------------------
+      !entry B matrix --  output hyperelastic stress
        CALL POLYSTRESS2(
-     1                NEL , MATB , C10, C01, C20, 
+     1                NEL , MATB , C10, C01, C20,
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGB ,
      4                BI1,BI2,JDET ,FLAG_MUL,
      5                NVARF,COEFR, BETAF,COEFM  ,UVARF)
-     
-     
+
+
         DO I=1,NEL  !     scale trial cauchy stress in chain B
          SIGB(I,1,1) = SB *  SIGB(I,1,1)
          SIGB(I,2,2) = SB *  SIGB(I,2,2)
-         SIGB(I,3,3) = SB *  SIGB(I,3,3) 
+         SIGB(I,3,3) = SB *  SIGB(I,3,3)
          SIGB(I,1,2) = SB *  SIGB(I,1,2)
          SIGB(I,2,3) = SB *  SIGB(I,2,3)
-         SIGB(I,3,1) = SB *  SIGB(I,3,1) 
+         SIGB(I,3,1) = SB *  SIGB(I,3,1)
         ENDDO
-     
-      
-        DO I=1,NEL 
+
+
+        DO I=1,NEL
           TRACEB(I) = THIRD*(SIGB(I,1,1) +SIGB(I,2,2) + SIGB(I,3,3))
           !DEVIATOR OF STRESS B
           SB1(I) =  SIGB(I,1,1)  - TRACEB(I)
           SB2(I) =  SIGB(I,2,2)  - TRACEB(I)
           SB3(I) =  SIGB(I,3,3)  - TRACEB(I)
-          SB4(I) =  SIGB(I,1,2) 
-          SB5(I) =  SIGB(I,2,3) 
-          SB6(I) =  SIGB(I,3,1) 
+          SB4(I) =  SIGB(I,1,2)
+          SB5(I) =  SIGB(I,2,3)
+          SB6(I) =  SIGB(I,3,1)
           !Nomr of stress B
-          TBNORM(I)   = SQRT (MAX(EM20,SB1(I)**2+SB2(I)**2+SB3(I)**2  
+          TBNORM(I)   = SQRT (MAX(EM20,SB1(I)**2+SB2(I)**2+SB3(I)**2
      .                 +     TWO*(SB4(I)**2+SB5(I)**2+SB6(I)**2 ))  ) ! NORM!
         ENDDO
-        
+
         !COMPUTE EEFFECTIVE CREEP STRAIN RATE
-        !------------------------------------        
+        !------------------------------------
         !DGAMMA(I) = A1* ((LPCHAIN(I) - ONE +KSI)**C) * (TBNORM(I)/TAUREF)**EXPM
         CALL VISCBB ( NEL , FPO, TBNORM  , A1     , EXPC,
-     .                EXPM, KSI, TAUREF  , DGAMMA ) 
+     .                EXPM, KSI, TAUREF  , DGAMMA )
 
 
         DO I=1,NEL ! calcul lde Lb
           UVAR(I,10)= DGAMMA(I)
           FACTOR    = DGAMMA(I)/TBNORM(I)
-          LB(I,1,1) = FACTOR *SB1(I) !gamma_dot*N  
-          LB(I,2,2) = FACTOR *SB2(I)               
-          LB(I,3,3) = FACTOR *SB3(I)               
-          LB(I,1,2) = FACTOR *SB4(I) !gamma_dot*N     
-          LB(I,2,3) = FACTOR *SB5(I)                  
-          LB(I,3,1) = FACTOR *SB6(I)                  
-          LB(I,2,1) = LB(I,1,2)                                            
-          LB(I,3,2) = LB(I,2,3)                                            
-          LB(I,1,3) = LB(I,3,1)                                                         
+          LB(I,1,1) = FACTOR *SB1(I) !gamma_dot*N
+          LB(I,2,2) = FACTOR *SB2(I)
+          LB(I,3,3) = FACTOR *SB3(I)
+          LB(I,1,2) = FACTOR *SB4(I) !gamma_dot*N
+          LB(I,2,3) = FACTOR *SB5(I)
+          LB(I,3,1) = FACTOR *SB6(I)
+          LB(I,2,1) = LB(I,1,2)
+          LB(I,3,2) = LB(I,2,3)
+          LB(I,1,3) = LB(I,3,1)
 
         ENDDO
-        !------------------------------------   
-        !Solve F_n+1 viscous :   
-        !------------------------------------  
-        !PRODMAT(A, B, C, NEL) computes C(NEL,3,3) wich is the product [C] = [A][B] 
-        CALL KMATINV3(FE , INVFE, NEL)       !  INVFE  = INVERSE (FE)   
+        !------------------------------------
+        !Solve F_n+1 viscous :
+        !------------------------------------
+        !PRODMAT(A, B, C, NEL) computes C(NEL,3,3) wich is the product [C] = [A][B]
+        CALL KMATINV3(FE , INVFE, NEL)       !  INVFE  = INVERSE (FE)
         CALL PRODMAT (LB ,    FE, FEDP, NEL) !  FEDP   = Lb * FE
         CALL PRODMAT(INVFE ,FEDP, DFP , NEL) !  DFP    = INVFE  * Lb * FE
         !not needed CALL PRODMAT(DFP ,FPO, FPDOT , NEL) !FPDOT = DFP * FPO
         !CALL PRODMAT(DFP ,DFP, DFP2 , NEL) ! if order 2
-        DO I=1,NEL               
+        DO I=1,NEL
          ! Fp_n+1 = exp(DFP) * Fp_old = (I+DFP) * Fp_old
           SN(I,1,1) = ONE + DFP(I,1,1) !+ HALF * DFP2(I,1,1)
-          SN(I,2,2) = ONE + DFP(I,2,2) !+ HALF * DFP2(I,2,2)             
-          SN(I,3,3) = ONE + DFP(I,3,3) !+ HALF * DFP2(I,3,3)               
-          SN(I,1,2) = DFP(I,1,2)!+ HALF * DFP2(I,1,2)    
-          SN(I,2,3) = DFP(I,2,3)!+ HALF * DFP2(I,2,3)                 
-          SN(I,3,1) = DFP(I,3,1)!+ HALF * DFP2(I,3,1)                 
-          SN(I,2,1) = DFP(I,2,1)!+ HALF * DFP2(I,2,1)                                          
-          SN(I,3,2) = DFP(I,3,2)!+ HALF * DFP2(I,3,2)                                           
-          SN(I,1,3) = DFP(I,1,3)!+ HALF * DFP2(I,1,3)                                                        
+          SN(I,2,2) = ONE + DFP(I,2,2) !+ HALF * DFP2(I,2,2)
+          SN(I,3,3) = ONE + DFP(I,3,3) !+ HALF * DFP2(I,3,3)
+          SN(I,1,2) = DFP(I,1,2)!+ HALF * DFP2(I,1,2)
+          SN(I,2,3) = DFP(I,2,3)!+ HALF * DFP2(I,2,3)
+          SN(I,3,1) = DFP(I,3,1)!+ HALF * DFP2(I,3,1)
+          SN(I,2,1) = DFP(I,2,1)!+ HALF * DFP2(I,2,1)
+          SN(I,3,2) = DFP(I,3,2)!+ HALF * DFP2(I,3,2)
+          SN(I,1,3) = DFP(I,1,3)!+ HALF * DFP2(I,1,3)
         ENDDO
-        CALL PRODMAT(SN ,FPO,  FP, NEL) ! Fp_N+1 = (I + dT *DFP)* Fp_N 
-        CALL CALCMATB (NEL, F, FP, MATB) !FE ={F}{Fp}^(-1) then  MATB = FE FE^(T) 
-        
+        CALL PRODMAT(SN ,FPO,  FP, NEL) ! Fp_N+1 = (I + dT *DFP)* Fp_N
+        CALL CALCMATB (NEL, F, FP, MATB) !FE ={F}{Fp}^(-1) then  MATB = FE FE^(T)
+
         !-------------------------
         !chain B: compute stress :      cauchy stress in chain B
-        !-------------------------       
+        !-------------------------
         CALL POLYSTREST2(
-     1                NEL , MATB , C10, C01, C20, 
+     1                NEL , MATB , C10, C01, C20,
      2                C11 ,C02, C30, C21, C12,
      3                C03 ,D1 ,D2  ,  D3, SIGB ,
      4                BI1,BI2,JDET ,FLAG_MUL,
@@ -364,26 +364,26 @@ C
         DO I=1,NEL  !     scale  cauchy stress in chain B
          SIGB(I,1,1) = SB *  SIGB(I,1,1)
          SIGB(I,2,2) = SB *  SIGB(I,2,2)
-         SIGB(I,3,3) = SB *  SIGB(I,3,3) 
+         SIGB(I,3,3) = SB *  SIGB(I,3,3)
          SIGB(I,1,2) = SB *  SIGB(I,1,2)
          SIGB(I,2,3) = SB *  SIGB(I,2,3)
-         SIGB(I,3,1) = SB *  SIGB(I,3,1) 
+         SIGB(I,3,1) = SB *  SIGB(I,3,1)
         ENDDO
        IF (JCVT >0 ) THEN ! corotational => need to rotate NEW Fp TO the GLOBAL frame
         CALL ROTTOGLOB (NEL,FP,
      .                     R1X, R1Y, R1Z, R2X, R2Y, R2Z, R3X, R3Y, R3Z)
 
        ENDIF
-       DO I=1,NEL  
-         UVAR(I,1)   =   FP(I,1,1)!store visous gradient of deformation 
+       DO I=1,NEL
+         UVAR(I,1)   =   FP(I,1,1)!store visous gradient of deformation
          UVAR(I,2)   =   FP(I,2,2)
          UVAR(I,3)   =   FP(I,3,3)
          UVAR(I,4)   =   FP(I,1,2)
          UVAR(I,5)   =   FP(I,2,3)
-         UVAR(I,6)   =   FP(I,3,1)      
+         UVAR(I,6)   =   FP(I,3,1)
          UVAR(I,7)   =   FP(I,2,1)
          UVAR(I,8)   =   FP(I,3,2)
-         UVAR(I,9)   =   FP(I,1,3)               
+         UVAR(I,9)   =   FP(I,1,3)
        ENDDO
 C----- A10*SB=0 ->sigB=sigA		
 	  ELSE	
@@ -391,22 +391,22 @@ C----- A10*SB=0 ->sigB=sigA
          SIGB(I,1:3,1:3) = SB *  SIGA(I,1:3,1:3)
 		 CBII(I,1:3) = CAII(I,1:3)
         ENDDO
-      END IF !(IAVIS>0) THEN	  
+      END IF !(IAVIS>0) THEN	
 
       !--------------------
       !UPDATE TOTAL STRESS : sum of the stresses of each network
       !--------------------
-        DO I=1,NEL  
+        DO I=1,NEL
          SIGNXX(I) = SIGA(I,1,1) + SIGB(I,1,1)
          SIGNYY(I) = SIGA(I,2,2) + SIGB(I,2,2)
          SIGNZZ(I) = SIGA(I,3,3) + SIGB(I,3,3)
          SIGNXY(I) = SIGA(I,1,2) + SIGB(I,1,2)
          SIGNYZ(I) = SIGA(I,2,3) + SIGB(I,2,3)
-         SIGNZX(I) = SIGA(I,3,1) + SIGB(I,3,1)   
+         SIGNZX(I) = SIGA(I,3,1) + SIGB(I,3,1)
         ENDDO
 
-      
-       DO I=1,NEL  
+
+       DO I=1,NEL
          CII(1:3)=CAII(I,1:3)+SB*CBII(I,1:3)
 		 C_MAX(I)=MAX(STIFF0,CII(1),CII(2),CII(3))
        ENDDO
@@ -416,10 +416,10 @@ c        DSIG = SQRT((SIGNXX(I)-SIGOXX(I))**2+(SIGNYY(I)-SIGOYY(I))**2
 c     .            +(SIGNZZ(I)-SIGOZZ(I))**2
 c     .         + TWO*((SIGNXY(I)-SIGOXY(I))**2
 c     .                +(SIGNYZ(I)-SIGOYZ(I))**2+(SIGNZX(I)-SIGOZX(I))**2))
-c     
+c
 c        DEPS = SQRT   (DEPSXX(I)**2 + DEPSYY(I)**2 + DEPSZZ(I)**2
 c     .         + TWO*(DEPSXY(I)**2 + DEPSYZ(I)**2 + DEPSZX(I)**2))
-c     
+c
 c        IF(DEPS == ZERO)THEN
 c          STIFF(I)= STIFF0
 c        ELSE
@@ -427,14 +427,14 @@ c          STIFF(I)= MAX(STIFF0,DSIG /MAX(EM20,DEPS))
 c        ENDIF
 C         
         SOUNDSP(I)=SQRT(C_MAX(I)/RHO(I))
-        VISCMAX(I) = ZERO 
+        VISCMAX(I) = ZERO
        ENDDO
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
        DO I=1,NEL
          ET(I)= ONE
        ENDDO
       ENDIF
-      
+
 C   
       RETURN
       END

@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -74,7 +74,7 @@ C-----------------------------------------------
       my_real
      .   C0, C1, C2, C3, C4, C5, E0, PSH, RHO0,RHOR,MU0,
      .   FAC_L,FAC_T,FAC_M,FAC_C,RHOI, G0, SSP0, DF, DPDMU
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -98,9 +98,9 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM( 23)=E0
@@ -112,7 +112,7 @@ C-----------------------------------------------
       PM( 36)=C5
       PM( 88)=PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
-  
+
       !initial pressure for stress tensor
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -123,26 +123,26 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
-        DF = ZERO 
+        DF = ZERO
       ENDIF
-      
+
       IF(MU0 >= ZERO)THEN
         PM(31)=C0-PSH+C1*MU0+C2*MU0**2+C3*MU0**3+(C4+C5*MU0)*E0
       ELSE
         PM(31)=C0-PSH+C1*MU0          +C3*MU0**3+(C4+C5*MU0)*E0
       ENDIF
-      
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
       DPDMU = C1 + TWO*C2 *MAX(ZERO,MU0)+THREE*C3 *MU0*MU0 + C5 *E0+(C4 +C5 *MU0)*DF*DF*(PM(31)+PSH)
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
       PM(27)=SSP0
 
       WRITE(IOUT,1000)

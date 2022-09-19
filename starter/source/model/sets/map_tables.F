@@ -50,7 +50,7 @@ C-----------------------------------------------
       USE MAPPING_OPTION_MOD
       USE HM_OPTION_READ_MOD
       USE SETDEF_MOD
-      USE GROUPDEF_MOD 
+      USE GROUPDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -105,21 +105,21 @@ C Parts
 
           ALLOCATE(ISORT(NPART))
           ALLOCATE(INDEX_SORT(2*NPART))
-    
+
           DO I=1,NPART
              ISORT(I)=IPART(4,I)
              INDEX_SORT(I)=I
           ENDDO
           CALL MY_ORDERS(0,IWORK,ISORT,INDEX_SORT,NPART,1)
-    
+
           DO I=1,NPART
              MAP_TABLES%IPARTM(I,1)=ISORT(INDEX_SORT(I))
              MAP_TABLES%IPARTM(I,2)=INDEX_SORT(I)
           ENDDO
-    
+
           DEALLOCATE (ISORT)
           DEALLOCATE (INDEX_SORT)
-    
+
 C Sets
           NSET_G = 0
           NSET_COL = 0
@@ -128,7 +128,7 @@ C Sets
           ALLOCATE(ISORT(NSETS))
           ALLOCATE(SAV(NSETS))
           ALLOCATE(INDEX_SORT(2*NSETS))
-    
+
           ! ISORT2 & INDEX_SORT2 are used for /SET/COLLECT
           ALLOCATE(ISORT2(NSETS))
           ALLOCATE(SAV2(NSETS))
@@ -149,12 +149,12 @@ C Sets
                 INDEX_SORT(NSET_G)=NSET_G
 
               ELSEIF (TRIM(KEY) == 'COLLECT') THEN
-    
+
                 NSET_COL = NSET_COL + 1
                 ISORT2(NSET_COL)=SET_ID
                 SAV2(NSET_COL)=I
                 INDEX_SORT2(NSET_COL)=I
-           
+
               ENDIF
           ENDDO
 
@@ -162,7 +162,7 @@ C Sets
           ! -------------------
           CALL MY_ORDERS(0,IWORK,ISORT,INDEX_SORT,NSET_G,1)
           ALLOCATE( MAP_TABLES%ISETM(NSET_G,2))
-          
+
           DO I=1,NSET_G
              MAP_TABLES%ISETM(I,1)=ISORT(INDEX_SORT(I))
              MAP_TABLES%ISETM(I,2)=SAV(INDEX_SORT(I))
@@ -187,19 +187,19 @@ C Sets
           ENDIF
 
           MAP_TABLES%NSET_GENERAL = NSET_G
-    
-    
+
+
           ! Sorting SET/COLLECT
           ! -------------------
           CALL MY_ORDERS(0,IWORK,ISORT2,INDEX_SORT2,NSET_COL,1)
           ALLOCATE( MAP_TABLES%ISETCOLM(NSET_COL,2))
-          
+
           DO I=1,NSET_COL
              MAP_TABLES%ISETCOLM(I,1)=ISORT2(INDEX_SORT2(I))
              MAP_TABLES%ISETCOLM(I,2)=SAV2(INDEX_SORT2(I))
           ENDDO
           MAP_TABLES%NSET_COLLECT = NSET_COL
-    
+
           ! print*,'NSETS=',NSETS
           ! print*,'SET_GENERAL : ',MAP_TABLES%NSET_GENERAL
           ! print*,'SET_COLLECT : ',MAP_TABLES%NSET_COLLECT
@@ -215,13 +215,13 @@ C Sets
 
           DEALLOCATE (ISORT2)
           DEALLOCATE (INDEX_SORT2)
-          DEALLOCATE (SAV2) 
+          DEALLOCATE (SAV2)
 C Subset
           ALLOCATE( MAP_TABLES%ISUBSM(NSUBS,2))
 
           ALLOCATE(ISORT(NSUBS))
           ALLOCATE(INDEX_SORT(2*NSUBS))
-    
+
           DO I=1,NSUBS
              ISORT(I)=SUBSET(I)%ID
              INDEX_SORT(I)=I
@@ -237,7 +237,7 @@ C Subset
           DEALLOCATE (INDEX_SORT)
 C Submodel
           ALLOCATE( MAP_TABLES%ISUBMM(NSUBMOD,2))
-    
+
           ALLOCATE(ISORT(NSUBMOD))
           ALLOCATE(INDEX_SORT(2*NSUBMOD))
 
@@ -260,7 +260,7 @@ C Rbody
 
           ALLOCATE(ISORT(NRBODY))
           ALLOCATE(INDEX_SORT(2*NRBODY))
-    
+
           DO I=1,NRBODY
              ISORT(I)=RBY_MSN(1,I)
              INDEX_SORT(I)=I
@@ -279,16 +279,16 @@ C Rbody
 !                       Element
 C Solid
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISOLM(NUMELS,2))
-        CALL MAP_ORDER(IXS,NIXS,NIXS,NUMELS,MAP_TABLES%ISOLM)       
+        CALL MAP_ORDER(IXS,NIXS,NIXS,NUMELS,MAP_TABLES%ISOLM)
 C Quad
         IF(MODE==1) ALLOCATE( MAP_TABLES%IQUADM(NUMELQ,2))
-        CALL MAP_ORDER(IXQ,NIXQ,NIXQ,NUMELQ,MAP_TABLES%IQUADM)           
+        CALL MAP_ORDER(IXQ,NIXQ,NIXQ,NUMELQ,MAP_TABLES%IQUADM)
 C Shell
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISH4NM(NUMELC,2))
-        CALL MAP_ORDER(IXC,NIXC,NIXC,NUMELC,MAP_TABLES%ISH4NM)  
+        CALL MAP_ORDER(IXC,NIXC,NIXC,NUMELC,MAP_TABLES%ISH4NM)
 C Sh3n
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISH3NM(NUMELTG,2))
-        CALL MAP_ORDER(IXTG,NIXTG,NIXTG,NUMELTG,MAP_TABLES%ISH3NM)      
+        CALL MAP_ORDER(IXTG,NIXTG,NIXTG,NUMELTG,MAP_TABLES%ISH3NM)
 C Tria
         IF(MODE==1) ALLOCATE( MAP_TABLES%ITRIAM(NUMELTG,2))
         CALL MAP_ORDER(IXTG,NIXTG,NIXTG,NUMELTG,MAP_TABLES%ITRIAM)
@@ -297,13 +297,13 @@ C Truss
         CALL MAP_ORDER(IXT,NIXT,NIXT,NUMELT,MAP_TABLES%ITRUSSM)
 C Beam
         IF(MODE==1) ALLOCATE( MAP_TABLES%IBEAMM(NUMELP,2))
-        CALL MAP_ORDER(IXP,NIXP,NIXP,NUMELP,MAP_TABLES%IBEAMM)     
+        CALL MAP_ORDER(IXP,NIXP,NIXP,NUMELP,MAP_TABLES%IBEAMM)
 C Spring
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISPRINGM(NUMELR,2))
-        CALL MAP_ORDER(IXR,NIXR,NIXR,NUMELR,MAP_TABLES%ISPRINGM)    
+        CALL MAP_ORDER(IXR,NIXR,NIXR,NUMELR,MAP_TABLES%ISPRINGM)
 C Renault element
         IF(MODE==1) ALLOCATE( MAP_TABLES%IELMURM(NUMELUR,2))
-        CALL MAP_ORDER(IXUR,NIXUR,NIXUR,NUMELUR,MAP_TABLES%IELMURM)      
+        CALL MAP_ORDER(IXUR,NIXUR,NIXUR,NUMELUR,MAP_TABLES%IELMURM)
 C SPH 
         IF(MODE==1) ALLOCATE( MAP_TABLES%ISPHM(NUMSPH,2))
         MAP_TABLES%ISPHM(1:NUMSPH,1:2) = 0

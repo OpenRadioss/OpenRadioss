@@ -52,8 +52,8 @@ C-----------------------------------------------
 c-----------------------------------------------
 c     vectorized 2D table interpolation
 c     dependency on second variable may be interpolated using following algorithms :
-c            ISMOOTH = 1  => linear interpolation   
-c            ISMOOTH = 2  => logarythmic interpolation base 10  
+c            ISMOOTH = 1  => linear interpolation
+c            ISMOOTH = 2  => logarythmic interpolation base 10
 c            ISMOOTH = 3  => logarythmic interpolation base n
 c   OUTPUT :
 c            YY            interpolated function falue
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  NXK(2), IB(2,2,NEL) 
+      INTEGER  NXK(2), IB(2,2,NEL)
       INTEGER :: I,I1,I2,J1,J2,K,N,M,L,IN,IM,IL,N1,IL1,IL2,NDIM
       my_real :: DX1,DX2,YA1,YA2,YB1,YB2,X1_1,X1_2,X2_1,X2_2,
      .           X1,X2,Y1,Y2,R1,R2,UNR1,UNR2
@@ -106,12 +106,12 @@ c--------------------------------------
         DO I=1,NEL
           IPOS(I,K) = MAX(IPOS(I,K),1)
           IPOS(I,K) = MIN(IPOS(I,K),NXK(K))
-          M = IPOS(I,K) 
+          M = IPOS(I,K)
           DX2 = TX(K)%VALUES(M) - XX(I,K)
           IF (DX2 >= ZERO)THEN
             DO N = M-1,1,-1
               DX2 = TX(K)%VALUES(N) - XX(I,K)
-              IF (DX2 < ZERO .OR. N <=1)THEN 
+              IF (DX2 < ZERO .OR. N <=1)THEN
                 IPOS(I,K) = MAX(N,1)
                 EXIT
               ENDIF
@@ -132,7 +132,7 @@ c---------------------
 c---------------------
       CASE(1)
 c-----
-        DO I=1,NEL        
+        DO I=1,NEL
           N  = IPOS(I,1)
           X1 = TX(1)%VALUES(N)
           X2 = TX(1)%VALUES(N+1)
@@ -146,105 +146,105 @@ c-----
 c-----
       CASE(2)
 c-----
-        N1 = NXK(1)                                                         
-        DO I=1,NEL                                                          
-          IL1 = IPOS(I,1)                                                   
-          IL2 = IPOS(I,2)                                                   
-          DO M=0,1                                                          
-            IM = N1*(IL2 - 1 + M)                                           
-            IB(1,M+1,I) = IM + IL1                                          
-            IB(2,M+1,I) = IM + IL1 + 1                                      
-          END DO                                                            
-        END DO                                                              
+        N1 = NXK(1)
+        DO I=1,NEL
+          IL1 = IPOS(I,1)
+          IL2 = IPOS(I,2)
+          DO M=0,1
+            IM = N1*(IL2 - 1 + M)
+            IB(1,M+1,I) = IM + IL1
+            IB(2,M+1,I) = IM + IL1 + 1
+          END DO
+        END DO
 c
-        IF (ISMOOTH == 1) THEN       ! linear interpolation                   
-c                                                                           
+        IF (ISMOOTH == 1) THEN       ! linear interpolation
+c
           DO I=1,NEL
             I1 = IPOS(I,1)
             I2 = I1 + 1
             J1 = IPOS(I,2)
             J2 = J1 + 1
-            YA1  = TY%VALUES(IB(1,1,I))                                     
-            YB1  = TY%VALUES(IB(2,1,I))                                     
-            YA2  = TY%VALUES(IB(1,2,I))                                     
-            YB2  = TY%VALUES(IB(2,2,I))                                     
-            X1_1 = TX(1)%VALUES(I1)                                  
-            X1_2 = TX(1)%VALUES(I2)                                
-            X2_1 = TX(2)%VALUES(J1)                                  
+            YA1  = TY%VALUES(IB(1,1,I))
+            YB1  = TY%VALUES(IB(2,1,I))
+            YA2  = TY%VALUES(IB(1,2,I))
+            YB2  = TY%VALUES(IB(2,2,I))
+            X1_1 = TX(1)%VALUES(I1)
+            X1_2 = TX(1)%VALUES(I2)
+            X2_1 = TX(2)%VALUES(J1)
             X2_2 = TX(2)%VALUES(J2)
-c            
+c
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
             R2   = (X2_2 - XX(I,2)) / (X2_2 - X2_1)
-            UNR1 = ONE - R1                                                  
-            UNR2 = ONE - R2                                                              
-c                                         
-            Y1   = R1*YA1 + UNR1*YB1                                
-            Y2   = R1*YA2 + UNR1*YB2                                
-c                                                                           
-            YY(I)    = R2*Y1 + UNR2*Y2                                         
-            DYDX1(I) = (R2*(YB1 - YA1) + UNR2*(YB2 - YA2)) / (X1_2 - X1_1)  
-            DYDX2(I) = (Y2 - Y1) / (X2_2 - X2_1)                            
-          END DO                                                            
-c                                                                            
-        ELSE IF (ISMOOTH == 2) THEN       ! logarythmic interpolation base 10                                    
-c                                                                           
+            UNR1 = ONE - R1
+            UNR2 = ONE - R2
+c
+            Y1   = R1*YA1 + UNR1*YB1
+            Y2   = R1*YA2 + UNR1*YB2
+c
+            YY(I)    = R2*Y1 + UNR2*Y2
+            DYDX1(I) = (R2*(YB1 - YA1) + UNR2*(YB2 - YA2)) / (X1_2 - X1_1)
+            DYDX2(I) = (Y2 - Y1) / (X2_2 - X2_1)
+          END DO
+c
+        ELSE IF (ISMOOTH == 2) THEN       ! logarythmic interpolation base 10
+c
           DO I=1,NEL
             I1 = IPOS(I,1)
             I2 = I1 + 1
             J1 = IPOS(I,2)
             J2 = J1 + 1
-            YA1  = TY%VALUES(IB(1,1,I))                                     
-            YB1  = TY%VALUES(IB(2,1,I))                                     
-            YA2  = TY%VALUES(IB(1,2,I))                                     
-            YB2  = TY%VALUES(IB(2,2,I))                                     
-            X1_1 = TX(1)%VALUES(I1)                                  
-            X1_2 = TX(1)%VALUES(I2)                                
-            X2_1 = TX(2)%VALUES(J1)                                  
+            YA1  = TY%VALUES(IB(1,1,I))
+            YB1  = TY%VALUES(IB(2,1,I))
+            YA2  = TY%VALUES(IB(1,2,I))
+            YB2  = TY%VALUES(IB(2,2,I))
+            X1_1 = TX(1)%VALUES(I1)
+            X1_2 = TX(1)%VALUES(I2)
+            X2_1 = TX(2)%VALUES(J1)
             X2_2 = TX(2)%VALUES(J2)
-c            
+c
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
             R2   = (LOG10(X2_2) - LOG10(XX(I,2))) / (LOG10(X2_2) - LOG10(X2_1))
-            UNR1 = ONE - R1                                                  
-            UNR2 = ONE - R2                                                              
-c                                         
-            Y1   = R1*YA1 + UNR1*YB1                                
-            Y2   = R1*YA2 + UNR1*YB2                                
-c                                                                           
-            YY(I)    = R2*Y1 + UNR2*Y2                                         
-            DYDX1(I) = (R2*(YB1 - YA1) + UNR2*(YB2 - YA2)) / (X1_2 - X1_1)  
-            DYDX2(I) = (Y2 - Y1) / (X2_2 - X2_1)                            
-          END DO                                                            
+            UNR1 = ONE - R1
+            UNR2 = ONE - R2
 c
-        ELSE IF (ISMOOTH == 3) THEN       ! logarythmic interpolation base n                                   
-c                                                                           
+            Y1   = R1*YA1 + UNR1*YB1
+            Y2   = R1*YA2 + UNR1*YB2
+c
+            YY(I)    = R2*Y1 + UNR2*Y2
+            DYDX1(I) = (R2*(YB1 - YA1) + UNR2*(YB2 - YA2)) / (X1_2 - X1_1)
+            DYDX2(I) = (Y2 - Y1) / (X2_2 - X2_1)
+          END DO
+c
+        ELSE IF (ISMOOTH == 3) THEN       ! logarythmic interpolation base n
+c
           DO I=1,NEL
             I1 = IPOS(I,1)
             I2 = I1 + 1
             J1 = IPOS(I,2)
             J2 = J1 + 1
-            YA1  = TY%VALUES(IB(1,1,I))                                     
-            YB1  = TY%VALUES(IB(2,1,I))                                     
-            YA2  = TY%VALUES(IB(1,2,I))                                     
-            YB2  = TY%VALUES(IB(2,2,I))                                     
-            X1_1 = TX(1)%VALUES(I1)                                  
-            X1_2 = TX(1)%VALUES(I2)                                
-            X2_1 = TX(2)%VALUES(J1)                                  
+            YA1  = TY%VALUES(IB(1,1,I))
+            YB1  = TY%VALUES(IB(2,1,I))
+            YA2  = TY%VALUES(IB(1,2,I))
+            YB2  = TY%VALUES(IB(2,2,I))
+            X1_1 = TX(1)%VALUES(I1)
+            X1_2 = TX(1)%VALUES(I2)
+            X2_1 = TX(2)%VALUES(J1)
             X2_2 = TX(2)%VALUES(J2)
-c            
+c
             R1   = (X1_2 - XX(I,1)) / (X1_2 - X1_1)
             R2   = (LOG(X2_2) - LOG(XX(I,2))) / (LOG(X2_2) - LOG(X2_1))
-            UNR1 = ONE - R1                                                  
-            UNR2 = ONE - R2                                                              
-c                                         
-            Y1   = R1*YA1 + UNR1*YB1                                
-            Y2   = R1*YA2 + UNR1*YB2                                
-c                                                                           
-            YY(I)    = R2*Y1 + UNR2*Y2                                         
-            DYDX1(I) = (R2*(YB1 - YA1) + UNR2*(YB2 - YA2)) / (X1_2 - X1_1)  
-            DYDX2(I) = (Y2 - Y1) / (X2_2 - X2_1)                            
-          END DO                                                            
+            UNR1 = ONE - R1
+            UNR2 = ONE - R2
 c
-        END IF                                                              
+            Y1   = R1*YA1 + UNR1*YB1
+            Y2   = R1*YA2 + UNR1*YB2
+c
+            YY(I)    = R2*Y1 + UNR2*Y2
+            DYDX1(I) = (R2*(YB1 - YA1) + UNR2*(YB2 - YA2)) / (X1_2 - X1_1)
+            DYDX2(I) = (Y2 - Y1) / (X2_2 - X2_1)
+          END DO
+c
+        END IF
 c-----------
       END SELECT
 c-----------

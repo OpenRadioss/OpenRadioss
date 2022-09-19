@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW114_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,  
+      SUBROUTINE LAW114_UPD(IOUT   ,TITR   ,UPARAM ,NPC    ,PLD    ,
      .                     NFUNC  ,IFUNC  ,MAT_ID ,FUNC_ID,
      .                     PM     )
       USE MESSAGE_MOD
@@ -73,7 +73,7 @@ C
       I11 = 64  ! 4 + 10*6
       I13 = 76  ! 4 + 12*6
       LSCALE = UPARAM(I7 + 1)
-      XK   = UPARAM(I11 + 1) 
+      XK   = UPARAM(I11 + 1)
       HARD = UPARAM(I13 + 1)
       XK_INI = XK
       E_OFFSET = ZERO
@@ -84,7 +84,7 @@ c---------------------------------------------------------------
 
       FLAG_NEGATIVE = 0
       FUNC = IFUNC(1)
-      IF (FUNC > 0 ) THEN     
+      IF (FUNC > 0 ) THEN
         NPT=(NPC(FUNC+1)-NPC(FUNC))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -100,7 +100,7 @@ c---------------------------------------------------------------
            ENDIF
         ENDDO
         IF(FLAG_NEGATIVE > 0)THEN
-          CALL ANCMSG(MSGID=1914, ! 
+          CALL ANCMSG(MSGID=1914, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -119,7 +119,7 @@ C
       FLAG_NEGATIVE = 0
       IF3 = 12
       FUNC_UL = IFUNC(IF3+1)
-      IF (FUNC_UL  > 0 ) THEN     
+      IF (FUNC_UL  > 0 ) THEN
         NPT=(NPC(FUNC_UL +1)-NPC(FUNC_UL ))/2
         DO  J=2,NPT
            J1 =2*(J-2)
@@ -132,19 +132,19 @@ C
            IF ((X2 < 0).AND.(Y2 /= 0)) FLAG_NEGATIVE = 1
         ENDDO
         IF(FLAG_NEGATIVE > 0)THEN
-          CALL ANCMSG(MSGID=1915, ! 
+          CALL ANCMSG(MSGID=1915, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
      .                  C1=TITR,
      .                  I2=NPC(NFUNCT+FUNC_UL+1))
         ENDIF
-        UPARAM(I11 + 1)= MAX(XK,UPARAM(I11 + 1))  
+        UPARAM(I11 + 1)= MAX(XK,UPARAM(I11 + 1))
       ENDIF
 C
       IF (IFUNC(1) > 0) THEN
         IF ((XK_INI<XK).AND.(XK_INI > ZERO)) THEN
-          CALL ANCMSG(MSGID=1640, ! 
+          CALL ANCMSG(MSGID=1640, !
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=MAT_ID,
@@ -223,7 +223,7 @@ C
 C
        ENDIF
 C
-       UPARAM(125)= Y_EPS           
+       UPARAM(125)= Y_EPS
 C          
 c-----------
       RETURN

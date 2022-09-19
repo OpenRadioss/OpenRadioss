@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N, LEN,
-     .        NSNFI(*), ISKY(*), ISIZENV(2,*), NSNFITOT(*) 
+     .        NSNFI(*), ISKY(*), ISIZENV(2,*), NSNFITOT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,11 +60,11 @@ C-----------------------------------------------
         DO I = 1, N
           P = 1
           LOCAL_ID = ISKY(I)
-          ASSERT(ISKY(I) > 0) 
-          ASSERT(ISKY(I) <= NSNFI_TOT) 
+          ASSERT(ISKY(I) > 0)
+          ASSERT(ISKY(I) <= NSNFI_TOT)
           DO WHILE( NSNFI(P) < LOCAL_ID .AND. LOCAL_ID > 0)
-            LOCAL_ID = LOCAL_ID - NSNFI(P) 
-            P = P + 1 
+            LOCAL_ID = LOCAL_ID - NSNFI(P)
+            P = P + 1
           ENDDO
           ASSERT(P <= NSPMD)
           ASSERT(LOCAL_ID >= 0)
@@ -76,7 +76,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
       ENDIF
-      
+
       DO P = 1, NSPMD
         NSNFITOT(P) = NSNFITOT(P) + NSNFI(P)
       END DO

@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE CRK_VITESSE(
      .           ADDCNE_CRK,INOD_CRK ,NODLEVXF  ,NODFT     ,NODLT    ,
      .           X         ,V        ,VR        ,A         ,AR       ,
-     .           ITAB      )                                              
+     .           ITAB      )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C=======================================================================
         NC   = ADDCNE_CRK(NN+1)-ADDCNE_CRK(NN)
         NLEV = NODLEVXF(NN)
 c---
-        DO ILEV = 1,NLEV                                            
+        DO ILEV = 1,NLEV
           IXEL = MOD(ILEV-1, NXEL) + 1
           ILAY = (ILEV-IXEL)/NXEL  + 1
           DO KK = NCT+1, NCT+NC
@@ -94,9 +94,9 @@ c             new velocity
               CRKAVX(ILEV)%AR(2,KK) = ZERO
               CRKAVX(ILEV)%AR(3,KK) = ZERO
 c             new coordinates
-              DX = DT2 * CRKAVX(ILEV)%V(1,KK) 
-              DY = DT2 * CRKAVX(ILEV)%V(2,KK) 
-              DZ = DT2 * CRKAVX(ILEV)%V(3,KK) 
+              DX = DT2 * CRKAVX(ILEV)%V(1,KK)
+              DY = DT2 * CRKAVX(ILEV)%V(2,KK)
+              DZ = DT2 * CRKAVX(ILEV)%V(3,KK)
               CRKAVX(ILEV)%X(1,KK) = CRKAVX(ILEV)%X(1,KK) + DX
               CRKAVX(ILEV)%X(2,KK) = CRKAVX(ILEV)%X(2,KK) + DY
               CRKAVX(ILEV)%X(3,KK) = CRKAVX(ILEV)%X(3,KK) + DZ

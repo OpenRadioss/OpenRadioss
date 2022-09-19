@@ -44,7 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +117,7 @@ C-----------------------------------------------
 
               LELT   =1
               NELT(1)=N
-   
+
               LELT1  =0
               LELT2  =1
 
@@ -128,7 +128,7 @@ C-----------------------------------------------
 
               DO WHILE (LEV < LEVELMAX)
                 DO LE=LELT1+1,LELT2
-  
+
                   NE =NELT(LE)
                   DO IB=1,4
 
@@ -213,7 +213,7 @@ C
 
               LELT   =1
               NELT(1)=N
-   
+
               LELT1  =0
               LELT2  =1
 
@@ -291,7 +291,7 @@ C-----------------------------------------------
      .     SH4TREE(3,N) >= 0)THEN
           NSH4ACT=NSH4ACT+1
           LSH4ACT(NSH4ACT)=N
-        END IF 
+        END IF
       END DO
 C-----------------------------------------------
       IF(LSH4TRIM > 0)THEN
@@ -334,7 +334,7 @@ C             goes to sleep
               LSH4ACT(NN) =0
               SH4TREE(3,N)=-(SH4TREE(3,N)+1)
 
-            ELSE  
+            ELSE
 C
 C             mapping et descente au niveau suivant
 C
@@ -343,7 +343,7 @@ C
               NFT  = IPARG(3,NG)
                  I    =N-NFT
                  ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO ! off
-                 
+
               ENDIF
               DO IB=1,4
 
@@ -361,7 +361,7 @@ C               wake up the son
                 LSH4ACT(NSH4ACT)=M
 C	    
 C               1/4 of the element mass has been stored
-                IF(ISTATCND==0)THEN          
+                IF(ISTATCND==0)THEN
                   MS(N1)=MS(N1)+MSC(M)
                   MS(N2)=MS(N2)+MSC(M)
                   MS(N3)=MS(N3)+MSC(M)
@@ -383,7 +383,7 @@ C               1/4 of the element mass has been stored
                   INCND(N4)=INCND(N4)+MBIG
                 END IF
 C
-                IF(ITHERM_FE > 0)THEN 
+                IF(ITHERM_FE > 0)THEN
                   MCPM=MCPC(M)
                   MCP(N1)=MCP(N1)+MCPM
                   MCP(N2)=MCP(N2)+MCPM
@@ -405,7 +405,7 @@ C
               N3 = IXC(4,N)
               N4 = IXC(5,N)
 #include "lockon.inc"
-              IF(ISTATCND==0)THEN          
+              IF(ISTATCND==0)THEN
                 MS(N1)=MAX(ZERO,MS(N1)-MSC(N))
                 MS(N2)=MAX(ZERO,MS(N2)-MSC(N))
                 MS(N3)=MAX(ZERO,MS(N3)-MSC(N))
@@ -428,7 +428,7 @@ C
               END IF
 #include "lockoff.inc"
 C 
-              IF(ITHERM_FE > 0)THEN 
+              IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
                 MCPN=MCPC(N)
                 MCP(N1)=MAX(ZERO,MCP(N1)-MCPN)
@@ -470,7 +470,7 @@ C         compactage de LSH4ACT
               NSH4ACT=NSH4ACT+1
               LSH4ACT(NSH4ACT)=N
             END IF
-          END DO 
+          END DO
           GOTO 5
         END IF
 C
@@ -493,7 +493,7 @@ C-----------------------------------------------
         IF(MYLEV<INILEV)THEN
           IADMESH=1
           KINILEV=1
- 
+
           DO IB=1,4
 
             M = SH4TREE(2,N)+IB-1
@@ -510,7 +510,7 @@ C           wake up the son
             LSH4ACT(NSH4ACT)=M
 C	  
 C           1/4 of the element mass has been stored
-            IF(ISTATCND==0)THEN          
+            IF(ISTATCND==0)THEN
               MS(N1)=MS(N1)+MSC(M)
               MS(N2)=MS(N2)+MSC(M)
               MS(N3)=MS(N3)+MSC(M)
@@ -532,7 +532,7 @@ C           1/4 of the element mass has been stored
               INCND(N4)=INCND(N4)+MBIG
             END IF
 C
-            IF(ITHERM_FE > 0)THEN 
+            IF(ITHERM_FE > 0)THEN
               MCPM=MCPC(M)
               MCP(N1)=MCP(N1)+MCPM
               MCP(N2)=MCP(N2)+MCPM
@@ -555,7 +555,7 @@ C
           N3 = IXC(4,N)
           N4 = IXC(5,N)
 #include "lockon.inc"
-          IF(ISTATCND==0)THEN          
+          IF(ISTATCND==0)THEN
             MS(N1)=MAX(ZERO,MS(N1)-MSC(N))
             MS(N2)=MAX(ZERO,MS(N2)-MSC(N))
             MS(N3)=MAX(ZERO,MS(N3)-MSC(N))
@@ -578,7 +578,7 @@ C
           END IF
 #include "lockoff.inc"
 C
-          IF(ITHERM_FE > 0)THEN 
+          IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
             MCPN=MCPC(N)
             MCP(N1)=MAX(ZERO,MCP(N1)-MCPN)
@@ -605,7 +605,7 @@ C     compactage de LSH4ACT
             NSH4ACT=NSH4ACT+1
             LSH4ACT(NSH4ACT)=N
           END IF
-        END DO 
+        END DO
         GOTO 10
       END IF
 
@@ -618,7 +618,7 @@ C----------------------------------------------
      .     SH3TREE(3,N) >= 0)THEN
           NSH3ACT=NSH3ACT+1
           LSH3ACT(NSH3ACT)=N
-        END IF 
+        END IF
       END DO
 C-----------------------------------------------
       IF(LSH3TRIM > 0)THEN
@@ -660,7 +660,7 @@ C             goes to sleep
               LSH3ACT(NN) =0
               SH3TREE(3,N)=-(SH3TREE(3,N)+1)
 
-            ELSE  
+            ELSE
 C
 C             mapping et descente au niveau suivant
 
@@ -679,7 +679,7 @@ C               wake up the son
                 LSH3ACT(NSH3ACT)=M
 C	    
 C             1/4 of the element mass has been stored
-                IF(ISTATCND==0)THEN          
+                IF(ISTATCND==0)THEN
                   MS(N1)=MS(N1)+MSTG(M)*PTG(1,M)
                   MS(N2)=MS(N2)+MSTG(M)*PTG(2,M)
                   MS(N3)=MS(N3)+MSTG(M)*PTG(3,M)
@@ -697,7 +697,7 @@ C             1/4 of the element mass has been stored
                   INCND(N3)=INCND(N3)+MBIG
                 END IF
 C
-                IF(ITHERM_FE > 0)THEN 
+                IF(ITHERM_FE > 0)THEN
                   MCP(N1)=MCP(N1)+MCPTG(M)*PTG(1,M)
                   MCP(N2)=MCP(N2)+MCPTG(M)*PTG(2,M)
                   MCP(N3)=MCP(N3)+MCPTG(M)*PTG(3,M)
@@ -715,7 +715,7 @@ C
               N1 = IXTG(2,N)
               N2 = IXTG(3,N)
               N3 = IXTG(4,N)
-              IF(ISTATCND==0)THEN          
+              IF(ISTATCND==0)THEN
                 MS(N1)=MAX(ZERO,MS(N1)-MSTG(N)*PTG(1,N))
                 MS(N2)=MAX(ZERO,MS(N2)-MSTG(N)*PTG(2,N))
                 MS(N3)=MAX(ZERO,MS(N3)-MSTG(N)*PTG(3,N))
@@ -733,7 +733,7 @@ C
                 INCND(N3)=MAX(ZERO,INCND(N3)-MBIG)
               END IF
 C
-              IF(ITHERM_FE > 0)THEN 
+              IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
                 MCP(N1)=MAX(ZERO,MCP(N1)-MCPTG(N)*PTG(1,N))
                 MCP(N2)=MAX(ZERO,MCP(N2)-MCPTG(N)*PTG(2,N))
@@ -771,7 +771,7 @@ C         compactage de LSH4ACT
               NSH3ACT=NSH3ACT+1
               LSH3ACT(NSH3ACT)=N
             END IF
-          END DO 
+          END DO
           GOTO 15
         END IF
 C
@@ -809,7 +809,7 @@ C           wake up the son
             LSH3ACT(NSH3ACT)=M
 C	  
 C           1/4 of the element mass has been stored
-            IF(ISTATCND==0)THEN          
+            IF(ISTATCND==0)THEN
               MS(N1)=MS(N1)+MSTG(M)*PTG(1,M)
               MS(N2)=MS(N2)+MSTG(M)*PTG(2,M)
               MS(N3)=MS(N3)+MSTG(M)*PTG(3,M)
@@ -827,7 +827,7 @@ C           1/4 of the element mass has been stored
               INCND(N3)=INCND(N3)+MBIG
             END IF
 C
-            IF(ITHERM_FE > 0)THEN 
+            IF(ITHERM_FE > 0)THEN
               MCP(N1)=MCP(N1)+MCPTG(M)*PTG(1,M)
               MCP(N2)=MCP(N2)+MCPTG(M)*PTG(2,M)
               MCP(N3)=MCP(N3)+MCPTG(M)*PTG(3,M)
@@ -845,7 +845,7 @@ C
           N1 = IXTG(2,N)
           N2 = IXTG(3,N)
           N3 = IXTG(4,N)
-          IF(ISTATCND==0)THEN          
+          IF(ISTATCND==0)THEN
             MS(N1)=MAX(ZERO,MS(N1)-MSTG(N)*PTG(1,N))
             MS(N2)=MAX(ZERO,MS(N2)-MSTG(N)*PTG(2,N))
             MS(N3)=MAX(ZERO,MS(N3)-MSTG(N)*PTG(3,N))
@@ -863,7 +863,7 @@ C
             INCND(N3)=MAX(ZERO,INCND(N3)-MBIG)
           END IF
 C
-          IF(ITHERM_FE > 0)THEN 
+          IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
             MCP(N1)=MAX(ZERO,MCP(N1)-MCPTG(N)*PTG(1,N))
             MCP(N2)=MAX(ZERO,MCP(N2)-MCPTG(N)*PTG(2,N))
@@ -888,14 +888,14 @@ C     compactage de LSH4ACT
             NSH3ACT=NSH3ACT+1
             LSH3ACT(NSH3ACT)=N
           END IF
-        END DO 
+        END DO
         GOTO 20
       END IF
 C
 C     Tag element that are inactifs and one of its sons is actif for Idel in interface
        IF(NADMESH/=0.AND.IDEL7NG>=1)THEN
-         TAGTRIMC(1:NUMELC) = 0 
-         TAGTRIMTG(1:NUMELTG) = 0 
+         TAGTRIMC(1:NUMELC) = 0
+         TAGTRIMTG(1:NUMELTG) = 0
          DO N=1,NUMELC
 
            IF(IPART(10,IPARTC(N)) > 0)THEN
@@ -904,23 +904,23 @@ C     Tag element that are inactifs and one of its sons is actif for Idel in int
              IF(LEVEL <0.AND.LEVEL/=(-LEVELMAX-1).AND.ITRIM >=0) THEN
                LELT   =1
                NELT(1)=N
-   
+
                LELT1  =0
                LELT2  =1
- 
+
                LEV=0
                DO WHILE (LEV < LEVELMAX)
                 DO LE=LELT1+1,LELT2
-  
+
                   NE =NELT(LE)
                   DO IB=1,4
 
                     M = SH4TREE(2,NE)+IB-1
 
                     LELT=LELT+1
-                    NELT(LELT)=M 
+                    NELT(LELT)=M
 
-                    LEVSON =    SH4TREE(3,M)       
+                    LEVSON =    SH4TREE(3,M)
                     IF(LEVSON >= 0) THEN
                        TAGTRIMC(N) = 1
                     ENDIF
@@ -949,21 +949,21 @@ c            ELSEIF (LEVEL==(-LEVELMAX-1)) THEN
             IF(LEVEL <0.AND.ITRIM >=0) THEN
               LELT   =1
               NELT(1)=N
-   
+
               LELT1  =0
               LELT2  =1
 
               LEV=0
                DO WHILE (LEV < LEVELMAX)
                 DO LE=LELT1+1,LELT2
-  
+
                   NE =NELT(LE)
                   DO IB=1,4
 
                     M = SH3TREE(2,NE)+IB-1
 
                     LELT=LELT+1
-                    NELT(LELT)=M             
+                    NELT(LELT)=M
                     IF(SH3TREE(3,M) >= 0) THEN
                        TAGTRIMTG(N) = 1
                     ENDIF
@@ -992,6 +992,6 @@ C     tableaux de travail.
       IF (IERR /= 0) CALL ARRET(2)
 
       RETURN
-      END     
+      END
 
 

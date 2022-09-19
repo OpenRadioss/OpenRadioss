@@ -30,8 +30,8 @@ Chd|====================================================================
             SUBROUTINE DEALLOCATE_JOINT( )
 !$COMMENT
 !       DEALLOCATE_JOINT description
-!       deallocation of the joint structure 
-!       
+!       deallocation of the joint structure
+!
 !       DEALLOCATE_JOINT organization :
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
         INTEGER N,I
 C
         !   ----------------------
-        DO N=1,NJOINT     
+        DO N=1,NJOINT
             IF(ALLOCATED(CYL_JOIN(N)%NB_NODE)) DEALLOCATE(CYL_JOIN(N)%NB_NODE)
             IF(ALLOCATED(CYL_JOIN(N)%MAIN_NODE)) DEALLOCATE(CYL_JOIN(N)%MAIN_NODE)
             IF(ALLOCATED(CYL_JOIN(N)%LIST_PROC)) DEALLOCATE(CYL_JOIN(N)%LIST_PROC)

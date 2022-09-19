@@ -66,14 +66,14 @@ C   2. Split lines accordingly
 !
 !        /\
 !       /  \
-!      / |  \ 
+!      / |  \
 !     /  |   \
 !    /   o    \
 !   /__________\
 !
 !       /LINE are not used in the engine and the split is wrong in
-!       case of useless line (ie. when a line is defined but not 
-!       used by an interface or other stuffs) --> 
+!       case of useless line (ie. when a line is defined but not
+!       used by an interface or other stuffs) -->
 !       2 nodes (defining a segment) can be on 2 different processors
 !       in this case, the segment is not written in the restart file
 !       one could also define the nodes on the same processor but
@@ -87,8 +87,8 @@ C---------------------------------------------------------------
           ND1 = IGRSLIN(I)%NODES(J,1)
           ND2 = IGRSLIN(I)%NODES(J,2)
 C For better performance, I don't use nlocal, but use low level system
-          IAD1 = IFRONT%IENTRY(ND1) 
-          IAD2 = IFRONT%IENTRY(ND2) 
+          IAD1 = IFRONT%IENTRY(ND1)
+          IAD2 = IFRONT%IENTRY(ND2)
 
           IAD11 = IAD1
 C
@@ -130,12 +130,12 @@ C Move forward
 
             IF(P1 > P2)THEN
               IAD2 = IFRONT%P(2,IAD2)
-            ENDIF            
+            ENDIF
             !   ---------------------
-            !   iad1 = 0 or iad2 = 0 --> the last processor id 
+            !   iad1 = 0 or iad2 = 0 --> the last processor id
             !   is reached
             IF(IAD1==0.OR.IAD2==0) THEN
-                ! skip this segment 
+                ! skip this segment
                 P1=0
                 P2=0
                 P=0

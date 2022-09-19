@@ -49,8 +49,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
-      USE DETONATORS_MOD          
+      USE ELBUFDEF_MOD
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -100,8 +100,8 @@ C-----------------------------------------------
      .     SY(MVSIZ), SZ(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
       INTEGER PID(MVSIZ), IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C=======================================================================
@@ -111,19 +111,19 @@ C=======================================================================
       NF1  = NFT+1
       IBID = 0
 c
-      CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT, 
-     .     PID, IX1, IX2, IX3, IX4, 
-     .     Y1, Y2, Y3, Y4, 
+      CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT,
+     .     PID, IX1, IX2, IX3, IX4,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4,
      .     SY, SZ, TY, TZ)
       CALL QVOLI2(GBUF%VOL,IXQ(1,NF1),
-     .     NGL, AIRE, 
-     .     Y1, Y2, Y3, Y4, 
+     .     NGL, AIRE,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
       IF (JEUL/=0) THEN
-        CALL QDLEN2(IPARG(63), 
-     .        AIRE, DELTAX, 
-     .        Y1, Y2, Y3, Y4, 
+        CALL QDLEN2(IPARG(63),
+     .        AIRE, DELTAX,
+     .        Y1, Y2, Y3, Y4,
      .        Z1, Z2, Z3, Z4)
         CALL EDLEN2(VEUL(1,NF1), AIRE, DELTAX)
       ENDIF
@@ -140,7 +140,7 @@ C---------------------------------------
       DO I=LFT,LLT
         MAT(I)=NINT(PM(20+JMULT,IXQ(1,NFT+I)))
       ENDDO
-      
+
       !------------------------------------------
       !     MULTIMATERIAUX POUCENTAGE DE REMPLISSAGE
       !------------------------------------------
@@ -168,7 +168,7 @@ C---------------------------------------
       !     INITIALISATION DE LA MATRICE DE MASSE
       !------------------------------------------
       IF(JLAG+JALE+JEUL/=0)
-     .  CALL QMASI2(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV, 
+     .  CALL QMASI2(PM,MAT,MS,LBUF%VOL,MSQ(NF1),WMA,IPARTQ(NFT+1),PARTSAV,
      .     IX1, IX2, IX3, IX4, X ,V)
       !---------------------------------------
       !     MULTIMATRIAUX 2
@@ -192,7 +192,7 @@ C---------------------------------------
       !     INITIALISATION GENERALE
       !----------------------------------------
       IP=1
-      
+
       CALL MATINI(PM     ,IXQ    ,NIXQ      ,X      ,
      .            GEO    ,ALE_CONNECTIVITY  ,DETONATORS,IPARG     ,
      .            SIGI   ,NEL    ,SKEW      ,IGEO   ,

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_ELEMENT(IXS , IXS10, IPM   , IGEO, ITAB, 
+      SUBROUTINE ST_QAPRINT_ELEMENT(IXS , IXS10, IPM   , IGEO, ITAB,
      1                              ISOLNOD,IXR, R_SKEW,ISKWN, IXP ,
      2                              IXT    ,X  , IXC   ,IXTG ,THKE ,
      3                              SH4ANG ,THKEC,SH3ANG,KXSP ,IPARTSP,
@@ -96,7 +96,7 @@ C
 C
         DO I=1,NUMELS8
           ITR1(I)=IXS(NIXS,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELS8,1)
         DO I=1,NUMELS8
           NS=INDEX(I)
@@ -152,7 +152,7 @@ C       Tetra10 Elements
 C-----------------------------------------------
         DO I=1,NUMELS10
           ITR1(I)=IXS(NIXS,NUMELS8+I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELS10,1)
 C
         DO I=1,NUMELS10
@@ -195,7 +195,7 @@ C       Shell16 elements
 C-----------------------------------------------
         DO I=1,NUMELS16
           ITR1(I)=IXS(NIXS,NUMELS8+NUMELS10+NUMELS20+I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELS16,1)
 C
         DO I=1,NUMELS16
@@ -245,7 +245,7 @@ C
 C
         DO I=1,NUMELR
           ITR1(I)=IXR(NIXR,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELR,1)
 C
         DO I=1,NUMELR
@@ -302,7 +302,7 @@ C
 C
           DO I=1,NUMEL_KJ
             ITR1(I)=IXR_KJ(4,I)
-          ENDDO 
+          ENDDO
           CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMEL_KJ,1)
 C
           DO I=1,NUMEL_KJ
@@ -331,7 +331,7 @@ C
 C
         DO I=1,NUMELP
           ITR1(I)=IXP(NIXP,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELP,1)
 C
         DO I=1,NUMELP
@@ -380,7 +380,7 @@ C
 C
         DO I=1,NUMELT
           ITR1(I)=IXT(NIXT,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELT,1)
 C
         DO I=1,NUMELT
@@ -415,7 +415,7 @@ C-----------------------------------------------
 C
         DO I=1,NUMELC
           ITR1(I)=IXC(NIXC,I)
-        ENDDO 
+        ENDDO
 
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELC,1)
         DO I=1,NUMELC
@@ -438,13 +438,13 @@ C
 C
           WRITE(VARNAME,'(A,I0)') 'THK_'
           TEMP_DOUBLE = THKE(NC)
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)  
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 C
           WRITE(VARNAME,'(A,I0)') 'ANGLE_'
           TEMP_DOUBLE = SH4ANG(NC)
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
-        ENDDO 
+        ENDDO
         DEALLOCATE(INDEX,ITR1)
 C-----------------------------------------------
 C       QUAD elements
@@ -454,7 +454,7 @@ C-----------------------------------------------
 C
         DO I=1,NUMELQ
           ITR1(I)=IXQ(NIXQ,I)
-        ENDDO 
+        ENDDO
 
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELQ,1)
         DO I=1,NUMELQ
@@ -475,7 +475,7 @@ C
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)), MY_NOD,0.0_8)
           END DO
 C
-        ENDDO 
+        ENDDO
         DEALLOCATE(INDEX,ITR1)
 C-----------------------------------------------
 C       SH3N elements
@@ -485,7 +485,7 @@ C-----------------------------------------------
 C
         DO I=1,NUMELTG
           ITR1(I)=IXTG(NIXTG,I)
-        ENDDO 
+        ENDDO
 
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELTG,1)
         DO I=1,NUMELTG
@@ -508,13 +508,13 @@ C
 C
           WRITE(VARNAME,'(A,I0)') 'THK_'
           TEMP_DOUBLE = THKEC(NC)
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)  
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 C
           WRITE(VARNAME,'(A,I0)') 'ANGLE_'
           TEMP_DOUBLE = SH3ANG(NC)
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
-        ENDDO 
+        ENDDO
         DEALLOCATE(INDEX,ITR1)
 C
 C-----------------------------------------------
@@ -525,7 +525,7 @@ C-----------------------------------------------
 C
         DO I=1,NUMSPH
           ITR1(I)=KXSP(NISP,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMSPH,1)
 C
         DO I=1,NUMSPH
@@ -562,7 +562,7 @@ C-----------------------------------------------
 C
         DO I=1,NUMELX
           ITR1(I)=KXX(NIXX,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELX,1)
 C
         DO I=1,NUMELX
@@ -593,7 +593,7 @@ C-----------------------------------------------
 C
         DO I=1,NRIVET
           ITR1(I)=IXRI(4,I)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NRIVET,1)
 C
         DO I=1,NRIVET

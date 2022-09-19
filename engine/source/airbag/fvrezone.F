@@ -128,15 +128,15 @@ Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F
 Chd|====================================================================
       SUBROUTINE FVREZONE1(
      1      IBUF    , ELEM    , X       , NEL   , IFVNOD1,
-     2      RFVNOD1 , IFVTRI1 , IFVPOLY1, 
-     3      IFVTADR1, IFVPOLH1, IFVPADR1, 
-     4      MPOLH1  , QPOLH1  , EPOLH1  , 
-     5      PPOLH1  , RPOLH1  , GPOLH1  , 
-     6      IFVNOD0 , RFVNOD0 , 
-     7      IFVTRI0 , IFVPOLY0, 
+     2      RFVNOD1 , IFVTRI1 , IFVPOLY1,
+     3      IFVTADR1, IFVPOLH1, IFVPADR1,
+     4      MPOLH1  , QPOLH1  , EPOLH1  ,
+     5      PPOLH1  , RPOLH1  , GPOLH1  ,
+     6      IFVNOD0 , RFVNOD0 ,
+     7      IFVTRI0 , IFVPOLY0,
      8      IFVTADR0, IFVPOLH0,
-     9      IFVPADR0, MPOLH0  , 
-     A      QPOLH0  , EPOLH0  , 
+     9      IFVPADR0, MPOLH0  ,
+     A      QPOLH0  , EPOLH0  ,
      B      PPOLH0  , RPOLH0  ,
      C      GPOLH0  , NNS1    , NNTR1   , NPOLH1, NNS0   ,
      D      NNTR0   , NPOLH0  , NPOLY1  , NPOLY0, NSTEP  ,
@@ -144,7 +144,7 @@ Chd|====================================================================
      F      CPCPOLH1, RMWPOLH1,
      G      CPAPOLH0, CPBPOLH0,
      H      CPCPOLH0, RMWPOLH0, ILVOUT  , NNF   , NNA    ,
-     I      IFV     )                  
+     I      IFV     )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -165,17 +165,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUF(*), ELEM(3,*), NEL, IFVNOD1(3,*), IFVTRI1(6,*),
      .        IFVPOLY1(*), IFVTADR1(*), IFVPOLH1(*), IFVPADR1(*),
-     .        IFVNOD0(3,*), IFVTRI0(6,*), IFVPOLY0(*), IFVTADR0(*), 
+     .        IFVNOD0(3,*), IFVTRI0(6,*), IFVPOLY0(*), IFVTADR0(*),
      .        IFVPOLH0(*), IFVPADR0(*), NNS1, NNTR1, NPOLH1, NNS0,
-     .        NNTR0, NPOLH0, NPOLY1, NPOLY0, NSTEP, ID, ILVOUT, 
+     .        NNTR0, NPOLH0, NPOLY1, NPOLY0, NSTEP, ID, ILVOUT,
      .        NNF, NNA, IFV
       my_real
      .        X(3,*), RFVNOD1(2,*), MPOLH1(*), QPOLH1(3,*), EPOLH1(*),
      .        PPOLH1(*), RPOLH1(*), GPOLH1(*), RFVNOD0(2,*),
      .        MPOLH0(*), QPOLH0(3,*), EPOLH0(*), PPOLH0(*),
-     .        RPOLH0(*), GPOLH0(*), CPAPOLH1(*), CPBPOLH1(*), 
+     .        RPOLH0(*), GPOLH0(*), CPAPOLH1(*), CPBPOLH1(*),
      .        CPCPOLH1(*), RMWPOLH1(*), CPAPOLH0(*), CPBPOLH0(*),
-     .        CPCPOLH0(*), RMWPOLH0(*) 
+     .        CPCPOLH0(*), RMWPOLH0(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -184,7 +184,7 @@ C-----------------------------------------------
      .        INNER, INN(3), NTI, ICUT, NB, NNB, NBI, M, II, I1, I2,
      .        NNSA
       my_real
-     .        KSI, ETA, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
+     .        KSI, ETA, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        PX0(3,NNS0), PX1(3,NNS1), X12, Y12, Z12, X13, Y13, Z13,
      .        NRX, NRY, NRZ, AREA2, TAREA0(NNTR0), NORM0(3,NNTR0),
      .        TAREA1(NNTR1), NORM1(3,NNTR1), VOLU1(NPOLH1), AREA,
@@ -433,8 +433,8 @@ C Boucle sur les triangles du polygone
                      NX=-NORM0(1,KK)
                      NY=-NORM0(2,KK)
                      NZ=-NORM0(3,KK)
-                  ENDIF   
-               ENDIF      
+                  ENDIF
+               ENDIF
                N1=IFVTRI0(1,KK)
                X1=PX0(1,N1)
                Y1=PX0(2,N1)
@@ -442,7 +442,7 @@ C Boucle sur les triangles du polygone
                VOLU0(I)=VOLU0(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
-      ENDDO 
+      ENDDO
 C
       DO I=1,NPOLH1
          VOLU1(I)=ZERO
@@ -467,8 +467,8 @@ C Boucle sur les triangles du polygone
                      NX=-NORM1(1,KK)
                      NY=-NORM1(2,KK)
                      NZ=-NORM1(3,KK)
-                  ENDIF   
-               ENDIF      
+                  ENDIF
+               ENDIF
                N1=IFVTRI1(1,KK)
                X1=PX1(1,N1)
                Y1=PX1(2,N1)
@@ -476,7 +476,7 @@ C Boucle sur les triangles du polygone
                VOLU1(I)=VOLU1(I)+THIRD*AREA*(X1*NX+Y1*NY+Z1*NZ)
             ENDDO
          ENDDO
-      ENDDO   
+      ENDDO
 C Bounding box pour les polyhedres
       DO I=1,NPOLH0
          XMIN=EP30
@@ -571,7 +571,7 @@ C---------------------------------------------------
          ENDDO
       ENDDO
 C
-      IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I8,A14)') 
+      IF (ILVOUT/=0) WRITE(ISTDO,'(A25,I8,A14)')
      .' ** MONITORED VOLUME ID: ',ID,' - REZONING **'
       NNB=(NSTEP+1)**3
       DO I=1,NPOLH1
@@ -613,7 +613,7 @@ C
                   PTRI1(1,NNT)=IFVTRI1(1,KK)
                   PTRI1(2,NNT)=IFVTRI1(3,KK)
                   PTRI1(3,NNT)=IFVTRI1(2,KK)
-               ENDIF   
+               ENDIF
             ENDDO
          ENDDO
 C 
@@ -674,7 +674,7 @@ C
                      PTRI0(1,NNT)=IFVTRI0(1,LL)
                      PTRI0(2,NNT)=IFVTRI0(3,LL)
                      PTRI0(3,NNT)=IFVTRI0(2,LL)
-                  ENDIF   
+                  ENDIF
                ENDDO
             ENDDO
 C
@@ -715,7 +715,7 @@ C
 C
             VOLT=VOLT+VOL
 C
-            DEALLOCATE(PTRI0, INB_TMP)   
+            DEALLOCATE(PTRI0, INB_TMP)
          ENDDO
 C
          DEALLOCATE(PTRI1, XB, INB)
@@ -748,36 +748,36 @@ C
          QZ1=QZ1+QPOLH1(3,I)
          ENER1=ENER1+EPOLH1(I)
       ENDDO
-      
-      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+
+      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL MASS: ',MASS0,' REZONED MASS: ',MASS1,
      .     ' ERR: ',MIN(ABS((MASS1-MASS0)/MASS0*HUNDRED),99.99D0),'%'
-      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL QX  : ',QX0,' REZONED QX  : ',QX1,
      .     ' ERR: ',MIN(ABS((QX1-QX0)/QX0*HUNDRED),99.99D0),'%'
-      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL QY  : ',QY0,' REZONED QY  : ',QY1,
      .     ' ERR: ',MIN(ABS((QY1-QY0)/QY0*HUNDRED),99.99D0),'%'
-      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL QZ  : ',QZ0,' REZONED QZ  : ',QZ1,
      .     ' ERR: ',MIN(ABS((QZ1-QZ0)/QZ0*HUNDRED),99.99D0),'%'
-      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(ISTDO,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL ENER: ',ENER0,' REZONED ENER: ',ENER1,
      .     ' ERR: ',MIN(ABS((ENER1-ENER0)/ENER0*HUNDRED),99.99D0),'%'
       WRITE(ISTDO,*)
-      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL MASS: ',MASS0,' REZONED MASS: ',MASS1,
      .     ' ERR: ',MIN(ABS((MASS1-MASS0)/MASS0*HUNDRED),99.99D0),'%'
-      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL QX  : ',QX0,' REZONED QX  : ',QX1,
      .     ' ERR: ',MIN(ABS((QX1-QX0)/QX0*HUNDRED),99.99D0),'%'
-      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL QY  : ',QY0,' REZONED QY  : ',QY1,
      .     ' ERR: ',MIN(ABS((QY1-QY0)/QY0*HUNDRED),99.99D0),'%'
-      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL QZ  : ',QZ0,' REZONED QZ  : ',QZ1,
      .     ' ERR: ',MIN(ABS((QZ1-QZ0)/QZ0*HUNDRED),99.99D0),'%'
-      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)') 
+      WRITE(IOUT,'(A18,G11.4,A15,G11.4,A6,F5.2,A1)')
      .   '    INITIAL ENER: ',ENER0,' REZONED ENER: ',ENER1,
      .     ' ERR: ',MIN(ABS((ENER1-ENER0)/ENER0*HUNDRED),99.99D0),'%'
       WRITE(IOUT,*)
@@ -898,7 +898,7 @@ C
             ST=ST+SAREA
          ENDDO
 C
-         IF (ABS(ST)>TOLE) IN(I)=1        
+         IF (ABS(ST)>TOLE) IN(I)=1
       ENDDO
 C
       RETURN

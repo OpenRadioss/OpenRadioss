@@ -29,7 +29,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE LAW112_UPD(TITR   ,UPARAM ,NPC    ,PLD    ,  
+      SUBROUTINE LAW112_UPD(TITR   ,UPARAM ,NPC    ,PLD    ,
      .                      NUMTABL,ITABLE ,TABLE  ,MAT_ID )
 C-----------------------------------------------
 C   M o d u l e s
@@ -63,15 +63,15 @@ C=======================================================================
       ! Recovering tabulated flag
       ITAB = NINT(UPARAM(14))
 c
-      ! Checking yield stress functions slope                                                         
-      IF (ITAB > 0) THEN    
-        DO I = 1,NUMTABL                                          
+      ! Checking yield stress functions slope
+      IF (ITAB > 0) THEN
+        DO I = 1,NUMTABL
           SLOPEMIN = INFINITY
           DO K = 2,SIZE(TABLE(ITABLE(I))%X(1)%VALUES)
             DX = TABLE(ITABLE(I))%X(1)%VALUES(K) - TABLE(ITABLE(I))%X(1)%VALUES(K-1)
             DY = TABLE(ITABLE(I))%Y%VALUES(K) - TABLE(ITABLE(I))%Y%VALUES(K-1)
             SLOPEMIN = MIN(SLOPEMIN,DY/DX)
-          ENDDO    
+          ENDDO
           IF (SLOPEMIN < ZERO) THEN
             CALL ANCMSG(MSGID=2059 ,
      .               MSGTYPE=MSGERROR,
@@ -80,7 +80,7 @@ c
      .               I2=TABLE(ITABLE(I))%NOTABLE,
      .               C1=TITR)
           ENDIF
-        ENDDO  
+        ENDDO
       ENDIF
 c-----------
       RETURN

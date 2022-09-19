@@ -32,7 +32,7 @@ Chd|        C3PXPYI                       source/elements/sh3n/coque3n/c3epsini.
 Chd|        CCOEFI                        source/constraints/fxbody/fsigcini.F
 Chd|        CM1INIF                       source/elements/shell/coque/cm1inif.F
 Chd|====================================================================
-      SUBROUTINE FSIGTINI(FXBELM, IPARG , X     , PM, IXTG , 
+      SUBROUTINE FSIGTINI(FXBELM, IPARG , X     , PM, IXTG ,
      .                    GEO   , FXBMOD, FXBSIG, R , NELTG)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,15 +63,15 @@ C-----------------------------------------------
       my_real
      .   VL(3,3,MVSIZ), VRL(3,3,MVSIZ)
       my_real
-     .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) , 
-     .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) , 
+     .   X1(MVSIZ) , X2(MVSIZ) , X3(MVSIZ) ,
+     .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) ,
      .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ) ,
-     .   X31(MVSIZ) , Y31(MVSIZ) , Z31(MVSIZ) 
+     .   X31(MVSIZ) , Y31(MVSIZ) , Z31(MVSIZ)
       my_real
-     .   D11, D12, D13, D21, D22, D23, D31, D32, D33, 
+     .   D11, D12, D13, D21, D22, D23, D31, D32, D33,
      .   DR11, DR12, DR13, DR21, DR22, DR23, DR31, DR32, DR33
       my_real
-     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
+     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
      .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EYZ(MVSIZ),EZX(MVSIZ),
@@ -187,8 +187,8 @@ C
      .               E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .               EYZ  ,EZX  ,KXX  ,KYY  ,KXY  ,AREA )
         ITHK=0
-        CALL CM1INIF(FIRST,LAST ,FOR  ,MOM  ,ITHK , 
-     .               THK  ,EINT ,NU   ,G    ,A1   , 
+        CALL CM1INIF(FIRST,LAST ,FOR  ,MOM  ,ITHK ,
+     .               THK  ,EINT ,NU   ,G    ,A1   ,
      .               A2   ,GS   ,KXX  ,KYY  ,KXY  ,
      .               EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
      .               AREA )
@@ -234,9 +234,9 @@ C-----------------------------------------------
 C
       my_real VL(3,3,*),GSTR(8,*),PX1(*),PY1(*),PY2(*)
       my_real EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EZX(MVSIZ),EYZ(MVSIZ),
-     .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
+     .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
      .    E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
-     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,AREA(MVSIZ) 
+     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,AREA(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -362,11 +362,11 @@ C
         KXY(I) = PY1(I) * RY13T + PY2(I) * RY23T - KXY(I)
 C
         RYAVT  = PX1(I) * (
-     .              PX1(I) * (-RX1(I)+RX2(I)) 
+     .              PX1(I) * (-RX1(I)+RX2(I))
      .            + (TWO*PY1(I)+THREE*PY2(I)) * RY1(I)
      .            + (THREE*PY1(I)+TWO*PY2(I)) * RY2(I)
      .            + ( PY1(I) + PY2(I) )   * RY3(I) )
-        RXAVT  = -PX1(I) * (   
+        RXAVT  = -PX1(I) * (
      .            + (TWO*PY1(I)+PY2(I)) * RX1(I)
      .            + (PY1(I)+TWO*PY2(I)) * RX2(I)
      .            + THREE*(PY1(I)+PY2(I)) * RX3(I) )
@@ -376,7 +376,7 @@ C
 C
         EZX(I) = EZX(I) + RYAVT / THREE
         EYZ(I) = EYZ(I) + RXAVT / THREE
-      ENDDO      
+      ENDDO
 C
       DO I=1,NEL
         FAC1  = ONE/AREA(I)
@@ -389,4 +389,4 @@ C
 C
       RETURN
       END SUBROUTINE C3CURVI
-      
+

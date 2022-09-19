@@ -40,7 +40,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTER_FSI(
      1        IPARI       ,STFAC      ,FRIGAP         ,XFILTR   , FRIC_P   ,
      2        IGRNOD      ,IGRSURF    ,ILAGM          ,UNITAB   , NI       ,
-     3        NOM_OPT     ,TITR       ,IGRBRIC        ,IGRSH3N  , IGRTRUSS ,      
+     3        NOM_OPT     ,TITR       ,IGRBRIC        ,IGRSH3N  , IGRTRUSS ,
      4        IDDLEVEL    ,NOINT      ,KEY            ,LSUBMODEL, ITAB     ,
      5        ITABM1      ,ISKN       ,MULTI_FVM)
 C============================================================================
@@ -66,11 +66,11 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
 #include      "sphcom.inc"
-#include      "submod_c.inc" 
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IDDLEVEL
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER ILAGM,NI,NOINT
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .   FRIGAP(*),FRIC_P(*)
       CHARACTER TITR*nchartitle
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
@@ -110,7 +110,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   I,J,L,NTYP,UID,IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IERR1,
      .   SUB_ID,IFIX_TMP
       my_real
@@ -145,7 +145,7 @@ C--------------------------------------------------
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2          IGRNOD     ,IGRSURF    ,IGRBRIC    ,IGRSH3N   ,IGRTRUSS ,
      3          FRIC_P     ,TITR       ,LSUBMODEL)
-              
+
 
           CASE ('TYPE18')
 C--------------------------------------------------
@@ -155,7 +155,7 @@ C--------------------------------------------------
              CALL HM_READ_INTER_TYPE18(
      1            IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      2            IGRNOD     ,IGRSURF    ,IGRBRIC    ,XFILTR    ,FRIC_P   ,
-     3            IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)  
+     3            IDDLEVEL   ,TITR, UNITAB, LSUBMODEL,MULTI_FVM)
 
          CASE ('TYPE12')
 C--------------------------------------------------
@@ -166,7 +166,7 @@ C--------------------------------------------------
      1          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI      ,
      2          IGRSURF    ,ITAB       ,ITABM1     ,ISKN      ,TITR    ,
      3          LSUBMODEL  ,UNITAB)
-     
+
           CASE ('TYPE9')
 C--------------------------------------------------
 C            HM READING INTER TYPE9 

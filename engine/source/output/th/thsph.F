@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,20 +62,20 @@ C-----------------------------------------------
       my_real
      .        WA(*),SPBUF(NSPBUF,*),PM(NPROPM,*)
 
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: 
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET ::
      .        ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER II,JJ, I, J, N, IH, NG, MTE, 
+      INTEGER II,JJ, I, J, N, IH, NG, MTE,
      .        K, IST, IP, L, LWA, NEL,KK(6)
       INTEGER :: NITER,IADR,NN,IADV,NVAR,ITYP,IJK
 
       my_real
      .        WWA(100)
 
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
 C   D e s c r  i p t i o n
 C-----------------------------------------------
@@ -140,21 +140,21 @@ C======================================================================|
 !   -------------------------------
                 II=0
                 IH=IADR
-                           
-                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))               
-                    IH = IH + 1                           
-                ENDDO                                   
-                IF (IH>=IADR+NN) GOTO 666               
+
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
+                    IH = IH + 1
+                ENDDO
+                IF (IH>=IADR+NN) GOTO 666
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
 
                     IF(ITY==51.OR.ITY==52) THEN
-                        CALL INITBUF (IPARG    ,NG      ,                    
-     2                                MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3                                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4                                JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5                                NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6                                IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+                        CALL INITBUF (IPARG    ,NG      ,
+     2                                MTE     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3                                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4                                JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5                                NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6                                IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7                                ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
                         GBUF => ELBUF_TAB(NG)%GBUF
                         LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
@@ -168,7 +168,7 @@ C======================================================================|
                             JJ = 6*(I-1)
                             K=ITHBUF(IH)
                             IP=ITHBUF(IH+NN)
-      
+
                             IF (K==N)THEN
                                 IH=IH+1
                                 !---spmd specific treatment---!
@@ -228,7 +228,7 @@ C======================================================================|
                                 WWA(17)=LBUF%DAM(KK(3)+I)
                                 WWA(18)=LBUF%DAM(KK(4)+I)
                                 WWA(34)=LBUF%DAM(KK(5)+I)
-                                GOTO 150              
+                                GOTO 150
   118                           IF (JTHE /= 0) WWA(13)= LBUF%TEMP(I)
                                 GOTO 150
   120                           WWA(12)=ZERO

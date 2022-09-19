@@ -239,7 +239,7 @@ cc         STIFN(NC8(I))=STIFN(NC8(I))+STI(I)
          F(3,NC8(I))=F(3,NC8(I))+F38(I)
 cc         STIFN(NC8(I))=STIFN(NC8(I))+STI(I)
         ENDDO
-      ENDIF  
+      ENDIF
 C
       RETURN
       END
@@ -336,46 +336,46 @@ C
           K = IADS(1,II)
 c          F21(I)=F11(I)
 c          F11(I) = ZERO
-                      
+
           FSKY(1,K)=F11(I)
           FSKY(2,K)=F21(I)
-          FSKY(3,K)=F31(I) 
+          FSKY(3,K)=F31(I)
 C
           K = IADS(7,II)
           FSKY(1,K)=F17(I)
           FSKY(2,K)=F27(I)
-          FSKY(3,K)=F37(I)       
+          FSKY(3,K)=F37(I)
 C
           K = IADS(8,II)
           FSKY(1,K)=F18(I)
           FSKY(2,K)=F28(I)
-          FSKY(3,K)=F38(I)    
+          FSKY(3,K)=F38(I)
 C
           K = IADS(3,II)
           FSKY(1,K)=F13(I)
           FSKY(2,K)=F23(I)
-          FSKY(3,K)=F33(I)    
+          FSKY(3,K)=F33(I)
 C
           K = IADS(5,II)
           FSKY(1,K)=F15(I)
           FSKY(2,K)=F25(I)
-          FSKY(3,K)=F35(I)    
+          FSKY(3,K)=F35(I)
 C
           K = IADS(4,II)
           FSKY(1,K)=F14(I)
           FSKY(2,K)=F24(I)
-          FSKY(3,K)=F34(I)    
+          FSKY(3,K)=F34(I)
 C
           K = IADS(6,II)
           FSKY(1,K)=F16(I)
           FSKY(2,K)=F26(I)
-          FSKY(3,K)=F36(I) 
+          FSKY(3,K)=F36(I)
 C          
           K = IADS(2,II)
           FSKY(1,K) = F12(I)
           FSKY(2,K)=F22(I)
-          FSKY(3,K)=F32(I)   
+          FSKY(3,K)=F32(I)
         ENDDO
-        
+
       RETURN
       END

@@ -33,7 +33,7 @@ Chd|====================================================================
      2                        NIN   ,V     ,GAPE  ,IGAP  ,ITASK ,
      3                        STF   ,GAP_E_L,COUNT_REMSLVE,DRAD  ,
      4                        IEDGE ,NEDGE  ,LEDGE  ,MVOISIN,NSV,
-     5                        IGAP0 ,STFE,   
+     5                        IGAP0 ,STFE,
      6                        S_STFM, S_STFE,IFQ    ,IFPEN  ,
      7                        CAND_FX,CAND_FY,CAND_FZ,DGAPLOAD)
 
@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: S_STFM, S_STFE,IFQ
       INTEGER IRECT(4,*),CAND_M(*), CAND_S(*),
-     .        I_STOK, NIN,IGAP ,ITASK, COUNT_REMSLVE(*), 
+     .        I_STOK, NIN,IGAP ,ITASK, COUNT_REMSLVE(*),
      .        IEDGE, NEDGE, IGAP0, LEDGE(NLEDGE,*), MVOISIN(4,*), NSV(*),
      .        IFPEN(*)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
@@ -187,7 +187,7 @@ C            IF(SH_EDGE==1.AND.LEDGE(3,CAND_M(I))/=0) CYCLE ! Shell edge is not 
      .        LEDGE(3,CAND_M(I))/=0 .AND.
      .        LEDGE(3,CAND_S(I))/=0) CYCLE ! One of the 2 edges is not a free edge
 
-           EID = LEDGE(8,CAND_S(I))            
+           EID = LEDGE(8,CAND_S(I))
            DEBUG_E2E(LEDGE(8,CAND_M(I)) == D_EM .AND.LEDGE(8,CAND_S(I))==D_ES,STFE(CAND_S(I)))
            DEBUG_E2E(LEDGE(8,CAND_M(I)) == D_EM .AND. LEDGE(8,CAND_S(I)) == D_ES,CAND_S(I))
 
@@ -226,7 +226,7 @@ C Loop over local candidates
          IF( L > 0 ) THEN
            S = STFE(CAND_S(I))
          ELSE IF(L < 0) THEN
-           S = ONE 
+           S = ONE
          ENDIF
          IF (S/=ZERO) THEN
            N1= LEDGE(5,CAND_S(I))
@@ -238,7 +238,7 @@ C Loop over local candidates
            IF( L > 0 ) THEN
              S = STF(L)
            ELSEIF(L < 0) THEN
-             S = ZERO 
+             S = ZERO
            ENDIF
            IF (S/=ZERO) THEN
             M1= LEDGE(5,CAND_M(I))
@@ -332,7 +332,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           II = CAND_S(I)-NEDGE
-          ASSERT(II > 0) 
+          ASSERT(II > 0)
           ASSERT(IS > 0)
           ASSERT(IS <= MVSIZ)
 C         IF (STIFIE(NIN)%P(II)/=ZERO) THEN
@@ -434,7 +434,7 @@ C
       ENDIF
 C
 #include "lockon.inc"
-      LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5 
+      LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
       COUNT_REMSLVE(NIN)=COUNT_REMSLVE(NIN)+CT
 #include "lockoff.inc"
 

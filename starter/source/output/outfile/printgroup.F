@@ -106,7 +106,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRBRIC(I)%R2R_ALL/=0)) GOTO 150
-	    ENDIF   
+	    ENDIF
 C----------------------------------------------------------------------	    
             IF (NEL == 0 .AND. IGRBRIC(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -114,7 +114,7 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='BRICK',C2='BRICK',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF 
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(//)')
               WRITE(IOUT,'(A,I10,3A,I6,A)')' BRIC. GROUP:',ID,',',TRIM(TITR),',',NEL,' ELEMENTS: '
@@ -135,7 +135,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRQUAD(I)%R2R_ALL/=0)) GOTO 160
-	    ENDIF 
+	    ENDIF
 C----------------------------------------------------------------------	    
             IF (NEL == 0 .AND. IGRQUAD(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -143,7 +143,7 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='QUAD',C2='QUAD',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF 
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(//)')
               WRITE(IOUT,'(A,I10,3A,I6,A)')' QUAD GROUP:',ID,',',TRIM(TITR),',',NEL,' ELEMENTS: '
@@ -164,7 +164,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRSH4N(I)%R2R_ALL/=0)) GOTO 170
-	    ENDIF 
+	    ENDIF
 C----------------------------------------------------------------------	    
             IF (NEL == 0 .AND. IGRSH4N(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -172,7 +172,7 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='SHELL',C2='SHELL',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF  
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(A)') ' '
               WRITE(IOUT,'(A)') ' '
@@ -194,7 +194,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRTRUSS(I)%R2R_ALL/=0)) GOTO 180
-	    ENDIF 
+	    ENDIF
 C----------------------------------------------------------------------	    
             IF (NEL == 0.AND. IGRTRUSS(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -202,7 +202,7 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='TRUS',C2='TRUS',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF  
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(//)')
               WRITE(IOUT,'(A,I10,3A,I6,A)')' TRUSS GROUP:',ID,',',TRIM(TITR),',',NEL,' ELEMENTS: '
@@ -223,7 +223,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRBEAM(I)%R2R_ALL/=0)) GOTO 190
-	    ENDIF 
+	    ENDIF
 C----------------------------------------------------------------------	    
             IF (NEL == 0 .AND. IGRBEAM(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -252,7 +252,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRSPRING(I)%R2R_ALL/=0)) GOTO 200
-	    ENDIF 
+	    ENDIF
 C----------------------------------------------------------------------	    
             IF (NEL == 0 .AND. IGRSPRING(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -260,7 +260,7 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='SPRI',C2='SPRI',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF 
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(//)')
               WRITE(IOUT,'(A,I10,3A,I6,A)')' SPRING GROUP:',ID,',',TRIM(TITR),',',NEL,' ELEMENTS: '
@@ -281,7 +281,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb d'elts avant split----	    
 	       IF ((NEL==0).AND.(IGRSH3N(I)%R2R_ALL/=0)) GOTO 210
-	    ENDIF 
+	    ENDIF
 C----------------------------------------------------------------------	 	    
             IF (NEL == 0 .AND. IGRSH3N(I)%SET_GROUP == 0) THEN
               IF(N2D==0)
@@ -296,7 +296,7 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='TRIA',C2='TRIA',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF 
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(A)') ' '
               WRITE(IOUT,'(A)') ' '
@@ -319,7 +319,7 @@ c          WRITE(ISTDO,'(2A)')' .. ',MESS
 	    IF (NSUBDOM>0) THEN
 C-----------> Multidomaines -> on prend le nb de parts avant split-----	    
 	       IF ((NEL==0).AND.(IGRPART(I)%R2R_ALL/=0)) GOTO 220
-	    ENDIF   
+	    ENDIF
 C----------------------------------------------------------------------	 	    
             IF (NEL == 0 .AND. IGRPART(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=534,
@@ -327,14 +327,14 @@ C----------------------------------------------------------------------
      .                    ANMODE=ANINFO_BLIND_1,
      .                    C1='PART',C2='PART',C3=TRIM(TITR),
      .                    I1=ID)
-            ENDIF  
+            ENDIF
             IF (IPRI > 0) THEN
               WRITE(IOUT,'(//)')
               WRITE(IOUT,'(A,I10,3A,I6,A)')' PART GROUP:',ID,',',TRIM(TITR),',',NEL,' PARTS: '
               WRITE(IOUT,'(A)')' ---------------------'
               WRITE(IOUT,FMT=FMW_10I)(IPART(4,IGRPART(I)%ENTITY(J)),J=1,NEL)
             END IF
-220	    CONTINUE	    
+220	    CONTINUE	
           ENDDO
         ENDIF
 C-----------------------------------------------
@@ -470,7 +470,7 @@ C-----------> Multidomaines -> on prend le nb de segments avant split----
 	    IF (NSUBDOM>0) NSEG=IGRSLIN(I)%NSEG_R2R_ALL
 C-----------> Type19 interface -> warning deactivated for lines generated in translator
             TITR = IGRSLIN(I)%TITLE
-            IF (TITR(1:19)=='Type19 interface nb') CYCLE	    
+            IF (TITR(1:19)=='Type19 interface nb') CYCLE	
 C----------------------------------------------------------------------		    
             IF (NSEG == 0 .AND. IGRSLIN(I)%SET_GROUP == 0) THEN
               CALL ANCMSG(MSGID=691,

@@ -101,7 +101,7 @@ C
       ID=IGEO(1,IPID1)
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPID1),LTITR)
 C
-      CALL TCOORI(X,IC(1,NFT+1),MAT, MXG, NC1, NC2, 
+      CALL TCOORI(X,IC(1,NFT+1),MAT, MXG, NC1, NC2,
      .     X1, X2, Y1, Y2, Z1, Z2)
 C-----------------------------
 C     Check here (change TCOORI for called by /MAT/VOID)
@@ -154,7 +154,7 @@ C------------------------------------------
         IF (LGTHMAX == -1 .OR. DELTAX(I) > LGTHMAX) THEN
           LGTHMAX = DELTAX(I)
           IDMAX = IC(5,I+NFT)
-        ENDIF         
+        ENDIF
       ENDDO ! I=1,NEL
 C
       CALL DT1LAWT(PM, DELTAX, MAT, MXG, DTX)

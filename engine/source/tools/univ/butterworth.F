@@ -35,7 +35,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, INTENT (IN) :: 
+      my_real, INTENT (IN) ::
      .   DT,FREQ,X2,X1,X,FX2,FX1
       my_real, INTENT (OUT) ::
      .   FX
@@ -58,18 +58,18 @@ C-----------------------------------------------------------------------
 C    OUTPUT variables:
 C    FX - current filtered variable
 C=======================================================================
-      DT2  = DT / TWO                           
+      DT2  = DT / TWO
       PI   = ATAN2(ZERO,-ONE)
-      WD = SQR2*PI*FREQ*5.0/3.0  
-      WA = SIN(WD*DT2) / COS(WD*DT2)                     
-      WA2 = WA*WA                                      
-      C1 = ONE + SQR2*WA + WA2                           
-      A0 = WA2 / C1                                    
-      A1 = TWO * A0                                   
-      A2 = A0                                          
-      B1 = -TWO*(WA2 - ONE) / C1                       
-      B2 = (-ONE + SQR2*WA - WA2) / C1                   
-      FX = A0*X + A1*X1 + A2*X2 + B1*FX1 + B2*FX2           
+      WD = SQR2*PI*FREQ*5.0/3.0
+      WA = SIN(WD*DT2) / COS(WD*DT2)
+      WA2 = WA*WA
+      C1 = ONE + SQR2*WA + WA2
+      A0 = WA2 / C1
+      A1 = TWO * A0
+      A2 = A0
+      B1 = -TWO*(WA2 - ONE) / C1
+      B2 = (-ONE + SQR2*WA - WA2) / C1
+      FX = A0*X + A1*X1 + A2*X2 + B1*FX1 + B2*FX2
 C---
       RETURN
       END SUBROUTINE BUTTERWORTH

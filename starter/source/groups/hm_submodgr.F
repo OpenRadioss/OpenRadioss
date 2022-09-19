@@ -88,21 +88,21 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE 
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
 C     Tag submodels
 C-------------------------
       TAGS   = 0
       IS_AVAILABLE = .FALSE.
       CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
-      DO KK=1,NENTITY                                                                         
-        JJ = LIST_ENTITY(KK)            
+      DO KK=1,NENTITY
+        JJ = LIST_ENTITY(KK)
         IF(JJ /= 0)THEN
-          ISU=0  
-          ISELECT = 0 
-          IOK = 0 
-          DO K=1,NSUBMOD 
+          ISU=0
+          ISELECT = 0
+          IOK = 0
+          DO K=1,NSUBMOD
             CUR_SUBMOD = K
             ISELECT = 0
             DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)
@@ -110,9 +110,9 @@ C-------------------------
               IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1
               CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
             ENDDO
-                				  
+                				
             IF (ISELECT == 1) THEN
-              ISU=K			  
+              ISU=K			
               TAGS(K) = TAGS(K) + 1
               IOK = 1
             ELSEIF (ISELECT == -1) THEN
@@ -120,7 +120,7 @@ C-------------------------
               TAGS(K) = TAGS(K) - 1
               IOK = 1
             ENDIF
-          ENDDO                                              
+          ENDDO
           IF (IOK == 0) CALL ANCMSG(MSGID=194,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO,
@@ -129,40 +129,40 @@ C-------------------------
      .                  C2=TITR1,
      .                  C3=TITR,
      .                  C4='SUBMODEL',
-     .                  I2=J10(J))                                              
-        ENDIF                                                
-      ENDDO 
+     .                  I2=J10(J))
+        ENDIF
+      ENDDO
       IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
 C--- 
 C-------------------------------------
 C Tag submodel nodes
 C-------------------------------------
-      CALL CPP_NODES_COUNT(NBNODES,NBCNODES) 
+      CALL CPP_NODES_COUNT(NBNODES,NBCNODES)
       ALLOCATE(TAGNODSUB(NBNODES+NBCNODES))
       TAGNODSUB = 0
-      CALL CPP_NODE_SUB_TAG(TAGNODSUB)                             
-      IF (FLAG == 0) THEN 
+      CALL CPP_NODE_SUB_TAG(TAGNODSUB)
+      IF (FLAG == 0) THEN
         DO I=1,NSUBMOD
           IF(TAGS(I) >= 1)THEN
             DO J=1,NBNODES+NBCNODES
               IF(TAGNODSUB(J) == I) NNOD=NNOD+1
-            ENDDO 
+            ENDDO
           ENDIF
-        ENDDO   
+        ENDDO
       ELSE
         DO I=1,NSUBMOD
-          IF(TAGS(I) >= 1)THEN   
+          IF(TAGS(I) >= 1)THEN
             DO J=1,NBNODES +NBCNODES
-              IF(TAGNODSUB(J) == I) THEN                           
+              IF(TAGNODSUB(J) == I) THEN
                 NN = NN + 1
                 IGRNOD%ENTITY(NN)=J
               ENDIF
-            ENDDO 
+            ENDDO
           ENDIF
-        ENDDO 
-      ENDIF 
+        ENDDO
+      ENDIF
       IF (ALLOCATED(TAGNODSUB)) DEALLOCATE(TAGNODSUB)
-  
+
 C-------------------------
       RETURN
       END
@@ -232,8 +232,8 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C-----------------------------------------------
 C     IELT = ELEMENT TYPE (0 POUR NOEUDS, 1 BRIC, 2 QUAD, 3 SHELL, 
 C                          4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
@@ -242,47 +242,47 @@ C     Tag submodels
 C-------------------------
       TAGS   = 0
 
-      CALL GROUPS_GET_ELEM_LIST(LIST_ELEM, NENTITY, LSUBMODEL)                            
-      DO KK=1,NENTITY                                                                         
-          JJ=LIST_ELEM(KK)           
-          IF(JJ /= 0)THEN                                                                     
-            ISU=0                                                                             
-            ISELECT = 0                                                                       
-            IOK = 0                                                                           
-            DO K=1,NSUBMOD                                                                    
-              CUR_SUBMOD = K                                                                  
-              ISELECT = 0                                                                     
-              DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)                               
-                IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1                         
-                IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1                       
-                CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER                                    
-              ENDDO                                                                           
-              IF (ISELECT == 1) THEN                                                          
-                ISU=K                                                                         
-                TAGS(K) = TAGS(K) + 1                                                         
-                IOK = 1                                                                       
-              ELSEIF (ISELECT == -1) THEN                                                     
-                ISU=K                                                                         
-                TAGS(K) = TAGS(K) - 1                                                         
-                IOK = 1                                                                       
-              ENDIF                                                                           
-            ENDDO                                                                             
-            IF (IOK == 0) CALL ANCMSG(MSGID=194,                                              
-     .                  MSGTYPE=MSGWARNING,                                                   
-     .                  ANMODE=ANINFO,                                                        
-     .                  C1=TITR1,                                                             
-     .                  I1=SID,                                                               
-     .                  C2=TITR1,                                                             
-     .                  C3=TITR,                                                              
-     .                  C4='SUBMODEL',                                                        
-     .                  I2=JJ)                                                                
-          ENDIF                                                                               
-      ENDDO! NEXT KK  
-      IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)                                                                        
-                  
-      
+      CALL GROUPS_GET_ELEM_LIST(LIST_ELEM, NENTITY, LSUBMODEL)
+      DO KK=1,NENTITY
+          JJ=LIST_ELEM(KK)
+          IF(JJ /= 0)THEN
+            ISU=0
+            ISELECT = 0
+            IOK = 0
+            DO K=1,NSUBMOD
+              CUR_SUBMOD = K
+              ISELECT = 0
+              DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)
+                IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1
+                IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1
+                CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
+              ENDDO
+              IF (ISELECT == 1) THEN
+                ISU=K
+                TAGS(K) = TAGS(K) + 1
+                IOK = 1
+              ELSEIF (ISELECT == -1) THEN
+                ISU=K
+                TAGS(K) = TAGS(K) - 1
+                IOK = 1
+              ENDIF
+            ENDDO
+            IF (IOK == 0) CALL ANCMSG(MSGID=194,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO,
+     .                  C1=TITR1,
+     .                  I1=SID,
+     .                  C2=TITR1,
+     .                  C3=TITR,
+     .                  C4='SUBMODEL',
+     .                  I2=JJ)
+          ENDIF
+      ENDDO! NEXT KK
+      IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)
+
+
 C--- -            
-      DO K=1,NSUBMOD 
+      DO K=1,NSUBMOD
         IF (TAGS(K) > 1) TAGS(K) = 1
         IF (TAGS(K) < -1) TAGS(K) = -1
       ENDDO
@@ -316,26 +316,26 @@ C                          4 TRUSS, 5 BEAM, 6 SPRINGS,7 SHELL_3N)
       ALLOCATE(TAGELEMSUB(NUMEL))
       TAGELEMSUB = 0
       CALL CPP_ELEM_SUB_TAG(ELEMTYPE,TAGELEMSUB)
-      IF (FLAG == 0) THEN 
+      IF (FLAG == 0) THEN
         DO I=1,NSUBMOD
           IF(TAGS(I) >= 1)THEN
             DO J=1,NUMEL
               IF(TAGELEMSUB(J) == I) NEL=NEL+1
-            ENDDO                                  
+            ENDDO
           ENDIF
         ENDDO
-      ELSEIF (FLAG == 1) THEN 
+      ELSEIF (FLAG == 1) THEN
         DO I=1,NSUBMOD
-          IF(TAGS(I) >= 1)THEN  
-            DO J=1,NUMEL 
-              IF(TAGELEMSUB(J) == I) THEN                      
+          IF(TAGS(I) >= 1)THEN
+            DO J=1,NUMEL
+              IF(TAGELEMSUB(J) == I) THEN
                 NN = NN + 1
                 IGRELEM(IGS)%ENTITY(NN) = J
-              ENDIF 
-            ENDDO                                   
+              ENDIF
+            ENDDO
           ENDIF
         ENDDO
-      ENDIF 
+      ENDIF
       IF (ALLOCATED(TAGELEMSUB)) DEALLOCATE(TAGELEMSUB)
 C-------------------------
       RETURN

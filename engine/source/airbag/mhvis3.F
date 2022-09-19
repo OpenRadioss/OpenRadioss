@@ -32,7 +32,7 @@ Chd|====================================================================
      3                  IXC,DT1C,SSP,RHO,STI ,
      4                  EANI,GEO ,PID,STIR,MAT,
      5                  THK0,VISCMX,ALPE,IPARTC ,PARTSAV,
-     6                  IHBE  ,NFT ,ISMSTR , RX1,    
+     6                  IHBE  ,NFT ,ISMSTR , RX1,
      7                  RX2,RX3,RX4,RY1,RY2,
      8                  RY3,RY4,VX1,VX2,VX3,
      9                  VX4,VY1,VY2,VY3,VY4,
@@ -41,7 +41,7 @@ Chd|====================================================================
      C                  B23,B24,AREA,YM,PR,
      D                  VHX,VHY,H11,H12,H13,
      E                  H14,H21,H22,H23,H24,
-     F                  H31,H32,H33,H34,H1 , 
+     F                  H31,H32,H33,H34,H1 ,
      G                  H2,IGEO,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,7 +71,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT,PID(*),
      .        IHBE  ,NFT ,ISMSTR,IGEO(NPROPGI, *),NEL
-      INTEGER MAT(MVSIZ) 
+      INTEGER MAT(MVSIZ)
 C     REAL
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), THK(*), HOUR(NEL,5), OFF(*),
@@ -99,11 +99,11 @@ C     REAL
       my_real
      .   BB(MVSIZ),
      .   H1L(MVSIZ), H2L(MVSIZ), H1Q(MVSIZ), H2Q(MVSIZ), HG1(MVSIZ),
-     .   HG2(MVSIZ), FAC(MVSIZ), YM(MVSIZ), PR(MVSIZ), 
+     .   HG2(MVSIZ), FAC(MVSIZ), YM(MVSIZ), PR(MVSIZ),
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
      .   H4(MVSIZ), H4L(MVSIZ), H4Q(MVSIZ),THK02(MVSIZ),
-     .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),A11(MVSIZ),EHOU(MVSIZ), 
-     .   PX1V, PX2V, PY1V, PY2V, EHOURT,VV ,SCALE(MVSIZ),FAC1 
+     .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),A11(MVSIZ),EHOU(MVSIZ),
+     .   PX1V, PX2V, PY1V, PY2V, EHOURT,VV ,SCALE(MVSIZ),FAC1
 C-----------------------------------------------
       IF(ISMSTR/=3.AND.IHBE>=1)THEN
        DO I=JFT,JLT
@@ -114,7 +114,7 @@ C-----------------------------------------------
          GAMA1(I)= OFF(I)*( ONE- PX1V-PY1V)
          GAMA3(I)= OFF(I)*( ONE+ PX1V+PY1V)
          GAMA2(I)= OFF(I)*(-ONE- PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-ONE+ PX2V+PY2V)	 
+         GAMA4(I)= OFF(I)*(-ONE+ PX2V+PY2V)	
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -172,7 +172,7 @@ C-----------------------------------
        H4L(I)=ZERO
        H4Q(I)=ZERO
        H1(I)=ZERO
-       H2(I)=ZERO     
+       H2(I)=ZERO
  360  CONTINUE
 C-----------------------------------
 C     RIGIDITE-DT
@@ -181,7 +181,7 @@ C-----------------------------------
          SCALE(I)= ZERO
         ENDDO
       IPID=PID(1)
-      IGTYP = IGEO(11,IPID) 
+      IGTYP = IGEO(11,IPID)
       IGMAT = IGEO(98,IPID)
       IPGMAT  = 700
       IF(NODADT/=0.OR.IDT1SH==1.OR.IDTMINS==2)THEN
@@ -197,7 +197,7 @@ C
         IF(IGTYP == 11 .AND. IGMAT > 0) THEN
          DO I=JFT,JLT
             A11(I)  = GEO(IPGMAT +5 ,PID(I))
-            G(I)    = GEO(IPGMAT+4,PID(I)) 
+            G(I)    = GEO(IPGMAT+4,PID(I))
             A11R(I) = GEO(IPGMAT+7,PID(I))
             IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
@@ -205,30 +205,30 @@ C
             ELSE
                 VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                 FAC1 = MAX(B1(I),B2(I)) / (AREA(I) * VV)
-                STI(I) =  STI(I) + FAC1* THK0(I) * A11(I) 
-                STIR(I) = FAC1 *  A11R(I)*ONE_OVER_12*THK0(I)**3 + 
+                STI(I) =  STI(I) + FAC1* THK0(I) * A11(I)
+                STIR(I) = FAC1 *  A11R(I)*ONE_OVER_12*THK0(I)**3 +
      .                    FAC1 *  A11(I)*THK0(I)*AREA(I)*ONE_OVER_9 +
      .             FAC1*SCALE(I)*(ONE_OVER_12*THK0(I)**2 +  AREA(I)*ONE_OVER_9)
-           ENDIF 
-         ENDDO        
-!!        
+           ENDIF
+         ENDDO
+!!
         ELSE  !
-          MX = MAT(JFT)        
+          MX = MAT(JFT)
           DO I=JFT,JLT
            A11(I) =PM(24,MX)
            G(I)  =PM(22,MX)
           ENDDO
-!!        
+!!
           DO I=JFT,JLT
             IF (OFF(I)==ZERO) THEN
                 STI(I) = ZERO
                 STIR(I) = ZERO
             ELSE
                 VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
-                STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
+                STI(I) =  STI(I) + MAX(B1(I),B2(I))
      .                          * THK0(I) * A11(I) / (AREA(I) * VV)
               STIR(I) = STI(I)*(THK02(I) * ONE_OVER_12 + AREA(I) * ONE_OVER_9)
-           ENDIF 
+           ENDIF
          ENDDO
        ENDIF
       ENDIF
@@ -278,11 +278,11 @@ C-----------------------------------
       ENDIF
       EHOURT = 0.
       DO I=JFT,JLT
-       EHOU(I) = 
-     .         VX1(I)*H11(I) + VX2(I)*H12(I) 
+       EHOU(I) =
+     .         VX1(I)*H11(I) + VX2(I)*H12(I)
      .       + VX3(I)*H13(I) + VX4(I)*H14(I)
-     .       + VY1(I)*H21(I) + VY2(I)*H22(I) 
-     .       + VY3(I)*H23(I) + VY4(I)*H24(I) 
+     .       + VY1(I)*H21(I) + VY2(I)*H22(I)
+     .       + VY3(I)*H23(I) + VY4(I)*H24(I)
       ENDDO
 C----------------------------------------------------------------
 C     FORCES ANTISABLIER DE FLEXION W OU PARABOLOIDE HYPERBOLIQUE
@@ -355,9 +355,9 @@ C------------------------------------------------
       ENDDO
 C------------------------------------------------
       DO I=JFT,JLT
-      EHOU(I) = EHOU(I)  
-     .       + VZ1(I)*H31(I) + VZ2(I)*H32(I) 
-     .       + VZ3(I)*H33(I) + VZ4(I)*H34(I) 
+      EHOU(I) = EHOU(I)
+     .       + VZ1(I)*H31(I) + VZ2(I)*H32(I)
+     .       + VZ3(I)*H33(I) + VZ4(I)*H34(I)
       EHOU(I) = DT1C(I) * EHOU(I)
       EHOURT = EHOURT + EHOU(I)
       ENDDO

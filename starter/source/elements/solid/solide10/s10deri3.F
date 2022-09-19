@@ -37,7 +37,7 @@ Chd|====================================================================
      .   RX,  RY,  RZ,  SX,  SY,  SZ , TX, TY, TZ,VOLU,VOLN,
      .   ELBUF_STR,VOLG)
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
      .   A4,B4,A4M1,B4M1,AA
       my_real
      .   ALPH,BETA,W
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       DATA IPERM/
      .            2, 4, 3, 1, 9,10, 6, 5, 8, 7,
      .            4, 1, 3, 2, 8, 7,10, 9, 5, 6,
@@ -328,7 +328,7 @@ C-----------------------------------------------
       AA = (TWO*ALPH - ONE)*ALPH
       BB = (TWO*BETA - ONE)*BETA
       B2 = FOUR*BETA*BETA
-      AB = FOUR*ALPH*BETA      
+      AB = FOUR*ALPH*BETA
 C-----------------------------------------------
       DO I=LFT,LLT
         NX1(I) = BB
@@ -506,9 +506,9 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO J=1,10
        DO I=1,NEL
-        PIJ(I,1,J) = PX(I,J) 
-        PIJ(I,2,J) = PY(I,J) 
-        PIJ(I,3,J) = PZ(I,J)  
+        PIJ(I,1,J) = PX(I,J)
+        PIJ(I,2,J) = PY(I,J)
+        PIJ(I,3,J) = PZ(I,J)
        END DO
       END DO
 C-----------

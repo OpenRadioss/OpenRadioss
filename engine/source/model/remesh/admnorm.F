@@ -95,21 +95,21 @@ C-----------------------------------------------
       NODNORM(1,N1)=NODNORM(1,N1)+NX
       NODNORM(2,N1)=NODNORM(2,N1)+NY
       NODNORM(3,N1)=NODNORM(3,N1)+NZ
-c  
+c
       NODNORM(1,N2)=NODNORM(1,N2)+NX
       NODNORM(2,N2)=NODNORM(2,N2)+NY
       NODNORM(3,N2)=NODNORM(3,N2)+NZ
-c  
+c
       NODNORM(1,N3)=NODNORM(1,N3)+NX
       NODNORM(2,N3)=NODNORM(2,N3)+NY
       NODNORM(3,N3)=NODNORM(3,N3)+NZ
-c  
+c
       NODNORM(1,N4)=NODNORM(1,N4)+NX
       NODNORM(2,N4)=NODNORM(2,N4)+NY
       NODNORM(3,N4)=NODNORM(3,N4)+NZ
 
       RETURN
-      END     
+      END
 
 Chd|====================================================================
 Chd|  ADMNORM3                      source/model/remesh/admnorm.F 
@@ -184,17 +184,17 @@ C-----------------------------------------------
       NODNORM(1,N1)=NODNORM(1,N1)+NX
       NODNORM(2,N1)=NODNORM(2,N1)+NY
       NODNORM(3,N1)=NODNORM(3,N1)+NZ
-c  
+c
       NODNORM(1,N2)=NODNORM(1,N2)+NX
       NODNORM(2,N2)=NODNORM(2,N2)+NY
       NODNORM(3,N2)=NODNORM(3,N2)+NZ
-c  
+c
       NODNORM(1,N3)=NODNORM(1,N3)+NX
       NODNORM(2,N3)=NODNORM(2,N3)+NY
       NODNORM(3,N3)=NODNORM(3,N3)+NZ
 
       RETURN
-      END     
+      END
 
 
 

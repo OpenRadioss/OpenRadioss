@@ -51,7 +51,7 @@ C     REAL
       my_real
      .   EZZ(*),OFF(*),EPSEQ(*),GS(*),DPLA(*)
       my_real
-     .   YLD(MVSIZ),A1(MVSIZ),NU(MVSIZ),YMAX(MVSIZ), 
+     .   YLD(MVSIZ),A1(MVSIZ),NU(MVSIZ),YMAX(MVSIZ),
      .   CN(MVSIZ),YOUNG(MVSIZ),EPCHK(MVSIZ),CC(MVSIZ),EPDR(MVSIZ),
      .   EPSL(MVSIZ),HL(MVSIZ),YM(MVSIZ),YLDL(MVSIZ),ALPE(MVSIZ),
      .   CA(MVSIZ),CB(MVSIZ),
@@ -156,7 +156,7 @@ C-------------------------
           S3 = SIGNXY(I)
           A(I) = FOURTH*S1*S1
           B(I) = THREE_OVER_4*S2*S2 + THREE*S3*S3
-          SVM(I) = SQRT(A(I) + B(I))  
+          SVM(I) = SQRT(A(I) + B(I))
         ENDDO
 C-------------------------
 C     GATHER PLASTIC FLOW
@@ -190,7 +190,7 @@ C
         DO J=1,NINDX
           I = INDEX(J)
           DPLA_I(I) = DPLA_J(I)
-          DPLA(I)   = DPLA_J(I)        
+          DPLA(I)   = DPLA_J(I)
           PLA_I = EPSEQ(I)+DPLA_I(I)
           YLD_I = MIN(YMAX(I),CA(I)+CB(I)*PLA_I**CN(I))
           DR(I) = HALF*YOUNG(I)*DPLA_I(I)/YLD_I
@@ -206,13 +206,13 @@ C
             DPLA_J(I) = MAX(ZERO,DPLA_I(I)-F/DF)
           ELSE
             DPLA_J(I) = ZERO
-          ENDIF        
+          ENDIF
         ENDDO
       ENDDO
 C------------------------------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO J=1,NINDX
         I = INDEX(J)
         DPLA(I) = DPLA_I(I)

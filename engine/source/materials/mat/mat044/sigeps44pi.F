@@ -29,11 +29,11 @@ Chd|        VINTER                        source/tools/curve/vinter.F
 Chd|====================================================================
       SUBROUTINE SIGEPS44PI(
      1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,MAT     ,
-     2               OFF     ,PLA     ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,        
-     3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPST    ,EPSP    ,      
+     2               OFF     ,PLA     ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,
+     3               SIGOXX  ,SIGOXY  ,SIGOXZ  ,EPST    ,EPSP    ,
      4               SIGNXX  ,SIGNXY  ,SIGNXZ  ,ETSE    ,NUVAR   ,
      5               UVAR    ,IFUNC   ,NVARTMP ,VARTMP  ,NPF     ,
-     6               TF      ,NFUNC   )      
+     6               TF      ,NFUNC   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +91,7 @@ c
         CN(I)    = UPARAM(IADBUF+9)
         ICC(I)   = NINT(UPARAM(IADBUF+10))
         EPDR(I)  = UPARAM(IADBUF+11)
-        EPIF     = MAX(EPIF,EPDR(I))              
+        EPIF     = MAX(EPIF,EPDR(I))
         CP(I)    = UPARAM(IADBUF+12)
         G(I)     = UPARAM(IADBUF+16)
         G3(I)    = UPARAM(IADBUF+18)
@@ -104,31 +104,31 @@ c
         ENDIF
         DPLA(I) = ZERO
       ENDDO
-c        
+c
 c---    Contraintes elastiques
 c
       DO I = 1,NEL
-        GS = SHFACT*G(I)                         
+        GS = SHFACT*G(I)
         SIGNXX(I) = SIGOXX(I) + E(I)*DEPSXX(I)
         SIGNXY(I) = SIGOXY(I) + GS*DEPSXY(I)
         SIGNXZ(I) = SIGOXZ(I) + GS*DEPSXZ(I)
-        ETSE(I)   = ONE                        
-      ENDDO  
-c        
+        ETSE(I)   = ONE
+      ENDDO
+c
 c---    Yield stress
 c
       IF (NFUNC > 0) THEN
         IPOS(1:NEL) = VARTMP(1:NEL,1)
         IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
-        CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 
+        CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD)
         VARTMP(1:NEL,1) = IPOS(1:NEL)
       ENDIF
 c
 c
 c
       DO I = 1,NEL
-        IF (NFUNC > 0) THEN 
+        IF (NFUNC > 0) THEN
           YLD(I) = YSCALE(I)*YLD(I)
         ELSE
           YLD(I) = CA(I)
@@ -139,13 +139,13 @@ c
 c
       DO I = 1,NEL
         IF (PLA(I) > ZERO) THEN
-          IF (NFUNC > 0) THEN 
+          IF (NFUNC > 0) THEN
             YLD(I) = YSCALE(I)*YLD(I)
           ELSE
             YLD(I) = CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I)))
           ENDIF
-        ENDIF                                          
-      ENDDO  
+        ENDIF
+      ENDDO
 c
 c     Strain rate effect
 c
@@ -154,15 +154,15 @@ c
           IF (EPDR(I) > ZERO) THEN
             FRATE = ONE + (EPSP(I)*EPDR(I))**CP(I)
             IF (ICC(I)== 1) YLDMAX(I) = YLDMAX(I) * FRATE
-            IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN 
-              IF (PLA(I)>ZERO) THEN 
+            IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN
+              IF (PLA(I)>ZERO) THEN
                 YLD(I) = YLD(I) + (CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I))))*(FRATE-ONE)
               ELSE
                 YLD(I) = YLD(I) + CA(I)*(FRATE-ONE)
               ENDIF
             ELSE
               YLD(I) = YLD(I) * FRATE
-            ENDIF  
+            ENDIF
           ENDIF
         ENDDO
       ENDIF
@@ -170,18 +170,18 @@ c-------------------
 c     PROJECTION   -   radial return
 c-------------------
       DO I = 1,NEL
-        YLD(I) = MIN(YLD(I),YLDMAX(I))                  
+        YLD(I) = MIN(YLD(I),YLDMAX(I))
         SVM    = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)
         IF (SVM > YLD(I)**2) THEN
-          SVM = SQRT(SVM)                                        
-          R   = MIN( ONE, YLD(I) / SVM)                  
-          SIGNXX(I) = SIGNXX(I)*R                                  
-          SIGNXY(I) = SIGNXY(I)*R                                  
-          SIGNXZ(I) = SIGNXZ(I)*R   
-          DPLA(I) = OFF(I)*SVM*(ONE - R) / G3(I)                       
+          SVM = SQRT(SVM)
+          R   = MIN( ONE, YLD(I) / SVM)
+          SIGNXX(I) = SIGNXX(I)*R
+          SIGNXY(I) = SIGNXY(I)*R
+          SIGNXZ(I) = SIGNXZ(I)*R
+          DPLA(I) = OFF(I)*SVM*(ONE - R) / G3(I)
           PLA(I) = PLA(I) + OFF(I)*SVM*(ONE - R) / G3(I)
-        ENDIF                                   
-      ENDDO     
+        ENDIF
+      ENDDO
 c--------------------------------
 c     DUCTILE RUPTURE
 c--------------------------------
@@ -190,7 +190,7 @@ c--------------------------------
         IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c--------------------------------
-c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 
+c     AXIAL TENSION OR PLASTIC STRAIN FAILURE
 c--------------------------------
       DO I = 1,NEL
         IF (OFF(I) == ONE) THEN
@@ -198,24 +198,24 @@ c--------------------------------
           IF (EPST(I) > EPSR1(I)) THEN
             DMG = (EPSR2(I) - EPST(I)) / (EPSR2(I) - EPSR1(I))
             DMG = MAX(DMG, ZERO)
-            SIGNXX(I) = SIGNXX(I)*DMG                               
-            SIGNXY(I) = SIGNXY(I)*DMG                               
-            SIGNXZ(I) = SIGNXZ(I)*DMG                               
+            SIGNXX(I) = SIGNXX(I)*DMG
+            SIGNXY(I) = SIGNXY(I)*DMG
+            SIGNXZ(I) = SIGNXZ(I)*DMG
           ENDIF
 c         test strain failure
           IF (DMG == ZERO .or. PLA(I) >= EPMAX(I)) THEN
             OFF(I)   = FOUR_OVER_5
             IDEL7NOK = 1
           ENDIF
-          IF (VFLAG(I) == 1) THEN 
+          IF (VFLAG(I) == 1) THEN
             ALPHA   = MIN(ONE, ASRATE(I)*DT1)
-            EPSDOT  = DPLA(I)/MAX(EM20,DT1) 
-            EPSP(I) = ALPHA*EPSDOT + (ONE - ALPHA)*EPSP(I)  
+            EPSDOT  = DPLA(I)/MAX(EM20,DT1)
+            EPSP(I) = ALPHA*EPSDOT + (ONE - ALPHA)*EPSP(I)
             UVAR(I,1) = EPSP(I)
-          ENDIF      
+          ENDIF
 c
         ENDIF
-      ENDDO                                          
+      ENDDO
 c-----------
       RETURN
       END

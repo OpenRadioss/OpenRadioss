@@ -95,7 +95,7 @@ C-----------------------------------------------
            CALL ARRET(2)
       ENDIF
 C
-      NB_EDGE = NB 
+      NB_EDGE = NB
       NISKY_SAV = NISKY
       DO I = 1, NB_EDGE
         N = NINT(BUFR(1,I))
@@ -143,7 +143,7 @@ C#endif
 
         ENDIF
       ENDDO
-      
+
       IF(INTTH /= 0 ) THEN
        ! THERMAL ANALYSIS + TYPE25 not avaiable yet
        ASSERT(.FALSE.)
@@ -192,7 +192,7 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
               N = NINT(BUFR(1,I))
               NOD1 = LEDGE(5,N)
               NOD2 = LEDGE(6,N)
-              DO PP = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+              DO PP = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1)
                  PPL = LOADP_HYD_INTER(PP)
                  TAGNCONT(PPL,NOD1) = 1
                  TAGNCONT(PPL,NOD2) = 1

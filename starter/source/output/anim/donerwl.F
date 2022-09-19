@@ -26,40 +26,40 @@ Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DONERWL(IRWL,NERWL,NPRW)                               
+      SUBROUTINE DONERWL(IRWL,NERWL,NPRW)
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com04_c.inc"                                             
-#include      "scr05_c.inc"                                             
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER IRWL,NERWL,                                               
-     .        NPRW(*)                                                   
+      INTEGER IRWL,NERWL,
+     .        NPRW(*)
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER N2, N3, N4, ITYP                                          
+      INTEGER N2, N3, N4, ITYP
 C-----------------------------------------------                        
 C                                                                       
-         N2=IRWL+NRWALL                                                 
-         N3=N2+NRWALL                                                   
-         N4=N3+NRWALL                                                   
-         ITYP= NPRW(N4)                                                 
-         IF(IABS(ITYP)==1)THEN                                        
-            NERWL = NERWL + 1 + 1                                       
-         ELSEIF(ITYP==2)THEN                                          
-            NERWL = NERWL + 24 + 1                                      
-         ELSEIF(ITYP==3)THEN                                          
-            NERWL = NERWL + 216 + 1                                     
-         ELSEIF(ITYP==4)THEN                                          
-            NERWL = NERWL + 1 + 1                                       
-         ENDIF                                                          
+         N2=IRWL+NRWALL
+         N3=N2+NRWALL
+         N4=N3+NRWALL
+         ITYP= NPRW(N4)
+         IF(IABS(ITYP)==1)THEN
+            NERWL = NERWL + 1 + 1
+         ELSEIF(ITYP==2)THEN
+            NERWL = NERWL + 24 + 1
+         ELSEIF(ITYP==3)THEN
+            NERWL = NERWL + 216 + 1
+         ELSEIF(ITYP==4)THEN
+            NERWL = NERWL + 1 + 1
+         ENDIF
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

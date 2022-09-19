@@ -47,7 +47,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
      .   BATOZMULT,TMAT
-      
+
       my_real
      .        CC, INVTREF,A,B,A1,A2
 

@@ -71,11 +71,11 @@ C     REAL
      .   TS_OLD, F1, F2, FCX, FCY, T_INF, TE, AREA, H,
      .    STARTT, STOPT, FCY_OLD, OFFG
       my_real :: HEAT_CONV_L ! thread-local
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
       INTEGER :: OMP_GET_THREAD_NUM,ITSK
       EXTERNAL OMP_GET_THREAD_NUM
-      INTEGER S1 
+      INTEGER S1
 
 C=======================================================================
       IFUNC_OLD = 0
@@ -92,7 +92,7 @@ C-----------------------------------------------------------
 !$OMP DO SCHEDULE(GUIDED)
        DO NL=1,NUMCONV
          OFFG   = FCONV(6,NL)
-         IF(OFFG <= ZERO) CYCLE 
+         IF(OFFG <= ZERO) CYCLE
 
          STARTT = FCONV(4,NL)
          STOPT  = FCONV(5,NL)
@@ -100,14 +100,14 @@ C
          ISENS = IBCV(6,NL)
          IF(ISENS == 0)THEN
             TS = TT*THEACCFACT - STARTT
-         ELSE 
+         ELSE
             STARTT = STARTT + SENSOR(2,ISENS)
-            STOPT  = STOPT  + SENSOR(2,ISENS)           
-            TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))      
-         ENDIF       
+            STOPT  = STOPT  + SENSOR(2,ISENS)
+            TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))
+         ENDIF
 C
          IF(TT*THEACCFACT < STARTT) CYCLE
-         IF(TT*THEACCFACT > STOPT ) CYCLE 
+         IF(TT*THEACCFACT > STOPT ) CYCLE
          N1 = IBCV(1,NL)
          N2 = IBCV(2,NL)
          N3 = IBCV(3,NL)
@@ -135,16 +135,16 @@ C
            NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))
      +        -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-           TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
+           TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))
            AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
-           FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT 
+           FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
            HEAT_CONV_L = HEAT_CONV_L + FLUX
            FLUX = FOURTH*FLUX
 C
            FTHE(S1*ITSK+N1) = FTHE(S1*ITSK+N1) + FLUX
            FTHE(S1*ITSK+N2) = FTHE(S1*ITSK+N2) + FLUX
            FTHE(S1*ITSK+N3)=  FTHE(S1*ITSK+N3) + FLUX
-           FTHE(S1*ITSK+N4)=  FTHE(S1*ITSK+N4) + FLUX  
+           FTHE(S1*ITSK+N4)=  FTHE(S1*ITSK+N4) + FLUX
 
 C
         ELSEIF(N3 > 0) THEN !TRUE TRIANGLES
@@ -155,7 +155,7 @@ C
           NZ= (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2))
      +       -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
-          TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )      
+          TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )
           AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
           FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
           HEAT_CONV_L = HEAT_CONV_L + FLUX
@@ -169,7 +169,7 @@ C
          NY=  -X(3,N2)+X(3,N1)
          NZ=   X(2,N2)-X(2,N1)
 C     
-         TE = HALF*(TEMP(N1) + TEMP(N2) )      
+         TE = HALF*(TEMP(N1) + TEMP(N2) )
          AREA = SQRT( NY*NY + NZ*NZ)
          FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
          HEAT_CONV_L = HEAT_CONV_L + FLUX
@@ -198,11 +198,11 @@ C-------------------------
           ISENS  = IBCV(6,NL)
           IF(ISENS == 0)THEN
              TS = TT*THEACCFACT - STARTT
-          ELSE 
+          ELSE
              STARTT = STARTT + SENSOR(2,ISENS)
-             STOPT  = STOPT  + SENSOR(2,ISENS)          
-             TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))      
-          ENDIF       
+             STOPT  = STOPT  + SENSOR(2,ISENS)
+             TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))
+          ENDIF
           IFLAG = 1
           IF(TT*THEACCFACT < STARTT)  IFLAG = 0
           IF(TT*THEACCFACT > STOPT )  IFLAG = 0
@@ -215,7 +215,7 @@ C---------------------
             N2 =IBCV(2,NL)
             N3 =IBCV(3,NL)
             N4 =IBCV(4,NL)
-            IFUNC  = IBCV(5,NL)            
+            IFUNC  = IBCV(5,NL)
             FCY    = FCONV(1,NL)
             FCX    = FCONV(2,NL)
             H      = FCONV(3,NL)
@@ -234,7 +234,7 @@ C          ANALYSE 3D
                NZ= (X(1,N3)-X(1,N1))*(X(2,N4)-X(2,N2))
      +            -(X(2,N3)-X(2,N1))*(X(1,N4)-X(1,N2))
 C
-               TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))      
+               TE = FOURTH*(TEMP(N1) + TEMP(N2) + TEMP(N3) + TEMP(N4))
                AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
                FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
                HEAT_CONV_L = HEAT_CONV_L + FLUX
@@ -257,9 +257,9 @@ C
                NZ= (X(1,N3)-X(1,N1))*(X(2,N3)-X(2,N2))
      +            -(X(2,N3)-X(2,N1))*(X(1,N3)-X(1,N2))
 C
-               TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )      
+               TE = THIRD*(TEMP(N1) + TEMP(N2) + TEMP(N3) )
                AREA = HALF*SQRT( NX*NX + NY*NY + NZ*NZ)
-               FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT 
+               FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
                HEAT_CONV_L = HEAT_CONV_L + FLUX
                FLUX = THIRD*FLUX
 C
@@ -274,9 +274,9 @@ C
 C
             ELSE !ANALYSE 2D
                NY=  -X(3,N2)+X(3,N1)
-               NZ=   X(2,N2)-X(2,N1) 
+               NZ=   X(2,N2)-X(2,N1)
 C 
-               TE = HALF*(TEMP(N1) + TEMP(N2) )      
+               TE = HALF*(TEMP(N1) + TEMP(N2) )
                AREA = SQRT( NY*NY + NZ*NZ)
                FLUX = AREA*H*(T_INF - TE)*DT1*THEACCFACT
                HEAT_CONV_L = HEAT_CONV_L + FLUX
@@ -304,7 +304,7 @@ C
               FTHESKY(IAD3) = ZERO
             ENDIF
           ENDIF
-        ENDDO       
+        ENDDO
 !$OMP END DO
 
 !$OMP CRITICAL

@@ -74,16 +74,16 @@ Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mo
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE S4FORC3 (ELBUF_TAB ,NG      ,
-     1            PM       ,GEO     ,IXS     ,X        ,   
-     2            A        ,V       ,MS      ,W        ,FLUX     ,  
-     3            FLU1     ,VEUL    ,FV      ,ALE_CONNECT    ,IPARG    ,  
-     4            TF       ,NPF     ,BUFMAT  ,PARTSAV  ,NLOC_DMG , 
+     1            PM       ,GEO     ,IXS     ,X        ,
+     2            A        ,V       ,MS      ,W        ,FLUX     ,
+     3            FLU1     ,VEUL    ,FV      ,ALE_CONNECT    ,IPARG    ,
+     4            TF       ,NPF     ,BUFMAT  ,PARTSAV  ,NLOC_DMG ,
      5            DT2T     ,NELTST  ,ITYPTST ,STIFN    ,FSKY     ,
      6            IADS     ,OFFSET  ,EANI    ,IPARTS   ,
      7            F11      ,F21     ,F31     ,F12      ,F22      ,
      8            F32      ,F13     ,F23     ,F33      ,F14      ,
-     9            F24      ,F34     ,NEL     ,FSKYM    ,MSNF     ,                    
-     A            IPM      ,IGEO    ,BUFVOIS ,ISTRAIN  ,ITASK    ,      
+     9            F24      ,F34     ,NEL     ,FSKYM    ,MSNF     ,
+     A            IPM      ,IGEO    ,BUFVOIS ,ISTRAIN  ,ITASK    ,
      B            TEMP     ,FTHE    ,FTHESKY ,IEXPAN   ,GRESAV   ,
      C            GRTH     ,IGRTH   ,MSSA    ,DMELS    ,TABLE    ,
      D            XDP      ,VARNOD  ,VOLN    ,CONDN    ,CONDNSKY ,
@@ -94,7 +94,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -133,10 +133,10 @@ C-----------------------------------------------
 C
       INTEGER NELTST,ITYPTST,OFFSET,NEL,NG, ISTRAIN,
      .        IEXPAN,H3D_STRAIN
-     
+
       DOUBLE PRECISION
      .        XDP(3,*)
-         
+
       my_real
      .   DT2T
       my_real
@@ -154,7 +154,7 @@ C
      .   BUFVOIS(6,*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -172,19 +172,19 @@ C-----------------------------------------------
      . B1(MVSIZ)  , B2(MVSIZ)  , B3(MVSIZ)  ,
      . B4(MVSIZ)  , B5(MVSIZ)  , B6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      . TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) ,
      . VDX(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . CONDE(MVSIZ),DIVDE(MVSIZ)
-     
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   X0(MVSIZ,4),Y0(MVSIZ,4),Z0(MVSIZ,4),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),VOLDP(MVSIZ)
-          
+
       ! Variables utilisees en argument par les materiaux.
       my_real
      .   STI(MVSIZ), GAMA(MVSIZ,6),
@@ -193,7 +193,7 @@ C-----------------------------------------------
       my_real
      . MUVOID(MVSIZ)
 
-      ! Variables void MMAIN 
+      ! Variables void MMAIN
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ)
       ! Variables utilisees dans les routines solides uniquement(en arguments).
@@ -215,8 +215,8 @@ C-----------------------------------------------
      .  DXY(MVSIZ),DYX(MVSIZ),
      .  DYZ(MVSIZ),DZY(MVSIZ),
      .  DZX(MVSIZ),DXZ(MVSIZ),
-     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
-     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) , 
+     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
+     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
      .  E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,RHO_0,
      .  TEMPEL(MVSIZ), THEM(MVSIZ,4) , DIE(MVSIZ)
 
@@ -225,11 +225,11 @@ C-----------------------------------------------
      .  MFXX(MVSIZ),MFXY(MVSIZ),MFYX(MVSIZ),
      .  MFYY(MVSIZ),MFYZ(MVSIZ),MFZY(MVSIZ),
      .  MFZZ(MVSIZ),MFZX(MVSIZ),MFXZ(MVSIZ),BID(MVSIZ),AMU(MVSIZ)
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: EINT
 
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C----- Variables for non-local computation
       INTEGER INOD(4),IPOS(4), L_NLOC, INLOC,ISM12_11
       my_real, DIMENSION(:), ALLOCATABLE :: VAR_REG
@@ -239,7 +239,7 @@ C
 C----- 
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD,II(6)
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -258,32 +258,32 @@ C
       BPRELD =>GBUF%BPRELD(1:NBPRELD*NEL)
 C-----------
       NF1 = NFT+1
-      IGTYP = IGEO(11,IXS(10,NF1))   
+      IGTYP = IGEO(11,IXS(10,NF1))
 c
       CALL S4COOR3(X,IXS(1,NF1),V,W,
-     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
-     .   Z1, Z2, Z3, Z4, VX1, VX2, VX3, VX4, 
-     .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4, 
-     .   VDX1, VDX2, VDX3, VDX4, 
+     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4,
+     .   Z1, Z2, Z3, Z4, VX1, VX2, VX3, VX4,
+     .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4,
+     .   VDX1, VDX2, VDX3, VDX4,
      .   VDY1, VDY2, VDY3, VDY4,
-     .   VDZ1, VDZ2, VDZ3, VDZ4, 
+     .   VDZ1, VDZ2, VDZ3, VDZ4,
      .   VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,
      .   GBUF%RHO,RHOO,NC1,NC2,NC3,NC4,NGL,MXT,NGEO,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4, XDP,NEL)
 C-----------
 C GATHER NODAL VARIABLES FOR TOTAL STRAIN CASE.
 C-----------
       IF ((ISMSTR >= 10.AND.ISMSTR <= 12).AND.JLAG > 0) THEN
         CALL SGCOOR3(TT,4,X,IXS(1,NF1),
-     1   X0, Y0, Z0, VX0, VY0, VZ0, 
+     1   X0, Y0, Z0, VX0, VY0, VZ0,
      2   GBUF%SMSTR ,D ,GBUF%OFF,OFFG0,NEL ,XDP )
        IF (ISMSTR ==  11) THEN
         CALL S4DERIT3(OFF,VOLN,NGL,DELTAX,MXT,
-     .   X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
-     .   Y0(1,1), Y0(1,2), Y0(1,3), Y0(1,4), 
-     .   Z0(1,1), Z0(1,2), Z0(1,3), Z0(1,4), 
+     .   X0(1,1), X0(1,2), X0(1,3), X0(1,4),
+     .   Y0(1,1), Y0(1,2), Y0(1,3), Y0(1,4),
+     .   Z0(1,1), Z0(1,2), Z0(1,3), Z0(1,4),
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
@@ -294,12 +294,12 @@ C-----------
 C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un) 
           CALL S4RCOOR12(GBUF%OFF,NC1  ,NC2  ,NC3  ,NC4   ,
      .                   X     ,XDP   ,D     ,
-     .     E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   ) 
-        END IF 
+     .     E1X   ,E2X   ,E3X   ,E1Y   ,E2Y   ,E3Y   ,E1Z  ,E2Z  ,E3Z   )
+        END IF
         CALL S4DERITO3(OFF,VOLN,
-     .   X0(1,1), X0(1,2), X0(1,3), X0(1,4), 
-     .   Y0(1,1), Y0(1,2), Y0(1,3), Y0(1,4), 
-     .   Z0(1,1), Z0(1,2), Z0(1,3), Z0(1,4), 
+     .   X0(1,1), X0(1,2), X0(1,3), X0(1,4),
+     .   Y0(1,1), Y0(1,2), Y0(1,3), Y0(1,4),
+     .   Z0(1,1), Z0(1,2), Z0(1,3), Z0(1,4),
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
@@ -310,26 +310,26 @@ C!!!!!!calcul local rep for ISMSTR 10 to 11 (offg>un)
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
-     .   VX0(1,1), VX0(1,2), VX0(1,3), VX0(1,4), 
-     .   VY0(1,1), VY0(1,2), VY0(1,3), VY0(1,4), 
-     .   VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4), 
-     .   MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ) 
-        IF (ISORTH == 0) THEN            
-          DO I=LFT,LLT                                            
-            GAMA(I,1) = ONE                               
-            GAMA(I,2) = ZERO                                
-            GAMA(I,3) = ZERO             
-            GAMA(I,4) = ZERO                                
-            GAMA(I,5) = ONE                                
-            GAMA(I,6) = ZERO             
-          ENDDO                          
-        ELSE                             
+     .   VX0(1,1), VX0(1,2), VX0(1,3), VX0(1,4),
+     .   VY0(1,1), VY0(1,2), VY0(1,3), VY0(1,4),
+     .   VZ0(1,1), VZ0(1,2), VZ0(1,3), VZ0(1,4),
+     .   MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ)
+        IF (ISORTH == 0) THEN
+          DO I=LFT,LLT
+            GAMA(I,1) = ONE
+            GAMA(I,2) = ZERO
+            GAMA(I,3) = ZERO
+            GAMA(I,4) = ZERO
+            GAMA(I,5) = ONE
+            GAMA(I,6) = ZERO
+          ENDDO
+        ELSE
          CALL SREPLOC3(
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ) 
+     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
           CALL SORTHDIR3(
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .         E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
+     .         E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .         GBUF%GAMA,GAMA )
         ENDIF
          IF (ISMSTR == 12.AND.ISM12_11==0.AND.IDTMIN(1)==3) THEN
@@ -346,26 +346,26 @@ C!!!!!!add excetion also for ismstr10+offg>un
         CALL S4DERI3(OFF,VOLN,NGL,DELTAX,MXT,
      .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4, PX1, PX2, PX3, PX4,
-     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4, 
+     .   PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,
      .   RX,  RY,  RZ,  SX,  SY,  SZ, TX , TY , TZ,
      .   GBUF%SMSTR,GBUF%OFF,NEL, PM,VOLDP)
 C     
-        IF (ISORTH == 0) THEN            
-          DO I=LFT,LLT                                            
-            GAMA(I,1) = ONE                               
-            GAMA(I,2) = ZERO                                
-            GAMA(I,3) = ZERO             
-            GAMA(I,4) = ZERO                                
-            GAMA(I,5) = ONE                                
-            GAMA(I,6) = ZERO             
-          ENDDO                          
-        ELSE                             
+        IF (ISORTH == 0) THEN
+          DO I=LFT,LLT
+            GAMA(I,1) = ONE
+            GAMA(I,2) = ZERO
+            GAMA(I,3) = ZERO
+            GAMA(I,4) = ZERO
+            GAMA(I,5) = ONE
+            GAMA(I,6) = ZERO
+          ENDDO
+        ELSE
           CALL SREPLOC3(
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ) 
+     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
           CALL SORTHDIR3(
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .         E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
+     .         E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .         GBUF%GAMA,GAMA )
         ENDIF
        END IF !(ISMSTR /= 11) THEN
@@ -413,7 +413,7 @@ C-----------------------------------------------------
 C-------------------------------------------------------------
 C     DENSITY
 C-------------------------------------------------------------
-       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
+       DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))
       CALL SRHO3(PM          ,GBUF%VOL   ,GBUF%RHO ,GBUF%EINT  ,DIVDE,
      .   FLUX(1,NF1),FLU1(NF1),VOLN,DVOL,NGL,MXT,OFF,
      .           IPARG(64,NG)    ,GBUF%TAG22   , VOLDP,LBUF%VOL0DP,AMU ,GBUF%OFF)
@@ -441,7 +441,7 @@ C- Total strain option doesn't change the Ref CONF.
 C--------------------------
       IF (ISMSTR <= 3.OR.(ISMSTR==4.AND.JLAG>0)) THEN
        CALL S4SAV3(GBUF%OFF,GBUF%SMSTR,
-     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .   XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .   ZD1, ZD2, ZD3, ZD4,NEL)
       END IF !(ISMSTR <= 3) THEN
 C-----------------------------
@@ -450,8 +450,8 @@ C
       IF(JTHE < 0 ) THEN
          DO I = LFT, LLT
            TEMPEL(I) =  FOURTH*( TEMP(NC1(I)) + TEMP(NC2(I))  +
-     .                          TEMP(NC3(I)) + TEMP(NC4(I))  )    
-         ENDDO  
+     .                          TEMP(NC3(I)) + TEMP(NC4(I))  )
+         ENDDO
       ENDIF
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
@@ -477,10 +477,10 @@ C------------------------------------------------------
 Cpour le fluide en SPMD : BUFVOIS LOI11
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
 
-      ILAY = 1                                                
-      IPTR = 1                                                
-      IPTS = 1                                                
-      IPTT = 1  
+      ILAY = 1
+      IPTR = 1
+      IPTS = 1
+      IPTT = 1
       IP = 1
 
       IF(IBOLTP /= 0) THEN
@@ -502,7 +502,7 @@ Cpour le fluide en SPMD : BUFVOIS LOI11
      A   RX       ,RY      ,RZ     ,SX	     ,SY	     ,SZ	      ,
      B   VDX      ,VDY     ,VDZ    ,MUVOID  ,SSP_EQ  ,AIRE     ,
      C   SIGY     ,ET      ,BUFVOIS,LBUF%PLA   ,R3_FREE    ,AMU  ,
-     D   MFXX     ,MFXY    ,MFXZ   ,MFYX    ,MFYY    ,MFYZ     , 
+     D   MFXX     ,MFXY    ,MFXZ   ,MFYX    ,MFYY    ,MFYZ     ,
      E   MFZX     ,MFZY    ,MFZZ   ,IPM     ,GAMA    ,BID      ,
      F   BID      ,BID     ,BID    ,BID     ,BID     ,BID      ,
      G   ISTRAIN  ,TEMPEL  ,DIE    ,IEXPAN  ,ILAY    ,MSSA     ,
@@ -520,14 +520,14 @@ C-----------  return to global system
 !! the other multidimensional buffer ARRAYS which are still not modified
 !!          CALL SROTO12(LFT,LLT,LBUF%SIG,
 !!     .                 E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,GBUF%OFF)
-          IF (ISTRAIN == 1) THEN 
+          IF (ISTRAIN == 1) THEN
            CALL SORDEF12(LFT,LLT,DXX, DXY, DXZ,
      .         D4, D5, D6,
      .         E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,OFFG0)
           ENDIF
-         END IF 
+         END IF
        ENDIF
-      IF (ISTRAIN == 1) THEN 
+      IF (ISTRAIN == 1) THEN
         CALL SSTRA3(DXX,DYY,DZZ,D4,D5,
      .              D6, LBUF%STRA, WXX, WYY, WZZ,
      .              OFF,NEL)
@@ -543,10 +543,10 @@ C--------------------------
          EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
        ENDIF
        CALL S4BILAN(PARTSAV,EINT,GBUF%RHO,GBUF%RK,GBUF%VOL,
-     .   VX1, VX2, VX3, VX4, VY1, VY2, VY3, VY4, 
+     .   VX1, VX2, VX3, VX4, VY1, VY2, VY3, VY4,
      .   VZ1, VZ2, VZ3, VZ4, VOLN,IPARTS,GRESAV,
      .   GRTH,IGRTH,IEXPAN,GBUF%EINTTH,GBUF%FILL,
-     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4, 
+     .   X1, X2, X3, X4, Y1, Y2, Y3, Y4,
      .   Z1, Z2, Z3, Z4,ITASK,IPARG(1,NG))
       ENDIF
 C
@@ -559,11 +559,11 @@ C-----------------------------
       CALL SMALLGEO3(NGL, GBUF%OFF ,VOLN ,DELTAX, GBUF%VOL ,ITET )
       IF (ISMSTR == 12.AND.IDTMIN(1)==3) THEN
          CALL S4SAV12(GBUF%OFF,OFFG0,GBUF%SMSTR,
-     .                XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .                XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .                ZD1, ZD2, ZD3, ZD4,NEL)
         IF (ISM12_11>0 .AND. ISORTH == 0) THEN
           CALL S4UPD11T12(GBUF%OFF,OFFG0  ,
-     .     XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .     XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .     ZD1, ZD2, ZD3, ZD4,GBUF%JAC_I,GBUF%SIG ,LBUF%SIGL,NEL   )
         END IF
       END IF
@@ -621,28 +621,28 @@ C----------------------------
 C --------------------------
 C  --- heat transfert 
 C --------------------------
-      IF(JTHE < 0 ) THEN     
+      IF(JTHE < 0 ) THEN
         CALL S4THERM ( PM     ,MXT    , VOLN,
-     .                   NC1, NC2, NC3, NC4,  
+     .                   NC1, NC2, NC3, NC4,
      .                   PX1, PX2, PX3, PX4,
      .                   PY1, PY2, PY3, PY4,
      .                   PZ1, PZ2, PZ3, PZ4,
      .                   DT1, TEMP,TEMPEL,DIE,
      .                   THEM,GBUF%OFF,LBUF%OFF)
-      
+
       ENDIF
 c-------------------------
-c     Virtual internal forces of regularized non local ddl 
+c     Virtual internal forces of regularized non local ddl
 c--------------------------
-      IF (INLOC > 0) THEN   
-        CALL S4FINT_REG(NLOC_DMG ,VAR_REG  ,    
+      IF (INLOC > 0) THEN
+        CALL S4FINT_REG(NLOC_DMG ,VAR_REG  ,
      .        NEL      ,LBUF%OFF ,VOLN     ,NC1       ,
      .        NC2      ,NC3      ,NC4      ,PX1       ,
      .        PX2      ,PX3      ,PX4      ,PY1       ,
      .        PY2      ,PY3      ,PY4      ,PZ1       ,
      .        PZ2      ,PZ3      ,PZ4      ,MXT(LFT)  ,
      .        ITASK    ,DT2T     )
-      ENDIF 
+      ENDIF
 C --------------------------
       IF(NFILSOL/=0) CALL S4FILLOPT(GBUF%FILL,STI,
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34)
@@ -667,7 +667,7 @@ Chd|-- calls ---------------
 Chd|        S4JAC_I                       source/elements/solid/solide4/s4forc3.F
 Chd|====================================================================
       SUBROUTINE S4UPD11T12(OFFG   ,OFFG0  ,
-     .     XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4, 
+     .     XD1, XD2, XD3, XD4, YD1, YD2, YD3, YD4,
      .     ZD1, ZD2, ZD3, ZD4,JAC_1 ,SIG   ,SIGL  ,NEL   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -689,17 +689,17 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*),OFFG0(*),JAC_1(10,NEL),SIG(NEL,6),SIGL(NEL,6)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NCH,INDEX(MVSIZ),J    
+      INTEGER I ,NCH,INDEX(MVSIZ),J
       my_real
      .   JAC_I(10,MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
@@ -740,7 +740,7 @@ C
           I = INDEX(J)
           JAC_1(1:10,I) = JAC_I(1:10,J)
           SIGL(I,1:6) = SIG(I,1:6)
-        ENDDO      
+        ENDDO
 C-----------
       RETURN
       END
@@ -783,15 +783,15 @@ C     REAL
       my_real
      .   JAC_I(10,*)
       DOUBLE PRECISION
-     .   X1(*), X2(*), X3(*), X4(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*) 
+     .   X1(*), X2(*), X3(*), X4(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ), 
+     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), B4(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),VOL(MVSIZ)
       DOUBLE PRECISION

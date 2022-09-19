@@ -62,11 +62,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NEL,MTN,NPT,JTHE    
+      INTEGER JFT,JLT,NEL,MTN,NPT,JTHE
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),PID(*),MAT(*),NPF(*),NGL(*)
-      my_real 
+      my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),EPSP(*),BUFMAT(*),
-     .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ), 
+     .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ),
      .   FOR(NEL,3),MOM(NEL,3),EXX(MVSIZ),EXY(MVSIZ),
      .   EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
      .   TEMPEL(MVSIZ)
@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER IFUNC(100)
       INTEGER I,K,J1,IADBUF,IPT,JPLA,NFUNC,IPY,IPZ,IPA,NUVAR,NVARTMP,
      .        IR,IS,II(3),ILAYER,NUPARAM
-      my_real 
+      my_real
      .   YPT(MVSIZ),ZPT(MVSIZ),APT(MVSIZ),G(MVSIZ),E(MVSIZ),ETSE(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSXY(MVSIZ),DEPSXZ(MVSIZ),
      .   SIGOXX(MVSIZ),SIGOXY(MVSIZ),SIGOXZ(MVSIZ),
@@ -89,17 +89,17 @@ C-----------------------------------------------
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      TYPE(G_BUFEL_) ,POINTER :: GBUF      
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       my_real, DIMENSION(:) ,POINTER  :: UVAR
       INTEGER, DIMENSION(:), POINTER :: VARTMP
 C=======================================================================
-      IPY  = 200        
-      IPZ  = 300        
-      IPA  = 400        
+      IPY  = 200
+      IPZ  = 300
+      IPA  = 400
       SHFACT = FIVE_OVER_6
 C--------------------------------------   
       IADBUF = IPM(7,MAT(1))
-      NUPARAM= IPM(9,MAT(1))       
+      NUPARAM= IPM(9,MAT(1))
       NFUNC  = IPM(10,MAT(1))
       DO I=1,NFUNC
         IFUNC(I)=IPM(10+I,MAT(1))
@@ -117,7 +117,7 @@ C--------------------------------------
         IS = 1
         BUFLY => ELBUF_STR%BUFLY(ILAYER)
         LBUF  => BUFLY%LBUF(IR,IS,IPT)
-        GBUF  => ELBUF_STR%GBUF           
+        GBUF  => ELBUF_STR%GBUF
         UVAR  => BUFLY%MAT(IR,IS,IPT)%VAR
         VARTMP=> BUFLY%MAT(IR,IS,IPT)%VARTMP
         NUVAR =  BUFLY%NVAR_MAT
@@ -125,15 +125,15 @@ C--------------------------------------
 
 
 C---    Coordonnees du point d'integration
-        DO I=JFT,JLT                                 
-          YPT(I) = GEO(IPY+IPT,PID(I))              
-          ZPT(I) = GEO(IPZ+IPT,PID(I))           
-          APT(I) = GEO(IPA+IPT,PID(I))    
-        ENDDO                                        
+        DO I=JFT,JLT
+          YPT(I) = GEO(IPY+IPT,PID(I))
+          ZPT(I) = GEO(IPZ+IPT,PID(I))
+          APT(I) = GEO(IPA+IPT,PID(I))
+        ENDDO
 C
         DO I=JFT,JLT
-          SIGNXX(I) = ZERO           
-          SIGNXY(I) = ZERO           
+          SIGNXX(I) = ZERO
+          SIGNXY(I) = ZERO
           SIGNXZ(I) = ZERO
 C
           SIGOXX(I) = LBUF%SIG(II(1)+I)
@@ -143,12 +143,12 @@ C
 c---    Deformations Incrementales
         DO I = JFT,JLT
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
-          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
+          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I)
           DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
           DEPSXY(I) = DEPSXY(I) / SHFACT
-          DEPSXZ(I) = DEPSXZ(I) / SHFACT 
+          DEPSXZ(I) = DEPSXZ(I) / SHFACT
         ENDDO
-c---    Total strain   
+c---    Total strain
         IF (BUFLY%L_STRA > 0) THEN
           DO I= JFT,JLT
             LBUF%STRA(II(1)+I) = LBUF%STRA(II(1)+I) + DEPSXX(I)
@@ -226,12 +226,12 @@ C-----------------------
           DFXX = APT(I)*SIGNXX(I)
           DFXY = APT(I)*SIGNXY(I)
           DFXZ = APT(I)*SIGNXZ(I)
-          FOR(I,1) = FOR(I,1) + DFXX			   
-          FOR(I,2) = FOR(I,2) + DFXY			   
+          FOR(I,1) = FOR(I,1) + DFXX			
+          FOR(I,2) = FOR(I,2) + DFXY			
           FOR(I,3) = FOR(I,3) + DFXZ	
           MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
-          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)		      
-          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)		 
+          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)		
+          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)		
         ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION

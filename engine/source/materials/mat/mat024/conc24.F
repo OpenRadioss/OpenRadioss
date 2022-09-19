@@ -85,7 +85,7 @@ C-----------------------------------------------
       my_real, DIMENSION(6)   :: ANG0,SIGC0
       my_real, DIMENSION(NEL) :: DEPS1,DEPS2,DEPS3,DEPS4,DEPS5,DEPS6,
      .   ARM1,ARM2,ARM3,SCLE1, SCLE2, SCLE3,SCAL1, SCAL2, SCAL3,
-     .   H1, H2, H3, H4, H5, H6, S01, S02, S03, S04, S05, S06, 
+     .   H1, H2, H3, H4, H5, H6, S01, S02, S03, S04, S05, S06,
      .   SM, DSM, S1,S2,S3,S4,S5,S6,DE1,DE2, DE3, C44, C55, C66
       my_real, DIMENSION(NEL,3,3) :: CDAM
 C=======================================================================
@@ -108,10 +108,10 @@ C . . . . . . . . . . .
       VMAX = PM(27)
       RT   = PM(34)
       EPSMAX = PM(47)
-      YMS  = PM(50)         
-      Y0S  = PM(51)         
-      ETS  = PM(52)         
-      ICAP = NINT(PM(57))   
+      YMS  = PM(50)
+      Y0S  = PM(51)
+      ETS  = PM(52)
+      ICAP = NINT(PM(57))
 c
       ARMA = ZERO
       DO I=LFT,LLT
@@ -165,38 +165,38 @@ c
         IF (OFF(I) /= ZERO) THEN        !calculated in CRIT24>FR() SCLE3=-/+1 -1:elastic
           !---------------------------!
           !---      ELASTIC        ---!
-          !---------------------------!          
+          !---------------------------!
           IF (SCLE3(I) < ZERO) THEN
             SIGC(I,1)=S01(I)
             SIGC(I,2)=S02(I)
             SIGC(I,3)=S03(I)
             SIGC(I,4)=S04(I)
             SIGC(I,5)=S05(I)
-            SIGC(I,6)=S06(I)			 
+            SIGC(I,6)=S06(I)			
           !---------------------------!
           !---      DAMAGE         ---!
-          !---------------------------!           
+          !---------------------------!
           ELSEIF (SM(I) + SCLE2(I)*DSM(I) >= RT) THEN
             SIGC(I,1)=S01(I)
             SIGC(I,2)=S02(I)
             SIGC(I,3)=S03(I)
             SIGC(I,4)=S04(I)
             SIGC(I,5)=S05(I)
-            SIGC(I,6)=S06(I)			 
-            IF (DAM(I,1) == ZERO .or. DAM(I,2) == ZERO .or. DAM(I,3) == ZERO) THEN 
+            SIGC(I,6)=S06(I)			
+            IF (DAM(I,1) == ZERO .or. DAM(I,2) == ZERO .or. DAM(I,3) == ZERO) THEN
               I1 = I1 + 1
               INDEX1(I1) = I
-            ENDIF             
+            ENDIF
           !---------------------------!
           !---      PLASTIC        ---!
-          !---------------------------!           
-          ELSEIF (STRAIN(I,1) + STRAIN(I,2) + STRAIN(I,3) > VMAX) THEN 
+          !---------------------------!
+          ELSEIF (STRAIN(I,1) + STRAIN(I,2) + STRAIN(I,3) > VMAX) THEN
             I2 = I2 + 1
             INDEX2(I2) = I
           !---------------------------!
           !---      ELASTIC        ---!
-          !---------------------------!                   
-          ELSE        
+          !---------------------------!
+          ELSE
             SIGC(I,1)=S01(I)
             SIGC(I,2)=S02(I)
             SIGC(I,3)=S03(I)
@@ -209,30 +209,30 @@ c
 C
 c---------------------------------------------------------------
       IF (I1 > 0) THEN
-        CALL DAMA24(NEL   ,I1    ,INDEX1,NGL   ,PM    ,SCLE2 ,                         
+        CALL DAMA24(NEL   ,I1    ,INDEX1,NGL   ,PM    ,SCLE2 ,
      .              SIGC  ,DAM   ,ANG   ,EPS_F ,CRAK  ,CDAM  ,
      .              S01   ,S02   ,S03   ,S04   ,S05   ,S06   ,
-     .              DEPS1 ,DEPS2 ,DEPS3 ,DEPS4 ,DEPS5 ,DEPS6 ,   
-     .              DE1   ,DE2   ,DE3   ,SCAL1 ,SCAL2 ,SCAL3 )               
-      ENDIF                  
+     .              DEPS1 ,DEPS2 ,DEPS3 ,DEPS4 ,DEPS5 ,DEPS6 ,
+     .              DE1   ,DE2   ,DE3   ,SCAL1 ,SCAL2 ,SCAL3 )
+      ENDIF
 c---------------------------------------------------------------
       IF (I2 > 0) THEN
         IF (ICAP < 2) THEN
-          CALL PLAS24(NEL   ,I2    ,INDEX2,NGL   ,PM    ,         
-     .                SIGC  ,DAM   ,CRAK  ,                       
-     .                RHO   ,EINT  ,VK0   ,VK    ,ROB   ,CDAM  ,  
-     .                DEPS1 ,DEPS2 ,DEPS3 ,DEPS4 ,DEPS5 ,DEPS6 ,  
-     .                S1    ,S2    ,S3    ,S4    ,S5    ,S6    ,  
-     .                SCAL1 ,SCAL2 ,SCAL3 ,SCLE2 )                
+          CALL PLAS24(NEL   ,I2    ,INDEX2,NGL   ,PM    ,
+     .                SIGC  ,DAM   ,CRAK  ,
+     .                RHO   ,EINT  ,VK0   ,VK    ,ROB   ,CDAM  ,
+     .                DEPS1 ,DEPS2 ,DEPS3 ,DEPS4 ,DEPS5 ,DEPS6 ,
+     .                S1    ,S2    ,S3    ,S4    ,S5    ,S6    ,
+     .                SCAL1 ,SCAL2 ,SCAL3 ,SCLE2 )
         ELSE
-          CALL PLAS24B(NEL   ,I2    ,INDEX2,NGL   ,PM    ,                
-     .                 SIGC  ,DAM   ,CRAK  ,EPSVP ,CDAM  ,         
-     .                 RHO   ,EINT  ,VK0   ,VK    ,ROB   ,PLA   ,        
-     .                 DEPS1 ,DEPS2 ,DEPS3 ,DEPS4 ,DEPS5 ,DEPS6 ,  
-     .                 S1    ,S2    ,S3    ,S4    ,S5    ,S6    ,  
-     .                 SCAL1 ,SCAL2 ,SCAL3 ,SCLE2 )                
-        ENDIF                  
-      ENDIF                  
+          CALL PLAS24B(NEL   ,I2    ,INDEX2,NGL   ,PM    ,
+     .                 SIGC  ,DAM   ,CRAK  ,EPSVP ,CDAM  ,
+     .                 RHO   ,EINT  ,VK0   ,VK    ,ROB   ,PLA   ,
+     .                 DEPS1 ,DEPS2 ,DEPS3 ,DEPS4 ,DEPS5 ,DEPS6 ,
+     .                 S1    ,S2    ,S3    ,S4    ,S5    ,S6    ,
+     .                 SCAL1 ,SCAL2 ,SCAL3 ,SCLE2 )
+        ENDIF
+      ENDIF
 c-----
       DO I=LFT,LLT
         SIG(I,1)=SIGC(I,1)
@@ -276,7 +276,7 @@ C
               I1 = I1 + 1
               INDEX1(I1) = I
             ENDIF
-          ENDIF        
+          ENDIF
         ENDDO
       ENDIF
 c-----------------------
@@ -289,7 +289,7 @@ c-----------------------
             WRITE(ISTDO,1000)NGL(I)
 #include "lockoff.inc"
         ENDDO
-      ENDIF         
+      ENDIF
 c-----------------------
 c     RETOUR REPERE ARMATURE
 c-----------------------

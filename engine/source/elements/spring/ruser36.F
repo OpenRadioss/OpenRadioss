@@ -82,7 +82,7 @@ C-----------------------------------------------
      .        IMAT1,IPROP1,IUTYP1,
      .        IMAT2,IPROP2,IUTYP2
       INTEGER J,N,NINDX,NMAX,INDEX(MVSIZ),IFUNC
-      MY_REAL 
+      MY_REAL
      .        FAC,RHO,AREA,IXX,IYY,IZZ,IMYZ,YOUNG,G,
      .        AREA1,IXX1,IYY1,IZZ1,RHO1,YOUNG1,G1,
      .        AREA2,IXX2,IYY2,IZZ2,RHO2,YOUNG2,G2,
@@ -108,19 +108,19 @@ C-----------------------------------------------
 C-----------------------------------------------
       KCST = 0
 C
-      IPROP1 = GET_U_PNU(1,IPROP,KPROP) 
+      IPROP1 = GET_U_PNU(1,IPROP,KPROP)
       AREA1  = GET_U_GEO(2,IPROP1)
       IXX1   = GET_U_GEO(3,IPROP1)
       IYY1   = GET_U_GEO(4,IPROP1)
       IZZ1   = GET_U_GEO(5,IPROP1)
       R_Y1= GET_U_GEO(6,IPROP1)
       R_Z1= GET_U_GEO(7,IPROP1)
-      IPROP2 = GET_U_PNU(2,IPROP,KPROP) 
+      IPROP2 = GET_U_PNU(2,IPROP,KPROP)
       AREA2  = GET_U_GEO(2,IPROP2)
       IXX2   = GET_U_GEO(3,IPROP2)
       IYY2   = GET_U_GEO(4,IPROP2)
       IZZ2   = GET_U_GEO(5,IPROP2)
-      IMAT1  = GET_U_PNU(1,IPROP1,KMAT) 
+      IMAT1  = GET_U_PNU(1,IPROP1,KMAT)
       IFUNC  = GET_U_MNU(1,IMAT1,KFUNC)
       YOUNG1 = GET_U_MAT(7,IMAT1)
       G1     = GET_U_MAT(6,IMAT1)
@@ -167,10 +167,10 @@ C
       AY  = HALF*(AY1+AY2)
       AZ  = HALF*(AZ1+AZ2)
       BY  = HALF*(BY1+BY2)
-      BZ  = HALF*(BZ1+BZ2)     
+      BZ  = HALF*(BZ1+BZ2)
       IMYZ   = MAX(IYY,IZZ)
       YOUNG  = HALF*(YOUNG1+YOUNG2)
-      G      = HALF*(G1+G2)      
+      G      = HALF*(G1+G2)
       FACX   = R_X/MAX(IXX,EM20)
       FACY   = R_Y/MAX(IYY,EM20)
       FACZ   = R_Z/MAX(IZZ,EM20)
@@ -183,7 +183,7 @@ C
       PS     = HALF*(PS1+PS2)
       SIG0   = HALF*(SIG01+SIG02)
       HPLA   = HALF*(H1+H2)
-      M     = HALF*(M1+M2)     
+      M     = HALF*(M1+M2)
 C
 C----  UVAR(N0,I) -> PLA , N0+1 -> SY0 , N0+2 -> EXX_P , N0+3 -> EYY_P
 C----  UVAR(N0+4,I) -> ENDOMMAGEMENT
@@ -201,7 +201,7 @@ C== ON CALCULE D'ABORD LES VITESSES DES DEFORMATIONS GENERALISEES ====
         EPSCBZ(I) = R_Z*(RZ2(I) - RZ1(I))*DTEMP
 C== ON CALCULE CONTRAINTES GENERALISEES ====
         XL2(I)    =  XL(I)*XL(I)
-        AREA_Y(I) = AREA/(ONE +TEMPY*XL2(I))    
+        AREA_Y(I) = AREA/(ONE +TEMPY*XL2(I))
         AREA_Z(I) = AREA/(ONE +TEMPZ*XL2(I))
         SIGNXX(I) = FX(I)/MAX(AREA,EM20)+YOUNGM(I)*EPSVXX(I)*DT
         SIGNXY(I) = FY(I)/MAX(AREA_Y(I),EM20)+GM(I)*EPSVXY(I)*DT
@@ -218,8 +218,8 @@ C
       DO I=1,NEL
         IF (IFUNC /= 0) THEN
           Y1= FAC1*GET_U_FUNC(IFUNC,UVAR(N0,I),Y2)
-          Y2= FAC1*Y2   
-          YLD(I) = MAX(Y1,EM20)                
+          Y2= FAC1*Y2
+          YLD(I) = MAX(Y1,EM20)
           M=1
         ELSE
           Y1 = SIG0+HPLA*(UVAR(N0,I))**M
@@ -246,7 +246,7 @@ C
         MZ(I)=BZ*GAMA(I)*MOMNZZ(I)
         SVM(I)=NX(I)*NX(I)+THREE*(NY(I)*NY(I)+NZ(I)*NZ(I)+MX(I)*MX(I))+
      1         MY(I)*MY(I)+MZ(I)*MZ(I)
-        SVM(I)=SQRT(SVM(I)) 
+        SVM(I)=SQRT(SVM(I))
       ENDDO
         FAC2 = G/MAX(EM20,YOUNG)
       DO  I=1,NEL
@@ -305,7 +305,7 @@ C
             PNZ  =ONE/(ONE+THREE*DRG*AZ**2)
             PMX  =ONE/(ONE+THREE*DRG*GAMAC(I)**2)
             PMY  =ONE/(ONE+DRE*(BY*GAMA(I))**2)
-            PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)	  
+            PMZ  =ONE/(ONE+DRE*(BZ*GAMA(I))**2)	
             PNX2=PNX*PNX
             PNY2=PNY*PNY
             PNZ2=PNZ*PNZ
@@ -327,7 +327,7 @@ C
      .                    +MX2*PMX2*PMX*GAMAC(I)**2
             IF (IFUNC /= 0) THEN
               DSIGY = -H(I)*YLD_I*TWO
-	    ELSEIF (UVAR(N0,I)>EM20) THEN 
+	    ELSEIF (UVAR(N0,I)>EM20) THEN
               DSIGY = -(H(I)*YLD_I*M*(DPLA_I+UVAR(N0,I))**(M-1))*TWO
             ELSE
               DSIGY = ZERO
@@ -372,11 +372,11 @@ C
           MOMNYY(I) = MOMNYY(I)*PMY
           MOMNZZ(I) = MOMNZZ(I)*PMZ
 C
-          UVAR(N0+2,I) = UVAR(N0+2,I)+THREE*C1*GAMAC(I)**2*ABS(MOMNXX(I))    
-          UEQ =  C1*SQRT( SIGNXX(I)**2 
+          UVAR(N0+2,I) = UVAR(N0+2,I)+THREE*C1*GAMAC(I)**2*ABS(MOMNXX(I))
+          UEQ =  C1*SQRT( SIGNXX(I)**2
      1                 +  GAMA(I)**4
      1                 *(BY**4*MOMNYY(I)**2 + BZ**4*MOMNZZ(I)**2) )
-          UVAR(N0+3,I) = UVAR(N0+3,I) + UEQ      
+          UVAR(N0+3,I) = UVAR(N0+3,I) + UEQ
 C
 C ENDOMAGEMENT
 C
@@ -391,7 +391,7 @@ C
           IF (UVAR(N0,I) >= PR .OR. UVAR(N0+4,I) >= DC) THEN
             OFF(I) = ZERO
             UVAR(N0+4,I) = DC
-          ENDIF  
+          ENDIF
         ENDDO ! DO J=1,NINDX
       ENDIF ! IF (NINDX /= 0)
 C

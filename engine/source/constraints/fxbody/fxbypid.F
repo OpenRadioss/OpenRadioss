@@ -32,12 +32,12 @@ Chd|        SPMD_WIOUT                    source/mpi/generic/spmd_wiout.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE FXBYPID(IPARG ,         IXS   , IXQ   , IXC       ,
-     .                   IXT   , IXP   , IXR   , IXTG  , FXBIPM    , 
+     .                   IXT   , IXP   , IXR   , IXTG  , FXBIPM    ,
      .                   FXBNOD, ONOF  , ITAG  , ONFELT, ELBUF_STR )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARG(NPARG,*),IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*), 
+      INTEGER IPARG(NPARG,*),IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
      .        FXBIPM(*),FXBNOD(*),ONOF,ITAG(*),ONFELT
       TYPE(ELBUF_STRUCT_),TARGET ,DIMENSION(NGROUP)     :: ELBUF_STR
@@ -109,7 +109,7 @@ C-----------------------
          NALL = ITAG(IXS(2,II)) * ITAG(IXS(3,II)) *
      +          ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
      +          ITAG(IXS(6,II)) * ITAG(IXS(7,II)) *
-     +          ITAG(IXS(8,II)) * ITAG(IXS(9,II)) 
+     +          ITAG(IXS(8,II)) * ITAG(IXS(9,II))
           IF(NALL /= 0)THEN
             IF(ONFELT == 1)THEN
              OFFG(I)= ABS(OFFG(I))
@@ -136,7 +136,7 @@ C-------------------------------
          DO I=1,NEL
           II=I+NFT
           NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
-     +           ITAG(IXC(4,II)) * ITAG(IXC(5,II)) 
+     +           ITAG(IXC(4,II)) * ITAG(IXC(5,II))
            IF (NALL /= 0) THEN
              IF (ONFELT == 1) THEN
                OFFG(I) = ABS(OFFG(I))
@@ -162,7 +162,7 @@ C-----------------------
         OFFG => ELBUF_STR(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II)) 
+         NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II))
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
              OFFG(I) = ONE
@@ -188,7 +188,7 @@ C-----------------------
         OFFG => ELBUF_STR(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II)) 
+         NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II))
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
              OFFG(I)= ABS(OFFG(I))
@@ -214,7 +214,7 @@ C-----------------------
         OFFG => ELBUF_STR(NG)%GBUF%OFF
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II)) 
+         NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
          IF(NALL /= 0)THEN
            IF(ONFELT == 1)THEN
              OFFG(I)= ONE
@@ -281,4 +281,4 @@ C
 c-----------
       RETURN
       END SUBROUTINE FXBYPID
-                  
+

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        INTVO8                        source/interfaces/inter3d/intvo8.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I8COR3(X     ,IRECT ,MSR   ,NSV   ,IRTL, 
+      SUBROUTINE I8COR3(X     ,IRECT ,MSR   ,NSV   ,IRTL,
      .   IX1 ,IX2 ,IX3, IX4, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .   X4, Y4, Z4 )
 
@@ -41,13 +41,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .  IRECT(4,*), MSR(*), NSV(*), IRTL(*),
      . IX1(*), IX2(*), IX3(*), IX4(*)
 C     REAL
       my_real
      .   X(3,*), X1(*), X2(*), X3(*), X4(*), Y1(*), Y2(*), Y3(*), Y4(*),
-     .   Z1(*), Z2(*), Z3(*), Z4(*) 
+     .   Z1(*), Z2(*), Z3(*), Z4(*)
 
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

@@ -30,9 +30,9 @@ Chd|        Q4INIT2                       source/elements/solid_2d/quad4/q4init2
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QCOOR2(X,IXQ,NGL,MXT, 
-     .     PID, IX1, IX2, IX3, IX4, 
-     .     Y1, Y2, Y3, Y4, 
+      SUBROUTINE QCOOR2(X,IXQ,NGL,MXT,
+     .     PID, IX1, IX2, IX3, IX4,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4,
      .     SY, SZ, TY, TZ)
 C-----------------------------------------------
@@ -100,5 +100,5 @@ C---------------------------------------
         TZ(I)=HALF*(Z3(I)+Z4(I)-Z1(I)-Z2(I))
       END DO
 c
-      RETURN     
+      RETURN
       END

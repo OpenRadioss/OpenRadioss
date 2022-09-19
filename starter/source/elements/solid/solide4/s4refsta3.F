@@ -49,7 +49,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -96,9 +96,9 @@ C-----------------------------------------------
      .    IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       DOUBLE PRECISION
      .   XR(MVSIZ,8) ,YR(MVSIZ,8) ,ZR(MVSIZ,8) ,
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),VOLDP(MVSIZ)     
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),VOLDP(MVSIZ)
       my_real
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,
      .   SX(MVSIZ) ,SY(MVSIZ) ,SZ(MVSIZ) ,
@@ -129,7 +129,7 @@ C-----------------------------------------------
      .   DELTAX(MVSIZ), VOLU(MVSIZ)
 c----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C=======================================================================
@@ -319,17 +319,17 @@ C--------in  global sys
      .          ZR(1,1)   ,ZR(1,2)   ,ZR(1,3)   ,ZR(1,4)   ,
      .          PX1    ,PX2    ,PX3    ,PX4    ,
      .          PY1    ,PY2    ,PY3    ,PY4    ,
-     .          PZ1    ,PZ2    ,PZ3    ,PZ4    ,GBUF%JAC_I, 
+     .          PZ1    ,PZ2    ,PZ3    ,PZ4    ,GBUF%JAC_I,
      .          DELTAX ,VOLU   ,NGL    ,PID    ,MAT       ,
      .          PM     ,VOLDP  )
           CALL S4DEFOT3(
      .        PX1, PX2, PX3, PX4,
      .        PY1, PY2, PY3, PY4,
      .        PZ1, PZ2, PZ3, PZ4,
-     .        VX1, VX2, VX3, VX4, 
-     .        VY1, VY2, VY3, VY4, 
-     .        VZ1, VZ2, VZ3, VZ4, 
-     .        MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ) 
+     .        VX1, VX2, VX3, VX4,
+     .        VY1, VY2, VY3, VY4,
+     .        VZ1, VZ2, VZ3, VZ4,
+     .        MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ)
           DO I=LFT,LLT
             MFXX(I)=FAC*MFXX(I)
             MFYY(I)=FAC*MFYY(I)
@@ -580,7 +580,7 @@ C-----------------------------------------------
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*)

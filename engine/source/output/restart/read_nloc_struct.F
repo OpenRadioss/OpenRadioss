@@ -49,27 +49,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (NLOCAL_STR_),TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_),TARGET :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,LCNE_NL
       my_real, DIMENSION(:), POINTER :: FNL,STIFNL
-      INTEGER, DIMENSION(8)  :: 
+      INTEGER, DIMENSION(8)  ::
      .  HEAD
 C=======================================================================
 c
 c-------  read NLOC_DMG data
 c
       CALL READ_I_C(HEAD,8)
-      ILOC       = HEAD(1) 
-      NNOD       = HEAD(2) 
+      ILOC       = HEAD(1)
+      NNOD       = HEAD(2)
       L_NLOC     = HEAD(3)
-      NUMELS_NL  = HEAD(4)  
-      NUMELC_NL  = HEAD(5)  
-      NUMELTG_NL = HEAD(6) 
-      NDDMAX     = HEAD(7) 
+      NUMELS_NL  = HEAD(4)
+      NUMELC_NL  = HEAD(5)
+      NUMELTG_NL = HEAD(6)
+      NDDMAX     = HEAD(7)
       LCNE_NL    = HEAD(8)
       NLOC_DMG%IMOD       = ILOC
       NLOC_DMG%NNOD       = NNOD
@@ -78,7 +78,7 @@ c
       NLOC_DMG%NUMELC_NL  = NUMELC_NL
       NLOC_DMG%NUMELTG_NL = NUMELTG_NL
       NLOC_DMG%NDDMAX     = NDDMAX
-      NLOC_DMG%LCNE_NL    = LCNE_NL   
+      NLOC_DMG%LCNE_NL    = LCNE_NL
 c
       IF (ILOC > 0) THEN
 c
@@ -104,7 +104,7 @@ c
           ALLOCATE (NLOC_DMG%PROCNE(LCNE_NL))
           ALLOCATE (NLOC_DMG%IADS(8,NUMELS_NL))
           ALLOCATE (NLOC_DMG%IADC(4,NUMELC_NL))
-          ALLOCATE (NLOC_DMG%IADTG(3,NUMELTG_NL))     
+          ALLOCATE (NLOC_DMG%IADTG(3,NUMELTG_NL))
 c
         ! If starter PARITH/OFF
         ELSE
@@ -118,7 +118,7 @@ c
         ENDIF
 c
         ! If engine PARITH/ON
-        IF (IPARIT == 1) THEN 
+        IF (IPARIT == 1) THEN
           ALLOCATE (NLOC_DMG%FNL(L_NLOC,1))
           NLOC_DMG%FNL(1:L_NLOC,1)    = ZERO
           ! Non-local nodal stiffness
@@ -150,15 +150,15 @@ c
         CALL READ_DB(NLOC_DMG%LE_MAX,NUMMAT)
 c
         CALL READ_DB(NLOC_DMG%SSPNL,NUMMAT)
-c        
+c
         CALL READ_I_C(NLOC_DMG%INDX,NNOD)
-c        
+c
         CALL READ_I_C(NLOC_DMG%POSI,NNOD+1)
 c
         CALL READ_I_C(NLOC_DMG%IDXI,NUMNOD)
 c
         ! If starter PARITH/ON, reading pointers and allocation of the FSKY vector
-        IF (IPARI0 == 1) THEN 
+        IF (IPARI0 == 1) THEN
 c
           ! ADDCNE table
           CALL READ_I_C(NLOC_DMG%ADDCNE,NNOD+1)
@@ -188,7 +188,7 @@ c
           ENDIF
 c
         ENDIF
-c        
+c
         CALL READ_DB(NLOC_DMG%MASS,L_NLOC)
 c
         CALL READ_DB(NLOC_DMG%MASS0,L_NLOC)

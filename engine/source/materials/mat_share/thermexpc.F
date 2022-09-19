@@ -30,8 +30,8 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE THERMEXPC(ELBUF_STR,
      1                       JFT  ,JLT  ,FORTH  ,FOR    ,EINT  ,
-     2                       OFF  ,ETH  ,THK0   ,EXX    , EYY  ,  
-     3                       PM   ,NPT  ,AREA   ,A1     ,A2    , 
+     2                       OFF  ,ETH  ,THK0   ,EXX    , EYY  ,
+     3                       PM   ,NPT  ,AREA   ,A1     ,A2    ,
      4                       MAT  ,MTN  ,EINTTH ,DIR    ,IR    ,
      5                       IS   ,NLAY ,THK    ,NEL    ,IGTYP ,
      6                       NPF  , TF  ,IPM   , TEMPEL , DTEMP ,
@@ -93,7 +93,7 @@ C     REAL
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------    
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C-----------------------------------------------  
       DO I=1,5
@@ -148,8 +148,8 @@ C-------- 2nd Step : Thermal stress computation -----------------------
      .          + DIR(I,1)*DIR(I,1)*P2(I)
              FORTH(I,1)=FORTH(I,1)+ S1
              FORTH(I,2)=FORTH(I,2)+ S2
-          END DO   
-        ENDIF 
+          END DO
+        ENDIF
 C
 C
       IF(IORTH_LAY > 0 ) THEN
@@ -161,10 +161,10 @@ C
              J1 = 1+(ILAY-1)*JLT     ! JMLY
              J3 = 1+(ILAY-1)*JLT*2     ! jdir
             DO IT=1,NPTT
-              LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT) 
+              LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
               IPT = IPT_ALL + IT        ! count all NPTT through all layers
               J2 = 1+(IPT-1)*JLT        ! JPOS
-              DO I=JFT,JLT 
+              DO I=JFT,JLT
                 JJ = J2 - 1 + I
                 MX = MATLY(J1+I-1)
 C
@@ -173,7 +173,7 @@ C
                 ANU12   = PM(35,MX)
                 ANU21   = PM(36,MX)
 C
-                IFUNC_ALPHA = IPM(219, MX) 
+                IFUNC_ALPHA = IPM(219, MX)
                 FSCAL_ALPHA = PM(191, MX)
                 ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
                 ALPHA = ALPHA * FSCAL_ALPHA
@@ -185,24 +185,24 @@ C
                 A12(I) =   ANU21*A1(I)
 C
                 P1(I) = A1(I)*ETH(I ) + A12(I)*ETH(I)
-                P2(I) = A12(I)*ETH(I) + A2(I)*ETH(I) 
+                P2(I) = A12(I)*ETH(I) + A2(I)*ETH(I)
 C                
-                LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I) - P1(I) 
+                LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I) - P1(I)
                 LBUF%SIG(II(2)+I)=LBUF%SIG(II(2)+I) - P2(I)
 C                
-                FOR(I,1)=FOR(I,1) - THKLY(JJ)*P1(I) 
+                FOR(I,1)=FOR(I,1) - THKLY(JJ)*P1(I)
                 FOR(I,2)=FOR(I,2) - THKLY(JJ)*P2(I)
 C                
                 WMC = POSLY(I,IPT)*THKLY(JJ)
                 MOM(I,1) = MOM(I,1) - WMC*P1(I)
-                MOM(I,2) = MOM(I,2) - WMC*P2(I)  
+                MOM(I,2) = MOM(I,2) - WMC*P2(I)
 C       
                 THKLAY = THKLY(JJ)*THK0(I)
-                ETHKE(I) = ETHKE(I) + THKLAY*ETH(I)             
+                ETHKE(I) = ETHKE(I) + THKLAY*ETH(I)
               ENDDO
             ENDDO !!  DO IT=1,NPTT
              IPT_ALL = IPT_ALL + NPTT
-          ENDDO  ! DO ILAY=1,NLAY  
+          ENDDO  ! DO ILAY=1,NLAY
          ELSEIF(MTN > 26) THEN
            AA = ZERO
            IPT_ALL = 0
@@ -211,9 +211,9 @@ C
            DO ILAY=1,NLAY
             NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
             J1 = 1+(ILAY-1)*JLT     ! JMLY
-            J3 = 1+(ILAY-1)*JLT*2 
+            J3 = 1+(ILAY-1)*JLT*2
             DO IT=1,NPTT
-              LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT) 
+              LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
               IPT = IPT_ALL + IT        ! count all NPTT through all layers
               J2 = 1+(IPT-1)*JLT        ! JPOS
               DO I=JFT,JLT
@@ -226,38 +226,38 @@ C
                 A1(I) = E(I)/ (ONE - NU(I)*NU(I))
                 A2(I) = NU(I)*A1(I)
 C                    
-                IFUNC_ALPHA = IPM(219, MX) 
+                IFUNC_ALPHA = IPM(219, MX)
                 FSCAL_ALPHA = PM(191, MX)
                 ALPHA = FINTER(IFUNC_ALPHA,TEMPEL(I),NPF,TF,DF)
                 ALPHA = ALPHA * FSCAL_ALPHA
-                ETH(I) = ALPHA*DTEMP(I)    
+                ETH(I) = ALPHA*DTEMP(I)
 C            
-                P(I) = A1(I)*ETH(I) + A2(I)*ETH(I)              
+                P(I) = A1(I)*ETH(I) + A2(I)*ETH(I)
 C                
-                LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I) - P(I) 
+                LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I) - P(I)
                 LBUF%SIG(II(2)+I)=LBUF%SIG(II(2)+I) - P(I)
 C forces  
-                FOR(I,1)=FOR(I,1) - THKLY(JJ)*P(I) 
+                FOR(I,1)=FOR(I,1) - THKLY(JJ)*P(I)
                 FOR(I,2)=FOR(I,2) - THKLY(JJ)*P(I)
 C                                                        
                 WMC = POSLY(I,IPT)*THKLY(JJ)
                 MOM(I,1) = MOM(I,1) - WMC*P(I)
-                MOM(I,2) = MOM(I,2) - WMC*P(I)                
+                MOM(I,2) = MOM(I,2) - WMC*P(I)
 !!                ZI2(I) = ZI2(I) +  POSLY(I,IPT)**2
 !!                SUMALZ(I) = SUMALZ(I) + POSLY(I,IPT)* ETH(I)
 C      
                 THKLAY = THKLY(JJ)*THK0(I)
                 ETHKE(I) = ETHKE(I) + THKLAY*ETH(I)
-              ENDDO ! I 
+              ENDDO ! I
             ENDDO !!  DO IT=1,NPTT
              IPT_ALL = IPT_ALL + NPTT
           ENDDO  ! DO ILAY=1,NLAY
         ENDIF
-          
+
          DO I=JFT,JLT
 C-------- 3rd Step : Energies computation -----------------------
 !!             KXX = SUMALZ(I)/ ZI2(I)
-!!             KYY = KXX  
+!!             KYY = KXX
 !!    DEGFXTH(I) = -( MOM(I,1)*KXX + MOM(I,2)*KYY)*HALF*THK0(I)*THK0(I)*AREA(I) ! depending to kxx et kyy
              DEGMBTH(I) = -(FOR(I,1)+FOR(I,2))*ETHKE(I)*HALF*AREA(I)
              EINTTH(I) = EINTTH(I) + DEGMBTH(I)
@@ -265,36 +265,36 @@ C-------- 3rd Step : Energies computation -----------------------
 !!             EINT(I,2) = EINT(I,2) + DEGFXTH(I)
 C------Thickness change due to thermal expansion-------           
              THK(I) = (THK(I)  + ETHKE(I))*OFF(I)
-          ENDDO        
+          ENDDO
       ELSE
         IF(NPT/=0) THEN
           DO ILAY=1,NLAY
             NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
             DO IT=1,NPTT
-              LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT) 
+              LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
               IF(IORTH ==0)THEN
                 DO I=JFT,JLT
-                  LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I)-P(I) 
-                  LBUF%SIG(II(2)+I)=LBUF%SIG(II(2)+I)-P(I) 
+                  LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I)-P(I)
+                  LBUF%SIG(II(2)+I)=LBUF%SIG(II(2)+I)-P(I)
                 ENDDO
               ELSE
                 DO I=JFT,JLT
-                  LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I)-P1(I) 
-                  LBUF%SIG(II(2)+I)=LBUF%SIG(II(2)+I)-P2(I) 
+                  LBUF%SIG(II(1)+I)=LBUF%SIG(II(1)+I)-P1(I)
+                  LBUF%SIG(II(2)+I)=LBUF%SIG(II(2)+I)-P2(I)
                 ENDDO
               ENDIF
             ENDDO
-          ENDDO     
+          ENDDO
          ENDIF
          IF(IORTH ==0)THEN
            DO I=JFT,JLT
-              FOR(I,1)=FOR(I,1) - P(I) 
-              FOR(I,2)=FOR(I,2) - P(I)  
+              FOR(I,1)=FOR(I,1) - P(I)
+              FOR(I,2)=FOR(I,2) - P(I)
            ENDDO
          ELSE
            DO I=JFT,JLT
-              FOR(I,1)=FOR(I,1) - P1(I) 
-              FOR(I,2)=FOR(I,2) - P2(I) 
+              FOR(I,1)=FOR(I,1) - P1(I)
+              FOR(I,2)=FOR(I,2) - P2(I)
             ENDDO
          ENDIF
 C
@@ -310,7 +310,7 @@ C-------- 3rd Step : Energies computation -----------------------
 C------Thickness change due to thermal expansion-------
           DO I=JFT,JLT
             THK(I) = THK(I) *(1 + ETH(I))*OFF(I)
-          ENDDO          
+          ENDDO
         ENDIF ! IORTH_LAY > 0
 C
       RETURN

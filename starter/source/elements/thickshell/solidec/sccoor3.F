@@ -30,11 +30,11 @@ Chd|        SCORTHO3                      source/elements/thickshell/solidec/sco
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SCCOOR3(
-     .         X    ,IXS  ,GEO  ,MXT  ,NGEO ,NGL  ,                    
+     .         X    ,IXS  ,GEO  ,MXT  ,NGEO ,NGL  ,
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
-     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,  
-     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,  
-     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,  
+     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
+     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         R11  ,R21  ,R31  ,R12  ,R22  ,R32  ,R13  ,R23  ,R33  ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP)
@@ -61,11 +61,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),MXT(*),NGL(*),NGEO(*),
-     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)        
+     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)
       my_real
      .   X(3,*),GEO(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*),
      .   R11(*),R12(*),R13(*),R21(*),R22(*),R23(*),R31(*),R32(*),R33(*),
@@ -166,7 +166,7 @@ C-----------
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
-     .   RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ  ,   
+     .   RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ  ,
      .   R11,R21,R31,R12,R22,R32,R13,R23,R33 )
 C
        DO I=LFT,LLT
@@ -220,31 +220,31 @@ C
         Z8(I)=ZL
        ENDDO
 C
-       IF(JTHE < 0 ) THEN                                    
-         IF(NINTEMP > 0 ) THEN                                
-           DO I= LFT,LLT                                      
-             IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)  
-             IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I)  
-             IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = TEMP0(I)  
-             IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I)  
-             IF(TEMP(IX5(I))== ZERO) TEMP(IX5(I)) = TEMP0(I)  
-             IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I)  
-             IF(TEMP(IX7(I))== ZERO) TEMP(IX7(I)) = TEMP0(I)  
-             IF(TEMP(IX8(I))== ZERO) TEMP(IX8(I)) = TEMP0(I)  
-           ENDDO                                              
-         ELSE                                                 
-           DO I=LFT,LLT                                       
-             TEMP(IX1(I))=TEMP0(I)                            
-             TEMP(IX2(I))=TEMP0(I)                            
-             TEMP(IX3(I))=TEMP0(I)                            
-             TEMP(IX4(I))=TEMP0(I)                            
-             TEMP(IX5(I))=TEMP0(I)                            
-             TEMP(IX6(I))=TEMP0(I)                            
-             TEMP(IX7(I))=TEMP0(I)                            
-             TEMP(IX8(I))=TEMP0(I)                            
-           ENDDO                                              
-         ENDIF                                                
-      ENDIF                                                
+       IF(JTHE < 0 ) THEN
+         IF(NINTEMP > 0 ) THEN
+           DO I= LFT,LLT
+             IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)
+             IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I)
+             IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = TEMP0(I)
+             IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I)
+             IF(TEMP(IX5(I))== ZERO) TEMP(IX5(I)) = TEMP0(I)
+             IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I)
+             IF(TEMP(IX7(I))== ZERO) TEMP(IX7(I)) = TEMP0(I)
+             IF(TEMP(IX8(I))== ZERO) TEMP(IX8(I)) = TEMP0(I)
+           ENDDO
+         ELSE
+           DO I=LFT,LLT
+             TEMP(IX1(I))=TEMP0(I)
+             TEMP(IX2(I))=TEMP0(I)
+             TEMP(IX3(I))=TEMP0(I)
+             TEMP(IX4(I))=TEMP0(I)
+             TEMP(IX5(I))=TEMP0(I)
+             TEMP(IX6(I))=TEMP0(I)
+             TEMP(IX7(I))=TEMP0(I)
+             TEMP(IX8(I))=TEMP0(I)
+           ENDDO
+         ENDIF
+      ENDIF
 C-----------
       RETURN
       END

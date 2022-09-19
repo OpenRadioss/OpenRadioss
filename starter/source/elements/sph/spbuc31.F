@@ -70,7 +70,7 @@ C-----------------------------------------------
      .           +(BMINMA(3)-BMINMA(6))*(BMINMA(1)-BMINMA(4))))
 
       AAA = 0.75*AAA
-              
+
       NBX = NINT(AAA*(BMINMA(1)-BMINMA(4)))
       NBY = NINT(AAA*(BMINMA(2)-BMINMA(5)))
       NBZ = NINT(AAA*(BMINMA(3)-BMINMA(6)))
@@ -82,7 +82,7 @@ C-----------------------------------------------
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -95,13 +95,13 @@ C-----------------------------------------------
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
-      IF(RES8 > LVOXEL8) stop 678  
+
+      IF(RES8 > LVOXEL8) stop 678
 
 C     initialisation complete de VOXEL
 C (en // SMP il y a possibilite de redondance de traitement mais no pb)
@@ -169,7 +169,7 @@ C-----------------------------------------------
      .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR , ig
 C     REAL
       my_real
-     .   CMS2(MVSIZ),XJJ, YJJ, ZJJ,DK, DL   
+     .   CMS2(MVSIZ),XJJ, YJJ, ZJJ,DK, DL
 
 
 C-----------------
@@ -179,8 +179,8 @@ C-----------------
       NVOIS=KXSP(5,IL)
       IF(NVOIS>KVOISPH)THEN
 
-        IREDUCE    =1 
-        KREDUCE(IL)=1 
+        IREDUCE    =1
+        KREDUCE(IL)=1
         CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
         DO K=1,NVOIS
          JSTOR(K)=JVOIS(K)

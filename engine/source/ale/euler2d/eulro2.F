@@ -71,7 +71,7 @@ C
           CALL ARRET(2)
          ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 C-----------------------------------------------
       RETURN
       END

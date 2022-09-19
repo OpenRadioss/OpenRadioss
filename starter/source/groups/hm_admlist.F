@@ -95,7 +95,7 @@ C-----------------------------------------------
             LIST(IL)=JJ
           ENDIF
       ENDDO! NEXT II
-      
+
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C AVEC SUPPRESSION DES No DOUBLES
@@ -188,7 +188,7 @@ C
 
             LEVEL=LEVEL+1
           END DO
-           
+
           DO KE=LELT1+1,LELT2
             LELT=LELT+1
             NELT(LELT)=NELTMP(KE)
@@ -200,4 +200,4 @@ C
       NEL=LELT
 C-----------------------
       RETURN
-      END     
+      END

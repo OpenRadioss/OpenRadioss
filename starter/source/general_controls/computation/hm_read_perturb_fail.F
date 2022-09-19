@@ -114,12 +114,12 @@ c-----------------------------------------------------------------------
         IFAILTYPE = 0
         CPT_PART  = 0
         ITYP      = 2
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID   = OPT_ID, 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID   = OPT_ID,
      .                          UNIT_ID     = UNIT_ID   ,
-     .                          KEYWORD2    = KEY1, 
-     .                          KEYWORD3    = KEY2, 
-     .                          OPTION_TITR = TITR) 
+     .                          KEYWORD2    = KEY1,
+     .                          KEYWORD3    = KEY2,
+     .                          OPTION_TITR = TITR)
 c
         IDPERTURB(ICOUNT) = OPT_ID
         KLEN = LEN_TRIM(KEY2)
@@ -132,9 +132,9 @@ c
      .                C2=KEY2)
           CYCLE
         ENDIF
-c      
+c
         CALL HM_GET_INTV  ('fail_ID' ,FAIL_ID ,IS_AVAILABLE,LSUBMODEL)
-c      
+c
         IFAILMAT = 0
         IF (FAIL_ID > 0) THEN
           DO N=1,NUMMAT
@@ -158,8 +158,8 @@ c
         PERTURB(ICOUNT) = ITYP
 c
         IF (IFAILMAT > 0) THEN
-          DO N=1,NPART 
-            IF(IPART(1,N) == IFAILMAT) THEN 
+          DO N=1,NPART
+            IF(IPART(1,N) == IFAILMAT) THEN
               CPT_PART = CPT_PART + 1
             ENDIF
           ENDDO
@@ -173,23 +173,23 @@ c
         MAX_PART = MAX (MAX_PART,CPT_PART)
       ENDDO
 c--------  end first loop over /PERTURB/FAIL
-c      
+c
       ALLOCATE(TAB_PART(NPERTURB,MAX_PART))
 c
 c-----------------------------------------------------------------------
 c     2nd loop over /PERTURB/FAIL/BIQUAD for reading and computing perturbation
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
       CALL HM_OPTION_START('/PERTURB/FAIL')
       DO ICOUNT = 1+OFFS,NPERTURB_FAIL+OFFS
         I_PERTURB_VAR = 0
-        CPT_PART = 0      
+        CPT_PART = 0
         ITYP     = 2
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID   = OPT_ID, 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID   = OPT_ID,
      .                          UNIT_ID     = UNIT_ID   ,
-     .                          KEYWORD2    = KEY1, 
-     .                          KEYWORD3    = KEY2, 
-     .                          OPTION_TITR = TITR) 
+     .                          KEYWORD2    = KEY1,
+     .                          KEYWORD3    = KEY2,
+     .                          OPTION_TITR = TITR)
         IDPERTURB(ICOUNT) = OPT_ID
 c
         KLEN = LEN_TRIM(KEY2)
@@ -199,7 +199,7 @@ card1
           CALL HM_GET_FLOATV('F_Mean'    ,MEAN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Deviation' ,STDEV    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Min_cut'   ,MINVAL   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          CALL HM_GET_FLOATV('Max_cut'   ,MAXVAL   ,IS_AVAILABLE,LSUBMODEL,UNITAB)     
+          CALL HM_GET_FLOATV('Max_cut'   ,MAXVAL   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INTV  ('Seed'      ,SEED     ,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV  ('Idistri'   ,I_METHOD ,IS_AVAILABLE,LSUBMODEL)
 card2
@@ -227,9 +227,9 @@ c
           QP_RPERTURB(ICOUNT,2) = STDEV
           QP_RPERTURB(ICOUNT,3) = MINVAL
           QP_RPERTURB(ICOUNT,4) = MAXVAL
-c          
+c
           IF (PARAM(1:2) == 'c3' .or. PARAM(1:2) == 'C3') THEN
-            I_PERTURB_VAR = 1 
+            I_PERTURB_VAR = 1
             QP_IPERTURB(ICOUNT,6) = I_PERTURB_VAR
           ELSE
             CALL ANCMSG(MSGID=1194,MSGTYPE=MSGERROR,ANMODE=ANINFO,
@@ -252,12 +252,12 @@ c
           ENDIF
           IF (IFAILMAT > 0) THEN
             CPT_PART = 0
-            DO N=1,NPART 
-              IF(IPART(1,N) == IFAILMAT) THEN 
+            DO N=1,NPART
+              IF(IPART(1,N) == IFAILMAT) THEN
                 CPT_PART = CPT_PART + 1
                 TAB_PART(ICOUNT,CPT_PART) = N
               ENDIF
-            ENDDO            
+            ENDDO
           END IF
 c-------------------------------
 c         PRINT OUT
@@ -283,7 +283,7 @@ c-------------------------------
                 INDEX(NB_RANDOM) = II
                 INDEX_ITYP(NB_RANDOM) = 3
               ENDIF
-            ENDDO 
+            ENDDO
           ENDDO
           DO II=1,NUMELTG
             DO K=1,CPT_PART
@@ -292,7 +292,7 @@ c-------------------------------
                 INDEX(NB_RANDOM) = II
                 INDEX_ITYP(NB_RANDOM) = 7
               ENDIF
-            ENDDO 
+            ENDDO
           ENDDO
           DO II=1,NUMELS
             DO K=1,CPT_PART
@@ -301,7 +301,7 @@ c-------------------------------
                 INDEX(NB_RANDOM) = II
                 INDEX_ITYP(NB_RANDOM) = 1
               ENDIF
-            ENDDO 
+            ENDDO
           ENDDO
           DO II=1,NUMSPH
             DO K=1,CPT_PART
@@ -310,72 +310,72 @@ c-------------------------------
                 INDEX(NB_RANDOM) = II
                 INDEX_ITYP(NB_RANDOM) = 51
               ENDIF
-            ENDDO 
+            ENDDO
           ENDDO
 c-------------------------------------------------------
 c         Set up random seed
 c-------------------------------------------------------
-          IF( SEED == 0 )THEN                         
-            CALL RANDOM_SEED(SIZE=I_SEED)             
-            ALLOCATE(A_SEED(1:I_SEED))                
-            CALL RANDOM_SEED(GET=A_SEED)              
-            CALL DATE_AND_TIME(values=DT_SEED)        
-            A_SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)   
-            SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)     
-            CALL RANDOM_SEED(PUT=A_SEED)              
-            SEED_RANDOM = 1                           
-            DEALLOCATE(A_SEED)                        
-          ELSE                                        
-            CALL RANDOM_SEED(SIZE=I_SEED)             
-            ALLOCATE(A_SEED(1:I_SEED))                
-            A_SEED=SEED                               
-            CALL RANDOM_SEED(PUT=A_SEED)              
-            SEED_RANDOM = 0                           
-            DEALLOCATE(A_SEED)                        
-          ENDIF                                       
+          IF( SEED == 0 )THEN
+            CALL RANDOM_SEED(SIZE=I_SEED)
+            ALLOCATE(A_SEED(1:I_SEED))
+            CALL RANDOM_SEED(GET=A_SEED)
+            CALL DATE_AND_TIME(values=DT_SEED)
+            A_SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)
+            SEED=DT_SEED(8)*DT_SEED(7)*DT_SEED(6)
+            CALL RANDOM_SEED(PUT=A_SEED)
+            SEED_RANDOM = 1
+            DEALLOCATE(A_SEED)
+          ELSE
+            CALL RANDOM_SEED(SIZE=I_SEED)
+            ALLOCATE(A_SEED(1:I_SEED))
+            A_SEED=SEED
+            CALL RANDOM_SEED(PUT=A_SEED)
+            SEED_RANDOM = 0
+            DEALLOCATE(A_SEED)
+          ENDIF
 c-------------------------------------------------------
 c         build uniform distributions
 c-------------------------------------------------------
-          DISTRIB(1:50) = 0                                  
-          ALLOCATE(ARRAY(NB_RANDOM+2))                       
-          CALL RANDOM_NUMBER(ARRAY) ! Uniform distribution   
+          DISTRIB(1:50) = 0
+          ALLOCATE(ARRAY(NB_RANDOM+2))
+          CALL RANDOM_NUMBER(ARRAY) ! Uniform distribution
 c-------------------------------------------------------
 c         build normal distribution
 c-------------------------------------------------------
-          MAX_VALUE = -EP30                                                     
-          MIN_VALUE = EP30                                                      
-          IF ( I_METHOD == 2) THEN                                              
-            DO II = 1, NB_RANDOM+1, 2                                           
-              TEMP = STDEV * SQRT(-2.0*LOG(ARRAY(II))) * COS(2*pi*array(II+1)) +   
-     .               MEAN                                                       
-              ARRAY(II+1) =                                                     
-     .          STDEV * SQRT(-2.0*LOG(ARRAY(II))) * SIN(2*pi*ARRAY(II+1)) + MEAN   
-              ARRAY(II) = TEMP                                                  
-            END DO                                                              
-            DO II = 1, NB_RANDOM                                                
-              ARRAY(II) = MAX(MIN(MAXVAL,ARRAY(II)),MINVAL)                     
-              MAX_VALUE = MAX(ARRAY(II),MAX_VALUE)                              
-              MIN_VALUE = MIN(ARRAY(II),MIN_VALUE)                              
-            END DO                                                              
-          ELSEIF(I_METHOD == 1)THEN                                             
-            DO II = 1, NB_RANDOM                                                
-              ARRAY(II) = ARRAY(II)*(MAXVAL-MINVAL)+MINVAL                      
-              MAX_VALUE = MAX(ARRAY(II),MAX_VALUE)                              
-              MIN_VALUE = MIN(ARRAY(II),MIN_VALUE)                              
-            END DO                                                              
-          ENDIF                                                                 
+          MAX_VALUE = -EP30
+          MIN_VALUE = EP30
+          IF ( I_METHOD == 2) THEN
+            DO II = 1, NB_RANDOM+1, 2
+              TEMP = STDEV * SQRT(-2.0*LOG(ARRAY(II))) * COS(2*pi*array(II+1)) +
+     .               MEAN
+              ARRAY(II+1) =
+     .          STDEV * SQRT(-2.0*LOG(ARRAY(II))) * SIN(2*pi*ARRAY(II+1)) + MEAN
+              ARRAY(II) = TEMP
+            END DO
+            DO II = 1, NB_RANDOM
+              ARRAY(II) = MAX(MIN(MAXVAL,ARRAY(II)),MINVAL)
+              MAX_VALUE = MAX(ARRAY(II),MAX_VALUE)
+              MIN_VALUE = MIN(ARRAY(II),MIN_VALUE)
+            END DO
+          ELSEIF(I_METHOD == 1)THEN
+            DO II = 1, NB_RANDOM
+              ARRAY(II) = ARRAY(II)*(MAXVAL-MINVAL)+MINVAL
+              MAX_VALUE = MAX(ARRAY(II),MAX_VALUE)
+              MIN_VALUE = MIN(ARRAY(II),MIN_VALUE)
+            END DO
+          ENDIF
 c
-          DO II = 1, NB_RANDOM                                                  
-            IF (INDEX_ITYP(II) == 3) THEN                                       
-              RNOISE(ICOUNT,INDEX(II)) = ARRAY(II)                                   
-            ELSEIF (INDEX_ITYP(II) == 7) THEN                                   
-              RNOISE(ICOUNT,INDEX(II)+NUMELC) = ARRAY(II)                            
-            ELSEIF (INDEX_ITYP(II) == 1) THEN                                   
-              RNOISE(ICOUNT,INDEX(II)+NUMELC+NUMELTG) = ARRAY(II)                    
-            ELSEIF (INDEX_ITYP(II) == 51) THEN                                   
-              RNOISE(ICOUNT,INDEX(II)+NUMELC+NUMELTG+NUMELS) = ARRAY(II)                  
-            ENDIF                                                               
-          ENDDO                                                                 
+          DO II = 1, NB_RANDOM
+            IF (INDEX_ITYP(II) == 3) THEN
+              RNOISE(ICOUNT,INDEX(II)) = ARRAY(II)
+            ELSEIF (INDEX_ITYP(II) == 7) THEN
+              RNOISE(ICOUNT,INDEX(II)+NUMELC) = ARRAY(II)
+            ELSEIF (INDEX_ITYP(II) == 1) THEN
+              RNOISE(ICOUNT,INDEX(II)+NUMELC+NUMELTG) = ARRAY(II)
+            ELSEIF (INDEX_ITYP(II) == 51) THEN
+              RNOISE(ICOUNT,INDEX(II)+NUMELC+NUMELTG+NUMELS) = ARRAY(II)
+            ENDIF
+          ENDDO
 c-------------------------------------------------------
 c         check mean and standard deviation
 c-------------------------------------------------------
@@ -401,13 +401,13 @@ c-------------------------------------------------------
           ENDIF
           CALL PLOT_DISTRIB( ARRAY,NB_RANDOM, NB_INTERV,SIZEY,MIN_VALUE,
      .         MAX_VALUE,MAX_DISTRIB,'#')
-c 
-          IF (I_METHOD == 2) THEN 
+c
+          IF (I_METHOD == 2) THEN
             WRITE (IOUT,2000) MEAN,STDEV
-          ELSEIF (I_METHOD == 1) THEN 
+          ELSEIF (I_METHOD == 1) THEN
             WRITE (IOUT,2050) MEAN
           ENDIF
-      
+
           IF (SEED_RANDOM == 1) WRITE (IOUT,2100) SEED
           WRITE(IOUT,*) ' '
           WRITE(IOUT,*) ' '

@@ -32,7 +32,7 @@ Chd|        SCFORC3                       source/elements/thickshell/solidec/scf
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CSMALL3(SIG, S1, S2, S3, S4, S5, S6,
-     .                   OFFG ,OFF  ,NEL) 
+     .                   OFFG ,OFF  ,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

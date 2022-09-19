@@ -105,7 +105,7 @@ C-----to be consiting with engine for PENMIN
       IF (IRESP==1) ALP = TWO*EM05
       DO I=LFT,LLT
         L  = CAND_E(I)
-        NI = CAND_N(I)         
+        NI = CAND_N(I)
         NS = NSV(NI)
         IF (NS >NUMNOD) THEN
          NS1 = NS -NUMNOD
@@ -206,7 +206,7 @@ c             print *,'impact pair eliminated due to N_SECONDARY'
            END IF
           END IF !(MSEGTYP(L)/=0 ) THEN
 C------Elimine the impact between the same part
-          IF (IPEN0==0) THEN           
+          IF (IPEN0==0) THEN
            IF (INACTI/=0.AND.(PEN > ZERO .OR. ABS(PEN) < TOL)) THEN
             IF (IPARTNS(NI) == MVOISN(3,L)) THEN
              PEN = -ABS(PEN)-TOL
@@ -295,7 +295,7 @@ C----------exclude case of PMIN(I0)<0 : -dist
 #ifdef HYPERMESH_LIB
              PEN_OLD(1:3,NI) = NN(1:3)
 #endif
-             ENDIF             
+             ENDIF
             ELSE
              ICONT_I(NI)=-L
              PMIN(NI)=PEN
@@ -319,7 +319,7 @@ C             IF (PEN < PEN0) THEN
 #ifdef HYPERMESH_LIB
               PEN_OLD(1:3,NI) = NN(1:3)
 #endif
-             ENDIF             
+             ENDIF
             ELSE
              IRTLM(1,NI)=L
              IRTLM(2,NI)=1
@@ -378,7 +378,7 @@ C             IF (PEN < PEN0) THEN
 #ifdef HYPERMESH_LIB
               PEN_OLD(1:3,NI) = NN(1:3)
 #endif
-             ENDIF             
+             ENDIF
             ELSE
              IRTLM(1,NI)=L
              IRTLM(2,NI)=1
@@ -392,7 +392,7 @@ C             IF (PEN < PEN0) THEN
            TAG(NS)=CAND_N(I)
           END IF !(ABS(PEN)<=TOL) THEN
         END IF !(IER==-1)THEN
-      END DO !I=LFT,LLT              
+      END DO !I=LFT,LLT
 C      
       RETURN
  1000 FORMAT(2X,'** INITIAL PENETRATION =',1PG20.13,
@@ -598,14 +598,14 @@ C------case tria  re-compute
              ELSEIF(LB >= ONE) THEN
                LC = ZERO
                LB = ONE
-             ELSE             
+             ELSE
                LBS = HALF*(ONE+LB-LC)
                LCS = HALF*(ONE-LB+LC)
                LB= MIN(ONE,MAX(ZERO,LBS))
                LC= MIN(ONE,MAX(ZERO,LCS))
              ENDIF
              SSC= (LC-LB)/(LC+LB)
-             TTC= ONE - TWO*LB - TWO*LC 
+             TTC= ONE - TWO*LB - TWO*LC
         END IF
         IF(ABS(SSC)>ONE)SSC=SSC/ABS(SSC)
         IF(ABS(TTC)>ONE)TTC=TTC/ABS(TTC)
@@ -717,7 +717,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER IRECT(4), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
+      INTEGER IRECT(4), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*),
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*),ICONN,NS
 C     REAL
 C-----------------------------------------------
@@ -805,7 +805,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER E, I,ISH
-     .        
+     .
 C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -826,7 +826,7 @@ C-----------------------------------------------
               ENDIF
 
              END IF
-            END DO          
+            END DO
 C      
       RETURN
       END

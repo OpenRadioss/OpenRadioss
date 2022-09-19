@@ -49,11 +49,11 @@ C
       CALL WRITE_I_C(IELC_L,NUMELC_L)     ! shell 4N std
       LEN_IA = LEN_IA + NUMELC_L
 C
-      CALL WRITE_I_C(IELTG_L,NUMELTG_L)   ! shell 3N std 
+      CALL WRITE_I_C(IELTG_L,NUMELTG_L)   ! shell 3N std
       LEN_IA = LEN_IA + NUMELTG_L
 C
       CALL WRITE_I_C(NODLEVXF_L,NUMNODCRK_L)  ! NLEV de chaque noeud local
       LEN_IA = LEN_IA + NUMNODCRK_L
-c-----------         
+c-----------
       RETURN
       END

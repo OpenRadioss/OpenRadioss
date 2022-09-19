@@ -86,7 +86,7 @@ C----------------------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE MULTI_FVM_MOD 
+      USE MULTI_FVM_MOD
       USE SUBMODEL_MOD
       USE PINCHTYPE_MOD
       USE HM_OPTION_READ_MOD
@@ -204,7 +204,7 @@ C OpenMP specific
        my_real :: DT_INPUT
 C
       INTEGER , DIMENSION(:), ALLOCATABLE :: NPLY,NSUB,NISUB
-      
+
       INTEGER :: NITER,IFORM
 
       INTEGER :: LEN_TMP_NAME
@@ -235,7 +235,7 @@ C=======================================================================
          CALL HM_OPTION_START('/TITLE')
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = LINE)
          CALL HM_GET_STRING('MY_TITLE', LINE, ncharline, IS_AVAILABLE)
-      ELSE 
+      ELSE
          LINE = ' '
       ENDIF
 !     Standard output
@@ -243,7 +243,7 @@ C=======================================================================
 !     For 0.out title writing
       READ(LINE(1:LEN_TRIM(LINE)),'(20A4)') TEXT
       IMOT=0
-      REEL=ZEP66  
+      REEL=ZEP66
 C=======================================================================
 C     LECTURE DES SYSTEMES D'UNITES
 C     Cette option doit rester la premiere lue car elle sert a convertir
@@ -357,7 +357,7 @@ C Option /ARCH non presente, IARCH= IBUILTIN et Grpsiz = ARCHINFO(IBUILTIN)
         IARCH = IBUILTIN
         NVSIZ = ARCHINFO(IBUILTIN,1)
         IVECTOR = ARCHINFO(IBUILTIN,2)
-    
+
       ! ---------------------------
       ! -grp_size hidden option
       IF(GRP_SIZE_BOOL) THEN
@@ -419,8 +419,8 @@ C
       ISST_DS=0
       ITHK_D=0
       IPLA_D=0
-      IPLA_DDS=2 
-      IPLA_DS =2 
+      IPLA_DDS=2
+      IPLA_DS =2
       ISTRA_D =1
       ISTR_D=0
       ISHEA_D=0 ! Old hidden flag in /DEF_SHELL
@@ -435,7 +435,7 @@ C
       NPTS_DD   = 0
       IDRIL_D=0
       IMAS_DS = 0
-      ICPRE_D =0 
+      ICPRE_D =0
 C-------------------------------------------------------------------
 C     READING OF SHELL PROPERTIES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -451,16 +451,16 @@ C-------------------------------------------------------------------
         IF (IDRIL_D == 0) IDRIL_D = 1
       ENDIF
 C----------------------------------------------
-      IF(IFRAME_DS == 0) IFRAME_DS = IFRAME_DDS  
+      IF(IFRAME_DS == 0) IFRAME_DS = IFRAME_DDS
       IS17OLD = 1 ! To be cleaned
 C-----
       IF(IHBE_D==0)IHBE_D = IHBE_DD
       IF(ISH3N_D==0)ISH3N_D = ISH3N_DD
-      IF(INSH==1)INER_9_12 = TWELVE      
-      IF(INSH==2)INER_9_12 = SIXTEEN      
-      IF(INSH==3)INER_9_12 = FOURTY8  
-      IF(INSH==4)INER_9_12 = THIRTY     
-      IF(INSH==5)INER_9_12 = NINE       
+      IF(INSH==1)INER_9_12 = TWELVE
+      IF(INSH==2)INER_9_12 = SIXTEEN
+      IF(INSH==3)INER_9_12 = FOURTY8
+      IF(INSH==4)INER_9_12 = THIRTY
+      IF(INSH==5)INER_9_12 = NINE
 C-------------------------------------------------------------------
 C     READING OF INTERFACES DEFAULT VALUES
 C-------------------------------------------------------------------
@@ -489,7 +489,7 @@ C-------------------------------------------------------------------
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO,
      .              I1=NSHFRAM)
-      ENDIF      
+      ENDIF
 C-------------------------------------------------------------------
 C     READGING OF /SH_3NFR
 C-------------------------------------------------------------------
@@ -551,7 +551,7 @@ C
      .    ' THREADS'
         ENDIF
       ENDIF
-    
+
 c warning if stacksize value lower than 512 M
       IF (STACKSIZ>0 .AND. STACKSIZ<=512)THEN
           CALL ANCMSG(MSGID=1032,
@@ -600,7 +600,7 @@ C-------------------------------------------------------------------
       MAXNX       = 0
       NANIM2D     = 0
       NANIM3D     = 0
-      NTHREAD_R2R = 1  
+      NTHREAD_R2R = 1
       IBID        = 0
       RBID        = ZERO
       NPINCH      = 0
@@ -626,7 +626,7 @@ C---  Xfem -------------------------------------------------------
 C---
 C   ATTENTION:    NUMNOD, NUMELC, NUMELTG ==> will be changed (by xfem)
 C---
-      NLEVMAX     = 0                    
+      NLEVMAX     = 0
       CALL HM_OPTION_COUNT('/INICRACK',NINICRACK)
 C---------------------------------------------------
 C     COUNTING ELEMENTS
@@ -660,7 +660,7 @@ C-----
       IF(NUMELC > 0 .AND. NANALY /= 0)THEN
           CALL ANCMSG(MSGID=285,MSGTYPE=MSGERROR,ANMODE=ANINFO)
           NUMELC = 0
-      ENDIF      
+      ENDIF
 C-----
       CALL HM_ELEM_COUNT('SH3N',NUMELTG,IS_DYNA)
       IF(NUMELTG > 0 .AND. NANALY /= 0)THEN
@@ -743,7 +743,7 @@ C---------------------------------------------------
 C-----
       CALL HM_OPTION_COUNT('/PLY', NUMPLY)
       CALL HM_OPTION_COUNT('/DRAPE',NDRAPE)
-      CALL HM_OPTION_COUNT('/STACK',NUMSTACK)         
+      CALL HM_OPTION_COUNT('/STACK',NUMSTACK)
 C---------------------------------------------------
 C     TOOLS
 C---------------------------------------------------
@@ -760,7 +760,7 @@ C-----
       CALL HM_OPTION_COUNT('/FUNCT'  , NFUNCT0)
       CALL HM_OPTION_COUNT('/TABLE/0', NTABLE0)
       CALL HM_OPTION_COUNT('/TABLE/1', NTABLE1)
-      NFUNCT = NFUNCT0 + NTABLE0 + NTABLE1 
+      NFUNCT = NFUNCT0 + NTABLE0 + NTABLE1
       NTABLE = NFUNCT
 C-----
       CALL HM_OPTION_COUNT('/FUNC_2D', NFUNC2D)
@@ -832,7 +832,7 @@ C---------------------------------------------------
 C---------------------------------------------------
 C     INTERFACES
 C---------------------------------------------------
-      NINTER = 0 
+      NINTER = 0
       HM_NINTER= 0
       CALL HM_OPTION_COUNT('/INTER',HM_NINTER)
 C-----      
@@ -894,7 +894,7 @@ C
       IRFE=IRFORM/5
       IRFL=IRFORM-5*IRFE
       IRFORM=5*IRFE+IRFL
-      IF (IRFORM /= 12) THEN     
+      IF (IRFORM /= 12) THEN
         CALL ANCMSG(MSGID=636,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1)
@@ -928,7 +928,7 @@ C---------------------------------------------------
       NSPHSYM= 0
       MAXPJET= 0
 C
-c call NBSPH only once NSPMD is known in order to compute NSPHRES=NSPHRES*NSPMD to prepare NSPHRES by proc 
+c call NBSPH only once NSPMD is known in order to compute NSPHRES=NSPHRES*NSPMD to prepare NSPHRES by proc
 c for inlets treatment in SPMD
 c NSPHRES is the global number of SPH reserve
 C     NBSPH computes NSPHIO & NSPHRES :
@@ -946,7 +946,7 @@ C---------------------------------------------------
       CALL HM_OPTION_COUNT('/MADYMO/LINK', NCONX)
       IF (NCONX > 0)  CALL ANCMSG(MSGID   = 2023    ,
      .                            MSGTYPE = MSGERROR,
-     .                             ANMODE  = ANINFO  )       
+     .                             ANMODE  = ANINFO  )
 C---------------------------------------------------
       NEIG = 0
       CALL HM_OPTION_COUNT('/EIG',NEIG)
@@ -960,8 +960,8 @@ C---------------------------------------------------
 C---------------------------------------------------
 C     DFS, ALE, EULER
 C---------------------------------------------------
-      FLG_FSI = 0    
-      IS_BOUNDARY_MATERIAL = .FALSE.  
+      FLG_FSI = 0
+      IS_BOUNDARY_MATERIAL = .FALSE.
 C-----
       CALL HM_OPTION_COUNT('/EBCS',NEBCS)
 C---------------------------------------------------
@@ -972,10 +972,10 @@ C---------------------------------------------------
       DETONATORS%NECRAN   = 0
       DETONATORS%NDETPL   = 0
       DETONATORS%NDETCORD = 0
-      CALL HM_OPTION_COUNT('/DFS/DETPOIN',DETONATORS%NDETPS) 
-      CALL HM_OPTION_COUNT('/DFS/DETLINE',DETONATORS%NDETSG)   
+      CALL HM_OPTION_COUNT('/DFS/DETPOIN',DETONATORS%NDETPS)
+      CALL HM_OPTION_COUNT('/DFS/DETLINE',DETONATORS%NDETSG)
       CALL HM_OPTION_COUNT('/DFS/WAV_SHA',DETONATORS%NECRAN)
-      CALL HM_OPTION_COUNT('/DFS/DETPLAN',DETONATORS%NDETPL)   
+      CALL HM_OPTION_COUNT('/DFS/DETPLAN',DETONATORS%NDETPL)
       CALL HM_OPTION_COUNT('/DFS/DETCORD',DETONATORS%NDETCORD)
       DETONATORS%NDET=DETONATORS%NDETPS+DETONATORS%NDETSG+DETONATORS%NECRAN+DETONATORS%NDETPL+DETONATORS%NDETCORD
 C---------------------------------------------------
@@ -1041,7 +1041,7 @@ C     Anim version 5 non encore supporte
       ANIM_VERS  = 44
       NANIM_VERS = 0
       CALL HM_OPTION_COUNT('/ANIM/VERS',NANIM_VERS)
-      IF (NANIM_VERS > 0) THEN 
+      IF (NANIM_VERS > 0) THEN
         CALL HM_OPTION_START('/ANIM/VERS')
         CALL HM_OPTION_NEXT()
         CALL HM_GET_INTV('Anim_vers', ANIM_VERS, IS_AVAILABLE, LSUBMODEL)
@@ -1075,7 +1075,7 @@ C----------------------------------------------------------
       !for SIN initialization and IN allocation in lectur.F
       CALL HM_OPTION_START('MATERIAL')
       DO I = 1, HM_NUMMAT
-         MAT_NUMBER    = I 
+         MAT_NUMBER    = I
          CALL HM_OPTION_READ_KEY(LSUBMODEL,KEYWORD2    = KEY   )
          IF (KEY(1:5) == 'LAW13' .OR. KEY(1:5) == 'RIGID') IRODDL0 = 1
          IF (KEY(1:5) == 'LAW68' .OR. KEY(1:5) == 'COSSE') IISROT = 1
@@ -1094,7 +1094,7 @@ C--------------------------------------------
       ALLOCATE(NSUB (NUMGEO + NUMSTACK) ,STAT=stat)
       ALLOCATE(NISUB(NUMGEO + NUMSTACK) ,STAT=stat)
       ALLOCATE(NPLY (NUMGEO + NUMSTACK) ,STAT=stat)
-c      
+c
       CALL HM_PREREAD_PROPERTIES(IGEO,NSPHSOL,NPLY,NSUB,NISUB,LSUBMODEL)
 
       IF(NSPHSOL/=0.AND.NUMELS8/=0)THEN
@@ -1172,8 +1172,8 @@ C
       ENDDO
 C      
       N2D = NANALY
-      IF(DTFAC==ZERO.AND.N2D/=0)DTFAC=0.67 !0.67 => 0.670000016689301     !ZEP67 => 0.670000000000000     
-      IF(DTFAC==ZERO.AND.N2D==0)DTFAC=0.90 !0.90 => 0.899999976158142     !ZEP9  => 0.900000000000000 
+      IF(DTFAC==ZERO.AND.N2D/=0)DTFAC=0.67 !0.67 => 0.670000016689301     !ZEP67 => 0.670000000000000
+      IF(DTFAC==ZERO.AND.N2D==0)DTFAC=0.90 !0.90 => 0.899999976158142     !ZEP9  => 0.900000000000000
 C=======================================================================
 C     Opening of some input files (.sty, etc...)
 C=======================================================================
@@ -1190,13 +1190,13 @@ C--     Lecture fichier Y00/Ynn
             IF(S0FILE(I:I)/=' ')J = J + 1
            ENDDO
            N = J - 3
-           TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:len_trim(S0FILE))    
+           TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:len_trim(S0FILE))
            LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(S0FILE)
            IF(S0FILE(N:N)=='Y')THEN
             OPEN(UNIT=IIN4,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .       FORM='FORMATTED',STATUS='OLD')
 
-            TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:N)//'000'    
+            TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:N)//'000'
             LEN_TMP_NAME = INFILE_NAME_LEN+N+3
             OPEN(UNIT=IIN5,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .       ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='OLD')
@@ -1211,7 +1211,7 @@ C--     Lecture fichier Y00/Ynn
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
      .                  C1=S0FILE)
-           ENDIF 
+           ENDIF
           ELSE
             J = 0
             I = 1
@@ -1220,7 +1220,7 @@ C--     Lecture fichier Y00/Ynn
              I = I + 1
             ENDDO
             N = J-3
-            TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:len_trim(S0FILE))    
+            TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:len_trim(S0FILE))
             LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(S0FILE)
             IF(S0FILE(N:N+4)=='.sty')THEN
               OPEN(UNIT=IIN4,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
@@ -1229,7 +1229,7 @@ C--     Lecture fichier Y00/Ynn
               TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//S0FILE(1:N-6)//'_0000.sty'
               LEN_TMP_NAME = INFILE_NAME_LEN+N-6+9
               OPEN(UNIT=IIN5,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='OLD')    
+     .        ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='OLD')
             ELSE
               OPEN(UNIT=IIN4,FILE=TMP_NAME(1:LEN_TMP_NAME),ERR=200,ACCESS='SEQUENTIAL',
      .          FORM='FORMATTED',STATUS='OLD')
@@ -1241,7 +1241,7 @@ C--     Lecture fichier Y00/Ynn
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    C1=S0FILE)
-            ENDIF  
+            ENDIF
           ENDIF
         ENDIF
       ENDIF
@@ -1281,9 +1281,9 @@ C=======================================================================
       WRITE (IOUT,'(A,I10)')
      .  '    NUMFRAM: NUMBER OF REFERENCE FRAMES . . . . . . . . .',
      .                                                      NUMFRAM
-      WRITE (IOUT,'(A,I10)')  
+      WRITE (IOUT,'(A,I10)')
      .      TITRE(131)(1:57),NUMELQ ,
-     .      TITRE(191)(1:57),NUMELTRIA,  
+     .      TITRE(191)(1:57),NUMELTRIA,
      .      TITRE(132)(1:57),NUMELS ,
      .      TITRE(133)(1:57),NUMELC ,
      .      TITRE(134)(1:57),NUMELT ,
@@ -1334,7 +1334,7 @@ C=======================================================================
      .'    NINIMAP1D: NUMBER OF INITIAL 1D MAPPING.. . . . . . .',
      .NINIMAP1D,
      .'    NINIMAP2D: NUMBER OF INITIAL 2D MAPPING.. . . . . . .',
-     .NINIMAP2D     
+     .NINIMAP2D
       IF(NPRELOAD>0) THEN
         WRITE (IOUT,'(A,I10)')
      .  '    NPRELOAD: NUMBER OF BOLT PRELOADINGS. . . . . . . . .',
@@ -1348,7 +1348,7 @@ C=======================================================================
      .                            TITRE(188)(1:57),DETONATORS%NDETPL
       ENDIF
       IF(NLASER > 0) WRITE (IOUT,'((A,I10))') TITRE(178)(1:57),NLASER
-      WRITE (IOUT,'(4X,A,I10)') 
+      WRITE (IOUT,'(4X,A,I10)')
      .  'NUMBER OF ACCELEROMETERS. . . . . . . . . . . . . . .',
      .   NACCELM,
      .  'NUMBER OF SENSORS . . . . . . . . . . . . . . . . . .',
@@ -1374,7 +1374,7 @@ C
       WRITE (IOUT, 5053) NGJOINT
       WRITE (IOUT, 5054) NUMMPC
       WRITE (IOUT, 5050) NR2RLNK
-      WRITE (IOUT, 5055) NSUBDOM     
+      WRITE (IOUT, 5055) NSUBDOM
       WRITE (IOUT,5000)NVOLU+NMONVOL
       WRITE(IOUT,'(A,I10)')
      .'    NEIG:   NUMBER OF EIGEN AND STATIC MODES PROBLEMS . .',
@@ -1403,38 +1403,38 @@ C
      . '                               NUMBER OF STEPS , NITRS. .',
      . NITRS
       ENDIF
-      
-      IF(JALE+JEUL/=0)THEN         
+
+      IF(JALE+JEUL/=0)THEN
         WRITE(IOUT,'(A,I10)')
      . '    ISFINT: ALE/EULER MOMENTUM INTEGRATION FORMULATION. .',
      . ISFINT
-      ENDIF 
+      ENDIF
       IF(ICAA==1)THEN
         WRITE(IOUT,5380)
-      END IF            
+      END IF
       IF(JALE/=0)THEN
         WRITE (IOUT,5100)NWALE
         SELECT CASE (NWALE)
           CASE(0);WRITE (IOUT,5199) ALPHA,GAMMA, VGX,VGY,VGZ,VOLMIN
           CASE(1);WRITE (IOUT,5200) ALPHA,VGX,VGY,VGZ,VOLMIN
           CASE(2);WRITE (IOUT,5300) DT_INPUT, ALPHA,GAMMA,VGX,VGY,VOLMIN
-          CASE(3);WRITE (IOUT,5350) 
-          CASE(4);WRITE (IOUT,5351) ALPHA,GAMMA,VGX,VGY 
-          CASE(5);WRITE (IOUT,5353) ALPHA,NINT(VGX)               
+          CASE(3);WRITE (IOUT,5350)
+          CASE(4);WRITE (IOUT,5351) ALPHA,GAMMA,VGX,VGY
+          CASE(5);WRITE (IOUT,5353) ALPHA,NINT(VGX)
         END SELECT
       ENDIF
 
       IF(I_ALE_SOLVER /= 0)IALEMUSCL=0 !muscl not compatible with FVM solver for int22
-      CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)     
+      CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)
       IF( UPWSM/=ONE)THEN
        IF(NALEMUSCL>0 .OR. IALEMUSCL>0)THEN
-         NALEMUSCL=0 
-         IALEMUSCL=0     
+         NALEMUSCL=0
+         IALEMUSCL=0
          !ignore muscl et utiliser upwsm3  (backward compatibility)
          !double check engine file with /ALE/MUSCL/OFF
         ENDIF
       ENDIF
-            
+
       IF(JALE+JEUL/=0)THEN
         IF(IALEMUSCL == 1 .AND. JUPW/=0 ) THEN   !eta3 + muscl(law51) : conflict
            CALL ANCMSG(MSGID=1564, MSGTYPE=MSGWARNING, ANMODE=ANINFO)
@@ -1445,9 +1445,9 @@ C
            WRITE (IOUT, 5504) I_BETA,IALEMUSCL-1
         ENDIF
       ENDIF
-      
+
       WRITE (IOUT,'(//,A,I10)')  TITRE(130)(1:57),NANALY
-      
+
       IF(IHBE_DS==0) IHBE_DS = IHBE_DD
       IF(N2D/=0) IHBE_DS = 2
       IF(N2D==0)THEN
@@ -1464,7 +1464,7 @@ C                                                                    012
       WRITE(IOUT,5501)ISHFRAM
       IF(ISH3NFRAM>0)WRITE(IOUT,5901)ISH3NFRAM
       IF(JALE/=0 .AND. IALEFVM/=0)WRITE(IOUT,5502)I_ALE_SOLVER
-      IF(JALE/=0 .AND. ISFINT/=0) WRITE(IOUT,5503)ISFINT      
+      IF(JALE/=0 .AND. ISFINT/=0) WRITE(IOUT,5503)ISFINT
       WRITE(IOUT,5700)LAGM_TOL
       WRITE(IOUT,5800)IMAS_DS
       IF ((NUMSPH>0).AND.(NSPHSOL==0)) WRITE (IOUT,5600) SPASORT,LVOISPH,KVOISPH
@@ -1494,10 +1494,10 @@ c        WRITE(IOUT,3002) LMA,LAM
       ENDIF
       IF(GOT_INSPIRE_ALM == 1)THEN
         WRITE(IOUT,4001) NTHREAD_S,STR_NBTHREADS,NSPMD,NTHREAD,IARCH,
-     .                 ARCHN(IARCH),NVSIZ 
+     .                 ARCHN(IARCH),NVSIZ
       ELSE
         WRITE(IOUT,4000) NTHREAD_S,STR_NBTHREADS,NSPMD,NTHREAD,IARCH,
-     .                 ARCHN(IARCH),NVSIZ 
+     .                 ARCHN(IARCH),NVSIZ
       ENDIF
 C
       IF(IGNORE_SPMD==1.OR.IGNORE_THREADS==1)THEN
@@ -1572,7 +1572,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  4601 FORMAT(
      & 4X,'LIBRARY NAME  . . . . . . . . . . . . . . . . . . . . ',A/
      & 4X,'SOLVER USERS CODE INTERFACE VERSION . . . . . . . . .',I10)
-      
+
 
  5000 FORMAT(
      & '    NVOLU:  NUMBER OF MONITORED VOLUMES . . . . . . . . .',I10)
@@ -1587,7 +1587,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
  5054 FORMAT(
      & '    NUMMPC: NUMBER OF MULTI-POINT CONSTRAINTS . . . . . .',I10)
  5055 FORMAT(
-     & '    NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . . ',I10)     
+     & '    NSUBDOM: NUMBER OF SUBDOMAINS . . . . . .. . . . . . ',I10)
  5100 FORMAT(/
      & 4X,'NWALE : CHOICE OF ALE GRID VELOCITY FORMULATION . . .',I10)
  5199 FORMAT(//
@@ -1636,7 +1636,7 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 4X,'--------------------                           '/
      & 5X,'LAPLACIAN SMOOTHING '/
      & 5X,'LAMBDA:. . . . . . . . . . . . . . . . . . . . . ',1PG20.13/
-     & 5X,'NITER :. . . . . . . . . . . . . . . . . . . . . ',I10)          
+     & 5X,'NITER :. . . . . . . . . . . . . . . . . . . . . ',I10)
  5360 FORMAT(//
      & 4X,'ALE UPWIND PARAMETERS                   '/
      & 4X,'---------------------                   '/
@@ -1671,19 +1671,19 @@ c     & 4X,'MEMORY AVAILABLE FOR REALS. . . . . . . . . . . . . .',I10)
      & 4X,'ISHEA  : DEFAULT SHELL SHEAR COMPUTATION FLAG. . . . .',I10/
      & 4X,'INSH   : SHELL INERTIA FLAG. . . . . . . . . . . . . .',I10/
      & 4X,'ISH3N  : DEFAULT 3 NODE SHELL FORMULATION FLAG . . . .',I10/
-     & 4X,'NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           ',/  
+     & 4X,'NPTS   : SHELL PROPERTIES DEFAULT NUMBER OF           ',/
      & 4X,'         INTEGRATION POINTS OR LAYERS. . . . . . . . .',I10/
      & 4X,'IFRAME : DEFAULT SOLID FRAME FORMULATION FLAG . . . . ',I10)
  5501 FORMAT(
      & 4X,'ISHFRAM: LOCAL SHELL FRAME DEFINITION. . . . . . . . .',I10)
  5502 FORMAT(
-     & 4X,'IALEFVM: FVM FOR ALE MOMENTUM EQUATION.  . . . . . . .',I10) 
+     & 4X,'IALEFVM: FVM FOR ALE MOMENTUM EQUATION.  . . . . . . .',I10)
  5503 FORMAT(
-     & 4X,'ISFINT : INTERNAL FORCES FORMULATION . . . . . . . . .',I10)  
+     & 4X,'ISFINT : INTERNAL FORCES FORMULATION . . . . . . . . .',I10)
  5504 FORMAT(//
      & 4X,'ALEMUSCL                   '/
      & 4X,'---------------------                   '/
-     & 5X,'COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . : ',1PG20.13/  
+     & 5X,'COMPRESSION COEFFICIENT (BETA). . . . . . . . . . . : ',1PG20.13/
      & 5X,'FORMULATION FLAG (IFLAG). . . . . . . . . . . . . . : ',I10)
  5700 FORMAT(//
      & 4X,'LAGRANGE MULTIPLIER OPTIONS'/
@@ -1775,7 +1775,7 @@ C
          LEN_TMP_NAME = INFILE_NAME_LEN+ROOTLEN+3
          OPEN(UNIT=71,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .        ACCESS='SEQUENTIAL',STATUS='OLD',IOSTAT=IO_ERR1)
-      ENDIF      
+      ENDIF
 
       IF (IO_ERR1==0) THEN
 C
@@ -1805,13 +1805,13 @@ C
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_2,
      .              C1=ROOTNAM(1:ROOTLEN)//'_0001.rad',
-     .              C2=ROOTNAM(1:ROOTLEN)//'D01')   
+     .              C2=ROOTNAM(1:ROOTLEN)//'D01')
 C
         IF(NUMELS10/=0) CALL ANCMSG(MSGID=1606,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_2,
      .              C1=ROOTNAM(1:ROOTLEN)//'_0001.rad',
-     .              C2=ROOTNAM(1:ROOTLEN)//'D01')   
+     .              C2=ROOTNAM(1:ROOTLEN)//'D01')
 C
       ENDIF
 C------------------------------------------- 
@@ -1878,118 +1878,118 @@ C-----------------------------------------------
 C     Lecture des donnees dans le fichier engine
 C-----------------------------------------------
       IH3D=1
-      K_LEN = 19 
-      CARTE(1:K_LEN) = '/H3D/ELEM/VONM/TMAX'    
+      K_LEN = 19
+      CARTE(1:K_LEN) = '/H3D/ELEM/VONM/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY >0) THEN
         IKEYMAX(IH3D) = 1
       ELSE
-        K_LEN = 20 
-        CARTE(1:K_LEN) = '/H3D/SOLID/VONM/TMAX'    
+        K_LEN = 20
+        CARTE(1:K_LEN) = '/H3D/SOLID/VONM/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
-        CARTE(1:K_LEN) = '/H3D/SHELL/VONM/TMAX'    
+        CARTE(1:K_LEN) = '/H3D/SHELL/VONM/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
       END IF
       IH3D=2
-      K_LEN = 20 
-      CARTE(1:K_LEN) = '/H3D/ELEM/SIGEQ/TMAX'    
+      K_LEN = 20
+      CARTE(1:K_LEN) = '/H3D/ELEM/SIGEQ/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY >0) THEN
         IKEYMAX(IH3D) = 1
       ELSE
-        K_LEN = 21 
-        CARTE(1:K_LEN) = '/H3D/SOLID/SIGEQ/TMAX'    
+        K_LEN = 21
+        CARTE(1:K_LEN) = '/H3D/SOLID/SIGEQ/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
-        CARTE(1:K_LEN) = '/H3D/SHELL/SIGEQ/TMAX'    
+        CARTE(1:K_LEN) = '/H3D/SHELL/SIGEQ/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
       END IF
       IH3D=3
-      K_LEN = 19 
-      CARTE(1:K_LEN) = '/H3D/ELEM/ENER/TMAX'    
+      K_LEN = 19
+      CARTE(1:K_LEN) = '/H3D/ELEM/ENER/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY >0) THEN
         IKEYMAX(IH3D) = 1
       ELSE
-        K_LEN = 20 
-        CARTE(1:K_LEN) = '/H3D/SOLID/ENER/TMAX'    
+        K_LEN = 20
+        CARTE(1:K_LEN) = '/H3D/SOLID/ENER/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
-        CARTE(1:K_LEN) = '/H3D/SHELL/ENER/TMAX'    
+        CARTE(1:K_LEN) = '/H3D/SHELL/ENER/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
       END IF
       IH3D=4
-      K_LEN = 19 
-      CARTE(1:K_LEN) = '/H3D/ELEM/DAMA/TMAX'    
+      K_LEN = 19
+      CARTE(1:K_LEN) = '/H3D/ELEM/DAMA/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY >0) THEN
         IKEYMAX(IH3D) = 1
       ELSE
-        K_LEN = 20 
-        CARTE(1:K_LEN) = '/H3D/SOLID/DAMA/TMAX'    
+        K_LEN = 20
+        CARTE(1:K_LEN) = '/H3D/SOLID/DAMA/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
-        CARTE(1:K_LEN) = '/H3D/SHELL/DAMA/TMAX'    
+        CARTE(1:K_LEN) = '/H3D/SHELL/DAMA/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
       END IF
       IH3D=5
-      K_LEN = 26 
-      CARTE(1:K_LEN) = '/H3D/ELEM/TENS/STRESS/TMAX'    
+      K_LEN = 26
+      CARTE(1:K_LEN) = '/H3D/ELEM/TENS/STRESS/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY >0) THEN
         IKEYMAX(IH3D) = 1
       ELSE
-        K_LEN = 27 
-        CARTE(1:K_LEN) = '/H3D/SOLID/TENS/STRESS/TMAX'    
+        K_LEN = 27
+        CARTE(1:K_LEN) = '/H3D/SOLID/TENS/STRESS/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
-        CARTE(1:K_LEN) = '/H3D/SHELL/TENS/STRESS/TMAX'    
+        CARTE(1:K_LEN) = '/H3D/SHELL/TENS/STRESS/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
       END IF
       IH3D=6
-      K_LEN = 26 
-      CARTE(1:K_LEN) = '/H3D/ELEM/TENS/STRAIN/TMAX'    
+      K_LEN = 26
+      CARTE(1:K_LEN) = '/H3D/ELEM/TENS/STRAIN/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY >0) THEN
         IKEYMAX(IH3D) = 1
       ELSE
-        K_LEN = 27 
-        CARTE(1:K_LEN) = '/H3D/SOLID/TENS/STRAIN/TMAX'    
+        K_LEN = 27
+        CARTE(1:K_LEN) = '/H3D/SOLID/TENS/STRAIN/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
-        CARTE(1:K_LEN) = '/H3D/SHELL/TENS/STRAIN/TMAX'    
+        CARTE(1:K_LEN) = '/H3D/SHELL/TENS/STRAIN/TMAX'
         CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
         IF (IKEY >0) IKEYMAX(IH3D) = 1
       END IF
       IH3D=7 ! NKEYMAX+1
-      K_LEN = 9 
-      CARTE(1:K_LEN) = '/H3D/PART'    
+      K_LEN = 9
+      CARTE(1:K_LEN) = '/H3D/PART'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,NKPART(1,IH3D),IPART)
       IF (IKEY == 0 ) NKPART(1:NPART,IH3D)=1
-      IH3D=8 
-      K_LEN =18 
-      CARTE(1:K_LEN) = '/H3D/NODA/DIS/TMAX'    
+      IH3D=8
+      K_LEN =18
+      CARTE(1:K_LEN) = '/H3D/NODA/DIS/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
       IF (IKEY > 0 ) LMAX_DIS = 3
-      IH3D=9 
-      K_LEN =18 
-      CARTE(1:K_LEN) = '/H3D/NODA/VEL/TMAX'    
+      IH3D=9
+      K_LEN =18
+      CARTE(1:K_LEN) = '/H3D/NODA/VEL/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
       IF (IKEY > 0 ) LMAX_VEL = 3
-      IH3D=10 
-      K_LEN =18 
-      CARTE(1:K_LEN) = '/H3D/NODA/GPS/TMAX'    
+      IH3D=10
+      K_LEN =18
+      CARTE(1:K_LEN) = '/H3D/NODA/GPS/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
       IF (IKEY > 0 ) LMAX_NSIG = 6
-      IH3D=11 
-      K_LEN =23 
-      CARTE(1:K_LEN) = '/H3D/NODA/GPSTRAIN/TMAX'    
+      IH3D=11
+      K_LEN =23
+      CARTE(1:K_LEN) = '/H3D/NODA/GPSTRAIN/TMAX'
       CALL READ_H3DTMAX_KEY(CARTE,K_LEN,IKEY,TMAX_IPART,IPART)
       IF (IKEY > 0 ) LMAX_NSTRA = 6
 C
@@ -2084,7 +2084,7 @@ C---- read ipart_id if there are
            IFUND = 1
            IC = 1
            NPRT = NPART
-           DO WHILE(IC == 1)           
+           DO WHILE(IC == 1)
              READ(71,FMT='(A)',ERR=20,END=20) CARTE
              IF(CARTE(1:1) == '#' .OR. CARTE(1:1) == '$') CYCLE
              IC = 0
@@ -2093,7 +2093,7 @@ C---- read ipart_id if there are
              ELSE
                J=1
                NPRT = 0
-               DO WHILE(CARTE(1:1) /= '/' .AND. LEN_C /= 0) 
+               DO WHILE(CARTE(1:1) /= '/' .AND. LEN_C /= 0)
                  DO WHILE (J <= LEN_C)
                   IF(CARTE(J:J) /= ' ') THEN
                     K=J
@@ -2116,7 +2116,7 @@ C---- read ipart_id if there are
                END IF
              END IF
            END DO !(IC == 1) remove comments
-        END IF        
+        END IF
 C
       END DO
 C
@@ -2124,9 +2124,9 @@ C
 
         CLOSE(71)
 C        
-        IF (IFUND>0 .AND. (NPRT == NPART .OR.NPRT ==0)) THEN   
+        IF (IFUND>0 .AND. (NPRT == NPART .OR.NPRT ==0)) THEN
           NTM_PART(1:NPRT) = 1
-        ELSEIF (IFUND>0) THEN   
+        ELSEIF (IFUND>0) THEN
     	  DO I=1,NPRT
              IP=0
              IPRT = TMAX_IPART(I)
@@ -2138,9 +2138,9 @@ C
      	     DO J=1,NPART
      	       IP = IP +NTM_PART(J)
      	     END DO
-             IF (IP==0) NTM_PART(1:NPART) = 1 
+             IF (IP==0) NTM_PART(1:NPART) = 1
           ENDDO
-        END IF 
+        END IF
 C------------------------------------------- 
       RETURN
       END

@@ -29,7 +29,7 @@ Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SORTHO3(
-     .    RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,     
+     .    RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .    E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -45,8 +45,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RX(*), RY(*), RZ(*),
-     .   SX(*), SY(*), SZ(*), 
-     .   TX(*), TY(*), TZ(*),  
+     .   SX(*), SY(*), SZ(*),
+     .   TX(*), TY(*), TZ(*),
      .   E1X(*), E1Y(*), E1Z(*),
      .   E2X(*), E2Y(*), E2Z(*),
      .   E3X(*), E3Y(*), E3Z(*)

@@ -106,7 +106,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL             
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -169,24 +169,24 @@ C------------Provisoirement on garde tous les mat et props----------------------
 
 C------------Stockage de TAG_EL----------------------------------------------------C        
         ALLOCATE(TAG_ELCF2(NUMELC))
-        ALLOCATE(TAG_ELSF2(NUMELS))        
+        ALLOCATE(TAG_ELSF2(NUMELS))
         TAG_ELCF2 = 0
         TAG_ELSF2 = 0
         DO I=1,NUMELS
           TAG_ELSF2(I) = TAG_ELS(I+NPART)
-        END DO                        
+        END DO
         DO I=1,NUMELC
           TAG_ELCF2(I) = TAG_ELC(I+NPART)
         END DO
-        
+
 C----------------------------------------------------------------------------------C
 C-----------------------------tag des donnees du subdomain-------------------------C
 C----------------------------------------------------------------------------------C
 
        IF (IDDOM/=0) THEN
-	  ADD = ISUBDOM(3,IDDOM)       
+	  ADD = ISUBDOM(3,IDDOM)
 	  DO K=1,NPART
-            DO I=1,ISUBDOM(1,IDDOM)          
+            DO I=1,ISUBDOM(1,IDDOM)
               IF(K == ISUBDOM_PART(I+ADD))THEN
                   TAG_PART(K)=1
               ENDIF
@@ -199,9 +199,9 @@ C----------------Full domain --> tag des parts de tous les sous domaines--------
        IF (IDDOM == 0) THEN
 
           DO IDOM=1,NSUBDOM
-	    ADD = ISUBDOM(3,IDOM)          
+	    ADD = ISUBDOM(3,IDOM)
 	    DO K=1,NPART
-              DO I=1,ISUBDOM(1,IDOM)            
+              DO I=1,ISUBDOM(1,IDOM)
                 IF(K == ISUBDOM_PART(I+ADD))THEN
                     TAG_PART(K)=1
                 ENDIF
@@ -285,7 +285,7 @@ C---------------Tag des elements------------------------------------------------
 
         IF (NUMELR>0) CALL TAGELEM_R2R(NUMELR,IPART(L0),TAG_ELR,NPART)
         L0 = L0+NUMELR
- 
+
         IF (NUMELTG>0)CALL TAGELEM_R2R(NUMELTG,IPART(L0),TAG_ELG,NPART)
         L0 = L0+NUMELTG+NUMELUR+NUMELX
 
@@ -537,7 +537,7 @@ C-------------Split-------------------------------------------------------------
 		 X(3*(COMPT-1)+1)=X_TEMP(1,J)
 		 X(3*(COMPT-1)+2)=X_TEMP(2,J)
 		 X(3*(COMPT-1)+3)=X_TEMP(3,J)
-c		 FRONT_R2R(COMPT)=FRONT(J,1)		 
+c		 FRONT_R2R(COMPT)=FRONT(J,1)		
 		 FRONT_R2R(COMPT) = NLOCAL(J,1)
 		 IF(FLAGKIN(J)==1)THEN
 		   FLAGKIN_R2R(COMPT)=1
@@ -577,7 +577,7 @@ C -----------on update les frames-----------------------------------------------
           ELSE
 C--         on avance les frames si disparition des particules SPH      
             JJB = SISKWN-SIFRAME-MIN(IUN,NSPCOND0)*(NUMSPH-NSPHN)*LISKN
-            DO J=1,NUMFRAM 
+            DO J=1,NUMFRAM
 	      DO K=1,3
                 IF (ISKWN(JJ+LISKN*J+K)>0) THEN
 	          ISKWN(JJB+LISKN*J+K)=CORESN(ISKWN(JJ+LISKN*J+K))
@@ -622,7 +622,7 @@ C-------------Split-------------------------------------------------------------
             DO J=1,NUMNOD_OLD
               IF (TAGNO(J+NPART)>=0) THEN
 	         COMPT = COMPT+1
-                 NALE_R2R(COMPT) =  NALE_R2R_TEMP(J)           
+                 NALE_R2R(COMPT) =  NALE_R2R_TEMP(J)
               ENDIF
             END DO
             DEALLOCATE(NALE_R2R_TEMP)
@@ -841,7 +841,7 @@ C-------------Split-------------------------------------------------------------
 	        DO K=2,5
 		  IXC(NIXC*(COMPT-1)+K)=CORESN(IX_TEMP(NIXC*(J-1)+K))
 		END DO
-                IF (TAG_ELCF2(J)>1) TAG_ELCF(COMPT) = 1                
+                IF (TAG_ELCF2(J)>1) TAG_ELCF(COMPT) = 1
              ENDIF
           ENDDO
 
@@ -923,36 +923,36 @@ C-------------Split-------------------------------------------------------------
 	  NUMELP = COMPT
           DEALLOCATE(IX_TEMP)
 
-          
+
 C----------------------------------------------------------------------------------C
 C-------------On split les elements SPRINGS - KJOINTS -----------------------------C
 C----------------------------------------------------------------------------------C
 
-          ALLOCATE(IX_TEMP(NUMELR*5+1))         
+          ALLOCATE(IX_TEMP(NUMELR*5+1))
           DO J=1,NUMELR
 	    DO K=1,5
 	      IX_TEMP(5*(J-1)+K)=IXR_KJ(5*(J-1)+K)
               IXR_KJ(5*(J-1)+K) = 0
             END DO
-	  END DO    
+	  END DO
 
 C-------------Split----------------------------------------------------------------C
 
           COMPT = 0
           COMPTB = 0
           DO J=1,NUMELR
-          ID_PROP = CORESPRO(IXR(NIXR*(J-1)+1)) 
+          ID_PROP = CORESPRO(IXR(NIXR*(J-1)+1))
 	    IF (IGEO(NPROPGI*(ID_PROP-1)+11)==45) THEN
-               COMPTB = COMPTB + 1                       
+               COMPTB = COMPTB + 1
                IF (TAG_ELR(J+NPART)/=0) THEN
                  COMPT = COMPT + 1
 	         DO K=1,3
 	           IXR_KJ(5*(COMPT-1)+K)=CORESN(IX_TEMP(5*(COMPTB-1)+K))
 	         END DO
                  IXR_KJ(5*(COMPT-1)+4)=IX_TEMP(5*(COMPTB-1)+4)
-                 IXR_KJ(5*(COMPT-1)+5)=0                                    	                 
+                 IXR_KJ(5*(COMPT-1)+5)=0                                    	
                ENDIF
-            ENDIF   
+            ENDIF
           ENDDO
 
           IXR_KJ(5*NELRN+1) = COMPT
@@ -996,7 +996,7 @@ C-------------Split-------------------------------------------------------------
 
 	  NUMELR = COMPT
           DEALLOCATE(IX_TEMP)
-          
+
 C----------------------------------------------------------------------------------C
 C-------------On split les elements SH3N-------------------------------------------C
 C----------------------------------------------------------------------------------C
@@ -1159,7 +1159,7 @@ C             --> solides <--
 	        COMPT = COMPT+1
                 IGRBRIC(I)%ENTITY(COMPT) = CORESS(CUR_ID)
                 IF (TAG_ELS(CUR_ID+NPART)>1)
-     .               IGRBRIC(I)%R2R_SHARE = IGRBRIC(I)%R2R_SHARE + 1 
+     .               IGRBRIC(I)%R2R_SHARE = IGRBRIC(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRBRIC(I)%R2R_ALL = IGRBRIC(I)%NENTITY
@@ -1175,7 +1175,7 @@ C             --> quads <--
 	        COMPT = COMPT+1
                 IGRQUAD(I)%ENTITY(COMPT) = CORESQ(CUR_ID)
                 IF (TAG_ELQ(CUR_ID+NPART)>1)
-     .               IGRQUAD(I)%R2R_SHARE = IGRQUAD(I)%R2R_SHARE + 1 
+     .               IGRQUAD(I)%R2R_SHARE = IGRQUAD(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRQUAD(I)%R2R_ALL = IGRQUAD(I)%NENTITY
@@ -1191,7 +1191,7 @@ C             --> sh4n <--
 	        COMPT = COMPT+1
                 IGRSH4N(I)%ENTITY(COMPT) = CORESC(CUR_ID)
                 IF (TAG_ELC(CUR_ID+NPART)>1)
-     .               IGRSH4N(I)%R2R_SHARE = IGRSH4N(I)%R2R_SHARE + 1 
+     .               IGRSH4N(I)%R2R_SHARE = IGRSH4N(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRSH4N(I)%R2R_ALL = IGRSH4N(I)%NENTITY
@@ -1207,7 +1207,7 @@ C             --> truss <--
 	        COMPT = COMPT+1
                 IGRTRUSS(I)%ENTITY(COMPT) = COREST(CUR_ID)
                 IF (TAG_ELT(CUR_ID+NPART)>1)
-     .               IGRTRUSS(I)%R2R_SHARE = IGRTRUSS(I)%R2R_SHARE + 1 
+     .               IGRTRUSS(I)%R2R_SHARE = IGRTRUSS(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRTRUSS(I)%R2R_ALL = IGRTRUSS(I)%NENTITY
@@ -1223,7 +1223,7 @@ C             --> beams <--
 	        COMPT = COMPT+1
                 IGRBEAM(I)%ENTITY(COMPT) = CORESP(CUR_ID)
                 IF (TAG_ELP(CUR_ID+NPART)>1)
-     .               IGRBEAM(I)%R2R_SHARE = IGRBEAM(I)%R2R_SHARE + 1 
+     .               IGRBEAM(I)%R2R_SHARE = IGRBEAM(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRBEAM(I)%R2R_ALL = IGRBEAM(I)%NENTITY
@@ -1239,7 +1239,7 @@ C             --> springs <--
 	        COMPT = COMPT+1
                 IGRSPRING(I)%ENTITY(COMPT) = CORESR(CUR_ID)
                 IF (TAG_ELR(CUR_ID+NPART)>1)
-     .               IGRSPRING(I)%R2R_SHARE = IGRSPRING(I)%R2R_SHARE + 1 
+     .               IGRSPRING(I)%R2R_SHARE = IGRSPRING(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRSPRING(I)%R2R_ALL = IGRSPRING(I)%NENTITY
@@ -1255,7 +1255,7 @@ C             --> sh3n <--
 	        COMPT = COMPT+1
                 IGRSH3N(I)%ENTITY(COMPT) = CORESTG(CUR_ID)
                 IF (TAG_ELG(CUR_ID+NPART)>1)
-     .               IGRSH3N(I)%R2R_SHARE = IGRSH3N(I)%R2R_SHARE + 1 
+     .               IGRSH3N(I)%R2R_SHARE = IGRSH3N(I)%R2R_SHARE + 1
               ENDIF
             ENDDO
 	    IGRSH3N(I)%R2R_ALL = IGRSH3N(I)%NENTITY
@@ -1471,7 +1471,7 @@ C-------------------------------------------------------------------------------
 		TAGNO(COMPT+NPART+NUMNOD)=TAGNO_TEMP(J+NPART+NUMNOD_OLD)
             ENDIF
           ENDDO
-        
+
 C----------------------------------------------------------------------------------C
 C------Prlecture et tag des SECTIONS-----------------------------------------------C
 C----------------------------------------------------------------------------------C
@@ -1512,7 +1512,7 @@ C-------------------------------------------------------------------------------
            RBY_MSN_TEMP(2,I) = RBY_MSN(2,I)
            RBY_MSN(1,I) = 0
            RBY_MSN(2,I) = 0
-         ENDDO 
+         ENDDO
 
 C-------------Split----------------------------------------------------------------C
 
@@ -1522,7 +1522,7 @@ C-------------Split-------------------------------------------------------------
              NRB = NRB + 1
              RBY_MSN(1,NRB) = RBY_MSN_TEMP(1,I)
              RBY_MSN(2,NRB) = CORESN(RBY_MSN_TEMP(2,I))
-           END IF            
+           END IF
          ENDDO
 
 C------------------------------------------------------------------------------------C
@@ -1545,7 +1545,7 @@ C-------------------------------------------------------------------------------
           IF(TAG_PART(K) == 0) THEN
             TAG_MAT(IPART(LIPART1*(K-1)+1))=0
           ENDIF
-	END DO         
+	END DO
 
 C------------------------------------------------------------------------------------
 

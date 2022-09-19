@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER IPELNOI,IPNOIADD,IPTC
       INTEGER IFIRST,I,K,L,NE,NC,KK,IAD, LEN
       my_real
-     . PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,    
+     . PI1,PI2,TOL,TE,TC,FNE,FAC,DEC,TO,
      . TRANS,XI,W,CC,TTN
       INTEGER LENGTH, ITAG(0:NUMNOD)
       SAVE IFIRST,TE,IPTC,C,NC,TO,IPELNOI,ELNOI,ELG,IPNOIADD,NOIADD
@@ -106,7 +106,7 @@ C
         IF(NOISEP/=0)THEN
           ALLOCATE (NOIADD(NNOISE+1))
           CALL INITNOISE(IN,NOIADD,IXS,ITAG(0),LENGTH,IXQ)
-          ALLOCATE(ELNOI(LENGTH))        
+          ALLOCATE(ELNOI(LENGTH))
           ALLOCATE(ELG(LENGTH))
           CALL INITNOISE2(IN,ELNOI,ELG,NOIADD,IXS,ITAG(1),IPARG,IXQ)
         ENDIF
@@ -151,7 +151,7 @@ C
             BUF(L,I)=ZERO
           ENDDO
          ENDDO
-        ENDIF  
+        ENDIF
       ENDIF
       IF(IMACH/=3.OR.ISPMD==0) THEN
         IF(ABS(1.-DT2/TE)>TOL)THEN
@@ -174,7 +174,7 @@ C
       IF(IMACH==3.AND.ISPMD/=0) THEN
         DO I=1,6*NNOISE
           DO L=1,NCNOIS
-            BUF(L,I)=ZERO	 
+            BUF(L,I)=ZERO	
           ENDDO
         ENDDO
       ENDIF

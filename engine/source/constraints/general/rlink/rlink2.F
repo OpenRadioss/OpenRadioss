@@ -90,7 +90,7 @@ c      AZ  =ZERO
 c      VX  =ZERO
 c      VY  =ZERO
 c      VZ  =ZERO
-c      MASS=ZERO   
+c      MASS=ZERO
 C
        DO I=1,NSN
         N = NOD(I)
@@ -132,7 +132,7 @@ c      AZ  =ZERO
 c      VX  =ZERO
 c      VY  =ZERO
 c      VZ  =ZERO
-c      INER=ZERO   
+c      INER=ZERO
 C
       DO I=1,NSN
         N = NOD(I)

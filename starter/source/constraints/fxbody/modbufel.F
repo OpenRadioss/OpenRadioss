@@ -187,11 +187,11 @@ C
          NFT1=NFT
          DO I=1,LAST
             IAD1=FXBELM(NFT+11)
-            SIGL(1,I)=BUFEL(IAD1) 
-            SIGL(2,I)=BUFEL(IAD1+1) 
-            SIGL(3,I)=BUFEL(IAD1+2) 
-            SIGL(4,I)=BUFEL(IAD1+3) 
-            SIGL(5,I)=BUFEL(IAD1+4) 
+            SIGL(1,I)=BUFEL(IAD1)
+            SIGL(2,I)=BUFEL(IAD1+1)
+            SIGL(3,I)=BUFEL(IAD1+2)
+            SIGL(4,I)=BUFEL(IAD1+3)
+            SIGL(5,I)=BUFEL(IAD1+4)
             SIGL(6,I)=BUFEL(IAD1+5)
             NFT=NFT+13
          ENDDO
@@ -200,15 +200,15 @@ C
          DO I=1,LAST
             IAD1=FXBELM(NFT+11)
             BUFEL(IAD1)=SIG(1,I)
-            BUFEL(IAD1+1)=SIG(2,I) 
-            BUFEL(IAD1+2)=SIG(3,I) 
-            BUFEL(IAD1+3)=SIG(4,I) 
-            BUFEL(IAD1+4)=SIG(5,I) 
+            BUFEL(IAD1+1)=SIG(2,I)
+            BUFEL(IAD1+2)=SIG(3,I)
+            BUFEL(IAD1+3)=SIG(4,I)
+            BUFEL(IAD1+4)=SIG(5,I)
             BUFEL(IAD1+5)=SIG(6,I)
             NFT=NFT+13
          ENDDO
-      ENDDO   
+      ENDDO
 C
       RETURN
       END SUBROUTINE MODBUFEL
-           
+

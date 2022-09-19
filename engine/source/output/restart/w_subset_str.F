@@ -65,7 +65,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (ISUB(LENSUBS), STAT=ERR)
-      ISUB(1:LENSUBS) = 0  
+      ISUB(1:LENSUBS) = 0
       L_SUB = 0
 !
       DO ISU=1,NSUBS

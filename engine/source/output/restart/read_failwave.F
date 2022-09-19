@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -55,10 +55,10 @@ C=======================================================================
 c     read failwave data
 c
       CALL READ_I_C(HEAD, 4)
-      IWAVE = HEAD(1) 
-      NDDL  = HEAD(2) 
-      SIZE  = HEAD(3) 
-      NNOD  = HEAD(4) 
+      IWAVE = HEAD(1)
+      NDDL  = HEAD(2)
+      SIZE  = HEAD(3)
+      NNOD  = HEAD(4)
       FAILWAVE%WAVE_MOD = IWAVE
       FAILWAVE%NDDL     = NDDL
       FAILWAVE%SIZE     = SIZE
@@ -90,9 +90,9 @@ c
             DO I = 1,NDDL
               IAD = IAD+1
               FAILWAVE%FWAVE_NOD(I,J,K) = RBUF(IAD)
-            END DO 
-          END DO 
-        END DO 
+            END DO
+          END DO
+        END DO
 c
         DEALLOCATE( RBUF )
       ELSE

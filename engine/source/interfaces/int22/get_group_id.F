@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: II, IPARG(NPARG,*)
-      INTEGER, INTENT(INOUT) :: NG, IG 
+      INTEGER, INTENT(INOUT) :: NG, IG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -68,10 +68,10 @@ C-----------------------------------------------
           IF((II>NFL).AND.(II<=NFL+NEL))THEN
             IG    = II - NFL
             NG    = NG_
-            DONE  =.TRUE.        
+            DONE  =.TRUE.
             EXIT  !exit loop
           ELSE
-            CYCLE !next NG  
+            CYCLE !next NG
           ENDIF
           if (.NOT.(DONE).OR.II==0)then
             print *, "int 22 : error in group sorting."

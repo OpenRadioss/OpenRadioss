@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,PP,PPL 
+      INTEGER I, J, II, N, NOD, K0, K1S, IBCS, IBCM, NBINTER,PP,PPL
       INTEGER NOD1,NOD2
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -110,25 +110,25 @@ C
                A(1,NOD1)   = A(1,NOD1) + BUFR(2,I)
                A(2,NOD1)   = A(2,NOD1) + BUFR(3,I)
                A(3,NOD1)   = A(3,NOD1) + BUFR(4,I)
-               STIFN(NOD1) = STIFN(NOD1) + BUFR(5,I)          
+               STIFN(NOD1) = STIFN(NOD1) + BUFR(5,I)
 
                NOD2 = LEDGE(6,N)
                A(1,NOD2)   = A(1,NOD2) + BUFR(7,I)
                A(2,NOD2)   = A(2,NOD2) + BUFR(8,I)
                A(3,NOD2)   = A(3,NOD2) + BUFR(9,I)
-               STIFN(NOD2) = STIFN(NOD2) + BUFR(10,I)          
+               STIFN(NOD2) = STIFN(NOD2) + BUFR(10,I)
 
-               IF(KDTINT /= 0) THEN 
-                 VISCN(NOD1) = VISCN(NOD1) + BUFR(6,I)          
-                 VISCN(NOD2) = VISCN(NOD2) + BUFR(11,I)          
+               IF(KDTINT /= 0) THEN
+                 VISCN(NOD1) = VISCN(NOD1) + BUFR(6,I)
+                 VISCN(NOD2) = VISCN(NOD2) + BUFR(11,I)
                ENDIF
 
                IF(INTTH /= 0) THEN
-                  FTHE(NOD1) = FTHE(NOD1) + BUFR(12,I)     
-                  FTHE(NOD2) = FTHE(NOD2) + BUFR(13,I)     
+                  FTHE(NOD1) = FTHE(NOD1) + BUFR(12,I)
+                  FTHE(NOD2) = FTHE(NOD2) + BUFR(13,I)
                   IF(NODADT_THERM == 1) THEN
-                     CONDN(NOD1) = CONDN(NOD1) + BUFR(14,I)    
-                     CONDN(NOD2) = CONDN(NOD2) + BUFR(15,I) 
+                     CONDN(NOD1) = CONDN(NOD1) + BUFR(14,I)
+                     CONDN(NOD2) = CONDN(NOD2) + BUFR(15,I)
                   ENDIF
                ENDIF
             ENDDO
@@ -161,7 +161,7 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
               N = NINT(BUFR(1,I))
               NOD1 = LEDGE(5,N)
               NOD2 = LEDGE(6,N)
-              DO PP = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+              DO PP = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1)
                  PPL = LOADP_HYD_INTER(PP)
                  TAGNCONT(PPL,NOD1) = 1
                  TAGNCONT(PPL,NOD2) = 1

@@ -61,10 +61,10 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
       USE TRIMAT_MOD
-      USE ELBUFDEF_MOD            
-      USE I22TRI_MOD 
-      USE I22BUFBRIC_MOD  
-      USE SEGVAR_MOD   
+      USE ELBUFDEF_MOD
+      USE I22TRI_MOD
+      USE I22BUFBRIC_MOD
+      USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), X(3,NUMNOD),
-     .         FLUX(NV46,*), FLU2(*), MS(*), VEUL(*), 
+     .         FLUX(NV46,*), FLU2(*), MS(*), VEUL(*),
      .         ALPHA(*), FLUX_SAV(NV46,*), QMV(2*NV46,*)
 
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ)
@@ -105,7 +105,7 @@ C-----------------------------------------------
       INTEGER NG, I, K, II, NF1, NFIRST, NLAST, NV46, LLT_
       INTEGER :: IB, IE, NIN, NBF, NBL, K0, K1, IBM, J, IE_M, IDLOC, IPOS, ICELL, NCELL, MCELL, tNB, J1, J2, IBV
       my_real :: VFRAC
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF      
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C-----------------------------------------------
            ALLOCATE(FLUX_VOIS(NUMELS+NSVOIS,NV46))
         ELSE
            ALLOCATE(N4_VOIS(NUMELQ+NQVOIS,4))
-           ALLOCATE(FLUX_VOIS(NUMELQ+NQVOIS,NV46))           
+           ALLOCATE(FLUX_VOIS(NUMELQ+NQVOIS,NV46))
         ENDIF
       END IF
 
@@ -129,13 +129,13 @@ C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2                MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4                JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5                NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6                IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7                ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
+        CALL INITBUF (IPARG    ,NG      ,
+     2                MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3                NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4                JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5                NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6                IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7                ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF(JALE+JEUL == 0)    CYCLE
         IF(IPARG(8,NG) == 1)  CYCLE
         IF(IPARG(1,NG) /= 51) CYCLE
@@ -144,13 +144,13 @@ C     ALE ON / OFF
         LFT=1
         ADD = N0PHAS + (ITRIMAT-1)*NVPHAS                ! ADD => SIG(1)
         ADD = ADD + 11                                   ! ADD + 11 => VOLUME_Phase
-        K = LLT*(ADD-1)                                ! VAR(I,ADD) = VAR(K+I) 
+        K = LLT*(ADD-1)                                ! VAR(I,ADD) = VAR(K+I)
         VOLP => UVAR(K+1:K+LLT)
-        DO I=LFT,LLT 
-          II  = I+NFT    
+        DO I=LFT,LLT
+          II  = I+NFT
           ALPHA(II) = VOLP(I)/VOLG(I)
-          ALPHA(II) = MAX(ZERO,MIN(ONE,ALPHA(II))) 
-        ENDDO   
+          ALPHA(II) = MAX(ZERO,MIN(ONE,ALPHA(II)))
+        ENDDO
         DO K=1,NV46
             DO II=NFT+LFT,NFT+LLT
               FLUX(K,II)=FLUX_SAV(K,II)
@@ -173,13 +173,13 @@ C     ALE ON / OFF
         NBL = MIN(NBL,NB)
         tNB = NBL-NBF+1
         DO IB=NBF,NBL
-          NCELL             =  BRICK_LIST(NIN,IB)%NBCUT 
-          MCELL             =  BRICK_LIST(NIN,IB)%MainID       
-          ICELL             =  0  
+          NCELL             =  BRICK_LIST(NIN,IB)%NBCUT
+          MCELL             =  BRICK_LIST(NIN,IB)%MainID
+          ICELL             =  0
           IE                =  BRICK_LIST(NIN,IB)%ID
           DO WHILE (ICELL <= NCELL) ! loop on polyhedron {1:NCELL} U {9}
             ICELL = ICELL +1
-            IF (ICELL>NCELL .AND. NCELL /= 0)ICELL=9 
+            IF (ICELL>NCELL .AND. NCELL /= 0)ICELL=9
             !get_main_data
             J     = BRICK_LIST(NIN,IB)%POLY(ICELL)%WhereIsMain(1)
             IF(J==0)THEN
@@ -199,20 +199,20 @@ C     ALE ON / OFF
             IDLOC = BRICK_LIST(NIN,IBM)%IDLOC
             MTN = IPARG(1,NG)
             IF(MTN == 51)THEN
-              MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)           
+              MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
               LLT_  = IPARG(2,NG)
               !===restore direct fluxes====!
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(1)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(1)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(2)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(2)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(3)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(3)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(4)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(4)   
-            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(5)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(5)                          
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(1)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(1)
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(2)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(2)
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(3)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(3)
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(4)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(4)
+            BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_UpwFLUX(5)=BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(1:6)%Adjacent_FLUX(5)
               !===get Vfrac================!
-              IPOS                                          = 1                                                                                               
-              K0                                            = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)             ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}  
-              K1                                            = K0 * LLT_                                                                                       
-              Vfrac                                         = MBUF%VAR(K1+IDLOC)                                                                              
-              Vfrac                                         = MAX(ZERO,MIN(ONE,Vfrac))                                                                         
+              IPOS                                          = 1
+              K0                                            = ((N0PHAS + (ITRIMAT-1)*NVPHAS )+IPOS-1)             ! example : IPOS=1 => VFRAC  {UVAR(I,ADD)=UVAR(K+I)}
+              K1                                            = K0 * LLT_
+              Vfrac                                         = MBUF%VAR(K1+IDLOC)
+              Vfrac                                         = MAX(ZERO,MIN(ONE,Vfrac))
               BRICK_LIST(NIN,IB)%POLY(ICELL)%VFRACm(ITRIMAT)= VFRAC
             ENDIF
           ENDDO!next ICELL
@@ -257,12 +257,12 @@ C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !------------------------------!
         ! UNPLUG CONDITIONS            !
@@ -270,7 +270,7 @@ C     ALE ON / OFF
         IF(JALE+JEUL == 0)    CYCLE
         IF(IPARG(8,NG) == 1)  CYCLE
         IF(IPARG(1,NG) /= 51) CYCLE
-!        IF(IPARG(64,NG) == 1) CYCLE        
+!        IF(IPARG(64,NG) == 1) CYCLE
         !------------------------------------!
         ! VOLUME FLUXES UPDATE (SUBMATERIAL) !
         !------------------------------------!
@@ -278,15 +278,15 @@ C     ALE ON / OFF
         VOLG => ELBUF_TAB(NG)%GBUF%VOL
         IF(N2D == 0)THEN
            IF (IALEMUSCL  >  0) THEN
-              CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, ALPHA  ,    X, IXS, FLUX_VOIS, N4_VOIS, 
+              CALL ALEMUSCL_UPWIND(FLUX, ALE_CONNECT, ALPHA  ,    X, IXS, FLUX_VOIS, N4_VOIS,
      .                             ITAB, NV46       , ITRIMAT,SEGVAR)
            ELSE
-              CALL ALE51_ANTIDIFF3(FLUX, ALE_CONNECT, ALPHA  , VOLG, IXS, FLUX_VOIS, N4_VOIS, 
+              CALL ALE51_ANTIDIFF3(FLUX, ALE_CONNECT, ALPHA  , VOLG, IXS, FLUX_VOIS, N4_VOIS,
      .                             ITAB, NV46       , ITRIMAT, SEGVAR)
            ENDIF
         ELSE
            IF (IALEMUSCL  >  0) THEN
-              CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPHA  , X    , IXQ, FLUX_VOIS, N4_VOIS, 
+              CALL ALEMUSCL_UPWIND2(FLUX, ALE_CONNECT, ALPHA  , X    , IXQ, FLUX_VOIS, N4_VOIS,
      .                              ITAB, NV46       , ITRIMAT,SEGVAR)
            ELSE
               CALL ALE51_ANTIDIFF2(FLUX   ,ALE_CONNECT,ALPHA  ,VOLG  ,IXQ,FLUX_VOIS,
@@ -328,12 +328,12 @@ C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !------------------------------!
         ! UNPLUG CONDITIONS            !
@@ -341,7 +341,7 @@ C     ALE ON / OFF
         IF(JALE+JEUL == 0)    CYCLE
         IF(IPARG(8,NG) == 1)  CYCLE
         IF(IPARG(1,NG) /= 51) CYCLE
-!        IF(IPARG(64,NG) == 1) CYCLE        
+!        IF(IPARG(64,NG) == 1) CYCLE
         LFT    =  1
         NF1    =  NFT+1
         UVAR   => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR
@@ -368,10 +368,10 @@ C     ALE ON / OFF
      .                       ITRIMAT,pDDVOL,QMV(1,NF1),1)
         ENDIF
       ENDDO
-      
+
       IF(INT22 /= 0)THEN
           CALL ALE51_UPWIND3_INT22(PM  , IXS      , ITRIMAT, 1,
-     .                             NV46, IPARG, ELBUF_TAB, ITASK )      
+     .                             NV46, IPARG, ELBUF_TAB, ITASK )
       ENDIF
 
 C--------------------

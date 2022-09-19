@@ -86,15 +86,15 @@ C-----------------------------------------------
         INTEGER :: MINUS_SIZE, PLUS_SIZE
         INTEGER, DIMENSION(:), ALLOCATABLE :: MINUS, PLUS
       END TYPE T_ELEM_TO_TRI
-                 
+
       TYPE FVBAG_DATA
         !-------------------------------
-        ! Courant number (DT scale factor) & Time Step options 
+        ! Courant number (DT scale factor) & Time Step options
         !-------------------------------
         my_real CFL_COEF, DTMIN
         my_real LAMBDA       ! /DT/FVMBAG param 3
         my_real DTOLD        ! FVMBAG time step from previous cycle
-        INTEGER L_TYPE       ! FVMBAG characteristic length option     
+        INTEGER L_TYPE       ! FVMBAG characteristic length option
         INTEGER ID_DT_OPTION ! /DT/FVMBAG/[ID_DT_OPTION]
         !------------------------------------------------
         ! Dispersion of pressure around mean pressure
@@ -103,7 +103,7 @@ C-----------------------------------------------
         !-------------------------------
         ! Donnees briques intersectantes
         !-------------------------------
-        INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC 
+        INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC
         my_real, DIMENSION(:,:), POINTER :: XB
         my_real, DIMENSION(:,:,:), POINTER :: SFAC
         !-----------
@@ -134,7 +134,7 @@ C-----------------------------------------------
         !------------------------
         my_real, DIMENSION(:), POINTER :: MPOLH,   EPOLH,   PPOLH,
      .                                    RPOLH,   GPOLH,   TPOLH,
-     .                                    CPAPOLH, CPBPOLH, CPCPOLH, 
+     .                                    CPAPOLH, CPBPOLH, CPCPOLH,
      .                                    CPDPOLH, CPEPOLH, CPFPOLH,
      .                                    RMWPOLH, VPOLH_INI
         my_real, DIMENSION(:,:), POINTER :: QPOLH
@@ -153,7 +153,7 @@ C-----------------------------------------------
           my_real,DIMENSION(:), POINTER :: RBUF ! buffer for fvupd
           INTEGER, DIMENSION(:), POINTER :: IBUF !buffer for fvupd
           INTEGER, DIMENSION(:), POINTER :: REQ,IADI,IADR
-          my_real,DIMENSION(:,:), POINTER :: XXX,VVV,WAX,WAV 
+          my_real,DIMENSION(:,:), POINTER :: XXX,VVV,WAX,WAV
       END TYPE FVBAG_SPMD
 
       !-------------------------------------
@@ -167,7 +167,7 @@ C-----------------------------------------------
         INTEGER ID_DT_OPTION  !/DT/FVMBAG/[ID_DT_OPTION]
         my_real LAMBDA        ! 3rd paramter of /DT/FVMBAG option
       END TYPE FVMBAG_INPUT_OPTIONS_
-            
+
 C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s   D e f i n i t i o n
 C-----------------------------------------------
@@ -179,7 +179,7 @@ C-----------------------------------------------
       INTEGER NUM_OPT_DT_FVMBAG   !number of option /DT/FVMBAG/[0-9] in Engine file
       INTEGER NUM_OPT_DT_FVMBAG_1 !number of option /DT/FVMBAG/1 in Engine file
       INTEGER NUM_OPT_DT_FVMBAG_2 !number of option /DT/FVMBAG/2 in Engine file
-      INTEGER NUM_OPT_DT_FVMBAG_3 !number of option /DT/FVMBAG/2 in Engine file      
+      INTEGER NUM_OPT_DT_FVMBAG_3 !number of option /DT/FVMBAG/2 in Engine file
 C-----------------------------------------------      
 
       END MODULE FVBAG_MOD

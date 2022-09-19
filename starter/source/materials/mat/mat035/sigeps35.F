@@ -31,7 +31,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -79,7 +79,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -132,7 +132,7 @@ C----------------------------------------------------------------
      . SIGAIR(MVSIZ)
 
       my_real
-     . SMALL,TINY , AUX1, AUX2, 
+     . SMALL,TINY , AUX1, AUX2,
      . MIDSTEP
       LOGICAL TEST
 C----------------------------------------------------------------
@@ -142,7 +142,7 @@ C----------------------------------------------------------------
       SMALL = EM3
       TINY  = EM30
       TEST=.FALSE.
-       
+
 
 C SET INITIAL MATERIAL CONSTANTS
 
@@ -202,7 +202,7 @@ C COMPUTE DEVIATORIC STRESSES
         DSXY(I)=SIGOXY(I)
         DSYZ(I)=SIGOYZ(I)
         DSZX(I)=SIGOZX(I)
-        
+
 C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
@@ -239,7 +239,7 @@ C UPDATE ELASTIC MODULUS
        ENDDO
 
       AUX1 = ONE / (ONE+POISSON)
-      AUX2 = ONE / (ONE-TWO*POISSON) 
+      AUX2 = ONE / (ONE-TWO*POISSON)
       DO I=1,NEL
         G2(I)=ENEW(I)*AUX1
         BULK3(I)=ENEW(I)*AUX2

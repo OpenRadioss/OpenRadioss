@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC,NCR,NCF_S,NCF_E,NH 
+      INTEGER NC,NCR,NCF_S,NCF_E,NH
       INTEGER LLL(*),JLL(*),IADLL(*),IADH(*),JCIH(*),IADHF(*),
      .        JCIHF(*),NPBYL(NNPBY,*),WORK2(*),WORK3(*),
      .        ICFTAG(*),JCFTAG(*)
@@ -179,7 +179,7 @@ C     end
 C======================================================================|
       SCALE = THREE_OVER_4
       ASMAX = ZEP6
-      R2NEW = ZERO      
+      R2NEW = ZERO
       LAG_NC= NC
 C---
 C---  Calcul de la matrice H
@@ -256,7 +256,7 @@ C------------------------------------------
             HL(IH) =  HH(IH)
           ENDDO
           IP = CHOLFACT(NC,DIAG_L,HL,IADH,JCIH,WORK1,WORK2,WORK3)
-          NITER_CHL  = NITER_CHL+1  
+          NITER_CHL  = NITER_CHL+1
           ALPHA = ALPHA*2
           AS    = ALPHA + LAG_ALPHS
           IF (AS>ASMAX) THEN
@@ -355,8 +355,8 @@ C-----------------------------------------------------------------------
         Q(IC) = Q(IC) + DIAG_H(IC)*P(IC)
         DO IH=IADH(IC),IADH(IC+1)-1
           JC = JCIH(IH)
-          Q(IC) = Q(IC) + HH(IH)*P(JC)          
-          Q(JC) = Q(JC) + HH(IH)*P(IC)          
+          Q(IC) = Q(IC) + HH(IH)*P(JC)
+          Q(JC) = Q(JC) + HH(IH)*P(IC)
         ENDDO
       ENDDO
 C-----------------------------------------------------------------------
@@ -399,9 +399,9 @@ C---
           IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)/IN(I)
-          ELSE         
+          ELSE
             A(J,I)  = A(J,I)  - XLL(IK)/MAS(I)
-          ENDIF         
+          ENDIF
         ENDDO
       ENDDO
 C--------------------------------------------
@@ -448,7 +448,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC,NCR,NCF_S,NCF_E,NH 
+      INTEGER NC,NCR,NCF_S,NCF_E,NH
       INTEGER LLL(*),JLL(*),IADLL(*),IADH(*),JCIH(*),IADHF(*),
      .        JCIHF(*),NPBYL(NNPBY,*),WORK2(*),WORK3(*),
      .        ICFTAG(*),JCFTAG(*), INDEXLAG(*)
@@ -569,7 +569,7 @@ C     end
 C======================================================================|
       SCALE = THREE_OVER_4
       ASMAX = ZEP6
-      R2NEW = ZERO      
+      R2NEW = ZERO
       LAG_NC= NC
 C---
 C---  Calcul de la matrice H
@@ -646,7 +646,7 @@ C------------------------------------------
             HL(IH) =  HH(IH)
           ENDDO
           IP = CHOLFACT(NC,DIAG_L,HL,IADH,JCIH,WORK1,WORK2,WORK3)
-          NITER_CHL  = NITER_CHL+1  
+          NITER_CHL  = NITER_CHL+1
           ALPHA = ALPHA*2
           AS    = ALPHA + LAG_ALPHS
           IF (AS>ASMAX) THEN
@@ -744,8 +744,8 @@ C-----------------------------------------------------------------------
         Q(IC) = Q(IC) + DIAG_H(IC)*P(IC)
         DO IH=IADH(IC),IADH(IC+1)-1
           JC = JCIH(IH)
-          Q(IC) = Q(IC) + HH(IH)*P(JC)          
-          Q(JC) = Q(JC) + HH(IH)*P(IC)          
+          Q(IC) = Q(IC) + HH(IH)*P(JC)
+          Q(JC) = Q(JC) + HH(IH)*P(IC)
         ENDDO
       ENDDO
 C-----------------------------------------------------------------------
@@ -788,9 +788,9 @@ C---
           IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)/IN(I)
-          ELSE         
+          ELSE
             A(J,I)  = A(J,I)  - XLL(IK)/MAS(I)
-          ENDIF         
+          ENDIF
         ENDDO
       ENDDO
 C--------------------------------------------
@@ -842,7 +842,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC,NCR,NCF_S,NCF_E,NH 
+      INTEGER NC,NCR,NCF_S,NCF_E,NH
       INTEGER LLL(*),JLL(*),IADLL(*),IADH(*),JCIH(*),IADHF(*),
      .        JCIHF(*),NPBYL(NNPBY,*),WORK2(*),WORK3(*),
      .        ICFTAG(*),JCFTAG(*), INDEXLAG(*)
@@ -967,7 +967,7 @@ C======================================================================|
       IF(ISPMD==0) THEN
        SCALE = THREE_OVER_4
        ASMAX = ZEP6
-       R2NEW = ZERO      
+       R2NEW = ZERO
        LAG_NC= NC
 C---
 C---  Calcul de la matrice H
@@ -1090,7 +1090,7 @@ C flag output
             MUMPS_PAR%JCN(NZ)=JCIH(IH)
 C            MUMPS_PAR%JCN(NZ)=JDIH(IH)
           ENDDO
-        END DO  
+        END DO
 C
 C     calcul de  b (r=b)
 C
@@ -1116,11 +1116,11 @@ C Resolution
 C
       CALL SPMD_MUMPS_EXEC(MUMPS_PAR,1)     ! analyse et factorisation
 C
-      CALL SPMD_MUMPS_EXEC(MUMPS_PAR,2)     ! resolution  
+      CALL SPMD_MUMPS_EXEC(MUMPS_PAR,2)     ! resolution
 C
 C Resultat sur p0
 C 
-      IF(ISPMD==0) THEN 
+      IF(ISPMD==0) THEN
         DO IC=1,NC
           LAMBDA(IC) = MUMPS_PAR%RHS(IC)
         ENDDO
@@ -1233,7 +1233,7 @@ C      NITER_GC = NITER
 C---
 C     a = ao + [M]-1[L]t la  
 C---
-      IF(ISPMD==0) THEN 
+      IF(ISPMD==0) THEN
        DO IC=1,NCR
         DO IK=IADLL(IC),IADLL(IC+1)-1
           I = INDEXLAG(LLL(IK))
@@ -1242,9 +1242,9 @@ C---
           IF(J>3) THEN
             J = J-3
             AR(J,I) = AR(J,I) - XLL(IK)/IN(I)
-          ELSE         
+          ELSE
             A(J,I)  = A(J,I)  - XLL(IK)/MAS(I)
-          ENDIF         
+          ENDIF
         ENDDO
        ENDDO
       END IF

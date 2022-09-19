@@ -103,11 +103,11 @@ C-----------------------------------------------
       ITHGRP(2)=ITYP
       ITHGRP(3)=0
       IFITMP=IFI+1000
-      ! Number of variables indicated by the user                                                                   
-      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)                                           
+      ! Number of variables indicated by the user
+      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
 
-      ! Number of stored variables and reading the variables                                                        
-      IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR ,LSUBMODEL)                       
+      ! Number of stored variables and reading the variables
+      IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR ,LSUBMODEL)
 
       IF(NVAR == 0) THEN
         IF(ITYP /= 116)
@@ -119,7 +119,7 @@ C-----------------------------------------------
         IGS = IGS - 1
         ITHGRP(1:NITHGR)=0
       ELSE
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
         ITHGRP(6)=NVAR
         ITHGRP(7)=IAD
         IAD=IAD+NVAR
@@ -131,10 +131,10 @@ C-----------------------------------------------
         ITHGRP(8)=IAD2
         IFI=IFI+3*NNE+40*NNE
         CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
-      
+
 C
           DO K = 1,IDSMAX
-            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
+            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL)
 
             IF(IDS/=0)THEN
               IF (NSUBDOM>0) THEN
@@ -158,7 +158,7 @@ C----------------------------------------------------------------------
      .                       C1=TITR,
      .                       C2=KEY,
      .                       I2=IDS)
-              ENDIF 
+              ENDIF
               NSNE=NSNE+1
               ITHBUF(IAD)=N
               IAD=IAD+1

@@ -125,7 +125,7 @@ C     REAL
      .   GAPV(MVSIZ),MARGE_E
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGNOD
 C-----------------------------------------------
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
+!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
@@ -221,7 +221,7 @@ C       PLUS DE PLACE DANS LA PILE DES ELEMENTS BOITES TROP PETITES
         RETURN
       ENDIF
       IF(DSUP<MINBOX.OR.
-     .   NB_NC<=NB_N_B.AND.DSUP<MAXBOX.OR.   
+     .   NB_NC<=NB_N_B.AND.DSUP<MAXBOX.OR.
      .   NB_NC<=NB_N_B.AND.NB_EC==1) THEN
 C
 C       write(6,*)" NOUVELLE BOITE "
@@ -233,10 +233,10 @@ c        IF(FLAGREMNODE==2) THEN
 c        ENDIF
         DO  I=1,NB_EC
             NE = BPE(I)
-            N1=IRECT(1,NE) 
-            N2=IRECT(2,NE) 
-            N3=IRECT(3,NE) 
-            N4=IRECT(4,NE) 
+            N1=IRECT(1,NE)
+            N2=IRECT(2,NE)
+            N3=IRECT(3,NE)
+            N4=IRECT(4,NE)
 
             IF(FLAGREMNODE==2.AND.IREMNODE==3)THEN
                K = KREMNODE(NE)+1
@@ -249,7 +249,7 @@ c        ENDIF
              MARGE_E = MARGE
             ELSE
              MARGE_E = MARGE_SH
-            END IF 
+            END IF
             DO J=1,NB_NC
               NN=NSV(BPN(J))
 C-----------------  
@@ -311,7 +311,7 @@ c                      CALL ANCWARN(103,ANINFO_BLIND_2)
                 ENDIF
 C               write(6,*)"Noeud candidat",BPN(J)
 C               write(6,*)"Element  candidat",NE
-              ENDIF  
+              ENDIF
 
             ENDDO
             IF(FLAGREMNODE==2.AND.IREMNODE==3)THEN
@@ -322,7 +322,7 @@ C               write(6,*)"Element  candidat",NE
                ENDDO
             ENDIF
 
-       ENDDO 
+       ENDDO
 
         DEALLOCATE(TAGNOD)
 C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
@@ -453,14 +453,14 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           BPE(NB_ECN) = BPE(I)
         ENDIF
        ENDDO
-      ELSE       
+      ELSE
        DO I=1,NB_EC
           NE = BPE(I)
           IF (MSEGTYP(NE)==0.OR.MSEGTYP(NE)>NRTM) THEN
            MARGE_E = MARGE
           ELSE
            MARGE_E = MARGE_SH
-          END IF 
+          END IF
         XMN = MIN(X(DIR,IRECT(1,NE)),X(DIR,IRECT(2,NE)),
      .            X(DIR,IRECT(3,NE)),X(DIR,IRECT(4,NE)))
      .      - MAX(MIN(GAPSMX+GAP_M(NE),GAPMAX),GAPMIN)-MARGE_E
@@ -490,7 +490,7 @@ C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
 C     soit XMAX soit le max de la boite
-      XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+      XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
       XYZM(4,I_ADD+1) = XYZM(4,I_ADD)

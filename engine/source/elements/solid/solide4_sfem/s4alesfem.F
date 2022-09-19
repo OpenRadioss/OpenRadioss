@@ -38,7 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,7 +143,7 @@ c EXCHANGE
       IF(NSPMD>1)THEN
         LENR = 2*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))
         CALL SPMD_EXCH_VOL(VARNOD6(1,1),VARNOD6(1,NUMNOD+1),IAD_ELEM,
-     .                     FR_ELEM, LENR )  
+     .                     FR_ELEM, LENR )
       ENDIF
 
 C Routine assembly PARITH/ON
@@ -152,9 +152,9 @@ C Routine assembly PARITH/ON
          J=I+NUMNOD
          DO K=1,6
           !VOLNOD
-           VARNOD(I)        = VARNOD(I)        + VARNOD6(K,I) 
+           VARNOD(I)        = VARNOD(I)        + VARNOD6(K,I)
           !VARNOD
-           VARNOD(I+NUMNOD) = VARNOD(I+NUMNOD) + VARNOD6(K,I+NUMNOD)          
+           VARNOD(I+NUMNOD) = VARNOD(I+NUMNOD) + VARNOD6(K,I+NUMNOD)
          ENDDO
 
          !RHO0/RHO -> VARNOD

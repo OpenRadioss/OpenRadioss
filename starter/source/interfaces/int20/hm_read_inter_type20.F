@@ -37,7 +37,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE20(
      1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
-     2        IGRNOD     ,IGRSURF    ,IGRSLIN    ,XFILTR    ,FRIC_P   ,  
+     2        IGRNOD     ,IGRSURF    ,IGRSLIN    ,XFILTR    ,FRIC_P   ,
      3        UNITAB     ,LSUBMODEL  ,TITR     )
 C============================================================================
 C
@@ -75,7 +75,7 @@ C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   ,TARGET , DIMENSION(NSLIN)   :: IGRSLIN
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,IBC1, IBC2, IBC3, NOINT, NTYP, IBID,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI,IS1,IS2,
-     .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,IERR1,IVIS2, 
+     .    IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,IERR1,IVIS2,
      .    ISYM,NOD1,IDUM,IGNORE,KK,II,IGAP0,IDELKEEP,
      .    IRSTH,ICURV,NA1,NA2,IFORM,IADM,IEDGE,NRADM,ISU10,ISU20,
      .    NOD10,NOD20,LINE10,LINE20,IBID1,IBID2,IDEL7N,LINE1,
@@ -136,9 +136,9 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
+      IGSTI = 0
       IDELKEEP=0
-      NOD1 = 0    
+      NOD1 = 0
       MULTIMP  = 0
       IFORM = 0
       IBAG = 0
@@ -220,8 +220,8 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-      CALL HM_GET_FLOATV('FRIC_DC',VISCF,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('FRIC_DC',VISCF,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
@@ -506,7 +506,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -568,5 +568,5 @@ C------------
      .    '    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . ',I10/)
 C----------   
 
-   
+
       END

@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
@@ -94,11 +94,11 @@ c
       INTEGER, DIMENSION(NEL,3) :: IPOS_ETA
       INTEGER, DIMENSION(NEL,2) :: IPOS
 C-----------------------------------------------
-      ! VARTMP(1)   latest position of PLAS in TAB_YLD function 
-      ! VARTMP(2)   latest position of PLAS in TAB_TEMP function 
-      ! VARTMP(3)   latest position of TEMP in TAB_TEMP function 
-      ! VARTMP(4)   latest position of TEMP in TAB_ETA function 
-      ! VARTMP(5)   latest position of PLAS in TAB_ETA function 
+      ! VARTMP(1)   latest position of PLAS in TAB_YLD function
+      ! VARTMP(2)   latest position of PLAS in TAB_TEMP function
+      ! VARTMP(3)   latest position of TEMP in TAB_TEMP function
+      ! VARTMP(4)   latest position of TEMP in TAB_ETA function
+      ! VARTMP(5)   latest position of PLAS in TAB_ETA function
 C=======================================================================
 c     Material model parameters
 c-----------------------------------------------
@@ -111,7 +111,7 @@ c-----------------------------------------------
       XRATE   =  UPARAM(7)       ! strain rate abscissa factor for eta function
       XSCALE  =  UPARAM(8)       ! strain rate abscissa factor for yld function
       YSCALE  =  UPARAM(9)       ! Yld function scale factor
-      
+
       G       =  UPARAM(11)      ! Shear modulus
       G2      =  UPARAM(12)      ! Shear modulus * 2
       G3      =  UPARAM(13)      ! Shear modulus * 3
@@ -129,7 +129,7 @@ c
       IF (FUNC_ETA  > 0) THEN
         NDIM_ETA   = TABLE(FUNC_ETA)%NDIM
       ENDIF
-c 
+c
       ! Maximal number of Newton iterations
       NITER = 3
 c
@@ -141,23 +141,23 @@ c
       DLAMIN = EM15
       ALPHA  = 0.025
       ALPHI  = ONE-ALPHA
-      IF (INLOC > 0) THEN 
+      IF (INLOC > 0) THEN
         DO I = 1,NEL
           UVAR(I,1)  = UVAR(I,1) + MAX(DPLANL(I),ZERO)
           PLA_NL(I)  = UVAR(I,1)
           DPDT_NL(I) = MAX(DPLANL(I),ZERO)*DTINV
         ENDDO
       ENDIF
-c      
+c
 c---  self heating factor and temperatiure initialization
       IF (JTHE == 0) THEN    ! internal temperature is calculated
         IF (TIME == ZERO) TEMP(1:NEL) = TINI
         IF (BETA > ZERO) THEN
           IF (FUNC_ETA > 0) THEN    ! scale factor function for Taylor-Quinney coefficient
-            IF (INLOC == 0) THEN 
-              XVEC_ETA(1:NEL,1) = EPSP(1:NEL) * XRATE 
+            IF (INLOC == 0) THEN
+              XVEC_ETA(1:NEL,1) = EPSP(1:NEL) * XRATE
             ELSE
-              XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE 
+              XVEC_ETA(1:NEL,1) = DPDT_NL(1:NEL) * XRATE
             ENDIF
             IPOS_ETA(1:NEL,1) = 1
             IF (NDIM_ETA > 1) THEN
@@ -165,7 +165,7 @@ c---  self heating factor and temperatiure initialization
               IPOS_ETA(1:NEL,2) = VARTMP(1:NEL,4)
             END IF
             IF (NDIM_ETA > 2) THEN
-              IF (INLOC == 0) THEN 
+              IF (INLOC == 0) THEN
                 XVEC_ETA(1:NEL,3) = PLA(1:NEL)
               ELSE
                 XVEC_ETA(1:NEL,3) = PLA_NL(1:NEL)
@@ -173,8 +173,8 @@ c---  self heating factor and temperatiure initialization
               IPOS_ETA(1:NEL,3) = VARTMP(1:NEL,5)
             END IF
 
-            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)          
-      
+            CALL TABLE_VINTERP(TABLE(FUNC_ETA),NEL,IPOS_ETA,XVEC_ETA,FACT_ETA,DXDYV)
+
             IF (NDIM_ETA > 1) VARTMP(1:NEL,4) = IPOS_ETA(1:NEL,2)
             IF (NDIM_ETA > 2) VARTMP(1:NEL,5) = IPOS_ETA(1:NEL,3)
             DO I=1,NEL
@@ -182,9 +182,9 @@ c---  self heating factor and temperatiure initialization
             END DO
           ELSE
             FTHERM(1:NEL) = MIN(BETA, ONE)
-          END IF 
+          END IF
         END IF
-      END IF 
+      END IF
 c-----------------------------------------------
 c     Trial stress
 c-----------------------------------------------
@@ -205,46 +205,46 @@ c-----------------------------------------------
         STYZ(I) = SIGNYZ(I)
         STZX(I) = SIGNZX(I)
       ENDDO
-c----------------------------------------------------      
+c----------------------------------------------------
 c     Computation of the initial yield stress
-c----------------------------------------------------      
+c----------------------------------------------------
       XVEC(1:NEL,1) = PLA(1:NEL)
       XVEC(1:NEL,2) = EPSP(1:NEL) * XSCALE
       IPOS(1:NEL,1) = VARTMP(1:NEL,1)
       IPOS(1:NEL,2) = 1
 c
-      CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)               
+      CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NEL,IPOS,XVEC  ,YLD  ,HARDP,HARDR)
 c
       YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
       HARDP(1:NEL) = HARDP(1:NEL) * YSCALE
       VARTMP(1:NEL,1) = IPOS(1:NEL,1)
-c----------------------------------------------------      
+c----------------------------------------------------
 c     Computation of temperature dependent yield stress factor from quasistatic curves
-c----------------------------------------------------      
+c----------------------------------------------------
       IF (FUNC_TEMP > 0) THEN
 c        XVEC(1:NEL,1) = PLA(1:NEL)
         XVEC(1:NEL,2) = TREF
         IPOS(1:NEL,1) = VARTMP(1:NEL,2)
         IPOS(1:NEL,2) = VARTMP(1:NEL,3)
-        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TREF,DYDX)  
-        VARTMP(1:NEL,2) = IPOS(1:NEL,1)     
-        VARTMP(1:NEL,3) = IPOS(1:NEL,2)     
-c     
+        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TREF,DYDX)
+        VARTMP(1:NEL,2) = IPOS(1:NEL,1)
+        VARTMP(1:NEL,3) = IPOS(1:NEL,2)
+c
         XVEC(1:NEL,2) = TEMP(1:NEL)
-        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TEMP,DYDX)          
-c     
-        TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)      
-        YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)      
-        HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL) 
+        CALL TABLE_VINTERP(TABLE(FUNC_TEMP),NEL,IPOS,XVEC,YLD_TEMP,DYDX)
+c
+        TFAC(1:NEL)  = YLD_TEMP(1:NEL) / YLD_TREF(1:NEL)
+        YLD(1:NEL)   = YLD(1:NEL)   * TFAC(1:NEL)
+        HARDP(1:NEL) = HARDP(1:NEL) * TFAC(1:NEL)
       ELSE
         TFAC(1:NEL) = ONE
       END IF
 c-----------------------------------------------
-c     Check plasticity 
+c     Check plasticity
 c-----------------------------------------------
       NINDX = 0
       DO I=1,NEL
-        J2 = STXY(I)*STXY(I) + STYZ(I)*STYZ(I) + STZX(I)*STZX(I) 
+        J2 = STXY(I)*STXY(I) + STYZ(I)*STYZ(I) + STZX(I)*STZX(I)
      .     - STXX(I)*STYY(I) - STYY(I)*STZZ(I) - STZZ(I)*STXX(I)
         Q2 = THREE*J2
 c
@@ -255,13 +255,13 @@ c
           PHI(I)  = SVMT(I) - YLD(I)
         ENDIF
       ENDDO
-c      
+c
       !====================================================================
       ! - PLASTIC CORRECTION Newton
       !====================================================================
 c
       IF (NINDX > 0) THEN
-        DO II = 1, NINDX   ! Number of the element with plastic behaviour     
+        DO II = 1, NINDX   ! Number of the element with plastic behaviour
           I = INDEX(II)
           ! initialize incremental update
           SXX(I) = STXX(I)
@@ -273,9 +273,9 @@ c
           SVM(I) = SVMT(I)
         END DO
 c
-        DO ITER = 1,NITER 
+        DO ITER = 1,NITER
 c
-          DO II = 1, NINDX      
+          DO II = 1, NINDX
             I = INDEX(II)
 c
             PHI(I)    = SVM(I) - YLD(I)
@@ -283,10 +283,10 @@ c
             DLAM(I) = PHI(I) / DPHI_DLAM
             DPLA(I) = DPLA(I) + DLAM(I)
           END DO
-          
+
           ! Update Yld and Hardp with new plastic strain and strain rate
-          
-          DO II = 1, NINDX 
+
+          DO II = 1, NINDX
             I = INDEX(II)
             XVEC(II,1) = PLA(I) + DPLA(I)
             XVEC(II,2) = EPSP(I)
@@ -296,16 +296,16 @@ c
 c
           CALL TABLE2D_VINTERP_LOG(TABLE(FUNC_YLD),ISMOOTH,NINDX,IPOS,XVEC,YLD_I,HARDP_I,HARDR_I)
 c
-          DO II = 1, NINDX 
+          DO II = 1, NINDX
             I = INDEX(II)
             VARTMP(I,1) = IPOS(II,1)
             HARDP(I) = HARDP_I(II)  *YSCALE*TFAC(I)
             YLD(I)   = MIN(YLD_I(II)*YSCALE*TFAC(I), SVMT(I))
           ENDDO
-c                    
+c
           ! deviatoric stress update
 c
-          DO II = 1, NINDX 
+          DO II = 1, NINDX
             I = INDEX(II)
 c
             R = G3 * DPLA(I) / SVMT(I)
@@ -316,15 +316,15 @@ c
             SYZ(I) = STYZ(I) - R * SYZ(I)
             SZX(I) = STZX(I) - R * SZX(I)
 
-            J2 = SXY(I)*SXY(I) + SYZ(I)*SYZ(I) + SZX(I)*SZX(I) 
+            J2 = SXY(I)*SXY(I) + SYZ(I)*SYZ(I) + SZX(I)*SZX(I)
      .         - SXX(I)*SYY(I) - SYY(I)*SZZ(I) - SZZ(I)*SXX(I)
             SVM(I) = SQRT(THREE*J2)
             PHI(I) = SVM(I) - YLD(I)
-         ENDDO              
-c            
+         ENDDO
+c
         END DO   !  ITER = 1,NITER
-c        
-        DO II = 1, NINDX 
+c
+        DO II = 1, NINDX
           I = INDEX(II)
           SIGNXX(I) = SXX(I) + SIGM(I)
           SIGNYY(I) = SYY(I) + SIGM(I)
@@ -335,26 +335,26 @@ c
 c
           PLA(I) = PLA(I) + MAX(DPLA(I), ZERO)
           ET(I)  = HARDP(I) / (HARDP(I) + YOUNG)
-        ENDDO                      
+        ENDDO
 c
         ! Update the temperature
-        IF (JTHE == 0 .AND. BETA > ZERO .AND. INLOC == 0) THEN 
-          DO II = 1, NINDX 
+        IF (JTHE == 0 .AND. BETA > ZERO .AND. INLOC == 0) THEN
+          DO II = 1, NINDX
             I = INDEX(II)
             TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*DPLA(I)
-          ENDDO                      
+          ENDDO
         ENDIF
 c
-c            
+c
       END IF     !  NINDX > 0
 c
       SOUNDSP(1:NEL)= SQRT((BULK + FOUR_OVER_3*G) / RHO(1:NEL))
       SIGY(1:NEL)   = YLD(1:NEL)
       EPSP(1:NEL)   = ALPHA*DPLA(1:NEL)*DTINV + ALPHI*EPSP(1:NEL)
-      IF (INLOC > 0) THEN 
-        IF (JTHE == 0 .AND. BETA > ZERO) THEN 
-          DO I = 1,NEL     
-            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO) 
+      IF (INLOC > 0) THEN
+        IF (JTHE == 0 .AND. BETA > ZERO) THEN
+          DO I = 1,NEL
+            TEMP(I) = TEMP(I) + FTHERM(I)*YLD(I)*MAX(DPLANL(I),ZERO)
           ENDDO
         ENDIF
       ENDIF

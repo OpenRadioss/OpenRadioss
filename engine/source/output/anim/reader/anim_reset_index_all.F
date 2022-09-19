@@ -165,7 +165,7 @@ C-----------------------------------------------
             ANIM_CE(10877+IUS) = 0
           ENDDO
         ENDDO
-      ENDIF ! IF (IEPSPFULL == 1) 
+      ENDIF ! IF (IEPSPFULL == 1)
 C       
       IF (IWPLAALL == 1) THEN
         IDX =   13247 + 4*MX_PLY_ANIM
@@ -176,7 +176,7 @@ C
 !---
       IF (IWPLAFULL == 1) THEN
 !   ...WPLA/N1/ALL
-        IDX =   13547 + 4*MX_PLY_ANIM 
+        IDX =   13547 + 4*MX_PLY_ANIM
         DO I=1,100
           IF (ANIM_WPLA(I) == 1) THEN
             DO J=1,10

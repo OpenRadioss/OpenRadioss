@@ -27,83 +27,83 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE PARSOR0(IADD ,IPARG   ,MATER   ,EL2FA   ,              
-     3                KXSP    ,IPARTSP )                                
+      SUBROUTINE PARSOR0(IADD ,IPARG   ,MATER   ,EL2FA   ,
+     3                KXSP    ,IPARTSP )
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com01_c.inc"                                             
-#include      "com04_c.inc"                                             
-#include      "sphcom.inc"                                              
-#include      "param_c.inc"                                             
-#include      "scr05_c.inc"                                             
-#include      "scr14_c.inc"                                             
-#include      "rnur_c.inc"                                              
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "sphcom.inc"
+#include      "param_c.inc"
+#include      "scr05_c.inc"
+#include      "scr14_c.inc"
+#include      "rnur_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
 C     REAL                                                    
-      INTEGER IADD(*),IPARG(NPARG,*),                                   
-     .        MATER(*),EL2FA(*),                                        
-     .        KXSP(NISP,*),IPARTSP(*)                                   
+      INTEGER IADD(*),IPARG(NPARG,*),
+     .        MATER(*),EL2FA(*),
+     .        KXSP(NISP,*),IPARTSP(*)
 C-----------------------------------------------                        
 C     REAL                                                    
-      my_real                                                           
-     .   OFF                                                            
-      INTEGER II, IE, NG, ITY, LFT, LLT, KPT, N, I,                     
-     .        NEL, IAD, NPAR, NFT, IPRT,                                
-     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,                 
-     .        JJ, INOD,                                                 
-     .        NP(NUMSPH),BUF,BUFP                                       
+      my_real
+     .   OFF
+      INTEGER II, IE, NG, ITY, LFT, LLT, KPT, N, I,
+     .        NEL, IAD, NPAR, NFT, IPRT,
+     .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
+     .        JJ, INOD,
+     .        NP(NUMSPH),BUF,BUFP
 C-----------------------------------------------                        
 C                                                                       
-      NN1 = 1                                                           
-      NN2 = NN1 + NUMSPH+MAXPJET                                        
-      IE = 0                                                            
+      NN1 = 1
+      NN2 = NN1 + NUMSPH+MAXPJET
+      IE = 0
 C-----------------------------------------------                        
 C     MID                                                               
 C-----------------------------------------------                        
-      NPAR = 0                                                          
-      JJ = 0                                                            
+      NPAR = 0
+      JJ = 0
 C                                                                       
-      DO 100 IPRT = 1 , NPART                                           
+      DO 100 IPRT = 1 , NPART
 C                                                                       
-       IF(MATER(IPRT)/=4) GOTO 100                                    
-       NPAR = NPAR + 1                                                  
-       DO 90 NG=1,NGROUP                                                
-        NEL   =IPARG(2,NG)                                              
-        NFT   =IPARG(3,NG)                                              
-        IAD   =IPARG(4,NG)                                              
-        ITY   =IPARG(5,NG)                                              
-        LFT=1                                                           
-        LLT=NEL                                                         
-        IF(ITY==51)THEN                                               
+       IF(MATER(IPRT)/=4) GOTO 100
+       NPAR = NPAR + 1
+       DO 90 NG=1,NGROUP
+        NEL   =IPARG(2,NG)
+        NFT   =IPARG(3,NG)
+        IAD   =IPARG(4,NG)
+        ITY   =IPARG(5,NG)
+        LFT=1
+        LLT=NEL
+        IF(ITY==51)THEN
 C-----------------------------------------------                        
 C         PARTICULES SPH.                                               
 C-----------------------------------------------                        
-          DO 20 I=LFT,LLT                                               
-           N = I + NFT                                                  
-           IF(IPARTSP(N)/=IPRT) GOTO 20                               
-             INOD=KXSP(3,N)                                             
-             II = INOD-1                                                
-             CALL WRITE_I_C(II,1)                                       
-             JJ = JJ+1                                                  
-             IE = IE + 1                                                
-             EL2FA(NN1+N) = IE                                          
- 20      CONTINUE                                                       
-        ELSE                                                            
-        ENDIF                                                           
- 90    CONTINUE                                                         
+          DO 20 I=LFT,LLT
+           N = I + NFT
+           IF(IPARTSP(N)/=IPRT) GOTO 20
+             INOD=KXSP(3,N)
+             II = INOD-1
+             CALL WRITE_I_C(II,1)
+             JJ = JJ+1
+             IE = IE + 1
+             EL2FA(NN1+N) = IE
+ 20      CONTINUE
+        ELSE
+        ENDIF
+ 90    CONTINUE
 C-----------------------------------------------                        
 C       PART ADRESS                                                     
 C-----------------------------------------------                        
-       IADD(NPAR) = IE                                                  
- 100  CONTINUE                                                          
+       IADD(NPAR) = IE
+ 100  CONTINUE
 C                                                                       
 C-----------------------------------------------                        
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

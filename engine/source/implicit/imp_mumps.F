@@ -50,7 +50,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE IMP_INTM
       USE IMP_KBCS
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,8 +60,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
-#include      "units_c.inc" 
-#include      "task_c.inc" 
+#include      "units_c.inc"
+#include      "task_c.inc"
 #include      "dmumps_struc.h"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -97,7 +97,7 @@ C
       IF (NCYCLE==1.AND.INCONV==1) THEN
          MUMPS_PAR%ICNTL(3) = IOUT
       ELSE
-         MUMPS_PAR%ICNTL(3) = -1    
+         MUMPS_PAR%ICNTL(3) = -1
       ENDIF
 C--Level of info to be printed with user input /MUMPS/MSGLV/n
       IF(M_MSG > 0) THEN
@@ -106,7 +106,7 @@ C--Level of info to be printed with user input /MUMPS/MSGLV/n
       ENDIF
 C      
       IF (M_ORDER==0) THEN
-       MUMPS_PAR%ICNTL(7) = 7 ! Automatic choice of ordering 
+       MUMPS_PAR%ICNTL(7) = 7 ! Automatic choice of ordering
       ELSE
        MUMPS_PAR%ICNTL(7) =  M_ORDER
       END IF
@@ -132,7 +132,7 @@ C        MUMPS_PAR%ICNTL(23)=LMEMV/NSPMD_PER_NODE
 C
          NDDLG0 = NDDL0
          NNZKG0 = NNZK0
-         NDDLG = NDDL 
+         NDDLG = NDDL
          NNZKG = NNZK
          NNMAXG = NNMAX
          CALL SPMD_INF_G(
@@ -140,7 +140,7 @@ C
      2    NDDL0P   ,NNZK0P  ,NDDLP    ,NNZKP    ,NNMAXP    )
 C
          CALL SPMD_CDDL(NDDL,  NODGLOB, IDDL,  NDOF,  CDDLP,
-     .                  INLOC, IKC,     NDDLG, NDDLP)          
+     .                  INLOC, IKC,     NDDLG, NDDLP)
 C
          NNZT = NDDL+NNZK+NNZI+NZ_SL+NZ_SI
          ALLOCATE(ITK(2,NNZT),RTK(NNZT))
@@ -151,7 +151,7 @@ C
 C
          CALL MUMPS_SET2(
      .         IADK,  JDIK,     DIAG_K,  LT_K,   CDDLP,
-     .         NKLOC, NKFRONT,  ITK,     RTK,    IDDL, 
+     .         NKLOC, NKFRONT,  ITK,     RTK,    IDDL,
      .         INLOC, IAD_ELEM, FR_ELEM, NDOF,   IKC,
      .         NDDL,  NNZK,     IACTI,   NDDLI,  NNZI,
      .         IADI,  JDII,     ITOK,    DIAG_I, LT_I )
@@ -161,7 +161,7 @@ c    .         ITK,   RTK,     NKFRONT, NKFLOC, NKLOC,
 c    .         NDDLG, IMPRINT )
 C
          NKFLOC = 0
-         NZLOC=NKLOC+NKFLOC	 
+         NZLOC=NKLOC+NKFLOC	
          IF (IMUMPSD==1) THEN
             ALLOCATE(MUMPS_PAR%A_LOC(NZLOC),
      .               MUMPS_PAR%IRN_LOC(NZLOC),
@@ -188,7 +188,7 @@ C
      .                  MUMPS_PAR%JCN(NNZ),
      .                  MUMPS_PAR%RHS(NDDLG))
                MUMPS_PAR%N=NDDLG
-               MUMPS_PAR%NZ=NNZ 
+               MUMPS_PAR%NZ=NNZ
             ELSE
                ALLOCATE(MUMPS_PAR%A(0),
      .                  MUMPS_PAR%IRN(0),
@@ -208,10 +208,10 @@ C
          DO I=1,NDDL
             CDDLP(I)=I
          ENDDO
-         NNZT = NNZK 
+         NNZT = NNZK
          NNZK = NNZK + NDDLI + NNZI
 C
-         ALLOCATE(MUMPS_PAR%A(NDDL+NNZK), 
+         ALLOCATE(MUMPS_PAR%A(NDDL+NNZK),
      .            MUMPS_PAR%IRN(NDDL+NNZK),
      .            MUMPS_PAR%JCN(NDDL+NNZK),
      .            MUMPS_PAR%RHS(NDDL))
@@ -251,7 +251,7 @@ C
 C
          MUMPS_PAR%N=NDDL
          MUMPS_PAR%NZ=NNZK+NDDL
-         NNZK = NNZT 
+         NNZK = NNZT
       ENDIF
 C   
 c      WRITE(IOUT,*) "NCYCLE,IT=",NCYCLE,IT
@@ -263,7 +263,7 @@ c      WRITE(IOUT,*) "NCYCLE,IT=",NCYCLE,IT
           WRITE(IOUT,*)
           WRITE(ISTDO,*)
         ENDIF
-        CALL PRINT_STIFF_MAT(MUMPS_PAR, NDDL, NODGLOB, IDDL, NDOF,  
+        CALL PRINT_STIFF_MAT(MUMPS_PAR, NDDL, NODGLOB, IDDL, NDOF,
      .                       CDDLP, INLOC, IKC, NDDLG, NDDLP)
 
 
@@ -278,7 +278,7 @@ Chd|        IMP_MUMPS1                    source/implicit/imp_mumps.F
 Chd|-- calls ---------------
 Chd|        SPMD_INT_ALLREDUCE_MAX        source/mpi/implicit/imp_spmd.F
 Chd|====================================================================
-      SUBROUTINE PRINT_STIFF_MAT(MUMPS_PAR, NDDL, NODGLOB, IDDL, NDOF,  
+      SUBROUTINE PRINT_STIFF_MAT(MUMPS_PAR, NDDL, NODGLOB, IDDL, NDOF,
      .                           CDDLP, INLOC, IKC, NDDLG, NDDLP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -305,7 +305,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(DMUMPS_STRUC) MUMPS_PAR
-      INTEGER NDDL, NODGLOB(*), IDDL(*), NDOF(*), CDDLP(*), 
+      INTEGER NDDL, NODGLOB(*), IDDL(*), NDOF(*), CDDLP(*),
      .        INLOC(*), IKC(*), NDDLG, NDDLP(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -314,20 +314,20 @@ C-----------------------------------------------
      .        tmpIROWS,tmpICOLS,LENGTH,L,IND,COUNT_DUP,
      .        NKC,TDDL(2,MUMPS_PAR%N),N,ID,ND,IERROR,OFFST
       my_real
-     .        tmpK,sumK,tmpPROC   
+     .        tmpK,sumK,tmpPROC
       INTEGER, DIMENSION(:), ALLOCATABLE :: IROWS,ICOLS,NENTRIEStmp
       my_real, DIMENSION(:), ALLOCATABLE :: K
       LOGICAL SWITCH
       CHARACTER FILNAME*100,FILNAME2*100,CSPMD
 C-----------------------------------------------    
 C Define offset for UNIT file
-      OFFST = 100  
+      OFFST = 100
 C Automatic write of stiffness coefficients in MatrixMarket format by MUMPS: MUMPS_PAR%WRITE_PROBLEM = 'string'
 C      MUMPS_PAR%WRITE_PROBLEM ="./stiffness_matrix_MUMPS"
       WRITE(CSPMD,'(I1)') ISPMD
-      FILNAME = 'local_stiffness_matrix_domain'//CSPMD   
+      FILNAME = 'local_stiffness_matrix_domain'//CSPMD
       OPEN(UNIT=OFFST+ISPMD,FILE=FILNAME(1:30),ACCESS="SEQUENTIAL",
-     .        ACTION="WRITE",STATUS="UNKNOWN")      
+     .        ACTION="WRITE",STATUS="UNKNOWN")
 C Manual write of stiffness coefficients in MatrixMarket format 
 C TDDL: local DOF (at MPI domain level) to global node and direction (DX,DY,DZ,RX,RY,RZ)            
       NKC = 0
@@ -345,14 +345,14 @@ C TDDL: local DOF (at MPI domain level) to global node and direction (DX,DY,DZ,R
                NKC=NKC+1
             ENDIF
          ENDDO
-      ENDDO        
+      ENDDO
 C Communications between processes for TDDL(1:2,1:MUMPS_PAR%N) 
-      IF (NSPMD > 1) THEN         
+      IF (NSPMD > 1) THEN
         CALL SPMD_INT_ALLREDUCE_MAX(TDDL(1,:),TDDL(1,:),
-     .                          MUMPS_PAR%N)  
+     .                          MUMPS_PAR%N)
         CALL SPMD_INT_ALLREDUCE_MAX(TDDL(2,:),TDDL(2,:),
-     .                          MUMPS_PAR%N)       
-      END IF  
+     .                          MUMPS_PAR%N)
+      END IF
 C All processes: write local stiffness coefficients (at MPI domain level) in MatrixMarket format    
       IF (NSPMD == 1) THEN
         WRITE(OFFST+ISPMD,1002) MUMPS_PAR%N,MUMPS_PAR%N,MUMPS_PAR%NZ
@@ -367,7 +367,7 @@ C All processes: write local stiffness coefficients (at MPI domain level) in Mat
             JJ = IItmp
           ENDIF
           WRITE(OFFST+ISPMD,1003) II,JJ,MUMPS_PAR%A(I)
-        ENDDO 
+        ENDDO
       ELSE
         WRITE(OFFST+ISPMD,1002) MUMPS_PAR%N,MUMPS_PAR%N,MUMPS_PAR%NZ_LOC
         DO I=1,MUMPS_PAR%NZ_LOC
@@ -381,9 +381,9 @@ C All processes: write local stiffness coefficients (at MPI domain level) in Mat
             JJ = IItmp
           ENDIF
           WRITE(OFFST+ISPMD,1003) II,JJ,MUMPS_PAR%A_LOC(I)
-        ENDDO 
-      ENDIF   
-      CLOSE(UNIT=OFFST+ISPMD)           
+        ENDDO
+      ENDIF
+      CLOSE(UNIT=OFFST+ISPMD)
 #ifdef MPI
       CALL MPI_BARRIER(MPI_COMM_WORLD,IERROR)
 #endif
@@ -391,16 +391,16 @@ C Process 0: read stiff. coeff. from all processes, sort (bubble) and write stif
       IF (ISPMD == 0) THEN
          ALLOCATE(NENTRIEStmp(NSPMD))
          WRITE(CSPMD,'(I1)') NSPMD
-         NENTRIES = 0         
+         NENTRIES = 0
          FILNAME2 = 'stiffness_matrix_'//CSPMD//'_SPMD'
          OPEN(UNIT=OFFST+NSPMD,FILE=FILNAME2(1:23),ACCESS="SEQUENTIAL",
-     .        ACTION="WRITE",STATUS="UNKNOWN") 
+     .        ACTION="WRITE",STATUS="UNKNOWN")
          DO L = 0,NSPMD-1
            WRITE(CSPMD,'(I1)') L
-           FILNAME = 'local_stiffness_matrix_domain'//CSPMD         
+           FILNAME = 'local_stiffness_matrix_domain'//CSPMD
            OPEN(UNIT=OFFST+L,FILE=FILNAME(1:30),ACCESS="SEQUENTIAL",
-     .          ACTION="READ",STATUS="UNKNOWN")  
-           READ(UNIT=OFFST+L,FMT=*) NROWS,NCOLS,NENTRIEStmp(L+1) 
+     .          ACTION="READ",STATUS="UNKNOWN")
+           READ(UNIT=OFFST+L,FMT=*) NROWS,NCOLS,NENTRIEStmp(L+1)
            NENTRIES = NENTRIES + NENTRIEStmp(L+1)
          ENDDO
          ALLOCATE(IROWS(NENTRIES))
@@ -420,30 +420,30 @@ C Bubble sort in ascending order of ICOLS and then IROWS
          DO WHILE ((I>0) .AND. (SWITCH))
              SWITCH = .FALSE.
              DO J = 1,I-1
-                 IF (ICOLS(J) > ICOLS(J+1) .OR. (ICOLS(J) == ICOLS(J+1) 
+                 IF (ICOLS(J) > ICOLS(J+1) .OR. (ICOLS(J) == ICOLS(J+1)
      .               .AND. IROWS(J) > IROWS(J+1))) THEN
                        tmpIROWS = IROWS(J)
                        IROWS(J) = IROWS(J+1)
                        IROWS(J+1) = tmpIROWS
                        tmpICOLS = ICOLS(J)
                        ICOLS(J) = ICOLS(J+1)
-                       ICOLS(J+1) = tmpICOLS                     
+                       ICOLS(J+1) = tmpICOLS
                        tmpK = K(J)
                        K(J) = K(J+1)
-                       K(J+1) = tmpK                           
+                       K(J+1) = tmpK
                        SWITCH = .TRUE.
                  ENDIF
-             ENDDO 
+             ENDDO
              I = I - 1
-         ENDDO  
+         ENDDO
 C Write stiff. coeff. in only one file (suppress duplications) 
-         IND = 1 
+         IND = 1
          DO WHILE (IND <= NENTRIES)
            tmpK = K(IND)
-           DO WHILE (IND <= NENTRIES .AND. IROWS(IND)==IROWS(IND+1) 
-     .               .AND. ICOLS(IND)==ICOLS(IND+1))  
+           DO WHILE (IND <= NENTRIES .AND. IROWS(IND)==IROWS(IND+1)
+     .               .AND. ICOLS(IND)==ICOLS(IND+1))
              IND = IND + 1
-             tmpK = tmpK + K(IND)      
+             tmpK = tmpK + K(IND)
            ENDDO
            IF (ABS(tmpK)>=PRSTIFMAT_TOL) THEN
              WRITE(OFFST+NSPMD,1003) IROWS(IND),ICOLS(IND),tmpK
@@ -452,21 +452,21 @@ C Write stiff. coeff. in only one file (suppress duplications)
            IND = IND + 1
          ENDDO
          WRITE(OFFST+NSPMD,1001) sumK
-          DO L = 0,NSPMD            
+          DO L = 0,NSPMD
             CLOSE(UNIT=OFFST+L)
-          ENDDO 
+          ENDDO
         DEALLOCATE(NENTRIEStmp)
         DEALLOCATE(IROWS)
-        DEALLOCATE(ICOLS)         
+        DEALLOCATE(ICOLS)
         DEALLOCATE(K)
       ENDIF
-1000  FORMAT(I10,I10,I10,I10,E10.2) 
-1001  FORMAT('Sum ABS(K_ij) = ',E10.2)  
-1002  FORMAT(I10,I10,I10)   
+1000  FORMAT(I10,I10,I10,I10,E10.2)
+1001  FORMAT('Sum ABS(K_ij) = ',E10.2)
+1002  FORMAT(I10,I10,I10)
 1003  FORMAT(I10,I10,E10.2)
 C
       RETURN
-      END                
+      END
 Chd|====================================================================
 Chd|  IMP_MUMPS2                    source/implicit/imp_mumps.F   
 Chd|-- called by -----------
@@ -503,7 +503,7 @@ C
       IF (MUMPS_PAR%N<=0) RETURN
       IF (IDSC==1) CALL SPMD_MUMPS_EXEC(MUMPS_PAR, 1)
 C---------For licence
-      IF (IDSC==1) ISOLV_D = 1              
+      IF (IDSC==1) ISOLV_D = 1
 C
       NDDLG=MUMPS_PAR%N
       CALL SPMD_MUMPS_RHS(F,     CDDLP, MUMPS_PAR%RHS, NDDL, 1,
@@ -514,11 +514,11 @@ C
       CALL SPMD_MUMPS_RHS(X,     CDDLP, MUMPS_PAR%RHS, NDDL, 2,
      .                    NDDLG)
 C----FLAG for MUMPS: IF (IMPL_S>0.AND.ISOLV==3.AND.IMACH==3)	
-	LENT = 1024*MUMPS_PAR%INFO(16)                   
-        MUMPSFILESIZE = MAX(MUMPSFILESIZE,LENT)       
+	LENT = 1024*MUMPS_PAR%INFO(16)
+        MUMPSFILESIZE = MAX(MUMPSFILESIZE,LENT)
 C
       RETURN
-      END  
+      END
 
 Chd|====================================================================
 Chd|  MUMPS_SET                     source/implicit/imp_mumps.F   
@@ -531,7 +531,7 @@ Chd|====================================================================
      .                     NKLOC, NKFRONT , ITK    , RTK   , IDDL ,
      .                     INLOC, IAD_ELEM, FR_ELEM, NDOF  , IKC  ,
      .                     NDDL , NNZK    , IACTI  , NDDLI , NNZI ,
-     .                     IADI , JDII    , ITOK   , DIAG_I, LT_I )     
+     .                     IADI , JDII    , ITOK   , DIAG_I, LT_I )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -567,7 +567,7 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: RTKFRONT
 C
-      ALLOCATE(ITKFRONT(2,NDDL+NNZK+NNZI+NZ_SI), 
+      ALLOCATE(ITKFRONT(2,NDDL+NNZK+NNZI+NZ_SI),
      .         RTKFRONT(NDDL+NNZK+NNZI+NZ_SI))
 C
       DO I=1,NDDL
@@ -740,7 +740,7 @@ C
                      RTKFRONT(NKFRONT)=LT_I(J)
                   ENDIF
                ENDIF
-            ENDDO 
+            ENDDO
          ENDDO
       ENDIF
 C Complement de la matrice de rigidite d'interface pour secnds remote     
@@ -801,7 +801,7 @@ C----- il manque DIAG_SL--------
          IADL(I) = IDDL_FRONT(1,I)
        ENDDO
        CALL SPMD_IFRI(IADL, IDDL_REM)
-      ENDIF 
+      ENDIF
       DO I=1,NDDL_SI
          DO J=IAD_SI(I),IAD_SI(I+1)-1
            JJ=JDI_SI(J)
@@ -844,7 +844,7 @@ Chd|====================================================================
      .                     NKLOC, NKFRONT , ITK    , RTK   , IDDL ,
      .                     INLOC, IAD_ELEM, FR_ELEM, NDOF  , IKC  ,
      .                     NDDL , NNZK    , IACTI  , NDDLI , NNZI ,
-     .                     IADI , JDII    , ITOK   , DIAG_I, LT_I )     
+     .                     IADI , JDII    , ITOK   , DIAG_I, LT_I )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -871,7 +871,7 @@ C-----------------------------------------------
 C----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NKC, N, 
+      INTEGER I, NKC, N,
      .        J, ND, NOD, INOD, KK, K, ID, NN, ILOC, JJ,
      .        ITAG(2,NSPMD), INDEX, II, IDIAG(NDDL), IADL(NDDL+1),
      .        IFOUND, CDDLP_REM(NDDL_SI),
@@ -935,7 +935,7 @@ C Matrice de rigidite d'interface
                   ITK(2,NKLOC)=CDDLP(JJ)
                   RTK(NKLOC)=LT_I(J)
                ENDIF
-            ENDDO 
+            ENDDO
          ENDDO
       ENDIF
 C Complement de la matrice de rigidite d'interface pour secnds remote     
@@ -960,7 +960,7 @@ C----- il manque DIAG_SL--------
       ENDDO
       IF ((NDDL_SI+NDDL_SL)>0) THEN
        CALL SPMD_IFRI(CDDLP, CDDLP_REM)
-      ENDIF 
+      ENDIF
       DO I=1,NDDL_SI
          DO J=IAD_SI(I),IAD_SI(I+1)-1
            JJ=JDI_SI(J)

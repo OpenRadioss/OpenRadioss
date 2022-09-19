@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)  :: NMN, NSN, NRT, NUMNOD
-      INTEGER, INTENT(IN)  :: IRECT(4,*), NSEG(*), NSV(*), MSR(*) 
+      INTEGER, INTENT(IN)  :: IRECT(4,*), NSEG(*), NSV(*), MSR(*)
       INTEGER, INTENT(OUT) :: LCSEG(*), ILOC(*)
       my_real, INTENT(IN)  :: X(3,*)
 C-----------------------------------------------
@@ -70,13 +70,13 @@ C=======================================================================
 C----- BORNES DU DOMAINE
       XMAX_M=-EP30
       YMAX_M=-EP30
-      ZMAX_M=-EP30 
+      ZMAX_M=-EP30
       XMIN_M= EP30
       YMIN_M= EP30
       ZMIN_M= EP30
 
       DO I=1,NMN
-         J=MSR(I) 
+         J=MSR(I)
          XMAX_M= MAX(XMAX_M,X(1,J))
          YMAX_M= MAX(YMAX_M,X(2,J))
          ZMAX_M= MAX(ZMAX_M,X(3,J))
@@ -90,7 +90,7 @@ C----- BORNES DU DOMAINE
       YMIN_S= EP30
       YMAX_S=-EP30
       ZMIN_S= EP30
-      ZMAX_S=-EP30 
+      ZMAX_S=-EP30
 
       DO I=1,NSN
        J=NSV(I)
@@ -132,7 +132,7 @@ C=======================================================================
         IIY(I)=0
         IIZ(I)=0
         J=NSV(I)
-         
+
         IIX(I)=INT(NBX*(X(1,J)-XMIN)/(XMAX-XMIN))
         IIY(I)=INT(NBY*(X(2,J)-YMIN)/(YMAX-YMIN))
         IIZ(I)=INT(NBZ*(X(3,J)-ZMIN)/(ZMAX-ZMIN))

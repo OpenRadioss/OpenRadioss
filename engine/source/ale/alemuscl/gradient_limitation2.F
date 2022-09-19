@@ -81,37 +81,37 @@ C-----------------------------------------------
          reduc_factor = EP30
          NNUM = 0
          DO ITRIMAT = 1, TRIMAT
-            IF(ABS(GRAD(ITRIMAT, 2, II)) + 
+            IF(ABS(GRAD(ITRIMAT, 2, II)) +
      .           ABS(GRAD(ITRIMAT, 3, II)) > ZERO) THEN
                NNUM = NNUM + 1
                !!! Check the nodes of the element
                DO JJ = 1, 4
                   NODE_ID = IXQ(JJ+1, II)
                   !!! Get the node coordinates
-                  YN = X(2, NODE_ID) ; ZN = X(3, NODE_ID) 
+                  YN = X(2, NODE_ID) ; ZN = X(3, NODE_ID)
                   !!! Interpolate the function at the node
-                  VALNODE = VOLUME_FRACTION(ITRIMAT, II) 
+                  VALNODE = VOLUME_FRACTION(ITRIMAT, II)
      .                 + GRAD(ITRIMAT, 2, II) * (YN - YK)
      .                 + GRAD(ITRIMAT, 3, II) * (ZN - ZK)
                   nodal_reduc_factor = ONE
                   IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) > ZERO) THEN
-                     nodal_reduc_factor = 
+                     nodal_reduc_factor =
      .                    MIN((NODE_MAX_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II))
      .                    / (VALNODE - VOLUME_FRACTION(ITRIMAT, II)), I_BETA)
                   ELSE IF (VALNODE - VOLUME_FRACTION(ITRIMAT, II) < ZERO) THEN
-                     nodal_reduc_factor = 
-     .                    MIN((NODE_MIN_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II)) 
+                     nodal_reduc_factor =
+     .                    MIN((NODE_MIN_VALUE(ITRIMAT, NODE_ID) - VOLUME_FRACTION(ITRIMAT, II))
      .                    / (VALNODE - VOLUME_FRACTION(ITRIMAT, II)), I_BETA)
                   ENDIF
                   reduc_factor(ITRIMAT) = MIN(reduc_factor(ITRIMAT), nodal_reduc_factor)
                ENDDO  ! JJ = 1, 8
             ELSE
                reduc_factor(ITRIMAT) = ZERO
-            ENDIF 
+            ENDIF
          ENDDO  ! ITRIMAT = 1, TRIMAT
-        
+
          DO ITRIMAT = 1, TRIMAT
-            IF(ABS(GRAD(ITRIMAT, 2, II)) + 
+            IF(ABS(GRAD(ITRIMAT, 2, II)) +
      .           ABS(GRAD(ITRIMAT, 3, II)) > ZERO) THEN
             !!!   Limitation of the gradient
                GRAD(ITRIMAT, 2, II) = reduc_factor(ITRIMAT) * GRAD(ITRIMAT, 2, II)

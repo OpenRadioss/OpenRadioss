@@ -71,7 +71,7 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NB_FACE, KFACE, KFACE2, II, I, J, MATLAW
       INTEGER :: ITY, NFT, NEL, NG, NUMEL_SPMD
-      LOGICAL :: IDBG 
+      LOGICAL :: IDBG
       INTEGER :: IAD, IAD2, LGTH, LGTH2
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
@@ -96,17 +96,17 @@ C     TRIANGLES
                ENDIF
             CASE DEFAULT
                CALL ARRET(2)
-            END SELECT                  
+            END SELECT
             DO II = 1, NEL
                I = II + NFT
                IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-               LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) - 
+               LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) -
      .              ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                DO KFACE = 1, LGTH
                   J = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)
                   IF (J > 0 .AND. J <= NUMEL_SPMD) THEN
                      IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(J)
-                     LGTH2 = ALE_CONNECTIVITY%ee_connect%iad_connect(J+1) - 
+                     LGTH2 = ALE_CONNECTIVITY%ee_connect%iad_connect(J+1) -
      .                    ALE_CONNECTIVITY%ee_connect%iad_connect(J)
                      DO KFACE2 = 1, LGTH2
                         IF (I == ALE_CONNECTIVITY%ee_connect%connected(IAD2 + KFACE2 - 1)) THEN
@@ -145,11 +145,11 @@ C     TRIANGLES
                   ENDIF
                CASE DEFAULT
                   CALL ARRET(2)
-               END SELECT                  
+               END SELECT
                DO II = 1, NEL
                   I = II + NFT
                   IAD = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
-                  LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) - 
+                  LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) -
      .                 ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                   DO KFACE = 1, LGTH
                      J = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)
@@ -163,7 +163,7 @@ C     TRIANGLES
                   ENDDO
                ENDDO
             ENDIF
-         ENDDO         
+         ENDDO
       ENDIF
-  
+
       END SUBROUTINE BUILD_CONNECTIVITY

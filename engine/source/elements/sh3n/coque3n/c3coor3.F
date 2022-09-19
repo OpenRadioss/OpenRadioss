@@ -31,7 +31,7 @@ Chd|====================================================================
      .                   V        ,VR       ,VL1     ,VL2      ,VL3      ,
      .                   VRL1     ,VRL2     ,VRL3    ,SIGY     ,
      .                   X1       ,X2       ,X3      ,Y1       ,Y2       ,
-     .                   Y3       ,Z1       ,Z2      ,Z3       ,XDP      )  
+     .                   Y3       ,Z1       ,Z2      ,Z3       ,XDP      )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,13 +66,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NC1, NC2, NC3
-      my_real OFF_L    
+      my_real OFF_L
 C=======================================================================
       IF(IRESP == 1)THEN
        DO I=JFT,JLT
-        NC1     = IXTG(2,I) 
-        NC2     = IXTG(3,I) 
-        NC3     = IXTG(4,I) 
+        NC1     = IXTG(2,I)
+        NC2     = IXTG(3,I)
+        NC3     = IXTG(4,I)
 C----------------------------
 C       COORDONNEES
 C----------------------------
@@ -106,9 +106,9 @@ C----------------------------
        ENDDO
       ELSE
        DO I=JFT,JLT
-        NC1     = IXTG(2,I) 
-        NC2     = IXTG(3,I) 
-        NC3     = IXTG(4,I) 
+        NC1     = IXTG(2,I)
+        NC2     = IXTG(3,I)
+        NC3     = IXTG(4,I)
 C----------------------------
 C       COORDONNEES
 C----------------------------
@@ -215,18 +215,18 @@ C-----------------------------------------------
      .   XL2(*),XL3(*),YL2(*),YL3(*),AREA(*),
      .   V21X(*),V31X(*),V21Y(*),V31Y(*),RZ13(*),RZ23(*),
      .   X2_T(*),X3_T(*),Y2_T(*),Y3_T(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   SMSTR(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, NC1, NC2, NC3,II(6),NN(3)
 C     REAL
-      my_real 
+      my_real
      .   X0G2(MVSIZ),X0G3(MVSIZ),Y0G2(MVSIZ),Y0G3(MVSIZ),OFF_L,
      .   Z0G2(MVSIZ),Z0G3(MVSIZ),AXYZ(MVSIZ,3,3),
      .   E01X(MVSIZ), E01Y(MVSIZ), E01Z(MVSIZ),
-     .   E02X(MVSIZ), E02Y(MVSIZ), E02Z(MVSIZ),E03X(MVSIZ), 
+     .   E02X(MVSIZ), E02Y(MVSIZ), E02Z(MVSIZ),E03X(MVSIZ),
      .   E03Y(MVSIZ), E03Z(MVSIZ),X0L2(MVSIZ), X0L3(MVSIZ),
      .   Y0L2(MVSIZ),Y0L3(MVSIZ),SUM(MVSIZ),NORM,XL,YL,VR1_12,VR1_21,
      .   RLZ1,RLZ2,RLZ3,AREAI,X0G32,Y0G32,Z0G32,DIRZ(MVSIZ,2)
@@ -241,9 +241,9 @@ C
           AXYZ(I,1:3,1:3)= ZERO
 C            
            IF (ISROT > 0  ) THEN
-            NN(1)     = IXTG(2,I) 
-            NN(2)     = IXTG(3,I) 
-            NN(3)     = IXTG(4,I) 
+            NN(1)     = IXTG(2,I)
+            NN(2)     = IXTG(3,I)
+            NN(3)     = IXTG(4,I)
             AXYZ(I,1,1) = DR(1,NN(1))
             AXYZ(I,2,1) = DR(2,NN(1))
             AXYZ(I,3,1) = DR(3,NN(1))
@@ -254,7 +254,7 @@ C
             AXYZ(I,2,3) = DR(2,NN(3))
             AXYZ(I,3,3) = DR(3,NN(3))
            END IF !(ISROT > 0  ) THEN
-            
+
             X0G2(I) = SMSTR(II(1)+I)
             Y0G2(I) = SMSTR(II(2)+I)
             Z0G2(I) = SMSTR(II(3)+I)
@@ -305,7 +305,7 @@ C----------------------------
        DIRZ(I,2) = HALF*(VR1_12-VR1_21)
        NORM = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,NORM))
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         X0L2(I)=E01X(I)*X0G2(I)+E01Y(I)*Y0G2(I)+E01Z(I)*Z0G2(I)
         Y0L2(I)=E02X(I)*X0G2(I)+E02Y(I)*Y0G2(I)+E02Z(I)*Z0G2(I)
@@ -331,13 +331,13 @@ C------U21,U31 in actual local system
         V31X(I)=XL3(I)-X0L3(I)
         V21Y(I)=YL2(I)-Y0L2(I)
         V31Y(I)=YL3(I)-Y0L3(I)
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         X2_T(I) = X0L2(I)
         X3_T(I) = X0L3(I)
         Y2_T(I) = Y0L2(I)
         Y3_T(I) = Y0L3(I)
-      ENDDO 
+      ENDDO
       IF (ISROT>0) THEN
 C------RZ13,RZ23 in actual local system	  
        DO I=JFT,JLT
@@ -347,7 +347,7 @@ C------RZ13,RZ23 in actual local system
         RLZ3 =E3X(I)*AXYZ(I,1,3)+E3Y(I)*AXYZ(I,2,3)+E3Z(I)*AXYZ(I,3,3)
         RZ13(I)=(RLZ1-RLZ3)*AREAI
         RZ23(I)=(RLZ2-RLZ3)*AREAI
-       ENDDO 
+       ENDDO
       END IF !(ISROT>0) THEN
 C
       OFF_L = ZERO

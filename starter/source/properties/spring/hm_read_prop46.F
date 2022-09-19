@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C     if index is larger than this maximum
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR,IGTYP,ID,IUNIT
       my_real PARGEO(*)
       CHARACTER*nchartitle,
@@ -163,7 +163,7 @@ C
         WRITE(IOUT,1500) ID
       ENDIF
 C
-      FAC_M  = UNITAB%FAC_M(IUNIT)                        
+      FAC_M  = UNITAB%FAC_M(IUNIT)
       FAC_L  = UNITAB%FAC_L(IUNIT)
       FAC_T  = UNITAB%FAC_T(IUNIT)
       FSCALE = FAC_M * FAC_L / (FAC_T **TWO)

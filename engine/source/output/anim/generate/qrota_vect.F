@@ -101,7 +101,7 @@ C-----------
             SUMA = SQRT(CS/MAX(EM20,CT))
             SY(I) = SY(I) + TZ(I)*SUMA
             SZ(I) = SZ(I) - TY(I)*SUMA
-          END IF 
+          END IF
           SUMA=ONE/MAX(SQRT(SY(I)**2+SZ(I)**2),EM20)
           SY(I)=SY(I)*SUMA
           SZ(I)=SZ(I)*SUMA

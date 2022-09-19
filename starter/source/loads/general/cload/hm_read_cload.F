@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NUM
       INTEGER IBCL(NIBCLD,*), ITAB(*), ITABM1(*),NWORK(*),
      .        ISKN(LISKN,*)
@@ -184,7 +184,7 @@ c
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='CONCENTRED LOAD',
      .                 C2='CONCENTRED LOAD',
-     .                 C3=TITR) 
+     .                 C3=TITR)
         ENDIF
         DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
           IF(NOSKEW == ISKN(4,J+1)) THEN

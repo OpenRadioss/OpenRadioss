@@ -436,7 +436,7 @@ Chd|        DYNLIB_MOD                    share/modules/dynlib_mod.F
 Chd|        H3D_MOD                       share/modules/h3d_mod.F       
 Chd|        INOUTFILE_MOD                 ../common_source/modules/inoutfile_mod.F
 Chd|====================================================================
-      SUBROUTINE ARRET (N)  
+      SUBROUTINE ARRET (N)
       USE H3D_MOD
       USE INOUTFILE_MOD
       USE QA_OUT_MOD
@@ -471,7 +471,7 @@ C-----------------------------------------------
       CHARACTER*2048 INAME
       INTEGER IFIL
       INTEGER :: LEN_TMP_NAME
-      CHARACTER(len=2148) :: TMP_NAME 
+      CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------
 C Different End Values
 C ----------------------------------------------
@@ -498,7 +498,7 @@ C-----------------------------------------------
 C -----------------------------------------------
 C ABF FILES
 C -----------------------------------------------
-      IF (ISPMD == 0 .AND. NABFILE /= 0 .AND. 
+      IF (ISPMD == 0 .AND. NABFILE /= 0 .AND.
      .  (ABINP /= 0 .AND. ABOUT /= 0 )  ) THEN
            CALL RELEASE_ABFPIPE(ABINP,ABOUT)
 
@@ -609,7 +609,7 @@ C
               CALL MY_EXIT(2)
         CASE (1)
               IF (ISPMD==0) THEN
-                WRITE(IOUT,1000)          ! Normal termination 
+                WRITE(IOUT,1000)          ! Normal termination
                 WRITE(ISTDO,1050)
 
                 WRITE(IOUT,1200) NCYCLE   ! Total Number of cycles
@@ -625,7 +625,7 @@ C
               CLOSE(UNIT=IOUT)
               CLOSE(UNIT=IUHIS)
               CALL MY_EXIT(0)
- 
+
         CASE (2)
               WRITE(IOUT,1100)
               WRITE(ISTDO,1150)
@@ -662,7 +662,7 @@ C
 
         CASE(4)
               WRITE(ISTDO,1400)
-              IF (ISPMD==0) THEN     
+              IF (ISPMD==0) THEN
               ENDIF
               CALL SPMD_KILL(2)
               CALL MY_EXIT(2)
@@ -679,7 +679,7 @@ C
               CALL SPMD_KILL(3)
         CASE (7)                                     ! Exiting only - errors before MPP_INIT
              CALL MY_EXIT(2)
-      END SELECT 
+      END SELECT
 
 C
  1000 FORMAT(///'     NORMAL TERMINATION      ')

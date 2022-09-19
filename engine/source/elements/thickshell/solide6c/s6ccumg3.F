@@ -35,9 +35,9 @@ Chd|====================================================================
      .   K11,K12,K13,K14,K15,K16,K22,K23,
      .   K24,K25,K26,K33,K34,K35,K36,K44,
      .   K45,K46,K55,K56,K66,
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6) 
+     .   X1, X2, X3, X4, X5, X6,
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
+     .   Z1, Z2, Z3, Z4, Z5, Z6)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -58,11 +58,11 @@ C     REAL
      .   K16(9,*)   ,K22(9,*)   ,K23(9,*)   ,K24(9,*)   ,K25(9,*)   ,
      .   K26(9,*)   ,K33(9,*)   ,K34(9,*)   ,K35(9,*)   ,K36(9,*)    ,
      .   K44(9,*)   ,K45(9,*)   ,K46(9,*)  ,K55(9,*)   ,K56(9,*)    ,
-     .   K66(9,*)  
+     .   K66(9,*)
       my_real
-     .   X1(*), X2(*), X3(*), X4(*),X5(*), X6(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*),Y5(*), Y6(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*),Z5(*), Z6(*) 
+     .   X1(*), X2(*), X3(*), X4(*),X5(*), X6(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*),Y5(*), Y6(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*),Z5(*), Z6(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -160,7 +160,7 @@ C
        CALL SET_RI33(X5 ,Y5, Z5  ,R5  ,LFT,LLT)
        CALL SET_RI33(X6 ,Y6, Z6  ,R6  ,LFT,LLT)
        CALL SETPROJKS6(DR    ,R1     ,R2     ,R3     ,R4    ,
-     1                 R5    ,R6     ,  
+     1                 R5    ,R6     ,
      2                 K11,K12,K13,K14,K15,K16,K22,K23,
      3                 K24,K25,K26,K33,K34,K35,K36,K44,
      4                 K45,K46,K55,K56,K66,
@@ -181,28 +181,28 @@ C----------no projection  ---------
       ENDDO
       ISYM=1
 C------------QKQ^t
-       CALL SYSTRAN3(LFT,LLT,Q,K11,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K22,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K33,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K44,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K55,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K66,ISYM) 
+       CALL SYSTRAN3(LFT,LLT,Q,K11,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K22,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K33,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K44,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K55,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K66,ISYM)
       ISYM=0
-       CALL SYSTRAN3(LFT,LLT,Q,K12,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K13,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K14,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K15,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K16,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K23,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K24,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K25,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K26,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K34,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K35,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K36,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K45,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K46,ISYM) 
-       CALL SYSTRAN3(LFT,LLT,Q,K56,ISYM) 
+       CALL SYSTRAN3(LFT,LLT,Q,K12,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K13,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K14,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K15,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K16,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K23,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K24,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K25,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K26,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K34,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K35,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K36,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K45,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K46,ISYM)
+       CALL SYSTRAN3(LFT,LLT,Q,K56,ISYM)
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       RETURN
       END
@@ -217,11 +217,11 @@ Chd|        TRANRIDRRJ33                  source/elements/thickshell/solide6c/s6
 Chd|====================================================================
       SUBROUTINE SETPROJKS6(
      1                 DR    ,R1     ,R2     ,R3     ,R4    ,
-     1                 R5    ,R6     ,  
+     1                 R5    ,R6     ,
      2                 K11,K12,K13,K14,K15,K16,K22,K23,
      3                 K24,K25,K26,K33,K34,K35,K36,K44,
      4                 K45,K46,K55,K56,K66,
-     5                 VQ ,JFT ,JLT  ) 
+     5                 VQ ,JFT ,JLT  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -242,7 +242,7 @@ C     REAL
      .   K16(3,3,*),K22(3,3,*),K23(3,3,*),K24(3,3,*)  ,K25(3,3,*) ,
      .   K26(3,3,*),K33(3,3,*),K34(3,3,*),K35(3,3,*)  ,K36(3,3,*) ,
      .   K44(3,3,*),K45(3,3,*),K46(3,3,*),K55(3,3,*)  ,K56(3,3,*) ,
-     .   K66(3,3,*)  
+     .   K66(3,3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -262,16 +262,16 @@ C-----------P11=Pr11Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R1 ,KL  ,IS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
        SHI=0
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I,J,EP)= K11(I,J,EP)
          ENDDO
         ENDDO
@@ -280,16 +280,16 @@ C-----------P22=Pr22Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R2  ,DR , R2 ,KL  ,IS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
        SHI=SHI+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+SHI,J+SHI,EP)= K22(I,J,EP)
          ENDDO
         ENDDO
@@ -298,16 +298,16 @@ C-----------P33=Pr33Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R3  ,DR , R3 ,KL  ,IS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
        SHI=SHI+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+SHI,J+SHI,EP)= K33(I,J,EP)
          ENDDO
         ENDDO
@@ -316,16 +316,16 @@ C-----------P44=Pr44Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R4  ,DR , R4 ,KL  ,IS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
        SHI=SHI+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+SHI,J+SHI,EP)= K44(I,J,EP)
          ENDDO
         ENDDO
@@ -334,16 +334,16 @@ C-----------P55=Pr55Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R5  ,DR , R5 ,KL  ,IS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
        SHI=SHI+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+SHI,J+SHI,EP)= K55(I,J,EP)
          ENDDO
         ENDDO
@@ -353,16 +353,16 @@ C-----------P66=Pr66Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IS ,IT)
        SHI=SHI+3
        if (SHI/=15) print *,'error,SHI=',SHI
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KE(I+SHI,J+SHI,EP)= K66(I,J,EP)
          ENDDO
         ENDDO
@@ -371,9 +371,9 @@ C-----------P12=Pr12Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R2 ,KL  ,IAS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHJ=3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I,J+SHJ,EP)= KQ(I,J,EP)
           KE(I,J+SHJ,EP)= K12(I,J,EP)
          ENDDO
@@ -381,9 +381,9 @@ C-----------P12=Pr12Q
         ENDDO
 C-----------P21=Pr21Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -392,9 +392,9 @@ C-----------P13=Q1Pr13Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R3 ,KL  ,IAS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I,J+SHJ,EP)= KQ(I,J,EP)
           KE(I,J+SHJ,EP)= K13(I,J,EP)
          ENDDO
@@ -402,9 +402,9 @@ C-----------P13=Q1Pr13Q
         ENDDO
 C-----------P31=Pr31Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -413,9 +413,9 @@ C-----------P14=Pr14Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R4 ,KL  ,IAS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I,J+SHJ,EP)= KQ(I,J,EP)
           KE(I,J+SHJ,EP)= K14(I,J,EP)
          ENDDO
@@ -423,9 +423,9 @@ C-----------P14=Pr14Q
         ENDDO
 C-----------P41=P41Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -434,9 +434,9 @@ C-----------P15=Pr15Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R5 ,KL  ,IAS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I,J+SHJ,EP)= KQ(I,J,EP)
           KE(I,J+SHJ,EP)= K15(I,J,EP)
          ENDDO
@@ -444,9 +444,9 @@ C-----------P15=Pr15Q
         ENDDO
 C-----------P51=P51Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -455,9 +455,9 @@ C-----------P16=Pr16Q
        CALL TRANRIDRRJ33(JFT   ,JLT    ,R1  ,DR , R6 ,KL  ,IAS   )
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I,J+SHJ,EP)= KQ(I,J,EP)
           KE(I,J+SHJ,EP)= K16(I,J,EP)
          ENDDO
@@ -465,9 +465,9 @@ C-----------P16=Pr16Q
         ENDDO
 C-----------P61=P61Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -477,9 +477,9 @@ C-----------P23=Pr23Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3
        SHJ=3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K23(I,J,EP)
          ENDDO
@@ -487,9 +487,9 @@ C-----------P23=Pr23Q
         ENDDO
 C-----------P32=Pr32Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -499,9 +499,9 @@ C-----------P24=Pr24Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3
        SHJ=3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K24(I,J,EP)
          ENDDO
@@ -509,9 +509,9 @@ C-----------P24=Pr24Q
         ENDDO
 C-----------P42=Pr42Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -521,9 +521,9 @@ C-----------P25=Pr25Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K25(I,J,EP)
          ENDDO
@@ -531,9 +531,9 @@ C-----------P25=Pr25Q
         ENDDO
 C-----------P52=Pr52Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -543,9 +543,9 @@ C-----------P26=Pr26Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K26(I,J,EP)
          ENDDO
@@ -553,9 +553,9 @@ C-----------P26=Pr26Q
         ENDDO
 C-----------P62=Pr62Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -565,9 +565,9 @@ C-----------P34=Pr34Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3+3
        SHJ=3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K34(I,J,EP)
          ENDDO
@@ -575,9 +575,9 @@ C-----------P34=Pr34Q
         ENDDO
 C-----------P43=Pr43Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -587,9 +587,9 @@ C-----------P35=Pr35Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3+3
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K35(I,J,EP)
          ENDDO
@@ -597,9 +597,9 @@ C-----------P35=Pr35Q
         ENDDO
 C-----------P53=Pr53Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -609,9 +609,9 @@ C-----------P36=Pr36Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3+3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K36(I,J,EP)
          ENDDO
@@ -619,9 +619,9 @@ C-----------P36=Pr36Q
         ENDDO
 C-----------P63=Pr63Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -631,9 +631,9 @@ C-----------P45=Pr45Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3+3+3
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K45(I,J,EP)
          ENDDO
@@ -641,9 +641,9 @@ C-----------P45=Pr45Q
         ENDDO
 C-----------P54=Pr54Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -653,9 +653,9 @@ C-----------P46=Pr46Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3+3+3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K46(I,J,EP)
          ENDDO
@@ -663,9 +663,9 @@ C-----------P46=Pr46Q
         ENDDO
 C-----------P64=Pr64Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
@@ -675,9 +675,9 @@ C-----------P56=Pr56Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IT)
        SHI=3+3+3+3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHI,J+SHJ,EP)= KQ(I,J,EP)
           KE(I+SHI,J+SHJ,EP)= K56(I,J,EP)
          ENDDO
@@ -685,30 +685,30 @@ C-----------P56=Pr56Q
         ENDDO
 C-----------P65=Pr65Q
        CALL TRANPVQ33(JFT   ,JLT    ,KL ,KQ ,VQ ,IAS ,IAT)
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           P(I+SHJ,J+SHI,EP)= KQ(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------
-        DO I=1,18 
-        DO J=I+1,18 
-         DO EP=JFT,JLT 
+        DO I=1,18
+        DO J=I+1,18
+         DO EP=JFT,JLT
           KE(J,I,EP)= KE(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
 C-----------
-        CALL TRANQIKQJ(JFT   ,JLT    ,P  ,KE,P ,18 ,IS ) 
+        CALL TRANQIKQJ(JFT   ,JLT    ,P  ,KE,P ,18 ,IS )
 C-----------after projection----
        SHI=0
        SHJ=0
 C-----------K11
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K11(I,J,EP) =KE(I,J,EP)
           K11(J,I,EP) =KE(I,J,EP)
          ENDDO
@@ -717,9 +717,9 @@ C-----------K11
 C-----------K22
        SHI=SHI+3
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K22(I,J,EP) = KE(I+SHI,J+SHJ,EP)
           K22(J,I,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
@@ -728,9 +728,9 @@ C-----------K22
 C-----------K33
        SHI=SHI+3
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K33(I,J,EP) = KE(I+SHI,J+SHJ,EP)
           K33(J,I,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
@@ -739,9 +739,9 @@ C-----------K33
 C-----------K44
        SHI=SHI+3
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K44(I,J,EP) = KE(I+SHI,J+SHJ,EP)
           K44(J,I,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
@@ -750,9 +750,9 @@ C-----------K44
 C-----------K55
        SHI=SHI+3
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K55(I,J,EP) = KE(I+SHI,J+SHJ,EP)
           K55(J,I,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
@@ -761,9 +761,9 @@ C-----------K55
 C-----------K66
        SHI=SHI+3
        SHJ=SHJ+3
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K66(I,J,EP) = KE(I+SHI,J+SHJ,EP)
           K66(J,I,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
@@ -772,9 +772,9 @@ C-----------K66
 C-----------K12
        SHI=0
        SHJ=3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K12(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -782,9 +782,9 @@ C-----------K12
 C-----------K13
        SHI=0
        SHJ=3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K13(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -792,9 +792,9 @@ C-----------K13
 C-----------K14
        SHI=0
        SHJ=3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K14(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -802,9 +802,9 @@ C-----------K14
 C-----------K15
        SHI=0
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K15(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -812,9 +812,9 @@ C-----------K15
 C-----------K16
        SHI=0
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K16(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -822,9 +822,9 @@ C-----------K16
 C-----------K23
        SHI=3
        SHJ=3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K23(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -832,9 +832,9 @@ C-----------K23
 C-----------K24
        SHI=3
        SHJ=3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K24(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -842,9 +842,9 @@ C-----------K24
 C-----------K25
        SHI=3
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K25(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -852,9 +852,9 @@ C-----------K25
 C-----------K26
        SHI=3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K26(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -862,9 +862,9 @@ C-----------K26
 C-----------K34
        SHI=3+3
        SHJ=3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K34(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -872,9 +872,9 @@ C-----------K34
 C-----------K35
        SHI=3+3
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K35(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -882,9 +882,9 @@ C-----------K35
 C-----------K36
        SHI=3+3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K36(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -892,9 +892,9 @@ C-----------K36
 C-----------K45
        SHI=3+3+3
        SHJ=3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K45(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -902,9 +902,9 @@ C-----------K45
 C-----------K46
        SHI=3+3+3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K46(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO
@@ -912,9 +912,9 @@ C-----------K46
 C-----------K56
        SHI=3+3+3+3
        SHJ=3+3+3+3+3
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K56(I,J,EP) = KE(I+SHI,J+SHJ,EP)
          ENDDO
         ENDDO

@@ -82,7 +82,7 @@ c
            NBDAMA = NBDAMA + 1
            DAMAI(NBDAMA)=I
          ELSE
-           NBDAMA0 = NBDAMA0 + 1 
+           NBDAMA0 = NBDAMA0 + 1
            DAMA0I(NBDAMA0)=I
          ENDIF
       ENDDO
@@ -138,7 +138,7 @@ c
         DE3(I)  = ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
         SCAL1(I)= HALF + SIGN(HALF,DE1(I)-ONE)
         SCAL2(I)= HALF + SIGN(HALF,DE2(I)-ONE)
-        SCAL3(I)= HALF + SIGN(HALF,DE3(I)-ONE)    
+        SCAL3(I)= HALF + SIGN(HALF,DE3(I)-ONE)
         DE4(I)  = SCAL1(I)*SCAL2(I)
         DE5(I)  = SCAL2(I)*SCAL3(I)
         DE6(I)  = SCAL3(I)*SCAL1(I)
@@ -170,7 +170,7 @@ c
      .         + CDAM(I,2,3)*CRAK(I,3)
         S03(I) = CDAM(I,3,1)*CRAK(I,1) + CDAM(I,3,2)*CRAK(I,2)
      .         + CDAM(I,3,3)*CRAK(I,3)
-c       formulation incrementale en cisaillement 
+c       formulation incrementale en cisaillement
         S04(I) = DE4(I)*SIGC(I,4) + C44(I)*DEPS4(I)
         S05(I) = DE5(I)*SIGC(I,5) + C55(I)*DEPS5(I)
         S06(I) = DE6(I)*SIGC(I,6) + C66(I)*DEPS6(I)
@@ -211,12 +211,12 @@ c--------------------
         SCAL1(I)  = ONE
         SCAL2(I)  = ONE
         SCAL3(I)  = ONE
-        DE4(I) = ONE   
-        DE5(I) = ONE   
-        DE6(I) = ONE   
-        DE1(I) = ONE   
-        DE2(I) = ONE   
-        DE3(I) = ONE   
+        DE4(I) = ONE
+        DE5(I) = ONE
+        DE6(I) = ONE
+        DE1(I) = ONE
+        DE2(I) = ONE
+        DE3(I) = ONE
       ENDDO
 c-----------
       RETURN

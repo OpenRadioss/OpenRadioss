@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------------------------
 #include      "implicit_f.inc"
 #include      "comlock.inc"
-#include      "my_real.inc" 
+#include      "my_real.inc"
 #include      "r4r8_p.inc"
 C-----------------------------------------------------------------
 C   M e s s a g e   P a s s i n g
@@ -171,14 +171,14 @@ C nthread1 : nombre de threads fixe par la variable environnement sur le MIC
             NTHREAD=NTHREAD1
             WRITE(ISTDO,'(A,I4,A,I4)')
      .        '** WARNING: RESET OMP_NUM_THREADS TO:',
-     .        NTHREAD,' FOR MPI PROCESS',ISPMD+1 
+     .        NTHREAD,' FOR MPI PROCESS',ISPMD+1
           ENDIF
 #endif
-cccc               
+cccc
 C control of nthread per MPI process
           CALL MPI_GATHER(NTHREAD,1,MPI_INTEGER,NBTASK,1,MPI_INTEGER,
-     .                    IT_SPMD(1),MPI_COMM_WORLD,IERROR)            
-           
+     .                    IT_SPMD(1),MPI_COMM_WORLD,IERROR)
+
             END IF
       ELSE IF(ICAS==3) THEN
         IF(ISPMD == 0) THEN
@@ -224,10 +224,10 @@ C
               CALL MPI_BCAST(INPUT,100,MPI_CHARACTER,IT_SPMD(1),
      .                       MPI_COMM_WORLD,IERROR)
             ENDIF
-            
+
 C control of nthread per MPI process
             CALL MPI_GATHER(NTHREAD,1,MPI_INTEGER,NBTASK,1,MPI_INTEGER,
-     .                      IT_SPMD(1),MPI_COMM_WORLD,IERROR)            
+     .                      IT_SPMD(1),MPI_COMM_WORLD,IERROR)
             IF(ISPMD==0)THEN
               NBTASK(NSPMD+1)=0
               DO I=1,NSPMD
@@ -294,7 +294,7 @@ C tri bulle basic
           ENDDO
 C         preparing MPI buffer 
 C         Local rank in the node
-          BUFFER(1:NSPMD) = L_SPMD(1:NSPMD) 
+          BUFFER(1:NSPMD) = L_SPMD(1:NSPMD)
 C         host numbers
           BUFFER(NSPMD+1:2*NSPMD) = HOST_NUMBERS(1:NSPMD)
         ENDIF
@@ -302,16 +302,16 @@ C         host numbers
         CALL MPI_BCAST(BUFFER,NSPMDx2,MPI_INTEGER,IT_SPMD(1),
      .                 MPI_COMM_WORLD,IERROR)
 
-        L_SPMD(1:NSPMD) = BUFFER(1:NSPMD)         
+        L_SPMD(1:NSPMD) = BUFFER(1:NSPMD)
         HOST_NUMBERS(1:NSPMD) = BUFFER(NSPMD+1:2*NSPMD)
-    
-        NSPMD_PER_NODE=0 
+
+        NSPMD_PER_NODE=0
 C       Count the number of SPMD on the local host
         DO I = 1,NSPMD
           IF(HOST_NUMBERS(I) == HOST_NUMBERS(ISPMD+1)) THEN
-            NSPMD_PER_NODE = NSPMD_PER_NODE + 1 
+            NSPMD_PER_NODE = NSPMD_PER_NODE + 1
           ENDIF
-        END DO  
+        END DO
 
 
       ELSE IF(ICAS==2) THEN

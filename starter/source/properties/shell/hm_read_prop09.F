@@ -42,7 +42,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -73,8 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER
      .        IGTYP , IGEO(*),ISKN(LISKN,*), IG
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real GEO(*),RTRANS(NTRANSF,*)
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .   PID1,IPID1, IHGFLU, IHBE_OLD,NSTACK,IGMAT,NN,NUMS
       INTEGER FLAG_FMT,FLAG_FMT_TMP
       INTEGER ISH3N,ISROT,SUB_ID,IRP,IDSK,ISK,IUN
-     
+
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    PTHK, AN, PHI
@@ -188,11 +188,11 @@ C fixing flag and removed from input
      .                  I1=IG,
      .                  C1=IDTITL)
             IHBE=24
-          ENDIF         
+          ENDIF
           IF(ISH3N==0) ISH3N = ISH3N_D
           IGEO(18) = ISH3N
           IF (GEO(16) == ZERO) IGEO(31) = 1
-          
+
           IF (IHBE==24) THEN
             IF (CVIS==ZERO) CVIS=ONE
             IF (GEO(17)==ZERO) GEO(17)=ZEP015
@@ -203,7 +203,7 @@ C              IF (IGTYP==1.OR.IGTYP==9) GEO(16,I)=ZEP015
           ENDIF
 C---
           IF(ISMSTR==0)ISMSTR=ISST_D
-          IF (ISST_D == -2) ISMSTR = -1      
+          IF (ISST_D == -2) ISMSTR = -1
           IF(IHBE==3)THEN
             IF(GEO(13)==ZERO)GEO(13)=EM01
             IF(GEO(14)==ZERO)GEO(14)=EM01
@@ -269,7 +269,7 @@ C----------------------
       IF (GEO(38) == ZERO)GEO(38)=FIVE_OVER_6
       IF (NIP == -1)NIP=NPTS_D
       IF (NIP == 0) NIP = 1
-      IF (NIP == 1) GEO(38)= ZERO 
+      IF (NIP == 1) GEO(38)= ZERO
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN < EM10)THEN
         VX=ONE
@@ -354,18 +354,18 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
      &    5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      &    5X,'CONFIDENTIAL DATA'//)
        ELSE
-        IF (IHBE>11.AND.IHBE<29) THEN                       
-         WRITE(IOUT,1011)IG,NIP,ISTRAIN,GEO(1),ISS,IHBE,          
-     .               ISH3N,IGEO(20) , 
-     .               GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,  
-     .               GEO(7),GEO(8),GEO(9),GEO(10),IDSK,IGEO(14)                 
-        ELSE                                                      
-          WRITE(IOUT,1010)IG,NIP,ISTRAIN,GEO(1),ISS,IHBE,         
-     .               ISH3N,  
-     .               GEO(13),GEO(14),GEO(15),GEO(16),             
-     .               GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,                  
-     .               GEO(7),GEO(8),GEO(9),GEO(10),IDSK,IGEO(14)                 
-        ENDIF                                                     
+        IF (IHBE>11.AND.IHBE<29) THEN
+         WRITE(IOUT,1011)IG,NIP,ISTRAIN,GEO(1),ISS,IHBE,
+     .               ISH3N,IGEO(20) ,
+     .               GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,
+     .               GEO(7),GEO(8),GEO(9),GEO(10),IDSK,IGEO(14)
+        ELSE
+          WRITE(IOUT,1010)IG,NIP,ISTRAIN,GEO(1),ISS,IHBE,
+     .               ISH3N,
+     .               GEO(13),GEO(14),GEO(15),GEO(16),
+     .               GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,
+     .               GEO(7),GEO(8),GEO(9),GEO(10),IDSK,IGEO(14)
+        ENDIF
        ENDIF
 C                
       IF (NIP>10) THEN
@@ -386,7 +386,7 @@ C-----------------------------
 C       IHBE IPLA ISTRAIN - shells
 C-----------------------------
 
-     
+
           IHBE=NINT(GEO(171))
           IF(IHBE==0)THEN
             GEO(171)=0
@@ -430,7 +430,7 @@ C
           PROP_TAG(IGTYP)%LY_GAMA = 6
           PROP_TAG(IGTYP)%LY_DIRA = 2
 C
-          PROP_TAG(IGTYP)%LY_PLAPT = 1      
+          PROP_TAG(IGTYP)%LY_PLAPT = 1
           PROP_TAG(IGTYP)%LY_SIGPT = 5
           PROP_TAG(IGTYP)%G_FORPG  = 5
           PROP_TAG(IGTYP)%G_MOMPG  = 3
@@ -477,7 +477,7 @@ C-----------
      & 5X,'X COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'Y COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'Z COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
-     & 5X,'ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . . .=',1PG20.13/,  
+     & 5X,'ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . . .=',1PG20.13/,
      & 5X,'SKEW OF THE FIRST ORTHOTROPY DIRECTION.=',I10/,
      & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/)
  1011 FORMAT(
@@ -500,7 +500,7 @@ C-----------
      & 5X,'X COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'Y COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
      & 5X,'Z COMPONENT OF DIR 1 OF ORTHOTROPY. . .=',1PG20.13/,
-     & 5X,'ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . . .=',1PG20.13/, 
+     & 5X,'ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . . .=',1PG20.13/,
      & 5X,'SKEW OF THE FIRST ORTHOTROPY DIRECTION.=',I10/,
      & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/)
 C-----------

@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE M75INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
      2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ,
-     3      PM     , IPM    ,ID       ,TITR) 
+     3      PM     , IPM    ,ID       ,TITR)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -149,7 +149,7 @@ C-----------
       UPARAM(15)=(PS-PE)/(ALPHAP-ONE)**(ONE/EN)
       UPARAM(16)=(ALPHAP-ONE)/(PS-PE)**EN
 C
-      DO I=1,NEL                    
+      DO I=1,NEL
         UVAR(I,1)=ZERO
         UVAR(I,2)=ZERO
         UVAR(I,3)=ALPHAE

@@ -74,7 +74,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(INOUT)          :: IFUNC(MAXFUNC), NFUNC, MAXFUNC
       INTEGER, INTENT(INOUT)          :: MAXUPARAM,
      .                                   NUPARAM,NUVAR
@@ -107,7 +107,7 @@ Card1
       CALL HM_GET_FLOATV('MAT_Fscale_x'   ,FSCALEX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF(FSCALEX == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_Fscale_x'  ,FSCALEX_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          FSCALEX = FSCALEX_UNIT  
+          FSCALEX = FSCALEX_UNIT
       ENDIF
       CALL HM_GET_FLOATV('MAT_E_ELAS_N'   ,E_ELAS_N     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_E_ELAS_S'   ,E_ELAS_S     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -151,20 +151,20 @@ C-------------------------------------------
 
       DISP_0N = TMAX_N/E_ELAS_N
       DISP_0S = TMAX_S/E_ELAS_S
-      UPARAM(1)  = E_ELAS_N 
-      UPARAM(2)  = E_ELAS_S 
+      UPARAM(1)  = E_ELAS_N
+      UPARAM(2)  = E_ELAS_S
       UPARAM(3)  = GAMA
       UPARAM(4)  = TMAX_N
-      UPARAM(5)  = TMAX_S  
-      UPARAM(6)  = IRUPT  
-      UPARAM(7)  = GIC  
+      UPARAM(5)  = TMAX_S
+      UPARAM(6)  = IRUPT
+      UPARAM(7)  = GIC
       UPARAM(8)  = GIIC
-      UPARAM(9)  = IDEL  
+      UPARAM(9)  = IDEL
       UPARAM(10) = EXP_G
-      UPARAM(11) = EXP_BK  
+      UPARAM(11) = EXP_BK
       UPARAM(12) = IMASS
-      UPARAM(13) = DELTA0N        !         DISP puremode 
-      UPARAM(14) = DELTA0S        !         DISP puremode 
+      UPARAM(13) = DELTA0N        !         DISP puremode
+      UPARAM(14) = DELTA0S        !         DISP puremode
       UPARAM(15) = UND! ultimate displacement in normal direction (UND)
       UPARAM(16) = UTD! ultimate displacement in tangential direction (UTD)
       UPARAM(17) = FSCALEX
@@ -175,7 +175,7 @@ C-------------------------------------------
 C----------------
       PARMAT(1)  = MAX(E_ELAS_N,E_ELAS_S) / THREE
       PARMAT(2)  = MAX(E_ELAS_N,E_ELAS_S)
-      PARMAT(17) = ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
+      PARMAT(17) = ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0
 c
       MTAG%L_EPE  = 3
       MTAG%L_DMG  = 1
@@ -186,7 +186,7 @@ c-------------------
       WRITE(IOUT,1000)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE                                                     
+      ELSE
         WRITE(IOUT,1200) RHO0,E_ELAS_N,E_ELAS_S,TMAX_N,TMAX_S,
      .                   IFUNC(1),IFUNC(2),FSCALEX,
      .                   IRUPT,GIC,GIIC,EXP_G,EXP_BK,GAMA
@@ -196,7 +196,7 @@ c-----------
 C-------------------------------------------
  1000 FORMAT(
      & 10X,' MIXED MODE COHESIVE LAW 117  ',/,
-     & 10X,' ---------------------------  ',/)   
+     & 10X,' ---------------------------  ',/)
  1100 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . .=',I10/,

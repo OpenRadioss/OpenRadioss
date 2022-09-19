@@ -94,7 +94,7 @@ C
                DEALLOCATE(ITAGT)
             ELSE
                ITAG=MSGOFF
-               CALL MPI_RECV(NPOLH_ANIM, 1, MPI_INTEGER, 
+               CALL MPI_RECV(NPOLH_ANIM, 1, MPI_INTEGER,
      .                       IT_SPMD(PMAIN), ITAG, MPI_COMM_WORLD,
      .                       STAT, IERR)
 C
@@ -118,7 +118,7 @@ C
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
      .                       IERR)
 C
-               ALLOCATE(IBUF(FVDATA(I)%NPOLH_ANIM), 
+               ALLOCATE(IBUF(FVDATA(I)%NPOLH_ANIM),
      .                       ITAGT(FVDATA(I)%NNTR))
                IAD=0
 C
@@ -146,7 +146,7 @@ C
      .                       IT_SPMD(1), ITAG, MPI_COMM_WORLD,
      .                        IERR)
 C
-               DEALLOCATE(IBUF, ITAGT)                              
+               DEALLOCATE(IBUF, ITAGT)
             ENDIF
          ENDIF
       ENDDO

@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SPMD_SPHVOX                   source/mpi/sph/spmd_sphvox.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_IALLGATHER(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
+        SUBROUTINE SPMD_IALLGATHER(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE,
      .                              REQUEST,COMM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -62,9 +62,9 @@ C-----------------------------------------------
 
 !       ------------------------------------------
 !       processor P(1-->n) :
-!       send buffer 
+!       send buffer
 !                   |  s(m)   |
-!       size =           N      
+!       size =           N
 !
 !       For all processor :
 !       rcv buffer

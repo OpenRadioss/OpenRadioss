@@ -100,7 +100,7 @@ C--------------------------------------------------
         IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
         NUM = NUM + NN
 C--------------------------------------------------
-      ENDDO  
+      ENDDO
 C-----------
       RETURN
       END SUBROUTINE HM_PREREAD_IMPACC

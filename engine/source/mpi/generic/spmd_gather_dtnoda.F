@@ -60,24 +60,24 @@ C-----------------------------------------------
        my_real, DIMENSION(:) , ALLOCATABLE :: BUFSR
 C
 C=======================================================================
-       ALLOCATE (BUFSR(3*NUM))     
+       ALLOCATE (BUFSR(3*NUM))
 C  
-       IF (ISPMD/=0) THEN     
+       IF (ISPMD/=0) THEN
          SIZ = 0
          DO I=1,NUMNOD
            IF (TAGN(I) > 0) THEN
              SIZ = SIZ + 3
              BUFSR(SIZ-2) = MS(I)/STIFN(I)
-             BUFSR(SIZ-1) = STIFN(I) 
-             BUFSR(SIZ  ) = MS(I)  
+             BUFSR(SIZ-1) = STIFN(I)
+             BUFSR(SIZ  ) = MS(I)
            END IF
-         END DO 
+         END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MS_LTYP = MS_LOFF 
+         MS_LTYP = MS_LOFF
          CALL MPI_SEND(BUFSR,SIZ,REAL,IT_SPMD(1),MS_LTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -85,31 +85,31 @@ C   de noeuds au max
           ID_G = 0
           DO I=1,NUMNOD
            IF (TAGN(I) > 0) THEN
-              ID_G = ID_G + 1 
-              DT2_L(ID_G) = MS(I)/STIFN(I) 
-              STF_L(ID_G) = STIFN(I) 
-              MS_L(ID_G) = MS(I) 
+              ID_G = ID_G + 1
+              DT2_L(ID_G) = MS(I)/STIFN(I)
+              STF_L(ID_G) = STIFN(I)
+              MS_L(ID_G) = MS(I)
             ENDIF
           ENDDO
 
           DO I=2,NSPMD
 C-------------
-            MS_LTYP = MS_LOFF 
+            MS_LTYP = MS_LOFF
             CALL MPI_PROBE(IT_SPMD(I),MS_LTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
-	    CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror) 
+	    CALL MPI_GET_COUNT(STATUS,REAL,SIZ,ierror)
 
 C------------ Reception du buffer flottant
 
             CALL MPI_RECV(BUFSR,SIZ,REAL,IT_SPMD(I),MS_LTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-     
+
             NREC = SIZ
             DO K = 1,NREC,3
               ID_G = ID_G + 1
               DT2_L(ID_G) = BUFSR(K)
               STF_L(ID_G) = BUFSR(K+1)
-              MS_L(ID_G) = BUFSR(K+2) 
+              MS_L(ID_G) = BUFSR(K+2)
             ENDDO
 C
           ENDDO

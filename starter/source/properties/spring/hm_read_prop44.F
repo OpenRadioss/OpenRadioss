@@ -44,7 +44,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
 C----------+---------+---+---+--------------------------------------------
 C  Crushable frame spring property (old uer type spring)
 C----------+---------+---+---+--------------------------------------------
@@ -77,10 +77,10 @@ C-----------------------------------------------
 C----------+---------+---+---+--------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,IG,NUVAR,IGEO(NPROPGI),ISKN(LISKN,*),
      .        IGTYP,SUB_ID,IUNIT
-      my_real   
+      my_real
      .        PARGEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
       CHARACTER*nchartitle,
@@ -98,7 +98,7 @@ C-----------------------------------------------
      .        IFUN_ZZ1MR,IFUN_ZZ2PR,IFUN_ZZ2MR,ICO,K,
      .        IFUN_DAMP_X,IFUN_DAMP_Y,IFUN_DAMP_Z,IFUN_DAMP_XX,
      .        IFUN_DAMP_YY,IFUN_DAMP_ZZ,NC_FILTER,IDAMP
-      my_real 
+      my_real
      .        FSCAL_X,FSCAL_RX,FSCAL_RY1,FSCAL_RY2 ,FSCAL_RZ1,FSCAL_RZ2,
      .        AMAS,INER,XK,XCO,K11,K44,K55,K66,K5B,K6C,
      .        XLIMG,XLIM,XXLIM,YY1LIM,YY2LIM,ZZ1LIM,ZZ2LIM,
@@ -137,21 +137,21 @@ C
       IFUN_DAMP_X = 0
       IFUN_DAMP_Y = 0
       IFUN_DAMP_Z = 0
-      IFUN_DAMP_XX = 0 
-      IFUN_DAMP_YY = 0 
-      IFUN_DAMP_ZZ = 0 
-      FSCAL_DAMP_X = 0 
-      FSCAL_DAMP_Y = 0 
-      FSCAL_DAMP_Z = 0 
-      FSCAL_DAMP_XX = ZERO 
-      FSCAL_DAMP_YY = ZERO 
-      FSCAL_DAMP_ZZ = ZERO 
+      IFUN_DAMP_XX = 0
+      IFUN_DAMP_YY = 0
+      IFUN_DAMP_ZZ = 0
+      FSCAL_DAMP_X = 0
+      FSCAL_DAMP_Y = 0
+      FSCAL_DAMP_Z = 0
+      FSCAL_DAMP_XX = ZERO
+      FSCAL_DAMP_YY = ZERO
+      FSCAL_DAMP_ZZ = ZERO
       F_X  = ZERO
-      F_Y  = ZERO 
-      F_Z  = ZERO 
-      F_XX = ZERO 
-      F_YY = ZERO 
-      F_ZZ = ZERO 
+      F_Y  = ZERO
+      F_Z  = ZERO
+      F_XX = ZERO
+      F_YY = ZERO
+      F_ZZ = ZERO
 C
 Card1   
 C--------------------------------------------------
@@ -196,8 +196,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('FScale11',FSCAL_X,IS_AVAILABLE,LSUBMODEL,UNITAB)            
-        CALL HM_GET_FLOATV_DIM('FScale11',FSCAL_X_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)            
+        CALL HM_GET_FLOATV('FScale11',FSCAL_X,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('FScale11',FSCAL_X_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card5   rot_x (torsion)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -209,8 +209,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('FScale22',FSCAL_RX,IS_AVAILABLE,LSUBMODEL,UNITAB)             
-        CALL HM_GET_FLOATV_DIM('FScale22',FSCAL_RX_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)             
+        CALL HM_GET_FLOATV('FScale22',FSCAL_RX,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('FScale22',FSCAL_RX_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card6   rot_y1  (flexion, torsion)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -222,8 +222,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('FScale33',FSCAL_RY1,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-        CALL HM_GET_FLOATV_DIM('FScale33',FSCAL_RY1_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)   
+        CALL HM_GET_FLOATV('FScale33',FSCAL_RY1,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('FScale33',FSCAL_RY1_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card7   rot_z1  (flexion, torsion)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -235,8 +235,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('FScale12',FSCAL_RZ1,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-        CALL HM_GET_FLOATV_DIM('FScale12',FSCAL_RZ1_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+        CALL HM_GET_FLOATV('FScale12',FSCAL_RZ1,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('FScale12',FSCAL_RZ1_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card8   rot_y2  (flexion, torsion)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -248,8 +248,8 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('FScale23',FSCAL_RY2,IS_AVAILABLE,LSUBMODEL,UNITAB)         
-        CALL HM_GET_FLOATV_DIM('FScale23',FSCAL_RY2_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)         
+        CALL HM_GET_FLOATV('FScale23',FSCAL_RY2,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('FScale23',FSCAL_RY2_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card9   rot_z2  (flexion, torsion)
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -261,23 +261,23 @@ C--------------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('FScale13',FSCAL_RZ2,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-        CALL HM_GET_FLOATV_DIM('FScale13',FSCAL_RZ2_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)   
+        CALL HM_GET_FLOATV('FScale13',FSCAL_RZ2,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('FScale13',FSCAL_RZ2_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card10
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('STRAIN1',XLIMG,IS_AVAILABLE,LSUBMODEL,UNITAB)      
-        CALL HM_GET_FLOATV('STRAIN2',XLIM,IS_AVAILABLE,LSUBMODEL,UNITAB)      
-        CALL HM_GET_FLOATV('STRAIN3',XXLIM,IS_AVAILABLE,LSUBMODEL,UNITAB)      
+        CALL HM_GET_FLOATV('STRAIN1',XLIMG,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('STRAIN2',XLIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('STRAIN3',XXLIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card11
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-        CALL HM_GET_FLOATV('STRAIN4',YY1LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-        CALL HM_GET_FLOATV('STRAIN5',ZZ1LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-        CALL HM_GET_FLOATV('STRAIN6',YY2LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-        CALL HM_GET_FLOATV('STRAIN7',ZZ2LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+        CALL HM_GET_FLOATV('STRAIN4',YY1LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('STRAIN5',ZZ1LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('STRAIN6',YY2LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('STRAIN7',ZZ2LIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
 !-----------------------------------------------------------------------
       IF (IDAMP > 0) THEN
 Card12
@@ -362,14 +362,14 @@ C--------------------------------------------------
       IF (FSCAL_RZ1 == ZERO) FSCAL_RZ1 = ONE * FSCAL_RZ1_DIM
       IF (FSCAL_RZ2 == ZERO) FSCAL_RZ2 = ONE * FSCAL_RZ2_DIM
 !
-      IF(INER < EM20) THEN                   
-         INER = EM20 * INER_DIM                        
+      IF(INER < EM20) THEN
+         INER = EM20 * INER_DIM
          CALL ANCMSG(MSGID=445,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=TITR)
-      ENDIF                                  
+      ENDIF
 C--------------------------------------------
 ! strain rate filtering (by default = 12 cycles):
       IF (NC_FILTER > 0) NC_FILTER = 12
@@ -533,13 +533,13 @@ C--------------------------------------------
       ELSE
         WRITE(IOUT,1000)
      .        AMAS,INER,XK,ISK,ICO,K11,K44,K55,K66,K5B,K6C,
-     .        IFUN_XP,IFUN_XMI,IFUN_XMR,                                          
-     .        IFUN_XXPI,IFUN_XXMI,IFUN_XXPR,IFUN_XXMR,                            
-     .        IFUN_YY1PI,IFUN_YY1MI,IFUN_YY1PR,IFUN_YY1MR,                        
-     .        IFUN_ZZ1PI,IFUN_ZZ1MI,IFUN_ZZ1PR,IFUN_ZZ1MR,                        
-     .        IFUN_YY2PI,IFUN_YY2MI,IFUN_YY2PR,IFUN_YY2MR,                        
-     .        IFUN_ZZ2PI,IFUN_ZZ2MI,IFUN_ZZ2PR,IFUN_ZZ2MR,                        
-     .        FSCAL_X,FSCAL_RX,FSCAL_RY1,FSCAL_RY2 ,FSCAL_RZ1,FSCAL_RZ2,          
+     .        IFUN_XP,IFUN_XMI,IFUN_XMR,
+     .        IFUN_XXPI,IFUN_XXMI,IFUN_XXPR,IFUN_XXMR,
+     .        IFUN_YY1PI,IFUN_YY1MI,IFUN_YY1PR,IFUN_YY1MR,
+     .        IFUN_ZZ1PI,IFUN_ZZ1MI,IFUN_ZZ1PR,IFUN_ZZ1MR,
+     .        IFUN_YY2PI,IFUN_YY2MI,IFUN_YY2PR,IFUN_YY2MR,
+     .        IFUN_ZZ2PI,IFUN_ZZ2MI,IFUN_ZZ2PR,IFUN_ZZ2MR,
+     .        FSCAL_X,FSCAL_RX,FSCAL_RY1,FSCAL_RY2 ,FSCAL_RZ1,FSCAL_RZ2,
      .        XLIMG,XLIM,XXLIM,YY1LIM,ZZ1LIM,YY2LIM,ZZ2LIM,
      .        NC_FILTER,IFUN_DAMP_X,IFUN_DAMP_Y,IFUN_DAMP_Z,
      .        IFUN_DAMP_XX,IFUN_DAMP_YY,IFUN_DAMP_ZZ,

@@ -32,8 +32,8 @@ Chd|        CEVECI                        source/elements/shell/coque/ceveci.F
 Chd|        CM1INIF                       source/elements/shell/coque/cm1inif.F
 Chd|        CPXPYI                        source/elements/shell/coque/cepsini.F
 Chd|====================================================================
-      SUBROUTINE FSIGCINI(FXBELM, IPARG , X     , PM, IXC , 
-     .                    GEO   , FXBMOD, FXBSIG, R , NELC) 
+      SUBROUTINE FSIGCINI(FXBELM, IPARG , X     , PM, IXC ,
+     .                    GEO   , FXBMOD, FXBSIG, R , NELC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -191,7 +191,7 @@ C
      .              Y3   ,Y4   ,Z1   ,Z2   ,Z3   ,Z4  ,
      .              E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              X2S  ,Y2S  ,X3S  ,Y3S  ,X4S  ,Y4S  )
-        CALL CDEFLI(LAST ,VL   ,GSTRBID, 
+        CALL CDEFLI(LAST ,VL   ,GSTRBID,
      .              PX1  ,PX2  ,PY1  ,PY2  ,
      .              E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,AREA )
@@ -200,8 +200,8 @@ C
      .              E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              EYZ  ,EZX  ,KXX  ,KYY  ,KXY  ,AREA )
         ITHK=0
-        CALL CM1INIF(FIRST,LAST ,FOR  ,MOM  ,ITHK , 
-     .               THK  ,EINT ,NU   ,G    ,A1   , 
+        CALL CM1INIF(FIRST,LAST ,FOR  ,MOM  ,ITHK ,
+     .               THK  ,EINT ,NU   ,G    ,A1   ,
      .               A2   ,GS   ,KXX  ,KYY  ,KXY  ,
      .               EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
      .               AREA )
@@ -255,7 +255,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IM,IP,ISH
-      my_real THK02,FAC1,FSH,SHF  
+      my_real THK02,FAC1,FSH,SHF
 C=======================================================================
       DO I=1,NEL
          IM=MAT(I)
@@ -302,9 +302,9 @@ C-----------------------------------------------
       INTEGER :: NEL
       my_real VL(3,4,*),GSTR(8,*),PX1(*) ,PX2(*) ,PY1(*) ,PY2(*)
       my_real EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EZX(MVSIZ),EYZ(MVSIZ),
-     .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
+     .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
      .    E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
-     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,AREA(MVSIZ) 
+     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,AREA(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -446,4 +446,4 @@ C
 C
       RETURN
       END SUBROUTINE CCURVI
-     
+

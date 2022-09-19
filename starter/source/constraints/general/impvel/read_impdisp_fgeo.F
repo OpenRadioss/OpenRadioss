@@ -120,11 +120,11 @@ c--------------------------------------------------
      .                          OPTION_ID   = OPTID,
      .                          OPTION_TITR = TITR,
      .                          KEYWORD2    = KEY)
-c        
+c
         IOPT = IOPT + 1
         NOM_OPT(1,IOPT) = OPTID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,IOPT),LTITR)
-c        
+c
 c--------------------------------------------------
         ICOOR    = 0
         FGEO     = 1
@@ -137,21 +137,21 @@ c--------------------------------------------------
 c       READ STRING VALUES from /IMPDISP
 c--------------------------------------------------
 c        CALL HM_GET_INTV  ('distribution'  ,DISTRIBUTION ,IS_AVAILABLE,LSUBMODEL)
-c        
+c
         CALL HM_GET_INTV  ('curveid'        ,FUN_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_spring_part',PART_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_sensor_id'  ,SENS_ID ,IS_AVAILABLE,LSUBMODEL)
-c        
+c
         CALL HM_GET_FLOATV('xscale'         ,XSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('rad_tstart'     ,TSTART  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('rad_tstop'      ,TSTOP   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
         CALL HM_GET_INTV('distribution_table_count' ,NNOD ,IS_AVAILABLE,LSUBMODEL)
         DO I = 1,NNOD
-          CALL HM_GET_INT_ARRAY_INDEX('location_unit_node',NOD1(I),I,IS_AVAILABLE,LSUBMODEL)                             
-          CALL HM_GET_FLOAT_ARRAY_INDEX('rad_node_pos_X' ,XF(I) ,I ,IS_AVAILABLE,LSUBMODEL,UNITAB)                             
-          CALL HM_GET_FLOAT_ARRAY_INDEX('rad_node_pos_Y' ,YF(I) ,I ,IS_AVAILABLE,LSUBMODEL,UNITAB)                             
-          CALL HM_GET_FLOAT_ARRAY_INDEX('rad_node_pos_Z' ,ZF(I) ,I ,IS_AVAILABLE,LSUBMODEL,UNITAB)                             
+          CALL HM_GET_INT_ARRAY_INDEX('location_unit_node',NOD1(I),I,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('rad_node_pos_X' ,XF(I) ,I ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('rad_node_pos_Y' ,YF(I) ,I ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('rad_node_pos_Z' ,ZF(I) ,I ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
 c
 c--------------------------------------------------
@@ -169,7 +169,7 @@ c       Treatment of explicitely defined nodes
 c--------------------------------------------------
         DO I=1,NNOD
 c
-          IF (NOD1(I) > 0) THEN  
+          IF (NOD1(I) > 0) THEN
             INUM = INUM + 1
             N1 = USR2SYS(NOD1(I),ITABM1,MESS,OPTID)
             XI = X0(1,N1)
@@ -221,7 +221,7 @@ c--------------------------------------------------
           DO N=1,NPART
             IF (IPART(4,N) == PART_ID) JPART = N
           ENDDO
-c            
+c
           DO N=1,NUMELR
             IF (IPARTR(N) == JPART) THEN
               INUM = INUM + 1
@@ -273,7 +273,7 @@ c
             END IF
           END DO
         END IF  ! PART_ID > 0
-c----------------------------------------------------------------------	  
+c----------------------------------------------------------------------	
 c       /IMPDISP/FGEO CALCULE LE NOMBRE D'OCCURENCES D'ONE NOEUD DE DESTINATION
 c--------------------------------------------------
         DO N = 1,INUM

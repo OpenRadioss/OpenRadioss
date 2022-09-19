@@ -71,7 +71,7 @@ C-----------------------------------------------
      .   GAMA, MA, VROT, X0, Y0, Z0, X1, Y1, Z1, X2, Y2, Z2, VROTM1
       my_real
      .   DIST(3),AREL(3),VN1FRAM(3),AN1FRAM(3),DW(3)
-      my_real FINTER 
+      my_real FINTER
 C-----------------------------------------------
       EXTERNAL FINTER
       DATA IUN/1/
@@ -108,7 +108,7 @@ C
       ENDIF
       IFLAG=ICFIELD(8,NL)
       IF (IFRA == 0) THEN
-c If no frame defined rotation /X axis of global reference system 
+c If no frame defined rotation /X axis of global reference system
         X0 = 0
         Y0 = 0
         Z0 = 0
@@ -127,7 +127,7 @@ C
 C
       VROT = FAC(1,NL)*FINTER(IFUNC,TS*FAC(2,NL),NPC,TF,DYDX)
       VROTM1=VROT
-      IF (DT2 > ZERO .AND. IFLAG == 2) 
+      IF (DT2 > ZERO .AND. IFLAG == 2)
      .   VROTM1 = FAC(1,NL)*FINTER(IFUNC,(TS-DT2)*FAC(2,NL),NPC,TF,DYDX)
       X0 = XFRAME(10,IFRA+1)
       Y0 = XFRAME(11,IFRA+1)
@@ -177,7 +177,7 @@ C
              A(2,N1)=A(2,N1)+AREL(2)*MS(N1)
              A(3,N1)=A(3,N1)+AREL(3)*MS(N1)
             IF(IB(J)>0)
-     .        TFEXTT=TFEXTT 
+     .        TFEXTT=TFEXTT
      .            +HALF*MS(N1)*X1*X1*(VROT-VROTM1)*(VROT-VROTM1)
          ENDDO
 C

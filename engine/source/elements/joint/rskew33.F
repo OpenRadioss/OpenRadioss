@@ -73,9 +73,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JTYP, IERR, NRB, SKFLG,
-     .        IDSK1,IDSK2,ISK1,ISK2,IP1,IP2, 
+     .        IDSK1,IDSK2,ISK1,ISK2,IP1,IP2,
      .        N1,N2,N3,USENS,INSENS,
-     .        ISENS_OLD,ISENS_ACT     
+     .        ISENS_OLD,ISENS_ACT
       my_real CO,SI,KSI,NX,NY,NZ,TH,
      .        U(LSKEW),V(LSKEW),U0(LSKEW),V0(LSKEW),EX(LSKEW),
      .        R1(3),R2(3),RM(3),RL1(3),RL2(3),T(3),
@@ -110,7 +110,7 @@ C----------------   sensor check for kjoints2
 	USENS = NINT(GET_U_GEO(2,IPROP))
 	ISENS_ACT = 0
 	IF (USENS>0) THEN
-	  ISENS_OLD = NINT(UVAR(16,JFT))      
+	  ISENS_OLD = NINT(UVAR(16,JFT))
           DO K=1,NSENSOR
             IF(USENS==LSENSOR(1,K)) INSENS=K
           ENDDO
@@ -145,10 +145,10 @@ C----------------   stockage of displacements if sensor is activated
 C
         IF ((IGTYP==45).AND.(ISENS_ACT==1)) THEN	
           UVAR(4,I) = DX(I)
-          UVAR(5,I) = DY(I) 
+          UVAR(5,I) = DY(I)
           UVAR(6,I) = DZ(I)
           UVAR(7,I) = RX(I)
-          UVAR(8,I) = RY(I) 
+          UVAR(8,I) = RY(I)
           UVAR(9,I) = RZ(I)
         ENDIF	  	 		 		  	
 C
@@ -158,11 +158,11 @@ C
 C---------------------------------------------		
 C----   universal joint - orthogonalized  ----
 C---------------------------------------------	
-          IF (IGTYP==45) THEN  
+          IF (IGTYP==45) THEN
 C-------------------- nod 1		 	     
              DT(1)= VR(1,NC1(I))*DT1
              DT(2)= VR(2,NC1(I))*DT1
-             DT(3)= VR(3,NC1(I))*DT1  	  
+             DT(3)= VR(3,NC1(I))*DT1  	
 	     U(1)=UVAR(10,I) - UVAR(11,I)*DT(3)+UVAR(12,I)*DT(2)
              U(2)=UVAR(11,I) - UVAR(12,I)*DT(1)+UVAR(10,I)*DT(3)
              U(3)=UVAR(12,I) - UVAR(10,I)*DT(2)+UVAR(11,I)*DT(1)
@@ -176,11 +176,11 @@ C-----
 	     UVAR(10,I) = U(1)
 	     UVAR(11,I) = U(2)	
 	     UVAR(12,I) = U(3)
-	     		     	     	     
+	     		     	     	
 C-------------------- nod 2		  	     
              DT(1)= VR(1,NC2(I))*DT1
              DT(2)= VR(2,NC2(I))*DT1
-             DT(3)= VR(3,NC2(I))*DT1	  	  	     
+             DT(3)= VR(3,NC2(I))*DT1	  	  	
 	     V(1)=UVAR(13,I) - UVAR(14,I)*DT(3)+UVAR(15,I)*DT(2)
              V(2)=UVAR(14,I) - UVAR(15,I)*DT(1)+UVAR(13,I)*DT(3)
              V(3)=UVAR(15,I) - UVAR(13,I)*DT(2)+UVAR(14,I)*DT(1)
@@ -193,9 +193,9 @@ C-------------------- nod 2
 C-----
 	     UVAR(13,I) = V(1)
 	     UVAR(14,I) = V(2)	
-	     UVAR(15,I) = V(3)	     	     	     
+	     UVAR(15,I) = V(3)	     	     	
 	  ENDIF
-	  
+	
           EX(1) = U(2)*V(3) - U(3)*V(2)
           EX(2) = U(3)*V(1) - U(1)*V(3)
           EX(3) = U(1)*V(2) - U(2)*V(1)
@@ -203,15 +203,15 @@ C-----
           EX(1) = EX(1) / NX
           EX(2) = EX(2) / NX
           EX(3) = EX(3) / NX
-          EX(4) = U(1) 
+          EX(4) = U(1)
           EX(5) = U(2)
-          EX(6) = U(3) 
+          EX(6) = U(3)
           EX(7) = V(1)
           EX(8) = V(2)
           EX(9) = V(3)
-	  
-	  CALL INV3(EX,EXI)	  
-	  	    	  	  	  	  
+	
+	  CALL INV3(EX,EXI)	
+	  	    	  	  	  	
 C----- Calcul du vecteur rotation R12
           X21(I) = (VR(1,NC2(I))-VR(1,NC1(I)))*DT1
           Y21(I) = (VR(2,NC2(I))-VR(2,NC1(I)))*DT1
@@ -219,7 +219,7 @@ C----- Calcul du vecteur rotation R12
 C
           RM(1) = RX(I)+EXI(1)*X21(I)+EXI(4)*Y21(I)+EXI(7)*Z21(I)
 	  RM(2) = RY(I)+EXI(2)*X21(I)+EXI(5)*Y21(I)+EXI(8)*Z21(I)
-	  RM(3) = RZ(I)+EXI(3)*X21(I)+EXI(6)*Y21(I)+EXI(9)*Z21(I)	  	  
+	  RM(3) = RZ(I)+EXI(3)*X21(I)+EXI(6)*Y21(I)+EXI(9)*Z21(I)	  	
 C-----		      
           R2(1) =  0.5*RM(1)
           R2(2) =  0.5*RM(2)
@@ -234,7 +234,7 @@ C-----
           XL(I,1)=EXI(1)*X21(I)+EXI(4)*Y21(I)+EXI(7)*Z21(I)
           XL(I,2)=EXI(2)*X21(I)+EXI(5)*Y21(I)+EXI(8)*Z21(I)
           XL(I,3)=EXI(3)*X21(I)+EXI(6)*Y21(I)+EXI(9)*Z21(I)
-	  	  
+	  	
 C---------------------------	  
         ELSE
 C---------------------------
@@ -242,28 +242,28 @@ C---------------------------
 C---------------------------------------------	  
 C----   first skew is used as mean skew  -----
 C---------------------------------------------
-	      
+	
             DO J=1,9
 	       EX(J) = U(J)
 	    ENDDO
-   
-          ELSE	  
+
+          ELSE	
 C-------------------------------------	  
 C----   mean skew is calculated  -----
 C-------------------------------------
-	    
+	
 C----- Initialisation de EXPREC
             IF ((NCYCLE==0).AND.(TT==0).AND.(IGTYP==33)) THEN
-               CALL PROD_AB(U,A0,A)	      
+               CALL PROD_AB(U,A0,A)	
                DO J=1,9
 	          EXPREC(J) = A(J)
 	       END DO
 	    ELSE
                DO J=1,9
 	          EXPREC(J) = UVAR(21+J,I)
-	       END DO	       
+	       END DO	
 	    ENDIF
-	      
+	
 C----- Calcul de DEX
             X21(I) = HALF*(VR(1,NC2(I))+VR(1,NC1(I)))*DT1
             Y21(I) = HALF*(VR(2,NC2(I))+VR(2,NC1(I)))*DT1
@@ -281,7 +281,7 @@ C-----
 	    CO = COS(NR)
 	    SI = SIN(NR)
             CALL QROT33(DEX, DT, CO, SI)
-	  
+	
 C----- Calcul du nouveau EX	  
             CALL PROD_AB(EXPREC,DEX,EX)
 
@@ -295,7 +295,7 @@ C----- Calcul du vecteur rotation R12
 C
           RM(1) = RX(I)+EX(1)*X21(I)+EX(2)*Y21(I)+EX(3)*Z21(I)
 	  RM(2) = RY(I)+EX(4)*X21(I)+EX(5)*Y21(I)+EX(6)*Z21(I)
-	  RM(3) = RZ(I)+EX(7)*X21(I)+EX(8)*Y21(I)+EX(9)*Z21(I)  	  
+	  RM(3) = RZ(I)+EX(7)*X21(I)+EX(8)*Y21(I)+EX(9)*Z21(I)  	
 C-----		      
           R2(1) =  0.5*RM(1)
           R2(2) =  0.5*RM(2)
@@ -313,7 +313,7 @@ C- simple precision - extended sple precsion only for translational dof
 C- double precision
             X21(I) = X(1,NC2(I))-X(1,NC1(I))
             Y21(I) = X(2,NC2(I))-X(2,NC1(I))
-            Z21(I) = X(3,NC2(I))-X(3,NC1(I))  
+            Z21(I) = X(3,NC2(I))-X(3,NC1(I))
           ENDIF
 C
           XL(I,1)=EX(1)*X21(I)+EX(2)*Y21(I)+EX(3)*Z21(I)
@@ -404,20 +404,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
-     .        PI1    
+     .        PI1
 C=======================================================================
 CCsm45a2       PI= 2.*ATAN2(ONE,ZERO)
        PI1 = 2.*ATAN2(ONE,ZERO)
 C---   first skew rotation
-       E11 = SKEW(1)   
-       E12 = SKEW(4)   
-       E13 = SKEW(7)   
-       E21 = SKEW(2)   
-       E22 = SKEW(5)   
-       E23 = SKEW(8)   
-       E31 = SKEW(3)   
-       E32 = SKEW(6)   
-       E33 = SKEW(9)  
+       E11 = SKEW(1)
+       E12 = SKEW(4)
+       E13 = SKEW(7)
+       E21 = SKEW(2)
+       E22 = SKEW(5)
+       E23 = SKEW(8)
+       E31 = SKEW(3)
+       E32 = SKEW(6)
+       E33 = SKEW(9)
        C = HALF * (E11+E22+E33 - ONE)
        C = MIN(C,ONE)
        C = MAX(C,-ONE)
@@ -430,8 +430,8 @@ C---   first skew rotation
        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
        IF (NR/=ZERO) NR = ONE/NR
        T(1) = T(1)*NR
-       T(2) = T(2)*NR 
-       T(3) = T(3)*NR 
+       T(2) = T(2)*NR
+       T(3) = T(3)*NR
        ROT(1) = T(1)*KSI
        ROT(2) = T(2)*KSI
        ROT(3) = T(3)*KSI
@@ -458,20 +458,20 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real E11,E22,E33,E12,E21,E13,E31,E23,E32,NR,KSI,
-     .        PI1      
+     .        PI1
 C=======================================================================
 C
        PI1 = 2.*ATAN2(ONE,ZERO)
 C---   first skew rotation
-       E11 = SKEW(1)   
-       E12 = SKEW(4)   
-       E13 = SKEW(7)   
-       E21 = SKEW(2)   
-       E22 = SKEW(5)   
-       E23 = SKEW(8)   
-       E31 = SKEW(3)   
-       E32 = SKEW(6)   
-       E33 = SKEW(9)  
+       E11 = SKEW(1)
+       E12 = SKEW(4)
+       E13 = SKEW(7)
+       E21 = SKEW(2)
+       E22 = SKEW(5)
+       E23 = SKEW(8)
+       E31 = SKEW(3)
+       E32 = SKEW(6)
+       E33 = SKEW(9)
        C = HALF * (E11+E22+E33 - ONE)
        C = MIN(C,ONE)
        C = MAX(C,-ONE)
@@ -484,8 +484,8 @@ C---   first skew rotation
        NR = SQRT(RVEC(1)*RVEC(1)+RVEC(2)*RVEC(2)+RVEC(3)*RVEC(3))
        IF (NR/=ZERO) NR = ONE/NR
        RVEC(1) = RVEC(1)*NR
-       RVEC(2) = RVEC(2)*NR 
-       RVEC(3) = RVEC(3)*NR 
+       RVEC(2) = RVEC(2)*NR
+       RVEC(3) = RVEC(3)*NR
 C
        C = HALF*(C+ ONE)
        S = SQRT(ONE-C)
@@ -528,7 +528,7 @@ C
       E22 = U2 * U2 *CI + C
       E33 = U3 * U3 *CI + C
 
-      E12 = U1 * U2 * CI   
+      E12 = U1 * U2 * CI
       E21 = E12 + U3S
       E12 = E12 - U3S
       E13 = U1 * U3 * CI
@@ -538,15 +538,15 @@ C
       E32 = E23 + U1S
       E23 = E23 - U1S
 C
-      SKEW(1) =  E11  
-      SKEW(4) =  E12    
-      SKEW(7) =  E13    
-      SKEW(2) =  E21    
-      SKEW(5) =  E22   
-      SKEW(8) =  E23  
-      SKEW(3) =  E31  
-      SKEW(6) =  E32  
-      SKEW(9) =  E33  
+      SKEW(1) =  E11
+      SKEW(4) =  E12
+      SKEW(7) =  E13
+      SKEW(2) =  E21
+      SKEW(5) =  E22
+      SKEW(8) =  E23
+      SKEW(3) =  E31
+      SKEW(6) =  E32
+      SKEW(9) =  E33
 C-----------------------------------------------
       RETURN
       END
@@ -562,15 +562,15 @@ Chd|====================================================================
       INTEGER I,J
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
-      X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7) 
-      X(2)=A(2)*B(1)+A(5)*B(4)+A(8)*B(7) 
-      X(3)=A(3)*B(1)+A(6)*B(4)+A(9)*B(7) 
-      X(4)=A(1)*B(2)+A(4)*B(5)+A(7)*B(8) 
-      X(5)=A(2)*B(2)+A(5)*B(5)+A(8)*B(8) 
-      X(6)=A(3)*B(2)+A(6)*B(5)+A(9)*B(8) 
-      X(7)=A(1)*B(3)+A(4)*B(6)+A(7)*B(9) 
-      X(8)=A(2)*B(3)+A(5)*B(6)+A(8)*B(9) 
-      X(9)=A(3)*B(3)+A(6)*B(6)+A(9)*B(9) 
+      X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7)
+      X(2)=A(2)*B(1)+A(5)*B(4)+A(8)*B(7)
+      X(3)=A(3)*B(1)+A(6)*B(4)+A(9)*B(7)
+      X(4)=A(1)*B(2)+A(4)*B(5)+A(7)*B(8)
+      X(5)=A(2)*B(2)+A(5)*B(5)+A(8)*B(8)
+      X(6)=A(3)*B(2)+A(6)*B(5)+A(9)*B(8)
+      X(7)=A(1)*B(3)+A(4)*B(6)+A(7)*B(9)
+      X(8)=A(2)*B(3)+A(5)*B(6)+A(8)*B(9)
+      X(9)=A(3)*B(3)+A(6)*B(6)+A(9)*B(9)
       RETURN
       END
 C==================================================== 
@@ -584,15 +584,15 @@ Chd|====================================================================
 #include      "param_c.inc"
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
-      X(1)=A(1)*B(1)+A(2)*B(2)+A(3)*B(3) 
-      X(2)=A(4)*B(1)+A(5)*B(2)+A(6)*B(3) 
-      X(3)=A(7)*B(1)+A(8)*B(2)+A(9)*B(3) 
-      X(4)=A(1)*B(4)+A(2)*B(5)+A(3)*B(6) 
-      X(5)=A(4)*B(4)+A(5)*B(5)+A(6)*B(6) 
-      X(6)=A(7)*B(4)+A(8)*B(5)+A(9)*B(6) 
-      X(7)=A(1)*B(7)+A(2)*B(8)+A(3)*B(9) 
-      X(8)=A(4)*B(7)+A(5)*B(8)+A(6)*B(9) 
-      X(9)=A(7)*B(7)+A(8)*B(8)+A(9)*B(9) 
+      X(1)=A(1)*B(1)+A(2)*B(2)+A(3)*B(3)
+      X(2)=A(4)*B(1)+A(5)*B(2)+A(6)*B(3)
+      X(3)=A(7)*B(1)+A(8)*B(2)+A(9)*B(3)
+      X(4)=A(1)*B(4)+A(2)*B(5)+A(3)*B(6)
+      X(5)=A(4)*B(4)+A(5)*B(5)+A(6)*B(6)
+      X(6)=A(7)*B(4)+A(8)*B(5)+A(9)*B(6)
+      X(7)=A(1)*B(7)+A(2)*B(8)+A(3)*B(9)
+      X(8)=A(4)*B(7)+A(5)*B(8)+A(6)*B(9)
+      X(9)=A(7)*B(7)+A(8)*B(8)+A(9)*B(9)
       RETURN
       END
 C==================================================== 
@@ -607,15 +607,15 @@ Chd|====================================================================
 #include      "param_c.inc"
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
-      X(1)=A(1)*B(1)+A(4)*B(2)+A(7)*B(3) 
-      X(2)=A(2)*B(1)+A(5)*B(2)+A(8)*B(3) 
-      X(3)=A(3)*B(1)+A(6)*B(2)+A(9)*B(3) 
-      X(4)=A(1)*B(4)+A(4)*B(5)+A(7)*B(6) 
-      X(5)=A(2)*B(4)+A(5)*B(5)+A(8)*B(6) 
-      X(6)=A(3)*B(4)+A(6)*B(5)+A(9)*B(6) 
-      X(7)=A(1)*B(7)+A(4)*B(8)+A(7)*B(9) 
-      X(8)=A(2)*B(7)+A(5)*B(8)+A(8)*B(9) 
-      X(9)=A(3)*B(7)+A(6)*B(8)+A(9)*B(9) 
+      X(1)=A(1)*B(1)+A(4)*B(2)+A(7)*B(3)
+      X(2)=A(2)*B(1)+A(5)*B(2)+A(8)*B(3)
+      X(3)=A(3)*B(1)+A(6)*B(2)+A(9)*B(3)
+      X(4)=A(1)*B(4)+A(4)*B(5)+A(7)*B(6)
+      X(5)=A(2)*B(4)+A(5)*B(5)+A(8)*B(6)
+      X(6)=A(3)*B(4)+A(6)*B(5)+A(9)*B(6)
+      X(7)=A(1)*B(7)+A(4)*B(8)+A(7)*B(9)
+      X(8)=A(2)*B(7)+A(5)*B(8)+A(8)*B(9)
+      X(9)=A(3)*B(7)+A(6)*B(8)+A(9)*B(9)
       RETURN
       END
 C==================================================== 

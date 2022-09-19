@@ -70,7 +70,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
-      USE MATPARAM_DEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,9 +98,9 @@ C-----------------------------------------------
      .        NSHNOD(*), SH4TREE(KSH4TREE,*), SH3TREE(*),
      .        IRIG_NODE(*) ,CONNEC(NUMEL, 10),SH3TRIM(*)
       INTEGER *8 I8MI(6,*),IPM(NPROPMI,*),PERTURB(NPERTURB)
-      my_real 
-     .   PM(NPROPM,*), GEO(NPROPG,*),MS(*),MSC(*),MSS(8,*), 
-     .   MSTG(*),INTG(*),PTG(3,*),IN(*),INC(*),THKC(*),THKT(*), 
+      my_real
+     .   PM(NPROPM,*), GEO(NPROPG,*),MS(*),MSC(*),MSS(8,*),
+     .   MSTG(*),INTG(*),PTG(3,*),IN(*),INC(*),THKC(*),THKT(*),
      .   X(3,*),V(3,*),VEUL(LVEUL,*),DTELEM(*),PARTSAV(20,*),
      .   MSNF(*), MSSF(8,*), WMA(*), ETNOD(*), STC(*), STTG(*),
      .   MCP(*),MCPC(*),TEMP(*),MCPS(8,*),INS(8,*),MCPSX(12,*),
@@ -116,7 +116,7 @@ C-----------------------------------------------
       INTEGER NC10(MVSIZ,10)
       INTEGER, DIMENSION(MVSIZ) :: IX1,IX2,IX3,IX4,IX5,IX6,IX7,IX8,MXT,PID,NGL
       my_real
-     .   VOID(MVSIZ),MSPHI(MVSIZ),INPHI(MVSIZ),XPHI(MVSIZ), 
+     .   VOID(MVSIZ),MSPHI(MVSIZ),INPHI(MVSIZ),XPHI(MVSIZ),
      .   THKPHI(MVSIZ),PV(MVSIZ),
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,SX(MVSIZ) ,
      .   SY(MVSIZ) ,SZ(MVSIZ) ,TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
@@ -144,13 +144,13 @@ C-----------------------------------------------
 C
       TYPE(ELBUF_STRUCT_) ,POINTER :: BIDBUF
       TYPE (STACK_PLY) :: STACK
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(MVSIZ)
 C-----------------------------------------------
       BIDBUF => NULL()
 C
@@ -185,21 +185,21 @@ C
 C
           DO J = 1,4
               JJ = NC(J)
-              IRIG_NODE(JJ) = 1 
+              IRIG_NODE(JJ) = 1
               CONNEC(NINDX, J) = NC(J)
-          ENDDO 
+          ENDDO
         ENDDO
 C       
         CALL S4DERI3(VOL,VEUL(1,NFT+1) ,GEO ,IGEO ,RX    ,
      .       RY    ,RZ    ,SX    ,SY    ,
-     .       SZ    ,TX    ,TY    ,TZ    ,      
-     .       X1    ,X2    ,X3    ,X4    ,Y1    ,Y2    ,    
-     .       Y3    ,Y4    ,Z1    ,Z2    ,Z3    ,Z4    ,    
-     .       PX1   ,PX2   ,PX3   ,PX4   ,                   
-     .       PY1   ,PY2   ,PY3   ,PY4   ,                   
-     .       PZ1   ,PZ2   ,PZ3   ,PZ4   ,BID1, 
+     .       SZ    ,TX    ,TY    ,TZ    ,
+     .       X1    ,X2    ,X3    ,X4    ,Y1    ,Y2    ,
+     .       Y3    ,Y4    ,Z1    ,Z2    ,Z3    ,Z4    ,
+     .       PX1   ,PX2   ,PX3   ,PX4   ,
+     .       PY1   ,PY2   ,PY3   ,PY4   ,
+     .       PZ1   ,PZ2   ,PZ3   ,PZ4   ,BID1,
      .       DDELTAX,VOLU ,NGL   ,PID   ,MXT ,
-     .       PM    ,VOLDP )                   
+     .       PM    ,VOLDP )
 C
         IF(JLAG+JALE+JEUL > 0) THEN
           CALL S4MASS3(
@@ -208,7 +208,7 @@ C
      3      RHOCP        ,MCP         ,MCPS(1,NFT+1)          ,TEMP0,
      4      TEMP         ,MSSA        ,IX1    ,IX2    ,IX3    ,IX4  ,
      5      FILL, VOLU)
-        ENDIF                   
+        ENDIF
 C
         CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,
      .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX, IGEO)
@@ -220,7 +220,7 @@ C
          STIFN(IXS(4,I+NFT))=STIFN(IXS(4,I+NFT)) + STIE
          STIFN(IXS(6,I+NFT))=STIFN(IXS(6,I+NFT)) + STIE
          STIFN(IXS(7,I+NFT))=STIFN(IXS(7,I+NFT)) + STIE
-        ENDDO     
+        ENDDO
 C---------------------------------------------
       ELSEIF (ITY == 1.AND. ISOLNOD == 10)THEN
 C---------------------------------------------
@@ -230,19 +230,19 @@ C Solid 10 nodes tetrahedron-
         CALL S10COOR3_OLD(X,V,IXS(1,NF1),IXS10(1,NF2),
      .                XX, YY, ZZ, VX, VY, VZ, NC10,
      .                NGL,MXT,PID,MASS,DTELEM(NFT+1),STI,
-     .                VOID6,VOID,VOID,VOID, 
+     .                VOID6,VOID,VOID,VOID,
      .                TEMP0, TEMP   ,NEL)
         CALL S10DERI3(VOLP,NGL,
      .                XX, YY, ZZ, PX,PY,PZ, NX,
      .                RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,VOLU,VOID,
      .                BIDBUF,VOLG)
  	CALL S10LEN3(VOLP,NGL,DELTAX,DELTAX2,
-     .  	     PX,PY,PZ,VOLU,VOID,VOLG, 
+     .  	     PX,PY,PZ,VOLU,VOID,VOLG,
      .  	     RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
      .  	     NEL,MXT,PM,V_PITER,IBID)
 C
         DO I=1,NEL
-          MASSCP(I) = ZERO 
+          MASSCP(I) = ZERO
           MASS(I) = ZERO
           RHO(I) = PM(89,MXT(I))
           FILL(I) = ONE
@@ -250,16 +250,16 @@ C
           RHOCP(I) =  PM(69,MXT(I))
           TEMP0(I) =  PM(79,MXT(I))
         ENDDO
-        DO IP=1,NPT                                   
-          DO I=1,NEL                                
-            MASS(I) = MASS(I) + VOLP(I,IP)*RHO(I)     
-            STI(I) = STI(I) + RHO(I) * VOLP(I,IP) /   
-     .      MAX(EM20,DTX(I)*DTX(I))                   
-          ENDDO                                       
-        ENDDO                                         
+        DO IP=1,NPT
+          DO I=1,NEL
+            MASS(I) = MASS(I) + VOLP(I,IP)*RHO(I)
+            STI(I) = STI(I) + RHO(I) * VOLP(I,IP) /
+     .      MAX(EM20,DTX(I)*DTX(I))
+          ENDDO
+        ENDDO
 C
         CALL S10MASS3(MASS,MS,PARTSAV,IPARTS(NF1),MSS(1,NF1),VOLU,
-     .              XX  ,YY ,ZZ     ,VX         ,VY         ,VZ  ,  
+     .              XX  ,YY ,ZZ     ,VX         ,VY         ,VZ  ,
      .              NC10  ,STI,STIFN  ,DELTAX2    ,MSSX(1,NF1),MASSCP,
      .              MCP ,MCPS(1,NF1),MCPSX(1,NF1),IN        ,STIFR,
      .              INS(1,NF1),MSSA ,X    ,FILL)
@@ -277,15 +277,15 @@ C Create dependancy to rigid material
           NC(7)   = NC10(I,7)
           NC(8)   = NC10(I,8)
           NC(9)   = NC10(I,9)
-          NC(10)  = NC10(I,10) 
-          DO J = 1,10                  
-            IF(NC(J) > 0 ) THEN        
-               JJ = NC(J)              
-                IRIG_NODE(JJ) = 1      
-                CONNEC(NINDX,J) = JJ   
-             ENDIF                     
-          ENDDO                        
-        ENDDO                           
+          NC(10)  = NC10(I,10)
+          DO J = 1,10
+            IF(NC(J) > 0 ) THEN
+               JJ = NC(J)
+                IRIG_NODE(JJ) = 1
+                CONNEC(NINDX,J) = JJ
+             ENDIF
+          ENDDO
+        ENDDO
 c--------------------------------------
       ELSEIF(ITY == 1.AND.ISOLNOD == 16)THEN
 C Solid 16 nodes brick not supported
@@ -295,9 +295,9 @@ C--------------------------------------
       ELSEIF(ITY == 1)THEN
 C--------------------------------------
 C Solid 8 nodes brick
-        DO I=1,NEL     
-         RHOCP(I) = ZERO 
-         TEMP0(I) = ZERO 
+        DO I=1,NEL
+         RHOCP(I) = ZERO
+         TEMP0(I) = ZERO
         ENDDO
 C
 C Creation de la dependance au mat_rigid
@@ -315,12 +315,12 @@ C Creation de la dependance au mat_rigid
 C
           DO J = 1,8
               JJ = NC(J)
-              IRIG_NODE(JJ) = 1 
+              IRIG_NODE(JJ) = 1
               IF(NC(J) > 0) CONNEC(NINDX, J) = NC(J)
-          ENDDO   
+          ENDDO
         ENDDO
 C          
-        CALL SCOOR3(X,XREFS(1,1,NFT+1),IXS(1,NFT+1) ,GEO  ,MXT  ,PID  ,NGL  ,  
+        CALL SCOOR3(X,XREFS(1,1,NFT+1),IXS(1,NFT+1) ,GEO  ,MXT  ,PID  ,NGL  ,
      .           IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
      .           X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .           Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
@@ -331,10 +331,10 @@ C
      .           XD1  ,XD2  ,XD3  ,XD4  ,XD5  ,XD6  ,XD7  ,XD8   ,
      .           YD1  ,YD2  ,YD3  ,YD4  ,YD5  ,YD6  ,YD7  ,YD8   ,
      .           ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5  ,ZD6  ,ZD7  ,ZD8   )
-     
+
           DO I=1,NEL
             RHO(I) = PM(89,MXT(I))
-            DTELEM(NFT+I) = EP30                                         
+            DTELEM(NFT+I) = EP30
             FILL(I) = ONE
           ENDDO
           CALL SDERI3(VOL,VEUL(1,NFT+1),GEO,IGEO,
@@ -346,21 +346,21 @@ C
      .            PZ1  ,PZ2  ,PZ3  ,PZ4  ,VOLU ,VOLDP,NEL  ,JEUL  ,
      .            NXREF,IMULTI_FVM )
           CALL SDLEN3(
-     .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   , 
-     .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   , 
-     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, 
+     .            X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .            Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
+     .            Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8,
      .            DDELTAX, VOLU)
           CALL SMASS3(
      1         RHO          ,MS           ,PARTSAV,X           ,V ,
-     2         IPARTS(NFT+1),MSS(1,NFT+1) ,VOLU   ,  
-     3         MSNF         ,MSSF(1,NFT+1),IN     ,       
-     4         VOID         ,INS          ,WMA    , RHOCP     ,MCP  , 
-     5         MCPS(1,NFT+1),MSSA         ,BID    ,BID        ,FILL, 
+     2         IPARTS(NFT+1),MSS(1,NFT+1) ,VOLU   ,
+     3         MSNF         ,MSSF(1,NFT+1),IN     ,
+     4         VOID         ,INS          ,WMA    , RHOCP     ,MCP  ,
+     5         MCPS(1,NFT+1),MSSA         ,BID    ,BID        ,FILL,
      6         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C  
 C Element time step
-        CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,  
-     .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX , IGEO)  
+        CALL DTMAIN(GEO  ,PM   ,VOID  ,PID   ,MXT   ,VOID  ,
+     .              VOID ,VOID ,VOID  ,VOID  ,VOID  ,BUFMAT, DDELTAX, AREA, VOLU, DTX , IGEO)
 C
         DO  I=1,NEL
           N = I + NFT
@@ -374,7 +374,7 @@ C
           STIFN(IXS(7,N))=STIFN(IXS(7,N))+STIE
           STIFN(IXS(8,N))=STIFN(IXS(8,N))+STIE
           STIFN(IXS(9,N))=STIFN(IXS(9,N))+STIE
-        ENDDO     
+        ENDDO
 C--------------------------------------
       ELSEIF (ITY==3) THEN
 C--------------------------------------
@@ -397,13 +397,13 @@ C
      .              THKC,IHBE,PARTSAV,V,IPARTC(NFT+1),
      .              MSC(NFT+1),INC(NFT+1),AREA    ,
      .              I8MI ,IGEO  ,ETNOD ,IMAT     ,IPROP    ,
-     .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) , 
+     .              NSHNOD ,STC(NFT+1),SH4TREE ,MCP   ,MCPC(NFT+1) ,
      .              TEMP    ,BID , BID,BID,BID,
      .              BID,BID,ISUBSTACK,IBID,BIDBUF,
      .              STACK,BIDG, RNOISE ,BID ,
      .              PERTURB,IX1     ,IX2      ,IX3     ,IX4      )
         CALL CDERII(PX1 ,PX2 ,PY1   ,PY2,
-     .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .              X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .              Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .              E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .              X2L ,X3L ,X4L ,Y2L ,Y3L ,Y4L )
@@ -416,7 +416,7 @@ C Nodal time step
           B1 = PX1(I)*PX1(I)+PY1(I)*PY1(I)
           B2 = PX2(I)*PX2(I)+PY2(I)*PY2(I)
           STIE =  MAX(B1,B2) * THKC(I) * A11 / AREA(I)
-          STIR = ONE_OVER_12*STIE * (THKC(I)*THKC(I) + AREA(I)) 
+          STIR = ONE_OVER_12*STIE * (THKC(I)*THKC(I) + AREA(I))
           STIFN(IXC(2,N))=STIFN(IXC(2,N))+STIE
           STIFN(IXC(3,N))=STIFN(IXC(3,N))+STIE
           STIFN(IXC(4,N))=STIFN(IXC(4,N))+STIE
@@ -435,7 +435,7 @@ C Nodal time step
            B1 = PX1(I)*PX1(I)+PY1(I)*PY1(I)
            B2 = PX2(I)*PX2(I)+PY2(I)*PY2(I)
            STIE =  MAX(B1,B2) * THKC(I) * A11 / AREA(I)
-           STIR = ONE_OVER_12*STIE * (THKC(I)*THKC(I) + AREA(I))  
+           STIR = ONE_OVER_12*STIE * (THKC(I)*THKC(I) + AREA(I))
            STIFN(IXC(2,N))=STIFN(IXC(2,N))+STIE
            STIFN(IXC(3,N))=STIFN(IXC(3,N))+STIE
            STIFN(IXC(4,N))=STIFN(IXC(4,N))+STIE
@@ -447,8 +447,8 @@ C Nodal time step
            STRC(N) = STIR
           END IF
          END DO
-        END IF 
- 
+        END IF
+
         NDEPAR=NUMELS+NFT
         DO I=1,NEL
           DTELEM(NDEPAR+I) = EP30
@@ -459,7 +459,7 @@ C Create dependancy to rigid material
           N = I + NFT
           NINDX = NINDX + 1
           NC(1) = IXC(2, N)
-          NC(2) = IXC(3, N)  
+          NC(2) = IXC(3, N)
           NC(3) = IXC(4, N)
           NC(4) = IXC(5, N)
           CONNEC(NINDX,1) = NC(1)
@@ -468,10 +468,10 @@ C Create dependancy to rigid material
           CONNEC(NINDX,4) = NC(4)
 C
           IRIG_NODE(NC(1)) = 1
-          IRIG_NODE(NC(2)) = 1 
+          IRIG_NODE(NC(2)) = 1
           IRIG_NODE(NC(3)) = 1
           IRIG_NODE(NC(4)) = 1
-        ENDDO                             
+        ENDDO
 C--------------------------------------
       ELSEIF(ITY==7)THEN
 C--------------------------------------
@@ -520,12 +520,12 @@ C Create dependancy to rigid material
 C          
           CONNEC(NINDX , 1) = NC(1)
           CONNEC(NINDX , 2) = NC(2)
-          CONNEC(NINDX , 3) = NC(3)          
+          CONNEC(NINDX , 3) = NC(3)
 C
           IRIG_NODE(NC(1)) = 1
-          IRIG_NODE(NC(2)) = 1 
-          IRIG_NODE(NC(3)) = 1 
-        ENDDO                    
+          IRIG_NODE(NC(2)) = 1
+          IRIG_NODE(NC(3)) = 1
+        ENDDO
       ENDIF
 C
       NXREF = NREFSTA

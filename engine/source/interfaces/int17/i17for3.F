@@ -82,7 +82,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,ITASK,ITIED,NINT,NME,NSE,NISKYFI,LSKYI17,NOINT,
      .  CANDN(*),CANDE(*), ISKY(*),
-     .  IXS(NIXS,*),IXS16(8,*),NELES(*)  ,NELEM(*) 
+     .  IXS(NIXS,*),IXS16(8,*),NELES(*)  ,NELEM(*)
 C     REAL
       my_real
      .  X(3,*),V(3,*),EMINXM(6,*),EMINXS(6,*),A(3,*),STIFN(*),
@@ -309,7 +309,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,ITIED,NINT ,IE_MIN,IES_MIN,NISKYFI,NOINT 
+      INTEGER LLT,ITIED,NINT ,IE_MIN,IES_MIN,NISKYFI,NOINT
       INTEGER ITASK,
      .        III(MVSIZ,17),IIIS(MVSIZ,16),LE(*) ,LES(*), ISKY(*)
 C     REAL
@@ -337,7 +337,7 @@ C-----------------------------------------------
      .   R_3M(MVSIZ) ,R_4M(MVSIZ) ,T_3M(MVSIZ) ,T_4M(MVSIZ),
      .   R_CS(MVSIZ) ,S_CS(MVSIZ) ,T_CS(MVSIZ) ,VIT(MVSIZ),
      .   R_S(MVSIZ) ,T_S(MVSIZ)   ,AREA(MVSIZ) ,AREA_TOT(MVSIZ),
-     .   AREA_EL(MVSIZ)        
+     .   AREA_EL(MVSIZ)
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------
@@ -350,7 +350,7 @@ C-----------------------------------------------
         YY(I,17) = HALF *(YYS(I,5) +YYS(I,6) +YYS(I,7) +YYS(I,8))
      .           - FOURTH*(YYS(I,1) +YYS(I,2) +YYS(I,3) +YYS(I,4))
         ZZ(I,17) = HALF *(ZZS(I,5) +ZZS(I,6) +ZZS(I,7) +ZZS(I,8))
-     .           - FOURTH*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))     
+     .           - FOURTH*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,1),SI_S(1,1),TI_S(1,1),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -363,7 +363,7 @@ C-----------------------------------------------
         YY(I,17) = HALF *(YYS(I,13)+YYS(I,14)+YYS(I,15)+YYS(I,16))
      .           - FOURTH*(YYS(I,9) +YYS(I,10)+YYS(I,11)+YYS(I,12))
         ZZ(I,17) = HALF *(ZZS(I,13)+ZZS(I,14)+ZZS(I,15)+ZZS(I,16))
-     .           - FOURTH*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))     
+     .           - FOURTH*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,2),SI_S(1,2),TI_S(1,2),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -432,15 +432,15 @@ C-----------------------------------------------
 C      calcul du point de distance min
 C      dSI_S/dr = 0 dSI_S/dt = 0     (r,t de l'element second) 
 C-----------------------------------------------
-c                                                                                                                                                                           
-c   il est possible de calculer la surface effective 
+c
+c   il est possible de calculer la surface effective
 c   de contact pour ponderer la force
 c   => pas de discontinuit    si contact sur 2 elements
 c
 c   a faire dans I17MINI
 c
 c   possible aussi de calculer la pression de Hertz
-c                                                                                                                                                                           
+c
       CALL I17MINI_PENA(
      1             LLT   ,R_CS  ,S_CS  ,T_CS  ,RI_S  ,SI_S   ,
      2             TI_S  ,NI_S  ,XXS   ,YYS   ,ZZS   ,XX     ,
@@ -531,7 +531,7 @@ C     REAL
      + R_1M(MVSIZ) ,R_2M(MVSIZ) ,T_1M(MVSIZ) ,T_2M(MVSIZ),
      + R_3M(MVSIZ) ,R_4M(MVSIZ) ,T_3M(MVSIZ) ,T_4M(MVSIZ),
      + NX(MVSIZ) ,NY(MVSIZ) ,NZ(MVSIZ) ,AREA(MVSIZ) ,AREA_TOT(MVSIZ),
-     + AREA_EL(MVSIZ)  
+     + AREA_EL(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -648,9 +648,9 @@ c                             /   /   \   +r2s
 c                            /   /     \ / \
 c                           /   /   r2s'+   \
 c                          /   /       /|\  |<-----Area_tot
-c                      rm O   /       / | \ | 
+c                      rm O   /       / | \ |
 C                      ^ /   /       /  |  \|   rs
-c                      |/t1s/       /   |   /   ^  
+c                      |/t1s/       /   |   /   ^
 C                      /   +       / (2)|  / \ / 
 C    O----------------/O---o------------oO/   O     
 C    |               / | /(3)\:::/:::::::|   / \
@@ -747,7 +747,7 @@ c  C3 = A3 + A4 r_ + 2 A5 t_
 c
 c  D1 = B1 - B4 r_ t_ - B5 r_^2
 c  D2 = B2 + B4 t_ + 2 B5 r_
-c  D3 = B3 + B4 r_ 
+c  D3 = B3 + B4 r_
 c
 C  fr = C1 + C2 r + C3 t = 0
 C  ft = D1 + D2 r + D3 t = 0
@@ -767,18 +767,18 @@ c------------------------------------------------
           DD1  = B1(I) -(B4T + B5R )* R_CS(I)
           DD2  = B2(I) + B4T + B5R + B5R
           DD3  = B3(I) + B4(I) * R_CS(I)
-          D    = DD3 * CC2 - CC3 * DD2 
+          D    = DD3 * CC2 - CC3 * DD2
           IF(ABS(D)<EM20)THEN
             CC2 = CC2 + EM10
             DD3 = DD3 + EM10
-            D   = DD3 * CC2 - CC3 * DD2 
+            D   = DD3 * CC2 - CC3 * DD2
           ENDIF
           R_CS(I) = (CC3 * DD1 - DD3 * CC1) / D
           T_CS(I) = (DD2 * CC1 - CC2 * DD1) / D
           R_CS(I) = MAX(-ONE,MIN(ONE,R_CS(I)))
           T_CS(I) = MAX(-ONE,MIN(ONE,T_CS(I)))
-c          dfdr = A1 + A2 * r + A3 * t + A4 * t * r + A5 * t * t 
-c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r 
+c          dfdr = A1 + A2 * r + A3 * t + A4 * t * r + A5 * t * t
+c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r
         ENDDO
       ENDDO
 C-----------------------------------------------------------------------
@@ -1013,8 +1013,8 @@ c
         A3 = (                              +FF6    -FF8)
         A4 = (+F(I,1)-F(I,2)+F(I,3)-F(I,4)                )
         A5 = (+F(I,1)+F(I,2)+F(I,3)+F(I,4)    -FF6    -FF8)
-        A6 = (+F(I,1)+F(I,2)+F(I,3)+F(I,4)-FF5    -FF7    ) 
-        A7 = (-F(I,1)+F(I,2)+F(I,3)-F(I,4)    -FF6    +FF8) 
+        A6 = (+F(I,1)+F(I,2)+F(I,3)+F(I,4)-FF5    -FF7    )
+        A7 = (-F(I,1)+F(I,2)+F(I,3)-F(I,4)    -FF6    +FF8)
         A8 = (-F(I,1)-F(I,2)+F(I,3)+F(I,4)+FF5    -FF7    )
 c
         B1 = ( A1 + ( A3 + A6 * T ) *T )*FOURTH
@@ -1067,7 +1067,7 @@ c-----------------------------------------------------------------------
             CC(I) = C(I) - ONE
           ELSEIF(RS(I)<-ONE)THEN
             CC(I) = C(I) + ONE
-          ELSE 
+          ELSE
             CC(I) = ONE
           ENDIF
         ENDDO
@@ -1131,16 +1131,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
       my_real
-     .   C(MVSIZ),B(MVSIZ),A(MVSIZ),R1(MVSIZ),R2(MVSIZ) 
+     .   C(MVSIZ),B(MVSIZ),A(MVSIZ),R1(MVSIZ),R2(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .  D      
+     .  D
 C
       DO I=1,LLT
-        D =  B(I)*B(I) - FOUR*A(I)*C(I) 
+        D =  B(I)*B(I) - FOUR*A(I)*C(I)
         IF(ABS(A(I))<EM20)THEN
           IF(ABS(B(I))<EM20)THEN
             R1(I) = -ONE
@@ -1151,7 +1151,7 @@ C
           ENDIF
         ELSEIF(D<ZERO)THEN
             R1(I) = -ONE
-            R2(I) =  ONE            
+            R2(I) =  ONE
         ELSE
             D = SQRT( D )
             R1(I) = (-B(I) - D) / (TWO*A(I))
@@ -1220,7 +1220,7 @@ C
         NI(1) = U_M_T * U_M_R * (-R-T-ONE)
         NI(2) = U_P_T * U_M_R * (-R+T-ONE)
         NI(3) = U_P_T * U_P_R * ( R+T-ONE)
-        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)
         A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
@@ -1272,7 +1272,7 @@ C
         NI(1) = U_M_T * U_M_R * (-R-T-ONE)
         NI(2) = U_P_T * U_M_R * (-R+T-ONE)
         NI(3) = U_P_T * U_P_R * ( R+T-ONE)
-        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)
         A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
@@ -1318,7 +1318,7 @@ C
         NI(1) = U_M_T * U_M_R * (-R-T-ONE)
         NI(2) = U_P_T * U_M_R * (-R+T-ONE)
         NI(3) = U_P_T * U_P_R * ( R+T-ONE)
-        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)
         A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
@@ -1364,7 +1364,7 @@ C
         NI(1) = U_M_T * U_M_R * (-R-T-ONE)
         NI(2) = U_P_T * U_M_R * (-R+T-ONE)
         NI(3) = U_P_T * U_P_R * ( R+T-ONE)
-        NI(4) = U_M_T * U_P_R * ( R-T-ONE)       
+        NI(4) = U_M_T * U_P_R * ( R-T-ONE)
         A = (ONE-R*R)
         NI(6) = A * U_P_T
         NI(8) = A * U_M_T
@@ -1438,7 +1438,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,NINT   
+      INTEGER LLT,NINT
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),
      +        ICONT(MVSIZ,4), LES(MVSIZ)
 C     REAL
@@ -1553,7 +1553,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,ITIED,NINT,NISKYFI,NOINT   
+      INTEGER LLT,ITIED,NINT,NISKYFI,NOINT
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),ICONT(MVSIZ), ISKY(*),
      .        LE(*) ,LES(*)
 C     REAL
@@ -1599,7 +1599,7 @@ c
 c Fti = min[(Sigt*Ai + Ki * Vti * dt) , mu*Fni]
 c
 c Sigt = Somme(Fti)/Somme(Ai)
-c 
+c
 c ou (estimation de A en i):  Sigt = Somme(Fti/A)
 c
 c    * Sigt vecteur contrainte de frottement
@@ -1638,9 +1638,9 @@ c---------------------------------------------
 c
 c ellipse de contact 2a x 2b   => surface A = a b pi
 c r: rayon    quivalent de l'ellipse    r^2 = a b
-c rayon de courbure  1/R = 1/R1 + 1/R2 + 1/R3 + 1/R4 
+c rayon de courbure  1/R = 1/R1 + 1/R2 + 1/R3 + 1/R4
 c k1 = (1-v1^2)/E1       k2 = (1-v2^2)/E2     k = k1+k2 = 1/E*
-c kk1 = (1-v1^2)/piE1    kk2 = (1-v2^2)/piE2    kk = kk1+kk2 
+c kk1 = (1-v1^2)/piE1    kk2 = (1-v2^2)/piE2    kk = kk1+kk2
 c E* = 1/(k1+k2)
 c F: force
 c pm: pression max au centre de l'ellipse)
@@ -1663,23 +1663,23 @@ c   (1)+(4)
 c F = 4 A / (3 pi R k)    [A/pi]^1/2
 c
 c-----------------------
-c F = 4 A r / (3 pi R k)     (5)    
-c F = 4 r^3 / (3 R k)        (6)    
+c F = 4 A r / (3 pi R k)     (5)
+c F = 4 r^3 / (3 R k)        (6)
 c-----------------------
 c--------------------------------------------------------------
-cp   n   tration, force, rigidit   
+cp   n   tration, force, rigidit
 c--------------------------------------------------------------
 c
 c   d = R - (R^2 - r^2)^1/2
 c   d = R[1 - (1 - r^2/R^2)^1/2]
 c-----------------------
-c   d ~= 1/2 r^2/R              (8) 
+c   d ~= 1/2 r^2/R              (8)
 c-----------------------
-c   F = 8 r/ (3 k)  d           (9)    
+c   F = 8 r/ (3 k)  d           (9)
 c-----------------------
-c   F = K  d                    (10)    
+c   F = K  d                    (10)
 c-----------------------
-c   K = 8 r/ (3 k)              (11)    
+c   K = 8 r/ (3 k)              (11)
 c-------------------------------------------
 c---------------------------------------------
 c       contact multiple (i=1,n)
@@ -1687,8 +1687,8 @@ c       si on connait la courbure
 c---------------------------------------------
 c   pour chaque contact on evalue ri^2 , Ri et di
 c
-c   Rmax = ri^2 / 2 di                    
-c   Ki = 4/3 E* (2/ (Ri di))^1/2 ri^2     
+c   Rmax = ri^2 / 2 di
+c   Ki = 4/3 E* (2/ (Ri di))^1/2 ri^2
 c   Kmin = 8/3 E* ri
 c   Fi = Ki di
 c
@@ -1700,7 +1700,7 @@ c---------------------------------------------
 c       contact multiple (i=1,n)
 c       si on connait la surface totale
 c---------------------------------------------
-c   A: surface totale du contact (estimee) 
+c   A: surface totale du contact (estimee)
 c
 c   Ri = A / 2pi di
 c   Ki = 8/3 E* (pi/A)^1/2  Ai/pi
@@ -1766,7 +1766,7 @@ C
      .              - V(3,III(I,IK)) *NI_M(I,IK)
            ENDDO
            KS1 = KSFI(NINT)%P(1,IES)
-           KS2 = KSFI(NINT)%P(2,IES)           
+           KS2 = KSFI(NINT)%P(2,IES)
 C           
            SIGTMX = FROTM(5,LEM)
            SIGTMY = FROTM(6,LEM)
@@ -1779,9 +1779,9 @@ C
 C-----------------------------------------------
 C          rigidite Hertz
 C-----------------------------------------------
-c   Ki = 8 E*  Ai / 3(A*pi)^1/2 
+c   Ki = 8 E*  Ai / 3(A*pi)^1/2
 c         HTSQRTPI = EIGHT / (THREE*SQRT(PI))
-          STIF = HTSQRTPI*AREA(I) / 
+          STIF = HTSQRTPI*AREA(I) /
      .         ((KM(1,LEM)+KS1)*SQRT(AREA_TOT(I)))
           F  = STIF*PENE
 C-----------------------------------------------
@@ -1842,7 +1842,7 @@ C-----------------------------------------------
           MUF  = FRIC(1)*MAX(ZERO,F)
           MUF2 = MUF*MUF
           IF(FF2 > MUF2)THEN
-c reduction de la contrainte visqueuse 
+c reduction de la contrainte visqueuse
 c puis de la contrainte elastique (si necessaire)
             AA = MUF/SQRT(FF2)
             FFTX = FFTX*AA
@@ -1908,7 +1908,7 @@ C-----------------------------------------------
           FY = FY + FFTY
           FZ = FZ + FFTZ
           STIF = STIF + STIFV
-          ECONT = ECONT 
+          ECONT = ECONT
      .          + VX*FX+VY*FY+VZ*FZ
 
           IF(LES(I)>0)THEN
@@ -1920,7 +1920,7 @@ C-----------------------------------------------
               A(2,J1) = A(2,J1) + NI_M(I,IK)*FY
               A(3,J1) = A(3,J1) + NI_M(I,IK)*FZ
               STIFN(J1) = STIFN(J1) + ABS(NI_M(I,IK)*STIF)
-          
+
               J2 = IIIS(I,IK)
               A(1,J2) = A(1,J2) - NI_S(I,IK)*FX
               A(2,J2) = A(2,J2) - NI_S(I,IK)*FY
@@ -1963,7 +1963,7 @@ C
               FCONT(1,J1) =FCONT(1,J1) + NI_M(I,IK)*FX
               FCONT(2,J1) =FCONT(2,J1) + NI_M(I,IK)*FY
               FCONT(3,J1) =FCONT(3,J1) + NI_M(I,IK)*FZ
-          
+
               J2 = IIIS(I,IK)
               FCONT(1,J2) =FCONT(1,J2) - NI_S(I,IK)*FX
               FCONT(2,J2) =FCONT(2,J2) - NI_S(I,IK)*FY
@@ -2094,7 +2094,7 @@ C-----------------------------------------------
       INTEGER I, J, JJ1, JJ2, K, KK, L, N, NN, IDIFF,
      .        ADSKYI(0:NMES+1)
       my_real
-     .        FF, FSKYIT(NSKYI17) , BID  
+     .        FF, FSKYIT(NSKYI17) , BID
 C-----------------------------------------------
       BID = ZERO
       DO N = 1, NMES+1

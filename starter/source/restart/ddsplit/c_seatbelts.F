@@ -31,10 +31,10 @@ Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.
 Chd|====================================================================
       SUBROUTINE C_SEATBELTS(N_SLIPRING_L,N_RETRACTOR_L,P,NODLOCAL,ELBUF_TAB,
      .                       IPARG,N_ANCHOR_REMOTE_L,N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L,
-     .                       N_SEATBELT_L,N_SEATBELT_2D_L,CEP,OFF)     
+     .                       N_SEATBELT_L,N_SEATBELT_2D_L,CEP,OFF)
 C---------------------------------------------     
       USE SEATBELT_MOD
-      USE ELBUFDEF_MOD     
+      USE ELBUFDEF_MOD
 C---------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL 
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -82,30 +82,30 @@ C
         ENDIF
       ENDDO
 C
-      DO I = 1, NSLIPRING   
+      DO I = 1, NSLIPRING
         SLIPRING(I)%IDG = I
 C
         IF (NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),P)==1) THEN
 C--       Proc main of slipring
           N_SLIPRING_L = N_SLIPRING_L + 1
           LOCAL_SLIP(I) = N_SLIPRING_L
-        ENDIF 
+        ENDIF
 C
-        DO J=1,SLIPRING(I)%NFRAM           
+        DO J=1,SLIPRING(I)%NFRAM
           IF (NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),P)==1) THEN
-            DO PP=1,NSPMD 
+            DO PP=1,NSPMD
               IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,PP)==1)) THEN
 C--             Count of remote anchor node (send)
                 N_ANCHOR_REMOTE_SEND_L = N_ANCHOR_REMOTE_SEND_L + 1
                 SLIPRING(I)%FRAM(J)%N_REMOTE_PROC = SLIPRING(I)%FRAM(J)%N_REMOTE_PROC + 1
                 N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1
               ENDIF
-            ENDDO         
+            ENDDO
           ELSEIF (NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,P)==1) THEN
 C--         Count of remote anchor node (receve)
             N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
             COMPT = 0
-            DO PP=1,NSPMD 
+            DO PP=1,NSPMD
               IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),PP)==1)) THEN
 C--             Count of remote anchor node per main proc
                 N_REC_PROC(PP) = N_REC_PROC(PP) + 1
@@ -117,12 +117,12 @@ C
       ENDDO
 C
       DO I = 1, NRETRACTOR
-        RETRACTOR(I)%IDG = I 
+        RETRACTOR(I)%IDG = I
         IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
 C--       Proc main of retractor
           N_RETRACTOR_L = N_RETRACTOR_L + 1
           LOCAL_RETR(I) = N_RETRACTOR_L
-          DO PP=1,NSPMD 
+          DO PP=1,NSPMD
             IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,PP)==1)) THEN
 C--           remote anchor node (send)
               N_ANCHOR_REMOTE_SEND_L = N_ANCHOR_REMOTE_SEND_L + 1
@@ -133,7 +133,7 @@ C--           remote anchor node (send)
         ELSEIF (NLOCAL(RETRACTOR(I)%ANCHOR_NODE,P)==1) THEN
 C--       Remote anchor node
           N_ANCHOR_REMOTE_L = N_ANCHOR_REMOTE_L + 1
-          DO PP=1,NSPMD 
+          DO PP=1,NSPMD
             IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%NODE(2),PP)==1)) THEN
 C--           Count of remote anchor node per main proc
               N_REC_PROC(PP) = N_REC_PROC(PP) + 1
@@ -164,21 +164,21 @@ C
           ANCHOR_REMOTE_SEND_L%ADD_PROC(PP+1) = ANCHOR_REMOTE_SEND_L%ADD_PROC(PP) + N_SEND_PROC(PP)
         ENDDO
         N_SEND_PROC = 0
-      ENDIF         
+      ENDIF
 C
       NN = 0
 C
-      DO I = 1, NSLIPRING   
-        DO J=1,SLIPRING(I)%NFRAM           
+      DO I = 1, NSLIPRING
+        DO J=1,SLIPRING(I)%NFRAM
           IF (NLOCAL(SLIPRING(I)%FRAM(J)%NODE(2),P)==1) THEN
             IF (SLIPRING(I)%FRAM(J)%N_REMOTE_PROC > 0) THEN
 C--           Proc main of slipring
-              NN = NN + 1        
-              DO PP=1,NSPMD 
+              NN = NN + 1
+              DO PP=1,NSPMD
                 IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE,PP)==1)) THEN
 C--               remote anchor node (send)
                   ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
-                  N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1              
+                  N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1
                 ENDIF
               ENDDO
             ENDIF
@@ -188,18 +188,18 @@ C--         Proc remote of slipring
             ANCHOR_REMOTE_L%NODE(COMPT) = NODLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE)
           ENDIF
         ENDDO
-      ENDDO 
+      ENDDO
 C
-      DO I = 1, NRETRACTOR                
+      DO I = 1, NRETRACTOR
         IF (NLOCAL(RETRACTOR(I)%NODE(2),P)==1) THEN
           IF (RETRACTOR(I)%N_REMOTE_PROC > 0) THEN
 C--         Proc main of retractor
-            NN = NN + 1        
-            DO PP=1,NSPMD 
+            NN = NN + 1
+            DO PP=1,NSPMD
               IF ((PP /= P).AND.(NLOCAL(RETRACTOR(I)%ANCHOR_NODE,PP)==1)) THEN
 C--             remote anchor node (send)
                 ANCHOR_REMOTE_SEND_L%NODE(ANCHOR_REMOTE_SEND_L%ADD_PROC(PP)+N_SEND_PROC(PP)) = NN
-                N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1              
+                N_SEND_PROC(PP) = N_SEND_PROC(PP) + 1
               ENDIF
             ENDDO
           ENDIF
@@ -216,7 +216,7 @@ C
         NSEATBELT_TH_PROC = 0
         TAG_PROC = 0
 C
-        DO PP=1,NSPMD 
+        DO PP=1,NSPMD
           DO I=1,NSLIPRING
             IF ((PP /= P).AND.(NLOCAL(SLIPRING(I)%FRAM(1)%NODE(2),PP)==1)) TAG_PROC(1,PP) = 1
           ENDDO
@@ -230,7 +230,7 @@ C
 C
         COMPT = 0
         SEATBELT_TH_EXCH(1)%ADD_PROC = 1
-        DO PP=1,NSPMD 
+        DO PP=1,NSPMD
           IF (TAG_PROC(1,PP) + TAG_PROC(2,PP) > 0) THEN
             COMPT = COMPT + 1
 C--         data must be received from this proc for TH
@@ -289,7 +289,7 @@ C
 C
         ENDDO
 C
-      ENDIF   
+      ENDIF
 C                
 ! --------------------------------------
       RETURN

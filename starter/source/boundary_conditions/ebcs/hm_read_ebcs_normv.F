@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER LOCAL_ID, NPC(*)
       INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
@@ -107,7 +107,7 @@ C-----------------------------------------------
       FAC_L=ONE
       FAC_T=ONE
       FAC_C=ONE
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
 
@@ -118,12 +118,12 @@ C-----------------------------------------------
         IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
         IF(SURF==0)THEN
            IERR=IERR+1
-           WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
-           WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
+           WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+           WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
         ELSEIF(ISU==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-           WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
+           WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
         ELSEIF(NSEG==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
@@ -131,7 +131,7 @@ C-----------------------------------------------
         ENDIF
 
       !--line-2
-      CALL HM_GET_FLOATV('rad_ebcs_c',  C  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
+      CALL HM_GET_FLOATV('rad_ebcs_c',  C  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       !--line-3
       CALL HM_GET_INTV('curveid',  IVIMP  ,IS_AVAILABLE,LSUBMODEL)
@@ -150,29 +150,29 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('rad_ebcs_r1',  R1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('rad_ebcs_r2',  R2  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      IF(SURF/=0 .AND. ISU/=0 .AND. NSEG/=0)THEN                      
-           WRITE(IOUT,1005)ID,TRIM(TITR)                                    
-           WRITE(IOUT,1102)SURF,NSEG,C,VIMP,IVIMP,RHO,IRHO,ENER,IENER,LCAR  
-      ENDIF                                                                 
-      DO J=1,NFUNCT                                                         
-        IF(IVIMP/=0 .AND. IVIMP==NPC(J)) THEN                           
-           IVIMP=J                                                          
-           EXIT                                                             
-        ENDIF                                                               
-      ENDDO                                                                 
-      DO J=1,NFUNCT                                                         
-         IF(IRHO/=0 .AND. IRHO==NPC(J)) THEN                            
-            IRHO=J                                                          
-            EXIT                                                            
-         ENDIF                                                              
-      ENDDO                                                                 
-      DO J=1,NFUNCT                                                         
-         IF(IENER/=0 .AND. IENER==NPC(J)) THEN                          
-            IENER=J                                                         
-            EXIT                                                            
-         ENDIF                                                              
-      ENDDO                                                                 
-           
+      IF(SURF/=0 .AND. ISU/=0 .AND. NSEG/=0)THEN
+           WRITE(IOUT,1005)ID,TRIM(TITR)
+           WRITE(IOUT,1102)SURF,NSEG,C,VIMP,IVIMP,RHO,IRHO,ENER,IENER,LCAR
+      ENDIF
+      DO J=1,NFUNCT
+        IF(IVIMP/=0 .AND. IVIMP==NPC(J)) THEN
+           IVIMP=J
+           EXIT
+        ENDIF
+      ENDDO
+      DO J=1,NFUNCT
+         IF(IRHO/=0 .AND. IRHO==NPC(J)) THEN
+            IRHO=J
+            EXIT
+         ENDIF
+      ENDDO
+      DO J=1,NFUNCT
+         IF(IENER/=0 .AND. IENER==NPC(J)) THEN
+            IENER=J
+            EXIT
+         ENDIF
+      ENDDO
+
       EBCS%ivimp = IVIMP
       EBCS%irho = IRHO
       EBCS%iener = IENER
@@ -183,17 +183,17 @@ C-----------------------------------------------
       EBCS%r1 = R1
       EBCS%r2 = R2
       EBCS%ener = ENER
-     
+
       IF (MULTI_FVM%IS_USED) THEN
            CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .          I1 = ID, C1 = TRIM(TITR), C2 = "NOT COMPATIBLE WITH LAW 151")
         ENDIF
-      
+
 C-----------
       RETURN
 C-----------
 
- 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I8,1X,A)    
+ 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I8,1X,A)
  1102 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,

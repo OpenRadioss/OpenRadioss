@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE S8ZDEFO3(
      .    PXC1, PXC2, PXC3, PXC4,
      .    PYC1, PYC2, PYC3, PYC4,
-     .    PZC1, PZC2, PZC3, PZC4, 
+     .    PZC1, PZC2, PZC3, PZC4,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
      .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
@@ -80,14 +80,14 @@ C     REAL
      .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
-     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),  
-     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),  
-     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),  
+     .   PXC1(*), PXC2(*), PXC3(*), PXC4(*),
+     .   PYC1(*), PYC2(*), PYC3(*), PYC4(*),
+     .   PZC1(*), PZC2(*), PZC3(*), PZC4(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -118,7 +118,7 @@ C     REAL
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
      .   WXX(*), WYY(*), WZZ(*), OFFS(*),DSV(*),
      .   VOLO(*),OFF(*),EINT(*),DSR(*),DSS(*),DST(*),DTI
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOL0DP(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -127,7 +127,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DVC(MVSIZ),DVCA(MVSIZ),DT1D2,TOL,DT1D
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DVP,DV,DV1
 C                                                                     12
 C-----------------------------------------------
@@ -206,21 +206,21 @@ C-------------R--direction------
         DXX(I)= DXX(I)-DSR(I)*DTI
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DSR(I)
        ENDDO
-      ENDIF 
+      ENDIF
 C--------------S--direction--
       IF (ICS==1) THEN
        DO I=LFT,LLT
         DYY(I)= DYY(I)-DSS(I)*DTI
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DSS(I)
        ENDDO
-      ENDIF 
+      ENDIF
 C--------------T--direction
       IF (ICT==1) THEN
        DO I=LFT,LLT
         DZZ(I)= DZZ(I)-DST(I)*DTI
         IF(ISMDISP==0.AND.OFFS(I)/=TWO)DVCA(I)= DVCA(I)-DST(I)
        ENDDO
-      ENDIF 
+      ENDIF
 C-------------Volume traitement------
       DO I=LFT,LLT
         DVP=DVCA(I)-DVC(I)
@@ -250,7 +250,7 @@ C-------------Volume traitement------
          END IF
         END IF
        ENDDO
-      END IF 
+      END IF
       DO I=LFT,LLT
         IF(OFFS(I)==TWO.OR.ISMSTR==11) CYCLE
         DV=DSV(I)
@@ -303,7 +303,7 @@ C
         WXX(LFT:LLT)=ZERO
         WYY(LFT:LLT)=ZERO
         WZZ(LFT:LLT)=ZERO
-       ENDIF 
+       ENDIF
       ELSE
         D4(LFT:LLT)=DXY(LFT:LLT)+DYX(LFT:LLT)
         D5(LFT:LLT)=DYZ(LFT:LLT)+DZY(LFT:LLT)
@@ -371,7 +371,7 @@ C     REAL
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
@@ -449,7 +449,7 @@ C-----F'=FAC*F=MF'+[1]-->MF'=FAC*MF+(FAC-ONE)*[1]
          FAC=TWO_THIRD*NU(I)
          BASE = DET0(I)/MAX(EM20,DET(I))
          JFAC(I)=EXP(FAC*LOG(MAX(EM20,BASE)))
-         IF (IDEG(I)>10) JFAC(I) =ONE 
+         IF (IDEG(I)>10) JFAC(I) =ONE
         ENDDO
         DXX(LFT:LLT) = JFAC(LFT:LLT)*DXX(LFT:LLT)+JFAC(LFT:LLT)-ONE
         DYY(LFT:LLT) = JFAC(LFT:LLT)*DYY(LFT:LLT)+JFAC(LFT:LLT)-ONE

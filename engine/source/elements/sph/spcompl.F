@@ -32,10 +32,10 @@ Chd|        GET_U_GEO                     source/user_interface/upidmid.F
 Chd|        SPHBOX                        share/modules/sphbox.F        
 Chd|====================================================================
       SUBROUTINE SPCOMPL(
-     1    X       ,V       ,MS      ,SPBUF   ,ITAB    , 
-     2    KXSP    ,IXSP    ,NOD2SP  ,ISPSYM  ,XSPSYM  , 
-     3    VSPSYM  ,IPARG   ,WACOMP  ,ISPCOND ,          
-     4    XFRAME  ,WSMCOMP ,GEO     ,IPART   ,IPARTSP , 
+     1    X       ,V       ,MS      ,SPBUF   ,ITAB    ,
+     2    KXSP    ,IXSP    ,NOD2SP  ,ISPSYM  ,XSPSYM  ,
+     3    VSPSYM  ,IPARG   ,WACOMP  ,ISPCOND ,
+     4    XFRAME  ,WSMCOMP ,GEO     ,IPART   ,IPARTSP ,
      5    WASPACT ,ITASK   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -155,7 +155,7 @@ C-----------------------------------------------
        WACOMP(13,N)=ZERO
        WACOMP(14,N)=ZERO
        WACOMP(15,N)=ZERO
-       WACOMP(16,N)=ZERO      
+       WACOMP(16,N)=ZERO
       ENDDO
 C-----------------------------------------------
 C     Kernel correction up to order 0.
@@ -173,7 +173,7 @@ C------
        WCOMPI =SPBUF(12,N)*WGHT/MAX(EM20,RHOI)
        WGRADXI=ZERO
        WGRADYI=ZERO
-       WGRADZI=ZERO    
+       WGRADZI=ZERO
 C------
        NVOIS=KXSP(4,N)
        DO J=1,NVOIS
@@ -262,7 +262,7 @@ C------
        WACOMP(13,N)=ZERO
        WACOMP(14,N)=ZERO
        WACOMP(15,N)=ZERO
-       WACOMP(16,N)=ZERO    
+       WACOMP(16,N)=ZERO
 C------
       ENDDO
 C------
@@ -292,7 +292,7 @@ C------
        WGRADXZI=ZERO
        WGRADYYI=ZERO
        WGRADYZI=ZERO
-       WGRADZZI=ZERO       
+       WGRADZZI=ZERO
 C      WGRADYXI=0.
 C      WGRADZXI=0.
 C      WGRADZYI=0.
@@ -390,7 +390,7 @@ C------
        LI13=ZERO
        LI22=ZERO
        LI23=ZERO
-       LI33=ZERO       
+       LI33=ZERO
 C      LI21=0.
 C      LI31=0.
 C      LI32=0.
@@ -400,7 +400,7 @@ C------
        LXI13=ZERO
        LXI22=ZERO
        LXI23=ZERO
-       LXI33=ZERO       
+       LXI33=ZERO
 C      LXI21=0.
 C      LXI31=0.
 C      LXI32=0.
@@ -410,7 +410,7 @@ C------
        LYI13=ZERO
        LYI22=ZERO
        LYI23=ZERO
-       LYI33=ZERO       
+       LYI33=ZERO
 C      LYI21=0.
 C      LYI31=0.
 C      LYI32=0.
@@ -420,7 +420,7 @@ C------
        LZI13=ZERO
        LZI22=ZERO
        LZI23=ZERO
-       LZI33=ZERO      
+       LZI33=ZERO
 C      LZI21=0.
 C      LZI31=0.
 C      LZI32=0.
@@ -1057,7 +1057,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MWAMUN(NSPHACT),MWAZERO(NSPHACT),MWAUN(NSPHACT) 
+      INTEGER MWAMUN(NSPHACT),MWAZERO(NSPHACT),MWAUN(NSPHACT)
       INTEGER SM,JS,NC,IC,IS,
      .        I,N,IPRT,IGEO,IORDER,NMUN,NZERO,NUN
       my_real
@@ -1106,7 +1106,7 @@ C-----------------------------------------------
             WSMCOMP(3,JS)=ZERO
             WSMCOMP(4,JS)=ZERO
             WSMCOMP(5,JS)=ZERO
-            WSMCOMP(6,JS)=ZERO  
+            WSMCOMP(6,JS)=ZERO
 C           WACOMP( 8,JS)=0.
 C           WACOMP( 9,JS)=0.
 C           WACOMP(10,JS)=0.
@@ -1184,7 +1184,7 @@ C-----------------------------------------------
 C           WACOMP(1,JS)=WACOMP(1,SM)
             WSMCOMP(1,JS)=ZERO
             WSMCOMP(2,JS)=ZERO
-            WSMCOMP(3,JS)=ZERO  
+            WSMCOMP(3,JS)=ZERO
             ALPHAXI=WACOMP( 5,SM)
             ALPHAYI=WACOMP( 6,SM)
             ALPHAZI=WACOMP( 7,SM)
@@ -1251,7 +1251,7 @@ C
            IF(JS>0)THEN
             WSMCOMP(1,JS)=ZERO
             WSMCOMP(2,JS)=ZERO
-            WSMCOMP(3,JS)=ZERO  
+            WSMCOMP(3,JS)=ZERO
             ALPHAXI=WACOMPR( 5,SM)
             ALPHAYI=WACOMPR( 6,SM)
             ALPHAZI=WACOMPR( 7,SM)

@@ -303,7 +303,7 @@ C-------  RBE2
               END IF
             ENDDO
           ENDDO
-        END IF 
+        END IF
 C-------  RBE3      
         IF (IKRBE3(IKINE(I))/=0 ) THEN
           DO N=1,NRBE3
@@ -314,12 +314,12 @@ C-------  RBE3
      .                       I1=ITAGCYC(I),I2=ITAB(I),I3=ID)
             END IF
           ENDDO
-        END IF 
+        END IF
 C-------  RLINK      
         IF (IRLK(IKINE(I))/=0 ) THEN
             CALL ANCMSG(MSGID=1757,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=ITAGCYC(I),I2=ITAB(I))
-        END IF 
+        END IF
        ENDDO
       END IF !(NBCSCYC>0) THEN
 C=======================================================================

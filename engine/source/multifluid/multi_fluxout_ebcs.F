@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_FLUXOUT_EBCS(MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST, 
+      SUBROUTINE MULTI_FLUXOUT_EBCS(MULTI_FVM, NELEM, ELEM_LIST, FACE_LIST,
      .     IXS, IXQ, IXTG, XGRID, WGRID)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -74,12 +74,12 @@ C-----------------------------------------------
 
 C     Face of the element
          KFACE = FACE_LIST(IELEM)
-         
+
          NX = MULTI_FVM%FACE_DATA%NORMAL(1, KFACE, ELEMID)
          NY = MULTI_FVM%FACE_DATA%NORMAL(2, KFACE, ELEMID)
          NZ = MULTI_FVM%FACE_DATA%NORMAL(3, KFACE, ELEMID)
          SURF = MULTI_FVM%FACE_DATA%SURF(KFACE, ELEMID)
-         WFAC(1:3) = MULTI_FVM%FACE_DATA%WFAC(1:3, KFACE, ELEMID) 
+         WFAC(1:3) = MULTI_FVM%FACE_DATA%WFAC(1:3, KFACE, ELEMID)
          VX = MULTI_FVM%VEL(1, ELEMID)
          VY = MULTI_FVM%VEL(2, ELEMID)
          VZ = MULTI_FVM%VEL(3, ELEMID)
@@ -89,7 +89,7 @@ C     Face of the element
          P = MULTI_FVM%PRES(ELEMID)
          RHO = MULTI_FVM%RHO(ELEMID)
 
-         VEL2 = VX * VX + VY * VY + VZ * VZ 
+         VEL2 = VX * VX + VY * VY + VZ * VZ
 
          VII(1) = RHO
          VII(2) = RHO * VX
@@ -102,7 +102,7 @@ C     Face of the element
          FII(3) = VII(3) * NORMVEL + P * NY
          FII(4) = VII(4) * NORMVEL + P * NZ
          FII(5) = (VII(5) + P) * NORMVEL
-        
+
          MULTI_FVM%FLUXES(1:5, KFACE, ELEMID) = (FII(1:5) - NORMALW * VII(1:5)) * SURF
          MULTI_FVM%FLUXES(6, KFACE, ELEMID) = SURF * NORMVEL
 
@@ -110,16 +110,16 @@ C     Face of the element
             MULTI_FVM%FLUXES(1, KFACE, ELEMID) = ZERO
             DO IMAT = 1, MULTI_FVM%NBMAT
                VII(1) = MULTI_FVM%PHASE_ALPHA(IMAT, ELEMID)
-               VII(2) = MULTI_FVM%PHASE_ALPHA(IMAT, ELEMID) * 
+               VII(2) = MULTI_FVM%PHASE_ALPHA(IMAT, ELEMID) *
      .              MULTI_FVM%PHASE_RHO(IMAT, ELEMID)
-               VII(3) = MULTI_FVM%PHASE_ALPHA(IMAT, ELEMID) * 
+               VII(3) = MULTI_FVM%PHASE_ALPHA(IMAT, ELEMID) *
      .              MULTI_FVM%PHASE_EINT(IMAT, ELEMID)
                FII(1:3) = VII(1:3) * NORMVEL
-               MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) = 
+               MULTI_FVM%SUBVOL_FLUXES(IMAT, KFACE, ELEMID) =
      .              (FII(1) - NORMALW * VII(1)) * SURF
-               MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) = 
+               MULTI_FVM%SUBMASS_FLUXES(IMAT, KFACE, ELEMID) =
      .              (FII(2) - NORMALW * VII(2)) * SURF
-               MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) = 
+               MULTI_FVM%SUBENER_FLUXES(IMAT, KFACE, ELEMID) =
      .              (FII(3) - NORMALW * VII(3)) * SURF
                MULTI_FVM%FLUXES(1, KFACE, ELEMID) = MULTI_FVM%FLUXES(1, KFACE, ELEMID) +
      .              (FII(2) - NORMALW * VII(2)) * SURF

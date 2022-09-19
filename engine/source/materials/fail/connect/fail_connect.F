@@ -97,53 +97,53 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C=======================================================================
-      MAXDN  = UPARAM(1)         
-      MAXDT  = UPARAM(2)         
-      EXPN   = UPARAM(3)         
-      EXPT   = UPARAM(4)         
-      FAC1   = UPARAM(5)         
-      FAC2   = UPARAM(6)         
-      ASCALE = UPARAM(7)     
-      IFAILS = NINT(UPARAM(8))    
+      MAXDN  = UPARAM(1)
+      MAXDT  = UPARAM(2)
+      EXPN   = UPARAM(3)
+      EXPT   = UPARAM(4)
+      FAC1   = UPARAM(5)
+      FAC2   = UPARAM(6)
+      ASCALE = UPARAM(7)
+      IFAILS = NINT(UPARAM(8))
       IFAILE = NINT(UPARAM(9))
-      ISOLID = NINT(UPARAM(10))  
-      MAXEI  = UPARAM(11) 
-      MAXEN  = UPARAM(12) 
-      MAXET  = UPARAM(13) 
+      ISOLID = NINT(UPARAM(10))
+      MAXEI  = UPARAM(11)
+      MAXEN  = UPARAM(12)
+      MAXET  = UPARAM(13)
       NN     = UPARAM(14)
       NT     = UPARAM(15)
       DTIME  = UPARAM(16)
       DSOFT  = UPARAM(17)
-      ISYM   = NINT(UPARAM(18))     
-      AREASCALE = UPARAM(19)        
+      ISYM   = NINT(UPARAM(18))
+      AREASCALE = UPARAM(19)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
       IF (ISIGI == ZERO) THEN
         IF (TIME == ZERO) THEN
           DO I=1,NEL
-            UVAR(I,6)= ONE         
-            UVAR(I,13)= AREA(I)  
-          ENDDO   
-        ENDIF     
-      ENDIF  
+            UVAR(I,6)= ONE
+            UVAR(I,13)= AREA(I)
+          ENDDO
+        ENDIF
+      ENDIF
 C-----------------------------------------------
       DO I=1,NEL
-        DAM1(I) = UVAR(I,7)                   
-        DAM2(I) = UVAR(I,8)                   
-        DAM3(I) = UVAR(I,9)                   
-        DAM4(I) = UVAR(I,10)                   
-        EN(I)   = UVAR(I,11)                   
-        ET(I)   = UVAR(I,12)                   
-      ENDDO                                   
+        DAM1(I) = UVAR(I,7)
+        DAM2(I) = UVAR(I,8)
+        DAM3(I) = UVAR(I,9)
+        DAM4(I) = UVAR(I,10)
+        EN(I)   = UVAR(I,11)
+        ET(I)   = UVAR(I,12)
+      ENDDO
 C-----------------------------------------------
       NINDX  = 0
       NINDXE = 0
-      NINDXS = 0  
-      NINDXA = 0  
+      NINDXS = 0
+      NINDXA = 0
 c
       DO I=1,NEL
         IDEL = 0
@@ -171,9 +171,9 @@ c-----------------------------
             ENDIF
             DAM1(I) = DAM1(I) + C1 * TIMESTEP
           ENDIF
-c         
+c
         ELSEIF (IFAILE == 2) THEN  !  orthotropic energy rupture
-          C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN          
+          C2 = (ET(I)/MAXET)**NT+ (EN(I)/MAXEN)**NN
           IF (C2 > ONE) THEN
             IF (DAM1(I) == ZERO) THEN
               NINDXE = NINDXE+1
@@ -197,14 +197,14 @@ c-----------------------------
 c------ max strain criterion
 c-----------------------------
         IF (IFAILS > 0) THEN
-          FUNN = IFUNC(1)                                              
+          FUNN = IFUNC(1)
           FUNT = IFUNC(2)
           ! eps2=epszx et eps3 epsxy
-          EPST(I) = SQRT(EPS2(I)**2 + EPS3(I)**2)                                     
-          C3 = FAC1*EPS1(I)/MAXDN  
+          EPST(I) = SQRT(EPS2(I)**2 + EPS3(I)**2)
+          C3 = FAC1*EPS1(I)/MAXDN
           C4 = FAC2*EPST(I)/MAXDT
           IF (FUNN > 0) C3 = C3*FINTER(FUNN,EPSP(I)*ASCALE,NPF,TF,DYDX)
-          IF (FUNT > 0) C4 = C4*FINTER(FUNT,EPSP(I)*ASCALE,NPF,TF,DYDX) 
+          IF (FUNT > 0) C4 = C4*FINTER(FUNT,EPSP(I)*ASCALE,NPF,TF,DYDX)
           IF (IFAILS == 1) THEN
 c           unidirectional rupture in strain
             C3 = MAX(C3,C4)
@@ -236,14 +236,14 @@ c-----------------------------
           SOFT(I) = ONE - DAMT/MAX(DTIME,EM20)
         ELSEIF (DSOFT > ZERO) THEN
           SOFT(I) = (ONE - DAMT/MAX(DTIME,EM20))**DSOFT
-        ENDIF  
+        ENDIF
 c-----------------------------
         IF (IDEL == 1 .AND. OFFL(I) == ONE) THEN
-          OFFL(I) = ZERO       ! local integ point rupture    
+          OFFL(I) = ZERO       ! local integ point rupture
           NINDX = NINDX+1
           INDX(NINDX) = I
-          TDELE(I) = TIME  
-        ENDIF 
+          TDELE(I) = TIME
+        ENDIF
 c-----------------------------
 c---    deformed elements check
         IF (AREASCALE > ZERO .AND. OFFG(I) == ONE ) THEN
@@ -252,7 +252,7 @@ c---    deformed elements check
             OFFL(I) = ZERO
             NINDXA = NINDXA+1
             INDXA(NINDXA) = I
-            TDELE(I) = TIME  
+            TDELE(I) = TIME
             ISOLID   = 1
           ENDIF
         ENDIF
@@ -262,18 +262,18 @@ c-------------------------------
         UVAR(I,3) = MAX(UVAR(I,3), C3)
         UVAR(I,4) = MAX(UVAR(I,4), C4)
         UVAR(I,5) = MAX(UVAR(I,5), CM)
-        UVAR(I,6) = SOFT(I)           
-c      
+        UVAR(I,6) = SOFT(I)
+c
         UVAR(I,7) = DAM1(I)
         UVAR(I,8) = DAM2(I)
         UVAR(I,9) = DAM3(I)
         UVAR(I,10)= DAM4(I)
-        UVAR(I,11)= EN(I)            
-        UVAR(I,12)= ET(I)   
+        UVAR(I,11)= EN(I)
+        UVAR(I,12)= ET(I)
 c--     Maximum Damage storing for output : 0 < DFMAX < 1
-        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),DAMT/ MAX(DTIME,EM20))) 
+        DFMAX(I) = MIN(ONE,MAX(DFMAX(I),DAMT/ MAX(DTIME,EM20)))
 c
-      ENDDO     ! I=1,NEL                        
+      ENDDO     ! I=1,NEL
 C-----------------------------------------------
       IF (NINDXE > 0) THEN
         DO J=1,NINDXE
@@ -307,7 +307,7 @@ C-----------------------------------------------
           WRITE(ISTDO,1500) NGL(I),AREA(I),TIME
 #include "lockoff.inc"
         END DO
-      ENDIF         
+      ENDIF
 C-----------------------------------------------
  1000 FORMAT(5X,'START DAMAGE CONNECTION ELEMENT ',I10,
      .          ' INTEGRATION POINT',I2,', ENERGY=',1PE16.9)

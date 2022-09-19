@@ -67,7 +67,7 @@ C-----------------------------------------------
       BUF6(1:DIM6,1:6,1:DIM_EXCH)=FB6(1:DIM6,1:6,1:DIM_EXCH)
       DIM=DIM6*6*DIM_EXCH
 C
-      CALL MPI_ALLREDUCE(BUF6,FB6,DIM,MPI_DOUBLE_PRECISION,   
+      CALL MPI_ALLREDUCE(BUF6,FB6,DIM,MPI_DOUBLE_PRECISION,
      .                   MPI_SUM,MPI_COMM_WORLD,IERROR)
 C
 #endif

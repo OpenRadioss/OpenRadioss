@@ -61,20 +61,20 @@ C-----------------------------------------------
 
       DO KVAR=1,NVCONV
         DO I=1,NRT
-          KK=ISEG(I)                     
-          SELECT CASE(KVAR)              
-            CASE(1)                      
-              ptr(1:) => SEGVAR%RHO(1:)  
-            CASE(2)                      
-              ptr(1:) => SEGVAR%EINT(1:) 
-            CASE(3)                      
-              ptr(1:) => SEGVAR%RK(1:)   
-            CASE(4)                      
-              ptr(1:) => SEGVAR%RE(1:)   
-            CASE(5)                      
-              ptr(1:) => SEGVAR%UVAR(1:) 
-          END SELECT                     
-               
+          KK=ISEG(I)
+          SELECT CASE(KVAR)
+            CASE(1)
+              ptr(1:) => SEGVAR%RHO(1:)
+            CASE(2)
+              ptr(1:) => SEGVAR%EINT(1:)
+            CASE(3)
+              ptr(1:) => SEGVAR%RK(1:)
+            CASE(4)
+              ptr(1:) => SEGVAR%RE(1:)
+            CASE(5)
+              ptr(1:) => SEGVAR%UVAR(1:)
+          END SELECT
+
           DO J=1,4
             NODAD=NVCONV*(IRECT(J,I)-1)+KVAR
             NODVAR(NODAD)=NODVAR(NODAD)+ptr(KK)

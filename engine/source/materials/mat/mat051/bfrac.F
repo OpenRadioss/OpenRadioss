@@ -40,15 +40,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .          TIME,XL,TBURN,
-     .          V1, RHO1, RHO10, MAS1, 
+     .          V1, RHO1, RHO10, MAS1,
      .          UPARAM(*),BFRAC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ibug, IBFRAC
-      my_real 
+      my_real
      .   VDET,BHE
 C-----------------------------------------------
       VDET  = UPARAM(42)
@@ -62,7 +62,7 @@ C-----------------------------------------------
         BFRAC = ZERO
         IF(IBFRAC/=1 .AND. TIME > -TBURN)THEN
           XL = V1**THIRD
-          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL 
+          BFRAC = VDET*(TIME+TBURN)*TWO_THIRD/XL
         ENDIF
         IF(IBFRAC/=2) BFRAC  = MAX( BFRAC , BHE * (ONE - RHO10/RHO1) )
         IF(BFRAC < EM03) THEN

@@ -35,7 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,15 +64,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,NG,NEL,N,II(6),JJ,JJ_OLD, NGF, NGL, NN, 
+      INTEGER I,J,NG,NEL,N,II(6),JJ,JJ_OLD, NGF, NGL, NN,
      .   LEN,RESP0,WRTLEN,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
      .   FUNC(6)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
       IF (ISPMD == 0) THEN
           WRITE(IUGEO,'(2A)')'/SPHCEL  /TENSOR    /',KEY
@@ -97,12 +97,12 @@ C
          DO  NG = NGF, NGL
           ITY   =IPARG(5,NG)
           IF(ITY == 51) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
            GBUF => ELBUF_TAB(NG)%GBUF
            LFT=1
@@ -125,7 +125,7 @@ C
          ENDDO
          NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
       ENDDO
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -194,7 +194,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,7 +218,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*10 KEY
       CHARACTER*40 TEXT
-      INTEGER KXSP(NISP,*),IPARG(NPARG,*), DD_IAD(NSPMD+1,*), 
+      INTEGER KXSP(NISP,*),IPARG(NPARG,*), DD_IAD(NSPMD+1,*),
      .        IPM(NPROPMI,*),SIZ_WR
       INTEGER SIZLOC,SIZP0
       my_real
@@ -230,14 +230,14 @@ C-----------------------------------------------
       INTEGER I,J,K,II(6),JJ, JJ_OLD,NPTR, NPTS, NPTT,NPTG,
      .   NG, NEL, IADD, N,NGF, NGL, NN, LEN,MLW,COMPTEUR,L
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real
      .   FUNC(6)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
-        IF (ISPMD == 0) THEN        
+        IF (ISPMD == 0) THEN
          WRITE(IUGEO,'(2A)')'/SPHCEL  /TENSOR    /',KEY
          WRITE(IUGEO,'(A)')TEXT
          IF (OUTYY_FMT == 2) THEN
@@ -255,7 +255,7 @@ C=======================================================================
      .      '(TX(I),TY(I),TZ(I),TXY(I),TYZ(I),TZX(I),',
      .      '#EPSP(I),I=1,NUMSPH)'
          END IF
-        END IF        
+        END IF
 C
        JJ_OLD = 1
        NGF = 1
@@ -267,22 +267,22 @@ C
         DO  NG = NGF, NGL
          ITY   =IPARG(5,NG)
          IF (ITY == 51) THEN
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
           GBUF => ELBUF_TAB(NG)%GBUF
           LFT=1
-          LLT=NEL           
+          LLT=NEL
 !
           DO I=1,6
             II(I) = NEL*(I-1)
           ENDDO
 !
-          DO I=LFT,LLT 
+          DO I=LFT,LLT
              WA(JJ+1) = GBUF%EINT(I)
              WA(JJ+2) = GBUF%RHO(I)
              WA(JJ+3) = SPBUF(1,NFT+I)
@@ -300,12 +300,12 @@ C
               WA(JJ+11) = - ONE
              ENDIF
              JJ=JJ+11
-          ENDDO     
+          ENDDO
          ENDIF
         ENDDO
         NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
       ENDDO                                   ! nn=1,nspdgroup
 
 !     ++++++++++
@@ -332,29 +332,29 @@ C
           ENDDO    ! k=1,nspmd
 
         JJ_OLD = COMPTEUR
-        IF(JJ_OLD>0) THEN    
+        IF(JJ_OLD>0) THEN
          IF (OUTYY_FMT == 2) THEN
            J = 1
            DO WHILE (J<JJ_OLD)
              WRITE(IUGEO,'(1P3E12.5)')(WAP0(J-1+K),K=1,3) ! j-1+k=1,...,3
              J=J+3 ! j = 4
-             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)! j-1+k = 4,...,9 
+             WRITE(IUGEO,'(1P6E12.5)')(WAP0(J-1+K),K=1,6)! j-1+k = 4,...,9
              IF (WAP0(J+7) > ZERO) WRITE(IUGEO,'(1P1E12.5)') (WAP0(J+6)) ! test on G_PLA (wa(11)) then write wa(10)
              J=J+8 ! j = 12
-           ENDDO 
+           ENDDO
          ELSE
            J = 1
            DO WHILE (J<=JJ_OLD)
              WRITE(IUGEO,'(1P3E20.13)')(WAP0(J-1+K),K=1,3) ! j-1+k=1,...,3
              J=J+3 ! j = 4
-             WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6) ! j-1+k = 4,...,9 
+             WRITE(IUGEO,'(1P6E20.13)')(WAP0(J-1+K),K=1,6) ! j-1+k = 4,...,9
              IF (WAP0(J+7) > ZERO) WRITE(IUGEO,'(1P1E20.13)') (WAP0(J+6)) ! test on G_PLA (wa(11)) then write wa(10)
              J=J+8 ! j = 12
-           ENDDO 
+           ENDDO
          END IF
         END IF
        ENDDO   ! nn=1,nspgroup
-      END IF   ! ispmd=0     
+      END IF   ! ispmd=0
 C-----------             
       RETURN
       END
@@ -402,14 +402,14 @@ C-----------------------------------------------
             NEL = IPARG(2,NG)
             JJ = JJ + 6*NEL
           ENDIF
-         ENDDO 
+         ENDDO
          NGF = NGL + 1
          WASZ = WASZ + JJ
          SIZ_WRITE_LOC(NN) = JJ
         ENDDO
         SIZ_WRITE_LOC(NSPGROUP+1) = WASZ
 
-      ENDIF 
+      ENDIF
 
       RETURN
       END
@@ -457,12 +457,12 @@ C-----------------------------------------------
             NEL = IPARG(2,NG)
             JJ = JJ + 11*NEL
           ENDIF
-         ENDDO 
+         ENDDO
          NGF = NGL + 1
          WASZ = WASZ + JJ
          SIZ_WRITE_LOC(NN) = JJ
         ENDDO
         SIZ_WRITE_LOC(NSPGROUP+1) = WASZ
-      ENDIF 
+      ENDIF
       RETURN
       END

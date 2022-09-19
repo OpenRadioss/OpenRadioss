@@ -46,7 +46,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C////////////////////////////////////////////////
@@ -80,19 +80,19 @@ C-----------------------------------------------
      .   E1X(MVSIZ),E2X(MVSIZ),E3X(MVSIZ),
      .   E1Y(MVSIZ),E2Y(MVSIZ),E3Y(MVSIZ),
      .   E1Z(MVSIZ),E2Z(MVSIZ),E3Z(MVSIZ),DIR_A(*),DIR_B(*),
-     .   POSLY(MVSIZ,*)     
+     .   POSLY(MVSIZ,*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C------------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, J, JJ, KK(5),N, NPTI, I1, PID, IPID, L_PLA,PT,
      .        ILAY,IPT_ALL,IPT,PTN,JDIR,ILAW,NPTT,IT
-      my_real 
+      my_real
      .         TXX,TYY,TZZ,TXY,TYZ,TZX,UXX,UYY,UZZ,UXY,UYZ,UZX,A,B,C,
      .         E1(6),E2(6),Z1,Z2,Z0,AA,S6(6),POSI(MVSIZ,NPT)
       CHARACTER*nchartitle, TITR1
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY    
+      TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================
       BUFLY => ELBUF_STR%BUFLY(1)
       L_PLA =  ELBUF_STR%GBUF%G_PLA
@@ -139,7 +139,7 @@ c
         ENDIF
         IF(NPT /= NPTI ) THEN
           IPID=IX(NIX-1,NFT+I)
-          PID=IGEO(1,IPID)            
+          PID=IGEO(1,IPID)
           CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
           IF(NPTI == 0)THEN
             CALL ANCMSG(MSGID=2020,
@@ -161,7 +161,7 @@ c
         IF (ISTRAIN /= 0.AND.ITHKSHEL==2) THEN
           IF(SIGSH(17,II) == ONE)THEN
 C--- in global sys
-            PT = INISHVAR1          
+            PT = INISHVAR1
             IF (NPTI==1) THEN
               E1(1:6) = SIGSH(PT:PT+5,II)
               Z1 = SIGSH(PT+6,II)
@@ -224,17 +224,17 @@ c             error out
              TYZ = SIGSH(25,II)
              TZX = SIGSH(26,II)
 C
-              A = E1X(I)*TXX + E1Y(I)*TXY + E1Z(I)*TZX   
-              B = E1X(I)*TXY + E1Y(I)*TYY + E1Z(I)*TYZ   
-              C = E1X(I)*TZX + E1Y(I)*TYZ + E1Z(I)*TZZ   
-              UXX = A*E1X(I) + B*E1Y(I) + C*E1Z(I)   
-              UXY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)   
-              UZX = A*E3X(I) + B*E3Y(I) + C*E3Z(I)   
-              A = E2X(I)*TXX + E2Y(I)*TXY + E2Z(I)*TZX   
-              B = E2X(I)*TXY + E2Y(I)*TYY + E2Z(I)*TYZ   
-              C = E2X(I)*TZX + E2Y(I)*TYZ + E2Z(I)*TZZ   
-              UYY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)   
-              UYZ = A*E3X(I) + B*E3Y(I) + C*E3Z(I)   
+              A = E1X(I)*TXX + E1Y(I)*TXY + E1Z(I)*TZX
+              B = E1X(I)*TXY + E1Y(I)*TYY + E1Z(I)*TYZ
+              C = E1X(I)*TZX + E1Y(I)*TYZ + E1Z(I)*TZZ
+              UXX = A*E1X(I) + B*E1Y(I) + C*E1Z(I)
+              UXY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)
+              UZX = A*E3X(I) + B*E3Y(I) + C*E3Z(I)
+              A = E2X(I)*TXX + E2Y(I)*TXY + E2Z(I)*TZX
+              B = E2X(I)*TXY + E2Y(I)*TYY + E2Z(I)*TYZ
+              C = E2X(I)*TZX + E2Y(I)*TYZ + E2Z(I)*TZZ
+              UYY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)
+              UYZ = A*E3X(I) + B*E3Y(I) + C*E3Z(I)
 C
               SIGSH(22,II) = UXX
               SIGSH(23,II) = UYY
@@ -249,15 +249,15 @@ C
               TYZ = SIGSH(20,II)
               TZX = SIGSH(21,II)
 C
-              A = E1X(I)*TXX + E1Y(I)*TXY + E1Z(I)*TZX   
-              B = E1X(I)*TXY + E1Y(I)*TYY + E1Z(I)*TYZ   
-              C = E1X(I)*TZX + E1Y(I)*TYZ + E1Z(I)*TZZ   
-              UXX = A*E1X(I) + B*E1Y(I) + C*E1Z(I)   
-              UXY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)   
-              A = E2X(I)*TXX + E2Y(I)*TXY + E2Z(I)*TZX   
-              B = E2X(I)*TXY + E2Y(I)*TYY + E2Z(I)*TYZ   
-              C = E2X(I)*TZX + E2Y(I)*TYZ + E2Z(I)*TZZ   
-              UYY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)   
+              A = E1X(I)*TXX + E1Y(I)*TXY + E1Z(I)*TZX
+              B = E1X(I)*TXY + E1Y(I)*TYY + E1Z(I)*TYZ
+              C = E1X(I)*TZX + E1Y(I)*TYZ + E1Z(I)*TZZ
+              UXX = A*E1X(I) + B*E1Y(I) + C*E1Z(I)
+              UXY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)
+              A = E2X(I)*TXX + E2Y(I)*TXY + E2Z(I)*TZX
+              B = E2X(I)*TXY + E2Y(I)*TYY + E2Z(I)*TYZ
+              C = E2X(I)*TZX + E2Y(I)*TYZ + E2Z(I)*TZZ
+              UYY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)
 C
               SIGSH(28,II) = UXX
               SIGSH(29,II) = UYY
@@ -281,17 +281,17 @@ C
               TYZ = SIGSH(25,II)
               TZX = SIGSH(26,II)
 C
-              A = E1X(I)*TXX + E1Y(I)*TXY + E1Z(I)*TZX   
-              B = E1X(I)*TXY + E1Y(I)*TYY + E1Z(I)*TYZ   
-              C = E1X(I)*TZX + E1Y(I)*TYZ + E1Z(I)*TZZ   
-              UXX = A*E1X(I) + B*E1Y(I) + C*E1Z(I)   
-              UXY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)   
-              UZX = A*E3X(I) + B*E3Y(I) + C*E3Z(I)   
-              A = E2X(I)*TXX + E2Y(I)*TXY + E2Z(I)*TZX   
-              B = E2X(I)*TXY + E2Y(I)*TYY + E2Z(I)*TYZ   
-              C = E2X(I)*TZX + E2Y(I)*TYZ + E2Z(I)*TZZ   
-              UYY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)   
-              UYZ = A*E3X(I) + B*E3Y(I) + C*E3Z(I)   
+              A = E1X(I)*TXX + E1Y(I)*TXY + E1Z(I)*TZX
+              B = E1X(I)*TXY + E1Y(I)*TYY + E1Z(I)*TYZ
+              C = E1X(I)*TZX + E1Y(I)*TYZ + E1Z(I)*TZZ
+              UXX = A*E1X(I) + B*E1Y(I) + C*E1Z(I)
+              UXY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)
+              UZX = A*E3X(I) + B*E3Y(I) + C*E3Z(I)
+              A = E2X(I)*TXX + E2Y(I)*TXY + E2Z(I)*TZX
+              B = E2X(I)*TXY + E2Y(I)*TYY + E2Z(I)*TYZ
+              C = E2X(I)*TZX + E2Y(I)*TYZ + E2Z(I)*TZZ
+              UYY = A*E2X(I) + B*E2Y(I) + C*E2Z(I)
+              UYZ = A*E3X(I) + B*E3Y(I) + C*E3Z(I)
 C
               SIGSH(22,II) = UXX
               SIGSH(23,II) = UYY
@@ -299,7 +299,7 @@ C
               SIGSH(25,II) = UYZ
               SIGSH(26,II) = UZX
           ENDIF
-          DO J=1,NPT          
+          DO J=1,NPT
             IF (NLAY > 1) THEN
               LBUF => ELBUF_STR%BUFLY(J)%LBUF(1,1,1)
               L_PLA = ELBUF_STR%BUFLY(J)%L_PLA
@@ -316,8 +316,8 @@ C
           ENDDO
         ELSEIF(NPT /= 0)THEN
           IF(SIGSH(17,II) == ONE)THEN
-             PT = 22 
-             IPT_ALL = 0 
+             PT = 22
+             IPT_ALL = 0
              DO ILAY=1,NLAY
                 NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
                 ILAW = ELBUF_STR%BUFLY(ILAY)%ILAW
@@ -326,7 +326,7 @@ C
                 DO IT=1,NPTT
                   IPT =IPT_ALL+IT
                   S6(1:2)=SIGSH(PT:PT+1,II)
-                  PTN = INISHVAR+IPT             
+                  PTN = INISHVAR+IPT
                   S6(3)=SIGSH(PTN,II)
                   S6(4:6)=SIGSH(PT+2:PT+4,II)
                   CALL CG2LSIG(
@@ -337,32 +337,32 @@ C
                   POSI(I,IPT)=SIGSH(PTN+NPT,II)
                   PT = PT + 6
                 ENDDO
-                IPT_ALL = IPT_ALL +  NPTT         
+                IPT_ALL = IPT_ALL +  NPTT
              ENDDO
           END IF !IF(SIGSH(17,II)
-          IPT_ALL = 0 
-          PT = 22 
+          IPT_ALL = 0
+          PT = 22
           DO ILAY=1,NLAY
             NPTT = ELBUF_STR%BUFLY(ILAY)%NPTT
             L_PLA = ELBUF_STR%BUFLY(ILAY)%L_PLA
             DO IT=1,NPTT
               LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,IT)
-              LBUF%SIG(KK(1)+I)=SIGSH(PT,II)	     
-              LBUF%SIG(KK(2)+I)=SIGSH(PT+1,II)	     
-              LBUF%SIG(KK(3)+I)=SIGSH(PT+2,II)	     
-              LBUF%SIG(KK(4)+I)=SIGSH(PT+3,II)	     
-              LBUF%SIG(KK(5)+I)=SIGSH(PT+4,II)	     
-              IF (L_PLA > 0) LBUF%PLA(I) = SIGSH(PT+5,II)        
+              LBUF%SIG(KK(1)+I)=SIGSH(PT,II)	
+              LBUF%SIG(KK(2)+I)=SIGSH(PT+1,II)	
+              LBUF%SIG(KK(3)+I)=SIGSH(PT+2,II)	
+              LBUF%SIG(KK(4)+I)=SIGSH(PT+3,II)	
+              LBUF%SIG(KK(5)+I)=SIGSH(PT+4,II)	
+              IF (L_PLA > 0) LBUF%PLA(I) = SIGSH(PT+5,II)
               PT = PT + 6
             END DO !IT=1,NPTT
           ENDDO
         ENDIF
  100    CONTINUE
       ENDDO
-      CALL ANCMSG(MSGID=2020,                 
+      CALL ANCMSG(MSGID=2020,
      .            ANMODE=ANINFO_BLIND_2,
      .            MSGTYPE=MSGERROR,
-     .            PRMOD=MSG_PRINT)       
+     .            PRMOD=MSG_PRINT)
 C-----------
       RETURN
       END

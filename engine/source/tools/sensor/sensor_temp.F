@@ -70,12 +70,12 @@ C----------------------------------------------------------
       my_real :: TDELAY,TSTART,TEMP_MAX,TEMP_MIN,TEMP_AVG,TMIN
 c----------------------------------------------------------
 c     SENSOR%VAR(1)   = TEMP_MAX
-c     SENSOR%VAR(2)   = TEMP_MIN 
-c     SENSOR%VAR(3)   = TEMP_AVG 
+c     SENSOR%VAR(2)   = TEMP_MIN
+c     SENSOR%VAR(3)   = TEMP_AVG
 c
 c     sensor status : IACTI
 c            = 0   : inactive, criterion not met
-c            = 1   : criterium reached, testing duration time Tmin 
+c            = 1   : criterium reached, testing duration time Tmin
 c            = 2   : ready to activate after Tdelay
 c            = 3   : activated at Time = TSTART
 C=======================================================================
@@ -87,20 +87,20 @@ c
       TDELAY = SENSOR%TDELAY
       TMIN   = SENSOR%TMIN
       TEMP_MAX = SENSOR%VAR(1)
-      TEMP_MIN = SENSOR%VAR(2)    
-      TEMP_AVG = SENSOR%VAR(3)    
+      TEMP_MIN = SENSOR%VAR(2)
+      TEMP_AVG = SENSOR%VAR(3)
       IACTI = 0
 
       IF (TEMP_AVG > SENSOR%RPARAM(3)) THEN
         IACTI = 1
-        TFLAG = 3      
+        TFLAG = 3
       ELSE IF (TEMP_MAX > SENSOR%RPARAM(1)) THEN
         IACTI = 1
-        TFLAG = 1      
+        TFLAG = 1
       ELSE IF (TEMP_MIN < SENSOR%RPARAM(2)) THEN
         IACTI = 1
-        TFLAG = 2      
-      END IF 
+        TFLAG = 2
+      END IF
 c
 c...  Check Sensor activation state
 c
@@ -117,11 +117,11 @@ c
         END IF
       END IF
 c     Apply eventual time delay before activation
-      IF (SENSOR%STATUS == 2 .and. TT > SENSOR%TCRIT + TMIN + TDELAY) THEN  
-          SENSOR%STATUS = 3   ! activate                               
-          SENSOR%TSTART = TT                                           
-      END IF                                                     
-c-----------------------------------------------------------------------      
+      IF (SENSOR%STATUS == 2 .and. TT > SENSOR%TCRIT + TMIN + TDELAY) THEN
+          SENSOR%STATUS = 3   ! activate
+          SENSOR%TSTART = TT
+      END IF
+c-----------------------------------------------------------------------
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
           WRITE (ISTDO,1100 ) SENSOR%SENS_ID,SENSOR%TSTART
@@ -135,11 +135,11 @@ c-----------------------------------------------------------------------
           END IF
 #include "lockoff.inc"
       ENDIF
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
 1100  FORMAT(' SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
 1200  FORMAT('      MAX TEMPERATURE = ',1PE12.5)
-1300  FORMAT('      MIN TEMPERATURE = ',1PE12.5)           
-1400  FORMAT('      AVG TEMPERATURE = ',1PE12.5)           
+1300  FORMAT('      MIN TEMPERATURE = ',1PE12.5)
+1400  FORMAT('      AVG TEMPERATURE = ',1PE12.5)
 c----------------------------------------------------------
       RETURN
       END SUBROUTINE SENSOR_TEMP

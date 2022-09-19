@@ -69,12 +69,12 @@ C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NOINT,NTY
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*),IRTL(*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*),IXS10(*), IXS16(*), IXS20(*),
      .   IGEO(*),IWORKSH(*)
 C
       my_real
-     .   X(3,*),ST(2,*),DMIN(*),GEO(NPROPG,*), PM(NPROPM,*),THK(*), 
+     .   X(3,*),ST(2,*),DMIN(*),GEO(NPROPG,*), PM(NPROPM,*),THK(*),
      .   PM_STACK(*)
       TYPE (SURF_) :: IGRSURF
 C-----------------------------------------------

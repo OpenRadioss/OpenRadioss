@@ -67,11 +67,11 @@ C-----------------------------------------------
         CALL CUTCON(ITYP,XCUT(1,IC),XCUT(4,IC),XYZ0,IXS,D,
      .              NUMTOT,NUMEL,
      .              ICBUF(MIC1),ICBUF(MIC2),ICBUF(MIC3),
-     .              CBUF(MAC1),CBUF(MAC2),NODCUT) 
+     .              CBUF(MAC1),CBUF(MAC2),NODCUT)
         NODCUT=NODCUT+NUMTOT
         NELCUT=NELCUT+NUMEL
         ICBUF(MIC4)=NELCUT+NBF
-        ICBUF(MIC5)=NODCUT          
+        ICBUF(MIC5)=NODCUT
         MIC1=MIC1+5*NUMEL
         MIC2=MIC2+NUMTOT*2
         MIC4=MIC4+1

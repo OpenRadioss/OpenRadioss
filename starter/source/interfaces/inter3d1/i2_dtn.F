@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER I,NI
 C=======================================================================
 C
-         
+
 C
       IF (((ILEV==1).OR.(ILEV==3)).AND.(IRODDL==1)) THEN
         CALL I2_DTN_1(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%MSR,INTBUF_TAB(N)%NSV,INTBUF_TAB(N)%IRTLM,
@@ -76,7 +76,7 @@ C
         CALL I2_DTN_0(X,INTBUF_TAB(N)%IRECTM,INTBUF_TAB(N)%CSTS,INTBUF_TAB(N)%CSTS_BIS,INTBUF_TAB(N)%NSV,
      .                INTBUF_TAB(N)%IRTLM ,IPARI(1,N),INTBUF_TAB(N)%MSEGTYP2, STIFN, STIFN(NUMNOD+1),
      .                MS,IN,ILEV)
-      ENDIF    
+      ENDIF
 C-----------
       RETURN
       END
@@ -130,39 +130,39 @@ C
         I = NSV(II)
         L = IRTL(II)
 C
-        IX1 = IRECT(1,L)                                       
-        IX2 = IRECT(2,L)                                       
-        IX3 = IRECT(3,L)                                       
+        IX1 = IRECT(1,L)
+        IX2 = IRECT(2,L)
+        IX3 = IRECT(3,L)
         IX4 = IRECT(4,L)
 C
-        SS=CRST(1,II)                                    
+        SS=CRST(1,II)
         ST=CRST(2,II)
-        SP=ONE + SS                                       
-        SM=ONE - SS                                       
-        TP=FOURTH*(ONE + ST)                               
-        TM=FOURTH*(ONE - ST)                               
-        H(1)=TM*SM                                       
-        H(2)=TM*SP                                       
-        H(3)=TP*SP                                       
+        SP=ONE + SS
+        SM=ONE - SS
+        TP=FOURTH*(ONE + ST)
+        TM=FOURTH*(ONE - ST)
+        H(1)=TM*SM
+        H(2)=TM*SP
+        H(3)=TP*SP
         H(4)=TP*SM
 C
-        SS=CSTS_BIS(1,II)                                    
+        SS=CSTS_BIS(1,II)
         ST=CSTS_BIS(2,II)
-        SP=ONE + SS                                       
-        SM=ONE - SS                                       
-        TP=FOURTH*(ONE + ST)                               
-        TM=FOURTH*(ONE - ST)                               
-        H2(1)=TM*SM                                       
-        H2(2)=TM*SP                                       
-        H2(3)=TP*SP                                       
-        H2(4)=TP*SM    
+        SP=ONE + SS
+        SM=ONE - SS
+        TP=FOURTH*(ONE + ST)
+        TM=FOURTH*(ONE - ST)
+        H2(1)=TM*SM
+        H2(2)=TM*SP
+        H2(3)=TP*SP
+        H2(4)=TP*SM
 C
         IF(IX3 == IX4) THEN
-          H(3) = H(3) + H(4) 
+          H(3) = H(3) + H(4)
           H(4) = ZERO
-          H2(3) = H2(3) + H2(4) 
+          H2(3) = H2(3) + H2(4)
           H2(4) = ZERO
-          NIR=3  
+          NIR=3
         ELSE
           NIR=4
         ENDIF
@@ -242,7 +242,7 @@ C
         J1=IRECT(1,L)
         J2=IRECT(2,L)
         J3=IRECT(3,L)
-        J4=IRECT(4,L)   
+        J4=IRECT(4,L)
 C
         X1=X(1,J1)
         Y1=X(2,J1)
@@ -278,24 +278,24 @@ C
         X12=X1*X1
         X22=X2*X2
         X32=X3*X3
-        X42=X4*X4 
+        X42=X4*X4
         Y12=Y1*Y1
         Y22=Y2*Y2
         Y32=Y3*Y3
-        Y42=Y4*Y4 
-        Z12=Z1*Z1 
+        Y42=Y4*Y4
+        Z12=Z1*Z1
         Z22=Z2*Z2
-        Z32=Z3*Z3 
-        Z42=Z4*Z4 
-        XX=X12 + X22 + X32 + X42 
-        YY=Y12 + Y22 + Y32 + Y42 
-        ZZ=Z12 + Z22 + Z32 + Z42 
-        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4 
-        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4 
+        Z32=Z3*Z3
+        Z42=Z4*Z4
+        XX=X12 + X22 + X32 + X42
+        YY=Y12 + Y22 + Y32 + Y42
+        ZZ=Z12 + Z22 + Z32 + Z42
+        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4
+        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4
         ZX=Z1*X1 + Z2*X2 + Z3*X3 + Z4*X4
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -332,7 +332,7 @@ C
           XMSI=FOURTH*XMSI+MR
         ELSEIF(ILEV==3)THEN
           XMSI=MAX(FOURTH*XMSI,MR)
-        ENDIF     
+        ENDIF
 C
         MS(J1)=MS(J1)+XMSI
         MS(J2)=MS(J2)+XMSI
@@ -408,7 +408,7 @@ C     REAL
       my_real
      .   H(4),RX(4),RY(4),RZ(4),RM(3),RS(3),STIF, VIS
       my_real
-     .   LEN2,FAC_TRIANG,IROT,SKEW(9),TT,BID,BID3(3),BID4(4,3) 
+     .   LEN2,FAC_TRIANG,IROT,SKEW(9),TT,BID,BID3(3),BID4(4,3)
 C=======================================================================
       NSN    = IPARI(5)
 C
@@ -422,9 +422,9 @@ C
         I = NSV(II)
         L = IRTL(II)
 C
-        IX1 = IRECT(1,L)                                       
-        IX2 = IRECT(2,L)                                       
-        IX3 = IRECT(3,L)                                       
+        IX1 = IRECT(1,L)
+        IX2 = IRECT(2,L)
+        IX3 = IRECT(3,L)
         IX4 = IRECT(4,L)
 C
         IF (I > 0) THEN
@@ -432,46 +432,46 @@ C
           T = CRST(2,II)
           L = IRTL(II)
 C
-          IX1 = IRECT(1,L)                                       
-          IX2 = IRECT(2,L)                                       
-          IX3 = IRECT(3,L)                                       
+          IX1 = IRECT(1,L)
+          IX2 = IRECT(2,L)
+          IX3 = IRECT(3,L)
           IX4 = IRECT(4,L)
 C
-          NIR= 4                
-          SP = ONE + S           
-          SM = ONE - S           
-          TP = FOURTH*(ONE + T)    
+          NIR= 4
+          SP = ONE + S
+          SM = ONE - S
+          TP = FOURTH*(ONE + T)
           TM = FOURTH*(ONE - T)
 C       
-          H(1)=TM*SM           
-          H(2)=TM*SP           
-          H(3)=TP*SP           
-          H(4)=TP*SM             
+          H(1)=TM*SM
+          H(2)=TM*SP
+          H(3)=TP*SP
+          H(4)=TP*SM
 C
           IF (IX3 == IX4) THEN
             NIR = 3
-            H(3) = H(3) + H(4) 
-            H(4) = ZERO 
+            H(3) = H(3) + H(4)
+            H(4) = ZERO
           ENDIF
 C------------------------------------------------                  
 C         rep local facette main
 C------------------------------------------------   
-          X1  = X(1,IX1)                                       
-          Y1  = X(2,IX1)                                          
-          Z1  = X(3,IX1)                                          
-          X2  = X(1,IX2)                                             
-          Y2  = X(2,IX2)                                             
-          Z2  = X(3,IX2)                                             
-          X3  = X(1,IX3)                                             
-          Y3  = X(2,IX3)                                             
-          Z3  = X(3,IX3)                                             
-          X4  = X(1,IX4)                                             
-          Y4  = X(2,IX4)                                             
-          Z4  = X(3,IX4)                                             
-          XS  = X(1,I)                                          
-          YS  = X(2,I)                                         
-          ZS  = X(3,I)                                           
-                                                        
+          X1  = X(1,IX1)
+          Y1  = X(2,IX1)
+          Z1  = X(3,IX1)
+          X2  = X(1,IX2)
+          Y2  = X(2,IX2)
+          Z2  = X(3,IX2)
+          X3  = X(1,IX3)
+          Y3  = X(2,IX3)
+          Z3  = X(3,IX3)
+          X4  = X(1,IX4)
+          Y4  = X(2,IX4)
+          Z4  = X(3,IX4)
+          XS  = X(1,I)
+          YS  = X(2,I)
+          ZS  = X(3,I)
+
 C---------------------
           CALL I2REP(X1     ,X2     ,X3     ,X4     ,
      .               Y1     ,Y2     ,Y3     ,Y4     ,
@@ -520,19 +520,19 @@ C
             XSM = XS - XM
             YSM = YS - YM
             ZSM = ZS - ZM
-          ENDIF  
+          ENDIF
 C                                    
-          X1 = X1 - X0                                              
-          Y1 = Y1 - Y0                                              
-          Z1 = Z1 - Z0                                              
-          X2 = X2 - X0                                              
-          Y2 = Y2 - Y0                                              
-          Z2 = Z2 - Z0                                              
-          X3 = X3 - X0                                              
-          Y3 = Y3 - Y0                                              
-          Z3 = Z3 - Z0                                              
-          X4 = X4 - X0                                              
-          Y4 = Y4 - Y0                                              
+          X1 = X1 - X0
+          Y1 = Y1 - Y0
+          Z1 = Z1 - Z0
+          X2 = X2 - X0
+          Y2 = Y2 - Y0
+          Z2 = Z2 - Z0
+          X3 = X3 - X0
+          Y3 = Y3 - Y0
+          Z3 = Z3 - Z0
+          X4 = X4 - X0
+          Y4 = Y4 - Y0
           Z4 = Z4 - Z0
 C
 c         global -> local
@@ -544,18 +544,18 @@ c
           RM(2) = XM*E2X + YM*E2Y + ZM*E2Z
           RM(3) = XM*E3X + YM*E3Y + ZM*E3Z
 c
-          RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1        
-          RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1         
-          RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1         
-          RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2         
-          RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2         
-          RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2         
-          RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3         
-          RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3         
-          RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3         
-          RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4         
-          RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4         
-          RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4         
+          RX(1) = E1X*X1 + E1Y*Y1 + E1Z*Z1
+          RY(1) = E2X*X1 + E2Y*Y1 + E2Z*Z1
+          RZ(1) = E3X*X1 + E3Y*Y1 + E3Z*Z1
+          RX(2) = E1X*X2 + E1Y*Y2 + E1Z*Z2
+          RY(2) = E2X*X2 + E2Y*Y2 + E2Z*Z2
+          RZ(2) = E3X*X2 + E3Y*Y2 + E3Z*Z2
+          RX(3) = E1X*X3 + E1Y*Y3 + E1Z*Z3
+          RY(3) = E2X*X3 + E2Y*Y3 + E2Z*Z3
+          RZ(3) = E3X*X3 + E3Y*Y3 + E3Z*Z3
+          RX(4) = E1X*X4 + E1Y*Y4 + E1Z*Z4
+          RY(4) = E2X*X4 + E2Y*Y4 + E2Z*Z4
+          RZ(4) = E3X*X4 + E3Y*Y4 + E3Z*Z4
 C
           IF (NIR==3) THEN
             RX(4)=ZERO
@@ -565,9 +565,9 @@ C
 C
 C---------
           CALL I2PEN_ROT(SKEW,TT  ,BID  ,STBRK,
-     .                 RS   ,RM   ,BID  ,BID  ,BID  ,                        
+     .                 RS   ,RM   ,BID  ,BID  ,BID  ,
      .                 RX   ,RY   ,RZ   ,BID3 ,BID3 ,
-     .                 BID3 ,BID3) 
+     .                 BID3 ,BID3)
 C
 C------------------------------------------------                          
           STF     = STFN(II)*(VISC + SQRT(VISC**2 + (ONE+STBRK)))**2
@@ -578,8 +578,8 @@ C
 C--   Secnd node of solids
 C
           STR = ZERO
-c         update main forces (moment balance)  
-          CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,    
+c         update main forces (moment balance)
+          CALL I2LOCEQ( NIR    ,RS     ,RX     ,RY     ,RZ      ,
      .                  BID4(1:4,1)   ,BID4(1:4,2)   ,BID4(1:4,3)    ,H(1) ,STIFM)
 C
 C----------------------------------------------------

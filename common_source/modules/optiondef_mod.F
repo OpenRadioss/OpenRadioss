@@ -83,7 +83,7 @@ Chd|        OPTION_MOD                    starter/share/modules1/options_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE OPTIONDEF_MOD
-!----------------------------------------------------------------------- 
+!-----------------------------------------------------------------------
 #include "nchar_c.inc"
 #include "my_real.inc"
 !-----------------------------------------------------------------------
@@ -128,7 +128,7 @@ Chd|====================================================================
 !                    = 5 ! Mass is added to each single node
 !                    = 6 ! Additional mass distributed on each single part
 !                    = 7 ! Final mass distributed on each single part
-        INTEGER   :: WEIGHT_FLAG  ! Flag to switch between area weighted distribution and volume 
+        INTEGER   :: WEIGHT_FLAG  ! Flag to switch between area weighted distribution and volume
 !                                   weighted distribution of the added mass to parts)
 !                    = 0 ! Volume weighted distribution (shell and solid parts) (default)
 !                    = 1 ! Area weighted distribution (shell parts only)

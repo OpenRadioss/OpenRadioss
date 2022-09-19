@@ -239,15 +239,15 @@ C Attention aux interfaces inactives
                INTERACT = 1
                IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.
      .            NTY == 21.OR.NTY == 5.OR.NTY == 19 .OR.
-     .            NTY == 25) ISENS = IPARI(64,NIN)  
-               IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+     .            NTY == 25) ISENS = IPARI(64,NIN)
+               IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
                   TS = SENSOR(2,ISENS)
                   IF (TS>TT-DT2)  INTERACT = 0
                ELSE
                   STARTT = INTBUF_TAB(NIN)%VARIABLES(3)
-                  STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)              
+                  STOPT  = INTBUF_TAB(NIN)%VARIABLES(11)
                   IF (STARTT>TT-DT2) INTERACT = 0
-               ENDIF   
+               ENDIF
 C on force le nombre d entite a envoyer a 0 tant que l'interface est inactive (jusqu au retri suivant)
                 IF (INTERACT==0) NB=0
               END IF
@@ -309,7 +309,7 @@ C
               IF(NB>0) THEN
                 NTY   =IPARI(7,NIN)
                 INTTH = IPARI(47,NIN)
-                INACTI = IPARI(22,NIN)           
+                INACTI = IPARI(22,NIN)
                 INTNITSCHE = IPARI(86,NIN)
                 LSAV=L
                 IF((NTY==7 .AND. INTTH ==0 ).OR.NTY==10.OR.
@@ -325,7 +325,7 @@ C
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
                       ! ---------------------------------
-                      ! Type 24 
+                      ! Type 24
                       IF(NOD > NUMNOD)THEN
 C This is for Type24 E2E
 C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored in interface buffer
@@ -348,7 +348,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                         BBUFS(L+6) = MULTI_FVM%V_APPEND( 3*LOC_NOD+3 )
                         BBUFS(L+7) = MULTI_FVM%MASS_APPEND( LOC_NOD+1 )
                       ! ---------------------------------
-                      ELSE 
+                      ELSE
                         BBUFS(L+1) = X(1,NOD)
                         BBUFS(L+2) = X(2,NOD)
                         BBUFS(L+3) = X(3,NOD)
@@ -419,7 +419,7 @@ C T24 E2E fictive nodes have ID higher than Numnod. Position & Mass are stored i
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
                       ! ---------------------------------
-                      ! Type 24 
+                      ! Type 24
                       IF (NOD > NUMNOD)THEN
                         BBUFS(L+1) = INTBUF_TAB(NIN)%VFIC(3*(NOD-NUMNOD-1)+1)
                         BBUFS(L+2) = INTBUF_TAB(NIN)%VFIC(3*(NOD-NUMNOD-1)+2)
@@ -451,7 +451,7 @@ C
                       N = NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
                       ! ---------------------------------
-                      ! Type 24 
+                      ! Type 24
                       IF(NOD > NUMNOD)THEN
                         BBUFS(L+1) = INTBUF_TAB(NIN)%XFIC(3*(NOD-NUMNOD-1)+1)
                         BBUFS(L+2) = INTBUF_TAB(NIN)%XFIC(3*(NOD-NUMNOD-1)+2)
@@ -509,7 +509,7 @@ C
                       N=NSVSI(NIN)%P(IDEB+I)
                       NOD = INTBUF_TAB(NIN)%NSV(N)
                       ! ---------------------------------
-                      ! Type 24 
+                      ! Type 24
                       IF(NOD > NUMNOD)THEN
                         BBUFS(L+1) = INTBUF_TAB(NIN)%XFIC(3*(NOD-NUMNOD-1)+1)
                         BBUFS(L+2) = INTBUF_TAB(NIN)%XFIC(3*(NOD-NUMNOD-1)+2)
@@ -1924,7 +1924,7 @@ c                     M2 =INTBUF_TAB(NIN)%LEDGE((N-1)*NLEDGE+6)
 
 c                     IF(INTBUF_TAB(NIN)%IRECTM(JAM+(IAM-1)*4)==M1
 c    .                 .AND.INTBUF_TAB(NIN)%IRECTM(MOD(JAM,4)+1+(IAM-1)*4)==M2)THEN
-c                       BBUFS(L+15) = ONE 
+c                       BBUFS(L+15) = ONE
 c                     ELSEIF(INTBUF_TAB(NIN)%IRECTM(JAM+(IAM-1)*4)==M2
 c    .                  .AND.INTBUF_TAB(NIN)%IRECTM(MOD(JAM,4)+1+(IAM-1)*4)==M1)THEN
 c                       BBUFS(L+15) = - ONE
@@ -2175,7 +2175,7 @@ C--- Nitsche
                       FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+5)
                       FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+6)
                       FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+7)
-                      L = L + LEN 
+                      L = L + LEN
                     ENDDO
                     POINT=6
                   ENDIF
@@ -2191,7 +2191,7 @@ C--- Nitsche
                       FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+7)
                       FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+8)
                       FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+9)
-                      L = L + LEN 
+                      L = L + LEN
                     ENDDO
                     POINT=9
                   ELSE
@@ -2208,7 +2208,7 @@ C--- Nitsche
                       FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+4)
                       FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+5)
                       FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+6)
-                      L = L + LEN 
+                      L = L + LEN
                     ENDDO
                     POINT=6
                   ENDIF
@@ -2229,7 +2229,7 @@ C
                         FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+9)
                         FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+10)
                         FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+11)
-                        L = L + LEN7T 
+                        L = L + LEN7T
                       ENDDO
                       POINT=11
                     ELSE
@@ -2248,7 +2248,7 @@ C
                         FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+6)
                         FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+7)
                         FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+8)
-                        L = L + LEN7T 
+                        L = L + LEN7T
                       ENDDO
                       POINT=8
                     ENDIF
@@ -2265,7 +2265,7 @@ C
                         FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+8)
                         FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+9)
                         FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+10)
-                        L = L + LEN7T 
+                        L = L + LEN7T
                       ENDDO
                       POINT=10
                     ELSE
@@ -2283,7 +2283,7 @@ C
                         FORNEQSFI(NIN)%P(1,I+IDEB) = BBUFR(L+5)
                         FORNEQSFI(NIN)%P(2,I+IDEB) = BBUFR(L+6)
                         FORNEQSFI(NIN)%P(3,I+IDEB) = BBUFR(L+7)
-                        L = L + LEN7T 
+                        L = L + LEN7T
                       ENDDO
                       POINT=7
                     ENDIF
@@ -3295,16 +3295,16 @@ C
                       VFIE(NIN)%P(3,N2) = BBUFR(L+13)
                       MSFIE(NIN)%P(N2)  = BBUFR(L+14)
 c                     IF(BBUFR(L+15) < 0) THEN
-c                       LEDGE_FIE(NIN)%P(E_IM,I+IDEB) = -1 
+c                       LEDGE_FIE(NIN)%P(E_IM,I+IDEB) = -1
 c                     ELSE
-c                       LEDGE_FIE(NIN)%P(E_IM,I+IDEB) = 1 
+c                       LEDGE_FIE(NIN)%P(E_IM,I+IDEB) = 1
 c                     ENDIF
 
 C                     LEDGE_FIE(NIN)%P(E_LEFT_SEG,I+IDEB) = TRANSFER(BBUFR(L+16),L)
 C                     LEDGE_FIE(NIN)%P(E_LEFT_ID,I+IDEB) = TRANSFER(BBUFR(L+17),L)
 C                     LEDGE_FIE(NIN)%P(E_RIGHT_SEG,I+IDEB) = TRANSFER(BBUFR(L+18),L)
 C                     LEDGE_FIE(NIN)%P(E_RIGHT_ID,I+IDEB) = TRANSFER(BBUFR(L+19),L)
-            
+
 C                     WRITE(6,"(A,4I10)") "++",LEDGE_FIE(NIN)%P(1:4,NN)
 
 

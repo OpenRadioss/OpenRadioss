@@ -87,12 +87,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIN,ITASK ,N_MUL_MX ,NKMAX ,
-     .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NEWFRONT   
+     .        NB_JLT,NB_JLT_NEW,NB_STOK_N,NEWFRONT
       INTEGER IPARI(NPARI,NINTER), KINET(*),
      .        IADLL(*) ,LLL(*) ,JLL(*) ,SLL(*) ,ICONTACT(*),
      .        ITAB(*), INDEX2(*), ITAG(*), COMNTAG(*)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   XLL(*), XTAG(*)
 
@@ -158,10 +158,10 @@ C
       NOINT =IPARI(15,NIN)
       IGAP  =IPARI(21,NIN)
       INACTI=IPARI(22,NIN)
-      IBAG =IPARI(32,NIN) 
-      IGSTI=IPARI(34,NIN) 
+      IBAG =IPARI(32,NIN)
+      IGSTI=IPARI(34,NIN)
       ICURV =0
-      IADM =IPARI(44,NIN) 
+      IADM =IPARI(44,NIN)
       STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
       STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
       IF(STARTT>TT) RETURN
@@ -291,16 +291,16 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
             IF (DEBUG(3)>=1)
      .        NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
             CALL I7LAGM(LLL,JLL,SLL      ,XLL     ,IADLL      ,
-     2        N_MUL_MX,ITASK   ,NIN     ,NKMAX      , 
-     3        JLT     ,A       ,V         ,ITAG    ,XTAG       , 
-     4        GAP     ,NOINT   ,INTBUF_TAB(NIN)%STFNS,ITAB ,CN_LOC , 
-     5        NX1     ,NX2     ,NX3       ,NX4     ,NY1        , 
-     6        NY2     ,NY3     ,NY4       ,NZ1     ,NZ2        , 
-     7        NZ3     ,NZ4     ,LB1       ,LB2     ,LB3        , 
-     8        LB4     ,LC1     ,LC2       ,LC3     ,LC4        , 
+     2        N_MUL_MX,ITASK   ,NIN     ,NKMAX      ,
+     3        JLT     ,A       ,V         ,ITAG    ,XTAG       ,
+     4        GAP     ,NOINT   ,INTBUF_TAB(NIN)%STFNS,ITAB ,CN_LOC ,
+     5        NX1     ,NX2     ,NX3       ,NX4     ,NY1        ,
+     6        NY2     ,NY3     ,NY4       ,NZ1     ,NZ2        ,
+     7        NZ3     ,NZ4     ,LB1       ,LB2     ,LB3        ,
+     8        LB4     ,LC1     ,LC2       ,LC3     ,LC4        ,
      9        P1      ,P2      ,P3        ,P4      ,
-     A        IX1     ,IX2     ,IX3       ,IX4     ,NSVG       , 
-     B        GAPV    ,NEWFRONT,IBAG      ,ICONTACT,STIF       , 
+     A        IX1     ,IX2     ,IX3       ,IX4     ,NSVG       ,
+     B        GAPV    ,NEWFRONT,IBAG      ,ICONTACT,STIF       ,
      C        COMNTAG ,IADM    )
          ENDIF
       ENDDO

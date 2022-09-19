@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,10 +63,10 @@ C=======================================================================
       NSVC(1:NSN) = 0
 c
       DO I=1,NSN
-        IF (INTBUF_TAB%IRUPT(I) == 0) THEN  
+        IF (INTBUF_TAB%IRUPT(I) == 0) THEN
           NINDXC = NINDXC + 1
-          NSVC(I) = INTBUF_TAB%NSV(I)     
-        ENDIF                     
+          NSVC(I) = INTBUF_TAB%NSV(I)
+        ENDIF
       ENDDO
 c
       IF (NINDXC > 0) THEN

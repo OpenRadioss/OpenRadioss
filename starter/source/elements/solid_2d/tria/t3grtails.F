@@ -168,7 +168,7 @@ C-----------------------------------------------
                ALLOCATE(XNUM_DRAPE(I)%RDRAPE(NPT,2),XNUM_DRAPE(I)%IDRAPE(NPT))
                XNUM_DRAPE(I)%RDRAPE = 0
                XNUM_DRAPE(I)%IDRAPE = 0
-            ENDDO 
+            ENDDO
       ELSE
             ALLOCATE( XNUM_DRAPE(0) )
       ENDIF
@@ -227,7 +227,7 @@ C
           ENDIF
           IF (NPERTURB > 0) THEN
             DO IPERT = 1, NPERTURB
-              XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,NFT+I) 
+              XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,NFT+I)
             ENDDO
           ENDIF
           ANGLE(I)=SH3ANG(NFT+I)
@@ -245,7 +245,7 @@ C
             ENDDO
           END IF
         END IF
-        
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -261,7 +261,7 @@ C
           IXTG(6,I+NFT)=INUM(8,INDEX(I))
           ITR1(NFT+INDEX(I)) = NFT+I
           IF (NDRAPE > 0) THEN
-             NPT = XNUM_DRAPE(INDEX(I))%NPT 
+             NPT = XNUM_DRAPE(INDEX(I))%NPT
              DRAPE(NUMELC + NFT + I)%NPT = NPT
             DO IPT = 1, NPT
               DRAPE(NUMELC +NFT+I)%IDRAPE(IPT)   = XNUM_DRAPE(INDEX(I))%IDRAPE(IPT)
@@ -271,7 +271,7 @@ C
           ENDIF
           IF (NPERTURB > 0) THEN
             DO IPERT = 1, NPERTURB
-              RNOISE(IPERT,I+NFT) = XNUM_RNOISE(IPERT,INDEX(I)) 
+              RNOISE(IPERT,I+NFT) = XNUM_RNOISE(IPERT,INDEX(I))
             ENDDO
           ENDIF
           SH3ANG(NFT+I) = ANGLE(INDEX(I))
@@ -308,7 +308,7 @@ C            IXTG1(4,II)=INUM(4,INDEX(I))
         END IF
 C
 
-        
+
         P = CEP(NFT+INDEX(1))
         NB = 1
         DO I = 2, NEL
@@ -333,13 +333,13 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO   
+      ENDDO
 
 
 C     
@@ -411,7 +411,7 @@ C
           ISUBSTACK = 0
           IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
             NPN = IWORKSH(1,NUMELC + II)
-            ISUBSTACK =IWORKSH(3,NUMELC + II) 
+            ISUBSTACK =IWORKSH(3,NUMELC + II)
             IF(NPN == 0) THEN
               ID = IGEO(1,PID)
               CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,PID),LTITR)
@@ -424,14 +424,14 @@ C
      .                    I2=IXTG(NIXTG,II))
                CALL ARRET(2)
             ENDIF
-          ENDIF           
+          ENDIF
 c-------- xfem
           IF (ICRACK3D > 0) THEN
             IF (IGTYP == 11) THEN
-              DO IPT = 1, NPN                                    
-                IMATLY  = IGEO(100+IPT,PID)                      
+              DO IPT = 1, NPN
+                IMATLY  = IGEO(100+IPT,PID)
                 IF (IPM(220,IMATLY) > 0) IXFEM = IPM(236,IMATLY)
-              ENDDO                                              
+              ENDDO
               IF (IXFEM  > 0) IXFEM = 1
               IF (IXFEM == 1) NLEVXF = NXEL*NPN
             ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
@@ -447,7 +447,7 @@ c-------- xfem
               IXFEM = IPM(236,MID)
               IF (IXFEM == 1) THEN
                 IXFEM  = 2
-                NLEVXF = NXEL 
+                NLEVXF = NXEL
               ENDIF
             ENDIF
           ENDIF
@@ -484,7 +484,7 @@ C
 C
           IF (IGTYP == 0)  MLN=0   ! VOID Property => Void material
 C
-          IF (IGTYP == 16 .and. MLN == 58 .and. 
+          IF (IGTYP == 16 .and. MLN == 58 .and.
      .        ISMST /= 11 .and. ISMST /= 4) THEN
             ISMST = 4
             CALL ANCMSG(MSGID=772,
@@ -495,9 +495,9 @@ C
           ENDIF
 
 c------
-c         global integration 
+c         global integration
           IF (NPN /= 1  .and. MLN == 1) NPN = 0
-          IF (NPN == 0  .and. MLN > 2   .and. MLN /= 22 .and. 
+          IF (NPN == 0  .and. MLN > 2   .and. MLN /= 22 .and.
      .        MLN /= 36 .and. MLN /= 43 .and. MLN /= 60 .and.
      .        MLN /= 86 .and. MLN /= 13 .and. MLN /= 151) THEN
               CALL FRETITL2(TITR1,
@@ -568,11 +568,11 @@ C-------------
              IMATLY  = IGEO(100+IPT,PID)
              IF(IPM(220 ,IMATLY) >  0)THEN
               IPARG(43,NGROUP) = 1
-             ENDIF       
-            ENDDO 
+             ENDIF
+            ENDDO
 c--------
           ELSEIF(IGTYP == 17) THEN
-!!            IIGEO   =  40 + 5*(ISUBSTACK - 1) 
+!!            IIGEO   =  40 + 5*(ISUBSTACK - 1)
 !!            IADI    = IGEO(IIGEO + 3,PID)
 !!            IPPID   = IADI
             IPPID = 2
@@ -583,8 +583,8 @@ c--------
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
               IF(IPM(220,IMATLY) >  0)THEN
                 IPARG(43,NGROUP) = 1
-              ENDIF       
-            ENDDO 
+              ENDIF
+            ENDDO
 c--------
           ELSEIF (IGTYP == 51 .OR. IGTYP == 52 ) THEN
 C---
@@ -597,7 +597,7 @@ C---
               IMATLY  = STACK%IGEO(IPMAT + IPT ,ISUBSTACK)
               IF(IPM(220,IMATLY) >  0)THEN
                 IPARG(43,NGROUP) = 1
-              ENDIF       
+              ENDIF
 C --- PID 51 combined with LAW58 ---
               IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
             ENDDO
@@ -614,7 +614,7 @@ c--------
             ENDIF
          ENDIF ! IGTYP
 C-------------
-         IF(MLN == 13) IRIGID_MAT = 1 
+         IF(MLN == 13) IRIGID_MAT = 1
          JTHE = ABS(NINT(PM(71,MID)))
          IF(ITHERM_FE == 0 .AND. JTHE > 0) THEN
            CALL FRETITL2(TITR1,IPM(NPROPMI-LTITR+1,MID),LTITR)
@@ -684,7 +684,7 @@ C     Multifluid law, setting NLAY
              JEUL=0
              IF(JALE == 2)THEN
                 JALE=0
-                JEUL=1    
+                JEUL=1
              ENDIF
              IPARG(7, NGROUP) = JALE
              IPARG(11, NGROUP) = JEUL
@@ -758,7 +758,7 @@ C
           END IF
           IPARG(52,NGROUP)=JSMS
 C for stack         
-          IPARG(71,NGROUP) = ISUBSTACK  
+          IPARG(71,NGROUP) = ISUBSTACK
 C          
           NFT = NFT + NE1
 c  220    CONTINUE
@@ -778,14 +778,14 @@ C
 C
       NSPGROUP = NSPGROUP + ND
 C-----------
-      CALL ANCMSG(MSGID=1601,                 
-     .            MSGTYPE=MSGWARNING,         
-     .            ANMODE=ANINFO_BLIND_1,      
+      CALL ANCMSG(MSGID=1601,
+     .            MSGTYPE=MSGWARNING,
+     .            ANMODE=ANINFO_BLIND_1,
      .            I1=PID,
      .            C1=TITR ,
-     .            PRMOD=MSG_PRINT)             
+     .            PRMOD=MSG_PRINT)
 C-----------
-      WRITE(IOUT,1000) 
+      WRITE(IOUT,1000)
       DO  N=NGR1,NGROUP
        MLN = IPARG(1,N)
        WRITE(IOUT,1001)N,MLN,IPARG(2,N),IPARG(3,N)+1,
@@ -805,7 +805,7 @@ C-----------
  1001 FORMAT(11(1X,I10))
 C
       IF (NPERTURB > 0) THEN
-        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
+        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE)
       ENDIF
 
       DEALLOCATE(INDEX2)

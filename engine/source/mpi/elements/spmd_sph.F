@@ -80,7 +80,7 @@ C
       DO I=1,NSPMD
         SIZ = SIZE*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))
         IF(SIZ/=0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -128,7 +128,7 @@ C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(
@@ -153,7 +153,7 @@ C         DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
           DO K=1,SIZ
             J = NINT(RBUF(L)) + IAD_ELEM(1,I)-1
             NOD = FR_ELEM(J)
-            
+
             ITAG(NOD)=1
             A6(1,1,NOD)=A6(1,1,NOD)+ RBUF(L+1)
             A6(1,2,NOD)=A6(1,2,NOD)+ RBUF(L+2)
@@ -228,7 +228,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), WSP2SORT(*)
-      my_real 
+      my_real
      .        X(3,*),BMINMAL(*), SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -238,11 +238,11 @@ C-----------------------------------------------
      .        IERROR, IERROR1, L, LEN, IDEB, INDEXI, NB,
      .        REQ_RB(NSPMD), REQ_SB(NSPMD), REQ_SD(NSPMD),
      .        REQ_RD(NSPMD), REQ_SD2(NSPMD),
-     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD), 
+     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD),
      .        INDEX(NSP2SORT), STATUS(MPI_STATUS_SIZE),MSGOFF,
      .        MSGOFF2,MSGOFF3
-      my_real 
-     .        BMINMA(6,NSPMD)  
+      my_real
+     .        BMINMA(6,NSPMD)
       TYPE(real_pointer5), DIMENSION(NSPMD) :: BUF
       DATA MSGOFF/2001/
       DATA MSGOFF2/2002/
@@ -330,7 +330,7 @@ C
           MSGTYP = MSGOFF3
           CALL MPI_ISEND(BUF(P)%P(1),L,REAL,IT_SPMD(P),MSGTYP,
      .                   MPI_COMM_WORLD,REQ_SD2(P),IERROR)
-        END IF  
+        END IF
       END DO
 C   
       NSPHR = 0
@@ -369,7 +369,7 @@ C
         DO L = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
         END DO
-      END IF  
+      END IF
 C
       DO P = 1, NSPMD
         IF(P/=LOC_PROC) THEN
@@ -433,13 +433,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ACT,REQ_RECV(NSPMD)
-      my_real TAB_DK(*) 
+      my_real TAB_DK(*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGTYP, LOC_PROC, P,
-     .        IERROR,N,IDEB, 
+     .        IERROR,N,IDEB,
      .        REQ_SD(NSPMD), STATUS(MPI_STATUS_SIZE),MSGOFF
 
        DATA MSGOFF/2028/
@@ -448,7 +448,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 
       LOC_PROC = ISPMD+1
-       
+
       IF(NSPMD > 1 .AND. ACT == 1) THEN
         IDEB = 0
         DO P = 1, NSPMD
@@ -485,7 +485,7 @@ C-----------------------------------------------
             CALL MPI_WAIT(REQ_SD(P),STATUS,IERROR)
           END IF
         ENDDO
-   
+
       ENDIF
 
 #endif
@@ -544,7 +544,7 @@ C
       IDEB = 1
       DO P = 1, NSPMD
         IF(PSPHR(P)/=0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_ISEND(
      S      ISPHR(IDEB),PSPHR(P),MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_SD(P),IERROR)
@@ -557,7 +557,7 @@ C
       IDEB = 1
       DO P = 1, NSPMD
         IF(PSPHS(P)/=0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_RECV(ISPHS(IDEB),PSPHS(P),MPI_INTEGER,IT_SPMD(P),
      .                  MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
           IDEB = IDEB + PSPHS(P)
@@ -638,9 +638,9 @@ ctmp+1
           BUFS(1,N+IDEB) = SPBUF(1,ICELL)
           BUFS(2,N+IDEB) = X(1,INOD)
           BUFS(3,N+IDEB) = X(2,INOD)
-          BUFS(4,N+IDEB) = X(3,INOD)	  
-          BUFS(5,N+IDEB) = KXSP(2,ICELL)	  
-          BUFS(6,N+IDEB) = IPARTSP(ICELL)	  
+          BUFS(4,N+IDEB) = X(3,INOD)	
+          BUFS(5,N+IDEB) = KXSP(2,ICELL)	
+          BUFS(6,N+IDEB) = IPARTSP(ICELL)	
         END DO
         MSGTYP = MSGOFF
         CALL MPI_ISEND(
@@ -811,7 +811,7 @@ C
               WAR(9,IDEB+N)= BUFR(14,NN)
               WAR(10,IDEB+N)=BUFR(15,NN)
             END IF
-          END DO	  
+          END DO	
           IDEB = IDEB + PSPHR(P)
         END IF
 	
@@ -915,7 +915,7 @@ C
               NN = NN + 1
               STABR(7,IDEB+N)  = BUFR(NN)
             END IF
-          END DO	  
+          END DO	
           IDEB = IDEB + PSPHR(P)
         END IF
 	
@@ -1614,7 +1614,7 @@ C
               BUFS(7,NN+IDEB) = WA(7,ICELL)
               BUFS(8,NN+IDEB) = WA(8,ICELL)
               BUFS(9,NN+IDEB) = WA(9,ICELL)
-c IMPOSE value 
+c IMPOSE value
               BUFS(10,NN+IDEB) = KXSP(2,ICELL)/(NGROUP+1)
             END IF
           END DO
@@ -1653,8 +1653,8 @@ C
           IDEB = IDEB + PSPHR(P)
         END IF
       END DO
-     
- 
+
+
 C
 C Wait terminaison
 C
@@ -1703,7 +1703,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        OFF_SPH(NUMSPH), TAG_SPH(NSPHR),
      .        TAG_SPHR(NSPHS), KXSP(NISP,*),
      .        IXSP(KVOISPH,*),ITAB(*)
@@ -1795,7 +1795,7 @@ C
               NVOIS1=0
               DO J=1,KXSP(4,ICELL)
                 KNOD=IXSP(J,ICELL)
-                IF(KNOD<0)THEN          
+                IF(KNOD<0)THEN
 ! remote cell, add only if non deleted cell
                   IF(BUFR(-KNOD)/=1)THEN
                     NVOIS1=NVOIS1+1
@@ -1804,21 +1804,21 @@ C
                 ELSE
 ! non remote case, add neighbour
                      NVOIS1=NVOIS1+1
-                     IXSP(NVOIS1,ICELL)=KNOD 
+                     IXSP(NVOIS1,ICELL)=KNOD
                 ENDIF
               ENDDO
 
               NVOIS2=NVOIS1
               DO K=KXSP(4,ICELL)+1,KXSP(5,ICELL)
                 KNOD=IXSP(K,ICELL)
-                IF(KNOD<0)THEN                               
+                IF(KNOD<0)THEN
                   IF(BUFR(-KNOD)/=1)THEN
                     NVOIS2=NVOIS2+1
                     IXSP(NVOIS2,ICELL)=KNOD
                   ENDIF
                 ELSE
                    NVOIS2=NVOIS2+1
-                   IXSP(NVOIS2,ICELL)=KNOD 
+                   IXSP(NVOIS2,ICELL)=KNOD
                 ENDIF
               ENDDO
 
@@ -1834,9 +1834,9 @@ C
                 ELSE
                   NVOISS1=NVOISS1+1
                   IXSP(NVOIS2+NVOISS1,ICELL)=JK
-                ENDIF  
+                ENDIF
               ENDDO
-              NVOISS2=NVOISS1       
+              NVOISS2=NVOISS1
               DO K=KXSP(5,ICELL)+KXSP(6,ICELL)+1,
      .                                KXSP(5,ICELL)+KXSP(7,ICELL)
                 JK  =IXSP(K,ICELL)
@@ -1845,12 +1845,12 @@ C
                   IF(BUFR(SM)/=1)THEN
                     NVOISS2=NVOISS2+1
                     IXSP(NVOIS2+NVOISS2,ICELL)=JK
-                  ENDIF  
+                  ENDIF
                 ELSE
                   NVOISS2=NVOISS2+1
                   IXSP(NVOIS2+NVOISS2,ICELL)=JK
                 ENDIF
-              ENDDO 
+              ENDDO
     	      KXSP(4,ICELL)= NVOIS1
  	      KXSP(5,ICELL)= NVOIS2
 	      KXSP(6,ICELL)=NVOISS1
@@ -1870,7 +1870,7 @@ C
           CALL MPI_WAIT(REQ_SD2(P),STATUS,IERROR)
         END IF
       END DO
- 
+
 #endif
       RETURN
       END
@@ -2005,7 +2005,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        KXSP(NISP,*),
      .        ISPHIO(NISPHIO,*),
      .        IXSP(KVOISPH,*),NOD2SP(*),
@@ -2023,14 +2023,14 @@ C-----------------------------------------------
      .        REQ_SD3(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
 
-      INTEGER, 
+      INTEGER,
      .      DIMENSION(:,:), ALLOCATABLE :: TMP_IPPV
-      INTEGER, 
+      INTEGER,
      .      DIMENSION(:), ALLOCATABLE :: CPT_TMP,
      .                                   MYPSPHS,MYPSPHS2,MYPSPHR,
      .                                   REC_IPPV,SEND_IPPV,SEND_IPPV2
 
-      INTEGER 
+      INTEGER
      .        II,IPT,JJ,NPF,IFVITS,
      .        NS,IACTIVE,
      .        IPPV,J,M,JNOD,IMPOSE,JMPOSE,
@@ -2050,7 +2050,7 @@ C-----------------------------------------------
      .       WGHT,WGRAD(3),WGRDX,WGRDY,WGRDZ,
      .       DXX,DXY,DXZ,DYX,DYY,DYZ,DZX,DZY,DZZ,
      .       EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ,
-     .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP  
+     .       ALPHAI,ALPHAXI,ALPHAYI,ALPHAZI,ALPHAI2,XP,YP,ZP
        LOGICAL :: CONDITION
        DATA MSGOFF /2020/
        DATA MSGOFF2/2021/
@@ -2066,16 +2066,16 @@ c use in sponfv
       ALLOCATE(SEND_IPPV(NSPHR),SEND_IPPV2(NSPHR),REC_IPPV(NSPHS))
 
       TMP_IPPV(1:3,1:NSPHR) = 0
-      MYPSPHS(1:NSPMD+1)=0 
-      MYPSPHS2(1:NSPMD+1)=0 
-      MYPSPHR(1:NSPMD+1)=0 
+      MYPSPHS(1:NSPMD+1)=0
+      MYPSPHS2(1:NSPMD+1)=0
+      MYPSPHR(1:NSPMD+1)=0
       CPT_TMP(1:NSPMD)=0
       SEND_IPPV(1:NSPHR)=0
       SEND_IPPV2(1:NSPHR)=0
       REC_IPPV(1:NSPHS)=0
 
       LOC_PROC = ISPMD+1
-      
+
 c construction liste IPPV remotes
       IPPVR=0
       DO NS=1,NSPHACT
@@ -2091,9 +2091,9 @@ C-------
 C         plus proche voisin en amont de l'outlet => IPPV.
           IPPV=0
           DMIN=1.E+20
-          DO  K=1,KXSP(4,N)  
+          DO  K=1,KXSP(4,N)
            JNOD=IXSP(K,N)
-  
+
            IF(JNOD>0)THEN
              M   =NOD2SP(JNOD)
              JMPOSE=KXSP(2,M)/(NGROUP+1)
@@ -2130,7 +2130,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
              ENDIF
            ENDIF
           ENDDO !enddo boucle voisin
-          
+
           IF(IPPV<0)THEN
             !Indice IPPV negatif (global)
             IPPVR=IPPVR+1
@@ -2140,7 +2140,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
             DO P=1,NSPMD
              IF(P/=LOC_PROC) THEN
               N1 = NBIS
-              NBIS = NBIS+PSPHR(P)             
+              NBIS = NBIS+PSPHR(P)
                IF((-IPPV)<=NBIS)THEN
                 TMP_IPPV(2,IPPVR)=P !proc sur lequel il se situe
                 TMP_IPPV(3,IPPVR)=(-IPPV)-N1 !Indice IPPV (local)
@@ -2153,7 +2153,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
 		ENDIF	
                ENDIF
              ENDDO ! ENDDO P=1,NSPMD
- 160      CONTINUE	     
+ 160      CONTINUE	
           ENDIF
         ENDIF
        ENDIF
@@ -2172,7 +2172,7 @@ C         plus proche voisin en amont de l'outlet => IPPV.
          SEND_IPPV(INDICE)= TMP_IPPV(3,I)
          SEND_IPPV2(INDICE)=TMP_IPPV(1,I)
          ENDIF
-       ENDDO    
+       ENDDO
 
 C
 C Envoi liste IPPV < 0
@@ -2245,7 +2245,7 @@ c traitement
             NP=ICELL
             XP=X(1,INOD)
             YP=X(2,INOD)
-            ZP=X(3,INOD)      
+            ZP=X(3,INOD)
             DI  =SPBUF(1,NP)
             RHOI=SPBUF(2,NP)
             CALL WEIGHT0(XP,YP,ZP,XP,YP,ZP,DI,WGHT)
@@ -2308,7 +2308,7 @@ C------
             ALPHAYI=-ALPHAYI*ALPHAI2
             ALPHAZI=-ALPHAZI*ALPHAI2
 C------
-            VX =V(1,INOD)+DT12*A(1,INOD)       
+            VX =V(1,INOD)+DT12*A(1,INOD)
             VY =V(2,INOD)+DT12*A(2,INOD)
             VZ =V(3,INOD)+DT12*A(3,INOD)
 
@@ -2320,7 +2320,7 @@ C------
             DYZ=ZERO
             DZX=ZERO
             DZY=ZERO
-            DZZ=ZERO      
+            DZZ=ZERO
 
             DO J=1,KXSP(4,NP)
               JNOD=IXSP(J,NP)
@@ -2409,7 +2409,7 @@ C------
             BUFS(11,N+IDEB2) = VY
             BUFS(12,N+IDEB2) = VZ
         END DO !ENDDO N = 1, MYPSPHR(P)
-       
+
 c envoi
         MSGTYP = MSGOFF3
         SIZ =  MYPSPHR(P)*12
@@ -2459,7 +2459,7 @@ C
       END DO
 C  
 c      ENDIF !ENDIF IPPVR > 0
-      
+
       DEALLOCATE(TMP_IPPV,MYPSPHS,MYPSPHS2,MYPSPHR)
       DEALLOCATE(SEND_IPPV,SEND_IPPV2,REC_IPPV,CPT_TMP)
 
@@ -2499,7 +2499,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), WSP2SORT(*),
      2                    NSP2SORTF,NSP2SORTL
-      my_real 
+      my_real
      .        X(3,*),BMINMAL(*), SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -2598,7 +2598,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LGAUGE(3,*)
-      my_real 
+      my_real
      .   GAUGE(LLGAUGE,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -2609,7 +2609,7 @@ C-----------------------------------------------
      .        IRINDEX(NSPMD),REQ_R(NSPMD),IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE)
       my_real
-     .        BUF(LLGAUGE+1,NBGAUGE*NSPMD) 
+     .        BUF(LLGAUGE+1,NBGAUGE*NSPMD)
       DATA MSGOFF/2027/
 C-----------------------------------------------
 C   S o u r c e  L i n e s

@@ -55,7 +55,7 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
-#include      "impl1_c.inc" 
+#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IECROU(MVSIZ), 
+      INTEGER IECROU(MVSIZ),
      .  IFUNC(MVSIZ), IFV(MVSIZ), IFUNC2(MVSIZ), I, J, ILENG,
      .  NINDX, INDX(MVSIZ), IFUNC3(MVSIZ)
 C     REAL
@@ -92,7 +92,7 @@ C
         EPLA(I)=ZERO
         XM(I)=GEO(1,MGN(I))
         XK(I)=GEO(2,MGN(I))
-        XC(I)=GEO(3,MGN(I)) 
+        XC(I)=GEO(3,MGN(I))
 c        XC(I)=GEO(3,MGN(I)) + GEO(141,MGN(I)) ! +max slope of h
         IECROU(I)=NINT(GEO(7,MGN(I)))
         AK(I)  =GEO(10,MGN(I))
@@ -174,15 +174,15 @@ C
 C
       IF (ISMDISP > 0) THEN
         DO I=LFT,LLT
-          VX21 = V(1,NC2(I)) - V(1,NC1(I)) 
-          VY21 = V(2,NC2(I)) - V(2,NC1(I)) 
-          VZ21 = V(3,NC2(I)) - V(3,NC1(I)) 
+          VX21 = V(1,NC2(I)) - V(1,NC1(I))
+          VY21 = V(2,NC2(I)) - V(2,NC1(I))
+          VZ21 = V(3,NC2(I)) - V(3,NC1(I))
           VL21 = VX21*EX(I)+VY21*EY(I)+VZ21*EZ(I)
           DL(I)= DLOLD(I)+VL21*DT1
         ENDDO
       ELSE
         DO I=LFT,LLT
-          DL(I)= (ALDP(I)-AL0DP(I)) 
+          DL(I)= (ALDP(I)-AL0DP(I))
         ENDDO
       ENDIF !(ISMDISP>0) THEN
 C

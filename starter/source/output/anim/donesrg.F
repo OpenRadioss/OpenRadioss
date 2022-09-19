@@ -26,25 +26,25 @@ Chd|-- called by -----------
 Chd|        GENANI1                       source/output/anim/genani1.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DONESRG(ISRG,NESRG)                                    
+      SUBROUTINE DONESRG(ISRG,NESRG)
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "scr05_c.inc"                                             
-#include      "param_c.inc"                                             
+#include      "scr05_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER ISRG,NESRG                                                
+      INTEGER ISRG,NESRG
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
 C                                                                       
-      NESRG = NESRG + 294                                               
+      NESRG = NESRG + 294
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

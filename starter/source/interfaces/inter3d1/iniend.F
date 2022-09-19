@@ -82,7 +82,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C
          DO P=1,NSPMD
            DO I=1,NSN
          !Comment ne donner les SECONDARYs qu'aux procs
-         
+
              CALL IFRONTPLUS(INTBUF_TAB%NSV(I),P)
            END DO
          ENDDO
@@ -132,7 +132,7 @@ C
 	           CALL IFRONTPLUS(INTBUF_TAB%NSV(I),1)
             END DO
             DO I=1,NMN
-               CALL IFRONTPLUS(INTBUF_TAB%MSR(I),1)	   
+               CALL IFRONTPLUS(INTBUF_TAB%MSR(I),1)	
             END DO
 	     ENDIF
 C  interface ALE -> c. c. traitees par P0
@@ -140,7 +140,7 @@ C  interface ALE -> c. c. traitees par P0
            INCREM = 10
            DO I=1,NSN
              !set FLAGKIN to 1 for boundary node with
-	            !kinematic constraints (old FRONT TAG=10)	   
+	            !kinematic constraints (old FRONT TAG=10)	
              FLAGKIN(INTBUF_TAB%NSV(I)) = 1
            END DO
            DO I=1,NMN
@@ -312,7 +312,7 @@ C
             N4 = INTBUF_TAB%IRECTM((L-1)*4+4)
             IF (N3 == N4) THEN
               STFN=THIRD*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3))
-              STFR=THIRD*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3))             
+              STFR=THIRD*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3))
             ELSE
               STFN=FOURTH*(STIFINT(N1)+STIFINT(N2)+STIFINT(N3)+STIFINT(N4))
               STFR=FOURTH*(STIFINTR(N1)+STIFINTR(N2)+STIFINTR(N3)+STIFINTR(N4))
@@ -367,7 +367,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE FRONT_MOD  
+      USE FRONT_MOD
       USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -396,7 +396,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL     
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

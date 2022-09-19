@@ -32,7 +32,7 @@ Chd|====================================================================
      2           QOLD   ,VOL     ,STIFN   ,DT2T    ,NELTST  ,
      3           ITYPTST,OFFG    ,GEO     ,PID     ,
      5           MUMAX  ,MAT     ,NGL     ,SSP     ,DVOL    ,
-     6           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,  
+     6           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,
      7           D1     ,D2      ,D3      ,D4      ,D5      ,
      8           D6     ,PNEW    ,PSH     ,QNEW    ,SSP_EQ  ,
      9           SOLD1  ,SOLD2   ,SOLD3   ,SOLD4   ,SOLD5   ,
@@ -65,7 +65,7 @@ C
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), QOLD(*),
      .   VOL(*),STIFN(*), OFFG(*),GEO(NPROPG,*),MUMAX(*)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
+     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
      .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*),
      .   SOLD1(*), SOLD2(*), SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, J,IBID
       my_real
-     .   RHO0(MVSIZ), 
+     .   RHO0(MVSIZ),
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
      .   C1(MVSIZ),
      .   DF,DAV, DPDM, P,
@@ -120,7 +120,7 @@ C
       IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO    ,BID1   ,BID2    ,SSP    ,
      2        BID3    ,STIFN   ,DT2T   ,NELTST ,ITYPTST ,AIRE   ,
-     3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2     ,DELTAX , 
+     3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2     ,DELTAX ,
      4        VIS     ,D1      ,D2     ,D3     ,PNEW    ,PSH    ,
      5        MAT     ,NGL     ,QNEW    ,SSP_EQ ,VOL    ,MSSA   ,
      6        DMELS   ,IBID    ,FACQ0   ,CONDE  ,DTEL   ,G_DT   ,
@@ -144,7 +144,7 @@ C
        SIG(I,4)=SIG(I,4)*OFF(I)
        SIG(I,5)=SIG(I,5)*OFF(I)
        SIG(I,6)=SIG(I,6)*OFF(I)
-       P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD 
+       P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD
        E1=D1(I)*(SOLD1(I)+SIG(I,1)+P2)
        E2=D2(I)*(SOLD2(I)+SIG(I,2)+P2)
        E3=D3(I)*(SOLD3(I)+SIG(I,3)+P2)
@@ -170,7 +170,7 @@ Chd|====================================================================
      2           QOLD   ,VOL     ,STIFN   ,DT2T    ,NELTST  ,
      3           ITYPTST,OFFG    ,GEO     ,PID     ,
      5           MUMAX  ,MAT     ,NGL     ,SSP     ,DVOL    ,
-     6           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,  
+     6           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,
      7           D1     ,D2      ,D3      ,D4      ,D5      ,
      8           D6     ,PNEW    ,PSH     ,QNEW    ,SSP_EQ  ,
      9           SOLD1  ,SOLD2   ,SOLD3   ,SOLD4   ,SOLD5   ,
@@ -204,7 +204,7 @@ C
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), QOLD(*),
      .   VOL(*),STIFN(*), OFFG(*),GEO(NPROPG,*),MUMAX(*)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
+     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
      .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*),
      .   SOLD1(*), SOLD2(*), SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
@@ -214,7 +214,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, J,IBID
       my_real
-     .   RHO0(MVSIZ), 
+     .   RHO0(MVSIZ),
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
      .   C1(MVSIZ),
      .   DF,DAV, DPDM, P,
@@ -222,7 +222,7 @@ C-----------------------------------------------
      .   BID1, BID2, BID3, DTA,  YM, DPDMP,FACQ0,
      .   RHO0_1,C1_1
       my_real
-     .    lmb(mvsiz),epsm 
+     .    lmb(mvsiz),epsm
 C-----------------------------------------------
       FACQ0 = ONE
       MX = MAT(LFT)
@@ -240,7 +240,7 @@ C
        G1(I)=DT1*G(I)
        G2(I)=TWO*G1(I)
        !-----------------------
-       !     CALCUL DE DP/DRHO 
+       !     CALCUL DE DP/DRHO
        !-----------------------
        !     P = C1 mu, mu = rho/rho0-1
        !     d(rho)/d(mu)  = rho0
@@ -282,7 +282,7 @@ C
        sig(i,5)=sig(i,5)+ G(i)*d5(i) *dt1
        sig(i,6)=sig(i,6)+ G(i)*d6(i) *dt1
        pnew(i) =- (sig(i,1)+sig(i,2)+sig(i,3))
-       P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD 
+       P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD
        E1=D1(I)*(SOLD1(I)+SIG(I,1)+P2)
        E2=D2(I)*(SOLD2(I)+SIG(I,2)+P2)
        E3=D3(I)*(SOLD3(I)+SIG(I,3)+P2)
@@ -292,7 +292,7 @@ C
        EINC= VOL_AVG(I)*(E1+E2+E3+E4+E5+E6)*DTA - HALF*DVOL(I)*(QOLD(I)+QNEW(I)+P2)
        EINT(I)=(EINT(I)+EINC*OFF(I)) / MAX(EM15,VOL(I))
        QOLD(I)=QNEW(I)
-       
+
       ENDDO
 
       RETURN
@@ -311,12 +311,12 @@ Chd|====================================================================
      2           QOLD   ,VOL     ,STIFN   ,DT2T    ,NELTST  ,
      3           ITYPTST,OFFG    ,GEO     ,PID     ,AMU     ,
      5           MUMAX  ,MAT     ,NGL     ,SSP     ,DVOL    ,
-     6           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,  
+     6           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,
      7           D1     ,D2      ,D3      ,D4      ,D5      ,
      8           D6     ,PNEW    ,PSH     ,QNEW    ,SSP_EQ  ,
      9           SOLD1  ,SOLD2   ,SOLD3   ,SOLD4   ,SOLD5   ,
      A           SOLD6  ,MSSA    ,DMELS   ,CONDE   ,MFXX    ,
-     B           MFXY   ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    , 
+     B           MFXY   ,MFXZ    ,MFYX    ,MFYY    ,MFYZ    ,
      C           MFZX   ,MFZY    ,MFZZ    ,OFFG0   ,VOL_AVG ,
      D           EPSTH  ,DTEL    ,G_DT    ,NEL     ,ETOTSH  ,
      E           ISELECT,IPM     ,RHOREF  ,RHOSP   ,SIGL   )
@@ -348,7 +348,7 @@ C
      .   PM(NPROPM,*), OFF(*), SIG(NEL,6), EINT(*), RHO(*), QOLD(*),
      .   VOL(*),STIFN(*), OFFG(*),GEO(NPROPG,*),MUMAX(*),SIGL(NEL,6)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
+     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
      .   PSH(*), PNEW(*),QNEW(*) ,SSP_EQ(*), DVOL(*),
      .   SOLD1(*), SOLD2(*), SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
@@ -361,10 +361,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, J,IBID,NLAR,INDEX(MVSIZ),NSM
       my_real
-     .   RHO0(MVSIZ), 
+     .   RHO0(MVSIZ),
      .   G(MVSIZ), G1(MVSIZ), G2(MVSIZ),
-     .   C1(MVSIZ), 
-     .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ), 
+     .   C1(MVSIZ),
+     .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ),
      .   ES4(MVSIZ), ES5(MVSIZ), ES6(MVSIZ),
      .    DF,DAV,EKK, DPDM, P,
      .    E1, E2, E3, E4, E5, E6, EINC,
@@ -455,7 +455,7 @@ C--------switch to Ismstr11
             DO I=LFT,LLT
               IF (OFFG0(I)>ONE) THEN
                NSM = NSM +1
-               INDEX(NSM) = I            
+               INDEX(NSM) = I
                ES1(NSM)=MFXX(I)
                ES2(NSM)=MFYY(I)
                ES3(NSM)=MFZZ(I)
@@ -485,7 +485,7 @@ C--------switch to Ismstr11
             DO I=LFT,LLT
               IF (OFFG0(I)>ONE) THEN
                NSM = NSM +1
-               INDEX(NSM) = I            
+               INDEX(NSM) = I
                ES1(NSM)=ETOTSH(I,1)
                ES2(NSM)=ETOTSH(I,2)
                ES3(NSM)=ETOTSH(I,3)
@@ -499,7 +499,7 @@ C--------switch to Ismstr11
             DO I=LFT,LLT
              IF (OFFG0(I)>ONE) THEN
               NSM = NSM +1
-              INDEX(NSM) = I            
+              INDEX(NSM) = I
               ES1(NSM)=MFXX(I)*(TWO+MFXX(I))+MFXY(I)*MFXY(I)+MFXZ(I)*MFXZ(I)
               ES2(NSM)=MFYY(I)*(TWO+MFYY(I))+MFYX(I)*MFYX(I)+MFYZ(I)*MFYZ(I)
               ES3(NSM)=MFZZ(I)*(TWO+MFZZ(I))+MFZX(I)*MFZX(I)+MFZY(I)*MFZY(I)
@@ -508,7 +508,7 @@ C--------switch to Ismstr11
               ES5(NSM)=MFZY(I)+MFYZ(I)+MFZX(I)*MFYX(I)+MFZY(I)*MFYY(I)+MFZZ(I)*MFYZ(I)
               EPSTH11(NSM)=EPSTH(I)
              END IF
-            END DO 
+            END DO
            END IF !(ISELECT>0)
            CALL M1ISMSTR11(NSM ,
      1                    ES1 , ES2 ,ES3 ,ES4  ,ES5   ,
@@ -546,7 +546,7 @@ C--------switch to Ismstr11
            SIG(I,6)=G1(I)*ES6(I)
           ENDDO
       ENDIF  ! ismstr
-      IF(ISMSTR==12)THEN 
+      IF(ISMSTR==12)THEN
         DO I=LFT,LLT
           IF(ABS(OFFG0(I)) <= ONE)THEN ! Large Strain
             SSP(I)=SQRT((ONEP333*G(I)+C1(I))/RHO(I))
@@ -621,7 +621,7 @@ C---questionable to do PNEW(I)=C1(I)*AMU(I) for Ismstr10
        SIG(I,4)=SIG(I,4)*OFF(I)
        SIG(I,5)=SIG(I,5)*OFF(I)
        SIG(I,6)=SIG(I,6)*OFF(I)
-       P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD 
+       P2 = -(SOLD1(I)+SIG(I,1)+SOLD2(I)+SIG(I,2)+SOLD3(I)+SIG(I,3))* THIRD
        E1=D1(I)*(SOLD1(I)+SIG(I,1)+P2)
        E2=D2(I)*(SOLD2(I)+SIG(I,2)+P2)
        E3=D3(I)*(SOLD3(I)+SIG(I,3)+P2)
@@ -660,9 +660,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL     
+      INTEGER       NEL
       my_real
-     .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ), 
+     .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ),
      .   ES4(MVSIZ), ES5(MVSIZ), ES6(MVSIZ),
      .   EV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
 C----------------------------------------------------------------
@@ -724,9 +724,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL     
+      INTEGER       NEL
       my_real
-     .   ES1(*), ES2(*), ES3(*), 
+     .   ES1(*), ES2(*), ES3(*),
      .   ES4(*), ES5(*), ES6(*),
      .   SIG(MVSIZ,6), EPSTH(*),C1(*),G(*)
 C----------------------------------------------------------------
@@ -735,9 +735,9 @@ C----------------------------------------------------------------
       INTEGER    I,J,K,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
       my_real
      .    SV(3),EV(MVSIZ,3),DIRPRV(MVSIZ,3,3),EKK,DAV,P3,G2(MVSIZ),
-     .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ), 
+     .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ),
      .    ESPIN4(MVSIZ), ESPIN5(MVSIZ), ESPIN6(MVSIZ),
-     .    E1, E2, E3, E4, E5, E6,ESPIN(MVSIZ,6), 
+     .    E1, E2, E3, E4, E5, E6,ESPIN(MVSIZ,6),
      .    E1Q,E2Q,E3Q,E4Q,E5Q,E6Q,
      .    E1T,E2T,E3T,E4T,E5T,E6T,B2(6),EMIN,EMAX
 C----------------------------------------------------------------
@@ -815,22 +815,22 @@ C
           SV(3)=P3 +G2(I)*(EV(K,3)+DAV)
            SIG(I,1) =  DIRPRV(K,1,1)*DIRPRV(K,1,1)*SV(1)
      .               + DIRPRV(K,1,2)*DIRPRV(K,1,2)*SV(2)
-     .               + DIRPRV(K,1,3)*DIRPRV(K,1,3)*SV(3)     
+     .               + DIRPRV(K,1,3)*DIRPRV(K,1,3)*SV(3)
            SIG(I,2) =  DIRPRV(K,2,2)*DIRPRV(K,2,2)*SV(2)
      .               + DIRPRV(K,2,3)*DIRPRV(K,2,3)*SV(3)
-     .               + DIRPRV(K,2,1)*DIRPRV(K,2,1)*SV(1)     
+     .               + DIRPRV(K,2,1)*DIRPRV(K,2,1)*SV(1)
            SIG(I,3) =  DIRPRV(K,3,3)*DIRPRV(K,3,3)*SV(3)
      .               + DIRPRV(K,3,1)*DIRPRV(K,3,1)*SV(1)
-     .               + DIRPRV(K,3,2)*DIRPRV(K,3,2)*SV(2)     
+     .               + DIRPRV(K,3,2)*DIRPRV(K,3,2)*SV(2)
            SIG(I,4) =  DIRPRV(K,1,1)*DIRPRV(K,2,1)*SV(1)
      .               + DIRPRV(K,1,2)*DIRPRV(K,2,2)*SV(2)
-     .               + DIRPRV(K,1,3)*DIRPRV(K,2,3)*SV(3)     
+     .               + DIRPRV(K,1,3)*DIRPRV(K,2,3)*SV(3)
            SIG(I,5) =  DIRPRV(K,2,2)*DIRPRV(K,3,2)*SV(2)
      .               + DIRPRV(K,2,3)*DIRPRV(K,3,3)*SV(3)
-     .               + DIRPRV(K,2,1)*DIRPRV(K,3,1)*SV(1)     
+     .               + DIRPRV(K,2,1)*DIRPRV(K,3,1)*SV(1)
            SIG(I,6) =  DIRPRV(K,3,3)*DIRPRV(K,1,3)*SV(3)
      .               + DIRPRV(K,3,1)*DIRPRV(K,1,1)*SV(1)
-     .               + DIRPRV(K,3,2)*DIRPRV(K,1,2)*SV(2)             
+     .               + DIRPRV(K,3,2)*DIRPRV(K,1,2)*SV(2)
         ENDDO
        END IF
 C      
@@ -861,9 +861,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL     
+      INTEGER       NEL
       my_real
-     .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ), 
+     .   ES1(MVSIZ), ES2(MVSIZ), ES3(MVSIZ),
      .   ES4(MVSIZ), ES5(MVSIZ), ES6(MVSIZ),
      .   EV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
 C----------------------------------------------------------------
@@ -915,9 +915,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL     
+      INTEGER       NEL
       my_real
-     .   ES1(*), ES2(*), ES3(*), 
+     .   ES1(*), ES2(*), ES3(*),
      .   ES4(*), ES5(*), ES6(*),
      .   SIG11(MVSIZ,6), EPSTH(*),C1,G2
 C----------------------------------------------------------------
@@ -926,9 +926,9 @@ C----------------------------------------------------------------
       INTEGER    I,J,K,IFAST(MVSIZ),NPRIN,INDEX(MVSIZ),NFAST
       my_real
      .    SV(3),EV(MVSIZ,3),DIRPRV(MVSIZ,3,3),EKK,DAV,P3,
-     .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ), 
+     .    ESPIN1(MVSIZ), ESPIN2(MVSIZ), ESPIN3(MVSIZ),
      .    ESPIN4(MVSIZ), ESPIN5(MVSIZ), ESPIN6(MVSIZ),
-     .    E1, E2, E3, E4, E5, E6,ESPIN(MVSIZ,6), 
+     .    E1, E2, E3, E4, E5, E6,ESPIN(MVSIZ,6),
      .    E1Q,E2Q,E3Q,E4Q,E5Q,E6Q,
      .    E1T,E2T,E3T,E4T,E5T,E6T,B2(6),EMIN,EMAX
 C----------------------------------------------------------------
@@ -1005,22 +1005,22 @@ C
           SV(3)=P3 +G2*(EV(K,3)+DAV)
            SIG11(I,1) = DIRPRV(K,1,1)*DIRPRV(K,1,1)*SV(1)
      .               + DIRPRV(K,1,2)*DIRPRV(K,1,2)*SV(2)
-     .               + DIRPRV(K,1,3)*DIRPRV(K,1,3)*SV(3)     
+     .               + DIRPRV(K,1,3)*DIRPRV(K,1,3)*SV(3)
            SIG11(I,2) = DIRPRV(K,2,2)*DIRPRV(K,2,2)*SV(2)
      .               + DIRPRV(K,2,3)*DIRPRV(K,2,3)*SV(3)
-     .               + DIRPRV(K,2,1)*DIRPRV(K,2,1)*SV(1)     
+     .               + DIRPRV(K,2,1)*DIRPRV(K,2,1)*SV(1)
            SIG11(I,3) = DIRPRV(K,3,3)*DIRPRV(K,3,3)*SV(3)
      .               + DIRPRV(K,3,1)*DIRPRV(K,3,1)*SV(1)
-     .               + DIRPRV(K,3,2)*DIRPRV(K,3,2)*SV(2)     
+     .               + DIRPRV(K,3,2)*DIRPRV(K,3,2)*SV(2)
            SIG11(I,4) = DIRPRV(K,1,1)*DIRPRV(K,2,1)*SV(1)
      .               + DIRPRV(K,1,2)*DIRPRV(K,2,2)*SV(2)
-     .               + DIRPRV(K,1,3)*DIRPRV(K,2,3)*SV(3)     
+     .               + DIRPRV(K,1,3)*DIRPRV(K,2,3)*SV(3)
            SIG11(I,5) = DIRPRV(K,2,2)*DIRPRV(K,3,2)*SV(2)
      .               + DIRPRV(K,2,3)*DIRPRV(K,3,3)*SV(3)
-     .               + DIRPRV(K,2,1)*DIRPRV(K,3,1)*SV(1)     
+     .               + DIRPRV(K,2,1)*DIRPRV(K,3,1)*SV(1)
            SIG11(I,6) = DIRPRV(K,3,3)*DIRPRV(K,1,3)*SV(3)
      .               + DIRPRV(K,3,1)*DIRPRV(K,1,1)*SV(1)
-     .               + DIRPRV(K,3,2)*DIRPRV(K,1,2)*SV(2)             
+     .               + DIRPRV(K,3,2)*DIRPRV(K,1,2)*SV(2)
         ENDDO
        END IF
 C      

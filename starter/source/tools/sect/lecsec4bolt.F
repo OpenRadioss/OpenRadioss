@@ -90,7 +90,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IXC(NIXC,*), IXTG(NIXTG,*), NSTRF(*), ITAB(*),
      .        ITABM1(*),IXS(NIXS,*), IXQ(NIXQ,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IPARI(NPARI,*),
@@ -167,7 +167,7 @@ C
       IGUQ=0
 
       CALL HM_OPTION_START('/SECT')
-      
+
       DO I=1,NSECT
         ISTYP = 0
         NG=NG+1
@@ -175,10 +175,10 @@ C
         K1 = K0+30
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR, UNIT_ID=UID, SUBMODEL_ID=SUB_ID, KEYWORD2=KEY2)
 
-        CALL HM_GET_INTV('Axis_Origin_Node_N1', NSTRF(K0+3), IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N2', NSTRF(K0+4), IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Axis_Node_N3', NSTRF(K0+5), IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('ISAVE', NSTRF(K0), IS_AVAILABLE, LSUBMODEL)  
+        CALL HM_GET_INTV('Axis_Origin_Node_N1', NSTRF(K0+3), IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N2', NSTRF(K0+4), IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Axis_Node_N3', NSTRF(K0+5), IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('ISAVE', NSTRF(K0), IS_AVAILABLE, LSUBMODEL)
 
         CALL HM_GET_STRING('file_name', CHAR8, ncharline, IS_AVAILABLE)
         ILEN=LEN(CHAR8)
@@ -187,7 +187,7 @@ C
         IF(ILEN >= 0 .AND. ILEN < ncharline)THEN
           DO K=ILEN+1,ncharline
             CHAR8(K:K)=' '
-          ENDDO       
+          ENDDO
         ENDIF
 
         IF(KEY2(1:5) == 'PARAL') THEN
@@ -195,40 +195,40 @@ C
         ELSEIF(KEY2(1:6) == 'CIRCLE') THEN
           ISTYP = 2
         ELSE
-          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)  
-          CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)  
+          CALL HM_GET_INTV('Grnod_ID', IGU, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INTV('System_Id', NFRAM, IS_AVAILABLE, LSUBMODEL)
           ISTYP = 0
-        ENDIF        
+        ENDIF
 
         CALL HM_GET_FLOATV('detltaT', DELTAT, IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('alpha', ALPHA, IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grshel_id', IGUC, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grtrus_id', IGUT, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grbeam_id', IGUP, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grsprg_id', IGUR, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('grtria_id', IGUTG, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)  
-        CALL HM_GET_INTV('Iframe', IFRAM, IS_AVAILABLE, LSUBMODEL)  
+        CALL HM_GET_INTV('grbrick_id', IGUS, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grshel_id', IGUC, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grtrus_id', IGUT, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grbeam_id', IGUP, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grsprg_id', IGUR, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('grtria_id', IGUTG, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Niter', NBINTER, IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV('Iframe', IFRAM, IS_AVAILABLE, LSUBMODEL)
 
-        IF (NBINTER < 0 .OR. NBINTER > 10) THEN                    
-          CALL ANCMSG(MSGID=124,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=TITR) 
-        ENDIF                                                    
-                
-        IFLAGUNIT = 0                                            
-        DO J=1,NUNITS  
-            IF (UNITAB%UNIT_ID(J) == UID) THEN    
+        IF (NBINTER < 0 .OR. NBINTER > 10) THEN
+          CALL ANCMSG(MSGID=124,ANMODE=ANINFO,MSGTYPE=MSGERROR,I1=ID,C1=TITR)
+        ENDIF
+
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
               FAC_T = UNITAB%FAC_T(J)
-              IFLAGUNIT = 1                                        
-              EXIT                                                 
-            ENDIF                                                  
-        ENDDO                                                    
-        IF (UID/=0.AND.IFLAGUNIT==0) THEN                    
-          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=UID,I1=ID,C1='SECTION',C2='SECTION',C3=TITR) 
-        ENDIF                                                    
+              IFLAGUNIT = 1
+              EXIT
+            ENDIF
+        ENDDO
+        IF (UID/=0.AND.IFLAGUNIT==0) THEN
+          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,I2=UID,I1=ID,C1='SECTION',C2='SECTION',C3=TITR)
+        ENDIF
 
         SECTIDS(I)=ID
-        
+
         IF(IGU == 0 .AND. NFRAM == 0 .AND. ISTYP == 0) THEN
           CALL ANCMSG(MSGID=507,
      .                MSGTYPE=MSGWARNING,
@@ -243,168 +243,168 @@ C
 
 
 
-        IF((IGUS==0))THEN                                                                                
-          CALL ANCMSG(MSGID=600,                                                                           
-     .                MSGTYPE=MSGWARNING,                                                                  
-     .                ANMODE=ANINFO_BLIND_1,                                                               
-     .                I1=ID,                                                                               
-     .                C1=TITR)                                                                             
-        END IF     
-        
+        IF((IGUS==0))THEN
+          CALL ANCMSG(MSGID=600,
+     .                MSGTYPE=MSGWARNING,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=ID,
+     .                C1=TITR)
+        END IF
+
         DO J=1,NBINTER
-          CALL HM_GET_INT_ARRAY_INDEX('int_id' ,NSTRF(K1-1+J) ,J ,IS_AVAILABLE, LSUBMODEL) 
-        ENDDO  
-                                                                        
-        IF (ISTYP == 1) THEN                                                                               
+          CALL HM_GET_INT_ARRAY_INDEX('int_id' ,NSTRF(K1-1+J) ,J ,IS_AVAILABLE, LSUBMODEL)
+        ENDDO
+
+        IF (ISTYP == 1) THEN
           CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                 
-          IF(SUB_ID /= 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)                                          
+          CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+          IF(SUB_ID /= 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)
 
           CALL HM_GET_FLOATV('cnode1_x', X1, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('cnode1_y', Y1, IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('cnode1_z', Z1, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                  
-          IF(SUB_ID /= 0) CALL SUBROTPOINT(X1,Y1,Z1,RTRANS,SUB_ID,LSUBMODEL)                                          
+          CALL HM_GET_FLOATV('cnode1_z', Z1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+          IF(SUB_ID /= 0) CALL SUBROTPOINT(X1,Y1,Z1,RTRANS,SUB_ID,LSUBMODEL)
 
           CALL HM_GET_FLOATV('cnode2_x', X2, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('cnode2_y', Y2, IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('cnode2_z', Z2, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                   
-          IF(SUB_ID /= 0)CALL SUBROTPOINT(X2,Y2,Z2,RTRANS,SUB_ID,LSUBMODEL)                                          
-                                                                                    
-          D = XM                                                                                           
-          E = YM                                                                                           
-          F = ZM                                                                                           
-          A = ((Y1-YM)*(Z2-ZM))-((Y2-YM)*(Z1-ZM))                                                          
-          B = ((X2-XM)*(Z1-ZM))-((X1-XM)*(Z2-ZM))                                                          
-          C = ((X1-XM)*(Y2-YM))-((X2-XM)*(Y1-YM))                                                          
-          NORM = A*A+B*B+C*C                                                                               
-          A = A/SQRT(NORM)                                                                                 
-          B = B/SQRT(NORM)                                                                                 
+          CALL HM_GET_FLOATV('cnode2_z', Z2, IS_AVAILABLE, LSUBMODEL, UNITAB)
+          IF(SUB_ID /= 0)CALL SUBROTPOINT(X2,Y2,Z2,RTRANS,SUB_ID,LSUBMODEL)
+
+          D = XM
+          E = YM
+          F = ZM
+          A = ((Y1-YM)*(Z2-ZM))-((Y2-YM)*(Z1-ZM))
+          B = ((X2-XM)*(Z1-ZM))-((X1-XM)*(Z2-ZM))
+          C = ((X1-XM)*(Y2-YM))-((X2-XM)*(Y1-YM))
+          NORM = A*A+B*B+C*C
+          A = A/SQRT(NORM)
+          B = B/SQRT(NORM)
           C = C/SQRT(NORM)
-                                                                                           
-        ELSEIF (ISTYP == 2) THEN                                                                           
+
+        ELSEIF (ISTYP == 2) THEN
           CALL HM_GET_FLOATV('XTail', XM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('YTail', YM, IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                 
+          CALL HM_GET_FLOATV('ZTail', ZM, IS_AVAILABLE, LSUBMODEL, UNITAB)
           IF(SUB_ID /= 0)CALL SUBROTPOINT(XM,YM,ZM,RTRANS,SUB_ID,LSUBMODEL)
-          
+
           CALL HM_GET_FLOATV('Normal_x', A, IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('Normal_y', B, IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('Normal_z', C, IS_AVAILABLE, LSUBMODEL, UNITAB)                                                 
+          CALL HM_GET_FLOATV('Normal_z', C, IS_AVAILABLE, LSUBMODEL, UNITAB)
           IF(SUB_ID /= 0)CALL SUBROTVECT(A,B,C,RTRANS,SUB_ID,LSUBMODEL)
 
           CALL HM_GET_FLOATV('Radius', R, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                                                                                      
-          D = XM                                                                                           
-          E = YM                                                                                           
-          F = ZM                                                                                           
-          NORM = A*A+B*B+C*C                                                                               
-          A = A/SQRT(NORM)                                                                                 
-          B = B/SQRT(NORM)                                                                                 
-          C = C/SQRT(NORM)                                                                                 
-        ENDIF                                                                                              
 
-        DO J=1,NBINTER                                                                                     
-         DO L=1,NINTER                                                                                     
-          IF(NSTRF(K1-1+J)==IPARI(15,L))THEN                                                             
-            IPARI(28,L) = IPARI(28,L) + 1                                                                  
+          D = XM
+          E = YM
+          F = ZM
+          NORM = A*A+B*B+C*C
+          A = A/SQRT(NORM)
+          B = B/SQRT(NORM)
+          C = C/SQRT(NORM)
+        ENDIF
+
+        DO J=1,NBINTER
+         DO L=1,NINTER
+          IF(NSTRF(K1-1+J)==IPARI(15,L))THEN
+            IPARI(28,L) = IPARI(28,L) + 1
 C numero interne      NSTRF(K1-1+J) = L
-          ENDIF 
-         ENDDO  
-        ENDDO   
+          ENDIF
+         ENDDO
+        ENDDO
 C
 C Noeuds concernes par la section (si NFRAM /= 0)
 C Noeuds concerns :
 C au dessus du plan N2N3 du frame (suivant la direction +Z)
 C & dans le plan N2N3 du frame
 C
-        IF (ISTYP >= 1 .OR. NFRAM > 0) THEN                              
-          IF(ISTYP == 0) THEN                                            
-           DO K=1,NUMFRAM                                                
-             J=K+1                                                       
-             JJ=(NUMSKW+1)+NSUBMOD+MIN(IUN,NSPCOND)*NUMSPH+K+1           
-             IF(NFRAM==ISKN(4,JJ)) THEN                                
-	       A = XFRAME(7,J)                                           
-	       B = XFRAME(8,J)                                           
-	       C = XFRAME(9,J)                                           
-               D = XFRAME(10,J)                                          
-               E = XFRAME(11,J)                                          
-               F = XFRAME(12,J)                                          
-	       N1 = ISKN(1,JJ)                                           
-               IF (NSTRF(K0+3) == 0 ) THEN                               
-                 IF (ISKN(1,JJ) /= 0) THEN                             
-                   NSTRF(K0+3) = ITAB(ISKN(1,JJ))                        
-                 ELSE                                                    
-                   CALL ANCMSG(MSGID=742,                                
-     .                         MSGTYPE=MSGERROR,                         
-     .                         ANMODE=ANINFO,                            
-     .                         I1=ID,                                    
-     .                         C1=TITR,                                  
-     .                         C2='N1',                                  
-     .                         I2=NFRAM)                                 
-                 ENDIF                                                   
-               ENDIF                                                     
-               IF (NSTRF(K0+4) == 0 ) THEN                               
-                 IF (ISKN(2,JJ) /= 0) THEN                             
-                   NSTRF(K0+4) = ITAB(ISKN(2,JJ))                        
-                 ELSE                                                    
-                   CALL ANCMSG(MSGID=742,                                
-     .                         MSGTYPE=MSGERROR,                         
-     .                         ANMODE=ANINFO,                            
-     .                         I1=ID,                                    
-     .                         C1=TITR,                                  
-     .                         C2='N2',                                  
-     .                         I2=NFRAM)                                 
-                 ENDIF                                                   
-               ENDIF                                                     
-               IF (NSTRF(K0+5) == 0 ) THEN                               
-                 IF (ISKN(3,JJ) /= 0) THEN                             
-                   NSTRF(K0+5) = ITAB(ISKN(3,JJ))                        
-                 ELSE                                                    
-                   CALL ANCMSG(MSGID=742,                                
-     .                         MSGTYPE=MSGERROR,                         
-     .                         ANMODE=ANINFO,                            
-     .                         I1=ID,                                    
-     .                         C1=TITR,                                  
-     .                         C2='N3',                                  
-     .                         I2=NFRAM)                                 
-                 ENDIF                                                   
-               ENDIF                                                     
-             ENDIF                                                       
-           ENDDO                                                         
-          ENDIF                                                          
-          KK=1+NGRNOD                                                    
-	  NNOD = 0                                                       
-	  CPT = 1                                                        
-	  CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,            
-     2                  B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,            
-     3                  NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,               
-     4                  CPT,NODTAG,ISOLNOD,TAGELEMS,                     
-     5                  X1,Y1,Z1,X2,Y2,Z2,R)                             
+        IF (ISTYP >= 1 .OR. NFRAM > 0) THEN
+          IF(ISTYP == 0) THEN
+           DO K=1,NUMFRAM
+             J=K+1
+             JJ=(NUMSKW+1)+NSUBMOD+MIN(IUN,NSPCOND)*NUMSPH+K+1
+             IF(NFRAM==ISKN(4,JJ)) THEN
+	       A = XFRAME(7,J)
+	       B = XFRAME(8,J)
+	       C = XFRAME(9,J)
+               D = XFRAME(10,J)
+               E = XFRAME(11,J)
+               F = XFRAME(12,J)
+	       N1 = ISKN(1,JJ)
+               IF (NSTRF(K0+3) == 0 ) THEN
+                 IF (ISKN(1,JJ) /= 0) THEN
+                   NSTRF(K0+3) = ITAB(ISKN(1,JJ))
+                 ELSE
+                   CALL ANCMSG(MSGID=742,
+     .                         MSGTYPE=MSGERROR,
+     .                         ANMODE=ANINFO,
+     .                         I1=ID,
+     .                         C1=TITR,
+     .                         C2='N1',
+     .                         I2=NFRAM)
+                 ENDIF
+               ENDIF
+               IF (NSTRF(K0+4) == 0 ) THEN
+                 IF (ISKN(2,JJ) /= 0) THEN
+                   NSTRF(K0+4) = ITAB(ISKN(2,JJ))
+                 ELSE
+                   CALL ANCMSG(MSGID=742,
+     .                         MSGTYPE=MSGERROR,
+     .                         ANMODE=ANINFO,
+     .                         I1=ID,
+     .                         C1=TITR,
+     .                         C2='N2',
+     .                         I2=NFRAM)
+                 ENDIF
+               ENDIF
+               IF (NSTRF(K0+5) == 0 ) THEN
+                 IF (ISKN(3,JJ) /= 0) THEN
+                   NSTRF(K0+5) = ITAB(ISKN(3,JJ))
+                 ELSE
+                   CALL ANCMSG(MSGID=742,
+     .                         MSGTYPE=MSGERROR,
+     .                         ANMODE=ANINFO,
+     .                         I1=ID,
+     .                         C1=TITR,
+     .                         C2='N3',
+     .                         I2=NFRAM)
+                 ENDIF
+               ENDIF
+             ENDIF
+           ENDDO
+          ENDIF
+          KK=1+NGRNOD
+	  NNOD = 0
+	  CPT = 1
+	  CALL SEC_NODES_SOL(IGUS,ISTYP,NGRBRIC,IGRBRIC,X0,A,
+     2                  B,C,D,E,F,ITAB,IXS,IXS10,IXS16,IXS20,
+     3                  NIXS,KK,NNOD,NSTRF,NBINTER,N1 ,K1,
+     4                  CPT,NODTAG,ISOLNOD,TAGELEMS,
+     5                  X1,Y1,Z1,X2,Y2,Z2,R)
 
-          KK=KK+NGRBRIC                                                  
-        ENDIF                                                            
+          KK=KK+NGRBRIC
+        ENDIF
 
-        K2=K1+NBINTER                               
+        K2=K1+NBINTER
 
-        IF (NFRAM == 0 .AND. ISTYP == 0) THEN       
-          NNOD=NODGRNR5(IGU,IGS,NSTRF(K2),IGRNOD,ITABM1,MESS)                                 
-        ENDIF                                       
+        IF (NFRAM == 0 .AND. ISTYP == 0) THEN
+          NNOD=NODGRNR5(IGU,IGS,NSTRF(K2),IGRNOD,ITABM1,MESS)
+        ENDIF
 
-        K3=K2+NNOD                                                                               
-        NSEGS=ELEGROR(IGUS,IGRBRIC,NGRBRIC,'BRIC',NSTRF(K3),2,MESS,NFRAM,TAGELEMS,ISTYP,ID,TITR) 
-        K4=K3+2*NSEGS                                                                            
-        NSEGQ=0                                                                                  
-        K5=K4+2*NSEGQ                                                                            
-        NSEGC=0                                                                                  
-        K6=K5+2*NSEGC                                                                            
-        NSEGT=0                                                                                  
-        K7=K6+2*NSEGT                                                                            
-        NSEGP=0                                                                                  
-        K8=K7+2*NSEGP                                                                            
-        NSEGR=0                                                                                  
-        K9=K8+2*NSEGR                                                                            
-        NSEGTG=0                                                                                 
+        K3=K2+NNOD
+        NSEGS=ELEGROR(IGUS,IGRBRIC,NGRBRIC,'BRIC',NSTRF(K3),2,MESS,NFRAM,TAGELEMS,ISTYP,ID,TITR)
+        K4=K3+2*NSEGS
+        NSEGQ=0
+        K5=K4+2*NSEGQ
+        NSEGC=0
+        K6=K5+2*NSEGC
+        NSEGT=0
+        K7=K6+2*NSEGT
+        NSEGP=0
+        K8=K7+2*NSEGP
+        NSEGR=0
+        K9=K8+2*NSEGR
+        NSEGTG=0
 C
         IF(NSEGS+NSEGQ+NSEGC+NSEGT+NSEGP+NSEGR+NSEGTG==0)THEN
           CALL ANCMSG(MSGID=1813,
@@ -534,7 +534,7 @@ C-------------------------------------------------------------
 
 C file rec length
       NSTRF(6)=LREC*4
-      
+
 C-------------------------------------------------------------
  2900 FORMAT(/' SECTION',I10,' ID',I10/
      +        ' ---------------'/

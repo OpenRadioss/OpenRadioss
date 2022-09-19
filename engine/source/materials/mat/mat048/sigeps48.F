@@ -134,7 +134,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IADBUF,ICC(MVSIZ),MX
-      my_real 
+      my_real
      .        E,NU,P,DAV,VM,R,DPLA,EPST,E1,E2,E3,E4,E5,E6,C,CD,D,
      .        Y,YP,E42,E52,E62,EPST2,PA,PB,PC,PDA,PDB,YY,
      .        C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),
@@ -193,7 +193,7 @@ C
 C
         SOUNDSP(I) = SQRT((C1(I)+FOUR*G(I)/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
-         DPLA1(I) = ZERO                
+         DPLA1(I) = ZERO
       ENDDO
 C__________
 C
@@ -219,7 +219,7 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - TWO*E4*E5*E6 
+     &      - TWO*E4*E5*E6
         CD = C*THIRD
         EPST = SQRT(-CD)
         EPST2 = EPST * EPST
@@ -301,7 +301,7 @@ C-----
         H(I)  = FAIL(I)*H(I)
         SIGY(I)=YLD(I)
         IF(PLA(I)>EPMAX(I)) YLD(I)=ZERO
-      ENDDO        
+      ENDDO
 C
 C-------------------
 C     VON MISES & RADIAL RETURN
@@ -328,7 +328,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I)- ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + DPLA
         UVAR(I,1)=PLA(I)
-        DPLA1(I) = DPLA        
+        DPLA1(I) = DPLA
       ENDDO
 C
       DO I=1,NEL

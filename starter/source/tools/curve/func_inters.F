@@ -45,11 +45,11 @@ C-----------------------------------------------
       CHARACTER*nchartitle :: TITR
       INTEGER  :: MAT_ID,FUNC1,FUNC2
       my_real  :: XINT,YINT,FAC1,FAC2
-      INTEGER  ,DIMENSION(SNPC) :: NPC 
+      INTEGER  ,DIMENSION(SNPC) :: NPC
       my_real  ,DIMENSION(STF)  :: PLD
 C-----------------------------------------------
       INTENT(IN)    :: TITR,FUNC1,FUNC2,MAT_ID,NPC,PLD,FAC1,FAC2
-      INTENT(INOUT) :: XINT,YINT 
+      INTENT(INOUT) :: XINT,YINT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ c     Check common points between 2 curves => intersection
       YINT  = ZERO
       FOUND = 0
       NP1  = (NPC(FUNC1+1)-NPC(FUNC1))*HALF  ! nb of points of the 1st curve
-      NP2  = (NPC(FUNC2+1)-NPC(FUNC2))*HALF  ! nb of points of the 2nd curve 
+      NP2  = (NPC(FUNC2+1)-NPC(FUNC2))*HALF  ! nb of points of the 2nd curve
       DO J=2,NP1+1
         J1=2*(J-2)
         S1=PLD(NPC(FUNC1)+J1)
@@ -148,9 +148,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle :: TITR
       !INTEGER  , DIMENSION(NFUNC)      :: IFUNC,FUNC_ID
-      INTEGER     FUNC,FUND,NPC(*) 
+      INTEGER     FUNC,FUND,NPC(*)
       INTEGER  :: MAT_ID
-      my_real  
+      my_real
      .            XINT1 ,YINT1  ,XINT2 ,YINT2,FAC1,FAC2,PLD(*)
 !      TYPE(TTABLE) TABLE(*)
 C-----------------------------------------------
@@ -160,7 +160,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,NP1,NP2,J1,K,K1
-      my_real 
+      my_real
      .      S1,S2,T1,T2,X1,X2,Y1,Y2,SX,TY,DYDX,DTDS
 C=======================================================================
           !direction SHEAR, kfunc(3) kfunc(6)
@@ -170,8 +170,8 @@ C=======================================================================
           YINT2 = ZERO
           SX = ZERO
           TY = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF  
-          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF 
+          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF
+          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF
           DO J=2,NP1+1
             J1=2*(J-2)
             S1=PLD(NPC(FUNC)+J1)
@@ -208,7 +208,7 @@ C=======================================================================
                   !TY =  T2 + DTDS*(SX - S2)
                   SX = (T1-Y1-DTDS*S1+DYDX*X1) / (DYDX-DTDS)
                   TY =  T1 + DTDS*(SX - S1)
-                  IF (TY>=Y1 .AND. TY<=Y2 .AND. SX>=X1 .AND. SX<=X2.AND.SX/=ZERO)THEN           
+                  IF (TY>=Y1 .AND. TY<=Y2 .AND. SX>=X1 .AND. SX<=X2.AND.SX/=ZERO)THEN
                     XINT1 = SX
                     YINT1 = TY
                     GOTO 361
@@ -255,7 +255,7 @@ C=======================================================================
                   !TY =  T2 + DTDS*(SX - S2)
                   SX = (T1-Y1-DTDS*S1+DYDX*X1) / (DYDX-DTDS)
                   TY =  T1 + DTDS*(SX - S1)
-                  IF (TY>=Y1 .AND. TY<=Y2 .AND. SX>=X1 .AND. SX<=X2.AND.SX/=ZERO)THEN 
+                  IF (TY>=Y1 .AND. TY<=Y2 .AND. SX>=X1 .AND. SX<=X2.AND.SX/=ZERO)THEN
                     XINT2 = SX
                     YINT2 = TY
                     GOTO 362
@@ -297,19 +297,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER*nchartitle :: TITR
       !INTEGER  , DIMENSION(NFUNC)      :: IFUNC,FUNC_ID
-      INTEGER     FUNC,FUND,NPC(*) 
+      INTEGER     FUNC,FUND,NPC(*)
       INTEGER  :: MAT_ID
-      my_real  
+      my_real
      .            XINC,YINC,FAC1,FAC2,PLD(*)
 !      TYPE(TTABLE) TABLE(*)
 C-----------------------------------------------
       INTENT(IN)    :: TITR,FUNC,FUND,MAT_ID,NPC,PLD,FAC1,FAC2
-      INTENT(INOUT) :: XINC,YINC 
+      INTENT(INOUT) :: XINC,YINC
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,NP1,NP2,J1,K,K1
-      my_real 
+      my_real
      .      S1,S2,T1,T2,X1,X2,Y1,Y2,SX,TY,DYDX,DTDS,DET,B1,B2,X,Y
 C=======================================================================
         !NFUNC =  IPM(10,IMAT)+IPM(6,IMAT)in updmat.f
@@ -317,8 +317,8 @@ C=======================================================================
 ! Calculation intersection
           XINC = ZERO
           YINC = ZERO
-          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF  
-          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF 
+          NP1  = (NPC(FUNC+1)-NPC(FUNC))*HALF
+          NP2  = (NPC(FUND+1)-NPC(FUND))*HALF
           DO J=2,NP1+1
             J1=2*(J-2)
             S1=PLD(NPC(FUNC)+J1)
@@ -362,10 +362,10 @@ C=======================================================================
                             YINC = Y
                             GOTO 350
                          ENDIF
-                    ENDIF 
-                 ENDIF  
+                    ENDIF
+                 ENDIF
                ENDDO ! K
-             ENDIF ! S1, S2    
+             ENDIF ! S1, S2
           ENDDO
  350      CONTINUE
 c-----------
@@ -401,7 +401,7 @@ C-----------------------------------------------
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
 C-----------------------------------------------
       INTENT(IN)    :: FUNC1,FUNC2,FAC1,FAC2
-      INTENT(INOUT) :: XINT,YINT 
+      INTENT(INOUT) :: XINT,YINT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

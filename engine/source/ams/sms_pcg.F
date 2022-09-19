@@ -152,9 +152,9 @@ C     REAL
      .  RWBUF(*), RWSAV(*), FOPT(*), FREA(3,*),RBID,
      .  MSKYI_FI_SMS(*), MSKYI_SMS(*), VFI(*), MV(*),FTHREAC(6,*),
      .  AM(3,*), VR(3,*), DR(3,*), IN(*), RBY(NRBY,*),
-     .  FRBE3(*), RRBE3(*), 
+     .  FRBE3(*), RRBE3(*),
      .  PREC_SMS3(3,NUMNOD), DIAG_SMS3(3,NUMNOD)
-      DOUBLE PRECISION FRL6(*), FNL6(*), MV6(*), MW6(*), FRWL6(*), 
+      DOUBLE PRECISION FRL6(*), FNL6(*), MV6(*), MW6(*), FRWL6(*),
      .                 RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
@@ -165,7 +165,7 @@ C-----------------------------------------------
      .        NCPRIA, M, MSR, IAD, NSN, KI, NRBDIM
       my_real
      .   ALPHA, BETA, TOLN,
-     .   ST , R2T, R02T, G0T, G1T, RES_OLD, 
+     .   ST , R2T, R02T, G0T, G1T, RES_OLD,
      .   P1, P2, P3, DT05,
      .   XX, YY, ZZ, VRX, VRY, VRZ, V1, V2, V3, GX, GY, GZ, A1, A2, A3
       my_real
@@ -196,7 +196,7 @@ C comment faire rbody secnd de rbe (cf diag) ?
          DIAG_SMS3(1,I)=PREC_SMS(I)
          DIAG_SMS3(2,I)=PREC_SMS(I)
          DIAG_SMS3(3,I)=PREC_SMS(I)
-        END DO        
+        END DO
       END IF
 C
 C warning : PREC_SMS == 1/DIAG_SMS after THIS STAGE
@@ -216,7 +216,7 @@ C-----------------------------------
 C RBE2
 C-----------------------------------
       IF(NRBE2+R2SIZE+NRBE3/=0)THEN
-        IF (NRBE2>0.OR.R2SIZE>0) THEN      
+        IF (NRBE2>0.OR.R2SIZE>0) THEN
 C
           CALL MY_BARRIER
 C
@@ -260,7 +260,7 @@ C
          ELSE
            PREC_SMS3(3,I)=ONE/DIAG_SMS3(3,I)
          END IF
-        END DO        
+        END DO
 C
       END IF ! IF(NRBE2+NRBE3/=0)THEN
 C-----------------------------------
@@ -353,7 +353,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2>0) THEN      
+      IF (NRBE2>0) THEN
 C
         CALL MY_BARRIER
 C
@@ -485,7 +485,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2>0.OR.R2SIZE>0) THEN      
+      IF (NRBE2>0.OR.R2SIZE>0) THEN
 C
         CALL MY_BARRIER
 C
@@ -685,7 +685,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2>0) THEN      
+      IF (NRBE2>0) THEN
 C
         CALL MY_BARRIER
 C
@@ -764,7 +764,7 @@ C
           DO K=1,6
             R6T(K) = ZERO
             G6T(K) = ZERO
-          ENDDO 
+          ENDDO
           IF(IMONM>0.AND.ITASK==0)CALL STARTIME(62,1)
           CALL SUM_6_FLOAT(1,LLT,R2,R6T,1)
           CALL SUM_6_FLOAT(1,LLT,G,G6T,1)
@@ -906,7 +906,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-       IF (NRBE2>0.OR.R2SIZE>0) THEN      
+       IF (NRBE2>0.OR.R2SIZE>0) THEN
 C
          CALL MY_BARRIER
 C
@@ -1069,7 +1069,7 @@ C
         ELSE
           DO K=1,6
             S6T(K) = ZERO
-          ENDDO 
+          ENDDO
           IF(IMONM>0.AND.ITASK==0)CALL STARTIME(62,1)
           CALL SUM_6_FLOAT(1,LLT,S,S6T,1)
           IF(IMONM>0.AND.ITASK==0)CALL STOPTIME(62,1)
@@ -1160,7 +1160,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2>0) THEN      
+      IF (NRBE2>0) THEN
 C
         CALL MY_BARRIER
 C
@@ -1233,7 +1233,7 @@ C
           DO K=1,6
             R6T(K) = ZERO
             G6T(K) = ZERO
-          ENDDO 
+          ENDDO
           IF(IMONM>0.AND.ITASK==0)CALL STARTIME(62,1)
           CALL SUM_6_FLOAT(1,LLT,R2,R6T,1)
           CALL SUM_6_FLOAT(1,LLT,G,G6T,1)
@@ -1290,7 +1290,7 @@ C
 
        if(ncpria > 0) then
        if(itask==0.and.ispmd==0
-     .    .and.(ncprisms < 0 .and. 
+     .    .and.(ncprisms < 0 .and.
      .     mod(ncycle,ncpria)==0))then
           write(iout,1002) ncycle,totit,res1_sms,toln
        end if
@@ -1404,7 +1404,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-        IF (NRBE2>0.OR.R2SIZE>0) THEN      
+        IF (NRBE2>0.OR.R2SIZE>0) THEN
 C
           CALL MY_BARRIER
 C
@@ -1998,7 +1998,7 @@ C
               DO K=FR_RMS(L),FR_RMS(L+1)-1
             	I=LIST_RMS(K)
             	KK = KK + 1
-                IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR. 
+                IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR.
      .          	       NODLT2_SMS < NODII_SMS(I))CYCLE
             	K3=3*KK
             	K2=K3-1
@@ -2018,7 +2018,7 @@ C
             	  I=LIST_SMS(M)
             	  KK= KK + 1
             	  M = M + 1
-                  IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR. 
+                  IF(I == 0 .OR. NODII_SMS(I) < NODFT2_SMS .OR.
      .          	         NODLT2_SMS < NODII_SMS(I))CYCLE
             	  K3=3*KK
             	  K2=K3-1
@@ -2137,7 +2137,7 @@ C
               DO K=FR_RMS(L),FR_RMS(L+1)-1
             	I=LIST_RMS(K)
             	KK = KK + 1
-                IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR. 
+                IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR.
      .          	       NODLT1_SMS < NODNX_SMS(I))CYCLE
             	K3=3*KK
             	K2=K3-1
@@ -2157,7 +2157,7 @@ C
             	  I=LIST_SMS(M)
             	  KK= KK + 1
             	  M = M + 1
-                  IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR. 
+                  IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR.
      .          	         NODLT1_SMS < NODNX_SMS(I))CYCLE
             	  K3=3*KK
             	  K2=K3-1
@@ -2420,7 +2420,7 @@ C
               DO K=FR_RMS(L),FR_RMS(L+1)-1
             	I=LIST_RMS(K)
             	KK = KK + 1
-                IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR. 
+                IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR.
      .          	       NODLT1_SMS < NODNX_SMS(I))CYCLE
             	KMV =KMV + 1
             	IMV(KMV)=I
@@ -2432,7 +2432,7 @@ C
             	  I=LIST_SMS(M)
             	  KK= KK + 1
             	  M = M + 1
-                  IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR. 
+                  IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR.
      .              	         NODLT1_SMS < NODNX_SMS(I))CYCLE
             	  KMV =KMV + 1
             	  IMV(KMV)=I
@@ -2665,7 +2665,7 @@ C
               DO K=FR_RMS(L),FR_RMS(L+1)-1
             	I=LIST_RMS(K)
             	KK = KK + 1
-                IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR. 
+                IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR.
      .          	       NODLT1_SMS < NODNX_SMS(I))CYCLE
             	KMV =KMV + 1
             	IMV(KMV)=I
@@ -2677,7 +2677,7 @@ C
             	  I=LIST_SMS(M)
             	  KK= KK + 1
             	  M = M + 1
-                  IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR. 
+                  IF(I == 0 .OR. NODNX_SMS(I) < NODFT1_SMS .OR.
      .          	         NODLT1_SMS < NODNX_SMS(I))CYCLE
             	  KMV =KMV + 1
             	  IMV(KMV)=I

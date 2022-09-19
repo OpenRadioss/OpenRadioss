@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ALEFVM_MOD                    ../common_source/modules/alefvm_mod.F
 Chd|====================================================================
       SUBROUTINE ALEFVM_STRESS (
-     1                          IXS,  NV46, SIG,  QVIS, 
+     1                          IXS,  NV46, SIG,  QVIS,
      2                          N1X,  N2X,  N3X,  N4X,  N5X,  N6X,
      3                          N1Y,  N2Y,  N3Y,  N4Y,  N5Y,  N6Y,
      4                          N1Z,  N2Z,  N3Z,  N4Z,  N5Z,  N6Z,
@@ -92,9 +92,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, IV, J, IMAT, IALEFVM_FLG, IB
       INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
-      
-      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ), P(MVSIZ) , 
-     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
+
+      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ), P(MVSIZ) ,
+     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ),
      .           S4(MVSIZ)     , S5(MVSIZ)          , S6(MVSIZ),
      .           PVOIS(6,MVSIZ), FN                 , FAC      , MASS
       my_real
@@ -102,49 +102,49 @@ C-----------------------------------------------
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .   U_N(6), SURF(6), NORM(6)
-     
+
       my_real :: trSIG(mVSIZ), trSVIS(MVSIZ),AF(3),An
-     
+
       INTEGER :: idbf,idbl,IX(4)
       LOGICAL :: debug_outp
       INTEGER :: ICF(4,6)
-      DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/            
+      DATA ICF/1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------      
       IF(IALEFVM==0)RETURN
       IMAT        = IXS(1,LFT+NFT)
-      IALEFVM_FLG = IPM(251,IMAT)  
-      IF(IALEFVM_FLG <= 1)RETURN       
+      IALEFVM_FLG = IPM(251,IMAT)
+      IF(IALEFVM_FLG <= 1)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
-      
-      ! attention : il faut que mmain soit traite pour chacun des groupes 
+
+      ! attention : il faut que mmain soit traite pour chacun des groupes
       ! afin de connaitre les tenseurs voisins (SIG,SVIS,QVIS) !
-      ! l'assemblage est ensuite realis    apr   s tous les appel de 
+      ! l'assemblage est ensuite realis    apr   s tous les appel de
       ! ALEMAIN>SFORC3() pour chaque groupe.
 
       !-------------------------------------------------------------!
       ! TOTAL TENSOR                                                !
-      !-------------------------------------------------------------! 
-      DO I=LFT,LLT                          
-        S1(I) = SIG(I,1) + SVIS(I,1) - QVIS(I) 
-        S2(I) = SIG(I,2) + SVIS(I,2) - QVIS(I) 
-        S3(I) = SIG(I,3) + SVIS(I,3) - QVIS(I) 
-        S4(I) = SIG(I,4) + SVIS(I,4)
-        S5(I) = SIG(I,5) + SVIS(I,5) 
-        S6(I) = SIG(I,6) + SVIS(I,6)		   
-      ENDDO 
-      
+      !-------------------------------------------------------------!
       DO I=LFT,LLT
-        P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))        
+        S1(I) = SIG(I,1) + SVIS(I,1) - QVIS(I)
+        S2(I) = SIG(I,2) + SVIS(I,2) - QVIS(I)
+        S3(I) = SIG(I,3) + SVIS(I,3) - QVIS(I)
+        S4(I) = SIG(I,4) + SVIS(I,4)
+        S5(I) = SIG(I,5) + SVIS(I,5)
+        S6(I) = SIG(I,6) + SVIS(I,6)		
       ENDDO
-      
-      
+
+      DO I=LFT,LLT
+        P(I)      = -THIRD*(S1(I)+S2(I)+S3(I))
+      ENDDO
+
+
       !-------------------------------------------------------------!
       ! NORMAL VECTOR FOR ALE                                       !
-      !-------------------------------------------------------------!                                       
+      !-------------------------------------------------------------!
 !      IF(JALE==1 .OR. JEUL==0)THEN  !lagrangian bricks also
         DO I=LFT,LLT
           II     = I + NFT
@@ -190,8 +190,8 @@ C-----------------------------------------------
           X8(I)=X(1,NC8(I))
           Y8(I)=X(2,NC8(I))
           Z8(I)=X(3,NC8(I))
-        ENDDO    
-        DO I=LFT,LLT        
+        ENDDO
+        DO I=LFT,LLT
           ! Face-1
           N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
           N1Y(I)=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
@@ -228,12 +228,12 @@ C-----------------------------------------------
       DO I=LFT,  LLT
         II                  = I + NFT
         MASS                = RHO(I)*VOL(I)
-        NORM(1)             = SQRT(N1X(I)*N1X(I) + N1Y(I)*N1Y(I) + N1Z(I)*N1Z(I)) 
-        NORM(2)             = SQRT(N2X(I)*N2X(I) + N2Y(I)*N2Y(I) + N2Z(I)*N2Z(I))  
-        NORM(3)             = SQRT(N3X(I)*N3X(I) + N3Y(I)*N3Y(I) + N3Z(I)*N3Z(I)) 
+        NORM(1)             = SQRT(N1X(I)*N1X(I) + N1Y(I)*N1Y(I) + N1Z(I)*N1Z(I))
+        NORM(2)             = SQRT(N2X(I)*N2X(I) + N2Y(I)*N2Y(I) + N2Z(I)*N2Z(I))
+        NORM(3)             = SQRT(N3X(I)*N3X(I) + N3Y(I)*N3Y(I) + N3Z(I)*N3Z(I))
         NORM(4)             = SQRT(N4X(I)*N4X(I) + N4Y(I)*N4Y(I) + N4Z(I)*N4Z(I))
-        NORM(5)             = SQRT(N5X(I)*N5X(I) + N5Y(I)*N5Y(I) + N5Z(I)*N5Z(I)) 
-        NORM(6)             = SQRT(N6X(I)*N6X(I) + N6Y(I)*N6Y(I) + N6Z(I)*N6Z(I)) 
+        NORM(5)             = SQRT(N5X(I)*N5X(I) + N5Y(I)*N5Y(I) + N5Z(I)*N5Z(I))
+        NORM(6)             = SQRT(N6X(I)*N6X(I) + N6Y(I)*N6Y(I) + N6Z(I)*N6Z(I))
         U_N(1)              = (MOM(I,1)*N1X(I) + MOM(I,2)*N1Y(I) + MOM(I,3)*N1Z(I)) / (MASS*NORM(1))
         U_N(2)              = (MOM(I,1)*N2X(I) + MOM(I,2)*N2Y(I) + MOM(I,3)*N2Z(I)) / (MASS*NORM(2))
         U_N(3)              = (MOM(I,1)*N3X(I) + MOM(I,2)*N3Y(I) + MOM(I,3)*N3Z(I)) / (MASS*NORM(3))
@@ -276,50 +276,50 @@ C-----------------------------------------------
           elseif(IALEFVM_OUTP_STRESS==-1)then
             debug_outp=.TRUE.
                 idbf   = lft
-                idbl   = llt          
-          endif      
-          if(debug_outp)then 
-!#!include "lockon.inc"       
+                idbl   = llt
+          endif
+          if(debug_outp)then
+!#!include "lockon.inc"
           print *, "    |----alefvm_stress.F-----|"
           print *, "    |   THREAD INFORMATION   |"
-          print *, "    |------------------------|" 
+          print *, "    |------------------------|"
           print *, "     NCYCLE =", NCYCLE
           do i=idbf,idbl
             ii = nft + i
             print *,                    "      brique=", ixs(11,nft+i)
-            write(*,FMT='(A24,1A26)')   "                        ",                     
-     .                                  "#-stress Tensor (P+VIS+Q)#"          
+            write(*,FMT='(A24,1A26)')   "                        ",
+     .                                  "#-stress Tensor (P+VIS+Q)#"
 
             write (*,FMT='(A,3E26.14,A)')  "                            | ", SIG(I,1),SIG(I,4),SIG(I,6),   " |"
-            write (*,FMT='(A,3E26.14,A)')  "           P               =| ", SIG(I,4),SIG(I,2),SIG(I,5),   " |"  
-            write (*,FMT='(A,3E26.14,A)')  "                            |_", SIG(I,6),SIG(I,5),SIG(I,3),   "_|" 
+            write (*,FMT='(A,3E26.14,A)')  "           P               =| ", SIG(I,4),SIG(I,2),SIG(I,5),   " |"
+            write (*,FMT='(A,3E26.14,A)')  "                            |_", SIG(I,6),SIG(I,5),SIG(I,3),   "_|"
             write (*,FMT='(A,3E26.14,A)')  "                            | ", SVIS(I,1),SVIS(I,4),SVIS(I,6)," |"
-            write (*,FMT='(A,3E26.14,A)')  "           VIS             =| ", SVIS(I,4),SVIS(I,2),SVIS(I,5)," |"  
-            write (*,FMT='(A,3E26.14,A)')  "                            |_", SVIS(I,6),SVIS(I,5),SVIS(I,3),"_|"                   
+            write (*,FMT='(A,3E26.14,A)')  "           VIS             =| ", SVIS(I,4),SVIS(I,2),SVIS(I,5)," |"
+            write (*,FMT='(A,3E26.14,A)')  "                            |_", SVIS(I,6),SVIS(I,5),SVIS(I,3),"_|"
             write (*,FMT='(A,3E26.14,A)')  "                            | ", S1(I),S4(I),S6(I)," |"
-            write (*,FMT='(A,3E26.14,A)')  "           SIGMA = P+VIS+Q =| ", S4(I),S2(I),S5(I)," |"  
-            write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|" 
+            write (*,FMT='(A,3E26.14,A)')  "           SIGMA = P+VIS+Q =| ", S4(I),S2(I),S5(I)," |"
+            write (*,FMT='(A,3E26.14,A)')  "                            |_", S6(I),S5(I),S3(I),"_|"
             write (*,FMT='(A,2E26.14)')    "           p               =  ",-THIRD*SUM(SIG(I,1:3)),P(I)
-            write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)           
-            write (*,FMT='(A,1E26.14)')    "           M               =  ",F_FACE(1  ,5  ,II)  
+            write (*,FMT='(A,1E26.14)')    "           q               =  ",QVIS(I)
+            write (*,FMT='(A,1E26.14)')    "           M               =  ",F_FACE(1  ,5  ,II)
             write (*,FMT='(A,1E26.14)')    "         rho               =  ",F_FACE(1  ,1  ,II)
-            write (*,FMT='(A,1E26.14)')    "           u               =  ",F_FACE(1  ,5  ,II)*SSP(I)  
+            write (*,FMT='(A,1E26.14)')    "           u               =  ",F_FACE(1  ,5  ,II)*SSP(I)
             write (*,FMT='(A,1E26.14)')    "         ssp               =  ",F_FACE(1  ,2  ,II)
-            write (*,FMT='(A,1E26.14)')    "           z               =  ",F_FACE(1  ,3  ,II)   
-            write (*,FMT='(A,3E26.14)')    "       rho.U               =  ",MOM(I,1:3)  
-            write (*,FMT='(A,3E26.14)')    "           V               =  ",VOL(I)                                                                                     
-            write(*,FMT='(A34,6A26)')      "                                  ",    
+            write (*,FMT='(A,1E26.14)')    "           z               =  ",F_FACE(1  ,3  ,II)
+            write (*,FMT='(A,3E26.14)')    "       rho.U               =  ",MOM(I,1:3)
+            write (*,FMT='(A,3E26.14)')    "           V               =  ",VOL(I)
+            write(*,FMT='(A34,6A26)')      "                                  ",
      .                                     "#-------- face_1 ---------","#-------- face_2 ---------",
      .                                     "#-------- face_3 ---------","#-------- face_4 ---------",
-     .                                     "#-------- face_5 ---------","#-------- face_6 --------#"  
-            write (*,FMT='(A,8E26.14)')    "    SURF                   =", F_FACE(1,1:6,II)          
+     .                                     "#-------- face_5 ---------","#-------- face_6 --------#"
+            write (*,FMT='(A,8E26.14)')    "    SURF                   =", F_FACE(1,1:6,II)
             write (*,FMT='(A,8E26.14)')    "    <U,n>                  =", F_FACE(2,1:6,II)
-            print *, "      "          
+            print *, "      "
           enddo
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
         endif
         endif
       !-----------------------------------------!
-        
+
       RETURN
       END

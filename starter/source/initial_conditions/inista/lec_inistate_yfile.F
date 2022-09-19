@@ -26,9 +26,9 @@ Chd|-- called by -----------
 Chd|        LEC_INISTATE                  source/elements/initia/lec_inistate.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE LEC_INISTATE_YFILE( 
-     1                  NSIGSH    ,NSIGS     ,NSIGSPH   ,NSIGRS    ,NSIGI     ,                 
-     2                  SIGSH     ,SIGI      ,SIGSPH    ,SIGRS     ,SIGSP     ,                  
+      SUBROUTINE LEC_INISTATE_YFILE(
+     1                  NSIGSH    ,NSIGS     ,NSIGSPH   ,NSIGRS    ,NSIGI     ,
+     2                  SIGSH     ,SIGI      ,SIGSPH    ,SIGRS     ,SIGSP     ,
      3                  ISIGSH    ,IUSER     ,
      4                  ID_SIGSH  , ID_SOLID_SIGI, ID_QUAD_SIGI  )
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C-----------------------------------------------
      .   NVARSH,NUMR,NUMSOLID,KK,
      .   JJHBE
       INTEGER KN
-      INTEGER IS_SOLID,IS_QUAD	 
+      INTEGER IS_SOLID,IS_QUAD	
       my_real
      .   THKI, EM, EB, H1, H2, H3, R0 , EIN, SMOOTHL
       my_real

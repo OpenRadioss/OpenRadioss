@@ -55,7 +55,7 @@ C!-----------------------------------------------
 C!   L o c a l   V a r i a b l e s
 C!-----------------------------------------------
       INTEGER I,J,INDX(NEL),NINDX,CONDITION(NEL),INST
-      my_real 
+      my_real
      .        NHARD,EPSCAL,P,triaxs,vmises,hydros,EPS_CR,F_RTCL
 C!--------------------------------------------------------------
       !=======================================================================
@@ -67,7 +67,7 @@ C!--------------------------------------------------------------
       NHARD  = UPARAM(3)
 c
       ! Store initial element size
-      IF (UVAR(1,1) == ZERO) THEN 
+      IF (UVAR(1,1) == ZERO) THEN
         DO I = 1,NEL
           UVAR(I,1) = SQRT(AREA(I))
           UVAR(I,2) = THK0(I)
@@ -75,16 +75,16 @@ c
       ENDIF
 C
       ! Initialization of variable
-      NINDX = 0  
-c      
+      NINDX = 0
+c
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO COMPUTE THE DAMAGE VARIABLE
-      !====================================================================       
+      !====================================================================
       DO I=1,NEL
 c
         ! If the element is not broken
         IF (OFF(I) ==  ONE .AND. DPLA(I) /= ZERO) THEN
-c        
+c
           ! Computation of hydrostatic stress, Von Mises stress, and stress triaxiality
           hydros = (SIGNXX(I)+ SIGNYY(I))/THREE
           vmises = SQRT((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(THREE*SIGNXY(I)**2))
@@ -93,7 +93,7 @@ c
           IF (triaxs < -TWO_THIRD) triaxs = -TWO_THIRD
 c
           ! Computing the plastic strain at failure according to stress triaxiality
-          IF (triaxs < -THIRD) THEN 
+          IF (triaxs < -THIRD) THEN
             F_RTCL = ZERO
           ELSEIF ((triaxs >= -THIRD).AND.(triaxs < THIRD)) THEN
             F_RTCL = TWO*((ONE+triaxs*SQRT(TWELVE-TWENTY7*(triaxs**2)))/
@@ -101,9 +101,9 @@ c
           ELSE
             F_RTCL = EXP(-HALF)*EXP(THREE_HALF*triaxs)
           ENDIF
-c 
+c
           ! Computation of simple tension failure strain (according to mesh size)
-          IF (INST == 2) THEN 
+          IF (INST == 2) THEN
             EPS_CR = NHARD + (EPSCAL - NHARD)*(UVAR(I,2)/UVAR(I,1))
           ELSE
             EPS_CR = EPSCAL
@@ -118,24 +118,24 @@ c
             OFFL(I)          = ZERO
             FOFF(I)          = 0
             NINDX            = NINDX + 1
-            INDX(NINDX)      = I  
+            INDX(NINDX)      = I
             CONDITION(NINDX) = IPT
           ENDIF
-        ENDIF 
+        ENDIF
       ENDDO
 c------------------------
 c------------------------
-      IF (NINDX > 0) THEN        
-        DO J=1,NINDX             
-          I = INDX(J)         
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
+          I = INDX(J)
 #include "lockon.inc"
-          IF(CONDITION(J) >= 1)  THEN         
+          IF(CONDITION(J) >= 1)  THEN
             WRITE(IOUT, 2000) NGL(I),CONDITION(J),TIME
             WRITE(ISTDO,2000) NGL(I),CONDITION(J),TIME
           ENDIF
-#include "lockoff.inc" 
-        END DO                   
-      END IF   ! NINDX         
+#include "lockoff.inc"
+        END DO
+      END IF   ! NINDX
 c------------------------
  2000 FORMAT(1X,'FOR SHELL ELEMENT (RTCL)',I10,1X,'LAYER',I3,':',/,
      .       1X,'STRESS TENSOR SET TO ZERO',1X,'AT TIME :',1PE12.4)

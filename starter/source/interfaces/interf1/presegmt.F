@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)  :: NRT, NNO, IRECT(4,*), NODES(*)
-      INTEGER, INTENT(OUT) :: NST 
+      INTEGER, INTENT(OUT) :: NST
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------

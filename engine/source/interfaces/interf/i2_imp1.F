@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*),
-     .         NSC2,ISIJ2(*),NSS2(*),ISS2(*),ITAB(*) 
+     .         NSC2,ISIJ2(*),NSS2(*),ISS2(*),ITAB(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
 C     REAL
       my_real
@@ -201,8 +201,8 @@ C------supposant ILEV est le meme pour NI,NJ---
      .                 NS2,INTBUF_TAB(N2)%IRECTM,INTBUF_TAB(N2)%CSTS,INTBUF_TAB(N2)%NSV,INTBUF_TAB(N2)%IRTLM,
      .                 X  ,KDD       ,NDOF      ,IDDL      ,IADK      ,
      .                 JDIK,LT_K     ,DIAG_K    )
-        ENDIF 
-       ENDIF 
+        ENDIF
+       ENDIF
       ENDDO
 C
       RETURN
@@ -264,20 +264,20 @@ C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
 C      FACM = ONE / NIR
-      NUN=-ONE 
-      J1=0 
+      NUN=-ONE
+      J1=0
       DO II=1,NSN
         I=NSV(II)
         L=IRTL(II)
        IF (NDOF(I)>0) THEN
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
-         IKC(ID)=5 
-         BD(K)=B(ID) 
-        ENDDO 
+         IKC(ID)=5
+         BD(K)=B(ID)
+        ENDDO
         DO K=NDOF(I)+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
         CALL GET_KII(I ,IDDL ,IADK,DIAG_K,LT_K ,KDD,NDOF(I))
 C
         SS=CRST(1,II)
@@ -326,12 +326,12 @@ C-------NDOF(M)> 3 comme rigid body---
           XS0(II)=XS0(II)+X(1,NJ)*H(J,II)
           YS0(II)=YS0(II)+X(2,NJ)*H(J,II)
           ZS0(II)=ZS0(II)+X(3,NJ)*H(J,II)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0(II)
          YS=X(2,I)-YS0(II)
          ZS=X(3,I)-ZS0(II)
          CALL UPDKB_RB(NDOF(I),XS,YS,ZS,KDD,BD)
-        ENDIF 
+        ENDIF
 CC-------Update K(main node),B---
         DO J=1,NIR
           NJ=IRECT(J,L)
@@ -341,7 +341,7 @@ CC-------Update K(main node),B---
           DO K=1,ND
            ID = IDDL(NJ)+K
            B(ID) = B(ID) + H(J,II)*BD(K)
-          ENDDO 
+          ENDDO
           DO I1=J+1,NIR
            NM=IRECT(I1,L)
            TM=H(J,II)*H(I1,II)
@@ -349,8 +349,8 @@ CC-------Update K(main node),B---
            CALL UPDKDD(ND,KDD,KII,TM,0)
            CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KII,ND,ND,IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
-          ENDDO 
-        ENDDO 
+          ENDDO
+        ENDDO
 C--------no diag--Kjm=sum(KjsCsm)--
         DO I1 = 1,NS(II)
           NI=NODS(J1+I1)
@@ -370,11 +370,11 @@ C------- Update ---
            CALL UPDKDD1(NDI,NDOF(I),KDD,KII,H(J,II),0)
            CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NDI,NDJ,IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
-           ENDIF 
-          ENDDO 
+           ENDIF
+          ENDDO
         ENDDO
-        J1=J1+NS(II) 
-       ENDIF 
+        J1=J1+NS(II)
+       ENDIF
       ENDDO
 C--------due au coupled block KIJ--
       DO I=1,NSC
@@ -405,7 +405,7 @@ C--------due au coupled block KIJ--
          YS1=X(2,NJ)-YS0(JJ)
          ZS1=X(3,NJ)-ZS0(JJ)
          CALL UPDKB_RB2(NDOF(NI),NDOF(NJ),XS,YS,ZS,XS1,YS1,ZS1,KDD,0)
-        ENDIF 
+        ENDIF
         DO J=1,NIR
          NM=IRECT(J,L)
          TM=H(J,II)*H(J,JJ)
@@ -422,9 +422,9 @@ C--------update --
            CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,
      .                 NDOF(NM),NDOF(NM1),IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
-          ENDIF 
-         ENDDO 
-        ENDDO 
+          ENDIF
+         ENDDO
+        ENDDO
 C----- (L/=L1)-----
        ELSE
         NDM = 0
@@ -446,7 +446,7 @@ C----- (L/=L1)-----
           YS1=X(2,NJ)-YS0(JJ)
           ZS1=X(3,NJ)-ZS0(JJ)
           CALL UPDKB_RB2(NDOF(NI),NDOF(NJ),XS,YS,ZS,XS1,YS1,ZS1,KDD,0)
-        ENDIF 
+        ENDIF
         DO J=1,NIR
          NM=IRECT(J,L)
          DO J1=1,NIR1
@@ -462,11 +462,11 @@ C--------update --
            CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,
      .                  NDOF(NM),NDOF(NM1),IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
-          ENDIF 
-         ENDDO 
-        ENDDO 
-       ENDIF 
-      ENDDO 
+          ENDIF
+         ENDDO
+        ENDDO
+       ENDIF
+      ENDDO
 C
       RETURN
       END
@@ -545,7 +545,7 @@ C------------------------------------
           XM0=XM0+X(1,NJ)*H(J)
           YM0=YM0+X(2,NJ)*H(J)
           ZM0=ZM0+X(3,NJ)*H(J)
-        ENDDO 
+        ENDDO
 C---------NJ------
         SS=CRST1(1,NS2)
         TT=CRST1(2,NS2)
@@ -580,8 +580,8 @@ C---------NJ------
           YM1=YM1+X(2,NJ)*H1(J)
           ZM1=ZM1+X(3,NJ)*H1(J)
         ENDDO
-        NI = NSV(NS1)  
-        NJ = NSV1(NS2)  
+        NI = NSV(NS1)
+        NJ = NSV1(NS2)
         NDM = MAX(NDOF(NI),NDOF(NJ))
         DO J=1,MAX(NIR,NIR1)
           NM=IRECT(J,L)
@@ -597,7 +597,7 @@ C-------NDOF(M)> 3 comme rigid body---
          YS1=X(2,NJ)-YM1
          ZS1=X(3,NJ)-ZM1
          CALL UPDKB_RB2(NDOF(NI),NDOF(NJ),XS,YS,ZS,XS1,YS1,ZS1,KDD,0)
-        ENDIF 
+        ENDIF
         DO J=1,NIR
          NM=IRECT(J,L)
          DO J1=1,NIR1
@@ -611,9 +611,9 @@ C--------update --
           CALL UPDKDD1(NDOF(NI),NDOF(NJ),KDD,KII,TM,0)
           CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,
      .                  NDOF(NM),NDOF(NM1),IR)
-          ENDIF 
-         ENDDO 
-        ENDDO 
+          ENDIF
+         ENDDO
+        ENDDO
 C
       RETURN
       END
@@ -669,9 +669,9 @@ C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
       CALL I2MATC(NSN,IRECT,DPARA,NSV,IRTL,X,NIR,RJ ,RJT  )
-      J1=0 
+      J1=0
       ND = 3
-      NDM = 3 
+      NDM = 3
       DO II=1,NSN
        I=NSV(II)
        IDOF=NDOF(I)
@@ -679,37 +679,37 @@ C------------------------------------
         L=IRTL(II)
         DO K=1,IDOF
          ID = IDDL(I)+K
-         IKC(ID)=5 
-         BD(K)=B(ID) 
-        ENDDO 
+         IKC(ID)=5
+         BD(K)=B(ID)
+        ENDDO
         DO K=IDOF+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
         CALL GET_KII(I ,IDDL ,IADK,DIAG_K,LT_K ,KDD,IDOF)
         DO J=1,IDOF
         DO K=J+1,IDOF
          KDD(K,J)=KDD(J,K)
-        ENDDO 
-        ENDDO 
+        ENDDO
+        ENDDO
 C-------Update K(main node),B---
         DO J=1,NIR(II)
          NJ=IRECT(J,L)
-         ND=MIN(NDM,NDOF(NJ)) 
+         ND=MIN(NDM,NDOF(NJ))
          CALL UPDK1_II(IDOF,RJ(1,J,II),RJT(1,J,II),KDD,KII,BD,BI)
          CALL PUT_KII(NJ ,IDDL ,IADK,DIAG_K,LT_K ,KII,ND)
          DO K=1,ND
           ID = IDDL(NJ)+K
           B(ID) = B(ID) + BI(K)
-         ENDDO 
+         ENDDO
          DO I1=J+1,NIR(II)
           NM=IRECT(I1,L)
-          ND1=MIN(NDM,NDOF(NJ)) 
+          ND1=MIN(NDM,NDOF(NJ))
           CALL UPDK1_IJ(IDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,I1,II),RJT(1,I1,II),KDD,KII,0)
           CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR)
           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
-         ENDDO 
-        ENDDO 
+         ENDDO
+        ENDDO
 C--------no diag--Kmj=sum(KjsCsm)--
         DO I1 = 1,NS(II)
           NI=NODS(J1+I1)
@@ -719,11 +719,11 @@ C--------no diag--Kmj=sum(KjsCsm)--
 C------- Update ---
           DO J=1,NIR(II)
            NJ=IRECT(J,L)
-           ND=MIN(NDM,NDOF(NJ)) 
+           ND=MIN(NDM,NDOF(NJ))
            IF (NI==NJ.AND.ND>0) THEN
             CALL UPDK1_JJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),KDD,KII)
-            DO K=1,3 
-             DO L1=1,3 
+            DO K=1,3
+             DO L1=1,3
               KII(K,L1)=KII(K,L1)+KII(L1,K)
              ENDDO
             ENDDO
@@ -732,11 +732,11 @@ C------- Update ---
            CALL UPDK1_JJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),KDD,KII)
            CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NIDOF,ND,IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,2 )
-           ENDIF 
-          ENDDO 
+           ENDIF
+          ENDDO
         ENDDO
-        J1=J1+NS(II) 
-       ENDIF 
+        J1=J1+NS(II)
+       ENDIF
       ENDDO
 C--------due au coupled block KIJ-attension ISI different que rigid body-
       DO I=1,NSC
@@ -754,32 +754,32 @@ C--------due au coupled block KIJ-attension ISI different que rigid body-
         DO J=1,NIR(II)
          NM=IRECT(J,L)
 C--------update --
-         ND=MIN(NDM,NDOF(NM)) 
+         ND=MIN(NDM,NDOF(NM))
          CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,J,JJ),RJT(1,J,JJ),KDD,KII,1)
          CALL PUT_KII(NM ,IDDL ,IADK,DIAG_K,LT_K ,KII,ND)
          DO J1=J+1,NIR(JJ)
           NM1=IRECT(J1,L)
-          ND1=MIN(NDM,NDOF(NM1)) 
+          ND1=MIN(NDM,NDOF(NM1))
           IF (ND1>0) THEN
           CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,J1,JJ),RJT(1,J1,JJ),KDD,KII,0)
-          CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR) 
+          CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR)
           IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
           CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J1,II),RJT(1,J1,II),
      1                  RJ(1,J,JJ),RJT(1,J,JJ),KDD,KII,0)
           CALL PUT_KIJ(NM1,NM,IDDL,IADK,JDIK,LT_K,KII,ND1,ND,IR)
           IF (IR==1) CALL PRINT_WKIJ(ITAB(NM1) ,ITAB(NM) ,2 )
-          ENDIF 
-         ENDDO 
-        ENDDO 
+          ENDIF
+         ENDDO
+        ENDDO
        ELSE
         DO J=1,NIR(II)
          NM=IRECT(J,L)
-         ND=MIN(NDM,NDOF(NM)) 
+         ND=MIN(NDM,NDOF(NM))
          DO J1=1,NIR(JJ)
           NM1=IRECT(J1,L1)
-          ND1=MIN(NDM,NDOF(NM1)) 
+          ND1=MIN(NDM,NDOF(NM1))
           IF (NM==NM1.AND.ND1>0) THEN
            CALL UPDK1_IJ(NIDOF,IDOF,RJ(1,J,II),RJT(1,J,II),
      1                  RJ(1,J1,JJ),RJT(1,J1,JJ),KDD,KII,1)
@@ -790,10 +790,10 @@ C--------update --
            CALL PUT_KIJ(NM,NM1,IDDL,IADK,JDIK,LT_K,KII,ND,ND1,IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NM) ,ITAB(NM1) ,2 )
           ENDIF
-         ENDDO 
-        ENDDO 
+         ENDDO
+        ENDDO
        ENDIF
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -825,8 +825,8 @@ C     REAL
       my_real
      .   K1(3,3)
 C------------------------------------
-        DO I=1,3 
-        DO J=I,3 
+        DO I=1,3
+        DO J=I,3
           K(I,J)=RJT(1,I)*(KDD(1,1)*RJT(1,J)+
      1                     KDD(1,2)*RJT(2,J)+KDD(1,3)*RJT(3,J))+
      2           RJT(2,I)*(KDD(1,2)*RJT(1,J)+
@@ -835,13 +835,13 @@ C------------------------------------
      5                     KDD(2,3)*RJT(2,J)+KDD(3,3)*RJT(3,J))
         ENDDO
         ENDDO
-        DO I=1,3 
+        DO I=1,3
          B(I)=RJT(1,I)*BD(1)+RJT(2,I)*BD(2)+RJT(3,I)*BD(3)
         ENDDO
 C
        IF (NDL==6) THEN
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K1(I,J)= RJT(1,I)*(KDD(1,4)*RJ(1,J)+
      1                  KDD(1,5)*RJ(2,J)+KDD(1,6)*RJ(3,J))+
      2             RJT(2,I)*(KDD(2,4)*RJ(1,J)+
@@ -850,8 +850,8 @@ C
      5                  KDD(3,5)*RJ(2,J)+KDD(3,6)*RJ(3,J))
          ENDDO
         ENDDO
-        DO I=1,3 
-         DO J=I,3 
+        DO I=1,3
+         DO J=I,3
           K(I,J)= K(I,J)+K1(I,J)+K1(J,I)+
      1           RJ(1,I)*(KDD(4,4)*RJ(1,J)+KDD(4,5)*RJ(2,J)+
      2                    KDD(4,6)*RJ(3,J) ) +
@@ -861,10 +861,10 @@ C
      6                    KDD(6,6)*RJ(3,J) )
          ENDDO
         ENDDO
-        DO I=1,3 
+        DO I=1,3
          B(I)=B(I)+RJ(1,I)*BD(4)+RJ(2,I)*BD(5)+RJ(3,I)*BD(6)
         ENDDO
-       ENDIF 
+       ENDIF
 C
       RETURN
       END
@@ -895,7 +895,7 @@ C     REAL
       my_real
      .   KDD(3,3)
 C------------------------------------
-        DO I=1,3 
+        DO I=1,3
          KDD(I,I)=KII(I)
         ENDDO
         KDD(1,2)=KII(4)
@@ -905,7 +905,7 @@ C------------------------------------
         KDD(3,1)=KDD(1,3)
         KDD(3,2)=KDD(2,3)
 C
-        DO I=1,3 
+        DO I=1,3
          J = I
          K(I)=K(I)+RJT(1,I)*(KDD(1,1)*RJT(1,J)+
      1                     KDD(1,2)*RJT(2,J)+KDD(1,3)*RJT(3,J))+
@@ -947,8 +947,8 @@ C     REAL
       my_real
      .   K(3,3)
 C------------------------------------
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K(I,J)=R1JT(1,I)*(KDD(1,1)*R2JT(1,J)+
      1                     KDD(1,2)*R2JT(2,J)+KDD(1,3)*R2JT(3,J))+
      2           R1JT(2,I)*(KDD(2,1)*R2JT(1,J)+
@@ -959,8 +959,8 @@ C------------------------------------
         ENDDO
 C
        IF (NDI==6) THEN
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K(I,J)=K(I,J)+ R1J(1,I)*(KDD(4,1)*R2JT(1,J)+
      1                  KDD(4,2)*R2JT(2,J)+KDD(4,3)*R2JT(3,J))+
      2             R1J(2,I)*(KDD(5,1)*R2JT(1,J)+
@@ -969,10 +969,10 @@ C
      5                  KDD(6,2)*R2JT(2,J)+KDD(6,3)*R2JT(3,J))
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
        IF (NDJ==6) THEN
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K(I,J)=K(I,J)+ R1JT(1,I)*(KDD(1,4)*R2J(1,J)+
      1                  KDD(1,5)*R2J(2,J)+KDD(1,6)*R2J(3,J))+
      2             R1JT(2,I)*(KDD(2,4)*R2J(1,J)+
@@ -981,10 +981,10 @@ C
      5                  KDD(3,5)*R2J(2,J)+KDD(3,6)*R2J(3,J))
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
        IF (NDI==6.AND.NDJ==6) THEN
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K(I,J)= K(I,J)+
      1           R1J(1,I)*(KDD(4,4)*R2J(1,J)+KDD(4,5)*R2J(2,J)+
      2                    KDD(4,6)*R2J(3,J) ) +
@@ -994,21 +994,21 @@ C
      6                    KDD(6,6)*R2J(3,J) )
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
 C
        IF (ISYM==1) THEN
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           KII(I,J)=K(I,J)+K(J,I)
          ENDDO
         ENDDO
-       ELSE 
-        DO I=1,3 
-         DO J=1,3 
+       ELSE
+        DO I=1,3
+         DO J=1,3
           KII(I,J)=K(I,J)
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
 C
       RETURN
       END
@@ -1040,34 +1040,34 @@ C     REAL
       my_real
      .   K(6,3)
 C----------K RJT--------------------------
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K(I,J)=KDD(I,1)*RJT(1,J)+
      1           KDD(I,2)*RJT(2,J)+KDD(I,3)*RJT(3,J)
          ENDDO
         ENDDO
 C
        IF (NDJ==6) THEN
-        DO I=1,3 
-         DO J=1,3 
+        DO I=1,3
+         DO J=1,3
           K(I,J)=K(I,J)+KDD(I,4)*RJ(1,J)+
      1           KDD(I,5)*RJ(2,J)+KDD(I,6)*RJ(3,J)
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
        IF (NDI==6) THEN
-        DO I=1,3 
+        DO I=1,3
          MI=I+3
-         DO J=1,3 
+         DO J=1,3
           K(MI,J)= KDD(MI,1)*RJT(1,J)+
      1             KDD(MI,2)*RJT(2,J)+KDD(MI,3)*RJT(3,J)
          ENDDO
         ENDDO
        ENDIF
        IF (NDI==6.AND.NDJ==6) THEN
-        DO I=1,3 
+        DO I=1,3
          MI=I+3
-         DO J=1,3 
+         DO J=1,3
           K(MI,J)= K(MI,J)+ KDD(MI,4)*RJ(1,J)+
      1             KDD(MI,5)*RJ(2,J)+KDD(MI,6)*RJ(3,J)
          ENDDO
@@ -1075,7 +1075,7 @@ C
        ENDIF
 C 
        DO I=1,NDI
-        DO J=1,3 
+        DO J=1,3
          KII(I,J)=K(I,J)
         ENDDO
        ENDDO
@@ -1111,20 +1111,20 @@ C     REAL
 C------------------------------------
         DO I=1,6
         DO J=1,6
-           KII(I,J) = ZERO 
+           KII(I,J) = ZERO
         ENDDO
         ENDDO
-        DO I=1,NDL 
-         DO J=I,NDL 
+        DO I=1,NDL
+         DO J=I,NDL
           KII(I,J)=H2*KDD(I,J)
-         ENDDO  
-        ENDDO  
+         ENDDO
+        ENDDO
        IF(ISYM/=1) THEN
-        DO I=1,NDL 
-         DO J=I,NDL 
+        DO I=1,NDL
+         DO J=I,NDL
           KII(J,I)=KII(I,J)
-         ENDDO  
-        ENDDO  
+         ENDDO
+        ENDDO
        ENDIF
 C
       RETURN
@@ -1159,21 +1159,21 @@ C     REAL
 C------------------------------------
         DO I=1,6
         DO J=1,6
-           KII(I,J) = ZERO 
+           KII(I,J) = ZERO
         ENDDO
         ENDDO
         IF(ISYM==1) THEN
-         DO I=1,NDI 
-          DO J=1,NDJ 
+         DO I=1,NDI
+          DO J=1,NDJ
            KII(I,J)=H*(KDD(I,J)+KDD(J,I))
-          ENDDO  
-         ENDDO  
+          ENDDO
+         ENDDO
         ELSE
-         DO I=1,NDI 
-          DO J=1,NDJ 
+         DO I=1,NDI
+          DO J=1,NDJ
            KII(I,J)=H*KDD(I,J)
-          ENDDO  
-         ENDDO  
+          ENDDO
+         ENDDO
         ENDIF
 C
       RETURN
@@ -1203,11 +1203,11 @@ C-----------------------------------------------
       INTEGER I, J
 C     REAL
 C------------------------------------
-        DO I=1,NDL 
-         DO J=1,NDL 
+        DO I=1,NDL
+         DO J=1,NDL
           KII(I,J)=H1*KDD(I,J)+H2*KDD(J,I)
-         ENDDO  
-        ENDDO  
+         ENDDO
+        ENDDO
 C
       RETURN
       END
@@ -1261,7 +1261,7 @@ C------------------------------------
         XM(J)=X(1,NJ)
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
-       ENDDO 
+       ENDDO
        IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIR=3
         XM(4)=ZERO
@@ -1279,16 +1279,16 @@ C----------------------------------------------------
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
 C--------cette partie est une double travail que INTTI1
-        XX=0 
-        YY=0 
-        ZZ=0 
-        XY=0 
-        YZ=0 
+        XX=0
+        YY=0
+        ZZ=0
+        XY=0
+        YZ=0
         ZX=0
         DO J=1,NIR
          XX=XX+ XM(J)*XM(J)
@@ -1297,10 +1297,10 @@ C--------cette partie est une double travail que INTTI1
          XY=XY+ XM(J)*YM(J)
          YZ=YZ+ YM(J)*ZM(J)
          ZX=ZX+ ZM(J)*XM(J)
-        ENDDO 
+        ENDDO
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -1338,13 +1338,13 @@ C-------RJT=1/4[I]+(Rs)RJ---
           RJT(1,K,J,II)=RJ(2,K,J,II)*ZS-RJ(3,K,J,II)*YS
           RJT(2,K,J,II)=-RJ(1,K,J,II)*ZS+RJ(3,K,J,II)*XS
           RJT(3,K,J,II)=RJ(1,K,J,II)*YS-RJ(2,K,J,II)*XS
-         ENDDO 
+         ENDDO
          DO K=1,3
           RJT(K,K,J,II)=RJT(K,K,J,II)+FACM
-         ENDDO 
+         ENDDO
         ENDDO
-        NIRI(II)=NIR 
-      ENDDO 
+        NIRI(II)=NIR
+      ENDDO
 C
       RETURN
       END
@@ -1407,9 +1407,9 @@ C------------------------------------
            CALL UPDK1_IJ(NDOF(NI),NDOF(NJ),RJ(1,1,J),RJT(1,1,J),
      1                  RJ1(1,1,J1),RJT1(1,1,J1),KDD,KII,0)
            CALL PUT_KIJ(NM1,NM,IDDL,IADK,JDIK,LT_K,KII,3,3,IR)
-          ENDIF 
-          ENDDO 
-         ENDDO 
+          ENDIF
+          ENDDO
+         ENDDO
 C
       RETURN
       END
@@ -1458,7 +1458,7 @@ C------------------------------------
         XM(J)=X(1,NJ)
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
-       ENDDO 
+       ENDDO
        IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIR=3
         XM(4)=ZERO
@@ -1476,16 +1476,16 @@ C----------------------------------------------------
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
 C--------cette partie est une double travail que INTTI1
-        XX=0 
-        YY=0 
-        ZZ=0 
-        XY=0 
-        YZ=0 
+        XX=0
+        YY=0
+        ZZ=0
+        XY=0
+        YZ=0
         ZX=0
         DO J=1,NIR
          XX=XX+ XM(J)*XM(J)
@@ -1494,10 +1494,10 @@ C--------cette partie est une double travail que INTTI1
          XY=XY+ XM(J)*YM(J)
          YZ=YZ+ YM(J)*ZM(J)
          ZX=ZX+ ZM(J)*XM(J)
-        ENDDO 
+        ENDDO
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -1528,12 +1528,12 @@ C-------RJT=1/4[I]+(Rs)RJ---
           RJT(1,K,J)=RJ(2,K,J)*ZS-RJ(3,K,J)*YS
           RJT(2,K,J)=-RJ(1,K,J)*ZS+RJ(3,K,J)*XS
           RJT(3,K,J)=RJ(1,K,J)*YS-RJ(2,K,J)*XS
-         ENDDO 
+         ENDDO
          DO K=1,3
           RJT(K,K,J)=RJT(K,K,J)+FACM
-         ENDDO 
+         ENDDO
         ENDDO
-        NIRI=NIR 
+        NIRI=NIR
 C
       RETURN
       END
@@ -1553,7 +1553,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IRECT(4,*), NSV(*), IRTL(*),II
 C     REAL
       my_real
@@ -1579,7 +1579,7 @@ C-----------------------------------------------
          XM(JJ)=X(1,J)
          YM(JJ)=X(2,J)
          ZM(JJ)=X(3,J)
-        ENDDO 
+        ENDDO
         IF(IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
@@ -1594,7 +1594,7 @@ C-----------------------------------------------
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
@@ -1629,7 +1629,7 @@ C------------------------------------------------------
          A(1,J)=A(1,J) + FX0 + A2*ZM(JJ) - A3*YM(JJ)
          A(2,J)=A(2,J) + FY0 + A3*XM(JJ) - A1*ZM(JJ)
          A(3,J)=A(3,J) + FZ0 + A1*YM(JJ) - A2*XM(JJ)
-        ENDDO 
+        ENDDO
 C
       RETURN
       END
@@ -1649,7 +1649,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IRECT(4,*), NSV(*), IRTL(*), II,NDOF(*)
 C     REAL
       my_real
@@ -1667,7 +1667,7 @@ C     REAL
      .   H(4), SS, TT, FXI, FYI, FZI,SP,SM,TP,TM,NUN,
      .   MXI, MYI, MZI,XS,YS,ZS,XS0,YS0,ZS0
 C-----------------------------------------------
-      NUN=-ONE 
+      NUN=-ONE
 C
 C
        I=NSV(II)
@@ -1721,7 +1721,7 @@ C
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
@@ -1733,7 +1733,7 @@ C
           AR(1,NJ)=AR(1,NJ)-MXI*H(J)
           AR(2,NJ)=AR(2,NJ)-MYI*H(J)
           AR(3,NJ)=AR(3,NJ)-MZI*H(J)
-         ENDDO 
+         ENDDO
        ENDIF
 C
       RETURN
@@ -1755,7 +1755,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IRECT(4,*), NSV(*), IRTL(*), II,NDOF(*)
 C     REAL
       my_real
@@ -1811,7 +1811,7 @@ C-------NDOF(M)> 3 comme rigid body---
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
@@ -1820,7 +1820,7 @@ C-------NDOF(M)> 3 comme rigid body---
          DO JJ =1,3
           K0(JJ)=KSS(JJ)
          ENDDO
-        ENDIF 
+        ENDIF
 C-------Update K(main node),B---
        DO J=1,NIR
         NJ=IRECT(J,L)
@@ -1828,7 +1828,7 @@ C-------Update K(main node),B---
         DO JJ =1,NDOF(NJ)
          K(JJ,J)=K(JJ,J)+H2*K0(JJ)
         ENDDO
-       ENDDO 
+       ENDDO
 C
       RETURN
       END
@@ -1849,7 +1849,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IRECT(4,*), NSV(*), IRTL(*),II
 C     REAL
       my_real
@@ -1879,7 +1879,7 @@ C
         XM(J)=X(1,NJ)
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
-       ENDDO 
+       ENDDO
        IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIR=3
         XM(4)=ZERO
@@ -1897,7 +1897,7 @@ C----------------------------------------------------
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
@@ -1927,10 +1927,10 @@ C-------RJT=1/4[I]+(Rs)RJ---
           RJT(1,K,J)=RJ(2,K,J)*ZS-RJ(3,K,J)*YS
           RJT(2,K,J)=-RJ(1,K,J)*ZS+RJ(3,K,J)*XS
           RJT(3,K,J)=RJ(1,K,J)*YS-RJ(2,K,J)*XS
-         ENDDO 
+         ENDDO
          DO K=1,3
           RJT(K,K,J)=RJT(K,K,J)+FACM
-         ENDDO 
+         ENDDO
         ENDDO
 C 
         DO J=1,NIR
@@ -2052,19 +2052,19 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
-      NUN=-ONE 
-      J1=0 
+      NUN=-ONE
+      J1=0
       DO II=1,NSN
         I=NSV(II)
         L=IRTL(II)
        IF (NDOF(I)>0) THEN
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
-         BD(K)=B(ID) 
-        ENDDO 
+         BD(K)=B(ID)
+        ENDDO
         DO K=NDOF(I)+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
 C
         SS=CRST(1,II)
         TT=CRST(2,II)
@@ -2105,12 +2105,12 @@ C-------NDOF(M)> 3 comme rigid body---
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
          CALL UPDB_RB(NDOF(I),XS,YS,ZS,BD)
-        ENDIF 
+        ENDIF
 CC-------Update B---
         DO J=1,NIR
           NJ=IRECT(J,L)
@@ -2118,9 +2118,9 @@ CC-------Update B---
           DO K=1,ND
            ID = IDDL(NJ)+K
            B(ID) = B(ID) + H(J)*BD(K)
-          ENDDO 
-        ENDDO 
-       ENDIF 
+          ENDDO
+        ENDDO
+       ENDIF
       ENDDO
 C
       RETURN
@@ -2173,11 +2173,11 @@ C------------------------------------
         L=IRTL(II)
         DO K=1,IDOF
          ID = IDDL(I)+K
-         BD(K)=B(ID) 
-        ENDDO 
+         BD(K)=B(ID)
+        ENDDO
         DO K=IDOF+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
 C-------Update B---
         DO J=1,NIR(II)
          NJ=IRECT(J,L)
@@ -2185,9 +2185,9 @@ C-------Update B---
          DO K=1,ND
           ID = IDDL(NJ)+K
           B(ID) = B(ID) + BI(K)
-         ENDDO 
-        ENDDO 
-       ENDIF 
+         ENDDO
+        ENDDO
+       ENDIF
       ENDDO
 C
       RETURN
@@ -2218,18 +2218,18 @@ C-----------------------------------------------
       INTEGER I, J
 C     REAL
 C------------------------------------
-        DO I=1,3 
+        DO I=1,3
          B(I)=RJT(1,I)*BD(1)+RJT(2,I)*BD(2)+RJT(3,I)*BD(3)
         ENDDO
 C
        IF (NDL==6) THEN
-        DO I=1,3 
+        DO I=1,3
          B(I)=B(I)+RJ(1,I)*BD(4)+RJ(2,I)*BD(5)+RJ(3,I)*BD(6)
         ENDDO
-       ENDIF 
+       ENDIF
 C
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  I2_IMPR2                      source/interfaces/interf/i2_imp1.F
 Chd|-- called by -----------
@@ -2342,8 +2342,8 @@ C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
 C-------pour simplement etre coherent avec INTTI2, on ne distinque pas 3n,4n
 C-------on est oblige de distinque quand meme, sinon la matrice n'est plus positive
-      NUN=-ONE 
-      J1=0 
+      NUN=-ONE
+      J1=0
       IF (IRODDL/=0) THEN
        ND = 6
       ELSE
@@ -2354,16 +2354,16 @@ C-------on est oblige de distinque quand meme, sinon la matrice n'est plus posit
         L=IRTL(II)
        IF (NDOF(I)==0) THEN
         DO K=1,3
-         BD(K)=A(K,I) 
-        ENDDO 
+         BD(K)=A(K,I)
+        ENDDO
         IF (ND==3) THEN
          DO K=ND+1,6
-          BD(K)=ZERO 
-         ENDDO 
+          BD(K)=ZERO
+         ENDDO
         ELSE
          DO K=1,3
-          BD(K+3)=AR(K,I) 
-         ENDDO 
+          BD(K+3)=AR(K,I)
+         ENDDO
         ENDIF
 C
         SS=CRST(1,II)
@@ -2400,32 +2400,32 @@ C-------comme rigid body---
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
          CALL UPDB_RB(ND,XS,YS,ZS,BD)
-        ENDIF 
+        ENDIF
 CC-------Update B---
         DO J=1,NIR
           NJ=IRECT(J,L)
           IF (NDOF(NJ)==0) THEN
             DO K=1,3
-             A(K,NJ)=A(K,NJ)+BD(K) 
-            ENDDO 
+             A(K,NJ)=A(K,NJ)+BD(K)
+            ENDDO
            IF (ND==6) THEN
             DO K=1,3
-             AR(K,NJ)=AR(K,NJ)+BD(K+3) 
-            ENDDO 
+             AR(K,NJ)=AR(K,NJ)+BD(K+3)
+            ENDDO
            ENDIF
           ELSE
            DO K=1,ND
             ID = IDDL(NJ)+K
             B(ID) = B(ID) + H(J)*BD(K)
-           ENDDO 
+           ENDDO
           ENDIF
-        ENDDO 
-       ENDIF 
+        ENDDO
+       ENDIF
       ENDDO
 C
       RETURN
@@ -2481,16 +2481,16 @@ C------------------------------------
        IF (IDOF==0) THEN
         L=IRTL(II)
         DO K=1,3
-         BD(K)=A(K,I) 
-        ENDDO 
+         BD(K)=A(K,I)
+        ENDDO
         IF (ND==3) THEN
          DO K=ND+1,6
-          BD(K)=ZERO 
-         ENDDO 
+          BD(K)=ZERO
+         ENDDO
         ELSE
          DO K=1,3
-          BD(K+3)=AR(K,I) 
-         ENDDO 
+          BD(K+3)=AR(K,I)
+         ENDDO
         ENDIF
 C-------Update B---
         DO J=1,NIR(II)
@@ -2498,16 +2498,16 @@ C-------Update B---
          CALL UPDB1_II(ND,RJ(1,J,II),RJT(1,J,II),BD,BI)
          IF (NDOF(NJ)==0) THEN
            DO K=1,3
-            A(K,NJ)=A(K,NJ)+BI(K) 
-           ENDDO 
+            A(K,NJ)=A(K,NJ)+BI(K)
+           ENDDO
          ELSE
           DO K=1,3
            ID = IDDL(NJ)+K
            B(ID) = B(ID) + BI(K)
-          ENDDO 
-         ENDIF 
-        ENDDO 
-       ENDIF 
+          ENDDO
+         ENDIF
+        ENDDO
+       ENDIF
       ENDDO
 C
       RETURN
@@ -2562,7 +2562,7 @@ C     REAL
 C------------------------------------
 C     VITESSES DES NOEUDS SECONDS
 C------------------------------------
-      NUN=-ONE 
+      NUN=-ONE
         I=NSV(II)
         L=IRTL(II)
         NDOFI = 3
@@ -2606,11 +2606,11 @@ C-------NDOF(M)> 3 comme rigid body---
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
-        ENDIF 
+        ENDIF
        IF (ISS>0) THEN
 C-------Update KSS(main node),B---
         IF (IRECT(3,L)==IRECT(4,L)) THEN
@@ -2624,12 +2624,12 @@ C-------Update KSS(main node),B---
          H2(4)=H(4)*H(4)
         ENDIF
         DO K=1,NDOFI
-         BD(K)=A(K,I) 
+         BD(K)=A(K,I)
          KDD(K,K) = KSS(K)
-        ENDDO 
+        ENDDO
         DO K=NDOFI+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
         KDD(1,2) = KSS(4)
         KDD(1,3) = KSS(5)
         KDD(2,3) = KSS(6)
@@ -2647,17 +2647,17 @@ C-------Update KSS(main node),B---
            CALL PUT_KMIJ(IDLM(J) ,IDLM(I1) ,IADK,JDIK,LT_K,
      .                   KII,ND ,ND  ,IR )
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
-          ENDDO 
-        ENDDO 
-       ENDIF 
+          ENDDO
+        ENDDO
+       ENDIF
 C
        IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI
            KDD(K,J) = KSM(K,J)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
 C------- Update ---
           IF (NDM==6) CALL UPDKB_RB1(NDOFI,NDOFI,XS,YS,ZS,KDD)
           DO J=1,NIR
@@ -2669,10 +2669,10 @@ C------- Update ---
            DO J1=1,NDOFI
             KNM(K,J1,J)=KII(J1,K)
             KRM(K,J1,J)=KII(J1,K+NDOFI)
-           ENDDO 
-           ENDDO 
-          ENDDO 
-       ENDIF 
+           ENDDO
+           ENDDO
+          ENDDO
+       ENDIF
 C
       RETURN
       END
@@ -2738,7 +2738,7 @@ C
          XM(J)=X(1,NJ)
          YM(J)=X(2,NJ)
          ZM(J)=X(3,NJ)
-        ENDDO 
+        ENDDO
         IF (IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
@@ -2753,16 +2753,16 @@ C
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
 C--------cette partie est une double travail que INTTI1
-        XX=0 
-        YY=0 
-        ZZ=0 
-        XY=0 
-        YZ=0 
+        XX=0
+        YY=0
+        ZZ=0
+        XY=0
+        YZ=0
         ZX=0
         DO J=1,NIR
          XX=XX+ XM(J)*XM(J)
@@ -2771,10 +2771,10 @@ C--------cette partie est une double travail que INTTI1
          XY=XY+ XM(J)*YM(J)
          YZ=YZ+ YM(J)*ZM(J)
          ZX=ZX+ ZM(J)*XM(J)
-        ENDDO 
+        ENDDO
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -2805,22 +2805,22 @@ C-------RJT=1/4[I]+(Rs)RJ---
           RJT(1,K,J)=RJ(2,K,J)*ZS-RJ(3,K,J)*YS
           RJT(2,K,J)=-RJ(1,K,J)*ZS+RJ(3,K,J)*XS
           RJT(3,K,J)=RJ(1,K,J)*YS-RJ(2,K,J)*XS
-         ENDDO 
+         ENDDO
          DO K=1,3
           RJT(K,K,J)=RJT(K,K,J)+FACM
-         ENDDO 
+         ENDDO
         ENDDO
 C
         NDM = 3
        IF (ISS>0) THEN
 CC-------Update KSS(main node),B---
         DO K=1,NDOFI
-         BD(K)=A(K,I) 
+         BD(K)=A(K,I)
          KDD(K,K) = KSS(K)
-        ENDDO 
+        ENDDO
         DO K=NDOFI+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
         KDD(1,2) = KSS(4)
         KDD(1,3) = KSS(5)
         KDD(2,3) = KSS(6)
@@ -2837,17 +2837,17 @@ CC-------Update KSS(main node),B---
           CALL PUT_KMIJ(IDLM(J) ,IDLM(I1) ,IADK,JDIK,LT_K,
      .                  KII,ND ,ND1 ,IR )
           IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,2 )
-         ENDDO 
-        ENDDO 
-       ENDIF 
+         ENDDO
+        ENDDO
+       ENDIF
 C
        IF (ISM>0) THEN
 C--------no diag--Kjm=sum(KjsCsm)--
           DO K=1,NDOFI
           DO J=1,NDOFI
            KDD(K,J) = KSM(K,J)
-          ENDDO 
-          ENDDO 
+          ENDDO
+          ENDDO
 C------- Update ---
           DO J=1,NIR
            NJ=IRECT(J,L)
@@ -2858,12 +2858,12 @@ C------- Update ---
             DO J1=1,NDOFI
              KNM(K,J1,J)=KII(J1,K)
              KRM(K,J1,J)=KII(J1,K+NDOFI)
-            ENDDO 
-            ENDDO 
-           ENDIF 
-          ENDDO 
-       ENDIF 
+            ENDDO
+            ENDDO
+           ENDIF
+          ENDDO
+       ENDIF
 C
       RETURN
       END
-           
+

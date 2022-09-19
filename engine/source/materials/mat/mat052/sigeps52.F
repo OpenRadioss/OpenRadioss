@@ -43,7 +43,7 @@ Chd|====================================================================
      9     SIGVXX ,SIGVYY ,SIGVZZ  ,SIGVXY  ,SIGVYZ  ,SIGVZX ,
      A     SOUNDSP,VISCMAX,UVAR    ,OFF     ,NGL     ,IPT    ,
      B     IPM    ,MAT    ,EPSP    ,IPLA    ,SIGY    ,DEFP  ,
-     C     TABLE )       
+     C     TABLE )
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
@@ -134,7 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -157,8 +157,8 @@ C-----------------------------------------------
       my_real
      .        F(MVSIZ), SIGM(MVSIZ), EPSM(MVSIZ), EPSP1(MVSIZ),
      .        LAMDA(MVSIZ), FSTAR(MVSIZ),P0(MVSIZ),PN(MVSIZ),
-     .        ET,YEILD0(MVSIZ),CSD, 
-     .        VISP(MVSIZ),  Q1, Q2, Q3, 
+     .        ET,YEILD0(MVSIZ),CSD,
+     .        VISP(MVSIZ),  Q1, Q2, Q3,
      .        SN, EPSN, FI,FN,
      .        FC,FF,FU, N,
      .        SIGXX(MVSIZ),SIGYY(MVSIZ),SIGXY(MVSIZ),
@@ -185,7 +185,7 @@ C-----------------------------------------------
          IADBUF = IPM(7,MAT(1))-1
          XFAC  = UPARAM(IADBUF + 22 )
          YFAC  = UPARAM(IADBUF + 23 )
-      ENDIF        
+      ENDIF
 C
       IADBUFV = IPM(7,MAT(1))-1
       E        = UPARAM(IADBUFV+1)
@@ -198,7 +198,7 @@ C
       Q2    = UPARAM(IADBUFV+9)
       Q3    = UPARAM(IADBUFV+10)
       SN    = UPARAM(IADBUFV+11)
-      IF(SN==ZERO)SN = EP20 
+      IF(SN==ZERO)SN = EP20
       EPSN  = UPARAM(IADBUFV+12)
       FI    = UPARAM(IADBUFV+13)
       FN    = UPARAM(IADBUFV+14)
@@ -209,41 +209,41 @@ C
 
         YEILD0(I)= UPARAM(IADBUFV+3)
         VISP(I)  = UPARAM(IADBUFV+7)
- 
+
          G(I) = HALF*E/(ONE + NU)
          C11  = E/THREE/(ONE- TWO*NU)
         SOUNDSP(I) = SQRT((C11 + FOUR_OVER_3*G(I))/RHO0(I))
         VISCMAX(I) = ZERO
         C1(I)  = E*(ONE-NU) /((ONE + NU)*(ONE - TWO*NU))
         C2(I)  = C1(I)*NU/(ONE - NU)
-      ENDDO   
+      ENDDO
 C
       IF(TIME==0.0)THEN
         DO I=1,NEL
           EPSP1(I)=ZERO
           EPSM(I)=ZERO
-          IF(N<ONE)EPSM(I)=EM20        
+          IF(N<ONE)EPSM(I)=EM20
           UVAR(I,1)=EPSM(I)
           UVAR(I,2)=FI
           UVAR(I,3)=YEILD0(I)
           UVAR(I,4)=FI
           UVAR(I,5)= ZERO
-          SIGY(I) = YEILD0(I)  
+          SIGY(I) = YEILD0(I)
         ENDDO
 C  
         IF(IYEILD_TAB > 0) THEN
             DO I=1,NEL
               XX(1)=ZERO
-              XX(2)=ZERO 
-              CALL TABLE_INTERP (TABLE(ITAB(1)),XX,YY) 
+              XX(2)=ZERO
+              CALL TABLE_INTERP (TABLE(ITAB(1)),XX,YY)
               YEILD0(I)  = YY *YFAC
               UVAR(I,3) = YEILD0(I)
               SIGY(I)   = YEILD0(I)
             ENDDO
-        ENDIF        
+        ENDIF
       ENDIF
 C
-      SQR22= ONE/SQRT(TWO*PI)      
+      SQR22= ONE/SQRT(TWO*PI)
 C
 C-----------------------------------------------
 C
@@ -273,7 +273,7 @@ C
         ENDIF
       ENDDO
 C
-      DTINV=TIMESTEP/MAX(TIMESTEP**2,EM20)      
+      DTINV=TIMESTEP/MAX(TIMESTEP**2,EM20)
 C-------------------
 C     STRAIN RATE
 C-------------------
@@ -286,11 +286,11 @@ C-----------
         IF(OFF(I)==ONE)THEN
          IF(F(I)<=FC)THEN
           FSTAR(I) = F(I)
-          DF       = ONE 
+          DF       = ONE
          ELSE
           DF      = (FU- FC)/(FF-FC)
-          FSTAR(I)= FC  + DF*(F(I)-FC)                 
-         ENDIF 
+          FSTAR(I)= FC  + DF*(F(I)-FC)
+         ENDIF
 C          
          PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
          SXX  = SIGNXX(I)-PN(I)
@@ -303,15 +303,15 @@ C
          VAR  = THREE_HALF * Q2 * PN(I)* SIGM1
          VAR = EXP(VAR)
          COH  = HALF * (VAR + ONE/MAX(EM20,VAR))
-         SIH  = HALF * (VAR - ONE/MAX(EM20,VAR)) 
+         SIH  = HALF * (VAR - ONE/MAX(EM20,VAR))
          VA   = ONE + Q3 * FSTAR(I)**2 - TWO * Q1 * FSTAR(I) * COH
          VA= SQRT(MAX(ZERO,VA))
          YLD  = SIGM(I) * VA
-         SIGY(I) = YLD           
+         SIGY(I) = YLD
          CRIT = VM - YLD
          IF(VM < YLD .OR. SIGY(I) == ZERO )THEN
            LAMDA(I)=ZERO
-         ELSE 
+         ELSE
           LAMDA(I) = ZERO
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)
@@ -324,30 +324,30 @@ C
           DP33 = ZERO
           DP12 = ZERO
           DP13 = ZERO
-          DP23 = ZERO   
+          DP23 = ZERO
           IF(F(I)==ONE)THEN
            A21 = EP20
-          ELSE             
-           A21 =  SIGM1 /(ONE - F(I))     
+          ELSE
+           A21 =  SIGM1 /(ONE - F(I))
           ENDIF
           A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
-          A1 = A1*SQR22 
-          DO ITER=1,5                           
+          A1 = A1*SQR22
+          DO ITER=1,5
            VM1 = ONE/MAX(VM,EM20)
            VA1 = ONE/MAX(VA,EM20)
            VA11 =HALF*Q1*Q2*FSTAR(I)*SIH*VA1
-           D11 = HALF*(TWO*SIGNXX(I) - SIGNYY(I)-SIGNZZ(I))*VM1 
-     .                   + VA11                    
+           D11 = HALF*(TWO*SIGNXX(I) - SIGNYY(I)-SIGNZZ(I))*VM1
+     .                   + VA11
            D22 = HALF*(TWO*SIGNYY(I) - SIGNXX(I)-SIGNZZ(I))*VM1
-     .                   + VA11       
+     .                   + VA11
            D33 = HALF*(TWO*SIGNZZ(I) - SIGNXX(I)-SIGNYY(I))*VM1
-     .                   + VA11                
-           D12 = THREE*SIGNXY(I)*VM1       
+     .                   + VA11
+           D12 = THREE*SIGNXY(I)*VM1
            D13 = THREE*SIGNZX(I)*VM1
            D23 = THREE*SIGNYZ(I)*VM1
 C
            A2  = D11*SIGNXX(I) + D22*SIGNYY(I) + D33*SIGNZZ(I) +
-     .           TWO*(D12*SIGNXY(I) + D13*SIGNZX(I) + D23*SIGNYZ(I)) 
+     .           TWO*(D12*SIGNXY(I) + D13*SIGNZX(I) + D23*SIGNYZ(I))
            A2  = A2*A21
 C
            DCRF=-SIGM(I)*(Q3*FSTAR(I)*DF-Q1*COH*DF)*VA1
@@ -356,15 +356,15 @@ C
             DSEPP = ET*(ONE+ ( EPSP(I)*CSD)**VISP(I))
            ELSE
             DSEPP = ET * N * EPSM(I) ** (N - 1)*
-     .      (ONE + ( EPSP(I)*CSD)**VISP(I))    
-           ENDIF                   
+     .      (ONE + ( EPSP(I)*CSD)**VISP(I))
+           ENDIF
 C
-           DCD = C1(I)*(D11**2 + D22**2 + D33**2) + 
+           DCD = C1(I)*(D11**2 + D22**2 + D33**2) +
      .           TWO*C2(I)*(D11*D22 + D11*D33 + D22*D33) +
      .           TWO*G(I)*(D12**2 + D13**2 + D23**2)
 C
-           LAM1= DCD - DCRM* DSEPP*A2 - 
-     .           DCRF*((ONE - F(I))*(D11+D22+D33) + A1*A2)              
+           LAM1= DCD - DCRM* DSEPP*A2 -
+     .           DCRF*((ONE - F(I))*(D11+D22+D33) + A1*A2)
            IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM - YLD))/LAM1
 C  PLASTIC DEFORMATION          
            DP11 = DP11 + LAMDA(I) * D11
@@ -374,8 +374,8 @@ C  PLASTIC DEFORMATION
            DP13 = DP13 + LAMDA(I) * D13
            DP23 = DP23 + LAMDA(I) * D23
 C   NEW STRESS
-           SIGNXX(I)= SIGXX(I) - C1(I)*DP11 - C2(I)*(DP22 + DP33) 
-           SIGNYY(I)= SIGYY(I) - C1(I)*DP22 - C2(I)*(DP11 + DP33) 
+           SIGNXX(I)= SIGXX(I) - C1(I)*DP11 - C2(I)*(DP22 + DP33)
+           SIGNYY(I)= SIGYY(I) - C1(I)*DP22 - C2(I)*(DP11 + DP33)
            SIGNZZ(I)= SIGZZ(I) - C1(I)*DP33 - C2(I)*(DP22 + DP11)
            SIGNXY(I)= SIGXY(I) - TWO*G(I)*DP12
            SIGNZX(I)= SIGZX(I) - TWO*G(I)*DP13
@@ -403,15 +403,15 @@ C....... AMISSIBLE PLASTIC DEFORMATION.
 C           IF(CONV<1E-3)GO TO 100
           ENDDO ! ITER
 C 
-          FG      = (ONE -F(I))*(DP11+DP22+DP33) 
-          SIGY(I) = YLD 
-          FN1     = A1*EPSP1(I) 
-          EPSM(I) = EPSM(I) + EPSP1(I)         
-          F(I)    = F(I) + FG + FN1                    
+          FG      = (ONE -F(I))*(DP11+DP22+DP33)
+          SIGY(I) = YLD
+          FN1     = A1*EPSP1(I)
+          EPSM(I) = EPSM(I) + EPSP1(I)
+          F(I)    = F(I) + FG + FN1
           IF(Q1==ZERO.and.Q2==ZERO.and.Q3==ZERO)F(I)=ZERO
           IF(F(I)<ZERO) F(I)=ZERO
           SIGM(I) = (YEILD0(I) + ET * EPSM(I) ** N)*
-     .             (ONE+ (EPSP(I)*CSD) ** VISP(I))           
+     .             (ONE+ (EPSP(I)*CSD) ** VISP(I))
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
@@ -426,15 +426,15 @@ C....COMPUTE F*.....
           UVAR(I,2) = FSTAR(I)
           UVAR(I,3) = SIGM(I)
           UVAR(I,4) = F(I)
-          UVAR(I,5) = EPSP(I)          
-         ENDIF 
+          UVAR(I,5) = EPSP(I)
+         ENDIF
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
           IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
-        ELSE         
+        ELSE
          IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
@@ -452,7 +452,7 @@ C
          ELSE
           FSTAR(I) = FC +  (FU - FC)/(FF-FC)*(F(I)-FC)
           DF       = (FU - FC)/(FF - FC)
-          FSTAR(I) = FC +  DF*(F(I)-FC)         
+          FSTAR(I) = FC +  DF*(F(I)-FC)
          ENDIF
          PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
          SXX  = SIGNXX(I)-PN(I)
@@ -460,10 +460,10 @@ C
          SZZ  = SIGNZZ(I)-PN(I)
          VM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .       +   (SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
-         VM = THREE*VM      
+         VM = THREE*VM
          SIGM1 = ONE/MAX(EM20,SIGM(I))
          SIGM2 = SIGM1**2
-         VAR   = THREE_HALF  *  Q2 * PN(I) * SIGM1 
+         VAR   = THREE_HALF  *  Q2 * PN(I) * SIGM1
          VAR = EXP(VAR)
          COH   = HALF*(VAR + ONE/MAX(EM20,VAR))
          SIH   = HALF*(VAR - ONE/MAX(EM20,VAR))
@@ -474,7 +474,7 @@ C
          ENDIF
 C
          YLD  = SIGM(I)
-         CRIT = VM * SIGM2 - VA 
+         CRIT = VM * SIGM2 - VA
 C
          SIGY(I) = YLD*SQRT(MAX(ZERO, VA))
          IF(CRIT < ZERO .OR. SIGY(I) == ZERO)THEN
@@ -491,17 +491,17 @@ C
 C 
           IF(F(I)==ONE)THEN
            A21 = EP20
-          ELSE             
-           A21 =  SIGM1 /(ONE - F(I))     
+          ELSE
+           A21 =  SIGM1 /(ONE - F(I))
           ENDIF
           A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
-          A1 = A1*SQR22 
+          A1 = A1*SQR22
           DP11 = ZERO
           DP22 = ZERo
           DP33 = ZERO
           DP12 = ZERO
           DP13 = ZERO
-          DP23 = ZERO         
+          DP23 = ZERO
           DO ITER=1,5
            IF(PN(I)<=ZERO)THEN
             D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2
@@ -511,12 +511,12 @@ C
             D13 = SIX*SIGNZX(I)*SIGM2
             D23 = SIX*SIGNYZ(I)*SIGM2
             DCRM = -TWO * VM * SIGM2 * SIGM1
-            DCRF =  TWO * Q1 * DF - TWO * Q3 * DF * FSTAR(I)  
-           ELSE 
-            VA1 =   Q1 * Q2 * FSTAR(I) * SIH*SIGM1 
-            D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2 + VA1 
+            DCRF =  TWO * Q1 * DF - TWO * Q3 * DF * FSTAR(I)
+           ELSE
+            VA1 =   Q1 * Q2 * FSTAR(I) * SIH*SIGM1
+            D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2 + VA1
             D22 = (TWO*SIGNYY(I) - SIGNXX(I) - SIGNZZ(I))*SIGM2 + VA1
-            D33 = (TWO*SIGNZZ(I) - SIGNXX(I) - SIGNYY(I))*SIGM2 + VA1       
+            D33 = (TWO*SIGNZZ(I) - SIGNXX(I) - SIGNYY(I))*SIGM2 + VA1
             D12  = SIX * SIGNXY(I)*SIGM2
             D13  = SIX * SIGNZX(I)*SIGM2
             D23  = SIX * SIGNYZ(I)*SIGM2
@@ -525,7 +525,7 @@ C
            ENDIF
 C       
            A2 =   D11 * SIGNXX(I) + D22 * SIGNYY(I) + D33 * SIGNZZ(I) +
-     .      TWO*(D12 * SIGNXY(I) + D13 * SIGNZX(I) + D23 * SIGNYZ(I) ) 
+     .      TWO*(D12 * SIGNXY(I) + D13 * SIGNZX(I) + D23 * SIGNYZ(I) )
            A2 = A2 * A21
 C
            IF(N==1)THEN
@@ -534,10 +534,10 @@ C
             DSEPP = ET * N * EPSM(I) ** (N - 1)*
      .      (ONE+ ( EPSP(I)*CSD)**VISP(I))
            ENDIF
-           DCD   = C1(I) * (D11**2 + D22**2 + D33**2) + 
+           DCD   = C1(I) * (D11**2 + D22**2 + D33**2) +
      .           TWO*C2(I)*(D11*D22 + D11*D33 + D22*D33) +
      .           TWO*G(I) *(D12**2 + D13**2 + D23**2)
-           LAM1  = DCD - DCRM  *  DSEPP * A2 - 
+           LAM1  = DCD - DCRM  *  DSEPP * A2 -
      .           DCRF * ((ONE - F(I)) * (D11 + D22 + D33) + A1*A2)
            IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM * SIGM2 - VA))/LAM1
 C
@@ -550,26 +550,26 @@ C
            DP13 = DP13 + LAMDA(I) * D13
            DP23 = DP23 + LAMDA(I) * D23
 C   NEW STRESS
-           SIGNXX(I)= SIGXX(I) - C1(I) * DP11 - C2(I) * (DP22 + DP33) 
-           SIGNYY(I)= SIGYY(I) - C1(I) * DP22 - C2(I) * (DP11 + DP33) 
-           SIGNZZ(I)= SIGZZ(I) - C1(I) * DP33 - C2(I) * (DP22 + DP11) 
+           SIGNXX(I)= SIGXX(I) - C1(I) * DP11 - C2(I) * (DP22 + DP33)
+           SIGNYY(I)= SIGYY(I) - C1(I) * DP22 - C2(I) * (DP11 + DP33)
+           SIGNZZ(I)= SIGZZ(I) - C1(I) * DP33 - C2(I) * (DP22 + DP11)
            SIGNXY(I)= SIGXY(I) - TWO*G(I)  * DP12
            SIGNZX(I)= SIGZX(I) - TWO*G(I)  * DP13
-           SIGNYZ(I)= SIGYZ(I) - TWO*G(I)  * DP23           
+           SIGNYZ(I)= SIGYZ(I) - TWO*G(I)  * DP23
 C
 C....... EFFECTIVE PLASTIC DEFORMATION.
 C
            EPSP1(I) = SIGNXX(I)*DP11 + SIGNYY(I)*DP22 + SIGNZZ(I)*DP33+
-     .           TWO*(SIGNXY(I)*DP12 + SIGNZX(I)*DP13 + SIGNYZ(I)*DP23) 
-           EPSP1(I) = EPSP1(I)*A21                       
-           EPSP1(I) = MAX(ZERO, EPSP1(I))                
+     .           TWO*(SIGNXY(I)*DP12 + SIGNZX(I)*DP13 + SIGNYZ(I)*DP23)
+           EPSP1(I) = EPSP1(I)*A21
+           EPSP1(I) = MAX(ZERO, EPSP1(I))
            PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
            SXX  = SIGNXX(I)-PN(I)
            SYY  = SIGNYY(I)-PN(I)
            SZZ  = SIGNZZ(I)-PN(I)
            VM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .        +   (SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
-           VM = THREE*VM   
+           VM = THREE*VM
            VAR  = THREE_HALF * Q2 * PN(I)*SIGM1
            VAR = EXP(VAR)
            COH  = HALF * (VAR + ONE/MAX(EM20,VAR))
@@ -584,17 +584,17 @@ C
           ENDDO ! ITER
           FG      = (ONE-F(I))*(DP11 + DP22 + DP33)
           SIGY(I) = SIGM(I)*SQRT(MAX(ZERO,VA))
-          FN1     = A1 * EPSP1(I) 
-          EPSM(I) = EPSM(I) + EPSP1(I)         
-          F(I)    = F(I) + FG + FN1                    
+          FN1     = A1 * EPSP1(I)
+          EPSM(I) = EPSM(I) + EPSP1(I)
+          F(I)    = F(I) + FG + FN1
           IF(F(I)<ZERO) F(I)=ZERO
-          SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE + 
-     .            (EPSP(I)*CSD)**VISP(I))     
+          SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE +
+     .            (EPSP(I)*CSD)**VISP(I))
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
           ELSE
-           IF(FF==FC)THEN 
+           IF(FF==FC)THEN
             FSTAR(I) = EP20
            ELSE
             FSTAR(I) = FC+ (FU-FC)*(F(I)-FC)/(FF-FC)
@@ -605,18 +605,18 @@ C
           UVAR(I , 2) = FSTAR(I)
           UVAR(I , 3) = SIGM(I)
           UVAR(I , 4) = F(I)
-          UVAR(I , 5) = EPSP(I)          
+          UVAR(I , 5) = EPSP(I)
 C
-         ENDIF 
+         ENDIF
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
           IDEL7NOK = 1
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
-         ENDIF        
-        ELSE         
+         ENDIF
+        ELSE
          IF(OFF(I)<EM01)OFF(I)=ZERO
-         OFF(I)=OFF(I)*FOUR_OVER_5      
+         OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
        ENDDO
       ELSEIF(IFLAG==2) THEN
@@ -640,11 +640,11 @@ C
          SZZ  = SIGNZZ(I)-PN(I)
          VM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .       +   (SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
-         VM = THREE*VM      
+         VM = THREE*VM
 C
          SIGM1 = ONE/MAX(EM20,SIGM(I))
          SIGM2 = SIGM1**2
-         VAR   = HALF *  Q2 * PN(I) * SIGM1 
+         VAR   = HALF *  Q2 * PN(I) * SIGM1
          VAR = EXP(VAR)
          COH   = HALF*(VAR + ONE/MAX(EM20,VAR))
          SIH   = HALF*(VAR - ONE/MAX(EM20,VAR))
@@ -654,7 +654,7 @@ C
           VA= ONE+Q3*FSTAR(I)**2 - TWO*Q1*FSTAR(I)*COH
          ENDIF
          YLD  = SIGM(I)
-         CRIT = VM * SIGM2 - VA 
+         CRIT = VM * SIGM2 - VA
          SIGY(I) = YLD*SQRT(MAX(ZERO, VA))
          IF(CRIT < ZERO  .OR. SIGY(I) == ZERO)THEN
           LAMDA(I) = ZERO
@@ -665,22 +665,22 @@ C
           SIGZZ(I) = SIGNZZ(I)
           SIGXY(I) = SIGNXY(I)
           SIGZX(I) = SIGNZX(I)
-          SIGYZ(I) = SIGNYZ(I) 
+          SIGYZ(I) = SIGNYZ(I)
 C
           IF(F(I)==ONE)THEN
            A21 = EP20
-          ELSE             
-           A21 =  SIGM1 /(ONE - F(I))     
+          ELSE
+           A21 =  SIGM1 /(ONE - F(I))
           ENDIF
           A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
-          A1 = A1*SQR22 
+          A1 = A1*SQR22
 C 
           DP11 = ZERO
           DP22 = ZERO
           DP33 = ZERO
           DP12 = ZERO
           DP13 = ZERO
-          DP23 = ZERO         
+          DP23 = ZERO
 C
           DO ITER=1,5
            IF(PN(I)<=ZERO)THEN
@@ -692,11 +692,11 @@ C
             D23 = SIX*SIGNYZ(I)*SIGM2
             DCRM = -TWO * VM * SIGM2 * SIGM1
             DCRF =  TWO * Q1 * DF - TWO * Q3 * DF * FSTAR(I)
-           ELSE 
-            VA1 =   Q1 * Q2 * FSTAR(I) * SIH*SIGM1 
-            D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2 + VA1 
+           ELSE
+            VA1 =   Q1 * Q2 * FSTAR(I) * SIH*SIGM1
+            D11 = (TWO*SIGNXX(I) - SIGNYY(I) - SIGNZZ(I))*SIGM2 + VA1
             D22 = (TWO*SIGNYY(I) - SIGNXX(I) - SIGNZZ(I))*SIGM2 + VA1
-            D33 = (TWO*SIGNZZ(I) - SIGNXX(I) - SIGNYY(I))*SIGM2 + VA1       
+            D33 = (TWO*SIGNZZ(I) - SIGNXX(I) - SIGNYY(I))*SIGM2 + VA1
             D12  = SIX * SIGNXY(I)*SIGM2
             D13  = SIX * SIGNZX(I)*SIGM2
             D23  = SIX * SIGNYZ(I)*SIGM2
@@ -705,7 +705,7 @@ C
            ENDIF
 C       
            A2 =   D11 * SIGNXX(I) + D22 * SIGNYY(I) + D33 * SIGNZZ(I) +
-     .      TWO*(D12 * SIGNXY(I) + D13 * SIGNZX(I) + D23 * SIGNYZ(I) ) 
+     .      TWO*(D12 * SIGNXY(I) + D13 * SIGNZX(I) + D23 * SIGNYZ(I) )
            A2 = A2 * A21
 C
            IF(N==1)THEN
@@ -714,10 +714,10 @@ C
             DSEPP = ET * N * EPSM(I) ** (N - ONE)*
      .       (ONE + ( EPSP(I)*CSD)**VISP(I))
            ENDIF
-           DCD   = C1(I) * (D11**2 + D22**2 + D33**2) + 
+           DCD   = C1(I) * (D11**2 + D22**2 + D33**2) +
      .           TWO*C2(I)*(D11*D22 + D11*D33 + D22*D33) +
      .           TWO*G(I) *(D12**2 + D13**2 + D23**2)
-           LAM1  = DCD - DCRM  *  DSEPP * A2 - 
+           LAM1  = DCD - DCRM  *  DSEPP * A2 -
      .           DCRF * ((ONE - F(I)) * (D11 + D22 + D33) + A1*A2)
            IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM * SIGM2 - VA))/LAM1
 C
@@ -730,9 +730,9 @@ C
            DP13 = DP13 + LAMDA(I) * D13
            DP23 = DP23 + LAMDA(I) * D23
 C   NEW STRESS
-           SIGNXX(I)= SIGXX(I) - C1(I) * DP11 - C2(I) * (DP22 + DP33) 
-           SIGNYY(I)= SIGYY(I) - C1(I) * DP22 - C2(I) * (DP11 + DP33) 
-           SIGNZZ(I)= SIGZZ(I) - C1(I) * DP33 - C2(I) * (DP22 + DP11) 
+           SIGNXX(I)= SIGXX(I) - C1(I) * DP11 - C2(I) * (DP22 + DP33)
+           SIGNYY(I)= SIGYY(I) - C1(I) * DP22 - C2(I) * (DP11 + DP33)
+           SIGNZZ(I)= SIGZZ(I) - C1(I) * DP33 - C2(I) * (DP22 + DP11)
            SIGNXY(I)= SIGXY(I) - TWO*G(I)  * DP12
            SIGNZX(I)= SIGZX(I) - TWO*G(I)  * DP13
            SIGNYZ(I)= SIGYZ(I) - TWO*G(I)  * DP23
@@ -741,8 +741,8 @@ C....... EFFECTIVE PLASTIC DEFORMATION.
 C
            EPSP1(I) = SIGNXX(I)*DP11 + SIGNYY(I)*DP22 + SIGNZZ(I)*DP33+
      .           TWO*(SIGNXY(I)*DP12 + SIGNZX(I)*DP13 + SIGNYZ(I)*DP23)
-           EPSP1(I) = EPSP1(I)*A21                         
-           EPSP1(I) = MAX(ZERO, EPSP1(I))                
+           EPSP1(I) = EPSP1(I)*A21
+           EPSP1(I) = MAX(ZERO, EPSP1(I))
 
            PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
            SXX  = SIGNXX(I)-PN(I)
@@ -750,7 +750,7 @@ C
            SZZ  = SIGNZZ(I)-PN(I)
            VM = HALF*(SXX**2 + SYY**2 + SZZ**2)
      .        +   (SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2)
-           VM = THREE*VM   
+           VM = THREE*VM
            VAR  = THREE_HALF * Q2 * PN(I)*SIGM1
            VAR = EXP(VAR)
            COH  = HALF * (VAR + ONE/MAX(EM20,VAR))
@@ -762,22 +762,22 @@ C
            ENDIF
 C
            YLD  = VA
-          ENDDO ! ITER  
+          ENDDO ! ITER
           FG      = (ONE -F(I))*(DP11 + DP22 + DP33)
           SIGY(I) = SIGM(I)*SQRT(MAX(ZERO,VA))
           FN1 = ZERO
           PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
-          IF(PN(I)>=ZERO)FN1= A1 * EPSP1(I)          
-          EPSM(I) = EPSM(I) + EPSP1(I)         
-          F(I)    = F(I) + FG + FN1                    
+          IF(PN(I)>=ZERO)FN1= A1 * EPSP1(I)
+          EPSM(I) = EPSM(I) + EPSP1(I)
+          F(I)    = F(I) + FG + FN1
           IF(F(I)<ZERO) F(I)=ZERO
-          SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE+ 
+          SIGM(I)= (YEILD0(I) + ET * EPSM(I)**N)*(ONE+
      .            (EPSP(I)*CSD)**VISP(I))
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
           ELSE
-           IF(FF==FC)THEN 
+           IF(FF==FC)THEN
             FSTAR(I) = EP20
            ELSE
             FSTAR(I) = FC+ (FU-FC)*(F(I)-FC)/(FF-FC)
@@ -790,7 +790,7 @@ C
           UVAR(I , 4) = F(I)
           UVAR(I , 5) = EPSP(I)
 C
-         ENDIF 
+         ENDIF
 CCsm41w11 +++
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
@@ -798,12 +798,12 @@ CCsm41w11 +++
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
-        ELSE 
+        ELSE
 
          IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
-       ENDDO 
+       ENDDO
       ELSE
 C-----
 C  IFLAG = 3
@@ -818,8 +818,8 @@ C-----------
           DF       = ONE
          ELSE
           DF      = (FU- FC)/(FF-FC)
-          FSTAR(I)= FC  + DF*(F(I)-FC)                 
-         ENDIF 
+          FSTAR(I)= FC  + DF*(F(I)-FC)
+         ENDIF
 C          
          PN(I)= (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
          SXX  = SIGNXX(I)-PN(I)
@@ -832,16 +832,16 @@ C
          VAR  = THREE_HALF * Q2 * PN(I)* SIGM1
          VAR = EXP(VAR)
          COH  = HALF * (VAR + ONE/MAX(EM20,VAR))
-         SIH  = HALF * (VAR - ONE/MAX(EM20,VAR)) 
-         VA   = ONE + Q3 * FSTAR(I)**2 - TWO *Q1*FSTAR(I)*COH          
+         SIH  = HALF * (VAR - ONE/MAX(EM20,VAR))
+         VA   = ONE + Q3 * FSTAR(I)**2 - TWO *Q1*FSTAR(I)*COH
          VA= SQRT(MAX(ZERO,VA))
          YLD  = SIGM(I) * VA
 C
-         SIGY(I) = YLD           
+         SIGY(I) = YLD
          CRIT = VM - YLD
          IF(VM < YLD .OR. SIGY(I) == ZERO)THEN
-          LAMDA(I)=ZERO        
-         ELSE 
+          LAMDA(I)=ZERO
+         ELSE
           LAMDA(I) = ZERO
           SIGXX(I) = SIGNXX(I)
           SIGYY(I) = SIGNYY(I)
@@ -855,32 +855,32 @@ C
           DP33 = ZERO
           DP12 = ZERO
           DP13 = ZERO
-          DP23 = ZERO   
+          DP23 = ZERO
 C
           IF(F(I)==ONE)THEN
            A21 = EP20
-          ELSE             
-           A21 =  SIGM1 /(ONE - F(I))     
+          ELSE
+           A21 =  SIGM1 /(ONE - F(I))
           ENDIF
           A1 = FN*EXP(-HALF*((EPSM(I)-EPSN)/SN)**2)/SN
-          A1 = A1*SQR22 
-c                                   
-          DO ITER=1,5                           
+          A1 = A1*SQR22
+c
+          DO ITER=1,5
            VM1 = ONE/MAX(VM,EM20)
            VA1 = ONE/MAX(VA,EM20)
-           VA11 =HALF*Q1*Q2*FSTAR(I)*SIH*VA1 
-           D11 = HALF*(TWO*SIGNXX(I) 
-     .                          - SIGNYY(I)-SIGNZZ(I))*VM1 + VA11   
-           D22 = HALF*(TWO*SIGNYY(I) 
-     .                          - SIGNXX(I)-SIGNZZ(I))*VM1 + VA11       
-           D33 = HALF*(TWO*SIGNZZ(I) 
+           VA11 =HALF*Q1*Q2*FSTAR(I)*SIH*VA1
+           D11 = HALF*(TWO*SIGNXX(I)
+     .                          - SIGNYY(I)-SIGNZZ(I))*VM1 + VA11
+           D22 = HALF*(TWO*SIGNYY(I)
+     .                          - SIGNXX(I)-SIGNZZ(I))*VM1 + VA11
+           D33 = HALF*(TWO*SIGNZZ(I)
      .                          - SIGNXX(I)-SIGNYY(I))*VM1 + VA11
-           D12 = THREE*SIGNXY(I)*VM1       
+           D12 = THREE*SIGNXY(I)*VM1
            D13 = THREE*SIGNZX(I)*VM1
            D23 = THREE*SIGNYZ(I)*VM1
 C
            A2  = D11*SIGNXX(I) + D22*SIGNYY(I) + D33*SIGNZZ(I) +
-     .            TWO*(D12*SIGNXY(I) + D13*SIGNZX(I) + D23*SIGNYZ(I)) 
+     .            TWO*(D12*SIGNXY(I) + D13*SIGNZX(I) + D23*SIGNYZ(I))
            A2  = A2*A21
 C
            DCRF=-SIGM(I)*(Q3*FSTAR(I)*DF-Q1*COH*DF)*VA1
@@ -889,13 +889,13 @@ C
             DSEPP = ET*(ONE + ( EPSP(I)*CSD)**VISP(I))
            ELSE
             DSEPP = ET * N * EPSM(I) ** (N - ONE)*
-     .      (ONE + ( EPSP(I)*CSD)**VISP(I)) 
-           ENDIF                   
-           DCD = C1(I)*(D11**2 + D22**2 + D33**2) + 
+     .      (ONE + ( EPSP(I)*CSD)**VISP(I))
+           ENDIF
+           DCD = C1(I)*(D11**2 + D22**2 + D33**2) +
      .            TWO*C2(I)*(D11*D22 + D11*D33 + D22*D33) +
      .            TWO*G(I)*(D12**2 + D13**2 + D23**2)
 
-           LAM1= DCD - DCRM* DSEPP*A2 - 
+           LAM1= DCD - DCRM* DSEPP*A2 -
      .             DCRF*((ONE-F(I))*(D11+D22+D33) + A1*A2)
            IF(LAM1/=ZERO) LAMDA(I) =  MAX(ZERO,(VM - YLD))/LAM1
 C  PLASTIC DEFORMATION          
@@ -906,9 +906,9 @@ C  PLASTIC DEFORMATION
            DP13 = DP13 + LAMDA(I) * D13
            DP23 = DP23 + LAMDA(I) * D23
 C   NEW STRESS
-           SIGNXX(I)= SIGXX(I) - C1(I)*DP11 - C2(I)*(DP22 + DP33) 
-           SIGNYY(I)= SIGYY(I) - C1(I)*DP22 - C2(I)*(DP11 + DP33) 
-           SIGNZZ(I)= SIGZZ(I) - C1(I)*DP33 - C2(I)*(DP22 + DP11) 
+           SIGNXX(I)= SIGXX(I) - C1(I)*DP11 - C2(I)*(DP22 + DP33)
+           SIGNYY(I)= SIGYY(I) - C1(I)*DP22 - C2(I)*(DP11 + DP33)
+           SIGNZZ(I)= SIGZZ(I) - C1(I)*DP33 - C2(I)*(DP22 + DP11)
            SIGNXY(I)= SIGXY(I) - TWO*G(I)*DP12
            SIGNZX(I)= SIGZX(I) - TWO*G(I)*DP13
            SIGNYZ(I)= SIGYZ(I) - TWO*G(I)*DP23
@@ -935,16 +935,16 @@ C....... AMISSIBLE PLASTIC DEFORMATION.
 C
           FG      = (ONE-F(I))*(DP11+DP22+DP33)
           PN(I) = (SIGXX(I) + SIGYY(I) + SIGZZ(I))*THIRD
-          SIGY(I) = YLD 
+          SIGY(I) = YLD
           FN1     = ZERO
-          IF(PN(I)>=ZERO) FN1 = A1*EPSP1(I) 
-           EPSM(I) = EPSM(I) + EPSP1(I)         
-           F(I)    = F(I) + FG + FN1                    
+          IF(PN(I)>=ZERO) FN1 = A1*EPSP1(I)
+           EPSM(I) = EPSM(I) + EPSP1(I)
+           F(I)    = F(I) + FG + FN1
           IF(Q1==ZERO.and.
      .     Q2==ZERO.and.Q3==ZERO) F(I)= ZERO
           IF(F(I)<ZERO) F(I)=ZERO
           SIGM(I) = (YEILD0(I) + ET * EPSM(I) ** N)*
-     .             (ONE + (EPSP(I)*CSD) ** VISP(I))          
+     .             (ONE + (EPSP(I)*CSD) ** VISP(I))
 C....COMPUTE F*.....
           IF(F(I)<=FC)THEN
            FSTAR(I) = F(I)
@@ -959,7 +959,7 @@ C....COMPUTE F*.....
           UVAR(I,2) = FSTAR(I)
           UVAR(I,3) = SIGM(I)
           UVAR(I,4) = F(I)
-          UVAR(I,5) = EPSP(I)          
+          UVAR(I,5) = EPSP(I)
          ENDIF
          IF(OFF(I)==ONE.AND.FSTAR(I)>=FF)THEN
           OFF(I)=FOUR_OVER_5
@@ -967,12 +967,12 @@ C....COMPUTE F*.....
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
          ENDIF
-        ELSE 
+        ELSE
          IF(OFF(I)<EM01)OFF(I)=ZERO
          OFF(I)=OFF(I)*FOUR_OVER_5
         ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
       DO I=1,NEL
         DEFP(I)=UVAR(I,1)
       ENDDO
@@ -985,9 +985,9 @@ C tabulated law
          DO I=1,NEL
            NDIM= TABLE(ITAB(1))%NDIM
             IF(NDIM==2)THEN
-              NXK=SIZE(TABLE(ITAB(1))%X(2)%VALUES)         
+              NXK=SIZE(TABLE(ITAB(1))%X(2)%VALUES)
               DO J=2,NXK
-                 DX2 = TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC- EPSP(I) 
+                 DX2 = TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC- EPSP(I)
                  IF(DX2 >= ZERO .OR. J == NXK)THEN
                   IPOS=J-1
                   R=(TABLE(ITAB(1))%X(2)%VALUES(J)*XFAC-EPSP(I))/
@@ -1000,17 +1000,17 @@ C tabulated law
                    R = ONE
             ENDIF ! NDIM
 C   interpolation on  the curve ---
-           XX(1) = EPSM(I)  
+           XX(1) = EPSM(I)
            XX(2) = EPSP(I)*XFAC
            CALL TABLE_INTERP_LAW76(TABLE(ITAB(1)),IPOS,XX,
-     .                     R,DFT,YY) 
+     .                     R,DFT,YY)
             UVAR(I,3)= YFAC*YY
          ENDDO ! NEL0
        ENDIF ! IYEILD_TAB
 C ---------------------------------------------------------------------
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10,
-     .          ' AT TIME :',G20.12)         
+     .          ' AT TIME :',G20.12)
         RETURN
       END
 C

@@ -165,7 +165,7 @@ C
                CALL MPI_SEND(IBUF, LEN, MPI_INTEGER, IT_SPMD(1),
      .                       ITAG, MPI_COMM_WORLD,  IERR)
 C
-               DEALLOCATE(IBUF, ITAGT)              
+               DEALLOCATE(IBUF, ITAGT)
             ENDIF
          ENDIF
       ENDDO

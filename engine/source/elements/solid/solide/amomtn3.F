@@ -62,7 +62,7 @@ C-----------------------------------------------
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
      .   RHO(*),DELTAX(*),VIS(*),VOL(*),IAD22(*)
-      INTEGER :: NC1(*), NC2(*), NC3(*), NC4(*), 
+      INTEGER :: NC1(*), NC2(*), NC3(*), NC4(*),
      .     NC5(*), NC6(*), NC7(*), NC8(*), NALE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -75,8 +75,8 @@ C-----------------------------------------------
      .   UP0(MVSIZ),UP1(MVSIZ),UP2(MVSIZ),UP3(MVSIZ),
      .   F1P(MVSIZ),F2P(MVSIZ),F3P(MVSIZ),
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),FAC,
-     .   OFF1(MVSIZ), OFF2(MVSIZ), OFF3(MVSIZ), OFF4(MVSIZ), 
-     .   OFF5(MVSIZ), OFF6(MVSIZ), OFF7(MVSIZ), OFF8(MVSIZ)  
+     .   OFF1(MVSIZ), OFF2(MVSIZ), OFF3(MVSIZ), OFF4(MVSIZ),
+     .   OFF5(MVSIZ), OFF6(MVSIZ), OFF7(MVSIZ), OFF8(MVSIZ)
       INTEGER I
 C-----------------------------------------------
       CALL UPWIND_V(RHO,VIS,VDX0,VDY0,VDZ0,R,S,T,DELTAX,GAM)
@@ -103,28 +103,28 @@ C-----------------------------------------------
       !-------------------------------------------!
       ! MOMENTUM ADVECTION                        !
       ! TG : Taylor Galerkine                     !
-      !-------------------------------------------!        
+      !-------------------------------------------!
        DO I=LFT,LLT
         GAM(I)=GAM(I)/AJV(I)
 
         DXXP(I)=
-     .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
+     .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)
         DXYP(I)=
-     .   A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)  
+     .   A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)
         DXZP(I)=
-     .   A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)  
+     .   A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)
         DYXP(I)=
-     .   A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)  
+     .   A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)
         DYYP(I)=
-     .   A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)  
+     .   A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)
         DYZP(I)=
-     .   A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)  
+     .   A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)
         DZXP(I)=
-     .   A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)  
+     .   A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)
         DZYP(I)=
-     .   A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)  
+     .   A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)
         DZZP(I)=
-     .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
+     .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)
 
         FAC=EIGHT*GAM(I)
         UP0(I)=ONE +FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
@@ -162,12 +162,12 @@ C-----------------------------------------------
         F28(I) = F28(I) - F2P(I)*OFF8(I)
         F38(I) = F38(I) - F3P(I)*OFF8(I)
        ENDDO
-       
+
        !inter22
        IF(INT22>0)THEN
          DO I=LFT,LLT
            IF(NINT(IAD22(I))==0)THEN
-             !currently unpluged only for cut cell buffer      
+             !currently unpluged only for cut cell buffer
              F1P(I) = ZERO
              F2P(I) = ZERO
              F3P(I) = ZERO
@@ -213,27 +213,27 @@ C-----------------------------------------------
       !-------------------------------------------!
       ! MOMENTUM ADVECTION                        !
       ! SUPG : Streamline Upwind Petrov Galerkine !
-      !-------------------------------------------! 
+      !-------------------------------------------!
        DO I=LFT,LLT
         GAM(I)=GAM(I)/AJV(I)
         DXXP(I)=
-     .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)  
+     .   A0(I,1)*VX0(I)+A1(I,1)*VX1(I)+A2(I,1)*VX2(I)+A3(I,1)*VX3(I)
         DXYP(I)=
-     .   A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)  
+     .   A0(I,2)*VX0(I)+A1(I,2)*VX1(I)+A2(I,2)*VX2(I)+A3(I,2)*VX3(I)
         DXZP(I)=
-     .   A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)  
+     .   A0(I,3)*VX0(I)+A1(I,3)*VX1(I)+A2(I,3)*VX2(I)+A3(I,3)*VX3(I)
         DYXP(I)=
-     .   A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)  
+     .   A0(I,1)*VY0(I)+A1(I,1)*VY1(I)+A2(I,1)*VY2(I)+A3(I,1)*VY3(I)
         DYYP(I)=
-     .   A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)  
+     .   A0(I,2)*VY0(I)+A1(I,2)*VY1(I)+A2(I,2)*VY2(I)+A3(I,2)*VY3(I)
         DYZP(I)=
-     .   A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)  
+     .   A0(I,3)*VY0(I)+A1(I,3)*VY1(I)+A2(I,3)*VY2(I)+A3(I,3)*VY3(I)
         DZXP(I)=
-     .   A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)  
+     .   A0(I,1)*VZ0(I)+A1(I,1)*VZ1(I)+A2(I,1)*VZ2(I)+A3(I,1)*VZ3(I)
         DZYP(I)=
-     .   A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)  
+     .   A0(I,2)*VZ0(I)+A1(I,2)*VZ1(I)+A2(I,2)*VZ2(I)+A3(I,2)*VZ3(I)
         DZZP(I)=
-     .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)  
+     .   A0(I,3)*VZ0(I)+A1(I,3)*VZ1(I)+A2(I,3)*VZ2(I)+A3(I,3)*VZ3(I)
 
         FAC=EIGHT*GAM(I)
         UP0(I)=ONE+FAC*(A0(I,1)*VDX0(I)+A0(I,2)*VDY0(I)+A0(I,3)*VDZ0(I))
@@ -248,14 +248,14 @@ C-----------------------------------------------
        ENDDO
 
         !inter22
-        IF(INT22>0)THEN 
-          DO I=LFT,LLT       
+        IF(INT22>0)THEN
+          DO I=LFT,LLT
             IF(NINT(IAD22(I))==0)THEN
               !currently unpluged only for cut cell buffer
               F1P(I) = ZERO
               F2P(I) = ZERO
               F3P(I) = ZERO
-            ENDIF        
+            ENDIF
           ENDDO
         ENDIF
 

@@ -36,7 +36,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE IMP_LANZP(IPREC ,
-     1                    N     ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    N     ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,NI    ,ITOK  ,IADI  ,JDII   ,
      3                    LT_I  ,NNZM  ,IADM  ,JDIM  ,DIAG_M ,
      3                    LT_M  ,X     ,R     ,ITOL  ,RTOL   ,
@@ -49,7 +49,7 @@ Chd|====================================================================
      C                    IMONV ,MONVOL ,IGRSURF ,VOLMON,
      D                    FR_MV ,IBFV   ,SKEW  ,XFRAME,IND_IMP,
      H                    XI_C  ,R0    ,NDDLI_G,INTP_C,IRBE3  ,
-     E                    LRBE3 ,IRBE2 ,LRBE2 ) 
+     E                    LRBE3 ,IRBE2 ,LRBE2 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C----------resol [K]{X}={F}---------
      .         W_DDL(*),IBFV(*),IRBE3(*) ,LRBE3(*),NDDLI_G,
      .         IRBE2(*),LRBE2(*)
       INTEGER  NDOF(*),NE_IMP(*),NSREM ,NSL,INTP_C,
-     .         IPARI(*) ,NUM_IMP(*),NS_IMP(*),IND_IMP(*) 
+     .         IPARI(*) ,NUM_IMP(*),NS_IMP(*),IND_IMP(*)
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*)
 C     REAL
       my_real
@@ -105,7 +105,7 @@ C-----------------------------------------------
      .  GAMMA, GBAR, GMAX, GMIN, GPERT,
      .  LQNORM, OLDB, QRNORM, RHS1, RHS2,
      .  S, SN, SNPROD, T, TNORM,
-     .  X1CG, X1LQ, YNORM2, ZBAR, Z 
+     .  X1CG, X1LQ, YNORM2, ZBAR, Z
       CHARACTER*16       EXIT
       CHARACTER*11       WARR
       CHARACTER*52       MSG(-1:8)
@@ -159,7 +159,7 @@ C*     y and beta1 will be zero if b = 0.
 
 C    --R=B-A.X--- ---
        CALL MAV_LTP(
-     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,   
+     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            X     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -169,16 +169,16 @@ C    --R=B-A.X--- ---
      9            FR_MV,NMONV ,IMONV ,IND_IMP,
      A            XI_C  ,IUPD  ,IRBE3 ,LRBE3 ,IRBE2 ,LRBE2 )
       DO I = 1, N
-        B(I) = R(I) 
+        B(I) = R(I)
         R(I) = R(I) - Y(I)
       ENDDO
       CALL PREC_SOLVP(IPREC,ITASK  ,
-     1                GBID ,IBID   ,IBID  , DIAG_K,LT_K   , 
-     2                IADK ,JDIK   ,IBID  ,IBID  ,IBID   , 
+     1                GBID ,IBID   ,IBID  , DIAG_K,LT_K   ,
+     2                IADK ,JDIK   ,IBID  ,IBID  ,IBID   ,
      3                IBID ,RBID   ,IBID  ,IBID  ,MBID   ,
-     4                IBID ,IBID   ,IBID  ,IBID  ,IBID   , 
-     5                IBID ,IBID   ,  
-     1               N    ,NNZM,IADM  ,JDIM  ,DIAG_M ,   
+     4                IBID ,IBID   ,IBID  ,IBID  ,IBID   ,
+     5                IBID ,IBID   ,
+     1               N    ,NNZM,IADM  ,JDIM  ,DIAG_M ,
      2               LT_M ,R   ,Y     )
 C      IF ( GOODB  ) THEN
 C         B1  = Y(1)
@@ -192,7 +192,7 @@ C*     TEST FOR AN INDEFINITE PRECONDITIONER.
       IF (BETA1 < ZERO) THEN
 c         ISTOP = 8
 c         GO TO 900
-       BETA1  = -BETA1 
+       BETA1  = -BETA1
        WRITE(IOUT, 3000) WARR, MSG(8)
        WRITE(ISTDO, 3000) WARR, MSG(8)
       ENDIF
@@ -225,7 +225,7 @@ C
       ENDDO
 
       CALL MAV_LTP(
-     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,   
+     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            V     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -238,7 +238,7 @@ C
 C*     SET UP Y FOR THE SECOND LANCZOS VECTOR.
 C*     AGAIN, Y IS BETA * P * V2  WHERE  P = C**(-1).
 C*     Y AND BETA WILL BE ZERO OR VERY SMALL IF B IS AN EIGENVECTOR.
-     
+
       IF (SHIFT/=ZERO) THEN
        DO I = 1, N
          Y(I) = Y(I)-SHIFT*V(I)
@@ -263,12 +263,12 @@ C*     MAKE SURE  R2  WILL BE ORTHOGONAL TO THE FIRST  V.
        R2(I)  = Y(I)
       ENDDO
       CALL PREC_SOLVP(IPREC,ITASK  ,
-     1                GBID ,IBID   ,IBID  , DIAG_K,LT_K   , 
-     2                IADK ,JDIK   ,IBID  ,IBID  ,IBID   , 
+     1                GBID ,IBID   ,IBID  , DIAG_K,LT_K   ,
+     2                IADK ,JDIK   ,IBID  ,IBID  ,IBID   ,
      3                IBID ,RBID   ,IBID  ,IBID  ,MBID   ,
-     4                IBID ,IBID   ,IBID  ,IBID  ,IBID   , 
-     5                IBID ,IBID   ,  
-     1               N    ,NNZM,IADM  ,JDIM  ,DIAG_M ,   
+     4                IBID ,IBID   ,IBID  ,IBID  ,IBID   ,
+     5                IBID ,IBID   ,
+     1               N    ,NNZM,IADM  ,JDIM  ,DIAG_M ,
      2               LT_M ,R2   ,Y    )
       OLDB   = BETA1
       CALL PRODUT_W( N  ,R2   ,Y  ,W_DDL,BETA)
@@ -377,7 +377,7 @@ C*      GOTO 600
 C*
 C*     PRINT A LINE FOR THIS ITERATION.
 
-        IF(IPRINT/=0)THEN 
+        IF(IPRINT/=0)THEN
          IF (MOD(ITN,IP)==0)THEN
           WRITE(IOUT,1001)ITN,CGNORM
           IF(IPRINT<0) WRITE(ISTDO,1001)ITN,CGNORM
@@ -407,7 +407,7 @@ C------place CRIT_STOP ICI-----
       ENDDO
 
       CALL MAV_LTP(
-     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,   
+     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            V     ,Y     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -437,12 +437,12 @@ C------place CRIT_STOP ICI-----
         R2(I)  = Y(I)
       ENDDO
       CALL PREC_SOLVP(IPREC,ITASK  ,
-     1                GBID ,IBID   ,IBID  , DIAG_K,LT_K   , 
-     2                IADK ,JDIK   ,IBID  ,IBID  ,IBID   , 
+     1                GBID ,IBID   ,IBID  , DIAG_K,LT_K   ,
+     2                IADK ,JDIK   ,IBID  ,IBID  ,IBID   ,
      3                IBID ,RBID   ,IBID  ,IBID  ,MBID   ,
-     4                IBID ,IBID   ,IBID  ,IBID  ,IBID   , 
-     5                IBID ,IBID   ,  
-     1               N    ,NNZM,IADM  ,JDIM  ,DIAG_M ,   
+     4                IBID ,IBID   ,IBID  ,IBID  ,IBID   ,
+     5                IBID ,IBID   ,
+     1               N    ,NNZM,IADM  ,JDIM  ,DIAG_M ,
      2               LT_M ,R2   ,Y    )
       OLDB   = BETA
       CALL PRODUT_W( N  ,R2   ,Y  ,W_DDL,BETA)
@@ -548,7 +548,7 @@ C*     ==================================================================
       ENDIF
 C    --R=B-A.X--- ---
        CALL MAV_LTP(
-     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,   
+     1            N     ,NI    ,IADK  ,JDIK  ,DIAG_K,
      2            LT_K  ,IADI  ,JDII  ,ITOK  ,LT_I  ,
      3            X     ,R     ,A     ,AR    ,
      5            VE    ,MS    ,XE    ,D     ,DR    ,
@@ -588,9 +588,9 @@ C*     ------------------------------------------------------------------
  1001 FORMAT(5X,'ITERATION=',I8,5X,'     C.G. RESIDUAL NORM=',E11.4)
  1002 FORMAT(3X,'TOTAL LANCZOS ITERATION=',I8,5X,
      .          ' RELATIVE RESIDUAL NORM=',E11.4)
- 2001 FORMAT(/ 5X, 'WITH', 2X, 'ANORM =', E12.4, 2X, 'YNORM =', 
+ 2001 FORMAT(/ 5X, 'WITH', 2X, 'ANORM =', E12.4, 2X, 'YNORM =',
      .       E12.4,2X,'KCOND =', E12.4)
- 2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =', 
+ 2002 FORMAT(/ 5X, 'WITH', 2X, 'ALFA =', E12.4, 2X, 'BETA =',
      .       E12.4,2X,'OLDB =', E12.4)
 C*     ------------------------------------------------------------------
 C*     END OF SYMMLQ

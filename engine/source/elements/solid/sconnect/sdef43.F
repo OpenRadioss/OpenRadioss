@@ -42,7 +42,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NPG
 C     REAL
-      my_real 
+      my_real
      .   VXLOC(MVSIZ,8),VYLOC(MVSIZ,8),VZLOC(MVSIZ,8),HH(4,NPG),
      .   DZX(MVSIZ,NPG),DYZ(MVSIZ,NPG),DZZ(MVSIZ,NPG)
 C-----------------------------------------------

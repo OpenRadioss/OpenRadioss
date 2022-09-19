@@ -79,7 +79,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (GROUP_)  , DIMENSION(NGRQUAD) :: IGRQUAD
       TYPE (GROUP_)  , DIMENSION(NGRSH3N) :: IGRSH3N
-      TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_), INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -109,13 +109,13 @@ C-----------------------------------------------
 
       DO KK = 1, NINIMAP1D
          INIMAP1D(KK)%CORRECTLY_READ=.TRUE.
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR, 
+         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR,
      .        KEYWORD2 = KEY2)
          INIMAP1D(KK)%ID = ID
-         INIMAP1D(KK)%TITLE = TRIM(TITR)         
+         INIMAP1D(KK)%TITLE = TRIM(TITR)
          WRITE(IOUT, 2001) ID
          WRITE(IOUT, 2002) TRIM(TITR)
-            INIMAP1D(KK)%FILE = .FALSE.         
+            INIMAP1D(KK)%FILE = .FALSE.
          IF (KEY2(1:2) == 'VP') THEN
             INIMAP1D(KK)%FORMULATION = 1
             WRITE(IOUT, 2010)
@@ -124,8 +124,8 @@ C-----------------------------------------------
             WRITE(IOUT, 2020)
          ELSE IF (KEY2(1:5) == 'FILE ') THEN
             INIMAP1D(KK)%FORMULATION = 1
-            INIMAP1D(KK)%FILE = .TRUE.          
-            WRITE(IOUT, 2025)            
+            INIMAP1D(KK)%FILE = .TRUE.
+            WRITE(IOUT, 2025)
          ENDIF
 
          INIMAP1D(KK)%PROJ = -1
@@ -151,7 +151,7 @@ C     --> Read 2 nodes
             CALL HM_GET_INTV('node_ID2', INIMAP1D(KK)%NODEID2, IS_AVAILABLE, LSUBMODEL)
             WRITE(IOUT, 2030) "CYLINDRICAL"
          ENDIF
-         
+
          INIMAP1D(KK)%GRBRICID = 0
          INIMAP1D(KK)%GRQUADID = 0
          INIMAP1D(KK)%GRSH3NID = 0
@@ -159,12 +159,12 @@ C     --> Read 2 nodes
          CALL HM_GET_INTV('grbric_ID', INIMAP1D(KK)%GRBRICID, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('grquad_ID', INIMAP1D(KK)%GRQUADID, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('grtria_ID', INIMAP1D(KK)%GRSH3NID, IS_AVAILABLE, LSUBMODEL)
-         
+
 C     ==============
 C     Check if found
 C     ==============
          IF (INIMAP1D(KK)%GRBRICID + INIMAP1D(KK)%GRQUADID + INIMAP1D(KK)%GRSH3NID == 0) THEN
-            CALL ANCMSG(MSGID=1554, MSGTYPE=MSGWARNING, ANMODE=ANINFO, 
+            CALL ANCMSG(MSGID=1554, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .           C1='IN /INIMAP1D OPTION')
          ELSE
             GRBRICID_LOC = -1
@@ -193,7 +193,7 @@ C     ==============
                      INIMAP1D(KK)%GRQUADID = J
                      EXIT
                   ENDIF
-               ENDDO    
+               ENDDO
                IF (GRQUADID_LOC == -1) THEN
                   CALL ANCMSG(MSGID=1554,
      .                 MSGTYPE=MSGERROR,
@@ -215,7 +215,7 @@ C     ==============
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 C1='IN /INIMAP1D OPTION',
-     .                 I1=INIMAP1D(KK)%GRSH3NID)                   
+     .                 I1=INIMAP1D(KK)%GRSH3NID)
                ENDIF
             ENDIF
          ENDIF
@@ -223,11 +223,11 @@ C     ==============
 C     ==============
 C     functions
 C     ==============
-         IF(.NOT. INIMAP1D(KK)%FILE)THEN 
+         IF(.NOT. INIMAP1D(KK)%FILE)THEN
             CALL HM_GET_INTV('FUN_IDV', IFUNC3, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('FSCALEV', FAC_VEL, IS_AVAILABLE, LSUBMODEL, UNITAB)
-           
-           MSG_DESCRIPTION = 'CANNOT READ VELOCITY FUNCTION ID'           
+
+           MSG_DESCRIPTION = 'CANNOT READ VELOCITY FUNCTION ID'
            WRITE(IOUT, 2040) IFUNC3, FAC_VEL
            IF (IFUNC3 > 0) THEN
               JJ = 0
@@ -241,7 +241,7 @@ C     ==============
                  ENDIF
               ENDDO
               IF (.NOT. FOUND) THEN
-                 CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                 CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                C1 = 'IN /INIMAP1D OPTION', I1 = IFUNC3)
               ENDIF
            ELSE
@@ -251,10 +251,10 @@ C     ==============
            INIMAP1D(KK)%FAC_VEL = FAC_VEL
 
            CALL HM_GET_INTV('Nb_integr', SIZE, IS_AVAILABLE, LSUBMODEL)
-           
+
            INIMAP1D(KK)%NBMAT = SIZE
-           ALLOCATE(INIMAP1D(KK)%FUNC_ALPHA(SIZE), INIMAP1D(KK)%FUNC_RHO(SIZE), 
-     .          INIMAP1D(KK)%FUNC_ENER(SIZE), INIMAP1D(KK)%FUNC_PRES(SIZE), 
+           ALLOCATE(INIMAP1D(KK)%FUNC_ALPHA(SIZE), INIMAP1D(KK)%FUNC_RHO(SIZE),
+     .          INIMAP1D(KK)%FUNC_ENER(SIZE), INIMAP1D(KK)%FUNC_PRES(SIZE),
      .          INIMAP1D(KK)%FAC_PRES_ENER(SIZE), INIMAP1D(KK)%FAC_RHO(SIZE))
            INIMAP1D(KK)%FUNC_ALPHA(1:SIZE) = 0
            DO LL = 1, SIZE
@@ -263,7 +263,7 @@ C     ==============
               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalerhoi', FAC1, LL, IS_AVAILABLE, LSUBMODEL, UNITAB)
               CALL HM_GET_INT_ARRAY_INDEX('fct_IDpei', IFUNC3, LL, IS_AVAILABLE, LSUBMODEL)
               CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalepei', FAC2, LL, IS_AVAILABLE, LSUBMODEL, UNITAB)
-                           
+
 C     FUNC_RHO, FUNC_PRES AND FUNC_VEL
 C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
               IF (IFUNC1 > 0) THEN
@@ -278,7 +278,7 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
                     ENDIF
                  ENDDO
                  IF (.NOT. FOUND) THEN
-                    CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                    CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                   C1 = 'IN /INIMAP1D OPTION', I1 = IFUNC3)
                  ENDIF
               ELSE
@@ -296,7 +296,7 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
                     ENDIF
                  ENDDO
                  IF (.NOT. FOUND) THEN
-                    CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                    CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                   C1 = 'IN /INIMAP1D OPTION', I1 = IFUNC3)
                  ENDIF
               ELSE
@@ -321,7 +321,7 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
                     ENDIF
                  ENDDO
                  IF (.NOT. FOUND) THEN
-                    CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                    CALL ANCMSG(MSGID = 120, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                   C1 = 'IN /INIMAP1D OPTION', I1 = IFUNC3)
                  ENDIF
               ELSE
@@ -339,36 +339,36 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
                  WRITE(IOUT, 2050) LL, IFUNC1, IFUNC2, FAC1, IFUNC3, FAC2
               ENDIF
            ENDDO
-       
+
          ELSEIF(INIMAP1D(KK)%FILE)THEN
             CALL HM_GET_STRING('Filename', FILENAME, ncharline, IS_AVAILABLE)
             WRITE(IOUT, 2026)TRIM(FILENAME)
             CALL LEC_INIMAP1D_FILE(INIMAP1D(KK), FILENAME, ID, TITR)
          ENDIF
 
-         IF (INIMAP1D(KK)%NODEID1 > 0) THEN                                           
-            LNODID1 = USR2SYS(INIMAP1D(KK)%NODEID1, ITABM1, MESS, INIMAP1D(KK)%NODEID1)  
-            INIMAP1D(KK)%NODEID1 = LNODID1                                               
-         ENDIF                                                                           
-         IF (INIMAP1D(KK)%NODEID2 > 0) THEN                                           
-            LNODID2 = USR2SYS(INIMAP1D(KK)%NODEID2, ITABM1, MESS, INIMAP1D(KK)%NODEID2)  
-            INIMAP1D(KK)%NODEID2 = LNODID2                                               
-         ENDIF                                                                           
-         IF (INIMAP1D(KK)%PROJ == 1) THEN                                              
-            X0 = X(1, LNODID1)                                                           
-            Y0 = X(2, LNODID1)                                                           
-            Z0 = X(3, LNODID1)                                                           
-            X1 = X(1, LNODID2)                                                           
-            Y1 = X(2, LNODID2)                                                           
-            Z1 = X(3, LNODID2)                                                           
-            NORM = SQRT((X1 - X0) * (X1 - X0) + (Y1 - Y0) * (Y1 - Y0) +                  
-     .           (Z1 - Z0) * (Z1 - Z0))                                                  
-            INIMAP1D(KK)%NX = (X1 - X0) / NORM                                           
-            INIMAP1D(KK)%NY = (Y1 - Y0) / NORM                                           
-            INIMAP1D(KK)%NZ = (Z1 - Z0) / NORM 
-            IF(N2D /=0 )INIMAP1D(KK)%NX = ZERO  !force to 0.00 instead of epsilon : Y,Z only in 2D                                        
-         ENDIF                                                                           
-        
+         IF (INIMAP1D(KK)%NODEID1 > 0) THEN
+            LNODID1 = USR2SYS(INIMAP1D(KK)%NODEID1, ITABM1, MESS, INIMAP1D(KK)%NODEID1)
+            INIMAP1D(KK)%NODEID1 = LNODID1
+         ENDIF
+         IF (INIMAP1D(KK)%NODEID2 > 0) THEN
+            LNODID2 = USR2SYS(INIMAP1D(KK)%NODEID2, ITABM1, MESS, INIMAP1D(KK)%NODEID2)
+            INIMAP1D(KK)%NODEID2 = LNODID2
+         ENDIF
+         IF (INIMAP1D(KK)%PROJ == 1) THEN
+            X0 = X(1, LNODID1)
+            Y0 = X(2, LNODID1)
+            Z0 = X(3, LNODID1)
+            X1 = X(1, LNODID2)
+            Y1 = X(2, LNODID2)
+            Z1 = X(3, LNODID2)
+            NORM = SQRT((X1 - X0) * (X1 - X0) + (Y1 - Y0) * (Y1 - Y0) +
+     .           (Z1 - Z0) * (Z1 - Z0))
+            INIMAP1D(KK)%NX = (X1 - X0) / NORM
+            INIMAP1D(KK)%NY = (Y1 - Y0) / NORM
+            INIMAP1D(KK)%NZ = (Z1 - Z0) / NORM
+            IF(N2D /=0 )INIMAP1D(KK)%NX = ZERO  !force to 0.00 instead of epsilon : Y,Z only in 2D
+         ENDIF
+
       ENDDO ! KK = 1, NINIMAP1D
       RETURN
 
@@ -377,7 +377,7 @@ C     OR FUNC_RHO, FUNC_ENER AND FUNC_VEL depending on the forumlation
       RETURN
 
  999  CALL FREERR(3)
- 
+
       RETURN
  2000 FORMAT(//
      .'     1D INITIAL MAPPING (/INIMAP1D)  '/

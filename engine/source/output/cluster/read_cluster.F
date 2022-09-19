@@ -64,12 +64,12 @@ C=======================================================================
       RLCLUSTER_MAX = 0
       ILCLUSTER_MAX = 0
       DO I = 1, NCLUSTER
-        IF ( RLCLUSTER_MAX < RLCLUSTER(I) ) THEN 
+        IF ( RLCLUSTER_MAX < RLCLUSTER(I) ) THEN
           RLCLUSTER_MAX = RLCLUSTER(I)
-        ENDIF 
-        IF ( ILCLUSTER_MAX < ILCLUSTER(I) ) THEN 
+        ENDIF
+        IF ( ILCLUSTER_MAX < ILCLUSTER(I) ) THEN
           ILCLUSTER_MAX = ILCLUSTER(I)
-        ENDIF 
+        ENDIF
       ENDDO
 
       ALLOCATE (ICLTAB(ILCLUSTER_MAX)) ! Integer CLuster TABle
@@ -82,20 +82,20 @@ C=======================================================================
         CALL READ_I_C(ICLTAB,ILCLUSTER(I))
         IL = 0
         RL = 0
-        CLUSTER(I)%ID      =   ICLTAB(IL+1) 
-        CLUSTER(I)%TYPE    =   ICLTAB(IL+2) 
-        CLUSTER(I)%IFAIL   =   ICLTAB(IL+3) 
-        CLUSTER(I)%IGR     =   ICLTAB(IL+4) 
-        CLUSTER(I)%NEL     =   ICLTAB(IL+5) 
-        CLUSTER(I)%NNOD    =   ICLTAB(IL+6) 
-        CLUSTER(I)%SKEW    =   ICLTAB(IL+7) 
-        CLUSTER(I)%OFF     =   ICLTAB(IL+8) 
+        CLUSTER(I)%ID      =   ICLTAB(IL+1)
+        CLUSTER(I)%TYPE    =   ICLTAB(IL+2)
+        CLUSTER(I)%IFAIL   =   ICLTAB(IL+3)
+        CLUSTER(I)%IGR     =   ICLTAB(IL+4)
+        CLUSTER(I)%NEL     =   ICLTAB(IL+5)
+        CLUSTER(I)%NNOD    =   ICLTAB(IL+6)
+        CLUSTER(I)%SKEW    =   ICLTAB(IL+7)
+        CLUSTER(I)%OFF     =   ICLTAB(IL+8)
         IL = IL + 8
-        CLUSTER(I)%FAIL    =   RCLTAB(RL+1) 
+        CLUSTER(I)%FAIL    =   RCLTAB(RL+1)
         RL = RL + 1
         NEL   = CLUSTER(I)%NEL
         NNOD  = CLUSTER(I)%NNOD
-        IFAIL = CLUSTER(I)%IFAIL 
+        IFAIL = CLUSTER(I)%IFAIL
         ALLOCATE (CLUSTER(I)%NG(NEL))
         ALLOCATE (CLUSTER(I)%ELEM(NEL))
         ALLOCATE (CLUSTER(I)%NOD1(NNOD))
@@ -104,40 +104,40 @@ C=======================================================================
           CLUSTER(I)%NG(J)   =  ICLTAB(IL + J)      !element  group number
           CLUSTER(I)%ELEM(J) =  ICLTAB(IL + J+NEL)  !element index in the group
         ENDDO  ! J = 1,NEL
-        IL = IL + NEL*2      
+        IL = IL + NEL*2
 
         DO J = 1, NNOD
-           CLUSTER(I)%NOD1(J) = ICLTAB(IL + J)      
-           CLUSTER(I)%NOD2(J) = ICLTAB(IL + J+NNOD) 
+           CLUSTER(I)%NOD1(J) = ICLTAB(IL + J)
+           CLUSTER(I)%NOD2(J) = ICLTAB(IL + J+NNOD)
         ENDDO
 
-        IL = IL + NNOD*2      
+        IL = IL + NNOD*2
         IF (CLUSTER(I)%IFAIL > 0) THEN
-          ALLOCATE (CLUSTER(I)%FMAX(2))            
-          ALLOCATE (CLUSTER(I)%MMAX(2))     
-          CLUSTER(I)%FMAX(1) = RCLTAB(RL + 1)  
-          CLUSTER(I)%FMAX(2) = RCLTAB(RL + 2)  
-          CLUSTER(I)%MMAX(1) = RCLTAB(RL + 3)  
-          CLUSTER(I)%MMAX(2) = RCLTAB(RL + 4)  
+          ALLOCATE (CLUSTER(I)%FMAX(2))
+          ALLOCATE (CLUSTER(I)%MMAX(2))
+          CLUSTER(I)%FMAX(1) = RCLTAB(RL + 1)
+          CLUSTER(I)%FMAX(2) = RCLTAB(RL + 2)
+          CLUSTER(I)%MMAX(1) = RCLTAB(RL + 3)
+          CLUSTER(I)%MMAX(2) = RCLTAB(RL + 4)
           RL = RL + 4
-        ELSE 
-          ALLOCATE (CLUSTER(I)%FMAX(2)) 
-          ALLOCATE (CLUSTER(I)%MMAX(2)) 
+        ELSE
+          ALLOCATE (CLUSTER(I)%FMAX(2))
+          ALLOCATE (CLUSTER(I)%MMAX(2))
         ENDIF
         IF (CLUSTER(I)%IFAIL == 3) THEN
-          ALLOCATE (CLUSTER(I)%AX(4)) 
+          ALLOCATE (CLUSTER(I)%AX(4))
           ALLOCATE (CLUSTER(I)%NX(4))
-          CLUSTER(I)%AX(1) =  RCLTAB(RL + 1) 
-          CLUSTER(I)%AX(2) =  RCLTAB(RL + 2) 
-          CLUSTER(I)%AX(3) =  RCLTAB(RL + 3) 
-          CLUSTER(I)%AX(4) =  RCLTAB(RL + 4) 
-          CLUSTER(I)%NX(1) =  RCLTAB(RL + 5) 
-          CLUSTER(I)%NX(2) =  RCLTAB(RL + 6) 
-          CLUSTER(I)%NX(3) =  RCLTAB(RL + 7) 
-          CLUSTER(I)%NX(4) =  RCLTAB(RL + 8) 
-        ELSE                                        
-          ALLOCATE (CLUSTER(I)%AX(0))                                    
-          ALLOCATE (CLUSTER(I)%NX(0))             
+          CLUSTER(I)%AX(1) =  RCLTAB(RL + 1)
+          CLUSTER(I)%AX(2) =  RCLTAB(RL + 2)
+          CLUSTER(I)%AX(3) =  RCLTAB(RL + 3)
+          CLUSTER(I)%AX(4) =  RCLTAB(RL + 4)
+          CLUSTER(I)%NX(1) =  RCLTAB(RL + 5)
+          CLUSTER(I)%NX(2) =  RCLTAB(RL + 6)
+          CLUSTER(I)%NX(3) =  RCLTAB(RL + 7)
+          CLUSTER(I)%NX(4) =  RCLTAB(RL + 8)
+        ELSE
+          ALLOCATE (CLUSTER(I)%AX(0))
+          ALLOCATE (CLUSTER(I)%NX(0))
         ENDIF
       ENDDO  !  I = 1, NCLUSTER_L
 

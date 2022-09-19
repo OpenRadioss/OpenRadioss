@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        MASS_FLUID_QD                 source/fluid/mass-fluid_qd.F  
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE INTANL_QD(X1,  Y1,  Z1,  X2,  Y2,  Z2,  X3,  Y3,  Z3, 
+      SUBROUTINE INTANL_QD(X1,  Y1,  Z1,  X2,  Y2,  Z2,  X3,  Y3,  Z3,
      .                     X4,  Y4,  Z4,  XP,  YP,  ZP, NRX, NRY, NRZ,
      .                     AREA,RVLH,RVLG,JEL, IEL)
 C-----------------------------------------------
@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
       my_real
-     .        VX1, VY1, VZ1, VX2, VY2, VZ2, S1, S12, S2, NR1, NR2, 
+     .        VX1, VY1, VZ1, VX2, VY2, VZ2, S1, S12, S2, NR1, NR2,
      .        X0, Y0, Z0, KSI(5), ETA(5), DKSI(4), DETA(4), R(5),
      .        XLS, YLS, ZLS, S(4), V, FLN, ARG,
      .        D2, L12, L22, L32, L42, LM2
@@ -66,9 +66,9 @@ C SIMPLIFICATION SI SOURCE LOIN DU POINT P
       L42=(X1-X4)**2+(Y1-Y4)**2+(Z1-Z4)**2
       LM2=MAX(L12,L22,L32,L42)
 
-      IF(D2>TWENTY5*LM2) THEN  
+      IF(D2>TWENTY5*LM2) THEN
         RVLG=AREA/SQRT(D2)
-        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	  
+        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	
       ELSE
 C COORDONNEES LOCALES
         VX1=X2-X1
@@ -127,7 +127,7 @@ C
         S(3)=SQRT(L32)
         S(4)=SQRT(L42)
         R(5)=R(1)
-	  
+	
         DO I=1,4
           CS(I)=DKSI(I)/S(I)
           SN(I)=DETA(I)/S(I)
@@ -159,7 +159,7 @@ C INTEGRALE SIMPLE COUCHE
         ENDDO
         RVLG=-RVLG+ZLS*RVLH
 
-      ENDIF	 
+      ENDIF	
 C
       RETURN
       END

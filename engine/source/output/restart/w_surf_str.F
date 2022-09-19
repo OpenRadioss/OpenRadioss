@@ -66,7 +66,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (ISURFI(LENISURF), STAT=ERR)
-      ISURFI(1:LENISURF) = 0  
+      ISURFI(1:LENISURF) = 0
       L_SURF = 0
 !
       DO ISU=1,NSURF

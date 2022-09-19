@@ -55,26 +55,26 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NG,JFT,JLT,NPLAT,IPLAT(*),NPT
 C      PARAMETER (NPG = 4)
-      MY_REAL 
+      MY_REAL
      .   VXYZ(MVSIZ,12,NPT),VKSI(4,4),VETA(4,4),
      .   BM(MVSIZ,36),BC(MVSIZ,40)
-      MY_REAL 
+      MY_REAL
      .   VQ(MVSIZ,3,3,4),DT1C(*),
-     .   EXX(MVSIZ,NPT), EYY(MVSIZ,NPT) , EYZ(MVSIZ,NPT), 
+     .   EXX(MVSIZ,NPT), EYY(MVSIZ,NPT) , EYZ(MVSIZ,NPT),
      .   EZX(MVSIZ,NPT)
-      MY_REAL 
+      MY_REAL
      .   TC(MVSIZ,2,2)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,IUN,NG1,K,NPLAT0
-      MY_REAL 
+      MY_REAL
      .   THK,DETJ,DET,
      .   TFN(3,2),BCX,BCY,
      .   V1(2),V2(2),RV1,RV2,
      .   C1,C2,VT1,VT2,BC1,BC2,VB1,
      .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(2,2)
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2
 c       PARAMETER (PG=.577350269189626)
 c       PARAMETER (PG1=-.577350269189626)
@@ -87,34 +87,34 @@ C
         NPLAT0 = NPLAT
        DO J= 1, NPT
 #include "vectorize.inc"
-        DO I=JFT,NPLAT0 
+        DO I=JFT,NPLAT0
           EP=IPLAT(I)
 C
-          EXX(EP,J) = 
+          EXX(EP,J) =
      .        BM(EP,1)*VXYZ(EP,1,J) + BM(EP,2)*VXYZ(EP,4 , J)
      .                              + BM(EP,3)*VXYZ(EP,7 , J)
-          EYY(EP,J)=  
+          EYY(EP,J)=
      .        BM(EP,5)*VXYZ(EP,2,J) + BM(EP,6)*VXYZ(EP,5 , J)
      .                              + BM(EP,7)*VXYZ(EP,8 , J)
 C
-!!        EYZ(EP,J)= 
-          EZX(EP,J)= 
+!!        EYZ(EP,J)=
+          EZX(EP,J)=
      .        BC(EP,1)*VXYZ(EP,3,J) + BC(EP,7 )*VXYZ(EP,6 , J)
      .                              + BC(EP,13)*VXYZ(EP,9 , J)
-!!        EZX(EP,J)= 
-          EYZ(EP,J)= 
+!!        EZX(EP,J)=
+          EYZ(EP,J)=
      .        BC(EP,2)*VXYZ(EP,3,J) + BC(EP,8 )*VXYZ(EP,6 , J)
      .                              + BC(EP,14)*VXYZ(EP,9 , J)
           EXX(EP,J) = EXX(EP,J)*DT1C(EP)
           EYY(EP,J) = EYY(EP,J)*DT1C(EP)
           EYZ(EP,J) = EYZ(EP,J)*DT1C(EP)
           EZX(EP,J) = EZX(EP,J)*DT1C(EP)
-       ENDDO 
+       ENDDO
 #include "vectorize.inc"
-       DO 150 I=NPLAT0+1,JLT 
+       DO 150 I=NPLAT0+1,JLT
         EP=IPLAT(I)
 C----------VT1=<T1>*VXYZ AU CHAQUE NOEUD---------
-         VT1=  
+         VT1=
      .    VQ(EP,1,1,NG)*VXYZ(EP,1, J) + VQ(EP,2,1,NG)*VXYZ(EP,2, J)
      .                                + VQ(EP,3,1,NG)*VXYZ(EP,3, J)
 C----------VT2=<T2>*VXYZ AU CHAQUE NOEUD---------
@@ -222,31 +222,31 @@ C      [BC](2,5*NPG),VDEF(4,5)
 C--------------------------
 C
            BCX=  BC(EP,1)*VXYZ(EP,1,J) + BC(EP,3)*VXYZ(EP,2,J)
-     1                                 + BC(EP,5)*VXYZ(EP,3,J) 
+     1                                 + BC(EP,5)*VXYZ(EP,3,J)
            BCY=  BC(EP,2)*VXYZ(EP,1,J) + BC(EP,4)*VXYZ(EP,2,J)
      1                                 + BC(EP,6)*VXYZ(EP,3,J)
 C-------  ---J=2 II=(J-1)*3 =3 JJ=(J-1)*2 =2 KK=10*(J-1) =10
            BCX=BCX
      1          + BC(EP,11)*VXYZ(EP,4,J) + BC(EP,13)*VXYZ(EP,5,J)
-     2          + BC(EP,15)*VXYZ(EP,6,J)      
+     2          + BC(EP,15)*VXYZ(EP,6,J)
            BCY=BCY
      1          + BC(EP,12)*VXYZ(EP,4,J) + BC(EP,14)*VXYZ(EP,5,J)
-     2          + BC(EP,16)*VXYZ(EP,6,J)      
+     2          + BC(EP,16)*VXYZ(EP,6,J)
 C-------  ---J=3--  II=(J-1)*3=6 JJ=(J-1)*2=4  KK=10*(J-1)=20
            BCX=BCX
      1          + BC(EP,21)*VXYZ(EP,7,J) + BC(EP,23)*VXYZ(EP,8,J)
-     2          + BC(EP,25)*VXYZ(EP,9,J)     
+     2          + BC(EP,25)*VXYZ(EP,9,J)
            BCY=BCY
      1          +BC(EP,22)*VXYZ(EP,7,J)  + BC(EP,24)*VXYZ(EP,8,J)
-     2          +BC(EP,26)*VXYZ(EP,9,J)      
+     2          +BC(EP,26)*VXYZ(EP,9,J)
 C-------  ---J=4-- II=(J-1)*3 =9 JJ=(J-1)*2 =6 KK=10*(J-1)=30
            BCX=BCX
      1          +BC(EP,31)*VXYZ(EP,10,J) + BC(EP,33)*VXYZ(EP,11,J)
-     2          +BC(EP,35)*VXYZ(EP,12,J)      
+     2          +BC(EP,35)*VXYZ(EP,12,J)
            BCY=BCY
      1          +BC(EP,32)*VXYZ(EP,10,J) + BC(EP,34)*VXYZ(EP,11,J)
      2          +BC(EP,36)*VXYZ(EP,12,J)
-      
+
           EZX(EP,J)= TC(EP,1,1)*BCX + TC(EP,2,1)*BCY
           EYZ(EP,J)= TC(EP,1,2)*BCX + TC(EP,2,2)*BCY
 C         
@@ -283,7 +283,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NPLAT,IPLAT(*),NPT
-       my_real 
+       my_real
      .     X13(*)   ,X24(*)    ,Y13(*)     ,Y24(*)    ,
      .     EXY(MVSIZ,NPT) ,VXYZ(MVSIZ,12,NPT),DT1C(*)
 C-----------------------------------------------
@@ -291,7 +291,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J,EP,NPLAT0
 C
-!!       NPLAT0= JLT 
+!!       NPLAT0= JLT
        NPLAT0= NPLAT
        DO J=1,NPT
         DO EP=JFT,NPLAT0
@@ -300,7 +300,7 @@ C
      .             -X24(I)*VXYZ(I,1,J) + X13(I)*VXYZ(I,4,J)
           EXY(I,J) = EXY(I,J)*DT1C(I)
         ENDDO
-        DO EP=NPLAT0+1,JLT 
+        DO EP=NPLAT0+1,JLT
          I=IPLAT(EP)
           EXY(I,J) =  Y24(I)*( VXYZ(I,2,J)  - VXYZ(I,8  ,J))
      1              + Y13(I)*(-VXYZ(I,5,J)  + VXYZ(I,11 ,J))

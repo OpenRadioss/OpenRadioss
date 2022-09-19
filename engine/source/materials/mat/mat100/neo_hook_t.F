@@ -53,15 +53,15 @@ C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER,  INTENT(IN) ::       NEL,FLAG_MUL,NVARF
-      my_real,  INTENT(IN) ::  COEFR, BETAF,COEFM        
+      my_real,  INTENT(IN) ::  COEFR, BETAF,COEFM
 
-      my_real, DIMENSION(NEL),  INTENT(IN) ::  MU,D     
+      my_real, DIMENSION(NEL),  INTENT(IN) ::  MU,D
       my_real, DIMENSION(NEL, 3,3), INTENT(IN) :: MATB(NEL,3,3)
 C      my_real, DIMENSION(NEL), INTENT(IN) :: MU
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real, DIMENSION(NEL), INTENT(OUT) ::  BI1,JDET 
+      my_real, DIMENSION(NEL), INTENT(OUT) ::  BI1,JDET
       my_real, DIMENSION(NEL, 3,3), INTENT(OUT)   :: SIG
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
@@ -72,23 +72,23 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I
 
-      my_real     
+      my_real
      .   LPCHAIN(NEL), TRACE(NEL),TRACEB(NEL),J2THIRD(NEL),
      .   SB1(NEL), SB2(NEL),SB3(NEL),TBNORM(NEL),DGAMMA(NEL),I1(NEL),
-     .   AA,BB,CC,TRB2,TRB22,INVJ(NEL), 
+     .   AA,BB,CC,TRB2,TRB22,INVJ(NEL),
      .   JTHIRD(NEL),J4THIRD(NEL),ETA(NEL),WW(NEL) ,
-     .   DPHIDI1(NEL)  , DPHIDJ(NEL) 
+     .   DPHIDI1(NEL)  , DPHIDJ(NEL)
 C----------------------------------------------------------------
       ETA(1:NEL) = ONE !MULLINS DAMAGE FACTOR
- 
+
       DO I = 1,NEL
          !J = RHO0/RHO = RELATIVE VOLUME = DET F (F = GRADIENT OF DEFORMATION)
          JDET(I)=MATB(I,1,1)*MATB(I,2,2)*MATB(I,3,3) -MATB(I,1,1)*MATB(I,2,3)*MATB(I,3,2) -
      .       MATB(I,3,3)*MATB(I,1,2)*MATB(I,2,1) +MATB(I,1,2)*MATB(I,2,3)*MATB(I,3,1) +
      .       MATB(I,2,1)*MATB(I,3,2)*MATB(I,1,3) -MATB(I,2,2)*MATB(I,3,1)*MATB(I,1,3)
-         JDET(I)= SQRT(MAX(EM20, JDET(I)))    
+         JDET(I)= SQRT(MAX(EM20, JDET(I)))
 
-         !FIRST INVARIANT 
+         !FIRST INVARIANT
          I1(I) = MATB(I,1,1)+MATB(I,2,2)+MATB(I,3,3)
 
          IF(JDET(I)>ZERO) THEN
@@ -100,7 +100,7 @@ C----------------------------------------------------------------
       DO I = 1,NEL
         !INVARIANT BAR
         !first invariant deviator BI1:
-         BI1(I) = I1(I) * J2THIRD(I) 
+         BI1(I) = I1(I) * J2THIRD(I)
       ENDDO
 
 
@@ -109,8 +109,8 @@ C----------------------------------------------------------------
       !====================================
       IF(FLAG_MUL == 1)THEN
        DO I = 1,NEL
-         WW(I) =  MU(I) *(BI1(I)-THREE) /TWO   
- 
+         WW(I) =  MU(I) *(BI1(I)-THREE) /TWO
+
        ENDDO
        CALL MULLINS_OR(
      1                NEL ,NVARF,  COEFR,BETAF ,
@@ -121,26 +121,26 @@ C----------------------------------------------------------------
       DO I = 1,NEL
         ETA(I) = MAX(MIN(ETA(I),ONE),EM20)
         DPHIDI1(I) = ETA(I)*MU(I)/TWO
-        DPHIDJ(I)  = D(I)* (JDET(I)-ONE) 
+        DPHIDJ(I)  = D(I)* (JDET(I)-ONE)
         INVJ(I)=ONE/MAX(EM20,JDET(I))
       ENDDO
 
-      DO I=1,NEL   
+      DO I=1,NEL
          !CAUCHY STRESS
          AA =  ETA(I)*MU(I)/MAX(EM20,JDET(I))
 
-         SIG(I,1,1) =  AA*(MATB(I,1,1)-THIRD*I1(I))         
-     .       +   DPHIDJ(I)        
-         SIG(I,2,2) =  AA*(MATB(I,2,2)-THIRD*I1(I))               
-     .       +   DPHIDJ(I)        
-         SIG(I,3,3) =  AA*(MATB(I,3,3)-THIRD*I1(I))            
-     .       +   DPHIDJ(I)        
+         SIG(I,1,1) =  AA*(MATB(I,1,1)-THIRD*I1(I))
+     .       +   DPHIDJ(I)
+         SIG(I,2,2) =  AA*(MATB(I,2,2)-THIRD*I1(I))
+     .       +   DPHIDJ(I)
+         SIG(I,3,3) =  AA*(MATB(I,3,3)-THIRD*I1(I))
+     .       +   DPHIDJ(I)
          SIG(I,1,2) =  AA*MATB(I,1,2)
          SIG(I,2,3) =  AA*MATB(I,2,3)
          SIG(I,3,1) =  AA*MATB(I,3,1)
-         SIG(I,2,1)=SIG(I,1,2)   
-         SIG(I,3,2)=SIG(I,2,3)   
-         SIG(I,1,3)=SIG(I,3,1)   
+         SIG(I,2,1)=SIG(I,1,2)
+         SIG(I,3,2)=SIG(I,2,3)
+         SIG(I,1,3)=SIG(I,3,1)
       ENDDO
 C   
       RETURN

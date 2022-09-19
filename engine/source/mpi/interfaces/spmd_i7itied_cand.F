@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,17 +93,17 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NINTER) :: LLL
         INTEGER, DIMENSION(:), ALLOCATABLE :: BBUFS, BBUFR
         INTEGER:: LEN_CANDF
-     
+
         DATA MSGOFF/9000/
 
         SAVE IADS,IADR,BBUFS,BBUFR,REQ_S,
-     *     REQ_R,ILEN,RLEN,LEN,LENSD,LENRV 
-!       ----------------------------------------------     
-!       FI proc send to SI proc the ITIED+CAND_F/=0 
+     *     REQ_R,ILEN,RLEN,LEN,LENSD,LENRV
+!       ----------------------------------------------
+!       FI proc send to SI proc the ITIED+CAND_F/=0
 !       nodes
 !       with ITIED==2, a node is linked to an interface unless
 !       its CAND_F force is 0. CAND_F is a local to a processor
-!       --> need to exchange CAND_F to the local processor if 
+!       --> need to exchange CAND_F to the local processor if
 !       a node is remote on a processor
 !
 !
@@ -119,11 +119,11 @@ C-----------------------------------------------
 !
 !       proc :                           1
 !              <------------------------------------------- ...
-!              |           |                          |      
+!              |           |                          |
 !       inter :       1    |             3            |      ...
 !              1     NSNFI(1)%P(1)       NSNFI(1)%P(1)+NSNFI(1)%P(3)
-!              
-!                          
+!
+!
 !       lenght for the nth proc = SUM( NSNFI%P(n) ) for all NINTER interfaces
 !       total lenght the nth proc = SUM( NSNFI%P( 1-->NSPMD ) ) for all NINTER interfaces
 !
@@ -155,7 +155,7 @@ C-----------------------------------------------
 !       sent part
         IF(FLAG==1) THEN
         !       -----------------------------
-        !       get the number of sent/received nodes 
+        !       get the number of sent/received nodes
                 LOC_PROC = ISPMD+1
                 IADS(1:NSPMD+1) = 0
                 IADR(1:NSPMD+1) = 0
@@ -195,7 +195,7 @@ C-----------------------------------------------
 
                         ENDIF
                 ENDDO
-                
+
         !       fill the sent buffer
                 L=1
                 IDEB(1:NINTER) = 0
@@ -219,12 +219,12 @@ C-----------------------------------------------
                                                 LL = 0
                                                 DO NN=1,INTBUF_TAB(NIN)%I_STOK(1)
                                                         NII = INTBUF_TAB(NIN)%CAND_N(NN)
-                                                !       check if the remote node is on P processor 
+                                                !       check if the remote node is on P processor
                                                 !       --> SUM( NSNFI(NIN)%P(1-->P-1)) < NII-NSN < SUM( NSNFI(NIN)%P(1-->P))
                                                         IF( NII>NSN
      .                                               .AND. ((NII-NSN)>NUMERO)
-     .                                               .AND. ((NII-NSN)<=NUMERO+NSNFI(NIN)%P(P)) ) THEN        
-                                                        ! remote node        
+     .                                               .AND. ((NII-NSN)<=NUMERO+NSNFI(NIN)%P(P)) ) THEN
+                                                        ! remote node
                                                                 IF(INTBUF_TAB(NIN)%CAND_F(LEN_CANDF*(NN-1)+1)/=ZERO) THEN
                                                                         BBUFS(L-1+NII-NSN-NUMERO)= 1
                                                                         LL = LL + 1
@@ -280,7 +280,7 @@ C-----------------------------------------------
                                                 NUMERO=NUMERO+NSNSI(NIN)%P(P2)
                                         ENDDO
                                         IF(NTY==10 .OR. (NTY==7.AND.ITIED/=0)) THEN
-                                                NB = NSNSI(NIN)%P(P)    
+                                                NB = NSNSI(NIN)%P(P)
                                                 IF (NB > 0)THEN
                                                         DO K=1,NB
                                                                 LL = BBUFR(IADR(P)+L)
@@ -307,7 +307,7 @@ C-----------------------------------------------
                                 CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
                         ENDIF
                 ENDDO
-                
+
                 IF (ALLOCATED(BBUFS)) DEALLOCATE(BBUFS)
                 IF (ALLOCATED(BBUFR)) DEALLOCATE(BBUFR)
 
@@ -316,9 +316,9 @@ C-----------------------------------------------
         ENDIF
 
 !       ----------------------------------------------
-        
+
 
 #endif
         RETURN
 
-        END SUBROUTINE SPMD_I7ITIED_CAND  
+        END SUBROUTINE SPMD_I7ITIED_CAND

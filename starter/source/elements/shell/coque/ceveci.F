@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y  A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real, DIMENSION(MVSIZ), INTENT(IN)  :: 
+      my_real, DIMENSION(MVSIZ), INTENT(IN)  ::
      .                           X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
       my_real, DIMENSION(MVSIZ), INTENT(OUT) :: AREA,
      .                   E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z
@@ -80,7 +80,7 @@ C
         E3Z(I)=X31(I)*Y42(I)-Y31(I)*X42(I)
         SUM(I)=SQRT(E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I))
         AREA(I)=HALF*SUM(I)
-      ENDDO       
+      ENDDO
 C---
       IF (ISHFRAM == 1) THEN
 C---    repere non orthogonalise vers 3.0 
@@ -180,25 +180,25 @@ C
           E3Z(I) = E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
         ENDDO
 C---
-        DO I=JFT,JLT                         
-          SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-          E3X(I) = E3X(I)*SUMA                              
-          E3Y(I) = E3Y(I)*SUMA                              
-          E3Z(I) = E3Z(I)*SUMA                              
+        DO I=JFT,JLT
+          SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
+          SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+          E3X(I) = E3X(I)*SUMA
+          E3Y(I) = E3Y(I)*SUMA
+          E3Z(I) = E3Z(I)*SUMA
 C
-          S1     = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I) 
-          S2     = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I) 
-          SUMA   = SQRT(S1/S2)                
+          S1     = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+          S2     = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
+          SUMA   = SQRT(S1/S2)
           E1X(I) = E1X(I) + (E2Y(I)*E3Z(I)-E2Z(I)*E3Y(I))*SUMA
           E1Y(I) = E1Y(I) + (E2Z(I)*E3X(I)-E2X(I)*E3Z(I))*SUMA
           E1Z(I) = E1Z(I) + (E2X(I)*E3Y(I)-E2Y(I)*E3X(I))*SUMA
 C
-          SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-          E1X(I) = E1X(I)*SUMA                              
-          E1Y(I) = E1Y(I)*SUMA                              
-          E1Z(I) = E1Z(I)*SUMA                              
+          SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+          SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+          E1X(I) = E1X(I)*SUMA
+          E1Y(I) = E1Y(I)*SUMA
+          E1Z(I) = E1Z(I)*SUMA
 C
           E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
           E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)

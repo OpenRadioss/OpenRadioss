@@ -73,9 +73,9 @@ C-----------------------------------------------
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   PX1H1(*), PX1H2(*), PX1H3(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),  
+     .   PX1H1(*), PX1H2(*), PX1H3(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),
      .   PX4H1(*), PX4H2(*), PX4H3(*),EANI(*),PARTSAV(NPSAV,*),
      .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*) ,OFFG(*),VOL0(*)
 C-----------------------------------------------
@@ -95,17 +95,17 @@ C-----------------------------------------------
      .   G53(MVSIZ),G63(MVSIZ),G73(MVSIZ),G83(MVSIZ),
      .   LEN(MVSIZ),RHO0(MVSIZ),
      .   EHOURT,AA
-!       SP issue, need double precision for these variables   
+!       SP issue, need double precision for these variables
         REAL(kind=8) ::
      .   HGX1(MVSIZ), HGX2(MVSIZ), HGX3(MVSIZ), HGX4(MVSIZ),
      .   HGY1(MVSIZ), HGY2(MVSIZ), HGY3(MVSIZ), HGY4(MVSIZ),
      .   HGZ1(MVSIZ), HGZ2(MVSIZ), HGZ3(MVSIZ), HGZ4(MVSIZ)
         REAL(kind=8) ::
-     .   VX3478, VX2358, VX1467, VX1256, 
+     .   VX3478, VX2358, VX1467, VX1256,
      .   VY3478, VY2358, VY1467, VY1256,
      .   VZ3478, VZ2358, VZ1467, VZ1256
 C-----------------------------------------------
-      
+
       IF(IPARG1(64)==1 .OR. (MTN==17 .AND. UPWM<2) .OR. INT22>0 .OR. IFVM_SKIP==1)THEN
 C
        DO I=LFT,LLT
@@ -188,12 +188,12 @@ C MATERIAUX NON FLUIDES
            RHO0(I) = PM(1,MX)
          END DO
          DO I=LFT,LLT
-           FCL(I)=CAQ(I)*RHO0(I)*VOL(I)**TWO_THIRD     
+           FCL(I)=CAQ(I)*RHO0(I)*VOL(I)**TWO_THIRD
            FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
            FCL(I)=FCL(I)*CXX(I)
          ENDDO
        ELSEIF(ISMSTR == 2) THEN
-         MX = MAT (LFT) 
+         MX = MAT (LFT)
          DO I=LFT,LLT
           IF(OFFG(I) > ONE) THEN
            RHO0(I) = PM(1,MX)
@@ -205,11 +205,11 @@ C MATERIAUX NON FLUIDES
            FCL(I)=CAQ(I)*AA*VOL(I)**TWO_THIRD
            FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
            FCL(I)=FCL(I)*CXX(I)
-          ELSE 
+          ELSE
            FCL(I)=CAQ(I)*RHO(I)*VOL(I)**TWO_THIRD
            FCQ(I)=FCL(I)*CAQ(I)*HUNDRED
            FCL(I)=FCL(I)*CXX(I)
-          ENDIF 
+          ENDIF
          ENDDO
        ELSE
          DO I=LFT,LLT
@@ -364,7 +364,7 @@ C
         HGZ3(I)=
      &   G13(I)*VZ1(I)+G23(I)*VZ2(I)+G33(I)*VZ3(I)+G43(I)*VZ4(I)
      &  +G53(I)*VZ5(I)+G63(I)*VZ6(I)+G73(I)*VZ7(I)+G83(I)*VZ8(I)
-       ENDDO       
+       ENDDO
 C
        DO I=LFT,LLT
 C 1 -1 1 -1 -1 1 -1 1
@@ -422,19 +422,19 @@ C
 
       DO I=LFT,LLT
         EHOU(I)= DT1*(
-     &   HZ1(I)*HGZ1(I) + HZ2(I)*HGZ2(I) + 
-     &   HZ3(I)*HGZ3(I) + HZ4(I)*HGZ4(I) + 
-     &   HX1(I)*HGX1(I) + HX2(I)*HGX2(I) + 
-     &   HX3(I)*HGX3(I) + HX4(I)*HGX4(I) + 
-     &   HY1(I)*HGY1(I) + HY2(I)*HGY2(I) + 
+     &   HZ1(I)*HGZ1(I) + HZ2(I)*HGZ2(I) +
+     &   HZ3(I)*HGZ3(I) + HZ4(I)*HGZ4(I) +
+     &   HX1(I)*HGX1(I) + HX2(I)*HGX2(I) +
+     &   HX3(I)*HGX3(I) + HX4(I)*HGX4(I) +
+     &   HY1(I)*HGY1(I) + HY2(I)*HGY2(I) +
      &   HY3(I)*HGY3(I) + HY4(I)*HGY4(I) )
       END DO
 C
       EHOURT = ZERO
 #include "simd.inc"
-      DO I=LFT,LLT     
+      DO I=LFT,LLT
         EHOURT= EHOURT+EHOU(I)
-      ENDDO   
+      ENDDO
 C FP 12/97
 C DANS LE CAS ALE ET EULERIEN, LE TRANSPORT DE l'ENERGIE d'HOURGLAS
 C N'EST PAS CALCULE, L'ENERGIE d'HOURGLASS CUMULE N'A PAS DE SENS
@@ -455,7 +455,7 @@ C
               JST(IC)=J
             ENDIF
           ENDDO
-          JST(IC+1)=LLT+1                 
+          JST(IC+1)=LLT+1
           DO II=1,IC
             MX=IPARTS(JST(II))
             IF (JST(II+1)-JST(II)>15) THEN

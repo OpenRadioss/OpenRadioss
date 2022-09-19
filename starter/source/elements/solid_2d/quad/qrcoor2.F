@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        QINIT2                        source/elements/solid_2d/quad/qinit2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE QRCOOR2(X,IXQ,NGL  ,MXT   , 
+      SUBROUTINE QRCOOR2(X,IXQ,NGL  ,MXT   ,
      .         PID, IX1, IX2, IX3, IX4,
      .         Y1, Y2, Y3, Y4,
      .         Z1, Z2, Z3, Z4,
@@ -115,7 +115,7 @@ C-----------
           SUMA = SQRT(CS/MAX(EM20,CT))
           E1Y(I) = SY(I) + TZ(I)*SUMA
           E1Z(I) = SZ(I) - TY(I)*SUMA
-        END IF 
+        END IF
         SUMA=SQRT(E1Y(I)**2+E1Z(I)**2)
         SUMA=ONE/MAX(SUMA,EM20)
         E1Y(I)=E1Y(I)*SUMA

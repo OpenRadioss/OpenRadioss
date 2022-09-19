@@ -104,7 +104,7 @@ C
               BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)
               L = L + 2
               IF(ITYP == 9) THEN
-               DO IGAS = 1,NGASES 
+               DO IGAS = 1,NGASES
                  BUFS(L+1)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)
                  BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)
                  L = L + 2
@@ -165,7 +165,7 @@ C
                   RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)=BUFR(L+2)
                   L = L + 2
                   IF(ITYP == 9) THEN
-                    DO IGAS = 1,NGASES 
+                    DO IGAS = 1,NGASES
                       RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)=BUFR(L+1)
                       RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)=BUFR(L+2)
                       L = L + 2
@@ -201,7 +201,7 @@ C
               BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+10)
               L = L + 2
               IF(ITYP == 9) THEN
-               DO IGAS = 1,NGASES 
+               DO IGAS = 1,NGASES
                  BUFS(L+1)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+23+(IGAS-1)*4)
                  BUFS(L+2)=RBAGVJET(RADVOIS+NRBJET*(IJ-1)+24+(IGAS-1)*4)
                  L = L + 2

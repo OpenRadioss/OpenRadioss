@@ -70,7 +70,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, J, L, H, I_STOK_RTLM,
      .        N, NSN, NSNR, IVIS2
 C     REAL
@@ -88,7 +88,7 @@ C
 c             if(itab(INTBUF_TAB%nsv(n))==10004284)
 c     .       print *,'nat',nin,ipari(15,nin),ispmd+1,INTBUF_TAB%IRTLM(4*(N-1)+1),INTBUF_TAB%IRTLM(4*(N-1)+4),
 c     .       INTBUF_TAB%PENE_OLD(5*(N-1)+5)
-            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
               IF(INTBUF_TAB%STFNS(N)==ZERO)THEN
 C
 C               Shooting Nodes
@@ -125,7 +125,7 @@ C set new friction forces at 0
                   INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
                   INTBUF_TAB%PENE_OLD(5*(N-1)+2) = INTBUF_TAB%PENE_OLD(5*(N-1)+1)
                   INTBUF_TAB%PENE_OLD(5*(N-1)+1) = ZERO
-                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1) 
+                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1)
                   INTBUF_TAB%STIF_OLD(2*(N-1)+1) = ZERO
 C
 C                 se prepare a quitter le contact
@@ -147,7 +147,7 @@ C               se prepare a quitter le contact
                 INTBUF_TAB%TIME_S(2*(N-1)+1) = EP20
                 INTBUF_TAB%TIME_S(2*(N-1)+2) = EP20
               END IF
-            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
 C reset all for future impact
 c              INTBUF_TAB%IRTLM(4*(N-1)+3)=0
 c              INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
@@ -240,7 +240,7 @@ C
 c             if(itab(INTBUF_TAB%nsv(n))==10004284)
 c     .       print *,'nat',nin,ipari(15,nin),ispmd+1,INTBUF_TAB%IRTLM(4*(N-1)+1),INTBUF_TAB%IRTLM(4*(N-1)+4),
 c     .       INTBUF_TAB%PENE_OLD(5*(N-1)+5)
-            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
               IF(INTBUF_TAB%STFNS(N)==ZERO)THEN
 C
 C               Shooting Nodes
@@ -263,7 +263,7 @@ C
           	  INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) = ZERO
           	  INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
           	  INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
-                  INTBUF_TAB%IF_ADH(N) = 0    
+                  INTBUF_TAB%IF_ADH(N) = 0
 C
                 ELSE
 C
@@ -278,7 +278,7 @@ C set new friction forces at 0
                   INTBUF_TAB%SECND_FR(6*(N-1)+1:6*(N-1)+3)=ZERO
                   INTBUF_TAB%PENE_OLD(5*(N-1)+2) = INTBUF_TAB%PENE_OLD(5*(N-1)+1)
                   INTBUF_TAB%PENE_OLD(5*(N-1)+1) = ZERO
-                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1) 
+                  INTBUF_TAB%STIF_OLD(2*(N-1)+2) = INTBUF_TAB%STIF_OLD(2*(N-1)+1)
                   INTBUF_TAB%STIF_OLD(2*(N-1)+1) = ZERO
 C
 C                 se prepare a quitter le contact
@@ -301,7 +301,7 @@ C               se prepare a quitter le contact
                 INTBUF_TAB%TIME_S(2*(N-1)+1) = EP20
                 INTBUF_TAB%TIME_S(2*(N-1)+2) = EP20
               END IF
-            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN 
+            ELSE ! IF(INTBUF_TAB%IRTLM(4*(N-1)+1) > 0)THEN
 C reset all for future impact
 c              INTBUF_TAB%IRTLM(4*(N-1)+3)=0
 c              INTBUF_TAB%SECND_FR(6*(N-1)+1:6*N) =ZERO
@@ -386,7 +386,7 @@ c              STIF_OLDFI(NIN)%P(1:2,N)=ZERO
             END IF
           END DO
 C
-        ENDIF ! IVIS2 if       
+        ENDIF ! IVIS2 if
 C
         INTBUF_TAB%I_STOK(3) = I_STOK_RTLM
         INTBUF_TAB%I_STOK(2) = I_STOK_RTLM

@@ -41,7 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE GROUPDEF_MOD
       USE DETONATORS_MOD
-      USE SUBMODEL_MOD         
+      USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE DETONATORS_MOD
 C-----------------------------------------------
@@ -84,25 +84,25 @@ C-----------------------------------------------
 ! Allocation for /DFS/WAV_SHA & /DFS/DETCORD
 
       SIZ_ECRAN  = 0
-      SIZ_DETCORD= 0      
+      SIZ_DETCORD= 0
 
-      !---SPECIFIC SIZING (WAV_SHA & DETCORD) 
+      !---SPECIFIC SIZING (WAV_SHA & DETCORD)
       CALL HM_OPTION_START('/DFS')
       DO K=1,DETONATORS%NDET
         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=ID,KEYWORD2= KEY)
         IF(KEY(1:7) == 'WAV_SHA')THEN
-          CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)        
+          CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)
           IGS          = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
           SIZ_ECRAN    = MAX0(SIZ_ECRAN,NN)
         ELSEIF(KEY(1:7) == 'DETCORD')THEN
-          CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)                 
+          CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)
           IGS          = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
           SIZ_DETCORD  = SIZ_DETCORD + NN               !IGS:internal_grnod_id    IGU:user_grnod_id     NN:Number of Nodes
         ENDIF
       ENDDO
-      
-      !---SPECIFIC ALLOCATIONS (WAV_SHA & DETCORD)  
-      !- /dfs/wav_sha    
+
+      !---SPECIFIC ALLOCATIONS (WAV_SHA & DETCORD)
+      !- /dfs/wav_sha
       DETONATORS%SIECRAN = SIZ_ECRAN*3
       DETONATORS%SDECRAN = SIZ_ECRAN
       ALLOCATE (DETONATORS%IECRAN(DETONATORS%SIECRAN)  ,STAT=stat)
@@ -114,7 +114,7 @@ C-----------------------------------------------
       ALLOCATE (DETONATORS%ICORD(DETONATORS%SICORD)  ,STAT=stat)
       ALLOCATE (DETONATORS%DCORD(DETONATORS%SICORD)  ,STAT=stat)
       IF (DETONATORS%SICORD > 0) DETONATORS%ICORD = 0
-      IF (DETONATORS%SICORD > 0) DETONATORS%DCORD = ZERO      
+      IF (DETONATORS%SICORD > 0) DETONATORS%DCORD = ZERO
 C-------------------------------------------
       RETURN
  999  CALL FREERR(3)

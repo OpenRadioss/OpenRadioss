@@ -78,7 +78,7 @@ C=======================================================================
       ALPHA   = UPARAM(10)
       IDEB    = NINT(UPARAM(17))
       SIG_INI = UPARAM(30)
-      FAC_M   = UPARAM(33) 
+      FAC_M   = UPARAM(33)
       FAC_L   = UPARAM(34)
       FAC_T   = UPARAM(35)
 c--------------------------------------------------
@@ -95,18 +95,18 @@ c-----------------------------------
 c
       DSIG_INI = 2.0    ! [MPa/s]
       XDAMP    = 25.0   ! hard coded damping exponent
-      EXP_M    = ONE / (ONE + XDAMP) 
+      EXP_M    = ONE / (ONE + XDAMP)
       FAC_PI0  = ZERO
       FAC_PI2  = HALF
 c--------------------------------------------------------------------
       DO I = 1,NEL
         IF (OFF(I) == ONE .and. UVAR(I,15) == ZERO .and. UVAR(I,16) > ZERO) THEN
           V_A  = ZERO
-          V_C  = ZERO          
+          V_C  = ZERO
 c
 c         Crack openenig stress (stress rotated in crack direction)
           CR_ANG  = UVAR(I,18) * TWO
-          SIG_COS = HALF*(SIGNXX(I)+SIGNYY(I)) 
+          SIG_COS = HALF*(SIGNXX(I)+SIGNYY(I))
      .            + COS(CR_ANG) * HALF*(SIGNXX(I)-SIGNYY(I))
      .            + SIN(CR_ANG) * HALF*SIGNXY(I)
           SIG_COS = SIG_COS * ALPHA + UVAR(I,21)*ALPHAI   ! filter using exp average
@@ -118,7 +118,7 @@ c         take into account high stress rates
           UVAR(I,21) = SIG_COS ! Save Crack Opening Stress (COS)
           IF (DSIG_N > DSIG_INI) THEN
             SIG_COS = SIG_COS * (DSIG_INI/ABS(DSIG_N))**EXP_M
-          END IF          
+          END IF
 c------------------------
 c         Residual stress
 c------------------------
@@ -128,20 +128,20 @@ c------------------------
 c         Test criteria
 c------------------------
           CALL NEWMAN_RAJU(UVAR(I,17),UVAR(I,16),UVAR(I,19),UVAR(I,20),FAC_PI2,YA)
-          CALL NEWMAN_RAJU(UVAR(I,17),UVAR(I,16),UVAR(I,19),UVAR(I,20),FAC_PI0,YC)     
-          K1_A = YA * SIG_COSW * SQRT(PI*UVAR(I,16)*EM6)  
+          CALL NEWMAN_RAJU(UVAR(I,17),UVAR(I,16),UVAR(I,19),UVAR(I,20),FAC_PI0,YC)
+          K1_A = YA * SIG_COSW * SQRT(PI*UVAR(I,16)*EM6)
           K1_C = YC * SIG_COSW * SQRT(PI*UVAR(I,17)*EM6)
 c
 c         Check rupture criterion #1
           IF (K1_A >= KCM) THEN
-            TDEL(I) = TIME            ! tag to start damage                                                          
-            NINDX   = NINDX + 1                                                           
-            NINDXF  = NINDXF+ 1                                                    
-            INDX(NINDX)   = I                                                           
-            INDXF(NINDXF) = I         ! tag to save crack direction                                                          
+            TDEL(I) = TIME            ! tag to start damage
+            NINDX   = NINDX + 1
+            NINDXF  = NINDXF+ 1
+            INDX(NINDX)   = I
+            INDXF(NINDXF) = I         ! tag to save crack direction
             UVAR(I,15)    = ONE        ! set failure flag = 1
           END IF
-c         
+c
           IF (K1_A >= KTM .and. K1_A < KCM) V_A = V0*(K1_A/KCM)**EXP_N
           IF (K1_C >= KTM .and. K1_A < KCM) V_C = V0*(K1_C/KCM)**EXP_N
 c
@@ -154,14 +154,14 @@ c
 c         Check rupture criterion #2
           K1_A = YA * SIG_COS * SQRT(PI*UVAR(I,16)*EM6)
           IF (K1_A >= KCM .and. UVAR(I,15) == ZERO) THEN
-            TDEL(I) = TIME            ! tag to start damage                                                          
-            NINDX   = NINDX + 1                                                           
-            NINDXF  = NINDXF+ 1                                                    
-            INDX(NINDX)   = I                                                           
-            INDXF(NINDXF) = I         ! tag to save crack direction                                                          
+            TDEL(I) = TIME            ! tag to start damage
+            NINDX   = NINDX + 1
+            NINDXF  = NINDXF+ 1
+            INDX(NINDX)   = I
+            INDXF(NINDXF) = I         ! tag to save crack direction
             UVAR(I,15)    = ONE        ! set failure flag = 1
           END IF
-    
+
         END IF
       END DO
 c-----------------------------------------------
@@ -169,11 +169,11 @@ c-----------------------------------------------
         DO J=1,NINDX
           I = INDX(J)
 #include "lockon.inc"
-          WRITE(IOUT, 1000) NGL(I),IPT,TIME                                
-          WRITE(ISTDO,1100) NGL(I),IPT,TIME                               
+          WRITE(IOUT, 1000) NGL(I),IPT,TIME
+          WRITE(ISTDO,1100) NGL(I),IPT,TIME
 #include "lockoff.inc"
-        ENDDO        
-      ENDIF          
+        ENDDO
+      ENDIF
 c-----------------------------------------------
  1000 FORMAT(1X, ' **** FAILURE due to Brokmann criterion : ELEMENT ',I10,
      .       ' INT POINT',I2,' AT TIME ',1PE12.4)

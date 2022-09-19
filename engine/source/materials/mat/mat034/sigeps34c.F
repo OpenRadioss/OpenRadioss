@@ -51,7 +51,7 @@ C----------------------------------------------------------------
       my_real :: TIME,TIMESTEP
       my_real :: UPARAM(NUPARAM)
       my_real ,DIMENSION(NEL) ::
-     .      RHO0  , 
+     .      RHO0  ,
      .      EPSPXX, EPSPYY,EPSPXY, EPSPYZ, EPSPZX,
      .      DEPSXX, DEPSYY, DEPSXY, DEPSYZ, DEPSZX,
      .      EPSXX , EPSYY , EPSXY , EPSYZ , EPSZX,
@@ -65,7 +65,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real :: UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real :: UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -82,18 +82,18 @@ C----------------------------------------------------------------
        INTEGER :: I, IFORM
        my_real :: BULK,BULK3,G_INS,G_INF,GE,GE2,GV,GV2,C1,C2,BETA,
      .   AA, BB, DAV, P, TRACE, H0(6),H(6),ALPHA,DP_DRHO,CC2
-        my_real ,DIMENSION(NEL) :: 
+        my_real ,DIMENSION(NEL) ::
      .   DEPSM,DEPSZZ, SIGNZZ, SIGOZZ, DEPSDXX,DEPSDYY,DEPSDZZ, DP,
      .   DEXX,DEYY,DEZZ,DEXY,DEYZ,DEZX,DDEXX,DDEYY,DDEZZ,DDEXY,DDEYZ,
      .   DDEZX,DEPSDXY,DEPSDYZ,DEPSDZX,EPSPM,
      .   DEPSVXX,DEPSVYY,DEPSVZZ,DEPSVXY,DEPSVYZ,DEPSVZX,EM,EPSM ,EPSZZ,
-     .   EPSPZZ 
+     .   EPSPZZ
 C=======================================================================
-          BULK  = UPARAM(1)     
+          BULK  = UPARAM(1)
           G_INS = UPARAM(2)        ! instant shear modulus
           G_INF = UPARAM(3)        ! long term shear modulus
           BETA  = UPARAM(4)
-c            
+c
             GE  = G_INF              ! elastic part of shear modulus
             GV  = G_INS-G_INF        ! viscous part of shear modulus
             GE2 = GE * TWO
@@ -109,9 +109,9 @@ c
               !
                DEZZ(I) = UVAR(I,7)
                H(3)   = UVAR(I,3)
-               AA = GV2*C1*(DEZZ(I) - H(3)) + THIRD*(GE2 - CC2 - BULK3)*(DEPSXX(I) + DEPSYY(I)) 
+               AA = GV2*C1*(DEZZ(I) - H(3)) + THIRD*(GE2 - CC2 - BULK3)*(DEPSXX(I) + DEPSYY(I))
                BB = TWO_THIRD*GE2 + BULK - TWO_THIRD*CC2
-               DEPSZZ(I) = AA/BB  
+               DEPSZZ(I) = AA/BB
                DDEZZ(I) = TWO_THIRD*DEPSZZ(I) - THIRD*(DEPSXX(I) + DEPSYY(I))
                DEZZ(I)  = UVAR(I,7) + DDEZZ(I)
                EPSZZ(I) = THREE_HALF*DEZZ(I) + HALF*(EPSXX(I)+ EPSYY(I))
@@ -121,11 +121,11 @@ c
                EPSPM(I) = THIRD *(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
                EM(I)    = THIRD *(EPSXX(I) +EPSYY(I) +EPSZZ(I) )
                UVAR(I,7) = DEZZ(I)
-              ! thickness 
+              ! thickness
                THK(I) = THK(I) + DEPSZZ(I)*THKLY(I)*OFF(I)
             END DO
 c
-c           Deviators of strain, strain increment and strain rate       
+c           Deviators of strain, strain increment and strain rate
 c
             DO I=1,NEL
               DEXX(I) = EPSXX(I)-EM(I)
@@ -133,7 +133,7 @@ c
               DEZZ(I) = EPSZZ(I)-EM(I)
               DEXY(I) = EPSXY(I)
               DEYZ(I) = EPSYZ(I)
-              DEZX(I) = EPSZX(I) 
+              DEZX(I) = EPSZX(I)
 c
               DDEXX(I) = DEPSXX(I)-DEPSM(I)
               DDEYY(I) = DEPSYY(I)-DEPSM(I)
@@ -168,7 +168,7 @@ c
               SIGNXY(I) = SIGOXY(I) + GE *DDEXY(I) - GV *DEPSVXY(I)
               SIGNYZ(I) = SIGOYZ(I) + GE *DDEYZ(I) - GV *DEPSVYZ(I)
               SIGNZX(I) = SIGOZX(I) + GE *DDEZX(I) - GV *DEPSVZX(I)
-            END DO        
+            END DO
 c
             DP_DRHO = FOUR_OVER_3*G_INS + BULK
             SOUNDSP(1:NEL) = SQRT(DP_DRHO / RHO0(1:NEL))
@@ -182,8 +182,8 @@ c
               UVAR(I,6) = UVAR(I,6) + DEPSVZX(I) + DDEZX(I)
             END DO
 C=======================================================================
- 
-c-----------        
+
+c-----------
       RETURN
       END
 

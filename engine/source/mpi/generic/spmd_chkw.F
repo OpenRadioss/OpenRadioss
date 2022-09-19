@@ -35,7 +35,7 @@ Chd|        IO_MOD                        share/modules/io_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_CHKW(IWIOUT,IOUT)
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
 	  USE IO_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -68,4 +68,4 @@ C ajout rewind ds ts les cas (necessaire sur sgi au moins)
       READ(UNIT=IOUT,IOSTAT=IOS,FMT='(A)')
 C
       RETURN
-      END SUBROUTINE 
+      END SUBROUTINE

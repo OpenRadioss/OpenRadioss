@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,8 +56,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*), ITABG(*), LENG, IGEO(NPROPGI,*), 
-     .        IXC(NIXC,*), IXTG(NIXTG,*),IPARTC(*), IPARTTG(*), 
+      INTEGER ITAB(*), ITABG(*), LENG, IGEO(NPROPGI,*),
+     .        IXC(NIXC,*), IXTG(NIXTG,*),IPARTC(*), IPARTTG(*),
      .        IPART_DYNAIN(*),NODTAG(*) , DYNAIN_INDXC(*) ,
      .        DYNAIN_INDXTG(*),IPARG(NPARG,*),IPART(LIPART1,*)
 
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER ,  DIMENSION(:,:),ALLOCATABLE :: CLEF
       double precision  THKN ,BETA
       double precision ,  DIMENSION(:),ALLOCATABLE :: THKC , THKTG ,BETAC , BETATG
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C--------------------------------------------------------
 
 C-----------------------
@@ -101,7 +101,7 @@ C-----------------------------------------------
         IF(ITY==3) THEN
           NEL   =IPARG(2,NG)
           NFT	=IPARG(3,NG)
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW   =IPARG(1,NG)
           IPROP =IPARG(62,NG)
           ITHK  =IPARG(28,NG)
@@ -146,7 +146,7 @@ C-----------------------------------------------
            NODTAG(IXC(3,N))=1
            NODTAG(IXC(4,N))=1
            NODTAG(IXC(5,N))=1
-          
+
            IF(IGTYP /= 1) THEN
             BETAC(II) = (HUNDRED80*ACOS(GBUF%BETAORTH(I)))/PI
            ENDIF
@@ -174,7 +174,7 @@ C-----------------------------------------------
         IF(ITY==7) THEN
           NEL	=IPARG(2,NG)
           NFT	=IPARG(3,NG)
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW   =IPARG(1,NG)
           ITHK  =IPARG(28,NG)
           IPROP =IPARG(62,NG)
@@ -247,13 +247,13 @@ C---------Non Orthotropic elements ------------
         THKN = THKC(K)
         IF(IOFF >= 1) THEN
            IF(IGTYP==1) THEN
-              IF(IGTYP/=IGTYP0) THEN  
+              IF(IGTYP/=IGTYP0) THEN
                  WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS'
                  WRITE(IUDYNAIN,'(A)')
      .            '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
                  WRITE(IUDYNAIN,'(A)')
-     .            '$          THIC1           THIC2           THIC3           THIC4' 
-                 IGTYP0 = IGTYP         
+     .            '$          THIC1           THIC2           THIC3           THIC4'
+                 IGTYP0 = IGTYP
               ENDIF
 
               WRITE(IUDYNAIN,'(6I8)')
@@ -265,10 +265,10 @@ C---------Non Orthotropic elements ------------
              EXIT
            ENDIF
         ENDIF
-        
+
       END DO
 
-      N4SHELL = N 
+      N4SHELL = N
 
       DO N=1,DYNAIN_NUMELTG
          K=DYNAIN_INDXTG(N)
@@ -287,7 +287,7 @@ C---------Non Orthotropic elements ------------
             ENDIF
          ENDIF
       END DO
-      N3SHELL = N 
+      N3SHELL = N
 
 C--------- Orthotropic elements ------------
 
@@ -300,13 +300,13 @@ C--------- Orthotropic elements ------------
         THKN = THKC(K)
         BETA = BETAC(K)
         IF(IOFF >= 1) THEN
-           IF(IGTYP/=IGTYP0) THEN    
-                 IGTYP0 = IGTYP          
+           IF(IGTYP/=IGTYP0) THEN
+                 IGTYP0 = IGTYP
               WRITE(IUDYNAIN,'(A)')'*ELEMENT_SHELL_THICKNESS_BETA'
               WRITE(IUDYNAIN,'(A)')
      .          '$SHELLID PART_ID    NOD1    NOD2    NOD3    NOD4'
               WRITE(IUDYNAIN,'(A)')
-     .          '$          THIC1           THIC2           THIC3           THIC4            BETA'          
+     .          '$          THIC1           THIC2           THIC3           THIC4            BETA'
             ENDIF
 
              WRITE(IUDYNAIN,'(6I8)')
@@ -314,9 +314,9 @@ C--------- Orthotropic elements ------------
              WRITE(IUDYNAIN,'(1P5G16.9)')
      .          THKN,THKN,THKN,THKN,BETA
         ENDIF
-        
+
       END DO
-     
+
 
       DO N=N3SHELL,DYNAIN_NUMELTG
          K=DYNAIN_INDXTG(N)

@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT34(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     )
 C-----------------------------------------------
@@ -57,10 +57,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,8 +80,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -95,8 +95,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: BULK,YOUNG
       my_real :: G0,GI,BETA
-      my_real :: P0,PHI,GAMA0 
-      my_real :: RHOR,RHO0   
+      my_real :: P0,PHI,GAMA0
+      my_real :: RHOR,RHO0
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -111,7 +111,7 @@ C-----------------------------------------------
 
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'    ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_BULK'     ,BULK     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
 
@@ -125,7 +125,7 @@ C-----------------------------------------------
 
         !GAMA0 = GAMA0 * FAC_L * FAC_L * FAC_L
 
-      
+
       IF (RHOR==ZERO) RHOR=RHO0
 
       NUPARAM=7
@@ -139,20 +139,20 @@ C-----------------------------------------------
       UPARAM(5)=P0
       UPARAM(6)=PHI
       UPARAM(7)=GAMA0
-      
+
       YOUNG = (NINE*BULK*G0)/(THREE*BULK + G0)
 
       PARMAT(1) = TWO*GI
       PARMAT(2) = YOUNG
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = TWO*G0/(BULK + FOUR_OVER_3*G0) 
-      
+      PARMAT(17) = TWO*G0/(BULK + FOUR_OVER_3*G0)
+
       PM(1)  = RHOR
       PM(89) = RHO0
       PM(12) = SQRT(MAX(ZERO, G0)) !done by default in lecmuser.F for law34
       PM(22) = G0
-      PM(27) = SQRT(YOUNG/RHO0)  ! Sound speed      
+      PM(27) = SQRT(YOUNG/RHO0)  ! Sound speed
 c
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,34
       WRITE(IOUT,1000)
@@ -160,10 +160,10 @@ c
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1002) RHO0           
+        WRITE(IOUT,1002) RHO0
         WRITE(IOUT,1100) BULK,G0,GI,BETA,P0,PHI,GAMA0
       ENDIF
-       
+
       RETURN
 
  1000 FORMAT
@@ -177,7 +177,7 @@ c
      &  5X,  'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT
      & (5X,  'BULK MODULUS. . . . . . . . . . . . . .=',1PG20.13/
-     & ,5X,  'SHEAR MODULUS (SHORT TIME). . . . . . .=',1PG20.13/ 
+     & ,5X,  'SHEAR MODULUS (SHORT TIME). . . . . . .=',1PG20.13/
      & ,5X,  'SHEAR MODULUS (LONG TIME) . . . . . . .=',1PG20.13/
      & ,5X,  'DECAY CONSTANT. . . . . . . . . . . . .=',1PG20.13//
      & ,5X,  'INITIAL FOAM PRESSURE . . . . . . . . .=',1PG20.13/

@@ -80,8 +80,8 @@ C-----------------------------------------------
       INTEGER I, M, FLAG
 C     REAL
       my_real
-     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
-     .   VA2(MVSIZ), XMAS(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ),
+     .   VA2(MVSIZ), XMAS(MVSIZ),
      .   EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
      .   XX(MVSIZ) , YY(MVSIZ) , ZZ(MVSIZ),
@@ -131,7 +131,7 @@ C
       DO I=LFT,LLT
         XMAS(I)= FILL(I)*RHO(I)*VNEW(I)
         EI(I)  = FILL(I)*EINT(I)*VOL(I)
-        EK(I)  = XMAS(I)*VA2(I)*HALF     
+        EK(I)  = XMAS(I)*VA2(I)*HALF
         XM(I)  = XMAS(I)*VXA(I)
         YM(I)  = XMAS(I)*VYA(I)
         ZM(I)  = XMAS(I)*VZA(I)
@@ -258,7 +258,7 @@ C
             PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
             PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
             PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-            PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+            PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
           ENDDO
         ELSE
           DO I=LFT,LLT
@@ -313,7 +313,7 @@ C
           ENDIF
       ENDDO
 
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)      
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
 C-----------
       RETURN

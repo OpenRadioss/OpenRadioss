@@ -109,7 +109,7 @@ C-----------------------------------------------
             IF(NINT<0) WRITE (IOUT,1200) I, NOINT
             IERR=IERR+1
           ENDIF !(NELS/=0)
-        END DO !I=1,NRT 
+        END DO !I=1,NRT
         CALL ANCMSG(MSGID=1245,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND,
@@ -121,9 +121,9 @@ C-----------------------------------------------
      .                  ANMODE=ANINFO_BLIND,
      .                  I1=ID,
      .                  C1=TITR,
-     .                  PRMOD=MSG_PRINT) 
+     .                  PRMOD=MSG_PRINT)
       END IF !(ITIED/=3)
-      
+
       !------------------------------------------------------------------------!
       !     LE NOEUD GLOBAL EST REMPLACE PAR LE NOEUD LOCAL DANS IRECT         !
       !------------------------------------------------------------------------!

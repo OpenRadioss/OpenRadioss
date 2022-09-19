@@ -72,21 +72,21 @@ C-----------------------------------------------
          Z=SAV(I,7)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,4) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,7) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,7) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,2)
          Y=SAV(I,5)
          Z=SAV(I,8)
          SAV(I,2) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,5) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,8) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,8) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,3)
          Y=SAV(I,6)
          Z=SAV(I,9)
          SAV(I,3) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,6) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I)
 C
        ENDDO
       ELSEIF(ISMSTR<=4.AND.JLAG>0)THEN
@@ -98,21 +98,21 @@ C-----------------------------------------------
          Z=SAV(I,3)
          SAV(I,1) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,2) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,3) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,4)
          Y=SAV(I,5)
          Z=SAV(I,6)
          SAV(I,4) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,5) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,6) = Z - X*WYY(I) + Y*WXX(I)
 C
          X=SAV(I,7)
          Y=SAV(I,8)
          Z=SAV(I,9)
          SAV(I,7) = X - Y*WZZ(I) + Z*WYY(I)
          SAV(I,8) = Y - Z*WXX(I) + X*WZZ(I)
-         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I) 
+         SAV(I,9) = Z - X*WYY(I) + Y*WXX(I)
 C
         ENDIF
        ENDDO

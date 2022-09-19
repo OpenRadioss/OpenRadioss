@@ -87,7 +87,7 @@ C
           ! Number of the element
           NUMG = CNEL(ADDCNEL(NG+1)+I-1)
           ! Treatment according of element type
-          IF (NUMG<=NUMELS) THEN  
+          IF (NUMG<=NUMELS) THEN
             CNEL_SUB(ADDCNEL_SUB(NS+1)+K-1) = NUMG
             K = K + 1
           ELSEIF (NUMG<=NUMELS+NUMELQ) THEN
@@ -110,7 +110,7 @@ C
             CONTINUE
           ENDIF
         ENDDO
-        IF ((K-1)/=NEL_SUB) THEN 
+        IF ((K-1)/=NEL_SUB) THEN
           WRITE(*,*) "WRONG NUMBER OF NON-LOCAL ELEMENTS COUNTED"
           WRITE(*,*) "SEE BUILD_CNEL_SUB.F"
           STOP

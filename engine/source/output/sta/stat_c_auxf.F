@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,18 +69,18 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,J,K,JJ,LEN, IOFF,
-     .        NG, NEL, NFT, ITY, LFT,LLT, MLW, ID, IPRT0,IPRT,IE, 
+     .        NG, NEL, NFT, ITY, LFT,LLT, MLW, ID, IPRT0,IPRT,IE,
      .        NPG,NPT,NPTR,NPTS,NPTT,NLAY,IR,IS,IT,IPT,IL,
      .        IVAR,NUVAR,MY_NUVAR,NPT_ALL,IGTYP
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
-      double precision   
+      double precision
      .   THK, EM, EB, H1, H2, H3
       CHARACTER*100 DELIMIT,LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      my_real, DIMENSION(:)  ,POINTER :: UVAR,SIGA,SIGB,SIGC 
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      my_real, DIMENSION(:)  ,POINTER :: UVAR,SIGA,SIGB,SIGC
 C-----------------------------------------------
       DATA DELIMIT(1:60)
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
@@ -96,17 +96,17 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW   = IPARG(1,NG)
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
           IGTYP = IPARG(38,NG)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
 C
@@ -152,7 +152,7 @@ C
 c
               IF (NUVAR > 0) THEN
                 DO IS=1,NPTS
-                  DO IR=1,NPTR                                                       
+                  DO IR=1,NPTR
                     DO IL = 1,NLAY
                       BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                       NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%L_SIGB
@@ -168,7 +168,7 @@ c
                   ENDDO
                 ENDDO
               ELSE
-                DO IR=1,NPTR                                                       
+                DO IR=1,NPTR
                   DO IS=1,NPTS
                     DO IL = 1,NLAY
                       DO IT=1,NPTT
@@ -185,10 +185,10 @@ C
             ELSEIF (MLW == 78) THEN     ! STA/AUX contains only backstress
               MY_NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT + 18  ! 3 x 6 for backstress
               JJ = JJ + 1
-              WA(JJ) = MY_NUVAR 
+              WA(JJ) = MY_NUVAR
 c
               DO IS=1,NPTS
-                DO IR=1,NPTR                                                       
+                DO IR=1,NPTR
                  DO IL = 1,NLAY
                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                    NUVAR = BUFLY%NVAR_MAT
@@ -224,10 +224,10 @@ C
               BUFLY => ELBUF_TAB(NG)%BUFLY(1)
               MY_NUVAR = BUFLY%NVAR_MAT + BUFLY%L_SIGB
               JJ = JJ + 1
-              WA(JJ) = MY_NUVAR 
+              WA(JJ) = MY_NUVAR
 c
               DO IS=1,NPTS
-                DO IR=1,NPTR                                                       
+                DO IR=1,NPTR
                  DO IL = 1,NLAY
                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                    NUVAR = BUFLY%NVAR_MAT
@@ -256,7 +256,7 @@ c
 C
               IF (NLAY > 1) THEN    ! PID11
                 DO IS=1,NPTS
-                  DO IR=1,NPTR                                                         
+                  DO IR=1,NPTR
                     DO IL = 1,NLAY
                       NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
                       NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
@@ -272,18 +272,18 @@ C
                 ENDDO  ! DO IL = 1,NLAY
               ELSE   !  NLAY == 1 ->  PID1
                 NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                DO IS=1,NPTS       
-                  DO IR=1,NPTR                                                           
-                    DO IT=1,NPTT    
+                DO IS=1,NPTS
+                  DO IR=1,NPTR
+                    DO IT=1,NPTT
                       UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(IR,IS,IT)%VAR
                       DO IVAR=1,MY_NUVAR
                         JJ = JJ + 1
                         WA(JJ) = UVAR((IVAR-1)*NEL + I)
-                      ENDDO      
+                      ENDDO
                     ENDDO
                   ENDDO
                 ENDDO
-              ENDIF ! NLAY 
+              ENDIF ! NLAY
             ELSE    ! Not User law
               MY_NUVAR = 0
               JJ = JJ + 1
@@ -327,20 +327,20 @@ C
           MY_NUVAR = NINT(WAP0(J + 6))
 C
           IF (IOFF >= 1 .AND. MY_NUVAR /= 0) THEN
-            IPRT = NINT(WAP0(J + 2)) 
+            IPRT = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INISHE/AUX'
                 WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .      '#  SHELLID       NPT       NPG      NVAR' 
+     .      '#  SHELLID       NPT       NPG      NVAR'
                 WRITE(IUGEO,'(A/A)')
      .'# THE CONTENT OF THE FOLLOWING CARDS WILL NOT BE DISCLOSED',
      .'# THEY MUST NOT BE CHANGED.'
                 WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -349,9 +349,9 @@ C
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'#------------------------ REPEAT --------------------------'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .      '#  SHELLID       NPT       NPG      NVAR' 
+     .      '#  SHELLID       NPT       NPG      NVAR'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# THE CONTENT OF THE FOLLOWING CARDS WILL NOT BE DISCLOSED'
@@ -360,16 +360,16 @@ C
      .'# THEY MUST NOT BE CHANGED.'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF  !  IF (IZIPSTRS == 0)
               IPRT0=IPRT
             ENDIF  ! IF (IPRT /= IPRT0)
-            ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
-            NPG = NINT(WAP0(J + 5)) 
+            ID  = NINT(WAP0(J + 3))
+            NPT = NINT(WAP0(J + 4))
+            NPG = NINT(WAP0(J + 5))
             MY_NUVAR = NINT(WAP0(J + 6))
             J = J + 6
             IF (IZIPSTRS == 0) THEN
@@ -387,7 +387,7 @@ C
               J=J+MY_NUVAR
             ENDDO
           ENDIF  !  IF (IOFF == 1 .AND. MY_NUVAR /= 0)
-        ENDDO  !  DO N=1,STAT_NUMELC_G		    
+        ENDDO  !  DO N=1,STAT_NUMELC_G		
       ENDIF  !  IF (ISPMD == 0.AND.LEN > 0)
 C-----------------------------------------------
 C     3-NODE SHELLS
@@ -400,17 +400,17 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW   = IPARG(1,NG)
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
           IGTYP = IPARG(38,NG)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
 C
@@ -459,7 +459,7 @@ c
                 NUVAR = BUFLY%L_SIGB
                 NPTT  = BUFLY%NPTT
                 IF (NUVAR > 0) THEN
-                  DO IR=1,NPTR                                                       
+                  DO IR=1,NPTR
                     DO IS=1,NPTS
                       DO IT=1,NPTT
                         SIGB => BUFLY%LBUF(IR,IS,IT)%SIGB
@@ -471,7 +471,7 @@ c
                     ENDDO
                   ENDDO
                 ELSE
-                  DO IR=1,NPTR                                                       
+                  DO IR=1,NPTR
                     DO IS=1,NPTS
                       DO IT=1,NPTT
                         DO IVAR=1,MY_NUVAR
@@ -492,10 +492,10 @@ C
               END DO
               MY_NUVAR = MY_NUVAR + 18   ! 3 x 6 for backstress
               JJ = JJ + 1
-              WA(JJ) = MY_NUVAR 
+              WA(JJ) = MY_NUVAR
 c
               DO IS=1,NPTS
-                DO IR=1,NPTR                                                       
+                DO IR=1,NPTR
                   DO IL = 1,NLAY
                     BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                     NUVAR = BUFLY%NVAR_MAT
@@ -530,10 +530,10 @@ C
             ELSEIF (MLW == 87) THEN     ! STA/AUX contains only backstress
               MY_NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT + 12  ! 2 x 6 for backstress
               JJ = JJ + 1
-              WA(JJ) = MY_NUVAR 
+              WA(JJ) = MY_NUVAR
 c
               DO IS=1,NPTS
-                DO IR=1,NPTR                                                       
+                DO IR=1,NPTR
                  DO IL = 1,NLAY
                    BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                    NUVAR = BUFLY%NVAR_MAT
@@ -561,7 +561,7 @@ c
               WA(JJ) = MY_NUVAR
 c
               IF (NLAY > 1) THEN    ! PID11
-                DO IR=1,NPTS                                                        
+                DO IR=1,NPTS
                   DO IS=1,NPTR
                     DO IL = 1,NLAY
                       NUVAR = ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
@@ -572,24 +572,24 @@ c
                           JJ = JJ + 1
                           WA(JJ) = UVAR((IVAR-1)*NEL + I)
                         ENDDO
-                      ENDDO     
-                    ENDDO      
+                      ENDDO
+                    ENDDO
                   ENDDO
                 ENDDO
               ELSE   !  NLAY ==1 ->  PID1
                 NPTT = ELBUF_TAB(NG)%BUFLY(1)%NPTT
-                DO IS=1,NPTS       
-                  DO IR=1,NPTR                                                           
-                    DO IT=1,NPTT    
+                DO IS=1,NPTS
+                  DO IR=1,NPTR
+                    DO IT=1,NPTT
                       UVAR => ELBUF_TAB(NG)%BUFLY(1)%MAT(IR,IS,IT)%VAR
                       DO IVAR=1,MY_NUVAR
                         JJ = JJ + 1
                         WA(JJ) = UVAR((IVAR-1)*NEL + I)
-                      ENDDO      
+                      ENDDO
                     ENDDO
                   ENDDO
                 ENDDO
-              ENDIF ! NLAY 
+              ENDIF ! NLAY
             ELSE  ! Not User law
               MY_NUVAR = 0
               JJ = JJ + 1
@@ -634,20 +634,20 @@ C
           MY_NUVAR = NINT(WAP0(J + 6))
 C
           IF (IOFF >= 1 .AND. MY_NUVAR /= 0) THEN
-            IPRT = NINT(WAP0(J + 2)) 
+            IPRT = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INISH3/AUX'
                 WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .      '#   SH3NID       NPT       NPG      NVAR' 
+     .      '#   SH3NID       NPT       NPG      NVAR'
                 WRITE(IUGEO,'(A/A)')
      .'# THE CONTENT OF THE FOLLOWING CARDS WILL NOT BE DISCLOSED',
      .'# THEY MUST NOT BE CHANGED.'
                 WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -655,11 +655,11 @@ C
                 WRITE(LINE,'(A)')'/INISH3/AUX'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .      '#   SH3NID       NPT       NPG      NVAR'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# THE CONTENT OF THE FOLLOWING CARDS WILL NOT BE DISCLOSED'
                 CALL STRS_TXT50(LINE,100)
@@ -667,16 +667,16 @@ C
      .'# THEY MUST NOT BE CHANGED.'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF  !  IF (IZIPSTRS == 0)
               IPRT0=IPRT
             ENDIF  !  IF (IPRT /= IPRT0)
-            ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
-            NPG = NINT(WAP0(J + 5)) 
+            ID  = NINT(WAP0(J + 3))
+            NPT = NINT(WAP0(J + 4))
+            NPG = NINT(WAP0(J + 5))
             MY_NUVAR = NINT(WAP0(J + 6))
             J = J + 6
             IF (IZIPSTRS == 0) THEN

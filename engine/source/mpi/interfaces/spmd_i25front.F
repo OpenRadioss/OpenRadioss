@@ -102,7 +102,7 @@ C-----------------------------------------------
 C Compute free bound
             NRTM = IPARI(4,NIN)
             ALLOCATE(INTBUF_TAB(NIN)%FREE_IRECT_ID(NRTM))
-            CALL I25FREE_BOUND( 
+            CALL I25FREE_BOUND(
      .           NRTM,
      .           INTBUF_TAB(NIN)%MVOISIN,
      .           INTBUF_TAB(NIN)%IRECTM,
@@ -113,13 +113,13 @@ C Compute free bound
 C Split communicator
 
             KEY = ISPMD
-            COLOR = 0 
+            COLOR = 0
 C           IF(IRECVFROM(NIN,ISPMD+1) > 0 .OR. ISENDTO(NIN,ISPMD+1) > 0) THEN
             NSN = IPARI(MACRO_NSN,NIN)
             NEDGE = IPARI(MACRO_NEDGE,NIN)
             IF(IPARI(MACRO_IEDGE,NIN) > 0) NINTER25E = NINTER25E + 1
-            IF(NEDGE > 0) THEN 
-              COLOR = 1 
+            IF(NEDGE > 0) THEN
+              COLOR = 1
 
               ALLOCATE(TAB(NEDGE,3))
 
@@ -130,19 +130,19 @@ C           IF(IRECVFROM(NIN,ISPMD+1) > 0 .OR. ISENDTO(NIN,ISPMD+1) > 0) THEN
                 TAB(IE,3) =  INTBUF_TAB(NIN)%LEDGE( (IE-1)*NLEDGE + 9 ) !weight
               ENDDO
 
-              IED = COUNT(TAB(1:NEDGE,1) >= 0 .AND. TAB(1:NEDGE,2) >= 0)              
+              IED = COUNT(TAB(1:NEDGE,1) >= 0 .AND. TAB(1:NEDGE,2) >= 0)
               INTBUF_TAB(NIN)%NB_INTERNAL_EDGES = IED
 
 C             WRITE(6,*) "Internal edges:", INTBUF_TAB(NIN)%NB_INTERNAL_EDGES
 
               IED = COUNT(.NOT. (TAB(1:NEDGE,1) >= 0 .AND. TAB(1:NEDGE,2) >= 0)
-     .           .AND. TAB(1:NEDGE,3) == 1)    
-              INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL = IED 
+     .           .AND. TAB(1:NEDGE,3) == 1)
+              INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL = IED
 
 C             WRITE(6,*) "local boundary edges:", INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL
 
-              INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_REMOTE = NEDGE 
-     .               - INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL 
+              INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_REMOTE = NEDGE
+     .               - INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_LOCAL
      .               - INTBUF_TAB(NIN)%NB_INTERNAL_EDGES
 C             WRITE(6,*) "remote boundary edges:", INTBUF_TAB(NIN)%NB_BOUNDARY_EDGES_REMOTE
 
@@ -184,8 +184,8 @@ C     allocation of buffers
         IF( ITY==25 ) THEN
           DO P=1,NSPMD
 c           WRITE(6,*) ISPMD+1,P, SIZ_SEND_BUF(NIN,P),SIZ_RECV_BUF(NIN,P)
-            ALLOCATE(SEND_BUF(NIN,P)%P(SIZ_SEND_BUF(NIN,P))) 
-            ALLOCATE(RECV_BUF(NIN,P)%P(SIZ_RECV_BUF(NIN,P))) 
+            ALLOCATE(SEND_BUF(NIN,P)%P(SIZ_SEND_BUF(NIN,P)))
+            ALLOCATE(RECV_BUF(NIN,P)%P(SIZ_RECV_BUF(NIN,P)))
           ENDDO
         ENDIF
       ENDDO
@@ -199,11 +199,11 @@ C     sizes of send buffers
           DO I = 1,NSN
             P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
-            II = SIZ_SEND_BUF(NIN,P) 
+            II = SIZ_SEND_BUF(NIN,P)
             IF(ISPMD+1 == P ) THEN
-              SEND_BUF(NIN,P)%P(II) = I 
+              SEND_BUF(NIN,P)%P(II) = I
             ELSE
-              SEND_BUF(NIN,P)%P(II) = ITAB(INTBUF_TAB(NIN)%NSV(I)) 
+              SEND_BUF(NIN,P)%P(II) = ITAB(INTBUF_TAB(NIN)%NSV(I))
             ENDIF
           ENDDO
         ENDIF
@@ -228,7 +228,7 @@ c            WRITE(6,*) "SEND ->",P,SEND_BUF(NIN,P)%P(1:k)
         ENDDO
 c       CALL FLUSH(6)
 c       CALL MPI_BARRIER(MPI_COMM_WORLD,IERR)
-      
+
         DO P = 1,NSPMD
           IF(P /= ISPMD + 1 .AND. SIZ_SEND_BUF(NIN,P) > 0) THEN
              CALL MPI_WAIT(REQ_S(P),STATUS,IERROR)
@@ -240,7 +240,7 @@ c       CALL MPI_BARRIER(MPI_COMM_WORLD,IERR)
 C ----------------------------------------------------------------   
 C                     RESOLVE UID to LOCAL NODE
         DO P = 1, NSPMD
-c         WRITE(6,*) __FILE__,__LINE__, P,SIZ_RECV_BUF(NIN,P) 
+c         WRITE(6,*) __FILE__,__LINE__, P,SIZ_RECV_BUF(NIN,P)
           IF(P /= ISPMD +1) THEN
             DO L = 1, SIZ_RECV_BUF(NIN,P)
               K = 1
@@ -248,11 +248,11 @@ c         WRITE(6,*) __FILE__,__LINE__, P,SIZ_RECV_BUF(NIN,P)
 c             WRITE(6,*) "looking for UID",UID
               NSN = IPARI(MACRO_NSN,NIN)
               DO WHILE (K<NSN .AND. UID /= ITAB(INTBUF_TAB(NIN)%NSV(K)))
-                K = K + 1 
-              ENDDO  
+                K = K + 1
+              ENDDO
               IF(ITAB(INTBUF_TAB(NIN)%NSV(K))==UID) THEN
 c                WRITE(6,*) "found at ",K
-                 RECV_BUF(NIN,P)%P(L) = K 
+                 RECV_BUF(NIN,P)%P(L) = K
               ELSE
                 ASSERT(.FALSE.)
               ENDIF
@@ -294,8 +294,8 @@ c                WRITE(6,*) "found at ",K
           DO I = 1, NSN
             P = MAIN_PROC(INTBUF_TAB(NIN)%NSV(I))
             SIZ_SEND_BUF(NIN,P) = SIZ_SEND_BUF(NIN,P) + 1
-            II = SIZ_SEND_BUF(NIN,P) 
-            INTBUF_TAB(NIN)%NSV_ON_PMAIN(I) = SEND_BUF(NIN,P)%P(II) 
+            II = SIZ_SEND_BUF(NIN,P)
+            INTBUF_TAB(NIN)%NSV_ON_PMAIN(I) = SEND_BUF(NIN,P)%P(II)
            ENDDO
         ENDIF
       ENDDO
@@ -332,7 +332,7 @@ C-----------------------------------------------
       USE INTBUFDEF_MOD
 #ifdef WITH_ASSERT
       use, intrinsic :: iso_fortran_env
-      use, intrinsic :: ieee_arithmetic 
+      use, intrinsic :: ieee_arithmetic
 #endif
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -371,7 +371,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER :: NI25 
+      INTEGER :: NI25
       INTEGER :: N
       INTEGER :: NB
       INTEGER :: IEDGE
@@ -406,36 +406,36 @@ C-----------------------------------------------
 #endif
 
 
-                                   
+
 C     WRITE(6,*) __FILE__,__LINE__
 C===== ALlocations && IRECV 
       DO NI25=1,NINTER25
         N = INTLIST25(NI25)
         IEDGE = IPARI(58,N)
         IF( IEDGE > 0 ) THEN
-          BUFFERS(NI25)%NBIRECV = 0 
+          BUFFERS(NI25)%NBIRECV = 0
 
           ALLOCATE(BUFFERS(NI25)%SEND_RQ(NSPMD))
           ALLOCATE(BUFFERS(NI25)%RECV_RQ(NSPMD))
           ALLOCATE(BUFFERS(NI25)%IAD_RECV(NSPMD+1))
           ALLOCATE(BUFFERS(NI25)%IAD_SEND(NSPMD+1))
-          
-          SEND_SIZE = 0 
+
+          SEND_SIZE = 0
           RECV_SIZE = 0
           BUFFERS(NI25)%IAD_SEND(1) = 1
           BUFFERS(NI25)%IAD_RECV(1) = 1
-          DO P = 1, NSPMD 
-            NB = NSNSIE(N)%P(P) 
+          DO P = 1, NSPMD
+            NB = NSNSIE(N)%P(P)
             SEND_SIZE = SEND_SIZE + NB*NB_VALUES
             BUFFERS(NI25)%IAD_SEND(P+1) = BUFFERS(NI25)%IAD_SEND(P) + NB
-          
-            NB = NSNFIE(N)%P(P) 
+
+            NB = NSNFIE(N)%P(P)
             RECV_SIZE = RECV_SIZE + NB*NB_VALUES
             BUFFERS(NI25)%IAD_RECV(P+1) = BUFFERS(NI25)%IAD_RECV(P) + NB
           ENDDO
           ALLOCATE(BUFFERS(NI25)%SEND_BUF(SEND_SIZE))
           ALLOCATE(BUFFERS(NI25)%RECV_BUF(RECV_SIZE))
-          DO P = 1, NSPMD 
+          DO P = 1, NSPMD
             RECV_SIZE = NB_VALUES * ( BUFFERS(NI25)%IAD_RECV(P+1)-BUFFERS(NI25)%IAD_RECV(P))
             BUFFERS(NI25)%RECV_RQ(P) = MPI_REQUEST_NULL
             IF(RECV_SIZE > 0) THEN
@@ -470,8 +470,8 @@ C === Fill buffer and ISEND
         IF( IEDGE > 0 ) THEN
           NEDGE_LOCAL = INTBUF_TAB(N)%NB_INTERNAL_EDGES + INTBUF_TAB(N)%NB_BOUNDARY_EDGES_LOCAL
 
-          BUFFERS(NI25)%NBISEND = 0 
-          DO P = 1, NSPMD 
+          BUFFERS(NI25)%NBISEND = 0
+          DO P = 1, NSPMD
             BUFFERS(NI25)%SEND_RQ(P) = MPI_REQUEST_NULL
             SEND_SIZE = ( BUFFERS(NI25)%IAD_SEND(P+1)-BUFFERS(NI25)%IAD_SEND(P)) * NB_VALUES
             DO I = BUFFERS(NI25)%IAD_SEND(P), BUFFERS(NI25)%IAD_SEND(P+1)-1
@@ -554,7 +554,7 @@ C             ASSERT(I2 == INTBUF_TAB(N)%LEDGE(12+(IED-1)*NLEDGE))
 
               I1 =  INTBUF_TAB(N)%LEDGE(11+(IED-1)*NLEDGE)
               I2 =  INTBUF_TAB(N)%LEDGE(12+(IED-1)*NLEDGE)
-      
+
               L = (I-1) * NB_VALUES
 
               IF(IE > 0) THEN
@@ -597,16 +597,16 @@ C             WRITE(6,*) "Out:",INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8),L
               ASSERT( .NOT. isnan( BUFFERS(NI25)%SEND_BUF(L+11)))
               ASSERT( .NOT. isnan( BUFFERS(NI25)%SEND_BUF(L+12)))
               ASSERT( .NOT. isnan( BUFFERS(NI25)%SEND_BUF(L+13)))
-              ASSERT( .NOT. isnan( BUFFERS(NI25)%SEND_BUF(L+14)))              
+              ASSERT( .NOT. isnan( BUFFERS(NI25)%SEND_BUF(L+14)))
               ASSERT( .NOT. isnan( BUFFERS(NI25)%SEND_BUF(L+15)))
 
               BUFFERS(NI25)%SEND_BUF(L+16) =
      .        TRANSFER(INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+1),BUFFERS(NI25)%SEND_BUF(L+16))
-              BUFFERS(NI25)%SEND_BUF(L+17) = 
+              BUFFERS(NI25)%SEND_BUF(L+17) =
      .        TRANSFER(INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+2),BUFFERS(NI25)%SEND_BUF(L+17))
               BUFFERS(NI25)%SEND_BUF(L+18) =
      .        TRANSFER(INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+3),BUFFERS(NI25)%SEND_BUF(L+18))
-              BUFFERS(NI25)%SEND_BUF(L+19) = 
+              BUFFERS(NI25)%SEND_BUF(L+19) =
      .        TRANSFER(INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+4),BUFFERS(NI25)%SEND_BUF(L+19))
 
               EID = INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+LEDGE_GLOBAL_ID)
@@ -628,12 +628,12 @@ C             WRITE(6,*) "Out:",INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8),L
 
               IF(IE > 0) THEN
 #ifdef MYREAL8
-                BUFFERS(NI25)%SEND_BUF(L+20:L+20+1)=TRANSFER(X(1,N1),SP,2) 
-                BUFFERS(NI25)%SEND_BUF(L+22:L+22+1)=TRANSFER(X(2,N1),SP,2) 
-                BUFFERS(NI25)%SEND_BUF(L+24:L+24+1)=TRANSFER(X(3,N1),SP,2) 
-                BUFFERS(NI25)%SEND_BUF(L+26:L+26+1)=TRANSFER(X(1,N2),SP,2) 
-                BUFFERS(NI25)%SEND_BUF(L+28:L+28+1)=TRANSFER(X(2,N2),SP,2) 
-                BUFFERS(NI25)%SEND_BUF(L+30:L+30+1)=TRANSFER(X(3,N2),SP,2) 
+                BUFFERS(NI25)%SEND_BUF(L+20:L+20+1)=TRANSFER(X(1,N1),SP,2)
+                BUFFERS(NI25)%SEND_BUF(L+22:L+22+1)=TRANSFER(X(2,N1),SP,2)
+                BUFFERS(NI25)%SEND_BUF(L+24:L+24+1)=TRANSFER(X(3,N1),SP,2)
+                BUFFERS(NI25)%SEND_BUF(L+26:L+26+1)=TRANSFER(X(1,N2),SP,2)
+                BUFFERS(NI25)%SEND_BUF(L+28:L+28+1)=TRANSFER(X(2,N2),SP,2)
+                BUFFERS(NI25)%SEND_BUF(L+30:L+30+1)=TRANSFER(X(3,N2),SP,2)
                 BUFFERS(NI25)%SEND_BUF(L+32:L+32+1)=TRANSFER(X(1,N3),SP,2)
                 BUFFERS(NI25)%SEND_BUF(L+34:L+34+1)=TRANSFER(X(2,N3),SP,2)
                 BUFFERS(NI25)%SEND_BUF(L+36:L+36+1)=TRANSFER(X(3,N3),SP,2)
@@ -642,61 +642,61 @@ C             WRITE(6,*) "Out:",INTBUF_TAB(N)%LEDGE((IED-1)*NLEDGE+8),L
                 BUFFERS(NI25)%SEND_BUF(L+42:L+42+1)=TRANSFER(X(3,N4),SP,2)
                 PP = 43
 #else
-                BUFFERS(NI25)%SEND_BUF(L+20) = X(1,N1)  
-                BUFFERS(NI25)%SEND_BUF(L+21) = X(2,N1)  
-                BUFFERS(NI25)%SEND_BUF(L+22) = X(3,N1)  
-                BUFFERS(NI25)%SEND_BUF(L+23) = X(1,N2)  
-                BUFFERS(NI25)%SEND_BUF(L+24) = X(2,N2)  
-                BUFFERS(NI25)%SEND_BUF(L+25) = X(3,N2)  
-                BUFFERS(NI25)%SEND_BUF(L+26) = X(1,N3) 
-                BUFFERS(NI25)%SEND_BUF(L+27) = X(2,N3) 
-                BUFFERS(NI25)%SEND_BUF(L+28) = X(3,N3) 
-                BUFFERS(NI25)%SEND_BUF(L+29) = X(1,N4) 
-                BUFFERS(NI25)%SEND_BUF(L+30) = X(2,N4) 
-                BUFFERS(NI25)%SEND_BUF(L+31) = X(3,N4) 
+                BUFFERS(NI25)%SEND_BUF(L+20) = X(1,N1)
+                BUFFERS(NI25)%SEND_BUF(L+21) = X(2,N1)
+                BUFFERS(NI25)%SEND_BUF(L+22) = X(3,N1)
+                BUFFERS(NI25)%SEND_BUF(L+23) = X(1,N2)
+                BUFFERS(NI25)%SEND_BUF(L+24) = X(2,N2)
+                BUFFERS(NI25)%SEND_BUF(L+25) = X(3,N2)
+                BUFFERS(NI25)%SEND_BUF(L+26) = X(1,N3)
+                BUFFERS(NI25)%SEND_BUF(L+27) = X(2,N3)
+                BUFFERS(NI25)%SEND_BUF(L+28) = X(3,N3)
+                BUFFERS(NI25)%SEND_BUF(L+29) = X(1,N4)
+                BUFFERS(NI25)%SEND_BUF(L+30) = X(2,N4)
+                BUFFERS(NI25)%SEND_BUF(L+31) = X(3,N4)
                 PP = 31
 #endif
               ELSE
 #ifdef MYREAL8
-                BUFFERS(NI25)%SEND_BUF(L+20) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+21) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+22) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+23) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+24) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+25) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+26) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+27) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+28) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+29) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+30) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+31) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+32) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+33) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+34) = 0 
+                BUFFERS(NI25)%SEND_BUF(L+20) = 0
+                BUFFERS(NI25)%SEND_BUF(L+21) = 0
+                BUFFERS(NI25)%SEND_BUF(L+22) = 0
+                BUFFERS(NI25)%SEND_BUF(L+23) = 0
+                BUFFERS(NI25)%SEND_BUF(L+24) = 0
+                BUFFERS(NI25)%SEND_BUF(L+25) = 0
+                BUFFERS(NI25)%SEND_BUF(L+26) = 0
+                BUFFERS(NI25)%SEND_BUF(L+27) = 0
+                BUFFERS(NI25)%SEND_BUF(L+28) = 0
+                BUFFERS(NI25)%SEND_BUF(L+29) = 0
+                BUFFERS(NI25)%SEND_BUF(L+30) = 0
+                BUFFERS(NI25)%SEND_BUF(L+31) = 0
+                BUFFERS(NI25)%SEND_BUF(L+32) = 0
+                BUFFERS(NI25)%SEND_BUF(L+33) = 0
+                BUFFERS(NI25)%SEND_BUF(L+34) = 0
                 BUFFERS(NI25)%SEND_BUF(L+35) = 0
-                BUFFERS(NI25)%SEND_BUF(L+36) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+37) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+38) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+39) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+40) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+41) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+42) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+43) = 0 
+                BUFFERS(NI25)%SEND_BUF(L+36) = 0
+                BUFFERS(NI25)%SEND_BUF(L+37) = 0
+                BUFFERS(NI25)%SEND_BUF(L+38) = 0
+                BUFFERS(NI25)%SEND_BUF(L+39) = 0
+                BUFFERS(NI25)%SEND_BUF(L+40) = 0
+                BUFFERS(NI25)%SEND_BUF(L+41) = 0
+                BUFFERS(NI25)%SEND_BUF(L+42) = 0
+                BUFFERS(NI25)%SEND_BUF(L+43) = 0
 
                 PP = 43
 #else
-                BUFFERS(NI25)%SEND_BUF(L+20) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+21) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+22) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+23) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+24) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+25) = 0  
-                BUFFERS(NI25)%SEND_BUF(L+26) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+27) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+28) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+29) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+30) = 0 
-                BUFFERS(NI25)%SEND_BUF(L+31) = 0 
+                BUFFERS(NI25)%SEND_BUF(L+20) = 0
+                BUFFERS(NI25)%SEND_BUF(L+21) = 0
+                BUFFERS(NI25)%SEND_BUF(L+22) = 0
+                BUFFERS(NI25)%SEND_BUF(L+23) = 0
+                BUFFERS(NI25)%SEND_BUF(L+24) = 0
+                BUFFERS(NI25)%SEND_BUF(L+25) = 0
+                BUFFERS(NI25)%SEND_BUF(L+26) = 0
+                BUFFERS(NI25)%SEND_BUF(L+27) = 0
+                BUFFERS(NI25)%SEND_BUF(L+28) = 0
+                BUFFERS(NI25)%SEND_BUF(L+29) = 0
+                BUFFERS(NI25)%SEND_BUF(L+30) = 0
+                BUFFERS(NI25)%SEND_BUF(L+31) = 0
                 PP = 31
 #endif
               ENDIF
@@ -744,23 +744,23 @@ C           CALL FLUSH(6)
         if( iedge > 0 ) then
           do p = 1,nspmd
             iglob = 0
-            do i =1,nsnfie(n)%p(p) 
+            do i =1,nsnfie(n)%p(p)
               iglob = iglob + 1
-              edg_bisector_fie(n)%p(1,1,iglob) = nan32 
-              edg_bisector_fie(n)%p(2,1,iglob) = nan32 
-              edg_bisector_fie(n)%p(3,1,iglob) = nan32 
-              vtx_bisector_fie(n)%p(1,1,iglob) = nan32 
-              vtx_bisector_fie(n)%p(2,1,iglob) = nan32 
-              vtx_bisector_fie(n)%p(3,1,iglob) = nan32 
-              vtx_bisector_fie(n)%p(1,2,iglob) = nan32 
-              vtx_bisector_fie(n)%p(2,2,iglob) = nan32 
-              vtx_bisector_fie(n)%p(3,2,iglob) = nan32 
-              vtx_bisector_fie(n)%p(1,3,iglob) = nan32 
-              vtx_bisector_fie(n)%p(2,3,iglob) = nan32 
-              vtx_bisector_fie(n)%p(3,3,iglob) = nan32 
-              vtx_bisector_fie(n)%p(1,4,iglob) = nan32 
-              vtx_bisector_fie(n)%p(2,4,iglob) = nan32 
-              vtx_bisector_fie(n)%p(3,4,iglob) = nan32 
+              edg_bisector_fie(n)%p(1,1,iglob) = nan32
+              edg_bisector_fie(n)%p(2,1,iglob) = nan32
+              edg_bisector_fie(n)%p(3,1,iglob) = nan32
+              vtx_bisector_fie(n)%p(1,1,iglob) = nan32
+              vtx_bisector_fie(n)%p(2,1,iglob) = nan32
+              vtx_bisector_fie(n)%p(3,1,iglob) = nan32
+              vtx_bisector_fie(n)%p(1,2,iglob) = nan32
+              vtx_bisector_fie(n)%p(2,2,iglob) = nan32
+              vtx_bisector_fie(n)%p(3,2,iglob) = nan32
+              vtx_bisector_fie(n)%p(1,3,iglob) = nan32
+              vtx_bisector_fie(n)%p(2,3,iglob) = nan32
+              vtx_bisector_fie(n)%p(3,3,iglob) = nan32
+              vtx_bisector_fie(n)%p(1,4,iglob) = nan32
+              vtx_bisector_fie(n)%p(2,4,iglob) = nan32
+              vtx_bisector_fie(n)%p(3,4,iglob) = nan32
             enddo
           enddo
         endif
@@ -777,43 +777,43 @@ C           WRITE(6,*) "Go into wait"
             CALL FLUSH(6)
             CALL MPI_WAITANY(NSPMD,BUFFERS(NI25)%RECV_RQ,P,MPI_STATUS_IGNORE,IERROR)
 C           WRITE(6,*) "RECIEVE FROM",P-1
-            L0 = (BUFFERS(NI25)%IAD_RECV(P) - 1)*NB_VALUES 
+            L0 = (BUFFERS(NI25)%IAD_RECV(P) - 1)*NB_VALUES
             IBEGIN = 0
             IF( P > 1) THEN
-              DO L = 1,P-1 
-                IF( L - 1 /= ISPMD)  IBEGIN = IBEGIN + NSNFIE(N)%P(L) 
+              DO L = 1,P-1
+                IF( L - 1 /= ISPMD)  IBEGIN = IBEGIN + NSNFIE(N)%P(L)
               ENDDO
             ENDIF
-            DO I =1,NSNFIE(N)%P(P) 
-              L = L0 + (I-1) * NB_VALUES  
-              IGLOB = I + IBEGIN 
+            DO I =1,NSNFIE(N)%P(P)
+              L = L0 + (I-1) * NB_VALUES
+              IGLOB = I + IBEGIN
 c             WRITE(6,*) iglob,"In:",LEDGE_FIE%P(E_GLOBAL_ID,IGLOB),L
-              EDG_BISECTOR_FIE(N)%P(1,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+1 )  
-              EDG_BISECTOR_FIE(N)%P(2,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+2 )  
-              EDG_BISECTOR_FIE(N)%P(3,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+3 )  
-              VTX_BISECTOR_FIE(N)%P(1,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+4 )  
-              VTX_BISECTOR_FIE(N)%P(2,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+5 )  
-              VTX_BISECTOR_FIE(N)%P(3,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+6 )  
-              VTX_BISECTOR_FIE(N)%P(1,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+7 )  
-              VTX_BISECTOR_FIE(N)%P(2,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+8 )  
-              VTX_BISECTOR_FIE(N)%P(3,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+9 )  
-              VTX_BISECTOR_FIE(N)%P(1,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+10) 
-              VTX_BISECTOR_FIE(N)%P(2,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+11) 
-              VTX_BISECTOR_FIE(N)%P(3,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+12) 
-              VTX_BISECTOR_FIE(N)%P(1,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+13) 
-              VTX_BISECTOR_FIE(N)%P(2,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+14) 
-              VTX_BISECTOR_FIE(N)%P(3,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+15) 
+              EDG_BISECTOR_FIE(N)%P(1,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+1 )
+              EDG_BISECTOR_FIE(N)%P(2,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+2 )
+              EDG_BISECTOR_FIE(N)%P(3,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+3 )
+              VTX_BISECTOR_FIE(N)%P(1,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+4 )
+              VTX_BISECTOR_FIE(N)%P(2,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+5 )
+              VTX_BISECTOR_FIE(N)%P(3,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+6 )
+              VTX_BISECTOR_FIE(N)%P(1,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+7 )
+              VTX_BISECTOR_FIE(N)%P(2,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+8 )
+              VTX_BISECTOR_FIE(N)%P(3,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+9 )
+              VTX_BISECTOR_FIE(N)%P(1,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+10)
+              VTX_BISECTOR_FIE(N)%P(2,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+11)
+              VTX_BISECTOR_FIE(N)%P(3,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+12)
+              VTX_BISECTOR_FIE(N)%P(1,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+13)
+              VTX_BISECTOR_FIE(N)%P(2,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+14)
+              VTX_BISECTOR_FIE(N)%P(3,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+15)
 
 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+1 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+2 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+3 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+4 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+5 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+6 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+7 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+8 ))) 
-              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+9 ))) 
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+1 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+2 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+3 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+4 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+5 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+6 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+7 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+8 )))
+              ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+9 )))
               ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+10)))
               ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+11)))
               ASSERT(.NOT. isnan(BUFFERS(NI25)%RECV_BUF(L+12)))
@@ -823,11 +823,11 @@ c             WRITE(6,*) iglob,"In:",LEDGE_FIE%P(E_GLOBAL_ID,IGLOB),L
 
               LEDGE_FIE(N)%P(E_LEFT_SEG ,IGLOB) =
      .    TRANSFER(BUFFERS(NI25)%RECV_BUF(L+16),L0)
-              LEDGE_FIE(N)%P(E_LEFT_ID,IGLOB) = 
+              LEDGE_FIE(N)%P(E_LEFT_ID,IGLOB) =
      .    TRANSFER(BUFFERS(NI25)%RECV_BUF(L+17),L0)
               LEDGE_FIE(N)%P(E_RIGHT_SEG ,IGLOB) =
      .    TRANSFER(BUFFERS(NI25)%RECV_BUF(L+18),L0)
-              LEDGE_FIE(N)%P(E_RIGHT_ID,IGLOB) = 
+              LEDGE_FIE(N)%P(E_RIGHT_ID,IGLOB) =
      .    TRANSFER(BUFFERS(NI25)%RECV_BUF(L+19),L0)
 
 
@@ -835,12 +835,12 @@ c             WRITE(6,*) iglob,"In:",LEDGE_FIE%P(E_GLOBAL_ID,IGLOB),L
               DEBUG_E2E(LEDGE_FIE(N)%P(1,IGLOB)==D_ES, LEDGE_FIE(N)%P(E_RIGHT_SEG ,IGLOB))
 
 #ifdef MYREAL8
-              X_SEG_FIE(N)%P(1,1,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+20:L+20+1),ONE) 
-              X_SEG_FIE(N)%P(2,1,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+22:L+22+1),ONE) 
-              X_SEG_FIE(N)%P(3,1,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+24:L+24+1),ONE) 
-              X_SEG_FIE(N)%P(1,2,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+26:L+26+1),ONE) 
-              X_SEG_FIE(N)%P(2,2,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+28:L+28+1),ONE) 
-              X_SEG_FIE(N)%P(3,2,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+30:L+30+1),ONE) 
+              X_SEG_FIE(N)%P(1,1,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+20:L+20+1),ONE)
+              X_SEG_FIE(N)%P(2,1,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+22:L+22+1),ONE)
+              X_SEG_FIE(N)%P(3,1,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+24:L+24+1),ONE)
+              X_SEG_FIE(N)%P(1,2,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+26:L+26+1),ONE)
+              X_SEG_FIE(N)%P(2,2,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+28:L+28+1),ONE)
+              X_SEG_FIE(N)%P(3,2,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+30:L+30+1),ONE)
               X_SEG_FIE(N)%P(1,3,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+32:L+32+1),ONE)
               X_SEG_FIE(N)%P(2,3,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+34:L+34+1),ONE)
               X_SEG_FIE(N)%P(3,3,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+36:L+36+1),ONE)
@@ -849,27 +849,27 @@ c             WRITE(6,*) iglob,"In:",LEDGE_FIE%P(E_GLOBAL_ID,IGLOB),L
               X_SEG_FIE(N)%P(3,4,IGLOB) =TRANSFER( BUFFERS(NI25)%RECV_BUF(L+42:L+42+1),ONE)
               PP = 43
 #else
-              X_SEG_FIE(N)%P(1,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+20)  
-              X_SEG_FIE(N)%P(2,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+21)  
-              X_SEG_FIE(N)%P(3,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+22)  
-              X_SEG_FIE(N)%P(1,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+23)  
-              X_SEG_FIE(N)%P(2,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+24)  
-              X_SEG_FIE(N)%P(3,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+25)  
-              X_SEG_FIE(N)%P(1,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+26) 
-              X_SEG_FIE(N)%P(2,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+27) 
-              X_SEG_FIE(N)%P(3,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+28) 
-              X_SEG_FIE(N)%P(1,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+29) 
-              X_SEG_FIE(N)%P(2,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+30) 
-              X_SEG_FIE(N)%P(3,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+31) 
+              X_SEG_FIE(N)%P(1,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+20)
+              X_SEG_FIE(N)%P(2,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+21)
+              X_SEG_FIE(N)%P(3,1,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+22)
+              X_SEG_FIE(N)%P(1,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+23)
+              X_SEG_FIE(N)%P(2,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+24)
+              X_SEG_FIE(N)%P(3,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+25)
+              X_SEG_FIE(N)%P(1,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+26)
+              X_SEG_FIE(N)%P(2,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+27)
+              X_SEG_FIE(N)%P(3,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+28)
+              X_SEG_FIE(N)%P(1,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+29)
+              X_SEG_FIE(N)%P(2,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+30)
+              X_SEG_FIE(N)%P(3,4,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+31)
               PP = 31
 #endif
-              EDG_BISECTOR_FIE(N)%P(1,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+1 )  
-              EDG_BISECTOR_FIE(N)%P(2,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+2 )  
-              EDG_BISECTOR_FIE(N)%P(3,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+3 ) 
+              EDG_BISECTOR_FIE(N)%P(1,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+1 )
+              EDG_BISECTOR_FIE(N)%P(2,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+2 )
+              EDG_BISECTOR_FIE(N)%P(3,2,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+3 )
 
-              EDG_BISECTOR_FIE(N)%P(1,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+4 )  
-              EDG_BISECTOR_FIE(N)%P(2,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+5 )  
-              EDG_BISECTOR_FIE(N)%P(3,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+6 ) 
+              EDG_BISECTOR_FIE(N)%P(1,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+4 )
+              EDG_BISECTOR_FIE(N)%P(2,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+5 )
+              EDG_BISECTOR_FIE(N)%P(3,3,IGLOB) = BUFFERS(NI25)%RECV_BUF(L+PP+6 )
 
             ENDDO
           ENDDO ! RECV
@@ -885,23 +885,23 @@ C debug mode
         if( iedge > 0 ) then
           do p = 1,nspmd
             iglob = 0
-            do i =1,nsnfie(n)%p(p) 
+            do i =1,nsnfie(n)%p(p)
               iglob = iglob + 1
-              ASSERT(.NOT. ieee_is_nan(edg_bisector_fie(n)%p(1,1,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(edg_bisector_fie(n)%p(2,1,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(edg_bisector_fie(n)%p(3,1,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,1,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,1,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,1,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,2,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,2,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,2,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,3,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,3,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,3,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,4,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,4,iglob))) 
-              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,4,iglob))) 
+              ASSERT(.NOT. ieee_is_nan(edg_bisector_fie(n)%p(1,1,iglob)))
+              ASSERT(.NOT. ieee_is_nan(edg_bisector_fie(n)%p(2,1,iglob)))
+              ASSERT(.NOT. ieee_is_nan(edg_bisector_fie(n)%p(3,1,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,1,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,1,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,1,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,2,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,2,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,2,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,3,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,3,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,3,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(1,4,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(2,4,iglob)))
+              ASSERT(.NOT. ieee_is_nan(vtx_bisector_fie(n)%p(3,4,iglob)))
             enddo
           enddo
         endif

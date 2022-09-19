@@ -57,14 +57,14 @@ C
          DO I=1,3
             FXBVIT(AVAR+9+I-1)=V(I,IDMAST)
          END DO
-         P11=FXBRPM(ARPM+1)   
-         P12=FXBRPM(ARPM+2)   
-         P13=FXBRPM(ARPM+3)   
-         P21=FXBRPM(ARPM+4)   
-         P22=FXBRPM(ARPM+5)   
-         P23=FXBRPM(ARPM+6)   
-         P31=FXBRPM(ARPM+7)   
-         P32=FXBRPM(ARPM+8)   
+         P11=FXBRPM(ARPM+1)
+         P12=FXBRPM(ARPM+2)
+         P13=FXBRPM(ARPM+3)
+         P21=FXBRPM(ARPM+4)
+         P22=FXBRPM(ARPM+5)
+         P23=FXBRPM(ARPM+6)
+         P31=FXBRPM(ARPM+7)
+         P32=FXBRPM(ARPM+8)
          P33=FXBRPM(ARPM+9)
          W1=VR(1,IDMAST)
          W2=VR(2,IDMAST)
@@ -84,5 +84,5 @@ C
       ENDDO
 C      
       RETURN
-      END  
-         
+      END
+

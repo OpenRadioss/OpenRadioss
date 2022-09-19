@@ -107,7 +107,7 @@ C   Mise en place des buffers de reception
 
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
 
-          
+
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -115,7 +115,7 @@ C   Mise en place des buffers de reception
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-       ENDIF                
+       ENDIF
       END DO
 ! Reception et traitement
       DO I = 1, NSPMD

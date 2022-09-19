@@ -66,7 +66,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         LEN_TMP = J
-         
+
         CALL MPI_GATHER(
      S    LEN_TMP       ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),

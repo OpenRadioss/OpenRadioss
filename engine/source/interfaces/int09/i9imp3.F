@@ -27,7 +27,7 @@ Chd|        I9MAIN3                       source/interfaces/int09/i9main3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I9IMP3(ILOC,CST,NOR,XFACE,N1,
-     1                  N2  ,N3 ,SSC,TTC  ,THK, 
+     1                  N2  ,N3 ,SSC,TTC  ,THK,
      2                  ANS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

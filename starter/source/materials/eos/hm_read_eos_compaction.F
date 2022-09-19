@@ -40,7 +40,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD       
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -61,12 +61,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
       INTEGER,INTENT(IN) :: IMIDEOS
-      TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG  
+      TYPE(EOS_TAG_),DIMENSION(0:MAXEOS) ,INTENT(INOUT) :: EOS_TAG
       INTEGER,INTENT(IN) :: IEOS, MAXEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -89,10 +89,10 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       IFORM=0
       IOUTP=1
-      
-      EOS_TAG(IEOS)%G_MU = 1                            
-      EOS_TAG(IEOS)%L_MU = 1 
-           
+
+      EOS_TAG(IEOS)%G_MU = 1
+      EOS_TAG(IEOS)%L_MU = 1
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('EOS_COM_C0', C0, IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -113,11 +113,11 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-            
+
       IF(C1 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -129,12 +129,12 @@ C-----------------------------------------------
 
       !IFORM=1 : CONSTANT unload modulus BUNL (DEFAULT)
       !IFORM=2 : LINEAR uload modulus from C1 to BUNL
-      !IFORM=10 : legacy formulation law10 (slope change when mu<0) 
-      IF(IFORM /= 1 .AND. IFORM /= 2 .AND. IFORM /= 10)THEN 
-        IFORM=1 !default     
+      !IFORM=10 : legacy formulation law10 (slope change when mu<0)
+      IF(IFORM /= 1 .AND. IFORM /= 2 .AND. IFORM /= 10)THEN
+        IFORM=1 !default
         IOUTP=0
       ENDIF
-      
+
       MU = RHO0/RHOR-ONE
       P0 = C0+MIN(C1*MU,C1*MU+C2*MU*MU+C3*MU*MU*MU)
       E0 = ZERO
@@ -148,12 +148,12 @@ C-----------------------------------------------
       PM(46) = MUMAX
       PM(47) = MUMIN
       PM(48) = IFORM
-      IF(PM(79)==ZERO)PM(79)=THREE100     
-            
+      IF(PM(79)==ZERO)PM(79)=THREE100
+
       PM(23) = E0
       PM(31) = P0-PSH
       PM(104)= P0-PSH
-      
+
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
       ELSE
@@ -163,40 +163,40 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-      
+
       MU2=MU0*MU0
       MUOLD=MU0
       POLD=P0
       BULK = BUNL
-      BULK2 = BUNL          
+      BULK2 = BUNL
 
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
-      RHOI = PM(89) 
-        IF(IFORM == 10)THEN    
+      RHOI = PM(89)
+        IF(IFORM == 10)THEN
             BB = BULK
         ELSEIF(IFORM == 1)THEN
-            BB=BUNL 
+            BB=BUNL
         ELSEIF(IFORM == 2)THEN
           ALPHA = ONE
           IF(MUMAX > ZERO)THEN
             ALPHA=MUOLD/MUMAX
-          ENDIF        
+          ENDIF
           BB = ALPHA*BUNL+(ONE-ALPHA)*C1
-        ENDIF           
+        ENDIF
         DPDMU = C1 + TWO*C2*MU0+THREE*C3*MU2   !can be discussed in expansion...
         DPDMU = MAX(BB,DPDMU)
 
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0      
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
 
       WRITE(IOUT,1000)
 
@@ -236,5 +236,5 @@ C-----------------------------------------------
      & 5X,'CONTINUOUS UNLOAD MODULUS FROM C1 TO BUNL IN RANGE [MUMIN,MUMAX]'/)
 
       RETURN
-  
+
       END

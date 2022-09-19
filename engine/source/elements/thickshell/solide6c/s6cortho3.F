@@ -28,9 +28,9 @@ Chd|        S6RCOORK                      source/elements/thickshell/solide6c/s6
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S6CORTHO3(
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
+     .   X1, X2, X3, X4, X5, X6,
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
      .   E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ )
 C-----------------------------------------------
@@ -46,8 +46,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real, INTENT(IN),  DIMENSION(MVSIZ) ::
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6,   
+     .   X1, X2, X3, X4, X5, X6,
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
      .   Z1, Z2, Z3, Z4, Z5, Z6
       my_real, INTENT(OUT),  DIMENSION(MVSIZ) ::
      .   RX, RY, RZ, SX, SY, SZ, TX, TY, TZ,
@@ -64,7 +64,7 @@ C     REAL
       my_real
      .   X14 ,Y14 , Z14
       my_real
-     .   DET,C1,C2 
+     .   DET,C1,C2
 C-----------------------------------------------
       DO I=LFT,LLT
         X14=X1(I)+X4(I)
@@ -87,9 +87,9 @@ C--------eta---------
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 100 I=LFT,LLT
 C
-       E3X(I) = TY(I) * RZ(I) - TZ(I) * RY(I) 
-       E3Y(I) = TZ(I) * RX(I) - TX(I) * RZ(I) 
-       E3Z(I) = TX(I) * RY(I) - TY(I) * RX(I) 
+       E3X(I) = TY(I) * RZ(I) - TZ(I) * RY(I)
+       E3Y(I) = TZ(I) * RX(I) - TX(I) * RZ(I)
+       E3Z(I) = TX(I) * RY(I) - TY(I) * RX(I)
 C
        DET = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
        IF ( DET/=ZERO) DET = ONE / DET
@@ -99,8 +99,8 @@ C
 C
        C1=SQRT(TX(I)*TX(I)+TY(I)*TY(I)+TZ(I)*TZ(I))
        C2=SQRT(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I))
-       E1X(I)=TX(I)*C2 +(RY(I) * E3Z(I) - RZ(I) * E3Y(I))*C1  
-       E1Y(I)=TY(I)*C2 +(RZ(I) * E3X(I) - RX(I) * E3Z(I))*C1  
+       E1X(I)=TX(I)*C2 +(RY(I) * E3Z(I) - RZ(I) * E3Y(I))*C1
+       E1Y(I)=TY(I)*C2 +(RZ(I) * E3X(I) - RX(I) * E3Z(I))*C1
        E1Z(I)=TZ(I)*C2 +(RX(I) * E3Y(I) - RY(I) * E3X(I))*C1
        DET = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
        IF ( DET/=ZERO) DET = ONE / DET

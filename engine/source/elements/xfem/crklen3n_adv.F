@@ -145,7 +145,7 @@ c           tag
 C---
         IF (OK /= 1) THEN
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK --- CHECK CRACK TIP'
-          CALL ARRET(2)           
+          CALL ARRET(2)
         ENDIF
 C---
         EDGEL(IED,I) = 1
@@ -379,9 +379,9 @@ C
         DO K=1,3
           IF (EDGEL(K,I)==1 .or. EDGEL(K,I)==2) FAC=FAC+1
         ENDDO
-        IF (FAC /= 2) THEN 
+        IF (FAC /= 2) THEN
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK.NO CUT EDGES'
-          CALL ARRET(2)           
+          CALL ARRET(2)
         ENDIF
         CRKLEN(I) = SQRT((XIN(2,I) - XIN(1,I))**2 + (YIN(2,I) - YIN(1,I))**2)
       ENDDO

@@ -30,7 +30,7 @@ C   |============================================================
 	SUBROUTINE CBAVIT_PLY(JFT,JLT,IXC,OFFG,OFF,NPLAT,IPLAT,NPT,
      1                        VCORE,DI,ZL,VQ , VXYZ,X13_T  ,X24_T ,
      2                        Y13_T,Y24_T,AREA,INOD,DEL_PLY,
-     .                        VNI,ISTACK,VR)  
+     .                        VNI,ISTACK,VR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
       my_real
      .   OFFG(*),OFF(*)
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   VCORE(MVSIZ,3,NNOD),VXYZ(MVSIZ,3*NNOD,NPT),
      .   VQ(MVSIZ,3,3),ZL(*),DI(MVSIZ,6),
      .   Y24_T(*),X13_T(*),X24_T(*),Y13_T(*),AREA(*),
@@ -69,12 +69,12 @@ C-----------------------------------------------
       INTEGER J,I,K,EP,NN(4), IPLY,IP,NPLAT0
       INTEGER L,M,J1,J2
       my_real
-     .   PG,Z1,Z2,MX13,MY13,MX23,MY23,MX34,MY34,GAMA1,GAMA2, X21, 
+     .   PG,Z1,Z2,MX13,MY13,MX23,MY23,MX34,MY34,GAMA1,GAMA2, X21,
      .   X34,Y21,Y34 ,Z21,Z34,L12,L34,X41,X32,Y41,Y32,Z41,Z32,XX1
      .   YY,XY,XZ1,YZ ,ZZ,Y24,X24,Y13,X13,COREL(3,4),XX1,YY,OFF_L,
      .   D1,D2,DT05,DT025,EXZ,EYZ,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2,
      .   DDRZ,DDRX,A1,A2,D3
-      my_real 
+      my_real
      .  VG13(3),VG24(3),VGHI(3),V13(MVSIZ,3), V24(MVSIZ,3),
      .  VHI(MVSIZ,3), AR(3),D(6),ALR(3),RR(3,NNOD),
      .  AREA_I(MVSIZ), DEL_IPLY(MVSIZ,3,NPT-1),DN_IPLY(MVSIZ,12,NPT-1),
@@ -113,20 +113,20 @@ C
       DO J=1, NPT
        DO EP=JFT,JLT
          IP = ISTACK(EP,J)
-         
+
           NN(1) = INOD(IXC(2,EP))
           NN(2) = INOD(IXC(3,EP))
           NN(3) = INOD(IXC(4,EP))
-          NN(4) = INOD(IXC(5,EP)) 
+          NN(4) = INOD(IXC(5,EP))
 C          
           VG13(1)=PLY(IP)%V(1,NN(1)) - PLY(IP)%V(1,NN(3))
           VG24(1)=PLY(IP)%V(1,NN(2)) - PLY(IP)%V(1,NN(4))
-          VGHI(1)=PLY(IP)%V(1,NN(1)) - PLY(IP)%V(1,NN(2)) 
+          VGHI(1)=PLY(IP)%V(1,NN(1)) - PLY(IP)%V(1,NN(2))
      .          + PLY(IP)%V(1,NN(3)) - PLY(IP)%V(1,NN(4))
 C
           VG13(2)=PLY(IP)%V(2,NN(1)) - PLY(IP)%V(2,NN(3))
           VG24(2)=PLY(IP)%V(2,NN(2)) - PLY(IP)%V(2,NN(4))
-          VGHI(2)=PLY(IP)%V(2,NN(1)) - PLY(IP)%V(2,NN(2)) 
+          VGHI(2)=PLY(IP)%V(2,NN(1)) - PLY(IP)%V(2,NN(2))
      .           +PLY(IP)%V(2,NN(3)) - PLY(IP)%V(2,NN(4))
 C
           VG13(3)= PLY(IP)%V(3,NN(1)) - PLY(IP)%V(3,NN(3))
@@ -152,8 +152,8 @@ C
      1              +VQ(EP,3,3)*VG24(3))
           VHI(EP,3)=(VQ(EP,1,3)*VGHI(1)+VQ(EP,2,3)*VGHI(2)
      1              +VQ(EP,3,3)*VGHI(3))
-     
-         ENDDO 
+
+         ENDDO
 C ---
        IF (ISHV51>51.AND.IMPL_S==0) THEN
           DT05 = HALF*DT1
@@ -177,24 +177,24 @@ C ---
              V24(I,2) = V24(I,2)-DDRX*V24(I,3)-DDRZ2*V24X
              VHI(I,2) = VHI(I,2)-DDRX*VHI(I,3)-DDRZ2*VHIX
            ENDDO
-         ENDIF 
+         ENDIF
 C ---
 #include "vectorize.inc"
-      DO I=JFT,NPLAT0                
-        EP =IPLAT(I)               
-        VXYZ(EP,1,J)=V13(EP,1)   
-        VXYZ(EP,2,J)=V13(EP,2)   
-        VXYZ(EP,3,J)=V13(EP,3)   
+      DO I=JFT,NPLAT0
+        EP =IPLAT(I)
+        VXYZ(EP,1,J)=V13(EP,1)
+        VXYZ(EP,2,J)=V13(EP,2)
+        VXYZ(EP,3,J)=V13(EP,3)
 C
-        VXYZ(EP,4,J)=V24(EP,1)   
-        VXYZ(EP,5,J)=V24(EP,2)   
-        VXYZ(EP,6,J)=V24(EP,3)   
+        VXYZ(EP,4,J)=V24(EP,1)
+        VXYZ(EP,5,J)=V24(EP,2)
+        VXYZ(EP,6,J)=V24(EP,3)
 C
-        VXYZ(EP,7,J)=VHI(EP,1)   
-        VXYZ(EP,8,J)=VHI(EP,2)   
-        VXYZ(EP,9,J)=VHI(EP,3)           
+        VXYZ(EP,7,J)=VHI(EP,1)
+        VXYZ(EP,8,J)=VHI(EP,2)
+        VXYZ(EP,9,J)=VHI(EP,3)
 C               
-      ENDDO                        
+      ENDDO
 #include "vectorize.inc"
       DO I=NPLAT0+1,JLT
        EP =IPLAT(I)
@@ -271,7 +271,7 @@ C----------------------------
           VXYZ(EP,12,J)= ZERO
          ENDIF
         ENDDO
-       ENDDO  
+       ENDDO
       ENDIF
 C ---
 C  les deplacements nodaux dans le rep re local
@@ -281,37 +281,37 @@ C  les deplacements nodaux dans le rep re local
          NN(1) = INOD(IXC(2,EP))
          NN(2) = INOD(IXC(3,EP))
          NN(3) = INOD(IXC(4,EP))
-         NN(4) = INOD(IXC(5,EP))             
+         NN(4) = INOD(IXC(5,EP))
 C node 1 layer J
-         D1 =  PLY(IP)%U(1,NN(1))                                      
-         D2 =  PLY(IP)%U(2,NN(1))                                      
-         D3 =  PLY(IP)%U(3,NN(1))                                      
-         DN_PLY(EP,1,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3   
-         DN_PLY(EP,2,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3          
+         D1 =  PLY(IP)%U(1,NN(1))
+         D2 =  PLY(IP)%U(2,NN(1))
+         D3 =  PLY(IP)%U(3,NN(1))
+         DN_PLY(EP,1,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3
+         DN_PLY(EP,2,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3
          DN_PLY(EP,3,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3
 C  node 2 layer J           
-         D1 =  PLY(IP)%U(1,NN(2))                                      
-         D2 =  PLY(IP)%U(2,NN(2))                                      
-         D3 =  PLY(IP)%U(3,NN(2))                                      
-         DN_PLY(EP,4,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3   
-         DN_PLY(EP,5,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3          
+         D1 =  PLY(IP)%U(1,NN(2))
+         D2 =  PLY(IP)%U(2,NN(2))
+         D3 =  PLY(IP)%U(3,NN(2))
+         DN_PLY(EP,4,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3
+         DN_PLY(EP,5,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3
          DN_PLY(EP,6,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3
 C    node 3 layer J        
-         D1 =  PLY(IP)%U(1,NN(3))                                      
-         D2 =  PLY(IP)%U(2,NN(3))                                      
-         D3 =  PLY(IP)%U(3,NN(3))                                      
-         DN_PLY(EP,7,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3   
-         DN_PLY(EP,8,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3          
+         D1 =  PLY(IP)%U(1,NN(3))
+         D2 =  PLY(IP)%U(2,NN(3))
+         D3 =  PLY(IP)%U(3,NN(3))
+         DN_PLY(EP,7,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3
+         DN_PLY(EP,8,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3
          DN_PLY(EP,9,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3
 C  node 4 layer J           
-         D1 =  PLY(IP)%U(1,NN(4))                                      
-         D2 =  PLY(IP)%U(2,NN(4))                                      
-         D3 =  PLY(IP)%U(3,NN(4))                                      
-         DN_PLY(EP,10,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3   
-         DN_PLY(EP,11,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3          
-         DN_PLY(EP,12,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3 
+         D1 =  PLY(IP)%U(1,NN(4))
+         D2 =  PLY(IP)%U(2,NN(4))
+         D3 =  PLY(IP)%U(3,NN(4))
+         DN_PLY(EP,10,J)=VQ(EP,1,1)*D1 + VQ(EP,2,1)*D2 + VQ(EP,3,1)*D3
+         DN_PLY(EP,11,J)=VQ(EP,1,2)*D1 + VQ(EP,2,2)*D2 + VQ(EP,3,2)*D3
+         DN_PLY(EP,12,J)=VQ(EP,1,3)*D1 + VQ(EP,2,3)*D2 + VQ(EP,3,3)*D3
         ENDDO
-       ENDDO  
+       ENDDO
 C  glissement elementaire
       DO J=1, NPT
        DO EP=JFT,JLT
@@ -320,7 +320,7 @@ C  glissement elementaire
      .       DN_PLY(EP,7,J)*VNI(3,1) + DN_PLY(EP,10,J)*VNI(4,1) )
          DEL_PLY(EP,2,J) = (
      .       DN_PLY(EP,2,J)*VNI(1,1) + DN_PLY(EP,5,J)*VNI(2,1) +
-     .       DN_PLY(EP,8,J)*VNI(3,1) + DN_PLY(EP,11,J)*VNI(4,1) )       
+     .       DN_PLY(EP,8,J)*VNI(3,1) + DN_PLY(EP,11,J)*VNI(4,1) )
          DEL_PLY(EP,3,J) = (
      .       DN_PLY(EP,3,J)*VNI(1,1) + DN_PLY(EP,6,J)*VNI(2,1) +
      .       DN_PLY(EP,9,J)*VNI(3,1) + DN_PLY(EP,12,J)*VNI(4,1) )
@@ -330,11 +330,11 @@ C 2nd gauss p
      .       DN_PLY(EP,7,J)*VNI(3,2) + DN_PLY(EP,10,J)*VNI(4,2) )
          DEL_PLY(EP,5,J) = (
      .       DN_PLY(EP,2,J)*VNI(1,2) + DN_PLY(EP,5,J)*VNI(2,2) +
-     .       DN_PLY(EP,8,J)*VNI(3,2) + DN_PLY(EP,11,J)*VNI(4,2) )       
+     .       DN_PLY(EP,8,J)*VNI(3,2) + DN_PLY(EP,11,J)*VNI(4,2) )
          DEL_PLY(EP,6,J) = (
      .       DN_PLY(EP,3,J)*VNI(1,2) + DN_PLY(EP,6,J)*VNI(2,2) +
      .       DN_PLY(EP,9,J)*VNI(3,2) + DN_PLY(EP,12,J)*VNI(4,2) )
-c 3rd      
+c 3rd
          DEL_PLY(EP,7,J) = (
      .       DN_PLY(EP,1,J)*VNI(1,3) + DN_PLY(EP,4,J)*VNI(2,3) +
      .       DN_PLY(EP,7,J)*VNI(3,3) + DN_PLY(EP,10,J)*VNI(4,3) )
@@ -353,8 +353,8 @@ C 4th
      .       DN_PLY(EP,8,J)*VNI(3,4) + DN_PLY(EP,11,J)*VNI(4,4) )
          DEL_PLY(EP,12,J) = (
      .       DN_PLY(EP,3,J)*VNI(1,4) + DN_PLY(EP,6,J)*VNI(2,4) +
-     .       DN_PLY(EP,9,J)*VNI(3,4) + DN_PLY(EP,12,J)*VNI(4,4) )    
-         ENDDO 
+     .       DN_PLY(EP,9,J)*VNI(3,4) + DN_PLY(EP,12,J)*VNI(4,4) )
+         ENDDO
         ENDDO
 C ---
 	RETURN

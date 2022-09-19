@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NOM_SECT(SNOM_SECT),NSTRF(SNSTRF)
       INTEGER ,DIMENSION(NSENSI,*)  ,INTENT(IN) :: LSENSOR
       my_real ,DIMENSION(NSENSR,*)  ,INTENT(IN) :: SENSOR
-      my_real,INTENT(IN) :: SECBUF(SSECBUF)  
+      my_real,INTENT(IN) :: SECBUF(SSECBUF)
       INTEGER, INTENT(IN) :: ISKWN(LISKN,*)
       my_real, INTENT(IN) :: SKEW(LSKEW,*)
       my_real, INTENT(IN) :: XFRAME(NXFRAME,*)
@@ -229,7 +229,7 @@ c
             ENDDO
           ENDIF
 
-        END DO        
+        END DO
       END IF  ! /BOX/
 
 c-----------------------------------------------
@@ -270,20 +270,20 @@ C-----------------------------------------------
 C     SECTIONS : /SECT, /SECT/CIRCLE, /SECT/PARAL
 C-----------------------------------------------
       IF ( MYQAKEY('SECTIONS') ) THEN
-        DO I=1,30                                                                          
-          IF(NSTRF(I) /= 0)THEN                                               
-            WRITE(VARNAME,'(A,I0)') 'SECTIONS__NSTRF_',I                                 
-            TEMP_INTEGER = NSTRF(I)                                 
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)                  
-          END IF                                                                           
-        END DO                                                                             
-        DO I=1,10                                                                         
-          IF(SECBUF(I) /= 0)THEN                                               
-            WRITE(VARNAME,'(A,I0)') 'SECTIONS__SECBUF_',I                                 
-            TEMP_DOUBLE = SECBUF(I)                                  
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)                  
-          END IF                                                                           
-        END DO                                                                             
+        DO I=1,30
+          IF(NSTRF(I) /= 0)THEN
+            WRITE(VARNAME,'(A,I0)') 'SECTIONS__NSTRF_',I
+            TEMP_INTEGER = NSTRF(I)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
+          END IF
+        END DO
+        DO I=1,10
+          IF(SECBUF(I) /= 0)THEN
+            WRITE(VARNAME,'(A,I0)') 'SECTIONS__SECBUF_',I
+            TEMP_DOUBLE = SECBUF(I)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+          END IF
+        END DO
         K0=31
         KR0=11
         DO ISECT = 1,NSECT
@@ -310,7 +310,7 @@ C-----------------------------------------------
           NSEGP=NSTRF(K0+11)
           NSEGR=NSTRF(K0+12)
           NSEGTG=NSTRF(K0+13)
-          NBINTER=NSTRF(K0+14)          
+          NBINTER=NSTRF(K0+14)
           K1=K0+30
           K2=K1+NNOD
           K3=K2+NBINTER
@@ -319,24 +319,24 @@ C-----------------------------------------------
           K6=K5+2*NSEGC
           K7=K6+2*NSEGT
           K8=K7+2*NSEGP
-          K9=K8+2*NSEGR          
+          K9=K8+2*NSEGR
           DO I=K0,NSTRF(K0+24)-1
             IF(NSTRF(I) /= 0)THEN
               WRITE(VARNAME,'(A,I0,A,I0)') 'SECTIONS__',OPT_ID,"_NSTRF_",I
               TEMP_INTEGER = NSTRF(I)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INTEGER,0.0_8)
             END IF
-          END DO              
+          END DO
           DO I=KR0,NSTRF(K0+25)
             IF(SECBUF(I) /= 0)THEN
           WRITE(VARNAME,'(A,I0,A,I0)') 'SECTIONS__',OPT_ID,"_SECBUF_",I
               TEMP_DOUBLE = SECBUF(I)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             END IF
-          END DO    
-          IF(K0+24 <= SNSTRF) K0 = NSTRF(K0+24) 
+          END DO
+          IF(K0+24 <= SNSTRF) K0 = NSTRF(K0+24)
           if(K0+25 <= SNSTRF) KR0 = NSTRF(K0+25)
-        ENDDO !next ISECT    
+        ENDDO !next ISECT
 c-----------
       END IF  ! SECTIONS
 C-----------------------------------------------
@@ -357,7 +357,7 @@ C
           DO I=1,LISKN
             IF(ISKWN(I,IAD)/=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
+              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,IAD),0.0_8)
             END IF
           END DO
@@ -380,7 +380,7 @@ C
           DO I=1,LISKN
             IF(ISKWN(I,IAD)/=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
+              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,IAD),0.0_8)
             END IF
           END DO
@@ -403,7 +403,7 @@ C
           DO I=1,LISKN
             IF(ISKWN(I,IAD)/=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
+              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,IAD),0.0_8)
             END IF
           END DO
@@ -419,7 +419,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
 C
         ENDDO
 C
-      END IF  ! SKEWS 
+      END IF  ! SKEWS
 C    
 C-----------------------------------------------
 C     FRAMES : /FRAME/FIX, /FRAME/MOV, /FRAME/MOV2, /FRAME/NODE
@@ -428,7 +428,7 @@ C-----------------------------------------------
 C
         DO IFRAME=1,NUMFRAM+1
           ITR1(IFRAME)=ISKWN(4,NUMSKW+1+MIN(1,NSPCOND)*NUMSPH+NSUBMOD+IFRAME)+2
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMFRAM+1,1)
 C
         DO IFRAME=1,NUMFRAM+1
@@ -444,7 +444,7 @@ C
           DO I=1,LISKN
             IF(ISKWN(I,NUMSKW+1+MIN(1,NSPCOND)*NUMSPH+NSUBMOD+IAD)/=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I      
+              WRITE(VARNAME,'(A,I0)') 'ISKWN_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISKWN(I,NUMSKW+1+MIN(1,NSPCOND)*NUMSPH+NSUBMOD+IAD),0.0_8)
             END IF
           END DO
@@ -460,14 +460,14 @@ C             VARNAME: variable name in ref.extract (without blanks)
 C
         ENDDO
 C
-      END IF  ! FRAMES 
+      END IF  ! FRAMES
 c-----------
 C-----------------------------------------------
 C     /TABLE
 C-----------------------------------------------
       IF ( MYQAKEY('TABLE') ) THEN
          DO IAD = 1, NTABLE
-            IDX(IAD) = IAD 
+            IDX(IAD) = IAD
          ENDDO
          CALL QUICKSORT_I(IDX, 1,NTABLE )
 C
@@ -490,11 +490,11 @@ C         Title of the option was not stored in NOM_OPT FOR TABLES ONLY FOR FUNC
           END IF
 
           WRITE(VARNAME,'(A)') 'NOTABLE'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TABLE(IAD)%NOTABLE,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TABLE(IAD)%NOTABLE,0.0_8)
           NOTABLE = TABLE(IAD)%NOTABLE
 
           WRITE(VARNAME,'(A)') 'NDIM'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TABLE(IAD)%NDIM,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TABLE(IAD)%NDIM,0.0_8)
           NDIM = TABLE(IAD)%NDIM
 
           DO I=1,NDIM
@@ -503,17 +503,17 @@ C         Title of the option was not stored in NOM_OPT FOR TABLES ONLY FOR FUNC
              WRITE(VARNAME,'(A,I0,A,I0)') 'X',I,' ',J
              TEMP_DOUBLE = TABLE(IAD)%X(I)%VALUES(J)
              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-            ENDDO 
+            ENDDO
           END DO
           NY=SIZE(TABLE(IAD)%Y%VALUES)
           DO J=1,NY
              WRITE(VARNAME,'(A,I0)') 'Y',J
              TEMP_DOUBLE = TABLE(IAD)%Y%VALUES(J)
              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
-          ENDDO 
+          ENDDO
         ENDDO
 C
-      END IF  ! TABLES 
+      END IF  ! TABLES
 c-----------
 C-----------------------------------------------
 C     /FUNCT
@@ -523,7 +523,7 @@ C-----------------------------------------------
       IF (OK_QA) THEN
          DO IAD = 1, NFUNCT
             IDS(IAD) = NOM_OPT(1, INOM_OPT(20) + IAD)
-            IDX(IAD) = IAD 
+            IDX(IAD) = IAD
          ENDDO
          CALL QUICKSORT_I2(IDS, IDX, 1, NFUNCT)
          DO II = 1, NFUNCT
@@ -531,7 +531,7 @@ C-----------------------------------------------
             TITR(1:nchartitle) = ''
             ID = NOM_OPT(1, INOM_OPT(20) + IAD)
             CALL FRETITL2(TITR, NOM_OPT(LNOPT1-LTITR+1, INOM_OPT(20) + IAD), LTITR)
-            LENTITR=LEN_TRIM(TITR) 
+            LENTITR=LEN_TRIM(TITR)
             ICODE=0
             IF(LENTITR>0)ICODE=iachar(TITR(1:1))
             IF (LENTITR /= 0 .AND. ICODE /= 0) THEN
@@ -542,7 +542,7 @@ C-----------------------------------------------
 ! Number of points
             NPT = (NPC(IAD + 1) - NPC(IAD)) / 2
             WRITE(VARNAME,'(A,I0)') 'NB_POINTS_',ID
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPT,0.0_8) 
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPT,0.0_8)
             DO I = NPC(IAD), NPC(IAD + 1) - 1, 2
                TIME = PLD(I)
                FVAL = PLD(I + 1)
@@ -551,7 +551,7 @@ C-----------------------------------------------
                WRITE(VARNAME,'(A,I0)') 'FUNCT_VALUE_', (I - NPC(IAD) + 2) / 2
                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)), 0, FVAL)
             ENDDO
-         ENDDO 
+         ENDDO
       END IF                    ! /FUNCT
 C-----------------------------------------------
 C     /FUNC_2D
@@ -592,7 +592,7 @@ C
           DO I=1,LACTIV
             IF(IACTIV(I,IAD)/=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'IACTIV_',I      
+              WRITE(VARNAME,'(A,I0)') 'IACTIV_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IACTIV(I,IAD),0.0_8)
             END IF
           END DO
@@ -605,7 +605,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
         ENDDO
-      END IF  ! /ACTIV 
+      END IF  ! /ACTIV
 C-----------------------------------------------
 C     SENSORS
 C-----------------------------------------------
@@ -613,7 +613,7 @@ C-----------------------------------------------
 C
         DO ISEN=1,NSENSOR
           ITRS(ISEN) = LSENSOR(1,ISEN)
-        ENDDO 
+        ENDDO
         CALL MY_ORDERS(0,WORK,ITRS,INDEXS,NSENSOR,1)
 C
         DO ISEN=1,NSENSOR
@@ -622,16 +622,16 @@ C
           IF (OPT_ID > 0 .and. LSENSOR(2,IAD) >= 0 .and. SENSOR_TAB(IAD)%TYPE < 0) THEN
             CALL QAPRINT('OLD SENSOR_NO_NAME', OPT_ID, 0.0_8)
 C
-            WRITE(VARNAME,'(A)') 'SENSOR_ID'     
+            WRITE(VARNAME,'(A)') 'SENSOR_ID'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LSENSOR(1,IAD),0.0_8)
-            WRITE(VARNAME,'(A)') 'SENSOR_TYPE'     
+            WRITE(VARNAME,'(A)') 'SENSOR_TYPE'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LSENSOR(2,IAD),0.0_8)
 c
             DO I=3,NSENSI
               INTVAL = LSENSOR(I,IAD)
               IF (INTVAL /= 0) THEN
 C               VARNAME: variable name in ref.extract (without blanks)
-                WRITE(VARNAME,'(A,I0)') 'LSENSOR_',I      
+                WRITE(VARNAME,'(A,I0)') 'LSENSOR_',I
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTVAL,0.0_8)
               END IF
             END DO
@@ -640,15 +640,15 @@ c
               FVAL = SENSOR(I,IAD)
               IF (FVAL /= ZERO) THEN
 C               VARNAME: variable name in ref.extract (without blanks)
-                WRITE(VARNAME,'(A,I0)') 'RSENSOR_',I      
+                WRITE(VARNAME,'(A,I0)') 'RSENSOR_',I
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,FVAL)
               END IF
             END DO
           END IF
 c
         ENDDO
-c       
-c       new sensor data structure   
+c
+c       new sensor data structure
 C
         DO ISEN=1,NSENSOR
           IAD = INDEXS(ISEN)
@@ -656,26 +656,26 @@ C
           IF (OPT_ID > 0 .and. SENSOR_TAB(IAD)%TYPE >= 0) THEN
             CALL QAPRINT('NEW SENSOR_NO_NAME', OPT_ID, 0.0_8)
 c
-            WRITE(VARNAME,'(A)') 'SENSOR_TYPE'    
+            WRITE(VARNAME,'(A)') 'SENSOR_TYPE'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSOR_TAB(IAD)%TYPE,0.0_8)
-            WRITE(VARNAME,'(A)') 'STATUS'    
+            WRITE(VARNAME,'(A)') 'STATUS'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSOR_TAB(IAD)%STATUS,0.0_8)
-            WRITE(VARNAME,'(A)') 'NPARI'    
+            WRITE(VARNAME,'(A)') 'NPARI'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSOR_TAB(IAD)%NPARI,0.0_8)
-            WRITE(VARNAME,'(A)') 'NPARR'    
+            WRITE(VARNAME,'(A)') 'NPARR'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSOR_TAB(IAD)%NPARR,0.0_8)
-            WRITE(VARNAME,'(A)') 'NVAR'    
+            WRITE(VARNAME,'(A)') 'NVAR'
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),SENSOR_TAB(IAD)%NVAR,0.0_8)
 c
             DO I = 1,SENSOR_TAB(IAD)%NPARI
               INTVAL = SENSOR_TAB(IAD)%IPARAM(I)
-              WRITE(VARNAME,'(A,I0)') 'IPARAM_',I      
+              WRITE(VARNAME,'(A,I0)') 'IPARAM_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTVAL,0.0_8)
             END DO
 c
             DO I=1,SENSOR_TAB(IAD)%NPARR
               FVAL = SENSOR_TAB(IAD)%RPARAM(I)
-              WRITE(VARNAME,'(A,I0)') 'RPARAM_',I      
+              WRITE(VARNAME,'(A,I0)') 'RPARAM_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,FVAL)
             END DO
           END IF

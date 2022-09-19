@@ -94,7 +94,7 @@ Chd|====================================================================
       procedure, pass :: terminate_cg
       end type t_cg_solver
       contains
-      
+
 !     ._____________________________.   !
 !     |                             |   !
 !     |   ************************  |   !
@@ -111,7 +111,7 @@ Chd|====================================================================
       subroutine error()
       print*, "error"
       end subroutine error
-      
+
       function get_global_dim(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -258,9 +258,9 @@ C-----------------------------------------------
       class (t_mumps_solver), intent(inout) :: this
       integer, intent(in) :: mat_dim
       this%mumps_par%par = 1
-#ifdef MPI      
+#ifdef MPI
       this%mumps_par%comm = mpi_comm_world
-#else 
+#else
       this%mumps_par%comm = -1
 #endif
       this%mumps_par%job = -1
@@ -287,9 +287,9 @@ C-----------------------------------------------
 !      this%mumps_par%write_problem = "mat"
 !     verbosity
       this%mumps_par%icntl(4) = 0
-      
+
       end subroutine init_solver_mumps
-      
+
 !     Set matrix
 !     ----------
       subroutine set_matrix_mumps(this, mat)
@@ -378,7 +378,7 @@ C-----------------------------------------------
          IF (NSPMD > 1) THEN
             CALL MPI_BCAST(SOL, DIM, REAL, 0, MPI_COMM_WORLD, IERR)
          ENDIF
-#endif     
+#endif
       endif
       end subroutine solve_mumps
 
@@ -399,7 +399,7 @@ C-----------------------------------------------
 
       this%mumps_par%job = -2
       call dmumps(this%mumps_par)
- 
+
       end subroutine terminate_mumps
 #endif
 C END OF MUMPS5 SPECIFIC CODE
@@ -425,7 +425,7 @@ C-----------------------------------------------
       allocate(this%diag(mat_dim))
 
       end subroutine init_solver_cg
-      
+
 !     Set matrix
 !     ----------
       subroutine set_matrix_cg(this, mat)
@@ -439,9 +439,9 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
       class (t_cg_solver), intent(inout) :: this
       type(t_cfs_matrix), intent(inout), target :: mat
-      
+
       this%mat => mat
-      
+
       end subroutine set_matrix_cg
 
 !     Set right hand side
@@ -461,11 +461,11 @@ C-----------------------------------------------
 
       integer :: ii
       integer :: lgth
-      
+
       this%rhs => rhs
       this%nrhs = nrhs
-      
-      
+
+
       end subroutine set_rhs_cg
 
 !     Solve the linear system
@@ -495,11 +495,11 @@ C-----------------------------------------------
       my_real :: tol
 
       tol = 1.d-8
-      
+
       system_size = dim / this%nrhs
       max_iter = system_size
 
-!     diaginal matrix made of inverse of square root of diagonal elements of the 
+!     diaginal matrix made of inverse of square root of diagonal elements of the
 !     system matrix
       mat_nnz = this%mat%get_dim()
       do ii = 1, mat_nnz
@@ -509,13 +509,13 @@ C-----------------------------------------------
             this%diag(i) = ONE / sqrt(this%mat%val(ii))
          endif
       enddo
-      
+
 
       do irhs = 1, this%nrhs
-         this%sol_vec%val(1:system_size) = zero     
+         this%sol_vec%val(1:system_size) = zero
 !     initialisation du solver
          call prod_vec(this%mat, this%sol_vec, this%temp)
-         this%r%val(1:system_size) = this%rhs%val(system_size * (irhs - 1) + 1 : system_size * (irhs - 1) + system_size) - 
+         this%r%val(1:system_size) = this%rhs%val(system_size * (irhs - 1) + 1 : system_size * (irhs - 1) + system_size) -
      .        this%temp%val(1:system_size)
          this%p%val(1:system_size) = this%r%val(1:system_size)
          norm_init = this%r%norm()
@@ -530,7 +530,7 @@ C-----------------------------------------------
                this%sol_vec%val(ii) = this%sol_vec%val(ii) + alpha * this%p%val(ii)
                this%rnew%val(ii) = this%r%val(ii) - alpha * this%temp%val(ii)
             enddo
-            beta = dot_product(this%rnew%val(1:system_size), this%rnew%val(1:system_size)) / 
+            beta = dot_product(this%rnew%val(1:system_size), this%rnew%val(1:system_size)) /
      .           dot_product(this%r%val(1:system_size), this%r%val(1:system_size))
             do ii = 1, system_size
                this%p%val(ii) = this%rnew%val(ii) + beta * this%p%val(ii)
@@ -538,11 +538,11 @@ C-----------------------------------------------
             enddo
             error = this%r%norm() / norm_init
          enddo
-         sol(system_size * (irhs - 1) + 1:system_size * (irhs - 1) + system_size) = 
+         sol(system_size * (irhs - 1) + 1:system_size * (irhs - 1) + system_size) =
      .        this%sol_vec%val(1:system_size)
       enddo
 
-      
+
       end subroutine solve_cg
 
 !     End the solver instance

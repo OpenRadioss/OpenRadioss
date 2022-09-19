@@ -56,7 +56,7 @@ C
           IFT=1
         ELSE
           IFT=LASTN(IC-1)+1
-        ENDIF      
+        ENDIF
        DO 100 I=IFT,ILT
          INORM(1) = VN(4,IC) * S3000
          INORM(2) = VN(5,IC) * S3000

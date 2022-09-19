@@ -85,7 +85,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM, NUVAR,ILAY,IP,NPT0
       INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
-      my_real 
+      my_real
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL)
@@ -102,11 +102,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,J,IDEL,IDEL_L,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),IFAIL,JJ,IMATLY,
      .        IUNIDIR,IFABRIC,INDX0(MVSIZ),NINDX0
-      my_real 
+      my_real
      .   SIGT1,SIGT2, SIGC1,SIGC2,
      .   FSIG12,F1,FA,FB,FC,PN12,PP12,PN22,
      .   FAC,TMAX,FA_2,FB_2,FC_2
@@ -117,10 +117,10 @@ C--------------------------------------------------------------
       SIGC2   = UPARAM(4)
       FSIG12  = UPARAM(5)
       PP12    = UPARAM(6)
-      PN12    = UPARAM(7)         
+      PN12    = UPARAM(7)
       PN22    = UPARAM(8)
-      TMAX    = UPARAM(9) 
-      IFLAG   = INT(UPARAM(11))   
+      TMAX    = UPARAM(9)
+      IFLAG   = INT(UPARAM(11))
       INDX(1:MVSIZ)  = 0
       INDEX(1:MVSIZ) = 0
 C-----------------------------------------------
@@ -130,9 +130,9 @@ C-----------------------------------------------
         IF(TIME == ZERO)THEN
          DO I=1,NEL
           UVAR(I,8)  = ONE
-         ENDDO   
-        ENDIF    
-      ENDIF 
+         ENDDO
+        ENDIF
+      ENDIF
 C-----------------------------------------------
       IUNIDIR = 0
       IFABRIC = 0
@@ -144,9 +144,9 @@ C-------------------------------
 C      
 C     OFF = 0. si la matrice ou la fibre a rompu
 C-------------------------------    
-        NINDX = 0 
-        NINDX0= 0 
-        INDX  = 0 
+        NINDX = 0
+        NINDX0= 0
+        INDX  = 0
         INDX0 = 0
         DO I=1,NEL
          F1   = ZERO
@@ -163,7 +163,7 @@ C
 C-------------------------------     
 C           OFF = 0 when one layer fiber or matrix criteria is reached
 C-------------------------------                  
-            IF (UVAR(I,8) < ONE) THEN 
+            IF (UVAR(I,8) < ONE) THEN
               UVAR(I,8) = EXP(-(TIME - UVAR(I,7))/TMAX)
               IF (UVAR(I,8) < EM02) UVAR(I,8) = ZERO
               SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
@@ -171,14 +171,14 @@ C-------------------------------
               SIGNZZ(I) = UVAR(I,3)*UVAR(I,8)
               SIGNXY(I) = UVAR(I,4)*UVAR(I,8)
               SIGNYZ(I) = UVAR(I,5)*UVAR(I,8)
-              SIGNZX(I) = UVAR(I,6)*UVAR(I,8) 
+              SIGNZX(I) = UVAR(I,6)*UVAR(I,8)
               IF (UVAR(I,8) == ZERO )THEN
                 OFF(I)=FOUR_OVER_5
                 NINDX=NINDX+1
-                INDX(NINDX)=I 
-                TDELE(I) = TIME   
-              ENDIF  
-            ELSE                  
+                INDX(NINDX)=I
+                TDELE(I) = TIME
+              ENDIF
+            ELSE
 C
 C             fiber criteria
 C
@@ -193,7 +193,7 @@ C
               IF (SIGNYY(I) >= ZERO) THEN
                 FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNYY(I)/SIGT2
-                FA = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
+                FA = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC)
      .                   + PP12*SIGNYY(I)/FSIG12
                ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
@@ -206,10 +206,10 @@ c                CC =  (FAC/FSIG12(I))**2
 c                CC = CC*(SIGNXY(I)/SIGNYY(I))**2 + ONE
 c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
-c                ANGLE(I) = ACOS(CC)                               
+c                ANGLE(I) = ACOS(CC)
               ENDIF
-              
-              FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 ) 
+
+              FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 )
      .                               + PN12*SIGNYY(I)
               FB = FB/FSIG12
 C
@@ -218,7 +218,7 @@ C
               IF (SIGNZZ(I) >= ZERO) THEN
                 FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNZZ(I)/SIGT2
-                FA_2 = SQRT((SIGNZX(I)/FSIG12)**2 + FAC*FAC) 
+                FA_2 = SQRT((SIGNZX(I)/FSIG12)**2 + FAC*FAC)
      .                   + PP12*SIGNZZ(I)/FSIG12
               ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
@@ -231,12 +231,12 @@ c                CC =  (FAC/FSIG12(I))**2
 c                CC = CC*(SIGNZX(I)/SIGNZZ(I))**2 + ONE
 c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
-c                ANGLE(I) = ACOS(CC)                               
+c                ANGLE(I) = ACOS(CC)
               ENDIF
-              
-              FB_2 = SQRT(SIGNZX(I)**2 + (PN12*SIGNZZ(I))**2 ) 
+
+              FB_2 = SQRT(SIGNZX(I)**2 + (PN12*SIGNZZ(I))**2 )
      .                               + PN12*SIGNZZ(I)
-              FB_2 = FB_2/FSIG12   
+              FB_2 = FB_2/FSIG12
 C
                DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
 C         
@@ -250,11 +250,11 @@ C
                UVAR(I,5) = SIGNYZ(I)
                UVAR(I,6) = SIGNZX(I)
                UVAR(I,7) = TIME
-               UVAR(I,8) = FOUR_OVER_5            
+               UVAR(I,8) = FOUR_OVER_5
               ENDIF
              ENDIF
 C             
-            ELSE    ! iflag/= 1 
+            ELSE    ! iflag/= 1
 C-------------------------------     
 C     OFF = 0. all layer fiber or matrix criteria is reateched
 C-------------------------------              
@@ -266,7 +266,7 @@ C-------------------------------
                 SIGNZX(I) = ZERO
                 SIGNYZ(I) = ZERO
               ELSE IF(UVAR(I,8) < ONE) THEN
-                UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX) 
+                UVAR(I,8)= EXP(-(TIME - UVAR(I,7))/TMAX)
                 IF(UVAR(I,8) < EM02)UVAR(I,8) = ZERO
                 SIGNXX(I) = UVAR(I,1)*UVAR(I,8)
                 SIGNYY(I) = UVAR(I,2)*UVAR(I,8)
@@ -280,10 +280,10 @@ C-------------------------------
                        OFF(I) = FOUR_OVER_5
                        NINDX=NINDX+1
                        INDX(NINDX)=I
-                       TDELE(I) = TIME  
+                       TDELE(I) = TIME
                     ENDIF
-                ENDIF            
-              ELSE                  
+                ENDIF
+              ELSE
 C
 C   fiber criteria
 C
@@ -298,7 +298,7 @@ C
               IF(SIGNYY(I) >= ZERO) THEN
                 FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNYY(I)/SIGT2
-                FA = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC) 
+                FA = SQRT((SIGNXY(I)/FSIG12)**2 + FAC*FAC)
      .                   + PP12*SIGNYY(I)/FSIG12
                ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
@@ -311,9 +311,9 @@ c                CC =  (FAC/FSIG12(I))**2
 c                CC = CC*(SIGNXY(I)/SIGNYY(I))**2 + ONE
 c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
-c                ANGLE(I) = ACOS(CC)                               
+c                ANGLE(I) = ACOS(CC)
               ENDIF
-              FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 ) 
+              FB = SQRT(SIGNXY(I)**2 + (PN12*SIGNYY(I))**2 )
      .                               + PN12*SIGNYY(I)
               FB = FB/FSIG12
 
@@ -323,7 +323,7 @@ C
               IF(SIGNZZ(I) >= ZERO) THEN
                 FAC = ONE - PP12*SIGT2/FSIG12
                 FAC = FAC*SIGNZZ(I)/SIGT2
-                FA_2 = SQRT((SIGNZX(I)/FSIG12)**2 + FAC*FAC) 
+                FA_2 = SQRT((SIGNZX(I)/FSIG12)**2 + FAC*FAC)
      .                   + PP12*SIGNZZ(I)/FSIG12
                ELSE
                 FAC = HALF/(ONE + PN22)/FSIG12
@@ -336,33 +336,33 @@ c                CC =  (FAC/FSIG12(I))**2
 c                CC = CC*(SIGNZX(I)/SIGNZZ(I))**2 + ONE
 c                FAC = HALF/ONE + PN22(I))
 c                CC = SQRT(FAC*CC)
-c                ANGLE(I) = ACOS(CC)                               
+c                ANGLE(I) = ACOS(CC)
               ENDIF
-              
-              FB_2 = SQRT(SIGNZX(I)**2 + (PN12*SIGNZZ(I))**2 ) 
+
+              FB_2 = SQRT(SIGNZX(I)**2 + (PN12*SIGNZZ(I))**2 )
      .                               + PN12*SIGNZZ(I)
-              FB_2 = FB_2/FSIG12    
+              FB_2 = FB_2/FSIG12
 C
                DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),F1,FA,FB,FC,FA_2,FB_2,FC_2))
 C           
               IF(F1 >= ONE .OR. FA >= ONE .OR. FB >= ONE .OR.
      .          FC >= ONE .OR. FA_2 >= ONE .OR. FB_2 >= ONE .OR.
-     .          FC_2 >= ONE )THEN            
-                   UVAR(I,1) = SIGNXX(I)                                  
-                   UVAR(I,2) = SIGNYY(I)                                   
-                   UVAR(I,3) = SIGNZZ(I)                                  
-                   UVAR(I,4) = SIGNXY(I)                                  
-                   UVAR(I,5) = SIGNYZ(I)                                  
-                   UVAR(I,6) = SIGNZX(I)                                  
-                   UVAR(I,7) = TIME                                       
+     .          FC_2 >= ONE )THEN
+                   UVAR(I,1) = SIGNXX(I)
+                   UVAR(I,2) = SIGNYY(I)
+                   UVAR(I,3) = SIGNZZ(I)
+                   UVAR(I,4) = SIGNXY(I)
+                   UVAR(I,5) = SIGNYZ(I)
+                   UVAR(I,6) = SIGNZX(I)
+                   UVAR(I,7) = TIME
                    UVAR(I,8) = FOUR_OVER_5
                    NINDX0= NINDX0+1
-                   INDX0(NINDX0)=I                    
+                   INDX0(NINDX0)=I
                  ENDIF
                ENDIF
              ENDIF  !  iflag choice
-           ENDIF        
-         ENDDO  
+           ENDIF
+         ENDDO
 C--------------------------------------------      
 C       print 
 C--------------------------------------------      
@@ -374,7 +374,7 @@ C--------------------------------------------
            WRITE(ISTDO,1200) NGL(I),TIME
 #include "lockoff.inc"
           END DO
-         ENDIF         
+         ENDIF
 C                
         IF(NINDX0 > 0)THEN
           DO J=1,NINDX0
@@ -384,13 +384,13 @@ C
            WRITE(ISTDO,1100) NGL(I),ILAY,TIME
 #include "lockoff.inc"
           END DO
-        ENDIF      
+        ENDIF
 C--------------------------------------------      
  1100 FORMAT(1X,'FAILURE ELEMENT #',I10,1X,
      .'IP #',I10,1X, 'AT TIME #:',1PE20.13)
 
  1200 FORMAT(1X,'DELETE SOLID ELEMENT (PUCK MODEL) #',I10,1X,
-     .'AT TIME # ',1PE20.13)  
+     .'AT TIME # ',1PE20.13)
 C--------------------------------------------      
       RETURN
       END

@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE I2DST3(GAPV,CAND_E  ,CAND_N,TZINF,IRTL,ST,DMIN,IGNORE,
      .                  THK  ,KNOD2ELS,KNOD2ELC,KNOD2ELTG,NOD2ELS,
      .                  NOD2ELC,NOD2ELTG,X,IRECT,
-     .                  NINT,IXC ,IXTG  ,THK_PART,IPARTC,GEO   , 
+     .                  NINT,IXC ,IXTG  ,THK_PART,IPARTC,GEO   ,
      .                  NOINT,IXS,IXS10 ,PM,IX3,
      1                  IX4,X1 ,X2 ,X3 ,X4 ,
      1                  Y1 ,Y2 ,Y3 ,Y4 ,Z1 ,
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER CAND_E(*),CAND_N(*),IRTL(*),IGNORE,
-     .    KNOD2ELS(*), KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .    KNOD2ELS(*), KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .    NOD2ELTG(*),IRECT(4,*),NINT,
      .    IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,IXS(NIXS,*),
      .    IXS10(*)
@@ -159,7 +159,7 @@ C
           PENE(I) = P1(I)
           T(I)= ONE - TWO*LB1(I) - TWO*LC1(I)
           IF (T(I) < ONE-EM10) THEN
-              S(I)= (LC1(I)-LB1(I))/(LC1(I)+LB1(I))            
+              S(I)= (LC1(I)-LB1(I))/(LC1(I)+LB1(I))
           ELSEIF (LB1(I) < -EM10) THEN
             S(I)= TWO
           ELSEIF (LC1(I) < -EM10) THEN
@@ -173,7 +173,7 @@ C
       IF(IGNORE==2 .OR. IGNORE == 3)THEN
         DO I=LFT,LLT
           IF(PENE(I)>ZERO  .AND.
-     .          (S(I) < ONEP5 .AND. 
+     .          (S(I) < ONEP5 .AND.
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))THEN
@@ -197,12 +197,12 @@ C
         DO I=LFT,LLT
 C
         IF(PENE(I)>ZERO  .AND.
-     .          (S(I) < ONEP5 .AND. 
+     .          (S(I) < ONEP5 .AND.
      .           T(I) < ONEP5 .AND.
      .           S(I) >-ONEP5 .AND.
      .           T(I) >-ONEP5))  THEN
           II=CAND_N(I)
-          
+
           IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
@@ -223,7 +223,7 @@ C
 C
         IF(PENE(I)>ZERO)  THEN
           II=CAND_N(I)
-          
+
           IF(TZINF - PENE(I)<DMIN(II))THEN
             DMIN(II)=TZINF - PENE(I)
             IRTL(II)=CAND_E(I)
@@ -301,8 +301,8 @@ C
        NY(I) = NY(I) / S2
        NZ(I) = NZ(I) / S2
 C
-       P(I) = NX(I) * (XI(I) - XA(I)) 
-     .      + NY(I) * (YI(I) - YA(I)) 
+       P(I) = NX(I) * (XI(I) - XA(I))
+     .      + NY(I) * (YI(I) - YA(I))
      .      + NZ(I) * (ZI(I) - ZA(I))
 C
        XP = XI(I) - NX(I) * P(I)

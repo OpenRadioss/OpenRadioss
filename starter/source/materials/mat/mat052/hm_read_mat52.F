@@ -44,8 +44,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -73,9 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC,MAXTABL
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRAT ,NTABLE,ITABLE(MAXTABL)
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      my_real 
+      my_real
      .      E, NU, YEILD, ET,CSD, VISP, Q1, Q2, Q3, SN, EPSN,
      .      F1,FN,FC, FF, FU,FI,G,C1,N,FAC_L,FAC_T,FAC_M,FAC_C,
      .      R,XFAC,YFAC,RHO0,RHOR,FCUT
@@ -103,7 +103,7 @@ C=======================================================================
       ITABLE(1) = 0
       XFAC = ZERO
       YFAC = ZERO
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -115,13 +115,13 @@ C=======================================================================
       CALL HM_GET_INTV  ('Fsmooth'      ,ISRATE    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('Fcut'         ,FCUT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('MAT_Iyield'   ,IYIELDTAB ,IS_AVAILABLE,LSUBMODEL)
-      
+
       CALL HM_GET_FLOATV('MAT_A'        ,YEILD     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_B'        ,ET        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_N'        ,N         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_C'        ,CSD       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_PC'       ,VISP      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
- 
+
       CALL HM_GET_FLOATV('MAT_q1'       ,Q1        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_q2'       ,Q2        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_q3'       ,Q3        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -136,27 +136,27 @@ C=======================================================================
 
       IF(IYIELDTAB > 0) THEN
         CALL HM_GET_INT_ARRAY_INDEX  ('MAT_Tab_ID'  ,ITABLE(1)  ,I ,IS_AVAILABLE, LSUBMODEL)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_XFAC'    ,XFAC       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_YFAC'    ,YFAC       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)         
+        CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_XFAC'    ,XFAC       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_YFAC'    ,YFAC       ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDIF
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
       PM(89)= RHO0
-      
+
       G = HALF*E/(1.+NU)
       C1 = E / THREE / (ONE - TWO*NU)
       IF( CSD > ZERO .AND. VISP > ZERO  .AND. FCUT == ZERO) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=MAT_ID, 
+     .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF
       IF (FCUT == ZERO) FCUT = INFINITY
-      ISRATE = 1  
-      IF(ITABLE(1) /= 0) NTABLE = 1     
+      ISRATE = 1
+      IF(ITABLE(1) /= 0) NTABLE = 1
       IF(XFAC == ZERO) XFAC = ONE
-      IF(YFAC == ZERO) YFAC  = ONE          
+      IF(YFAC == ZERO) YFAC  = ONE
 C.....
 C check of the parameters compatibility FI<Fc<FF
 C
@@ -167,8 +167,8 @@ C
      .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF
-  
-     
+
+
 
       UPARAM(1)=E
       UPARAM(2)=NU
@@ -177,7 +177,7 @@ C
       UPARAM(5)= N
       IF(CSD == ZERO) CSD = INFINITY
       UPARAM(6)= CSD
-      IF(VISP == ZERO)VISP=ONE          
+      IF(VISP == ZERO)VISP=ONE
       VISP=1/VISP
       UPARAM(7)=VISP
       UPARAM(8)=Q1
@@ -193,25 +193,25 @@ C
       FU=ONE/Q1
       UPARAM(17)=FU
       UPARAM(18)=IFLAG
-      UPARAM(19) = ISRATE 
-      UPARAM(20) = FCUT 
+      UPARAM(19) = ISRATE
+      UPARAM(20) = FCUT
       IF(NTABLE == 1) UPARAM(21) = 1
       UPARAM(22) = XFAC
       UPARAM(23) = YFAC
-      
+
 C
       PARMAT(1) = C1
       PARMAT(2) = E
       PARMAT(3) = NU
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT
-      NUPARAM = 23 
+      NUPARAM = 23
        NFUNC = 0
        NUVAR = 6
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
       PARMAT(17) = (ONE - TWO*NU)/(ONE + NU)
-      
+
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
 C          
@@ -222,11 +222,11 @@ C
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1002) RHO0
-        WRITE(IOUT,1100) E,NU,YEILD, ET, N,CSD, VISP,SN,EPSN, Q1,Q2,Q3,FI,FN,FC, FF, FU,ISRATE,FCUT, IFLAG 
+        WRITE(IOUT,1100) E,NU,YEILD, ET, N,CSD, VISP,SN,EPSN, Q1,Q2,Q3,FI,FN,FC, FF, FU,ISRATE,FCUT, IFLAG
       IF( IYIELDTAB  > 0) THEN
        write(IOUT,1200)ITABLE(1),YFAC,XFAC
       ENDIF
-           
+
       ENDIF
 C---
       RETURN
@@ -238,13 +238,13 @@ C---
      &5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . =',I10/,
      &5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . =',I10/)
  1002 FORMAT(
-     &5X,'INITIAL DENSITY . . . . . . . . . . . . . . . .  =',1PG20.13/)  
+     &5X,'INITIAL DENSITY . . . . . . . . . . . . . . . .  =',1PG20.13/)
  1100 FORMAT(
      &5X,'YOUNG''S MODULUS. . . . . . . . . . . . . . . .  =',1PG20.13,/
      &5X,'POISSON''S RATIO. . . . . . . . . . . . . . . .  =',1PG20.13,/
      &5X,'YIELD STRESS. . . . . . . . . . . . . . . . . .  =',1PG20.13,/
      &5X,'TANGENT MODULUS . . . . . . . . . . . . . . . .  =',1PG20.13,/
-     &5X,'HARDENING EXPONENT. . . . . . . . . . . . . . .  =',1PG20.13,/ 
+     &5X,'HARDENING EXPONENT. . . . . . . . . . . . . . .  =',1PG20.13,/
      &5X,'COEFFICIENT OF THE COWPER-SYMOND .. . . . . . .  =',1PG20.13,/
      &5X,'STRAIN RATE EXPONENT IN COWPER-SYMOND LAW . . .  =',1PG20.13,/
      &5X,'GAUSSIAN STANDARD  DEVIATION. . . . . . . . . .  =',1PG20.13,/
@@ -259,8 +259,8 @@ C---
      &5x,'CRITICAL VOID VOLUME FRACTION AT DUCTILE FRACTURE=',1PG20.13,/
      &5x,'VALUE OF THE COELESCENCE VALUE. . . . . . . . .  =',1PG20.13,/
      &5X,'SMOOTH STRAIN RATE OPTION. . . . . . . . . . .   =',I10/
-     &5X,'STRAIN RATE CUTTING FREQUENCY. . . . . . . . .   =',1PG20.13/  
-     &5x,'The CHOICE OF VISCOPLASTIC FLOW. . . . . . . . . =',I10)        
+     &5X,'STRAIN RATE CUTTING FREQUENCY. . . . . . . . .   =',1PG20.13/
+     &5x,'The CHOICE OF VISCOPLASTIC FLOW. . . . . . . . . =',I10)
 C
  1200 FORMAT(
      & 5X,'YIELD TABLE ID . . . . . . . . .. . . . . . . . =',I10/

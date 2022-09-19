@@ -61,9 +61,9 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT, ITYP, SKFLAG,IUNIT
-      my_real PARGEO(*) 
+      my_real PARGEO(*)
 
       INTEGER ID
       CHARACTER*nchartitle,
@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IERROR,IDSK1,IDSK2,IFUN_XX,IFUN_RX,IFUN_CXX,IFUN_CRX,
      .        ZEROI,OFLAG
-      my_real 
+      my_real
      .   XK,XTYP,XFLG,XSK1,XSK2,KNN,KXX,KRX,CR,CXX,CRX,MASS,INER,
      .   FAC_M,FAC_L,FAC_T,FAC_CT,FAC_CR,FAC_KT,FAC_KR,FAC_CTX,FAC_CRX,
      .   FAC_FF,FAC_MM
@@ -132,102 +132,102 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Crx',CRX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF(.NOT.IS_AVAILABLE) OFLAG = OFLAG + 1
 C-----------------------
-      IF (IDSK1<=0.OR.IDSK1<=0) THEN  
+      IF (IDSK1<=0.OR.IDSK1<=0) THEN
          CALL ANCMSG(MSGID=386,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
-      ENDIF                               
-      IF (KNN==0.) THEN                 
+      ENDIF
+      IF (KNN==0.) THEN
          CALL ANCMSG(MSGID=387,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
-      ENDIF                               
-      IF (CR<ZERO.OR.CR>1.) THEN   
+      ENDIF
+      IF (CR<ZERO.OR.CR>1.) THEN
          CALL ANCMSG(MSGID=388,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR)
-      ENDIF                               
-      IF (CR==ZERO) CR = FIVEEM2        
+      ENDIF
+      IF (CR==ZERO) CR = FIVEEM2
 C-----------------------
-      XTYP = ITYP                                                   
-      XFLG = SKFLAG                                                 
-      XSK1 = IDSK1                                                  
-      XSK2 = IDSK2                                                  
-      MASS = ZERO                                                   
-      INER = ZERO                                                   
+      XTYP = ITYP
+      XFLG = SKFLAG
+      XSK1 = IDSK1
+      XSK2 = IDSK2
+      MASS = ZERO
+      INER = ZERO
 C
-      IF(CXX==ZERO.AND.IFUN_CXX/=0)CXX = ONE  
-      IF(CRX==ZERO.AND.IFUN_CRX/=0)CRX = ONE  
-      IF(KXX==ZERO.AND.IFUN_XX/=0) KXX = ONE  
-      IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE  
+      IF(CXX==ZERO.AND.IFUN_CXX/=0)CXX = ONE
+      IF(CRX==ZERO.AND.IFUN_CRX/=0)CRX = ONE
+      IF(KXX==ZERO.AND.IFUN_XX/=0) KXX = ONE
+      IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE
 C-----------------------
       IF (IFUN_XX /= 0)  KXX = KXX * FAC_FF
       IF (IFUN_RX /= 0)  KRX = KRX * FAC_MM
       IF (IFUN_CXX /= 0) CXX = CXX * FAC_FF
       IF (IFUN_CRX /= 0) CRX = CRX * FAC_MM
 C-----------------------
-      PARGEO(1) = 0                                                 
-      PARGEO(2) = XK                                                
-      PARGEO(3) = 0                                                 
+      PARGEO(1) = 0
+      PARGEO(2) = XK
+      PARGEO(3) = 0
 C
-      IERROR = SET_U_GEO(1,XTYP)             
-      IERROR = SET_U_GEO(2,XSK1)             
-      IERROR = SET_U_GEO(3,XSK2)             
-      IERROR = SET_U_GEO(4,KXX)              
-      IERROR = SET_U_GEO(5,KNN)              
-      IERROR = SET_U_GEO(6,KNN)              
-      IERROR = SET_U_GEO(7,KRX)              
-      IERROR = SET_U_GEO(8,KNN)              
-      IERROR = SET_U_GEO(9,KNN)              
-      IERROR = SET_U_GEO(10,KNN)             
-      IERROR = SET_U_GEO(11,ZERO)            
-      IERROR = SET_U_GEO(12,MASS)            
-      IERROR = SET_U_GEO(13,INER)            
-      IERROR = SET_U_GEO(14,XFLG)            
-      IERROR = SET_U_GEO(15,ZERO)            
-      IERROR = SET_U_GEO(16,CR)              
-      IERROR = SET_U_GEO(17,CR)              
-      IERROR = SET_U_GEO(18,ZERO)            
-      IERROR = SET_U_GEO(19,CR)              
-      IERROR = SET_U_GEO(20,CR)              
-      IERROR = SET_U_GEO(21,CXX)             
-      IERROR = SET_U_GEO(22,ZERO)            
-      IERROR = SET_U_GEO(23,ZERO)            
-      IERROR = SET_U_GEO(24,CRX)             
-      IERROR = SET_U_GEO(25,ZERO)            
-      IERROR = SET_U_GEO(26,ZERO)            
-      IERROR = SET_U_GEO(27,FAC_CTX)            
-      IERROR = SET_U_GEO(28,FAC_CRX)            
-      IERROR = SET_U_PNU(1,IFUN_XX,KFUNC)    
-      IERROR = SET_U_PNU(2,ZEROI,KFUNC)      
-      IERROR = SET_U_PNU(3,ZEROI,KFUNC)      
-      IERROR = SET_U_PNU(4,IFUN_RX,KFUNC)    
-      IERROR = SET_U_PNU(5,ZEROI,KFUNC)      
-      IERROR = SET_U_PNU(6,ZEROI,KFUNC)      
-      IERROR = SET_U_PNU(7,IFUN_CXX,KFUNC)   
-      IERROR = SET_U_PNU(8,ZEROI,KFUNC)      
-      IERROR = SET_U_PNU(9,ZEROI,KFUNC)      
-      IERROR = SET_U_PNU(10,IFUN_CRX,KFUNC)  
-      IERROR = SET_U_PNU(11,ZEROI,KFUNC)     
-      IERROR = SET_U_PNU(12,ZEROI,KFUNC)     
+      IERROR = SET_U_GEO(1,XTYP)
+      IERROR = SET_U_GEO(2,XSK1)
+      IERROR = SET_U_GEO(3,XSK2)
+      IERROR = SET_U_GEO(4,KXX)
+      IERROR = SET_U_GEO(5,KNN)
+      IERROR = SET_U_GEO(6,KNN)
+      IERROR = SET_U_GEO(7,KRX)
+      IERROR = SET_U_GEO(8,KNN)
+      IERROR = SET_U_GEO(9,KNN)
+      IERROR = SET_U_GEO(10,KNN)
+      IERROR = SET_U_GEO(11,ZERO)
+      IERROR = SET_U_GEO(12,MASS)
+      IERROR = SET_U_GEO(13,INER)
+      IERROR = SET_U_GEO(14,XFLG)
+      IERROR = SET_U_GEO(15,ZERO)
+      IERROR = SET_U_GEO(16,CR)
+      IERROR = SET_U_GEO(17,CR)
+      IERROR = SET_U_GEO(18,ZERO)
+      IERROR = SET_U_GEO(19,CR)
+      IERROR = SET_U_GEO(20,CR)
+      IERROR = SET_U_GEO(21,CXX)
+      IERROR = SET_U_GEO(22,ZERO)
+      IERROR = SET_U_GEO(23,ZERO)
+      IERROR = SET_U_GEO(24,CRX)
+      IERROR = SET_U_GEO(25,ZERO)
+      IERROR = SET_U_GEO(26,ZERO)
+      IERROR = SET_U_GEO(27,FAC_CTX)
+      IERROR = SET_U_GEO(28,FAC_CRX)
+      IERROR = SET_U_PNU(1,IFUN_XX,KFUNC)
+      IERROR = SET_U_PNU(2,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(3,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(4,IFUN_RX,KFUNC)
+      IERROR = SET_U_PNU(5,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(6,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(7,IFUN_CXX,KFUNC)
+      IERROR = SET_U_PNU(8,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(9,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(10,IFUN_CRX,KFUNC)
+      IERROR = SET_U_PNU(11,ZEROI,KFUNC)
+      IERROR = SET_U_PNU(12,ZEROI,KFUNC)
 C-----------------------
-      WRITE(IOUT,500)                                               
+      WRITE(IOUT,500)
       IF(IS_ENCRYPTED)THEN
-        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'                  
-      ELSE                                                          
-        IF (OFLAG==4) THEN                                         
-          WRITE(IOUT,1001) IDSK1,IDSK2,XK,CR,KNN,KXX,KRX,             
-     .                   IFUN_XX,IFUN_RX                            
-        ELSE                                                         
-          WRITE(IOUT,1000) IDSK1,IDSK2,XK,CR,KNN,KXX,KRX,             
-     .                   IFUN_XX,IFUN_RX,CXX,CRX,IFUN_CXX,IFUN_CRX  
-        ENDIF                                                        
+        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
+      ELSE
+        IF (OFLAG==4) THEN
+          WRITE(IOUT,1001) IDSK1,IDSK2,XK,CR,KNN,KXX,KRX,
+     .                   IFUN_XX,IFUN_RX
+        ELSE
+          WRITE(IOUT,1000) IDSK1,IDSK2,XK,CR,KNN,KXX,KRX,
+     .                   IFUN_XX,IFUN_RX,CXX,CRX,IFUN_CXX,IFUN_CRX
+        ENDIF
       ENDIF
 C-----------------------
       RETURN

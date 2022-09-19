@@ -44,7 +44,7 @@ C     SUB_INDEX          SUBMODEL INDEX OF THE OPTION TO SELECT
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,7 +71,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
       CALL CPP_SELECT_OPTION_BY_NAME(ENTITY_TYPE(1:LEN_TRIM(ENTITY_TYPE)),LEN_TRIM(ENTITY_TYPE),
-     .                                NAME_PARAM(1:LEN_TRIM(NAME_PARAM)),LEN_TRIM(NAME_PARAM),SUB_INDEX ) 
+     .                                NAME_PARAM(1:LEN_TRIM(NAME_PARAM)),LEN_TRIM(NAME_PARAM),SUB_INDEX )
       RETURN
 C
       END

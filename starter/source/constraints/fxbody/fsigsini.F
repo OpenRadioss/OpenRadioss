@@ -31,7 +31,7 @@ Chd|        SDERII                        source/constraints/fxbody/fsigsini.F
 Chd|        SM1INIF                       source/constraints/fxbody/fsigsini.F
 Chd|        SRHOI                         source/constraints/fxbody/fsigsini.F
 Chd|====================================================================
-      SUBROUTINE FSIGSINI(FXBELM, IPARG , X     , PM, IXS, 
+      SUBROUTINE FSIGSINI(FXBELM, IPARG , X     , PM, IXS,
      .                    GEO   , FXBMOD, FXBSIG, R , NELS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,31 +59,31 @@ C-----------------------------------------------
      .        N1, N2, N3, N4, N5, N6, N7, N8
       INTEGER MAT(MVSIZ)
       my_real
-     .   X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ), 
-     .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ), 
-     .   X3(MVSIZ), Y3(MVSIZ), Z3(MVSIZ), 
-     .   X4(MVSIZ), Y4(MVSIZ), Z4(MVSIZ), 
-     .   X5(MVSIZ), Y5(MVSIZ), Z5(MVSIZ), 
-     .   X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ), 
-     .   X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ), 
+     .   X1(MVSIZ), Y1(MVSIZ), Z1(MVSIZ),
+     .   X2(MVSIZ), Y2(MVSIZ), Z2(MVSIZ),
+     .   X3(MVSIZ), Y3(MVSIZ), Z3(MVSIZ),
+     .   X4(MVSIZ), Y4(MVSIZ), Z4(MVSIZ),
+     .   X5(MVSIZ), Y5(MVSIZ), Z5(MVSIZ),
+     .   X6(MVSIZ), Y6(MVSIZ), Z6(MVSIZ),
+     .   X7(MVSIZ), Y7(MVSIZ), Z7(MVSIZ),
      .   X8(MVSIZ), Y8(MVSIZ), Z8(MVSIZ),
-     .   D11, D12, D13, D21, D22, D23, D31, D32, D33, D41, D42, D43, 
+     .   D11, D12, D13, D21, D22, D23, D31, D32, D33, D41, D42, D43,
      .   D51, D52, D53, D61, D62, D63, D71, D72, D73, D81, D82, D83,
-     .   VX1(MVSIZ), VY1(MVSIZ), VZ1(MVSIZ), 
-     .   VX2(MVSIZ), VY2(MVSIZ), VZ2(MVSIZ), 
-     .   VX3(MVSIZ), VY3(MVSIZ), VZ3(MVSIZ), 
-     .   VX4(MVSIZ), VY4(MVSIZ), VZ4(MVSIZ), 
-     .   VX5(MVSIZ), VY5(MVSIZ), VZ5(MVSIZ), 
-     .   VX6(MVSIZ), VY6(MVSIZ), VZ6(MVSIZ), 
-     .   VX7(MVSIZ), VY7(MVSIZ), VZ7(MVSIZ), 
+     .   VX1(MVSIZ), VY1(MVSIZ), VZ1(MVSIZ),
+     .   VX2(MVSIZ), VY2(MVSIZ), VZ2(MVSIZ),
+     .   VX3(MVSIZ), VY3(MVSIZ), VZ3(MVSIZ),
+     .   VX4(MVSIZ), VY4(MVSIZ), VZ4(MVSIZ),
+     .   VX5(MVSIZ), VY5(MVSIZ), VZ5(MVSIZ),
+     .   VX6(MVSIZ), VY6(MVSIZ), VZ6(MVSIZ),
+     .   VX7(MVSIZ), VY7(MVSIZ), VZ7(MVSIZ),
      .   VX8(MVSIZ), VY8(MVSIZ), VZ8(MVSIZ),
-     .   X1P(MVSIZ), Y1P(MVSIZ), Z1P(MVSIZ), 
-     .   X2P(MVSIZ), Y2P(MVSIZ), Z2P(MVSIZ), 
-     .   X3P(MVSIZ), Y3P(MVSIZ), Z3P(MVSIZ), 
-     .   X4P(MVSIZ), Y4P(MVSIZ), Z4P(MVSIZ), 
-     .   X5P(MVSIZ), Y5P(MVSIZ), Z5P(MVSIZ), 
-     .   X6P(MVSIZ), Y6P(MVSIZ), Z6P(MVSIZ), 
-     .   X7P(MVSIZ), Y7P(MVSIZ), Z7P(MVSIZ), 
+     .   X1P(MVSIZ), Y1P(MVSIZ), Z1P(MVSIZ),
+     .   X2P(MVSIZ), Y2P(MVSIZ), Z2P(MVSIZ),
+     .   X3P(MVSIZ), Y3P(MVSIZ), Z3P(MVSIZ),
+     .   X4P(MVSIZ), Y4P(MVSIZ), Z4P(MVSIZ),
+     .   X5P(MVSIZ), Y5P(MVSIZ), Z5P(MVSIZ),
+     .   X6P(MVSIZ), Y6P(MVSIZ), Z6P(MVSIZ),
+     .   X7P(MVSIZ), Y7P(MVSIZ), Z7P(MVSIZ),
      .   X8P(MVSIZ), Y8P(MVSIZ), Z8P(MVSIZ),
      .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),
      .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),
@@ -278,13 +278,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
       my_real
-     .   DET(*), 
+     .   DET(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),  
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*)  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -303,7 +303,7 @@ C-----------------------------------------------
      .   JACI12(MVSIZ), JACI45(MVSIZ), JACI78(MVSIZ),
      .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
      .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
-     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ)
 C
       DO I=1,NEL
          X17(I)=X7(I)-X1(I)
@@ -320,7 +320,7 @@ C
          Z46(I)=Z6(I)-Z4(I)
       ENDDO
 C
-      DO I=1,NEL               
+      DO I=1,NEL
          JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
          JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
          JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
@@ -342,13 +342,13 @@ C Jacobian matrix
          JAC9(I)=Z_17_46(I)-Z_28_35(I)
       ENDDO
 C                  
-      DO I=1,NEL     
+      DO I=1,NEL
          JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
          JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
          JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
       ENDDO
 C
-      DO I=1,NEL   
+      DO I=1,NEL
          DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)
      .         +JAC3(I)*JAC_48_57(I))
       ENDDO
@@ -434,7 +434,7 @@ C-----------------------------------------------
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DYY(*), DZZ(*), D4(*) , D5(*), D6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -541,8 +541,8 @@ Chd|-- called by -----------
 Chd|        FSIGSINI                      source/constraints/fxbody/fsigsini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SM1INIF(NEL, PM , SIG , EINT, 
-     .                   RHO, D1 , D2 , D3  , D4  , 
+      SUBROUTINE SM1INIF(NEL, PM , SIG , EINT,
+     .                   RHO, D1 , D2 , D3  , D4  ,
      .                   D5  ,D6 , MAT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -562,7 +562,7 @@ C-----------------------------------------------
       INTEGER :: NEL, MAT(*)
       my_real
      .        PM(NPROPM,*), SIG(6,*), EINT(*), RHO(*),D1(*), D2(*),
-     .        D3(*), D4(*), D5(*), D6(*)    
+     .        D3(*), D4(*), D5(*), D6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -581,7 +581,7 @@ C
          G2(I)  =TWO*G1(I)
          C1(I)  =PM(32,MX)
          AMU(I) =RHO(I)/RHO0(I)-ONE
-      ENDDO       
+      ENDDO
 C
       DO I=1,NEL
          DAV=CNU1(I)*(D1(I)+D2(I)+D3(I))
@@ -591,7 +591,7 @@ C
          SIG(4,I)=G1(I)*D4(I)
          SIG(5,I)=G1(I)*D5(I)
          SIG(6,I)=G1(I)*D6(I)
-      ENDDO       
+      ENDDO
 C
       DO I=1,NEL
          E1=D1(I)*SIG(1,I)
@@ -664,4 +664,4 @@ C
 C
       RETURN
       END SUBROUTINE SCHREP
-         
+

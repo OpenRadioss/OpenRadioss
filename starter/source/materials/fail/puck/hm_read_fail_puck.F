@@ -54,9 +54,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISHELL ,ISOLID
-      my_real 
+      my_real
      .    SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,
      .    PN12,PP12,PN22,
      .    TMAX
@@ -94,7 +94,7 @@ C   S o u r c e   L i n e s
 C--------------------------------------------------
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
       CALL HM_GET_FLOATV    ('Sigma_1t'   ,SIGT1      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -109,15 +109,15 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV    ('Tau_max'      ,TMAX     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV      ('Ifail_sh'     ,ISHELL   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV      ('Ifail_so'     ,ISOLID   ,IS_AVAILABLE,LSUBMODEL)
-      
+
       IF (SIGT1 == ZERO) SIGT1 = EP30
       IF (SIGT2 == ZERO) SIGT2 = EP30
       IF (SIGT12 == ZERO) SIGT12 = EP30
       IF (SIGC1 == ZERO) SIGC1 = EP30
       IF (SIGC2 == ZERO) SIGC2 = EP30
       IF(TMAX == ZERO) TMAX=EP30
-      IF(ISHELL == 0) ISHELL = 1 
-      IF(ISOLID == 0) ISOLID = 1              
+      IF(ISHELL == 0) ISHELL = 1
+      IF(ISOLID == 0) ISOLID = 1
 C  
       UPARAM(1) = SIGT1
       UPARAM(2) = SIGT2
@@ -129,23 +129,23 @@ C
       UPARAM(8) = PN22
       UPARAM(9) = TMAX
       UPARAM(10) = ISHELL
-      UPARAM(11) = ISOLID      
+      UPARAM(11) = ISOLID
 C
       NUPARAM = 11
       NUVAR   = 8
       NFUNC   = 0
 C
       IF(IS_ENCRYPTED)THEN
-      
+
       ELSE
-       WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,PP12,PN12,PN22,TMAX     
+       WRITE(IOUT, 1000)SIGT1,SIGT2,SIGT12,SIGC1,SIGC2,PP12,PN12,PN22,TMAX
        IF(ISHELL==1)THEN
         WRITE(IOUT, 1100)
        ELSEIF(ISHELL==2)THEN
         WRITE(IOUT, 1200)
-       ENDIF       
+       ENDIF
       ENDIF
-c----------- 
+c-----------
  1000 FORMAT(
      & 5X,40H    MODIFIED PUCK FAILURE MODEL                  /,
      & 5X,40H    ------------------------                  /,
@@ -156,13 +156,13 @@ c-----------
      & 5X,'Transversal compressive  strength  . . . .  =',E12.4/
      & 5X,'Failure envelop parameter in direction 12 (-) . =',E12.4/
      & 5X,'Failure envelop parameter in direction 12 (+) . =',E12.4/
-     & 5X,'Failure envelop parameter in direction 22 (-) . =',E12.4/     
-     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)  
+     & 5X,'Failure envelop parameter in direction 22 (-) . =',E12.4/
+     & 5X,' Relaxation time . . . . . . . . . . . . .  =',E12.4/)
  1100 FORMAT(
-     & 5X,'  SHELL IS DELETED IF CRITERIA IS REACHED FOR ONE LAYER ') 
+     & 5X,'  SHELL IS DELETED IF CRITERIA IS REACHED FOR ONE LAYER ')
  1200 FORMAT(
-     & 5X,'  SHELL TENSOR STRESS IS SET TO ZERO AND SHELL IS DELETED',/  
-     & 5X,'  IF CRITERIA IS REACHED FOR ALL LAYERS' )     
-c----------- 
+     & 5X,'  SHELL TENSOR STRESS IS SET TO ZERO AND SHELL IS DELETED',/
+     & 5X,'  IF CRITERIA IS REACHED FOR ALL LAYERS' )
+c-----------
       RETURN
       END

@@ -29,7 +29,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|====================================================================
       SUBROUTINE FVVENTHOLEINT(IBUF  , ELEM   , IBAGHOL,
      .                         NVENT , IGRSURF,
-     .                         ITAGEL, NN     , NEL, NB_NODE) 
+     .                         ITAGEL, NN     , NEL, NB_NODE)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBUF(*), ELEM(3,*), IBAGHOL(NIBHOL,*), 
+      INTEGER IBUF(*), ELEM(3,*), IBAGHOL(NIBHOL,*),
      .        NVENT,
      .        ITAGEL(*), NN, NEL, NB_NODE
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
@@ -103,7 +103,7 @@ C
             NN1=ITAGVENT(N2)-ITAGVENT(N1)
             NN2=ITAGVENT(N3)-ITAGVENT(N1)
             IF (NN1 == 0 .AND. NN2 == 0) ITAGEL(IEL)=-ITAGVENT(N1)					
-         ENDIF 
+         ENDIF
       ENDDO
 C
       RETURN

@@ -30,7 +30,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        INIGRAV                       share/modules1/inigrav_mod.F  
 Chd|====================================================================
-      SUBROUTINE INIEBCS_NRF_TCAR(EBCS_TAB, 
+      SUBROUTINE INIEBCS_NRF_TCAR(EBCS_TAB,
      .                    IPARG,X, IXS,IXQ,IXTG,
      .                    IPARTS,IPARTQ,IPARTTG,
      .                    PM, IPM)
@@ -40,8 +40,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD    
-      USE INIGRAV 
+      USE ELBUFDEF_MOD
+      USE INIGRAV
       USE EBCS_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,25 +60,25 @@ C-----------------------------------------------
       TYPE(t_ebcs_tab), INTENT(INOUT) :: EBCS_TAB
       INTEGER                       :: IPARG(NPARG,NGROUP)
       INTEGER,INTENT(IN),TARGET     :: IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ), IXTG(NIXTG,NUMELTG)
-      INTEGER, INTENT(IN)           :: IPARTS(NUMELS), IPARTQ(NUMELQ), IPARTTG(NUMELTG)      
+      INTEGER, INTENT(IN)           :: IPARTS(NUMELS), IPARTQ(NUMELQ), IPARTTG(NUMELTG)
       my_real, INTENT(IN)           :: X(3,NUMNOD)
       my_real,INTENT(IN)            :: PM(NPROPM,NUMMAT)
-      INTEGER,INTENT(IN)            :: IPM(NPROPMI,NUMMAT)      
-      TYPE (ELBUF_STRUCT_), TARGET  :: ELBUF_STR      
+      INTEGER,INTENT(IN)            :: IPM(NPROPMI,NUMMAT)
+      TYPE (ELBUF_STRUCT_), TARGET  :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IMAT,MLN,IADBUF,IMAT_SUB,NIX,NELS,NBPHASE
       INTEGER :: TAGMAT(NUMMAT+1),II, IFORM, NBMAT, KK
       my_real :: TCP_REF,Xmin,Ymin,Zmin,Xmax,Ymax,Zmax,TMP,SSP0,SSP0MAX,LC,LC0MAX
-      INTEGER, DIMENSION(:, :), POINTER  :: IX      
+      INTEGER, DIMENSION(:, :), POINTER  :: IX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
        SSP0 = ZERO
        TAGMAT(1:NUMMAT) = 0
-       
+
        IF(NUMELS>0)THEN
          NELS = NUMELS
          NIX=NIXS
@@ -90,29 +90,29 @@ C-----------------------------------------------
        ELSEIF(N2D /=0 .AND. NUMELTG >0)THEN
          NELS = NUMELTG
          NIX=NIXTG
-         IX => IXTG(1:NIX, 1:NELS)         
+         IX => IXTG(1:NIX, 1:NELS)
        ENDIF
-       
+
        !-----------------------------!
        ! CALCUL DE SSP0MAX           !
        !-----------------------------!
        NBPHASE = 0
-       DO II=1,NELS                                                                                                 
+       DO II=1,NELS
          IMAT   = IX(1,II)
          IF(IMAT == 0)CYCLE
          IF(TAGMAT(IMAT)==1)CYCLE
-         TAGMAT(IMAT)=1                                                                                            
-         MLN    = IPM(2,IMAT)                                                                                         
-         IADBUF = IPM(7,IMAT)                                                                                         
-         IF(MLN == 51)THEN                                                                                           
-           !UPRM => BUFMAT(IADBUF:IADBUF+275)                                                                            
-           !TMP  = UPRM(31)                                                                                              
-           !IFORM = NINT(TMP)                                                                                            
-           !IF(IFORM>1)CYCLE                                                                                          
-           !SSP0 = UPRM(124) 
-           !SSP0 = MAX(SSP0,UPRM(174))                                                                                   
-           !SSP0 = MAX(SSP0,UPRM(224))                                                                                   
-           !SSP0 = MAX(SSP0,UPRM(273)) 
+         TAGMAT(IMAT)=1
+         MLN    = IPM(2,IMAT)
+         IADBUF = IPM(7,IMAT)
+         IF(MLN == 51)THEN
+           !UPRM => BUFMAT(IADBUF:IADBUF+275)
+           !TMP  = UPRM(31)
+           !IFORM = NINT(TMP)
+           !IF(IFORM>1)CYCLE
+           !SSP0 = UPRM(124)
+           !SSP0 = MAX(SSP0,UPRM(174))
+           !SSP0 = MAX(SSP0,UPRM(224))
+           !SSP0 = MAX(SSP0,UPRM(273))
            SSP0=PM(27,IMAT)
            NBPHASE=MAX(NBPHASE,4)
          ELSEIF(MLN == 151)THEN
@@ -126,10 +126,10 @@ C-----------------------------------------------
            ENDDO
          ELSE
            SSP0=PM(27,IMAT)
-         ENDIF                                                                                  
-       ENDDO                                                                                                          
-       SSP0MAX = SSP0                                                                                                 
- 
+         ENDIF
+       ENDDO
+       SSP0MAX = SSP0
+
        !-----------------------------!
        ! ESTIMATEUR DE LC            !
        !-----------------------------!
@@ -150,14 +150,14 @@ C-----------------------------------------------
         LC     = Xmax-Xmin
         LC     = MAX(LC,Ymax-Ymin)
         LC     = MAX(LC,Zmax-Zmin)
-        LC0MAX = LC   
+        LC0MAX = LC
 
        !-----------------------------!
        ! CALCUL ET AFFECTATION : Tcp !
-       !-----------------------------!  
+       !-----------------------------!
        IF(SSP0MAX == ZERO)THEN
          TCP_REF = EP20
-       ELSE     
+       ELSE
          TCP_REF    = LC0MAX/TWO/SSP0MAX/LOG(TWO)
        ENDIF
        DO KK=1,EBCS_TAB%NEBCS
@@ -166,38 +166,38 @@ C-----------------------------------------------
              CALL EBCS_SET_TCARP(twf,TCP_REF)
          end select
        ENDDO
-       
+
        !-----------------------------!
        ! ALLOCATION BUFFER VOL FRAC  !
-       !-----------------------------!  
-        !EBCS%NBMAT= NBPHASE   
-        !IF(NBPHASE > 0)THEN            
+       !-----------------------------!
+        !EBCS%NBMAT= NBPHASE
+        !IF(NBPHASE > 0)THEN
         !  ALLOCATE(EBCS%PHASE_ALPHA(NBPHASE,EBCS%NB_ELEM))
         !  EBCS%PHASE_ALPHA(1:NBPHASE,1:EBCS%NB_ELEM) = ZERO
         !ENDIF
-        
+
        !-----------------------------!
        ! OUTPUT                      !
-       !-----------------------------!          
+       !-----------------------------!
         WRITE (IOUT,1001)LC0MAX,SSP0MAX,TCP_REF
-        
+
 
  1001 FORMAT(
      .//
      .'     NON REFLECTING FRONTIERS (EBCS)    '/
      .'     -------------------------------    '/
-     & 5X,'INITIALIZATION OF GLOBAL PARAMETERS      ',/    
+     & 5X,'INITIALIZATION OF GLOBAL PARAMETERS      ',/
      & 5X,'CHARACTERISTIC LENGTH. . . . . . . . . .=',E12.4/
      & 5X,'REFERENCE SOUND SPEED. . . . . . . . .  =',E12.4/
      & 5X,'CHARACTERISTIC TIME (TCP). . . . . . . .=',E12.4//)
-                           
-                                                               
+
+
       END SUBROUTINE INIEBCS_NRF_TCAR
 
 
 C-----------------------------------------------
 
-      
+
 Chd|====================================================================
 Chd|  EBCS_SET_TCARP                source/boundary_conditions/ebcs/iniebcs_nrf_tcar.F
 Chd|-- called by -----------
@@ -208,10 +208,10 @@ Chd|====================================================================
       SUBROUTINE EBCS_SET_TCARP(EBCS,TCAR_P)
       USE EBCS_MOD
 #include      "implicit_f.inc"
-      
+
       TYPE(t_ebcs_nrf) :: EBCS
       my_real :: TCAR_P
-      
+
            IF(EBCS%TCAR_P == ZERO) EBCS%TCAR_P = TCAR_P
-      
+
       END SUBROUTINE

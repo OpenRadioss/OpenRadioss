@@ -91,10 +91,10 @@ C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV  ('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)
 C-------
-        IS = 0                                              
+        IS = 0
         DO J=1,NSURF
           IF(ISU == IGRSURF(J)%ID)IS=J
-        ENDDO 
+        ENDDO
         IF(IS == 0)THEN
           CALL ANCMSG(MSGID=931,
      .                MSGTYPE=MSGERROR,
@@ -102,7 +102,7 @@ C-------
      .                I1=ID,
      .                C1=TITR,
      .                I2=ISU)
-        ENDIF                                         
+        ENDIF
         NUMLOADP = NUMLOADP + IGRSURF(IS)%NSEG*4
       ENDDO
 C-----------------------------------------------

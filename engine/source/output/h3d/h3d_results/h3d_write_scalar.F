@@ -62,7 +62,7 @@ C
         IF(IOK_PART(I) == 1 .AND. IS_WRITTEN_VALUE(I) == 1) IS_WRITTEN(OFFSET+NFT+I)= 1
         VALUE(I) = ZERO
       ENDDO
- 
+
       RETURN
       END
 Chd|====================================================================
@@ -99,6 +99,6 @@ C
       SCALAR(OFFSET+NFT+I) = DBLE(VALUE)
       IF(IOK_PART(I) == 1 ) IS_WRITTEN(OFFSET+NFT+I)= 1
       VALUE = ZERO
- 
+
       RETURN
       END

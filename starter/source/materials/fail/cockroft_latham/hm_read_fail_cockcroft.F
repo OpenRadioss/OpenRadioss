@@ -30,7 +30,7 @@ Chd|        HM_OPTION_IS_ENCRYPTED        source/devtools/hm_reader/hm_option_is
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_FAIL_COCKCROFT(UPARAM, MAXUPARAM, NUPARAM,
-     .     NUVAR, IFUNC, MAXFUNC, NFUNC, FAIL_ID, 
+     .     NUVAR, IFUNC, MAXFUNC, NFUNC, FAIL_ID,
      .     LSUBMODEL, UNITAB)
 C-----------------------------------------------
 C   M o d u l e s
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C     D u m m y  A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: MAXUPARAM, MAXFUNC
-      INTEGER, INTENT(INOUT) :: NUPARAM, NUVAR, NFUNC, 
+      INTEGER, INTENT(INOUT) :: NUPARAM, NUVAR, NFUNC,
      .     IFUNC(MAXFUNC)
       my_real, INTENT(INOUT) ::  UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT) :: FAIL_ID
@@ -78,10 +78,10 @@ C-------------------------------------------------
       NUVAR = 3
       C0  = ZERO
 !     Encryption flag
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)      
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 !     Line 1
-      CALL HM_GET_FLOATV('C0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('ALPHA', EMA, IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('C0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('ALPHA', EMA, IS_AVAILABLE, LSUBMODEL, UNITAB)
 !     Default values
       IF (EMA == ZERO) EMA = ONE
 
@@ -95,10 +95,10 @@ C-------------------------------------------------
          IF(C0 < ZERO) THEN
             WRITE(IOUT, 1100)
          ELSE
-            WRITE(IOUT, 1200)       
-         ENDIF       
-      ENDIF  
-      
+            WRITE(IOUT, 1200)
+         ENDIF
+      ENDIF
+
  1000 FORMAT(
      &     5X,40H    COCKROFT-LATHAM FAILURE CRITERIA          /,
      &     5X,40H    --------------------------------          /,

@@ -63,12 +63,12 @@ C-----------------------------------------------
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.adb'
        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
+       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
        OPEN(UNIT=IDBG5,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
        FILEN = ROOTLEN+17
-     
+
        DO I = 1, NUMNOD
          EMPL = NODGLOB(I)
          RECGLOB(1,EMPL) = ITAB(I)
@@ -85,7 +85,7 @@ C-----------------------------------------------
        WRITE (IOUT,1300)  FILNAM(1:FILEN)
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
        CLOSE(UNIT=IDBG5)
-       
+
  1300   FORMAT (4X,' DEBUG ANALYSIS FILE:',1X,A,' WRITTEN')
       RETURN
 
@@ -127,12 +127,12 @@ C-----------------------------------------------
 
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.pit'
-    
+
        OPEN(UNIT=IDBG5,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
        FILEN = ROOTLEN+17
-     
+
        DO I = 1, NUMNOD
          EMPL = NODGLOB(I)
          RECGLOB(1,EMPL) = ITAB(I)
@@ -149,7 +149,7 @@ C-----------------------------------------------
        WRITE (IOUT,1300)  FILNAM(1:FILEN)
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
        CLOSE(UNIT=IDBG5)
-       
+
  1300   FORMAT (4X,' DEBUG ANALYSIS FILE:',1X,A,' WRITTEN')
       RETURN
 
@@ -191,12 +191,12 @@ C-----------------------------------------------
 
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.xdb'
-    
+
        OPEN(UNIT=67,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
        FILEN = ROOTLEN+17
-     
+
        DO I = 1, NUMNOD
          EMPL = NODGLOB(I)
          RECGLOB(1,EMPL) = ITAB(I)
@@ -213,7 +213,7 @@ C-----------------------------------------------
        WRITE (IOUT,1300)  FILNAM(1:FILEN)
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
        CLOSE(UNIT=67)
-       
+
  1300   FORMAT (4X,' DEBUG ANALYSIS FILE:',1X,A,' WRITTEN')
       RETURN
 
@@ -255,12 +255,12 @@ C-----------------------------------------------
 
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.vdb'
-    
+
        OPEN(UNIT=67,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
        FILEN = ROOTLEN+17
-     
+
        DO I = 1, NUMNOD
          EMPL = NODGLOB(I)
          RECGLOB(1,EMPL) = ITAB(I)
@@ -277,7 +277,7 @@ C-----------------------------------------------
        WRITE (IOUT,1300)  FILNAM(1:FILEN)
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
        CLOSE(UNIT=67)
-       
+
  1300   FORMAT (4X,' DEBUG ANALYSIS FILE:',1X,A,' WRITTEN')
       RETURN
 
@@ -326,12 +326,12 @@ C-----------------------------------------------
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.mdb'
        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))    
+       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
        OPEN(UNIT=67,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
        FILEN = ROOTLEN+17
-     
+
        DO I = 1, NUMNOD
          EMPL = NODGLOB(I)
          RTRI(1,EMPL) = ITAB(I)
@@ -376,7 +376,7 @@ C-----------------------------------------------
        WRITE (IOUT,1300)  FILNAM(1:FILEN)
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
        CLOSE(UNIT=67)
-       
+
  1300   FORMAT (4X,' DEBUG ANALYSIS FILE:',1X,A,' WRITTEN')
       RETURN
 
@@ -426,13 +426,13 @@ C-----------------------------------------------
        WRITE(CYCLENUM,'(I7.7)')NCYCLE
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.tdb'
        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
-    
+       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
+
        OPEN(UNIT=IDBG8,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
        FILEN = ROOTLEN+17
-     
+
        DO I = 1, NUMNOD
          EMPL = NODGLOB(I)
          RECGLOB(1,EMPL) = ITAB(I)
@@ -447,7 +447,7 @@ C-----------------------------------------------
        WRITE (IOUT,1300)  FILNAM(1:FILEN)
        WRITE (ISTDO,1300) FILNAM(1:FILEN)
        CLOSE(UNIT=IDBG8)
-       
+
  1300   FORMAT (4X,' DEBUG ANALYSIS FILE:',1X,A,' WRITTEN')
       RETURN
 

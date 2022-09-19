@@ -27,7 +27,7 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE ANI_TXT(TEXT,LEN) 
+      SUBROUTINE ANI_TXT(TEXT,LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

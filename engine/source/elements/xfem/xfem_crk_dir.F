@@ -64,7 +64,7 @@ c     crack directions dans le repere coque
 c------------------------------------------
       IF (IROT > 0) THEN
         DO IR=1,NEWCRK
-          I  = JCT(IR)            
+          I  = JCT(IR)
           S1 = DIR_A(I,1)*DIR_A(I,1)*TENS(I,1)
      .       + DIR_A(I,2)*DIR_A(I,2)*TENS(I,2)
      .       - TWO*DIR_A(I,1)*DIR_A(I,2)*TENS(I,3)
@@ -82,28 +82,28 @@ c------------------------------------------
           TENS(I,4) = S4
           TENS(I,5) = S5
         ENDDO
-      ENDIF                               
+      ENDIF
 c
       DO IR=1,NEWCRK
-        I   = JCT(IR)              
-        CC  = (TENS(I,1)+TENS(I,2))*HALF      
-        BB  = (TENS(I,1)-TENS(I,2))*HALF      
-        CR  = SQRT(BB*BB+TENS(I,3)*TENS(I,3))   
-        SS1 = CC+CR                             
-        SS2 = CC-CR                             
-        DIR1_CRK(ILAY,I) = TENS(I,3)              
-        DIR2_CRK(ILAY,I) = SS1-TENS(I,1)          
-        ORM = DIR1_CRK(ILAY,I)*DIR1_CRK(ILAY,I)+   
-     .        DIR2_CRK(ILAY,I)*DIR2_CRK(ILAY,I)    
-        ORM = SQRT(ORM)                          
-        IF (ORM < EM8) THEN                      
-          DIR1_CRK(ILAY,I)=ONE                   
-          DIR2_CRK(ILAY,I)=ZERO                 
-        ELSE                                   
-          DIR1_CRK(ILAY,I)=DIR1_CRK(ILAY,I)/ORM  
-          DIR2_CRK(ILAY,I)=DIR2_CRK(ILAY,I)/ORM  
-        ENDIF                                  
-      ENDDO                                    
+        I   = JCT(IR)
+        CC  = (TENS(I,1)+TENS(I,2))*HALF
+        BB  = (TENS(I,1)-TENS(I,2))*HALF
+        CR  = SQRT(BB*BB+TENS(I,3)*TENS(I,3))
+        SS1 = CC+CR
+        SS2 = CC-CR
+        DIR1_CRK(ILAY,I) = TENS(I,3)
+        DIR2_CRK(ILAY,I) = SS1-TENS(I,1)
+        ORM = DIR1_CRK(ILAY,I)*DIR1_CRK(ILAY,I)+
+     .        DIR2_CRK(ILAY,I)*DIR2_CRK(ILAY,I)
+        ORM = SQRT(ORM)
+        IF (ORM < EM8) THEN
+          DIR1_CRK(ILAY,I)=ONE
+          DIR2_CRK(ILAY,I)=ZERO
+        ELSE
+          DIR1_CRK(ILAY,I)=DIR1_CRK(ILAY,I)/ORM
+          DIR2_CRK(ILAY,I)=DIR2_CRK(ILAY,I)/ORM
+        ENDIF
+      ENDDO
 C-----------
       RETURN
       END

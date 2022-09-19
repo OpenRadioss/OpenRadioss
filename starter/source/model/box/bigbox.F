@@ -1764,7 +1764,7 @@ C---      count next level
      .                 NIX        ,NIX1    ,NIX2   ,NUMEL  ,ISURF0 ,
      .                 IELTYP     ,ID      ,TITR   ,MESS   ,FLAG   ,
      .                 TAGSHELLBOX,0       )
-          IF (IADB>SBUFBOX .OR. IADB<0) 
+          IF (IADB>SBUFBOX .OR. IADB<0)
      .      CALL ANCMSG(MSGID=1007, MSGTYPE=MSGERROR,ANMODE=ANSTOP)
 C---      fill next level
           FLAGG = 1
@@ -1810,7 +1810,7 @@ C--------------------
 C--------------------
            IF(IELTYP == 7)THEN
                J=IBUFBOX(IADISU)
-               ISURFLIN%NODES(NN,4) = 
+               ISURFLIN%NODES(NN,4) =
      .                         ISURFLIN%NODES(NN,3)
                IADISU = IADISU + 1
            END IF
@@ -1993,7 +1993,7 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
       USE HM_OPTION_READ_MOD
-      USE SUBMODEL_MOD      
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2116,7 +2116,7 @@ C---      count next level
      .             IXS16    ,IXS20   ,ELSTAG      ,ID          ,TITR     ,
      .             KNOD2ELC ,NOD2ELC ,IXC         ,TAGSHELLBOXC,KNOD2ELTG,
      .             NOD2ELTG ,IXTG    ,TAGSHELLBOXG,0           )
-          IF (IADB>SBUFBOX .OR. IADB<0) 
+          IF (IADB>SBUFBOX .OR. IADB<0)
      .      CALL ANCMSG(MSGID=1007, MSGTYPE=MSGERROR,ANMODE=ANSTOP)
 C---      fill next level
           FLAGG = 1
@@ -2398,9 +2398,9 @@ C---   find shells SURF/BOX/BOX/EXT
 C
 C count faces within the box:
 C
-             IF(FLAG == 0 .and. NN == 3) THEN 
-               KS = 0 
-               ISHEL = 0 
+             IF(FLAG == 0 .and. NN == 3) THEN
+               KS = 0
+               ISHEL = 0
                DO K=KNOD2ELTG(FACE(1))+1,KNOD2ELTG(FACE(1)+1)
                  KS=NOD2ELTG(K)
                  ISHEL = 0
@@ -2421,7 +2421,7 @@ C
                  IADB = IADB + 6
                  IF (IEXT_SET > 0) IADB = IADB + 1
                ENDIF
-             ELSEIF(FLAG == 0 .and. NN == 4) THEN 
+             ELSEIF(FLAG == 0 .and. NN == 4) THEN
                KS = 0
                ISHEL = 0
                DO K=KNOD2ELC(FACE(1))+1,KNOD2ELC(FACE(1)+1)
@@ -2461,12 +2461,12 @@ C
                IF(KS == 0)THEN
                  BOXSEG=BOXSEG+1
                  CALL SSURF10TMP(FACE(1),FACE(2),FACE(3),FACE(3),
-     .                        IADB,JS,IBUFBOX,IEXT_SET)                   
+     .                        IADB,JS,IBUFBOX,IEXT_SET)
                ELSEIF(TAGSHELLBOXG(KS)==0) THEN
                    BOXSEG=BOXSEG+1
                    CALL SSURF10TMP(FACE(1),FACE(2),FACE(3),FACE(3),
-     .                       IADB,JS,IBUFBOX,IEXT_SET) 
-               ENDIF               
+     .                       IADB,JS,IBUFBOX,IEXT_SET)
+               ENDIF
              ELSEIF(NN==4)THEN
                KS = 0
                ISHEL = 0
@@ -2484,13 +2484,13 @@ C
                IF(KS == 0)THEN
                  BOXSEG=BOXSEG+1
                 CALL SSURF10TMP(FACE(1),FACE(2),FACE(3),FACE(4),
-     .                       IADB,JS,IBUFBOX,IEXT_SET)  
+     .                       IADB,JS,IBUFBOX,IEXT_SET)
                ELSEIF(TAGSHELLBOXC(KS)==0) THEN
                  BOXSEG=BOXSEG+1
                 CALL SSURF10TMP(FACE(1),FACE(2),FACE(3),FACE(4),
-     .                       IADB,JS,IBUFBOX,IEXT_SET) 
-  
-               ENDIF                
+     .                       IADB,JS,IBUFBOX,IEXT_SET)
+
+               ENDIF
              END IF
 C---
             END IF
@@ -2684,7 +2684,7 @@ Chd|-- called by -----------
 Chd|        FACEBOX                       source/model/box/bigbox.F     
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SSURF10TMP(N1,N2,N3,N4,IAD,JS,IBUFBOX,IEXT_SET) 
+      SUBROUTINE SSURF10TMP(N1,N2,N3,N4,IAD,JS,IBUFBOX,IEXT_SET)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

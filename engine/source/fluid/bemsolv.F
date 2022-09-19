@@ -50,20 +50,20 @@ C-----------------------------------------------
       my_real
      .        HBEM(NN,*), GBEM(NN,*), TELNOR(3,*), X(3,*), Q(*), PHI(*),
      .        PHI_INF(*)
-      LOGICAL L_ASSEMB 
+      LOGICAL L_ASSEMB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IN, JN, IQ, N1, N2, N3, NN1, NN2, NN3, NNJ, INFO, IEL
       my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X0, Y0, Z0, D2, 
+     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X0, Y0, Z0, D2,
      .        NRX, NRY, NRZ, AREA2, RVAL(3), RSUM, S(NN)
 C---------------------------------------------------
 C 1- Assemblage
 C---------------------------------------------------
-#if defined(MYREAL8) && !defined(WITHOUT_LINALG) 
+#if defined(MYREAL8) && !defined(WITHOUT_LINALG)
       IF (L_ASSEMB) THEN
-         IF (ILVOUT>=1) WRITE(ISTDO,'(A)') 
+         IF (ILVOUT>=1) WRITE(ISTDO,'(A)')
      .   ' ** BEMSOLV : ASSEMBLY OF INTEGRAL OPERATORS'
          IF (IFORM==1) THEN
 C Collocation BEM - Elements lineaires en potentiel, constants en flux
@@ -94,7 +94,7 @@ C Collocation BEM - Elements lineaires en potentiel, constants en flux
                Z2=X(3,NN2)
                Z3=X(3,NN3)
                X0=THIRD*(X1+X2+X3)
-               Y0=THIRD*(Y1+Y2+Y3)    
+               Y0=THIRD*(Y1+Y2+Y3)
                Z0=THIRD*(Z1+Z2+Z3)
                D2=MIN((X0-X1)**2+(Y0-Y1)**2+(Z0-Z1)**2,
      .                (X0-X2)**2+(Y0-Y2)**2+(Z0-Z2)**2,
@@ -158,7 +158,7 @@ C Galerkin BEM - Elements lineaires en potentiel, constants en flux
                Z2=X(3,NN2)
                Z3=X(3,NN3)
                X0=THIRD*(X1+X2+X3)
-               Y0=THIRD*(Y1+Y2+Y3)    
+               Y0=THIRD*(Y1+Y2+Y3)
                Z0=THIRD*(Z1+Z2+Z3)
                NRX=TELNOR(1,IEL)
                NRY=TELNOR(2,IEL)
@@ -176,15 +176,15 @@ C
             HBEM(IN,NN)=-GBEM(IN,NEL+1)
          ENDDO
 C
-         CALL DGETRF(NN,   NN, HBEM, NN, IPIV, 
+         CALL DGETRF(NN,   NN, HBEM, NN, IPIV,
      .               INFO)
       ENDIF
 C---------------------------------------------------
 C 2- Resolution
 C---------------------------------------------------
-      IF (ILVOUT>=1) WRITE(ISTDO,'(A)') 
+      IF (ILVOUT>=1) WRITE(ISTDO,'(A)')
      .' ** BEMSOLV : LINEAR SYSTEM SOLUTION'
-      CALL DGEMV('N',   NN, NEL+1, ONE,   GBEM, 
+      CALL DGEMV('N',   NN, NEL+1, ONE,   GBEM,
      .           NN,    Q,  1,     ZERO, S,
      .           1    )
 C
@@ -242,8 +242,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, IAD2, IP
-      my_real 
-     .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3, 
+      my_real
+     .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3,
      .        PHI_INFP
 C
       DATA PG  /.33333333,.33333333,
@@ -338,7 +338,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, IAD2, IP, IHG
       my_real
-     .        PG(50), WPG(25), XS, YS, ZS, R2, 
+     .        PG(50), WPG(25), XS, YS, ZS, R2,
      .        VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
      .        ETA1, ETA2
 C
@@ -402,13 +402,13 @@ C NOMBRE DE POINTS DE GAUSS
          IAD=13
       ENDIF
       IF (NN1==NNJ) NPG=-1
-      IF (NN2==NNJ) NPG=-1           
+      IF (NN2==NNJ) NPG=-1
       IF (NN3==NNJ) NPG=-1
 C INTEGRATION
       RVAL(1)=ZERO
       RVAL(2)=ZERO
       RVAL(3)=ZERO
-      IF (NPG<0) RETURN           
+      IF (NPG<0) RETURN
       IAD2=2*(IAD-1)+1
       DO IP=1,NPG
          W=WPG(IAD)
@@ -417,8 +417,8 @@ C INTEGRATION
          IAD=IAD+1
          IAD2=IAD2+2
          VAL1=ONE-ETA1-ETA2
-         VAL2=ETA1         
-         VAL3=ETA2          
+         VAL2=ETA1
+         VAL3=ETA2
          XG=VAL1*X1+VAL2*X2+VAL3*X3
          YG=VAL1*Y1+VAL2*Y2+VAL3*Y3
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
@@ -447,7 +447,7 @@ Chd|====================================================================
       SUBROUTINE INTGTG(NNJ, X1 , Y1,  Z1,   X2,
      .                  Y2,  Z2,  X3,  Y3,   Z3,
      .                  X0,  Y0,  Z0,  D2,   JAC,
-     .                  NRX, NRY, NRZ, RVAL, NN1, 
+     .                  NRX, NRY, NRZ, RVAL, NN1,
      .                  NN2, NN3, X  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -469,7 +469,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, IAD2, IP, NNS, IHG
       my_real
-     .        PG(50), WPG(25), XS, YS, ZS, R2, 
+     .        PG(50), WPG(25), XS, YS, ZS, R2,
      .        VAL, VAL1, VAL2, VAL3, W, XG, YG, ZG, VALPHI,
      .        ETA1, ETA2, PG4(32), WPG4(16), JJAC, KSI1, KSI2
 C
@@ -574,8 +574,8 @@ C INTEGRATION
          IAD=IAD+1
          IAD2=IAD2+2
          VAL1=ONE-ETA1-ETA2
-         VAL2=ETA1        
-         VAL3=ETA2        
+         VAL2=ETA1
+         VAL3=ETA2
          XG=VAL1*X1+VAL2*X2+VAL3*X3
          YG=VAL1*Y1+VAL2*Y2+VAL3*Y3
          ZG=VAL1*Z1+VAL2*Z2+VAL3*Z3
@@ -618,12 +618,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NPG, IAD, JBID, NBID, IDEG, IAD2, IP, IEL, NN1, NN2, NN3
-      my_real 
+      my_real
      .        PG(50), WPG(25), W, KSIP, ETAP, VAL1, VAL2, VAL3, XP,
-     .        YP, ZP, CP, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3, 
+     .        YP, ZP, CP, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3,
      .        XX4, YY4, ZZ4, XX5, YY5, ZZ5, XX6, YY6, ZZ6, XX0, YY0,
      .        ZZ0, NRX, NRY, NRZ, D2, RVL(6), RVLH(3), RVLG
-     .        
+     .
 C
       DATA PG  /.33333333,.33333333,
      .          .33333333,.33333333,
@@ -724,14 +724,14 @@ C Matrice G
          ENDDO
          HBEM(N1,N1)=HBEM(N1,N1)+W*CP*VAL1*VAL1*JAC
          HBEM(N1,N2)=HBEM(N1,N2)+W*CP*VAL1*VAL2*JAC
-         HBEM(N1,N3)=HBEM(N1,N3)+W*CP*VAL1*VAL3*JAC            
+         HBEM(N1,N3)=HBEM(N1,N3)+W*CP*VAL1*VAL3*JAC
          HBEM(N2,N1)=HBEM(N2,N1)+W*CP*VAL2*VAL1*JAC
          HBEM(N2,N2)=HBEM(N2,N2)+W*CP*VAL2*VAL2*JAC
-         HBEM(N2,N3)=HBEM(N2,N3)+W*CP*VAL2*VAL3*JAC            
+         HBEM(N2,N3)=HBEM(N2,N3)+W*CP*VAL2*VAL3*JAC
          HBEM(N3,N1)=HBEM(N3,N1)+W*CP*VAL3*VAL1*JAC
          HBEM(N3,N2)=HBEM(N3,N2)+W*CP*VAL3*VAL2*JAC
          HBEM(N3,N3)=HBEM(N3,N3)+W*CP*VAL3*VAL3*JAC
-      ENDDO          
+      ENDDO
 C
       RETURN
       END
@@ -764,7 +764,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .        VX1, VY1, VZ1, VX2, VY2, VZ2, S1, S12, S2, NR1, NR2, 
+     .        VX1, VY1, VZ1, VX2, VY2, VZ2, S1, S12, S2, NR1, NR2,
      .        X0, Y0, Z0, KSI(4), ETA(4), DKSI(3), DETA(3), R(4),
      .        XLS, YLS, ZLS, XC, YC, S(3), V, FLN, ARG, I1, I2, I3,
      .        SS11, SS12, SS22, DELTA, ALPHA1, BETA1, GAMA1, ALPHA2,

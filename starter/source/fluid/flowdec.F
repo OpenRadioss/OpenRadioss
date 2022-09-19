@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL   
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -143,7 +143,7 @@ C CNPI nombre de processeurs possedant chaque noeud auxiliaire
             ENDDO
             DO P=1,NSPMD
                DO J=1,NNN
-                  JJ=IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+J)           
+                  JJ=IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+J)
                   IF (NLOCAL(JJ,P)==1) IFLOW(IADL+J)=IFLOW(IADL+J)+1
                ENDDO
             ENDDO

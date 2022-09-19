@@ -67,15 +67,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------     
       INTEGER :: NALEMUSCL
       LOGICAL :: IS_AVAILABLE
-      
+
       CALL HM_OPTION_COUNT('/ALE/MUSCL', NALEMUSCL)
-      
+
       IF (NALEMUSCL > 0) THEN
          CALL HM_OPTION_START('/ALE/MUSCL')
          CALL HM_OPTION_NEXT()
          CALL HM_GET_FLOATV('ALE_MUSCL_BETA', I_BETA, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_INTV('MAT_Iflag', IALEMUSCL, IS_AVAILABLE, LSUBMODEL)
-         
+
          !---default I_BETA
          IF (I_BETA == ZERO) THEN
             I_BETA = TWO
@@ -89,14 +89,14 @@ C-----------------------------------------------
          ELSEIF (IALEMUSCL < -1 .OR. IALEMUSCL >= 2) THEN
             IALEMUSCL = 1
          ENDIF
-                  
+
          !---MUSCL off / disabled
          IF(IALEMUSCL == -1)THEN
            IALEMUSCL = 0
            I_BETA = 1.0 ! was initialized this way in starter0.F beofre making MUSCL default formulation
            NALEMUSCL=0
          ENDIF
-         
+
          IF (IRESP == 1) THEN
 ! Not available in single precision
             CALL ANCMSG(MSGID = 1563, ANMODE = ANINFO, MSGTYPE = MSGERROR)

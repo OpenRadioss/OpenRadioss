@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER NIF ,IFLAG ,MFROT ,IFQ ,FRICFORM ,NSET ,ORTHFRIC , NGRPF,LENG,NOINTF
       INTEGER IPART(LIPART1,*) ,TAGPRT_FRIC(*),
@@ -99,15 +99,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J ,L ,IP ,IP1 ,IP2 ,N ,N1 ,N2 ,KK ,NL ,
-     .    GRPART1 ,GRPART2 ,IPART1 ,IPART2 ,FLAGP1 ,FLAGP2,FLAGGRP1, 
+     .    GRPART1 ,GRPART2 ,IPART1 ,IPART2 ,FLAGP1 ,FLAGP2,FLAGGRP1,
      .    FLAGGRP2  ,IDTGRS1 ,IGRPART1 ,IDTGRS2 ,IGRPART2 ,NCOUPLE ,
      .    IPP ,IPP1 ,IPP2  ,IDIR ,NTAB ,LENF ,GRPN ,GRPN1 ,GRPN2 ,
      .    NP0 ,NGR0 ,K ,NGR ,J1 ,J2 ,STAT ,WORK(70000),NINPUT
-       INTEGER, DIMENSION(:),   ALLOCATABLE :: 
-     .    TRIGRPT ,INDEX ,NEWGRP ,TAGG1 ,TAGG2    
+       INTEGER, DIMENSION(:),   ALLOCATABLE ::
+     .    TRIGRPT ,INDEX ,NEWGRP ,TAGG1 ,TAGG2
       my_real
      .   C1 ,C2 ,C3 ,C4 ,C5 ,C6 ,ALPHA ,C11 ,C22 ,C33 ,C44 ,C55 ,C66 ,
-     .   FRIC  ,VISCF ,FRIC2  ,VISCF2 
+     .   FRIC  ,VISCF ,FRIC2  ,VISCF2
       LOGICAL IS_AVAILABLE
 
 C=======================================================================
@@ -116,20 +116,20 @@ C=======================================================================
 
        IS_AVAILABLE = .FALSE.
 
-       ALLOCATE (TRIGRPT(LENG),STAT=stat) 
-       ALLOCATE (INDEX(2*LENG),STAT=stat) 
-       ALLOCATE (NEWGRP(LENG+1),STAT=stat) 
-       ALLOCATE (TAGG1(LENG),STAT=stat) 
-       ALLOCATE (TAGG2(LENG),STAT=stat) 
+       ALLOCATE (TRIGRPT(LENG),STAT=stat)
+       ALLOCATE (INDEX(2*LENG),STAT=stat)
+       ALLOCATE (NEWGRP(LENG+1),STAT=stat)
+       ALLOCATE (TAGG1(LENG),STAT=stat)
+       ALLOCATE (TAGG2(LENG),STAT=stat)
 
-       CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,NIF),LTITR) 
+       CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,NIF),LTITR)
 C
        NOM_OPT(1,NIF)=NOINTF
 C
        NSET = 0
        NCOUPLE = 0
 C
-       IF(IFLAG==0 ) THEN 
+       IF(IFLAG==0 ) THEN
           ORTHFRIC = 0
        ELSE
           IF(ORTHFRIC ==0) THEN
@@ -163,7 +163,7 @@ C
 C CHECKS
 C
        IF (ALPHA==0.) IFQ = 0
-       ALPHA = ALPHA 
+       ALPHA = ALPHA
 
        IF (FRICFORM==0) FRICFORM = 1
        IF (FRICFORM==2.AND.IFQ<10) IFQ = IFQ + 10
@@ -195,7 +195,7 @@ C
 C
 C STORAGE IN TEMPARAY INTBUF_FRIC_TAB
 C
-       IF(IFLAG == 1 ) THEN        
+       IF(IFLAG == 1 ) THEN
 
           IF((FRIC/=ZERO.OR.MFROT/=0).AND.VISCF==ZERO)VISCF=ONE
 
@@ -221,16 +221,16 @@ C          1st defaults
           IF(FRICFORM ==2) THEN
             WRITE(IOUT,1508)
           ELSE
-            WRITE(IOUT,1509) 
+            WRITE(IOUT,1509)
           ENDIF
           IF(MFROT==0)THEN
-             WRITE(IOUT,1503)  
+             WRITE(IOUT,1503)
           ELSEIF(MFROT==1)THEN
-            WRITE(IOUT,3505) 
+            WRITE(IOUT,3505)
           ELSEIF(MFROT==2)THEN
-            WRITE(IOUT,3506) 
+            WRITE(IOUT,3506)
           ELSEIF(MFROT==3)THEN
-            WRITE(IOUT,3507)  
+            WRITE(IOUT,3507)
           ENDIF
           WRITE(IOUT,1502)MOD(IFQ,10), XFILTR
           WRITE(IOUT,1501)
@@ -299,14 +299,14 @@ C
 C----CHECKS PARTS 
 C 
           FLAGP1 = 0
-          FLAGP2 = 0  
-          FLAGGRP1 = 0  
-          FLAGGRP2 = 0  
+          FLAGP2 = 0
+          FLAGGRP1 = 0
+          FLAGGRP2 = 0
 
           IF(IPART1/=0)THEN
             DO N=1,NPART
                IF(IPART1 == IPART(4,N))THEN
-                  FLAGP1 = 1 
+                  FLAGP1 = 1
                   N1 = N
                   EXIT
                ENDIF
@@ -325,7 +325,7 @@ C
           IF(IPART2/=0)THEN
              DO N=1,NPART
                 IF(IPART2 == IPART(4,N))THEN
-                  FLAGP2 = 1 
+                  FLAGP2 = 1
                   N2 = N
                   EXIT
                  ENDIF
@@ -416,7 +416,7 @@ C
                   NGRPF = NGRPF + 1
                   TAGPRT_FRIC(N1)=NGRPF ! tag parts
                   LENGRPF(NGRPF) = 1
-               ELSE 
+               ELSE
 ! If part is already read : look to group of parts belonging and it and split it to ensure group of parts are not lapped
                  GRPN = TAGPRT_FRIC(N1)
                  IF(LENGRPF(GRPN)/=1) THEN
@@ -430,19 +430,19 @@ C
                   NGRPF = NGRPF + 1
                   TAGPRT_FRIC(N2)=NGRPF ! tag parts
                   LENGRPF(NGRPF) = 1
-               ELSE 
+               ELSE
 ! If part is already read : look to group of parts belonging and it and split it to ensure group of parts are not lapped
                   GRPN = TAGPRT_FRIC(N2)
                   IF(LENGRPF(GRPN)/=1) THEN
                     NGRPF = NGRPF + 1
-                    TAGPRT_FRIC(N2)=NGRPF ! tag parts     
+                    TAGPRT_FRIC(N2)=NGRPF ! tag parts
                     LENGRPF(NGRPF) = 1
                     LENGRPF(GRPN) =LENGRPF(GRPN) - 1
                   ENDIF
                 ENDIF
              ENDIF
 C
-             IF(IFLAG == 1 ) THEN   
+             IF(IFLAG == 1 ) THEN
 C
                 GRPN1 = TAGPRT_FRIC(N1)
                 GRPN2 = TAGPRT_FRIC(N2)
@@ -453,12 +453,12 @@ C
                   GRPN2 = N
                 ENDIF
                 NSET = NSET + 1
-                NCOUPLE = NCOUPLE + 1   
-                TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = GRPN1 
-                NCOUPLE = NCOUPLE + 1   
+                NCOUPLE = NCOUPLE + 1
+                TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = GRPN1
+                NCOUPLE = NCOUPLE + 1
                 TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = GRPN2
 
-                NTAB = LENF*8*(NSET-1)+8                                                         
+                NTAB = LENF*8*(NSET-1)+8
                 TABCOEF_FRIC_TMP(NIF,NTAB+1) = FRIC
                 TABCOEF_FRIC_TMP(NIF,NTAB+2) = VISCF
                 IF(MFROT > 0) THEN
@@ -467,7 +467,7 @@ C
                   TABCOEF_FRIC_TMP(NIF,NTAB+5) = C3
                   TABCOEF_FRIC_TMP(NIF,NTAB+6) = C4
                   TABCOEF_FRIC_TMP(NIF,NTAB+7) = C5
-                  TABCOEF_FRIC_TMP(NIF,NTAB+8) = C6 
+                  TABCOEF_FRIC_TMP(NIF,NTAB+8) = C6
                 ENDIF
                 IFRICORTH_TMP(NIF,NSET) = IDIR
                 IF(IDIR > 0) THEN
@@ -480,7 +480,7 @@ C
                     TABCOEF_FRIC_TMP(NIF,NTAB+5) = C33
                     TABCOEF_FRIC_TMP(NIF,NTAB+6) = C44
                     TABCOEF_FRIC_TMP(NIF,NTAB+7) = C55
-                    TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66 
+                    TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66
                   ENDIF
                 ENDIF
 
@@ -527,7 +527,7 @@ C
 C
              ENDIF
 C
-          ENDIF 
+          ENDIF
 C
           IF(FLAGP1 /= 0.AND.FLAGGRP2 /= 0)THEN
 C
@@ -544,7 +544,7 @@ C
                    TAGPRT_FRIC(N1)=NGRPF ! tag parts
                    LENGRPF(GRPN) =LENGRPF(GRPN) - 1
                  ENDIF
-              ENDIF            
+              ENDIF
 
               NP0 = 0
               DO I=1,IGRPART(IDTGRS2)%NENTITY
@@ -562,14 +562,14 @@ C
                  ENDDO
 
                  J2 = 1
-                 TAGG2(1) = NGRPF             
+                 TAGG2(1) = NGRPF
               ELSE
                  IF(NP0 >0 ) THEN
                     NGRPF = NGRPF + 1
                     LENGRPF(NGRPF) = NP0
                     DO I=1,IGRPART(IDTGRS2)%NENTITY
                        IP=IGRPART(IDTGRS2)%ENTITY(I)
-                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF 
+                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF
                     ENDDO
                  ENDIF
                  INDEX(1:2*LENG) = 0
@@ -577,29 +577,29 @@ C
                  DO I=1,IGRPART(IDTGRS2)%NENTITY
                     IP=IGRPART(IDTGRS2)%ENTITY(I)
                     IF(TAGPRT_FRIC(IP)==0) TAGPRT_FRIC(IP)=NGRPF ! tag parts
-                    TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                    TRIGRPT(I) = TAGPRT_FRIC(IP)
                     INDEX(I) = I
                  ENDDO
                  CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS2)%NENTITY , 1)
 
                  NGR0 = TRIGRPT(INDEX(1))
                  J= 1
-                 NEWGRP(1:LENG+1) = 0 
+                 NEWGRP(1:LENG+1) = 0
                  TAGG2(1:LENG) = 0
 
                  DO I=2,IGRPART(IDTGRS2)%NENTITY
-                   NGR = TRIGRPT(INDEX(I))  
+                   NGR = TRIGRPT(INDEX(I))
                    IF(NGR/=NGR0) THEN
                      IF(LENGRPF(NGR0) /= I-NEWGRP(J)-1) THEN
-                        TAGG2(J) =1                   
+                        TAGG2(J) =1
                      ENDIF
                      J = J +1
-                     NGR0  =  NGR  
+                     NGR0  =  NGR
                      NEWGRP( J) = I-1
-                   ENDIF                                   
-                 ENDDO   
+                   ENDIF
+                 ENDDO
                  IF(LENGRPF(NGR0) /= IGRPART(IDTGRS2)%NENTITY-NEWGRP(J)) THEN
-                   TAGG2(J) =1                   
+                   TAGG2(J) =1
                  ENDIF
                  NEWGRP( J+1) = I-1
                  DO K=1,J
@@ -607,20 +607,20 @@ C
                       NGRPF = NGRPF + 1
                       LENGRPF(NGRPF) = NEWGRP( K+1) - NEWGRP( K)
                       IP=IGRPART(IDTGRS2)%ENTITY(INDEX(NEWGRP( K)+1))
-                      NGR0 = TAGPRT_FRIC(IP) 
+                      NGR0 = TAGPRT_FRIC(IP)
                       LENGRPF(NGR0) =LENGRPF(NGR0) -LENGRPF(NGRPF)
-                      DO I =NEWGRP( K)+1,NEWGRP( K+1)      
+                      DO I =NEWGRP( K)+1,NEWGRP( K+1)
                         IP=IGRPART(IDTGRS2)%ENTITY(INDEX(I))
-                        TAGPRT_FRIC(IP) =NGRPF 
-                      ENDDO 
+                        TAGPRT_FRIC(IP) =NGRPF
+                      ENDDO
                     ENDIF
-                 ENDDO   
+                 ENDDO
 
               ENDIF
             ENDIF
 
 
-            IF(IFLAG == 1 ) THEN             
+            IF(IFLAG == 1 ) THEN
 C
                GRPN1 = TAGPRT_FRIC(N1)
 C
@@ -630,7 +630,7 @@ C
                TAGG2(1:LENG) = 0
                DO I=1,IGRPART(IDTGRS2)%NENTITY
                   IP=IGRPART(IDTGRS2)%ENTITY(I)
-                  TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                  TRIGRPT(I) = TAGPRT_FRIC(IP)
                   INDEX(I) = I
                ENDDO
                CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS2)%NENTITY , 1)
@@ -639,14 +639,14 @@ C
                J= 1
                TAGG2(1) = NGR0
                DO I=2,IGRPART(IDTGRS2)%NENTITY
-                  NGR = TRIGRPT(INDEX(I)) 
+                  NGR = TRIGRPT(INDEX(I))
                   IF(NGR/=NGR0) THEN
                      J = J +1
-                     NGR0  =  NGR 
-                     TAGG2(J) = NGR0 
-                   ENDIF                                   
-               ENDDO 
-               J2 = J     
+                     NGR0  =  NGR
+                     TAGG2(J) = NGR0
+                   ENDIF
+               ENDDO
+               J2 = J
 C
                DO K=1,J2
                   GRPN2 = TAGG2(K)
@@ -659,10 +659,10 @@ C
                      IPP = GRPN1
                   ENDIF
 
-                      
-                  NCOUPLE = NCOUPLE + 1          
-                  TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP  
-                  NCOUPLE = NCOUPLE + 1          
+
+                  NCOUPLE = NCOUPLE + 1
+                  TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP
+                  NCOUPLE = NCOUPLE + 1
                   TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IP
 C
                   NTAB = LENF*8*(NSET-1)+8
@@ -690,7 +690,7 @@ c
                         TABCOEF_FRIC_TMP(NIF,NTAB+5) = C33
                         TABCOEF_FRIC_TMP(NIF,NTAB+6) = C44
                         TABCOEF_FRIC_TMP(NIF,NTAB+7) = C55
-                        TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66 
+                        TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66
                      ENDIF
 
                   ENDIF
@@ -700,7 +700,7 @@ c
 c
 
 C--Output--
-             IF(IFLAG == 1 ) THEN             
+             IF(IFLAG == 1 ) THEN
                 WRITE (IOUT,2003)
      .             IPART(4,N1),GRPART2
                 IF(IDIR==0) THEN
@@ -777,7 +777,7 @@ C
                  DO I=1,IGRPART(IDTGRS1)%NENTITY
                     IP=IGRPART(IDTGRS1)%ENTITY(I)
                     TAGPRT_FRIC(IP)=NGRPF ! tag parts
-                 ENDDO    
+                 ENDDO
 
                ELSE
                  IF(NP0 >0 ) THEN
@@ -785,7 +785,7 @@ C
                     LENGRPF(NGRPF) = NP0
                     DO I=1,IGRPART(IDTGRS1)%NENTITY
                        IP=IGRPART(IDTGRS1)%ENTITY(I)
-                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF 
+                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF
                     ENDDO
                  ENDIF
                  INDEX(1:2*LENG) = 0
@@ -793,29 +793,29 @@ C
                  DO I=1,IGRPART(IDTGRS1)%NENTITY
                     IP=IGRPART(IDTGRS1)%ENTITY(I)
                     IF(TAGPRT_FRIC(IP)==0) TAGPRT_FRIC(IP)=NGRPF ! tag parts
-                    TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                    TRIGRPT(I) = TAGPRT_FRIC(IP)
                     INDEX(I) = I
                  ENDDO
                  CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS1)%NENTITY , 1)
 
                  NGR0 = TRIGRPT(INDEX(1))
                  J= 1
-                 NEWGRP(1:LENG+1) = 0 
+                 NEWGRP(1:LENG+1) = 0
                  TAGG1(1:LENG) = 0
                  DO I=2,IGRPART(IDTGRS1)%NENTITY
-                    NGR = TRIGRPT(INDEX(I))  
+                    NGR = TRIGRPT(INDEX(I))
                     IF(NGR/=NGR0) THEN
                       IF(LENGRPF(NGR0) /= I-NEWGRP(J)-1) THEN
-                         TAGG1(J) =1                   
+                         TAGG1(J) =1
                       ENDIF
                       J = J +1
-                      NGR0  =  NGR  
+                      NGR0  =  NGR
                       NEWGRP( J) = I-1
-                    ENDIF                                   
-                 ENDDO   
+                    ENDIF
+                 ENDDO
 
                  IF(LENGRPF(NGR0) /= IGRPART(IDTGRS1)%NENTITY-NEWGRP(J)) THEN
-                    TAGG1(J) =1                   
+                    TAGG1(J) =1
                  ENDIF
                  NEWGRP( J+1) = I-1
 
@@ -825,18 +825,18 @@ C
                        NGRPF = NGRPF + 1
                        LENGRPF(NGRPF) = NEWGRP( K+1) - NEWGRP( K)
                        IP=IGRPART(IDTGRS1)%ENTITY(INDEX(NEWGRP( K)+1))
-                       NGR0 = TAGPRT_FRIC(IP) 
+                       NGR0 = TAGPRT_FRIC(IP)
                        LENGRPF(NGR0) =LENGRPF(NGR0) -LENGRPF(NGRPF)
-                       DO I =NEWGRP( K)+1,NEWGRP( K+1)      
+                       DO I =NEWGRP( K)+1,NEWGRP( K+1)
                          IP=IGRPART(IDTGRS1)%ENTITY(INDEX(I))
-                         TAGPRT_FRIC(IP) =NGRPF 
+                         TAGPRT_FRIC(IP) =NGRPF
                        ENDDO
                     ENDIF
-                 ENDDO 
+                 ENDDO
                ENDIF
-            ENDIF 
+            ENDIF
 C
-            IF(IFLAG == 1 ) THEN             
+            IF(IFLAG == 1 ) THEN
 C
               GRPN2 = TAGPRT_FRIC(N2)
 C
@@ -845,7 +845,7 @@ C
               TAGG1(1:LENG) = 0
               DO I=1,IGRPART(IDTGRS1)%NENTITY
                  IP=IGRPART(IDTGRS1)%ENTITY(I)
-                 TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                 TRIGRPT(I) = TAGPRT_FRIC(IP)
                  INDEX(I) = I
               ENDDO
               CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS1)%NENTITY , 1)
@@ -854,14 +854,14 @@ C
               J= 1
               TAGG1(1) = NGR0
               DO I=2,IGRPART(IDTGRS1)%NENTITY
-                 NGR = TRIGRPT(INDEX(I))  
+                 NGR = TRIGRPT(INDEX(I))
                  IF(NGR/=NGR0) THEN
                     J = J +1
-                    NGR0  =  NGR 
-                    TAGG1(J) = NGR0 
-                 ENDIF                                   
-              ENDDO   
-              J1 = J  
+                    NGR0  =  NGR
+                    TAGG1(J) = NGR0
+                 ENDIF
+              ENDDO
+              J1 = J
 C
               DO K=1,J1
                  GRPN1 = TAGG1(K)
@@ -874,9 +874,9 @@ C
                  ENDIF
 
 
-                 NCOUPLE = NCOUPLE + 1          
-                 TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP  
-                 NCOUPLE = NCOUPLE + 1          
+                 NCOUPLE = NCOUPLE + 1
+                 TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP
+                 NCOUPLE = NCOUPLE + 1
                  TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IP
 C
                  NTAB = LENF*8*(NSET-1)+8
@@ -902,7 +902,7 @@ c
                     TABCOEF_FRIC_TMP(NIF,NTAB+5) = C33
                     TABCOEF_FRIC_TMP(NIF,NTAB+6) = C44
                     TABCOEF_FRIC_TMP(NIF,NTAB+7) = C55
-                    TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66 
+                    TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66
 
                  ENDIF
 c
@@ -911,7 +911,7 @@ c
             ENDIF
 
 C--Output--
-            IF(IFLAG == 1 ) THEN             
+            IF(IFLAG == 1 ) THEN
                WRITE (IOUT,2002)
      .             GRPART1,IPART(4,N2)
                IF(IDIR==0) THEN
@@ -974,7 +974,7 @@ C
                  DO I=1,IGRPART(IDTGRS1)%NENTITY
                     IP=IGRPART(IDTGRS1)%ENTITY(I)
                     TAGPRT_FRIC(IP)=NGRPF ! tag parts
-                 ENDDO    
+                 ENDDO
 
               ELSE
                  IF(NP0 >0 ) THEN
@@ -982,7 +982,7 @@ C
                     LENGRPF(NGRPF) = NP0
                     DO I=1,IGRPART(IDTGRS1)%NENTITY
                        IP=IGRPART(IDTGRS1)%ENTITY(I)
-                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF 
+                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF
                     ENDDO
                  ENDIF
                  INDEX(1:2*LENG) = 0
@@ -990,29 +990,29 @@ C
                  DO I=1,IGRPART(IDTGRS1)%NENTITY
                     IP=IGRPART(IDTGRS1)%ENTITY(I)
                     IF(TAGPRT_FRIC(IP)==0) TAGPRT_FRIC(IP)=NGRPF ! tag parts
-                    TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                    TRIGRPT(I) = TAGPRT_FRIC(IP)
                     INDEX(I) = I
                  ENDDO
                  CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS1)%NENTITY , 1)
 
                  NGR0 = TRIGRPT(INDEX(1))
                  J= 1
-                 NEWGRP(1:LENG+1) = 0 
+                 NEWGRP(1:LENG+1) = 0
                  TAGG1(1:LENG) = 0
                  DO I=2,IGRPART(IDTGRS1)%NENTITY
-                     NGR = TRIGRPT(INDEX(I))  
+                     NGR = TRIGRPT(INDEX(I))
                     IF(NGR/=NGR0) THEN
                       IF(LENGRPF(NGR0) /= I-NEWGRP(J)-1) THEN
-                         TAGG1(J) =1                   
+                         TAGG1(J) =1
                       ENDIF
                       J = J +1
-                      NGR0  =  NGR  
+                      NGR0  =  NGR
                       NEWGRP( J) = I-1
-                    ENDIF                                   
-                 ENDDO   
+                    ENDIF
+                 ENDDO
 
                  IF(LENGRPF(NGR0) /= IGRPART(IDTGRS1)%NENTITY-NEWGRP(J)) THEN
-                    TAGG1(J) =1                   
+                    TAGG1(J) =1
                  ENDIF
                  NEWGRP( J+1) = I-1
 
@@ -1022,14 +1022,14 @@ C
                        NGRPF = NGRPF + 1
                        LENGRPF(NGRPF) = NEWGRP( K+1) - NEWGRP( K)
                        IP=IGRPART(IDTGRS1)%ENTITY(INDEX(NEWGRP( K)+1))
-                       NGR0 = TAGPRT_FRIC(IP) 
+                       NGR0 = TAGPRT_FRIC(IP)
                        LENGRPF(NGR0) =LENGRPF(NGR0) -LENGRPF(NGRPF)
-                       DO I =NEWGRP( K)+1,NEWGRP( K+1)      
+                       DO I =NEWGRP( K)+1,NEWGRP( K+1)
                          IP=IGRPART(IDTGRS1)%ENTITY(INDEX(I))
-                         TAGPRT_FRIC(IP) =NGRPF 
+                         TAGPRT_FRIC(IP) =NGRPF
                       ENDDO
                     ENDIF
-                 ENDDO 
+                 ENDDO
               ENDIF
 
               NP0 = 0
@@ -1049,14 +1049,14 @@ C
 
 
                  J2 = 1
-                 TAGG2(1) = NGRPF             
+                 TAGG2(1) = NGRPF
               ELSE
                  IF(NP0 >0 ) THEN
                     NGRPF = NGRPF + 1
                     LENGRPF(NGRPF) = NP0
                     DO I=1,IGRPART(IDTGRS2)%NENTITY
                        IP=IGRPART(IDTGRS2)%ENTITY(I)
-                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF 
+                       IF(TAGPRT_FRIC(IP) ==0 ) TAGPRT_FRIC(IP) = NGRPF
                     ENDDO
                  ENDIF
                  INDEX(1:2*LENG) = 0
@@ -1064,29 +1064,29 @@ C
                  DO I=1,IGRPART(IDTGRS2)%NENTITY
                     IP=IGRPART(IDTGRS2)%ENTITY(I)
                     IF(TAGPRT_FRIC(IP)==0) TAGPRT_FRIC(IP)=NGRPF ! tag parts
-                    TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                    TRIGRPT(I) = TAGPRT_FRIC(IP)
                     INDEX(I) = I
                  ENDDO
                  CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS2)%NENTITY , 1)
 
                  NGR0 = TRIGRPT(INDEX(1))
                  J= 1
-                 NEWGRP(1:LENG+1) = 0 
+                 NEWGRP(1:LENG+1) = 0
                  TAGG2(1:LENG) = 0
 
                  DO I=2,IGRPART(IDTGRS2)%NENTITY
-                    NGR = TRIGRPT(INDEX(I))  
+                    NGR = TRIGRPT(INDEX(I))
                     IF(NGR/=NGR0) THEN
                       IF(LENGRPF(NGR0) /= I-NEWGRP(J)-1) THEN
-                         TAGG2(J) =1                   
+                         TAGG2(J) =1
                       ENDIF
                       J = J +1
-                      NGR0  =  NGR  
+                      NGR0  =  NGR
                       NEWGRP( J) = I-1
-                    ENDIF                                   
-                 ENDDO   
+                    ENDIF
+                 ENDDO
                  IF(LENGRPF(NGR0) /= IGRPART(IDTGRS2)%NENTITY-NEWGRP(J)) THEN
-                    TAGG2(J) =1                   
+                    TAGG2(J) =1
                  ENDIF
                  NEWGRP( J+1) = I-1
                  DO K=1,J
@@ -1094,14 +1094,14 @@ C
                        NGRPF = NGRPF + 1
                        LENGRPF(NGRPF) = NEWGRP( K+1) - NEWGRP( K)
                        IP=IGRPART(IDTGRS2)%ENTITY(INDEX(NEWGRP( K)+1))
-                       NGR0 = TAGPRT_FRIC(IP) 
+                       NGR0 = TAGPRT_FRIC(IP)
                        LENGRPF(NGR0) =LENGRPF(NGR0) -LENGRPF(NGRPF)
-                       DO I =NEWGRP( K)+1,NEWGRP( K+1)      
+                       DO I =NEWGRP( K)+1,NEWGRP( K+1)
                          IP=IGRPART(IDTGRS2)%ENTITY(INDEX(I))
-                         TAGPRT_FRIC(IP) =NGRPF 
-                       ENDDO 
+                         TAGPRT_FRIC(IP) =NGRPF
+                       ENDDO
                     ENDIF
-                 ENDDO   
+                 ENDDO
 
               ENDIF
             ENDIF
@@ -1114,7 +1114,7 @@ C
                TAGG1(1:LENG) = 0
                DO I=1,IGRPART(IDTGRS1)%NENTITY
                   IP=IGRPART(IDTGRS1)%ENTITY(I)
-                  TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                  TRIGRPT(I) = TAGPRT_FRIC(IP)
                   INDEX(I) = I
                ENDDO
                CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS1)%NENTITY , 1)
@@ -1123,13 +1123,13 @@ C
                J= 1
                TAGG1(1) = NGR0
                DO I=2,IGRPART(IDTGRS1)%NENTITY
-                  NGR = TRIGRPT(INDEX(I))  
+                  NGR = TRIGRPT(INDEX(I))
                   IF(NGR/=NGR0) THEN
                      J = J +1
-                     NGR0  =  NGR 
-                     TAGG1(J) = NGR0 
-                  ENDIF                                   
-               ENDDO   
+                     NGR0  =  NGR
+                     TAGG1(J) = NGR0
+                  ENDIF
+               ENDDO
                J1 = J
 C
                INDEX(1:2*LENG) = 0
@@ -1137,7 +1137,7 @@ C
                TAGG2(1:LENG) = 0
                DO I=1,IGRPART(IDTGRS2)%NENTITY
                   IP=IGRPART(IDTGRS2)%ENTITY(I)
-                  TRIGRPT(I) = TAGPRT_FRIC(IP) 
+                  TRIGRPT(I) = TAGPRT_FRIC(IP)
                   INDEX(I) = I
                ENDDO
                CALL MY_ORDERS( 0, WORK, TRIGRPT, INDEX, IGRPART(IDTGRS2)%NENTITY , 1)
@@ -1146,14 +1146,14 @@ C
                J= 1
                TAGG2(1) = NGR0
                DO I=2,IGRPART(IDTGRS2)%NENTITY
-                  NGR = TRIGRPT(INDEX(I)) 
+                  NGR = TRIGRPT(INDEX(I))
                   IF(NGR/=NGR0) THEN
                      J = J +1
-                     NGR0  =  NGR 
-                     TAGG2(J) = NGR0 
-                  ENDIF                                   
-               ENDDO 
-               J2 = J      
+                     NGR0  =  NGR
+                     TAGG2(J) = NGR0
+                  ENDIF
+               ENDDO
+               J2 = J
 C
                DO K=1,J1
                   GRPN1 = TAGG1(K)
@@ -1165,13 +1165,13 @@ C
                        IPP1 = N
                     ELSE
                        IPP1 = GRPN1
-                       IPP2 = GRPN2                        
+                       IPP2 = GRPN2
                     ENDIF
                     NSET = NSET + 1
 
-                    NCOUPLE = NCOUPLE + 1          
-                    TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP1  
-                    NCOUPLE = NCOUPLE + 1          
+                    NCOUPLE = NCOUPLE + 1
+                    TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP1
+                    NCOUPLE = NCOUPLE + 1
                     TABCOUPLEPARTS_FRIC_TMP(NIF,NCOUPLE) = IPP2
 C
                     NTAB = LENF*8*(NSET-1)+8
@@ -1198,18 +1198,18 @@ c
                           TABCOEF_FRIC_TMP(NIF,NTAB+5) = C33
                           TABCOEF_FRIC_TMP(NIF,NTAB+6) = C44
                           TABCOEF_FRIC_TMP(NIF,NTAB+7) = C55
-                          TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66 
+                          TABCOEF_FRIC_TMP(NIF,NTAB+8) = C66
                        ENDIF
                     ENDIF
 c
                   ENDDO
 c
-               END DO 
+               END DO
 
             ENDIF
 
 C--Output--
-            IF(IFLAG == 1 ) THEN             
+            IF(IFLAG == 1 ) THEN
                WRITE (IOUT,2004)
      .             GRPART1,GRPART2
                IF(IDIR==0) THEN
@@ -1258,7 +1258,7 @@ C
 
        ENDDO ! N=1,NLINE
 
-       DEALLOCATE (TRIGRPT,INDEX,NEWGRP,TAGG1,TAGG2) 
+       DEALLOCATE (TRIGRPT,INDEX,NEWGRP,TAGG1,TAGG2)
 
 C
        RETURN

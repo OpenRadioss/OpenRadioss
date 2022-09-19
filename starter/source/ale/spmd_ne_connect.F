@@ -27,9 +27,9 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
-     .                             NODGLOBAL       , NODLOCAL, 
-     .                             NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 
+      SUBROUTINE C_SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     ,
+     .                             NODGLOBAL       , NODLOCAL,
+     .                             NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L,
      .                             NUMELS_L        , NUMELQ_L, NUMELTG_L,
      .                             NERVOIS         , NESVOIS ,
      .                             NSVOIS          , NQVOIS  , NTGVOIS)
@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: CEP(*), CEL(*)
       INTEGER, DIMENSION(NUMNOD), INTENT(IN) :: NODLOCAL
       INTEGER, DIMENSION(NUMNOD_L), INTENT(IN) :: NODGLOBAL
-      INTEGER, INTENT(IN) :: PROC, NUMNOD, NUMNOD_L, NUMEL, NUMEL_L, 
+      INTEGER, INTENT(IN) :: PROC, NUMNOD, NUMNOD_L, NUMEL, NUMEL_L,
      .     NUMELS_L, NUMELQ_L, NUMELTG_L
       INTEGER, INTENT(INOUT) :: NSVOIS, NQVOIS, NTGVOIS, NERVOIS, NESVOIS
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
       TAGELE(1:NUMEL) = 0
       ALLOCATE(TAGELE_L(NSPMD, NUMEL_L))
       TAGELE_L(1:NSPMD, 1:NUMEL_L) = 0
-      
+
       ALLOCATE(NERCVOIS(NSPMD + 1))
       NERCVOIS(1:NSPMD + 1) = 0
       ALLOCATE(NESDVOIS(NSPMD + 1))
@@ -87,7 +87,7 @@ C-----------------------------------------------
       NSVOIS = 0
       NQVOIS = 0
       NTGVOIS = 0
-  
+
       DO INODE = 1, NUMNOD_L
          NODE_ID = NODGLOBAL(INODE)
          IAD1 = ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT(NODE_ID)
@@ -103,7 +103,7 @@ C-----------------------------------------------
                OK_RC = .TRUE.
             ENDIF
          ENDDO
-        
+
          IF (OK_RC) THEN
             DO IAD = IAD1, IAD2
                IELEM = ALE_CONNECTIVITY%NE_CONNECT%CONNECTED(IAD)
@@ -148,10 +148,10 @@ C-----------------------------------------------
       DO P = 1, NSPMD
          NESVOIS = NESVOIS + NESDVOIS(P)
          NERVOIS = NERVOIS + NERCVOIS(P)
-      ENDDO         
-      
+      ENDDO
+
       DEALLOCATE(TAGELE_L, TAGELE, NERCVOIS, NESDVOIS)
-      
+
       END SUBROUTINE C_SPMD_NE_CONNECT
 
 
@@ -163,12 +163,12 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     , 
-     .                           NODGLOBAL       , NODLOCAL, 
-     .                           NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L, 
+      SUBROUTINE SPMD_NE_CONNECT(ALE_CONNECTIVITY, PROC    , CEP      , CEL     ,
+     .                           NODGLOBAL       , NODLOCAL,
+     .                           NUMEL           , NUMNOD  , NUMEL_L  , NUMNOD_L,
      .                           NUMELS_L        , NUMELQ_L, NUMELTG_L,
      .                           NERVOIS         , NESVOIS ,
-     .                           NSVOIS          , NQVOIS  , NTGVOIS  , ELEMID_L, LEN_IA,IXS)     
+     .                           NSVOIS          , NQVOIS  , NTGVOIS  , ELEMID_L, LEN_IA,IXS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -260,7 +260,7 @@ C-----------------------------------------------
                ELEMID_L(IELEM) = IELEM_L
             ENDIF
          ENDDO
-        
+
          IF (OK_RC) THEN
             DO IAD = IAD1, IAD2
                IELEM = ALE_CONNECTIVITY%NE_CONNECT%CONNECTED(IAD)
@@ -308,7 +308,7 @@ C-----------------------------------------------
                ENDDO
             ENDIF
          ENDDO
-         
+
          IF (ALLOCATED(PROC_LIST)) DEALLOCATE(PROC_LIST)
       ENDDO
 
@@ -316,7 +316,7 @@ C-----------------------------------------------
          NERCVOIS(NSPMD + 1) = NERCVOIS(NSPMD + 1) + NERCVOIS(P)
          NESDVOIS(NSPMD + 1) = NESDVOIS(NSPMD + 1) + NESDVOIS(P)
       ENDDO
- 
+
 C     Sorting LERCVOIS
       DO II = 1, NERVOIS
          TMP(II) = TAGER(II)
@@ -332,7 +332,7 @@ C     Sorting LERCVOIS
       DO II = 1, NERVOIS
          TMP2(II) = LERCVOIS(II)
       ENDDO
-     
+
       IAD = 1
       DO WHILE (IAD <= NERVOIS)
          DO IAD1 = IAD, NERVOIS
@@ -346,7 +346,7 @@ C     Sorting LERCVOIS
          CALL QUICKSORT_I2(TAGER(IAD:IAD1 - 1), IDX(IAD:IAD1 - 1), 1, IAD1 - IAD)
          IAD = IAD1
       ENDDO
-     
+
       DO II = 1, NERVOIS
          LERCVOIS(II) = TMP2(IDX(II))
       ENDDO
@@ -366,7 +366,7 @@ C     Sorting LESDVOIS
       DO II = 1, NESVOIS
          TMP2(II) = LESDVOIS(II)
       ENDDO
-     
+
       IAD = 1
       DO WHILE (IAD <= NESVOIS)
          DO IAD1 = IAD, NESVOIS
@@ -380,11 +380,11 @@ C     Sorting LESDVOIS
          CALL QUICKSORT_I2(TAGES(IAD:IAD1 - 1), IDX(IAD:IAD1 - 1), 1, IAD1 - IAD)
          IAD = IAD1
       ENDDO
-     
+
       DO II = 1, NESVOIS
          LESDVOIS(II) = TMP2(IDX(II))
       ENDDO
-      
+
       CALL WRITE_I_C(NERCVOIS, NSPMD + 1)
       LEN_IA = LEN_IA + NSPMD + 1
       CALL WRITE_I_C(LERCVOIS, NERVOIS)
@@ -394,6 +394,6 @@ C     Sorting LESDVOIS
       CALL WRITE_I_C(LESDVOIS, NESVOIS)
       LEN_IA = LEN_IA + NESVOIS
 
-      DEALLOCATE(TAGELE, TAGELE_L, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
+      DEALLOCATE(TAGELE, TAGELE_L, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
      .     CPULOCALER, CPULOCALES, TAGER, TAGES, TMP, TMP2, IDX)
       END SUBROUTINE SPMD_NE_CONNECT

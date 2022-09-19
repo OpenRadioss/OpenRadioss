@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ANIOFFC(ELBUF_TAB,IPARG,IOFF,EL2FA,NBF   )                      
+      SUBROUTINE ANIOFFC(ELBUF_TAB,IPARG,IOFF,EL2FA,NBF   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -36,96 +36,96 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com01_c.inc"                                             
-#include      "com04_c.inc"                                             
-#include      "param_c.inc"                                             
-#include      "rnur_c.inc"                                              
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "param_c.inc"
+#include      "rnur_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
       INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*)
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB                                  
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
 C     REAL                                                    
-      INTEGER I, NG, NEL, NFT, ITY, LFT,LLT, MLW,                      
-     .   N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,N_FA                          
-      REAL R4                                                           
+      INTEGER I, NG, NEL, NFT, ITY, LFT,LLT, MLW,
+     .   N1,N2,N3,N4,NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,N_FA
+      REAL R4
       my_real
      .   OFF
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      NN1 = 1                                                           
-      NN2 = 1                                                           
-      NN3 = 1                                                           
-      NN4 = NN3 + NUMELQ                                                
-      NN5 = NN4 + NUMELC                                                
-      NN6 = NN5 + NUMELTG                                               
-      NN7 = NN6                                                         
-      NN8 = NN7                                                         
-      NN9 = NN8                                                         
-      NN10= NN9 + NUMELUR                                               
+      NN1 = 1
+      NN2 = 1
+      NN3 = 1
+      NN4 = NN3 + NUMELQ
+      NN5 = NN4 + NUMELC
+      NN6 = NN5 + NUMELTG
+      NN7 = NN6
+      NN8 = NN7
+      NN9 = NN8
+      NN10= NN9 + NUMELUR
 C-----------------------------------------------                        
 C                                                                       
-      DO NG=1,NGROUP                                                    
-        MLW = IPARG(1,NG)                                              
-        NEL = IPARG(2,NG)                                            
+      DO NG=1,NGROUP
+        MLW = IPARG(1,NG)
+        NEL = IPARG(2,NG)
         NFT = IPARG(3,NG)
         ITY = IPARG(5,NG)
-        LFT=1                                                           
-        LLT=NEL                                                         
+        LFT=1
+        LLT=NEL
 C-----------------------------------------------                        
 C       QUAD                                                            
 C-----------------------------------------------                        
-        IF(ITY==2)THEN                                                
-          N_FA = NN3 + NFT                                              
+        IF(ITY==2)THEN
+          N_FA = NN3 + NFT
 C-----------------------------------------------                        
 C       COQUES 4 N                                                      
 C-----------------------------------------------                        
-        ELSEIF(ITY==3)THEN                                            
-          N_FA = NN4 + NFT                                              
+        ELSEIF(ITY==3)THEN
+          N_FA = NN4 + NFT
 C-----------------------------------------------                        
 C       COQUES 3 N                                                      
 C-----------------------------------------------                        
-        ELSEIF(ITY==7)THEN                                            
-          N_FA = NN5 + NFT                                              
+        ELSEIF(ITY==7)THEN
+          N_FA = NN5 + NFT
 C-----------------------------------------------                        
 C       RNUR                                                            
 C-----------------------------------------------                        
-        ELSEIF(ITY==50)THEN                                           
-          N_FA = NN9 + NFT                                              
-        ELSE                                                            
-          ITY=0                                                         
-        ENDIF                                                           
+        ELSEIF(ITY==50)THEN
+          N_FA = NN9 + NFT
+        ELSE
+          ITY=0
+        ENDIF
 C-----------------------------------------------                        
-        IF(ITY/=0)THEN                                                
-          IF(MLW==0)THEN                                               
+        IF(ITY/=0)THEN
+          IF(MLW==0)THEN
 C-----------------------------------------------                        
 C           DUMMY ELEMENTS                                                
 C-----------------------------------------------                        
-            DO I=LFT,LLT                                                
-              IOFF(EL2FA(N_FA+I)) = 0                                   
-            ENDDO                                                       
-          ELSE                                                           
+            DO I=LFT,LLT
+              IOFF(EL2FA(N_FA+I)) = 0
+            ENDDO
+          ELSE
 C-----------------------------------------------                        
 C           OFF                                                           
 C-----------------------------------------------                        
             GBUF => ELBUF_TAB(NG)%GBUF
-            DO I=LFT,LLT                                                  
+            DO I=LFT,LLT
               IF (MLW/=0 .AND. MLW/=13) OFF = ELBUF_TAB(NG)%GBUF%OFF(I)
               IOFF(EL2FA(N_FA+I)) = NINT(MIN(OFF,ONE))
-            ENDDO                                                         
-          ENDIF                                                          
-        ENDIF                                                           
+            ENDDO
+          ENDIF
+        ENDIF
 C-----------------------------------------------                        
-      ENDDO                                                             
+      ENDDO
 C-----------------------------------------------                        
-      CALL WRITE_C_C(IOFF,NBF)                                          
+      CALL WRITE_C_C(IOFF,NBF)
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,18 +60,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER MAT(MVSIZ), 
-     .   NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
-     .   NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ), 
+      INTEGER MAT(MVSIZ),
+     .   NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
+     .   NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ),
      .   I,II
-     
+
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), 
-     .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
-     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
+     .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
+     .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
+     .   Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ),
      .   N1X(MVSIZ),N1Y(MVSIZ),N1Z(MVSIZ),
      .   N2X(MVSIZ),N2Y(MVSIZ),N2Z(MVSIZ),
      .   N3X(MVSIZ),N3Y(MVSIZ),N3Z(MVSIZ),
@@ -84,10 +84,10 @@ C-----------------------------------------------
      .   VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ),
      .   VY4(MVSIZ), VY5(MVSIZ), VY6(MVSIZ),
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), 
-     .   VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ), 
-     .   VDX1(MVSIZ), VDX2(MVSIZ), VDX3(MVSIZ), VDX4(MVSIZ), 
-     .   VDX5(MVSIZ), VDX6(MVSIZ), VDX7(MVSIZ), VDX8(MVSIZ), 
+     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
+     .   VZ4(MVSIZ), VZ5(MVSIZ), VZ6(MVSIZ),
+     .   VDX1(MVSIZ), VDX2(MVSIZ), VDX3(MVSIZ), VDX4(MVSIZ),
+     .   VDX5(MVSIZ), VDX6(MVSIZ), VDX7(MVSIZ), VDX8(MVSIZ),
      .   VDY1(MVSIZ), VDY2(MVSIZ), VDY3(MVSIZ), VDY4(MVSIZ),
      .   VDY5(MVSIZ), VDY6(MVSIZ), VDY7(MVSIZ), VDY8(MVSIZ),
      .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ),
@@ -101,14 +101,14 @@ C-----------------------------------------------
      .   XF5(MVSIZ),YF5(MVSIZ),ZF5(MVSIZ),
      .   XF6(MVSIZ),YF6(MVSIZ),ZF6(MVSIZ),
      .   TEST
-   
-      INTEGER,DIMENSION(:),   POINTER     :: pIsMain       
-     
+
+      INTEGER,DIMENSION(:),   POINTER     :: pIsMain
+
       my_real :: TAG22(MVSIZ), RATIOFACE(6)
-      
-      my_real,DIMENSION(:), POINTER       :: pFACE      !=> BRICK_LIST%POLY()%FACE()%Surf   !     WARNING :  all pointers begin with 1 not 0     
-      my_real,DIMENSION(:)  , POINTER     :: pFullFACE  
-     
+
+      my_real,DIMENSION(:), POINTER       :: pFACE      !=> BRICK_LIST%POLY()%FACE()%Surf   !     WARNING :  all pointers begin with 1 not 0
+      my_real,DIMENSION(:)  , POINTER     :: pFullFACE
+
       INTEGER MA,IC,JST(MVSIZ+1)
       INTEGER MCELL,IB, NIN, NBCUT, IAD2
 C-----------------------------------------------
@@ -200,13 +200,13 @@ C-----------------------------------------------
         VDX8(I)=V(1,NC8(I)) - W(1,NC8(I))
         VDY8(I)=V(2,NC8(I)) - W(2,NC8(I))
         VDZ8(I)=V(3,NC8(I)) - W(3,NC8(I))
-      END DO      
-      
+      END DO
+
       !======================================================!
       ! RELATIVE VELOCITIES ON EACH FACE                     !
       !    [V_face] = 1/4 Sum([V_node])                      !
       !    Results are divided by 2 at this step :           !
-      !    [0.5*V_face] = 1/8 Sum([V_node])                  !       
+      !    [0.5*V_face] = 1/8 Sum([V_node])                  !
       !======================================================!
       DO I=LFT,LLT
         ! X-component
@@ -231,10 +231,10 @@ C-----------------------------------------------
         VZ5(I)=ONE_OVER_8*(VDZ2(I)+VDZ3(I)+VDZ7(I)+VDZ6(I))
         VZ6(I)=ONE_OVER_8*(VDZ1(I)+VDZ4(I)+VDZ8(I)+VDZ5(I))
       END DO
-      
+
       !======================================================!
       ! NORMAL VECTORS ON EACH DACE                          !
-      !    2S[n] = [diag1] x [diag2]                         ! 
+      !    2S[n] = [diag1] x [diag2]                         !
       !    where                                             !
       !      [n] : unitary normal vector on face             !
       !======================================================!
@@ -267,7 +267,7 @@ C-----------------------------------------------
 
       !======================================================!
       ! ELEMENT CLOSURE TEST                                 !
-      !    (If at least there is one domain with closure)    ! 
+      !    (If at least there is one domain with closure)    !
       !    2S [CF].[n] = 0  => [2S*n] = 0                    !
       !    where                                             !
       !      C: element centroid                             !
@@ -300,7 +300,7 @@ C-----------------------------------------------
           ZF3(I)=FOURTH*(Z5(I)+Z6(I)+Z7(I)+Z8(I))
           ZF4(I)=FOURTH*(Z1(I)+Z2(I)+Z6(I)+Z5(I))
           ZF5(I)=FOURTH*(Z2(I)+Z3(I)+Z7(I)+Z6(I))
-          ZF6(I)=FOURTH*(Z1(I)+Z4(I)+Z8(I)+Z5(I))          
+          ZF6(I)=FOURTH*(Z1(I)+Z4(I)+Z8(I)+Z5(I))
         ENDDO
 	! Face-1
         DO I=LFT,LLT
@@ -310,7 +310,7 @@ C-----------------------------------------------
           IF(TEST <= 0)THEN
               N1X(I)=ZERO
               N1Y(I)=ZERO
-              N1Z(I)=ZERO     
+              N1Z(I)=ZERO
           ENDIF
         ENDDO
 	! Face-2	
@@ -321,7 +321,7 @@ C-----------------------------------------------
           IF(TEST <= 0)THEN
               N2X(I)=ZERO
               N2Y(I)=ZERO
-              N2Z(I)=ZERO     
+              N2Z(I)=ZERO
           ENDIF
         ENDDO
 	! Face-3	
@@ -332,7 +332,7 @@ C-----------------------------------------------
           IF(TEST <= 0)THEN
               N3X(I)=ZERO
               N3Y(I)=ZERO
-              N3Z(I)=ZERO              
+              N3Z(I)=ZERO
           ENDIF
         ENDDO
 	! Face-4	
@@ -343,7 +343,7 @@ C-----------------------------------------------
             IF(TEST <= ZERO)THEN
               N4X(I)=ZERO
               N4Y(I)=ZERO
-              N4Z(I)=ZERO              
+              N4Z(I)=ZERO
           ENDIF
         ENDDO
 	! Face-5
@@ -354,7 +354,7 @@ C-----------------------------------------------
              IF(TEST <= ZERO)THEN
               N5X(I)=ZERO
               N5Y(I)=ZERO
-              N5Z(I)=ZERO              
+              N5Z(I)=ZERO
           ENDIF
         ENDDO
 	! Face-6	
@@ -365,15 +365,15 @@ C-----------------------------------------------
           IF(TEST <= ZERO)THEN
               N6X(I)=ZERO
               N6Y(I)=ZERO
-              N6Z(I)=ZERO      
+              N6Z(I)=ZERO
           ENDIF
         ENDDO
       ENDIF
-      
+
       !======================================================!
       ! FLUXES CALCULATION ON EACH FACE                      !
-      !    FLUX_face = [V_face].[n]                          ! 
-      !              = [0.5*V_face] . [2S*n]                 !       
+      !    FLUX_face = [V_face].[n]                          !
+      !              = [0.5*V_face] . [2S*n]                 !
       !======================================================!
       DO I=LFT,LLT
         FLUX1(I)=(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
@@ -396,28 +396,28 @@ C-----------------------------------------------
           IB = NINT(TAG22(I)) !GBUF%TAG22
           IF(IB > 0)THEN
             NBCUT        =  BRICK_LIST(NIN,IB)%NBCUT
-            IF(NBCUT==0)CYCLE          
-            MCELL        =  BRICK_LIST(NIN,IB)%mainID                
+            IF(NBCUT==0)CYCLE
+            MCELL        =  BRICK_LIST(NIN,IB)%mainID
             pFACE        => BRICK_LIST(NIN,IB)%POLY(MCELL)%FACE(1:6)%Surf
             pIsMain    => BRICK_LIST(NIN,IB)%POLY(1:9)%IsMain
-            IF(MCELL == 0) CYCLE            
-            pFullFACE    => BRICK_LIST(NIN,IB)%Face_Brick(1:6)        
-            RATIOFACE(1) =  pFACE(1) / pFullFACE(1) 
-            RATIOFACE(2) =  pFACE(2) / pFullFACE(2) 
-            RATIOFACE(3) =  pFACE(3) / pFullFACE(3) 
-            RATIOFACE(4) =  pFACE(4) / pFullFACE(4) 
-            RATIOFACE(5) =  pFACE(5) / pFullFACE(5) 
+            IF(MCELL == 0) CYCLE
+            pFullFACE    => BRICK_LIST(NIN,IB)%Face_Brick(1:6)
+            RATIOFACE(1) =  pFACE(1) / pFullFACE(1)
+            RATIOFACE(2) =  pFACE(2) / pFullFACE(2)
+            RATIOFACE(3) =  pFACE(3) / pFullFACE(3)
+            RATIOFACE(4) =  pFACE(4) / pFullFACE(4)
+            RATIOFACE(5) =  pFACE(5) / pFullFACE(5)
             RATIOFACE(6) =  pFACE(6) / pFullFACE(6)
             FLUX1(I)     =  RATIOFACE(1) * FLUX1(I)
             FLUX2(I)     =  RATIOFACE(2) * FLUX2(I)
             FLUX3(I)     =  RATIOFACE(3) * FLUX3(I)
             FLUX4(I)     =  RATIOFACE(4) * FLUX4(I)
             FLUX5(I)     =  RATIOFACE(5) * FLUX5(I)
-            FLUX6(I)     =  RATIOFACE(6) * FLUX6(I)                                                  
-          ENDIF                                       
-        ENDDO!next IB 
+            FLUX6(I)     =  RATIOFACE(6) * FLUX6(I)
+          ENDIF
+        ENDDO!next IB
       ENDIF
-      
+
       !======================================================!
       ! TRIMATERIAL CASE INITIALIZATION (LAW51)              !
       ! -->RETURN                                            !
@@ -433,7 +433,7 @@ C-----------------------------------------------
         ENDDO
         RETURN
       ENDIF
-      
+
       !======================================================!
       !  UPWIND TREATMENT                                    !
       !    reading coefficient for mass transportation UPWL  !
@@ -481,7 +481,7 @@ C-----------------------------------------------
            ENDDO
          ENDIF
       ENDIF
-      
+
       !======================================================!
       !  BOUNDARY FACE : no volume flux by default           !
       !    slip wall bc                                      !

@@ -66,7 +66,7 @@ C
         CALL WRITE_DB(RTMP,LW)
         LEN_AM = LEN_AM + LW
         DEALLOCATE( RTMP )
-      END IF 
+      END IF
 ! --------------------------------
       RETURN
       END

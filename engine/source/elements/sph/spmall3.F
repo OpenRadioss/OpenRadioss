@@ -52,14 +52,14 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF(ISMSTR==1.OR.ISMSTR==3)THEN
         DO I=LFT,LLT
-          IF(OFFG(I)>ZERO)OFFG(I)=TWO 
+          IF(OFFG(I)>ZERO)OFFG(I)=TWO
         ENDDO
       ENDIF
 C
       IF (NSPHSOL/=0) THEN
 C-- Sol2sph
         DO I=LFT,LLT
-          IF (SPH2SOL(I)==0) THEN 
+          IF (SPH2SOL(I)==0) THEN
             IF(OFFG(I)/=ZERO.AND.OFF(I)==ZERO)THEN
               KXSP(2,I)=0
 #include "lockon.inc"

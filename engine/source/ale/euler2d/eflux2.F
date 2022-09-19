@@ -110,11 +110,11 @@ C-----------------------------------------------
         VY1(I)=HALF*(VDY1(I)+VDY2(I))
         VY2(I)=HALF*(VDY2(I)+VDY3(I))
         VY3(I)=HALF*(VDY3(I)+VDY4(I))
-        VY4(I)=HALF*(VDY4(I)+VDY1(I))      
+        VY4(I)=HALF*(VDY4(I)+VDY1(I))
         VZ1(I)=HALF*(VDZ1(I)+VDZ2(I))
         VZ2(I)=HALF*(VDZ2(I)+VDZ3(I))
         VZ3(I)=HALF*(VDZ3(I)+VDZ4(I))
-        VZ4(I)=HALF*(VDZ4(I)+VDZ1(I))      
+        VZ4(I)=HALF*(VDZ4(I)+VDZ1(I))
       ENDDO
 C------------------------------------------
 C     NORMAL VECTORS
@@ -141,7 +141,7 @@ C------------------------------------------
          N3Y(I) = N3Y(I)*(Y3(I)+Y4(I))*HALF
          N3Z(I) = N3Z(I)*(Y3(I)+Y4(I))*HALF
          N4Y(I) = N4Y(I)*(Y1(I)+Y4(I))*HALF
-         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF       
+         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF
        ENDDO
       ENDIF
 C--------------------
@@ -173,7 +173,7 @@ C-----------------------------------------------
           UPWL(J,I) = PM(16,MAT(I))
         ENDDO
       ENDDO
-      
+
       !======================================================!
       !  BOUNDARY FACE : no volume flux by default           !
       !    slip wall bc                                      !
@@ -181,7 +181,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        REDUC=PM(92,MAT(I))
-       
+
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
        IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
@@ -211,7 +211,7 @@ C-----------------------------------------------
           UPW(I) =PM(16,MAT(I))
         ENDDO
         CALL AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPH,
-     .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
+     .     FLUX1, FLUX2, FLUX3, FLUX4, UPW,
      .     NC1, NC2, NC3, NC4)
       ELSE
        DO I=LFT,LLT

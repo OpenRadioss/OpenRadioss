@@ -151,7 +151,7 @@ C=======================================================================
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .       MS,XK,XC,EPSTOT,F,DFDX,RHO,STIF,DEPS,G,DGDX,L0,
      .       LPREV, LNEXT,
      .       XM, XKM, XCM, FACT, XN, DTC, DTK

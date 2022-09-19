@@ -27,7 +27,7 @@ Chd|        FVMESH1                       source/airbag/fvmesh.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GPOLCUT(IPOLY , RPOLY  , IPOLY_OLD, RPOLY_OLD , INEDGE,
-     .                   RNEDGE, NBNEDGE, NX       , NY        , NZ    , 
+     .                   RNEDGE, NBNEDGE, NX       , NY        , NZ    ,
      .                   X0    , Y0     , Z0       , INS       , RNS   ,
      .                   NN    , NHOL   , INZ      , IZ        , NNS3  ,
      .                   NPOLY , NS     , IELNOD   , IELNOD_OLD)
@@ -41,8 +41,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NN, NHOL, IPOLY(6+2*NN+1+NHOL,*), IPOLY_OLD(*), 
-     .        INEDGE(6,*), NBNEDGE, INS(2,*), INZ, IZ(3,*), NNS3, 
+      INTEGER NN, NHOL, IPOLY(6+2*NN+1+NHOL,*), IPOLY_OLD(*),
+     .        INEDGE(6,*), NBNEDGE, INS(2,*), INZ, IZ(3,*), NNS3,
      .        NPOLY, NS, IELNOD(2*NN,*), IELNOD_OLD(*)
       my_real
      .        RPOLY(4+3*2*NN+3*NHOL,*), RPOLY_OLD(*), RNEDGE(6,*), NX,
@@ -59,8 +59,8 @@ C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, ALPHA, NPX, NPY, NPZ,
      .        XP0, YP0, ZP0, VX, VY, VZ, XX, YY, ZZ, XL(NN), XLMIN,
-     .        XLC, XX1, YY1, ZZ1, XX2, YY2, ZZ2, VX1, VY1, 
-     .        VZ1, VX2, VY2, VZ2, NR1, NR2, SS, VVX, VVY, VVZ, 
+     .        XLC, XX1, YY1, ZZ1, XX2, YY2, ZZ2, VX1, VY1,
+     .        VZ1, VX2, VY2, VZ2, NR1, NR2, SS, VVX, VVY, VVZ,
      .        SS1, ZL, XNS(3,NN), TOLE, LL, ZLM
 C
       TOLE=EPSILON(ZERO)*0.5
@@ -360,7 +360,7 @@ C Nouveaux polygones
       NNP=0
       DO WHILE (ISTOP==0)
          I=1
-         DO WHILE (ITAG(I)/=0.AND.I<=NSEG) 
+         DO WHILE (ITAG(I)/=0.AND.I<=NSEG)
             I=I+1
          ENDDO
          IF (I==NSEG+1) THEN
@@ -432,8 +432,8 @@ C Attribution des trous
                N1=POLY(K,I)
                N2=POLY(KK,I)
                IF (N1>0) THEN
-                  XX1=RPOLY_OLD(4+3*(N1-1)+1)      
-                  YY1=RPOLY_OLD(4+3*(N1-1)+2)      
+                  XX1=RPOLY_OLD(4+3*(N1-1)+1)
+                  YY1=RPOLY_OLD(4+3*(N1-1)+2)
                   ZZ1=RPOLY_OLD(4+3*(N1-1)+3)
                ELSE
                   XX1=XNS(1,-N1)
@@ -441,8 +441,8 @@ C Attribution des trous
                   ZZ1=XNS(3,-N1)
                ENDIF
                IF (N2>0) THEN
-                  XX2=RPOLY_OLD(4+3*(N2-1)+1)      
-                  YY2=RPOLY_OLD(4+3*(N2-1)+2)      
+                  XX2=RPOLY_OLD(4+3*(N2-1)+1)
+                  YY2=RPOLY_OLD(4+3*(N2-1)+2)
                   ZZ2=RPOLY_OLD(4+3*(N2-1)+3)
                ELSE
                   XX2=XNS(1,-N2)
@@ -542,7 +542,7 @@ C
          ENDDO
 C
          NHOLP=0
-         
+
          DO J=1,NHOL
             IF (THOL(J)==I) THEN
                NHOLP=NHOLP+1
@@ -585,11 +585,11 @@ C
          YY2=XNS(2,N2)
          ZZ2=XNS(3,N2)
 C
-         RNEDGE(1,NBNEDGE)=XX1         
-         RNEDGE(2,NBNEDGE)=YY1         
-         RNEDGE(3,NBNEDGE)=ZZ1         
-         RNEDGE(4,NBNEDGE)=XX2         
-         RNEDGE(5,NBNEDGE)=YY2         
+         RNEDGE(1,NBNEDGE)=XX1
+         RNEDGE(2,NBNEDGE)=YY1
+         RNEDGE(3,NBNEDGE)=ZZ1
+         RNEDGE(4,NBNEDGE)=XX2
+         RNEDGE(5,NBNEDGE)=YY2
          RNEDGE(6,NBNEDGE)=ZZ2
       ENDDO
 C
@@ -598,7 +598,7 @@ C
          ZLM=ZERO
          DO J=1,IPOLY(2,I)
             XX=RPOLY(4+3*(J-1)+1,I)
-            YY=RPOLY(4+3*(J-1)+2,I)       
+            YY=RPOLY(4+3*(J-1)+2,I)
             ZZ=RPOLY(4+3*(J-1)+3,I)
             ZL=(XX-X0)*NX+(YY-Y0)*NY+(ZZ-Z0)*NZ
             IF (ABS(ZL)>ABS(ZLM)) ZLM=ZL
@@ -609,7 +609,7 @@ C
          ELSEIF (ZLM<ZERO) THEN
             IZ(2,I)=INZ
          ENDIF
-      ENDDO     
+      ENDDO
 C 
       RETURN
       END

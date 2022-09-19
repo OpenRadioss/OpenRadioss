@@ -39,7 +39,7 @@ Chd|====================================================================
      6 KY    ,KZ    ,PX    ,
      7 PY    ,PZ    ,BOOLG ,
      8 IDX2  ,IDY2  ,IDZ2  ,
-     9 KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)  
+     9 KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
 C--------------------------------------------------------------------------------------------------------
 C
 C This subroutine calculates the vector of local shape functions R and an array of their derivatives dR.dx
@@ -145,7 +145,7 @@ C BUILD NUMERATORS AND DENOMINATORS
       SUMTOT=ZERO
 
       DO NUMLOC=1,NCTRL
-        R(NUMLOC)=FN(NUMLOC)*FM(NUMLOC)*FL(NUMLOC)*WWI(NUMLOC) 
+        R(NUMLOC)=FN(NUMLOC)*FM(NUMLOC)*FL(NUMLOC)*WWI(NUMLOC)
         SUMTOT=SUMTOT+R(NUMLOC)
       ENDDO
 
@@ -155,7 +155,7 @@ C DIVIDE BY DENOMINATOR TO COMPLETE DEFINITION OF FUNCTION
         R(NUMLOC)=R(NUMLOC)/SUMTOT
       ENDDO
 
-      RETURN 
+      RETURN
       END
 
 

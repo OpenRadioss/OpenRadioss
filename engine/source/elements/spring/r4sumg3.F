@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .    AL(*),KX(*),R11(*),R21(*),R31(*)
        my_real
      .    KE11(3,3,*),KE22(3,3,*),KE12(3,3,*)
@@ -56,17 +56,17 @@ C---------------------------------------
         KE11(2,2,EP)=KX(EP)*R21(EP)*R21(EP)
         KE11(2,3,EP)=KX(EP)*R21(EP)*R31(EP)
         KE11(3,3,EP)=KX(EP)*R31(EP)*R31(EP)
-       ENDDO 
-       DO I=1,3 
-        DO J=I,3 
+       ENDDO
+       DO I=1,3
+        DO J=I,3
          DO EP=JFT,JLT
           KE22(I,J,EP)=KE11(I,J,EP)
           KE12(I,J,EP)=-KE11(I,J,EP)
          ENDDO
         ENDDO
        ENDDO
-       DO I=1,3 
-        DO J=I+1,3 
+       DO I=1,3
+        DO J=I+1,3
          DO EP=JFT,JLT
           KE12(J,I,EP)=-KE11(I,J,EP)
          ENDDO
@@ -75,4 +75,4 @@ C---------------------------------------
 C
       RETURN
       END
- 
+

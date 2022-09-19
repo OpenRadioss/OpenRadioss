@@ -43,7 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e sXM
@@ -60,9 +60,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN) :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
       INTEGER, INTENT(INOUT) :: ISRATE,IFUNC(MAXFUNC)
       INTEGER, INTENT(OUT)   :: NUPARAM,NFUNC
@@ -99,7 +99,7 @@ C=======================================================================
 c------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 c------------------------------------------
-c      
+c
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,1000)MAT_ID
       ELSE
@@ -112,7 +112,7 @@ c
 c-------------------------------------------------------------------------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,ILAW
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      WRITE(IOUT,1300) RHO0  
+      WRITE(IOUT,1300) RHO0
       PM(1)  = RHO0
       PM(89) = RHO0
 c-------------------------------------------------------------------------------
@@ -131,11 +131,11 @@ c-------------------------------------------------------------------------------
 C    
 !-------------------------------------------------------
 !                      Tension parameters
-!------------------------------------------------------- 
+!-------------------------------------------------------
       IFUNC2 = 0
       IFUNC4 = 0
 C
-      CALL HM_GET_FLOATV('LMIN'      ,LMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+      CALL HM_GET_FLOATV('LMIN'      ,LMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('STIFF1'    ,XK       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('DAMP1'     ,XC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C
@@ -150,14 +150,14 @@ C
 C
       CALL HM_GET_FLOATV('YOUNG'     ,YOUNG    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SHEAR_AREA',SAREA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('FMAX'      ,F_MAX    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('FMAX'      ,F_MAX    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MMAX'      ,M_MAX    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Rfac'      ,RFAC     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Ibend'     ,IBEND    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Itors'     ,ITORS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C
 C----
-      IF (IS_ENCRYPTED) THEN 
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,2001)'TENSION',XK,XC,IFUNC1,IFUNC3,LSCALE,A,LMIN
@@ -177,12 +177,12 @@ C      IF (M_MAX == ZERO) M_MAX = INFINITY
 C
 C --- Computation of inertia / length only if E > 0
       IF (RFAC == ZERO) RFAC = ONE
-      UPARAM(122) = IBEND 
+      UPARAM(122) = IBEND
       UPARAM(123) = ITORS
-      UPARAM(124) = RFAC           
+      UPARAM(124) = RFAC
 C
 !-------------------------------------------------------
-!                      Tension 
+!                      Tension
 !------------------------------------------------------
 C
       IF (IFUNC1 /= 0) THEN
@@ -205,7 +205,7 @@ C--------
       DX = INFINITY
       IF (LSCALE == ZERO) LSCALE = ONE
       IF (A == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Fcoeft1' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Fcoeft1' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         A  = ONE * A_UNIT
       ENDIF
 C
@@ -216,23 +216,23 @@ C
       ENDIF
 C----
       I1 = NUPARAM
-      I2 = I1 + 6 
-      I3 = I2 + 6 
-      I4 = I3 + 6 
-      I5 = I4 + 6 
-      I6 = I5 + 6 
-      I7 = I6 + 6 
-      I8 = I7 + 6 
-      I9 = I8 + 6 
-      I10 = I9 + 6 
-      I11 = I10 + 6 
-      I12 = I11 + 6 
+      I2 = I1 + 6
+      I3 = I2 + 6
+      I4 = I3 + 6
+      I5 = I4 + 6
+      I6 = I5 + 6
+      I7 = I6 + 6
+      I8 = I7 + 6
+      I9 = I8 + 6
+      I10 = I9 + 6
+      I11 = I10 + 6
+      I12 = I11 + 6
       I13 = I12 + 6
 C       
       UPARAM(I1 + 1)   = A
       UPARAM(I3 + 1)   = ONE
       UPARAM(I4 + 1)   = ONE
-      UPARAM(I5 + 1)   = ONE                       
+      UPARAM(I5 + 1)   = ONE
       UPARAM(I6 + 1)   = ONE
       UPARAM(I7 + 1)   = ONE / LSCALE
       UPARAM(I8 + 1)   = DN
@@ -245,7 +245,7 @@ C
       UPARAM(118) = ZERO
 C
 C     for interface stifness
-      PM(191) = XK       
+      PM(191) = XK
       !!
       IF1 = 0
       IF2 = 6
@@ -255,15 +255,15 @@ C
       IFUNC(1) = IFUNC1
       IFUNC(IF2 + 1) = 0
       IFUNC(IF3 + 1) = IFUNC3
-      IFUNC(IF4 + 1) = 0      
+      IFUNC(IF4 + 1) = 0
       NFUNC = 4
 C
-c-------------------------------------------------------------------------------      
+c-------------------------------------------------------------------------------
 !-------------------------------------------------------
 !                      Compression bending shear torsion
-!------------------------------------------------------- 
+!-------------------------------------------------------
 
-c-------------------------------------------------------------------------------  
+c-------------------------------------------------------------------------------
 !-----------------
       ! Shear XY
 !-----------------
@@ -285,7 +285,7 @@ C
 C----
       UPARAM(I1 + 2)   = ONE
       UPARAM(I3 + 2)   = ONE
-      UPARAM(I4 + 2)   = ONE           
+      UPARAM(I4 + 2)   = ONE
       UPARAM(I5 + 2)   = ONE
       UPARAM(I6 + 2)   = ONE
       UPARAM(I7 + 2)   = ONE
@@ -295,15 +295,15 @@ C----
       UPARAM(I12 + 2)  = XC
       UPARAM(I13 + 2)  = IECROU+PUN
 CC     for interface stifness
-      PM(192) = XK       
+      PM(192) = XK
       !!
       IFUNC(2) = IFUNC1
       IFUNC(IF2 + 2) = IFUNC2
       IFUNC(IF3 + 2) = IFUNC3
-      IFUNC(IF4 + 2) = IFUNC4 
+      IFUNC(IF4 + 2) = IFUNC4
       NFUNC = NFUNC  + 4
 C----
-c-------------------------------------------------------------------------------  
+c-------------------------------------------------------------------------------
 !-----------------
       ! Shear XZ
 !-----------------
@@ -325,7 +325,7 @@ C
 C----
       UPARAM(I1 + 3)   = ONE
       UPARAM(I3 + 3)   = ONE
-      UPARAM(I4 + 3)   = ONE           
+      UPARAM(I4 + 3)   = ONE
       UPARAM(I5 + 3)   = ONE
       UPARAM(I6 + 3)   = ONE
       UPARAM(I7 + 3)   = ONE
@@ -335,12 +335,12 @@ C----
       UPARAM(I12 + 3)  = XC
       UPARAM(I13 + 3)  = IECROU+PUN
 CC     for interface stifness
-      PM(193) = XK       
+      PM(193) = XK
       !!
       IFUNC(3) = IFUNC1
       IFUNC(IF2 + 3) = IFUNC2
       IFUNC(IF3 + 3) = IFUNC3
-      IFUNC(IF4 + 3) = IFUNC4 
+      IFUNC(IF4 + 3) = IFUNC4
       NFUNC = NFUNC  + 4
 c
 !-------------------------------------------------------
@@ -367,7 +367,7 @@ C
 C----
       UPARAM(I1 + 4)   = ONE
       UPARAM(I3 + 4)   = ONE
-      UPARAM(I4 + 4)   = ONE           
+      UPARAM(I4 + 4)   = ONE
       UPARAM(I5 + 4)   = ONE
       UPARAM(I6 + 4)   = ONE
       UPARAM(I7 + 4)   = ONE
@@ -380,7 +380,7 @@ C
       IFUNC(3) = IFUNC1
       IFUNC(IF2 + 3) = IFUNC2
       IFUNC(IF3 + 3) = IFUNC3
-      IFUNC(IF4 + 3) = IFUNC4 
+      IFUNC(IF4 + 3) = IFUNC4
       NFUNC = NFUNC  + 4
 !-----------------
       ! Rotation Y
@@ -403,7 +403,7 @@ C
 C----
       UPARAM(I1 + 5)   = ONE
       UPARAM(I3 + 5)   = ONE
-      UPARAM(I4 + 5)   = ONE           
+      UPARAM(I4 + 5)   = ONE
       UPARAM(I5 + 5)   = ONE
       UPARAM(I6 + 5)   = ONE
       UPARAM(I7 + 5)   = ONE
@@ -416,7 +416,7 @@ C
       IFUNC(5) = IFUNC1
       IFUNC(IF2 + 5) = IFUNC2
       IFUNC(IF3 + 5) = IFUNC3
-      IFUNC(IF4 + 5) = IFUNC4 
+      IFUNC(IF4 + 5) = IFUNC4
       NFUNC = NFUNC  + 4
 !-----------------
       ! Rotation Z
@@ -439,7 +439,7 @@ C
 C----
       UPARAM(I1 + 6)   = ONE
       UPARAM(I3 + 6)   = ONE
-      UPARAM(I4 + 6)   = ONE           
+      UPARAM(I4 + 6)   = ONE
       UPARAM(I5 + 6)   = ONE
       UPARAM(I6 + 6)   = ONE
       UPARAM(I7 + 6)   = ONE
@@ -452,7 +452,7 @@ C
       IFUNC(6) = IFUNC1
       IFUNC(IF2 + 6) = IFUNC2
       IFUNC(IF3 + 6) = IFUNC3
-      IFUNC(IF4 + 6) = IFUNC4 
+      IFUNC(IF4 + 6) = IFUNC4
       NFUNC = NFUNC  + 4
 C-----------------------------
 C      
@@ -481,7 +481,7 @@ C------------------------
 C
       MTAG%G_SLIPRING_ID = 1
       MTAG%G_SLIPRING_FRAM_ID = 1
-      MTAG%G_SLIPRING_STRAND = 1  
+      MTAG%G_SLIPRING_STRAND = 1
       MTAG%G_RETRACTOR_ID = 1
       MTAG%G_RINGSLIP = 1
       MTAG%G_ADD_NODE = 2
@@ -504,7 +504,7 @@ c-----------
      & 5X,'MATERIAL SET NUMBER. . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1300 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)      
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  2000 FORMAT(
      & 5X,'SPRING MATERIAL SET (SEATBELT TYPE)'/,
      & 5X,'-------------------------------'/)

@@ -69,7 +69,7 @@ C     REAL
      .   OFF, FAC, A1, A2, A3, THK
       REAL R4(18)
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT, IPT,M,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
+     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, ISTRAIN,
      .        IPID, I1, I2, IAD2, NS1, NS2  , IALEL, ISTRE,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,NNI,N0,
@@ -91,21 +91,21 @@ C       IF(ANIM_K==0.AND.IPARG(8,NG)==1)GOTO 490
         IF (ITY == 5) OFFSET = NUMELT
         IF (ITY == 6) OFFSET = NUMELT+NUMELP
 c
-        DO  I=1,NEL 
+        DO  I=1,NEL
           IF (ITY == 4) THEN
             ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 4
             IF( H3D_PART(IPARTT(NFT+I)) == 1) IOK_PART(I) = 1
-          ELSEIF (ITY == 5) THEN 
+          ELSEIF (ITY == 5) THEN
             ID_ELEM(OFFSET+NFT+I) = IXP(NIXP,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 5
             IF( H3D_PART(IPARTP(NFT+I)) == 1) IOK_PART(I) = 1
-          ELSEIF (ITY == 6) THEN 
+          ELSEIF (ITY == 6) THEN
             ID_ELEM(OFFSET+NFT+I) = IXR(NIXR,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 6
             IF( H3D_PART(IPARTR(NFT+I)) == 1) IOK_PART(I) = 1
           ENDIF
-        ENDDO 
+        ENDDO
 
         IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
           DO I=1,NEL

@@ -70,10 +70,10 @@ C-----------------------------------------------
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
      .   PX1(*),PX2(*),PX3(*),PX4(*),
      .   PY1(*),PY2(*),PY3(*),PY4(*),
-     .   PZ1(*),PZ2(*),PZ3(*),PZ4(*),    
+     .   PZ1(*),PZ2(*),PZ3(*),PZ4(*),
      .   PX5(*),PX6(*),PX7(*),PX8(*),
      .   PY5(*),PY6(*),PY7(*),PY8(*),
-     .   PZ5(*),PZ6(*),PZ7(*),PZ8(*),    
+     .   PZ5(*),PZ6(*),PZ7(*),PZ8(*),
      .   DXX(*),DXY(*),DXZ(*),DYX(*),DYY(*),DYZ(*),DZX(*),DZY(*),DZZ(*),
      .   VDX(*),VDY(*),VDZ(*)
       my_real
@@ -94,12 +94,12 @@ C-----------------------------------------------
      .   AAA,DM,DMX,DMY,DMZ
       INTEGER IFLG,IADBUF
        INTEGER I
-       
+
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
 C-----------------------------------------------       
       IF(UPWM==0.AND.IPARG1(64)==1)RETURN   !silent boundary
-             
+
 C-----------------------------------------------
 C     Forces de transports calcul es par volume fini
 C-----------------------------------------------
@@ -125,12 +125,12 @@ C
           AAA = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)+QMV(5,I)+QMV(6,I)
           AAA = ONE_OVER_6 * AAA
 
-          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)   
-          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)   
-          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)   
-          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)   
-          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)   
-          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)   
+          QMV(1,I) = ONE_OVER_8 * (QMV(1,I) - AAA)
+          QMV(2,I) = ONE_OVER_8 * (QMV(2,I) - AAA)
+          QMV(3,I) = ONE_OVER_8 * (QMV(3,I) - AAA)
+          QMV(4,I) = ONE_OVER_8 * (QMV(4,I) - AAA)
+          QMV(5,I) = ONE_OVER_8 * (QMV(5,I) - AAA)
+          QMV(6,I) = ONE_OVER_8 * (QMV(6,I) - AAA)
           DMX = ZERO
           DMY = ZERO
           DMZ = ZERO
@@ -213,7 +213,7 @@ C
 C CALCUL DE LA FORCE DE TRANSPORT AU CENTRE
 C STANDARD UPWIND UTILISANT LES DONNEES MATERIAUX
 C
-       MX = MAT(LFT) 
+       MX = MAT(LFT)
        DO I=LFT,LLT
         GAM(I)= PM(15,MX)
        ENDDO

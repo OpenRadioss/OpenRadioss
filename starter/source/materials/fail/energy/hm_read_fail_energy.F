@@ -56,9 +56,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -113,7 +113,7 @@ CARD1     2F_I_F_I) RIEF1,RIEF2,IRFUN,SCALE_EPSP,DMG_FLAG
       CALL HM_GET_INTV           ('I_Dam'      ,DMG_FLAG   ,IS_AVAILABLE,LSUBMODEL)
 C=======================================================================
       IF (RIEF1 <= ZERO) RIEF1 = EP30
-      IF (RIEF2 <= ZERO) RIEF2 = TWO*EP30      
+      IF (RIEF2 <= ZERO) RIEF2 = TWO*EP30
       IF (DMG_FLAG == 0) DMG_FLAG = 1  ! DMG_FLAG = 1    => damage reduces forces after criteria is met
       IF (DMG_FLAG == 2) DMG_FLAG = 0  ! DMG_FLAG = 2->0 => damage reduces saved stress (old method)
 C=======================================================================
@@ -122,7 +122,7 @@ C=======================================================================
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .              I1=ID)
-      ENDIF 
+      ENDIF
 C
       PTHKF = EM06
       IF(SCALE_EPSP == ZERO) THEN
@@ -135,7 +135,7 @@ C=============================================
       UPARAM(3) = PTHKF
 
       UPARAM(4) = ONE/SCALE_EPSP
-      UPARAM(5) = DMG_FLAG   
+      UPARAM(5) = DMG_FLAG
       IFUNC(1)  = IRFUN
 C
 C=============================================  
@@ -145,7 +145,7 @@ C=============================================
 C=============================================  
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT, 1000)
-      ELSE       
+      ELSE
        WRITE(IOUT, 2000) RIEF1,RIEF2,IRFUN,SCALE_EPSP
       ENDIF
       RETURN
@@ -159,7 +159,7 @@ C=============================================
      & 5X,'MAXIMUM SPECIFIC ENERGY 1. . . . . . . =',E12.4/
      & 5X,'MAXIMUM SPECIFIC ENERGY 2. . . . . . . =',E12.4/
      & 5X,'MAXIMUM ENERGIES SCALING FUNCTION. . . =',I8/
-     & 5X,'ABSCISSA SCALE FACTOR FOR FUNCTION . . =',E12.4/)       
-c----------- 
+     & 5X,'ABSCISSA SCALE FACTOR FOR FUNCTION . . =',E12.4/)
+c-----------
       RETURN
       END

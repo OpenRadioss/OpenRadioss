@@ -27,8 +27,8 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         logical, intent(inout) :: zombi_activation
 
         env(1:len(env)) = ''
-        call getenv ( 'ENABLE_PID_PRINT', env ) 
-        zombi_activation = .false.           
+        call getenv ( 'ENABLE_PID_PRINT', env )
+        zombi_activation = .false.
         if ( env(1:2)=='ON' ) then
             zombi_activation = .true.
         endif
@@ -52,13 +52,13 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         integer, intent(in) :: radflex_process_pid
         integer, intent(in) :: current_process_pid
         integer, intent(in) :: nspmd
-        integer, dimension(nspmd+1), intent(in) :: list_process        
+        integer, dimension(nspmd+1), intent(in) :: list_process
         integer :: i
 
         open(file="running_pids",unit=666,access="append",
      .       status="unknown",action="readwrite")
         do i=1,nspmd+1
-            if(list_process(i)/=0) write(666,*) list_process(i) 
+            if(list_process(i)/=0) write(666,*) list_process(i)
         enddo
         close(666)
         return
@@ -74,10 +74,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         integer, intent(in) :: radflex_process_pid,nspmd
         integer, dimension(nspmd+1), intent(inout) :: list_process
         integer, intent(in) :: current_process_pid
-        
+
         integer :: i
         integer :: ierror
-        
+
         list_process(1:nspmd+1 ) = 0
 #ifdef MPI
         call MPI_GATHER(current_process_pid,1,MPI_INTEGER,
@@ -102,7 +102,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
         logical :: zombi_activation
         integer :: current_process_pid
         integer, dimension(nspmd+1) :: list_process
-        
+
 
         call get_env_variable_zombi(zombi_activation)
 
@@ -111,10 +111,10 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
             call get_process_pid_zombi(current_process_pid)
             call init_list_process_pid( radflex_process_pid,
      .            current_process_pid,nspmd,list_process )
-            if(ispmd==0) call write_process_pid_zombi( 
+            if(ispmd==0) call write_process_pid_zombi(
      .    current_process_pid,radflex_process_pid,nspmd,list_process )
         endif
-        
+
         return
         end subroutine walking_dead_mode
         !   -----------------------------------

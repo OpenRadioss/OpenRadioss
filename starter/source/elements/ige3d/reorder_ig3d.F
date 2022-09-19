@@ -85,7 +85,7 @@ c ------------------------------------------------------------------------------
 CC   TRI DE MANIERE CROISSANTE LES TABLEAUX REMOVE ET NEWFCT
 c ------------------------------------------------------------------------------------------
 c
-      ALLOCATE(TAB_REMOVE_TRI(L_TAB_REMOVE)) 
+      ALLOCATE(TAB_REMOVE_TRI(L_TAB_REMOVE))
       TAB_REMOVE_TRI(:) = 0
       ALLOCATE(INDEX(2*L_TAB_REMOVE))
       CALL MY_ORDERS(0, WORK, TAB_REMOVE, INDEX, L_TAB_REMOVE , 1)
@@ -97,7 +97,7 @@ c
         TAB_REMOVE(I) = 0
       ENDDO
 C
-      ALLOCATE(TAB_NEWFCT_TRI(L_TAB_NEWFCT)) 
+      ALLOCATE(TAB_NEWFCT_TRI(L_TAB_NEWFCT))
       TAB_NEWFCT_TRI(:) = 0
       ALLOCATE(INDEX(2*L_TAB_NEWFCT))
       CALL MY_ORDERS(0, WORK, TAB_NEWFCT, INDEX, L_TAB_NEWFCT , 1)
@@ -130,7 +130,7 @@ c
       ENDIF
 c
       L_REAL_REMOVE = L_TAB_REMOVE - NDOUBLON_REMOVE
-c   
+c
       NDOUBLON_NEWFCT = 0
       IF(NBPART_IG3D>1) THEN
        I = 1
@@ -147,7 +147,7 @@ c
       ENDIF
 c
       L_REAL_NEWFCT = L_TAB_NEWFCT - NDOUBLON_NEWFCT
-c     
+c
 c ------------------------------------------------------------------------------------------
 C   SUPPRESSION DES VALEURS COMMUNES AUX TWO LISTES (LES POINTS CREES PUIS SUPPRIMES)
 c ------------------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ c
         ENDDO
         NZERO_REMOVE = NZERO_REMOVE + NVALEURS
         TAB_REMOVE_TRI(I) = TAB_REMOVE_TRI(I+NZERO_REMOVE)
-        I = I + 1 
+        I = I + 1
       ENDDO
 c
       I = 1
@@ -188,7 +188,7 @@ c
         ENDDO
         NZERO_NEWFCT = NZERO_NEWFCT + NVALEURS
         TAB_NEWFCT_TRI(I) = TAB_NEWFCT_TRI(I+NZERO_NEWFCT)
-        I = I + 1 
+        I = I + 1
       ENDDO
 c
       L_REAL_REMOVE = L_TAB_REMOVE - NZERO_REMOVE
@@ -212,7 +212,7 @@ c
           MS_TMP(TAB_REMOVE_TRI(I)) = MS_TMP(TAB_NEWFCT_TRI(I))
           WIGE_TMP(TAB_REMOVE_TRI(I)) = WIGE_TMP(TAB_NEWFCT_TRI(I))
           DO ITPATCH=1,NUMGEO  ! SI ON DECALE ONE POINT, C'EST QU'IL EST SUR ONE SEUL PATCH, DONC ON VA DECALER TOUT LES KNOT
-cc DE CE POINT SUR TOUT LES PATCH POUR ETRE SUR, MAIS IL AURAIT FALU JUSTE SAVOIR SUR LEQUEL IL EST POU RNE PAS 
+cc DE CE POINT SUR TOUT LES PATCH POUR ETRE SUR, MAIS IL AURAIT FALU JUSTE SAVOIR SUR LEQUEL IL EST POU RNE PAS
 C DECALER DES 0
             DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP) ! nb total de point ajoute avec ceux qu'on supprime
             KNOTLOCPC(:,1,DECALGEO+TAB_REMOVE_TRI(I)) = KNOTLOCPC(:,1,DECALGEO+TAB_NEWFCT_TRI(I))
@@ -231,7 +231,7 @@ c              print*,'IXIG3D = ', IXIG3D(J),'IXIG3D final = ', TAB_REMOVE_TRI(I
           I=I+1
         ENDDO
 c
-        J=1      
+        J=1
         DO WHILE (I<=L_REAL_NEWFCT)
           X_TMP(:,NUMNODIGE0+J) = X_TMP(:,TAB_NEWFCT_TRI(I))
           D_TMP(:,NUMNODIGE0+J) = D_TMP(:,TAB_NEWFCT_TRI(I))
@@ -273,7 +273,7 @@ c
           ALLOCATE(X_TRIE(3,NUMNOD))
           DO I=1,NUMNOD
             X_TRIE(:,I) = X_TMP(:,I)
-          ENDDO      
+          ENDDO
           CALL MYQSORT3D(NUMNOD,X_TRIE,PERMIGE)
 c
           I = 1
@@ -322,7 +322,7 @@ c
                 J=J+1
               ENDDO
 
-ccc il faut savoir de quel patch vient le point qu'on supprime et de quel patch est le point qui va le remplacer 
+ccc il faut savoir de quel patch vient le point qu'on supprime et de quel patch est le point qui va le remplacer
 
               DO ITPATCH=1,NBPART_IG3D
                 DECALGEO=(ITPATCH-1)*(NUMNOD+NBNEWX_TMP)
@@ -357,7 +357,7 @@ c
       DEALLOCATE(TAB_REMOVE_TRI)
       DEALLOCATE(TAB_NEWFCT_TRI)
 c
-      IF(FLAG_PRE==1) THEN   
+      IF(FLAG_PRE==1) THEN
 c
 C-----------------------------------------------
 CC ON RE-ORDONNE LA TABLE DE CONNECTIVITE DES ELEMENTS : 
@@ -462,17 +462,17 @@ C-----------------------------------------------
                ITNCTRL=(PX*PY)*(J-1)+PX*(K-1)+L
 
                INCTRL=IXIG3D(KXIG3D(4,I)+ITNCTRL-1)  !! IXIG3D range a l'envers 27->1
-               INCTRL2=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+1)  
+               INCTRL2=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+1)
                IF(KNOTLOCPC(1,1,DECALGEO+INCTRL)<KNOTLOCPC(1,1,DECALGEO+INCTRL2)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL
                ENDIF
 
-               INCTRL3=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+PX)  
+               INCTRL3=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+PX)
                IF(KNOTLOCPC(1,2,DECALGEO+INCTRL)<KNOTLOCPC(1,2,DECALGEO+INCTRL3)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL
                ENDIF
 
-               INCTRL4=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+PX*PY)  
+               INCTRL4=IXIG3D(KXIG3D(4,I)+ITNCTRL-1+PX*PY)
                IF(KNOTLOCPC(1,3,DECALGEO+INCTRL)<KNOTLOCPC(1,3,DECALGEO+INCTRL4)) THEN
                  print*,'MAUVAIS RANGEMENT DANS IXIG3D : element : ',I,'point',INCTRL
                ENDIF

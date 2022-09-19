@@ -32,7 +32,7 @@ Chd|====================================================================
      3                     ZI_PLY,ISTACK,POSLY,
      4                     FLY11 ,FLY12 ,FLY13  ,FLY14 ,FLY21 ,FLY22,
      5                     FLY23 ,FLY24 ,FLY31  ,FLY32 ,FLY33,FLY34 ,
-     6                     FAC   ,STI   ,MSZ2) 
+     6                     FAC   ,STI   ,MSZ2)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
       INTEGER NVC1, NVC2, NVC3, NVC4, I, J, MX,IOFF,IP,I1,I2,I3,I4,N,
      .        IN1,IN2,IN3,IN4
       my_real
-     .   OFF_L,  
+     .   OFF_L,
      .   FPLY11,FPLY21,FPLY31,FPLY12,FPLY22,FPLY32,FPLY13,FPLY23,
      .   FPLY33,FPLY14,FPLY24,FPLY34,FPLY,MPLY,
      .   MPLY11,MPLY21,MPLY31,MPLY12,MPLY22,MPLY32,MPLY13,MPLY23,
@@ -118,19 +118,19 @@ C
 C to do
 C    
         DO I=JFT,JLT
-        
-         I1 = INOD(IXC(2,I))      
-         I2 = INOD(IXC(3,I))      
-         I3 = INOD(IXC(4,I))      
-         I4 = INOD(IXC(5,I))      
+
+         I1 = INOD(IXC(2,I))
+         I2 = INOD(IXC(3,I))
+         I3 = INOD(IXC(4,I))
+         I4 = INOD(IXC(5,I))
 C                                 
-         IN1 = IXC(2,I)           
-         IN2 = IXC(3,I)           
-         IN3 = IXC(4,I)           
+         IN1 = IXC(2,I)
+         IN2 = IXC(3,I)
+         IN3 = IXC(4,I)
          IN4 = IXC(5,I)
          N = IEL(I + NFT)
          DO J=1,NPT
-          IP = ISTACK(I,J)  
+          IP = ISTACK(I,J)
 C         PRINT *,J,IP
           PLY(IP)%A(1,I1)= PLY(IP)%A(1,I1) - (FLY11(I,J) )
           PLY(IP)%A(2,I1)= PLY(IP)%A(2,I1) - (FLY21(I,J) )
@@ -154,53 +154,53 @@ c
           PLY(IP)%A(4,I4)= PLY(IP)%A(4,I4) + STI(I,J)*FAC(I,2)
 C   
          ENDDO
-       ENDDO 
+       ENDDO
 
-      ELSE  
+      ELSE
 cc#include "cupdt3_pf.inc"
         DO I=JFT,JLT
-        
-         I1 = INOD(IXC(2,I))      
-         I2 = INOD(IXC(3,I))      
-         I3 = INOD(IXC(4,I))      
-         I4 = INOD(IXC(5,I))      
+
+         I1 = INOD(IXC(2,I))
+         I2 = INOD(IXC(3,I))
+         I3 = INOD(IXC(4,I))
+         I4 = INOD(IXC(5,I))
 C                                 
-         IN1 = IXC(2,I)           
-         IN2 = IXC(3,I)           
-         IN3 = IXC(4,I)           
+         IN1 = IXC(2,I)
+         IN2 = IXC(3,I)
+         IN3 = IXC(4,I)
          IN4 = IXC(5,I)
 C    
          N = IEL(I + NFT)
          DO J=1,NPT
-             IP = ISTACK(I,J)  
-             PLYSKY(IP)%FSKY(1,IADC(1,N))= -(FLY11(I,J) )   
-             PLYSKY(IP)%FSKY(2,IADC(1,N))= -(FLY21(I,J) )    
-             PLYSKY(IP)%FSKY(3,IADC(1,N))= -(FLY31(I,J) )   
+             IP = ISTACK(I,J)
+             PLYSKY(IP)%FSKY(1,IADC(1,N))= -(FLY11(I,J) )
+             PLYSKY(IP)%FSKY(2,IADC(1,N))= -(FLY21(I,J) )
+             PLYSKY(IP)%FSKY(3,IADC(1,N))= -(FLY31(I,J) )
 C stifness by ply
-             PLYSKY(IP)%FSKY(4,IADC(1,N))= STI(I,J)*FAC(I,1) 
+             PLYSKY(IP)%FSKY(4,IADC(1,N))= STI(I,J)*FAC(I,1)
 C               
-             PLYSKY(IP)%FSKY(1,IADC(2,N))= -(FLY12(I,J) ) 
-             PLYSKY(IP)%FSKY(2,IADC(2,N))= -(FLY22(I,J) )  
+             PLYSKY(IP)%FSKY(1,IADC(2,N))= -(FLY12(I,J) )
+             PLYSKY(IP)%FSKY(2,IADC(2,N))= -(FLY22(I,J) )
              PLYSKY(IP)%FSKY(3,IADC(2,N))= -(FLY32(I,J) )
 C stifness by ply
-             PLYSKY(IP)%FSKY(4,IADC(2,N))= STI(I,J)*FAC(I,2) 
-c                                      
-             PLYSKY(IP)%FSKY(1,IADC(3,N))= -(FLY13(I,J))  
+             PLYSKY(IP)%FSKY(4,IADC(2,N))= STI(I,J)*FAC(I,2)
+c
+             PLYSKY(IP)%FSKY(1,IADC(3,N))= -(FLY13(I,J))
              PLYSKY(IP)%FSKY(2,IADC(3,N))= -(FLY23(I,J) )
-             PLYSKY(IP)%FSKY(3,IADC(3,N))= -(FLY33(I,J) )  
+             PLYSKY(IP)%FSKY(3,IADC(3,N))= -(FLY33(I,J) )
 C stifness by ply
              PLYSKY(IP)%FSKY(4,IADC(3,N))= STI(I,J)*FAC(I,1)
-             
-             PLYSKY(IP)%FSKY(1,IADC(4,N))= -(FLY14(I,J) )  
-             PLYSKY(IP)%FSKY(2,IADC(4,N))= -(FLY24(I,J) ) 
+
+             PLYSKY(IP)%FSKY(1,IADC(4,N))= -(FLY14(I,J) )
+             PLYSKY(IP)%FSKY(2,IADC(4,N))= -(FLY24(I,J) )
              PLYSKY(IP)%FSKY(3,IADC(4,N))= -(FLY34(I,J) )
 C stifness by ply
              PLYSKY(IP)%FSKY(4,IADC(4,N))= STI(I,J)*FAC(I,2)
 C   
          ENDDO
-       ENDDO 
+       ENDDO
 C  
-      ENDIF  
+      ENDIF
 C
       RETURN
       END

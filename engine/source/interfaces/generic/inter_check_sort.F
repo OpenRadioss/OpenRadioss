@@ -33,7 +33,7 @@ Chd|====================================================================
 !$COMMENT
 !       INTER_CHECK_SORT description
 !       check if a interface must be sorted
-!       
+!
 !       INTER_CHECK_SORT organization :
 !       loop over the NBINTC interfaces and if
 !           * dist < 0 & t_start < current time < t_stop --> must be sorted
@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,7 +71,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: ITASK    !   omp task id
         INTEGER, INTENT(inout) :: NEED_TO_SORT  !   1 if one or more interfaces must be sorted
         INTEGER, INTENT(in) :: NBINTC   ! number of interface which are not TYPE2
-        INTEGER, DIMENSION(NBINTC), INTENT(in) :: INTLIST   !   interface id 
+        INTEGER, DIMENSION(NBINTC), INTENT(in) :: INTLIST   !   interface id
         INTEGER, INTENT(inout) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
         INTEGER, DIMENSION(NBINTC), INTENT(inout) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
@@ -99,8 +99,8 @@ C-----------------------------------------------
             IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
 
             ISENS = 0
-            IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-            IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+            IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
+            IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
                 TS = SENSOR(2,ISENS)
             ELSE
                 TS = TT

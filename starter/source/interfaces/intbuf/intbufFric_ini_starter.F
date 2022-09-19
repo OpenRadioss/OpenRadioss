@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 c      my_real
-c     .   
+c     .
       TYPE(INTBUF_FRIC_STRUCT_) :: INTBUF_FRIC_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -60,39 +60,39 @@ C-----------------------------------------------
       INTEGER NINF , NSET ,S_TABPARTS_FRIC ,IORTH ,MFROT ,LENC
 C-----------------------------------------------
 
-      DO NINF = 1,NINTERFRIC 
+      DO NINF = 1,NINTERFRIC
 
-        NSET = INTBUF_FRIC_TAB(NINF)%NSETPRTS       
-        S_TABPARTS_FRIC = INTBUF_FRIC_TAB(NINF)%S_TABPARTS_FRIC 
+        NSET = INTBUF_FRIC_TAB(NINF)%NSETPRTS
+        S_TABPARTS_FRIC = INTBUF_FRIC_TAB(NINF)%S_TABPARTS_FRIC
         IORTH = INTBUF_FRIC_TAB(NINF)%IORTHFRIC
         MFROT = INTBUF_FRIC_TAB(NINF)%FRICMOD
-        IF(MFROT ==0 ) THEN   
-           LENC =2  
+        IF(MFROT ==0 ) THEN
+           LENC =2
         ELSE
            LENC = 8
-        ENDIF 
+        ENDIF
 C=======================================================================
 c       ALLOCATIONS
 C=======================================================================
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC,NSET) 
-          INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC(1:NSET) = 0 
+          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC,NSET)
+          INTBUF_FRIC_TAB(NINF)%TABCOUPLEPARTS_FRIC(1:NSET) = 0
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC,S_TABPARTS_FRIC) 
-          INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC(1:S_TABPARTS_FRIC) = 0 
+          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC,S_TABPARTS_FRIC)
+          INTBUF_FRIC_TAB(NINF)%TABPARTS_FRIC(1:S_TABPARTS_FRIC) = 0
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC,S_TABPARTS_FRIC+1) 
-          INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC(1:S_TABPARTS_FRIC+1) = 0 
+          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC,S_TABPARTS_FRIC+1)
+          INTBUF_FRIC_TAB(NINF)%ADPARTS_FRIC(1:S_TABPARTS_FRIC+1) = 0
 
-          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%IFRICORTH,NSET) 
-          INTBUF_FRIC_TAB(NINF)%IFRICORTH(1:NSET) = 0 
+          MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%IFRICORTH,NSET)
+          INTBUF_FRIC_TAB(NINF)%IFRICORTH(1:NSET) = 0
 
           IF (IORTH == 0 ) THEN
-             MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC*(NSET+1)) 
-              INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC(1:LENC*(NSET+1)) = ZERO 
+             MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC*(NSET+1))
+              INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC(1:LENC*(NSET+1)) = ZERO
           ELSE
-             MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC+2*LENC*NSET) 
-              INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC(1:2*LENC*NSET+LENC) = ZERO 
+             MY_ALLOCATE(INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC,LENC+2*LENC*NSET)
+              INTBUF_FRIC_TAB(NINF)%TABCOEF_FRIC(1:2*LENC*NSET+LENC) = ZERO
           ENDIF
 
 C=======================================================================
@@ -116,7 +116,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -194,7 +194,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -223,11 +223,11 @@ C--------------------------------------
         NSET = INTBUF_FRIC_TAB(N)%NSETPRTS
         IORTH = INTBUF_FRIC_TAB(N)%IORTHFRIC
         MFROT = INTBUF_FRIC_TAB(N)%FRICMOD
-        IF(MFROT ==0 ) THEN   
-           LENC =2  
+        IF(MFROT ==0 ) THEN
+           LENC =2
         ELSE
            LENC = 8
-        ENDIF 
+        ENDIF
         IF (IORTH == 0 ) THEN
            LEN    =LENC*(NSET+1)
            CALL WRITE_DB(INTBUF_FRIC_TAB(N)%TABCOEF_FRIC,LEN)
@@ -239,4 +239,4 @@ C--------------------------------------
 
       END DO
       RETURN
-      END SUBROUTINE  INTFRIC_WRESTR    
+      END SUBROUTINE  INTFRIC_WRESTR

@@ -44,8 +44,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -73,9 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NFUNC
@@ -101,7 +101,7 @@ c
 c
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'    ,RHOR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c      
+c
       CALL HM_GET_FLOATV('MAT_E'        ,E         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'       ,NU        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS'      ,EPSMAX    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -112,7 +112,7 @@ c
 c
       CALL HM_GET_FLOATV_DIM('MAT_E',PRESS_SCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
-      DO I=1,NRATE    
+      DO I=1,NRATE
         CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD'  ,FUN_LOAD(I)  ,I,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD',FUN_UNLOAD(I),I,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD',YFAC(I)     ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -121,7 +121,7 @@ c
 c
 c--------------------------------------------------
       NUPARAM = NRATE*3 + 14
-      NUVAR   = NRATE*4 + 8 
+      NUVAR   = NRATE*4 + 8
       NFUNC   = NRATE*2
 c--------------------------------------------------
       IFUNC(1:NRATE)       = FUN_LOAD(1:NRATE)
@@ -140,15 +140,15 @@ c--------------------------------------------------
         ENDIF
       ENDDO
 c
-      IF (NRATE > 1 .AND. ISRAT == 0) THEN 
+      IF (NRATE > 1 .AND. ISRAT == 0) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=MAT_ID,
      .                C1=TITR)
-      ENDIF       
+      ENDIF
 c
-      IF (NRATE > 1) THEN 
+      IF (NRATE > 1) THEN
         DO I=2,NRATE
           IF (RATE(I) < RATE(I-1)) THEN
             CALL ANCMSG(MSGID=478,
@@ -184,7 +184,7 @@ c---------------------------
       UPARAM(8) = G*THREE
       UPARAM(9) = C1
       UPARAM(10)= C1 + G*FOUR*THIRD
-      UPARAM(11)= EPSMAX 
+      UPARAM(11)= EPSMAX
       DO I=1,NRATE
         UPARAM(14+I)=RATE(I)
         UPARAM(14+I+NRATE)=YFAC(I)
@@ -202,7 +202,7 @@ c
 c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0
-      PM(100)= C1 
+      PM(100)= C1
 c-----------------
 c     Element buffer variable allocation
 c-----------------
@@ -222,7 +222,7 @@ c--------------------------------------------------
           WRITE(IOUT,1400) FUN_LOAD(I),FUN_UNLOAD(I),YFAC(I),RATE(I)
         ENDDO
         WRITE(IOUT,*)' '
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -232,7 +232,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : TABULATED ELASTIC PLASTIC (LAW65) ',/,
      & 5X,'---------------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY. . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/

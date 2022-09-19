@@ -36,14 +36,14 @@ Chd|====================================================================
      B                  X       , IXTG     ,IXC          ,IPARTTG , IPARTC  ,
      C                  PFRICORTH,IREPFORTH,PHIFORTH     , VFORTH ,KNOD2ELC ,
      D                  KNOD2ELTG,NOD2ELTG ,NOD2ELC      ,IWORKSH  ,PM      ,
-     E                  PM_STACK ,THK          ,SKEW     ,ITAB     ,IPART   ) 
-!IDFRICORIENT,TITFRICORIENT, 
+     E                  PM_STACK ,THK          ,SKEW     ,ITAB     ,IPART   )
+!IDFRICORIENT,TITFRICORIENT,
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*),  IPARTTG(*), IPARTC(*) ,
      .        IXC(NIXC,*), IXTG(NIXTG,*),IPART(LIPART1,*) ,
      .        IREPFORTH(*), PFRICORTH(*),IGEO(NPROPGI,*),ITAB(*),
-     .        KNOD2ELC(*), KNOD2ELTG(*), NOD2ELC(*), NOD2ELTG(*), 
+     .        KNOD2ELC(*), KNOD2ELTG(*), NOD2ELC(*), NOD2ELTG(*),
      .        IWORKSH(3,*)
 c     .        IDFRICORIENT(*),
       my_real X(3,*), PHIFORTH(*), VFORTH(3,*) ,GEO(NPROPG,*),PM(NPROPM,*),
@@ -86,7 +86,7 @@ C-----------------------------------------------
      .   AA ,BB ,D1 ,D2 ,S ,DET ,PHI ,U1X ,U1Y ,U2X ,U2Y ,W1X ,W1Y ,W2X ,W2Y ,
      .   TORTH , SUM
 c      CHARACTER*nchartitle,
-c     .   TITR 
+c     .   TITR
 C-----------------------------------------------
 
 C----
@@ -106,7 +106,7 @@ C----
      .                            KNOD2ELTG         ,NOD2ELC ,NOD2ELTG,THK,NTY,IGEO,
      .                            PM_STACK          , IWORKSH)
 
-                     IF(NELTG/=0) THEN    
+                     IF(NELTG/=0) THEN
                         IP= IPARTTG(NELTG)
                         IE = NELTG
                         IGTYP = IGEO(11,IXTG(NIXTG-1,IE))
@@ -121,20 +121,20 @@ C----
                         IPORTH = PFRICORTH(IP)
 C---1st Case : orthotropic directions are defined in /FRITION/ORIENTATION for part IP
 
-                        IF(IPORTH >0) THEN 
+                        IF(IPORTH >0) THEN
 c
-                          PHI = PHIFORTH(IPORTH)  
+                          PHI = PHIFORTH(IPORTH)
                           IREP = IREPFORTH(IPORTH)
 
                           INTBUF_TAB(N)%IREP_FRICM(I) = IREP
-                          VX  = VFORTH(1,IPORTH)   
-                          VY  = VFORTH(2,IPORTH)                     
-                          VZ  = VFORTH(3,IPORTH)  
+                          VX  = VFORTH(1,IPORTH)
+                          VY  = VFORTH(2,IPORTH)
+                          VZ  = VFORTH(3,IPORTH)
 
                          CALL ORTHDIR_PROJ(
-     .                         I      ,VX    , VY        ,VZ     , PHI   ,          
-     .                         IREP   ,X     ,INTBUF_TAB(N)%IRECTM,ITAB  , 
-     .                         INTBUF_TAB(N)%DIR_FRICM,IP  ,IPART      )     
+     .                         I      ,VX    , VY        ,VZ     , PHI   ,
+     .                         IREP   ,X     ,INTBUF_TAB(N)%IRECTM,ITAB  ,
+     .                         INTBUF_TAB(N)%DIR_FRICM,IP  ,IPART      )
 c
 C---2nd Case : Friction orthotropic directions same as property
 
@@ -150,30 +150,30 @@ c
                              ISK = IGEO(2,PID)
                           ENDIF
                           IF(ISK==0) THEN
-                             VX  = GEO(7,PID)  
-                             VY  = GEO(8,PID)                    
+                             VX  = GEO(7,PID)
+                             VY  = GEO(8,PID)
                              VZ  = GEO(9,PID)
-                          ELSE             
+                          ELSE
                              VX = SKEW(1,ISK)
                              VY = SKEW(2,ISK)
                              VZ = SKEW(3,ISK)
-                          ENDIF 
+                          ENDIF
                           NLAY = IGEO(15,PID)
                           IF(NLAY == 1) THEN
-                             PHI = GEO(10,PID) 
+                             PHI = GEO(10,PID)
                           ELSE
                              IL = IABS(NLAY)/2 + 1
                              PHI =GEO(200+IL,PID)
                           ENDIF
 
                          CALL ORTHDIR_PROJ(
-     .                         I      ,VX    , VY        ,VZ     , PHI   ,          
-     .                         IREP   ,X     ,INTBUF_TAB(N)%IRECTM,ITAB  , 
-     .                         INTBUF_TAB(N)%DIR_FRICM,IP  ,IPART      )    
+     .                         I      ,VX    , VY        ,VZ     , PHI   ,
+     .                         IREP   ,X     ,INTBUF_TAB(N)%IRECTM,ITAB  ,
+     .                         INTBUF_TAB(N)%DIR_FRICM,IP  ,IPART      )
 c
 C---3rd Case : Isotropic friction
-                         ELSE                
-                          INTBUF_TAB(N)%IREP_FRICM(I) = 10  
+                         ELSE
+                          INTBUF_TAB(N)%IREP_FRICM(I) = 10
 c
                          ENDIF
                       ENDIF
@@ -196,9 +196,9 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE ORTHDIR_PROJ(
-     .                  I      ,VX    , VY        ,VZ     , PHI   ,          
+     .                  I      ,VX    , VY        ,VZ     , PHI   ,
      .                  IREP   ,X     ,IRECTM     , ITAB  ,
-     .                  DIR_FRICM,IP  ,IPART      )   
+     .                  DIR_FRICM,IP  ,IPART      )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -221,7 +221,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I ,IREP ,IP ,
      .        IRECTM(4,*),ITAB(*),IPART(LIPART1,*)
       my_real VX ,VY ,VZ ,PHI ,X(3,*), DIR_FRICM(2,*)
@@ -230,7 +230,7 @@ c      CHARACTER*ncharline ,  TITFRICORIENT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N1 ,N2,N3 ,N4 
+      INTEGER N1 ,N2,N3 ,N4
       my_real
      .   E1X ,E1Y ,E1Z ,E2X ,E2Y ,E2Z ,E3X ,E3Y ,E3Z ,
      .   RX ,RY ,RZ ,SX ,SY ,SZ ,SUMA ,S1 ,S2 ,VR ,VS ,CP , SP ,
@@ -246,14 +246,14 @@ C---Element Frame :
 
         IF (N3 /= N4) THEN
 C---      shell 4N
-           E1X= X(1,N2) + X(1,N3) - X(1,N1) - X(1,N4) 
-           E1Y= X(2,N2) + X(2,N3) - X(2,N1) - X(2,N4) 
-           E1Z= X(3,N2) + X(3,N3) - X(3,N1) - X(3,N4) 
- 
-           E2X= X(1,N3) + X(1,N4) - X(1,N1) - X(1,N2) 
-           E2Y= X(2,N3) + X(2,N4) - X(2,N1) - X(2,N2)  
-           E2Z= X(3,N3) + X(3,N4) - X(3,N1) - X(3,N2) 
-      
+           E1X= X(1,N2) + X(1,N3) - X(1,N1) - X(1,N4)
+           E1Y= X(2,N2) + X(2,N3) - X(2,N1) - X(2,N4)
+           E1Z= X(3,N2) + X(3,N3) - X(3,N1) - X(3,N4)
+
+           E2X= X(1,N3) + X(1,N4) - X(1,N1) - X(1,N2)
+           E2Y= X(2,N3) + X(2,N4) - X(2,N1) - X(2,N2)
+           E2Z= X(3,N3) + X(3,N4) - X(3,N1) - X(3,N2)
+
         ELSE
 C---      shell 3N
            E1X= X(1,N2) - X(1,N1)
@@ -272,27 +272,27 @@ C---      shell 3N
 c
         E3X = E1Y*E2Z-E1Z*E2Y
         E3Y = E1Z*E2X-E1X*E2Z
-        E3Z = E1X*E2Y-E1Y*E2X  
-  
-        SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z 
-        SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-        E3X = E3X*SUMA                              
-        E3Y = E3Y*SUMA                              
-        E3Z = E3Z*SUMA    
-                          
+        E3Z = E1X*E2Y-E1Y*E2X
+
+        SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z
+        SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+        E3X = E3X*SUMA
+        E3Y = E3Y*SUMA
+        E3Z = E3Z*SUMA
+
 C
         S1     = E1X*E1X+E1Y*E1Y+E1Z*E1Z
         S2     = E2X*E2X+E2Y*E2Y+E2Z*E2Z
-        SUMA   = SQRT(S1/S2)                
+        SUMA   = SQRT(S1/S2)
         E1X    = E1X  + (E2Y *E3Z-E2Z*E3Y)*SUMA
         E1Y    = E1Y  + (E2Z *E3X-E2X*E3Z)*SUMA
         E1Z    = E1Z  + (E2X *E3Y-E2Y*E3X)*SUMA
 
-        SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z  
-        SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-        E1X    = E1X*SUMA                              
-        E1Y    = E1Y*SUMA                              
-        E1Z    = E1Z*SUMA                              
+        SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z
+        SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+        E1X    = E1X*SUMA
+        E1Y    = E1Y*SUMA
+        E1Z    = E1Z*SUMA
 C  
         E2X    = E3Y * E1Z - E3Z * E1Y
         E2Y    = E3Z * E1X - E3X * E1Z
@@ -304,17 +304,17 @@ C---    projection of V on element plance
         VY = VY-V*E3Y
         VZ = VZ-V*E3Z
         V =SQRT(VX*VX+VY*VY+VZ*VZ)
-        IF (V < EM10) THEN 
+        IF (V < EM10) THEN
              CALL ANCMSG(MSGID=1641,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO_BLIND_1,
 c     .            I1=ID,
 c     .            C1=TITR,
-     .            I2=IPART(4,IP))       !   
-        ENDIF 
+     .            I2=IPART(4,IP))       !
+        ENDIF
 
         V= MAX(V,EM20)
- 
+
         VX = VX / V
         VY = VY / V
         VZ = VZ / V

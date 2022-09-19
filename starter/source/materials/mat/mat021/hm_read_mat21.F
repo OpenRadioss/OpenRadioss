@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID
       INTEGER, DIMENSION(NPROPMI) ,INTENT(INOUT)   :: IPM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
@@ -86,12 +86,12 @@ C-----------------------------------------------
       INTEGER :: I,ILAW,IFUNC
       my_real :: RHO0,RHOR,E,NU,A0,A1,A2,AMX,C1,FAC_Y,PMIN,PEXT,
      .           BUNL,XMUMX,E0,G,PSTAR,DELTA,FSCAL_UNIT
-      CHARACTER*64 :: chain      
+      CHARACTER*64 :: chain
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
       ILAW   = 21
-      PSTAR  = -INFINITY  
+      PSTAR  = -INFINITY
 !---
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 !
@@ -119,7 +119,7 @@ C=======================================================================
       E0=ZERO
       IF(PMIN==ZERO) PMIN  =-INFINITY
       IF(BUNL==ZERO.AND.XMUMX/=ZERO) THEN
-        chain='MUMAX IS DEFINED BUT UNLOADING BULK MODULUS HAS NO USER VALUE.  '      
+        chain='MUMAX IS DEFINED BUT UNLOADING BULK MODULUS HAS NO USER VALUE.  '
         BUNL  = C1
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGWARNING,
@@ -128,14 +128,14 @@ C=======================================================================
      .                I2=MAT_ID,
      .                C1='WARNING',
      .                C2=TITR,
-     .                C3=chain)         
+     .                C3=chain)
       ENDIF
-      
-      IF(BUNL==ZERO) BUNL  = C1      
+
+      IF(BUNL==ZERO) BUNL  = C1
       IF(AMX==ZERO)  AMX   = EP20
       IF(XMUMX==ZERO.AND.BUNL/=ZERO)THEN
-         XMUMX=EP20 
-        chain='UNLOADING BULK MODULUS IS NOT USED SINCE MUMAX IS ZERO          '      
+         XMUMX=EP20
+        chain='UNLOADING BULK MODULUS IS NOT USED SINCE MUMAX IS ZERO          '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO,
@@ -143,7 +143,7 @@ C=======================================================================
      .                I2=MAT_ID,
      .                C1='WARNING',
      .                C2=TITR,
-     .                C3=chain)             
+     .                C3=chain)
       ENDIF
 C      
       IF(A1 < ZERO .AND. A2 == ZERO)THEN
@@ -155,8 +155,8 @@ C
      .                I2=MAT_ID,
      .                C1='WARNING',
      .                C2=TITR,
-     .                C3=chain)   
-      ENDIF     
+     .                C3=chain)
+      ENDIF
       IF(A2 < ZERO)THEN
         chain='UNTYPICAL YIELD SURFACE. CHECK A2 SIGN.                         '
         CALL ANCMSG(MSGID=829,
@@ -166,10 +166,10 @@ C
      .                I2=MAT_ID,
      .                C1='WARNING',
      .                C2=TITR,
-     .                C3=chain)     
-      ENDIF           
+     .                C3=chain)
+      ENDIF
       IF(C1<=ZERO) THEN
-        chain='TENSILE BULK MODULUS IS LOWER OR EQUAL TO 0.                    '      
+        chain='TENSILE BULK MODULUS IS LOWER OR EQUAL TO 0.                    '
         CALL ANCMSG(MSGID=829,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,
@@ -178,21 +178,21 @@ C
      .                C1='ERROR',
      .                C2=TITR,
      .                C3=chain)
-      END IF           
+      END IF
 C
       IF(A2==ZERO.AND.A1/=ZERO)THEN   !(A2=A1=ZERO => error message)
-        PSTAR=-A0/A1 
+        PSTAR=-A0/A1
       ELSEIF(A2/=ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
         IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
-        
+
         ELSE
-        !  PSTAR = -A1/TWO/A2 !no let user do what he wants 
+        !  PSTAR = -A1/TWO/A2 !no let user do what he wants
           PSTAR = -INFINITY
-          chain='YIELD SURFACE HAS NO ROOT.                                     '      
+          chain='YIELD SURFACE HAS NO ROOT.                                     '
           CALL ANCMSG(MSGID=829,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO,
@@ -200,7 +200,7 @@ C
      .                  I2=MAT_ID,
      .                  C1='WARNING',
      .                  C2=TITR,
-     .                  C3=chain)               
+     .                  C3=chain)
         ENDIF
       ELSE
         !do nothing let user do what he wants
@@ -212,7 +212,7 @@ C
       PM(20)=E
       PM(21)=NU
       PM(22)=G
-      PM(23)=E0     
+      PM(23)=E0
       PM(31)=ZERO
       PM(32)=C1
       PM(33)=ZERO
@@ -225,8 +225,8 @@ C
       PM(40)=A2
       PM(41)=AMX
       PM(42)=FAC_Y
-      PM(43)=PEXT      
-      PM(44)=PSTAR             
+      PM(43)=PEXT
+      PM(44)=PSTAR
       IPM(11)=IFUNC
 C-----------
 C     Formulation for solid elements time step computation.

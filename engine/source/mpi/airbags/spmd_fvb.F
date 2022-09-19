@@ -27,7 +27,7 @@ Chd|        FVUPD0                        source/airbag/fvupd.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
-      SUBROUTINE SPMD_FVB_GATH_BEGIN(IFV, X, XXX, XXXA, 
+      SUBROUTINE SPMD_FVB_GATH_BEGIN(IFV, X, XXX, XXXA,
      .                                    V, VVV, VVVA)
 C Gather local X into XXX,XXXA,on the PMAIN of the FVM
 C-----------------------------------------------
@@ -55,8 +55,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFV
       my_real
-     .        X(3,*), XXX(3,*), XXXA(3,*), 
-     .        V(3,*), VVV(3,*), VVVA(3,*)        
+     .        X(3,*), XXX(3,*), XXXA(3,*),
+     .        V(3,*), VVV(3,*), VVVA(3,*)
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -82,7 +82,7 @@ C
            ITAB(2,I) = FVSPMD(IFV)%ITAB(2,I)
            ITAB(3,I) = FVSPMD(IFV)%ITAB(3,I)
          ENDDO
- 
+
          LENI=0
          LENR=0
          II=0
@@ -132,7 +132,7 @@ C ajout noeuds internes
          DO I=1,FVSPMD(IFV)%NNA_L
              I1=FVSPMD(IFV)%IBUFA_L(1,I)
              I2=FVSPMD(IFV)%IBUFA_L(2,I)
-             IF(I2<=NUMNOD) THEN 
+             IF(I2<=NUMNOD) THEN
                 XXXA(1,I1)=X(1,I2)
                 XXXA(2,I1)=X(2,I2)
                 XXXA(3,I1)=X(3,I2)
@@ -146,7 +146,7 @@ C ajout noeuds internes
 C ajout noeuds internes
          ITABL(1)=ITABL(1)+FVSPMD(IFV)%NNI_L
          ITABL(2)=FVSPMD(IFV)%NNA_L
-         ITABL(3)= 0                  
+         ITABL(3)= 0
          PMAIN=FVSPMD(IFV)%PMAIN
 C
          LEN=ITABL(1)+ITABL(2)+ITABL(3)
@@ -194,7 +194,7 @@ C
          IAD1=IAD1+FVSPMD(IFV)%NNA_L
          IAD2=IAD2+3*FVSPMD(IFV)%NNA_L
 C
-      
+
          ITAG=MSGOFF
          LEN=ITABL(1)+ITABL(2)+ITABL(3)
          CALL MPI_ISEND(FVSPMD(IFV)%IBUF, LEN, MPI_INTEGER, 0,
@@ -218,7 +218,7 @@ Chd|        FVUPD1                        source/airbag/fvupd.F
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules/fvbag_mod.F     
 Chd|====================================================================
-      SUBROUTINE SPMD_FVB_GATH_END(IFV, X, XXX, XXXA, 
+      SUBROUTINE SPMD_FVB_GATH_END(IFV, X, XXX, XXXA,
      .                                    V, VVV, VVVA)
 
 C WAIT messages
@@ -247,8 +247,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFV
       my_real
-     .        X(3,*), XXX(3,*), XXXA(3,*), 
-     .        V(3,*), VVV(3,*), VVVA(3,*)        
+     .        X(3,*), XXX(3,*), XXXA(3,*),
+     .        V(3,*), VVV(3,*), VVVA(3,*)
 
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

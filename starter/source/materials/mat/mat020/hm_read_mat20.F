@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI)
       INTEGER, INTENT(IN) :: MAT_ID
       my_real, INTENT(INOUT) :: PM(NPROPM)
@@ -88,11 +88,11 @@ C     S o u r c e
 C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
 C     Number of material (it's always 2...)
-      NMAT = 2      
+      NMAT = 2
 C
       CALL HM_GET_INTV('MAT1', MAT(1), IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('MAT2', MAT(2), IS_AVAILABLE, LSUBMODEL)
@@ -102,7 +102,7 @@ C
 C     Material proportions
       CALL HM_GET_FLOATV('MAT_ALPHA1', AMAT(1), IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ALPHA2', AMAT(2), IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       DO I=1,2
          PM(20 + I) = MAT(I) + EM01
          PM(30 + I) = AMAT(I)

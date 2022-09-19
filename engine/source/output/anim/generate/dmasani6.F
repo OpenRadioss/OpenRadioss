@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,17 +74,17 @@ C     REAL
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE,THK0,A0,AL0,
      .   RHO0,XX1,XX2,XX3,YY1,YY2,YY3,ZZ1,ZZ2,ZZ3
       INTEGER I, NG, NEL, ISS, ISC,
-     .        IADD, N, J, MLW, 
+     .        IADD, N, J, MLW,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,IMID, IALEL,IPID,
      .        N1,N2,N3,N4,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        OFFSET,NEL_OLD,ITY_OLD,NFT_FA,N_FA,
      .        INOD, ISOLNOD, IPRT
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       NN1 = 1
       NN2 = 1
-      NN3 = NN2 + NUMELS 
+      NN3 = NN2 + NUMELS
       NN4 = NN3 + ISPH3D*(NUMSPH+MAXPJET)
 C-----------------------------------------------
 C       face ext
@@ -92,12 +92,12 @@ C-----------------------------------------------
       NEL_OLD = 0
       ITY_OLD = 0
       DO 490 NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+        CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         ISOLNOD = IPARG(28,NG)
         IF (IMACH == 3.AND.ISPMD == 0) THEN
@@ -137,7 +137,7 @@ C-----------------------------------------------
                  OFF = MIN(GBUF%OFF(I),ONE)
                  VALUE=GBUF%RHO(I)*GBUF%VOL(I)*OFF
                ENDIF
-               IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 ) 
+               IF( NFILSOL /= 0 .AND. GBUF%G_FILL /= 0 )
      .           VALUE = VALUE * GBUF%FILL(I)
                IF (ISOLNOD == 16) THEN
                  VALUE = FOURTH*VALUE

@@ -133,7 +133,7 @@ C-----------------------------------------------
         DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
            NOD = FR_ELEM(J)
            TAG(NOD)=1
-        ENDDO 
+        ENDDO
       ENDDO
 
       NB_FR=0
@@ -158,7 +158,7 @@ C Interface type2
           FR_LOC_I2M(NB_FRI2M)=J
         ENDIF
       ENDDO
-     
+
 
 
       RETURN
@@ -199,11 +199,11 @@ C-----------------------------------------------
      .        SIZ,J,L,
      .        STATUS(MPI_STATUS_SIZE),
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
-     .        REQ_R(NSPMD),REQ_S(NSPMD)   
+     .        REQ_R(NSPMD),REQ_S(NSPMD)
       INTEGER, DIMENSION(:), ALLOCATABLE:: BUFFER_SEND
       INTEGER, DIMENSION(:), ALLOCATABLE ::  BUFFER_RECV
       INTEGER MSGOFF
-      DATA MSGOFF/17000/ 
+      DATA MSGOFF/17000/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -212,18 +212,18 @@ C-----------------------------------------------
       ALLOCATE(BUFFER_RECV(NSPMD),BUFFER_SEND(NSPMD))
       DO I = 1,NSPMD
         IF(I == LOC_PROC) THEN
-          BUFFER_SEND(I) = 0 
+          BUFFER_SEND(I) = 0
         ELSE
           BUFFER_SEND(I) = FR_SMS(I+1)-FR_SMS(I)
         ENDIF
-      ENDDO 
+      ENDDO
       BUFFER_RECV = 0
       SIZ = 1
 
       ! Buffer copy can be avoided using MPI_INPLACE but has not been tested with all MPI implementations
-      CALL MPI_ALLTOALL(BUFFER_SEND,SIZ,MPI_INTEGER,BUFFER_RECV,SIZ,MPI_INTEGER,MPI_COMM_WORLD,IERROR) 
+      CALL MPI_ALLTOALL(BUFFER_SEND,SIZ,MPI_INTEGER,BUFFER_RECV,SIZ,MPI_INTEGER,MPI_COMM_WORLD,IERROR)
 
-      FR_RMS(1) = 1 
+      FR_RMS(1) = 1
       DO I=1,NSPMD
         FR_RMS(I+1) = BUFFER_RECV(I)
       ENDDO
@@ -279,7 +279,7 @@ C-----------------------------------------------
      .        SIZ,J,L,M,TAG,
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_R(NSPMD),REQ_S(NSPMD),
-     .        SBUF(MAX(2*FR_SMS(NSPMD+1),FR_RMS(NSPMD+1))), 
+     .        SBUF(MAX(2*FR_SMS(NSPMD+1),FR_RMS(NSPMD+1))),
      .        RBUF(MAX(2*FR_RMS(NSPMD+1),FR_SMS(NSPMD+1)))
       INTEGER MSGOFF,MSGOFF2
       DATA MSGOFF/17006/
@@ -295,7 +295,7 @@ C-----------------------------------------------
         SIZ = 2*(FR_RMS(I+1)-FR_RMS(I))
         IF(SIZ/=0)THEN
 c          print *,'irecv1',loc_proc,i,siz
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -325,14 +325,14 @@ C   echange messages
 C
       DO I=1,NSPMD
        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = 2*(FR_SMS(I+1)-FR_SMS(I))
 c          print *,'isend1',loc_proc,i,siz
           L = 2*FR_SMS(I)-1
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-       ENDIF        
+       ENDIF
       ENDDO
 C
       DO I = 1, NSPMD
@@ -364,7 +364,7 @@ C  rby
         SIZ = FR_SMS(I+1)-FR_SMS(I)
         IF(I/=LOC_PROC.AND.SIZ>0)THEN
 c          print *,'irecv2',loc_proc,i,siz
-          MSGTYP = MSGOFF2                               
+          MSGTYP = MSGOFF2
           CALL MPI_IRECV(
      S      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -388,14 +388,14 @@ C           LIST_RMS(J) ?= 0
 C
       DO I=1,NSPMD
        IF(FR_RMS(I+1)-FR_RMS(I)>0)THEN
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           SIZ = FR_RMS(I+1)-FR_RMS(I)
 c          print *,'isend2',loc_proc,i,siz
           L = FR_RMS(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-       ENDIF        
+       ENDIF
       ENDDO
 C
       M = 1
@@ -477,7 +477,7 @@ C-----------------------------------------------
       DO I=1,NSPMD
         SIZ = FR_RMS(I+1)-FR_RMS(I)
         IF(SIZ/=0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
 c          print *,'mij-irecv',loc_proc,i,siz
           CALL MPI_IRECV(
      S      MIJ_SMS(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
@@ -502,14 +502,14 @@ C   echange messages
 C
       DO I=1,NSPMD
        IF(I/=LOC_PROC.AND.FR_SMS(I+1)-FR_SMS(I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = FR_SMS(I+1)-FR_SMS(I)
 c          print *,'mij-isend',loc_proc,i,siz
           L = FR_SMS(I)
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-       ENDIF        
+       ENDIF
       ENDDO
 C
       DO I = 1, NSPMD
@@ -581,7 +581,7 @@ C-----------------------------------------------
       ELSE
         SBUF(1)=LMIN
         SBUF(2)=IMIN
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_SEND(
      S    SBUF,SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
      G    MPI_COMM_WORLD,IERROR)
@@ -630,7 +630,7 @@ C-----------------------------------------------
       SIZ = 2
       IF(LOC_PROC==1)THEN
         DO I=2,NSPMD
-          MSGTYP = MSGOFF                              
+          MSGTYP = MSGOFF
           CALL MPI_RECV(
      S      SBUF,SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,STATUS,IERROR)
@@ -642,7 +642,7 @@ C-----------------------------------------------
       ELSE
         SBUF(1)=LMAX
         SBUF(2)=IMAX
-        MSGTYP = MSGOFF                              
+        MSGTYP = MSGOFF
         CALL MPI_SEND(
      S    SBUF,SIZ,MPI_DOUBLE_PRECISION,IT_SPMD(1),MSGTYP,
      G    MPI_COMM_WORLD,IERROR)
@@ -681,7 +681,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1), 
+      INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1),
      .        LIST_SMS(*), LIST_RMS(*), IAD_ELEM(2,*), FR_ELEM(*),
      .        NNDFT0,NNDFT1,ISORTND(*)
 C-----------------------------------------------
@@ -692,7 +692,7 @@ C-----------------------------------------------
      .        ITAG(NUMNOD),NNDFT(NSPMD),MNDFT(NSPMD),KSORT,
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_R(NSPMD),REQ_S(NSPMD),
-     .        SBUF(MAX(2*FR_SMS(NSPMD+1),FR_RMS(NSPMD+1))), 
+     .        SBUF(MAX(2*FR_SMS(NSPMD+1),FR_RMS(NSPMD+1))),
      .        RBUF(MAX(2*FR_RMS(NSPMD+1),FR_SMS(NSPMD+1)))
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -777,7 +777,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1), 
+      INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1),
      .        LIST_SMS(*), LIST_RMS(*), IAD_ELEM(2,*), FR_ELEM(*),
      .        NNZM, IADK(*), KADM(*)
 C-----------------------------------------------
@@ -788,7 +788,7 @@ C-----------------------------------------------
      .        NNZP(NSPMD),MNZP(NSPMD),
      .        STATUS(MPI_STATUS_SIZE),
      .        REQ_R(NSPMD),REQ_S(NSPMD),
-     .        SBUF(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)), 
+     .        SBUF(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)),
      .        RBUF(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))
       INTEGER MSGOFF,MSGOFF2
       DATA MSGOFF/17002/
@@ -814,11 +814,11 @@ C
           END DO
 C
           !THIS IS A BUG => DEADLOCK
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_SEND(
      S      NNZP(P),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,IERROR)
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_RECV(
      S      MNZP(P),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,STATUS,IERROR)
@@ -841,7 +841,7 @@ C-----
 C
 	SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
 	IF(SIZ/=0)THEN
-	  MSGTYP = MSGOFF2 
+	  MSGTYP = MSGOFF2
 	  CALL MPI_IRECV(
      .      RBUF(L),SIZ,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .      MPI_COMM_WORLD,REQ_R(P),IERROR    )
@@ -894,7 +894,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_EXCHM_SMS(
      1           FR_SMS ,FR_RMS,LIST_SMS,LIST_RMS,IAD_ELEM,
-     2           FR_ELEM,IADK  ,JDIK    ,LT_K    ,KADM    , 
+     2           FR_ELEM,IADK  ,JDIK    ,LT_K    ,KADM    ,
      3           JDIM   ,LT_M  ,INVND   )
 C-----------------------------------------------
 C   M o d u l e s
@@ -922,7 +922,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1), 
+      INTEGER FR_SMS(NSPMD+1), FR_RMS(NSPMD+1),
      .        LIST_SMS(*), LIST_RMS(*), IAD_ELEM(2,*), FR_ELEM(*),
      .        IADK(*), JDIK(*), KADM(*), JDIM(*), INVND(*)
       my_real
@@ -934,13 +934,13 @@ C-----------------------------------------------
      .        SIZ,J,K,L,M,N,NOD,P,LL,
      .        SIZS(NSPMD),SIZR(NSPMD),
      .        STATUS(MPI_STATUS_SIZE),
-     .        REQ_R(NSPMD), REQ_S(NSPMD), REQ_S2(NSPMD), 
+     .        REQ_R(NSPMD), REQ_S(NSPMD), REQ_S2(NSPMD),
      .        ITAG(NUMNOD)
-      my_real, 
+      my_real,
      .        DIMENSION(:), ALLOCATABLE :: SBUF, RBUF
       INTEGER MSGOFF,MSGOFF2
       DATA MSGOFF/17004/
-      DATA MSGOFF2/17005/       
+      DATA MSGOFF2/17005/
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -961,7 +961,7 @@ C
             ITAG(NOD)=J-IAD_ELEM(1,P)+1
           END DO
 C
-          MSGTYP = MSGOFF                        
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      .      SIZR(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .      MPI_COMM_WORLD,REQ_R(P),IERROR    )
@@ -984,7 +984,7 @@ C reset
             ITAG(NOD)=0
           END DO
 C
-          MSGTYP = MSGOFF                               
+          MSGTYP = MSGOFF
           CALL MPI_ISEND(
      .      SIZS(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .      MPI_COMM_WORLD,REQ_S(P),IERROR    )
@@ -1020,7 +1020,7 @@ C
         IF(P/=LOC_PROC)THEN
           CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
           IF(SIZR(P)/=0)THEN
-            MSGTYP = MSGOFF2                          
+            MSGTYP = MSGOFF2
             CALL MPI_IRECV(RBUF(L),SIZR(P),REAL ,IT_SPMD(P),
      .    		  MSGTYP,MPI_COMM_WORLD,REQ_R(P),IERROR)
             L = L +SIZR(P)
@@ -1051,7 +1051,7 @@ C
             END DO
           END DO
 C
-          MSGTYP = MSGOFF2                               
+          MSGTYP = MSGOFF2
           CALL MPI_ISEND(SBUF(L),SIZS(P),REAL ,IT_SPMD(P),
      .  		MSGTYP,MPI_COMM_WORLD,REQ_S2(P),IERROR)
           L = L + SIZS(P)
@@ -1179,7 +1179,7 @@ C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(
@@ -1271,7 +1271,7 @@ C
         IF(SIZ>0) THEN
           L=L+1
           INDEXI(L)=I
-          MSGTYP = MSGOFF                         
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(IDEB),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(L),IERROR)
@@ -1297,7 +1297,7 @@ C
       DO L=1,NBINDEX
         I = INDEXI(L)
         SIZ = IAD_M(I+1)-IAD_M(I)
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_ISEND(
      S    SBUF(IDEB),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G    MPI_COMM_WORLD,REQ_S(L),IERROR)

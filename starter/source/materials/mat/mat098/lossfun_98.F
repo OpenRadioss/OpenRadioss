@@ -55,7 +55,7 @@ C-----------------------------------------------
       !INTEGER  , DIMENSION(NFUNC)      :: IFUNC,FUNC_ID
       INTEGER     IGOTO ,SIZEPN,NPTBI
       INTEGER     NVAR,NDC
-      my_real  
+      my_real
      .     CONS(*),DCONS(*),X(NVAR),UPARAM(*),FUN(NVAR),DFUN(NVAR),
      .     XBIA(NPTBI)
 !      TYPE(TTABLE) TABLE(*)
@@ -73,7 +73,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,ID,NP1,NP2,J1,K,K1,NCON, ITER,NITER,
      .      PN1,PN2,ISYM,LENC,LENT
-      my_real 
+      my_real
      .      EMBC,EMBT,Y,FMINS,FMINF,DEMBC,EMBCP,FLEXP,
      .      FLEX1,FLEX2,LC0,LT0,DC0,DT0,HC0,HT0,KC,KT,KFC,KFT,
      .      HC,HT,DCC,DC,DT,UDC,UDT,HDC,HDT,FC,FT,FPC,FPT,KF,
@@ -81,7 +81,7 @@ C-----------------------------------------------
      .      FMINC,FMINT,FMINC2,FMINS2,FMINF2,FMINF1,YP,EMBTP,DEMBT,YFAC(8)
 
       my_real
-     .      EC(LENC),FCU(LENC),LC(LENC),YC(LENC),SIGC(LENC), 
+     .      EC(LENC),FCU(LENC),LC(LENC),YC(LENC),SIGC(LENC),
      .      SIGCP(LENC),
      .      XFIB(LENC),YFIB(LENC),
      .      XCFIB(NPTBI),YCFIB(NPTBI),XTFIB(NPTBI),YTFIB(NPTBI)
@@ -89,8 +89,8 @@ C-----------------------------------------------
      .      ET(LENT),FTU(LENT),LT(LENT),YT(LENT),SIGT(LENT),
      .      SIGTP(LENT)
 
-c      my_real, DIMENSION(:)   ,ALLOCATABLE ::  
-c---------------------------- 
+c      my_real, DIMENSION(:)   ,ALLOCATABLE ::
+c----------------------------
 
       IF (ISYM == 1)THEN
       FMINF = ZERO
@@ -102,7 +102,7 @@ c----------------------------
       FMINS = ZERO
       FMINS2 = ZERO
 
-c---------------------------- 
+c----------------------------
       EMBC = X(1)
       EMBT = X(3)
       FLEX1= X(2)
@@ -113,12 +113,12 @@ c----------------------------
 
       NITER= 5
       DO I=1,8! NFUNC
-       YFAC(I)= UPARAM(8+I)  
+       YFAC(I)= UPARAM(8+I)
       ENDDO
       DC0 = ONE+EMBC
       HC0 = SQRT(DC0*DC0 - ONE)
 
-      DT0 = ONE+EMBT 
+      DT0 = ONE+EMBT
       HT0 = SQRT(DT0*DT0 - ONE)
 
 
@@ -126,15 +126,15 @@ c----------------------------
       CALL FCT_FIBER_2(NPC,PLD ,IFUNC(7),IFUNC(8),YFAC(7),YFAC(8),XBIA,NPTBI,
      .       FLEX1,FLEX2,DC0,HC0,DT0,HT0,XCFIB,YCFIB,XTFIB,YTFIB )
 
-      
+
 C---------------------------------------------------------------------
       PN1  = NPC(IFUNC(1))
       PN2  = NPC(IFUNC(1)+1)
-      LENC = HALF*(PN2 - PN1) ! 
+      LENC = HALF*(PN2 - PN1) !
       !DIRECTION CHAINE  = FMINC
       DO I = 1,LENC
        II = 2*(I-1)
-       ! for each x(i) we have sigc(i) OR sigt(i) as response        
+       ! for each x(i) we have sigc(i) OR sigt(i) as response
        EC(I) = PLD(NPC(IFUNC(1))+ II )
        FCU(I)= PLD(NPC(IFUNC(1))+ II+1 )*YFAC(1)
         CALL  CALC_UNIAX_2(EC(I),XCFIB,YCFIB,LENC,DC0,HC0,
@@ -145,10 +145,10 @@ C---------------------------------------------------------------------
       !DIRECTION TRAME = FMINT
       PN1  = NPC(IFUNC(2))
       PN2  = NPC(IFUNC(2)+1)
-      LENT = HALF*(PN2 - PN1) ! 
+      LENT = HALF*(PN2 - PN1) !
       DO I = 1,LENT
-       II = 2*(I-1)  
-       ET(I) = PLD(NPC(IFUNC(2))+ II ) 
+       II = 2*(I-1)
+       ET(I) = PLD(NPC(IFUNC(2))+ II )
        FTU(I)= PLD(NPC(IFUNC(2))+ II+1 )*YFAC(2)
         CALL  CALC_UNIAX_2(ET(I),XTFIB,YTFIB,LENT,DT0,HT0,
      .                   YFAC(2),FLEX1,FLEX2,EMBT,SIGT(I))   !SIGT = SIGMA CALCULATED
@@ -156,7 +156,7 @@ C---------------------------------------------------------------------
         FMINT = FMINT + A2**2   !somme de la difference des carres
       ENDDO
 C----------------------------------------------------------- 
-      IF (IGOTO == 5 .or. IGOTO == 8) FUN =  (FMINC + FMINT )/TWO                                   
+      IF (IGOTO == 5 .or. IGOTO == 8) FUN =  (FMINC + FMINT )/TWO
 C----------------------------------------------------------
 C-----------------------------------------------------------
 c     DERIVATIVES - CHAINE
@@ -165,7 +165,7 @@ C----------------------------------------------------------
       !Deriv over stretch ( a voir si besoin de recalculer fonctions fibres)
       IF (IGOTO == 3 .or. IGOTO == 8) THEN
       !PERTURBATION STRETCH DIRECTION CHAINE  = FMINS
-         EMBCP  = X(1) + DEMBC 
+         EMBCP  = X(1) + DEMBC
          FLEX1  = X(2)
          DC0 = ONE + EMBCP
          HC0 = SQRT(DC0*DC0 - ONE)
@@ -178,11 +178,11 @@ C----------------------------------------------------------
 c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            FMINS = FMINS + A1**2 !somme de la difference des carres
-         ENDDO  !LENC    
-c        FMINS   = SQRT(FMINS)                                        
-         DFUN(1) = (FMINS - FMINC) / DEMBC 
+         ENDDO  !LENC
+c        FMINS   = SQRT(FMINS)
+         DFUN(1) = (FMINS - FMINC) / DEMBC
 C----------------------------------------------------------
-         ! Deriv over flex                          
+         ! Deriv over flex
 C----------------------------------------------------------
          !PERTURBATION FLEX DIRECTION CHAINE  = FMINF1 ET FMINF2
          EMBC  = X(1)
@@ -201,7 +201,7 @@ c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            !A1 = FCU(I) - SIGC(I)
            FMINF1 = FMINF1 + A1**2 !somme de la difference des carres
-         ENDDO !LENC  
+         ENDDO !LENC
 
          DT0 = ONE + EMBT
          HT0 = SQRT(DT0*DT0 - ONE)
@@ -214,9 +214,9 @@ c
 c
            A1 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
            FMINF2 = FMINF2 + A1**2 !somme de la difference des carres
-         ENDDO !LENT   
-c        FMINF   = SQRT(FMINF)                                        
-         DFUN(2) = (FMINF1 + FMINF2 - FMINC - FMINT) / DFLEX                                     
+         ENDDO !LENT
+c        FMINF   = SQRT(FMINF)
+         DFUN(2) = (FMINF1 + FMINF2 - FMINC - FMINT) / DFLEX
 C----------------------------------------------------------
 c     DERIVATIVES - TRAME
 C----------------------------------------------------------
@@ -225,7 +225,7 @@ C----------------------------------------------------------
          EMBC = X(1)
          FLEX1= X(2)
          !PERTURBATION STRETCH DIRECTION TRAME  = FMINS2
-         EMBTP  = X(3) + DEMBT 
+         EMBTP  = X(3) + DEMBT
          FLEX2  = X(4)
          DT0 = ONE + EMBTP
          HT0 = SQRT(DT0*DT0 - ONE)
@@ -238,11 +238,11 @@ C----------------------------------------------------------
 c
            A1 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
            FMINS2 = FMINS2 + A1**2 !somme de la difference des carres
-         ENDDO  !LENT    
-c        FMINS   = SQRT(FMINS)                                        
-         DFUN(3) = (FMINS2 - FMINT) / DEMBT      
+         ENDDO  !LENT
+c        FMINS   = SQRT(FMINS)
+         DFUN(3) = (FMINS2 - FMINT) / DEMBT
 C----------------------------------------------------------
-        ! Deriv over flex                          
+        ! Deriv over flex
         !PERTURBATION FLEX DIRECTION TRAME  = FMINF1 ET FMINF2
          EMBC = X(1)
          EMBT = X(3)
@@ -261,7 +261,7 @@ c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            !A1 = FCU(I) - SIGC(I)
            FMINF1 = FMINF1 + A1**2 !somme de la difference des carres
-         ENDDO !LENC  
+         ENDDO !LENC
          DT0 = ONE + EMBT
          HT0 = SQRT(DT0*DT0 - ONE)
          DO I = 1,LENT
@@ -274,8 +274,8 @@ c
            A1 = (FTU(I) - SIGT(I))/MAX(EM20,FTU(I))
            !A1 = FCU(I) - SIGC(I)
            FMINF2 = FMINF2 + A1**2 !somme de la difference des carres
-         ENDDO !LENT   
-         DFUN(4) = (FMINF1 + FMINF2 - FMINC - FMINT) / DFLEX                                     
+         ENDDO !LENT
+         DFUN(4) = (FMINF1 + FMINF2 - FMINC - FMINT) / DFLEX
       ENDIF !IGOTO
 C----------------------------------------------------------
 C------------------ISYM------------------------
@@ -293,17 +293,17 @@ C----------------------------------------------------------
       DFLEX = MAX(EM03 * FLEX1, EM10)
       NITER= 5
       DO I=1,8! NFUNC
-       YFAC(I)= UPARAM(8+I)  
+       YFAC(I)= UPARAM(8+I)
       ENDDO
       DC0 = ONE+EMBC
       HC0 = SQRT(DC0*DC0 - ONE)
 
-      DT0 = ONE+EMBT 
+      DT0 = ONE+EMBT
       HT0 = SQRT(DT0*DT0 - ONE)
       ! IL FAUT PRENDRE LA LONGUEUR DE LA FONCTION CR  EE
       PN1 = NPC(IFUNC(7))
       PN2 = NPC(IFUNC(7)+1)
-      SIZEPN = HALF*(PN2 - PN1) ! 
+      SIZEPN = HALF*(PN2 - PN1) !
 
 
       ! TRANSFORMER CONTRAINTE DEF TISSU EN FORCE DEP FIBRE
@@ -313,7 +313,7 @@ C----------------------------------------------------------
 
       DO I = 1,SIZEPN
        II = 2*(I-1)
-       ! for each x(i) we have sigc(i) and sigt(i) as response        
+       ! for each x(i) we have sigc(i) and sigt(i) as response
        EC(I) = PLD(NPC(IFUNC(1))+ II )
        FCU(I)= PLD(NPC(IFUNC(1))+ II+1 )*YFAC(1)
 
@@ -323,18 +323,18 @@ C----------------------------------------------------------
         FMINC = FMINC + A1**2   !somme de la difference des carres
       ENDDO
       !STOP
-      IF (IGOTO == 5 .or. IGOTO == 8) FUN =  FMINC                                      
+      IF (IGOTO == 5 .or. IGOTO == 8) FUN =  FMINC
 C----------------------------------------------------------
 c     DERIVATIVES
 C----------------------------------------------------------
       !Deriv over stretch ( a voir si besoin de recalculer fonctions fibres)
       IF (IGOTO == 3 .or. IGOTO == 8) THEN
-         EMBCP  = X(1) + DEMBC 
+         EMBCP  = X(1) + DEMBC
          FLEX1  = X(2)
          DC0 = ONE + EMBCP
          HC0 = SQRT(DC0*DC0 - ONE)
          DT0 = DC0
-         HT0 = HC0  
+         HT0 = HC0
          DO I = 1,SIZEPN
            II = 2*(I-1)
            EC(I) = PLD(NPC(IFUNC(1))+ II )
@@ -343,17 +343,17 @@ C----------------------------------------------------------
      .                     YFAC(1),FLEX1,EMBCP,SIGC(I))
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            FMINS = FMINS + A1**2 !somme de la difference des carres
-         ENDDO  !SIZEPN    
-c        FMINS   = SQRT(FMINS)                                        
-         DFUN(1) = (FMINS - FMINC) / DEMBC      
+         ENDDO  !SIZEPN
+c        FMINS   = SQRT(FMINS)
+         DFUN(1) = (FMINS - FMINC) / DEMBC
 C----------------------------------------------------------
-        ! Deriv over flex                          
+        ! Deriv over flex
          EMBC  = X(1)
          FLEXP = X(2) + DFLEX
          DC0 = ONE + EMBC
          HC0 = SQRT(DC0*DC0 - ONE)
          DT0 = DC0
-         HT0 = HC0  
+         HT0 = HC0
          DO I = 1,SIZEPN
            II = 2*(I-1)
            EC(I) = PLD(NPC(IFUNC(1))+ II )
@@ -364,9 +364,9 @@ c
            A1 = (FCU(I) - SIGC(I))/MAX(EM20,FCU(I))
            !A1 = FCU(I) - SIGC(I)
            FMINF = FMINF + A1**2 !somme de la difference des carres
-         ENDDO !SIZEPN                                                 
-c        FMINF   = SQRT(FMINF)                                        
-         DFUN(2) = (FMINF - FMINC) / DFLEX                                     
+         ENDDO !SIZEPN
+c        FMINF   = SQRT(FMINF)
+         DFUN(2) = (FMINF - FMINC) / DFLEX
 C----------------------------------------------------------
       ENDIF !IGOTO
       ENDIF !ISYM
@@ -408,30 +408,30 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-c----------------------------------------------- 
+c-----------------------------------------------
       INTEGER  SIZEPN
-      my_real 
+      my_real
      .   XFIB(SIZEPN),YFIB(SIZEPN)
-      my_real 
+      my_real
      .    EC,DC0,HC0,YFAC,FLEX,STRETCH,SIGC,FUNC
-c---------------------------- 
+c----------------------------
       INTEGER  ITER,NITER
-      my_real 
+      my_real
      .    HC,HT,YC,DC,DCC,UDC,HDC,LC,LT,DERIC,DT0,
      .  FC,EC2,FPC
-      my_real 
+      my_real
      .    FINTER58
       EXTERNAL FINTER58
-c----------------------------------------------- 
-c----------------------------------------------- 
+c-----------------------------------------------
+c-----------------------------------------------
 
       NITER = 5
       YC  = ZERO      ! initialization
       LC  = ONE + EC
 c----------------------
       DO ITER = 1, NITER
-        HC   = HC0 + YC 
-        DC   = SQRT(LC*LC + HC*HC) 
+        HC   = HC0 + YC
+        DC   = SQRT(LC*LC + HC*HC)
         DCC  = DC - DC0
         UDC  = ONE / DC
         HDC  = HC * UDC
@@ -442,23 +442,23 @@ c----------------------
         YC   = YC - FUNC / MAX(DERIC,EM20)
       ENDDO !iter
 c----------------------
-      HC   = HC0 + YC  
-      HT   = HC0 - YC 
-      DC   = SQRT(LC*LC + HC*HC) 
-      DCC  = DC - DC0    
+      HC   = HC0 + YC
+      HT   = HC0 - YC
+      DC   = SQRT(LC*LC + HC*HC)
+      DCC  = DC - DC0
       FC   = YFAC * FINTER58(DCC,XFIB,YFIB,FPC,SIZEPN)
       DT0 = DC0
       LT   = SQRT(MAX(EM20, DT0**2 - HT**2))
-      EC2  = LT - ONE 
+      EC2  = LT - ONE
       SIGC = FC * LC / DC ! ENGINEERING
 
 c      SIGC = FC * LC / DC /(EC2+ONE)!TRUE
 c
 c-----------
       RETURN
-      END 
+      END
 C----------------------------------------------------------
-      my_real 
+      my_real
 Chd|====================================================================
 Chd|  FINTER58                      source/materials/mat/mat098/lossfun_98.F
 Chd|-- called by -----------
@@ -481,7 +481,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       INTEGER IFUNC, I,NPT
-      my_real 
+      my_real
      .    ABC,DERI,XX,DX1,DX2,XC(NPT),YC(NPT)
 C-----------------------------------------------
 C
@@ -502,8 +502,8 @@ C
 
 C
       RETURN
-      END      
-c--------------------------------------------------------        
+      END
+c--------------------------------------------------------
 C----------------------------------------------------------
 C----------------------------------------------------------
 
@@ -536,11 +536,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*) 
+      INTEGER NPC(*)
       my_real FINTER ,PLD(*),XBIA(NPTBI)
       EXTERNAL FINTER
       INTEGER I,J,IDN1,IDN2,NPTBI,NP1, NITER,ITER
-      my_real 
+      my_real
      .   DC0,HC0,DT0,HT0,LC,LT,DC,UDC,UDT,HDC,HDT,YFAC1,YFAC2,YC,YT,
      .   FPC,FPT, Y,HC,HT,DT, FC,FT,KF,KFT,KFC,FUNC,DERIC,
      .   XX(NPTBI),YB(NPTBI),XFIB(NPTBI),YFIB(NPTBI),XCFIB(NPTBI),
@@ -548,22 +548,22 @@ C-----------------------------------------------
      .   DTT(NPTBI),STISSUC(NPTBI),STISSUT(NPTBI)
 C-----------------------------------------------
        INTENT(IN)    :: NPC,PLD ,NPTBI,YFAC1,YFAC2
-c---------------------------------------------- 
+c----------------------------------------------
       !IDN = IFUNC(7)
       NITER = 5
-      DO I = 1, NPTBI-1       
+      DO I = 1, NPTBI-1
         J = 2*(I-1)
         STISSUC(I) =  YFAC1 * FINTER(IDN1,XBIA(I),NPC,PLD,FPC)!IFUNC7
         STISSUT(I) =  YFAC2 * FINTER(IDN2,XBIA(I),NPC,PLD,FPT)!IFUNC8
-        LC = ONE + XBIA(I)  
-        LT = ONE + XBIA(I) 
+        LC = ONE + XBIA(I)
+        LT = ONE + XBIA(I)
 
 c        FTISS(I)= YB(I)*(1.0 + XX(I))
          Y = ZERO
          DO ITER = 1, NITER
-            HC = HC0 + Y 
-            HT = HT0 - Y 
-            DC = SQRT(LC *LC  + HC*HC) 
+            HC = HC0 + Y
+            HT = HT0 - Y
+            DC = SQRT(LC *LC  + HC*HC)
             DT = SQRT(LT *LT  + HT*HT)
             UDC= ONE / DC
             UDT= ONE / DT
@@ -590,10 +590,10 @@ C
 
           YC = Y
           YT =-Y
-          HC = HC0 + YC   
-          HT = HT0 + YT   
-          DC = SQRT(LC *LC  + HC*HC) 
-          DT = SQRT(LT *LT  + HT*HT) 
+          HC = HC0 + YC
+          HT = HT0 + YT
+          DC = SQRT(LC *LC  + HC*HC)
+          DT = SQRT(LT *LT  + HT*HT)
           XCFIB(I) = DC - DC0
           XTFIB(I) = DT - DT0
           YCFIB(I) = STISSUC(I)  *LC/DC
@@ -604,7 +604,7 @@ C
          ! STOP
 c-----------
       RETURN
-      END 
+      END
 C----------------------------------------------------------
 C----------------------------------------------------------
 Chd|====================================================================
@@ -634,20 +634,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPC(*) 
-      my_real 
+      INTEGER NPC(*)
+      my_real
      .    PLD(*)
       INTEGER I,J,IDN,SIZEPN,NP1
-      my_real 
+      my_real
      .   XX(SIZEPN),YB(SIZEPN),XFIB(SIZEPN),YFIB(SIZEPN),DC0,HC0,
      .   LC,DC
 C-----------------------------------------------
-       INTENT(IN)    :: NPC,PLD 
-c---------------------------- 
+       INTENT(IN)    :: NPC,PLD
+c----------------------------
       !IDN = IFUNC(7)
-      NP1  = (NPC(IDN+1)-NPC(IDN))*HALF  
+      NP1  = (NPC(IDN+1)-NPC(IDN))*HALF
 
-      DO I = 1, NP1        
+      DO I = 1, NP1
         J = 2*(I-1)
         XX(I) = PLD(NPC(IDN)+J)
         LC = ONE + XX(I)
@@ -658,7 +658,7 @@ c        FTISS(I)= YB(I)*(1.0 + XX(I))
       ENDDO
 c-----------
       RETURN
-      END 
+      END
 C----------------------------------------------------------
 C----------------------------------------------------------
 Chd|====================================================================
@@ -691,30 +691,30 @@ C-----------------------------------------------
 #include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
-c----------------------------------------------- 
+c-----------------------------------------------
       INTEGER  SIZEPN
-      my_real 
+      my_real
      .   XFIB(SIZEPN),YFIB(SIZEPN)
-      my_real 
+      my_real
      .    EC,DC0,HC0,YFAC,FLEX1,FLEX2,EMBC ,SIGC,FUNC
-c---------------------------- 
+c----------------------------
       INTEGER  ITER,NITER
-      my_real 
+      my_real
      .    HC,HT,YC,DC,DCC,UDC,HDC,LC,LT,DERIC,DT0,
      .  FC,EC2,FPC
-      my_real 
+      my_real
      .    FINTER58
       EXTERNAL FINTER58
-c----------------------------------------------- 
-c----------------------------------------------- 
+c-----------------------------------------------
+c-----------------------------------------------
 
       NITER = 5
       YC  = ZERO      ! initialization
       LC  = ONE + EC
 c----------------------
       DO ITER = 1, NITER
-        HC   = HC0 + YC 
-        DC   = SQRT(LC*LC + HC*HC) 
+        HC   = HC0 + YC
+        DC   = SQRT(LC*LC + HC*HC)
         DCC  = DC - DC0
         UDC  = ONE / DC
         HDC  = HC * UDC
@@ -725,9 +725,9 @@ c----------------------
         YC   = YC - FUNC / MAX(DERIC,EM20)
       ENDDO !iter
 c----------------------
-      HC   = HC0 + YC  
-      DC   = SQRT(LC*LC + HC*HC) 
-      DCC  = DC - DC0    
+      HC   = HC0 + YC
+      DC   = SQRT(LC*LC + HC*HC)
+      DCC  = DC - DC0
       FC   = YFAC * FINTER58(DCC,XFIB,YFIB,FPC,SIZEPN)
       SIGC = FC * LC / DC ! ENGINEERING (ON PREND L INITIAL EC2 = 0)
 
@@ -735,6 +735,6 @@ c      SIGC = FC * LC / DC /(EC2+ONE)
 c
 c-----------
       RETURN
-      END 
+      END
 C----------------------------------------------------------
 

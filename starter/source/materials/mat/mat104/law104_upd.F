@@ -39,7 +39,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
-      USE ELBUFTAG_MOD 
+      USE ELBUFTAG_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,19 +59,19 @@ C-----------------------------------------------
       INTEGER IFAILG,NUPARAM,NUPARF,IMAT,IPM(NPROPMI,*)
       my_real, DIMENSION(NUPARF) , INTENT(IN)  :: UPARF
       my_real, DIMENSION(NUPARAM), INTENT(OUT) :: UPARAM
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE(MLAW_TAG_)    :: MLAW_TAG
       TYPE(MATPARAM_STRUCT_) ,INTENT(INOUT)    :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILOC,IGURSON
-      my_real 
+      my_real
      .  Q1,Q2,Q3,EPN,AS,KW,F0,FC,FR,RLEN,HKHI
 C=======================================================================
       IF (IFAILG == 1) THEN
         ILOC  = NINT(UPARF(1))
-        !IGURSON = 0  no damage (default) 
+        !IGURSON = 0  no damage (default)
         IF (ILOC == 0) THEN
           IGURSON = 1 ! local damage
           MLAW_TAG%NUVAR = MLAW_TAG%NUVAR + 5
@@ -84,18 +84,18 @@ C=======================================================================
         ENDIF
         IPM(8,IMAT) = MLAW_TAG%NUVAR
         ! Gurson yield criterion parameters
-        Q1    = UPARF(2) 
-        Q2    = UPARF(3) 
-        Q3    = UPARF(4) 
+        Q1    = UPARF(2)
+        Q2    = UPARF(3)
+        Q3    = UPARF(4)
         ! Trigger plastic strain for damage nucleation
-        EPN   = UPARF(5) 
+        EPN   = UPARF(5)
         ! Nucleation rate
-        AS    = UPARF(6) 
+        AS    = UPARF(6)
         ! Nahshon-Hutchinson shear parameter
-        KW    = UPARF(7) 
+        KW    = UPARF(7)
         ! Void volume fraction at fracture
         FR    = UPARF(8)
-        ! Critical void volume fraction 
+        ! Critical void volume fraction
         FC    = UPARF(9)
         ! Initial void volume fraction
         F0    = UPARF(10)
@@ -118,7 +118,7 @@ c
         MLAW_TAG%G_EPSDNL = 1
         MLAW_TAG%L_EPSDNL = 1
 c
-        ! Update MATPARAM 
+        ! Update MATPARAM
         CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")
 c
         ! Storage of damage parameters
@@ -132,7 +132,7 @@ c
         UPARAM(37) = FR
         UPARAM(38) = FC
         UPARAM(39) = F0
-        UPARAM(40) = HKHI 
+        UPARAM(40) = HKHI
       ENDIF
 c-----------
       RETURN

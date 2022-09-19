@@ -77,13 +77,13 @@ C-----------------------------------------------
 C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE07 (/DEFAULT/INTER/TYPE07)
 C============================================================================
-      
-      IGSTI = 0        
+
+      IGSTI = 0
       IBAG=0
-      IDEL7N = 0 
+      IDEL7N = 0
       INACTI = 0
 C
-      IASSIGN = 0    
+      IASSIGN = 0
 
 C
       IS_AVAILABLE = .FALSE.
@@ -200,4 +200,4 @@ C
      .       '    TYPE OF FRICTION PENALTY FORMULATION. . . ',I5/)
 C
 C--------------------------------------------------------------
-      END 
+      END

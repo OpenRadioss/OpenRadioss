@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -95,10 +95,10 @@ C-----------------------------------------------
       INTEGER BITSET
       EXTERNAL BITSET
 C=======================================================================
-      ALLOCATE (NOD2NSV(NUMNOD+1)      ,STAT=stat) 
+      ALLOCATE (NOD2NSV(NUMNOD+1)      ,STAT=stat)
       ALLOCATE (NOD2RTM(4*MAXRTM)      ,STAT=stat)
       ALLOCATE (NOD2RTMS(2*MAXRTMS)      ,STAT=stat)
-      ALLOCATE (NOD2RTMM(2*MAXRTMS)      ,STAT=stat)  
+      ALLOCATE (NOD2RTMM(2*MAXRTMS)      ,STAT=stat)
       ALLOCATE (KAD(MAX(NUMNOD,MAXRTM,MAXRTMS)),STAT=stat)
       ALLOCATE (TAGNOD(NUMNOD)      ,STAT=stat)
       ALLOCATE (TAGRTM(MAXRTM)      ,STAT=stat)
@@ -132,11 +132,11 @@ C
             NRTM_SH=IPARI(42,NI)
             NRTM0  =NRTM-NRTM_SH
 C
-            IF(NISUB/=0)THEN    
+            IF(NISUB/=0)THEN
                CALL ININTSUB_25(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                        NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                        NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
-     .                        TAGNOD    ,TAGRTM ,IADD    )   
+     .                        TAGNOD    ,TAGRTM ,IADD    )
             END IF
 C
 C--
@@ -163,12 +163,12 @@ C
                NRTM0  =NRTM
             ENDIF
 C
-            IF(NISUB/=0)THEN         
+            IF(NISUB/=0)THEN
 C
               CALL ININTSUB_7 (ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                         NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                         NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
-     .                         TAGNOD    ,TAGRTM ,IADD    ,NT19    )   
+     .                         TAGNOD    ,TAGRTM ,IADD    ,NT19    )
 C
             END IF
 C
@@ -188,13 +188,13 @@ C
           NISUBS =IPARI(37,NI)
           NISUBM =IPARI(38,NI)
 C
-          IF(NISUB/=0)THEN         
+          IF(NISUB/=0)THEN
 
             CALL ININTSUB_11 (ITAB      ,IGRSLIN ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                       NRTM      ,NRTM0  ,NSN     ,NISUBS   ,NISUBM    ,
      .                       NOINT     ,NI     ,NOD2RTMS,NOD2RTMM ,KAD       ,
      .                       TAGLINS   ,TAGLINM,IADD    ,NT19     ,MAXRTMS   ,
-     .                       NRTS      ,NTY    )   
+     .                       NRTS      ,NTY    )
 
           ENDIF
 C
@@ -341,9 +341,9 @@ C
 C
       END DO
 C
-      DEALLOCATE (KAD) 
+      DEALLOCATE (KAD)
       DEALLOCATE (NOD2RTM)
-      DEALLOCATE (NOD2RTMS) 
+      DEALLOCATE (NOD2RTMS)
       DEALLOCATE (NOD2NSV)
       DEALLOCATE (TAGRTM)
       DEALLOCATE (TAGNOD)

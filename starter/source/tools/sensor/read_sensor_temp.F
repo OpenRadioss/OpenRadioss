@@ -71,7 +71,7 @@ C-----------------------------------------------
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (SUBSET_)       ,DIMENSION(NSUBS)   :: SUBSET
       TYPE (GROUP_)        ,DIMENSION(NGRNOD)  :: IGRNOD
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,7 +99,7 @@ c--------------------------------------------------
 c--------------------------------------------------
 c     Check Grnod_ID
 c--------------------------------------------------
-      IGRN = 0 
+      IGRN = 0
       DO I=1,NGRNOD
         IF (IGRNOD(I)%ID == GRNOD_ID) THEN
           IGRN = I
@@ -133,9 +133,9 @@ c
       SENSOR_PTR%IPARAM(1) = IGRN     ! GRNOD index
       SENSOR_PTR%IPARAM(2) = IGRNOD(IGRN)%NENTITY    ! number of nodes in GRNOD
 c
-      SENSOR_PTR%RPARAM(1) = TEMPMAX 
-      SENSOR_PTR%RPARAM(2) = TEMPMIN 
-      SENSOR_PTR%RPARAM(3) = TEMPAVG 
+      SENSOR_PTR%RPARAM(1) = TEMPMAX
+      SENSOR_PTR%RPARAM(2) = TEMPMIN
+      SENSOR_PTR%RPARAM(3) = TEMPAVG
 c---------------------------
 c     old sensor data tables
 c---------------------------

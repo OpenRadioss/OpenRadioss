@@ -35,21 +35,21 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|====================================================================
       SUBROUTINE INI_INIMAP1D(INIMAP1D ,ELBUF_TAB ,IPART  ,IPARG   ,IPARTS   ,
      .                        IPARTQ   ,XGRID     ,VEL    ,IXS     ,IXQ      ,
-     .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM, 
+     .                        IXTG     ,PM        ,IPM    ,BUFMAT  ,MULTI_FVM,
      .                        PLD      ,NPC       ,IGRBRIC,IGRQUAD ,IGRSH3N  ,
      .                        NPTS)
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE INIMAP1D_MOD  
+      USE ELBUFDEF_MOD
+      USE INIMAP1D_MOD
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
       INTEGER :: II, IFUNC, NPT, FIRST, LAST, ICOOR, INODE, NODEID, IND, SHIFT,
      .     NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8,
      .     ELEMID
-      my_real :: X0, Y0, Z0, RADIUS, XC, YC, ZC, VALUE1, VALUE2, NX, NY, NZ, VALUE, 
+      my_real :: X0, Y0, Z0, RADIUS, XC, YC, ZC, VALUE1, VALUE2, NX, NY, NZ, VALUE,
      .     XNODE, YNODE, ZNODE, RAD1, RAD2, X1, Y1, Z1, XP, YP, ZP
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELEM_LIST
       INTEGER :: LOCAL_ELEM_LIST(MVSIZ)
@@ -101,24 +101,24 @@ C-----------------------------------------------
       my_real ::  TT, RES, RHO
       TYPE(G_BUFEL_), POINTER :: GBUF
       INTEGER :: NBNODE, NODELIST(8), ITY, ISOLNOD,
-     .     GRBRICID,GRQUADID,GRSH3NID, NBMAT, NBMAT_TARGET, IMAT, KPHASE, NUVAR, IADBUF, NPAR, IFORM, 
+     .     GRBRICID,GRQUADID,GRSH3NID, NBMAT, NBMAT_TARGET, IMAT, KPHASE, NUVAR, IADBUF, NPAR, IFORM,
      .     M51_SUBMAT_ID(4),TAG_MAT(NUMMAT)
-      my_real, POINTER, DIMENSION(:) :: PTRx, PTRy 
+      my_real, POINTER, DIMENSION(:) :: PTRx, PTRy
 
       TYPE PSEUDO_POINTER_ARRAY
-        my_real, POINTER, DIMENSION(:) :: TEMP   
+        my_real, POINTER, DIMENSION(:) :: TEMP
       END TYPE
       TYPE (PSEUDO_POINTER_ARRAY) :: SUBMAT(21)
 
-      CHARACTER*2 :: Str1, Str2      
-      my_real :: VFRAC(MVSIZ,21),DENSFRAC 
+      CHARACTER*2 :: Str1, Str2
+      my_real :: VFRAC(MVSIZ,21),DENSFRAC
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
-      
+
       DO KK=1,NPTS/2
         PLD_INV(KK,1)=PLD(1,KK)
-        PLD_INV(KK,2)=PLD(2,KK)          
+        PLD_INV(KK,2)=PLD(2,KK)
       ENDDO
 
       IF (N2D  ==  0) THEN
@@ -128,7 +128,7 @@ C-----------------------------------------------
          ALLOCATE(ELEM_LIST(NUMELQ + NUMELTG))
          ELEM_LIST(1:NUMELQ+NUMELTG)=0
       ENDIF
-      
+
       TAG_MAT(1:NUMMAT)=0
 
       GRBRICID = 0
@@ -183,8 +183,8 @@ C     If NSPMD != 1 the ids are not ordered
                CONTINUE
             CASE DEFAULT
                CYCLE
-            END SELECT  
-            MATID=0        
+            END SELECT
+            MATID=0
             IF (ITY == 1) THEN
                MATID = IXS(1, NFT + 1)
             ELSE IF (ITY == 2) THEN
@@ -196,18 +196,18 @@ C     If NSPMD != 1 the ids are not ordered
             ENDIF
             M51_SUBMAT_ID(1:4) = 0
             IF (MLW == 51) THEN
-              IFORM = IPM(62, MATID) 
-              IF(IFORM>=2.AND.IFORM<=6)CYCLE             
+              IFORM = IPM(62, MATID)
+              IF(IFORM>=2.AND.IFORM<=6)CYCLE
               M51_SUBMAT_ID(1:4) = IPM(51:54, MATID)
                JJ = MINLOC(M51_SUBMAT_ID,1)
-               NBMAT_TARGET = 4 
+               NBMAT_TARGET = 4
                IF(M51_SUBMAT_ID(JJ)==0)NBMAT_TARGET=MAX(1,JJ-1)
             ELSEIF (MLW == 151)THEN
               NBMAT_TARGET = MULTI_FVM%NBMAT
             ELSE
-              NBMAT_TARGET = 1              
+              NBMAT_TARGET = 1
             ENDIF
-c                        
+c
             NUVAR = IPM(8, MATID)
             IADBUF = IPM(7, MATID)
             ISOLNOD = IPARG(28, NG)
@@ -223,7 +223,7 @@ C     Find first index of elem_list such as corresponding elem lies in the group
             ELSE
                IFIRST = IFIRST + SHIFT
             ENDIF
-            
+
             ILAST = IFIRST
             SHIFT = 0
             DO WHILE(ELEM_LIST(ILAST + SHIFT)  <=  NEL + NFT .AND. ILAST + SHIFT  <  NELEM)
@@ -246,32 +246,32 @@ C     IFIRST + SHIFT is the first element which ID is greater than NFT + NEL
               CASE DEFAULT
                  !WRITE(IOUT, '(A, I10)') "**WARNING : /INIMAP1D OPTION NOT COMPATIBLE WITH MATERIAL LAW", MLW
                  CYCLE
-              END SELECT              
+              END SELECT
               IF (MLW == 51) THEN
                  IFORM = IPM(62, MATID)
                  IF (IFORM /= 12 .AND. INIMAP1D(KK)%FORMULATION == 1) THEN
                     CALL ANCMSG(MSGID = 1732, MSGTYPE=MSGERROR, ANMODE=ANINFO,I1 = IPM(1, MATID), I2 = INIMAP1D(KK)%ID)
                  ENDIF
-              ENDIF            
+              ENDIF
             ENDIF
 
 C Check submaterial consistency
-            IF(TAG_MAT(MATID)==0)THEN                                                                                                                                                                            
-              IF(NBMAT /= NBMAT_TARGET)THEN                                                                                            
-                WRITE(Str1,'(i2)')NBMAT                                                                                                
-                WRITE(Str2,'(i2)')NBMAT_TARGET                                                                                         
-                CALL ANCMSG(MSGID = 2048, MSGTYPE=MSGERROR, ANMODE=ANINFO,                                                             
-     .                C1="INIMAP1D",                                                                                                   
+            IF(TAG_MAT(MATID)==0)THEN
+              IF(NBMAT /= NBMAT_TARGET)THEN
+                WRITE(Str1,'(i2)')NBMAT
+                WRITE(Str2,'(i2)')NBMAT_TARGET
+                CALL ANCMSG(MSGID = 2048, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .                C1="INIMAP1D",
      .                C2="NUMBER OF SUBMATERIAL(S) FROM TARGET MATERIAL LAW:"//Str1,
-     .                C3=" IS DIFFERENT FROM SUBMATERIAL(S) NUMBER IN TARGET DOMAIN:"//Str2,                                       
-     .                C4="INIMAP1D",                                                                                                   
-     .                I1 = IPM(1, MATID),                                                                                              
-     .                I2 = INIMAP1D(KK)%ID)                                                                                            
-                TAG_MAT(MATID) = 1 !display this error material once per material law. Not for each cell using this material law.      
-                NBMAT=MIN(NBMAT,NBMAT_TARGET) !in order to finish starter without memory corruption                    
-              ENDIF                                                                                                                    
-            ENDIF                                                                                                                      
-            
+     .                C3=" IS DIFFERENT FROM SUBMATERIAL(S) NUMBER IN TARGET DOMAIN:"//Str2,
+     .                C4="INIMAP1D",
+     .                I1 = IPM(1, MATID),
+     .                I2 = INIMAP1D(KK)%ID)
+                TAG_MAT(MATID) = 1 !display this error material once per material law. Not for each cell using this material law.
+                NBMAT=MIN(NBMAT,NBMAT_TARGET) !in order to finish starter without memory corruption
+              ENDIF
+            ENDIF
+
             DO II = IFIRST, ILAST
                ELEMID = ELEM_LIST(II)
                IF (ELEMID  <  1 + NFT .OR. ELEMID  >  NEL + NFT) THEN
@@ -347,21 +347,21 @@ C     SPHERICAL
                   RADIUS = SQRT((XC - X0) * (XC - X0) + (YC - Y0) * (YC - Y0) + (ZC - Z0) * (ZC - Z0))
                ELSEIF (INIMAP1D(KK)%PROJ  ==  1) THEN
 C     PLANAR
-                  RADIUS = (XC - X0) * INIMAP1D(KK)%NX + 
-     .                 (YC - Y0) * INIMAP1D(KK)%NY + 
-     .                 (ZC - Z0) * INIMAP1D(KK)%NZ 
+                  RADIUS = (XC - X0) * INIMAP1D(KK)%NX +
+     .                 (YC - Y0) * INIMAP1D(KK)%NY +
+     .                 (ZC - Z0) * INIMAP1D(KK)%NZ
                ELSE
 C     CYLINDRICAL PROJ
                   TT = (XC - X0) * (X1 - X0) + (YC - Y0) * (Y1 - Y0) + (ZC - Z0) * (Z1 - Z0)
-                  TT = TT / ((X1 - X0) * (X1 - X0) + 
-     .                 (Y1 - Y0) * (Y1 - Y0) + 
+                  TT = TT / ((X1 - X0) * (X1 - X0) +
+     .                 (Y1 - Y0) * (Y1 - Y0) +
      .                 (Z1 - Z0) * (Z1 - Z0))
                   XP = X0 + TT * (X1 - X0)
                   YP = Y0 + TT * (Y1 - Y0)
                   ZP = Z0 + TT * (Z1 - Z0)
                   RADIUS = SQRT((XC - XP) * (XC - XP) + (YC - YP) * (YC - YP) + (ZC - ZP) * (ZC - ZP))
                ENDIF
-               
+
                DO IMAT = 1, NBMAT
 C     Alpha
                   IFUNC = INIMAP1D(KK)%FUNC_ALPHA(IMAT)
@@ -369,7 +369,7 @@ C     Alpha
                     IF(IFUNC>0)THEN
                       !--function_identifier
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
-                      FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
+                      FIRST = 1 + (NPC(IFUNC) - 1) / 2
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
                       PTRy => PLD_INV(1:NPTS/2,2)
                     ELSE
@@ -377,64 +377,64 @@ C     Alpha
                       NPT = INIMAP1D(KK)%NUM_CENTROIDS
                       FIRST = 1
                       PTRx => INIMAP1D(KK)%X(1:NPT)
-                      PTRy => INIMAP1D(KK)%SUBMAT(IMAT)%VFRAC(1:NPT)                      
+                      PTRy => INIMAP1D(KK)%SUBMAT(IMAT)%VFRAC(1:NPT)
                     ENDIF
-                    SHIFT = 0                                                                                            
-                    DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS ) 
-                         SHIFT = SHIFT + 1 
+                    SHIFT = 0
+                    DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS )
+                         SHIFT = SHIFT + 1
                          IF(SHIFT  >=  NPT)EXIT
-                    ENDDO                                                                                                
-                    IND = FIRST + SHIFT                                                                                  
-                    IF (SHIFT  ==  0) THEN                                                                               
-                       RES = PTRy(FIRST)                                                                                 
-                       IF (MLW == 51) THEN                                                                               
-                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                           
-                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES             
-                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES            
-                       ELSE                                                                                              
-                          ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)         
-                       ENDIF                                                                                            
-                    ELSEIF (SHIFT  <  NPT) THEN                                                                         
-                       RAD1 = PTRx(IND - 1)                                                                              
-                       RAD2 = PTRx(IND)                                                                                  
-                       VALUE1 = PTRy(IND - 1)                                                                            
-                       VALUE2 = PTRy(IND)                                                                                
-                       RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1))                              
-                       IF (MLW == 51) THEN                                                                               
-                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                           
-                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES             
-                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES            
-                       ELSE                                                                                              
-                          ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)         
-                       ENDIF                                                                                           
-                    ELSE                                                                                                 
-                       RES = PTRy(FIRST + NPT - 1)                                                                       
-                       IF (MLW == 51) THEN                                                                               
-                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                           
-                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES             
-                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES            
-                       ELSE                                                                                              
-                          ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)         
-                       ENDIF                                                                                            
-                    ENDIF                                                                                               
+                    ENDDO
+                    IND = FIRST + SHIFT
+                    IF (SHIFT  ==  0) THEN
+                       RES = PTRy(FIRST)
+                       IF (MLW == 51) THEN
+                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
+                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES
+                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES
+                       ELSE
+                          ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)
+                       ENDIF
+                    ELSEIF (SHIFT  <  NPT) THEN
+                       RAD1 = PTRx(IND - 1)
+                       RAD2 = PTRx(IND)
+                       VALUE1 = PTRy(IND - 1)
+                       VALUE2 = PTRy(IND)
+                       RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1))
+                       IF (MLW == 51) THEN
+                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
+                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES
+                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES
+                       ELSE
+                          ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)
+                       ENDIF
+                    ELSE
+                       RES = PTRy(FIRST + NPT - 1)
+                       IF (MLW == 51) THEN
+                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
+                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES
+                          ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES
+                       ELSE
+                          ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)
+                       ENDIF
+                    ENDIF
                   ELSE
-                    RES = ONE                                                                                  
-                    IF (MLW == 51) THEN                                                                       
-                       KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                   
-                       ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES     
-                       ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES    
-                    ELSE                                                                                      
-                       ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT) 
-                    ENDIF 
+                    RES = ONE
+                    IF (MLW == 51) THEN
+                       KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
+                       ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (1 + KPHASE - 1)) = RES
+                       ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (23 + KPHASE - 1)) = RES
+                    ELSE
+                       ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%VOL(ELEMID - NFT) = RES * GBUF%VOL(ELEMID - NFT)
+                    ENDIF
                   ENDIF
-                  VFRAC(ELEMID-NFT,IMAT) = RES  
+                  VFRAC(ELEMID-NFT,IMAT) = RES
 C     RHO
                   IFUNC = INIMAP1D(KK)%FUNC_RHO(IMAT)
                   IF(IFUNC /= 0)THEN
                     IF(IFUNC > 0)THEN
                       !--function_identifier
                       NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
-                      FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
+                      FIRST = 1 + (NPC(IFUNC) - 1) / 2
                       PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
                       PTRy => PLD_INV(1:NPTS/2,2)
                     ELSE
@@ -442,30 +442,30 @@ C     RHO
                       NPT = INIMAP1D(KK)%NUM_CENTROIDS
                       FIRST = 1
                       PTRx => INIMAP1D(KK)%X(1:NPT)
-                      PTRy => INIMAP1D(KK)%SUBMAT(IMAT)%RHO(1:NPT)                      
+                      PTRy => INIMAP1D(KK)%SUBMAT(IMAT)%RHO(1:NPT)
                     ENDIF
                     SHIFT = 0
-                     DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS ) 
+                     DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS )
                         SHIFT = SHIFT + 1
                         IF( SHIFT  >=  NPT)EXIT
                      ENDDO
                      IND = FIRST + SHIFT
                      IF (SHIFT  ==  0) THEN
-                        RES = PTRy(FIRST) * INIMAP1D(KK)%FAC_RHO(IMAT)  
+                        RES = PTRy(FIRST) * INIMAP1D(KK)%FAC_RHO(IMAT)
                         IF (MLW == 51) THEN
                            KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (12 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
                         ELSE
-                           ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(ELEMID - NFT) = RES  
+                           ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(ELEMID - NFT) = RES
                         ENDIF
                      ELSEIF (SHIFT  <  NPT) THEN
                         RAD1 = PTRx(IND - 1)
                         RAD2 = PTRx(IND)
                         VALUE1 = PTRy(IND - 1)
                         VALUE2 = PTRy(IND)
-                        RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) * INIMAP1D(KK)%FAC_RHO(IMAT)    
+                        RES = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) * INIMAP1D(KK)%FAC_RHO(IMAT)
                         IF (MLW == 51) THEN
                            KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
@@ -475,18 +475,18 @@ C     RHO
                            ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(ELEMID - NFT) = RES
                         ENDIF
                      ELSE
-                        RES = PTRy(FIRST + NPT - 1) * INIMAP1D(KK)%FAC_RHO(IMAT)  
+                        RES = PTRy(FIRST + NPT - 1) * INIMAP1D(KK)%FAC_RHO(IMAT)
                         IF (MLW == 51) THEN
                            KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (12 + KPHASE - 1)) = RES
                            ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
                         ELSE
-                           ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(ELEMID - NFT) = RES                   
+                           ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(ELEMID - NFT) = RES
                         ENDIF
                      ENDIF
                   ELSE
-                     RES = INIMAP1D(KK)%FAC_RHO(IMAT)   
+                     RES = INIMAP1D(KK)%FAC_RHO(IMAT)
                      IF (MLW == 51) THEN
                         KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (9 + KPHASE - 1)) = RES
@@ -494,9 +494,9 @@ C     RHO
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (20 + KPHASE - 1)) = RES
                      ELSE
                         ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(ELEMID - NFT) = RES
-                     ENDIF      
+                     ENDIF
                   ENDIF
-                  
+
                   IF (INIMAP1D(KK)%FORMULATION  ==  2) THEN
 C     EINT
                      !not managed when reading from file (FORMULATION=1)
@@ -505,7 +505,7 @@ C     EINT
                         NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
                         FIRST = 1 + (NPC(IFUNC) - 1) / 2
                         SHIFT = 0
-                        DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS) 
+                        DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS)
                            SHIFT = SHIFT + 1
                            IF( SHIFT  >=  NPT)EXIT
                         ENDDO
@@ -552,7 +552,7 @@ C     EINT
                            ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT(ELEMID - NFT) = RES
                         ENDIF
                      ENDIF
-                     EINT(ELEMID-NFT,IMAT) = RES                     
+                     EINT(ELEMID-NFT,IMAT) = RES
                   ELSE IF (INIMAP1D(KK)%FORMULATION  ==  1) THEN
 C     PRES
                      IFUNC = INIMAP1D(KK)%FUNC_PRES(IMAT)
@@ -560,7 +560,7 @@ C     PRES
                        IF(IFUNC > 0)THEN
                          !--function_identifier
                          NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
-                         FIRST = 1 + (NPC(IFUNC) - 1) / 2                      
+                         FIRST = 1 + (NPC(IFUNC) - 1) / 2
                          PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
                          PTRy => PLD_INV(1:NPTS/2,2)
                        ELSE
@@ -568,39 +568,39 @@ C     PRES
                          NPT = INIMAP1D(KK)%NUM_CENTROIDS
                          FIRST = 1
                          PTRx => INIMAP1D(KK)%X(1:NPT)
-                         PTRy => INIMAP1D(KK)%SUBMAT(IMAT)%PRES(1:NPT)                      
+                         PTRy => INIMAP1D(KK)%SUBMAT(IMAT)%PRES(1:NPT)
                        ENDIF
                        SHIFT = 0
-                       DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS)                                 
-                          SHIFT = SHIFT + 1 
-                          IF( SHIFT  >=  NPT)EXIT                                                                           
-                       ENDDO                                                                                           
-                       IND = FIRST + SHIFT                                                                             
-                       IF (SHIFT  ==  0) THEN                                                                          
-                          PRES(ELEMID - NFT, IMAT) = PTRy(FIRST) * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)                    
-                       ELSEIF (SHIFT  <  NPT) THEN                                                                    
-                          RAD1 = PTRx(IND - 1)                                                                         
-                          RAD2 = PTRx(IND)                                                                             
-                          VALUE1 = PTRy(IND - 1)                                                                       
-                          VALUE2 = PTRy(IND)                                                                           
-                          PRES(ELEMID - NFT, IMAT) = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) *  
-     .                         * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)                                                      
-                       ELSE                                                                                            
-                          VALUE1 = PTRy(FIRST + NPT - 1)                                                               
-                          PRES(ELEMID - NFT, IMAT) = VALUE1 * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)                         
-                       ENDIF                                                                                           
+                       DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS)
+                          SHIFT = SHIFT + 1
+                          IF( SHIFT  >=  NPT)EXIT
+                       ENDDO
+                       IND = FIRST + SHIFT
+                       IF (SHIFT  ==  0) THEN
+                          PRES(ELEMID - NFT, IMAT) = PTRy(FIRST) * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
+                       ELSEIF (SHIFT  <  NPT) THEN
+                          RAD1 = PTRx(IND - 1)
+                          RAD2 = PTRx(IND)
+                          VALUE1 = PTRy(IND - 1)
+                          VALUE2 = PTRy(IND)
+                          PRES(ELEMID - NFT, IMAT) = (VALUE1 + (VALUE2 - VALUE1) / (RAD2 - RAD1) * (RADIUS - RAD1)) *
+     .                         * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
+                       ELSE
+                          VALUE1 = PTRy(FIRST + NPT - 1)
+                          PRES(ELEMID - NFT, IMAT) = VALUE1 * INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
+                       ENDIF
                      ELSE
                         PRES(ELEMID - NFT, IMAT) = INIMAP1D(KK)%FAC_PRES_ENER(IMAT)
                      ENDIF
-                     
-                     
+
+
                      IF(MULTI_FVM%IS_USED)THEN
                       ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%SIG(NEL*(1-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT)
                       ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%SIG(NEL*(2-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT)
                       ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%SIG(NEL*(3-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT)
                       ELBUF_TAB(NG)%GBUF%SIG(NEL*(1-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT) !same pressure for all phases
                       ELBUF_TAB(NG)%GBUF%SIG(NEL*(2-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT)
-                      ELBUF_TAB(NG)%GBUF%SIG(NEL*(3-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT)                      
+                      ELBUF_TAB(NG)%GBUF%SIG(NEL*(3-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, IMAT)
                      ELSE
                       ELBUF_TAB(NG)%GBUF%SIG(NEL*(1-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, 1)
                       ELBUF_TAB(NG)%GBUF%SIG(NEL*(2-1)+ELEMID-NFT)=-PRES(ELEMID - NFT, 1)
@@ -609,30 +609,30 @@ C     PRES
                          KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
                          !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (2 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)
                          !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (3 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)
-                         !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (4 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)                                            
-                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (18+ KPHASE - 1)) = PRES(ELEMID - NFT, 1)                                            
+                         !ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (4 + KPHASE - 1)) = -PRES(ELEMID - NFT, 1)
+                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (18+ KPHASE - 1)) = PRES(ELEMID - NFT, 1)
                        ENDIF
                      ENDIF
-                                                                 
+
                   ENDIF
-                                    
+
                ENDDO
-               
+
 C     Burn Fraction / Detonation Times
                IF(ELBUF_TAB(NG)%GBUF%G_TB > 0)ELBUF_TAB(NG)%GBUF%TB(ELEMID - NFT) = 1E20
-               IF (MLW == 51) THEN                                                                                                        
+               IF (MLW == 51) THEN
                   KPHASE = N0PHAS - 1
-                  ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (KPHASE - 1)) = ONE                                           
-                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE    
+                  ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (KPHASE - 1)) = ONE
+                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE
                   KPHASE = N0PHAS + (4 - 1) * NVPHAS ! JWL is submat 4
-                  ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (15 + KPHASE - 1)) = 1E20                                                 
-               ELSE                                                                                                                       
-                  DO IMAT=1,NBMAT                                                                                                         
-                   IF(ELBUF_TAB(NG)%BUFLY(IMAT)%L_BFRAC > 0)ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%BFRAC(ELEMID - NFT)=ONE   
-                  ENDDO                                                                                                                   
-                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE                                           
-               ENDIF  
-                                                                                                                                   
+                  ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (15 + KPHASE - 1)) = 1E20
+               ELSE
+                  DO IMAT=1,NBMAT
+                   IF(ELBUF_TAB(NG)%BUFLY(IMAT)%L_BFRAC > 0)ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%BFRAC(ELEMID - NFT)=ONE
+                  ENDDO
+                  IF(ELBUF_TAB(NG)%GBUF%G_BFRAC > 0)ELBUF_TAB(NG)%GBUF%BFRAC(ELEMID - NFT) = ONE
+               ENDIF
+
 
                IF (.NOT. MULTI_FVM%IS_USED .AND. IALEFVM  ==  0) THEN
 C     VEL
@@ -651,27 +651,27 @@ C     VEL
                         ZNODE = XGRID(3, NODEID)
                         IF (INIMAP1D(KK)%PROJ  ==  3) THEN
 C     SPHERICAL PROJ
-                           RADIUS = SQRT((XNODE - X0) * (XNODE - X0) + 
-     .                          (YNODE - Y0) * (YNODE - Y0) + 
+                           RADIUS = SQRT((XNODE - X0) * (XNODE - X0) +
+     .                          (YNODE - Y0) * (YNODE - Y0) +
      .                          (ZNODE - Z0) * (ZNODE - Z0))
                         ELSE IF (INIMAP1D(KK)%PROJ  ==  1) THEN
 C     PLANAR PROJ
-                           RADIUS = (XNODE - X0) * INIMAP1D(KK)%NX + 
-     .                          (YNODE - Y0) * INIMAP1D(KK)%NY + 
+                           RADIUS = (XNODE - X0) * INIMAP1D(KK)%NX +
+     .                          (YNODE - Y0) * INIMAP1D(KK)%NY +
      .                          (ZNODE - Z0) * INIMAP1D(KK)%NZ
                         ELSE
 C     CYLINDRICAL PROJ
-                           TT = (XNODE - X0) * (X1 - X0) + 
-     .                          (YNODE - Y0) * (Y1 - Y0) + 
+                           TT = (XNODE - X0) * (X1 - X0) +
+     .                          (YNODE - Y0) * (Y1 - Y0) +
      .                          (ZNODE - Z0) * (Z1 - Z0)
-                           TT = TT / ((X1 - X0) * (X1 - X0) + 
-     .                          (Y1 - Y0) * (Y1 - Y0) + 
+                           TT = TT / ((X1 - X0) * (X1 - X0) +
+     .                          (Y1 - Y0) * (Y1 - Y0) +
      .                          (Z1 - Z0) * (Z1 - Z0))
                            XP = X0 + TT * (X1 - X0)
                            YP = Y0 + TT * (Y1 - Y0)
                            ZP = Z0 + TT * (Z1 - Z0)
-                           RADIUS = SQRT((XNODE - XP) * (XNODE - XP) + 
-     .                          (YNODE - YP) * (YNODE - YP) + 
+                           RADIUS = SQRT((XNODE - XP) * (XNODE - XP) +
+     .                          (YNODE - YP) * (YNODE - YP) +
      .                          (ZNODE - ZP) * (ZNODE - ZP))
                         ENDIF
                         IF (ABS(RADIUS)  <  EM10
@@ -696,21 +696,21 @@ C     CYLINDRICAL
                            ENDIF
                            IFUNC = INIMAP1D(KK)%FUNC_VEL
                            IF(IFUNC /= 0)THEN
-                             IF(IFUNC > 0)THEN                                                                           
-                               !--function_identifier                                                                    
-                               NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2                                                   
-                               FIRST = 1 + (NPC(IFUNC) - 1) / 2                                                          
-                               PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function 
-                               PTRy => PLD_INV(1:NPTS/2,2)                                                                   
-                             ELSE                                                                                        
-                               !--data from file                                                                         
-                               NPT = INIMAP1D(KK)%NUM_NODE_VEL                                                         
-                               FIRST = 1                                                                                 
-                               PTRx => INIMAP1D(KK)%X_VEL(1:NPT)                                                             
-                               PTRy => INIMAP1D(KK)%VEL(1:NPT)                                             
-                             ENDIF         
+                             IF(IFUNC > 0)THEN
+                               !--function_identifier
+                               NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
+                               FIRST = 1 + (NPC(IFUNC) - 1) / 2
+                               PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
+                               PTRy => PLD_INV(1:NPTS/2,2)
+                             ELSE
+                               !--data from file
+                               NPT = INIMAP1D(KK)%NUM_NODE_VEL
+                               FIRST = 1
+                               PTRx => INIMAP1D(KK)%X_VEL(1:NPT)
+                               PTRy => INIMAP1D(KK)%VEL(1:NPT)
+                             ENDIF
                              SHIFT = 0
-                             DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS ) 
+                             DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS )
                                 SHIFT = SHIFT + 1
                                 IF( SHIFT  >=  NPT)EXIT
                              ENDDO
@@ -739,30 +739,30 @@ C     CYLINDRICAL
                      ENDIF
                   ENDDO         ! INODE
                ELSE
-               
+
 C     Initialize cell centred velocities
                   IFUNC = INIMAP1D(KK)%FUNC_VEL
-                  IF(IFUNC /= 0)THEN                                                                            
-                    IF(IFUNC > 0)THEN                                                                           
-                      !--function_identifier                                                                    
-                      NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2                                                   
-                      FIRST = 1 + (NPC(IFUNC) - 1) / 2                                                          
-                      PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function 
-                      PTRy => PLD_INV(1:NPTS/2,2)                                                                   
-                    ELSE                                                                                        
-                      !--data from file                                                                         
-                      NPT = INIMAP1D(KK)%NUM_NODE_VEL                                                         
-                      FIRST = 1                                                                                 
-                      PTRx => INIMAP1D(KK)%X_VEL(1:NPT)                                                             
-                      PTRy => INIMAP1D(KK)%VEL(1:NPT)                                             
-                    ENDIF 
-                    SHIFT = 0                                                                                   
-                    DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS ) 
+                  IF(IFUNC /= 0)THEN
+                    IF(IFUNC > 0)THEN
+                      !--function_identifier
+                      NPT = (NPC(IFUNC + 1) - NPC(IFUNC)) / 2
+                      FIRST = 1 + (NPC(IFUNC) - 1) / 2
+                      PTRx => PLD_INV(1:NPTS/2,1)  !NPTS : 2*nb of all function points     NPT:for current function
+                      PTRy => PLD_INV(1:NPTS/2,2)
+                    ELSE
+                      !--data from file
+                      NPT = INIMAP1D(KK)%NUM_NODE_VEL
+                      FIRST = 1
+                      PTRx => INIMAP1D(KK)%X_VEL(1:NPT)
+                      PTRy => INIMAP1D(KK)%VEL(1:NPT)
+                    ENDIF
+                    SHIFT = 0
+                    DO WHILE (PTRx(FIRST + SHIFT)  <  RADIUS )
                        SHIFT = SHIFT + 1
-                       IF( SHIFT  >=  NPT)EXIT                       
+                       IF( SHIFT  >=  NPT)EXIT
                     ENDDO
                     IND = FIRST + SHIFT
-                  
+
                     IF (SHIFT  ==  0) THEN
                        VALUE = PTRy(FIRST)
                     ELSEIF (SHIFT  <  NPT) THEN
@@ -802,37 +802,37 @@ C     CYLINDRICAL
                   ELSE
                     VALUE = ZERO
                   ENDIF
-                  IF (MULTI_FVM%IS_USED) THEN                                                
-                     MULTI_FVM%VEL(1, ELEMID) = VALUE * NX                                   
-                     MULTI_FVM%VEL(2, ELEMID) = VALUE * NY                                   
-                     MULTI_FVM%VEL(3, ELEMID) = VALUE * NZ                                   
-                  ELSE IF (IALEFVM  >  0) THEN                                              
-                     GBUF%MOM(ELEMID - NFT + 0 * NEL) = VALUE * NX * GBUF%RHO(ELEMID - NFT)  
-                     GBUF%MOM(ELEMID - NFT + 1 * NEL) = VALUE * NY * GBUF%RHO(ELEMID - NFT)  
-                     GBUF%MOM(ELEMID - NFT + 2 * NEL) = VALUE * NZ * GBUF%RHO(ELEMID - NFT)  
-                  ENDIF                                                                      
+                  IF (MULTI_FVM%IS_USED) THEN
+                     MULTI_FVM%VEL(1, ELEMID) = VALUE * NX
+                     MULTI_FVM%VEL(2, ELEMID) = VALUE * NY
+                     MULTI_FVM%VEL(3, ELEMID) = VALUE * NZ
+                  ELSE IF (IALEFVM  >  0) THEN
+                     GBUF%MOM(ELEMID - NFT + 0 * NEL) = VALUE * NX * GBUF%RHO(ELEMID - NFT)
+                     GBUF%MOM(ELEMID - NFT + 1 * NEL) = VALUE * NY * GBUF%RHO(ELEMID - NFT)
+                     GBUF%MOM(ELEMID - NFT + 2 * NEL) = VALUE * NZ * GBUF%RHO(ELEMID - NFT)
+                  ENDIF
                ENDIF            ! MULTI_FVM
             ENDDO               ! II = IFIRST, ILAST
-            
+
             IF (INIMAP1D(KK)%FORMULATION  ==  2) THEN
                DO II = IFIRST, ILAST
                   ELEMID = ELEM_LIST(II)
                   GBUF%EINT(ELEMID - NFT) = GBUF%EINT(ELEMID - NFT) * GBUF%RHO(ELEMID - NFT)
                ENDDO
-               
+
                IF (MLW /= 51 .AND. MLW /= 151) THEN
-                 SUBMAT(1)%TEMP(1:NEL) => ELBUF_TAB(NG)%GBUF%TEMP(1:NEL) 
+                 SUBMAT(1)%TEMP(1:NEL) => ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
                ELSE IF (MLW == 151) THEN
                  DO IMAT=1,NBMAT
-                   SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)               
-                 ENDDO               
-               ELSE
-                 DO IMAT=1,NBMAT               
-                   KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
-                   SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
+                   SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
                  ENDDO
-               ENDIF     
-               
+               ELSE
+                 DO IMAT=1,NBMAT
+                   KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
+                   SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE ))
+                 ENDDO
+               ENDIF
+
             ELSE IF (INIMAP1D(KK)%FORMULATION  ==  1) THEN
 C     Compute EINT from pressure
                IF (MLW /= 151 .AND. MLW /= 51) THEN
@@ -844,7 +844,7 @@ C     Compute EINT from pressure
                      MATID = IXTG(1, 1 + NFT)
                   ENDIF
                   SUBMAT(1)%TEMP(1:NEL) => ELBUF_TAB(NG)%GBUF%TEMP(1:NEL)
-                  CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST, 
+                  CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, 1), GBUF%EINT, GBUF%RHO, IFIRST, ILAST, ELEM_LIST,
      .                 IPM, PM, BUFMAT, MLW,NG,0,SUBMAT(1)%TEMP,NPC,PLD)
                ELSE IF (MLW == 151) THEN
                   DO IMAT = 1, NBMAT
@@ -856,8 +856,8 @@ C     Compute EINT from pressure
                         MATID = IPM(20 + IMAT, IXTG(1, 1 + NFT))
                      ENDIF
                      SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%TEMP(1:NEL)
-                     CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT, 
-     .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST, 
+                     CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%EINT,
+     .                    ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO, IFIRST, ILAST, ELEM_LIST,
      .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD)
                   ENDDO
                ELSE
@@ -870,10 +870,10 @@ C     Compute EINT from pressure
                         MATID = IPM(20 + IMAT, IXTG(1, 1 + NFT))
                      ENDIF
                      KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
-                     SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE )) 
-                     CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT), 
-     .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)), 
-     .                    IFIRST, ILAST, ELEM_LIST, 
+                     SUBMAT(IMAT)%TEMP(1:NEL) => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1+NEL*(16+KPHASE-1) : NEL*(16+KPHASE ))
+                     CALL SOLVE_EINT(MATID, NFT, NEL, PRES(:, IMAT), EINT(:, IMAT),
+     .                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1 + NEL * (9 + KPHASE - 1):NEL + NEL * (9 + KPHASE - 1)),
+     .                    IFIRST, ILAST, ELEM_LIST,
      .                    IPM, PM, BUFMAT, MLW, NG,IMAT,SUBMAT(IMAT)%TEMP,NPC,PLD)
                      DO II = IFIRST, ILAST
                         ELEMID = ELEM_LIST(II)
@@ -882,31 +882,31 @@ C     Compute EINT from pressure
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (8 + KPHASE - 1)) = RES
                         ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ELEMID - NFT + NEL * (21 + KPHASE - 1)) = RES
                      ENDDO
-                  ENDDO  
+                  ENDDO
                ENDIF
-               
-               IF(MLW == 151)THEN 
+
+               IF(MLW == 151)THEN
                  IF(NBMAT > 1)THEN
-                   DO II = 1,NEL                                                                                
-                     ELBUF_TAB(NG)%GBUF%TEMP(II) = ZERO                                                        
-                       DO IMAT=1,NBMAT 
-                         DENSFRAC = ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(II)  / ELBUF_TAB(NG)%GBUF%RHO(II)                                                                                                                                                                                                
+                   DO II = 1,NEL
+                     ELBUF_TAB(NG)%GBUF%TEMP(II) = ZERO
+                       DO IMAT=1,NBMAT
+                         DENSFRAC = ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)%RHO(II)  / ELBUF_TAB(NG)%GBUF%RHO(II)
                          ELBUF_TAB(NG)%GBUF%TEMP(II) = ELBUF_TAB(NG)%GBUF%TEMP(II) + VFRAC(II,IMAT)*DENSFRAC * SUBMAT(IMAT)%TEMP(II)
-                       ENDDO                                                                                      
-                   ENDDO  
-                 ENDIF                                                                                      
+                       ENDDO
+                   ENDDO
+                 ENDIF
                ELSEIF(MLW==51)THEN
-                 DO II = 1,NEL   
-                   ELBUF_TAB(NG)%GBUF%TEMP(II) = ZERO  
-                   DO IMAT=1,NBMAT 
-                     KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS                                                                                                                  
-                     DENSFRAC = ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(II + NEL * (12 + KPHASE - 1)) / ELBUF_TAB(NG)%GBUF%RHO(II)                                                                                                  
-                     ELBUF_TAB(NG)%GBUF%TEMP(II) = ELBUF_TAB(NG)%GBUF%TEMP(II) + VFRAC(II,IMAT)*DENSFRAC * SUBMAT(IMAT)%TEMP(II)     
-                   ENDDO 
+                 DO II = 1,NEL
+                   ELBUF_TAB(NG)%GBUF%TEMP(II) = ZERO
+                   DO IMAT=1,NBMAT
+                     KPHASE = N0PHAS + (M51_SUBMAT_ID(IMAT) - 1) * NVPHAS
+                     DENSFRAC = ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(II + NEL * (12 + KPHASE - 1)) / ELBUF_TAB(NG)%GBUF%RHO(II)
+                     ELBUF_TAB(NG)%GBUF%TEMP(II) = ELBUF_TAB(NG)%GBUF%TEMP(II) + VFRAC(II,IMAT)*DENSFRAC * SUBMAT(IMAT)%TEMP(II)
+                   ENDDO
                    ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)%VAR(1:NEL)= ELBUF_TAB(NG)%GBUF%TEMP(1:NEL) !global temperature law51 buffer
-                 ENDDO                                                                                        
+                 ENDDO
                ENDIF
-              
+
             ENDIF
          ENDDO                  ! NG = 1, NGROUP
          DEALLOCATE(PRES, EINT)
@@ -925,12 +925,12 @@ Chd|        INI_INIMAP1D                  source/initial_conditions/inimap/ini_i
 Chd|-- calls ---------------
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
-      SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM, 
+      SUBROUTINE SOLVE_EINT(MATID, NFT,    NEL, PRESIN, EINT, RHO,   IFIRST, ILAST, ELEM_LIST, IPM,
      .                      PM   , BUFMAT, MLW, NG,     IMAT, THETA, NPC,    TF)
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -964,7 +964,7 @@ C-----------------------------------------------
 C     P r e C o n d i t i o n
 C-----------------------------------------------
       IF(IFIRST>ILAST .OR. IFIRST<1)RETURN !DO NO INIT TO 0.
-      
+
 C-----------------------------------------------
 C     S o u r c e   L i n e s
 C-----------------------------------------------
@@ -1005,7 +1005,7 @@ C-----------------------------------------------
       DO II=1,NEL
         SIG(II,1:3)=-POLD(II)
       ENDDO
-      DO WHILE(REMAINING_ELTS  /=  0 .AND. ITER  <  MAX_ITER) 
+      DO WHILE(REMAINING_ELTS  /=  0 .AND. ITER  <  MAX_ITER)
          ITER = ITER + 1
          DO II = IFIRST, ILAST
             ELEMID = ELEM_LIST(II)
@@ -1013,12 +1013,12 @@ C-----------------------------------------------
             MU(LOCALID) = RHO(LOCALID) / RHOZERO(LOCALID) - ONE
             DF(LOCALID) = RHOZERO(LOCALID) / RHO(LOCALID)
          ENDDO
-         
-         CALL EOSMAIN(2, NEL, EOSTYPE, PM, OFF, EINT(1:NEL), 
-     .        RHO(1:NEL), RHOZERO, MU, MU2, ESPE, 
-     .        DVOL, DF, VOL, MAT, PSH, 
+
+         CALL EOSMAIN(2, NEL, EOSTYPE, PM, OFF, EINT(1:NEL),
+     .        RHO(1:NEL), RHOZERO, MU, MU2, ESPE,
+     .        DVOL, DF, VOL, MAT, PSH,
      .        PRES, SSP, DPDE, THETA, ECOLD, BUFMAT, SIG, MUOLD, MLW, POLD, NPC, TF)
-         
+
          DO II = IFIRST, ILAST
             ELEMID = ELEM_LIST(II)
             LOCALID = ELEMID - NFT
@@ -1042,7 +1042,7 @@ C-----------------------------------------------
             ENDIF
          ENDDO
       ENDDO
-      
+
       IF (REMAINING_ELTS  /=  0) THEN
          PRINT*, "*** Convergence issue in /INIMAP1D or /INIMAP2D option"
       ENDIF

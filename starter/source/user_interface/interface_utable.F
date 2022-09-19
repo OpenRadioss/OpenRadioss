@@ -25,7 +25,7 @@ Chd|  INTERFACE_UTABLE_MOD          source/user_interface/interface_utable.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE INTERFACE_UTABLE_MOD 
+      MODULE INTERFACE_UTABLE_MOD
 C-----------------------------------------------
 #include      "my_real.inc"
       INTERFACE
@@ -36,7 +36,7 @@ C
 C
         SUBROUTINE GET_U_TABLE(I,XX,YY)
         INTEGER I
-        my_real, 
+        my_real,
      .         DIMENSION(:) :: XX
         my_real
      .         YY
@@ -45,7 +45,7 @@ C
         SUBROUTINE GET_U_VTABLE(I,NEL,IPOS,XX,YY,DYDX)
         INTEGER I,NEL
         INTEGER, DIMENSION(:,:) :: IPOS
-        my_real, 
+        my_real,
      .         DIMENSION(:,:) :: XX
         my_real
      .         YY(*), DYDX(*)

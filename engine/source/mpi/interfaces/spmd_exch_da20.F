@@ -99,7 +99,7 @@ C
       DO I = 1, NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
           SIZ = NBINT20*(LEN20*(IAD_ELEM(1,I+1)-IAD_ELEM(1,I))+1)
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           NBIRECV = NBIRECV + 1
           IRINDEX(NBIRECV) = I
           CALL MPI_IRECV(

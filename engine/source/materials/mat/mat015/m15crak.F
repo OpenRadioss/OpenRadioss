@@ -64,11 +64,11 @@ C-----------------------------------------------
       my_real
      .   SIGT1(MVSIZ),SIGT2(MVSIZ),SIGC1(MVSIZ),SIGC2(MVSIZ),
      .   SIGR12(MVSIZ),BETA(MVSIZ),SCH1(MVSIZ,5),TAUX,S1,S2,S3,
-     .   S4,S5, TMAX(MVSIZ) 
+     .   S4,S5, TMAX(MVSIZ)
 C-----------------------------------------------
         DO  I=JFT,JLT
           IFLAG = NINT(PM(147,IMAT))
-          IF (IFLAG == 1) THEN           
+          IF (IFLAG == 1) THEN
             SIGT1(I)  = PM(141,IMAT)
             SIGT2(I)  = PM(142,IMAT)
             SIGC1(I)  = PM(143,IMAT)
@@ -89,7 +89,7 @@ C
           SCH1(I,2) = ZERO
           SCH1(I,3) = ZERO
           SCH1(I,4) = ZERO
-          SCH1(I,5) = ZERO          
+          SCH1(I,5) = ZERO
         ENDDO
 C
 C.....STRESS IN ORTHOTROPIC DIRECTIONS
@@ -100,39 +100,39 @@ C
         EF2  =ZERO
         EFC2 =ZERO
         EM22 =ZERO
-        EMC2 =ZERO     
+        EMC2 =ZERO
 !---
-        IF (DAMT(I,1) < ONE) THEN       
+        IF (DAMT(I,1) < ONE) THEN
 !---
-          DAMT(I,1)=EXP(-(TT-SIGR(I,6))/TMAX(I))   
-          IF (DAMT(I,1) < EM02) DAMT(I,1)=ZERO  
+          DAMT(I,1)=EXP(-(TT-SIGR(I,6))/TMAX(I))
+          IF (DAMT(I,1) < EM02) DAMT(I,1)=ZERO
 !---
         ELSEIF (DAMT(I,2) < ONE) THEN
 !---
-          DAMT(I,2)=EXP(-(TT-SIGR(I,6))/TMAX(I))        
-          IF (DAMT(I,2) < EM02) DAMT(I,2)=ZERO          
+          DAMT(I,2)=EXP(-(TT-SIGR(I,6))/TMAX(I))
+          IF (DAMT(I,2) < EM02) DAMT(I,2)=ZERO
           SIG(I,2) = SIGR(I,2)*DAMT(I,2)
           SIG(I,3) = SIGR(I,3)*DAMT(I,2)
           SIG(I,4) = SIGR(I,4)*DAMT(I,2)
           SIG(I,5) = SIGR(I,5)*DAMT(I,2)
-          IF (SIG(I,1)> ZERO) THEN             
+          IF (SIG(I,1)> ZERO) THEN
             EF2=(SIG(I,1)/SIGT1(I))**2 + BETA(I)*(SIG(I,3)/SIGR12(I))**2
             DAMT(I,1)=ONE
-          ELSE 
+          ELSE
             EFC2 = (SIG(I,1)/SIGC1(I))**2
             DAMT(I,1)=ONE
-          ENDIF 
+          ENDIF
           IF (EF2 >= ONE .OR. EFC2 >= ONE) THEN
             SIGR(I,6) = TT
-            DAMT(I,1) = ZEP9        
+            DAMT(I,1) = ZEP9
             SCH1(I,1) = SIG(I,1)
             SCH1(I,2) = SIGR(I,2)*DAMT(I,2)
             SCH1(I,3) = SIGR(I,3)*DAMT(I,2)
             SCH1(I,4) = SIGR(I,4)*DAMT(I,2)
             SCH1(I,5) = SIGR(I,5)*DAMT(I,2)
-          ENDIF 
+          ENDIF
 !---
-        ELSE           
+        ELSE
 !---
 !
 ! fiber breakage failure criteria
@@ -145,11 +145,11 @@ C
 !   compressive fiber mode
             EFC2 = (SIG(I,1)/SIGC1(I))**2
             DAMT(I,1)=ONE ! obsolette (already initialized to 1)
-          ENDIF 
+          ENDIF
           IF (EF2 >= ONE .OR. EFC2 >= ONE) THEN
             DAMT(I,1) = ZEP9
             SIGR(I,6) = TT
-!            IDIR = 1 
+!            IDIR = 1
             SCH1(I,1) = SIG(I,1)
             SCH1(I,2) = SIG(I,2)
             SCH1(I,3) = SIG(I,3)
@@ -166,12 +166,12 @@ C
           ELSE
             IF (SIG(I,2) >= ZERO) THEN
 !   tensile matrix mode
-              EM22=(SIG(I,2)/SIGC2(I))**2 + (SIG(I,3)/SIGR12(I))**2 
+              EM22=(SIG(I,2)/SIGC2(I))**2 + (SIG(I,3)/SIGR12(I))**2
               DAMT(I,2)=ONE ! obsolette (already initialized to 1)
             ELSE
 ! compressive matrix mode
-              EMC2=(SIG(I,2)/(TWO*SIGR12(I)))**2 
-     +            +(SIG(I,3)/SIGR12(I))**2 
+              EMC2=(SIG(I,2)/(TWO*SIGR12(I)))**2
+     +            +(SIG(I,3)/SIGR12(I))**2
      +            +SIG(I,2)*((SIGC2(I)/(TWO*SIGR12(I)))**2-ONE)/SIGC2(I)
               DAMT(I,2)=ONE ! obsolette (already initialized to 1)
             ENDIF
@@ -186,15 +186,15 @@ C
               FAILURE(I) = 2  ! matrix cracking failure
 !              WRITE(IOUT, '(A,I1,A,I10,5X,A,I3,A,1PE11.4)')
 !     +        ' FAILURE-',2,' ELEMENT #',NGL(I),
-!     +        ' LAYER #',ILAYER,' TIME=',TT      
+!     +        ' LAYER #',ILAYER,' TIME=',TT
             ENDIF
           ENDIF
-        ENDIF   
+        ENDIF
       ENDDO
 !
       DO  I=JFT,JLT
             SIGR(I,1) = SCH1(I,1)
-            SIGR(I,2) = SCH1(I,2)              
+            SIGR(I,2) = SCH1(I,2)
             SIGR(I,3) = SCH1(I,3)
             SIGR(I,4) = SCH1(I,4)
             SIGR(I,5) = SCH1(I,5)
@@ -208,7 +208,7 @@ C
         ELSEIF(FAILURE(I) == 2 ) THEN
               WRITE(IOUT, '(A,I1,A,I10,5X,A,I3,A,1PE11.4)')
      +        ' FAILURE-',2,' ELEMENT #',NGL(I),
-     +        ' LAYER #',ILAYER,' TIME=',TT      
+     +        ' LAYER #',ILAYER,' TIME=',TT
         ENDIF
       ENDDO
 C---

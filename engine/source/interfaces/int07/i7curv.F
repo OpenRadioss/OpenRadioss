@@ -353,27 +353,27 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       DO I=1,JLT
-        L  = CAND_E(I)                
+        L  = CAND_E(I)
 
-        IX=IRECT(1,L)             
-        NNX1(I)=NOD_NORMAL(1,IX)  
-        NNY1(I)=NOD_NORMAL(2,IX)  
-        NNZ1(I)=NOD_NORMAL(3,IX)  
+        IX=IRECT(1,L)
+        NNX1(I)=NOD_NORMAL(1,IX)
+        NNY1(I)=NOD_NORMAL(2,IX)
+        NNZ1(I)=NOD_NORMAL(3,IX)
 
-        IX=IRECT(2,L)             
-        NNX2(I)=NOD_NORMAL(1,IX)  
-        NNY2(I)=NOD_NORMAL(2,IX)  
-        NNZ2(I)=NOD_NORMAL(3,IX)  
+        IX=IRECT(2,L)
+        NNX2(I)=NOD_NORMAL(1,IX)
+        NNY2(I)=NOD_NORMAL(2,IX)
+        NNZ2(I)=NOD_NORMAL(3,IX)
 
-        IX=IRECT(3,L)          
-        NNX3(I)=NOD_NORMAL(1,IX)  
-        NNY3(I)=NOD_NORMAL(2,IX)  
-        NNZ3(I)=NOD_NORMAL(3,IX)  
+        IX=IRECT(3,L)
+        NNX3(I)=NOD_NORMAL(1,IX)
+        NNY3(I)=NOD_NORMAL(2,IX)
+        NNZ3(I)=NOD_NORMAL(3,IX)
 
-        IX=IRECT(4,L)          
-        NNX4(I)=NOD_NORMAL(1,IX)  
-        NNY4(I)=NOD_NORMAL(2,IX)  
-        NNZ4(I)=NOD_NORMAL(3,IX)  
+        IX=IRECT(4,L)
+        NNX4(I)=NOD_NORMAL(1,IX)
+        NNY4(I)=NOD_NORMAL(2,IX)
+        NNZ4(I)=NOD_NORMAL(3,IX)
 
         X12 = X2(I) - X1(I)
         Y12 = Y2(I) - Y1(I)
@@ -396,22 +396,22 @@ C-----------------------------------------------
         L34L34 = X34*X34 + Y34*Y34 + Z34*Z34
         L41L41 = X41*X41 + Y41*Y41 + Z41*Z41
 
-        N1N1   = NNX1(I)*NNX1(I) 
+        N1N1   = NNX1(I)*NNX1(I)
      +         + NNY1(I)*NNY1(I)
      +         + NNZ1(I)*NNZ1(I)
-        N2N2   = NNX2(I)*NNX2(I) 
+        N2N2   = NNX2(I)*NNX2(I)
      +         + NNY2(I)*NNY2(I)
      +         + NNZ2(I)*NNZ2(I)
-        N3N3   = NNX3(I)*NNX3(I) 
+        N3N3   = NNX3(I)*NNX3(I)
      +         + NNY3(I)*NNY3(I)
      +         + NNZ3(I)*NNZ3(I)
-        N4N4   = NNX4(I)*NNX4(I) 
+        N4N4   = NNX4(I)*NNX4(I)
      +         + NNY4(I)*NNY4(I)
      +         + NNZ4(I)*NNZ4(I)
 
         NL  = NNX1(I)*X12
-     +      + NNY1(I)*Y12   
-     +      + NNZ1(I)*Z12   
+     +      + NNY1(I)*Y12
+     +      + NNZ1(I)*Z12
         N1L12N1L12 = NL*NL
         NL = NNX2(I)*X12
      +     + NNY2(I)*Y12
@@ -434,12 +434,12 @@ C-----------------------------------------------
      +     + NNZ4(I)*Z34
         N4L34N4L34 = NL*NL
         NL = NNX4(I)*X41
-     +     + NNY4(I)*Y41    
-     +     + NNZ4(I)*Z41    
+     +     + NNY4(I)*Y41
+     +     + NNZ4(I)*Z41
         N4L41N4L41 = NL*NL
         NL = NNX1(I)*X41
-     +     + NNY1(I)*Y41    
-     +     + NNZ1(I)*Z41    
+     +     + NNY1(I)*Y41
+     +     + NNZ1(I)*Z41
         N1L41N1L41 = NL*NL
 
 c            Z^2 = (L.N)^2 L^2 / 4(N^2 L^2 - (L.N)^2)
@@ -501,7 +501,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
       my_real
      .   XD, YD, ZD,
      .   NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
@@ -511,14 +511,14 @@ C-----------------------------------------------
      .   X43(MVSIZ),Y43(MVSIZ),Z43(MVSIZ),
      .   X23(MVSIZ),Y23(MVSIZ),Z23(MVSIZ),
      .   X14(MVSIZ),Y14(MVSIZ),Z14(MVSIZ),
-     .   NNX12(MVSIZ),NNY12(MVSIZ),NNZ12(MVSIZ), 
-     .   NNX43(MVSIZ),NNY43(MVSIZ),NNZ43(MVSIZ), 
-     .   NNX23(MVSIZ),NNY23(MVSIZ),NNZ23(MVSIZ), 
-     .   NNX14(MVSIZ),NNY14(MVSIZ),NNZ14(MVSIZ), 
+     .   NNX12(MVSIZ),NNY12(MVSIZ),NNZ12(MVSIZ),
+     .   NNX43(MVSIZ),NNY43(MVSIZ),NNZ43(MVSIZ),
+     .   NNX23(MVSIZ),NNY23(MVSIZ),NNZ23(MVSIZ),
+     .   NNX14(MVSIZ),NNY14(MVSIZ),NNZ14(MVSIZ),
      .   XA(MVSIZ),YA(MVSIZ),ZA(MVSIZ),
      .   XB(MVSIZ),YB(MVSIZ),ZB(MVSIZ),
-     .   NNXA(MVSIZ),NNYA(MVSIZ),NNZA(MVSIZ), 
-     .   NNXB(MVSIZ),NNYB(MVSIZ),NNZB(MVSIZ), 
+     .   NNXA(MVSIZ),NNYA(MVSIZ),NNZA(MVSIZ),
+     .   NNXB(MVSIZ),NNYB(MVSIZ),NNZB(MVSIZ),
      .   CSX(MVSIZ),CSY(MVSIZ),CSZ(MVSIZ),
      .   CRX(MVSIZ),CRY(MVSIZ),CRZ(MVSIZ),
      .   R(MVSIZ),S(MVSIZ),TT(MVSIZ),TA(MVSIZ),TB(MVSIZ),AAA,
@@ -531,21 +531,21 @@ c     des d riv s tagente et normale sur les bords
 C-----------------------------------------------
 
       DO I=1,JLT
-        NNX1(I)=NOD_NORMAL(1,IX1(I))  
-        NNY1(I)=NOD_NORMAL(2,IX1(I))  
-        NNZ1(I)=NOD_NORMAL(3,IX1(I))  
+        NNX1(I)=NOD_NORMAL(1,IX1(I))
+        NNY1(I)=NOD_NORMAL(2,IX1(I))
+        NNZ1(I)=NOD_NORMAL(3,IX1(I))
 
-        NNX2(I)=NOD_NORMAL(1,IX2(I))  
-        NNY2(I)=NOD_NORMAL(2,IX2(I))  
-        NNZ2(I)=NOD_NORMAL(3,IX2(I))  
+        NNX2(I)=NOD_NORMAL(1,IX2(I))
+        NNY2(I)=NOD_NORMAL(2,IX2(I))
+        NNZ2(I)=NOD_NORMAL(3,IX2(I))
 
-        NNX3(I)=NOD_NORMAL(1,IX3(I))  
-        NNY3(I)=NOD_NORMAL(2,IX3(I))  
-        NNZ3(I)=NOD_NORMAL(3,IX3(I))  
+        NNX3(I)=NOD_NORMAL(1,IX3(I))
+        NNY3(I)=NOD_NORMAL(2,IX3(I))
+        NNZ3(I)=NOD_NORMAL(3,IX3(I))
 
-        NNX4(I)=NOD_NORMAL(1,IX4(I))  
-        NNY4(I)=NOD_NORMAL(2,IX4(I))  
-        NNZ4(I)=NOD_NORMAL(3,IX4(I))  
+        NNX4(I)=NOD_NORMAL(1,IX4(I))
+        NNY4(I)=NOD_NORMAL(2,IX4(I))
+        NNZ4(I)=NOD_NORMAL(3,IX4(I))
 
 C-----------------------------------------------
 c       calcul de r,s   partir des Hi
@@ -555,7 +555,7 @@ C-----------------------------------------------
         EPS = EM4
         IF(H2(I)+H1(I)<EPS) RM = RP
         IF(H3(I)+H4(I)<EPS) RP = RM
-          
+
         SM = (H4(I)-H1(I))/MAX(EM20,H4(I)+H1(I))
         SP = (H3(I)-H2(I))/MAX(EM20,H3(I)+H2(I))
         IF(H4(I)+H1(I)<EPS) SM = SP
@@ -566,9 +566,9 @@ C-----------------------------------------------
         AAA = FOUR  - RPMM*SPMM
         RPPM = RP + RM
         SPPM = SP + SM
-       
-        R(I)= (RPPM + RPPM + SPPM*RPMM) / AAA  
-        S(I)= (SPPM + SPPM + RPPM*SPMM) / AAA 
+
+        R(I)= (RPPM + RPPM + SPPM*RPMM) / AAA
+        S(I)= (SPPM + SPPM + RPPM*SPMM) / AAA
 
       ENDDO
 cote 12
@@ -605,7 +605,7 @@ c ligne r
       DO I=1,JLT
 
 C-----------------------------------------------
-c       normale   la surface cubique en r,s 
+c       normale   la surface cubique en r,s
 c       produit vectoriel des vecteurs directeurs cr et cs
 C-----------------------------------------------
         NX = CRY(I)*CSZ(I)-CRZ(I)*CSY(I)
@@ -622,15 +622,15 @@ C-----------------------------------------------
         XA(I) = HALF*(XA(I)+XB(I))
         YA(I) = HALF*(YA(I)+YB(I))
         ZA(I) = HALF*(ZA(I)+ZB(I))
- 
+
 C-----------------------------------------------
-c       vecteur: point calcul  -> noeud second. 
+c       vecteur: point calcul  -> noeud second.
 C-----------------------------------------------
         XD = XI(I) - XA(I)
         YD = YI(I) - YA(I)
-        ZD = ZI(I) - ZA(I) 
+        ZD = ZI(I) - ZA(I)
 C-----------------------------------------------
-c       distance: surface cubique -> noeud second. 
+c       distance: surface cubique -> noeud second.
 C-----------------------------------------------
         DIST = NX*XD + NY*YD + NZ*ZD
 
@@ -654,7 +654,7 @@ C-----------------------------------------------
 C        IF(BBB<ZERO.OR.BBB>CCC)THEN
 C-----------------------------------------------
 c         s<-1 ou s>1
-c         on conserve la normale et la p n tration ancienne 
+c         on conserve la normale et la p n tration ancienne
 C-----------------------------------------------
 C        ELSE
           XX = X23(I) - X14(I)
@@ -670,7 +670,7 @@ C        ELSE
 C          IF(DDD<ZERO.OR.DDD>EEE)THEN
 C-----------------------------------------------
 c           r<-1 ou r>1
-c           on conserve la normale et la p n tration ancienne 
+c           on conserve la normale et la p n tration ancienne
 C-----------------------------------------------
 C          ELSE
 C-----------------------------------------------
@@ -726,21 +726,21 @@ C-----------------------------------------------
       INTEGER JLT
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), 
-     .   Y1(MVSIZ), Y2(MVSIZ), 
-     .   Z1(MVSIZ), Z2(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ),
+     .   Y1(MVSIZ), Y2(MVSIZ),
+     .   Z1(MVSIZ), Z2(MVSIZ),
      .   NNX1(MVSIZ), NNX2(MVSIZ),
      .   NNY1(MVSIZ), NNY2(MVSIZ),
      .   NNZ1(MVSIZ), NNZ2(MVSIZ),
      .   X12(MVSIZ),Y12(MVSIZ),Z12(MVSIZ),
-     .   NNX12(MVSIZ),NNY12(MVSIZ),NNZ12(MVSIZ), 
+     .   NNX12(MVSIZ),NNY12(MVSIZ),NNZ12(MVSIZ),
      .   CX(MVSIZ),CY(MVSIZ),CZ(MVSIZ),
      .   R(MVSIZ),TT(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K
-      my_real 
+      my_real
      .    AAA,A1,A2,A3,RR,DTDR,DTDR1,DTDR2,NR,NS,NT,NX,NY,NZ,R2,
      .    UPR2,UMR2,A3RR2,A2RR,
      .    ERX,ERY,ERZ,ESX,ESY,ESZ,ETX,ETY,ETZ
@@ -773,11 +773,11 @@ c   dr2 = 3 a3 r2^2 + 2 a2 r2 + a1
 c   a2 = - (dr2 + 2 a1)/r2
 c   a3 = - (a2 r2 + a1)/r2^2
 c
-c   a0 =  0 
+c   a0 =  0
 c   a1 = dr1
 c   a2 = - (dr2 + 2 dr1)/r2
 c   a3 = + (dr2 + dr1  )/r2^2
-c   
+c
       DO I=1,JLT
         ERX = X2(I)-X1(I)
         ERY = Y2(I)-Y1(I)
@@ -806,14 +806,14 @@ c
         ESX = ETY*ERZ-ETZ*ERY
         ESY = ETZ*ERX-ETX*ERZ
         ESZ = ETX*ERY-ETY*ERX
-      
+
 c---------------------------------------------------
 c       d riv  calcul e   partir des normales(non norm es)
 c---------------------------------------------------
-        DTDR1 = -(NNX1(I)*ERX+NNY1(I)*ERY+NNZ1(I)*ERZ) 
+        DTDR1 = -(NNX1(I)*ERX+NNY1(I)*ERY+NNZ1(I)*ERZ)
      .        /  (NNX1(I)*ETX+NNY1(I)*ETY+NNZ1(I)*ETZ)
 
-        DTDR2 = -(NNX2(I)*ERX+NNY2(I)*ERY+NNZ2(I)*ERZ) 
+        DTDR2 = -(NNX2(I)*ERX+NNY2(I)*ERY+NNZ2(I)*ERZ)
      .        /  (NNX2(I)*ETX+NNY2(I)*ETY+NNZ2(I)*ETZ)
 c---------------------------------------------------
 c       la d riv  est born e   +- 1 pour limiter la taille
@@ -826,7 +826,7 @@ c---------------------------------------------------
         UMR2 = HALF*(ONE-R(I))
         RR = UPR2*R2
 
-c   a0 =  0 
+c   a0 =  0
 c   a1 = dr1
 c   a2 = - (dr2 + 2 a1)/r2
 c   a3 = - (a2 r2 + a1)/r2^2
@@ -859,9 +859,9 @@ c---------------------------------------------------
         CY(I) = ERY + DTDR*ETY
         CZ(I) = ERZ + DTDR*ETZ
 
-        NX = UMR2*NNX1(I) + UPR2*NNX2(I)  
-        NY = UMR2*NNY1(I) + UPR2*NNY2(I)  
-        NZ = UMR2*NNZ1(I) + UPR2*NNZ2(I)  
+        NX = UMR2*NNX1(I) + UPR2*NNX2(I)
+        NY = UMR2*NNY1(I) + UPR2*NNY2(I)
+        NZ = UMR2*NNZ1(I) + UPR2*NNZ2(I)
 
         AAA = (NX*CX(I)+NY*CY(I)+NZ*CZ(I))
      .      / (CX(I)*CX(I)+CY(I)*CY(I)+CZ(I)*CZ(I))
@@ -893,31 +893,31 @@ c
 c   rr=0   t = 0     t'r = dr1
 c   rr=r2  t = 0     t'r = dr2
 c
-c   a0 =  0 
+c   a0 =  0
 c   a1 = dr1
 c   a2 = - (dr2 + 2 dr1)/r2
 c   a3 = + (dr2 + dr1  )/r2^2
-c--------------------------------------   
+c--------------------------------------
 c calcul tmax
 c
 c   t'r = 3 a3 rr^2 + 2 a2 rr + a1 = 0
 c
 c   rr = (-a2 +- sqrt(a2^2-3 a1 a3))/ 3*a3
-c   rr = ((dr2 + 2 dr1)/r2 
+c   rr = ((dr2 + 2 dr1)/r2
 c      +- sqrt((dr2 + 2 dr1)^2/r2^2 - 3 dr1(dr2 + dr1  )/r2^2))
 c      / (3(dr2 + dr1  )/r2^2)
-c   rr/r2 = ((dr2 + 2 dr1) 
+c   rr/r2 = ((dr2 + 2 dr1)
 c             +- sqrt((dr2 + 2 dr1)^2 - 3 dr1(dr2 + dr1  )))
 c           / (3(dr2 + dr1))
 c   rr/r2 = ((dr2 + 2 dr1) +- sqrt(dr2^2 + dr1^2 + dr1 dr2))
 c           / (3(dr2 + dr1))
-c 
+c
 c   R = rr/r2
 c   T = t/r2
 c   T = A3 R^3 + A2 R^2 + A1 R
-c   A1 = dr1 
-c   A2 = - (dr2 + 2 dr1) 
-c   A3 = + (dr2 + dr1  ) 
+c   A1 = dr1
+c   A2 = - (dr2 + 2 dr1)
+c   A3 = + (dr2 + dr1  )
 c
 c   R = ((dr2 + 2 dr1) +- sqrt(dr2^2 + dr1^2 + dr1 dr2))
 c           / (3(dr2 + dr1))
@@ -930,15 +930,15 @@ c        +- 2(dr2 + 2 dr1)sqrt(dr2^2 + dr1^2 + dr1 dr2))
 c   Rn^3 = [(2 dr2^2 + 5 dr1^2 + 5 dr1 dr2)
 c        +- 2(dr2 + 2 dr1)sqrt(dr2^2 + dr1^2 + dr1 dr2))]
 c        *[(dr2 + 2 dr1) +- sqrt(dr2^2 + dr1^2 + dr1 dr2)]
-c   Rn^3 = 
+c   Rn^3 =
 c         + 2 dr2^3 + 5 dr1^2 dr2 + 5 dr1 dr2^2
 c         + 4 dr1 dr2^2 + 10 dr1^3 + 10 dr1^2 dr2
 c         + 2 dr2^3 + 2 dr1^2 dr2 + 2 dr1 dr2^2
 c         + 4 dr1 dr2^2 +  4 dr1^3 +  4 dr1^2 dr2
 c         +-sqrt(dr2^2 + dr1^2 + dr1 dr2)
 c               [13 dr1^2 + 4 dr2^2 + 13 dr1 dr2]
-c   Rn^3 = 
-c         + 14 dr1^3 
+c   Rn^3 =
+c         + 14 dr1^3
 c         + 21 dr1^2 dr2
 c         + 15 dr1 dr2^2
 c         + 4 dr2^3
@@ -946,21 +946,21 @@ c         +-sqrt(dr2^2 + dr1^2 + dr1 dr2)
 c               [13 dr1^2 + 4 dr2^2 + 13 dr1 dr2]
 c
 c   si 0 < R < 1
-c        T = (dr2 + dr1) Rn^3 / (3^3(dr2 + dr1)^3) 
+c        T = (dr2 + dr1) Rn^3 / (3^3(dr2 + dr1)^3)
 c          - (dr2 + 2 dr1) Rn / (3^2(dr2 + dr1)^2)
 c          + dr1 Rn / (3(dr2 + dr1))
 c
-c        T = Rn^3 / (27(dr2 + dr1)^2) 
+c        T = Rn^3 / (27(dr2 + dr1)^2)
 c          - 3(dr2 + 2 dr1) Rn^2 / (27(dr2 + dr1)^2)
 c          + 9 (dr2 + dr1)dr1 Rn / (27(dr2 + dr1)^2)
 c
-c        T = (Rn^3  
-c          - 3(dr2 + 2 dr1) Rn^2 
+c        T = (Rn^3
+c          - 3(dr2 + 2 dr1) Rn^2
 c          + 9(dr2 + dr1)dr1 Rn ) / (27(dr2 + dr1)^2)
 c
 c
-c       T (27(dr2 + dr1)^2) = 
-c         + 14 dr1^3 
+c       T (27(dr2 + dr1)^2) =
+c         + 14 dr1^3
 c         + 21 dr1^2 dr2
 c         + 15 dr1 dr2^2
 c         + 4 dr2^3
@@ -968,30 +968,30 @@ c         +-sqrt(dr2^2 + dr1^2 + dr1 dr2)
 c               [13 dr1^2 + 4 dr2^2 + 13 dr1 dr2]
 c         - 3(dr2 + 2 dr1)[(2 dr2^2 + 5 dr1^2 + 5 dr1 dr2)
 c                  +- 2(dr2 + 2 dr1)sqrt(dr2^2 + dr1^2 + dr1 dr2))]
-c         + 9(dr2 + dr1)dr1 [(dr2 + 2 dr1) +- sqrt(dr2^2 + dr1^2 + dr1 dr2)]    
+c         + 9(dr2 + dr1)dr1 [(dr2 + 2 dr1) +- sqrt(dr2^2 + dr1^2 + dr1 dr2)]
 c
-c       T (27(dr2 + dr1)^2) = 
-c         - 16 dr1^3 
+c       T (27(dr2 + dr1)^2) =
+c         - 16 dr1^3
 c         + 3 dr1^2 dr2
 c         - 3 dr1 dr2^2
-c         + 16 dr2^3 
+c         + 16 dr2^3
 c         +-sqrt(dr2^2 + dr1^2 + dr1 dr2)
 c               [13 dr1^2 + 4 dr2^2 + 13 dr1 dr2
 c               - 3(dr2 + 2 dr1)2(dr2 + 2 dr1))
-c               + 9(dr2 + dr1)dr1 ]   
+c               + 9(dr2 + dr1)dr1 ]
 c
-c       T (27(dr2 + dr1)^2) = 
-c         - 16 dr1^3 + 3 dr1^2 dr2 - 3 dr1 dr2^2 + 16 dr2^3 
-c         -+ 2 [dr1^2 + dr2^2 + dr1dr2]^(3/2)   
+c       T (27(dr2 + dr1)^2) =
+c         - 16 dr1^3 + 3 dr1^2 dr2 - 3 dr1 dr2^2 + 16 dr2^3
+c         -+ 2 [dr1^2 + dr2^2 + dr1dr2]^(3/2)
 c
-c       T (27(dr2 + dr1)^2) = 
-c         - 15 (dr1^3 - dr2^3) 
-c         - (dr1 - dr2)^3 
-c         -+ 2 [dr1^2 + dr2^2 + dr1dr2]^(3/2)   
+c       T (27(dr2 + dr1)^2) =
+c         - 15 (dr1^3 - dr2^3)
+c         - (dr1 - dr2)^3
+c         -+ 2 [dr1^2 + dr2^2 + dr1dr2]^(3/2)
 c
-c  dr2=-dr1   
-c           T (27(-dr1+dr1)^2) = 
-c             - 38 dr1^3 
+c  dr2=-dr1
+c           T (27(-dr1+dr1)^2) =
+c             - 38 dr1^3
 
 
 

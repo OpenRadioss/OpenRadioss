@@ -27,7 +27,7 @@ Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem
 Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|====================================================================
-      SUBROUTINE QNORM2T (NEL, NFT, JALE, SYM, IXTG, XGRID, WGRID, 
+      SUBROUTINE QNORM2T (NEL, NFT, JALE, SYM, IXTG, XGRID, WGRID,
      .     NORM, WFAC, SURF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -50,7 +50,7 @@ C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEL, NFT, JALE, SYM, IXTG(NIXTG, *)
-      my_real, INTENT(IN) :: 
+      my_real, INTENT(IN) ::
      .     XGRID(3, *), WGRID(*)
       my_real, INTENT(OUT) :: WFAC(3, 3, NEL), SURF(3, NEL)
       my_real, INTENT(OUT), TARGET :: NORM(3, 3, NEL)
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II, NODE1, NODE2, NODE3, KFACE
-      my_real ::  
+      my_real ::
      .     X1(3), X2(3), X3(3), XK(3), XF(1:3),
      .     W1(3), W2(3), W3(3)
       my_real, POINTER :: NX, NY, NZ

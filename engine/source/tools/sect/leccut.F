@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER  I,J,ITYP
 C     REAL
       my_real
-     . X0(3),VN(3),VIT,VNN  
+     . X0(3),VN(3),VIT,VNN
       CHARACTER IDTITL*40
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -89,14 +89,14 @@ C-----------------------------------------------
           WRITE(IOUT,1200)(X0(J),J=1,3),(VN(J),J=1,3),VIT
          ELSE
           READ(IIN,'(3I8)')(ICUT(J,I),J=2,4)
-          WRITE(IOUT,1300)(ICUT(J,I),J=2,4)          
+          WRITE(IOUT,1300)(ICUT(J,I),J=2,4)
           DO40 J=1,7
  40         XCUT(J,I)=ZERO
           DO45 J=2,4
             ICUT(J,I)=SYSFUS(ICUT(J,I),ITABM1,NUMNOD,' ** ERROR ** CUT')
- 45       CONTINUE 
+ 45       CONTINUE
          ENDIF
- 100  CONTINUE     
+ 100  CONTINUE
 C
       RETURN
 C

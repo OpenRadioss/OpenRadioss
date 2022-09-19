@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE INOUTFILE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD      
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
       INTEGER IDUM1,IDUM3,IDUM4
       INTEGER NOD,DUM_INT,DUM_INT2
       INTEGER II,NALL,LENGTH,FLAG,SIZE_STIFF,SIZE_MASS
-      my_real 
+      my_real
      .        FREQ,BETA,OMEGA,DTC1,DTC2,BID
       my_real RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
       CHARACTER TITR*nchartitle,MESS*40,MESS1*40,NWLINE*100,
@@ -124,13 +124,13 @@ C
         SIZE_MASS      = 0
 C
         ! Title and ID
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID   = ID, 
-     .                          OPTION_TITR = TITR)  
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID   = ID,
+     .                          OPTION_TITR = TITR)
 C
         ! Integer data card
-        CALL HM_GET_INTV('node_IDm',IDUM1 ,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('node_IDm',IDUM1 ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Imin'    ,IMIN  ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('Imax'    ,IMAX  ,IS_AVAILABLE,LSUBMODEL)
 C
@@ -150,7 +150,7 @@ C
           DO I=1,NUMNOD
             IF (ITAG(I) > 0) THEN
               NBNO = NBNO + 1
-            ENDIF 
+            ENDIF
           ENDDO
 C
           FXBIPM(41,NFX) = 2
@@ -169,7 +169,7 @@ C
      .        STATUS='OLD',ERR=999)
 
           CALL FXRLINE(IFICM,NWLINE,ID,TITR)
-          READ(NWLINE,FMT='(7I8)',ERR=9999) 
+          READ(NWLINE,FMT='(7I8)',ERR=9999)
      .        NMOD, NMST, NBNO, ISHELL, IDAMP, IBLO, IFILE
 C
           IF (ISHELL == 0) THEN
@@ -208,10 +208,10 @@ C
           NTR = 9
           CALL FXRLINE(IFICM,NWLINE,ID,TITR)
           READ(NWLINE,'(5F16.0)',ERR=9999)
-     .        RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .        RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
           CALL FXRLINE(IFICM,NWLINE,ID,TITR)
           READ(NWLINE,'(5F16.0)',ERR=9999)
-     .       RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .       RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
 C
           IF (IDAMP > 0) THEN
             CALL FXRLINE(IFICM,NWLINE,ID,TITR)
@@ -242,13 +242,13 @@ C
             NRES = LEN-NLIG*5
             DO ILIG = 1,NLIG
                CALL FXRLINE(IFICM,NWLINE,ID,TITR)
-               READ(NWLINE,'(5F16.0)',ERR=9999) 
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+               READ(NWLINE,'(5F16.0)',ERR=9999)
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
             ENDDO
             IF (NRES > 0) THEN
                CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
             ENDIF
           ENDIF
 C
@@ -259,12 +259,12 @@ C
             DO ILIG = 1,NLIG
               CALL FXRLINE(IFICM,NWLINE,ID,TITR)
               READ(NWLINE,'(5F16.0)',ERR=9999)
-     .             RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .             RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
             ENDDO
             IF (NRES > 0) THEN
               CALL FXRLINE(IFICM,NWLINE,ID,TITR)
               READ(NWLINE,'(5F16.0)',ERR=9999)
-     .             RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .             RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
             ENDIF
           ENDIF
 C                   
@@ -275,12 +275,12 @@ C
             DO ILIG = 1,NLIG
                CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
             ENDDO
             IF (NRES > 0) THEN
                CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
             ENDIF
           ENDIF
 C                   
@@ -294,12 +294,12 @@ C
           DO ILIG = 1,NLIG
             CALL FXRLINE(IFICM,NWLINE,ID,TITR)
             READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
           ENDDO
           IF (NRES > 0) THEN
             CALL FXRLINE(IFICM,NWLINE,ID,TITR)
             READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
           ENDIF
 C                   
           IF (NMOD > 0) THEN
@@ -311,12 +311,12 @@ C
                DO ILIG = 1,NLIG
                   CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                   READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
                ENDDO
                IF (NRES > 0) THEN
                   CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                   READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
                ENDIF
             ENDDO
 C
@@ -327,12 +327,12 @@ C
                DO ILIG = 1,NLIG
                   CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                   READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
                ENDDO
                IF (NRES > 0) THEN
                   CALL FXRLINE(IFICM,NWLINE,ID,TITR)
                   READ(NWLINE,'(5F16.0)',ERR=9999)
-     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5 
+     .              RDUM1,RDUM2,RDUM3,RDUM4,RDUM5
                ENDIF
             ENDDO
           ENDIF
@@ -350,7 +350,7 @@ C Solid elements
           NALL = ITAG(IXS(2,II)) * ITAG(IXS(3,II)) *
      +           ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
      +           ITAG(IXS(6,II)) * ITAG(IXS(7,II)) *
-     +           ITAG(IXS(8,II)) * ITAG(IXS(9,II)) 
+     +           ITAG(IXS(8,II)) * ITAG(IXS(9,II))
           IF (NALL /= 0) THEN
             ISOLOFF(II) = 3
           END IF
@@ -359,7 +359,7 @@ C Solid elements
 C 4-nodes shell elements
         DO II=1,NUMELC
           NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
-     +           ITAG(IXC(4,II)) * ITAG(IXC(5,II)) 
+     +           ITAG(IXC(4,II)) * ITAG(IXC(5,II))
           IF (NALL /= 0) THEN
              ISHEOFF(II) = 3
           END IF
@@ -388,7 +388,7 @@ C Spring elements
              IRESOFF(II) = 3
           END IF
         ENDDO
- 
+
 C 3-nodes shell elements
         DO II=1,NUMELTG
           NALL = ITAG(IXTG(2,II)) * ITAG(IXTG(3,II)) * ITAG(IXTG(4,II))
@@ -398,7 +398,7 @@ C 3-nodes shell elements
         ENDDO
 C
       ENDDO ! end loop on flexible bodies
-     
+
 
       IF (ALLOCATED(ITAG)) DEALLOCATE (ITAG)
 C
@@ -417,4 +417,3 @@ C
       RETURN
 C
       END SUBROUTINE HM_SETFXRBYON
-      

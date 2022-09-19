@@ -136,7 +136,7 @@ C         FIXE SUR LA DIRECTION DANS LE MEME SKEW (ERROR)
           JWARN = 1
         ENDIF
       ELSE
-c       lagrange multipliers (IDIR = 7)    
+c       lagrange multipliers (IDIR = 7)
         ISKWT = IKINE(1+  NUMNOD)/10
         ISKWR = IKINE(1+2*NUMNOD)/10
         ITRAN = IKINE(1+  NUMNOD) - 10*ISKWT
@@ -223,7 +223,7 @@ C---------------------------------------------------------------
             IF(IBC(IKINE(1))== 1 .AND. IBC(IKINE(1+3*NUMNOD))== 0)
      .              IKINE(1+3*NUMNOD) = IKINE(1+3*NUMNOD) + 1
           ELSEIF(IK==2)THEN     ! interface
-            IF(ITF(IKINE(1))== 1 .AND. ITF(IKINE(1+3*NUMNOD))== 0) 
+            IF(ITF(IKINE(1))== 1 .AND. ITF(IKINE(1+3*NUMNOD))== 0)
      .              IKINE(1+3*NUMNOD) = IKINE(1+3*NUMNOD) + 2
           ELSEIF(IK==4)THEN
             IF(IWL(IKINE(1))== 1 .AND. IWL(IKINE(1+3*NUMNOD))== 0)
@@ -458,7 +458,7 @@ C
             LDIRECT = 7
          ENDIF
 C
-         IF ((IWL(IKINE(1))/=1 .OR. IRB(IKINE(1))/=1) .AND. 
+         IF ((IWL(IKINE(1))/=1 .OR. IRB(IKINE(1))/=1) .AND.
      .        IPRI >= 5) THEN
 C
 C ANINFO_BLIND_2 : Print Nothing on screen, title + description in file

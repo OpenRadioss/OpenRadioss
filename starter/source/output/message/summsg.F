@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER  IEND,CPT,MODE,I,J,NBERR,NBWARN,K,CPTWARN,CPTERR
       INTEGER  ITAB(5,IWARN+IERR), WORK(70000), INDEX_WARN(5*(IWARN+IERR)),
      .         INDEX_ERR(5*(IWARN+IERR)),ITRI_WARN(5,IWARN+IERR+1),
-     .         ITRI_ERR(5,IWARN+IERR+1),IOPTIONTYPE(50,IWARN+IERR), 
+     .         ITRI_ERR(5,IWARN+IERR+1),IOPTIONTYPE(50,IWARN+IERR),
      .         INDEXOPT(50*(IWARN+IERR)),INDEXOPT_1(50*(IWARN+IERR)),
      .         W_CPT_TYP(IWARN+IERR),E_CPT_TYP(IWARN+IERR),
      .         W_OPTION_INDEX(IWARN+IERR+2),E_OPTION_INDEX(IWARN+IERR+2)
@@ -91,7 +91,7 @@ c///////////////////////////////////
             INDEX_WARN(CPT) = CPT
             READ(TMPIN(10:110),'(A)') OPTIONTYPE(CPT)
             DO I=1,50
-              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I)) 
+              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I))
             ENDDO
 c
             READ(RES_CHECK,'(A)',END=110) TMPIN
@@ -119,7 +119,7 @@ C
             INDEX_WARN(CPT) = CPT
             OPTIONTYPE(CPT) = 'NO CATEGORY'
             DO I=1,50
-              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I)) 
+              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I))
               ITRI_WARN(2,CPT) = 0
               ITAB(4,CPT) = 9998
               ITAB(5,CPT) = 1
@@ -135,7 +135,7 @@ c
         ENDDO
         J = 1
         DO I=2,CPT
-          IF(  OPTIONTYPE(INDEXOPT(I))(1:50) == 
+          IF(  OPTIONTYPE(INDEXOPT(I))(1:50) ==
      .         OPTIONTYPE(INDEXOPT(I-1))(1:50) ) THEN
                     INDEXOPT(I) = INDEXOPT(I-1)
           ENDIF
@@ -204,7 +204,7 @@ c///////////////////////////////////
             INDEX_ERR(CPT) = CPT
             READ(TMPIN(10:110),'(A)') OPTIONTYPE(CPT)
             DO I=1,50
-              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I)) 
+              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I))
             ENDDO
 c
             READ(RES_CHECK,'(A)',END=110) TMPIN
@@ -232,7 +232,7 @@ c
             INDEX_ERR(CPT) = CPT
             OPTIONTYPE(CPT) = 'NO CATEGORY'
             DO I=1,50
-              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I)) 
+              IOPTIONTYPE(I,CPT) = ICHAR(OPTIONTYPE(CPT)(I:I))
               ITRI_ERR(2,CPT) = 0
               ITAB(4,CPT) = 9998
               ITAB(5,CPT) = 1
@@ -248,7 +248,7 @@ c
         ENDDO
         J = 1
         DO I=2,CPT
-          IF(  OPTIONTYPE(INDEXOPT(I))(1:50) == 
+          IF(  OPTIONTYPE(INDEXOPT(I))(1:50) ==
      .         OPTIONTYPE(INDEXOPT(I-1))(1:50) ) THEN
                     INDEXOPT(I) = INDEXOPT(I-1)
           ENDIF
@@ -302,34 +302,34 @@ c///////////////////////////////////
       ALLOCATE(SUM_WARN(CPTWARN*10),SUM_ERR(CPTERR*10))
       IF( IERR + IWARN /= 0 ) THEN
 c
-            IF(CPTWARN /= 0) THEN 
+            IF(CPTWARN /= 0) THEN
               NBWARN = NBWARN + 1
               WRITE(TMP_CHAR ,'(A)') '  '
               DO I=1,58
                 SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-              ENDDO 
+              ENDDO
             ENDIF
 c
-            DO J=1,IERR+IWARN 
-              IF(W_CPT_TYP(J) /= 0) THEN 
+            DO J=1,IERR+IWARN
+              IF(W_CPT_TYP(J) /= 0) THEN
                 NBWARN = NBWARN + 1
                 WRITE(TMP_CHAR ,'(2X,A,A,5X,I6,1X,A)') '---',
      .          	 W_OPTION_TYPE(J),W_CPT_TYP(J),'WARNING(S) '
                 DO I=1,58
                   SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 c
                 NBWARN = NBWARN + 1
                 WRITE(TMP_CHAR ,'(7X,A)') '|'
                 DO I=1,58
                   SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 c
                 NBWARN = NBWARN + 1
                 WRITE(TMP_CHAR ,'(7X,A)') '|'
                 DO I=1,58
                   SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 c
                 DO K=W_OPTION_INDEX(J),W_OPTION_INDEX(J+1)-1
                   IF(ITRI_WARN(3,INDEX_WARN(K+1)) /= ITRI_WARN(3,INDEX_WARN(K)) )THEN
@@ -343,21 +343,21 @@ c
                    ENDIF
                    DO I=1,58
                      SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                   ENDDO 
+                   ENDDO
                    IF (ALLOCATED(MESSAGES(1,ITRI_WARN(3,INDEX_WARN(K)))%MESSAGE)) THEN
                      NBWARN = NBWARN + 1
                      WRITE(TMP_CHAR ,'(7X,A,A)') '| ',
      .                   MESSAGES(1,ITRI_WARN(3,INDEX_WARN(K)))%MESSAGE(1)(1:50)
                      DO I=1,58
                        SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                     ENDDO 
+                     ENDDO
                    ENDIF
 c
                    NBWARN = NBWARN + 1
                    WRITE(TMP_CHAR ,'(7X,A)') '|'
                    DO I=1,58
                      SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                   ENDDO 
+                   ENDDO
                   ENDIF
 c
                 ENDDO
@@ -366,12 +366,12 @@ c
                 WRITE(TMP_CHAR ,'(A)') '  '
                 DO I=1,58
                   SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
                 NBWARN = NBWARN + 1
                 WRITE(TMP_CHAR ,'(A)') '  '
                 DO I=1,58
                   SUM_WARN(NBWARN)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 C
               ENDIF
             ENDDO
@@ -382,28 +382,28 @@ c
               WRITE(TMP_CHAR ,'(A)') '  '
               DO I=1,58
                 SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-              ENDDO 
+              ENDDO
             ENDIF
-            DO J=1,IERR+IWARN  
-              IF(E_CPT_TYP(J) /= 0) THEN 
+            DO J=1,IERR+IWARN
+              IF(E_CPT_TYP(J) /= 0) THEN
                 NBERR = NBERR + 1
                 WRITE(TMP_CHAR ,'(2X,A,A,5X,I6,1X,A)') '---',
      .          	 E_OPTION_TYPE(J),E_CPT_TYP(J),'  ERROR(S) '
                 DO I=1,58
                   SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 c
                 NBERR = NBERR+ 1
                 WRITE(TMP_CHAR ,'(7X,A)') '|'
                 DO I=1,58
                   SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 c
                 NBERR = NBERR+ 1
                 WRITE(TMP_CHAR ,'(7X,A)') '|'
                 DO I=1,58
                   SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 c
                 DO K=E_OPTION_INDEX(J),E_OPTION_INDEX(J+1)-1
                   IF(ITRI_ERR(3,INDEX_ERR(K+1)) /= ITRI_ERR(3,INDEX_ERR(K)) )THEN
@@ -427,27 +427,27 @@ c
      .                   MESSAGES(1,ITRI_ERR(3,INDEX_ERR(K)))%MESSAGE(1)(1:50)
                      DO I=1,58
                        SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                     ENDDO 
+                     ENDDO
                    ENDIF
 c
                    NBERR = NBERR + 1
                    WRITE(TMP_CHAR ,'(7X,A)') '|'
                    DO I=1,58
                      SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                   ENDDO 
-                  ENDIF 
+                   ENDDO
+                  ENDIF
                 ENDDO
 c
                 NBERR = NBERR + 1
                 WRITE(TMP_CHAR ,'(A)') '  '
                 DO I=1,58
                   SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
                 NBERR = NBERR + 1
                 WRITE(TMP_CHAR ,'(A)') '  '
                 DO I=1,58
                   SUM_ERR(NBERR)(I:I) = TMP_CHAR(I:I)
-                ENDDO 
+                ENDDO
 C
               ENDIF
             ENDDO
@@ -457,8 +457,8 @@ C
             WRITE(IOUT,MYFMT)'----------------------------------------------
      .----------------------------------------------------------------------
      .----'
-            WRITE(IOUT,MYFMT)'|            ERROR(S) SUMMARY                 
-     .              |             WARNING(S) SUMMARY                        
+            WRITE(IOUT,MYFMT)'|            ERROR(S) SUMMARY
+     .              |             WARNING(S) SUMMARY
      .   |'
             WRITE(IOUT,MYFMT)'----------------------------------------------
      .----------------------------------------------------------------------
@@ -500,6 +500,6 @@ C
 
 
 
-          
+
       RETURN
       END SUBROUTINE

@@ -75,7 +75,7 @@ C     REAL
       my_real
      .   AMU(MVSIZ), SUM,DTR,DTREP_R,DIVDE(MVSIZ),JAC_M(MVSIZ),
      .   JAC(MVSIZ),FAC,BASE,JFAC,DVDP
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOL0DP(*),VOLDP(*)
 
 C----------------------------
@@ -92,11 +92,11 @@ C----------------------------
            SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
            AMU(I) = FOUR/SUM -ONE
            DIVDE(I) = AMU0(I)-AMU(I)
-           DTR=DIVDE(I)/DT1             
+           DTR=DIVDE(I)/DT1
            DTREP_R = THIRD*(DTR-DXX(I)-DYY(I)-DZZ(I))
            DXX(I) = DXX(I) + DTREP_R
            DYY(I) = DYY(I) + DTREP_R
-           DZZ(I) = DZZ(I) + DTREP_R 
+           DZZ(I) = DZZ(I) + DTREP_R
            AMU0(I)= RHO(I)/RHO0-ONE-DIVDE(I)
           ENDDO
         END IF
@@ -105,12 +105,12 @@ c-------------------------------------------------------------------------
         DO I=LFT,LLT
          IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
          SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
-         VOLN(I)=FOURTH*SUM*VOL0(I) 
+         VOLN(I)=FOURTH*SUM*VOL0(I)
          IF(IRESP==1)THEN
-           VOLDP(I) = VOLN(I) 
-         ENDIF            
+           VOLDP(I) = VOLN(I)
+         ENDIF
         ENDDO
-        IF (MATPARAM(MX)%STRAIN_FORMULATION==1) THEN 
+        IF (MATPARAM(MX)%STRAIN_FORMULATION==1) THEN
 C------compute AMU(t+dt) for large strain   
           IF(IRESP==1)THEN
             AMU(LFT:LLT) = VOL0DP(LFT:LLT)/VOLDP(LFT:LLT) - ONE
@@ -119,22 +119,22 @@ C------compute AMU(t+dt) for large strain
           END IF
           IF (TT==ZERO) THEN
             AMU0(LFT:LLT) = AMU(LFT:LLT)
-          ELSE          
+          ELSE
             DO I = LFT,LLT
               IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
               DTR   = (DXX(I) + DYY(I) + DZZ(I))*DT1
               DTREP_R = THIRD*((AMU(I)-AMU0(I))+DTR)/DT1
               DXX(I) = DXX(I) - DTREP_R
               DYY(I) = DYY(I) - DTREP_R
-              DZZ(I) = DZZ(I) - DTREP_R  
+              DZZ(I) = DZZ(I) - DTREP_R
               AMU0(I) = AMU(I)
             ENDDO
-          END IF            
+          END IF
         ENDIF
         IF(ISMSTR>=10)THEN
            DO I=LFT,LLT
             IF(OFFG(I)==ZERO) CYCLE
-            JAC_M(I)=VOLN(I)/VOL0(I)             
+            JAC_M(I)=VOLN(I)/VOL0(I)
            ENDDO
         ENDIF
         IF((ISMSTR==2.OR.ISMSTR==12).AND.IDTMIN(1)==3) THEN
@@ -149,11 +149,11 @@ C------compute AMU(t+dt) for large strain
              SUM=VARNOD(NC1(I))+VARNOD(NC2(I))+VARNOD(NC3(I))+VARNOD(NC4(I))
              AMU(I) = FOUR/SUM -ONE
              DIVDE(I) = AMU0(I)-AMU(I)
-             DTR=DIVDE(I)/DT1             
+             DTR=DIVDE(I)/DT1
              DTREP_R = THIRD*(DTR-DXX(I)-DYY(I)-DZZ(I))
              DXX(I) = DXX(I) + DTREP_R
              DYY(I) = DYY(I) + DTREP_R
-             DZZ(I) = DZZ(I) + DTREP_R  
+             DZZ(I) = DZZ(I) + DTREP_R
              DVDP = DIVDE(I)*(VOL0(I)/VOLN(I))
              AMU0(I)= RHO(I)/RHO0-ONE-DVDP
             ENDDO
@@ -175,7 +175,7 @@ C---- modify Dii w/ rho/rho_0
           DTREP_R = -THIRD*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
           FXX(I) = FXX(I) + DTREP_R
           FYY(I) = FYY(I) + DTREP_R
-          FZZ(I) = FZZ(I) + DTREP_R 
+          FZZ(I) = FZZ(I) + DTREP_R
         ENDDO
        ELSEIF(ISMSTR>=10) THEN
         DO I=LFT,LLT
@@ -183,7 +183,7 @@ C---- modify Dii w/ rho/rho_0
           DTREP_R = -THIRD*(AMU0(I)+FXX(I)+FYY(I)+FZZ(I))
           FXX(I) = FXX(I) + DTREP_R
           FYY(I) = FYY(I) + DTREP_R
-          FZZ(I) = FZZ(I) + DTREP_R 
+          FZZ(I) = FZZ(I) + DTREP_R
         ENDDO
         CALL JACOB_J33(JAC,
      .                FXX, FXY, FXZ ,

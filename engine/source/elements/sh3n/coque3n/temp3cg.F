@@ -27,7 +27,7 @@ Chd|        C3FORC3                       source/elements/sh3n/coque3n/c3forc3.F
 Chd|        C3FORC3_CRK                   source/elements/xfem/c3forc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TEMP3CG(JFT ,JLT   , PM   ,MAT   ,IXTG ,   
+      SUBROUTINE TEMP3CG(JFT ,JLT   , PM   ,MAT   ,IXTG ,
      3                  TEMP ,TEMPEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C     REAL  
 C --- calcul de la tempurature au CG 
         DO I=JFT,JLT
-          TEMPEL(I) = THIRD * ( TEMP(IXTG(2,I)) + TEMP(IXTG(3,I)) + 
+          TEMPEL(I) = THIRD * ( TEMP(IXTG(2,I)) + TEMP(IXTG(3,I)) +
      .                          TEMP(IXTG(4,I))  )
        ENDDO
 C

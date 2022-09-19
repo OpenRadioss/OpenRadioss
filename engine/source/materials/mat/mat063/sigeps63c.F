@@ -163,7 +163,7 @@ C-----------------------------------------------
      .        BHS, CN, CM, K1,
      .        K2, DH, VM0, TEMP(MVSIZ),
      .        VOL0,DVM, VM(MVSIZ),HK(MVSIZ),NU,
-     .        NNU2,NU1,NU2,NU3,NU4, 
+     .        NNU2,NU1,NU2,NU3,NU4,
      .        NU5,NU6,SVM(MVSIZ)
       my_real
      .        DPLA(MVSIZ),UMR, R, CP, EPS0,DEZZ,S1, S2,
@@ -211,7 +211,7 @@ C
          DO I=1,NEL0
            TEMP(I) = UPARAM(22)
 C latent heat            
-           COEF(I)  = UPARAM(24)                     
+           COEF(I)  = UPARAM(24)
          ENDDO
 C
        IF (ISIGI==0) THEN
@@ -219,7 +219,7 @@ C
          DO I=1,NEL0
            UVAR(I,1) = ZERO
            UVAR(I,2) = VM0
-           UVAR(I,3) = ZERO  
+           UVAR(I,3) = ZERO
            UVAR(I,4) = ZERO
          ENDDO
        ENDIF
@@ -239,32 +239,32 @@ C
        ENDDO
 C
         IF(JTHE > 0 ) THEN
-         DO I=1,NEL0              
+         DO I=1,NEL0
            TEMP(I) = TEMPEL(I)
-         ENDDO  
+         ENDDO
         ELSE
           DO I=1,NEL0
             VOL0 = VOL(I) * RHO0(I)
-            VM(I) = UVAR(I,2)      
-            TEMP(I) = TEMP(I) 
+            VM(I) = UVAR(I,2)
+            TEMP(I) = TEMP(I)
      .              + (   COEF(I)*(EINT(I,1)+ EINT(I,2))
      .                  + VM(I)*HL ) * CP /VOL0
-clm     .                + COEF(I)*CP(I)*(EINT(I,1)+ EINT(I,2))/VOL0 
+clm     .                + COEF(I)*CP(I)*(EINT(I,1)+ EINT(I,2))/VOL0
 clm     .                + CP(I)*VM(I)*HL(I)/VOL0
           ENDDO
         ENDIF
 C
 C compute YLD stress
        DO I=1,NEL0
-         VM(I) = UVAR(I,2)  
+         VM(I) = UVAR(I,2)
 
 clm         YLD(I) = ( BHS(I) - (BHS(I) - AHS(I))*
 clm     .          EXP(-CM(I) * EXP(CN(I)*LOG(MAX(EM20,PLA(I)+EPS0(I))))))
-clm     .          *( K1(I) + K2(I)*TEMP(I) ) + DH(I)*VM(I)        
+clm     .          *( K1(I) + K2(I)*TEMP(I) ) + DH(I)*VM(I)
 clm        H(I) = CM(I)*CN(I)*( BHS(I) - AHS(I) )
 clm     .          * EXP( (CN(I) - 1)*LOG( MAX(EM20,PLA(I) + EPS0(I))))
 clm     .          * EXP(-CM(I)*EXP(CN(I)*LOG(MAX(EM20, PLA(I)+EPS0(I)))))
-clm     .          * (K1(I)+K2(I)*TEMP(I))          
+clm     .          * (K1(I)+K2(I)*TEMP(I))
 
         AUX0 = PLA(I)+EPS0
         AUX1 = LOG(MAX(EM20,AUX0))
@@ -273,13 +273,13 @@ clm     .          * (K1(I)+K2(I)*TEMP(I))
         KT(I)= K1 + K2*TEMP(I)
 
         YLD(I) = ( BHS - AUX3 ) * KT(I)
-     .         + DH*VM(I)        
+     .         + DH*VM(I)
         H(I)   = CM*CN* AUX2 * AUX3 * KT(I)
 
-c       H(I)  = H(I) 
+c       H(I)  = H(I)
 ctmp + DH(I)*UVAR(I,3)
         DPLA(I) =ZERO
-       ENDDO      
+       ENDDO
 C-------------------
 C     PROJECTION
 C-------------------
@@ -304,7 +304,7 @@ Ctmp           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
              DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU1-NU3*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
-           IF(R<1.) ETSE(I)= H(I)/(H(I)+E) 
+           IF(R<1.) ETSE(I)= H(I)/(H(I)+E)
          ENDDO
        ELSEIF(IFLAG(1)==1)THEN
 C-------------------------
@@ -317,10 +317,10 @@ C-------------------------
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I)) 
-           IF (INLOC == 0) THEN 
+           SVM(I)=SQRT(AA(I)+BB(I))
+           IF (INLOC == 0) THEN
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
-             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)       
+             THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
          ENDDO
 C-------------------------
@@ -341,7 +341,7 @@ C---------------------------
           DO J=1,NINDX
            I=INDEX(J)
            DPLA_J(I)=(SVM(I)-YLD(I))/(G3+H(I))
-           ETSE(I)= H(I)/(H(I)+E) 
+           ETSE(I)= H(I)/(H(I)+E)
           ENDDO
 C
           DO N=1,NMAX
@@ -353,7 +353,7 @@ C
 C Yld 
              YLD_I = ( BHS - (BHS - AHS)*
      .          EXP(-CM*EXP(CN*LOG(MAX(EM20,PLA_I+EPS0))) ))
-     .          * KT(I) + DH*VM(I) 
+     .          * KT(I) + DH*VM(I)
 C             
              DR(I) =HALF*E*DPLA(I)/YLD_I
              PP(I)  =ONE/(ONE+DR(I)*NU1)
@@ -364,12 +364,12 @@ C
              DF    =-(AA(I)*NU1*P2*PP(I)+THREE*BB(I)*NU2*Q2*QQ(I))
      .         *(E- TWO*DR(I)*H(I))/YLD_I
      .         - TWO*H(I)*YLD_I
-             DF = SIGN(MAX(ABS(DF),EM20),DF)  
+             DF = SIGN(MAX(ABS(DF),EM20),DF)
              IF(DPLA(I)>ZERO) THEN
                DPLA_J(I)=MAX(ZERO,DPLA(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C------------------------------------------
@@ -420,7 +420,7 @@ C proj.   signzz    = 0.
            SIGNXX(I) = SIGNXX(I) + SIGZ
            SIGNYY(I) = SIGNYY(I) + SIGZ
            SVM(I)=SQRT(VM2)
-           DPLA(I) = OFF(I)*SVM(I)*UMR/(THREE*G)           
+           DPLA(I) = OFF(I)*SVM(I)*UMR/(THREE*G)
 ctmp           DPLA(I) = OFF(I)*SVM(I)*UMR/(G3(I)+H(I))
            PLA(I) = PLA(I) + DPLA(I)
            IF (INLOC == 0) THEN
@@ -455,13 +455,13 @@ C--------------------------------
 C     NON-LOCAL THICKNESS VARIATION
 C--------------------------------
        IF (INLOC > 0) THEN
-         DO I = 1,NEL0 
+         DO I = 1,NEL0
            SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
      .            - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
            DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
            DEZZ   = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E) - DEZZ
-           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
-         ENDDO  
+           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+         ENDDO
        ENDIF
 C
       RETURN

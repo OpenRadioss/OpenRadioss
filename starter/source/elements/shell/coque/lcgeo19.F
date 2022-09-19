@@ -62,7 +62,7 @@ C     NSUBMOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),IPM(NPROPMI,*),ISTACK,IDRAPEID(*),IUNIT
       my_real
      .   GEO(NPROPG), PM(NPROPM,*)
@@ -109,10 +109,10 @@ C-----------------------------------------------
      &    5X,'------------------------------------'/,
      &    5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,
      &    5X,'CONFIDENTIAL DATA'//)
-      ELSE     
+      ELSE
           WRITE(IOUT,2000)IG,IMID,GEO(1),GEO(2),IGEO(40),IGEO(41),IGEO(4),
      .   GEO(212),DRAPE_ID,IGEO(49)
-      ENDIF     
+      ENDIF
       GEO(2)=GEO(2)*PI/HUNDRED80
       GEO(212)=GEO(212)*PI/HUNDRED80
       IGEO(48) = 0  !  keeped for DRAPE IDENTIFICATION NUMBER
@@ -129,7 +129,7 @@ C
               EXIT
            ENDIF
         ENDDO
-      ENDIF  
+      ENDIF
       IF (.NOT. FOUND) THEN
          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
          IF(ISTACK == 0) THEN
@@ -138,17 +138,17 @@ C
      .           ANMODE=ANINFO_BLIND_2,
      .           I1=IG,
      .           C1=TITR,
-     .           I2=IMID)  
+     .           I2=IMID)
          ELSE
             CALL ANCMSG(MSGID=1151,
      .           MSGTYPE=MSGERROR,
      .           ANMODE=ANINFO_BLIND_2,
      .           I1=IG,
      .           C1=TITR,
-     .           I2=IMID) 
-            
-         ENDIF  
-         IGEO(101) = 1   
+     .           I2=IMID)
+
+         ENDIF
+         IGEO(101) = 1
       ENDIF
 C
 C  check for wright drape id definition
@@ -160,7 +160,7 @@ C
              IGEO(48) = DRAPE_ID
              FOUND = .TRUE.
              EXIT
-           ENDIF 
+           ENDIF
         ENDDO
         IF (.NOT. FOUND) THEN
            IF (DRAPE_ID > 0)THEN
@@ -184,7 +184,7 @@ c-----------
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . . . .  . .=',I10/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . .  . .=',I10/,
      & 5X,'LAYER THICKNESS . . . . . . . . . . . . . . .  .=',1PG20.13/,
-     & 5X,'INCRMENTAL ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . .=',1PG20.13/,      
+     & 5X,'INCRMENTAL ANGLE (DIR 1,PROJ(DIR 1 / SHELL). . .=',1PG20.13/,
      & 5X,'SHELL 4-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
      & 5X,'SHELL 3-nodes GROUP IDENTIFIER. . . . . . .  . .=',I10/,
      & 5X,'NUMBER OF INTEGRATION POINTS THROUGH LAYER.  . .=',I10/,

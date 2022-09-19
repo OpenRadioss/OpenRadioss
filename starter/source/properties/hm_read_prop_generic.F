@@ -53,7 +53,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,7 +80,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     INPUT ARGUMENTS
       CHARACTER,INTENT(IN):: IDTITL*nchartitle, KEYTYPE*ncharline
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN):: IG,ISKN(LISKN,*),SUB_ID,IUNIT,SUB_INDEX
       my_real  ,INTENT(IN):: RTRANS(NTRANSF,*)
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
@@ -88,7 +88,7 @@ C     OUTPUT ARGUMENTS
       INTEGER,INTENT(OUT):: IGTYP
 C     MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT) :: IGEO(NPROPGI), LBUFGEO, IADBUF, IAD_KNOT
-      my_real  ,INTENT(INOUT):: 
+      my_real  ,INTENT(INOUT)::
      .        GEO(NPROPG), KNOT(*)
       DOUBLE PRECISION,INTENT(INOUT)::  BUFGEO(*)
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP),INTENT(INOUT) :: PROP_TAG
@@ -155,12 +155,12 @@ C
 C
       SELECT CASE(KEYTYPE(1:LEN_TRIM(KEYTYPE)))
 
-        CASE ('TYPE28','NSTRAND')              
+        CASE ('TYPE28','NSTRAND')
           IGTYP     =28
           CALL HM_READ_PROP28(IOUT , NUVAR ,PARGEO,UNITAB,IG,
      .                        TITR ,IGTYP ,PROP_TAG,LSUBMODEL,IUNIT)
 
-        CASE ('TYPE32','SPR_PRE')              
+        CASE ('TYPE32','SPR_PRE')
           IGTYP     =32
           CALL HM_READ_PROP32(IOUT , NUVAR ,PARGEO,UNITAB,IG,
      .                        IGTYP,PROP_TAG,TITR,LSUBMODEL)
@@ -195,7 +195,7 @@ C--------------------------------------------------
           IGTYP=37
           CALL HM_READ_PROP_USER4(IOUT  ,NUVAR ,PARGEO ,UNITAB ,LSUBMODEL)
 
-             
+
         CASE ('TYPE43','CONNECT')
           IGTYP=43
           CALL HM_READ_PROP43(GEO     ,IGEO     ,IOUT    ,IG      ,
@@ -208,12 +208,12 @@ C--------------------------------------------------
      .                        UNITAB,ISKN  ,IGEO ,TITR  ,IGTYP ,
      .                        PROP_TAG,LSUBMODEL ,SUB_INDEX,IUNIT)
 
-        CASE ('TYPE45','KJOINT2')              
+        CASE ('TYPE45','KJOINT2')
           IGTYP     =45
           CALL HM_READ_PROP45(IOUT , NUVAR ,PARGEO,UNITAB,IGTYP,
      .                        IG,PROP_TAG,TITR,LSUBMODEL,IUNIT)
 
-        CASE ('TYPE46','SPR_MUSCLE')              
+        CASE ('TYPE46','SPR_MUSCLE')
           IGTYP     =46
           CALL HM_READ_PROP46(IOUT , NUVAR ,PARGEO,UNITAB,IGTYP,
      .                        IG,PROP_TAG,TITR,LSUBMODEL,IUNIT)
@@ -286,7 +286,7 @@ C
 C
       IGEO(16) = JCVT
       IGEO(27) = NUVAR(1)
-      IGEO(28) = NUVAR(2) 
+      IGEO(28) = NUVAR(2)
       IGEO(52) = NUPARAM
       IGEO(53) = NJFUNC
       IGEO(54) = NJMAT
@@ -300,7 +300,7 @@ C
 C-----------
       IADBUF  = IADTAB + NJTAB
 C-----------
-      IF (IGTYP > 28 .and. IGTYP < 32 .or. 
+      IF (IGTYP > 28 .and. IGTYP < 32 .or.
      .          IGTYP > 36 .and. IGTYP < 43) THEN   ! prop user
           PROP_TAG(IGTYP)%G_SIG  = 6
           PROP_TAG(IGTYP)%G_VOL  = 1

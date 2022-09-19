@@ -91,8 +91,8 @@ C-----------------------------------------------
 #include      "units_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc" 
-#include      "task_c.inc" 
+#include      "scr05_c.inc"
+#include      "task_c.inc"
 #include      "com08_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -165,7 +165,7 @@ C--------increase----------------------
          ELSEIF (IT==NL_DTP.AND.ALEN0==ZERO) THEN
           ALEN=LU
          ENDIF
-        ENDIF 
+        ENDIF
         TMP=DT_IMP
         IF (FAC>ONE) THEN
          FAC=MIN(SCAL_DTP,FAC)
@@ -205,7 +205,7 @@ C------last step-------
           IF (ALEN0>ZERO) THEN
            ALEN=ALEN0
            FAC = ONE
-          ELSE         
+          ELSE
            FACL=SQRT(ONE*NL_DTP/IT)
            TMP=DT_IMP
            IF (FACL>ONE) THEN
@@ -233,7 +233,7 @@ C----------reput old dt du to fix_p ------
       IFIX0 = IDTFIX
       IF (IFIX0>0) THEN
        IDTFIX = 0
-      ELSE     
+      ELSE
        CALL IMP_DTF(FAC)
       ENDIF
       IF (IMACH/=3.OR.ISPMD==0) THEN
@@ -244,15 +244,15 @@ C----------reput old dt du to fix_p ------
         IF (FACT/=ONE) THEN
 	 WRITE(IOUT,1005) DLA_RIKS
          IF (NPRINT<0)WRITE(ISTDO,1005) DLA_RIKS
-        END IF 
+        END IF
        ENDIF
        IF (IFIX0>0.AND.IMCONV==1) THEN
-         WRITE(IOUT,1004) 
-         IF(NPRINT<0)WRITE(ISTDO,1004) 
+         WRITE(IOUT,1004)
+         IF(NPRINT<0)WRITE(ISTDO,1004)
        ELSE
         IF (IDTFIX>0) THEN
-         WRITE(IOUT,1003) 
-         IF(NPRINT<0)WRITE(ISTDO,1003) 
+         WRITE(IOUT,1003)
+         IF(NPRINT<0)WRITE(ISTDO,1003)
         ENDIF
         IF (FAC>ONE)  THEN
          WRITE(IOUT,1001) FAC
@@ -265,7 +265,7 @@ C----------reput old dt du to fix_p ------
       ENDIF
       ENDIF
       IF (IDTC==3.AND.ILAST>0) DLA_RIKS=FAC
-      IF (IMCONV<0) FAC=ONE 
+      IF (IMCONV<0) FAC=ONE
       CUMUL_ALEN = CUMUL_ALEN + ALEN
 C---------------------------
  1001 FORMAT(5X,'--NEXT TIMESTEP IS INCREASED BY--',E11.4/)
@@ -320,7 +320,7 @@ C-----------------------------------------------
       ENDDO
  100  IF (K==0) RETURN
       TREST= TT+DT_IMP- DTIMPF(K)
-      TMP = DT_IMP*EM02 
+      TMP = DT_IMP*EM02
       IF (ABS(TREST)<=TMP) THEN
        FAC = FAC*(DTIMPF(K)-TT)/DT_IMP
        DT_IMP = DTIMPF(K)-TT
@@ -329,7 +329,7 @@ C-----------------------------------------------
        FAC = FAC*(DTIMPF(K)-TT)/DT_IMP
        DT_IMP = DTIMPF(K)-TT
        IDTFIX = 1
-      ENDIF                  
+      ENDIF
 C      
       RETURN
       END

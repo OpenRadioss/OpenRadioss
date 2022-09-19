@@ -117,7 +117,7 @@ C----------------------------------------------------------
 C=======================================================================
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      E     = UPARAM(1) 
+      E     = UPARAM(1)
       G     = UPARAM(2)
       G3    = G*THREE
       NRATE = NINT(UPARAM(3))
@@ -130,144 +130,144 @@ c
         NTRAC  = 0
         DO IEL=1,NEL
           IF (EPSZZ(IEL) > ZERO) THEN   ! element in traction
-            STF(IEL)    = (E+G) * AREA(IEL)                                          
-            DSIGZ(IEL)  = E*DEPSZZ(IEL)                                 
+            STF(IEL)    = (E+G) * AREA(IEL)
+            DSIGZ(IEL)  = E*DEPSZZ(IEL)
             NTRAC = NTRAC + 1
             ELTRAC(NTRAC) = IEL
           ELSE                          ! element in compression
-            STF(IEL)    = (ECOMP+G) * AREA(IEL)                                          
+            STF(IEL)    = (ECOMP+G) * AREA(IEL)
             DSIGZ(IEL)  = ECOMP*DEPSZZ(IEL)
           ENDIF
         ENDDO
-        DO IEL=1,NEL         
-          DSIGY(IEL)  = G*DEPSYZ(IEL)                               
-          DSIGX(IEL)  = G*DEPSZX(IEL)                               
-          SIGNZZ(IEL) = SIGOZZ(IEL) + DSIGZ(IEL)                   
-          SIGNYZ(IEL) = SIGOYZ(IEL) + DSIGY(IEL)                   
-          SIGNZX(IEL) = SIGOZX(IEL) + DSIGX(IEL)                   
-          STIFM(IEL)  = STIFM(IEL)  + STF(IEL)*OFF(IEL)                                               
-        ENDDO      
+        DO IEL=1,NEL
+          DSIGY(IEL)  = G*DEPSYZ(IEL)
+          DSIGX(IEL)  = G*DEPSZX(IEL)
+          SIGNZZ(IEL) = SIGOZZ(IEL) + DSIGZ(IEL)
+          SIGNYZ(IEL) = SIGOYZ(IEL) + DSIGY(IEL)
+          SIGNZX(IEL) = SIGOZX(IEL) + DSIGX(IEL)
+          STIFM(IEL)  = STIFM(IEL)  + STF(IEL)*OFF(IEL)
+        ENDDO
       ELSE    ! symmetric traction/compression
         NTRAC = NEL
-        DO IEL=1,NEL         
+        DO IEL=1,NEL
           ELTRAC(IEL) = IEL
-          STF(IEL)    = (E+G) * AREA(IEL)                                            
-          DSIGZ(IEL)  = E*DEPSZZ(IEL)                                   
-          DSIGY(IEL)  = G*DEPSYZ(IEL)                               
-          DSIGX(IEL)  = G*DEPSZX(IEL)                               
-          SIGNZZ(IEL) = SIGOZZ(IEL) + DSIGZ(IEL)                   
-          SIGNYZ(IEL) = SIGOYZ(IEL) + DSIGY(IEL)                   
-          SIGNZX(IEL) = SIGOZX(IEL) + DSIGX(IEL)                   
-          STIFM(IEL)  = STIFM(IEL)  + STF(IEL)*OFF(IEL)                                               
-        ENDDO      
+          STF(IEL)    = (E+G) * AREA(IEL)
+          DSIGZ(IEL)  = E*DEPSZZ(IEL)
+          DSIGY(IEL)  = G*DEPSYZ(IEL)
+          DSIGX(IEL)  = G*DEPSZX(IEL)
+          SIGNZZ(IEL) = SIGOZZ(IEL) + DSIGZ(IEL)
+          SIGNYZ(IEL) = SIGOYZ(IEL) + DSIGY(IEL)
+          SIGNZX(IEL) = SIGOZX(IEL) + DSIGX(IEL)
+          STIFM(IEL)  = STIFM(IEL)  + STF(IEL)*OFF(IEL)
+        ENDDO
       ENDIF
-c      
+c
       IF (IDTMINS==2 .AND. JSMS/=0) THEN
         DTB = (DTMINS/DTFACS)**2
-        DO IEL=1,NEL                                                 
+        DO IEL=1,NEL
 c         omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
           DMELS(IEL) = MAX(DMELS(IEL),HALF*DTB*STF(IEL)*OFF(IEL))
-        ENDDO                                                        
+        ENDDO
       END IF
-c---    
+c---
       IF (NRATE > 0) THEN  ! plasticity
-c---    
+c---
         DO IRATE=1,NRATE
           J = (IRATE-1)*2
           IFUNN(IRATE) = IFUNC(J+1)
           IFUNT(IRATE) = IFUNC(J+2)
           YFAC(IRATE)  = UPARAM(7+IRATE)
-          RATE(IRATE)  = UPARAM(7+IRATE+NRATE)          
+          RATE(IRATE)  = UPARAM(7+IRATE+NRATE)
         ENDDO
 c
 c---    Calculate yield values
 c
-        IF (NRATE > 1) THEN    ! strain rate dependent                                         
-c        
-          DO IEL = 1,NEL                                                       
-            II(IEL) = 1                                                        
-            DO J=2,NRATE-1                                                
+        IF (NRATE > 1) THEN    ! strain rate dependent
+c
+          DO IEL = 1,NEL
+            II(IEL) = 1
+            DO J=2,NRATE-1
               IF (EPSD(IEL) > RATE(J)) II(IEL) = J
               EXIT
-            ENDDO                                                         
-          ENDDO                                                         
-c
-          DO IEL = 1,NEL                                                         
-            I1 = II(IEL)                                                     
-            I2 = I1 + 1                                                          
-            FAC(IEL) = (EPSD(IEL) - RATE(I1)) / (RATE(I2) - RATE(I1))   
-            Y1    = FINTER(IFUNT(I1),EPLAST(IEL),NPF,TF,DYDX1)*YFAC(I1)        
-            Y2    = FINTER(IFUNT(I2),EPLAST(IEL),NPF,TF,DYDX2)*YFAC(I2)        
-            Y1    = MAX(ZERO, Y1)  
-            Y2    = MAX(ZERO, Y2)  
-            DYDX1 = DYDX1*YFAC(I1)                                             
-            DYDX2 = DYDX2*YFAC(I2)                                             
-            YLD(2,IEL) = Y1 + FAC(IEL)*(Y2 - Y1)                                    
-            HC(2,IEL)  = DYDX1 + FAC(IEL)*(DYDX2-DYDX1)                            
-          ENDDO
-          DO I=1,NTRAC                                                           
-            IEL = ELTRAC(I)                                                          
-            I1 = II(IEL)                                                     
-            I2 = I1 + 1                                                          
-            Y1  = FINTER(IFUNN(I1),EPLASN(IEL),NPF,TF,DYDX1)*YFAC(I1)        
-            Y2  = FINTER(IFUNN(I2),EPLASN(IEL),NPF,TF,DYDX2)*YFAC(I2)        
-            Y1 = MAX(ZERO, Y1)  
-            Y2 = MAX(ZERO, Y2)  
-            DYDX1 = DYDX1*YFAC(I1)                                             
-            DYDX2 = DYDX2*YFAC(I2)                                             
-            YLD(1,IEL) = Y1 + FAC(IEL)*(Y2 - Y1)                                    
-            HC(1,IEL)  = DYDX1 + FAC(IEL)*(DYDX2-DYDX1)                            
+            ENDDO
           ENDDO
 c
-        ELSEIF (NRATE == 1) THEN    ! independent on strain rate                                
+          DO IEL = 1,NEL
+            I1 = II(IEL)
+            I2 = I1 + 1
+            FAC(IEL) = (EPSD(IEL) - RATE(I1)) / (RATE(I2) - RATE(I1))
+            Y1    = FINTER(IFUNT(I1),EPLAST(IEL),NPF,TF,DYDX1)*YFAC(I1)
+            Y2    = FINTER(IFUNT(I2),EPLAST(IEL),NPF,TF,DYDX2)*YFAC(I2)
+            Y1    = MAX(ZERO, Y1)
+            Y2    = MAX(ZERO, Y2)
+            DYDX1 = DYDX1*YFAC(I1)
+            DYDX2 = DYDX2*YFAC(I2)
+            YLD(2,IEL) = Y1 + FAC(IEL)*(Y2 - Y1)
+            HC(2,IEL)  = DYDX1 + FAC(IEL)*(DYDX2-DYDX1)
+          ENDDO
+          DO I=1,NTRAC
+            IEL = ELTRAC(I)
+            I1 = II(IEL)
+            I2 = I1 + 1
+            Y1  = FINTER(IFUNN(I1),EPLASN(IEL),NPF,TF,DYDX1)*YFAC(I1)
+            Y2  = FINTER(IFUNN(I2),EPLASN(IEL),NPF,TF,DYDX2)*YFAC(I2)
+            Y1 = MAX(ZERO, Y1)
+            Y2 = MAX(ZERO, Y2)
+            DYDX1 = DYDX1*YFAC(I1)
+            DYDX2 = DYDX2*YFAC(I2)
+            YLD(1,IEL) = Y1 + FAC(IEL)*(Y2 - Y1)
+            HC(1,IEL)  = DYDX1 + FAC(IEL)*(DYDX2-DYDX1)
+          ENDDO
 c
-          DO IEL = 1,NEL                                                         
-            I1 = 1                                                          
+        ELSEIF (NRATE == 1) THEN    ! independent on strain rate
+c
+          DO IEL = 1,NEL
+            I1 = 1
             YLD(2,IEL) = MAX(ZERO,
      .      FINTER(IFUNT(I1),EPLAST(IEL),NPF,TF,DYDX1)*YFAC(I1))
             HC(2,IEL) = DYDX1*YFAC(I1)
           ENDDO
-          DO I=1,NTRAC                                                           
-            IEL = ELTRAC(I)                                                          
-            I1 = 1                                                          
+          DO I=1,NTRAC
+            IEL = ELTRAC(I)
+            I1 = 1
             YLD(1,IEL) = MAX(ZERO,
      .      FINTER(IFUNN(I1),EPLASN(IEL),NPF,TF,DYDX1)*YFAC(I1))
             HC(1,IEL)  = DYDX1*YFAC(I1)
           ENDDO
         ENDIF
 c-------
-c       plasticity - normal  direction                                                        
-c-------    
-        DO I=1,NTRAC                                                           
-          IEL = ELTRAC(I)                                                          
+c       plasticity - normal  direction
+c-------
+        DO I=1,NTRAC
+          IEL = ELTRAC(I)
           SVM  = ABS(SIGNZZ(IEL))
           DSIG = SVM - YLD(1,IEL)
           IF (DSIG > ZERO) THEN
             DEPLA = DSIG / MAX((E + HC(1,IEL)),EM20)
-            R  = MIN(ONE, ((YLD(1,IEL)+DEPLA*HC(1,IEL))/MAX(EM20,SVM)))                                   
+            R  = MIN(ONE, ((YLD(1,IEL)+DEPLA*HC(1,IEL))/MAX(EM20,SVM)))
             EPLASN(IEL) = EPLASN(IEL) + DEPLA*OFF(IEL)
-            SIGNZZ(IEL) = SIGNZZ(IEL)*R                   
+            SIGNZZ(IEL) = SIGNZZ(IEL)*R
           ENDIF
-        ENDDO                                                        
+        ENDDO
 c-------
-c       plasticity - tangent direction                                                        
-c-------    
-        DO IEL=1,NEL                                                     
+c       plasticity - tangent direction
+c-------
+        DO IEL=1,NEL
           SVM  = SQRT(SIGNYZ(IEL)**2 + SIGNZX(IEL)**2)
           DSIG = SVM - YLD(2,IEL)
           IF (DSIG > ZERO) THEN
             DEPLA = DSIG / MAX((G + HC(2,IEL)),EM20)
             R  = MIN(ONE, ((YLD(2,IEL)+DEPLA*HC(2,IEL))/MAX(EM20,SVM)))
             EPLAST(IEL) = EPLAST(IEL) + DEPLA*OFF(IEL)
-            SIGNYZ(IEL) = SIGNYZ(IEL)*R               
-            SIGNZX(IEL) = SIGNZX(IEL)*R                   
-          ENDIF                                                         
+            SIGNYZ(IEL) = SIGNYZ(IEL)*R
+            SIGNZX(IEL) = SIGNZX(IEL)*R
+          ENDIF
 c
-          SIGNZZ(IEL) = SIGNZZ(IEL)*OFF(IEL)                                                
-          SIGNYZ(IEL) = SIGNYZ(IEL)*OFF(IEL)                                                
+          SIGNZZ(IEL) = SIGNZZ(IEL)*OFF(IEL)
+          SIGNYZ(IEL) = SIGNYZ(IEL)*OFF(IEL)
           SIGNZX(IEL) = SIGNZX(IEL)*OFF(IEL)
-        ENDDO                                                          
-c---    
+        ENDDO
+c---
       ENDIF
 C-----------
       RETURN

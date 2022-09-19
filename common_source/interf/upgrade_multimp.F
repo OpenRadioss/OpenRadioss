@@ -119,7 +119,7 @@ C=======================================================================
           ALLOCATE (OLD_TAB2_R(0),STAT=IERR)
           IF(IERR/=0)GOTO 999
         END IF
-        
+
         !-----------!
         ! CAND_E
         !-----------!
@@ -133,7 +133,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -148,8 +148,8 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
-   
+        ENDDO
+
         IF (IFQ /= 0)THEN
           !-----------!
           ! IFPEN
@@ -164,7 +164,7 @@ C=======================================================================
           INTBUF_TAB%IFPEN(1:INTBUF_TAB%S_IFPEN)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%IFPEN(I) = OLD_TAB_I(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVX
@@ -179,7 +179,7 @@ C=======================================================================
           INTBUF_TAB%FTSAVX(1:INTBUF_TAB%S_FTSAVX)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVX(I) = OLD_TAB_R(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! FTSAVY
@@ -194,7 +194,7 @@ C=======================================================================
           INTBUF_TAB%FTSAVY(1:INTBUF_TAB%S_FTSAVY)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVY(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVZ
@@ -209,12 +209,12 @@ C=======================================================================
           INTBUF_TAB%FTSAVZ(1:INTBUF_TAB%S_FTSAVZ)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVZ(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
         ENDIF
 
         IF(ITIED/=0)THEN
-          !-----------! 
-          ! CAND_F 
+          !-----------!
+          ! CAND_F
           !-----------!
           DO I=1,8*OLD_SIZE
             OLD_TAB2_R(I)=INTBUF_TAB%CAND_F(I)
@@ -226,11 +226,11 @@ C=======================================================================
           INTBUF_TAB%CAND_F(1:INTBUF_TAB%S_CAND_F)=0
           DO I=1,8*OLD_SIZE
             INTBUF_TAB%CAND_F(I) = OLD_TAB2_R(I)
-          ENDDO           
+          ENDDO
         END IF
 
-        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7) THEN 
-          !-----------! 
+        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7) THEN
+          !-----------!
           ! CAND_P
           !-----------!
           DO I=1,OLD_SIZE
@@ -243,7 +243,7 @@ C=======================================================================
           INTBUF_TAB%CAND_P(1:INTBUF_TAB%S_CAND_P)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_P(I) = OLD_TAB_R(I)
-          ENDDO           
+          ENDDO
         ENDIF
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R,OLD_TAB2_R)
@@ -271,7 +271,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -286,8 +286,8 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
-   
+        ENDDO
+
         !-----------!
         ! CAND_F
         !-----------!
@@ -301,7 +301,7 @@ C=======================================================================
         INTBUF_TAB%CAND_F(1:INTBUF_TAB%S_CAND_F)=0
         DO I=1,6*OLD_SIZE
           INTBUF_TAB%CAND_F(I) = OLD_TAB2_R(I)
-        ENDDO           
+        ENDDO
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R,OLD_TAB2_R)
 
@@ -328,7 +328,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -343,7 +343,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CHAIN
@@ -358,9 +358,9 @@ C=======================================================================
         INTBUF_TAB%CHAIN(1:INTBUF_TAB%S_CHAIN)=0
         DO I=1,2*OLD_SIZE
           INTBUF_TAB%CHAIN(I) = OLD_TAB2_I(I)
-        ENDDO   
+        ENDDO
 
-        IF (MFROT == 2) THEN 
+        IF (MFROT == 2) THEN
           !-----------!
           ! IFPEN
           !-----------!
@@ -374,7 +374,7 @@ C=======================================================================
           INTBUF_TAB%IFPEN(1:INTBUF_TAB%S_IFPEN)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%IFPEN(I) = OLD_TAB_I(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! FTSAVX
@@ -389,7 +389,7 @@ C=======================================================================
           INTBUF_TAB%FTSAVX(1:INTBUF_TAB%S_FTSAVX)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVX(I) = OLD_TAB_R(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! FTSAVY
@@ -404,7 +404,7 @@ C=======================================================================
           INTBUF_TAB%FTSAVY(1:INTBUF_TAB%S_FTSAVY)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVY(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVZ
@@ -419,9 +419,9 @@ C=======================================================================
           INTBUF_TAB%FTSAVZ(1:INTBUF_TAB%S_FTSAVZ)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVZ(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
         ENDIF
- 
+
         DEALLOCATE (OLD_TAB_I,OLD_TAB2_I,OLD_TAB_R)
 
 C=======================================================================
@@ -443,7 +443,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -458,7 +458,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
@@ -483,7 +483,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -498,7 +498,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
@@ -527,7 +527,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -542,7 +542,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! LCAND_N
@@ -557,7 +557,7 @@ C=======================================================================
         INTBUF_TAB%LCAND_N(1:INTBUF_TAB%S_LCAND_N)=0
         DO I=1,OLD_SIZE2
           INTBUF_TAB%LCAND_N(I) = OLD_TAB2_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! LCAND_S
@@ -572,7 +572,7 @@ C=======================================================================
         INTBUF_TAB%LCAND_S(1:INTBUF_TAB%S_LCAND_S)=0
         DO I=1,OLD_SIZE2
           INTBUF_TAB%LCAND_S(I) = OLD_TAB2_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CHAIN20
@@ -587,9 +587,9 @@ C=======================================================================
         INTBUF_TAB%CHAIN20(1:INTBUF_TAB%S_CHAIN20)=0
         DO I=1,2*OLD_SIZE2
           INTBUF_TAB%CHAIN20(I) = OLD_TAB3_I(I)
-        ENDDO  
+        ENDDO
 
-        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7) THEN  
+        IF(INACTI == 5 .OR. INACTI == 6 .OR. INACTI == 7) THEN
           !-----------!
           ! CAND_P
           !-----------!
@@ -603,10 +603,10 @@ C=======================================================================
           INTBUF_TAB%CAND_P(1:INTBUF_TAB%S_CAND_P)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_P(I) = OLD_TAB_R(I)
-          ENDDO           
+          ENDDO
         ENDIF
 
-        IF (IFQ/=0) THEN 
+        IF (IFQ/=0) THEN
           !-----------!
           ! IFPEN
           !-----------!
@@ -620,7 +620,7 @@ C=======================================================================
           INTBUF_TAB%IFPEN(1:INTBUF_TAB%S_IFPEN)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%IFPEN(I) = OLD_TAB_I(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! CAND_FX
@@ -635,7 +635,7 @@ C=======================================================================
           INTBUF_TAB%CAND_FX(1:INTBUF_TAB%S_CAND_FX)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_FX(I) = OLD_TAB_R(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! CAND_FY
@@ -650,7 +650,7 @@ C=======================================================================
           INTBUF_TAB%CAND_FY(1:INTBUF_TAB%S_CAND_FY)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_FY(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! CAND_FZ
@@ -665,7 +665,7 @@ C=======================================================================
           INTBUF_TAB%CAND_FZ(1:INTBUF_TAB%S_CAND_FZ)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_FZ(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
         ENDIF
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB2_I,OLD_TAB3_I,OLD_TAB_R)
@@ -691,7 +691,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -706,7 +706,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
@@ -731,7 +731,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -746,7 +746,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO  
+        ENDDO
 
         IF (IFQ /= 0)THEN
           !-----------!
@@ -762,8 +762,8 @@ C=======================================================================
           INTBUF_TAB%IFPEN(1:INTBUF_TAB%S_IFPEN)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%IFPEN(I) = OLD_TAB_I(I)
-          ENDDO 
-        ENDIF 
+          ENDDO
+        ENDIF
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
@@ -788,7 +788,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -803,7 +803,7 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! IFPEN
@@ -818,9 +818,9 @@ C=======================================================================
         INTBUF_TAB%IFPEN(1:INTBUF_TAB%S_IFPEN)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%IFPEN(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
-            !-----------! 
+            !-----------!
             ! CAND_P
         !-----------!
         DO I=1,OLD_SIZE
@@ -833,7 +833,7 @@ C=======================================================================
         INTBUF_TAB%CAND_P(1:INTBUF_TAB%S_CAND_P)=0
         DO I=1,OLD_SIZE
            INTBUF_TAB%CAND_P(I) = OLD_TAB_R(I)
-        ENDDO  
+        ENDDO
 
         !-----------!
         ! FTSAVX
@@ -848,7 +848,7 @@ C=======================================================================
           INTBUF_TAB%FTSAVX(1:INTBUF_TAB%S_FTSAVX)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%FTSAVX(I) = OLD_TAB_R(I)
-        ENDDO    
+        ENDDO
 
         !-----------!
         ! FTSAVY
@@ -863,7 +863,7 @@ C=======================================================================
         INTBUF_TAB%FTSAVY(1:INTBUF_TAB%S_FTSAVY)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%FTSAVY(I) = OLD_TAB_R(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! FTSAVZ
@@ -878,8 +878,8 @@ C=======================================================================
         INTBUF_TAB%FTSAVZ(1:INTBUF_TAB%S_FTSAVZ)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%FTSAVZ(I) = OLD_TAB_R(I)
-        ENDDO  
- 
+        ENDDO
+
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
@@ -904,7 +904,7 @@ C=======================================================================
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -919,23 +919,23 @@ C=======================================================================
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
         IF (IEDGE1 > 0) THEN
           !-----------!
           ! CAND_T
           !-----------!
-          DO I=1,OLD_SIZE 
-            OLD_TAB_I(I)=INTBUF_TAB%CAND_T(I) 
-          ENDDO 
-          DEALLOCATE(INTBUF_TAB%CAND_T) 
+          DO I=1,OLD_SIZE
+            OLD_TAB_I(I)=INTBUF_TAB%CAND_T(I)
+          ENDDO
+          DEALLOCATE(INTBUF_TAB%CAND_T)
           INTBUF_TAB%S_CAND_T = MULTIMP_PARAMETER * NCONT
           ALLOCATE(INTBUF_TAB%CAND_T(INTBUF_TAB%S_CAND_T),STAT=IERR)
           IF(IERR/=0)GOTO 999
           INTBUF_TAB%CAND_T(1:INTBUF_TAB%S_CAND_T)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_T(I) = OLD_TAB_I(I)
-          ENDDO 
+          ENDDO
         ENDIF
 
 C=======================================================================
@@ -963,7 +963,7 @@ C
         INTBUF_TAB%CAND_E(1:INTBUF_TAB%S_CAND_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_N
@@ -978,7 +978,7 @@ C
         INTBUF_TAB%CAND_N(1:INTBUF_TAB%S_CAND_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_N(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! FARM
@@ -993,7 +993,7 @@ C
         IF(IERR/=0)GOTO 999
         DO I=1,4*OLD_SIZE_OPT
           INTBUF_TAB%FARM(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! CAND_OPT_N
@@ -1008,7 +1008,7 @@ C
         INTBUF_TAB%CAND_OPT_N(1:INTBUF_TAB%S_CAND_OPT_N)=0
         DO I=1,OLD_SIZE_OPT
           INTBUF_TAB%CAND_OPT_N(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! CAND_OPT_E
@@ -1023,7 +1023,7 @@ C
         IF(IERR/=0)GOTO 999
         DO I=1,OLD_SIZE_OPT
           INTBUF_TAB%CAND_OPT_E(I) = OLD_TAB_I(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! PENM
@@ -1038,7 +1038,7 @@ C
         IF(IERR/=0)GOTO 999
         DO I=1,4*OLD_SIZE_OPT
           INTBUF_TAB%PENM(I) = OLD_TAB_R(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! DISTM
@@ -1052,7 +1052,7 @@ C
         IF(IERR/=0)GOTO 999
         DO I=1,OLD_SIZE_OPT
           INTBUF_TAB%DISTM(I) = OLD_TAB_R(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! LBM
@@ -1066,7 +1066,7 @@ C
         IF(IERR/=0)GOTO 999
         DO I=1,4*OLD_SIZE_OPT
           INTBUF_TAB%LBM(I) = OLD_TAB_R(I)
-        ENDDO 
+        ENDDO
 
         !-----------!
         ! LCM
@@ -1080,13 +1080,13 @@ C
         IF(IERR/=0)GOTO 999
         DO I=1,4*OLD_SIZE_OPT
           INTBUF_TAB%LCM(I) = OLD_TAB_R(I)
-        ENDDO 
+        ENDDO
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
       ENDIF !end all interfaces type
 
-c===================================================================== 
+c=====================================================================
 cc      print*,'----------- Upgrade MultiMP -----------'
 cc      print*,'INTERFACE Number NI:',NI
 cc      print*,'INTERFACE Type :',ITY
@@ -1105,7 +1105,7 @@ C=======================================================================
       RETURN
  999  CONTINUE
       CALL ARRET_MESSAGE(ITY,IPARI(NPARI*(NI-1)+15),INTBUF_TAB%VARIABLES(37))
-      
+
       CALL ARRET(2)
       END
 Chd|====================================================================
@@ -1206,7 +1206,7 @@ C=======================================================================
         INTBUF_TAB%CAND_OPT_N(1:INTBUF_TAB%S_CAND_OPT_N)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_OPT_N(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CAND_OPT_E
@@ -1221,7 +1221,7 @@ C=======================================================================
         INTBUF_TAB%CAND_OPT_E(1:INTBUF_TAB%S_CAND_OPT_E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CAND_OPT_E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! PENM
@@ -1236,7 +1236,7 @@ C=======================================================================
         INTBUF_TAB%PENM(1:INTBUF_TAB%S_PENM)=ZERO
         DO I=1,4*OLD_SIZE
           INTBUF_TAB%PENM(I) = OLD_TAB_R(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! DISTM
@@ -1251,7 +1251,7 @@ C=======================================================================
         INTBUF_TAB%DISTM(1:INTBUF_TAB%S_DISTM)=ZERO
         DO I=1,OLD_SIZE
           INTBUF_TAB%DISTM(I) = OLD_TAB_R(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! LBM
@@ -1266,7 +1266,7 @@ C=======================================================================
         INTBUF_TAB%LBM(1:INTBUF_TAB%S_LBM)=ZERO
         DO I=1,4*OLD_SIZE
           INTBUF_TAB%LBM(I) = OLD_TAB_R(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! LCM
@@ -1281,13 +1281,13 @@ C=======================================================================
         INTBUF_TAB%LCM(1:INTBUF_TAB%S_LCM)=ZERO
         DO I=1,4*OLD_SIZE
           INTBUF_TAB%LCM(I) = OLD_TAB_R(I)
-        ENDDO   
+        ENDDO
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
 
       ENDIF !end all interfaces type
 
-c===================================================================== 
+c=====================================================================
 cc      print*,'----------- Upgrade MultiMP -----------'
 cc      print*,'INTERFACE Number NI:',NI
 cc      print*,'INTERFACE Type :',ITY
@@ -1306,7 +1306,7 @@ C=======================================================================
       RETURN
  999  CONTINUE
       CALL ARRET_MESSAGE_SLID(ITY,IPARI(NPARI*(NI-1)+15))
-      
+
       CALL ARRET(2)
       END
 Chd|====================================================================
@@ -1389,7 +1389,7 @@ C=======================================================================
         INTBUF_TAB%CANDM_E2E(1:INTBUF_TAB%S_CANDM_E2E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CANDM_E2E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CANDS_E2E
@@ -1404,7 +1404,7 @@ C=======================================================================
         INTBUF_TAB%CANDS_E2E(1:INTBUF_TAB%S_CANDS_E2E)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CANDS_E2E(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
 C       IF(INACTI == 5) THEN  
           !-----------!
@@ -1420,7 +1420,7 @@ C       IF(INACTI == 5) THEN
           INTBUF_TAB%CAND_P(1:INTBUF_TAB%S_CAND_P)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%CAND_P(I) = OLD_TAB_R(I)
-          ENDDO           
+          ENDDO
 C       ENDIF
 
         IF (IFQ /= 0)THEN
@@ -1437,7 +1437,7 @@ C       ENDIF
           INTBUF_TAB%IFPEN_E(1:INTBUF_TAB%S_IFPEN_E)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%IFPEN_E(I) = OLD_TAB_I(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVX_E
@@ -1452,7 +1452,7 @@ C       ENDIF
           INTBUF_TAB%FTSAVX_E(1:INTBUF_TAB%S_FTSAVX_E)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVX_E(I) = OLD_TAB_R(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! FTSAVY_E
@@ -1467,7 +1467,7 @@ C       ENDIF
           INTBUF_TAB%FTSAVY_E(1:INTBUF_TAB%S_FTSAVY_E)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVY_E(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVZ_E
@@ -1482,7 +1482,7 @@ C       ENDIF
           INTBUF_TAB%FTSAVZ_E(1:INTBUF_TAB%S_FTSAVZ_E)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVZ_E(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
         ENDIF
 
 
@@ -1491,7 +1491,7 @@ C       ENDIF
 C=======================================================================
       ENDIF !end all interfaces type
 
-c===================================================================== 
+c=====================================================================
 cc      print*,'----------- Upgrade MultiMP -----------'
 cc      print*,'INTERFACE Number NI:',NI
 cc      print*,'INTERFACE Type :',ITY
@@ -1510,7 +1510,7 @@ C=======================================================================
       RETURN
  999  CONTINUE
       CALL ARRET_MESSAGE(ITY,IPARI(NPARI*(NI-1)+15),INTBUF_TAB%VARIABLES(37))
-      
+
       CALL ARRET(2)
       END
 Chd|====================================================================
@@ -1593,7 +1593,7 @@ C=======================================================================
         INTBUF_TAB%CANDM_E2S(1:INTBUF_TAB%S_CANDM_E2S)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CANDM_E2S(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
         !-----------!
         ! CANDS_E2S
@@ -1608,7 +1608,7 @@ C=======================================================================
         INTBUF_TAB%CANDS_E2S(1:INTBUF_TAB%S_CANDS_E2S)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%CANDS_E2S(I) = OLD_TAB_I(I)
-        ENDDO   
+        ENDDO
 
 C       IF(INACTI == 5) THEN  
           !-----------!
@@ -1624,7 +1624,7 @@ C       IF(INACTI == 5) THEN
           INTBUF_TAB%CAND_PS(1:INTBUF_TAB%S_CAND_PS)=0
           DO I=1,4*OLD_SIZE
             INTBUF_TAB%CAND_PS(I) = OLD_TAB_R(I)
-          ENDDO           
+          ENDDO
 C       ENDIF
 
         IF (IFQ /= 0)THEN
@@ -1641,7 +1641,7 @@ C       ENDIF
           INTBUF_TAB%IFPEN_E2S(1:INTBUF_TAB%S_IFPEN_E2S)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%IFPEN_E2S(I) = OLD_TAB_I(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVX_E2S
@@ -1656,7 +1656,7 @@ C       ENDIF
           INTBUF_TAB%FTSAVX_E2S(1:INTBUF_TAB%S_FTSAVX_E2S)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVX_E2S(I) = OLD_TAB_R(I)
-          ENDDO    
+          ENDDO
 
           !-----------!
           ! FTSAVY_E2S
@@ -1671,7 +1671,7 @@ C       ENDIF
           INTBUF_TAB%FTSAVY_E2S(1:INTBUF_TAB%S_FTSAVY_E2S)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVY_E2S(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
 
           !-----------!
           ! FTSAVZ
@@ -1686,7 +1686,7 @@ C       ENDIF
           INTBUF_TAB%FTSAVZ_E2S(1:INTBUF_TAB%S_FTSAVZ_E2S)=0
           DO I=1,OLD_SIZE
             INTBUF_TAB%FTSAVZ_E2S(I) = OLD_TAB_R(I)
-          ENDDO   
+          ENDDO
         ENDIF
 
         DEALLOCATE (OLD_TAB_I,OLD_TAB_R)
@@ -1694,7 +1694,7 @@ C       ENDIF
 C=======================================================================
       ENDIF !end all interfaces type
 
-c===================================================================== 
+c=====================================================================
 cc      print*,'----------- Upgrade MultiMP -----------'
 cc      print*,'INTERFACE Number NI:',NI
 cc      print*,'INTERFACE Type :',ITY
@@ -1713,6 +1713,6 @@ C=======================================================================
       RETURN
  999  CONTINUE
       CALL ARRET_MESSAGE(ITY,IPARI(NPARI*(NI-1)+15),INTBUF_TAB%VARIABLES(37))
-      
+
       CALL ARRET(2)
       END

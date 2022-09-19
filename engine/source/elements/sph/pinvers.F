@@ -72,7 +72,7 @@ C      A is almost identical to null matrix
        IA(2,3)=ZERO
        IA(3,1)=ZERO
        IA(3,2)=ZERO
-       IA(3,3)=ZERO       
+       IA(3,3)=ZERO
       ELSE
 C---------------------------------------------------------
 C       Permute i,j,k pour trouver Ai != 0
@@ -338,7 +338,7 @@ C          Pseudo-inverse dans (u,v,w) :
            B(1,2)=ZERO
            B(1,3)=ZERO
            B(2,1)=ZERO
-           B(3,1)=ZERO   
+           B(3,1)=ZERO
 C---------
 C          Retour dans (i,j,k)
           DO I=1,3

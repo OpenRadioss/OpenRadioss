@@ -86,21 +86,21 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
      .   VLX1(MVSIZ), VLX2(MVSIZ), VLX3(MVSIZ),
-     .   VLY1(MVSIZ), VLY2(MVSIZ), VLY3(MVSIZ), 
+     .   VLY1(MVSIZ), VLY2(MVSIZ), VLY3(MVSIZ),
      .   VX4(MVSIZ), VY4(MVSIZ), VZ4(MVSIZ),
      .   VX5(MVSIZ), VY5(MVSIZ), VZ5(MVSIZ),
      .   VX6(MVSIZ), VY6(MVSIZ), VZ6(MVSIZ),
      .   RX1(MVSIZ), RX2(MVSIZ), RX3(MVSIZ), RY1(MVSIZ),
      .   RY2(MVSIZ), RY3(MVSIZ), RZ1(MVSIZ), RZ2(MVSIZ),RZ3(MVSIZ),
-     .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ), 
+     .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
      .   Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),Y5(MVSIZ),Y6(MVSIZ),
-     .   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ), 
+     .   Z1(MVSIZ),Z2(MVSIZ),Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ),
      .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
-     .   VX0, VY0,VZ0,OFF_L,A,B,C ,DT05,EXZ,EYZ,VZ21,VZ31 ,     
+     .   VX0, VY0,VZ0,OFF_L,A,B,C ,DT05,EXZ,EYZ,VZ21,VZ31 ,
      .   DDRX,DDRY,V21X,V31X,DDRZ1,DDRZ2
 C=======================================================================
       DO I=1,13
@@ -139,7 +139,7 @@ C----------------------------
        VX3(I)=V(1,NC3)
        VY3(I)=V(2,NC3)
        VZ3(I)=V(3,NC3)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     vectoriser elements avec ou sans voisins
 C-----------------------------------------------
@@ -156,10 +156,10 @@ C-----------------------------------------------
           SVS=SVS+1
           JVS(SVS)=I
         ENDIF
-      ENDDO 
+      ENDDO
       DO I=NVS+1,JLT
         IVS(I)=JVS(I-NVS)
-      ENDDO 
+      ENDDO
 C----------Element central----------
       DO I=JFT,JLT
        RX(I)=X2(I)-X1(I)
@@ -174,8 +174,8 @@ C     LOCAL SYSTEM
 C----------------------------
       I1 = 0
       CALL CLSKEW3(JFT,JLT,I1,
-     .   RX, RY, RZ, 
-     .   SX, SY, SZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,AREA2,OFFG )
 C
       DO I=JFT,JLT
@@ -429,7 +429,7 @@ C     ORTHOTROPY
 C----------------------------
       IF (IREP > 0) THEN
         CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,
-     .                NLAY   ,IREP   ,RX    ,RY     ,RZ     , 
+     .                NLAY   ,IREP   ,RX    ,RY     ,RZ     ,
      .                SX     ,SY     ,SZ    ,R11    ,R21    ,
      .                R31    ,R12    ,R22   ,R32    ,NEL    )
       ENDIF
@@ -454,7 +454,7 @@ C--------------------------
            VLY(I,1) = VLY(I,1)-DDRX*VZ21-DDRZ2*V21X
            VLY(I,2) = VLY(I,2)-DDRX*VZ31-DDRZ2*V31X
          ENDDO
-       ENDIF 
+       ENDIF
 C----------------------------
       OFF_L = ZERO
       DO I=JFT,JLT

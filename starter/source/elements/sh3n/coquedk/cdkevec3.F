@@ -77,7 +77,7 @@ C     LOCAL SYSTEM
 C----------------------------
       I1 = 0
       CALL CLSKEW3(JFT,JLT,I1,
-     .     RX, RY, RZ, SX, SY, SZ, 
+     .     RX, RY, RZ, SX, SY, SZ,
      .     E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM)
 C
       DO I=JFT,JLT

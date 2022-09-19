@@ -74,7 +74,7 @@ C-----------------------------------------------
        ENDDO
        LPRTSPH(1,IPRT)=SUIVSPH
        DO N=1,NUMSPH
-        IF(IPARTSP(N)==IPRT.AND.(KXSP(2,N) < 0 .AND. 
+        IF(IPARTSP(N)==IPRT.AND.(KXSP(2,N) < 0 .AND.
      .           (N < FIRST_SPHSOL .OR. N >= FIRST_SPHSOL+NSPHSOL)))THEN
          SUIVSPH=SUIVSPH+1
          LONFSPH(SUIVSPH)=N

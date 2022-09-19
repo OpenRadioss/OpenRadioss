@@ -33,7 +33,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER NP(24*NUMELQG),
      .        NPGLOB(24*NUMELQG),
      .        WORK(70000),CLEF(2,NUMELQG)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C     8 NODES BRICK
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
         ISOLNOD = IPARG(28,NG)
         NEL   =IPARG(2,NG)
         NFT   =IPARG(3,NG)
-        GBUF => ELBUF_TAB(NG)%GBUF   
+        GBUF => ELBUF_TAB(NG)%GBUF
         LFT=1
         LLT=NEL
         IF(ITY == 2) THEN
@@ -94,7 +94,7 @@ C-----------------------------------------------
             NODTAG(IXQ(4,N))=1
             NODTAG(IXQ(5,N))=1
 
-       
+
          END DO
        END IF
       END DO

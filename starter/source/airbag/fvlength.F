@@ -30,8 +30,8 @@ Chd|====================================================================
       SUBROUTINE FVLENGTH(IFV  ,NNS    ,NNTR   ,NPOLH,
      1                  IBUF   ,IBUFA  ,ELEMA  ,TAGELA ,
      2                  X      ,IVOLU  ,RVOLU  ,
-     3                  IFVNOD ,RFVNOD ,IFVTRI , 
-     4                  IFVPOLY,IFVTADR,IFVPOLH, 
+     3                  IFVNOD ,RFVNOD ,IFVTRI ,
+     4                  IFVPOLY,IFVTADR,IFVPOLH,
      5                  IFVPADR,IBPOLH ,DLH    )
 C-----------------------------------------------
 C   M o d u l e s 
@@ -48,11 +48,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFV, NNS, NNTR, NPOLH
-      INTEGER IBUF(*),   IBUFA(*),  ELEMA(3,*), TAGELA(*), 
+      INTEGER IBUF(*),   IBUFA(*),  ELEMA(3,*), TAGELA(*),
      .        IVOLU(*),  IBPOLH(*), IFVNOD(3,*),IFVTRI(6,*),
      .        IFVPOLY(*),IFVTADR(*),IFVPOLH(*), IFVPADR(*)
       my_real
-     .        X(3,*), RVOLU(*), RFVNOD(2,*), DLH 
+     .        X(3,*), RVOLU(*), RFVNOD(2,*), DLH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -61,13 +61,13 @@ C-----------------------------------------------
      .        NADBR
       INTEGER IDBR1, IDBR2, IDBR3
       my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
+     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
      .        NX, NY, NZ, AREA2, KSI, ETA, AREA, FAC,
-     .        AREAPOLY, AREAPOLYMAX, 
+     .        AREAPOLY, AREAPOLYMAX,
      .        PNOD(3,NNS),  PVOLU(NPOLH),
      .        PAREA(NNTR),  PNORM(3,NNTR)
       my_real
-     .        X12, Y12, Z12, X23, Y23, Z23, X31, Y31, Z31, 
+     .        X12, Y12, Z12, X23, Y23, Z23, X31, Y31, Z31,
      .        L12, L23, L31, DL0, DL1, DL2, DLL, DLBR1, DLBR2, DLBR3
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C---------------------------------------------------
@@ -159,8 +159,8 @@ C------------------------------------------
       DL1=EP30
       DL2=EP30
       DLBR1=EP30
-      DLBR2=EP30 
-      DLBR3=EP30 
+      DLBR2=EP30
+      DLBR3=EP30
       NADBR=0
       DO I=1,NPOLH
          PVOLU(I)=ZERO
@@ -188,8 +188,8 @@ C Boucle sur les triangles du polygone
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
-                  ENDIF   
-               ENDIF      
+                  ENDIF
+               ENDIF
                N1=IFVTRI(1,KK)
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)

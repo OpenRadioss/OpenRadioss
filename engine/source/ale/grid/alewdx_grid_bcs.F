@@ -69,59 +69,59 @@ C----------------------------------------
       ! 100 <=> LCOD=4 (X)
       ! 101 <=> LCOD=5 (XZ)
       ! 110 <=> LCOD=6 (XY)
-      ! 111 <=> LCOD=7 (XYZ)                                  
-      TAG(1:3)=.FALSE.                                                                                     
-      NINDX = 0                                                                                                                                                                             
-      N = NODE_ID                                                                                           
-      IF(NALE(N) /= 0)THEN                                                                             
-         ISK=ISKEW(N)                                                                                  
-         LCOD1=ICODT(N+NUMNOD)   !BCS                                                                       
-         IF(LCOD1 /= 0) THEN                                                                            
-            NINDX = N                                                                                                                                                         
-         ENDIF                                                                                         
+      ! 111 <=> LCOD=7 (XYZ)
+      TAG(1:3)=.FALSE.
+      NINDX = 0
+      N = NODE_ID
+      IF(NALE(N) /= 0)THEN
+         ISK=ISKEW(N)
+         LCOD1=ICODT(N+NUMNOD)   !BCS
+         IF(LCOD1 /= 0) THEN
+            NINDX = N
+         ENDIF
          LCOD2=ICODT(N+NUMNOD+NUMNOD) !ALE/BCS
-         IF(LCOD2 /= 0) THEN                                                                            
-            NINDX = N                                                                                                                                                         
-         ENDIF                                                                            
-      ENDIF 
-      
+         IF(LCOD2 /= 0) THEN
+            NINDX = N
+         ENDIF
+      ENDIF
+
       !TEST ENABLED BINARY (check for X,Y or Z in LCOD1 or LCOD2)
       !
       IF(BTEST(LCOD1,0).OR.BTEST(LCOD2,0))TAG(3)=.TRUE.    ! **1 => condition on Z dir
       IF(BTEST(LCOD1,1).OR.BTEST(LCOD2,1))TAG(2)=.TRUE.    ! *1* => condition on Y dir
       IF(BTEST(LCOD1,2).OR.BTEST(LCOD2,2))TAG(1)=.TRUE.    ! 1** => condition on X dir
-      
-      !UPDATE VECTOR DEPENDING ON BOUNDARY CONDITION AT RELATED NODE 
-      !                                                                                                     
-      IF (NINDX /= 0 )THEN                                                                            
-          ISK  = ISKEW(N)                                                                                                                                                           
-          IF(ISK == 1) THEN                                                                            
+
+      !UPDATE VECTOR DEPENDING ON BOUNDARY CONDITION AT RELATED NODE
+      !
+      IF (NINDX /= 0 )THEN
+          ISK  = ISKEW(N)
+          IF(ISK == 1) THEN
            !=====REPERE GLOBAL
-           IF(TAG(1))VEC(1)=ZERO                                                                         
+           IF(TAG(1))VEC(1)=ZERO
            IF(TAG(2))VEC(2)=ZERO
-           IF(TAG(3))VEC(3)=ZERO                                                                                            
-          ELSE                                                                                         
-           !=====REPERE OBLIQUE                                                                                                                                                 
-             IF(TAG(1))THEN                                                                                   
-               AA  =SKEW(1,ISK)*VEC(1)+SKEW(2,ISK)*VEC(2)+SKEW(3,ISK)*VEC(3)                                    
-               VEC(1)=VEC(1)-SKEW(1,ISK)*AA                                                               
-               VEC(2)=VEC(2)-SKEW(2,ISK)*AA                                                               
-               VEC(3)=VEC(3)-SKEW(3,ISK)*AA                                                               
-             ENDIF 
-             IF(TAG(2))THEN                                                                                    
-               AA  =SKEW(4,ISK)*VEC(1)+SKEW(5,ISK)*VEC(2)+SKEW(6,ISK)*VEC(3)                                    
-               VEC(1)=VEC(1)-SKEW(4,ISK)*AA                                                               
-               VEC(2)=VEC(2)-SKEW(5,ISK)*AA                                                               
-               VEC(3)=VEC(3)-SKEW(6,ISK)*AA                                                               
-             ENDIF        
-             IF(TAG(3))THEN                                                                                   
-               AA  =SKEW(7,ISK)*VEC(1)+SKEW(8,ISK)*VEC(2)+SKEW(9,ISK)*VEC(3)                                    
-               VEC(1)=VEC(1)-SKEW(7,ISK)*AA                                                               
-               VEC(2)=VEC(2)-SKEW(8,ISK)*AA                                                               
+           IF(TAG(3))VEC(3)=ZERO
+          ELSE
+           !=====REPERE OBLIQUE
+             IF(TAG(1))THEN
+               AA  =SKEW(1,ISK)*VEC(1)+SKEW(2,ISK)*VEC(2)+SKEW(3,ISK)*VEC(3)
+               VEC(1)=VEC(1)-SKEW(1,ISK)*AA
+               VEC(2)=VEC(2)-SKEW(2,ISK)*AA
+               VEC(3)=VEC(3)-SKEW(3,ISK)*AA
+             ENDIF
+             IF(TAG(2))THEN
+               AA  =SKEW(4,ISK)*VEC(1)+SKEW(5,ISK)*VEC(2)+SKEW(6,ISK)*VEC(3)
+               VEC(1)=VEC(1)-SKEW(4,ISK)*AA
+               VEC(2)=VEC(2)-SKEW(5,ISK)*AA
+               VEC(3)=VEC(3)-SKEW(6,ISK)*AA
+             ENDIF
+             IF(TAG(3))THEN
+               AA  =SKEW(7,ISK)*VEC(1)+SKEW(8,ISK)*VEC(2)+SKEW(9,ISK)*VEC(3)
+               VEC(1)=VEC(1)-SKEW(7,ISK)*AA
+               VEC(2)=VEC(2)-SKEW(8,ISK)*AA
                VEC(3)=VEC(3)-SKEW(9,ISK)*AA
-             ENDIF                                                               
-          ENDIF                                                                                                                                                                              
-      ENDIF                                                                                            
+             ENDIF
+          ENDIF
+      ENDIF
 
       RETURN
       END

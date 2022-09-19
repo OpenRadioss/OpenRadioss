@@ -85,7 +85,7 @@ c     Save actual phantom enrichments at the end of cycle
 c-------------------------------
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
-        IF (IPARG(54,NG) == 0) GOTO 100    ! IXFEM 
+        IF (IPARG(54,NG) == 0) GOTO 100    ! IXFEM
         IF (IPARG(8,NG)  == 1) GOTO 100    ! GROUP OFF
         IF (IDDW > 0) CALL STARTIMEG(NG)
 C---
@@ -93,7 +93,7 @@ C---
         NEL   = IPARG(2,NG)
         NFT   = IPARG(3,NG)
         ACTIFXFEM=IPARG(70,NG)
-        LFT   = 1 
+        LFT   = 1
         LLT   = MIN(NVSIZ,NEL)
         JFT=LFT
         JLT=LLT
@@ -101,7 +101,7 @@ C---
 C---
         IF (ITY == 3) THEN
           CALL UPENRIC_LAST(
-     .        IXC    ,NFT     ,JFT    ,JLT  ,IADC_CRK, 
+     .        IXC    ,NFT     ,JFT    ,JLT  ,IADC_CRK,
      .        IEL_CRK,ELCUTC,NXLAY   ,CRKEDGE )
 C---
         ELSEIF (ITY == 7) THEN
@@ -115,7 +115,7 @@ C---
       END DO
 !$OMP END DO
 C-------------
-      NUMELCRK2 = NUMELCRK  
+      NUMELCRK2 = NUMELCRK
 c                                                anim file / crack advance)
 C-------------
 C
@@ -149,7 +149,7 @@ Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|====================================================================
       SUBROUTINE UPENRIC_LAST(
-     .      IXC     ,NFT    ,JFT    ,JLT    ,IADC_CRK, 
+     .      IXC     ,NFT    ,JFT    ,JLT    ,IADC_CRK,
      .      IEL_CRK ,ELCUTC ,NXLAY  ,CRKEDGE)
 C-----------------------------------------------
       USE CRACKXFEM_MOD
@@ -180,25 +180,25 @@ C-----------------------------------------------
       INTEGER I,II,NS,ILEV,ILAY,IXEL,ICUT,LAYCUT,ELCRK,IADC1,IADC2,IADC3,IADC4
 C=======================================================================
         DO I=JFT,JLT
-        NS   = I+NFT                                                     
-        ICUT = ELCUTC(1,NS)                                              
+        NS   = I+NFT
+        ICUT = ELCUTC(1,NS)
           IF (ICUT == 0) CYCLE
-        ELCUTC(2,NS) = ICUT                                              
-        ELCRK = IEL_CRK(NS)                                              
-        IADC1 = IADC_CRK(1,ELCRK)                                        
-        IADC2 = IADC_CRK(2,ELCRK)                                        
-        IADC3 = IADC_CRK(3,ELCRK)                                        
-        IADC4 = IADC_CRK(4,ELCRK)                                        
+        ELCUTC(2,NS) = ICUT
+        ELCRK = IEL_CRK(NS)
+        IADC1 = IADC_CRK(1,ELCRK)
+        IADC2 = IADC_CRK(2,ELCRK)
+        IADC3 = IADC_CRK(3,ELCRK)
+        IADC4 = IADC_CRK(4,ELCRK)
           DO ILAY = 1,NXLAY
-          LAYCUT = CRKEDGE(ILAY)%LAYCUT(ELCRK)                           
-          IF (LAYCUT == 0) CYCLE                                         
-            II = NXEL*(ILAY-1)    
-          DO IXEL=1,NXEL                                                 
-            ILEV = II + IXEL                                             
-            CRKLVSET(ILEV)%ENR0(2,IADC1) = CRKLVSET(ILEV)%ENR0(1,IADC1)  
-            CRKLVSET(ILEV)%ENR0(2,IADC2) = CRKLVSET(ILEV)%ENR0(1,IADC2)  
-            CRKLVSET(ILEV)%ENR0(2,IADC3) = CRKLVSET(ILEV)%ENR0(1,IADC3)  
-            CRKLVSET(ILEV)%ENR0(2,IADC4) = CRKLVSET(ILEV)%ENR0(1,IADC4)  
+          LAYCUT = CRKEDGE(ILAY)%LAYCUT(ELCRK)
+          IF (LAYCUT == 0) CYCLE
+            II = NXEL*(ILAY-1)
+          DO IXEL=1,NXEL
+            ILEV = II + IXEL
+            CRKLVSET(ILEV)%ENR0(2,IADC1) = CRKLVSET(ILEV)%ENR0(1,IADC1)
+            CRKLVSET(ILEV)%ENR0(2,IADC2) = CRKLVSET(ILEV)%ENR0(1,IADC2)
+            CRKLVSET(ILEV)%ENR0(2,IADC3) = CRKLVSET(ILEV)%ENR0(1,IADC3)
+            CRKLVSET(ILEV)%ENR0(2,IADC4) = CRKLVSET(ILEV)%ENR0(1,IADC4)
             ENDDO
           ENDDO
         ENDDO
@@ -213,7 +213,7 @@ Chd|-- calls ---------------
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|====================================================================
       SUBROUTINE UPENRITG_LAST(
-     .      IXTG     ,NFT   ,JFT   ,JLT     ,IAD_CRKTG, 
+     .      IXTG     ,NFT   ,JFT   ,JLT     ,IAD_CRKTG,
      .      IEL_CRKTG,ELCUTC,NXLAY ,CRKEDGE )
 C-----------------------------------------------
       USE CRACKXFEM_MOD
@@ -246,24 +246,24 @@ C-----------------------------------------------
 C=======================================================================
         DO I=JFT,JLT
         NS   = I+NFT
-        ICUT = ELCUTC(1,NS)                                               
+        ICUT = ELCUTC(1,NS)
           IF (ICUT == 0) CYCLE
-        ELCUTC(2,NS) = ICUT                                               
-        ELCRKTG = IEL_CRKTG(NS)                                              
-        ELCRK   = ELCRKTG + ECRKXFEC                                            
-        IADC1   = IAD_CRKTG(1,ELCRKTG)                                      
-        IADC2   = IAD_CRKTG(2,ELCRKTG)                                      
-        IADC3   = IAD_CRKTG(3,ELCRKTG)                                      
+        ELCUTC(2,NS) = ICUT
+        ELCRKTG = IEL_CRKTG(NS)
+        ELCRK   = ELCRKTG + ECRKXFEC
+        IADC1   = IAD_CRKTG(1,ELCRKTG)
+        IADC2   = IAD_CRKTG(2,ELCRKTG)
+        IADC3   = IAD_CRKTG(3,ELCRKTG)
           DO ILAY = 1,NXLAY
-          LAYCUT = CRKEDGE(ILAY)%LAYCUT(ELCRK)                              
-          IF (LAYCUT == 0) CYCLE                                            
-            II = NXEL*(ILAY-1)    
-          DO IXEL=1,NXEL                                                     
-            ILEV = II + IXEL                                                 
-            CRKLVSET(ILEV)%ENR0(2,IADC1) = CRKLVSET(ILEV)%ENR0(1,IADC1)  
-            CRKLVSET(ILEV)%ENR0(2,IADC2) = CRKLVSET(ILEV)%ENR0(1,IADC2)  
-            CRKLVSET(ILEV)%ENR0(2,IADC3) = CRKLVSET(ILEV)%ENR0(1,IADC3)  
-            ENDDO                 
+          LAYCUT = CRKEDGE(ILAY)%LAYCUT(ELCRK)
+          IF (LAYCUT == 0) CYCLE
+            II = NXEL*(ILAY-1)
+          DO IXEL=1,NXEL
+            ILEV = II + IXEL
+            CRKLVSET(ILEV)%ENR0(2,IADC1) = CRKLVSET(ILEV)%ENR0(1,IADC1)
+            CRKLVSET(ILEV)%ENR0(2,IADC2) = CRKLVSET(ILEV)%ENR0(1,IADC2)
+            CRKLVSET(ILEV)%ENR0(2,IADC3) = CRKLVSET(ILEV)%ENR0(1,IADC3)
+            ENDDO
             ENDDO
           ENDDO
 C-----------

@@ -78,7 +78,7 @@ C pre traitement SPMD : gather de PARTSAV et mise a zero sur procs remote
       MAS=ZERO
       XM=ZERO
       YM=ZERO
-      ZM=ZERO      
+      ZM=ZERO
       I1=IPART(1,1)
       DO K = 1,NPART+1
         IF(K<=NPART)THEN
@@ -120,7 +120,7 @@ C pre traitement SPMD : gather de PARTSAV et mise a zero sur procs remote
          MAS=ZERO
          XM=ZERO
          YM=ZERO
-         ZM=ZERO 
+         ZM=ZERO
          I1=I
         ENDIF
         IF(I>0)THEN

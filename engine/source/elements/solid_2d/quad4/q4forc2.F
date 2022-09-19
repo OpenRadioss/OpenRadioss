@@ -73,7 +73,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -104,19 +104,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IC(*), IPARG(NPARG,*), NPF(*), IPARTQ(*), 
+      INTEGER IC(*), IPARG(NPARG,*), NPF(*), IPARTQ(*),
      +  IPM(*), GRTH(*), IGRTH(*), IGEO(*), IADQ(4,*),ITASK,IOUTPRT
       INTEGER OFFSET, NEL, NELTST, ITYPTST, ICP, NG, IEXPAN,H3D_STRAIN
       my_real
      +  DT2T
       my_real
-     +  PM(NPROPM,*), GEO(*), X(*),A(*),V(3,*),MS(*), W(*),PARTSAV(*), 
-     +  FLUX(4,*),FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*), 
+     +  PM(NPROPM,*), GEO(*), X(*),A(*),V(3,*),MS(*), W(*),PARTSAV(*),
+     +  FLUX(4,*),FLU1(*),VEUL(*),FV(*), TF(*),BUFMAT(*),
      +  FSKY(*),STIFN(*),EANI(*),BUFVOIS(6,*),QMV(8,*),GRESAV(*),MS_2D(*),
      +  FSKYM(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -125,12 +125,12 @@ c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
 c  I   IC(7,NUM_QUAD)      connectivity and mid,pid interger data
-c  I   X(3,NUMNOD)         co-ordinate 
+c  I   X(3,NUMNOD)         co-ordinate
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
 c  IO  MS(NUMNOD)          nodal masse
 c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
-c  I   FLU1,VEUL,IELVS     used w/ ALE or EULER 
+c  I   FLU1,VEUL,IELVS     used w/ ALE or EULER
 c  I   IPARG(NG)           element group data
 c  I   ELBUF()             internal element(material) data used w/ ALE or EULER
 c  I   TF() ,NPF()         Radioss function (x=Time) data
@@ -142,10 +142,10 @@ c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
 c  IO  EANI()              anim outpout vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
-c  I   IADQ(),FSKY()       work arrays for special option of internal force assemlage   
+c  I   IADQ(),FSKY()       work arrays for special option of internal force assemlage
 c  I   ICP                 flag for constant pressure
 c  I   IPM(NPROPMI,*)      MATERIAL DATA (INTEGER)
-c  I   BUFVOIS()           work table for fluid w/ SPMD 
+c  I   BUFVOIS()           work table for fluid w/ SPMD
 c  I   QMV(8,)             work table used w/ ALE or EULER
 c  I   GRESAV,GRTH,IGRTH   work table used for TH (time history) output
 c  I   TABLE               new alternative Radioss function(table) data
@@ -167,10 +167,10 @@ C     MATERIAL SN, CONNECTIVITY, ID, PROPERTY SN OF ELEMENTS
 C     NUMBER AND INDEXES OF INTEGRATION POINTS
       INTEGER NPTR,NPTS,IR,IS
 C
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: EINT
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C     FOR THE USAGE OF EMPTY INPUT
       my_real
      +    BID(MVSIZ),MBID(MVSIZ),EHOU(MVSIZ)
@@ -249,7 +249,7 @@ C
       my_real
      +    AY1(MVSIZ),AY2(MVSIZ),AY3(MVSIZ),AY4(MVSIZ),YH(MVSIZ),
      +    FAY1(MVSIZ),FAY2(MVSIZ),FAY3(MVSIZ),FAY4(MVSIZ),
-     +    DET(MVSIZ), 
+     +    DET(MVSIZ),
      .    BYZ1(MVSIZ),BYZ2(MVSIZ),BYZ3(MVSIZ),BYZ4(MVSIZ),
      .    BZY1(MVSIZ),BZY2(MVSIZ),BZY3(MVSIZ),BZY4(MVSIZ),
      +    QN1,QN2,QN3,QN4,NUU(MVSIZ)
@@ -259,7 +259,7 @@ C
      +  WI,KSI,ETA
       my_real
      +  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -287,7 +287,7 @@ C
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -353,7 +353,7 @@ C
         ENDDO
       ENDIF
       ISORTHG = 0
-      ISTRAIN = IPARG(44,NG)                                 
+      ISTRAIN = IPARG(44,NG)
 C
 C     GATHER NODAL INFORMATION & 
 C     COMPUTE INTRINSIC ROTATION FOR CO-ROTATIONAL CASE & 
@@ -367,7 +367,7 @@ C     PROJECT NODAL COORDINATES AND VELOCITES INTO CO-ROTATIONAL SYSTEM
      4              NGL,MAT,NGEO,VD2,VIS,
      5              V       ,VY1     ,VY2     ,VY3     ,
      6              VY4     ,VZ1     ,VZ2     ,VZ3     ,VZ4     ,
-     7              YAVG    ,AY      ,EXX    )                   
+     7              YAVG    ,AY      ,EXX    )
       ELSE
 C----EXX,YAVG ,AY are calculated in global system anyway, more efficient eo be done here
 C----for the moment constant in element
@@ -379,7 +379,7 @@ C----for the moment constant in element
      6              GAMA,Y234,Y124,VIS,
      7              V       ,VY1     ,VY2     ,VY3     ,
      8              VY4     ,VZ1     ,VZ2     ,VZ3     ,VZ4     ,
-     9              YAVG    ,AY      ,EXX    )                   
+     9              YAVG    ,AY      ,EXX    )
       ENDIF
 C     COMPUTE FAC(*) FOR PRESSURE ACCORDING TO PLASTICITY STATE
 C---- now assumed strain is used, no effect for Isolid17
@@ -402,7 +402,7 @@ C---- now assumed strain is used, no effect for Isolid17
         DO I=LFT,LLT
           NUU(I)=ZERO
         ENDDO
-      ENDIF 
+      ENDIF
 C     COMPUTE AREA & VOLUME
       CALL QVOLU2(GBUF%OFF,AIRE,VOLU,NGL,
      2            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
@@ -440,7 +440,7 @@ C
 C
 C     INITIALIZATION BEFORE INTEGRATION LOOP
       CALL Q4ZERO2(
-     +  FY1, FZ1, FY2, FZ2, FY3, FZ3, FY4, FZ4,  
+     +  FY1, FZ1, FY2, FZ2, FY3, FZ3, FY4, FZ4,
      +  FAY, FAZ, FAY1, FAY2, FAY3, FAY4,
      +  GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
      +  GBUF%EPSD,STIM,PP,GBUF%G_PLA,GBUF%G_EPSD,NEL)
@@ -527,11 +527,11 @@ C       COMPUTE NODAL INTERNAL FORCE
 C
 C       COMPUTE ELEMENT AVERAGE & SUMMERY DATA
         CALL S8EFMOY3(LBUF%SIG ,
-     2       VOLN    ,QVIS    ,PP      ,LBUF%EINT ,LBUF%RHO ,LBUF%QVIS ,       
-     3       LBUF%PLA,LBUF%EPSD,GBUF%EPSD,GBUF%SIG,GBUF%EINT,GBUF%RHO,       
-     4       GBUF%QVIS,GBUF%PLA,VOLU   ,STI     ,STIM    ,ICPG    ,       
+     2       VOLN    ,QVIS    ,PP      ,LBUF%EINT ,LBUF%RHO ,LBUF%QVIS ,
+     3       LBUF%PLA,LBUF%EPSD,GBUF%EPSD,GBUF%SIG,GBUF%EINT,GBUF%RHO,
+     4       GBUF%QVIS,GBUF%PLA,VOLU   ,STI     ,STIM    ,ICPG    ,
      5       OFF     ,LBUF%VOL,GBUF%VOL,GBUF%G_PLA,GBUF%G_EPSD ,
-     6       LBUF%EINTTH,GBUF%EINTTH,IEXPAN ,NEL,BID,BID)                                 
+     6       LBUF%EINTTH,GBUF%EINTTH,IEXPAN ,NEL,BID,BID)
 C
          DO I=LFT,LLT
            OFFG(I)=MIN(OFFG(I),OFF(I))
@@ -580,11 +580,11 @@ C     OUTPUT ELEMENT INFORMATION TO BALANCE TABLE
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN
 c
-        IF (MTN == 11) THEN                        
-          EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)   
-        ELSE                                       
-          EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)   
-        ENDIF                                      
+        IF (MTN == 11) THEN
+          EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)
+        ELSE
+          EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
+        ENDIF
         CALL QBILAN(PARTSAV,GBUF%OFF,EINT,GBUF%RHO,GBUF%RK,
      2              GBUF%VOL,VY1,VY2,VY3,VY4,VZ1,VZ2,
      3              VZ3,VZ4,VOLU,IPARTQ,EHOU,R22,
@@ -698,9 +698,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I
       my_real
-     .   CAQ(MVSIZ),FCL(MVSIZ) , 
+     .   CAQ(MVSIZ),FCL(MVSIZ) ,
      .   G11(MVSIZ) , G21(MVSIZ) , G31(MVSIZ) , G41(MVSIZ),
-     .   HGY(MVSIZ), HGZ(MVSIZ), 
+     .   HGY(MVSIZ), HGZ(MVSIZ),
      .   HY,HZ,FAC,PX1H1,PX2H1, ARE
 C-----------------------------------------------
 C 
@@ -710,7 +710,7 @@ C
        FAC = EM03*OFF(I)
        ARE = MAX(AREA(I),EM20)
        FCL(I)=HALF*FAC*RHO(I)*SQRT(ARE)*CXX(I)
-      END DO 
+      END DO
 C
 C
 C HOURGLASS BELYTSCHKO
@@ -724,14 +724,14 @@ C
          G11(I)= ONE -PX1H1
          G21(I)=-ONE -PX2H1
          G31(I)= ONE +PX1H1
-         G41(I)=-ONE +PX2H1 
-        END DO 
+         G41(I)=-ONE +PX2H1
+        END DO
         DO I=LFT,LLT
          HGY(I)=FCL(I)*(
      &    G11(I)*VY1(I)+G21(I)*VY2(I)+G31(I)*VY3(I)+G41(I)*VY4(I))
          HGZ(I)=FCL(I)*(
      &    G11(I)*VZ1(I)+G21(I)*VZ2(I)+G31(I)*VZ3(I)+G41(I)*VZ4(I))
-        END DO 
+        END DO
         DO I=LFT,LLT
          T11(I) =T11(I) - G11(I)*HGY(I)
          T12(I) =T12(I) - G21(I)*HGY(I)
@@ -741,7 +741,7 @@ C
          T22(I) =T22(I) - G21(I)*HGZ(I)
          T23(I) =T23(I) - G31(I)*HGZ(I)
          T24(I) =T24(I) - G41(I)*HGZ(I)
-        END DO 
+        END DO
 C
       RETURN
       END

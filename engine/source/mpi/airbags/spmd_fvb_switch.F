@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MONVOL(*)                                                
+      INTEGER MONVOL(*)
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: K1,N,ITYP(NVOLU),ITYPR(NVOLU),IERR
@@ -77,13 +77,13 @@ C-----------------------------------------------
       K1=1
 
       DO N=1,NVOLU
-         IF(MONVOL(K1-1+2) == 8 .AND. ITYPR(N) == 7) THEN 
-           MONVOL(K1-1+2) = 7 
-           MONVOL(K1-1+15) = -1 
+         IF(MONVOL(K1-1+2) == 8 .AND. ITYPR(N) == 7) THEN
+           MONVOL(K1-1+2) = 7
+           MONVOL(K1-1+15) = -1
          ENDIF
          K1=K1+NIMV
       ENDDO
-#endif 
+#endif
       RETURN
-      END      
+      END
 

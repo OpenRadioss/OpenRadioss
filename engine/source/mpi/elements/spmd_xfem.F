@@ -88,16 +88,16 @@ c
       SBUFI = 0
       RBUFR = ZERO
       SBUFR = ZERO
-c      
-      DO I=1,NSPMD                                          
-        NNODX = 0                                           
-        DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1                
-          IF (INOD_CRK(FR_ELEM(J)) > 0) THEN                      
+c
+      DO I=1,NSPMD
+        NNODX = 0
+        DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+          IF (INOD_CRK(FR_ELEM(J)) > 0) THEN
             NNODX = NNODX + 1
-          END IF                                            
-        END DO    
-        NODXSAV(I) = NNODX  ! number of Xfem nodes on the frontier     
-      END DO   
+          END IF
+        END DO
+        NODXSAV(I) = NNODX  ! number of Xfem nodes on the frontier
+      END DO
 c
 c---  receive
 c
@@ -106,31 +106,31 @@ c
       IAD_RECV1(1) = L1
       IAD_RECV2(1) = L2
 c
-      DO I=1,NSPMD                                          
-        NBSEND = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)                                    
-        NNODX = NODXSAV(I)                                      
-        IF (NBSEND > 0) THEN                                  
+      DO I=1,NSPMD
+        NBSEND = IAD_ELEM(1,I+1)-IAD_ELEM(1,I)
+        NNODX = NODXSAV(I)
+        IF (NBSEND > 0) THEN
 
           SIZ = NBSEND*NENR*NXLAYMAX
 c---
-          LEN1 = SIZ*3                 
+          LEN1 = SIZ*3
           MSGTYP1 = MSGOFF1
-          CALL MPI_IRECV(                                   
-     S         RBUFI(1,L1),LEN1,MPI_INTEGER,IT_SPMD(I),MSGTYP1,  
-     G         MPI_COMM_WORLD,REQ_R1(I),IERROR)                
-          L1 = L1 + SIZ                                    
+          CALL MPI_IRECV(
+     S         RBUFI(1,L1),LEN1,MPI_INTEGER,IT_SPMD(I),MSGTYP1,
+     G         MPI_COMM_WORLD,REQ_R1(I),IERROR)
+          L1 = L1 + SIZ
 c---
-          LEN2 = SIZ*9                 
-          MSGTYP2 = MSGOFF2                                 
-          CALL MPI_IRECV(                                   
-     S         RBUFR(1,L2),LEN2,REAL,IT_SPMD(I),MSGTYP2,         
-     G         MPI_COMM_WORLD,REQ_R2(I),IERROR)                
-          L2 = L2 + SIZ                                    
+          LEN2 = SIZ*9
+          MSGTYP2 = MSGOFF2
+          CALL MPI_IRECV(
+     S         RBUFR(1,L2),LEN2,REAL,IT_SPMD(I),MSGTYP2,
+     G         MPI_COMM_WORLD,REQ_R2(I),IERROR)
+          L2 = L2 + SIZ
 c---
-        ENDIF                                               
-        IAD_RECV1(I+1) = L1                                 
-        IAD_RECV2(I+1) = L2                                 
-      END DO                                                
+        ENDIF
+        IAD_RECV1(I+1) = L1
+        IAD_RECV2(I+1) = L2
+      END DO
 c
 c---  send
 c
@@ -140,16 +140,16 @@ c
       IAD_SEND2(1) = L2
 c
       DO I=1,NSPMD
-ccccc        IF (NODXSAV(I) > 0) THEN  
+ccccc        IF (NODXSAV(I) > 0) THEN
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NN  = FR_ELEM(J)
             NSX = INOD_CRK(NN)
             IF (NSX > 0) THEN
               DO ILAY=1,NXLAYMAX
-                DO IENR=1,NENR   
+                DO IENR=1,NENR
                   IAD   = XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,IENR)  ! sender IAD
-                  ILEV  = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,IENR)  ! sender ILEV  
-                  COUNT = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,IENR)     
+                  ILEV  = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,IENR)  ! sender ILEV
+                  COUNT = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,IENR)
                   ENR = 0
                   IF (IAD > 0) ENR = CRKLVSET(ILEV)%ENR0(1,IAD) ! sender ENR
                   IF (ENR > 0 .and. ILEV > 0 .and. COUNT > 0) THEN
@@ -170,9 +170,9 @@ c                    if(ilay==1.and. (nsx==51.or.nsx==26))then
 c                    write(*,'(A,3I5,3Z)')'SBUF,NSX,IAD,ILEV,V=',NSX,IAD,ILEV,SBUFR(1,L2),SBUFR(2,L2),SBUFR(3,L2)
 c                    write(*,'(A,I)')'SBUF_sender: COUNT=',count
 c                    endif
-                    
+
                   ENDIF
-                  L1 = L1 + 1                                    
+                  L1 = L1 + 1
                   L2 = L2 + 1
                 END DO
               END DO
@@ -181,47 +181,47 @@ C               on envoie des zeros (initialise plus haut)
                 L1 = L1+NENR*NXLAYMAX
                 L2 = L2+NENR*NXLAYMAX
             ENDIF
-           END DO                                                    
+           END DO
 cccc        ENDIF
         IAD_SEND1(I+1) = L1
         IAD_SEND2(I+1) = L2
       ENDDO
 c---
-      DO I=1,NSPMD       
+      DO I=1,NSPMD
         IF( IAD_SEND1(I+1)-IAD_SEND1(I) > 0)THEN
-c        IF (NODXSAV(I) > 0) THEN  
-          MSGTYP1 = MSGOFF1                                 
-          L1   = IAD_SEND1(I)                             
+c        IF (NODXSAV(I) > 0) THEN
+          MSGTYP1 = MSGOFF1
+          L1   = IAD_SEND1(I)
           SIZ  = IAD_SEND1(I+1)-IAD_SEND1(I)
           LEN1 = SIZ*3
-          CALL MPI_ISEND(                                   
-     S         SBUFI(1,L1),LEN1,MPI_INTEGER,IT_SPMD(I),MSGTYP1,  
-     G         MPI_COMM_WORLD,REQ_S1(I),IERROR) 
-c         ----------------------------------                
-          MSGTYP2 = MSGOFF2                                 
-          SIZ = IAD_SEND2(I+1)-IAD_SEND2(I)                
-          L2  = IAD_SEND2(I)                               
-          LEN2 = SIZ*9                 
-          CALL MPI_ISEND(                                   
-     S         SBUFR(1,L2),LEN2,REAL,IT_SPMD(I),MSGTYP2,         
-     G         MPI_COMM_WORLD,REQ_S2(I),IERROR)                
-        ENDIF                                               
-      ENDDO                                                 
+          CALL MPI_ISEND(
+     S         SBUFI(1,L1),LEN1,MPI_INTEGER,IT_SPMD(I),MSGTYP1,
+     G         MPI_COMM_WORLD,REQ_S1(I),IERROR)
+c         ----------------------------------
+          MSGTYP2 = MSGOFF2
+          SIZ = IAD_SEND2(I+1)-IAD_SEND2(I)
+          L2  = IAD_SEND2(I)
+          LEN2 = SIZ*9
+          CALL MPI_ISEND(
+     S         SBUFR(1,L2),LEN2,REAL,IT_SPMD(I),MSGTYP2,
+     G         MPI_COMM_WORLD,REQ_S2(I),IERROR)
+        ENDIF
+      ENDDO
 c
 c---  uncompact received buffers
 c
-      DO I = 1,NSPMD                              
-c        IF (NODXSAV(I) > 0) THEN  
+      DO I = 1,NSPMD
+c        IF (NODXSAV(I) > 0) THEN
         IF(IAD_RECV1(I+1)-IAD_RECV1(I) > 0)THEN
-          CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)   
-          CALL MPI_WAIT(REQ_R2(I),STATUS,IERROR)   
+          CALL MPI_WAIT(REQ_R1(I),STATUS,IERROR)
+          CALL MPI_WAIT(REQ_R2(I),STATUS,IERROR)
 c
           L1 = IAD_RECV1(I)
           L2 = IAD_RECV2(I)
-          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1     
+          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NN  = FR_ELEM(J)
-            NSX = INOD_CRK(NN) 
-            IF (NSX > 0) THEN                     
+            NSX = INOD_CRK(NN)
+            IF (NSX > 0) THEN
               DO ILAY=1,NXLAYMAX
                 DO IENR=1,NENR
                   IAD   = RBUFI(1,L1)  ! sender IAD
@@ -230,57 +230,57 @@ c
                   KK    = XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,IENR) ! receiver IAD
                   ILEV  = XFEM_PHANTOM(ILAY)%TAGXP(5,NSX,IENR) ! receiver ILEV
                   IF (KK > 0) THEN
-                    EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! receiver ENR 
+                    EN0 = CRKLVSET(ILEV)%ENR0(2,KK)  ! receiver ENR
                     ENR = CRKLVSET(ILEV)%ENR0(1,KK)  ! receiver ENR
                   ELSE
                     EN0 = 0
                     ENR = 0
                   ENDIF
-c--- 
-c                  IF (EN0 > 0 .and. COUNT > 0 .and. IL > 0 .and. IAD > 0 .and. 
-                  IF (EN0 <= 0 .and. ENR > 0 .and. COUNT > 0 .and. IL > 0 .and. IAD > 0 .and. 
+c---
+c                  IF (EN0 > 0 .and. COUNT > 0 .and. IL > 0 .and. IAD > 0 .and.
+                  IF (EN0 <= 0 .and. ENR > 0 .and. COUNT > 0 .and. IL > 0 .and. IAD > 0 .and.
      .                ILEV > 0 .and. KK > 0) THEN
-     
+
 c             write(*,'(A,4I5,3Z)') 'RCV_SPMD:ILEV,KK,ILS,IADS,VIT=',
 c     .                RBUFR(5,L2), RBUFR(6,L2)  , RBUFR(7,L2)
-     
-                    CRKAVX(ILEV)%X(1,KK)  = RBUFR(1,L2)                  
-                    CRKAVX(ILEV)%X(2,KK)  = RBUFR(2,L2)                  
-                    CRKAVX(ILEV)%X(3,KK)  = RBUFR(3,L2)                  
-                    CRKAVX(ILEV)%V(1,KK)  = RBUFR(4,L2)                  
-                    CRKAVX(ILEV)%V(2,KK)  = RBUFR(5,L2)                  
-                    CRKAVX(ILEV)%V(3,KK)  = RBUFR(6,L2)                  
-                    CRKAVX(ILEV)%VR(1,KK) = RBUFR(7,L2)                  
-                    CRKAVX(ILEV)%VR(2,KK) = RBUFR(8,L2)                  
-                    CRKAVX(ILEV)%VR(3,KK) = RBUFR(9,L2)       
+
+                    CRKAVX(ILEV)%X(1,KK)  = RBUFR(1,L2)
+                    CRKAVX(ILEV)%X(2,KK)  = RBUFR(2,L2)
+                    CRKAVX(ILEV)%X(3,KK)  = RBUFR(3,L2)
+                    CRKAVX(ILEV)%V(1,KK)  = RBUFR(4,L2)
+                    CRKAVX(ILEV)%V(2,KK)  = RBUFR(5,L2)
+                    CRKAVX(ILEV)%V(3,KK)  = RBUFR(6,L2)
+                    CRKAVX(ILEV)%VR(1,KK) = RBUFR(7,L2)
+                    CRKAVX(ILEV)%VR(2,KK) = RBUFR(8,L2)
+                    CRKAVX(ILEV)%VR(3,KK) = RBUFR(9,L2)
                     XFEM_PHANTOM(ILAY)%TAGXP(4,NSX,IENR) = 0
                     XFEM_PHANTOM(ILAY)%TAGXP(5,NSX,IENR) = 0
                   ENDIF
                   L1 = L1 + 1
-                  L2 = L2 + 1                                 
+                  L2 = L2 + 1
 c---
-                ENDDO  ! IENR=1,NENR                                           
-              ENDDO    ! ILAY=1,NXLAYMAX                                          
+                ENDDO  ! IENR=1,NENR
+              ENDDO    ! ILAY=1,NXLAYMAX
 C si noeud n'est pas XFEM skipper la comm
             ELSE
                 L1 = L1+NENR*NXLAYMAX
                 L2 = L2+NENR*NXLAYMAX
-            ENDIF      !  NSX > 0   
-          ENDDO        !  J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1                                            
-       ENDIF                                                       
-      ENDDO                                                       
+            ENDIF      !  NSX > 0
+          ENDDO        !  J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+       ENDIF
+      ENDDO
 c-----------
-      DO I = 1,NSPMD                              
-        IF (IAD_SEND1(I+1)-IAD_SEND1(I) > 0) THEN           
-          CALL MPI_WAIT(REQ_S1(I),STATUS,IERROR)   
-        ENDIF                                      
-      ENDDO                                        
+      DO I = 1,NSPMD
+        IF (IAD_SEND1(I+1)-IAD_SEND1(I) > 0) THEN
+          CALL MPI_WAIT(REQ_S1(I),STATUS,IERROR)
+        ENDIF
+      ENDDO
 c
-      DO I = 1, NSPMD                              
-        IF (IAD_SEND2(I+1)-IAD_SEND2(I) > 0) THEN           
-          CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)   
-        ENDIF                                      
-      ENDDO                                        
+      DO I = 1, NSPMD
+        IF (IAD_SEND2(I+1)-IAD_SEND2(I) > 0) THEN
+          CALL MPI_WAIT(REQ_S2(I),STATUS,IERROR)
+        ENDIF
+      ENDDO
 c-----------
       DEALLOCATE(RBUFI)
       DEALLOCATE(SBUFI)
@@ -348,54 +348,54 @@ c
       ALLOCATE(SBUF(3,LENR))
       RBUF = 0
       SBUF = 0
-c      
-      DO I=1,NSPMD                                          
-        NNODX = 0                                           
-        DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1                
-          IF (INOD_CRK(FR_ELEM(J)) > 0) THEN                      
+c
+      DO I=1,NSPMD
+        NNODX = 0
+        DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+          IF (INOD_CRK(FR_ELEM(J)) > 0) THEN
             NNODX = NNODX + 1
-          END IF                                            
-        END DO    
-        NODXSAV(I) = NNODX                                         
-      END DO                                                
+          END IF
+        END DO
+        NODXSAV(I) = NNODX
+      END DO
 c
 c---  receive
 c
       L = 1
       IAD_RECV(1) = L
 c
-      DO I=1,NSPMD                                          
-        NNODX = NODXSAV(I)                                      
+      DO I=1,NSPMD
+        NNODX = NODXSAV(I)
         SIZ = NNODX*NENR*NXLAYMAX
 c
-        IF (NNODX > 0) THEN                                  
+        IF (NNODX > 0) THEN
           MSGTYP = MSGOFF
-          LEN = SIZ*3                                
-          CALL MPI_IRECV(                                   
-     S         RBUF(1,L),LEN,MPI_INTEGER,IT_SPMD(I),MSGTYP,  
-     G         MPI_COMM_WORLD,REQ_R(I),IERROR)                
+          LEN = SIZ*3
+          CALL MPI_IRECV(
+     S         RBUF(1,L),LEN,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     G         MPI_COMM_WORLD,REQ_R(I),IERROR)
 c
-          L = L + SIZ                                    
-        ENDIF                                               
-        IAD_RECV(I+1) = L                                 
-      END DO                                                
+          L = L + SIZ
+        ENDIF
+        IAD_RECV(I+1) = L
+      END DO
 c
 c---  send
 c
       L = 1
       IAD_SEND(1) = L
       DO I=1,NSPMD
-        IF (NODXSAV(I) > 0) THEN  
+        IF (NODXSAV(I) > 0) THEN
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NN  = FR_ELEM(J)
             NSX = INOD_CRK(NN)
             IF (NSX > 0) THEN
 #include     "vectorize.inc"
               DO ILAY=1,NXLAYMAX
-                DO IENR=1,NENR   
+                DO IENR=1,NENR
                   IAD  = XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,IENR)
-                  ILEV = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,IENR)  
-                  ENRL = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,IENR)  
+                  ILEV = XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,IENR)
+                  ENRL = XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,IENR)
                   IF (IAD > 0 .and. ILEV > 0 .and. ENRL == IENR) THEN
                     SBUF(1,L) = IAD
                     SBUF(2,L) = ILEV
@@ -405,63 +405,63 @@ c
                     SBUF(2,L) = 0
                     SBUF(3,L) = 0
                   ENDIF
-                  L = L + 1                                    
+                  L = L + 1
                 END DO
               END DO
             ENDIF
-          END DO                                                    
+          END DO
         ENDIF
         IAD_SEND(I+1) = L
       ENDDO
 c---
-      DO I=1,NSPMD                                          
-        IF (NODXSAV(I) > 0) THEN  
-          MSGTYP = MSGOFF                                 
+      DO I=1,NSPMD
+        IF (NODXSAV(I) > 0) THEN
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
-          L   = IAD_SEND(I)                             
+          L   = IAD_SEND(I)
           LEN = SIZ*3
-          CALL MPI_ISEND(                                   
-     S         SBUF(1,L),LEN,MPI_INTEGER,IT_SPMD(I),MSGTYP,  
-     G         MPI_COMM_WORLD,REQ_S(I),IERROR) 
-        ENDIF                                               
-      ENDDO                                                 
+          CALL MPI_ISEND(
+     S         SBUF(1,L),LEN,MPI_INTEGER,IT_SPMD(I),MSGTYP,
+     G         MPI_COMM_WORLD,REQ_S(I),IERROR)
+        ENDIF
+      ENDDO
 c
 c---  uncompact received buffers
 c
-      DO I = 1,NSPMD                              
-        IF (NODXSAV(I) > 0) THEN  
-          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)   
+      DO I = 1,NSPMD
+        IF (NODXSAV(I) > 0) THEN
+          CALL MPI_WAIT(REQ_R(I),STATUS,IERROR)
 c
           L = IAD_RECV(I)
-          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1     
+          DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
             NN  = FR_ELEM(J)
             NSX = INOD_CRK(NN)
-            IF (NSX > 0) THEN                     
+            IF (NSX > 0) THEN
               DO ILAY=1,NXLAYMAX
                 DO IENR=1,NENR
                   IAD = RBUF(1,L)
                   IL  = RBUF(2,L)
                   ENR = RBUF(3,L)
                   IF (ENR > 0) THEN
-                    XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,ENR) = IAD                                           
-                    XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,ENR) = ILEV     
+                    XFEM_PHANTOM(ILAY)%TAGXP(1,NSX,ENR) = IAD
+                    XFEM_PHANTOM(ILAY)%TAGXP(2,NSX,ENR) = ILEV
                     XFEM_PHANTOM(ILAY)%TAGXP(3,NSX,ENR) = ENR
                   ENDIF
                   L = L + 1
 c---
-                ENDDO  ! IENR=1,NENR                                           
-              ENDDO    ! ILAY=1,NXLAYMAX                                          
-            ENDIF      !  NSX > 0                                           
-          ENDDO        !  J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1                                            
-        ENDIF                                                       
-      ENDDO                                                       
+                ENDDO  ! IENR=1,NENR
+              ENDDO    ! ILAY=1,NXLAYMAX
+            ENDIF      !  NSX > 0
+          ENDDO        !  J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+        ENDIF
+      ENDDO
 c-----------
-      DO I = 1,NSPMD                              
+      DO I = 1,NSPMD
         SIZ = IAD_SEND(I+1)-IAD_SEND(I)
-        IF (SIZ > 0) THEN           
-          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)   
-        ENDIF                                      
-      ENDDO                                        
+        IF (SIZ > 0) THEN
+          CALL MPI_WAIT(REQ_S(I),STATUS,IERROR)
+        ENDIF
+      ENDDO
 c-----------
       DEALLOCATE(RBUF)
       DEALLOCATE(SBUF)
@@ -723,7 +723,7 @@ c---
                 DO ILAY=1,NXLAY
                   SBUF(L+ILAY-1) = 0
                 ENDDO
-              ELSE              
+              ELSE
                 DO ILAY=1,NXLAY
                   SBUF(L+ILAY-1) = CRKEDGE(ILAY)%ICUTEDGE(IED)
                 ENDDO
@@ -800,7 +800,7 @@ c---
           ENDIF
         ENDDO ! I=1,NSPMD
 c---
-      END IF  ! FLAG 
+      END IF  ! FLAG
 c---
 c--------------------
 c     decompactage IRECV
@@ -816,7 +816,7 @@ c--------------------
             IF (FLAG == 0) THEN
               DO ILAY=1,NXLAY
                 IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(IED)
-                CRKEDGE(ILAY)%IBORDEDGE(IED) = 
+                CRKEDGE(ILAY)%IBORDEDGE(IED) =
      .                        MAX(RBUF(L+ILAY-1),IBOUNDEDGE)
               ENDDO
             ELSE IF (FLAG == 1) THEN
@@ -844,7 +844,7 @@ c--------------------
                  CRKEDGE(ILAY)%EDGEENR(2,IED)
      .                       = MAX(EN20,RBUF(L+ILAY-1+2*NXLAY))
 
-                 CRKEDGE(ILAY)%EDGEICRK(IED) = 
+                 CRKEDGE(ILAY)%EDGEICRK(IED) =
      .              MAX(CRKEDGE(ILAY)%EDGEICRK(IED),RBUF(L+ILAY-1+3*NXLAY))
                  CRKEDGE(ILAY)%EDGETIP(1,IED) = MAX(
      .               CRKEDGE(ILAY)%EDGETIP(1,IED),RBUF(L+ILAY-1+4*NXLAY))
@@ -978,7 +978,7 @@ C
           IED = FR_EDGE(J)
           IF(IED >0)THEN
             DO ILAY=1,NXLAY
-               IF (CRKEDGE(ILAY)%RATIO(IED) == ZERO) 
+               IF (CRKEDGE(ILAY)%RATIO(IED) == ZERO)
      .             CRKEDGE(ILAY)%RATIO(IED) = RBUF(L+ILAY-1)
             ENDDO
           ENDIF
@@ -1086,7 +1086,7 @@ C
               SBUF(L+6) = CRKAVX(IPT)%VR(1,CC)
               SBUF(L+7) = CRKAVX(IPT)%VR(2,CC)
               SBUF(L+8) = CRKAVX(IPT)%VR(3,CC)
-c                     
+c
               L = L + 9
             END DO
           ENDDO
@@ -1186,7 +1186,7 @@ C=======================================================================
       SIZ=1
       IF (ISPMD == 0) THEN
         DO I = 2, NSPMD
-          MSGTYP=MSGOFF 
+          MSGTYP=MSGOFF
           CALL MPI_IRECV(RBUF(I),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                   MPI_COMM_WORLD,REQ_R(I-1),IERROR)
         END DO
@@ -1207,7 +1207,7 @@ C
         CALL MPI_SEND(INT,SIZ,MPI_INTEGER,IT_SPMD(1),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
 
-        MSGTYP = MSGOFF2 
+        MSGTYP = MSGOFF2
         CALL MPI_RECV(INT,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .                MPI_COMM_WORLD,STATUS,IERROR)
       END IF

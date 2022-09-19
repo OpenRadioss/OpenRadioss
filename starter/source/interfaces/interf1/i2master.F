@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------------------------------
 C recontruit MSR et IRECTM en fonction des main nodes utiles
 C-----------------------------------------------
@@ -103,7 +103,7 @@ CGW            IRECTM(K,I) = NM
             IRECTM(K,I) = MSR(NM)
           ENDIF
         ENDDO
-      ENDDO 
+      ENDDO
 C mise a jour de IPARI et offset de IRTLM
       IPARI(6) = NMNU
 C

@@ -50,7 +50,7 @@ Chd|====================================================================
      4   IRLEN11 ,ISLEN17 ,IRLEN17 ,IGRBRIC ,
      5   IXS     ,IXS16   ,FTHE    ,IRLEN7T ,
      6   ISLEN7T ,IRLEN20 ,ISLEN20 ,IRLEN20T,ISLEN20T,
-     7   IRLEN20E,ISLEN20E,CONDN   ,IFLAG   ,INTBUF_TAB, 
+     7   IRLEN20E,ISLEN20E,CONDN   ,IFLAG   ,INTBUF_TAB,
      8   H3D_DATA, MULTI_FVM,TAGNCONT,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER)
 C-----------------------------------------------
 C   M o d u l e s
@@ -122,7 +122,7 @@ C-----------------------------------------------
 c parasiz car variable en save
      .        ADDS(PARASIZ+1), ADDR(PARASIZ+1),
      .        REQ_SI(PARASIZ),REQ_RI(PARASIZ)
-      INTEGER, PARAMETER :: LEN25E = 11 
+      INTEGER, PARAMETER :: LEN25E = 11
       INTEGER :: NEDGE
       DATA MSGOFF/143/
       LOGICAL ITEST
@@ -562,7 +562,7 @@ C noeud generant une force
                       FTHEFI(NIN)%P(N2)= ZERO
                       CONDNFI(NIN)%P(N1)= ZERO
                       CONDNFI(NIN)%P(N2)= ZERO
-                      L = L + LENI 
+                      L = L + LENI
                     ENDIF
                    ENDDO
                   ENDIF
@@ -598,7 +598,7 @@ C noeud generant une force
                       STNFI(NIN)%P(N2) = ZERO
                       FTHEFI(NIN)%P(N1)= ZERO
                       FTHEFI(NIN)%P(N2)= ZERO
-                      L = L + LENI 
+                      L = L + LENI
                     ENDIF
                    ENDDO
                   ELSE
@@ -635,12 +635,12 @@ C noeud generant une force
                       VSCFI(NIN)%P(N2) = ZERO
                       FTHEFI(NIN)%P(N1)= ZERO
                       FTHEFI(NIN)%P(N2)= ZERO
-                      L = L + LENI 
+                      L = L + LENI
                     ENDIF
                    ENDDO
                   ENDIF
 c
-                 ENDIF                 
+                 ENDIF
                 ENDIF
                 BBUFS(LL) = (L-LL)/LENI
                 DEBUT(NIN) = DEBUT(NIN) + NB

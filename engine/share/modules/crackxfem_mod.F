@@ -131,10 +131,10 @@ C     Structures needed for cracking of layered shell process
 C-----------------------------------------------
 
       TYPE XFEM_PHANTOM_
-           INTEGER, DIMENSION(:,:)  ,ALLOCATABLE :: ITRI      
+           INTEGER, DIMENSION(:,:)  ,ALLOCATABLE :: ITRI
            INTEGER, DIMENSION(:,:,:),ALLOCATABLE :: TAGXP ! velocity link flag
-           INTEGER, DIMENSION(:)    ,ALLOCATABLE :: ELCUT ! flag (global Id) of cut xfem element     
-           INTEGER, DIMENSION(:)    ,ALLOCATABLE :: IFI   ! sign within partitioned superposed element     
+           INTEGER, DIMENSION(:)    ,ALLOCATABLE :: ELCUT ! flag (global Id) of cut xfem element
+           INTEGER, DIMENSION(:)    ,ALLOCATABLE :: IFI   ! sign within partitioned superposed element
       END TYPE XFEM_PHANTOM_
 
         TYPE(XFEM_PHANTOM_), DIMENSION(:), ALLOCATABLE :: XFEM_PHANTOM    ! (NXLAYMAX)
@@ -146,17 +146,17 @@ C-----------------------------------------------
 
         TYPE(XFEM_LVSET_), DIMENSION(:), ALLOCATABLE :: CRKLVSET   ! NLEVMAX
 C-------------------------------
-      TYPE XFEM_SKY_                                 
-         my_real,  DIMENSION(:,:), ALLOCATABLE :: FSKY  
-      END TYPE XFEM_SKY_                             
+      TYPE XFEM_SKY_
+         my_real,  DIMENSION(:,:), ALLOCATABLE :: FSKY
+      END TYPE XFEM_SKY_
 
 c-------------------------------
       TYPE XFEM_AVX_
-         my_real, DIMENSION(:,:), ALLOCATABLE :: X   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: U   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: V   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: A   
-         my_real, DIMENSION(:,:), ALLOCATABLE :: AR  
+         my_real, DIMENSION(:,:), ALLOCATABLE :: X
+         my_real, DIMENSION(:,:), ALLOCATABLE :: U
+         my_real, DIMENSION(:,:), ALLOCATABLE :: V
+         my_real, DIMENSION(:,:), ALLOCATABLE :: A
+         my_real, DIMENSION(:,:), ALLOCATABLE :: AR
          my_real, DIMENSION(:,:), ALLOCATABLE :: VR
          my_real, DIMENSION(:,:), ALLOCATABLE :: XX        ! temp coord for anim (crack positions)
       END TYPE XFEM_AVX_
@@ -165,15 +165,15 @@ c-------------------------------
 c---------------------------------------------
       TYPE XFEM_EDGE_
          INTEGER, DIMENSION(:)  , ALLOCATABLE :: LAYCUT    ! cut xfem element flag => move to XFEM_PHANTOM%ELCUT
-         INTEGER, DIMENSION(:)  , ALLOCATABLE :: EDGEICRK  ! Id fissure sur un edge  
-         INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGEC    ! local cut edge N within element 
-         INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGETG   ! local cut edge N within element 
-         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEIFI   ! signe lvset sur un edge (+/- ICRK)  
+         INTEGER, DIMENSION(:)  , ALLOCATABLE :: EDGEICRK  ! Id fissure sur un edge
+         INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGEC    ! local cut edge N within element
+         INTEGER, DIMENSION(:,:) ,ALLOCATABLE :: IEDGETG   ! local cut edge N within element
+         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEIFI   ! signe lvset sur un edge (+/- ICRK)
          INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGEENR   ! edge enrichment
-         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGETIP   ! flag d'edge interne/ext  
-         INTEGER, DIMENSION(:)   ,ALLOCATABLE :: IBORDEDGE ! flag of border edge 
-         INTEGER, DIMENSION(:)   ,ALLOCATABLE :: ICUTEDGE  ! flag of cut edge in element      
-         my_real, DIMENSION(:)   ,ALLOCATABLE :: RATIO     ! ratio of cut edge   
+         INTEGER, DIMENSION(:,:), ALLOCATABLE :: EDGETIP   ! flag d'edge interne/ext
+         INTEGER, DIMENSION(:)   ,ALLOCATABLE :: IBORDEDGE ! flag of border edge
+         INTEGER, DIMENSION(:)   ,ALLOCATABLE :: ICUTEDGE  ! flag of cut edge in element
+         my_real, DIMENSION(:)   ,ALLOCATABLE :: RATIO     ! ratio of cut edge
       END TYPE XFEM_EDGE_
 c
 c---------------------------------------------
@@ -213,7 +213,7 @@ C
          INTEGER, DIMENSION(:), ALLOCATABLE :: CRKNODID     ! New Nod ID for Animation writing
          INTEGER, DIMENSION(:), ALLOCATABLE :: XFENODES     ! Nod ID for each level ( nodes conected to KNOD2ELC )
          INTEGER, DIMENSION(:), ALLOCATABLE :: XFECRKNODID  ! New Nod ID for Animation writing ( nodes conected to KNOD2ELC )
-         INTEGER, DIMENSION(:), ALLOCATABLE :: NOD2IAD      ! for ANIM only 
+         INTEGER, DIMENSION(:), ALLOCATABLE :: NOD2IAD      ! for ANIM only
       END TYPE XFEM_NODES_
 
       TYPE (XFEM_NODES_), DIMENSION(:), ALLOCATABLE :: CRKNOD    ! NLEVMAX

@@ -41,7 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,7 +97,7 @@ C-----------------------------------------------
       my_real ,
      *   DIMENSION(:,:), ALLOCATABLE :: RSENDBUF
 
-     
+
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISENDBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRECBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: SNIDX
@@ -114,7 +114,7 @@ C-----------------------------------------------
       SAVE IADS,IADR,BBUFS,BBUFR,REQ_S,REQ_S2,
      *                    REQ_SI,REQ_R,REQ_R2,
      *                    RRECBUF,IRECBUF,RSENDBUF,ISENDBUF,
-     *                    ILEN,RLEN,LEN,LENSD,LENRV 
+     *                    ILEN,RLEN,LEN,LENSD,LENRV
 C-----------------------------------------------
       LOC_PROC = ISPMD+1
 C ----------------------------------      
@@ -239,12 +239,12 @@ C Send
 
       RETURN
       ENDIF
-     
+
 C----------------------------------      
 C IFLAG=2 partie2 - Recieve      
 C ----------------------------------      
       IF(FLAG==2)THEN
-    
+
       ALEN=6
 
 C Recieve
@@ -301,7 +301,7 @@ C                    IRTLM has been reset after main segment deletion (Idel)
 
                         IF(SURFR > 0 .AND. TIME_SR_1 /= EP20)THEN
 
-c                         IF( TIME_SR_2 == EP20 .OR. 
+c                         IF( TIME_SR_2 == EP20 .OR.
 c     .                      (TIME_SR_2 /= EP20 .AND. TIME_S_2 == TIME_SR_2 .AND. SURFR > SURF))THEN
 c                              INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+1)  = SURFR
 c                              INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+2)  = SUBTRIAR
@@ -316,7 +316,7 @@ c                          ELSEIF(ABS(TIME_S_2) > ABS(TIME_SR_2))THEN
                             INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+4)  = PROC_R
                             INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+1) = TIME_SR_1
                             INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2
-c                          END IF 
+c                          END IF
 
 c inutile
 c                       elseif(SURFR > 0 .AND. TIME_SR_1 == EP20 .AND. KLEAVE_R > 0)THEN
@@ -350,7 +350,7 @@ C                            INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2 == T
                            INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+4)  = PROC_R
 C                          INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+1) = TIME_SR_1 == TIME_S_1
                            INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2
-                         END IF 
+                         END IF
 
                        END IF
                      END IF
@@ -416,7 +416,7 @@ c     print *,'iads',ispmd+1,iads(1),iads(2),iads(3)
 C Preparation du send
       ILEN=5
       RLEN=2
-      ASSERT(SFR_I25 >= 0) 
+      ASSERT(SFR_I25 >= 0)
       ALLOCATE(ISENDBUF(ILEN,SFR_I25))
       ALLOCATE(IRECBUF(ILEN*SFR_I25))
       ALLOCATE(RSENDBUF(RLEN,SFR_I25))
@@ -436,7 +436,7 @@ c           print *,'recept attend entier',ispmd+1,p,len
      S      IRECBUF(LI),LEN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(P),IERROR)
 
-          MSGTYP = MSGOFF4 
+          MSGTYP = MSGOFF4
           LEN = SIZ*RLEN
 c           print *,'recept attend reel',ispmd+1,p,len
           CALL MPI_IRECV(
@@ -455,7 +455,7 @@ c           print *,'recept attend reel',ispmd+1,p,len
              IF(NTY==25) THEN
 
                DO I=IAD_I25(NI,P),IAD_I25(NI+1,P)-1
-                
+
                  ND = FR_I25(I)
                  ASSERT(ND > 0)
                  ASSERT(ND <= NSN)
@@ -486,7 +486,7 @@ C
      S        ISENDBUF(1,L),SIZ*ILEN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G        MPI_COMM_WORLD,REQ_S(P),IERROR)
 c           print *,'envoi entier',ispmd+1,p,siz*2
-     
+
            MSGTYP = MSGOFF4
            CALL MPI_ISEND(
      S        RSENDBUF(1,L),SIZ*RLEN,REAL,IT_SPMD(P),MSGTYP,
@@ -498,12 +498,12 @@ C--------------------------------------------------------------------
 
       RETURN
       ENDIF
-      
+
 C ----------------------------------      
 C IFLAG=3 partie3 - Recieve 
 C ----------------------------------      
       IF(FLAG==3)THEN
-      
+
       ILEN = 5
       RLEN = 2
 C Reception
@@ -518,15 +518,15 @@ c           print *,'recept recu entiers',ispmd+1,p
 c           print *,'recept recu reels',ispmd+1,p
 
 C Traitements
-        
+
          DO NI=1,NBINTC
            NIN = INTLIST(NI)
-            
+
            NTY   = IPARI(7,NIN)
            NSN   = IPARI(5,NIN)
            IF (NTY == 25)THEN
 
-             DO K=IAD_I25(NI,P),IAD_I25(NI+1,P)-1 
+             DO K=IAD_I25(NI,P),IAD_I25(NI+1,P)-1
                 ND = FR_I25(K)
                 SN = INTBUF_TAB(NIN)%NSV(ND)
 
@@ -558,7 +558,7 @@ C                 IRTLM has been reset after main segment deletion (Idel)
 
                      IF(SURFR > 0 .AND. TIME_SR_1 /= EP20)THEN
 
-c                      IF( TIME_SR_2 == EP20 .OR. 
+c                      IF( TIME_SR_2 == EP20 .OR.
 c     .                   (TIME_SR_2 /= EP20 .AND. TIME_S_2 == TIME_SR_2 .AND. SURFR > SURF))THEN
 c                           INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+1)  = SURFR
 c                           INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+2)  = SUBTRIAR
@@ -573,7 +573,7 @@ c                       ELSEIF(ABS(TIME_S_2) > ABS(TIME_SR_2))THEN
                          INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+4)  = PROC_R
                          INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+1) = TIME_SR_1
                          INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2
-c                       END IF 
+c                       END IF
 
 
 c inutile
@@ -610,7 +610,7 @@ C                         INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2 == TIME
                         INTBUF_TAB(NIN)%IRTLM(4*(ND-1)+4)  = PROC_R
 C                       INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+1) = TIME_SR_1 == TIME_S_1
                         INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+2) = TIME_SR_2
-                      END IF 
+                      END IF
                     END IF
 
                   END IF
@@ -638,9 +638,9 @@ C                       INTBUF_TAB(NIN)%TIME_S(2*(ND-1)+1) = TIME_SR_1 == TIME_S
                 END IF
 C
 c        if(itab(sn)==29376)print *,'recoit apres',loc_proc,p,INTBUF_TAB(NIN)%IRTLM(4*ND-3:4*ND)
-     
+
                IDB=IDB+1
-             ENDDO        ! K=,IAD_I25(NI,P),IAD_I25(NI+1,P)-1 
+             ENDDO        ! K=,IAD_I25(NI,P),IAD_I25(NI+1,P)-1
            ENDIF          ! IF (NTY == 25)THEN
          ENDDO            ! DO NI=1,NBINTC
         ENDIF             ! IF(SIZ/=0)THEN
@@ -700,8 +700,8 @@ C Preparation du recieve
             CALL ARRET(2)
           ENDIF
       ENDIF
-      
-      
+
+
       DO P=1, NSPMD
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
@@ -710,7 +710,7 @@ C Preparation du recieve
      *                     MPI_COMM_WORLD,REQ_R(P),IERROR )
          ENDIF
       ENDDO
-      
+
 C Send
       L=1
       IDEB = 0
@@ -753,12 +753,12 @@ C Send
 
       RETURN
       ENDIF
-      
+
 C ----------------------------------      
 C IFLAG=4 partie4 - Recieve 
 C ----------------------------------      
       IF(FLAG==4)THEN
-     
+
       ALEN=6
 C Recieve
       L=0
@@ -768,7 +768,7 @@ C Recieve
           L=0
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
-           
+
            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
            DO NI=1,NBINTC
              NIN=INTLIST(NI)

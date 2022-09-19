@@ -75,14 +75,14 @@ C=======================================================================
             IADV=ITHGRP(7,NITER)
             II=0
             IF(ITYP==3.OR.ITYP==7)THEN
-!   ------------------------------- 
+!   -------------------------------
                 II=0
                 IH=IAD
                 IF (IMACH == 3) THEN
                     DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IAD+NN))
                         IH = IH + 1
                     ENDDO
-                    IF (IH>=IAD+NN) GOTO 666 
+                    IF (IH>=IAD+NN) GOTO 666
                 ENDIF
 C-------------------
                 DO NG=1,NGROUP
@@ -91,7 +91,7 @@ C-------------------
                         MTE=IPARG(1,NG)
                         NEL=IPARG(2,NG)
                         NFT=IPARG(3,NG)
-c          
+c
                         IF (MTE /= 13 .and. MTE /= 0) THEN
 c
                             IF ((MTE>=29.AND.MTE<=31).OR.

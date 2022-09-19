@@ -75,7 +75,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
       my_real
-     .        XXX, YYY, ZZZ 
+     .        XXX, YYY, ZZZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C
           II = I+NSN
           J=MSR(I)
 C msr < 0 <=> shooting nodes
-          IF(J>0) THEN 
+          IF(J>0) THEN
             XMIN= MIN(XMIN,X(1,J))
             YMIN= MIN(YMIN,X(2,J))
             ZMIN= MIN(ZMIN,X(3,J))
@@ -147,7 +147,7 @@ C
         DO I=NMNF,NMNL
           J=MSR(I)
 C msr < 0 <=> shooting nodes
-          IF(J>0) THEN 
+          IF(J>0) THEN
             XMIN= MIN(XMIN,X(1,J))
             YMIN= MIN(YMIN,X(2,J))
             ZMIN= MIN(ZMIN,X(3,J))

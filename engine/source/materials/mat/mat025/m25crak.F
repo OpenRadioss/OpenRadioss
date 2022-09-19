@@ -108,17 +108,17 @@ C.....1.FIRST FAILURE DIRECTION 1
          IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
            WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),', INTEGRATION POINT #',IPG,
-     +        ', (PLY #',PLY_ID,'), TIME=',TT 
+     +        ', (PLY #',PLY_ID,'), TIME=',TT
          ELSE
            WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),', LAYER #',ILAYER,
-     +        ', INTEGRATION POINT #',IPG,', TIME=',TT      
+     +        ', INTEGRATION POINT #',IPG,', TIME=',TT
          ENDIF
 #include "lockoff.inc"
 !
-       ENDIF      
+       ENDIF
    50  CONTINUE
-      ENDIF      
+      ENDIF
 C.....GATHER DIRECTION 2
       NINDX=0
       DO 70 I=JFT,JLT
@@ -141,17 +141,17 @@ C.....1.FIRST FAILURE DIRECTION 2
          IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
            WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),', INTEGRATION POINT #',IPG,
-     +        ', (PLY #',PLY_ID,'), TIME=',TT 
+     +        ', (PLY #',PLY_ID,'), TIME=',TT
          ELSE
            WRITE(IOUT, '(A,I1,A,I10,A,I3,A,I3,A,1PE11.4)')
      +        ' FAILURE-',IDIR,', ELEMENT #',NGL(I),', LAYER #',ILAYER,
-     +        ', INTEGRATION POINT #',IPG,', TIME=',TT  
-         ENDIF    
+     +        ', INTEGRATION POINT #',IPG,', TIME=',TT
+         ENDIF
 #include "lockoff.inc"
 !
-       ENDIF      
+       ENDIF
    80  CONTINUE
-      ENDIF      
+      ENDIF
 C.....DOMMAGE GLOBAL
       DO 100 I=JFT,JLT
       DAMCR(I,1)=DAMCR(I,1)+THLY(I)*DAMT(I,1)

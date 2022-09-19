@@ -58,7 +58,7 @@ Chd|        MMAIN_MOD                     source/materials/mat_share/mmain.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      SUBROUTINE S6CFORC3(ELBUF_TAB,NG     , 
+      SUBROUTINE S6CFORC3(ELBUF_TAB,NG     ,
      1                   PM       ,GEO     ,IXS     ,X      ,
      2                   A        ,V       ,MS      ,W      ,FLUX   ,
      3                   FLU1     ,VEUL    ,FV      ,ALE_CONNECT  ,IPARG  ,
@@ -78,7 +78,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .   MSSA(*), DMELS(*), VOLN(MVSIZ)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -136,7 +136,7 @@ C-----------------------------------------------
      .   ILAY,NLAY,IR,IS,IT,IP,IBID,MX
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IBIDON(1)
 c     Variables utilisees dans les routines solides uniquement (en arguments).
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
 C----------
       my_real
@@ -147,7 +147,7 @@ C----------
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
      . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ)
@@ -160,11 +160,11 @@ C
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ), OFFG(MVSIZ) ,
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
-     .   X5(MVSIZ), X6(MVSIZ), 
+     .   X5(MVSIZ), X6(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
-     .   Y5(MVSIZ), Y6(MVSIZ), 
+     .   Y5(MVSIZ), Y6(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   Z5(MVSIZ), Z6(MVSIZ), 
+     .   Z5(MVSIZ), Z6(MVSIZ),
      .  VX1(MVSIZ),VX2(MVSIZ),VX3(MVSIZ),VX4(MVSIZ),
      .  VX5(MVSIZ),VX6(MVSIZ),
      .  VY1(MVSIZ),VY2(MVSIZ),VY3(MVSIZ),VY4(MVSIZ),
@@ -223,15 +223,15 @@ C
      .   N4Y(MVSIZ), N5Y(MVSIZ), N6Y(MVSIZ),
      .   N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),AMU(MVSIZ)
       my_real VARNL(NEL)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(MVSIZ),FACDP
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -259,7 +259,7 @@ C-----------------------------------------------
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -300,7 +300,7 @@ C-----------
       IBIDON(1) = 0
       IF (IGTYP /= 22) THEN
         ISORTHG = 0
-      END IF 
+      END IF
 C-----------
       NF1=NFT+1
 C--------------------------
@@ -315,17 +315,17 @@ C Gather nodal variables and compute intinsic rotations
 C-----------------------------------------------------------
        CALL S6RCOOR3(X,IXS(1,NF1),V,W,GBUF%GAMA,GAMA,
      .   X1, X2, X3, X4, X5, X6,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
-     .   VY1, VY2, VY3, VY4, VY5, VY6, 
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, 
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
+     .   VX1, VX2, VX3, VX4, VX5, VX6,
+     .   VY1, VY2, VY3, VY4, VY5, VY6,
+     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6,
      .   VD2,VIS,GBUF%OFF,OFFG,GBUF%SMSTR,GBUF%RHO,RHOO,
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33, 
+     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   NC1,NC2,NC3,NC4,NC5,NC6,NGL,MXT,NGEO,
      .   IOUTPRT, VGXA, VGYA, VGZA, VGA2,DD,
      .   NEL, XGXA, XGYA, XGZA,XGXA2,XGYA2,XGZA2,
-     .   XGXYA,XGYZA,XGZXA,IPARG(1,NG),GBUF%GAMA_R) 
+     .   XGXYA,XGYZA,XGZXA,IPARG(1,NG),GBUF%GAMA_R)
 C
       MX = MXT(1)
       C1 =PM(32,MX)
@@ -338,31 +338,31 @@ C
         STIN(I)=ZERO
       ENDDO
 C
-      IF (ICP==1) THEN                                
-        DO I=1,NEL                                    
-         NU1(I)=HALF                                  
-        ENDDO                                           
-      ELSEIF (ICP==2) THEN                            
+      IF (ICP==1) THEN
+        DO I=1,NEL
+         NU1(I)=HALF
+        ENDDO
+      ELSEIF (ICP==2) THEN
         CALL S8CSIGP3(GBUF%SIG,E0 ,GBUF%PLA,FAC,GBUF%G_PLA,NEL)
-        DO I=1,NEL                                    
-          NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)             
-        ENDDO                                           
-      ELSE                                             
-         DO I=1,NEL                                    
-          NU1(I) =NU(I)                                  
-         ENDDO                                           
-      ENDIF                                             
+        DO I=1,NEL
+          NU1(I)=NU(I)+(HALF-NU(I))*FAC(I)
+        ENDDO
+      ELSE
+         DO I=1,NEL
+          NU1(I) =NU(I)
+         ENDDO
+      ENDIF
 C
       CALL S6CDERI3(OFFG,VOLN,NGL,
-     .   X1, X2, X3, X4, X5, X6, 
-     .   Y1, Y2, Y3, Y4, Y5, Y6, 
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
+     .   X1, X2, X3, X4, X5, X6,
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
+     .   PX1H, PX2H, PX3H,
+     .   PY1H, PY2H, PY3H,
+     .   PZ1H, PZ2H, PZ3H,
      .   JAC1,JAC2,JAC3,
      .   JAC4,JAC5,JAC6,
      .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
@@ -380,34 +380,34 @@ C
      .                  X1, X2, X3, X4, X5, X6,
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
      .                  Z1, Z2, Z3, Z4, Z5, Z6)
-        ALPHA_E(1:NEL) = ONE  
+        ALPHA_E(1:NEL) = ONE
         DO I=1,NEL
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/DELTAX(I)
-          ALPHA_E(I) = FACDP*FACDP  
+          ALPHA_E(I) = FACDP*FACDP
           DELTAX(I)=MAX(LLSH(I),DELTAX(I))
         ENDDO
-      END IF        
+      END IF
       CALL S6CDEFC3(
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
+     .   VX1, VX2, VX3, VX4, VX5, VX6,
      .   VY1, VY2, VY3, VY4, VY5, VY6,
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, 
+     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6,
      .   DCXX,DCXY,DCXZ,DCYX,DCYY,DCYZ,DCZX,DCZY,DCZZ,DC4,DC5,DC6,
-     .   WXX, WYY, WZZ, 
+     .   WXX, WYY, WZZ,
      .   DHXX, DHXY, DHXZ,DHYX, DHYY, DHYZ,DHZX, DHZY, DHZZ,
      .   DH4, DH5, DH6,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
+     .   PX1H, PX2H, PX3H,
+     .   PY1H, PY2H, PY3H,
+     .   PZ1H, PZ2H, PZ3H,
      .   JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
-     .   DDHV,NU1) 
+     .   DDHV,NU1)
       CALL S6CZERO3(
      .   F11, F21, F31, F12, F22, F32, F13, F23,
-     .   F33, F14, F24, F34, F15, F25, F35, F16, F26, F36, 
+     .   F33, F14, F24, F34, F15, F25, F35, F16, F26, F36,
      .   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,
      .   GBUF%PLA,GBUF%EPSD,GBUF%G_PLA,GBUF%G_EPSD,NEL)
 C ------------------------------------------------------------------------------
@@ -421,26 +421,26 @@ C ------------------------------------------------------------------------------
      .   NEL)
       END IF !(ISMSTR <= 3) THEN
 c
-      IF (ISORTH > 0) THEN                         
-        PID = NGEO(1)                              
-        IF (IGTYP == 21) THEN                      
-         CALL SGETDIR3(NEL,RX,RY,RZ,TX,TY,TZ, 
-     .                 R11,R21,R31,R12,R22,R32,    
-     .                 GBUF%GAMA,DIR,IREP)         
-        ENDIF                                      
-        IF (IGTYP == 22) THEN                      
-          NLYMAX= 200                              
-          IPANG = 200                              
-          IPTHK = IPANG+NLYMAX                     
-          IPPOS = IPTHK+NLYMAX                     
-	         IPMAT = 100                              
-          MTN0=MTN                                 
-          DO I=1,NEL                             
-            MXT0(I)=MXT(I)                         
-            SHF(I)=GEO(38,NGEO(I))                 
-          ENDDO                                    
-        ENDIF                                      
-      ENDIF                                        
+      IF (ISORTH > 0) THEN
+        PID = NGEO(1)
+        IF (IGTYP == 21) THEN
+         CALL SGETDIR3(NEL,RX,RY,RZ,TX,TY,TZ,
+     .                 R11,R21,R31,R12,R22,R32,
+     .                 GBUF%GAMA,DIR,IREP)
+        ENDIF
+        IF (IGTYP == 22) THEN
+          NLYMAX= 200
+          IPANG = 200
+          IPTHK = IPANG+NLYMAX
+          IPPOS = IPTHK+NLYMAX
+	         IPMAT = 100
+          MTN0=MTN
+          DO I=1,NEL
+            MXT0(I)=MXT(I)
+            SHF(I)=GEO(38,NGEO(I))
+          ENDDO
+        ENDIF
+      ENDIF
 C--------------------------------------
 C Constant stress through the thickness
 C--------------------------------------
@@ -459,7 +459,7 @@ C--------------------------------------
         DTI =ZERO
       ELSE
         DTI = ONE/DT1
-      ENDIF 
+      ENDIF
 C---------------------------------------------
 C Loop on integration points through thickness
 C---------------------------------------------
@@ -481,7 +481,7 @@ C
         CALL SCDEFO3(
      .    DXX, DXY, DXZ, DYX,DYY,DYZ, DZX, DZY, DZZ, D4, D5, D6,
      .    DCXX, DCXY, DCXZ,DCYX, DCYY,DCYZ, DCZX, DCZY, DCZZ,
-     .    DC4, DC5,DC6,DHXX, DHXY,DHXZ, 
+     .    DC4, DC5,DC6,DHXX, DHXY,DHXZ,
      .    DHYX, DHYY,DHYZ, DHZX, DHZY, DHZZ,DH4, DH5,DH6,
      .    ZT      ,WT   ,VZL     ,VOLN  ,VOLG   ,
      .    LBUF%VOL,DDHV ,LBUF%SIG,SIGZM ,VOLM   ,
@@ -491,7 +491,7 @@ C
           RHOO(I)= LBUF%RHO(I)
         ENDDO
         IF (ISORTH > 0) THEN
-          IF (IGTYP == 22)  
+          IF (IGTYP == 22)
      .      CALL SGETDIR3(NEL,RX,RY,RZ,TX,TY,TZ,
      .                   R11,R21,R31,R12,R22,R32,
      .                   LBUF%GAMA,DIR,IREP)
@@ -504,7 +504,7 @@ C
           ENDIF
         ENDIF
 C 
-         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)  
+         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)
         CALL SRHO3( PM         , LBUF%VOL , LBUF%RHO, LBUF%EINT, DIVDE,
      .              FLUX(1,NF1), FLU1(NF1), VOLN    , DVOL     , NGL, MXT, OFF,
      .              0          , GBUF%TAG22 , VOLDP    ,LBUF%VOL0DP,AMU  ,GBUF%OFF)
@@ -540,7 +540,7 @@ C
         DO I=1,NEL
           STIN(I) = STIN(I)+STI(I)
         ENDDO
-        IF (ISTRAIN == 1) THEN 
+        IF (ISTRAIN == 1) THEN
           CALL SSTRA3(DXX,DYY,DZZ,D4,D5,
      .                D6, LBUF%STRA, WXX, WYY, WZZ,
      .                OFF,NEL)
@@ -556,9 +556,9 @@ C----------------------------
      .     PX1, PX2, PX3, PX4,
      .     PY1, PY2, PY3, PY4,
      .     PZ1, PZ2, PZ3, PZ4,
-     .     PX1H, PX2H, PX3H, 
-     .     PY1H, PY2H, PY3H, 
-     .     PZ1H, PZ2H, PZ3H, 
+     .     PX1H, PX2H, PX3H,
+     .     PY1H, PY2H, PY3H,
+     .     PZ1H, PZ2H, PZ3H,
      .     JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .     B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .     F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
@@ -573,9 +573,9 @@ C----------------------------
      .     PX1, PX2, PX3, PX4,
      .     PY1, PY2, PY3, PY4,
      .     PZ1, PZ2, PZ3, PZ4,
-     .     PX1H, PX2H, PX3H, 
-     .     PY1H, PY2H, PY3H, 
-     .     PZ1H, PZ2H, PZ3H, 
+     .     PX1H, PX2H, PX3H,
+     .     PY1H, PY2H, PY3H,
+     .     PZ1H, PZ2H, PZ3H,
      .     JACI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .     B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .     F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
@@ -590,13 +590,13 @@ C----------------------------
           ENDDO
         ENDIF ! IF (ISORTH > 0)
         IOFFS=0
-        DO I=1,NEL                                        
-          OFFG(I)=MIN(OFFG(I),OFF(I))                        
+        DO I=1,NEL
+          OFFG(I)=MIN(OFFG(I),OFF(I))
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
            OFFS(I) = MIN(LBUF%OFF(I),OFFS(I))
-           IOFFS   = 1                                         
-          END IF                                             
-        ENDDO                                               
+           IOFFS   = 1
+          END IF
+        ENDDO
 C-----------------------------
       ENDDO  !  ILAY=1,NLAY
 C-----------------------------
@@ -629,7 +629,7 @@ C--------------------------------------
 C Balance per part in case of print out
 C--------------------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
-      IF (IOUTPRT>0) THEN         
+      IF (IOUTPRT>0) THEN
            CALL S6CBILAN(PARTSAV,GBUF%EINT,GBUF%RHO,GBUF%RK ,GBUF%VOL,
      .       VGXA, VGYA, VGZA, VGA2, VOLG,IPARTS,
      .       GRESAV,GRTH,IGRTH,GBUF%OFF,IBID,GBUF%EINTTH,
@@ -643,7 +643,7 @@ C--------------------------------
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6,
      .   Z1, Z2, Z3, Z4, Z5, Z6,
-     .   F11, F12, F13, F14, F15, F16, 
+     .   F11, F12, F13, F14, F15, F16,
      .   F21, F22, F23, F24, F25, F26,
      .   F31, F32, F33, F34, F35, F36,
      .   DD)
@@ -668,7 +668,7 @@ C--------------------------------
 C----------------------------
       IF(NFILSOL/=0) CALL S6FILLOPT(GBUF%FILL,STI,
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36)    
+     2   F15,F25,F35,F16,F26,F36)
 C----------------------------
 C Assemble nodal forces
 C----------------------------

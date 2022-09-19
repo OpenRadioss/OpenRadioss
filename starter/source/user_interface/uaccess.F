@@ -30,7 +30,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
       INTEGER IERR
       IERR=0
-      END      
+      END
 C
 Chd|====================================================================
 Chd|  SET_U_GEO                     source/user_interface/uaccess.F
@@ -385,7 +385,7 @@ C
          CALL GET_VAR_USER_F_SP(3,DEPLA,NV)
          DEPLA=NINT(NV)-1+IVAR
 C Sav Buf Point = 4 is BUFGEO which is now in Double precision 
-         A2 = A      
+         A2 = A
          CALL SET_VAR_USER_F(4,DEPLA,A2)
       ELSE
          CALL GET_VAR_USER_F(3,DEPLA,NV)
@@ -733,8 +733,8 @@ C-----------------------------------------------
       my_real
      .    ABC,DERI,DX1,DX2,TFI,TFI1,TFI2,TFIP,
      .    DERIMAX
-     
-      GET_U_FUNC_DERI = 0    
+
+      GET_U_FUNC_DERI = 0
       CALL GET_VAR_USER_I(5,IFUNC,NPFI)
       CALL GET_VAR_USER_I(5,IFUNC+1,NPFIP)
 
@@ -749,13 +749,13 @@ C-----------------------------------------------
           CALL GET_VAR_USER_F(6,I+1,TFIP)
           CALL GET_VAR_USER_F(6,I-1,TFI1)
           CALL GET_VAR_USER_F(6,I-2,TFI2)
-        ENDIF            
+        ENDIF
         DERI = ABS((TFIP - TFI1) / (TFI - TFI2))
-        GET_U_FUNC_DERI = MAX(GET_U_FUNC_DERI,DERI)       
+        GET_U_FUNC_DERI = MAX(GET_U_FUNC_DERI,DERI)
       END DO
- 
+
       RETURN
-      END       
+      END
 Chd|====================================================================
 Chd|  GET_U_M                       source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -1003,7 +1003,7 @@ C
       GET_U_SKEW = 0
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  UELT_SPMD_ADDITIONAL_NODE     source/user_interface/uaccess.F
 Chd|-- called by -----------
@@ -1030,17 +1030,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 
       INODID=USR2SYS(NODID,ITABM1,MESS,NODID)
-      
+
       IF(INODID/=0)THEN
         IF(USER_GRP_DOMAIN/=0)THEN
           CALL IFRONTPLUS(INODID,USER_GRP_DOMAIN)
         ELSE
           DO P=1,NSPMD
              CALL IFRONTPLUS(INODID,P)
-          ENDDO  
+          ENDDO
         ENDIF
-      ENDIF      
-      
+      ENDIF
+
       RETURN
       END
 Chd|====================================================================

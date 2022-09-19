@@ -29,7 +29,7 @@ Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE TEMPCG(JFT ,JLT   , PM   ,MAT   ,IXC ,   
+      SUBROUTINE TEMPCG(JFT ,JLT   , PM   ,MAT   ,IXC ,
      3                  TEMP ,TEMPEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C     REAL  
 C --- calcul de la tempurature au CG 
         DO I=JFT,JLT
-          TEMPEL(I) = FOURTH * ( TEMP(IXC(2,I)) + TEMP(IXC(3,I)) + 
+          TEMPEL(I) = FOURTH * ( TEMP(IXC(2,I)) + TEMP(IXC(3,I)) +
      .                          TEMP(IXC(4,I)) + TEMP(IXC(5,I)) )
        ENDDO
 C

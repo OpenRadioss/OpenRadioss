@@ -109,21 +109,21 @@ Chd|====================================================================
       MODULE NLOCAL_REG_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c define type NLOCAL_STRUCT_ for nodal variable regularization
-c=======================================================================      
-c 
+c=======================================================================
+c
       TYPE NLOCAL_STR_
-        integer  :: IMOD                                  ! Non-local regularization flag  
-        integer  :: NNOD                                  ! Number of nodes with additional d.o.fs 
+        integer  :: IMOD                                  ! Non-local regularization flag
+        integer  :: NNOD                                  ! Number of nodes with additional d.o.fs
         integer  :: L_NLOC                                ! Length of non-local vectors
         integer  :: NUMELS_NL                             ! Number of non-local solids elements
         integer  :: NUMELC_NL                             ! Number of non-local shell elements
         integer  :: NUMELTG_NL                            ! Number of non-local triangle shell elements
         integer  :: NDDMAX                                ! Maximum number of additional d.o.fs
         integer  :: LCNE_NL                               ! Length of the PROCNE table
-        my_real, DIMENSION(:)   , ALLOCATABLE :: DENS     ! (NUMMAT) Non-local 'density' parameter  
-        my_real, DIMENSION(:)   , ALLOCATABLE :: DAMP     ! (NUMMAT) Non-local 'damping' coefficient      
+        my_real, DIMENSION(:)   , ALLOCATABLE :: DENS     ! (NUMMAT) Non-local 'density' parameter
+        my_real, DIMENSION(:)   , ALLOCATABLE :: DAMP     ! (NUMMAT) Non-local 'damping' coefficient
         my_real, DIMENSION(:)   , ALLOCATABLE :: LEN      ! (NUMMAT) Non-local internal length
         my_real, DIMENSION(:)   , ALLOCATABLE :: LE_MAX   ! (NUMMAT) Maximal element length target
         my_real, DIMENSION(:)   , ALLOCATABLE :: SSPNL    ! (NUMMAT) Non-local "sound speed"
@@ -153,19 +153,19 @@ C       SPMD PON BOUNDARIES
         integer, DIMENSION(:)   , ALLOCATABLE :: ISENDSP  ! Skyline PON Send index
         integer, DIMENSION(:)   , ALLOCATABLE :: IRECSP   ! Skyline PON Recieve index
 
-! --------------------------------   
-!       communication for parith/on 
+! --------------------------------
+!       communication for parith/on
         integer, DIMENSION(:)   , ALLOCATABLE :: IADSDP  ! dim = NSPMD+1
         integer, DIMENSION(:)   , ALLOCATABLE :: IADRCP  ! dim = NSPMD+1
         integer, dimension(:,:) , allocatable :: FR_NBCC ! dim = 2,NSPMD
         integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM_S
         integer, DIMENSION(:)   , ALLOCATABLE :: FR_ELEM_R
-! --------------------------------  
+! --------------------------------
       END TYPE NLOCAL_STR_
-      CONTAINS 
-c=======================================================================      
+      CONTAINS
+c=======================================================================
 c define routine GET_LEMAX to automatically determine the maximal element length
-c======================================================================= 
+c=======================================================================
 Chd|====================================================================
 Chd|  GET_LEMAX                     modules/nlocal_reg_mod.F      
 Chd|-- called by -----------
@@ -180,9 +180,9 @@ Chd|====================================================================
           my_real, INTENT(OUT) :: LE_MAX
           LE_MAX = SQRT(PI)*NLOC_LENGTH/THREE
         END SUBROUTINE GET_LEMAX
-c=======================================================================      
+c=======================================================================
 c define routine GET_LENGTH to automatically determine the maximal element length
-c======================================================================= 
+c=======================================================================
 Chd|====================================================================
 Chd|  GET_LENGTH                    modules/nlocal_reg_mod.F      
 Chd|-- called by -----------
@@ -196,5 +196,5 @@ Chd|====================================================================
           my_real, INTENT(OUT) :: NLOC_LENGTH
           NLOC_LENGTH = THREE*LE_MAX/SQRT(PI)
       END SUBROUTINE GET_LENGTH
-c=======================================================================       
+c=======================================================================
       END MODULE NLOCAL_REG_MOD

@@ -32,7 +32,7 @@ Chd|====================================================================
      1                  JLT    ,A     ,V        ,GAP    ,FRIC   ,
      2                  MS     ,CS_LOC ,CM_LOC  ,STIGLO ,STIF   ,
      3                  HS1    ,HS2     ,HM1    ,HM2    ,NX     ,
-     4                  NY     ,NZ     ,GAPV    ,PENIS  ,PENIM  , 
+     4                  NY     ,NZ     ,GAPV    ,PENIS  ,PENIM  ,
      5                  INACTI ,NRTS   ,MS1     ,MS2    ,MM1    ,
      6                  MM2    ,VXS1   ,VYS1    ,VZS1   ,VXS2   ,
      7                  VYS2   ,VZS2    ,VXM1   ,VYM1   ,VZM1   ,
@@ -109,7 +109,7 @@ C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP == 1) THEN
          PREC = FIVEEM4
-      ELSE 
+      ELSE
          PREC = EM10
       ENDIF
 C
@@ -222,12 +222,12 @@ C-------------------------------------------
 C
       IF(IMP_INT7>=2)THEN
        DO I=1,JLT
-         STIF(I) = HALF*STIF(I) 
+         STIF(I) = HALF*STIF(I)
        ENDDO
       ELSEIF(IMP_INT7==1)THEN
        DO I=1,JLT
         FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-        IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND. 
+        IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND.
      .                                STIF(I)>ZERO ) THEN
          STIF(I) = ZERO
          PENE(I)= ZERO
@@ -239,7 +239,7 @@ C
       ELSE
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND. 
+       IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND.
      .                                STIF(I)>ZERO ) THEN
          STIF(I) = ZERO
          PENE(I)= ZERO
@@ -249,8 +249,8 @@ C
        ENDIF
       ENDDO
       DO I=1,JLT
-          STIF(I) = STIF(I) * GAPV(I) / 
-     .            MAX((GAPV(I) - PENE(I)),EM10) 
+          STIF(I) = STIF(I) * GAPV(I) /
+     .            MAX((GAPV(I) - PENE(I)),EM10)
       ENDDO
 C
       END IF !(IMP_INT7>=2)
@@ -346,8 +346,8 @@ c        write(iout,*)'FAC-,VN(I)=',FAC,VN(I),I
        K2J11(3,3,I)=KN(4,I)*Q33
       ENDDO
 C    ----avec frottement --- 
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
@@ -361,13 +361,13 @@ C    ----avec frottement ---
            K2I11(J,K,I)=K2I11(J,K,I)+KT3
            KT4=FAC*H4(I)
            K2J11(J,K,I)=K2J11(J,K,I)+KT4
-          ENDIF 
+          ENDIF
          ENDDO
         ENDDO
        ENDDO
 C
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           K1I12(J,K,I)=-K1I11(J,K,I)
           K1J12(J,K,I)=-K1J11(J,K,I)
@@ -376,8 +376,8 @@ C
          ENDDO
         ENDDO
        ENDDO
-       DO J=1,3 
-        DO K=J+1,3 
+       DO J=1,3
+        DO K=J+1,3
          DO I=1,JLT
           K1I12(K,J,I)=-K1I11(J,K,I)
           K1J12(K,J,I)=-K1J11(J,K,I)
@@ -447,8 +447,8 @@ C---------pour temporairement diag_ss---
 	  DFI(3,NN2)=ZERO
 	 ENDIF
         ENDDO
-       ENDIF 
-       ENDIF 
+       ENDIF
+       ENDIF
 C
       RETURN
       END
@@ -465,8 +465,8 @@ Chd|====================================================================
      3                  VXS1    ,VYS1   ,VZS1   ,VXS2   ,VYS2   ,
      4                  VZS2    ,VXM1   ,VYM1   ,VZM1   ,VXM2   ,
      5                  VYM2    ,VZM2   ,N1     ,N2     ,M1     ,
-     6                   M2     ,DXS1   ,DYS1   ,DZS1   ,DXS2   ,  
-     7                   DYS2   ,DZS2   ,DXM1   ,DYM1   ,DZM1   ,  
+     6                   M2     ,DXS1   ,DYS1   ,DZS1   ,DXS2   ,
+     7                   DYS2   ,DZS2   ,DXM1   ,DYM1   ,DZM1   ,
      8                   DXM2   ,DYM2   ,DZM2   ,STIF   , NIN   ,
      9                   SCALK  )
 C-----------------------------------------------
@@ -505,10 +505,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, J, K,IG,ISF,NN,NS,NI,NJ
       my_real
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
-     .   DXI(MVSIZ), DYI(MVSIZ), DZI(MVSIZ), 
-     .   DNI(MVSIZ),DT(MVSIZ), DTI(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
+     .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
+     .   DXI(MVSIZ), DYI(MVSIZ), DZI(MVSIZ),
+     .   DNI(MVSIZ),DT(MVSIZ), DTI(MVSIZ),
      .   S2,FACN(MVSIZ),FACF, FACT(MVSIZ)
       my_real
      .   FX,FY,FZ,FN,FT,FNI,FTI,VTX,VTY,VTZ,VT,
@@ -636,7 +636,7 @@ Chd|====================================================================
      1                  JLT    ,A       ,V       ,GAP    ,MS     ,
      2                  CS_LOC ,CM_LOC  ,STIF    ,FRIC   ,
      3                  HS1    ,HS2     ,HM1    ,HM2    ,NX     ,
-     4                  NY     ,NZ     ,GAPV    ,PENIS  ,PENIM  , 
+     4                  NY     ,NZ     ,GAPV    ,PENIS  ,PENIM  ,
      5                  INACTI ,NRTS   ,MS1     ,MS2    ,MM1    ,
      6                  MM2    ,VXS1   ,VYS1    ,VZS1   ,VXS2   ,
      7                  VYS2   ,VZS2   ,VXM1    ,VYM1   ,VZM1   ,
@@ -672,14 +672,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,INACTI,NRTS,NIN,LREM,IDESAC
       INTEGER CS_LOC(MVSIZ), CM_LOC(MVSIZ),N1(MVSIZ), N2(MVSIZ),
-     .        M1(MVSIZ), M2(MVSIZ) 
+     .        M1(MVSIZ), M2(MVSIZ)
       my_real
      .   MS(*), A(3,*),V(3,*),
      .   GAPV(*),PENIS(2,*), PENIM(2,*),GAP,STIF(*),FRIC
       my_real
      .   HS1(MVSIZ), HS2(MVSIZ), HM1(MVSIZ), HM2(MVSIZ),
-     .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), 
-     .   MS1(MVSIZ),MS2(MVSIZ),MM1(MVSIZ),MM2(MVSIZ), 
+     .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
+     .   MS1(MVSIZ),MS2(MVSIZ),MM1(MVSIZ),MM2(MVSIZ),
      .   VXS1(MVSIZ),VYS1(MVSIZ),VZS1(MVSIZ),VXS2(MVSIZ),VYS2(MVSIZ),
      .   VZS2(MVSIZ),VXM1(MVSIZ),VYM1(MVSIZ),VZM1(MVSIZ),VXM2(MVSIZ),
      .   VYM2(MVSIZ),VZM2(MVSIZ),SCALK,
@@ -694,8 +694,8 @@ C-----------------------------------------------
      .   DYM2(MVSIZ),DZM2(MVSIZ),
      .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),PENE(MVSIZ),
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
-     .   DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ),DNI(MVSIZ), 
-     .   FXI(MVSIZ),FYI(MVSIZ), FZI(MVSIZ),FNI(MVSIZ), 
+     .   DXI(MVSIZ),DYI(MVSIZ), DZI(MVSIZ),DNI(MVSIZ),
+     .   FXI(MVSIZ),FYI(MVSIZ), FZI(MVSIZ),FNI(MVSIZ),
      .   VNX, VNY, VNZ, AA, VMAX,S2,DIST,RDIST,
      .   V2, FM2, VISCA,  FAC,  FF,DXT,T1,T2,T3,FTN,
      .   FX, FY, FZ, F2, MAS2, FACM1, PPLUS,GAP2,PENE2,PREC
@@ -703,7 +703,7 @@ C-----------------------------------------------
 #include "sync_dir.inc"
       IF (IRESP == 1) THEN
          PREC = FIVEEM4
-      ELSE 
+      ELSE
          PREC = EM10
       ENDIF
         DO I=1,JLT
@@ -739,7 +739,7 @@ C
       DO I=1,JLT
        GAP2 = GAPV(I)*GAPV(I)
        PENE2 = GAP2 - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
-       PENE2 = MAX(ZERO,PENE2) 
+       PENE2 = MAX(ZERO,PENE2)
        IF(PENE2==ZERO) STIF(I) = ZERO
       ENDDO
 C
@@ -851,12 +851,12 @@ C-------------------------------------------
 C
       IF(IMP_INT7>=2)THEN
        DO I=1,JLT
-         STIF(I) = HALF*STIF(I) 
+         STIF(I) = HALF*STIF(I)
        ENDDO
       ELSEIF(IMP_INT7==1)THEN
        DO I=1,JLT
         FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-        IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND. 
+        IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND.
      .                                STIF(I)>ZERO ) THEN
          STIF(I) = ZERO
          PENE(I)= ZERO
@@ -868,7 +868,7 @@ C
       ELSE
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND. 
+       IF(( (GAPV(I)-PENE(I))/GAPV(I) )<PREC .AND.
      .                                STIF(I)>ZERO ) THEN
          STIF(I) = ZERO
          PENE(I)= ZERO
@@ -878,16 +878,16 @@ C
        ENDIF
       ENDDO
       DO I=1,JLT
-          STIF(I) = STIF(I) * GAPV(I) / 
-     .            MAX((GAPV(I) - PENE(I)),EM10) 
+          STIF(I) = STIF(I) * GAPV(I) /
+     .            MAX((GAPV(I) - PENE(I)),EM10)
       ENDDO
 C
       END IF !(IMP_INT7>=2)
 C      
-       FAC =   ABS(SCALK)   
+       FAC =   ABS(SCALK)
        DO I=1,JLT
         STIF(I)=STIF(I)*FAC
-        FNI(I)= -STIF(I) * DN(I) 
+        FNI(I)= -STIF(I) * DN(I)
         FXI(I)=NX(I)*FNI(I)
         FYI(I)=NY(I)*FNI(I)
         FZI(I)=NZ(I)*FNI(I)

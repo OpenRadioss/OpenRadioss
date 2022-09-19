@@ -162,7 +162,7 @@ C-----------------------------------------------
      .        IAD2P(MVSIZ),IPOS2P(MVSIZ),ILEN2P(MVSIZ),
      .        IAD1N(MVSIZ),IPOS1N(MVSIZ),ILEN1N(MVSIZ),
      .        IAD2N(MVSIZ),IPOS2N(MVSIZ),ILEN2N(MVSIZ),II(MVSIZ),
-     .         NRATEN1, NRATEP1                  
+     .         NRATEN1, NRATEP1
       my_real
      .        E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,2),SVM(MVSIZ),
@@ -184,7 +184,7 @@ C-----------------------------------------------
      .        ALPHA,
      .        E1,A11,A21,G1,G31,NNU11,NU11,NU21,NU31,NU41,NU51,NU61,
      .        VISC1, VISCV1
-     .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,NUX,C11, C21  
+     .        DSXX,DSYY,DSXY,DEXX,DEYY,DEXY,NUX,C11, C21
       my_real
      .        Y11(MVSIZ),Y21(MVSIZ), ME, MA1, MA2, MG, MNU,SVM_OLD,
      .        DEV, DTINV, LAMDA, DEPS33, SVM1
@@ -196,7 +196,7 @@ C
 c------------------------------------------------------------------------------
 C   Pour le moment on fait qu'une projection radial
        IFLAG(1) = 2
-       MX = MAT(1)       
+       MX = MAT(1)
        NFUNC  = IPM(10,MX)
        DO I= 1, NEL0
 
@@ -205,9 +205,9 @@ C   Pour le moment on fait qu'une projection radial
         ENDDO
        ENDDO
 C
-       MX = MAT(1) 
+       MX = MAT(1)
        IADBUF = IPM(7,MX)-1
-       DO I=1,NEL0 
+       DO I=1,NEL0
        E(I)   = UPARAM(IADBUF+2)
        A1(I)  = UPARAM(IADBUF+3)
        A2(I)  = UPARAM(IADBUF+4)
@@ -218,15 +218,15 @@ C
        VISCV(I) = UPARAM(IADBUF+8)
        NRATEP(I) = UPARAM(IADBUF+9)
        NRATEN(I) = UPARAM(IADBUF+10)
-       EPSMAX(I) = UPARAM(IADBUF+11)       
-       NRATE(I)  =NRATEN(I) + NRATEP(I) +1 
-       
+       EPSMAX(I) = UPARAM(IADBUF+11)
+       NRATE(I)  =NRATEN(I) + NRATEP(I) +1
+
 C
-        NNU(I) = NU(I) / (ONE - NU(I))       
+        NNU(I) = NU(I) / (ONE - NU(I))
        ENDDO
        IF (ISIGI==0) THEN
        IF(TIME==ZERO)THEN
-         DO I=1,NEL0           
+         DO I=1,NEL0
            DO J=1,NRATE(I)
              UVAR(I,J)=0
            ENDDO
@@ -245,17 +245,17 @@ C
 C 
          VISC(I)  = VISC(I)*RHO0(I)
          VISCV(I) = VISCV(I)*RHO0(I)
-       
+
          C11 = ONE/MAX(EM20,THREE*VISC(I) + FOUR*VISCV(I))
-         C1(I) = FOUR* VISC(I)*(THREE*VISCV(I) 
+         C1(I) = FOUR* VISC(I)*(THREE*VISCV(I)
      .                         + VISC(I))*C11
-         C2(I) = TWO*VISCV(I)*(THREE*VISC(I) 
+         C2(I) = TWO*VISCV(I)*(THREE*VISC(I)
      .                      - TWO*VISCV(I))*C11
 C la partie visqueuse 
          DTINV = TIMESTEP(I)**2/MAX(EM20, TIMESTEP(I))
-           
+
          SIGVXX(I)= C2(I)*(EPSPXX(I)+EPSPYY(I))
-     .                       + TWO*VISCV(I)*EPSPXX(I) 
+     .                       + TWO*VISCV(I)*EPSPXX(I)
          SIGVYY(I)= C2(I)*(EPSPXX(I)+EPSPYY(I))
      .                       + TWO*VISCV(I)*EPSPYY(I)
          SIGVXY(I)= VISCV(I)*EPSPXY(I)
@@ -267,12 +267,12 @@ C
 C a verefier cette formule	  
           VISCMAX(I) = MAX(C2(I), C11)
 	  VISCMAX(I) = VISCMAX(I)/
-     .          (ONEP414*RHO0(I)*SOUNDSP(I)*SQRT(AREA(I)))                   
+     .          (ONEP414*RHO0(I)*SOUNDSP(I)*SQRT(AREA(I)))
          ETSE(I) = ONE
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF (ISRATE == 0) EPSP(I) = 
+         IF (ISRATE == 0) EPSP(I) =
      .     HALF*(EPSPXX(I)+EPSPYY(I)
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -282,7 +282,7 @@ C-------------------
 C
          EPST(I) = HALF*(EPSXX(I)+EPSYY(I)
      .   + SQRT( (EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
-     .                 + EPSXY(I)*EPSXY(I) ) )         
+     .                 + EPSXY(I)*EPSXY(I) ) )
          IF(OFF(I)==ONE.AND.EPST(I)>EPSMAX(I))OFF(I) =FOUR_OVER_5
        ENDDO
 C-------------------
@@ -291,20 +291,20 @@ C-------------------
        DO I=1,NEL0
          JJ(I) = 1
          II(I) = 1 + NRATEP(I)
-       ENDDO       
+       ENDDO
 C      
        DO I=1,NEL0
         DO J=2,NRATEP(I)-1
            IADBUF = IPM(7,MAT(I)) - 1
-           IF(ABS(EPSP(I))>=UPARAM(IADBUF+ 10 +J)) JJ(I) = J 
-         ENDDO         
+           IF(ABS(EPSP(I))>=UPARAM(IADBUF+ 10 +J)) JJ(I) = J
+         ENDDO
        ENDDO
-     
+
         DO I=1,NEL0
           DO J=2,NRATEN(I)-1
-           IADBUF = IPM(7,MAT(I))-1        
+           IADBUF = IPM(7,MAT(I))-1
             IF(ABS(EPSP(I))>=
-     .         ABS(UPARAM(IADBUF+10 + NRATEP(I) + J))) II(I) = NRATEP(I) + J 
+     .         ABS(UPARAM(IADBUF+10 + NRATEP(I) + J))) II(I) = NRATEP(I) + J
            ENDDO
          ENDDO
        DO I=1,NEL0
@@ -312,7 +312,7 @@ C
          RATEP(I,1)=UPARAM(IADBUF+10+JJ(I))
          RATEP(I,2)=UPARAM(IADBUF+10+JJ(I)+1)
          RATEN(I,1)=UPARAM(IADBUF+10+II(I))
-         RATEN(I,2)=UPARAM(IADBUF+10+II(I)+1)             
+         RATEN(I,2)=UPARAM(IADBUF+10+II(I)+1)
        ENDDO
 C
        DO I=1,NEL0
@@ -333,7 +333,7 @@ C
            ILEN1N(I) = NPF(IFUNC(I,I1)+1) / 2 - IAD1N(I) - IPOS1N(I)
            IPOS2N(I) = NINT(UVAR(I,I2))
            IAD2N(I)  = NPF(IFUNC(I,I2)) / 2 + 1
-           ILEN2N(I) = NPF(IFUNC(I,I2)+1) / 2 - IAD2N(I) - IPOS2N(I)        
+           ILEN2N(I) = NPF(IFUNC(I,I2)+1) / 2 - IAD2N(I) - IPOS2N(I)
 c
            IPOS1(I) = NINT(UVAR(I,1))
            IAD1(I)  = NPF(IFUNC(I,1)) / 2 + 1
@@ -346,32 +346,32 @@ C
          CALL VINTER(TF,IAD1N,IPOS1N,ILEN1N,NEL0,EPST,DYDX1,YN1)
          CALL VINTER(TF,IAD2N,IPOS2N,ILEN2N,NEL0,EPST,DYDX2,YN2)
 C 
-         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL0,EPST,DYDX1,Y1)     
+         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL0,EPST,DYDX1,Y1)
 C
 
 Cel remplacer par les sous cas :
 
         DO I=1,NEL0
          J1 = JJ(I) +1
-         J2 = J1+1        
+         J2 = J1+1
          FAC   = (EPSP(I) - RATEP(I,1))/(RATEP(I,2) - RATEP(I,1))
          YLDMAX(I) = YP1(I)    + FAC*(YP2(I)-YP1(I))
-         YLDMAX(I) = MAX(YLDMAX(I),EM20)        
+         YLDMAX(I) = MAX(YLDMAX(I),EM20)
          UVAR(I,J1) = IPOS1P(I)
          UVAR(I,J2) = IPOS2P(I)
 C       min stress 
            I1 = II(I) +1
-           I2 = I1+1           
+           I2 = I1+1
            FAC   = (-EPSP(I) - RATEN(I,2))/(RATEN(I,1) - RATEN(I,2))
            YLDMIN(I) = YN2(I)    + FAC*(YN1(I)-YN2(I))
-           YLDMIN(I) = MAX(YLDMIN(I),EM20)           
+           YLDMIN(I) = MAX(YLDMIN(I),EM20)
            UVAR(I,I1) = IPOS1N(I)
            UVAR(I,I2) = IPOS2N(I)
 C   elastique courbe
            YLDELAS(I)= Y1(I)
-           UVAR(I,1) = IPOS1(I)                 
+           UVAR(I,1) = IPOS1(I)
         ENDDO
-     
+
 
 C-------------------
 C     PROJECTION
@@ -379,17 +379,17 @@ C-------------------
        IF(IFLAG(1)==2)THEN
 C projection radiale 
          DO I=1,NEL0
-          IF(OFF(I)==1) THEN 
+          IF(OFF(I)==1) THEN
            SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
-     .          +THREE*SIGNXY(I)*SIGNXY(I))       
+     .          +THREE*SIGNXY(I)*SIGNXY(I))
 C contrainte elastique ..       
-           IF(SVM(I)/=ZERO) THEN     
-            IF(SVM(I)>=YLDELAS(I))THEN 
-              DO ITER = 1, 10              
+           IF(SVM(I)/=ZERO) THEN
+            IF(SVM(I)>=YLDELAS(I))THEN
+              DO ITER = 1, 10
                R  = MIN(ONE,YLDELAS(I)/MAX(EM20,SVM(I)))
-               DEV = (SIGNXX(I) + SIGNYY(I))*THIRD          
+               DEV = (SIGNXX(I) + SIGNYY(I))*THIRD
                SIGNXX(I)=(SIGNXX(I)-DEV)*R
                SIGNYY(I)=(SIGNYY(I)-DEV)*R
                SIGNXY(I)=SIGNXY(I)*R
@@ -397,14 +397,14 @@ C contrainte elastique ..
                SIGNZX(I)=SIGNZX(I)*R
 CCCACTUALISATION
                SIGNXX(I)=(SIGNXX(I)+ DEV)
-               SIGNYY(I)=(SIGNYY(I)+ DEV) 
+               SIGNYY(I)=(SIGNYY(I)+ DEV)
                SVM(I)=SQRT(SIGNXX(I)*SIGNXX(I)
      .                +SIGNYY(I)*SIGNYY(I)
      .                -SIGNXX(I)*SIGNYY(I)
      .             + THREE*SIGNXY(I)*SIGNXY(I))
-              ENDDO 
+              ENDDO
               R = ONE
-          DO ITER = 1,10 
+          DO ITER = 1,10
            SIGEXX(I)=SIGNXX(I) + SIGVXX(I)
            SIGEYY(I)=SIGNYY(I) + SIGVYY(I)
            SIGEXY(I)=SIGNXY(I) + SIGVXY(I)
@@ -413,26 +413,26 @@ CCCACTUALISATION
              SVM(I)=SQRT(SIGEXX(I)*SIGEXX(I)
      .             +SIGEYY(I)*SIGEYY(I)
      .             -SIGEXX(I)*SIGEYY(I)
-     .          + THREE*SIGEXY(I)*SIGEXY(I))           
-           IF(SVM(I)>=YLDMAX(I)) THEN                
-            R  = MIN(ONE,YLDMAX(I)/MAX(EM20,SVM(I)))                        
-            ELSEIF(SVM(I)<=YLDMIN(I))THEN                            
-            R = MAX(ONE,YLDMIN(I)/MAX(EM20,SVM(I)))            
-           ENDIF   
+     .          + THREE*SIGEXY(I)*SIGEXY(I))
+           IF(SVM(I)>=YLDMAX(I)) THEN
+            R  = MIN(ONE,YLDMAX(I)/MAX(EM20,SVM(I)))
+            ELSEIF(SVM(I)<=YLDMIN(I))THEN
+            R = MAX(ONE,YLDMIN(I)/MAX(EM20,SVM(I)))
+           ENDIF
             DEV = (SIGEXX(I) + SIGEYY(I))*THIRD
            SIGEXX(I)=(SIGEXX(I)-DEV)*R
            SIGEYY(I)=(SIGEYY(I)-DEV)*R
            SIGEXY(I)=SIGEXY(I)*R
            SIGEYZ(I)=SIGEYZ(I)*R
            SIGEZX(I)=SIGEZX(I)*R
-           SIGEXX(I)=SIGEXX(I)+ DEV 
-           SIGEYY(I)=SIGEYY(I)+ DEV 
+           SIGEXX(I)=SIGEXX(I)+ DEV
+           SIGEYY(I)=SIGEYY(I)+ DEV
            SVM(I)=SQRT(SIGEXX(I)*SIGEXX(I)
      .             +SIGEYY(I)*SIGEYY(I)
      .             -SIGEXX(I)*SIGEYY(I)
      .          + THREE*SIGEXY(I)*SIGEXY(I))
 C calcul des contraintes visquenses                
-            IF(R/=1.) THEN              
+            IF(R/=1.) THEN
              SIGVXX(I)=SIGEXX(I) - SIGNXX(I)
              SIGVYY(I)=SIGEYY(I) - SIGNYY(I)
              SIGVXY(I)=SIGEXY(I) - SIGNXY(I)
@@ -440,21 +440,21 @@ C calcul des contraintes visquenses
              SIGVZX(I)=SIGEZX(I) - SIGNZX(I)
            ELSE
             GO TO 200
-            
-           ENDIF  
-           ENDDO ! ITER        
-         ELSE                       
-           ENDIF                      
+
+           ENDIF
+           ENDDO ! ITER
+         ELSE
+           ENDIF
           ENDIF
           ENDIF
   200    ENDDO
-            
+
 C contrainte elastique ..    
             DO I=1,NEL0
             LAMDA = NU(I) * E(I) /((ONE + NU(I))*(ONE - TWO* NU(I)))
             LAMDA = LAMDA + DTINV*THIRD*(THREE*VISC(I) - TWO*VISCV(I))
-           C11= LAMDA + TWO*G(I) + TWO*DTINV*VISCV(I)               
-           DEZZ = -( LAMDA/MAX(EM20,C11))*(DEPSXX(I) + DEPSYY(I))         
+           C11= LAMDA + TWO*G(I) + TWO*DTINV*VISCV(I)
+           DEZZ = -( LAMDA/MAX(EM20,C11))*(DEPSXX(I) + DEPSYY(I))
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDDO
 C

@@ -100,7 +100,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODMAX
       DATA NODMAX/55000/
-#if CPP_mach == CPP_w95 || CPP_mach == CPP_wmr  || CPP_mach == CPP_lmr 
+#if CPP_mach == CPP_w95 || CPP_mach == CPP_wmr  || CPP_mach == CPP_lmr
       IF (NUMNOD>NODMAX) THEN
 C        IWARN = IWARN + 1
 C        WRITE(ISTDO,*)' ** WARNING NUMNOD TOO LARGE'
@@ -135,7 +135,7 @@ Chd|====================================================================
       SUBROUTINE MY_ETIME(TIMER)
       REAL  RESULT
       REAL, DIMENSION(4) :: TIMER
-#if CPP_mach == CPP_rs7 || CPP_mach == CPP_rs9 || CPP_mach == CPP_sp2  || CPP_mach == CPP_ppc || CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd    
+#if CPP_mach == CPP_rs7 || CPP_mach == CPP_rs9 || CPP_mach == CPP_sp2  || CPP_mach == CPP_ppc || CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd
        RESULT = ETIME_(TIMER)
 #elif CPP_mach == CPP_ymp || CPP_mach == CPP_c90 || CPP_mach == CPP_ymp_spmd || CPP_mach == CPP_t90  || CPP_mach == CPP_t90_i3e
       CALL TSECND(TIMER)
@@ -215,9 +215,9 @@ C-----------------------------------------------
       INTEGER   (KIND=KMP_SIZE_T_KIND) NEWSIZ
       CHARACTER*256 KMP_STACKSIZE_VALUE
       INTEGER KMP_SIZE
- 
+
       KMP_SET = 0
- 
+
       CALL GETENV('KMP_STACKSIZE',KMP_STACKSIZE_VALUE)
 C         
       IF (KMP_STACKSIZE_VALUE(1:1) == ' ') THEN

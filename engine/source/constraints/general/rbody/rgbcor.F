@@ -119,7 +119,7 @@ C
            DO I=1,NSN
             N = NOD(I)
             MAS=MS(N)*WEIGHT_MD(N)
-            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)           
+            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
             VG(1)=V(1,N)
             VG(2)=V(2,N)
             VG(3)=V(3,N)
@@ -128,7 +128,7 @@ C
      .                   + VG(3)*VG(3))*MAS
             ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*MS(N)*WEWE2     
+     .                  + VG(3)*VG(3))*MS(N)*WEWE2
             XMOMTT=XMOMTT-VG(1)*MAS
             YMOMTT=YMOMTT-VG(2)*MAS
             ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -140,7 +140,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
             ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2    
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
             XMASST=XMASST-MAS
            ENDDO
          ELSE
@@ -148,7 +148,7 @@ C
           DO I=1,NSN
            N = NOD(I)
            MAS=MS(N)*WEIGHT_MD(N)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)           
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            VG(1)=V(1,N)
            VG(2)=V(2,N)
            VG(3)=V(3,N)
@@ -157,7 +157,7 @@ C
      .                  + VG(3)*VG(3))*MAS
            ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*MS(N)*WEWE2      
+     .                  + VG(3)*VG(3))*MS(N)*WEWE2
            XMOMTT=XMOMTT-VG(1)*MAS
            YMOMTT=YMOMTT-VG(2)*MAS
            ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -169,7 +169,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2       
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
            XMASST=XMASST-MAS
 C
           ENDDO
@@ -181,7 +181,7 @@ C
            DO I=1,NSN
             N = NOD(I)
             MAS=MS_2D(N)*WEIGHT_MD(N)
-            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)           
+            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
             VG(1)=V(1,N)
             VG(2)=V(2,N)
             VG(3)=V(3,N)
@@ -190,7 +190,7 @@ C
      .                   + VG(3)*VG(3))*MAS
             ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*MS_2D(N)*WEWE2     
+     .                  + VG(3)*VG(3))*MS_2D(N)*WEWE2
             XMOMTT=XMOMTT-VG(1)*MAS
             YMOMTT=YMOMTT-VG(2)*MAS
             ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -202,7 +202,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
             ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2    
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
             XMASST=XMASST-MAS
            ENDDO
          ELSE
@@ -210,7 +210,7 @@ C
           DO I=1,NSN
            N = NOD(I)
            MAS=MS_2D(N)*WEIGHT_MD(N)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)           
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            VG(1)=V(1,N)
            VG(2)=V(2,N)
            VG(3)=V(3,N)
@@ -219,7 +219,7 @@ C
      .                  + VG(3)*VG(3))*MAS
            ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*MS_2D(N)*WEWE2      
+     .                  + VG(3)*VG(3))*MS_2D(N)*WEWE2
            XMOMTT=XMOMTT-VG(1)*MAS
            YMOMTT=YMOMTT-VG(2)*MAS
            ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -231,7 +231,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2       
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
            XMASST=XMASST-MAS
 C
           ENDDO
@@ -288,7 +288,7 @@ C
         XMOMTT=ZERO
         YMOMTT=ZERO
         ZMOMTT=ZERO
-        ENCIN2T=ZERO        
+        ENCIN2T=ZERO
         ENROT2T=ZERO
 C
 Cel vectorisation si nsn>=10 ou si imach = 3 et p/on active
@@ -308,7 +308,7 @@ C
      .                   + VG(3)*VG(3))*MAS
             ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*MS(N)*WEWE2      
+     .                   + VG(3)*VG(3))*MS(N)*WEWE2
             XMOMTT=XMOMTT-VG(1)*MAS
             YMOMTT=YMOMTT-VG(2)*MAS
             ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -320,7 +320,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
             ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2      
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
             XMASST=XMASST-MAS
 C
            ENDDO
@@ -331,7 +331,7 @@ C
            N = NOD(I)
 C
            MAS=MS(N)*WEIGHT_MD(N)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)          
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            VG(1)=V(1,N)+A(1,N)*DT05
            VG(2)=V(2,N)+A(2,N)*DT05
            VG(3)=V(3,N)+A(3,N)*DT05
@@ -340,7 +340,7 @@ C
      .                   + VG(3)*VG(3))*MAS
            ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*MS(N)*WEWE2      
+     .                   + VG(3)*VG(3))*MS(N)*WEWE2
            XMOMTT=XMOMTT-VG(1)*MAS
            YMOMTT=YMOMTT-VG(2)*MAS
            ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -352,7 +352,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2       
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
            XMASST=XMASST-MAS
 C
           ENDDO
@@ -375,7 +375,7 @@ C
      .                   + VG(3)*VG(3))*MAS
             ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*MS_2D(N)*WEWE2      
+     .                   + VG(3)*VG(3))*MS_2D(N)*WEWE2
             XMOMTT=XMOMTT-VG(1)*MAS
             YMOMTT=YMOMTT-VG(2)*MAS
             ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -387,7 +387,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
             ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2      
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
             XMASST=XMASST-MAS
 C
            ENDDO
@@ -398,7 +398,7 @@ C
            N = NOD(I)
 C
            MAS=MS_2D(N)*WEIGHT_MD(N)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)          
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            VG(1)=V(1,N)+A(1,N)*DT05
            VG(2)=V(2,N)+A(2,N)*DT05
            VG(3)=V(3,N)+A(3,N)*DT05
@@ -407,7 +407,7 @@ C
      .                   + VG(3)*VG(3))*MAS
            ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*MS_2D(N)*WEWE2      
+     .                   + VG(3)*VG(3))*MS_2D(N)*WEWE2
            XMOMTT=XMOMTT-VG(1)*MAS
            YMOMTT=YMOMTT-VG(2)*MAS
            ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -419,7 +419,7 @@ C
      .                   + VG(3)*VG(3))*IN(N)*WEIGHT_MD(N)
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                   + VG(2)*VG(2)
-     .                   + VG(3)*VG(3))*IN(N)*WEWE2       
+     .                   + VG(3)*VG(3))*IN(N)*WEWE2
            XMASST=XMASST-MAS
 C
           ENDDO
@@ -459,7 +459,7 @@ C
       ENROT_T=ENROT_T + ENROTT*HALF
       ENCIN_T=ENCIN_T + ENCINT*HALF
       ENROT2_T=ENROT2_T + ENROT2T*HALF
-      ENCIN2_T=ENCIN2_T + ENCIN2T*HALF   
+      ENCIN2_T=ENCIN2_T + ENCIN2T*HALF
       XMASS_T=XMASS_T + XMASST
       XMOMT_T=XMOMT_T + XMOMTT
       YMOMT_T=YMOMT_T + YMOMTT
@@ -502,7 +502,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*) ,V(3,*) ,VR(3,*),SKEW(*),
-     .   A(3,*),AR(3,*),IN(*),MS(*) 
+     .   A(3,*),AR(3,*),IN(*),MS(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -515,13 +515,13 @@ C     REAL
 C-----------------------------------------------
       CALL PRERBE2(IRBE2 ,JT  ,JR   )
       ENROT_T =ZERO
-      ENCIN_T =ZERO    
+      ENCIN_T =ZERO
       XMASS_T =ZERO
       XMOMT_T =ZERO
       YMOMT_T =ZERO
       ZMOMT_T =ZERO
       ENCIN2_T=ZERO
-      ENROT2_T=ZERO             
+      ENROT2_T=ZERO
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO N=1,NRBE2
         IAD = IRBE2(1,N)
@@ -538,13 +538,13 @@ C-----------------------------------------------
 !$OMP END DO NOWAIT
 #include "lockon.inc"
       ENROT=ENROT + ENROT_T
-      ENCIN=ENCIN + ENCIN_T     
+      ENCIN=ENCIN + ENCIN_T
       XMASS=XMASS + XMASS_T
       XMOMT=XMOMT + XMOMT_T
       YMOMT=YMOMT + YMOMT_T
       ZMOMT=ZMOMT + ZMOMT_T
       ENCIN2=ENCIN2 + ENCIN2_T
-      ENROT2=ENROT2 + ENROT2_T              
+      ENROT2=ENROT2 + ENROT2_T
 #include "lockoff.inc"
 C
       RETURN
@@ -574,7 +574,7 @@ C-----------------------------------------------
      .         WEIGHT_MD(*),JT(3),JR(3),M,IRAD
 C     REAL
       my_real
-     .   V(3,*), VR(3,*), X(3,*), 
+     .   V(3,*), VR(3,*), X(3,*),
      .   A(3,*),AR(3,*),IN(*),MS(*),ENROT_T,ENCIN_T,XMASS_T,
      .   XMOMT_T,YMOMT_T,ZMOMT_T,ENCIN2_T,ENROT2_T
 C-----------------------------------------------
@@ -605,14 +605,14 @@ C-----for the moment RBE2 est spheric ---
        ITRA = 1
       ELSE
        ITRA = 0
-      END IF 
+      END IF
 C-----in case of JR=0 and IRAD=0, Inertia0 of Main is suppposed << In_s      
       IF ((JR(1)+JR(2)+JR(3)) >0 .OR. IRAD==0) THEN
        IROT = 1
       ELSE
        IROT = 0
-      END IF   
-      
+      END IF
+
         ENCINT=ZERO
         XMASST=ZERO
         XMOMTT=ZERO
@@ -637,8 +637,8 @@ C
           DO I=1,NSL
            N = ISL(I)
            MAS=MS(N)*WEIGHT_MD(N)*ITRA
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)          
-           WTRA2 = WEWE2*ITRA          
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
+           WTRA2 = WEWE2*ITRA
            VG(1)=V(1,N)
            VG(2)=V(2,N)
            VG(3)=V(3,N)
@@ -647,7 +647,7 @@ C
      .                  + VG(3)*VG(3))*MAS
            ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*MS(N)*WTRA2     
+     .                  + VG(3)*VG(3))*MS(N)*WTRA2
            XMOMTT=XMOMTT-VG(1)*MAS
            YMOMTT=YMOMTT-VG(2)*MAS
            ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -656,18 +656,18 @@ C
          IF (IRODDL/=0) THEN
           DO I=1,NSL
            N = ISL(I)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)          
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            VG(1)=VR(1,N)
            VG(2)=VR(2,N)
            VG(3)=VR(3,N)
            WROT = WEIGHT_MD(N)*IROT
-           WROT2 =WEWE2*IROT          
+           WROT2 =WEWE2*IROT
            ENROTT=ENROTT - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
      .                  + VG(3)*VG(3))*IN(N)*WROT
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*IN(N)*WROT2    
+     .                  + VG(3)*VG(3))*IN(N)*WROT2
           ENDDO
          END IF !(IRODDL/=0) THEN
         ELSE
@@ -675,8 +675,8 @@ C
          DO I=1,NSL
           N = ISL(I)
           MAS=MS(N)*WEIGHT_MD(N)*ITRA
-          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)           
-          WTRA2 = WEWE2*ITRA          
+          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
+          WTRA2 = WEWE2*ITRA
           VG(1)=V(1,N)
           VG(2)=V(2,N)
           VG(3)=V(3,N)
@@ -685,7 +685,7 @@ C
      .                  + VG(3)*VG(3))*MAS
           ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*MS(N)*WTRA2      
+     .                  + VG(3)*VG(3))*MS(N)*WTRA2
           XMOMTT=XMOMTT-VG(1)*MAS
           YMOMTT=YMOMTT-VG(2)*MAS
           ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -695,18 +695,18 @@ C
          IF (IRODDL/=0) THEN
           DO I=1,NSL
            N = ISL(I)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)           
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            VG(1)=VR(1,N)
            VG(2)=VR(2,N)
            VG(3)=VR(3,N)
            WROT = WEIGHT_MD(N)*IROT
-           WROT2 =WEWE2*IROT          
+           WROT2 =WEWE2*IROT
            ENROTT=ENROTT - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
      .                  + VG(3)*VG(3))*IN(N)*WROT
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*IN(N)*WROT2       
+     .                  + VG(3)*VG(3))*IN(N)*WROT2
           ENDDO
          END IF !(IRODDL/=0) THEN
         ENDIF
@@ -732,7 +732,7 @@ C
 C
            MAS=MS(N)*WEIGHT_MD(N)*ITRA
            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-           WTRA2 = WEWE2*ITRA          
+           WTRA2 = WEWE2*ITRA
            VG(1)=V(1,N)+A(1,N)*DT05
            VG(2)=V(2,N)+A(2,N)*DT05
            VG(3)=V(3,N)+A(3,N)*DT05
@@ -741,7 +741,7 @@ C
      .                     + VG(3)*VG(3))*MAS
            ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                        + VG(2)*VG(2)
-     .                        + VG(3)*VG(3))*MS(N)*WTRA2  
+     .                        + VG(3)*VG(3))*MS(N)*WTRA2
            XMOMTT=XMOMTT-VG(1)*MAS
            YMOMTT=YMOMTT-VG(2)*MAS
            ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -757,13 +757,13 @@ C
            VG(2)=VR(2,N)+AR(2,N)*DT05
            VG(3)=VR(3,N)+AR(3,N)*DT05
            WROT = WEIGHT_MD(N)*IROT
-           WROT2 =WEWE2*IROT          
+           WROT2 =WEWE2*IROT
            ENROTT=ENROTT - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
      .                  + VG(3)*VG(3))*IN(N)*WROT
            ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*IN(N)*WROT2      
+     .                  + VG(3)*VG(3))*IN(N)*WROT2
           ENDDO
          ENDIF !(IRODDL/=0) THEN
         ELSE
@@ -773,8 +773,8 @@ C
           N = ISL(I)
 C
           MAS=MS(N)*WEIGHT_MD(N)*ITRA
-          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)          
-          WTRA2 = WEWE2*ITRA          
+          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
+          WTRA2 = WEWE2*ITRA
           VG(1)=V(1,N)+A(1,N)*DT05
           VG(2)=V(2,N)+A(2,N)*DT05
           VG(3)=V(3,N)+A(3,N)*DT05
@@ -783,7 +783,7 @@ C
      .                    + VG(3)*VG(3))*MAS
           ENCIN2T=ENCIN2T - ( VG(1)*VG(1)
      .                       + VG(2)*VG(2)
-     .                       + VG(3)*VG(3))*MS(N)*WTRA2  
+     .                       + VG(3)*VG(3))*MS(N)*WTRA2
           XMOMTT=XMOMTT-VG(1)*MAS
           YMOMTT=YMOMTT-VG(2)*MAS
           ZMOMTT=ZMOMTT-VG(3)*MAS
@@ -794,18 +794,18 @@ C
          DO I=1,NSL
 C
           N = ISL(I)
-          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)          
+          WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
           VG(1)=VR(1,N)+AR(1,N)*DT05
           VG(2)=VR(2,N)+AR(2,N)*DT05
           VG(3)=VR(3,N)+AR(3,N)*DT05
            WROT = WEIGHT_MD(N)*IROT
-           WROT2 =WEWE2*IROT          
+           WROT2 =WEWE2*IROT
           ENROTT=ENROTT - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
      .                  + VG(3)*VG(3))*IN(N)*WROT
           ENROT2T=ENROT2T - ( VG(1)*VG(1)
      .                  + VG(2)*VG(2)
-     .                  + VG(3)*VG(3))*IN(N)*WROT2       
+     .                  + VG(3)*VG(3))*IN(N)*WROT2
          ENDDO
          END IF !(IRODDL/=0) THEN
         ENDIF
@@ -814,7 +814,7 @@ C
       ENROT_T=ENROT_T + ENROTT*HALF
       ENCIN_T=ENCIN_T + ENCINT*HALF
       ENROT2_T=ENROT2_T + ENROT2T*HALF
-      ENCIN2_T=ENCIN2_T + ENCIN2T*HALF      
+      ENCIN2_T=ENCIN2_T + ENCIN2T*HALF
       XMASS_T=XMASS_T + XMASST
       XMOMT_T=XMOMT_T + XMOMTT
       YMOMT_T=YMOMT_T + YMOMTT
@@ -822,4 +822,4 @@ C
 C
       RETURN
       END
- 
+

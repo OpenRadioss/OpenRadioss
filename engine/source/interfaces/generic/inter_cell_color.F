@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  INTER_CELL_COLOR              source/interfaces/generic/inter_cell_color.F
 Chd|-- called by -----------
@@ -160,7 +160,7 @@ C-----------------------------------------------
             IZ2=MAX(1,MIN(NBZ,IZ2))
 
             !   loop over the cell and cell coloration
-            DO IZ = IZ1, IZ2             
+            DO IZ = IZ1, IZ2
                 VALUE = 4.*float(IZ)/float(NB_CELL_Z)
                 IZ_COARSE = MIN(INT(VALUE),NB_BOX_COARSE_GRID)
                 IZ_COARSE = MAX(IZ_COARSE,1)

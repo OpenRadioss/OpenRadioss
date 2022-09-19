@@ -98,7 +98,7 @@ C----------------------------------------------
           CALL HM_GET_INTV('ISH3N',ISH3N_D,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('Idrill',IDRIL_D,IS_AVAILABLE,LSUBMODEL)
           EXIT
-        ENDIF            
+        ENDIF
       ENDDO
 C          
 C     IF(ISTR_D==0)ISTR_D = 1
@@ -106,4 +106,4 @@ C     IF(ISTR_D==0)ISTR_D = 1
       IF(NPTS_D==-1)NPTS_D=NPTS_DD
 C--------------------------------------------------------------
       RETURN
-      END 
+      END

@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        I8_NEAREST_SEG                source/interfaces/inter3d/i8_nearest_seg.F
 Chd|        INT8_MOD                      ../common_source/modules/int8_mod.F
 Chd|====================================================================
-      SUBROUTINE I8MSR3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,XFACE, 
+      SUBROUTINE I8MSR3(X,IRECT,LMSR,MSR,NSV,ILOC,IRTL,NSEG,XFACE,
      .           NBSECNDS,ITAB,HAS_MOVED,TAB_RMAX,TAB_RMAX_UID)
 C-----------------------------------------------
 C   I n f o r m a t i o n s            
@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER, INTENT(INOUT) :: IRTL(*)
       my_real, DIMENSION(MVSIZ), INTENT(IN) ::  XFACE
       my_real, INTENT(IN)  ::  X(3,*)
-	  
+	
       INTEGER TAB_RMAX_UID(4,*),HAS_MOVED(*)
       INTEGER NBSECNDS,ITAB(*)
       my_real TAB_RMAX(*)
@@ -78,14 +78,14 @@ C-----------------------------------------------
       EXTERNAL IS_SUP_FACE_ID
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----A----+----B----+----C--
 
-      ! At the end of this routine 
+      ! At the end of this routine
       !HAS_MOVED(i) == 1 : the main node of the ith secnd may have
       !changed (i.e. it has changed locally, or was not on this processor)
       !HAS_MOVED(i) == 0 : the ith secnd node keep the same main
 
       HAS_MOVED(1:NBSECNDS) = 1
       TAB_RMAX(1:NBSECNDS)  = ZERO
-      TAB_RMAX_UID(1:4,1:NBSECNDS) = 0 
+      TAB_RMAX_UID(1:4,1:NBSECNDS) = 0
 
       DO I=LFT,LLT
         IL=I+NFT
@@ -103,8 +103,8 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
          LSEG_NEW=0
 C
          IF(L<=0) GOTO 100
-       ! IF this secnd has a main face from the previous cycle, 
-       ! this one is checked first                                      
+       ! IF this secnd has a main face from the previous cycle,
+       ! this one is checked first
 
          FACE_GLOB_ID(1)  = ITAB(MSR(IRECT(1,L)))
          FACE_GLOB_ID(2)  = ITAB(MSR(IRECT(2,L)))
@@ -180,12 +180,12 @@ C
 		 HAS_MOVED(IL)=1
  200     CONTINUE
 
-         TAB_RMAX(IL) = BMAX 
+         TAB_RMAX(IL) = BMAX
          TAB_RMAX_UID(1,IL) = ITAB(MSR(IRECT(1,LSEG_NEW)))
          TAB_RMAX_UID(2,IL) = ITAB(MSR(IRECT(2,LSEG_NEW)))
          TAB_RMAX_UID(3,IL) = ITAB(MSR(IRECT(3,LSEG_NEW)))
          TAB_RMAX_UID(4,IL) = ITAB(MSR(IRECT(4,LSEG_NEW)))
-		 
+		
         ENDIF !XFACE
       ENDDO !I=LFT,LLT
 
@@ -203,7 +203,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER :: A(4),B(4)
         INTEGER :: IS_SUP_FACE_ID
-        IS_SUP_FACE_ID = 0       
+        IS_SUP_FACE_ID = 0
         IF( A(1) > B(1) .OR.
      .  A(1) == B(1) .AND. ( A(2) > B(2) .OR.
      .  A(2) == B(2) .AND. ( A(3) > B(3) .OR.

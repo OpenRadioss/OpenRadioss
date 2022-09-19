@@ -30,7 +30,7 @@ Chd|====================================================================
       MODULE SPH_MOD
 #include "my_real.inc"
 
-        INTEGER , DIMENSION(:), ALLOCATABLE :: 
+        INTEGER , DIMENSION(:), ALLOCATABLE ::
      .      SPH2SOL,SOL2SPH,IRST
 
       END MODULE SPH_MOD

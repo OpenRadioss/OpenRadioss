@@ -220,7 +220,7 @@ C
           FSKYV(K,3)=F31(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
           K = IADS(2,II)
@@ -229,7 +229,7 @@ C
           FSKYV(K,3)=F32(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
           K = IADS(3,II)
@@ -247,7 +247,7 @@ C
           FSKYV(K,3)=F34(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
           K = IADS(6,II)
@@ -256,7 +256,7 @@ C
           FSKYV(K,3)=F35(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
 C
           K = IADS(7,II)
@@ -265,7 +265,7 @@ C
           FSKYV(K,3)=F36(I)
           FSKYV(K,4)=ZERO
           FSKYV(K,5)=ZERO
-          FSKYV(K,6)=ZERO 
+          FSKYV(K,6)=ZERO
           FSKYV(K,7)=STI(I)
         ENDDO
       ELSE

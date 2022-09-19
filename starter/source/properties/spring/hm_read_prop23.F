@@ -39,8 +39,8 @@ Chd|====================================================================
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD   
-      USE ELBUFTAG_MOD     
+      USE SUBMODEL_MOD
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IG,IGTYP
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
 C     REAL
@@ -115,7 +115,7 @@ C--------------------------------------------------
 C
 !----------------
 !  verification
-! -----------       
+! -----------
 C   
       DO K = 0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
         IF (ID_SKEW == ISKN(4,K+1)) THEN
@@ -127,12 +127,12 @@ C
      .            C1='PROPERTY',
      .            C2='PROPERTY',
      .            I1=IGEO(1),I2=ID_SKEW,C3=TITR)
-100   CONTINUE      
+100   CONTINUE
 C      
       IF (ISFLAG == 1) ID_SENS=-ID_SENS
 C      
       IGEO(2)= ID_SKEW
-      IGEO(3)= ID_SENS 
+      IGEO(3)= ID_SENS
       IGEO(4)= ITYPE
       IGEO(5)= ISFLAG
 C      
@@ -164,7 +164,7 @@ C----
           WRITE(IOUT,1700)IG,VOL_AIR,INERTIA,ISKN(4,ID_SKEW),ID_SENS,ISFLAG
         ELSE
           WRITE(IOUT,1800)IG,VOL_AIR,INERTIA,ISKN(4,ID_SKEW),ID_SENS,ISFLAG
-        ENDIF  
+        ENDIF
       ENDIF
 C------------------------
       RETURN
@@ -176,7 +176,7 @@ c-----------
      & 5X,'SPRING INERTIA. . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'SKEW FRAME ID . . . . . . . . . . . . .=',I10/,
      & 5X,'SENSOR NUMBER (0:NOT USED). . . . . . .=',I10/,
-     & 5X,'SENSOR FLAG (0:ACTIV 1:DEACT 2:BOTH). .=',I10/) 
+     & 5X,'SENSOR FLAG (0:ACTIV 1:DEACT 2:BOTH). .=',I10/)
  1800 FORMAT(
      & 5X,'SPRING PROPERTY SET (BEAM TYPE)'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/,

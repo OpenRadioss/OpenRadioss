@@ -94,7 +94,7 @@ C-----------------------------------------------
      .        IPARI(NPARI,NINTER),WEIGHT_MD(NUMNOD)
       INTEGER MONVOL(*)
       my_real DMAS,DINER,TFEXTH,
-     .   PARTSAV(NPSAV,*), MS(NUMNOD), V(3,NUMNOD), A(3,NUMNOD), 
+     .   PARTSAV(NPSAV,*), MS(NUMNOD), V(3,NUMNOD), A(3,NUMNOD),
      .   IN(NUMNOD), R(3,NUMNOD), RBY(NRBY,*), AR(3,NUMNOD),FXBRPM(*),
      .   XMOM_SMS(3,*), SENSOR(NSENSR,*), QFRICINT(*),MS_2D(*),KEND,MAS_ND
       TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
@@ -112,7 +112,7 @@ C-----------------------------------------------
       DOUBLE PRECISION ETIME, RETIME, TT0,
      .                 ENCIND, XMOMTD, YMOMTD, ZMOMTD,
      .                 XMASSD, ENROTD, ENINTD, ENCIND2,
-     .                 ENROTD2, ENTOTB, EAMSD 
+     .                 ENROTD2, ENTOTB, EAMSD
 
       DATA X99/99.9/
       DATA TT0/-1./
@@ -169,7 +169,7 @@ C get and reset elapsed time
      .    (IABFIS/=0.OR.ABFILE(1)==0) ) RETURN
 C
 C     initialization / see corrections rbodies...
-      EAMS=ENCIN 
+      EAMS=ENCIN
 C
 C GLOBAL VAR INITIALISES DANS RESOL ET MODIFIE DANS RGBCOR + passage en DOUBLE pour cumul
       ENCIND  = ZERO
@@ -180,7 +180,7 @@ C GLOBAL VAR INITIALISES DANS RESOL ET MODIFIE DANS RGBCOR + passage en DOUBLE p
       YMOMTD  = ZERO
       ZMOMTD  = ZERO
       ENCIND2 = ZERO
-      ENROTD2 = ZERO 
+      ENROTD2 = ZERO
       TFEXTH  = ZERO
       EAMSD   = ZERO
 C
@@ -202,13 +202,13 @@ C
           ZMOMTD=ZMOMTD+VZ*MAS
           XMASSD=XMASSD+MAS
           MAS2=MS(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-          ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2         
+          ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2
          ENDDO
         ELSE
          DO I = 1, NUMNOD
           XMASSD=XMASSD+MS(I)*WEIGHT_MD(I)
          ENDDO
-        ENDIF 
+        ENDIF
        ELSEIF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 C
          DO I = 1, NUMNOD
@@ -222,7 +222,7 @@ C
            ZMOMTD=ZMOMTD+VZ*MAS
            XMASSD=XMASSD+MAS
            MAS2=MS(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2            
+           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2
          ENDDO
 C
        ELSE
@@ -242,9 +242,9 @@ C------  sms
            ZMOMTD=ZMOMTD+MVZ
            XMASSD=XMASSD+MAS
            MAS2=MS(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2            
+           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2
          ENDDO
-       ENDIF 
+       ENDIF
 C
 C       ENCIND=0.5*ENCIND
 
@@ -269,9 +269,9 @@ C       ENCIND=0.5*ENCIND
            ZMOMTD=ZMOMTD+VZ*MAS
            XMASSD=XMASSD+MAS
            MAS2=MS_2D(I)*(1-WEIGHT_MD(I))*WEIGHT(I)
-           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2     
+           ENCIND2=ENCIND2 + ( VX*VX + VY*VY + VZ*VZ)*HALF*MAS2
          ENDDO
-      ENDIF 
+      ENDIF
 
       IF (INT22>0) THEN
        !FVM cells take part in the balance
@@ -284,15 +284,15 @@ C       ENCIND=0.5*ENCIND
         IF(PARTSAV(6,M)>ZERO)   ENCIND2 = ENCIND2 + HALF/PARTSAV(6,M)*(PARTSAV(3,M)**2+PARTSAV(4,M)**2+PARTSAV(5,M)**2)
        ENDDO
       ENDIF
-       
+
       IF (NS10E>0) THEN
 C-------- MS_ND= MAS_ND0    
         ENCIND = ENCIND + KEND
-        XMASSD = XMASSD -MAS_ND 
+        XMASSD = XMASSD -MAS_ND
         DMASND = MAX(ZERO,(MAS_ND-MS_ND))
         IF (DMASND>MS_ND*EM10) DMAS  = DMAS -DMASND
 C--------DMAS,DMASND are used only at Ncycle=0, update MS_ND for restart
-        MS_ND = MAS_ND        
+        MS_ND = MAS_ND
       ENDIF
 C
       IF(IRODDL/=0)THEN
@@ -302,25 +302,25 @@ C
           VX = DY_VR(1,I) - DT05*DY_AR(1,I)
           VY = DY_VR(2,I) - DT05*DY_AR(2,I)
           VZ = DY_VR(3,I) - DT05*DY_AR(3,I)
-          ENROTD=ENROTD 
+          ENROTD=ENROTD
      .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEIGHT_MD(I)
           WEWE2 = (1-WEIGHT_MD(I))*WEIGHT(I)
-          ENROTD2=ENROTD2 
-     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEWE2    
+          ENROTD2=ENROTD2
+     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEWE2
          ENDDO
-        ENDIF 
+        ENDIF
        ELSE
          DO I = 1, NUMNOD
           VX = R(1,I) + DT05*AR(1,I)
           VY = R(2,I) + DT05*AR(2,I)
           VZ = R(3,I) + DT05*AR(3,I)
-          ENROTD=ENROTD 
+          ENROTD=ENROTD
      .         + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEIGHT_MD(I)
-          WEWE2 = (1-WEIGHT_MD(I))*WEIGHT(I)     
-          ENROTD2=ENROTD2 
-     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEWE2      
+          WEWE2 = (1-WEIGHT_MD(I))*WEIGHT(I)
+          ENROTD2=ENROTD2
+     .        + (VX*VX + VY*VY + VZ*VZ)*HALF*IN(I)*WEWE2
          ENDDO
-       ENDIF 
+       ENDIF
 C       ENROTD=0.5*ENROTD
       ENDIF
 C
@@ -346,20 +346,20 @@ C
       DO I=1,NINTER
          NTY   =IPARI(7,I)
          IF(NTY==7.OR.NTY==21) THEN
-            INTHE   =IPARI(47,I)  
-            IF (INTHE>0) THEN   
+            INTHE   =IPARI(47,I)
+            IF (INTHE>0) THEN
               ENINTD = ENINTD + QFRICINT(I)
             ENDIF
          ENDIF
-      ENDDO   
+      ENDDO
 C
 C add contribution in DP to my_real var to keep precision
 C
-      ENCIN=ENCIN+ENCIND    
+      ENCIN=ENCIN+ENCIND
       ENCIN2=ENCIN2+ENCIND2
       ENROT=ENROT+ENROTD
       ENROT2=ENROT2+ENROTD2
-      EAMS  =EAMS+EAMSD  
+      EAMS  =EAMS+EAMSD
 C             
 C      ENCIN = ENCIN + ENCIN2       
 C      ENROT = ENROT + ENROT2
@@ -375,7 +375,7 @@ C
         ENCIN =ZERO
         ENROT =ZERO
         ENCIN2 =ZERO
-        ENROT2 =ZERO        
+        ENROT2 =ZERO
         TFEXT=ENINT
        ELSEIF (IDY_DAMP>0) THEN
 C        IF (NSPMD>1) CALL SPMD_SUM_S(DY_EDAMP)
@@ -396,8 +396,8 @@ C.....sommer les contributions puis standard
         ENTMP(8) = ECONT
         ENTMP(9) = REINT
         ENTMP(10) = ENCIN2
-        ENTMP(11) = ENROT2                
-        ENTMP(12) = EAMS    
+        ENTMP(11) = ENROT2
+        ENTMP(12) = EAMS
         CALL SPMD_GLOB_DSUM9(ENTMP,12)
         IF (ISPMD==0) THEN
           ENCIN = ENTMP(1)
@@ -410,8 +410,8 @@ C.....sommer les contributions puis standard
           ECONT = ENTMP(8)
           REINT = ENTMP(9)
           ENCIN2 = ENTMP(10)
-          ENROT2 = ENTMP(11) 
-          EAMS   = ENTMP(12) 
+          ENROT2 = ENTMP(11)
+          EAMS   = ENTMP(12)
         ENDIF
 C
         IF (ISTAT==2) THEN
@@ -421,7 +421,7 @@ C istat=2 => relaxation : broadcast de encin et enrot
             ENCIN = ENTMP(1)
             ENROT = ENTMP(2)
             ENCIN2 = ENTMP(10)
-            ENROT2 = ENTMP(11)            
+            ENROT2 = ENTMP(11)
           ENDIF
         ELSEIF (ISTAT==3) THEN
 C istat=3 => ADYREL : broadcast de encin et enrot ENINT
@@ -438,14 +438,14 @@ C
         ENTMP(3) = ECONTV
         ENTMP(4) = DMAS
         ENTMP(5) = TFEXTH
-        ENTMP(6) = ECONTD   
-        ENTMP(7) = ECONT_CUMU                             
+        ENTMP(6) = ECONTD
+        ENTMP(7) = ECONT_CUMU
         CALL SPMD_GLOB_DSUM9(ENTMP,7)
         IF(ISPMD/=0) THEN
           TFEXT = ZERO
           EHOUR = ZERO
           ECONTV = ZERO
-          DMAS = ZERO  
+          DMAS = ZERO
           TFEXTH = ZERO
           ECONTD = ZERO
           ECONT_CUMU = ZERO
@@ -455,8 +455,8 @@ C
           ECONTV= ENTMP(3)
           DMAS  = ENTMP(4)
           TFEXTH= ENTMP(5)
-          ECONTD = ENTMP(6)    
-          ECONT_CUMU = ENTMP(7)                
+          ECONTD = ENTMP(6)
+          ECONT_CUMU = ENTMP(7)
         ENDIF
       ENDIF
 C
@@ -478,19 +478,19 @@ C     (NC=0,ENCIN + ENINT + ENROT - TFEXT - TFEXT_MD)
 C     + DEF + TFEXT + DELTAE + TFEXT_MD       
       IF(ISPMD==0) THEN
        ENTOT = ENCIN + ENINT + ENROT
-       ENTOTB = ENTOT + ENCIN2 + ENROT2       
+       ENTOTB = ENTOT + ENCIN2 + ENROT2
        IF(NCYCLE==0) THEN
         ENTOT0=ENTOT - TFEXT - TFEXT_MD
-        DELTAE=ENCIN2 + ENROT2                
+        DELTAE=ENCIN2 + ENROT2
         MASS0 = XMASS - DMAS
        ENDIF
        MASS0 = MASS0  + DMF
-       ENTOT0= ENTOT0 + DEF       
+       ENTOT0= ENTOT0 + DEF
        ENTOT1=ENTOT0 + TFEXT
-       ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
+       ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD
        IF(ABS(ENTOT1B)>EM20)THEN
          ERR = ENTOTB/ENTOT1B - ONE
-         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
+         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))
        ELSE
         ERR = ZERO
         ERR1 =ZERO
@@ -503,9 +503,9 @@ C-----------------------------------------------
           MSTATT = 0
           DO I=1,NSTATSENS
              ISENS = LSTATSENS(I)
-             TS = SENSOR(2,ISENS)       
+             TS = SENSOR(2,ISENS)
              IF(TT>=TS)THEN
-                MSTAT(I) = MSTAT(I)+1    
+                MSTAT(I) = MSTAT(I)+1
              ENDIF
              IF(MSTAT(I)==1)  MSTATT=1
           ENDDO
@@ -517,9 +517,9 @@ C-----------------------------------------------
           MOUTPT = 0
           DO I=1,NOUTPSENS
              ISENS = LOUTPSENS(I)
-             TS = SENSOR(2,ISENS)       
+             TS = SENSOR(2,ISENS)
              IF(TT>=TS)THEN
-                MOUTP(I) = MOUTP(I)+1    
+                MOUTP(I) = MOUTP(I)+1
              ENDIF
              IF(MOUTP(I)==1)  MOUTPT=1
           ENDDO
@@ -537,11 +537,11 @@ C-----------------------------------------------
              TS = EP20
              IF (SENS_TYPE == 14 .or. SENS_TYPE == 15 .or. SENS_TYPE == 16 .or.
      .           SENS_TYPE == 17 .or. SENS_TYPE == 19) THEN
-               SENS_ID = SENSOR_TAB(ISENS)%SENS_ID  
+               SENS_ID = SENSOR_TAB(ISENS)%SENS_ID
                IF (SENSOR_TAB(ISENS)%STATUS == 3) TS = TT
              ELSE
                TS = SENSOR(2,ISENS)
-               SENS_ID = LSENSOR(1,ISENS)    
+               SENS_ID = LSENSOR(1,ISENS)
              END IF
              IF (TT >= TS) THEN
                 CALL ANCMSG(MSGID=234,ANMODE=ANINFO,
@@ -554,34 +554,34 @@ C-----------------------------------------------
                    IPRI= 0
                 ENDIF
                 IF(NSABF/=0)THEN  !IF ABF FILE
-                   DO J=1,10 
+                   DO J=1,10
                      IF(ABFILE(J)/=0) THEN
                         TABFIS(J) = TT
                         TABFWR(J) = TT
                      ENDIF
                    ENDDO
                 ENDIF
-                IF(NSANIM/=0)THEN !IF ANIM FILE 
+                IF(NSANIM/=0)THEN !IF ANIM FILE
                    MDESS = 1
                    TANIM = TT
                    IPRI  = 0
-                ENDIF 
-                IF(NSSTAT/=0)THEN !IF STAT FILE 
+                ENDIF
+                IF(NSSTAT/=0)THEN !IF STAT FILE
                    TSTAT = TT
                    IPRI  = 0
-                ENDIF 
-                IF(NSOUTP/=0)THEN !IF OUTP FILE 
+                ENDIF
+                IF(NSOUTP/=0)THEN !IF OUTP FILE
                   TOUTP = TT
                   IPRI  = 0
-               ENDIF 
-                IF(NSH3D/=0)THEN !IF H3D FILE 
+               ENDIF
+                IF(NSH3D/=0)THEN !IF H3D FILE
                    H3D_DATA%TH3D = TT
                    IPRI  = 0
-                ENDIF 
-                IF(NSDYNANIN/=0)THEN !IF DYNAIN FILE 
+                ENDIF
+                IF(NSDYNANIN/=0)THEN !IF DYNAIN FILE
                    TDYNAIN = TT
                    IPRI  = 0
-                ENDIF 
+                ENDIF
             ENDIF
           ENDDO
        ENDIF
@@ -599,7 +599,7 @@ C
           MDESS = 1
           TANIM = TT
           IPRI  = 0
-         ENDIF                 
+         ENDIF
        ELSEIF((NERR_POSIT==0.AND.ABS(ERR)>DEMXS).OR.
      .        (NERR_POSIT==1.AND.ERR>DEMXS))THEN
          CALL ANCMSG(MSGID=206,ANMODE=ANINFO)
@@ -614,7 +614,7 @@ C
           MDESS = 1
           TANIM = TT
           IPRI  = 0
-         ENDIF 
+         ENDIF
        ENDIF
 C
        IF(EMASS>DMTMXK)THEN
@@ -629,7 +629,7 @@ C
           MDESS = 1
           TANIM = TT
           IPRI  = 0
-         ENDIF 
+         ENDIF
        ELSEIF(EMASS>DMTMXS)THEN
          CALL ANCMSG(MSGID=208,ANMODE=ANINFO)
          IWARN=IWARN+1
@@ -643,7 +643,7 @@ C
           MDESS = 1
           TANIM = TT
           IPRI  = 0
-         ENDIF 
+         ENDIF
        ENDIF
       ENDIF
 C
@@ -723,9 +723,9 @@ C        IF(ITYPTS==0)ITYPTS=3
             IF(NCYCLE>=DEBUG(10))THEN
               write (*,*) "      ALE ADVECTION SET OFF"
             ENDIF
-          ENDIF            
+          ENDIF
           WRITE(ISTDO,'(A,I8,2(A,1PE11.4),A,0PF5.1,A,1PE11.4)')
-     .   ' NC=',NCYCLE,' T=',TT,' DT=',DT2,' ERR=',ERR1,'% DM/M=',EMASS 
+     .   ' NC=',NCYCLE,' T=',TT,' DT=',DT2,' ERR=',ERR1,'% DM/M=',EMASS
           IF(LAG_NC>0) THEN
             WRITE(ISTDO,'(2(A,I8),A,1PE11.4)')
      .      '     LAG_NC=',LAG_NC,',   NITER_GC=',NITER_GC,
@@ -737,7 +737,7 @@ C calcul temps restant
             WRITE(ISTDO,'(A,F14.2,A,A,F14.2,A)')
      .        ' ELAPSED TIME=',ETIME,' s ',
      .        ' REMAINING TIME=',RETIME,' s'
-          END IF 
+          END IF
           CALL MY_FLUSH(ISTDO)
         ENDIF
       ENDIF
@@ -756,14 +756,14 @@ C
        WRITE (IUSC3,'(A,G14.7)',ERR=990)     ' MASS.ERR (M-M0)/M0=',EMASS
 
        CALL FVSTATS1(IUSC3,MONVOL,1)
-	   
+	
        IF(IMON > 0 .AND. TT > ZERO) THEN
 C calcul temps restant
          RETIME = (ETIME*TSTOP) / TT - ETIME
          WRITE(IUSC3,'(A)',ERR=990)        ' '
          WRITE(IUSC3,'(A,F14.2,A)',ERR=990)' CURRENT ELAPSED TIME    =',ETIME,' s '
          WRITE(IUSC3,'(A,F14.2,A)',ERR=990)' REMAINING TIME ESTIMATE =',RETIME,' s'
-       END IF 
+       END IF
 
        CLOSE(IUSC3)
  990   CONTINUE

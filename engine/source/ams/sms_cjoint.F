@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       IF(ISPMD==0) THEN
-        
+
         K=1
         DO N=1,NJOINT
           KIND(N) = K
@@ -112,7 +112,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LJOINT(*), FR_CJ(*), IADCJ(NSPMD+1,*), IDOWN, 
+      INTEGER LJOINT(*), FR_CJ(*), IADCJ(NSPMD+1,*), IDOWN,
      .        TAG_LNK_SMS(*), ITASK
 C     REAL
       my_real
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       IF(ISPMD==0) THEN
-        
+
         K=1
         DO N=1,NJOINT
           KIND(N) = K
@@ -187,7 +187,7 @@ C-----------------------------------------------
      .        TAG_LNK_SMS(*), ITASK
 C     REAL
       my_real
-     .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*), 
+     .   A(3,*), AR(3,*), V(3,*), VR(3,*), X(3,*),
      .   MS(*), IN(*), CJWORK(18,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -203,7 +203,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C
       IF(ISPMD==0) THEN
-        
+
         K=1
         DO N=1,NJOINT
           KIND(N) = K
@@ -300,7 +300,7 @@ C
 C
       XCDG=ZERO
       YCDG=ZERO
-      ZCDG=ZERO      
+      ZCDG=ZERO
 C----------------------------
 C     CALCUL DU CDG + MASSE
 C----------------------------
@@ -373,13 +373,13 @@ C----------------------------
       CJWORK(2)=N2
       CJWORK(3)=N3
 C
-      CJWORK(4)=AXX 
-      CJWORK(5)=AYY 
-      CJWORK(6)=AZZ 
+      CJWORK(4)=AXX
+      CJWORK(5)=AYY
+      CJWORK(6)=AZZ
 C
       CJWORK(7)=XCDG
       CJWORK(8)=YCDG
-      CJWORK(9)=ZCDG      
+      CJWORK(9)=ZCDG
 C
       CJWORK(10)=MASSE
       CJWORK(11)=INER
@@ -454,11 +454,11 @@ C store sum(diag_i)
 C
       CJWORK(12)=VX
       CJWORK(13)=VY
-      CJWORK(14)=VZ      
+      CJWORK(14)=VZ
 C
       CJWORK(15)=VXX
       CJWORK(16)=VYY
-      CJWORK(17)=VZZ     
+      CJWORK(17)=VZZ
 C
       CJWORK(18)=DMASSE
 C----------------------------
@@ -588,7 +588,7 @@ C
         A(3,N)=AZ+N3*A0
       END DO
 
-      END SELECT 
+      END SELECT
 
       RETURN
       END
@@ -624,8 +624,8 @@ C-----------------------------------------------
       INTEGER NSN, NA, NB, I, N
 C     REAL
       my_real
-     .   N1, N2, N3, AX, AY, AZ, AXX, AYY, AZZ, 
-     .   XCDG, YCDG, ZCDG, XX, YY, ZZ, RR, A0, 
+     .   N1, N2, N3, AX, AY, AZ, AXX, AYY, AZZ,
+     .   XCDG, YCDG, ZCDG, XX, YY, ZZ, RR, A0,
      .   VX, VY, VZ, VXX, VYY, VZZ, V0,
      .   VG(3), V1X2, V2X1, V2X3, V3X2, V3X1, V1X3, USDT, VX1, VX2, VX3
 C-----------------------------------------------
@@ -641,15 +641,15 @@ C
 C
       XCDG=CJWORK(7)
       YCDG=CJWORK(8)
-      ZCDG=CJWORK(9)     
+      ZCDG=CJWORK(9)
 C
       VX=CJWORK(12)
       VY=CJWORK(13)
-      VZ=CJWORK(14)	 
+      VZ=CJWORK(14)	
 C
       VXX=CJWORK(15)
       VYY=CJWORK(16)
-      VZZ=CJWORK(17)	 
+      VZZ=CJWORK(17)	
 C
       VG(1)=VXX+AXX*DT12
       VG(2)=VYY+AYY*DT12

@@ -181,12 +181,12 @@ c     9   IFPEN    ,CAND_P   ,NSV      ,ITAGP    ,IRECTG   )
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
-     
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -199,12 +199,12 @@ c     9   IFPEN    ,CAND_P   ,NSV      ,ITAGP    ,IRECTG   )
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))

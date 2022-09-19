@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        OFF_PART(NSUBMOD)
       CHARACTER MESS*40, MESS2*40, CHAR_MAT*11, CHAR_SKEW*11
       my_real
-     .   BID 
+     .   BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SPRING,SKEWID
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -133,12 +133,12 @@ C--------------------------------------------------
       ALLOCATE (SUB_SPRING(NUMELR),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_SPRING') 
+     .                             C1='SUB_SPRING')
       SUB_SPRING(1:NUMELR) = 0
       ALLOCATE (SKEWID(NUMELR),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SKEWID') 
+     .                             C1='SKEWID')
       SKEWID(1:NUMELR) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -157,7 +157,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
           IF(SUB_SPRING(I) /= 0)THEN
-            IF(IPARTR(I) /= 0) IPARTR(I) = IPARTR(I) + OFF_PART(SUB_SPRING(I)) 
+            IF(IPARTR(I) /= 0) IPARTR(I) = IPARTR(I) + OFF_PART(SUB_SPRING(I))
             IF(IXR(NIXR,I) /= 0) IXR(NIXR,I) = IXR(NIXR,I) + OFF_EL(SUB_SPRING(I))
             DO J=2,4
               IF(IXR(J,I) /= 0) IXR(J,I) = IXR(J,I) + OFF_NOD(SUB_SPRING(I))
@@ -170,10 +170,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-          IF( IPART(4,INDEX_PART) /= IPARTR(I) )THEN  
-            DO J=1,NPART                            
-              IF(IPART(4,J)== IPARTR(I) ) INDEX_PART = J 
-            ENDDO  
+          IF( IPART(4,INDEX_PART) /= IPARTR(I) )THEN
+            DO J=1,NPART
+              IF(IPART(4,J)== IPARTR(I) ) INDEX_PART = J
+            ENDDO
           ENDIF
           IF( IPART(4,INDEX_PART) /= IPARTR(I) ) THEN
             CALL ANCMSG(MSGID=402,
@@ -183,9 +183,9 @@ C--------------------------------------------------
      .                  I1=IPARTR(I),
      .                  I2=IPARTR(I),
      .                  PRMOD=MSG_CUMU)
-          ENDIF   
-          IPID=IPART(2,INDEX_PART)   
-          IMID=IPART(1,INDEX_PART)  
+          ENDIF
+          IPID=IPART(2,INDEX_PART)
+          IMID=IPART(1,INDEX_PART)
           IGTYP=IGEO(11,IPID)
           IXR(5,I)=0
 C
@@ -196,13 +196,13 @@ c
           FLAG_KJ(I) = 0
           DO J=1,3
             IF (IXR_KJ(J,I)/=0) FLAG_KJ(I) = FLAG_KJ(I) + 1
-          END DO   
-c	    
+          END DO
+c	
           IF (IXR(NIXR,I)>ID_LIMIT) THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXR(NIXR,I),C1=LINE,C2='/SPRING')
           ENDIF
-          IXR(1,I)=IPID   
+          IXR(1,I)=IPID
           IXR(2,I)=USR2SYS(IXR(2,I),ITABM1,MESS,IXR(NIXR,I))
           IXR(3,I)=USR2SYS(IXR(3,I),ITABM1,MESS,IXR(NIXR,I))
           CALL ANODSET(IXR(2,I), CHECK_SPRING)
@@ -221,11 +221,11 @@ C         Noeuds additionels pour joints
             END DO  	  		
           ENDIF
 C         Skews per element - PROP type23 and mat law 108 or PROP type8 - only
-          IF (SKEWID(I) > 0) THEN  
+          IF (SKEWID(I) > 0) THEN
             DO J = 0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
               IF (SKEWID(I) == ISKN(4,J+1)) THEN
                 R_SKEW(I) = J+1
-                GO TO 500 
+                GO TO 500
               ENDIF
             ENDDO
             CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -238,10 +238,10 @@ C         Skews per element - PROP type23 and mat law 108 or PROP type8 - only
 C
       IF(ALLOCATED(SUB_SPRING)) DEALLOCATE(SUB_SPRING)
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
@@ -283,11 +283,11 @@ C
           ELSEIF  (FLAG_KJ(I) == 2) THEN
             WRITE (IOUT,'(8(I10,1X),A,A)') I,IXR(NIXR,I),PID,
      .                   ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),
-     .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW 
+     .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW
           ELSEIF  (FLAG_KJ(I) == 3) THEN
             WRITE (IOUT,'(9(I10,1X),A,A)') I,IXR(NIXR,I),PID,
      .                   ITAB(IXR(2,I)),ITAB(IXR(3,I)),ITAB(IXR(4,I)),
-     .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW 
+     .                  (ITAB(IXR_KJ(J,I)),J=1,FLAG_KJ(I)),CHAR_MAT,CHAR_SKEW
           ENDIF
 	ELSE
           WRITE (IOUT,'(6(I10,1X),33X,A,A)') I,IXR(NIXR,I),PID,
@@ -322,8 +322,8 @@ C--------------------------------------------------
 	    END DO
 	    IXR_KJ(4,CPT)=IXR(NIXR,I)
 	    IXR_KJ(5,CPT)=I
-	  ENDIF  
-	END DO	       
+	  ENDIF
+	END DO	
       ENDIF
 C
 C----
@@ -333,7 +333,7 @@ C----
      + '    LOC-EL     GLO-EL       GEOM      NODE1      NODE2'
      + '    (NODE3)                                    (MAT_ID)     (SKEW)')
   310 FORMAT(' SPRING ELEMENT TH SELECTION'/
-     +       ' ---------------------------'/)   
+     +       ' ---------------------------'/)
   999 CALL FREERR(3)
       RETURN
       END

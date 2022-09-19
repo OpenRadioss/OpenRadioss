@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ERR_MEM                       source/implicit/lin_solv.F    
 Chd|====================================================================
       SUBROUTINE IMP_FAC_ICJ(
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,IADM  ,JDIM  ,DIAG_M,LT_M   ,
      3                    PSI   ,NNZM  ,MAX_L ,ISKY  ,LI     ,
      4                    NNE   )
@@ -76,7 +76,7 @@ C
        IF (K0>0) THEN
         J0 = JDIK(K0)
         IF (J0>MAXK) MAXK=J0
-       ENDIF 
+       ENDIF
        DO J = IADK(I),K0
         K1= JDIK(J)
         LI(K1) = LT_K(J)
@@ -89,15 +89,15 @@ C----------ISKY(J)=I for LT_K(I,J)-----
 C        IF (LSKY>=IADM(K+1)) write(*,*)'found 1',i       
         IF (LSKY<IADM(K+1).AND.JDIM(LSKY)==I) THEN
          LKIK = LT_M(LSKY)/DIAG_M(K)
-         AII = AII -LT_M(LSKY)*LKIK 
+         AII = AII -LT_M(LSKY)*LKIK
          ISKY(K)=LSKY+1
          DO J = ISKY(K),IADM(K+1)-1
           K1= JDIM(J)
 C----------voir ici quand ca tombre sur diagonal---
           LI(K1) = LI(K1)-LKIK*LT_M(J)
          ENDDO
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
        DO 100 J = I+1 , MAXK
         IF (ISKY(J)==J) GOTO 100
         S = LI(J)
@@ -112,7 +112,7 @@ C----------voir ici quand ca tombre sur diagonal---
          ELSEIF (S*S<PSI*AII*AJJ) THEN
           S =ABS(S)
           FAC = SQRT(AII/AJJ)
-          AII = AII +S*FAC 
+          AII = AII +S*FAC
           DIAG_M(J) = AJJ +S/FAC
           REJ = REJ +1
          ELSE
@@ -120,13 +120,13 @@ C----------voir ici quand ca tombre sur diagonal---
           IF (NNZM>MAX_L) CALL ERR_MEM(NNZM)
           LT_M(NNZM)=S
           JDIM(NNZM)=J
-         ENDIF 
-        ENDIF 
+         ENDIF
+        ENDIF
  100   CONTINUE
        IF (AII<EM20) THEN
         NNE=NNE+1
         AII=SIGN(MAX(ABS(AII),EM20),AII)
-       ENDIF 
+       ENDIF
        DIAG_M(I) = ONE/AII
        IADM(I+1)=NNZM+1
        DO J = IADM(I),NNZM
@@ -182,15 +182,15 @@ C-----------------------------------------------
           AJJ = DIAG_M(J)
           S =ABS(S)
           FAC = SQRT(ABS(AII/AJJ))
-          AII = AII +S*FAC 
+          AII = AII +S*FAC
           IF (abs(aii)<EP30) THEN
           ELSE
           ENDIF
           DIAG_M(J) = AJJ +S/FAC
-         ENDIF 
-        ENDIF 
+         ENDIF
+        ENDIF
        ENDDO
 C
       RETURN
       END
-      
+

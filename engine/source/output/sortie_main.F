@@ -65,68 +65,68 @@ Chd|        SENSOR_MOD                    share/modules/sensor_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE SORTIE_MAIN(
-     1            PM        ,D           ,V          ,ALE_CONNECT     ,W        ,         
-     2            ELBUF     ,IPARG       ,IXS        ,IXQ       ,IXC      ,         
-     3            IXT       ,IXP         ,IXR        ,IXTG      ,WA       ,         
-     4            ITAB      ,X           ,GEO        ,MS        ,A        ,         
-     5            CONT      ,PARTSAV                 ,ICUT      ,XCUT     ,         
-     6            FINT      ,FEXT        ,FOPT       ,ANIN      ,LPBY     ,         
-     7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,IXUR     ,         
-     8            TANI      ,INOISE      ,BUFNOIS    ,RBY       ,NEFLSW   ,         
-     9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,                   
-     B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,                   
-     C            VR        ,IN          ,WEIGHT     ,FCLUSTER  ,MCLUSTER ,         
-     D            DD_IAD    ,DMAS        ,DINER      ,ACCELM    ,GAUGE,             
-     E            IPARI     ,EANI        ,IPART,                                    
-     F            IGRNOD    ,SUBSET      ,ITHGRP     ,ITHBUF    ,         
-     G            NOM_OPT   ,AR          ,IGRSURF    ,BUFSF     ,IDATA    ,         
-     H            RDATA     ,KXX         ,IXX        ,BUFMAT    ,BUFGEO   ,         
-     I            KXSP      ,                   
-     J            IXSP      ,NOD2SP      ,SPBUF      ,                    
-     L            DR        ,        
-     M            FSAVD      ,   
-     N            IXRI      ,RIVET       ,ISKWN      ,IFRAME    ,XFRAME   ,         
-     O            IXS10     ,IXS20       ,IXS16      ,ITHGRPA,                      
-     P            ITHBUFA   ,ITHGRPB     ,ITHBUFB,                                 
-     Q            ITHGRPC   ,ITHBUFC     ,ITHGRPD,                                 
-     R            ITHBUFD   ,ITHGRPE     ,ITHBUFE,                                 
-     S            ITHGRPF   ,ITHBUFF     ,ITHGRPG,                                 
-     T            ITHBUFG   ,ITHGRPH     ,ITHBUFH,                                 
-     U            ITHGRPI   ,ITHBUFI     ,NDMA       ,MONVOL    ,VOLMON   ,         
-     V            IPM       ,IGEO        ,NODGLOB    ,IAD_ELEM  ,FR_ELEM  ,         
-     W            FR_RBY2   ,IAD_RBY2    ,FR_WALL    ,FR_SEC    ,FXBIPM   ,FXBRPM,  
-     X            NDIN      ,FXBDEP      ,FXBVIT     ,FXBACC    ,IFLOW,             
-     Y            RFLOW     ,IPARTL      ,NPARTL     ,IACCP     ,NACCP,             
-     Z            FASOLFR   ,FNCONT      ,FTCONT     ,IPARTH    ,         
-     a            FR_MV     ,IPART_STATE ,SH4TREE    ,SH3TREE   ,TEMP,              
-     b            THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,                             
-     c            INOD_PXFEM,FTHREAC     ,NODREAC    ,CPTREAC   ,GRESAV   ,         
-     d            DIAG_SMS  ,SH4TRIM     ,SH3TRIM    ,FNCONT2   ,XMOM_SMS ,         
-     e            IRBE2     ,IRBE3       ,LRBE2      ,LRBE3     ,FR_RBE2  ,         
-     f            FR_RBE3M  ,IAD_RBE2    ,DXANCG     ,IEL_PXFEM ,ZI_PLY   ,         
-     g            VGAZ      ,FCONTG      ,FNCONTG    ,FTCONTG   ,FANREAC  ,         
-     h            INOD_CRK  ,IEL_CRK     ,ELCUTC     ,IADC_CRK  ,PDAMA2   ,         
-     i            RES_SMS     ,LSENSOR    ,SENSOR    ,SENSOR_TAB,                   
-     j            QFRICINT  ,IGAUP       ,NGAUP      ,WEIGHT_MD ,NCONT    ,         
-     k            INDEXCONT ,NODGLOBXFE  ,NODEDGE    ,XFEM_TAB  ,           
+     1            PM        ,D           ,V          ,ALE_CONNECT     ,W        ,
+     2            ELBUF     ,IPARG       ,IXS        ,IXQ       ,IXC      ,
+     3            IXT       ,IXP         ,IXR        ,IXTG      ,WA       ,
+     4            ITAB      ,X           ,GEO        ,MS        ,A        ,
+     5            CONT      ,PARTSAV                 ,ICUT      ,XCUT     ,
+     6            FINT      ,FEXT        ,FOPT       ,ANIN      ,LPBY     ,
+     7            NPBY      ,NSTRF       ,RWBUF      ,NPRW      ,IXUR     ,
+     8            TANI      ,INOISE      ,BUFNOIS    ,RBY       ,NEFLSW   ,
+     9            NNFLSW    ,CRFLSW      ,FLSW       ,LOUT      ,
+     B            FSAV      ,SKEW        ,ELBUF_TAB  ,CLUSTER   ,
+     C            VR        ,IN          ,WEIGHT     ,FCLUSTER  ,MCLUSTER ,
+     D            DD_IAD    ,DMAS        ,DINER      ,ACCELM    ,GAUGE,
+     E            IPARI     ,EANI        ,IPART,
+     F            IGRNOD    ,SUBSET      ,ITHGRP     ,ITHBUF    ,
+     G            NOM_OPT   ,AR          ,IGRSURF    ,BUFSF     ,IDATA    ,
+     H            RDATA     ,KXX         ,IXX        ,BUFMAT    ,BUFGEO   ,
+     I            KXSP      ,
+     J            IXSP      ,NOD2SP      ,SPBUF      ,
+     L            DR        ,
+     M            FSAVD      ,
+     N            IXRI      ,RIVET       ,ISKWN      ,IFRAME    ,XFRAME   ,
+     O            IXS10     ,IXS20       ,IXS16      ,ITHGRPA,
+     P            ITHBUFA   ,ITHGRPB     ,ITHBUFB,
+     Q            ITHGRPC   ,ITHBUFC     ,ITHGRPD,
+     R            ITHBUFD   ,ITHGRPE     ,ITHBUFE,
+     S            ITHGRPF   ,ITHBUFF     ,ITHGRPG,
+     T            ITHBUFG   ,ITHGRPH     ,ITHBUFH,
+     U            ITHGRPI   ,ITHBUFI     ,NDMA       ,MONVOL    ,VOLMON   ,
+     V            IPM       ,IGEO        ,NODGLOB    ,IAD_ELEM  ,FR_ELEM  ,
+     W            FR_RBY2   ,IAD_RBY2    ,FR_WALL    ,FR_SEC    ,FXBIPM   ,FXBRPM,
+     X            NDIN      ,FXBDEP      ,FXBVIT     ,FXBACC    ,IFLOW,
+     Y            RFLOW     ,IPARTL      ,NPARTL     ,IACCP     ,NACCP,
+     Z            FASOLFR   ,FNCONT      ,FTCONT     ,IPARTH    ,
+     a            FR_MV     ,IPART_STATE ,SH4TREE    ,SH3TREE   ,TEMP,
+     b            THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
+     c            INOD_PXFEM,FTHREAC     ,NODREAC    ,CPTREAC   ,GRESAV   ,
+     d            DIAG_SMS  ,SH4TRIM     ,SH3TRIM    ,FNCONT2   ,XMOM_SMS ,
+     e            IRBE2     ,IRBE3       ,LRBE2      ,LRBE3     ,FR_RBE2  ,
+     f            FR_RBE3M  ,IAD_RBE2    ,DXANCG     ,IEL_PXFEM ,ZI_PLY   ,
+     g            VGAZ      ,FCONTG      ,FNCONTG    ,FTCONTG   ,FANREAC  ,
+     h            INOD_CRK  ,IEL_CRK     ,ELCUTC     ,IADC_CRK  ,PDAMA2   ,
+     i            RES_SMS     ,LSENSOR    ,SENSOR    ,SENSOR_TAB,
+     j            QFRICINT  ,IGAUP       ,NGAUP      ,WEIGHT_MD ,NCONT    ,
+     k            INDEXCONT ,NODGLOBXFE  ,NODEDGE    ,XFEM_TAB  ,
      l            NV46      ,RTHBUF      ,KXIG3D     ,IXIG3D    ,KNOT     ,
      m            WIGE      ,NERCVOIS    ,NESDVOIS   ,LERCVOIS  ,LESDVOIS ,
      n            CRKEDGE   ,STACK       ,ISPHIO     ,VSPHIO    ,ICODE    ,
      o            INDX_CRK  ,XEDGE4N     ,XEDGE3N    ,SPH2SOL   ,STIFN    ,
      p            STIFR     ,DRAPE_Q4, DRAPE_T3       ,MS_2D     ,MULTI_FVM,
      q            SEGQUADFR ,H3D_DATA    ,ISKEW      ,PSKIDS    ,ISKWP    ,
-     r            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS, 
+     r            KNOTLOCPC ,KNOTLOCEL   ,PINCH_DATA ,TAG_SKINS6,IRUNN_BIS,
      s            TF        ,NPC         ,IPART_DYNAIN,FCONT_MAX,MDS_MATID,
      t            FNCONTP2  ,FTCONTP2    ,IBCL        ,ILOADP   ,LLOADP   ,
-     u            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  ) 
+     u            LOADP     ,TAGNCONT    ,LOADP_HYD_INTER,FORC  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GENANI_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CLUSTER_MOD
-      USE INTBUFDEF_MOD  
-      USE CRACKXFEM_MOD 
+      USE INTBUFDEF_MOD
+      USE CRACKXFEM_MOD
       USE STACK_MOD
       USE ECND_MOD
       USE MULTI_FVM_MOD
@@ -135,7 +135,7 @@ C-----------------------------------------------
       USE FVMBAG_MESHCONTROL_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
-      USE ALEANIM_MOD !FANI_CELL 
+      USE ALEANIM_MOD !FANI_CELL
       USE PINCHTYPE_MOD
       USE INOUTFILE_MOD
       USE DRAPE_MOD
@@ -231,7 +231,7 @@ C-----------------------------------------------
      .   RES_SMS(*),SENSOR(NSENSR,*),QFRICINT(*), GAUGE(*),
      .   FCLUSTER(*),MCLUSTER(*),RTHBUF(*),WIGE(*),KNOT(*),VSPHIO(*),
      .   STIFN(*),STIFR(*),MS_2D(*),PSKIDS(*),KNOTLOCPC(*),KNOTLOCEL(*),
-     .   FNCONTP2(3,*)  ,FTCONTP2(3,*)  
+     .   FNCONTP2(3,*)  ,FTCONTP2(3,*)
       INTEGER FR_SEC(NSPMD+1,*),FR_RBY2(3,*),IAD_RBY2(4,*),FR_WALL(*),
      .   NODREAC(*),IAD_RBE2(4,*),INDEXCONT(*),NCONT,ITY
       INTEGER CPTREAC,NPC(*),MDS_MATID(*)
@@ -283,7 +283,7 @@ C-----------------------------------------------
       CHARACTER FILNAMABF*100,FILNAMABF_TMP*100
 
       INTEGER :: LEN_TMP_NAME,LEN_TMP_NAME2
-      CHARACTER(len=100) :: TMP_NAME,TMP_NAME2   
+      CHARACTER(len=100) :: TMP_NAME,TMP_NAME2
 C=======================================================================
       IF(IPLYXFEM == 0 ) ANIM_PLY = 0
       IF(ICRACK3D > 0 ) ANIM_CRK = 1
@@ -309,7 +309,7 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
         CALL S10MVND(ICNDS10 ,VND   ,VMCDN    )
         CALL CNDMASI2(ICNDS10,NKEND,IMAP2ND,MASI2ND0,MS ,V  ,A   ,
      1                WEIGHT ,MAS_ND ,KEND  )
-        CALL ECRIT(PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     , 
+        CALL ECRIT(PARTSAV  ,MS      ,VMCDN  ,IN       ,VR     ,
      2             RBY      ,NPBY    ,DMAS   ,DINER    ,WEIGHT ,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,LSENSOR , SENSOR,QFRICINT ,IPARI  ,
@@ -317,8 +317,8 @@ C-------should use relative velocity for dynamic condensed nodes (Nd of S10)
      6             MAS_ND   ,KEND   ,H3D_DATA,SENSOR_TAB)
         DEALLOCATE(VMCDN)
        ELSE
-        BID = ZERO       
-        CALL ECRIT(PARTSAV  ,MS      ,V      ,IN       ,VR     , 
+        BID = ZERO
+        CALL ECRIT(PARTSAV  ,MS      ,V      ,IN       ,VR     ,
      2             RBY      ,NPBY    ,DMAS   ,DINER    ,WEIGHT ,
      3             A        ,AR      ,FXBIPM ,FXBRPM   ,MONVOL ,
      4             XMOM_SMS ,LSENSOR ,SENSOR ,QFRICINT ,IPARI  ,
@@ -384,7 +384,7 @@ C       Compute maximum contact FCONT_MAX
 C------------------------------------------
       IF(ANIM_V(26)+H3D_DATA%N_VECT_CONT_MAX /=0) THEN
          CALL FCONT_MAX_OUTPUT(CONT,FCONTG,NODGLOB,FCONT_MAX,WEIGHT)
-      ENDIF 
+      ENDIF
 
 C-----------------------------------------------
 C     FICHIERS D'ANIMATION
@@ -405,11 +405,11 @@ c       CALL PATRAN(D,V,ELBUF,IPARG,IXS,IXQ,IXC,IXT,IXP,IXR,ITAB)
 c       IF(TT>=TPAT)TPAT=TPAT+DTPAT
 c      END IF
 c      END IF
-   
+
       IF (TT>=TANIM.OR. ! NUMELCRK > NUMELCRK2 .or.   !  => ANIM par fissure avance
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
      .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15 .OR.
-     .   (MSTOP == 1  .AND. ICTLSTOP == 0) .OR. 
+     .   (MSTOP == 1  .AND. ICTLSTOP == 0) .OR.
      .   MSTOP == 2 .OR. DT2<=ZERO )THEN
        IANIM=IANIM+1
 C      N1 = 1
@@ -421,7 +421,7 @@ C      N6 = N5 + NUMELC + NUMELTG + NUMELQ + 6*NUMELS
 C    .         + NUMELT + NUMELP  + NUMELR
 C      N7 = N6 + NUMMAT
 
-!       need to communicate the SKEW array on main proc 
+!       need to communicate the SKEW array on main proc
          CALL SPMD_SD_SKW_ANIM(SKEW,ISKWP)
          NEL3D = NUMELS + NUMSPH + 3*NUMELS16
          NEL2D = NUMELC + NUMELTG + NUMELQ + NUMELUR
@@ -570,8 +570,8 @@ C-----------------------------------------------
 C     H3D FILE
 C-----------------------------------------------
       IF (ILASTH3D==1.OR.TT>=H3D_DATA%TH3D .OR. H3D_DATA%MH3D ==1 .OR.
-     .   (MSTOP == 1  .AND. ICTLSTOP == 0 .AND. H3D_DATA%IH3D/= 0) .OR. 
-     .   (MSTOP == 2  .AND. H3D_DATA%IH3D/= 0) .OR. 
+     .   (MSTOP == 1  .AND. ICTLSTOP == 0 .AND. H3D_DATA%IH3D/= 0) .OR.
+     .   (MSTOP == 2  .AND. H3D_DATA%IH3D/= 0) .OR.
      .   (DT2<=ZERO .AND. H3D_DATA%IH3D/= 0) )THEN
 
          H3D_DATA%IH3D=H3D_DATA%IH3D+1
@@ -838,10 +838,10 @@ C
        CALL GENDYNAIN(X        ,ELBUF_TAB, ELBUF  ,IXC      ,IXTG     ,
      2                IPARG    ,IPM      , IGEO   ,ITAB     ,IPART    ,
      3                PM       ,GEO      , IPART(K3),IPART(K8),LENG   ,
-     4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
-     5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 , 
-     6                IPART_DYNAIN) 
-             
+     4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,
+     5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 ,
+     6                IPART_DYNAIN)
+
        IF(TT>=TDYNAIN)TDYNAIN=TDYNAIN+DTDYNAIN
        IF ((TSTOP<TDYNAIN).AND.(TDYNAIN<TSTOP+EM06*TSTOP)
      .     .AND.(TSTOP+EM06*TSTOP<TDYNAIN+DTDYNAIN)) THEN
@@ -870,7 +870,7 @@ C----------------------
             IF (MULTI_FVM%IS_USED .AND. H3D_DATA%N_VECT_CONT > 0)CALL ANICON0(FANI_CELL,NUMELS+NUMELQ) !/H3D/ELEM/VECT/CONT
         ENDIF
         IF(NINTSTAMP/=0.AND.ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT >0)THEN
-            CALL ANICON2(FCONTG,NCONT,INDEXCONT)     
+            CALL ANICON2(FCONTG,NCONT,INDEXCONT)
         ENDIF
         IF(NINTER/=0.AND.ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT>0)THEN
             CALL ANICON0(FNCONT,NUMNOD)
@@ -882,7 +882,7 @@ C----------------------
             CALL ANICON0(FTCONTG,NUMNODG)
           ELSE
             CALL ANICON2(FNCONTG,NCONT,INDEXCONT)
-            CALL ANICON2(FTCONTG,NCONT,INDEXCONT)  
+            CALL ANICON2(FTCONTG,NCONT,INDEXCONT)
           ENDIF
         ENDIF
 
@@ -900,8 +900,8 @@ C
             WRITE(ISTDO,*)' ** ERROR : TH VERSION OLDER THAN 41 IS ',
      *                    'NO MORE SUPPORTED'
       ELSE
-c check if an update of any output (TH,tha,thb,abf,..) is done  
-c in this case set flag to 1    
+c check if an update of any output (TH,tha,thb,abf,..) is done
+c in this case set flag to 1
         THUPDT = 0
         IF(TT>=THIS) THEN
 	  THUPDT = 1
@@ -931,7 +931,7 @@ C         to avoid double points
             ITHFLAG = 1
             CALL HIST2(PM   ,D    ,X     ,V   ,A    ,
      2                 IXS  ,ELBUF,WA(N2),IPARG,
-     4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,                                 
+     4                 FSAV ,FLSW ,SKEW,ELBUF_TAB,CLUSTER,
      5                 PARTSAV,ACCELM,LOUT ,
      6                 IPARI,WEIGHT,IPART,IGRSURF,
      7                 ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -950,7 +950,7 @@ C         to avoid double points
      M                 RTHBUF ,THKE ,STACK ,ISPHIO  ,VSPHIO,
      N                 ITHFLAG,PINCH_DATA,MULTI_FVM,W)
 
-            IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 ) 
+            IF (SIZE_MES==1 .AND.AFORM(1)==3 .AND.ISPMD==0 )
      *          CALL file_size(MULTITHFILESIZE(1))
 
 
@@ -959,7 +959,7 @@ C         to avoid double points
             IFILABF = 12
             CALL ABFHIST2(PM   ,D    ,X     ,V   ,A    ,
      2                  IXS  ,ELBUF,WA(N2),IPARG,
-     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,                               
+     4                  FSAV ,FLSW ,SKEW,ELBUF_TAB,
      5                  PARTSAV,ACCELM,LOUT ,
      6                  IPARI,WEIGHT,IPART,IGRSURF,
      7                  ITHGRPA,ITHBUFA,SUBSET,GEO  ,
@@ -975,7 +975,7 @@ C         to avoid double points
      J                  1     ,MONVOL ,VOLMON,FR_MV  ,TEMP,INOD_PXFEM,
      K                  FTHREAC,NODREAC,GRESAV  ,TABFWR(2),
      L                  2     ,GAUGE  ,IGAUP,NGAUP   ,RTHBUF ,THKE ,
-     M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W) 
+     M                  STACK ,ISPHIO  ,VSPHIO,ITHFLAG,1,PINCH_DATA,MULTI_FVM,W)
             CPTFILE=CPTFILE+1
 
             IF(TT>=TABFWR0(2) .AND. ISPMD == 0) THEN
@@ -1798,7 +1798,7 @@ C
 
 C     to avoid double points (end of ilastanim/=2)
       END IF
-      ENDIF 
+      ENDIF
 C----------------------------------------------
 C     Driver to QAPRINT 
 C----------------------------------------------
@@ -1822,7 +1822,7 @@ C  FSAV(26) : contact elastic energy is not cumulated : only for int10 and int18
       IF(NINTER>0)THEN
           DO I=1,NINTER
             ITY = IPARI(7,I)
-            IF(ITY /= 10.AND.(ITY /= 7.OR.IPARI(22,I) /= 7)) THEN 
+            IF(ITY /= 10.AND.(ITY /= 7.OR.IPARI(22,I) /= 7)) THEN
                FSAV(26,I) = ZERO
             ENDIF
           ENDDO

@@ -62,9 +62,9 @@ C     REAL
      .   DRDZ(MVSIZ), DSDZ(MVSIZ), DTDZ(MVSIZ),
      .   XX(MVSIZ,16),YY(MVSIZ,16),ZZ(MVSIZ,16),
      .   PX(MVSIZ,16),PY(MVSIZ,16),PZ(MVSIZ,16),
-     .   VOL(*),OFF(*),DELTAX(*),VOLG(MVSIZ)  , 
+     .   VOL(*),OFF(*),DELTAX(*),VOLG(MVSIZ)  ,
      .   KXX(MVSIZ,16),NI(16),UL(MVSIZ,16)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -77,7 +77,7 @@ C-----------------------------------------------
       INTEGER I,N,ICOR
       my_real
      .   D, AA, BB, DET(MVSIZ),R9 ,R13 ,S9 ,S10 ,S11 ,S12 ,T10 ,T14
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DETDP
 C-----------------------------------------------
 C
@@ -253,73 +253,73 @@ C-----------------------------------------------------------------------
 C
         DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
      +          + DNIDR(4)*XX(I,4) + DNIDR(5)*XX(I,5) + DNIDR(6)*XX(I,6)
-     +          + DNIDR(7)*XX(I,7) + DNIDR(8)*XX(I,8)  
+     +          + DNIDR(7)*XX(I,7) + DNIDR(8)*XX(I,8)
      +    + DNIDR(9)*(XX(I,9) - XX(I,11)) + DNIDR(10)*XX(I,10)
      +    + DNIDR(12)*XX(I,12) + DNIDR(13)*(XX(I,13) - XX(I,15))
      +    + DNIDR(14)*XX(I,14) + DNIDR(16)*XX(I,16)
 C  
         DXDS(I) = DNIDS(1)*XX(I,1) + DNIDS(2)*XX(I,2) + DNIDS(3)*XX(I,3)
      +          + DNIDS(4)*XX(I,4) + DNIDS(5)*XX(I,5) + DNIDS(6)*XX(I,6)
-     +          + DNIDS(7)*XX(I,7) + DNIDS(8)*XX(I,8)  
+     +          + DNIDS(7)*XX(I,7) + DNIDS(8)*XX(I,8)
      +    + DNIDS(9)* (XX(I,9)  - XX(I,13))
-     +    + DNIDS(10)*(XX(I,10) - XX(I,14)) 
+     +    + DNIDS(10)*(XX(I,10) - XX(I,14))
      +    + DNIDS(11)*(XX(I,11) - XX(I,15))
-     +    + DNIDS(12)*(XX(I,12) - XX(I,16)) 
+     +    + DNIDS(12)*(XX(I,12) - XX(I,16))
 C 
         DXDT(I) = DNIDT(1)*XX(I,1) + DNIDT(2)*XX(I,2) + DNIDT(3)*XX(I,3)
      +          + DNIDT(4)*XX(I,4) + DNIDT(5)*XX(I,5) + DNIDT(6)*XX(I,6)
-     +          + DNIDT(7)*XX(I,7) + DNIDT(8)*XX(I,8)  
+     +          + DNIDT(7)*XX(I,7) + DNIDT(8)*XX(I,8)
      +    + DNIDT(9)*XX(I,9)   + DNIDT(10)*(XX(I,10) - XX(I,12))
      +    + DNIDT(11)*XX(I,11) + DNIDT(13)*XX(I,13)
-     +    + DNIDT(14)*(XX(I,14) - XX(I,16)) + DNIDT(15)*XX(I,15) 
+     +    + DNIDT(14)*(XX(I,14) - XX(I,16)) + DNIDT(15)*XX(I,15)
 C-----------------------------------------------------------------------
 C     dy/dr; dy/ds; dy/dt
 C-----------------------------------------------------------------------
         DYDR(I) = DNIDR(1)*YY(I,1) + DNIDR(2)*YY(I,2) + DNIDR(3)*YY(I,3)
      +          + DNIDR(4)*YY(I,4) + DNIDR(5)*YY(I,5) + DNIDR(6)*YY(I,6)
-     +          + DNIDR(7)*YY(I,7) + DNIDR(8)*YY(I,8)  
+     +          + DNIDR(7)*YY(I,7) + DNIDR(8)*YY(I,8)
      +    + DNIDR(9)*(YY(I,9) - YY(I,11))   + DNIDR(10)*YY(I,10)
      +    + DNIDR(12)*YY(I,12) + DNIDR(13)*(YY(I,13) - YY(I,15))
      +    + DNIDR(14)*YY(I,14) + DNIDR(16)*YY(I,16)
 C  
         DYDS(I) = DNIDS(1)*YY(I,1) + DNIDS(2)*YY(I,2) + DNIDS(3)*YY(I,3)
      +          + DNIDS(4)*YY(I,4) + DNIDS(5)*YY(I,5) + DNIDS(6)*YY(I,6)
-     +          + DNIDS(7)*YY(I,7) + DNIDS(8)*YY(I,8)  
-     +    + DNIDS(9)* (YY(I,9)  - YY(I,13))   
-     +    + DNIDS(10)*(YY(I,10) - YY(I,14)) 
+     +          + DNIDS(7)*YY(I,7) + DNIDS(8)*YY(I,8)
+     +    + DNIDS(9)* (YY(I,9)  - YY(I,13))
+     +    + DNIDS(10)*(YY(I,10) - YY(I,14))
      +    + DNIDS(11)*(YY(I,11) - YY(I,15))
      +    + DNIDS(12)*(YY(I,12) - YY(I,16))
 C 
         DYDT(I) = DNIDT(1)*YY(I,1) + DNIDT(2)*YY(I,2) + DNIDT(3)*YY(I,3)
      +          + DNIDT(4)*YY(I,4) + DNIDT(5)*YY(I,5) + DNIDT(6)*YY(I,6)
-     +          + DNIDT(7)*YY(I,7) + DNIDT(8)*YY(I,8)  
+     +          + DNIDT(7)*YY(I,7) + DNIDT(8)*YY(I,8)
      +    + DNIDT(9)*YY(I,9)   + DNIDT(10)*(YY(I,10) - YY(I,12))
      +    + DNIDT(11)*YY(I,11) + DNIDT(13)*YY(I,13)
-     +    + DNIDT(14)*(YY(I,14) - YY(I,16)) + DNIDT(15)*YY(I,15) 
+     +    + DNIDT(14)*(YY(I,14) - YY(I,16)) + DNIDT(15)*YY(I,15)
 C-----------------------------------------------------------------------
 C     dz/dr; dz/ds; dz/dt
 C-----------------------------------------------------------------------
         DZDR(I) = DNIDR(1)*ZZ(I,1) + DNIDR(2)*ZZ(I,2) + DNIDR(3)*ZZ(I,3)
      +          + DNIDR(4)*ZZ(I,4) + DNIDR(5)*ZZ(I,5) + DNIDR(6)*ZZ(I,6)
-     +          + DNIDR(7)*ZZ(I,7) + DNIDR(8)*ZZ(I,8)  
+     +          + DNIDR(7)*ZZ(I,7) + DNIDR(8)*ZZ(I,8)
      +    + DNIDR(9)*(ZZ(I,9) - ZZ(I,11))   + DNIDR(10)*ZZ(I,10)
      +    + DNIDR(12)*ZZ(I,12) + DNIDR(13)*(ZZ(I,13) - ZZ(I,15))
      +    + DNIDR(14)*ZZ(I,14) + DNIDR(16)*ZZ(I,16)
 C  
         DZDS(I) = DNIDS(1)*ZZ(I,1) + DNIDS(2)*ZZ(I,2) + DNIDS(3)*ZZ(I,3)
      +          + DNIDS(4)*ZZ(I,4) + DNIDS(5)*ZZ(I,5) + DNIDS(6)*ZZ(I,6)
-     +          + DNIDS(7)*ZZ(I,7) + DNIDS(8)*ZZ(I,8)  
+     +          + DNIDS(7)*ZZ(I,7) + DNIDS(8)*ZZ(I,8)
      +    + DNIDS(9)* (ZZ(I,9)  - ZZ(I,13))
      +    + DNIDS(10)*(ZZ(I,10) - ZZ(I,14))
      +    + DNIDS(11)*(ZZ(I,11) - ZZ(I,15))
-     +    + DNIDS(12)*(ZZ(I,12) - ZZ(I,16)) 
+     +    + DNIDS(12)*(ZZ(I,12) - ZZ(I,16))
 C 
         DZDT(I) = DNIDT(1)*ZZ(I,1) + DNIDT(2)*ZZ(I,2) + DNIDT(3)*ZZ(I,3)
      +          + DNIDT(4)*ZZ(I,4) + DNIDT(5)*ZZ(I,5) + DNIDT(6)*ZZ(I,6)
-     +          + DNIDT(7)*ZZ(I,7) + DNIDT(8)*ZZ(I,8)  
+     +          + DNIDT(7)*ZZ(I,7) + DNIDT(8)*ZZ(I,8)
      +    + DNIDT(9)*ZZ(I,9)   + DNIDT(10)*(ZZ(I,10) - ZZ(I,12))
      +    + DNIDT(11)*ZZ(I,11) + DNIDT(13)*ZZ(I,13)
-     +    + DNIDT(14)*(ZZ(I,14) - ZZ(I,16)) + DNIDT(15)*ZZ(I,15) 
+     +    + DNIDT(14)*(ZZ(I,14) - ZZ(I,16)) + DNIDT(15)*ZZ(I,15)
 c         print *,'dx y z/dr'
 c         print *,DXDR(1),DYDR(1),DZDR(1)
 c         print *,'dx y z/ds'
@@ -397,81 +397,81 @@ C       |dNi/dx|      -1  |dNi/dr|
 C       {dNi/dy} = [J]    {dNi/ds}
 C       |dNi/dz|          |dNi/dt|
 C-----------------------------------------------------------------------
-        PX(I,1) = DNIDR(1)*DRDX(I) + DNIDS(1)*DSDX(I) + DNIDT(1)*DTDX(I)  
-        PX(I,2) = DNIDR(2)*DRDX(I) + DNIDS(2)*DSDX(I) + DNIDT(2)*DTDX(I)  
-        PX(I,3) = DNIDR(3)*DRDX(I) + DNIDS(3)*DSDX(I) + DNIDT(3)*DTDX(I)  
-        PX(I,4) = DNIDR(4)*DRDX(I) + DNIDS(4)*DSDX(I) + DNIDT(4)*DTDX(I)  
-        PX(I,5) = DNIDR(5)*DRDX(I) + DNIDS(5)*DSDX(I) + DNIDT(5)*DTDX(I)  
-        PX(I,6) = DNIDR(6)*DRDX(I) + DNIDS(6)*DSDX(I) + DNIDT(6)*DTDX(I)  
-        PX(I,7) = DNIDR(7)*DRDX(I) + DNIDS(7)*DSDX(I) + DNIDT(7)*DTDX(I)  
+        PX(I,1) = DNIDR(1)*DRDX(I) + DNIDS(1)*DSDX(I) + DNIDT(1)*DTDX(I)
+        PX(I,2) = DNIDR(2)*DRDX(I) + DNIDS(2)*DSDX(I) + DNIDT(2)*DTDX(I)
+        PX(I,3) = DNIDR(3)*DRDX(I) + DNIDS(3)*DSDX(I) + DNIDT(3)*DTDX(I)
+        PX(I,4) = DNIDR(4)*DRDX(I) + DNIDS(4)*DSDX(I) + DNIDT(4)*DTDX(I)
+        PX(I,5) = DNIDR(5)*DRDX(I) + DNIDS(5)*DSDX(I) + DNIDT(5)*DTDX(I)
+        PX(I,6) = DNIDR(6)*DRDX(I) + DNIDS(6)*DSDX(I) + DNIDT(6)*DTDX(I)
+        PX(I,7) = DNIDR(7)*DRDX(I) + DNIDS(7)*DSDX(I) + DNIDT(7)*DTDX(I)
         PX(I,8) = DNIDR(8)*DRDX(I) + DNIDS(8)*DSDX(I) + DNIDT(8)*DTDX(I)
-	R9  = DNIDR(9) *DRDX(I)  
-	R13 = DNIDR(13)*DRDX(I)  
-	S9  = DNIDS(9) *DSDX(I)  
-	S10 = DNIDS(10)*DSDX(I)  
-	S11 = DNIDS(11)*DSDX(I)  
-	S12 = DNIDS(12)*DSDX(I)  
-	T10 = DNIDT(10)*DTDX(I)  
-	T14 = DNIDT(14)*DTDX(I) 
-        PX(I,9) = R9               + S9  + DNIDT(9)*DTDX(I)  
-        PX(I,10)= DNIDR(10)*DRDX(I)+ S10 + T10  
-        PX(I,11)=-R9               + S11 + DNIDT(11)*DTDX(I)  
-        PX(I,12)= DNIDR(12)*DRDX(I)+ S12 - T10  
-        PX(I,13)= R13              - S9  + DNIDT(13)*DTDX(I)  
-        PX(I,14)= DNIDR(14)*DRDX(I)- S10 + T14  
-        PX(I,15)=-R13              - S11 + DNIDT(15)*DTDX(I)  
-        PX(I,16)= DNIDR(16)*DRDX(I)- S12 - T14  
+	R9  = DNIDR(9) *DRDX(I)
+	R13 = DNIDR(13)*DRDX(I)
+	S9  = DNIDS(9) *DSDX(I)
+	S10 = DNIDS(10)*DSDX(I)
+	S11 = DNIDS(11)*DSDX(I)
+	S12 = DNIDS(12)*DSDX(I)
+	T10 = DNIDT(10)*DTDX(I)
+	T14 = DNIDT(14)*DTDX(I)
+        PX(I,9) = R9               + S9  + DNIDT(9)*DTDX(I)
+        PX(I,10)= DNIDR(10)*DRDX(I)+ S10 + T10
+        PX(I,11)=-R9               + S11 + DNIDT(11)*DTDX(I)
+        PX(I,12)= DNIDR(12)*DRDX(I)+ S12 - T10
+        PX(I,13)= R13              - S9  + DNIDT(13)*DTDX(I)
+        PX(I,14)= DNIDR(14)*DRDX(I)- S10 + T14
+        PX(I,15)=-R13              - S11 + DNIDT(15)*DTDX(I)
+        PX(I,16)= DNIDR(16)*DRDX(I)- S12 - T14
 C
-        PY(I,1) = DNIDR(1)*DRDY(I) + DNIDS(1)*DSDY(I) + DNIDT(1)*DTDY(I)  
-        PZ(I,1) = DNIDR(1)*DRDZ(I) + DNIDS(1)*DSDZ(I) + DNIDT(1)*DTDZ(I)  
-        PY(I,2) = DNIDR(2)*DRDY(I) + DNIDS(2)*DSDY(I) + DNIDT(2)*DTDY(I)  
-        PY(I,3) = DNIDR(3)*DRDY(I) + DNIDS(3)*DSDY(I) + DNIDT(3)*DTDY(I)  
-        PY(I,4) = DNIDR(4)*DRDY(I) + DNIDS(4)*DSDY(I) + DNIDT(4)*DTDY(I)  
-        PY(I,5) = DNIDR(5)*DRDY(I) + DNIDS(5)*DSDY(I) + DNIDT(5)*DTDY(I)  
-        PY(I,6) = DNIDR(6)*DRDY(I) + DNIDS(6)*DSDY(I) + DNIDT(6)*DTDY(I)  
-        PY(I,7) = DNIDR(7)*DRDY(I) + DNIDS(7)*DSDY(I) + DNIDT(7)*DTDY(I)  
-        PY(I,8) = DNIDR(8)*DRDY(I) + DNIDS(8)*DSDY(I) + DNIDT(8)*DTDY(I)  
-	R9  = DNIDR(9) *DRDY(I)  
-	R13 = DNIDR(13)*DRDY(I)  
-	S9  = DNIDS(9) *DSDY(I)  
-	S10 = DNIDS(10)*DSDY(I)  
-	S11 = DNIDS(11)*DSDY(I)  
-	S12 = DNIDS(12)*DSDY(I)  
-	T10 = DNIDT(10)*DTDY(I)  
-	T14 = DNIDT(14)*DTDY(I) 
-        PY(I,9) = R9               + S9  + DNIDT(9)*DTDY(I)  
-        PY(I,10)= DNIDR(10)*DRDY(I)+ S10 + T10  
-        PY(I,11)=-R9               + S11 + DNIDT(11)*DTDY(I)  
-        PY(I,12)= DNIDR(12)*DRDY(I)+ S12 - T10 
-        PY(I,13)= R13              - S9  + DNIDT(13)*DTDY(I)  
-        PY(I,14)= DNIDR(14)*DRDY(I)- S10 + T14  
-        PY(I,15)=-R13              - S11 + DNIDT(15)*DTDY(I)  
-        PY(I,16)= DNIDR(16)*DRDY(I)- S12 - T14  
+        PY(I,1) = DNIDR(1)*DRDY(I) + DNIDS(1)*DSDY(I) + DNIDT(1)*DTDY(I)
+        PZ(I,1) = DNIDR(1)*DRDZ(I) + DNIDS(1)*DSDZ(I) + DNIDT(1)*DTDZ(I)
+        PY(I,2) = DNIDR(2)*DRDY(I) + DNIDS(2)*DSDY(I) + DNIDT(2)*DTDY(I)
+        PY(I,3) = DNIDR(3)*DRDY(I) + DNIDS(3)*DSDY(I) + DNIDT(3)*DTDY(I)
+        PY(I,4) = DNIDR(4)*DRDY(I) + DNIDS(4)*DSDY(I) + DNIDT(4)*DTDY(I)
+        PY(I,5) = DNIDR(5)*DRDY(I) + DNIDS(5)*DSDY(I) + DNIDT(5)*DTDY(I)
+        PY(I,6) = DNIDR(6)*DRDY(I) + DNIDS(6)*DSDY(I) + DNIDT(6)*DTDY(I)
+        PY(I,7) = DNIDR(7)*DRDY(I) + DNIDS(7)*DSDY(I) + DNIDT(7)*DTDY(I)
+        PY(I,8) = DNIDR(8)*DRDY(I) + DNIDS(8)*DSDY(I) + DNIDT(8)*DTDY(I)
+	R9  = DNIDR(9) *DRDY(I)
+	R13 = DNIDR(13)*DRDY(I)
+	S9  = DNIDS(9) *DSDY(I)
+	S10 = DNIDS(10)*DSDY(I)
+	S11 = DNIDS(11)*DSDY(I)
+	S12 = DNIDS(12)*DSDY(I)
+	T10 = DNIDT(10)*DTDY(I)
+	T14 = DNIDT(14)*DTDY(I)
+        PY(I,9) = R9               + S9  + DNIDT(9)*DTDY(I)
+        PY(I,10)= DNIDR(10)*DRDY(I)+ S10 + T10
+        PY(I,11)=-R9               + S11 + DNIDT(11)*DTDY(I)
+        PY(I,12)= DNIDR(12)*DRDY(I)+ S12 - T10
+        PY(I,13)= R13              - S9  + DNIDT(13)*DTDY(I)
+        PY(I,14)= DNIDR(14)*DRDY(I)- S10 + T14
+        PY(I,15)=-R13              - S11 + DNIDT(15)*DTDY(I)
+        PY(I,16)= DNIDR(16)*DRDY(I)- S12 - T14
 C
-        PZ(I,1) = DNIDR(1)*DRDZ(I) + DNIDS(1)*DSDZ(I) + DNIDT(1)*DTDZ(I)  
-        PZ(I,2) = DNIDR(2)*DRDZ(I) + DNIDS(2)*DSDZ(I) + DNIDT(2)*DTDZ(I)  
-        PZ(I,3) = DNIDR(3)*DRDZ(I) + DNIDS(3)*DSDZ(I) + DNIDT(3)*DTDZ(I)  
-        PZ(I,4) = DNIDR(4)*DRDZ(I) + DNIDS(4)*DSDZ(I) + DNIDT(4)*DTDZ(I)  
-        PZ(I,5) = DNIDR(5)*DRDZ(I) + DNIDS(5)*DSDZ(I) + DNIDT(5)*DTDZ(I)  
-        PZ(I,6) = DNIDR(6)*DRDZ(I) + DNIDS(6)*DSDZ(I) + DNIDT(6)*DTDZ(I)  
-        PZ(I,7) = DNIDR(7)*DRDZ(I) + DNIDS(7)*DSDZ(I) + DNIDT(7)*DTDZ(I)  
-        PZ(I,8) = DNIDR(8)*DRDZ(I) + DNIDS(8)*DSDZ(I) + DNIDT(8)*DTDZ(I)  
-	R9  = DNIDR(9) *DRDZ(I)  
-	R13 = DNIDR(13)*DRDZ(I)  
-	S9  = DNIDS(9) *DSDZ(I)  
-	S10 = DNIDS(10)*DSDZ(I)  
-	S11 = DNIDS(11)*DSDZ(I)  
-	S12 = DNIDS(12)*DSDZ(I)  
-	T10 = DNIDT(10)*DTDZ(I)  
-	T14 = DNIDT(14)*DTDZ(I) 
-        PZ(I,9) = R9               + S9  + DNIDT(9)*DTDZ(I)  
-        PZ(I,10)= DNIDR(10)*DRDZ(I)+ S10 + T10  
-        PZ(I,11)=-R9               + S11 + DNIDT(11)*DTDZ(I)  
-        PZ(I,12)= DNIDR(12)*DRDZ(I)+ S12 - T10  
-        PZ(I,13)= R13              - S9  + DNIDT(13)*DTDZ(I)  
-        PZ(I,14)= DNIDR(14)*DRDZ(I)- S10 + T14  
-        PZ(I,15)=-R13              - S11 + DNIDT(15)*DTDZ(I)  
-        PZ(I,16)= DNIDR(16)*DRDZ(I)- S12 - T14 
+        PZ(I,1) = DNIDR(1)*DRDZ(I) + DNIDS(1)*DSDZ(I) + DNIDT(1)*DTDZ(I)
+        PZ(I,2) = DNIDR(2)*DRDZ(I) + DNIDS(2)*DSDZ(I) + DNIDT(2)*DTDZ(I)
+        PZ(I,3) = DNIDR(3)*DRDZ(I) + DNIDS(3)*DSDZ(I) + DNIDT(3)*DTDZ(I)
+        PZ(I,4) = DNIDR(4)*DRDZ(I) + DNIDS(4)*DSDZ(I) + DNIDT(4)*DTDZ(I)
+        PZ(I,5) = DNIDR(5)*DRDZ(I) + DNIDS(5)*DSDZ(I) + DNIDT(5)*DTDZ(I)
+        PZ(I,6) = DNIDR(6)*DRDZ(I) + DNIDS(6)*DSDZ(I) + DNIDT(6)*DTDZ(I)
+        PZ(I,7) = DNIDR(7)*DRDZ(I) + DNIDS(7)*DSDZ(I) + DNIDT(7)*DTDZ(I)
+        PZ(I,8) = DNIDR(8)*DRDZ(I) + DNIDS(8)*DSDZ(I) + DNIDT(8)*DTDZ(I)
+	R9  = DNIDR(9) *DRDZ(I)
+	R13 = DNIDR(13)*DRDZ(I)
+	S9  = DNIDS(9) *DSDZ(I)
+	S10 = DNIDS(10)*DSDZ(I)
+	S11 = DNIDS(11)*DSDZ(I)
+	S12 = DNIDS(12)*DSDZ(I)
+	T10 = DNIDT(10)*DTDZ(I)
+	T14 = DNIDT(14)*DTDZ(I)
+        PZ(I,9) = R9               + S9  + DNIDT(9)*DTDZ(I)
+        PZ(I,10)= DNIDR(10)*DRDZ(I)+ S10 + T10
+        PZ(I,11)=-R9               + S11 + DNIDT(11)*DTDZ(I)
+        PZ(I,12)= DNIDR(12)*DRDZ(I)+ S12 - T10
+        PZ(I,13)= R13              - S9  + DNIDT(13)*DTDZ(I)
+        PZ(I,14)= DNIDR(14)*DRDZ(I)- S10 + T14
+        PZ(I,15)=-R13              - S11 + DNIDT(15)*DTDZ(I)
+        PZ(I,16)= DNIDR(16)*DRDZ(I)- S12 - T14
 C
       ENDDO
 C
@@ -657,16 +657,16 @@ C
       NI(5) = U_M_R * UPS_UMT * (-R-T-ONE)
       NI(6) = U_M_R * UPS_UPT * (-R+T-ONE)
       NI(7) = U_P_R * UPS_UPT * ( R+T-ONE)
-      NI(8) = U_P_R * UPS_UMT * ( R-T-ONE)     
+      NI(8) = U_P_R * UPS_UMT * ( R-T-ONE)
 C
-      DNIDR(1) = -UMS_UMT * (-HALF*T - R) 
+      DNIDR(1) = -UMS_UMT * (-HALF*T - R)
       DNIDR(2) = -UMS_UPT * ( HALF*T - R)
       DNIDR(3) =  UMS_UPT * ( HALF*T + R)
       DNIDR(4) =  UMS_UMT * (-HALF*T + R)
       DNIDR(5) = -UPS_UMT * (-HALF*T - R)
       DNIDR(6) = -UPS_UPT * ( HALF*T - R)
       DNIDR(7) =  UPS_UPT * ( HALF*T + R)
-      DNIDR(8) =  UPS_UMT * (-HALF*T + R)      
+      DNIDR(8) =  UPS_UMT * (-HALF*T + R)
 C
       DNIDS(1) = -UMT_UMR * (-R-T-ONE)*HALF
       DNIDS(2) = -UPT_UMR * (-R+T-ONE)*HALF
@@ -675,7 +675,7 @@ C
       DNIDS(5) =  UMT_UMR * (-R-T-ONE)*HALF
       DNIDS(6) =  UPT_UMR * (-R+T-ONE)*HALF
       DNIDS(7) =  UPT_UPR * ( R+T-ONE)*HALF
-      DNIDS(8) =  UMT_UPR * ( R-T-ONE)*HALF      
+      DNIDS(8) =  UMT_UPR * ( R-T-ONE)*HALF
 C
       DNIDT(1) = -UMR_UMS * (-HALF*R - T)
       DNIDT(2) =  UMR_UMS * (-HALF*R + T)
@@ -684,7 +684,7 @@ C
       DNIDT(5) = -UMR_UPS * (-HALF*R - T)
       DNIDT(6) =  UMR_UPS * (-HALF*R + T)
       DNIDT(7) =  UPR_UPS * (+HALF*R + T)
-      DNIDT(8) = -UPR_UPS * (+HALF*R - T)      
+      DNIDT(8) = -UPR_UPS * (+HALF*R - T)
 C------------------------------------
       A = (ONE - R*R)
       NI(10) = A * UMS_UPT

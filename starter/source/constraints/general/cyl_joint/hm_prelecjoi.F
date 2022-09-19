@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C----------------------------------------------------------------------
 C
         CALL HM_GET_INTV('dependentnodeset',IGU,IS_AVAILABLE,LSUBMODEL)
 C                                           
-        NS = GRSIZEN(IGU,IGRNOD,NGRNOD) + 3              
+        NS = GRSIZEN(IGU,IGRNOD,NGRNOD) + 3
         NUM = NUM + NS
       ENDDO
 C-----------

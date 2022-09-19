@@ -73,7 +73,7 @@ C-----------------------------------------------
       INTEGER NSNF,NMNF,NSNL,NMNL,I, J, II
       INTEGER NSNEF,NMNEF,NSNEL,NMNEL
       my_real
-     .        XXX, YYY, ZZZ 
+     .        XXX, YYY, ZZZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -113,7 +113,7 @@ C-----------------------------------------------
            II = I+NSN
            J=MSR(I)
 C msr < 0 <=> shooting nodes
-           IF(J>0) THEN 
+           IF(J>0) THEN
              XMIN= MIN(XMIN,XA(1,J))
              YMIN= MIN(YMIN,XA(2,J))
              ZMIN= MIN(ZMIN,XA(3,J))
@@ -161,7 +161,7 @@ C msr < 0 <=> shooting nodes
         II = I+NSNE
         J=MSRE(I)
 C msr < 0 <=> shooting nodes
-        IF(J>0) THEN 
+        IF(J>0) THEN
           XMINE= MIN(XMINE,XA(1,J))
           YMINE= MIN(YMINE,XA(2,J))
           ZMINE= MIN(ZMINE,XA(3,J))

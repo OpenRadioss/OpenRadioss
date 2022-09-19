@@ -60,12 +60,12 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
         INTEGER  NLOCAL
-        EXTERNAL NLOCAL    
+        EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER I,N,P,G
-        INTEGER, DIMENSION(:), ALLOCATABLE :: MAIN_PROC 
+        INTEGER, DIMENSION(:), ALLOCATABLE :: MAIN_PROC
         INTEGER, DIMENSION(:), ALLOCATABLE :: WEIGHT
 
 C-----------------------------------------------
@@ -77,18 +77,18 @@ C-----------------------------------------------
         WEIGHT(1:NUMNOD_L) = 0
         DO I = 1,NUMNOD_L
                 N = NODGLOB(I)
-                DO P = 1, NSPMD 
+                DO P = 1, NSPMD
                         IF(NLOCAL(N,P)==1) THEN
-                                MAIN_PROC(I) = P 
+                                MAIN_PROC(I) = P
                                 GOTO 10
                         ENDIF
                 ENDDO
  10             CONTINUE
         ENDDO
-        
+
         DO I=1,NUMNOD_L
                 IF(MAIN_PROC(I)==PROC) WEIGHT(I) = 1
-        ENDDO        
+        ENDDO
 
         CALL WRITE_I_C(MAIN_PROC,NUMNOD_L)
         CALL WRITE_I_C(WEIGHT,NUMNOD_L)

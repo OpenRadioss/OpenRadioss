@@ -30,7 +30,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE CEVEC3(ELBUF_STR,DIR_A  ,DIR_B  ,
      1    JFT,JLT,X1 ,X2 ,X3 ,X4 ,Y1 ,Y2 ,Y3 ,Y4  ,
-     2    Z1 ,Z2 ,Z3 ,Z4 ,E1X,E1Y,E1Z,E2X,E2Y, E2Z, 
+     2    Z1 ,Z2 ,Z3 ,Z4 ,E1X,E1Y,E1Z,E2X,E2Y, E2Z,
      3    E3X,E3Y,E3Z,IREP,NLAY,NEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -65,58 +65,58 @@ C     REAL
      .   Z42(MVSIZ), X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
      .   SUM(MVSIZ), SUMA
 C=======================================================================
-      DO I=JFT,JLT                                      
-        X21(I)=X2(I)-X1(I)                              
-        Y21(I)=Y2(I)-Y1(I)                              
-        Z21(I)=Z2(I)-Z1(I)                              
-        X31(I)=X3(I)-X1(I)                              
-        Y31(I)=Y3(I)-Y1(I)                              
-        Z31(I)=Z3(I)-Z1(I)                              
-        X42(I)=X4(I)-X2(I)                              
-        Y42(I)=Y4(I)-Y2(I)                              
-        Z42(I)=Z4(I)-Z2(I)                              
+      DO I=JFT,JLT
+        X21(I)=X2(I)-X1(I)
+        Y21(I)=Y2(I)-Y1(I)
+        Z21(I)=Z2(I)-Z1(I)
+        X31(I)=X3(I)-X1(I)
+        Y31(I)=Y3(I)-Y1(I)
+        Z31(I)=Z3(I)-Z1(I)
+        X42(I)=X4(I)-X2(I)
+        Y42(I)=Y4(I)-Y2(I)
+        Z42(I)=Z4(I)-Z2(I)
 C
-        E3X(I)=Y31(I)*Z42(I)-Z31(I)*Y42(I)              
-        E3Y(I)=Z31(I)*X42(I)-X31(I)*Z42(I)              
-        E3Z(I)=X31(I)*Y42(I)-Y31(I)*X42(I)              
-        SUMA=E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-        SUMA=MAX(SQRT(SUMA),EM20)                       
-        E3X(I)=E3X(I)/SUMA                              
-        E3Y(I)=E3Y(I)/SUMA                              
-        E3Z(I)=E3Z(I)/SUMA                              
-      ENDDO                                             
+        E3X(I)=Y31(I)*Z42(I)-Z31(I)*Y42(I)
+        E3Y(I)=Z31(I)*X42(I)-X31(I)*Z42(I)
+        E3Z(I)=X31(I)*Y42(I)-Y31(I)*X42(I)
+        SUMA=E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
+        SUMA=MAX(SQRT(SUMA),EM20)
+        E3X(I)=E3X(I)/SUMA
+        E3Y(I)=E3Y(I)/SUMA
+        E3Z(I)=E3Z(I)/SUMA
+      ENDDO
 C
-      DO I=JFT,JLT                                       
-        SUMA= X21(I)*E3X(I)+Y21(I)*E3Y(I)+Z21(I)*E3Z(I)  
-        E1X(I)= X21(I)-E3X(I)*SUMA                       
-        E1Y(I)= Y21(I)-E3Y(I)*SUMA                       
-        E1Z(I)= Z21(I)-E3Z(I)*SUMA                       
-      ENDDO                                              
+      DO I=JFT,JLT
+        SUMA= X21(I)*E3X(I)+Y21(I)*E3Y(I)+Z21(I)*E3Z(I)
+        E1X(I)= X21(I)-E3X(I)*SUMA
+        E1Y(I)= Y21(I)-E3Y(I)*SUMA
+        E1Z(I)= Z21(I)-E3Z(I)*SUMA
+      ENDDO
 C
-      DO I=JFT,JLT                                      
-        SUMA=E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-        SUMA=MAX(SQRT(SUMA),EM20)                       
-        E1X(I)=E1X(I)/SUMA                              
-        E1Y(I)=E1Y(I)/SUMA                              
-        E1Z(I)=E1Z(I)/SUMA                              
-      ENDDO                                             
+      DO I=JFT,JLT
+        SUMA=E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+        SUMA=MAX(SQRT(SUMA),EM20)
+        E1X(I)=E1X(I)/SUMA
+        E1Y(I)=E1Y(I)/SUMA
+        E1Z(I)=E1Z(I)/SUMA
+      ENDDO
 C
-      DO I=JFT,JLT                                        
-        E2X(I)=E3Y(I)*E1Z(I)-E3Z(I)*E1Y(I)                
-        E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)                
-        E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)                
-        SUMA  =E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)  
-        SUMA  =MAX(SQRT(SUMA),EM20)                       
-        E2X(I)=E2X(I)/SUMA                                
-        E2Y(I)=E2Y(I)/SUMA                                
-        E2Z(I)=E2Z(I)/SUMA                                
-      ENDDO                                               
+      DO I=JFT,JLT
+        E2X(I)=E3Y(I)*E1Z(I)-E3Z(I)*E1Y(I)
+        E2Y(I)=E3Z(I)*E1X(I)-E3X(I)*E1Z(I)
+        E2Z(I)=E3X(I)*E1Y(I)-E3Y(I)*E1X(I)
+        SUMA  =E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
+        SUMA  =MAX(SQRT(SUMA),EM20)
+        E2X(I)=E2X(I)/SUMA
+        E2Y(I)=E2Y(I)/SUMA
+        E2Z(I)=E2Z(I)/SUMA
+      ENDDO
 C
 C---  directions orthotropie / anisotropie convectes
 C
       CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B  ,JFT    ,JLT    ,
      .              NLAY   ,IREP   ,X21    ,Y21    ,Z21    ,
-     .              X31    ,Y31    ,Z31    ,E1X    ,E1Y    ,   
+     .              X31    ,Y31    ,Z31    ,E1X    ,E1Y    ,
      .              E1Z    ,E2X    ,E2Y    ,E2Z    ,NEL    )
 C-----------
       RETURN

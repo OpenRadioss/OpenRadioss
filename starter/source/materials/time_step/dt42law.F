@@ -50,10 +50,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER :: NEL 
+      INTEGER :: NEL
       INTEGER , DIMENSION(NEL) ::  PID,MAT
-      my_real , DIMENSION(NEL) ::  DELTAX, AIRE, VOL, DTX 
-      my_real  :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO) 
+      my_real , DIMENSION(NEL) ::  DELTAX, AIRE, VOL, DTX
+      my_real  :: PM(NPROPM,NUMMAT),GEO(NPROPG,NUMGEO)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

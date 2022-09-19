@@ -35,7 +35,7 @@ Chd|====================================================================
 !       computation of distance to surface for sensor typ16 + plane defined by 3 nodes
 !       and modification of the state of sensor
 !       For the other surface, the distance computation is done in SENSOR_DIST_SURF0 routine
-!       
+!
 !       SENSOR_DIST_SURF0 organization :
 !       - computation of local distance for sensor 16 + plane defined by 3 nodes
 !       - sensor state modification
@@ -99,7 +99,7 @@ c
       XNOD  = X(1,INOD)
       YNOD  = X(2,INOD)
       ZNOD  = X(3,INOD)
-c    
+c
 c
       IF (ISURF == 0) THEN  ! calculate distance to plane defined by 3 nodes
 c
@@ -131,18 +131,18 @@ c
         IF (SENSOR%TCRIT < TT) THEN
           SENSOR%STATUS = 2
         END IF
-        IF (SENSOR%STATUS == 2 .and. SENSOR%TCRIT + TDELAY < TT) THEN  
-          SENSOR%STATUS = 3   ! activate                               
-          SENSOR%TSTART = TT                                           
-        END IF                                                         
+        IF (SENSOR%STATUS == 2 .and. SENSOR%TCRIT + TDELAY < TT) THEN
+          SENSOR%STATUS = 3   ! activate
+          SENSOR%TSTART = TT
+        END IF
       END IF
 c----------------------------------------------------------
       IF (SENSOR%STATUS == 3 .and. ISPMD == 0) THEN
 #include "lockon.inc"
-        WRITE (*,'(A,I10,A,1PE12.5,A,1PE12.5)')   
+        WRITE (*,'(A,I10,A,1PE12.5,A,1PE12.5)')
      .  ' SENSOR NUMBER ',SENSOR%SENS_ID,' ACTIVATED AT TIME ',SENSOR%TSTART,
      .  ' DISTANCE TO PLAN = ',DIST
-        WRITE (IOUT,'(A,I10,A,1PE12.5,A,1PE12.5)')   
+        WRITE (IOUT,'(A,I10,A,1PE12.5,A,1PE12.5)')
      .  ' SENSOR NUMBER ',SENSOR%SENS_ID,' ACTIVATED AT TIME ',SENSOR%TSTART,
      .  ' DISTANCE TO PLAN = ',DIST
 #include "lockoff.inc"

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      my_real 
+      my_real
      .   R(3),
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
      .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,
@@ -62,34 +62,34 @@ C     REAL
 C======================================================================= 
 C
       R(1)=RS(1)-RM(1)
-      R(2)=RS(2)-RM(2) 
-      R(3)=RS(3)-RM(3)  
+      R(2)=RS(2)-RM(2)
+      R(3)=RS(3)-RM(3)
 C
       X12=X1*X1
       X22=X2*X2
       X32=X3*X3
-      X42=X4*X4 
+      X42=X4*X4
       Y12=Y1*Y1
       Y22=Y2*Y2
       Y32=Y3*Y3
-      Y42=Y4*Y4 
-      Z12=Z1*Z1 
+      Y42=Y4*Y4
+      Z12=Z1*Z1
       Z22=Z2*Z2
-      Z32=Z3*Z3 
+      Z32=Z3*Z3
       Z42=Z4*Z4 		
-      XX=X12 + X22 + X32 + X42 
-      YY=Y12 + Y22 + Y32 + Y42 
-      ZZ=Z12 + Z22 + Z32 + Z42 
-      XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4 
-      YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4 
+      XX=X12 + X22 + X32 + X42
+      YY=Y12 + Y22 + Y32 + Y42
+      ZZ=Z12 + Z22 + Z32 + Z42
+      XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4
+      YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4
       ZX=Z1*X1 + Z2*X2 + Z3*X3 + Z4*X4
       ZZZ=XX+YY
       XXX=YY+ZZ
-      YYY=ZZ+XX 
+      YYY=ZZ+XX
       XY2=XY*XY
       YZ2=YZ*YZ
       ZX2=ZX*ZX
-      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2 
+      DET= XXX*YYY*ZZZ - XXX*YZ2 - YYY*ZX2 - ZZZ*XY2
      .  				   - TWO*XY*YZ*ZX
 C
 C --- VECT_SURF = 0.5*(X1^X2 + X2^X3 + X3^X4 +X4^X1)
@@ -195,7 +195,7 @@ C
       TPASS(2,3) = E2Z
       TPASS(3,1) = E3X
       TPASS(3,2) = E3Y
-      TPASS(3,3) = E3Z 
+      TPASS(3,3) = E3Z
 C
       MLOC2(1:3,1:3) = MATMUL(MLOC(1:3,1:3),TPASS(1:3,1:3))
       MGLOB(1:3,1:3) = MATMUL(PASS(1:3,1:3),MLOC2(1:3,1:3))
@@ -206,7 +206,7 @@ C
       DPARA(4)=MGLOB(3,3)
       DPARA(5)=MGLOB(2,3)
       DPARA(6)=MGLOB(1,3)
-      DPARA(7)=MGLOB(1,2)      
+      DPARA(7)=MGLOB(1,2)
 C
 C-----------
       RETURN

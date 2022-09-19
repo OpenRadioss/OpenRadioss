@@ -73,7 +73,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   FAC1(MVSIZ),FSH, FAC1TMP,
-     .   RHO_1, YM_1, NU_1, G_1, A11_1, A12_1, SSP_1      
+     .   RHO_1, YM_1, NU_1, G_1, A11_1, A12_1, SSP_1
 C=======================================================================
       IF(ITHK>0.AND.ISMSTR/=3)THEN
         DO I=JFT,JLT
@@ -102,28 +102,28 @@ C
         MX = MAT(JFT)
         DO I=JFT,JLT
           MX = PID(I)
-          RHO(I) = GEO(IPGMAT +1 ,MX)   
-          YM(I)  = GEO(IPGMAT +2 ,MX) 
+          RHO(I) = GEO(IPGMAT +1 ,MX)
+          YM(I)  = GEO(IPGMAT +2 ,MX)
           NU(I)  = GEO(IPGMAT +3 ,MX)
-          G(I)   = GEO(IPGMAT +4 ,MX) 
+          G(I)   = GEO(IPGMAT +4 ,MX)
           A11(I) = GEO(IPGMAT +5 ,MX)
-          A12(I) = GEO(IPGMAT +6 ,MX)  
+          A12(I) = GEO(IPGMAT +6 ,MX)
           A11R(I)= GEO(IPGMAT +7 ,MX)
-          SSP(I) = GEO(IPGMAT +9 ,MX) 
+          SSP(I) = GEO(IPGMAT +9 ,MX)
         ENDDO
       ELSEIF(IGTYP == 52 .OR.
      .  ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
         DO I=JFT,JLT
-          RHO(I) = PM_STACK(1 ,ISUBSTACK)   
-          YM(I)  = PM_STACK(2 ,ISUBSTACK) 
+          RHO(I) = PM_STACK(1 ,ISUBSTACK)
+          YM(I)  = PM_STACK(2 ,ISUBSTACK)
           NU(I)  = PM_STACK(3 ,ISUBSTACK)
-          G(I)   = PM_STACK(4 ,ISUBSTACK) 
+          G(I)   = PM_STACK(4 ,ISUBSTACK)
           A11(I) = PM_STACK(5 ,ISUBSTACK)
-          A12(I) = PM_STACK(6 ,ISUBSTACK)  
+          A12(I) = PM_STACK(6 ,ISUBSTACK)
           A11R(I)= PM_STACK(7 ,ISUBSTACK)
-          SSP(I) = PM_STACK(9 ,ISUBSTACK) 
+          SSP(I) = PM_STACK(9 ,ISUBSTACK)
         ENDDO
-         
+
       ELSE
          MX = MAT(JFT)
          RHO_1=PM(1,MX)
@@ -142,7 +142,7 @@ C
            A12(I) =A12_1
            SSP(I) =SSP_1
          ENDDO
-      ENDIF !igtyp 
+      ENDIF !igtyp
 C
       DO I=JFT,JLT
        IPID=PID(I)

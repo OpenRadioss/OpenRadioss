@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER I, J, IX
 C     REAL
       my_real
-     .     XI(3), NXI(3), LMAX, DD, 
+     .     XI(3), NXI(3), LMAX, DD,
      .     X0, Y0, Z0, X1, Y1, Z1, XXX, YYY, ZZZ
 C------------------------------------
 C     Coordonnees initiales cote main : passage en coord locales.

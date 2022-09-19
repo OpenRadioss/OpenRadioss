@@ -172,7 +172,7 @@ C
         X1(J)=X(1,NN)
         X2(J)=X(2,NN)
         X3(J)=X(3,NN)
-       END DO 
+       END DO
 C       
       XX13 =X1(3)-X1(1)
       YY13 =X2(3)-X2(1)
@@ -239,8 +239,8 @@ C
          X1(J)=X(1,NN)+SHF(1)
          X2(J)=X(2,NN)+SHF(2)
          X3(J)=X(3,NN)+SHF(3)
-        END IF        
-       END DO 
+        END IF
+       END DO
 C       
       XX13 =X1(3)-X1(1)
       YY13 =X2(3)-X2(1)

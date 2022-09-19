@@ -64,9 +64,9 @@ C-----------------------------------------------
 
       NPE=DETONATORS%NPE
       IECR => DETONATORS%IECRAN(N1:N1+NPE-1)
-      IORDR => DETONATORS%IECRAN(NP1:NP1+NPE-1) 
-      DTIME => DETONATORS%DECRAN(1:)   
-            
+      IORDR => DETONATORS%IECRAN(NP1:NP1+NPE-1)
+      DTIME => DETONATORS%DECRAN(1:)
+
 C---------------------------------------
 C     COMPUTING DETONATION:TIME FOR ONE ELEMENT (CENTROID)
 C---------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------
 C     2) DETONATION ORIGIN:EACH POINT OF THE SCREEN PATH
 C-----------------------------------------
       DTOS=EP20
-      
+
       NPE=DETONATORS%NPE
       DO J=1,NPE
         I=IORDR(J)
@@ -94,8 +94,8 @@ C-----------------------------------------
           DTOS= MIN(DTOS,DTO) !keep minimum value (first arrival time)
         ENDIF
       END DO !J=1,NPE
-      
+
       DTO=DTOS
-      
+
       RETURN
       END

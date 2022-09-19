@@ -27,7 +27,7 @@ Chd|        ALEW6                         source/ale/grid/alew6.F
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CENTROID3(NEL, LENGTH, NFT, IXS, XGRID, 
+      SUBROUTINE CENTROID3(NEL, LENGTH, NFT, IXS, XGRID,
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -67,7 +67,7 @@ C     Nodes of the element locally stored in NODE* for memory access
          NODE5 = IXS(6, I)
          NODE6 = IXS(7, I)
          NODE7 = IXS(8, I)
-         NODE8 = IXS(9, I)  
+         NODE8 = IXS(9, I)
 C     Node coordinates
          X1(1:3) = XGRID(1:3, NODE1)
          X2(1:3) = XGRID(1:3, NODE2)
@@ -78,7 +78,7 @@ C     Node coordinates
          X7(1:3) = XGRID(1:3, NODE7)
          X8(1:3) = XGRID(1:3, NODE8)
 C     Centroid
-         ELEM_CENTROID(1:3, II) = ONE_OVER_8 * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3) + 
+         ELEM_CENTROID(1:3, II) = ONE_OVER_8 * (X1(1:3) + X2(1:3) + X3(1:3) + X4(1:3) +
      .        X5(1:3) + X6(1:3) + X7(1:3) + X8(1:3))
 C     Face centroid
 C     Face 1 
@@ -104,7 +104,7 @@ Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem
 Chd|-- calls ---------------
 Chd|        GEOM                          source/ale/alemuscl/geom.F    
 Chd|====================================================================
-      SUBROUTINE CENTROID3T(NEL, LENGTH, NFT, IXS, XGRID, 
+      SUBROUTINE CENTROID3T(NEL, LENGTH, NFT, IXS, XGRID,
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -134,7 +134,7 @@ C-----------------------------------------------
       INTEGER :: I, II, NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
       my_real
      .     X1(3), X2(3), X3(3), X4(3), VOL
-      my_real 
+      my_real
      .     A(3), B(3), C(3)
       DO II = 1, NEL
          I = II + NFT
@@ -170,7 +170,7 @@ C     Centroid
          B(1:3) = X3(1:3)
          C(1:3) = X4(1:3)
          CALL GEOM(A, B, C, ELEM_CENTROID(1:3, II), VOL)
-         
+
          VOL = VOL / 6.D0
          ELEM_CENTROID(1:3, II) = ELEM_CENTROID(1:3, II) / 12.D0 / VOL
 
@@ -194,7 +194,7 @@ Chd|        ALEW6                         source/ale/grid/alew6.F
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CENTROID2(NEL, LENGTH, NFT, IXQ, XGRID, 
+      SUBROUTINE CENTROID2(NEL, LENGTH, NFT, IXQ, XGRID,
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -257,7 +257,7 @@ Chd|-- called by -----------
 Chd|        MULTI_FACE_ELEM_DATA          source/multifluid/multi_face_data_elem.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CENTROID2T(NEL, LENGTH, NFT, IXTG, XGRID, 
+      SUBROUTINE CENTROID2T(NEL, LENGTH, NFT, IXTG, XGRID,
      .     ELEM_CENTROID, FACE_CENTROID)
 C-----------------------------------------------
 C     D e s c r i p t i o n

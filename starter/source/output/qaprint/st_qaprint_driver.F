@@ -134,9 +134,9 @@ C-----------------------------------------------
       USE CLUSTER_MOD
       USE OPTIONDEF_MOD
       USE MONVOL_STRUCT_MOD
-      USE INTBUF_FRIC_MOD                     
-      USE GROUPDEF_MOD      
-      USE DETONATORS_MOD            
+      USE INTBUF_FRIC_MOD
+      USE GROUPDEF_MOD
+      USE DETONATORS_MOD
       USE TABLE_MOD
       USE SETDEF_MOD
       USE SUBMODEL_MOD
@@ -181,7 +181,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NNLINK(10,SNNLINK), LNLINK(SLNLINK)
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
       INTEGER,INTENT(IN) :: NOM_SECT(SNOM_SECT),NSTRF(SNSTRF),IGEO_STACK(3* NPT_STACK+2,*)
-      my_real,INTENT(IN) :: SECBUF(SSECBUF)    
+      my_real,INTENT(IN) :: SECBUF(SSECBUF)
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
       TYPE(MONVOL_METADATA_), INTENT(IN) :: T_MONVOL_METADATA
       TYPE(SUBSET_), DIMENSION(NSUBS), INTENT(IN) :: SUBSETS
@@ -290,7 +290,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: LACCELM(3, NACCELM)
       INTEGER, INTENT(IN) :: ISKWN(LISKN,*)
       INTEGER, INTENT(IN) :: NPFRICORTH , PFRICORTH(*) , IREPFORTH(*)
-      INTEGER, INTENT(IN) :: TAGXREF(NUMNOD),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*), IXS10(6,*), 
+      INTEGER, INTENT(IN) :: TAGXREF(NUMNOD),IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*), IXS10(6,*),
      .                       IXS16(8,*)
       INTEGER, INTENT(IN) :: ISOLNOD(NUMELS),IXR(NIXR,*), R_SKEW(*),IXP(NIXP,*),IXT(NIXT,*),
      .                       IXQ(NIXQ,*),KXSP(NISP,*),IPARTSP(*),IPARTX(*)
@@ -304,7 +304,7 @@ C-----------------------------------------------
      .                       ITHBUFD(SITHBUFD),ITHBUFE(SITHBUFE),ITHBUFF(SITHBUFF),
      .                       ITHBUFG(SITHBUFG),ITHBUFH(SITHBUFH),ITHBUFI(SITHBUFI),
      .                       IPARTTH(18*(NPART+NTHPART)),NTHGRPMX,IBCSCYC(*)
-      INTEGER, INTENT(IN) :: NPTS,NPC(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)  
+      INTEGER, INTENT(IN) :: NPTS,NPC(*),IRBE3(*),LRBE3(*),IRBE2(*),LRBE2(*)
       INTEGER, INTENT(IN) :: MGRBY(NMGRBY,SMGRBY)
       INTEGER, INTENT(IN) :: ISPCOND(NISPCOND,*),LJOINT(*),GJBUFI(LKJNI,*)
       INTEGER, INTENT(IN) :: IRAND(*)
@@ -312,7 +312,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IBMPC(NUMMPC),IBMPC2(LMPC),IBMPC3(LMPC),IBMPC4(LMPC)
       INTEGER, INTENT(IN) :: IPADMESH(KIPADMESH,*)
       INTEGER, INTENT(IN) :: SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*),
-     .                       SH4TRIM(*),SH3TRIM(*) 
+     .                       SH4TRIM(*),SH3TRIM(*)
       INTEGER, INTENT(IN) :: IEXMAD(*),IEXLNK(NR2R,*)
 
       my_real, INTENT(IN) ::
@@ -320,10 +320,10 @@ C-----------------------------------------------
       my_real, INTENT(IN) ::
      .                        LOADP(LFACLOAD,NLOADP), CFIELD(LFACLOAD,NLOADC),
      .                        FORC(LFACCLD,NCONLD-NPRELD), PRES(LFACCLD,NPRELD),
-     .                        AGRV(LFACGRV,NGRAV),PRELOAD(6,*)  
+     .                        AGRV(LFACGRV,NGRAV),PRELOAD(6,*)
       my_real, INTENT(IN) ::
      .                        RBY(NRBY,NRBYKIN),RBYL(NRBY,NRBYLAG),FRBE3(SFRBE3),GJBUFR(LKJNR,*),MS(*),IN(*)
-      my_real, INTENT(IN) ::  
+      my_real, INTENT(IN) ::
      .                        FRADIA(LFACTHER,NUMRADIA), FCONV(LFACTHER,NUMCONV),
      .                        FBFTEMP(LFACTHER,NFXTEMP), FBFFLUX(LFACTHER,NFXFLUX),
      .                        FBFVEL(LFXVELR,NFXVEL)
@@ -363,7 +363,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: SBUFSF_
 
       my_real, INTENT(IN) :: PADMESH(KPADMESH,*)
-     
+
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE (BOX_)    ,DIMENSION(NBBOX)  ,INTENT(IN) :: IBOX
       TYPE (ADMAS_)  ,DIMENSION(NODMAS) ,INTENT(IN) :: IPMAS
@@ -397,7 +397,7 @@ C-----------------------------------------------
 
       ! doqa is set in QA_OUT_MOD depending on DO_QA env variable setting
       ! we skip the specific QAPRINT treatment if doqa is != 1
-      
+
       IF ( doqa /= 1  ) RETURN
 
       CALL ST_QAPRINT_MATERIALS(IPM       ,PM        ,BUFMAT    )
@@ -407,7 +407,7 @@ C-----------------------------------------------
 
       CALL ST_QAPRINT_INITIAL_CONDITIONS(
      1     NOM_OPT   ,INOM_OPT  ,ITAB      ,V         ,VR        ,
-     2     W         ,TEMP      ,INICRACK  ,FVM_INIVEL, 
+     2     W         ,TEMP      ,INICRACK  ,FVM_INIVEL,
      3     INIMAP1D, INIMAP2D)
 
       CALL ST_QAPRINT_CONSTRAINTS(NOM_OPT   ,INOM_OPT  ,NPBY      ,LPBY      ,RBY       ,
@@ -428,18 +428,18 @@ C-----------------------------------------------
      5                      IPRELOAD  ,PRELOAD   ,IFLAG_BPRELOAD,
      6                      LIFLOW, LRFLOW, IFLOW,RFLOW     ,ISPHIO    ,VSPHIO    )
 
-      CALL ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT   ,INOM_OPT  ,DAMPR, IRAND, ALEA, 
+      CALL ST_QAPRINT_GENERAL_CONTROLS(NOM_OPT   ,INOM_OPT  ,DAMPR, IRAND, ALEA,
      1                                 XSEED     ,UNITAB    ,QP_IPERTURB       ,
      2                                 QP_RPERTURB,EIGIPM   , EIGRPM)
-      CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,  
-     1                           AREASL)      
+      CALL ST_QAPRINT_INTERFACES(NOM_OPT   ,INOM_OPT  ,IPARI  ,INTBUF_TAB,I2RUPT ,
+     1                           AREASL)
       CALL ST_QAPRINT_CLUSTERS(NOM_OPT   ,INOM_OPT  ,CLUSTERS)
       CALL ST_QAPRINT_OUTPUT_DATABASES(NOM_OPT, INOM_OPT, LACCELM ,ACCELM,LGAUGE,GAUGE)
       CALL ST_QAPRINT_MODEL_TOOLS(NOM_OPT, INOM_OPT, IBOX, IPMAS, NOM_SECT, NSTRF, SECBUF ,
-     .                            SKEW   , ISKWN   , XFRAME, NPC,PLD,TABLE,NPTS, 
+     .                            SKEW   , ISKWN   , XFRAME, NPC,PLD,TABLE,NPTS,
      .                            IACTIV , FACTIV  ,SENSOR_TAB,LSENSOR   ,SENSOR, FUNC2D)
       CALL ST_QAPRINT_MONVOL(T_MONVOL, T_MONVOL_METADATA)
-      CALL ST_QAPRINT_FRICTION(NOM_OPT,INOM_OPT,INTBUF_FRIC_TAB,NPFRICORTH,PFRICORTH ,IREPFORTH,PHIFORTH,VFORTH) 
+      CALL ST_QAPRINT_FRICTION(NOM_OPT,INOM_OPT,INTBUF_FRIC_TAB,NPFRICORTH,PFRICORTH ,IREPFORTH,PHIFORTH,VFORTH)
       CALL ST_QAPRINT_REFERENCE_STATE(XREFC     ,XREFTG    ,XREFS     ,TAGXREF   ,
      1                                IXS       ,IXC       ,IXTG      )
       CALL ST_QAPRINT_TIME_HISTORIES(ITHGRP   ,ITHBUF   ,ITHVAR   ,IPART    ,SUBSETS  ,
@@ -448,9 +448,9 @@ C-----------------------------------------------
      3                               ITHBUFB  ,ITHBUFC  ,ITHBUFD  ,ITHBUFE  ,ITHBUFF  ,
      4                               ITHBUFG  ,ITHBUFH  ,ITHBUFI  ,IPARTTH  ,NTHGRPMX )
 
-      CALL ST_QAPRINT_DFS_DETONATORS(DETONATORS)    
+      CALL ST_QAPRINT_DFS_DETONATORS(DETONATORS)
 
-      CALL ST_QAPRINT_DFS_LASERS(XLAS,LAS)   
+      CALL ST_QAPRINT_DFS_LASERS(XLAS,LAS)
 
       CALL ST_QAPRINT_NODES(ITAB ,X,IMERGE,MERGE_NODE_TOL, MERGE_NODE_TAB,NMERGE_TOT)
 
@@ -459,7 +459,7 @@ C-----------------------------------------------
      2                        IXT    ,X  ,IXC   ,IXTG ,THKE,
      3                        SH4ANG ,THKEC,SH3ANG,KXSP,IPARTSP,
      4                        IPART  ,IXR_KJ,KXX, IXX ,IPARTX,
-     5                        IXRI   ,IXS16 ,IXQ )       
+     5                        IXRI   ,IXS16 ,IXQ )
 !
       CALL ST_QAPRINT_SET(SET    ,LSUBMODEL,ITAB     ,IGRNOD ,IGRPART,
      .                    IPART  ,IGRBRIC  ,IGRSH4N  ,IGRSH3N,IGRQUAD,
@@ -469,15 +469,15 @@ C-----------------------------------------------
       CALL ST_QAPRINT_TRANSFORMATIONS(RTRANS,LSUBMODEL,IGRNOD)
       CALL ST_QAPRINT_COMPOSITE_OPTIONS(DRAPE)
       CALL ST_QAPRINT_ALE_OPTIONS_DRIVER
-      CALL ST_QAPRINT_INIVOL()  
-      CALL ST_QAPRINT_REFSTA(XREFC     ,XREFTG  ,XREFS    ,TAGXREF   ,IXS   ,IXC   ,IXTG   ,ITAB, XYZREF)   
-      CALL ST_QAPRINT_EBCS(EBCS_TAB)  
+      CALL ST_QAPRINT_INIVOL()
+      CALL ST_QAPRINT_REFSTA(XREFC     ,XREFTG  ,XREFS    ,TAGXREF   ,IXS   ,IXC   ,IXTG   ,ITAB, XYZREF)
+      CALL ST_QAPRINT_EBCS(EBCS_TAB)
       CALL ST_QAPRINT_GROUPS(IGRNOD ,IGRPART ,IGRBRIC  ,IGRSH4N   ,IGRSH3N   ,
-     .                       IGRQUAD,IGRBEAM ,IGRTRUSS ,IGRSPRING)  
-      CALL ST_QAPRINT_SURF(IGRSURF, IGRSLIN, BUFSF, SBUFSF_)  
+     .                       IGRQUAD,IGRBEAM ,IGRTRUSS ,IGRSPRING)
+      CALL ST_QAPRINT_SURF(IGRSURF, IGRSLIN, BUFSF, SBUFSF_)
       CALL ST_QAPRINT_ADMESH(IPART ,IPADMESH,PADMESH,SH4TREE,SH3TREE,
      .                        IXC  ,IXTG    ,SH4TRIM,SH3TRIM    )
-      CALL ST_QAPRINT_MADYMO(IEXMAD ,ITAB   ,IPART  ,IXS    ,IXC    ,IXTG   )  
+      CALL ST_QAPRINT_MADYMO(IEXMAD ,ITAB   ,IPART  ,IXS    ,IXC    ,IXTG   )
       CALL ST_QAPRINT_SEATBELTS(ITAB)
       CALL ST_QAPRINT_INITIAL_STATE(
      .                    NSIGSH   ,SIGSH    ,NSIGI   ,SIGSP    ,NSIGS   ,

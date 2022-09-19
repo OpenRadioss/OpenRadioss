@@ -131,8 +131,8 @@ C
             NNI=IGRNOD(IG)%NENTITY
 C
          ENDIF
-         NNT=NNT+NNI  
-      ENDDO      
+         NNT=NNT+NNI
+      ENDDO
 C-----------------------
       RETURN
       END SUBROUTINE HM_PREREAD_EIG
@@ -189,7 +189,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER EIGIPM(*), EIGIBUF(*),ITABM1(*)
       my_real
      .        EIGRPM(*)
@@ -249,29 +249,29 @@ C=====================================================================
         CALL HM_GET_INTV('Ipri',IPRI,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV('Tol',TOL,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-         IFLAGUNIT = 0                                           
-         DO J=1,NUNITS                          
+         IFLAGUNIT = 0
+         DO J=1,NUNITS
            IF (UNITAB%UNIT_ID(J) == UID) THEN
              FAC_T = UNITAB%FAC_T(J)
-             IFLAGUNIT = 1                      
-             EXIT                               
-           ENDIF                                
-         ENDDO                                           
+             IFLAGUNIT = 1
+             EXIT
+           ENDIF
+         ENDDO
          IF (UID/=0.AND.IFLAGUNIT==0) THEN
            CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                 I2=UID,I1=ID,C1='EIG',
      .                 C2='EIG',
-     .                 C3=TITR)                              
-         ENDIF  
+     .                 C3=TITR)
+         ENDIF
          EIGIPM(IAD)=ID
 C
          IF (IFILE==2) THEN
 C--- add generic message         
             WRITE(ISTDO,'(A)') ' ** WARNING - EIG OPTION:'
-            WRITE(ISTDO,'(A)') 
+            WRITE(ISTDO,'(A)')
      .           ' ** USE OF NASTRAN OUTPUT FILE NOT YET IMPLEMENTED'
             WRITE(IOUT,'(A)') ' ** WARNING - EIG OPTION:'
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .           ' ** USE OF NASTRAN OUTPUT FILE NOT YET IMPLEMENTED'
             IFILE=0
          ENDIF
@@ -369,7 +369,7 @@ C
          EIGRPM(IADF+2)=(SHIFTINI*TWO*PI)**2
          EIGRPM(IADF+3)=CUTFREQ
 C
-         IF (NBLFR==0) NBLFR=NEV      
+         IF (NBLFR==0) NBLFR=NEV
          IF (INCV==0) INCV=2
          IF (NITER==0) NITER=300
 C
@@ -425,7 +425,7 @@ C
             ENDDO
             IF (NRES>0) THEN
                CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-               READ(NWLINE,FMT='(10I8)',ERR=9999) 
+               READ(NWLINE,FMT='(10I8)',ERR=9999)
      .                            (NODES(IADN+J),J=1,NRES)
                DO J=1,NRES
                   NODES(IADN+J)=USR2SYS(NODES(IADN+J),ITABM1,MESS,ID)
@@ -461,7 +461,7 @@ C
                DO J=1,NBNO
                   JJ=NODES(J)
                   CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
-                  READ(NWLINE,FMT='(5F16.0)',ERR=9999) 
+                  READ(NWLINE,FMT='(5F16.0)',ERR=9999)
      .                                  (MODES(I,K,JJ),K=1,5)
                   CALL EIGRLINE(IFICM,NWLINE,ID,TITR)
                   READ(NWLINE,FMT='(F16.0)',ERR=9999) MODES(I,6,JJ)
@@ -479,7 +479,7 @@ C
 C
             DEALLOCATE(NODES, MODES)
             CLOSE(IFICM)
-         ENDIF   
+         ENDIF
 C PRINTOUTS
          NDOF=0
          IF(ICT==1)THEN
@@ -528,8 +528,8 @@ C
          IF (IMLS==1) CIMLS='YES'
          CPRSP='MASS'
          IF (IPRSP==1) CPRSP='MAX '
-         WRITE(IOUT,2100) ID,TRIM(TITR),CTYPE, NEV, NBLFR, INCV, NITER, CPRE,CIMLS,CPRSP 
-         IF (ITYP==2) WRITE(IOUT,2105) NMS 
+         WRITE(IOUT,2100) ID,TRIM(TITR),CTYPE, NEV, NBLFR, INCV, NITER, CPRE,CIMLS,CPRSP
+         IF (ITYP==2) WRITE(IOUT,2105) NMS
          WRITE(IOUT,2109)
          WRITE(IOUT,2110) (EIGIBUF(IADB+I-1),I=1,NN)
          IF (ITYP==2) THEN
@@ -541,7 +541,7 @@ C
          IAD=IAD+NEIPM
          IADB=IADB+NN+NNI
          IADF=IADF+NERPM
-      ENDDO      
+      ENDDO
 C-----------------------
       RETURN
  999  CALL FREERR(3)
@@ -580,7 +580,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE EIGRLINE(IFIC, NWLINE, ID,TITR)                     
+      SUBROUTINE EIGRLINE(IFIC, NWLINE, ID,TITR)
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -600,7 +600,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER ISTOP     
+      INTEGER ISTOP
 C
       ISTOP=0
       DO WHILE (ISTOP==0)
@@ -617,4 +617,4 @@ C
       RETURN
 C
       END
-      
+

@@ -99,10 +99,10 @@ C     Fill partial values
                DO IMAT = 1, NBMAT
                   LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
                   DO II = 1, NEL
-                     I = II + NFT 
+                     I = II + NFT
                      VOL = GBUF%VOL(II)
 C     Normalize volumic fraction
-                     MULTI_FVM%PHASE_ALPHA(IMAT, I) = MULTI_FVM%PHASE_ALPHA(IMAT, I) / 
+                     MULTI_FVM%PHASE_ALPHA(IMAT, I) = MULTI_FVM%PHASE_ALPHA(IMAT, I) /
      .                    CUMUL_ALPHA(II)
 C     Volume
                      LBUF%VOL(II) = MULTI_FVM%PHASE_ALPHA(IMAT, I) * VOL
@@ -125,7 +125,7 @@ CCCCC
                   DO IMAT = 1, NBMAT
                      DO II = 1, NEL
                         I = II + NFT
-                        MULTI_FVM%RHO(I) = MULTI_FVM%RHO(I) + 
+                        MULTI_FVM%RHO(I) = MULTI_FVM%RHO(I) +
      .                       MULTI_FVM%PHASE_ALPHA(IMAT, I) * MULTI_FVM%PHASE_RHO(IMAT, I)
                      ENDDO
                   ENDDO

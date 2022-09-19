@@ -63,9 +63,9 @@ C-----------------------------------------------
       INTEGER ITAB(*),NUMNOD_LOCAL,NODGLOB(*)
       INTEGER NPOS,SIZP0
       INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
-     .        EMPL,SDNODG(NUMNODM),FILEN 
+     .        EMPL,SDNODG(NUMNODM),FILEN
       DOUBLE PRECISION
-     .        AGLOB(2,NUMNODM),RECGLOB(2,SIZP0) 
+     .        AGLOB(2,NUMNODM),RECGLOB(2,SIZP0)
 C     REAL
 
 C-----------------------------------------------
@@ -73,15 +73,15 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER POSI(*)
       INTEGER SIZEA
-      my_real 
+      my_real
      .   A(SIZEA)
-      TYPE(NLOCAL_STR_), TARGET                  :: NLOC_DMG 
+      TYPE(NLOCAL_STR_), TARGET                  :: NLOC_DMG
       CHARACTER FILNAM*100,CYCLENUM*7
 
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
 
-#ifdef MPI 
+#ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 
       DATA MSGOFF0/176/
@@ -94,7 +94,7 @@ C-----------------------------------------------
       N=0
       DO I = 1,NUMNOD_LOCAL
         NPOS = POSI(I)                              ! Position of its first d.o.f in A
-        
+
         N=N+1
         SDNODG(N) = NODGLOB(NLOC_DMG%INDX(I))
         AGLOB(1,N) = ITAB( NLOC_DMG%INDX(I) )
@@ -141,8 +141,8 @@ C
             FILNAM=ROOTNAM(1:ROOTLEN)//'_NLOCAL_'//CHRUN//'_'//CYCLENUM//'.adb'
 
             LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
-       
+            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
+
             OPEN(UNIT=IDBG5,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
@@ -155,7 +155,7 @@ C
                 RECGLOB(2,N) = A(NPOS)
             ENDDO
 
-        
+
             DO I = 1, NUMNODG
                 IF(NINT(RECGLOB(1,I))/=-1) THEN
                     WRITE(IDBG5,'(A,I10,I10,Z20)' ) '>',NCYCLE,NINT(RECGLOB(1,I)),RECGLOB(2,I)

@@ -86,7 +86,7 @@ C     REAL
 C     REAL
       my_real , INTENT(IN) :: DGAPLOAD , DRAD
       my_real
-     .   X(3,*), STFN(*), STF(*), GAP_S(*), 
+     .   X(3,*), STFN(*), STF(*), GAP_S(*),
      .   XM0(3,*), NOD_NORMAL(3,*), XLOC(3,*)
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -333,7 +333,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
           CALL ARRET(2)
         ENDIF
         ILD = 1
-      ENDIF             
+      ENDIF
 C
       RETURN
       END

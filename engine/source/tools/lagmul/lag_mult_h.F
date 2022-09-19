@@ -93,7 +93,7 @@ C---
           IF(HIJ/=ZERO)THEN
             IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
               CALL ARRET(2)
             ENDIF
             HH(IH)   = HIJ
@@ -109,7 +109,7 @@ C---
         ENDDO
         IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
         ENDIF
         DIAG(IC) = DD
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -153,7 +153,7 @@ C       Fixe/Variable
           IF(HIJ/=ZERO)THEN
             IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
               CALL ARRET(2)
             ENDIF
             HH(IH)   = HIJ
@@ -169,7 +169,7 @@ C---
         ENDDO
         IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
         ENDIF
         DIAG(IC) = DD
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -197,7 +197,7 @@ C----
           IF(HIJ/=ZERO)THEN
             IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
               CALL ARRET(2)
             ENDIF
             HH(IH)   = HIJ
@@ -212,7 +212,7 @@ C----
         ENDDO
         IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
         ENDIF
         DIAG(IC) = DD
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -236,7 +236,7 @@ C----
               IF (J<=3) THEN
                 LTSM(J,I) = XLL(IK)/MS(I)
                 CALL ANCMSG(MSGID=116,ANMODE=ANINFO,
-     .                    I1=I,I2=IC) 
+     .                    I1=I,I2=IC)
                 CALL ARRET(2)
               ELSEIF (I/=IFX) THEN
                 LTSM(J,I) = XLL(IK)/IN(I)
@@ -264,7 +264,7 @@ C----
               IF(HIJ/=ZERO)THEN
                 IF(IH>LHMAX)THEN
                   CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
                   CALL ARRET(2)
                 ENDIF
                 HH(IH)   = HIJ
@@ -279,7 +279,7 @@ C----
             ENDDO
             IF(DD<=ZERO) THEN
               CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
             ENDIF
             DIAG(IC) = DD
             DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -376,7 +376,7 @@ C---
           IF(HIJ/=ZERO)THEN
             IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
               CALL ARRET(2)
             ENDIF
             HH(IH)   = HIJ
@@ -392,7 +392,7 @@ C---
         ENDDO
         IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
         ENDIF
         DIAG(IC) = DD
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -437,7 +437,7 @@ C       Fixe/Variable
           IF(HIJ/=ZERO)THEN
             IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
               CALL ARRET(2)
             ENDIF
             HH(IH)   = HIJ
@@ -453,7 +453,7 @@ C---
         ENDDO
         IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
         ENDIF
         DIAG(IC) = DD
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -482,7 +482,7 @@ C----
           IF(HIJ/=ZERO)THEN
             IF(IH>LHMAX)THEN
               CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
               CALL ARRET(2)
             ENDIF
             HH(IH)   = HIJ
@@ -497,7 +497,7 @@ C----
         ENDDO
         IF(DD<=ZERO) THEN
           CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
         ENDIF
         DIAG(IC) = DD
         DO IK=IADLL(IC),IADLL(IC+1)-1
@@ -522,7 +522,7 @@ C----
               IF (J<=3) THEN
                 LTSM(J,I) = XLL(IK)/MS(II)
                 CALL ANCMSG(MSGID=116,ANMODE=ANINFO,
-     .                    I1=I,I2=IC) 
+     .                    I1=I,I2=IC)
                 CALL ARRET(2)
               ELSEIF (I/=IFX) THEN
                 LTSM(J,I) = XLL(IK)/IN(II)
@@ -550,7 +550,7 @@ C----
               IF(HIJ/=ZERO)THEN
                 IF(IH>LHMAX)THEN
                   CALL ANCMSG(MSGID=114,ANMODE=ANINFO,
-     .                    I1=LHMAX) 
+     .                    I1=LHMAX)
                   CALL ARRET(2)
                 ENDIF
                 HH(IH)   = HIJ
@@ -565,7 +565,7 @@ C----
             ENDDO
             IF(DD<=ZERO) THEN
               CALL ANCMSG(MSGID=115,ANMODE=ANINFO,
-     .                    I1=IC) 
+     .                    I1=IC)
             ENDIF
             DIAG(IC) = DD
             DO IK=IADLL(IC),IADLL(IC+1)-1

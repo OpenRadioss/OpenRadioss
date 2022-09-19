@@ -140,7 +140,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
          IS = LISTI(LS)
          I=JS+IS
          L  = CAND_E(I)
-         IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+         IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
           IG(IS) = NSV(CAND_N(I))
           ZI = X(3,IG(IS))
           IX1(IS)=IRECT(1,L)
@@ -205,7 +205,7 @@ C
           ELSE
             DO LS = NLF, NLT
               IS = LISTI(LS)
-              I=JS+IS              
+              I=JS+IS
               GAPV(IS)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
               GAPV(IS)=MAX(GAPV(IS),GAP)
             ENDDO
@@ -217,7 +217,7 @@ C
            I=JS+IS
            II = CAND_N(I)-NSN
            L  = CAND_E(I)
-           IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+           IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
             ZI = XFI(NIN)%P(3,II)
             IX1(IS)=IRECT(1,L)
             Z1=X(3,IX1(IS))

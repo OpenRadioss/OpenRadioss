@@ -42,7 +42,7 @@ C#include      "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBUF(*), ELEM(3,*) 
+      INTEGER IBUF(*), ELEM(3,*)
       INTEGER NEL
       my_real
      .        X(3,NUMNOD), ELAREA(*)

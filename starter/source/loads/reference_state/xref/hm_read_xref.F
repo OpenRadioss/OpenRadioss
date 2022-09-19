@@ -44,14 +44,14 @@ Chd|====================================================================
       SUBROUTINE HM_READ_XREF(ITABM1   ,IPART    ,IPARTC   ,IPARTG   ,IPARTS   ,
      .                        UNITAB   ,IXC      ,IXTG     ,IXS      ,X        ,
      .                        XREFC    ,XREFTG   ,XREFS    ,RTRANS   ,LSUBMODEL,
-     .                        TAGXREF  ,IDDLEVEL ,ISOLNOD  ,IPM      ,IGEO     ) 
+     .                        TAGXREF  ,IDDLEVEL ,ISOLNOD  ,IPM      ,IGEO     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
-      USE HM_OPTION_READ_MOD       
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  ITABM1(*),IPART(LIPART1,*),IPARTC(*),IPARTG(*),IPARTS(*),
      .  IXC(NIXC,*),IXTG(NIXTG,*),IXS(NIXS,*),TAGXREF(NUMNOD)
       INTEGER IDDLEVEL
@@ -85,7 +85,7 @@ C-----------------------------------------------
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C MODIFIED ARGUMENT
       INTEGER,INTENT(IN)::IGEO(NPROPGI,*)
-      INTEGER,INTENT(IN)::IPM(NPROPMI,*)  
+      INTEGER,INTENT(IN)::IPM(NPROPMI,*)
       INTEGER,INTENT(IN)::ISOLNOD(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -102,7 +102,7 @@ C     REAL
      .  XX,YY,ZZ
       CHARACTER MESS*40,TITR*nchartitle,TITR1*nchartitle
       DATA MESS/'XREF'/
-      LOGICAL :: IS_AVAILABLE,FOUND      
+      LOGICAL :: IS_AVAILABLE,FOUND
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -110,30 +110,30 @@ C-----------------------------------------------
 C=======================================================================
       IS_AVAILABLE = .FALSE.
 C
-      DO IE=1,NUMELC                          
-        DO IN = 1,4                           
+      DO IE=1,NUMELC
+        DO IN = 1,4
           NN = IXC(IN+1,IE)
-          DO J = 1,3                          
+          DO J = 1,3
             XREFC(IN,J,IE) = X(J,NN)
-          ENDDO                               
-        ENDDO                                 
-      ENDDO                                   
-      DO IE=1,NUMELTG                         
-        DO IN = 1,3                           
-          NN = IXTG(IN+1,IE)                  
-          DO J = 1,3                          
-            XREFTG(IN,J,IE) = X(J,NN)      
-          ENDDO                               
-        ENDDO                                 
-      ENDDO                                   
-      DO IE=1,NUMELS8                         
-        DO IN = 1,8                           
-          NN = IXS(IN+1,IE)                   
-          DO J = 1,3                          
-            XREFS(IN,J,IE) = X(J,NN)       
-          ENDDO                               
-        ENDDO                                 
-      ENDDO        
+          ENDDO
+        ENDDO
+      ENDDO
+      DO IE=1,NUMELTG
+        DO IN = 1,3
+          NN = IXTG(IN+1,IE)
+          DO J = 1,3
+            XREFTG(IN,J,IE) = X(J,NN)
+          ENDDO
+        ENDDO
+      ENDDO
+      DO IE=1,NUMELS8
+        DO IN = 1,8
+          NN = IXS(IN+1,IE)
+          DO J = 1,3
+            XREFS(IN,J,IE) = X(J,NN)
+          ENDDO
+        ENDDO
+      ENDDO
 C
       IF(IDDLEVEL == 0) WRITE(IOUT,1000)
       NITRS = 100
@@ -154,7 +154,7 @@ C
       DO IR = 1, NXREF
 C      
         ! Reading the option
-        TITR = ''   
+        TITR = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          UNIT_ID = UID,
      .                          SUBMODEL_INDEX = SUB_INDEX,
@@ -164,26 +164,26 @@ C
         CALL HM_GET_INTV('Comp_Id',PARTID,IS_AVAILABLE,LSUBMODEL)
 C
         ! Checking UNIT_ID
-        IFLAGUNIT = 0          
-        DO J=1,NUNITS                         
-          IF (UNITAB%UNIT_ID(J) == UID) THEN               
-              IFLAGUNIT = 1                      
-              EXIT                              
-          ENDIF                               
-        ENDDO                                  
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
+              IFLAGUNIT = 1
+              EXIT
+          ENDIF
+        ENDDO
         IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=PARTID,C1='XREF',
      .               C2='XREF',
-     .               C3=TITR)                           
-        ENDIF       
+     .               C3=TITR)
+        ENDIF
 C
         IP     = 0
         DO I = 1,NPART
           IF (IPART(4,I) == PARTID) THEN
             IP = I
             EXIT
-          ENDIF  
+          ENDIF
         ENDDO
 C
         IF (IP /= 0) THEN
@@ -199,13 +199,13 @@ C
               ITYP = 1
             ENDIF
           ENDDO
-          DO IE=1,NUMELTG               
-            IF (IP == IPARTG(IE)) THEN  
-              TAGELTG(IE) = 1           
-              ITYP = 1                  
-            ENDIF                       
-          ENDDO    
-          NSOLID = 0                     
+          DO IE=1,NUMELTG
+            IF (IP == IPARTG(IE)) THEN
+              TAGELTG(IE) = 1
+              ITYP = 1
+            ENDIF
+          ENDDO
+          NSOLID = 0
           IF (ITYP == 0) THEN
             DO IE=1,NUMELS8
               IF (IP == IPARTS(IE)) THEN
@@ -237,11 +237,11 @@ C
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO,
      .                 I1=IGEO(1,IPID),
-     .                 C1=TITR1)   
+     .                 C1=TITR1)
                 ENDIF
           ENDIF
 C 
-          ! Number of iterations            
+          ! Number of iterations
           CALL HM_GET_INTV('NITRS',NITER,IS_AVAILABLE,LSUBMODEL)
           NITRS = MAX(NITRS,NITER)
 C
@@ -251,7 +251,7 @@ C
           ENDIF
 C
           ! Read nodes new coordinates
-          CALL HM_GET_INTV('refnodesmax',NNOD,IS_AVAILABLE,LSUBMODEL)  
+          CALL HM_GET_INTV('refnodesmax',NNOD,IS_AVAILABLE,LSUBMODEL)
           IF (ALLOCATED(ID)) DEALLOCATE(ID)
           IF (ALLOCATED(XX)) DEALLOCATE(XX)
           IF (ALLOCATED(YY)) DEALLOCATE(YY)
@@ -271,14 +271,14 @@ C
             IF (NSUBDOM==0) NN = USR2SYS(ID(J),ITABM1,MESS,PARTID)
             IF (NSUBDOM>0) THEN
               NN = R2R_SYS(ID(J),ITABM1,MESS)
-            ENDIF     
+            ENDIF
             IF(IDDLEVEL == 0.AND.IPRI >= 5) WRITE(IOUT,'(5X,I10,5X,1P3G20.13)') ID(J),XX(J),YY(J),ZZ(J)
             TAGNOD(NN) = 1
             TAGXREF(NN)= 1
             XTMP(1,NN) = XX(J)
             XTMP(2,NN) = YY(J)
             XTMP(3,NN) = ZZ(J)
-          ENDDO 
+          ENDDO
           IF(IDDLEVEL == 0.AND.IPRI < 5) WRITE(IOUT,1010) NNOD
 C
           SELECT CASE (ITYP)

@@ -44,17 +44,17 @@ Chd|====================================================================
 !       SPMD_CELL_LIST_EXCHANGE organization :
 !       * mode = 1 : send & rcv the number of cell & prepare the array for the next comm
 !       * mode = 2 : - wait the previous comm "mode 1"
-!                    - send & rcv the cell 
+!                    - send & rcv the cell
 !       * mode = 3 : - wait the previous comm "send/rcv the cell"
-!                    - send/rcv the number of secondary nodes   
+!                    - send/rcv the number of secondary nodes
 !                    - prepare the S buffer of secondary nodes (x, v, temp ...)
 !       * mode = 4 : - wait the S comm "send the cells"
-!                    - deallocation              
+!                    - deallocation
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_SORTING_MOD
         USE INTER_STRUCT_MOD
         USE TRI7BOX
@@ -101,10 +101,10 @@ C-----------------------------------------------
         INTEGER, DIMENSION(2,NSPMD+1), INTENT(in) :: IAD_ELEM ! connectivity array iad(P+1)-iad(P) = nb of frontier node
         INTEGER, DIMENSION(SFR_ELEM), INTENT(in) :: FR_ELEM ! frontier node ID
         my_real, DIMENSION(3,NUMNOD), INTENT(in) :: X,V !   position & velocity
-        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS   !   mass 
+        my_real, DIMENSION(NUMNOD), INTENT(in) :: MS   !   mass
         my_real, DIMENSION(TEMP_SIZE), INTENT(in) :: TEMP !   temperature
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB ! global node ID
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy 
+        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
@@ -112,7 +112,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-#ifdef MPI        
+#ifdef MPI
         LOGICAL :: IS_EXCHANGE_NEEDED
         INTEGER :: KK,I,J
         INTEGER :: P,P_LOC,LOCAL_RANK,REMOTE_PROC
@@ -174,7 +174,7 @@ C-----------------------------------------------
                     SORT_COMM(NIN)%SEND_NB_CELL(I) = 1
                 ENDIF
                 SORT_COMM(NIN)%SEND_DISPLS_NB_CELL(I) = 0
-                !   if current proc and remote proc don't need to comm, send a 0 size 
+                !   if current proc and remote proc don't need to comm, send a 0 size
                 IF(ISENDTO(NIN,ID_PROC)>0) THEN    !   nsn of proc ID_PROC >0
                     IF(SORT_COMM(NIN)%PROC_NUMBER>NSPMD/2) THEN
                         IF(.NOT.SORT_COMM(NIN)%KEEP_PROC(I)) THEN
@@ -223,14 +223,14 @@ C-----------------------------------------------
 
         !   ----------------------------
         !   mode = 2
-        !   wait the previous comm 
+        !   wait the previous comm
         !   send & rcv the cell
        IF(MODE==2) THEN
             !   -------------------------
             !   wait the previous comm
             IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
 
-            CALL MPI_WAIT(SORT_COMM(NIN)%REQUEST_NB_CELL,STATUS,IERROR) 
+            CALL MPI_WAIT(SORT_COMM(NIN)%REQUEST_NB_CELL,STATUS,IERROR)
 
             SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 0
             SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = 0
@@ -281,14 +281,14 @@ C-----------------------------------------------
             ITIED = IPARI(85,NIN)
 
             !   ----------------------
-            !   rcv of remote cell 
+            !   rcv of remote cell
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                IF((ITIED/=0.OR.SORT_COMM(NIN)%RCV_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN   
-                    MSGTYP = MSGOFF    
-                    SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = SORT_COMM(NIN)%NB_REQUEST_CELL_RCV + 1  
-                    SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV) = I  
-                    CALL MPI_IRECV(SORT_COMM(NIN)%CELL(SORT_COMM(NIN)%RCV_DISPLS_CELL(I) + 1), 
+                IF((ITIED/=0.OR.SORT_COMM(NIN)%RCV_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN
+                    MSGTYP = MSGOFF
+                    SORT_COMM(NIN)%NB_REQUEST_CELL_RCV = SORT_COMM(NIN)%NB_REQUEST_CELL_RCV + 1
+                    SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV) = I
+                    CALL MPI_IRECV(SORT_COMM(NIN)%CELL(SORT_COMM(NIN)%RCV_DISPLS_CELL(I) + 1),
      .              SORT_COMM(NIN)%RCV_SIZE_CELL(I),MPI_INTEGER,IT_SPMD(ID_PROC),
      .              MSGTYP,MPI_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_RCV(SORT_COMM(NIN)%NB_REQUEST_CELL_RCV),IERROR)
                 ENDIF
@@ -296,14 +296,14 @@ C-----------------------------------------------
             !   ----------------------
 
             !   ----------------------
-            !   send of cell 
+            !   send of cell
             DO I=1,SORT_COMM(NIN)%PROC_NUMBER
                 ID_PROC = SORT_COMM(NIN)%PROC_LIST(I)
-                IF((ITIED/=0.OR.SORT_COMM(NIN)%SEND_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN   
-                    MSGTYP = MSGOFF   
-                    SORT_COMM(NIN)%NB_REQUEST_CELL_SEND = 
-     .                  SORT_COMM(NIN)%NB_REQUEST_CELL_SEND + 1  
-                    CALL MPI_ISEND(SORT_COMM(NIN)%CELL_LIST, 
+                IF((ITIED/=0.OR.SORT_COMM(NIN)%SEND_SIZE_CELL(I)>0).AND.ID_PROC/=LOC_PROC) THEN
+                    MSGTYP = MSGOFF
+                    SORT_COMM(NIN)%NB_REQUEST_CELL_SEND =
+     .                  SORT_COMM(NIN)%NB_REQUEST_CELL_SEND + 1
+                    CALL MPI_ISEND(SORT_COMM(NIN)%CELL_LIST,
      .              SORT_COMM(NIN)%SEND_SIZE_CELL(I),MPI_INTEGER,IT_SPMD(ID_PROC),
      .              MSGTYP,MPI_COMM_WORLD,SORT_COMM(NIN)%REQUEST_CELL_SEND(SORT_COMM(NIN)%NB_REQUEST_CELL_SEND),IERROR)
                 ENDIF
@@ -320,13 +320,13 @@ C-----------------------------------------------
         IF(MODE==3) THEN
             !   -------------------------
             !   wait the previous comm
-            CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)  
+            CALL SPMD_CELL_SIZE_EXCHANGE_INIT(IRCVFROM,ISENDTO,IPARI,NIN,INTER_STRUCT,SORT_COMM)
             NSNFI(NIN)%P(1:NSPMD) = 0
             IF(IRCVFROM(NIN,LOC_PROC)==0.AND.ISENDTO(NIN,LOC_PROC)==0) RETURN
 
             ITIED = IPARI(85,NIN)
             IF(SORT_COMM(NIN)%SIZE_CELL_LIST(1)>0.OR.ITIED/=0) THEN !   need to prepare the reception only if there are still some NMN on the current proc
-                CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)  
+                CALL SPMD_CELL_SIZE_POST_RCV(IRCVFROM,ISENDTO,NIN,SORT_COMM,ITIED)
             ENDIF
             ALLOCATE( ALREADY_SEND(NB_CELL_X,NB_CELL_Y,NB_CELL_Z) )
             IF(ISENDTO(NIN,LOC_PROC)/=0) ALREADY_SEND(1:NB_CELL_X,1:NB_CELL_Y,1:NB_CELL_Z) = .FALSE.
@@ -342,7 +342,7 @@ C-----------------------------------------------
 
                 IF(SORT_COMM(NIN)%PROC_LIST(REMOTE_PROC)==ISPMD+1) IS_EXCHANGE_NEEDED = .FALSE.
                 IF(IS_EXCHANGE_NEEDED.AND.SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC)==0) IS_EXCHANGE_NEEDED = .FALSE. !   proc without any main node cell
-                IF(ITIED/=0)  IS_EXCHANGE_NEEDED = .TRUE.   ! itied option : force the exchange    
+                IF(ITIED/=0)  IS_EXCHANGE_NEEDED = .TRUE.   ! itied option : force the exchange
                 !   -------------------------
                 IF(IS_EXCHANGE_NEEDED) THEN
                     !   send/rcv the number of secondary nodes
@@ -351,7 +351,7 @@ C-----------------------------------------------
      .                IAD_ELEM,FR_ELEM,X,V,MS,TEMP,KINET,NODNX_SMS,ITAB,INTBUF_TAB,IPARI,NIN,REMOTE_PROC,
      .                ALREADY_SEND,INDEX_ALREADY_SEND,SORT_COMM,NODNX_SMS_SIZ,TEMP_SIZE)
                 ENDIF
-                !   ------------------------- 
+                !   -------------------------
             ENDDO
             !   -------------------------
             DEALLOCATE( ALREADY_SEND )

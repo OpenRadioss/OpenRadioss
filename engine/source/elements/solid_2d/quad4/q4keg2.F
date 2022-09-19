@@ -49,8 +49,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .    PY1(*), PY2(*), PY3(*), PY4(*), 
-     .    PZ1(*), PZ2(*), PZ3(*), PZ4(*), AY(*), 
+     .    PY1(*), PY2(*), PY3(*), PY4(*),
+     .    PZ1(*), PZ2(*), PZ3(*), PZ4(*), AY(*),
      .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*),
      .    K23(2,2,*), K24(2,2,*), K33(2,2,*), K34(2,2,*), K44(2,2,*),
      .    SIG(6,*), AIR(*), OFF(*)
@@ -75,37 +75,37 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----K11,K13,K33
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY1, PZ1, PY1, PZ1, AYS, K11, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY1, PZ1, PY1, PZ1, AYS, K11,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY1, PZ1, PY3, PZ3, AYS, K13, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY1, PZ1, PY3, PZ3, AYS, K13,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY3, PZ3, PY3, PZ3, AYS, K33, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY3, PZ3, PY3, PZ3, AYS, K33,
      .              FYY, FZZ, FXX, FYZ)
 C-----K22,K24,K44
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY2, PZ2, PY2, PZ2, AYS, K22, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY2, PZ2, PY2, PZ2, AYS, K22,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY2, PZ2, PY4, PZ4, AYS, K24, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY2, PZ2, PY4, PZ4, AYS, K24,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY4, PZ4, PY4, PZ4, AYS, K44, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY4, PZ4, PY4, PZ4, AYS, K44,
      .              FYY, FZZ, FXX, FYZ)
 C-----K12,K14,K34,K23
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY1, PZ1, PY2, PZ2, AYS, K12, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY1, PZ1, PY2, PZ2, AYS, K12,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY1, PZ1, PY4, PZ4, AYS, K14, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY1, PZ1, PY4, PZ4, AYS, K14,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY2, PZ2, PY3, PZ3, AYS, K23, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY2, PZ2, PY3, PZ3, AYS, K23,
      .              FYY, FZZ, FXX, FYZ)
-      CALL Q4KEGIJ2(LFT, LLT, 
-     .              PY3, PZ3, PY4, PZ4, AYS, K34, 
+      CALL Q4KEGIJ2(LFT, LLT,
+     .              PY3, PZ3, PY4, PZ4, AYS, K34,
      .              FYY, FZZ, FXX, FYZ)
 C
       RETURN
@@ -116,8 +116,8 @@ Chd|-- called by -----------
 Chd|        Q4KEG2                        source/elements/solid_2d/quad4/q4keg2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4KEGIJ2 (LFT, LLT, 
-     .                     PYI, PZI, PYJ, PZJ, AYS, KIJ, 
+      SUBROUTINE Q4KEGIJ2 (LFT, LLT,
+     .                     PYI, PZI, PYJ, PZJ, AYS, KIJ,
      .                     FYY, FZZ, FXX, FYZ)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -136,7 +136,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT
       my_real
-     .   PYI(*), PZI(*), PYJ(*), PZJ(*), AYS(*), 
+     .   PYI(*), PZI(*), PYJ(*), PZJ(*), AYS(*),
      .   FYY(*), FZZ(*), FXX(*), FYZ(*), KIJ(2,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -152,7 +152,7 @@ C-----------------------------------------------
       AH = 0. !0;0;2
 C-----PART 1
       DO I=LFT,LLT
-        GIJ(I) = FYY(I)*PYI(I)*PYJ(I) + FZZ(I)*PZI(I)*PZJ(I) + 
+        GIJ(I) = FYY(I)*PYI(I)*PYJ(I) + FZZ(I)*PZI(I)*PZJ(I) +
      .           FYZ(I)*(PYI(I)*PZJ(I)+PZI(I)*PYJ(I))
       ENDDO
       IF (N2D==1) THEN
@@ -171,11 +171,11 @@ C-----PART 2
         BZIZJ = PZI(I)*PZJ(I)
         BYIZJ = PYI(I)*PZJ(I)
         BZIYJ = PZI(I)*PYJ(I)
-        HIJ(1,1,I) = FYY(I)*(BYIYJ+BZIZJ) + FZZ(I)*BZIZJ + 
+        HIJ(1,1,I) = FYY(I)*(BYIYJ+BZIZJ) + FZZ(I)*BZIZJ +
      .               FYZ(I)*(BYIZJ+BZIYJ)
         HIJ(1,2,I) = (FYY(I)+FZZ(I))*BZIYJ + FYZ(I)*(BYIYJ+BZIZJ)
         HIJ(2,1,I) = (FYY(I)+FZZ(I))*BYIZJ + FYZ(I)*(BYIYJ+BZIZJ)
-        HIJ(2,2,I) = FYY(I)*BYIYJ + FZZ(I)*(BYIYJ+BZIZJ) + 
+        HIJ(2,2,I) = FYY(I)*BYIYJ + FZZ(I)*(BYIYJ+BZIZJ) +
      .               FYZ(I)*(BYIZJ+BZIYJ)
       ENDDO
       IF (N2D==1) THEN

@@ -43,8 +43,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -72,9 +72,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)               :: ISRATE,IFUNC(MAXFUNC)
       INTEGER, INTENT(OUT)                 :: NUPARAM,NUVAR,NFUNC,NVARTMP
@@ -98,7 +98,7 @@ c
 c
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_E'     ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'    ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
@@ -119,7 +119,7 @@ c
       CALL HM_GET_FLOATV('MAT_ETA1'  ,EPSR1    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ETA2'  ,EPSR2    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
-      CALL HM_GET_INTV  ('YLD_FUNC'  ,IFUNC(1) ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('YLD_FUNC'  ,IFUNC(1) ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('YLD_SCALE' ,YLD_SCALE,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c--------------------------------------------------
 c     default values
@@ -139,21 +139,21 @@ c
       ELSE
         CC = ONE / EPSP_REF
       END IF
-      IF (CC > ZERO .AND. CP > ZERO .AND. 
+      IF (CC > ZERO .AND. CP > ZERO .AND.
      .   ISRAT == 0 .AND. ASRATE == ZERO .AND. Ivflag /= 1) THEN
            CALL ANCMSG(MSGID=1881,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=MAT_ID, 
+     .                I1=MAT_ID,
      .                C1=TITR)
-      ENDIF     
+      ENDIF
       IF (EPSR1 == ZERO) EPSR1 = INFINITY
       IF (EPSR2 == ZERO) EPSR2 = TWO*INFINITY
       IF (EPSM == ZERO)  EPSM  = INFINITY
-      IF (SIGM == ZERO)  SIGM  = INFINITY   
+      IF (SIGM == ZERO)  SIGM  = INFINITY
       IF (ICC == 0)      ICC   = 1
       IF (CP == ZERO)    CP    = ONE
-      CP = ONE / CP 
+      CP = ONE / CP
       IF (Ivflag == 0) THEN
         Ivflag = 2
       ENDIF
@@ -162,7 +162,7 @@ c
       IF (Ivflag == 1) THEN
         ! If plastic strain is chosen, filtering by default
         ISRAT     = 1
-        ISRATE    = MAX(ISRATE,ISRAT) 
+        ISRATE    = MAX(ISRATE,ISRAT)
         ASRATE    = 10000.0D0*FAC_T_WORK
       ELSE
         IF (ASRATE /= ZERO) THEN
@@ -173,8 +173,8 @@ c
           ! If no filtering frequency is given but the flag is activated
           IF (ISRAT /= 0) THEN
             ISRAT     = 1
-            ISRATE    = MAX(ISRATE,ISRAT) 
-            ASRATE    = 10000.0D0*FAC_T_WORK  
+            ISRATE    = MAX(ISRATE,ISRAT)
+            ASRATE    = 10000.0D0*FAC_T_WORK
           ! If no filtering frequency and no flag is activated => no filtering
           ELSE
             ISRAT     = 0
@@ -189,7 +189,7 @@ c
       ELSE
         EPSGM = INFINITY
       ENDIF
-      IF (IFUNC(1) == 0) THEN 
+      IF (IFUNC(1) == 0) THEN
         YLD_SCALE = ZERO
       ELSEIF (YLD_SCALE == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('YLD_SCALE' ,YLD_SCALE_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -200,8 +200,8 @@ c
         CALL ANCMSG(MSGID=1880,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
-     .              I1=MAT_ID, 
-     .              C1=TITR)        
+     .              I1=MAT_ID,
+     .              C1=TITR)
         CA = ZERO
         ! IFUNC > 0 and CA > 0 can only be set with Ivflag = 1
       ENDIF
@@ -211,16 +211,16 @@ c-----------------
       G    = E / TWO  / (ONE + NU)
 c-----------------
       NUPARAM = 24
-      IF (IFUNC(1) > 0) THEN 
+      IF (IFUNC(1) > 0) THEN
         NFUNC   = 1
         NVARTMP = 1
       ELSE
         NFUNC   = 0
         NVARTMP = 0
       ENDIF
-      NUVAR   = 1 
+      NUVAR   = 1
 c-----------------
-      UPARAM(1)  = E 
+      UPARAM(1)  = E
       UPARAM(2)  = NU
       UPARAM(3)  = CA
       UPARAM(4)  = SIGM
@@ -258,7 +258,7 @@ c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0
       PM(27) = SQRT(A1/RHO0)  ! sound speed estimation
-      PM(100)= BULK      
+      PM(100)= BULK
 c-----------------
 c     Element buffer variable allocation
 c-----------------
@@ -266,7 +266,7 @@ c-----------------
       MTAG%L_PLA   = 1
       MTAG%L_EPSD  = 1
       MTAG%G_EPSD  = 1
-      IF (FISOKIN > ZERO) THEN 
+      IF (FISOKIN > ZERO) THEN
         MTAG%L_SIGB  = 3
       ENDIF
 c-----------------
@@ -280,7 +280,7 @@ c-----------------
         WRITE(IOUT,1300)E,NU,CA,CB,CN,FISOKIN,SIGM,
      .      EPSP_REF,CP,ICC,ISRATE,ASRATE,Ivflag,EPSM,
      .      EPSR1,EPSR2,IFUNC(1),YLD_SCALE
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -290,7 +290,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : ELASTIC-PLASTIC (COWPER-SYMONDS)',/,
      & 5X,'-------------------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/

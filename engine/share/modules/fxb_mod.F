@@ -39,7 +39,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: FXBIPM
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: FXBNOD, FXBELM,
-     .                                      FXBGRVI      
+     .                                      FXBGRVI
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE ::
      .   FXBMOD
@@ -49,6 +49,6 @@ C-----------------------------------------------
      .   FXBRPM, FXBGLM, FXBCPM, FXBCPS, FXBLM,
      .   FXBFLS, FXBDLS, FXBDEP, FXBVIT, FXBACC, FXBSIG,
      .   FXBGRVR
-     
+
 C-----------------------------------------------
       END MODULE FXB_MOD

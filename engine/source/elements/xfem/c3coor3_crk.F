@@ -60,12 +60,12 @@ C-----------------------------------------------
 !       SP issue :
       REAL(kind=8), DIMENSION(MVSIZ), INTENT(out) ::X1,X2,X3
       REAL(kind=8), DIMENSION(MVSIZ), INTENT(out) ::Y1,Y2,Y3
-      REAL(kind=8), DIMENSION(MVSIZ), INTENT(out) ::Z1,Z2,Z3  
+      REAL(kind=8), DIMENSION(MVSIZ), INTENT(out) ::Z1,Z2,Z3
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NC1,NC2,NC3,ELCRK,ELCRK0,IADC1,IADC2,IADC3
-      my_real OFF_L    
+      my_real OFF_L
 C=======================================================================
 C get elem from activ level: (superposed element)
 C-----------------------------------------------
@@ -192,7 +192,7 @@ C     REAL
      .   X(3,*),V(3,*),VR(3,*),VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3)
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ)
 C-----------------------------------------------

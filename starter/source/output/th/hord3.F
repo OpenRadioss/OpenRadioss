@@ -50,7 +50,7 @@ C-----------------------------------------------
         ALLOCATE( ITRI(NSEL) )
         ALLOCATE( INDX(2*NSEL) )
         ALLOCATE( IASC_SAVE(L*NSEL) )
-        ALLOCATE( ISK_SAVE(NSEL) ) 
+        ALLOCATE( ISK_SAVE(NSEL) )
 
 
         ITRI(1:NSEL) = NEL(1:NSEL)
@@ -61,7 +61,7 @@ C-----------------------------------------------
         ENDDO
         MODE=0
         CALL MY_ORDERS( MODE, WORK, ITRI, INDX, NSEL , 1)
-        
+
         DO I=1,NSEL
             NEL(I) = ITRI(INDX(I))
             ISK(I) = ISK_SAVE(INDX(I))
@@ -77,7 +77,7 @@ C-----------------------------------------------
         DEALLOCATE( ITRI )
         DEALLOCATE( INDX )
         DEALLOCATE( IASC_SAVE )
-        DEALLOCATE( ISK_SAVE ) 
+        DEALLOCATE( ISK_SAVE )
 
         RETURN
         END SUBROUTINE HORD3

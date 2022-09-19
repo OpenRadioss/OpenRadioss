@@ -165,7 +165,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER E, I,ISH
-     .        
+     .
 C     REAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -192,7 +192,7 @@ C
               ENDIF
 
              END IF
-            END DO          
+            END DO
 C      
       RETURN
       END

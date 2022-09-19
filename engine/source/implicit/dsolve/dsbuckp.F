@@ -34,7 +34,7 @@ Chd|====================================================================
      .                   MAXITR , MODE  , TOL    , OP   , RIGI  ,
      .                   RIGIG  , D     , V      , IPRI , SIGMA ,
      .                   DESC_OP, DESC_K, DESC_KG, NLOC , ICTXT ,
-     .                   NPROW  , NPCOL , NBLOC  ) 
+     .                   NPROW  , NPCOL , NBLOC  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N, NEV, NCV, INFO, MAXN, MAXNEV, MAXNCV, LDV, ISHFTS,
-     .        MAXITR, MODE, IPRI, DESC_OP(*), DESC_K(*), DESC_KG(*), 
+     .        MAXITR, MODE, IPRI, DESC_OP(*), DESC_K(*), DESC_KG(*),
      .        NLOC, ICTXT, NPROW, NPCOL, NBLOC
       my_real
      .        TOL, OP(NLOC,*), RIGI(NLOC,*), RIGIG(NLOC,*),

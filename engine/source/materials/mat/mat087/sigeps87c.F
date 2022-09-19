@@ -97,7 +97,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR,ISRATE,INLOC
-      my_real 
+      my_real
      .   TIME,TIMESTEP,ASRATE,UPARAM(NUPARAM),
      .   RHO0(NEL),GS(NEL),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),
@@ -117,14 +117,14 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real ,DIMENSION(NEL,12) ,INTENT(INOUT) :: SIGB
-      my_real 
+      my_real
      .   UVAR(NEL,NUVAR),OFF(NEL),THK(NEL),
      .   YLD(NEL),DPLA(NEL),EPSP(NEL),TEMPEL(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
+      my_real
      .     FINTER ,TF(*)
       EXTERNAL FINTER
 c     Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
@@ -164,12 +164,12 @@ C-----------------------------------------------
      .      EXPV,KSWIFT,KVOCE,UNSP,UNSC,PLA_I,YLD_I,NORMSIG,
      .      DSWIFT,DVOCE,DFEPSP,YLDP, p2,UNSPT,UNSCT,DFSR,TREF,DVM,
      .      K1,K2,AHS,BHS,MHS,EPS0HS,NHS,HMART,TEMP0,ETA,CP, AM    ,
-     .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0 
+     .          BM    , CM    , DM    , PPM    , QM    , E0MART, VM0
       my_real
      .        HK(NEL),EPSF(NEL),PLAP(NEL),FRATE(NEL),
      .        SVM2(NEL),YLD2(NEL),HI(NEL),G3(NEL),
      .        HKIN,dezz,svm,DPLA_I(NEL),dr(NEL),
-     .        AA(NEL),BB(NEL),DPLA_J(NEL),   
+     .        AA(NEL),BB(NEL),DPLA_J(NEL),
      .        PP(NEL),QQ(NEL),FAIL(NEL),SVMO(NEL),
      .        HI2(NEL), ES2(NEL), ATEMP(NEL),AEXP(NEL),
      .        VM(NEL)
@@ -178,26 +178,26 @@ C-----------------------------------------------
       my_real NORM_SP,FCT,DF,DLAM,YLD_NORM(NEL)
 C=======================================================================
 c      Swift/Voce
-c            k=alpha*k1(eps,p)+(1-alpha)*k2(eps,p)  
+c            k=alpha*k1(eps,p)+(1-alpha)*k2(eps,p)
 c            k1=A*(eps,p+e0)**n
 c            k2=Q*(1-exp(-b*eps,p))+sig0
 c-----------------------------------------------
 c     USER VARIABLES
 c-----------------------------------------------
-!       UVAR1  = PLAP  
+!       UVAR1  = PLAP
 !       UVAR2  = YLD
 !       UVAR3  = H
 !       UVAR4  = DPLA
 C=======================================================================
-      IFLAG   = NINT(UPARAM(24))            
+      IFLAG   = NINT(UPARAM(24))
       NRATE   = NINT(UPARAM(25))
-      IFLAGSR = NINT(UPARAM(25+2*NRATE+8)) 
-      IYIELD  = NINT(UPARAM(34+2*NRATE+21)) 
+      IFLAGSR = NINT(UPARAM(25+2*NRATE+8))
+      IYIELD  = NINT(UPARAM(34+2*NRATE+21))
       ! IFLAG=1 => Swift-Voce Yld, IFLAG=0 => Tabulated Yld
-      ! IFLAGSR=0 => total strain rate,  IFLAGSR=1 => plastic strain rate 
+      ! IFLAGSR=0 => total strain rate,  IFLAGSR=1 => plastic strain rate
 c
       SELECT CASE (IYIELD)
-          CASE(1)    ! swift voce 
+          CASE(1)    ! swift voce
             CALL MAT87C_SWIFT_VOCE(
      .         NEL    ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP ,
      .         UPARAM ,UVAR    ,RHO0    ,THKLY   ,THK      ,
@@ -207,7 +207,7 @@ c
      .         SIGNXX ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX   ,
      .         SOUNDSP,PLA     ,DPLA    ,EPSP    ,YLD      ,
      .         ETSE   ,GS      ,ISRATE  ,ASRATE  ,OFF      ,
-     .         SIGB   ,INLOC   ,DPLANL  ,SEQ     )    
+     .         SIGB   ,INLOC   ,DPLANL  ,SEQ     )
          CASE(2) !hansel
             CALL MAT87C_HANSEL(
      .         NEL    ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP ,
@@ -247,6 +247,6 @@ c
 c-----------------------------------------------
 c     COMPUTATION OF STRAIN-RATE
 c-----------------------------------------------
-c-----------      
+c-----------
       RETURN
       END

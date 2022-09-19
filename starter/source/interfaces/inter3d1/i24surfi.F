@@ -156,7 +156,7 @@ c     copie des surfaces (IALLO == 2)
 c---------------------------------------
        IF(IALLO == 2)THEN
         DO I=1,NRTM
-         MSEGTYP(I)=0 
+         MSEGTYP(I)=0
         ENDDO
         L = 0
         IF(ISU1 /= 0)THEN
@@ -243,7 +243,7 @@ C for inteply activation needed for Plyxfem + Type24
                 IF(ITAG(I) > 0) INTPLY = 1
               ENDDO
             ENDDO
-         ENDIF 
+         ENDIF
       ENDIF
 c-----------------------------------------------------------------
 c     noeuds de la surface S2 : build TAGS,set NSV,MSR if IALLO= 2
@@ -360,7 +360,7 @@ C=======================================================================
 c-----------------------------------------------------------------
 c     nombre de noeuds dans l'interface(SECONDARY+MAIN+edge)
 c-----------------------------------------------------------------
-      IF(IALLO == 2) THEN 
+      IF(IALLO == 2) THEN
        NLN   = IPARI(35)
        IPARI(51) = NLS1
        IPARI(52) = NLS2
@@ -478,11 +478,11 @@ C----- NLS : Num. of element with active edge----
       INTEGER NEXTK(4),KM1(4),KP2(4),IWORK(70000),NLL,NSE
       my_real
      .   NX,NY,NZ,MX,MY,MZ,AAA,D1X,D1Y,D1Z,D2X,D2Y,D2Z,IMJ,IPJ
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX,LINEIX2,IXWORK
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .   INDEX,TAG,ISEADD_L,ISH
-      my_real, DIMENSION(:,:), ALLOCATABLE :: 
+      my_real, DIMENSION(:,:), ALLOCATABLE ::
      .   XLINEIX
 
       INTEGER BITSET
@@ -510,7 +510,7 @@ c      ALLOCATE (TAG(NUMNOD)        ,STAT=stat)
       ALLOCATE (IXWORK(8,NLMAX)    ,STAT=stat)
 
 
-#ifndef HYPERMESH_LIB 
+#ifndef HYPERMESH_LIB
       IF (STAT /= 0) THEN
           CALL ANCMSG(MSGID=268,
      .                MSGTYPE=MSGERROR,
@@ -617,8 +617,8 @@ c store new edge
               IXWORK(4,NL)=I4
               IXWORK(6,NL)=0
             ELSE
-              IXWORK(6,NL)=I3  
-              IXWORK(7,NL)=I4 
+              IXWORK(6,NL)=I3
+              IXWORK(7,NL)=I4
               IXWORK(3,NL)=0
             ENDIF
             IXWORK(5,NL)=1 ! bord
@@ -631,8 +631,8 @@ c           second segment
               IXWORK(3,NL)=I3
               IXWORK(4,NL)=I4
             ELSE
-              IXWORK(6,NL)=I3  
-              IXWORK(7,NL)=I4 
+              IXWORK(6,NL)=I3
+              IXWORK(7,NL)=I4
             ENDIF
             AAA = NX*MX + NY * MY + NZ * MZ
             IF (AAA < EDG_COS) IXWORK(5,NL) = -1 ! arete vive
@@ -668,13 +668,13 @@ c         keep only border edges (IXWORK(5,L) == 1)
               IXWORK(5,NL)=1 ! border
               IXWORK(6,NL)=IXWORK(6,L)
               IXWORK(7,NL)=IXWORK(7,L)
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5 
-              IXWORK(6,L)=I6  
-              IXWORK(7,L)=I7 
+              IXWORK(1,L)=I1
+              IXWORK(2,L)=I2
+              IXWORK(3,L)=I3
+              IXWORK(4,L)=I4
+              IXWORK(5,L)=I5
+              IXWORK(6,L)=I6
+              IXWORK(7,L)=I7
             ENDIF
           ENDDO
         ELSEIF(IEDGE == 2)THEN
@@ -703,13 +703,13 @@ c         les artes vives sont conservs (EDG_COS)
 C             IXWORK(5,NL)=+-1 ! bord on
               IXWORK(6,NL)=IXWORK(6,L)
               IXWORK(7,NL)=IXWORK(7,L)
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5  
-              IXWORK(6,L)=I6  
-              IXWORK(7,L)=I7 
+              IXWORK(1,L)=I1
+              IXWORK(2,L)=I2
+              IXWORK(3,L)=I3
+              IXWORK(4,L)=I4
+              IXWORK(5,L)=I5
+              IXWORK(6,L)=I6
+              IXWORK(7,L)=I7
            ENDIF
           ENDDO
         ENDIF
@@ -793,33 +793,33 @@ c---------------------------------------
 C------re-look at the case IEDGE=2,3, et structure IXWORK, max_J for each I1_I2=2
       IF(IFIRST==2)THEN
         DO I=1,NUMNOD
-            ISEADD_L(I) = 0                             
-            ISH(I)=1                          
+            ISEADD_L(I) = 0
+            ISH(I)=1
         ENDDO
         IF(IALLO/=2)THEN
           DO LL=1,NL
 c           count number of edges per SECONDARY node
             I1=IXWORK(1,LL)
             I2=IXWORK(2,LL)
-            ISEADD_L(I1) = ISEADD_L(I1) + 1                              
-            ISEADD_L(I2) = ISEADD_L(I2) + 1                              
+            ISEADD_L(I1) = ISEADD_L(I1) + 1
+            ISEADD_L(I2) = ISEADD_L(I2) + 1
           ENDDO
           IADD=1
           DO I=1,NSN
             NSE = ISEADD_L(I)
-            IADD = IADD+1+3*NSE                          
+            IADD = IADD+1+3*NSE
           ENDDO
           L24ADD = IADD-1
         ELSE
           DO I=1,NSN
-            ISEADD(I) = 0                             
+            ISEADD(I) = 0
           ENDDO
           DO LL=1,NL
 c           count number of edges per SECONDARY node
             I1=IXWORK(1,LL)
             I2=IXWORK(2,LL)
-            ISEADD_L(I1) = ISEADD_L(I1) + 1                              
-            ISEADD_L(I2) = ISEADD_L(I2) + 1                              
+            ISEADD_L(I1) = ISEADD_L(I1) + 1
+            ISEADD_L(I2) = ISEADD_L(I2) + 1
           ENDDO
           IADD=1
           DO I=1,NSN
@@ -861,20 +861,20 @@ c         store SECONDARY node in ISEDGE
               IP = IRECT(K,I6+IADM)
               K=KM1(I7)
               IPJ = IRECT(K,I6+IADM)
-            ENDIF                          
+            ENDIF
             ISEDGE(IADD+2*NSE+ISH(I1)) = IP
             ISH(I1)=ISH(I1)+1
-                          
+
             IADD = ISEADD_L(I2)
             NSE  = ISEDGE(IADD)
             ISEDGE(IADD+ISH(I2)) = I1
             ISEDGE(IADD+NSE+ISH(I2)) = IPJ
             ISEDGE(IADD+2*NSE+ISH(I2)) = IMJ
-            ISH(I2)=ISH(I2)+1                          
+            ISH(I2)=ISH(I2)+1
           ENDDO
-          
+
         ENDIF
-                
+
       ENDIF
 c---------------------------------------
       DEALLOCATE (INDEX)
@@ -1041,7 +1041,7 @@ C----
       ELSEIF(NELTG>0) THEN
        MSEGTYP = 7
       END IF
-      
+
   300   CONTINUE
 C------solid element  
       IF(MSEGTYP==0.OR.NUMELS==0) RETURN
@@ -1112,13 +1112,13 @@ C
         IF (INS/=0) NELS = N
         IF (NELS>0) GOTO 500
   330  CONTINUE
-  
+
   500  CONTINUE
       IF (NELS>0 .AND. (MSEGTYP==3 .OR. MSEGTYP==7)) THEN
        MSEGTYP = MSEGTYP + 1
        IF (INS <0) MSEGTYP=-MSEGTYP
       END IF
-      
+
       RETURN
       END
 Chd|====================================================================
@@ -1187,7 +1187,7 @@ C
 C
           VOL = X41*NX + Y41*NY + Z41*NZ
           IF (VOL > ZERO) INS= -1
-        END IF       
+        END IF
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -1250,11 +1250,11 @@ C----- NLS : Num. of element with active edge----
       INTEGER NEXTK(4),KM1(4),KP2(4),IWORK(70000),NLL,NSE,NP_EDGE
       my_real
      .   NX,NY,NZ,MX,MY,MZ,AAA,D1X,D1Y,D1Z,D2X,D2Y,D2Z,IMJ,IPJ
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX,LINEIX2,IXWORK
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .   INDEX,TAG,ISEADD_L,ISH
-      my_real, DIMENSION(:,:), ALLOCATABLE :: 
+      my_real, DIMENSION(:,:), ALLOCATABLE ::
      .   XLINEIX
 
       INTEGER BITSET
@@ -1388,8 +1388,8 @@ c store new edge
               IXWORK(4,NL)=I4
               IXWORK(6,NL)=0
             ELSE
-              IXWORK(6,NL)=I3  
-              IXWORK(7,NL)=I4 
+              IXWORK(6,NL)=I3
+              IXWORK(7,NL)=I4
               IXWORK(3,NL)=0
             ENDIF
             IXWORK(5,NL)=1 ! bord
@@ -1402,8 +1402,8 @@ c           second segment
               IXWORK(3,NL)=I3
               IXWORK(4,NL)=I4
             ELSE
-              IXWORK(6,NL)=I3  
-              IXWORK(7,NL)=I4 
+              IXWORK(6,NL)=I3
+              IXWORK(7,NL)=I4
             ENDIF
             AAA = NX*MX + NY * MY + NZ * MZ
             IF (AAA < EDG_COS) IXWORK(5,NL) = -1 ! arete vive
@@ -1439,13 +1439,13 @@ c         keep only border edges (IXWORK(5,L) == 1)
               IXWORK(5,NL)=1 ! border
               IXWORK(6,NL)=IXWORK(6,L)
               IXWORK(7,NL)=IXWORK(7,L)
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5 
-              IXWORK(6,L)=I6  
-              IXWORK(7,L)=I7 
+              IXWORK(1,L)=I1
+              IXWORK(2,L)=I2
+              IXWORK(3,L)=I3
+              IXWORK(4,L)=I4
+              IXWORK(5,L)=I5
+              IXWORK(6,L)=I6
+              IXWORK(7,L)=I7
             ENDIF
           ENDDO
         ELSEIF(IEDGE == 2)THEN
@@ -1475,13 +1475,13 @@ c         les artes vives sont conservs (EDG_COS)
 C             IXWORK(5,NL)=+-1 ! bord on
               IXWORK(6,NL)=IXWORK(6,L)
               IXWORK(7,NL)=IXWORK(7,L)
-              IXWORK(1,L)=I1  
-              IXWORK(2,L)=I2  
-              IXWORK(3,L)=I3  
-              IXWORK(4,L)=I4  
-              IXWORK(5,L)=I5  
-              IXWORK(6,L)=I6  
-              IXWORK(7,L)=I7 
+              IXWORK(1,L)=I1
+              IXWORK(2,L)=I2
+              IXWORK(3,L)=I3
+              IXWORK(4,L)=I4
+              IXWORK(5,L)=I5
+              IXWORK(6,L)=I6
+              IXWORK(7,L)=I7
            ENDIF
           ENDDO
         ENDIF
@@ -1506,7 +1506,7 @@ C------
             IF(IABS(IXWORK(5,L)) == 1)THEN
                 I3 = IXWORK(3,L)
                 I6 = IXWORK(6,L)
-c             
+c
              IF(I3/=0)THEN
               NRTSE = NRTSE + 1
               NSNE = NSNE + NP_EDGE
@@ -1598,7 +1598,7 @@ c---------------------------------------
       END IF
 #endif
 c---------------------------------------
-c    edges on SECONDARY segments 
+c    edges on SECONDARY segments
 c---------------------------------------
 c
 c    +-------------+-------------+  I=I1:first SECONDARY node on edge IJ
@@ -1726,13 +1726,13 @@ C---------right side
          S = (IP-NP0)*ONE/(NPT-1)
          XFIC(1,NS) = XE0 +S*(X(1,NS2)-XE0)
          XFIC(2,NS) = YE0 +S*(X(2,NS2)-YE0)
-         XFIC(3,NS) = ZE0 +S*(X(3,NS2)-ZE0)         
+         XFIC(3,NS) = ZE0 +S*(X(3,NS2)-ZE0)
         ELSE
 C---------left side        
          S = IP*ONE/(NPT-1)
          XFIC(1,NS) = X(1,NS1) +S*(XE0 -X(1,NS1))
          XFIC(2,NS) = X(2,NS1) +S*(YE0 -X(2,NS1))
-         XFIC(3,NS) = X(3,NS1) +S*(ZE0 -X(3,NS1))         
+         XFIC(3,NS) = X(3,NS1) +S*(ZE0 -X(3,NS1))
         END IF
        END IF
       END DO
@@ -1810,7 +1810,7 @@ C=======================================================================
        END IF
         S = MAX(FIC_S(ITAG(NS1)),FIC_S(ITAG(NS2)))
         FIC_S(I+NSN0) = S
-      END DO ! I=1,NSNE        
+      END DO ! I=1,NSNE
 C-----------
       RETURN
       END
@@ -1883,7 +1883,7 @@ C=======================================================================
        END IF
         IS = MAX(FIC_I(ITAG(NS1)),FIC_I(ITAG(NS2)))
         FIC_I(I+NSN0) = IS
-      END DO ! I=1,NSNE        
+      END DO ! I=1,NSNE
 C-----------
       RETURN
       END
@@ -1953,7 +1953,7 @@ C-------on the edge is positive of id him-self
 C        IPT = I + NPT -IP
         ISEGPT(I) = I
 C-------------ISEGPT(IS1,IS2) have not unique seg, takes the first one  
-        IF (IP==1) THEN      
+        IF (IP==1) THEN
          IS1 = ITAG(NS1)
          IF (ISEGPT(IS1) ==0) ISEGPT(IS1)=I
         ELSE
@@ -2010,9 +2010,9 @@ C-----------------------------------------------
                ENDIF
              ENDIF
 
-         ENDDO  
+         ENDDO
 
-         
+
       END
 
 Chd|====================================================================
@@ -2166,10 +2166,10 @@ C------mean value of NS1,NS2
         END IF
          DET = ONE/MAX(EM20,SQRT(NX*NX+ NY*NY+ NZ*NZ))
          N = I + NSN0
-         FIC_V(1,N) = DET*NX         
-         FIC_V(2,N) = DET*NY         
-         FIC_V(3,N) = DET*NZ         
-      END DO ! I=1,NSNE        
+         FIC_V(1,N) = DET*NX
+         FIC_V(2,N) = DET*NY
+         FIC_V(3,N) = DET*NZ
+      END DO ! I=1,NSNE
 C-----------
       RETURN
       END

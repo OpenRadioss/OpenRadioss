@@ -82,7 +82,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -117,7 +117,7 @@ C-----------------------------------------------
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),ITASK,IOUTPRT
       INTEGER NELTST,ITYPTST,OFFSET,ICP,ICSIG,NVC,NEL,ISTRAIN,IEXPAN,NG,H3D_STRAIN
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .        XDP(3,*)
       my_real
      .   DT2T
@@ -138,7 +138,7 @@ C-----------------------------------------------
      .   CONDN(*),CONDNSKY(*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -151,7 +151,7 @@ C-----------------------------------------------
 C-----           
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),IBIDV(1)
 
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
@@ -165,7 +165,7 @@ C-----
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
      . JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
      . VDX(MVSIZ) , VDY(MVSIZ) , VDZ(MVSIZ),SSP_EQ(MVSIZ),AIRE(MVSIZ),
@@ -180,7 +180,7 @@ C
      .   MUVOID(MVSIZ) ! used for SPH
 C-----
 C
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       INTEGER IOFFS,G_PLA,G_EPSD
       my_real
@@ -248,11 +248,11 @@ C
        my_real
      .       NU1(MVSIZ),FAC(MVSIZ),DIVDE(MVSIZ),FOR(MVSIZ,6),
      .       ALPHA_E(MVSIZ),LLSH(MVSIZ),C1,E0(MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FACDP
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
       my_real
@@ -264,7 +264,7 @@ C-----
 C-----
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9),W_NEWTON(9,9),A_NEWTON(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -293,7 +293,7 @@ C-----
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
 C-----
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -321,7 +321,7 @@ C-----
      9 -.968160239507626,-.836031107326636,-.613371432700590,
      9 -.324253423403809,0.               ,0.324253423403809,
      9 0.613371432700590,0.836031107326636,0.968160239507626/
-      DATA W_NEWTON / 
+      DATA W_NEWTON /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -349,7 +349,7 @@ C-----
      9 0.027777777777778,0.1654953616     ,0.2745387126     ,
      9 0.3464285110     ,0.3715192744     ,0.3464285110     ,
      9 0.2745387126     ,0.1654953616     ,0.027777777777778/
-      DATA A_NEWTON / 
+      DATA A_NEWTON /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -395,7 +395,7 @@ C-----------
 C-----
       IF (IGTYP /= 22) THEN
         ISORTHG = 0
-      END IF 
+      END IF
 C-----------
       IBID = 0
       IBIDV= 0
@@ -415,7 +415,7 @@ C Gather nodal variables and compute intrinsic rotations
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   VD2,VIS,GBUF%OFF,OFFG,GBUF%SMSTR,GBUF%RHO,RHOO,
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33, 
+     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
      .   IOUTPRT, VGXA, VGYA, VGZA, VGA2,
      .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
@@ -423,7 +423,7 @@ C Gather nodal variables and compute intrinsic rotations
      .   ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
      .   XDP, BID, BID, BID, NEL, XGXA, XGYA, XGZA,
      .   XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
-     .   GBUF%GAMA_R) 
+     .   GBUF%GAMA_R)
 C
       MX = MXT(1)
       DO I=1,NEL
@@ -482,14 +482,14 @@ C
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
-        ALPHA_E(1:NEL) = ONE  
+        ALPHA_E(1:NEL) = ONE
         DO I=1,NEL
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/DELTAX(I)
-          ALPHA_E(I) = FACDP*FACDP  
+          ALPHA_E(I) = FACDP*FACDP
           DELTAX(I)=MAX(LLSH(I),DELTAX(I))
         ENDDO
-      END IF        
+      END IF
       CALL SCDEFC3(
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
@@ -498,16 +498,16 @@ C
      .   VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   DCXX,DCXY,DCXZ,DCYX,DCYY,DCYZ,DCZX,DCZY,DCZZ,DC4,DC5,DC6,
-     .   WXX, WYY, WZZ, 
+     .   WXX, WYY, WZZ,
      .   DHXX, DHXY, DHYX, DHYY, DHZX, DHZY, DHZZ,DH4, DH5, DH6,
-     .   PX1H1, PX1H2 , PX2H1, PX2H2, PX3H1, PX3H2 , PX4H1, PX4H2, 
+     .   PX1H1, PX1H2 , PX2H1, PX2H2, PX3H1, PX3H2 , PX4H1, PX4H2,
      .   HGX1,HGY2,HGZ1,HGZ2,
-     .   RX0, RY0, SX0, SY0,NU1,DDHV) 
+     .   RX0, RY0, SX0, SY0,NU1,DDHV)
          G_PLA  = GBUF%G_PLA
          G_EPSD = GBUF%G_EPSD
       CALL SCZERO3(
      .   F11, F21, F31, F12, F22, F32, F13, F23,
-     .   F33, F14, F24, F34, F15, F25, F35, F16, 
+     .   F33, F14, F24, F34, F15, F25, F35, F16,
      .   F26, F36, F17, F27, F37, F18, F28, F38,
      .   GBUF%SIG,EINTM,RHOM,GBUF%QVIS,GBUF%PLA,
      .   GBUF%EPSD,G_PLA,G_EPSD,NEL)
@@ -538,7 +538,7 @@ c
              SHF(I)=GEO(38,NGEO(I))
            ENDDO
          ENDIF
-       ENDIF 
+       ENDIF
 C-------------------------------------
 C Uniform stress through the thickness
 C-------------------------------------
@@ -558,15 +558,15 @@ C-------------------------------------------
         DTI =ZERO
       ELSE
         DTI = ONE/DT1
-      ENDIF 
+      ENDIF
 C-------------------------------------------
 C Element temperature
 C-------------------------------------------
-      IF(JTHE < 0) THEN       
+      IF(JTHE < 0) THEN
         DO I=1,NEL
-          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                         + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                         + TEMP(NC5(I)) + TEMP(NC6(I)) 
+          TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))
+     .                         + TEMP(NC3(I)) + TEMP(NC4(I))
+     .                         + TEMP(NC5(I)) + TEMP(NC6(I))
      .                         + TEMP(NC7(I)) + TEMP(NC8(I)))
           GBUF%TEMP(I) = TEMPEL(I)
         ENDDO
@@ -596,9 +596,9 @@ C-------------------------------------------------
         ENDIF
         CALL SCDEFO3(
      .       DXX, DXY,DXZ, DYX, DYY,DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .       DCXX, DCXY,DCXZ, DCYX, DCYY,DCYZ, 
+     .       DCXX, DCXY,DCXZ, DCYX, DCYY,DCYZ,
      .       DCZX, DCZY, DCZZ,DC4, DC5,DC6,
-     .       DHXX, DHXY,DHXZ, DHYX, DHYY,DHYZ, 
+     .       DHXX, DHXY,DHXZ, DHYX, DHYY,DHYZ,
      .       DHZX, DHZY, DHZZ,DH4, DH5,DH6,
      .       ZT,WT,VZL,VOLN,VOLG,
      .       LBUF%VOL,DDHV,LBUF%SIG,SIGZM,VOLM,
@@ -609,7 +609,7 @@ C-------------------------------------------------
           RHOO(I)  = LBUF%RHO(I)
         ENDDO
         IF (ISORTH > 0) THEN
-          IF (IGTYP == 22)  
+          IF (IGTYP == 22)
      .      CALL SGETDIR3(NEL,RX,RY,RZ,TX,TY,TZ,
      .                    R11,R21,R31,R12,R22,R32,
      .                    LBUF%GAMA,DIR,IREP)
@@ -617,16 +617,16 @@ C-------------------------------------------------
           IF (IGTYP == 22) THEN
             DO I=1,NEL
               D5(I)=SHF(I)*D5(I)
-              D6(I)=SHF(I)*D6(I) 
+              D6(I)=SHF(I)*D6(I)
             ENDDO
           ENDIF
         ENDIF
 
-        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
+        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)
         CALL SRHO3(PM         , LBUF%VOL  , LBUF%RHO , LBUF%EINT ,DIVDE ,
      .             FLUX(1,NF1), FLU1(NF1) , VOLN     , DVOL      ,NGL , MXT , OFF,
      .             0          , GBUF%TAG22, VOLDP    ,LBUF%VOL0DP,AMU  ,GBUF%OFF)
-     
+
 C-----------------------------
 C Gather stresses
 C-----------------------------
@@ -665,11 +665,11 @@ C
              CONDEN(I)= CONDEN(I)+ CONDE(I)
           ENDDO
         ENDIF
-        IF (ISTRAIN == 1) THEN 
+        IF (ISTRAIN == 1) THEN
           CALL SSTRA3(DXX  ,DYY      ,DZZ      ,D4      ,D5      ,
      .                D6   ,LBUF%STRA,WXX      ,WYY     ,WZZ     ,
      .                OFF  ,NEL      )
-        ENDIF 
+        ENDIF
 C----------------------------
 C Internal forces
 C----------------------------
@@ -689,8 +689,8 @@ C----------------------------
      .        F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .        F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
      .        VOLN,QVIS,
-     .        PX1H1, PX1H2, PX2H1, PX2H2, 
-     .        PX3H1, PX3H2, PX4H1, PX4H2, 
+     .        PX1H1, PX1H2, PX2H1, PX2H2,
+     .        PX3H1, PX3H2, PX4H1, PX4H2,
      .        RX0, RY0, SX0, SY0,
      .        LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
      .        GBUF%SIG,EINTM,EINTO,RHOM,GBUF%QVIS,GBUF%PLA,
@@ -707,8 +707,8 @@ C----------------------------
      .        F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .        F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
      .        VOLN,QVIS,
-     .        PX1H1, PX1H2, PX2H1, PX2H2, 
-     .        PX3H1, PX3H2, PX4H1, PX4H2, 
+     .        PX1H1, PX1H2, PX2H1, PX2H2,
+     .        PX3H1, PX3H2, PX4H1, PX4H2,
      .        RX0, RY0, SX0, SY0,
      .        LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
      .        GBUF%SIG,EINTM,EINTO,RHOM,GBUF%QVIS,GBUF%PLA,
@@ -719,15 +719,15 @@ C-------------------------
 C Finite element heat transfert  
 C--------------------------
         IF (JTHE < 0) THEN
-          CALL SCTHERM(PM     ,MXT    ,VOLN, 
+          CALL SCTHERM(PM     ,MXT    ,VOLN,
      .                 NC1,  NC2, NC3,NC4,
      .                 NC5,  NC6, NC7,NC8,
      .                 PX1, PX2, PX3, PX4,
      .                 PY1, PY2, PY3, PY4,
      .                 PZ1, PZ2, PZ3, PZ4,
      .                 DT1, TEMP,TEMPEL,DIE,
-     .                 THEM,GBUF%OFF,LBUF%OFF) 
-        ENDIF 
+     .                 THEM,GBUF%OFF,LBUF%OFF)
+        ENDIF
         DO I=1,NEL
           OFFG(I)=MIN(OFFG(I),OFF(I))
          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
@@ -807,7 +807,7 @@ C----------------------------
 C----------------------------
       IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STI,
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
 C----------------------------
 C Assemble internal forces
 C----------------------------
@@ -869,29 +869,29 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C
-      my_real 
+      my_real
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
 C-----------------------------------------------
-      IF (IREP == 0) THEN                   
-        DO I=1,NEL                        
-          DIRB(I,1) = DIR(I,1)              
-          DIRB(I,2) = DIR(I,2)              
-        ENDDO                               
-      ELSE                                  
-        DO I=1,NEL                        
-          AA = DIR(I,1)                     
-          BB = DIR(I,2)                     
-          V1 = AA*TX(I) + BB*RX(I)          
-          V2 = AA*TY(I) + BB*RY(I)          
-          V3 = AA*TZ(I) + BB*RZ(I)          
-          VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)  
-          VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)  
-          SUMA=SQRT(VR*VR + VS*VS)          
-          SUMA=ONE/MAX(EM20,SUMA)            
-          DIRB(I,1) = VR*SUMA               
-          DIRB(I,2) = VS*SUMA               
-        ENDDO                               
-      ENDIF                                 
+      IF (IREP == 0) THEN
+        DO I=1,NEL
+          DIRB(I,1) = DIR(I,1)
+          DIRB(I,2) = DIR(I,2)
+        ENDDO
+      ELSE
+        DO I=1,NEL
+          AA = DIR(I,1)
+          BB = DIR(I,2)
+          V1 = AA*TX(I) + BB*RX(I)
+          V2 = AA*TY(I) + BB*RY(I)
+          V3 = AA*TZ(I) + BB*RZ(I)
+          VR=V1*E1X(I)+V2*E1Y(I)+V3*E1Z(I)
+          VS=V1*E2X(I)+V2*E2Y(I)+V3*E2Z(I)
+          SUMA=SQRT(VR*VR + VS*VS)
+          SUMA=ONE/MAX(EM20,SUMA)
+          DIRB(I,1) = VR*SUMA
+          DIRB(I,2) = VS*SUMA
+        ENDDO
+      ENDIF
 C-----------
       RETURN
       END SUBROUTINE SGETDIR3

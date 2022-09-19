@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER,INTENT(IN)    :: ARRAY(*)
-       INTEGER,INTENT(IN)    :: IDX1,IDX2   
+       INTEGER,INTENT(IN)    :: IDX1,IDX2
        INTEGER,INTENT(INOUT) :: LVARINT,TABVINT(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -84,14 +84,14 @@ C-----------------------------------------------
       ENDDO
       LVARINT=LVARINT+1
       TABVINT(LVARINT)=NUM
-      
+
       DO I=IDX1,IDX2
         IF(ARRAY(I)/=0)THEN
           LVARINT=LVARINT+1
           TABVINT(LVARINT)=I
         ENDIF
       ENDDO
-      
-      RETURN 
+
+      RETURN
 C-----------------------------------------------
       END SUBROUTINE WRITE_ARRAY

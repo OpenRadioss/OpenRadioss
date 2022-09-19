@@ -80,7 +80,7 @@ C-----------------------------------------------
       IF (MODE==1)THEN
 
         SZFRI25 = 0
-      
+
         DO P = 1, NSPMD
           IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0) THEN
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
@@ -100,7 +100,7 @@ C-----------------------------------------------
                   ENDIF
                 ENDDO
               ENDIF
-            ENDDO	   	   
+            ENDDO	   	
 C Flush ITAG to zero again for next CPU
             DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
               NOD = FR_ELEM(J)
@@ -109,7 +109,7 @@ C Flush ITAG to zero again for next CPU
           ENDIF
         ENDDO
         SFR_I25=SZFRI25
-      
+
 C-----------------------------------------------
 C Partie 2, on remplis FR_I25 et IAD_I25
 C-----------------------------------------------
@@ -134,7 +134,7 @@ C-----------------------------------------------
                   SN = INTBUF_TAB(NIN)%NSV(I)
                   ASSERT(SN > 0)
                   ASSERT(SN <= NUMNOD)
-                  IF(ITAG(SN)==1)THEN		 
+                  IF(ITAG(SN)==1)THEN		
                     IAD_I25(NI+1,P)=IAD_I25(NI+1,P)+1
 		    IAFR25 = IAFR25 + 1
                     FR_I25(IAFR25)=I
@@ -150,15 +150,15 @@ C Flush ITAG to zero again for next CPU
 	  ELSE
             DO I=2,NBINTC+1
 	      IAD_I25(I,P)=IAD_I25(1,P)
-	    ENDDO	  
+	    ENDDO	
           ENDIF    ! IF(IAD_ELEM(1,P+1)-IAD_ELEM(1,P)>0)
 	  IF(P<NSPMD)IAD_I25(1,P+1)=IAD_I25(NBINTC+1,P)
         ENDDO
       ENDIF
-      
+
 
       DEALLOCATE(ITAG)
       RETURN
 C-----------------------------------------------
       END
-    
+

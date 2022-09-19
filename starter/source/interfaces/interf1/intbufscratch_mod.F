@@ -33,7 +33,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       MODULE INTBUFSCRATCH_MOD
       TYPE SCRATCH_STRUCT_
-        INTEGER, DIMENSION(:) , POINTER ::  WA    !  
+        INTEGER, DIMENSION(:) , POINTER ::  WA    !
         INTEGER SINSCR
       END TYPE SCRATCH_STRUCT_
       END MODULE INTBUFSCRATCH_MOD

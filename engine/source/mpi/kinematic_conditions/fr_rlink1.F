@@ -206,7 +206,7 @@ C
         END IF
         ! Verification des ID user avec comm globale
         IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)
-        IF(ISPMD==0) THEN  
+        IF(ISPMD==0) THEN
          !stop if main nodes not found
          DO I = NSN+1, NSN+2
           IF(NODTMP(I)==0) THEN
@@ -216,7 +216,7 @@ C
             RETURN
           END IF
          END DO
-         !stop if a SECONDARY node is not found   
+         !stop if a SECONDARY node is not found
          DO I = 1, NSN
           IF(NODTMP(I)==0) THEN
             CALL ANCMSG(MSGID=186,ANMODE=ANINFO_BLIND,
@@ -226,7 +226,7 @@ C
           END IF
          END DO
         ENDIF
-        
+
       ELSE ! ALE LINK DEFINED FROM A GRNOD
         NSN=0
         NODU(NSN+1)=M1
@@ -245,8 +245,8 @@ C
           M2=NODTMP(NSN+2)
         END IF
         ! Verification des ID user avec comm globale
-        IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)        
-        IF(ISPMD==0) THEN  
+        IF(NSPMD > 1) CALL SPMD_GLOB_ISUM9(NODTMP,NSN+2)
+        IF(ISPMD==0) THEN
          !stop if main nodes not found
          DO I = NSN+1, NSN+2
           IF(NODTMP(I)==0) THEN
@@ -256,12 +256,12 @@ C
             RETURN
           END IF
          END DO
-        ENDIF    
-        
-        !CHECK EXISTENS OF GRNOD_ID  
+        ENDIF
 
-      ENDIF !(ITAG>0) 
-     
+        !CHECK EXISTENS OF GRNOD_ID
+
+      ENDIF !(ITAG>0)
+
       RETURN
       END
 

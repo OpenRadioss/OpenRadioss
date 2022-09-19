@@ -34,7 +34,7 @@ Chd|        EBCS_MOD                      ../common_source/modules/ebcs_mod.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG, 
+      SUBROUTINE INIEBCS(ALE_CONNECTIVITY, IFLAG,IGRSURF, IXS, IXQ, IXTG,
      .     PM, IGEO, X, LSENSOR, IVOLU, MULTI_FVM_IS_USED, EBCS_TAB, EBCS_TAG_CELL_SPMD)
 C-----------------------------------------------
 C   M o d u l e s
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER, DIMENSION(:), ALLOCATABLE :: MWA 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: MWA
       INTEGER I,JBUF,TYP,ID,ISU,NSEG,IDSU,IAD,K1,K2,K3,SENS,VOLU,J,NOD,KK,RBUF,LENMWA,ERR,ICELL
       INTEGER :: SIZ
       CLASS (T_EBCS), POINTER :: EBCS
@@ -81,22 +81,22 @@ C=======================================================================
          ALLOCATE(MWA(LENMWA),  STAT=ERR)
          IF(ERR /= 0) THEN
             CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EBCS')
-         ENDIF      
+         ENDIF
          CALL ICINVS(8, NUMELS, NIXS, IXS, MWA, MWA(1+(2+NUMNOD)))
       ELSEIF (NUMELQ /= 0) THEN
          LENMWA = NUMNOD + 2 + 4 * NUMELQ
          ALLOCATE(MWA(LENMWA), STAT=ERR)
          IF(ERR /= 0) THEN
             CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EBCS')
-         ENDIF      
-         CALL ICINVS(4, NUMELQ, NIXQ, IXQ, MWA, MWA(1+(2+NUMNOD))) 
+         ENDIF
+         CALL ICINVS(4, NUMELQ, NIXQ, IXQ, MWA, MWA(1+(2+NUMNOD)))
       ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
          LENMWA = NUMNOD + 2 + 3 * NUMELTG
          ALLOCATE(MWA(LENMWA), STAT=ERR)
          IF(ERR /= 0) THEN
             CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='EBCS')
-         ENDIF      
-         CALL ICINVS(3, NUMELTG, NIXTG, IXTG, MWA, MWA(1+(2+NUMNOD)))          
+         ENDIF
+         CALL ICINVS(3, NUMELTG, NIXTG, IXTG, MWA, MWA(1+(2+NUMNOD)))
       ENDIF
 
       DO I = 1, NEBCS
@@ -122,7 +122,7 @@ C=======================================================================
              !     iface
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(EBCS%nb_elem))
-             EBCS%iface(1:EBCS%nb_elem) = 0             
+             EBCS%iface(1:EBCS%nb_elem) = 0
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
@@ -173,7 +173,7 @@ C=======================================================================
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
-             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO          
+             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
            TYPE IS (t_ebcs_valvout)
              !     vold
              EBCS%has_vold = .true.
@@ -186,7 +186,7 @@ C=======================================================================
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
-             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO 
+             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
            TYPE IS(t_ebcs_vel)
              !     reso
              EBCS%has_reso = .true.
@@ -195,7 +195,7 @@ C=======================================================================
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
-             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO 
+             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
            TYPE IS(t_ebcs_normv)
              !     reso
              EBCS%has_reso = .true.
@@ -229,7 +229,7 @@ C=======================================================================
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
-             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO 
+             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
            TYPE IS (t_ebcs_monvol)
              VOLU = EBCS%monvol_id
              SENS = EBCS%sensor_id
@@ -265,61 +265,61 @@ C=======================================================================
              !     iface
              EBCS%has_iface = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%iface(NSEG))
-             EBCS%iface(1:NSEG) = 0 
+             EBCS%iface(1:NSEG) = 0
              !     vold
              EBCS%has_vold = .TRUE.
              IF(IFLAG==0)ALLOCATE(EBCS%vold(SIZ))
-             EBCS%vold(1:SIZ) = 0   
+             EBCS%vold(1:SIZ) = 0
              !     Pold
              EBCS%has_Pold = .TRUE.
              IF(IFLAG==0) ALLOCATE(EBCS%Pold(SIZ))
-             EBCS%Pold(1:SIZ) = 0 
+             EBCS%Pold(1:SIZ) = 0
              !     la
              EBCS%has_la = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%la(3, EBCS%nb_node))
-             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO  
+             EBCS%la(1:3, 1:EBCS%nb_node) = ZERO
              !     dp0
              EBCS%has_dp0 = .true.
              IF(IFLAG==0)ALLOCATE(EBCS%dp0(NSEG))
              EBCS%dp0(1:NSEG) = ZERO
-                                                          
+
         END SELECT
-      
+
         IF(ISU>0)THEN
           IDSU = IGRSURF(ISU)%ID
           IF (N2D == 0) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 8, NIXS, 6, IDSU,ID,NSEG,IXS,
-     .            EBCS%iseg, EBCS%ielem, EBCS%itype,EBCS%iface, 
+     .            EBCS%iseg, EBCS%ielem, EBCS%itype,EBCS%iface,
      .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
           ELSEIF (NUMELQ /= 0) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 4, NIXQ, 4, IDSU,ID,NSEG,IXQ,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)           
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
           ELSEIF (NUMELTG /= 0 .AND. MULTI_FVM_IS_USED) THEN
              CALL FINDELE(ALE_CONNECTIVITY, 3, NIXTG, 3, IDSU,ID,NSEG,IXTG,
      .            EBCS%iseg, EBCS%ielem,EBCS%itype, EBCS%iface,
-     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)                  
+     .            IGRSURF(ISU)%NODES,MWA,MWA(1+(2+NUMNOD)),PM,X,TYP,IGEO)
           ENDIF
-          
-          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 10))THEN                                           
+
+          IF(.NOT.EBCS%is_multifluid .AND. (TYP == 0 .OR. TYP == 10))THEN
             !2D quads & trias EBCS : all on domain 1 (ispmd=0)  --> TAG with  EBCS_TAG_CELL_SPMD
-            !-------------------------------------------------   
-            EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0                    
-            DO KK=1,EBCS%nb_elem              
-              ICELL = EBCS%ielem(KK) 
+            !-------------------------------------------------
+            EBCS_TAG_CELL_SPMD(1:NUMELQ+NUMELTG+NUMELS)=0
+            DO KK=1,EBCS%nb_elem
+              ICELL = EBCS%ielem(KK)
               K1=0
               IF (EBCS%itype(KK)==4)K1=0
-              IF (EBCS%itype(KK)==3)K1=NUMELQ 
-              IF (EBCS%itype(KK)==8)K1=NUMELQ+NUMELTG             
-              EBCS_TAG_CELL_SPMD(K1+ICELL)=1    !tag elem to send to domain #1                     
-            ENDDO                                                
-            !-------------------------------------------------   
-                                                                 
-          ENDIF                                                  
-                       
+              IF (EBCS%itype(KK)==3)K1=NUMELQ
+              IF (EBCS%itype(KK)==8)K1=NUMELQ+NUMELTG
+              EBCS_TAG_CELL_SPMD(K1+ICELL)=1    !tag elem to send to domain #1
+            ENDDO
+            !-------------------------------------------------
+
+          ENDIF
+
         ENDIF
       ENDDO
-            
+
       IF (ALLOCATED(MWA)) DEALLOCATE(MWA)
 C-----------
       RETURN
@@ -379,4 +379,4 @@ C
       ENDDO
       RETURN
       END
- 
+

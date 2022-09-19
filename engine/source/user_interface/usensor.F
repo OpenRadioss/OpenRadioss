@@ -184,8 +184,8 @@ C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
       INTEGER K,L, SHIFT
-      INTEGER NSENS,ITYP,IVAR 
-      my_real 
+      INTEGER NSENS,ITYP,IVAR
+      my_real
      .      VAR
 
 C   remonte les common blocs avant la declaration
@@ -251,7 +251,7 @@ C-----------------------------------------------
 #include      "scr_usens_c.inc"
 #include      "scr05_c.inc"
       INTEGER K,L, SHIFT,NSENS, ITYP, IVAR
-      my_real 
+      my_real
      .      VAR
 C   remonte les common block avant les declarations
 C-----------------------------------------------
@@ -313,8 +313,8 @@ C-----------------------------------------------
 #include      "r4r8_p.inc"
 #include      "scr05_c.inc"
       INTEGER K,L, SHIFT
-      INTEGER NSENS,ITYP,IVAR 
-      my_real 
+      INTEGER NSENS,ITYP,IVAR
+      my_real
      .      VAR,MAXV
 C=======================================================================
       SET_U_SENS_MAXVALUE = -1
@@ -386,7 +386,7 @@ C       LSENSOR(I,NSENS) == ILOCA(K + I)
 C       SENSOR (I,NSENS) ==  LOCA(L + I)
       CALL GET_VAR_USER_I(7,K,ITYP)
       IF (ITYP>=29 .AND. ITYP<=31)THEN
-        IF (IRESP==1) THEN 
+        IF (IRESP==1) THEN
            CALL GET_VAR_USER_F_SP(8,L,VAR)
         ELSE
            CALL GET_VAR_USER_F(8,L,VAR)
@@ -599,7 +599,7 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
 #include      "r4r8_p.inc"
       INTEGER USENS,I,J,DECALAGE,LI
-      my_real 
+      my_real
      .       LT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -621,7 +621,7 @@ C     SENSOR(I,J)  == LOCA(ISH6+I+(J-1)*NSENSR)
 C       IF(USENS==LSENSOR(1,J))THEN
           DECALAGE = 1+(J-1)*NSENSI
           CALL GET_VAR_USER_I (7,DECALAGE,LI)
-          IF (USENS == LI) THEN 
+          IF (USENS == LI) THEN
 C         IF(TT>SENSOR(2,J))THEN
 C
             DECALAGE=2+(J-1)*NSENSR

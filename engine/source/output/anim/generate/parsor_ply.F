@@ -73,7 +73,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      * OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J, 
+      INTEGER II(4),IE,NG, ITY, LFT, LLT, N, I, J,
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH,BUF,ISHPLYXFEM,
@@ -114,7 +114,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
           ISHPLYXFEM = IPARG(50,NG)
           LFT=1
           LLT=NEL
-cccc        KPT    =IPARG(6,NG)    
+cccc        KPT    =IPARG(6,NG)
 C-----------------------------------------------
 C       COQUES
 C-----------------------------------------------
@@ -157,7 +157,7 @@ c                  CALL FACNOR(X,D,II,XNORM,CDG,INVERT(IE))
                      NP(JJ+4) = PLYNOD(IPLY)%PLYNODID(EMPL)
 
                    END IF
-                   EL2FA(NEL_PLY+IE_EL2FA) = IE 
+                   EL2FA(NEL_PLY+IE_EL2FA) = IE
                    JJ = JJ + 4
  130           CONTINUE
 C-----------------------------------------------

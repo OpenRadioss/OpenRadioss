@@ -67,11 +67,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IGMAT,IPOS,IGTYP,IPMAT ,IPTHK ,IPPOS ,IPGMAT,NPT,N,
      .        I1,I2,I3,MATLY,ICRYPT,NLAY,ILAY,IPANG,IPPID,IS,PIDS
-      my_real 
+      my_real
      .   A11,A11R,C1,IZ,G,NU,A12,E,RHOG,B1T2, THICKT,SSP, THKLY,POSLY,
      .   RHO,C1THK,A12THK,A1THK ,GTHK,NUTHK ,ETHK,RHOG0,RHOCPG,RHO0,RHOCP
 C      
-!!      TYPE (STACK_PLY) :: STACK          
+!!      TYPE (STACK_PLY) :: STACK
 C-----------------------------------------------
 C-----------------------------------------------    
 C=======================================================================
@@ -104,7 +104,7 @@ C
            IPTHK  = 300
            IPPOS  = 400
            IPGMAT = 700
-           
+
            NPT = INT(GEO(6,I))
            THICKT = ZERO
            DO N=1,NPT
@@ -121,13 +121,13 @@ C
              A1THK = PM(24,MATLY)*THKLY
              A12THK = PM(25,MATLY)*THKLY
              C1THK = PM(32,MATLY)*THKLY
-             RHOG = RHOG + PM(1,MATLY)*THKLY 
-             RHOG0 = RHOG0 + PM(89,MATLY)*THKLY 
-             RHOCPG = RHOCPG + PM(69,MATLY)*THKLY 
+             RHOG = RHOG + PM(1,MATLY)*THKLY
+             RHOG0 = RHOG0 + PM(89,MATLY)*THKLY
+             RHOCPG = RHOCPG + PM(69,MATLY)*THKLY
              A11   =  A11 + A1THK
              B1T2 = B1T2 + A1THK*POSLY
              A11R   = A11R + A1THK*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
-             IZ = IZ + THKLY*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY) 
+             IZ = IZ + THKLY*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
              C1 = C1 + C1THK
              G = G + GTHK
              NU = NU + NUTHK
@@ -138,7 +138,7 @@ C
           RHO0 = RHOG0/MAX(EM20,THICKT)
           RHOCP = RHOCPG/MAX(EM20,THICKT)
           E = E/MAX(EM20,THICKT)
-          A11 = A11/MAX(EM20,THICKT) 
+          A11 = A11/MAX(EM20,THICKT)
           IF(IPOS > 0)A11 = TWO*A11
           A12 = A12/MAX(EM20,THICKT)
           IZ = ONE_OVER_12*THICKT**3
@@ -146,8 +146,8 @@ C
           C1 = C1 /MAX(EM20,THICKT)
           G = G /MAX(EM20,THICKT)
           NU = NU /MAX(EM20,THICKT)
-          SSP = A11/MAX(EM20,RHO)   
-          SSP = SQRT(SSP) 
+          SSP = A11/MAX(EM20,RHO)
+          SSP = SQRT(SSP)
           GEO(IPGMAT +1 ,I) = RHO
           GEO(IPGMAT +2 ,I) = E
           GEO(IPGMAT +3 ,I) = NU
@@ -155,8 +155,8 @@ C
           GEO(IPGMAT +5 ,I) = A11
           GEO(IPGMAT +6 ,I) = A12
           GEO(IPGMAT +7 ,I) = A11R
-          GEO(IPGMAT +8 ,I) = C1  
-          GEO(IPGMAT +9 ,I) = SSP  
+          GEO(IPGMAT +8 ,I) = C1
+          GEO(IPGMAT +9 ,I) = SSP
 C used for QEPH          
           GEO(IPGMAT +10,I) = SQRT(G)
           GEO(IPGMAT +11,I) = SQRT(A11)
@@ -169,10 +169,10 @@ C
              WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
           ELSE
              WRITE(IOUT,100)IGEO(1,I),RHO,E,NU,G
-          ENDIF 
-        ELSEIF(IGTYP == 52 .OR. 
+          ENDIF
+        ELSEIF(IGTYP == 52 .OR.
      .         ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
-           DO IS = 1,NS_STACK 
+           DO IS = 1,NS_STACK
 C initialisation of parameters
             PIDS = IGEO_STACK(2,IS)
             IF(PIDS == I) THEN
@@ -191,8 +191,8 @@ C initialisation of parameters
              IPANG = 1
              IPPID = 2
 C                       
-             NLAY   =  IGEO_STACK(1,IS) 
-             
+             NLAY   =  IGEO_STACK(1,IS)
+
              IPMAT  =  IPPID + NLAY ! layer material address  ( NLAY = NPT )
              IPTHK  =  IPANG + NLAY ! layer thickness address ( NLAY = NPT )
              IPPOS  =  IPTHK + NLAY ! layer position address  ( NLAY = NPT )
@@ -208,24 +208,24 @@ C
                A1THK  = PM(24,MATLY)*THKLY
                A12THK = PM(25,MATLY)*THKLY
                C1THK  = PM(32,MATLY)*THKLY
-               RHOG = RHOG + PM(1,MATLY)*THKLY 
-               RHOG0 = RHOG0 + PM(89,MATLY)*THKLY 
-               RHOCPG = RHOCPG + PM(69,MATLY)*THKLY 
+               RHOG = RHOG + PM(1,MATLY)*THKLY
+               RHOG0 = RHOG0 + PM(89,MATLY)*THKLY
+               RHOCPG = RHOCPG + PM(69,MATLY)*THKLY
                A11   =  A11 + A1THK
                B1T2 = B1T2 + A1THK*POSLY
                A11R   = A11R + A1THK*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
-               IZ = IZ + THKLY*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY) 
+               IZ = IZ + THKLY*(THKLY*THKLY*ONE_OVER_12 + POSLY*POSLY)
                C1 = C1 + C1THK
                G = G + GTHK
                NU = NU + NUTHK
                A12 = A12 + A12THK
-               E = E + ETHK 
+               E = E + ETHK
              ENDDO ! NLAY
               RHO = RHOG/MAX(EM20,THICKT)
               RHO0 = RHOG0/MAX(EM20,THICKT)
               RHOCP = RHOCPG/MAX(EM20,THICKT)
               E = E/MAX(EM20,THICKT)
-              A11 = A11/MAX(EM20,THICKT) 
+              A11 = A11/MAX(EM20,THICKT)
               IF(IPOS > 0)A11 = TWO*A11
               A12 = A12/MAX(EM20,THICKT)
               IZ = ONE_OVER_12*THICKT**3
@@ -233,8 +233,8 @@ C
               C1 = C1 /MAX(EM20,THICKT)
               G = G /MAX(EM20,THICKT)
               NU = NU /MAX(EM20,THICKT)
-              SSP = A11/MAX(EM20,RHO)   
-              SSP = SQRT(SSP) 
+              SSP = A11/MAX(EM20,RHO)
+              SSP = SQRT(SSP)
               PM_STACK (1 ,IS) = RHO
               PM_STACK (2 ,IS) = E
               PM_STACK (3 ,IS) = NU
@@ -242,7 +242,7 @@ C
               PM_STACK(5 ,IS) = A11
               PM_STACK (6 ,IS) = A12
               PM_STACK (7 ,IS) = A11R
-              PM_STACK(8 ,IS) = C1  
+              PM_STACK(8 ,IS) = C1
               PM_STACK (9 ,IS) = SSP
 C used fo    r QEPH     
               PM_STACK(10,IS) = SQRT(G)
@@ -256,16 +256,16 @@ C used fo    r QEPH
               ELSE
                  WRITE(IOUT,100)IGEO(1,I),RHO,E,NU,G
               ENDIF
-            ENDIF  
-           ENDDO ! NS_STACK   
-         ENDIF 
+            ENDIF
+           ENDDO ! NS_STACK
+         ENDIF
         ENDDO  !  NUMGEO
 C-------- 
  100  FORMAT(//,
-     &  5X,'CHARACTERISTICS OF GLOBAL MATERIAL FOR COMPOSITE LAYERED', 
+     &  5X,'CHARACTERISTICS OF GLOBAL MATERIAL FOR COMPOSITE LAYERED',
      &     ' SHELL PROPERTY SET ',/
      & ,5X,'     HAVE BEEN RECOMPUTED IN ORDER TO ENSURE STABILITY',/
-     & ,5X,'PROPERTY SET NUMBER . . . . . . . . . . . .=',I10/   
+     & ,5X,'PROPERTY SET NUMBER . . . . . . . . . . . .=',I10/
      & ,5X,'INITIAL DENSITY. . . . . . . . . . . . . . =',1PG20.13/
      & ,5X,'YOUNG MODULUS . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,'POISSON RATIO . . . . . . . . . . . . . . .=',1PG20.13/

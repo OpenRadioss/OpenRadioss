@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SETDEF_MOD                    ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE CREATE_SET_ARRAY(SET_ARRAY ,ARRAY_SIZE, 
+      SUBROUTINE CREATE_SET_ARRAY(SET_ARRAY ,ARRAY_SIZE,
      .                            ISETM  , NSET_GENERAL,
      .                            JCLAUSE ,OPT_G ,IS_AVAILABLE ,
      .                            LSUBMODEL,CLAUSE,FLAG)
@@ -200,7 +200,7 @@ C=======================================================================
       ENDDO ! DO K=1,IDS_MAX
 
       ! Sort the Readed SETs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       DO I=1,NINDX
         INDEX(I) = I
@@ -215,8 +215,8 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      ARRAY_SIZE = LIST_SIZE  
-      
+      ARRAY_SIZE = LIST_SIZE
+
 !---
 
 C-------------------------
@@ -281,7 +281,7 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE
       INTEGER, INTENT(IN), DIMENSION(NSETS,2) :: ISETM
 !
-      
+
       TYPE(SUBMODEL_DATA),INTENT(IN):: LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -313,7 +313,7 @@ C=======================================================================
 
           PSTART = SET_USRTOS_NEAREST(START_GENE, ISETM, NSET_GENERAL,1)
           PSTOP  = SET_USRTOS_NEAREST(END_GENE,   ISETM, NSET_GENERAL,2)
-     
+
           STACK_ONE=0               ! assemble in SET_READ_ONE Stack_one
           DO P=PSTART, PSTOP
              P1 = ISETM(P,1)

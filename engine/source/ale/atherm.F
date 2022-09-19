@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,22 +83,22 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ)
       my_real RK, RE, R, YP0, XMU, AX, E, A, CMU, RPR, YPLUS, P, XMT
       my_real, DIMENSION(:) ,POINTER :: PH1,PH2,PH3
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
       DO NG=1,NGROUP
         IF(IPARG(8,NG) == 1)CYCLE
-c     
+c
 C     ALE ON / OFF
         IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF((ITY /= 1).AND.(ITY /= 2))CYCLE
         IF (MTN == 1)CYCLE
@@ -203,12 +203,12 @@ C     ALE ON / OFF
         IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
 
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF (IPARG(8,NG) == 1)CYCLE
         IF (JTHE /= 1 .OR. ITY == 51)CYCLE
@@ -218,11 +218,11 @@ C     ALE ON / OFF
 c            EV(NB11+I-1) = ZERO
             GBUF%TEMP(I) = ZERO
           ENDDO
-          IF (N2D == 0) THEN                                            
+          IF (N2D == 0) THEN
             CALL ADIFF3(GBUF%TEMP,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
-          ELSE                                                        
+          ELSE
             CALL ADIFF2(GBUF%TEMP,T,FLUX(4*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)
-          ENDIF                                                       
+          ENDIF
         ELSE
           IF (N2D == 0) THEN
             CALL ADIFF3(GBUF%EINT,T,FLUX(6*NFT+1),VAL2,ALE_CONNECT,GBUF%VOL)

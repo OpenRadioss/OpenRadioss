@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,KSI ,ETA ,SF1,SF2 ,SF3 ,SF4
-      MY_REAL 
+      MY_REAL
      .   VPG(2,4),PG1,PG
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -63,14 +63,14 @@ C-------------------------------------------------------------------------------
 C --- Temperature in Gauss point NG
        KSI = VPG(1,NG)
        ETA = VPG(2,NG)
- 
+
        SF1 = (1-KSI)*(1-ETA)
        SF2 = (1+KSI)*(1-ETA)
        SF3 = (1+KSI)*(1+ETA)
        SF4 = (1-KSI)*(1+ETA)
 
-        DO I=JFT,JLT          
-          TEMPEL(I) = FOURTH * (SF1 *TEMP(IXC(2,I)) + SF2*TEMP(IXC(3,I)) + 
+        DO I=JFT,JLT
+          TEMPEL(I) = FOURTH * (SF1 *TEMP(IXC(2,I)) + SF2*TEMP(IXC(3,I)) +
      .                          SF3*TEMP(IXC(4,I)) + SF4*TEMP(IXC(5,I)) )
        ENDDO
 C

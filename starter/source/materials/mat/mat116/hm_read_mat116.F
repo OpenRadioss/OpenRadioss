@@ -35,7 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT116(MTAG     ,UPARAM    ,MAXUPARAM,NUPARAM  ,PM       ,
-     .                          PARMAT   ,NUVAR     ,IFUNC    ,NFUNC    ,MAXFUNC  , 
+     .                          PARMAT   ,NUVAR     ,IFUNC    ,NFUNC    ,MAXFUNC  ,
      .                          UNITAB   ,MAT_ID    ,TITR     ,LSUBMODEL)
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(INOUT)          :: IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,
      .                                   NUPARAM,NUVAR
       INTEGER, INTENT(IN)             :: MAT_ID
@@ -188,7 +188,7 @@ c
         END IF
       END IF
 c-------------------
-      NFUNC   = 0 
+      NFUNC   = 0
       NUPARAM = 25
       NUVAR   = 12
 c-------------------
@@ -199,31 +199,31 @@ c-------------------
       UPARAM(5)  = GC1_INI
       UPARAM(6)  = GC1_INF
       UPARAM(7)  = RATG1
-      UPARAM(8)  = FG1    
+      UPARAM(8)  = FG1
       UPARAM(9)  = GC2_INI
       UPARAM(10) = GC2_INF
       UPARAM(11) = RATG2
-      UPARAM(12) = FG2    
-      UPARAM(13) = SIGA1   
-      UPARAM(14) = SIGB1   
-      UPARAM(15) = RATE1  
+      UPARAM(12) = FG2
+      UPARAM(13) = SIGA1
+      UPARAM(14) = SIGB1
+      UPARAM(15) = RATE1
       UPARAM(16) = IORDER1
-      UPARAM(17) = IFAIL1  
-      UPARAM(18) = SIGA2   
-      UPARAM(19) = SIGB2   
+      UPARAM(17) = IFAIL1
+      UPARAM(18) = SIGA2
+      UPARAM(19) = SIGB2
       UPARAM(20) = RATE2
       UPARAM(21) = IORDER2
-      UPARAM(22) = IFAIL2  
-      UPARAM(23) = ICRIT  
-      UPARAM(24) = THICK  
-      UPARAM(25) = ALPHA  
+      UPARAM(22) = IFAIL2
+      UPARAM(23) = ICRIT
+      UPARAM(24) = THICK
+      UPARAM(25) = ALPHA
 C----------------
       PARMAT(1)  = MAX(E,G) / THREE
       PARMAT(2)  = MAX(E,G)
-      PARMAT(17) = ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0      
+      PARMAT(17) = ONE ! (ONE - TWO*NU)/(ONE - NU), NU=0
 c
       MTAG%G_PLA  = 2
-      MTAG%G_EPSD = 1  
+      MTAG%G_EPSD = 1
       MTAG%L_PLA  = 2
       MTAG%L_EPSD = 1
       MTAG%L_EPE  = 3
@@ -235,7 +235,7 @@ c-------------------
       WRITE(IOUT,1000)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE                                                     
+      ELSE
         WRITE(IOUT,1200) RHO0,E,G,THICK,IMASS,IDEL,ICRIT,
      .                   GC1_INI,GC1_INF,RATG1,FG1,
      .                   GC2_INI,GC2_INF,RATG2,FG2,
@@ -247,7 +247,7 @@ c-----------
 c-----------
  1000 FORMAT(
      & 10X,' MIXED MODE COHESIVE LAW 116  ',/,
-     & 10X,' ---------------------------  ',/)   
+     & 10X,' ---------------------------  ',/)
  1100 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . . . . .=',I10/,

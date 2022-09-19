@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,14 +77,14 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ), PID(MVSIZ),
      .   PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .   PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
-      double precision   
+      double precision
      .    THK, EM, EB, H1, H2, H3
       CHARACTER*100 DELIMIT,LINE
 C----  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF 
-      TYPE(BUF_FAIL_),POINTER :: FBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
+      TYPE(BUF_FAIL_),POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVARF,DFMAX
 C----  
@@ -115,9 +115,9 @@ c            PID(I) = IXC(6,I)
 c          ENDDO
 C
           GBUF => ELBUF_TAB(NG)%GBUF
-          NLAY = ELBUF_TAB(NG)%NLAY                   
-          NPTR = ELBUF_TAB(NG)%NPTR                        
-          NPTS = ELBUF_TAB(NG)%NPTS                        
+          NLAY = ELBUF_TAB(NG)%NLAY
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
 c         NPTT = ELBUF_TAB(NG)%NPTT
 c         NPT  = NPTT * NLAY
           NPG  = NPTR*NPTS
@@ -148,37 +148,37 @@ cc           WA(JJ) = NPTT
             WA(JJ) = NPG
 c
             DO IL = 1,NLAY
-              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			       
+              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			
               IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-              FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)   
+              FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)
               NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
               JJ = JJ + 1
               WA(JJ) = NFAIL
-              JJ = JJ + 1  
-              IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT			     
-              WA(JJ) = IPM(1,IMAT)   
+              JJ = JJ + 1
+              IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT			
+              WA(JJ) = IPM(1,IMAT)
               JJ = JJ + 1
               WA(JJ) = NPTT
 c
-              DO IFAIL = 1,NFAIL 
+              DO IFAIL = 1,NFAIL
                 IRUPT = IPM(236+IFAIL,IMAT)
-                IRUPT_TYPE = IPM(241+IFAIL,IMAT) 			 
-                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR		       
+                IRUPT_TYPE = IPM(241+IFAIL,IMAT) 			
+                NVAR_RUPT = FBUF%FLOC(IFAIL)%NVAR		
                 JJ = JJ + 1
                 WA(JJ) = NVAR_RUPT + 1
                 JJ = JJ + 1
                 WA(JJ) = IRUPT
                 JJ = JJ + 1
-                WA(JJ) = IRUPT_TYPE      
+                WA(JJ) = IRUPT_TYPE
 !
                 IF (IRUPT == 0) CYCLE
 !
-                DO IT=1,NPTT  
-                  DO IS=1,NPTS					     
-                    DO IR=1,NPTR			   
-                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				     
-                      UVARF => FBUF%FLOC(IFAIL)%VAR 
-                      DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
+                DO IT=1,NPTT
+                  DO IS=1,NPTS					
+                    DO IR=1,NPTR			
+                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				
+                      UVARF => FBUF%FLOC(IFAIL)%VAR
+                      DFMAX => FBUF%FLOC(IFAIL)%DAMMX
                       JJ = JJ + 1
                       WA(JJ) = DFMAX(I)
                       DO NV=1,NVAR_RUPT
@@ -191,7 +191,7 @@ c
               ENDDO  ! IFAIL = 1,NFAIL
 c
             ENDDO      ! IL = 1,NLAY
-c                                                          
+c
             IE=IE+1
 C       pointeur de fin de zone
             PTWA(IE)=JJ
@@ -230,12 +230,12 @@ C         retrouve le nieme elt dans l'ordre d'id croissant
 C         retrouve l'adresse dans WAP0
           J=PTWA_P0(K-1)
           IPRT  = NINT(WAP0(J + 2))
-          IF (IPRT /= IPRT0) THEN 
+          IF (IPRT /= IPRT0) THEN
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(A)') DELIMIT
               WRITE(IUGEO,'(A)')'/INISHE/FAIL'
               WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
               WRITE(IUGEO,'(A)')
      .'#  SHELLID      NLAY       NPG      NPTT      ILAY     IRUPT IRUPT_TYP     NUVAR      IMAT'
               WRITE(IUGEO,'(A/A/A)')
@@ -243,19 +243,19 @@ C         retrouve l'adresse dans WAP0
      .'#    UVAR(1,I) .............                         ',
      .'#    ...............              UVAR(NUVAR,I)      '
               WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
               WRITE(IUGEO,'(A)') DELIMIT
             ELSE
               WRITE(LINE,'(A)') DELIMIT
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')'/INISHE/FAIL'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
-              CALL STRS_TXT50(LINE,100) 
+     .'#------------------------ REPEAT --------------------------'
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'#  SHELLID      NLAY       NPG      NPTT      ILAY     IRUPT IRUPT_TYP     NUVAR      IMAT'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'# REPEAT K=1,NPG                                           '
               CALL STRS_TXT50(LINE,100)
@@ -266,28 +266,28 @@ C         retrouve l'adresse dans WAP0
      .'#    ...............              UVAR(NUVAR,I)            '
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
-              CALL STRS_TXT50(LINE,100) 
+     .'#---------------------- END REPEAT ------------------------'
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)') DELIMIT
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
             ENDIF  ! IF (IZIPSTRS == 0)
             IPRT0=IPRT
           ENDIF  ! IF (IPRT /= IPRT0)
 c
-          ID     = NINT(WAP0(J+3)) 
-          NLAY   = NINT(WAP0(J+4)) 
-cc            NPTT   = NINT(WAP0(J+5))                               
-          NPTG   = NINT(WAP0(J+5)) 
+          ID     = NINT(WAP0(J+3))
+          NLAY   = NINT(WAP0(J+4))
+cc            NPTT   = NINT(WAP0(J+5))
+          NPTG   = NINT(WAP0(J+5))
           J = J + 5
 c
-          DO IL=1,NLAY                  
+          DO IL=1,NLAY
             IC = NINT(WAP0(J+1))
-            J = J + 1                    
+            J = J + 1
             IMAT = NINT(WAP0(J+1))
-            J = J + 1   
+            J = J + 1
             NPTT = NINT(WAP0(J+1))
             J = J + 1
-            DO II=1,IC 
+            DO II=1,IC
               NVAR_RUPT = NINT(WAP0(J+1))
               J = J + 1
               IRUPT = NINT(WAP0(J+1))
@@ -306,15 +306,15 @@ c
                 CALL STRS_TXT50(LINE,100)
               ENDIF
               IF (IRUPT /= 0 .AND. NVAR_RUPT /= 0) THEN
-                IF (IZIPSTRS == 0) THEN      
-                  DO IT=1,NPTT  
+                IF (IZIPSTRS == 0) THEN
+                  DO IT=1,NPTT
                     DO IPG=1,NPTG
                       WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + L),L=1,NVAR_RUPT)
                        J = J + NVAR_RUPT
                     ENDDO
                   ENDDO
-                ELSE      
-                  DO IT=1,NPTT  
+                ELSE
+                  DO IT=1,NPTT
                     DO IPG=1,NPTG
                       CALL TAB_STRS_TXT50(WAP0(1),NVAR_RUPT,J,SIZP0,3)
                       J = J + NVAR_RUPT
@@ -349,9 +349,9 @@ c            PID(I) = IXTG(6,I)
 c          ENDDO
 C
           GBUF => ELBUF_TAB(NG)%GBUF
-          NLAY = ELBUF_TAB(NG)%NLAY                   
-          NPTR = ELBUF_TAB(NG)%NPTR                        
-          NPTS = ELBUF_TAB(NG)%NPTS                        
+          NLAY = ELBUF_TAB(NG)%NLAY
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
 c          NPTT = ELBUF_TAB(NG)%NPTT
 c          NPT  = NPTT * NLAY
           NPG  = NPTR*NPTS
@@ -382,22 +382,22 @@ cc           WA(JJ) = NPTT
             WA(JJ) = NPG
 c
             DO IL = 1,NLAY
-              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			       
+              NFAIL = ELBUF_TAB(NG)%BUFLY(IL)%NFAIL			
               IMAT = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
-              FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)   
+              FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(1,1,1)
               NPTT = ELBUF_TAB(NG)%BUFLY(IL)%NPTT
               JJ = JJ + 1
               WA(JJ) = NFAIL
-              JJ = JJ + 1  
-              IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT                            
-              WA(JJ) = IPM(1,IMAT)  
               JJ = JJ + 1
-              WA(JJ) = NPTT 
+              IMAT  = ELBUF_TAB(NG)%BUFLY(IL)%IMAT
+              WA(JJ) = IPM(1,IMAT)
+              JJ = JJ + 1
+              WA(JJ) = NPTT
 c
-              DO IFAIL = 1,NFAIL 
+              DO IFAIL = 1,NFAIL
            	IRUPT = IPM(236+IFAIL,IMAT)
-           	IRUPT_TYPE = IPM(241+IFAIL,IMAT)			   
-           	NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR			 
+           	IRUPT_TYPE = IPM(241+IFAIL,IMAT)			
+           	NVAR_RUPT  = FBUF%FLOC(IFAIL)%NVAR			
            	JJ = JJ + 1
            	WA(JJ) = NVAR_RUPT + 1
            	JJ = JJ + 1
@@ -407,12 +407,12 @@ c
 !
                 IF (IRUPT == 0) CYCLE
 !
-                DO IT = 1,NPTT 		     
-           	  DO IS=1,NPTS					       
-           	    DO IR=1,NPTR 		     
-                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				       
-           	      UVARF => FBUF%FLOC(IFAIL)%VAR  
-                      DFMAX => FBUF%FLOC(IFAIL)%DAMMX   
+                DO IT = 1,NPTT 		
+           	  DO IS=1,NPTS					
+           	    DO IR=1,NPTR 		
+                      FBUF => ELBUF_TAB(NG)%BUFLY(IL)%FAIL(IR,IS,IT)				
+           	      UVARF => FBUF%FLOC(IFAIL)%VAR
+                      DFMAX => FBUF%FLOC(IFAIL)%DAMMX
                       JJ = JJ + 1
                       WA(JJ) = DFMAX(I)
            	      DO NV=1,NVAR_RUPT
@@ -424,7 +424,7 @@ c
            	ENDDO    ! IT = 1,NPTT
               ENDDO  ! IFAIL = 1,NFAIL
             ENDDO      ! IL = 1,NLAY
-c                                                          
+c
             IE=IE+1
 C       pointeur de fin de zone
             PTWA(IE)=JJ
@@ -463,12 +463,12 @@ C         retrouve le nieme elt dans l'ordre d'id croissant
 C         retrouve l'adresse dans WAP0
           J=PTWA_P0(K-1)
           IPRT = NINT(WAP0(J + 2))
-          IF (IPRT /= IPRT0) THEN 
+          IF (IPRT /= IPRT0) THEN
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(A)') DELIMIT
               WRITE(IUGEO,'(A)')'/INISH3/FAIL'
               WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
               WRITE(IUGEO,'(A)')
      .'#  SHELLID      NLAY       NPG     NPTT      ILAY     IRUPT IRUPT_TYP     NUVAR      IMAT'
               WRITE(IUGEO,'(A/A/A)')
@@ -476,19 +476,19 @@ C         retrouve l'adresse dans WAP0
      .'#    UVAR(1,I) .............                         ',
      .'#    ...............              UVAR(NUVAR,I)      '
               WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
               WRITE(IUGEO,'(A)') DELIMIT
             ELSE
               WRITE(LINE,'(A)') DELIMIT
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')'/INISH3/FAIL'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
-              CALL STRS_TXT50(LINE,100) 
+     .'#------------------------ REPEAT --------------------------'
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'#  SHELLID      NLAY       NPG      NPTT      ILAY     IRUPT IRUPT_TYP     NUVAR      IMAT'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'# REPEAT K=1,NPG                                           '
               CALL STRS_TXT50(LINE,100)
@@ -499,28 +499,28 @@ C         retrouve l'adresse dans WAP0
      .'#    ...............              UVAR(NUVAR,I)            '
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
-              CALL STRS_TXT50(LINE,100) 
+     .'#---------------------- END REPEAT ------------------------'
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)') DELIMIT
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
             ENDIF  !  IF (IZIPSTRS == 0)
             IPRT0=IPRT
           ENDIF  !  IF (IPRT /= IPRT0)
 c
-          ID     = NINT(WAP0(J+3)) 
-          NLAY   = NINT(WAP0(J+4)) 
-cc            NPTT   = NINT(WAP0(J+5))                               
-          NPTG   = NINT(WAP0(J+5)) 
+          ID     = NINT(WAP0(J+3))
+          NLAY   = NINT(WAP0(J+4))
+cc            NPTT   = NINT(WAP0(J+5))
+          NPTG   = NINT(WAP0(J+5))
           J = J + 5
 c
-          DO IL=1,NLAY                 
+          DO IL=1,NLAY
             IC = NINT(WAP0(J+1))
-            J = J + 1                    
+            J = J + 1
             IMAT = NINT(WAP0(J+1))
-            J = J + 1   
+            J = J + 1
             NPTT = NINT(WAP0(J+1))
             J = J + 1
-            DO II=1,IC 
+            DO II=1,IC
               NVAR_RUPT = NINT(WAP0(J+1))
               J = J + 1
               IRUPT = NINT(WAP0(J+1))
@@ -537,24 +537,24 @@ c
                 WRITE(LINE,'(9I10)') ID,NLAY,NPTG,NPTT,IL,IRUPT,IRUPT_TYPE,NVAR_RUPT,
      .                               IMAT
                 CALL STRS_TXT50(LINE,100)
-              ENDIF  
+              ENDIF
               IF (IRUPT /= 0 .AND. NVAR_RUPT /= 0) THEN
-                IF (IZIPSTRS == 0) THEN        
-                  DO IT=1,NPTT 
+                IF (IZIPSTRS == 0) THEN
+                  DO IT=1,NPTT
                     DO IPG=1,NPTG
                       WRITE(IUGEO,'(1P3E20.13)')(WAP0(J + L),L=1,NVAR_RUPT)
                        J = J + NVAR_RUPT
                      ENDDO
                   ENDDO
-                ELSE        
-                  DO IT=1,NPTT 
+                ELSE
+                  DO IT=1,NPTT
                     DO IPG=1,NPTG
                       CALL TAB_STRS_TXT50(WAP0(1),NVAR_RUPT,J,SIZP0,3)
                       J = J + NVAR_RUPT
                     ENDDO
                   ENDDO
                 ENDIF
-              ENDIF  !  IF (IRUPT /= 0 .AND. NVAR_RUPT /= 0) 
+              ENDIF  !  IF (IRUPT /= 0 .AND. NVAR_RUPT /= 0)
             ENDDO  !  DO II=1,IC
           ENDDO  !  DO IL=1,NLAY
         ENDDO  !  DO N=1,STAT_NUMELTG_G

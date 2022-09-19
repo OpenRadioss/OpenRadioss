@@ -66,7 +66,7 @@ C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUVAR, IPLA, NGL(NEL), MAT(NEL),ISRATE,
      .        IPM(NPROPMI,*)
-      my_real 
+      my_real
      .   TIME,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THK0(NEL),PLA(NEL),
@@ -140,7 +140,7 @@ C-----------------------------------------------
      .        EPSF
 C
       DATA NMAX/2/
-        TOL = EM4     
+        TOL = EM4
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -163,7 +163,7 @@ C       R=0.833333333333
        A1  = UPARAM(IADBUFV+3)
        A2  = UPARAM(IADBUFV+4)
        G   = UPARAM(IADBUFV+5)
-       G3  = THREE*G      
+       G3  = THREE*G
        NU  = UPARAM(IADBUFV+6)
        NRATE = NINT(UPARAM(IADBUFV+1))
        NRATEM = MAX(NRATEM,NRATE)
@@ -172,8 +172,8 @@ C       R=0.833333333333
        IF(EPSR1==ZERO)EPSR1=EP30
        EPSR2 =UPARAM(IADBUFV+6+2*NRATE+3)
        IF(EPSR2==ZERO)EPSR2=TWOEP30
-       EPSF = UPARAM(IADBUFV+6+2*NRATE+9) 
-       NNU1 = NU / (ONE - NU) 
+       EPSF = UPARAM(IADBUFV+6+2*NRATE+9)
+       NNU1 = NU / (ONE - NU)
        DO I=1,NEL
            C1=THK0(I)*ONE_OVER_12
            AM1(I)  = A1*C1
@@ -209,7 +209,7 @@ C
        IF(TIME==ZERO)THEN
         DO I=1,NEL
          UVAR(I,1)=ZERO
-         UVAR(I,2)=ZERO 
+         UVAR(I,2)=ZERO
          DO J=1,NRATE
            UVAR(I,J+2)=ZERO
          ENDDO
@@ -315,7 +315,7 @@ C---------------------------
       DO  I=1,NEL
        MS=MOMNXX(I)+MOMNYY(I)
        FS=SIGNXX(I)+SIGNYY(I)
-       SVM(I) = SIXTEEN*(MS*MS +THREE*(MOMNXY(I)*MOMNXY(I) 
+       SVM(I) = SIXTEEN*(MS*MS +THREE*(MOMNXY(I)*MOMNXY(I)
      .                                    - MOMNXX(I)*MOMNYY(I)))
      .          + FS*FS+ THREE*(SIGNXY(I)*SIGNXY(I)-SIGNXX(I)*SIGNYY(I))
        SVM(I) = SQRT(MAX(SVM(I),EM20))
@@ -367,7 +367,7 @@ C     GAMA (L'INVERSE DE GAMA DANS LA FORMULE) A ETE PRIS A 2/3 PAR DEFAUT
 C-------------------------------------------------------------------------
        C1 = PLA(I)*E
        GAMA(I) = THREE_HALF*(C1+YLD(I))/(THREE_HALF*C1+YLD(I))
-       GAMA2(I) = GAMA(I)*GAMA(I)    
+       GAMA2(I) = GAMA(I)*GAMA(I)
        CM(I) = SIXTEEN*GAMA2(I)
          CNM(I) = SQR16_3*GAMA(I)
        QTIER(I) = FOUR_OVER_3*GAMA2(I)
@@ -376,11 +376,11 @@ C-------------------------------------------------------------------------
        S2(I) = (SIGNXX(I)-SIGNYY(I))*HALF
        S3 = SIGNXY(I)
        SM1(I) = (MOMNXX(I)+MOMNYY(I))*HALF
-       SM2(I) = (MOMNXX(I)-MOMNYY(I))*HALF    
+       SM2(I) = (MOMNXX(I)-MOMNYY(I))*HALF
        SM3 = MOMNXY(I)
        AN(I) = S1(I)*S1(I)
        BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
-       NVM(I) = AN(I)+BN(I)  
+       NVM(I) = AN(I)+BN(I)
        AM(I) = SM1(I)*SM1(I)*CM(I)
        BM(I) =THREE*(SM2(I)*SM2(I)+SM3*SM3)*CM(I)
        MVM(I) = AM(I)+BM(I)
@@ -459,7 +459,7 @@ C-------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         F    =FN+FM+FNM-YLD_I*YLD_I
         C1=NU1(I)*AA*A_I
         CP1=C1*A
@@ -516,7 +516,7 @@ C------------------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         PN=(ONE+QTIER(I)*XP)*A_I
         P_M=(ONE+XP)*A_I
         PNM1=-SQR4_3*GAMA(I)*S*XP*A_I
@@ -571,7 +571,7 @@ C-------------------------------------------------------------------------
        GAMA(I) = TWO/(THREE-CCC)
        GAMA2(I) = GAMA(I)*GAMA(I)
        CM(I) = THIRTY6*GAMA2(I)
-       CNM(I) = THREEP4641*GAMA(I)  
+       CNM(I) = THREEP4641*GAMA(I)
        QTIER(I) = THREE*GAMA2(I)
        H(I) = MAX(ZERO,H(I))
        S1(I) = (SIGNXX(I)+SIGNYY(I))*HALF
@@ -582,7 +582,7 @@ C-------------------------------------------------------------------------
        SM3 = MOMNXY(I)
        AN(I) = S1(I)*S1(I)
        BN(I) = THREE*(S2(I)*S2(I)+S3*S3)
-       NVM(I) = AN(I)+BN(I)  
+       NVM(I) = AN(I)+BN(I)
        AM(I) = SM1(I)*SM1(I)*CM(I)
        BM(I) = THREE*(SM2(I)*SM2(I)+SM3*SM3)*CM(I)
        MVM(I) = AM(I)+BM(I)
@@ -660,7 +660,7 @@ C-------------------------------
          S=-ONE
         ELSE
          S=ONE
-        ENDIF 
+        ENDIF
         CP1 =(FNP*AN(I)+S*FNMP*ANM(I)+FMP*AM(I))*AA
         CQ1 =(FNQ*BN(I)+S*FNMQ*BNM(I)+FMQ*BM(I))*BB
         CP2 =(DFNP*AN(I)+S*DFNMP*ANM(I)+DFMP*AM(I))*AA
@@ -709,7 +709,7 @@ C------------------------------------------
          S=-ONEP732*GAMA(I)
         ELSE
          S=ONEP732*GAMA(I)
-        ENDIF 
+        ENDIF
         QN=ONE+QTIER(I)*XQ
         QNM1=XQ*S
         QNM2=QNM1*ONE_OVER_12

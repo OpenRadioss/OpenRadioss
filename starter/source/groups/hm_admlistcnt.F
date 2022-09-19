@@ -84,8 +84,8 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C-----------------------------------------------
 C CONSTITUTION DE LIST
 C-----------------------------------------------
@@ -99,7 +99,7 @@ C-----------------------------------------------
           ENDIF
       ENDDO! NEXT II
       IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
-                      
+
 C-----------------------
 C TRI DE LIST EN ORDRE CROISSANT
 C AVEC SUPPRESSION DES No DOUBLES
@@ -176,4 +176,4 @@ C
       NEL=LELT
 C-----------------------
       RETURN
-      END     
+      END

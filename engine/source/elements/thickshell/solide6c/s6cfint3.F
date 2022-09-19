@@ -30,9 +30,9 @@ Chd|====================================================================
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H, 
+     .   PX1H, PX2H, PX3H,
+     .   PY1H, PY2H, PY3H,
+     .   PZ1H, PZ2H, PZ3H,
      .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
@@ -64,12 +64,12 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SIG(NEL,6),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H(*), PX2H(*), PX3H(*),   
-     .   PY1H(*), PY2H(*), PY3H(*),  
-     .   PZ1H(*), PZ2H(*), PZ3H(*),   
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H(*), PX2H(*), PX3H(*),
+     .   PY1H(*), PY2H(*), PY3H(*),
+     .   PZ1H(*), PZ2H(*), PZ3H(*),
      .   JI33(*),B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
      .   B1XH(MVSIZ,2),B1YH(MVSIZ,2),B2XH(MVSIZ,2),B2YH(MVSIZ,2),
      .   B1122(*),B1221(*),B2212(*),B1121(*),
@@ -91,7 +91,7 @@ C     REAL
      .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
      .   RX1(MVSIZ), RY1(MVSIZ), SX1(MVSIZ), SY1(MVSIZ),
      .   FINT,FINTX,FINTY,FINTZ,FAC(MVSIZ),FXC,FYC,FINSX,FINSY
-      my_real 
+      my_real
      .  NU1,FINSZ
 C=======================================================================
       DO I=LFT,LLT
@@ -251,8 +251,8 @@ Chd|        S6CFORC3                      source/elements/thickshell/solide6c/s6
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S6CZERO3(
-     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4, 
-     .   FX5, FY5, FZ5, FX6, FY6, FZ6, 
+     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4,
+     .   FX5, FY5, FZ5, FX6, FY6, FZ6,
      .   SIGM,EINTM,RHOM,QM,EPLASM,EPSDM,G_PLA,G_EPSD,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -273,9 +273,9 @@ C-----------------------------------------------
       INTEGER  G_PLA,G_EPSD,NEL
 C     REAL
       my_real
-     .   FX1(*), FX2(*), FX3(*), FX4(*), FX5(*), FX6(*), 
+     .   FX1(*), FX2(*), FX3(*), FX4(*), FX5(*), FX6(*),
      .   FY1(*), FY2(*), FY3(*), FY4(*), FY5(*), FY6(*),
-     .   FZ1(*), FZ2(*), FZ3(*), FZ4(*), FZ5(*), FZ6(*), 
+     .   FZ1(*), FZ2(*), FZ3(*), FZ4(*), FZ5(*), FZ6(*),
      .   EINTM(*),RHOM(*),QM(*),EPSDM(*),EPLASM(*),SIGM(NEL,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -283,15 +283,15 @@ C-----------------------------------------------
       INTEGER  I
 C=======================================================================
       DO I=LFT,LLT
-        SIGM(I,1) = ZERO  
-        SIGM(I,2) = ZERO  
-        SIGM(I,3) = ZERO  
-        SIGM(I,4) = ZERO  
-        SIGM(I,5) = ZERO  
-        SIGM(I,6) = ZERO  
-        RHOM(I)   = ZERO  
-        EINTM(I)  = ZERO  
-        QM(I)     = ZERO	  
+        SIGM(I,1) = ZERO
+        SIGM(I,2) = ZERO
+        SIGM(I,3) = ZERO
+        SIGM(I,4) = ZERO
+        SIGM(I,5) = ZERO
+        SIGM(I,6) = ZERO
+        RHOM(I)   = ZERO
+        EINTM(I)  = ZERO
+        QM(I)     = ZERO	
       ENDDO
       IF (G_EPSD > 0) THEN
         DO I=LFT,LLT
@@ -321,7 +321,7 @@ C=======================================================================
        FZ5(I)=ZERO
        FX6(I)=ZERO
        FY6(I)=ZERO
-       FZ6(I)=ZERO      
+       FZ6(I)=ZERO
       ENDDO
 C-----------
       RETURN

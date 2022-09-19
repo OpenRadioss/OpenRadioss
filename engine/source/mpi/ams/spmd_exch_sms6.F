@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODNX_SMS(*), IAD_ELEM(2,*), FR_ELEM(*), SIZE, LENR
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .        V(6,SIZE,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s

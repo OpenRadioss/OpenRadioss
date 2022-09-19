@@ -62,7 +62,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE MULTI_FVM_MOD
       USE DETONATORS_MOD
@@ -101,12 +101,12 @@ C-----------------------------------------------
      .     IPARG_GR(NPARG),IPARTS(*),IGEO(NPROPGI,*),
      .     IPM(NPROPMI,*),IPART(LIPART1,*),PTSOL(*),
      .     NG,NDDIM, NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
-     .     STRSGLOB(*),STRAGLOB(*),FAIL_INI(*), 
+     .     STRSGLOB(*),STRAGLOB(*),FAIL_INI(*),
      .     KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*)
       my_real
      .     MAS(*), PM(NPROPM,*), X(3,*), GEO(NPROPG,*),
      .     DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
-     .     PARTSAV(20,*), V(3, *), MSS(8,*), 
+     .     PARTSAV(20,*), V(3, *), MSS(8,*),
      .     SIGSP(NSIGI,*),MSNF(*), MSSF(8,*), WMA(*),
      .     VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),
      .     IN(*),VR(*), INS(8,*),BUFMAT(*),
@@ -161,12 +161,12 @@ C-----------------------------------------------
      .     TITR1
       PARAMETER (LVLOC = 51)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       my_real,
-     .     DIMENSION(:), POINTER  :: UVARF   
+     .     DIMENSION(:), POINTER  :: UVARF
       INTEGER :: NODE1, NODE2, NODE3, NODE4, NODE5, NODE6, NODE7, NODE8
 C-----------------------------------------------
 C     S o u r c e  L i n e s
@@ -246,7 +246,7 @@ C Orthotropy wrt reference geometry
 C     
 C     Orthotropy
       IF (ISORTH == 1)
-     .     CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  , 
+     .     CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  ,
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .     E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
@@ -267,12 +267,12 @@ C-----------
       CALL SDLEN3(
      .     X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .     Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
-     .     Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, 
+     .     Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8,
      .     DELTAX, VOLU)
 
       GBUF%RHO(:) = ZERO
       PM(104,IXS(1, 1 + NFT)) = ZERO  !global pressure
-      
+
       DO ILAY = 1, NLAY
          LBUF  => ELBUF_STR%BUFLY(ILAY)%LBUF(1,1,1)
          MBUF  => ELBUF_STR%BUFLY(ILAY)%MAT(1,1,1)
@@ -295,7 +295,7 @@ C     Fill partial volumes
      6        IPT      ,NGL    ,NPF       ,TF        ,BUFMAT ,
      7        GBUF     ,LBUF   ,MBUF      ,ELBUF_STR ,ILOADP ,
      8        FACLOAD, DELTAX)
-     
+
          VFRAC = PM(20+ILAY,IXS(1, 1 + NFT))
          PRES  = PM(104, IPM(20+ILAY,IXS(1, 1 + NFT)))
          PM(104,IXS(1, 1 + NFT)) = PM(104,IXS(1, 1 + NFT)) + VFRAC * PRES !global pressure
@@ -305,7 +305,7 @@ C     Fill partial volumes
 ! JWL material
             IF (.NOT. ERROR_THROWN) THEN
                IF (PM(44, MAT(1)) == ZERO) THEN
-                  CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO, 
+                  CALL ANCMSG(MSGID = 1623, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .                 I1 = IPM(1, IXS(1, 1 + NFT)), I2 = IPM(1, MAT(1)))
                ENDIF
                ERROR_THROWN = .TRUE.
@@ -337,7 +337,7 @@ C      Temperature globalization. We must solve later T such as e+p/rho=integral
             DO I = LFT, LLT
                GBUF%TEMP(I) = GBUF%TEMP(I) + LBUF%TEMP(I) * PM(20 + ILAY, IXS(1, I + NFT))*LBUF%RHO(I)/GBUF%RHO(I)   !volfrac*densfrac=massfrac
             ENDDO
-         ENDDO           
+         ENDDO
 
       ENDIF
 C----------------------------------------
@@ -355,7 +355,7 @@ C----------------------------------------
      .        IPARTS(NF1),MSS(1,NF1) ,VOLU       ,
      .        MSNF       ,MSSF(1,NF1),IN         ,
      .        VR         ,INS(1,NF1) ,WMA        ,RHOCP      ,MCP      ,
-     .        MCPS(1,NF1),MSSA       ,RHOF       ,ALPHA      ,GBUF%FILL, 
+     .        MCPS(1,NF1),MSSA       ,RHOF       ,ALPHA      ,GBUF%FILL,
      .        IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
       ENDIF
 C------------------------------------------

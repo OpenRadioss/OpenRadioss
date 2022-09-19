@@ -65,7 +65,7 @@ C-----------------------------------------------
       INTEGER NRT, NINT, NSN, NOINT, NTY
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*), IXS10(*), IXS16(*), IXS20(*),
      .   IGEO(*), IWORKSH(*)
       my_real

@@ -37,7 +37,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
       SUBROUTINE CMATC3(JFT    ,JLT     ,PM     ,MAT     ,GEO      ,
-     1                  PID    ,AREA    ,THK0   ,THK02   ,THK      , 
+     1                  PID    ,AREA    ,THK0   ,THK02   ,THK      ,
      2                  THKE   ,VOLG    ,MTN    ,NPT     ,ITHK     ,
      3                  HM     ,HF      ,HC     ,HZ      ,IGTYP    ,
      4                  IORTH  ,HMOR    ,HFOR   ,DIR     ,IGEO     ,
@@ -95,7 +95,7 @@ c  I   PID(NEL)          - Pid
 c  I   IGTYP,IORTH       - Geo. property type
 c  I   VOLG,AREA         - element volume,AREA (total)
 c  O   THK0,THK02        - element thickness  and thickness^2
-c  I   THK ,THKE         - element updated and initial thickness  
+c  I   THK ,THKE         - element updated and initial thickness
 c  I   NPT,ITHK          - num. integrating point in thickness,updated thickness flag
 c  I   DIR               - orthotropic directions
 c  O   IORTH             - flag for orthopic material (full matrix)
@@ -108,7 +108,7 @@ c  O   HZ(NEL)           -drilling dof modulus
 c  I   IDRIL             - flag of using drilling dof
 c  O   HMOR(2,NEL)       - suppermentary membrane modulus for orthotropic (D13,D23)
 c  O   HFOR(2,NEL)       - suppermentary bending modulus for orthotropic (D13,D23)
-c  O   HMFOR(6,NEL)      - suppermentary membrane-bending coupling modulus for orthotropic 
+c  O   HMFOR(6,NEL)      - suppermentary membrane-bending coupling modulus for orthotropic
 c                          (1:D11,2:D22,3:D12,4:G,5:D13,6:D23)
 c  O   GS(NEL)           - out of plane shear isotropic shear modulus (for QEPH hourglass part)
 C-----------------------------------------------
@@ -143,11 +143,11 @@ C      IF (IHBE>=21.AND.IHBE<=29) COEF =EM03
           VOLG(I) = THK0(I)*AREA(I)
           IPID=PID(I)
           MX = PID(I)
-          YM(I)  = GEO(IPGMAT +2 ,MX) 
+          YM(I)  = GEO(IPGMAT +2 ,MX)
           NU(I)  = GEO(IPGMAT +3 ,MX)
-          G(I)   = GEO(IPGMAT +4 ,MX) 
+          G(I)   = GEO(IPGMAT +4 ,MX)
           A11(I) = GEO(IPGMAT +5 ,MX)
-          A12(I) = GEO(IPGMAT +6 ,MX) 
+          A12(I) = GEO(IPGMAT +6 ,MX)
         ENDDO
       ELSE
 C
@@ -231,11 +231,11 @@ C----this will do only for QEPH and change also in CNCOEF!!!look at starter firs
         ELSEIF(IGTYP == 10.OR.IGTYP == 11.OR.IGTYP == 17.OR.
      .         IGTYP==51 .OR. IGTYP == 52)THEN
 C         INTEGRATION PAR COUCHES
-          CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,  
-     .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,  
-     .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,  
+          CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,
+     .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,
+     .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,
      .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THK     ,
-     .                NEL      ,THK_LY   )                               
+     .                NEL      ,THK_LY   )
          DO I=JFT,JLT
            HM(I,1)=ZERO
            HM(I,2)=ZERO
@@ -276,7 +276,7 @@ C         INTEGRATION PAR COUCHES
            HFOR(I,1)=HFOR(I,1)+WMC*HMORLY(I,1)
            HFOR(I,2)=HFOR(I,2)+WMC*HMORLY(I,2)
           ENDDO
-         ENDDO 
+         ENDDO
         ELSE
          DO J=1,NPT
           J2=1+(J-1)*JLT
@@ -308,7 +308,7 @@ C         INTEGRATION PAR COUCHES
            HMFOR(I,5)=HMFOR(I,5)+WM*HMORLY(I,1)
            HMFOR(I,6)=HMFOR(I,6)+WM*HMORLY(I,2)
           ENDDO
-         ENDDO 
+         ENDDO
         END IF !(IGTYP==10)
          DO I=JFT,JLT
           HZ(I)= MAX(HF(I,1),HF(I,2),HF(I,4))*KZ_TOL
@@ -318,11 +318,11 @@ C         INTEGRATION PAR COUCHES
       ELSE
 C-----by layer
        IF (MTN == 27) THEN
-          CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,  
-     .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,  
-     .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,  
-     .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THK     ,                               
-     .                JLT      ,THK_LY   )                               
+          CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,
+     .                MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,
+     .                IGTYP    ,0        ,0        ,NLAY     ,NPT     ,
+     .                ISUBSTACK,STACK    ,DRAPE   ,NFT       ,THK     ,
+     .                JLT      ,THK_LY   )
          DO I=JFT,JLT
           HM(I,1)=A11(I)
           HM(I,2)=A11(I)
@@ -624,7 +624,7 @@ c  O   HF(4,NEL)         - bending stiffness modulus (plane stress) same than HM
 c                        -HF=integration(t^2*HM) explicitly of thickness
 c  O   HMOR(2,NEL)       - suppermentary membrane modulus for orthotropic (D13,D23)
 c  O   HFOR(2,NEL)       - suppermentary bending modulus for orthotropic (D13,D23)
-c  O   HMFOR(6,NEL)      - suppermentary membrane-bending coupling modulus for orthotropic 
+c  O   HMFOR(6,NEL)      - suppermentary membrane-bending coupling modulus for orthotropic
 c                          (1:C11,2:C22,3:C12,4:G,5:C13,6:C23)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -887,11 +887,11 @@ C------elastic for the moment
       IF(IGTYP == 11 .AND. IGMAT > 0) THEN
         DO I=JFT,JLT
           MX = PID(I)
-          YM(I)  = GEO(IPGMAT +2 ,MX) 
+          YM(I)  = GEO(IPGMAT +2 ,MX)
           NU(I)  = GEO(IPGMAT +3 ,MX)
-          G(I)   = GEO(IPGMAT +4 ,MX) 
+          G(I)   = GEO(IPGMAT +4 ,MX)
           A11(I) = GEO(IPGMAT +5 ,MX)
-          A12(I) = GEO(IPGMAT +6 ,MX) 
+          A12(I) = GEO(IPGMAT +6 ,MX)
         ENDDO
       ELSE
 C
@@ -965,7 +965,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLAT(*),IDRIL,IORTH
-      MY_REAL 
+      MY_REAL
      .   VOL(*),THK0(*),THK2(*),
      .    HM(4,*),HF(4,*),HZ(*),HC(2,*),HMOR(2,*),HFOR(2,*),
      .    HMFOR(6,*),DM(2,2,*),DF(2,2,*),DHZ(*)   ,
@@ -982,7 +982,7 @@ C     REAL
 C-----------------------------------------------
 #include "vectorize.inc"
 C-----------------------
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         C1=THK2(EP)*C2
@@ -1000,7 +1000,7 @@ C-----------------------
        ENDDO
 C       
        IF (IDRIL>0) THEN
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
          C2=VOL(EP)
          DHZ(M)=HZ(EP)*FOURTH*C2
@@ -1008,7 +1008,7 @@ C
        END IF
 C       
        IF (IORTH >0 ) THEN
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	     C2=VOL(EP)
          C1=THK2(EP)*C2
@@ -1017,7 +1017,7 @@ C
          DFOR(1,M)=HFOR(1,EP)*C1
          DFOR(2,M)=HFOR(2,EP)*C1
         ENDDO
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	     C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(1,EP)*C2

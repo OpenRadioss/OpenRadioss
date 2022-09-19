@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_UPDATE_PARTIAL(LOCAL_MATID, PM, IMAT, NG, ELBUF_TAB, 
+      SUBROUTINE MULTI_UPDATE_PARTIAL(LOCAL_MATID, PM, IMAT, NG, ELBUF_TAB,
      .     IPARG, ITASK, MULTI_FVM, VOLNEW)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C     Mass
          TMP2 = MULTI_FVM%PHASE_RHO(IMAT, I)
 C     Mass * e specifique
          TMP3 = MULTI_FVM%PHASE_EINT(IMAT, I)
-         
+
 C     Filtrage
          IF (TMP4 / GBUF%VOL(II) < EM08) THEN
             MULTI_FVM%PHASE_ALPHA(IMAT, I) = ZERO

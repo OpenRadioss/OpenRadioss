@@ -38,7 +38,7 @@ Chd|====================================================================
      7      IGAP   ,GAP_S_L ,GAP_M_L,EDGE_L2 ,LEDGMAX ,
      8      IREMNODE,FLAGREMNODE,KREMNODE,REMNODE,INACTI,
      9      IPARTS  ,NPARTNS ,LPARTNS ,IELEM ,ICODE   ,
-     A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  , 
+     A      ISKEW   ,DRAD, IS_LARGE_NODE, LARGE_NODE  ,
      B      NB_LARGE_NODES,PEN_OLD      , DGAPLOAD)
 C============================================================================
 C   M o d u l e s
@@ -53,7 +53,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -111,7 +111,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
-     .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),PEN_OLD(5,NSN) 
+     .   GAP_S_L(*),GAP_M_L(*), EDGE_L2(*),PEN_OLD(5,NSN)
       my_real
      .   LEDGMAX, MARGE, BGAPSMX
       my_real , INTENT(IN) :: DRAD, DGAPLOAD
@@ -131,7 +131,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, 
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4,
      .   D1X,D1Y,D1Z,D2X,D2Y,D2Z,DD1,DD2,D2,A2,GS
 C
@@ -152,7 +152,7 @@ C-----------------------------------------------
 C
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
-      XMIN = XYZM(1)  
+      XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
       XMAX = XYZM(4)
@@ -184,7 +184,7 @@ C elements du processeur
         IF(X(2,J) > YMAX)  CYCLE
         IF(X(3,J) < ZMIN)  CYCLE
         IF(X(3,J) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
@@ -225,8 +225,8 @@ C-----------------------------------------------
 
       DO NE=1,NRTM
 c
-c     il est possible d'ameliorer l'algo en decoupant la facette 
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+c     il est possible d'ameliorer l'algo en decoupant la facette
+c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -246,7 +246,7 @@ c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
           AAA = MAX(MARGE+MAX(BGAPSMX+GAP_M(NE)+DGAPLOAD,DRAD),LEDGMAX+BGAPSMX+GAP_M(NE)+DGAPLOAD)
          ELSE
           AAA = MARGE+MAX(BGAPSMX+GAP_M(NE)+DGAPLOAD,DRAD)
-         END IF 
+         END IF
 
 
          XX1=X(1,M1)
@@ -299,15 +299,15 @@ c        indice des voxels occupes par la facette
          IF (MSEGTYP(NE)==0 .OR. MSEGTYP(NE)>NRTM)THEN
 C Check for "large" nodes separately
 C if the current segment belongs to a solid or a coating shell
-             DO I = 1, NB_LARGE_NODES 
+             DO I = 1, NB_LARGE_NODES
                JJ = LARGE_NODE(I)
-               NN=NSV(JJ)                 
+               NN=NSV(JJ)
                IF(NN == M1)GOTO 400
                IF(NN == M2)GOTO 400
                IF(NN == M3)GOTO 400
                IF(NN == M4)GOTO 400
                IF(TAGNOD(NN) == 1)GOTO 400
-               
+
                XS = X(1,NN)
                YS = X(2,NN)
                ZS = X(3,NN)
@@ -324,7 +324,7 @@ c NO need to communicate in SPMD
                IF(ZS<=ZMINE-AAA)GOTO 400
                IF(ZS>=ZMAXE+AAA)GOTO 400
 
-c               IF(INACTI==5.OR.INACTI==-1)THEN ! Do it for all inacti 
+c               IF(INACTI==5.OR.INACTI==-1)THEN ! Do it for all inacti
                  IEM=IELEM(NE)
                  IF(IEM/=0)THEN
                    IPM=IPARTS(IEM)
@@ -346,7 +346,7 @@ c               END IF
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 400
                ENDIF
@@ -381,13 +381,13 @@ cc             nbpelem = nbpelem + 1
 
 cc             nnpelem = nnpelem + 1
 
-               NN=NSV(JJ)                 
+               NN=NSV(JJ)
                IF(NN == M1)GOTO 300
                IF(NN == M2)GOTO 300
                IF(NN == M3)GOTO 300
                IF(NN == M4)GOTO 300
                IF(TAGNOD(NN) == 1)GOTO 300
-               
+
                XS = X(1,NN)
                YS = X(2,NN)
                ZS = X(3,NN)
@@ -402,7 +402,7 @@ c NO need to communicate in SPMD
                 AAA = MAX(MARGE+MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD),EDGE_L2(JJ)+GAP_S(JJ)+GAP_M(NE)+DGAPLOAD)
                ELSE
                 AAA = MARGE+MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
-               END IF 
+               END IF
 
                IF(XS<=XMINE-AAA)GOTO 300
                IF(XS>=XMAXE+AAA)GOTO 300
@@ -411,7 +411,7 @@ c NO need to communicate in SPMD
                IF(ZS<=ZMINE-AAA)GOTO 300
                IF(ZS>=ZMAXE+AAA)GOTO 300
 
-c               IF(INACTI==5.OR.INACTI==-1)THEN Do it for all inacti 
+c               IF(INACTI==5.OR.INACTI==-1)THEN Do it for all inacti
                  IEM=IELEM(NE)
                  IF(IEM/=0)THEN
                    IPM=IPARTS(IEM)
@@ -429,7 +429,7 @@ C------- exclude wrong normal dir PEN_OLD(1-3): normal of nn
                  NSNM = SX*PEN_OLD(1,JJ)+SY*PEN_OLD(2,JJ)
      +                  +SZ*PEN_OLD(3,JJ)
                  IF(NSNM > ZERO)GOTO 300
-               END IF               
+               END IF
 
 
 c    sousestimation de la distance**2 pour elimination de candidats
@@ -445,7 +445,7 @@ cc             nnr0pelem = nnr0pelem + 1
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 300
                ENDIF

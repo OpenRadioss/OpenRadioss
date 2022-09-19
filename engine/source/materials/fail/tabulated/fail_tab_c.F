@@ -178,7 +178,7 @@ C-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
       ITABLE    = IFUNC(1)
-c---- Scale functions       
+c---- Scale functions
       IFUN_EL   = IFUNC(2)
       IFUN_TEMP = IFUNC(3)
 c---- Instability function
@@ -192,13 +192,13 @@ c---------------------------
         PTHKF = ONE - EM06
       ENDIF
 C---------
-      NINDXF  = 0  
-      NINDX   = 0  
+      NINDXF  = 0
+      NINDX   = 0
       NINSTAB = 0
       DO I=1,NEL
         IF (INLOC > 0) UVAR(I,5) = ALDT(I)
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-          NINDX = NINDX+1                                                 
+          NINDX = NINDX+1
           INDX(NINDX) = I
         ENDIF
       ENDDO
@@ -208,17 +208,17 @@ C-------------------------------------------------------------------
 c
 c---  failure strain interpolation
       NDIM = TABLE(ITABLE)%NDIM
-      DO J=1,NINDX                           
-        I = INDX(J)  
-        P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
-        SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
-     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
+      DO J=1,NINDX
+        I = INDX(J)
+        P    = THIRD*(SIGNXX(I) + SIGNYY(I))
+        SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
+     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
         SIGM(I) = P / MAX(EM20,SVM)
       ENDDO
 C----
       IF (NDIM == 3) THEN
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           XXV3(J,1) = SIGM(I)
           XXV3(J,2) = EPSP(I)*X1SCALE
           XXV3(J,3) = ZERO
@@ -227,39 +227,39 @@ C----
           IPOST3(J,3)= 0
         ENDDO
       ELSE IF (NDIM == 2) THEN
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           XXV2(J,1) = SIGM(I)
           XXV2(J,2) = EPSP(I)*X1SCALE
           IPOST2(J,1)= UVAR(I,6)
           IPOST2(J,2)= UVAR(I,7)
         ENDDO
       ELSE IF (NDIM == 1) THEN
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           XXV1(J,1)   = SIGM(I)
           IPOST1(J,1) = NINT(UVAR(I,6))
         ENDDO
       END IF
 c
 c     check elements with triaxiality between SHRF and BIAXF) in case of SIZE_FLAG=1
-      IF (SIZE_FLAG == 1) THEN      
-        DO J=1,NINDX                         
+      IF (SIZE_FLAG == 1) THEN
+        DO J=1,NINDX
           I = INDX(J)
           IF (SIGM(I) > SHRF .and. SIGM(I) < BIAXF) THEN
             NINSTAB = NINSTAB + 1
             INDSTAB(NINSTAB) = I
           END IF
         ENDDO
-      END IF                                                                                
+      END IF
 c
       IF (NDIM == 3) THEN
 c
         CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST3,XXV3,YYV,DXDYV)
 c
-        DO J=1,NINDX                           
-          I = INDX(J)  
-          EPSF(I) = YYV(J) * Y1SCALE     
+        DO J=1,NINDX
+          I = INDX(J)
+          EPSF(I) = YYV(J) * Y1SCALE
           UVAR(I,6)=IPOST3(J,1)
           UVAR(I,7)=IPOST3(J,2)
         ENDDO
@@ -268,9 +268,9 @@ c
 c
         CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST2,XXV2,YYV,DXDYV)
 c
-        DO J=1,NINDX                           
-          I = INDX(J)  
-          EPSF(I) = YYV(J) * Y1SCALE     
+        DO J=1,NINDX
+          I = INDX(J)
+          EPSF(I) = YYV(J) * Y1SCALE
           UVAR(I,6)=IPOST2(J,1)
           UVAR(I,7)=IPOST2(J,2)
         ENDDO
@@ -279,19 +279,19 @@ c
 c
         CALL TABLE_VINTERP (TABLE(ITABLE),NINDX,IPOST1,XXV1,YYV,DXDYV)
 c
-        DO J=1,NINDX                           
-          I = INDX(J)  
-          EPSF(I)   = YYV(J) * Y1SCALE     
+        DO J=1,NINDX
+          I = INDX(J)
+          EPSF(I)   = YYV(J) * Y1SCALE
           UVAR(I,6) = IPOST1(J,1)
         ENDDO
 
       END IF
 c
       IF (IFUN_EL > 0 .AND. INST_FLAG /= 2) THEN
-        IF (SIZE_FLAG == 0) THEN          
+        IF (SIZE_FLAG == 0) THEN
 #include "vectorize.inc"
-          DO J=1,NINDX                           
-            I = INDX(J)  
+          DO J=1,NINDX
+            I = INDX(J)
 c----       element length scale function
             LAMBDAV(J) = UVAR(I,5) / EL_REF
             IPOSV(J) = NINT(UVAR(I,8))
@@ -302,17 +302,17 @@ c
           CALL VINTER(TF,IADP,IPOSV,ILENP,NINDX,LAMBDAV,DXDYV,YYV)
 c
 #include   "vectorize.inc"
-          DO J=1,NINDX                           
-            I = INDX(J)  
-            FAC = SC_EL*YYV(J) 
-            EPSF(I)   = EPSF(I)* FAC 
+          DO J=1,NINDX
+            I = INDX(J)
+            FAC = SC_EL*YYV(J)
+            EPSF(I)   = EPSF(I)* FAC
             UVAR(I,8) = IPOSV(J)
           ENDDO
 c
         ELSE  ! SIZE_FLAG = 1
 #include "vectorize.inc"
-          DO J=1,NINSTAB                           
-            I = INDSTAB(J)  
+          DO J=1,NINSTAB
+            I = INDSTAB(J)
 c----       element length scale function
             LAMBDAV(J) = UVAR(I,5) / EL_REF
             IPOSV(J) = NINT(UVAR(I,8))
@@ -323,88 +323,88 @@ c
           CALL VINTER(TF,IADP,IPOSV,ILENP,NINSTAB,LAMBDAV,DXDYV,YYV)
 c
 #include   "vectorize.inc"
-          DO J=1,NINSTAB                           
-            I = INDSTAB(J)  
-            FAC = SC_EL*YYV(J) 
-            EPSF(I)   = EPSF(I)* FAC 
+          DO J=1,NINSTAB
+            I = INDSTAB(J)
+            FAC = SC_EL*YYV(J)
+            EPSF(I)   = EPSF(I)* FAC
             UVAR(I,8) = IPOSV(J)
           ENDDO
-        END IF          
-      ENDIF  
+        END IF
+      ENDIF
 
 c----   Instability function
 c
       IF (INSTABIL > 0) THEN
 c
 #include "vectorize.inc"
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           XX2(1) = SIGM(I)
           XX2(2) = EPSP(I) *X2SCALE
-          CALL TABLE_INTERP (TABLE(INSTABIL),XX2,YY_N)            
+          CALL TABLE_INTERP (TABLE(INSTABIL),XX2,YY_N)
           EPSF_N(I) = YY_N * Y2SCALE
         ENDDO
 c       apply element scale factor
         IF (IFUN_EL > 0 .AND. INST_FLAG /= 1) THEN
-          IF (SIZE_FLAG == 0) THEN          
+          IF (SIZE_FLAG == 0) THEN
 #include "vectorize.inc"
-            DO J=1,NINDX                           
-              I = INDX(J)  
+            DO J=1,NINDX
+              I = INDX(J)
               LAMBDA = UVAR(I,5) / EL_REF
-              FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
-              EPSF_N(I) = EPSF_N(I)* FAC   
+              FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)
+              EPSF_N(I) = EPSF_N(I)* FAC
             ENDDO
           ELSE
 #include "vectorize.inc"
-            DO J=1,NINSTAB                           
-              I = INDSTAB(J)  
+            DO J=1,NINSTAB
+              I = INDSTAB(J)
               LAMBDA = UVAR(I,5) / EL_REF
-              FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
-              EPSF_N(I) = EPSF_N(I)* FAC   
+              FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)
+              EPSF_N(I) = EPSF_N(I)* FAC
             ENDDO
           END IF
-        ENDIF            
+        ENDIF
 c
       ELSEIF (ECRIT > ZERO) THEN
 c
 #include "vectorize.inc"
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           EPSF_N(I) = ECRIT
         ENDDO
-      ELSE 
+      ELSE
 #include "vectorize.inc"
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           EPSF_N(I) = ZERO
         ENDDO
       ENDIF
 c----   temperature scale function
       IF (IFUN_TEMP > 0) THEN
-        DO J=1,NINDX                           
-          I = INDX(J)  
-          FAC = SC_TEMP*FINTER(IFUN_TEMP,TEMP(I),NPF,TF,DF) 
-          EPSF(I) = EPSF(I)* FAC 
+        DO J=1,NINDX
+          I = INDX(J)
+          FAC = SC_TEMP*FINTER(IFUN_TEMP,TEMP(I),NPF,TF,DF)
+          EPSF(I) = EPSF(I)* FAC
         ENDDO
-      ENDIF    
+      ENDIF
 
 c----   Fading exponent
       IF (FADE_EXPO < ZERO) THEN
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
           LAMBDA = UVAR(I,5) / EL_REF
-          FADE_EXPO = FINTER(IFUNC(6),LAMBDA,NPF,TF,DF) 
+          FADE_EXPO = FINTER(IFUNC(6),LAMBDA,NPF,TF,DF)
         ENDDO
       ENDIF
 c-----------------------------------------------------------------------------
-      DO J=1,NINDX                           
-        I = INDX(J)  
+      DO J=1,NINDX
+        I = INDX(J)
           IF (UVAR(I,1) < DCRIT) THEN
             ID_DD = IFUNC(4)
             IF (ID_DD /= 0 ) THEN
               DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
             ELSE
-              IF (UVAR(I,1) == ZERO) THEN 
+              IF (UVAR(I,1) == ZERO) THEN
                 DP = ONE
               ELSE
                 DP = DN*UVAR(I,1)**(ONE-ONE/DN)
@@ -412,7 +412,7 @@ c-----------------------------------------------------------------------------
             ENDIF
             IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP*DPLA(I)/EPSF(I)
             IF ((P_THINN*UVAR(I,2)) > THK(I)) THEN ! Failure due to thinning
-              UVAR(I,1) = DCRIT     
+              UVAR(I,1) = DCRIT
               FOFF(I)   = 0
               TDEL(I)   = TIME
               PTHKF     = EM06
@@ -420,55 +420,55 @@ c-----------------------------------------------------------------------------
 c-----
 c           Damage accumulation
             IF (DMG_FLAG == 1 .AND. UVAR(I,1) <= DCRIT) THEN
-              IF (EPSF_N(I) > ZERO .AND. SIGM(I) >= ZERO ) THEN 
+              IF (EPSF_N(I) > ZERO .AND. SIGM(I) >= ZERO ) THEN
                 UVAR(I,3) = UVAR(I,3) + DP*DPLA(I)/EPSF_N(I)
-              ENDIF                
+              ENDIF
 c
               IF (UVAR(I,3) >= ONE) THEN                ! softening starts
-                IF (FADE_EXPO /= ZERO) THEN 
+                IF (FADE_EXPO /= ZERO) THEN
                   UVAR(I,4) = UVAR(I,4) + DP*DPLA(I)/(EPSF(I)-EPSF_N(I))
-                  IF (UVAR(I,4) > DD) THEN 
+                  IF (UVAR(I,4) > DD) THEN
                     DMG_SCALE(I) = ONE - ((UVAR(I,4)-DD)/(ONE-DD))**FADE_EXPO
                     DMG_SCALE(I) = MAX(DMG_SCALE(I),ZERO)
                   ENDIF
                 ENDIF
-              ENDIF   
-c            ELSEIF (DMG_FLAG == 1) THEN 
+              ENDIF
+c            ELSEIF (DMG_FLAG == 1) THEN
 c              DMG_SCALE(I) = ZERO
             ENDIF ! end damage accumulation and softening
-c-----            
+c-----
             IF (UVAR(I,1) >= DCRIT) THEN
-              NINDXF = NINDXF+1                                                 
-              INDXF(NINDXF) = I                                                                                     
-              TDEL(I)= TIME  
+              NINDXF = NINDXF+1
+              INDXF(NINDXF) = I
+              TDEL(I)= TIME
               IF (IFAIL_SH == 3) THEN
                 FOFF(I) = -1
               ELSE
                 FOFF(I) = 0
               ENDIF
-            ENDIF                                                 
-          ENDIF  
+            ENDIF
+          ENDIF
       ENDDO ! IEL
 c
-c--------------------------------------------      
+c--------------------------------------------
 c     Maximum Damage storing for output : 0 < DFMAX < 1
 c
-      DO J=1,NINDX                           
-        I = INDX(J)  
+      DO J=1,NINDX
+        I = INDX(J)
         DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
       ENDDO
-c--------------------------------------------      
+c--------------------------------------------
 c     print
-c--------------------------------------------      
-      IF (NINDXF > 0) THEN  
-        DO J=1,NINDXF                           
-          I = INDXF(J)  
+c--------------------------------------------
+      IF (NINDXF > 0) THEN
+        DO J=1,NINDXF
+          I = INDXF(J)
 #include  "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
-#include  "lockoff.inc" 
+#include  "lockoff.inc"
         ENDDO
-      ENDIF  
+      ENDIF
 c------------------------
  2000 FORMAT(1X,'FAILURE (FTAB) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

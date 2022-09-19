@@ -87,7 +87,7 @@ C---
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
           NXLAY = IPARG(59,NG)
-          LFT   = 1 
+          LFT   = 1
           LLT   = MIN(NVSIZ,NEL)
           JFT=LFT
           JLT=LLT
@@ -126,7 +126,7 @@ C---
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
           NXLAY = IPARG(59,NG)
-          LFT   = 1 
+          LFT   = 1
           LLT   = MIN(NVSIZ,NEL)
           JFT=LFT
           JLT=LLT
@@ -208,7 +208,7 @@ c     tag all standard cracked elements (all layers included)
       IF (NELCRK == 0) RETURN
 C---
       DO ILAY=1,NXLAY
-        II = NXEL*(ILAY-1)    
+        II = NXEL*(ILAY-1)
         DO IR=1,NELCRK
           I = JCT(IR)
           ELCRK  = IEL_CRK(I+NFT)
@@ -224,7 +224,7 @@ C---
             NS(4) = IXC(5,I+NFT)
 C
             DO IXEL=1,NXEL
-              ILEV = II+IXEL  
+              ILEV = II+IXEL
               ENR0(1) = 0
               ENR0(2) = 0
               ENR0(3) = 0
@@ -269,7 +269,7 @@ c
      .                        = MAX(ENRTAG(NS(K1),ABS(IE1)),IE10)
                   IF (IE2 /= 0) ENRTAG(NS(K2),ABS(IE2))
      .                        = MAX(ENRTAG(NS(K2),ABS(IE2)),IE20)
-     
+
 c                  if (IE1 /= 0) then
 c                    write(*,'(A,3I5)') 'UPX1: NS,IE,ENRTAG=',NS(K1),IE1,ENRTAG(NS(K1),ABS(IE1))
 c                  endif
@@ -342,24 +342,24 @@ c--------------------
       DO ILAY=1,NXLAY
         DO IR=1,NELCRK
           I = JCT(IR)
-          ELCRK = IEL_CRK(I+NFT)                       
-          ELCUT  = XFEM_PHANTOM(ILAY)%ELCUT(ELCRK)     
+          ELCRK = IEL_CRK(I+NFT)
+          ELCUT  = XFEM_PHANTOM(ILAY)%ELCUT(ELCRK)
           IF (ELCUT /= 0) THEN
-            ITRI    = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)    
-            LAYCUT  = CRKEDGE(ILAY)%LAYCUT(ELCRK)         
-            NS(1)   = IXC(2,I+NFT)       
-            NS(2)   = IXC(3,I+NFT)       
-            NS(3)   = IXC(4,I+NFT)       
-            NS(4)   = IXC(5,I+NFT)       
-            IADC(1) = IADC_CRK(1,ELCRK)  
-            IADC(2) = IADC_CRK(2,ELCRK)  
-            IADC(3) = IADC_CRK(3,ELCRK)  
+            ITRI    = XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK)
+            LAYCUT  = CRKEDGE(ILAY)%LAYCUT(ELCRK)
+            NS(1)   = IXC(2,I+NFT)
+            NS(2)   = IXC(3,I+NFT)
+            NS(3)   = IXC(4,I+NFT)
+            NS(4)   = IXC(5,I+NFT)
+            IADC(1) = IADC_CRK(1,ELCRK)
+            IADC(2) = IADC_CRK(2,ELCRK)
+            IADC(3) = IADC_CRK(3,ELCRK)
             IADC(4) = IADC_CRK(4,ELCRK)
             IF (ITRI == 0) THEN
               NUMXEL = 2
             ELSE
               NUMXEL = NXEL
-            ENDIF 
+            ENDIF
 c
             DO IXEL=1,NUMXEL
               ILEV = NXEL*(ILAY-1) + IXEL
@@ -371,9 +371,9 @@ c               new advancing (or init) crack => LAYCUT = +/- 1
 c---------------------------------------
                 DO K=1,4
                   IED   = CRKEDGE(ILAY)%IEDGEC(K,ELCRK)   ! = 1,2 => sequence des arretes coupes
-                  EDGE  = XEDGE4N(K,ELCRK) ! global egdge N 
+                  EDGE  = XEDGE4N(K,ELCRK) ! global egdge N
                   IECUT = CRKEDGE(ILAY)%ICUTEDGE(EDGE)
-c                 Tip edges => NTAG = 2               
+c                 Tip edges => NTAG = 2
                   IF (IED > 0 .and. IECUT == 2) THEN    ! (cas IECUT=3 traite avant)
                     NTAG(K)    = 2
                     NTAG(d(K)) = 2
@@ -387,7 +387,7 @@ c               going through a hole => (IBOUNDEDGE == 2)
                   IED  = CRKEDGE(ILAY)%IEDGEC(K,ELCRK)
                   EDGE = XEDGE4N(K,ELCRK)
                   IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
-c                 Tag boundary edges : NTAG=1               
+c                 Tag boundary edges : NTAG=1
                   IF ( IED > 0 .and. IBOUNDEDGE > 0) THEN
                     NTAG(K)    = 1
                     NTAG(d(K)) = 1
@@ -400,12 +400,12 @@ c
                   EDGE = XEDGE4N(K,ELCRK)
                   ITIP = CRKEDGE(ILAY)%EDGETIP(2,EDGE)
                   IF (IED > 0 .and. ITIP == 1) THEN
-                    IF (ITRI /= 0 .and. IXEL == 3) THEN  
+                    IF (ITRI /= 0 .and. IXEL == 3) THEN
                       NTAG(K)    = 1
                       NTAG(d(K)) = 1
                       FAC = FAC + 1
-                    ENDIF                           
-                  ENDIF                           
+                    ENDIF
+                  ENDIF
                 ENDDO
 c               NTAG = 1 for all except internal tip nodes
                 IF (FAC > 0) THEN
@@ -437,7 +437,7 @@ c
                   ITIP = CRKEDGE(ILAY)%EDGETIP(2,EDGE)
                   IF (IED > 0 .and. ITIP == 1) COUNT = COUNT + 1
                 END DO
-c                
+c
                 IF (COUNT == 0) THEN  ! already cracked phantom, no tip edge => no negative enrichments
                   DO K=1,4
                     IAD  = IADC(K)
@@ -456,7 +456,7 @@ c                     enrichment of IXEL = 1 < 0 => copy from IXEL = 3 and tag e
                     ENDIF
                   END DO
                 ENDIF  !  COUNT == 0
-c                
+c
               ENDIF    !  LAYCUT
 C--------------------------------------------------------------------------
 c             set ENRTAG for nodal enrichment update (ENR > 0 only for boundary nodes)
@@ -536,7 +536,7 @@ C---
       IF (NELCRK == 0) RETURN
 C---
       DO ILAY=1,NXLAY
-        II = NXEL*(ILAY-1)    
+        II = NXEL*(ILAY-1)
         DO IR=1,NELCRK
           I = JCT(IR)
           ELCRKTG = IEL_CRKTG(I+NFT)
@@ -551,7 +551,7 @@ C---
             NS(3) = IXTG(4,I+NFT)
 c
             DO IXEL=1,NXEL
-              ILEV = II+IXEL  
+              ILEV = II+IXEL
               ENR0(1) = 0
               ENR0(2) = 0
               ENR0(3) = 0
@@ -684,7 +684,7 @@ c---------------------------------------
                   IED  = CRKEDGE(ILAY)%IEDGETG(K,ELCRKTG)   ! = 1,2 => sequence des arretes coupes
                   EDGE = XEDGE3N(K,ELCRKTG)
                   IECUT = CRKEDGE(ILAY)%ICUTEDGE(EDGE)
-c                 Tip edges => NTAG = 2               
+c                 Tip edges => NTAG = 2
                   IF (IED > 0 .and. IECUT == 2) THEN    ! (cas IECUT=3 traite avant)
                     NTAG(K)    = 2
                     NTAG(d(K)) = 2
@@ -697,7 +697,7 @@ c               going through a hole => (IBOUNDEDGE == 2)
                 DO K=1,3
                   EDGE = XEDGE3N(K,ELCRKTG)
                   IBOUNDEDGE = CRKEDGE(ILAY)%IBORDEDGE(EDGE)
-c                 Tag boundary edges : NTAG=1               
+c                 Tag boundary edges : NTAG=1
                   IED = CRKEDGE(ILAY)%IEDGETG(K,ELCRKTG)
                   IF (IBOUNDEDGE > 0 .AND. IED > 0) THEN
                     NTAG(K)    = 1
@@ -710,12 +710,12 @@ c                 Tag boundary edges : NTAG=1
                   EDGE = XEDGE3N(K,ELCRKTG)
                   ITIP = CRKEDGE(ILAY)%EDGETIP(2,EDGE)
                   IF (IED > 0 .and. ITIP == 1) THEN
-                    IF (ITRI /= 0 .and. IXEL == 3) THEN  
+                    IF (ITRI /= 0 .and. IXEL == 3) THEN
                       NTAG(K)    = 1
                       NTAG(d(K)) = 1
                       FAC = FAC + 1
-                    ENDIF                           
-                  ENDIF                           
+                    ENDIF
+                  ENDIF
                 ENDDO
 c
 c               NTAG = 1 for all except internal tip nodes
@@ -748,7 +748,7 @@ c
                   ITIP = CRKEDGE(ILAY)%EDGETIP(2,EDGE)
                   IF (IED > 0 .and. ITIP == 1) COUNT = COUNT + 1
                 END DO
-c                
+c
                 IF (COUNT == 0) THEN  ! already cracked phantom, no tip edge => no negative enrichments
                   DO K=1,3
                     IED  = CRKEDGE(ILAY)%IEDGETG(K,ELCRKTG)

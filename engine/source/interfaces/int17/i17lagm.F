@@ -61,7 +61,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC,I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
-     .  IXS(NIXS,*),IXS16(8,*),IADLL(*),NELES(*)  ,NELEM(*) 
+     .  IXS(NIXS,*),IXS16(8,*),IADLL(*),NELES(*)  ,NELEM(*)
 C     REAL
       my_real
      .  X(3,*),V(3,*),XLL(*),
@@ -257,7 +257,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,NC,N_MUL_MX,ITIED,NINT ,NKMAX ,NC_SAV ,IE_MIN,IES_MIN 
+      INTEGER LLT,NC,N_MUL_MX,ITIED,NINT ,NKMAX ,NC_SAV ,IE_MIN,IES_MIN
       INTEGER LLL(*),JLL(*),SLL(*),ITASK,COMNTAG(*),
      .        III(MVSIZ,17),IADLL(*) ,IIIS(MVSIZ,16),IE(*) ,IES(*)
 C     REAL
@@ -265,7 +265,7 @@ C     REAL
      .  XLL(*),V(3,*),A(3,*)
       my_real
      .   XX(MVSIZ,17),YY(MVSIZ,17),ZZ(MVSIZ,17),X(3,*),
-     .   XXS(MVSIZ,16) ,YYS(MVSIZ,16) ,ZZS(MVSIZ,16) ,VIT_MIN       
+     .   XXS(MVSIZ,16) ,YYS(MVSIZ,16) ,ZZS(MVSIZ,16) ,VIT_MIN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -282,7 +282,7 @@ C-----------------------------------------------
      .   R_1M(MVSIZ) ,R_2M(MVSIZ) ,T_1M(MVSIZ) ,T_2M(MVSIZ),
      .   R_3M(MVSIZ) ,R_4M(MVSIZ) ,T_3M(MVSIZ) ,T_4M(MVSIZ),
      .   R_CS(MVSIZ) ,S_CS(MVSIZ) ,T_CS(MVSIZ) ,VIT(MVSIZ),
-     .   R_S(MVSIZ) ,T_S(MVSIZ) 
+     .   R_S(MVSIZ) ,T_S(MVSIZ)
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------
@@ -298,7 +298,7 @@ C-----------------------------------------------
         YY(I,17) = HALF *(YYS(I,5) +YYS(I,6) +YYS(I,7) +YYS(I,8))
      .           - FOURTH*(YYS(I,1) +YYS(I,2) +YYS(I,3) +YYS(I,4))
         ZZ(I,17) = HALF *(ZZS(I,5) +ZZS(I,6) +ZZS(I,7) +ZZS(I,8))
-     .           - FOURTH*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))     
+     .           - FOURTH*(ZZS(I,1) +ZZS(I,2) +ZZS(I,3) +ZZS(I,4))
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,1),SI_S(1,1),TI_S(1,1),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -311,7 +311,7 @@ C-----------------------------------------------
         YY(I,17) = HALF *(YYS(I,13)+YYS(I,14)+YYS(I,15)+YYS(I,16))
      .           - FOURTH*(YYS(I,9) +YYS(I,10)+YYS(I,11)+YYS(I,12))
         ZZ(I,17) = HALF *(ZZS(I,13)+ZZS(I,14)+ZZS(I,15)+ZZS(I,16))
-     .           - FOURTH*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))     
+     .           - FOURTH*(ZZS(I,9) +ZZS(I,10)+ZZS(I,11)+ZZS(I,12))
       ENDDO
       CALL I17RST(LLT   ,RI_S(1,2),SI_S(1,2),TI_S(1,2),NI_M  ,
      2            XX    ,YY       ,ZZ       )
@@ -517,7 +517,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,NINT   
+      INTEGER LLT,NINT
       INTEGER III(MVSIZ,17),IIIS(MVSIZ,16),
      +        ICONT(MVSIZ),ICONTN(MVSIZ)
 C     REAL
@@ -633,7 +633,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,NC,N_MUL_MX,ITIED,NINT ,NKMAX   
+      INTEGER LLT,NC,N_MUL_MX,ITIED,NINT ,NKMAX
       INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
      .        III(MVSIZ,17),IADLL(*) ,IIIS(MVSIZ,16),
      +        ICONT(MVSIZ)
@@ -806,7 +806,7 @@ C     REAL
       my_real
      .   XX(MVSIZ,17),YY(MVSIZ,17),ZZ(MVSIZ,17)
       my_real
-     .   R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,17) 
+     .   R(MVSIZ),S(MVSIZ),T(MVSIZ),NI(MVSIZ,17)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -818,11 +818,11 @@ C-----------------------------------------------
      .   VX,VY,VZ,VN
       my_real
      .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
+     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
      .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ),
      .   DXDR(MVSIZ),DYDR(MVSIZ),DZDR(MVSIZ),
      .   DXDT(MVSIZ),DYDT(MVSIZ),DZDT(MVSIZ),
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)     
+     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)
 C-----------------------------------------------
 C
 C      r=s=t=0
@@ -942,7 +942,7 @@ C     REAL
      + R_1S(MVSIZ) ,R_2S(MVSIZ) ,T_1S(MVSIZ) ,T_2S(MVSIZ),
      + R_1M(MVSIZ) ,R_2M(MVSIZ) ,T_1M(MVSIZ) ,T_2M(MVSIZ),
      + R_3M(MVSIZ) ,R_4M(MVSIZ) ,T_3M(MVSIZ) ,T_4M(MVSIZ),
-     + NX(MVSIZ) ,NY(MVSIZ) ,NZ(MVSIZ)   
+     + NX(MVSIZ) ,NY(MVSIZ) ,NZ(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -1099,7 +1099,7 @@ c  C3 = A3 + A4 r_ + 2 A5 t_
 c
 c  D1 = B1 - B4 r_ t_ - B5 r_^2
 c  D2 = B2 + B4 t_ + 2 B5 r_
-c  D3 = B3 + B4 r_ 
+c  D3 = B3 + B4 r_
 c
 C  fr = C1 + C2 r + C3 t = 0
 C  ft = D1 + D2 r + D3 t = 0
@@ -1119,18 +1119,18 @@ c------------------------------------------------
           DD1  = B1(I) -(B4T + B5R )* R_CS(I)
           DD2  = B2(I) + B4T + B5R + B5R
           DD3  = B3(I) + B4(I) * R_CS(I)
-          D    = DD3 * CC2 - CC3 * DD2 
+          D    = DD3 * CC2 - CC3 * DD2
           IF(ABS(D)<EM20)THEN
             CC2 = CC2 + EM10
             DD3 = DD3 + EM10
-            D   = DD3 * CC2 - CC3 * DD2 
+            D   = DD3 * CC2 - CC3 * DD2
           ENDIF
           R_CS(I) = (CC3 * DD1 - DD3 * CC1) / D
           T_CS(I) = (DD2 * CC1 - CC2 * DD1) / D
           R_CS(I) = MAX(-ONE,MIN(ONE,R_CS(I)))
           T_CS(I) = MAX(-ONE,MIN(ONE,T_CS(I)))
-c          dfdr = A1 + A2 * r + A3 * t + A4 * t * r + A5 * t * t 
-c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r 
+c          dfdr = A1 + A2 * r + A3 * t + A4 * t * r + A5 * t * t
+c          dfdt = B1 + B2 * r + B3 * t + B4 * r * t + B5 * r * r
 c          print *,'it=',iter,' r=',r,' t=',t,' fr=',dfdr,' ft=',dfdt
         ENDDO
       ENDDO
@@ -1196,7 +1196,7 @@ c      CALL I17BORNE(LLT ,T_CS,C3  ,C2  ,C1  ,ICONT(1,1),R_CM)
       CALL I17BORNE(LLT ,T_1S,C3  ,C2  ,C1  ,ICONT(1,3),R_3M)
       CALL I17BORNE(LLT ,T_2S,C3  ,C2  ,C1  ,ICONT(1,4),R_4M)
 c-----------------------------------------------------------------------
-c  2: borne t a +-1 sur le main 
+c  2: borne t a +-1 sur le main
 c-----------------------------------------------------------------------
       CALL  I17ABC(LLT ,TI_S,R_CS,T_CS,
      +             B1  ,B2  ,B3  ,C1  ,C2  ,C3  )
@@ -1226,20 +1226,20 @@ c-----------------------------------------------------------------------
         IF(D<-ONE-EPS.OR.D>ONE+EPS) ICONT(I,3)=0
         D = C1(I) + (C2(I) + C3(I)*T_2S(I)) * T_2S(I)
         IF(D<-ONE-EPS.OR.D>ONE+EPS) ICONT(I,4)=0
-c        R_CS(I) = ICONT(I,1)*R_1S(I) + ICONT(I,2)*R_2S(I) +  
+c        R_CS(I) = ICONT(I,1)*R_1S(I) + ICONT(I,2)*R_2S(I) +
 c     +            ICONT(I,3)*R_CS(I) + ICONT(I,4)*R_CS(I)
-c        T_CS(I) = ICONT(I,1)*T_CS(I) + ICONT(I,2)*T_CS(I) +  
+c        T_CS(I) = ICONT(I,1)*T_CS(I) + ICONT(I,2)*T_CS(I) +
 c     +            ICONT(I,3)*T_1S(I) + ICONT(I,4)*T_2S(I)
-cc        R_CM(I) = ICONT(I,1)*R_1M(I) + ICONT(I,2)*R_2M(I) +  
+cc        R_CM(I) = ICONT(I,1)*R_1M(I) + ICONT(I,2)*R_2M(I) +
 cc     +            ICONT(I,3)*R_3M(I) + ICONT(I,4)*R_4M(I)
-cc        T_CM(I) = ICONT(I,1)*T_1M(I) + ICONT(I,2)*T_2M(I) +  
+cc        T_CM(I) = ICONT(I,1)*T_1M(I) + ICONT(I,2)*T_2M(I) +
 cc     +            ICONT(I,3)*T_3S(I) + ICONT(I,4)*T_4S(I)
-c        ICONT(I,1) = ICONT(I,1) + ICONT(I,2) +  
+c        ICONT(I,1) = ICONT(I,1) + ICONT(I,2) +
 c     +               ICONT(I,3) + ICONT(I,4)
 c        IF(ICONT(I,1)/=0)THEN
-c          R_CS(I) = R_CS(I) / ICONT(I,1) 
-c          T_CS(I) = T_CS(I) / ICONT(I,1) 
-c          ICONT(I,1) = 1 
+c          R_CS(I) = R_CS(I) / ICONT(I,1)
+c          T_CS(I) = T_CS(I) / ICONT(I,1)
+c          ICONT(I,1) = 1
 c        ENDIF
       ENDDO
 C
@@ -1266,7 +1266,7 @@ C-----------------------------------------------
       CALL I17NORM(LLT  ,R_CS  ,S_CS  ,T_CS  ,
      2             NX   ,NY    ,NZ    ,XXS   ,YYS   ,ZZS   )
 c-----------------------------------------------------------------------
-c  
+c
 c-----------------------------------------------------------------------
       RETURN
       END
@@ -1291,7 +1291,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
       my_real
-     .   R(MVSIZ),T(MVSIZ),NI(MVSIZ,*)  
+     .   R(MVSIZ),T(MVSIZ),NI(MVSIZ,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1363,17 +1363,17 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
       my_real
-     .   C(MVSIZ),B(MVSIZ),A(MVSIZ),R1(MVSIZ),R2(MVSIZ) 
+     .   C(MVSIZ),B(MVSIZ),A(MVSIZ),R1(MVSIZ),R2(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .  D      
+     .  D
 c
 C
       DO I=1,LLT
-        D =  B(I)*B(I) - FOUR*A(I)*C(I) 
+        D =  B(I)*B(I) - FOUR*A(I)*C(I)
         IF(ABS(A(I))<EM20)THEN
           IF(ABS(B(I))<EM20)THEN
             R1(I) = -ONE
@@ -1384,7 +1384,7 @@ C
           ENDIF
         ELSEIF(D<ZERO)THEN
             R1(I) = -ONE
-            R2(I) =  ONE	    
+            R2(I) =  ONE	
         ELSE
             D = SQRT( D )
             R1(I) = (-B(I) - D) / (TWO*A(I))
@@ -1441,7 +1441,7 @@ c-----------------------------------------------------------------------
             CC(I) = C(I) - ONE
           ELSEIF(RS(I)<-ONE)THEN
             CC(I) = C(I) + ONE
-          ELSE 
+          ELSE
             CC(I) = ONE
           ENDIF
         ENDDO
@@ -1556,8 +1556,8 @@ c
         A3 = (                                +FF6    -FF8)
         A4 = (+F(I,1)-F(I,2)+F(I,3)-F(I,4)                )
         A5 = (+F(I,1)+F(I,2)+F(I,3)+F(I,4)    -FF6    -FF8)
-        A6 = (+F(I,1)+F(I,2)+F(I,3)+F(I,4)-FF5    -FF7    ) 
-        A7 = (-F(I,1)+F(I,2)+F(I,3)-F(I,4)    -FF6    +FF8) 
+        A6 = (+F(I,1)+F(I,2)+F(I,3)+F(I,4)-FF5    -FF7    )
+        A7 = (-F(I,1)+F(I,2)+F(I,3)-F(I,4)    -FF6    +FF8)
         A8 = (-F(I,1)-F(I,2)+F(I,3)+F(I,4)+FF5    -FF7    )
 c
 c
@@ -1685,36 +1685,36 @@ C-----------------------------------------------------------------------
 C     dx/dr; dx/dt
 C-----------------------------------------------------------------------
         DXDR(I) = DNIDR(1)*XX(I,1) + DNIDR(2)*XX(I,2) + DNIDR(3)*XX(I,3)
-     +          + DNIDR(4)*XX(I,4)   
+     +          + DNIDR(4)*XX(I,4)
      +    + DNIDR(5)*(XX(I,5) - XX(I,7)) + DNIDR(6)*XX(I,6)
-     +    + DNIDR(8)*XX(I,8) 
+     +    + DNIDR(8)*XX(I,8)
 C  
         DXDT(I) = DNIDT(1)*XX(I,1) + DNIDT(2)*XX(I,2) + DNIDT(3)*XX(I,3)
-     +          + DNIDT(4)*XX(I,4)   
+     +          + DNIDT(4)*XX(I,4)
      +    + DNIDT(5)*XX(I,5)   + DNIDT(6)*(XX(I,6) - XX(I,8))
      +    + DNIDT(7)*XX(I,7)
 C-----------------------------------------------------------------------
 C     dy/dr; dy/dt
 C-----------------------------------------------------------------------
         DYDR(I) = DNIDR(1)*YY(I,1) + DNIDR(2)*YY(I,2) + DNIDR(3)*YY(I,3)
-     +          + DNIDR(4)*YY(I,4)   
+     +          + DNIDR(4)*YY(I,4)
      +    + DNIDR(5)*(YY(I,5) - YY(I,7))   + DNIDR(6)*YY(I,6)
-     +    + DNIDR(8)*YY(I,8) 
+     +    + DNIDR(8)*YY(I,8)
 C  
         DYDT(I) = DNIDT(1)*YY(I,1) + DNIDT(2)*YY(I,2) + DNIDT(3)*YY(I,3)
-     +          + DNIDT(4)*YY(I,4)   
+     +          + DNIDT(4)*YY(I,4)
      +    + DNIDT(5)*YY(I,5)   + DNIDT(6)*(YY(I,6) - YY(I,8))
      +    + DNIDT(7)*YY(I,7)
 C-----------------------------------------------------------------------
 C     dz/dr; dz/dt
 C-----------------------------------------------------------------------
         DZDR(I) = DNIDR(1)*ZZ(I,1) + DNIDR(2)*ZZ(I,2) + DNIDR(3)*ZZ(I,3)
-     +          + DNIDR(4)*ZZ(I,4)   
+     +          + DNIDR(4)*ZZ(I,4)
      +    + DNIDR(5)*(ZZ(I,5) - ZZ(I,7))   + DNIDR(6)*ZZ(I,6)
-     +    + DNIDR(8)*ZZ(I,8) 
+     +    + DNIDR(8)*ZZ(I,8)
 C  
         DZDT(I) = DNIDT(1)*ZZ(I,1) + DNIDT(2)*ZZ(I,2) + DNIDT(3)*ZZ(I,3)
-     +          + DNIDT(4)*ZZ(I,4)   
+     +          + DNIDT(4)*ZZ(I,4)
      +    + DNIDT(5)*ZZ(I,5)   + DNIDT(6)*(ZZ(I,6) - ZZ(I,8))
      +    + DNIDT(7)*ZZ(I,7)
 C-----------------------------------------------------------------------

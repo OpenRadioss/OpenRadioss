@@ -57,7 +57,7 @@ C-----------------------------------------------
         ENDDO
         MODE=0
         CALL MY_ORDERS( MODE, WORK, ITRI, INDX, NSEL , 1)
-        
+
         DO I=1,NSEL
             NEL(I) = ITRI(INDX(I))
         ENDDO

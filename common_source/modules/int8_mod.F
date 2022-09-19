@@ -45,9 +45,9 @@ Chd|        WRRESTP                       engine/source/output/restart/wrrestp.F
 Chd|        INTBUF_MOD                    engine/share/modules/restart_mod.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE INT8_MOD 
+      MODULE INT8_MOD
 C----------------------------------------------------------------------- 
-#include "my_real.inc"      
+#include "my_real.inc"
 
       TYPE BUFT8
         integer ::  NBMAIN
@@ -64,27 +64,27 @@ C Send Buffer for I8LOC3
 C       my_real, DIMENSION(:) , POINTER :: DISTANCE 
 C       integer, DIMENSION(:) , POINTER ::  NEW_MAIN_UID
 
-      END TYPE BUFT8 
+      END TYPE BUFT8
       TYPE FRONT8
         !Local number of the main node :
-        integer ::  NUMLOC  
+        integer ::  NUMLOC
         !User ID of the main node :
         integer ::  UID
         ! number of time the inteface main has to be
-        ! sent and received                                
-        integer  ::  NBCOM !  
+        ! sent and received
+        integer  ::  NBCOM !
         !List (of size NBCOM) of processors that share the main
-        integer, DIMENSION(:) , POINTER ::  PROCLIST  
-        !Pointer to the structure BUFFER        
-        integer, DIMENSION(:) , POINTER ::  BUF_INDEX  
-      END TYPE FRONT8 
+        integer, DIMENSION(:) , POINTER ::  PROCLIST
+        !Pointer to the structure BUFFER
+        integer, DIMENSION(:) , POINTER ::  BUF_INDEX
+      END TYPE FRONT8
 
-      TYPE INT8_STRUCT_ 
+      TYPE INT8_STRUCT_
         integer :: NI
-        integer :: S_COMM 
+        integer :: S_COMM
         integer :: IS_ACTIVATED
-        TYPE(BUFT8), DIMENSION(:) , POINTER :: BUFFER  
-        TYPE(FRONT8), DIMENSION(:) , POINTER :: SPMD_COMM_PATTERN 
+        TYPE(BUFT8), DIMENSION(:) , POINTER :: BUFFER
+        TYPE(FRONT8), DIMENSION(:) , POINTER :: SPMD_COMM_PATTERN
       END TYPE
 
       END MODULE

@@ -33,9 +33,9 @@ Chd|====================================================================
         SUBROUTINE INT18_LAW151_NSV_SHIFT(MODE,ITASK,MULTI_FVM,IPARI,INTBUF_TAB)
 !$COMMENT
 !       INT18_LAW151_NSV_SHIFT description
-!       shift the secondary node ID 
+!       shift the secondary node ID
 !       for /INT18 + LAW151
-!       
+!
 !       INT18_LAW151_NSV_SHIFT organization :
 !       - at the beginning of inttri/intfop2, shift with +numnod
 !       - at the end of inttri/intfop2, shift with -numnod
@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------        
-        USE INTBUFDEF_MOD 
+        USE INTBUFDEF_MOD
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc" 
+#include      "task_c.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         CHARACTER(len=*), INTENT(in) :: MODE
         INTEGER, INTENT(in) :: ITASK
-        TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB      
+        TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB
         INTEGER, DIMENSION(NPARI,*), INTENT(in) :: IPARI
         TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
 C-----------------------------------------------
@@ -80,17 +80,17 @@ C-----------------------------------------------
             N = MULTI_FVM%INT18_LIST(NN)
             NSN = IPARI(5,N)    ! number of secondary nodes
             NSNF = 1 + ITASK * NSN / NTHREAD
-            NSNL = (1 + ITASK) * NSN / NTHREAD 
+            NSNL = (1 + ITASK) * NSN / NTHREAD
             !   add/substract NUMNOD to NSV for phantom nodes
             !   if NSV > 0 --> local phantom node
             !   else if NSV < 0 --> reote node
             IF(MODE=='+') THEN
                 DO II = NSNF,NSNL
-                    IF(INTBUF_TAB(N)%NSV(II)>0) INTBUF_TAB(N)%NSV(II) = INTBUF_TAB(N)%NSV(II) + NUMNOD                
+                    IF(INTBUF_TAB(N)%NSV(II)>0) INTBUF_TAB(N)%NSV(II) = INTBUF_TAB(N)%NSV(II) + NUMNOD
                 ENDDO
             ELSE
                 DO II = NSNF,NSNL
-                    IF(INTBUF_TAB(N)%NSV(II)>0) INTBUF_TAB(N)%NSV(II) = INTBUF_TAB(N)%NSV(II) - NUMNOD                
+                    IF(INTBUF_TAB(N)%NSV(II)>0) INTBUF_TAB(N)%NSV(II) = INTBUF_TAB(N)%NSV(II) - NUMNOD
                 ENDDO
             ENDIF
         ENDDO

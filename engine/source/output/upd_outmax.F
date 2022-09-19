@@ -55,7 +55,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE OUTMAX_MOD
       USE STACK_MOD
 C-----------------------------------------------------------------------
@@ -105,16 +105,16 @@ C-----------------------------------------------
      .         JHBE,IMAT,IPID,MATLY(MVSIZ*100),IPMAT,IADR,
      .         ISUBSTACK,MTN
       INTEGER  NODFTSK,NODLTSK,NGFTSK,NGLTSK
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       my_real
      .  NORM,S(3),VALUE(MVSIZ),RHO,TEN1(MVSIZ,6),TEN3(MVSIZ,6),
      .  TP2(MVSIZ,2),T2D1(MVSIZ,3),T2D3(MVSIZ,3),MASS(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      IF (NMAX_E > 0 )THEN   
+      IF (NMAX_E > 0 )THEN
         NGFTSK   = 1+ITASK*NGROUP/ NTHREAD
         NGLTSK   = (ITASK+1)*NGROUP/NTHREAD
        DO NG=NGFTSK,NGLTSK
@@ -134,30 +134,30 @@ C-----------------------------------------------
           CASE(1)
             TSHELL = 0
             IF (IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22) TSHELL = 1
-            NLAY = ELBUF_TAB(NG)%NLAY                
-            NPTR = ELBUF_TAB(NG)%NPTR                 
-            NPTS = ELBUF_TAB(NG)%NPTS                 
+            NLAY = ELBUF_TAB(NG)%NLAY
+            NPTR = ELBUF_TAB(NG)%NPTR
+            NPTS = ELBUF_TAB(NG)%NPTS
             NPTT = ELBUF_TAB(NG)%NPTT
             IF (TSHELL==1) THEN
               IF (JHBE==14 .OR. JHBE==15) NPTT = 1
               IF (JHBE==16) NPTS = 1
             ELSE
-              NLAY = 1 
+              NLAY = 1
               IF (ISOLNOD==10 .OR. (ISOLNOD==4 .AND. ISROT==1)) THEN
                 NPTS = 1
                 NPTT = 1
-              END IF 
+              END IF
             END IF
             NPT  = NPTT*NPTS*NPTR*NLAY
             IF (GBUF%G_TM_YIELD>0 ) THEN  !VONM main value
-              VALUE(1:NEL) = ZERO            
-              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
+              VALUE(1:NEL) = ZERO
+              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
               CALL TM_VONM_SOLID(IVISC,GBUF%SIG,LBUF%VISC,VALUE,NEL)
               GBUF%TM_YIELD(1:NEL)= MAX(GBUF%TM_YIELD(1:NEL),VALUE(1:NEL))
             END IF
-            IF (GBUF%G_TM_EINT>0 ) THEN  
-               VALUE(1:NEL) = ZERO            
-               LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1) 
+            IF (GBUF%G_TM_EINT>0 ) THEN
+               VALUE(1:NEL) = ZERO
+               LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
                IF (MTN == 151) CYCLE
                IF(IFLU == 0)THEN
                   MX=IXS(1,NFT+1)
@@ -168,13 +168,13 @@ C-----------------------------------------------
                ENDIF
               GBUF%TM_EINT(1:NEL)= MAX(GBUF%TM_EINT(1:NEL),VALUE(1:NEL))
             END IF
-            IF (GBUF%G_TM_SEQ>0 ) THEN  
-              VALUE(1:NEL) = ZERO            
-              CALL TM_SEQ_SOLID(ELBUF_TAB(NG),NLAY,NPTR,NPTS,NPTT,IVISC,VALUE,NEL) 
+            IF (GBUF%G_TM_SEQ>0 ) THEN
+              VALUE(1:NEL) = ZERO
+              CALL TM_SEQ_SOLID(ELBUF_TAB(NG),NLAY,NPTR,NPTS,NPTT,IVISC,VALUE,NEL)
               GBUF%TM_SEQ(1:NEL)= MAX(GBUF%TM_SEQ(1:NEL),VALUE(1:NEL))
             END IF
-            IF (GBUF%G_TM_DMG>0 ) THEN  
-              VALUE(1:NEL) = ZERO            
+            IF (GBUF%G_TM_DMG>0 ) THEN
+              VALUE(1:NEL) = ZERO
               CALL TM_DMG_SOLID(ELBUF_TAB(NG),NLAY,NPTR,NPTS,NPTT,VALUE,NEL)
               GBUF%TM_DMG(1:NEL)= MAX(GBUF%TM_DMG(1:NEL),VALUE(1:NEL))
             END IF
@@ -187,9 +187,9 @@ C-----------------------------------------------
      .                          GBUF%TM_STRA1,GBUF%TM_STRA3,GBUF%TM_PSTRA,NEL)
             END IF
           CASE(3,7)
-            NLAY = ELBUF_TAB(NG)%NLAY                
-            NPTR = ELBUF_TAB(NG)%NPTR                 
-            NPTS = ELBUF_TAB(NG)%NPTS 
+            NLAY = ELBUF_TAB(NG)%NLAY
+            NPTR = ELBUF_TAB(NG)%NPTR
+            NPTS = ELBUF_TAB(NG)%NPTS
             NPT =  ELBUF_TAB(NG)%BUFLY(1)%NPTT
             ISUBSTACK = IPARG(71,NG)
             IF(ITY == 3)THEN
@@ -200,12 +200,12 @@ C-----------------------------------------------
               IPID = IXTG(5,NFT+1)				
             ENDIF
             IF (GBUF%G_TM_YIELD>0 ) THEN  !VONM main value
-              VALUE(1:NEL) = ZERO            
+              VALUE(1:NEL) = ZERO
               CALL TM_VONM_SHELL(GBUF%FOR,VALUE,NEL)
               GBUF%TM_YIELD(1:NEL)= MAX(GBUF%TM_YIELD(1:NEL),VALUE(1:NEL))
             END IF
             IF (GBUF%G_TM_EINT>0 ) THEN  ! /ENER
-               VALUE(1:NEL) = ZERO            
+               VALUE(1:NEL) = ZERO
                IF (MTN == 151) CYCLE
                RHO = PM(1,IMAT)
                DO I=1,NEL
@@ -214,13 +214,13 @@ C-----------------------------------------------
                ENDDO
               GBUF%TM_EINT(1:NEL)= MAX(GBUF%TM_EINT(1:NEL),VALUE(1:NEL))
             END IF
-            IF (GBUF%G_TM_SEQ>0 ) THEN  
-              VALUE(1:NEL) = ZERO            
+            IF (GBUF%G_TM_SEQ>0 ) THEN
+              VALUE(1:NEL) = ZERO
               CALL TM_SEQ_SHELL(ELBUF_TAB(NG),NLAY,NPTR,NPTS,VALUE,NEL)
               GBUF%TM_SEQ(1:NEL)= MAX(GBUF%TM_SEQ(1:NEL),VALUE(1:NEL))
             END IF
-            IF (GBUF%G_TM_DMG>0 ) THEN  
-              VALUE(1:NEL) = ZERO            
+            IF (GBUF%G_TM_DMG>0 ) THEN
+              VALUE(1:NEL) = ZERO
               IF (MTN == 25) THEN
                 SELECT CASE (IGTYP)
                   CASE(10)
@@ -229,22 +229,22 @@ C-----------------------------------------------
                       DO I=1,NEL
                         MATLY(IADR+I)=IMAT
                       END DO
-                    END DO 
+                    END DO
                   CASE(11)
-                    IPMAT = 100				    
+                    IPMAT = 100				
                     DO N=1,NPT
                       IADR = (N-1)*NEL
                       DO I=1,NEL
                         MATLY(IADR+I)=IGEO(IPMAT+N,IPID)
                       END DO
-                    END DO 
+                    END DO
                   CASE(17,51,52)
-                    IPMAT = 2 + NLAY			   
+                    IPMAT = 2 + NLAY			
                     DO N=1,NLAY
-                      IADR = (N-1)*NEL			   
+                      IADR = (N-1)*NEL			
                       DO I=1,NEL
                         MATLY(IADR+I) = STACK%IGEO(IPMAT+N,ISUBSTACK)
-                      END DO				  
+                      END DO				
                     END DO	
                 END SELECT
                 CALL TM_DMGL25_SHELL(ELBUF_TAB(NG),NLAY,NPTR,NPTS,IGTYP,
@@ -264,8 +264,8 @@ C-----------------------------------------------
             END IF
         END SELECT
        END DO
-      END IF !(NMAX_E > 0 )THEN   
-      IF (NMAX_N > 0 )THEN   
+      END IF !(NMAX_E > 0 )THEN
+      IF (NMAX_N > 0 )THEN
         NODFTSK   = 1+ITASK*NUMNOD/ NTHREAD
         NODLTSK   = (ITASK+1)*NUMNOD/NTHREAD
        IF (LMAX_DIS>0) CALL UPD_TMNORM2(D,TM_DIS,TM_PDIS,NODFTSK,NODLTSK)
@@ -293,7 +293,7 @@ C-----------------
          CALL SIG3DPIN2H(GPSTMP,P2TMP,NODFTSK,NODLTSK)
          CALL UPD_TMTENS(GPSTMP,P2TMP,TM_NSTRA1,TM_NSTRA3,TM_PNSTRA,NODFTSK,NODLTSK)
        END IF
-      END IF !(NMAX_N > 0 )THEN   
+      END IF !(NMAX_N > 0 )THEN
 C-----------------         
          CALL MY_BARRIER()
 C-----------------         

@@ -63,11 +63,11 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
      .        LBOUND(*), JLT, NRTS, IEDGE, ITAB(*),
-     .        N1(MVSIZ), N2(MVSIZ), 
+     .        N1(MVSIZ), N2(MVSIZ),
      .        M1(4,MVSIZ), M2(4,MVSIZ)
 C     REAL
       my_real
-     .        X(3,*), 
+     .        X(3,*),
      .        XXS1(MVSIZ), XXS2(MVSIZ), XYS1(MVSIZ), XYS2(MVSIZ),
      .        XZS1(MVSIZ), XZS2(MVSIZ), XXM1(4,MVSIZ), XXM2(4,MVSIZ),
      .        XYM1(4,MVSIZ), XYM2(4,MVSIZ), XZM1(4,MVSIZ), XZM2(4,MVSIZ),
@@ -116,7 +116,7 @@ C-----------------------------------------------
       END DO
 
       DO I=1,JLT
-        GAPE_M(I)=ZERO ! Solids 
+        GAPE_M(I)=ZERO ! Solids
                        ! If edge is shared by solid and shell : edge is considered as a shell edge
 	IF(CAND_S(I)<=NRTS) THEN
           GAPE_S(I)=GAPE(CAND_S(I))

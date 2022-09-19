@@ -49,7 +49,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "units_c.inc"
 #include      "sysunit.inc"
-#include      "r2r_c.inc" 
+#include      "r2r_c.inc"
       INTEGER, INTENT(IN) :: VOLID
 C-----------------------------------------------
 C     Local variable
@@ -69,8 +69,8 @@ C-----------------------------------------------
       RAD_END = "/END"
 
       WRITE(FILENAME, "(A6,I4.4,A4)") "MONVOL",VOLID,".inc"
-      
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILENAME(1:len_trim(FILENAME))    
+
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILENAME(1:len_trim(FILENAME))
       LEN_TMP_NAME = OUTFILE_NAME_LEN+len_trim(FILENAME)
       OPEN(UNIT=10,FILE=TMP_NAME(1:LEN_TMP_NAME),FORM='formatted')
 
@@ -78,7 +78,7 @@ C-----------------------------------------------
       WRITE(10, "(A5)") "/NODE"
       WRITE(10, "(A100)") RAD_INTER
       DO II = NB_TOTAL_NODE_OLD + 1, NB_TOTAL_NODE
-         WRITE(10, "(I10, 1PG20.13, 1PG20.13, 1PG20.13)"), ITAB_TMP(II), 
+         WRITE(10, "(I10, 1PG20.13, 1PG20.13, 1PG20.13)"), ITAB_TMP(II),
      .        NODE_COORD(1, II), NODE_COORD(2, II), NODE_COORD(3, II)
       ENDDO
 C     VOID MATERIAL

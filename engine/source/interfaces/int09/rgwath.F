@@ -41,7 +41,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
      .     NTAG(*), NELW(*), WEIGHT(*),
      .        IAD_ELEM(*), FR_ELEM(*), FR_WALL(*)
       my_real
-     .  PM(NPROPM,*), X(*), RWL(*), MS(*), FSAV(*), V(*), W(*), 
+     .  PM(NPROPM,*), X(*), RWL(*), MS(*), FSAV(*), V(*), W(*),
      .  E(*), A(*),
      .  TEMP,TSTIF,FHEAT, SAVE(3)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -78,7 +78,7 @@ C-----------------------------------------------
      .   FNXN,FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE,
      .   F1(NSN), F2(NSN), F3(NSN), F4(NSN), F5(NSN), F6(NSN)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6(6,6)
 C
       IF(MSR==0)THEN
@@ -87,7 +87,7 @@ C
        ZWL=RWL(6)
        VXW=ZERO
        VYW=ZERO
-       VZW=ZERO      
+       VZW=ZERO
       ELSE
        M3=3*MSR
        M2=M3-1
@@ -167,7 +167,7 @@ C         POINT SECND SLIDING
           V(N1)=V(N1)-DV*RWL(1)-FNXT/MS(N)
           V(N2)=V(N2)-DV*RWL(2)-FNYT/MS(N)
           V(N3)=V(N3)-DV*RWL(3)-FNZT/MS(N)
-          E(N) = FHEAT * 
+          E(N) = FHEAT *
      .        ((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
         ENDIF
         F4(I) = FNXT*WEIGHT(N)
@@ -210,7 +210,7 @@ C
         CALL SUM_6_FLOAT(1, NSN, F4, FRWL6(4,1), 6)
         CALL SUM_6_FLOAT(1, NSN, F5, FRWL6(5,1), 6)
         CALL SUM_6_FLOAT(1, NSN, F6, FRWL6(6,1), 6)
-        
+
         IF(NSPMD > 1) THEN
 Cel si proc concerne par le rgwall
           IF(FR_WALL(ISPMD+1)/=0) THEN

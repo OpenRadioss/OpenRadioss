@@ -32,7 +32,7 @@ Chd|====================================================================
      1     NEL       ,NUPARAM   ,NUVAR     ,UPARAM    ,UVAR      ,
      2     TIME      ,NPF       ,TF        ,NFUNC     ,IFUNC     ,
      3     NGL       ,IPG       ,ILAY      ,IPT       ,HARDM     ,
-     4     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,  
+     4     SIGNXX    ,SIGNYY    ,SIGNXY    ,SIGNYZ    ,SIGNZX    ,
      5     OFF       ,FOFF      ,PTHKF     ,DFMAX     ,TDEL      ,
      6     DAM       )
 C-----------------------------------------------
@@ -114,15 +114,15 @@ C=======================================================================
         SIG1(I) = ZERO    ! 1st principal normalized stress
         SIG2(I) = ZERO    ! 2d principal normalized stress
         LAMBDANXT(I) = ZERO  ! Instability factor
-      ENDDO 
-      NINDX = 0                                                
+      ENDDO
+      NINDX = 0
 C-------- ZERO VALUE for deleted element       
       DO I=1,NEL
-        IF (OFF(I) == ZERO) THEN 
+        IF (OFF(I) == ZERO) THEN
           UVAR(I,1)= ZERO
           UVAR(I,2)= ZERO
         END IF
-      ENDDO    
+      ENDDO
 c-----------------------------
       IFAIL_SH = INT(UPARAM(1))
       IF (IFAIL_SH == 1) THEN
@@ -162,13 +162,13 @@ C --- Normalization of stresses
           IF (CHECK == 1 ) THEN
 C --- compute variables from input curve SR and 3D 
             SIGSR =  FINTER(IFUNC(1),SIG2(I),NPF,TF,DYDX1)
-            SIG3D =  FINTER(IFUNC(2),SIG2(I),NPF,TF,DYDX2)      
+            SIG3D =  FINTER(IFUNC(2),SIG2(I),NPF,TF,DYDX2)
             IF(SIGSR < ABS(SIG2(I)).AND.SIG3D < ABS(SIG2(I))) THEN
                LAMBDANXT(I) = TWO
             ELSEIF(SIGSR < ABS(SIG2(I))) THEN
-              SIGSR = ABS(SIG2(I))  
+              SIGSR = ABS(SIG2(I))
               LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
-            ELSE 
+            ELSE
 C --- The instability factor
              LAMBDANXT(I) = ONE + ((SIG1(I) - SIGSR)/(SIG3D - SIGSR))
             ENDIF
@@ -176,8 +176,8 @@ C --- The instability factor
             LAMBDANXT(I) = MIN(LAMBDANXT(I),TWO)
           ELSE
             LAMBDANXT(I) = ZERO
-          ENDIF  
-        ENDIF 
+          ENDIF
+        ENDIF
       ENDDO
 c
 c-----------------------
@@ -185,7 +185,7 @@ c-----------------------
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
           IF (LAMBDANXT(I) >= TWO) THEN
             NINDX = NINDX + 1
-            INDX(NINDX) = I  
+            INDX(NINDX) = I
             FOFF(I) = 0
             TDEL(I) = TIME
           ENDIF
@@ -200,16 +200,16 @@ c-----------------------
            WRITE(ISTDO,2100) NGL(I),IPT,TIME,LAMBDANXT(I)
 #include  "lockoff.inc"
          END DO
-      ENDIF   ! NINDX            
+      ENDIF   ! NINDX
 c-----------------------
 c     SAVE USER VARIABLES
 c-----------------------
-      DO I=1,NEL                          
-        DAM(I)    = MAX(DAM(I),LAMBDANXT(I))                                     
-        UVAR(I,1) = SIG1(I)                                                      
-        UVAR(I,2) = SIG2(I)                                                      
-        DFMAX(I)  = MIN(ONE, DAM(I)/TWO) ! Maximum Dmg for output : 0 < DFMAX < 1  
-      ENDDO                                                                      
+      DO I=1,NEL
+        DAM(I)    = MAX(DAM(I),LAMBDANXT(I))
+        UVAR(I,1) = SIG1(I)
+        UVAR(I,2) = SIG2(I)
+        DFMAX(I)  = MIN(ONE, DAM(I)/TWO) ! Maximum Dmg for output : 0 < DFMAX < 1
+      ENDDO
 C-----------------------------------------------
  2000 FORMAT(1X,'(NXT FAILURE) FOR SHELL ELEMENT ',I10,1X,
      .'LAYER',I10,':',/

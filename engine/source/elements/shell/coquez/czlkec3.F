@@ -33,9 +33,9 @@ Chd|====================================================================
      4                    IPLAT,DHZ  ,
      6                    K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      7                    M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     8                    MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     9                    MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
-     A                    IORTH,HMOR,HFOR,HMFOR) 
+     8                    MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     9                    MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
+     A                    IORTH,HMOR,HFOR,HMFOR)
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -48,7 +48,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,NPLAT,IPLAT(*),IKGEO,IORTH
-      MY_REAL 
+      MY_REAL
      .   VOL(*),THK0(*),THK2(*),A_I(*),Z1(*),
      .    HM(MVSIZ,4),HF(MVSIZ,4),HZ(*),
      .    PX1(*)  ,PX2(*)   ,PY1(*)  ,PY2(*)  ,
@@ -70,22 +70,22 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
-      MY_REAL 
+      MY_REAL
      .    DM(2,2,MVSIZ),DF(2,2,MVSIZ),
      .    C1,C2,GM(MVSIZ),GF(MVSIZ),DG(MVSIZ),
-     .    PX1PX1(MVSIZ),PX1PX2(MVSIZ) ,PX2PX2(MVSIZ), 
-     .    PX1PY1(MVSIZ),PX1PY2(MVSIZ) ,PX2PY1(MVSIZ),       
-     .    PX2PY2(MVSIZ),PY1PY1(MVSIZ),PY1PY2(MVSIZ),PY2PY2(MVSIZ),        
+     .    PX1PX1(MVSIZ),PX1PX2(MVSIZ) ,PX2PX2(MVSIZ),
+     .    PX1PY1(MVSIZ),PX1PY2(MVSIZ) ,PX2PY1(MVSIZ),
+     .    PX2PY2(MVSIZ),PY1PY1(MVSIZ),PY1PY2(MVSIZ),PY2PY2(MVSIZ),
      .    FACZ(MVSIZ),FACZ2(MVSIZ),DFZ,DM5(MVSIZ),DM6(MVSIZ),DF5(MVSIZ),
      .    DF6(MVSIZ),DM5_2(MVSIZ),DM6_2(MVSIZ),DF5_2(MVSIZ),
      .    DF6_2(MVSIZ),DMF(3,3,MVSIZ),
      .    BXIBXJ(2,2,MVSIZ),BXIBYJ(2,2,MVSIZ),BYIBXJ(2,2,MVSIZ),
-     .    BYIBYJ(2,2,MVSIZ),FAC2Z   
+     .    BYIBYJ(2,2,MVSIZ),FAC2Z
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
        NF=NPLAT+1
 #include "vectorize.inc"
 C--------Constante parts---------------
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         C1=THK2(EP)*C2
@@ -103,16 +103,16 @@ C--------Constante parts---------------
        ENDDO
 C---------px3=-px1,px4=-px2-------------
        DO EP=JFT,JLT
-         PX1PX1(EP) = PX1(EP)*PX1(EP) 
-         PX1PX2(EP) = PX1(EP)*PX2(EP) 
-         PX2PX2(EP) = PX2(EP)*PX2(EP) 
-         PX1PY1(EP) = PX1(EP)*PY1(EP) 
-         PX1PY2(EP) = PX1(EP)*PY2(EP) 
-         PX2PY1(EP) = PX2(EP)*PY1(EP) 
-         PX2PY2(EP) = PX2(EP)*PY2(EP) 
-         PY1PY1(EP) = PY1(EP)*PY1(EP) 
-         PY1PY2(EP) = PY1(EP)*PY2(EP) 
-         PY2PY2(EP) = PY2(EP)*PY2(EP) 
+         PX1PX1(EP) = PX1(EP)*PX1(EP)
+         PX1PX2(EP) = PX1(EP)*PX2(EP)
+         PX2PX2(EP) = PX2(EP)*PX2(EP)
+         PX1PY1(EP) = PX1(EP)*PY1(EP)
+         PX1PY2(EP) = PX1(EP)*PY2(EP)
+         PX2PY1(EP) = PX2(EP)*PY1(EP)
+         PX2PY2(EP) = PX2(EP)*PY2(EP)
+         PY1PY1(EP) = PY1(EP)*PY1(EP)
+         PY1PY2(EP) = PY1(EP)*PY2(EP)
+         PY2PY2(EP) = PY2(EP)*PY2(EP)
        ENDDO
 C
        DO EP=JFT,JLT
@@ -148,7 +148,7 @@ C
        ENDDO
        IF (IORTH >0 ) THEN
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	 C2=VOL(EP)
          C1=THK2(EP)*C2
@@ -157,13 +157,13 @@ C
          DF5(M)=HFOR(EP,1)*C1
          DF6(M)=HFOR(EP,2)*C1
         ENDDO
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          DM5_2(M)=TWO*DM5(M)
          DM6_2(M)=TWO*DM6(M)
          DF5_2(M)=TWO*DF5(M)
          DF6_2(M)=TWO*DF6(M)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          K11(1,1,EP)=K11(1,1,EP)+PX1PY1(EP)*DM5_2(EP)
          K11(1,2,EP)=K11(1,2,EP)+
      1               PX1PX1(EP)*DM5(EP)+PY1PY1(EP)*DM6(EP)
@@ -192,7 +192,7 @@ C
      1               PX2PX2(EP)*DF5(EP)-PY2PY2(EP)*DF6(EP)
          M22(2,2,EP)=M22(2,2,EP)+PX2PY2(EP)*DF5_2(EP)
         ENDDO
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	 C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
@@ -206,7 +206,7 @@ C
          DMF(3,3,M)=HMFOR(EP,4)*C2
         ENDDO
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          MF11(1,1,EP)=
      1               -DMF(1,2,EP)*PX1PY1(EP)-DMF(1,3,EP)*PX1PX1(EP)
      2               -DMF(2,3,EP)*PY1PY1(EP)-DMF(3,3,EP)*PX1PY1(EP)
@@ -220,7 +220,7 @@ C ----add mem-bending coupling terms of orthotrope--coplanar first---
      1                DMF(1,2,EP)*PX1PY1(EP)+DMF(2,3,EP)*PY1PY1(EP)
      2               +DMF(1,3,EP)*PX1PX1(EP)+DMF(3,3,EP)*PX1PY1(EP)
         ENDDO
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          MF12(1,1,EP)=
      1               -DMF(1,2,EP)*PX1PY2(EP)-DMF(1,3,EP)*PX1PX2(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -238,7 +238,7 @@ C---------------------------------YIXJ-----
      1                DMF(1,2,EP)*PX2PY1(EP)+DMF(2,3,EP)*PY1PY2(EP)
      2               +DMF(1,3,EP)*PX1PX2(EP)+DMF(3,3,EP)*PX1PY2(EP)
         ENDDO
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          MF22(1,1,EP)=
      1               -DMF(1,2,EP)*PX2PY2(EP)-DMF(1,3,EP)*PX2PX2(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -256,7 +256,7 @@ C---------------------------------YIXJ-----
      1                DMF(1,2,EP)*PX2PY2(EP)+DMF(2,3,EP)*PY2PY2(EP)
      2               +DMF(1,3,EP)*PX2PX2(EP)+DMF(3,3,EP)*PX2PY2(EP)
         ENDDO
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          MF23(1,1,EP)=
      1                DMF(1,2,EP)*PX2PY1(EP)+DMF(1,3,EP)*PX1PX2(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -335,7 +335,7 @@ C--------(px1px1)'=py2py2;(px1px2)'=py1py2;(px2px2)'=py1py1;-------------
 C--------(py1py1)'=px2px2;(py1py2)'=px1px2;(py2py2)'=px1px1;-------------
 C--------(px1py1)'=-px2py2;(px2py1)'=-px2py1;(px2py2)'=-px1py1;(px1py2)'=-px1py2;-------------
        IF (IORTH > 0) THEN
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          K11(1,1,EP)=K11(1,1,EP)-PX2PY2(EP)*DF5_2(EP)*FACZ2(EP)
          K11(1,2,EP)=K11(1,2,EP)+FACZ2(EP)*(
      1               PY2PY2(EP)*DF5(EP)+PX2PX2(EP)*DF6(EP))
@@ -379,7 +379,7 @@ C
          BYIBXJ(2,2,EP)=BYIBXJ(1,1,EP)
 C
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          K11(1,1,EP)=K11(1,1,EP)+DMF(1,1,EP)*BXIBXJ(1,1,EP)+
      1               DMF(1,3,EP)*(BXIBYJ(1,1,EP)+BYIBXJ(1,1,EP))+
      2               DMF(3,3,EP)*BYIBYJ(1,1,EP)
@@ -486,33 +486,33 @@ C--------px1'py1=py1py2;px2'py1=py1py1;px2'py2=py1py2;px1'py2=py2py2;-----------
         MF23(2,1,EP)=-(DFZ-DG(EP))*PX1PY1(EP)
        ENDDO
        IF (IORTH>0) THEN
-        DO M=NF,JLT 
+        DO M=NF,JLT
          DF5(M)=FACZ(M)*DF5(M)
          DF6(M)=FACZ(M)*DF6(M)
         ENDDO
 C
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          DFZ=DF5(EP)*PX1PY2(EP)-DF6(EP)*PX2PY1(EP)
          MF11(1,1,EP)=MF11(1,1,EP)-DFZ
          MF11(1,2,EP)=MF11(1,2,EP)+DF5(EP)*(PY1PY2(EP)-PX1PX2(EP))
          MF11(2,1,EP)=MF11(2,1,EP)+DF6(EP)*(PX1PX2(EP)-PY1PY2(EP))
          MF11(2,2,EP)=MF11(2,2,EP)+DFZ
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          DFZ=(DF5(EP)-DF6(EP))*PX2PY2(EP)
          MF12(1,1,EP)=MF12(1,1,EP)-DFZ
          MF12(1,2,EP)=MF12(1,2,EP)+DF5(EP)*(PY2PY2(EP)-PX2PX2(EP))
          MF12(2,1,EP)=MF12(2,1,EP)+DF6(EP)*(PX2PX2(EP)-PY2PY2(EP))
          MF12(2,2,EP)=MF12(2,2,EP)+DFZ
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          DFZ=DF5(EP)*PX2PY1(EP)-DF6(EP)*PX1PY2(EP)
          MF22(1,1,EP)=MF22(1,1,EP)-DFZ
          MF22(1,2,EP)=MF22(1,2,EP)+DF5(EP)*(PY1PY2(EP)-PX1PX2(EP))
          MF22(2,1,EP)=MF22(2,1,EP)+DF6(EP)*(PX1PX2(EP)-PY1PY2(EP))
          MF22(2,2,EP)=MF22(2,2,EP)+DFZ
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          DFZ=(DF6(EP)-DF5(EP))*PX1PY1(EP)
          MF23(1,1,EP)=MF23(1,1,EP)-DFZ
          MF23(1,2,EP)=MF23(1,2,EP)-DF5(EP)*(PY1PY1(EP)-PX1PX1(EP))
@@ -520,7 +520,7 @@ C
          MF23(2,2,EP)=MF23(2,2,EP)+DFZ
         ENDDO
 C ----add mem-bending coupling terms of orthotrope--warped(same than coplanar---
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          MF11(1,1,EP)=MF11(1,1,EP)
      1               -DMF(1,2,EP)*PX1PY1(EP)-DMF(1,3,EP)*PX1PX1(EP)
      2               -DMF(2,3,EP)*PY1PY1(EP)-DMF(3,3,EP)*PX1PY1(EP)
@@ -534,7 +534,7 @@ C ----add mem-bending coupling terms of orthotrope--warped(same than coplanar---
      1               +DMF(1,2,EP)*PX1PY1(EP)+DMF(2,3,EP)*PY1PY1(EP)
      2               +DMF(1,3,EP)*PX1PX1(EP)+DMF(3,3,EP)*PX1PY1(EP)
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          MF12(1,1,EP)=MF12(1,1,EP)
      1               -DMF(1,2,EP)*PX1PY2(EP)-DMF(1,3,EP)*PX1PX2(EP)
      2               -DMF(2,3,EP)*PY1PY2(EP)-DMF(3,3,EP)*PX2PY1(EP)
@@ -548,7 +548,7 @@ C ----add mem-bending coupling terms of orthotrope--warped(same than coplanar---
      1               +DMF(1,2,EP)*PX2PY1(EP)+DMF(2,3,EP)*PY1PY2(EP)
      2               +DMF(1,3,EP)*PX1PX2(EP)+DMF(3,3,EP)*PX1PY2(EP)
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          MF22(1,1,EP)=MF22(1,1,EP)
      1               -DMF(1,2,EP)*PX2PY2(EP)-DMF(1,3,EP)*PX2PX2(EP)
      2               -DMF(2,3,EP)*PY2PY2(EP)-DMF(3,3,EP)*PX2PY2(EP)
@@ -562,7 +562,7 @@ C ----add mem-bending coupling terms of orthotrope--warped(same than coplanar---
      1               +DMF(1,2,EP)*PX2PY2(EP)+DMF(2,3,EP)*PY2PY2(EP)
      2               +DMF(1,3,EP)*PX2PX2(EP)+DMF(3,3,EP)*PX2PY2(EP)
         ENDDO
-        DO EP=NF,JLT 
+        DO EP=NF,JLT
          MF23(1,1,EP)=MF23(1,1,EP)
      1               +DMF(1,2,EP)*PX2PY1(EP)+DMF(1,3,EP)*PX1PX2(EP)
      2               +DMF(2,3,EP)*PY1PY2(EP)+DMF(3,3,EP)*PX1PY2(EP)
@@ -626,7 +626,7 @@ C------ renforce positive  ----------
         M33(3,3,EP)=M11(3,3,EP)
         M44(3,3,EP)=M22(3,3,EP)
        ENDDO
-      ENDIF 
+      ENDIF
 C
        RETURN
        END
@@ -642,8 +642,8 @@ Chd|====================================================================
      3                     PX1  ,PX2  ,PY1   ,PY2  ,
      6                    K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      7                    M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     8                    MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     9                    MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34, 
+     8                    MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     9                    MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      A                    IORTH,HMOR,HFOR ,IPLAT,DHZ  ,
      4                    PRX  ,PRY  ,PRXY ,PRZ ,HMFOR,NPLAT)
 C--------------------------------------------------------------------------------------------------
@@ -658,7 +658,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,IPLAT(*),IORTH,NPLAT
-      MY_REAL 
+      MY_REAL
      .   VOL(*),THK0(*),THK2(*),A_I(*),Z1(*),
      .    HM(MVSIZ,4),HF(MVSIZ,4),HZ(*),
      .    PX1(*)  ,PX2(*)   ,PY1(*)  ,PY2(*)  ,
@@ -672,7 +672,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
      .    FM23(3,3,*),FM24(3,3,*),FM34(3,3,*),
      .    K34(3,3,*),K44(3,3,*),M34(3,3,*),M44(3,3,*),
      .    MF34(3,3,*),MF44(3,3,*),DHZ(*),HMOR(MVSIZ,2),HFOR(MVSIZ,2)
-      my_real 
+      my_real
      .   PRX(4,*),PRY(4,*),PRXY(4,*),PRZ(4,*) ,HMFOR(MVSIZ,6)
 C---------------|[KIJ][MFIJ]|----
 C-----KE(6x6)=  |           |
@@ -681,7 +681,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
-      MY_REAL 
+      MY_REAL
      .    DM(3,3,MVSIZ),DPRZ(4,MVSIZ),
      .    C1,C2,CBRX(4,MVSIZ),CBRY(4,MVSIZ),CBRZ(4,MVSIZ),
      .    KZ11(2,2,MVSIZ),KZ12(2,2,MVSIZ),KZ22(2,2,MVSIZ),
@@ -690,7 +690,7 @@ C-----------------------------------------------
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 #include "vectorize.inc"
 C--------Constante parts---------------
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         DM(1,1,M)=HM(EP,1)*C2
@@ -702,7 +702,7 @@ C--------Constante parts---------------
         DM(2,3,M)=ZERO
        ENDDO
        IF (IORTH==1) THEN
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	 C2=VOL(EP)
          DM(1,3,M)=HMOR(EP,1)*C2
@@ -710,7 +710,7 @@ C--------Constante parts---------------
         ENDDO
        ENDIF
 C       
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         DM(2,1,M)=DM(1,2,M)
         DM(3,1,M)=DM(1,3,M)
         DM(3,2,M)=DM(2,3,M)
@@ -756,13 +756,13 @@ C
         K34(2,1,EP)=K34(2,1,EP)+KZ12(2,1,EP)
        ENDDO
 C
-       DO J=1,4 
-       DO M=JFT,JLT 
+       DO J=1,4
+       DO M=JFT,JLT
         DPRZ(J,M)=PRZ(J,M)*DHZ(M)
        ENDDO
        ENDDO
 C
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         C1 = -PY2(M)*DPRZ(1,M)
         C2 = PX2(M)*DPRZ(1,M)
         FM12(3,1,M)=FM12(3,1,M)+ C1
@@ -829,8 +829,8 @@ C-------[MFIJ]=[Bm]^t[C][BRm]; [MIJ]=[BRm]^t[C][BRm];----
 C---------------|0 0 BRX       |----
 C-----BR(3x3)=  |0 0 BRY       |
 C---------------|0 0 BRXY+BRYX |----
-       DO J=1,4 
-       DO M=JFT,JLT 
+       DO J=1,4
+       DO M=JFT,JLT
         CBRX(J,M) =DM(1,1,M)*PRX(J,M)+DM(1,2,M)*PRY(J,M)+
      .             DM(1,3,M)*PRXY(J,M)
         CBRY(J,M) =DM(2,1,M)*PRX(J,M)+DM(2,2,M)*PRY(J,M)+
@@ -840,7 +840,7 @@ C---------------|0 0 BRXY+BRYX |----
        ENDDO
        ENDDO
 C
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         C1 = PX2(M)*CBRX(1,M)+PY2(M)*CBRZ(1,M)
         C2 = PY2(M)*CBRY(1,M)+PX2(M)*CBRZ(1,M)
         FM12(3,1,M)=FM12(3,1,M)+ C1
@@ -918,7 +918,7 @@ C------ Mzz  ----------
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
         NF=NPLAT+1
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	 C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2

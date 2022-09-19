@@ -79,7 +79,7 @@ C     REAL
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
@@ -116,7 +116,7 @@ C     REAL
      .   BYY5(*),BYY6(*),BYY7(*),BYY8(*),
      .   BZZ1(*),BZZ2(*),BZZ3(*),BZZ4(*),
      .   BZZ5(*),BZZ6(*),BZZ7(*),BZZ8(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOL0DP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -125,7 +125,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DT1D2,DVC(MVSIZ),TOL,DT1D
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   DVP,DV,DV1
 C                                                                     12
 C-----------------------------------------------
@@ -293,7 +293,7 @@ C-------------Volume traitement------
        DO I=LFT,LLT
         DVC(I)=(DSV(I)-DVC(I))*DT1
        ENDDO
-      ENDIF 
+      ENDIF
       IF ((ICP>0.AND.ISMSTR/=10.AND.ISMSTR/=12).OR.I_SH>1) THEN
        DO I=LFT,LLT
         DV =DVC(I)*OFF(I)
@@ -313,7 +313,7 @@ c        ENDIF
        DO I=LFT,LLT
         SDV(I) =ZERO
        ENDDO
-      ENDIF 
+      ENDIF
 C
       DT1D2=HALF*DT1
       IF (ISCAU>0)DT1D2=DT1
@@ -347,7 +347,7 @@ C
         WYY(I)=ZERO
         WZZ(I)=ZERO
        ENDDO
-       ENDIF 
+       ENDIF
       ELSE
        DO I=LFT,LLT
         D4(I)=DXY(I)+DYX(I)
@@ -418,7 +418,7 @@ C     REAL
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
@@ -652,9 +652,9 @@ Chd|        S8SFORC3                      source/elements/solid/solide8s/s8sforc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S8EDEFOC3(
-     .    PXC1, PXC2, PXC3, PXC4, 
-     .    PYC1, PYC2, PYC3, PYC4, 
-     .    PZC1, PZC2, PZC3, PZC4, 
+     .    PXC1, PXC2, PXC3, PXC4,
+     .    PYC1, PYC2, PYC3, PYC4,
+     .    PZC1, PZC2, PZC3, PZC4,
      .    VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
      .    VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
      .    VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
@@ -863,7 +863,7 @@ C     REAL
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   WXX(*), WYY(*), WZZ(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -960,13 +960,13 @@ C-----------------------------------------------
      .  B0XY(MVSIZ,2),B0XZ(MVSIZ,2),B0YZ(MVSIZ,2),
      .  B0YX(MVSIZ,2),B0ZX(MVSIZ,2),B0ZY(MVSIZ,2)
 C------------
-       IF (ISMSTR/=11) THEN      
+       IF (ISMSTR/=11) THEN
          DO IP = 1,NNPT
            DO I=LFT,LLT
 C ----[B]=[MF+1][MF+1]^t -1 
-            IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
+            IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE
             BXX(I,IP)=MFXX(I,IP)*(TWO+MFXX(I,IP))+
-     .                MFXY(I,IP)*MFXY(I,IP)+MFXZ(I,IP)*MFXZ(I,IP) 
+     .                MFXY(I,IP)*MFXY(I,IP)+MFXZ(I,IP)*MFXZ(I,IP)
             BYY(I,IP)=MFYY(I,IP)*(TWO+MFYY(I,IP))+
      .                MFYX(I,IP)*MFYX(I,IP)+MFYZ(I,IP)*MFYZ(I,IP)
             BZZ(I,IP)=MFZZ(I,IP)*(TWO+MFZZ(I,IP))+
@@ -976,10 +976,10 @@ C ----[B]=[MF+1][MF+1]^t -1
             BXZ(I,IP)=MFXZ(I,IP)+MFZX(I,IP)+MFXX(I,IP)*MFZX(I,IP)+
      .                MFXY(I,IP)*MFZY(I,IP)+MFXZ(I,IP)*MFZZ(I,IP)
             BYZ(I,IP)=MFZY(I,IP)+MFYZ(I,IP)+MFZX(I,IP)*MFYX(I,IP)+
-     .                MFZY(I,IP)*MFYY(I,IP)+MFZZ(I,IP)*MFYZ(I,IP)  
+     .                MFZY(I,IP)*MFYY(I,IP)+MFZZ(I,IP)*MFYZ(I,IP)
            ENDDO
          END DO !IP = 1
-       END IF !(ISMSTR/=11) THEN               
+       END IF !(ISMSTR/=11) THEN
 C	
         DO IR = 1,2
           B0XY(LFT:LLT,IR) = ZERO
@@ -987,7 +987,7 @@ C
           B0YZ(LFT:LLT,IR) = ZERO
         END DO !IR = 1,2
 C	
-      IF (ISMSTR==11) THEN                           
+      IF (ISMSTR==11) THEN
         DO IR = 1,2
           B0YX(LFT:LLT,IR) = ZERO
           B0ZX(LFT:LLT,IR) = ZERO
@@ -1040,7 +1040,7 @@ C
         ENDDO    !  IT=1,NPTT
         ENDDO     !  IS=1,NPTS
        ENDDO      !  IR=1,NPTR
-      ELSE                                     
+      ELSE
        DO IR=1,NPTR
         DO IS=1,NPTS
         DO IT=1,NPTT
@@ -1049,7 +1049,7 @@ C-----------
 C
 C------ moyen in 3 directions
          DO I=LFT,LLT
-           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
+           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE
            B0XY(I,IR) = B0XY(I,IR)+BXY(I,IP)
            B0XZ(I,IT) = B0XZ(I,IT)+BXZ(I,IP)
            B0YZ(I,IS) = B0YZ(I,IS)+BYZ(I,IP)
@@ -1060,7 +1060,7 @@ C------ moyen in 3 directions
 C       
        DO IR = 1,2
          DO I=LFT,LLT
-           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
+           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE
            B0XY(I,IR) = B0XY(I,IR)*FOURTH
            B0XZ(I,IR) = B0XZ(I,IR)*FOURTH
            B0YZ(I,IR) = B0YZ(I,IR)*FOURTH
@@ -1074,7 +1074,7 @@ C-----------
          IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
 C
          DO I=LFT,LLT
-           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE 
+           IF (ISMSTR==12.AND.OFFG(I) >ONE) CYCLE
            BXY(I,IP) = B0XY(I,IR)
            BXZ(I,IP) = B0XZ(I,IT)
            BYZ(I,IP) = B0YZ(I,IS)
@@ -1082,7 +1082,7 @@ C
         ENDDO    !  IT=1,NPTT
         ENDDO     !  IS=1,NPTS
        ENDDO      !  IR=1,NPTR
-      END IF !(ISMSTR==11) THEN  
+      END IF !(ISMSTR==11) THEN
 C       
       RETURN
        END
@@ -1185,7 +1185,7 @@ C     REAL
      .   PX5(*), PX6(*), PX7(*), PX8(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PY5(*), PY6(*), PY7(*), PY8(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(MVSIZ),PXY2(MVSIZ),PXY3(MVSIZ),PXY4(MVSIZ),
      .   PXY5(MVSIZ),PXY6(MVSIZ),PXY7(MVSIZ),PXY8(MVSIZ),

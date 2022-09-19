@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,ID,IDX,IDY,IDZ,NCTRL 
+      INTEGER I,ID,IDX,IDY,IDZ,NCTRL
 C=======================================================================
         NUM  = 0
         KCUR = KIGE3D
@@ -58,10 +58,10 @@ C=======================================================================
 c        DO I=1,NUMELIG3D
 c          IREC=IREC+1
 c          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
-c          READ(LINE,ERR=999,FMT=FMT_5I) ID,IDX,IDY,IDZ,NCTRL 
-c          NUM = NUM + NCTRL                              
+c          READ(LINE,ERR=999,FMT=FMT_5I) ID,IDX,IDY,IDZ,NCTRL
+c          NUM = NUM + NCTRL
 c          IREC= IREC+ ((NCTRL-1)/10)+1
-c          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE 
+c          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
 c          IF(LINE(1:6) == '/IGE3D') IREC = IREC + 1
 c        ENDDO
         IREC=IREC+1
@@ -73,7 +73,7 @@ c        ENDDO
          ENDIF
          READ(LINE,ERR=999,FMT=FMT_5I)
      .   ID,IDX,IDY,IDZ,NCTRL
-         NUM = NUM + NCTRL                              
+         NUM = NUM + NCTRL
          IREC = IREC + ((NCTRL-1)/10)+2
          READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
         ENDDO

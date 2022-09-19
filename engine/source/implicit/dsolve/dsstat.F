@@ -27,8 +27,8 @@ Chd|-- called by -----------
 Chd|        DSCOND                        source/implicit/dsolve/dscond.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DSSTAT(KLC   , KLI , NDI , NDF, VS , 
-     .                  IPRI  , IOPT, NSCM, S  , IFI, 
+      SUBROUTINE DSSTAT(KLC   , KLI , NDI , NDF, VS ,
+     .                  IPRI  , IOPT, NSCM, S  , IFI,
      .                  INFFAC, IPIV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,7 +85,7 @@ C-----------------------
 C     RESOLUTIONS
 C-----------------------
       NRHS=NDF
-      IF (NDI>0) 
+      IF (NDI>0)
      .   CALL DSYTRS('U', NDI, NRHS, KLI, NDI, IPIV, F, NDI, INFRES)
       DO I=1,NDI
          DO J=1,NDF
@@ -122,4 +122,4 @@ C
       IF (NDI>0) DEALLOCATE(FACW)
       RETURN
       END
-          
+

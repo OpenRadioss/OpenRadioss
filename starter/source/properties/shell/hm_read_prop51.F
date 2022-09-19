@@ -40,13 +40,13 @@ Chd|        STACK_MOD                     share/modules1/stack_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_PROP51(
-     .           GEO      ,IGEO     ,PM       ,IPM       ,ISKN     ,  
+     .           GEO      ,IGEO     ,PM       ,IPM       ,ISKN     ,
      .           PROP_ID  ,PROP_TAG ,RTRANS   ,SUB_ID   ,STACK_INFO,
      .           TITR     ,UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
@@ -108,7 +108,7 @@ c     check encryption
 c--------------------------------------------
 c
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-c  
+c
 c--------------------------------------------
 c     Read input cards from prop_p51.cfg
 c--------------------------------------------
@@ -117,24 +117,24 @@ card1
       CALL HM_GET_INTV('Ismstr', ISMSTR, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('ISH3N' , ISH3N , IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Idrill', ISROT , IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_FLOATV('P_Thick_Fail', PTHK, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('Z0'          , ZSHIFT, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-card2      
-      CALL HM_GET_FLOATV('Hm', HM, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('Hf', HF, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('Hr', HR, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('Dm', DM, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('Dn', DN, IS_AVAILABLE, LSUBMODEL, UNITAB)  
-card3      
+      CALL HM_GET_FLOATV('P_Thick_Fail', PTHK, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Z0'          , ZSHIFT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+card2
+      CALL HM_GET_FLOATV('Hm', HM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Hf', HF, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Hr', HR, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Dm', DM, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('Dn', DN, IS_AVAILABLE, LSUBMODEL, UNITAB)
+card3
 c      CALL HM_GET_INTV  ('ISTRAIN'   ,ISTRAIN ,IS_AVAILABLE, LSUBMODEL) ! always = 1
-      CALL HM_GET_FLOATV('AREA_SHEAR',ASHEAR  ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('AREA_SHEAR',ASHEAR  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('Iint'      ,IINT    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('Ithick'    ,ITHK    ,IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_FLOATV('Fexp'      ,FAILEXP ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('Fexp'      ,FAILEXP ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card4
-      CALL HM_GET_FLOATV('V_X'       ,VX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('V_Y'       ,VY      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('V_Z'       ,VZ      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('V_X'       ,VX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('V_Y'       ,VY      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('V_Z'       ,VZ      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('SKEW_CSID'   ,IDSK    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Iorth'       ,IORTH   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Ipos'        ,IPOS    ,IS_AVAILABLE, LSUBMODEL)
@@ -156,8 +156,8 @@ c
         DO IS = 1,NSUB
           CALL HM_GET_INT_ARRAY_2INDEXES('plyidlistmax',NPT_SUB,IS,1,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INT_ARRAY_INDEX('DUMMY',IDSUB,IS,IS_AVAILABLE,LSUBMODEL)
-          STACK_INFO%SUB(2*(IS-1) + 1) = IDSUB                      
-          STACK_INFO%SUB(2*(IS-1) + 2) = NPT_SUB                    
+          STACK_INFO%SUB(2*(IS-1) + 1) = IDSUB
+          STACK_INFO%SUB(2*(IS-1) + 2) = NPT_SUB
 c
           DO I = 1,NPT_SUB
             NPLY = NPLY + 1
@@ -180,18 +180,18 @@ c
           DO I = 1,NISUB
             CALL HM_GET_INT_ARRAY_2INDEXES('interfacepairplyids',IPID1,1,I,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_INT_ARRAY_2INDEXES('interfacepairplyids',IPID2,2,I,IS_AVAILABLE,LSUBMODEL)
-            STACK_INFO%ISUB(3*(I-1) + 1) = IPID1                    
-            STACK_INFO%ISUB(3*(I-1) + 2) = IPID2                    
+            STACK_INFO%ISUB(3*(I-1) + 1) = IPID1
+            STACK_INFO%ISUB(3*(I-1) + 2) = IPID2
           END DO
-        END IF  
+        END IF
       ELSE  ! property defined by a list of plies
         CALL HM_GET_INTV('plyidlistmax' ,NPLY ,IS_AVAILABLE ,LSUBMODEL)
         DO I=1,NPLY
           CALL HM_GET_INT_ARRAY_INDEX  ('plyidlist' ,PLY_ID,I,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',ANG,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-          CALL HM_GET_FLOAT_ARRAY_INDEX('P_thick_fail_lam' ,PTHKLY,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-          CALL HM_GET_FLOAT_ARRAY_INDEX('F_weight_i' ,WEIGHT,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',ANG,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('P_thick_fail_lam' ,PTHKLY,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('F_weight_i' ,WEIGHT,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
           IF (PTHKLY == ZERO) PTHKLY = EM03
           IF (WEIGHT == ZERO) WEIGHT = ONE
@@ -244,7 +244,7 @@ c--------------------------------------------
         CALL ANCMSG(MSGID=539, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,
      .              I1=PROP_ID, C1=TITR)
         ISHELL = 24
-      ENDIF         
+      ENDIF
 c
       IF (ISHELL == 24) THEN
         IF (CVIS==ZERO) CVIS = ONE
@@ -326,8 +326,8 @@ c     check duplicated py IDs
           CALL ANCMSG(MSGID=1584,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .         I1=IDSUB,
      .         I2=IPID0)
-        ENDIF      
-      ENDDO 
+        ENDIF
+      ENDDO
 c
       DO 250 K=1,NPLY
         IMID = STACK_INFO%MID_IP(K)
@@ -352,7 +352,7 @@ C     isub stack
           ENDDO
           STACK_INFO%ISUB (3*(K-1) + 3) = 0
   300   CONTINUE
-      ENDIF 
+      ENDIF
 c--------------------------------------------
       IF (DM == ZERO) IGEO(31) = 1
       IGEO(1)  = PROP_ID
@@ -364,10 +364,10 @@ c--------------------------------------------
       IGEO(11) = IGTYP
       IGEO(18) = ISH3N
       IGEO(20) = ISROT
-      IGEO(43) = NSUB   ! number of substack               
-      IGEO(44) = NISUB  ! number of interface 
+      IGEO(43) = NSUB   ! number of substack
+      IGEO(44) = NISUB  ! number of interface
       IGEO(47) = IINT
-      IGEO(48) = 0 
+      IGEO(48) = 0
       IGEO(98) = IGMAT
       IGEO(99) = IPOS
       IGEO(14) = IRP
@@ -400,9 +400,9 @@ c
         GEO(171)=0
       ELSEIF (ISHELL >= 3 .AND. ISHELL < 100 .AND. ISHELL /= 4) THEN
         GEO(171)=ISHELL-1
-      ENDIF      
+      ENDIF
 c--------------------------------------------
-c     OUTPUT 
+c     OUTPUT
 c--------------------------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 1000)
@@ -413,14 +413,14 @@ c--------------------------------------------
             WRITE(IOUT,2100)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
      .               GEO(16),GEO(13),GEO(38),PTHK,FAILEXP,ISHEAR,ITHK,
      .               IPLAST,IORTH,GEO(7),GEO(8),GEO(9),IGEO(47),IGEO(14)
-          ELSE 
+          ELSE
             WRITE(IOUT,2200)ISTRAIN,ISMSTR,ISHELL,ISH3N,
      .               HM,HF,HR,DM,ASHEAR,
      .               PTHK,FAILEXP,ISHEAR,ITHK,IPLAST,IORTH,
      .               VX,VY,VZ,IINT,IGEO(14)
           ENDIF
         ELSE
-          IF (ISHELL > 11 .AND. ISHELL < 29) THEN 
+          IF (ISHELL > 11 .AND. ISHELL < 29) THEN
             WRITE(IOUT,2300)ISTRAIN,ISMSTR,ISHELL,ISH3N,ISROT,
      .               GEO(16),GEO(13),GEO(38),PTHK,FAILEXP,ISHEAR,ITHK,
      .               IPLAST,IORTH,IDSK,IGEO(47),IGEO(14)
@@ -433,11 +433,11 @@ c---
         IF (NSUB > 0) THEN
           KK = 0
           DO IS = 1,NSUB
-            IDSUB   = STACK_INFO%SUB(2*(IS - 1) + 1) 
-            NPT_SUB = STACK_INFO%SUB(2*(IS - 1) + 2) 
+            IDSUB   = STACK_INFO%SUB(2*(IS - 1) + 1)
+            NPT_SUB = STACK_INFO%SUB(2*(IS - 1) + 2)
             WRITE(IOUT,3000) IS
             DO K=1,NPT_SUB
-              M1 =  KK + K 
+              M1 =  KK + K
               WRITE(IOUT,2800)K,STACK_INFO%PID(M1),STACK_INFO%ANG(M1),!STACK_INFO%POS(M1),
      .                        STACK_INFO%THKLY(M1),STACK_INFO%WEIGHT(M1)
               STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/HUNDRED80
@@ -448,7 +448,7 @@ c
           DO K=1,NISUB
             IPID1 = STACK_INFO%ISUB(3*(K - 1) + 1)
             IPID2 = STACK_INFO%ISUB(3*(K - 1) + 2)
-            WRITE(IOUT,3100) K 
+            WRITE(IOUT,3100) K
             WRITE(IOUT,3300) IPID1,IPID2
           ENDDO
 c
@@ -459,7 +459,7 @@ c
      .                      STACK_INFO%THKLY(I),STACK_INFO%WEIGHT(I)
             STACK_INFO%ANG(I) = STACK_INFO%ANG(I)*PI/HUNDRED80
           ENDDO
-        END IF  ! NSUB      
+        END IF  ! NSUB
 c
       END IF
 c-----------------------------------------------------------------------
@@ -470,7 +470,7 @@ c-----------------------------------------------------------------------
      & 5X,'COMPOSITE STACK SHELL PROPERTY TYPE 51  '/,
      & 5X,'WITH VARIABLE THICKNESSES AND MATERIALS '/,
      & 5X,'AND VARIABLE NUMBER OF INTEGRATION POINTS THROUGH EACH LAYER'/,
-     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/)   
+     & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10/)
  2100 FORMAT(
      & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/,
      & 5X,'SMALL STRAIN FLAG . . . . . . . . . . .=',I10/,
@@ -556,11 +556,11 @@ c-----------------------------------------------------------------------
      & 5X,'      % OF PLY THICKNESS TO FAIL. . . .=',1PG20.13/,
      & 5X,'      WEIGHT FACTOR FOR PLY FAILURE . .=',1PG20.13/)
  3000 FORMAT(
-     & 5X,' COMPOSITE SUBSTACK SHELL NUMBER . . . =',I10/ ) 
+     & 5X,' COMPOSITE SUBSTACK SHELL NUMBER . . . =',I10/ )
  3100 FORMAT(
      & 5X,'  INTERFACE NUMBER BETWEEN-SUBSTACK . .:',I10/ )
  3300 FORMAT(
-     & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/, 
+     & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/,
      & 5X,'      INTER-PLY_2 PID NUMBER . . . . . .=',I10/)
 c-----------------------------------------------------------------------
       RETURN

@@ -93,7 +93,7 @@ C-----------------------------------------------
             JLNEW=N
           ENDIF
         END DO !LL=LL1,LL2	
-        ILOC(IL)=JLNEW      
+        ILOC(IL)=JLNEW
       END DO !I=LFT,LLT
 
       RETURN

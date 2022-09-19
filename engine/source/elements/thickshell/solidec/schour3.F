@@ -73,13 +73,13 @@ C-----------------------------------------------
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
      .   HGX1(*), HGY2(*),HGZ1(*), HGZ2(*),
      .   SIG0(NEL,6),MM(MVSIZ,2),
-     .   VOL(*),CXX(*), 
+     .   VOL(*),CXX(*),
      .   FHOUR(NEL,12),RX0(*),RY0(*),SX0(*),SY0(*),AJ5(*),
      .   EINT(*),EINTM(*),SIGY(*) ,VOL0(*),DEFP(*),NU(*)
 C-----------------------------------------------
@@ -209,23 +209,23 @@ C -1 1 -1 1 1 -1 1 -1
       IF (ICP==1) THEN
        DO I=LFT,LLT
         A1(I) =HALF*(ONE-NU(I))
-        A2(I) =HALF*(NU(I)-ONE) 
+        A2(I) =HALF*(NU(I)-ONE)
         A3(I) = ZERO
-       ENDDO 
+       ENDDO
       ELSEIF (ICP==2) THEN
        DO I=LFT,LLT
         FACP=ONE-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
         CC = FACP*(ONE+NU(I))
         A1(I) =HALF*(ONE-NU(I)+CC)
-        A2(I) =HALF*(NU(I)-ONE+CC) 
+        A2(I) =HALF*(NU(I)-ONE+CC)
         A3(I) = ZERO
-       ENDDO 
+       ENDDO
       ELSE
        DO I=LFT,LLT
         A1(I) =ONE
         A2(I) =NU(I)
         A3(I) = ONE
-       ENDDO 
+       ENDDO
       ENDIF
       !-------elstic increament, attention il y a un fac=3----
       DO I=LFT,LLT
@@ -299,7 +299,7 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
            FAC1 =(SVM1-SIGY(I))/MAX((SVM1-SVM2),EM20)
            FAC1 =HALF +SQRT(FAC1)
            FAC = MIN(FAC1,ONE)*FAC
-         ENDIF       
+         ENDIF
          FHOUR(I,9) = FHOUR(I,9) - FAC*DH_XE4
          FHOUR(I,10) = FHOUR(I,10) - FAC*DH_YK4
          SVM = SVM1-SQRT(COEF*SVMM)
@@ -318,7 +318,7 @@ C   -----------FHOUR(1-11,I):XE1,ZE1,YK2,ZK2,XE3,YK3,ZK3,ZE3,XE4,YK4,Z4-------
         ENDIF
         FHOUR(I,12) = ZEP9*SVM1+EM01*SVM2
        ENDIF
-      ENDDO 
+      ENDDO
 C 
       DO I=LFT,LLT
        CC = THK_1(I)*VOL(I)
@@ -326,7 +326,7 @@ C
        NFHZ1(I) = CC*FHOUR(I,2)
        NFHY2(I) = CC*(FHOUR(I,3)+FHOUR(I,7))
        NFHZ2(I) = CC*FHOUR(I,4)
-       RX1  = SX0(I)*SX0(I)/RX0(I)+RX0(I)     
+       RX1  = SX0(I)*SX0(I)/RX0(I)+RX0(I)
        RXY1 = SX0(I)*SY0(I)/RX0(I)+RY0(I)
        SY1  = RY0(I)*RY0(I)/SY0(I)+SY0(I)
        HHX3(I) = RX1*RX0(I)
@@ -419,11 +419,11 @@ C
       !----hourglass energie est inclued in interal energie------
       DO I=LFT,LLT
         EINT(I)= EINT(I)+DT1*(
-     .   NFHX1(I)*HGX1(I) + NFHZ1(I)*HGZ1(I) + 
-     .   NFHY2(I)*HGY2(I) + NFHZ2(I)*HGZ2(I) + 
-     .   NFHZ3(I)*HGZ3(I) + NFHZ4(I)*HGZ4(I) + 
-     .   NFHX3(I)*HGX3(I) + NFHX4(I)*HGX4(I) + 
-     .   NFHY3(I)*HGY3(I) + NFHY4(I)*HGY4(I) ) 
+     .   NFHX1(I)*HGX1(I) + NFHZ1(I)*HGZ1(I) +
+     .   NFHY2(I)*HGY2(I) + NFHZ2(I)*HGZ2(I) +
+     .   NFHZ3(I)*HGZ3(I) + NFHZ4(I)*HGZ4(I) +
+     .   NFHX3(I)*HGX3(I) + NFHX4(I)*HGX4(I) +
+     .   NFHY3(I)*HGY3(I) + NFHY4(I)*HGY4(I) )
      .   /MAX(EM20,VOL0(I)) +EINTM(I)
       ENDDO
 C
@@ -483,13 +483,13 @@ C-----------------------------------------------
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),  
+     .   PX1H1(*), PX1H2(*), PX1H3(*),PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),PX3H4(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),PX4H4(*),
      .   HGX1(*), HGY2(*),HGZ1(*), HGZ2(*),
      .   SIG0(NEL,6),MM(MVSIZ,2),
-     .   VOL(*),CXX(*), 
+     .   VOL(*),CXX(*),
      .   FHOUR(NEL,12),RX0(*),RY0(*),SX0(*),SY0(*),AJ5(*),
      .   EINT(*),EINTM(*),SIGY(*) ,VOL0(*),DEFP(*),NU(*)
 C-----------------------------------------------
@@ -620,29 +620,29 @@ C -1 1 -1 1 1 -1 1 -1
 c      IF (ICP==1) THEN
 c       DO I=LFT,LLT
 c        A1(I) =HALF*(ONE-NU(I))
-c        A2(I) =HALF*(NU(I)-ONE) 
+c        A2(I) =HALF*(NU(I)-ONE)
 c        A3(I) = ZERO
-c       ENDDO 
+c       ENDDO
 c      ELSEIF (ICP==2) THEN
 c       DO I=LFT,LLT
 c        FACP=ONE-DEFP(I)/(SIGY(I)/E0(I)+DEFP(I))
 c        CC = FACP*(ONE+NU(I))
 c        A1(I) =HALF*(ONE-NU(I)+CC)
-c        A2(I) =HALF*(NU(I)-ONE+CC) 
+c        A2(I) =HALF*(NU(I)-ONE+CC)
 c        A3(I) = ZERO
-c       ENDDO 
+c       ENDDO
 c      ELSE
 c       DO I=LFT,LLT
 c        A1(I) =ONE
 c        A2(I) =NU(I)
 c        A3(I) = ONE
-c       ENDDO 
+c       ENDDO
 c      ENDIF
        DO I=LFT,LLT
         A1(I) =ONE
         A2(I) =NU(I)
         A3(I) = ONE
-       ENDDO 
+       ENDDO
       !-------elstic increament, attention il y a un fac=1/3----
       DO I=LFT,LLT
        C11 = TWO*G_3DT(I)/(ONE-NU(I))
@@ -724,18 +724,18 @@ C------bending behavious :
          SR2 = SR1 - TWO*NU(I)*(SE+SK)
          SR3 = ABS((SIX*NU(I)-TWO)*FHOUR(I,9)*FHOUR(I,10))
          SVMM = F_Z*(SR1+SR2+SR3)
-         FACZM = SVMR/MAX(EM20,(SVMM+SVMR))        
+         FACZM = SVMR/MAX(EM20,(SVMM+SVMR))
          IF (MM(I,1)>SIGY(I)*SIGY(I)) THEN
            IF (SVMM>EM20) THEN
             FAC = SVMR/(SVMM+SVMR)
-            FACB =ONE-MIN(SQRT(FAC),ONE-FACM)        
+            FACB =ONE-MIN(SQRT(FAC),ONE-FACM)
            ELSE
             FACB = FACM
            END IF
-           FACB = MIN(FACB,F_MAX)         
+           FACB = MIN(FACB,F_MAX)
          ELSE
            FACB = FACM
-         ENDIF 
+         ENDIF
          FHOUR(I,9) = FHOUR(I,9) - FACB*DH_XE4
          FHOUR(I,10) = FHOUR(I,10) - FACB*DH_YK4
 c         DP = THIRD*(ONE+NU(I))*(DH_XE3+DH_YK3)
@@ -755,7 +755,7 @@ C------only elsto-plastic in memb dominate case
           END IF
          ENDIF
        ENDIF
-      ENDDO 
+      ENDDO
 C 
       DO I=LFT,LLT
        CC = THK_1(I)*VOL(I)
@@ -763,7 +763,7 @@ C
        NFHZ1(I) = CC*FHOUR(I,2)
        NFHY2(I) = CC*(FHOUR(I,3)+FHOUR(I,7))
        NFHZ2(I) = CC*FHOUR(I,4)
-       RX1  = SX0(I)*SX0(I)/RX0(I)+RX0(I)     
+       RX1  = SX0(I)*SX0(I)/RX0(I)+RX0(I)
        RXY1 = SX0(I)*SY0(I)/RX0(I)+RY0(I)
        SY1  = RY0(I)*RY0(I)/SY0(I)+SY0(I)
        HHX3(I) = RX1*RX0(I)
@@ -856,11 +856,11 @@ C
       !----hourglass energie est inclued in interal energie------
       DO I=LFT,LLT
         EINT(I)= EINT(I)+DT1*(
-     .   NFHX1(I)*HGX1(I) + NFHZ1(I)*HGZ1(I) + 
-     .   NFHY2(I)*HGY2(I) + NFHZ2(I)*HGZ2(I) + 
-     .   NFHZ3(I)*HGZ3(I) + NFHZ4(I)*HGZ4(I) + 
-     .   NFHX3(I)*HGX3(I) + NFHX4(I)*HGX4(I) + 
-     .   NFHY3(I)*HGY3(I) + NFHY4(I)*HGY4(I) ) 
+     .   NFHX1(I)*HGX1(I) + NFHZ1(I)*HGZ1(I) +
+     .   NFHY2(I)*HGY2(I) + NFHZ2(I)*HGZ2(I) +
+     .   NFHZ3(I)*HGZ3(I) + NFHZ4(I)*HGZ4(I) +
+     .   NFHX3(I)*HGX3(I) + NFHX4(I)*HGX4(I) +
+     .   NFHY3(I)*HGY3(I) + NFHY4(I)*HGY4(I) )
      .   /MAX(EM20,VOL0(I)) +EINTM(I)
       ENDDO
 C

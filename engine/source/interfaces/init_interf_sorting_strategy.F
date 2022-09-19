@@ -35,7 +35,7 @@ C for the rest of simulation
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE METRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -57,10 +57,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I
       DO I=1,NINTER
-        INTBUF_TAB(I)%METRIC%TIC = 0 
-        INTBUF_TAB(I)%METRIC%TOC = 0 
-        INTBUF_TAB(I)%METRIC%TOLD = 0 
-        INTBUF_TAB(I)%METRIC%CYCLE0 = -1 
+        INTBUF_TAB(I)%METRIC%TIC = 0
+        INTBUF_TAB(I)%METRIC%TOC = 0
+        INTBUF_TAB(I)%METRIC%TOLD = 0
+        INTBUF_TAB(I)%METRIC%CYCLE0 = -1
         IF(GLOBAL_INTERFACE_SORTING_ALGO == 0) THEN
           INTBUF_TAB(I)%METRIC%ALGO = TRY_ALGO_VOXEL
         ELSEIF( GLOBAL_INTERFACE_SORTING_ALGO == 2) THEN

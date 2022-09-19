@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .      I,J,NGAUSS,NLAYER ,
      .      NUMS,NIP,NUVAR,JJHBE,J1,NU,IP,N,NPSOLID,
      .      K,IHBE,NPG,ND,NVAR_SHELL,NPT,NE,
@@ -96,8 +96,8 @@ C=======================================================================
 !      NUMSPRI=0
 !      NUMSH3N=0
       NVSHELL0   = 32
-      NUSHELL0   = 4 
-      NORTSHEL0  = 3 
+      NUSHELL0   = 4
+      NORTSHEL0  = 3
       NVAR_SHELL = 0
       NUBEAM0 = 4
 !      NUBEAM  = 0
@@ -111,12 +111,12 @@ C=======================================================================
 !       NUSHELL = 0
 !       NVSHELL1 = 0
 !       NVSHELL2 = 0
-!cc       NGAUSS = 0       
+!cc       NGAUSS = 0
 !cc       NLAYER = 0
 !cc       NVSHELL = 0
 !       IUSOLID = 0
 !       NUSOLID = 0
-!       NVSOLID1 = 0     
+!       NVSOLID1 = 0
 !       NVSOLID2 = 0
 !       NVSOLID3 = 0
 !       NVSOLID4 = 0
@@ -139,7 +139,7 @@ C /INIBRI card
 C------------------------------------
         CALL HM_OPTION_COUNT('/INIBRI', NB_INIBRI)
         IF ( NB_INIBRI > 0 ) THEN
-          ! Start reading /INIBRI card 
+          ! Start reading /INIBRI card
           CALL HM_OPTION_START('/INIBRI')
 !
           DO I=1,NB_INIBRI
@@ -316,7 +316,7 @@ C------------------------------------
 !
         CALL HM_OPTION_COUNT('/INISHE', NB_INISHE)
         IF ( NB_INISHE > 0 ) THEN
-          ! Start reading /INISHE card 
+          ! Start reading /INISHE card
           CALL HM_OPTION_START('/INISHE')
 !
           DO I=1,NB_INISHE
@@ -461,7 +461,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-                  ENDIF 
+                  ENDIF
                   IORTSHEL = 2
                   NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*2)
                   IF (NDIR == 2) NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*4)
@@ -498,7 +498,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-                  ENDIF 
+                  ENDIF
                   NUSHELL = MAX(NUSHELL,NUSHELL0+MAX(1,NPG)*MAX(1,NIP)*NUVAR)
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
@@ -535,7 +535,7 @@ C------------------------------------
 
         CALL HM_OPTION_COUNT('/INISH3', NB_INISH3)
         IF ( NB_INISH3 > 0 ) THEN
-          ! Start reading /INISH3 card 
+          ! Start reading /INISH3 card
           CALL HM_OPTION_START('/INISH3')
 !
           DO I=1,NB_INISH3
@@ -682,7 +682,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-                  ENDIF 
+                  ENDIF
                   IORTSHEL = 2
                   NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*2)
                   IF (NDIR == 2) NORTSHEL = MAX(NORTSHEL, NORTSHEL0 + MAX(1,NIP)*4)
@@ -719,7 +719,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NPG)*9)
                   ELSE
                     NVAR_SHELL = MAX(NVAR_SHELL, MAX(1,NIP)*24)
-                  ENDIF 
+                  ENDIF
                   NUSHELL = MAX(NUSHELL,NUSHELL0+MAX(1,NPG)*MAX(1,NIP)*NUVAR)
                 ENDDO ! DO J=1,NB_ELEMENTS
 !-------------------
@@ -751,7 +751,7 @@ C---------store only up to 2 pts of NIP eij(6)+T, pointer= INISHVAR1
 !---
 
 
-        INISHVAR1 = NVAR_SHELL + NVSHELL0 + NPT 
+        INISHVAR1 = NVAR_SHELL + NVSHELL0 + NPT
         NVSHELL = INISHVAR1 + NVSH_STRA
 
 
@@ -761,7 +761,7 @@ C------------------------------------
         CALL HM_OPTION_COUNT('/INITRUSS', NB_INITRUSS)
 
         IF ( NB_INITRUSS > 0 ) THEN
-          ! Start reading /INITRUSS card 
+          ! Start reading /INITRUSS card
           CALL HM_OPTION_START('/INITRUSS')
 !
           DO I=1,NB_INITRUSS
@@ -793,7 +793,7 @@ C------------------------------------
         CALL HM_OPTION_COUNT('/INIBEAM', NB_INIBEAM)
 !
         IF ( NB_INIBEAM > 0 ) THEN
-          ! Start reading /INIBEAM card 
+          ! Start reading /INIBEAM card
           CALL HM_OPTION_START('/INIBEAM')
 !
           DO I=1,NB_INIBEAM
@@ -859,7 +859,7 @@ C------------------------------------
         CALL HM_OPTION_COUNT('/INISPRI', NB_INISPRI)
 !
         IF ( NB_INISPRI > 0 ) THEN
-          ! Start reading /INISPRI card 
+          ! Start reading /INISPRI card
           CALL HM_OPTION_START('/INISPRI')
 !
           DO I=1,NB_INISPRI
@@ -928,7 +928,7 @@ C------------------------------------
         CALL HM_OPTION_COUNT('/INIQUA', NB_INIQUA)
 !
         IF ( NB_INIQUA > 0 ) THEN
-          ! Start reading /INIQUA card 
+          ! Start reading /INIQUA card
           CALL HM_OPTION_START('/INIQUA')
 !
           DO I=1,NB_INIQUA

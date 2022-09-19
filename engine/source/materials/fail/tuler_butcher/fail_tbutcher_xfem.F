@@ -79,7 +79,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,IXFEM,IXEL,ILAY,IPTT,NPTT,NUVAR,IPT,NPTOT
       INTEGER NGL(NEL),ELCRKINI(NXLAYMAX,*),NOFF(NEL)
-      my_real 
+      my_real
      .   TIME,TIMESTEP(NEL),UPARAM(NUPARAM),NPTTF(NEL),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),SIGNXY(NEL),SIGNYZ(NEL),
      .   SIGNZX(NEL),TENS(NEL,5),DFMAX(NEL),TDEL(NEL)
@@ -92,20 +92,20 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ISHELL,NINDX,NINDXP,LAYXFEM,IBRIT
-      INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL) 
-      my_real 
+      INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL)
+      my_real
      .   TBA,TBK,KK,SIGMAX,DADV,SIGR_INI,SIGR_ADV,
      .   SIG1,SIG2,S1,S2,BRIT_B,BRIT_C,DAMD(NEL)
       CHARACTER (LEN=3) :: XCHAR
 C=======================================================================
-      TBA      = UPARAM(1)                           
-      TBK      = UPARAM(2)                           
-      SIGR_INI = UPARAM(3)                        
-      ISHELL   = INT(UPARAM(4))                     
-      IBRIT    = INT(UPARAM(6))                   
-      LAYXFEM  = INT(UPARAM(7))                  
-      BRIT_B   = UPARAM(8)                        
-      BRIT_C   = UPARAM(9)                        
+      TBA      = UPARAM(1)
+      TBK      = UPARAM(2)
+      SIGR_INI = UPARAM(3)
+      ISHELL   = INT(UPARAM(4))
+      IBRIT    = INT(UPARAM(6))
+      LAYXFEM  = INT(UPARAM(7))
+      BRIT_B   = UPARAM(8)
+      BRIT_C   = UPARAM(9)
       DADV     = UPARAM(10)
 c-----------------------------
       IF (LAYXFEM == 0) RETURN
@@ -113,7 +113,7 @@ c-----------------------------
       LAYXFEM = IXFEM
       IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL = 2
 c-----------------------------
-      SIGR_ADV = SIGR_INI*DADV                        
+      SIGR_ADV = SIGR_INI*DADV
 C
       DO I=1,NEL
         DAMD(I)  = ZERO
@@ -122,8 +122,8 @@ C
         INDXP(I) = 0
         INDX(I)  = 0
       ENDDO
-      NINDX  = 0  
-      NINDXP = 0  
+      NINDX  = 0
+      NINDXP = 0
 C-----------------------------------------------
       DO I=1,NEL
         TENS(I,1) = SIGNXX(I)
@@ -145,53 +145,53 @@ C
         XCHAR = ' '
       ENDIF
 c--------------------------
-      SELECT CASE (LAYXFEM)                           
+      SELECT CASE (LAYXFEM)
 c---------------
-        CASE (1)    ! multilayer XFEM                                    
+        CASE (1)    ! multilayer XFEM
 c---------------
-          DO I=1,NEL                                                                         
-            IF (OFF(I) == ONE) THEN                                                             
-              IF (UVAR(I,1) < TBK) THEN                                                      
-                S1 = HALF*(SIGNXX(I) + SIGNYY(I))                                          
-                S2 = HALF*(SIGNXX(I) - SIGNYY(I))                                          
-                SIG1 = S1  + SQRT(S2**2 + SIGNXY(I)**2)                                      
-                SIG2 = S1  - SQRT(S2**2 + SIGNXY(I)**2)                                      
-                SIGMAX = MAX(SIG1,SIG2)                                                      
+          DO I=1,NEL
+            IF (OFF(I) == ONE) THEN
+              IF (UVAR(I,1) < TBK) THEN
+                S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+                S2 = HALF*(SIGNXX(I) - SIGNYY(I))
+                SIG1 = S1  + SQRT(S2**2 + SIGNXY(I)**2)
+                SIG2 = S1  - SQRT(S2**2 + SIGNXY(I)**2)
+                SIGMAX = MAX(SIG1,SIG2)
 c                  if(ngl(i)==7847)print*,'ilay,ippt,elcrkini=',ilay,ippt,elcrkini(ILAY,I)
                 IF (IXEL == 0) THEN
-                  IF (ELCRKINI(ILAY,I)==0 .and. SIGMAX > SIGR_INI) THEN            
+                  IF (ELCRKINI(ILAY,I)==0 .and. SIGMAX > SIGR_INI) THEN
                     UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
 c                  if(ngl(i)==7847)then
 c                    print*,'ilay,iptt=',ilay,iptt
 c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
 c                  endif
-                    IF (UVAR(I,1) >= TBK) THEN   
-                      NINDXP = NINDXP + 1             
+                    IF (UVAR(I,1) >= TBK) THEN
+                      NINDXP = NINDXP + 1
                       INDXP(NINDXP) = I
-                      OFFL(I)   = ZERO                                            
-                      NOFF(I)   = NOFF(I)  + 1                                        
-                      NPTTF(I)  = NPTTF(I) + ONE       
-                      RFLAGP(I) = 1                   
+                      OFFL(I)   = ZERO
+                      NOFF(I)   = NOFF(I)  + 1
+                      NPTTF(I)  = NPTTF(I) + ONE
+                      RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
                         NINDX = NINDX + 1
                         INDX(NINDX) = I
                         ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)
-                        RFLAG(I) = 1                                             
+                        RFLAG(I) = 1
                       ENDIF
-                      IF (NOFF(I) == NPTOT) THEN   
-                        OFF(I) = FOUR_OVER_5                                           
-                        TDEL(I)= TIME                                            
-                      ENDIF                                                      
-                    ENDIF                                                      
+                      IF (NOFF(I) == NPTOT) THEN
+                        OFF(I) = FOUR_OVER_5
+                        TDEL(I)= TIME
+                      ENDIF
+                    ENDIF
                   ELSEIF (ELCRKINI(ILAY,I) == 2 .and. SIGMAX > SIGR_ADV) THEN
                     UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_ADV)**TBA
 c                    print*,'ilay,iptt=',ilay,iptt
 c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
-                    IF (UVAR(I,1) >= TBK) THEN   
+                    IF (UVAR(I,1) >= TBK) THEN
                       NINDXP   = NINDXP + 1
                       INDXP(NINDXP) = I
-                      OFFL(I)   = ZERO                                            
-                      NOFF(I)   = NOFF(I) + 1                                        
+                      OFFL(I)   = ZERO
+                      NOFF(I)   = NOFF(I) + 1
                       NPTTF(I)  = NPTTF(I)+ ONE
                       RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
@@ -201,171 +201,171 @@ c                    print*,'SIGMAX,uvar=',SIGMAX,UVAR(I,1)
                         RFLAG(I) = -1
                       ENDIF
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         TDEL(I)= TIME
                       ENDIF
-                    ENDIF                                                         
-                  ENDIF                                                         
-                ELSEIF (SIGMAX > SIGR_INI) THEN   ! IXEL > 0 
+                    ENDIF
+                  ENDIF
+                ELSEIF (SIGMAX > SIGR_INI) THEN   ! IXEL > 0
                   UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
-                  IF (UVAR(I,1) >= TBK)  THEN                                        
+                  IF (UVAR(I,1) >= TBK)  THEN
                     NINDXP    = NINDXP + 1
                     INDXP(NINDXP) = I
-                    OFFL(I)   = ZERO                                         
+                    OFFL(I)   = ZERO
                     NPTTF(I)  = NPTTF(I) + ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
                       INDX(NINDX) = I
-                      OFF(I) = FOUR_OVER_5                                           
+                      OFF(I) = FOUR_OVER_5
                       TDEL(I)  = TIME
                       RFLAG(I) = 3
                     ENDIF
                   ENDIF
-                ENDIF ! IXEL                                                                      
-              ELSE    ! UVAR(I,1) > TBK                                               
-                SIGNXX(I) = ZERO                                                           
-                SIGNYY(I) = ZERO                                                           
-                SIGNXY(I) = ZERO                                                           
-                SIGNYZ(I) = ZERO                                                           
-                SIGNZX(I) = ZERO                                                           
-              ENDIF  !                                         
-            ENDIF    !  OFF(I) == ONE                                          
-          ENDDO                                                                              
+                ENDIF ! IXEL
+              ELSE    ! UVAR(I,1) > TBK
+                SIGNXX(I) = ZERO
+                SIGNYY(I) = ZERO
+                SIGNXY(I) = ZERO
+                SIGNYZ(I) = ZERO
+                SIGNZX(I) = ZERO
+              ENDIF  !
+            ENDIF    !  OFF(I) == ONE
+          ENDDO
 c-----------------------------------------------------------------------
-          IF (NINDXP > 0) THEN                                                    
-            DO J=1,NINDXP                                                         
-              I = INDXP(J)                                                        
-              SIGNXX(I) = ZERO                                                    
-              SIGNYY(I) = ZERO                                                    
-              SIGNXY(I) = ZERO                                                    
-              SIGNYZ(I) = ZERO                                                    
-              SIGNZX(I) = ZERO                                                    
-#include      "lockon.inc"                                                        
-              IF (RFLAGP(I) == 1) WRITE(IOUT, 3800)NGL(I),ILAY,IPTT               
-              IF (RFLAGP(I) == 1) WRITE(ISTDO,3900)NGL(I),ILAY,IPTT,TIME          
-#include     "lockoff.inc"                                                        
-            ENDDO                                                                 
-          ENDIF  !  NINDXP > 0                                                    
+          IF (NINDXP > 0) THEN
+            DO J=1,NINDXP
+              I = INDXP(J)
+              SIGNXX(I) = ZERO
+              SIGNYY(I) = ZERO
+              SIGNXY(I) = ZERO
+              SIGNYZ(I) = ZERO
+              SIGNZX(I) = ZERO
+#include      "lockon.inc"
+              IF (RFLAGP(I) == 1) WRITE(IOUT, 3800)NGL(I),ILAY,IPTT
+              IF (RFLAGP(I) == 1) WRITE(ISTDO,3900)NGL(I),ILAY,IPTT,TIME
+#include     "lockoff.inc"
+            ENDDO
+          ENDIF  !  NINDXP > 0
 c
-          IF (NINDX > 0) THEN                                                     
-            DO J=1,NINDX                                                          
-#include     "lockon.inc"                                                         
-              I = INDX(J)                                                         
-c             initialization std element                                                  
-              IF (RFLAG(I) == 1) WRITE(IOUT ,3000) NGL(I),ILAY                    
-              IF (RFLAG(I) == 1) WRITE(ISTDO,3100) NGL(I),ILAY,TIME               
-c             advancement std element                                                     
-              IF (RFLAG(I) == -1) WRITE(IOUT ,3200) NGL(I),ILAY                   
-              IF (RFLAG(I) == -1) WRITE(ISTDO,3300) NGL(I),ILAY,TIME              
-c             delete phantom element                                                         
-              IF (RFLAG(I) == 3) WRITE(IOUT, 3400)XCHAR,NGL(I),ILAY               
-              IF (RFLAG(I) == 3) WRITE(ISTDO,3500)XCHAR,NGL(I),ILAY,TIME          
-#include    "lockoff.inc"                                                         
-            ENDDO                                                                 
-          ENDIF  !  NINDX > 0                                                     
+          IF (NINDX > 0) THEN
+            DO J=1,NINDX
+#include     "lockon.inc"
+              I = INDX(J)
+c             initialization std element
+              IF (RFLAG(I) == 1) WRITE(IOUT ,3000) NGL(I),ILAY
+              IF (RFLAG(I) == 1) WRITE(ISTDO,3100) NGL(I),ILAY,TIME
+c             advancement std element
+              IF (RFLAG(I) == -1) WRITE(IOUT ,3200) NGL(I),ILAY
+              IF (RFLAG(I) == -1) WRITE(ISTDO,3300) NGL(I),ILAY,TIME
+c             delete phantom element
+              IF (RFLAG(I) == 3) WRITE(IOUT, 3400)XCHAR,NGL(I),ILAY
+              IF (RFLAG(I) == 3) WRITE(ISTDO,3500)XCHAR,NGL(I),ILAY,TIME
+#include    "lockoff.inc"
+            ENDDO
+          ENDIF  !  NINDX > 0
 c
 c---------------
-        CASE (2)    ! monolayer XFEM                                    
+        CASE (2)    ! monolayer XFEM
 c---------------
           IF (ISHELL == 1) THEN
 c---
-            DO I=1,NEL                                                          
-              IF (OFF(I) == ONE) THEN                                              
-                S1 = HALF*(SIGNXX(I) + SIGNYY(I))                             
-                S2 = HALF*(SIGNXX(I) - SIGNYY(I))                             
-                SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)                          
-                SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)                          
-                SIGMAX = MAX(SIG1,SIG2)                                         
+            DO I=1,NEL
+              IF (OFF(I) == ONE) THEN
+                S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+                S2 = HALF*(SIGNXX(I) - SIGNYY(I))
+                SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)
+                SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)
+                SIGMAX = MAX(SIG1,SIG2)
 C
-                IF (IBRIT == 1) THEN  ! ductile rupture                           
-                  IF (IXEL == 0) THEN                                           
+                IF (IBRIT == 1) THEN  ! ductile rupture
+                  IF (IXEL == 0) THEN
                     IF (ELCRKINI(ILAY,I) == 0 .and. SIGMAX > SIGR_INI) THEN
-                      UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA                
-                      IF (UVAR(I,1) >= TBK) THEN                             
-                        ELCRKINI(ILAY,I) = -1  ! ready for initiation           
-                        NINDXP = NINDXP + 1             
-                        INDXP(NINDXP) = I               
-                        NINDX = NINDX + 1                                          
-                        INDX(NINDX) = I                                           
+                      UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
+                      IF (UVAR(I,1) >= TBK) THEN
+                        ELCRKINI(ILAY,I) = -1  ! ready for initiation
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
+                        NINDX = NINDX + 1
+                        INDX(NINDX) = I
                         RFLAGP(I) = 1
-                        RFLAG(I) = 1                                            
-                        TDEL(I)= TIME                                           
-                        OFF(I) = FOUR_OVER_5                                           
-                      ENDIF                                         
-                    ELSEIF (ELCRKINI(ILAY,I) == 2 .and. SIGMAX > SIGR_ADV) THEN                         
-                      UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_ADV)**TBA                
-                      IF (UVAR(I,1) >= TBK) THEN                             
-                        ELCRKINI(ILAY,I) = 1     ! ready to advance           
-                        NINDXP = NINDXP + 1             
-                        INDXP(NINDXP) = I               
-                        NINDX = NINDX + 1                                         
-                        INDX(NINDX) = I                                         
+                        RFLAG(I) = 1
+                        TDEL(I)= TIME
+                        OFF(I) = FOUR_OVER_5
+                      ENDIF
+                    ELSEIF (ELCRKINI(ILAY,I) == 2 .and. SIGMAX > SIGR_ADV) THEN
+                      UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_ADV)**TBA
+                      IF (UVAR(I,1) >= TBK) THEN
+                        ELCRKINI(ILAY,I) = 1     ! ready to advance
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
+                        NINDX = NINDX + 1
+                        INDX(NINDX) = I
                         RFLAGP(I) = 1
-                        RFLAG(I) = -1                                         
-                        TDEL(I)= TIME                                         
-                        OFF(I) = FOUR_OVER_5                                           
-                      ENDIF                                                       
-                    ENDIF                                                       
-                  ELSEIF (SIGMAX > SIGR_INI) THEN  ! IXEL > 0  
-                    UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA                
-                    IF (UVAR(I,1) >= TBK) THEN                  
-                      OFF(I) = FOUR_OVER_5                                           
-                      NINDXP = NINDXP + 1           
-                      INDXP(NINDXP) = I             
-                      NINDX = NINDX + 1                                             
-                      INDX(NINDX) = I                                             
+                        RFLAG(I) = -1
+                        TDEL(I)= TIME
+                        OFF(I) = FOUR_OVER_5
+                      ENDIF
+                    ENDIF
+                  ELSEIF (SIGMAX > SIGR_INI) THEN  ! IXEL > 0
+                    UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
+                    IF (UVAR(I,1) >= TBK) THEN
+                      OFF(I) = FOUR_OVER_5
+                      NINDXP = NINDXP + 1
+                      INDXP(NINDXP) = I
+                      NINDX = NINDX + 1
+                      INDX(NINDX) = I
                       RFLAGP(I) = 1
-                      RFLAG(I)  = 3                                              
-                    ENDIF                                                  
-                  ENDIF  ! IXEL                                                 
+                      RFLAG(I)  = 3
+                    ENDIF
+                  ENDIF  ! IXEL
 c
-                ELSEIF (IBRIT == 2) THEN  ! brittle rupture                       
-                  KK = ONE/MAX(EM10,TBK)                                           
-                  IF (SIGMAX > UVAR(I,1)) THEN                                    
-                    DAMD(I) = KK*(SIGMAX-UVAR(I,1))**BRIT_B                       
-                  ENDIF                                                         
-                  NOFF(I) = NOFF(I) + DAMD(I)*TIMESTEP(I)                           
-                  IF (NOFF(I)<ONE) UVAR(I,1) = SIGR_INI*(ONE-NOFF(I))**BRIT_C        
-                  IF (IXEL == 0) THEN                                           
-                    IF (ELCRKINI(ILAY,I) == 0) THEN ! ready for initiation      
-                      IF (NOFF(I) >= ONE) THEN                                   
-                        ELCRKINI(ILAY,I) = -1                                   
-                        NINDXP = NINDXP + 1             
-                        INDXP(NINDXP) = I               
-                        NINDX=NINDX+1                                           
-                        INDX(NINDX)=I                                           
+                ELSEIF (IBRIT == 2) THEN  ! brittle rupture
+                  KK = ONE/MAX(EM10,TBK)
+                  IF (SIGMAX > UVAR(I,1)) THEN
+                    DAMD(I) = KK*(SIGMAX-UVAR(I,1))**BRIT_B
+                  ENDIF
+                  NOFF(I) = NOFF(I) + DAMD(I)*TIMESTEP(I)
+                  IF (NOFF(I)<ONE) UVAR(I,1) = SIGR_INI*(ONE-NOFF(I))**BRIT_C
+                  IF (IXEL == 0) THEN
+                    IF (ELCRKINI(ILAY,I) == 0) THEN ! ready for initiation
+                      IF (NOFF(I) >= ONE) THEN
+                        ELCRKINI(ILAY,I) = -1
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
+                        NINDX=NINDX+1
+                        INDX(NINDX)=I
                         RFLAGP(I) = 1
-                        RFLAG(I) = 1                                            
-                        TDEL(I)= TIME                                           
-                        OFF(I) = FOUR_OVER_5                                           
-                      END IF                                                    
-                    ELSEIF (ELCRKINI(ILAY,I) == 2) THEN  ! ready for advancing  
-                      IF (NOFF(I) >= ONE) THEN                                   
-                        ELCRKINI(ILAY,I) = 1                                    
-                        NINDXP = NINDXP + 1             
-                        INDXP(NINDXP) = I               
-                        NINDX=NINDX+1                                           
-                        INDX(NINDX)=I                                           
+                        RFLAG(I) = 1
+                        TDEL(I)= TIME
+                        OFF(I) = FOUR_OVER_5
+                      END IF
+                    ELSEIF (ELCRKINI(ILAY,I) == 2) THEN  ! ready for advancing
+                      IF (NOFF(I) >= ONE) THEN
+                        ELCRKINI(ILAY,I) = 1
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
+                        NINDX=NINDX+1
+                        INDX(NINDX)=I
                         RFLAGP(I) = 1
-                        RFLAG(I) = -1                                           
-                        TDEL(I)= TIME                                           
-                        OFF(I) = FOUR_OVER_5                                           
-                      ENDIF                                                     
-                    ENDIF                                                       
-                  ELSEIF (NOFF(I) >= ONE) THEN  ! IXEL > 0                       
-                    NINDXP = NINDXP + 1             
-                    INDXP(NINDXP) = I               
-                    NINDX=NINDX+1                                               
-                    INDX(NINDX)=I                                               
+                        RFLAG(I) = -1
+                        TDEL(I)= TIME
+                        OFF(I) = FOUR_OVER_5
+                      ENDIF
+                    ENDIF
+                  ELSEIF (NOFF(I) >= ONE) THEN  ! IXEL > 0
+                    NINDXP = NINDXP + 1
+                    INDXP(NINDXP) = I
+                    NINDX=NINDX+1
+                    INDX(NINDX)=I
                     RFLAGP(I) = 1
-                    RFLAG(I)  = 3                                                
-                    OFF(I) = FOUR_OVER_5                                           
-                  END IF  ! IXEL                                                
+                    RFLAG(I)  = 3
+                    OFF(I) = FOUR_OVER_5
+                  END IF  ! IXEL
 c
-                ENDIF  !  IF(IBRIT==1                                           
-              ENDIF   !  IF(ISHELL==1                                           
-            ENDDO                                                               
+                ENDIF  !  IF(IBRIT==1
+              ENDIF   !  IF(ISHELL==1
+            ENDDO
 c
           ELSEIF (ISHELL == 2)THEN
 c
@@ -379,53 +379,53 @@ c
                   SIGMAX = MAX(SIG1,SIG2)
 c
                   IF (IXEL == 0) THEN
-                    IF (ELCRKINI(ILAY,I)==0 .and. SIGMAX > SIGR_INI) THEN           
+                    IF (ELCRKINI(ILAY,I)==0 .and. SIGMAX > SIGR_INI) THEN
                       UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
                       IF (UVAR(I,1) >= TBK) THEN ! ready for initiation
-                        NOFF(I) = NOFF(I) + 1                                                      
-                        NINDXP = NINDXP + 1             
-                        INDXP(NINDXP) = I               
-                        NINDX = NINDX+1                                                           
-                        INDX(NINDX) = I                                                           
+                        NOFF(I) = NOFF(I) + 1
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
+                        NINDX = NINDX+1
+                        INDX(NINDX) = I
                         RFLAGP(I) = 1
                         IF (NOFF(I) == NPTOT) THEN
-                          ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)                
+                          ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)
                           RFLAG(I) = 1
                           TDEL(I)= TIME
-                          OFF(I) = FOUR_OVER_5                                           
-                        ENDIF                                     
-                      ENDIF                                     
+                          OFF(I) = FOUR_OVER_5
+                        ENDIF
+                      ENDIF
                     ELSEIF (ELCRKINI(ILAY,I) == 2 .and. SIGMAX > SIGR_ADV) THEN
                       UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_ADV)**TBA
-                      IF (UVAR(I,1) >= TBK) THEN ! ready for advancing                                             
-                         NOFF(I) = NOFF(I) + 1                                                     
-                         NINDXP = NINDXP + 1             
-                         INDXP(NINDXP) = I               
-                         NINDX = NINDX+1                                                            
-                         INDX(NINDX) = I                                                            
+                      IF (UVAR(I,1) >= TBK) THEN ! ready for advancing
+                         NOFF(I) = NOFF(I) + 1
+                         NINDXP = NINDXP + 1
+                         INDXP(NINDXP) = I
+                         NINDX = NINDX+1
+                         INDX(NINDX) = I
                          RFLAGP(I)  = 1
                          IF (NOFF(I) == NPTOT) THEN
-                           ELCRKINI(ILAY,I) = 1 !  one layer failed (by advancing) 
+                           ELCRKINI(ILAY,I) = 1 !  one layer failed (by advancing)
                            RFLAG(I) = -1
                            TDEL(I)= TIME
-                           OFF(I) = FOUR_OVER_5                                           
-                         ENDIF                    
+                           OFF(I) = FOUR_OVER_5
+                         ENDIF
                       ENDIF
                     ENDIF
-                  ELSEIF  (SIGMAX > SIGR_INI) THEN  ! IXEL > 0  
+                  ELSEIF  (SIGMAX > SIGR_INI) THEN  ! IXEL > 0
                     UVAR(I,1) = UVAR(I,1) + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
-                    IF (UVAR(I,1) >= TBK)  THEN   ! IXEL > 0                                       
-                      NINDXP = NINDXP + 1             
-                      INDXP(NINDXP) = I               
+                    IF (UVAR(I,1) >= TBK)  THEN   ! IXEL > 0
+                      NINDXP = NINDXP + 1
+                      INDXP(NINDXP) = I
                       NINDX = NINDX+1
                       INDX(NINDX) = I
-                      NOFF(I) = NOFF(I) + 1                                                        
+                      NOFF(I) = NOFF(I) + 1
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         RFLAG(I) = 3
                       ENDIF
                     ENDIF
-                  ENDIF ! IXEL                                                                    
+                  ENDIF ! IXEL
                 ELSE    ! UVAR(I,1) >= TBK
                   SIGNXX(I) = ZERO
                   SIGNYY(I) = ZERO
@@ -436,20 +436,20 @@ c
               ENDIF  ! IF(ISHELL==2.AND.OFF(I)==ONE)
             ENDDO
 c----
-            IF (NINDXP > 0) THEN    
-              DO J=1,NINDXP        
-                I = INDXP(J)        
-                SIGNXX(I) = ZERO                                              
-                SIGNYY(I) = ZERO                                              
-                SIGNXY(I) = ZERO                                              
-                SIGNYZ(I) = ZERO                                              
-                SIGNZX(I) = ZERO                                              
+            IF (NINDXP > 0) THEN
+              DO J=1,NINDXP
+                I = INDXP(J)
+                SIGNXX(I) = ZERO
+                SIGNYY(I) = ZERO
+                SIGNXY(I) = ZERO
+                SIGNYZ(I) = ZERO
+                SIGNZX(I) = ZERO
 #include "lockon.inc"
-                IF (RFLAGP(I) == 1) WRITE(IOUT, 4800)NGL(I),IPTT        
-                IF (RFLAGP(I) == 1) WRITE(ISTDO,4900)NGL(I),IPTT,TIME        
+                IF (RFLAGP(I) == 1) WRITE(IOUT, 4800)NGL(I),IPTT
+                IF (RFLAGP(I) == 1) WRITE(ISTDO,4900)NGL(I),IPTT,TIME
 #include "lockoff.inc"
-              ENDDO               
-            ENDIF  !  NINDXP > 0   
+              ENDDO
+            ENDIF  !  NINDXP > 0
 c
             IF (NINDX > 0) THEN
               DO J=1,NINDX

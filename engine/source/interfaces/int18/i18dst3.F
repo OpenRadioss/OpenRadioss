@@ -85,11 +85,11 @@ C-----------------------------------------------
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), 
+     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ),
      .     GAPV(MVSIZ), CAND_P(*),
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
      .     SURF(3,*),XCELL(3,SXCELL)
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
       TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .     NNX1(MVSIZ), NNX2(MVSIZ), NNX3(MVSIZ), NNX4(MVSIZ),
      .     NNY1(MVSIZ), NNY2(MVSIZ), NNY3(MVSIZ), NNY4(MVSIZ),
      .     NNZ1(MVSIZ), NNZ2(MVSIZ), NNZ3(MVSIZ), NNZ4(MVSIZ)
-     
+
       LOGICAL IS_GAP_CONSTANT, IS_GAP_VARIABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -136,7 +136,7 @@ C-----------------------------------------------
        IS_GAP_VARIABLE = .FALSE.
        IF(IGAP == 1)THEN
          IS_GAP_CONSTANT = .FALSE.
-         IS_GAP_VARIABLE = .TRUE.         
+         IS_GAP_VARIABLE = .TRUE.
        ENDIF
 
        !Reference point for triangular decomposition
@@ -145,7 +145,7 @@ C-----------------------------------------------
         !mean point is the top of each 4 triangles composing the 4-nodes face
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          !alrady a triangle
          X0(I) = X3(I)
@@ -153,7 +153,7 @@ C-----------------------------------------------
          Z0(I) = Z3(I)
         ENDIF
        ENDDO
-       
+
        !COMPUTING VECTORS using each top of the face (from salve point I and from reference point 0 on the face)
        DO I=1,JLT
        ! Vector 01 : from centroid to 1st point of the MAINface
@@ -193,7 +193,7 @@ C-----------------------------------------------
         YI4(I) = Y4(I) - YI(I)
         ZI4(I) = Z4(I) - ZI(I)
        ENDDO
-       
+
        DO I=1,JLT
         ! IO (x) I1
         SX1 = YI0V(I)*ZI1(I) - ZI0V(I)*YI1(I)
@@ -206,13 +206,13 @@ C-----------------------------------------------
         ! IO (x) I3
         SX3 = YI0V(I)*ZI3(I) - ZI0V(I)*YI3(I)
         SY3 = ZI0V(I)*XI3(I) - XI0V(I)*ZI3(I)
-        SZ3 = XI0V(I)*YI3(I) - YI0V(I)*XI3(I)       
+        SZ3 = XI0V(I)*YI3(I) - YI0V(I)*XI3(I)
         ! IO (x) I4
         SX4 = YI0V(I)*ZI4(I) - ZI0V(I)*YI4(I)
         SY4 = ZI0V(I)*XI4(I) - XI0V(I)*ZI4(I)
         SZ4 = XI0V(I)*YI4(I) - YI0V(I)*XI4(I)
 
-        !---TRIANGLE_1-----------------------                
+        !---TRIANGLE_1-----------------------
         ! normal vector (2Sn, where ||n||=1 )
         SX0 = Y01(I)*Z02(I) - Z01(I)*Y02(I)
         SY0 = Z01(I)*X02(I) - X01(I)*Z02(I)
@@ -220,11 +220,11 @@ C-----------------------------------------------
         S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
         NNX1(I) = SX0
         NNY1(I) = SY0
-        NNZ1(I) = SZ0        
+        NNZ1(I) = SZ0
         LB1(I) = -(SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
         LC1(I) =  (SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
-        
-        !---TRIANGLE_2-----------------------        
+
+        !---TRIANGLE_2-----------------------
         ! normal vector (2Sn, where ||n||=1 )
         SX0 = Y02(I)*Z03(I) - Z02(I)*Y03(I)
         SY0 = Z02(I)*X03(I) - X02(I)*Z03(I)
@@ -232,11 +232,11 @@ C-----------------------------------------------
         S2 = 1./MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
         NNX2(I) = SX0
         NNY2(I) = SY0
-        NNZ2(I) = SZ0        
+        NNZ2(I) = SZ0
         LB2(I) = -(SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
         LC2(I) =  (SX0*SX2 + SY0*SY2 + SZ0*SZ2) * S2
-               
-        !---TRIANGLE_3-----------------------        
+
+        !---TRIANGLE_3-----------------------
         ! normal vector (2Sn, where ||n||=1 )
         SX0 = Y03(I)*Z04(I) - Z03(I)*Y04(I)
         SY0 = Z03(I)*X04(I) - X03(I)*Z04(I)
@@ -244,11 +244,11 @@ C-----------------------------------------------
         S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
         NNX3(I) = SX0
         NNY3(I) = SY0
-        NNZ3(I) = SZ0        
+        NNZ3(I) = SZ0
         LB3(I) = -(SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
         LC3(I) =  (SX0*SX3 + SY0*SY3 + SZ0*SZ3) * S2
 
-        !---TRIANGLE_3-----------------------                
+        !---TRIANGLE_3-----------------------
         ! normal vector (2Sn, where ||n||=1 )
         SX0 = Y04(I)*Z01(I) - Z04(I)*Y01(I)
         SY0 = Z04(I)*X01(I) - X04(I)*Z01(I)
@@ -256,46 +256,46 @@ C-----------------------------------------------
         S2 = ONE/MAX(EM30,SX0*SX0 + SY0*SY0 + SZ0*SZ0)
         NNX4(I) = SX0
         NNY4(I) = SY0
-        NNZ4(I) = SZ0        
+        NNZ4(I) = SZ0
         LB4(I) = -(SX0*SX1 + SY0*SY1 + SZ0*SZ1) * S2
         LC4(I) =  (SX0*SX4 + SY0*SY4 + SZ0*SZ4) * S2
        ENDDO
-       
+
        IF(IGAP == 1)THEN !---VARIABLE GAP, CALCULATED HERE
         IF (.NOT.MULTI_FVM%IS_USED) THEN
          DO I=1,JLT
-           IAD1 = ALE_NE_CONNECT%IAD_CONNECT(I)                         
-           IAD2 = ALE_NE_CONNECT%IAD_CONNECT(I + 1) - 1 
-           DL = ZERO                
-           DO IEL = IAD1, IAD2                                          
-              ELEM_ID = ALE_NE_CONNECT%CONNECTED(IEL)                   
-              DL=MAX(DL, XCELL(1,ELEM_ID))      
-           ENDDO                                                   
+           IAD1 = ALE_NE_CONNECT%IAD_CONNECT(I)
+           IAD2 = ALE_NE_CONNECT%IAD_CONNECT(I + 1) - 1
+           DL = ZERO
+           DO IEL = IAD1, IAD2
+              ELEM_ID = ALE_NE_CONNECT%CONNECTED(IEL)
+              DL=MAX(DL, XCELL(1,ELEM_ID))
+           ENDDO
            GAPV(I) = THREE_HALF*DL
          ENDDO!next I
         ELSEIF(MULTI_FVM%IS_USED) THEN
          DO I=1,JLT
            ELEM_ID = NSVG(I) - NUMNOD   !ou NSVG(I) ?
-           DL=XCELL(1,ELEM_ID)                                                         
+           DL=XCELL(1,ELEM_ID)
            !gap value
            GAPV(I) = THREE_HALF*DL
          ENDDO!next I
         ENDIF
        ELSE !---CONSTANT GAP INPUT BY USER (IGAP=0=
          GAPV(1:JLT)=GAPV(1)
-       ENDIF  
-       
+       ENDIF
+
        IF(IS_GAP_CONSTANT)THEN
        !Gap is constant for interface 18 : !GAPV(1:JLT)=GAP
          AAA =GAPV(1)*GAPV(1)
          DO I=1,JLT
-           GAP2(I)=AAA  
+           GAP2(I)=AAA
          ENDDO
        ELSE
          DO I=1,JLT
-           GAP2(I)=GAPV(I)*GAPV(I)   
+           GAP2(I)=GAPV(I)*GAPV(I)
          ENDDO
-       ENDIF             
+       ENDIF
 
        IF (IBAG/=0) THEN
 #include "lockon.inc"
@@ -425,7 +425,7 @@ C-----------------------------------------------
          LB4(I) = AL4(I)
         ENDIF
        ENDDO
-              
+
        !Use minimal distance from each triangle to compute penetration
        DO I=1,JLT
         !----MINIMAL DISTANCE FROM TRIANGLE_1
@@ -433,17 +433,17 @@ C-----------------------------------------------
         NY1(I) = YI(I)-(Y0(I) + LB1(I)*Y01(I) + LC1(I)*Y02(I))
         NZ1(I) = ZI(I)-(Z0(I) + LB1(I)*Z01(I) + LC1(I)*Z02(I))
         P1(I) = NX1(I)*NX1(I) + NY1(I)*NY1(I) +NZ1(I)*NZ1(I)
-        !----MINIMAL DISTANCE FROM TRIANGLE_2        
+        !----MINIMAL DISTANCE FROM TRIANGLE_2
         NX2(I) = XI(I)-(X0(I) + LB2(I)*X02(I) + LC2(I)*X03(I))
         NY2(I) = YI(I)-(Y0(I) + LB2(I)*Y02(I) + LC2(I)*Y03(I))
         NZ2(I) = ZI(I)-(Z0(I) + LB2(I)*Z02(I) + LC2(I)*Z03(I))
         P2(I) = NX2(I)*NX2(I) + NY2(I)*NY2(I) +NZ2(I)*NZ2(I)
-        !----MINIMAL DISTANCE FROM TRIANGLE_3        
+        !----MINIMAL DISTANCE FROM TRIANGLE_3
         NX3(I) = XI(I)-(X0(I) + LB3(I)*X03(I) + LC3(I)*X04(I))
         NY3(I) = YI(I)-(Y0(I) + LB3(I)*Y03(I) + LC3(I)*Y04(I))
         NZ3(I) = ZI(I)-(Z0(I) + LB3(I)*Z03(I) + LC3(I)*Z04(I))
         P3(I) = NX3(I)*NX3(I) + NY3(I)*NY3(I) +NZ3(I)*NZ3(I)
-        !----MINIMAL DISTANCE FROM TRIANGLE_4        
+        !----MINIMAL DISTANCE FROM TRIANGLE_4
         NX4(I) = XI(I)-(X0(I) + LB4(I)*X04(I) + LC4(I)*X01(I))
         NY4(I) = YI(I)-(Y0(I) + LB4(I)*Y04(I) + LC4(I)*Y01(I))
         NZ4(I) = ZI(I)-(Z0(I) + LB4(I)*Z04(I) + LC4(I)*Z01(I))
@@ -454,7 +454,7 @@ C-----------------------------------------------
         D3 = MAX(ZERO, GAP2(I) - P3(I))
         D4 = MAX(ZERO, GAP2(I) - P4(I))
         PENE2(I) = MAX(D1,D2,D3,D4) !PENE2 = GAP^2 - DIST^2 :    PENE**2 =0 => PENE=0
-        
+
        ENDDO
 
 

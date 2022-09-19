@@ -53,11 +53,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,12 +76,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM
       my_real, DIMENSION(LUNIT,NUNITS) ,INTENT(IN) :: UNITAB
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(OUT)  :: NUPARAM,NUVAR,ISRATE,NFUNC
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
       my_real, DIMENSION(100),INTENT(OUT)          :: PARMAT
-      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL   
+      TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_),INTENT(INOUT)                :: MTAG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -144,10 +144,10 @@ C        WRITE(IOUT,*)' ** ERROR : WRONG NU VALUE'
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
-     .                I1=MAT_ID, 
+     .                I1=MAT_ID,
      .                C1=TITR)
       ENDIF
-      
+
       IF (CN == ZERO .OR. CN == ONE)  CN = ONEP0001
       IF (CM == ZERO .OR. CM == ONE)  CM = ONEP0001
       IF (CK == ZERO)                CK = ONE
@@ -171,9 +171,9 @@ C        WRITE(IOUT,*)' ** ERROR : EPSR2 MUST BE GREATER THAN EPSR1'
      .                   I1=MAT_ID,
      .                   C1=TITR)
       ENDIF
-c----------------------------------------------------------------------- 
+c-----------------------------------------------------------------------
       NUPARAM = 25
-c----------------------------------------------------------------------- 
+c-----------------------------------------------------------------------
       IF(NUPARAM > MAXUPARAM)THEN
 C        WRITE(IOUT,*)' ** ERROR : NUPARAM GT MAXUPARAM'
 C        WRITE(IOUT,*)'      NUPARAM =',NUPARAM,
@@ -188,7 +188,7 @@ C     .                ' MAXUPARAM =',MAXUPARAM
       ELSE
         C1 = E / THREE / (ONE - TWO*NU)
         G  = E / TWO / (ONE + NU)
-        UPARAM(1)  = E 
+        UPARAM(1)  = E
         UPARAM(2)  = NU
         UPARAM(3)  = CA
         UPARAM(4)  = SIGM
@@ -214,7 +214,7 @@ C     .                ' MAXUPARAM =',MAXUPARAM
         UPARAM(24) = CE
         UPARAM(25) = CK
       ENDIF
-c-----------------------------------------------------------------------     
+c-----------------------------------------------------------------------
       PARMAT(1) = C1
       PARMAT(2) = E
       PARMAT(3) = NU
@@ -228,8 +228,8 @@ c-----------------------------------------------------------------------
       IF (RHOR == ZERO) RHOR = RHO0
       PM(1)  = RHOR
       PM(89) = RHO0
-c-----------------------------------------------------------------------  
-      NUVAR = 3 
+c-----------------------------------------------------------------------
+      NUVAR = 3
       NFUNC = 0
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
@@ -245,13 +245,13 @@ c--------------------------------------------------
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) E,NU
         WRITE(IOUT,1400) CA,CB,CN,FISOKIN,SIGM
-        WRITE(IOUT,1500) CC,CD,CM,CE,CK  
+        WRITE(IOUT,1500) CC,CD,CM,CE,CK
         WRITE(IOUT,1600) EPS0,FCUT
         WRITE(IOUT,1700) EPSM,EPSR1,EPSR2
         IF(EPS0==ZERO) THEN
           WRITE(IOUT,2100)
         ENDIF
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -261,7 +261,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL : ZHAO CONSTITUTIVE LAW',/,
      & 5X,'--------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS  . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO  . . . . . . . . . . . . . .=',1PG20.13/)

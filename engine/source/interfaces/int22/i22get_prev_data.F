@@ -31,7 +31,7 @@ Chd|        REALLOC_MOD                   share/modules/realloc_mod.F
 Chd|====================================================================
       SUBROUTINE I22GET_PREV_DATA(
      1      X      ,II_STOK, CAND_B  ,CAND_E   ,ITASK,
-     2      NBRIC  ,ITAB   , BUFBRIC  ,NCAND,   
+     2      NBRIC  ,ITAB   , BUFBRIC  ,NCAND,
      3      IXS    ,NIN )
 C============================================================================    
 C-----------------------------------------------
@@ -54,8 +54,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE I22BUFBRIC_MOD
       USE I22TRI_MOD
-      USE I22EDGE_MOD  
-      USE REALLOC_MOD     
+      USE I22EDGE_MOD
+      USE REALLOC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER CAND_B(NCAND),CAND_E(NCAND), NCAND, NIN, 
+      INTEGER CAND_B(NCAND),CAND_E(NCAND), NCAND, NIN,
      .        ITASK, NBRIC, ITAB(*),
      .        BUFBRIC(NBRIC), IXS(NIXS,*), II_STOK
       my_real
@@ -92,16 +92,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-     
+
       INTEGER :: POS, IAD, IADE, IB ,IBG    , NBF, NBL
-      
+
       INTEGER                        ::  IE, N_CUT_EDGE
-     
+
       INTEGER :: TAG_INDEX(NBRIC), TAG_INDEX_OLD(NBRIC), I8(9,NBRIC)
       my_real :: R9(9,NBRIC), R49(4,9,NBRIC), R84(9,4,NBRIC)
-      
+
       INTEGER :: I,J,IDX,IBold,NUM
-      
+
       LOGICAL :: bFOUND
 C-----------------------------------------------
 C   P r e - C o n d i t i o n s
@@ -110,46 +110,46 @@ C    INT22 > 0 already true if this subroutine is called
 C-----------------------------------------------
 C   S o u r c e   L i n e 
 C-----------------------------------------------     
-    
+
       NB  = NCANDB
       IF(NB>I22LEN)THEN
         print *, "**error inter22 : memory size allocation", NB,I22LEN
         stop
         !handle this with reallocate later
       ENDIF
-      
+
       NBF = 1+ITASK*NB/NTHREAD
       NBL = (ITASK+1)*NB/NTHREAD
       NIN = 1
 
       IF(ITASK==0.AND.DT1/=ZERO)THEN
-        
+
         DO IB=1,NBOLD(NIN)
           IE = BRICK_LIST(NIN,IB)%ID
           IIAD22(NIN, IE) = 0
         ENDDO
-               
+
         TAG_INDEX(1:NBRIC) = 0
         DO I=1,NB
           TAG_INDEX(LIST_B(I)) = I
         ENDDO
-        
+
         TAG_INDEX_OLD(1:NBRIC) = 0
         DO I=1,NBOLD(NIN)
           TAG_INDEX_OLD(LIST_B_OLD(NIN,I)) = I
         ENDDO
 
-        !---NewInBuffer--------!        
+        !---NewInBuffer--------!
         DO IB=1,NB
-          IDX = LIST_B(IB)                             
+          IDX = LIST_B(IB)
           IF(TAG_INDEX(IDX)/=0 .AND. TAG_INDEX_OLD(IDX)==0)THEN
             BRICK_LIST(NIN,IB)%NewInBuffer = 1
 ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
           ELSE
-            BRICK_LIST(NIN,IB)%NewInBuffer = 0            
+            BRICK_LIST(NIN,IB)%NewInBuffer = 0
           ENDIF
-        ENDDO!next IB      
-                               
+        ENDDO!next IB
+
         !---NodWasMain-------!
         DO IB=1,NBOLD(NIN)
           I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%NodWasMain    !backup
@@ -166,38 +166,38 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
           I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhereWasMain !backup
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB)  
-          IF(TAG_INDEX(IDX)>0)THEN  
-            IDX = TAG_INDEX(IDX)  
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
+            IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%NODE(1:8)%WhereWasMain = I8(1:8,IB)
           ENDIF
         ENDDO!next IB
-        
+
         !--Old main volume---!
         DO IB=1,NBOLD(NIN)
           R9(1,IB) = BRICK_LIST(NIN,IB)%Vold_SCell             !backup
         ENDDO
         BRICK_LIST(NIN,1:NBOLD(NIN))%Vold_SCell = ZERO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX)>0)THEN  
-            IDX = TAG_INDEX(IDX)  
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
+            IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%Vold_SCell = R9(1,IB)
           ENDIF
         ENDDO!next IB
         !should be removed since it is finally updated in sinit22 due to topology change.
-        
+
         !--Old whichcellnode-!
         DO IB=1,NBOLD(NIN)
           I8(1:8,IB) = BRICK_LIST(NIN,IB)%NODE(1:8)%WhichCell !backup
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX)>0)THEN 
-            IDX = TAG_INDEX(IDX)  
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
+            IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%NODE(1:8)%OLD_WhichCell = I8(1:8,IB)
           ENDIF
-        ENDDO!next IB       
+        ENDDO!next IB
         !--Old current volume---!
         DO IB=1,NBOLD(NIN)
           R9(1:9,IB) = BRICK_LIST(NIN,IB)%POLY(1:9)%Vnew       !backup
@@ -210,39 +210,39 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
             BRICK_LIST(NIN,IDX)%POLY(1:9)%OLD_Vnew = R9(1:9,IB)
           ENDIF
         ENDDO!next IB
-                
+
         !------SecndList-------!
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX)>0)THEN 
-            IDX = TAG_INDEX(IDX) 
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
+            IDX = TAG_INDEX(IDX)
             IF(BRICK_LIST(NIN,IB)%SecndList%Num==0)CYCLE
             OLD_SecndList(NIN,IDX)%VOL_unmerged       = BRICK_LIST(NIN,IB)%SecndList%VOL_unmerged
             OLD_SecndList(NIN,IDX)%Num                = BRICK_LIST(NIN,IB)%SecndList%Num
             OLD_SecndList(NIN,IDX)%NumSecndNodes      = BRICK_LIST(NIN,IB)%SecndList%NumSecndNodes
             NUM                                       = BRICK_LIST(NIN,IB)%SecndList%Num
-            DO J=1,NUM                      
-              OLD_SecndList(NIN,IDX)%FM(J)            = BRICK_LIST(NIN,IB)%SecndList%FM(J)     
-              OLD_SecndList(NIN,IDX)%FV(J)            = BRICK_LIST(NIN,IB)%SecndList%FV(J)     
+            DO J=1,NUM
+              OLD_SecndList(NIN,IDX)%FM(J)            = BRICK_LIST(NIN,IB)%SecndList%FM(J)
+              OLD_SecndList(NIN,IDX)%FV(J)            = BRICK_LIST(NIN,IB)%SecndList%FV(J)
               OLD_SecndList(NIN,IDX)%IV(J)            = BRICK_LIST(NIN,IB)%SecndList%IV(J)
-              IBold                                   = BRICK_LIST(NIN,IB)%SecndList%IBV(J)  
+              IBold                                   = BRICK_LIST(NIN,IB)%SecndList%IBV(J)
               OLD_SecndList(NIN,IDX)%IBV(J)           = TAG_INDEX(LIST_B_OLD(NIN,IBold))
-              OLD_SecndList(NIN,IDX)%ICELLv(J)        = BRICK_LIST(NIN,IB)%SecndList%ICELLv(J) 
-              OLD_SecndList(NIN,IDX)%VOL(J)           = BRICK_LIST(NIN,IB)%SecndList%VOL(J)    
-              OLD_SecndList(NIN,IDX)%NumNOD_Cell(J)   = BRICK_LIST(NIN,IB)%SecndList%NumNOD_Cell(J)  
-              OLD_SecndList(NIN,IDX)%ListNodID(J,1:8) = BRICK_LIST(NIN,IB)%SecndList%ListNodID(J,1:8) 
-              OLD_SecndList(NIN,IDX)%SURF_V(J)        = BRICK_LIST(NIN,IB)%SecndList%SURF_v(J)             
-            ENDDO 
-            DO J=NUM+1,24                     
-              OLD_SecndList(NIN,IDX)%FM(J)            = 0  
+              OLD_SecndList(NIN,IDX)%ICELLv(J)        = BRICK_LIST(NIN,IB)%SecndList%ICELLv(J)
+              OLD_SecndList(NIN,IDX)%VOL(J)           = BRICK_LIST(NIN,IB)%SecndList%VOL(J)
+              OLD_SecndList(NIN,IDX)%NumNOD_Cell(J)   = BRICK_LIST(NIN,IB)%SecndList%NumNOD_Cell(J)
+              OLD_SecndList(NIN,IDX)%ListNodID(J,1:8) = BRICK_LIST(NIN,IB)%SecndList%ListNodID(J,1:8)
+              OLD_SecndList(NIN,IDX)%SURF_V(J)        = BRICK_LIST(NIN,IB)%SecndList%SURF_v(J)
+            ENDDO
+            DO J=NUM+1,24
+              OLD_SecndList(NIN,IDX)%FM(J)            = 0
               OLD_SecndList(NIN,IDX)%FV(J)            = 0
               OLD_SecndList(NIN,IDX)%IV(J)            = 0
               OLD_SecndList(NIN,IDX)%IBV(J)           = 0
               OLD_SecndList(NIN,IDX)%ICELLv(J)        = 0
-              OLD_SecndList(NIN,IDX)%VOL(J)           = ZERO 
-              OLD_SecndList(NIN,IDX)%NumNOD_Cell(J)   = 0 
-              OLD_SecndList(NIN,IDX)%ListNodID(J,1:8) = 0                             
-            ENDDO              
+              OLD_SecndList(NIN,IDX)%VOL(J)           = ZERO
+              OLD_SecndList(NIN,IDX)%NumNOD_Cell(J)   = 0
+              OLD_SecndList(NIN,IDX)%ListNodID(J,1:8) = 0
+            ENDDO
           ENDIF
         ENDDO!next IB
         !---OldMainStrongNode----!
@@ -250,24 +250,24 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
           I8(1,IB) = BRICK_LIST(NIN,IB)%OldMainStrongNode !sauvegarder avant de faire la modification ci-dessous
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX)>0)THEN 
-            IDX = TAG_INDEX(IDX) 
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
+            IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%OldMainStrongNode = I8(1,IB)
           ENDIF
-        ENDDO!next IB       
+        ENDDO!next IB
         !---OldMainStrongNode----!
         DO IB=1,NBOLD(NIN)
           I8(1,IB) = BRICK_LIST(NIN,IB)%NBCUT
         ENDDO
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX)>0)THEN 
-            IDX = TAG_INDEX(IDX) 
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
+            IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%WasCut = 0
             IF(I8(1,IB)>0)BRICK_LIST(NIN,IDX)%WasCut = 1
           ENDIF
-        ENDDO!next IB           
+        ENDDO!next IB
 
         !---old_ICODE----!
         DO IB=1,NBOLD(NIN)
@@ -275,27 +275,27 @@ ccc            print *, "new in buffer, IB=", ib, ixs(11,idx)
         ENDDO
         BRICK_LIST(NIN,1:NB)%OLD_ICODE = 0
         DO IB=1,NBOLD(NIN)
-          IDX = LIST_B_OLD(NIN,IB) 
-          IF(TAG_INDEX(IDX)>0)THEN 
+          IDX = LIST_B_OLD(NIN,IB)
+          IF(TAG_INDEX(IDX)>0)THEN
             IDX = TAG_INDEX(IDX)
             BRICK_LIST(NIN,IDX)%OLD_ICODE = I8(1,IB)
           ENDIF
-        ENDDO!next IB       
-        
-                      
+        ENDDO!next IB
+
+
       ENDIF!IF(ITASK==0)THEN
 
 
       if(itask==0.AND.IBUG22_tri==1)then
         print *, "I22LEN  =", I22LEN
-        print *, "II_STOK =", II_STOK      
+        print *, "II_STOK =", II_STOK
         print *, "     NB =", NB
       endif
-            
+
       IF(ITASK==0) THEN
         NBOLD(NIN) = NB
-        LIST_B_OLD(NIN,1:NB) = LIST_B(1:NB)            
+        LIST_B_OLD(NIN,1:NB) = LIST_B(1:NB)
       ENDIF
-     
-      
+
+
       END SUBROUTINE

@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
-      USE PINCHTYPE_MOD 
+      USE PINCHTYPE_MOD
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -227,7 +227,7 @@ C----------------
           AR(2,N1) = AR(2,N1)+SKEW(K2,ISK)*AA
           AR(3,N1) = AR(3,N1)+SKEW(K3,ISK)*AA
 !
-          IF (CPTREAC > 0) THEN 
+          IF (CPTREAC > 0) THEN
             IF(NODREAC(N1)/=0) THEN
               FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
               FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
@@ -340,7 +340,7 @@ C
               FTHREAC(3,NODREAC(N4)) = FTHREAC(3,NODREAC(N4)) + FZ*DT1
             ENDIF
           ENDIF
-         
+
 !
 C
            TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
@@ -383,7 +383,7 @@ C
             FEXT(3,N2) = FEXT(3,N2)+FZ
           ENDIF
 !
-          IF (CPTREAC > 0) THEN 
+          IF (CPTREAC > 0) THEN
              IF(NODREAC(N2)/=0) THEN
                FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
@@ -411,7 +411,7 @@ C
 !
 C
           TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) + FY*(V(2,N1)+V(2,N2)+V(2,N3)) + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
-          
+
          ENDIF
         ELSE
 C        ANALYSE 2D
@@ -452,7 +452,7 @@ C
           AX     = ONE
          ENDIF
          TFEXTT  = TFEXTT+DT1*(FY*(V(2,N1)+V(2,N2))+FZ*(V(3,N1)+V(3,N2)))*AX
-         
+
         ENDIF
        ENDIF
  10    CONTINUE
@@ -580,7 +580,7 @@ C-------------------------
              IF(ISK<=1)THEN
                FSKY(3+N2,IADC(1,NL)) = AA
 !
-               IF (CPTREAC > 0) THEN 
+               IF (CPTREAC > 0) THEN
                  IF(NODREAC(N1)/=0) THEN
                    FTHREAC(N2+3,NODREAC(N1)) = FTHREAC(N2+3,NODREAC(N1)) + AA*DT1
                  ENDIF
@@ -597,7 +597,7 @@ C-------------------------
                FSKY(5,IAD) = SKEW(K2,ISK)*AA
                FSKY(6,IAD) = SKEW(K3,ISK)*AA
 !
-               IF (CPTREAC > 0) THEN 
+               IF (CPTREAC > 0) THEN
                 IF(NODREAC(N1)/=0) THEN
                  FTHREAC(4,NODREAC(N1)) = FTHREAC(4,NODREAC(N1)) + SKEW(K1,ISK)*AA*DT1
                  FTHREAC(5,NODREAC(N1)) = FTHREAC(5,NODREAC(N1)) + SKEW(K2,ISK)*AA*DT1
@@ -650,7 +650,7 @@ C
                  FEXT(3,N1) = FEXT(3,N1)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0) THEN 
+               IF (CPTREAC > 0) THEN
                  IF(NODREAC(N1)/=0) THEN
                    FTHREAC(1,NODREAC(N1)) = FTHREAC(1,NODREAC(N1)) + FX*DT1
                    FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
@@ -669,7 +669,7 @@ C
                  FEXT(3,N2) = FEXT(3,N2)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0) THEN 
+               IF (CPTREAC > 0) THEN
                  IF(NODREAC(N2)/=0) THEN
                    FTHREAC(1,NODREAC(N2)) = FTHREAC(1,NODREAC(N2)) + FX*DT1
                    FTHREAC(2,NODREAC(N2)) = FTHREAC(2,NODREAC(N2)) + FY*DT1
@@ -777,7 +777,7 @@ C
                  FEXT(3,N3) = FEXT(3,N3)+FZ
                ENDIF
 !
-               IF (CPTREAC > 0) THEN 
+               IF (CPTREAC > 0) THEN
                  IF(NODREAC(N3)/=0) THEN
                    FTHREAC(1,NODREAC(N3)) = FTHREAC(1,NODREAC(N3)) + FX*DT1
                    FTHREAC(2,NODREAC(N3)) = FTHREAC(2,NODREAC(N3)) + FY*DT1
@@ -787,7 +787,7 @@ C
 !
 C
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) + FY*(V(2,N1)+V(2,N2)+V(2,N3)) + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
-             ENDIF  
+             ENDIF
            ELSE
 C        ANALYSE 2D
              NY  = -X(3,N2)+X(3,N1)
@@ -892,7 +892,7 @@ C---------------------
                  FEXT(N2,N1)=FEXT(N2,N1)+AA
                ENDIF
 !
-               IF (CPTREAC > 0) THEN 
+               IF (CPTREAC > 0) THEN
                  IF(NODREAC(N1)/=0) THEN
                    FTHREAC(N2,NODREAC(N1)) = FTHREAC(N2,NODREAC(N1)) + AA*DT1
                  ENDIF
@@ -1067,7 +1067,7 @@ C
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)+V(1,N4))
      +                      +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                      +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
-     
+
              ELSE
                ! true triangles.
                NX  = (X(2,N3)-X(2,N1))*(X(3,N3)-X(3,N2))-(X(3,N3)-X(3,N1))*(X(2,N3)-X(2,N2))
@@ -1135,7 +1135,7 @@ C
 !
 C
                TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) + FY*(V(2,N1)+V(2,N2)+V(2,N3)) + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
-               
+
              ENDIF
            ELSE
 C        ANALYSE 2D
@@ -1160,7 +1160,7 @@ c
                FEXT(3,N2) = FEXT(3,N2)+FZ
              ENDIF
 !
-             IF (CPTREAC > 0) THEN 
+             IF (CPTREAC > 0) THEN
                IF(NODREAC(N1)/=0) THEN
                  FTHREAC(2,NODREAC(N1)) = FTHREAC(2,NODREAC(N1)) + FY*DT1
                  FTHREAC(3,NODREAC(N1)) = FTHREAC(3,NODREAC(N1)) + FZ*DT1

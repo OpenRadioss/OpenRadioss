@@ -59,7 +59,7 @@ C-----------------------------------------------
       DO I=1,NEBCS
          TYP = EBCS_TAB%tab(i)%poly%type
          NOD = EBCS_TAB%tab(i)%poly%nb_node
-         
+
          IF(TYP == 2 .OR. TYP == 3)THEN
             EBCS => EBCS_TAB%tab(i)%poly
             IF(TYP == 2) CALL EBCCLAP1(V, A, EBCS%node_list, NOD, EBCS%la, -ONE)
@@ -110,7 +110,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N
       my_real
-     .     VN  
+     .     VN
 C
       DO I=1,NOD
         N=LISTE(I)
@@ -130,4 +130,4 @@ c        if(FAC>0.)write(6,*)'ebcclap',I,N,V(1,N)
 c      write(6,*)'apres',I,N,V(1,N)
       ENDDO
       RETURN
-      END       
+      END

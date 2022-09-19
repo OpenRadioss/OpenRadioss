@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, ISK, I, J, M, JT(3,NRBE2),JR(3,NRBE2),
-     .        IAD, NS, NSN, MID, NHI, IRAD, IJ, NN, TAG(3,NUMNOD), 
+     .        IAD, NS, NSN, MID, NHI, IRAD, IJ, NN, TAG(3,NUMNOD),
      .        ICOM, ISIZE
       my_real
      .        DIAG_RBE2(3,NUMNOD), DD
@@ -303,7 +303,7 @@ C-----------------------------------------------
      .        FR_RBE2M(*) ,NMRBE2
 C     REAL
       my_real
-     .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*), 
+     .   X(3,*), A(3,*), AR(3,*), MS(*), IN(*),
      .   SKEW(LSKEW,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

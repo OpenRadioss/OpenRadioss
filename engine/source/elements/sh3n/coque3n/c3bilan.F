@@ -70,22 +70,22 @@ C-----------------------------------------------
       INTEGER I, MX, II, J, IC, JST(MVSIZ+1),FLAG
 C     REAL
       my_real
-     .   IN25,XX,YY,ZZ,XY,YZ,ZX, COEF, INEL, 
+     .   IN25,XX,YY,ZZ,XY,YZ,ZX, COEF, INEL,
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ),
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), 
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ),
      .   EI(MVSIZ),XMAS(MVSIZ),REI(MVSIZ),REK(MVSIZ),
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ),
      .   VXA(MVSIZ), VYA(MVSIZ), VZA(MVSIZ) , VA2, XMAS25(MVSIZ),
-     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
+     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   VRX1(MVSIZ), VRX2(MVSIZ), VRX3(MVSIZ),
-     .   VRY1(MVSIZ), VRY2(MVSIZ), VRY3(MVSIZ), 
+     .   VRY1(MVSIZ), VRY2(MVSIZ), VRY3(MVSIZ),
      .   VRZ1(MVSIZ), VRZ2(MVSIZ), VRZ3(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),
      .   VRL1(MVSIZ,3),VRL2(MVSIZ,3),VRL3(MVSIZ,3)
@@ -185,7 +185,7 @@ C
           ZZM(I)= VYA(I)*XCG(I)-VXA(I)*YCG(I)
      .           +IN25*
      .           (VR(3,IXTG(2,I))+VR(3,IXTG(3,I))+VR(3,IXTG(4,I)))
-          VA2 =  
+          VA2 =
      .   VR(1,IXTG(2,I))*VR(1,IXTG(2,I))+VR(1,IXTG(3,I))*VR(1,IXTG(3,I))
      .  +VR(1,IXTG(4,I))*VR(1,IXTG(4,I))
      .  +VR(2,IXTG(2,I))*VR(2,IXTG(2,I))+VR(2,IXTG(3,I))*VR(2,IXTG(3,I))
@@ -253,7 +253,7 @@ C
             JST(IC)=J
           ENDIF
         ENDDO
-        JST(IC+1)=JLT+1                 
+        JST(IC+1)=JLT+1
 C
         IF (IC==1) THEN
           MX = IPARTTG(JFT)
@@ -348,7 +348,7 @@ C
             JST(IC)=J
           ENDIF
         ENDDO
-        JST(IC+1)=JLT+1                 
+        JST(IC+1)=JLT+1
 C
         IF (IC==1) THEN
           MX = IPARTTG(JFT)
@@ -401,8 +401,8 @@ C
             ENDIF
          ENDDO
        ENDIF
-    
-      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTTG,ITASK) 
+
+      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTTG,ITASK)
 C---
       RETURN
       END

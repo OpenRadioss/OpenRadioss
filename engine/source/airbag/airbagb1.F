@@ -35,11 +35,11 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE AIRBAGB1(
-     1                 IVOLU   ,ICBAG   ,NJET     ,IBAGJET ,NVENT   , 
-     2                 IBAGHOL ,RVOLU   ,RVOLUV   ,RCBAG   ,RBAGJET , 
-     3                 RBAGHOL ,FSAV    ,N        ,NN      , 
+     1                 IVOLU   ,ICBAG   ,NJET     ,IBAGJET ,NVENT   ,
+     2                 IBAGHOL ,RVOLU   ,RVOLUV   ,RCBAG   ,RBAGJET ,
+     3                 RBAGHOL ,FSAV    ,N        ,NN      ,
      4                 IGRSURF ,PORO    ,IVOLUV   ,RBAGVJET,
-     5                 FR_MV   ,IPARG   ,IPART    ,IPARTC  ,IPARTTG , 
+     5                 FR_MV   ,IPARG   ,IPART    ,IPARTC  ,IPARTTG ,
      6                 IPM     ,PM      ,ELBUF_TAB,IGROUPC ,IGROUPTG,
      7                 IGEO    ,GEO     )
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        NN,IVOLUV(NIMV,*),FR_MV(*),IPARG(NPARG,*),
      .        IPART(LIPART1,*),IPM(NPROPMI,*),
      .        IPARTC(NUMELC) ,IPARTTG(NUMELTG),
-     .        IGROUPC(*),IGROUPTG(*)    
+     .        IGROUPC(*),IGROUPTG(*)
       INTEGER IGEO(NPROPGI,*)
 C     REAL
       my_real
@@ -97,25 +97,25 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAMA, CV, CP, PEXT, PDEF, DTPDEFI, DTPDEFC, TVENT, TSTOPE,
-     .   APVENT, AVENT, BVENT, 
-     .   AMTOT, P, RO, VOL, HSPEC, 
+     .   APVENT, AVENT, BVENT,
+     .   AMTOT, P, RO, VOL, HSPEC,
      .   GMTOT, CPA, CPB, CPC, GMI, CPAI, CPBI, CPCI, TBAG,
      .   CPD, CPE, CPF, CPDI, CPEI, CPFI,
      .   U, DEOUT, DMOUT, AREA, PCRIT, PVOIS, TVOIS, AA, VEPS,
-     .   AOUT, AOUT1, AOUTOT, FLOUT, DE, VVOIS, 
-     .   DGEOUT, DGMOUT, RNM, RMWI, RNMI, RMWG, RNMG, 
+     .   AOUT, AOUT1, AOUTOT, FLOUT, DE, VVOIS,
+     .   DGEOUT, DGMOUT, RNM, RMWI, RNMI, RMWG, RNMG,
      .   DERI, TEMP, AISENT, ACHEMK, FCHEMK, VMAX,
      .   FPORT,FPORP,FPORA,FPORT1,FPORP1,FPORA1,SCALT,SCALP,SCALS,
      .   FVDP, ROEX, UISENT, TT1,
      .   F1(NN), F2(NN), TTF, SVTFAC, FLC, FAC, FACP,
-     .   AISENT1, DGMIN, DGEIN, GAMAI, RHOI, RHO2, P2, ETA, 
+     .   AISENT1, DGMIN, DGEIN, GAMAI, RHOI, RHO2, P2, ETA,
      .   PCRIT1, HSPEC1
       my_real
      .   MW, R_IGC1, TOUT
       my_real GET_U_FUNC
       EXTERNAL GET_U_FUNC
       CHARACTER*20 VENTTITLE
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRMV6(2,6), FRMV6B(6)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C 
@@ -132,9 +132,9 @@ C
        P      =RVOLU(12)
        AREA   =RVOLU(18)
 C
-       SCALT  =RVOLU(26)   
-       SCALP  =RVOLU(27)   
-       SCALS  =RVOLU(28)   
+       SCALT  =RVOLU(26)
+       SCALP  =RVOLU(27)
+       SCALS  =RVOLU(28)
 C
        R_IGC1= PM(27,IVOLU(66))
        RO    = AMTOT/VOL
@@ -222,11 +222,11 @@ C
      .              .AND.IDTPDEF==0) THEN
          IDEF=1
          IF(ISPMD+1==PMAIN) THEN
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
          ENDIF
         ENDIF
@@ -234,11 +234,11 @@ C
      .              .AND.TT<TSTOPE+TTF
      .              .AND.IDTPDEF==1) THEN
          IDEF=1
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
         ENDIF
         IF(IDEF==0 .AND. TT>TVENT+TTF
@@ -269,11 +269,11 @@ C
      .              .AND.IDTPDEF==0) THEN
          IDEF=1
          IF(ISPMD+1==PMAIN) THEN
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
          ENDIF
         ENDIF
@@ -281,11 +281,11 @@ C
      .               AND.TT<TSTOPE
      .              .AND.IDTPDEF==1) THEN
           IDEF=1
-            WRITE(IOUT,'(A)') 
+            WRITE(IOUT,'(A)')
      .                  ' ** AIRBAG VENT HOLE MEMBRANE IS DEFLATED **'
             WRITE(IOUT,'(3X,2(A,I10),2A)')' MONITORED VOLUME ',IVOLU(1),
      .                  ' VENT HOLE NUMBER',IV   ,' ',VENTTITLE
-            WRITE(ISTDO,'(2A)') 
+            WRITE(ISTDO,'(2A)')
      .                  ' ** VENT HOLE MEMBRANE IS DEFLATED ',VENTTITLE
         ENDIF
         IF(IDEF==0 .AND. TT>TVENT
@@ -347,7 +347,7 @@ C  POROSITY
 C------------
              NNC=IGRSURF(IPVENT)%NSEG
 C
-             DO KK=1,NNC                                                  
+             DO KK=1,NNC
                ITY=IGRSURF(IPVENT)%ELTYP(KK)
                K  =IGRSURF(IPVENT)%ELEM(KK)
                FACP=ZERO
@@ -465,12 +465,12 @@ C---------------------------------
            ELSE
              IF(AVENT==ZERO) THEN
                IPORA = IBAGHOL(5,IV)
-               FPORA = RBAGHOL(9,IV)      
+               FPORA = RBAGHOL(9,IV)
                AVENT=FPORA*GET_U_FUNC(IPORA,(P-PEXT)*SCALP,DERI)
              ENDIF
              IF(BVENT==ZERO) THEN
                IPORT = IBAGHOL(3,IV)
-               FPORT = RBAGHOL(7,IV)      
+               FPORT = RBAGHOL(7,IV)
                BVENT=FPORT*GET_U_FUNC(IPORT,TT1*SCALT,DERI)
              ENDIF
              AOUT=AVENT*BVENT
@@ -487,12 +487,12 @@ C-------------
           IPORT1=IBAGHOL(6,IV)
           IPORP1=IBAGHOL(7,IV)
           IPORA1=IBAGHOL(8,IV)
-          FPORT = RBAGHOL(7,IV)      
-          FPORP = RBAGHOL(8,IV)      
-          FPORA = RBAGHOL(9,IV)      
-          FPORT1= RBAGHOL(10,IV)     
-          FPORP1= RBAGHOL(11,IV)     
-          FPORA1= RBAGHOL(12,IV)     
+          FPORT = RBAGHOL(7,IV)
+          FPORP = RBAGHOL(8,IV)
+          FPORA = RBAGHOL(9,IV)
+          FPORT1= RBAGHOL(10,IV)
+          FPORP1= RBAGHOL(11,IV)
+          FPORA1= RBAGHOL(12,IV)
           IF(IPORA/=0.AND.IPVENT/=0)THEN
             AOUT=FPORA*AVENT*GET_U_FUNC(IPORA,AOUT*SCALS,DERI)
           ELSE
@@ -756,7 +756,7 @@ C---------------------------------------------
 
              IDEF=1
              IF(ISPMD+1==PMAIN) THEN
-               WRITE(IOUT,*) 
+               WRITE(IOUT,*)
      .          ' ** CHAMBER COMMUNICATION MEMBRANE IS DEFLATED **'
                WRITE(IOUT,*)
      .          ' ** MONITORED VOLUME ',IVOLU(1),' **'
@@ -811,7 +811,7 @@ C
            AOUT =AOUT*FPORT*GET_U_FUNC(IPORT,TT1*SCALT,DERI)
          ENDIF
          IF(IPORP > 0) THEN
-           SCALP=RVOLU(27)   
+           SCALP=RVOLU(27)
            AOUT =AOUT*FPORP*GET_U_FUNC(IPORP,(P-PVOIS)*SCALP,DERI)
          ENDIF
 C

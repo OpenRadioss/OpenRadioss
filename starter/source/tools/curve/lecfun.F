@@ -59,14 +59,14 @@ C-----------------------------------------------
      .   TITR
 C     REAL
 C======================================================================|
-      L=1   
+      L=1
       DO I=1,NFUNCT
       ID=NOM_OPT(1,I)
       CALL FRETITL2(TITR,
      .              NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
-      L=L+1   
+      L=L+1
       NPTS=NPC(L)-NPC(L-1)
-      IDFUNCT=NPC(NFUNCT+L)  
+      IDFUNCT=NPC(NFUNCT+L)
       IF(NPTS<2)THEN
        CALL ANCMSG(MSGID=604,
      .             MSGTYPE=MSGERROR,

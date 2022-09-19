@@ -69,13 +69,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NELTST,ITYPTST 
+      INTEGER NELTST,ITYPTST
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
-      INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*), 
-     .        NPC(*), ISKY(*), 
+      INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*),
+     .        NPC(*), ISKY(*),
      .        ICONTACT(*)
 C     REAL
-      my_real DT2T, 
+      my_real DT2T,
      .   X(*), A(*), FSAV(NTHVKI,*) , WA(*), V(*),MS(*),
      .   STIFN(*), TF(*),FSKYI(LSKY,NFSKYI),VR(3,*),FCONT(3,*),IN(*),
      .   BUFSF(*), FNCONT(3,*),FTCONT(3,*),RCONTACT(*),SENSOR(NSENSR,*)
@@ -109,7 +109,7 @@ C
          ISENS = 0
          IF(NTY == 5 ) ISENS = IPARI(64,N) ! INTERFACE SENSOR NUMBER
 
-         IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+         IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
@@ -119,7 +119,7 @@ C
           IF (NTY==14) THEN
            CALL I14CMP(IPARI(1,N),INTBUF_TAB(N),IGRSURF ,BUFSF ,
      2              A ,X ,V ,WA ,FSAV(1,N) ,
-     3              IN ,STIFN ,FCONT ,MS ,FSKYI , 
+     3              IN ,STIFN ,FCONT ,MS ,FSKYI ,
      4              ISKY ,NPC ,TF ,H3D_DATA)
           ELSEIF (NTY==15) THEN
            CALL I15CMP(IPARI(1,N),INTBUF_TAB(N),
@@ -179,7 +179,7 @@ C
   200 CONTINUE
 C
 #include "lockon.inc"
-      
+
       IF (IMPL_S==1) NT_IMP=IAD-1
 #include "lockoff.inc"
 

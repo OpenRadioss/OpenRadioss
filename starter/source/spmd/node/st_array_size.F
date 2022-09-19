@@ -72,15 +72,15 @@ C-----------------------------------------------
       INTEGER VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
 C-----------------------------------------------
         LEN_G = NPROPGI*NUMGEO
-        LEN_M = NPROPMI*NUMMAT      
-        LEN_S = NPART     
+        LEN_M = NPROPMI*NUMMAT
+        LEN_S = NPART
         CALL MAP_MEMORY(VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK)
 
         IF( GOT_INSPIRE_ALM == 1)THEN
             IF(GOT_MEM_MAP == 1 )THEN
                 WRITE(IOUT,1101) VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
             ELSE
-                IF(VMHWM/=-1) THEN 
+                IF(VMHWM/=-1) THEN
                     MEM = VMHWM
                 ELSEIF(VMPEAK/=-1) THEN
                     MEM = VMPEAK
@@ -95,7 +95,7 @@ C-----------------------------------------------
             IF(GOT_MEM_MAP == 1 )THEN
                 WRITE(IOUT,1100) VMPEAK, VMSIZE,VMRSS,VMHWM, VMSTK
             ELSE
-                IF(VMHWM/=-1) THEN 
+                IF(VMHWM/=-1) THEN
                     MEM = VMHWM
                 ELSEIF(VMPEAK/=-1) THEN
                     MEM = VMPEAK
@@ -106,10 +106,10 @@ C-----------------------------------------------
                 ENDIF
                 WRITE(IOUT,1000) MEM
             ENDIF
-        ENDIF    
+        ENDIF
 
 
-        
+
  1000 FORMAT(/,
      . ' '/
      . '    STARTER STORAGE '/

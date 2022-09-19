@@ -86,25 +86,25 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   IN25,XX,YY,ZZ,XY,YZ,ZX,VA2, INEL,
-     .   VXA(MVSIZ), VYA(MVSIZ), VZA(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ), VZA(MVSIZ),
      .   XMAS(MVSIZ), RHO, EI(MVSIZ),REI(MVSIZ),REK(MVSIZ),
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ), XMAS25(MVSIZ),
-     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
+     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),
      .   RBIDON(1)
       INTEGER :: K,IPART,LOCAL_INDEX
-      my_real, DIMENSION(MVSIZ,2) :: FSTPARIT   
+      my_real, DIMENSION(MVSIZ,2) :: FSTPARIT
 C-----------------------------------------------
       FLAG = 0
       RBIDON = ZERO
-      
+
       MX = MAT(JFT)
       RHO=PM(1,MX)
 C-----add available to output XCG,... with other shells than belytschko
       IF(IFLA>1)THEN
-       DO I=JFT,JLT      
+       DO I=JFT,JLT
         IXCTMP2=IXC(2,I)
         IXCTMP3=IXC(3,I)
         IXCTMP4=IXC(4,I)
@@ -338,7 +338,7 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
      4                    RBIDON,RBIDON,RBIDON,RBIDON,RBIDON,
      5                    RBIDON,RBIDON,RBIDON,RBIDON,RBIDON,
      6                    RBIDON,FLAG)
-        ENDIF	   
+        ENDIF	
 	IC=1
 	JST(IC)=JFT
 	DO J=JFT+1,JLT
@@ -347,7 +347,7 @@ C                PARTSAV(8,MX)=PARTSAV(8,MX) + EHOU(I)
 	    JST(IC)=J
 	  ENDIF
 	ENDDO
-	JST(IC+1)=JLT+1		   
+	JST(IC+1)=JLT+1		
         IF (IC==1) THEN
           MX = IPARTC(JFT)
 #include      "simd.inc"
@@ -403,7 +403,7 @@ C
             ENDIF
          ENDDO
       ENDIF
-      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTC,ITASK)      
+      CALL SENSOR_ENERGY_BILAN(JFT,JLT,EI,EK,OFF,IPARTC,ITASK)
 C---
       RETURN
       END

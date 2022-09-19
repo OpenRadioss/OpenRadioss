@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER IC,I,J,K,ITYP
       my_real
      .   DIST,DIST0,DISTMIN,DISTMAX,
-     .   DD,DX1,DY1,DZ1,DX2,DY2,DZ2,VNX,VNY,VNZ,X,Y,Z 
+     .   DD,DX1,DY1,DZ1,DX2,DY2,DZ2,VNX,VNY,VNZ,X,Y,Z
 C
       LEN=0
       DO 10 IC=1,NCUTS
@@ -62,7 +62,7 @@ C
        DD=DTANIM*XCUT(7,IC)
        XCUT(1,IC)=XCUT(1,IC)+DD*XCUT(4,IC)
        XCUT(2,IC)=XCUT(2,IC)+DD*XCUT(5,IC)
-       XCUT(3,IC)=XCUT(3,IC)+DD*XCUT(6,IC)   
+       XCUT(3,IC)=XCUT(3,IC)+DD*XCUT(6,IC)
       ELSEIF(ITYP==3)THEN
        XCUT(1,IC)=XYZ0(1,ICUT(2,IC))
        XCUT(2,IC)=XYZ0(2,ICUT(2,IC))

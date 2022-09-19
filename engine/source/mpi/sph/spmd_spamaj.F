@@ -96,7 +96,7 @@ C-----------------------------------------------
        SPAGLOB = RBUF(2)
 
 !      -----------------------
-!      Destroy the MIN/MAX operator 
+!      Destroy the MIN/MAX operator
        call MPI_Type_free(type_reduc,ierror)
        call MPI_Op_free(myop, ierror)
 !      -----------------------

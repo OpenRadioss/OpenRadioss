@@ -70,7 +70,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE SPHBOX
       USE MOD_SPLISSV
@@ -123,9 +123,9 @@ C-----------------------------------------------
       INTEGER N,INOD,JNOD,J,NVOIS,M,NN,
      .        IPROP,IMAT,I,
      .        NVOISS,SM,NC,JS,
-     .        IS,IC,ISLIDE,IPRT,NS,MYADRN, 
-     .        NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8, 
-     .        IR, IT, NSPHDIR, KP, NP,NELEM, OFFSET, NEL, IG, NG, 
+     .        IS,IC,ISLIDE,IPRT,NS,MYADRN,
+     .        NSOL, NSKI, N1, N2, N3, N4, N5, N6, N7, N8,
+     .        IR, IT, NSPHDIR, KP, NP,NELEM, OFFSET, NEL, IG, NG,
      .        II, II1, SIZE, LENR, IERROR
       my_real
      .       XI,YI,ZI,DI,RHOI,PRESI,XJ,YJ,ZJ,DJ,PRESJ,RHOJ,DIJ,
@@ -149,8 +149,8 @@ C-----------------------------------------------
       EXTERNAL GET_U_GEO
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),A_GAUSS_TETRA(9,9)
@@ -259,7 +259,7 @@ C-----------------------------------------------
         USDT=ONE/DT12
 !$OMP DO SCHEDULE(DYNAMIC,1)
         DO IG = 1, NGROUNC
-          NG = IGROUNC(IG)        
+          NG = IGROUNC(IG)
           IF(IPARG(8,NG)==1)GOTO 250
           IF (IDDW>0) CALL STARTIMEG(NG)
           DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -275,7 +275,7 @@ C-----------------------------------------------
 C-----------
              GBUF => ELBUF_TAB(NG)%GBUF
              LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
-             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)     
+             MBUF => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
 C-----
              IF (IPARG(28,NG)==4) THEN
 C-----
@@ -423,7 +423,7 @@ C-----------------------------------------------
         IF(ITASK==0) THEN
           ALLOCATE(ASPHR(4,NSPHR))
           CALL SPMD_SPHGETF(KXSP,SPBUF,A,MS,ASPHR)
-c          IF(NSPHIO/=0.AND.NSPHACT/=0)THEN 
+c          IF(NSPHIO/=0.AND.NSPHACT/=0)THEN
 c               CALL SPMD_SPHGETV(KXSP,SPBUF,V,MS)
 c          ENDIF
         END IF
@@ -461,7 +461,7 @@ C-----------------------------------------------
            AN=AXI*NX+AYI*NY+AZI*NZ
            AXS=AXI-TWO*AN*NX
            AYS=AYI-TWO*AN*NY
-           AZS=AZI-TWO*AN*NZ	   
+           AZS=AZI-TWO*AN*NZ	
           ENDIF
           WASPSYM(1,JS)=AXS
           WASPSYM(2,JS)=AYS
@@ -488,7 +488,7 @@ C
            AN=AXI*NX+AYI*NY+AZI*NZ
            AXS=AXI-TWO*AN*NX
            AYS=AYI-TWO*AN*NY
-           AZS=AZI-TWO*AN*NZ	   
+           AZS=AZI-TWO*AN*NZ	
           ENDIF
           WASPSYM(1,JS)=AXS
           WASPSYM(2,JS)=AYS
@@ -525,7 +525,7 @@ C
         MYADRN=3*(N-1)
         WA(MYADRN+1)=ZERO
         WA(MYADRN+2)=ZERO
-        WA(MYADRN+3)=ZERO     
+        WA(MYADRN+3)=ZERO
       ENDDO
 C
       DO NS =ITASK+1,NSPHACT,NTHREAD

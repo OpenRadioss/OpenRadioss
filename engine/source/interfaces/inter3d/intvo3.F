@@ -47,8 +47,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
-      USE H3D_MOD 
+      USE INTBUFDEF_MOD
+      USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,7 +97,7 @@ C     REAL
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   DIST(MVSIZ)
-      INTEGER IBC, NCIMP, NRTM4, NOINT, NGROUS, NGROUM, NG,IGIMP, 
+      INTEGER IBC, NCIMP, NRTM4, NOINT, NGROUS, NGROUM, NG,IGIMP,
      .        NCI, I_STOK, NSEG, LLT_NEW, IDT, JFI, KFI
       INTEGER IFQ,MFROT,JD(50),KD(50),IBAG,IADM,IFORM,IFT0
 
@@ -259,7 +259,7 @@ C
        CALL I3FOR3(LFT   ,LLT   ,NFT   , A  ,
      2      INTBUF_TAB%NSV,INTBUF_TAB%MSR,INTBUF_TAB%IRTLS,INTBUF_TAB%STFS,
      3      INTBUF_TAB%STFNM,IBC  ,ICODT        ,-1        ,FSAV      ,
-     4      IGIMP  ,FSKYI     ,ISKY      ,FCONT     ,H3D_DATA, 
+     4      IGIMP  ,FSKYI     ,ISKY      ,FCONT     ,H3D_DATA,
      5      N1    ,N2    ,N3    ,IX11  ,IX12     ,
      6      IX13  ,IX14  ,ANS   ,
      7      THK   ,H1    ,H2    ,H3    ,H4       ,

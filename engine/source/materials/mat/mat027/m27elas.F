@@ -63,7 +63,7 @@ C     REAL
      . EPSM1(MVSIZ),EPSM2(MVSIZ),DMAX1(MVSIZ),DMAX2(MVSIZ),
      . SCALE1,SCALE2
 C-----------------------------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO I=JFT,JLT
         E(I)     = PM(20,IMAT)
         NU(I)    = PM(21,IMAT)
@@ -81,7 +81,7 @@ C     ANCIEN DOMMAGE EFFECTIF:
 C        SIG>0  => DE =1-D
 C        SIG<0  => DE =1
 C--------------------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
       DO I=JFT,JLT
         DE1(I)  = ONE - MAX(ZERO,SIGN(DAMT(I,1),SIG(I,1)))
         DE2(I)  = ONE - MAX(ZERO,SIGN(DAMT(I,2),SIG(I,2)))

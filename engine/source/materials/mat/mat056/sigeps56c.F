@@ -108,7 +108,7 @@ C-----------------------------------------------
 C -- NEC Commonblock saves the state between IPT calls
       COMMON /NECTRXI/ JST    ,IC    ,IFUNC,MINLEN,NFUNCV,
      .                 NFUNCM,IMIX ,IMIXV ,IFUNCM,
-     .                 JEND   
+     .                 JEND
       COMMON /NECTRXR/ NG_NRATES
 C 
       INTEGER MINLEN,GLIMIT
@@ -176,7 +176,7 @@ C-----------------------------------------------
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,2),SVM(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),
      .        YFAC(MVSIZ,2),
-     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
+     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),SVMO(MVSIZ),H(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),
      .        HK(MVSIZ)
@@ -238,7 +238,7 @@ C
        NU31 = ONE-NNU11
        NU41 = ONE + NNU2 + NNU11
        NU51 = ONE + NNU2 - TWO*NNU11
-       NU61 = HALF - NNU2 + HALF*NNU11       
+       NU61 = HALF - NNU2 + HALF*NNU11
 C
        EPSR11 =UPARAM(IADBUF+6+2*NRATE1+2)
        EPSR21 =UPARAM(IADBUF+6+2*NRATE1+3)
@@ -250,7 +250,7 @@ C
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
            UVAR(I,3)=ZERO
-           UVAR(I,4)=ZERO  
+           UVAR(I,4)=ZERO
            DO J=1,NRATE1
              UVAR(I,J+4)=ZERO
            ENDDO
@@ -264,7 +264,7 @@ C------------------------------------------
 !           SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
 !           SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
 !           SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
-           DPLA_I(I) =ZERO           
+           DPLA_I(I) =ZERO
        ENDDO
 C-----------------------------------------------
 C
@@ -285,7 +285,7 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-         IF (ISRATE==0) EPSP(I) = 
+         IF (ISRATE==0) EPSP(I) =
      .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -383,7 +383,7 @@ C       ECROUISSAGE CINEMATIQUE
          Y2(I)=TF(NPF(IFUNC1(J2))+1)
          Y1(I)=Y1(I)*YFAC(I,1)
          Y2(I)=Y2(I)*YFAC(I,2)
-         YLD(I) = (1.-FISOKIN1) * YLD(I) + 
+         YLD(I) = (1.-FISOKIN1) * YLD(I) +
      .        FISOKIN1 * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
         ENDDO
        ENDIF
@@ -409,7 +409,7 @@ C projection radiale
            DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1) 
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1)
          ENDDO
 C
        ELSEIF(IFLAG(1)==1)THEN
@@ -423,7 +423,7 @@ C-------------------------
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
+           SVM(I)=SQRT(AA(I)+BB(I))
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDDO
@@ -457,7 +457,7 @@ C
              YLD_I =YLD(I)+HK(I)*DPLA_I(I)
              DR(I) =HALF*E1*DPLA_I(I)/YLD_I
              PP(I)  =ONE/(ONE+DR(I)*NU11)
-             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU21)     
+             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU21)
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
@@ -469,7 +469,7 @@ C
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C------------------------------------------
@@ -482,7 +482,7 @@ C------------------------------------------
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
            SIGNXX(I)=HALF*(S1+S2)
-           SIGNYY(I)=HALF*(S1-S2) 
+           SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            DEZZ = - NU31*DR(I)*S1/E1
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -523,7 +523,7 @@ C proj.   signzz    = 0.
            DEZZ = DPLA_I(I) * HALF*(SIGNXX(I)+SIGNYY(I)) / YLD(I)
            DEZZ=-(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
-           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1)         
+           IF(R<ONE) ETSE(I)= H(I)/(H(I)+E1)
          ENDDO
        ENDIF
 C
@@ -539,7 +539,7 @@ C test bypass
           DSXX = SIGEXX(I) - SIGNXX(I)
           DSYY = SIGEYY(I) - SIGNYY(I)
           DSXY = SIGEXY(I) - SIGNXY(I)
-          DEXX = (DSXX - NUX*DSYY) 
+          DEXX = (DSXX - NUX*DSYY)
           DEYY = (DSYY - NUX*DSXX)
           DEXY = TWO*(ONE+NUX)*DSXY
           ALPHA = FISOKIN1*H(I)/(E1+H(I))/THREE

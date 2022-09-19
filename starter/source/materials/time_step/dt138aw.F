@@ -69,14 +69,14 @@ C=======================================================================
       E       =PM(20,MX)
       C1(I)   =E/(THREE*(ONE-TWO*NU))
       END DO
-      
+
 C-----------------------------
 C     CALCUL DE VITESSE DU SON
 C-----------------------------
       DO I=LFT,LLT
          SSP(I)=SQRT((FOUR_OVER_3*G(I)+C1(I))/RHO0(I))
       END DO
-      
+
 C----------------------------------
 C     CALCUL DES DT ELEMENTAIRES
 C----------------------------------

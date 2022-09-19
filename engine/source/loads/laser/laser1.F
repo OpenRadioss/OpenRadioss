@@ -30,12 +30,12 @@ Chd|        LASER3                        source/loads/laser/laser2.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE LASER1(LAS ,XLAS ,MS    ,X    ,V     ,
-     .                  W   ,WA   ,IPARG ,IXQ  ,PM    , 
+     .                  W   ,WA   ,IPARG ,IXQ  ,PM    ,
      .                  TF  ,NPF , ELBUF_TAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

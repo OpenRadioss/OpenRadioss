@@ -65,7 +65,7 @@ C     REAL
      .    BZY1(*),BZY2(*),BZY3(*),BZY4(*),
      .    AIRN(*),VOLN(*),NU(*)
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   OFFG               - ELEMENT D/A FLAG, OVERALL
@@ -168,4 +168,4 @@ C----Assumed strain
 C
       RETURN
       END
-	  
+	

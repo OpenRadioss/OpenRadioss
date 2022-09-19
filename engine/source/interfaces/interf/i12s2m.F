@@ -59,28 +59,28 @@ C-----------------------------------------------
 
 
       DO KVAR=1,NVCONV
-      
-        SELECT CASE(KVAR)                
-          CASE(1)                        
-            ptr(1:) => SEGVAR%RHO(1:)    
-          CASE(2)                        
-            ptr(1:) => SEGVAR%EINT(1:)   
-          CASE(3)                        
-            ptr(1:) => SEGVAR%RK(1:)     
-          CASE(4)                        
-            ptr(1:) => SEGVAR%RE(1:)     
-          CASE(5)                        
-            ptr(1:) => SEGVAR%UVAR(1:)   
-        END SELECT 
-                              
+
+        SELECT CASE(KVAR)
+          CASE(1)
+            ptr(1:) => SEGVAR%RHO(1:)
+          CASE(2)
+            ptr(1:) => SEGVAR%EINT(1:)
+          CASE(3)
+            ptr(1:) => SEGVAR%RK(1:)
+          CASE(4)
+            ptr(1:) => SEGVAR%RE(1:)
+          CASE(5)
+            ptr(1:) => SEGVAR%UVAR(1:)
+        END SELECT
+
         DO I=1,NRTM
           ptr(ISEGM(I))=ZERO
         ENDDO
-        
+
       ENDDO
-      
+
       DO I=1,NRTM
-        MCOUNT(I)=ZERO 
+        MCOUNT(I)=ZERO
       ENDDO
 
       DO II=1,NSN
@@ -89,26 +89,26 @@ C-----------------------------------------------
       ENDDO
 
       DO KVAR=1,NVCONV
-      
-        SELECT CASE(KVAR)                
-          CASE(1)                        
-            ptr(1:) => SEGVAR%RHO(1:)    
-          CASE(2)                        
-            ptr(1:) => SEGVAR%EINT(1:)   
-          CASE(3)                        
-            ptr(1:) => SEGVAR%RK(1:)     
-          CASE(4)                        
-            ptr(1:) => SEGVAR%RE(1:)     
-          CASE(5)                        
-            ptr(1:) => SEGVAR%UVAR(1:)   
-        END SELECT 
-              
+
+        SELECT CASE(KVAR)
+          CASE(1)
+            ptr(1:) => SEGVAR%RHO(1:)
+          CASE(2)
+            ptr(1:) => SEGVAR%EINT(1:)
+          CASE(3)
+            ptr(1:) => SEGVAR%RK(1:)
+          CASE(4)
+            ptr(1:) => SEGVAR%RE(1:)
+          CASE(5)
+            ptr(1:) => SEGVAR%UVAR(1:)
+        END SELECT
+
         DO II=1,NSN
           L=IRTL(II)
           ADS=NVCONV*(II-1)+KVAR
           ptr(ISEGM(L))=ptr(ISEGM(L))+NODVARS(ADS)
          ENDDO
-         
+
       ENDDO
 
       !CALCUL PARTICULIER SI IL EXISTE ONE SEGMENT SANS NOEUD SECOND. DETECTE
@@ -152,20 +152,20 @@ C-----------------------------------------------
       ENDIF
 
       DO KVAR=1,NVCONV
-      
-        SELECT CASE(KVAR)                
-          CASE(1)                        
-            ptr(1:) => SEGVAR%RHO(1:)    
-          CASE(2)                        
-            ptr(1:) => SEGVAR%EINT(1:)   
-          CASE(3)                        
-            ptr(1:) => SEGVAR%RK(1:)     
-          CASE(4)                        
-            ptr(1:) => SEGVAR%RE(1:)     
-          CASE(5)                        
-            ptr(1:) => SEGVAR%UVAR(1:)   
-        END SELECT 
-              
+
+        SELECT CASE(KVAR)
+          CASE(1)
+            ptr(1:) => SEGVAR%RHO(1:)
+          CASE(2)
+            ptr(1:) => SEGVAR%EINT(1:)
+          CASE(3)
+            ptr(1:) => SEGVAR%RK(1:)
+          CASE(4)
+            ptr(1:) => SEGVAR%RE(1:)
+          CASE(5)
+            ptr(1:) => SEGVAR%UVAR(1:)
+        END SELECT
+
         DO I=1,NRTM
           SEGAD=NVCONV*(ISEGM(I)-1)+KVAR
           IF(MCOUNT(I)>ZERO)THEN
@@ -185,18 +185,18 @@ C-----------------------------------------------
               ptr(ISEGM(I))=ptr(ISEGM(I))/FLOAT(L)
             ELSE
 
-              TEST=TEST+1          
+              TEST=TEST+1
       !        WRITE(IOUT,'(A,I8,A,I8,A)')
       !+      '*** WARNING INTERF #',NOINT,'MAIN SEGMENT #',I,
-      !+      ' WITHOUT SECONDARY NODE'            
+      !+      ' WITHOUT SECONDARY NODE'
             ENDIF
            ENDIF
-      
+
         ENDDO
       ENDDO
       ! IF(TEST >0)WRITE(ISTDO,'(A,I8,I8,A)')
       !+      '*** WARNING INTERF #',NOINT,
-      !+      TEST,' MAIN SEGMENTS WITHOUT SECONDARY NODE' 
+      !+      TEST,' MAIN SEGMENTS WITHOUT SECONDARY NODE'
 
       RETURN
       END

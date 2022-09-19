@@ -32,7 +32,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   , NGL     ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -101,11 +101,11 @@ C----------------------------------------------------------------
      .   MU,D,LAM,G,RBULK,AA,BB,CC,P,TRACE(MVSIZ),C(5),BETA,
      .   T1(MVSIZ), T2(MVSIZ),T3(MVSIZ),AV(MVSIZ,6),EV(MVSIZ,3),
      .   EVV(MVSIZ,3),RV(MVSIZ),RVD,DI1LAM1(MVSIZ),DI1LAM2(MVSIZ),DI1LAM3(MVSIZ),
-     .   DIRPRV(MVSIZ,3,3),EVD(3),ETI(MVSIZ)  
+     .   DIRPRV(MVSIZ,3,3),EVD(3),ETI(MVSIZ)
       my_real
-     .   CLAM(5),LAM_2(3),LAM_4(3),AMAX,CLP  
+     .   CLAM(5),LAM_2(3),LAM_4(3),AMAX,CLP
       my_real ,DIMENSION(NEL,3) :: EVM,CII
-      my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX,RV_1  
+      my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX,RV_1
 C----------------------------------------------------------------
 C material parameters
         MU       = UPARAM(1)
@@ -113,12 +113,12 @@ C material parameters
         LAM      = UPARAM(3)
         G        = UPARAM(4)
         RBULK    = UPARAM(5)
-        C(1)     = UPARAM(6) 
+        C(1)     = UPARAM(6)
         C(2)     = UPARAM(7)
         C(3)     = UPARAM(8)
         C(4)     = UPARAM(9)
-        C(5)     = UPARAM(10)   
-        MULLINS  = INT(UPARAM(13)) ! computed in updmat 
+        C(5)     = UPARAM(10)
+        MULLINS  = INT(UPARAM(13)) ! computed in updmat
 C iniialisation des variabesl users 
       IF(TIME==ZERO)THEN
        DO J = 1,NUVAR
@@ -126,7 +126,7 @@ C iniialisation des variabesl users
          UVAR(I,J) = ZERO
         ENDDO
        ENDDO
-      ENDIF   
+      ENDIF
 C           
       DO I=1,NEL
        AV(I,1)=EPSXX(I)
@@ -135,7 +135,7 @@ C
        AV(I,4)=EPSXY(I)/2
        AV(I,5)=EPSYZ(I)/2
        AV(I,6)=EPSZX(I)/2
-      ENDDO       
+      ENDDO
 CEigenvalues needed to be calcultated in double precision
 C        for a simple precision executing
       IF (IRESP==1) THEN
@@ -153,7 +153,7 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))
          EV(I,2)=EXP(EVV(I,2))
          EV(I,3)=EXP(EVV(I,3))
-        ENDDO 
+        ENDDO
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
         IF(OFFG(I)<=ONE) THEN
@@ -165,14 +165,14 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
         END IF
-        ENDDO 
+        ENDDO
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
-        ENDDO 
+        ENDDO
       ENDIF
 
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
@@ -225,7 +225,7 @@ C
          TRACE(I) = EVD(1)**2 + EVD(2)**2 + EVD(3)**2
          DI1LAM1(I) = TWO*EVD(1)**2 - TWO_THIRD*TRACE(I)
          DI1LAM2(I) = TWO*EVD(2)**2 - TWO_THIRD*TRACE(I)
-         DI1LAM3(I) = TWO*EVD(3)**2 - TWO_THIRD*TRACE(I)       
+         DI1LAM3(I) = TWO*EVD(3)**2 - TWO_THIRD*TRACE(I)
          T1(I) = ZERO
          T2(I) = ZERO
          T3(I) = ZERO
@@ -243,7 +243,7 @@ C
       ENDDO
 C RBilk = 2/D
       DO I=1,NEL
-         RV_1(I) = ONE/RV(I)	  
+         RV_1(I) = ONE/RV(I)	
          P = RV_1(I)*RBULK*(RV(I)**2 - ONE)/TWO
          T1(I) = (MU*T1(I) + P)*RV_1(I)
          T2(I) = (MU*T2(I) + P)*RV_1(I)
@@ -254,7 +254,7 @@ c------------------------
        DO I = 1,NEL
          BETA  = ONE/LAM**2
          WW(I) = MU *(C(1)*(TRACE(I)- THREE)+C(2) * BETA    *(TRACE(I)**2- NINE)
-     .   +                                   C(3) * BETA**2 *(TRACE(I)**3- THREE**3)    
+     .   +                                   C(3) * BETA**2 *(TRACE(I)**3- THREE**3)
      .   +                                   C(4) * BETA**3 *(TRACE(I)**4- THREE**4)
      .   +                                   C(5) * BETA**4 *(TRACE(I)**5- THREE**5) )
 
@@ -280,7 +280,7 @@ c----compute GT_MAX
           DO I=1,NEL
            AMAX= MAX(CII(I,1),CII(I,2),CII(I,3))
 C---------reduce old result change		   
-           ETI(I) = MAX(ONE,AMAX*0.81) 
+           ETI(I) = MAX(ONE,AMAX*0.81)
            GTMAX(I) = G*ETI(I)
            RKMAX(I) = RKMAX(I)*(ONE+RV_1(I)*RV_1(I))
            RKMAX(I) = MAX(RBULK,RKMAX(I))
@@ -293,23 +293,23 @@ C cauchy to glabale
         SIGNXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*T1(I)
      .            + DIRPRV(I,1,2)*DIRPRV(I,1,2)*T2(I)
      .            + DIRPRV(I,1,3)*DIRPRV(I,1,3)*T3(I)
-     
+
         SIGNYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*T2(I)
      .            + DIRPRV(I,2,3)*DIRPRV(I,2,3)*T3(I)
      .            + DIRPRV(I,2,1)*DIRPRV(I,2,1)*T1(I)
-     
-        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*T3(I)        
+
+        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*T3(I)
      .            + DIRPRV(I,3,1)*DIRPRV(I,3,1)*T1(I)
      .            + DIRPRV(I,3,2)*DIRPRV(I,3,2)*T2(I)
-     
+
         SIGNXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*T1(I)
-     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*T2(I)     
+     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*T2(I)
      .            + DIRPRV(I,1,3)*DIRPRV(I,2,3)*T3(I)
-     
+
         SIGNYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*T2(I)
      .            + DIRPRV(I,2,3)*DIRPRV(I,3,3)*T3(I)
      .            + DIRPRV(I,2,1)*DIRPRV(I,3,1)*T1(I)
-     
+
         SIGNZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*T3(I)
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*T1(I)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*T2(I)

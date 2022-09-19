@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
-#ifdef MPI 
+#ifdef MPI
         INTEGER :: I,N,N_BUFFER
         INTEGER, DIMENSION(NB_INTER_7_INACTI) :: S_BUFFER
         INTEGER, DIMENSION(NB_INTER_7_INACTI) :: R_BUFFER
@@ -83,7 +83,7 @@ C-----------------------------------------------
                 IF(INTER_STRUCT(N)%INACTI<0) S_BUFFER( N_BUFFER ) = 0
             ENDIF
         ENDDO
-        
+
         MY_OPERATION(1:4) =''
         MY_OPERATION ="SUM"
 
@@ -97,7 +97,7 @@ C-----------------------------------------------
                 N = LIST_INTER_SORTED(I)
                 N_BUFFER = LIST_INTER_7_INACTI(N)
                 IF(N_BUFFER>0) THEN
-                    IF (R_BUFFER(N_BUFFER)/=0) THEN 
+                    IF (R_BUFFER(N_BUFFER)/=0) THEN
                         INTER_STRUCT(N)%INACTI=IPARI(22,N)
                     ELSE
                         INTER_STRUCT(N)%INACTI=-ABS(IPARI(22,N))

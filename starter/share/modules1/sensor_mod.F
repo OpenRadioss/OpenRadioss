@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE SENSOR_STR_
-        INTEGER :: TYPE        !   sensor type 
+        INTEGER :: TYPE        !   sensor type
         INTEGER :: SENS_ID     !   sensor ID
         INTEGER :: STATUS      !   sensor status (activated / deactivated)
         my_real :: TCRIT       !   time when activation criterion is met
@@ -90,9 +90,9 @@ C-----------------------------------------------
 
       TYPE SENSOR_USER_STRUCT_
         LOGICAL :: IS_USED          ! boolean, true if a user sensor is activated
-        INTEGER :: POINTER_NODE,NUMBER_NODE ! nbr of node of user sensor + index 
-        INTEGER :: POINTER_PART,NUMBER_PART ! nbr of part of user sensor + index 
-        INTEGER :: POINTER_NODE_PER_PART,NUMBER_NODE_PER_PART ! nbr of node defined in a part of user sensor + index 
+        INTEGER :: POINTER_NODE,NUMBER_NODE ! nbr of node of user sensor + index
+        INTEGER :: POINTER_PART,NUMBER_PART ! nbr of part of user sensor + index
+        INTEGER :: POINTER_NODE_PER_PART,NUMBER_NODE_PER_PART ! nbr of node defined in a part of user sensor + index
         INTEGER, DIMENSION(:), ALLOCATABLE :: NODE_LIST ! list of node
         INTEGER, DIMENSION(:), ALLOCATABLE :: PART_LIST ! list of part
         INTEGER, DIMENSION(:), ALLOCATABLE :: NODE_PER_PART_LIST ! list of node defined in a part

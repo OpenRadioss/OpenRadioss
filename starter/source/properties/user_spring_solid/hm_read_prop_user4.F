@@ -92,7 +92,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ,INTENT(IN) :: IOUT
       INTEGER NUVAR
-      my_real   
+      my_real
      .        PARGEO(*)
 
       TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB

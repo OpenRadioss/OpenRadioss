@@ -49,7 +49,7 @@ Chd|====================================================================
      1    GEO       ,NPBY      ,LPBY      ,ITAB      ,SENSOR    ,
      2    IPARI     ,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,     
+     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,
      6    ELBUF     ,NINT7     ,NBINTC    ,X         ,DMCP      ,
      7    FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NUM_IMP1  ,NUM_IMPL  ,MONVOL    ,IGRSURF   ,
@@ -61,7 +61,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
@@ -84,9 +84,9 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "scr17_c.inc"
-#include      "task_c.inc" 
+#include      "task_c.inc"
 #include      "buckcom.inc"
-#include      "units_c.inc"  
+#include      "units_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -97,7 +97,7 @@ C-----------------------------------------------
       INTEGER MONVOL(*),
      .        FR_MV(NSPMD+2,NVOLU),NPRW(*),FR_RBE3M(*),IAD_RBE3M(*)
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),IFRAME(LISKN,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),IRBE3(*),LRBE3(*),
@@ -150,15 +150,15 @@ C            CALL ARRET(2)
            CALL ARRET(2)
 	    END IF
 #endif
-c          
+c
           ALLOCATE(IMPBUF_TAB%IDDL(NUMNOD))
           ALLOCATE(IMPBUF_TAB%NDOF(NUMNOD))
           ALLOCATE(IMPBUF_TAB%INLOC(NUMNOD))
-          ALLOCATE(IMPBUF_TAB%IRBYAC(2*NRBYKIN))         
-          ALLOCATE(IMPBUF_TAB%NSC(NRBYKIN))        
-          ALLOCATE(IMPBUF_TAB%IINT2(NINTER))           
-          ALLOCATE(IMPBUF_TAB%NKUD(NFXVEL))          
-          ALLOCATE(IMPBUF_TAB%IMONV(NVOLU))            
+          ALLOCATE(IMPBUF_TAB%IRBYAC(2*NRBYKIN))
+          ALLOCATE(IMPBUF_TAB%NSC(NRBYKIN))
+          ALLOCATE(IMPBUF_TAB%IINT2(NINTER))
+          ALLOCATE(IMPBUF_TAB%NKUD(NFXVEL))
+          ALLOCATE(IMPBUF_TAB%IMONV(NVOLU))
           NDDL => IMPBUF_TAB%NDDL
           NNZK => IMPBUF_TAB%NNZK
           NRBYAC => IMPBUF_TAB%NRBYAC
@@ -214,8 +214,8 @@ c		  S_NSS3=IMPBUF_TAB%LSIZE(14)
 c		  S_ISB2=IMPBUF_TAB%LSIZE(15)
 c		  S_NSRB2=IMPBUF_TAB%LSIZE(16)
 C		  
-          NKINE = LSIZE(8) 
-          NNMAX = LSIZE(9) 
+          NKINE = LSIZE(8)
+          NNMAX = LSIZE(9)
           NKMAX = LSIZE(10)
           NMIJ2 = LSIZE(11)
           NPN   = LSIZE(12)
@@ -324,7 +324,7 @@ C     ----- ---------
           NINT7 = 0
           S_CAND_N = 0
           S_CAND_E = 0
-          S_INDSUBT= 0  
+          S_INDSUBT= 0
          IF (NINTER/=0.AND.NEIG==0) THEN
           CALL DIM_INT7(NINTER,IPARI ,INTBUF_TAB ,NINT7)
           IF (NINT7>0) THEN
@@ -334,7 +334,7 @@ C     ----- ---------
            ENDIF
            S_CAND_N = NINT7*NTHREAD !NS_IMP
            S_CAND_E = S_CAND_N      !NE_IMP
-           S_INDSUBT= S_CAND_N      !IND_IMP  
+           S_INDSUBT= S_CAND_N      !IND_IMP
 	       S_IDDLI=NUMNOD
           ELSE
            IF (ILINTF>0.AND.IMACH/=3) ILINTF=0
@@ -426,26 +426,26 @@ C-----------17-21:FEXT,DG,DGR,DG0,DGR0;(Riks arc-length);22:BUFIN_C,23,24:AC,ACR
             IF (IRODDL/=0) S_ACR=NNDL
           ENDIF
 C		  
-	      ALLOCATE(IMPBUF_TAB%DIAG_K(S_DIAG_K)) 
-	      ALLOCATE(IMPBUF_TAB%LT_K(S_LT_K))   
-	      ALLOCATE(IMPBUF_TAB%DIAG_M(S_DIAG_M)) 
-	      ALLOCATE(IMPBUF_TAB%LT_M(S_LT_M))   
-	      ALLOCATE(IMPBUF_TAB%LB(S_LB))     
-	      ALLOCATE(IMPBUF_TAB%LB0(S_LB0))     
-	      ALLOCATE(IMPBUF_TAB%BKUD(S_BKUD))   
-	      ALLOCATE(IMPBUF_TAB%D_IMP(S_D_IMP))  
-	      ALLOCATE(IMPBUF_TAB%DR_IMP(S_DR_IMP)) 
+	      ALLOCATE(IMPBUF_TAB%DIAG_K(S_DIAG_K))
+	      ALLOCATE(IMPBUF_TAB%LT_K(S_LT_K))
+	      ALLOCATE(IMPBUF_TAB%DIAG_M(S_DIAG_M))
+	      ALLOCATE(IMPBUF_TAB%LT_M(S_LT_M))
+	      ALLOCATE(IMPBUF_TAB%LB(S_LB))
+	      ALLOCATE(IMPBUF_TAB%LB0(S_LB0))
+	      ALLOCATE(IMPBUF_TAB%BKUD(S_BKUD))
+	      ALLOCATE(IMPBUF_TAB%D_IMP(S_D_IMP))
+	      ALLOCATE(IMPBUF_TAB%DR_IMP(S_DR_IMP))
           ALLOCATE(IMPBUF_TAB%ELBUF_C(S_ELBUF_C))
 		  ALLOCATE(IMPBUF_TAB%BUFMAT_C(S_BUFMAT_C))
 		  ALLOCATE(IMPBUF_TAB%X_C(S_X_C))
 		  ALLOCATE(IMPBUF_TAB%DD(S_DD))
 		  ALLOCATE(IMPBUF_TAB%DDR(S_DDR))
-		  ALLOCATE(IMPBUF_TAB%X_A(S_X_A))   
-		  ALLOCATE(IMPBUF_TAB%FEXT(S_FEXT))  
-		  ALLOCATE(IMPBUF_TAB%DG(S_DG))    
-		  ALLOCATE(IMPBUF_TAB%DGR(S_DGR))   
-		  ALLOCATE(IMPBUF_TAB%DG0(S_DG0))    
-		  ALLOCATE(IMPBUF_TAB%DGR0(S_DGR0))   
+		  ALLOCATE(IMPBUF_TAB%X_A(S_X_A))
+		  ALLOCATE(IMPBUF_TAB%FEXT(S_FEXT))
+		  ALLOCATE(IMPBUF_TAB%DG(S_DG))
+		  ALLOCATE(IMPBUF_TAB%DGR(S_DGR))
+		  ALLOCATE(IMPBUF_TAB%DG0(S_DG0))
+		  ALLOCATE(IMPBUF_TAB%DGR0(S_DGR0))
 		  ALLOCATE(IMPBUF_TAB%BUFIN_C(S_BUFIN_C))
 		  ALLOCATE(IMPBUF_TAB%AC(S_AC))
 		  ALLOCATE(IMPBUF_TAB%ACR(S_ACR),STAT=IER2)
@@ -532,7 +532,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IGEO(NPROPGI,*)
 C     REAL
       my_real

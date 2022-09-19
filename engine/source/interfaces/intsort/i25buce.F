@@ -30,7 +30,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
        SUBROUTINE I25BUCE(
-     1   X        ,V       ,IRECT   ,NSV      ,STFN     , 
+     1   X        ,V       ,IRECT   ,NSV      ,STFN     ,
      2   NMN      ,NRTM    ,NSN     ,CAND_E   ,CAND_N   ,
      3   GAP      ,NOINT   ,II_STOK ,MULNSN   ,BMINMA   ,
      4   MARGE    ,CURV_MAX,PMAX_GAP,VMAXDT   ,
@@ -40,7 +40,7 @@ Chd|====================================================================
      8   ILEV     ,MSEGTYP ,
      9   FLAGREMNODE,KREMNOD,REMNOD ,
      A   IGAP     ,GAP_S_L ,GAP_M_L ,ICODT    ,ISKEW    ,
-     B   DRAD     ,DGAPLOAD) 
+     B   DRAD     ,DGAPLOAD)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C     REAL
       my_real
      .        XYZM(6), AAA
       INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8   
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -145,7 +145,7 @@ C=============================================================================
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -158,12 +158,12 @@ C=============================================================================
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))

@@ -77,7 +77,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
       USE MULTI_FVM_MOD
@@ -140,7 +140,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real 
+      my_real
      .        EMINX(*)
       my_real DT2T,
      .   A(*), FSAV(NTHVKI,*)  ,MS0(*),
@@ -207,7 +207,7 @@ C
       DO N=1,NINTER
         IF(IMONM > 0 ) THEN
 !$OMP MASTER
-           CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)   
+           CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)
 !$OMP END MASTER
         ENDIF
 
@@ -221,7 +221,7 @@ C
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 21.OR.NTY == 24.OR.NTY == 25)
      .      ISENS = IPARI(64,N) ! INTERFACE SENSOR NUMBER
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -270,8 +270,8 @@ C
              PTR_V => MULTI_FVM%V_APPEND
              PTR_MS => MULTI_FVM%MASS_APPEND
              PTR_KINET => MULTI_FVM%KINET_APPEND
-!             CALL MULTI_I18APPEND(N, JTASK-1, IXS, IPARI, IGRBRIC, INTBUF_TAB(N)%NSV, 
-!     .            PTR_X, X, PTR_V, V, MULTI_FVM, 
+!             CALL MULTI_I18APPEND(N, JTASK-1, IXS, IPARI, IGRBRIC, INTBUF_TAB(N)%NSV,
+!     .            PTR_X, X, PTR_V, V, MULTI_FVM,
 !     .            PTR_MS, PTR_KINET, MS, KINET, 1)
              CALL MY_BARRIER()
           ELSE
@@ -283,7 +283,7 @@ C
 
           IF(IMPL_S/=1)THEN
            NULLIFY(ptr_FR_I18)
-           IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18) 
+           IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)
            CALL I7MAINF(
      1  IPARI          ,PTR_X          ,A                ,ALE_CONNECTIVITY,XCELL       ,
      2  ICODT          ,FSAV(1,NTH)    ,PTR_V            ,PTR_MS          ,DT2T        ,
@@ -306,25 +306,25 @@ C
      K  TAGNCONT       ,KLOADPINTER    ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,S_LOADPINTER)
           ELSE
            NULLIFY(ptr_FR_I18)
-           IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)           
+           IF(NI18>0) ptr_FR_I18 => FR_I18(1,NI18)
            CALL I7MAINF(
-     1  IPARI      ,PTR_X         ,A                ,ALE_CONNECTIVITY,XCELL       ,                                            
-     2  ICODT      ,FSAV(1,NTH)   ,PTR_V            ,PTR_MS          ,DT2T        ,              
+     1  IPARI      ,PTR_X         ,A                ,ALE_CONNECTIVITY,XCELL       ,
+     2  ICODT      ,FSAV(1,NTH)   ,PTR_V            ,PTR_MS          ,DT2T        ,
      3  NELTST    ,ITYPTST        ,ITAB             ,STIFN           ,FSKYI       ,
-     4  ISKY       ,FCONT         ,N                ,LINDMAX         ,PTR_KINET   ,          
-     5  JTASK      ,NB_JLT(JTASK) ,NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),ELBUF_TAB   ,   
-     6  NISKYFI(N) ,NEWFRONT(N)   ,NSTRF            ,SECFCUM         ,IGROUPS     ,                           
-     7  ICONTACT   ,VISCN         ,NUM_IMP(N)       ,                                            
+     4  ISKY       ,FCONT         ,N                ,LINDMAX         ,PTR_KINET   ,
+     5  JTASK      ,NB_JLT(JTASK) ,NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),ELBUF_TAB   ,
+     6  NISKYFI(N) ,NEWFRONT(N)   ,NSTRF            ,SECFCUM         ,IGROUPS     ,
+     7  ICONTACT   ,VISCN         ,NUM_IMP(N)       ,
      9  NS_IMP(IAD),NE_IMP(IAD)   ,IND_IMP(IAD)     ,FSAV(1,NN1)     ,NRTMDIM     ,
-     A  FSAV(1,NN2),ptr_FR_I18    ,IGRBRIC          ,                                            
+     A  FSAV(1,NN2),ptr_FR_I18    ,IGRBRIC          ,
      B  EMINX     ,IXS            ,IXS16            ,IXS20           ,FNCONT      ,
      C  FTCONT    ,IAD_ELEM       ,FR_ELEM          ,RCONTACT        ,ACONTACT    ,
      D  PCONTACT  ,TEMP           ,FTHE             ,FTHESKYI        ,
      E  PM        ,IPARG          ,IAD17            ,MSKYI_SMS       ,ISKYI_SMS   ,
      F  NODNX_SMS ,MS0            ,QFRICINT         ,NPC             ,TF          ,
      G  CONDN      ,CONDNSKYI     ,INTBUF_TAB(N)    ,
-     H  FBSAV6     ,ISENSINT(1,N) ,DIMFB            ,IXIG3D          ,              
-     I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,    H3D_DATA,    
+     H  FBSAV6     ,ISENSINT(1,N) ,DIMFB            ,IXIG3D          ,
+     I  KXIG3D     ,WIGE          ,KNOT             ,IGEO            ,MULTI_FVM,    H3D_DATA,
      J  INTBUF_FRIC_TAB           ,KNOTLOCPC        ,KNOTLOCEL       ,JTASK       ,
      K  TAGNCONT    ,KLOADPINTER  ,LOADPINTER       ,LOADP_HYD_INTER ,DGAPLOADINT ,S_LOADPINTER)
            IAD=IAD+NUM_IMP(N)
@@ -347,7 +347,7 @@ C
            CALL I10MAINF(
      1      IPARI(1,N),X         ,A       ,
      2      ICODT     ,FSAV(1,N)    ,V            ,MS        ,DT2T    ,
-     3      NELTST    ,ITYPTST      ,ITAB         ,STIFN     ,FSKYI   , 
+     3      NELTST    ,ITYPTST      ,ITAB         ,STIFN     ,FSKYI   ,
      4      ISKY      ,FCONT        ,LINDMAX      ,
      5      JTASK,NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),
      6      NISKYFI(N),NSTRF        , SECFCUM     ,VISCN        ,N         ,
@@ -361,7 +361,7 @@ C
            CALL I10MAINF(
      1      IPARI(1,N),X         ,A       ,
      2      ICODT     ,FSAV(1,N)    ,V            ,MS        ,DT2T    ,
-     3      NELTST    ,ITYPTST      ,ITAB         ,STIFN     ,FSKYI   , 
+     3      NELTST    ,ITYPTST      ,ITAB         ,STIFN     ,FSKYI   ,
      4      ISKY      ,FCONT        ,LINDMAX      ,
      5      JTASK,NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK),
      6      NISKYFI(N),NSTRF        , SECFCUM     ,VISCN        ,N         ,
@@ -403,7 +403,7 @@ C
      5  NB_JLT(JTASK),NB_JLT_NEW(JTASK),NB_STOK_N(JTASK)  ,NISKYFI(N) ,
      6  NEWFRONT(N),NSTRF,SECFCUM,     VISCN   ,NUM_IMP(N),NS_IMP(IAD),
      7  NE_IMP(IAD),MSKYI_SMS    ,ISKYI_SMS    ,NODNX_SMS,ICONTACT    ,
-     8  INTBUF_TAB(N),PM         ,TEMP         , FTHE    ,FTHESKYI    , 
+     8  INTBUF_TAB(N),PM         ,TEMP         , FTHE    ,FTHESKYI    ,
      9  NPC        , TF          ,CONDN        ,CONDNSKYI ,FBSAV6     ,
      A  ISENSINT(1,N),DIMFB      ,FSAV(1,NN1)  ,H3D_DATA  ,INTBUF_FRIC_TAB,
      B  JTASK      ,TAGNCONT      ,KLOADPINTER ,LOADPINTER,LOADP_HYD_INTER,
@@ -627,7 +627,7 @@ C-----------------------------------------------------------------------
 c        DEALLOCATE(ISENSINT)
         IF(IMONM > 0) THEN
 !$OMP MASTER
-          CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)   
+          CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_FORCES)
 !$OMP END MASTER
         ENDIF
       ENDDO

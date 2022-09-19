@@ -63,13 +63,13 @@ C-----------------------------------------------
 
       DATA MSGOFF/7026/
       DATA MSGOFF2/7027/
-       
+
 C-----------------------------------------------
 
        ALLOCATE(BUFSR(3,NUMNODM))
        ALLOCATE(XGLOB(3,NUM))
        ALLOCATE(IBUF(NUMNODM))
-        
+
        IF (ISPMD/=0) THEN
 
          SIZ = 0
@@ -78,8 +78,8 @@ C-----------------------------------------------
              SIZ = SIZ + 1
              IBUF(SIZ) = NODGLOB(I)
              BUFSR(1,SIZ) = X(1,I)
-             BUFSR(2,SIZ) = X(2,I) 
-             BUFSR(3,SIZ) = X(3,I) 
+             BUFSR(2,SIZ) = X(2,I)
+             BUFSR(3,SIZ) = X(3,I)
            END IF
          END DO
 
@@ -87,7 +87,7 @@ C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-         MSGTYP = MSGOFF2 
+         MSGTYP = MSGOFF2
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -123,12 +123,12 @@ C   Reception du buffer entier des adresses NODGLOB
 
 C   Reception du buffer flottant des adresses NODGLOB
 
-            MSGTYP2 = MSGOFF 
+            MSGTYP2 = MSGOFF
 
             CALL MPI_RECV(BUFSR,SIZ*3,MPI_REAL4,IT_SPMD(I),MSGTYP2,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
-            NREC = SIZ 
+
+            NREC = SIZ
 
 
             DO K = 1, NREC

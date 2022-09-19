@@ -225,7 +225,7 @@ C=======================================================================
 
 
       ! Sort the Readed RBODYs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       DO I=1,NINDX
         INDEX(I) = I
@@ -241,7 +241,7 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      CLAUSE%NB_RBODY = LIST_SIZE  
+      CLAUSE%NB_RBODY = LIST_SIZE
       ALLOCATE( CLAUSE%RBODY( LIST_SIZE ) )
 
       DO I=1,LIST_SIZE

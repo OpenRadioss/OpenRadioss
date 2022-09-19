@@ -70,9 +70,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ITAG(NDDL), ITAGI(NDDL), NMOD, J, JJ, N, IADM, 
+      INTEGER I, ITAG(NDDL), ITAGI(NDDL), NMOD, J, JJ, N, IADM,
      .        IFILE, NDF, NDM, IM, LEN, IREC, IKC, IR, NR, IAD1,
-     .        K, KK, IMC, IM0, ISTOP, NEV, NCV, MAXN, MAXNEV, MAXNCV, 
+     .        K, KK, IMC, IM0, ISTOP, NEV, NCV, MAXN, MAXNEV, MAXNCV,
      .        LDV, ISHFTS, MODE, INFO, IMDIAG, NRHS, INFFAC, INFRES,
      .        NDEPL, NMDYN, NN, NBLF0, NUV, II, IDBL, IDF, NIB, NVD0,
      .        INOPRI, LFACW
@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: PDDLS
       my_real
      .       , DIMENSION(:), ALLOCATABLE :: BL
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
       DATA MSGOFF2 /300000/
       DATA MSGOFF3 /400000/
       DATA MSGOFF4 /500000/
@@ -325,7 +325,7 @@ C
                ENDDO
                RIGI(NN+IM,NN+IM)=RIGI(NN+IM,NN+IM)+KL(IAD1+NDF+IM-IM0)
             ENDDO
-            DEALLOCATE(KL)       
+            DEALLOCATE(KL)
 C Assemblage des seconds membres
             IF (IOPT==1) THEN
                DO J=1,NSCM
@@ -379,7 +379,7 @@ C
                ENDDO
                MASS(NN+IM,NN+IM)=MASS(NN+IM,NN+IM)+ML(IAD1+NDF+IM-IM0)
             ENDDO
-            DEALLOCATE(ML)       
+            DEALLOCATE(ML)
          ENDDO
       ELSE
 C SPMD - Tags :
@@ -579,7 +579,7 @@ C Processeur zero : recoit et assemble
                ENDDO
                MASS(NN+IM,NN+IM)=MASS(NN+IM,NN+IM)+ML(IAD1+NDF+IM)
             ENDDO
-            DEALLOCATE(ML)       
+            DEALLOCATE(ML)
 C
             DO I=1,NSPMD-1
                NDFP=IPARAM(1,I)
@@ -630,7 +630,7 @@ C Autres processeurs : envoient
 C
  100     CONTINUE
 C
-      ENDIF           
+      ENDIF
 C     
       IF (IMACH/=3.OR.ISPMD==0) THEN
          IF (IOPT==1) THEN
@@ -697,7 +697,7 @@ C
 C
                CALL DSEIG(N,      NEV,    NCV,    WHICH,  INFO,
      .                    MAXN,   MAXNEV, MAXNCV, LDV,    ISHFTS,
-     .                    MAXITR, MODE,   TOL,    RIGIS,  MASS, 
+     .                    MAXITR, MODE,   TOL,    RIGIS,  MASS,
      .                    FREQ,   VECT,   IPRI,   IMDIAG, TSHIFT,
      .                    N     )
 C
@@ -715,10 +715,10 @@ C
                         V(II,NVD)=VECT(II,I)
                      ENDDO
                      IF (NVD==NSVMAXT) THEN
-*                        WRITE(ISTDO,'(A84,I5)') 
+*                        WRITE(ISTDO,'(A84,I5)')
 *     .    ' ** WARNING : MAXIMAL DYNAMIC MODES NUMBER REACHED FOR'//
 *     .    ' CONDENSED PROBLEM - NSVMAXT: ',NSVMAXT
-*                        WRITE(IOUT,'(A86,I5)') 
+*                        WRITE(IOUT,'(A86,I5)')
 *     .    ' ** WARNING : MAXIMAL DYNAMIC MODES NUMBER REACHED FOR'//
 *     .    ' CONDENSED PROBLEM - NSVMAXT: ',NSVMAXT
                         ISTOP=1
@@ -758,7 +758,7 @@ C
                IF (INOPRI==0) THEN
                   NIB=NIB+1
                   WRITE(IOUT,*)
-                  WRITE(IOUT,FMT='(A7,I10,A7,1PG11.4,A23,I10)') 
+                  WRITE(IOUT,FMT='(A7,I10,A7,1PG11.4,A23,I10)')
      .                     ' BLOCK ',NIB,' SHIFT ',TSHIFT0,
      .                     ' NUMBER OF FREQUENCIES ',(NVD-NVD0)
                   WRITE(IOUT,FMT='(A13)') ' FREQUENCIES:'
@@ -895,7 +895,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE DSRESOL_ITER(GRAPHE, IT  , NSCM, NDDL , B    ,
      .                        RIGI  , IPIV, NK  , TITRE, LTITR1,
-     .                        IPMESS)       
+     .                        IPMESS)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -925,7 +925,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, ITAG(NDDL), ITAGI(NDDL), J, JJ, N, NDFMAX, IRQTAG,
-     .        IPARAM(2,NSPMD-1), II, LEN, IAD1, NDF, IFILE, IREC, 
+     .        IPARAM(2,NSPMD-1), II, LEN, IAD1, NDF, IFILE, IREC,
      .        IKC, NR, NDFP, LENP, LFACW, INFFAC, NRHS, INFRES, NDEPL,
      .        K, KK, IR
       INTEGER MSGOFF, MSGOFF2, MSGOFF3, MSGOFF4
@@ -938,7 +938,7 @@ C
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: F, V, VL
 C
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
       DATA MSGOFF2 /300000/
       DATA MSGOFF3 /400000/
       DATA MSGOFF4 /500000/
@@ -1117,7 +1117,7 @@ C
                   ENDDO
                   RIGI(JJ,JJ)=RIGI(JJ,JJ)+KL(IAD1+J)
                ENDDO
-               DEALLOCATE(KL)       
+               DEALLOCATE(KL)
             ENDIF
 C Assemblage des seconds membres
             DO J=1,NSCM
@@ -1390,9 +1390,9 @@ C-----------------------------------------------
       INTEGER I, ITAG(NDDL), ITAGI(NDDL), NMOD, J, JJ, N, IADM, NN,
      .        NDFMAX, IRQTAG, MSGOFF, IPARAM(2,NSPMD-1), II,
      .        IM, IFILE, NDF, NDM, LEN, IREC, IKC, IR, NR, IAD1, K,
-     .        KK, IM0, IMC, NDFP, NDMP, LENP, NM, NMMAX, MAXITR, 
+     .        KK, IM0, IMC, NDFP, NDMP, LENP, NM, NMMAX, MAXITR,
      .        MAXNCV, NEV, NCV, MAXN, MAXNEV, LDV, ISHFTS, MODE, INFO,
-     .        IPRI, NDEPL, NMDYN, MSGOFF2, MSGOFF3, MSGOFF4 
+     .        IPRI, NDEPL, NMDYN, MSGOFF2, MSGOFF3, MSGOFF4
       my_real
      .        SHIFT, TOL
       CHARACTER WHICH*2
@@ -1402,7 +1402,7 @@ C-----------------------------------------------
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: RIGI, RIGIG, OP, V, VAL,
      .                                        VL
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
       DATA MSGOFF2 /300000/
       DATA MSGOFF3 /400000/
       DATA MSGOFF4 /500000/
@@ -1566,7 +1566,7 @@ C
                ENDDO
                RIGI(NN+IM,NN+IM)=RIGI(NN+IM,NN+IM)+KL(IAD1+NDF+IM-IM0)
             ENDDO
-            DEALLOCATE(KL)       
+            DEALLOCATE(KL)
 C Assemblage de la rigidite geometrique
             ALLOCATE(KGL(LEN))
             IREC=GRAPHE(I)%DGRAPH(1)%MREC
@@ -1610,7 +1610,7 @@ C
                RIGIG(NN+IM,NN+IM)=
      .                         RIGIG(NN+IM,NN+IM)+KGL(IAD1+NDF+IM-IM0)
             ENDDO
-            DEALLOCATE(KGL)       
+            DEALLOCATE(KGL)
          ENDDO
       ELSE
 C SPMD - Tags :
@@ -1765,7 +1765,7 @@ C Processeur zero : recoit et assemble
                ENDDO
                RIGIG(NN+IM,NN+IM)=RIGIG(NN+IM,NN+IM)+KGL(IAD1+NDF+IM)
             ENDDO
-            DEALLOCATE(KGL)       
+            DEALLOCATE(KGL)
 C
             DO I=1,NSPMD-1
                NDFP=IPARAM(1,I)
@@ -1854,9 +1854,9 @@ C
          DO I=1,NBUCK
             EIG(I,1)=VAL(I,1)
             EIG(I,2)=VAL(I,2)
-         ENDDO   
+         ENDDO
          WRITE(IOUT,*)
-         WRITE(IOUT,'(A6,1PG11.4,A35,I10)') 
+         WRITE(IOUT,'(A6,1PG11.4,A35,I10)')
      .    'SHIFT ',SHIFT,' NUMBER OF BUCKLING CRITICAL LOADS ',NBUCK
          WRITE(IOUT,'(A)') ' CRITICAL LOADS:'
          WRITE(IOUT,'(A)') '         NUMBER  CRITICAL LOAD'

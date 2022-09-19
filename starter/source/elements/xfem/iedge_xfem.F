@@ -59,9 +59,9 @@ C-----------------------------------------------
       INTEGER I,J,K,L,JJ,LL,I1,I2,I1M,I2M,NL,IED,NLMAX,STAT,
      . NELALL,NEL,NIX,JCRK0,JCRK,P,PROC
       INTEGER NEXTK4(4),NEXTK3(3),IWORK(70000)
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX,LINEIX2,IXWORK,IEDWORK4,IEDWORK3
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .   INDEX,TAGED,ITAGED,NIXEL,TAGEL,TAGEL_CRK,IEDGE_TMP
 C
       DATA NEXTK4/2,3,4,1/
@@ -300,11 +300,11 @@ c          IXWORK(2,NL)=IXWORK(2,L)
 c          IXWORK(3,NL)=IXWORK(3,L)
 c          IXWORK(4,NL)=IXWORK(4,L)
 c          IXWORK(5,NL)=1 ! bord on
-c          IXWORK(1,L)=I1  
-c          IXWORK(2,L)=I2  
-c          IXWORK(3,L)=I3  
-c          IXWORK(4,L)=I4  
-c          IXWORK(5,L)=I5 
+c          IXWORK(1,L)=I1
+c          IXWORK(2,L)=I2
+c          IXWORK(3,L)=I3
+c          IXWORK(4,L)=I4
+c          IXWORK(5,L)=I5
 C
 c          I1=IXWORK(1,L)
 c          I2=IXWORK(2,L)
@@ -322,8 +322,8 @@ c---------------------------------------
 c     fill border nodal table
 c---------------------------------------
 c      DO LL=1,NL
-c        IBORDNODE(IXWORK(1,LL)) = 1				  
-c        IBORDNODE(IXWORK(2,LL)) = 1				  
+c        IBORDNODE(IXWORK(1,LL)) = 1				
+c        IBORDNODE(IXWORK(2,LL)) = 1				
 c      ENDDO
 C
       ALLOCATE (IEDGE_TMP(NUMEDGES))
@@ -337,7 +337,7 @@ c        J = TAGEL(I)
           JCRK0 = TAGEL_CRK(I)
           JCRK  = JCRK0
           IF(NIX == 3) JCRK = JCRK + ECRKXFEC
-          PROC = CEP_CRK(JCRK) + 1 
+          PROC = CEP_CRK(JCRK) + 1
           IF(P == PROC)THEN
             IF(NIX==4)THEN
               DO K=1,NIX

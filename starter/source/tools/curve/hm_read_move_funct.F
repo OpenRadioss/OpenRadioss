@@ -82,18 +82,18 @@ C-----------------------------------------------
 !     * Count /MOVE_FUNCT cards *    !
 !     ***************************    !
       CALL HM_OPTION_COUNT('/MOVE_FUNCT', NMOVE_FUNCT)
-      
+
       IF (NMOVE_FUNCT > 0) THEN
          WRITE (IOUT, 2000)
-         CALL HM_OPTION_START('/MOVE_FUNCT')         
+         CALL HM_OPTION_START('/MOVE_FUNCT')
          DO I = 1, NMOVE_FUNCT
             CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
             CALL HM_GET_FLOATV('Ascalex', SCX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Fscaley', SCY, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Ashiftx', SHX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Fshifty', SHY, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            
-            IF (SCX == ZERO) SCX = ONE          
+
+            IF (SCX == ZERO) SCX = ONE
             IF (SCY == ZERO) SCY = ONE
             DO N = 1,NFUNCT
                IF (NPC(NFUNCT+1+N) == ID) THEN
@@ -108,7 +108,7 @@ C-----------------------------------------------
                         PLD(J+1) = PLD(J+1)*SCY
                         PLD(J)   = PLD(J)  +SHX
                         PLD(J+1) = PLD(J+1)+SHY
-                        IF (FUNCRYPT(N) == 0) WRITE(IOUT,'(8X,1PG20.13,2X,1G20.13)')PLD(J),PLD(J+1)   
+                        IF (FUNCRYPT(N) == 0) WRITE(IOUT,'(8X,1PG20.13,2X,1G20.13)')PLD(J),PLD(J+1)
                      ENDDO
                   ELSEIF(SCX < ZERO) THEN
                      ALLOCATE(PLD_TMP(NPC(N+1)))
@@ -116,14 +116,14 @@ C-----------------------------------------------
                         PLD_TMP(J)   = PLD(NPC(N+1)-1-J)  *SCX
                         PLD_TMP(J+1) = PLD(NPC(N+1)-J)*SCY
                         PLD_TMP(J)   = PLD_TMP(J)  +SHX
-                        PLD_TMP(J+1) = PLD_TMP(J+1)+SHY  
+                        PLD_TMP(J+1) = PLD_TMP(J+1)+SHY
                      ENDDO
                      DO J = NPC(N),NPC(N+1)-1,2
                         PLD(J)   = PLD_TMP(J)
                         PLD(J+1) = PLD_TMP(J+1)
                         PLD(J)   = PLD_TMP(J)
                         PLD(J+1) = PLD_TMP(J+1)
-                        IF (FUNCRYPT(N) == 0) WRITE(IOUT,'(8X,1PG20.13,2X,1G20.13)')PLD(J),PLD(J+1)   
+                        IF (FUNCRYPT(N) == 0) WRITE(IOUT,'(8X,1PG20.13,2X,1G20.13)')PLD(J),PLD(J+1)
                      ENDDO
                      IF(ALLOCATED(PLD_TMP)) DEALLOCATE(PLD_TMP)
                   ENDIF
@@ -141,7 +141,7 @@ C-----------------------------------------------
                   EXIT
                ENDIF
             ENDDO
-         ENDDO 
+         ENDDO
       ENDIF
 C
       RETURN
@@ -152,17 +152,17 @@ C-----------------------------------------------------------------
      .       '    FUNCTION  TRANSFORMATION '/)
 2100  FORMAT(/
      . '    LOAD FUNCTION NUMBER. . . . . =',I10/
-     . '      X SCALE                    = ',E20.13/,                        
-     . '      Y SCALE                    = ',E20.13/,                        
-     . '      X SHIFT                    = ',E20.13/,                        
-     . '      Y SHIFT                    = ',E20.13/,                        
+     . '      X SCALE                    = ',E20.13/,
+     . '      Y SCALE                    = ',E20.13/,
+     . '      X SHIFT                    = ',E20.13/,
+     . '      Y SHIFT                    = ',E20.13/,
      . '      TRANSFORMED VALUES :'/,
      . '          X                     Y    ')
 2200  FORMAT(/
      . '    LOAD FUNCTION NUMBER. . . . . =',I10/
-     . '      X SCALE                    = ',E20.13/,                        
-     . '      Y SCALE                    = ',E20.13/,                        
-     . '      X SHIFT                    = ',E20.13/,                        
-     . '      Y SHIFT                    = ',E20.13/,                        
+     . '      X SCALE                    = ',E20.13/,
+     . '      Y SCALE                    = ',E20.13/,
+     . '      X SHIFT                    = ',E20.13/,
+     . '      Y SHIFT                    = ',E20.13/,
      . '      TRANSFORMED VALUES : CONFIDENTIAL DATA')
       END

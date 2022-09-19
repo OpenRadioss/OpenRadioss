@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE M70INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
-     2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ) 
+     2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -87,7 +87,7 @@ C     REAL
      .        E0
 C=======================================================================
       E0 = UPARAM(2)
-      DO I=1,NEL                    
+      DO I=1,NEL
         DO J=1,8
           UVAR(I,J)=ZERO
         ENDDO

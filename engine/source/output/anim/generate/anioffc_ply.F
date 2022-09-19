@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE PLYXFEM_MOD
       USE STACK_MOD
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),
      .        IADD(*),NBF_L,NBPART, IADG(NSPMD,*),NODGLOB(*),
      .        IPART(LIPART1,*), IPARTC(*), IPARTTG(*)
-      INTEGER IPLY,NEL_PLY,PLYS,NBF_PXFEMG,IXC(NIXC,*),IPM(NPROPMI,*), 
+      INTEGER IPLY,NEL_PLY,PLYS,NBF_PXFEMG,IXC(NIXC,*),IPM(NPROPMI,*),
      .        IGEO(NPROPGI,*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -76,17 +76,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW, NBX, IP,  NN, K1, K2,MT,JALE, IMID, 
+     .        N, J, LLT, MLW, NBX, IP,  NN, K1, K2,MT,JALE, IMID,
      .        N1,N2,N3,N4, NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN,ISHPLYXFEM,NELXFE,IE,
      .        PLYELEMS(NUMELC),IPT,ELC,MPT,NGL(MVSIZ),ISUBSTACK,IPMAT_IPLY,
      .        IPMAT, IPPID
-     
+
       INTEGER IOFFBUF(NBF_L),RBUF,NEL3,NEL5,NEL8,NPTM,NN12,NN13,NN14,
      .         NN15,NN16,NN16A,NPG,PID(MVSIZ),MATLY,NUVARR,NUVARD,NBM_S,
      .         IFAILURE,NPTR,NPTS,IS,IR,OFFIPLY
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       TYPE(L_BUFEL_) ,POINTER :: LBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
@@ -104,11 +104,11 @@ C-----------------------------------------------
           ELC = PLYSHELL(IPLY)%SHID(I)
           PLYELEMS(ELC)=IPT
         ENDDO
-        
+
 C-----------------------------------------------
 C
-cc      NN1 = EPLYXFE*(IPLY - 1) 
-      
+cc      NN1 = EPLYXFE*(IPLY - 1)
+
 C-----------------------------------------------
 C
         NELXFE = 0
@@ -132,7 +132,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C       COQUES 4 N
 C-----------------------------------------------
-          IF(ISHPLYXFEM > 0 ) THEN 
+          IF(ISHPLYXFEM > 0 ) THEN
 C for batoz shell          
            NPTR = ELBUF_TAB(NG)%NPTR
            NPTS = ELBUF_TAB(NG)%NPTS
@@ -148,11 +148,11 @@ C
              N_FA =NEL_PLY
              NELXFE = NELXFE + NEL
              NBX  = NB6
-             
+
               DO I=1,NEL
                 PID(I) = IXC(6,NFT + I)
                 NGL(I) = IXC(7,NFT + I)
-              ENDDO 
+              ENDDO
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
               IF (IHBE >= 11.AND.IHBE <= 19)THEN
                  NEL3 = NEL*3
@@ -185,17 +185,17 @@ C
                       MATLY  = STACK%IGEO(IPMAT + J,ISUBSTACK)
                       NUVARR = MAX(NUVARR,IPM(221,MATLY))
                  ENDDO
-              ENDIF 
+              ENDIF
                NBM_S = NBM_S + NEL*MPT*NUVARR
-               NBX = NN16A  + NBM_S*MAX(NPG,1) 
-               IF(IFAILURE == 1)NBX= NBX + NEL 
+               NBX = NN16A  + NBM_S*MAX(NPG,1)
+               IF(IFAILURE == 1)NBX= NBX + NEL
 C                NBX = NN16A  + NBM_S*MAX(NPG,1) + NEL 
 C     .                       + MAX(NPG,1)*NUVARD*NPT*NEL       
 C-----------------------------------------------
 C       COQUES 3 N
 C-----------------------------------------------
            ELSEIF(ITY==7)THEN
-c it's not available for T3  
+c it's not available for T3
              NBX = NBX+16*NEL
            ENDIF
 C-----------------------------------------------
@@ -221,14 +221,14 @@ C-----------------------------------------------
                   IPT = PLYELEMS(N)
                   IF(PLYELEMS(N) > 0) THEN
                     IE = IE +1
-                    IOFF(EL2FA(N_FA+IE)) = 1 
+                    IOFF(EL2FA(N_FA+IE)) = 1
                     DO IS = 1,NPTS
                         DO IR = 1,NPTR
                               LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
                               OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),ONE))
                               IOFF(EL2FA(N_FA+IE)) = MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
-                    ENDDO   
+                    ENDDO
 C!!     .               NINT(MIN(BUFLY%DMG(I),ONE))  ! on traite OFF de layer comme DMG
 C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),ONE)) 
                   ENDIF
@@ -240,25 +240,25 @@ C!!     .               NINT(MIN(BUFEL(NBX+(IPT- 1)*NEL + I),ONE))
                IF(PLYELEMS(N) > 0) THEN
                  IP=IPARTC(NFT+I)
                  IE = IE + 1
-                  IOFF(EL2FA(N_FA+IE)) = 1 
+                  IOFF(EL2FA(N_FA+IE)) = 1
                   IF(IPART(10,IP)>0)THEN
                     DO IS = 1,NPTS
-                        DO IR = 1,NPTR 
+                        DO IR = 1,NPTR
                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
                            OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),ONE))
                            IOFF(EL2FA(N_FA+IE))=MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
-                     ENDDO      
+                     ENDDO
 cc     .              NINT(MAX(ZERO,MIN(BUFLY%DMG(I),ONE)))
 !!     .              NINT(MAX(ZERO,MIN(BUFLY%LBUF(1,1,1)%OFF(I),ONE)))
                   ELSE
                     DO IS = 1,NPTS
-                        DO IR = 1,NPTR 
+                        DO IR = 1,NPTR
                              LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(IR,IS,1)
                              OFFIPLY = NINT(MIN(GBUF%OFF(I),LBUF%OFF(I),ONE))
-                             IOFF(EL2FA(N_FA+IE)) =MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY) 
+                             IOFF(EL2FA(N_FA+IE)) =MIN(IOFF(EL2FA(N_FA+IE)),OFFIPLY)
                         ENDDO
-                     ENDDO   
+                     ENDDO
 cc     .               NINT(MIN(BUFLY%DMG(I),ONE))
 !!     .               NINT(MIN(BUFLY%LBUF(1,1,1)%OFF(I),ONE))
                   END IF

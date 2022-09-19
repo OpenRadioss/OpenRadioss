@@ -20,10 +20,10 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-	SUBROUTINE CBAFORIPINCH(    
+	SUBROUTINE CBAFORIPINCH(
      1                          JFT   ,JLT   ,NG    ,NEL   ,NPLAT ,IPLAT ,
      2                          CDET  ,THK0  ,TH12  ,VOL,
-     3                          FF    ,MM    ,    
+     3                          FF    ,MM    ,
      4                          BCP   ,BP    , VFPINCH  ,DBETADXY,
      5                          RHO   ,LC    ,SSP       ,BPINCHDAMP,
      6                          VFPINCHDAMPX,VFPINCHDAMPY)
@@ -35,9 +35,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER JFT,JLT,NG,NPLAT,IPLAT(*),NEL 
-      my_real 
-     .   FF(NEL),MM(NEL,2),CDET(*),VOL(*), 
+      INTEGER JFT,JLT,NG,NPLAT,IPLAT(*),NEL
+      my_real
+     .   FF(NEL),MM(NEL,2),CDET(*),VOL(*),
      .   BCP(MVSIZ,8),BP(MVSIZ,4),
      .   THK0(*),TH12(*),VFPINCH(MVSIZ,4),DBETADXY(MVSIZ,3),
      .   RHO(MVSIZ),LC(MVSIZ),SSP(MVSIZ),
@@ -87,6 +87,6 @@ C
          VFPINCHDAMPY(EP,4) = VFPINCHDAMPY(EP,4) + C2*(BPINCHDAMP(EP,8)*FYY(EP)
      .                      + HALF*BPINCHDAMP(EP,7)*FXY(EP))
 C
-       ENDDO   
+       ENDDO
       RETURN
       END

@@ -43,7 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE R2R_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD   
+      USE HM_OPTION_READ_MOD
 C-------------------------------------
 C     Read radioss link for external process coupling.
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER J,ADD,K
       INTEGER FLAG_OK,NUM_LINK,FOUND,NEL,ID
       INTEGER, DIMENSION(:), ALLOCATABLE :: ID_SUB_TEMP
-      LOGICAL IS_AVAILABLE      
+      LOGICAL IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -122,7 +122,7 @@ C
      .                            OPTION_ID = NUSER,
      .                            OPTION_TITR = TITR)
 C
-          CALL HM_GET_INTV('grnod_id',IGR,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_GET_INTV('grnod_id',IGR,IS_AVAILABLE,LSUBMODEL)
 C-------- CHECK NODE GROUP
 C         IGRS = GRFIND (IGR,IGRN,MESS)
 C         IF (IGRS==0) IERR=IERR+1
@@ -131,12 +131,12 @@ C         IF (IGRS==0) IERR=IERR+1
 	  IEXTER(3,I) = -1
 	  IEXTER(4,I) = -1
 C-----    PRINTOUT
-          WRITE(IOUT,1100) NUSER,IGR	  
+          WRITE(IOUT,1100) NUSER,IGR	
         ENDDO
-      
+
       ENDIF
-      
-      IF (NSUBDOM>0) THEN      
+
+      IF (NSUBDOM>0) THEN
 C------------------------------------------------------------------
 C------------------------READING OF SUBDOMAINS---------------------
 C------------------------------------------------------------------
@@ -144,7 +144,7 @@ C
         IS_AVAILABLE = .FALSE.
         CALL HM_OPTION_START('/SUBDOMAIN')
 C      
-        ALLOCATE (ISUBDOM_PART(NB_PART_SUB),STAT=stat)     
+        ALLOCATE (ISUBDOM_PART(NB_PART_SUB),STAT=stat)
         ALLOCATE (ID_SUB_TEMP(NB_PART_SUB),STAT=stat)
 C
         SET = 0
@@ -157,7 +157,7 @@ C
      .                            OPTION_TITR = TITR,
      .                            KEYWORD2 = KEY)
 C
-          CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_GET_INTV('idsmax',NEL,IS_AVAILABLE,LSUBMODEL)
 C
 	  IF (I>1) SET = SET+ISUBDOM(1,I-1)
 	  ISUBDOM(3,I)=SET
@@ -167,7 +167,7 @@ C
 C
             CALL HM_GET_INT_ARRAY_INDEX('ids',ID,J,IS_AVAILABLE,LSUBMODEL)
 C
-	    IF (ID>0) THEN	      
+	    IF (ID>0) THEN	
 	      COMPT=COMPT+1
 	      ID_SUB_TEMP(COMPT+SET)=ID
 C----- CHECK PART ID
@@ -196,12 +196,12 @@ C----- STORAGE OF DATA FOR SUBDOMAINS
           ISUBDOM(2,I) = NUSER
 C
       ENDDO
-      
+
       DO I=1,NSUBDOM
              WRITE(IOUT,1300) ISUBDOM(2,I),ISUBDOM(1,I)
 	     WRITE(IOUT,1301)
 	     ADD = ISUBDOM(3,I)
-             WRITE(IOUT,1302) (ID_SUB_TEMP(J+ADD),J=1,ISUBDOM(1,I))	        
+             WRITE(IOUT,1302) (ID_SUB_TEMP(J+ADD),J=1,ISUBDOM(1,I))	
       END DO
 
       IF (FLG_SWALE==1) THEN
@@ -220,7 +220,7 @@ C
         DO I=1,NPART
           FOUND = 0
           DO J=1,ISUBDOM(1,1)
-            IF (ID_SUB_TEMP(J)==I) FOUND = 1 
+            IF (ID_SUB_TEMP(J)==I) FOUND = 1
           END DO
           IF (FOUND==1) CYCLE
           COMPT = COMPT + 1
@@ -231,9 +231,9 @@ C
       ENDIF
 
       DEALLOCATE (ID_SUB_TEMP)
-      
+
       ENDIF
-      
+
 C------------------------------------------------------------------
       IREC=IREC+1
  800  CONTINUE
@@ -248,9 +248,9 @@ C------------------------------------------------------------------
  1100 FORMAT(/10X,'EXTERNAL LINK IDENTIFIER . . . .',I10,
      .       /10X,'RADIOSS NODE GROUP ID . . . . . ',I10)
  1300 FORMAT(/10X,'SUBDOMAIN IDENTIFIER . . . . . .',I10,
-     .       /10X,'NUMBER OF PARTS . . . . . . . . ',I10)    
+     .       /10X,'NUMBER OF PARTS . . . . . . . . ',I10)
  1301 FORMAT( 10X,'LIST OF PARTS : ')
- 1302 FORMAT(  9X,10I9)  
+ 1302 FORMAT(  9X,10I9)
  1200 FORMAT(' ** INFO : DATA RELATED TO EXTERNAL',
-     .       ' COUPLING WILL BE CHECKED IN RADIOSS ENGINE.') 
+     .       ' COUPLING WILL BE CHECKED IN RADIOSS ENGINE.')
       END

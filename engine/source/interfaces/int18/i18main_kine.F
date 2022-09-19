@@ -58,8 +58,8 @@ C-----------------------------------------------
       USE TRI7BOX
       USE INTBUFDEF_MOD
       USE H3D_MOD
-      USE MULTI_FVM_MOD    
-      USE ALE_CONNECTIVITY_MOD          
+      USE MULTI_FVM_MOD
+      USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C-----------------------------------------------
      .   MTF(14,*),CAND_SAV(*),STIFN(*),XCELL(3,SXCELL)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(H3D_DATABASE) :: H3D_DATA
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM  
-      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT          
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -212,7 +212,7 @@ C LINDMAX = NCONT*MULTIMP
          NRTMDIM=IPARI(4,N)
          NMN    =IPARI(6,N)
          CALL I18MAIN_KINE_I(
-     1                       N           ,IPARI(1,N)    ,INTBUF_TAB(N)         ,X                , 
+     1                       N           ,IPARI(1,N)    ,INTBUF_TAB(N)         ,X                ,
      2                       STIFN       ,V             ,A                     ,MS               , NMN             ,
      3                       ITAB        ,LINDMAX       ,CAND_SAV(INT18ADD(N)) ,MTF              , ALE_NE_CONNECT  ,
      4                       NRTMDIM     ,JTASK         ,NB_JLT(JTASK)         ,NB_JLT_NEW(JTASK),N B_STOK_N(JTASK),
@@ -523,8 +523,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTBUFDEF_MOD
-      USE MULTI_FVM_MOD 
-      USE ALE_CONNECTIVITY_MOD           
+      USE MULTI_FVM_MOD
+      USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-------------------------------------------------------------------------------
@@ -566,8 +566,8 @@ C-----------------------------------------------
      .   X(3,*), V(3,*), A(3,*), MS(*),
      .   MTF(14,*),CAND_SAV(8,*),XCELL(3,SXCELL)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM   
-      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT            
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
+      TYPE(t_connectivity), INTENT(IN) :: ALE_NE_CONNECT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -696,7 +696,7 @@ C cand_n et cand_e replaced with cand_n_n et cand_e_n
      F         IBID      ,IBID      ,IBID   ,BID               ,BID   ,
      G         IBID      ,IBID      ,IBID   ,IBID              ,IBID  ,
      H         IBID      ,IBID      ,BID    ,IBID              ,BID   )
-   
+
           JLT_NEW = 0
           CALL I18DST3(
      1        JLT          ,CAND_N_N ,CAND_E_N ,CN_LOC           ,CE_LOC ,
@@ -1290,7 +1290,7 @@ C=======================================================================
      5  NY2          ,NY3       ,NY4          ,NZ1         ,NZ2      ,
      6  NZ3          ,NZ4       ,LB1          ,LB2         ,LB3      ,
      7  LB4          ,LC1       ,LC2          ,LC3         ,LC4      ,
-     8  P1           ,P2        ,P3           ,P4          ,NIN      ,     
+     8  P1           ,P2        ,P3           ,P4          ,NIN      ,
      9  GAPV         ,INACTI    ,VXI          ,VYI         ,VZI      ,
      A  MSI          ,MTF   ,CAND_SAV(1,1+NFT),FCONT       ,FSAV     ,
      B  NSN          ,SLVNDTAG  ,H3D_DATA     )

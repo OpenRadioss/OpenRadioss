@@ -95,12 +95,12 @@ c! User variable # 3-8, Storage values for the Butterworth filter
 
 C-----------------------------------------------
 C...    
-      TYPE_MAX  = INT(UPARAM(1))       
-      C_MIN     = UPARAM(2)            
-      C_MAX     = UPARAM(3)            
-      EMA       = UPARAM(4)            
-      FF        = UPARAM(5)            
-      F_FLAG    = INT(UPARAM(6))       
+      TYPE_MAX  = INT(UPARAM(1))
+      C_MIN     = UPARAM(2)
+      C_MAX     = UPARAM(3)
+      EMA       = UPARAM(4)
+      FF        = UPARAM(5)
+      F_FLAG    = INT(UPARAM(6))
       STRDEF    = INT(UPARAM(7))
 
       NINDX     = 0
@@ -120,25 +120,25 @@ c-------------------
         ELSE IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
           STRFLAG = 4
         END IF
-      END IF           
+      END IF
 c-------------------
 c
-c!  ***********************       
-c!  *** NEW ... 03.07.2019  
-c!  ***********************      
+c!  ***********************
+c!  *** NEW ... 03.07.2019
+c!  ***********************
         DO I=1,NEL
          IF (UVAR(I,1) < 1.0d0 .AND. OFF(I) == ONE)THEN
-           
-           IF (TYPE_MAX == 1) THEN  
 
-c! stress         
+           IF (TYPE_MAX == 1) THEN
+
+c! stress
              SIG_A      = (SIGNXX(I) + SIGNYY(I))/TWO
              SIG_B      = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2+SIGNXY(I)**2)
              SIG_11     = SIG_A + SIG_B
              E11        = SIG_11
-             
-           ELSE 
-           
+
+           ELSE
+
 c! strains EPSXX  ,EPSYY  ,EPSXY
              EPS_A      = (EPSXX(I) + EPSYY(I)) * HALF
              EPS_B      = SQRT(((EPSXX(I)-EPSYY(I))/TWO)**2+(HALF*EPSXY(I))**2)
@@ -152,10 +152,10 @@ c! strains EPSXX  ,EPSYY  ,EPSXY
              ELSE IF (STRFLAG == 4) THEN
                E11 = LOG(SQRT(E11+ONE))
              END IF
-           ENDIF    
-c!  ***********************       
-c!  *** NEW ... 23.02.2020  
-c!  ***********************      
+           ENDIF
+c!  ***********************
+c!  *** NEW ... 23.02.2020
+c!  ***********************
 c! --- EMA or Butterworth filtering
         IF (EMA == ONE .and. FF /= ZERO .and. F_FLAG > 1) THEN
 C-----------------------------------------------
@@ -169,7 +169,7 @@ C-----------------------------------------------
           SPI38   = SIN(PI38)
 C         
           D  = TAN(PI1*F*MAX(TIMESTEP,EM20))
-          
+
           DD = D*D
           D2 = TWO*D
           DP = ONE + DD
@@ -192,21 +192,21 @@ C
           C7 = C5
           C8 = TWO * G - C6
           C9 = (E - DP) * G
-          
+
 C-----------------------------------------------
 C BUTTERWORTH FILTERING
 C-----------------------------------------------
-         
+
           A0(1)     = UVAR(I,3)
-          A0(2)     = UVAR(I,4) 
-          A1(1)     = UVAR(I,5) 
-          A1(2)     = UVAR(I,6) 
-          A2(1)     = UVAR(I,7) 
-          A2(2)     = UVAR(I,8) 
+          A0(2)     = UVAR(I,4)
+          A1(1)     = UVAR(I,5)
+          A1(2)     = UVAR(I,6)
+          A2(1)     = UVAR(I,7)
+          A2(2)     = UVAR(I,8)
 
           X1 = A0(2)
           X2 = A0(1)
-          
+
           X3 = E11
           Y1 = A1(2)
           Y2 = A1(1)
@@ -223,25 +223,25 @@ C
           A1(1) = Y3
           A2(2) = Z2
           A2(1) = Z3
-          
+
           UVAR(I,3) = A0(1)
           UVAR(I,4) = A0(2)
           UVAR(I,5) = A1(1)
           UVAR(I,6) = A1(2)
           UVAR(I,7) = A2(1)
           UVAR(I,8) = A2(2)
-          
+
           E11       = A2(1)
-          
+
         ELSE
 
 c! EMA = 0 ==> 1 ==> no filtering  ;  EMA = 1e+20 extreme filtering
-           
+
 c!           E11        = E11*(TWO/(ONE+EMA)) + UVAR(I,2)*(ONE-(TWO/(ONE+EMA)))
           E11        = EMA * E11 + ( ONE - EMA ) * UVAR(I,2)
-          UVAR(I,2)  = E11       
+          UVAR(I,2)  = E11
         ENDIF
-c!      
+c!
 c! What it should be is like this:
 c!
 c! Value = USER_INPUT * 2 * Pi * DT
@@ -251,24 +251,24 @@ c!
 c!           ALPHA      = EMA / ( EMA + ONE)
 c!           E11        = ALPHA * E11 + ( ONE - ALPHA ) * UVAR(I,2)
 c!           UVAR(I,2)  = E11
-    
+
            DAMAGE       =  MAX(ZERO , MIN(ONE ,(E11-C_MIN)/MAX(EM6,(C_MAX-C_MIN)) ))
            UVAR(I,1)    =  MAX(UVAR(I,1),DAMAGE)
            DFMAX(I)     =  UVAR(I,1)
 
            IF (UVAR(I,1) >= ONE) THEN
              NINDX       = NINDX+1
-             INDX(NINDX) = I              
+             INDX(NINDX) = I
            ENDIF
 
         ENDIF
-        
-c!  ***********************  
-c!  *** NEW ... 26.06.2019           
-c!  ***********************  
-        
+
+c!  ***********************
+c!  *** NEW ... 26.06.2019
+c!  ***********************
+
        ENDDO
-       
+
       DO J=1,NINDX
         I = INDX(J)
 #include "lockon.inc"
@@ -279,9 +279,9 @@ c!  ***********************
       ENDDO
 
  1000 FORMAT(1X,'SHELL ELEMENT NUMBER (VISUAL) el#',I10,
-     .          ' LIMIT REACHED  AT TIME :',1PE12.4)     
+     .          ' LIMIT REACHED  AT TIME :',1PE12.4)
  1100 FORMAT(1X,'SHELL ELEMENT NUMBER (VISUAL) el#',I10,
-     .          ' LIMIT REACHED  AT TIME :',1PE12.4)     
+     .          ' LIMIT REACHED  AT TIME :',1PE12.4)
 
       RETURN
       END

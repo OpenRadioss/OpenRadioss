@@ -39,7 +39,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT70(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,ID       ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -62,10 +62,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -99,7 +99,7 @@ C-----------------------------------------------
       my_real E,NU,G,C1,RATE(MAXFUNC),VISC, VISCV,YFAC(MAXFUNC),EXPO,HYS,YFAC_UNIT(MAXFUNC),
      .        RHO0,RHOR,E0,EMAX,EPSMAX,FCUT,A1,A2,AA
       INTEGER NRATEN,J,I,NRATEP, IUNLOAD,IFLAG,IETANG,ISTIF,I2017_2,NL
-      LOGICAL IS_AVAILABLE,IS_ENCRYPTED         
+      LOGICAL IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
 
       RATE(1:MAXFUNC) = ZERO
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      
+
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -141,29 +141,29 @@ C-----------------------------------------------
      .                ANMODE=ANINFO_BLIND,
      .                I1=ID,
      .                C1=TITR)
-      ENDIF 
-      !--loading function     
+      ENDIF
+      !--loading function
       DO I=1,NRATEP
         CALL HM_GET_INT_ARRAY_INDEX('FUN_LOAD'           ,IFUNC(I)    ,I,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD'  ,RATE(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD'       ,YFAC(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !IF(I==1)CALL HM_GET_INT_ARRAY_INDEX('I2017_2'        ,I2017_2     ,IS_AVAILABLE, LSUBMODEL)
         !units
-        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-        IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
-      ENDDO  
-                         
+        CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_LOAD'  ,YFAC_UNIT(I) ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)
+      ENDDO
+
       !--unloading function
       IF(NRATEN > 0 ) THEN
         DO I=NRATEP+1,NRATEP+NRATEN
           CALL HM_GET_INT_ARRAY_INDEX('FUN_UNLOAD'            ,IFUNC(I)    ,I-NRATEP,IS_AVAILABLE, LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD'   ,RATE(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'        ,YFAC(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+          CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'        ,YFAC(I)     ,I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)
           !units
-          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD'    ,YFAC_UNIT(I),I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)         
-          IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)         
-        ENDDO 
-      ELSE 
+          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('SCALE_UNLOAD'    ,YFAC_UNIT(I),I-NRATEP,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          IF(YFAC(I) == ZERO) YFAC(I) = ONE * YFAC_UNIT(I)
+        ENDDO
+      ELSE
         IF(NRATEN == 0 .AND. IUNLOAD <= 2 ) THEN
              NRATEN = 1
              IFUNC(NRATEP+1) = IFUNC(1)
@@ -177,25 +177,25 @@ C
      .                   I1=ID,
      .                   C1=TITR)
          ENDIF
-      ENDIF                     
+      ENDIF
 C
       IF(RATE(1) /=  ZERO)THEN
           CALL ANCMSG(MSGID=1721,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND,
      .                I1=ID,
-     .                C1=TITR)       
-       
+     .                C1=TITR)
+
         RATE(1) = ZERO
-      ENDIF 
+      ENDIF
       IF(RATE(NRATEP + 1) /= ZERO) THEN
-        RATE(NRATEP + 1) = ZERO 
+        RATE(NRATEP + 1) = ZERO
           CALL ANCMSG(MSGID=1722,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND,
      .                I1=ID,
-     .                C1=TITR)      
-      ENDIF  
+     .                C1=TITR)
+      ENDIF
 CC
       DO I=1,NRATEP-1
         IF(RATE(I) >= RATE(I+1))THEN
@@ -206,29 +206,29 @@ CC
      .                C1=TITR)
           EXIT
          ENDIF
-      ENDDO  
+      ENDDO
 C 
-      IF(NRATEP > 1 .OR. (IUNLOAD == 0 .AND. NRATEN > 1)) THEN      
+      IF(NRATEP > 1 .OR. (IUNLOAD == 0 .AND. NRATEN > 1)) THEN
         IF(ISRATE == 0 .OR. FCUT == ZERO ) THEN
            CALL ANCMSG(MSGID=1220,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ID,
      .                C1=TITR)
-       
+
         ENDIF
-      ENDIF 
+      ENDIF
       IF (FCUT == 0) FCUT = INFINITY
       NL = NRATEP + NRATEN
       IF(IFLAG > 0) THEN
          NL = NRATEP + NRATEN  +1
          RATE(NL) = ZERO
          CALL HM_GET_INT_ARRAY_INDEX('FUN_A1'        ,IFUNC(NL)    ,NL,IS_AVAILABLE, LSUBMODEL)
-         CALL HM_GET_FLOAT_ARRAY_INDEX('FScale11'    ,YFAC(NL)     ,NL,IS_AVAILABLE, LSUBMODEL, UNITAB)   
+         CALL HM_GET_FLOAT_ARRAY_INDEX('FScale11'    ,YFAC(NL)     ,NL,IS_AVAILABLE, LSUBMODEL, UNITAB)
          !units
          IF (YFAC(NL) == ZERO) YFAC(NL) = ONE
-      ENDIF 
-      
+      ENDIF
+
       DO I=1,NL
         IF(IFUNC(I) == 0)THEN
           CALL ANCMSG(MSGID=126,
@@ -248,7 +248,7 @@ C
       UPARAM(4)=EPSMAX
       G = HALF*E0/(ONE + NU)
       UPARAM(5)=G
-      UPARAM(6)=NU       
+      UPARAM(6)=NU
       UPARAM(7)= NRATEP
       UPARAM(8)= NRATEN
       DO I=1,NL
@@ -266,8 +266,8 @@ C
       UPARAM(2*NL + 14) = I2017_2
 C
       C1=E0/THREE/(ONE - TWO*NU)
-      NFUNC = NL 
-      NUPARAM =15 + 2*NL  
+      NFUNC = NL
+      NUPARAM =15 + 2*NL
       UPARAM(NUPARAM) = NFUNC
 C
       PARMAT(1) = C1
@@ -277,7 +277,7 @@ C
       IF(ISTIF > 0) THEN
         C1=EMAX/THREE/(ONE - TWO*NU)
         PARMAT(1) = C1
-        PARMAT(2) = EMAX 
+        PARMAT(2) = EMAX
       ENDIF
 C
       PARMAT(4) = ISRATE
@@ -297,19 +297,19 @@ c-----------------
         CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       END IF
 c------------------------------------
-      WRITE(IOUT,1001) TRIM(TITR),ID,70    
+      WRITE(IOUT,1001) TRIM(TITR),ID,70
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1050)RHO0      
+        WRITE(IOUT,1050)RHO0
         WRITE(IOUT,1100)E0,NU,EMAX,EPSMAX
         WRITE(IOUT,1200)FCUT,ISRATE,NRATEP,NRATEN,IUNLOAD,EXPO,HYS,IFLAG
         WRITE(IOUT,1300)(IFUNC(J),RATE(J),YFAC(J),J=1,NRATEP)
         WRITE(IOUT,1400)(IFUNC(J+NRATEP),RATE(J+NRATEP),YFAC(J+NRATEP),
      .                 J=1,NRATEN)
         IF(IFLAG > 0) THEN
-           WRITE(IOUT,1500)IFUNC(NL),YFAC(NL)        
+           WRITE(IOUT,1500)IFUNC(NL),YFAC(NL)
         ENDIF
       ENDIF
 c-----------
@@ -333,7 +333,7 @@ c-----------
      & 5X,'NUMBER OF UNLOAD STRESS FUNCTIONS  .. .=',I10/,
      & 5X,'CHOICE OF UNLOADING FORMULATION  . . . =',I10/,
      & 5X,'SHAPE FACTOR FOR UNLOADING  . . . . . .=',1PG20.13/,
-     & 5X,'HYSTERETIC UNLOADING FACTOR  . . . . . =',1PG20.13/, 
+     & 5X,'HYSTERETIC UNLOADING FACTOR  . . . . . =',1PG20.13/,
      & 5X,'FLAG  FOR TENSION BEHAVIOR . . . . . . =',I10/)
 CC     & 5X,'FLAG CHOICE FOR YOUNG MODULUS . . . .  =',I10    )
  1300 FORMAT(
@@ -347,8 +347,8 @@ CC     & 5X,'FLAG CHOICE FOR YOUNG MODULUS . . . .  =',I10    )
      & 5X,'SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13/)
  1500 FORMAT(
      & 5X,'PRESSURE DEPENDENT YIELD FUNCTION . . .=',I10/
-     & 5X,'PRESSURE SCALE FACTOR. . . . . . . . . =',1PG20.13)     
+     & 5X,'PRESSURE SCALE FACTOR. . . . . . . . . =',1PG20.13)
  1050 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
 
       END SUBROUTINE HM_READ_MAT70

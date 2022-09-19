@@ -70,7 +70,7 @@ C      SSP_EQ comes back from MDTSPH and is the equivalent material sound speed
 C      (including material viscosity)
        WA(9,N)=SSP_EQ(I)
 C      Thermique
-       WA(15,N)=WA(15,N)+DIE(I)  
+       WA(15,N)=WA(15,N)+DIE(I)
       ENDDO
       RETURN
       END

@@ -131,7 +131,7 @@ C
           INUM(8,I)=IRESOFF(NFT+I)
           INUM(9,I)=R_SKEW(NFT+I)
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -171,13 +171,13 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO          
+      ENDDO
 C
 C RENUMEROTATION POUR SURFACES
 C
@@ -201,7 +201,7 @@ C
 C renumerotation CONNECTIVITE INVERSE
 C
       ITAG = 0
-      DO I=1,2*NUMELT+2*NUMELP+3*NUMELR   
+      DO I=1,2*NUMELT+2*NUMELP+3*NUMELR
         IF(NOD2EL1D(I) /= 0 .AND. NOD2EL1D(I)   > NUMELT+NUMELP)THEN
           IF(ITAG(NOD2EL1D(I)) == 0) THEN
             NOD2EL1D(I)=ITR1(NOD2EL1D(I)-NUMELT-NUMELP)
@@ -209,7 +209,7 @@ C
             ITAG(NOD2EL1D(I)) = 1
           END IF
 	END IF
-      END DO   
+      END DO
 
 !   -----------------------
 !   reordering for cluster typ=2 or 3 (spring cluster)
@@ -225,7 +225,7 @@ C
             DEALLOCATE( SAVE_CLUSTER )
         ENDIF
       ENDDO
-!   -----------------------   
+!   -----------------------
 C
 C REORDERING FOR SEATBELTS
 C

@@ -116,7 +116,7 @@ C
      .           + EYDP(I) * (VY2(I) - VY1(I))
      .           + EZDP(I) * (VZ2(I) - VZ1(I))
 
-          IF (SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(1) == 1) THEN 
+          IF (SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(1) == 1) THEN
             DDX2 =   EX2DP(I)* (VX3(I) - VX2(I))
      .             + EY2DP(I)* (VY3(I) - VY2(I))
      .             + EZ2DP(I)* (VZ3(I) - VZ2(I))
@@ -206,7 +206,7 @@ C
             HH = EXP(BETA*SIGN(FRIC,DDFS))
           ELSE
             HH = EXP(BETA*SIGN(FRIC,DFS(I)))
-          ENDIF 
+          ENDIF
 C
           FLAG = 0
           OMEGA = (HH*FB2-FB+XK(I)*EPS1-HH*XK2(I)*EPS2)/XK(I)
@@ -252,7 +252,7 @@ C--       update of variables
 C
           EPSN = (ALDP(I)-AL0DP(I))/MAX(AL0(I),LMIN(I))
           DDF(I) = XK(I)*(EPSN-EPS1)
-          IF (ADHER(I) == 1) DDF(I) = DDF(I) + DFS(I) - DFS_OLD(I) 
+          IF (ADHER(I) == 1) DDF(I) = DDF(I) + DFS(I) - DFS_OLD(I)
           XL0(I) = MAX(AL0(I),LMIN(I))
           XL02(I)= MAX(AL02(I),LMIN(I))
           UPDATE_FLAG(I) = 0
@@ -523,7 +523,7 @@ C--             Pretensioning with pullin
 C--               Pretensioning deactivated when force is reached
                   IF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%FORCE) THEN
                     RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
-                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
+                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                     XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                     RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
                     RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
@@ -533,7 +533,7 @@ C--               Pretensioning deactivated when force is reached
               ELSEIF (RETRACTOR(RETRACTOR_ID(I))%TENS_TYP == 2) THEN
 C--             Pretensioning with force -> F = MAX(F_retractor,F_pretens)
                 IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
-                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
+                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                   XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                   DELTA_LO = XX - RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL
                   EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
@@ -547,13 +547,13 @@ C--             Pretensioning with force -> F = MAX(F_retractor,F_pretens) - sam
                 IF (RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL > RETRACTOR(RETRACTOR_ID(I))%PULLOUT) THEN
 C--               Pretensioning deactivated when pullout is reached
                   RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
-                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
+                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                   XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                   RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL = ZERO
                 ELSEIF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 1) THEN
-                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
+                  YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                   XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)*RETRACTOR(RETRACTOR_ID(I))%FAC(2)
                   DELTA_LO = XX - RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL
                   EPSN = (ALDP(I)-AL0DP(I)-DELTA_LO)/MAX(LMIN(I),AL0DP(I)+DELTA_LO)
@@ -575,7 +575,7 @@ C--             Pretensioning with pullin energy
 C--               Pretensioning deactivated when force is reached
                   IF (F_LOCK > RETRACTOR(RETRACTOR_ID(I))%FORCE) THEN
                     RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
-                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)        
+                    YY = F_LOCK/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
                     XX = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)
                     RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*XX
                     RETRACTOR(RETRACTOR_ID(I))%PRETENS_ACTIV = -1
@@ -583,7 +583,7 @@ C--               Pretensioning deactivated when force is reached
                   ENDIF
                 ENDIF
               ENDIF
-            ENDIF          
+            ENDIF
 C
 C--------------------Retractor is Locked ---------------------------------
             FLAG_NO_COUNT_PULL = 0
@@ -606,7 +606,7 @@ C--             Loading --
 C--             Unloading --
                 IF (RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET == ZERO) THEN
                   YY = RETRACTOR(RETRACTOR_ID(I))%LOCK_YIELD_FORCE/RETRACTOR(RETRACTOR_ID(I))%FAC(1)
-                  XX1 = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)       
+                  XX1 = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(1),YY)
                   XX2 = GET_U_FUNC_INV(RETRACTOR(RETRACTOR_ID(I))%IFUNC(2),YY)
                   RETRACTOR(RETRACTOR_ID(I))%LOCK_OFFSET = RETRACTOR(RETRACTOR_ID(I))%FAC(2)*(XX1-XX2)
                 ENDIF
@@ -641,7 +641,7 @@ C--------------------Pretensionning - imposed pullin with load limiter-----
                 IF (RETRACTOR(RETRACTOR_ID(I))%FORCE > ZERO) THEN
                   DELTA_LO = -PRETENS + RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL
                   RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL = PRETENS
-                ENDIF                
+                ENDIF
               ELSEIF (RETRACTOR(RETRACTOR_ID(I))%TENS_TYP == 5) THEN
                 IF (RETRACTOR(RETRACTOR_ID(I))%FORCE > ZERO) THEN
                   DELTA_LO = (-PRETENS + RETRACTOR(RETRACTOR_ID(I))%PRETENS_PULL)/FB
@@ -665,7 +665,7 @@ C--
               IF (TT > SENSOR(2,RETRACTOR(RETRACTOR_ID(I))%ISENS(1))) THEN
 C--             lock sensor activated
                 FLAG_SENSOR_LOCK = 1
-                IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0) THEN 
+                IF (RETRACTOR(RETRACTOR_ID(I))%LOCKED == 0) THEN
                   IF (RETRACTOR(RETRACTOR_ID(I))%LOCK_PULL >= RETRACTOR(RETRACTOR_ID(I))%PULLOUT) THEN
                     RETRACTOR(RETRACTOR_ID(I))%LOCKED = 1
 C--                 rest of lockpull - counted from time of locking
@@ -716,7 +716,7 @@ C
 C     
 C-------- Detection of retractor update---------------------------------
 C
-              IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION == 1) THEN    
+              IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION == 1) THEN
                 NEW_NODE2 = ADD_NODE2(I)
               ELSE
                 NEW_NODE2 = ADD_NODE1(I)
@@ -730,7 +730,7 @@ C
 C--             new element to be released - (if no next node it's the end of the belt - no switch)
                   RETRACTOR(RETRACTOR_ID(I))%UPDATE = 2
                   RETRACTOR(RETRACTOR_ID(I))%MATERIAL_FLOW = DELTA_LO/DT11
-                  IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN 
+                  IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN
                     RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(1) = NC2(I)
                     RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = ADD_NODE2(I)
                   ELSE
@@ -741,7 +741,7 @@ C--             new element to be released - (if no next node it's the end of th
 C--             element to enter the retractor
                   RETRACTOR(RETRACTOR_ID(I))%UPDATE = -2
                   RETRACTOR(RETRACTOR_ID(I))%MATERIAL_FLOW = DELTA_LO/DT11
-                  IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN 
+                  IF (RETRACTOR(RETRACTOR_ID(I))%STRAND_DIRECTION  == 1) THEN
                     RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(1) = ADD_NODE1(I)
                     RETRACTOR(RETRACTOR_ID(I))%NODE_NEXT(2) = NC1(I)
                   ELSE
@@ -758,14 +758,14 @@ C
         ENDIF
 C
       ENDDO
- 
+
 C----------------------------------------------------------
 C
 
 C----------------------------------------------------------      
 C
       RETURN
-                
+
       END
 
 Chd|====================================================================
@@ -806,7 +806,7 @@ C
       IF ((HH == ONE).AND.(FLAG == 0)) THEN
 C--   equation 1 -> no friction and l2 > lmin - order 1
         BB = -L1+L01-L02-HH*(L2-L02+L01) + OMEGA*(L01-L02)
-        CC = (L1-L01)*L02-HH*(L2-L02)*L01 - OMEGA*(L02*L01) 
+        CC = (L1-L01)*L02-HH*(L2-L02)*L01 - OMEGA*(L02*L01)
         DELTA_LO = -CC/BB
       ELSEIF (FLAG == 0) THEN
 C--   equation 2 -> friction and l2 and l1 > lmin - order 2

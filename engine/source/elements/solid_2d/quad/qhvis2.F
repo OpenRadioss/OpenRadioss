@@ -74,7 +74,7 @@ C-----------------------------------------------
      .   CAQ(MVSIZ),
      .   FCL(MVSIZ) , FCQ(MVSIZ),
      .   G11(MVSIZ) , G21(MVSIZ) , G31(MVSIZ) , G41(MVSIZ),
-     .   HGY(MVSIZ), HGZ(MVSIZ), 
+     .   HGY(MVSIZ), HGZ(MVSIZ),
      .   HY,HZ,FAC,PX1H1,PX2H1,EHOURT, ARE
 C-----------------------------------------------
       IF(MTN==11 .OR. ((MTN==17.OR.MTN==47) .AND. UPWM==0))THEN
@@ -86,7 +86,7 @@ C-----------------------------------------------
          T21(I) = ZERO
          T22(I) = ZERO
          T23(I) = ZERO
-         T24(I) = ZERO 
+         T24(I) = ZERO
     2  CONTINUE
        RETURN
       ENDIF
@@ -108,7 +108,7 @@ C
    10 CONTINUE
 C
       ISFLUID=IPARG(63)
- 
+
       IF(ISFLUID==1 .AND. UPWM==0)THEN
        DO I=LFT,LLT
         FCL(I)=FCL(I)*CXX(I)
@@ -181,7 +181,7 @@ C
          G11(I)= ONE -PX1H1
          G21(I)=-ONE -PX2H1
          G31(I)= ONE +PX1H1
-         G41(I)=-ONE +PX2H1 
+         G41(I)=-ONE +PX2H1
   200   CONTINUE
         DO210 I=LFT,LLT
          HGY(I)=HALF*(
@@ -200,7 +200,7 @@ C
          T22(I) =G21(I)*HZ
          T23(I) =G31(I)*HZ
          T24(I) =G41(I)*HZ
-         EHOU(I)=  TWO*DT1*(HY*HGY(I) + HZ*HGZ(I)) 
+         EHOU(I)=  TWO*DT1*(HY*HGY(I) + HZ*HGZ(I))
   220   CONTINUE
       ENDIF
 C
@@ -211,7 +211,7 @@ c        EHOU(I)= DT1*(
 c     &  +T11(I)*VY1(I)+T12(I)*VY2(I)+T13(I)*VY3(I)+T14(I)*VY4(I)
 c     &  +T21(I)*VZ1(I)+T22(I)*VZ2(I)+T23(I)*VZ3(I)+T24(I)*VZ4(I))
         EHOURT= EHOURT+EHOU(I)
-      ENDDO   
+      ENDDO
 C
       DO I=LFT,LLT
          MX = IPARTQ(I)

@@ -68,9 +68,9 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+--------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR,ID,IGTYP
-      my_real   
+      my_real
      .        PARGEO(*)
       INTEGER SET_U_PNU,SET_U_GEO,KFUNC
       EXTERNAL SET_U_PNU,SET_U_GEO
@@ -81,7 +81,7 @@ C=======================================================================
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC1,IFUNC2,IFUNC3,IFUNC4,IERROR,ILOAD
-      my_real 
+      my_real
      .  AMAS,ELASTIF,XLIM1,XLIM2,XK,D1,D2,RLOAD,FSCAL
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
@@ -123,7 +123,7 @@ C
         WRITE(IOUT,1500) ID
       ENDIF
 C
-      NUVAR  = 3    
+      NUVAR  = 3
 C
       PARGEO(1) = 0
       PARGEO(2) = XK

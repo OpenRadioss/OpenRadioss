@@ -87,7 +87,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM, NUVAR,ILAY,IP,NPT0
       INTEGER NGL(NEL),IPM(NPROPMI,*),MAT(NEL)
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL)
@@ -107,7 +107,7 @@ C-----------------------------------------------
       INTEGER INDX0(MVSIZ),IFLAG,INDX(MVSIZ)
       INTEGER I,J,JJ,IADBUF,NINDX,NINDX0,
      .        IFAIL,IMATLY
-      my_real 
+      my_real
      .   K1,K2,K3,K,
      .   A,GAMA1,GAMA2,
      .   Y0,YC,TMAX,FAC,
@@ -123,52 +123,52 @@ C--------------------------------------------------------------
       K       = UPARAM(8)
       A       = UPARAM(9)
       TMAX    = UPARAM(10)
-      IFLAG   = INT(UPARAM(12))    
+      IFLAG   = INT(UPARAM(12))
       INDX(1:MVSIZ) = 0
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
-      IF(ISIGI == ZERO)THEN 
+      IF(ISIGI == ZERO)THEN
         IF(TIME==ZERO)THEN
          DO I=1,NEL
           UVAR(I,12)  = ONE
-         ENDDO   
-        ENDIF    
-      ENDIF   
+         ENDDO
+        ENDIF
+      ENDIF
 C-----------------------------------------------
       DO I=1,NEL
         IF(OFF(I)<EM01) OFF(I)=ZERO
         IF(OFF(I)<ONE) OFF(I)=OFF(I)*FOUR_OVER_5
       END DO
 C           
-        NINDX=0 
-        INDX = 0  
-        NINDX0=0 
+        NINDX=0
+        INDX = 0
+        NINDX0=0
         INDX0 = 0
 C
-                   
+
         DO I=1,NEL
          IF (OFF(I) == ONE )THEN
            IF(IFLAG == 1) THEN
 C-------------------------------     
 C     OFF = 0. one layer fiber or matrix criteria is reached
 C-------------------------------                  
-            IF(UVAR(I,12) < ONE)THEN 
-              UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX)  
+            IF(UVAR(I,12) < ONE)THEN
+              UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX)
               IF(UVAR(I,12) < EM02) UVAR(I,12) = ZERO
               SIGNXX(I) = UVAR(I,5)*UVAR(I,12)
               SIGNYY(I) = UVAR(I,6)*UVAR(I,12)
               SIGNZZ(I) = UVAR(I,7)*UVAR(I,12)
               SIGNXY(I) = UVAR(I,8)*UVAR(I,12)
               SIGNYZ(I) = UVAR(I,9)*UVAR(I,12)
-              SIGNZX(I) = UVAR(I,10)*UVAR(I,12) 
+              SIGNZX(I) = UVAR(I,10)*UVAR(I,12)
               IF(UVAR(I,12) == ZERO ) THEN
-                OFF(I)=FOUR_OVER_5 
+                OFF(I)=FOUR_OVER_5
                 NINDX=NINDX+1
                 INDX(NINDX)=I
-                TDELE(I) = TIME  
-              ENDIF      
-            ELSE                  
+                TDELE(I) = TIME
+              ENDIF
+            ELSE
 C
 C   direction 33
 C
@@ -181,19 +181,19 @@ C
 C
 C   direction 32
 C
-             SIG = SIGNYZ(I) 
+             SIG = SIGNYZ(I)
              YD2 = K2*(ONE - DAM)**2
              YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
              YD2 = MAX(YD2, UVAR(I,3))
-             UVAR(I,3) = YD2          
+             UVAR(I,3) = YD2
 C
 C   direction 13
 C
-             SIG = SIGNZX(I)         
+             SIG = SIGNZX(I)
              YD1 = K1*(ONE - DAM)**2
              YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
              YD1 = MAX(YD1, UVAR(I,4))
-             UVAR(I,4) = YD1                            
+             UVAR(I,4) = YD1
 C
 C  compute new damage
 C              
@@ -206,7 +206,7 @@ C
               FAC = K*TIMESTEP/A
               DAM = DAM + FAC*(ONE - EXP(-A*CC))
               UVAR(I,1)  = DAM
-              IF( DAM >= 1 )THEN 
+              IF( DAM >= 1 )THEN
                UVAR(I,5) = SIGNXX(I)
                UVAR(I,6) = SIGNYY(I)
                UVAR(I,7) = SIGNZZ(I)
@@ -218,7 +218,7 @@ C
               ENDIF
              ENDIF
 C             
-            ELSEIF(IFLAG == 2) THEN    ! iflag = 2 
+            ELSEIF(IFLAG == 2) THEN    ! iflag = 2
 C-------------------------------     
 C     OFF = 0. all layer fiber or matrix criteria is reached
 C      is not actived this flag
@@ -231,7 +231,7 @@ C-------------------------------
                 SIGNZX(I) = ZERO
                 SIGNYZ(I) = ZERO
                ELSE IF(UVAR(I,12) < ONE) THEN
-                UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX) 
+                UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX)
                 IF(UVAR(I,12) < EM02)UVAR(I,12) = ZERO
                 SIGNXX(I) = UVAR(I,5)*UVAR(I,12)
                 SIGNYY(I) = UVAR(I,6)*UVAR(I,12)
@@ -245,9 +245,9 @@ C-------------------------------
                     NINDX=NINDX+1
                     INDX(NINDX)=I
                     OFF(I) = FOUR_OVER_5
-                    TDELE(I) = TIME  
-                   ENDIF 
-                ENDIF            
+                    TDELE(I) = TIME
+                   ENDIF
+                ENDIF
                ELSE
 C
 C   direction 33
@@ -265,15 +265,15 @@ C
              YD2 = K2*(ONE - DAM)**2
              YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
              YD2 = MAX(YD2, UVAR(I,3))
-             UVAR(I,3) = YD2             
+             UVAR(I,3) = YD2
 C
 C   direction 13
 C
-             SIG = SIGNZX(I) 
+             SIG = SIGNZX(I)
              YD1 = K1*(ONE - DAM)**2
              YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
              YD1 = MAX(YD1, UVAR(I,4))
-             UVAR(I,4) = YD1                 
+             UVAR(I,4) = YD1
 C
 C  compute new damage
 C                 
@@ -286,17 +286,17 @@ C
                 FAC = K*TIMESTEP/A
                 DAM = DAM + FAC*(ONE - EXP(-A*CC))
                 UVAR(I,1)  = DAM
-                IF(DAM >= ONE  )THEN                             
-                   UVAR(I,5) =  SIGNXX(I)                                  
-                   UVAR(I,6) =  SIGNYY(I)             
-                   UVAR(I,7) =  SIGNZZ(I)                                 
-                   UVAR(I,8) =  SIGNXY(I)                                  
-                   UVAR(I,9) =  SIGNYZ(I)                                  
-                   UVAR(I,10) = SIGNZX(I)                                  
-                   UVAR(I,11) = TIME                                       
+                IF(DAM >= ONE  )THEN
+                   UVAR(I,5) =  SIGNXX(I)
+                   UVAR(I,6) =  SIGNYY(I)
+                   UVAR(I,7) =  SIGNZZ(I)
+                   UVAR(I,8) =  SIGNXY(I)
+                   UVAR(I,9) =  SIGNYZ(I)
+                   UVAR(I,10) = SIGNZX(I)
+                   UVAR(I,11) = TIME
                    UVAR(I,12) = FOUR_OVER_5
                    NINDX0= NINDX0+1
-                   INDX0(NINDX0)=I                
+                   INDX0(NINDX0)=I
                  ENDIF
                ENDIF
              ELSEIF(IFLAG == 3) THEN
@@ -308,21 +308,21 @@ C-------------------------------
                 SIGNZX(I) = ZERO
                 SIGNYZ(I) = ZERO
                ELSE IF(UVAR(I,12) < ONE) THEN
-                UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX) 
+                UVAR(I,12)= EXP(-(TIME - UVAR(I,11))/TMAX)
                 IF(UVAR(I,12) < EM02)UVAR(I,12) = ZERO
                 SIGNZZ(I) = UVAR(I,7)*UVAR(I,12)
                 SIGNYZ(I) = UVAR(I,9)*UVAR(I,12)
                 SIGNZX(I) = UVAR(I,10)*UVAR(I,12)
                 IF( UVAR(I,12) == ZERO )THEN
-c                  NOFF(I) = NOFF(I) + 1                     
-                    NINDX=NINDX+1                             
-                    INDX(NINDX)=I                             
+c                  NOFF(I) = NOFF(I) + 1
+                    NINDX=NINDX+1
+                    INDX(NINDX)=I
                   IF (INT(NOFF(I))==NPT0 .OR. NPT0 == 1)THEN
-c                    NINDX=NINDX+1                             
-c                    INDX(NINDX)=I                             
-c                    OFF(I) = FOUR_OVER_5  
-                  ENDIF            
-                ENDIF            
+c                    NINDX=NINDX+1
+c                    INDX(NINDX)=I
+c                    OFF(I) = FOUR_OVER_5
+                  ENDIF
+                ENDIF
 c
                ELSE
 C
@@ -337,19 +337,19 @@ C
 C
 C   direction 32
 C
-                SIG = SIGNYZ(I) 
+                SIG = SIGNYZ(I)
                 YD2 = K2*(ONE - DAM)**2
                 YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
                 YD2 = MAX(YD2, UVAR(I,3))
-                UVAR(I,3) = YD2             
+                UVAR(I,3) = YD2
 C
 C   direction 13
 C
-                SIG = SIGNZX(I) 
+                SIG = SIGNZX(I)
                 YD1 = K1*(ONE - DAM)**2
                 YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
                 YD1 = MAX(YD1, UVAR(I,4))
-                UVAR(I,4) = YD1                 
+                UVAR(I,4) = YD1
 C
 C  compute new damage
 C                 
@@ -362,22 +362,22 @@ C
                 FAC = K*TIMESTEP/A
                 DAM = DAM + FAC*(ONE - EXP(-A*CC))
                 UVAR(I,1)  = DAM
-                IF(DAM >= ONE  )THEN                                    
-                   UVAR(I,7)  = SIGNZZ(I)                                  
-                   UVAR(I,9)  = SIGNYZ(I)                                  
-                   UVAR(I,10) = SIGNZX(I)                                  
-                   UVAR(I,11) = TIME                                       
-                   UVAR(I,12) = FOUR_OVER_5   
+                IF(DAM >= ONE  )THEN
+                   UVAR(I,7)  = SIGNZZ(I)
+                   UVAR(I,9)  = SIGNYZ(I)
+                   UVAR(I,10) = SIGNZX(I)
+                   UVAR(I,11) = TIME
+                   UVAR(I,12) = FOUR_OVER_5
                  ENDIF
                ENDIF
-             ENDIF  !  iflag choice 
-           ENDIF    ! OFF       
-         ENDDO  
+             ENDIF  !  iflag choice
+           ENDIF    ! OFF
+         ENDDO
 C
 C-----Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
         DFMAX(I) = MIN(ONE,MAX(DFMAX(I),UVAR(I,1)))
-      ENDDO  
+      ENDDO
 C-------------------------------------------- 
       IF(NINDX > 0)THEN
         DO J=1,NINDX
@@ -391,10 +391,10 @@ C--------------------------------------------
 #include "lockon.inc"
            WRITE(IOUT, 3200) NGL(I),TIME
            WRITE(ISTDO,3200) NGL(I),TIME
-#include "lockoff.inc" 
+#include "lockoff.inc"
           ENDIF
         END DO
-      ENDIF      
+      ENDIF
 c
       IF(NINDX0 > 0)THEN
         DO J=1,NINDX0
@@ -404,14 +404,14 @@ c
            WRITE(ISTDO,1100) NGL(I),ILAY,TIME
 #include "lockoff.inc"
         END DO
-      ENDIF               
+      ENDIF
 C-------------------------------------------- 
  1200 FORMAT(1X,'DELETE SOLID ELEMENT (LADEVEZE MODEL) #',I10,1X,
-     .'AT TIME # ',1PE20.13)     
+     .'AT TIME # ',1PE20.13)
  1100 FORMAT(1X,'FAILURE ELEMENT #',I10,1X,
      .'IP #',I10,1X, 'AT TIME #:',1PE20.13)
  3200 FORMAT(1X,'DELAMINATION OF ELEMENT (LADEVEZE MODEL) #',I10,1X,
-     .'AT TIME # ',1PE20.13)         
+     .'AT TIME # ',1PE20.13)
 C-------------------------------------------- 
       RETURN
       END

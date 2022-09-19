@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*), 
+      INTEGER ITAB(*),CAND_E(*),CAND_N(*), IRECT(4,*),
      .        ITAG(*),CAND_NN(*),CAND_EN(*), IFPEN(*),
      .        IFPENN(*)
       INTEGER I_STOK,NSV(*),MSR(*),IWPENE,INACTI,NOINT,NTY,NSN,JWARN

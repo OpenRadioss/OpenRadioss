@@ -29,7 +29,7 @@ Chd|        WRITE_C_C                     source/output/tools/write_routines.c
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE ANIOFF0(ELBUF_TAB ,IPARG   ,IOFF   ,EL2FA   ,NBF     ,
-     3                   SIOFF, SPH2SOL)                      
+     3                   SIOFF, SPH2SOL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -37,46 +37,46 @@ C-----------------------------------------------
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com01_c.inc"                                             
-#include      "com04_c.inc"                                             
-#include      "sphcom.inc"                                              
-#include      "scr05_c.inc"                                             
-#include      "param_c.inc"                                             
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "sphcom.inc"
+#include      "scr05_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),SIOFF,SPH2SOL(*)                       
+      INTEGER IPARG(NPARG,*),EL2FA(*),NBF,IOFF(*),SIOFF,SPH2SOL(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
 C     REAL                                                    
-      INTEGER I, NG, NEL, NFT, ITY, LFT,                           
-     .        N, NN1, LLT, MLW, IOFFBUF(NBF),RBUF,IOFF_LOC(SIOFF)                                         
+      INTEGER I, NG, NEL, NFT, ITY, LFT,
+     .        N, NN1, LLT, MLW, IOFFBUF(NBF),RBUF,IOFF_LOC(SIOFF)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1
 c
-      DO 490 NG=1,NGROUP                                                
-        MLW   =IPARG(1,NG)                                              
-        NEL   =IPARG(2,NG)                                              
-        ITY   =IPARG(5,NG)                                              
-        NFT   =IPARG(3,NG)                                              
-        LFT=1                                                           
-        LLT=NEL                                                         
+      DO 490 NG=1,NGROUP
+        MLW   =IPARG(1,NG)
+        NEL   =IPARG(2,NG)
+        ITY   =IPARG(5,NG)
+        NFT   =IPARG(3,NG)
+        LFT=1
+        LLT=NEL
 C-----------------------------------------------                        
-        IF(ITY==51)THEN                                               
+        IF(ITY==51)THEN
 C-----------------------------------------------                        
 C         PARTICULES SPH.                                               
 C-----------------------------------------------                        
-          IF(MLW==0)THEN                                              
-            DO I=LFT,LLT                                                
-              N = NFT + I                                               
-              IOFF(EL2FA(NN1+N)) = 0                                    
+          IF(MLW==0)THEN
+            DO I=LFT,LLT
+              N = NFT + I
+              IOFF(EL2FA(NN1+N)) = 0
             ENDDO
           ELSEIF (NSPHSOL/=0) THEN
 C---      sleeping sol2sph particles considered as deleted in anim
@@ -89,21 +89,21 @@ C---      sleeping sol2sph particles considered as deleted in anim
               ELSE
                 IOFF_LOC(EL2FA(NN1+N)) = 0
               ENDIF
-            ENDDO                                                        
+            ENDDO
           ELSE
-            GBUF => ELBUF_TAB(NG)%GBUF                                                      
-            DO I=LFT,LLT                                                
-              N = NFT + I                                               
+            GBUF => ELBUF_TAB(NG)%GBUF
+            DO I=LFT,LLT
+              N = NFT + I
               IOFF(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),ONE))
-              IOFF_LOC(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),ONE))            
-            ENDDO                                                       
-          ENDIF                                                         
-        ELSE                                                            
-        ENDIF                                                           
+              IOFF_LOC(EL2FA(NN1+N)) = NINT(MIN(GBUF%OFF(I),ONE))
+            ENDDO
+          ENDIF
+        ELSE
+        ENDIF
 C-----------------------------------------------                        
- 490  CONTINUE                                                          
+ 490  CONTINUE
 C-----------------------------------------------                        
-      CALL WRITE_C_C(IOFF_LOC,NBF)                                          
+      CALL WRITE_C_C(IOFF_LOC,NBF)
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

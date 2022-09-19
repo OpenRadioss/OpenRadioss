@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE AMOMT2(
      .   PM , V     , W  ,  RHO,
      .   Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
-     .   T11, T12   , T13,  T14, T21  , T22, T23 , T24, 
+     .   T11, T12   , T13,  T14, T21  , T22, T23 , T24,
      .   PY1, PY2   , PZ1,  PZ2, AIREM,
      .   VY1, VY2   , VY3,  VY4, VZ1  , VZ2, VZ3 , VZ4,
      .   DYY, DZZ   , DYZ,  DZY,
@@ -64,9 +64,9 @@ C-----------------------------------------------
       my_real
      .   PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD), RHO(*),
      .   Y1(*), Y2(*), Y3(*), Y4(*), Z1(*), Z2(*), Z3(*), Z4(*),
-     .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*),T24(*), 
+     .   T11(*), T12(*), T13(*), T14(*), T21(*), T22(*), T23(*),T24(*),
      .   PY1(*), PY2(*), PZ1(*), PZ2(*), AIREM(*),
-     .   VY1(*), VY2(*), VY3(*), VY4(*), 
+     .   VY1(*), VY2(*), VY3(*), VY4(*),
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .   DYY(*), DZZ(*), DYZ(*), DZY(*), OFF(*),QMV(8,*),BUFMAT(*), DELTAX(*), VIS(*)
       INTEGER MAT(*), NC1(*), NC2(*), NC3(*), NC4(*)
@@ -151,10 +151,10 @@ C-----------------------------------------------
         DO I=LFT,LLT
           AAA      = QMV(1,I)+QMV(2,I)+QMV(3,I)+QMV(4,I)
           AAA      = FOURTH * AAA
-          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)   
-          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)   
-          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)   
-          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)   
+          QMV(1,I) = FOURTH * (QMV(1,I) - AAA)
+          QMV(2,I) = FOURTH * (QMV(2,I) - AAA)
+          QMV(3,I) = FOURTH * (QMV(3,I) - AAA)
+          QMV(4,I) = FOURTH * (QMV(4,I) - AAA)
           DMY      = ZERO
           DMZ      = ZERO
           DM       = QMV(4,I)+QMV(1,I)
@@ -235,10 +235,10 @@ C-----------------------------------------------
             S(2,I)=HALF*(Y12(I)-Y34(I))
             S(3,I)=HALF*(Z12(I)-Z34(I))
             T(2,I)=HALF*(-Y41(I)+Y23(I))
-            T(3,I)=HALF*(-Z41(I)+Z23(I))	 
+            T(3,I)=HALF*(-Z41(I)+Z23(I))	
          ENDDO
          !-----------------------------------------------
-         ! SUPG implementation for 2D ALE 
+         ! SUPG implementation for 2D ALE
          !       NODE 1
          !-----------------------------------------------
          CALL UPWIND(RHO,VIS,VY1,VY1,VZ1,S,S,T,DELTAX,GAMMA)
@@ -255,7 +255,7 @@ C-----------------------------------------------
             A1(I)=FAC*(-Z24(I)*VY1(I)+Y24(I)*VZ1(I))
             A2(I)=FAC*(-Z41(I)*VY1(I)+Y41(I)*VZ1(I))
             A3(I)=FAC*(-Z12(I)*VY1(I)+Y12(I)*VZ1(I))
-     
+
             T11(I) =  T11(I)+(PP+A1(I))*F1P(I)
             T12(I) =  T12(I)+(PS+A2(I))*F1P(I)
             T13(I) =  T13(I)+PD*F1P(I)
@@ -266,7 +266,7 @@ C-----------------------------------------------
             T24(I) =  T24(I)+(PS+A3(I))*F2P(I)
          ENDDO
          !-----------------------------------------------
-         ! SUPG implementation for 2D ALE 
+         ! SUPG implementation for 2D ALE
          !       NODE 2
          !-----------------------------------------------
          CALL UPWIND(RHO,VIS,VY2,VY2,VZ2,S,S,T,DELTAX,GAMMA)
@@ -293,7 +293,7 @@ C-----------------------------------------------
             T24(I) =  T24(I)+PD*F2P(I)
          ENDDO
          !-----------------------------------------------
-         ! SUPG implementation for 2D ALE 
+         ! SUPG implementation for 2D ALE
          !       NODE 3
          !-----------------------------------------------
          CALL UPWIND(RHO,VIS,VY3,VY3,VZ3,S,S,T,DELTAX,GAMMA)
@@ -320,7 +320,7 @@ C-----------------------------------------------
             T24(I) =  T24(I)+(PS+A3(I))*F2P(I)
          ENDDO
          !-----------------------------------------------
-         ! SUPG implementation for 2D ALE 
+         ! SUPG implementation for 2D ALE
          !       NODE 4
          !-----------------------------------------------
          CALL UPWIND(RHO,VIS,VY4,VY4,VZ4,S,S,T,DELTAX,GAMMA)

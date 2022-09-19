@@ -86,10 +86,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDDIM,
-     .        INACTI,IFS2,NLN      
+     .        INACTI,IFS2,NLN
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*),IELES(*),INTTH,IELEC(*),
      .   IPARTC(*), IPARTTG(*),NBINFLG(*),MBINFLG(*),NLG(*) ,
      .   IXS10(6,*), IXS16(*), IXS20(*),  IGEO(NPROPGI,*),IWORKSH(3,*)
@@ -114,7 +114,7 @@ C-----------------------------------------------
      .  IGTYP,IPGMAT,IGMAT,ISUBSTACK
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX, 
+     .   DXM, GAPMX, GAPMN, AREA, VOL, DX,GAPS1,GAPS2, GAPM, DDX,
      .   GAPTMP, GAPSCALE,SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,GAPINFS,GAPINFM,GAPSUPS,GAPSUPM,ST
       INTEGER TAG(NUMNOD)
@@ -151,7 +151,7 @@ C---------------------------------------------------------------
         GAPMIN   = ZERO
       ELSE
         GAPSCALE = ONE
-      ENDIF  
+      ENDIF
 C------------------------------------
 C     GAP NOEUDS SECONDS
 C------------------------------------
@@ -214,7 +214,7 @@ C------------------------------------
 C
 C calcul du surface second. ---
       IF(INTTH > 0 ) THEN
-       DO I = 1,NSN    
+       DO I = 1,NSN
           AREAS(I) = ZERO
           DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
               IE = NOD2ELC(J)
@@ -285,7 +285,7 @@ C------------------------------------
         WA(IXP(3,I))=MAX(WA(IXP(3,I)),DX)
        ENDDO
        ! new interface buffer development : GAP_S not sized when IGAP=0 (cf bufintr)
-       
+
 c       DO I=1,NSN
 c        GAP_S(I)=GAPSCALE * WA(NSV(I))
 c        GAPS1=MAX(GAPS1,GAP_S(I))
@@ -342,7 +342,7 @@ C----------------------
      .                   C2='SOLID',
      .                   I3=I)
           ENDIF
-          IF(NINT<0) THEN 
+          IF(NINT<0) THEN
              CALL ANCMSG(MSGID=96,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -351,7 +351,7 @@ C----------------------
      .                   I2=IXS(NIXS,NELS),
      .                   C2='SOLID',
      .                   I3=I)
-          ENDIF 
+          ENDIF
         ENDIF
         IF(IGAP/=0)THEN
           GAP_SH(I)=MIN(VOL/AREA,SQRT(AREA))/SIX
@@ -402,10 +402,10 @@ c          NBINFLG(IRECT(4,INRT))=BITUNSET(NBINFLG(IRECT(4,INRT)),7)
                 ELSE
                  STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
                ENDIF
-             ELSEIF(IGTYP == 52 .OR. 
-     .            ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN  
+             ELSEIF(IGTYP == 52 .OR.
+     .            ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
               ISUBSTACK = IWORKSH(3,NUMELC+NELTG)
-              ST=PM_STACK(2,ISUBSTACK) 
+              ST=PM_STACK(2,ISUBSTACK)
               STF(I)=SLSFAC*THK(NUMELC+NELTG)*ST
             ELSE
                IF ( THK(NUMELC+NELTG) /=ZERO.AND.IINTTHICK==0)THEN
@@ -463,25 +463,25 @@ c          NBINFLG(IRECT(4,INRT))=BITUNSET(NBINFLG(IRECT(4,INRT)),7)
           NDX=NDX+1
           IF(MT>0)THEN
             IF(IGTYP == 11 .AND. IGMAT > 0) THEN
-              IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN 
+              IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
                 STF(I)=SLSFAC*THK(NELC)*GEO(IPGMAT + 2 ,MG)
               ELSE
                 STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
-              ENDIF            
+              ENDIF
             ELSEIF(IGTYP==52 .OR.
      .            ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
               ISUBSTACK = IWORKSH(3,NELC)
-               ST=PM_STACK(2,ISUBSTACK) 
+               ST=PM_STACK(2,ISUBSTACK)
                STF(I)=SLSFAC*THK(NELC)*ST
             ELSE
-              IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN 
+              IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
                 STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
               ELSEIF(IGTYP == 17) THEN
                 STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
               ELSE
                 STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
               ENDIF
-           ENDIF 
+           ENDIF
           ELSE
             IF(NINT>=0) THEN
                CALL ANCMSG(MSGID=95,
@@ -542,7 +542,7 @@ C----------------------
      .                   C2='SOLID',
      .                   I3=I)
           ENDIF
-          IF(NINT<0) THEN 
+          IF(NINT<0) THEN
              CALL ANCMSG(MSGID=96,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -603,11 +603,11 @@ C
               STF(I)=SLSFAC*THK(NUMELC+NELTG)*GEO(IPGMAT + 2 ,MG)
             ELSE
               STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
-            ENDIF 
-           ELSEIF(IGTYP==52 .OR. 
+            ENDIF
+           ELSEIF(IGTYP==52 .OR.
      .          ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
               ISUBSTACK = IWORKSH(3,NUMELC+NELTG)
-              ST=PM_STACK(2,ISUBSTACK) 
+              ST=PM_STACK(2,ISUBSTACK)
               STF(I)=SLSFAC*THK(NUMELC+NELTG)*ST
           ELSE
             IF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0) THEN
@@ -664,25 +664,25 @@ C
         IGMAT = IGEO(98,MG)
         IF(MT>0)THEN
          IF(IGTYP == 11 .AND. IGMAT > 0) THEN
-          IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN 
+          IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
             STF(I)=SLSFAC*THK(NELC)*GEO(IPGMAT + 2 ,MG)
           ELSE
             STF(I)=SLSFAC*GEO(1,MG)*GEO(IPGMAT + 2 ,MG)
-          ENDIF   
-         ELSEIF(IGTYP==52 .OR. 
+          ENDIF
+         ELSEIF(IGTYP==52 .OR.
      .        ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
           ISUBSTACK = IWORKSH(3,NELC)
-          ST=PM_STACK(2,ISUBSTACK) 
+          ST=PM_STACK(2,ISUBSTACK)
           STF(I)=SLSFAC*THK(NELC)*ST
-         ELSE 
-          IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN 
+         ELSE
+          IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
             STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
           ELSEIF(IGTYP ==17) THEN
             STF(I)=SLSFAC*THK(NELC)*PM(20,MT)
           ELSE
             STF(I)=SLSFAC*GEO(1,MG)*PM(20,MT)
           ENDIF
-         ENDIF 
+         ENDIF
         ELSE
            IF(NINT>=0) THEN
               CALL ANCMSG(MSGID=95,
@@ -846,11 +846,11 @@ c          GAP_M(I)=GAP_M(I)+TWO*GAP_SH(I)
         ENDDO
         GAPINF= MAX(GAPINFS+GAPINFM,GAPMIN)
         GAP   = MIN(GAPSUPS+GAPSUPM,GAPMAX)
-      ENDIF  
+      ENDIF
 
       DO I=1,NLN
         IF(TAG(NLG(I)) == 1)NBINFLG(I)=BITUNSET(NBINFLG(I),7)
-      ENDDO    
+      ENDDO
 C------------
       RETURN
  1300 FORMAT(2X,'GAP MIN = ',1PG20.13)
@@ -910,7 +910,7 @@ C     REAL
      .   IXTG(NIXTG,*),IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .   IPARTC(*), IPARTTG(*),IXS10(*),KXX(NIXX,*),IXX(*),
      .   IGEO(NPROPGI,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*),
      .   NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),
      .   NOD2EL1D(*),KNOD2EL1D(*),IWORKSH(3,*)
 C     REAL
@@ -940,7 +940,7 @@ C           A UNE BRIQUE ET A UNE COQUE ON CHOISIT LA RIGIDITE
 C           DE LA COQUE SAUF SI LE MATERIAU COQUE EST NUL.
 C---------------------------------------------------------------
       DXM=ZERO
-      NDX=0      
+      NDX=0
       GAPS1=ZERO
       GAPMX=EP30
       GAPMN=EP30
@@ -1022,13 +1022,13 @@ C
         IF(MT>0)THEN
          IF(IGTYP == 11 .AND. IGMAT > 0)THEN
           STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
-         ELSEIF(IGTYP==52 .OR. 
+         ELSEIF(IGTYP==52 .OR.
      .        ((IGTYP == 17 .OR. IGTYP == 51 ) .AND. IGMAT > 0))THEN
             ISUBSTACK = IWORKSH(3,NELTG + NUMELC)
             STF(I)=SLSFAC*DX*PM_STACK(2,ISUBSTACK)
          ELSE
            STF(I)=SLSFAC*DX*PM(20,MT)
-         ENDIF  
+         ENDIF
         ELSE
 C         IF(NINTR>=0)WRITE (IOUT,1700) IXTG(NIXTG,NELTG),I, NOINT
            IF(NINTR>=0) THEN
@@ -1071,13 +1071,13 @@ C
         IF(MT>0)THEN
            IF(IGTYP == 11 .AND. IGMAT > 0) THEN
             STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
-           ELSEIF(IGTYP ==52 .OR. 
+           ELSEIF(IGTYP ==52 .OR.
      .          ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
             ISUBSTACK = IWORKSH(3,NELC)
-            STF(I)=SLSFAC*DX*PM_STACK(2,ISUBSTACK) 
+            STF(I)=SLSFAC*DX*PM_STACK(2,ISUBSTACK)
           ELSE
            STF(I)=SLSFAC*DX*PM(20,MT)
-          ENDIF   
+          ENDIF
         ELSE
 C           IF(NINTR>=0)WRITE (IOUT,1700) IXC(7,NELC),I, NOINT
            IF(NINTR>=0) THEN
@@ -1129,13 +1129,13 @@ C
           STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
          ELSEIF((IGTYP == 17 .OR. IGTYP == 17) .AND. IGMAT > 0) THEN
             ISUBSTACK = IWORKSH(3,NUMELC + NELT)
-             STF(I)=SLSFAC*DX*PM_STACK(2,ISUBSTACK) 
+             STF(I)=SLSFAC*DX*PM_STACK(2,ISUBSTACK)
          ELSE
             STF(I)=SLSFAC*DX*PM(20,MT)
          ENDIF
         ELSE
 C         IF(NINTR>=0)WRITE (IOUT,1700) IXT(NIXT,NELT),I, NOINT
-           IF(NINTR>=0) THEN 
+           IF(NINTR>=0) THEN
               CALL ANCMSG(MSGID=95,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -1400,7 +1400,7 @@ C
         DO I = 1, NRT
           GAPINF = MIN(GAPINF,GAP_SM(I))
         ENDDO
-      ENDIF      
+      ENDIF
       RETURN
 
  1300 FORMAT(2X,'COMPUTED GAP = ',1PG20.13)
@@ -1434,7 +1434,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NLN,NRTM, NSN,NLINS ,NLINM ,NMN  ,NSNE ,NMNE     
+      INTEGER NLN,NRTM, NSN,NLINS ,NLINM ,NMN  ,NSNE ,NMNE
       INTEGER IRECT(4,NRTM), NSV(NSN),IXLINS(2,NLINS),IXLINM(2,NLINM),
      .        MSR(NMN),NSVE(NSNE),MSRE(NMNE),NLG(NLN)
       my_real

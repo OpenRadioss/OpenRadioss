@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUVAR, NGL(NEL), MAT(NEL),IPM(NPROPMI,*)
-      my_real 
+      my_real
      .   TIME,UPARAM(*),
      .   AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THK0(NEL),PLA(NEL),
@@ -98,7 +98,7 @@ C-----------------------------------------------
      .        NRATE,IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),OPTE,
      .        JJ(MVSIZ),INDEX(MVSIZ),IFUNC(100), IFUNCE,MX,ISRATE
-      my_real 
+      my_real
      .        E(MVSIZ),NU,A,B,C,FAC,DEZZ,S1,S2,S12,S3,
      .        DPLA,EPST,A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ,2),SVM(MVSIZ),
@@ -126,7 +126,7 @@ C-----------------------------------------------
      .        SFN,SFM,SFNM,DSFN,DSFM,DSFNM,TOL
 C
       DATA NMAX/3/,NS/10/
-         TOL =EM6    
+         TOL =EM6
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -155,10 +155,10 @@ C
        NNU1 = NU / (ONE - NU)
        EPSR1 =UPARAM(IADBUF+NS+2*NRATE+2)
        EPSR2 =UPARAM(IADBUF+NS+2*NRATE+3)
-c---------------------  
-       OPTE = UPARAM(IADBUF+NS+2*NRATE + 10) 
-       EINF = UPARAM(IADBUF+NS+2*NRATE+ 11) 
-       CE = UPARAM(IADBUF+NS+2*NRATE+ 12) 
+c---------------------
+       OPTE = UPARAM(IADBUF+NS+2*NRATE + 10)
+       EINF = UPARAM(IADBUF+NS+2*NRATE+ 11)
+       CE = UPARAM(IADBUF+NS+2*NRATE+ 12)
 c--------------------
        DO I=1,NEL
         E(I)   = UPARAM(IADBUF+2)
@@ -175,34 +175,34 @@ C  011        C1=THK(I)*DOUZ
 C
        IF (OPTE == 1)THEN
          IFUNCE = UPARAM(IADBUF+NS+2*NRATE+ 9)
-         DO I=1,NEL       
-           IF(PLA(I) > ZERO)THEN     
+         DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
               ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
-              E(I) =  ESCALE(I)* E(I)           
-              G(I) =  HALF*E(I)/(ONE+NU) 
-              GS(I) =   G(I)*SHF(I)                              
-              G3(I) = THREE*G(I) 
-              A1(I) = E(I)/(ONE - NU*NU)                         
-              A2(I) = NU*A1(I)                                     
-              AM1(I)  = A1(I)*C1  
-              AM2(I)  = A2(I)*C1  
-              GM(I)   = G(I)*C1   
+              E(I) =  ESCALE(I)* E(I)
+              G(I) =  HALF*E(I)/(ONE+NU)
+              GS(I) =   G(I)*SHF(I)
+              G3(I) = THREE*G(I)
+              A1(I) = E(I)/(ONE - NU*NU)
+              A2(I) = NU*A1(I)
+              AM1(I)  = A1(I)*C1
+              AM2(I)  = A2(I)*C1
+              GM(I)   = G(I)*C1
            ENDIF
-         ENDDO           
-       ELSEIF ( CE /= ZERO) THEN 
-          DO I=1,NEL       
-           IF(PLA(I) > ZERO)THEN                                                       
-              E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))                     
-              G(I) =  HALF*E(I)/(ONE+NU)                       
-              GS(I) =   G(I)*SHF(I)                                                                
-              G3(I) = THREE*G(I)                                              
-              A1(I) = E(I)/(ONE - NU*NU)                         
-              A2(I) = NU*A1(I)                                     
-              AM1(I)  = A1(I)*C1  
-              AM2(I)  = A2(I)*C1  
-              GM(I)   = G(I)*C1    
+         ENDDO
+       ELSEIF ( CE /= ZERO) THEN
+          DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+              E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
+              G(I) =  HALF*E(I)/(ONE+NU)
+              GS(I) =   G(I)*SHF(I)
+              G3(I) = THREE*G(I)
+              A1(I) = E(I)/(ONE - NU*NU)
+              A2(I) = NU*A1(I)
+              AM1(I)  = A1(I)*C1
+              AM2(I)  = A2(I)*C1
+              GM(I)   = G(I)*C1
            ENDIF
-         ENDDO           
+         ENDDO
        ENDIF
 C
       IF (ISIGI==0) THEN
@@ -345,12 +345,12 @@ C---------------------------
        S2=A02*NU*TWO - A03
        S12=A03-NU*(A01+A02)
        S3=SQRT(NU2(I)*(A01-A02)*(A01-A02)+S12*S12)
-       IF (ABS(S1)<EM20) THEN 
+       IF (ABS(S1)<EM20) THEN
         Q12(I)=ZERO
        ELSE
         Q12(I)=-(A01-A02+S3)/S1
        ENDIF
-       IF (ABS(S2)<EM20) THEN 
+       IF (ABS(S2)<EM20) THEN
         Q21(I)=ZERO
        ELSE
         Q21(I)=(A01-A02+S3)/S2
@@ -430,7 +430,7 @@ C-------------------------------
          S(I)=-ONE
         ELSE
          S(I)=ONE
-        ENDIF 
+        ENDIF
         F    =SFN+SFM+S(I)*SFNM-YLD_I*YLD_I
         C1=ZEP444*GAMA2(I)
         S12=JAC_2(1)*B_1(I)

@@ -50,7 +50,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
        INTEGER  PROC, LEN_IA, NSLAW_L, NESLAW_L,  NUMNOD_L,
-     .          LPRW(*), NPRW(*), 
+     .          LPRW(*), NPRW(*),
      .          CEP(*), CEL(*), NODLOCAL(*)
        my_real
      .          RWL(NRWLP,*)
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL    
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

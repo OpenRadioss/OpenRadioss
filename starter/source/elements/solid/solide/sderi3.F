@@ -32,7 +32,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SDERI3(
-     .              VOL  ,VEUL ,GEO  ,IGEO , 
+     .              VOL  ,VEUL ,GEO  ,IGEO ,
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5   ,XD6  ,XD7   ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5   ,YD6  ,YD7   ,YD8   ,
      .              ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5   ,ZD6  ,ZD7   ,ZD8   ,
@@ -66,8 +66,8 @@ C
       my_real
      .   VOL(NEL), VEUL(LVEUL,*) , GEO(NPROPG,NUMGEO),
      .   JAC1(NEL), JAC2(NEL), JAC3(NEL), JAC4(NEL), JAC5(NEL), JAC6(NEL),
-     .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),  
-     .   PY1(NEL), PY2(NEL), PY3(NEL), PY4(NEL),  
+     .   PX1(NEL), PX2(NEL), PX3(NEL), PX4(NEL),
+     .   PY1(NEL), PY2(NEL), PY3(NEL), PY4(NEL),
      .   PZ1(NEL), PZ2(NEL), PZ3(NEL), PZ4(NEL), DET(NEL)
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
@@ -88,8 +88,8 @@ C
      .   Y_17_46, Y_28_35,
      .   Z_17_46, Z_28_35
       my_real
-     .   DETT(MVSIZ), 
-     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), 
+     .   DETT(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
      .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
      .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
@@ -148,13 +148,13 @@ C
        VOLDP(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
        DET(I)=VOLDP(I)
        VOL(I)=DET(I)
-      ENDDO     
+      ENDDO
 C
       IF(JEUL * (1 - IMULTI_FVM) /= 0)THEN
         DO I=1,NEL
           VEUL(32,I) = VOL(I)
         ENDDO
-      ENDIF             
+      ENDIF
 C
       DO I=1,NEL
         IF (DET(I) > ZERO) CYCLE
@@ -227,8 +227,8 @@ C
 C
         IF (IGEO(11,NGEO(1)) == 15) THEN
           DO I=1,NEL
-            VOL(I)=VOL(I)*GEO(1,NGEO(I))      
-          END DO              
+            VOL(I)=VOL(I)*GEO(1,NGEO(I))
+          END DO
         END IF
       END IF
 C
@@ -288,13 +288,13 @@ C
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C
       my_real
-     .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), 
+     .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ),
      .   JAC4(MVSIZ), JAC5(MVSIZ), JAC6(MVSIZ),
      .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ)
 C
       my_real
-     .   DET(MVSIZ), DETT(MVSIZ), 
+     .   DET(MVSIZ), DETT(MVSIZ),
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
      .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ)
@@ -315,7 +315,7 @@ C=======================================================================
         YD5(I)=Y5(I)
         YD6(I)=Y6(I)
         YD7(I)=Y7(I)
-        YD8(I)=Y8(I)    
+        YD8(I)=Y8(I)
         ZD1(I)=Z1(I)
         ZD2(I)=Z2(I)
         ZD3(I)=Z3(I)
@@ -324,7 +324,7 @@ C=======================================================================
         ZD6(I)=Z6(I)
         ZD7(I)=Z7(I)
         ZD8(I)=Z8(I)
-      ENDDO     
+      ENDDO
 
       DO I=1,NEL
         X17(I)=XD7(I)-XD1(I)
@@ -344,7 +344,7 @@ C
       ENDDO
 C
 C Jacobian Matrix
-      DO I=1,NEL               
+      DO I=1,NEL
         JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
         JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
         JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
@@ -367,7 +367,7 @@ C
       DO I=1,NEL
        DET(I) =ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
        DETT(I)=ONE_OVER_64/MAX(DET(I),EM20)
-      ENDDO     
+      ENDDO
 C
 C Jacobian matrix inverse
       DO I=1,NEL

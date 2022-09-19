@@ -96,14 +96,14 @@ C-----------------------------------------------
               NN =0
               DO L=1,4
                 NI(L) = SYSFUS2(N4_VOIS(IV,IPERM(L,KK)),ITABM1,
-     .                          NUMNOD                        )                    
+     .                          NUMNOD                        )
                 TAG(NI(L)) = 1
               ENDDO
               DO L=1,4
                 NN=NN+TAG(IXS(1+IPERM(L,K),II))
               ENDDO
               DO L=1,4
-                TAG(NI(L)) = 0                    
+                TAG(NI(L)) = 0
               ENDDO
               IF(NN==4)THEN
                 FLUX(K,I)=-FLUX_VOIS(IV,KK)

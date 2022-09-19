@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER ISTDEML
       INTEGER NBLINE,NBLINETOT,J1,J,ID,MAXID,MSGTYPE,
      .        IADT,IADD,IO_ERR
-      
+
       ISTDEML=81
       OPEN(UNIT=ISTDEML,FORM='FORMATTED',FILE=INPUTR,
      .       STATUS='OLD',IOSTAT=IO_ERR)
@@ -76,7 +76,7 @@ C lecture du fichier ...
         IF (LEN_TRIM(ERRMSGLINE)>0.AND.
      .      ERRMSGLINE(1:1)/='#') THEN
           NBLINE=NBLINE+1
-        END IF 
+        END IF
       GOTO 10
    20 CONTINUE
       ALLOCATE(MESSAGESFILE(NBLINE))
@@ -94,16 +94,16 @@ C lecture du fichier ...
         END IF
       GOTO 30
    40 CONTINUE
-      CLOSE(ISTDEML) 
+      CLOSE(ISTDEML)
       RETURN
-  900 CONTINUE 
+  900 CONTINUE
       CLOSE(ISTDEML)
       CALL ANCMSG(MSGID=1,ANMODE=ANINFO,C1=INPUTR)
       CALL ARRET(2)
-      RETURN      
-  910 CONTINUE 
+      RETURN
+  910 CONTINUE
       CLOSE(ISTDEML)
       CALL ANCMSG(MSGID=2,ANMODE=ANINFO,C1=INPUTR,I1=NBLINETOT)
       CALL ARRET(2)
-      RETURN      
+      RETURN
       END SUBROUTINE

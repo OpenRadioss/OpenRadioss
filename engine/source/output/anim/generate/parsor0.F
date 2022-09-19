@@ -29,7 +29,7 @@ Chd|        SPMD_IGET_PARTN               source/mpi/anim/spmd_iget_partn.F
 Chd|        SPMD_IGLOB_PARTN              source/mpi/anim/spmd_iglob_partn.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
-      SUBROUTINE PARSOR0(IADD ,IPARG   ,MATER   ,EL2FA   , 
+      SUBROUTINE PARSOR0(IADD ,IPARG   ,MATER   ,EL2FA   ,
      2                DD_IAD,IADG               ,
      3                KXSP    ,IPARTSP ,NODGLOB)
 C-----------------------------------------------
@@ -97,7 +97,7 @@ C-----------------------------------------------
            N = I + NFT
            IF(IPARTSP(N)/=IPRT) GOTO 20
              INOD=KXSP(3,N)
-             IF (NSPMD == 1) THEN 
+             IF (NSPMD == 1) THEN
                II = INOD-1
                CALL WRITE_I_C(II,1)
              ELSE

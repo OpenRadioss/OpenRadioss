@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-#ifdef MPI        
+#ifdef MPI
         INTEGER :: I,J,NOD,L,L2,KK,IJK,KJI
         INTEGER :: P,P_LOC
         INTEGER :: ADRESS,SHIFT_
@@ -88,7 +88,7 @@ C-----------------------------------------------
         INTEGER :: NSN,NMN,IGAP,INTTH,INTFRIC,ITYP,ITIED
         INTEGER :: IFQ,INACTI
         INTEGER :: LOC_PROC
-!   --------------------------------------------------------------------     
+!   --------------------------------------------------------------------
 
         LOC_PROC = ISPMD + 1
         SORT_COMM(NIN)%RSIZ = 0
@@ -131,11 +131,11 @@ C-----------------------------------------------
             IF(.NOT.ALLOCATED(SORT_COMM(NIN)%INDEX_RCV)) THEN
                 ALLOCATE( SORT_COMM(NIN)%INDEX_RCV(SORT_COMM(NIN)%PROC_NUMBER) )
             ENDIF
-        
-            RSIZ = 8    
+
+            RSIZ = 8
             ISIZ = 6
 
-c specific cases 
+c specific cases
 c IGAP=1 or IGAP=2
             IF(IGAP==1 .OR. IGAP==2)THEN
                 RSIZ = RSIZ + 1
@@ -145,20 +145,20 @@ c IGAP=3
             ENDIF
 
 C thermic      
-            IF(INTTH > 0 ) THEN    
+            IF(INTTH > 0 ) THEN
                 RSIZ = RSIZ + 2
 	            ISIZ = ISIZ + 1
             ENDIF
 C Friction      
-            IF(INTFRIC > 0 ) THEN    
+            IF(INTFRIC > 0 ) THEN
 	            ISIZ = ISIZ + 1
             ENDIF
 
 C -- IDTMINS==2      
-            IF(IDTMINS == 2)THEN     
+            IF(IDTMINS == 2)THEN
                 ISIZ = ISIZ + 2
 C -- IDTMINS_INT /= 0		
-            ELSEIF(IDTMINS_INT/=0)THEN    
+            ELSEIF(IDTMINS_INT/=0)THEN
                 ISIZ = ISIZ + 1
             END IF
 

@@ -261,7 +261,7 @@ Chd|====================================================================
            CLOSE(UNIT=IOUT)
            CLOSE(UNIT=IUHIS)
            IOCLOSE = 1
-          ENDIF  
+          ENDIF
           CALL OMP_UNSET_LOCK(LLOCK(1,1))
 #endif
           CALL ARRET(7)
@@ -435,7 +435,7 @@ Chd|====================================================================
       SUBROUTINE MY_ETIME(TIMER)
       REAL  RESULT
       REAL, DIMENSION(2) :: TIMER
-#if CPP_mach == CPP_rs7 || CPP_mach == CPP_rs9 || CPP_mach == CPP_sp2  || CPP_mach == CPP_ppc || CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd    
+#if CPP_mach == CPP_rs7 || CPP_mach == CPP_rs9 || CPP_mach == CPP_sp2  || CPP_mach == CPP_ppc || CPP_mach == CPP_pwr4 || CPP_mach == CPP_pwr4_spmd
        RESULT = ETIME_(TIMER)
 #elif CPP_mach == CPP_ymp || CPP_mach == CPP_c90 || CPP_mach == CPP_ymp_spmd || CPP_mach == CPP_t90  || CPP_mach == CPP_t90_i3e
       CALL TSECND(TIMER)
@@ -582,9 +582,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER   (KIND=KMP_SIZE_T_KIND)  NEWSIZ
       CHARACTER*256 KMP_STACKSIZE_VALUE
- 
+
       KMP_SET = 0
- 
+
       CALL GETENV('KMP_STACKSIZE',KMP_STACKSIZE_VALUE)
 C      
          IF (KMP_STACKSIZE_VALUE(1:1) == ' ') THEN

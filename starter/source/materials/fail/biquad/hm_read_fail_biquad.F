@@ -57,9 +57,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)  :: MAT_ID,FAIL_ID,MAXFUNC,MAXUPARAM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C OUTPUT ARGUMENTS
@@ -103,37 +103,37 @@ C--------------------------------------------------
 C EXTRACT INPUT DATA
 C--------------------------------------------------
 card1
-      CALL HM_GET_FLOATV ('C1'          ,C1          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('C2'          ,C2          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('C3'          ,C3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('C4'          ,C4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('C5'          ,C5          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('C1'          ,C1          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C2'          ,C2          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C3'          ,C3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C4'          ,C4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('C5'          ,C5          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
 card2 damage accumulation parametars
 c
-      CALL HM_GET_FLOATV ('P_thickfail' ,PTHK        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('P_thickfail' ,PTHK        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('M_Flag'      ,MFLAG       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('S_Flag'      ,SFLAG       ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Inst_start'  ,INST        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Inst_start'  ,INST        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('fct_IDel'    ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'      ,REF_LEN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (REG_FUNC > 0 .AND. REF_LEN == ZERO) THEN 
+      IF (REG_FUNC > 0 .AND. REF_LEN == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('EI_ref' ,REF_SIZ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
         REF_LEN = ONE*REF_SIZ_UNIT
-      ENDIF  
+      ENDIF
 c---------------------------------------------------
 c     Optional input
 c---------------------------------------------------
-      CALL HM_GET_FLOATV ('R1'          ,E1          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('R2'          ,E2          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('R4'          ,E3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('R5'          ,E4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('R1'          ,E1          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('R2'          ,E2          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('R4'          ,E3          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('R5'          ,E4          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c---------------------------------------------------
       PTHK = MIN(PTHK,ONE)
       PTHK = MAX(ZERO,PTHK)
       IF (SFLAG == 0)    SFLAG = 1
 c---------------------------------------------------
-c     pre definition for user-input data when only 
+c     pre definition for user-input data when only
 c     tension test data are provided
 c---------------------------------------------------
       IF (C3 == ZERO) THEN
@@ -197,24 +197,24 @@ c     UVAR3   (if perturbation is not used) or UVAR9 (if used) = initial element
 c---------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
         WRITE(IOUT, 1000) FAIL_ID
         IF (MFLAG /= 0) WRITE(IOUT, 1100) MFLAG
-        WRITE(IOUT, 1200) C1,C2,C3,C4,C5 
+        WRITE(IOUT, 1200) C1,C2,C3,C4,C5
         WRITE(IOUT, 1300) X_1(2),X_1(1),C2
         WRITE(IOUT, 1400) X_2(3),X_2(2),X_2(1)
         IF (REG_FUNC > 0) WRITE(IOUT, 1500) REG_FUNC,REF_LEN
         IF (SFLAG == 3 .AND. INST <= ZERO)   THEN
-          WRITE(IOUT, 1600)    
+          WRITE(IOUT, 1600)
           SFLAG = 2
         ELSEIF (SFLAG == 3 .AND. INST >= c4) THEN
           SFLAG = 2
           WRITE(IOUT, 1700)
-        ENDIF        
+        ENDIF
         WRITE(IOUT, 1800) ABS(PTHK),SFLAG
         IF (SFLAG == 3) WRITE(IOUT, 1900) INST
-        WRITE(IOUT, 2000) 
-      ENDIF      
+        WRITE(IOUT, 2000)
+      ENDIF
 c-----------------------------------------------------------------------
       RETURN
 c-----------------------------------------------------------------------

@@ -38,7 +38,7 @@ Chd|====================================================================
      3     AREA    ,DEPSZZ  ,DEPSYZ  ,DEPSZX  ,EPSZZ   ,NUPARAM ,
      4     SIGOZZ  ,SIGOYZ  ,SIGOZX  ,SIGNZZ  ,SIGNYZ  ,SIGNZX  ,
      5     PLA     ,JSMS    ,DMELS   ,UVAR    ,NUVAR   ,
-     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    )   
+     6     NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  ,TEMP    )
 c====================================================================
 C-----------------------------------------------
 C   M o d u l e s
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "scr17_c.inc"
@@ -90,9 +90,9 @@ c     UPARAM(1)  = Young modulus E
 c     UPARAM(2)  = Poisson's ratio nu
 c     UPARAM(3)  = shear modulus   G
 c     UPARAM(4)  = bulk modulus    K
-c     UPARAM(5)  = Yld0: instant yield stress 
+c     UPARAM(5)  = Yld0: instant yield stress
 c     UPARAM(6)  = Q : expontial term coefficient in the hardening law
-c     UPARAM(7)  = BETA : exponent of the exponetial term 
+c     UPARAM(7)  = BETA : exponent of the exponetial term
 c     UPARAM(8)  = P : multiplier of the linear term in the hardening law
 c     UPARAM(9)  = A1F : parameter of the yield function
 c     UPARAM(10) = A2F : parameter of the yield function
@@ -100,7 +100,7 @@ c     UPARAM(11) = A1H : distortionnal yield hardening coefficiant
 c     UPARAM(12) = A2H : distortionnal yield hardening coefficiant
 c     UPARAM(13) = AS : parameter of the potential function
 c     UPARAM(14) = D1C: first  damage strain parameter in initial damage treshold
-c     UPARAM(15) = D2C: second damage strain parameter in initial damage treshold 
+c     UPARAM(15) = D2C: second damage strain parameter in initial damage treshold
 c     UPARAM(16) = D1F: first  damage strain parameter in final damage treshold
 c     UPARAM(17) = D2F: second damage strain parameter in final damage treshold
 c     UPARAM(18) = D_TRX : triaxiality factor in damage formula
@@ -124,8 +124,8 @@ C-----------
       IFORM = NINT(UPARAM(25))
       ITABL = NINT(UPARAM(29))
 C-----------
-      THICK0   = UPARAM(34)     
-      DO I=1,NEL 
+      THICK0   = UPARAM(34)
+      DO I=1,NEL
         THICK(I) =  THICK0 + EPSZZ(I)
       ENDDO
 C-----------

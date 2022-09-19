@@ -30,7 +30,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_PRESSURE_EQUILIBRIUM(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+      SUBROUTINE MULTI_PRESSURE_EQUILIBRIUM(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, CURRENT_TIME, BUFMAT, NPF, TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER :: NEL
       INTEGER :: NBMAT, IMAT, LOCAL_MATID, MATLAW
       my_real :: VOL_FRAC
-      my_real, DIMENSION(:), POINTER :: RHO, SSP, VOL, PRES, EINT, TAU, SPEEINT, 
+      my_real, DIMENSION(:), POINTER :: RHO, SSP, VOL, PRES, EINT, TAU, SPEEINT,
      .     FEINT, FP
       my_real :: ONE_OVER_RHOC2, MASS
       INTEGER :: ITER, MAX_ITER, REMAINING_ELTS
@@ -89,16 +89,16 @@ C-----------------------------------------------
       INTEGER :: NBMAT_INCELL(MVSIZ)
       my_real :: ONE_OVER_GRUN
       my_real :: ERROR(MVSIZ), RELAXED_PRESSURE(MVSIZ)
-      my_real :: PRES_INCR(MVSIZ), TAU_INCR(MVSIZ, MULTI_FVM%NBMAT), 
+      my_real :: PRES_INCR(MVSIZ), TAU_INCR(MVSIZ, MULTI_FVM%NBMAT),
      .     SPEEINT_INCR(MVSIZ, MULTI_FVM%NBMAT)
       INTEGER :: CV_INDICATOR(MVSIZ)
-      my_real, TARGET :: VOLWT(MVSIZ, MULTI_FVM%NBMAT), EINTWT(MVSIZ, MULTI_FVM%NBMAT), 
+      my_real, TARGET :: VOLWT(MVSIZ, MULTI_FVM%NBMAT), EINTWT(MVSIZ, MULTI_FVM%NBMAT),
      .     RHOWT(MVSIZ, MULTI_FVM%NBMAT), PRESWT(MVSIZ, MULTI_FVM%NBMAT),
      .     SSPWT(MVSIZ, MULTI_FVM%NBMAT),
-     .     MASSWT(MVSIZ, MULTI_FVM%NBMAT), TAUWT(MVSIZ, MULTI_FVM%NBMAT), 
-     .     SPEEINTWT(MVSIZ, MULTI_FVM%NBMAT), ALPHAWT(MVSIZ, MULTI_FVM%NBMAT), 
+     .     MASSWT(MVSIZ, MULTI_FVM%NBMAT), TAUWT(MVSIZ, MULTI_FVM%NBMAT),
+     .     SPEEINTWT(MVSIZ, MULTI_FVM%NBMAT), ALPHAWT(MVSIZ, MULTI_FVM%NBMAT),
      .     MFRACWT(MVSIZ, MULTI_FVM%NBMAT),
-     .     FPWT(MVSIZ, MULTI_FVM%NBMAT), FEWT(MVSIZ, MULTI_FVM%NBMAT), 
+     .     FPWT(MVSIZ, MULTI_FVM%NBMAT), FEWT(MVSIZ, MULTI_FVM%NBMAT),
      .     FE0WT(MVSIZ, MULTI_FVM%NBMAT), TAU0WT(MVSIZ, MULTI_FVM%NBMAT)
       my_real :: DPDTAU, DPDE, P0(MVSIZ), COEF1, LIM_TAU(MVSIZ, MULTI_FVM%NBMAT), LIM
       INTEGER :: NIX
@@ -141,7 +141,7 @@ C     Global buffer of the current group
             SIGOLD(1 + 2 * NEL : 3 * NEL)=GBUF%SIG(1 + 2 * NEL : 3 * NEL)
             SIGOLD(1 + 3 * NEL : 4 * NEL)=GBUF%SIG(1 + 3 * NEL : 4 * NEL)
             SIGOLD(1 + 4 * NEL : 5 * NEL)=GBUF%SIG(1 + 4 * NEL : 5 * NEL)
-            SIGOLD(1 + 5 * NEL : 6 * NEL)=GBUF%SIG(1 + 5 * NEL : 6 * NEL)                        
+            SIGOLD(1 + 5 * NEL : 6 * NEL)=GBUF%SIG(1 + 5 * NEL : 6 * NEL)
             IF (NBMAT == 1) THEN
                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1, 1, 1)
                IMAT = 1
@@ -152,10 +152,10 @@ C     Global buffer of the current group
                VOL  => GBUF%VOL
                EINT => MULTI_FVM%EINT(1 + NFT : NEL + NFT)
                RHO => MULTI_FVM%RHO(1 + NFT : NEL + NFT)
-               
-               CALL MULTI_SUBMATLAW(1, MATLAW, LOCAL_MATID, NEL, EINT, 
-     .              PRES, RHO, SSP, VOL, 
-     .              GRUN(1:NEL, 1), PM, IPM, NPROPM, NPROPMI, BUFMAT, GBUF%OFF, GBUF%TEMP, 
+
+               CALL MULTI_SUBMATLAW(1, MATLAW, LOCAL_MATID, NEL, EINT,
+     .              PRES, RHO, SSP, VOL,
+     .              GRUN(1:NEL, 1), PM, IPM, NPROPM, NPROPMI, BUFMAT, GBUF%OFF, GBUF%TEMP,
      .              LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD,NPF,TF)
                DO II = 1, NEL
                   IF (MULTI_FVM%SOUND_SPEED(II + NFT) > ZERO) THEN
@@ -164,7 +164,7 @@ C     Global buffer of the current group
                      MULTI_FVM%SOUND_SPEED(II + NFT) = EM10
                   ENDIF
                ENDDO
-               IF (MATLAW == 5) THEN 
+               IF (MATLAW == 5) THEN
                   DO II = 1, NEL
                      I = II + NFT
                      MULTI_FVM%BFRAC(1, I) = LBUF%BFRAC(II)
@@ -182,7 +182,7 @@ C========================
                   DO II = 1, NEL
                      I = II + NFT
                      IF (MULTI_FVM%PHASE_ALPHA(IMAT, I) > ZERO .AND.
-     .                    MULTI_FVM%PHASE_ALPHA(IMAT, I) * MULTI_FVM%PHASE_RHO(IMAT, I) 
+     .                    MULTI_FVM%PHASE_ALPHA(IMAT, I) * MULTI_FVM%PHASE_RHO(IMAT, I)
      .                    / MULTI_FVM%RHO(I) > EM14) THEN
                         ! At this stage, only significant materials have a
                         ! positive volume. Filtering has been made in MULTI_EVOLVE_PARTIAL
@@ -194,7 +194,7 @@ C     For cells containing only one material, set eint to global eint
                DO IMAT = 1, NBMAT
                   DO II = 1, NEL
                      I = II + NFT
-                     IF (NBMAT_INCELL(II) == 1 .AND. 
+                     IF (NBMAT_INCELL(II) == 1 .AND.
      .                    MULTI_FVM%PHASE_ALPHA(IMAT, I) > ZERO) THEN
                         MULTI_FVM%PHASE_EINT(IMAT, I) = MULTI_FVM%EINT(I)
                      ENDIF
@@ -214,7 +214,7 @@ C     Volume fraction
 C     Internal energy
                      EINTWT(II, IMAT) = MULTI_FVM%PHASE_EINT(IMAT, I)
 
-                     
+
 C     Density
                      RHOWT(II, IMAT) = MULTI_FVM%PHASE_RHO(IMAT, I)
 C     Mass fraction
@@ -264,14 +264,14 @@ C     Loop over the fluid layers
                   EINT => EINTWT(1:NEL, IMAT)
                   LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
 C     Compute EOS
-                  CALL MULTI_SUBMATLAW(1, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
+                  CALL MULTI_SUBMATLAW(1, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL,
      .                 GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF, LBUF%TEMP,
      .                 LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD,NPF,TF)
 C     Relaxed pressure initialization
                   DO II = 1, NEL
                      P0(II) = P0(II) + ALPHAWT(II, IMAT) * PRES(II)
                   ENDDO
-               ENDDO            ! IMAT = 1, NBMAT    
+               ENDDO            ! IMAT = 1, NBMAT
 C     RHS for energy equation
                DO IMAT = 1, NBMAT
                   DO II = 1, NEL
@@ -293,7 +293,7 @@ C     Newton iterations
 C     =================
 C     Parameters
                MAX_ITER = 50
-               TOL = EM4 
+               TOL = EM4
                CONT = .TRUE.
                IF (REMAINING_ELTS == 0) CONT = .FALSE.
                ITER = 0
@@ -324,8 +324,8 @@ C     Parameters
                         ENDIF
                      ENDDO
                   ENDDO
-                
-                 
+
+
                   !ERROR(1:NEL) = ZERO
                   DO II = 1, NEL
                      IF (CV_INDICATOR(II) /= 1) THEN
@@ -350,7 +350,7 @@ C     Parameters
                               COEF1 = ONE / (DPDTAU - (RELAXED_PRESSURE(II) + PSHIFT) * DPDE)
                               TAU_INCR(II, IMAT) = COEF1 * (PRES_INCR(II) * (ONE + GRUN(II, IMAT)) + FP(II))
                               LIM = ONE
-                              IF (TAU(II) - TAU_INCR(II, IMAT) < ZERO 
+                              IF (TAU(II) - TAU_INCR(II, IMAT) < ZERO
      .                             .AND. TAU_INCR(II, IMAT) > ZERO) THEN
                                  LIM = MIN(ONE, HALF * TAU(II) / TAU_INCR(II, IMAT))
                               ENDIF
@@ -359,14 +359,14 @@ C     Parameters
                         ENDIF
                      ENDDO
                   ENDDO
-                  
+
 
                   DO IMAT = 1, NBMAT
                      PRES => PRESWT(1:NEL, IMAT)
                      SSP  => SSPWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
                      RHO  => RHOWT(1:NEL, IMAT)
-                     EINT => EINTWT(1:NEL, IMAT) 
+                     EINT => EINTWT(1:NEL, IMAT)
                      TAU => TAUWT(1:NEL, IMAT)
                      DO II = 1, NEL
                         IF (CV_INDICATOR(II) /= 1) THEN
@@ -374,21 +374,21 @@ C     Parameters
      .                          MFRACWT(II, IMAT) > EM14) THEN
                               LIM = MINVAL(LIM_TAU(II, 1:NBMAT))
                               TAU(II) = TAU(II) - LIM * TAU_INCR(II, IMAT)
-                              
+
                               RHO(II) = ONE / TAU(II)
                               ALPHAWT(II, IMAT) = MASSWT(II, IMAT) * TAU(II)
                               VOL(II) = ALPHAWT(II, IMAT) * GBUF%VOL(II)
                            ENDIF
                         ENDIF
                      ENDDO
-                  ENDDO 
+                  ENDDO
                   DO II = 1, NEL
                      IF (CV_INDICATOR(II) /= 1) THEN
                         RELAXED_PRESSURE(II) = RELAXED_PRESSURE(II) - PRES_INCR(II)
                      ENDIF
                   ENDDO
                   DO IMAT = 1, NBMAT
-                     EINT => EINTWT(1:NEL, IMAT) 
+                     EINT => EINTWT(1:NEL, IMAT)
                      RHO  => RHOWT(1:NEL, IMAT)
                      SPEEINT => SPEEINTWT(1:NEL, IMAT)
                      TAU => TAUWT(1:NEL, IMAT)
@@ -397,7 +397,7 @@ C     Parameters
                            IF (ALPHAWT(II, IMAT) /= ZERO .AND.
      .                          MFRACWT(II, IMAT) > EM14) THEN
 C                           IF (ALPHAWT(II, IMAT) /= ZERO .AND. GRUN(II, IMAT) /= ZERO) THEN
-                              SPEEINT(II) = FE0WT(II, IMAT) - 
+                              SPEEINT(II) = FE0WT(II, IMAT) -
      .                             (RELAXED_PRESSURE(II) + PSHIFT) * (TAU(II) - TAU0WT(II, IMAT))
                               EINT(II) = RHO(II) * SPEEINT(II)
                            ENDIF
@@ -426,11 +426,11 @@ C     Equation of state call
                      EINT => EINTWT(1:NEL, IMAT)
                      LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
 C     Compute EOS
-                     CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
+                     CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL,
      .                    GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF,LBUF%TEMP,
      .                    LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD, NPF, TF)
-                  ENDDO         ! IMAT = 1, NBMAT 
-                  
+                  ENDDO         ! IMAT = 1, NBMAT
+
                ENDDO            !ITER = 1, MAX_ITER
                DO II = 1, NEL
                   DO IMAT = 1, NBMAT
@@ -475,11 +475,11 @@ C     Loop over the fluid layers
                      MULTI_FVM%PHASE_ALPHA(IMAT, I) = VOLWT(II, IMAT) / GBUF%VOL(II)
                   ENDDO
 C     Compute EOS
-                  CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
+                  CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL,
      .                 GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF,LBUF%TEMP,
      .                 LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD, NPF, TF)
-               ENDDO            ! IMAT = 1, NBMAT                             
-               
+               ENDDO            ! IMAT = 1, NBMAT
+
 C     Equilibrium densities have been found,
 C     ----------------------------------------------
 C     IT IS NECESSARY NOW TO RECOVER THE GLOBAL ENERGY
@@ -531,7 +531,7 @@ C     Compute new pressure
                   DO IMAT = 1, NBMAT
                      PRES => PRESWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
-                     EINT => EINTWT(1:NEL, IMAT) 
+                     EINT => EINTWT(1:NEL, IMAT)
                      FP => FPWT(1:NEL, IMAT)
                      DO II = 1, NEL
                         IF (VOL(II) > ZERO .AND.
@@ -541,13 +541,13 @@ C     Compute new pressure
                               IF (GRUN(II, IMAT) > ZERO) THEN
                                  ONE_OVER_GRUN = ONE / GRUN(II, IMAT)
                               ENDIF
-                              VOL_FRAC = ALPHAWT(II, IMAT) 
+                              VOL_FRAC = ALPHAWT(II, IMAT)
 
                               FP(II) = PRES(II) - RELAXED_PRESSURE(II)
                               IF (ONE_OVER_GRUN > ZERO) THEN
                                  FE(II) = FE(II) + VOL_FRAC * EINT(II)
                               ENDIF
-                              
+
                               PRES_INCR(II) =  PRES_INCR(II) + VOL_FRAC * ONE_OVER_GRUN * FP(II)
                               COEF(II) = COEF(II) + VOL_FRAC * ONE_OVER_GRUN
 
@@ -571,7 +571,7 @@ C     Compute New energies
                      PRES => PRESWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
                      RHO  => RHOWT(1:NEL, IMAT)
-                     EINT => EINTWT(1:NEL, IMAT) 
+                     EINT => EINTWT(1:NEL, IMAT)
                      FP => FPWT(1:NEL, IMAT)
                      DO II = 1, NEL
                         IF (CV_INDICATOR(II) /= 1) THEN
@@ -579,7 +579,7 @@ C     Compute New energies
      .                          MFRACWT(II, IMAT) > EM14) THEN
                               LIM = ONE
                               IF ((FP(II) + PRES_INCR(II)) > ZERO) THEN
-                                 LIM = MAX(ZERO, MIN (ONE, HALF * EINT(II) * GRUN(II, IMAT) 
+                                 LIM = MAX(ZERO, MIN (ONE, HALF * EINT(II) * GRUN(II, IMAT)
      .                                / (FP(II) + PRES_INCR(II))))
                               ENDIF
                               EINT(II) = EINT(II) - LIM * (FP(II) + PRES_INCR(II)) / GRUN(II, IMAT)
@@ -592,7 +592,7 @@ C     Call equation of state for the submaterial
                      SSP  => SSPWT(1:NEL, IMAT)
                      VOL  => VOLWT(1:NEL, IMAT)
                      LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
-                     CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL, 
+                     CALL MULTI_SUBMATLAW(0, MATLAW, LOCAL_MATID, NEL, EINT, PRES, RHO, SSP, VOL,
      .                    GRUN(1:NEL, IMAT), PM, IPM, NPROPM, NPROPMI, BUFMAT, LBUF%OFF,LBUF%TEMP,
      .                    LBUF%BFRAC, GBUF%TB, GBUF%DELTAX, CURRENT_TIME, SIGOLD, NPF, TF)
                   ENDDO  ! IMAT = 1, NBMAT
@@ -617,7 +617,7 @@ C                        PRINT*, "OUPS2"
                ENDDO
                IF (REMAINING_ELTS /= 0 .AND. CONT .AND. IDBG) THEN
                   PRINT*, "*** CV PB IN ENERGY RESET", "CYCLE", NCYCLE, "GROUPE", NG
-               ENDIF 
+               ENDIF
 C     ----------------------------------------------
 C     END OF ENERGY RESET
 C     THAT IS ENSURING THAT E = E1 + E2 + ...
@@ -638,7 +638,7 @@ C     Global Pressure: volumic fraction ponderation
                      I = II + NFT
                      VOL_FRAC = MULTI_FVM%PHASE_ALPHA(IMAT, I)
                      GBUF%SIG(II) = GBUF%SIG(II) - PRESWT(II, IMAT) * VOL_FRAC
-                     MULTI_FVM%SOUND_SPEED(II + NFT) = MULTI_FVM%SOUND_SPEED(II + NFT) + 
+                     MULTI_FVM%SOUND_SPEED(II + NFT) = MULTI_FVM%SOUND_SPEED(II + NFT) +
      .                    VOL_FRAC * RHOWT(II, IMAT) * MAX(SSPWT(II, IMAT), EM20)
                      IF (MATLAW == 5) THEN
                         MULTI_FVM%BFRAC(IMAT, I) = LBUF%BFRAC(II)
@@ -652,7 +652,7 @@ c$$$               DO II = 1, NEL
 c$$$                  I = II + NFT
 c$$$                  MULTI_FVM%RHO(I) =ZERO
 c$$$                  DO IMAT = 1, NBMAT
-c$$$                     MULTI_FVM%RHO(I) = MULTI_FVM%RHO(I) + 
+c$$$                     MULTI_FVM%RHO(I) = MULTI_FVM%RHO(I) +
 c$$$     .                    MULTI_FVM%PHASE_ALPHA(IMAT, I) * MULTI_FVM%PHASE_RHO(IMAT, I)
 c$$$                  ENDDO
 c$$$               ENDDO
@@ -661,7 +661,7 @@ c$$$               ENDDO
 C     Global Sound speed
                DO II = 1, NEL
                   I = II + NFT
-                  MULTI_FVM%SOUND_SPEED(II + NFT) = SQRT(MULTI_FVM%SOUND_SPEED(II + NFT) 
+                  MULTI_FVM%SOUND_SPEED(II + NFT) = SQRT(MULTI_FVM%SOUND_SPEED(II + NFT)
      .                 / MULTI_FVM%RHO(I))
                   MULTI_FVM%PRES(II + NFT) =  -GBUF%SIG(II)
                ENDDO
@@ -670,7 +670,7 @@ C     Global Temperature
                !this requires also temperature solving from all EoS (improvement to plan)
                GBUF%TEMP(1:NEL) = ZERO
                DO IMAT=1,NBMAT
-                 LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)               
+                 LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
                  DO II = 1, NEL
                     GBUF%TEMP(II) = GBUF%TEMP(II) + MFRACWT(II, IMAT)*LBUF%TEMP(II)
                  ENDDO

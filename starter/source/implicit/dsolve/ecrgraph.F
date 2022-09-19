@@ -76,13 +76,13 @@ C
          ENDIF
       ENDIF
       IF (IPROC/=NSPROC) THEN
-         WRITE(IOUT,'(A25,I8)') 
+         WRITE(IOUT,'(A25,I8)')
      . '  |    |       NDOF:     ',NDDL
          WRITE(IOUT,'(A25,I8)')
      . '  |    |       INT. NDOF:',NDDLI
          LIGNE(1:3)='  |'
       ELSE
-         WRITE(IOUT,'(A25,I8)') 
+         WRITE(IOUT,'(A25,I8)')
      . '       |       NDOF:     ',NDDL
          WRITE(IOUT,'(A25,I8)')
      . '       |       INT. NDOF:',NDDLI
@@ -163,7 +163,7 @@ C
 C
          LEN=IADL+31
          WRITE(IOUT,'(A)') LIGNE(1:LEN)
-         WRITE(LIGNE(IADL+1:IADL+31),'(A22,I8)') 
+         WRITE(LIGNE(IADL+1:IADL+31),'(A22,I8)')
      .                          '___SUP.ELEM ID:       ',OFFSET+II
          WRITE(IOUT,'(A)') LIGNE(1:LEN)
 C
@@ -178,7 +178,7 @@ C
             WRITE(IOUT,'(A)') LIGNE(1:LEN2)
          ENDIF
       ENDDO
-         
+
 C
       RETURN
       END

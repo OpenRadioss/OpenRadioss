@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT102(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                          PM     ,MATPARAM )
 C-----------------------------------------------
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,8 +84,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -100,15 +100,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real   :: E,NU,C,PSTAR,AMAX,G, DELTA,STIFINT,PMIN,BID,PHI_DEG
       my_real   :: A0,A1,A2,RHO0,RHOR
-  
+
       CHARACTER :: STRING*ncharfield
-      CHARACTER ::  KEY*nchartitle,KEYNET*ncharfield      
+      CHARACTER ::  KEY*nchartitle,KEYNET*ncharfield
       INTEGER   :: IFORM
-      
+
       DOUBLE PRECISION :: PHI,K,ALPHA
-      
+
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
-      
+
       CHARACTER*64 :: CHAIN
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -118,19 +118,19 @@ C-----------------------------------------------
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 
-      CALL HM_GET_INTV  ('IFORM',IFORM  ,IS_AVAILABLE, LSUBMODEL) 
-      
+      CALL HM_GET_INTV  ('IFORM',IFORM  ,IS_AVAILABLE, LSUBMODEL)
+
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_E'        ,E     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'       ,NU    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT102_C'     ,C     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT102_PHI'   ,PHI   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT102_AMAX'  ,AMAX  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV('MAT102_PMIN'  ,PMIN    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
- 
+      CALL HM_GET_FLOATV('MAT102_PMIN'  ,PMIN    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
       !   C   : Mohr-Coulomb cohesion (intercept) (in Pa)
       ! PHI   : Mohr-Coulomb angle of internal friction (angle, degree)
       ! Iform : Formulation Flag (circumscribed,inscribed,middle)
@@ -147,7 +147,7 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C     YIELD PARAMETERS   
 C-----------------------------------------------
-      G=E/TWO/(ONE+NU) 
+      G=E/TWO/(ONE+NU)
       SELECT CASE(IFORM)
         CASE(1)
           K     = SIX*C*COS(PHI)/SQRT(THREE)/(THREE-SIN(PHI))
@@ -172,8 +172,8 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='ERROR',
      .                C2=TITR,
-     .                C3=chain)   
-      ENDIF 
+     .                C3=chain)
+      ENDIF
 
       IF(NU<=ZERO)THEN
         chain='POISSON RATIO MUST BE DEFINED                           '
@@ -184,22 +184,22 @@ C-----------------------------------------------
      .                I2=MAT_ID,
      .                C1='ERROR',
      .                C2=TITR,
-     .                C3=chain)   
-      ENDIF 
+     .                C3=chain)
+      ENDIF
 
       PSTAR = -INFINITY
-      IF(A2==ZERO .AND. A1/=ZERO)THEN 
-        PSTAR=-A0/A1 
+      IF(A2==ZERO .AND. A1/=ZERO)THEN
+        PSTAR=-A0/A1
       ELSEIF(A2/=ZERO)THEN
         DELTA = A1*A1-FOUR*A0*A2
         !Si intersection avec l'axe
         IF(DELTA >= ZERO)THEN
           DELTA=SQRT(DELTA)
           PSTAR = (-A1+DELTA)/TWO/A2
-        
+
         ELSE
-          PSTAR = -A1/TWO/A2 ! extremum          
-    !      chain='FITTED YIELD FUNCTION HAS NO ROOT. CHECK INPUT PARAMETER        '      
+          PSTAR = -A1/TWO/A2 ! extremum
+    !      chain='FITTED YIELD FUNCTION HAS NO ROOT. CHECK INPUT PARAMETER        '
     !      CALL ANCMSG(  MSGID=829,
     ! .                  MSGTYPE=MSGWARNING,
     ! .                  ANMODE=ANINFO,
@@ -207,7 +207,7 @@ C-----------------------------------------------
     ! .                  I2=MAT_ID,
     ! .                  C1='WARNING',
     ! .                  C2=TITR,
-    ! .                  C3=chain)               
+    ! .                  C3=chain)
         ENDIF
       ELSE
         !do nothing let user do what he wants
@@ -221,7 +221,7 @@ C
       PM(1) = RHOR
       PM(89)= RHO0
       PM(37)= PMIN
-      
+
       ISRATE=0
 
 C----------------------------------------------- 
@@ -239,13 +239,13 @@ C-----------------------------------------------
       UPARAM(9) = IFORM
       UPARAM(10)= E
       UPARAM(11)= NU
-      NUVAR     = 0 
-      NFUNC     = 0 
+      NUVAR     = 0
+      NFUNC     = 0
       STIFINT   = E
       PARMAT(1) = STIFINT/THREE !
       PARMAT(2) = STIFINT
       PARMAT(3) = NU
-c---------------------------   
+c---------------------------
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
 c
@@ -258,7 +258,7 @@ C-------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1002)RHO0,RHOR    
+        WRITE(IOUT,1002)RHO0,RHOR
         WRITE(IOUT,1100)E,NU,C,PHI_DEG,PMIN
         WRITE(IOUT,1200)IFORM
         SELECT CASE(IFORM)
@@ -283,31 +283,31 @@ C
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
      & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/,
-     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)  
+     & 5X,'EOS REFERENCE DENSITY . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'COHESION. . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'ANGLE OF INTERNAL FRICTION. . . . . . .=',1PG20.13/
-     & 5X,'MINIMUM PRESSURE. . . . . . . . . . . .=',1PG20.13)   
+     & 5X,'MINIMUM PRESSURE. . . . . . . . . . . .=',1PG20.13)
  1200 FORMAT(
      & 5X,'DRUCKER-PRAGER MATERIAL CRITERION DEFINED FROM MOHR-COULOMB PARAMETERS',/,
-     & 5X,'FORMULATION FLAG. . . . . . . . . . . .=',I10)     
+     & 5X,'FORMULATION FLAG. . . . . . . . . . . .=',I10)
  1201 FORMAT(
-     & 5X,'-> CIRCUMBSCRIBED CRITERIA')   
+     & 5X,'-> CIRCUMBSCRIBED CRITERIA')
  1202 FORMAT(
-     & 5X,'-> MIDDLE CRITERIA') 
+     & 5X,'-> MIDDLE CRITERIA')
  1203 FORMAT(
-     & 5X,'-> INSCRIBED CRITERIA') 
+     & 5X,'-> INSCRIBED CRITERIA')
  1204 FORMAT(
-     & 5X,'-> ORIGINAL MOHR-COULOMB CRITERIA')   
+     & 5X,'-> ORIGINAL MOHR-COULOMB CRITERIA')
  1300 FORMAT(
      & 5X,'PARAMETERS USED TO DEFINE CRITERIA',/,
      & 5X,'A0. . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'A1. . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'A2. . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'AMAX. . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'YIELD FUNCTION PRESSURE ROOT. . . . . .=',1PG20.13//)        
+     & 5X,'YIELD FUNCTION PRESSURE ROOT. . . . . .=',1PG20.13//)
 
       RETURN
  999  CALL FREERR(3)

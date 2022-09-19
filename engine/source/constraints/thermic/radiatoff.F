@@ -31,7 +31,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C          ELEMENTS SOLIDES
              JJ = IBCR(8,N)
              NG = IGROUPS(JJ)
              MLW= IPARG(1,NG)
-             IF (MLW == 0 .OR. MLW == 13) CYCLE         
+             IF (MLW == 0 .OR. MLW == 13) CYCLE
              OFFG => ELBUF_TAB(NG)%GBUF%OFF
              FRADIA(6,N) = OFFG(IBCR(NIRADIA,N))
            ENDIF

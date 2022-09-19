@@ -57,10 +57,10 @@ C-----------------------------------------------
 !!   ---  ISLIN  ---
 !
 !  --- READ IGRSLIN ---
-      IF (NSLIN > 0)THEN 
+      IF (NSLIN > 0)THEN
         MY_ALLOCATE(IGRSLIN,NSLIN)
         CALL ALLOC_LINE_STR(IGRSLIN)
-      ELSE           
+      ELSE
         MY_ALLOCATE(IGRSLIN,0)
       ENDIF
 !---------

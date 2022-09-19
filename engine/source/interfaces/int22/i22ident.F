@@ -114,7 +114,7 @@ C-----------------------------------------------s
           CHARACTER*(*) :: SECtype
           LOGICAL :: I22CHK
         END FUNCTION I22CHK
-      END INTERFACE  
+      END INTERFACE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -146,34 +146,34 @@ C-----------------------------------------------
       INTEGER :: SecTypeList(0:106)
       INTEGER :: LIST(106), LIST_FIX(8),LIST_VAR(106)
       INTEGER :: SizeL   , SizeLFIX   ,SizeLVAR
-      INTEGER :: NINTP , TAB(12)  
-      INTEGER :: RESULT(8)   
+      INTEGER :: NINTP , TAB(12)
+      INTEGER :: RESULT(8)
       LOGICAL :: bFOUND, debug_outp
       INTEGER :: CODE, brickID, bAND, IE, Iremoved
       my_real :: POINT(3),CUTCOOR
       LOGICAL :: db_WRITE
-      
+
 C----------------------------------------------------------------
 
       tagTETRA=0
       tagPENTA=0
       tagPOLY3=0
       tagHEXAE=0
-      tagPOLY4=0 
+      tagPOLY4=0
 
 C=======================================================================
 C 1   INITIALISATION CODE BINAIRE 12bits
 C=======================================================================
       NBF = 1+ITASK*NB/NTHREAD
       NBL = (ITASK+1)*NB/NTHREAD
- 
+
       DO I=NBF,NBL
        !KEEP TRIPLE POINTS, INTERPRETATION OF PARTIITONING IS MADE TAKING MOST COMPLEX POLY EVEN IF THERE ARE EXPECTED REMAING INTERSECTION POINTS
     !        CALL REMOVE_DOUBLE_INTP(
     ! 1                              IXS, X, ITASK, NIN, BUFBRIC,
-    ! 2                              I )      
-        CALL I22GBIT( 
-     1               I      , Icode  , Idble, Nbits, Npqts, 
+    ! 2                              I )
+        CALL I22GBIT(
+     1               I      , Icode  , Idble, Nbits, Npqts,
      2               idb1(i), idb2(i), NIN )
         BRICK_LIST(NIN,I)%ICODE = Icode
         BRICK_LIST(NIN,I)%IDBLE = Idble
@@ -189,7 +189,7 @@ C=======================================================================
       ! DEBUG OUTPUT                                            !
       !---------------------------------------------------------!
       !INTERFACE 22 ONLY - OUTPUT---------------!
-       debug_outp = .false.      
+       debug_outp = .false.
        if(ibug22_ident/=0)then
          if(ibug22_ident>0)then
            do ib=nbf,nbl
@@ -217,7 +217,7 @@ C=======================================================================
         !===================================================================
         Iremoved = 0
    10   CONTINUE
-        IB = I        
+        IB = I
         SecTypeList(:) = 0
         UsedNodes = 0
         K = 1 !numero plan intersection pour %SECtype
@@ -230,8 +230,8 @@ C=======================================================================
 
         !-----------------------------------------------------------------------!
         !                   Listing all potential polyhedron                    !
-        !-----------------------------------------------------------------------! 
-               
+        !-----------------------------------------------------------------------!
+
         IF(NBITS<3)GOTO 50 !sous-variete de dim 1
         !------------------------!
         !        TETRA           !
@@ -241,11 +241,11 @@ C=======================================================================
         S = S_TETRA
         N = N_TETRA
         pCODE => bCODE(D:D+S-1)        !bincode
-        pSEC  => StrCODE(D:D+S-1)      !sectype     
+        pSEC  => StrCODE(D:D+S-1)      !sectype
         DO J=1,S
           IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
             SecTypeList(K) = D+J-1
-            K = K+1             
+            K = K+1
           END IF
         END DO
         IF(NBITS==3.AND.(NPQTS==1.OR.NPQTS==3))GOTO 50 !pas d'autre intersection
@@ -258,119 +258,119 @@ C=======================================================================
           S = S_PENTA
           N = N_PENTA
           pCODE => bCODE(D:D+S-1)      !bincode
-          pSEC  => StrCODE(D:D+S-1)    !sectype       
+          pSEC  => StrCODE(D:D+S-1)    !sectype
           DO J=1,S
-            IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN  
-              SecTypeList(K) = D+J-1   !code_id in [1,106]                     
-              K = K+1            
-            END IF           
+            IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
+              SecTypeList(K) = D+J-1   !code_id in [1,106]
+              K = K+1
+            END IF
           END DO
-          !------------------------!                                
-          !        POLY3           !                                
-          !------------------------!                                
-          IF(NBITS>=5)THEN   !NPQTS>=3 deja verifie                 
-            D = D_POLY3                                             
-            S = S_POLY3                                             
-            M = M_POLY3                                             
-            N = N_POLY3                                             
-            pCODE => bCODE(D:D+S-1)    !bincode                     
-            pSEC  => StrCODE(D:D+S-1)  !sectype                     
-            DO J=1,S                                                
-              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN              
-                SecTypeList(K) = D+J-1   !code_id in [1,106]         
-                K = K+1                                             
-              END IF                                                
-            END DO                                                  
-          END IF                                                    
-          !------------------------!                                
-          !        HEXAE           !                                
-          !------------------------!                                
-          IF(NPQTS==4)THEN   !NBIT>=4 deja verifie                  
-            D = D_HEXAE                                             
-            M = M_HEXAE                                             
-            S = S_HEXAE * M                                         
-            N = N_HEXAE                                             
-            pCODE => bCODE(D:D+S-1)      !bincode                   
-            pSEC  => StrCODE(D:D+S-1)    !sectype                   
-            DO J=1,S                                                
-              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN              
-                SecTypeList(K) = D+J-1   !code_id in [1,106]         
-                K = K+1                                             
-              END IF                                                
-            END DO                                                  
-          END IF                                                    
-          !------------------------!                                
-          !        POLY4           !                                
-          !------------------------!                                
-          IF(NBITS>=6)THEN   !NPQTS>=3 deja verifie                 
-            D = D_POLY4                                             
-            M = M_POLY4                                             
-            S = S_POLY4 * M                                         
-            N = N_POLY4                                             
-            pCODE => bCODE(D:D+S-1)                                 
-            pSEC  => StrCODE(D:D+S-1)                               
-            DO J=1,S                                                
-              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN              
-                SecTypeList(K) = D+J-1   !code_id in [1,106]         
-                K = K+1                                             
-              END IF                                                
-            END DO                                                  
+          !------------------------!
+          !        POLY3           !
+          !------------------------!
+          IF(NBITS>=5)THEN   !NPQTS>=3 deja verifie
+            D = D_POLY3
+            S = S_POLY3
+            M = M_POLY3
+            N = N_POLY3
+            pCODE => bCODE(D:D+S-1)    !bincode
+            pSEC  => StrCODE(D:D+S-1)  !sectype
+            DO J=1,S
+              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
+                SecTypeList(K) = D+J-1   !code_id in [1,106]
+                K = K+1
+              END IF
+            END DO
+          END IF
+          !------------------------!
+          !        HEXAE           !
+          !------------------------!
+          IF(NPQTS==4)THEN   !NBIT>=4 deja verifie
+            D = D_HEXAE
+            M = M_HEXAE
+            S = S_HEXAE * M
+            N = N_HEXAE
+            pCODE => bCODE(D:D+S-1)      !bincode
+            pSEC  => StrCODE(D:D+S-1)    !sectype
+            DO J=1,S
+              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
+                SecTypeList(K) = D+J-1   !code_id in [1,106]
+                K = K+1
+              END IF
+            END DO
+          END IF
+          !------------------------!
+          !        POLY4           !
+          !------------------------!
+          IF(NBITS>=6)THEN   !NPQTS>=3 deja verifie
+            D = D_POLY4
+            M = M_POLY4
+            S = S_POLY4 * M
+            N = N_POLY4
+            pCODE => bCODE(D:D+S-1)
+            pSEC  => StrCODE(D:D+S-1)
+            DO J=1,S
+              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
+                SecTypeList(K) = D+J-1   !code_id in [1,106]
+                K = K+1
+              END IF
+            END DO
           END IF !(NBITS>=6)
-          !------------------------!                                
-          !        POLY4A          !                                
-          !------------------------!                                
-          IF(NBITS>=6)THEN   !NPQTS>=3 deja verifie                 
-            D = D_POLY4A                                             
-            M = M_POLY4A                                             
-            S = S_POLY4A * M                                         
-            N = N_POLY4A                                             
-            pCODE => bCODE(D:D+S-1)                                 
-            pSEC  => StrCODE(D:D+S-1)                               
-            DO J=1,S                                                
-              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN              
-                SecTypeList(K) = D+J-1   !code_id in [1,106]         
-                K = K+1                                             
-              END IF                                                
-            END DO                                                  
-          END IF !(NBITS>=6)    
-          !------------------------!                                
-          !        POLY4B          !                                
-          !------------------------!                                
-          IF(NBITS>=6)THEN   !NPQTS>=3 deja verifie                 
-            D = D_POLY4B                                             
-            M = M_POLY4B                                             
-            S = S_POLY4B * M                                         
-            N = N_POLY4B                                             
-            pCODE => bCODE(D:D+S-1)                                 
-            pSEC  => StrCODE(D:D+S-1)                               
-            DO J=1,S                                                
-              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN              
-                SecTypeList(K) = D+J-1   !code_id in [1,106]         
-                K = K+1                                             
-              END IF                                                
-            END DO                                                  
-          END IF !(NBITS>=6)                 
-          !------------------------!                                
-          !        POLYC           !                                
-          !------------------------!                                
-      !    IF(NBITS>=5 .AND. IDBLE>0)THEN   !NPQTS>=3 deja verifie                 
-      !      D = D_POLYC                                             
-      !      M = M_POLYC                                             
-      !      S = S_POLYC * M                                         
-      !      N = N_POLYC                                             
-      !      pCODE => bCODE(D:D+S-1)                                 
-      !      pSEC  => StrCODE(D:D+S-1)                               
-      !      DO J=1,S       
-      !        bAND  = IAND(ICODE,pCODE(J)) 
-      !        bool1 = bAND==pCODE(J)                                  
-      !        IF( bool1 )THEN 
-      !           IF(BTEST(IDBLE,12-IABS(Gcorner(5,D+J-1))))THEN          
-      !            SecTypeList(K) = D+J-1   !code_id in [1,106]         
-      !            K = K+1   
-      !          ENDIF                                          
-      !        END IF                                                
-      !      END DO                                                  
-      !    END IF !(NBITS>=6)          
+          !------------------------!
+          !        POLY4A          !
+          !------------------------!
+          IF(NBITS>=6)THEN   !NPQTS>=3 deja verifie
+            D = D_POLY4A
+            M = M_POLY4A
+            S = S_POLY4A * M
+            N = N_POLY4A
+            pCODE => bCODE(D:D+S-1)
+            pSEC  => StrCODE(D:D+S-1)
+            DO J=1,S
+              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
+                SecTypeList(K) = D+J-1   !code_id in [1,106]
+                K = K+1
+              END IF
+            END DO
+          END IF !(NBITS>=6)
+          !------------------------!
+          !        POLY4B          !
+          !------------------------!
+          IF(NBITS>=6)THEN   !NPQTS>=3 deja verifie
+            D = D_POLY4B
+            M = M_POLY4B
+            S = S_POLY4B * M
+            N = N_POLY4B
+            pCODE => bCODE(D:D+S-1)
+            pSEC  => StrCODE(D:D+S-1)
+            DO J=1,S
+              IF( IAND(ICODE,pCODE(J))==pCODE(J) )THEN
+                SecTypeList(K) = D+J-1   !code_id in [1,106]
+                K = K+1
+              END IF
+            END DO
+          END IF !(NBITS>=6)
+          !------------------------!
+          !        POLYC           !
+          !------------------------!
+      !    IF(NBITS>=5 .AND. IDBLE>0)THEN   !NPQTS>=3 deja verifie
+      !      D = D_POLYC
+      !      M = M_POLYC
+      !      S = S_POLYC * M
+      !      N = N_POLYC
+      !      pCODE => bCODE(D:D+S-1)
+      !      pSEC  => StrCODE(D:D+S-1)
+      !      DO J=1,S
+      !        bAND  = IAND(ICODE,pCODE(J))
+      !        bool1 = bAND==pCODE(J)
+      !        IF( bool1 )THEN
+      !           IF(BTEST(IDBLE,12-IABS(Gcorner(5,D+J-1))))THEN
+      !            SecTypeList(K) = D+J-1   !code_id in [1,106]
+      !            K = K+1
+      !          ENDIF
+      !        END IF
+      !      END DO
+      !    END IF !(NBITS>=6)
         END IF !(NBITS>=4.AND.NPQTS>=3)
 
    50   CONTINUE
@@ -381,17 +381,17 @@ C=======================================================================
 C 4 Output Potential Intersection for each Cut Cell
 C=======================================================================
 
-      
+
       DO K=1,SecTypeList(0)
         J       = SecTypeList(K)
         LIST(K) = J
       ENDDO
-      
- 
+
+
 !      if(itask==0.AND.debug_outp)then
 !        if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))then
-!          print *, "  CELL ID *  :",IXS(11,BRICK_LIST(NIN,I)%ID)      
-!          write (*,FMT='(A,I12,A,12L1,A,I12,A,12L1)') , "ICODE =",ICODE," ", (BTEST(ICODE,12-K),K=1,12), 
+!          print *, "  CELL ID *  :",IXS(11,BRICK_LIST(NIN,I)%ID)
+!          write (*,FMT='(A,I12,A,12L1,A,I12,A,12L1)') , "ICODE =",ICODE," ", (BTEST(ICODE,12-K),K=1,12),
 !     .                                                "  IDBLE=", IDBLE, " ",(BTEST(IDBLE,12-K),K=1,12)
 !          do K=1,SecTypeList(0)
 !            J = SecTypeList(K)
@@ -400,62 +400,62 @@ C=======================================================================
 !        endif
 !      endif
 
-       
+
             IF(SecTypeList(0)==0)CYCLE !next IB
                     IF(ICODE==0)CYCLE !next IB
 
-      
+
 C=======================================================================
 C 5 Retain only consistent combination
 C=======================================================================
 
 !        TAB(1:12) = (/(BTEST(IDBLE,12-J),J=1,12)/)
-!        NINTP = NBITS + (SUM(IABS(TAB))) 
+!        NINTP = NBITS + (SUM(IABS(TAB)))
         NINTP = NBITS + POPCNT(IDBLE)
-        
+
         LIST_VAR(1:SizeL) = LIST(1:SizeL)
         SizeLVAR = SizeL
         SizeLFIX = 0
-        
+
         RESULT(:)  = 0
         bFOUND     = .FALSE.
-        
+
         !db
         brickID = IXS(11,BRICK_LIST(NIN,I)%ID)
-        db_WRITE = .FALSE.        
+        db_WRITE = .FALSE.
 
         IF(SIZEL==1)THEN
           IF(ICODE/=IDBLE)THEN
             IF(IDBLE == 0)THEN
               RESULT(1) = LIST(1)
               RESULT(2) = 0
-              bFOUND    = .TRUE.  
+              bFOUND    = .TRUE.
             ELSE
               print *, "**WARNING INTER22 : UNUSED INTERSECTION POINTS FOR THIS ELEMENT ",brickID
               db_WRITE = .TRUE.
               RESULT(1) = LIST(1)
               RESULT(2) = 0
-              bFOUND    = .TRUE.           
+              bFOUND    = .TRUE.
             ENDIF
           ELSE
             !ICODE/=IDBLE
              RESULT(1) = LIST(1)
              RESULT(2) = LIST(1)
-             bFOUND    = .TRUE.            
+             bFOUND    = .TRUE.
           ENDIF
         ELSEIF(SIZEL==2 .AND. ((LIST(1)>=45.AND.LIST(1)<=49) .OR. (LIST(1)>=51.AND.LIST(1)<=57)))THEN   !sigle hexae or poly4
           IF(LIST(2) == LIST(1)+1)THEN
-            IF( ICODE==IDBLE )THEN            
+            IF( ICODE==IDBLE )THEN
               bFOUND      = .TRUE.
               RESULT(1:2) = LIST(1:2)
               RESULT(3)   = 0
             ELSEIF(IDBLE==0)THEN
               bFOUND      = .TRUE.
               RESULT(1) = LIST(1)
-              RESULT(2)   = 0            
-            ELSE          
-              print *, "**WARNING INTER22 : UNUSED INTERSECTION POINTS FOR THIS ELEMENT ",brickID 
-              db_WRITE = .TRUE.                                   
+              RESULT(2)   = 0
+            ELSE
+              print *, "**WARNING INTER22 : UNUSED INTERSECTION POINTS FOR THIS ELEMENT ",brickID
+              db_WRITE = .TRUE.
             ENDIF
           ENDIF
         ELSE!IF(ICODE/=IDBLE)THEN !including twice the same polyhedron (now it takes automatically the complmentary since previous ChangeList)
@@ -463,25 +463,25 @@ C=======================================================================
           if((.NOT.bFOUND).AND.SIZEL==1)then
             bFOUND = .TRUE.
             RESULT(1) = LIST(1)
-            RESULT(2)   = 0              
+            RESULT(2)   = 0
           elseif((.NOT.bFOUND).AND.SIZEL>1)then
    !         if( GetPolyhedraType(LIST(1)) /= GetPolyhedraType(LIST(2)) )then
               !!!!!!!print *, "   *** warning inter22 : simplifying intersection for cell id=",brickID
               bFOUND      = .TRUE.
               RESULT(1) = LIST(  MAXLOC(LIST(1:SIZEL),1) )
-              RESULT(2) = 0                
+              RESULT(2) = 0
               !CALL ARRET(2)
-   !         else 
+   !         else
    !         CALL REMOVE_DOUBLE_INTP(
    !  1                              IXS, X, ITASK, NIN, BUFBRIC,
-   !  2                              IB ) 
-   !         print *, "  CELL ID EXITING REMOVING DOUBLE INTERP:",IXS(11,BRICK_LIST(NIN,I)%ID)      
+   !  2                              IB )
+   !         print *, "  CELL ID EXITING REMOVING DOUBLE INTERP:",IXS(11,BRICK_LIST(NIN,I)%ID)
    !         Iremoved = Iremoved +1
    !         IF(Iremoved<=1)GOTO 10
-   !         endif            
-          endif      
+   !         endif
+          endif
         ENDIF
-        
+
         IF(db_WRITE .EQV. .TRUE.)THEN
           !!------output intersection points!!
           !print *, "   ",IXS(11,brick_list(nin,i)%id)
@@ -490,49 +490,49 @@ C=======================================================================
             NBCUT        = EDGE_LIST(NIN,IAD)%NBCUT
             DO K=1,NBCUT
               !on ecrit les coordonnees des intersections aux edges
-              CUTCOOR = EDGE_LIST(NIN,IAD)%CUTCOOR(K) 
-              POINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD)%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD)%VECTOR(1:3))                          
+              CUTCOOR = EDGE_LIST(NIN,IAD)%CUTCOOR(K)
+              POINT(1:3) = X(1:3, EDGE_LIST(NIN,IAD)%NODE(1) ) + CUTCOOR * (EDGE_LIST(NIN,IAD)%VECTOR(1:3))
             END DO ! (DO K=1,NBCUT <=> NBCUT>0)
           ENDDO
-          !!---------------        
+          !!---------------
         ENDIF
-        
+
         IF(bFOUND)THEN
-        
+
           !if(itask==0.AND.debug_outp)then
           !  if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))print *, "    FINAL RESULT ="
           !  if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))print *, "RESULT(1:8)=",RESULT(1:8)
           !endif
           J = 1
           CODE = RESULT(J)
-          DO WHILE(CODE/=0)         
+          DO WHILE(CODE/=0)
             BRICK_LIST(NIN,I)%SecID_Cell(J) = CODE
             BRICK_LIST(NIN,I)%SECTYPE(J)    = StrCODE(IABS(CODE))
-            J = J + 1 
-            IF(J==9)EXIT    
-             CODE = RESULT(J)         
+            J = J + 1
+            IF(J==9)EXIT
+             CODE = RESULT(J)
           ENDDO
           BRICK_LIST(NIN,I)%NBCUT           = J-1
         ELSE
     !      if(itask==0.AND.debug_outp)then
-    !        if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id) .and.icode/=0)print *, 
-    ! .                                                                   "    NO INTERSECTION DETECTED"  
+    !        if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id) .and.icode/=0)print *,
+    ! .                                                                   "    NO INTERSECTION DETECTED"
     !      endif
         ENDIF
     !    if(itask==0.AND.debug_outp) then
     !    if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))       then
     !      print *, ""
     !      print *, ""
-    !      print *, ""                
+    !      print *, ""
     !    endif
     !    endif
 
 C=======================================================================
 C 6 Solve ambiguity
 C=======================================================================
-        !done in i22subol.F 
-      
-      
+        !done in i22subol.F
+
+
 C=======================================================================
       END DO !I=NBF,NBL
 
@@ -543,9 +543,9 @@ C=======================================================================
 
       if(debug_outp)then
       if(ibug22_ident==-1 .or. ibug22_ident==ixs(11,brick_list(nin,ib)%id))then
-      
+
        !idb1(i) is dependent on ITASK, cannot loop on I=1,NB
-      
+
        call my_barrier
        if(itask==0)then
         do I=NBF,NBL
@@ -553,8 +553,8 @@ C=======================================================================
           NBITS=BRICK_LIST(NIN,I)%Nbits
           NPQTS=BRICK_LIST(NIN,I)%Npqts
           print *, "  CELL ID -:",IXS(11,BRICK_LIST(NIN,I)%ID)
-           WRITE(*,FMT='(A20,I10,A4,I10)')   "     edges add from ",idb1(i)," to ",idb2(i)  
-           WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     icode=", ICODE,  "   (nbits,npqts) = (", NBITS,",",NPQTS,")"  
+           WRITE(*,FMT='(A20,I10,A4,I10)')   "     edges add from ",idb1(i)," to ",idb2(i)
+           WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     icode=", ICODE,  "   (nbits,npqts) = (", NBITS,",",NPQTS,")"
            WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     idble=", IDBLE
            WRITE(*,FMT='(A,I1)') "     num planes=" ,  BRICK_LIST(NIN,I)%NBCUT
           do j=1,BRICK_LIST(NIN,I)%NBCUT
@@ -562,10 +562,10 @@ C=======================================================================
             if(dbKEY1(1:1)=='-')    then
               WRITE(*,FMT='(A)') "     --> NONE"
             else
-              WRITE(*,FMT='(A,A)') "     -->",dbKEY1(1:14)         
+              WRITE(*,FMT='(A,A)') "     -->",dbKEY1(1:14)
             end if
           enddo
-        end do        
+        end do
        endif
        call my_barrier
        if(itask==1)then
@@ -574,23 +574,23 @@ C=======================================================================
           NBITS=BRICK_LIST(NIN,I)%Nbits
           NPQTS=BRICK_LIST(NIN,I)%Npqts
           print *, "  BRIQUE ID -:",IXS(11,BRICK_LIST(NIN,I)%ID)
-           WRITE(*,FMT='(A20,I10,A4,I10)')   "     edges add from ",idb1(i)," to ",idb2(i)  
-           WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     icode=", ICODE,  "   (nbits,npqts) = (", NBITS,",",NPQTS,")"  
+           WRITE(*,FMT='(A20,I10,A4,I10)')   "     edges add from ",idb1(i)," to ",idb2(i)
+           WRITE(*,FMT='(A11,I4,A20,I2,A1,I1,A1)') "     icode=", ICODE,  "   (nbits,npqts) = (", NBITS,",",NPQTS,")"
            WRITE(*,FMT='(A,I1)') "     num planes=" ,  BRICK_LIST(NIN,I)%NBCUT
           do j=1,BRICK_LIST(NIN,I)%NBCUT
             dbKEY1(:)=BRICK_LIST(NIN,I)%SECTYPE(j)
             if(dbKEY1(1:1)=='-')    then
               WRITE(*,FMT='(A)') "     --> NONE"
             else
-              WRITE(*,FMT='(A,A)') "     -->",dbKEY1(1:14)         
+              WRITE(*,FMT='(A,A)') "     -->",dbKEY1(1:14)
             end if
           enddo
-        end do        
+        end do
        endif
       ! call my_barrier
       ! if(itask==2)then
       ! endif
-      ! ... 
+      ! ...
       end if
       endif
 
@@ -603,7 +603,7 @@ C=======================================================================
 
       RETURN
 
-      END 
+      END
 
 
 
@@ -617,7 +617,7 @@ Chd|        I22BUFBRIC_MOD                ../common_source/modules/cut-cell-sear
 Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-search_mod.F
 Chd|====================================================================
       SUBROUTINE I22GBIT(
-     1       IAD , Icode, Idble, Nbits, Npqts, 
+     1       IAD , Icode, Idble, Nbits, Npqts,
      2       idb1, idb2, NIN )
 C============================================================================      
 C Get bit structure of a 12bits integer
@@ -652,7 +652,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,Q, pqts(4), NBCUT, IADD, idb1, idb2
 C----------------------------------------------------------------
-          
+
       Icode    = 0
       Idble    = 0
       Nbits    = 0
@@ -667,16 +667,16 @@ C----------------------------------------------------------------
           IADD =(IAD-1)*12+J
           idb1=min(idb1,IADD)
           idb2=max(idb2,IADD)
-          NBCUT = EDGE_LIST(NIN,IADD)%NBCUT 
+          NBCUT = EDGE_LIST(NIN,IADD)%NBCUT
           IF (NBCUT>0) THEN
             pqts(Q)  = 1
             Nbits    = Nbits + 1
             IF(NBCUT>1)Idble = IBSET(Idble,12-J)
             Icode    = IBSET(Icode,12-J)  !11:0
           END IF
-        END DO ! I=1,3  
-      END DO ! Q=1,4 
-        
+        END DO ! I=1,3
+      END DO ! Q=1,4
+
       Npqts=SUM(pqts(1:4))
 
       RETURN

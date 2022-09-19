@@ -50,7 +50,7 @@ C-----------------------------------------------
       ZMIN = EP30
       XMAX = -EP30
       YMAX = -EP30
-      ZMAX = -EP30      
+      ZMAX = -EP30
 C
       DO 100 N=1,NUMNOD
         XMIN = MIN(XMIN,(X(1,N)-D(1,N)))
@@ -63,10 +63,10 @@ C
 C
       CDG(1) = HALF * (XMAX + XMIN)
       CDG(2) = HALF * (YMAX + YMIN)
-      CDG(3) = HALF * (ZMAX + ZMIN)      
+      CDG(3) = HALF * (ZMAX + ZMIN)
 C
-      DX = XMAX - XMIN      
-      DY = YMAX - YMIN      
+      DX = XMAX - XMIN
+      DY = YMAX - YMIN
       DZ = ZMAX - ZMIN
 C
       SCALE = MAX(DX,DY,DZ)

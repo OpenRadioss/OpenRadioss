@@ -44,7 +44,7 @@ C to update VOLN(*)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -83,21 +83,21 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NIN = 1
-      
-      IF(JEUL+JALE/=0)THEN    
+
+      IF(JEUL+JALE/=0)THEN
         DO I=LFT,LLT
-        
+
            IB        =  NINT(IAD22(I))
            IF(IB==0)CYCLE
-           NCELL     =  BRICK_LIST(NIN,IB)%NBCUT      
+           NCELL     =  BRICK_LIST(NIN,IB)%NBCUT
            MCELL     =  BRICK_LIST(NIN,IB)%MainID
-           VOLN(I)   =  EM20*BRICK_LIST(NIN,IB)%UncutVOL  !!!ZERO !in case of no main cell                               
-           IF(MCELL == 0)CYCLE          
-          
+           VOLN(I)   =  EM20*BRICK_LIST(NIN,IB)%UncutVOL  !!!ZERO !in case of no main cell
+           IF(MCELL == 0)CYCLE
+
            IF(BRICK_LIST(NIN,IB)%POLY(MCELL)%Vnew>ZERO)THEN
              VOLN(I)    =  BRICK_LIST(NIN,IB)%Vnew_SCell
            ENDIF
-                     
+
         ENDDO
       ENDIF
 

@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NODFT, NODLT  
+      INTEGER NODFT, NODLT
       my_real APINCH(3,*),MS(*),MSPINCH(*),STIFPINCH(*)
       my_real DTNOD,DTFAC
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       DO N=NODFT,NODLT
         IF(MS(N)>ZERO) THEN
           FACTOR = (DTNOD**2) * HALF / (DTFAC**2)
-          MSPINCH(N) = MAX(MSPINCH(N), STIFPINCH(N)*FACTOR) 
+          MSPINCH(N) = MAX(MSPINCH(N), STIFPINCH(N)*FACTOR)
           RTMP = ONE / MSPINCH(N)
 C       
           APINCH(1,N) = APINCH(1,N) * RTMP
@@ -77,7 +77,7 @@ C
           APINCH(2,N) = ZERO
           APINCH(3,N) = ZERO
         ENDIF
-        STIFPINCH(N) = ZERO          
+        STIFPINCH(N) = ZERO
       ENDDO
       RETURN
       END

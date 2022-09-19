@@ -124,7 +124,7 @@ C
           NY=NY*NORM
           NZ=NZ*NORM
         ENDIF
-        
+
 
 C
 C       VITESSE NORMALE
@@ -236,14 +236,14 @@ c        hin=enin/roin
 c        hou=enou/roou
 c        write(6,*)HIN,HOU,roin,roou,enin,enou
         DMIN=ROIN*VMOINS
-        DMOU=ROOU*VPLUS        
+        DMOU=ROOU*VPLUS
         AIRE =AIRE +S
         FLUX =FLUX +S*VN
         FLUXM=FLUXM+S*(DMOU+DMIN)
         FLUXE=FLUXE+S*(HIN*DMIN+HOU*DMOU)
 c
 c application de la pression
-c 
+c
 C PRESSION RELATIVE FLUIDE
         PN  = PNA1-PEXT
         PNS=-PN*S*FAC

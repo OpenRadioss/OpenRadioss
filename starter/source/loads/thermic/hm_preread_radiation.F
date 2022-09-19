@@ -63,8 +63,8 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
-    
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -107,10 +107,10 @@ C--------------------------------------------------
               ISS = J
               NUMRADIA = NUMRADIA + IGRSURF(ISS)%NSEG
               EXIT
-            ENDIF                             
-          ENDDO 
+            ENDIF
+          ENDDO
         ENDIF
-      ENDDO 
+      ENDDO
 
       RETURN
-      END SUBROUTINE HM_PREREAD_RADIATION 
+      END SUBROUTINE HM_PREREAD_RADIATION

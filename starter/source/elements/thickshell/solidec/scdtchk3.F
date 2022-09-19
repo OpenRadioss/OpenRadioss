@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE CHK_DTTSH(ELBUF_STR,IXS ,IPARG ,IKINE)
 C=======================================================================
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD     
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(MVSIZ,8),NEDG,IER1,IER2,IKIN
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C     REAL
 C-------
       ITAG(1:NUMNOD)=0
@@ -76,7 +76,7 @@ C-------
        JHBE = IPARG(23,NG)
        IGTYP  = IPARG(38,NG)
        ISOLNOD= IPARG(28,NG)
-       IF (IPARG(8,NG)==1) CYCLE                                 
+       IF (IPARG(8,NG)==1) CYCLE
        IF (ITY /= 1) CYCLE
        IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
 C--------only linear for the moment       
@@ -116,7 +116,7 @@ C--------only linear for the moment
           ENDDO
           IF (JHBE==14) THEN
              SELECT CASE (ICSTR)
-              CASE(100)                                             
+              CASE(100)
                 DO I=1,NEL
  	              N1 = NC(I,1)
  	              N2 = NC(I,4)
@@ -147,7 +147,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(10)                                          
+              CASE(10)
                 DO I=1,NEL
  	              N1 = NC(I,1)
  	              N2 = NC(I,5)
@@ -178,7 +178,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(1)                                          
+              CASE(1)
                 DO I=1,NEL
  	              N1 = NC(I,1)
  	              N2 = NC(I,2)
@@ -209,7 +209,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-             END SELECT 
+             END SELECT
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
  	          N1 = NC(I,1)
@@ -244,7 +244,7 @@ C--------only linear for the moment
           END IF
         END IF
        END IF
-      ENDDO 
+      ENDDO
 C-------uncompatibility commun node dif edge
        IER1=0  !mesh
        IER2=0  !kin
@@ -257,7 +257,7 @@ C-------uncompatibility commun node dif edge
        IGTYP  = IPARG(38,NG)
        ISOLNOD= IPARG(28,NG)
        GBUF => ELBUF_STR(NG)%GBUF
-       IF (IPARG(8,NG)==1) CYCLE                                 
+       IF (IPARG(8,NG)==1) CYCLE
        IF (ITY /= 1) CYCLE
        IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
 C--------only linear for the moment       
@@ -290,7 +290,7 @@ C--------only linear for the moment
           ENDDO
           IF (JHBE==14) THEN
              SELECT CASE (ICSTR)
-              CASE(100)                                             
+              CASE(100)
                 DO I=1,NEL
                   IKIN = 0
  	              N1 = NC(I,1)
@@ -310,7 +310,7 @@ C--------only linear for the moment
 	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
 	              IF (IKIN==1) GBUF%IDT_TSH(I)=-1
                 ENDDO
-              CASE(10)                                          
+              CASE(10)
                 DO I=1,NEL
                   IKIN = 0
  	              N1 = NC(I,1)
@@ -331,7 +331,7 @@ C--------only linear for the moment
 	              IF (IKINE(N1)/=IKINE(N2)) IKIN = 1
 	              IF (IKIN==1) GBUF%IDT_TSH(I)=-1
                 ENDDO
-              CASE(1)                                          
+              CASE(1)
                 DO I=1,NEL
                   IKIN = 0
  	              N1 = NC(I,1)
@@ -352,7 +352,7 @@ C--------only linear for the moment
 	              IF (ITAG(N1)/=ITAG(N2)) GBUF%IDT_TSH(I)=0
 	              IF (IKIN==1) GBUF%IDT_TSH(I)=-1
                 ENDDO
-             END SELECT 
+             END SELECT
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
               IKIN = 0
@@ -398,7 +398,7 @@ C--------only linear for the moment
             ENDDO
          END IF
        END IF
-      ENDDO 
+      ENDDO
 C-------message out      
       IF (IDTTSH>0 .AND.(IER1+IER2)>0) THEN
         IF (IER1>0.AND. IPRI>0 ) CALL ANCMSG(MSGID=2070,

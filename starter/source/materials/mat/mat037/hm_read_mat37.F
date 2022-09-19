@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT37(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,ID       ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,STIFINT  ,MAT_ID)
 C-----------------------------------------------
@@ -58,10 +58,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -99,19 +99,19 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      my_real 
+      my_real
      .        C1,C2,P0,VIS,VISV,RHO10,RHO20,A1,PMIN,GAM,VIS2,PSHIFT,
      .        VISV2,FAC_M,FAC_L,FAC_T,FAC_C,RHO0,RHOR
       INTEGER I,ISOLVER,IRHO
-      character*63 chain1      
+      character*63 chain1
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      ISRATE = 0  
+      ISRATE = 0
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-      
+
       !================================= !
       ! Communicate LAW to ALEMUSC_MOD  !
       !=================================!
@@ -130,7 +130,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('ALPHA1'         ,A1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Nu_l'           ,VIS     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Bulk_Ratio_l'   ,VISV    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       !line-submat-2
       CALL HM_GET_FLOATV('Lqud_Rho_g'     ,RHO20   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Lqud_Gamma_bulk',GAM     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -140,37 +140,37 @@ C-----------------------------------------------
 
       IRHO=0
       IF(GAM*C1==0)IRHO=INT(P0)
-     
+
       !--------------------------------!
       !     INPUT CHECK                !
-      !--------------------------------!      
+      !--------------------------------!
       IF(A1<ZERO .OR. A1>ONE)THEN
-        chain1 = 'INITIAL MASSIC FRACTION MUST BE BETWEEN 0 AND 1.              '        
-        CALL ANCMSG(MSGID=65,                                               
-     .              MSGTYPE=MSGERROR,                                    
-     .              ANMODE=ANINFO,                                         
-     .              I1=37,                                                 
-     .              I2=ID,                                                 
-     .              C1='ERROR',                                          
-     .              C2=TITR,                                               
+        chain1 = 'INITIAL MASSIC FRACTION MUST BE BETWEEN 0 AND 1.              '
+        CALL ANCMSG(MSGID=65,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=37,
+     .              I2=ID,
+     .              C1='ERROR',
+     .              C2=TITR,
      .              C3=chain1)
-       A1 = ONE        
+       A1 = ONE
       ENDIF
-      
+
       IF(RHO10<ZERO .OR. RHO20<ZERO)THEN
-        chain1 = 'INITIAL DENSITY CANNOT BE NEGATIVE.                           '        
-        CALL ANCMSG(MSGID=65,                                               
-     .              MSGTYPE=MSGERROR,                                    
-     .              ANMODE=ANINFO,                                         
-     .              I1=37,                                                 
-     .              I2=ID,                                                 
-     .              C1='ERROR',                                          
-     .              C2=TITR,                                               
-     .              C3=chain1) 
+        chain1 = 'INITIAL DENSITY CANNOT BE NEGATIVE.                           '
+        CALL ANCMSG(MSGID=65,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=37,
+     .              I2=ID,
+     .              C1='ERROR',
+     .              C2=TITR,
+     .              C3=chain1)
         IF(RHO10<ZERO)RHO10 = EM20
-        IF(RHO20<ZERO)RHO20 = EM20       
-      ENDIF      
-           
+        IF(RHO20<ZERO)RHO20 = EM20
+      ENDIF
+
       !--------------------------------!
       !     STORAGE                    !
       !--------------------------------!
@@ -181,27 +181,27 @@ C-----------------------------------------------
       !ISOLVER = 2 : new solver (2018.0)
       IF(INVERS_INIT>=2017)THEN
         ISOLVER = NINT(RHOR)
-        IF(ISOLVER<=0 .OR. ISOLVER>=3)THEN 
+        IF(ISOLVER<=0 .OR. ISOLVER>=3)THEN
           ISOLVER = 1
         ENDIF
       ELSE
         ISOLVER = 1
-      ENDIF  
+      ENDIF
       IF(INT22 > 0) ISOLVER = 2
 
       !===NEW PRESSURE SHIFT PARAM (2018.0)
       IF(INVERS_INIT>=2017)THEN
-        IF(PSHIFT==ZERO)THEN 
+        IF(PSHIFT==ZERO)THEN
           PSHIFT=-P0
         ELSE
           PSHIFT = - PSHIFT
         ENDIF
       ELSE
         PSHIFT = -P0
-      ENDIF      
+      ENDIF
       ! PSH  = 0       : => PSH=-P0
       ! PSH  = -P0     : relative pressure P_liq = C1.mu,      P_gas = P0(1+mu)**gamma - P0
-      ! PSH  = 1e-20   : total pressure    P_liq = C0+C1.mu,   P_gas = P0(1+mu)**gamma 
+      ! PSH  = 1e-20   : total pressure    P_liq = C0+C1.mu,   P_gas = P0(1+mu)**gamma
 
       !===UNITS
       !line-1 : RHO10,C1,A1,VIS,VISV
@@ -216,7 +216,7 @@ C-----------------------------------------------
       !VIS2   = VIS2  * FAC_L**2 / FAC_T
       !VISV2  = VISV2 * FAC_L**2 / FAC_T
 
-      
+
       !===UPARAM STORAGE
       PMIN       = - P0
       RHO0       = RHO10 * A1 + (ONE-A1)*RHO20
@@ -225,10 +225,10 @@ C-----------------------------------------------
       PM(89)     = RHO0
       PM(91)     = RHO10
 
-      UPARAM(1)  = VIS                    
-      UPARAM(2)  = TWO*VIS               
-      UPARAM(3)  = (VISV-UPARAM(2))*THIRD 
-      UPARAM(4)  = C1                     
+      UPARAM(1)  = VIS
+      UPARAM(2)  = TWO*VIS
+      UPARAM(3)  = (VISV-UPARAM(2))*THIRD
+      UPARAM(4)  = C1
       C2         = - PMIN * GAM
       UPARAM(5)  = GAM
       UPARAM(6)  = C1/RHO10
@@ -301,7 +301,7 @@ C----------------------
      & 5X,'GAS REFERENCE PRESSURE. . . . . . . . .=',1PG20.13/
      & 5X,'GAS SHEAR KINEMATIC VISCOSITY . . . . .=',1PG20.13/
      & 5X,'GAS BULK  KINEMATIC VISCOSITY . . . . .=',1PG20.13//
-     & 5X,'REFERENCE PRESSURE. . . . . . . . . . .=',1PG20.13/     
+     & 5X,'REFERENCE PRESSURE. . . . . . . . . . .=',1PG20.13/
      & 5X,'PRESSURE SHIFT. . . . . . . . . . . . .=',1PG20.13//)
  1101 FORMAT(
      & 5X,'LIQUID REFERENCE DENSITY. . . . . . . .=',1PG20.13/

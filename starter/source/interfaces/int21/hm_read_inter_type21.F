@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -101,12 +101,12 @@ C-----------------------------------------------
       INTEGER I,J,L,IBC1, IBC2, IBC3, NOINT, NTYP, IBID,INACTI, IBC1M,
      .    IBC2M, IBC3M, IGSTI,IEULT, IVIS2,IS1, IS2,ILEV, IGAP,MULTIMP,
      .    HIERA,MFROT,IFQ,MODFR,IADM,UID,NRADM,INTTH,IFORM,IERR1,IKTHE,
-     .    IDEL21,IMOD,IFILTR,IFUNS,IFUNN,IFUNT,IFUN1,IFUN2,HFLAG,NUVAR, 
+     .    IDEL21,IMOD,IFILTR,IFUNS,IFUNN,IFUNT,IFUN1,IFUN2,HFLAG,NUVAR,
      .    IFSTF,KK,II,IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IRSTH,INVN,
      .    IFRICTH,IFTLIM,FCOND
       my_real
-     .   FRIC,GAP,STARTT,BUMULT,STOPT,FHEAT,FHEATS,FHEATM,RSTH,TINT,PADM, 
-     .   ANGLADM, CADM, DEPTH,C1,C2,C3,C4,C5,C6, ALPHA,GAPSCALE,GAPMAX, 
+     .   FRIC,GAP,STARTT,BUMULT,STOPT,FHEAT,FHEATS,FHEATM,RSTH,TINT,PADM,
+     .   ANGLADM, CADM, DEPTH,C1,C2,C3,C4,C5,C6, ALPHA,GAPSCALE,GAPMAX,
      .   STMIN,STMAX,STIFF, PMAX,AREA, KTHE, XTHE, FRAD, DRAD,
      .   VISC,XFRICTH,PTMAX,PSKID,DCOND,XTHE_UNIT,KTHE_UNIT
       CHARACTER MESS*40, MSGTITL*nchartitle
@@ -134,11 +134,11 @@ C Initializations
       IBC3M=0
       MFROT=0
       IFQ=0
-      IGSTI = 0        
+      IGSTI = 0
       INVN = 0
-      IFTLIM=1 
+      IFTLIM=1
       IADM =0
-      NRADM=1    
+      NRADM=1
       INACTI = 0
       ILEV = 0
       IDSENS = 0
@@ -245,7 +245,7 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('VISC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('VISC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('SORT_FACT',BUMULT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -503,7 +503,7 @@ C------------------------------------------------------------
 C
         IF(IADM==2)THEN
           IF(NRADM==0)   NRADM  =3
-          IF(PADM==ZERO) PADM   =ONE     
+          IF(PADM==ZERO) PADM   =ONE
         ELSE
           NRADM  =1
           PADM   =ONE
@@ -541,7 +541,7 @@ C
 
         IF(IFORM /= 0)THEN
            INTTH = 2
-           IPARI(47) = 2 
+           IPARI(47) = 2
         ENDIF
 
 C.....* Storage IPARI FRIGAP *.........
@@ -572,7 +572,7 @@ C
         IF(INTTH == 2  ) FTEMPVAR21 = 1
 
         IF(FCOND ==0) DCOND = ZERO
- 
+
         IF(FRAD==ZERO ) DRAD = ZERO
 
         IF(FCOND /= 0.AND.DCOND/=ZERO.AND.DRAD==ZERO) THEN
@@ -623,7 +623,7 @@ C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
 C
-        IF(IDSENS/=0) THEN 
+        IF(IDSENS/=0) THEN
           WRITE(IOUT,2101)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 ILEV,IGSTI,STFAC,STMIN,STMAX,
      .                 FRIC,IGAP,GAP,GAPMAX,GAPSCALE,IDSENS,
@@ -644,7 +644,7 @@ C
              WRITE(IOUT,1524) FRIC
            ELSE
              WRITE(IOUT,1525) IFRICTH,XFRICTH,FRIC
-           ENDIF   
+           ENDIF
         ELSEIF(MFROT==1)THEN
           WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
      .    FRIC_P(4),FRIC_P(5)
@@ -662,7 +662,7 @@ C
           IF(IDELKEEP == 1)THEN
             WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-          ENDIF         
+          ENDIF
         ENDIF
         IF(IADM/=0) THEN
          WRITE(IOUT,*)'    MESH REFINMENT CASE OF CONTACT',
@@ -692,7 +692,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -843,7 +843,7 @@ C------------
      .       '    MEAN POSSIBLE NUMBER OF IMPACT/NODE . . . ',I5/,
      .       '    INVERTED NORMALS DETECTION FLAG . . . . . . ',I5/,
      .       '    TANGENTIAL FORCE LIMITATION FLAG . . . . . . ',I5/,
-     .       '    MAXIMUM PRESURE FOR SKID LINE OUTPUT         ',1PG20.13)        
+     .       '    MAXIMUM PRESURE FOR SKID LINE OUTPUT         ',1PG20.13)
  2102   FORMAT(//
      .      '    Thermal interface                          ' //,
      .      '    Thermal heat exchange coefficient . . . . .',1PG20.13/,

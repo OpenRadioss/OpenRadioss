@@ -79,7 +79,7 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ)
       DATA ITYPE/7/
 C-----------------------------------------------
@@ -143,7 +143,7 @@ C
           II_STOK   = I_STOK + K_STOK
 #include "lockoff.inc"
 C-----------------------------------------------
-      IF(IFQ > 0 .AND. 
+      IF(IFQ > 0 .AND.
      .   (INACTI == 5 .OR. INACTI ==6 .OR. INACTI ==7).AND.ITIED /=0)THEN
         DO I=1,J_STOK
           IF(PENE(I)/=ZERO)THEN
@@ -155,7 +155,7 @@ C-----------------------------------------------
             CAND_F(1:8,I_STOK)=ZERO
           ENDIF
         ENDDO
-      ELSEIF(IFQ > 0 .AND. 
+      ELSEIF(IFQ > 0 .AND.
      .   (INACTI == 5 .OR. INACTI ==6 .OR. INACTI ==7))THEN
         DO I=1,J_STOK
           IF(PENE(I)/=0.0)THEN

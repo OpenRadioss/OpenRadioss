@@ -43,7 +43,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -64,9 +64,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(*)
-      INTEGER IGTYP,IG,NBADI 
+      INTEGER IGTYP,IG,NBADI
       my_real
      .   GEO(*)
       CHARACTER IDTITL*nchartitle
@@ -142,12 +142,12 @@ C----------------------
         GEO(3)  = ISMSTR
 
 C-------
-        NIPMAX = 100      
-        IPY    = 200  
-        IPZ    = 300  
+        NIPMAX = 100
+        IPY    = 200
+        IPZ    = 300
         IPA    = 400
         AREA   = ZERO
-        ISECT  = IGEO(10) 
+        ISECT  = IGEO(10)
         ISS    = INT(GEO(3))
         IF(ISS == 0) ISS = 4
         IF (DR == ZERO) DR = EM04
@@ -156,19 +156,19 @@ C---
 c------------------------
         IF (ISECT == 0) THEN
 C---      user-defined integration points
-          DO IP = 1,NIP   
+          DO IP = 1,NIP
             CALL HM_GET_FLOAT_ARRAY_INDEX('Y_IP',PY,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Z_IP',PZ,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('AREA_IP',AI,IP,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-            IF (AI<=ZERO) THEN                                
+            IF (AI<=ZERO) THEN
              CALL ANCMSG(MSGID=314,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO_BLIND_1,
      .                   I1=IG,
      .                   C1=IDTITL,
      .                   R1=AI)
-            ENDIF                                                     
+            ENDIF
             GEO(IPY+IP) = PY
             GEO(IPZ+IP) = PZ
             GEO(IPA+IP) = AI
@@ -183,10 +183,10 @@ C          READ(IIN,REC=IREC,ERR=999,FMT=FMT_2I_4F) INTR,INTS,L1,L2,L3,L4
 C          READ(IIN,REC=IREC,ERR=999,FMT=FMT_2F) L5,L6
 C
           INTS = 0
-          L3 = ZERO 
-          L4 = ZERO 
-          L5 = ZERO 
-          L6 = ZERO  
+          L3 = ZERO
+          L4 = ZERO
+          L5 = ZERO
+          L6 = ZERO
 C-------------------------------------------------- 
 C
           IF (INTR == 0)  INTR = 2
@@ -212,26 +212,26 @@ c------------------------
         ENDIF
 C---  coord isoparametriques et surfaces relatives des pts d'integration
         IF (ISECT == 0.AND.IREF == 0) THEN
-          Y0 = ZERO      
-          Z0 = ZERO      
+          Y0 = ZERO
+          Z0 = ZERO
           DO IP = 1,NIP
             Y0 = Y0 + GEO(IPY+IP)*GEO(IPA+IP)
             Z0 = Z0 + GEO(IPZ+IP)*GEO(IPA+IP)
           ENDDO
           Y0 = Y0 / AREA
-          Z0 = Z0 / AREA                                          
+          Z0 = Z0 / AREA
         ENDIF
-        DO IP = 1,NIP                        
+        DO IP = 1,NIP
           GEO(IPY+IP) = GEO(IPY+IP) - Y0
           GEO(IPZ+IP) = GEO(IPZ+IP) - Z0
-        ENDDO                                    
+        ENDDO
 C---  rotation dof 
-        IRX = MIN(1,IR1X+IR2X)    
-        GEO(7) = 1.1-IRX       
-        GEO(8) = 1.1-IR1Y      
-        GEO(9) = 1.1-IR1Z      
-        GEO(10)= 1.1-IR2Y      
-        GEO(11)= 1.1-IR2Z      
+        IRX = MIN(1,IR1X+IR2X)
+        GEO(7) = 1.1-IRX
+        GEO(8) = 1.1-IR1Y
+        GEO(9) = 1.1-IR1Z
+        GEO(10)= 1.1-IR2Y
+        GEO(11)= 1.1-IR2Z
 C---
         IF(.NOT. IS_ENCRYPTED)THEN
           WRITE(IOUT,1000)IG,ISS,IR1X,IR1Y,IR1Z,IR2X,IR2Y,IR2Z,DM,DR,ISECT,NIP
@@ -242,13 +242,13 @@ C---
           WRITE(IOUT,*)
         ELSE
           WRITE(IOUT,1020) IG
-        ENDIF     
+        ENDIF
 C---                 
-        GEO(1)  = AREA   
+        GEO(1)  = AREA
         GEO(16) = DM
-        GEO(17) = DR 
-        GEO(21) = Y0       
-        GEO(22) = Z0     
+        GEO(17) = DR
+        GEO(21) = Y0
+        GEO(22) = Z0
         IGEO(3) = NIP
 C
 C----------------------
@@ -297,7 +297,7 @@ C---
      & 5X,'SECTION TYPE. . . . . . . . . . . . . .=',I10/,
      & 5X,'NUMBER OF INTEGRATION POINTS. . . . . .=',I10//,
      & 5X,'INTEGRATION POINTS:'/)
- 1010 FORMAT(     
+ 1010 FORMAT(
      & 5X,'POINT NO: . . . . . . . . . . . . . =',I10/,
      & 8X,'LOCAL Y POSITION. . . . . . . . . . =',1PG20.13/,
      & 8X,'LOCAL Z POSITION. . . . . . . . . . =',1PG20.13/,
@@ -342,14 +342,14 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,IP,NC,NS,IPY,IPZ,IPA 
+      INTEGER I,J,IP,NC,NS,IPY,IPZ,IPA
 C     REAL
       my_real
      .    AI,YI,ZI,WI,PHI,DPHI,R1,R2,R3,R4,D2, D3, D4
       my_real
      +  W_GAUSS(9,9),A_GAUSS(9,9),W_LOBATTO(9,9),A_LOBATTO(9,9),LEN(10)
 C-----------------------------------------------
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -377,7 +377,7 @@ C-----------------------------------------------
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -406,7 +406,7 @@ C-----------------------------------------------
      9 -.324253423403809,0.               ,0.324253423403809,
      9 0.613371432700590,0.836031107326636,0.968160239507626/
 C-----------------------------------------------
-      DATA W_LOBATTO / 
+      DATA W_LOBATTO /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -434,7 +434,7 @@ C-----------------------------------------------
      9 0.027777777777778,0.165495361560806,0.274538712500162,
      9 0.346428510973046,0.371519274376417,0.346428510973046,
      9 0.274538712500162,0.165495361560806,0.027777777777778/
-      DATA A_LOBATTO / 
+      DATA A_LOBATTO /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -464,148 +464,148 @@ C-----------------------------------------------
      9 0.677186279510737,0.899757995411460,1.000000000000000/
 C======================================================================|
 C======================================================================|
-      IPY    = 200  
-      IPZ    = 300  
+      IPY    = 200
+      IPZ    = 300
       IPA    = 400
 c-----------------------
-      SELECT CASE (ISECT)                                                     
+      SELECT CASE (ISECT)
 c---------------
-        CASE (1) ! basic rectangular section with Gauss integration rule      
+        CASE (1) ! basic rectangular section with Gauss integration rule
 c---------------
-          AREA = L1*L2                                             
-!         INER = AREA*AREA*ONE_OVER_12  
-          IF (INTR < 1 .OR. INTR > 9) THEN                                    
-c           write error message                                               
-          ELSEIF (INTR == 1) THEN                                             
-            NIP = INTR                                                        
-            GEO(IPY+1) = ZERO                                                 
-            GEO(IPZ+1) = ZERO                                                 
-            GEO(IPA+1) = AREA                                                   
-          ELSE                                                                
-            NIP = INTR*INTR                                                   
-            R1 = L1*HALF                                                    
-            R2 = L2*HALF                                                    
+          AREA = L1*L2
+!         INER = AREA*AREA*ONE_OVER_12
+          IF (INTR < 1 .OR. INTR > 9) THEN
+c           write error message
+          ELSEIF (INTR == 1) THEN
+            NIP = INTR
+            GEO(IPY+1) = ZERO
+            GEO(IPZ+1) = ZERO
+            GEO(IPA+1) = AREA
+          ELSE
+            NIP = INTR*INTR
+            R1 = L1*HALF
+            R2 = L2*HALF
             AI = AREA*FOURTH
-            IP = 0  
-            DO I = 1,INTR                                                     
-              DO J = 1,INTR                                                   
+            IP = 0
+            DO I = 1,INTR
+              DO J = 1,INTR
                 IP = IP+1
-                GEO(IPY+IP)=A_GAUSS(I,INTR)*R1                                                   
-                GEO(IPZ+IP)=A_GAUSS(J,INTR)*R2                                               
+                GEO(IPY+IP)=A_GAUSS(I,INTR)*R1
+                GEO(IPZ+IP)=A_GAUSS(J,INTR)*R2
                 GEO(IPA+IP)=W_GAUSS(I,INTR)*W_GAUSS(J,INTR)*AI
-              ENDDO                                                           
-            ENDDO                                                             
-          ENDIF   
+              ENDDO
+            ENDDO
+          ENDIF
 c---------------
-        CASE (2) ! basic circular section with Gauss integration rule         
+        CASE (2) ! basic circular section with Gauss integration rule
 c---------------
-          AREA = PI*L1*L1                                                     
+          AREA = PI*L1*L1
 !         INER = AREA*L1*L1*FOURTH
-          IF (INTR < 1 .OR. INTR > 9) THEN                                    
-c           write error message                                               
-          ELSEIF (INTR == 1) THEN                                             
-            NIP = 1                                                           
-            GEO(IPY+1) = ZERO                                                 
-            GEO(IPZ+1) = ZERO                                                 
-            GEO(IPA+1) = AREA                                                 
-          ELSEIF (INTR == 2) THEN ! cercle divise en 4                                              
-            NIP = INTR*INTR                                                   
-            AI  = AREA/NIP                                                    
-            R1 = L1/SQR3                                                      
-            R1 = L1*SQR2*HALF                                               
-            DPHI = TWO*PI/NIP                                                
-            PHI  = DPHI*HALF                                                
-            DO IP = 1,NIP                                                      
-              GEO(IPY+IP) = R1*SIN(PHI)                                       
-              GEO(IPZ+IP) = R1*COS(PHI)                                       
-              GEO(IPA+IP) = AI                                                
-              PHI = PHI + DPHI                                                 
-            ENDDO                                                             
-          ELSEIF (INTR == 3) THEN                                              
-            NIP = INTR*INTR                                                   
-            AI  = AREA/TWELVE   !                                               
-            IP = 1                                                            
-            GEO(IPY+IP) = ZERO                                      
-            GEO(IPZ+IP) = ZERO                                      
-            GEO(IPA+IP) = AI*FOUR
-            R1  = L1*SQR3*HALF                                            
-            DPHI = PI*FOURTH                                               
-            PHI  = ZERO                                             
-            DO IP = 2,NIP                                                      
-              GEO(IPY+IP) = R1*SIN(PHI)                                       
-              GEO(IPZ+IP) = R1*COS(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+          IF (INTR < 1 .OR. INTR > 9) THEN
+c           write error message
+          ELSEIF (INTR == 1) THEN
+            NIP = 1
+            GEO(IPY+1) = ZERO
+            GEO(IPZ+1) = ZERO
+            GEO(IPA+1) = AREA
+          ELSEIF (INTR == 2) THEN ! cercle divise en 4
+            NIP = INTR*INTR
+            AI  = AREA/NIP
+            R1 = L1/SQR3
+            R1 = L1*SQR2*HALF
+            DPHI = TWO*PI/NIP
+            PHI  = DPHI*HALF
+            DO IP = 1,NIP
+              GEO(IPY+IP) = R1*SIN(PHI)
+              GEO(IPZ+IP) = R1*COS(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-            ENDDO                                                             
-          ELSEIF (INTR == 4) THEN                                             
-            NIP = 7                                                           
-            R1 = L1*SQR2/SQR3                                                 
-            DPHI = PI*THIRD                                                   
-            IP = 1                                                            
-            GEO(IPY+IP) = ZERO                                                
-            GEO(IPZ+IP) = ZERO                                                
-            GEO(IPA+IP) = AREA*FOURTH                                          
-            AI  = AREA/EIGHT                                                   
-            PHI = ZERO                                                        
-            DO IP = 2,NIP                                                      
-              GEO(IPY+IP) = R1*SIN(PHI)                                       
-              GEO(IPZ+IP) = R1*COS(PHI)                                       
-              GEO(IPA+IP) = AI                                                
-              PHI = PHI + DPHI                                               
-            ENDDO                                                             
-          ELSEIF (INTR == 5) THEN                                             
-            NIP = 21                                                          
-            IP = 1                                                            
-            GEO(IPY+IP) = ZERO                                                
-            GEO(IPZ+IP) = ZERO                                                
-            GEO(IPA+IP) = AREA/NINE                                           
-            AI  = AREA*(SIXTEEN + SQR6)/360.                                     
-            R1  = SQRT((SIX-SQR6)/TEN)*L1                                      
-            PHI = PI/FIVE                                                     
-            DO IP = 2,11                                                       
-              GEO(IPY+IP) = R1*COS(PHI*IP)                                     
-              GEO(IPZ+IP) = R1*SIN(PHI*IP)                                     
-              GEO(IPA+IP) = AI                                                
-            ENDDO                                                             
-            AI  = AREA*(SIXTEEN - SQR6)/360.                                     
-            R1 = SQRT((SIX+SQR6)/TEN)*L1                                      
-            DO IP = 12,21                                                       
-              GEO(IPY+IP) = R1*COS(PHI*IP)                                     
-              GEO(IPZ+IP) = R1*SIN(PHI*IP)                                     
-              GEO(IPA+IP) = AI                                                
-            ENDDO                                                             
-          ENDIF                                                               
+            ENDDO
+          ELSEIF (INTR == 3) THEN
+            NIP = INTR*INTR
+            AI  = AREA/TWELVE   !
+            IP = 1
+            GEO(IPY+IP) = ZERO
+            GEO(IPZ+IP) = ZERO
+            GEO(IPA+IP) = AI*FOUR
+            R1  = L1*SQR3*HALF
+            DPHI = PI*FOURTH
+            PHI  = ZERO
+            DO IP = 2,NIP
+              GEO(IPY+IP) = R1*SIN(PHI)
+              GEO(IPZ+IP) = R1*COS(PHI)
+              GEO(IPA+IP) = AI
+              PHI = PHI + DPHI
+            ENDDO
+          ELSEIF (INTR == 4) THEN
+            NIP = 7
+            R1 = L1*SQR2/SQR3
+            DPHI = PI*THIRD
+            IP = 1
+            GEO(IPY+IP) = ZERO
+            GEO(IPZ+IP) = ZERO
+            GEO(IPA+IP) = AREA*FOURTH
+            AI  = AREA/EIGHT
+            PHI = ZERO
+            DO IP = 2,NIP
+              GEO(IPY+IP) = R1*SIN(PHI)
+              GEO(IPZ+IP) = R1*COS(PHI)
+              GEO(IPA+IP) = AI
+              PHI = PHI + DPHI
+            ENDDO
+          ELSEIF (INTR == 5) THEN
+            NIP = 21
+            IP = 1
+            GEO(IPY+IP) = ZERO
+            GEO(IPZ+IP) = ZERO
+            GEO(IPA+IP) = AREA/NINE
+            AI  = AREA*(SIXTEEN + SQR6)/360.
+            R1  = SQRT((SIX-SQR6)/TEN)*L1
+            PHI = PI/FIVE
+            DO IP = 2,11
+              GEO(IPY+IP) = R1*COS(PHI*IP)
+              GEO(IPZ+IP) = R1*SIN(PHI*IP)
+              GEO(IPA+IP) = AI
+            ENDDO
+            AI  = AREA*(SIXTEEN - SQR6)/360.
+            R1 = SQRT((SIX+SQR6)/TEN)*L1
+            DO IP = 12,21
+              GEO(IPY+IP) = R1*COS(PHI*IP)
+              GEO(IPZ+IP) = R1*SIN(PHI*IP)
+              GEO(IPA+IP) = AI
+            ENDDO
+          ENDIF
 c---------------
-        CASE (3) ! basic rectangular section with Lobatto integration rule      
+        CASE (3) ! basic rectangular section with Lobatto integration rule
 c---------------
-          AREA = L1*L2                                             
-!         INER = AREA*AREA*ONE_OVER_12  
-          IF (INTR < 1 .OR. INTR > 9) THEN                                    
+          AREA = L1*L2
+!         INER = AREA*AREA*ONE_OVER_12
+          IF (INTR < 1 .OR. INTR > 9) THEN
             CALL ANCMSG(MSGID=1878,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .              I1=IG,
      .              C1=IDTITL)
-          ELSEIF (INTR == 1) THEN                                             
-            NIP = INTR                                                        
-            GEO(IPY+1) = ZERO                                                 
-            GEO(IPZ+1) = ZERO                                                 
-            GEO(IPA+1) = AREA                                                   
-          ELSE                                                                
-            NIP = INTR*INTR                                                   
-            R1 = L1*HALF                                                    
-            R2 = L2*HALF                                                    
+          ELSEIF (INTR == 1) THEN
+            NIP = INTR
+            GEO(IPY+1) = ZERO
+            GEO(IPZ+1) = ZERO
+            GEO(IPA+1) = AREA
+          ELSE
+            NIP = INTR*INTR
+            R1 = L1*HALF
+            R2 = L2*HALF
             AI = AREA*FOURTH
-            IP = 0  
-            DO I = 1,INTR                                                     
-              DO J = 1,INTR                                                   
+            IP = 0
+            DO I = 1,INTR
+              DO J = 1,INTR
                 IP = IP+1
-                GEO(IPY+IP)=A_LOBATTO(I,INTR)*R1                                                   
-                GEO(IPZ+IP)=A_LOBATTO(J,INTR)*R2                                               
+                GEO(IPY+IP)=A_LOBATTO(I,INTR)*R1
+                GEO(IPZ+IP)=A_LOBATTO(J,INTR)*R2
                 GEO(IPA+IP)=W_LOBATTO(I,INTR)*W_LOBATTO(J,INTR)*AI
-              ENDDO                                                           
-            ENDDO                                                             
-          ENDIF   
+              ENDDO
+            ENDDO
+          ENDIF
 c---------------
         CASE (4)    ! circular section    Lobatto 5 OR 7 in radius 8 in circonference
           !POINTS RADIALS ALIGNES
@@ -617,26 +617,26 @@ c---------------
              D2 = A_LOBATTO(4,5)*L1
              PHI = ZERO
              DPHI= PI * FOURTH
-             IP = 1                                                            
-             GEO(IPY+IP) = ZERO                                      
-             GEO(IPZ+IP) = ZERO                                      
+             IP = 1
+             GEO(IPY+IP) = ZERO
+             GEO(IPZ+IP) = ZERO
              GEO(IPA+IP) = PI*R1*R1
              AI = PI * (R2*R2 - R1*R1)/EIGHT
-             DO IP = 2,NIP-1,2                                                  
-              GEO(IPY+IP) = D2*COS(PHI)                                       
-              GEO(IPZ+IP) = D2*SIN(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+             DO IP = 2,NIP-1,2
+              GEO(IPY+IP) = D2*COS(PHI)
+              GEO(IPZ+IP) = D2*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
+             ENDDO
              PHI = ZERO
              AI = PI * (R3*R3 - R2*R2)/EIGHT
-             DO IP = 3,NIP,2                                                            
-              GEO(IPY+IP) = L1*COS(PHI)                                  
-              GEO(IPZ+IP) = L1*SIN(PHI)                                    
-              GEO(IPA+IP) = AI                                                
+             DO IP = 3,NIP,2
+              GEO(IPY+IP) = L1*COS(PHI)
+              GEO(IPZ+IP) = L1*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
-          ELSEIF (INTR == 25) THEN 
+             ENDDO
+          ELSEIF (INTR == 25) THEN
              NIP = 25
              R1 = 0.46291005*L1
              R2 = 0.69006559*L1
@@ -645,80 +645,80 @@ c---------------
              D2 = A_LOBATTO(5,7)*L1
              D3 = A_LOBATTO(6,7)*L1
              D4 = A_LOBATTO(7,7)*L1
-             IP = 1                                                            
-             GEO(IPY+IP) = ZERO                                      
-             GEO(IPZ+IP) = ZERO                                      
+             IP = 1
+             GEO(IPY+IP) = ZERO
+             GEO(IPZ+IP) = ZERO
              GEO(IPA+IP) = PI*R1*R1
              PHI = ZERO
              DPHI= PI * FOURTH
              AI = PI * (R2*R2 - R1*R1)/EIGHT
-             DO IP = 2,NIP-2,3                                                  
-              GEO(IPY+IP) = D2*COS(PHI)                                       
-              GEO(IPZ+IP) = D2*SIN(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+             DO IP = 2,NIP-2,3
+              GEO(IPY+IP) = D2*COS(PHI)
+              GEO(IPZ+IP) = D2*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
+             ENDDO
              PHI = ZERO
              AI = PI * (R3*R3 - R2*R2)/EIGHT
-             DO IP = 3,NIP-1,3                                                  
-              GEO(IPY+IP) = D3*COS(PHI)                                       
-              GEO(IPZ+IP) = D3*SIN(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+             DO IP = 3,NIP-1,3
+              GEO(IPY+IP) = D3*COS(PHI)
+              GEO(IPZ+IP) = D3*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
+             ENDDO
              PHI = ZERO
              AI = PI * (R4*R4 - R3*R3)/EIGHT
-             DO IP = 4,NIP,3                                                  
-              GEO(IPY+IP) = D4*COS(PHI)                                       
-              GEO(IPZ+IP) = D4*SIN(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+             DO IP = 4,NIP,3
+              GEO(IPY+IP) = D4*COS(PHI)
+              GEO(IPZ+IP) = D4*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
+             ENDDO
 
 
-          ENDIF                                     
+          ENDIF
 c---------------
 c---------------
-        CASE (5) ! circular section with points on edge         
+        CASE (5) ! circular section with points on edge
 c---------------
-          AREA = PI*L1*L1                                                     
-          IF (INTR /= 1.AND. INTR /= 9 .AND. INTR /= 17 ) THEN 
+          AREA = PI*L1*L1
+          IF (INTR /= 1.AND. INTR /= 9 .AND. INTR /= 17 ) THEN
             CALL ANCMSG(MSGID=1877,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .              I1=IG,
      .              C1=IDTITL)
-                                                                        
-          ELSEIF (INTR == 1) THEN                                             
-            NIP = 1                                                           
-            GEO(IPY+1) = ZERO                                                 
-            GEO(IPZ+1) = ZERO                                                 
-            GEO(IPA+1) = AREA                                                    
-          ELSEIF (INTR == 9) THEN                                              
+
+          ELSEIF (INTR == 1) THEN
+            NIP = 1
+            GEO(IPY+1) = ZERO
+            GEO(IPZ+1) = ZERO
+            GEO(IPA+1) = AREA
+          ELSEIF (INTR == 9) THEN
             NIP = INTR
-            R2 = 0.57346235*L1                                                             
-            IP = 1                                                            
-            GEO(IPY+IP) = ZERO                                      
-            GEO(IPZ+IP) = ZERO                                      
+            R2 = 0.57346235*L1
+            IP = 1
+            GEO(IPY+IP) = ZERO
+            GEO(IPZ+IP) = ZERO
             GEO(IPA+IP) = PI*R2*R2
-            R1  =  0.7*L1                                   
-            DPHI = PI*HALF                                               
-            PHI  = ZERO 
-            AI   = PI*(L1*L1 - R2*R2)/EIGHT                                          
-            DO IP = 2,NIP-1,2                                                  
-              GEO(IPY+IP) = L1*SIN(PHI)                                       
-              GEO(IPZ+IP) = L1*COS(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+            R1  =  0.7*L1
+            DPHI = PI*HALF
+            PHI  = ZERO
+            AI   = PI*(L1*L1 - R2*R2)/EIGHT
+            DO IP = 2,NIP-1,2
+              GEO(IPY+IP) = L1*SIN(PHI)
+              GEO(IPZ+IP) = L1*COS(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-            ENDDO  
+            ENDDO
             PHI  = PI*FOURTH
-            DO IP = 3,NIP,2                                                            
-              GEO(IPY+IP) = R1*COS(PHI)                                  
-              GEO(IPZ+IP) = R1*SIN(PHI)                                    
-              GEO(IPA+IP) = AI                                                
+            DO IP = 3,NIP,2
+              GEO(IPY+IP) = R1*COS(PHI)
+              GEO(IPZ+IP) = R1*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-            ENDDO  
-          ELSEIF (INTR == 17) THEN   ! POINTS RADIALS NON ALIGNES  
+            ENDDO
+          ELSEIF (INTR == 17) THEN   ! POINTS RADIALS NON ALIGNES
              NIP = INTR
              R1 = 0.4472136*L1 ! rayon petit cercle
              R2 = 0.774597 *L1 !rayon cercle moyen
@@ -727,53 +727,53 @@ c---------------
              AI = PI * (R3*R3 - R2*R2)/EIGHT
              PHI = ZERO
              DPHI= PI * FOURTH
-             IP = 1                                                            
-             GEO(IPY+IP) = ZERO                                      
-             GEO(IPZ+IP) = ZERO                                      
+             IP = 1
+             GEO(IPY+IP) = ZERO
+             GEO(IPZ+IP) = ZERO
              GEO(IPA+IP) = PI*R1*R1
-             DO IP = 2,NIP-1,2                                                  
-              GEO(IPY+IP) = L1*COS(PHI)                                       
-              GEO(IPZ+IP) = L1*SIN(PHI)                                       
-              GEO(IPA+IP) = AI                                                
+             DO IP = 2,NIP-1,2
+              GEO(IPY+IP) = L1*COS(PHI)
+              GEO(IPZ+IP) = L1*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
+             ENDDO
              PHI = PI / EIGHT
              AI = PI * (R2*R2 - R1*R1)/EIGHT
-             DO IP = 3,NIP,2                                                            
-              GEO(IPY+IP) = D2*COS(PHI)                                  
-              GEO(IPZ+IP) = D2*SIN(PHI)                                    
-              GEO(IPA+IP) = AI                                                
+             DO IP = 3,NIP,2
+              GEO(IPY+IP) = D2*COS(PHI)
+              GEO(IPZ+IP) = D2*SIN(PHI)
+              GEO(IPA+IP) = AI
               PHI = PHI + DPHI
-             ENDDO  
-          ENDIF                                                            
+             ENDDO
+          ENDIF
 c---------------
-        CASE (6)    ! circular section           not in documentation                             
+        CASE (6)    ! circular section           not in documentation
 c---------------
-            NC = 3+INTR   ! number of layers                                  
-            NS = 4*NC     ! number of sections                                
-            NIP = NC*NS                                                       
-            AREA = PI*L1*L1                                                   
-            AI   = AREA/NIP                                                   
-            DPHI = PI*TWO/NS                                                 
-            R1 = ZERO                                                         
-            R2 = L1 / SQRT(EM20+NC)                                           
-            IP = 0                                                            
-            DO I = 1,NC                                                       
-              LEN(I) = (R2 + R1*(SQR3-ONE)) / SQR3                             
-              R1 = R2                                                         
-              R2 = L1*SQRT((I+ONE)/NC)                                         
-              PHI  = ZERO                                                     
-              DO J = 1,NS                                                     
-                IP = IP+1                                                     
-                GEO(IPY+IP) = LEN(I)*SIN(PHI)                                 
-                GEO(IPZ+IP) = LEN(I)*COS(PHI)                                 
-                GEO(IPA+IP) = AI                                              
-                PHI  = PHI+DPHI                                               
-                AREA = AREA + AI                                              
-              ENDDO                                                           
-            ENDDO                                                             
-        CASE DEFAULT                                                          
-      END SELECT                                                              
+            NC = 3+INTR   ! number of layers
+            NS = 4*NC     ! number of sections
+            NIP = NC*NS
+            AREA = PI*L1*L1
+            AI   = AREA/NIP
+            DPHI = PI*TWO/NS
+            R1 = ZERO
+            R2 = L1 / SQRT(EM20+NC)
+            IP = 0
+            DO I = 1,NC
+              LEN(I) = (R2 + R1*(SQR3-ONE)) / SQR3
+              R1 = R2
+              R2 = L1*SQRT((I+ONE)/NC)
+              PHI  = ZERO
+              DO J = 1,NS
+                IP = IP+1
+                GEO(IPY+IP) = LEN(I)*SIN(PHI)
+                GEO(IPZ+IP) = LEN(I)*COS(PHI)
+                GEO(IPA+IP) = AI
+                PHI  = PHI+DPHI
+                AREA = AREA + AI
+              ENDDO
+            ENDDO
+        CASE DEFAULT
+      END SELECT
 c---------------
       RETURN
       END SUBROUTINE DEFBEAM_SECT

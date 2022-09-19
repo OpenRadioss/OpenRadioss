@@ -64,8 +64,8 @@ C-----------------------------------------------
      .        IXS(NIXS,*), IXQ(NIXQ,*), IXTG(NIXTG, *),
      .        CEL(*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      INTEGER, INTENT(IN) :: SIZE_ALE_ELM  
-      TYPE(split_cfd_type), INTENT(IN) :: ALE_ELM 
+      INTEGER, INTENT(IN) :: SIZE_ALE_ELM
+      TYPE(split_cfd_type), INTENT(IN) :: ALE_ELM
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   F u n c t i o n
@@ -203,7 +203,7 @@ C     2D Triangulaire
                         IF(TAGE_L(PROC2 + 1, IE_LOC) == 0)THEN
                            NESVOIS = NESVOIS + 1
                            TAGE_L(PROC2 + 1, IE_LOC) = 1
-                        ENDIF                       
+                        ENDIF
                     ENDIF
                  ENDIF
               ENDDO
@@ -282,9 +282,9 @@ C
                    IF( IFRONT%P(1,IFRONT%IENTRY(N)) < PROC+1) GOTO 1111
                  ENDIF
                  PSEARCH = .TRUE.
-                 IAD = IFRONT%IENTRY(NSOL) 
+                 IAD = IFRONT%IENTRY(NSOL)
                  IF(IAD <= 0) PSEARCH = .FALSE.
-                 DO WHILE(PSEARCH)  
+                 DO WHILE(PSEARCH)
                    P = IFRONT%P(1,IAD)
                    IF(TAG_L(P,NODLOCAL(N))==0.AND.P/=PROC+1) THEN
                      IF(NLOCAL(N,P)==0) THEN

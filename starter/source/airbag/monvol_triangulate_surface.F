@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
-      SUBROUTINE MONVOL_TRIANGULATE_SURFACE(T_MONVOLN, IGRSURF, LOCAL_NODEID, LOCAL_INT_NODEID, TAGE, 
+      SUBROUTINE MONVOL_TRIANGULATE_SURFACE(T_MONVOLN, IGRSURF, LOCAL_NODEID, LOCAL_INT_NODEID, TAGE,
      .     X, KMESH, NNS, NNI, NTG, NTGI, SIZE1, SIZE2, FVBAG_ELEMID)
 C-----------------------------------------------
 C     M o d u l e s
@@ -203,7 +203,7 @@ C-----------------------------------------------
 !     Allocate
 !     --------
             IF (NTRI + NB_FILL_TRI > 0) ALLOCATE(TRI(4 * (NTRI + NB_FILL_TRI)))
-            IF (NQUAD > 0) THEN 
+            IF (NQUAD > 0) THEN
                ALLOCATE(QUAD(5 * NQUAD))
                ALLOCATE(SPLITTED_QUAD(6 * NQUAD))
             ENDIF
@@ -253,15 +253,15 @@ C-----------------------------------------------
                   TRI(ITRI + 2) = LOCAL_NODEID(IGRSURF(T_MONVOLN%EXT_SURFID)%NODES(II, 4))
                   TRI(ITRI + 3) = LOCAL_NODEID(IGRSURF(T_MONVOLN%EXT_SURFID)%NODES(II, 2))
                   TRI(ITRI + 4) = 0
-                  ITRI = ITRI + 4                  
+                  ITRI = ITRI + 4
                CASE(4)
                   TRI(ITRI + 1) = LOCAL_NODEID(IGRSURF(T_MONVOLN%EXT_SURFID)%NODES(II, 4))
                   TRI(ITRI + 2) = LOCAL_NODEID(IGRSURF(T_MONVOLN%EXT_SURFID)%NODES(II, 1))
                   TRI(ITRI + 3) = LOCAL_NODEID(IGRSURF(T_MONVOLN%EXT_SURFID)%NODES(II, 3))
                   TRI(ITRI + 4) = 0
-                  ITRI = ITRI + 4                  
+                  ITRI = ITRI + 4
                END SELECT
-            ENDDO   
+            ENDDO
 
 !     Additional triangles
 !     --------------------
@@ -297,7 +297,7 @@ C-----------------------------------------------
                      IQUAD = IQUAD + 5
                   ENDIF
                ENDDO
-            ENDIF  
+            ENDIF
 !     ****************************    !
 !     * Fill in node coordinates *    !
 !     ****************************    !
@@ -461,11 +461,11 @@ C-----------------------------------------------
      .                 COORD(4 * (KK - 1) + 3)
                ENDDO
                WRITE(210486, "(A5)") "/SH3N"
-                    
+
                DO KK = 1, NTG
                   WRITE(210486, '(I10,I10,I10,I10)') KK, T_MONVOLN%ELEM(1, KK), T_MONVOLN%ELEM(2, KK), T_MONVOLN%ELEM(3, KK)
                ENDDO
-               CLOSE (210486) 
+               CLOSE (210486)
             ENDIF
             IF (1==0) THEN
                OPEN(UNIT = 210486, FILE = "OUPUT_IN_0000.rad", FORM ='formatted')
@@ -481,11 +481,11 @@ C-----------------------------------------------
      .                 COORD(4 * (KK - 1) + 3)
                ENDDO
                WRITE(210486, "(A5)") "/SH3N"
-                    
+
                DO KK = NTG + 1, NTG + NTGI
                   WRITE(210486, '(I10,I10,I10,I10)') KK, T_MONVOLN%ELEM(1, KK), T_MONVOLN%ELEM(2, KK), T_MONVOLN%ELEM(3, KK)
                ENDDO
-               CLOSE (210486) 
+               CLOSE (210486)
             ENDIF
 !     ***********************    !
 !     * Memory deallocation *    !

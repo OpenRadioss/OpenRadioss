@@ -55,7 +55,7 @@ Chd|====================================================================
      5  IXINT  ,PM     ,X      ,KXX     ,IXX     ,
      6  ADSKY  ,IGEO   ,ISOLNOD,IWCIN2  ,DSDOF   ,
      7  ISOLOFF,ISHEOFF,ITRIOFF,ITRUOFF ,IPOUOFF ,
-     8  IRESOFF,IELEM21,IPM    ,IXS10   ,IKINE   , 
+     8  IRESOFF,IELEM21,IPM    ,IXS10   ,IKINE   ,
      9  CLUSTERS,KXIG3D ,IXIG3D,COST_R2R,BUFMAT,
      1  TAILLE,POIN_UMP,TAB_UMP,
      2  POIN_UMP_OLD,TAB_UMP_OLD,CPUTIME_MP_OLD,
@@ -160,22 +160,22 @@ C-----------------------------------------------
      .        ICELEM, ICINTS, ICINTM, ICINT2, ICDDL, ICFSI, ICDEL, ICSOL,
      .        IWKIN(NUMNOD),ICR2R,NUMEL_R2R, CEPCLUSTER,
      .        NCONNX, CURR, PREV, NEXT, I1OLD, I2OLD, INC, IDB_METIS,
-     .        NELIG3D,NCOND2,LSMS,  
-     .        OFFC,OFFTG,K0,ITYP,                     
+     .        NELIG3D,NCOND2,LSMS,
+     .        OFFC,OFFTG,K0,ITYP,
      .        NN_L,IS,IAD,ITY,KAD,JALE_FROM_MAT, JALE_FROM_PROP
-      INTEGER, DIMENSION(:),ALLOCATABLE :: XADJ, ADJNCY,IWD,IWD2, 
+      INTEGER, DIMENSION(:),ALLOCATABLE :: XADJ, ADJNCY,IWD,IWD2,
      .        IENDT,ITRI,INDEX,DOMCLUSTER,ELEMCLUST,
      .        XADJ_OLD, ADJNCY_OLD, COLORS, ROOTS,
      .        POINTER_NEIB,CONNECT_WEIGHT,TAGELEM,CNE,
      .        IWD_COPY
       INTEGER TAILLE_LOCAL,PREV_NEIGH,C_NEIGH,POINT_DELETE,
-     .        ELEMNODES(20),OFFELEM(10),WGHT 
+     .        ELEMNODES(20),OFFELEM(10),WGHT
       REAL, DIMENSION(:),ALLOCATABLE :: RWD,WD_COPY
       CHARACTER FILNAM*109, KEYA*80, CHLEVEL*1
       REAL    FAC, UBVEC(15), SCAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .        AVERAGE(NCRITMAX), DEVIATION(NCRITMAX), DMIN(NCRITMAX), DMAX(NCRITMAX),
-     .        W(NSPMD), WIS(NSPMD),WIM(NSPMD),WI2(NSPMD), WDDL(NSPMD), 
+     .        W(NSPMD), WIS(NSPMD),WIM(NSPMD),WI2(NSPMD), WDDL(NSPMD),
      .        WFSI(NSPMD), WCAND(NSPMD), WSOL(NSPMD), WKIN(NSPMD),
      .        WDEL(NSPMD), WR2R(NSPMD), WNOD_SMS(NSPMD)
       DOUBLE PRECISION :: WS, WD_MAX,WD_MAX0
@@ -209,7 +209,7 @@ C metis5 null pointers
 C ---- statistics for edges added for contact interface
         INTEGER :: number_of_added_edges
         INTEGER :: refused_cep0, refused_numg,refused_numg0
-        INTEGER :: switch_tried, switch_done 
+        INTEGER :: switch_tried, switch_done
 
         integer, pointer :: null_int(:)
         real, pointer :: null_real(:)
@@ -233,13 +233,13 @@ C-----------------------------------------------
       number_of_added_edges = 0
       refused_numg = 0
       refused_numg0 = 0
-               
+
       refused_cep0 = 0
       switch_tried = 0
       switch_done = 0
-               
+
       NEC=0
-      NFVMBAG = 0  
+      NFVMBAG = 0
       FVMAIN(1:NVOLU) = -1
       FVM_ELEM(1:NVOLU) = 0
       FVM_DOMDEC = .FALSE.
@@ -259,7 +259,7 @@ C.....memoire necessaire
           N = IXS(K,I) + 1
           ADSKY(N) = ADSKY(N) + 1
  110  CONTINUE
- 
+
 C add Tetra10
       IF(NUMELS10>0) THEN
         DO J=1,NUMELS10
@@ -324,7 +324,7 @@ C
 C
 C Elements Multibrins
       DO I=1,NUMELX
-         NELX=KXX(3,I) 
+         NELX=KXX(3,I)
          DO K=1,NELX
            ADDX = KXX(4,I)+K-1
            N=IXX(ADDX)+1
@@ -334,7 +334,7 @@ C Elements Multibrins
 C
 C Elements Iso-geo
       DO I=1,NUMELIG3D
-         NELIG3D=KXIG3D(3,I) 
+         NELIG3D=KXIG3D(3,I)
          DO K=1,NELIG3D
            ADDX = KXIG3D(4,I)+K-1
            N=IXIG3D(ADDX)+1
@@ -557,7 +557,7 @@ C
       ENDIF
 C
 C-----------------------------------------------
-      IF (IDDLEVEL==1) THEN        
+      IF (IDDLEVEL==1) THEN
         WRITE(IOUT,'(A)')' '
         WRITE(IOUT,'(A)')
      .  ' --------------------------------------'
@@ -602,7 +602,7 @@ C We have to tag elements for know theirs number of nodes
       ALLOCATE(TAGELEM(NELEM))
       DO I = 1,NELEM
         TAGELEM(I)=0
-      END DO 
+      END DO
       DO I=1,NUMELS
         TAGELEM(I)=1
         DO K=1,8
@@ -611,7 +611,7 @@ C We have to tag elements for know theirs number of nodes
             CNE(ADSKY(N)) = I
             ADSKY(N) = ADSKY(N) + 1
           END IF
-        ENDDO 
+        ENDDO
       ENDDO
 C add Tetra10
       IF(NUMELS10>0) THEN
@@ -679,7 +679,7 @@ C
       ENDDO
 C
       OFFELEM(5) = NUMELP
-      OFF = OFF + NUMELP 
+      OFF = OFF + NUMELP
 C     
       DO I = 1, NUMELR
         TAGELEM(I+OFF)=7
@@ -699,7 +699,7 @@ C
       OFF = OFF + NUMELR
 C
       DO I = 1, NUMELTG
-        TAGELEM(I+OFF)=8  
+        TAGELEM(I+OFF)=8
         DO K=1,3
           N = IXTG(K+1,I)
           CNE(ADSKY(N)) = I+OFF
@@ -807,9 +807,9 @@ C
          ICINTS=NCOND
          NCOND=NCOND+1
          ICINTM=NCOND
-        ELSE         
-         ICINTS=0           
-         ICINTM=0           
+        ELSE
+         ICINTS=0
+         ICINTM=0
         ENDIF
       END IF
       IF((ICINT2>100) .AND.
@@ -846,7 +846,7 @@ c          NK = NK+NKI
           NK = NK+MIN(NKI,1)
         END DO
 c        print *,'n cond=',NK,FLOAT(NUMNOD-NK)/FLOAT(NUMNOD)
-        IF(FLOAT(NUMNOD-NK)/FLOAT(NUMNOD)>ZEP95) NK = 0   
+        IF(FLOAT(NUMNOD-NK)/FLOAT(NUMNOD)>ZEP95) NK = 0
         IF(NK > 20000) THEN ! needs a sufficient number of kin.cond.
           NCOND = NCOND+1
           ICKIN = NCOND
@@ -879,38 +879,38 @@ C if FSI
             END IF
           ENDDO
 
-          IF (NELEM - NB_ELEM_ALE < 128 * NSPMD) THEN 
+          IF (NELEM - NB_ELEM_ALE < 128 * NSPMD) THEN
 C Priority is FSI
-            ICFSI = 1 
+            ICFSI = 1
             ICELEM = NCOND
               WRITE(IOUT,'(A)')
      .     ' DOMAIN DECOMPOSITION OPTIMIZED FOR ALE (1)'
           ELSEIF( NB_ELEM_ALE*2 > NELEM ) THEN
 C Priority is FSI then ELEM
-            ICFSI = 1 
+            ICFSI = 1
             ICELEM = 2
-            IF(ICDDL/=0)  ICDDL  = ICDDL  + 1 
+            IF(ICDDL/=0)  ICDDL  = ICDDL  + 1
             IF(ICINTS/=0) ICINTS = ICINTS + 1
             IF(ICINTM/=0) ICINTM = ICINTM + 1
             IF(ICINT2/=0) ICINT2 = ICINT2 + 1
             IF(ICKIN/=0)  ICKIN  = ICKIN  + 1
-            IF(ICNOD_SMS/=0) ICNOD_SMS = ICNOD_SMS +1 
-            IF(ICDEL/=0)  ICDEL = ICDEL + 1                    
-            IF(ICCAND/=0) ICCAND = ICCAND + 1 
+            IF(ICNOD_SMS/=0) ICNOD_SMS = ICNOD_SMS +1
+            IF(ICDEL/=0)  ICDEL = ICDEL + 1
+            IF(ICCAND/=0) ICCAND = ICCAND + 1
               WRITE(IOUT,'(A)')
      .     ' DOMAIN DECOMPOSITION OPTIMIZED FOR ALE (2)'
           ELSEIF  ( NB_ELEM_ALE*4 > NELEM) THEN
 C Priority is  ELEM then FSI
-            ICFSI = 2 
+            ICFSI = 2
             ICELEM = 1
-            IF(ICDDL/=0)  ICDDL  = ICDDL  + 1 
+            IF(ICDDL/=0)  ICDDL  = ICDDL  + 1
             IF(ICINTS/=0) ICINTS = ICINTS + 1
             IF(ICINTM/=0) ICINTM = ICINTM + 1
             IF(ICINT2/=0) ICINT2 = ICINT2 + 1
             IF(ICKIN/=0)  ICKIN  = ICKIN  + 1
-            IF(ICNOD_SMS/=0) ICNOD_SMS = ICNOD_SMS +1 
-            IF(ICDEL/=0)  ICDEL = ICDEL + 1                    
-            IF(ICCAND/=0) ICCAND = ICCAND + 1 
+            IF(ICNOD_SMS/=0) ICNOD_SMS = ICNOD_SMS +1
+            IF(ICDEL/=0)  ICDEL = ICDEL + 1
+            IF(ICCAND/=0) ICCAND = ICCAND + 1
               WRITE(IOUT,'(A)')
      .     ' DOMAIN DECOMPOSITION OPTIMIZED FOR FSI (3)'
           ELSE
@@ -930,7 +930,7 @@ C          ENDIF
           NCOND = NCOND+1
           ICDEL = NCOND
         END IF
-      END IF        
+      END IF
       IF(NSUBDOM>0)THEN
         NUMEL_R2R = 0
         DO I = 1, NUMELS
@@ -939,13 +939,13 @@ C          ENDIF
         DO I = 1, NUMELC
           IF (TAG_ELCF(I) /= 0)  NUMEL_R2R =  NUMEL_R2R+1
         END DO
-        IF (NUMEL_R2R>=NSPMD) THEN         
+        IF (NUMEL_R2R>=NSPMD) THEN
           WRITE(IOUT,'(A)')
      .     ' DOMAIN DECOMPOSITION OPTIMIZED FOR MULTIDOMAINS '
           NCOND = NCOND+1
           ICR2R=NCOND
-        ENDIF  
-      END IF     
+        ENDIF
+      END IF
 C
       ALLOCATE(RWD(NELEM*NCOND),STAT=IERR1)
 C poids Metis suivant 
@@ -982,7 +982,7 @@ C
        NNC=0
        IF ((ICR2R /= 0)) THEN
          IF((TAG_ELSF(I) /= 0))THEN
-           RWD(NCOND*(I-1)+ICR2R) = 1     
+           RWD(NCOND*(I-1)+ICR2R) = 1
          ENDIF
        ENDIF
        IF(ICSOL /= 0) RWD(NCOND*(I-1)+ICSOL) = 1
@@ -1004,7 +1004,7 @@ C
      +         RWD(NCOND*(I-1)+ICINT2)=RWD(NCOND*(I-1)+ICINT2)
      +                                +(IWCIN2(1,N)+IWCIN2(2,N))*FAC
              IF(ICKIN/=0)RWD(NCOND*(I-1)+ICKIN)=RWD(NCOND*(I-1)+ICKIN)
-     +                                         +IWKIN(N)*FAC             
+     +                                         +IWKIN(N)*FAC
              IF(ICNOD_SMS/=0)RWD(NCOND*(I-1)+ICNOD_SMS)=RWD(NCOND*(I-1)+ICNOD_SMS)
      +                                                   +MIN(DSDOF(N),1)*FAC
            END IF
@@ -1029,7 +1029,7 @@ C take care of non connected node
      +           RWD(NCOND*(I-1)+ICINT2)=RWD(NCOND*(I-1)+ICINT2)
      +                                  +(IWCIN2(1,N)+IWCIN2(2,N))*FAC
                IF(ICKIN/=0)RWD(NCOND*(I-1)+ICKIN)=RWD(NCOND*(I-1)+ICKIN)
-     +                                           +IWKIN(N)*FAC             
+     +                                           +IWKIN(N)*FAC
                IF(ICNOD_SMS/=0)RWD(NCOND*(I-1)+ICNOD_SMS)=RWD(NCOND*(I-1)+ICNOD_SMS)
      +                                                     +MIN(DSDOF(N),1)*FAC
              ENDIF
@@ -1057,7 +1057,7 @@ C take care of non connected node
      +        RWD(NCOND*(I-1)+ICINT2)=RWD(NCOND*(I-1)+ICINT2)
      +                               +(IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I-1)+ICKIN)=RWD(NCOND*(I-1)+ICKIN)
-     +                                        +IWKIN(N)*FAC             
+     +                                        +IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I-1)+ICNOD_SMS)=RWD(NCOND*(I-1)+ICNOD_SMS)
      +                                                  +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1077,8 +1077,8 @@ C
         NNC=0
         IF (ICR2R /= 0) THEN
           IF (TAG_ELCF(I) /= 0) THEN
-            RWD(NCOND*(I+OFF-1)+ICR2R) = 1     
-          ENDIF 
+            RWD(NCOND*(I+OFF-1)+ICR2R) = 1
+          ENDIF
         ENDIF
         DO K=1,4
           N = IXC(K+1,I)
@@ -1097,7 +1097,7 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1114,7 +1114,7 @@ C
           IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
-            IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL)  = 
+            IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL)  =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
             IF(ICINTS/=0)
      +        RWD(NCOND*(I+OFF-1)+ICINTS) = RWD(NCOND*(I+OFF-1)+ICINTS)
@@ -1126,7 +1126,7 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1143,7 +1143,7 @@ C
           IF(N/=0)THEN
             FAC=ONE/(ADSKY(N+1)-ADSKY(N))
             NNC = NNC+ADSKY(N+1)-ADSKY(N)
-            IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) = 
+            IF(ICDDL/=0)RWD(NCOND*(I+OFF-1)+ICDDL) =
      +                  RWD(NCOND*(I+OFF-1)+ICDDL) + DSDOF(N)*FAC
             IF(ICINTS/=0)
      +        RWD(NCOND*(I+OFF-1)+ICINTS) = RWD(NCOND*(I+OFF-1)+ICINTS)
@@ -1154,8 +1154,8 @@ C
             IF(ICINT2/=0)
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
-            IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)= 
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+            IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1163,7 +1163,7 @@ C
 cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = (TWO*TWO)/NNC
       ENDDO
 C
-      OFF = OFF + NUMELP 
+      OFF = OFF + NUMELP
 C
       DO I = 1, NUMELR
         NNC=0
@@ -1184,7 +1184,7 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1206,7 +1206,7 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1235,7 +1235,7 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1262,10 +1262,10 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINTM) = RWD(NCOND*(I+OFF-1)+ICINTM)
      +                                    + IWCONT(2,N)*FAC
             IF(ICINT2/=0)
-     +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2) 
+     +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1296,7 +1296,7 @@ C
      +        RWD(NCOND*(I+OFF-1)+ICINT2) = RWD(NCOND*(I+OFF-1)+ICINT2)
      +                                    + (IWCIN2(1,N)+IWCIN2(2,N))*FAC
             IF(ICKIN/=0)RWD(NCOND*(I+OFF-1)+ICKIN)=
-     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC             
+     +                  RWD(NCOND*(I+OFF-1)+ICKIN) + IWKIN(N)*FAC
             IF(ICNOD_SMS/=0)RWD(NCOND*(I+OFF-1)+ICNOD_SMS)=RWD(NCOND*(I+OFF-1)+ICNOD_SMS)
      +                                                      +MIN(DSDOF(N),1)*FAC
           END IF
@@ -1305,7 +1305,7 @@ cc        IF(ICNOD /= 0) RWD(NCOND*(I+OFF-1)+ICNOD) = ONE   ! a definir si besoi
       ENDDO
 C
       OFF = OFF + NUMELX
-      
+
 C normalisation des poids interface & dof
 
       ALLOCATE(IWD(NELEM*NCOND),STAT=IERR1)
@@ -1361,27 +1361,27 @@ C
 C----------------------------------------------
 !     SIDDCONNECT minimum size NELEM. Value set to 10*NELEM
       IF(NELEM < 100 000 000) THEN
-        SIDDCONNECT = 2*10*NELEM      
+        SIDDCONNECT = 2*10*NELEM
       ELSE
         ! For very large model
         ! edge filtering is forced
-        SIDDCONNECT = 2 000 000 000  
+        SIDDCONNECT = 2 000 000 000
         EDGE_FILTERING = 1
       ENDIF
-!     Linked-list IDDCONNECT      
+!     Linked-list IDDCONNECT
 !     IDDCONNECT%IENTRYDOM : entry in IDDCONNECT for element N
 !     IDDCONNECT%PDOM(1,N) : connected element to element N
 !     IDDCONNECT%PDOM(2,N) : next index in IDDCONNECT for element N
 !     allocation IDDCONNECT % PDOM et % IENTRYDOM
       ALLOCATE(IDDCONNECT%PDOM(2,SIDDCONNECT),STAT=IERR1)
-      ALLOCATE(IDDCONNECT%IENTRYDOM(2,NELEM),STAT=IERR1)    
+      ALLOCATE(IDDCONNECT%IENTRYDOM(2,NELEM),STAT=IERR1)
 !     initialisation de IDDCONNECT%IENTRYDOM
       CALL INI_IDDCONNECT(NELEM)
 C
       NEDGES_OLD = NEDGES
 
-      IF(EDGE_FILTERING == 1 .AND. (NUMELS > NELEM / 3 .OR. ICFSI > 0 )) THEN 
-        WRITE(IOUT,'(A)') "** INFO: SIMPLIFIED DOMAIN DECOMPOSITION" 
+      IF(EDGE_FILTERING == 1 .AND. (NUMELS > NELEM / 3 .OR. ICFSI > 0 )) THEN
+        WRITE(IOUT,'(A)') "** INFO: SIMPLIFIED DOMAIN DECOMPOSITION"
 C+------------------------------------------------------------+
 C| Domain decomposition for very big models                   |
 C|      dectivated via Domdec = -3 in /SPMD card               |
@@ -1400,7 +1400,7 @@ C+------------------------------------------------------------+
      3                    IXIG3D,GEO      ,OFFELEM,NELMIN)
           PREV_NEIGH = 0
           C_NEIGH = 0
-          J = 0 
+          J = 0
           DO K=1,20
             IF ( ELEMNODES(K)/=0 ) THEN
               DO L=ADSKY(ELEMNODES(K)), ADSKY(ELEMNODES(K)+1)-1
@@ -1411,17 +1411,17 @@ C+------------------------------------------------------------+
                     POINTER_NEIB(CNE(L))=PREV_NEIGH
                     C_NEIGH = C_NEIGH + 1
                     PREV_NEIGH = CNE(L)
-                  ENDIF  
+                  ENDIF
                 ENDIF
-              ENDDO 
+              ENDDO
               J=J+1
             ENDIF
           ENDDO
-          ! if NELMIN is not defined by FIND_NODES, we keep edges 
+          ! if NELMIN is not defined by FIND_NODES, we keep edges
           ! between elements that have 3 or more nodes in common
-          IF(NELMIN == 0) NELMIN = 3 
+          IF(NELMIN == 0) NELMIN = 3
 C         C_NEIGH_MAX = MAX(C_NEIGH_MAX,C_NEIGH)
-          IF (C_NEIGH > 0 ) THEN 
+          IF (C_NEIGH > 0 ) THEN
             DO J=1,C_NEIGH
               IF(I /= PREV_NEIGH) THEN
 c              WRITE(6,*) I,"--",PREV_NEIGH,"=",CONNECT_WEIGHT(PREV_NEIGH)
@@ -1439,7 +1439,7 @@ c              WRITE(6,*) I,"--",PREV_NEIGH,"=",CONNECT_WEIGHT(PREV_NEIGH)
         ENDDO
         DEALLOCATE(CONNECT_WEIGHT)
         DEALLOCATE(POINTER_NEIB)
-      ELSE                                               
+      ELSE
 C+------------------------------------------------------------+
 C| Classical domain decomposition without edge filtering      |
 C+------------------------------------------------------------+
@@ -1451,7 +1451,7 @@ C+------------------------------------------------------------+
                 NUMG2 = CNE(CC2)
                 IF(NUMG2 > 0 .AND. NUMG1 /= NUMG2) THEN ! by-pass extra nodes
                   CALL IDDCONNECTPLUS(NUMG1,NUMG2,NELEM)
-                  CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)              
+                  CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
                 END IF
               ENDDO
             END IF
@@ -1464,11 +1464,11 @@ C+------------------------------------------------------------+
         DO I=1,NELEM
           CALL C_IDDCONNECT(I,TAILLE_LOCAL)
           NEDGES = NEDGES + TAILLE_LOCAL
-        NEDGES_8 = NEDGES_8 + TAILLE_LOCAL 
+        NEDGES_8 = NEDGES_8 + TAILLE_LOCAL
         ENDDO
         NEDGES = NEDGES/2
 
-       
+
 C     DEALLOCATE(TAGELEM)
       IF (IDDLEVEL==1) THEN
 C-----------------------------------------------
@@ -1493,10 +1493,10 @@ C=======================================================================
 C      FVMBAG Super ELEMENT Connectivity
 C=======================================================================
         WD_MAX = 0
-        IF(NVOLU > 0 .AND. IDDLEVEL == 1 .AND. ICFSI == 0) THEN 
+        IF(NVOLU > 0 .AND. IDDLEVEL == 1 .AND. ICFSI == 0) THEN
           CALL FVBAG_VERTEX(IXC   ,IXTG    ,NELEM, WD,
      .                      WD_MAX,FVM_ELEM,FVM_DOMDEC,ITAB,IGRSURF,T_MONVOL)
-        ENDIF 
+        ENDIF
 
 
 C-----------------------------------------------
@@ -1552,7 +1552,7 @@ Cel initialisation numg2 pour cas ou facette non trouvee (erreur)
 
         IF(ICCAND > 0) THEN
           DO N = 1,NUMNOD
-            IF( IWCONT(4,N) > 0) THEN 
+            IF( IWCONT(4,N) > 0) THEN
                 DO I1 = ADSKY(N), ADSKY(N+1)-1
                    NUMG2=ABS(CNE(I1))
                    IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+IWCONT(4,N)
@@ -1594,7 +1594,7 @@ C searching for the first connected element not seen
             DO I1 = ADSKY(N), ADSKY(N+1)-1
               NUMG3=ABS(CNE(I1))
               IF(CEP_MIN > CEP(NUMG3)) THEN
-                NUMG1 = NUMG3 
+                NUMG1 = NUMG3
                 CEP_MIN = CEP(NUMG1)
               ENDIF
               IF(CEP_MIN == 0) EXIT
@@ -1643,7 +1643,7 @@ Cel                    EDGEWT(NEWEDGE) = 1   ! candidate only
 Cel                  END IF
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
-                ELSE 
+                ELSE
                   refused_cep0 = refused_cep0 + 1
                 ENDIF
               ELSE
@@ -1686,7 +1686,7 @@ C test to limit number of edges added for contact interfaces
                   CALL IDDCONNECTPLUS(NUMG2,NUMG1,NELEM)
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
-                ELSE 
+                ELSE
                   refused_cep0 = refused_cep0 + 1
                 ENDIF
               ELSE
@@ -1744,7 +1744,7 @@ C les autres elt sont a 1
 Cel                  END IF
                   CEP(NUMG1) = CEP(NUMG1) +  1
                   CEP(NUMG2) = CEP(NUMG2) +  1
-                ELSE 
+                ELSE
                   refused_cep0 = refused_cep0 + 1
                 ENDIF
               ELSE
@@ -1754,13 +1754,13 @@ Cel                  END IF
               IF(ICCAND > 0 .AND. NUMG2 > 0) THEN
 cc                IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
                 IF(IXINT(6,I)<0)THEN
-                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+5 
+                  IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+5
                 ELSE
                   IWD(NCOND*(NUMG2-1)+ICCAND)=IWD(NCOND*(NUMG2-1)+ICCAND)+1
                 END IF
               END IF
 
-             ENDIF            
+             ENDIF
             ENDIF
           ENDIF ! si element isogeometrique
         ENDDO
@@ -1826,7 +1826,7 @@ C    .                        " refused_cep0: ",refused_cep0,
 C    .                        " switch_tried: ",switch_tried,
 C    .                        " switch_done: ",switch_done
 C
-!       nombre de edge 
+!       nombre de edge
         NEDGES = 0
         NEDGES_8 = 0
         DO I=1,NELEM
@@ -1906,7 +1906,7 @@ C
                 ENDDO
                 ! ----------------
                 ! save the element list
-                IF(NUMBER_OF_ELEMENT_RBODY>0) 
+                IF(NUMBER_OF_ELEMENT_RBODY>0)
      .          CALL C_PREVENT_DECOMPOSITION_RBODY(NUMBER_OF_ELEMENT_RBODY,LIST_ELEMENT_RBODY)
                 DEALLOCATE( LIST_ELEMENT_RBODY )
                 ! ----------------
@@ -1918,7 +1918,7 @@ C
        ENDIF
 !   ----------------------------------------------------------------
 
-      IF (NEDGES>0 .AND. NSPMD > 1) THEN      
+      IF (NEDGES>0 .AND. NSPMD > 1) THEN
 !       structures Metis 1/2
         ALLOCATE(XADJ(NELEM+1),STAT=IERR1)
 !       init XADJ
@@ -1962,7 +1962,7 @@ C Metis Workaround to create additional connectivities between non connected gra
           ALLOCATE(ADJNCY_OLD(2*NEDGES),STAT=IERR1)
           XADJ_OLD(1:NELEM+1)=XADJ(1:NELEM+1)
           ADJNCY_OLD(1:2*NEDGES)=ADJNCY(1:2*NEDGES)
-          NEWEDGE = NEDGES+NCONNX-1         
+          NEWEDGE = NEDGES+NCONNX-1
           DEALLOCATE(ADJNCY)
           ALLOCATE(ADJNCY(2*NEWEDGE),STAT=IERR1)
 C 1) recompute new XADJ and fill new ADJCNY
@@ -1976,13 +1976,13 @@ C 1) recompute new XADJ and fill new ADJCNY
 C insert 1 edge to previous connex component
               PREV=ROOTS(I-1) ! PREV < CURR < NEXT
               IF(I1OLD <= 2*NEDGES) THEN
-                DO WHILE ((I1OLD <= I2OLD) .AND. 
+                DO WHILE ((I1OLD <= I2OLD) .AND.
      +                    (ADJNCY_OLD(I1OLD) < PREV))
                   ADJNCY(I1) = ADJNCY_OLD(I1OLD)
                   I1 = I1+1
                   I1OLD=I1OLD+1
-                  IF(I1OLD > 2*NEDGES) EXIT 
-                END DO 
+                  IF(I1OLD > 2*NEDGES) EXIT
+                END DO
               ENDIF
               ADJNCY(I1) = PREV
               I1=I1+1
@@ -1992,13 +1992,13 @@ C insert 1 edge to previous connex component
 C insert 1 edge to next connex component
               NEXT=ROOTS(I+1)
               IF(I1OLD <= 2*NEDGES) THEN
-                DO WHILE ((I1OLD <= I2OLD) .AND. 
+                DO WHILE ((I1OLD <= I2OLD) .AND.
      +                    (ADJNCY_OLD(I1OLD) < NEXT))
                   ADJNCY(I1) = ADJNCY_OLD(I1OLD)
                   I1 = I1+1
                   I1OLD=I1OLD+1
-                  IF(I1OLD > 2*NEDGES) EXIT 
-                END DO               
+                  IF(I1OLD > 2*NEDGES) EXIT
+                END DO
               ENDIF
               ADJNCY(I1) = NEXT
               I1=I1+1
@@ -2014,7 +2014,7 @@ C finish to recopy the rest of the edges for CURR
             END DO
 C recopy the rest of the edges for all the vertices till NEXT or NELEM+1
             N=CURR+1
-            DO WHILE (N /= NEXT)            
+            DO WHILE (N /= NEXT)
               XADJ(N)=XADJ(N)+INC
               I1=XADJ(N)
               I1OLD=XADJ_OLD(N)
@@ -2022,7 +2022,7 @@ C recopy the rest of the edges for all the vertices till NEXT or NELEM+1
               DO WHILE (I1OLD <= I2OLD)
                 ADJNCY(I1) = ADJNCY_OLD(I1OLD)
                 I1 = I1+1
-                I1OLD=I1OLD+1              
+                I1OLD=I1OLD+1
               END DO
               N = N+1
             END DO
@@ -2109,7 +2109,7 @@ C normalisation des poids (elem delete a 0)
               IWD(NCOND*(I-1)+ICELEM) = NINT(WD(I)*100)
             END IF
 C poids interface deja calcul
-          END DO 
+          END DO
         END IF
         IF(ICDEL>0)THEN
           DO I = 1, NELEM
@@ -2125,20 +2125,20 @@ C poids interface deja calcul
 
 
 C In case of cluster, transfer the weight to the first cluster element
-        IF(NCLUSTER > 0) THEN 
-          DO I = 1, NCLUSTER 
+        IF(NCLUSTER > 0) THEN
+          DO I = 1, NCLUSTER
             CLUSTER_TYP = CLUSTERS(I)%TYPE
             OFFSET_CLUSTER = 0
             IF(CLUSTER_TYP==2.OR.CLUSTER_TYP==3) OFFSET_CLUSTER = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP
             DO J = 2, CLUSTERS(I)%NEL
               DO K =1, NCOND
                IWD((CLUSTERS(I)%ELEM(1)-1) * NCOND+K +OFFSET_CLUSTER) =
-     .         IWD((CLUSTERS(I)%ELEM(1)-1) * NCOND+K +OFFSET_CLUSTER) + 
-     .         IWD((CLUSTERS(I)%ELEM(J)-1) * NCOND+K +OFFSET_CLUSTER) 
-               IWD((CLUSTERS(I)%ELEM(J)-1) * NCOND+K +OFFSET_CLUSTER) = 0 
+     .         IWD((CLUSTERS(I)%ELEM(1)-1) * NCOND+K +OFFSET_CLUSTER) +
+     .         IWD((CLUSTERS(I)%ELEM(J)-1) * NCOND+K +OFFSET_CLUSTER)
+               IWD((CLUSTERS(I)%ELEM(J)-1) * NCOND+K +OFFSET_CLUSTER) = 0
               ENDDO
             END DO
-          END DO         
+          END DO
         ENDIF
 
 
@@ -2182,7 +2182,7 @@ c        print *,'estimate memory=',i,nelem,XADJ(NELEM+1)
          IF(DECTYP==3.OR.DECTYP==5)THEN
 C KWAY METIS
 #if defined(METIS5)
-      
+
           IERR1 = Wrap_METIS_PartGraphKway(
      1      NELEM,NCOND,XADJ,ADJNCY,
      2      IWD,NNODE,
@@ -2203,7 +2203,7 @@ C weight only on vertices
             end do
             print *,'writing graph with check:',it,'/',nedges*2
             CLOSE(99)
-          END IF     
+          END IF
 #elif 1
           CALL METIS_mCPartGraphKway(
      1      NELEM,NCOND,XADJ,ADJNCY,IWD,0,
@@ -2231,11 +2231,11 @@ C       1234567123456789012345123456789012345123456789012345123456789012345
      5           ICKIN    ,AVERAGE ,DEVIATION ,DMAX      ,DMIN     ,
      6           CEP      ,NELEM   ,W         ,ICINTM    ,WIM      ,
      7           NCRITMAX ,WNOD_SMS,ICNOD_SMS)
-      
 
-    
 
-      IF(ICFSI > 0 .AND.  ICFSI < ICELEM) THEN 
+
+
+      IF(ICFSI > 0 .AND.  ICFSI < ICELEM) THEN
 ! the order in DMIN,DMAX is independant of the orther of the constrains
         MAIN_TARGET = 7
       ELSE
@@ -2296,7 +2296,7 @@ C---------------------------------------------------------------------
         ALLOCATE(WD_COPY(NELEM))
         IF((DECTYP==4 .OR. DECTYP==6) .AND. IDDLEVEL==1 .AND. NELEM>10*NSPMD )THEN
 
-          IF(ICDEL /= 0 ) THEN 
+          IF(ICDEL /= 0 ) THEN
             IF(ELEMD > 9*NELEM/10 .AND. DMIN(MAIN_TARGET) <  AVERAGE(MAIN_TARGET)*0.80  ) THEN
             ! If the model is mainly deleted elements
             ! Then we equilibrate first on deleted elements
@@ -2304,22 +2304,22 @@ C---------------------------------------------------------------------
                WGHT=IWD(NCOND*(I-1)+1)
                IWD(NCOND*(I-1)+1) = IWD(NCOND*(I-1)+ICDEL)
                IWD(NCOND*(I-1)+ICDEL)=WGHT
-             ENDDO 
+             ENDDO
             ENDIF
           ENDIF
 
-          NCOND2=NCOND 
+          NCOND2=NCOND
           DD_FVMBAG_TRY = 0
           WD_MAX0 = WD_MAX
           WD_COPY(1:NELEM) = WD(1:NELEM)
           IWD_COPY(1:NCOND * NELEM) = IWD(1:NCOND*NELEM)
-  
+
           DD_UNBALANCED =  (DMIN(MAIN_TARGET) <  AVERAGE(MAIN_TARGET)*0.80)
           IF(FVM_DOMDEC) THEN
             DD_UNBALANCED = DD_UNBALANCED .OR.  (DMAX(MAIN_TARGET) >  AVERAGE(MAIN_TARGET)*1.1)
             WD_MAX0 = 0.0
-            DO N = 1, NVOLU 
-              IF(FVM_ELEM(N) /= 0) THEN  
+            DO N = 1, NVOLU
+              IF(FVM_ELEM(N) /= 0) THEN
                 WD_MAX0= MAX(WD_MAX0,DBLE(WD(FVM_ELEM(N))))
               ENDIF
             ENDDO
@@ -2334,26 +2334,26 @@ C      CHECK Quality of Domain Decomp on elements
             WRITE(IOUT,'(A,I5,A,2X,I8,2X,I8,2X,I8)')
      .      ' DOMAINS:',NSPMD,'  MIN/MAX/AVERAGE:',
      .      NINT(DMIN(MAIN_TARGET)),NINT(DMAX(MAIN_TARGET)),NINT(AVERAGE(MAIN_TARGET))
-      
+
             !==========================================
             !    REVIEW WEIGHTS OF FVMBAGS
-            ! 
+            !
             ! Try to trim the weight of FVMBAG
             ! if the domain decomposition fails
             NB_FVMBAG_TRIM = 0
             IF(FVM_DOMDEC .AND. DD_FVMBAG_TRY <= MAX_TRY) THEN
               WD_MAX = WD_MAX / (0.1D0 * WD_MAX_FACTOR)
-              DO N = 1, NVOLU 
-                IF(FVM_ELEM(N) /= 0) THEN  
+              DO N = 1, NVOLU
+                IF(FVM_ELEM(N) /= 0) THEN
                   IF(WD(FVM_ELEM(N)) > WD_MAX) THEN
                      WD(FVM_ELEM(N)) = WD_MAX
                      IWD(NCOND*(FVM_ELEM(N)-1)+ICELEM) = NINT(WD_MAX*100)
-                     NB_FVMBAG_TRIM = NB_FVMBAG_TRIM + 1 
+                     NB_FVMBAG_TRIM = NB_FVMBAG_TRIM + 1
                   ENDIF
                 ENDIF
               ENDDO
-            ENDIF 
-            IF(NB_FVMBAG_TRIM > 0) THEN 
+            ENDIF
+            IF(NB_FVMBAG_TRIM > 0) THEN
               ! Try to reduce the weight of the FVMBAG vertex
               ! before reducing the number of constrains
               DD_FVMBAG_TRY = DD_FVMBAG_TRY + 1
@@ -2364,8 +2364,8 @@ C      CHECK Quality of Domain Decomp on elements
               DD_FVMBAG_TRY = 0
               MAX_TRY = MAX_TRY + 1
               WD_MAX = WD_MAX0
-              WD(1:NELEM) = WD_COPY(1:NELEM) 
-              IWD(1:NCOND*NELEM) = IWD_COPY(1:NCOND*NELEM) 
+              WD(1:NELEM) = WD_COPY(1:NELEM)
+              IWD(1:NCOND*NELEM) = IWD_COPY(1:NCOND*NELEM)
             ENDIF
             !==============================================
 
@@ -2378,12 +2378,12 @@ C      CHECK Quality of Domain Decomp on elements
               DO J = 1, NCOND2
                 IWD2( NCOND2*(I-1) +J ) = IWD ( NCOND*(I-1) + J)
               ENDDO
-            ENDDO 
+            ENDDO
 C  KWAY METIS
             IERR1 = WRAP_METIS_PartGraphKway(
      1      NELEM,NCOND2,XADJ,ADJNCY,
      2      IWD2,NNODE,
-     3      UBVEC,OPTIONS,NEC,CEP)    
+     3      UBVEC,OPTIONS,NEC,CEP)
             CALL STAT_DOMDEC(
      1           WIS      ,WI2     ,WFSI      ,WDEL      ,WDDL     ,
      2           WCAND    ,WSOL    ,WR2R      ,WKIN      ,IWD      ,
@@ -2421,10 +2421,10 @@ C  RSB METIS
      4             ICDDL    ,ICSOL   ,ICFSI     ,ICDEL     ,ICR2R    ,
      5             ICKIN    ,AVERAGE ,DEVIATION ,DMAX      ,DMIN     ,
      6             CEP      ,NELEM   ,W         ,ICINTM    ,WIM      ,
-     7             NCRITMAX ,WNOD_SMS,ICNOD_SMS) 
-        
-            ENDIF       
-            DEALLOCATE(IWD2)                                 
+     7             NCRITMAX ,WNOD_SMS,ICNOD_SMS)
+
+            ENDIF
+            DEALLOCATE(IWD2)
 
             DD_UNBALANCED =  (DMIN(MAIN_TARGET) <  AVERAGE(MAIN_TARGET)*0.80)
             IF(FVM_DOMDEC) THEN
@@ -2432,7 +2432,7 @@ C  RSB METIS
             ENDIF
 
           ENDDO  !  ( DMIN(MAIN_TARGET) <  AVERAGE(MAIN_TARGET)*0.80  .AND.  NCOND2 > 1 )
-        ENDIF 
+        ENDIF
         DEALLOCATE(IWD_COPY)
         DEALLOCATE(WD_COPY)
 
@@ -2448,15 +2448,15 @@ C---------------------------------------------------------------------
 
 C       Put all the elements of the cluster on the same proc
         IF (NCLUSTER > 0) THEN
-          DO I = 1, NCLUSTER  
+          DO I = 1, NCLUSTER
            CLUSTER_TYP = CLUSTERS(I)%TYPE
            OFFSET_CLUSTER = 0
            IF(CLUSTER_TYP==2.OR.CLUSTER_TYP==3) OFFSET_CLUSTER = NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP
            CEPCLUSTER=CEP(  CLUSTERS(I)%ELEM(1)+OFFSET_CLUSTER  )
-           DO J = 2,CLUSTERS(I)%NEL  
+           DO J = 2,CLUSTERS(I)%NEL
               CEP(  CLUSTERS(I)%ELEM(J)+OFFSET_CLUSTER  ) = CEPCLUSTER
-           END DO        
-          END DO ! I = 1, NCLUSTER  
+           END DO
+          END DO ! I = 1, NCLUSTER
         END IF ! NCLUSTER > 0
 
 
@@ -2469,7 +2469,7 @@ C       Save the PMAIN in FVMAIN
            NN_L = 0
            CEPCLUSTER = 1
            NFVMBAG = 0
-           DO N = 1, NVOLU 
+           DO N = 1, NVOLU
               ITYP = T_MONVOL(N)%TYPE
               NN = T_MONVOL(N)%NNS
 !     find location of the first element
@@ -2478,20 +2478,20 @@ C       Save the PMAIN in FVMAIN
 
               IF(NN > 0 .AND. (ITYP == 6 .OR. ITYP == 8)) THEN
                  CEPCLUSTER = CEP(FVM_ELEM(N))
-                 FVMAIN(NFVMBAG) = CEPCLUSTER 
-              ENDIF 
-           ENDDO         
+                 FVMAIN(NFVMBAG) = CEPCLUSTER
+              ENDIF
+           ENDDO
         ENDIF
 
 C
         DEALLOCATE(XADJ,ADJNCY)
-!        IF(ASSOCIATED(ADJWGT2))  DEALLOCATE(ADJWGT2) 
-       
+!        IF(ASSOCIATED(ADJWGT2))  DEALLOCATE(ADJWGT2)
+
         DO I = 1, NELEM
           CEP(I) = CEP(I)-1
         END DO
-        
-        !---------------------!       
+
+        !---------------------!
         !2D - EBCS : send boundary cells in domain 1
         DO I=1,NUMELQ
           IF(EBCS_TAG_CELL_SPMD(I)==1)THEN
@@ -2502,14 +2502,14 @@ C
           IF(EBCS_TAG_CELL_SPMD(NUMELQ+I)==1)THEN
             CEP(NUMELS+NUMELQ+NUMELC+NUMELT+NUMELP+NUMELR+I)=0
           ENDIF
-        ENDDO 
-        !3D - EBCS : send boundary cells in domain 1        
+        ENDDO
+        !3D - EBCS : send boundary cells in domain 1
         DO I=1,NUMELS
           IF(EBCS_TAG_CELL_SPMD(NUMELQ+NUMELTG+I)==1)THEN
             CEP(I)=0
           ENDIF
-        ENDDO         
-        !---------------------!       
+        ENDDO
+        !---------------------!
 C
         IF(DECTYP==5.OR.DECTYP==6)THEN
            IF(DDNOD_SMS==0)THEN
@@ -2565,11 +2565,11 @@ C
      .      I,W(I),WIS(I),WIM(I),WCAND(I),WI2(I),WFSI(I),WDEL(I)
           ENDIF
         ENDDO
-        WRITE(IOUT,*)' '               
+        WRITE(IOUT,*)' '
         DEALLOCATE(IWD)
         WRITE(IOUT,*)'STATISTICS ON DECOMPOSITION WEIGHTS'
         WRITE(IOUT,*)'-----------------------------------'
-        WRITE(IOUT,8000)    
+        WRITE(IOUT,8000)
         WRITE(IOUT,'(A,I8,2X,I8,2X,I8,4X,I8)')
      .    ' ELEMENTS   ',
      .    NINT(DMIN(1)),NINT(DMAX(1)),
@@ -2631,16 +2631,16 @@ C
 Cel un seul element ou elements non connectes ou un seul proc
         DEALLOCATE(CNE)
         DEALLOCATE(IDDCONNECT%PDOM)
-        DEALLOCATE(IDDCONNECT%IENTRYDOM) 
+        DEALLOCATE(IDDCONNECT%IENTRYDOM)
         DO I = 1, NELEM
           CEP(I) = 0
         ENDDO
       ENDIF
 C
  1000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
-     .       '        INT2 W.         DOF W.') 
+     .       '        INT2 W.         DOF W.')
  1100 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
-     .       '        INT2 W.         DOF W. AMS CONT ELT W') 
+     .       '        INT2 W.         DOF W. AMS CONT ELT W')
  2000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
      .       '        INT2 W.    KIN COND W.')
  3000 FORMAT('#PROC    ELEMENT W.    SECND NOD W.   MAST NOD W.    CONT ELT W.',
@@ -2735,7 +2735,7 @@ C calcul du facteur de poids relatif
             SEUIL=MAX(SEUIL,GAPMIN)
           ENDIF
           SEUIL = MAX(SEUIL+DGAPLOAD,DRAD)
- 
+
           ZMIN = MIN(Z1,Z2,Z3,Z4)-SEUIL
           ZMAX = MAX(Z1,Z2,Z3,Z4)+SEUIL
           IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
@@ -2758,7 +2758,7 @@ C calcul du facteur de poids relatif
                 IXINT(6,I)=-7
               ENDIF
             ENDIF
-          ENDIF          
+          ENDIF
       ENDDO
 C
       NELEMINT=NELEMINT+I_STOK
@@ -2822,7 +2822,7 @@ C
 C
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  I24NINTDD                     source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -2910,7 +2910,7 @@ c      SEUIL = MAX(GAP +DGAPLOAD,DRAD)
                 IXINT(6,II)=-24
               ENDIF
             ENDIF
-          ENDIF          
+          ENDIF
       ENDDO
 C
       IFIEND = IFIEND + II*6
@@ -2919,7 +2919,7 @@ C
       RETURN
       END
 
-      
+
 Chd|====================================================================
 Chd|  I25NINTDD                     source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -2949,7 +2949,7 @@ C-----------------------------------------------
      .   CAND_E(*),CAND_N(*),I_STOK ,IFIEND
 
       my_real
-     .   GAP, X(3,*), GAP_M(*), GAP_S(*) 
+     .   GAP, X(3,*), GAP_M(*), GAP_S(*)
       my_real , INTENT(IN) :: DGAPLOAD , DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -3007,7 +3007,7 @@ C      SEUIL = MAX(GAP+DGAPLOAD,DRAD)
                 IXINT(6,II)=-25
               ENDIF
             ENDIF
-          ENDIF          
+          ENDIF
       ENDDO
 C
       IFIEND = IFIEND + II*6
@@ -3041,11 +3041,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELEMINT, IXINT(6,*), IRECT(4,*),NSV(*),
-     .   IRTL(*),NSN ,IFIEND, IFITMP, NN    
+     .   IRTL(*),NSN ,IFIEND, IFITMP, NN
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, L, I, JJ, NIR 
+      INTEGER N, L, I, JJ, NIR
 C-----------------------------------------------
 C
       IFITMP = IFIEND + NSN*6
@@ -3066,7 +3066,7 @@ C
             IXINT(4,NN)=IRECT(2,L)
           ELSE
             IXINT(3,NN)=IRECT(3,L)
-            IXINT(4,NN)=IRECT(4,L)                
+            IXINT(4,NN)=IRECT(4,L)
           END IF
           IXINT(5,NN)=I
           IXINT(6,NN)=2
@@ -3077,7 +3077,7 @@ C
 C
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  SPDOMETIS                     source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -3165,11 +3165,11 @@ C
                   NI = NI + 1
                   IEND(2*NI-1)=N
                   IEND(2*NI)=N2
-                ELSE     
+                ELSE
                   NI = NI + 1
                   IEND(2*NI-1)=N2
                   IEND(2*NI)=N
-                END IF 
+                END IF
               END IF
             ENDIF
           END DO
@@ -3192,7 +3192,7 @@ C
           IEND(2*I-1)= ITRIM(2*INDEXM(I)-1)
           IEND(2*I)  = ITRIM(2*INDEXM(I))
         ENDDO
- 
+
 C structures Metis 1/2
         ALLOCATE(XADJ(NUMSPHA+1),STAT=IERR1)
 C init XADJ
@@ -3243,12 +3243,12 @@ C fill adjncy
           ADDX=XADJ(NOD2)
           ADJNCY(ADDX)=NOD1
           XADJ(NOD2)=XADJ(NOD2)+1
-        END DO 
+        END DO
 C reset XADJ
         DO I=NUMSPHA+1,2,-1
           XADJ(I)=XADJ(I-1)
         END DO
-        XADJ(1)=1     
+        XADJ(1)=1
         DEALLOCATE(IEND)
       ENDIF
 C----------------------    
@@ -3306,7 +3306,7 @@ C
         DO N = 1, NUMSPHA
           CEPSP(N) = CEPSL(N)-1
         END DO
-        DEALLOCATE(XADJ,ADJNCY)          
+        DEALLOCATE(XADJ,ADJNCY)
       ELSE IF (NSPMD == 1) THEN
         DO N = 1, NUMSPHA
           CEPSP(N) = 0
@@ -3318,11 +3318,11 @@ C Could be improved by geometric domain decomposition
          CEPSP(N) = MAX(0,MIN(CEPSP(N),NSPMD-1))
         END DO
       END IF
- 
+
 C Repartition by part
 C for each part, KRESERV was saved, we put KRESERV RESERVE by proc by part
-      N = FIRST_SPHRES     
- 
+      N = FIRST_SPHRES
+
       DO I = 1, NBPARTINLET
         DO P = 0, NSPMD-1
           DO J = 1, RESERVEP(I)
@@ -3361,11 +3361,11 @@ C
         ENDDO
         WRITE(IOUT,'(I4,I8)')I,IW
       END DO
-      WRITE(IOUT,*)' '               
+      WRITE(IOUT,*)' '
 C
       RETURN
       END
-      
+
 C NOUVELLE ROUTINE
 Chd|====================================================================
 Chd|  INTERLAGRAN                   source/spmd/domain_decomposition/grid2mat.F
@@ -3401,8 +3401,8 @@ C-----------------------------------------------
             MUL= MUL * (X-LX(J))/(LX(I)-LX(J))
           ENDIF
         ENDDO
-     
-        Y = Y + TAB(I)*MUL     
+
+        Y = Y + TAB(I)*MUL
 
         ENDDO
       ENDIF
@@ -3606,14 +3606,14 @@ C-----------------------------------------------
       INTEGER NVISIT, N, I
       INTEGER FILE_V(NELEM), FILE_NEXT, ROOT, CURRENT
 C-----------------------------------------------
-      
+
       DO N = 1, NELEM
         COLORS(N)=0
       END DO
       NVISIT=0
       ROOT=1 ! first element of the graph == first vertex available
       NCONNX=0
-      
+
       DO WHILE (NVISIT < NELEM) ! loop until all vertices are visited
         NCONNX = NCONNX+1
         DO WHILE ((ROOT <= NELEM) .AND. (COLORS(ROOT) /= 0))
@@ -3640,10 +3640,10 @@ c        END IF
               COLORS(I) = NCONNX
               NVISIT=NVISIT+1
             END IF
-          END DO            
+          END DO
         END DO
       END DO
-      
+
       RETURN
       END
 
@@ -3681,7 +3681,7 @@ C-----------------------------------------------
       INTEGER MARQUEUR,MARQUEUR2
 C-----------------------------------------------     
       FILNAM  =ROOTNAM(1:ROOTLEN)//'_0001.ddw'
-      LEN_FILNAM=LEN_TRIM(FILNAM)         
+      LEN_FILNAM=LEN_TRIM(FILNAM)
       LINE=' '
       MARQUEUR2 = 0
       TEST_POIDS = 0
@@ -3698,7 +3698,7 @@ C        Nombre de lignes
          CLOSE(UNIT=30)
          MARQUEUR2 = MARQUEUR2 - 3
 
-         MARQUEUR = 0       
+         MARQUEUR = 0
 C        Prelecture des poids couple Mat/Prop
          OPEN(UNIT=30,FILE=FILNAM(1:LEN_FILNAM),FORM='FORMATTED',
      .     POSITION='REWIND')
@@ -3714,7 +3714,7 @@ C        Prelecture des poids couple Mat/Prop
          NUMMAT_OLD = 0
          NUMGEO_OLD = 0
          TAILLE_OLD = 0
-      ENDIF   
+      ENDIF
        RETURN
        END
 Chd|====================================================================
@@ -3806,10 +3806,10 @@ C     Lecture du pointer
           READ(30,FMT='(A)')LINE
          ENDDO
          READ(30,'(A,I10)') LINE(1:47),NUMMAT_OLD
-         READ(30,'(A,I10)') LINE(1:47),NUMGEO_OLD   
+         READ(30,'(A,I10)') LINE(1:47),NUMGEO_OLD
       CLOSE(UNIT=30)
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  LEC_DDW_POIN                  source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -3853,10 +3853,10 @@ C     Lecture du pointer
          READ(30,'(A,I10)') LINE(1:47),NUMGEO_OLD
          DO I=1,NUMMAT_OLD
           READ(30,'(I8)')   POIN_UMP_OLD(I)
-         ENDDO     
+         ENDDO
       CLOSE(UNIT=30)
       RETURN
-      END      
+      END
 Chd|====================================================================
 Chd|  REINI_MATPROP                 source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -3929,12 +3929,12 @@ C
          ENDIF
        ENDDO
       ENDIF
-      
+
 !      stop
       IF(NUMELQ>0) THEN
        K4 = 6
        ITY = 2
-       DO I =1,NUMELQ      
+       DO I =1,NUMELQ
          K1 = IXQ(1,I)
          K2 = IXQ(6,I)
          K3 = 1!POIN_UMP(K1) !+ POIN_UMP(NUMMAT+K2)
@@ -3955,7 +3955,7 @@ C
       IF(NUMELC>0) THEN
          K4 = 6
          ITY = 3
-         DO I=1,NUMELC         
+         DO I=1,NUMELC
           K1 = IXC(1,I)
           K2 = IXC(6,I)
           K3 = POIN_UMP(K1)! + POIN_UMP(NUMMAT+K2)
@@ -3976,7 +3976,7 @@ C
       IF(NUMELT>0) THEN
          K4 = 6
          ITY = 4
-         DO I=1,NUMELT         
+         DO I=1,NUMELT
            K1 = IXT(1,I)
            K2 = IXT(4,I)
            K3 = POIN_UMP(K1)! + POIN_UMP(NUMMAT+K2)
@@ -3997,7 +3997,7 @@ C
       IF(NUMELP>0) THEN
          K4 = 6
          ITY = 5
-         DO I=1,NUMELP         
+         DO I=1,NUMELP
           K1 = IXP(1,I)
           K2 = IXP(5,I)
           K3 = 1!POIN_UMP(K1)! + POIN_UMP(NUMMAT+K2)
@@ -4016,7 +4016,7 @@ C
          ENDDO
       ENDIF
       IF(NUMELR>0) THEN
-         K4 = 6         
+         K4 = 6
          K1 = 0
          ITY = 6
          DO I=1,NUMELR
@@ -4036,10 +4036,10 @@ C
            ENDIF
          ENDDO
       ENDIF
-      IF(NUMELTG>0) THEN       
+      IF(NUMELTG>0) THEN
          K4 = 6
          ITY = 7
-         DO I=1,NUMELTG         
+         DO I=1,NUMELTG
           K1 = IXTG(1,I)
           K2 = IXTG(5,I)
           K3 = 1!POIN_UMP(K1) !+ POIN_UMP(NUMMAT+K2)
@@ -4071,7 +4071,7 @@ C
 
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  REINI_MATPROP2                source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -4107,7 +4107,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MARQUEUR,I,J,K
 C-----------------------------------------------
-    
+
       TAB_SOL(1) = 1004
       TAB_SOL(2) = 1006
       TAB_SOL(3) = 1008
@@ -4129,12 +4129,12 @@ C-----------------------------------------------
           TAB_UMP(7,MARQUEUR)   = I
          ELSE
           TAB_UMP(7,MARQUEUR)   = TAB_SOL(I-1)
-         ENDIF         
-         MARQUEUR = MARQUEUR + 1 
+         ENDIF
+         MARQUEUR = MARQUEUR + 1
        ENDIF
-       ENDDO       
+       ENDDO
       ENDDO
-      
+
       POIN_UMP(TAB_UMP(3,1)) = 1
       DO I=2,TAILLE
          IF(TAB_UMP(3,I-1)/=TAB_UMP(3,I)) THEN
@@ -4143,7 +4143,7 @@ C-----------------------------------------------
       ENDDO
 
       RETURN
-      END                    
+      END
 Chd|====================================================================
 Chd|  STAT_DOMDEC                   source/spmd/domain_decomposition/grid2mat.F
 Chd|-- called by -----------
@@ -4275,7 +4275,7 @@ C
               DEVIATION(10)=DEVIATION(10)+(WKIN(I)-AVERAGE(10))**2
               DEVIATION(11)=DEVIATION(11)+(WIM(I)-AVERAGE(11))**2
               DEVIATION(12)=DEVIATION(12)+(WNOD_SMS(I)-AVERAGE(12))**2
-            END DO      
+            END DO
             DO I=1,NCRITMAX
               DEVIATION(I)=SQRT(DEVIATION(I)/NSPMD)
             END DO
@@ -4287,13 +4287,13 @@ Chd|        DOMETIS                       source/spmd/domain_decomposition/grid2
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FIND_NODES(ELEMN0,ELEMNODES,TAGELEM,IXS, IXS10 ,
-     2                      IXQ   ,IXC      ,IXT    ,IXP, IXR   , 
+     2                      IXQ   ,IXC      ,IXT    ,IXP, IXR   ,
      3                      IXTG  ,IXUR     ,KXX    ,IXX, KXIG3D,
      4                      IXIG3D,GEO      ,OFFELEM,NELMIN)
 C-----------------------------------------------
 C            M o d u l e s
 C-----------------------------------------------
-     
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4329,7 +4329,7 @@ C---------------------------------------------
       INTEGER K,N,ADDX,NELX,J,NELIG3D,I,ELEM
 C---------------------------------------------
       NELMIN = 3
-      DO I=1,20 
+      DO I=1,20
         ELEMNODES(I)=0
       ENDDO
 
@@ -4339,7 +4339,7 @@ C---------------------------------------------
       CASE(1)
         DO K=1,8
           N = IXS(K+1,ELEM)
-          ELEMNODES(K)= N 
+          ELEMNODES(K)= N
         ENDDO
       CASE(2)
 ! Tetra 10 nodes
@@ -4355,13 +4355,13 @@ C---------------------------------------------
           ELEMNODES(K) = N
         ENDDO
       CASE(4)
-        NELMIN = 2 
+        NELMIN = 2
         DO I=1,2
            ELEM = ELEM - OFFELEM(I)
         ENDDO
         DO K=1,4
-          N = IXC(K+1,ELEM) 
-          ELEMNODES(K) = N 
+          N = IXC(K+1,ELEM)
+          ELEMNODES(K) = N
         ENDDO
       CASE(5)
         NELMIN = 1
@@ -4423,7 +4423,7 @@ C---------------------------------------------
           N=IXX(ADDX)
           ELEMNODES(K) = N
         ENDDO
-      CASE(11) 
+      CASE(11)
         DO I=1,9
            ELEM = ELEM - OFFELEM(I)
         ENDDO
@@ -4436,7 +4436,7 @@ C---------------------------------------------
       END SELECT
 C     TRI ELEMNODES + UNIQ 
 
-      DO K=2,20 
+      DO K=2,20
       DO I=1,K-1
          IF(ELEMNODES(K) == ELEMNODES(I)) ELEMNODES(K) = 0
       ENDDO
@@ -4463,7 +4463,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
       SUBROUTINE FVBAG_VERTEX(IXC   ,IXTG    , NELEM, WD,
-     .                        WD_MAX,FVM_ELEM, FVM_DOMDEC, ITAB, 
+     .                        WD_MAX,FVM_ELEM, FVM_DOMDEC, ITAB,
      .     IGRSURF, T_MONVOL)
 C Description: computes a weight for each FVMBAG
 C this weight is added to an element of the skin of the airbag
@@ -4503,7 +4503,7 @@ C-----------------------------------------------
        INTEGER, INTENT(INOUT) :: FVM_ELEM(NVOLU)
        DOUBLE PRECISION ,INTENT(INOUT) :: WD_MAX ! maximum weight for fvmbags
        REAL,INTENT(INOUT) :: WD(*) ! weights
-       LOGICAL, INTENT(OUT) :: FVM_DOMDEC 
+       LOGICAL, INTENT(OUT) :: FVM_DOMDEC
        INTEGER,INTENT(IN) :: ITAB(*)
        TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
        TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(IN) :: T_MONVOL
@@ -4517,7 +4517,7 @@ C---------------------------------------------
        INTEGER :: OFFC,OFFTG
        INTEGER :: NNS,NTG,NNI,NTGI,NNO,NN,NTGT
        INTEGER :: RADALE, IBID
-       
+
 C---------------------------------------------
 C                                
 C---------------------------------------------
@@ -4528,13 +4528,13 @@ C In order to be able to compute a partition
           OFFC = NUMELS+NUMELQ
           OFFTG =NUMELS+NUMELQ+ NUMELC+NUMELT+NUMELP+NUMELR
           I = 0
-          DO N = 1, NVOLU 
+          DO N = 1, NVOLU
              ITYP = T_MONVOL(N)%TYPE
              NN = T_MONVOL(N)%NNS
              IF(NN > 0 .AND. (ITYP == 8 .OR. ITYP==6)) THEN
-                IF(2 * NN < NUMNOD) FVM_DOMDEC = .TRUE. 
+                IF(2 * NN < NUMNOD) FVM_DOMDEC = .TRUE.
                 I = I + 1
-             ENDIF              
+             ENDIF
           ENDDO                 ! 1,NVOLU
 
           WD_MAX = 0.0d0
@@ -4545,14 +4545,14 @@ C===============================================================================
 C Arbitrary: limit the weight of one FVMBAG to 25% of the weight of one subdoamin
           WD_MAX = WD_MAX / 4.0D0
 C================================================================================
-                    
+
           IF(I > 0)  WRITE(IOUT,'(A)')
      .  ' DOMAIN DECOMPOSITION OPTIMIZED FOR FVMBAGS  '
 
           ALLOCATE(TAGGED_ELEM(NELEM))
           OFFC =  NUMELS+NUMELQ
           OFFTG = NUMELS+NUMELQ+ NUMELC+NUMELT+NUMELP+NUMELR
-          DO N = 1, NVOLU 
+          DO N = 1, NVOLU
             TAGGED_ELEM(1:NELEM) = .FALSE.
             ITYP = T_MONVOL(N)%TYPE
             NN = T_MONVOL(N)%NNS
@@ -4567,22 +4567,22 @@ C===============================================================================
                NTGT=NTG+NTGI
 
                ALLOCATE(ELTG(NTGT))
-               ALLOCATE(MATTG(NTGT))               
-               
+               ALLOCATE(MATTG(NTGT))
+
                CALL FVELSURF(
      .              T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM, IBID, IXC, IXTG, NTGT,
      .              ELTG, MATTG, MAX(NUMNOD, NB_TOTAL_NODE), .FALSE.)
-                               
+
               IF(NTGT > 1) THEN
                 ! The first element of the FVMBAG will become the super-element
                 ! i.e. the element that holds the weight of the finite volumes
-                J = ELTG(1) ! ELTG 
-            
+                J = ELTG(1) ! ELTG
+
                 K0 = 0
                 IF ( J<= NUMELC) THEN
                   K0 =  J - NUMELQ
                   K0 = OFFC +K0
-                ELSE                     
+                ELSE
                   K0 = (J-NUMELC-NUMELQ)
                   K0 = OFFTG+ K0
 
@@ -4595,7 +4595,7 @@ C===============================================================================
                 ELSE
                   TAGGED_ELEM(K0) = .TRUE.
                   DO I=2,NTGT
-                     J = ELTG(I)! ELTG 
+                     J = ELTG(I)! ELTG
                      IF (J<=NUMELC) THEN
                        K = OFFC + J
                          ! The weight of the super element is incremented
@@ -4622,7 +4622,7 @@ c                        CALL IDDCONNECTPLUS(K,K0,NELEM)
               ENDIF
               DEALLOCATE(ELTG)
               DEALLOCATE(MATTG)
-            ENDIF 
+            ENDIF
           ENDDO ! 1,NVOLU
           DEALLOCATE(TAGGED_ELEM)
 

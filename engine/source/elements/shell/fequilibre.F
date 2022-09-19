@@ -83,7 +83,7 @@ C   S h e l l   4 N
 C------------------------------------------------------
       DO J=1,4
         DO L=1,3
-          DO I=1,NUMELC 
+          DO I=1,NUMELC
             K=IXC(J+1,I)
             FZERO(L,J,I)=A(L,K)/WA(K)
           ENDDO
@@ -105,7 +105,7 @@ C   M i s e   a   0   d e s   a c c e l e r a t i o n s
 C------------------------------------------------------
       DO J=1,4
         DO L=1,3
-          DO I=1,NUMELC 
+          DO I=1,NUMELC
             K=IXC(J+1,I)
             A(L,K) = ZERO
           ENDDO
@@ -122,4 +122,4 @@ C
       ENDDO
 C
       RETURN
-      END            
+      END

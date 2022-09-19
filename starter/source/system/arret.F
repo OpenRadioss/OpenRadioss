@@ -122,9 +122,9 @@ C-----------------------------------------------
         WRITE(IOUT,1000)
  1000   FORMAT(//,' RADIOSS STOP DUE TO INPUT ERROR')
       ENDIF
-      
+
       IF(N/=3 .AND. IERR>0)N=2
-      
+
 C-----------------------------------------------
 C Summary Errors/Warnings
 C-----------------------------------------------
@@ -136,7 +136,7 @@ C-----------------------------------------------
            WRITE(ISTDO,'(///A/A/,5X,I10,A)')TITRE(7)(1:40),TITRE(5),IERR,TITRE(7)(41:60)
            WRITE(IOUT ,'(///A/A/,5X,I10,A)')TITRE(7)(1:40),TITRE(5),IERR,TITRE(7)(41:60)
       ENDIF
-      
+
       IF(N==1.OR.IWARN>0) THEN
         IF(IWARN==0) THEN
            WRITE(ISTDO,'(///A/A)')TITRE(6),TITRE(5)

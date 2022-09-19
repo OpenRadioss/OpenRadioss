@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT111(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                          PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)          :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)          :: UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ::    ID,ITEST,ILAW
-      my_real  ::   E,NU,G,RBULK,SCALEFAC,FAC_UNIT  
+      my_real  ::   E,NU,G,RBULK,SCALEFAC,FAC_UNIT
       CHARACTER  STRING*ncharfield
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -105,7 +105,7 @@ C-----------------------------------------------
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       ISRATE = 0
-      IMATVIS = 0      
+      IMATVIS = 0
       ILAW    = 111
 !
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -116,20 +116,20 @@ C-----------------------------------------------
       CALL HM_GET_INTV  ('MAT_FCT_ID '  ,IFUNC(1) ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_NU'       ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_FScale'   ,SCALEFAC ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      IF(SCALEFAC == ZERO)THEN 
+      IF(SCALEFAC == ZERO)THEN
         CALL HM_GET_FLOATV_DIM('MAT_FScale' ,FAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         SCALEFAC = ONE * FAC_UNIT
-      ENDIF       
+      ENDIF
 
-      !========== DEFAULT VALUES=============!              
+      !========== DEFAULT VALUES=============!
       RHOR=ZERO
       !IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
 
-      !C By default we consider the uniaxial test 
+      !C By default we consider the uniaxial test
       IF(ITEST == 0) ITEST = 1
-      !C Uniaxial - itest = 1       
+      !C Uniaxial - itest = 1
       !C equibiaxial - Itest = 2
       !c Planar - Itest = 3
 C
@@ -143,11 +143,11 @@ C
      .                ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                C1=TITR)
-      ENDIF          
-      UPARAM(1) = NU  
+      ENDIF
+      UPARAM(1) = NU
       UPARAM(2) = ITEST
       UPARAM(3) = SCALEFAC
-     
+
       NUPARAM = 7
       NUVAR = 2
 
@@ -157,13 +157,13 @@ C
      .                ' MAXUPARAM =',MAXUPARAM
       ENDIF
 C
-      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
-     
+
       PARMAT(1) = ZERO !  updated in updmat111
       PARMAT(2) = ZERO !  updated in updmat111
       PARMAT(3) = NU
-      
+
        MTAG%L_EPSA  = 1 ! hyperelastic energy needed for mullins
 !!       PM(100) = RBULK
 
@@ -172,17 +172,17 @@ C
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
         WRITE(IOUT,1002) RHO0
         IF(IFUNC(1) > 0) THEN
-           IF(ITEST == 1) THEN 
+           IF(ITEST == 1) THEN
               WRITE(IOUT,1200)IFUNC(1),SCALEFAC, NU
-           ELSEIF(ITEST == 2) THEN 
+           ELSEIF(ITEST == 2) THEN
               WRITE(IOUT,1300)IFUNC(1),SCALEFAC, NU
-           ELSEIF(ITEST == 3) THEN 
+           ELSEIF(ITEST == 3) THEN
               WRITE(IOUT,1400)IFUNC(1),SCALEFAC, NU
-           ENDIF  
-        ENDIF  
+           ENDIF
+        ENDIF
       ENDIF
 
 C-----------------------------------------------
@@ -198,7 +198,7 @@ C-----------------------------------------------
  1200 FORMAT(
      & 5X,'UNIAXIAL DATA TEST CURVE  .  . . . . . .=',I10/
      & 5X,'SCALE FACTOR FOR STRESS IN FUNCTION. . .=',1PG20.13/
-     & 5X,'POISSON RATIO. . . . . . . . . . . . . .=',E12.4///) 
+     & 5X,'POISSON RATIO. . . . . . . . . . . . . .=',E12.4///)
  1300 FORMAT(
      & 5X,'EQUIBIAXIAL DATA TEST CURVE. . . . . . .=',I10/
      & 5X,'SCALE FACTOR FOR STRESS IN FUNCTION. . .=',1PG20.13/

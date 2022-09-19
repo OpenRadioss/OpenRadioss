@@ -77,8 +77,8 @@ C
              IBTMP(J,NB_L) = IBCV(J,I)
            END DO
 C ============== Local numbering
-           IF(IBTMP(7,NB_L)  == 1) THEN  
-            ID = IBTMP(8,NB_L) 
+           IF(IBTMP(7,NB_L)  == 1) THEN
+            ID = IBTMP(8,NB_L)
             DO NG = 1,NGROUP
               NELG = IPARG(2,NG)
               NFT  = IPARG(3,NG)
@@ -87,7 +87,7 @@ C ============== Local numbering
               ! Solid
                 K = ID - NFT
                 IF (K <= NELG) GOTO 100
-              ENDIF 
+              ENDIF
             ENDDO  ! NG = 1,NGROUP
  100        CONTINUE
             IBTMP(NICONV-1,NB_L) = NUMLOCGROUP(NG) !element local group number

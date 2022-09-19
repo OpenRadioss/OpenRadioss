@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -97,9 +97,9 @@ C------------------------------
             IHBE  = IPARG(23,NG)
             NPTM  = MAX(1,IABS(NPT))
             NLAY  = ELBUF_TAB(NG)%NLAY
-            NPTR  = ELBUF_TAB(NG)%NPTR    
-            NPTS  = ELBUF_TAB(NG)%NPTS    
-c            NPTT  = ELBUF_TAB(NG)%NPTT    
+            NPTR  = ELBUF_TAB(NG)%NPTR
+            NPTS  = ELBUF_TAB(NG)%NPTS
+c            NPTT  = ELBUF_TAB(NG)%NPTT
             NPG   = NPTR*NPTS
             IF (ITY==3 .AND. IHBE==23) NPG=4
 C
@@ -141,9 +141,9 @@ C------------------------------
             MLW =IPARG(1,NG)
             IHBE  = IPARG(23,NG)
             NLAY  = ELBUF_TAB(NG)%NLAY
-            NPTR  = ELBUF_TAB(NG)%NPTR    
-            NPTS  = ELBUF_TAB(NG)%NPTS    
-c            NPTT  = ELBUF_TAB(NG)%NPTT    
+            NPTR  = ELBUF_TAB(NG)%NPTR
+            NPTS  = ELBUF_TAB(NG)%NPTS
+c            NPTT  = ELBUF_TAB(NG)%NPTT
             NPG   = NPTR*NPTS
             IF (ITY==3.AND.IHBE==23) NPG=4
 C
@@ -192,9 +192,9 @@ C------------------------------
             MLW =IPARG(1,NG)
             IHBE  = IPARG(23,NG)
             NLAY  = ELBUF_TAB(NG)%NLAY
-            NPTR  = ELBUF_TAB(NG)%NPTR    
-            NPTS  = ELBUF_TAB(NG)%NPTS    
-c            NPTT  = ELBUF_TAB(NG)%NPTT    
+            NPTR  = ELBUF_TAB(NG)%NPTR
+            NPTS  = ELBUF_TAB(NG)%NPTS
+c            NPTT  = ELBUF_TAB(NG)%NPTT
             NPG   = NPTR*NPTS
             IF (ITY==3.AND.IHBE==23) NPG=4
 C
@@ -421,11 +421,11 @@ C
             NUVARR   = 0
             IF (ITY == 3) THEN
               DO I=LFT,LLT
-                NUVARR  = MAX(NUVARR,IPM(221,IXC(1,I+NFT)) + 1) 
+                NUVARR  = MAX(NUVARR,IPM(221,IXC(1,I+NFT)) + 1)
               ENDDO
             ELSE
               DO I=LFT,LLT
-                NUVARR  = MAX(NUVARR,IPM(221,IXTG(1,I+NFT)) + 1) 
+                NUVARR  = MAX(NUVARR,IPM(221,IXTG(1,I+NFT)) + 1)
               ENDDO
             ENDIF
 C
@@ -581,7 +581,7 @@ C------------------------------
         IF (NFAIL > 0) THEN
           DO NG=1,NGROUP
             FBUF => ELBUF_TAB(NG)%BUFLY(1)%FAIL(1,1,1)
-            NVARF  = MAX(NVARF,FBUF%FLOC(1)%NVAR) 
+            NVARF  = MAX(NVARF,FBUF%FLOC(1)%NVAR)
           ENDDO
         ENDIF ! IF (NFAIL > 0)
 !
@@ -640,7 +640,7 @@ C
 !!              IF (IGTYP /= 32 .AND. IGTYP /= 33 .AND. IGTYP /= 45) THEN
 !!                EL_VAR = EL_VAR + 2  !     MOM1Y, MOM1Z
 !!              ENDIF
-              NUVAR = NINT(GEO(25,IPROP))         
+              NUVAR = NINT(GEO(25,IPROP))
               EL_VAR = EL_VAR + NUVAR
             ENDIF ! IF(IGTYP)
 C
@@ -676,7 +676,7 @@ C------------------------------
               EL_VAR = 1 + EL_FIX
             ELSEIF (IGTYP == 18) THEN
               EL_VAR = 4*NPT + EL_FIX
-              NUVAR = IPARG(46,NG)         
+              NUVAR = IPARG(46,NG)
               EL_VAR = EL_VAR + NUVAR
             ENDIF ! IF(IGTYP)
 !

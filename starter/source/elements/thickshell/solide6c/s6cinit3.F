@@ -63,9 +63,9 @@ C   Initialization of thick shell PA6 element
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
-      USE DETONATORS_MOD      
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -92,8 +92,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*), IPARG(*),IPARTS(*), 
-     .    NEL, IPART(LIPART1,*),PERTURB(NPERTURB), 
+      INTEGER IXS(NIXS,*), IPARG(*),IPARTS(*),
+     .    NEL, IPART(LIPART1,*),PERTURB(NPERTURB),
      .    IPM(NPROPMI,*), PTSOL(*), NSIGI, IUSER, NSIGS, NPF(*)
       INTEGER IGEO(NPROPGI,*),STRSGLOB(*),STRAGLOB(*),ORTHOGLOB(*),
      .    FAIL_INI(*)
@@ -118,8 +118,8 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        IX5(MVSIZ), IX6(MVSIZ)
       my_real
-     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), 
-     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), 
+     .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ),
+     .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ)
       CHARACTER*nchartitle,
      .   TITR1
@@ -136,9 +136,9 @@ C-----------------------------------------------
      .   F2X(MVSIZ) ,F2Y(MVSIZ) ,F2Z(MVSIZ) ,RHOCP(MVSIZ),TEMP0(MVSIZ), DELTAX(MVSIZ), AIRE(1)
 C-----------------------------------------------
 C-----------------------------------------------
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
@@ -230,9 +230,9 @@ C
       CALL S6CCOOR3(X     ,IXS(1,NF1)   ,GEO  ,NGL  ,MAT  ,PID  ,
      .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .     E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
-     .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP, 
-     .     IX1, IX2, IX3, IX4, IX5, IX6, 
-     .     X1, X2, X3, X4, X5, X6, 
+     .     F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,
+     .     IX1, IX2, IX3, IX4, IX5, IX6,
+     .     X1, X2, X3, X4, X5, X6,
      .     Y1, Y2, Y3, Y4, Y5, Y6,
      .     Z1, Z2, Z3, Z4, Z5, Z6)
       IF (IGTYP == 21 .OR. IGTYP == 22) THEN
@@ -258,8 +258,8 @@ C
         ENDDO
        END IF
       END IF
-      CALL S6CDERI3(NEL,GBUF%VOL,GEO,VZL,NGL,DELTAX,VOLU , 
-     .     X1, X2, X3, X4, X5, X6, 
+      CALL S6CDERI3(NEL,GBUF%VOL,GEO,VZL,NGL,DELTAX,VOLU ,
+     .     X1, X2, X3, X4, X5, X6,
      .     Y1, Y2, Y3, Y4, Y5, Y6,
      .     Z1, Z2, Z3, Z4, Z5, Z6)
       IF (IDTTSH > 0) THEN
@@ -268,10 +268,10 @@ C
      .                  Y1, Y2, Y3, Y4, Y5, Y6,
      .                  Z1, Z2, Z3, Z4, Z5, Z6)
         DO I=1,NEL
-          IF (GBUF%IDT_TSH(I)>0) 
+          IF (GBUF%IDT_TSH(I)>0)
      .     DELTAX(I)=MAX(LLSH(I),DELTAX(I))
         ENDDO
-      END IF        
+      END IF
 C
       IP=0
       CALL MATINI(PM      ,IXS    ,NIXS       ,X      ,
@@ -279,9 +279,9 @@ C
      .            SIGI    ,NEL    ,SKEW       ,IGEO   ,
      .            IPART   ,IPARTS ,
      .            MAT     ,IPM    ,NSIGS  ,NUMSOL     ,PTSOL  ,
-     .            IP      ,NGL    ,NPF    ,TF         ,BUFMAT , 
+     .            IP      ,NGL    ,NPF    ,TF         ,BUFMAT ,
      .            GBUF    ,LBUF   ,MBUF   ,ELBUF_STR  ,ILOADP ,
-     .            FACLOAD, DELTAX)                         
+     .            FACLOAD, DELTAX)
 C
       IF (IGTYP == 22) CALL SCZERO3(GBUF%RHO,GBUF%SIG,GBUF%EINT,NEL)
 C----------------------------------------
@@ -352,7 +352,7 @@ c
         CALL SIGIN20B(
      .     LBUF%SIG,PM      ,LBUF%VOL ,SIGSP    ,
      .     SIGI    ,LBUF%EINT,LBUF%RHO,MBUF%VAR ,LBUF%STRA,
-     .     IXS     ,NIXS     ,NSIGI   ,ILAY     ,NUVAR    , 
+     .     IXS     ,NIXS     ,NSIGI   ,ILAY     ,NUVAR    ,
      .     NEL     ,IUSER    ,IDEF    ,NSIGS    ,STRSGLOB ,
      .     STRAGLOB,JHBE     ,IGTYP   ,X        ,LBUF%GAMA,
      .     MAT     ,LBUF%PLA ,L_PLA   ,PTSOL    ,LBUF%SIGB,
@@ -362,7 +362,7 @@ c
 C         moyene density,sig,...---
           AIRE(:) = ZERO
           CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .         LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .         VOLU, DTX , IGEO)
 C
           CALL SVALUE0(
@@ -381,7 +381,7 @@ C----------------------------------------
 C----------------------------------------
 C Mass initialization
       CALL S6MASS3(GBUF%RHO,MAS,PARTSAV,X,V,IPARTS(NF1),MSS(1,NF1),
-     .     RHOCP,MCP ,MCPS(1,NF1),MSSA(NF1),GBUF%FILL, VOLU, 
+     .     RHOCP,MCP ,MCPS(1,NF1),MSSA(NF1),GBUF%FILL, VOLU,
      .     IX1, IX2, IX3, IX4, IX6, IX6)
 C----------------------------------------
 C Failure model initialization
@@ -402,7 +402,7 @@ C------------------------------------------
 C Element time step
         AIRE(:) = ZERO
         CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .       LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .       VOLU, DTX, IGEO)
 C------------------------------------------
        IF(IGTYP == 22) THEN
@@ -468,9 +468,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
       my_real,DIMENSION(MVSIZ),INTENT(OUT) :: LLSH3N
-      my_real,DIMENSION(MVSIZ),INTENT(IN) :: 
+      my_real,DIMENSION(MVSIZ),INTENT(IN) ::
      .   X1, X2, X3, X4, X5, X6,
-     .   Y1, Y2, Y3, Y4, Y5, Y6,  
+     .   Y1, Y2, Y3, Y4, Y5, Y6,
      .   Z1, Z2, Z3, Z4, Z5, Z6
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -484,7 +484,7 @@ C-----------------------------------------------
      .        X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),
      .        X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ), AREA(MVSIZ),
      .        X2L(MVSIZ), X3L(MVSIZ), Y3L(MVSIZ),
-     .        XN(MVSIZ,3) , YN(MVSIZ,3) , ZN(MVSIZ,3) 
+     .        XN(MVSIZ,3) , YN(MVSIZ,3) , ZN(MVSIZ,3)
       my_real
      .   AL1,AL2,AL3,ALMAX,SUM
 C=======================================================================
@@ -498,7 +498,7 @@ C=======================================================================
           XN(I,3) = HALF*(X3(I)+X6(I))
           YN(I,3) = HALF*(Y3(I)+Y6(I))
           ZN(I,3) = HALF*(Z3(I)+Z6(I))
-       ENDDO 
+       ENDDO
       DO I=1,NEL
         X21(I)=XN(I,2)-XN(I,1)
         Y21(I)=YN(I,2)-YN(I,1)
@@ -545,7 +545,7 @@ C
       ENDDO
 C
       DO I=1,NEL
-        AL1 = X2L(I) * X2L(I)      
+        AL1 = X2L(I) * X2L(I)
         AL2 = (X3L(I)-X2L(I)) * (X3L(I)-X2L(I)) + Y3L(I) * Y3L(I)
         AL3 = X3L(I) * X3L(I) + Y3L(I) * Y3L(I)
         ALMAX = MAX(AL1,AL2,AL3)

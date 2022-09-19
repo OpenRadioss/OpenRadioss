@@ -33,7 +33,7 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        EOSMAIN                       ../common_source/eos/eosmain.F
 Chd|====================================================================
-      SUBROUTINE MULTI_SUBMATLAW(IFLAG   , MATLAW  , LOCAL_MATID, NEL, EINT   , PRES  , RHO, SSP  , VOL, GRUN, 
+      SUBROUTINE MULTI_SUBMATLAW(IFLAG   , MATLAW  , LOCAL_MATID, NEL, EINT   , PRES  , RHO, SSP  , VOL, GRUN,
      .                           PM      , IPM     , NPROPM     , NPROPMI     , BUFMAT, OFF, THETA,
      .                           BURNFRAC, BURNTIME, DELTAX     , CURRENT_TIME, SIGOLD, NPF, TF)
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C-----------------------------------------------
             MU(II) = ZERO
             DF(II) = ONE
             PSH(II) = -1E20
-         ENDIF            
+         ENDIF
       ENDDO
       SELECT CASE (MATLAW)
          CASE (5)
@@ -110,7 +110,7 @@ C     JWL material
             IBFRAC = NINT(PM(41, LOCAL_MATID))
             GRUN(1:NEL) = ZERO
             DO II = 1, NEL
-               IF (VOL(II) > ZERO) THEN 
+               IF (VOL(II) > ZERO) THEN
 C     Burnt fraction
                   IF (IFLAG == 1) THEN
                      IF (BURNFRAC(II) < ONE) THEN
@@ -147,10 +147,10 @@ C     Burnt fraction
                   SSP(II) = B1 * ER1V * (-W1 / DF(II) / R1 + R1 * DF(II) - W1)
      .                 + B2 * ER2V * (-W1 / DF(II) / R2 + R2 * DF(II) - W1)
      .                 + DR1V + (PRES(II) + PSH(II)) * W1
-                  PRES(II) = BURNFRAC(II) * PRES(II) + 
+                  PRES(II) = BURNFRAC(II) * PRES(II) +
      .                 (ONE - BURNFRAC(II)) * (-PSH(II)+(C0 + C1 * MU(II)))
                   GRUN(II) = BURNFRAC(II) * W1
-                  SSP(II) = BURNFRAC(II) * (SSP(II) * DF(II)  / RHO0(II)) + 
+                  SSP(II) = BURNFRAC(II) * (SSP(II) * DF(II)  / RHO0(II)) +
      .                 (ONE - BURNFRAC(II)) * (C1 / RHO0(II))
                   !SSP(II) = SQRT(SSP(II))
                   !SSP(II) = MAX(SSP(II), VDET * (ONE - BURNFRAC(II)))
@@ -160,10 +160,10 @@ C     Burnt fraction
             EOSTYPE      = IPM(4, LOCAL_MATID)
             MUOLD(1:NEL) = MU(1:NEL)
 C     -> FLAG = 2 : compute pressure as a function of rho and e, as well as dpdm and dpde
-            CALL EOSMAIN(2     , NEL   , EOSTYPE, PM    , OFF  , EINT, 
-     .                   RHO   , RHO0  , MU     , MU2   , ESPE , 
-     .                   DVOL  , DF    , VOL    , MAT   , PSH  , 
-     .                   PRES  , SSP   , DPDE   , THETA , ECOLD, 
+            CALL EOSMAIN(2     , NEL   , EOSTYPE, PM    , OFF  , EINT,
+     .                   RHO   , RHO0  , MU     , MU2   , ESPE ,
+     .                   DVOL  , DF    , VOL    , MAT   , PSH  ,
+     .                   PRES  , SSP   , DPDE   , THETA , ECOLD,
      .                   BUFMAT, SIGOLD, MUOLD  , MATLAW, PRES ,
      .                   NPF   , TF)
 C     SQUARE sound speed : c^2 = 1/rho0 * dp/dmu

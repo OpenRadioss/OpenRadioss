@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BAMOM2(PM,V,W,RHO,ALPH,ALPHC,FILL,
      .                  B11,B12,B13,B14,B21,B22,B23,B24,
-     .                  PY1, PY2, PZ1, PZ2, AIRE, 
+     .                  PY1, PY2, PZ1, PZ2, AIRE,
      .                  MAT, NC1, NC2, NC3, NC4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,7 +61,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, NV
       my_real
-     .   GAMMA(MVSIZ), XMS(MVSIZ), 
+     .   GAMMA(MVSIZ), XMS(MVSIZ),
      .   VDY1(MVSIZ), VDY2(MVSIZ), VDY3(MVSIZ), VDY4(MVSIZ), VDZ1(MVSIZ), VDZ2(MVSIZ),
      .   VDZ3(MVSIZ), VDZ4(MVSIZ), VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ),
      .   VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), VY13(MVSIZ), VY24(MVSIZ), VZ13(MVSIZ), VZ24(MVSIZ),
@@ -213,7 +213,7 @@ C  3
          NV=0
          DVY=ZERO
          DVZ=ZERO
-         IF(FF4>ZERO)THEN	 
+         IF(FF4>ZERO)THEN	
           NV=NV+1
           DVY=DVY+(V(2,NC4(I))-V(2,NC3(I)))
           DVZ=DVZ+(V(3,NC4(I))-V(3,NC3(I)))

@@ -78,13 +78,13 @@ C-----------------------------------------------
      .   RNM_OLD, RNM, RNMG,
      .   GMTOT, GMTOT_OLD, GMASS, GMASS_OLD, DGMASS, DGMOUT,
      .   GMI, GMI_OLD,
-     .   EFAC, DGEOUT, RIGHT, LEFT, 
+     .   EFAC, DGEOUT, RIGHT, LEFT,
      .   VOLD, VEPS, VMIN, AMTOT_OLD, TBAG_OLD, TBAG,
      .   QOLD,Q,CX,QX,TEMP
       my_real
      .   MW, CPD, CPE, CPF, CPDI, CPEI, CPFI, R_IGC1, DGMIN, ASTIME,
      .   DGEIN, HCONV, TEXT, MOLFR, MW_MIX
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
       PEXT     =RVOLU(3)
@@ -110,7 +110,7 @@ C
             DTPDEFC = DTPDEFC+DT1
           END IF
         END IF
-        IBAGHOL(12,IV) = IDPDEF 
+        IBAGHOL(12,IV) = IDPDEF
         RBAGHOL(5,IV)  = DTPDEFC
       ENDDO
       IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
@@ -144,7 +144,7 @@ C---------------------
 C
       IEQUI=IVOLU(15)
 C changement d'etat ?
-      IS = 0 
+      IS = 0
       ITTF=IVOLU(17)
       DO IJ=1,NJET
         ISENS=IBAGJET(4,IJ)
@@ -195,7 +195,7 @@ C
             IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
               WRITE(IOUT,*)
      .        ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
-              WRITE(IOUT,'(A,I10,A,G20.13,A)') 
+              WRITE(IOUT,'(A,I10,A,G20.13,A)')
      .        ' *** MONITORED VOLUME ',IVOLU(1),' VOLUME ',VOL,' ***'
               WRITE(ISTDO,*)
      .        ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
@@ -332,7 +332,7 @@ C
          GMASS_OLD=RBAGJET(KK+2,IJ)
          IF(TT>=TSTART)THEN
           IF(IMASS>0) THEN
-            GMASS=HALF * FMASS * (FINTER(IMASS,TSG,NPC,TF,DYDX) + 
+            GMASS=HALF * FMASS * (FINTER(IMASS,TSG,NPC,TF,DYDX) +
      .            FINTER(IMASS,TSG2,NPC,TF,DYDX))
             IF(I_TYPINJ == 2) THEN
                MW_MIX = RBAGJET(19,IJ)

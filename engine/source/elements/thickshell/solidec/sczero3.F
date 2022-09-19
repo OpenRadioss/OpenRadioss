@@ -27,7 +27,7 @@ Chd|        SCFORC3                       source/elements/thickshell/solidec/scf
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SCZERO3(
-     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4, 
+     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4,
      .   FX5, FY5, FZ5, FX6, FY6, FZ6, FX7, FY7, FZ7, FX8, FY8, FZ8,
      .   SIGM,EINTM,RHOM,QM,EPSPLA,EPSDM,G_PLA,G_EPSD,NEL)
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C=======================================================================
          SIGM(I,6) = ZERO
          RHOM(I)   = ZERO
          EINTM(I)  = ZERO
-         QM(I)     = ZERO	 
+         QM(I)     = ZERO	
       ENDDO
       IF (G_PLA > 0) THEN
        DO I=LFT,LLT
@@ -99,7 +99,7 @@ C=======================================================================
        FZ7(I)=ZERO
        FX8(I)=ZERO
        FY8(I)=ZERO
-       FZ8(I)=ZERO       
+       FZ8(I)=ZERO
       ENDDO
 C-----------
       RETURN

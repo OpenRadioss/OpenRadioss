@@ -60,7 +60,7 @@ Chd|====================================================================
      M    ANGLMI      ,PADM      ,INTTH    ,PHI        , FTHE     ,
      N    FTHESKYI    ,TEMP      ,TEMPI   ,RSTIF       ,IFORM     ,
      O    MSKYI_SMS   ,ISKYI_SMS ,NSMS    ,CAND_N_N    ,PENE_OLD  ,
-     P    STIF_OLD    ,MBINFLG   ,ILEV    ,IGSTI       ,KMIN      , 
+     P    STIF_OLD    ,MBINFLG   ,ILEV    ,IGSTI       ,KMIN      ,
      P    INTPLY      ,IPLY      ,INOD_PXFEM,NM1       ,NM2       ,
      R    NM3         ,NREBOU    ,IRTSE   ,NSNE        ,IS2SE     ,
      S    IS2PT       ,MSEGTYP   ,JTASK   ,ISENSINT  ,
@@ -70,7 +70,7 @@ Chd|====================================================================
      X    INDEXORTH   , INDEXISOT,DIR1      ,DIR2      ,T2FAC_SMS ,
      Y    F_PFIT      ,TAGNCONT  ,KLOADPINTER,LOADPINTER,LOADP_HYD_INTER,
      Z    TYPSUB      ,INFLG_SUBS,INFLG_SUBM ,NINLOADP  ,DGAPLOADINT,
-     1    S_LOADPINTER,DIST      ,IXX)  
+     1    S_LOADPINTER,DIST      ,IXX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -129,7 +129,7 @@ C-----------------------------------------------
      .        ISKYI_SMS(*), NSMS(*),IGSTI,IPLY(4,*),INOD_PXFEM(*),
      .        IRTSE(5,*),NSNE ,IS2SE(2,*),IS2PT(*), ISENSINT(*),NFT,T2MAIN_SMS(6,*),
      .        INDEXORTH(MVSIZ)  ,INDEXISOT(MVSIZ),INFLG_SUBS(*), INFLG_SUBM(*)
-      INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER 
+      INTEGER  , INTENT(IN) :: NINLOADP,S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .        LOADP_HYD_INTER(NLOADP_HYD)
       INTEGER  , INTENT(IN) :: IXX(MVSIZ,13)
@@ -144,7 +144,7 @@ C-----------------------------------------------
      .     LA(MVSIZ), LB(MVSIZ), LC(MVSIZ),STIF(MVSIZ),
      .     GAPV(MVSIZ), PENE(MVSIZ),
      .     SECFCUM(7,NUMNOD,NSECT),
-     .     TMP(MVSIZ), 
+     .     TMP(MVSIZ),
      .     STIFSAV(MVSIZ), VISCN(*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ),
      .     X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),
@@ -161,7 +161,7 @@ C-----------------------------------------------
      .     FRIC_COEFS2(MVSIZ,10),FRICC2(MVSIZ),VISCFFRIC2(MVSIZ),
      .     DIR1(MVSIZ,3),DIR2(MVSIZ,3),T2FAC_SMS(*)
 
-      
+
       my_real
      .     RCURVI(*), RCONTACT(*), ACONTACT(*),
      .     PCONTACT(*),PADM, ANGLMI(*),RSTIF,
@@ -185,14 +185,14 @@ C-----------------------------------------------
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),STIF0(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
      .   VNX, VNY, VNZ, AA, CRIT,S2,
      .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,DTI,FT,FN,FMAX,FTN,
      .   FACM1, ECONTT, ECONVT, H0, ECONTDT,
      .   D1,D2,D3,D4,A1,A2,A3,A4,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   FSAV22, FSAV23, FSAV24, FFO,
      .   E10, H0D, S2D, SUM,
@@ -276,7 +276,7 @@ C
           H2(I) = ZERO
           H3(I) = ZERO
           H4(I) = ZERO
-          FNI(I)= ZERO 
+          FNI(I)= ZERO
 C
           FXI(I)=ZERO
           FYI(I)=ZERO
@@ -315,7 +315,7 @@ C
           H2(I) = ZERO
           H3(I) = ZERO
           H4(I) = ZERO
-          FNI(I)= ZERO 
+          FNI(I)= ZERO
 C
           FXI(I)=ZERO
           FYI(I)=ZERO
@@ -359,36 +359,36 @@ C
           VN4(2) = V(2,IX4(I))
           VN4(3) = V(3,IX4(I))
 C
-          IF(IPLYXFEM /= 2)THEN       
+          IF(IPLYXFEM /= 2)THEN
 C    
 C           possible energy creation after full delamination 
 C           - seen with IPLYXFEM=1 -
-            JJ = IPLY(1,I)                  
+            JJ = IPLY(1,I)
             IF(NN1 > 0 .AND. JJ > 0) THEN
-               VN1(1) = VN1(1) + PLY(JJ)%V(1,NN1) 
-               VN1(2) = VN1(2) + PLY(JJ)%V(2,NN1) 
-               VN1(3) = VN1(3) + PLY(JJ)%V(3,NN1) 
-            ENDIF   
+               VN1(1) = VN1(1) + PLY(JJ)%V(1,NN1)
+               VN1(2) = VN1(2) + PLY(JJ)%V(2,NN1)
+               VN1(3) = VN1(3) + PLY(JJ)%V(3,NN1)
+            ENDIF
             JJ = IPLY(2,I)
             IF(NN2 > 0 .AND. JJ > 0) THEN
-               VN2(1) = VN2(1) + PLY(JJ)%V(1,NN2) 
-               VN2(2) = VN2(2) + PLY(JJ)%V(2,NN2) 
-               VN2(3) = VN2(3) + PLY(JJ)%V(3,NN2) 
-            ENDIF 
+               VN2(1) = VN2(1) + PLY(JJ)%V(1,NN2)
+               VN2(2) = VN2(2) + PLY(JJ)%V(2,NN2)
+               VN2(3) = VN2(3) + PLY(JJ)%V(3,NN2)
+            ENDIF
             JJ = IPLY(3,I)
             IF(NN3 > 0 .AND. JJ > 0) THEN
-               VN3(1) = VN3(1) + PLY(JJ)%V(1,NN3) 
-               VN3(2) = VN3(2) + PLY(JJ)%V(2,NN3) 
+               VN3(1) = VN3(1) + PLY(JJ)%V(1,NN3)
+               VN3(2) = VN3(2) + PLY(JJ)%V(2,NN3)
                VN3(3) = VN3(3) + PLY(JJ)%V(3,NN3)
-            ENDIF   
+            ENDIF
             JJ = IPLY(4,I)
             IF(NN4 > 0 .AND. JJ > 0) THEN
-               VN4(1) = VN4(1) + PLY(JJ)%V(1,NN4) 
-               VN4(2) = VN4(2) + PLY(JJ)%V(2,NN4) 
-               VN4(3) = VN4(3) + PLY(JJ)%V(3,NN4) 
-            ENDIF  
-          END IF         
-        
+               VN4(1) = VN4(1) + PLY(JJ)%V(1,NN4)
+               VN4(2) = VN4(2) + PLY(JJ)%V(2,NN4)
+               VN4(3) = VN4(3) + PLY(JJ)%V(3,NN4)
+            ENDIF
+          END IF
+
           VX(I) = VXI(I) - H1(I)*VN1(1) - H2(I)*VN2(1)
      .                   - H3(I)*VN3(1) - H4(I)*VN4(1)
           VY(I) = VYI(I) - H1(I)*VN1(2) - H2(I)*VN2(2)
@@ -398,9 +398,9 @@ C           - seen with IPLYXFEM=1 -
           VN(I) = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
           VNM(I) = NM1(I)*VX(I) + NM2(I)*VY(I) + NM3(I)*VZ(I)
          ENDIF
-        ENDDO           
+        ENDDO
 
-      ENDIF 
+      ENDIF
 C-------------------------------------------
 C     stifness reduction to avoid positive 
 C     force jump and energy generation
@@ -410,8 +410,8 @@ C-------------------------------------------
           IF(PENE(I) == ZERO)CYCLE
           STIF(I) = STIF0(I)
 c          STIF(I) = FINC*STIF0(I)
-          IF(STIGLO<=ZERO) STIF(I) = HALF*STIF(I) 
-          FNI(I)= -STIF(I) * PENE(I) 
+          IF(STIGLO<=ZERO) STIF(I) = HALF*STIF(I)
+          FNI(I)= -STIF(I) * PENE(I)
         ENDDO
       ELSEIF(IMPL_S>0.AND.IGSTI==6)THEN
 C-------0.001*STIF initially (first contact), special case(rebound) 0.0001*STIF but >=KMIN------      
@@ -433,20 +433,20 @@ C---   NREBOU<0 rebound in this cycle, : -1 -> at first contact; -2 -> after fir
            STIF_OLD(1,N) = MAX(STMIN,EM01*STIF_OLD(1,N))
           END IF
           STIF_OLD(1,N) = MAX(KMIN,STIF_OLD(1,N))
-          STIF(I) = STIF_OLD(1,N) 
+          STIF(I) = STIF_OLD(1,N)
          ELSE
           JG = -JG
           IF (STIF_OLDFI(NIN)%P(1,JG)==ZERO.OR.NREBOU==-1) THEN
             STIF_OLDFI(NIN)%P(1,JG)= SFAC*STIF0(I)
           ELSEIF (NREBOU <-1) THEN
            STMIN = EM04*STIF0(I)
-           STIF_OLDFI(NIN)%P(1,JG)= 
+           STIF_OLDFI(NIN)%P(1,JG)=
      +         MAX(STMIN,EM01*STIF_OLDFI(NIN)%P(1,JG))
           END IF
           STIF_OLDFI(NIN)%P(1,JG)= MAX(KMIN,STIF_OLDFI(NIN)%P(1,JG))
-          STIF(I) = STIF_OLDFI(NIN)%P(1,JG) 
+          STIF(I) = STIF_OLDFI(NIN)%P(1,JG)
          END IF
-       END DO 
+       END DO
        IF(INCONV >=0)THEN
 C---------if multi-contact in the same groupe---         
         DO I=1,JLT
@@ -478,19 +478,19 @@ C---------if multi-contact in the same groupe---
              STIF(I) = FACM1*STIF0_IMP(I)
 C-----------never higher than STIF0----------------              
              STIF(I) = MIN(STIF(I),STIF0(I))
-c             IF(ip>0.and.INCONV ==1 ) 
+c             IF(ip>0.and.INCONV ==1 )
 c     +    write(iout,*)'FACM1,STIF(I),STIF0(I)=',FACM1,STIF(I),STIF0(I)
              ENDIF
 C------------quand  PENE_OLD(2,N)=PENE_OLD(1,N)           
             IF(INCONV ==1 )THEN
              PENE_OLD(1,N) = PENE(I)
-             STIF_OLD(1,N) = STIF(I) 
+             STIF_OLD(1,N) = STIF(I)
             ENDIF
           ELSEIF(INCONV ==1 )THEN
 c new impact, possible multi impact
 #include "lockon.inc"
             PENE_OLD(1,N) = MAX(PENE_OLD(1,N),PENE(I))
-            STIF_OLD(1,N) = MIN(STIF_OLD(1,N),STIF(I)) 
+            STIF_OLD(1,N) = MIN(STIF_OLD(1,N),STIF(I))
 #include "lockoff.inc"
           ENDIF
          ELSE
@@ -511,14 +511,14 @@ c new impact, possible multi impact
             ENDIF
              IF(INCONV ==1 )THEN
               PENE_OLDFI(NIN)%P(1,JG) = PENE(I)
-              STIF_OLDFI(NIN)%P(1,JG) = STIF(I) 
+              STIF_OLDFI(NIN)%P(1,JG) = STIF(I)
              END IF !(INCONV ==1 )THEN
             ELSEIF(INCONV ==1 )THEN
 #include "lockon.inc"
-            PENE_OLDFI(NIN)%P(1,JG) = 
+            PENE_OLDFI(NIN)%P(1,JG) =
      *                            MAX(PENE_OLDFI(NIN)%P(1,JG),PENE(I))
-            STIF_OLDFI(NIN)%P(1,JG) = 
-     *                            MIN(STIF_OLDFI(NIN)%P(1,JG),STIF(I)) 
+            STIF_OLDFI(NIN)%P(1,JG) =
+     *                            MIN(STIF_OLDFI(NIN)%P(1,JG),STIF(I))
 #include "lockoff.inc"
             ENDIF
          ENDIF
@@ -538,13 +538,13 @@ C-------to pass for implicit
           DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
              IF(STIGLO<=ZERO)THEN
-              STIF(I) = HALF*STIF(I) 
+              STIF(I) = HALF*STIF(I)
 ccc              ECONTT = ECONTT + HALF*STIF(I)*PENE(I)**2
              ELSEIF(STIF(I)/=ZERO)THEN
-              STIF(I) = STIGLO 
+              STIF(I) = STIGLO
 ccc              ECONTT = ECONTT + HALF*STIGLO*PENE(I)**2
              ENDIF
-             FNI(I)= -STIF(I) * PENE(I)   
+             FNI(I)= -STIF(I) * PENE(I)
            ENDDO
 
 C------explicit or implicit+Istif/=6
@@ -564,7 +564,7 @@ C------explicit or implicit+Istif/=6
               STIF(I) = STIF_OLD(2,N)*RP1+ STIF(I)*RP2
             ELSEIF(.NOT.(PENE_OLD(2,N)== ZERO.AND.STIF_OLD(2,N)==ZERO))THEN
 C-----------first contact STIF_OLD(2,N) should not be zero           
-              STIF(I) = STIF_OLD(2,N) 
+              STIF(I) = STIF_OLD(2,N)
             END IF
             IF(INCONV ==1 )THEN
              PENE_OLD(1,N) = PENE(I)
@@ -574,7 +574,7 @@ C-----------first contact STIF_OLD(2,N) should not be zero
 c new impact, possible multi impact
 #include "lockon.inc"
             PENE_OLD(1,N) = MAX(PENE_OLD(1,N),PENE(I))
-            STIF_OLD(1,N) = MAX(STIF_OLD(1,N),STIF(I)) 
+            STIF_OLD(1,N) = MAX(STIF_OLD(1,N),STIF(I))
 #include "lockoff.inc"
            ENDIF
          ELSE
@@ -589,54 +589,54 @@ c new impact, possible multi impact
               STIF(I) = STIF_OLDFI(NIN)%P(2,JG)*RP1+ STIF(I)*RP2
             ELSEIF(.NOT.(PENE_OLDFI(NIN)%P(2,JG)== ZERO.AND.
      .                          STIF_OLDFI(NIN)%P(2,JG)==ZERO))THEN
-              STIF(I) = STIF_OLDFI(NIN)%P(2,JG) 
+              STIF(I) = STIF_OLDFI(NIN)%P(2,JG)
             END IF
             IF(INCONV ==1 )THEN
              PENE_OLDFI(NIN)%P(1,JG) = PENE(I)
-             STIF_OLDFI(NIN)%P(1,JG) = STIF(I) 
+             STIF_OLDFI(NIN)%P(1,JG) = STIF(I)
             ENDIF
            ELSEIF(INCONV ==1 )THEN
 #include "lockon.inc"
-            PENE_OLDFI(NIN)%P(1,JG) = 
+            PENE_OLDFI(NIN)%P(1,JG) =
      *                            MAX(PENE_OLDFI(NIN)%P(1,JG),PENE(I))
-            STIF_OLDFI(NIN)%P(1,JG) = 
-     *                            MAX(STIF_OLDFI(NIN)%P(1,JG),STIF(I)) 
+            STIF_OLDFI(NIN)%P(1,JG) =
+     *                            MAX(STIF_OLDFI(NIN)%P(1,JG),STIF(I))
 #include "lockoff.inc"
           ENDIF
         ENDIF
-       ENDDO 
+       ENDDO
 C-------------------------------------------
         DO I=1,JLT
           IF(PENE(I) == ZERO)CYCLE
           IF(STIGLO<=ZERO)THEN
-            STIF(I) = HALF*STIF(I) 
+            STIF(I) = HALF*STIF(I)
           ELSEIF(STIF(I)/=ZERO)THEN
-            STIF(I) = STIGLO 
+            STIF(I) = STIGLO
           ENDIF
-          FNI(I)= -STIF(I) * PENE(I) 
-          
+          FNI(I)= -STIF(I) * PENE(I)
+
         ENDDO
 C-------------------------------------------
       ENDIF !IF(IMPL_S>0.AND.IGSTI==6)
 C-------------------------------------------
 C     Contact energy (elastic)
 C-------------------------------------------
-      DO I=1,JLT 
+      DO I=1,JLT
         IF(PENE(I) == ZERO)CYCLE
         ECONTT = ECONTT+HALF*STIF(I)*PENE(I)**2
-      ENDDO            
+      ENDDO
 C
       IF(INTNITSCHE > 0 ) THEN
-       DO I=1,JLT 
+       DO I=1,JLT
           IF(PENE(I) == ZERO)CYCLE
-          FNNIT1 = FORNEQSI(I,1)*N1(I) 
-          FNNIT2 = FORNEQSI(I,2)*N2(I) 
+          FNNIT1 = FORNEQSI(I,1)*N1(I)
+          FNNIT2 = FORNEQSI(I,2)*N2(I)
           FNNIT3 = FORNEQSI(I,3)*N3(I)
           FNNITSCHE = FNNIT1 + FNNIT2 + FNNIT3
 C
           FNI(I) = MIN(ZERO,FNI(I) - HALF*FNNITSCHE)
 C
-       ENDDO            
+       ENDDO
       ENDIF
 C---------------------------------
 C     DAMPING + FRIC
@@ -656,12 +656,12 @@ C---------------------------------
            DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             FAC = STIF(I) / MAX(EM30,STIF(I))
-            VIS = SQRT(VIS2(I)) 
-            FF  = FAC * VISC * VIS 
+            VIS = SQRT(VIS2(I))
+            FF  = FAC * VISC * VIS
             STIF(I) = STIF0(I) + FF * DT1INV
             STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             FFO = FF
-            FF = FF * VN(I)  
+            FF = FF * VN(I)
 C           ECONVT = ECONVT + FF * VN(I) * DT1
             FNI(I)  = FNI(I) + FF
            ENDDO
@@ -670,7 +670,7 @@ C           ECONVT = ECONVT + FF * VN(I) * DT1
             IF(PENE(I) == ZERO)CYCLE
             FAC = STIF(I) / MAX(EM30,STIF(I))
             VIS = SQRT(VIS2(I))
-            C(I)= FAC * VISC * VIS 
+            C(I)= FAC * VISC * VIS
             KT(I)= STIF0(I)
             STIF(I) = STIF0(I) + C(I) * DT1INV
             FF = C(I) * VN(I)
@@ -695,7 +695,7 @@ C---------------------------------
      .           + MS(IX2(I))*H2(I)
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
-           VIS2(I) = FACV* STIF(I) * MSI(I) * MAS2 / 
+           VIS2(I) = FACV* STIF(I) * MSI(I) * MAS2 /
      .          MAX(EM30,MSI(I)+MAS2)
           ENDDO
 C---------------------------------
@@ -704,12 +704,12 @@ C---------------------------------
            DO I=1,JLT
             IF(PENE(I) == ZERO)CYCLE
             FAC = STIF(I) / MAX(EM30,STIF(I))
-            VIS = SQRT(VIS2(I)) 
-            FF  = FAC * VISC * VIS 
+            VIS = SQRT(VIS2(I))
+            FF  = FAC * VISC * VIS
             STIF(I) = STIF0(I) + FF * DT1INV
             STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
             FFO = FF
-            FF = FF * VN(I)  
+            FF = FF * VN(I)
 C           ECONTDT = ECONTDT + FF * VN(I) * DT1
             FNI(I)  = FNI(I) + FF
            ENDDO
@@ -718,7 +718,7 @@ C           ECONTDT = ECONTDT + FF * VN(I) * DT1
             IF(PENE(I) == ZERO)CYCLE
             FAC = STIF(I) / MAX(EM30,STIF(I))
             VIS = SQRT(VIS2(I))
-            C(I)= FAC * VISC * VIS 
+            C(I)= FAC * VISC * VIS
             KT(I)= STIF0(I)
             STIF(I) = STIF(I) + C(I) * DT1INV
             FF = C(I) * VN(I)
@@ -736,11 +736,11 @@ C---------------------------------
            IF(PENE(I) == ZERO)CYCLE
            VIS2(I) = TWO* STIF(I) * MSI(I)
            FAC = STIF(I) / MAX(EM30,STIF(I))
-           VIS = SQRT(VIS2(I)) 
-           FF  = FAC * VISC * VIS 
+           VIS = SQRT(VIS2(I))
+           FF  = FAC * VISC * VIS
            STIF(I) = STIF0(I) + TWO * FF * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
-           FF = FF * VN(I)  
+           FF = FF * VN(I)
 C          ECONTDT = ECONTDT + FF * VN(I) * DT1
            FNI(I)  = FNI(I) + FF
           ENDDO
@@ -752,11 +752,11 @@ C---------------------------------
            IF(PENE(I) == ZERO)CYCLE
            VIS2(I) = TWO * STIF(I) * MSI(I)
            FAC = STIF(I) / MAX(EM30,STIF(I))
-           VIS = SQRT(VIS2(I)) 
-           FF  = FAC *  VISC * VIS 
+           VIS = SQRT(VIS2(I))
+           FF  = FAC *  VISC * VIS
            STIF(I) = STIF0(I) + TWO* FF * DT1INV
            STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
-           FF = FF * VN(I)  
+           FF = FF * VN(I)
 C          ECONTDT = ECONTDT+ FF * VN(I) * DT1
            FNI(I)  = FNI(I) + FF
           ENDDO
@@ -768,7 +768,7 @@ C---------------------------------
            IF(PENE(I) == ZERO)CYCLE
            FAC = STIF(I) / MAX(EM30,STIF(I))
            VIS2(I) = TWO* STIF(I) * MSI(I)
-           VIS = SQRT(VIS2(I)) 
+           VIS = SQRT(VIS2(I))
            STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
           ENDDO
         ELSEIF(IVIS2==5)THEN
@@ -784,10 +784,10 @@ C---------------------------------
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
            VIS2(I) = TWO* STIF(I) * MSI(I)
-           VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 / 
+           VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 /
      .          MAX(EM30,MSI(I)+MAS2)
            STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I)*VIS2(I))*DT1INV)
-           FF = VIS * VN(I)  
+           FF = VIS * VN(I)
            ECONTDT = ECONTDT + MIN(ZERO,FF-FNI(I)) * VN(I) * DT1
            FNI(I)  = MIN(FNI(I),FF)
           ENDDO
@@ -807,19 +807,19 @@ C---------------------------------
             IF(KDTINT==0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
               IF(PENE(I) == ZERO)CYCLE
                  FAC = STIF(I) / MAX(EM30,STIF(I))
-                 VIS = SQRT(VIS2(I)) 
-                 FF  = FAC * VISC * VIS 
+                 VIS = SQRT(VIS2(I))
+                 FF  = FAC * VISC * VIS
                  STIF(I) = STIF0(I) + FF * DT1INV
                  STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
                  FFO = FF
-                 FF = FF * VN(I)  
+                 FF = FF * VN(I)
 C                ECONTDT = ECONTDT + FF * VN(I) * DT1
                  FNI(I)  = FNI(I) + FF
             ELSE
                IF(PENE(I) == ZERO)CYCLE
                 FAC = STIF(I) / MAX(EM30,STIF(I))
                 VIS = SQRT(VIS2(I))
-                C(I)= FAC * VISC * VIS 
+                C(I)= FAC * VISC * VIS
                 KT(I)= STIF0(I)
                 STIF(I) = STIF0(I) + C(I) * DT1INV
                 FF = C(I) * VN(I)
@@ -842,26 +842,26 @@ C---------------------------------
      .               + MS(IX2(I))*H2(I)
      .               + MS(IX3(I))*H3(I)
      .               + MS(IX4(I))*H4(I)
-               VIS2(I) = FACV* STIF(I) * MSI(I) * MAS2 / 
+               VIS2(I) = FACV* STIF(I) * MSI(I) * MAS2 /
      .            MAX(EM30,MSI(I)+MAS2)
 C---------------------------------
 C---------------------------------
             IF(KDTINT==0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
                IF(PENE(I) == ZERO)CYCLE
                FAC = STIF(I) / MAX(EM30,STIF(I))
-               VIS = SQRT(VIS2(I)) 
-               FF  = FAC * VISC * VIS 
+               VIS = SQRT(VIS2(I))
+               FF  = FAC * VISC * VIS
                STIF(I) = STIF0(I) + FF * DT1INV
                STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
                FFO = FF
-               FF = FF * VN(I)  
+               FF = FF * VN(I)
 C              ECONTDT = ECONTDT + FF * VN(I) * DT1
                FNI(I)  = FNI(I) + FF
            ELSE
                IF(PENE(I) == ZERO)CYCLE
                FAC = STIF(I) / MAX(EM30,STIF(I))
                VIS = SQRT(VIS2(I))
-               C(I)= FAC * VISC * VIS 
+               C(I)= FAC * VISC * VIS
                KT(I)= STIF0(I)
                STIF(I) = STIF(I) + C(I) * DT1INV
                FF = C(I) * VN(I)
@@ -877,11 +877,11 @@ C---------------------------------
             IF(PENE(I) == ZERO)CYCLE
             VIS2(I) = TWO* STIF(I) * MSI(I)
             FAC = STIF(I) / MAX(EM30,STIF(I))
-            VIS = SQRT(VIS2(I)) 
-            FF  = FAC * VISC * VIS 
+            VIS = SQRT(VIS2(I))
+            FF  = FAC * VISC * VIS
             STIF(I) = STIF0(I) + TWO * FF * DT1INV
             STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
-            FF = FF * VN(I)  
+            FF = FF * VN(I)
 C           ECONTDT = ECONTDT + FF * VN(I) * DT1
             FNI(I)  = FNI(I) + FF
           ELSEIF(IVIS2==3)THEN
@@ -891,11 +891,11 @@ C---------------------------------
             IF(PENE(I) == ZERO)CYCLE
             VIS2(I) = TWO * STIF(I) * MSI(I)
             FAC = STIF(I) / MAX(EM30,STIF(I))
-            VIS = SQRT(VIS2(I)) 
-            FF  = FAC *  VISC * VIS 
+            VIS = SQRT(VIS2(I))
+            FF  = FAC *  VISC * VIS
             STIF(I) = STIF0(I) + TWO* FF * DT1INV
             STIF(I) = MAX(STIF(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
-            FF = FF * VN(I)  
+            FF = FF * VN(I)
 C           ECONTDT = ECONTDT + FF * VN(I) * DT1
             FNI(I)  = FNI(I) + FF
           ELSEIF(IVIS2==4)THEN
@@ -905,7 +905,7 @@ C---------------------------------
             IF(PENE(I) == ZERO)CYCLE
             FAC = STIF(I) / MAX(EM30,STIF(I))
             VIS2(I) = TWO* STIF(I) * MSI(I)
-            VIS = SQRT(VIS2(I)) 
+            VIS = SQRT(VIS2(I))
             STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I))*VIS*DT1INV)
          ELSEIF(IVIS2==5)THEN
 C---------------------------------
@@ -919,10 +919,10 @@ C---------------------------------
      .           + MS(IX3(I))*H3(I)
      .           + MS(IX4(I))*H4(I)
             VIS2(I) = TWO* STIF(I) * MSI(I)
-            VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 / 
+            VIS = 2. * VISC * DT1INV * MSI(I) * MAS2 /
      .          MAX(EM30,MSI(I)+MAS2)
             STIF(I) = MAX(STIF0(I) ,FAC*SQRT(VISCFFRIC(I)*VIS2(I))*DT1INV)
-            FF = VIS * VN(I)  
+            FF = VIS * VN(I)
             ECONTDT = ECONTDT + MIN(ZERO,FF-FNI(I)) * VN(I) * DT1
             FNI(I)  = MIN(FNI(I),FF)
          ELSE
@@ -1051,7 +1051,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
                 FNCONTI(NIN)%P(1,JG)=FNCONTI(NIN)%P(1,JG)-FXI(I)
                 FNCONTI(NIN)%P(2,JG)=FNCONTI(NIN)%P(2,JG)-FYI(I)
                 FNCONTI(NIN)%P(3,JG)=FNCONTI(NIN)%P(3,JG)-FZI(I)
-              ENDIF 
+              ENDIF
             ENDIF
            ENDDO
 #include "lockoff.inc"
@@ -1084,9 +1084,9 @@ C---------------------------------
              JSUB=LISUBS(JJ)
              ITYPSUB = TYPSUB(JSUB)
 
-             IF(ITYPSUB == 1 ) THEN  ! Defining specific inter   
-               KSUB=LISUBM(KK)   
-               DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1))) 
+             IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
+               KSUB=LISUBM(KK)
+               DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
 
                  IF(KSUB==JSUB)THEN
                    IMPX=FXI(I)*DT12
@@ -1112,7 +1112,7 @@ C
                  END IF
 
                  KK=KK+1
-                 KSUB=LISUBM(KK) 
+                 KSUB=LISUBM(KK)
                ENDDO
                JJ=JJ+1
 
@@ -1144,16 +1144,16 @@ C
 
                 ISS2 = BITGET(INFLG_SUBS(JJ),0)
                 ISS1 = BITGET(INFLG_SUBS(JJ),1)
-                KSUB=LISUBM(KK)  
-                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1))) 
+                KSUB=LISUBM(KK)
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
                    IMS2 = BITGET(INFLG_SUBM(KK),0)
                    IMS1 = BITGET(INFLG_SUBM(KK),1)
                    IF(KSUB==JSUB)THEN
                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                         (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                         KK=KK+1
-                        KSUB=LISUBM(KK) 
-                        CYCLE             
+                        KSUB=LISUBM(KK)
+                        CYCLE
                      END IF
 
                      IMPX=FXI(I)*DT12
@@ -1191,7 +1191,7 @@ C
                  END IF
 
                  KK=KK+1
-                 KSUB=LISUBM(KK) 
+                 KSUB=LISUBM(KK)
                ENDDO
                JJ=JJ+1
              ENDIF
@@ -1259,10 +1259,10 @@ C boucle separee sinon bug PGI en SMP
              JSUB=LISUBSFI(NIN)%P(JJ)
              ITYPSUB = TYPSUB(JSUB)
 
-             IF(ITYPSUB == 1 ) THEN  ! Defining specific inter  
+             IF(ITYPSUB == 1 ) THEN  ! Defining specific inter
 
-               KSUB=LISUBM(KK)   
-               DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))  
+               KSUB=LISUBM(KK)
+               DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
                  IF(KSUB==JSUB)THEN
                    IMPX=FXI(I)*DT12
                    IMPY=FYI(I)*DT12
@@ -1287,7 +1287,7 @@ C
                  END IF
 
                  KK=KK+1
-                 KSUB=LISUBM(KK) 
+                 KSUB=LISUBM(KK)
                ENDDO
                JJ=JJ+1
 
@@ -1319,16 +1319,16 @@ C
 
                 ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
                 ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
-                KSUB=LISUBM(KK)  
-                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))  
+                KSUB=LISUBM(KK)
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
                   IMS2 = BITGET(INFLG_SUBM(KK),0)
                   IMS1 = BITGET(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                         KK=KK+1
-                        KSUB=LISUBM(KK) 
-                        CYCLE          
+                        KSUB=LISUBM(KK)
+                        CYCLE
                      END IF
 
                      IMPX=FXI(I)*DT12
@@ -1365,7 +1365,7 @@ C
 
                    ENDIF
                    KK=KK+1
-                   KSUB=LISUBM(KK) 
+                   KSUB=LISUBM(KK)
                 ENDDO
                 JJ=JJ+1
 
@@ -1374,7 +1374,7 @@ C
            END DO
           END IF
          END DO
-        END IF 
+        END IF
       END IF
 
 C---------------------------------
@@ -1384,7 +1384,7 @@ C---------------------------------
 C   Friction coefficient computation
 C++++++++++++++++++++++++++++++++++++++++
 
-       IF(IORTHFRIC == 0) THEN 
+       IF(IORTHFRIC == 0) THEN
 C++ Isotropic Friction
 
          IF (MFROT==0) THEN
@@ -1392,7 +1392,7 @@ C---      Coulomb friction
             DO I=1,JLT
                IF(PENE(I) == 0) THEN
                   XMU(I) = ZERO
-                  CYCLE 
+                  CYCLE
                ENDIF
                XMU(I) = FRICC(I)
             ENDDO
@@ -1401,12 +1401,12 @@ C---      Viscous friction
             DO I=1,JLT
               IF(PENE(I) == 0) THEN
                 XMU(I) = ZERO
-                CYCLE 
+                CYCLE
               ENDIF
               IE=CE_LOC(I)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-              V2 = (VX(I) - N1(I)*AA)**2 
-     .           + (VY(I) - N2(I)*AA)**2 
+              V2 = (VX(I) - N1(I)*AA)**2
+     .           + (VY(I) - N2(I)*AA)**2
      .           + (VZ(I) - N3(I)*AA)**2
               VV  = SQRT(MAX(EM30,V2))
               AX1 = X(1,IRECT(3,IE)) - X(1,IRECT(1,IE))
@@ -1420,7 +1420,7 @@ C---      Viscous friction
               AZ  = AX1*AY2 - AY1*AX2
               AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
-              XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P 
+              XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P
      .               +(FRIC_COEFS(I,2) + FRIC_COEFS(I,3)*P) * VV + FRIC_COEFS(I,5)*V2
               XMU(I) = MAX(XMU(I),EM30)
             ENDDO
@@ -1429,12 +1429,12 @@ C---        Loi Darmstad
             DO I=1,JLT
               IF(PENE(I) == 0) THEN
                 XMU(I) = ZERO
-                CYCLE 
+                CYCLE
               ENDIF
               IE=CE_LOC(I)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-              V2 = (VX(I) - N1(I)*AA)**2 
-     .           + (VY(I) - N2(I)*AA)**2 
+              V2 = (VX(I) - N1(I)*AA)**2
+     .           + (VY(I) - N2(I)*AA)**2
      .           + (VZ(I) - N3(I)*AA)**2
               VV = SQRT(MAX(EM30,V2))
               AX1 = X(1,IRECT(3,IE)) - X(1,IRECT(1,IE))
@@ -1448,7 +1448,7 @@ C---        Loi Darmstad
               AZ  = AX1*AY2 - AY1*AX2
               AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
-              XMU(I) = FRICC(I) 
+              XMU(I) = FRICC(I)
      .               + FRIC_COEFS(I,1)*EXP(FRIC_COEFS(I,2)*VV)*P*P
      .               + FRIC_COEFS(I,3)*EXP(FRIC_COEFS(I,4)*VV)*P
      .               + FRIC_COEFS(I,5)*EXP(FRIC_COEFS(I,6)*VV)
@@ -1459,11 +1459,11 @@ C---        Loi Renard
             DO I=1,JLT
               IF(PENE(I) == 0) THEN
                 XMU(I) = ZERO
-                CYCLE 
+                CYCLE
               ENDIF
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-              V2 = (VX(I) - N1(I)*AA)**2 
-     .           + (VY(I) - N2(I)*AA)**2 
+              V2 = (VX(I) - N1(I)*AA)**2
+     .           + (VY(I) - N2(I)*AA)**2
      .           + (VZ(I) - N3(I)*AA)**2
               VV = SQRT(MAX(EM30,V2))
               IF(VV>=0.AND.VV<=FRIC_COEFS(I,5)) THEN
@@ -1471,7 +1471,7 @@ C---        Loi Renard
                 VV1 = VV / FRIC_COEFS(I,5)
                 XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV>FRIC_COEFS(I,5).AND.VV<FRIC_COEFS(I,6)) THEN
-                DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
+                DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3)
                 VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
                 XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
@@ -1504,16 +1504,16 @@ C---      Coulomb friction
                  DIR1(I,1:3) = ZERO
                  AN(K) = ZERO
                ELSE
-                 AN(K)=XMU(I)**2  
-                 AN(K)=ONE/AN(K)  
+                 AN(K)=XMU(I)**2
+                 AN(K)=ONE/AN(K)
                ENDIF
                IF(XMU2(I)<=EM30) THEN
                   XMU2(I) = EM30
                   DIR2(I,1:3) = ZERO
                   BN(K) = ZERO
                ELSE
-                  BN(K)=XMU2(I)**2   
-                  BN(K)=ONE/BN(K)   
+                  BN(K)=XMU2(I)**2
+                  BN(K)=ONE/BN(K)
                ENDIF
             ENDDO
           ELSEIF (MFROT==1) THEN
@@ -1523,8 +1523,8 @@ C---      Viscous friction
               I = INDEXISOT(K)
               IE=CE_LOC(I)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-              V2 = (VX(I) - N1(I)*AA)**2 
-     .           + (VY(I) - N2(I)*AA)**2 
+              V2 = (VX(I) - N1(I)*AA)**2
+     .           + (VY(I) - N2(I)*AA)**2
      .           + (VZ(I) - N3(I)*AA)**2
               VV  = SQRT(MAX(EM30,V2))
 
@@ -1539,7 +1539,7 @@ C---      Viscous friction
               AZ  = AX1*AY2 - AY1*AX2
               AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
-              XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P 
+              XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P
      .               +(FRIC_COEFS(I,2) + FRIC_COEFS(I,3)*P) * VV + FRIC_COEFS(I,5)*V2
               XMU(I) = MAX(XMU(I),EM30)
             ENDDO
@@ -1563,12 +1563,12 @@ c
 c
               V2 = VX(I)*DIR1(K,1) +VY(I)*DIR1(K,2)+VZ(I)*DIR1(K,3)
               VV  = MAX(EM30,V2)
-              XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P 
+              XMU(I) = FRICC(I) + (FRIC_COEFS(I,1) + FRIC_COEFS(I,4)*P ) * P
      .               +(FRIC_COEFS(I,2) + FRIC_COEFS(I,3)*P) * VV + FRIC_COEFS(I,5)*VV*VV
 
-              V2 = VX(I)*DIR2(K,1) +VY(I)*DIR2(K,2)+VZ(I)*DIR2(K,3) 
+              V2 = VX(I)*DIR2(K,1) +VY(I)*DIR2(K,2)+VZ(I)*DIR2(K,3)
               VV  = MAX(EM30,V2)
-              XMU2(I) = FRICC2(I) + (FRIC_COEFS2(I,1) + FRIC_COEFS2(I,4)*P ) * P 
+              XMU2(I) = FRICC2(I) + (FRIC_COEFS2(I,1) + FRIC_COEFS2(I,4)*P ) * P
      .             +(FRIC_COEFS2(I,2) + FRIC_COEFS2(I,3)*P) * VV + FRIC_COEFS2(I,5)*VV*VV
 
               XMU(I) = MAX(XMU(I),EM30)
@@ -1584,16 +1584,16 @@ c
                  DIR1(I,1:3) = ZERO
                  AN(K) = ZERO
                ELSE
-                 AN(K)=XMU(I)**2  
-                 AN(K)=ONE/AN(K)  
+                 AN(K)=XMU(I)**2
+                 AN(K)=ONE/AN(K)
                ENDIF
                IF(XMU2(I)<=EM30) THEN
                   XMU2(I) = EM30
                   DIR2(I,1:3) = ZERO
                   BN(K) = ZERO
                ELSE
-                  BN(K)=XMU2(I)**2   
-                  BN(K)=ONE/BN(K)   
+                  BN(K)=XMU2(I)**2
+                  BN(K)=ONE/BN(K)
                ENDIF
              ENDDO
 
@@ -1605,8 +1605,8 @@ C---        Loi Darmstad
               I = INDEXISOT(K)
               IE=CE_LOC(I)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-              V2 = (VX(I) - N1(I)*AA)**2 
-     .           + (VY(I) - N2(I)*AA)**2 
+              V2 = (VX(I) - N1(I)*AA)**2
+     .           + (VY(I) - N2(I)*AA)**2
      .           + (VZ(I) - N3(I)*AA)**2
               VV = SQRT(MAX(EM30,V2))
               AX1 = X(1,IRECT(3,IE)) - X(1,IRECT(1,IE))
@@ -1620,7 +1620,7 @@ C---        Loi Darmstad
               AZ  = AX1*AY2 - AY1*AX2
               AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
               P = -FNI(I)/AREA
-              XMU(I) = FRICC(I) 
+              XMU(I) = FRICC(I)
      .               + FRIC_COEFS(I,1)*EXP(FRIC_COEFS(I,2)*VV)*P*P
      .               + FRIC_COEFS(I,3)*EXP(FRIC_COEFS(I,4)*VV)*P
      .               + FRIC_COEFS(I,5)*EXP(FRIC_COEFS(I,6)*VV)
@@ -1646,14 +1646,14 @@ c
 c
               V2 = VX(I)*DIR1(K,1) +VY(I)*DIR1(K,2)+VZ(I)*DIR1(K,3)
               VV  = MAX(EM30,V2)
-              XMU(I) = FRICC(I) 
+              XMU(I) = FRICC(I)
      .               + FRIC_COEFS(I,1)*EXP(FRIC_COEFS(I,2)*VV)*P*P
      .               + FRIC_COEFS(I,3)*EXP(FRIC_COEFS(I,4)*VV)*P
      .               + FRIC_COEFS(I,5)*EXP(FRIC_COEFS(I,6)*VV)
 c
               V2 = VX(I)*DIR2(K,1) +VY(I)*DIR2(K,2)+VZ(I)*DIR2(K,3)
               VV  = MAX(EM30,V2)
-              XMU2(I) = FRICC2(I) 
+              XMU2(I) = FRICC2(I)
      .               + FRIC_COEFS2(I,1)*EXP(FRIC_COEFS2(I,2)*VV)*P*P
      .               + FRIC_COEFS2(I,3)*EXP(FRIC_COEFS2(I,4)*VV)*P
      .               + FRIC_COEFS2(I,5)*EXP(FRIC_COEFS2(I,6)*VV)
@@ -1671,16 +1671,16 @@ c
                  DIR1(I,1:3) = ZERO
                  AN(K) = ZERO
                ELSE
-                 AN(K)=XMU(I)**2  
-                 AN(K)=ONE/AN(K)  
+                 AN(K)=XMU(I)**2
+                 AN(K)=ONE/AN(K)
                ENDIF
                IF(XMU2(I)<=EM30) THEN
                   XMU2(I) = EM30
                   DIR2(I,1:3) = ZERO
                   BN(K) = ZERO
                ELSE
-                  BN(K)=XMU2(I)**2   
-                  BN(K)=ONE/BN(K)   
+                  BN(K)=XMU2(I)**2
+                  BN(K)=ONE/BN(K)
                ENDIF
              ENDDO
 
@@ -1690,8 +1690,8 @@ C---        Loi Renard
             DO K=1,NFISOT  ! isotropic friction couples
               I = INDEXISOT(K)
               AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-              V2 = (VX(I) - N1(I)*AA)**2 
-     .           + (VY(I) - N2(I)*AA)**2 
+              V2 = (VX(I) - N1(I)*AA)**2
+     .           + (VY(I) - N2(I)*AA)**2
      .           + (VZ(I) - N3(I)*AA)**2
               VV = SQRT(MAX(EM30,V2))
               IF(VV>=0.AND.VV<=FRIC_COEFS(I,5)) THEN
@@ -1699,7 +1699,7 @@ C---        Loi Renard
                 VV1 = VV / FRIC_COEFS(I,5)
                 XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV>FRIC_COEFS(I,5).AND.VV<FRIC_COEFS(I,6)) THEN
-                DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
+                DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3)
                 VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
                 XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
@@ -1721,7 +1721,7 @@ c
                 VV1 = VV / FRIC_COEFS(I,5)
                 XMU(I) = FRIC_COEFS(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV>FRIC_COEFS(I,5).AND.VV<FRIC_COEFS(I,6)) THEN
-                DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3) 
+                DMU = FRIC_COEFS(I,4)-FRIC_COEFS(I,3)
                 VV1 = (VV - FRIC_COEFS(I,5))/(FRIC_COEFS(I,6)-FRIC_COEFS(I,5))
                 XMU(I) = FRIC_COEFS(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
@@ -1737,7 +1737,7 @@ c
                 VV1 = VV / FRIC_COEFS2(I,5)
                 XMU2(I) = FRIC_COEFS2(I,1)+ DMU*VV1*(TWO-VV1)
               ELSEIF(VV>FRIC_COEFS2(I,5).AND.VV<FRIC_COEFS2(I,6)) THEN
-                DMU = FRIC_COEFS2(I,4)-FRIC_COEFS2(I,3) 
+                DMU = FRIC_COEFS2(I,4)-FRIC_COEFS2(I,3)
                 VV1 = (VV - FRIC_COEFS2(I,5))/(FRIC_COEFS2(I,6)-FRIC_COEFS2(I,5))
                 XMU2(I) = FRIC_COEFS2(I,3)+ DMU * (THREE-TWO*VV1)*VV1**2
               ELSE
@@ -1757,16 +1757,16 @@ c
                  DIR1(I,1:3) = ZERO
                  AN(K) = ZERO
                ELSE
-                 AN(K)=XMU(I)**2  
-                 AN(K)=ONE/AN(K)  
+                 AN(K)=XMU(I)**2
+                 AN(K)=ONE/AN(K)
                ENDIF
                IF(XMU2(I)<=EM30) THEN
                   XMU2(I) = EM30
                   DIR2(I,1:3) = ZERO
                   BN(K) = ZERO
                ELSE
-                  BN(K)=XMU2(I)**2   
-                  BN(K)=ONE/BN(K)   
+                  BN(K)=XMU2(I)**2
+                  BN(K)=ONE/BN(K)
                ENDIF
              ENDDO
 
@@ -1799,15 +1799,15 @@ C---------------------------------
              IF(PENE(I) == ZERO)CYCLE
              FTN = FORNEQSI(I,1)*N1(I) + FORNEQSI(I,2)*N2(I) + FORNEQSI(I,3)*N3(I)
              FNITXT(I) = HALF*(FORNEQSI(I,1) - FTN*N1(I))
-             FNITYT(I) = HALF*(FORNEQSI(I,2) - FTN*N2(I)) 
+             FNITYT(I) = HALF*(FORNEQSI(I,2) - FTN*N2(I))
              FNITZT(I) = HALF*(FORNEQSI(I,3) - FTN*N3(I))
-          ENDDO  
+          ENDDO
         ELSE
            DO I=1,JLT
              FNITXT(I) = ZERO
              FNITYT(I) = ZERO
              FNITZT(I) = ZERO
-           ENDDO          
+           ENDDO
         ENDIF
 
         IF(IORTHFRIC ==0 ) THEN
@@ -1851,7 +1851,7 @@ C case equal abs but opposite sign
                   IF ((FZT(I)- FNITZT(I))==-SECND_FR(3,N)) SECND_FR(3,N) = ABS(FZT(I)- FNITZT(I))
 
 #include "lockoff.inc"
-                ELSE ! cas noeud remote en SPMD 
+                ELSE ! cas noeud remote en SPMD
                   JG = -JG
 c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
@@ -1872,11 +1872,11 @@ c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 #include "lockon.inc"
-	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) ) 
+	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) )
      *                                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)- FNITXT(I)
-	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) ) 
+	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) )
      *                                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)- FNITYT(I)
-	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) ) 
+	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) )
      *                                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)- FNITZT(I)
 C 
                   IF ((FXT(I)- FNITXT(I))== - SECND_FRFI(NIN)%P(1,JG) )
@@ -1891,7 +1891,7 @@ C-------      total force
                FXI(I)=FXI(I) + FXT(I)
                FYI(I)=FYI(I) + FYT(I)
                FZI(I)=FZI(I) + FZT(I)
-               ECONVT = ECONVT 
+               ECONVT = ECONVT
      .                + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
             ENDDO
 C--------implicit non converge---	  
@@ -1925,7 +1925,7 @@ c             SECND_FR(4:6,N) is the old friction force
                 FXI(I)=FXI(I) + FXT(I)
                 FYI(I)=FYI(I) + FYT(I)
                 FZI(I)=FZI(I) + FZT(I)
-              ELSE ! cas noeud remote en SPMD 
+              ELSE ! cas noeud remote en SPMD
                 JG = -JG
                 FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
                 FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
@@ -1993,7 +1993,7 @@ C case equal abs but opposite sign
                   IF ((FYT(I)- FNITYT(I))==-SECND_FR(2,N)) SECND_FR(2,N) = ABS(FYT(I)- FNITYT(I))
                   IF ((FZT(I)- FNITZT(I))==-SECND_FR(3,N)) SECND_FR(3,N) = ABS(FZT(I)- FNITZT(I))
 #include "lockoff.inc"
-                ELSE ! cas noeud remote en SPMD 
+                ELSE ! cas noeud remote en SPMD
                   JG = -JG
 c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
@@ -2014,11 +2014,11 @@ c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FYT(I) = FY * BETA
                   FZT(I) = FZ * BETA
 #include "lockon.inc"
-	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) ) 
+	          IF ( ABS(FXT(I)- FNITXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) )
      *                                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)- FNITXT(I)
-	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) ) 
+	          IF ( ABS(FYT(I)- FNITYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) )
      *                                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)- FNITYT(I)
-	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) ) 
+	          IF ( ABS(FZT(I)- FNITZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) )
      *                                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)- FNITZT(I)
 C 
                   IF ((FXT(I)- FNITXT(I))== - SECND_FRFI(NIN)%P(1,JG) )
@@ -2033,7 +2033,7 @@ C-------      total force
                FXI(I)=FXI(I) + FXT(I)
                FYI(I)=FYI(I) + FYT(I)
                FZI(I)=FZI(I) + FZT(I)
-               ECONVT = ECONVT 
+               ECONVT = ECONVT
      .                + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
             ENDDO
 
@@ -2067,17 +2067,17 @@ c             SECND_FR(4:6,N) is the old friction force
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
 
                   BETA = FN/FT
-            
+
                  IF(BETA == 0 ) THEN
-                    FXT(I) = ZERO 
-                    FYT(I) = ZERO 
-                    FZT(I) = ZERO 
+                    FXT(I) = ZERO
+                    FYT(I) = ZERO
+                    FZT(I) = ZERO
                  ELSEIF(BETA > 1) THEN ! Inside the ellipse
-                   FXT(I) = FX 
-                   FYT(I) = FY 
-                   FZT(I) = FZ 
+                   FXT(I) = FX
+                   FYT(I) = FY
+                   FZT(I) = FZ
                  ELSE            ! outside the ellipse
- 
+
 !  Projection on local tangent of ellipse (outside of ellipse)
 !       ANS = (Fadh-Fproj).n
                    NEP1 =FTT1*AN(K)/FN
@@ -2089,7 +2089,7 @@ c             SECND_FR(4:6,N) is the old friction force
                    ANS=(EP-SQRT(EP))/MAX(EM20,NEP)
                    NEP1 =NEP1/MAX(EM20,NEP)
                    NEP2 =NEP2/MAX(EM20,NEP)
-!  Projection on ellipse 
+!  Projection on ellipse
                    C11 =FTT1-ANS*NEP1
                    C22 =FTT2-ANS*NEP2
                    ALPHAF = ATAN(C22/C11)
@@ -2103,8 +2103,8 @@ c             SECND_FR(4:6,N) is the old friction force
                    FTT2 = FT * SNA
 
                    FXT(I) = FTT1 * DIR1(I,1) + FTT2 * DIR2(I,1)
-                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2) 
-                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3) 
+                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2)
+                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3)
 
                  ENDIF
 
@@ -2117,7 +2117,7 @@ C case equal abs but opposite sign
                   IF (FYT(I)==-SECND_FR(2,N)) SECND_FR(2,N) = ABS(FYT(I))
                   IF (FZT(I)==-SECND_FR(3,N)) SECND_FR(3,N) = ABS(FZT(I))
 #include "lockoff.inc"
-                ELSE ! cas noeud remote en SPMD 
+                ELSE ! cas noeud remote en SPMD
                   JG = -JG
 c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
@@ -2137,17 +2137,17 @@ c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                   FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
 
                   BETA = FN/FT
-            
+
                  IF(BETA == 0 ) THEN
-                    FXT(I) = ZERO 
-                    FYT(I) = ZERO 
-                    FZT(I) = ZERO 
+                    FXT(I) = ZERO
+                    FYT(I) = ZERO
+                    FZT(I) = ZERO
                  ELSEIF(BETA > 1) THEN ! Inside the ellipse
-                   FXT(I) = FX 
-                   FYT(I) = FY 
-                   FZT(I) = FZ 
+                   FXT(I) = FX
+                   FYT(I) = FY
+                   FZT(I) = FZ
                  ELSE            ! outside the ellipse
- 
+
 !  Projection on local tangent of ellipse (outside of ellipse)
 !       ANS = (Fadh-Fproj).n
                    NEP1 =FTT1*AN(K)/FN
@@ -2161,7 +2161,7 @@ c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                    NEP1 =NEP1/MAX(EM20,NEP)
                    NEP2 =NEP2/MAX(EM20,NEP)
 
-!  Projection on ellipse 
+!  Projection on ellipse
                    C11 =FTT1-ANS*NEP1
                    C22 =FTT2-ANS*NEP2
 
@@ -2177,16 +2177,16 @@ c             SECND_FRFI(NIN)%P(4:6,JG) is the old friction force
                    FTT2 = FT * SNA
 
                    FXT(I) = FTT1 * DIR1(I,1) + FTT2 * DIR2(I,1)
-                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2) 
-                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3) 
+                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2)
+                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3)
 
                  ENDIF
 #include "lockon.inc"
-	          IF ( ABS(FXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) ) 
+	          IF ( ABS(FXT(I)) > ABS(SECND_FRFI(NIN)%P(1,JG)) )
      *                                  SECND_FRFI(NIN)%P(1,JG) = FXT(I)
-	          IF ( ABS(FYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) ) 
+	          IF ( ABS(FYT(I)) > ABS(SECND_FRFI(NIN)%P(2,JG)) )
      *                                  SECND_FRFI(NIN)%P(2,JG) = FYT(I)
-	          IF ( ABS(FZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) ) 
+	          IF ( ABS(FZT(I)) > ABS(SECND_FRFI(NIN)%P(3,JG)) )
      *                                  SECND_FRFI(NIN)%P(3,JG) = FZT(I)
 C 
                   IF (FXT(I)== - SECND_FRFI(NIN)%P(1,JG) )
@@ -2201,7 +2201,7 @@ C-------      total force
                FXI(I)=FXI(I) + FXT(I)
                FYI(I)=FYI(I) + FYT(I)
                FZI(I)=FZI(I) + FZT(I)
-               ECONVT = ECONVT 
+               ECONVT = ECONVT
      .                + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
             ENDDO
 
@@ -2240,7 +2240,7 @@ c             SECND_FR(4:6,N) is the old friction force
                 FXI(I)=FXI(I) + FXT(I)
                 FYI(I)=FYI(I) + FYT(I)
                 FZI(I)=FZI(I) + FZT(I)
-              ELSE ! cas noeud remote en SPMD 
+              ELSE ! cas noeud remote en SPMD
                 JG = -JG
                 FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
                 FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
@@ -2296,17 +2296,17 @@ c             SECND_FR(4:6,N) is the old friction force
                 FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
 
                 BETA = FN/FT
-            
+
                  IF(BETA == 0 ) THEN
-                    FXT(I) = ZERO 
-                    FYT(I) = ZERO 
-                    FZT(I) = ZERO 
+                    FXT(I) = ZERO
+                    FYT(I) = ZERO
+                    FZT(I) = ZERO
                  ELSEIF(BETA > 1) THEN ! Inside the ellipse
-                   FXT(I) = FX 
-                   FYT(I) = FY 
-                   FZT(I) = FZ 
+                   FXT(I) = FX
+                   FYT(I) = FY
+                   FZT(I) = FZ
                  ELSE            ! outside the ellipse
- 
+
 !  Projection on local tangent of ellipse (outside of ellipse)
 !       ANS = (Fadh-Fproj).n
                    NEP1 =FTT1*AN(K)/FN
@@ -2320,7 +2320,7 @@ c             SECND_FR(4:6,N) is the old friction force
                    NEP1 =NEP1/MAX(EM20,NEP)
                    NEP2 =NEP2/MAX(EM20,NEP)
 
-!  Projection on ellipse 
+!  Projection on ellipse
                    C11 =FTT1-ANS*NEP1
                    C22 =FTT2-ANS*NEP2
 
@@ -2336,14 +2336,14 @@ c             SECND_FR(4:6,N) is the old friction force
                    FTT2 = FT * SNA
 
                    FXT(I) = FTT1 * DIR1(I,1) + FTT2 * DIR2(I,1)
-                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2) 
-                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3) 
+                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2)
+                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3)
 
                  ENDIF
                 FXI(I)=FXI(I) + FXT(I)
                 FYI(I)=FYI(I) + FYT(I)
                 FZI(I)=FZI(I) + FZT(I)
-              ELSE ! cas noeud remote en SPMD 
+              ELSE ! cas noeud remote en SPMD
                 JG = -JG
                 FX = SECND_FRFI(NIN)%P(4,JG) + ALPHA*FX
                 FY = SECND_FRFI(NIN)%P(5,JG) + ALPHA*FY
@@ -2363,17 +2363,17 @@ c             SECND_FR(4:6,N) is the old friction force
                 FN = FXI(I)**2+FYI(I)**2+FZI(I)**2
 
                 BETA = FN/FT
-            
+
                  IF(BETA == 0 ) THEN
-                    FXT(I) = ZERO 
-                    FYT(I) = ZERO 
-                    FZT(I) = ZERO 
+                    FXT(I) = ZERO
+                    FYT(I) = ZERO
+                    FZT(I) = ZERO
                  ELSEIF(BETA > 1) THEN ! Inside the ellipse
-                   FXT(I) = FX 
-                   FYT(I) = FY 
-                   FZT(I) = FZ 
+                   FXT(I) = FX
+                   FYT(I) = FY
+                   FZT(I) = FZ
                  ELSE            ! outside the ellipse
- 
+
 !  Projection on local tangent of ellipse (outside of ellipse)
 !       ANS = (Fadh-Fproj).n
                    NEP1 =FTT1*AN(K)/FN
@@ -2387,7 +2387,7 @@ c             SECND_FR(4:6,N) is the old friction force
                    NEP1 =NEP1/MAX(EM20,NEP)
                    NEP2 =NEP2/MAX(EM20,NEP)
 
-!  Projection on ellipse 
+!  Projection on ellipse
                    C11 =FTT1-ANS*NEP1
                    C22 =FTT2-ANS*NEP2
 
@@ -2403,8 +2403,8 @@ c             SECND_FR(4:6,N) is the old friction force
                    FTT2 = FT * SNA
 
                    FXT(I) = FTT1 * DIR1(I,1) + FTT2 * DIR2(I,1)
-                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2) 
-                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3) 
+                   FYT(I) = FTT1 * DIR1(I,2) + FTT2 * DIR2(I,2)
+                   FZT(I) = FTT1 * DIR1(I,3) + FTT2 * DIR2(I,3)
 
                  ENDIF
 
@@ -2467,7 +2467,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
               FTCONTI(NIN)%P(2,JG)=FTCONTI(NIN)%P(2,JG)-FYT(I)
               FTCONTI(NIN)%P(3,JG)=FTCONTI(NIN)%P(3,JG)-FZT(I)
             ENDIF
-             END IF 
+             END IF
            ENDDO
 #include "lockoff.inc"
          END IF !(INCONV==1) THEN
@@ -2543,7 +2543,7 @@ C---------------------------------
              ITYPSUB = TYPSUB(JSUB)
 
              IF(ITYPSUB == 1 ) THEN
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                DO WHILE(KK<ADDSUBM(IE+1))
 
                  IF(KSUB==JSUB)THEN
@@ -2580,7 +2580,7 @@ C
                  END IF
 
                  KK=KK+1
-                 KSUB=LISUBM(KK) 
+                 KSUB=LISUBM(KK)
                ENDDO
                JJ=JJ+1
 
@@ -2624,8 +2624,8 @@ C
 C            Find if node is on Surface S1 -> S2  or S2 ->S1
                 ISS2 = BITGET(INFLG_SUBS(JJ),0)
                 ISS1 = BITGET(INFLG_SUBS(JJ),1)
-                KSUB=LISUBM(KK)  
-                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))   
+                KSUB=LISUBM(KK)
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
                   IMS2 = BITGET(INFLG_SUBM(KK),0)
                   IMS1 = BITGET(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
@@ -2633,8 +2633,8 @@ C            Find if node is on Surface S1 -> S2  or S2 ->S1
                     IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                       (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                         KK=KK+1
-                        KSUB=LISUBM(KK) 
-                        CYCLE            
+                        KSUB=LISUBM(KK)
+                        CYCLE
                     END IF
 
                      IMPX=FXT(I)*DT12
@@ -2680,7 +2680,7 @@ C
      .                           +XP(I)*IMPY-YP(I)*IMPX
                    ENDIF
                    KK=KK+1
-                   KSUB=LISUBM(KK) 
+                   KSUB=LISUBM(KK)
                 ENDDO
                 JJ=JJ+1
 
@@ -2698,7 +2698,7 @@ C
 
           KK  =ADDSUBM(IE) ! Addresse du M
           DO WHILE(KK<ADDSUBM(IE+1))
-!             all sub interfaces of S           
+!             all sub interfaces of S
              KSUB=LISUBM(KK)
 !            KSUB Croissant
              ITYPSUB = TYPSUB(KSUB)
@@ -2759,8 +2759,8 @@ C boucle separee sinon bug PGI en SMP
              ITYPSUB = TYPSUB(JSUB)
 
              IF(ITYPSUB == 1 ) THEN
-               KSUB=LISUBM(KK)   
-               DO WHILE(KK<ADDSUBM(IE+1)) 
+               KSUB=LISUBM(KK)
+               DO WHILE(KK<ADDSUBM(IE+1))
 
                  IF(KSUB==JSUB)THEN
                     IMPX=FXT(I)*DT12
@@ -2796,7 +2796,7 @@ C
                  END IF
 
                  KK=KK+1
-                 KSUB=LISUBM(KK) 
+                 KSUB=LISUBM(KK)
                ENDDO
                JJ=JJ+1
 
@@ -2839,16 +2839,16 @@ C
 
                 ISS2 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),0)
                 ISS1 = BITGET(INFLG_SUBSFI(NIN)%P(JJ),1)
-                KSUB=LISUBM(KK)  
-                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))  
+                KSUB=LISUBM(KK)
+                DO WHILE((KSUB<=JSUB).AND.(KK<ADDSUBM(IE+1)))
                   IMS2 = BITGET(INFLG_SUBM(KK),0)
                   IMS1 = BITGET(INFLG_SUBM(KK),1)
                   IF(KSUB==JSUB)THEN
                      IF(.NOT.((IMS1 == 1 .AND. ISS2 == 1).OR.
      .                        (IMS2 == 1 .AND. ISS1 == 1)))  THEN
                         KK=KK+1
-                        KSUB=LISUBM(KK) 
-                        CYCLE          
+                        KSUB=LISUBM(KK)
+                        CYCLE
                      END IF
 
                      IMPX=FXI(I)*DT12
@@ -2885,15 +2885,15 @@ C
 
                    ENDIF
                    KK=KK+1
-                   KSUB=LISUBM(KK) 
+                   KSUB=LISUBM(KK)
                 ENDDO
                 JJ=JJ+1
 
              ENDIF
            END DO
           END IF
-         END DO 
-        END IF 
+         END DO
+        END IF
 #include "lockon.inc"
          DO JSUB=1,NISUB
            NSUB=LISUB(JSUB)
@@ -2940,7 +2940,7 @@ C
            KS(I)= KT(I)
            CS(I) =C(I)
           ENDIF
-         ENDIF      
+         ENDIF
 C
          J1=IX1(I)
          IF(MS(J1)==ZERO)THEN
@@ -2960,8 +2960,8 @@ C
            K1(I) =ZERO
            C1(I) =CFI
            ST1(I)=AUX
-          ENDIF         
-         ENDIF      
+          ENDIF
+         ENDIF
 C
          J1=IX2(I)
          IF(MS(J1)==ZERO)THEN
@@ -2981,8 +2981,8 @@ C
            K2(I) =ZERO
            C2(I) =CFI
            ST2(I)=AUX
-          ENDIF         
-         ENDIF      
+          ENDIF
+         ENDIF
 C
          J1=IX3(I)
          IF(MS(J1)==ZERO)THEN
@@ -3002,8 +3002,8 @@ C
            K3(I) =ZERO
            C3(I) =CFI
            ST3(I)=AUX
-          ENDIF         
-         ENDIF      
+          ENDIF
+         ENDIF
 C
          J1=IX4(I)
          IF(MS(J1)==ZERO)THEN
@@ -3023,8 +3023,8 @@ C
            K4(I) =ZERO
            C4(I) =CFI
            ST4(I)=AUX
-          ENDIF         
-         ENDIF      
+          ENDIF
+         ENDIF
         ENDDO
 C
        ELSE
@@ -3052,7 +3052,7 @@ C
               KS(I)= KT(I)
               CS(I) =C(I)
              ENDIF
-            ENDIF      
+            ENDIF
 C
             J1=IX1(I)
             IF(MS(J1)==ZERO)THEN
@@ -3072,8 +3072,8 @@ C
               K1(I) =ZERO
               C1(I) =CFI
               ST1(I)=AUX
-             ENDIF         
-            ENDIF      
+             ENDIF
+            ENDIF
 C
             J1=IX2(I)
             IF(MS(J1)==ZERO)THEN
@@ -3093,8 +3093,8 @@ C
               K2(I) =ZERO
               C2(I) =CFI
               ST2(I)=AUX
-             ENDIF         
-            ENDIF      
+             ENDIF
+            ENDIF
 C
             J1=IX3(I)
             IF(MS(J1)==ZERO)THEN
@@ -3114,8 +3114,8 @@ C
               K3(I) =ZERO
               C3(I) =CFI
               ST3(I)=AUX
-             ENDIF         
-            ENDIF      
+             ENDIF
+            ENDIF
 C
             J1=IX4(I)
             IF(MS(J1)==ZERO)THEN
@@ -3135,8 +3135,8 @@ C
               K4(I) =ZERO
               C4(I) =CFI
               ST4(I)=AUX
-             ENDIF         
-            ENDIF    
+             ENDIF
+            ENDIF
           ELSE
             IF(PENE(I) == ZERO)CYCLE
              KS(I) =STIF(I)
@@ -3162,9 +3162,9 @@ C
 C=======================================================================
 C---------------------------------
       ITAG = 0
-      DO I=1,JLT            
+      DO I=1,JLT
          IF(PENE(I) == ZERO)CYCLE
-!!             
+!!
             FX1(I)=FXI(I)*H1(I)
             FY1(I)=FYI(I)*H1(I)
             FZ1(I)=FZI(I)*H1(I)
@@ -3184,7 +3184,7 @@ C
             PHI1(I) = ZERO
             PHI2(I) = ZERO
             PHI3(I) = ZERO
-            PHI4(I) = ZERO 
+            PHI4(I) = ZERO
       ENDDO
 
 
@@ -3209,7 +3209,7 @@ C
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
       TAGIP(1:JLT) = 0
       IF(NINLOADP > 0) THEN
-         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1)
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
             DGAPLOAD = DGAPLOADINT(K)
@@ -3230,7 +3230,7 @@ C------------For /LOAD/PRESSURE tag nodes in contact-------------
                   JG = NSVG(I)
                   IF(JG>0) THEN
 C  SPMD : do same after reception of forces for remote nodes
-                    IF (JG <= NUMNOD) THEN 
+                    IF (JG <= NUMNOD) THEN
                       TAGNCONT(PPL,JG) = 1
                     ELSE
                       IG = JG - NUMNOD
@@ -3393,7 +3393,7 @@ C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
      +                          IG      ,FXI(I)  ,FYI(I)  ,FZI(I)  ,SECFCUM(1,1,I),
      +                           1      )
                   ENDIF
-                 ELSE  
+                 ELSE
                   IF(SECFCUM(4,JG,I)==1.)THEN
                     SECFCUM(1,JG,I)=SECFCUM(1,JG,I)+FXI(K)
                     SECFCUM(2,JG,I)=SECFCUM(2,JG,I)+FYI(K)
@@ -3500,7 +3500,7 @@ Chd|====================================================================
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,PHI1,
      7                  PHI2  ,PHI3 , PHI4 ,ITAB,INTPLY ,IPLY  ,
-     8                  INOD  ,IRTSE ,NSNE  ,IS2SE  ,IS2PT,TAGIP)     
+     8                  INOD  ,IRTSE ,NSNE  ,IS2SE  ,IS2PT,TAGIP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -3564,7 +3564,7 @@ C
         IF (H2(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF (H3(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
         IF (H4(I)/=ZERO.OR.TAGIP(I)==1) NISKYL1 = NISKYL1 + 1
-      ENDDO   
+      ENDDO
 C
 C Precalcul impact locaux / remote
 C
@@ -3617,7 +3617,7 @@ C
             FSKYI(NISKYL,2)=FY2(I)
             FSKYI(NISKYL,3)=FZ2(I)
             FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
-            ISKY(NISKYL) = IX2(I)    
+            ISKY(NISKYL) = IX2(I)
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -3648,7 +3648,7 @@ C
             IF (IG >NUMNOD) THEN
               JG = IG - NUMNOD
               NFIC=1
-              FICI(NFIC)=FXI(I) 
+              FICI(NFIC)=FXI(I)
                NFIC = NFIC + 1
               FICI(NFIC)=FYI(I)
                NFIC = NFIC + 1
@@ -3664,7 +3664,7 @@ C
                FSKYI(NISKYL,2)=-FICS(J,2)
                FSKYI(NISKYL,3)=-FICS(J,3)
                FSKYI(NISKYL,4)= FICS(J,4)
-               ISKY(NISKYL) = J1 
+               ISKY(NISKYL) = J1
               END DO
             ELSE
                NISKYL = NISKYL + 1
@@ -3672,13 +3672,13 @@ C
                FSKYI(NISKYL,2)=-FYI(I)
                FSKYI(NISKYL,3)=-FZI(I)
                FSKYI(NISKYL,4)= STIF(I)
-               ISKY(NISKYL) = IG 
+               ISKY(NISKYL) = IG
             END IF !(IG >NUMNOD) THEN
           ELSE
             IG = -IG
             IF(ISEDGE_FI(NIN)%P(IG)==1)THEN
               NFIC=1
-              FICI(NFIC)=FXI(I) 
+              FICI(NFIC)=FXI(I)
                NFIC = NFIC + 1
               FICI(NFIC)=FYI(I)
                NFIC = NFIC + 1
@@ -3695,7 +3695,7 @@ C
                FSKYFI(NIN)%P(2,NISKYFIL)=-FICS(J,2)
                FSKYFI(NIN)%P(3,NISKYFIL)=-FICS(J,3)
                FSKYFI(NIN)%P(4,NISKYFIL)= FICS(J,4)
-               ISKYFI(NIN)%P(NISKYFIL) = J1 
+               ISKYFI(NIN)%P(NISKYFIL) = J1
               END DO
 
             ELSE
@@ -3705,8 +3705,8 @@ C
               FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
               FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
               ISKYFI(NIN)%P(NISKYFIL) = IG
-            ENDIF  
-          ENDIF  
+            ENDIF
+          ENDIF
         ENDDO
        ELSE
 C with plyxfem formulation  s
@@ -3733,7 +3733,7 @@ C
               FSKYI(NISKYL,2)=FY2(I)
               FSKYI(NISKYL,3)=FZ2(I)
               FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
-              ISKY(NISKYL) = IX2(I)    
+              ISKY(NISKYL) = IX2(I)
 C                            
               PLYSKYI%FSKYI(NISKYL,1)=FX2(I)
               PLYSKYI%FSKYI(NISKYL,2)=FY2(I)
@@ -3798,7 +3798,7 @@ C
                FSKYI(NISKYL,2)=-FICS(J,2)
                FSKYI(NISKYL,3)=-FICS(J,3)
                FSKYI(NISKYL,4)= FICS(J,4)
-               ISKY(NISKYL) = J1 
+               ISKY(NISKYL) = J1
               END DO
              ELSE
               NISKYL = NISKYL + 1
@@ -3806,7 +3806,7 @@ C
               FSKYI(NISKYL,2)=-FYI(I)
               FSKYI(NISKYL,3)=-FZI(I)
               FSKYI(NISKYL,4)= STIF(I)
-              ISKY(NISKYL) = IG 
+              ISKY(NISKYL) = IG
              END IF !(IG >NUMNOD) THEN
 C              
             ELSE
@@ -3821,7 +3821,7 @@ C
                 FICI(NFIC)=FZI(I)
                 NFIC = NFIC + 1
                 FICI(NFIC)=STIF(I)
-                CALL I24FORC_FIC(3     ,IRTSE_FI(NIN)%P(1,1)   ,NSNE    ,IS2SE_FI(NIN)%P(1,1)    ,IS2PT_FI(NIN)%P(1), 
+                CALL I24FORC_FIC(3     ,IRTSE_FI(NIN)%P(1,1)   ,NSNE    ,IS2SE_FI(NIN)%P(1,1)    ,IS2PT_FI(NIN)%P(1),
      +                       JG      ,NFIC    ,FICI    ,FICS    ,IXSS    )
                 DO J = 1,4
                   J1 = IXSS(J)
@@ -3842,8 +3842,8 @@ C
               ENDIF
 C  must be be done for second/plyxfem node if it must be considered  -----
             ENDIF
-          ENDDO    
-       ENDIF 
+          ENDDO
+       ENDIF
 C Thermique
       ELSE
        IF(INTPLY == 0) THEN
@@ -3866,7 +3866,7 @@ C Thermique
             FSKYI(NISKYL,3)=FZ2(I)
             FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
             ISKY(NISKYL) = IX2(I)
-            FTHESKYI(NISKYL) = PHI2(I)          
+            FTHESKYI(NISKYL) = PHI2(I)
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -3890,7 +3890,7 @@ C Thermique
             ISKY(NISKYL) = IX4(I)
             FTHESKYI(NISKYL) = PHI4(I)
           ENDIF
-        ENDDO       
+        ENDDO
 C
         DO I=1,JLT
          IF(HH(I)==ZERO)CYCLE
@@ -3918,7 +3918,7 @@ C
                FSKYI(NISKYL,3)=-FICSTH(J,3)
                FSKYI(NISKYL,4)= FICSTH(J,4)
                FTHESKYI(NISKYL)=FICSTH(J,5)
-               ISKY(NISKYL) = J1 
+               ISKY(NISKYL) = J1
               END DO
             ELSE
             NISKYL = NISKYL + 1
@@ -3945,7 +3945,7 @@ C
               FICI(NFIC)=PHI(I)
               CALL I24FORC_FIC(3     ,IRTSE_FI(NIN)%P(1,1)   ,NSNE    ,IS2SE_FI(NIN)%P(1,1)   ,IS2PT_FI(NIN)%P(1)   ,
      +                       JG      ,NFIC    ,FICI    ,FICSTH  ,IXSS    )
-              
+
               DO J = 1,4
                J1 = IXSS(J)
                NISKYFIL = NISKYFIL + 1
@@ -3954,7 +3954,7 @@ C
                FSKYFI(NIN)%P(3,NISKYFIL)=-FICSTH(J,3)
                FSKYFI(NIN)%P(4,NISKYFIL)= FICSTH(J,4)
                FTHESKYFI(NIN)%P(NISKYFIL)=FICSTH(J,5)
-               ISKY(NISKYL) = J1 
+               ISKY(NISKYL) = J1
               END DO
             ELSE
               NISKYFIL = NISKYFIL + 1
@@ -3965,7 +3965,7 @@ C
               ISKYFI(NIN)%P(NISKYFIL) = IG
               FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
             ENDIF
-          ENDIF  
+          ENDIF
         ENDDO
 C with plyxfem formulation         
        ELSE
@@ -3994,7 +3994,7 @@ C
             FSKYI(NISKYL,3)=FZ2(I)
             FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
             ISKY(NISKYL) = IX2(I)
-            FTHESKYI(NISKYL) = PHI2(I) 
+            FTHESKYI(NISKYL) = PHI2(I)
 C
             PLYSKYI%FSKYI(NISKYL,1)=FX2(I)
             PLYSKYI%FSKYI(NISKYL,2)=FY2(I)
@@ -4017,7 +4017,7 @@ C
             PLYSKYI%FSKYI(NISKYL,2)=FY3(I)
             PLYSKYI%FSKYI(NISKYL,3)=FZ3(I)
             PLYSKYI%FSKYI(NISKYL,4)=STIF(I)*ABS(H3(I))
-            PLYSKYI%FSKYI(NISKYL,5)=IPLY(3,I) 
+            PLYSKYI%FSKYI(NISKYL,5)=IPLY(3,I)
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -4036,7 +4036,7 @@ C
             PLYSKYI%FSKYI(NISKYL,4)=STIF(I)*ABS(H4(I))
             PLYSKYI%FSKYI(NISKYL,5)=IPLY(4,I)
           ENDIF
-        ENDDO       
+        ENDDO
 C
         DO I=1,JLT
          IF(HH(I)==ZERO)CYCLE
@@ -4064,7 +4064,7 @@ C
                FSKYI(NISKYL,3)=-FICSTH(J,3)
                FSKYI(NISKYL,4)= FICSTH(J,4)
                FTHESKYI(NISKYL)=FICSTH(J,5)
-               ISKY(NISKYL) = J1 
+               ISKY(NISKYL) = J1
               END DO
             ELSE
             NISKYL = NISKYL + 1
@@ -4104,9 +4104,9 @@ cc            PLYSKYI(I)%FSKYI(NISKYL,4)=STIF(I)
                FSKYFI(NIN)%P(3,NISKYFIL)=-FICSTH(J,3)
                FSKYFI(NIN)%P(4,NISKYFIL)= FICSTH(J,4)
                FTHESKYFI(NIN)%P(NISKYFIL)=FICSTH(J,5)
-               ISKYFI(NIN)%P(NISKYFIL)  = J1 
+               ISKYFI(NIN)%P(NISKYFIL)  = J1
               END DO
-              
+
             ELSE
               NISKYFIL = NISKYFIL + 1
               FSKYFI(NIN)%P(1,NISKYFIL)=-FXI(I)
@@ -4116,9 +4116,9 @@ cc            PLYSKYI(I)%FSKYI(NISKYL,4)=STIF(I)
               ISKYFI(NIN)%P(NISKYFIL) = IG
               FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
             ENDIF
-          ENDIF  
-        ENDDO   
-       ENDIF                
+          ENDIF
+        ENDDO
+       ENDIF
       ENDIF
 C      
       RETURN
@@ -4167,7 +4167,7 @@ C-----------------------------------------------
       INTEGER JLT, NIN,INTTH,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),
      .        INTPLY,IPLY(4,*),INOD(*),IRTSE(5,*),NSNE,IS2SE(2,*),
-     .        IS2PT(*) ,JTASK 
+     .        IS2PT(*) ,JTASK
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -4245,7 +4245,7 @@ C
            STIFN(J1) = STIFN(J1) + STIF(I)*ABS(H4(I))
            FTHE(J1) = FTHE(J1) + PHI4(I)
          ENDDO
-      ENDIF 
+      ENDIF
       IF(INTPLY > 0) THEN
           DO I=1,JLT
            HH(I)=H1(I)+H2(I)+H3(I)+H4(I)
@@ -4258,7 +4258,7 @@ C
              PLY(ILY)%A(2,NN)=PLY(ILY)%A(2,NN) + FY1(I)
              PLY(ILY)%A(3,NN)=PLY(ILY)%A(3,NN) + FZ1(I)
              PLY(ILY)%A(4,NN)=PLY(ILY)%A(4,NN) + STIF(I)*ABS(H1(I))
-           ENDIF  
+           ENDIF
 C
            J1=IX2(I)
            NN = INOD(J1)
@@ -4268,7 +4268,7 @@ C
              PLY(ILY)%A(2,NN)=PLY(ILY)%A(2,NN) +FY2(I)
              PLY(ILY)%A(3,NN)=PLY(ILY)%A(3,NN) +FZ2(I)
              PLY(ILY)%A(4,NN)=PLY(ILY)%A(4,NN) + STIF(I)*ABS(H2(I))
-           ENDIF  
+           ENDIF
 C
            J1=IX3(I)
            NN = INOD(J1)
@@ -4278,9 +4278,9 @@ C
              PLY(ILY)%A(2,NN)=PLY(ILY)%A(2,NN) +FY3(I)
              PLY(ILY)%A(3,NN)=PLY(ILY)%A(3,NN) +FZ3(I)
              PLY(ILY)%A(4,NN)=PLY(ILY)%A(4,NN)  + STIF(I)*ABS(H3(I))
-           ENDIF  
+           ENDIF
 C
-           J1=IX4(I)  
+           J1=IX4(I)
            NN = INOD(J1)
            ILY = IPLY(4,I)
            IF(INOD(J1) > 0 .AND. ILY > 0) THEN
@@ -4288,8 +4288,8 @@ C
              PLY(ILY)%A(2,NN)=PLY(ILY)%A(2,NN) +FY4(I)
              PLY(ILY)%A(3,NN)=PLY(ILY)%A(3,NN) +FZ4(I)
              PLY(ILY)%A(4,NN)=PLY(ILY)%A(4,NN) + STIF(I)*ABS(H4(I))
-           ENDIF 
-         ENDDO  
+           ENDIF
+         ENDDO
       ENDIF
 C
       NODFI = NLSKYFI(NIN)
@@ -4345,7 +4345,7 @@ C
                AFI(NIN)%P(3,J1+ISHIFT)=AFI(NIN)%P(3,J1+ISHIFT)-FICS(J,3)
                STNFI(NIN)%P(J1+ISHIFT)=STNFI(NIN)%P(J1+ISHIFT)  + FICS(J,4)
               END DO
-               
+
              ELSE
                AFI(NIN)%P(1,IG+ISHIFT)=AFI(NIN)%P(1,IG+ISHIFT)-FXI(I)
                AFI(NIN)%P(2,IG+ISHIFT)=AFI(NIN)%P(2,IG+ISHIFT)-FYI(I)
@@ -4355,7 +4355,7 @@ C
           ENDIF
          ENDDO
 C       
-      ELSE 
+      ELSE
          DO I=1,JLT
            IF(HH(I)==ZERO)CYCLE
            IG=NSVG(I)
@@ -4414,7 +4414,7 @@ C
                STNFI(NIN)%P(J1+ISHIFT)=STNFI(NIN)%P(J1+ISHIFT) +  FICSTH(J,4)
                FTHEFI(NIN)%P(J1+ISHIFT)= FTHEFI(NIN)%P(J1+ISHIFT) + FICSTH(J,5)
               END DO
-               
+
              ELSE
                AFI(NIN)%P(1,IG+ISHIFT)=AFI(NIN)%P(1,IG+ISHIFT)-FXI(I)
                AFI(NIN)%P(2,IG+ISHIFT)=AFI(NIN)%P(2,IG+ISHIFT)-FYI(I)
@@ -4423,9 +4423,9 @@ C
                FTHEFI(NIN)%P(IG+ISHIFT)= FTHEFI(NIN)%P(IG+ISHIFT) + PHI(I)
              ENDIF
            ENDIF
-         ENDDO 
+         ENDDO
       ENDIF
-      
+
 cc      IF(INTPLY > 0) THEN
 cc        DO I=1,JLT
 cc           IF(HH(I)==ZERO)CYCLE
@@ -4444,8 +4444,8 @@ cc             AFI(NIN)%P(1,IG)=AFI(NIN)%P(1,IG)-FXI(I)
 cc             AFI(NIN)%P(2,IG)=AFI(NIN)%P(2,IG)-FYI(I)
 cc             AFI(NIN)%P(3,IG)=AFI(NIN)%P(3,IG)-FZI(I)
 cc           ENDIF
-cc         ENDDO      
-cc      ENDIF    
+cc         ENDDO
+cc      ENDIF
 C
       RETURN
       END
@@ -4538,7 +4538,7 @@ C
          IF(ISEDGE_FI(NIN)%P(-IG)==1) THEN
            NL = 0
            FICI = ONE
-           CALL I24FORC_FIC(3,IRTSE_FI(NIN)%P(1,1),NSNE,IS2SE_FI(NIN)%P(1,1), IS2PT_FI(NIN)%P(1),-IG,1,FICI,FICS,IXSS) 
+           CALL I24FORC_FIC(3,IRTSE_FI(NIN)%P(1,1),NSNE,IS2SE_FI(NIN)%P(1,1), IS2PT_FI(NIN)%P(1),-IG,1,FICI,FICS,IXSS)
            DO J=1,4
              NL = NL + T2MAIN_SMS_FI(NIN)%P(1,IXSS(J))*CEILING(FICS(J))
            ENDDO
@@ -4564,9 +4564,9 @@ C
          CALL ARRET(2)
       ENDIF
 C
-      IF (DTMINI>ZERO) THEN 
+      IF (DTMINI>ZERO) THEN
         DTM_INT=DTMINI
-      ELSE 
+      ELSE
         DTM_INT=DTMINS_INT
       ENDIF
 
@@ -4850,7 +4850,7 @@ C-----------------------------------------------
           END IF
         ENDIF
        END IF
-      ENDDO               
+      ENDDO
 C      
       RETURN
       END

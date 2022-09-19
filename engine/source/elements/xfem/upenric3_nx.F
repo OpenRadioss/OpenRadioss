@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IXC(NIXC,*),NFT,JFT,JLT,IXFEM,
-     .        ELCUTC(2,*),IADC_CRK(4,*),IEL_CRK(*),XEDGE4N(4,*), 
+     .        ELCUTC(2,*),IADC_CRK(4,*),IEL_CRK(*),XEDGE4N(4,*),
      .        INOD_CRK(*)
       TYPE(ELBUF_STRUCT_), TARGET ,DIMENSION(NXEL) :: XFEM_TAB
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE

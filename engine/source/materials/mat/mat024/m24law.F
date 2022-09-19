@@ -50,7 +50,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,15 +76,15 @@ C-----------------------------------------------
       my_real
      .   PM(NPROPM,*), OFF(NEL), SIG(NEL,6), EINT(NEL), RHO(NEL), QOLD(NEL),
      .   VOL(NEL), STIFN(NEL),OFFG(NEL),GEO(NPROPG,*), GAMA(MVSIZ,6),
-     .   VOLN(NEL), VD2(NEL), DELTAX(NEL), SSP(NEL), AIRE(NEL), VIS(NEL), 
-     .   PSH(NEL), PNEW(MVSIZ),Q(NEL) ,SSP_EQ(NEL), DVOL(NEL),MUMAX(NEL), 
+     .   VOLN(NEL), VD2(NEL), DELTAX(NEL), SSP(NEL), AIRE(NEL), VIS(NEL),
+     .   PSH(NEL), PNEW(MVSIZ),Q(NEL) ,SSP_EQ(NEL), DVOL(NEL),MUMAX(NEL),
      .   D1(NEL), D2(NEL), D3(NEL), D4(NEL), D5(NEL), D6(NEL),
      .   MSSA(NEL), DMELS(NEL),D_MAX(NEL),EPSD(NEL),
      .   RX(NEL),RY(NEL),RZ(NEL),SX(NEL),SY(NEL),SZ(NEL),
-     .   SOLD1(NEL),SOLD2(NEL),SOLD3(NEL),SOLD4(NEL), 
+     .   SOLD1(NEL),SOLD2(NEL),SOLD3(NEL),SOLD4(NEL),
      .   SOLD5(NEL), SOLD6(NEL), CONDE(NEL), VOL_AVG(NEL),DTEL(NEL),
-     .   RHOREF(*)  ,RHOSP(*)  
-      TYPE(L_BUFEL_)  :: LBUF     
+     .   RHOREF(*)  ,RHOSP(*)
+      TYPE(L_BUFEL_)  :: LBUF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -97,11 +97,11 @@ C=======================================================================
       IMAT  = MAT(LFT)
 c
 c     strain rate calculation (for output only)
-c      
-       DO I=LFT,LLT                                                                                                    
-         EPSD(I) = MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)), 
-     .   HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))   
-       ENDDO                                                        
+c
+       DO I=LFT,LLT
+         EPSD(I) = MAX( ABS(D1(I)), ABS(D2(I)), ABS(D3(I)),
+     .   HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
+       ENDDO
 c
       CALL CONC24(PM(1,IMAT),OFF     ,SIG      ,EINT     ,LBUF%SIGA,
      2            LBUF%EPSA,GAMA     ,LBUF%DAM ,LBUF%ANG ,LBUF%SF  ,
@@ -115,7 +115,7 @@ c
 C----------------------------------------
 C     CRACKS DANS REPERE GLOBAL POUR ANIM
 C----------------------------------------
-      IF (PM(56,MAT(1)) == ONE) 
+      IF (PM(56,MAT(1)) == ONE)
      .  CALL M24ANIM(LBUF%DAM,LBUF%ANG,LBUF%DGLO,NEL,
      .               R11,R12,R13,R21,R22,
      .               R23,R31,R32,R33)
@@ -134,7 +134,7 @@ C
      4        VIS      ,D1      ,D2     ,D3     ,PNEW    ,PSH    ,
      5        MAT      ,NGL     ,Q      ,SSP_EQ ,VOL     ,MSSA   ,
      6        DMELS    ,IBID    ,FACQ0  ,CONDE  ,DTEL    ,G_DT   ,
-     7        IPM      ,RHOREF  ,RHOSP   ) 
+     7        IPM      ,RHOREF  ,RHOSP   )
 C
        CALL MNSVIS(PM ,OFF     ,RHO     ,GEO     ,PID     ,
      2       SSP     ,AIRE    ,VOLN    ,D1      ,D2      ,
@@ -161,10 +161,10 @@ C
        CALL MDTSPH(PM ,OFF     ,RHO        ,BID1      ,BID2   ,
      2         BID3    ,STIFN   ,DT2T      ,NELTST    ,ITYPTST ,
      3         OFFG   ,GEO     ,PID        ,MUMAX     ,SSP     ,
-     4         VOLN      ,VD2     ,DELTAX  ,VIS       ,D1     ,  
+     4         VOLN      ,VD2     ,DELTAX  ,VIS       ,D1     ,
      5         D2       ,D3     ,PNEW      ,PSH       ,MAT     ,
      6         NGL       ,Q    ,SSP_EQ     ,G_DT      ,DTEL )
-     
+
        CALL MNSVIS(PM ,OFF     ,RHO        ,GEO       ,PID     ,
      2       SSP     ,AIRE    ,VOLN        ,D1        ,D2      ,
      3       D3      ,D4      ,D5          ,D6        ,MAT     ,

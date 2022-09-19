@@ -70,17 +70,17 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       LVARINT=LVARINT+1
       NUM=TABVINT(LVARINT)
-      
+
       IF(M_CHECK/=0)THEN
         DO I=1,NUM
           LVARINT=LVARINT+1
           ARRAY(TABVINT(LVARINT))=1
         ENDDO
       ELSE
-        LVARINT=LVARINT+NUM      
+        LVARINT=LVARINT+NUM
       ENDIF
 
-      RETURN 
+      RETURN
 
 C-----------------------------------------------
       END SUBROUTINE READ_ARRAY

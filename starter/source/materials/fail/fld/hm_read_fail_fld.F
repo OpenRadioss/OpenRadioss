@@ -55,9 +55,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C---s----1---------2---------3---------4---------5---------6---------7->
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -147,7 +147,7 @@ C--------------------------------------------------
       UPARAM(4) = IXFEM
       UPARAM(5) = DADV
       UPARAM(6) = IENG
-      UPARAM(7) = RANI   ! average anisotropy (for zone index output in ANIM) 
+      UPARAM(7) = RANI   ! average anisotropy (for zone index output in ANIM)
       UPARAM(8) = FACT_LOOSEMETAL
 C--------------------------------------------------
       NUPARAM   = 8
@@ -191,15 +191,15 @@ C-----------
      & 5X,'FACTOR MARGINAL. . . . . . . . . . . . . . . . . . =',E16.9/,
      & 5X,'FACTOR LOOSEMETAL. . . . . . . . . . . . . . . . . =',E16.9//)
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE')
  1200 FORMAT(
-     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')   
+     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')
  1250 FORMAT(
-     & 5X,'   ELEMENT IS DELETED ONLY WHEN MEMBRANE FAILS')   
+     & 5X,'   ELEMENT IS DELETED ONLY WHEN MEMBRANE FAILS')
  1260 FORMAT(
-     & 5X,'   SHELL FAILURE IS DEACTIVATED')   
+     & 5X,'   SHELL FAILURE IS DEACTIVATED')
  1400 FORMAT(
-     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')   
+     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')
  1010 FORMAT(
      & 5X,40H    XFEM FLD  CRITERIA                         /,
      & 5X,40H    ------------------------                   /,

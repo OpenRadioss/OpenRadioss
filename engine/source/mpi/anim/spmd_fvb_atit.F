@@ -106,7 +106,7 @@ C
             ENDIF
          ENDIF
          MAXPART = MAXPART + FVDATA(I)%NPOLH_ANIM
-      ENDDO              
+      ENDDO
 C
 #endif
       RETURN

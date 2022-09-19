@@ -131,7 +131,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL),PLA(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -258,7 +258,7 @@ C
 C
         SOUNDSP(I) = SQRT((C1+FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
-        DPLA(I) = ZERO       
+        DPLA(I) = ZERO
       ENDDO
 C-------------------
 C     STRAIN RATE
@@ -294,7 +294,7 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - TWO*E4*E5*E6 
+     &      - TWO*E4*E5*E6
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
@@ -392,7 +392,7 @@ C        in a case of homogenuous element groups (to do if needed)
           IF (PFUN>0) THEN
             IPOSP(I) = NINT(UVAR(I,NRATE+5))
             IADP(I)  = NPF(IFUNC(PFUN)) / 2 + 1
-            ILENP(I) = NPF(IFUNC(PFUN)+1) / 2 
+            ILENP(I) = NPF(IFUNC(PFUN)+1) / 2
      .                           - IADP(I) - IPOSP(I)
             PFAC(I)  = FINTER2(TF   ,IADP(I),IPOSP(I),ILENP(I),
      .                         P0(I),DFDP(I))
@@ -437,7 +437,7 @@ c        P = C1 * (RHO(I)/RHO0(I)- ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (ONE - R)*VM/MAX(G3+H(I),EM20)        
+        DPLA(I) = (ONE - R)*VM/MAX(G3+H(I),EM20)
        ENDDO
       ELSEIF(IPLA==2)THEN
        DO I=1,NEL
@@ -455,7 +455,7 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE-R)*VM/MAX(G3,EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (ONE-R)*VM/MAX(G3,EM20)        
+        DPLA(I) = (ONE-R)*VM/MAX(G3,EM20)
        ENDDO
       ELSEIF(IPLA==1)THEN
        DO I=1,NEL

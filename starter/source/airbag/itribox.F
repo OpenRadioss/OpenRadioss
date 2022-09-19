@@ -80,7 +80,7 @@ C
             POLY(2,J)=POLYOUT(2,J)
             POLY(3,J)=POLYOUT(3,J)
          ENDDO
-      ENDDO   
+      ENDDO
 C Elimination des noeuds doubles
       NN=0
       DO I=1,NVERTS
@@ -130,7 +130,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPIN, NPOUT
       my_real
-     .        POLYIN(3,*), A(*), N(*), POLYOUT(3,*)   
+     .        POLYIN(3,*), A(*), N(*), POLYOUT(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -146,7 +146,7 @@ C Clipping d'un polygone par un plan
             II=I+1
          ELSE
             II=1
-         ENDIF 
+         ENDIF
 C
          X1=POLYIN(1,I)
          Y1=POLYIN(2,I)
@@ -164,7 +164,7 @@ C
             POLYOUT(2,NPOUT)=Y1
             POLYOUT(3,NPOUT)=Z1
             CYCLE
-         ENDIF       
+         ENDIF
 C
          X12=X2-X1
          Y12=Y2-Y1
@@ -190,9 +190,9 @@ C
             NPOUT=NPOUT+1
             POLYOUT(1,NPOUT)=XM
             POLYOUT(2,NPOUT)=YM
-            POLYOUT(3,NPOUT)=ZM        
+            POLYOUT(3,NPOUT)=ZM
          ENDIF
-      ENDDO       
+      ENDDO
 C
       RETURN
       END

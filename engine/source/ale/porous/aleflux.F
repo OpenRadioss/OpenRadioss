@@ -81,15 +81,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ),  I,II,ICLOS,IAD2
-      my_real N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ), 
-     .        N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), 
-     .        N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), 
-     .        N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ), 
-     .        FLUX1(MVSIZ),FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ), 
+      my_real N1X(MVSIZ), N2X(MVSIZ), N3X(MVSIZ), N4X(MVSIZ), N5X(MVSIZ),
+     .        N6X(MVSIZ), N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ),
+     .        N5Y(MVSIZ), N6Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ),
+     .        N4Z(MVSIZ), N5Z(MVSIZ), N6Z(MVSIZ),
+     .        FLUX1(MVSIZ),FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),
      .        FLUX5(MVSIZ),FLUX6(MVSIZ), VX1(MVSIZ),
      .        VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), VX5(MVSIZ), VX6(MVSIZ),
-     .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ), 
-     .        VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
+     .        VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VY5(MVSIZ),
+     .        VY6(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
      .        VZ5(MVSIZ), VZ6(MVSIZ),
      .        UPWL(MVSIZ,6),XC(MVSIZ),YC(MVSIZ),
      .        ZC(MVSIZ) ,XF1(MVSIZ),YF1(MVSIZ),ZF1(MVSIZ),XF2(MVSIZ),
@@ -185,7 +185,7 @@ C
           ZF3(I)=FOURTH*(Z5(I)+Z6(I)+Z7(I)+Z8(I))
           ZF4(I)=FOURTH*(Z1(I)+Z2(I)+Z6(I)+Z5(I))
           ZF5(I)=FOURTH*(Z2(I)+Z3(I)+Z7(I)+Z6(I))
-          ZF6(I)=FOURTH*(Z1(I)+Z4(I)+Z8(I)+Z5(I))          
+          ZF6(I)=FOURTH*(Z1(I)+Z4(I)+Z8(I)+Z5(I))
         ENDDO
         DO I=LFT,LLT
           TEST=(XF1(I)-XC(I))*N1X(I)+
@@ -194,7 +194,7 @@ C
           IF(TEST <= 0)THEN
               N1X(I)=ZERO
               N1Y(I)=ZERO
-              N1Z(I)=ZERO     
+              N1Z(I)=ZERO
           ENDIF
         ENDDO
         DO I=LFT,LLT
@@ -204,7 +204,7 @@ C
           IF(TEST <= 0)THEN
               N2X(I)=ZERO
               N2Y(I)=ZERO
-              N2Z(I)=ZERO     
+              N2Z(I)=ZERO
           ENDIF
         ENDDO
         DO I=LFT,LLT
@@ -214,7 +214,7 @@ C
           IF(TEST <= 0)THEN
               N3X(I)=ZERO
               N3Y(I)=ZERO
-              N3Z(I)=ZERO              
+              N3Z(I)=ZERO
           ENDIF
         ENDDO
         DO I=LFT,LLT
@@ -224,7 +224,7 @@ C
             IF(TEST <= ZERO)THEN
               N4X(I)=ZERO
               N4Y(I)=ZERO
-              N4Z(I)=ZERO              
+              N4Z(I)=ZERO
           ENDIF
         ENDDO
         DO I=LFT,LLT
@@ -234,7 +234,7 @@ C
              IF(TEST <= ZERO)THEN
               N5X(I)=ZERO
               N5Y(I)=ZERO
-              N5Z(I)=ZERO              
+              N5Z(I)=ZERO
           ENDIF
         ENDDO
         DO I=LFT,LLT
@@ -244,7 +244,7 @@ C
           IF(TEST <= ZERO)THEN
               N6X(I)=ZERO
               N6Y(I)=ZERO
-              N6Z(I)=ZERO      
+              N6Z(I)=ZERO
           ENDIF
         ENDDO
       ENDIF
@@ -257,14 +257,14 @@ C--------------------
         FLUX3(I)=(VX3(I)*N3X(I)+VY3(I)*N3Y(I)+VZ3(I)*N3Z(I))
         FLUX4(I)=(VX4(I)*N4X(I)+VY4(I)*N4Y(I)+VZ4(I)*N4Z(I))
         FLUX5(I)=(VX5(I)*N5X(I)+VY5(I)*N5Y(I)+VZ5(I)*N5Z(I))
-        FLUX6(I)=(VX6(I)*N6X(I)+VY6(I)*N6Y(I)+VZ6(I)*N6Z(I))        
+        FLUX6(I)=(VX6(I)*N6X(I)+VY6(I)*N6Y(I)+VZ6(I)*N6Z(I))
 C      
         FLUX1(I)=ALPHA(I,1)*FLUX1(I)
         FLUX2(I)=ALPHA(I,2)*FLUX2(I)
         FLUX3(I)=ALPHA(I,3)*FLUX3(I)
         FLUX4(I)=ALPHA(I,4)*FLUX4(I)
         FLUX5(I)=ALPHA(I,5)*FLUX5(I)
-        FLUX6(I)=ALPHA(I,6)*FLUX6(I) 
+        FLUX6(I)=ALPHA(I,6)*FLUX6(I)
       ENDDO
 C-----------------------------------------------
 C     UPWIND
@@ -280,12 +280,12 @@ C-----------------------------------------------
       ENDDO
 
       ICLOS = NINT(PM(198, MAT(1)))
-      IF(ICLOS == 1) THEN 
+      IF(ICLOS == 1) THEN
         DO  I=LFT,LLT
            IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
            IF(II == 0) FLUX1(I)= ZERO
-c             
+c
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 2 - 1)
            IF(II == 0) FLUX2(I)= ZERO
 C
@@ -294,7 +294,7 @@ C
 C
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
            IF(II == 0)FLUX4(I)= ZERO
-c             
+c
            II=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
            IF(II == 0) FLUX5(I)=ZERO
 C           
@@ -319,7 +319,7 @@ C
      .            +FLUX4(I)+UPWL(I,4)*ABS(FLUX4(I))
      .            +FLUX5(I)+UPWL(I,5)*ABS(FLUX5(I))
      .            +FLUX6(I)+UPWL(I,6)*ABS(FLUX6(I))
-       
+
        ENDDO
 C
       RETURN

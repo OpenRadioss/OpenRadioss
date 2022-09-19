@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_TRI22VOX(
      1   IRECTM  ,NRTM   ,X      ,V       ,BMINMAL  ,
      2   STIFE   ,NIN    ,ISENDTO,IRCVFROM,IAD_ELEM ,
-     3   FR_ELEM ,NSHELR ,ITAB   ,ITASK          )  
+     3   FR_ELEM ,NSHELR ,ITAB   ,ITASK          )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        IAD_ELEM(2,*), FR_ELEM(*), ITAB(*) , ITASK
 
       my_real
-     .        X(3,*), V(3,*), BMINMAL(6), 
+     .        X(3,*), V(3,*), BMINMAL(6),
      .        STIFE(NRTM), TZINF
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -144,7 +144,7 @@ C=======================================================================
      .          (LRVOXEL+1)*(LRVOXEL+1),
      .          MPI_INTEGER,
      .          IT_SPMD(P),MSGTYP,MPI_COMM_WORLD,REQ_SC(P),IERROR)
-              MSGTYP = MSGOFF2 
+              MSGTYP = MSGOFF2
               CALL MPI_ISEND(
      .          BMINMA(1,LOC_PROC),6        ,REAL  ,IT_SPMD(P),MSGTYP,
      .          MPI_COMM_WORLD    ,REQ_SB(P),IERROR)
@@ -181,7 +181,7 @@ C=======================================================================
       !     XREM sending                          !
       !     (remote lagrangian shells)            !
       !-------------------------------------------!
-      IDEB = 1   
+      IDEB = 1
       IF(ISENDTO(NIN,LOC_PROC)/=0) THEN
         DO KK = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RB,INDEXI,STATUS,IERROR)
@@ -209,17 +209,17 @@ C=======================================================================
            IX2=INT(NBX*(XMAXE(I)-XMINB)/DX)
            IX1=MAX(0,IX1)
            IX2=MIN(IX2,NBX)
-           IF(IX2 < 0.OR.IX1 > NBX) CYCLE      
+           IF(IX2 < 0.OR.IX1 > NBX) CYCLE
            IY1=INT(NBY*(YMINE(I)-YMINB)/DY)
-           IY2=INT(NBY*(YMAXE(I)-YMINB)/DY) 
+           IY2=INT(NBY*(YMAXE(I)-YMINB)/DY)
            IY1=MAX(0,IY1)
            IY2=MIN(IY2,NBY)
-           IF(IY2 < 0.OR.IY1 > NBY) CYCLE  
+           IF(IY2 < 0.OR.IY1 > NBY) CYCLE
            IZ1=INT(NBZ*(ZMINE(I)-ZMINB)/DZ)
            IZ2=INT(NBZ*(ZMAXE(I)-ZMINB)/DZ)
            IZ1=MAX(0,IZ1)
            IZ2=MIN(IZ2,NBZ)
-           IF(IZ2 < 0.OR.IZ1 > NBZ) CYCLE  
+           IF(IZ2 < 0.OR.IZ1 > NBZ) CYCLE
            DO IY=IY1,IY2
              DO IZ=IZ1,IZ2
                 DO IX=IX1,IX2
@@ -232,14 +232,14 @@ C=======================================================================
                 END DO !IX
               END DO !IZ
             END DO !IY
-  111     CONTINUE       
-          ENDDO !I=1,NRTM 
+  111     CONTINUE
+          ENDDO !I=1,NRTM
           NBOX(P) = NB_
           !NSHELR = NB_
          !-------------------------------------------!
          !     Message Lenght for Sending            !
          !-------------------------------------------!
-          MSGTYP = MSGOFF3 
+          MSGTYP = MSGOFF3
           CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
          !-------------------------------------------!
@@ -256,11 +256,11 @@ C=======================================================================
          !     Buffer Affectation                    !
          !-------------------------------------------!
             DO J = 1, NB_
-              I = INDEX(J) 
+              I = INDEX(J)
               BUF(P)%p(L+1:L+4)  = ITAB(IRECTM(1:4,I))
               BUF(P)%p(L+5:L+8)  = X(1,IRECTM(1:4,I))
               BUF(P)%p(L+9:L+12) = X(2,IRECTM(1:4,I))
-              BUF(P)%p(L+13:L+16)= X(3,IRECTM(1:4,I))            
+              BUF(P)%p(L+13:L+16)= X(3,IRECTM(1:4,I))
               BUF(P)%p(L+17:L+19)= (/XMINE(I),YMINE(I),ZMINE(I)/)
               BUF(P)%p(L+20:L+22)= (/XMAXE(I),YMAXE(I),ZMAXE(I)/)
               BUF(P)%p(L+23)       = STIFE(I)
@@ -286,7 +286,7 @@ C=======================================================================
           NSNFI(NIN)%P(P) = 0
           IF(ISENDTO(NIN,P)/=0) THEN
             IF(LOC_PROC/=P) THEN
-              MSGTYP = MSGOFF3 
+              MSGTYP = MSGOFF3
               CALL MPI_RECV(NSNFI(NIN)%P(P),1,MPI_INTEGER,IT_SPMD(P),
      .                      MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
               IF(NSNFI(NIN)%P(P)>0) THEN
@@ -317,7 +317,7 @@ C=======================================================================
           DO L = 1, NBIRECV
             P = ISINDEXI(L)
             LEN = NSNFI(NIN)%P(P)*SIZ_XREM
-            MSGTYP = MSGOFF4 
+            MSGTYP = MSGOFF4
             IAD = IDEB
             ! correction adresse pour passage tableau XREM SP utilise en DP ds la routine de comm
             IF(IR4R8 == 1) IAD = 2*IDEB-1

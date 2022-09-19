@@ -85,11 +85,11 @@ C
             ENDDO
             IF(ISENS == 0)THEN
                TS = TT*THEACCFACT - STARTT
-            ELSE 
+            ELSE
                STARTT = STARTT + SENSOR(2,ISENS)
                STOPT  = STOPT  + SENSOR(2,ISENS)		
-               TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))      
-            ENDIF       
+               TS = TT*THEACCFACT -(STARTT + SENSOR(2,ISENS))
+            ENDIF
 C
             IF(TT*THEACCFACT < STARTT) CYCLE
             IF(TT*THEACCFACT > STOPT)  CYCLE
@@ -98,7 +98,7 @@ C
             IC = IC + 1
             INDEX(IC)= N
 C            TSC(IC) = (TS+DT2)*FACX     
-            TSC(IC) = TS*FACX     
+            TSC(IC) = TS*FACX
           ENDDO
         ELSE
 C       sans aucun sensor
@@ -111,9 +111,9 @@ C       sans aucun sensor
             FACX   = VAL(3,N)
             I=IABS(IBFT(1,N))
             IC = IC + 1
-            INDEX(IC) = N     
+            INDEX(IC) = N
             TS = TT*THEACCFACT - STARTT
-            TSC(IC) = TS*FACX          
+            TSC(IC) = TS*FACX
           ENDDO
         ENDIF
 C
@@ -148,13 +148,13 @@ C
 C		
         IF(IVECTOR == 0) THEN
          DO II=1,IC
-          N = INDEX(II) 
+          N = INDEX(II)
           IBFT(4,N) = IPOSC(II)
           FAC  = VAL(4,N)
           YC(II) = YC(II) * FAC
           I=IABS(IBFT(1,N))
           TEMP(I) = YC(II)
-         ENDDO 
+         ENDDO
         ELSE
 C       partie vectorielle                  
 #include "vectorize.inc"
@@ -164,7 +164,7 @@ C       partie vectorielle
            FAC  = VAL(4,N)
            YC(II) = YC(II) * FAC
            I=IABS(IBFT(1,N))
-           TEMP(I) = YC(II) 
+           TEMP(I) = YC(II)
           ENDDO
         ENDIF
 C

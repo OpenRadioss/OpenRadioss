@@ -188,8 +188,8 @@ C------
 C------
        VXG(I)=FOURTH*(VX1(I)+VX2(I)+VX3(I)+VX4(I))
        VYG(I)=FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
-       VZG(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))      
- 100  CONTINUE     
+       VZG(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
+ 100  CONTINUE
 C----------------------------------------------------------
 C     1ER TRIANGLE / Force normale.
 C----------------------------------------------------------
@@ -226,7 +226,7 @@ C----------------------------------------------------------
 C------------------------------
       FXT(1,I)=ZERO
       FYT(1,I)=ZERO
-      FZT(1,I)=ZERO      
+      FZT(1,I)=ZERO
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
@@ -248,7 +248,7 @@ C-------------------------------
       ELSE
        DELTX=ZERO
        DELTY=ZERO
-       DELTZ=ZERO     
+       DELTZ=ZERO
       ENDIF
 C-------------------------------
 C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
@@ -282,7 +282,7 @@ C-------------------------------
       ELSE
        DVX=ZERO
        DVY=ZERO
-       DVZ=ZERO    
+       DVZ=ZERO
       ENDIF
 C-----
 C     Force tangente K.DELTA
@@ -329,7 +329,7 @@ C----------------------------------------------------------
       I  =NLS-NDEB
       FXT(2,I)=ZERO
       FYT(2,I)=ZERO
-      FZT(2,I)=ZERO    
+      FZT(2,I)=ZERO
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
@@ -351,7 +351,7 @@ C-------------------------------
       ELSE
        DELTX=ZERO
        DELTY=ZERO
-       DELTZ=ZERO     
+       DELTZ=ZERO
       ENDIF
 C-------------------------------
 C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
@@ -385,7 +385,7 @@ C-------------------------------
       ELSE
        DVX=ZERO
        DVY=ZERO
-       DVZ=ZERO     
+       DVZ=ZERO
       ENDIF
 C-----
 C     Force tangente K.DELTA, K=1. et Norme.
@@ -433,7 +433,7 @@ C----------------------------------------------------------
 C------------------------------
       FXT(3,I)=ZERO
       FYT(3,I)=ZERO
-      FZT(3,I)=ZERO    
+      FZT(3,I)=ZERO
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
@@ -455,7 +455,7 @@ C-------------------------------
       ELSE
        DELTX=ZERO
        DELTY=ZERO
-       DELTZ=ZERO    
+       DELTZ=ZERO
       ENDIF
 C-------------------------------
 C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
@@ -489,7 +489,7 @@ C-------------------------------
       ELSE
        DVX=ZERO
        DVY=ZERO
-       DVZ=ZERO     
+       DVZ=ZERO
       ENDIF
 C-----
 C     Force tangente K.DELTA, K=1. et Norme.
@@ -537,7 +537,7 @@ C----------------------------------------------------------
 C------------------------------
       FXT(4,I)=ZERO
       FYT(4,I)=ZERO
-      FZT(4,I)=ZERO    
+      FZT(4,I)=ZERO
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
@@ -559,7 +559,7 @@ C-------------------------------
       ELSE
        DELTX=ZERO
        DELTY=ZERO
-       DELTZ=ZERO    
+       DELTZ=ZERO
       ENDIF
 C-------------------------------
 C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
@@ -593,7 +593,7 @@ C-------------------------------
       ELSE
        DVX=ZERO
        DVY=ZERO
-       DVZ=ZERO    
+       DVZ=ZERO
       ENDIF
 C-----
 C     Force tangente K.DELTA, K=1. et Norme.

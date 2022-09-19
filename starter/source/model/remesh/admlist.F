@@ -170,7 +170,7 @@ C-----------------------
 
 
       RETURN
-      END     
+      END
 Chd|====================================================================
 Chd|  ADMLIST                       source/model/remesh/admlist.F 
 Chd|-- called by -----------
@@ -334,7 +334,7 @@ C
 
             LEVEL=LEVEL+1
           END DO
-           
+
           DO KE=LELT1+1,LELT2
             LELT=LELT+1
             NELT(LELT)=NELTMP(KE)
@@ -351,4 +351,4 @@ C-----------------------
 
 
       RETURN
-      END     
+      END

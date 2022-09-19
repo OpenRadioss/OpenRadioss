@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NDOF(*), IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*), 
+      INTEGER NDOF(*), IXS(NIXS,*), IXQ(NIXQ,*), IXC(NIXC,*),
      .        IXT(NIXT,*), IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*),
      .        IXTG(NIXTG,*), KXX(NIXX,*), IXX(*)
       my_real
@@ -120,33 +120,33 @@ C
       ELSE
 C----   AMS
         DO IEL=1,NUMELS
-          DO J=1,8                               
-            N = IXS(J+1,IEL) 
+          DO J=1,8
+            N = IXS(J+1,IEL)
             IF(N/=0)TAG8(N)=0
           ENDDO
-          NN=0                           
-          DO J=1,8                               
-            N = IXS(J+1,IEL) 
+          NN=0
+          DO J=1,8
+            N = IXS(J+1,IEL)
             IF(N/=0)THEN
               IF(TAG8(N)==0)THEN
                 NN=NN+1
                 TAG8(N)=1
-              END IF                  
-            END IF                  
-          ENDDO                                    
-          DO J=1,8                               
-            N = IXS(J+1,IEL) 
+              END IF
+            END IF
+          ENDDO
+          DO J=1,8
+            N = IXS(J+1,IEL)
             IF(N/=0)TAG8(N)=0
-          ENDDO                                    
-          DO J=1,8                               
-            N = IXS(J+1,IEL) 
+          ENDDO
+          DO J=1,8
+            N = IXS(J+1,IEL)
             IF(N/=0)THEN
               IF(TAG8(N)==0)THEN
                 NDOF(N)=NN-1
                 TAG8(N)=1
-              END IF                  
-            END IF                  
-          ENDDO                                    
+              END IF
+            END IF
+          ENDDO
         ENDDO
         DO IEL=1,NUMELT
            DO J=1,2
@@ -271,13 +271,13 @@ C-----------------------------------------------
 C
       KCUR=KIMPL
       IREC=KOPTAD(KCUR)
-      WRITE(ISTDO,'(A)') 
+      WRITE(ISTDO,'(A)')
      .' .. GRAPH FOR MULTI-LEVEL CONDENSATION'
 C
       IREC=IREC+1
-      READ(IIN,REC=IREC,ERR=999,FMT=FMT_5I_F_3I) 
+      READ(IIN,REC=IREC,ERR=999,FMT=FMT_5I_F_3I)
      .              NSPROC, NSDEC, NSLEVEL, NDOFMIN,
-     .              NSVMAX, CUTFREQ, DSARCH, NSPRI, 
+     .              NSVMAX, CUTFREQ, DSARCH, NSPRI,
      .              DSANIM
       VERSDD=0
       IF (DSANIM<0) THEN
@@ -316,13 +316,13 @@ C
 C
 C Remplissage de NDOF (cf DIM_GLOB_K dans ENGINE)
 C Traitement pour les RNUR et XELEM a faire
-      IF (NUMELUR/=0) WRITE(ISTDO,'(A)') 
+      IF (NUMELUR/=0) WRITE(ISTDO,'(A)')
      . ' ** WARNING : NO IMPLICIT TREATMENT OF RNUR ELEMENTS BY NOW'
-      IF (NUMELX/=0) WRITE(ISTDO,'(A)') 
+      IF (NUMELX/=0) WRITE(ISTDO,'(A)')
      . ' ** WARNING : NO IMPLICIT TREATMENT OF XELEM ELEMENTS BY NOW'
 C
       IF (NSDEC<=1) THEN
-       WRITE(ISTDO,'(A)') 
+       WRITE(ISTDO,'(A)')
      . ' ** WARNING : Nchild should be bigger than 1, set to 2'
         NSDEC = 2
       ENDIF
@@ -348,7 +348,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE DSGRAPH_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -459,7 +459,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELCL    
+            OFFEL=OFFEL+NUMELCL
 C
             DO I=1,NUMELTL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -471,7 +471,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELTL    
+            OFFEL=OFFEL+NUMELTL
 C
             DO I=1,NUMELPL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -483,7 +483,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELPL    
+            OFFEL=OFFEL+NUMELPL
 C
             DO I=1,NUMELRL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -495,7 +495,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELRL    
+            OFFEL=OFFEL+NUMELRL
 C
             DO I=1,NUMELTGL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -546,7 +546,7 @@ C
                   ENDIF
                ENDDO
             ENDDO
-         ENDDO  
+         ENDDO
          OFF=OFF+DSLEN
       ENDDO
 C
@@ -557,4 +557,4 @@ C
 C
       RETURN
       END
-                  
+

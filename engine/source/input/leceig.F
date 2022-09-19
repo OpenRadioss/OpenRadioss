@@ -70,7 +70,7 @@ C
       NACTI=0
       DO N=1,NEIG
          IF (EIGIPM(1,N)==0) THEN
-            IF (IMACH/=3.OR.ISPMD==0) 
+            IF (IMACH/=3.OR.ISPMD==0)
      .         WRITE(IOUT,'(A,I9,A)') ' EIGENPROBLEM:',ID(N),' SET OFF'
          ELSE
             NACTI=NACTI+1
@@ -85,4 +85,4 @@ C
 C
       RETURN
       END
-      
+

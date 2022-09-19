@@ -70,13 +70,13 @@ C====================================================================
 !====================================================================
        ICRYPT = 0    !
        NSTART = 2
-       ERRTOL = FIVEEM3   
+       ERRTOL = FIVEEM3
        IFC = IFUNC(1)
        IC1 = NPC(IFC)
        IC2 = NPC(IFC + 1)
        SCALEFAC =  UPARAM(3)
        NOGD=(IC2-IC1)/2
-       NDATA=NOGD   
+       NDATA=NOGD
 C
 C  !! check if the curve don't have (0,0) point.
 C        
@@ -85,7 +85,7 @@ C
          DO JJ = IC1,IC2 - 4,2
               IF (PLD(JJ) == ZERO .AND. PLD(JJ + 1) == ZERO )ICHECK = 1
               IF (PLD(JJ) <  ZERO ) NCOMP = NCOMP + 1
-         ENDDO 
+         ENDDO
          IF (ICHECK == 0 ) THEN
                               ! Error message
                  CALL ANCMSG(MSGID=1896,
@@ -95,7 +95,7 @@ C
      .                           C1=TITR,
      .                           I2=FUNC_ID(IFC)) ! Id_function
                    CALL ARRET(2)
-         ENDIF               
+         ENDIF
 !!         IF (NCOMP == 0 ) THEN   ! No curve definition in compression => warning
 !!                 CALL ANCMSG(MSGID=1917,
 !!     .                       MSGTYPE=MSGWARNING,
@@ -103,45 +103,45 @@ C
 !!     .                       I1=MAT_ID,
 !!     .                       C1=TITR,
 !!     .                       I2=FUNC_ID(IFC)) ! Id_function
-!!         ENDIF               
+!!         ENDIF
 c
-       ALLOCATE (STRETCH(NOGD))                              
-       ALLOCATE (STRESS(NOGD))                               
+       ALLOCATE (STRETCH(NOGD))
+       ALLOCATE (STRESS(NOGD))
 c
        AVE_SLOPE = ZERO
-       JJ=0                                                  
-       STRETCH=ZERO                                          
-       STRESS=ZERO                                           
-       MU=ZERO                                               
-       RBULK=ZERO                                            
-       GS=ZERO                           
-c    
-       CALL FUNC_SLOPE(IFUNC(1),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STFAVG) 
+       JJ=0
+       STRETCH=ZERO
+       STRESS=ZERO
+       MU=ZERO
+       RBULK=ZERO
+       GS=ZERO
+c
+       CALL FUNC_SLOPE(IFUNC(1),SCALEFAC,NPC,PLD,STIFFMIN,STIFFMAX,STIFFINI,STFAVG)
 C                                                                                        
-        NU  = UPARAM(1)                                             
-        !!GS  = STIFFMAX  
-        GS  = STIFFINI 
+        NU  = UPARAM(1)
+        !!GS  = STIFFMAX
+        GS  = STIFFINI
 C        
-        RBULK=TWO*GS*(ONE+NU)                                               
-     .        /MAX(EM30,THREE*(ONE-TWO*NU)) 
-        UPARAM(4) = GS                                                  
+        RBULK=TWO*GS*(ONE+NU)
+     .        /MAX(EM30,THREE*(ONE-TWO*NU))
+        UPARAM(4) = GS
         UPARAM(5) = RBULK
         UPARAM(6) = UPARAM(4)
-        IF(NCOMP == 0) UPARAM(7) = 1  
+        IF(NCOMP == 0) UPARAM(7) = 1
 !!        UPARAM(6)=TWO*STIFFMIN*(ONE+NU)
 !!     .        /MAX(EM30,THREE*(ONE-TWO*NU))
-c       parameters    
-        YOUNG  = TWO*GS*(ONE + NU)               
-        PM(20) = YOUNG                      
-        PM(21) = NU                         
-        PM(22) = GS                         
-        PM(24) = YOUNG/(ONE - NU**2)         
-        PM(32) = RBULK                      
-        PM(100) = RBULK  !PARMAT(1) 
+c       parameters
+        YOUNG  = TWO*GS*(ONE + NU)
+        PM(20) = YOUNG
+        PM(21) = NU
+        PM(22) = GS
+        PM(24) = YOUNG/(ONE - NU**2)
+        PM(32) = RBULK
+        PM(100) = RBULK  !PARMAT(1)
 C-----------
 C     Formulation for solid elements time step computation.
         IPM(252)= 2
-        PM(105) = TWO*GS/(RBULK + FOUR_OVER_3*GS)        
+        PM(105) = TWO*GS/(RBULK + FOUR_OVER_3*GS)
 C                          
         IF (ICRYPT == 0) THEN
           WRITE(IOUT,1000)

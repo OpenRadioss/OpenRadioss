@@ -116,11 +116,11 @@ C
           IV=ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
           IF(IV > 0)THEN
             VALVOIS(I,J)=PHI(IV)
-          ELSEIF(IV == 0)THEN       
+          ELSEIF(IV == 0)THEN
              VALVOIS(I,J)= PHIV(I)
-!C  not incoming gas  
+!C  not incoming gas
 cc            VALVOIS(I,J)= ZERO
-c 
+c
 cccc for ale continuit      VALVOIS(I,J)= PHI(IE)
           ELSE
             VALVOIS(I,J)=PHI(-IV+IOFF)
@@ -128,7 +128,7 @@ cccc for ale continuit      VALVOIS(I,J)= PHI(IE)
         ENDDO
       ENDDO
 C
-      DO I=LFT,LLT 
+      DO I=LFT,LLT
         VL(1) = VALVOIS(I,1)*FLUX(I,1)
         VL(2) = VALVOIS(I,2)*FLUX(I,2)
         VL(3) = VALVOIS(I,3)*FLUX(I,3)

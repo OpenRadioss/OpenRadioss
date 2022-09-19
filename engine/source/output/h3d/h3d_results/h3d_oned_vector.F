@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE H3D_ONED_VECTOR(
      .                  ELBUF_TAB      , IFUNC   , IPARG    , GEO   , IXT     ,
      .                  IXP            , IXR     , PM    , ANIM    ,
-     .                  ONED_VECTOR    , ID_ELEM , ITY_ELEM , INFO1 , INFO2   , 
+     .                  ONED_VECTOR    , ID_ELEM , ITY_ELEM , INFO1 , INFO2   ,
      .                  IS_WRITTEN_ONED, IPARTT  , IPARTP   , IPARTR, H3D_PART,
      .                  KEYWORD        , X       , D        , TORS  )
 C-----------------------------------------------
@@ -80,10 +80,10 @@ C     REAL
       my_real
      .   EVAR(MVSIZ), MASS(MVSIZ) ,
      .   OFF, P, VONM2, VONM, S1, S2, S12, S3, VALUE(3),
-     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,     
+     .   A1,B1,B2,B3,YEQ,F1,M1,M2,M3, XM,
      .   FOR, AREA, FEQ, EPLAS, RHO0, A0, XX1, YY1, ZZ1, AL0
       INTEGER I, II, NG, NEL, NFT, IAD, ITY, LFT, NPT, ISS, ISC,
-     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5, 
+     .        IADD, N, J, LLT, MLW, NB1, NB2, NB3, NB4, NB5,
      .        NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, NB15,
      .        NB16, LLL,NUVAR,IGTYP,
      .        ISTRAIN,NN, K1, K2,JTURB,MT,JALE, IMID, IALEL,IPID,
@@ -98,13 +98,13 @@ C-----------------------------------------------
 C
       NN1 = 1
       NN3 = 1
-      NN4 = NN3 
-      NN5 = NN4 
-      NN6 = NN5 
+      NN4 = NN3
+      NN5 = NN4
+      NN6 = NN5
       NN7 = NN6 + NUMELT
       NN8 = NN7 + NUMELP
       NN9 = NN8 + NUMELR
-      NN10= NN9 
+      NN10= NN9
 C
       DO NG=1,NGROUP
         MLW   =IPARG(1,NG)
@@ -123,27 +123,27 @@ C---
         VALUE(1:3) = ZERO
         DO I=1,NEL
           IS_WRITTEN_VALUE(I) = 0
-        ENDDO	 
+        ENDDO	
 c
         IF (ITY == 4) OFFSET = 0
         IF (ITY == 5) OFFSET = NUMELT
         IF (ITY == 6) OFFSET = NUMELT+NUMELP
 c
-        DO  I=1,NEL 
+        DO  I=1,NEL
           IF (ITY == 4) THEN
             ID_ELEM(OFFSET+NFT+I) = IXT(NIXT,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 4
             IF( H3D_PART(IPARTT(NFT+I)) == 1) IOK_PART(I) = 1
-          ELSEIF (ITY == 5) THEN 
+          ELSEIF (ITY == 5) THEN
             ID_ELEM(OFFSET+NFT+I) = IXP(NIXP,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 5
             IF( H3D_PART(IPARTP(NFT+I)) == 1) IOK_PART(I) = 1
-          ELSEIF (ITY == 6) THEN 
+          ELSEIF (ITY == 6) THEN
             ID_ELEM(OFFSET+NFT+I) = IXR(NIXR,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 6
             IF( H3D_PART(IPARTR(NFT+I)) == 1) IOK_PART(I) = 1
           ENDIF
-        ENDDO 
+        ENDDO
 
         IF(ITY==4 .OR. ITY==5 .OR. ITY==6)THEN
           DO I=1,NEL
@@ -165,7 +165,7 @@ C--------------------------------------------------
      .                                    VALUE)
             ENDDO
 C--------------------------------------------------
-c          ELSEIF (KEYWORD == '') THEN   
+c          ELSEIF (KEYWORD == '') THEN
 C--------------------------------------------------                    
 c            DO I=1,NEL
 c              VALUE(1) =
@@ -173,7 +173,7 @@ c              VALUE(2) =
 c              VALUE(3) =
 c              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_ONED,NODAL_VECTOR,I,0,0,
 c     .                                    VALUE)
-c            ENDDO  
+c            ENDDO
           ENDIF
 C-----------------------------------------------
 C       POUTRES
@@ -190,7 +190,7 @@ C--------------------------------------------------
      .                                    VALUE)
             ENDDO
 C--------------------------------------------------
-c          ELSEIF (KEYWORD == '') THEN   
+c          ELSEIF (KEYWORD == '') THEN
 C--------------------------------------------------                    
 c            DO I=1,NEL
 c              VALUE(1) =
@@ -198,7 +198,7 @@ c              VALUE(2) =
 c              VALUE(3) =
 c              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_ONED,NODAL_VECTOR,I,0,0,
 c     .                                    VALUE)
-c            ENDDO  
+c            ENDDO
           ENDIF
 C-----------------------------------------------
 C       RESSORTS
@@ -215,7 +215,7 @@ C--------------------------------------------------
      .                                    VALUE)
             ENDDO
 C--------------------------------------------------
-c          ELSEIF (KEYWORD == '') THEN   
+c          ELSEIF (KEYWORD == '') THEN
 C--------------------------------------------------                    
 c            DO I=1,NEL
 c              VALUE(1) =
@@ -223,10 +223,10 @@ c              VALUE(2) =
 c              VALUE(3) =
 c              CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_ONED,NODAL_VECTOR,I,0,0,
 c     .                                    VALUE)
-c            ENDDO  
+c            ENDDO
           ENDIF
         ENDIF
       ENDDO
- 
+
       RETURN
       END

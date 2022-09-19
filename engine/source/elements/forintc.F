@@ -132,7 +132,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER
      .   IXC(NIXC,*), IXTG(NIXTG,*), IGEO(NPROPGI,*), IPM(NPROPMI,*),
-     .   NPC(*), IPARG(NPARG,*), IPARI(NPARI,*), 
+     .   NPC(*), IPARG(NPARG,*), IPARI(NPARI,*),
      .   NSTRF(*), IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   IADC(4,*), IADTG(3,*), LSENSOR(NSENSI,*), NELTST,
      .   ITYPTST,IXTG1(4,*),XEDGE4N(4,*),XEDGE3N(3,*),
@@ -163,11 +163,11 @@ C     REAL
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP)      :: ELBUF_TAB
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
-      TYPE (XFEM_EDGE_)   , DIMENSION(*)           :: CRKEDGE	 
+      TYPE (XFEM_EDGE_)   , DIMENSION(*)           :: CRKEDGE	
       TYPE (XFEM_SKY_)    , DIMENSION(*) :: CRKSKY
-      TYPE (STACK_PLY) :: STACK 
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (NLOCAL_STR_)   :: NLOC_DMG 
+      TYPE (STACK_PLY) :: STACK
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
+      TYPE (NLOCAL_STR_)   :: NLOC_DMG
       TYPE (GRP_PARAM_STRUCT_) , DIMENSION(NGROUP) :: GROUP_PARAM_TAB
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (DRAPE_)  :: DRAPE_Q4,DRAPE_T3
@@ -330,14 +330,14 @@ C
           ELSEIF (JHBE >= 21 .AND. JHBE <= 29) THEN
 
               CALL CZFORC3(ELBUF_TAB(NG),
-     1      JFT        ,JLT       ,NFT       ,NPT       ,ITAB       ,              
+     1      JFT        ,JLT       ,NFT       ,NPT       ,ITAB       ,
      2        IPARI      ,MLW       ,IPRI      ,ITHK      ,NELTST     ,
      3        ISTRA      ,IPLA      ,TT        ,DT1       ,DT2T       ,
      4        PM         ,GEO       ,PARTSAV   ,IXC(1,NF1),ITYPTST    ,
-     5      BUFMAT     ,TF        ,NPC       ,IADC(1,NF1),FAILWAVE  ,             
+     5      BUFMAT     ,TF        ,NPC       ,IADC(1,NF1),FAILWAVE  ,
      6        X          ,D         ,DR        ,V         ,VR         ,
      7        A          ,AR        ,STIFN     ,STIFR     ,FSKY       ,
-     8      TANI      ,EANI      ,INDXOF    ,ISMSTR     ,GROUP_PARAM_TAB(NG),              
+     8      TANI      ,EANI      ,INDXOF    ,ISMSTR     ,GROUP_PARAM_TAB(NG),
      9        IPARTC(NF1),THKE(NF1) ,NVC       ,IOFC      ,JHBE       ,
      A        FX(1,1)    ,FX(1,2)   ,FX(1,3)   ,FX(1,4)   ,FY(1,1)    ,
      B        FY(1,2)    ,FY(1,3)   ,FY(1,4)   ,FZ(1,1)   ,FZ(1,2)    ,
@@ -346,13 +346,13 @@ C
      E        MZ(1,1)    ,MZ(1,2)   ,MZ(1,3)   ,MZ(1,4)   ,KFTS       ,
      F        FZERO(1,1,NF1),IGEO   ,IPM       ,IFAILURE  ,ITASK      ,
      G        JTHE        ,TEMP     ,FTHE      ,FTHESKY   ,IEXPAN     ,
-     H      GRESAV      ,GRTH     ,IGRTH(NF1),XEDGE4N   ,MSC(NF1)   ,  
+     H      GRESAV      ,GRTH     ,IGRTH(NF1),XEDGE4N   ,MSC(NF1)   ,
      I        DMELC(NF1)  ,JSMS     ,TABLE     ,IPARG(1,NG),MATPARAM_TAB,
      J        IXFEM       ,KNOD2ELC  ,LSENSOR    ,SENSOR    ,
      K        ELCUTC(1,NF1),INOD_CRK,IEL_CRK   ,IBORDNODE  ,NODENR    ,
      L        IADC_CRK    ,NODEDGE  ,CRKNODIAD ,CONDN    ,
-     M      CONDNSKY    ,STACK,ISUBSTACK,XFEM_TAB(NG,1:NXEL),CRKEDGE,       
-     O      DRAPE_Q4      ,NEL,NLOC_DMG)                         
+     M      CONDNSKY    ,STACK,ISUBSTACK,XFEM_TAB(NG,1:NXEL),CRKEDGE,
+     O      DRAPE_Q4      ,NEL,NLOC_DMG)
 
       IF (ICRACK3D > 0 .AND. IXFEM > 0 .AND. ACTIFXFEM > 0) THEN
           DO IXEL=1,NXEL
@@ -364,7 +364,7 @@ C
      5          BUFMAT     ,TF        ,NPC       ,IADC(1,NF1),FAILWAVE  ,
      6          X          ,D         ,DR        ,V         ,VR         ,
      7          A          ,AR        ,STIFN     ,STIFR     ,FSKY       ,
-     8          TANI      ,OFFSET    ,EANI      ,INDXOF     ,   
+     8          TANI      ,OFFSET    ,EANI      ,INDXOF     ,
      9          IPARTC(NF1),THKE(NF1) ,NVC       ,IOFC      ,JHBE       ,
      A          FX(1,1)    ,FX(1,2)   ,FX(1,3)   ,FX(1,4)   ,FY(1,1)    ,
      B          FY(1,2)    ,FY(1,3)   ,FY(1,4)   ,FZ(1,1)   ,FZ(1,2)    ,
@@ -385,27 +385,27 @@ C
 c
           ELSE
             CALL CFORC3(ELBUF_TAB(NG),
-     1        JFT      ,JLT      ,PM       ,IXC(1,NF1),X         ,       
-     2        A        ,AR       ,V        ,VR       ,FAILWAVE   ,                   
-     3        NVC      ,MLW      ,GEO      ,TF       ,NPC        ,       
-     4        BUFMAT   ,PARTSAV  ,DT2T     ,NELTST   ,ITYPTST    ,       
-     5        STIFN    ,STIFR    ,FSKY     ,IADC(1,NF1),ITAB     ,       
-     6        D        ,DR       ,TANI     ,OFFSET   ,EANI       ,       
-     7        FX(1,1)  ,FX(1,2)  ,FX(1,3)  ,FX(1,4)  ,FY(1,1)    ,       
-     8        FY(1,2)  ,FY(1,3)  ,FY(1,4)  ,FZ(1,1)  ,FZ(1,2)    ,       
-     9        FZ(1,3)  ,FZ(1,4)  ,MX(1,1)  ,MX(1,2)  ,MX(1,3)    ,       
-     A        MX(1,4)  ,MY(1,1)  ,MY(1,2)  ,MY(1,3)  ,MY(1,4)    ,       
-     B        MZ(1,1)  ,MZ(1,2)  ,MZ(1,3)  ,MZ(1,4)  ,INDXOF     ,       
-     C        IPARTC(NF1),THKE(NF1),GROUP_PARAM_TAB(NG),MATPARAM_TAB,                                     
-     F        NEL      ,ISTRA    ,JHBE     ,                   
-     G        ITHK     ,IOFC     ,IPLA     ,NFT      ,ISMSTR     ,       
-     H        NPT      ,KFTS     ,                                       
-     I        FZERO(1,1,NF1),IGEO ,IPM         ,IFAILURE  ,ITASK   ,     
-     J        JTHE          ,TEMP , FTHE       ,FTHESKY   ,IEXPAN ,      
-     K        GRESAV      ,GRTH   ,XEDGE4N  ,                                 
-     L        IGRTH(NF1),MSC(NF1)  ,DMELC(NF1)  ,JSMS,TABLE    ,         
-     M        IPARG(1,NG),IXFEM,KNOD2ELC,LSENSOR   ,SENSOR   ,           
-     N        ELCUTC(1,NF1),INOD_CRK,IEL_CRK ,IBORDNODE ,NODENR   ,      
+     1        JFT      ,JLT      ,PM       ,IXC(1,NF1),X         ,
+     2        A        ,AR       ,V        ,VR       ,FAILWAVE   ,
+     3        NVC      ,MLW      ,GEO      ,TF       ,NPC        ,
+     4        BUFMAT   ,PARTSAV  ,DT2T     ,NELTST   ,ITYPTST    ,
+     5        STIFN    ,STIFR    ,FSKY     ,IADC(1,NF1),ITAB     ,
+     6        D        ,DR       ,TANI     ,OFFSET   ,EANI       ,
+     7        FX(1,1)  ,FX(1,2)  ,FX(1,3)  ,FX(1,4)  ,FY(1,1)    ,
+     8        FY(1,2)  ,FY(1,3)  ,FY(1,4)  ,FZ(1,1)  ,FZ(1,2)    ,
+     9        FZ(1,3)  ,FZ(1,4)  ,MX(1,1)  ,MX(1,2)  ,MX(1,3)    ,
+     A        MX(1,4)  ,MY(1,1)  ,MY(1,2)  ,MY(1,3)  ,MY(1,4)    ,
+     B        MZ(1,1)  ,MZ(1,2)  ,MZ(1,3)  ,MZ(1,4)  ,INDXOF     ,
+     C        IPARTC(NF1),THKE(NF1),GROUP_PARAM_TAB(NG),MATPARAM_TAB,
+     F        NEL      ,ISTRA    ,JHBE     ,
+     G        ITHK     ,IOFC     ,IPLA     ,NFT      ,ISMSTR     ,
+     H        NPT      ,KFTS     ,
+     I        FZERO(1,1,NF1),IGEO ,IPM         ,IFAILURE  ,ITASK   ,
+     J        JTHE          ,TEMP , FTHE       ,FTHESKY   ,IEXPAN ,
+     K        GRESAV      ,GRTH   ,XEDGE4N  ,
+     L        IGRTH(NF1),MSC(NF1)  ,DMELC(NF1)  ,JSMS,TABLE    ,
+     M        IPARG(1,NG),IXFEM,KNOD2ELC,LSENSOR   ,SENSOR   ,
+     N        ELCUTC(1,NF1),INOD_CRK,IEL_CRK ,IBORDNODE ,NODENR   ,
      O        IADC_CRK ,NODEDGE ,CRKNODIAD ,CONDN   ,
      P        CONDNSKY ,STACK ,ISUBSTACK ,XFEM_TAB(NG,1:NXEL),CRKEDGE,
      R        DRAPE_Q4     ,IPRI        ,NLOC_DMG)
@@ -414,7 +414,7 @@ c
           DO IXEL=1,NXEL
            CALL CFORC3_CRK(XFEM_TAB(NG,IXEL),
      1            JFT      ,JLT      ,PM       ,IXC(1,NF1),X         ,
-     2            A        ,AR       ,V        ,VR       ,FAILWAVE   ,   
+     2            A        ,AR       ,V        ,VR       ,FAILWAVE   ,
      3            NVC      ,MLW      ,GEO      ,TF       ,NPC        ,
      4            BUFMAT   ,PARTSAV  ,DT2T     ,NELTST   ,ITYPTST    ,
      5            STIFN    ,STIFR    ,FSKY     ,CRKSKY   ,IADC(1,NF1),
@@ -424,10 +424,10 @@ c
      9            FZ(1,3)  ,FZ(1,4)  ,MX(1,1)  ,MX(1,2)  ,MX(1,3)    ,
      A            MX(1,4)  ,MY(1,1)  ,MY(1,2)  ,MY(1,3)  ,MY(1,4)    ,
      B            MZ(1,1)  ,MZ(1,2)  ,MZ(1,3)  ,MZ(1,4)  ,INDXOF     ,
-     C            IPARTC(NF1),THKE(NF1),GROUP_PARAM_TAB(NG),MATPARAM_TAB, 
+     C            IPARTC(NF1),THKE(NF1),GROUP_PARAM_TAB(NG),MATPARAM_TAB,
      F            NEL      ,ISTRA     ,JHBE    ,KFTS     ,
      G            ITHK     ,IOFC      ,IPLA    ,NFT      ,ISMSTR     ,
-     H FZERO(1,1,NF1),IGEO      ,IPM         ,IFAILURE  ,ITASK       ,           
+     H FZERO(1,1,NF1),IGEO      ,IPM         ,IFAILURE  ,ITASK       ,
      I JTHE          ,TEMP      , FTHE       ,FTHESKY   ,IEXPAN      ,
      J GRESAV      ,GRTH        ,
      K IGRTH(NF1)    ,MSC(NF1)  ,DMELC(NF1)  ,JSMS      ,TABLE       ,
@@ -482,23 +482,23 @@ C----6---------------------------------------------------------------7--
            IF (ICNOD == 6) THEN
               NFT1 = NF1-NUMELTG+NUMELTG6
               CALL CDK6FORC3(ELBUF_TAB(NG),
-     1 JFT         ,JLT         ,PM          ,IXTG(1,NF1) ,X           ,            
-     2 A           ,AR          ,V           ,VR          ,FAILWAVE    ,           
-     3 NVC         ,MLW         ,GEO         ,TF          ,NPC         ,            
-     4 BUFMAT      ,PARTSAV     ,DT2T        ,NELTST      ,ITYPTST     ,            
-     5 STIFN       ,STIFR       ,FSKY        ,IADTG(1,NF1),GROUP_PARAM_TAB(NG),       
-     6 TANI(1+6*NUMELC),OFFSET  ,IPARTTG(NF1),THKE(NUMELC+NF1),FX(1,1) ,            
-     7 FX(1,2)     ,FX(1,3)     ,FY(1,1)     ,FY(1,2)     ,FY(1,3)     ,            
-     8 FZ(1,1)     ,FZ(1,2)     ,FZ(1,3)     ,FX(1,4)     ,FX(1,5)     ,            
-     9 FX(1,6)     ,FY(1,4)     ,FY(1,5)     ,FY(1,6)     ,FZ(1,4)     ,            
-     A FZ(1,5)     ,FZ(1,6)     ,MATPARAM_TAB,          
-     B NEL       ,ISTRA       ,ISH3N       ,                          
-     C ITHK        ,IOFC        ,IPLA        ,NFT         ,ISMSTR      ,           
-     D NPT         ,KFTS        ,            
-     E IXTG1(1,NFT1),IADTG1(1,NFT1),IGEO     ,IPM         ,IFAILURE   ,             
-     F IEXPAN      ,GRESAV      ,GRTH        ,                          
-     .      IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1) ,MSTG(NF1) ,             
-     G DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,LSENSOR    ,             
+     1 JFT         ,JLT         ,PM          ,IXTG(1,NF1) ,X           ,
+     2 A           ,AR          ,V           ,VR          ,FAILWAVE    ,
+     3 NVC         ,MLW         ,GEO         ,TF          ,NPC         ,
+     4 BUFMAT      ,PARTSAV     ,DT2T        ,NELTST      ,ITYPTST     ,
+     5 STIFN       ,STIFR       ,FSKY        ,IADTG(1,NF1),GROUP_PARAM_TAB(NG),
+     6 TANI(1+6*NUMELC),OFFSET  ,IPARTTG(NF1),THKE(NUMELC+NF1),FX(1,1) ,
+     7 FX(1,2)     ,FX(1,3)     ,FY(1,1)     ,FY(1,2)     ,FY(1,3)     ,
+     8 FZ(1,1)     ,FZ(1,2)     ,FZ(1,3)     ,FX(1,4)     ,FX(1,5)     ,
+     9 FX(1,6)     ,FY(1,4)     ,FY(1,5)     ,FY(1,6)     ,FZ(1,4)     ,
+     A FZ(1,5)     ,FZ(1,6)     ,MATPARAM_TAB,
+     B NEL       ,ISTRA       ,ISH3N       ,
+     C ITHK        ,IOFC        ,IPLA        ,NFT         ,ISMSTR      ,
+     D NPT         ,KFTS        ,
+     E IXTG1(1,NFT1),IADTG1(1,NFT1),IGEO     ,IPM         ,IFAILURE   ,
+     F IEXPAN      ,GRESAV      ,GRTH        ,
+     .      IGRTH(NUMELC+NUMELT+NUMELP+NUMELR+NUMELUR+NF1) ,MSTG(NF1) ,
+     G DMELTG(NF1) ,JSMS        ,TABLE       ,IPARG(1,NG) ,LSENSOR    ,
      H SENSOR      ,PTG(1,NF1)  ,JTHE        ,CONDN       ,CONDNSKY   ,
      I ISUBSTACK   ,STACK       ,ITASK,DRAPE_T3,
      . IPRI        ,NLOC_DMG    )

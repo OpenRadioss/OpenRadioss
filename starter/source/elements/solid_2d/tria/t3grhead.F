@@ -105,7 +105,7 @@ C-----------------------------------------------
      .    EADD(*), ITR1(*), INDEX(*), ITRI(7,*),IPARTTG(*),
      .    CEP(*), XEP(*),
      .    ITRIOFF(*),
-     .    IGEO(NPROPGI,*),IPM(NPROPMI,*), IPART(LIPART1,*), 
+     .    IGEO(NPROPGI,*),IPM(NPROPMI,*), IPART(LIPART1,*),
      .    SH3TREE(KSH3TREE,*), NOD2ELTG(*), SH3TRIM(*),
      .    TAGPRT_SMS(*),IWORKSH(3,*)
 C     REAL OU REAL*8
@@ -128,7 +128,7 @@ C-----------------------------------------------
       INTEGER I, K, MLN, NG, ISSN, NPN, IFIO,NN,ICO,ID,
      .   MLN0, ISSN0, IC, N, MID, MID0, PID, PID0, ISTR0,
      .   IHBE, IHBE0, J, MIDN, NSG, NEL, NE1, ITHK,
-     .   ITHK0, IPLA, IPLA0, II1, JJ1, II2, JJ2, II, JJ, 
+     .   ITHK0, IPLA, IPLA0, II1, JJ1, II2, JJ2, II, JJ,
      .   L, IGTYP, II3, JJ3,NGROU,NELTG3,
      .   MSKMLN, MSKNPN, MSKIHB, MSKISN, MODE,ICSEN,IFAIL,NFAIL,
      .   MSKIST, MSKIPL, MSKITH, MSKMID,MSKPID,MSKIRP,MSKTYP,IREP,
@@ -182,7 +182,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                ALLOCATE(XNUM_DRAPE(I)%RDRAPE(NPT,2),XNUM_DRAPE(I)%IDRAPE(NPT))
                XNUM_DRAPE(I)%RDRAPE = 0
                XNUM_DRAPE(I)%IDRAPE = 0
-            ENDDO 
+            ENDDO
       ELSE
             ALLOCATE( XNUM_DRAPE(0) )
       ENDIF
@@ -230,7 +230,7 @@ C
         ENDIF
         IF (NPERTURB > 0) THEN
           DO IPERT = 1, NPERTURB
-            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
+            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I)
           ENDDO
         ENDIF
         ANGLE(I)=SH3ANG(I)
@@ -277,7 +277,7 @@ C
         PID= IXTG(5,II)
         MLN = NINT(PM(19,MID))
 C
-        JTHE = ABS(NINT(PM(71,MID)))        
+        JTHE = ABS(NINT(PM(71,MID)))
         IGTYP = IGEO(11,PID)
         NPN   = IGEO(4,PID)
         ISH3N  = IGEO(18,PID)
@@ -288,8 +288,8 @@ C
         IF (IGTYP == 11) THEN
           DO IPT = 1, NPN
            IMATLY  = IGEO(100+IPT,PID)
-            NFAIL  = MAX(NFAIL, IPM(220, IMATLY)) 
-          ENDDO 
+            NFAIL  = MAX(NFAIL, IPM(220, IMATLY))
+          ENDDO
           IF(ICRACK3D > 0)THEN
 C -         new multilayer -
             IXFEM = IPM(236,MID)
@@ -297,15 +297,15 @@ C -         new multilayer -
         ELSEIF (IGTYP == 17) THEN
           NPN = IWORKSH(1,NUMELC + II)
           ISUBSTACK =IWORKSH(3,NUMELC + II)
-!!          IIGEO   =  40 + 5*(ISUBSTACK - 1) 
+!!          IIGEO   =  40 + 5*(ISUBSTACK - 1)
 !!          IADI    = IGEO(IIGEO + 3,PID)
 !!          IPPID   = IADI
           IPPID = 2
           DO IPT = 1, NPN
             IPID = STACK%IGEO(IPPID+IPT,ISUBSTACK)
             IMATLY = IGEO(101, IPID)
-            NFAIL  = MAX(NFAIL, IPM(220, IMATLY)) 
-          ENDDO       
+            NFAIL  = MAX(NFAIL, IPM(220, IMATLY))
+          ENDDO
         ELSEIF (IGTYP == 51  ) THEN
 C---
 C new shell property (multiple NPT through each layer)
@@ -317,7 +317,7 @@ C---
           DO IPT = 1, NPN
             IPID = STACK%IGEO(IPPID+IPT,ISUBSTACK)
             IMATLY = IGEO(101, IPID)
-            NFAIL  = MAX(NFAIL, IPM(220, IMATLY)) 
+            NFAIL  = MAX(NFAIL, IPM(220, IMATLY))
 C --- PID 51 combined with LAW58 ---
             IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
           ENDDO
@@ -339,7 +339,7 @@ C---
           DO IPT = 1, NPN
             IPID   = STACK%IGEO(IPPID + IPT,ISUBSTACK)
             IMATLY = STACK%IGEO(IPMAT + IPT,ISUBSTACK)
-            NFAIL  = MAX(NFAIL, IPM(220, IMATLY)) 
+            NFAIL  = MAX(NFAIL, IPM(220, IMATLY))
 C --- PID 51 combined with LAW58 ---
             IF (NINT(PM(19,IMATLY)) == 58) NB_LAW58 = NB_LAW58 + 1
           ENDDO
@@ -348,7 +348,7 @@ C --- set IREP for tri criteria:
             IREP = 2
           ELSEIF (NB_LAW58 > 0) THEN
             IREP = IREP + 3
-          ENDIF        
+          ENDIF
 C
         ELSE ! IGTYP == 1
           IF(ICRACK3D > 0)THEN
@@ -361,9 +361,9 @@ C -         new monolayer -
           END IF
         ENDIF
         IF (NFAIL > 0) IFAIL = 1
-c        
+c
 C thermal material expansion
-        IEXPAN  = IPM(218, MID)       
+        IEXPAN  = IPM(218, MID)
         ICO = ICNOD(II)
         IF(ISH3N>3.AND.ISH3N<=29)THEN
           ID = IGEO(1,PID)
@@ -427,11 +427,11 @@ C       IPLA   = MY_SHIFTL(IPLA,0)
         ISSN   = MY_SHIFTL(ISSN,6)
 C
         IGTYP  = MY_SHIFTL(IGTYP,9)
-        MLN    = MY_SHIFTL(MLN,18)    
+        MLN    = MY_SHIFTL(MLN,18)
 C       attention cle pleine ;
 C       ICO doit rester en poids le plus fort dans cette cle.
-        ICO   = MY_SHIFTL(ICO,29) 
-        ITRI(3,I)=IPLA+ISTRAIN+ISSN+IGTYP+MLN+ICO 
+        ICO   = MY_SHIFTL(ICO,29)
+        ITRI(3,I)=IPLA+ISTRAIN+ISSN+IGTYP+MLN+ICO
 C
 C---clef4
 C
@@ -484,7 +484,7 @@ C
        IWORKSH(2,NUMELC + I)= INUM_WORKC(2,INDEX(I))
        IWORKSH(3,NUMELC + I)= INUM_WORKC(3,INDEX(I))
        IF (NDRAPE > 0) THEN
-         NPT = XNUM_DRAPE(INDEX(I))%NPT 
+         NPT = XNUM_DRAPE(INDEX(I))%NPT
          DRAPE(NUMELC + I)%NPT = NPT
          DO IPT = 1, NPT
            DRAPE(NUMELC + I)%IDRAPE(IPT)   = XNUM_DRAPE(INDEX(I))%IDRAPE(IPT)
@@ -494,7 +494,7 @@ C
        ENDIF
        IF (NPERTURB > 0) THEN
          DO IPERT = 1, NPERTURB
-           RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
+           RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I))
          ENDDO
        ENDIF
         SH3ANG(I)=ANGLE(INDEX(I))
@@ -517,7 +517,7 @@ C INVERSION DE INDEX (DANS ITR1)
 C
       DO I=1,NUMELTG
         ITR1(INDEX(I))=I
-      ENDDO      
+      ENDDO
 
 C RENUMEROTATION DE L'ARBRE
       IF(NADMESH/=0)THEN
@@ -600,7 +600,7 @@ C for stack/ply pid
       ENDDO
 c
       IF (NPERTURB > 0) THEN
-        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
+        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE)
       ENDIF
 C
       DEALLOCATE(INDEX2)

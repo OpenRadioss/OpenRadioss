@@ -30,7 +30,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|====================================================================
       SUBROUTINE RATIO_FILL(
      .    X1        ,X2       ,X3       ,X4        ,X5        ,X6      ,X7         ,X8       ,
-     .    Y1        ,Y2       ,Y3       ,Y4        ,Y5        ,Y6      ,Y7         ,Y8       , 
+     .    Y1        ,Y2       ,Y3       ,Y4        ,Y5        ,Y6      ,Y7         ,Y8       ,
      .    Z1        ,Z2       ,Z3       ,Z4        ,Z5        ,Z6      ,Z7         ,Z8       ,
      .    IDP       ,X        ,IXS      ,IPART_    ,IFILL     ,NTRACE  ,NTRACE0    ,DIS      ,
      .    NSOLTOSF  ,NNOD2SURF,INOD2SURF,KNOD2SURF ,JMID      ,IPHASE  ,INPHASE    ,KVOL     ,
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NBSUBMAT,ITAB(NUMNOD)
       my_real
      .   X1(*),X2(*),X3(*),X4(*),X5(*),X6(*),X7(*),X8(*),
-     .   Y1(*),Y2(*),Y3(*),Y4(*),Y5(*),Y6(*),Y7(*),Y8(*), 
+     .   Y1(*),Y2(*),Y3(*),Y4(*),Y5(*),Y6(*),Y7(*),Y8(*),
      .   Z1(*),Z2(*),Z3(*),Z4(*),Z5(*),Z6(*),Z7(*),Z8(*),
      .   X(3,*),DIS(NSURF_INVOL,*),KVOL(NBSUBMAT,*),BUFSF(*),
      .   NOD_NORMAL(3,*),FILL_RATIO
@@ -116,7 +116,7 @@ C-----------------------------------------------
       DISP(1:NTRACE,1:MVSIZ) = ZERO
       JMID_OLD = 0
 !---
-!     search for cut solid elems by containers 
+!     search for cut solid elems by containers
 !---
       DO I=LFT,LLT
         IF (IPART_(I) /= IDP) CYCLE
@@ -142,19 +142,19 @@ C-----------------------------------------------
             IX(8) =IXS(9,I)
             ELEM_NUMNOD = 8
           ENDIF
-        ELSE 
+        ELSE
           IF(ITYP == 7)THEN
             IX(1) =IXTG(2,I)
             IX(2) =IXTG(3,I)
             IX(3) =IXTG(4,I)
-            IX(4) =0    
-            ELEM_NUMNOD = 3   
+            IX(4) =0
+            ELEM_NUMNOD = 3
           ELSEIF(ITYP == 2)THEN
             IX(1) =IXQ(2,I)
             IX(2) =IXQ(3,I)
             IX(3) =IXQ(4,I)
-            IX(4) =IXQ(5,I)  
-            ELEM_NUMNOD = 4      
+            IX(4) =IXQ(5,I)
+            ELEM_NUMNOD = 4
           ENDIF
         ENDIF
         DO J=1,ELEM_NUMNOD
@@ -557,7 +557,7 @@ C-----------------------------------------------
       DO II=1,GETEL
         I=JCT(II)
         IF (IPART_(I) /= IDP) CYCLE
-        
+
         DO IP=1,NTRACE_TOT
           INOD = 0
           DIST = ZERO
@@ -568,7 +568,7 @@ C-----------------------------------------------
 
             IAD0 = IAD_BUFR
             DIST = ZERO
-            
+
             !get this out from the loop  ! does not depends on IP
             AA = BUFSF(IAD0+1)
             BB = BUFSF(IAD0+2)
@@ -584,9 +584,9 @@ C-----------------------------------------------
             SKW(6)=BUFSF(IAD0+12)
             SKW(7)=BUFSF(IAD0+13)
             SKW(8)=BUFSF(IAD0+14)
-            SKW(9)=BUFSF(IAD0+15)                                                                              
+            SKW(9)=BUFSF(IAD0+15)
             DGR=BUFSF(IAD0+36)
-            !XG = SKW(1)*XG + SKW(4)*YG + SKW(7)*ZG 
+            !XG = SKW(1)*XG + SKW(4)*YG + SKW(7)*ZG
             !YG = SKW(2)*XG + SKW(5)*YG + SKW(8)*ZG
             !ZG = SKW(3)*XG + SKW(6)*YG + SKW(9)*ZG
             !matrice de passage
@@ -595,17 +595,17 @@ C-----------------------------------------------
             Z_PRIME = SKW(3)*(XS(IP,I)-XG) + SKW(6)*(YS(IP,I)-YG) + SKW(9)*(ZS(IP,I)-ZG)
             TMP(1)= ABS(X_PRIME)/AA
             TMP(2)= ABS(Y_PRIME)/BB
-            TMP(3)= ABS(Z_PRIME)/CC                             
+            TMP(3)= ABS(Z_PRIME)/CC
             IF(TMP(1)/=ZERO)TMP(1)= EXP(DGR*LOG(TMP(1)))
             IF(TMP(2)/=ZERO)TMP(2)= EXP(DGR*LOG(TMP(2)))
             IF(TMP(3)/=ZERO)TMP(3)= EXP(DGR*LOG(TMP(3)))
             DIST = (TMP(1)+TMP(2)+TMP(3))
             DISP(IP,I) = ONE-DIST
-          
+
           ELSEIF (SURF_TYPE == 200) THEN
            !--planar surface
 
-            
+
             !get this out from the loop ! does not depends on IP
             IAD0 = IAD_BUFR
             DIST = ZERO
@@ -626,9 +626,9 @@ C-----------------------------------------------
             SUM = ONE/MAX(EM30,SUM)
             DIST = DIST*SUM
 
-            DISP(IP,I) = DIST 
-                  
-        ELSE        
+            DISP(IP,I) = DIST
+
+        ELSE
            !--surface of eleme,ts
             IF(N2D == 0)THEN
               IF (ISOLNOD == 4) THEN
@@ -646,32 +646,32 @@ C-----------------------------------------------
                 IX(6) =IXS(7,I)
                 IX(7) =IXS(8,I)
                 IX(8) =IXS(9,I)
-                ELEM_NUMNOD = 8                
+                ELEM_NUMNOD = 8
               ENDIF
             ELSE
               IF(ITYP == 7)THEN
                 IX(1) =IXTG(2,I)
                 IX(2) =IXTG(3,I)
                 IX(3) =IXTG(4,I)
-                IX(4) =0       
-                ELEM_NUMNOD = 3                 
+                IX(4) =0
+                ELEM_NUMNOD = 3
               ELSEIF(ITYP == 2)THEN
                 IX(1) =IXQ(2,I)
                 IX(2) =IXQ(3,I)
                 IX(3) =IXQ(4,I)
                 IX(4) =IXQ(5,I)
-                ELEM_NUMNOD = 4                              
+                ELEM_NUMNOD = 4
               ENDIF
             ENDIF
 !
             DO J=1,ELEM_NUMNOD
               N = IX(J)
-!             NSOLTOSF(IDC,N) - the shell node of the container IDC, to which 
+!             NSOLTOSF(IDC,N) - the shell node of the container IDC, to which
 !                               the distance of the eulerian node N to the shell
 !                               container is minimum
               NSH = NSOLTOSF(IDC,N)
               IF (NSH <= 0) CYCLE
-!             KNOD2SURF(NSH) - the nb of surfaces of the current container IDC, 
+!             KNOD2SURF(NSH) - the nb of surfaces of the current container IDC,
 !                              connected to node NSH
               DO JJ=1,KNOD2SURF(NSH)
 !               INOD2SURF(JJ,NSH) - identify the segment of the curent surface
@@ -741,7 +741,7 @@ C-----------------------------------------------
      .         XN        ,DIST      ,NSEG      ,SURF_ELTYP,NOD_NORMAL,
      .         SURF_NODES,SWIFTSURF ,IDSURF    ,SEGTOSURF )
             DISP(IP,I) = DIST
-            
+
         ENDIF
 
 !------------------
@@ -886,7 +886,7 @@ C-----------------------------------------------
             NIP  = NIP + NBIP(IPH,I)
             !KVOL(J,I) = ZERO
           ENDDO
-          DO J=1,IPHASE(NBSUBMAT+1,I) 
+          DO J=1,IPHASE(NBSUBMAT+1,I)
             IPH  = IPHASE(J,I)
             IF(ICUMU==0)KVOL(IPH,I)=ZERO
             KVOL(IPH,I)= KVOL(IPH,I)+FILL_RATIO*FLOAT(NBIP(IPH,I))/FLOAT(NIP)

@@ -132,7 +132,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL),PLA(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -179,7 +179,7 @@ C-----------------------------------------------
        MX = MAT(1)
        NFUNC  = IPM(10,MX)
        DO J=1,NFUNC
-        IFUNC(J)=IPM(10+J,MX)        
+        IFUNC(J)=IPM(10+J,MX)
        ENDDO
        PFUN= IFUNC(NFUNC-1)  !! -1
 C
@@ -206,7 +206,7 @@ C
 C
       NRATE = NINT(UPARAM(IADBUFV+1))
       NRATEM = MAX(NRATEM,NRATE)
-     
+
       EPSMAX=UPARAM(IADBUFV+6+2*NRATE+1)
       IF(EPSMAX==ZERO)THEN
        IF(TF(NPF(IFUNC(1)+1)-1)==ZERO)THEN
@@ -232,31 +232,31 @@ c ---
         PSCALE(I)= UPARAM(IADBUFV+16+2*NRATE)
 c ---
         PLA(I) = UVAR(I,1)
-       ENDDO        
+       ENDDO
        IF (OPTE == 1)THEN
-        DO I=1,NEL      
-          IF(PLA(I) > ZERO)THEN    
-             IFUNCE = UPARAM(IADBUFV+2*NRATE+17)                                 
-             ESCALE(I) = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))          
-             E(I) =  ESCALE(I)* E(I)                                       
-             G(I) =  HALF*E(I)/(ONE+NU) 
-             G2(I) = TWO*G(I)                                  
-             G3(I) = THREE*G(I) 
-             C1(I) =E(I)/THREE/(ONE - TWO*NU)                                              
-             SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))                
+        DO I=1,NEL
+          IF(PLA(I) > ZERO)THEN
+             IFUNCE = UPARAM(IADBUFV+2*NRATE+17)
+             ESCALE(I) = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
+             E(I) =  ESCALE(I)* E(I)
+             G(I) =  HALF*E(I)/(ONE+NU)
+             G2(I) = TWO*G(I)
+             G3(I) = THREE*G(I)
+             C1(I) =E(I)/THREE/(ONE - TWO*NU)
+             SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))
            ENDIF
-         ENDDO           
+         ENDDO
        ELSEIF ( CE /= ZERO) THEN
-        DO I=1,NEL       
-           IF(PLA(I) > ZERO)THEN                                                        
-             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))                      
-             G(I) =  HALF*E(I)/(ONE+NU)   
-             G2(I) = TWO*G(I)                                  
-             G3(I) = THREE*G(I)                                               
-             C1(I) =E(I)/THREE/(ONE - TWO*NU)                                              
-             SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))                               
-           ENDIF    
-        ENDDO           
+        DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
+             G(I) =  HALF*E(I)/(ONE+NU)
+             G2(I) = TWO*G(I)
+             G3(I) = THREE*G(I)
+             C1(I) =E(I)/THREE/(ONE - TWO*NU)
+             SOUNDSP(I) = SQRT((C1(I) + FOUR_OVER_3*G(I))/RHO0(I))
+           ENDIF
+        ENDDO
       ENDIF
 C +++
       IPFLAG = 0
@@ -321,7 +321,7 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - TWO*E4*E5*E6 
+     &      - TWO*E4*E5*E6
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
@@ -375,51 +375,51 @@ C
         ENDDO
       ENDIF
 C
-      DO I=1,NEL   
-         IF(JJ(I)==1)THEN 
+      DO I=1,NEL
+         IF(JJ(I)==1)THEN
            J1 = JJ(I)
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ELSEIF(JJ(I)==(NRATE-1))THEN
            J1 = JJ(I) - 2
-           J2 = J1+1 
-           J3 = J2+1 
-           J4 = J3+1 
+           J2 = J1+1
+           J3 = J2+1
+           J4 = J3+1
           ELSE
            J1 = JJ(I) - 1
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
-          ENDIF        
+           J4 = J3+1
+          ENDIF
         RATE(I,1)=UPARAM(IADBUFV + 6 +  J1 )
         RATE(I,2)=UPARAM(IADBUFV + 6 +  J2 )
         RATE(I,3)=UPARAM(IADBUFV + 6 +  J3 )
         RATE(I,4)=UPARAM(IADBUFV + 6 +  J4 )
-        YFAC(I,1)=UPARAM(IADBUFV+6+NRATE + J1 )     
+        YFAC(I,1)=UPARAM(IADBUFV+6+NRATE + J1 )
         YFAC(I,2)=UPARAM(IADBUFV+6+NRATE + J2 )
         YFAC(I,3)=UPARAM(IADBUFV+6+NRATE + J3 )
-        YFAC(I,4)=UPARAM(IADBUFV+6+NRATE + J4 )         
+        YFAC(I,4)=UPARAM(IADBUFV+6+NRATE + J4 )
       ENDDO
 C
 C
 
-      DO I=1,NEL 
-         IF(JJ(I)==1)THEN 
+      DO I=1,NEL
+         IF(JJ(I)==1)THEN
            J1 = JJ(I)
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ELSEIF(JJ(I)==(NRATE-1))THEN
            J1 = JJ(I) - 2
-           J2 = J1+1 
-           J3 = J2+1 
-           J4 = J3+1 
+           J2 = J1+1
+           J3 = J2+1
+           J4 = J3+1
           ELSE
            J1 = JJ(I) - 1
            J2 = J1+1
            J3 = J2+1
-           J4 = J3+1 
+           J4 = J3+1
           ENDIF
         IPOS1(I) = NINT(UVAR(I,J1+2))
         IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
@@ -432,7 +432,7 @@ C
         ILEN3(I) = NPF(IFUNC(J3)+1) / 2 - IAD3(I) - IPOS3(I)
         IPOS4(I) = NINT(UVAR(I,J4+4))
         IAD4(I)  = NPF(IFUNC(J4)) / 2 + 1
-        ILEN4(I) = NPF(IFUNC(J4)+1) / 2 - IAD4(I) - IPOS4(I)   
+        ILEN4(I) = NPF(IFUNC(J4)+1) / 2 - IAD4(I) - IPOS4(I)
       ENDDO
 C
       CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
@@ -469,34 +469,34 @@ C        in a case of homogenuous element groups (to do if needed)
       ENDIF
 C---
       DO I=1,NEL
-        IF(JJ(I)==1)THEN 
+        IF(JJ(I)==1)THEN
          J1 = JJ(I)
          J2 = J1+1
          J3 = J2+1
          J4 = J3+1
          DYDX1(I)= DYDX1(I)*YFAC(I,1)
-         DYDX2 (I) = DYDX2(I)*YFAC(I,2)          
-         FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1)) 
+         DYDX2 (I) = DYDX2(I)*YFAC(I,2)
+         FAC   = (EPSP(I) - RATE(I,1))/(RATE(I,2) - RATE(I,1))
          H(I)   = FAIL(I)*(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
         ELSEIF(JJ(I)==(NRATE-1))THEN
          J1 = JJ(I) - 2
-         J2 = J1+1 
-         J3 = J2+1 
+         J2 = J1+1
+         J3 = J2+1
          J4 = J3+1
          DYDX3(I) = DYDX3(I)*YFAC(I,3)
          DYDX4(I) = DYDX4(I)*YFAC(I,4)
-         FAC   = (EPSP(I) - RATE(I,3))/(RATE(I,4) - RATE(I,3)) 
-         H(I)   = FAIL(I)*(DYDX3(I) + FAC*(DYDX4(I)-DYDX3(I)))  
+         FAC   = (EPSP(I) - RATE(I,3))/(RATE(I,4) - RATE(I,3))
+         H(I)   = FAIL(I)*(DYDX3(I) + FAC*(DYDX4(I)-DYDX3(I)))
         ELSE
          J1 = JJ(I) - 1
          J2 = J1+1
          J3 = J2+1
-         J4 = J3+1 
+         J4 = J3+1
          DYDX2(I) = DYDX2(I)*YFAC(I,2)
          DYDX3(I) = DYDX3(I)*YFAC(I,3)
-         FAC   = (EPSP(I) - RATE(I,2))/(RATE(I,3) - RATE(I,2))  
-         H(I)   = FAIL(I)*(DYDX2(I) + FAC*(DYDX3(I)-DYDX2(I)))  
-        ENDIF      
+         FAC   = (EPSP(I) - RATE(I,2))/(RATE(I,3) - RATE(I,2))
+         H(I)   = FAIL(I)*(DYDX2(I) + FAC*(DYDX3(I)-DYDX2(I)))
+        ENDIF
         NN = NRATE
         X1 = RATE(I,1)
         X2 = RATE(I,2)
@@ -543,7 +543,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I) - ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3(I)+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) =   (ONE - R)*VM/MAX(G3(I)+H(I),EM20)       
+        DPLA(I) =   (ONE - R)*VM/MAX(G3(I)+H(I),EM20)
        ENDDO
       ELSEIF(IPLA==2)THEN
        DO I=1,NEL
@@ -561,7 +561,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I)- ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (ONE - R)*VM/MAX(G3(I),EM20)        
+        DPLA(I) = (ONE - R)*VM/MAX(G3(I),EM20)
        ENDDO
       ELSEIF(IPLA==1)THEN
        DO I=1,NEL

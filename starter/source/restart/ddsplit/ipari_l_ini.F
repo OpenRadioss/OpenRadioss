@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE FRONT_MOD
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -71,7 +71,7 @@ c INTER22
       INTEGER NBRIC_L, ISU1, NBRIC
       INTEGER,INTENT(INOUT) :: NINDEX0
       INTEGER, DIMENSION(*),INTENT(INOUT) :: INDEX0,TAG
-c     
+c
       my_real
      .        PROBINT
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL     
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,7 +99,7 @@ C-----------------------------------------------
      .        I_STOK, NCONT, NISUB, NISUBS_L, NISUBM_L,NISUBS, NISUBM, NISUBE_L,
      .        IE, IGN, IGE, NAD, EAD,NUVAR,ILEV,INTTH,NCONT1,NCONT2,
      .        MTYP,NSNR,ICURV,NRTM0,NRTM_SH,NRTM_SH_L,
-     .        II_STOK,II_STOK_L,NREMNODE_L,FLAGREMNODE, 
+     .        II_STOK,II_STOK_L,NREMNODE_L,FLAGREMNODE,
      .        KD_L(50),JD_L(50),KFI_L,JFI_L,NLINSA_L,NLINMA_L,I22LEN1,
      .        NRTSE,NRTSE_L,NSN0,NADMSR,NADMSR_L,SE1,NN,
      .        NRTM_FE,NRTS_FE, NSN_FE ,NMN_FE ,NREMNOR_L,
@@ -142,7 +142,7 @@ C decompte impact interface type 7, 10, 11
 C
       NBI18_L = 0
       NSKYI18_L = 0
-          
+
 C tag noeud interface I2
       DO I = 1, NUMNOD
         TAGI2(I) = 0
@@ -258,7 +258,7 @@ C-------------------------
           IPARI_L(6,NI) = NMN_L
 C
         ELSEIF(ITY==7.OR.ITY==8.OR.ITY==10.OR.
-     .         ITY==22.OR.ITY==23.OR.ITY==24.OR. 
+     .         ITY==22.OR.ITY==23.OR.ITY==24.OR.
      .         ITY==25) THEN
 !       *********************************
 C
@@ -293,7 +293,7 @@ C
           ELSEIF (ITY == 7) THEN
             NSN0 = NSN - NSN_IGE
           ELSE
-            NSN0 = NSN 
+            NSN0 = NSN
           ENDIF
 C
           FLAGREMNODE =  IPARI(63,NI)
@@ -341,10 +341,10 @@ c             WRITE(600+PROC,*) NI,K,INTERCEP(1,NI)%P(K),PROC+1
 c             WRITE(600+PROC,*) N1,N2,N3,N4 ,NMN_L,NRTM_L
 c             ENDIF
               NRTM_L = NRTM_L + 1
-              TAGE(K) = NRTM_L           
+              TAGE(K) = NRTM_L
               IF (TAG(N1)==0) THEN
                 NMN_L = NMN_L + 1
-                TAG(N1) = 1     
+                TAG(N1) = 1
               ENDIF
               IF (TAG(N2)==0) THEN
                 NMN_L = NMN_L + 1
@@ -358,7 +358,7 @@ c             ENDIF
                 NMN_L = NMN_L + 1
                 TAG(N4) = 1
               ENDIF
-              IF (FLAGREMNODE == 2)  NREMNODE_L = NREMNODE_L + 
+              IF (FLAGREMNODE == 2)  NREMNODE_L = NREMNODE_L +
      .            INTBUF_TAB(NI)%KREMNODE(K+1)-INTBUF_TAB(NI)%KREMNODE(K)
             ENDIF
           ENDDO
@@ -534,7 +534,7 @@ C     Interface type 18 for law151
             ELSE
                DO K=1,NSN_FE
                   N = INTBUF_TAB(NI)%NSV(K)
-                  IF (N >NUMNOD) CYCLE                  
+                  IF (N >NUMNOD) CYCLE
                   IF( NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L ) THEN
                      NISUBS_L = NISUBS_L + INTBUF_TAB(NI)%ADDSUBS(1+K) -
      .                    INTBUF_TAB(NI)%ADDSUBS(K)
@@ -597,7 +597,7 @@ c compute IPARI_L(42,NI) = NRTM_SH_L
 C NLN_L NLINS_L NLINM_L (edge2edge) TBD!!
 
 c!!!!!!!!!!!!!!!!!!  to be cleaned  !!!!!!!!!!!!!!!!!
-            L24ADD_L = L24ADD 
+            L24ADD_L = L24ADD
             IPARI_L(59,NI)= L24ADD_L
 c-----------everywhere for the moment
           NRTSE_L = 0
@@ -610,7 +610,7 @@ c-----------everywhere for the moment
           NSNE_L   = 0
           DO I = 1,NSNE
             SE1 = INTBUF_TAB(NI)%IS2SE(2*(I-1)+1)
-            IF (INTERCEP(2,NI)%P(SE1)==PROC+1) THEN        
+            IF (INTERCEP(2,NI)%P(SE1)==PROC+1) THEN
                NSNE_L = NSNE_L + 1
             ENDIF
           ENDDO
@@ -650,7 +650,7 @@ C compute IPARI_L(42,NI) = NRTM_SH_L
                 N1 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+1)
                 N2 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+2)
                 N3 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+3)
-                N4 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+4) 
+                N4 = INTBUF_TAB(NI)%ADMSR(4*(K-1)+4)
                 IF(TAG_SM(N1)==0)THEN
                   NADMSR_L=NADMSR_L+1
                   TAG_SM(N1)=NADMSR_L
@@ -668,7 +668,7 @@ C compute IPARI_L(42,NI) = NRTM_SH_L
                   TAG_SM(N4)=NADMSR_L
                 END IF
               ENDIF
-            ENDDO 
+            ENDDO
 
             TAG_SM(1:NADMSR)=0
             DO N=1,NEDGE
@@ -688,7 +688,7 @@ C compute IPARI_L(42,NI) = NRTM_SH_L
               IF(IS_LOCAL) THEN
                 NEDGE_L=NEDGE_L+1
               END IF
-            ENDDO 
+            ENDDO
             DEALLOCATE(TAG_SM)
 
 C
@@ -781,7 +781,7 @@ C--                 Remote segment - line is stored as ITAB1 / ITAB2 (2 values)
                       IK = INTBUF_TAB(NI)%KREMNODE_E2S(K)
                       DO M=1,SIZ
                          N = INTBUF_TAB(NI)%REMNODE_E2S(IK+M-1)
-                         E = INTBUF_TAB(NI)%LEDGE(NLEDGE*(N-1)+1)  
+                         E = INTBUF_TAB(NI)%LEDGE(NLEDGE*(N-1)+1)
                          IF (TAGE(E)/=0) THEN ! Candidate on the proc where 1st segment sharing the master edge, belongs
 C--                 Local segment - local id is stored
                             NREMNODE_E2S_L = NREMNODE_E2S_L + 1
@@ -809,13 +809,13 @@ C
           DEALLOCATE(TAGE)
 C
           NSN_L = NSN_L + NSNE_L
-              
+
           NMT_L = 0
           IF (ITY==8) THEN
             DO K = 1,NMT
               JJ = INTBUF_TAB(NI)%LMSR(k)
               IF(INTERCEP(1,NI)%P(JJ) == PROC+1) THEN
-              NMT_L = NMT_L + 1 
+              NMT_L = NMT_L + 1
               ENDIF
             ENDDO
           ENDIF
@@ -825,8 +825,8 @@ C -------------------------------
 C IPARI_L Interface type 7, 8,10, 22, 23, 24, 25
 C -------------------------------
           !for auto-impactant interfaces (secnd nodes=main surface nodes)
-          !IRECTS is used in lecins but no need in engine, set to 0 
-          !to save memory consumption at engine 
+          !IRECTS is used in lecins but no need in engine, set to 0
+          !to save memory consumption at engine
           IF(INTNITSCHE == 0) IPARI_L(3,NI) = 0
           IPARI_L(4,NI) = NRTM_L ! TOTAL
           IPARI_L(74,NI) = NRTM_L ! FE
@@ -842,7 +842,7 @@ C -------------------------------
 
           IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.ITY==23)
      .      IPARI_L(24,NI)= NSNR
-     
+
           IF(INACTI==-1.AND.ITY==24) IPARI_L(24,NI)= NSNR
           IF((INACTI==-1.OR.INACTI==5).AND.ITY==25) IPARI_L(24,NI)= NSNR
 
@@ -875,15 +875,15 @@ c INT 22
               IE = IGRBRIC(ISU1)%ENTITY(K)
               IF(CEP(IE)==PROC) NBRIC_L = NBRIC_L + 1
               !balayer le grbric, si bric \in spmd_id then nbric ++
-              !CEP contient les Brique en premiere section                  
-              !CEP : id_elem |-> spmd_id ;  id_elem \in (|---brique---|---coque---|---...)              
-            END DO 
+              !CEP contient les Brique en premiere section
+              !CEP : id_elem |-> spmd_id ;  id_elem \in (|---brique---|---coque---|---...)
+            END DO
             I22LEN1  = MAX(100     ,NINT(82*NBRIC_L**HALF))
             I22LEN1  = MIN(I22LEN1 ,NBRIC_L                 )
-            I22LEN1  = NINT(JMULT22*I22LEN1)  
+            I22LEN1  = NINT(JMULT22*I22LEN1)
             I22LEN_L = MAX(I22LEN_L,I22LEN1)  !local value to determine :    (ARGUMENT INTENT(INOUT))
           ENDIF
-          
+
 C Fin cas interfaces type 7,8, 10 ,22 ,23 ,24, 25
 C
         ELSEIF (ITY==11) THEN
@@ -975,7 +975,7 @@ C
              ENDIF
             ENDIF
           ENDDO
-          
+
 #include "vectorize.inc"
           DO K=1,NINDEX0
                 TAG(INDEX0(K)) = 0
@@ -1053,7 +1053,7 @@ C Fin cas interface type 11
 !       *********************************
 C
           NMN = IPARI(6,NI)
-          IMAXIMP_L = IMAXIMP_L + 2*NINT(NMN/PROBINT)       
+          IMAXIMP_L = IMAXIMP_L + 2*NINT(NMN/PROBINT)
 C
         ELSEIF (ITY==17) THEN
 !       *********************************
@@ -1090,7 +1090,7 @@ C
 C
 cc          IPARI_L(4,NI)  = NMN_L
 cc          IPARI_L(5,NI)  = NSN_L
-          IPARI_L(18,NI) = NCONT                          
+          IPARI_L(18,NI) = NCONT
 C
 C Fin cas interface type17
 C
@@ -1291,7 +1291,7 @@ C
 C TAGE flag servant pour inacti
             TAGE2(K) = 0
             N1L = INTBUF_TAB(NI)%IXLINM(2*(K-1)+1)
-            N2L = INTBUF_TAB(NI)%IXLINM(2*(K-1)+2) 
+            N2L = INTBUF_TAB(NI)%IXLINM(2*(K-1)+2)
             N1 = INTBUF_TAB(NI)%NLG(N1L)
             N2 = INTBUF_TAB(NI)%NLG(N2L)
             IF(INTERCEP(2,NI)%P(K)==PROC+1) THEN
@@ -1392,8 +1392,8 @@ C-----------------
 C IPARI_L TYPE 20
 C-----------------
           !for auto-impactant interfaces (secnd nodes=main surface nodes)
-          !IRECTS is used in lecins but no need in engine, set to 0 
-          !to save memory consumption at engine 
+          !IRECTS is used in lecins but no need in engine, set to 0
+          !to save memory consumption at engine
           IPARI_L(3,NI) = 0
           IPARI_L(4,NI)  = NRTM_L
           IPARI_L(5,NI)  = NSN_L
@@ -1456,7 +1456,7 @@ C
           NINDEX0 = 0
           DO K=1,NMN
             N =INTBUF_TAB(NI)%MSR(K)
-            IF(TAG(N)==0) THEN 
+            IF(TAG(N)==0) THEN
               IF(NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L) THEN
                NMN_L = NMN_L + 1
                TAG(N) = 1
@@ -1475,9 +1475,9 @@ C
           NINDEX0 = 0
           DO K=1,NSN
             N = INTBUF_TAB(NI)%NSV(K)
-            IF(TAG(N)==0) THEN            
+            IF(TAG(N)==0) THEN
               IF(NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L) THEN
-              NINDEX0 = NINDEX0 + 1 
+              NINDEX0 = NINDEX0 + 1
               INDEX0(NINDEX0) = N
               NSN_L = NSN_L + 1
               TAG(N) = 1
@@ -1531,7 +1531,7 @@ C
 
 C
           IMAXIMP_L = IMAXIMP_L + NCONT
-          
+
 C Fin cas interfaces type 21
 C
         ENDIF

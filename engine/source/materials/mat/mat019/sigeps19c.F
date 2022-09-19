@@ -100,14 +100,14 @@ C-----------------------------
        S  = HALF*(SIGNXX(I) + SIGNYY(I))
        D  = HALF*(SIGNXX(I) - SIGNYY(I))
        R  = SQRT(SIGNXY(I)**2 + D*D)
-       P1 = S - R 
-       ET(I) = ONE       
+       P1 = S - R
+       ET(I) = ONE
        IF (P1 < ZERO) THEN
-         P2 = S + R 
+         P2 = S + R
          IF (P2 > ZERO) THEN
-           BETA = HALF*((ONE-RCOMP)*S/R + ONE+RCOMP) 
-           SIGNXX(I) = BETA*(SIGNXX(I)-P2) + P2 
-           SIGNYY(I) = BETA*(SIGNYY(I)-P2) + P2 
+           BETA = HALF*((ONE-RCOMP)*S/R + ONE+RCOMP)
+           SIGNXX(I) = BETA*(SIGNXX(I)-P2) + P2
+           SIGNYY(I) = BETA*(SIGNYY(I)-P2) + P2
            SIGNXY(I) = BETA*SIGNXY(I)
          ELSE
            BETA = RCOMP
@@ -123,7 +123,7 @@ c     REF-STATE ZEROSTRESS OPTION
 c-----------------------------------------------------------
       IF (ZEROSTRESS /= ZERO) THEN
         IF (ISENS > 0) TSTART = SENSOR(2,ISENS)
-c        
+c
         IF (TT <= TSTART) THEN
           DO I=1,NEL
             SIGI(I,1) = SIGNXX(I)

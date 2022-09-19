@@ -68,7 +68,7 @@ C-----------------------------------------------
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_TAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -99,20 +99,20 @@ c--------------------------------------------------
       IF (IDIR == 0 .AND. LEN_TRIM(DIR) /= 0 ) THEN
         CALL ANCMSG(MSGID=1594, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
      .              I1=SENS_ID, C1=TITR, C2=DIR)
-      END IF                                       
+      END IF
 c--------------------------------------------------
 c
       SENS_TYPE = 11
       LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
       LSENSOR(4) = RBOD_ID     ! interface ID is converted to sys number in inisen()
-      LSENSOR(6) = IDIR     
+      LSENSOR(6) = IDIR
       SENSOR(1)  = TDEL
       SENSOR(2)  = INFINITY   ! activation time
-      SENSOR(3)  = INFINITY 
-      SENSOR(4)  = FMIN     
-      SENSOR(5)  = FMAX     
-      SENSOR(6)  = TMIN     
+      SENSOR(3)  = INFINITY
+      SENSOR(4)  = FMIN
+      SENSOR(5)  = FMAX
+      SENSOR(6)  = TMIN
 c------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
       WRITE (IOUT,2000) RBOD_ID,FMIN,FMAX,TMIN,DIR(1:2)

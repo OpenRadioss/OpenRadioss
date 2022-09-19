@@ -66,7 +66,7 @@ C-----------------------------------------------
 #include      "scr14_c.inc"
 #include      "vect01_c.inc"
 #include      "com01_c.inc"
-#include      "impl1_c.inc" 
+#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -87,7 +87,7 @@ c   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC2(MVSIZ),
      .        IECROU(MVSIZ), IFUNC(MVSIZ), IFV(MVSIZ),
-     .        NINDX, INDX(MVSIZ),I,ILENG,IPID,J, 
+     .        NINDX, INDX(MVSIZ),I,ILENG,IPID,J,
      .        IFUNC3(MVSIZ),ITABF(MVSIZ),IFRIC(MVSIZ)
 C     REAL
       my_real
@@ -114,7 +114,7 @@ C
         IPID = MGN(I)
         XM(I)  =GEO(1,IPID)
         XK(I)  =GEO(2,IPID)
-        XC(I)  =GEO(3,IPID) 
+        XC(I)  =GEO(3,IPID)
         IECROU(I)=NINT(GEO(7,IPID))
         AK(I)    = GEO(10,IPID)
         B(I)     = GEO(11,IPID)
@@ -170,9 +170,9 @@ C
       ENDDO
 C
       DO I=LFT,LLT
-        EX(I) = EXDP(I) 
-        EY(I) = EYDP(I) 
-        EZ(I) = EZDP(I) 
+        EX(I) = EXDP(I)
+        EY(I) = EYDP(I)
+        EZ(I) = EZDP(I)
         EX2(I)= EX2DP(I)
         EY2(I)= EY2DP(I)
         EZ2(I)= EZ2DP(I)
@@ -218,13 +218,13 @@ C
 C
       IF (ISMDISP > 0) THEN
         DO I=LFT,LLT
-          VX21= V(1,NC2(I)) - V(1,NC1(I)) 
-          VY21= V(2,NC2(I)) - V(2,NC1(I)) 
-          VZ21= V(3,NC2(I)) - V(3,NC1(I)) 
+          VX21= V(1,NC2(I)) - V(1,NC1(I))
+          VY21= V(2,NC2(I)) - V(2,NC1(I))
+          VZ21= V(3,NC2(I)) - V(3,NC1(I))
           VL21 = VX21*EX(I)+VY21*EY(I)+VZ21*EZ(I)
-          VX32= V(1,NC2(I)) - V(1,NC3(I)) 
-          VY32= V(2,NC2(I)) - V(2,NC3(I)) 
-          VZ32= V(3,NC2(I)) - V(3,NC3(I)) 
+          VX32= V(1,NC2(I)) - V(1,NC3(I))
+          VY32= V(2,NC2(I)) - V(2,NC3(I))
+          VZ32= V(3,NC2(I)) - V(3,NC3(I))
           VL32 = VX32*EX2(I)+VY32*EY2(I)+VZ32*EZ2(I)
           DL(I)= DLOLD(I)+(VL21+VL32)*DT1
         ENDDO

@@ -62,12 +62,12 @@ c==========================================================================
       M2   = -0.54+0.89/(0.2 + AC)
       M3   = HALF - ONE/(0.65 +AC) + 14.*(ONE-AC)**24
       G    = ONE +(0.1+ 0.35*(AT)**2)*(ONE-SINP)**2
-     
+
       FPHI = (AC**2 * COSP**2 + SINP**2 )**0.25
-      FB   = PI*C*SQRT(AT) 
+      FB   = PI*C*SQRT(AT)
 
       FW   = COS(PI*C/(TWO*B)*SQRT(AT))
-      
+
       F    = (M1+M2*(AT)**2 + M3*(AT)**4)*FPHI*G / SQRT(ABS(FW))
       Y    = SQRT(ONE/Q)*F
 c-----------

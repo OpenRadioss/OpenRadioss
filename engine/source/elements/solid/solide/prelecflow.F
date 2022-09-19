@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,11 +94,11 @@ C-----------------------------------------------
      .   DIMENSION(:), POINTER :: UVAR
 C======================================================================|
 C   
-      LENCOM = 0    
-      IF(NSPMD > 1)LENCOM=NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1) 
+      LENCOM = 0
+      IF(NSPMD > 1)LENCOM=NERCVOIS(NSPMD+1)+NESDVOIS(NSPMD+1)
 C Boucle parallele dynamique SMP
 C
-!$OMP DO 
+!$OMP DO
 
        DO IG = 1, NGROUNC
             NG = IGROUNC(IG)
@@ -118,9 +118,9 @@ C
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS)
 C   
             ISOLNOD = IPARG(28,NG)
-            
+
 C---------------------------------
-            LFT   = 1 
+            LFT   = 1
             LLT   = MIN(NVSIZ,NEL)
             JFT=LFT
             JLT=LLT
@@ -138,15 +138,15 @@ C-------------------------
 C-------------------------
         IF (IDDW>0) CALL STOPTIMEG(NG)
 
- 150     CONTINUE 
-      ENDDO           
+ 150     CONTINUE
+      ENDDO
 C     
       CALL MY_BARRIER
 C
 C-----------------------------
 C       ECHANGES SPMD  SUR ELTS VOISINS
 C-----------------------------       
-      IF (NSPMD > 1) THEN       
+      IF (NSPMD > 1) THEN
 cc        LENCOMN=NBRCVOIS(MAXPROC+1)+NBSDVOIS(MAXPROC+1)
 C
 C Partie non parallele smt
@@ -156,12 +156,12 @@ C
      1                     LESDVOIS,LENCOM  )
 C       
        CALL SPMD_E1VOIS(PHI2     ,NERCVOIS,NESDVOIS,LERCVOIS,
-     1                     LESDVOIS,LENCOM  ) 
+     1                     LESDVOIS,LENCOM  )
 C       
        CALL SPMD_E1VOIS(POR     ,NERCVOIS,NESDVOIS,LERCVOIS,
      1                     LESDVOIS,LENCOM  )
 C Fin Partie non parallele smt
-!$OMP END SINGLE       
+!$OMP END SINGLE
       ENDIF
       END SUBROUTINE PRELECFLOW
 C --- fluid structure       
@@ -207,17 +207,17 @@ C-----------------------------------------------
 C======================================================================|
       DO I=LFT,LLT
         IE =NFT+I
-        
+
         VOL0 = UVAR(I + 2*NEL)
 C        
 C density, energy, alpha  
         PHI1(IE) = UVAR(I)
-        PHI2(IE) = UVAR(I + NEL) 
+        PHI2(IE) = UVAR(I + NEL)
         PHI3(IE) = UVAR(I + 20*NEL)
 C       
         UVAR(I) =  PHI1(IE)*VOL0
         UVAR(I + NEL) = PHI2(IE)*VOL0
-      ENDDO    
+      ENDDO
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------

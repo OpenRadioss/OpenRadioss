@@ -68,22 +68,22 @@ C-----------------------------------------------
         DO I=LFT,LLT
           GAM(I)=FAC
         END DO
-        
+
       !-------------!
       !  /UPWM/SUPG !
       !-------------!
       ELSEIF(UPWM==3)THEN
         DO  I=LFT,LLT
           V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
-          D1=ABS(R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I)) 
-          D2=ABS(S(I,1)*VDX(I)+S(I,2)*VDY(I)+S(I,3)*VDZ(I)) 
-          D3=ABS(T(I,1)*VDX(I)+T(I,2)*VDY(I)+T(I,3)*VDZ(I)) 
+          D1=ABS(R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I))
+          D2=ABS(S(I,1)*VDX(I)+S(I,2)*VDY(I)+S(I,3)*VDZ(I))
+          D3=ABS(T(I,1)*VDX(I)+T(I,2)*VDY(I)+T(I,3)*VDZ(I))
           GAM(I)=MAX(D1,D2,D3) !dominant direction
-        ENDDO 
+        ENDDO
 
         CH2=CUPWM*HALF
         CH1=CH2*THIRD
-       
+
        !SU/PG weighting function for current node.
        !SUPG is a Finite Element Method !
         DO  I=LFT,LLT

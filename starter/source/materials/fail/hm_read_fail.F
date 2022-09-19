@@ -80,7 +80,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE FAILWAVE_MOD
       USE NLOCAL_REG_MOD
@@ -108,19 +108,19 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  :: BUFLEN,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(INOUT) :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(INOUT) :: PM
       my_real ,DIMENSION(*)             , INTENT(INOUT) :: BUFMAT
 
       TYPE(FAIL_TAG_), DIMENSION(0:MAXFAIL ) :: FAIL_TAG
-      TYPE(FAILWAVE_STR_) :: FAILWAVE 
-      TYPE(NLOCAL_STR_)   :: NLOC_DMG 
+      TYPE(FAILWAVE_STR_) :: FAILWAVE
+      TYPE(NLOCAL_STR_)   :: NLOC_DMG
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
-      INTEGER, DIMENSION(MAXLAW,NRUPT),INTENT(INOUT)    :: NVAR_FAIL 
-      INTEGER,INTENT(IN)                                :: NRUPT 
-      TYPE(TTABLE) TABLE(NTABLE)    
+      INTEGER, DIMENSION(MAXLAW,NRUPT),INTENT(INOUT)    :: NVAR_FAIL
+      INTEGER,INTENT(IN)                                :: NRUPT
+      TYPE(TTABLE) TABLE(NTABLE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -128,7 +128,7 @@ C-----------------------------------------------
      .   NUVARG,ILOC,IRUP,IFAILWAVE,UNIT_ID,IXFEM,HM_NBFAIL,IUNIT,IFLAGUNIT
       CHARACTER KEY*20,MESS*40,TITR*nchartitle
 C----------------------------------      
-      PARAMETER (MAXPARAM = 1000) 
+      PARAMETER (MAXPARAM = 1000)
       INTEGER ,DIMENSION(MAXFUNC)       :: IFUNC
       my_real ,DIMENSION(MAXPARAM)      :: UPARAM
       my_real UNITAB_SUB(4)
@@ -167,7 +167,7 @@ c
 c--------------------------------------------------
 c     COUNT FAILURE MODELS USING CFG FILES
 c--------------------------------------------------
-c      
+c
       CALL HM_OPTION_COUNT('FAILURE',HM_NBFAIL)
 c
 c--------------------------------------------------
@@ -175,7 +175,7 @@ c START BROWSING MODEL MATERIALS
 c--------------------------------------------------
 c
       CALL HM_OPTION_START('FAILURE')
-      
+
 c
 C--------------------------------------------------
 C EXTRACT DATAS OF /FAIL/... LINE
@@ -188,9 +188,9 @@ c
      .                          UNIT_ID   = UNIT_ID    ,
      .                          KEYWORD2  = KEY    )
 c------------------
-c       GET FAIL_ID 
-c------------------ 
-c 
+c       GET FAIL_ID
+c------------------
+c
         CALL HM_GET_BOOLV ('ID_CARD_EXIST',IS_ID_LINE,IS_AVAILABLE)
         IF ( .NOT.  (IS_ID_LINE)) FAIL_ID = 0
         CALL HM_GET_INTV('mat_id' ,MAT_ID ,IS_AVAILABLE,LSUBMODEL)
@@ -216,142 +216,142 @@ C--------------------------------------------------
      .                  C3=' ')
         ENDIF
         ENDIF
-c 
+c
 C--------------------------------------------------
 C          CHECK FAILURE MODEL
 C--------------------------------------------------
-c--------------------------------------------                 
+c--------------------------------------------
             !SELECT CASE (KEY(1:LEN_TRIM(KEY)))
-c--------------------------------------------      
+c--------------------------------------------
         IF(KEY(1:5) == 'JOHNS')THEN
-              IRUP=1       
-c--------------------------------------------      
-        ELSEIF(KEY(1:5) == 'TBUTC')THEN 
-             IRUP=2    
-c--------------------------------------------      
+              IRUP=1
+c--------------------------------------------
+        ELSEIF(KEY(1:5) == 'TBUTC')THEN
+             IRUP=2
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'WILKI')THEN
-             IRUP=3             
-c--------------------------------------------      
+             IRUP=3
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'USER1')THEN
-             IRUP=4    
-c--------------------------------------------      
+             IRUP=4
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'USER2')THEN
              IRUP=5
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'USER3')THEN
-             IRUP=6               
-c--------------------------------------------      
+             IRUP=6
+c--------------------------------------------
         ELSEIF(KEY(1:3) == 'FLD')THEN
-             IRUP=7    
-c--------------------------------------------      
+             IRUP=7
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'SPALL')THEN
-             IRUP=8    
-c--------------------------------------------      
+             IRUP=8
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'WIERZB')THEN
-             IRUP=9 
-c--------------------------------------------      
+             IRUP=9
+c--------------------------------------------
         ELSEIF(KEY(1:8) == 'TENSSTRA')THEN
              IRUP= 10
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'ENERGY')THEN
              IRUP= 11
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'CHANG')THEN
              IRUP= 13
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'HASHIN')THEN
              IRUP = 14
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'YAMADA')THEN
-             IRUP = 15 
-c--------------------------------------------      
+             IRUP = 15
+c--------------------------------------------
         ELSEIF(KEY(1:4) == 'PUCK') THEN
-             IRUP = 16 
-c--------------------------------------------      
+             IRUP = 16
+c--------------------------------------------
         ELSEIF(KEY(1:10) == 'XFEM_TBUTC')THEN
               IRUP = 17
               ! with new reader XFEM_TBUTC is changed to TBUTC in object file
               !=>IRUP = 2
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:8) == 'LAD_DAMA')THEN
               IRUP = 18
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:8) == 'POWER_DA')THEN
              IRUP = 19
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:7) == 'CONNECT')THEN
               IRUP = 20
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:10) == 'XFEM_JOHNS')THEN
               IRUP = 21
               ! with new reader XFEM_JOHNS is changed to JOHNS in object file
               !=>IRUP = 1
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:8) == 'XFEM_FLD')THEN
-              IRUP = 22 
+              IRUP = 22
               ! with new reader XFEM_FLD is changed to FLD in object file
               !=>IRUP = 7
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:4) == 'TAB1')THEN
-              IRUP = 23 
-c--------------------------------------------      
+              IRUP = 23
+c--------------------------------------------
         ELSEIF(KEY(1:10) == 'ORTHSTRAIN')THEN
-             IRUP= 24 
-c--------------------------------------------      
-        ELSEIF(KEY(1:3) == 'NXT')THEN ! Failure criteria based on NXT 
-             IRUP= 25   
-c--------------------------------------------      
+             IRUP= 24
+c--------------------------------------------
+        ELSEIF(KEY(1:3) == 'NXT')THEN ! Failure criteria based on NXT
+             IRUP= 25
+c--------------------------------------------
         ELSEIF(KEY(1:9) == 'SNCONNECT')THEN
               IRUP = 26
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:3) == 'EMC')THEN
-             IRUP= 27 
-c--------------------------------------------      
+             IRUP= 27
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'ALTER')THEN
              IRUP= 28
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:8) == 'SAHRAEI')THEN
              IRUP= 29
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'BIQUAD')THEN
              IRUP= 30
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'FABRIC')THEN
              IRUP= 31
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:7) == 'HC_DSSE')THEN
              IRUP= 32
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:10) == 'MULLINS_OR')THEN
              IRUP= 33
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:9) == 'COCKCROFT')THEN
              IRUP= 34
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'GURSON')THEN
              IRUP= 35
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:6) == 'VISUAL')THEN
              IRUP= 36
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:3) == 'TAB')THEN
              IRUP= 37
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:10) == 'ORTHBIQUAD')THEN
              IRUP= 38
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:5) == 'GENE1')THEN
              IRUP= 39
-c--------------------------------------------      
+c--------------------------------------------
         ELSEIF(KEY(1:4) == 'RTCL')THEN
              IRUP= 40
-c--------------------------------------------      
-        ELSE  
+c--------------------------------------------
+        ELSE
              IRUP= 0
         ENDIF
-c--------------------------------------------      
+c--------------------------------------------
 c       CALL FAILURE MODEL READING ROUTINES FOR EACH MATERIAL LAW
-c--------------------------------------------      
+c--------------------------------------------
         UPARAM(:) = ZERO
         IFAILWAVE = 0
 c----
@@ -361,9 +361,9 @@ c----
             IXFEM = 0
             CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,I),LTITR)
             WRITE(IOUT,1000) MAT_ID,IRUP,FAIL_ID
-c--------------------------------------------      
+c--------------------------------------------
             SELECT CASE (IRUP)
-c--------------------------------------------      
+c--------------------------------------------
             CASE(1)
               CALL HM_READ_FAIL_JOHNSON(
      .             UPARAM   ,MAXPARAM ,NUPARAM        ,NUVAR     ,IFUNC    ,
@@ -457,8 +457,8 @@ c---
 c---
             CASE(20)
               CALL HM_READ_FAIL_CONNECT(
-     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,    
-     .             MAXFUNC  ,NFUNC    ,UNITAB     ,MAT_ID    ,FAIL_ID  ,    
+     .             UPARAM   ,MAXPARAM ,NUPARAM    ,NUVAR     ,IFUNC    ,
+     .             MAXFUNC  ,NFUNC    ,UNITAB     ,MAT_ID    ,FAIL_ID  ,
      .             LSUBMODEL,UNIT_ID)
 c---
             CASE(23)
@@ -501,7 +501,7 @@ C---
             CASE(29)
               CALL HM_READ_FAIL_SAHRAEI(
      .             UPARAM   ,MAXPARAM ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     .             MAXFUNC  ,FAIL_ID  ,MAT_ID   ,LSUBMODEL,UNITAB   ,TITR     ) 
+     .             MAXFUNC  ,FAIL_ID  ,MAT_ID   ,LSUBMODEL,UNITAB   ,TITR     )
 c---
             CASE(30)
               CALL HM_READ_FAIL_BIQUAD(
@@ -524,21 +524,21 @@ c---
             CASE(33)
               CALL HM_READ_MULLINS_OR(
      .             UPARAM   ,MAXPARAM ,NUPARAM       ,NUVAR      ,MAT_ID    ,
-     .             FAIL_ID  ,LSUBMODEL,UNITAB) 
+     .             FAIL_ID  ,LSUBMODEL,UNITAB)
 C---
             CASE(34)
               CALL HM_READ_FAIL_COCKCROFT(
-     .             UPARAM, MAXPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, NFUNC, FAIL_ID, 
+     .             UPARAM, MAXPARAM, NUPARAM, NUVAR, IFUNC, MAXFUNC, NFUNC, FAIL_ID,
      .             LSUBMODEL, UNITAB)
 C---
             CASE(35)
               CALL HM_READ_FAIL_GURSON(
      .             UPARAM   ,MAXPARAM ,NUPARAM  ,NUVAR    ,NFUNC    ,FAIL_ID  ,MAT_ID   ,
-     .             LSUBMODEL,UNITAB   ,ILOC     ,TITR     )  
+     .             LSUBMODEL,UNITAB   ,ILOC     ,TITR     )
 C---
             CASE(36)
               CALL HM_READ_FAIL_VISUAL(
-     .             UPARAM   ,MAXPARAM ,NUPARAM, NUVAR, NFUNC , IFUNC, 
+     .             UPARAM   ,MAXPARAM ,NUPARAM, NUVAR, NFUNC , IFUNC,
      .             MAXFUNC  ,LSUBMODEL, UNITAB  )
 c---
            CASE(37)
@@ -564,33 +564,33 @@ c---
      .             UPARAM   ,MAXPARAM ,NUPARAM  ,NUVAR    ,UNITAB   ,
      .             FAIL_ID  ,MAT_ID   ,TITR     ,LSUBMODEL)
 c
-c--------------------------------------------      
+c--------------------------------------------
             END SELECT
-c--------------------------------------------      
+c--------------------------------------------
 c
 c           stockage des informations pour le modele de rupture
-c--------------------------------------------      
+c--------------------------------------------
             FAIL_TAG(IRUP)%NUVAR = NUVAR
-            IPM(253,I)    = ILOC 
-            IPM(254,I)    = IFAILWAVE 
+            IPM(253,I)    = ILOC
+            IPM(254,I)    = IFAILWAVE
             NLOC_DMG%IMOD = MAX(NLOC_DMG%IMOD, ILOC)
             FAILWAVE%WAVE_MOD = MAX(FAILWAVE%WAVE_MOD,IFAILWAVE)
             N = IPM(220, I)
-            IPM(111 + 15*N  ,I) = IRUP         
+            IPM(111 + 15*N  ,I) = IRUP
             IPM(112 + 15*N  ,I) = NUPARAM
             IPM(113 + 15*N  ,I) = NUVAR
             IPM(114 + 15*N  ,I) = IADBUF
-            IPM(115 + 15*N  ,I) = NFUNC 
-c 
+            IPM(115 + 15*N  ,I) = NFUNC
+c
 c           Flag for XFEM (mono + multi-layer)
 C 
-            
+
             IF (IXFEM == 1) ICRACK3D = 1
-            IPM(236,I) = MAX(IPM(236,I), IXFEM)  
+            IPM(236,I) = MAX(IPM(236,I), IXFEM)
 c
             DO J=1,NFUNC
               IPM(115+ J +  N*15,I) = IFUNC(J)
-            ENDDO  
+            ENDDO
 C 
             ILAW = NINT(PM(19,I))
             IPM(220, I) = IPM(220,I) + 1 ! ifail number
@@ -604,22 +604,22 @@ c-------------------------
             IADBUF = IADBUF + NUPARAM
             BUFLEN = BUFLEN + NUPARAM
 c-------------------------
-          ENDIF   
+          ENDIF
 c
         ENDDO    !  I=1,NUMMAT-1
       ENDDO      !  NF = 1,HM_NBFAIL
 c--------------------------------------------------------------------
 C     Somme(max(ai), max(bi)) ....)
       DO I=1,NUMMAT-1
-        N = IPM(220, I)                           
-        IF (N >  0) THEN                           
-          ILAW = NINT(PM(19,I))                     
-          NUVARG = 0                                
-          DO J=1,N                                
-             IF(ILAW /= 0) NUVARG = NUVARG + NVAR_FAIL(ILAW, J) 
-          ENDDO                                   
-          IPM(221,I)  = NUVARG                    
-        ENDIF 
+        N = IPM(220, I)
+        IF (N >  0) THEN
+          ILAW = NINT(PM(19,I))
+          NUVARG = 0
+          DO J=1,N
+             IF(ILAW /= 0) NUVARG = NUVARG + NVAR_FAIL(ILAW, J)
+          ENDDO
+          IPM(221,I)  = NUVARG
+        ENDIF
       ENDDO
 C-----------       
  1000 FORMAT(//

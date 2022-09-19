@@ -31,7 +31,7 @@ Chd|====================================================================
 !$COMMENT
 !       INVERTED_GROUP_ALLOC description
 !       allocation of the different arrays of INV_GROUP structure
-!       
+!
 !       INVERTED_GROUP_ALLOC organization :
 !           none
 !$ENDCOMMENT
@@ -113,7 +113,7 @@ C-----------------------------------------------
 
         MY_SIZE = INV_GROUP%SIZE_R
         ALLOCATE( INV_GROUP%PARTR( MY_SIZE ) )
-        INV_GROUP%PARTR( 1:MY_SIZE ) = 0      
+        INV_GROUP%PARTR( 1:MY_SIZE ) = 0
 !   ----------------------------------------
         RETURN
         END SUBROUTINE INVERTED_GROUP_ALLOC

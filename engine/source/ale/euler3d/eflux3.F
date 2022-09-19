@@ -128,12 +128,12 @@ C-----------------------------------------------
         VDY8(I)=V(2,NC8(I))
         VDZ8(I)=V(3,NC8(I))
       ENDDO
-      
+
       !======================================================!
       ! RELATIVE VELOCITIES ON EACH FACE                     !
       !    [V_face] = 1/4 Sum([V_node])                      !
       !    Results are divided by 2 at this step :           !
-      !    [0.5*V_face] = 1/8 Sum([V_node])                  !       
+      !    [0.5*V_face] = 1/8 Sum([V_node])                  !
       !======================================================!
       DO I=LFT,LLT
         VX1(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I))
@@ -155,12 +155,12 @@ C-----------------------------------------------
         VZ3(I)=ONE_OVER_8*(VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
         VZ4(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ6(I)+VDZ5(I))
         VZ5(I)=ONE_OVER_8*(VDZ2(I)+VDZ3(I)+VDZ7(I)+VDZ6(I))
-        VZ6(I)=ONE_OVER_8*(VDZ1(I)+VDZ4(I)+VDZ8(I)+VDZ5(I))  
+        VZ6(I)=ONE_OVER_8*(VDZ1(I)+VDZ4(I)+VDZ8(I)+VDZ5(I))
       ENDDO
-      
+
       !======================================================!
       ! NORMAL VECTORS ON EACH DACE                          !
-      !    2S[n] = [diag1] x [diag2]                         ! 
+      !    2S[n] = [diag1] x [diag2]                         !
       !    where                                             !
       !      [n] : unitary normal vector on face             !
       !======================================================!
@@ -187,11 +187,11 @@ C-----------------------------------------------
         N5Z(I)=VEUL(30,II)
         N6Z(I)=VEUL(31,II)
       ENDDO
-      
+
       !======================================================!
       ! FLUXES CALCULATION ON EACH FACE                      !
-      !    FLUX_face = [V_face].[n]                          ! 
-      !              = [0.5*V_face] . [2S*n]                 !       
+      !    FLUX_face = [V_face].[n]                          !
+      !              = [0.5*V_face] . [2S*n]                 !
       !======================================================!
       DO I=LFT,LLT
         FLUX1(I)=(VX1(I)*N1X(I)+VY1(I)*N1Y(I)+VZ1(I)*N1Z(I))
@@ -220,25 +220,25 @@ C-----------------------------------------------
           elseif(ibug22_flux==-1)then
             debug_outp = .true.
           endif
-        endif      
+        endif
         !INTERFACE 22 ONLY - OUTPUT---------------!
         if(debug_outp)then
-!#!include "lockon.inc"       
+!#!include "lockon.inc"
           print *, "    |--------eflux3.F--------|"
           print *, "    |   THREAD INFORMATION   |"
-          print *, "    |------------------------|" 
+          print *, "    |------------------------|"
           print *, "     NCYCLE =", NCYCLE
           do i=lft,llt
-            if(ibug22_flux/=ixs(11,I+NFT).and.ibug22_flux/=-1)cycle        
+            if(ibug22_flux/=ixs(11,I+NFT).and.ibug22_flux/=-1)cycle
             if (tag22(i)==zero)print *,"       UNCUT"!cycle
             print *,                    "      brique=", ixs(11,nft+i)
             write (*,FMT='(A,6E26.14)') "       Flux(1:6)=", FLUX(1:6,I)
             write (*,FMT='(A,1E26.14)') "       Flu1=", FLU1(I)
-            print *, "      ------------------------"          
+            print *, "      ------------------------"
           enddo
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
         endif
-      ENDIF    
+      ENDIF
       !-----------------------------------------!
 
 

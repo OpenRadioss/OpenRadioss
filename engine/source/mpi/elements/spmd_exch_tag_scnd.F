@@ -73,7 +73,7 @@ C-----------------------------------------------
         SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
         IF(SIZ>0)THEN
          L = IAD_CNDS(I)
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_IRECV(
      S      RBUF(L),SIZ  ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
@@ -99,11 +99,11 @@ C--------------------------------------------------------------------
         SIZ = IAD_CNDS(I+1)-IAD_CNDS(I)
         IF(SIZ>0)THEN
           L = IAD_CNDS(I)
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_ISEND(
      +      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      +      MPI_COMM_WORLD,REQ_S(I),IERROR)
-        ENDIF        
+        ENDIF
       ENDDO
 C
 C assemblage

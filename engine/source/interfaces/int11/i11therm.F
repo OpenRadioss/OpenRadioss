@@ -35,7 +35,7 @@ Chd|====================================================================
      4                   FRAD    ,GAPV    , FNI    ,IFUNCTK ,XTHE    ,
      5                   NPC     ,DRAD    ,TF      ,HS1     ,HS2    ,
      6                   HM1     ,HM2     ,CONDINTS1, CONDINTS2,PHIM1,
-     7                   PHIM2   ,CONDINTM1,CONDINTM2,IFORM ) 
+     7                   PHIM2   ,CONDINTM1,CONDINTM2,IFORM )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,8 +82,8 @@ C     REAL
      .   TS1, TS2, TM1 ,TM2, DIST, CONDS1 ,CONDS2 ,TSTIFM1 ,
      .   TSTIFM ,TSTIFT,TM,P,RSTIFF,TS,CONDM1,CONDM2,CONDS,CONDM,
      .   COND,RSTIF
-      my_real 
-     .   FINTER 
+      my_real
+     .   FINTER
       EXTERNAL FINTER
 
 C-----------------------------------------------
@@ -132,7 +132,7 @@ C
 C---------------------------------
 C         Radiation
 C---------------------------------
-              PHI(I) = FRAD * AREAC(I) * (TINT*TINT+TS*TS) 
+              PHI(I) = FRAD * AREAC(I) * (TINT*TINT+TS*TS)
      .                    * (TINT + TS) * (TINT - TS) * DT1
             ENDIF
 C
@@ -167,9 +167,9 @@ C---------------------------------
 C         PENRAD : PENETRATION FOR RADIATION
 C---------------------------------
 C  Radiation if Gap < Dist < Dradiation
-          
 
-            IF(PENRAD(I) <= ZERO) THEN 
+
+            IF(PENRAD(I) <= ZERO) THEN
 C---------------------------------
 C         Conduction
 C---------------------------------
@@ -195,7 +195,7 @@ C ---
 C---------------------------------
 C         Radiation
 C---------------------------------
-              PHI(I) = FRAD * AREAC(I) * (TINT*TINT+TS*TS) 
+              PHI(I) = FRAD * AREAC(I) * (TINT*TINT+TS*TS)
      .                    * (TINT + TS) * (TINT - TS) * DT1
             ENDIF
 C
@@ -265,7 +265,7 @@ C
 C---------------------------------
 C         Radiation
 C---------------------------------
-              PHI(I) = FRAD * AREAC(I) * (TM*TM+TS*TS) 
+              PHI(I) = FRAD * AREAC(I) * (TM*TM+TS*TS)
      .                    * (TM + TS) * (TM - TS) * DT1
            ENDIF
 C
@@ -294,7 +294,7 @@ C
            CONDINTM1(I) = ZERO
            CONDINTM2(I) = ZERO
 
-           IF(PENRAD(I) <= ZERO) THEN 
+           IF(PENRAD(I) <= ZERO) THEN
 C---------------------------------
 C         Conduction
 C---------------------------------
@@ -325,7 +325,7 @@ C ---
 C---------------------------------
 C         Radiation
 C---------------------------------
-              PHI(I) = FRAD * AREAC(I) * (TM*TM+TS*TS) 
+              PHI(I) = FRAD * AREAC(I) * (TM*TM+TS*TS)
      .                    * (TM + TS) * (TM - TS) * DT1
            ENDIF
 C

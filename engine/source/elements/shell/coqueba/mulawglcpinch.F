@@ -89,7 +89,7 @@ C-----------------------------------------------
       INTEGER IGTYP, I, NUVAR ,NINDX,IGEO(NPROPGI,*),
      .        MX,IOFF_DUCT(MVSIZ),ISRATE
 C     REAL
-      my_real 
+      my_real
      .   DEGMB(MVSIZ) ,DEGFX(MVSIZ) ,THKN(MVSIZ),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSZZ(MVSIZ),
      .   DEPSXY(MVSIZ),DEPSYZ(MVSIZ),DEPSZX(MVSIZ),
@@ -135,7 +135,7 @@ C
       DO I=JFT,JLT
         THKN(I) = THK(I)
       ENDDO
-!       compute the inverse of dt and save the result 
+!       compute the inverse of dt and save the result
       DO I=JFT,JLT
         DT_INV(I) = DT1C(I)/MAX(DT1C(I)**2,EM20)
       ENDDO
@@ -149,7 +149,7 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
 !
       ISRATE = IPM(3,MX)
       IF (ISRATE == 1) THEN
-!#include "vectorize.inc" 
+!#include "vectorize.inc"
         DO I=JFT,JLT
           EPS_K2 = (KXX(I)*KXX(I)+KYY(I)*KYY(I)+KXX(I)*KYY(I)
      .           + FOURTH*KXY(I)*KXY(I)) *THK(I)*THK(I)*ONE_OVER_9
@@ -158,7 +158,7 @@ C     eps_eq = sqrt[ eps_m^2 + 1/12 k^2t^2 ]
           EPSP_LOC(I) = SQRT(EPS_K2 + EPS_M2)*DT_INV(I)
         END DO
       ELSE IF (ISRATE > 1) THEN
-!#include "vectorize.inc" 
+!#include "vectorize.inc"
         DO I=JFT,JLT
           EPS_M2  = FOUR_OVER_3*(EXX(I)*EXX(I)+EYY(I)*EYY(I)+EXX(I)*EYY(I)
      .            + FOURTH*EXY(I)*EXY(I))
@@ -189,7 +189,7 @@ C-----------------------
         MOMNYY(I) = ZERO
         MOMNXY(I) = ZERO
         MOMNPXZ(I)=ZERO
-        MOMNPYZ(I)=ZERO          
+        MOMNPYZ(I)=ZERO
       ENDDO
 C
       DO I=JFT,JLT
@@ -199,7 +199,7 @@ C
         DEPSXY(I) = EXY(I)
         DEPSYZ(I) = EYZ(I)
         DEPSZX(I) = EXZ(I)
-        SIGOXX(I) = FOR(I,1) 
+        SIGOXX(I) = FOR(I,1)
         SIGOYY(I) = FOR(I,2)
         SIGOZZ(I) = FORP(I)
         SIGOXY(I) = FOR(I,3)
@@ -213,7 +213,7 @@ C
         DEPBXY(I) = KXY(I)
         DEPPXZ(I) = EPINCHXZ(I)
         DEPPYZ(I) = EPINCHYZ(I)
-        MOMOXX(I) = MOM(I,1) 
+        MOMOXX(I) = MOM(I,1)
         MOMOYY(I) = MOM(I,2)
         MOMOXY(I) = MOM(I,3)
         MOMOPXZ(I)= MOMP(I,1)

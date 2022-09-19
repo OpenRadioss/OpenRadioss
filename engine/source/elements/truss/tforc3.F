@@ -85,7 +85,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  LCO,NUVAR,NFUNC,IFUNC(100),I
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),NC1(MVSIZ),NC2(MVSIZ)
-      my_real 
+      my_real
      .   STI(MVSIZ),OFF(MVSIZ),
      .   EPS(MVSIZ),AL(MVSIZ),VX1(MVSIZ),VX2(MVSIZ),VY1(MVSIZ),
      .   VY2(MVSIZ),VZ1(MVSIZ),VZ2(MVSIZ),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ),

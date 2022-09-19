@@ -96,7 +96,7 @@ C-----------------------------------------------
 C common pour variable globale en memoire partagee
       COMMON /I7MAINC/BMINMA,CURV_MAX_MAX,RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG,NMN_G
-      my_real 
+      my_real
      .        BMINMA(12),CURV_MAX_MAX
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -109,7 +109,7 @@ C-----------------------------------------------
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
      .        RENUM(*), NSNFIOLD(NSPMD), NODNX_SMS(*), IXS(NIXS, *)
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(*), MS(*),TEMP(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -118,11 +118,11 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        LOC_PROC,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
+     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1,
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
-      INTEGER 
+      INTEGER
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),NMN_L, IVIS2
       my_real
@@ -153,10 +153,10 @@ C
       IFQ     =IPARI(31,NIN)
       INTTH   =IPARI(47,NIN)
       ITIED   =IPARI(85,NIN)
-      
-      LOC_PROC=ISPMD+1      
+
+      LOC_PROC=ISPMD+1
       NCONTACT=MULTIMP*NCONT
-      
+
       TYPE18=.FALSE.
       IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
 
@@ -341,7 +341,7 @@ C
           BMINMA(12)=BMINMA(6)
           BMINMA(9)=BMINMA(3)
         END IF
-        
+
         IF(NSPMD > LRVOXELP)THEN
           CALL ANCMSG(MSGID=36,ANMODE=ANINFO,
      .            C1='(I7MAINTRI)')
@@ -365,7 +365,7 @@ C
      2      TZINF       ,CURV_MAX,GAPMIN ,GAPMAX,INTBUF_TAB%GAP_M(1+ESHIFT),
      3      INTBUF_TAB%IRECTM(1+4*ESHIFT),GAP  ,INTBUF_TAB%VARIABLES(7),DRAD,
      4      DGAPLOADP  )
- 
+
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
 
@@ -384,7 +384,7 @@ C     Interface type 18 and law151
      6             NUM_IMP     ,NODNX_SMS,INTBUF_TAB%GAP_SL,NTY   ,IDUM1  ,
      7             RDUM1       ,RDUM1,RDUM1,RDUM1,IDUM1  ,IDUM1 ,IDUM1, IXS, MULTI_FVM,
      8             IPARI(72,NIN),INTBUF_TAB%IPARTFRICS)
-              
+
            ELSE
               CALL SPMD_TRI7VOX_OPTIMIZED(
      1             INTBUF_TAB%NSV,NSN     ,X            ,V        ,MS  ,
@@ -434,16 +434,16 @@ C      ENDIF
         REMOTE_S_NODE = 0
       ENDIF
       CALL MY_BARRIER
-!     IF REMNODE Then VOXEL                               
-      IF(IPARI(63,NIN) ==2 ) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL 
- 
+!     IF REMNODE Then VOXEL
+      IF(IPARI(63,NIN) ==2 ) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL
+
 C
 #ifdef MPI
       IF(ITASK == 0) INTBUF_TAB%METRIC%TIC = MPI_WTIME()
 #else
       IF(ITASK == 0) THEN
         CALL CPU_TIME(T1)
-        INTBUF_TAB%METRIC%TIC = NINT(100.0 * T1) 
+        INTBUF_TAB%METRIC%TIC = NINT(100.0 * T1)
       ENDIF
 #endif
       IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(30,1)
@@ -458,7 +458,7 @@ C
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
-     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
      E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
       ELSE
@@ -471,12 +471,12 @@ C
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
-     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
      E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP)
 
       ENDIF
-      
+
       IF (I_MEM >= 1 )THEN
 #include "lockon.inc"
          I_MEMG = I_MEM
@@ -491,7 +491,7 @@ C New barrier needed for Dynamic MultiMP
 #else
       IF(ITASK == 0) THEN
         CALL CPU_TIME(T1)
-        INTBUF_TAB%METRIC%TOC = NINT(100.0 * T1) 
+        INTBUF_TAB%METRIC%TOC = NINT(100.0 * T1)
       ENDIF
 #endif
 
@@ -565,12 +565,12 @@ C mono tache
 C
         CALL SPMD_TRI7GAT(
      1      RESULT       ,NSN     ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
-     2      IPARI(21,NIN),NSNR    ,MULTIMP        ,NTY         ,IPARI(47,NIN),  
+     2      IPARI(21,NIN),NSNR    ,MULTIMP        ,NTY         ,IPARI(47,NIN),
      3      IDUM1        ,NSNFIOLD, IPARI        , H3D_DATA    ,IPARI(72,NIN),
      4      MULTI_FVM)
         IPARI(24,NIN) = NSNR
 C
-        IF (NUM_IMP>0) 
+        IF (NUM_IMP>0)
      .     CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 C
         IF (IMONM > 0) CALL STOPTIME(26,1)

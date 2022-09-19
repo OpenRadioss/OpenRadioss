@@ -98,7 +98,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,XN,YN,ZN,
-     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ, 
+     .   XMIN, XMAX,YMIN, YMAX,ZMIN, ZMAX, TZ,
      .   D1X,D1Y,D1Z,D2,A2,ALPHA_MARGE,DISTMAX
 c provisoire
       INTEGER  LAST_NOD(NSN)
@@ -127,7 +127,7 @@ C
       XMAX = BMINMA(1)
       YMAX = BMINMA(2)
       ZMAX = BMINMA(3)
-      XMIN = BMINMA(4)  
+      XMIN = BMINMA(4)
       YMIN = BMINMA(5)
       ZMIN = BMINMA(6)
 
@@ -163,7 +163,7 @@ C elements du processeur
         IF(X(2,NN) > YMAX)  CYCLE
         IF(X(3,NN) < ZMIN)  CYCLE
         IF(X(3,NN) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,NN)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,NN)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,NN)-ZMINB)/(ZMAXB-ZMINB))
@@ -246,7 +246,7 @@ cc             nbpelem = nbpelem + 1
 cc             nnpelem = nnpelem + 1
 
                JS=NLIST(JJ)
-               NS=KXSP(3,JS)         
+               NS=KXSP(3,JS)
                IF(JJ == NE)GOTO 200
                XS = X(1,NS)
                YS = X(2,NS)
@@ -293,7 +293,7 @@ cc             nnrpelem = nnrpelem + 1
 cc       nbpelg = nbpelg + nbpelem
 cc       nnpelg = nnpelg + nnpelem
 cc       nnrpelg = nnrpelg + nnrpelem
-cc       nnr0pelg = nnr0pelg + nnr0pelem        
+cc       nnr0pelg = nnr0pelg + nnr0pelem
          CALL SPPRO31(J    ,KXSP  ,IXSP ,NOD2SP,JVOIS,
      .                JSTOR,JPERM ,DVOIS,IREDUCE,KREDUCE)
 

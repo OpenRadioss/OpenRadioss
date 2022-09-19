@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT28(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,MATPARAM )
 C-----------------------------------------------
@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       my_real 
+       my_real
      . E11,E22,E33,G12,G23,G31,EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,
      . FAC1,FAC2,FAC3,FAC4,FAC5,FAC6,DMIN,DMAX
       INTEGER I11,I22,I33,I12,I23,I31,IF1,IF2
@@ -125,10 +125,10 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_GBC'      ,G23      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GCA'      ,G31      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_INTV  ('FUN_A1'       ,I11      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('FUN_B1'       ,I22      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('FUN_A2'       ,I33      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('Gflag'        ,IF1      ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('FUN_A1'       ,I11      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_B1'       ,I22      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_A2'       ,I33      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('Gflag'        ,IF1      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('FScale11'     ,FAC1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale22'     ,FAC2     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale33'     ,FAC3     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -137,10 +137,10 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_EPSR2'    ,EMX22    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPSR3'    ,EMX33    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_INTV  ('FUN_A3'       ,I12      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('FUN_B3'       ,I23      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('FUN_A4'       ,I31      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('Vflag'        ,IF2      ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('FUN_A3'       ,I12      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_B3'       ,I23      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_A4'       ,I31      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('Vflag'        ,IF2      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('FScale12'     ,FAC4     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale23'     ,FAC5     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale13'     ,FAC6     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -149,15 +149,15 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_EPSR5'    ,EMX23    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPSR6'    ,EMX31    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-      CALL HM_GET_FLOATV_DIM('FScale11' ,FAC_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV_DIM('FScale11' ,FAC_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
 
 C     -------------------------
-      IF (FAC1 == ZERO) FAC1 = ONE * FAC_UNIT  
-      IF (FAC2 == ZERO) FAC2 = ONE * FAC_UNIT  
-      IF (FAC3 == ZERO) FAC3 = ONE * FAC_UNIT  
-      IF (FAC4 == ZERO) FAC4 = ONE * FAC_UNIT  
-      IF (FAC5 == ZERO) FAC5 = ONE * FAC_UNIT  
+      IF (FAC1 == ZERO) FAC1 = ONE * FAC_UNIT
+      IF (FAC2 == ZERO) FAC2 = ONE * FAC_UNIT
+      IF (FAC3 == ZERO) FAC3 = ONE * FAC_UNIT
+      IF (FAC4 == ZERO) FAC4 = ONE * FAC_UNIT
+      IF (FAC5 == ZERO) FAC5 = ONE * FAC_UNIT
       IF (FAC6 == ZERO) FAC6 = ONE * FAC_UNIT
       UPARAM(1)=E11
       UPARAM(2)=E22
@@ -203,13 +203,13 @@ CCC     Formulation for solid elements time step computation.
       DMAX = MAX(E11,E22,E33)
       PARMAT(16) = 1
       PARMAT(17) = DMIN/DMAX/DMAX
-      
+
       MTAG%G_PLA = 1
       MTAG%L_PLA = 1
-      
+
       IF(RHOR==ZERO)RHOR=RHO0
       PM(01)=RHOR
-      PM(89)=RHO0      
+      PM(89)=RHO0
 c--------------------------------------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"SMALL_STRAIN")
@@ -220,7 +220,7 @@ c--------------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-        WRITE(IOUT,1002) RHO0   
+        WRITE(IOUT,1002) RHO0
         WRITE(IOUT,1100)E11,E22,E33,G12,G23,G31,I11,I22,I33,I12,I23,I31,FAC1,FAC2,FAC3,FAC4,FAC5,FAC6
        IF(IF1+IF2/=0)WRITE(IOUT,1200)IF1,IF2
        IF(EMX11+EMX22+EMX33+EMX12+EMX23+EMX31/=0)WRITE(IOUT,1300)EMX11,EMX22,EMX33,EMX12,EMX23,EMX31

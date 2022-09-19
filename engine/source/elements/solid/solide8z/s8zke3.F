@@ -50,7 +50,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NEL ,ICP, ICSIG,IKGEO,MPT
       INTEGER NDOF(*)  ,IADK(*) ,JDIK(*),
-     .   IXS(NIXS,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ETAG(*),IDDL(*)  
+     .   IXS(NIXS,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),ETAG(*),IDDL(*)
 C
       my_real
      .   PM(NPROPM,*), GEO(NPROPG,*), X(*),
@@ -102,10 +102,10 @@ C-----------------------------------------------
      . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
      . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
      . AJ1(MVSIZ) , AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) , 
-     . AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ) 
+     . AJ4(MVSIZ) , AJ5(MVSIZ) , AJ6(MVSIZ) ,
+     . AJ7(MVSIZ) , AJ8(MVSIZ) , AJ9(MVSIZ)
 C----------------
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),
@@ -161,7 +161,7 @@ C----------------
      .  PX1H2(MVSIZ),PX2H2(MVSIZ),PX3H2(MVSIZ),PX4H2(MVSIZ),
      .  PX1H3(MVSIZ),PX2H3(MVSIZ),PX3H3(MVSIZ),PX4H3(MVSIZ),
      .  PX1H4(MVSIZ),PX2H4(MVSIZ),PX3H4(MVSIZ),PX4H4(MVSIZ),
-     .   HX(MVSIZ,4), HY(MVSIZ,4),  HZ(MVSIZ,4) 
+     .   HX(MVSIZ,4), HY(MVSIZ,4),  HZ(MVSIZ,4)
       my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -172,11 +172,11 @@ C----------------
       my_real
      .   BID,WI,SMAX(MVSIZ),VOLG(MVSIZ),NU(MVSIZ),PP(MVSIZ),USB(MVSIZ),
      .   VOLM(MVSIZ),SIGM(MVSIZ),NU1(MVSIZ),GAMA(MVSIZ,6)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -204,7 +204,7 @@ C----------------
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -269,7 +269,7 @@ C-----------
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   GBUF%OFF,OFFG,GBUF%SMSTR,
-     .   R11, R12, R13, R21, R22, R23, R31, R32, R33, 
+     .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,NGL,MXT,NGEO,
      .   K11,K12,K13,K14,K15,K16,K17,K18,K22,K23,
      .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
@@ -293,11 +293,11 @@ C        USB(I)=EM01/C1
         NU(I)=ZERO
        ENDDO
       ELSE
-      ENDIF 
+      ENDIF
       ICPG = ICP
       IF (JHBE/=14.AND.JHBE/=17.AND.JHBE/=24) THEN
        ICPG = 1
-      ENDIF 
+      ENDIF
 c
       CALL S8ZDERICT3(OFFG,VOLG,NGL,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
@@ -310,7 +310,7 @@ c
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   HX,   HY,   HZ,   
+     .   HX,   HY,   HZ,
      .   AJC1,AJC2,AJC3,
      .   AJC4,AJC5,AJC6,
      .   AJC7,AJC8,AJC9,SMAX)
@@ -329,7 +329,7 @@ c
        DO I=LFT,LLT
         NU1(I)=NU(I)
        ENDDO
-      ENDIF 
+      ENDIF
       IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
@@ -366,7 +366,7 @@ C
      .    PX2H1, PX2H2, PX2H3, PX2H4,
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,   HY,   HZ,   
+     .    HX,   HY,   HZ,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
      .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
@@ -429,9 +429,9 @@ C----------- check MPT sont memes entre KE et forc3----
      .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88,NEL)
-      ENDIF 
-        ENDDO 
-       ENDDO 
+      ENDIF
+        ENDDO
+       ENDDO
       ENDDO
 C-------------      
       IF (IPREDU > 0) THEN
@@ -444,7 +444,7 @@ C-------------
      .    K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .    K66,K67,K68,K77,K78,K88,
      .    HH ,VOLG,FAC  ,ICPG)
-      END IF 
+      END IF
 C------due to the generic form, only the mean geometrical stiffness is considered
       IF (IKGEO>0) THEN
        CALL S8ZKGEO3(GBUF%SIG,VOLG ,
@@ -455,7 +455,7 @@ C------due to the generic form, only the mean geometrical stiffness is considere
      .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88,NEL)
-      ENDIF 
+      ENDIF
 C----------------------------
 C     CONVECTE --> GLOBAL.
 C----------------------------
@@ -465,19 +465,19 @@ C----------------------------
      .   K24,K25,K26,K27,K28,K33,K34,K35,K36,K37,
      .   K38,K44,K45,K46,K47,K48,K55,K56,K57,K58,
      .   K66,K67,K68,K77,K78,K88)
-     
+
       IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFFG)
       CALL ASSEM_S8(
      1    IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,
-     2    K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     
+     2    K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,
      3    K13   ,K14   ,K15   ,K16   ,K17   ,
      4    K18   ,K22   ,K23   ,K24   ,K25   ,
      5    K26   ,K27   ,K28   ,K33   ,K34   ,
      6    K35   ,K36   ,K37   ,K38   ,K44   ,
      7    K45   ,K46   ,K47   ,K48   ,K55   ,
      8    K56   ,K57   ,K58   ,K66   ,K67   ,
-     9    K68   ,K77   ,K78   ,K88   ,OFFG   )     
+     9    K68   ,K77   ,K78   ,K88   ,OFFG   )
 C
       RETURN
       END
@@ -515,9 +515,9 @@ C-----------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*) ,K15(3,3,*)   ,
      .   K16(3,3,*),K17(3,3,*),K18(3,3,*),K22(3,3,*) ,K23(3,3,*)   ,
      .   K24(3,3,*),K25(3,3,*),K26(3,3,*),K27(3,3,*) ,K28(3,3,*)   ,
@@ -692,7 +692,7 @@ C-----------------------------------------------
       INTEGER LFT,LLT
 C     REAL
       my_real
-     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
+     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),
      .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),HIJ(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -750,12 +750,12 @@ C-----------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX5(*), PX6(*), PX7(*), PX8(*),
+     .   PY5(*), PY6(*), PY7(*), PY8(*),
+     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*) ,K15(3,3,*)   ,
      .   K16(3,3,*),K17(3,3,*),K18(3,3,*),K22(3,3,*) ,K23(3,3,*)   ,
      .   K24(3,3,*),K25(3,3,*),K26(3,3,*),K27(3,3,*) ,K28(3,3,*)   ,
@@ -931,7 +931,7 @@ C-----------------------------------------------
       INTEGER LFT,LLT
 C     REAL
       my_real
-     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
+     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),
      .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),KIJ(3,3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1059,9 +1059,9 @@ C-----------------------------------------------
       INTEGER ICP
 C     REAL
       my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   K11(9,*)   ,K12(9,*)   ,K13(9,*)    ,K14(9,*)    ,K15(9,*)   ,
      .   K16(9,*)   ,K17(9,*)   ,K18(9,*)    ,K22(9,*)    ,K23(9,*)   ,
      .   K24(9,*)   ,K25(9,*)   ,K26(9,*)    ,K27(9,*)    ,K28(9,*)   ,
@@ -1080,9 +1080,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   TT,TV,DD(3,3,MVSIZ),
-     .   PX5(MVSIZ), PX6(MVSIZ), PX7(MVSIZ), PX8(MVSIZ),  
-     .   PY5(MVSIZ), PY6(MVSIZ), PY7(MVSIZ), PY8(MVSIZ),  
-     .   PZ5(MVSIZ), PZ6(MVSIZ), PZ7(MVSIZ), PZ8(MVSIZ)  
+     .   PX5(MVSIZ), PX6(MVSIZ), PX7(MVSIZ), PX8(MVSIZ),
+     .   PY5(MVSIZ), PY6(MVSIZ), PY7(MVSIZ), PY8(MVSIZ),
+     .   PZ5(MVSIZ), PZ6(MVSIZ), PZ7(MVSIZ), PZ8(MVSIZ)
 C-----------------------------------------------
        IF (ICP==1) THEN
         DO I=LFT,LLT

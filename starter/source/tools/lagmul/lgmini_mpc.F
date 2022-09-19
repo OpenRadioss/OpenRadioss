@@ -43,11 +43,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, IADLL(*), JLL(*), LLL(*), 
+      INTEGER NC, IADLL(*), JLL(*), LLL(*),
      .        IBUFNC(*),IBUFNN(*),IBUFDL(*),IBUFSK(*),
      .        ITAB(*)
       my_real
-     .        MASS(*), INER(*)         
+     .        MASS(*), INER(*)
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

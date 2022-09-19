@@ -46,7 +46,7 @@ Chd|====================================================================
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,10 +69,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXS20(12,*), IKGEO
-      INTEGER NEL ,IPM(NPROPMI,*),IGEO(NPROPGI,*)      
+      INTEGER NEL ,IPM(NPROPMI,*),IGEO(NPROPGI,*)
 C
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*),
      .   K11(9,MVSIZ)   ,K12(9,MVSIZ)   ,K13(9,MVSIZ)   ,
      .   K14(9,MVSIZ)   ,K15(9,MVSIZ)   ,
      .   K16(9,MVSIZ)   ,K17(9,MVSIZ)   ,K18(9,MVSIZ)   ,
@@ -158,11 +158,11 @@ C
      .   K1819(9,MVSIZ) ,K1820(9,MVSIZ) ,K1919(9,MVSIZ) ,
      .   K1920(9,MVSIZ) ,K2020(9,MVSIZ) ,
      .   BUFMAT(*)
-     
-      INTEGER ETAG(*) , IDDL(*) ,NDOF(*) , IADK(*) ,JDIK(*) 
-     
+
+      INTEGER ETAG(*) , IDDL(*) ,NDOF(*) , IADK(*) ,JDIK(*)
+
       my_real
-     .   K_DIAG(*) , K_LT(*)   
+     .   K_DIAG(*) , K_LT(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -171,8 +171,8 @@ C-----------------------------------------------
      . J,I,N,K
       PARAMETER (NIPMAX=81)
       PARAMETER (NPE=20)
-      
-    
+
+
       INTEGER NGL(MVSIZ), IR, IS, IT, ILAY, NPTT ,NPTS ,NPTR, NLAY, IP,
      .  MXT(MVSIZ),IKORTH, NC(MVSIZ,20), NGEO(MVSIZ),NPTG
       my_real
@@ -183,21 +183,21 @@ C-----------------------------------------------
      .  TX(MVSIZ,NIPMAX) , TY(MVSIZ,NIPMAX) , TZ(MVSIZ,NIPMAX) ,
      ,  E1X (MVSIZ,NIPMAX) ,E2X (MVSIZ,NIPMAX) ,E3X (MVSIZ,NIPMAX) ,
      .  E1Y (MVSIZ,NIPMAX) ,E2Y (MVSIZ,NIPMAX) ,E3Y (MVSIZ,NIPMAX) ,
-     .  E1Z (MVSIZ,NIPMAX) ,E2Z (MVSIZ,NIPMAX) ,E3Z (MVSIZ,NIPMAX) , 
+     .  E1Z (MVSIZ,NIPMAX) ,E2Z (MVSIZ,NIPMAX) ,E3Z (MVSIZ,NIPMAX) ,
      .  PX(MVSIZ,NPE,NIPMAX),PY(MVSIZ,NPE,NIPMAX),PZ(MVSIZ,NPE,NIPMAX),
      .  OFF(MVSIZ), WI, VOLNP(MVSIZ,NIPMAX),STIN(MVSIZ,NPE),
      .  NI(NPE,NIPMAX), VOLG(MVSIZ),UL(MVSIZ,NPE),GAMA(MVSIZ,6),
      .  DM(9,MVSIZ), DGM(9,MVSIZ),GM(9,MVSIZ), DELTAX(MVSIZ),BID(1),
-     .  DD(9,MVSIZ),GG(MVSIZ),DG(9,MVSIZ),G33(9,MVSIZ),OFFG(MVSIZ)          
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+     .  DD(9,MVSIZ),GG(MVSIZ),DG(9,MVSIZ),G33(9,MVSIZ),OFFG(MVSIZ)
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       DOUBLE PRECISION
      .  VOLDP(MVSIZ)
 C----------------
 
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -225,7 +225,7 @@ C----------------
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -260,8 +260,8 @@ C-----------------------------------------------
       GBUF => ELBUF_STR%GBUF
       NF1=NFT+1
       NF2=NF1-(NUMELS8+NUMELS10)
-      
-            
+
+
       IF (IGTYP == 21.OR.IGTYP == 22) THEN
        IKORTH=2
       ELSEIF (ISORTH>0) THEN
@@ -305,7 +305,7 @@ C-----------------------------
       DO I=LFT,LLT
        VOLG(I) = ZERO
       ENDDO
-     
+
 C-----------------------------
 C     POINTS D' INTEGRATION 
 C-----------------------------
@@ -333,24 +333,24 @@ C
      4    XX       ,YY       ,ZZ      ,PX(1,1,IP),PY(1,1,IP),PZ(1,1,IP),
      5    VOLNP(1,IP),DELTAX ,STIN    ,NI(1,IP)  ,VOLG      ,UL        ,
      6    IR       ,IS       ,IT      ,VOLDP )
-     
+
         CALL SREPLOC3(
      .       RX(1,IP)   ,RY(1,IP)   ,RZ(1,IP)   ,
      .       SX(1,IP)   ,SY(1,IP)   ,SZ(1,IP)   ,
      .       TX(1,IP)   ,TY(1,IP)   ,TZ(1,IP)   ,
      .       E1X(1,IP)  ,E2X (1,IP) ,E3X(1,IP)  ,
      .       E1Y(1,IP)  ,E2Y (1,IP) ,E3Y(1,IP)  ,
-     .       E1Z (1,IP) ,E2Z(1,IP)  ,E3Z(1,IP) ) 
-      IF (ISORTH == 0) THEN            
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                               
-          GAMA(I,2) = ZERO                                
-          GAMA(I,3) = ZERO             
-          GAMA(I,4) = ZERO                                
-          GAMA(I,5) = ONE                                
-          GAMA(I,6) = ZERO             
-        ENDDO                          
-      ELSE                             
+     .       E1Z (1,IP) ,E2Z(1,IP)  ,E3Z(1,IP) )
+      IF (ISORTH == 0) THEN
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
+          GAMA(I,3) = ZERO
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
+        ENDDO
+      ELSE
         CALL SORTHDIR3(
      .       RX(1,IP)   ,RY(1,IP)   ,RZ(1,IP)   ,
      .       SX(1,IP)   ,SY(1,IP)   ,SZ(1,IP)   ,
@@ -358,27 +358,27 @@ C
      .       E1X(1,IP)  ,E2X (1,IP) ,E3X(1,IP)  ,
      .       E1Y(1,IP)  ,E2Y (1,IP) ,E3Y(1,IP)  ,
      .       E1Z (1,IP) ,E2Z(1,IP)  ,E3Z(1,IP), GBUF%GAMA,GAMA )
-     
-      ENDIF                             
+
+      ENDIF
 C
         ENDDO
        ENDDO
       ENDDO
-      
+
 
 C-----------      
       IF (MTN>=28) THEN
        IADBUF = IPM(7,MXT(1))
       ELSE
        IADBUF = 0
-      ENDIF   
-      
+      ENDIF
+
         CALL MMATS(LFT     ,LLT   ,PM    ,MXT    ,HH    ,
      .            MTN    ,IKORTH  ,IPM   ,IGEO   ,GAMA  ,
      .            BUFMAT(IADBUF)  ,DM    ,DGM    ,GM    ,
-     .            JHBE  ,GBUF%SIG ,BID   ,NPTG   ,NEL   )  
-     
-    
+     .            JHBE  ,GBUF%SIG ,BID   ,NPTG   ,NEL   )
+
+
       IBID = 0
 C-----------Begin integrating points-----
       ILAY = 1
@@ -394,11 +394,11 @@ C
      .              DD   ,GG   ,DG    ,G33   ,DM    ,
      .              GM   ,DGM  ,IKORTH,GBUF%SIG,IR  ,
      .              IS   ,IT   ,NEL   )
-     
 
-     
+
+
          CALL S20CUMG3(
-     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
+     .   PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
      .   DD  ,GG   ,DG   ,G33  ,IKORTH,
      .   K11  ,K12  ,K13  ,K14  ,K15  ,K16  ,K17  ,K18  ,K19  ,K110 ,
      .   K111 ,K112 ,K113 ,K114 ,K115 ,K116 ,K117 ,K118 ,K119 ,K120 ,
@@ -421,10 +421,10 @@ C
      .   K1319,K1320,K1414,K1415,K1416,K1417,K1418,K1419,K1420,K1515,
      .   K1516,K1517,K1518,K1519,K1520,K1616,K1617,K1618,K1619,K1620,
      .   K1717,K1718,K1719,K1720,K1818,K1819,K1820,K1919,K1920,K2020)
-     
+
          IF (IKGEO>0) THEN
          CALL S20KGEO3(LBUF%SIG,VOLNP(1,IP) ,
-     .    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP), 
+     .    PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),
      .   K11  ,K12  ,K13  ,K14  ,K15  ,K16  ,K17  ,K18  ,K19  ,K110 ,
      .   K111 ,K112 ,K113 ,K114 ,K115 ,K116 ,K117 ,K118 ,K119 ,K120 ,
      .   K22  ,K23  ,K24  ,K25  ,K26  ,K27  ,K28  ,K29  ,K210 ,K211 ,
@@ -447,10 +447,10 @@ C
      .   K1516,K1517,K1518,K1519,K1520,K1616,K1617,K1618,K1619,K1620,
      .   K1717,K1718,K1719,K1720,K1818,K1819,K1820,K1919,K1920,K2020,
      .   NEL  )
-         ENDIF 
-     
-        ENDDO 
-       ENDDO 
+         ENDIF
+
+        ENDDO
+       ENDDO
       ENDDO
 
 
@@ -458,7 +458,7 @@ C
      1   LFT, LLT, IXS(1,NF1),IXS20(1,NF2), ETAG, OFFG)
       CALL ASSEM_S20(
      1     IXS(1,NF1),IXS20(1,NF2),NEL,IDDL  ,NDOF  ,
-     2     K_DIAG,K_LT  ,IADK  ,JDIK  ,OFFG  ,    
+     2     K_DIAG,K_LT  ,IADK  ,JDIK  ,OFFG  ,
      .   K11  ,K12  ,K13  ,K14  ,K15  ,K16  ,K17  ,K18  ,K19  ,K110 ,
      .   K111 ,K112 ,K113 ,K114 ,K115 ,K116 ,K117 ,K118 ,K119 ,K120 ,
      .   K22  ,K23  ,K24  ,K25  ,K26  ,K27  ,K28  ,K29  ,K210 ,K211 ,
@@ -480,12 +480,12 @@ C
      .   K1319,K1320,K1414,K1415,K1416,K1417,K1418,K1419,K1420,K1515,
      .   K1516,K1517,K1518,K1519,K1520,K1616,K1617,K1618,K1619,K1620,
      .   K1717,K1718,K1719,K1720,K1818,K1819,K1820,K1919,K1920,K2020)
-     
+
 
 C    
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  S20KGEO3                      source/elements/solid/solide20/s20ke3.F
 Chd|-- called by -----------
@@ -494,7 +494,7 @@ Chd|-- calls ---------------
 Chd|        S4KEH3                        source/elements/solid/solide4/s4ke3.F
 Chd|====================================================================
       SUBROUTINE S20KGEO3(SIG , VOL,
-     .   PX, PY, PZ, 
+     .   PX, PY, PZ,
      .   K11  ,K12  ,K13  ,K14  ,K15  ,K16  ,K17  ,K18  ,K19  ,K110 ,
      .   K111 ,K112 ,K113 ,K114 ,K115 ,K116 ,K117 ,K118 ,K119 ,K120 ,
      .   K22  ,K23  ,K24  ,K25  ,K26  ,K27  ,K28  ,K29  ,K210 ,K211 ,
@@ -579,7 +579,7 @@ C     REAL
      .   K1516(9,*) ,K1517(9,*) ,K1518(9,*) ,K1519(9,*) ,K1520(9,*) ,
      .   K1616(9,*) ,K1617(9,*) ,K1618(9,*) ,K1619(9,*) ,K1620(9,*) ,
      .   K1717(9,*) ,K1718(9,*) ,K1719(9,*) ,K1720(9,*) ,K1818(9,*) ,
-     .   K1819(9,*) ,K1820(9,*) ,K1919(9,*) ,K1920(9,*) ,K2020(9,*) 
+     .   K1819(9,*) ,K1820(9,*) ,K1919(9,*) ,K1920(9,*) ,K2020(9,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -661,8 +661,8 @@ C -----------------------------------------------
       CALL S4KEH3(LFT,LLT,
      .   PX(1,20),PY(1,20),PZ(1,20),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K2020 )
-     
-     
+
+
 C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,1),PY(1,1),PZ(1,1),PX(1,2),PY(1,2),PZ(1,2),
@@ -721,8 +721,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,1),PY(1,1),PZ(1,1),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K120 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,2),PY(1,2),PZ(1,2),PX(1,3),PY(1,3),PZ(1,3),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K23 )
@@ -777,8 +777,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,2),PY(1,2),PZ(1,2),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K220 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,3),PY(1,3),PZ(1,3),PX(1,4),PY(1,4),PZ(1,4),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K34 )
@@ -830,8 +830,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,3),PY(1,3),PZ(1,3),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K320 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,4),PY(1,4),PZ(1,4),PX(1,5),PY(1,5),PZ(1,5),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K45 )
@@ -880,8 +880,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,4),PY(1,4),PZ(1,4),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K420 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,5),PY(1,5),PZ(1,5),PX(1,6),PY(1,6),PZ(1,6),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K56 )
@@ -927,8 +927,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,5),PY(1,5),PZ(1,5),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K520 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,6),PY(1,6),PZ(1,6),PX(1,7),PY(1,7),PZ(1,7),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K67 )
@@ -971,8 +971,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,6),PY(1,6),PZ(1,6),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K620 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,7),PY(1,7),PZ(1,7),PX(1,8),PY(1,8),PZ(1,8),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K78 )
@@ -1012,8 +1012,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,7),PY(1,7),PZ(1,7),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K720 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,8),PY(1,8),PZ(1,8),PX(1,9),PY(1,9),PZ(1,9),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K89 )
@@ -1050,8 +1050,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,8),PY(1,8),PZ(1,8),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K820 )
-     
-     
+
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,9),PY(1,9),PZ(1,9),PX(1,10),PY(1,10),PZ(1,10),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K910 )
@@ -1085,8 +1085,8 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,9),PY(1,9),PZ(1,9),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K920 )
-     
-     
+
+
            CALL S4KEH3(LFT,LLT,
      .   PX(1,10),PY(1,10),PZ(1,10),PX(1,11),PY(1,11),PZ(1,11),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1011 )
@@ -1216,7 +1216,7 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,14),PY(1,14),PZ(1,14),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1420 )
-     
+
 
       CALL S4KEH3(LFT,LLT,
      .   PX(1,15),PY(1,15),PZ(1,15),PX(1,16),PY(1,16),PZ(1,16),
@@ -1248,7 +1248,7 @@ C
       CALL S4KEH3(LFT,LLT,
      .   PX(1,16),PY(1,16),PZ(1,16),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1620 )
-     
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,17),PY(1,17),PZ(1,17),PX(1,18),PY(1,18),PZ(1,18),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1718 )
@@ -1259,20 +1259,20 @@ C
      .   PX(1,17),PY(1,17),PZ(1,17),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1720 )
 
-     
+
       CALL S4KEH3(LFT,LLT,
      .   PX(1,18),PY(1,18),PZ(1,18),PX(1,19),PY(1,19),PZ(1,19),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1819 )
       CALL S4KEH3(LFT,LLT,
      .   PX(1,18),PY(1,18),PZ(1,18),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1820 )
-     
+
 
       CALL S4KEH3(LFT,LLT,
      .   PX(1,19),PY(1,19),PZ(1,19),PX(1,20),PY(1,20),PZ(1,20),
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K1920 )
-                    
+
 C
       RETURN
       END
-      
+

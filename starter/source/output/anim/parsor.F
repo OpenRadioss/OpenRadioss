@@ -51,7 +51,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .        X(*),D(*),XNORM(3,*),CDG(*),BUFEL(*)
-      INTEGER IADD(*),IPARG(NPARG,*), 
+      INTEGER IADD(*),IPARG(NPARG,*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
      .        INVERT(*),KXSP(NISP,*), IXSP(KVOISPH,*)
@@ -293,7 +293,7 @@ C idem poutre pour visualisation domdec SPH
              N1 = KXSP(3,N)
 C on prend les 12 premieres cellules voisines
              DO JJ = 1,MIN(12,KXSP(4,N))
-               N2 = IXSP(JJ,N) 
+               N2 = IXSP(JJ,N)
                IF(N1<N2)THEN
                  II(1) = N1-1
                  II(2) = N2-1

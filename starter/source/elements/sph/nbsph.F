@@ -32,7 +32,7 @@ Chd|        HM_OPTION_START               source/devtools/hm_reader/hm_option_st
 Chd|        HM_OPTION_READ_MOD            share/modules1/hm_option_read_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE NBSPH(LSUBMODEL) 
+      SUBROUTINE NBSPH(LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

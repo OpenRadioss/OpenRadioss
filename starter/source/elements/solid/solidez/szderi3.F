@@ -29,13 +29,13 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SZDERI3(
-     .              VOL  ,VEUL ,GEO  ,IGEO , 
+     .              VOL  ,VEUL ,GEO  ,IGEO ,
      .              XD1  ,XD2  ,XD3  ,XD4  ,XD5   ,XD6  ,XD7   ,XD8   ,
      .              YD1  ,YD2  ,YD3  ,YD4  ,YD5   ,YD6  ,YD7   ,YD8   ,
      .              ZD1  ,ZD2  ,ZD3  ,ZD4  ,ZD5   ,ZD6  ,ZD7   ,ZD8   ,
      .              PX1  ,PX2  ,PX3  ,PX4  ,
      .              PY1  ,PY2  ,PY3  ,PY4  ,
-     .              PZ1  ,PZ2  ,PZ3  ,PZ4  , 
+     .              PZ1  ,PZ2  ,PZ3  ,PZ4  ,
      .              JAC1 ,JAC2 ,JAC3 ,JAC4 ,JAC5 ,JAC6 ,JAC9 ,
      .              NGL  ,NGEO ,DET  ,VOLDP,NEL  ,JEUL ,NXREF)
 C-----------------------------------------------
@@ -64,8 +64,8 @@ C-----------------------------------------------
       my_real
      .   VOL(*), VEUL(LVEUL,*), GEO(NPROPG,*),
      .   JAC1(*), JAC2(*), JAC3(*), JAC4(*), JAC5(*), JAC6(*), JAC9(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), DET(*)
       DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
@@ -79,9 +79,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   DETT(MVSIZ),  JAC7(MVSIZ), JAC8(MVSIZ) , 
-     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ), 
-     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ), 
+     .   DETT(MVSIZ),  JAC7(MVSIZ), JAC8(MVSIZ) ,
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ),
+     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   X_17_46 , X_28_35 ,
      .   Y_17_46 , Y_28_35 ,
@@ -200,8 +200,8 @@ C
         END DO
         IF (IGEO(11,NGEO(1)) == 15) THEN
           DO I=1,NEL
-            VOL(I)=VOL(I)*GEO(1,NGEO(I))      
-          ENDDO              
+            VOL(I)=VOL(I)*GEO(1,NGEO(I))
+          ENDDO
         ENDIF
       ENDIF
 C-----------

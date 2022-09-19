@@ -66,7 +66,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITENS,INVERT(*),INDX_CRK(*),
-     .   EL2FA(*),IXC(NIXC,*),IGEO(NPROPGI,*), 
+     .   EL2FA(*),IXC(NIXC,*),IGEO(NPROPGI,*),
      .   NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),LEN,IEL_CRK(*),IADC_CRK(*),
      .   IPM(NPROPMI,*)
@@ -130,7 +130,7 @@ C
         NN5 = NN4 + NUMELC
         NN6 = NN5 + NUMELTG
 C
-       
+
         DO NG=1,NGROUP
           MLW    = IPARG(1,NG)
           NEL    = IPARG(2,NG)
@@ -149,10 +149,10 @@ C
             JJ(I) = NEL*(I-1)
           ENDDO
 !
-          DO I=LFT,LLT          
-            DO J=1,5            
-              SIGE(I,J) = ZERO  
-            ENDDO               
+          DO I=LFT,LLT
+            DO J=1,5
+              SIGE(I,J) = ZERO
+            ENDDO
           ENDDO
 !
           IF (IHBE == 11) CYCLE
@@ -237,7 +237,7 @@ C------------------------
      .                MLW == 22 .OR. MLW == 25 .OR.
      .                MLW == 27 .OR. MLW == 32 .OR.
      .                MLW >= 28) THEN
-              IPT = MIN(NPT,ITENS-100)  
+              IPT = MIN(NPT,ITENS-100)
               A1 = ONE
               A2 = ZERO
             ENDIF
@@ -279,10 +279,10 @@ C------------------------
             A1 = ZERO
             A2 = ZERO
             IF (ISTRAIN == 1 .AND. NPT /= 0) THEN
-              IPT = MIN(NPT,ITENS - 200)  
+              IPT = MIN(NPT,ITENS - 200)
               A1 = ONE
 c              A2 = HALF*(((2*ILAY-ONE)/NPT0)-ONE)
-              A2 = HALF*(((2*IPT-ONE)/NPT)-ONE)  
+              A2 = HALF*(((2*IPT-ONE)/NPT)-ONE)
             ENDIF
 C------------------------
 C        STRAIN RATE
@@ -306,7 +306,7 @@ C------------------------
           ELSEIF (ITENS >= 301 .AND. ITENS <= 400) THEN
             IF (NPT /= 0) THEN	
               ISTRE = 2
-              IPT = MIN(NPT,ITENS - 300)  
+              IPT = MIN(NPT,ITENS - 300)
               A1 = ONE
 c              A2 = HALF*(((2*ILAY-ONE)/NPT0)-ONE)
               A2 = HALF*(((2*IPT-ONE)/NPT)-ONE)
@@ -365,19 +365,19 @@ c
                 IVISC = 0
                 NUVARV = 0
                 IF (MLW == 25) THEN
-                  IF (IGTYP == 11) THEN                                
-                    IPMAT = 100                                     
+                  IF (IGTYP == 11) THEN
+                    IPMAT = 100
                     DO I=1,NEL
                       MATLY = IGEO(IPMAT+ILAY,PID(I))
                       IF (IPM(222,MATLY) > 0 ) IVISC = 1
                     ENDDO
 c                  ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN
 c                  ELSEIF (IGTYP == 17) THEN
-                  ENDIF                                             
+                  ENDIF
                 ENDIF ! mlw == 25
 C----------
               IF (((ITENS >= 101.AND.ITENS <= 200).OR.ITENS==3.OR.ITENS==4)
-     .       .AND.(MLW == 25.OR.MLW == 15.OR.(MLW>=28 .AND. 
+     .       .AND.(MLW == 25.OR.MLW == 15.OR.(MLW>=28 .AND.
      .         IGTYP==11)).AND.IREP == 1) THEN
                   CALL SIGROTA_XFE(ELBUF_TAB(NG),XFEM_TAB(NG,IXEL),
      1                    LFT   ,LLT    ,NFT     ,ILAY         ,NEL  ,
@@ -397,13 +397,13 @@ cc                   R4(3) = R4(3) * INVERT(EL2FA(NEL_CRK + IE(ICRK)))
                     ENDIF
                   ENDDO
               ELSEIF (((ITENS >= 101.AND.ITENS <= 200).OR.ITENS==3.OR.
-     .        ITENS==4).AND.(MLW == 25.OR.MLW == 15.OR.(MLW>=28 .AND. 
+     .        ITENS==4).AND.(MLW == 25.OR.MLW == 15.OR.(MLW>=28 .AND.
      .       IGTYP==11)).AND.IREP == 0) THEN
 C stesses
-                  IF (NLAY > 1) THEN                           
+                  IF (NLAY > 1) THEN
                     LBUF  => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
                     XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(ILAY)%LBUF(1,1,1)
-                  ELSE                                         
+                  ELSE
                     LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,ILAY)
                     XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(1)%LBUF(1,1,ILAY)
                   ENDIF
@@ -438,7 +438,7 @@ C
                   ENDDO
 C   visc
                   IF (IVISC > 0) THEN
-                    DO I=LFT,LLT                                  
+                    DO I=LFT,LLT
                       N = I + NI
                       ELCRK = IEL_CRK(N)
                       IF (ELCRK > 0) THEN
@@ -463,26 +463,26 @@ c                    ELCRK = IEL_CRK(N)
 c                    IF (ELCRK > 0) THEN
 c                      ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
 c                      IF (ILAYCRK == 0 .OR.ABS(ILAYCRK) == 1) THEN  !  uncracked layer
-c                        IF (NLAY > 1) THEN                              
+c                        IF (NLAY > 1) THEN
 c                          DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-c                        ELSE                                            
+c                        ELSE
 c                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
 c                        ENDIF
 c                      ELSE  !  cracked layer
-c                        IF (NLAY > 1) THEN                              
+c                        IF (NLAY > 1) THEN
 c                          DIR_A => XFEM_TAB(NG,IXEL)%BUFLY(ILAY)%DIRA
-c                        ELSE                                            
+c                        ELSE
 c                          DIR_A => XFEM_TAB(NG,IXEL)%BUFLY(1)%DIRA
 c                        ENDIF
 c                      ENDIF
 c                      CALL UROTO(LFT,LLT,SIGE,DIR_A)
 c                    ENDIF
 c                  ENDDO
-                  IF (NLAY > 1) THEN                              
+                  IF (NLAY > 1) THEN
                     DIR_A => XFEM_TAB(NG,IXEL)%BUFLY(ILAY)%DIRA
-                  ELSE                                            
+                  ELSE
                     DIR_A => XFEM_TAB(NG,IXEL)%BUFLY(1)%DIRA
-                  ENDIF                                           
+                  ENDIF
                   CALL UROTOV(LFT,LLT,SIGE,DIR_A,NEL)
 !! temporary replaced by (the same) UROTOV() in order to do not affect
 !! the other multidimensional buffer ARRAYS which are still not modified
@@ -499,20 +499,20 @@ C
                       TENS(2,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(2)
                       TENS(3,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(3)
                     ENDIF
-                  ENDDO                
+                  ENDDO
 C----------
                 ELSE  ! ITENS
-                  IF (NLAY > 1) THEN                           
+                  IF (NLAY > 1) THEN
                     XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(ILAY)%LBUF(1,1,1)
-                  ELSE                                         
+                  ELSE
                     XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(1)%LBUF(1,1,ILAY)
                   ENDIF
-                  DO I=LFT,LLT                                        
+                  DO I=LFT,LLT
                     N = I + NI
                     ELCRK = IEL_CRK(N)
                     IE(ICRK) = IE(ICRK) + 1
                     IF (ELCRK > 0) THEN
-                      ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)           
+                      ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
                       IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer
                         DO J=1,3
                           R4(J) = A1 * GBUF%FOR(JJ(J)+I) + A2 * GBUF%MOM(JJ(J)+I) ! global from standard elem
@@ -529,18 +529,18 @@ C----------
                         ENDIF
                       ENDIF
                     ENDIF
-                    TENS(1,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(1)             
-                    TENS(2,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(2)             
-                    TENS(3,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(3)             
-                  ENDDO                                               
+                    TENS(1,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(1)
+                    TENS(2,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(2)
+                    TENS(3,EL2FA(NELCRK(ICRK) + IE(ICRK))) = R4(3)
+                  ENDDO
                 ENDIF  !  IF (((ITENS >= 101 ...)
               ELSEIF (ISTRE == 0 .AND. GBUF%G_STRA > 0) THEN
 C------------------------
 C          STRAIN
 C------------------------
-                IF (NLAY > 1) THEN                           
+                IF (NLAY > 1) THEN
                   XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(ILAY)%LBUF(1,1,1)
-                ELSE                                         
+                ELSE
                   XLBUF => XFEM_TAB(NG,IXEL)%BUFLY(1)%LBUF(1,1,ILAY)
                 ENDIF
                 DO I=LFT,LLT
@@ -552,7 +552,7 @@ C------------------------
                       THK = GBUF%THK(I)
                       IF (ITENS /= 6) THEN
                         DO J=1,3
-                          R4(J) = A1 * GBUF%STRA(JJ(J)+I) + 
+                          R4(J) = A1 * GBUF%STRA(JJ(J)+I) +
      .                            A2 * GBUF%STRA(JJ(J)+I) * THK
                         ENDDO
                       ELSE
@@ -565,13 +565,13 @@ C------------------------
                         IF (NLAY > 1) THEN
                           THK = XLBUF%THK(I)
                           DO J=1,3
-                            R4(J) = A1 * XLBUF%STRA(JJ(J)+I) + 
+                            R4(J) = A1 * XLBUF%STRA(JJ(J)+I) +
      .                              A2 * XLBUF%STRA(JJ(J)+I) * THK
                           ENDDO
                         ELSEIF (NLAY == 1) THEN
                           THK = XGBUF%THK(I)
                           DO J=1,3
-                            R4(J) = A1 * XGBUF%STRA(JJ(J)+I) + 
+                            R4(J) = A1 * XGBUF%STRA(JJ(J)+I) +
      .                              A2 * XGBUF%STRA(JJ(J)+I) * THK
                           ENDDO
                         ENDIF
@@ -603,7 +603,7 @@ C------------------------
                 DO I=LFT,LLT
                   N = I + NI
                   IF (IEL_CRK(N) > 0) THEN
-                    THK = GBUF%THK(I)  
+                    THK = GBUF%THK(I)
                     IF (ITENS /= 92) THEN
                       DO J=1,3
                         R4(J) = A1*EPSDOT(J,N+N0) + A2*EPSDOT(J+3,N+N0)*THK

@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,J_STOK,IFLAG
       INTEGER CAND_N(*),CAND_E(*)
-      INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: PROV_N,PROV_E    
+      INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: PROV_N,PROV_E
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: PENE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -58,7 +58,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
 C-----------------------------------------------
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
+!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C
 !      EQUIVALENCE (PENE,BV(1,22))
 C

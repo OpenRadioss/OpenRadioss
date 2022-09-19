@@ -91,7 +91,7 @@ C=======================================================================
               ENDIF
             ENDIF
           ENDDO
-        
+
         ELSEIF (JJ  > (NUMELS8+NUMELS10+NUMELS20).AND. JJ <= (NUMELS8+NUMELS10+NUMELS20+NUMELS16) ) THEN
           JJ16 = JJ - NUMELS8 - NUMELS10 - NUMELS20
           DO L=1,8

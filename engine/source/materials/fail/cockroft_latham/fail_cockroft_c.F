@@ -28,7 +28,7 @@ Chd|        USERMAT_SHELL                 source/materials/mat_share/usermat_she
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE FAIL_COCKROFT_C(
-     1     NEL    ,NUVAR  , 
+     1     NEL    ,NUVAR  ,
      2     TIME   ,UPARAM ,NGL    ,IPT    ,ILAY   ,
      3     NPT0   ,IPTT   ,IPG    ,
      4     SIGNXX ,SIGNYY ,SIGNXY ,
@@ -125,9 +125,9 @@ C!      UVAR(I,2) contains the Cockroft-Latham acumulated value
 c!      UVAR(I,3) contains the previous first principal stress
        C0                  = UPARAM(1)
        EMA                 = UPARAM(2)
-       NINDX               = 0       
-                              
-                              
+       NINDX               = 0
+
+
 c!       PTHKF               = P_THICK
 C-----------------------------------------------
        DO I =1,NEL
@@ -141,35 +141,35 @@ c! equivalent strain calculation (negative = total strain ; positive = plastic s
             E_12  = HALF*EPSXY(I)
             E_23  = HALF*EPSYZ(I)
             E_13  = HALF*EPSZX(I)
-            
+
             EEQ   = E_11**2 + E_22**2 + E_33**2
             EEQ   = EEQ + TWO * (E_12**2) + TWO * (E_23**2) + TWO * (E_13**2)
             EEQ   = 0.8164965809 * SQRT(EEQ) ! sqrt (2/3)*sqrt(...)
-            
+
             D_EEQ = EEQ - UVAR(I,1)
             IF (D_EEQ <= ZERO) D_EEQ = ZERO
-            UVAR(I,1) = EEQ             
+            UVAR(I,1) = EEQ
           ELSE                               ! positive = plastic strain increment
             D_EEQ = DPLA(I)
             UVAR(I,1) = UVAR(I,1) + DPLA(I)
           ENDIF
 
-c! first principal stress Sigma_1 calculation          
+c! first principal stress Sigma_1 calculation
           SIG_A  = (SIGNXX(I) + SIGNYY(I))/TWO
           SIG_B  = SQRT(((SIGNXX(I)-SIGNYY(I))/TWO)**2+SIGNXY(I)**2)
           SIG_11 = SIG_A + SIG_B
           SIG_11   = SIG_11 * EMA + (ONE-EMA)* UVAR(I,3)
           UVAR(I,3)= SIG_11
           UVAR(I,2) = UVAR(I,2) + MAX(SIG_11,ZERO) * D_EEQ
-          
+
           DFMAX(I) =  MIN(UVAR(I,2) / MAX(EM20,ABS(C0)),ONE)
-          
+
           IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1
-            INDX(NINDX) = I  
+            INDX(NINDX) = I
             FOFF(I) = 0
-            TDEL(I) = TIME            
-          ENDIF 
+            TDEL(I) = TIME
+          ENDIF
          ENDIF
        ENDDO
 C!
@@ -178,7 +178,7 @@ C!
 #include "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPTT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPTT,TIME
-#include "lockoff.inc" 
+#include "lockoff.inc"
 
        ENDDO
 c------------------

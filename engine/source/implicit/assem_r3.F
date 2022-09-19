@@ -47,7 +47,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NIX,NDL
-      INTEGER 
+      INTEGER
      .       IX(NIX,*), NEL   ,IDDL(*)   ,NDOF(*)   ,
      .       IADK(*)  ,JDIK(*)
 C     REAL
@@ -63,19 +63,19 @@ C
        DO K = 1,3
         DO EP = 1,NEL
          NN(EP,K)=IX(K+1,EP)
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
 C-------block diagonal k11,k22...k33-----
-       CALL ASSEM_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,K11,NDL,OFF) 
-       CALL ASSEM_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,K22,NDL,OFF) 
-       CALL ASSEM_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,K33,NDL,OFF) 
+       CALL ASSEM_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,K11,NDL,OFF)
+       CALL ASSEM_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,K22,NDL,OFF)
+       CALL ASSEM_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,K33,NDL,OFF)
 C-------non diag kij-----
        CALL ASSEM_KIJ(NN(1,1),NN(1,2),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K12,NDL,OFF) 
+     .                 K_DIAG,K_LT,K12,NDL,OFF)
        CALL ASSEM_KIJ(NN(1,1),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K13,NDL,OFF) 
+     .                 K_DIAG,K_LT,K13,NDL,OFF)
        CALL ASSEM_KIJ(NN(1,2),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,K23,NDL,OFF) 
+     .                 K_DIAG,K_LT,K23,NDL,OFF)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END

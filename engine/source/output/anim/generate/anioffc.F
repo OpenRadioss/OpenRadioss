@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,14 +69,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW, NBX, IP, 
-     .        NN, K1, K2,MT,JALE, IMID, 
+     .        N, J, LLT, MLW, NBX, IP,
+     .        NN, K1, K2,MT,JALE, IMID,
      .        N1,N2,N3,N4,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        N_FA, IHBE, SH_IH, ISTRAIN, IEXPAN, ISEATBELT
       INTEGER IOFFBUF(NBF_L),RBUF,ISROT
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN1 = 1
       NN2 = 1
@@ -84,9 +84,9 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       NN4 = NN3 + NUMELQ
       NN5 = NN4 + NUMELC
       NN6 = NN5 + NUMELTG
-      NN7 = NN6 
-      NN8 = NN7 
-      NN9 = NN8 
+      NN7 = NN6
+      NN8 = NN7
+      NN9 = NN8
       NN10= NN9 + NUMELUR
 C-----------------------------------------------
 C
@@ -104,7 +104,7 @@ C
 C-----------------------------------------------
 C       QUAD
 C-----------------------------------------------
-        IF (ITY == 2) THEN          
+        IF (ITY == 2) THEN
           N_FA = NN3 + NFT
 C-----------------------------------------------
 C       COQUES 4 N

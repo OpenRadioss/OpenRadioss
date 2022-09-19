@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IDN,NPC(*) 
+      INTEGER IDN,NPC(*)
       my_real PLD(*),FAC,MAXY
 C-----------------------------------------------
       INTENT(IN)    :: NPC,PLD,IDN
@@ -58,13 +58,13 @@ C-----------------------------------------------
       INTEGER I,J,K,ID,NP1,NP2,K1,PN1,PN2
       my_real DYDX,DX,DY,YY
 C========================================= 
-          ! COMPUTE MAXIMUM y coordinate  
+          ! COMPUTE MAXIMUM y coordinate
 C========================================= 
           PN1 = NPC(IDN)
           PN2 = NPC(IDN+1)
           MAXY = ZERO
           DO J = PN1+1,PN2-1,2
-            YY = PLD(J) 
+            YY = PLD(J)
             MAXY = MAX(YY , MAXY)
           ENDDO
           MAXY    = FAC* MAXY

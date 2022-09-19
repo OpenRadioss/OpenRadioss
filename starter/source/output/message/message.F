@@ -856,7 +856,7 @@ Chd|====================================================================
      .                  C1    ,C2    ,C3    ,C4    ,
      .                  C5    ,C6    ,C7    ,C8    ,C9    ,
      .                  PRMODE )
-c     .                  PRMODE,IOPTION, IOPTION_TYPE) 
+c     .                  PRMODE,IOPTION, IOPTION_TYPE)
       USE MESSAGE_MOD2
 C-----------------------------------------------
 C Usage sample :
@@ -958,7 +958,7 @@ C
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: INDEX,MES_DOUBLE
 C-----------------------------------------------
-       CHARACTER*2 NL 
+       CHARACTER*2 NL
        EXTERNAL NL
 C-----------------------------------------------
 C
@@ -1170,7 +1170,7 @@ C -------------------------
           END IF
         END DO
         MYFMT='(A,I10,X)'
-        WRITE(RES_MES,MYFMT) 'ID=',MSGID 
+        WRITE(RES_MES,MYFMT) 'ID=',MSGID
 C
           ITYPE = 4
           IF (ALLOCATED(MESSAGES(ITYPE,MSGID)%MESSAGE)) THEN
@@ -1220,12 +1220,12 @@ C
                     IF (DYNA_MESSAGE == 1) THEN          ! Treatment ignored when DYNA_MESSAGE=0 / Native Rd Deck
                       CALL MESS_EXTRACT_FORMAT(TMPLINE(I:ncharline),LEN_TRIM(TMPLINE(I:ncharline)),NCOUNT,ID_NUM,KEY,KEY_LEN)  ! format is %iXX="/KEY" XX=1-11
                       I=I+NCOUNT
-                      OPTION_NAME_DYNA=' ' 
+                      OPTION_NAME_DYNA=' '
                       S_OPTION_NAME_DYNA=1
-                    
+
                       CALL CPP_FIND_DYNA_MESS(KEY,KEY_LEN,IBUF(ID_NUM),OPTION_NAME_DYNA,
      *                                S_OPTION_NAME_DYNA,ISAV,DYNA_TITLE,SDYNA_TITLE)
-  
+
                       MYFMT='(A)'
                       WRITE(TMPBUF,MYFMT) OPTION_NAME_DYNA(1:S_OPTION_NAME_DYNA)
                       TMPBUF=ADJUSTL(TMPBUF)
@@ -1322,7 +1322,7 @@ C -----------------------------------
         DO WHILE(IEND/=1)
 
           IF(TMPIN(1:3)== 'ID=')THEN
-            READ(TMPIN(4:14),'(I10)') MSGID_R 
+            READ(TMPIN(4:14),'(I10)') MSGID_R
             IF (MSGID == MSGID_R) THEN         ! Message ID was found
               NBREPET = NBREPET + 1
               INDXI = INDXI + INDXI_INC
@@ -1362,7 +1362,7 @@ c
         TMP_REAL=ZERO
         TMP_I=' '
         TMP_CHAR=' '
-        
+
         IF(NBREPET /= 0) THEN
         NBREPET_0 = NBREPET
         NBREPET = 0
@@ -1384,7 +1384,7 @@ C ----------------------
             IF (MSGID == MSGID_R) THEN                                     ! Look for all messages bellonging to msgid number
             NBREPET = NBREPET + 1
 c
-              ITYPE = 4 
+              ITYPE = 4
                IF (ALLOCATED(MESSAGES(ITYPE,MSGID)%MESSAGE)) THEN          ! Parsing the message and their formats
                 DO ILINE=1,MESSAGES(ITYPE,MSGID)%SMESSAGE
                   IF (MESSAGES(ITYPE,MSGID)%SMESSAGE/=0) THEN
@@ -1429,7 +1429,7 @@ c
                             READ(RES_MES,'(A)',END=130) TMPIN3
 
                             CHAR_TMP=TMPIN(1:LEN_TRIM(TMPIN))//NL()//TMPIN2(1:LEN_TRIM(TMPIN2))
-     *                                                       //NL()//TMPIN3(1:LEN_TRIM(TMPIN3)) 
+     *                                                       //NL()//TMPIN3(1:LEN_TRIM(TMPIN3))
                             TMP_I(INDXD) = CHAR_TMP
                           ELSE
                               NO_PRINT=1
@@ -1477,7 +1477,7 @@ c
         DO J=2,NBREPET_0
           ITAG = 0
           DO K=1,INDXI_INC
-            IF(ITRI(K,INDEX(J)) /= 
+            IF(ITRI(K,INDEX(J)) /=
      .         ITRI(K,INDEX(J-1)))THEN
               ITAG = ITAG + 1
             ENDIF
@@ -1493,15 +1493,15 @@ c-----------------------------------------------------------
 c   MESSAGE SUMMARY
 c-----------------------------------------------------------
 c
-        MYFMT='(A,X,A)' 
-	IF(MSGTYPE == 0) THEN 
+        MYFMT='(A,X,A)'
+	IF(MSGTYPE == 0) THEN
 	  WRITE(RES_CHECK,MYFMT) 'M_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
 	ELSEIF(MSGTYPE == 1) THEN
 	  WRITE(RES_CHECK,MYFMT) 'W_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
 	ELSEIF(MSGTYPE == 2) THEN
 	  WRITE(RES_CHECK,MYFMT) 'E_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
 	ENDIF
-	MYFMT='(A,I10,X)' 
+	MYFMT='(A,I10,X)'
 	WRITE(RES_CHECK,MYFMT) 'OPTION_TYPE=',0
 	IF(PRESENT(I1))THEN
 	  WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',I1
@@ -1522,7 +1522,7 @@ C
         IF (MSGTYPE==0) THEN
           CMSGTYPE='MESSAGE'
           IMSG=IMSG+1
-        ELSE IF (MSGTYPE==1) THEN 
+        ELSE IF (MSGTYPE==1) THEN
           CMSGTYPE='WARNING'
           IWARN=IWARN+1
         ELSE IF (MSGTYPE==2) THEN
@@ -1650,7 +1650,7 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                     IF(ITYPE == 4)THEN
                       WRITE(TMPBUF,MYFMT)TMP_CHAR(INDXC)
                     ELSE
-                      WRITE(TMPBUF,MYFMT)CBUF(INDXC) 
+                      WRITE(TMPBUF,MYFMT)CBUF(INDXC)
                     ENDIF
                     TMPBUF=ADJUSTL(TMPBUF)
                     BUFLEN=LEN_TRIM(TMPBUF)
@@ -1675,9 +1675,9 @@ C                WRITE(CTYPE,'(A,/)')"DESCRIPTION : "
                       IF(ITYPE == 4)THEN
                          WRITE(TMPBUF,MYFMT)TMP_I(INDXD)
                       ELSE
-                         OPTION_NAME_DYNA=' ' 
+                         OPTION_NAME_DYNA=' '
                          S_OPTION_NAME_DYNA=1
-                    
+
                          CALL CPP_FIND_DYNA_MESS(KEY,KEY_LEN,IBUF(ID_NUM),OPTION_NAME_DYNA,
      *                                S_OPTION_NAME_DYNA,ISAV,DYNA_TITLE,SDYNA_TITLE)
                          WRITE(TMPBUF,MYFMT) OPTION_NAME_DYNA(1:S_OPTION_NAME_DYNA)
@@ -1803,20 +1803,20 @@ c        CLOSE (UNIT=RES_TMP,STATUS='DELETE')
 
        ENDIF
       ELSE                  ! PRMODE Was not set / No Message Stacking.
-c not cummu/print part (old one)   
+c not cummu/print part (old one)
 C
 c-----------------------------------------------------------
 c   MESSAGE SUMMARY
 c-----------------------------------------------------------
 	MYFMT='(A,X,A)'
-	IF(MSGTYPE == 0) THEN 
+	IF(MSGTYPE == 0) THEN
 	  WRITE(RES_CHECK,MYFMT) 'M_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
 	ELSEIF(MSGTYPE == 1) THEN
 	  WRITE(RES_CHECK,MYFMT) 'W_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
 	ELSEIF(MSGTYPE == 2) THEN
 	  WRITE(RES_CHECK,MYFMT) 'E_OPTION=',ERR_CATEGORY(1:LEN_TRIM(ERR_CATEGORY))
 	ENDIF
-	MYFMT='(A,I10,X)' 
+	MYFMT='(A,I10,X)'
 	WRITE(RES_CHECK,MYFMT) 'OPTION_TYPE=',0
 	IF(PRESENT(I1))THEN
 	  WRITE(RES_CHECK,MYFMT) 'OPTION_ID=',I1
@@ -1837,7 +1837,7 @@ C
         IF (MSGTYPE==0) THEN
           CMSGTYPE='MESSAGE'
           IMSG=IMSG+1
-        ELSE IF (MSGTYPE==1) THEN 
+        ELSE IF (MSGTYPE==1) THEN
           CMSGTYPE='WARNING'
           IWARN=IWARN+1
         ELSE IF (MSGTYPE==2) THEN
@@ -2046,7 +2046,7 @@ c HM_READER messages ( line with error sent by reader)
                   BUFLEN=0
                 END IF
                 ILINE = MESSAGES(ITYPE,MSGID)%SMESSAGE+1
-              ELSEIF ( MSGID > 200000 .AND. ITYPE /= 1 ) THEN 
+              ELSEIF ( MSGID > 200000 .AND. ITYPE /= 1 ) THEN
 c CONVERTER messages ( line with error sent by onverter)
                 DO WHILE (I+1<=LEN_TRIM(TMPLINE))
                   IF (TMPLINE(I:I) == '\') THEN
@@ -2134,17 +2134,17 @@ c CONVERTER messages ( line with error sent by onverter)
                         CALL MESS_EXTRACT_FORMAT(TMPLINE(I:ncharline),LEN_TRIM(TMPLINE(I:ncharline)),NCOUNT,ID_NUM,KEY,KEY_LEN)  ! format is %iXX="/KEY" XX=1-11
                         I=I+NCOUNT
                         IOLD=I
-                        OPTION_NAME_DYNA=' ' 
+                        OPTION_NAME_DYNA=' '
                         S_OPTION_NAME_DYNA=1
-                      
+
                         CALL CPP_FIND_DYNA_MESS(KEY,KEY_LEN,IBUF(ID_NUM),OPTION_NAME_DYNA,
      *                              S_OPTION_NAME_DYNA,ISAV,DYNA_TITLE,SDYNA_TITLE)
-  
+
                         MYFMT='(A)'
                         WRITE(TMPBUF,MYFMT) OPTION_NAME_DYNA(1:S_OPTION_NAME_DYNA)
                         TMPBUF=ADJUSTL(TMPBUF)
                         BUFLEN=LEN_TRIM(TMPBUF)+1
-                      ELSE 
+                      ELSE
                        NO_PRINT=1
                        I=I+1
                       END IF
@@ -2158,7 +2158,7 @@ c CONVERTER messages ( line with error sent by onverter)
                     BUFLEN=0
                     INDXTMPOUT=MIN(INDXTMPOUT,ncharline)
                   END IF
-                END DO                
+                END DO
                 IF (IOLD<=I) THEN
                   WRITE(TMPBUF,'(A)')
      *            TMPLINE(IOLD:LEN_TRIM(TMPLINE))
@@ -2174,7 +2174,7 @@ c CONVERTER messages ( line with error sent by onverter)
               INDXTMPOUT=MIN(INDXTMPOUT,ncharline)
               IF (INDXTMPOUT>0) THEN
 C               do not write title on stdo in case ANINFO_BLIND_2
-               IF(NO_PRINT == 0)THEN                              ! NO_PRINT is set to 1 when %i is found & 
+               IF(NO_PRINT == 0)THEN                              ! NO_PRINT is set to 1 when %i is found &
                 IF (ITYPE==1) THEN
                   IF (ANMODE==ANINFO.OR.
      *                ANMODE==ANINFO_BLIND_1) THEN
@@ -2233,7 +2233,7 @@ CC                       do not lose information
 C                    WRITE(ISTDO,'(A)')TMPOUT(1:INDXTMPOUT)
 C                  END IF
                 END IF
-               END IF  ! NO_PRINT is set to 1 when %i is found & 
+               END IF  ! NO_PRINT is set to 1 when %i is found &
               END IF
 C             IF (ITYPE==3.AND.LEN_TRIM(TMPLINE)==0) THEN
               END IF
@@ -2270,7 +2270,7 @@ Chd|-- called by -----------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE MESS_EXTRACT_FORMAT(TMPLINE,LINE_SIZE,NCOUNT,ID_NUM,KEY,KEY_LEN) 
+      SUBROUTINE MESS_EXTRACT_FORMAT(TMPLINE,LINE_SIZE,NCOUNT,ID_NUM,KEY,KEY_LEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2360,7 +2360,7 @@ C  |====================================================================
 #else
        CR=' '//CHAR(10)
 #endif
-      NL=CR  
+      NL=CR
       RETURN
       END
-      
+

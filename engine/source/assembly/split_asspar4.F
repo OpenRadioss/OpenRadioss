@@ -46,10 +46,10 @@ C-----------------------------------------------
 !       NUMNOD : integer ; Number of node
 !       NTHREADS : integer ; number of OpenMP threads
 !       ADDCNE : integer ; dimension=NUMNOD+2 (0:NUMNOD+1)
-!               address for assembling 
-!       FIRST : integer ; dimension=NTHREADS 
+!               address for assembling
+!       FIRST : integer ; dimension=NTHREADS
 !               address of the first node for each thread
-!       LAST : integer ; dimension=NTHREADS 
+!       LAST : integer ; dimension=NTHREADS
 !               address of the last node for each thread
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       -----------------------------------------------
@@ -64,12 +64,12 @@ C-----------------------------------------------
 !$COMMENT
 !       SPLIT_ASSPAR4 description
 !       initialization of the bounds for each thread
-!       a fixed split (ie. use NUMNOD/NTHREADS bounds 
-!       does not guarantee a optimized split in asspar4) 
-!       
+!       a fixed split (ie. use NUMNOD/NTHREADS bounds
+!       does not guarantee a optimized split in asspar4)
+!
 !       SPLIT_ASSPAR4 organization :
 !       - compute the total number of contribution
-!       - compute FIRST and LAST bounds according to 
+!       - compute FIRST and LAST bounds according to
 !         the nnumber of contribution
 !$ENDCOMMENT
 
@@ -77,7 +77,7 @@ C-----------------------------------------------
         DO ITHREAD=1,NTHREADS
                 FIRST(ITHREAD)= 1+(ITHREAD-1)*NUMNOD/NTHREADS
                 LAST(ITHREAD)= ITHREAD*NUMNOD/NTHREADS
-        ENDDO 
+        ENDDO
 
         IF(SADSKY>0) THEN
 
@@ -87,9 +87,9 @@ C-----------------------------------------------
                         NC = ADDCNE(N+1)-ADDCNE(N)
                         SUM_NC = SUM_NC + NC
                 ENDDO
-        
+
                 MEAN_NC = SUM_NC / NTHREADS
-        
+
                 SUM_NC = 0
                 IF(NUMNOD>0) THEN
                         !       first case : NUMNOD>NTHREADS --> try to split according to the number of contribution
@@ -107,17 +107,17 @@ C-----------------------------------------------
                                                 ITHREAD = ITHREAD + 1
                                                 IF(ITHREAD<NTHREADS+1) FIRST(ITHREAD) = N+1
                                         ENDIF
-                                ENDDO  
+                                ENDDO
                                 !       ------------------------
                                 IF(ITHREAD<NTHREADS) THEN
-                                        !       fail to split according to the nbr of contribution 
+                                        !       fail to split according to the nbr of contribution
                                         !       --> back to a classical splitting (static splitting)
                                         DO ITHREAD=1,NTHREADS
                                                 FIRST(ITHREAD)= 1+(ITHREAD-1)*NUMNOD/NTHREADS
                                                 LAST(ITHREAD)= ITHREAD*NUMNOD/NTHREADS
                                         ENDDO
-                                ELSE             
-                                        !       splitting succes : force the last bound                    
+                                ELSE
+                                        !       splitting succes : force the last bound
                                         ITHREAD = NTHREADS
                                         LAST(ITHREAD) = NUMNOD
                                         SUM_NC_THREAD(ITHREAD) = SUM_NC
@@ -129,9 +129,9 @@ C-----------------------------------------------
                                 DO ITHREAD=1,NTHREADS
                                         FIRST(ITHREAD)= 1+(ITHREAD-1)*NUMNOD/NTHREADS
                                         LAST(ITHREAD)= ITHREAD*NUMNOD/NTHREADS
-                                ENDDO  
+                                ENDDO
                                 !       ------------------------
-        
+
                         ENDIF
                 ENDIF
         ENDIF

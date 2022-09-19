@@ -47,7 +47,7 @@ C-----------------------------------------------
 C
 C       print*,'MAT_NUMBER', MAT_NUMBER ,'WEIGHT:',MAT_WEIGHT1PT,MAT_WEIGHT5PT
 C
-       
+
        DDWEIGHTS(1,ELEM_TYPE,MAT_NUMBER)=MAT_WEIGHT1PT
        DDWEIGHTS(2,ELEM_TYPE,MAT_NUMBER)=MAT_WEIGHT5PT
 

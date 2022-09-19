@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE R2R_MOD 
+      USE R2R_MOD
       USE INOUTFILE_MOD
       USE QA_OUT_MOD
       USE SUBMODEL_MOD
@@ -69,12 +69,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       CHARACTER FILNAM*100,CHRUN*4,ROOT_SUB*80
-      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)               
+      TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISTAT,KDOM,IPID_RET,IERROR,WAIT,IPID_L,STAT,DOM_SWITCH
-      LOGICAL(4) WAITA       
+      LOGICAL(4) WAITA
 #if defined(COMP_ARMFLANG) || defined(COMP_LLVM)
       INTEGER  GETPID
 #endif
@@ -90,7 +90,7 @@ C-----------------------------------------------
         ALLOCATE (ISUBDOM(8,NSUBDOM),STAT=stat)
 
 2000    CONTINUE
-        
+
 C----------------------------------------------------------------------
 C----------------------------- WINDOWS --------------------------------
 C----------------------------------------------------------------------         
@@ -103,7 +103,7 @@ C----------------------------------------------------------------------
         IPID = FORK()
 #if defined(_OPENMP)
         IF (IPID==0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
-#endif         
+#endif
 C----------------------------------------------------------------------         
 C-------------------INTEL -> LINUX/LINUXIA64/MACOSX--------------------
 C----------------------------------------------------------------------         
@@ -117,14 +117,14 @@ C----------------------------------------------------------------------
 #endif
 #if defined(_OPENMP)
         IF (IPID==0) CALL OMP_SET_NUM_THREADS(NTHREAD_R2R)
-#endif        
+#endif
 #endif
 C----------------------------------------------------------------------         
 C----------------------------------------------------------------------    
         KDOM = KDOM + 1
         IPID_L = IPID
 C
-        IF (IPID/=0) THEN     
+        IF (IPID/=0) THEN
 C----------------------------------------------------------------------
 C----------------------------- WINDOWS --------------------------------
 C----------------------------------------------------------------------         
@@ -163,7 +163,7 @@ C----------------------------------------------------------------------
                 CALL ANCMSG(MSGID=1103,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO)
-                IERR=IERR+1    
+                IERR=IERR+1
               ENDIF
             ELSEIF (KDOM<NSUBDOM) THEN
               GOTO 2000
@@ -171,7 +171,7 @@ C----------------------------------------------------------------------
             IF (FLG_SWALE==1) THEN
                IPID_L = 0
                IDDOM_L = 1
-            ENDIF     
+            ENDIF
 C---------------------------------------------------------------------- 
 C----------------------------------------------------------------------
         ELSE
@@ -181,21 +181,21 @@ C----------------------------------------------------------------------
             IF (FLG_SWALE==1) THEN
                IPID_L = 1
                IDDOM_L = 0
-            ENDIF   
+            ENDIF
         ENDIF
 C
-        IF (IPID_L/=0) THEN    
-            WRITE(ISTDO,'(A)') '-----------------------------------' 
+        IF (IPID_L/=0) THEN
+            WRITE(ISTDO,'(A)') '-----------------------------------'
             WRITE(ISTDO,'(A)')' .. TREATMENT OF THE FULL DOMAIN'
             WRITE(ISTDO,'(A)') '-----------------------------------'
-            WRITE(ISTDO,'(A)') ''          
+            WRITE(ISTDO,'(A)') ''
         ELSE
             ROOTNAM = DOM_NAME
-            ROOTLEN = LEN_TRIM(ROOTNAM)         
+            ROOTLEN = LEN_TRIM(ROOTNAM)
 c-----------Initialisations for the starter processes of the subdomains----
             FILNAM  =ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.out'
             R2R_FILNAM = FILNAM
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//R2R_FILNAM(1:LEN_TRIM(R2R_FILNAM))    
+            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//R2R_FILNAM(1:LEN_TRIM(R2R_FILNAM))
             LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_TRIM(R2R_FILNAM)
             OPEN(UNIT=IOUT,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .         ACCESS='SEQUENTIAL',
@@ -204,9 +204,9 @@ C-----------Repointing of temporary files for error messages
             RES_MES = 123458
             RES_TMP = 123459
             OPEN (UNIT=RES_MES,STATUS='SCRATCH',FORM='FORMATTED')
-c    
-            WRITE(ISTDO,'(A)') ''      
-            WRITE(ISTDO,'(A)') '-----------------------------------'     
+c
+            WRITE(ISTDO,'(A)') ''
+            WRITE(ISTDO,'(A)') '-----------------------------------'
             WRITE(ISTDO,'(A)')' .. TREATMENT OF SUBDOMAIN '
      .       //ROOTNAM(1:ROOTLEN)
             WRITE(ISTDO,'(A)') '-----------------------------------'
@@ -230,19 +230,19 @@ Chd|====================================================================
       SUBROUTINE WIN_WAITPID(IPID_RET)
 C----------------------------------------------- 
       USE DFWIN
-      USE DFLIB    
+      USE DFLIB
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
-      INTEGER IPID_RET          
+      INTEGER IPID_RET
 C-----------------------------------------------
       LOGICAL(4) WAITA
 C-----------------------------------------------
 
       WAITA = WAITFORSINGLEOBJECT(IPID_RET,INFINITE)
-      
+
       END
 
 Chd|====================================================================
@@ -259,7 +259,7 @@ Chd|====================================================================
       USE MESSAGE_MOD
 C----------------------------------------------- 
       USE DFWIN
-      USE DFLIB    
+      USE DFLIB
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -276,12 +276,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ID,FLG_SWALE          
+      INTEGER ID,FLG_SWALE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------          
       LOGICAL(4) SUCCESS
-      INTEGER PROCESS_ERROR,STATUS,LEN,I          
+      INTEGER PROCESS_ERROR,STATUS,LEN,I
       INTEGER SIZEOFSTARTUPINFO,SIZESECURITYATTRIBUTES
       CHARACTER*2048 COMMAND,LAUNCH
       type(T_STARTUPINFO) si
@@ -292,13 +292,13 @@ C-----------------------------------------------
       IF (FLG_SWALE>0) SUCCESS = SETENVQQ("R2R_ENV_SWALE=5")
 
       CALL GET_COMMAND(COMMAND,LEN,STATUS)
-      
+
 C-------Incompatibility of "<" remplaced by "-i" ----------------      
       IF (LEN_TRIM(INPUT)==0) THEN
         CALL ANCMSG(MSGID=840,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO)
-        IERR=IERR+1      
+        IERR=IERR+1
       ENDIF
 
 
@@ -306,8 +306,8 @@ C-------Incompatibility of "<" remplaced by "-i" ----------------
       CALL RAD2RAD_CREATEPROCESS(COMMAND,LEN,ID,PROCESS_ERROR)
 
 
-      IF (PROCESS_ERROR==1) THEN          
-         CALL MY_EXIT(2)                 
+      IF (PROCESS_ERROR==1) THEN
+         CALL MY_EXIT(2)
       ENDIF
 
       END
@@ -325,7 +325,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE R2R_MOD   
+      USE R2R_MOD
       USE INOUTFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -343,7 +343,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER DOMLEN,REF,ERR
-      CHARACTER NAM*150   
+      CHARACTER NAM*150
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=4096) :: TMP_NAME
 C-----------------------------------------------
@@ -352,22 +352,22 @@ C-----------------------------------------------
 
       NAM=DOM_NAME(ISUBDOM(8,1):ISUBDOM(8,1)+
      .               ISUBDOM(7,1)-1)//'_'//CHRUN//'.domdec'
-      DOMLEN = ISUBDOM(7,1)+12        
-            
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//NAM(1:LEN_TRIM(NAM))    
+      DOMLEN = ISUBDOM(7,1)+12
+
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//NAM(1:LEN_TRIM(NAM))
       LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_TRIM(NAM)
       OPEN(UNIT=REF,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .      ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
 
       READ(REF,1303,IOSTAT=ERR) FLG_FSI
 
-      CLOSE(UNIT=REF,STATUS='KEEP')  
+      CLOSE(UNIT=REF,STATUS='KEEP')
 
 C--------------------------------------------------------------C
       RETURN
-   
+
 1303  FORMAT( 1X,I9)
 
 C--------------------------------------------------------------C
       RETURN
-      END  
+      END

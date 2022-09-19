@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        ETYP(MVSIZ), IBC(MVSIZ)
 C     REAL
       my_real
-     .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*), 
+     .   X(3,*), GAPV(*), GAP_S(*), GAP_M(*),
      .   GAP_S_L(*), GAP_M_L(*), EDGE_L2(*)
       my_real
      .   MARGE
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,IL, L, NN, IG,JFT,IADD,
-     .        IBCS, ISKS, IBCM(4), ISKM(4) 
+     .        IBCS, ISKS, IBCM(4), ISKM(4)
 C-----------------------------------------------
 C
       IF(IGAP /= 3)THEN

@@ -500,7 +500,7 @@ C-----------------------------------------------
       USE METRIC_MOD
 
 
-#include "my_real.inc"      
+#include "my_real.inc"
 c
 C=======================================================================
       TYPE INTBUF_STRUCT_
@@ -517,24 +517,24 @@ c DEFINE SIZES (integers arrays)
 C=======================================================================
         integer ::   S_IRECTS     !  4*NRTS     :IRECTS:CONNECTIVITES FACES SECONDS     :1,2,3,4
         integer ::   S_IRECTM     !  4*NRTM_FE+4*9*NRTM_IGE :IRECTM:CONNECTIVITES FACES MAIN  :1,2,3,4,5,6,7,8,20,24
-        integer ::   S_NSV        !  NSN        :NSV   :NOEUDS SECONDS                  :1,2,3,4,  7 
+        integer ::   S_NSV        !  NSN        :NSV   :NOEUDS SECONDS                  :1,2,3,4,  7
         integer ::   S_MSR        !  NMN+16*NRTM_IGE  :MSR   :NOEUDS MAINS                   :1,2,3,4
-        integer ::   S_IRTLM      !  NSN        :FACE MAIN LA PLUS PROCHE    :1,2,3,4   
+        integer ::   S_IRTLM      !  NSN        :FACE MAIN LA PLUS PROCHE    :1,2,3,4
         integer ::   S_IRUPT      !  NSN        :IRUPT :Flag rupture                     :2
         integer ::   S_INORM      !  NSN        :INORM  :main orientation flag: type2 avec rupture
         integer ::   S_IELEC      !  (type20)
         integer ::   S_IELES      !  NRTS       :IELES :ELEMENT SECND                    :              9
         integer ::   S_LISUB      !  NISUB      :LISUB :LISTE DES SOUS-INTERFACES        :     7
         integer ::   S_TYPSUB     !  NISUB      :TYPSUB :TYPE OF SUBINTERFACES           :     25
-        integer ::   S_ADDSUBS    !  NSN+1      :ADDSUBS:ADRESSE DS ZONE DE SS INTERF. COTE SECOND. :     7, 10, 24, 25  
+        integer ::   S_ADDSUBS    !  NSN+1      :ADDSUBS:ADRESSE DS ZONE DE SS INTERF. COTE SECOND. :     7, 10, 24, 25
         integer ::   S_ADDSUBM    !  NRTM+1     :ADDSUBM:ADRESSE DS ZONE DE SS INTERF. COTE MAIN  :     7, 10, 24, 25
         integer ::   S_LISUBS     !  NISUBS     :LISUBS :ZONE DES SS INTERF. COTE SECOND.           :     7, 10, 24, 25
         integer ::   S_LISUBM     !  NISUBM     :LISUBM :ZONE DES SS INTERF. COTE MAIN            :     7, 10, 24, 25
         integer ::   S_INFLG_SUBS !  NISUBS     :INFLG_SUBS: ZONE D APPARTENANCE A S1/S2 DES SS INTERF. COTE SECOND. : 25
         integer ::   S_INFLG_SUBM !  NISUBS     :INFLG_SUBS: ZONE D APPARTENANCE A S1/S2 DES SS INTERF.COTE MAIN   : 25
         integer ::   S_MSEGTYP    !  NRTM       :MSEGTYP: element type                   :      2,3,5,7,10,21,23; used only in Starter
-        integer ::   S_CAND_E     !  MULTIMP*NSN:CAND_E:FACETTES CANDIDATES              :7,10,11,20   
-        integer ::   S_CAND_N     !  MULTIMP*NSN:CAND_N:NOEUDS CANDIDATS                 :7,10,11,20  
+        integer ::   S_CAND_E     !  MULTIMP*NSN:CAND_E:FACETTES CANDIDATES              :7,10,11,20
+        integer ::   S_CAND_N     !  MULTIMP*NSN:CAND_N:NOEUDS CANDIDATS                 :7,10,11,20
         integer ::   S_I_STOK     !             : II_STOK                                : 7    10,11,20,24
         integer ::   S_I_STOK_E   !             : II_STOK_E                              : 7    10,11,20,24
         integer ::   S_IFPEN      !  MULTIMP*NSN:IFPEN :FLAG PENETR. (filtr frottement)  :           7
@@ -543,7 +543,7 @@ C=======================================================================
         integer ::   S_ADCCM      !  NRTM       :ADDCM :adresse dans CHAINE du 1er main:                  11
         integer ::   S_CHAIN      !  2*MULTIMP*NSN:CHAINE(1,adds) : bord second.     :                  11
 !type20
-        integer ::   S_DAANC6     !  18*2*NLN   :DAANC6:contient 18*NLN double precision : 20       
+        integer ::   S_DAANC6     !  18*2*NLN   :DAANC6:contient 18*NLN double precision : 20
         integer ::   S_NBINFLG    !  NBINFLG    :NLN    :Flags binaire noeuds            NBIN:      20, 24, 25
         integer ::   S_MBINFLG    !  MBINFLG    :NRTM  :Flag multiusage facettes        :      20, 24, 25
         integer ::   S_EBINFLG    !  EBINFLG    :NEDGE :Flag multiusage edges           :      25
@@ -557,7 +557,7 @@ C=======================================================================
         integer ::   S_LCAND_N    !  MULTIMP*NMNE:LCAND_N:LIGNES MAINS CANDIDATES      :      20
         integer ::   S_LCAND_S    !  MULTIMP*NSNE:LCAND_N:LIGNES SECONDS CANDIDATES     :      20
         integer ::   S_ADCCM20    !  NLINM      :ADDCM :adresse dans CHAINE du 1er main:      20
-        integer ::   S_CHAIN20    !  2*MULTIMP*NSNE:CHAINE(1,adds) : bord second.        :      20            11                                  !                       :CHAINE(2,adds) : adresse suivante       :      20  
+        integer ::   S_CHAIN20    !  2*MULTIMP*NSNE:CHAINE(1,adds) : bord second.        :      20            11                                  !                       :CHAINE(2,adds) : adresse suivante       :      20
 !type1
         integer ::   S_ILOCS      !  NSN        :ILOCS :NOEUD MAIN LE PLUS PROCHE      :1, ,3,4
         integer ::   S_NSEGM      !  1+NMN      :NSEGM :ADRESSE DU VECTEUR LMSR (MAIN) :1, ,3,4,5
@@ -578,12 +578,12 @@ C=======================================================================
 !type12
         integer ::   S_FCOUNT     !  NSN: 12
 !type14
-        integer ::   S_KSURF      !  
-        integer ::   S_IMPACT     !  NSN 
+        integer ::   S_KSURF      !
+        integer ::   S_IMPACT     !  NSN
 !type21
         integer ::   S_MSR21      !  NMNG    :MSR21: MSR global     :      21
-        integer ::   S_MNDD       
-        integer ::   S_MSR_L      
+        integer ::   S_MNDD
+        integer ::   S_MSR_L
 !type24
         integer ::   S_MVOISIN    !  4*NRTM     :MVOISIN: facettes mains voisines:(at least two commun nodes) : 24
         integer ::   S_NVOISIN    !  2*4*NRTM   :NVOISIN: Noeuds mains voisines      :24
@@ -605,12 +605,12 @@ C=======================================================================
         integer ::   S_CAND_OPT_E !  MULTIMP*NSN       :CAND_OPT_E : Candidats apres optimisation <=> segment main (i25optcd.F)
         integer ::   S_IF_ADH     !  NSN               :IF_ADH: if adhesion spring exists (1) or not (0)  :  25
         integer ::   S_CANDM_E2E  !  MULTIMP*NCONTE    :CANDM_E2E : Main line : Aretes candidates mains (shell & beams))
-        integer ::   S_CANDS_E2E  !  MULTIMP*NCONTE    :CANDS_E2E : Secnd line : Aretes candidates secnds 
+        integer ::   S_CANDS_E2E  !  MULTIMP*NCONTE    :CANDS_E2E : Secnd line : Aretes candidates secnds
         integer ::   S_CANDM_E2S  !  MULTIMP*NCONTE    :CANDM_E2S : Main segment : Facettes candidates mains (solid edges)
-        integer ::   S_CANDS_E2S  !  MULTIMP*NCONTE    :CANDS_E2S : Secnd line : Aretes candidates secnds 
-        integer ::   S_CANDL_MAX 
-        integer ::   S_CANDS_MAX 
-        integer ::   S_ADDSUBE    !  NEDGE+1     :ADDSUBES:ADRESSE DS ZONE EDGES DE SS INTERF. COTE SECOND.             : 25   
+        integer ::   S_CANDS_E2S  !  MULTIMP*NCONTE    :CANDS_E2S : Secnd line : Aretes candidates secnds
+        integer ::   S_CANDL_MAX
+        integer ::   S_CANDS_MAX
+        integer ::   S_ADDSUBE    !  NEDGE+1     :ADDSUBES:ADRESSE DS ZONE EDGES DE SS INTERF. COTE SECOND.             : 25
         integer ::   S_LISUBE     !  NISUBE      :LISUBE  :ZONE EDGES DES SS INTERF. COTE SECOND.                       : 25
         integer ::   S_INFLG_SUBE !  NISUBE      :INFLG_SUBE :: ZONE D APPARTENANCE A S1/S2 DES SS INTERF.COTE MAIN   : 25
 C-------S_ISEADD,S_ISEDGE,S_CAND_T will be cleaned after, for the moment with size 0
@@ -636,11 +636,11 @@ C---- edge
 C---- ige
         integer ::   S_NIGE
 C---- INTER FRICTION PARTS
-        integer ::   S_IPARTFRICS!  NSN       :IPARTFRICS : number of part of secnd nodes 
+        integer ::   S_IPARTFRICS!  NSN       :IPARTFRICS : number of part of secnd nodes
         integer ::   S_IPARTFRICM!  NRTM      :IPARTFRICM : number of part of main segments
         integer ::   S_IPARTFRIC_E!  NEDGE    :IPARTFRIC_E : number of part of egde int25
 C       Orthotropic friction 
-        integer ::   S_IREP_FRICM !  NRTM      :IREP_FRIC : Orthotropic system formulation flag for reference vector for friction (same as IORTH/IREP for prop) 
+        integer ::   S_IREP_FRICM !  NRTM      :IREP_FRIC : Orthotropic system formulation flag for reference vector for friction (same as IORTH/IREP for prop)
 C---- Irem Gap option for inter type25
         integer ::   S_KREMNOR!  NSN+1    :KREMNOR : skyline tab for main segment adress in REMNOR tab
         integer ::   S_REMNOR!   REMNODE  :REMNOR  : tab for main segment forbidden for each secnd node
@@ -649,22 +649,22 @@ C---- Irem Gap option for inter type25
         integer ::   S_KREMNODE_E2S   !  NRTM+1    :KREMNODE_EDG:ADRESS LINES REMOVED FROM CONTACT IN REMNODE ARRAY :      25
         integer ::   S_REMNODE_E2S    !  NREMNODE_E2S   :REMNODE_EDG: LINES REMOVED FROM CONTACT     :      25
 C----Nitsche Method
-        integer ::   S_IELNRTS!  NRTS      :IELNRTS : number of secnd element 
-        integer ::   S_ADRECTS!  4*NRTS    :ADRECTS : Adress of each secnd node of the segment in IXS/IXS10/IXS20/IXS16 
-        integer ::   S_FACNRTS!  NRTS      :FACNRTS : Corresponding facet in element IELNRTS 
+        integer ::   S_IELNRTS!  NRTS      :IELNRTS : number of secnd element
+        integer ::   S_ADRECTS!  4*NRTS    :ADRECTS : Adress of each secnd node of the segment in IXS/IXS10/IXS20/IXS16
+        integer ::   S_FACNRTS!  NRTS      :FACNRTS : Corresponding facet in element IELNRTS
         integer ::   S_E2S_ACTNOR!
 C=======================================================================
 c DEFINE SIZES (float arrays)
 C=======================================================================
         integer ::   S_STFAC        !  1          :STFAC :FACTEUR DE RIGIDITE D'INTERFACE(MANAGER)
         integer ::   S_VARIABLES    !   +1, ...
-        integer ::   S_CSTS         !  2*NSN      :CSTS  :S ET T DES NOEUDS SECONDS       :   ,3,4,    
+        integer ::   S_CSTS         !  2*NSN      :CSTS  :S ET T DES NOEUDS SECONDS       :   ,3,4,
         integer ::   S_DPARA        !  7*NSN      :DPARA :DET,B1,B2,B3,C1,C2,C3            :  2
         integer ::   S_NMAS         !  NMN        :MMAS  :MASSE NOEUDS MAINS             :  2
-        integer ::   S_SMAS         !  NSN      :SMAS : MASSE ET INERTIE DES NOEUDS SECND :   2  
+        integer ::   S_SMAS         !  NSN      :SMAS : MASSE ET INERTIE DES NOEUDS SECND :   2
         integer ::   S_SINER        !  NSN      :SINER : MASSE ET INERTIE DES NOEUDS SECND :   2
-        integer ::   S_AREAS2       !  NSN       AREA       : secnd area                  :  int2 with rupture  
-        integer ::   S_UVAR         !  NSN*NUVAR UVAR       : user buffer for secnds      :  int2 with rupture  
+        integer ::   S_AREAS2       !  NSN       AREA       : secnd area                  :  int2 with rupture
+        integer ::   S_UVAR         !  NSN*NUVAR UVAR       : user buffer for secnds      :  int2 with rupture
         integer ::   S_XM0          !  NSN*3     XM0(x,y,z) : secnd-main initial distance: int2 with rupture
         integer ::   S_SPENALTY     !  NSN      :
         integer ::   S_STFR_PENALTY !  NSN      :S
@@ -687,42 +687,42 @@ C=======================================================================
         integer ::   S_AREAS        !  NSN       AREA       : secnd area                  :  7
         integer ::   S_AREAM        !  NRTM      AREA       : main area                  :  11
         integer ::   S_GAP_SL       !  NSN        :GAP_S_L :
-        integer ::   S_GAP_ML       !  NRTM       :GAP_M_L :           
-        integer ::   S_CAND_P       !  MULTIMP*NSN:CAND_P:PENETRATION INITIALE             :           (7)   
+        integer ::   S_GAP_ML       !  NRTM       :GAP_M_L :
+        integer ::   S_CAND_P       !  MULTIMP*NSN:CAND_P:PENETRATION INITIALE             :           (7)
         integer ::   S_FTSAVX       !  MULTIMP*NSN:FTSAVX :    SAUVEGARDE FILTRAGE         :            7, 8  24
         integer ::   S_FTSAVY       !  MULTIMP*NSN:FTSAVY :    SAUVEGARDE FILTRAGE         :            7, 8  24
         integer ::   S_FTSAVZ       !  MULTIMP*NSN:FTSAVZ :    SAUVEGARDE FILTRAGE         :            7, 8  24
         integer ::   S_FTSAVX_E   !  MULTIMP*NCONTE    :FTSAVX_E : Friction for saving     :            25
-        integer ::   S_FTSAVY_E   !  MULTIMP*NCONTE    :FTSAVX_E : Friction for saving     :            25 
-        integer ::   S_FTSAVZ_E   !  MULTIMP*NCONTE    :FTSAVX_E : Friction for saving     :            25 
-        integer ::   S_FTSAVX_E2S !  MULTIMP*NCONTE    :FTSAVX_E2S : Friction for saving   :            25 
-        integer ::   S_FTSAVY_E2S !  MULTIMP*NCONTE    :FTSAVX_E2S : Friction for saving   :            25 
-        integer ::   S_FTSAVZ_E2S !  MULTIMP*NCONTE    :FTSAVX_E2S : Friction for saving   :            25 
+        integer ::   S_FTSAVY_E   !  MULTIMP*NCONTE    :FTSAVX_E : Friction for saving     :            25
+        integer ::   S_FTSAVZ_E   !  MULTIMP*NCONTE    :FTSAVX_E : Friction for saving     :            25
+        integer ::   S_FTSAVX_E2S !  MULTIMP*NCONTE    :FTSAVX_E2S : Friction for saving   :            25
+        integer ::   S_FTSAVY_E2S !  MULTIMP*NCONTE    :FTSAVX_E2S : Friction for saving   :            25
+        integer ::   S_FTSAVZ_E2S !  MULTIMP*NCONTE    :FTSAVX_E2S : Friction for saving   :            25
 C---- ige
-        integer ::   S_RIGE          
-        integer ::   S_XIGE          
-        integer ::   S_VIGE 
-        integer ::   S_MASSIGE         
+        integer ::   S_RIGE
+        integer ::   S_XIGE
+        integer ::   S_VIGE
+        integer ::   S_MASSIGE
 !type10
-        integer ::   S_CAND_F       !  6*4*NSN    :CAND_F:ANCIENNE FORCES LOCALES +H1 A H3 :               10    
+        integer ::   S_CAND_F       !  6*4*NSN    :CAND_F:ANCIENNE FORCES LOCALES +H1 A H3 :               10
 !type11
-        integer ::   S_CAND_MAX 
+        integer ::   S_CAND_MAX
 !type20
-        integer ::   S_CAND_FX      !  
-        integer ::   S_CAND_FY      !  
-        integer ::   S_CAND_FZ      !  
+        integer ::   S_CAND_FX      !
+        integer ::   S_CAND_FY      !
+        integer ::   S_CAND_FZ      !
         integer ::   S_XA           !  3*NSN;3*NLN:XA    :XA DES NOEUDS                    :       20
         integer ::   S_VA           !  3*NSN;3*NLN:VA    :VA DES NOEUDS                    :       2
-        integer ::   S_STFA         !  
-        integer ::   S_PENIA        !  5*NLN      :PENIA :pene initiale points d'ancrages  :     20 
+        integer ::   S_STFA         !
+        integer ::   S_PENIA        !  5*NLN      :PENIA :pene initiale points d'ancrages  :     20
         integer ::   S_ALPHAK       !  3*NLN      :ALPHAK:reduction de rigidite d'ancrages :     20
         integer ::   S_GAP_SH       !  NRTM       :GAP_SH:Shift de gap pour gap nul solides:     20
         integer ::   S_AVX_ANCR     !  9*NLN :A-V-X-ANCR :Accel Vit deplacement POINT D'ANCRAGE: 20
-        integer ::   S_CRITX        !  
-        integer ::   S_GAP_ME       !  
+        integer ::   S_CRITX        !
+        integer ::   S_GAP_ME       !
         integer ::   S_STF          !  NLINM      :STFM  :RIGIDITE FACES MAIN        :       20
         integer ::   S_PENIME       !  2*NLINM    :PENIME:pene initiale max / edge main       :       20
-        integer ::   S_GAP_SE       !   
+        integer ::   S_GAP_SE       !
         integer ::   S_PENISE       !  2*NLINS    :PENISE:pene initiale max / edge secnd   :       20
         integer ::   S_STFNE        !  NSNE       :STFNE :RIGIDITE NOEUDS SECONDS         :       20
 !type1
@@ -730,17 +730,17 @@ C---- ige
 !type3,4,5,9
         integer ::   S_CSTM         !  2*NMN      :CSTM  :S ET T DES NOEUDS MAINS        :   ,3,4,
         integer ::   S_STFNM        !  NMN        :STFNM :RIGIDITE NOEUDS MAINS          :   ,3,4
-        integer ::   S_FRICOS       !  3*NSN      :FRICOS:FORCE DE FRICTION(SECOND)       :   ,3,4,    
-        integer ::   S_FRICOM       !  3*NMN      :FRICOM:FORCE DE FRICTION(MAIN)        :   ,3,4,   
-        integer ::   S_FTSAV        !  3*NSN      :FTSAV :     SAUVEGARDE FILTRAGE         :        5         
+        integer ::   S_FRICOS       !  3*NSN      :FRICOS:FORCE DE FRICTION(SECOND)       :   ,3,4,
+        integer ::   S_FRICOM       !  3*NMN      :FRICOM:FORCE DE FRICTION(MAIN)        :   ,3,4,
+        integer ::   S_FTSAV        !  3*NSN      :FTSAV :     SAUVEGARDE FILTRAGE         :        5
 !type6
-        integer ::   S_FCONT        !  1          :FCONT :                                 :          6  
+        integer ::   S_FCONT        !  1          :FCONT :                                 :          6
         integer ::   S_FS           !  3*NSN      :FS    :SAUVEGARDE DE LA PENETRATION     :          6
         integer ::   S_FM           !  3*NSN      :FM    :SAUVEGARDE DE LA PENETRATION     :          6
         integer ::   S_RMAS         !  2          :RMAS  :MASSE DES RIGID BODY             :          6
-        integer ::   S_ANSMX0       
+        integer ::   S_ANSMX0
 !type 8
-        integer ::   S_T8          !   SIZE OF T8 Structure  (1 if Type8, 0 elsewhere)            :          8 
+        integer ::   S_T8          !   SIZE OF T8 Structure  (1 if Type8, 0 elsewhere)            :          8
         integer ::   S_GAPN         !   NRTM
         integer ::   S_STF8         !   NRTM
 
@@ -751,37 +751,37 @@ C---- ige
         integer ::   S_CIMP         !  3*NSN    :
         integer ::   S_NIMP         !  3*NSN    :
 !type15
-        integer ::   S_IOLD         !  
-        integer ::   S_HOLD         !  
-        integer ::   S_NOLD         !  
-        integer ::   S_DOLD         !  
+        integer ::   S_IOLD         !
+        integer ::   S_HOLD         !
+        integer ::   S_NOLD         !
+        integer ::   S_DOLD         !
 !type17
-        integer ::   S_KS           !  
-        integer ::   S_KM           !  
-        integer ::   S_FROTS        !  
-        integer ::   S_FROTM        !  
+        integer ::   S_KS           !
+        integer ::   S_KM           !
+        integer ::   S_FROTS        !
+        integer ::   S_FROTM        !
 !type21
-        integer ::   S_NOD_NORMAL   !  
-        integer ::   S_RCURV        !  
-        integer ::   S_ANGLM        !  
-        integer ::   S_FROT_P       !  
-        integer ::   S_ALPHA0       !  
-        integer ::   S_AS           !  
-        integer ::   S_BS           !  
-        integer ::   S_THKNOD0      !  
+        integer ::   S_NOD_NORMAL   !
+        integer ::   S_RCURV        !
+        integer ::   S_ANGLM        !
+        integer ::   S_FROT_P       !
+        integer ::   S_ALPHA0       !
+        integer ::   S_AS           !
+        integer ::   S_BS           !
+        integer ::   S_THKNOD0      !
 !type22
 !type23
 !type24
-        integer ::   S_GAPN_M       !  NMN        :GAPN_M:Nodal main gap                 :  24, 25 
-        integer ::   S_SECND_FR      !  6*NSN      :SECND_FR:new(1:3) and old(4:6) friction F:  24  
+        integer ::   S_GAPN_M       !  NMN        :GAPN_M:Nodal main gap                 :  24, 25
+        integer ::   S_SECND_FR      !  6*NSN      :SECND_FR:new(1:3) and old(4:6) friction F:  24
         integer ::   S_PENE_OLD     !  NSN*5      :PENE_OLD:Old penetration,PEN_ini(Inacti=5):       24
         integer ::   S_STIF_OLD     !  NSN*2      :STIF_OLD:Old stifness                   :       24
         integer ::   S_TIME_S       !  NSN        :TIME_S :   impact TIME                  :  24
-        integer ::   S_GAP_NM       !  12*NRTM          
+        integer ::   S_GAP_NM       !  12*NRTM
 C---------to be cleaned later
         integer ::   S_EDGE8L2      !  NSN        :EDGE8L2: max half edge length on secnd node: 24
-        integer ::   S_NOD_2RY_LGTH !  NSN        :NODAL SECND LENGTH (TO CAL. Kg)         :     24  
-        integer ::   S_NOD_MAS_LGTH !  NMN        :NODAL main LENGTH (TO CAL. Kg)        :     24  
+        integer ::   S_NOD_2RY_LGTH !  NSN        :NODAL SECND LENGTH (TO CAL. Kg)         :     24
+        integer ::   S_NOD_MAS_LGTH !  NMN        :NODAL main LENGTH (TO CAL. Kg)        :     24
         integer ::   S_GAP_N0       !  12*NRTM        :
         integer ::   S_DGAP_NM      !  4*NRTM        :
         integer ::   S_DGAP_M       !  NRTM        :
@@ -792,153 +792,153 @@ C---------to be cleaned later
 
 !type25
         integer ::   S_EDGE_BISECTOR       !  3*4*NRTM
-        integer ::   S_PENM         !  4*MULTIMP*NSN      :PENM:Penetrations wrt 4 sub-triangles :  25 
-        integer ::   S_DISTM        !  MULTIMP*NSN        :DISTM:True distance to segment        :  25 
-        integer ::   S_LBM          !  MULTIMP*NSN        :LBM:Coordinate LB wrt 4 triangles     :  25 
-        integer ::   S_LCM          !  MULTIMP*NSN        :LCM:Coordinate LC wrt 4 triangles     :  25 
+        integer ::   S_PENM         !  4*MULTIMP*NSN      :PENM:Penetrations wrt 4 sub-triangles :  25
+        integer ::   S_DISTM        !  MULTIMP*NSN        :DISTM:True distance to segment        :  25
+        integer ::   S_LBM          !  MULTIMP*NSN        :LBM:Coordinate LB wrt 4 triangles     :  25
+        integer ::   S_LCM          !  MULTIMP*NSN        :LCM:Coordinate LC wrt 4 triangles     :  25
         integer ::   S_VTX_BISECTOR !  3*2*NADMSR         :                                      :  25
         integer ::   S_CAND_PS      !  4*MULTIMPS*NCONTE:CAND_PS:PENETRATION INITIALE vs Solid Main Edges: 25
-        integer ::   S_GAPE         !  NEDGE 
-        integer ::   S_GAP_E_L      !  NEDGE 
-        integer ::   S_STFE         !  NEDGE 
+        integer ::   S_GAPE         !  NEDGE
+        integer ::   S_GAP_E_L      !  NEDGE
+        integer ::   S_STFE         !  NEDGE
         integer ::   S_GAPMSAV      ! NRTM
         integer ::   S_E2S_NOD_NORMAL ! 3*NADMSR
 C       Orthotropic friction 
-        integer ::   S_DIR_FRICM !  2*NRTM         : orhotropic directions for friction 
+        integer ::   S_DIR_FRICM !  2*NRTM         : orhotropic directions for friction
 
 C=======================================================================
 c DEFINE ARRAYS (integers arrays)
 C=======================================================================
-        integer, DIMENSION(:) , POINTER ::  IRECTS    
-        integer, DIMENSION(:) , POINTER ::  IRECTM    
-        integer, DIMENSION(:) , POINTER ::  NSV       
-        integer, DIMENSION(:) , POINTER ::  MSR       
-        integer, DIMENSION(:) , POINTER ::  IRTLM     
-        integer, DIMENSION(:) , POINTER ::  IRUPT     
-        integer, DIMENSION(:) , POINTER ::  INORM     
-        integer, DIMENSION(:) , POINTER ::  IELEC     
-        integer, DIMENSION(:) , POINTER ::  IELES     
-        integer, DIMENSION(:) , POINTER ::  LISUB  
-        integer, DIMENSION(:) , POINTER ::  TYPSUB        
-        integer, DIMENSION(:) , POINTER ::  ADDSUBS   
-        integer, DIMENSION(:) , POINTER ::  ADDSUBM   
-        integer, DIMENSION(:) , POINTER ::  LISUBS    
-        integer, DIMENSION(:) , POINTER ::  LISUBM    
+        integer, DIMENSION(:) , POINTER ::  IRECTS
+        integer, DIMENSION(:) , POINTER ::  IRECTM
+        integer, DIMENSION(:) , POINTER ::  NSV
+        integer, DIMENSION(:) , POINTER ::  MSR
+        integer, DIMENSION(:) , POINTER ::  IRTLM
+        integer, DIMENSION(:) , POINTER ::  IRUPT
+        integer, DIMENSION(:) , POINTER ::  INORM
+        integer, DIMENSION(:) , POINTER ::  IELEC
+        integer, DIMENSION(:) , POINTER ::  IELES
+        integer, DIMENSION(:) , POINTER ::  LISUB
+        integer, DIMENSION(:) , POINTER ::  TYPSUB
+        integer, DIMENSION(:) , POINTER ::  ADDSUBS
+        integer, DIMENSION(:) , POINTER ::  ADDSUBM
+        integer, DIMENSION(:) , POINTER ::  LISUBS
+        integer, DIMENSION(:) , POINTER ::  LISUBM
         integer, DIMENSION(:) , POINTER ::  INFLG_SUBS
         integer, DIMENSION(:) , POINTER ::  INFLG_SUBM
-        integer, DIMENSION(:) , POINTER ::  ADDSUBE   
-        integer, DIMENSION(:) , POINTER ::  LISUBE    
+        integer, DIMENSION(:) , POINTER ::  ADDSUBE
+        integer, DIMENSION(:) , POINTER ::  LISUBE
         integer, DIMENSION(:) , POINTER ::  INFLG_SUBE
-        integer, DIMENSION(:) , POINTER ::  MSEGTYP   
-        integer, DIMENSION(:) , POINTER ::  CAND_E    
-        integer, DIMENSION(:) , POINTER ::  CAND_N    
-        integer, DIMENSION(:) , POINTER ::  I_STOK    
-        integer, DIMENSION(:) , POINTER ::  I_STOK_E  
-        integer, DIMENSION(:) , POINTER ::  IFPEN     
-        integer, DIMENSION(:) , POINTER ::  KREMNODE  
-        integer, DIMENSION(:) , POINTER ::  REMNODE   
-        integer, DIMENSION(:) , POINTER ::  ADCCM     
-        integer, DIMENSION(:) , POINTER ::  CHAIN     
+        integer, DIMENSION(:) , POINTER ::  MSEGTYP
+        integer, DIMENSION(:) , POINTER ::  CAND_E
+        integer, DIMENSION(:) , POINTER ::  CAND_N
+        integer, DIMENSION(:) , POINTER ::  I_STOK
+        integer, DIMENSION(:) , POINTER ::  I_STOK_E
+        integer, DIMENSION(:) , POINTER ::  IFPEN
+        integer, DIMENSION(:) , POINTER ::  KREMNODE
+        integer, DIMENSION(:) , POINTER ::  REMNODE
+        integer, DIMENSION(:) , POINTER ::  ADCCM
+        integer, DIMENSION(:) , POINTER ::  CHAIN
         integer, DIMENSION(:) , POINTER ::  NIGE
 !type20
-        integer, DIMENSION(:) , POINTER ::  NBINFLG   
-        integer, DIMENSION(:) , POINTER ::  MBINFLG   
-        integer, DIMENSION(:) , POINTER ::  EBINFLG   
-        integer, DIMENSION(:) , POINTER ::  NLG       
-        integer, DIMENSION(:) , POINTER ::  DAANC6    
-        integer, DIMENSION(:) , POINTER ::  ISLINS    
-        integer, DIMENSION(:) , POINTER ::  ISLINM    
-        integer, DIMENSION(:) , POINTER ::  IXLINS    
-        integer, DIMENSION(:) , POINTER ::  IXLINM    
-        integer, DIMENSION(:) , POINTER ::  NSVL      
-        integer, DIMENSION(:) , POINTER ::  MSRL      
-        integer, DIMENSION(:) , POINTER ::  LCAND_N   
-        integer, DIMENSION(:) , POINTER ::  LCAND_S   
-        integer, DIMENSION(:) , POINTER ::  ADCCM20   
-        integer, DIMENSION(:) , POINTER ::  CHAIN20   
+        integer, DIMENSION(:) , POINTER ::  NBINFLG
+        integer, DIMENSION(:) , POINTER ::  MBINFLG
+        integer, DIMENSION(:) , POINTER ::  EBINFLG
+        integer, DIMENSION(:) , POINTER ::  NLG
+        integer, DIMENSION(:) , POINTER ::  DAANC6
+        integer, DIMENSION(:) , POINTER ::  ISLINS
+        integer, DIMENSION(:) , POINTER ::  ISLINM
+        integer, DIMENSION(:) , POINTER ::  IXLINS
+        integer, DIMENSION(:) , POINTER ::  IXLINM
+        integer, DIMENSION(:) , POINTER ::  NSVL
+        integer, DIMENSION(:) , POINTER ::  MSRL
+        integer, DIMENSION(:) , POINTER ::  LCAND_N
+        integer, DIMENSION(:) , POINTER ::  LCAND_S
+        integer, DIMENSION(:) , POINTER ::  ADCCM20
+        integer, DIMENSION(:) , POINTER ::  CHAIN20
 !type1
-        integer, DIMENSION(:) , POINTER ::  ILOCS     
-        integer, DIMENSION(:) , POINTER ::  NSEGM     
-        integer, DIMENSION(:) , POINTER ::  NRT       
+        integer, DIMENSION(:) , POINTER ::  ILOCS
+        integer, DIMENSION(:) , POINTER ::  NSEGM
+        integer, DIMENSION(:) , POINTER ::  NRT
 !type2
         integer, DIMENSION(:) , POINTER ::  MSEGTYP2
 !type3
-        integer, DIMENSION(:) , POINTER ::  IRTLS     
-        integer, DIMENSION(:) , POINTER ::  ILOCM     
-        integer, DIMENSION(:) , POINTER ::  IRTLOM    
-        integer, DIMENSION(:) , POINTER ::  IRTLOS    
-        integer, DIMENSION(:) , POINTER ::  NSEGS     
-        integer, DIMENSION(:) , POINTER ::  LNSV      
-        integer, DIMENSION(:) , POINTER ::  LMSR      
+        integer, DIMENSION(:) , POINTER ::  IRTLS
+        integer, DIMENSION(:) , POINTER ::  ILOCM
+        integer, DIMENSION(:) , POINTER ::  IRTLOM
+        integer, DIMENSION(:) , POINTER ::  IRTLOS
+        integer, DIMENSION(:) , POINTER ::  NSEGS
+        integer, DIMENSION(:) , POINTER ::  LNSV
+        integer, DIMENSION(:) , POINTER ::  LMSR
 !type4
-        integer, DIMENSION(:) , POINTER ::  IELEM     
+        integer, DIMENSION(:) , POINTER ::  IELEM
 !type12
-        integer, DIMENSION(:) , POINTER ::  FCOUNT    
+        integer, DIMENSION(:) , POINTER ::  FCOUNT
 !type14
-        integer, DIMENSION(:) , POINTER ::  KSURF     
-        integer, DIMENSION(:) , POINTER ::  IMPACT    
+        integer, DIMENSION(:) , POINTER ::  KSURF
+        integer, DIMENSION(:) , POINTER ::  IMPACT
 
 !type21
-        integer, DIMENSION(:) , POINTER ::  MSR21     
-        integer, DIMENSION(:) , POINTER ::  MNDD      
-        integer, DIMENSION(:) , POINTER ::  MSR_L     
+        integer, DIMENSION(:) , POINTER ::  MSR21
+        integer, DIMENSION(:) , POINTER ::  MNDD
+        integer, DIMENSION(:) , POINTER ::  MSR_L
 !type24
-        integer, DIMENSION(:) , POINTER ::  MVOISIN   
-        integer, DIMENSION(:) , POINTER ::  NVOISIN   
-        integer, DIMENSION(:) , POINTER ::  MSEGLO    
-        integer, DIMENSION(:) , POINTER ::  MSEGTYP24 
+        integer, DIMENSION(:) , POINTER ::  MVOISIN
+        integer, DIMENSION(:) , POINTER ::  NVOISIN
+        integer, DIMENSION(:) , POINTER ::  MSEGLO
+        integer, DIMENSION(:) , POINTER ::  MSEGTYP24
 C--------to be cleaned later        
-        integer, DIMENSION(:) , POINTER ::  ISEADD    
-        integer, DIMENSION(:) , POINTER ::  ISEDGE    
-        integer, DIMENSION(:) , POINTER ::  CAND_T    
+        integer, DIMENSION(:) , POINTER ::  ISEADD
+        integer, DIMENSION(:) , POINTER ::  ISEDGE
+        integer, DIMENSION(:) , POINTER ::  CAND_T
         integer, DIMENSION(:) , POINTER ::  ISEG_PXFEM
-        integer, DIMENSION(:) , POINTER ::  ISEG_PLY  
-        integer, DIMENSION(:) , POINTER ::  ICONT_I   
-        integer, DIMENSION(:) , POINTER ::  IRTSE     
-        integer, DIMENSION(:) , POINTER ::  IS2SE     
-        integer, DIMENSION(:) , POINTER ::  IS2PT     
-        integer, DIMENSION(:) , POINTER ::  ISPT2     
-        integer, DIMENSION(:) , POINTER ::  ISEGPT     
-        integer, DIMENSION(:) , POINTER ::  IS2ID      ! Global ID Fictive Nodes   
+        integer, DIMENSION(:) , POINTER ::  ISEG_PLY
+        integer, DIMENSION(:) , POINTER ::  ICONT_I
+        integer, DIMENSION(:) , POINTER ::  IRTSE
+        integer, DIMENSION(:) , POINTER ::  IS2SE
+        integer, DIMENSION(:) , POINTER ::  IS2PT
+        integer, DIMENSION(:) , POINTER ::  ISPT2
+        integer, DIMENSION(:) , POINTER ::  ISEGPT
+        integer, DIMENSION(:) , POINTER ::  IS2ID      ! Global ID Fictive Nodes
 !type25
-        integer, DIMENSION(:) , POINTER ::  NSV_ON_PMAIN     !  
-        integer, DIMENSION(:) , POINTER ::  EVOISIN   !  
-        integer, DIMENSION(:) , POINTER ::  ADMSR     !  
-        integer, DIMENSION(:) , POINTER ::  LEDGE     !  
-        integer, DIMENSION(:) , POINTER ::  LBOUND    !  
+        integer, DIMENSION(:) , POINTER ::  NSV_ON_PMAIN     !
+        integer, DIMENSION(:) , POINTER ::  EVOISIN   !
+        integer, DIMENSION(:) , POINTER ::  ADMSR     !
+        integer, DIMENSION(:) , POINTER ::  LEDGE     !
+        integer, DIMENSION(:) , POINTER ::  LBOUND    !
         integer, DIMENSION(:) , POINTER ::  FREE_IRECT_ID!
-        integer, DIMENSION(:) , POINTER ::  ACTNOR    !  
-        integer, DIMENSION(:) , POINTER ::  FARM      !  
-        integer, DIMENSION(:) , POINTER ::  ADSKYN    !  
-        integer, DIMENSION(:) , POINTER ::  IADNOR    !  
-        integer, DIMENSION(:) , POINTER ::  ISLIDE    !  
-        integer, DIMENSION(:) , POINTER ::  KNOR2MSR  !  
-        integer, DIMENSION(:) , POINTER ::  NOR2MSR   !  
-        integer, DIMENSION(:) , POINTER ::  CAND_OPT_N!  
+        integer, DIMENSION(:) , POINTER ::  ACTNOR    !
+        integer, DIMENSION(:) , POINTER ::  FARM      !
+        integer, DIMENSION(:) , POINTER ::  ADSKYN    !
+        integer, DIMENSION(:) , POINTER ::  IADNOR    !
+        integer, DIMENSION(:) , POINTER ::  ISLIDE    !
+        integer, DIMENSION(:) , POINTER ::  KNOR2MSR  !
+        integer, DIMENSION(:) , POINTER ::  NOR2MSR   !
+        integer, DIMENSION(:) , POINTER ::  CAND_OPT_N!
         integer, DIMENSION(:) , POINTER ::  CAND_OPT_E!
         integer, DIMENSION(:) , POINTER ::  IF_ADH    ! Type25 and interface adhesion
-        integer, DIMENSION(:) , POINTER ::  CANDM_E2E  
+        integer, DIMENSION(:) , POINTER ::  CANDM_E2E
         integer, DIMENSION(:) , POINTER ::  CANDS_E2E
-        integer, DIMENSION(:) , POINTER ::  CANDM_E2S  
+        integer, DIMENSION(:) , POINTER ::  CANDM_E2S
         integer, DIMENSION(:) , POINTER ::  CANDS_E2S
-        integer, DIMENSION(:) , POINTER ::  IFPEN_E   
-        integer, DIMENSION(:) , POINTER ::  IFPEN_E2S       
+        integer, DIMENSION(:) , POINTER ::  IFPEN_E
+        integer, DIMENSION(:) , POINTER ::  IFPEN_E2S
 C---- INTER FRICTION PARTS
-        integer, DIMENSION(:) , POINTER ::  IPARTFRICS 
+        integer, DIMENSION(:) , POINTER ::  IPARTFRICS
         integer, DIMENSION(:) , POINTER ::  IPARTFRICM
         integer, DIMENSION(:) , POINTER ::  IPARTFRIC_E
 C      Orthotropic friction
-        integer, DIMENSION(:) , POINTER ::  IREP_FRICM        
+        integer, DIMENSION(:) , POINTER ::  IREP_FRICM
 C---- Irem Gap option for interface type 25
         integer, DIMENSION(:) , POINTER ::  KREMNOR
-        integer, DIMENSION(:) , POINTER ::  REMNOR 
-        integer, DIMENSION(:) , POINTER ::  KREMNODE_EDG  
-        integer, DIMENSION(:) , POINTER ::  REMNODE _EDG 
-        integer, DIMENSION(:) , POINTER ::  KREMNODE_E2S  
-        integer, DIMENSION(:) , POINTER ::  REMNODE _E2S 
+        integer, DIMENSION(:) , POINTER ::  REMNOR
+        integer, DIMENSION(:) , POINTER ::  KREMNODE_EDG
+        integer, DIMENSION(:) , POINTER ::  REMNODE _EDG
+        integer, DIMENSION(:) , POINTER ::  KREMNODE_E2S
+        integer, DIMENSION(:) , POINTER ::  REMNODE _E2S
 C----Nitsche Method
         integer, DIMENSION(:) , POINTER ::  IELNRTS
-        integer, DIMENSION(:) , POINTER ::  ADRECTS 
+        integer, DIMENSION(:) , POINTER ::  ADRECTS
         integer, DIMENSION(:) , POINTER ::  FACNRTS
 
         integer, DIMENSION(:) , POINTER ::  E2S_ACTNOR
@@ -946,140 +946,140 @@ C----Nitsche Method
 C=======================================================================
 c DEFINE ARRAYS (float arrays)
 C=======================================================================
-        my_real, DIMENSION(:) , POINTER ::   STFAC        
-        my_real, DIMENSION(:) , POINTER ::   VARIABLES    
-        my_real, DIMENSION(:) , POINTER ::   CSTS         
-        my_real, DIMENSION(:) , POINTER ::   DPARA        
-        my_real, DIMENSION(:) , POINTER ::   NMAS         
-        my_real, DIMENSION(:) , POINTER ::   SMAS         
-        my_real, DIMENSION(:) , POINTER ::   SINER        
-        my_real, DIMENSION(:) , POINTER ::   AREAS2       
-        my_real, DIMENSION(:) , POINTER ::   UVAR         
-        my_real, DIMENSION(:) , POINTER ::   XM0          
-        my_real, DIMENSION(:) , POINTER ::   SPENALTY     
-        my_real, DIMENSION(:) , POINTER ::   STFR_PENALTY 
-        my_real, DIMENSION(:) , POINTER ::   SKEW         
-        my_real, DIMENSION(:) , POINTER ::   DSM          
-        my_real, DIMENSION(:) , POINTER ::   FSM          
-        my_real, DIMENSION(:) , POINTER ::   RUPT         
-        my_real, DIMENSION(:) , POINTER ::   FINI         
-        my_real, DIMENSION(:) , POINTER ::   STFNS        
-        my_real, DIMENSION(:) , POINTER ::   STFM         
-        my_real, DIMENSION(:) , POINTER ::   STFS         
-        my_real, DIMENSION(:) , POINTER ::   PENIM        
-        my_real, DIMENSION(:) , POINTER ::   PENIS        
-        my_real, DIMENSION(:) , POINTER ::   GAP_M        
-        my_real, DIMENSION(:) , POINTER ::   GAP_S        
-        my_real, DIMENSION(:) , POINTER ::   XSAV         
-        my_real, DIMENSION(:) , POINTER ::   CRIT         
-        my_real, DIMENSION(:) , POINTER ::   FRIC_P       
-        my_real, DIMENSION(:) , POINTER ::   XFILTR       
-        my_real, DIMENSION(:) , POINTER ::   AREAS        
-        my_real, DIMENSION(:) , POINTER ::   AREAM        
-        my_real, DIMENSION(:) , POINTER ::   GAP_SL       
-        my_real, DIMENSION(:) , POINTER ::   GAP_ML       
-        my_real, DIMENSION(:) , POINTER ::   CAND_P       
-        my_real, DIMENSION(:) , POINTER ::   FTSAVX       
-        my_real, DIMENSION(:) , POINTER ::   FTSAVY       
-        my_real, DIMENSION(:) , POINTER ::   FTSAVZ  
-        my_real, DIMENSION(:) , POINTER ::   FTSAVX_E      
-        my_real, DIMENSION(:) , POINTER ::   FTSAVY_E       
+        my_real, DIMENSION(:) , POINTER ::   STFAC
+        my_real, DIMENSION(:) , POINTER ::   VARIABLES
+        my_real, DIMENSION(:) , POINTER ::   CSTS
+        my_real, DIMENSION(:) , POINTER ::   DPARA
+        my_real, DIMENSION(:) , POINTER ::   NMAS
+        my_real, DIMENSION(:) , POINTER ::   SMAS
+        my_real, DIMENSION(:) , POINTER ::   SINER
+        my_real, DIMENSION(:) , POINTER ::   AREAS2
+        my_real, DIMENSION(:) , POINTER ::   UVAR
+        my_real, DIMENSION(:) , POINTER ::   XM0
+        my_real, DIMENSION(:) , POINTER ::   SPENALTY
+        my_real, DIMENSION(:) , POINTER ::   STFR_PENALTY
+        my_real, DIMENSION(:) , POINTER ::   SKEW
+        my_real, DIMENSION(:) , POINTER ::   DSM
+        my_real, DIMENSION(:) , POINTER ::   FSM
+        my_real, DIMENSION(:) , POINTER ::   RUPT
+        my_real, DIMENSION(:) , POINTER ::   FINI
+        my_real, DIMENSION(:) , POINTER ::   STFNS
+        my_real, DIMENSION(:) , POINTER ::   STFM
+        my_real, DIMENSION(:) , POINTER ::   STFS
+        my_real, DIMENSION(:) , POINTER ::   PENIM
+        my_real, DIMENSION(:) , POINTER ::   PENIS
+        my_real, DIMENSION(:) , POINTER ::   GAP_M
+        my_real, DIMENSION(:) , POINTER ::   GAP_S
+        my_real, DIMENSION(:) , POINTER ::   XSAV
+        my_real, DIMENSION(:) , POINTER ::   CRIT
+        my_real, DIMENSION(:) , POINTER ::   FRIC_P
+        my_real, DIMENSION(:) , POINTER ::   XFILTR
+        my_real, DIMENSION(:) , POINTER ::   AREAS
+        my_real, DIMENSION(:) , POINTER ::   AREAM
+        my_real, DIMENSION(:) , POINTER ::   GAP_SL
+        my_real, DIMENSION(:) , POINTER ::   GAP_ML
+        my_real, DIMENSION(:) , POINTER ::   CAND_P
+        my_real, DIMENSION(:) , POINTER ::   FTSAVX
+        my_real, DIMENSION(:) , POINTER ::   FTSAVY
+        my_real, DIMENSION(:) , POINTER ::   FTSAVZ
+        my_real, DIMENSION(:) , POINTER ::   FTSAVX_E
+        my_real, DIMENSION(:) , POINTER ::   FTSAVY_E
         my_real, DIMENSION(:) , POINTER ::   FTSAVZ_E
-        my_real, DIMENSION(:) , POINTER ::   FTSAVX_E2S       
-        my_real, DIMENSION(:) , POINTER ::   FTSAVY_E2S       
-        my_real, DIMENSION(:) , POINTER ::   FTSAVZ_E2S       
+        my_real, DIMENSION(:) , POINTER ::   FTSAVX_E2S
+        my_real, DIMENSION(:) , POINTER ::   FTSAVY_E2S
+        my_real, DIMENSION(:) , POINTER ::   FTSAVZ_E2S
 C---- ige
         my_real, DIMENSION(:) , POINTER ::   RIGE
         my_real, DIMENSION(:) , POINTER ::   XIGE
         my_real, DIMENSION(:) , POINTER ::   VIGE
         my_real, DIMENSION(:) , POINTER ::   MASSIGE
 !type10
-        my_real, DIMENSION(:) , POINTER ::   CAND_F    
+        my_real, DIMENSION(:) , POINTER ::   CAND_F
 !type20
-        my_real, DIMENSION(:) , POINTER ::   CAND_FX   
-        my_real, DIMENSION(:) , POINTER ::   CAND_FY   
-        my_real, DIMENSION(:) , POINTER ::   CAND_FZ   
-        my_real, DIMENSION(:) , POINTER ::   XA        
-        my_real, DIMENSION(:) , POINTER ::   VA        
-        my_real, DIMENSION(:) , POINTER ::   STFA      
-        my_real, DIMENSION(:) , POINTER ::   PENIA     
-        my_real, DIMENSION(:) , POINTER ::   ALPHAK    
-        my_real, DIMENSION(:) , POINTER ::   GAP_SH    
-        my_real, DIMENSION(:) , POINTER ::   AVX_ANCR  
-        my_real, DIMENSION(:) , POINTER ::   CRITX     
-        my_real, DIMENSION(:) , POINTER ::   GAP_ME    
-        my_real, DIMENSION(:) , POINTER ::   STF       
-        my_real, DIMENSION(:) , POINTER ::   PENIME    
-        my_real, DIMENSION(:) , POINTER ::   GAP_SE    
-        my_real, DIMENSION(:) , POINTER ::   PENISE    
-        my_real, DIMENSION(:) , POINTER ::   STFNE     
+        my_real, DIMENSION(:) , POINTER ::   CAND_FX
+        my_real, DIMENSION(:) , POINTER ::   CAND_FY
+        my_real, DIMENSION(:) , POINTER ::   CAND_FZ
+        my_real, DIMENSION(:) , POINTER ::   XA
+        my_real, DIMENSION(:) , POINTER ::   VA
+        my_real, DIMENSION(:) , POINTER ::   STFA
+        my_real, DIMENSION(:) , POINTER ::   PENIA
+        my_real, DIMENSION(:) , POINTER ::   ALPHAK
+        my_real, DIMENSION(:) , POINTER ::   GAP_SH
+        my_real, DIMENSION(:) , POINTER ::   AVX_ANCR
+        my_real, DIMENSION(:) , POINTER ::   CRITX
+        my_real, DIMENSION(:) , POINTER ::   GAP_ME
+        my_real, DIMENSION(:) , POINTER ::   STF
+        my_real, DIMENSION(:) , POINTER ::   PENIME
+        my_real, DIMENSION(:) , POINTER ::   GAP_SE
+        my_real, DIMENSION(:) , POINTER ::   PENISE
+        my_real, DIMENSION(:) , POINTER ::   STFNE
 !type1
-        my_real, DIMENSION(:) , POINTER ::   N       
+        my_real, DIMENSION(:) , POINTER ::   N
 !type3,4,9
-        my_real, DIMENSION(:) , POINTER ::   CSTM    
-        my_real, DIMENSION(:) , POINTER ::   STFNM   
-        my_real, DIMENSION(:) , POINTER ::   FRICOS  
-        my_real, DIMENSION(:) , POINTER ::   FRICOM  
-        my_real, DIMENSION(:) , POINTER ::   FTSAV   
+        my_real, DIMENSION(:) , POINTER ::   CSTM
+        my_real, DIMENSION(:) , POINTER ::   STFNM
+        my_real, DIMENSION(:) , POINTER ::   FRICOS
+        my_real, DIMENSION(:) , POINTER ::   FRICOM
+        my_real, DIMENSION(:) , POINTER ::   FTSAV
 !type6
-        my_real, DIMENSION(:) , POINTER ::   FCONT   
-        my_real, DIMENSION(:) , POINTER ::   FS      
-        my_real, DIMENSION(:) , POINTER ::   FM      
-        my_real, DIMENSION(:) , POINTER ::   RMAS    
-        my_real, DIMENSION(:) , POINTER ::   ANSMX0  
+        my_real, DIMENSION(:) , POINTER ::   FCONT
+        my_real, DIMENSION(:) , POINTER ::   FS
+        my_real, DIMENSION(:) , POINTER ::   FM
+        my_real, DIMENSION(:) , POINTER ::   RMAS
+        my_real, DIMENSION(:) , POINTER ::   ANSMX0
 !type 8
-        my_real, DIMENSION(:) , POINTER ::   GAPN    
-        my_real, DIMENSION(:) , POINTER ::   STF8    
-        my_real, DIMENSION(:) , POINTER ::   EE      
+        my_real, DIMENSION(:) , POINTER ::   GAPN
+        my_real, DIMENSION(:) , POINTER ::   STF8
+        my_real, DIMENSION(:) , POINTER ::   EE
 !type14
-        my_real, DIMENSION(:) , POINTER ::   CIMP   
-        my_real, DIMENSION(:) , POINTER ::   NIMP   
+        my_real, DIMENSION(:) , POINTER ::   CIMP
+        my_real, DIMENSION(:) , POINTER ::   NIMP
 
 !type15
-        my_real, DIMENSION(:) , POINTER ::   IOLD   
-        my_real, DIMENSION(:) , POINTER ::   HOLD   
-        my_real, DIMENSION(:) , POINTER ::   NOLD   
-        my_real, DIMENSION(:) , POINTER ::   DOLD   
+        my_real, DIMENSION(:) , POINTER ::   IOLD
+        my_real, DIMENSION(:) , POINTER ::   HOLD
+        my_real, DIMENSION(:) , POINTER ::   NOLD
+        my_real, DIMENSION(:) , POINTER ::   DOLD
 !type17
-        my_real, DIMENSION(:) , POINTER ::   KS     
-        my_real, DIMENSION(:) , POINTER ::   KM     
-        my_real, DIMENSION(:) , POINTER ::   FROTS  
-        my_real, DIMENSION(:) , POINTER ::   FROTM  
+        my_real, DIMENSION(:) , POINTER ::   KS
+        my_real, DIMENSION(:) , POINTER ::   KM
+        my_real, DIMENSION(:) , POINTER ::   FROTS
+        my_real, DIMENSION(:) , POINTER ::   FROTM
 
 !type21
-        my_real, DIMENSION(:) , POINTER ::   NOD_NORMAL 
-        my_real, DIMENSION(:) , POINTER ::   RCURV      
-        my_real, DIMENSION(:) , POINTER ::   ANGLM      
-        my_real, DIMENSION(:) , POINTER ::   FROT_P     
-        my_real, DIMENSION(:) , POINTER ::   ALPHA0     
-        my_real, DIMENSION(:) , POINTER ::   AS         
-        my_real, DIMENSION(:) , POINTER ::   BS         
-        my_real, DIMENSION(:) , POINTER ::   THKNOD0    
+        my_real, DIMENSION(:) , POINTER ::   NOD_NORMAL
+        my_real, DIMENSION(:) , POINTER ::   RCURV
+        my_real, DIMENSION(:) , POINTER ::   ANGLM
+        my_real, DIMENSION(:) , POINTER ::   FROT_P
+        my_real, DIMENSION(:) , POINTER ::   ALPHA0
+        my_real, DIMENSION(:) , POINTER ::   AS
+        my_real, DIMENSION(:) , POINTER ::   BS
+        my_real, DIMENSION(:) , POINTER ::   THKNOD0
 !type24
-        my_real, DIMENSION(:) , POINTER ::   GAPN_M   
-        my_real, DIMENSION(:) , POINTER ::   SECND_FR  
-        my_real, DIMENSION(:) , POINTER ::   PENE_OLD 
-        my_real, DIMENSION(:) , POINTER ::   STIF_OLD 
-        my_real, DIMENSION(:) , POINTER ::   TIME_S   
-        my_real, DIMENSION(:) , POINTER ::   GAP_NM   
+        my_real, DIMENSION(:) , POINTER ::   GAPN_M
+        my_real, DIMENSION(:) , POINTER ::   SECND_FR
+        my_real, DIMENSION(:) , POINTER ::   PENE_OLD
+        my_real, DIMENSION(:) , POINTER ::   STIF_OLD
+        my_real, DIMENSION(:) , POINTER ::   TIME_S
+        my_real, DIMENSION(:) , POINTER ::   GAP_NM
 C-------to be cleaned later        
-        my_real, DIMENSION(:) , POINTER ::   EDGE8L2  
-        my_real, DIMENSION(:) , POINTER ::   NOD_2RY_LGTH 
-        my_real, DIMENSION(:) , POINTER ::   NOD_MAS_LGTH 
-        my_real, DIMENSION(:) , POINTER ::   GAP_N0  
-        my_real, DIMENSION(:) , POINTER ::   DGAP_NM 
-        my_real, DIMENSION(:) , POINTER ::   DGAP_M  
-        my_real, DIMENSION(:) , POINTER ::   DELTA_PMAX_DGAP  
-        my_real, DIMENSION(:) , POINTER ::   XFIC     
-        my_real, DIMENSION(:) , POINTER ::   VFIC     
-        my_real, DIMENSION(:) , POINTER ::   MSFIC     
+        my_real, DIMENSION(:) , POINTER ::   EDGE8L2
+        my_real, DIMENSION(:) , POINTER ::   NOD_2RY_LGTH
+        my_real, DIMENSION(:) , POINTER ::   NOD_MAS_LGTH
+        my_real, DIMENSION(:) , POINTER ::   GAP_N0
+        my_real, DIMENSION(:) , POINTER ::   DGAP_NM
+        my_real, DIMENSION(:) , POINTER ::   DGAP_M
+        my_real, DIMENSION(:) , POINTER ::   DELTA_PMAX_DGAP
+        my_real, DIMENSION(:) , POINTER ::   XFIC
+        my_real, DIMENSION(:) , POINTER ::   VFIC
+        my_real, DIMENSION(:) , POINTER ::   MSFIC
 !type25
         REAL(4), DIMENSION(:) , POINTER ::   EDGE_BISECTOR  !
         my_real, DIMENSION(:) , POINTER ::   PENM    !
         my_real, DIMENSION(:) , POINTER ::   DISTM   !
         my_real, DIMENSION(:) , POINTER ::   LBM     !
         my_real, DIMENSION(:) , POINTER ::   LCM     !
-        REAL(4), DIMENSION(:) , POINTER ::   VTX_BISECTOR ! 
+        REAL(4), DIMENSION(:) , POINTER ::   VTX_BISECTOR !
         my_real, DIMENSION(:) , POINTER ::   CAND_PS
         my_real, DIMENSION(:) , POINTER ::   GAPE
         my_real, DIMENSION(:) , POINTER ::   GAP_E_L
@@ -1094,8 +1094,8 @@ C MPI Communicators
         INTEGER :: NSPMD
 C
         INTEGER :: NB_INTERNAL_EDGES        ! number of edges internal to the domain
-        INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain 
-        INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
+        INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain
+        INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain
 
 
 !type2

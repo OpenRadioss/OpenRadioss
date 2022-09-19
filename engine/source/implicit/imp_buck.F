@@ -83,7 +83,7 @@ Chd|====================================================================
      6                    THKE        , BUFGEO      , LSENSOR  , SENSOR   , RBY       ,
      7                    SKEW        , WA          ,ICODT     , ICODR    , ISKEW     ,
      9                    IBFV        , VEL         , LPBY     , NPBY     , ITAB      ,
-     A                    WEIGHT      , MS          , IN       ,IPARI    , INTBUF_TAB ,  
+     A                    WEIGHT      , MS          , IN       ,IPARI    , INTBUF_TAB ,
      B                    X           ,ITASK        ,
      E                    CONT        , ICUT        , XCUT     , FINT     , FEXT      ,
      F                    FOPT        , ANIN        , NSTRF    , RWBUF    , NPRW      ,
@@ -94,7 +94,7 @@ Chd|====================================================================
      K                    VR          , MONVOL      , VOLMON   , NODGLOB  , IAD_ELEM  ,
      L                    FR_ELEM     , FR_SEC      , FR_RBY2  , IAD_RBY2 , FR_WALL   ,
      M                    V           , A           , GRAPHE   , PARTSAV  , XFRAME    ,
-     N                    DIRUL        , 
+     N                    DIRUL        ,
      O                    FNCONT      ,FTCONT       , TEMP     , SH4TREE  , SH3TREE   ,
      P                    ERR_THK_SH4 ,ERR_THK_SH3  , IFRAME   , LPRW     ,
      P                    ELBUF_TAB   ,FSAV         , FSAVD    , RWSAV    , AR        ,
@@ -115,7 +115,7 @@ C-----------------------------------------------
       USE GENANI_MOD
       USE IMP_WORKG
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD
       USE CRACKXFEM_MOD
@@ -158,7 +158,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL0, NNZK0,  IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IXS(*), IXQ(NIXQ,*), IXC(NIXC,*), IXT(NIXT,*),
-     .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),INDX_CRK(*),   
+     .        IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),INDX_CRK(*),
      .        IXTG1(4,*), IXUR(*), IPARG(NPARG,*), LSENSOR(NSENSI,*),
      .        NPC(*), ICODT(*), ICODR(*), ISKEW(*), IBFV(NIFV,*),
      .        LPBY(*), NPBY(NNPBY,*), ITAB(*),
@@ -276,12 +276,12 @@ C-----------------------------------------------
           IKC => IMPBUF_TAB%IKC
           IKUD => IMPBUF_TAB%IKUD
 C		  
-          DIAG_K  =>IMPBUF_TAB%DIAG_K  
-		  LT_K    =>IMPBUF_TAB%LT_K    
-		  BKUD    =>IMPBUF_TAB%BKUD    
-		  D_IMP   =>IMPBUF_TAB%D_IMP   
-		  DR_IMP  =>IMPBUF_TAB%DR_IMP   
-		  ELBUF_C =>IMPBUF_TAB%ELBUF_C 
+          DIAG_K  =>IMPBUF_TAB%DIAG_K
+		  LT_K    =>IMPBUF_TAB%LT_K
+		  BKUD    =>IMPBUF_TAB%BKUD
+		  D_IMP   =>IMPBUF_TAB%D_IMP
+		  DR_IMP  =>IMPBUF_TAB%DR_IMP
+		  ELBUF_C =>IMPBUF_TAB%ELBUF_C
 		  BUFMAT_C=>IMPBUF_TAB%BUFMAT_C
 		  LB      =>IMPBUF_TAB%LB
 C------------------------------------------------------------
@@ -534,7 +534,7 @@ C
 C
 c       IF (BISOLV==1.AND.NSPMD==1) THEN
 cC Resolution BCS (mono)
-c         WRITE(6,*) "BCS Solver not available" 
+c         WRITE(6,*) "BCS Solver not available"
 c         CALL FLUSH(6)
 c         CALL ARRET(5)
 C
@@ -987,7 +987,7 @@ citask0      END IF !(ITASK == 0) THEN
 C
       RETURN
       END
-#endif 
+#endif
 
 Chd|====================================================================
 Chd|  STOBUCK                       source/implicit/imp_buck.F    

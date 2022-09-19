@@ -151,7 +151,7 @@ C Gravite
             IADG=IADG+2+NNO
             LENGRVI_L=LENGRVI_L+2+NNO_L
          ENDDO
-      ENDDO      
+      ENDDO
 C
       RETURN
       END
@@ -188,7 +188,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*), NODLOCAL(*), IPARG(NPARG,*),
-     .        FXBELM(*), FXBNOD_L(*), FXBELM_L(*), PROC, 
+     .        FXBELM(*), FXBNOD_L(*), FXBELM_L(*), PROC,
      .        FXBIPM_L(NBIPM,*), FXBGRVI(*),
      .        FXBGRVI_L(*), LENNOD_L
       my_real
@@ -197,7 +197,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL       
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -220,7 +220,7 @@ C
 
 c initially was set in starter0, but re-set here for multi threading compatibility
       IFXM_L = 27000
-      IFXS_L = 28000 
+      IFXS_L = 28000
 
       WRITE(CIT,'(I4.4)')ITASK
       SCR_FILE_NAME ='SCR_FXM_'//ROOTNAM(1:ROOTLEN)//'_'//CIT(1:4)//'.scr'
@@ -626,18 +626,18 @@ C
                   IF (P==PROC) THEN
                      NELTG_L=NELTG_L+1
                      IF (I==1) THEN
-                        DO K=1,9                     
-                           ELM(K)=FXBELM(AELM+K-1)   
-                        ENDDO                        
+                        DO K=1,9
+                           ELM(K)=FXBELM(AELM+K-1)
+                        ENDDO
                         ELM(1)=NG_L(NG)
-                        ELM(6)=ELM(6)-IAD+IAD_L(NG)  
-                        ELM(7)=ELM(7)-IAD+IAD_L(NG)  
-                        ELM(8)=ELM(8)-IAD+IAD_L(NG)  
-                        DO K=1,9                     
-                           FXBELM_L(AELM_L+K)=ELM(K) 
-                        ENDDO                        
+                        ELM(6)=ELM(6)-IAD+IAD_L(NG)
+                        ELM(7)=ELM(7)-IAD+IAD_L(NG)
+                        ELM(8)=ELM(8)-IAD+IAD_L(NG)
+                        DO K=1,9
+                           FXBELM_L(AELM_L+K)=ELM(K)
+                        ENDDO
                         AELM_L=AELM_L+9
-                     ENDIF            
+                     ENDIF
                      DO K=1,10
                         VSIG2(ASIG_L2+K)=VSIG(ASIG2+K)
                      ENDDO
@@ -863,7 +863,7 @@ C
                FXBGRVR_L(AGRVR_L+I-1)=FXBGRVR(AGRVR+I-1)
             ENDDO
          ENDIF
-      ENDDO       
+      ENDDO
 C
       RETURN
-      END            
+      END

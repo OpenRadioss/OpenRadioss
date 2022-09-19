@@ -43,7 +43,7 @@ C----------------------------------------------------------------------
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESHSURFIG3D_MOD 
+      USE MESHSURFIG3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .        INCTRL,IOUT,DECALGEO,ITNCTRL,IEL,JEL,ITFILS
       my_real TOL
 C=======================================================================
-c  
+c
       TOL = EM06
 c
       IF(DIR==1) THEN
@@ -93,7 +93,7 @@ c
 cc
 CC----------------------------------------------------------------------------------------------
 cc   SUPPRESSION DES FONCTIONS RAFFINEES DES TABLES DE CONNECTIVITE DES ELEMENTS DU PATCH
-cc   ET DES FILS QU'ON RAFFINE : 0 A LA PLACE 
+cc   ET DES FILS QU'ON RAFFINE : 0 A LA PLACE
 CC----------------------------------------------------------------------------------------------
 cc
       DO I= 1,L_TAB_FCTCUT
@@ -198,7 +198,7 @@ c
 cc
 CC----------------------------------------------------------------------------------------------
 cc   VERIFICATION QU'IL N'Y AIT PLUS DE 0 DANS LA TABLE DE CONNECTIVITE
-cc   SINON C'EST QUE LE RAFFINEMENT N'EST PAS CORRECT (RISQUE DE SURNOMBRE 
+cc   SINON C'EST QUE LE RAFFINEMENT N'EST PAS CORRECT (RISQUE DE SURNOMBRE
 cc   DE FONCTIONS PAR ELEMENT)
 CC----------------------------------------------------------------------------------------------
 cc

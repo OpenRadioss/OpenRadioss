@@ -29,7 +29,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
       SUBROUTINE XYZNOD_CRK0(ILEV)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
       SUBROUTINE XYZNOD_CRK(ICRK,NFNOD_CRKXFEMG,NODGLOBXFE)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

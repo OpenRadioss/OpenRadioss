@@ -111,7 +111,7 @@ C-----------------------------------------------
       INTEGER I, IG, J, JG , K0, NBINTER, K1S, K, NISKYL, IROT, I1,
      .        NISKYL1,NISKYL2, NISKYFIL, ND , N,PP ,PPL
       my_real
-     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), 
+     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
@@ -119,7 +119,7 @@ C-----------------------------------------------
       my_real GAPP, H0 ,DGAPLOAD
       DOUBLE PRECISION
      .   FX6(6,MVSIZ), FY6(6,MVSIZ), FZ6(6,MVSIZ), ST6(6,MVSIZ),
-     .   FX, FY, FZ, STF, 
+     .   FX, FY, FZ, STF,
      .   MX6(6,MVSIZ), MY6(6,MVSIZ), MZ6(6,MVSIZ), STR6(6,MVSIZ),
      .   XX, YY, ZZ, MX, MY, MZ, STR
 C---------------------------------
@@ -136,7 +136,7 @@ C---------------------------------
       ENDDO
 C------------For /LOAD/PRESSURE tag nodes in contact-------------
       IF(IFLAGLOADP > 0) THEN
-         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+         DO K = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1)
             PP = LOADPINTER(K)
             PPL = LOADP_HYD_INTER(PP)
             DGAPLOAD = DGAPLOADINT(K)
@@ -162,7 +162,7 @@ C---------------------------------
           STIFN(IG) = STIFN(IG) + STIF(I)*WEIGHT(IG)
         END DO
         IF(INTTH/=0)THEN
-         IF(NODADT_THERM == 1 ) THEN  
+         IF(NODADT_THERM == 1 ) THEN
            DO I=1,JLT
             IG=NSVG(I)
             FTHE(IG)=FTHE(IG)+PHI(I)*WEIGHT(IG)
@@ -180,7 +180,7 @@ C
             I1 =  IX1(I)
             ND = MSRL(I1)
             IG=NSVG(I)
-            IF(ND>0) THEN             
+            IF(ND>0) THEN
               FTHE(ND)=FTHE(ND) + PHI1(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -189,7 +189,7 @@ C
 c
             I1 =  IX2(I)
             ND = MSRL(I1)
-            IF(ND>0) THEN             
+            IF(ND>0) THEN
               FTHE(ND)=FTHE(ND) + PHI2(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -198,7 +198,7 @@ c
 c
             I1 =  IX3(I)
             ND = MSRL(I1)
-            IF(ND>0) THEN             
+            IF(ND>0) THEN
               FTHE(ND)=FTHE(ND) + PHI3(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -207,7 +207,7 @@ c
 c
             I1 =  IX4(I)
             ND = MSRL(I1)
-            IF(ND>0) THEN             
+            IF(ND>0) THEN
               FTHE(ND)=FTHE(ND) + PHI4(I)*WEIGHT(IG)
             ELSE
               ND = -ND
@@ -268,7 +268,7 @@ C
             IF (H1(I)/=ZERO) THEN
                I1 =  IX1(I)
                ND = MSRL(I1)
-               IF(ND>0)  THEN                  
+               IF(ND>0)  THEN
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
@@ -277,7 +277,7 @@ C
             IF (H2(I)/=ZERO) THEN
                I1 =  IX2(I)
                ND = MSRL(I1)
-               IF(ND>0)  THEN                  
+               IF(ND>0)  THEN
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
@@ -286,7 +286,7 @@ C
             IF (H3(I)/=ZERO) THEN
                I1 =  IX3(I)
                ND = MSRL(I1)
-               IF(ND>0)  THEN                  
+               IF(ND>0)  THEN
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
@@ -295,7 +295,7 @@ C
             IF (H4(I)/=ZERO) THEN
                I1 =  IX4(I)
                ND = MSRL(I1)
-               IF(ND>0)  THEN                  
+               IF(ND>0)  THEN
                  NISKYL1 = NISKYL1 + 1
                ELSE
                  NISKYL2 = NISKYL2 + 1
@@ -324,7 +324,7 @@ C
             ISKY(NISKYL) = IG
           END DO
         ELSE
-         IF(NODADT_THERM == 1 ) THEN 
+         IF(NODADT_THERM == 1 ) THEN
            DO I=1,JLT
             NISKYL = NISKYL + 1
             IG=NSVG(I)
@@ -349,14 +349,14 @@ C
            END DO
          ENDIF
          IF(IFORM==1) THEN
-           IF(NODADT_THERM == 1 ) THEN 
+           IF(NODADT_THERM == 1 ) THEN
 C
              DO I=1,JLT
                 IG=NSVG(I)
                 IF (H1(I)/=ZERO) THEN
                   I1 =  IX1(I)
                   ND = MSRL(I1)
-                  IF(ND>0) THEN             
+                  IF(ND>0) THEN
                     NISKYL = NISKYL + 1
                     FSKYI(NISKYL,1)=ZERO
                     FSKYI(NISKYL,2)=ZERO
@@ -376,7 +376,7 @@ c
                IF (H2(I)/=ZERO) THEN
                  I1 =  IX2(I)
                  ND = MSRL(I1)
-                IF(ND>0) THEN             
+                IF(ND>0) THEN
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -390,13 +390,13 @@ c
                   NISKYFIL = NISKYFIL + 1
                   FTHESKYFI(NIN)%P(NISKYFIL)=PHI2(I)*WEIGHT(IG)
                   ISKYFI(NIN)%P(NISKYFIL) = ND
-               ENDIF 
+               ENDIF
               ENDIF
 c
               IF (H3(I)/=ZERO) THEN
                 I1 =  IX3(I)
                 ND = MSRL(I1)
-                IF(ND>0) THEN             
+                IF(ND>0) THEN
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -416,7 +416,7 @@ c
               IF (H4(I)/=ZERO) THEN
                 I1 =  IX4(I)
                 ND = MSRL(I1)
-                IF(ND>0) THEN             
+                IF(ND>0) THEN
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -441,7 +441,7 @@ C
                 IF (H1(I)/=ZERO) THEN
                   I1 =  IX1(I)
                   ND = MSRL(I1)
-                  IF(ND>0) THEN             
+                  IF(ND>0) THEN
                     NISKYL = NISKYL + 1
                     FSKYI(NISKYL,1)=ZERO
                     FSKYI(NISKYL,2)=ZERO
@@ -460,7 +460,7 @@ c
                IF (H2(I)/=ZERO) THEN
                  I1 =  IX2(I)
                  ND = MSRL(I1)
-                IF(ND>0) THEN             
+                IF(ND>0) THEN
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -473,13 +473,13 @@ c
                   NISKYFIL = NISKYFIL + 1
                   FTHESKYFI(NIN)%P(NISKYFIL)=PHI2(I)*WEIGHT(IG)
                   ISKYFI(NIN)%P(NISKYFIL) = ND
-               ENDIF 
+               ENDIF
               ENDIF
 c
               IF (H3(I)/=ZERO) THEN
                 I1 =  IX3(I)
                 ND = MSRL(I1)
-                IF(ND>0) THEN             
+                IF(ND>0) THEN
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -498,7 +498,7 @@ c
               IF (H4(I)/=ZERO) THEN
                 I1 =  IX4(I)
                 ND = MSRL(I1)
-                IF(ND>0) THEN             
+                IF(ND>0) THEN
                   NISKYL = NISKYL + 1
                   FSKYI(NISKYL,1)=ZERO
                   FSKYI(NISKYL,2)=ZERO
@@ -648,31 +648,31 @@ C-------------Tag of nodes really impacting contact forces updating ------------
           IF(WEIGHT(JG)/=1)CYCLE
           IG = NODGLOB(JG)
 C
-          IF(TAGCONT(IG)==0) THEN 
-             NCONT= NCONT+1     
+          IF(TAGCONT(IG)==0) THEN
+             NCONT= NCONT+1
              INDEXCONT(NCONT) = IG
-             TAGCONT(IG)= 1 
+             TAGCONT(IG)= 1
           ENDIF
-          IF(TAGCONT(IX1(I))==0) THEN 
-             NCONT= NCONT+1     
-             INDEXCONT(NCONT) = IX1(I) 
-             TAGCONT(IX1(I))= 1 
+          IF(TAGCONT(IX1(I))==0) THEN
+             NCONT= NCONT+1
+             INDEXCONT(NCONT) = IX1(I)
+             TAGCONT(IX1(I))= 1
           ENDIF
-          IF(TAGCONT(IX2(I))==0) THEN 
-             NCONT= NCONT+1     
-             INDEXCONT(NCONT) = IX2(I) 
-             TAGCONT(IX2(I))= 1 
+          IF(TAGCONT(IX2(I))==0) THEN
+             NCONT= NCONT+1
+             INDEXCONT(NCONT) = IX2(I)
+             TAGCONT(IX2(I))= 1
           ENDIF
-          IF(TAGCONT(IX3(I))==0) THEN 
-             NCONT= NCONT+1     
+          IF(TAGCONT(IX3(I))==0) THEN
+             NCONT= NCONT+1
              INDEXCONT(NCONT) = IX3(I)
-             TAGCONT(IX3(I))= 1  
+             TAGCONT(IX3(I))= 1
           ENDIF
-          IF(TAGCONT(IX4(I))==0) THEN 
-             NCONT= NCONT+1     
-             INDEXCONT(NCONT) = IX4(I) 
-             TAGCONT(IX4(I))= 1 
-          ENDIF    
+          IF(TAGCONT(IX4(I))==0) THEN
+             NCONT= NCONT+1
+             INDEXCONT(NCONT) = IX4(I)
+             TAGCONT(IX4(I))= 1
+          ENDIF
          ENDDO
 #include "lockoff.inc"
         ENDIF
@@ -835,7 +835,7 @@ C +fsav(section)
         ENDIF
       ELSE
 C       NSPMD > 1
-      ENDIF 
+      ENDIF
 C
 
       ENDIF

@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE INTBUFMOD
       USE MESSAGE_MOD
       USE TRI7BOX
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE MPI_COMMOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,7 +63,7 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc" 
+#include      "warn_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C
         IF(STARTT>TT) CYCLE
         IF(TT>STOPT)  CYCLE
 C
-        ISENS = IPARI(64,NIN) 
+        ISENS = IPARI(64,NIN)
         IF(ISENS/=0) THEN    ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE

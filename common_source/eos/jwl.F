@@ -27,7 +27,7 @@ Chd|        EOSMAIN                       common_source/eos/eosmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE JWL
-     1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
+     1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 ,
      2               ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3               PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -50,9 +50,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
       my_real, INTENT(INOUT) :: PSH(*)
@@ -68,7 +68,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX,IBFRAC
       my_real
-     .   VDET ,  
+     .   VDET ,
      .   BFRAC(MVSIZ),WDR1V,WDR2V,
      .   BFRAC1, BFRAC2, RHO0 , AA , BB , R1,
      .   R2, W1,  BHE, P0, BULK,UNPMU,
@@ -85,50 +85,50 @@ C-----------------------------------------------
 
       ELSEIF(IFLAG == 1) THEN
 
-         
+
       ELSEIF(IFLAG == 2) THEN
         !----------------------------------------
         !     FOR USE WITH MULTULMATERIAL LAW 151
         !----------------------------------------
-         MX     = MAT(LFT)         
-         RHO0   = PM( 1,MX)        
-         AA     = PM(33,MX)        
-         BB     = PM(34,MX)        
-         R1     = PM(35,MX)        
-         R2     = PM(36,MX)        
-         W1     = PM(45,MX)        
-         VDET   = PM(38,MX)        
-         BHE    = PM(40,MX)        
-         P0     = PM(31,MX)        
-         BULK   = PM(44,MX)        
-         IBFRAC = NINT(PM(41,MX))  
-         PSH(1:NEL) = PM(88,MX)        
-             
+         MX     = MAT(LFT)
+         RHO0   = PM( 1,MX)
+         AA     = PM(33,MX)
+         BB     = PM(34,MX)
+         R1     = PM(35,MX)
+         R2     = PM(36,MX)
+         W1     = PM(45,MX)
+         VDET   = PM(38,MX)
+         BHE    = PM(40,MX)
+         P0     = PM(31,MX)
+         BULK   = PM(44,MX)
+         IBFRAC = NINT(PM(41,MX))
+         PSH(1:NEL) = PM(88,MX)
+
          DO I=1,NEL
            BFRAC(I)=ONE
-         ENDDO    
-                                              
-         DO I=1, NEL                                                                                        
-            IF (VNEW(I) > ZERO) THEN                                                                     
-              R1DF = R1*DF(I)                                                                               
-              R2DF = R2*DF(I)                                                                               
-              ER1DF = EXP(-R1DF)                                                                            
-              ER2DF = EXP(-R2DF)                                                                              
-              PNEW(I) =  - PSH(I) + AA*(ONE-W1/R1DF)*ER1DF + BB*(ONE-W1/R2DF)*ER2DF + W1*ESPE(I)/DF(I)   
-              PNEW(I) = MAX(ZERO - PSH(I), PNEW(I))                                                         
-              ! dPdE  : partial derivative                                                                  
-              ! dPdmu : partial derivative                                                                  
-              ! DPDM  : total derivative                                                                         
-              dPdE(I) = W1/DF(I)                                                                            
-              dPdmu   =                                                                                     
-     .              -AA*W1*ER1DF/R1 + AA*(ONE-W1/(R1DF))*R1DF*R1DF*ER1DF                                     
-     .              -BB*W1*ER2DF/R2 + BB*(ONE-W1/(R2DF))*R2DF*R2DF*ER2DF                                     
-     .              +W1*ESPE(I)                                                                             
-              DPDM(I) = dPdmu + (PNEW(I)+PSH(I))*DF(I)*DF(I)*dPdE(I)                                        
-            ENDIF                                                                                           
-         ENDDO                                                                                              
+         ENDDO
+
+         DO I=1, NEL
+            IF (VNEW(I) > ZERO) THEN
+              R1DF = R1*DF(I)
+              R2DF = R2*DF(I)
+              ER1DF = EXP(-R1DF)
+              ER2DF = EXP(-R2DF)
+              PNEW(I) =  - PSH(I) + AA*(ONE-W1/R1DF)*ER1DF + BB*(ONE-W1/R2DF)*ER2DF + W1*ESPE(I)/DF(I)
+              PNEW(I) = MAX(ZERO - PSH(I), PNEW(I))
+              ! dPdE  : partial derivative
+              ! dPdmu : partial derivative
+              ! DPDM  : total derivative
+              dPdE(I) = W1/DF(I)
+              dPdmu   =
+     .              -AA*W1*ER1DF/R1 + AA*(ONE-W1/(R1DF))*R1DF*R1DF*ER1DF
+     .              -BB*W1*ER2DF/R2 + BB*(ONE-W1/(R2DF))*R2DF*R2DF*ER2DF
+     .              +W1*ESPE(I)
+              DPDM(I) = dPdmu + (PNEW(I)+PSH(I))*DF(I)*DF(I)*dPdE(I)
+            ENDIF
+         ENDDO
       ENDIF
-      
+
 C-----------------------------------------------
       RETURN
       END

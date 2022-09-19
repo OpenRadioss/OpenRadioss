@@ -112,19 +112,19 @@ c-----
           IF (IDDW > 0) CALL STARTIMEG(NG)
 C---
           NXLAY = ELBUF_TAB(NG)%NLAY
-          NEL   =IPARG(2,NG)  
-          NFT   =IPARG(3,NG)  
-          NPT   =IPARG(6,NG)  
-          LFT   = 1 
+          NEL   =IPARG(2,NG)
+          NFT   =IPARG(3,NG)
+          NPT   =IPARG(6,NG)
+          LFT   = 1
           LLT   = MIN(NVSIZ,NEL)
           JFT   = LFT
           JLT   = LLT
 C---
           IF (ITY == 3) THEN
             CALL ENRICHC_INI(ELBUF_TAB(NG)  ,XFEM_TAB(NG,1:NXEL),
-     .           IXC        ,NFT       ,JFT       ,JLT      ,NXLAY   ,   
-     .           IADC_CRK   ,IEL_CRK   ,INOD_CRK  ,ELCUTC   ,NODEDGE ,    
-     .           CRKNODIAD  ,KNOD2ELC  ,X         ,CRKEDGE  ,XEDGE4N )         
+     .           IXC        ,NFT       ,JFT       ,JLT      ,NXLAY   ,
+     .           IADC_CRK   ,IEL_CRK   ,INOD_CRK  ,ELCUTC   ,NODEDGE ,
+     .           CRKNODIAD  ,KNOD2ELC  ,X         ,CRKEDGE  ,XEDGE4N )
 C---
           ELSEIF (ITY == 7) THEN
             CALL ENRICHTG_INI(ELBUF_TAB(NG),
@@ -150,7 +150,7 @@ c-----------------------------------------------------------------------------
 C---
         NEL     =IPARG(2,NG)
         NFT     =IPARG(3,NG)
-        LFT  = 1 
+        LFT  = 1
         LLT  = MIN(NVSIZ,NEL)
         JFT = LFT
         JLT = LLT

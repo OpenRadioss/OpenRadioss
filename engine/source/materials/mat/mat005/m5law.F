@@ -51,10 +51,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*),NEL
       my_real
-     . PM(NPROPM,*), SIG(NEL,6), EINT(*), RHO(*), 
+     . PM(NPROPM,*), SIG(NEL,6), EINT(*), RHO(*),
      . PSH(*), P0(*),
      . TBURN(MVSIZ), BFRAC(MVSIZ), VOLN(MVSIZ),
-     . DELTAX(*), SSP(*), DF(*), ER1V(*), ER2V(*), WDR1V(*), WDR2V(*), W1(*), RHO0(*), 
+     . DELTAX(*), SSP(*), DF(*), ER1V(*), ER2V(*), WDR1V(*), WDR2V(*), W1(*), RHO0(*),
      . AMU(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER I,MX,IBFRAC_1
       my_real
      .   R1(MVSIZ)  , R2(MVSIZ)  , BHE(MVSIZ),
-     .   VDET(MVSIZ) , R1V(MVSIZ) , R2V(MVSIZ), 
+     .   VDET(MVSIZ) , R1V(MVSIZ) , R2V(MVSIZ),
      .   DR1V(MVSIZ),
      .   P(MVSIZ)    , B1(MVSIZ)   , B2(MVSIZ),
      .   TB, BFRAC1, BFRAC2, RHO0_1 , PSH_1,  B1_1 , B2_1 , R1_1,
@@ -132,7 +132,7 @@ C-----------------------------------------------
          ENDDO
       ELSE
          DO I=LFT,LLT
-            P(I)     =  - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) + 
+            P(I)     =  - PSH(I) + (ONE - BFRAC(I)) * (P0(I) + BULK * AMU(I)) +
      .           BFRAC(I) * (WDR1V(I)*ER1V(I)+WDR2V(I)*ER2V(I)+DR1V(I))
 !!! Taking -PSH(I) as minimum value for pressure
             P(I)     = MAX(ZERO - PSH(I), P(I))
@@ -153,7 +153,7 @@ C-----------------------------------------------
          ENDDO
       ELSE
          DO I=LFT,LLT
-            SSP(I)   =  BFRAC(I) * (SSP(I) / RHO0(I)) + 
+            SSP(I)   =  BFRAC(I) * (SSP(I) / RHO0(I)) +
      .           (ONE - BFRAC(I)) * (BULK / RHO0(I))
             SSP(I)   = SQRT(ABS(SSP(I)))
          ENDDO

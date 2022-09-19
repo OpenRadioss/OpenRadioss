@@ -56,7 +56,7 @@ C     REAL
       my_real
      .   VOL,P0,V0,DYDX,AREA,VEPS,VINC,POLD,VOLP,PEXT,VOLD,PRES,
      .   Q,QOLD,DV,SCALE,XFUN
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
 C
@@ -83,7 +83,7 @@ C
       CASE(2)
          XFUN = (VOL-VINC) / (V0-VINC)
       CASE DEFAULT
-         
+
       END SELECT
       PRES = SCALE * FINTER(ITFUN,XFUN,NPC,TF,DYDX)
       IF (ITYPFUN == 3) THEN

@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ISKN(LISKN,*), ITAB(*), ITABM1(*)
 C     REAL
       my_real
@@ -110,7 +110,7 @@ C=======================================================================
 C
       DO I=1,9
         XFRAME(I,1) =ZERO
-      ENDDO 
+      ENDDO
       XFRAME(1,1) =ONE
       XFRAME(5,1) =ONE
       XFRAME(9,1) =ONE
@@ -160,7 +160,7 @@ C
 C
         IFLAGUNIT = 0
         DO J=1,NUNITS
-          IF (UNITAB%UNIT_ID(J) == UID) THEN                 
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
             IFLAGUNIT = 1
             EXIT
           ENDIF
@@ -169,7 +169,7 @@ C
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='REFERENCE FRAME',
      .                C2='REFERENCE FRAME',
-     .                C3=TITR) 
+     .                C3=TITR)
         ENDIF
 C
         INOD  =0
@@ -258,7 +258,7 @@ C----------------
           CALL ANODSET(N1, CHECK_USED)
           CALL ANODSET(N2, CHECK_USED)
           CALL IFRONTPLUS(N1,1)
-          CALL IFRONTPLUS(N2,1)       
+          CALL IFRONTPLUS(N2,1)
           ISKN(1,JJ)=N1
           ISKN(2,JJ)=N2
           ISKN(5,JJ)=IMOV

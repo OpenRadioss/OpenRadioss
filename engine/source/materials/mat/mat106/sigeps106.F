@@ -29,9 +29,9 @@ Chd|        JC                            source/materials/mat/mat106/sigeps106.
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
        SUBROUTINE SIGEPS106(
-     A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   , 
-     B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  , 
-     C      RHO0   , RHO    , VOLUME , EINT    ,  
+     A      NEL    , NUPARAM, NUVAR  , NFUNC   , IFUNC   ,
+     B      NPF    , TF     , TIME   , TIMESTEP, UPARAM  ,
+     C      RHO0   , RHO    , VOLUME , EINT    ,
      D      DEPSXX , DEPSYY , DEPSZZ , DEPSXY  , DEPSYZ  , DEPSZX,
      E      EPSXX  , EPSYY  , EPSZZ  , EPSXY   , EPSYZ   , EPSZX ,
      F      SIGOXX , SIGOYY , SIGOZZ , SIGOXY  , SIGOYZ  , SIGOZX,
@@ -106,16 +106,16 @@ C----------------------------------------------------------------
      .     SIGXX,SIGYY,SIGZZ,SIGXY,SIGYZ,SIGZX,
      .     EXX,EYY,EZZ,EXY,EYZ,EZX,TRACE_DEPS,TRACE_SIG, PRESSURE, PRESSURE0,
      .     V0,V1,FUN,DFUN, SCALE, CS, ERROR, JC_VAL, DJC_VAL, INCR, ALPHA,
-     .     XX, DXX, NORM_FUN0, ERROR1, ERROR2, NORM_V0, 
+     .     XX, DXX, NORM_FUN0, ERROR1, ERROR2, NORM_V0,
      .     DEPSP_XX, DEPSP_YY, DEPSP_ZZ, DEPSP_XY, DEPSP_YZ, DEPSP_ZX, TRCEPS
       my_real
      .     FINTER,DYDX
-      LOGICAL :: CONVERGED        
+      LOGICAL :: CONVERGED
       EXTERNAL FINTER
 C-----------------------------------------------
 C     PARAMETERS READING
 C-----------------------------------------------
-         E  = UPARAM(1) 
+         E  = UPARAM(1)
          NU = UPARAM(2)
          A  = UPARAM(3)
          B  = UPARAM(4)
@@ -124,10 +124,10 @@ C-----------------------------------------------
          TM = UPARAM(7)
          TREF = UPARAM(8)
          EPSM   = UPARAM(11)
-         SIGMAM = UPARAM(12) 
-         NMAX   = UPARAM(13) 
-         TOL    = UPARAM(14) 
-         CS     = UPARAM(15) 
+         SIGMAM = UPARAM(12)
+         NMAX   = UPARAM(13)
+         TOL    = UPARAM(14)
+         CS     = UPARAM(15)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -144,10 +144,10 @@ C-----------------------------------------------
               UVAR(I,9)=ZERO  ! Plastic strain ZX
 C         Temperature dependent material properties
               IF (IFUNC(1) > 0) THEN
-                  E =  UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX) 
+                  E =  UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX)
               ENDIF
               IF (IFUNC(3) > 0) THEN
-                  NU = UPARAM(2)*FINTER(IFUNC(3),TEMP(I),NPF,TF,DYDX) 
+                  NU = UPARAM(2)*FINTER(IFUNC(3),TEMP(I),NPF,TF,DYDX)
               ENDIF
               UVAR(I,10)=E   ! Previous Young's modulus
               UVAR(I,11)=NU  ! Previous Poisson's ratio
@@ -161,13 +161,13 @@ C         Temperature dependent material properties
 C         Temperature dependent material properties
             IF (IFUNC(1) > 0) THEN
                 IF (IFUNC(2) <= 0 .OR. TEMP(I) > UVAR(I,12)) THEN
-                    E = UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX) 
+                    E = UPARAM(1)*FINTER(IFUNC(1),TEMP(I),NPF,TF,DYDX)
                 ELSE
-                    E = UPARAM(1)*FINTER(IFUNC(2),TEMP(I),NPF,TF,DYDX) 
+                    E = UPARAM(1)*FINTER(IFUNC(2),TEMP(I),NPF,TF,DYDX)
                 ENDIF
             ENDIF
             IF (IFUNC(3) > 0) THEN
-              NU = UPARAM(2)*FINTER(IFUNC(3),TEMP(I),NPF,TF,DYDX) 
+              NU = UPARAM(2)*FINTER(IFUNC(3),TEMP(I),NPF,TF,DYDX)
             ENDIF
 C         Important, values newly added element should be initialized
             IF (UVAR(I,10) == ZERO) THEN
@@ -264,7 +264,7 @@ C     Initial condition for Newton method
                CALL JC(UVAR(I,1)+V0,TEMP(I),A,B,CM,CN,TREF,TM,EPSM,SIGMAM,JC_VAL,DJC_VAL)
                FUN = EQVM - THREE * MU * V0 - JC_VAL
                NORM_FUN0 = ABS(FUN)
-               NORM_V0 = ABS(V0) 
+               NORM_V0 = ABS(V0)
                CONVERGED = .FALSE.
                ITER = 0
                ITER_MAX = NMAX
@@ -275,7 +275,7 @@ C     Initial condition for Newton method
                   CONVERGED = ERROR1 < TOL * NORM_FUN0
                   IF (.NOT. CONVERGED) THEN
                      DFUN = -THREE * MU - DJC_VAL
-                     INCR = - FUN / DFUN 
+                     INCR = - FUN / DFUN
                      ALPHA = ONE
                      IF (INCR < ZERO) THEN
                         ALPHA =MIN (ONE , - NINE / TEN * V0 / INCR)
@@ -286,7 +286,7 @@ C     Initial condition for Newton method
                   ENDIF
                   ITER = ITER + 1
                ENDDO
-               
+
                UVAR(I, 13) = ITER
                UVAR(I, 14) = ERROR2
 
@@ -305,7 +305,7 @@ C     Initial condition for Newton method
               UVAR(I,3)=UVAR(I,3)
               RATIO = (ONE - THREE * MU * V0 / EQVM)
 
-              IF(JTHE >=0 ) TEMP(I)=UVAR(I,12)+UVAR(I,2)*DPLA(I)/CS			  
+              IF(JTHE >=0 ) TEMP(I)=UVAR(I,12)+UVAR(I,2)*DPLA(I)/CS			
             ENDIF
 
             UVAR(I,10) = E  ! register as previous Young's modulus
@@ -333,7 +333,7 @@ C
 
       RETURN
       END
-  
+
 Chd|====================================================================
 Chd|  JC                            source/materials/mat/mat106/sigeps106.F
 Chd|-- called by -----------

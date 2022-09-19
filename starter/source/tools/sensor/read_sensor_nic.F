@@ -74,7 +74,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (SUBSET_)       ,DIMENSION(NSUBS)   :: SUBSET
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -129,7 +129,7 @@ c--------------------------------------------------
       END IF
 c
       ISK = 0
-      IF (SKEW_ID > 0) THEN      
+      IF (SKEW_ID > 0) THEN
         DO I = 0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
           IF (SKEW_ID == ISKN(4,I+1)) THEN
             ISK = I+1
@@ -139,8 +139,8 @@ c
       END IF
       FAC_FORC = FAC_M_WORK * FAC_L_WORK / FAC_T_WORK**2
       FAC_MOM  = FAC_FORC * FAC_L_WORK
-      IF (FTENS == 0) FTENS = 6806.0 / FAC_FORC 
-      IF (FCOMP == 0) FCOMP = 6160.0 / FAC_FORC 
+      IF (FTENS == 0) FTENS = 6806.0 / FAC_FORC
+      IF (FCOMP == 0) FCOMP = 6160.0 / FAC_FORC
       IF (MFLEX == 0) MFLEX = 310.0  / FAC_MOM
       IF (MEXT  == 0) MEXT  = 135.0  / FAC_MOM
       IF (ALPHA == 0) ALPHA = 2.0775
@@ -148,7 +148,7 @@ c
 c--------------------------------------------------
 c     sensor data structure
 c--------------------------------------------------
-      NPOINT = 5      
+      NPOINT = 5
       NPARIS = 6             ! int  value parameters
       NPARRS = 7             ! real value parameters
       NVAR   = NPOINT*4 + 5  ! internal variables
@@ -183,11 +183,11 @@ c
       SENSOR_PTR%RPARAM(4) = MFLEX
       SENSOR_PTR%RPARAM(5) = MEXT
       SENSOR_PTR%RPARAM(6) = ALPHA
-      SENSOR_PTR%RPARAM(7) = CFC   
+      SENSOR_PTR%RPARAM(7) = CFC
 c---------------------------
-c     old sensor data tables                                           
-c---------------------------                                           
-      LSENSOR(1) = SENS_ID                                             
+c     old sensor data tables
+c---------------------------
+      LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
 c
       SENSOR(1)  = TDEL        ! time delay

@@ -53,12 +53,12 @@ C-----------------------------------------------
       INTEGER I,J
 C     REAL  
 C ---  tempurature on integration point
-       DO I=JFT,JLT 
-         TEMPEL(I) = ZERO 
-        DO J=1,NPE                                                  
-         TEMPEL(I)= TEMPEL(I)+ NI(J) * TEMP(NC(I,J)) 
-        ENDDO  
-       ENDDO  
+       DO I=JFT,JLT
+         TEMPEL(I) = ZERO
+        DO J=1,NPE
+         TEMPEL(I)= TEMPEL(I)+ NI(J) * TEMP(NC(I,J))
+        ENDDO
+       ENDDO
 C
       RETURN
       END

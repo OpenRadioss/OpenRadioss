@@ -63,8 +63,8 @@ C-----------------------------------------------
       TYPE (XFEM_LVSET_)  , DIMENSION(NLEVMAX)  :: CRKLVSET
       TYPE (XFEM_SKY_)    , DIMENSION(NLEVMAX)  :: CRKSKY
       TYPE (XFEM_AVX_)    , DIMENSION(NLEVMAX)  :: CRKAVX
-      TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX) :: CRKEDGE      
-      TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX) :: XFEM_PHANTOM 
+      TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX) :: CRKEDGE
+      TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX) :: XFEM_PHANTOM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -123,7 +123,7 @@ c
         ENDIF
       ENDDO
 C=======================================================================
-c     Stockage par ILEV 
+c     Stockage par ILEV
 C=======================================================================
       ALLOCATE (ELCUT(NUMELC_L+NUMELTG_L))
 c
@@ -306,16 +306,16 @@ c
 c---  write XFEM_PHANTOM  ----------------------------
       ALLOCATE(IFI  (LCNECRKXFEM_L)  )
       ALLOCATE(TAGXP(NUMNODCRK_L*IENRNOD*5))  ! IENRNOD -> NENR
-      ALLOCATE(ITRI (ELSZ_L*2))        
+      ALLOCATE(ITRI (ELSZ_L*2))
       TAGXP = 0
-      IFI   = 0    
-      ITRI  = 0    
+      IFI   = 0
+      ITRI  = 0
 c
       DO ILAY=1,NLAY
-        CALL WRITE_I_C(ELCUT ,ELSZ_L)  
-        CALL WRITE_I_C(IFI   ,LCNECRKXFEM_L)  
-        CALL WRITE_I_C(TAGXP ,NUMNODCRK_L*IENRNOD*5)  
-        CALL WRITE_I_C(ITRI  ,ELSZ_L*2)  
+        CALL WRITE_I_C(ELCUT ,ELSZ_L)
+        CALL WRITE_I_C(IFI   ,LCNECRKXFEM_L)
+        CALL WRITE_I_C(TAGXP ,NUMNODCRK_L*IENRNOD*5)
+        CALL WRITE_I_C(ITRI  ,ELSZ_L*2)
       ENDDO
 c
       DEALLOCATE(ELCUT)
@@ -326,11 +326,11 @@ C
 c---  write CRKEDGE  ----------------------------
       IDIM = CRKSIZN_L(1)
 c      ALLOCATE(IEDGEX(IDIM))
-      ALLOCATE(EDGEICRK(NUMEDGES_L))   
-      ALLOCATE(EDGEIFI(2,NUMEDGES_L))  
-      ALLOCATE(EDGEENR(2,NUMEDGES_L))  
-      ALLOCATE(EDGETIP(2,NUMEDGES_L))  
-      ALLOCATE(ICUTEDGE (NUMEDGES_L))   
+      ALLOCATE(EDGEICRK(NUMEDGES_L))
+      ALLOCATE(EDGEIFI(2,NUMEDGES_L))
+      ALLOCATE(EDGEENR(2,NUMEDGES_L))
+      ALLOCATE(EDGETIP(2,NUMEDGES_L))
+      ALLOCATE(ICUTEDGE (NUMEDGES_L))
       ALLOCATE(RATIOEDGE(NUMEDGES_L))
       EDGEICRK  = 0
       EDGEIFI   = 0
@@ -343,9 +343,9 @@ c
           IED_GL = EDGEGLOBAL(IED)
           EDGEICRK(IED)  = CRKEDGE(ILAY)%EDGEICRK(IED_GL)    ! Id fissure sur un edge
           EDGEIFI(1,IED) = CRKEDGE(ILAY)%EDGEIFI(1,IED_GL)   ! signe lvset sur un edge (+/- ICRK)
-          EDGEIFI(2,IED) = CRKEDGE(ILAY)%EDGEIFI(2,IED_GL)  
+          EDGEIFI(2,IED) = CRKEDGE(ILAY)%EDGEIFI(2,IED_GL)
           EDGEENR(1,IED) = CRKEDGE(ILAY)%EDGEENR(1,IED_GL)   ! enrich lvset sur un edge
-          EDGEENR(2,IED) = CRKEDGE(ILAY)%EDGEENR(2,IED_GL)   
+          EDGEENR(2,IED) = CRKEDGE(ILAY)%EDGEENR(2,IED_GL)
           EDGETIP(1,IED) = CRKEDGE(ILAY)%EDGETIP(1,IED_GL)   ! flag d'edge interne/ext
           EDGETIP(2,IED) = CRKEDGE(ILAY)%EDGETIP(2,IED_GL)
           ICUTEDGE(IED)  = CRKLVSET(K)%ICUTEDGE(IED_GL)
@@ -357,18 +357,18 @@ c
         CALL WRITE_I_C(EDGEIFI     ,NUMEDGES_L*2)
         CALL WRITE_I_C(EDGEENR     ,NUMEDGES_L*2)
         CALL WRITE_I_C(EDGETIP     ,NUMEDGES_L*2)
-        CALL WRITE_I_C(IBORDEDGE_L ,NUMEDGES_L)  ! CRKEDGE(IL)%IBORDEDGE(NUMEDGES) 
-        CALL WRITE_I_C(ICUTEDGE    ,NUMEDGES_L)  ! CRKEDGE(IL)%ICUTEDGE(NUMEDGES)  
-        CALL WRITE_DB (RATIOEDGE   ,NUMEDGES_L)  ! CRKEDGE(IL)%RATIO(NUMEDGES)     
+        CALL WRITE_I_C(IBORDEDGE_L ,NUMEDGES_L)  ! CRKEDGE(IL)%IBORDEDGE(NUMEDGES)
+        CALL WRITE_I_C(ICUTEDGE    ,NUMEDGES_L)  ! CRKEDGE(IL)%ICUTEDGE(NUMEDGES)
+        CALL WRITE_DB (RATIOEDGE   ,NUMEDGES_L)  ! CRKEDGE(IL)%RATIO(NUMEDGES)
       END DO    !   ILAY=1,NLAY
-c      
+c
       DEALLOCATE(RATIOEDGE)
       DEALLOCATE(ICUTEDGE)
-      DEALLOCATE(EDGETIP)  
-      DEALLOCATE(EDGEENR)   
-      DEALLOCATE(EDGEIFI)   
-      DEALLOCATE(EDGEICRK)  
-      DEALLOCATE(IEDGEX)   
+      DEALLOCATE(EDGETIP)
+      DEALLOCATE(EDGEENR)
+      DEALLOCATE(EDGEIFI)
+      DEALLOCATE(EDGEICRK)
+      DEALLOCATE(IEDGEX)
       IF (ALLOCATED(LAYCUT)) DEALLOCATE(LAYCUT)
 c----------------------------------
 c     Stockage global

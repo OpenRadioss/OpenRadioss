@@ -127,34 +127,34 @@ Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE INITIA(IPARG      ,ELBUF        ,MS           ,IN           ,V       , 
-     1                  X          ,IXS          ,IXQ          ,IXC          ,IXT     , 
-     2                  IXP        ,IXR          ,DETONATORS   ,GEO          ,PM      , 
-     3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,	        
-     4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW     ,FILL    , 
-     5                  IPART      ,ITAB         ,IXUR         , 
+      SUBROUTINE INITIA(IPARG      ,ELBUF        ,MS           ,IN           ,V       ,
+     1                  X          ,IXS          ,IXQ          ,IXC          ,IXT     ,
+     2                  IXP        ,IXR          ,DETONATORS   ,GEO          ,PM      ,
+     3                  RBY        ,NPBY         ,LPBY         ,NPC          ,NPTS    ,	
+     4                  PLD        ,VEUL         ,ALE_CONNECTIVITY ,SKEW     ,FILL    ,
+     5                  IPART      ,ITAB         ,IXUR         ,
      6                  IXTG       ,THK          ,NLOC_DMG     ,GROUP_PARAM_TAB,
-     7                  IGRNOD     ,IGRSURF      ,BUFSF        ,VR           , 
+     7                  IGRNOD     ,IGRSURF      ,BUFSF        ,VR           ,
      8                  BUFMAT     ,XLAS         ,LAS          ,DTELEM       ,MSS     ,
-     9                  MSQ        ,MSC          ,MST          ,MSP          ,MSR     , 
-     A                  MSTG       ,PTG          ,MSUR         ,EVUR         ,INC     , 
-     B                  INP        ,INR          ,INTG         ,INUR         ,INDEX   , 
-     C                  ITRI       ,KXX          ,IXX          ,XELEMWA      ,	        
+     9                  MSQ        ,MSC          ,MST          ,MSP          ,MSR     ,
+     A                  MSTG       ,PTG          ,MSUR         ,EVUR         ,INC     ,
+     B                  INP        ,INR          ,INTG         ,INUR         ,INDEX   ,
+     C                  ITRI       ,KXX          ,IXX          ,XELEMWA      ,	
      E                  IWA        ,
-     F                  KXSP       ,IXSP         ,NOD2SP       ,ISPCOND      ,ICODE   , 
-     G                  ISKEW      ,ISKN         ,ISPSYM       ,XFRAME       ,ISPTAG  , 
+     F                  KXSP       ,IXSP         ,NOD2SP       ,ISPCOND      ,ICODE   ,
+     G                  ISKEW      ,ISKN         ,ISPSYM       ,XFRAME       ,ISPTAG  ,
      H                  SPBUF      ,MSSX         ,NSIGI        ,
-     I                  NPBYL      ,LPBYL        ,RBYL         ,MSNF         ,MSSF    , 
-     J                  NSIGSH     ,IGEO         ,IPM          ,NSIGS        ,	        
-     K                  NSIGSPH    ,VNS          ,VNSX         ,STC          ,STT     , 
-     L                  STP        ,STR          ,STTG         ,STUR         ,BNS     , 
-     M                  BNSX       ,VOLNOD       ,BVOLNOD      ,ETNOD        ,NSHNOD  , 
-     N                  STIFINT    ,FXBDEP       ,FXBVIT       ,FXBACC       ,FXBIPM  , 
-     O                  FXBRPM     ,FXBELM       ,FXBSIG       ,FXBMOD       ,INS     , 
+     I                  NPBYL      ,LPBYL        ,RBYL         ,MSNF         ,MSSF    ,
+     J                  NSIGSH     ,IGEO         ,IPM          ,NSIGS        ,	
+     K                  NSIGSPH    ,VNS          ,VNSX         ,STC          ,STT     ,
+     L                  STP        ,STR          ,STTG         ,STUR         ,BNS     ,
+     M                  BNSX       ,VOLNOD       ,BVOLNOD      ,ETNOD        ,NSHNOD  ,
+     N                  STIFINT    ,FXBDEP       ,FXBVIT       ,FXBACC       ,FXBIPM  ,
+     O                  FXBRPM     ,FXBELM       ,FXBSIG       ,FXBMOD       ,INS     ,
      P                  PTSHEL     ,PTSH3N       ,PTSOL        ,PTQUAD  ,
-     Q                  WMA        ,PTSPH        ,FXBNOD       ,MBUFEL       ,MDEPL   , 
+     Q                  WMA        ,PTSPH        ,FXBNOD       ,MBUFEL       ,MDEPL   ,
      R                  FXANI      ,NUMEL        ,NSIGRS       ,
-     T                  SH4TREE    ,SH3TREE      ,MCP          ,TEMP         ,	        
+     T                  SH4TREE    ,SH3TREE      ,MCP          ,TEMP         ,	
      U                  IMERGE2    ,IADMERGE2    ,
      V                  SLNRBM     ,NSLNRBM      ,RMSTIFN      ,RMSTIFR,
      U                  MS_LAYER   ,ZI_LAYER     ,ITAG         ,ITAGEL       ,MCPC    ,
@@ -178,7 +178,7 @@ Chd|====================================================================
      E                  FAIL_INI   ,IUSOLYLD     ,IUSER        ,IDDLEVEL     ,INIMAP1D ,
      F                  INIMAP2D   ,FUNC2D,      FVM_INIVEL    ,TAGPRT_SMS   ,IGRBRIC  ,
      G                  IGRQUAD    ,IGRSH4N      ,IGRSH3N      ,IGRPART      ,TOTMAS   ,
-     H                  KNOTLOCPC  ,KNOTLOCEL    ,VNIGE        ,BNIGE        ,FXBGLM, 
+     H                  KNOTLOCPC  ,KNOTLOCEL    ,VNIGE        ,BNIGE        ,FXBGLM,
      I                  FXBCPM     ,FXBCPS       ,FXBLM        ,FXBFLS       ,FXBDLS,
      J                  FXB_MATRIX ,FXB_MATRIX_ADD,FXB_LAST_ADRESS,PTR_NOPT_FXB,R_SKEW,
      K                  KNOD2EL1D  ,NOD2EL1D     ,EBCS_TAB     ,RBY_INIAXIS  ,ALEA    ,
@@ -187,8 +187,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------                     
       USE SUBMODEL_MOD
-      USE ELBUFDEF_MOD      
-      USE MESSAGE_MOD      
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
       USE STACK_MOD
       USE MULTI_FVM_MOD
       USE BPRELOAD_MOD
@@ -198,9 +198,9 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE OPTIONDEF_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD  
-      USE DETONATORS_MOD 
-      USE DRAPE_MOD    
+      USE MATPARAM_DEF_MOD
+      USE DETONATORS_MOD
+      USE DRAPE_MOD
       USE INIVOL_DEF_MOD
       USE INIVOL_ARRAY_MOD
       USE EBCS_MOD
@@ -270,7 +270,7 @@ C-----------------------------------------------
      .   IUSOLYLD,IUSER,IDDLEVEL,NBSUBMAT, TAGPRT_SMS(*),SITAGE,FXB_MATRIX_ADD(4,*),
      .   FXB_LAST_ADRESS(*),PTR_NOPT_FXB,R_SKEW(*), NPTS,KNOD2EL1D(*)  ,NOD2EL1D(*),
      .   KNOD2ELC(*),NOD2ELC(*)
-      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB     
+      TYPE(T_EBCS_TAB), INTENT(INOUT) :: EBCS_TAB
       INTEGER,TARGET  :: ITAGE(*)
       INTEGER,POINTER :: ptr_ITAGE
       INTEGER NSIGI,NSIGSH,
@@ -323,7 +323,7 @@ C
       TYPE (INIMAP2D_STRUCT), DIMENSION(NINIMAP2D), INTENT(INOUT) :: INIMAP2D
       TYPE (FUNC2D_STRUCT), DIMENSION(NFUNC2D), INTENT(IN) :: FUNC2D
       TYPE (FVM_INIVEL_STRUCT), INTENT(IN) :: FVM_INIVEL(*)
-      TYPE (NLOCAL_STR_)   :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)   :: NLOC_DMG
       TYPE (GRP_PARAM_STRUCT_), DIMENSION(NGROUP)  :: GROUP_PARAM_TAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
@@ -369,7 +369,7 @@ C remove automatic allocation to reduce stack consumption
      .   NSEGSURF,FLAG_KJ
       INTEGER IBOLTP !Bolt preloading
       my_real
-     .   DT2S, B1, B2, B3, B6, B5, B9, 
+     .   DT2S, B1, B2, B3, B6, B5, B9,
      .   XG, YG, ZG, XX, YY, ZZ, XY, XZ, YZ,DTNODA,FILL_RATIO
       my_real, DIMENSION(:), ALLOCATABLE ::
      .    MBUFEL_TMP, MDEPL_TMP,PARTSAV,MCPS,MCPSX,
@@ -389,12 +389,12 @@ C remove automatic allocation to reduce stack consumption
       CHARACTER*nchartitle,
      .   TITR
       LOGICAL :: ERROR_THROWN
-            
+
 C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
-      TYPE(G_BUFEL_) ,POINTER :: GBUF   
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       EXTERNAL UEL2SYS
       INTEGER  UEL2SYS
@@ -456,7 +456,7 @@ C=======================================================================
 C
       IF(NPRELOAD > 0) THEN
         ALLOCATE (VPRELOAD(7*NUMELS)               ,STAT=stat)
-      ENDIF       
+      ENDIF
 C
       IF (NPART   > 0) PARTSAV= ZERO
       IF (NPART   > 0) PARTSAV1_PON=ZERO
@@ -472,7 +472,7 @@ C---
       NTRACE  = NTRACE0**3
 C
 C     To avoid thwrowing ngroup times the same error
-      ERROR_THROWN = .FALSE. 
+      ERROR_THROWN = .FALSE.
 C
       ANIM_M=0
       DO I=1,MX_ANI
@@ -658,8 +658,8 @@ C     shells
       COQMAT(92) = 0  ! is not available
       COQMAT(93) = 1
       COQMAT(94) = 0  ! is not available
-      COQMAT(96) = 1  
-      COQMAT(98) = 1  
+      COQMAT(96) = 1
+      COQMAT(98) = 1
       COQMAT(99) = 1
       COQMAT(104) = 1
       COQMAT(107) = 1
@@ -729,7 +729,7 @@ C     sph
       SPHMAT(94) = 1 ! not tested
       SPHMAT(97) = 1
       SPHMAT(102)= 1
-      SPHMAT(103)= 1 
+      SPHMAT(103)= 1
       SPHMAT(111)= 1 ! is not tested
       SPHMAT(105)= 1
       RESMAT(54) = 1
@@ -801,7 +801,7 @@ C
          ALLOCATE(MCPP(NUMELP))
         MCPP = ZERO
       ELSE
-        ALLOCATE(MCPSX(0), MCPS(0), MCPP(0))  
+        ALLOCATE(MCPSX(0), MCPS(0), MCPP(0))
       ENDIF
 C---
       IF ((IMASADD > 0).OR.(NLOC_DMG%IMOD > 0)) THEN
@@ -851,7 +851,7 @@ C
         IFORMDT = IPARG(73,NG)
         JCLOS=0
         ISTOT = 0
-        IF (ITY==1.AND.(ISMSTR>=10.AND.ISMSTR<=12)) ISTOT = 1 
+        IF (ITY==1.AND.(ISMSTR>=10.AND.ISMSTR<=12)) ISTOT = 1
         IF (ITY == 3.OR.ITY == 7) THEN
 C Initialize vectorization flags to zero for 3 and 4 nodes shell
           NC1_OLD = 0
@@ -885,7 +885,7 @@ C Warning : for a new element type perform the computation of mass and inertia
 C           in parallel arithmetic in subroutine SPMD_MSIN
 C------------------------------------------------------------------------------
 C
-       IF ((MTN == 0 .AND. IGTYP /= 52 .AND. IGTYP /= 51)  .or. 
+       IF ((MTN == 0 .AND. IGTYP /= 52 .AND. IGTYP /= 51)  .or.
      .     (IGTYP == 0 .and. (ITY == 1 .or. ITY == 3 .or. ITY == 7)) ) THEN
           LFT=1
           LLT=NEL
@@ -956,30 +956,30 @@ C Element types
      .           ELBUF_TAB(NG), IXS      , SIGSP    ,SIGI  ,   NSIGI,
      .           NEL          ,LFT       , LLT      ,NFT   ,   NSIGS,
      .           PTSOL ,IGEO )
-         ENDIF                  
+         ENDIF
          IF (ISOLNOD == 4.AND.(ISROT==0.OR.ISROT==3))THEN
             IF (MULTI_FVM%IS_USED) THEN
-               CALL MULTIFLUID_INIT3T(ELBUF_TAB(NG), 
-     .              NEL, NSIGS, NSIGI, IXS, IGEO, IPM, IPARG, ALE_CONNECTIVITY, IPART(I15A), PTSOL, 
+               CALL MULTIFLUID_INIT3T(ELBUF_TAB(NG),
+     .              NEL, NSIGS, NSIGI, IXS, IGEO, IPM, IPARG, ALE_CONNECTIVITY, IPART(I15A), PTSOL,
      .              NPC, IPART, ILOADP,
-     .              XREFS, GEO, PM, FACLOAD, PLD, SKEW, SIGI, BUFMAT, X, 
+     .              XREFS, GEO, PM, FACLOAD, PLD, SKEW, SIGI, BUFMAT, X,
      .              WMA, PARTSAV, MS, V, MSS, MSSF, MSSA, MSNF, MCPS, ERROR_THROWN, DETONATORS)
             ELSE
                CALL S4INIT3(
-     1              ELBUF_TAB(NG),MS          ,IXS      ,PM         ,X          ,  
+     1              ELBUF_TAB(NG),MS          ,IXS      ,PM         ,X          ,
      2              DETONATORS    ,GEO          ,VEUL   ,ALE_CONNECTIVITY  ,IPARG(1,NG),
      3              DTELEM  ,SIGI         ,NEL    ,SKEW       ,IGEO       ,
      4              STIFN   ,PARTSAV      ,V      ,IPART(I15A),MSS        ,
      5              IPART        ,MSNF        ,IPARG    ,
-     6              MSSF         ,IPM         ,NSIGS    ,VOLNOD     ,BVOLNOD    ,    
-     7              VNS          ,BNS         ,WMA      ,PTSOL      ,BUFMAT     ,  
-     8              MCP          ,MCPS        ,TEMP     ,NPC        ,PLD        ,  
-     9              IUSER        ,SIGSP       ,NSIGI    ,MSSA       ,XREFS      ,  
+     6              MSSF         ,IPM         ,NSIGS    ,VOLNOD     ,BVOLNOD    ,
+     7              VNS          ,BNS         ,WMA      ,PTSOL      ,BUFMAT     ,
+     8              MCP          ,MCPS        ,TEMP     ,NPC        ,PLD        ,
+     9              IUSER        ,SIGSP       ,NSIGI    ,MSSA       ,XREFS      ,
      A              STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI ,SPBUF      ,SOL2SPH    ,
-     B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB    )                            
+     B              ILOADP       ,FACLOAD      ,RNOISE   ,PERTURB    )
                IF (ISTOT == 1) THEN
                   CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
-               ENDIF   
+               ENDIF
                IF (NXREF > 0 .AND. JLAG/=0 .AND. JSPH==0)THEN
                   CALL S4REFSTA3(
      1                 ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
@@ -1034,16 +1034,16 @@ C Case total strain
          ELSEIF(ITY==1.AND.ISOLNOD==16)THEN
           KK1=1+NUMELS*NIXS+NUMELS10*6+NUMELS20*12
           CALL S16INIT3(
-     1       ELBUF_TAB(NG),MS        ,IXS     ,PM         ,X          ,  
+     1       ELBUF_TAB(NG),MS        ,IXS     ,PM         ,X          ,
      2         DETONATORS  ,GEO       ,VEUL   ,ALE_CONNECTIVITY  ,IPARG(1,NG),
      3         DTELEM      ,SIGI      ,NEL    ,SKEW       ,IGEO       ,
      4         STIFN       ,PARTSAV   ,V      ,IPART(I15A),MSS        ,
-     5       IXS16        ,IPART     ,MSSX    ,SIGSP      ,NSIGI      ,           
-     6       IPM          ,IUSER     ,NSIGS   ,VOLNOD     ,BVOLNOD    , 
-     7       VNS          ,BNS       ,VNSX    ,BNSX       ,PTSOL      ,    
-     8       BUFMAT       ,MCP       ,MCPS    ,MCPSX      ,TEMP       ,    
+     5       IXS16        ,IPART     ,MSSX    ,SIGSP      ,NSIGI      ,
+     6       IPM          ,IUSER     ,NSIGS   ,VOLNOD     ,BVOLNOD    ,
+     7       VNS          ,BNS       ,VNSX    ,BNSX       ,PTSOL      ,
+     8       BUFMAT       ,MCP       ,MCPS    ,MCPSX      ,TEMP       ,
      9       NPC          ,PLD       ,STRSGLOB(NF1),STRAGLOB(NF1),FAIL_INI   ,
-     A       ILOADP       ,FACLOAD   ,PERTURB ,RNOISE     )                
+     A       ILOADP       ,FACLOAD   ,PERTURB ,RNOISE     )
          ELSEIF(ITY==1)THEN
           JHBE=IPARG(23,NG)
           JCLOS=IPARG(33,NG)
@@ -1085,7 +1085,7 @@ C Case total strain
      .             STRSGLOB(NF1),STRAGLOB(NF1),ORTHOGLOB ,FAIL_INI    ,ILOADP     ,
      .             FACLOAD   ,RNOISE     ,PERTURB   )
             ENDIF
-          ELSEIF (JHBE == 14 .AND. 
+          ELSEIF (JHBE == 14 .AND.
      .           (IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22)) THEN
            !HA8 thick shell
             GBUF => ELBUF_TAB(NG)%GBUF
@@ -1135,7 +1135,7 @@ C Case total strain
      .             DETONATORS  ,GEO       ,VEUL  ,ALE_CONNECTIVITY ,IPARG(1,NG),
      .             DTELEM,SIGI      ,NEL   ,SKEW       ,IGEO       ,
      .             STIFN ,PARTSAV   ,V     ,IPART(I15A),MSS,
-     .             IPART ,SIGSP     , 
+     .             IPART ,SIGSP     ,
      .             NSIGI ,IN        ,VR    ,IPM        ,NSIGS   ,
      .             VOLNOD ,BVOLNOD  ,VNS   ,BNS        ,PTSOL   ,
      .             BUFMAT ,NPC      ,PLD   ,FAIL_INI   ,INS     ,
@@ -1144,11 +1144,11 @@ C Case total strain
             GBUF => ELBUF_TAB(NG)%GBUF
             IF (JMULT == 0) THEN
                CALL SINIT3(
-     1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,  
+     1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,
      2              DETONATORS   ,GEO          ,VEUL   ,ALE_CONNECTIVITY ,IPARG(1,NG),
      3              DTELEM       ,SIGI         ,NEL    ,SKEW       ,IGEO       ,
      4              STIFN        ,PARTSAV      ,V      ,IPART(I15A),MSS        ,
-     5              IPART        ,SIGSP        ,NG     ,IPARG      ,                               
+     5              IPART        ,SIGSP        ,NG     ,IPARG      ,
      7              NSIGI        ,MSNF         ,NVC    ,MSSF       ,IPM        ,
      8              IUSER        ,NSIGS        ,VOLNOD ,BVOLNOD    ,VNS        ,
      9              BNS          ,IN           ,VR     ,INS        ,WMA        ,
@@ -1156,32 +1156,32 @@ C Case total strain
      B              XREFS        ,NPC          ,PLD    ,MSSA       ,STRSGLOB(NF1),
      C              STRAGLOB(NF1),FAIL_INI     ,SPBUF  ,KXSP       ,IPART(I15J),
      D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    ,
-     E              RNOISE       ,PERTURB      )        
+     E              RNOISE       ,PERTURB      )
             ELSE IF (JMULT > 0 .AND. MTN == 151) THEN
       !Multifluid law
                CALL MULTIFLUID_INIT3 (
-     1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,  
+     1              ELBUF_TAB(NG),MS         ,IXS      ,PM         ,X          ,
      2              GEO          ,ALE_CONNECTIVITY     ,IPARG(1,NG),
      3              DTELEM       ,SIGI         ,NEL    ,SKEW       ,IGEO       ,
      4              STIFN        ,PARTSAV      ,V      ,IPART(I15A),MSS        ,
-     5              IPART        ,SIGSP        ,NG     ,IPARG      ,                               
+     5              IPART        ,SIGSP        ,NG     ,IPARG      ,
      7              NSIGI        ,MSNF         ,NVC    ,MSSF       ,IPM        ,
      8              IUSER        ,NSIGS        ,VOLNOD ,BVOLNOD    ,VNS        ,
      9              BNS          ,IN           ,VR     ,INS        ,WMA        ,
      A              PTSOL        ,BUFMAT       ,MCP    ,MCPS       ,TEMP       ,
      B              XREFS        ,NPC          ,PLD    ,MSSA       ,STRSGLOB(NF1),
      C              STRAGLOB(NF1),FAIL_INI     ,SPBUF  ,KXSP       ,IPART(I15J),
-     D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    , 
-     E              MULTI_FVM, ERROR_THROWN,DETONATORS)    
+     D              NOD2SP       ,SOL2SPH      ,IRST   ,ILOADP     ,FACLOAD    ,
+     E              MULTI_FVM, ERROR_THROWN,DETONATORS)
             ENDIF
-           
+
             IF (NPT == 1 .AND. ISTOT == 1) THEN
                 CALL SGSAVINI(ISOLNOD,X,IXS(1,NFT+1),GBUF%SMSTR,NEL)
-            ENDIF    
+            ENDIF
             CALL SREFSTA3(
-     1        ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),  
+     1        ELBUF_TAB(NG),IXS        ,PM         ,GEO      ,IPARG(1,NG),
      2        IPM        ,IGEO       ,SKEW       ,X        ,XREFS     ,
-     3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,              
+     3        NEL          ,IPART(I15A),IPART      ,BUFMAT   ,
      6        NPC          ,PLD        )
 C
 C Case total strain: conf_ref <- XREF
@@ -1238,22 +1238,22 @@ C Case total strain: conf_ref <- XREF
            ELSE  ! JMULT > 0
               IF (MTN == 20) THEN
                  CALL BINIT2(
-     .                ELBUF_TAB(NG),MS        ,IXQ        ,PM          ,X  ,   
+     .                ELBUF_TAB(NG),MS        ,IXQ        ,PM          ,X  ,
      .                DETONATORS   ,VEUL      ,ALE_CONNECTIVITY      ,IPARG(1,NG)  ,FILL,
      .                SIGI         ,BUFMAT    ,NEL        ,
-     .                SKEW         ,MSQ       ,IPART      ,IPART(I15B),             
-     .                GEO          ,IGEO      ,IPM        ,                         
+     .                SKEW         ,MSQ       ,IPART      ,IPART(I15B),
+     .                GEO          ,IGEO      ,IPM        ,
      .                NSIGS        ,WMA       ,PTQUAD     ,NPC         ,PLD ,
      .                IPARG        ,ILOADP    ,FACLOAD    ,PARTSAV     ,V   )
               ELSE IF (MTN == 151) THEN
 C 2D multifluid law
-                 CALL MULTIFLUID_INIT2(NEL, NSIGS, 
-     .                IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPART(I15B), NPC, 
-     .                PTQUAD, ILOADP, X, PM, 
-     .                GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, ELBUF_TAB(NG), ERROR_THROWN,DETONATORS) 
+                 CALL MULTIFLUID_INIT2(NEL, NSIGS,
+     .                IPARG, IXQ, IPM, ALE_CONNECTIVITY, IGEO, IPART, IPART(I15B), NPC,
+     .                PTQUAD, ILOADP, X, PM,
+     .                GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, ELBUF_TAB(NG), ERROR_THROWN,DETONATORS)
               ELSE
                  CALL ARRET(2)
-              ENDIF    
+              ENDIF
            ENDIF
         !----------------------------------------!
         !   ITY == 3                       SHELL !
@@ -1286,7 +1286,7 @@ C 2D multifluid law
      F             NLOC_DMG   ,NG        ,GROUP_PARAM_TAB(NG))
           ELSE
             NULLIFY(ptr_ITAGE)
-            IF (SITAGE>0) ptr_ITAGE => ITAGE(1)       
+            IF (SITAGE>0) ptr_ITAGE => ITAGE(1)
             CALL CINIT3(ELBUF_TAB(NG),
      1      IXC       ,PM         ,X          ,GEO        ,
      2      MS        ,IN         ,NVC        ,DTELEM     ,IGRSH4N    ,
@@ -1312,7 +1312,7 @@ C 2D multifluid law
           IF (NC4 == 1) NC4_OLD = 1
           IPARG(19,NG)=NC1_OLD*8+NC2_OLD*4+NC3_OLD*2+NC4_OLD
           DT2S=DT2
-          DT2=0.     
+          DT2=0.
         !----------------------------------------!
         !   ITY == 4                       TRUSS !
         !----------------------------------------!
@@ -1368,17 +1368,17 @@ C 2D multifluid law
      8          SKEW     ,ISH3N  ,NSIGSH ,IGEO   ,IPM      ,
      9          IUSER    ,ETNOD  ,NSHNOD ,STTG   ,PTSH3N   ,
      A          BUFMAT   ,SH3TREE,MCP    ,MCPTG ,  TEMP ,
-     B          IPARG(1,NG),CPT_ELTENS,PART_AREA   ,NPC ,PLD      , 
+     B          IPARG(1,NG),CPT_ELTENS,PART_AREA   ,NPC ,PLD      ,
      C          SH3TRIM ,ISUBSTACK,STACK ,RNOISE,
      D          DRAPE(1+NUMELC),SH3ANG ,GEO_STACK,IGEO_STACK,STRTG,
      E          PERTURB,IYLDINI ,ELE_AREA(1+NUMELC),NLOC_DMG)
           ELSEIF (MTN == 151 .OR. N2D > 0) THEN
              CALL MULTIFLUID_INIT2T(ELBUF_TAB(NG), NEL, NSIGS, NVC, IPARG, IXTG, ALE_CONNECTIVITY,
-     .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP, 
+     .            IGEO, IPART, IPART(I15H), IPM, PTSH3N, NPC, ILOADP,
      .            X, PM, GEO, SIGI, SKEW, PLD, BUFMAT, FACLOAD, MULTI_FVM, ERROR_THROWN, DETONATORS)
           ELSE
            NULLIFY(ptr_ITAGE)
-           IF (SITAGE > 0) ptr_ITAGE => ITAGE(NUMELC+1)  
+           IF (SITAGE > 0) ptr_ITAGE => ITAGE(NUMELC+1)
            CALL C3INIT3(ELBUF_TAB(NG),
      1          IXTG  ,PM    ,X     ,GEO        ,IGRSH4N,
      2          MS        ,IN    ,NVC   ,DTELEM,IGRSH3N ,
@@ -1403,7 +1403,7 @@ C 2D multifluid law
           IF (NC3 == 1) NC3_OLD = 1
           IPARG(19,NG)=NC1_OLD*8+NC2_OLD*4+NC3_OLD*2
           DT2S=DT2
-          DT2=0.                                                        
+          DT2=0.
         !----------------------------------------!
         !   ITY == 51                        SPH !
         !----------------------------------------!
@@ -1456,13 +1456,13 @@ c
      .             DETONATORS  ,GEO       ,VEUL  ,ALE_CONNECTIVITY,IPARG(1,NG),
      .             DTELEM,SIGI      ,NEL   ,SKEW ,IGEO       ,
      .             STIFN ,PARTSAV   ,V     ,IPART(I15K),MSS,
-     .             IPART ,SIGSP     , 
+     .             IPART ,SIGSP     ,
      .             NSIGI ,IN       ,VR      ,IPM     ,NSIGS   ,
      .             VNIGE  ,BNIGE   ,PTSOL   ,
      .             BUFMAT ,NPC     ,PLD    ,FAIL_INI,NCTRL,
      .             MSIG3D ,KNOT    ,NCTRLMAX,WIGE ,PX,PY,PZ,
      .             KNOTLOCPC,KNOTLOCEL)
-        ENDIF          
+        ENDIF
 C
         IF (ITY == 3) THEN
           WRITE(IOUT,'(A,I10,A,I5)')' SHELL GROUP',NG, ' VECTORIZATION CODE =',IPARG(19,NG)
@@ -1486,7 +1486,7 @@ C-----------
      .//
      .'     NON REFLECTING FRONTIERS (/MAT/LAW51)    '/
      .'     -------------------------------------    '/
-     & 5X,'INITIALIZATION OF GLOBAL PARAMETERS      ',/    
+     & 5X,'INITIALIZATION OF GLOBAL PARAMETERS      ',/
      & 5X,'CHARACTERISTIC LENGTH. . . . . . . . . .=',E12.4/
      & 5X,'REFERENCE SOUND SPEED. . . . . . . . .  =',E12.4/
      & 5X,'CHARACTERISTIC TIME. . . . . . . . . . .=',E12.4//)
@@ -1638,7 +1638,7 @@ C-----------------------------------------------------
           ITAGSURF = 0
           ALLOCATE(SWIFTSURF(NSURF) ,STAT=stat)
           SWIFTSURF = 0
-          !C------------------------- 
+          !C-------------------------
           !C  FILL background ale mesh with phase
           !C-------------------------
           DO NG=1,NGROUP
@@ -1674,7 +1674,7 @@ C-----------------------------------------------------
      .                       ELBUF_TAB ,NG     ,MULTI_FVM ,IXQ        ,IXTG    ,
      .                       ITY       ,IMAT   ,SIPHASE   ,NUMEL_TOT)
 C
-          ENDDO ! next element group NG                                                                                        
+          ENDDO ! next element group NG
 C------------------------------------
 C surface containers :                                                                                
 C------------------------------------
@@ -1711,7 +1711,7 @@ C------------------------------------
           ALLOCATE(DIS(NSURF_INVOL,NUMNOD)      ,STAT=stat)
           !ALLOCATE(DIS(NBCONTY,NUMNOD)         ,STAT=stat)
           DIS = ZERO
-                   
+
           ALLOCATE(NOD_NORM(3*NUMNOD)          ,STAT=stat)
           NOD_NORM(1:3*NUMNOD) = ZERO
           ALLOCATE(SEGTOSURF(NSEG_USED)        ,STAT=stat)
@@ -1741,7 +1741,7 @@ C------------------------------------
             DEALLOCATE(TAGN)
           ENDDO ! DO IDC=1,NBCONTY
 !-------------
-          DO NG=1,NGROUP                                                                                   
+          DO NG=1,NGROUP
 !---
             MTN     = IPARG(1,NG)
             NEL     = IPARG(2,NG)
@@ -1771,7 +1771,7 @@ C------------------------------------
                 ICUMU      = INIVOL(II)%CONTY(IDC)%ICUMU
                 NSEGSURF   = IGRSURF(IDSURF)%NSEG
 C                                                                          
-                  LFT      = 1 
+                  LFT      = 1
                   LLT      = NEL
                   NFT      = IPARG(3,NG)
                   IF(ITY == 1)THEN
@@ -1784,7 +1784,7 @@ C
                     ELSE
                       I15_=0
                    ENDIF
-                  ENDIF                                                                                
+                  ENDIF
                   CALL INISOLDIST(
      1              IFILL      ,IXS       ,PM         ,X        ,GEO     ,
      2              IPARG(1,NG),IDP       ,IPART(I15_),IPM      ,XREFS   ,
@@ -1794,20 +1794,20 @@ C
      7              IGRSURF(IDSURF)%IAD_BUFR,BUFSF    ,NOD_NORM ,ISOLNOD ,NBSUBMAT,
      8              FILL_RATIO ,ICUMU      ,IDC       ,NBCONTY  ,NSEGSURF,
      9              IDSURF     ,SWIFTSURF  ,SEGTOSURF ,IGRSURF  ,IVOLSURF,
-     A              NSURF_INVOL,IXQ,IXTG,ITY,NEL,NUMEL_TOT,ITAB) 
+     A              NSURF_INVOL,IXQ,IXTG,ITY,NEL,NUMEL_TOT,ITAB)
 !
                     MBUF  => ELBUF_TAB(NG)%BUFLY(1)%MAT(1,1,1)
                     NUVAR =  ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
-                    NF1   =  NFT+1 
+                    NF1   =  NFT+1
                   IF (IDC==NBCONTY) CALL INIVOL_SET(
      1                              MBUF%VAR, NUVAR,  NEL, KVOL(1,NF1),MTN ,
-     2                              ELBUF_TAB,NG,NBSUBMAT,MULTI_FVM, 
+     2                              ELBUF_TAB,NG,NBSUBMAT,MULTI_FVM,
      3                              IXS,IXQ,IXTG,IDP,IPART(I15_)
      .                           )
 !
               ENDDO ! DO IDC=1,NBCONTY
               DEALLOCATE(INPHASE)
-          ENDDO ! next element group NG                                                                                       
+          ENDDO ! next element group NG
 !---
           IF(ALLOCATED(IPHASE))   DEALLOCATE(IPHASE)
           IF(ALLOCATED(NBIP))     DEALLOCATE(NBIP)
@@ -1826,7 +1826,7 @@ C
       ELSE
         ALLOCATE(IPHASE(0),NBIP(0,0),ITAGNSOL(0),KNOD2SURF(0),PART_FILL(0),IVOLSURF(0),
      .           SWIFTSURF(0),NSOLTOSF(0,0),INOD2SURF(0),DIS(0,0),NOD_NORM(0),SEGTOSURF(0))
-      ENDIF ! IF (NINIVOL > 0) 
+      ENDIF ! IF (NINIVOL > 0)
 C---------------------------------
 C  Gravity (after INIVOL)
 C---------------------------------
@@ -1853,7 +1853,7 @@ C---------------------------------
       IF (NINIMAP1D > 0) THEN
          WRITE(ISTDO, '(A)') TITRE(53)
          CALL INI_INIMAP1D(INIMAP1D    ,ELBUF_TAB ,IPART   ,IPARG   ,IPART(I15A),
-     .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
+     .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        ,
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
      .                     PLD         ,NPC       ,IGRBRIC ,IGRQUAD ,IGRSH3N    ,
      .                     NPTS)
@@ -1864,7 +1864,7 @@ C---------------------------------
       IF (NINIMAP2D > 0) THEN
          WRITE(ISTDO, '(A)') TITRE(53)
          CALL INI_INIMAP2D(INIMAP2D    ,ELBUF_TAB ,IPART   ,IPARG   ,IPART(I15A),
-     .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        , 
+     .                     IPART(I15B) ,X         ,V       ,IXS     ,IXQ        ,
      .                     IXTG        ,PM        ,IPM     ,BUFMAT  ,MULTI_FVM  ,
      .                     FUNC2D      ,IGRBRIC   ,IGRQUAD ,IGRSH3N )
       ENDIF
@@ -1990,8 +1990,8 @@ C-------------------------------------
 C
 C--      Automatic setting of fxbody from pch files
 C
-         CALL INI_FXBODY(FXBIPM,  FXBRPM, FXBNOD, FXBGLM,FXBCPM,   
-     .                   FXBCPS,  FXBLM,  FXBFLS, FXBDLS,FXBMOD, 
+         CALL INI_FXBODY(FXBIPM,  FXBRPM, FXBNOD, FXBGLM,FXBCPM,
+     .                   FXBCPS,  FXBLM,  FXBFLS, FXBDLS,FXBMOD,
      .                   ITAB, X ,MS, IN, FXB_MATRIX,
      .                   FXB_MATRIX_ADD,FXB_LAST_ADRESS,ICODE,NOM_OPT(1,PTR_NOPT_FXB+1))
 C
@@ -2092,7 +2092,7 @@ C-----------------------------------------------------
       CALL INIRBE2(IRBE2  ,LRBE2  ,ITAB  ,X    ,MS   ,
      .             IN     ,STIFN  ,STIFR ,TOTMAS,XG  ,
      .             YG     ,ZG     ,B1    ,B2   ,B3    ,
-     .             B5     ,B6     ,B9    ,     
+     .             B5     ,B6     ,B9    ,
      .             NOM_OPT(1,PTR_NOPT_RBE2+1),ITAGND)
 C------------------------------------------------------
 C Initialization of joint type spring (PID33 and PID45)
@@ -2107,9 +2107,9 @@ C------------------------------------------------------
         LLT = NEL
         IF (ITY == 6) THEN
           IPROP=IXR(1,1+NFT)
-          IGTYP =  NINT(GEO(NPROPG*(IPROP-1)+12))	 	  
+          IGTYP =  NINT(GEO(NPROPG*(IPROP-1)+12))	 	
           GBUF => ELBUF_TAB(NG)%GBUF
-          IF (IGTYP==33) THEN 
+          IF (IGTYP==33) THEN
             NUVAR =  NINT(GEO(NPROPG*(IPROP-1)+25))
             CALL RINI33_RB(NEL,NUVAR,IPROP,IXR,NPBY,
      .                     LPBY,RBY,STIFR,GBUF%VAR,ITAB,
@@ -2285,10 +2285,10 @@ C
       DEALLOCATE(I8MI)
       IF(ALLOCATED(VPRELOAD)) DEALLOCATE (VPRELOAD)
       IF(ALLOCATED(ELE_AREA))DEALLOCATE(ELE_AREA)
-c-----------      
+c-----------
       RETURN
  999  CALL FREERR(3)
-c-----------      
+c-----------
  1000 FORMAT(//
      . 5X,'NODAL MASSES',/
      . 5X,'------------',/
@@ -2861,7 +2861,7 @@ c            IGTYP=IGEO(11,IG)
          DO I=1,NUMEL
             MT=IX(1,I)
             IG=IX(NG,I)
-            
+
             IF(IPARTEL(I) == 0)THEN
                CALL ANCMSG(MSGID=1125,
      .                 MSGTYPE=MSGERROR,
@@ -3116,11 +3116,11 @@ C
        IIS0= NUSOLID+4+NVSOLID1 + NVSOLID2 + NVSOLID3 + NVSOLID4 + NVSOLID5
        DO I=LFT,LLT
         JJ=PTSOL(I)
-        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		       
+        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		
           DO N=1,NPE
             IIS= IIS0 + (N-1)*3
-            XL(N)=SIGSP(IIS+1,JJ)			       
-            YL(N)=SIGSP(IIS+2,JJ)			       
+            XL(N)=SIGSP(IIS+1,JJ)			
+            YL(N)=SIGSP(IIS+2,JJ)			
             ZL(N)=SIGSP(IIS+3,JJ)
           END DO
           IF (ISMSTR==1) THEN
@@ -3131,14 +3131,14 @@ C
               SAV(I,N2+2) = ZL(N)-ZL(NPE)
             END DO
             OFFG(I) =TWO
-          ELSE            
+          ELSE
             DO N=1,NPE1
               SAV(I,N)        = XL(N)-XL(NPE)
               SAV(I,N+NPE1)   = YL(N)-YL(NPE)
               SAV(I,N+2*NPE1) = ZL(N)-ZL(NPE)
             END DO
           END IF
-        ENDIF          
+        ENDIF
        ENDDO
 C
       RETURN
@@ -3195,22 +3195,22 @@ C-----------------------------------------------
        END IF
        DO I=LFT,LLT
         JJ=PTSOL(I)
-        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		       
+        IF(STRAGLOB(I) == 10.AND.JJ>0) THEN  		
           DO N=1,NPE
             IIS= IIS0 + (N-1)*3
-            SAV(I,N)       = SIGSP(IIS+1,JJ)			       
-            SAV(I,N+NPE)   = SIGSP(IIS+2,JJ)			       
+            SAV(I,N)       = SIGSP(IIS+1,JJ)			
+            SAV(I,N+NPE)   = SIGSP(IIS+2,JJ)			
             SAV(I,N+2*NPE) = SIGSP(IIS+3,JJ)
           END DO
           DO N=1,NDR
             IIS= IIS0 +(NPE+N-1)*3
             NN = 3*(NC(I,N)-1)
-            DR(NN+1) = SIGSP(IIS+1,JJ)			       
-            DR(NN+2) = SIGSP(IIS+2,JJ)			       
+            DR(NN+1) = SIGSP(IIS+1,JJ)			
+            DR(NN+2) = SIGSP(IIS+2,JJ)			
             DR(NN+3) = SIGSP(IIS+3,JJ)
           END DO
-         IF (ISMSTR==1) OFFG(I) =TWO 
-        ENDIF          
+         IF (ISMSTR==1) OFFG(I) =TWO
+        ENDIF
        ENDDO
 C
       RETURN
@@ -3227,7 +3227,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3260,30 +3260,30 @@ C-----------------------------------------------
      .   NS_A,NS_B,DM,QF,QM,QR,DF
       CHARACTER(len=nchartitle) TEXT
       CHARACTER(len=23), DIMENSION(27) :: EL_TYP
-      DATA EL_TYP / 'SOLID-HEXA ', 
+      DATA EL_TYP / 'SOLID-HEXA ',
      .    'TETRA4 ',
      .    'TETRA10 ',
-     .    'S20 ',      
-     .    'ELEM-USER ', 
-     .    'SOLID-IGE ', 
+     .    'S20 ',
+     .    'ELEM-USER ',
+     .    'SOLID-IGE ',
      .    'THICK-SHELL HEXA ' ,
      .    'THICK-SHELL PENTA '  ,
      .    'THICK-SHELL S16 '    ,
-     .    'THICK-SHELL S20 '    , 
-     .    'SHELL-4nodes '         , 
-     .    'SHELL-3nodes '         , 
+     .    'THICK-SHELL S20 '    ,
+     .    'SHELL-4nodes '         ,
+     .    'SHELL-3nodes '         ,
      .    'QUAD-2D '            ,
      .    'TRUSS '              ,
      .    'BEAM '               ,
-     .    'SPRING '             , 
+     .    'SPRING '             ,
      .    'SPH '                ,
-     .    'SHELL-(3nodes+4nodes)'    , 
-     .    'THICK-SHELL HEXA+PENTA ', 
-     .    'THICK-SHELL S16+S20 ' , 
-     .    'SOLID-(HEXA+TETRA4)'   , 
-     .    'SOLID-(HEXA+TETRA10)'  , 
-     .    'TETRA4+TETRA10 '      , 
-     .    'HEXA+TETRA4+TETRA10 ' , 
+     .    'SHELL-(3nodes+4nodes)'    ,
+     .    'THICK-SHELL HEXA+PENTA ',
+     .    'THICK-SHELL S16+S20 ' ,
+     .    'SOLID-(HEXA+TETRA4)'   ,
+     .    'SOLID-(HEXA+TETRA10)'  ,
+     .    'TETRA4+TETRA10 '      ,
+     .    'HEXA+TETRA4+TETRA10 ' ,
      .    'MULTI-STRAND '        ,
      .    'KJOINT '              ,
      .    'N/A '  /
@@ -3317,17 +3317,17 @@ C---- check if ITY, ISOLNOD are the same
         IGTYP= IPARG(38,NG0)
         ISOLNOD = IPARG(28,NG0)
 C-------ITY : shell        
-        IF (IPARG(5,NG)/= ITY) THEN     
+        IF (IPARG(5,NG)/= ITY) THEN
          I2GEO(IPID) = I2GEO(IPID) + NGROUP
          IF (I2GEO1(IPID)==0.AND.I2GEO(IPID)>NGROUP) I2GEO1(IPID) = -NG
 C-------ITY=1 : solid        
-        ELSEIF (ITY==1.AND.IPARG(5,NG)==1) THEN     
+        ELSEIF (ITY==1.AND.IPARG(5,NG)==1) THEN
          IF (IPARG(28,NG)/=ISOLNOD) I2GEO(IPID) = I2GEO(IPID) + NGROUP
          IF (I2GEO1(IPID)==0.AND.I2GEO(IPID)>NGROUP) I2GEO1(IPID) = -NG
          IF (I2GEO2(IPID)==0.AND.I2GEO(IPID)>2*NGROUP) I2GEO2(IPID) = -NG
 C-------ITY=1 : thick-shell        
-        ELSEIF (IGTYP>=20.AND.IGTYP<=22.AND.IPARG(38,NG)==IGTYP) THEN     
-         IF (IPARG(28,NG)/=ISOLNOD) I2GEO(IPID) = I2GEO(IPID) + NGROUP     
+        ELSEIF (IGTYP>=20.AND.IGTYP<=22.AND.IPARG(38,NG)==IGTYP) THEN
+         IF (IPARG(28,NG)/=ISOLNOD) I2GEO(IPID) = I2GEO(IPID) + NGROUP
          IF (I2GEO1(IPID)==0.AND.I2GEO(IPID)>NGROUP) I2GEO1(IPID) = -NG
         END IF
        END IF
@@ -3343,7 +3343,7 @@ C-------We suppose the orders of IPART/IPARG are the same
         IF(IPID == 0) CYCLE
         IGTYP= IGEO(11,IPID)
         IF(IMID == 0) CYCLE
-        MID = NINT(PM(19,IMID)) 
+        MID = NINT(PM(19,IMID))
         NPT =IGEO(4,IPID)
         IHBE0 =IGEO(10,IPID)
 c        MID = IPM(2,IMID)
@@ -3387,7 +3387,7 @@ c         MID = IPARG(28,NG)
 C------- set ele_type(ETY)
         SELECT CASE (IGTYP)
 C-------thick-shell        
-         CASE(20,21,22)                                             
+         CASE(20,21,22)
           IF (NG0>NGROUP) THEN
            NG1 = IABS(I2GEO1(IPID))
            IF((ISOLNOD+IPARG(28,NG1))==14) THEN
@@ -3406,24 +3406,24 @@ C-------thick-shell
           ELSE
            ETY=ETYE
           END IF
-         CASE(2)                                          
+         CASE(2)
           ETY=14
-         CASE(3,18)                                          
+         CASE(3,18)
           ETY=15
-         CASE(4,8,12,13,23,25,26,32,35,36,44,45,46)                                          
+         CASE(4,8,12,13,23,25,26,32,35,36,44,45,46)
           ETY=16
           MID = -1
-         CASE(28)                                          
+         CASE(28)
           ETY=25
           MID = -1
-         CASE(29,30,31)                                          
+         CASE(29,30,31)
           ETY=5
-         CASE(33)                                          
+         CASE(33)
           ETY=26
           MID = -1
-         CASE(34)                                          
+         CASE(34)
           ETY=17
-         CASE DEFAULT 
+         CASE DEFAULT
 C---- solid         
           IF(ITY==1)THEN
            IF (NG0>2*NGROUP) THEN
@@ -3473,14 +3473,14 @@ C------ shell
           ETY=ETYE
          END IF
         END SELECT
-        IF (MID>0) THEN        
+        IF (MID>0) THEN
          WRITE(IOUT,'(A,I10,1X,A,3X,A,I4,2A)')'Part id,name:',IPART(4,I),TEXT(1:20),'Mat type:',MID,' Elm type: ',EL_TYP(ETY)
         ELSEIF (MID==0) THEN
          WRITE(IOUT,'(A,I10,1X,A,3X,A,2A)')'Part id,name:',IPART(4,I),TEXT(1:20),'Mat type: VOID',' Elm type: ',EL_TYP(ETY)
 C----- spring, KJOINT -----        
         ELSE
          WRITE(IOUT,'(A,I10,1X,A,16X,2A)')'Part id,name:',IPART(4,I),TEXT(1:20),' Elm type: ',EL_TYP(ETY)
-        END IF        
+        END IF
         WRITE(IOUT,'(A)') '----'
 C-print in fonction of elem types ITY
         SELECT CASE (ITY)
@@ -3503,7 +3503,7 @@ C-print in fonction of elem types ITY
            ELSE
 		     IF (IPARG(28,NG0)==8) NG = NG0
            END IF
-          END IF		   
+          END IF		
           IF (IHBE<=2.AND.ISOLNOD==8) QH = GEO(13,IPID)
           QA = GEO(14,IPID)
           QB = GEO(15,IPID)
@@ -3518,13 +3518,13 @@ C-------this is done in ENGINE, should be done in Starter
           NS_B = GEO(17,IPID)
           NPT =IPARG(6,NG)
           IINT = IPARG(36,NG)
-          IF (IHBE==17.AND.IINT==2) IHBE=18 
+          IF (IHBE==17.AND.IINT==2) IHBE=18
           ISMSTR=IPARG(9,NG)
           ICPRE = IPARG(10,NG)
-          IF (ICPRE==0.AND.ISOLNOD==8) ICPRE=3 
+          IF (ICPRE==0.AND.ISOLNOD==8) ICPRE=3
           JCVT = IPARG(37,NG)+1
           IHKT = 0
-          IF (IHBE==24.AND.ISOLNOD==8) IHKT = IINT 
+          IF (IHBE==24.AND.ISOLNOD==8) IHKT = IINT
           IF(MID == 68)THEN
              ITET4 = 0
           ELSE
@@ -3537,35 +3537,35 @@ C-------this is done in ENGINE, should be done in Starter
              NLY = MOD(ABS(NPT)/10,10)
            ELSE
              NLY = NPT
-           ENDIF  
-           IF (ICPRE==0) ICPRE=3 
-c-----          
+           ENDIF
+           IF (ICPRE==0) ICPRE=3
+c-----
            IF (IGTYP==22.AND.IHBE==14 ) THEN
 C------  IPARG(6,NG)= NPG after elbuf_ini          
              NPT =MAX(NPT,IGEO(4,IPID))
              ICSTR = IPARG(17,NG)
              SELECT CASE (ICSTR)
-              CASE(100)                                             
+              CASE(100)
                NLY = ABS(NPT)/100
-               IF (NLY ==0) NLY =IINT 
-              CASE(10)                                          
+               IF (NLY ==0) NLY =IINT
+              CASE(10)
                NLY = MOD(ABS(NPT)/10,10)
-               IF (NLY ==0) NLY =IINT 
-              CASE(1)                                          
+               IF (NLY ==0) NLY =IINT
+              CASE(1)
                NLY = MOD(ABS(NPT),10)
-               IF (NLY ==0) NLY =IINT 
-             END SELECT 
-            ENDIF  
+               IF (NLY ==0) NLY =IINT
+             END SELECT
+            ENDIF
            WRITE(IOUT,'(A)') '  Isolid  Ismstr   Icpre     NPT'
            WRITE(IOUT,'(4I8)')IHBE,Ismstr,ICPRE, NLY
           ELSE
-c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+  
+c2345678+-------+-------+-------+-------+-------+-------+-------+-------+-------+
 c---1----|----2----|----3----|----4----|----5----|----6----|----7----|----8----|----9----|---10----|
            WRITE(IOUT,'(A)')'  Isolid  Ismstr   Icpre  Iframe    IHKT Itetra4 Itetra10 IMATVIS'
            WRITE(IOUT,'(8I8)')IHBE,Ismstr, Icpre, JCVT,  IHKT ,Itet4, Itet10,IMATVIS
           END IF
           WRITE(IOUT,'(A)') '--      qa        qb   lamda_v      mu_v         h        dn'
-          WRITE(IOUT,'(6F10.4,/)')QA,QB,NS_A,NS_B,QH,DN   
+          WRITE(IOUT,'(6F10.4,/)')QA,QB,NS_A,NS_B,QH,DN
 C          
          CASE(2)
 C----------        
@@ -3576,9 +3576,9 @@ c--------
          CASE(3,7)
 C-------- shell        
           ISMSTR=IPARG(9,NG)
-          IDRIL =IPARG(41,NG) 
-          ITHK =IPARG(28,NG) 
-          IPLAS =IPARG(29,NG) 
+          IDRIL =IPARG(41,NG)
+          ITHK =IPARG(28,NG)
+          IPLAS =IPARG(29,NG)
           IGMAT =IGEO(98,IPID)
           QF = ZERO
           QM = ZERO
@@ -3602,18 +3602,18 @@ C           END IF
 C           IF (IH4>4.OR.IH4==2) IH4 =IH4 +1
 C           IF (IH4==0) IH4 =2
 C           MIXED CASE take directly defining in pid
-            IH3 = IGEO(18,IPID) 
-            IH4 = IGEO(10,IPID) 
+            IH3 = IGEO(18,IPID)
+            IH4 = IGEO(10,IPID)
            WRITE(IOUT,'(A)') '  Ishell   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS'
            WRITE(IOUT,'(7I8)')IH4,IH3,ISMSTR,IDRIL,NPT,ITHK,IPLAS
           ELSEIF(ITY==3)THEN
-            IH4 = IPARG(23,NG) 
+            IH4 = IPARG(23,NG)
            IF (IH4>4.OR.IH4==2) IH4 =IH4 +1
            IF (IH4==0) IH4 =2
            WRITE(IOUT,'(A)') '  Ishell  Ismstr   Idril     NPT    ITHK   IPLAS'
-           WRITE(IOUT,'(6I8)')IH4,ISMSTR,IDRIL,NPT,ITHK,IPLAS           
+           WRITE(IOUT,'(6I8)')IH4,ISMSTR,IDRIL,NPT,ITHK,IPLAS
           ELSE
-            IH3 = IPARG(23,NG) 
+            IH3 = IPARG(23,NG)
            WRITE(IOUT,'(A)') '   Ish3n  Ismstr   Idril     NPT    ITHK   IPLAS'
            WRITE(IOUT,'(6I8)')IH3,ISMSTR,IDRIL,NPT,ITHK,IPLAS
           END IF
@@ -3633,16 +3633,16 @@ C--------verify dn  12, dkt...
           IF (DN==ZERO.AND.IH3==30) DN = EM4
 c          DN = GROUP_PARAM_TAB(NG)%VISC_DN
           WRITE(IOUT,'(A)') '--      hm        hf        hr        dm        dn'
-          WRITE(IOUT,'(5F10.4,/)')QM,QF,QR,DM,DN       
+          WRITE(IOUT,'(5F10.4,/)')QM,QF,QR,DM,DN
 c
          CASE(6)
            WRITE(IOUT,'(A,I5/)') 'Spring type:',IGTYP
 c
-         CASE DEFAULT 
+         CASE DEFAULT
 c
           IF(IGTYP==2)THEN
 C---------- truss, nothing       
-            WRITE(IOUT,*) 
+            WRITE(IOUT,*)
           ELSEIF(IGTYP==3.OR.IGTYP==18)THEN
             ISMSTR=IGEO(5,IPID)
             DM = GEO(16,IPID)
@@ -3654,7 +3654,7 @@ C----------spring w/ NG=0
      .           IGTYP==32.OR.IGTYP==35.OR.IGTYP==36 .OR. IGTYP == 23)THEN
            WRITE(IOUT,'(A,I5/)') 'Spring type:',IGTYP
           END IF
-        END SELECT 
+        END SELECT
 
       ENDDO
 C

@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C
       IF (ITN==0) THEN
          DN=FXBIPM(3)-FXBIPM(18)
          IRCM=FXBIPM(30)
-         CALL FXBDEPLA(FXBDEP, FXBRPM, X,   D,    DN,   
+         CALL FXBDEPLA(FXBDEP, FXBRPM, X,   D,    DN,
      .                 NSN,    FXBNOD, NME, NMOD, FXBMOD,
      .                 ISH   , IFILE , NFX, IRCM)
       ENDIF
@@ -141,7 +141,7 @@ C
                   IAD=IAD+6
                ENDDO
             ENDDO
-         ENDIF      
+         ENDIF
 C
          IF (NMOD>0) THEN
             DO I=1,NMOD
@@ -192,7 +192,7 @@ C
                   IAD=IAD+6
                ENDDO
             ENDDO
-         ENDIF      
+         ENDIF
 C
          IF (NMOD>0) THEN
             DO I=1,NMOD
@@ -252,7 +252,7 @@ C-----------------------------------------------
      .        NPC(*), LSENSOR(NSENSI,*)
       my_real
      .        FXBRPM(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), FXBLM(*),
-     .        FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*), MVN(*), 
+     .        FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*), MVN(*),
      .        MCD(NME,*), SE(*), SV(*), FSAV(*), FXBFP(*), TFEXT,
      .        FXBFC(*), FXBGRVR(*), TF(*), FXBGRP(*), TFGRAV,
      .        SENSOR(NSENSR,*), MFEXT(*), AGRV(LFACGRV,*)
@@ -264,8 +264,8 @@ C-----------------------------------------------
       my_real
      .        MC(NME*NMOD), RC(NME*NMOD), TS, FI, ALPHA, BETA,
      .        MFINT(NME+NMOD), FDALPHA(NMOD), ENINT, DYDX,
-     .        MFGRAV(NMOD+NME) 
-      my_real FINTER 
+     .        MFGRAV(NMOD+NME)
+      my_real FINTER
       EXTERNAL FINTER
 C
       IBLO=FXBIPM(28)
@@ -337,7 +337,7 @@ C-----------------------------------------------
       NMST=FXBIPM(5)
       ALPHA=FXBRPM(13)
       BETA=FXBRPM(14)
-      IF (NMOD>0.AND.IBLO==0) THEN 
+      IF (NMOD>0.AND.IBLO==0) THEN
          DO I=1,NME
             MFINT(I)=ZERO
             IAD=NMOD*(I-1)
@@ -483,7 +483,7 @@ C-----------------------------------------------
       END DO
 C      
       RETURN
-      END SUBROUTINE FXBMAJP1  
+      END SUBROUTINE FXBMAJP1
 Chd|====================================================================
 Chd|  FXBMAJP2                      source/constraints/fxbody/fxbodfp.F
 Chd|-- called by -----------
@@ -505,7 +505,7 @@ C-----------------------------------------------
       INTEGER NME, NMOD
       my_real
      .        MC(*), RC(*), MVN(*), DT1, FXBCPM(*), FXBCPS(*), FXBLM(*),
-     .        FXBRPM(*)            
+     .        FXBRPM(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

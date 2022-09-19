@@ -112,7 +112,7 @@ C-----------------------------------------------
      .        OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),
      .        OFF_PART(NSUBMOD)
       my_real
-     .   BID 
+     .   BID
       CHARACTER MESS*40, MESS2*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SOL
 C-----------------------------------------------
@@ -138,7 +138,7 @@ C--------------------------------------------------
       ALLOCATE (SUB_SOL(NUMELS),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_SOL') 
+     .                             C1='SUB_SOL')
       SUB_SOL(1:NUMELS) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -174,7 +174,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,9
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -183,10 +183,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART 
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
             IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J
-          ENDDO  
+          ENDDO
         ENDIF
         IF( IPART(4,INDEX_PART) /= IPARTS(I) ) THEN
           CALL ANCMSG(MSGID=402,
@@ -196,18 +196,18 @@ C--------------------------------------------------
      .                I1=IPARTS(I),
      .                I2=IPARTS(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF 
-        IPARTS(I) = INDEX_PART       
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)               
-        IXS(1,I)=MT                                
-        IXS(10,I)=IPID 
+        ENDIF
+        IPARTS(I) = INDEX_PART
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXS(1,I)=MT
+        IXS(10,I)=IPID
 C--------------------------------------------------
-        DO J=2,9  
+        DO J=2,9
           IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
           CALL ANODSET(IXS(J,I), CHECK_VOLU)
-        ENDDO  
-      ENDDO            
+        ENDDO
+      ENDDO
 C--------------------------------------------------
 C      READING TETRA4 INPUTS IN HM STRUCTURE
 C--------------------------------------------------
@@ -222,7 +222,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,5
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -231,11 +231,11 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J  
-          ENDDO  
-        ENDIF 
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J
+          ENDDO
+        ENDIF
         IF( IPART(4,INDEX_PART) /= IPARTS(I) ) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
@@ -245,12 +245,12 @@ C--------------------------------------------------
      .                I2=IPARTS(I),
      .                PRMOD=MSG_CUMU)
         ENDIF
-        IPARTS(I) = INDEX_PART 
+        IPARTS(I) = INDEX_PART
 C--------------------------------------------------      
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)                        
-        IXS(1,I)=MT                                
-        IXS(10,I)=IPID 
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXS(1,I)=MT
+        IXS(10,I)=IPID
         DO J=2,5
           IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
           CALL ANODSET(IXS(J,I), CHECK_VOLU)
@@ -278,7 +278,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,7
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -287,11 +287,11 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J             
-          ENDDO  
-        ENDIF 
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J
+          ENDDO
+        ENDIF
         IF( IPART(4,INDEX_PART) /= IPARTS(I) ) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
@@ -301,12 +301,12 @@ C--------------------------------------------------
      .                I2=IPARTS(I),
      .                PRMOD=MSG_CUMU)
         ENDIF
-        IPARTS(I) = INDEX_PART 
+        IPARTS(I) = INDEX_PART
 C--------------------------------------------------      
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)                   
-        IXS(1,I)=MT                                
-        IXS(10,I)=IPID 
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXS(1,I)=MT
+        IXS(10,I)=IPID
         DO J=2,7
           IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
           CALL ANODSET(IXS(J,I), CHECK_VOLU)
@@ -334,7 +334,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,5
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -346,10 +346,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART                            
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
             IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J
-          ENDDO  
+          ENDDO
         ENDIF
         IF( IPART(4,INDEX_PART) /= IPARTS(I) ) THEN
           CALL ANCMSG(MSGID=402,
@@ -359,14 +359,14 @@ C--------------------------------------------------
      .                I1=IPARTS(I),
      .                I2=IPARTS(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF 
-        IPARTS(I) = INDEX_PART 
+        ENDIF
+        IPARTS(I) = INDEX_PART
 C--------------------------------------------------      
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)              
-        IXS(1,I)=MT                                
-        IXS(10,I)=IPID  
-        DO J=2,5             
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXS(1,I)=MT
+        IXS(10,I)=IPID
+        DO J=2,5
           IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
           CALL ANODSET(IXS(J,I), CHECK_VOLU)
         ENDDO
@@ -374,7 +374,7 @@ C
         DO J=1,6
           IF(IXS10(J,I10)/=0)THEN
             IXS10(J,I10)=USR2SYS(IXS10(J,I10),ITABM1,MESS,IXS(11,I))
-            CALL ANODSET(IXS10(J,I10), CHECK_VOLU) 
+            CALL ANODSET(IXS10(J,I10), CHECK_VOLU)
           ENDIF
         ENDDO
 C
@@ -385,7 +385,7 @@ C
         IXS(5,I)=IXS(3,I)
         IXS(4,I)=IXS(3,I)
         IXS(3,I)=IXS(2,I)
-        ISOLNOD(I)=10   
+        ISOLNOD(I)=10
       ENDDO
 C--------------------------------------------------
 C      READING BRIC20 INPUTS IN HM STRUCTURE
@@ -403,7 +403,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,9
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -415,11 +415,11 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J 
-          ENDDO  
-        ENDIF 
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J
+          ENDDO
+        ENDIF
         IF( IPART(4,INDEX_PART) /= IPARTS(I) ) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
@@ -429,13 +429,13 @@ C--------------------------------------------------
      .                I2=IPARTS(I),
      .                PRMOD=MSG_CUMU)
         ENDIF
-        IPARTS(I) = INDEX_PART 
+        IPARTS(I) = INDEX_PART
 C--------------------------------------------------      
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)               
-        IXS(1,I)=MT                                
-        IXS(10,I)=IPID  
-        DO J=2,9 
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXS(1,I)=MT
+        IXS(10,I)=IPID
+        DO J=2,9
           IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
           CALL ANODSET(IXS(J,I), CHECK_VOLU)
         ENDDO
@@ -464,7 +464,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,9
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -476,11 +476,11 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J 
-          ENDDO  
-        ENDIF 
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTS(I) ) INDEX_PART = J
+          ENDDO
+        ENDIF
         IF( IPART(4,INDEX_PART) /= IPARTS(I) ) THEN
           CALL ANCMSG(MSGID=402,
      .                MSGTYPE=MSGERROR,
@@ -490,13 +490,13 @@ C--------------------------------------------------
      .                I2=IPARTS(I),
      .                PRMOD=MSG_CUMU)
         ENDIF
-        IPARTS(I) = INDEX_PART 
+        IPARTS(I) = INDEX_PART
 C--------------------------------------------------      
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)               
-        IXS(1,I)=MT                                
-        IXS(10,I)=IPID  
-        DO J=2,9 
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXS(1,I)=MT
+        IXS(10,I)=IPID
+        DO J=2,9
           IXS(J,I)=USR2SYS(IXS(J,I),ITABM1,MESS,IXS(11,I))
           CALL ANODSET(IXS(J,I), CHECK_VOLU)
         ENDDO
@@ -510,10 +510,10 @@ C
         ISOLNOD(I)=16
       ENDDO
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .             MSGTYPE=MSGERROR,         
-     .             ANMODE=ANINFO_BLIND_1,    
-     .             PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .             MSGTYPE=MSGERROR,
+     .             ANMODE=ANINFO_BLIND_1,
+     .             PRMOD=MSG_PRINT)
 C-------------------------------------
       IF (ALLOCATED(SUB_SOL)) DEALLOCATE(SUB_SOL)
 C-------------------------------------
@@ -644,7 +644,7 @@ C Rebuild SOL2SPH, SOL2SPH(1,N)+1<=I<=SOLSPH(2,N) <=> N==SPH2SOL(I)
             SOL2SPH(1,N)=I-1
             SOL2SPH(2,N)=SOL2SPH(1,N)+1
           END IF
-        END DO          
+        END DO
       END IF
 C------------------------------------------
 C     PERMUTATION DE ISOLNOD
@@ -929,7 +929,7 @@ C-----------------------------------------------
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,INDEX_PART,OFF_DEF(NSUBMOD),
      .        OFF_NOD(NSUBMOD),OFF_EL(NSUBMOD),OFF_PART(NSUBMOD)
       my_real
-     .   BID 
+     .   BID
       CHARACTER MESS*40
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPARTS
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_SOL
@@ -964,7 +964,7 @@ C--------------------------------------------------
 C      READING BRICKS INPUTS IN HM STRUCTURE
 C--------------------------------------------------  
       ALLOCATE(IPARTS(NUMELS))
-      CALL CPP_BRICK_READ(IXS,NIXS,IPARTS,SUB_SOL) 
+      CALL CPP_BRICK_READ(IXS,NIXS,IPARTS,SUB_SOL)
 C--------------------------------------------------
 C      NSPHSOL NSPHDIR CALCULATION + CHECKS
 C--------------------------------------------------
@@ -973,7 +973,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SOL(I) /= 0)THEN
-          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+          IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
           IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
           DO J=2,9
             IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -982,12 +982,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTS(I) )INDEX_PART = J             
+        IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTS(I) )INDEX_PART = J
           ENDDO
-        ENDIF 
-        IPARTS(I) = INDEX_PART 
+        ENDIF
+        IPARTS(I) = INDEX_PART
 C--------------------------------------------------
         IF (IXS(11,I)>ID_LIMIT) THEN
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -1025,7 +1025,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
           IF(SUB_SOL(I) /= 0)THEN
-            IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+            IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
             IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
             DO J=2,5
               IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -1034,12 +1034,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-          IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-            DO J=1,NPART                            
-              IF(IPART(4,J)== IPARTS(I) )INDEX_PART = J             
-            ENDDO  
-          ENDIF 
-          IPARTS(I) = INDEX_PART 
+          IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+            DO J=1,NPART
+              IF(IPART(4,J)== IPARTS(I) )INDEX_PART = J
+            ENDDO
+          ENDIF
+          IPARTS(I) = INDEX_PART
 C--------------------------------------------------
 C
           NSPHDIR=IGEO(37,IPART(2,IPARTS(I)))
@@ -1065,7 +1065,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
           IF(SUB_SOL(I) /= 0)THEN
-            IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I)) 
+            IF(IPARTS(I) /= 0) IPARTS(I) = IPARTS(I) + OFF_PART(SUB_SOL(I))
             IF(IXS(NIXS,I) /= 0) IXS(NIXS,I) = IXS(NIXS,I) + OFF_EL(SUB_SOL(I))
             DO J=2,7
               IF(IXS(J,I) /= 0) IXS(J,I) = IXS(J,I) + OFF_NOD(SUB_SOL(I))
@@ -1074,12 +1074,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-          IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN  
-            DO J=1,NPART                            
-              IF(IPART(4,J)== IPARTS(I) )INDEX_PART = J             
-            ENDDO  
-          ENDIF 
-          IPARTS(I) = INDEX_PART 
+          IF( IPART(4,INDEX_PART) /= IPARTS(I) )THEN
+            DO J=1,NPART
+              IF(IPART(4,J)== IPARTS(I) )INDEX_PART = J
+            ENDDO
+          ENDIF
+          IPARTS(I) = INDEX_PART
 C--------------------------------------------------
           NSPHDIR=IGEO(37,IPARTS(I-NUMBRICK))
           IF (IXS(11,I)>ID_LIMIT) THEN

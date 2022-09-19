@@ -55,10 +55,10 @@ C     REAL
       my_real
      .   THK(*), OFF(*), WPLA(*), DIR(*),CC(*),
      .   EPDR(*),WWPLA(*),SHF(*),FMAX(MVSIZ),
-     .   CB(MVSIZ), CN(MVSIZ), DEGMB(MVSIZ),  
+     .   CB(MVSIZ), CN(MVSIZ), DEGMB(MVSIZ),
      .   E11(MVSIZ), E22(MVSIZ), NU12(MVSIZ), NU21(MVSIZ),
      .   G12(MVSIZ), G23(MVSIZ), G31(MVSIZ),
-     .   F1(MVSIZ), F2(MVSIZ), F12(MVSIZ), F11(MVSIZ), F22(MVSIZ), 
+     .   F1(MVSIZ), F2(MVSIZ), F12(MVSIZ), F11(MVSIZ), F22(MVSIZ),
      .   F33(MVSIZ), EPSP(*), WPLAREF(MVSIZ),SIGY(*),ETSE(*),
      .   DEPSXX(MVSIZ),DEPSYY(MVSIZ),DEPSXY(MVSIZ),DEPSYZ(MVSIZ),
      .   DEPSZX(MVSIZ),SIGOXX(NEL),SIGOYY(NEL),SIGOXY(NEL),
@@ -70,14 +70,14 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ), 
-     .   LAMDA(MVSIZ), COEF(MVSIZ), 
+     .   DP1(MVSIZ), DP2(MVSIZ), DP3(MVSIZ),
+     .   LAMDA(MVSIZ), COEF(MVSIZ),
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ), S4(MVSIZ), S5(MVSIZ),
      .   DS1(MVSIZ), DS2(MVSIZ), DS3(MVSIZ), DE(MVSIZ),
      .   DE1(MVSIZ), DE2(MVSIZ), WVEC(MVSIZ), T1(MVSIZ),
-     .   T2(MVSIZ), T3(MVSIZ), 
+     .   T2(MVSIZ), T3(MVSIZ),
      .   A11(MVSIZ), A12(MVSIZ), A22(MVSIZ),
-     .   SO1(MVSIZ), SO2(MVSIZ), SO3(MVSIZ), 
+     .   SO1(MVSIZ), SO2(MVSIZ), SO3(MVSIZ),
      .   SCALE, FYLD, CNN,HT,YLD(MVSIZ),SIG(NEL,5)
 C-----------------------------------------------
       DO I=JFT,JLT
@@ -96,7 +96,7 @@ C
 !      DO I=JFT,JLT
 !        EPS(I,3)=HALF*EPS(I,3)
 !        EPS(I,4)=HALF*EPS(I,4)
-!        EPS(I,5)=HALF*EPS(I,5)   
+!        EPS(I,5)=HALF*EPS(I,5)
 !      ENDDO
 C
 !      CALL ROTOV(JFT,JLT,EPS,DIR,NEL)
@@ -104,7 +104,7 @@ C
 !      DO I=JFT,JLT
 !        EPS(I,3)=TWO*EPS(I,3)
 !        EPS(I,4)=TWO*EPS(I,4)
-!        EPS(I,5)=TWO*EPS(I,5)   
+!        EPS(I,5)=TWO*EPS(I,5)
 !      ENDDO
 C-----------------------------
 C     DEFORMATIONS ELASTIQUES
@@ -253,7 +253,7 @@ C
      .       DP2(I)*(T2(I)+SO2(I))+
      .      TWO*DP3(I)*(T3(I)+SO3(I))) / WPLAREF(I)
       WPLA(I)= MAX(WPLA(I),ZERO)
-      WWPLA(I)= WPLA(I)/WWPLA(I)  
+      WWPLA(I)= WPLA(I)/WWPLA(I)
       ENDDO
 C
       DO I=JFT,JLT
@@ -274,7 +274,7 @@ C------for QEPH
           ELSE
            ETSE(I) = ONE ! ETSE is used whatever the value of COEF
           END IF
-      END DO 
+      END DO
 C-------------------------------------------------------------------
 C     RETOUR DANS LE REPERE COQUE
 C-----------------------------

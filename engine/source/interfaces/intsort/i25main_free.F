@@ -40,7 +40,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
       USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -89,7 +89,7 @@ C
         END IF
 C
 !$OMP SINGLE
-        CALL I25FREE_BOUND( 
+        CALL I25FREE_BOUND(
      1    NRTM,INTBUF_TAB(NIN)%MVOISIN,INTBUF_TAB(NIN)%IRECTM,INTBUF_TAB(NIN)%STFM,
      .                                                    INTBUF_TAB(NIN)%NRTM_FREE,
      2    INTBUF_TAB(NIN)%FREE_IRECT_ID)
@@ -108,7 +108,7 @@ C
 C        Also needed in SMP for resetting STFE !
          CALL SPMD_GET_STIF25_EDG(
      .     INTBUF_TAB(NIN)%STFE,    IPARI(MACRO_NEDGE,NIN), INTBUF_TAB(NIN)%LEDGE,
-     .     NIN ,  ISENDTO, IRECVFROM, INTBUF_TAB(NIN)%MPI_COMM, INTBUF_TAB(NIN)%RANK, 
+     .     NIN ,  ISENDTO, IRECVFROM, INTBUF_TAB(NIN)%MPI_COMM, INTBUF_TAB(NIN)%RANK,
      .     INTBUF_TAB(NIN)%NSPMD)
        ENDIF
       ENDDO
@@ -119,4 +119,4 @@ C
       ENDIF
 C-----------------------------------------------------------
       RETURN
-      END 
+      END

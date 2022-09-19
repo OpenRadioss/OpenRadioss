@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NODE_FRAM_S,NODE_CORES_DIR1(4)
-      my_real 
+      my_real
      .        XLL(4),YLL(4),DIST,AREA0,FF(2,2),HH(2,2),
      .        UX13,UX24,UY13,UY24,PX1B,PX2B,PY1B,PY2B,VEC(2),N_DIR1(2)
 C---------------------------------------------------------
@@ -97,14 +97,14 @@ C     Computation of new reference configuration
 C---------------------------------------------------------
 C
 C--   first fram released from sliring  - node_fram_s moved in ref configuration
-      NODE_FRAM_S = NODE_CORES_DIR1(NODE_FRAM1)     
+      NODE_FRAM_S = NODE_CORES_DIR1(NODE_FRAM1)
       XLL(NODE_FRAM1) = OFFSET*N_DIR1(1)
       YLL(NODE_FRAM1) = OFFSET*N_DIR1(2)
       XLL(NODE_FRAM_S) = XLL(NODE_FRAM1) + L0FRAM1*N_DIR1(1)
       YLL(NODE_FRAM_S) = YLL(NODE_FRAM1) + L0FRAM1*N_DIR1(2)
 C
 C--   second fram released from sliring  - node_fram_s moved in ref configuration
-      NODE_FRAM_S = NODE_CORES_DIR1(NODE_FRAM2)  
+      NODE_FRAM_S = NODE_CORES_DIR1(NODE_FRAM2)
       XLL(NODE_FRAM2) = N_DIR2(1)
       YLL(NODE_FRAM2) = N_DIR2(2)
       XLL(NODE_FRAM_S) = XLL(NODE_FRAM2) + L0FRAM2*N_DIR1(1)
@@ -201,7 +201,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NROT
-      my_real 
+      my_real
      .        FTF(2,2),FTF_VAL(2),FTF_VEC(2,2),HHB(2,2)
 C------------------------------------------------
 C

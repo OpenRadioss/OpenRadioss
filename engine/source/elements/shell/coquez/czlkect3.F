@@ -33,8 +33,8 @@ Chd|====================================================================
      6                    SHY  ,GS    ,NPLAT ,IPLAT,
      9                    K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      A                    M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     B                    MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
-     C                    MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34) 
+     B                    MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
+     C                    MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34)
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -46,7 +46,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,NPLAT,IPLAT(*) ,IKGEO
-      MY_REAL 
+      MY_REAL
      .   VOL(*),HC(MVSIZ,2),RX(*)   ,RY(*)   ,SX(*)    ,SY(*)   ,
      .    RX2(*)  ,RY2(*)  ,SX2(*)  ,SY2(*)   ,
      .    RHX(MVSIZ,4)  ,RHY(MVSIZ,4)  ,SHX(MVSIZ,4)  ,SHY(MVSIZ,4) ,
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
-      MY_REAL 
+      MY_REAL
      .    CS1(MVSIZ),CS2(MVSIZ),CS3(MVSIZ),DS1(MVSIZ),QS1(MVSIZ),
      .    C1,C2,DS2(MVSIZ),QS2(MVSIZ),M1C1(2,2,MVSIZ),
      .    M1C2(2,2,MVSIZ),M1C3(2,2,MVSIZ),M2C1(2,2,MVSIZ),
@@ -89,7 +89,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
        NF=NPLAT+1
 #include "vectorize.inc"
 C--------Constante parts---------------
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         DCX(M)=HC(EP,1)*C2
@@ -102,7 +102,7 @@ C----------shear----R : -1 1 1 -1; S: -1 -1 1 1--
         CS3(EP) =-DCX(EP)*SY(EP)*RY(EP)-DCY(EP)*SX(EP)*RX(EP)
        ENDDO
 C--------add non-constant part for the case of orthopic---------------
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         DH(M)=GS(EP)*C2
@@ -115,19 +115,19 @@ C
 C------R : -1 1 1 -1; S: -1 -1 1 1 ------------------
        DO EP=JFT,JLT
 C------------------r1r1=1,s1s1=1, r1s1=1 ,r1s1=1------------------
-        K11(3,3,EP) = CS1(EP)+CS2(EP)+CS3(EP)+CS3(EP) 
+        K11(3,3,EP) = CS1(EP)+CS2(EP)+CS3(EP)+CS3(EP)
 C------------------r2r2=1,s2s2=1, r2s2=-1 ,r2s2=-1------------------
-        K22(3,3,EP) = CS1(EP)+CS2(EP)-CS3(EP)-CS3(EP) 
-        K33(3,3,EP) = K11(3,3,EP) 
-        K44(3,3,EP) = K22(3,3,EP) 
+        K22(3,3,EP) = CS1(EP)+CS2(EP)-CS3(EP)-CS3(EP)
+        K33(3,3,EP) = K11(3,3,EP)
+        K44(3,3,EP) = K22(3,3,EP)
 C------------------r1r2=-1,s1s2=1, r1s2=1 ,r2s1=-1------------------
-        K12(3,3,EP) =-CS1(EP)+CS2(EP)+CS3(EP)-CS3(EP) 
+        K12(3,3,EP) =-CS1(EP)+CS2(EP)+CS3(EP)-CS3(EP)
 C------------------r1r3=-1,s1s3=-1, r1s3=-1 ,r3s1=-1------------------
-        K13(3,3,EP) =-CS1(EP)-CS2(EP)-CS3(EP)-CS3(EP) 
+        K13(3,3,EP) =-CS1(EP)-CS2(EP)-CS3(EP)-CS3(EP)
 C------------------r1r4=1,s1s4=-1, r1s4=-1 ,r4s1=1------------------
         K14(3,3,EP) = - K12(3,3,EP)
 C------------------r2r3=1,s2s3=-1, r2s3=1 ,r3s2=-1------------------
-        K23(3,3,EP) = CS1(EP)-CS2(EP)+CS3(EP)-CS3(EP) 
+        K23(3,3,EP) = CS1(EP)-CS2(EP)+CS3(EP)-CS3(EP)
 C------------------r2r4=-1,s2s4=-1, r2s4=1 ,r4s2=1------------------
         K24(3,3,EP) =-K22(3,3,EP)
 C------------------r3r4=-1,s3s4=1, r3s4=1 ,r4s3=-1------------------
@@ -137,13 +137,13 @@ C--------non constant part---hIhJ-
        DO EP=JFT,JLT
         C11 =HS1(EP)+HS2(EP)
         K11(3,3,EP) = K11(3,3,EP)+C11
-        K22(3,3,EP) = K22(3,3,EP)+C11 
-        K33(3,3,EP) = K33(3,3,EP)+C11 
-        K44(3,3,EP) = K44(3,3,EP)+C11 
+        K22(3,3,EP) = K22(3,3,EP)+C11
+        K33(3,3,EP) = K33(3,3,EP)+C11
+        K44(3,3,EP) = K44(3,3,EP)+C11
         K12(3,3,EP) = K12(3,3,EP)-C11
         K13(3,3,EP) = K13(3,3,EP)+C11
         K14(3,3,EP) = K14(3,3,EP)-C11
-        K23(3,3,EP) = K23(3,3,EP)-C11 
+        K23(3,3,EP) = K23(3,3,EP)-C11
         K24(3,3,EP) = K24(3,3,EP)+C11
         K34(3,3,EP) = K34(3,3,EP)-C11
        ENDDO
@@ -265,8 +265,8 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         M3C22(1,1,EP) =(RHY(EP,2)*SHY(EP,2)+RHY(EP,2)*SHY(EP,2))*CS3(EP)
         M3C23(1,1,EP) =(RHY(EP,2)*SHY(EP,3)+RHY(EP,3)*SHY(EP,2))*CS3(EP)
         M3C24(1,1,EP) =(RHY(EP,2)*SHY(EP,4)+RHY(EP,4)*SHY(EP,2))*CS3(EP)
-        M3C33(1,1,EP) =(RHY(EP,3)*SHY(EP,3)+RHY(EP,3)*SHY(EP,3))*CS3(EP) 
-        M3C34(1,1,EP) =(RHY(EP,3)*SHY(EP,4)+RHY(EP,4)*SHY(EP,3))*CS3(EP) 
+        M3C33(1,1,EP) =(RHY(EP,3)*SHY(EP,3)+RHY(EP,3)*SHY(EP,3))*CS3(EP)
+        M3C34(1,1,EP) =(RHY(EP,3)*SHY(EP,4)+RHY(EP,4)*SHY(EP,3))*CS3(EP)
         M3C44(1,1,EP) =(RHY(EP,4)*SHY(EP,4)+RHY(EP,4)*SHY(EP,4))*CS3(EP)
        ENDDO
        DO EP=JFT,JLT
@@ -278,7 +278,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         M3C23(2,2,EP) =(RHX(EP,2)*SHX(EP,3)+RHX(EP,3)*SHX(EP,2))*CS3(EP)
         M3C24(2,2,EP) =(RHX(EP,2)*SHX(EP,4)+RHX(EP,4)*SHX(EP,2))*CS3(EP)
         M3C33(2,2,EP) =(RHX(EP,3)*SHX(EP,3)+RHX(EP,3)*SHX(EP,3))*CS3(EP)
-        M3C34(2,2,EP) =(RHX(EP,3)*SHX(EP,4)+RHX(EP,4)*SHX(EP,3))*CS3(EP) 
+        M3C34(2,2,EP) =(RHX(EP,3)*SHX(EP,4)+RHX(EP,4)*SHX(EP,3))*CS3(EP)
         M3C44(2,2,EP) =(RHX(EP,4)*SHX(EP,4)+RHX(EP,4)*SHX(EP,4))*CS3(EP)
        ENDDO
        DO EP=JFT,JLT
@@ -289,7 +289,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         M3C22(1,2,EP)=(-RHY(EP,2)*SHX(EP,2)-RHX(EP,2)*SHY(EP,2))*CS3(EP)
         M3C23(1,2,EP)=(-RHY(EP,2)*SHX(EP,3)-RHX(EP,3)*SHY(EP,2))*CS3(EP)
         M3C24(1,2,EP)=(-RHY(EP,2)*SHX(EP,4)-RHX(EP,4)*SHY(EP,2))*CS3(EP)
-        M3C33(1,2,EP)=(-RHY(EP,3)*SHX(EP,3)-RHX(EP,3)*SHY(EP,3))*CS3(EP) 
+        M3C33(1,2,EP)=(-RHY(EP,3)*SHX(EP,3)-RHX(EP,3)*SHY(EP,3))*CS3(EP)
         M3C34(1,2,EP)=(-RHY(EP,3)*SHX(EP,4)-RHX(EP,4)*SHY(EP,3))*CS3(EP)
         M3C44(1,2,EP)=(-RHY(EP,4)*SHX(EP,4)-RHX(EP,4)*SHY(EP,4))*CS3(EP)
        ENDDO
@@ -302,7 +302,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         M3C23(2,1,EP)=(-RHX(EP,2)*SHY(EP,3)-RHY(EP,3)*SHX(EP,2))*CS3(EP)
         M3C24(2,1,EP)=(-RHX(EP,2)*SHY(EP,4)-RHY(EP,4)*SHX(EP,2))*CS3(EP)
         M3C33(2,1,EP) =  M3C33(1,2,EP)
-        M3C34(2,1,EP)=(-RHX(EP,3)*SHY(EP,4)-RHY(EP,4)*SHX(EP,3))*CS3(EP) 
+        M3C34(2,1,EP)=(-RHX(EP,3)*SHY(EP,4)-RHY(EP,4)*SHX(EP,3))*CS3(EP)
         M3C44(2,1,EP) =  M3C44(1,2,EP)
        ENDDO
 C

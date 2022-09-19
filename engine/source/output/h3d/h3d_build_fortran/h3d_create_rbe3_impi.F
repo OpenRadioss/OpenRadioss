@@ -170,7 +170,7 @@ C Envoi des Ids
 	  ENDIF
         ENDDO
         CALL SPMD_GLOB_ISUM9(ID_RBE3,NRBE3G)
-        
+
 
       ELSE
 C --------------------------------------------------------------------
@@ -195,7 +195,7 @@ C preparation P0RECRBE3 pour le proc0
          DO I=1,NRBE3G
 	    PGLOBRBE3(I)=IADRBE3(I)
          ENDDO
-	 
+	
          DO I=1,NRBE3
            NSN = IRBE3(5,I)
            IAD = IRBE3(1,I)
@@ -223,7 +223,7 @@ C Taille du buffer de reception
 
            IF (SIZRBE3 > 0) THEN
              ALLOCATE(RECBUF(SIZRBE3))
-             MSGTYP = MSGOFF2 
+             MSGTYP = MSGOFF2
              CALL MPI_RECV(RECBUF,SIZRBE3,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      *                   MPI_COMM_WORLD,STATUS,IERROR)
 
@@ -246,7 +246,7 @@ C  Reception des Noeuds secnds
            IF (WEIGHT(MN)==1) THEN
              NGRBE = IRBE3(10,I)
              SECNDNODS(NGRBE)=ITAB(MN)
-           ENDIF        
+           ENDIF
          ENDDO
          CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 
@@ -270,4 +270,4 @@ C Reception des Ids
         ENDIF
 #endif
         RETURN
-      END 
+      END

@@ -132,7 +132,7 @@ C-----------------------------------------------
      .    SIGVXX(NEL0),SIGVYY(NEL0),
      .    SIGVXY(NEL0),SIGVYZ(NEL0),SIGVZX(NEL0),
      .    SOUNDSP(NEL0),VISCMAX(NEL0),ETSE(NEL0),
-     .    DPLA_I(NEL0)     
+     .    DPLA_I(NEL0)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -148,7 +148,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,N,NINDX,NMAX,IADBUF,INDEX(MVSIZ)
-      my_real  
+      my_real
      .        SVM(MVSIZ),DR(MVSIZ),
      .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),H(MVSIZ),HS(MVSIZ),
@@ -233,7 +233,7 @@ C-------------------
 C     STRAIN RATE
 C-------------------
 C
-         IF (ISRATE == 0) EPSP(I) = 
+         IF (ISRATE == 0) EPSP(I) =
      .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -309,7 +309,7 @@ C
       ELSEIF (FISOKIN1>ZERO) THEN
         DO I=1,NEL0
           YLD(I) = (ONE-FISOKIN1)*YLD(I) + FISOKIN1*FAIL(I)*YLO(I)
-        ENDDO        
+        ENDDO
       ENDIF
 C
 C-------------------------
@@ -330,7 +330,7 @@ C
            DPLA_I(I) = OFF(I)*SVM(I)*UMR/(G31+HS(I))
            PLA(I) = PLA(I) + DPLA_I(I)
            S1=HALF*(SIGNXX(I)+SIGNYY(I))
-           IF (INLOC == 0) THEN 
+           IF (INLOC == 0) THEN
              DEZZ = DPLA_I(I) * S1 / YLD(I)
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11-NU31*DEZZ
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -351,8 +351,8 @@ C
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I)) 
-           IF (INLOC == 0) THEN 
+           SVM(I)=SQRT(AA(I)+BB(I))
+           IF (INLOC == 0) THEN
              DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -398,7 +398,7 @@ C
                DPLA_J(I) = MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I) = ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C
@@ -413,7 +413,7 @@ C
            SIGNXX(I)=HALF*(S1+S2)
            SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
-           IF (INLOC == 0) THEN 
+           IF (INLOC == 0) THEN
              DEZZ   =-NU31*DR(I)*S1/E1
              THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
            ENDIF
@@ -476,7 +476,7 @@ C
           DSXX = SIGEXX(I) - SIGNXX(I)
           DSYY = SIGEYY(I) - SIGNYY(I)
           DSXY = SIGEXY(I) - SIGNXY(I)
-          DEXX = (DSXX - NUX*DSYY) 
+          DEXX = (DSXX - NUX*DSYY)
           DEYY = (DSYY - NUX*DSXX)
           DEXY = TWO*(ONE+NUX)*DSXY
          ALPHA = FISOKIN1*HS(I)/(E1+HS(I))/THREE
@@ -495,17 +495,17 @@ C
 C
 C---     NON-LOCAL THICKNESS VARIATION
 C
-       IF (INLOC > 0) THEN 
-         DO I = 1,NEL0 
+       IF (INLOC > 0) THEN
+         DO I = 1,NEL0
            SVM(I) = SQRT(SIGNXX(I)*SIGNXX(I)
      .              + SIGNYY(I)*SIGNYY(I)
      .              - SIGNXX(I)*SIGNYY(I)
      .              + THREE*SIGNXY(I)*SIGNXY(I))
            DEZZ   = MAX(DPLANL(I),ZERO)*HALF*(SIGNXX(I)+SIGNYY(I))/MAX(SVM(I),EM20)
            DEZZ   = -NUX*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E1) - DEZZ
-           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)     
-         ENDDO  
-       ENDIF 
+           THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
+         ENDDO
+       ENDIF
 C
       RETURN
       END

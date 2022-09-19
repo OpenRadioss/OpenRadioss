@@ -41,7 +41,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NL, NS1, NS2 
+      INTEGER NL, NS1, NS2
       my_real
      .   XLAS(SXLAS),X(3,NUMNOD)
       INTEGER IPARG(NPARG,NGROUP),LAS(2,SILAS/2),IXQ(7,NUMELQ)
@@ -98,6 +98,6 @@ C---------------------------------
       END DO !I=1,4
 C
  160  CONTINUE
- 
+
       RETURN
       END

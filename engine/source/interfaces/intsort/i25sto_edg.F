@@ -80,7 +80,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K_STOK,I_STOK,IAD0,IAD,IADFIN,N,NE,ie,n1,n2
-      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ) 
+      INTEGER I_STOK_FIRST,NINDX,INDEX(MVSIZ)
       INTEGER :: EID
 C     REAL
       my_real
@@ -129,7 +129,7 @@ C-----------------------------------------------
       DO I=1,J_STOK
           IF(PENE(I)/=ZERO) THEN
             K_STOK = K_STOK + 1
-          END IF 
+          END IF
       ENDDO
       IF(K_STOK==0)RETURN
 C

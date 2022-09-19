@@ -46,15 +46,15 @@ Chd|====================================================================
 !                  secondary nodes must be sorted according to theirs global IDs (for parith/on purpose)
 !       SPMD_CELL_SIZE_EXCHANGE organization :
 !       loop over the cells of the remote proc and :
-!           * check if 1 or several secondary nodes are in the currect remote proc & send the number of secondary nodes to the remote proc           
+!           * check if 1 or several secondary nodes are in the currect remote proc & send the number of secondary nodes to the remote proc
 !           * if yes: - save the ID of the secondary nodes
-!                     - sort the ID according to the global secondary node ID (parith/on)!                     
-!                     - fill the buffer with the data of the secondary nodes (position/velocity...)                  
+!                     - sort the ID according to the global secondary node ID (parith/on)!
+!                     - fill the buffer with the data of the secondary nodes (position/velocity...)
 !$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE MESSAGE_MOD
         USE INTER_SORTING_MOD
         USE TRI7BOX
@@ -103,7 +103,7 @@ C-----------------------------------------------
         my_real, DIMENSION(NUMNOD), INTENT(in) :: MS
         my_real, DIMENSION(TEMP_SIZE), INTENT(in) :: TEMP
         INTEGER, DIMENSION(NUMNOD), INTENT(in) :: ITAB
-        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy 
+        INTEGER, DIMENSION(NUMNOD), INTENT(in) :: KINET ! k energy
         INTEGER, DIMENSION(NODNX_SMS_SIZ), INTENT(in) :: NODNX_SMS ! SMS array
         TYPE(INTBUF_STRUCT_), DIMENSION(NINTER), INTENT(in) :: INTBUF_TAB
         LOGICAL, DIMENSION(NB_CELL_X,NB_CELL_Y,NB_CELL_Z), INTENT(inout) :: ALREADY_SEND
@@ -112,7 +112,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
-#ifdef MPI        
+#ifdef MPI
         INTEGER :: I,J,NOD,L,L2,KK,IJK,KJI
         INTEGER :: P,P_LOC
         INTEGER :: ADRESS,SHIFT_
@@ -138,13 +138,13 @@ C-----------------------------------------------
         LOGICAL :: NEED_TO_RCV
 
         INTEGER :: NB_INDEX_ALREADY_SEND,VALUE,NB_SAVE
-!   --------------------------------------------------------------------  
+!   --------------------------------------------------------------------
         DATA MSGOFF/6021/
         DATA MSGOFF2/6022/
         DATA MSGOFF3/6023/
-        DATA MSGOFF4/6024/ 
-        DATA MSGOFF5/6025/ 
-        
+        DATA MSGOFF4/6024/
+        DATA MSGOFF5/6025/
+
         LOC_PROC = ISPMD + 1
         RSIZ = SORT_COMM(NIN)%RSIZ
         ISIZ = SORT_COMM(NIN)%ISIZ
@@ -178,7 +178,7 @@ C-----------------------------------------------
                 NB = 0
                 !   --------------------------
                 IF(ITIED/=0.AND.ITYP==7) THEN
-                    !   itied/=0 --> need to send all nodes 
+                    !   itied/=0 --> need to send all nodes
                     DO I=1,NSN
                         NOD = INTBUF_TAB(NIN)%NSV(I)
                         IF(WEIGHT(NOD)==1)THEN
@@ -196,7 +196,7 @@ C-----------------------------------------------
                 IJK = 0
                 DO KJI=1,SORT_COMM(NIN)%NB_CELL_PROC(REMOTE_PROC_ID)
                     !   ----------------------
-                    !   get the cell ID 
+                    !   get the cell ID
                     IJK = IJK + 1
                     VALUE = SORT_COMM(NIN)%CELL( DISPL + IJK )
                     CELL_Z_ID = ( VALUE - MOD(VALUE,1000000) ) / 1000000
@@ -212,8 +212,8 @@ C-----------------------------------------------
 
                         !   ----------------------
                         !   loop over the secondary nodes of cell ID (CELL_X_ID,CELL_Y_ID,CELL_Z_ID)
-                        I = SORT_COMM(NIN)%VOXEL(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)                    
-                        DO WHILE(I/=0)                       
+                        I = SORT_COMM(NIN)%VOXEL(CELL_X_ID,CELL_Y_ID,CELL_Z_ID)
+                        DO WHILE(I/=0)
                             NOD = INTBUF_TAB(NIN)%NSV(I)
                             IF(WEIGHT(NOD)==1)THEN
                                 IF(INTBUF_TAB(NIN)%STFNS(I)>ZERO)THEN
@@ -228,8 +228,8 @@ C-----------------------------------------------
                 ENDDO
                 !   --------------------------
                 !   flush ALREADY_SEND to FALSE
-                DO I=1,NB_INDEX_ALREADY_SEND      
-                    VALUE = INDEX_ALREADY_SEND(I)  
+                DO I=1,NB_INDEX_ALREADY_SEND
+                    VALUE = INDEX_ALREADY_SEND(I)
                     CELL_Z_ID = ( VALUE - MOD(VALUE,1000000) ) / 1000000
                     VALUE = VALUE - CELL_Z_ID * 1000000
                     CELL_Y_ID = ( VALUE - MOD(VALUE,1000) ) / 1000
@@ -288,7 +288,7 @@ C-----------------------------------------------
 
                 !   --------------------------
                 !   send the number of secondary nodes
-                MSGTYP = MSGOFF3 
+                MSGTYP = MSGOFF3
                 SORT_COMM(NIN)%NBSEND_NB=SORT_COMM(NIN)%NBSEND_NB+1
                 SORT_COMM(NIN)%SEND_NB(SORT_COMM(NIN)%NBSEND_NB)=P   !   proc with nmn>0
                 CALL MPI_ISEND(SORT_COMM(NIN)%NB(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
@@ -305,8 +305,8 @@ C-----------------------------------------------
                     ENDIF
 
                     L = 0
-                    L2= 0            
-              
+                    L2= 0
+
 #include      "vectorize.inc"
                     DO J = 1, NB
                         I = INDEX(J)
@@ -318,40 +318,40 @@ C-----------------------------------------------
                         SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+5) = V(2,NOD)
                         SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+6) = V(3,NOD)
                         SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+7) = MS(NOD)
-                        SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+8) = INTBUF_TAB(NIN)%STFNS(I)          
+                        SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+8) = INTBUF_TAB(NIN)%STFNS(I)
                         SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+1) = I
-                        SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+2) = ITAB(NOD)        
+                        SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+2) = ITAB(NOD)
                         SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+3) = KINET(NOD)
 !     save specifics IREM and XREM indexes for INT24 sorting
                         SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+4) = 0 !IGAPXREMP
-                        SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+5) = 0 !I24XREMP        
+                        SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+5) = 0 !I24XREMP
                         SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+6) = 0 !I24IREMP
                         L = L + RSIZ
                         L2 = L2 + ISIZ
                     END DO
 
-c shift for real variables (prepare for next setting)            
+c shift for real variables (prepare for next setting)
                     RSHIFT = 9
-c shift for integer variables (prepare for next setting) 
-                    ISHIFT = 7 
+c shift for integer variables (prepare for next setting)
+                    ISHIFT = 7
 
 c specific cases
-c IGAP=1 or IGAP=2                 
+c IGAP=1 or IGAP=2
                     IF(IGAP==1 .OR. IGAP==2)THEN
-                        L = 0            
-                        IGAPXREMP = RSHIFT        
-#include      "vectorize.inc"               
+                        L = 0
+                        IGAPXREMP = RSHIFT
+#include      "vectorize.inc"
                         DO J = 1, NB
-                            I = INDEX(J)   
+                            I = INDEX(J)
                             SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+RSHIFT)= INTBUF_TAB(NIN)%GAP_S(I)
-                            L = L + RSIZ           
+                            L = L + RSIZ
                         ENDDO
-                        RSHIFT = RSHIFT + 1                      
-c IGAP=3                       
-                    ELSEIF(IGAP==3)THEN 
-                        L = 0         
-                        IGAPXREMP = RSHIFT        
-#include      "vectorize.inc"                 
+                        RSHIFT = RSHIFT + 1
+c IGAP=3
+                    ELSEIF(IGAP==3)THEN
+                        L = 0
+                        IGAPXREMP = RSHIFT
+#include      "vectorize.inc"
                         DO J = 1, NB
                             I = INDEX(J)
                             SORT_COMM(NIN)%DATA_PROC(P)%RBUF(L+RSHIFT)  = INTBUF_TAB(NIN)%GAP_S(I)
@@ -360,12 +360,12 @@ c IGAP=3
                         END DO
                         RSHIFT = RSHIFT + 2
                     ENDIF
-                         
+
 C thermic
                     IF(INTTH>0)THEN
                         L = 0
-                        L2 = 0                     
-#include      "vectorize.inc"                                          
+                        L2 = 0
+#include      "vectorize.inc"
                         DO J = 1, NB
                             I = INDEX(J)
                             NOD = INTBUF_TAB(NIN)%NSV(I)
@@ -376,23 +376,23 @@ C thermic
                             L2 = L2 + ISIZ
                         END DO
                         RSHIFT = RSHIFT + 2
-                        ISHIFT = ISHIFT + 1               
+                        ISHIFT = ISHIFT + 1
                     ENDIF
 C Friction
                     IF(INTFRIC>0)THEN
-                        L2 = 0                     
-#include      "vectorize.inc"                                          
+                        L2 = 0
+#include      "vectorize.inc"
                         DO J = 1, NB
                             I = INDEX(J)
                             SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+ISHIFT) = INTBUF_TAB(NIN)%IPARTFRICS(I)
                             L2 = L2 + ISIZ
                         END DO
-                        ISHIFT = ISHIFT + 1               
-                    ENDIF              
+                        ISHIFT = ISHIFT + 1
+                    ENDIF
 C -- IDTMINS==2
                     IF(IDTMINS==2)THEN
                         L2 = 0
-#include      "vectorize.inc"                              
+#include      "vectorize.inc"
                         DO J = 1, NB
                             I = INDEX(J)
                             NOD = INTBUF_TAB(NIN)%NSV(I)
@@ -400,19 +400,19 @@ C -- IDTMINS==2
                             SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+ISHIFT+1)= NOD
                             L2 = L2 + ISIZ
                         END DO
-                        ISHIFT = ISHIFT + 2              
+                        ISHIFT = ISHIFT + 2
 C -- IDTMINS_INT /= 0               
                     ELSEIF(IDTMINS_INT/=0)THEN
-                        L2 = 0                 
-#include      "vectorize.inc"              
+                        L2 = 0
+#include      "vectorize.inc"
                         DO J = 1, NB
                             I = INDEX(J)
                             NOD = INTBUF_TAB(NIN)%NSV(I)
                             SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+ISHIFT)= NOD
                             L2 = L2 + ISIZ
                         END DO
-                        ISHIFT = ISHIFT + 1               
-                    ENDIF                           
+                        ISHIFT = ISHIFT + 1
+                    ENDIF
             !save specifics IREM and XREM indexes for INT24 sorting
                     L2 = 0
 #include      "vectorize.inc"
@@ -424,10 +424,10 @@ C -- IDTMINS_INT /= 0
                         SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+5) = I24XREMP
                         SORT_COMM(NIN)%DATA_PROC(P)%IBUF(L2+6) = I24IREMP
                         L2 = L2 + ISIZ
-                    END DO  
+                    END DO
                 ENDIF   !   if nb/=0
                 !   ------------------------------
-            ENDIF      
+            ENDIF
         ENDIF ! nsn>0 or nmn > 0
         ! ---------------------------------
 #endif

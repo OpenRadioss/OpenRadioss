@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB, 
+      SUBROUTINE MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB,
      .     IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, GRAVITY)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -134,20 +134,20 @@ C     Velocity components
          VII(3) = VII(1) * VY
          VII(4) = VII(1) * VZ
          VII(5) = GBUF%EINT(II) + HALF * VII(1) * VEL2
-         
-! Volume 
+
+! Volume
          VOL = GBUF%VOL(II)
 ! Sum of fluxes
          IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD /= 4) THEN
-            SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 1, I) + MULTI_FVM%FLUXES(1:5, 2, I) + 
+            SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 1, I) + MULTI_FVM%FLUXES(1:5, 2, I) +
      .           MULTI_FVM%FLUXES(1:5, 3, I) + MULTI_FVM%FLUXES(1:5, 4, I) +
      .           MULTI_FVM%FLUXES(1:5, 5, I) + MULTI_FVM%FLUXES(1:5, 6, I)
          ELSEIF (ISOLNOD == 4) THEN
-            SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 5, I) + MULTI_FVM%FLUXES(1:5, 6, I) + 
+            SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 5, I) + MULTI_FVM%FLUXES(1:5, 6, I) +
      .           MULTI_FVM%FLUXES(1:5, 2, I) + MULTI_FVM%FLUXES(1:5, 4, I)
          ELSE
 C     TRIANGLES
-            SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 1, I) + MULTI_FVM%FLUXES(1:5, 2, I) + 
+            SUMFLUX(1:5) = MULTI_FVM%FLUXES(1:5, 1, I) + MULTI_FVM%FLUXES(1:5, 2, I) +
      .           MULTI_FVM%FLUXES(1:5, 3, I)
             IF (ITY == 2) THEN
 C     QUADS
@@ -178,8 +178,8 @@ C     QUADS
          ENDIF
          VII(2:4) = VII(2:4) + TIMESTEP * GBUF%RHO(II) * VOL * GRAVII(1:3)
          WEXT     = TIMESTEP * GBUF%RHO(II) * VOL * (
-     .              GRAVII(1) * MULTI_FVM%VEL(1, I) + 
-     .              GRAVII(2) * MULTI_FVM%VEL(2, I) + 
+     .              GRAVII(1) * MULTI_FVM%VEL(1, I) +
+     .              GRAVII(2) * MULTI_FVM%VEL(2, I) +
      .              GRAVII(3) * MULTI_FVM%VEL(3, I))
          VII(5) = VII(5) + WEXT
          TFEXTT = TFEXTT + WEXT

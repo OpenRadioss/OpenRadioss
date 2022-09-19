@@ -132,7 +132,7 @@ C------------------------------------
         VMOD= VMN-N1*V(I1)-N2*V(I2)-N3*V(I3)
 
         LCOD=LCODE(I)
-      
+
         IF(LCOD /= 0)THEN
 C--------------------------------
 C     NOEUD AVEC CONDITION LIMITE
@@ -218,7 +218,7 @@ C--------------------------------
            A(I2)=(A12*BAX+A22*BAY+A32*BAZ)/DET
            A(I3)=(A13*BAX+A23*BAY+A33*BAZ)/DET
           ENDIF
-      
+
         ELSEIF(LCOD == 0)THEN
 C--------------------------------
 C     NOEUD SANS CONDITION LIMITE
@@ -228,9 +228,9 @@ C--------------------------------
            A(I3)=A(I3)+AMOD*N3
            V(I1)=V(I1)+VMOD*N1
            V(I2)=V(I2)+VMOD*N2
-           V(I3)=V(I3)+VMOD*N3   
+           V(I3)=V(I3)+VMOD*N3
         ENDIF
-      
+
       ENDDO  !next II
 C--------------------------------  
       RETURN

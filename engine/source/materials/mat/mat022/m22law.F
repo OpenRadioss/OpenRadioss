@@ -33,7 +33,7 @@ Chd|====================================================================
      3           STIFN  ,DT2T    ,NELTST  ,ITYPTST ,OFFG    ,
      4           GEO    ,PID     ,AMU     ,VOL_AVG ,
      6           MUMAX  ,MAT     ,NGL     ,SSP     ,DVOL    ,
-     7           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,  
+     7           AIRE   ,VNEW    ,VD2     ,DELTAX  ,VIS     ,
      8           D1     ,D2      ,D3      ,D4      ,D5      ,
      9           D6     ,PNEW    ,PSH     ,QNEW    ,SSP_EQ  ,
      A           SOLD1  ,SOLD2   ,SOLD3   ,SOLD4   ,SOLD5   ,
@@ -73,23 +73,23 @@ C-----------------------------------------------
      .   MUMAX(*), SIGY(*), DEFP(*), DPLA(MVSIZ),
      .   AMU(*), VOL_AVG(*)
       my_real
-     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(1), QNEW(*) ,SSP_EQ(*), 
+     .   VNEW(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
+     .   PSH(*), PNEW(1), QNEW(*) ,SSP_EQ(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
      .   MSSA(*), DMELS(*), CONDE(*),DTEL(*),
-     .   RHOREF(*)  ,RHOSP(*)  
+     .   RHOREF(*)  ,RHOSP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ICC(MVSIZ), I, MX, II,IBID,ICC_1
       my_real
-     .   RHO0(MVSIZ), 
+     .   RHO0(MVSIZ),
      .   G(MVSIZ),AK(MVSIZ),
      .   QH(MVSIZ), C1(MVSIZ),
      .   P(MVSIZ), EPMX(MVSIZ), THETL(MVSIZ),
-     .   CA(MVSIZ), CB(MVSIZ), CC(MVSIZ), CN(MVSIZ), 
+     .   CA(MVSIZ), CB(MVSIZ), CC(MVSIZ), CN(MVSIZ),
      .   EPDR(MVSIZ),
      .   DVOL(MVSIZ), SIGMX(MVSIZ),
      .   CE(MVSIZ),EPSL(MVSIZ), QL(MVSIZ), YLDL(MVSIZ), AJ2(MVSIZ),
@@ -100,7 +100,7 @@ C-----------------------------------------------
      .   RHO0_1,C1_1,CA_1,CB_1,CN_1,
      .   EPMX_1,SIGMX_1,CC_1,EPDR_1,EPSL_1,
      .   YLDL_1,QL_1
-     
+
       FACQ0 = ONE
       IF(IPLA==0)THEN
        MX = MAT(LFT)
@@ -331,7 +331,7 @@ C-----------------------------------------------
          SIG(I,5)=SCALE*SIG(I,5)
          SIG(I,6)=SCALE*SIG(I,6)
          EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
-         DPLA(I) =  (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)      
+         DPLA(I) =  (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I)+QH(I),EM15)
         ENDDO
         ELSEIF(IPLA==2)THEN
         DO I=LFT,LLT
@@ -343,7 +343,7 @@ C-----------------------------------------------
          SIG(I,5)=SCALE*SIG(I,5)
          SIG(I,6)=SCALE*SIG(I,6)
          EPXE(I)=EPXE(I)+(ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)
-         DPLA(I) = (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)       
+         DPLA(I) = (ONE -SCALE)*AJ2(I)/MAX(THREE*G(I),EM15)
         ENDDO
         ELSEIF(IPLA==1)THEN
         DO I=LFT,LLT
@@ -357,14 +357,14 @@ C-----------------------------------------------
          SIG(I,4)=SCALE*SIG(I,4)
          SIG(I,5)=SCALE*SIG(I,5)
          SIG(I,6)=SCALE*SIG(I,6)
-         EPXE(I)=EPXE(I)+DPLA(I)      
+         EPXE(I)=EPXE(I)+DPLA(I)
         ENDDO
         ENDIF
-        
+
       IF (JSPH==0)THEN
        CALL MQVISCB(PM,OFF     ,RHO    ,BID1   ,BID2   ,SSP   ,
      2        BID3    ,STIFN   ,DT2T   ,NELTST ,ITYPTST,AIRE  ,
-     3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2    ,DELTAX ,  
+     3        OFFG    ,GEO     ,PID    ,VNEW   ,VD2    ,DELTAX ,
      4        VIS     ,D1      ,D2      ,D3     ,PNEW   ,PSH   ,
      5        MAT     ,NGL     ,QNEW    ,SSP_EQ ,VOL    ,MSSA  ,
      6        DMELS   ,IBID    ,FACQ0   ,CONDE  ,DTEL   ,G_DT  ,

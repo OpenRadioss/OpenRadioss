@@ -67,9 +67,9 @@ C-----------------------------------------------
       ETA1 = ONE
       ETA2 = ONE
       ETA3 = ONE
-      
+
       CALL HM_OPTION_COUNT('/UPWIND', NUPWIND)
-      
+
       IF (NUPWIND > 0) THEN
          CALL HM_OPTION_START('/UPWIND')
          CALL HM_OPTION_NEXT()
@@ -80,7 +80,7 @@ C-----------------------------------------------
          IF (ETA1 == ZERO) ETA1 = ONE
          IF (ETA2 == ZERO) ETA2 = ONE
          IF (ETA3 == ZERO) ETA3 = ONE
-         
+
          IF (ETA3 /= ONE) THEN
             CALL ANCMSG(MSGID = 1628, MSGTYPE = MSGWARNING, ANMODE = ANINFO)
          ENDIF

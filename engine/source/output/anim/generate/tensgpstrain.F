@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C     REAL
       INTEGER IPARG(NPARG,*),
      .        IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),
-     .        IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,ITAGPS(*) 
+     .        IXS10(6,*) ,IXS16(8,*) ,IXS20(12,*) ,ITAGPS(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -83,23 +83,23 @@ C     REAL
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
       INTEGER I,II, NG, NEL, ISS, ISC,NBGAMA,KCVT,
-     .        IADD, N, J, MLW,  
+     .        IADD, N, J, MLW,
      .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
      .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
      .        ICSIG,DIR,IVISC,JJ(6),IP
       INTEGER MLW2,NLAY
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF   
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       my_real
      .  A_GAUSS(9,9),EVAR_TMP(6),ALPHA,BETA,ALPHA_1,BETA_1,
      .  JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),
      .  RBID(6,MVSIZ),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), XD5(MVSIZ),
-     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ), 
-     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
+     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
+     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ),
+     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), ZD5(MVSIZ),
      .   ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -109,12 +109,12 @@ C     REAL
      .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
      .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
-      INTEGER 
+      INTEGER
      .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C======================================================================= 
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -141,8 +141,8 @@ C=======================================================================
      8 0.796666477413627,0.960289856497536,0.               ,
      9 -.968160239507626,-.836031107326636,-.613371432700590,
      9 -.324253423403809,0.               ,0.324253423403809,
-     9 0.613371432700590,0.836031107326636,0.968160239507626/  
-      DATA SOL_NODE / 
+     9 0.613371432700590,0.836031107326636,0.968160239507626/
+      DATA SOL_NODE /
      1 -1               ,-1               ,-1               ,
      2 -1               ,-1               , 1               ,
      3  1               ,-1               , 1               ,
@@ -161,19 +161,19 @@ C=======================================================================
         EVAR(4,I) = ZERO
         EVAR(5,I) = ZERO
         EVAR(6,I) = ZERO
-      ENDDO  
+      ENDDO
       DO 900 NG=1,NGROUP
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+        CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         MLW2 = MLW
-        ICSIG=IPARG(17,NG)  
+        ICSIG=IPARG(17,NG)
         ISOLNOD = IPARG(28,NG)
         LFT=1
         LLT=NEL
@@ -234,7 +234,7 @@ C-----------------------------------------------
                NC(J+8,I) = IXS20(J,NN1)
              ENDDO
            ENDIF
-         ENDDO 
+         ENDDO
 C
          NPTR   = ELBUF_TAB(NG)%NPTR
          NPTS   = ELBUF_TAB(NG)%NPTS
@@ -250,13 +250,13 @@ C
            CALL SZSTRAINGPS(LBUF%STRA,STR_IS24,GBUF%STRHG,NEL  )
          ENDIF
 C----------
-         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
+         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR.
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
           IF(NLAY > 1 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
-             II = 6*(I-1) 
+             II = 6*(I-1)
              N = I + NFT
              IF (KCVT /= 0) THEN
                IF(KCVT==2)THEN
@@ -316,13 +316,13 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
@@ -332,13 +332,13 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
@@ -348,19 +348,19 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
                  IF (JHBE == 15 .OR. JHBE == 16) THEN
                   ILAY = IS
-                  IS = 1 
+                  IS = 1
                   N1 = FOURTH*(
      .               (ONE+SOL_NODE(1,K) * A_GAUSS_P_R)  *
      .               (ONE+SOL_NODE(3,K) * A_GAUSS_P_T)  )
@@ -386,9 +386,9 @@ c       STRHG(NEL,6,8)
                ENDDO
              ENDDO
            ENDDO
-         ELSE 
+         ELSE
            DO I=LFT,LLT
-             II = 6*(I-1) 
+             II = 6*(I-1)
              N = I + NFT
              IF (KCVT /= 0) THEN
                IF(KCVT==2)THEN
@@ -447,13 +447,13 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
@@ -463,13 +463,13 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
@@ -479,13 +479,13 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
@@ -530,9 +530,9 @@ c
              ENDDO
            ENDDO
           ENDIF
-c    
+c
          ELSEIF(ISOLNOD == 4 )THEN
-c    
+c
            DO I=LFT,LLT
              N = I + NFT
              IF (KCVT /= 0) THEN
@@ -573,7 +573,7 @@ c
              ENDDO
            ENDDO
          ELSEIF(ISOLNOD == 10)THEN
-c    
+c
            ALPHA_1 = -ALPHA/(BETA-ALPHA)
            BETA_1  = (ONE-ALPHA)/(BETA-ALPHA)
            DO I=LFT,LLT
@@ -641,7 +641,7 @@ C
                DO K = 1,3
                 FUNC1(K,N) = EVAR(K,N)
                 FUNC2(K,N) = EVAR(K+3,N)
-               ENDDO 
+               ENDDO
                ITAGPS(N) = ITAGPS(N)+1
              ENDIF
            ENDDO
@@ -671,7 +671,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -711,23 +711,23 @@ C     REAL
      .   A_GAUSS_R1,A_GAUSS_S1,A_GAUSS_T1,
      .   A_GAUSS_P_R,A_GAUSS_P_S,A_GAUSS_P_T
       INTEGER I,II, NG, NEL, ISS, ISC,NBGAMA,KCVT,
-     .        IADD, N, J, MLW,  
+     .        IADD, N, J, MLW,
      .        ISTRAIN,NN, JTURB,MT, IMID, IALEL,IPID,
      .        NN1,NF,OFFSET,K,INC,KK, IUS, NUVAR,
      .        INOD, ISOLNOD, IPRT, LIAD, NPTR, NPTS, NPTT, IPT,
      .        IS, IR, IT, NPTG,NC(20,MVSIZ),NNOD,IEXPAN,IHBE,MPT,ILAY,
      .        ICSIG,DIR,IVISC,JJ(6),IP
       INTEGER MLW2,NLAY
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF   
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       my_real
      .  A_GAUSS(9,9),EVAR_TMP(6),ALPHA,BETA,ALPHA_1,BETA_1,
      .  JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),
      .  RBID(6,MVSIZ),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ), XD5(MVSIZ),
-     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ), 
-     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ), 
-     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ), 
+     .   XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
+     .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ), YD5(MVSIZ),
+     .   YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ), ZD5(MVSIZ),
      .   ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
@@ -737,12 +737,12 @@ C     REAL
      .   TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),
      .   XDL(MVSIZ), YDL(MVSIZ), ZDL(MVSIZ),STR_IS24(MVSIZ,6,8),
      .   EVAR_T10(6,10)
-      INTEGER 
+      INTEGER
      .  SOL_NODE(3,8), IPERM1(10),IPERM2(10),NN2,ISKIN(MVSIZ)
       DATA IPERM1/0,0,0,0,1,2,3,1,2,3/
       DATA IPERM2/0,0,0,0,2,3,1,4,4,4/
 C======================================================================= 
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -769,8 +769,8 @@ C=======================================================================
      8 0.796666477413627,0.960289856497536,0.               ,
      9 -.968160239507626,-.836031107326636,-.613371432700590,
      9 -.324253423403809,0.               ,0.324253423403809,
-     9 0.613371432700590,0.836031107326636,0.968160239507626/  
-      DATA SOL_NODE / 
+     9 0.613371432700590,0.836031107326636,0.968160239507626/
+      DATA SOL_NODE /
      1 -1               ,-1               ,-1               ,
      2 -1               ,-1               , 1               ,
      3  1               ,-1               , 1               ,
@@ -789,19 +789,19 @@ C=======================================================================
         EVAR(4,I) = ZERO
         EVAR(5,I) = ZERO
         EVAR(6,I) = ZERO
-      ENDDO  
+      ENDDO
       DO 900 NG=1,NGROUP
         IVISC = IPARG(61,NG)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+        CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         MLW2 = MLW
-        ICSIG=IPARG(17,NG)  
+        ICSIG=IPARG(17,NG)
         ISOLNOD = IPARG(28,NG)
         LFT=1
         LLT=NEL
@@ -827,7 +827,7 @@ C-----------------------------------------------
              ENDDO
              DO J=1,8
               ISKIN(I) = ISKIN(I) + TAG_SKIN_ND(NC(J,I))
-             END DO              
+             END DO
            ELSEIF(ISOLNOD == 4)THEN
              NC(1,I)=IXS(2,N)
              NC(2,I)=IXS(4,N)
@@ -835,7 +835,7 @@ C-----------------------------------------------
              NC(4,I)=IXS(6,N)
              DO J=1,4
               ISKIN(I) = ISKIN(I) + TAG_SKIN_ND(NC(J,I))
-             END DO              
+             END DO
            ELSEIF(ISOLNOD == 6)THEN
              NC(1,I)=IXS(2,N)
              NC(2,I)=IXS(3,N)
@@ -854,7 +854,7 @@ C-----------------------------------------------
              ENDDO
              DO J=1,4
               ISKIN(I) = ISKIN(I) + TAG_SKIN_ND(NC(J,I))
-             END DO              
+             END DO
            ELSEIF(ISOLNOD == 16)THEN
              DO J = 1,8
                NC(J,I) = IXS(J+1,N)
@@ -873,9 +873,9 @@ C-----------------------------------------------
              ENDDO
              DO J=1,8
               ISKIN(I) = ISKIN(I) + TAG_SKIN_ND(NC(J,I))
-             END DO              
+             END DO
            ENDIF
-         ENDDO 
+         ENDDO
 C
          NPTR   = ELBUF_TAB(NG)%NPTR
          NPTS   = ELBUF_TAB(NG)%NPTS
@@ -891,14 +891,14 @@ C
            CALL SZSTRAINGPS(LBUF%STRA,STR_IS24,GBUF%STRHG,NEL  )
          ENDIF
 C----------
-         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR. 
+         IF(ISOLNOD == 6 .OR. ISOLNOD == 8 .OR.
      .              ISOLNOD == 16 .OR. ISOLNOD == 20)THEN
 c
 c T_SHELL ( JHBE = 15/16 )
           IF(NLAY > 1 .AND. JHBE /= 14) THEN
            DO I=LFT,LLT
              IF (ISKIN(I)==0) CYCLE
-             II = 6*(I-1) 
+             II = 6*(I-1)
              N = I + NFT
              IF (KCVT /= 0) THEN
                IF(KCVT==2)THEN
@@ -958,13 +958,13 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
@@ -974,13 +974,13 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
@@ -990,19 +990,19 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
                  IF (JHBE == 15 .OR. JHBE == 16) THEN
                   ILAY = IS
-                  IS = 1 
+                  IS = 1
                   N1 = FOURTH*(
      .               (ONE+SOL_NODE(1,K) * A_GAUSS_P_R)  *
      .               (ONE+SOL_NODE(3,K) * A_GAUSS_P_T)  )
@@ -1028,10 +1028,10 @@ c       STRHG(NEL,6,8)
                ENDDO
              ENDDO
            ENDDO
-         ELSE 
+         ELSE
            DO I=LFT,LLT
              IF (ISKIN(I)==0) CYCLE
-             II = 6*(I-1) 
+             II = 6*(I-1)
              N = I + NFT
              IF (KCVT /= 0) THEN
                IF(KCVT==2)THEN
@@ -1090,13 +1090,13 @@ c
                    A_GAUSS_R = A_GAUSS(1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(2,NPTR)
                    A_GAUSS_P_R =
-     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (-ONE-HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ELSEIF(SOL_NODE(1,J) == 1 )THEN
                    A_GAUSS_R = A_GAUSS(NPTR-1,NPTR)
                    A_GAUSS_R1 = A_GAUSS(NPTR,NPTR)
                    A_GAUSS_P_R =
-     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/ 
+     .             (ONE+HALF*(A_GAUSS_R1+A_GAUSS_R))/
      .             (HALF*(A_GAUSS_R1-A_GAUSS_R))
                  ENDIF
 c
@@ -1106,13 +1106,13 @@ c
                    A_GAUSS_S = A_GAUSS(1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(2,NPTS)
                    A_GAUSS_P_S =
-     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (-ONE-HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ELSEIF(SOL_NODE(2,J) == 1 )THEN
                    A_GAUSS_S = A_GAUSS(NPTS-1,NPTS)
                    A_GAUSS_S1 = A_GAUSS(NPTS,NPTS)
                    A_GAUSS_P_S =
-     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/ 
+     .             (ONE+HALF*(A_GAUSS_S1+A_GAUSS_S))/
      .             (HALF*(A_GAUSS_S1-A_GAUSS_S))
                  ENDIF
 c
@@ -1122,13 +1122,13 @@ c
                    A_GAUSS_T = A_GAUSS(1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(2,NPTT)
                    A_GAUSS_P_T =
-     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (-ONE-HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ELSEIF(SOL_NODE(3,J) == 1 )THEN
                    A_GAUSS_T = A_GAUSS(NPTT-1,NPTT)
                    A_GAUSS_T1 = A_GAUSS(NPTT,NPTT)
                    A_GAUSS_P_T =
-     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/ 
+     .             (ONE+HALF*(A_GAUSS_T1+A_GAUSS_T))/
      .             (HALF*(A_GAUSS_T1-A_GAUSS_T))
                  ENDIF
 c
@@ -1173,9 +1173,9 @@ c
              ENDDO
            ENDDO
           ENDIF
-c    
+c
          ELSEIF(ISOLNOD == 4 )THEN
-c    
+c
            DO I=LFT,LLT
              IF (ISKIN(I)==0) CYCLE
              N = I + NFT
@@ -1217,7 +1217,7 @@ c
              ENDDO
            ENDDO
          ELSEIF(ISOLNOD == 10)THEN
-c    
+c
            ALPHA_1 = -ALPHA/(BETA-ALPHA)
            BETA_1  = (ONE-ALPHA)/(BETA-ALPHA)
            DO I=LFT,LLT
@@ -1287,7 +1287,7 @@ C
                DO K = 1,3
                 FUNC1(K,N) = EVAR(K,N)
                 FUNC2(K,N) = EVAR(K+3,N)
-               ENDDO 
+               ENDDO
                ITAGPS(N) = ITAGPS(N)+1
              ENDIF
            ENDDO

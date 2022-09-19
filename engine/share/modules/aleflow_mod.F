@@ -38,6 +38,6 @@ C-----------------------------------------------
 C   G l o b a l   V a r i a b l e s   D e f i n i t i o n
 C-----------------------------------------------
         my_real, DIMENSION(:), ALLOCATABLE :: AFLOW,
-     .                          DFLOW,VFLOW,FFSKY,WFLOW 
+     .                          DFLOW,VFLOW,FFSKY,WFLOW
         INTEGER, DIMENSION(:), ALLOCATABLE :: IFOAM,IFOAM_CONT
       END MODULE ALEFLOW_MOD

@@ -40,8 +40,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SEGVAR_MOD              
+      USE ELBUFDEF_MOD
+      USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,8 +69,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, IV, KVAR, KK, JCODV(LCONV),CODTOT, SEGAD, IAD2, LGTH
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF  
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
 C=======================================================================
 C
       CALL MY_BARRIER
@@ -80,13 +80,13 @@ C
 c
          CALL VARCONDEC(JCODV,IPARG(34,NG),CODTOT)
          IF (CODTOT == 0) GOTO 100
-         CALL INITBUF (IPARG    ,NG      ,                     
-     2         MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )            
+         CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
          LFT=1
 c         NBB(1) =  NB4
 c         NBB(2) =  NB3
@@ -101,33 +101,33 @@ c         NBB(4) =  NB12
            LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(J+1)-
      .          ALE_CONNECTIVITY%ee_connect%iad_connect(J)
            DO IV=1,LGTH
-             IF (ALE_CONNECTIVITY%ee_connect%connected(IAD2 + IV - 1) < 0) THEN 
+             IF (ALE_CONNECTIVITY%ee_connect%connected(IAD2 + IV - 1) < 0) THEN
                KK=-ALE_CONNECTIVITY%ee_connect%connected(IAD2 + IV - 1)
 c
                KVAR = 1
-               IF (JCODV(KVAR) == 1) THEN            
+               IF (JCODV(KVAR) == 1) THEN
                  SEGVAR%RHO(KK) = GBUF%RHO(I)
-               ENDIF                              
+               ENDIF
 c
                KVAR = 2
-               IF (JCODV(KVAR) == 1) THEN           
+               IF (JCODV(KVAR) == 1) THEN
                  SEGVAR%EINT(KK) = GBUF%EINT(I)
-               ENDIF                              
+               ENDIF
 c
                KVAR = 3
-               IF (JCODV(KVAR) == 1) THEN           
+               IF (JCODV(KVAR) == 1) THEN
                  SEGVAR%RK(KK) = GBUF%RK(I)
-               ENDIF                              
+               ENDIF
 c
                KVAR = 4
-               IF (JCODV(KVAR) == 1) THEN            
+               IF (JCODV(KVAR) == 1) THEN
                  SEGVAR%RE(KK) = GBUF%RE(I)
-               ENDIF                              
+               ENDIF
 c
-               KVAR = 5         
-               IF (JCODV(KVAR) == 1) THEN    !  UVAR(1)  
+               KVAR = 5
+               IF (JCODV(KVAR) == 1) THEN    !  UVAR(1)
                  SEGVAR%UVAR(KK) = MBUF%VAR(LLT*(I-1)+1)
-               ENDIF                              
+               ENDIF
 
              ENDIF
            ENDDO

@@ -207,7 +207,7 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "com04_c.inc"
 #include      "scr07_c.2.inc"
-#include      "scr03_c.inc" 
+#include      "scr03_c.inc"
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -218,7 +218,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   AREA
-      INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*), 
+      INTEGER IRECT(4,*), IXS(NIXS,*), KNOD2ELS(*), NOD2ELS(*),
      .        IXS10(6,*), IXS16(8,*), IXS20(12,*)
 C     REAL
       my_real
@@ -326,7 +326,7 @@ C-----------------------------------------------
        XX3(JJ)=X(3,NN)
        XS1=XS1+FOURTH*X(1,NN)
        YS1=YS1+FOURTH*X(2,NN)
-  100  ZS1=ZS1+FOURTH*X(3,NN)       
+  100  ZS1=ZS1+FOURTH*X(3,NN)
 C
        CALL NORMA1D(N1,N2,N3,AREA)
        XC=0.
@@ -475,7 +475,7 @@ C
      .                  I1=I,
      .                  PRMOD=MSG_CUMU)
        ENDIF
-       
+
 C-----------------------------------------------
 C     VERIFICATION DE L'ORIENTATION DES SEGMENTS
 C-----------------------------------------------
@@ -491,7 +491,7 @@ C-----------------------------------------------
        XX3(JJ)=X(3,NN)
        XS1=XS1+FOURTH*X(1,NN)
        YS1=YS1+FOURTH*X(2,NN)
-  100  ZS1=ZS1+FOURTH*X(3,NN)       
+  100  ZS1=ZS1+FOURTH*X(3,NN)
 C
        CALL NORMA1(N1,N2,N3,AREA)
        XC=ZERO

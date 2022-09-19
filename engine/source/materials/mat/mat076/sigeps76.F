@@ -76,13 +76,13 @@ C-----------------------------------------------
       TYPE(TTABLE), DIMENSION(:) , POINTER :: TABLE
 C=======================================================================
 c
-      IFORM = NINT(UPARAM(13)) ! Flag for plasticity 
+      IFORM = NINT(UPARAM(13)) ! Flag for plasticity
                                ! = 0 associated (with quadratic yield criterion only)
                                ! = 1 not associated
 c
       NUMTABL =  MATPARAM%NTABLE
       TABLE   => MATPARAM%TABLE(1:NUMTABL)
-c--------------------------                              
+c--------------------------
       SELECT CASE (IFORM)
 c
         CASE(0)
@@ -96,8 +96,8 @@ c
      6      SOUNDSP,UVAR   ,OFF     ,NGL     ,EPSP    ,YLD    ,
      7      INLOC   ,VARNL  )
 c
-        CASE(1) 
-          CALL ASSO_PLAS76(     
+        CASE(1)
+          CALL ASSO_PLAS76(
      1      NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,
      2      NPF    ,TF     ,TIME    ,TIMESTEP,UPARAM  ,PLA    ,
      3      RHO0   ,RHO    ,DPLA    ,ET      ,NUMTABL ,TABLE  ,

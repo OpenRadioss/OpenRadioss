@@ -57,9 +57,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
-      USE DETONATORS_MOD      
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -123,8 +123,8 @@ C-----------------------------------------------
      .  TX(MVSIZ),TY(MVSIZ),TZ(MVSIZ),UL(MVSIZ,16),
      .  NI(MVSIZ,16),DNIDR(MVSIZ,16),DNIDS(MVSIZ,16),DNIDT(MVSIZ,16),
      .  DTX(MVSIZ),STIN(MVSIZ,16), RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1)
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
@@ -348,7 +348,7 @@ C----------------------------------------
 C-----------------------------
 C     POINTS D' INTEGRATION
 C-----------------------------
-      IS = 1 
+      IS = 1
       DO IT=1,NPTT
        DO IR=1,NPTR
         DO IL=1,NLAY
@@ -412,31 +412,31 @@ C---------------------------------------------
            IDEF =1
 	        ELSE
 	          NUVAR = 0
-           IF(MTN == 14 .OR. MTN == 12)THEN             
-              IDEF =1                                   
-           ELSEIF(MTN == 24)THEN                        
-             IDEF =1                                    
-           ELSEIF(ISTRAIN == 1)THEN                     
-             IF(MTN == 1)THEN                            
-               IDEF =1                                   
-             ELSEIF(MTN == 2)THEN                        
-               IDEF =1                                   
-             ELSEIF(MTN == 4)THEN                        
-               IDEF =1                                   
-             ELSEIF(MTN == 3.OR.MTN == 6.OR.MTN ==10.OR. 
-     .              MTN == 21.OR.MTN == 22.OR.           
-     .         MTN == 23.OR.MTN == 49)THEN               
-               IDEF =1                                   
-             ENDIF                                       
-           ENDIF                                        
+           IF(MTN == 14 .OR. MTN == 12)THEN
+              IDEF =1
+           ELSEIF(MTN == 24)THEN
+             IDEF =1
+           ELSEIF(ISTRAIN == 1)THEN
+             IF(MTN == 1)THEN
+               IDEF =1
+             ELSEIF(MTN == 2)THEN
+               IDEF =1
+             ELSEIF(MTN == 4)THEN
+               IDEF =1
+             ELSEIF(MTN == 3.OR.MTN == 6.OR.MTN ==10.OR.
+     .              MTN == 21.OR.MTN == 22.OR.
+     .         MTN == 23.OR.MTN == 49)THEN
+               IDEF =1
+             ENDIF
+           ENDIF
          ENDIF
-         CALL SIGIN20B(LBUF%SIG,PM       ,LBUF%VOL,SIGSP   ,           
-     .                 SIGI    ,LBUF%EINT,LBUF%RHO,MBUF%VAR,LBUF%STRA, 
-     .                 IXS     ,NIXS     ,NSIGI   ,IP      ,NUVAR    , 
-     .                 NEL     ,IUSER    ,IDEF    ,NSIGS   ,STRSGLOB , 
-     .                 STRAGLOB,JHBE     ,IGTYP   ,X       ,LBUF%GAMA, 
+         CALL SIGIN20B(LBUF%SIG,PM       ,LBUF%VOL,SIGSP   ,
+     .                 SIGI    ,LBUF%EINT,LBUF%RHO,MBUF%VAR,LBUF%STRA,
+     .                 IXS     ,NIXS     ,NSIGI   ,IP      ,NUVAR    ,
+     .                 NEL     ,IUSER    ,IDEF    ,NSIGS   ,STRSGLOB ,
+     .                 STRAGLOB,JHBE     ,IGTYP   ,X       ,LBUF%GAMA,
      .                 MAT     ,LBUF%PLA ,L_PLA   ,PTSOL   ,LBUF%SIGB,
-     .                 L_SIGB  ,IPM      ,BUFMAT  ,LBUF%VOL0DP)                                       
+     .                 L_SIGB  ,IPM      ,BUFMAT  ,LBUF%VOL0DP)
         ENDDO
        ENDDO
       ENDDO
@@ -455,7 +455,7 @@ C----------
 C
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE,
      .     GBUF%VOL, DTX, IGEO)
 c
       CALL S16MASS3(

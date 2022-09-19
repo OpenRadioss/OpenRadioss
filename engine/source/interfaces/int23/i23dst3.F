@@ -54,21 +54,21 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, INACTI, CAND_N_N(*), CAND_E_N(*), JLT_NEW 
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
-     .        NSVG(MVSIZ), CN_LOC(MVSIZ) ,CE_LOC(MVSIZ) ,INDEX(MVSIZ), 
+      INTEGER JLT, INACTI, CAND_N_N(*), CAND_E_N(*), JLT_NEW
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
+     .        NSVG(MVSIZ), CN_LOC(MVSIZ) ,CE_LOC(MVSIZ) ,INDEX(MVSIZ),
      .        IRECT(4,*), IFPEN(*), NSMS(MVSIZ), KINI(MVSIZ)
       my_real
      .     X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
+     .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
      .     GAPV(MVSIZ), PENE(MVSIZ), CAND_P(*),
      .     NX(MVSIZ),  NY(MVSIZ),  NZ(MVSIZ),
      .     XG(MVSIZ),  YG(MVSIZ),  ZG(MVSIZ),
      .     VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ),
      .     FTXSAV(*),  FTYSAV(*),  FTZSAV(*),
-     .     FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ), 
+     .     FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ), STIF(MVSIZ),
      .     H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ), V(3,*)
 C-----------------------------------------------
@@ -81,22 +81,22 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IG, J, II, INPROJ(4,MVSIZ)
       my_real
-     .     LB1(MVSIZ), LC1(MVSIZ), P1(MVSIZ), 
-     .     LB2(MVSIZ), LC2(MVSIZ), P2(MVSIZ), 
-     .     LB3(MVSIZ), LC3(MVSIZ), P3(MVSIZ), 
+     .     LB1(MVSIZ), LC1(MVSIZ), P1(MVSIZ),
+     .     LB2(MVSIZ), LC2(MVSIZ), P2(MVSIZ),
+     .     LB3(MVSIZ), LC3(MVSIZ), P3(MVSIZ),
      .     LB4(MVSIZ), LC4(MVSIZ), P4(MVSIZ),
      .     LA1, LA2, LA3, LA4,
      .     NX1(MVSIZ), NY1(MVSIZ), NZ1(MVSIZ),
      .     NX2(MVSIZ), NY2(MVSIZ), NZ2(MVSIZ),
      .     NX3(MVSIZ), NY3(MVSIZ), NZ3(MVSIZ),
      .     NX4(MVSIZ), NY4(MVSIZ), NZ4(MVSIZ),
-     .     AL1(MVSIZ),  AL2(MVSIZ),  AL3(MVSIZ),  AL4(MVSIZ),  
+     .     AL1(MVSIZ),  AL2(MVSIZ),  AL3(MVSIZ),  AL4(MVSIZ),
      .     X01(MVSIZ),  X02(MVSIZ),  X03(MVSIZ),  X04(MVSIZ),
      .     Y01(MVSIZ),  Y02(MVSIZ),  Y03(MVSIZ),  Y04(MVSIZ),
      .     Z01(MVSIZ),  Z02(MVSIZ),  Z03(MVSIZ),  Z04(MVSIZ),
-     .     XI1(MVSIZ),  XI2(MVSIZ),  XI3(MVSIZ),  XI4(MVSIZ), 
-     .     YI1(MVSIZ),  YI2(MVSIZ),  YI3(MVSIZ),  YI4(MVSIZ), 
-     .     ZI1(MVSIZ),  ZI2(MVSIZ),  ZI3(MVSIZ),  ZI4(MVSIZ), 
+     .     XI1(MVSIZ),  XI2(MVSIZ),  XI3(MVSIZ),  XI4(MVSIZ),
+     .     YI1(MVSIZ),  YI2(MVSIZ),  YI3(MVSIZ),  YI4(MVSIZ),
+     .     ZI1(MVSIZ),  ZI2(MVSIZ),  ZI3(MVSIZ),  ZI4(MVSIZ),
      .     X0(MVSIZ),  Y0(MVSIZ),  Z0(MVSIZ),
      .     XI0V(MVSIZ),  YI0V(MVSIZ),  ZI0V(MVSIZ),
      .     LA, HLA, H0, H00,
@@ -141,7 +141,7 @@ C--------------------------------------------------------
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -409,9 +409,9 @@ C
          GAP2(I)=GAPV(I)*GAPV(I)
 C
          LA1 = ONE - LB1(I) - LC1(I)
-         XP1(I) = LB1(I)*X1(I) + LC1(I)*X2(I) + LA1*X0(I) 
-         YP1(I) = LB1(I)*Y1(I) + LC1(I)*Y2(I) + LA1*Y0(I) 
-         ZP1(I) = LB1(I)*Z1(I) + LC1(I)*Z2(I) + LA1*Z0(I) 
+         XP1(I) = LB1(I)*X1(I) + LC1(I)*X2(I) + LA1*X0(I)
+         YP1(I) = LB1(I)*Y1(I) + LC1(I)*Y2(I) + LA1*Y0(I)
+         ZP1(I) = LB1(I)*Z1(I) + LC1(I)*Z2(I) + LA1*Z0(I)
 C
          NX1(I) = XI(I)-XP1(I)
          NY1(I) = YI(I)-YP1(I)
@@ -419,9 +419,9 @@ C
          P1(I) = NX1(I)*NX1(I) + NY1(I)*NY1(I) +NZ1(I)*NZ1(I)
 C
          LA2 = ONE - LB2(I) - LC2(I)
-         XP2(I) = LB2(I)*X2(I) + LC2(I)*X3(I) + LA2*X0(I) 
-         YP2(I) = LB2(I)*Y2(I) + LC2(I)*Y3(I) + LA2*Y0(I) 
-         ZP2(I) = LB2(I)*Z2(I) + LC2(I)*Z3(I) + LA2*Z0(I) 
+         XP2(I) = LB2(I)*X2(I) + LC2(I)*X3(I) + LA2*X0(I)
+         YP2(I) = LB2(I)*Y2(I) + LC2(I)*Y3(I) + LA2*Y0(I)
+         ZP2(I) = LB2(I)*Z2(I) + LC2(I)*Z3(I) + LA2*Z0(I)
 C
          NX2(I) = XI(I)-XP2(I)
          NY2(I) = YI(I)-YP2(I)
@@ -429,9 +429,9 @@ C
          P2(I) = NX2(I)*NX2(I) + NY2(I)*NY2(I) +NZ2(I)*NZ2(I)
 C
          LA3 = ONE - LB3(I) - LC3(I)
-         XP3(I) = LB3(I)*X3(I) + LC3(I)*X4(I) + LA3*X0(I) 
-         YP3(I) = LB3(I)*Y3(I) + LC3(I)*Y4(I) + LA3*Y0(I) 
-         ZP3(I) = LB3(I)*Z3(I) + LC3(I)*Z4(I) + LA3*Z0(I) 
+         XP3(I) = LB3(I)*X3(I) + LC3(I)*X4(I) + LA3*X0(I)
+         YP3(I) = LB3(I)*Y3(I) + LC3(I)*Y4(I) + LA3*Y0(I)
+         ZP3(I) = LB3(I)*Z3(I) + LC3(I)*Z4(I) + LA3*Z0(I)
 C
          NX3(I) = XI(I)-XP3(I)
          NY3(I) = YI(I)-YP3(I)
@@ -439,9 +439,9 @@ C
          P3(I) = NX3(I)*NX3(I) + NY3(I)*NY3(I) +NZ3(I)*NZ3(I)
 C
          LA4 = ONE - LB4(I) - LC4(I)
-         XP4(I) = LB4(I)*X4(I) + LC4(I)*X1(I) + LA4*X0(I) 
-         YP4(I) = LB4(I)*Y4(I) + LC4(I)*Y1(I) + LA4*Y0(I) 
-         ZP4(I) = LB4(I)*Z4(I) + LC4(I)*Z1(I) + LA4*Z0(I) 
+         XP4(I) = LB4(I)*X4(I) + LC4(I)*X1(I) + LA4*X0(I)
+         YP4(I) = LB4(I)*Y4(I) + LC4(I)*Y1(I) + LA4*Y0(I)
+         ZP4(I) = LB4(I)*Z4(I) + LC4(I)*Z1(I) + LA4*Z0(I)
 C
          NX4(I) = XI(I)-XP4(I)
          NY4(I) = YI(I)-YP4(I)
@@ -503,9 +503,9 @@ C
         LA1 = ONE - LB1(I) - LC1(I)
         LA2 = ONE - LB2(I) - LC2(I)
         LA3 = ONE - LB3(I) - LC3(I)
-        LA4 = ONE - LB4(I) - LC4(I) 
+        LA4 = ONE - LB4(I) - LC4(I)
 C
-        H0    = FOURTH * 
+        H0    = FOURTH *
      .        (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
         H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
         H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)

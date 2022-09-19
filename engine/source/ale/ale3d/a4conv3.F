@@ -63,7 +63,7 @@ C-----------------------------------------------
         IE =NFT+I
         VALEL(I)=PHI(IE)
       ENDDO
-      
+
       DO I=LFT,LLT
          IE =NFT+I
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
@@ -115,7 +115,7 @@ C
      2                                   -VALVOIS(2,I)*FLUX(2,I)
      3                                   -VALVOIS(4,I)*FLUX(4,I)
      4                                   -VALVOIS(5,I)*FLUX(5,I)
-     5                                   -VALVOIS(6,I)*FLUX(6,I) 
+     5                                   -VALVOIS(6,I)*FLUX(6,I)
      6                                   )
       ENDDO
 C-----------------------------------------------

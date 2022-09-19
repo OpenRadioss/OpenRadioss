@@ -34,10 +34,10 @@ Chd|====================================================================
      3                   N2    ,M1    ,M2    ,VXS1    ,VYS1    ,
      4                   VZS1  ,VXS2  ,VYS2  ,VZS2    ,VXM1    ,
      5                   VYM1  ,VZM1  ,VXM2  ,VYM2    ,VZM2    ,
-     6                   DXS1  ,DYS1  ,DZS1  ,DXS2    ,DYS2    ,  
-     7                   DZS2  ,DXM1  ,DYM1  ,DZM1    ,DXM2    ,  
+     6                   DXS1  ,DYS1  ,DZS1  ,DXS2    ,DYS2    ,
+     7                   DZS2  ,DXM1  ,DYM1  ,DZM1    ,DXM2    ,
      8                   DYM2  ,DZM2  ,MS1   ,MS2     ,MM1     ,
-     9                   MM2   ,MS    ,D     ,V       ,NRTS    , 
+     9                   MM2   ,MS    ,D     ,V       ,NRTS    ,
      A                   NIN   ,JLT_NEW,LREM  )
 C-----------------------------------------------
 C   M o d u l e s
@@ -150,7 +150,7 @@ Chd|        IMP_INTM                      share/modules/imp_intm.F
 Chd|====================================================================
       SUBROUTINE I11CORKP3(JLT   ,
      1                    XXS1   ,XXS2    ,XYS1    ,XYS2   ,XZS1   ,
-     2                    XZS2   ,DXS1    ,DYS1    ,DZS1   ,DXS2   ,  
+     2                    XZS2   ,DXS1    ,DYS1    ,DZS1   ,DXS2   ,
      3                    DYS2   ,DZS2    ,D       ,CAND_N ,NRTS   ,
      4                    N1     ,N2      ,NIN     ,IUPD   )
 C-----------------------------------------------

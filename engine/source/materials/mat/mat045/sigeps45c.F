@@ -107,7 +107,7 @@ C
 C
       INTEGER NEL0, NUPARAM, NUVAR, NPT0, IPT,IFLAG(*),
      .   NGL(NEL0)
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   AREA(NEL0),RHO0(NEL0),EINT(NEL0,2),
      .   THKLY(NEL0),PLA(NEL0),
@@ -149,15 +149,15 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,INDEX(MVSIZ),NINDX,NMAX,N
-      my_real 
+      my_real
      .        YOUNG,ANU,G,CA,CB,CN,EPSM,SIGM,CC,CD,CM,EPS0,
      .        CE,CK,C1,C14G3,A1,A2,G3,GS,
      .        CH1,CH2,CH3,QH1,QH2,
      .        NNU1,NU1,NU2,NU3,S1,S2,S3,
      .        R,UMR,DEZZ,
      .        P2,Q2,F,DF,YLD_I,
-     .        CUTFRE,BETA     
-      my_real 
+     .        CUTFRE,BETA
+      my_real
      .        SVM(MVSIZ),AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        DPLA_I(MVSIZ),DR(MVSIZ),PP(MVSIZ),QQ(MVSIZ)
 C
@@ -170,25 +170,25 @@ C=======================================================================
 C-----------------------------------------------
 C     PARAMETERS READING
 C-----------------------------------------------
-        YOUNG = UPARAM(1) 
+        YOUNG = UPARAM(1)
         ANU = UPARAM(2)
         G = UPARAM(3)
         CA = UPARAM(4)
         CB = UPARAM(5)
         CN = UPARAM(6)
         EPSM = UPARAM(7)
-        SIGM = UPARAM(8) 
-        CC = UPARAM(9) 
+        SIGM = UPARAM(8)
+        CC = UPARAM(9)
         CD = UPARAM(10)
         CM = UPARAM(11)
         EPS0 = UPARAM(12)
         CE = UPARAM(13)
         CK = UPARAM(14)
-        C1 = UPARAM(15) 
+        C1 = UPARAM(15)
         C14G3 = UPARAM(16)
-        A1 = UPARAM(17) 
-        A2 = UPARAM(18) 
-        CUTFRE = UPARAM(19) 
+        A1 = UPARAM(17)
+        A2 = UPARAM(18)
+        CUTFRE = UPARAM(19)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -198,7 +198,7 @@ C-----------------------------------------------
            UVAR(I,2)=ZERO
            UVAR(I,3)=ZERO
            UVAR(I,4)=ZERO
-           UVAR(I,5)=ZERO  
+           UVAR(I,5)=ZERO
         ENDDO
       ENDIF
 C-----------------------------------------------
@@ -328,7 +328,7 @@ C-------------------------
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
+           SVM(I)=SQRT(AA(I)+BB(I))
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
            THK(I) = THK(I) + DEZZ*THKLY(I)
          ENDDO
@@ -360,7 +360,7 @@ C#include "vectorize.inc"
              YLD_I =UVAR(I,3)+UVAR(I,4)*DPLA_I(I)
              DR(I) =HALF*YOUNG*DPLA_I(I)/YLD_I
              PP(I)  =ONE/(ONE+DR(I)*NU1)
-             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)	     
+             QQ(I)  =ONE/(ONE + THREE*DR(I)*NU2)	
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
@@ -371,7 +371,7 @@ C#include "vectorize.inc"
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
          ENDDO
 C------------------------------------------

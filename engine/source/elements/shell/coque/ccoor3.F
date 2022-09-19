@@ -63,12 +63,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IXCTMP2,IXCTMP3,IXCTMP4,IXCTMP5
       INTEGER I, MAT_1
-      my_real OFF_L      
+      my_real OFF_L
 C-----------------------------------------------
       MAT_1 = IXC(1,1)
       MAT(JFT:JLT)= MAT_1
 c
-      DO I=JFT,JLT      
+      DO I=JFT,JLT
         IXCTMP2=IXC(2,I)
         IXCTMP3=IXC(3,I)
         IXCTMP4=IXC(4,I)
@@ -167,7 +167,7 @@ Chd|====================================================================
       SUBROUTINE CCOORT3(JFT     ,JLT   ,X     ,IXC    ,OFFG   ,
      1                    DR     ,PX1   ,PX2   ,PY1    ,PY2    ,
      2                    E1X    ,E1Y   ,E1Z   ,E2X    ,E2Y    ,
-     3                    E2Z    ,E3X   ,E3Y   ,E3Z    ,AREA   , 
+     3                    E2Z    ,E3X   ,E3Y   ,E3Z    ,AREA   ,
      4                    V13X   ,V24X  ,V13Y  ,V24Y   ,SMSTR  ,
      5                    NEL    )
 C-----------------------------------------------
@@ -199,7 +199,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, II(9),NN(4)
 C     REAL
-      my_real 
+      my_real
      .   X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ),
      .   OFF_L,VG13(3),VG24(3),
@@ -237,7 +237,7 @@ C
             UXYZ(I,1,4) = X0G4(I)-SMSTR(II(7)+I)
             UXYZ(I,2,4) = Y0G4(I)-SMSTR(II(8)+I)
             UXYZ(I,3,4) = Z0G4(I)-SMSTR(II(9)+I)
-            
+
             X0G2(I) = SMSTR(II(1)+I)
             Y0G2(I) = SMSTR(II(2)+I)
             Z0G2(I) = SMSTR(II(3)+I)
@@ -273,7 +273,7 @@ C
        PX1(I)= HALF*(YL2(I)-YL4(I))
        PY1(I)= HALF*(XL4(I)-XL2(I))
        PX2(I)= HALF* YL3(I)
-       PY2(I)=-HALF* XL3(I)     
+       PY2(I)=-HALF* XL3(I)
        AREA(I)= MAX(TWO*(PY2(I)*PX1(I)-PY1(I)*PX2(I)),EM20)
        A_I(I) = ONE / AREA(I)
       ENDDO
@@ -291,11 +291,11 @@ C
         V13Y(I)=E2X(I)*VG13(1)+E2Y(I)*VG13(2)+E2Z(I)*VG13(3)
         V24Y(I)=E2X(I)*VG24(1)+E2Y(I)*VG24(2)+E2Z(I)*VG24(3)
 C	
-       PX1(I)=A_I(I)*PX1(I) 
+       PX1(I)=A_I(I)*PX1(I)
        PY1(I)=A_I(I)*PY1(I)
        PX2(I)=A_I(I)*PX2(I)
        PY2(I)=A_I(I)*PY2(I)
-      ENDDO 
+      ENDDO
 C
       OFF_L = ZERO
       DO I=JFT,JLT

@@ -32,8 +32,8 @@ Chd|====================================================================
      +                   NODLOCAL,LJOINT_L,LEN_IA,NUMNOD_L)
 !$COMMENT
 !       WRITE_JOINT description
-!       write the joint structure 
-!       
+!       write the joint structure
+!
 !       WRITE_JOINT organization :
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -71,8 +71,8 @@ C
         P = PROC + 1
         !   ----------------------
         !   count the number of data in order to allocate the buffer
-        K = 0 
-        DO N=1,NJOINT     
+        K = 0
+        DO N=1,NJOINT
             IF(CYL_JOIN(N)%NB_NODE(P)>0) THEN
                 K = K + 4 + CYL_JOIN(N)%NUMBER_PROC + 2*CYL_JOIN(N)%NB_NODE(P) + NSPMD
             ENDIF
@@ -83,14 +83,14 @@ C
         ALLOCATE(BUF_W(K))
 
         !   write for all processor the number of node per proc
-        DO N=1,NJOINT            
+        DO N=1,NJOINT
             BUF_W(N) = CYL_JOIN(N)%NB_NODE(P)
         ENDDO
         CALL WRITE_I_C(BUF_W,NJOINT)
         LEN_IA = LEN_IA + NJOINT
         !   ----------------------
         !   loop over the CYL_JOINT
-        DO N=1,NJOINT     
+        DO N=1,NJOINT
             NB_NODE_WEIGHT(1:NSPMD) = 0
             !   ----------------------
             !   if 1 or several nodes are on the current processor, write all the stuff
@@ -118,7 +118,7 @@ C
             ENDDO
             !   number of node with weight = 1 (all processor) ; use for mpi comm
             CALL WRITE_I_C(NB_NODE_WEIGHT,NSPMD)
-            MAIN_NODE(1:2) = NODLOCAL(CYL_JOIN(N)%MAIN_NODE(1:2))     
+            MAIN_NODE(1:2) = NODLOCAL(CYL_JOIN(N)%MAIN_NODE(1:2))
             !   main nodes (all processor)
             CALL WRITE_I_C(MAIN_NODE,2)
         ENDDO
@@ -126,7 +126,7 @@ C
         IS_SMS_AVAILABLE = 0
         IF(JOINT_SMS) IS_SMS_AVAILABLE = 1
         CALL WRITE_I_C(IS_SMS_AVAILABLE,1)
-        
+
         LEN_IA = LEN_IA + K + 1
         DEALLOCATE(BUF_W)
 C

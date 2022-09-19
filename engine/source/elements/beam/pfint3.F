@@ -51,11 +51,11 @@ C-----------------------------------------------
       INTEGER NEL,PID(MVSIZ)
 C     REAL
       my_real
-     .   FOR(NEL,3),MOM(NEL,3),GEO(NPROPG,*),OFFG(*),OFF(*),AL(MVSIZ), 
+     .   FOR(NEL,3),MOM(NEL,3),GEO(NPROPG,*),OFFG(*),OFF(*),AL(MVSIZ),
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),
      .   STI(MVSIZ), STIR(MVSIZ),
-     .   F11(MVSIZ), F12(MVSIZ), F21(MVSIZ),  
-     .   F22(MVSIZ), F31(MVSIZ), F32(MVSIZ), 
+     .   F11(MVSIZ), F12(MVSIZ), F21(MVSIZ),
+     .   F22(MVSIZ), F31(MVSIZ), F32(MVSIZ),
      .   M11(MVSIZ), M12(MVSIZ), M21(MVSIZ),
      .   M22(MVSIZ), M31(MVSIZ), M32(MVSIZ)
 C-----------------------------------------------

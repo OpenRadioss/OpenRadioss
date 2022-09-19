@@ -65,7 +65,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DA1(3),DA2(3),VT1(3),VT2(3),
-     .   DMX2, DT12M1, FN2, FT2, 
+     .   DMX2, DT12M1, FN2, FT2,
      .   XM, AMX, AMY, AMZ, AN, AN2, ANX, ANY, ANZ,
      .   ATX, ATY, ATZ, AT2, ALP,MASS,MASM1,INER,INM1,I1,I2,
      .   XCDG,YCDG,ZCDG,XX1,YY1,ZZ1,XX2,YY2,ZZ2, WW,WT,
@@ -85,7 +85,7 @@ C-----------------------------------------------
        NIND1 = 0
        NIND2 = 0
        DO IS = 1 , NN
-        I = JS+IS 
+        I = JS+IS
 C test si rivet a traiter sur le proc
         IF(IXRT(2,I)>0)THEN
 C----------------------------
@@ -292,7 +292,7 @@ C----------------------------
            DA1(3) = HALF*DT2*DT12M1*(VXX*VT1(1) - VYY*VT1(2))
            DA2(1) = HALF*DT2*DT12M1*(VYY*VT2(3) - VZZ*VT2(2))
            DA2(2) = HALF*DT2*DT12M1*(VZZ*VT2(1) - VXX*VT2(3))
-           DA2(3) = HALF*DT2*DT12M1*(VXX*VT2(1) - VYY*VT2(2))	   
+           DA2(3) = HALF*DT2*DT12M1*(VXX*VT2(1) - VYY*VT2(2))	
 C
            A(1,N1)=A(1,N1)+AX/MS(N1)+DA1(1)
            A(2,N1)=A(2,N1)+AY/MS(N1)+DA1(2)
@@ -402,7 +402,7 @@ C-----------------------------------------------
       ENDDO
 C
 #include "lockon.inc"
-        ENROT = ENROT + ENROT_L 
+        ENROT = ENROT + ENROT_L
 #include "lockoff.inc"
       IF (RUPT==1) THEN
         DO I=LFT,LLT

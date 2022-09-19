@@ -56,7 +56,7 @@ C-----------------------------------------------
      .        IRQTAG, MSGOFF, NDF
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: PDDLS
 C
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
 C
       DO I=1,NDDL
          ITAG(I)=0
@@ -117,10 +117,10 @@ C
             DEALLOCATE(PDDLS)
          ENDIF
 C Broadcast du nombre de modes statiques total
-         IF (NSPMD>1) 
+         IF (NSPMD>1)
      .      CALL SPMD_IBCAST(N, N, 1, 1, 0, 2)
       ENDIF
 C
       RETURN
       END
-      
+

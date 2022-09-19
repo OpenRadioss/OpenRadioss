@@ -162,12 +162,12 @@ C-----------------------------------------------
      .        IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .        JJ(MVSIZ),INDEX(MVSIZ),NRATEM,
      .        NRATE1
-      my_real 
+      my_real
      .        E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),
      .        DYDX1(MVSIZ),DYDX2(MVSIZ),RATE(MVSIZ),SVM(MVSIZ),
      .        Y1(MVSIZ),Y2(MVSIZ),DR(MVSIZ),
      .        YFAC(MVSIZ,2),
-     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),     
+     .        AA(MVSIZ),BB(MVSIZ),DPLA_J(MVSIZ),
      .        PP(MVSIZ),QQ(MVSIZ),FAIL(MVSIZ),SVMO(MVSIZ),H(MVSIZ),
      .        EPSMAX(MVSIZ),EPSR1(MVSIZ),EPSR2(MVSIZ),FISOKIN(MVSIZ),
      .        SIGEXX(MVSIZ),SIGEYY(MVSIZ),SIGEXY(MVSIZ),
@@ -175,7 +175,7 @@ C-----------------------------------------------
      .        SVM2(MVSIZ),YLD2(MVSIZ)
       my_real
      .        R,UMR,A,B,C,AMU,S11,S22,S12,P,P2,FAC,DEZZ,
-     .        SIGZ,S1,S2,S3,DPLA,VM2,EPST(MVSIZ),NNU2,     
+     .        SIGZ,S1,S2,S3,DPLA,VM2,EPST(MVSIZ),NNU2,
      .        ERR,F,DF,PLA_I,Q2,YLD_I,SIGPXX,SIGPYY,SIGPXY,
      .        ALPHA,
      .        E1,A11,A21,G1,NNU11,NU11,NU21,NU31,NU41,NU51,NU61,
@@ -202,7 +202,7 @@ C-----------------------------------------------
        EPSR11  =UPARAM(8+2*NRATE1)
        EPSR21  =UPARAM(9+2*NRATE1)
        FISOKIN1=UPARAM(14+2*NRATE1)
-       EPSF1= UPARAM(15+2*NRATE1)        
+       EPSF1= UPARAM(15+2*NRATE1)
        IF(EPSMAX1==ZERO)THEN
          IF(TF(NPF(IPM(11,MAT(1))+1)-1)==ZERO)THEN
            EPSMAX1=TF(NPF(IPM(11,MAT(1))+1)-2)
@@ -217,7 +217,7 @@ C
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
            UVAR(I,3)=ZERO
-           UVAR(I,4)=ZERO  
+           UVAR(I,4)=ZERO
            DO J=1,NRATE1
              UVAR(I,J+4)=ZERO
            ENDDO
@@ -248,7 +248,7 @@ C-------------------
 C     STRAIN RATE
 C-------------------
 C
-         IF (ISRATE == 0) EPSP(I) = 
+         IF (ISRATE == 0) EPSP(I) =
      .     HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .   + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                 + EPSPXY(I)*EPSPXY(I) ) )
@@ -350,7 +350,7 @@ C       ECROUISSAGE CINEMATIQUE
          Y2(I)=TF(NPF(IPM(10+J2,MAT(1)))+1)
          Y1(I)=Y1(I)*YFAC(I,1)
          Y2(I)=Y2(I)*YFAC(I,2)
-         YLD(I) = (1.-FISOKIN1) * YLD(I) + 
+         YLD(I) = (1.-FISOKIN1) * YLD(I) +
      .        FISOKIN1 * (Y1(I)    + FAC*(Y2(I)-Y1(I)))
         ENDDO
        ENDIF
@@ -391,7 +391,7 @@ C-------------------------
            S3=SIGNXY(I)
            AA(I)=FOURTH*S1*S1
            BB(I)=THREE_OVER_4*S2*S2+3.*S3*S3
-           SVM(I)=SQRT(AA(I)+BB(I))  
+           SVM(I)=SQRT(AA(I)+BB(I))
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDDO
@@ -428,7 +428,7 @@ C
              YLD_I =YLD(I)+HK(I)*DPLA_I(I)
              DR(I) =HALF*E1*DPLA_I(I)/YLD_I
              PP(I)  =ONE/(ONE+DR(I)*NU11)
-             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU21)     
+             QQ(I)  =ONE/(ONE+THREE*DR(I)*NU21)
              P2    =PP(I)*PP(I)
              Q2    =QQ(I)*QQ(I)
              F     =AA(I)*P2+BB(I)*Q2-YLD_I*YLD_I
@@ -444,7 +444,7 @@ C            ENDIF
                DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
              ELSE
                DPLA_J(I)=ZERO
-             ENDIF        
+             ENDIF
            ENDDO
           ENDDO
 C------------------------------------------
@@ -457,7 +457,7 @@ C------------------------------------------
            S1=(SIGNXX(I)+SIGNYY(I))*PP(I)
            S2=(SIGNXX(I)-SIGNYY(I))*QQ(I)
            SIGNXX(I)=HALF*(S1+S2)
-           SIGNYY(I)=HALF*(S1-S2) 
+           SIGNYY(I)=HALF*(S1-S2)
            SIGNXY(I)=SIGNXY(I)*QQ(I)
            DEZZ = - NU31*DR(I)*S1/E1
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -474,7 +474,7 @@ C-------------------------
      .             +SIGNYY(I)*SIGNYY(I)
      .             -SIGNXX(I)*SIGNYY(I)
      .             +THREE*SIGNXY(I)*SIGNXY(I)
-           SVM(I)=SQRT(SVM2(I))  
+           SVM(I)=SQRT(SVM2(I))
            DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU11
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDDO
@@ -516,7 +516,7 @@ C
            SVM(I)=SQRT( SIGNXX(I)*SIGNXX(I)
      .                 +SIGNYY(I)*SIGNYY(I)
      .                 -SIGNXX(I)*SIGNYY(I)
-     .                 +THREE*SIGNXY(I)*SIGNXY(I))  
+     .                 +THREE*SIGNXY(I)*SIGNXY(I))
            R  = MIN(ONE,YLD(I)/MAX(EM20,SVM(I)))
            SIGNXX(I)=SIGNXX(I)*R
            SIGNYY(I)=SIGNYY(I)*R
@@ -544,7 +544,7 @@ Cel test bypass
           DSXX = SIGEXX(I) - SIGNXX(I)
           DSYY = SIGEYY(I) - SIGNYY(I)
           DSXY = SIGEXY(I) - SIGNXY(I)
-          DEXX = (DSXX - NUX*DSYY) 
+          DEXX = (DSXX - NUX*DSYY)
           DEYY = (DSYY - NUX*DSXX)
           DEXY = TWO*(ONE+NUX)*DSXY
           ALPHA = FISOKIN1*H(I)/(E1+H(I))/THREE

@@ -44,7 +44,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
       USE MULTI_FVM_MOD
-      USE INOUTFILE_MOD            
+      USE INOUTFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -103,57 +103,57 @@ C-----------------------------------------------
             INIMAP1D%CORRECTLY_READ = .FALSE.
             return
            ENDIF
-        ENDIF    
-              
+        ENDIF
+
         CALL READ_I_C(INIVERS,1)
         CALL READ_DB(TT,1)
         CALL READ_I_C(NCYCLE,1)
         CALL READ_I_C(NUM_CENTROIDS,1)
         CALL READ_I_C(NUM_NODE_VEL,1)
-        CALL READ_I_C(NBMAT,1) 
-        
-          IF(.NOT.ALLOCATED(INIMAP1D%SUBMAT))ALLOCATE(INIMAP1D%SUBMAT(NBMAT))                   
+        CALL READ_I_C(NBMAT,1)
+
+          IF(.NOT.ALLOCATED(INIMAP1D%SUBMAT))ALLOCATE(INIMAP1D%SUBMAT(NBMAT))
 
           !---ABSCISSA
           IF(.NOT.ALLOCATED(INIMAP1D%X))ALLOCATE(INIMAP1D%X(NUM_CENTROIDS))
           CALL READ_DB( INIMAP1D%X(1),NUM_CENTROIDS)
-          CALL READ_DB( X_SHIFT,1)                                                                                    
+          CALL READ_DB( X_SHIFT,1)
           !MOVE_FUNCTION
           DO K=1,NUM_CENTROIDS
             INIMAP1D%X(K) = INIMAP1D%X(K)+X_SHIFT
-          ENDDO               
-          
+          ENDDO
+
           !---VOLUME FRACTION
-          DO ISUBMAT=1,NBMAT                   
+          DO ISUBMAT=1,NBMAT
             IF(.NOT.ALLOCATED(INIMAP1D%SUBMAT(ISUBMAT)%VFRAC))ALLOCATE(INIMAP1D%SUBMAT(ISUBMAT)%VFRAC(NUM_CENTROIDS))
             CALL READ_DB( INIMAP1D%SUBMAT(ISUBMAT)%VFRAC(1),NUM_CENTROIDS)
-          ENDDO  
+          ENDDO
 
           !---DENSITIES
-          DO ISUBMAT=1,NBMAT                  
+          DO ISUBMAT=1,NBMAT
             IF(.NOT.ALLOCATED(INIMAP1D%SUBMAT(ISUBMAT)%RHO))ALLOCATE(INIMAP1D%SUBMAT(ISUBMAT)%RHO(NUM_CENTROIDS))
-            CALL READ_DB( INIMAP1D%SUBMAT(ISUBMAT)%RHO(1),NUM_CENTROIDS)       
-          ENDDO            
+            CALL READ_DB( INIMAP1D%SUBMAT(ISUBMAT)%RHO(1),NUM_CENTROIDS)
+          ENDDO
 
           !---PRESSURE
-          DO ISUBMAT=1,NBMAT                  
+          DO ISUBMAT=1,NBMAT
             IF(.NOT.ALLOCATED(INIMAP1D%SUBMAT(ISUBMAT)%PRES))ALLOCATE(INIMAP1D%SUBMAT(ISUBMAT)%PRES(NUM_CENTROIDS))
             CALL READ_DB( INIMAP1D%SUBMAT(ISUBMAT)%PRES(1),NUM_CENTROIDS)
-          ENDDO  
- 
+          ENDDO
+
           !---VELOCITY
           IF(.NOT.ALLOCATED(INIMAP1D%VEL))ALLOCATE(INIMAP1D%VEL(NUM_NODE_VEL))
           IF(.NOT.ALLOCATED(INIMAP1D%X_VEL))ALLOCATE(INIMAP1D%X_VEL(NUM_NODE_VEL))
           IF(NUM_NODE_VEL == NUM_CENTROIDS)THEN
             CALL READ_DB( INIMAP1D%VEL(1),NUM_NODE_VEL )
-            DO K=1, NUM_NODE_VEL  
-              INIMAP1D%X_VEL(K) = INIMAP1D%X(K)       
+            DO K=1, NUM_NODE_VEL
+              INIMAP1D%X_VEL(K) = INIMAP1D%X(K)
             ENDDO
           ELSE
             CALL READ_DB( INIMAP1D%X_VEL(1),NUM_NODE_VEL )
             CALL READ_DB( INIMAP1D%VEL(1),NUM_NODE_VEL )
-          ENDIF 
-           
+          ENDIF
+
         CALL CLOSE_C()
 
         !check abscissa
@@ -167,34 +167,34 @@ C-----------------------------------------------
         !  ENDIF
         !ENDDO
 
-        INIMAP1D%NBMAT = NBMAT 
-        INIMAP1D%NUM_CENTROIDS = NUM_CENTROIDS     
-        INIMAP1D%NUM_NODE_VEL = NUM_NODE_VEL        
-        INIMAP1D%FUNC_VEL = -1 
-        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_ALPHA))ALLOCATE(INIMAP1D%FUNC_ALPHA(NBMAT))          
-        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_RHO))ALLOCATE(INIMAP1D%FUNC_RHO(NBMAT))          
-        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_ENER))ALLOCATE(INIMAP1D%FUNC_ENER(NBMAT))                          
-        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_PRES))ALLOCATE(INIMAP1D%FUNC_PRES(NBMAT))                          
-        DO ISUBMAT=1,NBMAT   
-          INIMAP1D%FUNC_ALPHA(ISUBMAT) = -1        
-          INIMAP1D%FUNC_RHO(ISUBMAT)   = -1        
-          INIMAP1D%FUNC_ENER(ISUBMAT)  = -1                        
-          INIMAP1D%FUNC_PRES(ISUBMAT)  = -1                        
+        INIMAP1D%NBMAT = NBMAT
+        INIMAP1D%NUM_CENTROIDS = NUM_CENTROIDS
+        INIMAP1D%NUM_NODE_VEL = NUM_NODE_VEL
+        INIMAP1D%FUNC_VEL = -1
+        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_ALPHA))ALLOCATE(INIMAP1D%FUNC_ALPHA(NBMAT))
+        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_RHO))ALLOCATE(INIMAP1D%FUNC_RHO(NBMAT))
+        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_ENER))ALLOCATE(INIMAP1D%FUNC_ENER(NBMAT))
+        IF(.NOT.ALLOCATED(INIMAP1D%FUNC_PRES))ALLOCATE(INIMAP1D%FUNC_PRES(NBMAT))
+        DO ISUBMAT=1,NBMAT
+          INIMAP1D%FUNC_ALPHA(ISUBMAT) = -1
+          INIMAP1D%FUNC_RHO(ISUBMAT)   = -1
+          INIMAP1D%FUNC_ENER(ISUBMAT)  = -1
+          INIMAP1D%FUNC_PRES(ISUBMAT)  = -1
         ENDDO
 
-        IF(.NOT.ALLOCATED(INIMAP1D%FAC_RHO))ALLOCATE(INIMAP1D%FAC_RHO(NBMAT))          
-        IF(.NOT.ALLOCATED(INIMAP1D%FAC_PRES_ENER))ALLOCATE(INIMAP1D%FAC_PRES_ENER(NBMAT))                  
+        IF(.NOT.ALLOCATED(INIMAP1D%FAC_RHO))ALLOCATE(INIMAP1D%FAC_RHO(NBMAT))
+        IF(.NOT.ALLOCATED(INIMAP1D%FAC_PRES_ENER))ALLOCATE(INIMAP1D%FAC_PRES_ENER(NBMAT))
         DO ISUBMAT=1,NBMAT
           INIMAP1D%FAC_RHO(ISUBMAT) = ONE
           INIMAP1D%FAC_PRES_ENER(ISUBMAT) = ONE
         ENDDO
         INIMAP1D%FAC_VEL = ONE
-           
-        
+
+
         RETURN
-        
+
  999             CALL ANCMSG(MSGID = 1884, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I1 = INIMAP1D%ID, C1=INIMAP1D%TITLE)
-  
+
 
       END SUBROUTINE LEC_INIMAP1D_FILE

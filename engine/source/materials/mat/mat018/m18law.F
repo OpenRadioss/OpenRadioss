@@ -111,14 +111,14 @@ C=======================================================================
       DO I=LFT,LLT
         IKFUN = IPM(13,MX)
         IF (IKFUN /= 0) THEN
-          TSCAL = THETA(I) / PM(42,MX) 
-          KSCAL = PM(44,MX)   
+          TSCAL = THETA(I) / PM(42,MX)
+          KSCAL = PM(44,MX)
           NPOINT=(NPF(IKFUN+1)-NPF(IKFUN))/2
           CALL INTERP(TF(NPF(IKFUN)),TSCAL,NPOINT,A(I),BID)
           A(I) = KSCAL * A(I)
           B(I) = ZERO
         ENDIF
-        DTX(I)=HALF*DELTAX(I)**2*SPH(I)/(A(I)+B(I)*THETA(I))        
+        DTX(I)=HALF*DELTAX(I)**2*SPH(I)/(A(I)+B(I)*THETA(I))
       ENDDO
 
 C--------------------------
@@ -128,16 +128,16 @@ C--------------------------
           DO I=LFT,LLT
              IF(DTX(I)<DT_THERM)  DT_THERM = DTX(I)
              CONDE(I) = FOUR*VOLU(I)*(A(I)+B(I)*THETA(I))/DELTAX(I)*DELTAX(I)
-c             CONDE(I) = CONDE(I)*OFF(I)  
-          ENDDO     
-        ENDIF  
+c             CONDE(I) = CONDE(I)*OFF(I)
+          ENDDO
+        ENDIF
 
       DO I=LFT,LLT
         ! dt2, nelts, itypts remplaces par dt2t, neltst, ityptst
         IF(DTX(I)>DT2T) CYCLE
         DT2T=DTX(I)
         NELTST =NGL(I)
-        ITYPTST=ITY        
+        ITYPTST=ITY
       ENDDO
 
       DO I=LFT,LLT

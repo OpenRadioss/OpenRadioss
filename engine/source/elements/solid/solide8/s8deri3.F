@@ -61,13 +61,13 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(MVSIZ,8), Y(MVSIZ,8), Z(MVSIZ,8),
-     .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),      
-     .   PX5(MVSIZ,8),PX6(MVSIZ,8),PX7(MVSIZ,8),PX8(MVSIZ,8),      
-     .   PY1(MVSIZ,8),PY2(MVSIZ,8),PY3(MVSIZ,8),PY4(MVSIZ,8),      
-     .   PY5(MVSIZ,8),PY6(MVSIZ,8),PY7(MVSIZ,8),PY8(MVSIZ,8),      
-     .   PZ1(MVSIZ,8),PZ2(MVSIZ,8),PZ3(MVSIZ,8),PZ4(MVSIZ,8),      
+     .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),
+     .   PX5(MVSIZ,8),PX6(MVSIZ,8),PX7(MVSIZ,8),PX8(MVSIZ,8),
+     .   PY1(MVSIZ,8),PY2(MVSIZ,8),PY3(MVSIZ,8),PY4(MVSIZ,8),
+     .   PY5(MVSIZ,8),PY6(MVSIZ,8),PY7(MVSIZ,8),PY8(MVSIZ,8),
+     .   PZ1(MVSIZ,8),PZ2(MVSIZ,8),PZ3(MVSIZ,8),PZ4(MVSIZ,8),
      .   PZ5(MVSIZ,8),PZ6(MVSIZ,8),PZ7(MVSIZ,8),PZ8(MVSIZ,8),
-     .   VLINC(MVSIZ,8),VOL(MVSIZ),DELTAX(MVSIZ) ,OFF(MVSIZ)     
+     .   VLINC(MVSIZ,8),VOL(MVSIZ),DELTAX(MVSIZ) ,OFF(MVSIZ)
       INTEGER  NGL(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -79,13 +79,13 @@ C     REAL
      .   AJ22(MVSIZ), AJ23(MVSIZ), AJ31(MVSIZ), AJ32(MVSIZ),
      .   AJ33(MVSIZ), AI11(MVSIZ), AI12, AI13,
      .   AI21(MVSIZ), AI22, AI23, AI31(MVSIZ),
-     .   AI32, AI33, 
+     .   AI32, AI33,
      .   A1111, A1113,
      .   A1115, A1117, A2111, A2113,
      .   A2115, A2117, A3111, A3113,
      .   A3115, A3117, A1221, A1222,
      .   A1225, A1226, A2221, A2222,
-     .   A2225, A2226, A3221, A3222 
+     .   A2225, A2226, A3221, A3222
 C     REAL
       my_real
      .   A3225, A3226, A1331, A1332,

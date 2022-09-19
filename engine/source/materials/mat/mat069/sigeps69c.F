@@ -89,7 +89,7 @@ C----------------------------------------------------------------
       INTEGER  I,J,K,ITER,NORDRE,NPRONY,IVISC,II,IADBUF,JNV
       my_real
      .   NU,RBULK,TENSCUT,GMAX,RVT,SUM,SUMDWDL,PARTP,KT3(NEL),
-     .   EMAX,A11         
+     .   EMAX,A11
       my_real
      .   MU(5),AL(5),EVMA1(NEL,5),EVMA2(NEL,5),EVMA3(NEL,5),EVM(NEL,3),
      .   EIGV(NEL,3,2),TRAV(NEL),ROOTV(NEL),EVV(NEL,3),EV(NEL,3),
@@ -117,33 +117,33 @@ C=======================================================================
       NORDRE = NINT(UPARAM(IADBUF+17))
       GMAX = ZERO
       IVISC = 0
-      
+
 C add viscosity using /visc/prony
-      IF(IPM(222,MAT(1)) > 0) THEN 
+      IF(IPM(222,MAT(1)) > 0) THEN
          IADBUF = IPM(223,MAT(1))
          NPRONY =  INT(UPARAM(IADBUF +1 ))
          IVISC = 1
-c             
+c
          DO I=1,NPRONY
           GI(I)    = UPARAM(IADBUF + 1 + I)
           BETA(I)  = UPARAM(IADBUF + 1 + NPRONY + I)
           GMAX = GMAX + GI(I)
-         ENDDO  
+         ENDDO
        ENDIF
 C             
        DO I= 1,NORDRE
         GMAX  = GMAX  + MU(I)*AL(I)
-       ENDDO           
+       ENDDO
 C
 C     User variables initialisation
-      IF (TIME == ZERO .AND. ISIGI == 0) THEN 
-        DO I=1,NEL                            
-          DO J=1,NUVAR                         
-            UVAR(I,J) = ZERO                   
-          ENDDO                                
-          UVAR(I,3) = ONE                      
-        ENDDO                                 
-      ENDIF                                   
+      IF (TIME == ZERO .AND. ISIGI == 0) THEN
+        DO I=1,NEL
+          DO J=1,NUVAR
+            UVAR(I,J) = ZERO
+          ENDDO
+          UVAR(I,3) = ONE
+        ENDDO
+      ENDIF
 C
 C     principal stretch (def gradient eigenvalues)
       DO I=1,NEL
@@ -196,23 +196,23 @@ C--------------------------------------
 C     Newton method =>  Find EV(3) : T3(EV(3)) = 0
 C--------------------------------------
 C Like law42 
-       IF(IVISC == 0)  THEN                                                       
+       IF(IVISC == 0)  THEN
          DO ITER = 1,5
 !       ----------------
-          DO I=1,NEL  
-            RV(I) = EV(I,1)*EV(I,2)*EV(I,3)  
-c----  la   normalized stretch => unified compressible/uncompressible formution                   
+          DO I=1,NEL
+            RV(I) = EV(I,1)*EV(I,2)*EV(I,3)
+c----  la   normalized stretch => unified compressible/uncompressible formution
 !            RVT    = RV(I)**(-THIRD)
             IF(RV(I)> ZERO) THEN
              RVT    = EXP((-THIRD)*LOG(RV(I)))
             ELSE
              RVT = ZERO
-            ENDIF                                               
-            EVM(I,1) = EV(I,1)*RVT                                        
-            EVM(I,2) = EV(I,2)*RVT                                        
+            ENDIF
+            EVM(I,1) = EV(I,1)*RVT
+            EVM(I,2) = EV(I,2)*RVT
             EVM(I,3) = EV(I,3)*RVT
-         ENDDO  ! 1,NEL  
-!       ----------------                                      
+         ENDDO  ! 1,NEL
+!       ----------------
 C----       partial derivatives of strain energy
 !       ----------------
          DO J=1,5
@@ -220,7 +220,7 @@ C----       partial derivatives of strain energy
              IF(EVM(I,1)>ZERO) THEN
               IF(AL(J)/=ZERO) THEN
                EVMA1(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,1)))
-              ELSE 
+              ELSE
                EVMA1(I,J) = MU(J)
               ENDIF
              ELSE
@@ -237,7 +237,7 @@ C----       partial derivatives of strain energy
              ENDIF
              IF(EVM(I,3)>ZERO) THEN
               IF(AL(J)/=ZERO) THEN
-               EVMA3(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,3))) 
+               EVMA3(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,3)))
               ELSE
                EVMA3(I,J) = MU(J)
               ENDIF
@@ -245,61 +245,61 @@ C----       partial derivatives of strain energy
               EVMA3(I,J) = ZERO
              ENDIF
            ENDDO        ! 1,NEL
-          ENDDO   ! j=1,5             
-!       ----------------  
-          DO I=1,NEL                                               
-            DWDL(1) = EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5)                              
-            DWDL(2) = EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5)                                  
-            DWDL(3) = EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5)                                                
-            SUMDWDL = (DWDL(1)+DWDL(2)+DWDL(3))* THIRD                                
-            PARTP   = RBULK*(RV(I)- ONE)                                                     
+          ENDDO   ! j=1,5
+!       ----------------
+          DO I=1,NEL
+            DWDL(1) = EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5)
+            DWDL(2) = EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5)
+            DWDL(3) = EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5)
+            SUMDWDL = (DWDL(1)+DWDL(2)+DWDL(3))* THIRD
+            PARTP   = RBULK*(RV(I)- ONE)
 c------  ---
 c           principal cauchy stress
-            T(I,1)  = (DWDL(1) - SUMDWDL) / RV(I) + PARTP 
-            T(I,2)  = (DWDL(2) - SUMDWDL) / RV(I) + PARTP 
-            T(I,3)  = (DWDL(3) - SUMDWDL) / RV(I) + PARTP 
+            T(I,1)  = (DWDL(1) - SUMDWDL) / RV(I) + PARTP
+            T(I,2)  = (DWDL(2) - SUMDWDL) / RV(I) + PARTP
+            T(I,3)  = (DWDL(3) - SUMDWDL) / RV(I) + PARTP
 c------  ---
 
             KT3(I) = -THIRD*(EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5))
-     .            -THIRD*(EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5))    
+     .            -THIRD*(EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5))
      .            +TWO_THIRD*(EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5))
             KT3(I) =-EV(I,1)*EV(I,2)*KT3(I)/(RV(I)**2) + RBULK*EV(I,1)*EV(I,2)
-            KT3(I) = KT3(I) 
-     .            +(ONE_OVER_9*(AL(1)*EVMA1(I,1)+AL(2)*EVMA1(I,2)+AL(3)*EVMA1(I,3) 
-     .            +  AL(4)*EVMA1(I,4)+AL(5)*EVMA1(I,5) 
-     .            +  AL(1)*EVMA2(I,1)+AL(2)*EVMA2(I,2) + AL(3)*EVMA2(I,3) 
-     .            +  AL(4)*EVMA2(I,4)+AL(5)*EVMA2(I,5) 
+            KT3(I) = KT3(I)
+     .            +(ONE_OVER_9*(AL(1)*EVMA1(I,1)+AL(2)*EVMA1(I,2)+AL(3)*EVMA1(I,3)
+     .            +  AL(4)*EVMA1(I,4)+AL(5)*EVMA1(I,5)
+     .            +  AL(1)*EVMA2(I,1)+AL(2)*EVMA2(I,2) + AL(3)*EVMA2(I,3)
+     .            +  AL(4)*EVMA2(I,4)+AL(5)*EVMA2(I,5)
      .            +  FOUR*(AL(1)*EVMA3(I,1) + AL(2)*EVMA3(I,2)
      .            +  AL(3)*EVMA3(I,3)
-     .            +  AL(4)*EVMA3(I,4)+AL(5)*EVMA3(I,5))))/EV(I,3)/RV(I)                                                    
+     .            +  AL(4)*EVMA3(I,4)+AL(5)*EVMA3(I,5))))/EV(I,3)/RV(I)
 C
-            EV(I,3) = EV(I,3)  - T(I,3)/KT3(I) 
-            RV(I)   = EV(I,1)*EV(I,2)*EV(I,3) 
+            EV(I,3) = EV(I,3)  - T(I,3)/KT3(I)
+            RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)
           ENDDO ! 1,NEL
 !       ----------------
-         ENDDO    ! ITER = 1,5   
-         SV(1:NEL,1) = ZERO    
-         SV(1:NEL,2) = ZERO   
-         SV(1:NEL,3) = ZERO          
-      ELSE ! with viscosity                                                       
+         ENDDO    ! ITER = 1,5
+         SV(1:NEL,1) = ZERO
+         SV(1:NEL,2) = ZERO
+         SV(1:NEL,3) = ZERO
+      ELSE ! with viscosity
          DO ITER = 1,5
-!       ---------------- 
-          DO I=1,NEL  
-            RV(I) = EV(I,1)*EV(I,2)*EV(I,3)  
-c----  la   normalized stretch => unified compressible/uncompressible formution                                                    
+!       ----------------
+          DO I=1,NEL
+            RV(I) = EV(I,1)*EV(I,2)*EV(I,3)
+c----  la   normalized stretch => unified compressible/uncompressible formution
             IF(RV(I)> ZERO) THEN
              RVT    = EXP((-THIRD)*LOG(RV(I)))
             ELSE
              RVT = ZERO
-            ENDIF            
-            EVM(I,1) = EV(I,1)*RVT                                        
-            EVM(I,2) = EV(I,2)*RVT                                        
+            ENDIF
+            EVM(I,1) = EV(I,1)*RVT
+            EVM(I,2) = EV(I,2)*RVT
             EVM(I,3) = EV(I,3)*RVT
-          ENDDO    
-!       ----------------                                    
+          ENDDO
+!       ----------------
 C----       partial derivatives of strain energy
           DO J=1,5
-           DO I=1,NEL 
+           DO I=1,NEL
              IF(EVM(I,1)>ZERO) THEN
               IF(AL(J)/=ZERO) THEN
                EVMA1(I,J) = MU(J) * EXP(AL(J)*LOG(EVM(I,1)))
@@ -328,63 +328,63 @@ C----       partial derivatives of strain energy
               EVMA3(I,J) = ZERO
              ENDIF
            ENDDO
-          ENDDO       ! j=1,5 
-!       ----------------          
+          ENDDO       ! j=1,5
+!       ----------------
 C  
-          DO I=1,NEL                                               
-            DWDL(1) = EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5)                        
-            DWDL(2) = EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5)                        
-            DWDL(3) = EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5)                        
-            SUMDWDL = (DWDL(1)+DWDL(2)+DWDL(3))* THIRD                                
-            PARTP   = RBULK*(RV(I)- ONE)                                                   
+          DO I=1,NEL
+            DWDL(1) = EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5)
+            DWDL(2) = EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5)
+            DWDL(3) = EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5)
+            SUMDWDL = (DWDL(1)+DWDL(2)+DWDL(3))* THIRD
+            PARTP   = RBULK*(RV(I)- ONE)
 c------  ---
 c           principal cauchy stress
-            T(I,1)  = (DWDL(1) - SUMDWDL) / RV(I) + PARTP 
-            T(I,2)  = (DWDL(2) - SUMDWDL) / RV(I) + PARTP 
-            T(I,3)  = (DWDL(3) - SUMDWDL) / RV(I) + PARTP 
+            T(I,1)  = (DWDL(1) - SUMDWDL) / RV(I) + PARTP
+            T(I,2)  = (DWDL(2) - SUMDWDL) / RV(I) + PARTP
+            T(I,3)  = (DWDL(3) - SUMDWDL) / RV(I) + PARTP
 c------  ---
 
             KT3(I) = -THIRD*(EVMA1(I,1)+EVMA1(I,2)+EVMA1(I,3)+EVMA1(I,4)+EVMA1(I,5))
-     .            -THIRD*(EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5))    
+     .            -THIRD*(EVMA2(I,1)+EVMA2(I,2)+EVMA2(I,3)+EVMA2(I,4)+EVMA2(I,5))
      .            +TWO_THIRD*(EVMA3(I,1)+EVMA3(I,2)+EVMA3(I,3)+EVMA3(I,4)+EVMA3(I,5))
             KT3(I) =-EV(I,1)*EV(I,2)*KT3(I)/(RV(I)**2) + RBULK*EV(I,1)*EV(I,2)
-            KT3(I) = KT3(I) 
-     .            +(ONE_OVER_9*(AL(1)*EVMA1(I,1)+AL(2)*EVMA1(I,2)+AL(3)*EVMA1(I,3) 
-     .            +  AL(4)*EVMA1(I,4)+AL(5)*EVMA1(I,5) 
-     .            +  AL(1)*EVMA2(I,1)+AL(2)*EVMA2(I,2) + AL(3)*EVMA2(I,3) 
-     .            +  AL(4)*EVMA2(I,4)+AL(5)*EVMA2(I,5) 
+            KT3(I) = KT3(I)
+     .            +(ONE_OVER_9*(AL(1)*EVMA1(I,1)+AL(2)*EVMA1(I,2)+AL(3)*EVMA1(I,3)
+     .            +  AL(4)*EVMA1(I,4)+AL(5)*EVMA1(I,5)
+     .            +  AL(1)*EVMA2(I,1)+AL(2)*EVMA2(I,2) + AL(3)*EVMA2(I,3)
+     .            +  AL(4)*EVMA2(I,4)+AL(5)*EVMA2(I,5)
      .            +  FOUR*(AL(1)*EVMA3(I,1) + AL(2)*EVMA3(I,2)
      .            +  AL(3)*EVMA3(I,3)
      .            +  AL(4)*EVMA3(I,4)+AL(5)*EVMA3(I,5))))/EV(I,3)/RV(I)
-                                                                  
+
 C viscosty model the same as law42            
-           C30(I) = UVAR(I,5) 
+           C30(I) = UVAR(I,5)
            SUM = THIRD*(EVM(I,1)**2 +  EVM(I,2)**2 + EVM(I,3)**2)
-           C31(I)   =  EVM(I,3)**2 - SUM 
+           C31(I)   =  EVM(I,3)**2 - SUM
 !
-           DC3EV3(I) = FOUR_OVER_3*RVT*EVM(I,3)-TWO_THIRD*(TWO_THIRD*EVM(I,3)**2 - 
-     .                                          THIRD* EVM(I,1)**2 - 
+           DC3EV3(I) = FOUR_OVER_3*RVT*EVM(I,3)-TWO_THIRD*(TWO_THIRD*EVM(I,3)**2 -
+     .                                          THIRD* EVM(I,1)**2 -
      .                                          THIRD* EVM(I,2)**2)/EV(I,3)
           ENDDO
 !       ----------------
           DO II= 1,NPRONY
              FAC= -TIMESTEP*BETA(II)
-             DO I=1,NEL 
-                 H30(II)  =  UVARV(4*NEL*(II-1) + I)                
+             DO I=1,NEL
+                 H30(II)  =  UVARV(4*NEL*(II-1) + I)
                  H31(I,II)  = EXP(FAC)*H30(II)+ EXP(HALF*FAC)*(C31(I) - C30(I))
 C           Kirchoff visco stress --->
 C   PK2 stress, PK2 = F**(-1)*Taux* F**(-T)n 
 C   cauchy =Taux/RV is used here
                   FAC= -TIMESTEP*BETA(II)
                   T(I,3) = T(I,3) + GI(II)*H31(I,II)/RV(I)
-                  KT3(I)    = KT3(I) - GI(II)*H31(I,II)/EV(I,3)/RV(I)  
+                  KT3(I)    = KT3(I) - GI(II)*H31(I,II)/EV(I,3)/RV(I)
      .                 + DC3EV3(I)*GI(II)*EXP(HALF*FAC)/RV(I)
               ENDDO ! 1,NEL
           ENDDO  ! NPRONY
-          EV(1:NEL,3) = EV(1:NEL,3)  - T(1:NEL,3)/KT3(1:NEL)                                        
-          RV(1:NEL)   = EV(1:NEL,1)*EV(1:NEL,2)*EV(1:NEL,3)   
-!       ----------------        
-         ENDDO  ! iteration 
+          EV(1:NEL,3) = EV(1:NEL,3)  - T(1:NEL,3)/KT3(1:NEL)
+          RV(1:NEL)   = EV(1:NEL,1)*EV(1:NEL,2)*EV(1:NEL,3)
+!       ----------------
+         ENDDO  ! iteration
          UVAR(1:NEL,5) = C31(1:NEL)
 !       ----------------
          DO II= 1,NPRONY
@@ -394,26 +394,26 @@ C   cauchy =Taux/RV is used here
          ENDDO
 !       ----------------
 ! compute viscos stress
-         DO I=1,NEL                                               
+         DO I=1,NEL
            IF(RV(I)> ZERO) THEN
              RVT    = EXP((-THIRD)*LOG(RV(I)))
            ELSE
              RVT = ZERO
-           ENDIF 
+           ENDIF
            EVM(I,1) = EV(I,1)*RVT
            EVM(I,2) = EV(I,2)*RVT
            EVM(I,3) = EV(I,3)*RVT
 C           
-           CD10(I) =  UVAR(I,6) 
-           CD20(I) =  UVAR(I,7) 
-           CD120(I) = UVAR(I,8) 
+           CD10(I) =  UVAR(I,6)
+           CD20(I) =  UVAR(I,7)
+           CD120(I) = UVAR(I,8)
 C
-           SUM  = THIRD*(EVM(I,1)**2 +  EVM(I,2)**2 + EVM(I,3)**2) 
-           CP1   =  EVM(I,1)**2 - SUM                          
+           SUM  = THIRD*(EVM(I,1)**2 +  EVM(I,2)**2 + EVM(I,3)**2)
+           CP1   =  EVM(I,1)**2 - SUM
            CP2   =  EVM(I,2)**2 - SUM
            CD1(I)  = EIGV(I,1,1)*CP1 + EIGV(I,1,2)*CP2
            CD2(I)  = EIGV(I,2,1)*CP1 + EIGV(I,2,2)*CP2
-           CD12(I) = EIGV(I,3,1)*CP1 + EIGV(I,3,2)*CP2                        
+           CD12(I) = EIGV(I,3,1)*CP1 + EIGV(I,3,2)*CP2
            UVAR(I,6) = CD1(I)
            UVAR(I,7) = CD2(I)
            UVAR(I,8) = CD12(I)
@@ -422,42 +422,42 @@ C
          SV(1:NEL,1) = ZERO
          SV(1:NEL,2) = ZERO
          SV(1:NEL,3) = ZERO
-!       ---------------- 
+!       ----------------
          DO II= 1,NPRONY
-           DO I=1,NEL 
-              FAC= -TIMESTEP*BETA(II)                          
-              H10(II)   =  UVARV(4*NEL*(II-1) +   NEL + I)           
-              H20(II)   =  UVARV(4*NEL*(II-1) + 2*NEL + I)  
+           DO I=1,NEL
+              FAC= -TIMESTEP*BETA(II)
+              H10(II)   =  UVARV(4*NEL*(II-1) +   NEL + I)
+              H20(II)   =  UVARV(4*NEL*(II-1) + 2*NEL + I)
               H120(II)  =  UVARV(4*NEL*(II-1) + 3*NEL + I)
-              H1(II)  = EXP(FAC)*H10(II)+ EXP(HALF*FAC)*(CD1(I) - CD10(I))                
-              H2(II)  = EXP(FAC)*H20(II)+ EXP(HALF*FAC)*(CD2(I) - CD20(I))              
-              H12(II)  = EXP(FAC)*H120(II)+ EXP(HALF*FAC)*(CD12(I) - CD120(I)) 
-              UVARV(4*NEL*(II-1) +   NEL + I)= H1(II)              
-              UVARV(4*NEL*(II-1) + 2*NEL + I)= H2(II)   
-              UVARV(4*NEL*(II-1) + 3*NEL + I)= H12(II)        
+              H1(II)  = EXP(FAC)*H10(II)+ EXP(HALF*FAC)*(CD1(I) - CD10(I))
+              H2(II)  = EXP(FAC)*H20(II)+ EXP(HALF*FAC)*(CD2(I) - CD20(I))
+              H12(II)  = EXP(FAC)*H120(II)+ EXP(HALF*FAC)*(CD12(I) - CD120(I))
+              UVARV(4*NEL*(II-1) +   NEL + I)= H1(II)
+              UVARV(4*NEL*(II-1) + 2*NEL + I)= H2(II)
+              UVARV(4*NEL*(II-1) + 3*NEL + I)= H12(II)
 C         Kirchoff visco stress
               SV(I,1) = SV(I,1) + GI(II)*H1(II)
               SV(I,2) = SV(I,2) + GI(II)*H2(II)
               SV(I,3) = SV(I,3) + GI(II)*H12(II)
-           ENDDO       ! 1,NPRONY                                        
-         ENDDO          ! 1,NEL  
+           ENDDO       ! 1,NPRONY
+         ENDDO          ! 1,NEL
 !       ----------------
-      ENDIF                                      
+      ENDIF
 C-------------------------------------------------------------
       DO I=1,NEL
         UVAR(I,3) = EV(I,3)
       ENDDO
 C--------------------------------------
-c     tension cut                                                            
-      DO I=1,NEL                                                             
-        IF (OFF(I) /= ZERO .AND.                                             
-     .   (T(I,1) > ABS(TENSCUT) .OR. T(I,2) > ABS(TENSCUT))) THEN        
-          T(I,1) = ZERO                                                  
-          T(I,2) = ZERO                                                  
-          T(I,3) = ZERO                                                  
-          OFF(I) = FOUR_OVER_5                                                     
-        ENDIF                                                                
-      ENDDO                                                                  
+c     tension cut
+      DO I=1,NEL
+        IF (OFF(I) /= ZERO .AND.
+     .   (T(I,1) > ABS(TENSCUT) .OR. T(I,2) > ABS(TENSCUT))) THEN
+          T(I,1) = ZERO
+          T(I,2) = ZERO
+          T(I,3) = ZERO
+          OFF(I) = FOUR_OVER_5
+        ENDIF
+      ENDDO
 C-------------------------------------------------------------
 C     set sound speed & viscosity
     !  DO I=1,NEL
@@ -484,7 +484,7 @@ C     set sound speed & viscosity
         ENDDO
       ENDIF
       DO I=1,NEL
-        RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)  
+        RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)
         DEZZ(I) =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
 !!        DEZZ(I) = EPSZZ(I) - UVAR(I,4)
         SIGNXX(I) =EIGV(I,1,1)*T(I,1)+EIGV(I,1,2)*T(I,2) + SV(I,1)/RV(I)
@@ -496,11 +496,11 @@ C
         RHO(I)    = RHO0(I)/RV(I)
         THKN(I) = THKN(I) + DEZZ(I)*THKLYL(I)*OFF(I)
          VISCMAX(I)= ZERO
-!!          UVAR(I,4) = EPSZZ(I)  
+!!          UVAR(I,4) = EPSZZ(I)
 C         
-           
+
           EMAX = GMAX*(ONE + NU)
-!C           EMAX = MAX(EMAX,EA(I)) 
+!C           EMAX = MAX(EMAX,EA(I))
           A11  = EMAX/(ONE - NU**2)
           SOUNDSP(I)= SQRT(A11/RHO0(I))
       ENDDO

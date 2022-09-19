@@ -70,7 +70,7 @@ C
           DO J = 2, NIFV
             IBTMP(J,N_L) = IBFV(J,I)
           ENDDO
-          
+
           IF(IBFV(13,I) == 2) THEN                    ! IBFV(13,I)=FINGEO, /IMPVEL/FGEO option
             IBTMP(14,N_L) = NODLOCAL( IBFV(14,I) )    ! IBFV(14,I)= Second Node
           ENDIF

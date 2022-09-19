@@ -54,23 +54,23 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
+      my_real
      .   V(3,*),MS(*),MS0(*),PM(NPROPM,*),PARTSAV(NPSAV,*)
-      INTEGER 
+      INTEGER
      .   NODGLOB(*),WEIGHT(*),ITAB(*),PARAM,
      .   IPART(LIPART1,*),IGEO(NPROPGI,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   I,J,K,LENG,FLAG,ISMASSCHANGE,PROPID,MATID
-      my_real 
+      my_real
      .   MAXVEL(PARAM),VEL,
      .   MAXENCIN(PARAM),ENCIN,VEL2,
      .   MAXMASS(PARAM),MASS,
      .   MAXDMASS(PARAM),DMASS,
      .   MAXENINT(PARAM),ENINT
-      INTEGER 
+      INTEGER
      .   IDNOD(PARAM),IDPART(PARAM)
 C=======================================================================
       IF(ISPMD == 0) WRITE(IOUT,3000)
@@ -87,7 +87,7 @@ C
           IF(ENCIN > MAXENCIN(J) .AND. FLAG == 0) THEN
             DO K=1,PARAM-J
               IDPART(PARAM-K+1) = IDPART(PARAM-K)
-              MAXENCIN(PARAM-K+1) = MAXENCIN(PARAM-K) 
+              MAXENCIN(PARAM-K+1) = MAXENCIN(PARAM-K)
             ENDDO
             IDPART(J) = I
             MAXENCIN(J) = ENCIN
@@ -109,7 +109,7 @@ C
      .        IPART(5,IDPART(I)),MATID
         ENDIF
       ENDDO
-      
+
  1800 FORMAT('***  PARTS WITH HIGHEST KINETIC ENERGY')
  1801 FORMAT('   PART_ID   K-ENERGY   PROP_ID PROP_TYPE    MAT_ID
      .  MAT_TYPE')
@@ -124,7 +124,7 @@ C
           IF(ENINT > MAXENINT(J) .AND. FLAG == 0) THEN
             DO K=1,PARAM-J
               IDPART(PARAM-K+1) = IDPART(PARAM-K)
-              MAXENINT(PARAM-K+1) = MAXENINT(PARAM-K) 
+              MAXENINT(PARAM-K+1) = MAXENINT(PARAM-K)
             ENDDO
             IDPART(J) = I
             MAXENINT(J) = ENINT
@@ -145,7 +145,7 @@ C
      .        IPART(5,IDPART(I)),MATID
         ENDIF
       ENDDO
-      
+
  2000 FORMAT('***  PARTS WITH HIGHEST INTERNAL ENERGY')
  2001 FORMAT('   PART_ID   I-ENERGY   PROP_ID PROP_TYPE    MAT_ID
      .  MAT_TYPE')
@@ -161,7 +161,7 @@ C
            IF(VEL > MAXVEL(J) .AND. FLAG == 0) THEN
              DO K=1,PARAM-J
                IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
-               MAXVEL(PARAM-K+1) = MAXVEL(PARAM-K) 
+               MAXVEL(PARAM-K+1) = MAXVEL(PARAM-K)
              ENDDO
              IDNOD(J) = I
              MAXVEL(J) = VEL
@@ -187,7 +187,7 @@ C
         ELSE
            LENG = 0
         ENDIF
-        CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,1,ITAB,LENG) 
+        CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,1,ITAB,LENG)
       ENDIF
  1000 FORMAT('***  NODES WITH HIGHEST VELOCITY')
  1001 FORMAT('      NODE   VELOCITY     K-ENER       MASS      MASS0
@@ -204,7 +204,7 @@ c         DO J=1,PARAM
 c           IF(ENCIN > MAXENCIN(J) .AND. FLAG == 0) THEN
 c             DO K=1,PARAM-J
 c               IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
-c               MAXENCIN(PARAM-K+1) = MAXENCIN(PARAM-K) 
+c               MAXENCIN(PARAM-K+1) = MAXENCIN(PARAM-K)
 c             ENDDO
 c             IDNOD(J) = I
 c             MAXENCIN(J) = ENCIN
@@ -226,9 +226,9 @@ c           LENG = NUMNODG
 c        ELSE
 c           LENG = 0
 c        ENDIF
-c        CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,2,ITAB,LENG) 
+c        CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,2,ITAB,LENG)
 c      ENDIF
-c      
+c
 c 1200 FORMAT('***  NODES WITH HIGHEST KINEMATIC ENERGY')
 c 1201 FORMAT('  NODE   K-ENER    MASS  MASS0   MASS/MASS0')
 c 1300 FORMAT(I10,4G11.4)
@@ -243,7 +243,7 @@ c         DO J=1,PARAM
 c           IF(MASS > MAXMASS(J) .AND. FLAG == 0) THEN
 c             DO K=1,PARAM-J
 c               IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
-c               MAXMASS(PARAM-K+1) = MAXMASS(PARAM-K) 
+c               MAXMASS(PARAM-K+1) = MAXMASS(PARAM-K)
 c             ENDDO
 c             IDNOD(J) = I
 c             MAXMASS(J) = MASS
@@ -265,9 +265,9 @@ c           LENG = NUMNODG
 c        ELSE
 c           LENG = 0
 c        ENDIF
-c        CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,3,ITAB,LENG) 
+c        CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,3,ITAB,LENG)
 c      ENDIF
-c      
+c
 c 1400 FORMAT('***  NODES WITH HIGHEST MASS')
 c 1401 FORMAT('  NODE     MASS  MASS0   MASS/MASS0')
 c 1500 FORMAT(I10,3G11.4)
@@ -283,7 +283,7 @@ C
              IF(DMASS > MAXDMASS(J) .AND. FLAG == 0) THEN
                DO K=1,PARAM-J
                  IDNOD(PARAM-K+1) = IDNOD(PARAM-K)
-                 MAXDMASS(PARAM-K+1) = MAXDMASS(PARAM-K) 
+                 MAXDMASS(PARAM-K+1) = MAXDMASS(PARAM-K)
                ENDDO
                IDNOD(J) = I
                MAXDMASS(J) = DMASS
@@ -312,10 +312,10 @@ C
           ELSE
              LENG = 0
           ENDIF
-          CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,4,ITAB,LENG) 
+          CALL SPMD_VGATH_ERR(V,MS,MS0,NODGLOB,WEIGHT,PARAM,4,ITAB,LENG)
         ENDIF
       ENDIF
-      
+
  1600 FORMAT('***  NODES WITH HIGHEST MASS CHANGE')
  1601 FORMAT('      NODE       MASS      MASS0   DM/MASS0')
  1700 FORMAT(I10,3G11.4)

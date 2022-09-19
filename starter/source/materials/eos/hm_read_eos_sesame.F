@@ -44,8 +44,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD  
-      USE INOUTFILE_MOD          
+      USE MESSAGE_MOD
+      USE INOUTFILE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -67,13 +67,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       INTEGER,INTENT(INOUT) :: MFI, IDF
-      INTEGER,INTENT(IN) :: IMID      
+      INTEGER,INTENT(IN) :: IMID
       my_real PM(NPROPM),BUFMAT(*)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      INTEGER,INTENT(IN) :: IMIDEOS    
+      INTEGER,INTENT(IN) :: IMIDEOS
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
       CHARACTER FILE*(ncharline),FILE_TMP*(ncharline)
       INTEGER :: FILE_LEN
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
-      CHARACTER*nchartitle TITR        
+      CHARACTER*nchartitle TITR
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -107,9 +107,9 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM(23) = E0
@@ -158,7 +158,7 @@ C
       ENDIF
 
       PM(31) = P0
-      
+
       !SSP0
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -169,22 +169,22 @@ C
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-            
+
       RHO0I=PM(89)
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
-      RHOI = PM(89) 
+      RHOI = PM(89)
       DPDMU=RHO0I*DPDR
-      DPDMU=MAX(ZERO,DPDMU)        
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0      
-      
+      DPDMU=MAX(ZERO,DPDMU)
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
+
       RETURN
   999 CONTINUE
       CALL ANCMSG(MSGID=19,
@@ -196,7 +196,7 @@ C
      .            C3=TITR,
      .            C4=FILE)
       RETURN
-      
+
  1000 FORMAT(
      & 5X,'  SESAME TABLE EOS     ',/,
      & 5X,'  ----------------     ',/)

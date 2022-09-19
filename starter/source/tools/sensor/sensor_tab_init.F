@@ -50,17 +50,17 @@ C=======================================================================
       DO I=1,NSENSOR
         SENSOR_PTR => SENSOR_TAB(I)
         SENSOR_PTR%TYPE    = -1
-        SENSOR_PTR%SENS_ID = 0  
-        SENSOR_PTR%STATUS  = 0     
-        SENSOR_PTR%TCRIT   = 0     
-        SENSOR_PTR%TMIN    = 0     
-        SENSOR_PTR%TDELAY  = 0    
-        SENSOR_PTR%TSTART  = 0   
-        SENSOR_PTR%VALUE   = 0   
-        SENSOR_PTR%NPARI   = 0   
-        SENSOR_PTR%NPARR   = 0   
-        SENSOR_PTR%NVAR    = 0   
+        SENSOR_PTR%SENS_ID = 0
+        SENSOR_PTR%STATUS  = 0
+        SENSOR_PTR%TCRIT   = 0
+        SENSOR_PTR%TMIN    = 0
+        SENSOR_PTR%TDELAY  = 0
+        SENSOR_PTR%TSTART  = 0
+        SENSOR_PTR%VALUE   = 0
+        SENSOR_PTR%NPARI   = 0
+        SENSOR_PTR%NPARR   = 0
+        SENSOR_PTR%NVAR    = 0
       END DO
 C------------
       RETURN
-      END 
+      END

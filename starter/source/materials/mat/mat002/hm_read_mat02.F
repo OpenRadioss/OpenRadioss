@@ -42,7 +42,7 @@ Chd|====================================================================
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,IFUNC      ,
      .           MAXFUNC  ,NFUNC     ,PARMAT   ,IMATVIS  ,IFORM      ,
      .           UNITAB   ,ID        ,TITR     ,LSUBMODEL,MTAG       ,
-     .           PM       ,IPM       ,ISRATE   ,MATPARAM ) 
+     .           PM       ,IPM       ,ISRATE   ,MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -64,10 +64,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,10 +83,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC,IFORM
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI),IMATVIS,ISRATE
-      my_real, INTENT(INOUT) :: PM(NPROPM)     
+      my_real, INTENT(INOUT) :: PM(NPROPM)
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       INTEGER, INTENT(OUT) :: NUPARAM,NUVAR,NFUNC
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      INTEGER :: I,J  ,ISIZ 
+      INTEGER :: I,J  ,ISIZ
       my_real :: RHOR,RHO0
       INTEGER ICC,ISRAT1,IFLAG,MFLAG
       my_real
@@ -137,7 +137,7 @@ C-----------------------------------------------
       SDSP    = ZERO
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      
+
       IF (IFORM==2) THEN
          !/MAT/PLAS_PREDEF
         CALL HM_GET_STRING('Material_Name_Str'  ,PREDEF     ,16, IS_AVAILABLE)
@@ -164,7 +164,7 @@ C-----------------------------------------------
      .                  C1=TITR,
      .                  C2=PREDEF)
              GOTO 999
-        ENDIF          
+        ENDIF
       ELSE IF (IFORM==1) THEN  ! Zerilli-Armstrong
         !line-1
         CALL HM_GET_FLOATV('RHO_I'    ,RHO0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -181,8 +181,8 @@ C-----------------------------------------------
         !line-4
         CALL HM_GET_FLOATV('C1'       ,CC     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('EPS_0'    ,EPS0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV  ('ICC'      ,ICC    ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_INTV  ('Fsmooth'  ,ISRATE ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_INTV  ('ICC'      ,ICC    ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV  ('Fsmooth'  ,ISRATE ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('Fcut'     ,FCUT   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
         CALL HM_GET_FLOATV('C3'       ,C3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -200,14 +200,14 @@ C-----------------------------------------------
         !line-2
         CALL HM_GET_FLOATV('E'      ,YOUNG    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Nu'     ,ANU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV  ('Iflag'  ,IFLAG    ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_INTV  ('Iflag'  ,IFLAG    ,IS_AVAILABLE, LSUBMODEL)
         !line-3
         IF (IFLAG == 1) THEN
           CALL HM_GET_FLOATV('SIG_Y'        ,CA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('UTS'          ,CB     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('EUTS'         ,CN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('EPS_p_max'    ,EPSM   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-          CALL HM_GET_FLOATV('SIG_max0'     ,SIGM   ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+          CALL HM_GET_FLOATV('SIG_max0'     ,SIGM   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         ELSE
           CALL HM_GET_FLOATV('a'            ,CA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('b'            ,CB     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -218,8 +218,8 @@ C-----------------------------------------------
         !line-4
         CALL HM_GET_FLOATV('c'              ,CC        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('EPS_DOT_0'      ,EPS0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV  ('ICC'            ,ICC       ,IS_AVAILABLE, LSUBMODEL) 
-        CALL HM_GET_INTV  ('Fsmooth'        ,ISRATE    ,IS_AVAILABLE, LSUBMODEL) 
+        CALL HM_GET_INTV  ('ICC'            ,ICC       ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_INTV  ('Fsmooth'        ,ISRATE    ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_FLOATV('F_cut'          ,FCUT      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Chard'          ,FISOKIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         !line-5
@@ -251,25 +251,25 @@ C-----------------------------------------------
             CALL ANCMSG(MSGID=277,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID, 
+     .                  I1=ID,
      .                  C1=TITR)
           ENDIF
           IF (CN < ZERO .AND. CB < ZERO) THEN
             CN = ZERO
-            CB = ZERO          
+            CB = ZERO
             CALL ANCMSG(MSGID=278,
      .                  MSGTYPE=MSGWARNING,
      .                  ANMODE=ANINFO_BLIND_1,
-     .                  I1=ID, 
+     .                  I1=ID,
      .                  C1=TITR)
           ENDIF
         ENDIF
       ELSE      ! small material database, materials as in /FAIL/BiQUAD
         IF (MFLAG >= 1) THEN ! Mild Seel unit = Ton, sec, mm
-          FAC_M = FAC_M_WORK                        
+          FAC_M = FAC_M_WORK
           FAC_L = FAC_L_WORK
           FAC_T = FAC_T_WORK
-          FAC_PRES = FAC_M/ (FAC_L*FAC_T*FAC_T)                      
+          FAC_PRES = FAC_M/ (FAC_L*FAC_T*FAC_T)
           FAC_DENS = FAC_M/ (FAC_L*FAC_L*FAC_L)
           SELECT CASE (MFLAG)
             CASE(1)                                ! Mild steel
@@ -281,7 +281,7 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 210000000000.0d0 / FAC_PRES
               ANU   = 0.3d0
               CA    = 160000000.0d0    / FAC_PRES
-              CB    = 513330169.33870d0/ FAC_PRES      
+              CB    = 513330169.33870d0/ FAC_PRES
               CN    = 0.3257084899598d0
             CASE(2)                                ! HSS steel
               RHO0  = 7850d0           / FAC_DENS
@@ -290,7 +290,7 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 210000000000.0d0 / FAC_PRES
               ANU   = 0.3d0
               CA    = 300000000.0d0    / FAC_PRES
-              CB    = 611407465.14830d0/ FAC_PRES      
+              CB    = 611407465.14830d0/ FAC_PRES
               CN    = 0.3967613457219d0
             CASE(3)
               RHO0  = 7850d0           / FAC_DENS
@@ -299,7 +299,7 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 210000000000.0d0 / FAC_PRES
               ANU   = 0.3d0
               CA    = 500000000.0d0    / FAC_PRES
-              CB    = 1306278496.3090d0/ FAC_PRES      
+              CB    = 1306278496.3090d0/ FAC_PRES
               CN    = 6.4633693574514d-02
             CASE(4)                                   ! Aluminium AA5182
               RHO0  = 2700d0           / FAC_DENS
@@ -308,7 +308,7 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 70000000000.0d0  / FAC_PRES
               ANU   = 0.33d0
               CA    = 150000000.0d0    / FAC_PRES
-              CB    = 393050051.47810d0/ FAC_PRES      
+              CB    = 393050051.47810d0/ FAC_PRES
               CN    = 0.3719059188570d0
             CASE(5)                                   ! Aluminium AA6082-T6
               RHO0  = 2700d0           / FAC_DENS
@@ -317,16 +317,16 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 70000000000.0d0  / FAC_PRES
               ANU   = 0.33d0
               CA    = 300000000.0d0    / FAC_PRES
-              CB    = 210717297.9723d0 / FAC_PRES      
+              CB    = 210717297.9723d0 / FAC_PRES
               CN    = 0.3369645584879d0
-            CASE(6)                                    ! Plastic PA6GF30  
+            CASE(6)                                    ! Plastic PA6GF30
               RHO0  = 1300d0           / FAC_DENS
               PM(1) = RHO0
               PM(89)= RHO0
               YOUNG = 7000000000.0d0   / FAC_PRES
               ANU   = 0.35d0
               CA    = 50000000.0d0     / FAC_PRES
-              CB    = 60557060.655832d0/ FAC_PRES      
+              CB    = 60557060.655832d0/ FAC_PRES
               CN    = 3.8843615080968d-02
             CASE(7)                                    ! GENERIC PP T40
               RHO0  = 1200d0           / FAC_DENS
@@ -335,7 +335,7 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 4000000000d0     / FAC_PRES
               ANU   = 0.3d0
               CA    = 20000000.0d0     / FAC_PRES
-              CB    = 18439331.380790d0/ FAC_PRES      
+              CB    = 18439331.380790d0/ FAC_PRES
               CN    = 0.1570297693511d0
             CASE DEFAULT                               ! ELSE --> Mild Seel
               RHO0  = 7850d0           / FAC_DENS
@@ -344,17 +344,17 @@ c!            YOUNG = 210000.0d0       * FAC_PRES
               YOUNG = 210000000000d0   / FAC_PRES
               ANU   = 0.3d0
               CA    = 160000000.0d0    / FAC_PRES
-              CB    = 513330169.33870d0/ FAC_PRES      
+              CB    = 513330169.33870d0/ FAC_PRES
               CN    = 0.3257084899598d0
           END SELECT
         ENDIF
-      ENDIF       
+      ENDIF
 C-----
       IF(CC > ZERO .AND. EPS0 > ZERO  .AND. FCUT == ZERO) THEN
            CALL ANCMSG(MSGID=1220,
      .                 MSGTYPE=MSGWARNING,
      .                 ANMODE=ANINFO_BLIND_1,
-     .                 I1=ID, 
+     .                 I1=ID,
      .                 C1=TITR)
       ENDIF
       !FCUT = FCUT / FAC_T
@@ -373,7 +373,7 @@ C
       ELSE
         ISRATE = 1
       END IF
-      IF(ANU<=-ONE)  THEN       
+      IF(ANU<=-ONE)  THEN
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
 C-----
@@ -383,14 +383,14 @@ C-----
       C1=YOUNG/(THREE*(ONE - TWO*ANU))
       E1MN2=YOUNG/(ONE - ANU**2)
       EN1N2=ANU*E1MN2
-      SDSP =SQRT(YOUNG/MAX(RHOR,EM20))       
+      SDSP =SQRT(YOUNG/MAX(RHOR,EM20))
 
       IF (YOUNG<=ZERO) THEN
         CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=2,I2=ID,C1=TITR)
       ENDIF
 C-----
       PM(1) =RHOR
-      PM(89)=RHO0      
+      PM(89)=RHO0
       PM(20)=YOUNG
       PM(21)=ANU
       PM(22)=G
@@ -413,25 +413,25 @@ C-----
       PM(43)=CC
       PM(44)=EPS0
       PM(49)=ICC
-      PM(9)=FCUT*TWO*PI   
-            
+      PM(9)=FCUT*TWO*PI
+
 C
       IF(TI<=ZERO) TI=TWOHUNDRED98
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_EPSD  = 1   
-      MTAG%G_PLA   = 1   
+      MTAG%G_EPSD  = 1
+      MTAG%G_PLA   = 1
 c
-      MTAG%L_EPSD  = 1   
-      MTAG%L_PLA   = 1   
+      MTAG%L_EPSD  = 1
+      MTAG%L_PLA   = 1
       MTAG%L_SIGB  = 6
-c--------------------- 
+c---------------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCREMENTAL")
-      CALL INIT_MAT_KEYWORD(MATPARAM,"LARGE_STRAIN") 
+      CALL INIT_MAT_KEYWORD(MATPARAM,"LARGE_STRAIN")
 C--------------------------------
-      
+
       IF(IFORM==0)THEN
         WRITE(IOUT,1010) TRIM(TITR),ID
       ELSEIF(IFORM==1)THEN
@@ -442,7 +442,7 @@ C--------------------------------
       WRITE(IOUT,1000)
       IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1100)RHO0
         IF(MFLAG /= 0 .AND. .NOT.IS_ENCRYPTED) THEN
-          IF(MFLAG == 1) THEN 
+          IF(MFLAG == 1) THEN
             WRITE (IOUT,1407) 'GENERIC MILD STEEL',RHO0,YOUNG,ANU,G,
      .             160000000.0d0/FAC_PRES,380000000.0d0/FAC_PRES,0.24d0
           ENDIF
@@ -454,11 +454,11 @@ C--------------------------------
             WRITE (IOUT,1407) 'GENERIC UHSS STEEL',RHO0,YOUNG,ANU,G,
      .             500000000.0d0/FAC_PRES,1500000000.0d0/FAC_PRES,0.045d0
           ENDIF
-          IF(MFLAG == 4) THEN 
+          IF(MFLAG == 4) THEN
             WRITE (IOUT,1407) 'GENERIC ALUMINIUM: AA5182',RHO0,YOUNG,ANU,G,
      .             150000000.0d0/FAC_PRES,300000000.0d0/FAC_PRES,0.25d0
          ENDIF
-          IF(MFLAG == 5) THEN 
+          IF(MFLAG == 5) THEN
             WRITE (IOUT,1407) 'GENERIC ALUMINIUM: AA6082-T6',RHO0,YOUNG,ANU,G,
      .             300000000.0d0/FAC_PRES,360000000.0d0/FAC_PRES,0.08d0
           ENDIF
@@ -474,7 +474,7 @@ C--------------------------------
             WRITE (IOUT,1407) 'GENERIC MILD STEEL',RHO0,YOUNG,ANU,G,
      .             160000000.0d0/FAC_PRES,380000000.0d0/FAC_PRES,0.24d0
           ENDIF
-        ENDIF 
+        ENDIF
 
         IF(IFORM /= 2)THEN
           IF(.NOT.IS_ENCRYPTED)THEN
@@ -487,13 +487,13 @@ C--------------------------------
         IF(IFLAG == 0 .AND. IFORM /= 2)THEN
           IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ELSE
-          IF(.NOT.IS_ENCRYPTED .AND. MFLAG == 0 .AND. IFORM /= 2)THEN 
+          IF(.NOT.IS_ENCRYPTED .AND. MFLAG == 0 .AND. IFORM /= 2)THEN
             WRITE(IOUT,1405)CA,CB0,CN0,CA,CB,CN,EPSM,SIGM,FISOKIN
           ENDIF
-          IF(.NOT.IS_ENCRYPTED .AND. MFLAG /= 0 .AND. IFORM /= 2)THEN 
+          IF(.NOT.IS_ENCRYPTED .AND. MFLAG /= 0 .AND. IFORM /= 2)THEN
             WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM,FISOKIN
           ENDIF
-        ENDIF  
+        ENDIF
         MT=C3
         IF(MT == ZERO)MT=ONE
         TM=C4

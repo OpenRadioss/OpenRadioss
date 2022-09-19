@@ -77,7 +77,7 @@ C======================================================================|
      .                      C2='RIGID WALL SECONDARY',
      .                      C3=TITR,C4='SECONDARY',
      .                      I2=ITAB(IABS(LPRW(CONT+I))))
-              ENDIF  
+              ENDIF
            ENDDO
            MSN = NPRW(N+2*NRWALL)
            IF (MSN /= 0) THEN
@@ -91,7 +91,7 @@ C======================================================================|
      .                   C3=TITR,C4='MAIN',
      .                   I2=ITAB(NPRW(N+2*NRWALL)))
              ENDIF
-           ENDIF           
+           ENDIF
          ENDIF
          CONT=CONT+NSL
       ENDDO

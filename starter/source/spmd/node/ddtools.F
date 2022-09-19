@@ -36,8 +36,8 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "com01_c.inc"     
-#include      "com04_c.inc"      
+#include      "com01_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------      
@@ -50,16 +50,16 @@ C-----------------------------------------------
       DO I=1,NUMNOD
         IFRONT%IENTRY(I) = -1
       ENDDO
-      
+
       DO I=1, SIFRONT
         IFRONT%P(1,I) = -1
-        IFRONT%P(2,I) = -1      
+        IFRONT%P(2,I) = -1
       END DO
-      
-      IFRONT_END = NUMNOD            
+
+      IFRONT_END = NUMNOD
 C
       RETURN
-      END      
+      END
 Chd|====================================================================
 Chd|  REALLOC_IFRONT                source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -93,40 +93,40 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
-      ALLOCATE(IFRONT_SAVE%P(2,SIFRONT),STAT=stat)  
+      ALLOCATE(IFRONT_SAVE%P(2,SIFRONT),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IFRONT_SAVE')
-           
+
 c save IFRONT in IFRONT_SAVE
       DO I=1,SIFRONT
         IFRONT_SAVE%P(1,I) = IFRONT%P(1,I)
-        IFRONT_SAVE%P(2,I) = IFRONT%P(2,I)      
-      ENDDO  
+        IFRONT_SAVE%P(2,I) = IFRONT%P(2,I)
+      ENDDO
 
-c dealloc and realloc with bigger size (SIFRONT+NUMNOD)   
+c dealloc and realloc with bigger size (SIFRONT+NUMNOD)
       DEALLOCATE(IFRONT%P)
-      ALLOCATE(IFRONT%P(2,SIFRONT+NUMNOD),STAT=stat) 
+      ALLOCATE(IFRONT%P(2,SIFRONT+NUMNOD),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='IFRONT REALLOC')        
-      
+     .                         C1='IFRONT REALLOC')
+
       DO I=1,SIFRONT
         IFRONT%P(1,I) = IFRONT_SAVE%P(1,I)
-        IFRONT%P(2,I) = IFRONT_SAVE%P(2,I)      
+        IFRONT%P(2,I) = IFRONT_SAVE%P(2,I)
       ENDDO
       DO I=SIFRONT+1,SIFRONT+NUMNOD
         IFRONT%P(1,I) = -1
-        IFRONT%P(2,I) = -1      
-      ENDDO  
-      
-      DEALLOCATE(IFRONT_SAVE%P)   
-      
-c set new size of SIFRONT      
+        IFRONT%P(2,I) = -1
+      ENDDO
+
+      DEALLOCATE(IFRONT_SAVE%P)
+
+c set new size of SIFRONT
       SIFRONT = SIFRONT+NUMNOD
-      
+
       RETURN
-      END     
+      END
 Chd|====================================================================
 Chd|  PLIST_IFRONT                  source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -174,24 +174,24 @@ C-----------------------------------------------
       CPT=0
       IAD=IFRONT%IENTRY(N)
 
-c if no proc set for this node     
-c nothing to do as init has been done to -1 
+c if no proc set for this node
+c nothing to do as init has been done to -1
 
 c only one proc
-      IF(IFRONT%P(2,IAD)==0)THEN 
-        CPT = CPT+1     
+      IF(IFRONT%P(2,IAD)==0)THEN
+        CPT = CPT+1
         TAB(CPT)=IFRONT%P(1,IAD)
-      ELSE     
-c list of procs for node N       
-        DO WHILE(IAD/=0)      
+      ELSE
+c list of procs for node N
+        DO WHILE(IAD/=0)
           CPT=CPT+1
           TAB(CPT)=IFRONT%P(1,IAD)
           IAD=IFRONT%P(2,IAD)
         ENDDO
       ENDIF
-      
+
       RETURN
-      END    
+      END
 Chd|====================================================================
 Chd|  C_IFRONT                      source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -200,7 +200,7 @@ Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|====================================================================
       SUBROUTINE C_IFRONT(N,CPT)
-c returns in CPT the number of procs on which node N is sticked      
+c returns in CPT the number of procs on which node N is sticked
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -224,26 +224,26 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       CPT=0
       IAD=IFRONT%IENTRY(N)
-c no proc set for this node     
-c nothing to do as init has been done to -1 
+c no proc set for this node
+c nothing to do as init has been done to -1
       IF(IAD==-1)THEN
         CPT = 0
-        RETURN 
+        RETURN
       ENDIF
-      
+
       IF(IFRONT%P(2,IAD)==0)THEN
-c only one proc 
-        CPT = CPT+1     
-      ELSE     
-c list of procs for node N       
-        DO WHILE(IAD/=0)      
+c only one proc
+        CPT = CPT+1
+      ELSE
+c list of procs for node N
+        DO WHILE(IAD/=0)
           CPT=CPT+1
           IAD=IFRONT%P(2,IAD)
         ENDDO
       ENDIF
-      
+
       RETURN
-      END                  
+      END
 Chd|====================================================================
 Chd|  NLOCAL                        source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -337,7 +337,7 @@ Chd|        W_TH                          source/restart/ddsplit/w_th.F
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|====================================================================
-      INTEGER FUNCTION NLOCAL(N,P)  
+      INTEGER FUNCTION NLOCAL(N,P)
 C returns 1 if node N is sticked on SPMD domain P, else returns 0
 C-----------------------------------------------
 C   M o d u l e s
@@ -361,24 +361,24 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       PSEARCH = .TRUE.
-      IAD = IFRONT%IENTRY(N) 
+      IAD = IFRONT%IENTRY(N)
       NLOCAL = 0
 
-      ! no SPMD domain attributed for this node 
+      ! no SPMD domain attributed for this node
       IF(IAD==-1)THEN
         NLOCAL = 0
         RETURN
       ENDIF
-      
+
       !test if first proc is tested one (most frequent case)
       IF(IFRONT%P(1,IAD)==P)THEN
         NLOCAL = 1
         RETURN
       ENDIF
-      
+
       IAD = IFRONT%P(2,IAD)
       IF (IAD==0)RETURN
-      
+
       DO WHILE(PSEARCH)
         IF(IFRONT%P(1,IAD)==P) THEN
           NLOCAL = 1
@@ -387,10 +387,10 @@ C-----------------------------------------------
         IF(IFRONT%P(1,IAD)>P) PSEARCH = .FALSE.
         IF(IFRONT%P(2,IAD)==0) PSEARCH = .FALSE.
         IAD = IFRONT%P(2,IAD)
-      ENDDO       
-           
-      RETURN 
-      END      
+      ENDDO
+
+      RETURN
+      END
 
 Chd|====================================================================
 Chd|  SET_FRONT8                    source/spmd/node/ddtools.F    
@@ -406,12 +406,12 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------      
       USE FRONT_MOD
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE INT8_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -465,14 +465,14 @@ C--------------------------------------------------------------
              N2 = INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
              N3 = INTBUF_TAB(NI)%IRECTM(4*(K-1)+3)
              N4 = INTBUF_TAB(NI)%IRECTM(4*(K-1)+4)
-             PROC = INTERCEP(1,NI)%P(K)          
+             PROC = INTERCEP(1,NI)%P(K)
              TAG(PROC,N1) = 1
              TAG(PROC,N2) = 1
              TAG(PROC,N3) = 1
              TAG(PROC,N4) = 1
           ENDDO
 
-          ! Compute the number of main nodes shared between 
+          ! Compute the number of main nodes shared between
           ! each possible couple of proc (i,j) => S_FRONT8(i,j)
           S_FRONT8 = 0
           DO P = 1,NSPMD
@@ -484,12 +484,12 @@ C--------------------------------------------------------------
                    S_FRONT8(P,Q) = S_FRONT8(P,Q) + 1
                    S_FRONT8(Q,P) = S_FRONT8(Q,P) + 1
                    ! the kth main node will have to be communucated
-                   IF( INDEX_IN_FRONT(k) == 0) THEN 
+                   IF( INDEX_IN_FRONT(k) == 0) THEN
                      INDEX_IN_FRONT(k) = LOCAL_ID
                    ENDIF
                  ENDIF
                ENDDO
-             ENDDO 
+             ENDDO
           ENDDO
           IDX(1:NSPMD) = 0
           INDEX_IN_COMM(1:NSPMD,1:NMN) = 0
@@ -499,33 +499,33 @@ C--------------------------------------------------------------
           DO K = 1,NMN
             Q = 0
             DO P = 1,NSPMD
-             Q = Q + TAG(P,K)  
+             Q = Q + TAG(P,K)
             ENDDO
             IF(Q > 1) THEN
               DO P = 1,NSPMD
                  IF(TAG(P,K) /= 0) THEN
                  IDX(P) = IDX(P) + 1
-                 INDEX_IN_COMM(P,K)=IDX(P)                       
+                 INDEX_IN_COMM(P,K)=IDX(P)
                  ENDIF
               ENDDO
             ENDIF
           ENDDO
-          ! symmetric allocation of arrays of size *nb main nodes in common* 
+          ! symmetric allocation of arrays of size *nb main nodes in common*
           ! betwwen proc P and proc Q
           DO P = 1,NSPMD
              DO Q = P+1,NSPMD
               NM_SHARED = S_FRONT8(P,Q)
               T8(P,NBT8)%BUFFER(Q)%NBMAIN = 0! NM_SHARED
-              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MAIN_ID(NM_SHARED))  
-              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MAIN_UID(NM_SHARED)) 
-              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%NBSECND(NM_SHARED))     
+              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MAIN_ID(NM_SHARED))
+              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%MAIN_UID(NM_SHARED))
+              ALLOCATE(T8(P,NBT8)%BUFFER(Q)%NBSECND(NM_SHARED))
               T8(P,NBT8)%BUFFER(Q)%NBSECND(1:NM_SHARED) = 0
               T8(Q,NBT8)%BUFFER(P)%NBMAIN = 0 !NM_SHARED
-              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MAIN_ID(NM_SHARED))     
-              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MAIN_UID(NM_SHARED))     
-              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%NBSECND(NM_SHARED))     
+              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MAIN_ID(NM_SHARED))
+              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%MAIN_UID(NM_SHARED))
+              ALLOCATE(T8(Q,NBT8)%BUFFER(P)%NBSECND(NM_SHARED))
               T8(Q,NBT8)%BUFFER(P)%NBSECND(1:NM_SHARED) = 0
-             ENDDO 
+             ENDDO
           ENDDO
 
 
@@ -550,50 +550,50 @@ C--------------------------------------------------------------
           ! Fill the part of the structure that depends only
           ! on main nodes
 
-          ! To optimize the communication pattern in the engine, 
+          ! To optimize the communication pattern in the engine,
           ! The data dependencies are build in a symmetric fashion:
           ! If procs P and Q share main K main nodes, then
-          ! T8(Q,NBT8)%BUFFER(P)%MAIN_UID(1:K) = 
-          ! T8(P,NBT8)%BUFFER(Q)%MAIN_UID(1:K)  
-          IDX(1:NSPMD) = 1 
+          ! T8(Q,NBT8)%BUFFER(P)%MAIN_UID(1:K) =
+          ! T8(P,NBT8)%BUFFER(Q)%MAIN_UID(1:K)
+          IDX(1:NSPMD) = 1
           S_FRONT8(1:NSPMD,1:NSPMD) = 0
           DO P = 1,NSPMD
             DO K = 1,NMN
               !If the node is has to be communicated by P
-              IF(INDEX_IN_COMM(P,K) > 0) THEN 
+              IF(INDEX_IN_COMM(P,K) > 0) THEN
                 DO Q = P+1,NSPMD
                   IF(INDEX_IN_COMM(Q,K)/=0) THEN
 !                   Put the main node in the boundary of P with Q
                     LOCAL_ID = INDEX_IN_COMM(P,K)
-                    NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM +1  
-                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(NB) = Q 
-                    II = S_FRONT8(P,Q) + 1  
-                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(NB) = II 
+                    NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM +1
+                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(NB) = Q
+                    II = S_FRONT8(P,Q) + 1
+                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(NB) = II
                     JJ = T8(P,NBT8)%BUFFER(Q)%NBMAIN+1
                     T8(P,NBT8)%BUFFER(Q)%MAIN_ID(II) = K
                     T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II) =
-     .                 ITAB(INTBUF_TAB(NI)%MSR(K)) 
+     .                 ITAB(INTBUF_TAB(NI)%MSR(K))
 
                     S_FRONT8(P,Q) = II
                     T8(P,NBT8)%BUFFER(Q)%NBMAIN = JJ
-                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM=NB 
-                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC = K 
+                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM=NB
+                    T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC = K
 
-                    ! SYMMETRIC : put the node in the boundary of Q with P 
+                    ! SYMMETRIC : put the node in the boundary of Q with P
                     LOCAL_ID = INDEX_IN_COMM(Q,K)
-                    NB = T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM +1  
-                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(NB) = P 
-                    II = S_FRONT8(Q,P) + 1  
-                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(NB) = II 
+                    NB = T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM +1
+                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(NB) = P
+                    II = S_FRONT8(Q,P) + 1
+                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(NB) = II
                     JJ = T8(Q,NBT8)%BUFFER(P)%NBMAIN+1
                     T8(Q,NBT8)%BUFFER(P)%MAIN_ID(II) = K
-                    T8(Q,NBT8)%BUFFER(P)%MAIN_UID(II) = 
-     .                 ITAB(INTBUF_TAB(NI)%MSR(K)) 
+                    T8(Q,NBT8)%BUFFER(P)%MAIN_UID(II) =
+     .                 ITAB(INTBUF_TAB(NI)%MSR(K))
                     S_FRONT8(Q,P) = II
                     T8(Q,NBT8)%BUFFER(P)%NBMAIN = JJ
-                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM=NB 
-                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC = K 
-                  ENDIF 
+                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM=NB
+                    T8(Q,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC = K
+                  ENDIF
                 ENDDO
               ENDIF
             ENDDO
@@ -601,18 +601,18 @@ C--------------------------------------------------------------
 
 
           DO P  =1,NSPMD
-          ! Count the number of actual secnds that have a main 
+          ! Count the number of actual secnds that have a main
           ! shared between multiples procs
             DO I = 1,NSN
-              IF(INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I)) > 0) THEN  
-                 LOCAL_ID = INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I))  
-                 NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM 
+              IF(INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I)) > 0) THEN
+                 LOCAL_ID = INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I))
+                 NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM
                  DO K =1,NB
-                  II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)  
-                  Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)  
-                  T8(P,NBT8)%BUFFER(Q)%NBSECND(II) = 
+                  II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)
+                  Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)
+                  T8(P,NBT8)%BUFFER(Q)%NBSECND(II) =
      .            T8(P,NBT8)%BUFFER(Q)%NBSECND(II) + 1
-                  T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT = 
+                  T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT =
      .            T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT + 1
                  ENDDO
               ENDIF
@@ -621,7 +621,7 @@ C--------------------------------------------------------------
            ! IF(Q/=P) THEN
            !   ! Total number of secnd node that have main nodes on processor
            !   ! P shared with processor Q
-           !   II = T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT 
+           !   II = T8(P,NBT8)%BUFFER(Q)%NBSECND_TOT
            !   ALLOCATE(T8(P,NBT8)%BUFFER(Q)%SECND_ID(II))
            !   ALLOCATE(T8(P,NBT8)%BUFFER(Q)%SECND_UID(II))
            !   T8(P,NBT8)%BUFFER(Q)%SECND_ID(1:II) = 0
@@ -631,10 +631,10 @@ C--------------------------------------------------------------
            !   ! This array will keep pointers to secnd_id per main
            !     ALLOCATE(T8(P,NBT8)%BUFFER(Q)%BUFI(NB))
            !     T8(P,NBT8)%BUFFER(Q)%BUFI(1) = 1
-           !     DO I = 2,NB                             
-           !       T8(P,NBT8)%BUFFER(Q)%BUFI(I) = 
-     .     !       T8(P,NBT8)%BUFFER(Q)%BUFI(I-1) + 
-     .     !       T8(P,NBT8)%BUFFER(Q)%NBSECND(I-1) 
+           !     DO I = 2,NB
+           !       T8(P,NBT8)%BUFFER(Q)%BUFI(I) =
+     .     !       T8(P,NBT8)%BUFFER(Q)%BUFI(I-1) +
+     .     !       T8(P,NBT8)%BUFFER(Q)%NBSECND(I-1)
            !     ENDDO
            !   ENDIF
            ! ENDIF
@@ -642,16 +642,16 @@ C--------------------------------------------------------------
            !DO I = 1,NSN
            !  IF(INTBUF_TAB(NI)%ILOCS(I) > 0 ) THEN
            !  ! If this secnd has a main shared by multiple proc
-           !   IF(INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I)) > 0) THEN  
-           !     LOCAL_ID = INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I))  
-           !     NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM 
+           !   IF(INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I)) > 0) THEN
+           !     LOCAL_ID = INDEX_IN_COMM(P,INTBUF_TAB(NI)%ILOCS(I))
+           !     NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM
            !     DO K =1,NB
-           !      II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)  
-           !      Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)  
-           !      JJ = T8(P,NBT8)%BUFFER(Q)%BUFI(II)  
-           !      T8(P,NBT8)%BUFFER(Q)%SECND_ID(JJ) = I 
-           !      T8(P,NBT8)%BUFFER(Q)%SECND_UID(JJ)= ITAB(INTBUF_TAB(NI)%NSV(I)) 
-           !      T8(P,NBT8)%BUFFER(Q)%BUFI(II) = JJ + 1 
+           !      II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)
+           !      Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)
+           !      JJ = T8(P,NBT8)%BUFFER(Q)%BUFI(II)
+           !      T8(P,NBT8)%BUFFER(Q)%SECND_ID(JJ) = I
+           !      T8(P,NBT8)%BUFFER(Q)%SECND_UID(JJ)= ITAB(INTBUF_TAB(NI)%NSV(I))
+           !      T8(P,NBT8)%BUFFER(Q)%BUFI(II) = JJ + 1
            !     ENDDO
            !   ENDIF
            !  ENDIF
@@ -662,12 +662,12 @@ C--------------------------------------------------------------
 !         DO P = 1,NSPMD
 !           WRITE(6,*) '============== Proc',P,'===',T8(P,NBT8)%S_COMM
 !           DO LOCAL_ID=1,T8(P,NBT8)%S_COMM
-!             NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM 
+!             NB = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NBCOM
 !             WRITE(6,*) 'NLOC=',T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%NUMLOC,'NB=',NB
 !             DO K =1,NB
-!                 II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)  
-!                 Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)  
-!                 WRITE(6,*) 'Q=',Q,T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II) 
+!                 II = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%BUF_INDEX(K)
+!                 Q = T8(P,NBT8)%SPMD_COMM_PATTERN(LOCAL_ID)%PROCLIST(K)
+!                 WRITE(6,*) 'Q=',Q,T8(P,NBT8)%BUFFER(Q)%MAIN_UID(II)
 !             ENDDO
 !           ENDDO
 !         ENDDO
@@ -681,9 +681,9 @@ C--------------------------------------------------------------
 !         ENDDO
 !         ENDDO
 !          DO P = 1, NSPMD
-!             DO K = 1,T8(P,NBT8)%S_COMM 
+!             DO K = 1,T8(P,NBT8)%S_COMM
 !             WRITE(6,*) P,ITAB(
-!    .         INTBUF_TAB(NI)%MSR(T8(P,NBT8)%SPMD_COMM_PATTERN(K)%NUMLOC)) 
+!    .         INTBUF_TAB(NI)%MSR(T8(P,NBT8)%SPMD_COMM_PATTERN(K)%NUMLOC))
 !             ENDDO
 !          ENDDO
 
@@ -716,11 +716,11 @@ C   M o d u l e s
 C-----------------------------------------------      
       USE MESSAGE_MOD
       USE FRONT_MOD
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -743,7 +743,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  INTERSURFL
-      EXTERNAL INTERSURFL             
+      EXTERNAL INTERSURFL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -752,22 +752,22 @@ C-----------------------------------------------
       INTEGER NI,K,I,PROC,IE
 C--------------------------------------------------------------
       DO NI=1,NINTER
-      
+
         !get generic values
         ITY    = IPARI(7,NI)
-        
+
         IF ((FLAG==0.AND.(ITY==24.OR.ITY==25)).OR.
      .      (FLAG==1.AND.(ITY==7.OR.ITY==10.OR.
      .      ITY==22.OR.ITY==23)) )THEN
-     
+
           NRTM   = IPARI(4,NI)
 
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
             ALLOCATE(INTERCEP(1,NI)%P(NRTM))
-          ENDIF   
+          ENDIF
           INTERCEP(1,NI)%P(1:NRTM)=0
-              
+
           DO K=1,NRTM
              N1=INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
              N2=INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
@@ -779,26 +779,26 @@ C Allocate CEP INTERFACE
              ELSE
                !find first SPMD domain on which the 4 nodes of the surface are
                PROC = INTERSURFL(N1,N2,N3,N4)
-               INTERCEP(1,NI)%P(K) = PROC       
-             ENDIF     
+               INTERCEP(1,NI)%P(K) = PROC
+             ENDIF
           ENDDO
 
-        ELSEIF(ITY==24.AND.FLAG==1.AND.IPARI(86,NI) > 0) THEN          
+        ELSEIF(ITY==24.AND.FLAG==1.AND.IPARI(86,NI) > 0) THEN
 
 C Allocate CEP INTERFACE
              NRTS   = IPARI(3,NI)
 
              IF (.NOT.(ASSOCIATED(INTERCEP(3,NI)%P)))THEN
                 ALLOCATE(INTERCEP(3,NI)%P(NRTS))
-             ENDIF        
+             ENDIF
              INTERCEP(3,NI)%P(1:NRTS)=0
-              
+
              DO K=1,NRTS
                ! SECND SEGEMENT AND ELEMENT HAVE TO ON THE SAME MPI DOMAIN (only solids/ if other CEP(OFF+IE))
                 IE = INTBUF_TAB(NI)%IELNRTS(K)
                 IF(IE > 0) THEN
                   PROC = CEP(IE)
-                  INTERCEP(3,NI)%P(K) = PROC + 1  
+                  INTERCEP(3,NI)%P(K) = PROC + 1
                 ENDIF
              ENDDO
 
@@ -809,9 +809,9 @@ C Allocate CEP INTERFACE
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
             ALLOCATE(INTERCEP(1,NI)%P(NRTM))
-          ENDIF   
+          ENDIF
           INTERCEP(1,NI)%P(1:NRTM)=0
-              
+
           DO K=1,NRTM
              N1=INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
              N2=INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
@@ -824,63 +824,63 @@ C Allocate CEP INTERFACE
 
              !find first SPMD domain on which the 4 nodes of the surface are
              PROC = INTERSURFL(N1,N2,N3,N4)
-             INTERCEP(1,NI)%P(K) = PROC      
+             INTERCEP(1,NI)%P(K) = PROC
           ENDDO
 
         ELSEIF (ITY==11) THEN
 
           NRTS   = IPARI(3,NI)
-          NRTM   = IPARI(4,NI)  
+          NRTM   = IPARI(4,NI)
 
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
-            ALLOCATE(INTERCEP(1,NI)%P(NRTM))        
-          ENDIF  
+            ALLOCATE(INTERCEP(1,NI)%P(NRTM))
+          ENDIF
           IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
-            ALLOCATE(INTERCEP(2,NI)%P(NRTS))        
-          ENDIF            
+            ALLOCATE(INTERCEP(2,NI)%P(NRTS))
+          ENDIF
           INTERCEP(1,NI)%P(1:NRTM)=0
-          INTERCEP(2,NI)%P(1:NRTS)=0      
+          INTERCEP(2,NI)%P(1:NRTS)=0
 
-          DO K=1,NRTM 
+          DO K=1,NRTM
             N1 = INTBUF_TAB(NI)%IRECTM(2*(K-1)+1)
-            N2 = INTBUF_TAB(NI)%IRECTM(2*(K-1)+2)          
+            N2 = INTBUF_TAB(NI)%IRECTM(2*(K-1)+2)
             !find first SPMD domain on which the 2 nodes of the surface are
             !use same generic routine with N1=N2 and N3=N4
-            PROC = INTERSURFL(N1,N1,N2,N2)                        
-            INTERCEP(1,NI)%P(K) = PROC    
+            PROC = INTERSURFL(N1,N1,N2,N2)
+            INTERCEP(1,NI)%P(K) = PROC
           ENDDO
-                  
+
           DO K=1,NRTS
             N1 = INTBUF_TAB(NI)%IRECTS(2*(K-1)+1)
-            N2 = INTBUF_TAB(NI)%IRECTS(2*(K-1)+2)  
+            N2 = INTBUF_TAB(NI)%IRECTS(2*(K-1)+2)
             !find first SPMD domain on which the 2 nodes of the surface are
             !use same generic routine with N1=N2 and N3=N4
-            PROC = INTERSURFL(N1,N1,N2,N2)                        
+            PROC = INTERSURFL(N1,N1,N2,N2)
             INTERCEP(2,NI)%P(K) = PROC
-          ENDDO 
-          
-        !ENDIF INTER TYPE 11      
+          ENDDO
+
+        !ENDIF INTER TYPE 11
         ELSEIF (ITY==20) THEN
-        
+
           NRTM   = IPARI(4,NI)
-          NLINS  = IPARI(51,NI)   
-          NLINM  = IPARI(52,NI) 
-     
+          NLINS  = IPARI(51,NI)
+          NLINM  = IPARI(52,NI)
+
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
-            ALLOCATE(INTERCEP(1,NI)%P(NRTM))        
-          ENDIF  
+            ALLOCATE(INTERCEP(1,NI)%P(NRTM))
+          ENDIF
           IF (.NOT.(ASSOCIATED(INTERCEP(2,NI)%P)))THEN
-            ALLOCATE(INTERCEP(2,NI)%P(NLINM))       
-          ENDIF  
+            ALLOCATE(INTERCEP(2,NI)%P(NLINM))
+          ENDIF
           IF (.NOT.(ASSOCIATED(INTERCEP(3,NI)%P)))THEN
-            ALLOCATE(INTERCEP(3,NI)%P(NLINS))       
-          ENDIF            
+            ALLOCATE(INTERCEP(3,NI)%P(NLINS))
+          ENDIF
           INTERCEP(1,NI)%P(1:NRTM) =0
           INTERCEP(2,NI)%P(1:NLINM)=0
-          INTERCEP(3,NI)%P(1:NLINS)=0     
-                
+          INTERCEP(3,NI)%P(1:NLINS)=0
+
           DO K=1,NRTM
             N1L = INTBUF_TAB(NI)%IRECTM(4*(K-1)+1)
             N2L = INTBUF_TAB(NI)%IRECTM(4*(K-1)+2)
@@ -889,9 +889,9 @@ C Allocate CEP INTERFACE
             N1 = INTBUF_TAB(NI)%NLG(N1L)
             N2 = INTBUF_TAB(NI)%NLG(N2L)
             N3 = INTBUF_TAB(NI)%NLG(N3L)
-            N4 = INTBUF_TAB(NI)%NLG(N4L)        
-           !find first SPMD domain on which the 4 nodes of the surface are      
-            PROC = INTERSURFL(N1,N2,N3,N4)                        
+            N4 = INTBUF_TAB(NI)%NLG(N4L)
+           !find first SPMD domain on which the 4 nodes of the surface are
+            PROC = INTERSURFL(N1,N2,N3,N4)
             INTERCEP(1,NI)%P(K) = PROC
           ENDDO
 
@@ -901,10 +901,10 @@ C Allocate CEP INTERFACE
             N1 = INTBUF_TAB(NI)%NLG(N1L)
             N2 = INTBUF_TAB(NI)%NLG(N2L)
             !find first SPMD domain on which the 2 nodes of the surface are
-            !use same generic routine with N1=N2 and N3=N4          
-            PROC = INTERSURFL(N1,N1,N2,N2)                        
-            INTERCEP(2,NI)%P(K) = PROC        
-          ENDDO 
+            !use same generic routine with N1=N2 and N3=N4
+            PROC = INTERSURFL(N1,N1,N2,N2)
+            INTERCEP(2,NI)%P(K) = PROC
+          ENDDO
 
           DO K=1,NLINS
             N1L = INTBUF_TAB(NI)%IXLINS(2*(K-1)+1)
@@ -912,22 +912,22 @@ C Allocate CEP INTERFACE
             N1 = INTBUF_TAB(NI)%NLG(N1L)
             N2 = INTBUF_TAB(NI)%NLG(N2L)
             !find first SPMD domain on which the 2 nodes of the surface are
-            !use same generic routine with N1=N2 and N3=N4          
-            PROC = INTERSURFL(N1,N1,N2,N2)                        
-            INTERCEP(3,NI)%P(K) = PROC        
-          ENDDO                 
-                    
+            !use same generic routine with N1=N2 and N3=N4
+            PROC = INTERSURFL(N1,N1,N2,N2)
+            INTERCEP(3,NI)%P(K) = PROC
+          ENDDO
+
         !ENDIF INTER TYPE 11
-        ELSEIF (ITY==21) THEN   
-        
+        ELSEIF (ITY==21) THEN
+
           NRTS   = IPARI(3,NI)
-          
+
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
-            ALLOCATE(INTERCEP(1,NI)%P(NRTS))        
-          ENDIF                   
-          INTERCEP(1,NI)%P(1:NRTS) =0   
-                  
+            ALLOCATE(INTERCEP(1,NI)%P(NRTS))
+          ENDIF
+          INTERCEP(1,NI)%P(1:NRTS) =0
+
           DO K=1,NRTS
             N1 = INTBUF_TAB(NI)%IRECTS(4*(K-1)+1)
             N2 = INTBUF_TAB(NI)%IRECTS(4*(K-1)+2)
@@ -935,16 +935,16 @@ C Allocate CEP INTERFACE
             N4 = INTBUF_TAB(NI)%IRECTS(4*(K-1)+4)
             !find first SPMD domain on which the 4 nodes of the surface are
             PROC = INTERSURFL(N1,N2,N3,N4)
-            INTERCEP(1,NI)%P(K) = PROC            
-          ENDDO           
-                        
+            INTERCEP(1,NI)%P(K) = PROC
+          ENDDO
+
         ENDIF !ENDIF INTER TYPE 21
-        
+
 
       ENDDO !ENDDO 1,NINTER
 
       END
-      
+
 Chd|====================================================================
 Chd|  FILL_INTERCEP                 source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -966,7 +966,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   A n a l y s e   M o d u l e
 C-----------------------------------------------
@@ -990,7 +990,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  INTERSURFL
-      EXTERNAL INTERSURFL             
+      EXTERNAL INTERSURFL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -999,17 +999,17 @@ C-----------------------------------------------
       INTEGER NI,K,I,PROC
 C--------------------------------------------------------------
       DO NI=1,NINTER
-      
+
         !get generic values
         ITY    = IPARI(7,NI)
-        
+
         IF (ITY==7)THEN
-     
+
           NRTM   = IPARI(4,NI)
 C Allocate CEP INTERFACE
           IF (.NOT.(ASSOCIATED(INTERCEP(1,NI)%P)))THEN
             ALLOCATE(INTERCEP(1,NI)%P(NRTM))
-          ENDIF   
+          ENDIF
           INTERCEP(1,NI)%P(1:NRTM)=0
 
           DO K=1,NRTM
@@ -1024,11 +1024,11 @@ C Allocate CEP INTERFACE
              ELSE
                PROC = INTERSURFL(N1,N2,N3,N4)
                INTERCEP(1,NI)%P(K) = PROC
-             ENDIF           
+             ENDIF
           ENDDO
-        
+
         ENDIF
-        
+
       ENDDO !ENDDO 1,NINTER
 
       END
@@ -1042,7 +1042,7 @@ Chd|        SET_INTERCEP                  source/spmd/node/ddtools.F
 Chd|-- calls ---------------
 Chd|        FRONT_MOD                     share/modules1/front_mod.F    
 Chd|====================================================================
-      INTEGER FUNCTION INTERSURFL(N1,N2,N3,N4)   
+      INTEGER FUNCTION INTERSURFL(N1,N2,N3,N4)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1062,29 +1062,29 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------    
       INTEGER IAD1,IAD2,IAD3,IAD4,
      .        P1,P2,P3,P4,PMAX
-      INTEGER TAB(4),NN 
+      INTEGER TAB(4),NN
       LOGICAL SEARCH
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------      
       INTERSURFL = -1
       SEARCH = .TRUE.
-      
+
       IAD1 = IFRONT%IENTRY(N1)
       IAD2 = IFRONT%IENTRY(N2)
       IAD3 = IFRONT%IENTRY(N3)
       IAD4 = IFRONT%IENTRY(N4)
-                    
+
       DO WHILE(SEARCH)
         P1 = IFRONT%P(1,IAD1)
         P2 = IFRONT%P(1,IAD2)
         P3 = IFRONT%P(1,IAD3)
-        P4 = IFRONT%P(1,IAD4)    
+        P4 = IFRONT%P(1,IAD4)
         IF(P1==P2.AND.P2==P3.AND.P3==P4)THEN
           INTERSURFL = P1
           SEARCH = .FALSE.
         ELSE
-          PMAX = MAX(P1,P2,P3,P4)                  
+          PMAX = MAX(P1,P2,P3,P4)
           IF(P1<PMAX) IAD1 = IFRONT%P(2,IAD1)
           IF(P2<PMAX) IAD2 = IFRONT%P(2,IAD2)
           IF(P3<PMAX) IAD3 = IFRONT%P(2,IAD3)
@@ -1094,8 +1094,8 @@ C-----------------------------------------------
 !     IF(INTERSURFL > 4) THEN
 !     WRITE(6,*) __FILE__,__LINE__,IAD1,IAD2,IAD3,IAD4
 !     ENDIF
-        
-      RETURN 
+
+      RETURN
       END
 Chd|====================================================================
 Chd|  INI_IDDCONNECT                source/spmd/node/ddtools.F    
@@ -1113,12 +1113,12 @@ C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "com01_c.inc"     
-#include      "com04_c.inc"      
+#include      "com01_c.inc"
+#include      "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------      
-      INTEGER NELEM 
+      INTEGER NELEM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------          
@@ -1131,10 +1131,10 @@ C-----------------------------------------------
 
       DO I=1, SIDDCONNECT
         IDDCONNECT%PDOM(1,I) = -1
-        IDDCONNECT%PDOM(2,I) = -1       
+        IDDCONNECT%PDOM(2,I) = -1
       END DO
 
-      IDDCONNECT_END = NELEM            
+      IDDCONNECT_END = NELEM
 C
       RETURN
       END
@@ -1172,36 +1172,36 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       STAT = 0
-      ALLOCATE(IDDCONNECT_SAVE%PDOM(2,SIDDCONNECT),STAT=stat)  
+      ALLOCATE(IDDCONNECT_SAVE%PDOM(2,SIDDCONNECT),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
      .                         C1='IDDCONNECT_SAVE')
-           
+
 !     save IDDCONNECT in IFRONT_SAVEDOM
       DO I=1,SIDDCONNECT
         IDDCONNECT_SAVE%PDOM(1,I) = IDDCONNECT%PDOM(1,I)
-        IDDCONNECT_SAVE%PDOM(2,I) = IDDCONNECT%PDOM(2,I)        
-      ENDDO  
+        IDDCONNECT_SAVE%PDOM(2,I) = IDDCONNECT%PDOM(2,I)
+      ENDDO
 
-!     dealloc and realloc with bigger size (SIFRONT+NELEM)   
+!     dealloc and realloc with bigger size (SIFRONT+NELEM)
       DEALLOCATE(IDDCONNECT%PDOM)
-      ALLOCATE(IDDCONNECT%PDOM(2,SIDDCONNECT+NELEM),STAT=stat) 
+      ALLOCATE(IDDCONNECT%PDOM(2,SIDDCONNECT+NELEM),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                           MSGTYPE=MSGERROR,
-     .                         C1='IDDCONNECT REALLOC')        
-      
+     .                         C1='IDDCONNECT REALLOC')
+
       DO I=1,SIDDCONNECT
         IDDCONNECT%PDOM(1,I) = IDDCONNECT_SAVE%PDOM(1,I)
-        IDDCONNECT%PDOM(2,I) = IDDCONNECT_SAVE%PDOM(2,I)        
+        IDDCONNECT%PDOM(2,I) = IDDCONNECT_SAVE%PDOM(2,I)
       ENDDO
       DO I=SIDDCONNECT+1,SIDDCONNECT+NELEM
         IDDCONNECT%PDOM(1,I) = -1
-        IDDCONNECT%PDOM(2,I) = -1       
-      ENDDO        
-      DEALLOCATE(IDDCONNECT_SAVE%PDOM)         
-!     set new size of SIDDCONNECT      
+        IDDCONNECT%PDOM(2,I) = -1
+      ENDDO
+      DEALLOCATE(IDDCONNECT_SAVE%PDOM)
+!     set new size of SIDDCONNECT
       SIDDCONNECT = SIDDCONNECT+NELEM
-      
+
       RETURN
       END
 Chd|====================================================================
@@ -1237,24 +1237,24 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       CPT=0
       IAD=IDDCONNECT%IENTRYDOM(1,N)
-!     if no connected node     
-!     nothing to do as init has been done to -1 
+!     if no connected node
+!     nothing to do as init has been done to -1
       IF(IAD==-1)THEN
         CPT = 0
-        RETURN 
+        RETURN
       ENDIF
-      
+
       IF(IDDCONNECT%PDOM(2,IAD)==0)THEN
 !     only one connected node
-        CPT = CPT+1     
-      ELSE     
-!       list of connected nodes for node N        
-        DO WHILE(IAD/=0)      
+        CPT = CPT+1
+      ELSE
+!       list of connected nodes for node N
+        DO WHILE(IAD/=0)
           CPT=CPT+1
           IAD=IDDCONNECT%PDOM(2,IAD)
         ENDDO
       ENDIF
-      
+
       RETURN
       END
 Chd|====================================================================
@@ -1292,24 +1292,24 @@ C-----------------------------------------------
       CPT=XADJ(N)-1
       IAD=IDDCONNECT%IENTRYDOM(1,N)
 
-!     if no connected node     
-!     nothing to do as init has been done to -1 
+!     if no connected node
+!     nothing to do as init has been done to -1
 
 !     only one connected node
-      IF(IDDCONNECT%PDOM(2,IAD)==0)THEN 
-        CPT = CPT+1     
+      IF(IDDCONNECT%PDOM(2,IAD)==0)THEN
+        CPT = CPT+1
         ADJNCY(CPT)=IDDCONNECT%PDOM(1,IAD)
-      ELSE     
-!       list of connected nodes for node N       
-        DO WHILE(IAD/=0)      
+      ELSE
+!       list of connected nodes for node N
+        DO WHILE(IAD/=0)
           CPT=CPT+1
           ADJNCY(CPT)=IDDCONNECT%PDOM(1,IAD)
           IAD=IDDCONNECT%PDOM(2,IAD)
         ENDDO
       ENDIF
-      
+
       RETURN
-      END        
+      END
 Chd|====================================================================
 Chd|  PLIST_BFS                     source/spmd/node/ddtools.F    
 Chd|-- called by -----------
@@ -1351,7 +1351,7 @@ C-----------------------------------------------
       XADJ(1) = 1
       DO I=1,NELEM
         CALL C_IDDCONNECT(I,LEN)
-        XADJ(I+1) = XADJ(I) + LEN 
+        XADJ(I+1) = XADJ(I) + LEN
       ENDDO
 
       DO N = 1, NELEM
@@ -1360,7 +1360,7 @@ C-----------------------------------------------
       NVISIT=0
       ROOT=1 ! first element of the graph == first vertex available
       NCONNX=0
-      
+
       DO WHILE (NVISIT < NELEM) ! loop until all vertices are visited
         NCONNX = NCONNX+1
         DO WHILE ((ROOT <= NELEM) .AND. (COLORS(ROOT) /= 0))
@@ -1380,7 +1380,7 @@ C-----------------------------------------------
 
           DO N = XADJ(CURRENT), XADJ(CURRENT+1)-1
 C           I = ADJNCY(N)
-            CPT = CPT+1     
+            CPT = CPT+1
             I=IDDCONNECT%PDOM(1,IAD)
             IAD=IDDCONNECT%PDOM(2,IAD)
 C
@@ -1391,7 +1391,7 @@ C
               COLORS(I) = NCONNX
               NVISIT=NVISIT+1
             END IF
-          END DO            
+          END DO
         END DO
       END DO
 

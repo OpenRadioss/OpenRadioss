@@ -29,7 +29,7 @@ Chd|        MY_BARRIER                    source/system/machine.F
 Chd|        REMESH_MOD                    share/modules/remesh_mod.F    
 Chd|====================================================================
       SUBROUTINE CNDINT(IXC ,IPARTC ,IXTG ,IPARTTG,IPART,
-     2              ITASK   ,A      ,V    ,AR     ,VR   , 
+     2              ITASK   ,A      ,V    ,AR     ,VR   ,
      3              MS      ,IN     ,NODFT,NODLT  ,X    ,
      4              SH4TREE ,SH3TREE,ITAB ,STIFN ,STIFR ,
      5              MSCND   ,INCND  )
@@ -215,13 +215,13 @@ C
 
              TAGNOD(MC)=1
              DO J=1,3
-              VV = 
+              VV =
      .           FOURTH*(ACND(J,N1)+ACND(J,N2)+ACND(J,N3)+ACND(J,N4))
               ACND(J,MC) =VV
             END DO
 
             DO J=1,3
-              VV = 
+              VV =
      .           FOURTH*(ARCND(J,N1)+ARCND(J,N2)+ARCND(J,N3)+ARCND(J,N4))
               ARCND(J,MC)=VV
             END DO
@@ -438,6 +438,6 @@ C-------
 
         END IF
       END DO
-  
+
       RETURN
-      END     
+      END

@@ -70,7 +70,7 @@ c
           EPSPMAX = MAXVAL(TABLE(TABN)%X(2)%VALUES)
           UPARAM(22) = EPSPMIN
           UPARAM(23) = EPSPMAX
-        END IF        
+        END IF
       END IF
 c-----------
       RETURN

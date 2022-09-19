@@ -45,7 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE ELBUFTAG_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
@@ -64,9 +64,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)                 :: UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID,MAXUPARAM,MAXTABL
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE,ITABLE(MAXTABL)
       INTEGER, INTENT(OUT)                         :: NUPARAM,NUVAR,NTABL,NVARTMP
@@ -74,7 +74,7 @@ C-----------------------------------------------
       my_real, DIMENSION(100),INTENT(OUT)          :: PARMAT
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(OUT)                 :: MTAG
-      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT)          :: MATPARAM  
+      TYPE(MATPARAM_STRUCT_) ,INTENT(OUT)          :: MATPARAM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -97,7 +97,7 @@ c------------------------------------------
 c
 card1 - Density
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card2 - Elasticity  
+card2 - Elasticity
       CALL HM_GET_FLOATV('MAT_E'     ,YOUNG    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'    ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('MAT_IRES'  ,Ires     ,IS_AVAILABLE, LSUBMODEL)
@@ -109,8 +109,8 @@ card3
         CALL HM_GET_FLOATV('MAT_ALPHA' ,ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_CFAIL' ,CFAIL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_PFAIL' ,PFAIL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-card4      
-        CALL HM_GET_FLOATV('MAT_SIGP'  ,SIGP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+card4
+        CALL HM_GET_FLOATV('MAT_SIGP'  ,SIGP     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_GAMMA' ,GAMMA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_EPSD'  ,EPSD     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_ALPHA2',ALPHA2   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -121,25 +121,25 @@ c
 card3
         CALL HM_GET_FLOATV('MAT_ALPHA'     ,ALPHA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_CFAIL'     ,CFAIL     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('MAT_PFAIL'     ,PFAIL     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        CALL HM_GET_FLOATV('MAT_RHOF0'     ,RHOF0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-        
+        CALL HM_GET_FLOATV('MAT_PFAIL'     ,PFAIL     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOATV('MAT_RHOF0'     ,RHOF0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
         CALL HM_GET_FLOATV('MAT_SIGP_C0'   ,SIGP_C0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_SIGP_C1'   ,SIGP_C1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_SIGP_N'    ,SIGP_N    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
         CALL HM_GET_FLOATV('MAT_ALPHA2_C0' ,ALPHA2_C0 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_ALPHA2_C1' ,ALPHA2_C1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_ALPHA2_N'  ,ALPHA2_N  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
         CALL HM_GET_FLOATV('MAT_GAMMA_C0'  ,GAMMA_C0  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_GAMMA_C1'  ,GAMMA_C1  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('MAT_GAMMA_N'   ,GAMMA_N   ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-       
+        CALL HM_GET_FLOATV('MAT_GAMMA_N'   ,GAMMA_N   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
         CALL HM_GET_FLOATV('MAT_BETA_C0'   ,BETA_C0   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('MAT_BETA_C1'   ,BETA_C1   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('MAT_BETA_N'    ,BETA_N    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-             
+        CALL HM_GET_FLOATV('MAT_BETA_N'    ,BETA_N    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
       ENDIF
 c
 c---------------------
@@ -159,7 +159,7 @@ c---------------------
       ! Elasticity parameter
       G2   = YOUNG / (ONE + NU)
       G    = HALF * G2
-      LAM  = G2 * NU /(ONE - TWO*NU)  
+      LAM  = G2 * NU /(ONE - TWO*NU)
       BULK = THIRD * YOUNG / (ONE - NU*TWO)
       NNU  = NU  / (ONE - NU)
       NNU1 = ONE - NNU
@@ -167,24 +167,24 @@ c---------------------
       IF (Istat == 0) THEN
         ! Initial yield stress
         IF (SIGP == ZERO) SIGP = INFINITY
-        IF (SIGP < ZERO) THEN 
+        IF (SIGP < ZERO) THEN
           CALL ANCMSG(MSGID=1901,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
      .                R1=SIGP,
      .                I1=MAT_ID,
-     .                C1=TITR)             
-        ENDIF      
+     .                C1=TITR)
+        ENDIF
         ! Densification strain
         IF (EPSD == ZERO) EPSD = INFINITY
-        IF (EPSD < ZERO) THEN 
+        IF (EPSD < ZERO) THEN
           CALL ANCMSG(MSGID=1900,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
      .                R1=EPSD,
      .                I1=MAT_ID,
-     .                C1=TITR)             
-        ENDIF 
+     .                C1=TITR)
+        ENDIF
         ! Beta parameter
         IF (BETA == ZERO) BETA = ONE
       ENDIF
@@ -195,7 +195,7 @@ c---------------------
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=ALPHA,
      .              I1=MAT_ID,
-     .              C1=TITR)      
+     .              C1=TITR)
       ENDIF
       ! Tensile volumetric strain at failure
       IF (CFAIL < ZERO) THEN
@@ -204,34 +204,34 @@ c---------------------
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=CFAIL,
      .              I1=MAT_ID,
-     .              C1=TITR)          
+     .              C1=TITR)
       ENDIF
       ! Maximum principal strain at failure
-      IF (PFAIL < ZERO) THEN 
+      IF (PFAIL < ZERO) THEN
         CALL ANCMSG(MSGID=1899,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_2,
      .              R1=PFAIL,
      .              I1=MAT_ID,
-     .              C1=TITR)    
+     .              C1=TITR)
       ENDIF
       ! Check for /PERTURB/PART/SOLID card
       IF (Istat == 1) THEN
         ! Warning if no cards are detected
-        IF (NPERTURB == 0) THEN 
+        IF (NPERTURB == 0) THEN
           CALL ANCMSG(MSGID=1916,
      .                MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_2,
      .                I1=MAT_ID,
-     .                C1=TITR)           
+     .                C1=TITR)
         ENDIF
       ENDIF
 c
 c--------------------------
 c     Filling buffer tables
-c-------------------------- 
+c--------------------------
       ! Number of material parameter
-      IF (Istat == 0) THEN 
+      IF (Istat == 0) THEN
         NUPARAM = 20
       ELSE
         NUPARAM = 28
@@ -239,21 +239,21 @@ c--------------------------
       ! Number of function and temp variable
       NTABL   = 0
       NVARTMP = 0
-      ! Number of user variable 
+      ! Number of user variable
       IF (Ires == 1) THEN
-        IF (CFAIL > ZERO) THEN 
+        IF (CFAIL > ZERO) THEN
           NUVAR = 2
         ELSE
           NUVAR = 1
         ENDIF
       ELSE
-        IF (CFAIL > ZERO) THEN 
+        IF (CFAIL > ZERO) THEN
           NUVAR = 1
         ELSE
           NUVAR = 0
         ENDIF
       ENDIF
-c      
+c
       ! Material parameters
       UPARAM(1)  = YOUNG       ! Young modulus
       UPARAM(2)  = BULK        ! Bulk modulus
@@ -261,14 +261,14 @@ c
       UPARAM(4)  = G2          ! 2*Shear modulus
       UPARAM(5)  = LAM         ! Lambda (Hook)
       UPARAM(6)  = NU          ! Poisson ratio
-      UPARAM(7)  = NNU      
-      UPARAM(8)  = NNU1    
+      UPARAM(7)  = NNU
+      UPARAM(8)  = NNU1
       UPARAM(11) = Ires        ! Choice of the return mapping algorithm
       UPARAM(12) = Istat       ! Choice of the statistical variation
       UPARAM(13) = ALPHA       ! Yield function shape parameter
       UPARAM(14) = CFAIL       ! Tensile volumic strain at failure
       UPARAM(15) = PFAIL       ! Principal stress at failure
-      IF (Istat == 0) THEN 
+      IF (Istat == 0) THEN
         UPARAM(16) = GAMMA     ! Yield stress parameter
         UPARAM(17) = EPSD      ! Densification strain
         UPARAM(18) = ALPHA2    ! Yield stress parameter
@@ -281,15 +281,15 @@ c
         UPARAM(19) = SIGP_N    ! Yield stress parameter
         UPARAM(20) = ALPHA2_C0 ! Initial yield stress
         UPARAM(21) = ALPHA2_C1 ! Tensile volumic strain at failure
-        UPARAM(22) = ALPHA2_N  ! Principal stress at failure  
+        UPARAM(22) = ALPHA2_N  ! Principal stress at failure
         UPARAM(23) = GAMMA_C0  ! Initial yield stress
         UPARAM(24) = GAMMA_C1  ! Tensile volumic strain at failure
-        UPARAM(25) = GAMMA_N   ! Principal stress at failure 
+        UPARAM(25) = GAMMA_N   ! Principal stress at failure
         UPARAM(26) = BETA_C0   ! Initial yield stress
         UPARAM(27) = BETA_C1   ! Tensile volumic strain at failure
-        UPARAM(28) = BETA_N    ! Principal stress at failure 
+        UPARAM(28) = BETA_N    ! Principal stress at failure
       ENDIF
-c      
+c
       ! PARMAT table
       PARMAT(1) = BULK
       PARMAT(2) = YOUNG
@@ -302,8 +302,8 @@ c
       PM(1)  = RHO0
       PM(89) = RHO0
       PM(27) = SQRT((BULK + FOUR_OVER_3*G)/RHO0)  ! sound speed estimation
-      PM(100)= BULK   
-c      
+      PM(100)= BULK
+c
       ! MTAG variable activation
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
@@ -318,8 +318,8 @@ c
 c
 c--------------------------
 c     Parameters printout
-c-------------------------- 
-      WRITE(IOUT,1000) TRIM(TITR),MAT_ID,ILAW 
+c--------------------------
+      WRITE(IOUT,1000) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1100)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -328,14 +328,14 @@ c--------------------------
         WRITE(IOUT,1300) YOUNG,NU
         WRITE(IOUT,1350) Ires
         WRITE(IOUT,1375) Istat
-        IF (Istat == 0) THEN 
+        IF (Istat == 0) THEN
           WRITE(IOUT,1400) ALPHA,GAMMA,EPSD,ALPHA2,BETA,SIGP,CFAIL,PFAIL
         ELSE
           WRITE(IOUT,1450) ALPHA,RHOF0,SIGP_C0,SIGP_C1,SIGP_N,ALPHA2_C0,
      .                     ALPHA2_C1,ALPHA2_N,GAMMA_C0,GAMMA_C1,GAMMA_N,
      .                     BETA_C0,BETA_C1,BETA_N,CFAIL,PFAIL
         ENDIF
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -345,7 +345,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL MODEL : DESHPANDE AND FLECK FOAM',/,
      & 5X,'-----------------------------------------',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/)
@@ -367,15 +367,15 @@ c-----------------------------------------------------------------------
  1450 FORMAT(
      & 5X,'YIELD SURFACE SHAPE PARAMETER ALPHA . .=',1PG20.13/
      & 5X,'DENSITY OF BASE MATERIAL  . . . . . . .=',1PG20.13/
-     & 5X,'INITIAL YIELD STRESS PARAM. SIGP_C0 . .=',1PG20.13/     
-     & 5X,'INITIAL YIELD STRESS PARAM. SIGP_C1 . .=',1PG20.13/   
-     & 5X,'INITIAL YIELD STRESS EXPO.  SIGP_N  . .=',1PG20.13/ 
+     & 5X,'INITIAL YIELD STRESS PARAM. SIGP_C0 . .=',1PG20.13/
+     & 5X,'INITIAL YIELD STRESS PARAM. SIGP_C1 . .=',1PG20.13/
+     & 5X,'INITIAL YIELD STRESS EXPO.  SIGP_N  . .=',1PG20.13/
      & 5X,'NON-LINEAR HARDENING PARAM. ALPHA2_C0 .=',1PG20.13/
      & 5X,'NON-LINEAR HARDENING PARAM. ALPHA2_C1 .=',1PG20.13/
      & 5X,'NON-LINEAR HARDENING EXPO.  ALPHA2_N  .=',1PG20.13/
      & 5X,'LINEAR HARDENING PARAM. GAMMA_C0  . . .=',1PG20.13/
      & 5X,'LINEAR HARDENING PARAM. GAMMA_C1  . . .=',1PG20.13/
-     & 5X,'LINEAR HARDENING PARAM. GAMMA_N . . . .=',1PG20.13/     
+     & 5X,'LINEAR HARDENING PARAM. GAMMA_N . . . .=',1PG20.13/
      & 5X,'NON-LINEAR HARDENING EXPO. BETA_C0  . .=',1PG20.13/
      & 5X,'NON-LINEAR HARDENING EXPO. BETA_C1  . .=',1PG20.13/
      & 5X,'NON-LINEAR HARDENING EXPO. BETA_N   . .=',1PG20.13/

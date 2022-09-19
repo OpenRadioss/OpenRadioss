@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), CAND_S(*), CAND_M(*), LEDGE(NLEDGE,NEDGE), ADMSR(4,*), ITAB(NUMNOD)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
-     .     MARGE, 
+     .     MARGE,
      .     X(3,NUMNOD), GAPE(*), GAP_E_L(*), PENE(MVSIZ)
       REAL*4 EDG_BISECTOR(3,4,*), VTX_BISECTOR(3,2,*)
 C-----------------------------------------------
@@ -79,11 +79,11 @@ C-----------------------------------------------
      .     XXM1(MVSIZ) ,XXM2(MVSIZ) ,XYM1(MVSIZ) ,XYM2(MVSIZ) ,XZM1(MVSIZ) ,XZM2(MVSIZ) ,
      .     XS12,YS12,ZS12,XM12,YM12,ZM12,XA,XB,
      .     XS2,XM2,XSM,XS2M2,YS2,YM2,YSM,YS2M2,ZS2,ZM2,ZSM,ZS2M2,
-     .     XX,YY,ZZ,ALS,ALM,DET,GAP2, 
+     .     XX,YY,ZZ,ALS,ALM,DET,GAP2,
      .     XMAX1,YMAX1,ZMAX1,XMAX2,YMAX2,ZMAX2,
      .     XMIN1,YMIN1,ZMIN1,XMIN2,YMIN2,ZMIN2,GAPV(MVSIZ),PENE_L(MVSIZ),VDT(MVSIZ),
      .     AAA, DX, DY, DZ, DD, EX, EY ,EZ, NNI, NI2, INVCOS
-      my_real 
+      my_real
      .     MAXGAPV
 C-----------------------------------------------
 CDIR$ NOFUSION        
@@ -106,7 +106,7 @@ CDIR$ NOFUSION
           ELSE
             GAPV(I)=TWO*(GAPE(IE)+XREM_EDGE(E_GAP,CAND_S(I)-NEDGE ))
           END IF
-          IF(IGAP == 3) 
+          IF(IGAP == 3)
      .      GAPV(I)=MIN(GAP_E_L(IE)+XREM_EDGE(E_GAPL,CAND_S(I)-NEDGE),GAPV(I))
           GAPV(I)=MAX(DRAD,GAPV(I)+DGAPLOAD)+MARGE
         ENDIF
@@ -212,7 +212,7 @@ c         calcul de la distance^2
           ZS2M2 = XZM2(I)-XZS2(I)
 
           XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-          XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+          XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
           DET = XM2*XS2 - XSM*XSM
           DET = MAX(EM20,DET)
 C

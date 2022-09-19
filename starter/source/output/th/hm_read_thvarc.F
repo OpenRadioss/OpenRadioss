@@ -45,7 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD      
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 C
       ! Number of variables indicated by the user
-      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
 c
       ! Initialization of the tag table
       DO I=1,NV
@@ -85,71 +85,71 @@ c
       DO K=1,NVAR
         CALL HM_GET_STRING_INDEX('VAR',VAR,K,10,IS_AVAILABLE)
         VAR(LEN_TRIM(VAR)+1:10)=' '
-        IF (VAR(1:4) == 'QVIS')VAR='BULK'                       
-        IF (VAR(1:6) == 'ALL_42') THEN                
-          DO I=1,NV0                                 
-            TAG(I)=1                                 
-          ENDDO 
-        ELSEIF (VAR(1:3) == 'ALL') THEN                       
-          CALL ANCMSG(MSGID=551,                     
-     .                MSGTYPE=MSGERROR,              
-     .                ANMODE=ANINFO,                 
-     .                I1=ID,                         
-     .                C1=TITR,                       
-     .                C2=VAR)                                                                 
-        ELSEIF (VAR(1:5) == '     ') THEN        
+        IF (VAR(1:4) == 'QVIS')VAR='BULK'
+        IF (VAR(1:6) == 'ALL_42') THEN
+          DO I=1,NV0
+            TAG(I)=1
+          ENDDO
+        ELSEIF (VAR(1:3) == 'ALL') THEN
+          CALL ANCMSG(MSGID=551,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO,
+     .                I1=ID,
+     .                C1=TITR,
+     .                C2=VAR)
+        ELSEIF (VAR(1:5) == '     ') THEN
           CYCLE
-        ELSE   
-          OK = 0                                      
-          DO I=1,NVG                                                                  
-            IF(VAR == VARG(I))THEN                   
-                DO J=1,18                            
-                  TAG(IVARG(J,I))=1                  
-                ENDDO                                
-                OK=1 
-                EXIT                                
-            ENDIF                                    
-          ENDDO                                      
-c                                                     
-          IF(OK==0)THEN                                       
-            DO I=1,NV                                                             
-              IF(VAR == VARE(I))THEN                                          
-                TAG(I)=1                             
-                OK=1                                 
+        ELSE
+          OK = 0
+          DO I=1,NVG
+            IF(VAR == VARG(I))THEN
+                DO J=1,18
+                  TAG(IVARG(J,I))=1
+                ENDDO
+                OK=1
+                EXIT
+            ENDIF
+          ENDDO
+c
+          IF(OK==0)THEN
+            DO I=1,NV
+              IF(VAR == VARE(I))THEN
+                TAG(I)=1
+                OK=1
 C---------Multidomaines : pour les subsets, on stocke des infos en plus dans le th pour merge---------                      
-	          IF ((NSUBDOM>0).AND.(SUB_FLAG==1002)) THEN                                        
-                    IF (I>=9) THEN                                                                     
-                      TAG(3) = 1                                                                         
-                      TAG(4) = 1                                                                         
-                      TAG(5) = 1                                                                         
-                      TAG(6) = 1                                                                         
-                      TAG(9) = 1                                                                         
-                      TAG(10) = 1                                                                        
-                      TAG(11) = 1                                                                        
-                    ENDIF                                                                                
-                    IF (I==23) THEN                                                                    
-                      DO J=12,20                                                                         
-                        TAG(J)=1                                                                         
-                      ENDDO                                                                              
-                    ENDIF                                                                                
-                  ENDIF                                                                                  
+	          IF ((NSUBDOM>0).AND.(SUB_FLAG==1002)) THEN
+                    IF (I>=9) THEN
+                      TAG(3) = 1
+                      TAG(4) = 1
+                      TAG(5) = 1
+                      TAG(6) = 1
+                      TAG(9) = 1
+                      TAG(10) = 1
+                      TAG(11) = 1
+                    ENDIF
+                    IF (I==23) THEN
+                      DO J=12,20
+                        TAG(J)=1
+                      ENDDO
+                    ENDIF
+                  ENDIF
 C---------  ----------------------------------------------------------------------------------------------  
-                EXIT                  
-              ENDIF                             
-            ENDDO      
-          ENDIF                         
-                                              
-          IF(OK==0)THEN                     
-             CALL ANCMSG(MSGID=260,           
-     .                   MSGTYPE=MSGERROR,    
-     .                   ANMODE=ANINFO,       
-     .                   I1=ID,               
-     .                   C1=TITR,             
-     .                   C2=VAR)              
-          ENDIF                               
+                EXIT
+              ENDIF
+            ENDDO
+          ENDIF
+
+          IF(OK==0)THEN
+             CALL ANCMSG(MSGID=260,
+     .                   MSGTYPE=MSGERROR,
+     .                   ANMODE=ANINFO,
+     .                   I1=ID,
+     .                   C1=TITR,
+     .                   C2=VAR)
+          ENDIF
        ENDIF
-      ENDDO 
-      
+      ENDDO
+
       NVAR=0
       DO I=1,NV
         IF(TAG(I) /= 0)THEN
@@ -157,9 +157,9 @@ C---------  --------------------------------------------------------------------
           IVAR(NVAR)=I
         ENDIF
       ENDDO
-         
-      
+
+
       HM_THVARC=NVAR
-       
+
       RETURN
       END

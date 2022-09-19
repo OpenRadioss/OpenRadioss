@@ -60,7 +60,7 @@ Chd|====================================================================
      9                  IPARTC  ,IPARTTG ,THK     ,THK_PART,INPENE ,
      A                  IWPENTOT,IXS10 ,I_MEM    ,
      B                  SIXINT  ,IXS16   ,IXS20   ,ID    ,TITR     ,
-     C                  KXX     ,IXX     ,IGEO  ,NOD2EL1D,KNOD2EL1D, 
+     C                  KXX     ,IXX     ,IGEO  ,NOD2EL1D,KNOD2EL1D,
      D                  LELX    ,INTBUF_TAB ,PM_STACK, IWORKSH )
 C-----------------------------------------------
 C   M o d u l e s
@@ -104,9 +104,9 @@ C-----------------------------------------------
      .   ITAB(*), MWA(*), IXTG(NIXTG,*), IKINE(*),
      .   NELEMINT, IDDLEVEL,IFIEND,
      .   IWCONT(*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*),
      .   NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),
-     .   IPART(*),IPARTC(*), IPARTTG(*),IXS10(*),I_MEM, 
+     .   IPART(*),IPARTC(*), IPARTTG(*),IXS10(*),I_MEM,
      .   IXS16(*), IXS20(*),KXX(*),IXX(*), IGEO(NPROPGI,*),
      .   NOD2EL1D(*), KNOD2EL1D(*),IWORKSH(3,*)
       INTEGER IKINE1(*)
@@ -174,7 +174,7 @@ C=======================================================================
       NRTM  =IPARI(4)
       NSN   =IPARI(5)
       NMN   =IPARI(6)
-      NMN0  =NMN 
+      NMN0  =NMN
       NTY   =IPARI(7)
       NST   =IPARI(8)
       MST   =IPARI(9)
@@ -226,7 +226,7 @@ C
      4 NOINT          ,NRTM           ,NSN            ,INTBUF_TAB%IRECTM  ,
      5 INTBUF_TAB%NSV ,INACTI         ,INTBUF_TAB%VARIABLES(2),IGAP       ,
      6 INTBUF_TAB%GAP_S  ,INTBUF_TAB%GAP_M ,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(6),
-     7 INTBUF_TAB%VARIABLES(16),INTBUF_TAB%STFAC(1) ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFA  ,                 
+     7 INTBUF_TAB%VARIABLES(16),INTBUF_TAB%STFAC(1) ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFA  ,
      8 KNOD2ELS       ,KNOD2ELC       ,KNOD2ELTG      ,NOD2ELS        ,
      9 NOD2ELC        ,NOD2ELTG       ,IGRSURF(ISU1)  ,IFS2           ,
      A IGRSURF(ISS2)  ,IPARI(47)      ,INTBUF_TAB%IELES  ,
@@ -283,7 +283,7 @@ C Appe routine poids noeuds interfaces
      .                  NSNT,NMNT)
         END IF
       ELSE
-        IF (NDSOLV==1)THEN 
+        IF (NDSOLV==1)THEN
            IF ( (NELEMINT+I_STOK)*6 >  SIXINT)THEN
              CALL UPGRADE_IXINT(SIXINT,NELEMINT,I_STOK)
            ENDIF
@@ -318,8 +318,8 @@ C-----EDGES -------
       NLINMA =IPARI(54)
       NSNE   =IPARI(55)
       NMNE   =IPARI(56)
-      
-      IF(NLINS + NLINM /= 0)THEN  
+
+      IF(NLINS + NLINM /= 0)THEN
 C       CALCUL DES RIGIDITES ELEMENTTAIRES 
 C
         GAP0 = GAPINPUT
@@ -329,7 +329,7 @@ C
         CALL I20STI3E(
      1X         ,INTBUF_TAB%IXLINM ,INTBUF_TAB%STF,IXS      ,PM           ,
      2GEO       ,NLINM         ,IXC         ,NUMINT    ,INTBUF_TAB%STFAC(1),
-     3NTY       ,GAPE          ,NOINT       ,INTBUF_TAB%GAP_ME,        
+     3NTY       ,GAPE          ,NOINT       ,INTBUF_TAB%GAP_ME,
      4MS        ,IXTG          ,IXT         ,IXP       ,IXR          ,
      5IGAP      ,INTBUF_TAB%VARIABLES(13),GAP0      ,GAPINFS   ,NSNE         ,
      6IPARTC    ,IPARTTG       ,THK         ,THK_PART  ,IXS10        ,
@@ -340,14 +340,14 @@ C
         CALL I20STI3E(
      1X         ,INTBUF_TAB%IXLINS,INTBUF_TAB%STFS,IXS      ,PM           ,
      2GEO       ,NLINS        ,IXC         ,-NUMINT   ,INTBUF_TAB%STFAC(1),
-     3NTY       ,GAPE         ,NOINT       ,INTBUF_TAB%GAP_SE,       
+     3NTY       ,GAPE         ,NOINT       ,INTBUF_TAB%GAP_SE,
      4MS        ,IXTG         ,IXT         ,IXP       ,IXR          ,
      5IGAP      ,INTBUF_TAB%VARIABLES(13),GAP0     ,GAPINFM   ,NSNE         ,
      6IPARTC      ,IPARTTG    ,THK         ,THK_PART  ,IXS10        ,
      7ID        ,TITR         ,KXX         ,IXX       ,IGEO         ,
      7 NOD2EL1D  ,KNOD2EL1D    ,KNOD2ELS    ,KNOD2ELC  ,KNOD2ELTG    ,
      8 NOD2ELS   ,NOD2ELC      ,NOD2ELTG    ,LELX , PM_STACK , IWORKSH)
- 
+
         INTBUF_TAB%VARIABLES(2) = MAX(INTBUF_TAB%VARIABLES(2),GAPE)
         GAPINF=GAPINFS+GAPINFM
         GAPINF=MIN(GAPINF,INTBUF_TAB%VARIABLES(6))
@@ -376,7 +376,7 @@ C     CALCUL LES PENETRATIONS INITIALES
 C     CORRECTION DE LA POSITION DES POINTS D'ANCRAGE 
 C     1-EDGES
 C------------------------------------------------------
- 
+
         NGROUS=1+(I_STOK_E-1)/NVSIZ
 C
         IF(IPRI>=1) WRITE(IOUT,2011)
@@ -472,7 +472,7 @@ C     RE-CALCUL LES PENETRATIONS INITIALES
 C     APRES CORRECTION DE LA POSITION DES POINTS D'ANCRAGE 
 C     1-NOEUDS FACETTES
 C------------------------------------------------------
- 
+
       NGROUS=1+(I_STOK-1)/NVSIZ
       IWPENE   =0
       IWPENEDGE=0
@@ -526,8 +526,8 @@ C
 C------------------------------------------------------
 C     2-EDGES
 C------------------------------------------------------
-      IF(NLINS /= 0)THEN  
- 
+      IF(NLINS /= 0)THEN
+
         NGROUS=1+(I_STOK_E-1)/NVSIZ
 C
         IF(IPRI>=1) WRITE(IOUT,2011)

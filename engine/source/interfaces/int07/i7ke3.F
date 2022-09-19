@@ -74,8 +74,8 @@ C-----------------------------------------------
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN,IDDL(*),
      .         IADK(*)     ,JDIK(*),LREM
 C     REAL
-      my_real 
-     .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*) 
+      my_real
+     .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -85,7 +85,7 @@ C-----------------------------------------------
      .        IBC, NOINT, NSEG, ISECIN, IBAG,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ), I3N 
+     .        NSVG(MVSIZ), I3N
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
@@ -123,7 +123,7 @@ C
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
       GAP_IMP=MIN(GAP_IMP,GAPMIN)
-      IGSTI=IPARI(34,NIN) 
+      IGSTI=IPARI(34,NIN)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
@@ -182,13 +182,13 @@ C
      4                  Z3     ,Z4     ,XI     ,YI     ,ZI     )
            IF (IMACH==3.AND.NSPMD>1) THEN
             LREM = LREM + JLT
-            CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,       
+            CALL ASS_SPMD(3        ,NSVG     ,IX1    ,IX2    ,IX3    ,
      1         IX4      ,JLT       ,IDDL     ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,KI11      ,KI12      ,KJ11     ,
      3         KJ12     ,KK11      ,KK12      ,KL11      ,KL12     ,
      4         OFF      ,NIN       )
             LREM = LREM - JLT
-           ENDIF 
+           ENDIF
             CALL ASSEM_INT(3       ,NSVG     ,IX1    ,IX2    ,IX3    ,
      1         IX4      ,JLT       ,IDDL      ,K_DIAG    ,K_LT     ,
      2         IADK     ,JDIK      ,KI11      ,KI12      ,KJ11     ,
@@ -303,16 +303,16 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN
 C     REAL
-      my_real 
-     .  A(3,*), MS(*), V(3,*),D(3,*),X(*) 
+      my_real
+     .  A(3,*), MS(*), V(3,*),D(3,*),X(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, I_STOK, JLT_NEW, JLT , NFT, 
+      INTEGER I, I_STOK, JLT_NEW, JLT , NFT,
      .        INACTI, NSN,NTY,L
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), 
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ),
      .        IX4(MVSIZ),NSVG(MVSIZ)
 C     REAL
       my_real
@@ -444,7 +444,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,*), NIN,JTASK,LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
 C     REAL
-      my_real 
+      my_real
      .  MS(*), V(3,*),X(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -492,7 +492,7 @@ C
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
-      IGSTI=IPARI(34,NIN) 
+      IGSTI=IPARI(34,NIN)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
@@ -652,7 +652,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), INDEX2(*)
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),NIN
 C     REAL
-      my_real 
+      my_real
      .  MS(*),V(3,*),X(*),A(3,*),D(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -662,7 +662,7 @@ C-----------------------------------------------
      .        IBC, NOINT, NSEG, ISECIN, IBAG,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI,IUPD
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ), I3N 
+     .        NSVG(MVSIZ), I3N
 C     REAL
       my_real
      .   STARTT, FRIC, GAP, STOPT,STIGLO,GAPMIN,
@@ -701,12 +701,12 @@ C
       FRIC  =INTBUF_TAB%VARIABLES(1)
       GAP   =INTBUF_TAB%VARIABLES(2)
       GAPMIN=INTBUF_TAB%VARIABLES(13)
-      IGSTI=IPARI(34,NIN) 
+      IGSTI=IPARI(34,NIN)
       GAPMAX=INTBUF_TAB%VARIABLES(16)
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
+      IFQ =IPARI(31,NIN)
 C
       IF(NTY==3)THEN
       ELSEIF(NTY==4)THEN
@@ -731,7 +731,7 @@ C
      8                V      ,IGSTI ,KMIN   ,KMAX    ,GAPMAX,
      9                GAPMIN ,NIN    ,NTY   ,NSN    )
          CALL I7CORKP3(
-     1                    JLT   ,XI      ,YI     ,ZI     ,D      ,   
+     1                    JLT   ,XI      ,YI     ,ZI     ,D      ,
      2                    DXI   ,DYI     ,DZI    ,NSVG   ,NIN    ,
      3                    IUPD    )
           CALL I7DSTK3(

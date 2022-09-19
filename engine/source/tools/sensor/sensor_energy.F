@@ -34,7 +34,7 @@ c-----------------------------------------------------------------------
 !$COMMENT
 !       SENSOR_ENERGY description
 !       SENSOR_ENERGY organization :
-!       - computation 
+!       - computation
 !       - sensor state modification
 !$ENDCOMMENT
 c-----------------------------------------------
@@ -77,9 +77,9 @@ C----------------------------------------------------------
      .    EMA_INT,EMVAR_INT,EMA_KIN,EMVAR_KIN,DIFF,INCR,MEAN,EVAR_INT,EVAR_KIN,
      .    ALPHAI,BETAI,ALPHAK,BETAK
 c----------------------------------------------------------
-c    SENSOR%VAR(1)   = TACT1 
+c    SENSOR%VAR(1)   = TACT1
 c    SENSOR%VAR(2)   = STATE1
-c    SENSOR%VAR(3)   = TACT2 
+c    SENSOR%VAR(3)   = TACT2
 c    SENSOR%VAR(4)   = STATE2
 c    SENSOR%VAR(5)   = NI
 c    SENSOR%VAR(6)   = Mean  EI
@@ -96,12 +96,12 @@ c
 
         IPART  = LSENS1(4)
         ISUBS  = LSENS1(5)
-      
+
 
       TSTART = SENS1(2)
       TSTOPS = SENS1(3)
-      TACT   = SENS1(4)      
-c      
+      TACT   = SENS1(4)
+c
       TDELAY = SENSOR%TDELAY
       TMIN   = SENSOR%TMIN
       IEMIN  = SENSOR%RPARAM(1)
@@ -123,27 +123,27 @@ c---------------------------------------------------------
           EKIN = ZERO
           NBR_GROUP = SENSOR_STRUCT(ISENS)%NUM_GROUP_PART
           DO ITSK=2,NTHREAD
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) = 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) + 
+            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) =
+     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,1) +
      .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1:6,ITSK)
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) = 
-     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) + 
+            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) =
+     .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,1) +
      .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1:6,ITSK)
-          ENDDO     
+          ENDDO
 
           DO J=2,6
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) = 
+            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) =
      .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1) + SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,1)
-            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) = 
+            SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) =
      .      SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1) + SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,1)
-          ENDDO 
+          ENDDO
           EINT = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,1,1)
           EKIN = SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,1,1)
-      
+
           DO ITSK=1,NTHREAD
             DO J=1,6
-              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,ITSK) = ZERO    
-              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,ITSK) = ZERO        
+              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(1,J,ITSK) = ZERO
+              SENSOR_STRUCT(ISENS)%FBSAV6_SENS(2,J,ITSK) = ZERO
             ENDDO
           ENDDO
       ELSE
@@ -166,7 +166,7 @@ c     TEST of principal criterion (Emax, Emin)
 c---------------------------------------------------------
       IF (EINT < IEMIN .OR. EINT > IEMAX .OR.
      .    EKIN < KEMIN .OR. EKIN > KEMAX) THEN
-        TACT   = MIN(TACT,TT)                       
+        TACT   = MIN(TACT,TT)
       ELSE
         TACT   = EP20
         SENSOR%STATUS = 0
@@ -219,7 +219,7 @@ c
             EVAR_INT = SENSOR%VAR(7)
             BETAI  = (ONE - ALPHAI)
             DIFF = EINT - EMA_INT
-c          
+c
             EMA_INT  = ALPHAI*EINT + BETAI*EMA_INT
             EVAR_INT = BETAI*(EVAR_INT + ALPHAI*DIFF**2)
             FAC_EI = SQRT(EVAR_INT) / EMA_INT
@@ -269,7 +269,7 @@ c---------------------------------------------------------
             EVAR_KIN = SENSOR%VAR(10)
             BETAK  = (ONE - ALPHAK)
             DIFF = EKIN - EMA_KIN
-c       
+c
             EMA_KIN  = ALPHAK*EKIN + BETAK*EMA_KIN
             EVAR_KIN = BETAK*(EVAR_KIN + ALPHAK*DIFF**2)
             FAC_EK = SQRT(EVAR_KIN) / EMA_KIN
@@ -309,17 +309,17 @@ c
           ENDIF ! end test const kinetic energy
         ENDIF
 c
-        SENSOR%VAR(1) = TACT1 
+        SENSOR%VAR(1) = TACT1
         SENSOR%VAR(2) = STATE1
-        SENSOR%VAR(3) = TACT2 
+        SENSOR%VAR(3) = TACT2
         SENSOR%VAR(4) = STATE2
 c
       END IF  ! constant energy option
-c-----------------------------------------------------------------------      
+c-----------------------------------------------------------------------
 1100  FORMAT(' SENSOR NUMBER ',I10,' ACTIVATED AT TIME ',1PE12.5)
 1200  FORMAT('      INT ENERGY = ',1PE12.5,'  KIN ENERGY = ',1PE12.5)
-1400  FORMAT('      INT ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)           
-1500  FORMAT('      KIN ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)           
+1400  FORMAT('      INT ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)
+1500  FORMAT('      KIN ENERGY = ',1PE12.5,'  ,MEAN  = ',1PE12.5,'  ,STDEV  = ',1PE12.5)
 c----------------------------------------------------------
       RETURN
       END SUBROUTINE SENSOR_ENERGY

@@ -79,7 +79,7 @@ C-----------------------------------------------
          DO I = 1, NUMNOD_L
             ADSKY(I) = IAD_CONNECT(I)
          ENDDO
-         
+
 
          DO I = 1, NUMNOD_L
             IAD1 = ALE_CONNECTIVITY%NN_CONNECT%IAD_CONNECT(NODGLOB(I))
@@ -94,7 +94,7 @@ C-----------------------------------------------
 
          CALL WRITE_I_C(IAD_CONNECT, NUMNOD_L + 1)
          CALL WRITE_I_C(CONNECTED, LEN)
-         
+
          LEN_IA = LEN_IA + NUMNOD_L + 1 + LEN
       ENDIF
 
@@ -123,7 +123,7 @@ C     Node - element connectivity
          DO I = 1, NUMNOD_L
             ADSKY(I) = IAD_CONNECT(I)
          ENDDO
-         
+
 
          DO I = 1, NUMNOD_L
             IAD1 = ALE_CONNECTIVITY%NE_CONNECT%IAD_CONNECT(NODGLOB(I))
@@ -138,9 +138,9 @@ C     Node - element connectivity
 
          CALL WRITE_I_C(IAD_CONNECT, NUMNOD_L + 1)
          CALL WRITE_I_C(CONNECTED, LEN)
-         
+
          LEN_IA = LEN_IA + NUMNOD_L + 1 + LEN
-      ENDIF 
+      ENDIF
 
       IF (ALLOCATED(IAD_CONNECT)) DEALLOCATE(IAD_CONNECT)
       IF (ALLOCATED(CONNECTED)) DEALLOCATE(CONNECTED)

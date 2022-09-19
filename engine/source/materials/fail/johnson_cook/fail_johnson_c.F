@@ -100,7 +100,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) :: INDX
       my_real :: D1,D2,D3,D4,D5,EPSP0,P,EPSF,SVM
 C=======================================================================
-      NINDX   = 0  
+      NINDX   = 0
       D1      = UPARAM(1)
       D2      = UPARAM(2)
       D3      = UPARAM(3)
@@ -121,28 +121,28 @@ c-----------------------------
           SVM = SQRT (SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
      .              - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
           EPSF = D3*P/MAX(EM20,SVM)
-          EPSF = (D1 + D2*EXP(EPSF))*(ONE 
+          EPSF = (D1 + D2*EXP(EPSF))*(ONE
      .               + D4*LOG(MAX(ONE,EPSP(I)/EPSP0)))
      .               * (ONE + D5*TSTAR(I))
-          IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF  
+          IF (EPSF > ZERO) DFMAX(I) = DFMAX(I) + DPLA(I)/EPSF
           IF (DFMAX(I) >= ONE) THEN
             NINDX = NINDX + 1
-            INDX(NINDX) = I  
+            INDX(NINDX) = I
             FOFF(I) = 0
             TDEL(I) = TIME
           ENDIF
-        ENDIF 
-      ENDDO      
+        ENDIF
+      ENDDO
 c------------------------
-      IF (NINDX > 0) THEN        
-        DO J=1,NINDX             
-          I = INDX(J)            
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
+          I = INDX(J)
 #include "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPTT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPTT,TIME
-#include "lockoff.inc" 
-        END DO                   
-      END IF   ! NINDX             
+#include "lockoff.inc"
+        END DO
+      END IF   ! NINDX
 c------------------
 c     Damage for output  0 < DFMAX < 1
 c------------------

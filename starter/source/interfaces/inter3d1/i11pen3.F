@@ -47,7 +47,7 @@ C-----------------------------------------------
      .     GAPMIN, DRAD, MARGE
       my_real , INTENT(IN) :: DGAPLOAD
       my_real
-     .     X(3,*), PENE(MVSIZ), 
+     .     X(3,*), PENE(MVSIZ),
      .     GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -70,7 +70,7 @@ C
       ELSE
         DO I=1,JLT
           GAPV(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
-          IF(IGAP == 3)  
+          IF(IGAP == 3)
      .      GAPV(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV(I))
           GAPV(I)=MAX(DRAD,MAX(GAPMIN,GAPV(I))+DGAPLOAD)+MARGE
         ENDDO
@@ -120,7 +120,7 @@ C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
        YS2M2 = X(2,M2)-X(2,N2)
        ZS2M2 = X(3,M2)-X(3,N2)
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C
@@ -234,7 +234,7 @@ C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
        YS2M2 = X(2,M2)-X(2,N2)
        ZS2M2 = X(3,M2)-X(3,N2)
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C

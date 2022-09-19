@@ -31,7 +31,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE IG3DGRHEAD(
      1       KXIG3D,  GEO,   INUM,    ITR1,
-     2       EADD, INDEX, ITRI,    IPARTIG3D,     
+     2       EADD, INDEX, ITRI,    IPARTIG3D,
      3       ND,   IGRSURF,
      4       CEP,  XEP,IGEO, IPM, PM, NIGE, KNOTLOCEL)
 C-----------------------------------------------
@@ -94,7 +94,7 @@ C
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, K, NG, ISSN, NPN, NN, N, MID, PID ,
      .        II, J, II2,JJ2,JJ, II3, JJ3, L,NGROU,
      .        MODE, WORK(70000),NCTRL,MLN,JALE_FROM_MAT,JALE_FROM_PROP
@@ -164,14 +164,14 @@ C
         IPARTIG3D(I) =INUM(1,INDEX(I))
         DO J=1,6
           KNOTLOCEL((I-1)*6+J)=KNOTLOCELINDX((INDEX(I)-1)*6+J)
-        ENDDO    
+        ENDDO
       ENDDO
 c      IF (IMACH==3) THEN
 c        DO I=1,NUMELIG3D
 c          CEP(I)=XEP(INDEX(I))
 c        ENDDO
 c      ENDIF
-      DO  K=1,NIXIG3D     
+      DO  K=1,NIXIG3D
         DO  I=1,NUMELIG3D
           KXIG3D(K,I)=INUM(K+1,INDEX(I))
         ENDDO

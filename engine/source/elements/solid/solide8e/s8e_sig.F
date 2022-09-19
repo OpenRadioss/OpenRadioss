@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,18 +55,18 @@ C-----------------------------------------------
       INTEGER ILAY,IP,IR,IS,IT,NPTR,NPTS,NPTT,I,J
       INTEGER EPSIP(NEL)
 c-----------------------------------------------------
-      my_real 
+      my_real
      .   EPMIN(NEL)
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
       GBUF   => ELBUF_TAB%GBUF
       NPTR   = ELBUF_TAB%NPTR
       NPTS   = ELBUF_TAB%NPTS
       NPTT   = ELBUF_TAB%NPTT
-        EPMIN(LFT:LLT)=GBUF%PLA(LFT:LLT) 
-        EPSIP(LFT:LLT)=1 
+        EPMIN(LFT:LLT)=GBUF%PLA(LFT:LLT)
+        EPSIP(LFT:LLT)=1
         ILAY = 1
        DO IR=1,NPTR
         DO IS=1,NPTS
@@ -74,13 +74,13 @@ C-----------------------------------------------
 C-----------
          IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
          LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
-         
+
          DO I=LFT,LLT
           IF (LBUF%PLA(I)<=EPMIN(I).AND.LBUF%PLA(I)>ZERO) THEN
            EPSIP(I) = IP
            EPMIN(I) = LBUF%PLA(I)
           END IF
-         END DO    
+         END DO
 C
         ENDDO    !  IT=1,NPTT
         ENDDO     !  IS=1,NPTS
@@ -92,7 +92,7 @@ C
 C-----------
          IP = IR + ( (IS-1) + (IT-1)*NPTS )*NPTR
          LBUF => ELBUF_TAB%BUFLY(ILAY)%LBUF(IR,IS,IT)
-         
+
          CALL S8ESIGP3I(LFT  ,LLT  ,SIGP ,LBUF%SIG,EPSIP,IP,NEL  )
 C
         ENDDO    !  IT=1,NPTT

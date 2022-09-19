@@ -110,13 +110,13 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'K'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Turbulent Energy'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Specific for turbulent energy in CFD'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'TVIS'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Turbulent Viscosity'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Specific for turbulent Viscosity in CFD'
 c-----------------------------------------------
       I = I + 1
@@ -179,31 +179,31 @@ c-----------------------------------------------
 c
 c     Number of present material is dynamic for law151, hence create full list
 c     of output keywords at runtime by looping over all present materials
-c     
+c
          DO II = 1, MULTI_FVM%NBMAT
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%KEY3, '(A9,I0)') 'M151VFRAC', II
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1, '(A17,I0)') 'Volume fraction ', II
-            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .        'Volume fractions (for ALE multi-material Law151)'
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%KEY3, '(A8,I0)') 'M151DENS', II
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1, '(A8,I0)') 'Density ', II
-            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .        'Density (for ALE multi-material Law151)'
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%KEY3, '(A8,I0)') 'M151ENER', II
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1, '(A7,I0)') 'Energy ', II
-            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .        'Energy (for ALE multi-material Law151)'
 c-----------------------------------------------
             I = I + 1
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%KEY3, '(A8,I0)') 'M151PRES', II
             WRITE(H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1, '(A10,I0)') 'Pressure ', II
-            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+            H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .        'Pressure (for ALE multi-material Law151)'
 c-----------------------------------------------
          ENDDO
@@ -225,7 +225,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'EPSD'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Strain Rate'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Equivalent strain rate (only available in case of strain rate filtering)'
 c-----------------------------------------------
       I = I + 1
@@ -255,7 +255,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Nb of Failed layers'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'/PROP/TYPE10, TYPE11, TYPE17, TYPE51, PCOMPP, /MAT/LAW15 & LAW25 (COMPSH)'
 c-----------------------------------------------
       I = I + 1
@@ -323,7 +323,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'PHI'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'angle between element skew and direction 1 orthotropy'
 c-----------------------------------------------
       I = I + 1
@@ -335,7 +335,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'MAX DAMAGE'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'maximum of damage over time and of all failure criteria acting in one material'
 c-----------------------------------------------
       I = I + 1
@@ -347,7 +347,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Damage'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Damage variable for coupled damage models'
 c-----------------------------------------------
       I = I + 1
@@ -369,19 +369,19 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'TDEL'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'TIME DELETION ELEMENT'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'output only for elements which are deleted, due to a /FAIL criterion.'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'SSP'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Sound Speed'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Sound speed. Only available with ALE material laws'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'SCHLIEREN'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Schlieren'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Schlieren image (optical method widely used in CFD field). ALE material laws'
 c-----------------------------------------------
       I = I + 1
@@ -395,7 +395,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'SIGEQ'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Equiv stress'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Equivalent stress, based on yield criteria used for the corresponding material'
 c-----------------------------------------------
       I = I + 1
@@ -419,27 +419,27 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'ALPHA'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'shear angle - change of angle between two anisotropy directions'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'OFF'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Element status'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'0.0:deleted  >0.&<1.:under failure process 1.0:activated  <0:Standby'
 c-----------------------------------------------
 !to be moved in h3d_tria_scalar when implemented.
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'MACH'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Mach Number'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Mach Number. Only available with ALE material law 151'
 c-----------------------------------------------
 !to be moved in h3d_tria_scalar when implemented.
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'COLOR'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Color Function'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Color function for multimaterial and multifluid ALE laws'
 c-----------------------------------------------
       I = I + 1
@@ -457,7 +457,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'FLDZ/MEMB'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'FLD Zone Index Membrane'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'1:HighWrinkle 2:Compression 3:LooseMetal 4:SafeZone 5:MarginToFail 6:FailureZone'
 c-----------------------------------------------
       I = I + 1
@@ -467,7 +467,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_IPT_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_LAYER_ALL = 1
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'1:HighWrinkle 2:Compression 3:LooseMetal 4:SafeZone 5:MarginToFail 6:FailureZone'
 c-----------------------------------------------
       I = I + 1
@@ -497,7 +497,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'PEXT'
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_SKIN  = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Pressure OUTER'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'External pressure on the Skin of shell'
 c-----------------------------------------------
       I = I + 1
@@ -515,13 +515,13 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'ENER/TMAX'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Max of Internal Energy per unit mass'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Max of Internal Energy per unit mass over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_SCALAR(I)%KEY3  = 'VONM/TMAX'
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Max of Von Mises'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Max of Von Mises stress over time&ipt'
 c-----------------------------------------------
       I = I + 1
@@ -533,7 +533,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'Max of Equiv stress'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'Max of Equivalent stress over time&ipt'
 c-----------------------------------------------
       I = I + 1
@@ -545,7 +545,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_SCALAR(I)%TEXT1  = 'MAX of DAMAGE'
-      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_SCALAR(I)%COMMENT  =
      .'maximum of damage over time&ipt'
 c-----------------------------------------------
 

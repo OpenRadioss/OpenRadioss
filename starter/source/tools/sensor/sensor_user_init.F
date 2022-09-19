@@ -31,7 +31,7 @@ Chd|====================================================================
 !$COMMENT
 !       SENSOR_USER_INIT description
 !       initialization of size of SENSOR_USER_STRUCT
-!       
+!
 !       SENSOR_USER_INIT organization :
 !$ENDCOMMENT
 C-----------------------------------------------

@@ -45,7 +45,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
-      USE ELBUFDEF_MOD     
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -70,23 +70,23 @@ C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,JTHE,NUMTABL,NVARTMP,
      .        ITABLE(NUMTABL)
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
-      my_real 
+      my_real
      .   TIME,TIMESTEP
       INTEGER :: VARTMP(NEL,NVARTMP)
-      my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
+      my_real,DIMENSION(NUPARAM), INTENT(IN) ::
      .   UPARAM
-      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+      my_real,DIMENSION(NEL), INTENT(IN)     ::
      .   RHO0,RHO,EPSZZ,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT)       ::
      .   DPLA,OFF
-      my_real ,DIMENSION(NEL,4), INTENT(INOUT)       :: 
+      my_real ,DIMENSION(NEL,4), INTENT(INOUT)       ::
      .   PLA,EPSD
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
 c
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
@@ -101,8 +101,8 @@ C=======================================================================
 C=======================================================================
         ! Choice of return mapping algorithm
         SELECT CASE (IRES)
-          ! Nice explicit return mapping      
-          CASE(1)        
+          ! Nice explicit return mapping
+          CASE(1)
             CALL MAT112_XIA_NICE(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
      2         UPARAM  ,UVAR    ,JTHE    ,OFF     ,RHO0    ,RHO     ,
@@ -111,7 +111,7 @@ C=======================================================================
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         SIGY    ,ET      ,
-     8         NVARTMP ,NUMTABL ,VARTMP  ,ITABLE  ,TABLE   )     
+     8         NVARTMP ,NUMTABL ,VARTMP  ,ITABLE  ,TABLE   )
           ! Newton cutting plane return mapping
           CASE(2)
             CALL MAT112_XIA_NEWTON(
@@ -123,6 +123,6 @@ C=======================================================================
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         SIGY    ,ET      ,
      8         NVARTMP ,NUMTABL ,VARTMP  ,ITABLE  ,TABLE   )
-        END SELECT        
+        END SELECT
 c-----------
       END

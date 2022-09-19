@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER I, MX
 C     REAL
       my_real
-     .   SSP(MVSIZ),  DPDM(MVSIZ), RHO0(MVSIZ), G(MVSIZ), 
+     .   SSP(MVSIZ),  DPDM(MVSIZ), RHO0(MVSIZ), G(MVSIZ),
      .   BULK(MVSIZ), C1(MVSIZ),   G43(MVSIZ),  P(MVSIZ), VIS(MVSIZ)
 C=======================================================================
       DO I=LFT,LLT
@@ -83,7 +83,7 @@ C---------------------------
       DO I=LFT,LLT
          SSP(I)=SQRT(ABS(DPDM(I))/RHO0(I))
       END DO
-      
+
 C-----------------------
 C  CALCUL DES DTELEM
 C-----------------------

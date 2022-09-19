@@ -131,14 +131,14 @@ C     CALL OPEN_C(CTEXT,FILEN)
 C-----------------------------------------------
 C   PART COUNT
 C-----------------------------------------------
-     
+
       NBPART = 0
       NBPART = NSPMD
 C
       CALL SLAGCNT(IPARG,NNSLAG)
 C
       NBF = 6*NNSLAG + NUMELQ + NUMELC + NUMELTG + NUMELP
-     .               + NUMELT + NUMELR + NFACX + NBCSPH   
+     .               + NUMELT + NUMELR + NFACX + NBCSPH
 C-----------------------------------------------
 C   WRITE CONTROL
 C-----------------------------------------------

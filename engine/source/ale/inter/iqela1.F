@@ -81,7 +81,7 @@ C-----------------------------------------------
       IPCONT = .FALSE.
       IANIM  = .FALSE.
       ICONT  = (ANIM_V(4)+OUTP_V(4) > 0+H3D_DATA%N_VECT_CONT)
-      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0)THEN      
+      IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0)THEN
        IF(TT >= TANIM.OR.TT >= TOUTP.OR.TT >= H3D_DATA%TH3D.OR.
      .      (MANIM >= 4.AND.MANIM <= 15).OR. H3D_DATA%MH3D /= 0)THEN
          IPCONT = .TRUE.
@@ -93,7 +93,7 @@ C-----------------------------------------------
       FXI_SAV = ZERO
       FYI_SAV = ZERO
       FZI_SAV = ZERO
-      
+
       NIR=2
       IF(N2D == 0)NIR=4
       !main nodes
@@ -159,7 +159,7 @@ C-----------------------------------------------
        ENDIF
       ENDDO!next II
 
-      !SUM(E(1:3,*)) is NF(1:3) on main segment 
+      !SUM(E(1:3,*)) is NF(1:3) on main segment
 
       !---------------------------------
       ! /TH/INTER
@@ -192,7 +192,7 @@ C-----------------------------------------------
             I3         = 3*I
             I2         = I3-1
             I1         = I2-1
-            FCONT(1,J) = FCONT(1,J)+E(I1) 
+            FCONT(1,J) = FCONT(1,J)+E(I1)
             FCONT(2,J) = FCONT(2,J)+E(I2)
             FCONT(3,J) = FCONT(3,J)+E(I3)
           ENDDO
@@ -208,7 +208,7 @@ C-----------------------------------------------
             I3          = 3*I
             I2          = I3-1
             I1          = I2-1
-            FNCONT(1,J) = FNCONT(1,J)+E(I1) 
+            FNCONT(1,J) = FNCONT(1,J)+E(I1)
             FNCONT(2,J) = FNCONT(2,J)+E(I2)
             FNCONT(3,J) = FNCONT(3,J)+E(I3)
           ENDDO
@@ -216,7 +216,7 @@ C-----------------------------------------------
         ENDIF
       ENDIF
 
-      
+
 
 C-----------------------------------------------------
 

@@ -33,7 +33,7 @@ Chd|====================================================================
 !           ACCELERATION_DP_MOD description
 !           ACCELERATION_DP_MOD allows to add up the acceleration
 !           in double precision
-!$ENDCOMMENT        
+!$ENDCOMMENT
             REAL(kind=8), DIMENSION(:,:), ALLOCATABLE, TARGET :: ACC_DP
 !   --------------------------------------
         END MODULE ACCELERATION_DP_MOD

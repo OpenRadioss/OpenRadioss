@@ -32,7 +32,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        STACK_MOD                     share/modules1/stack_mod.F    
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE STACKGROUP( 
+      SUBROUTINE STACKGROUP(
      .                     IGRSH3N    ,IGRSH4N  ,IXC        ,IXTG ,
      .                     IGEO       ,GEO      ,IWORKSH    ,THK  ,
      .                     STACK      ,IPM      ,IGEO_STACK ,GEO_STACK ,
@@ -96,12 +96,12 @@ C-----------------------------------------------
      .         ISUBSTACK(NUMGEO+NUMSTACK),IPTPLY(1000),NBFI,IPPID,ITAG(1000),
      .         NGL,IPID_1,NUMS,IPWEIGHT,IPTHKLY,NSHQ4,NSHT3,INDEX_SH4(NUMELC),
      .         INDEX_T3(NUMELTG)
-      my_real 
+      my_real
      .         GEO0(1000,NUMGEO)
       my_real
      .         THICKT,ZSHIFT,TMIN,TMAX,DT,THK_LY,POS_LY,THK_IT(100),
      .         POS_IT(100),POS_NPTT,THK_NPTT,POS_0,THINNING,POS
-     
+
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ITRI
       INTEGER, DIMENSION (:) ,ALLOCATABLE ::ICSH,INDX,
      .                                     ICSH_STACK,IDSTACK
@@ -170,9 +170,9 @@ C-----------------------------------------------
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
 C----------------------------f-------------------    
-c=======================================================================      
+c=======================================================================
 c define temporay work structure
-c=======================================================================      
+c=======================================================================
 c
       TYPE TMP_WORK
         integer, DIMENSION(:)  , POINTER ::  IPT
@@ -200,35 +200,35 @@ C
 !!               IF(IDGRS(NPLY) > 0) IMIXTE = 1
 !!            ELSEIF(IGTYP == 17) THEN
 !!               NS0 = NS0 + 1
-!!               PIDSTACK(NS0) =  I  
+!!               PIDSTACK(NS0) =  I
            ENDIF
          ENDDO
 C  transformation d'id groupe     
           DO 10 I=1,NPLY
 C shell 4N id group          
             ID = IDGR4N(I)
-            IF(ID > 0) THEN   
+            IF(ID > 0) THEN
                 DO J=1,NGRSHEL
                    JD = IGRSH4N(J)%ID
                    IF(JD == ID)THEN
                      IDGR4N(I) = J
                      GOTO 20
-                   ENDIF  
+                   ENDIF
                 ENDDO
              ENDIF ! ID > 0
 C !GR  T3       
  20          CONTINUE
-             ID = IDGR3N(I) 
+             ID = IDGR3N(I)
              IF(ID > 0) THEN
                 DO J=1,NGRSH3N
                   JD = IGRSH3N(J)%ID
                   IF(JD == ID)THEN
                      IDGR3N(I) = J
                      GOTO 10
-                  ENDIF  
+                  ENDIF
                 ENDDO
-             ENDIF  ! ID > 0 
-10      CONTINUE       
+             ENDIF  ! ID > 0
+10      CONTINUE
 C  
 C stockage de Geo
 C 
@@ -247,14 +247,14 @@ C
 !old              IADR(I) = IPANG
 !old              DO J=1,N1
 !old                  GEO0(J,I)        = GEO(IPANG + J,I)
-!old                  GEO0(N1 + J,I)   = GEO(IPTHK + J,I) 
+!old                  GEO0(N1 + J,I)   = GEO(IPTHK + J,I)
 !old                  GEO0(2*N1 + J,I) = GEO(IPPOS + J,I)
 !old                  GEO0(3*N1 + J,I) = GEO(IPDIR + J,I)  ! angle (DIR1,DIR2) - for compatibility of l58 with PID51)
 !old                  IGEO0(J,I)       = IGEO(IPPID+J,I)
 !old                  IGEO0(N1+J,I)    = IGEO(IPMAT+J,I)
 !old                  IGEO0(2*N1+J,I)  = IGEO(IPMAT_IPLY+J,I)
 !old              ENDDO
-!old           ENDIF 
+!old           ENDIF
 !old         ENDDO
 C tag o  f ply element 
          NSHQ4 = 0
@@ -264,8 +264,8 @@ C tag o  f ply element
              IF(IGTYP == 17 .OR. IGTYP == 51)THEN
                  NSHQ4 = NSHQ4 +  1
                  INDEX_SH4(NSHQ4) = I
-            ENDIF  
-         ENDDO 
+            ENDIF
+         ENDDO
 C 
          NSHT3 = 0
          DO I=1,NUMELTG
@@ -274,13 +274,13 @@ C
              IF(IGTYP == 17 .OR. IGTYP == 51)THEN
                  NSHT3 = NSHT3 +  1
                  INDEX_T3(NSHT3) = I
-            ENDIF  
-         ENDDO 
+            ENDIF
+         ENDDO
 C  number of ply belong to the element         
-            DO I=1,NPLY 
+            DO I=1,NPLY
               J   = IDGR4N(I)
               J4N = J
-              IDPLY = IPIDPLY(I) 
+              IDPLY = IPIDPLY(I)
               NSTACK = IGEO(42, IDPLY)
               IF(J > 0 .AND. NSTACK > 0 ) THEN
                 NEL = IGRSH4N(J)%NENTITY
@@ -296,11 +296,11 @@ C eleme  nt type Q4 or T3
                              IF (IDS == PID) THEN
                                 IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                                 GOTO 100
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF 
- 100               CONTINUE         
-                ENDIF 
+                      ENDIF
+ 100               CONTINUE
+                ENDIF
                  J   = IDGR3N(I)
                  J3N = J
                  IF(J > 0 .AND. NSTACK > 0 ) THEN
@@ -320,11 +320,11 @@ C eleme  nt type T3
                                 IDSHEL = ISH3N + NUMELC
                                 IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                                 GOTO 200
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF   
+                      ENDIF
  200                CONTINUE
-               ENDIF 
+               ENDIF
                IF(J4N == 0 .AND. J3N == 0 .AND. NSTACK > 0 ) THEN
 C 
                     DO 300 II = 1,NUMELC
@@ -336,10 +336,10 @@ C
                              IF (IDS == PID) THEN
                                 IWORKSH(1,II) = IWORKSH(1,II) + 1
                                 GOTO 300
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF   
- 300                CONTINUE        
+                      ENDIF
+ 300                CONTINUE
                     DO 400 II = 1,NUMELTG
                        PID = IXTG(5,II)
                        IGTYP = IGEO(11,PID)
@@ -350,13 +350,13 @@ C
                              IF (IDS == PID) THEN
                                 IWORKSH(1,ITG) = IWORKSH(1,ITG) + 1
                                 GOTO 400
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF   
- 400                CONTINUE 
+                      ENDIF
+ 400                CONTINUE
               ENDIF
 C
-         ENDDO  ! iply  
+         ENDDO  ! iply
 C #####################################################"
            ALLOCATE(IWORK_T(NUMELC+NUMELTG),ICSH(NUMELC+NUMELTG))
            IF(NUMELC + NUMELTG > 0)ICSH = 0
@@ -366,14 +366,14 @@ C #####################################################"
              ALLOCATE(IWORK_T(I)%IPT(NPT))
              IWORK_T(I)%IPT = 0
              IWORKSH(1,I) = 0
-           ENDDO  
+           ENDDO
 !!
 !    ply to element
 !!
-            DO I=1,NPLY 
+            DO I=1,NPLY
               J   = IDGR4N(I)
               J4N = J
-              IDPLY = IPIDPLY(I) 
+              IDPLY = IPIDPLY(I)
               NSTACK = IGEO(42, IDPLY)
               IF(J > 0 .AND. NSTACK > 0 ) THEN
                 NEL = IGRSH4N(J)%NENTITY
@@ -392,11 +392,11 @@ C eleme  nt type Q4 or T3
                                  IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
                                  ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
                                 GOTO 101
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF 
- 101               CONTINUE        
-                ENDIF 
+                      ENDIF
+ 101               CONTINUE
+                ENDIF
                  J   = IDGR3N(I)
                  J3N = J
                  IF(J > 0 .AND. NSTACK > 0 ) THEN
@@ -417,11 +417,11 @@ C eleme  nt type T3
                                  IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
                                  ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
                                 GOTO 202
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF   
+                      ENDIF
  202                CONTINUE
-               ENDIF 
+               ENDIF
                IF(J4N == 0 .AND. J3N == 0 .AND. NSTACK > 0 ) THEN
 C 
                     DO 333 II = 1,NUMELC
@@ -436,10 +436,10 @@ C
                                 IWORK_T(II)%IPT(NPT) = IDPLY
                                 ICSH(II) = ICSH(II) + IDPLY*IDPLY
                                 GOTO 333
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF   
- 333                CONTINUE        
+                      ENDIF
+ 333                CONTINUE
                     DO 404 II = 1,NUMELTG
                        PID = IXTG(5,II)
                        IGTYP = IGEO(11,PID)
@@ -453,13 +453,13 @@ C
                                  IWORK_T(ITG)%IPT(NPT) = IDPLY
                                  ICSH(ITG) = ICSH(ITG) + IDPLY*IDPLY
                                 GOTO 404
-                             ENDIF 
+                             ENDIF
                           ENDDO
-                      ENDIF   
- 404                CONTINUE 
+                      ENDIF
+ 404                CONTINUE
               ENDIF
 C
-         ENDDO  ! iply                       
+         ENDDO  ! iply
 !!###########################################################"
 C 
 C   mise en groupe des stack
@@ -475,8 +475,8 @@ C
                  NSH = NSH +  1
                  INDX_SH(NSH) = I
                  PID_SH(NSH) = PID
-            ENDIF  
-         ENDDO 
+            ENDIF
+         ENDDO
 C
          DO I=1,NUMELTG
              PID = IXTG(5,I)
@@ -485,13 +485,13 @@ C
                  NSH = NSH +  1
                  INDX_SH(NSH) = I+NUMELC
                  PID_SH(NSH) = PID
-            ENDIF  
-         ENDDO   
+            ENDIF
+         ENDDO
 C        
 C
 C   
          ALLOCATE(INDX(2*NSH),ITRI(3,NSH))
-         INDX = 0  
+         INDX = 0
          ITRI = 0
          DO I = 1,NSH
            INDX(I) = I
@@ -504,7 +504,7 @@ C
          MODE = 0
 C            
           CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , 3)
-          NS = 1 
+          NS = 1
           NFIRST(1) = 1
           NLAST(1) = 1
           DO I=2,NSH
@@ -514,10 +514,10 @@ C
            JJ1=ITRI(2,INDX(I-1))
            II2=ITRI(3,INDX(I))
            JJ2=ITRI(3,INDX(I-1))
-           IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN    
+           IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN
                NS = NS + 1
                NFIRST(NS) = I
-               NLAST(NS) = NFIRST(NS) 
+               NLAST(NS) = NFIRST(NS)
             ELSE
                NLAST(NS) = NLAST(NS) + 1
             ENDIF
@@ -528,13 +528,13 @@ C
           NPT_STACK =  0
           NS_STACK = NS
 C
-          DO IS = 1,NS 
+          DO IS = 1,NS
             ID  = NFIRST(IS)
             I = INDX(ID)
             II  = INDX_SH(I)
             NPT = IWORKSH(1,II)
             NPT_STACK = MAX(NPT_STACK,NPT)
-          ENDDO   
+          ENDDO
 C allocation  
           ALLOCATE(IWORKS%IGEO(3*NPT_STACK+2,NS_STACK))
           ALLOCATE(IWORKS%GEO(6*NPT_STACK+1,NS_STACK))
@@ -553,20 +553,20 @@ C
 !!            MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
             NPT = IWORKSH(1,II)
 !C            ISUBSTACK(PID) = ISUBSTACK(PID) + 1
-            IIS = II 
+            IIS = II
 C          
             DO I= NFIRST(IS) , NLAST(IS)
               ID = INDX(I)
               II = INDX_SH(ID)
-              IWORKSH(2,II) = NGEO_STACK 
+              IWORKSH(2,II) = NGEO_STACK
               IWORKSH(3,II) = IS  ! compter for all stack
 !!            IWORKSH(3,II) = ISUBSTACK(PID)   ! computer by stack ! old conception
-            ENDDO            
+            ENDDO
 C Geo and Igeo orginasation       
 !!          I  = NFIRST(IS)
 !!          II = INDX_Q4(I)
 !!          PID = PID_Q4(II)
-!!          NSS =  ISUBSTACK(PID) ! number of substack in each Pid       
+!!          NSS =  ISUBSTACK(PID) ! number of substack in each Pid
 C geometric property for each sub stack        
 !!!          IGEO(   ,PID)  = NGEO_STACK
             N1 = INT(GEO(6,PID))
@@ -580,11 +580,11 @@ C geometric property for each sub stack
                    JJPID =  IWORK_T(IIS)%IPT(JJ)
                    IF(JJPID == JPID) THEN
                      NP = NP + 1
-                     IPTPLY(NP) = J 
+                     IPTPLY(NP) = J
                      GOTO 700
                    ENDIF
                  ENDDO
-               ENDIF  
+               ENDIF
  700         CONTINUE
 C geometric property
              IWORKS%IGEO(1,IS) = NPT
@@ -601,9 +601,9 @@ C geometric property
              NUMS= NUMGEO_STACK(PID)
              DO J=1,NPT
               JSTACK = IPTPLY(J)
-              IWORKS%IGEO(IPPID  + J     ,IS)  = STACK_INFO(NUMS)%PID(JSTACK) 
-              IWORKS%IGEO(IPMAT  + J     ,IS)  = STACK_INFO(NUMS)%MID(JSTACK) 
-              IWORKS%IGEO(IPMAT_IPLY + J ,IS)  = STACK_INFO(NUMS)%MID_IP(JSTACK) 
+              IWORKS%IGEO(IPPID  + J     ,IS)  = STACK_INFO(NUMS)%PID(JSTACK)
+              IWORKS%IGEO(IPMAT  + J     ,IS)  = STACK_INFO(NUMS)%MID(JSTACK)
+              IWORKS%IGEO(IPMAT_IPLY + J ,IS)  = STACK_INFO(NUMS)%MID_IP(JSTACK)
               IWORKS%GEO(IPANG   + J     ,IS)  = STACK_INFO(NUMS)%ANG(JSTACK)
               IWORKS%GEO(IPTHK   + J     ,IS)  = STACK_INFO(NUMS)%THK(JSTACK)
               IWORKS%GEO(IPPOS   + J     ,IS)  = STACK_INFO(NUMS)%POS(JSTACK)
@@ -613,29 +613,29 @@ C geometric property
              ENDDO
 C                      
 C to be  clarified later IPOS > 0 
-            IPOS = IGEO(99,PID) 
+            IPOS = IGEO(99,PID)
             ZSHIFT = GEO(199,PID)
-            IF(IPOS == 1)THEN                                              
-             TMIN = EP20                                                    
-             TMAX = -EP20                                                   
-             DO J=1,NPT                                                     
-              DT = HALF*IWORKS%GEO(IPTHK   + J     ,IS)                    
-              TMIN = MIN(TMIN,IWORKS%GEO(IPPOS   + J     ,IS)-DT)            
-              TMAX = MAX(TMAX,IWORKS%GEO(IPPOS   + J     ,IS)+DT)            
-             ENDDO                                                           
-             THICKT = TMAX - TMIN               
-             DO J=1,NPT  
-              IWORKS%GEO(IPTHK+J,IS)=IWORKS%GEO(IPTHK+J,IS)/MAX(THICKT,EM20) 
-              IWORKS%GEO(IPPOS+J,IS)=IWORKS%GEO(IPPOS+J,IS)/MAX(THICKT,EM20)  
-             ENDDO 
-                                                                        
-          ELSE                                                          
-               THICKT = ZERO                                       
-               DO J=1,NPT                                
+            IF(IPOS == 1)THEN
+             TMIN = EP20
+             TMAX = -EP20
+             DO J=1,NPT
+              DT = HALF*IWORKS%GEO(IPTHK   + J     ,IS)
+              TMIN = MIN(TMIN,IWORKS%GEO(IPPOS   + J     ,IS)-DT)
+              TMAX = MAX(TMAX,IWORKS%GEO(IPPOS   + J     ,IS)+DT)
+             ENDDO
+             THICKT = TMAX - TMIN
+             DO J=1,NPT
+              IWORKS%GEO(IPTHK+J,IS)=IWORKS%GEO(IPTHK+J,IS)/MAX(THICKT,EM20)
+              IWORKS%GEO(IPPOS+J,IS)=IWORKS%GEO(IPPOS+J,IS)/MAX(THICKT,EM20)
+             ENDDO
+
+          ELSE
+               THICKT = ZERO
+               DO J=1,NPT
                  THICKT = THICKT + IWORKS%GEO(IPTHK+J,IS)
-               ENDDO           
-               DO J=1,NPT 
-                 IWORKS%GEO(IPTHK+J,IS) =                                   
+               ENDDO
+               DO J=1,NPT
+                 IWORKS%GEO(IPTHK+J,IS) =
      .                    IWORKS%GEO(IPTHK+J,IS)/MAX(THICKT,EM20)
                ENDDO
 C                
@@ -647,15 +647,15 @@ C
                  ZSHIFT = -ONE
                ELSEIF(IPOS == 4) THEN
                  ZSHIFT = ZERO
-               ENDIF                   
+               ENDIF
 C---             calcul automatique de position des couches             
                  IWORKS%GEO(IPPOS+1,IS) = ZSHIFT + HALF*IWORKS%GEO(IPTHK+1,IS)
-                 DO J=2,NPT                                               
-                   IWORKS%GEO(IPPOS+J,IS) = IWORKS%GEO(IPPOS+J-1,IS)            
-     .               + HALF*(IWORKS%GEO(IPTHK+J,IS)+IWORKS%GEO(IPTHK+J-1,IS))   
+                 DO J=2,NPT
+                   IWORKS%GEO(IPPOS+J,IS) = IWORKS%GEO(IPPOS+J-1,IS)
+     .               + HALF*(IWORKS%GEO(IPTHK+J,IS)+IWORKS%GEO(IPTHK+J-1,IS))
                  ENDDO
 C               
-            ENDIF ! IPOS =0,1,2,3,4                                            
+            ENDIF ! IPOS =0,1,2,3,4
 C calcul du thk by shell
             IWORKS%GEO(1,IS) = THICKT
 C============================================================================
@@ -666,7 +666,7 @@ C---
                 ID = INDX(I)
                 II = INDX_SH(ID)
                 IF (THK(II) == ZERO) THK(II) = THICKT
-              ENDDO             
+              ENDDO
 C============================================================================
 cc          IF (IGTYP == 51) THEN
 cc            NLAY = MAX(1,NPT)
@@ -690,7 +690,7 @@ cc              THICKT = IWORKS%GEO(1,IS)
 cc              IF (IINT == 1) THEN  !  uniform distribution - by default
 cc                DO IT=1,NPTT
 cc                  THK_IT(IT) = THK_LY/NPTT  ! equally distribution of NPTT through layer
-cc                ENDDO 
+cc                ENDDO
 cc                POS_0 = POS_LY - HALF*THK_LY
 cc                IF (NLAY == 1) POS_0 = - HALF !! special case
 cc                POS_IT(1) = POS_0 + HALF*THK_IT(1)
@@ -707,7 +707,7 @@ cc              ENDIF
 cc            ENDDO  !  DO ILAY=1,NLAY
 cc          ENDIF  !  IF (IGTYP == 51) THEN
 C============================================================================
-        ENDDO ! DO IS = 1,NS 
+        ENDDO ! DO IS = 1,NS
 C           
         DEALLOCATE(ICSH,INDX,ITRI)
          DO I=1,NUMELC + NUMELTG
@@ -728,26 +728,26 @@ C
          DO I = 1, NUMPLY
 !! Only one stack by ply
            IDS  = IGEO_STACK(42,NUMSTACK + I)
-           IF (IDS > 0) THEN 
+           IF (IDS > 0) THEN
                NPLY = NPLY+1
                IPIDPLY(NPLY) = NUMSTACK + I
                IDGR4N(NPLY)  = IGEO_STACK(40,NUMSTACK + I) ! groupe shell 4N id
                IDGR3N(NPLY)  = IGEO_STACK(41,NUMSTACK + I) ! groupe shell 3N id
-           ENDIF  
-         ENDDO 
+           ENDIF
+         ENDDO
 C                 
 C  transformation d'id groupe 
 C       
           DO 11 I=1,NPLY
 C shell 4N id group                       
             ID = IDGR4N(I)
-            IF(ID > 0) THEN   
+            IF(ID > 0) THEN
                DO J=1,NGRSHEL
                   JD = IGRSH4N(J)%ID
                   IF(JD == ID)THEN
                     IDGR4N(I) = J
                     GOTO 22
-                  ENDIF  
+                  ENDIF
                ENDDO
              ENDIF ! ID > 0
 C !GR  T3       
@@ -759,10 +759,10 @@ C !GR  T3
                 IF(JD == ID)THEN
                   IDGR3N(I) = J
                   GOTO 11
-                ENDIF  
+                ENDIF
               ENDDO
-             ENDIF  ! ID > 0           
-11      CONTINUE 
+             ENDIF  ! ID > 0
+11      CONTINUE
         !!  stop
 C 
 C 
@@ -773,7 +773,7 @@ C   compteur by element
             DO I= 1,NPLY
               J   = IDGR4N(I)
               J4N = J
-              IDPLY = IPIDPLY(I) 
+              IDPLY = IPIDPLY(I)
               IDS = IGEO_STACK(42, IDPLY)
              IF(J > 0 .AND. IDS > 0 ) THEN
               NEL = IGRSH4N(J)%NENTITY
@@ -785,7 +785,7 @@ C element type Q4
                    PID = IXC(6,IDSHEL)
                    IGTYP = IGEO(11,PID)
                    IF(IGTYP == 52) THEN
-                     IF(ICSH_STACK(IDSHEL) == 0) THEN 
+                     IF(ICSH_STACK(IDSHEL) == 0) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                           ICSH_STACK(IDSHEL) = IDS
                       ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
@@ -802,9 +802,9 @@ C  message d'erreur
      .                    I2= IGEO_STACK(1,IDS),
      .                    I3=  IGEO_STACK(1,IPID_1) )
                       ENDIF
-                    ENDIF 
+                    ENDIF
  111             CONTINUE
-              ENDIF 
+              ENDIF
                J   = IDGR3N(I)
                J3N = J
                IF(J > 0 .AND. IDS > 0 ) THEN
@@ -819,7 +819,7 @@ C element type T3
                    IGTYP = IGEO(11,PID)
                    IF(IGTYP == 52) THEN
                        IDSHEL = ISH3N + NUMELC
-                      IF(ICSH_STACK(IDSHEL) == 0) THEN  
+                      IF(ICSH_STACK(IDSHEL) == 0) THEN
                           IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                           ICSH_STACK(IDSHEL) = IDS
                       ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
@@ -836,12 +836,12 @@ C  message d'erreur
      .                    I2= IGEO_STACK(1,IDS),
      .                    I3=  IGEO_STACK(1,IPID_1) )
                       ENDIF
-                   ENDIF  
+                   ENDIF
  222            CONTINUE
-             ENDIF 
+             ENDIF
            ENDDO !  I   ply groupe
 C
-!!         ENDDO  ! iply    
+!!         ENDDO  ! iply
 !!!------------------------------------------------
            ALLOCATE(IWORK_T(NUMELC+NUMELTG),ICSH(NUMELC+NUMELTG))
            IF(NUMELC+NUMELTG > 0) ICSH = 0
@@ -857,7 +857,7 @@ C
             DO I= 1,NPLY
               J   = IDGR4N(I)
               J4N = J
-              IDPLY = IPIDPLY(I) 
+              IDPLY = IPIDPLY(I)
               IDS = IGEO_STACK(42, IDPLY)
              IF(J > 0 .AND. IDS > 0 ) THEN
               NEL = IGRSH4N(J)%NENTITY
@@ -869,11 +869,11 @@ C element type Q4
                    PID = IXC(6,IDSHEL)
                    IGTYP = IGEO(11,PID)
                    IF(IGTYP == 52) THEN
-                     IF(ICSH_STACK(IDSHEL) == 0) THEN 
+                     IF(ICSH_STACK(IDSHEL) == 0) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
                           NPT = IWORKSH (1,IDSHEL)
                           IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
-                          ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY 
+                          ICSH(IDSHEL) = ICSH(IDSHEL) + IDPLY*IDPLY
                           ICSH_STACK(IDSHEL) = IDS
                       ELSEIF(ICSH_STACK(IDSHEL) == IDS) THEN
                           IWORKSH (1,IDSHEL) = IWORKSH(1,IDSHEL) + 1
@@ -890,11 +890,11 @@ C  message d'erreur
      .                    I1=NGL,
 !!     .                    C2='SHELL',
      .                    I2= IGEO_STACK(1,IDS),
-     .                    I3=  IGEO_STACK(1,IPID_1) )                 
+     .                    I3=  IGEO_STACK(1,IPID_1) )
                       ENDIF
-                    ENDIF 
+                    ENDIF
                 ENDDO
-              ENDIF 
+              ENDIF
                J   = IDGR3N(I)
                J3N = J
                IF(J > 0 .AND. IDS > 0 ) THEN
@@ -909,7 +909,7 @@ C element type T3
                    IGTYP = IGEO(11,PID)
                    IF(IGTYP == 52) THEN
                       IDSHEL = ISH3N + NUMELC
-                      IF(ICSH_STACK(IDSHEL) == 0) THEN  
+                      IF(ICSH_STACK(IDSHEL) == 0) THEN
                           IWORKSH(1,IDSHEL) =   IWORKSH(1,IDSHEL ) + 1
                           NPT = IWORKSH(1,IDSHEL)
                           IWORK_T(IDSHEL)%IPT(NPT) = IDPLY
@@ -932,9 +932,9 @@ C  message d'erreur
      .                    I2= IGEO_STACK(1,IDS),
      .                    I3=  IGEO_STACK(1,IPID_1) )
                       ENDIF
-                   ENDIF  
-                ENDDO ! II 
-             ENDIF 
+                   ENDIF
+                ENDDO ! II
+             ENDIF
            ENDDO !  I   ply groupe
 !!!------------------------------------------
 C 
@@ -942,7 +942,7 @@ C   mise en groupe des stack
 C            
           NSH = 0
           INDX_SH = 0
-          PID_SH = 0       
+          PID_SH = 0
 C                  
           DO I=1,NUMELC
                PID = IXC(6,I)
@@ -952,9 +952,9 @@ C
                IF(IGTYP == 52 ) THEN
                    NSH = NSH +  1
                    INDX_SH(NSH) = I
-                   PID_SH(NSH) = PID 
-              ENDIF  
-          ENDDO 
+                   PID_SH(NSH) = PID
+              ENDIF
+          ENDDO
 C
           DO I=1,NUMELTG
                PID = IXTG(5,I)
@@ -965,13 +965,13 @@ C
                    NSH = NSH +  1
                    INDX_SH(NSH) = I + NUMELC
                    PID_SH(NSH) = PID
-              ENDIF  
-          ENDDO   
+              ENDIF
+          ENDDO
 C       
 C
 C
           ALLOCATE(INDX(2*NSH),ITRI(3,NSH))
-          INDX = 0  
+          INDX = 0
           ITRI = 0
           DO I = 1,NSH
             INDX(I) = I
@@ -982,7 +982,7 @@ C
           ENDDO
 C          
            MODE = 0
-!!         WORK = 0 
+!!         WORK = 0
            CALL MY_ORDERS(MODE, WORK, ITRI, INDX, NSH , 3)
 C       
            NS = 1
@@ -995,10 +995,10 @@ C
              JJ1=ITRI(2,INDX(I-1))
              II2=ITRI(3,INDX(I))
              JJ2=ITRI(3,INDX(I-1))
-             IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN    
+             IF(II /= JJ .OR. II1 /= JJ1  .OR.  II2 /= JJ2) THEN
                 NS = NS + 1
                 NFIRST(NS) = I
-                NLAST(NS) = NFIRST(NS) 
+                NLAST(NS) = NFIRST(NS)
              ELSE
                 NLAST(NS) = NLAST(NS) + 1
              ENDIF
@@ -1008,7 +1008,7 @@ C  sous stack
 C    
            ALLOCATE(IDSTACK(NS))
            IDSTACK = 0
-           NS_STACK = NS_STACK + NS 
+           NS_STACK = NS_STACK + NS
            DO IS = 1,NS
              ID  = NFIRST(IS)
              I = INDX(ID)
@@ -1018,7 +1018,7 @@ C
 C             
              IDS = ICSH_STACK(II)
              IDSTACK(IS) = IDS
-           ENDDO   
+           ENDDO
 C        
 C allocation
 C  
@@ -1032,7 +1032,7 @@ C
 C         
            DO IS = 1,NS
 C a changer        
-              NGEO_STACK = NUMGEO + NUMSTACK + NUMPLY +  IS  !!!!!!! limit id i will change it 
+              NGEO_STACK = NUMGEO + NUMSTACK + NUMPLY +  IS  !!!!!!! limit id i will change it
               ID  = NFIRST(IS)
 C              
               I = INDX(ID)
@@ -1041,24 +1041,24 @@ C
 !!              MAIN_PID(1,IS) =  PID_SH(II)  ! pid
 !!              MAIN_PID(2,IS) =  IWORKSH(1,II) ! npt
               NPT = IWORKSH(1,II)
-              IIS = II               
+              IIS = II
 C              
              DO I= NFIRST(IS) , NLAST(IS)
                  ID = INDX(I)
                  II = INDX_SH(ID)
-                 IWORKSH(2,II) = NGEO_STACK 
+                 IWORKSH(2,II) = NGEO_STACK
                  IWORKSH(3,II) = NS_STACK0 + IS   ! compter for all stack
-             ENDDO            
+             ENDDO
 C Cp igeo_stack and Geo_stack dans IGEO, GEO --ppccomp 
              IGTYP = IGEO(11,PID)
              DO J=2,NPROPGI - LTITR
                IGEO(J,PID) = IGEO_STACK(J,IDSTACK(IS))
-             ENDDO   
-             IGEO(11,PID) = IGTYP        
-!        
+             ENDDO
+             IGEO(11,PID) = IGTYP
+!
              DO J=1,NPROPG
-               GEO(J,PID) = GEO_STACK(J,IDSTACK(IS)) 
-             ENDDO 
+               GEO(J,PID) = GEO_STACK(J,IDSTACK(IS))
+             ENDDO
 C
              N1 = INT(GEO(6,PID))
              NP = 0
@@ -1070,11 +1070,11 @@ C
                     JJPID =  IWORK_T(IIS)%IPT(JJ)
                     IF(JJPID == JPID) THEN
                       NP = NP + 1
-                      IPTPLY(NP) = J 
+                      IPTPLY(NP) = J
                       GOTO 777
                     ENDIF
                   ENDDO
-                ENDIF  
+                ENDIF
  777       CONTINUE
 C geometric property
 C          
@@ -1105,41 +1105,41 @@ C stack id
             JS = IPTPLY(J)
             STACK%IGEO(IPPID+J       ,IIS)  = STACK_INFO(NUMS)%PID(JS)
             STACK%IGEO(IPMAT + J     ,IIS)  = STACK_INFO(NUMS)%MID(JS)
-            STACK%IGEO(IPMAT_IPLY+J  ,IIS)  = STACK_INFO(NUMS)%MID_IP(JS) 
+            STACK%IGEO(IPMAT_IPLY+J  ,IIS)  = STACK_INFO(NUMS)%MID_IP(JS)
             STACK%GEO(IPANG + J      ,IIS)  = STACK_INFO(NUMS)%ANG(JS)
             STACK%GEO(IPTHK + J      ,IIS)  = STACK_INFO(NUMS)%THK(JS)
             STACK%GEO(IPPOS + J      ,IIS)  = STACK_INFO(NUMS)%POS(JS)
             STACK%GEO(IPDIR + J      ,IIS)  = STACK_INFO(NUMS)%DIR(JS)
             STACK%GEO(IPTHKLY  + J   ,IIS)  = STACK_INFO(NUMS)%THKLY(JS)
             STACK%GEO(IPWEIGHT  + J  ,IIS)  = STACK_INFO(NUMS)%WEIGHT(JS)
-           ENDDO 
+           ENDDO
 C                      
 C to be  clarified later IPOS > 0 
-           IPOS = IGEO(99,PID) 
+           IPOS = IGEO(99,PID)
            ZSHIFT = GEO(199,PID)
-           IF(IPOS == 1)THEN                                             
-            TMIN = EP20                                                     
-            TMAX = -EP20                                                    
-            DO J=1,NPT                                                      
-             DT = HALF*STACK%GEO(IPTHK   + J  ,IIS)                     
-             TMIN = MIN(TMIN,STACK%GEO(IPPOS   + J ,IIS)-DT)             
-             TMAX = MAX(TMAX,STACK%GEO(IPPOS   + J ,IIS)+DT)             
-            ENDDO                                                            
-            THICKT = TMAX - TMIN               
-            DO J=1,NPT  
+           IF(IPOS == 1)THEN
+            TMIN = EP20
+            TMAX = -EP20
+            DO J=1,NPT
+             DT = HALF*STACK%GEO(IPTHK   + J  ,IIS)
+             TMIN = MIN(TMIN,STACK%GEO(IPPOS   + J ,IIS)-DT)
+             TMAX = MAX(TMAX,STACK%GEO(IPPOS   + J ,IIS)+DT)
+            ENDDO
+            THICKT = TMAX - TMIN
+            DO J=1,NPT
                STACK%GEO(IPTHK+J,IIS)=
-     .                 STACK%GEO(IPTHK+J,IIS)/MAX(THICKT,EM20)  
+     .                 STACK%GEO(IPTHK+J,IIS)/MAX(THICKT,EM20)
                STACK%GEO(IPPOS+J,IIS)=
-     .                 STACK%GEO(IPPOS+J,IIS)/MAX(THICKT,EM20)   
-            ENDDO 
-                                                                       
-          ELSE                                                          
-               THICKT = ZERO                                       
-               DO J=1,NPT                                
+     .                 STACK%GEO(IPPOS+J,IIS)/MAX(THICKT,EM20)
+            ENDDO
+
+          ELSE
+               THICKT = ZERO
+               DO J=1,NPT
                  THICKT = THICKT + STACK%GEO(IPTHK+J,IIS)
-               ENDDO           
-               DO J=1,NPT 
-                 STACK%GEO(IPTHK+J,IIS) =                                   
+               ENDDO
+               DO J=1,NPT
+                 STACK%GEO(IPTHK+J,IIS) =
      .                STACK%GEO(IPTHK+J,IIS)/MAX(THICKT,EM20)
                ENDDO
 C                
@@ -1151,25 +1151,25 @@ C
                  ZSHIFT = -ONE
                ELSEIF(IPOS == 4) THEN
                  ZSHIFT = ZERO
-               ENDIF                   
+               ENDIF
 C---             calcul automatique de position des couches             
                  STACK%GEO(IPPOS+1,IIS) = ZSHIFT +
      .                          HALF*STACK%GEO(IPTHK+1,IIS)
-                 DO J=2,NPT                                               
-                  STACK%GEO(IPPOS+J,IIS) =   
+                 DO J=2,NPT
+                  STACK%GEO(IPPOS+J,IIS) =
      .                    STACK%GEO(IPPOS+J-1,IIS)      +
      .                    HALF*(STACK%GEO(IPTHK+J,IIS)+
-     .                            STACK%GEO(IPTHK+J-1,IIS))   
+     .                            STACK%GEO(IPTHK+J-1,IIS))
                  ENDDO
 C               
-            ENDIF ! IPOS =0,1,2,3,4                                                 
+            ENDIF ! IPOS =0,1,2,3,4
 C calcul du thk by shell
               STACK%GEO(1,IIS) = THICKT
 C============================================================================
 C---
 C  update the shell thickness if /DRAPE defined          
 C---
-!!  (NDRAPE == 0) 
+!!  (NDRAPE == 0)
               DO I= NFIRST(IS) , NLAST(IS)
                 ID = INDX(I)
                 II = INDX_SH(ID)
@@ -1198,7 +1198,7 @@ cc              THICKT = STACK%GEO(1,IIS)
 cc              IF (IINT == 1) THEN  !  uniform distribution - by default
 cc                DO IT=1,NPTT
 cc                  THK_IT(IT) = THK_LY/NPTT  ! equally distribution of NPTT through layer
-cc                ENDDO 
+cc                ENDDO
 cc                POS_0 = POS_LY - HALF*THK_LY
 cc                IF (NLAY == 1) POS_0 = - HALF !! special case
 cc                POS_IT(1) = POS_0 + HALF*THK_IT(1)
@@ -1221,7 +1221,7 @@ C---
                   PIDS =  STACK%IGEO(IPPID + ILAY      ,IIS)
                   NPTT  = IGEO_STACK(4,PIDS)
                   IGEO(4,PID) = MAX(IGEO(4,PID),NPTT)
-            ENDDO   
+            ENDDO
         ENDDO ! DO IS = 1,NS
 C---
          DEALLOCATE(ICSH,INDX,ITRI,IDSTACK, ICSH_STACK)
@@ -1231,48 +1231,48 @@ C---
            DEALLOCATE(IWORK_T)
        ENDIF
 C
-       IF(IPART_STACK > 0) THEN  
+       IF(IPART_STACK > 0) THEN
          IF(IPART_PCOMPP == 0) THEN
             ALLOCATE(STACK%IGEO(3*NPT_STACK0+2,NS_STACK0))
             ALLOCATE(STACK%GEO(6*NPT_STACK0+1,NS_STACK0))
             ALLOCATE(STACK%PM(20,NS_STACK0))
             STACK%IGEO = 0
             STACK%GEO = ZERO
-            STACK%PM = ZERO 
+            STACK%PM = ZERO
          ENDIF
-         DO IS = 1,     NS_STACK0 
+         DO IS = 1,     NS_STACK0
               DO J = 1, 3*NPT_STACK0 + 2
                 STACK%IGEO(J, IS ) = IWORKS%IGEO(J,IS)
               ENDDO
               DO J = 1, 6*NPT_STACK0+1
                 STACK%GEO(J, IS ) = IWORKS%GEO(J,IS)
-                
+
               ENDDO
          ENDDO
-         DEALLOCATE(IWORKS%IGEO, IWORKS%GEO) 
+         DEALLOCATE(IWORKS%IGEO, IWORKS%GEO)
        ENDIF
 C ---     update of sub-stack
        IF(NS_STACK > 0) THEN
            DO IS = 1,NS_STACK
-              NPT = STACK%IGEO(1,IS) 
+              NPT = STACK%IGEO(1,IS)
               PID = STACK%IGEO(2,IS)
-              THICKT = STACK%GEO(1,IS)  
+              THICKT = STACK%GEO(1,IS)
               ID = IGEO(1,PID)
               IGTYP = IGEO(11,PID)
 C
               WRITE(IOUT,1000)ID, IS
               WRITE(IOUT,1100) THICKT,NPT
-!!              IPANG = 1            
-!!              IPTHK  = IPANG + NPT 
-!!              IPPOS  = IPTHK + NPT 
-              IPPOS  = 1 + 2*NPT 
+!!              IPANG = 1
+!!              IPTHK  = IPANG + NPT
+!!              IPPOS  = IPTHK + NPT
+              IPPOS  = 1 + 2*NPT
               IPPID = 2
               IF(IGTYP == 52) THEN
                 DO J = 1,NPT
                     PID = STACK%IGEO(IPPID + J      ,IS)
                     POS = STACK%GEO( IPPOS + J      ,IS)
                     POS = POS*THICKT
-                    ID = IGEO_STACK(1,PID) 
+                    ID = IGEO_STACK(1,PID)
                     WRITE(IOUT,2000)J, ID , POS
                 ENDDO
               ELSE
@@ -1280,16 +1280,16 @@ C
                      PID = STACK%IGEO(IPPID + J      ,IS)
                      POS = STACK%GEO( IPPOS + J      ,IS)
                      POS = POS*THICKT
-                     ID = IGEO(1,PID) 
+                     ID = IGEO(1,PID)
                      WRITE(IOUT,2000)J, ID , POS
                  ENDDO
-              ENDIF 
+              ENDIF
            ENDDO
-        ENDIF 
+        ENDIF
 C for restart       
        IF(IPART_PCOMPP > 0 .AND. IPART_STACK == 0) IPART_STACK = 1
 C--------
-     
+
       RETURN
  1000    FORMAT(//,
      & 5X,'COMPOSITE STACK SHELL PROPERTY SET ',

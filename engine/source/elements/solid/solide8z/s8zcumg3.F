@@ -57,7 +57,7 @@ C     REAL
      .   K38(9,*)   ,K44(9,*)   ,K45(9,*)    ,K46(9,*)    ,K47(9,*)   ,
      .   K48(9,*)   ,K55(9,*)   ,K56(9,*)    ,K57(9,*)    ,K58(9,*)   ,
      .   K66(9,*)   ,K67(9,*)   ,K68(9,*)    ,K77(9,*)    ,K78(9,*)   ,
-     .   K88(9,*)  
+     .   K88(9,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -82,43 +82,43 @@ C-----------------------------------------------
        Q(3,3,I)=R33(I)
       ENDDO
       ISYM=1
-      CALL SYSTRAN3(LFT,LLT,Q,K11,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K22,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K33,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K44,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K55,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K66,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K77,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K88,ISYM) 
+      CALL SYSTRAN3(LFT,LLT,Q,K11,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K22,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K33,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K44,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K55,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K66,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K77,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K88,ISYM)
       ISYM=0
-      CALL SYSTRAN3(LFT,LLT,Q,K12,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K13,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K14,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K15,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K16,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K17,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K18,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K23,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K24,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K25,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K26,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K27,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K28,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K34,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K35,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K36,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K37,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K38,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K45,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K46,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K47,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K48,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K56,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K57,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K58,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K67,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K68,ISYM) 
-      CALL SYSTRAN3(LFT,LLT,Q,K78,ISYM) 
+      CALL SYSTRAN3(LFT,LLT,Q,K12,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K13,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K14,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K15,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K16,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K17,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K18,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K23,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K24,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K25,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K26,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K27,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K28,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K34,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K35,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K36,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K37,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K38,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K45,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K46,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K47,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K48,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K56,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K57,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K58,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K67,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K68,ISYM)
+      CALL SYSTRAN3(LFT,LLT,Q,K78,ISYM)
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       RETURN
       END
@@ -129,7 +129,7 @@ Chd|        S6CCUMG3                      source/elements/thickshell/solide6c/s6
 Chd|        S8ZCUMG3                      source/elements/solid/solide8z/s8zcumg3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SYSTRAN3(JFT   ,JLT    ,VQ   ,KK,ISYM) 
+      SUBROUTINE SYSTRAN3(JFT   ,JLT    ,VQ   ,KK,ISYM)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -137,7 +137,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,ISYM
-      my_real 
+      my_real
      .   VQ(3,3,*), KK(3,3,*)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -147,9 +147,9 @@ C-----------------------------------------------
      .    K(3,3,MVSIZ)
 C-----------------------------------------------
        IF (ISYM==1) THEN
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQ(I,1,EP)*(KK(1,1,EP)*VQ(J,1,EP)+
      1                  KK(1,2,EP)*VQ(J,2,EP)+KK(1,3,EP)*VQ(J,3,EP))+
      2              VQ(I,2,EP)*(KK(1,2,EP)*VQ(J,1,EP)+
@@ -160,22 +160,22 @@ C-----------------------------------------------
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          KK(2,1,EP)= K(1,2,EP)
          KK(3,1,EP)= K(1,3,EP)
          KK(3,2,EP)= K(2,3,EP)
         ENDDO
        ELSE
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(I,J,EP)=VQ(I,1,EP)*(KK(1,1,EP)*VQ(J,1,EP)+
      1                  KK(1,2,EP)*VQ(J,2,EP)+KK(1,3,EP)*VQ(J,3,EP))+
      2              VQ(I,2,EP)*(KK(2,1,EP)*VQ(J,1,EP)+
@@ -186,9 +186,9 @@ C
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(I,J,EP)= K(I,J,EP)
          ENDDO
         ENDDO

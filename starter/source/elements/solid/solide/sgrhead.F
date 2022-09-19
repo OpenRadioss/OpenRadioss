@@ -35,7 +35,7 @@ Chd|        REORDER_MOD                   share/modules1/reorder_mod.F
 Chd|====================================================================
       SUBROUTINE SGRHEAD(
      1       IXS        ,PM            ,GEO       ,INUM    ,ISEL   ,
-     2       ITR1       ,EADD          ,INDEX     ,ITRI    ,IPARTS ,      
+     2       ITR1       ,EADD          ,INDEX     ,ITRI    ,IPARTS ,
      3       ND         ,IGRSURF       ,IGRBRIC   ,ISOLNOD ,
      4       CEP        ,XEP           ,IXS10     ,IXS20   ,IXS16  ,
      5       IGEO       ,IPM           ,NOD2ELS   ,ISOLOFF ,
@@ -106,7 +106,7 @@ C-----------------------------------------------
      .        ND, ISOLNOD(*), CEP(*),
      .        XEP(*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .        NOD2ELS(*), ISOLOFF(*),
-     .        TAGPRT_SMS(*), SPH2SOL(*), 
+     .        TAGPRT_SMS(*), SPH2SOL(*),
      .        SOL2SPH(2,*),SOL2SPH_TYP(*),IFLAG_BPRELOAD(*)
       INTEGER,INTENT(IN) :: IPM(NPROPMI,NUMMAT)
       INTEGER,INTENT(INOUT) :: IGEO(NPROPGI,NUMGEO)
@@ -119,10 +119,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,J,K,L,IL,MLN, NG, ISSN, NPN, NN, N, MID, PID ,IREP,
      .        II,II0,JJ0,II1,JJ1,II2,JJ2,JJ,II3,JJ3,II4,JJ4,II5,JJ5,
-     .        JHBE,ISO,IGT,IINT,MODE,IEOS,IVISC,IVISC0,TSHELL, 
+     .        JHBE,ISO,IGT,IINT,MODE,IEOS,IVISC,IVISC0,TSHELL,
      .        IPLAST, IALEL,MT,NFAIL,NFAIL0,ITET4,ICPRE,ICSTR,IRB ,
      .        NLAY,NPTR,NPTS,NPTT,IMAT,INUM_R2R(1+R2R_SIU*NUMELS),
      .        NSPHDIR,IPARTSPH,NUVAR,ISVIS,IBOLTP,ITET10,NLOC_FAIL,
@@ -141,8 +141,8 @@ C   S O U R C E   L I N E S
 C-----------------------------------------------
 
 C   TRI GLOBAL SUR TOUS LES CRITERES POUR TOUS LES ELEMENTS
-  
-      MY_ALLOCATE(INDEX2,NUMELS) 
+
+      MY_ALLOCATE(INDEX2,NUMELS)
 C
       IF (NPERTURB > 0) THEN
         ALLOCATE(XNUM_RNOISE(NPERTURB,NUMELS),STAT=stat)
@@ -173,7 +173,7 @@ Clef 5---------------------------------
         IF (NSUBDOM>0) INUM_R2R(I) = TAG_ELSF(I)
         IF (NPERTURB > 0) THEN
           DO IPERT = 1, NPERTURB
-            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I) 
+            XNUM_RNOISE(IPERT,I) = RNOISE(IPERT,I)
           ENDDO
         ENDIF
       ENDDO
@@ -214,7 +214,7 @@ C
         ICPRE = 0
         ICSTR = 0
         IREP = 0
-        ISTRAIN = 0        
+        ISTRAIN = 0
         NFAIL0    = IPM(220 , MID)
         NLOC_FAIL = IPM(253 , MID)
         IEOS = 0
@@ -229,16 +229,16 @@ C
           JHBE = IGEO(10,PID)
           IGT  = IGEO(11,PID)
           ISTRAIN = IGEO(12,PID)
-          ICPRE  = IABS(IGEO(13,PID))     
-          ICSTR  = IGEO(14,PID)    
+          ICPRE  = IABS(IGEO(13,PID))
+          ICSTR  = IGEO(14,PID)
           IINT = IGEO(15,PID)
           JCVT = IABS(IGEO(16,PID))
           ITET4  = IGEO(20,PID)
           ITET10 = IGEO(50,PID)
-          IF (IGT == 22) THEN                   
-            NLAY = IGEO(30,PID)                 
-            DO IL=1,NLAY                        
-              IMAT = IGEO(100+IL,PID)           
+          IF (IGT == 22) THEN
+            NLAY = IGEO(30,PID)
+            DO IL=1,NLAY
+              IMAT = IGEO(100+IL,PID)
               NFAIL0 = MAX(NFAIL0,IPM(220, IMAT))
               IF (IPM(222,IMAT) > 0) IVISC0 = 1
             ENDDO
@@ -247,7 +247,7 @@ C
           ENDIF
 C IVISCO0 cannot put in the PID because is for MID (it can be used in IGEO)
           IGEO(34,PID) = IVISC0
-c----------            
+c----------
           IF (IGT /= 15) IPLAST = IGEO(9,PID)
           IF (IGT==15) JPOR=2*NINT(GEO(28,PID))
           JCLOS=0
@@ -258,7 +258,7 @@ C--------------Navier Storks Vis
         IF((JHBE == 14 .OR. JHBE == 222).AND.ISO==8) NUMELS8A=NUMELS8A+1
         IF (JHBE == 12)  JHBE = 4
         IF (JHBE==2)   JHBE = 0
-c        
+c
         JALE_FROM_MAT = NINT(PM(72,MID))
         JALE_FROM_PROP = IGEO(62,PID)
         JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
@@ -300,7 +300,7 @@ C Bolt preloading flag
         IF(NPRELOAD > 0)THEN
           IBOLTP = IFLAG_BPRELOAD(II)
         ENDIF
-        
+
 C
 Clef 1---------------------------------
 C
@@ -339,7 +339,7 @@ C       JCLOS=MY_SHIFTL(JCLOS,0)
         IINT=MY_SHIFTL(IINT,24)
         ISTRAIN=MY_SHIFTL(ISTRAIN,26)
         ITET4=MY_SHIFTL(ITET4,27)
-        NFAIL  =  MY_SHIFTL(NFAIL0,29) 
+        NFAIL  =  MY_SHIFTL(NFAIL0,29)
 C       next=MY_SHIFTL(next,32) ---> pas de place disp
         ITRI(4,I)=JCLOS+NPN+IPLAST+ICPRE+ICSTR+IREP+IINT+JCVT+ISTRAIN
      .           +ITET4+NFAIL
@@ -348,16 +348,16 @@ Clef 5---------------------------------
 Clef 6---------------------------------
         ITRI(6,I)=PID
 Clef 7---------------------------------
-        IEOS      = MY_SHIFTL(IEOS,0) 
+        IEOS      = MY_SHIFTL(IEOS,0)
         IVISC     = MY_SHIFTL(IVISC0,4)
-        NUVAR     = MY_SHIFTL(NUVAR,5) 
-        ISVIS     = MY_SHIFTL(ISVIS,15) 
+        NUVAR     = MY_SHIFTL(NUVAR,5)
+        ISVIS     = MY_SHIFTL(ISVIS,15)
         IBOLTP    = MY_SHIFTL(IBOLTP,16)
         ITET10    = MY_SHIFTL(ITET10,17)
         NLOC_FAIL = MY_SHIFTL(ITET10,19)
 C       next  = MY_SHIFTL(next,21)
         ITRI(7,I)=IEOS+IVISC+NUVAR+ISVIS+IBOLTP+ITET10+NLOC_FAIL
-c        
+c
       ENDDO
 C
       MODE=0
@@ -369,7 +369,7 @@ C
         IF (NSUBDOM>0) TAG_ELSF(I)=INUM_R2R(INDEX(I))
         IF (NPERTURB > 0) THEN
           DO IPERT = 1, NPERTURB
-            RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I)) 
+            RNOISE(IPERT,I) = XNUM_RNOISE(IPERT,INDEX(I))
           ENDDO
         ENDIF
       ENDDO
@@ -578,7 +578,7 @@ C--------------------------------------------------------------
       DEALLOCATE(INDEX2)
 c
       IF (NPERTURB > 0) THEN
-        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE) 
+        IF (ALLOCATED(XNUM_RNOISE)) DEALLOCATE(XNUM_RNOISE)
       ENDIF
 C-----------
       RETURN

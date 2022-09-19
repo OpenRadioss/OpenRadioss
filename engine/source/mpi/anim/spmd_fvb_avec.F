@@ -97,17 +97,17 @@ C
                         LL=FVDATA(I)%IFVPOLY(L)
                         NPTR(LL)=NPTR(LL)+1
                         VTR(1,LL)=VTR(1,LL)+FVDATA(I)%QPOLH(1,J)/
-     .                                      FVDATA(I)%MPOLH(J)    
+     .                                      FVDATA(I)%MPOLH(J)
                         VTR(2,LL)=VTR(2,LL)+FVDATA(I)%QPOLH(2,J)/
-     .                                      FVDATA(I)%MPOLH(J)    
+     .                                      FVDATA(I)%MPOLH(J)
                         VTR(3,LL)=VTR(3,LL)+FVDATA(I)%QPOLH(3,J)/
      .                                      FVDATA(I)%MPOLH(J)
                      ENDDO
                   ENDDO
                ENDDO
                DO J=1,NNTR
-                  N1=FVDATA(I)%IFVTRI_ANIM(1,J)  
-                  N2=FVDATA(I)%IFVTRI_ANIM(2,J)  
+                  N1=FVDATA(I)%IFVTRI_ANIM(1,J)
+                  N2=FVDATA(I)%IFVTRI_ANIM(2,J)
                   N3=FVDATA(I)%IFVTRI_ANIM(3,J)
                   NPN(N1)=NPN(N1)+1
                   NPN(N2)=NPN(N2)+1
@@ -122,13 +122,13 @@ C
                      VVT(3)=ZERO
                   ENDIF
                   VV(1,N1)=VV(1,N1)+VVT(1)
-                  VV(2,N1)=VV(2,N1)+VVT(2)  
-                  VV(3,N1)=VV(3,N1)+VVT(3)  
-                  VV(1,N2)=VV(1,N2)+VVT(1)  
-                  VV(2,N2)=VV(2,N2)+VVT(2)  
-                  VV(3,N2)=VV(3,N2)+VVT(3)  
-                  VV(1,N3)=VV(1,N3)+VVT(1)  
-                  VV(2,N3)=VV(2,N3)+VVT(2)  
+                  VV(2,N1)=VV(2,N1)+VVT(2)
+                  VV(3,N1)=VV(3,N1)+VVT(3)
+                  VV(1,N2)=VV(1,N2)+VVT(1)
+                  VV(2,N2)=VV(2,N2)+VVT(2)
+                  VV(3,N2)=VV(3,N2)+VVT(3)
+                  VV(1,N3)=VV(1,N3)+VVT(1)
+                  VV(2,N3)=VV(2,N3)+VVT(2)
                   VV(3,N3)=VV(3,N3)+VVT(3)
                ENDDO
 C
@@ -196,17 +196,17 @@ C
                         LL=FVDATA(I)%IFVPOLY(L)
                         NPTR(LL)=NPTR(LL)+1
                         VTR(1,LL)=VTR(1,LL)+FVDATA(I)%QPOLH(1,J)/
-     .                                      FVDATA(I)%MPOLH(J)    
+     .                                      FVDATA(I)%MPOLH(J)
                         VTR(2,LL)=VTR(2,LL)+FVDATA(I)%QPOLH(2,J)/
-     .                                      FVDATA(I)%MPOLH(J)    
+     .                                      FVDATA(I)%MPOLH(J)
                         VTR(3,LL)=VTR(3,LL)+FVDATA(I)%QPOLH(3,J)/
      .                                      FVDATA(I)%MPOLH(J)
                      ENDDO
                   ENDDO
                ENDDO
                DO J=1,NNTR
-                  N1=FVDATA(I)%IFVTRI_ANIM(1,J)  
-                  N2=FVDATA(I)%IFVTRI_ANIM(2,J)  
+                  N1=FVDATA(I)%IFVTRI_ANIM(1,J)
+                  N2=FVDATA(I)%IFVTRI_ANIM(2,J)
                   N3=FVDATA(I)%IFVTRI_ANIM(3,J)
                   NPN(N1)=NPN(N1)+1
                   NPN(N2)=NPN(N2)+1
@@ -221,13 +221,13 @@ C
                      VVT(3)=ZERO
                   ENDIF
                   VV(1,N1)=VV(1,N1)+VVT(1)
-                  VV(2,N1)=VV(2,N1)+VVT(2)  
-                  VV(3,N1)=VV(3,N1)+VVT(3)  
-                  VV(1,N2)=VV(1,N2)+VVT(1)  
-                  VV(2,N2)=VV(2,N2)+VVT(2)  
-                  VV(3,N2)=VV(3,N2)+VVT(3)  
-                  VV(1,N3)=VV(1,N3)+VVT(1)  
-                  VV(2,N3)=VV(2,N3)+VVT(2)  
+                  VV(2,N1)=VV(2,N1)+VVT(2)
+                  VV(3,N1)=VV(3,N1)+VVT(3)
+                  VV(1,N2)=VV(1,N2)+VVT(1)
+                  VV(2,N2)=VV(2,N2)+VVT(2)
+                  VV(3,N2)=VV(3,N2)+VVT(3)
+                  VV(1,N3)=VV(1,N3)+VVT(1)
+                  VV(2,N3)=VV(2,N3)+VVT(2)
                   VV(3,N3)=VV(3,N3)+VVT(3)
                ENDDO
 C
@@ -244,7 +244,7 @@ C
                DEALLOCATE(VTR, VV, NPTR, NPN)
             ENDIF
          ENDIF
-      ENDDO  
+      ENDDO
 C
       IF (ISPMD==0) THEN
          R4=ZERO

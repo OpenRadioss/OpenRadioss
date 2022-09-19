@@ -82,7 +82,7 @@ C-----------------------------------------------
          IAD2 = ALE_CONNECT%ee_connect%iad_connect(IE)
          LGTH = ALE_CONNECT%ee_connect%iad_connect(IE+1) - IAD2
          DO J=1,LGTH
-            
+
             IV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
             IF(IV > 0)THEN
                VALVOIS(J,I) = PHI(IV)
@@ -102,7 +102,7 @@ C-----------------------------------------------
         VL(3,I)          = VALVOIS(3,I)*FLUX(3,I)
         VL(4,I)          = VALVOIS(4,I)*FLUX(4,I)
         VL(5,I)          = VALVOIS(5,I)*FLUX(5,I)
-        VL(6,I)          = VALVOIS(6,I)*FLUX(6,I) 
+        VL(6,I)          = VALVOIS(6,I)*FLUX(6,I)
         DELTA(I)         = HALF * DT1 *(-VALEL(I)*FLU1(I) - VL(1,I)-VL(2,I)-VL(3,I)-VL(4,I)-VL(5,I)-VL(6,I))
       ENDDO
 
@@ -116,22 +116,22 @@ C-----------------------------------------------
 
       IF(INT22==0)THEN
         DO I=LFT,LLT
-          VTOT(I) = VTOT(I) + DELTA(I)        
+          VTOT(I) = VTOT(I) + DELTA(I)
         ENDDO
       ELSE
         DO I=LFT,LLT
           IF(TAG22(I)==ZERO) VTOT(I) = VTOT(I) + DELTA(I)  !can be optimized later (conditionnal test is currently within the loop)
-        ENDDO     
+        ENDDO
       ENDIF
 
       IF(TRIMAT > 0.AND.IFLG == 1)THEN
         DO I=LFT,LLT
-          QMV(1,I) = QMV(1,I) - VL(1,I) - VALEL(I)*QMV(07,I) 
-          QMV(2,I) = QMV(2,I) - VL(2,I) - VALEL(I)*QMV(08,I) 
-          QMV(3,I) = QMV(3,I) - VL(3,I) - VALEL(I)*QMV(09,I) 
-          QMV(4,I) = QMV(4,I) - VL(4,I) - VALEL(I)*QMV(10,I) 
-          QMV(5,I) = QMV(5,I) - VL(5,I) - VALEL(I)*QMV(11,I) 
-          QMV(6,I) = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)  
+          QMV(1,I) = QMV(1,I) - VL(1,I) - VALEL(I)*QMV(07,I)
+          QMV(2,I) = QMV(2,I) - VL(2,I) - VALEL(I)*QMV(08,I)
+          QMV(3,I) = QMV(3,I) - VL(3,I) - VALEL(I)*QMV(09,I)
+          QMV(4,I) = QMV(4,I) - VL(4,I) - VALEL(I)*QMV(10,I)
+          QMV(5,I) = QMV(5,I) - VL(5,I) - VALEL(I)*QMV(11,I)
+          QMV(6,I) = QMV(6,I) - VL(6,I) - VALEL(I)*QMV(12,I)
         ENDDO
       ENDIF
 C-----------
@@ -144,102 +144,102 @@ C-----------
       !INTERFACE 22 ONLY - OUTPUT---------------!
                 debug_outp = .false.
       if(int22>0)then
-        debug_outp=.false. 
+        debug_outp=.false.
         if(ibug22_convec /= 0 .AND. IBUG22_NVAR==NVAR)then
-           debug_outp=.true.  
+           debug_outp=.true.
         endif
 
         if(debug_outp .AND. IBUG22_NVAR==NVAR)then
 
           call my_barrier
-          
+
           if(itask==0)then
             !print *, "    |------ale3d_conv3.F------ |"
             !print *, "    |     THREAD INFORMATION   |"
-            !print *, "    |--------------------------|" 
-            !print *, "    NCYCLE  =", NCYCLE      
-            !print *, "    ITRIMAT =", ITRIMAT         
+            !print *, "    |--------------------------|"
+            !print *, "    NCYCLE  =", NCYCLE
+            !print *, "    ITRIMAT =", ITRIMAT
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
-                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i) == zero)cycle                             
-                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif               
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then
+                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then
+                  if(delta(i) == zero)cycle
+                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
                     print *, "        dval=", delta(i)
                     print *, "         was:", vtot(i)-delta(i)
                     print *, "          is:", vtot(i)
-                    print *, "      ------------------------" 
-                  endif   
-                endif      
-              enddo
-            endif!(IBUG22_NVAR==NVAR)
-          endif !itask
-          
-          call my_barrier
-
-          if(itask==1)then       
-            if(IBUG22_NVAR==NVAR)then
-              do i=lft,llt
-                if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
-                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i) == zero)cycle                             
-                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif       
-                    print *, "      brique=", ixs(11,nft+i)
-                    print *, "        nvar=", NVAR
-                    print *, "        dval=", delta(i)
-                    print *, "         was:", vtot(i)-delta(i)
-                    print *, "          is:", vtot(i)
-                    print *, "      ------------------------" 
-                  endif   
-                endif      
+                    print *, "      ------------------------"
+                  endif
+                endif
               enddo
             endif!(IBUG22_NVAR==NVAR)
           endif !itask
 
           call my_barrier
 
-          if(itask==2)then       
+          if(itask==1)then
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
-                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i) == zero)cycle                             
-                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif       
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then
+                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then
+                  if(delta(i) == zero)cycle
+                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
                     print *, "        dval=", delta(i)
                     print *, "         was:", vtot(i)-delta(i)
                     print *, "          is:", vtot(i)
-                    print *, "      ------------------------" 
-                  endif   
-                endif      
+                    print *, "      ------------------------"
+                  endif
+                endif
               enddo
             endif!(IBUG22_NVAR==NVAR)
           endif !itask
-          
+
           call my_barrier
 
-          if(itask==3)then       
+          if(itask==2)then
             if(IBUG22_NVAR==NVAR)then
               do i=lft,llt
                 if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
-                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then                
-                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then 
-                  if(delta(i) == zero)cycle                             
-                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif       
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then
+                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then
+                  if(delta(i) == zero)cycle
+                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif
                     print *, "      brique=", ixs(11,nft+i)
                     print *, "        nvar=", NVAR
                     print *, "        dval=", delta(i)
                     print *, "         was:", vtot(i)-delta(i)
                     print *, "          is:", vtot(i)
-                    print *, "      ------------------------" 
-                  endif   
-                endif      
+                    print *, "      ------------------------"
+                  endif
+                endif
+              enddo
+            endif!(IBUG22_NVAR==NVAR)
+          endif !itask
+
+          call my_barrier
+
+          if(itask==3)then
+            if(IBUG22_NVAR==NVAR)then
+              do i=lft,llt
+                if(int22>0)then;if (tag22(i)/=zero)then;cycle                 ;endif;endif
+                if(ibug22_convec == ixs(11,i+nft) .OR. ibug22_convec == -1)then
+                  if((ibug22_convec==ixs(11,nft+i).OR.ibug22_convec==-1) .AND. nvar==1)then
+                  if(delta(i) == zero)cycle
+                    !if(int22>0)then;if (tag22(i)==zero)then;print *,"       UNCUT";endif;endif
+                    print *, "      brique=", ixs(11,nft+i)
+                    print *, "        nvar=", NVAR
+                    print *, "        dval=", delta(i)
+                    print *, "         was:", vtot(i)-delta(i)
+                    print *, "          is:", vtot(i)
+                    print *, "      ------------------------"
+                  endif
+                endif
               enddo
             endif!(IBUG22_NVAR==NVAR)
           endif !itask

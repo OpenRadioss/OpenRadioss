@@ -54,95 +54,95 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRNOD)  :: IGRNOD 
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRPART) :: IGRPART       
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRBRIC) :: IGRBRIC 
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRSHEL) :: IGRSH4N 
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRSH3N) :: IGRSH3N 
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRQUAD) :: IGRQUAD 
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRBEAM) :: IGRBEAM 
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRTRUS) :: IGRTRUSS                                     
-      TYPE (GROUP_)  , TARGET, DIMENSION(NGRSPRI) :: IGRSPRING       
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRNOD)  :: IGRNOD
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRPART) :: IGRPART
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRSHEL) :: IGRSH4N
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRSH3N) :: IGRSH3N
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRQUAD) :: IGRQUAD
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRBEAM) :: IGRBEAM
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRTRUS) :: IGRTRUSS
+      TYPE (GROUP_)  , TARGET, DIMENSION(NGRSPRI) :: IGRSPRING
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-      TYPE (GROUP_)  , POINTER :: PTR_IGRELEM    
-      INTEGER KK 
+      TYPE (GROUP_)  , POINTER :: PTR_IGRELEM
+      INTEGER KK
       CHARACTER :: GROUP_NAME*7
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      OK_QA = MYQAKEY('GROUPS')  
-                                                         
-      IF (OK_QA) THEN  
-       
+      OK_QA = MYQAKEY('GROUPS')
+
+      IF (OK_QA) THEN
+
         DO KK = 1, NGRBRIC
           PTR_IGRELEM => IGRBRIC(KK)
           GROUP_NAME(1:7) = 'IGRBRIC'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
+        ENDDO
 
         DO KK = 1, NGRPART
           PTR_IGRELEM => IGRPART(KK)
           GROUP_NAME(1:7) = 'IGRPART'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
-        
+        ENDDO
+
         DO KK = 1, NGRQUAD
           PTR_IGRELEM => IGRQUAD(KK)
           GROUP_NAME(1:7) = 'IGRQUAD'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
+        ENDDO
 
         IF( N2D == 0)THEN
           DO KK = 1, NGRSH3N
             PTR_IGRELEM => IGRSH3N(KK)
             GROUP_NAME(1:7) = 'IGRSH3N'
             CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-          ENDDO 
+          ENDDO
         ELSEIF( N2D /= 0)THEN
           DO KK = 1, NGRSH3N
             PTR_IGRELEM => IGRSH3N(KK)
             GROUP_NAME(1:7) = 'IGRTRIA'
             CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-          ENDDO 
+          ENDDO
         ENDIF
 
         DO KK = 1, NGRSHEL
           PTR_IGRELEM => IGRSH4N(KK)
           GROUP_NAME(1:7) = 'IGRSH4N'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
+        ENDDO
 
         DO KK = 1, NGRSPRI
           PTR_IGRELEM => IGRSPRING(KK)
           GROUP_NAME(1:7) = 'IGRSPRI'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
+        ENDDO
 
         DO KK = 1, NGRTRUS
           PTR_IGRELEM => IGRTRUSS(KK)
           GROUP_NAME(1:7) = 'IGRTRUS'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
+        ENDDO
 
         DO KK = 1, NGRBEAM
           PTR_IGRELEM => IGRBEAM(KK)
           GROUP_NAME(1:7) = 'IGRBEAM'
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
-        
+        ENDDO
+
         DO KK = 1, NGRNOD
           PTR_IGRELEM => IGRNOD(KK)
           GROUP_NAME(1:7) = 'IGRNOD '
           CALL QA_PRINT_GROUPS(PTR_IGRELEM, GROUP_NAME)
-        ENDDO 
-                                
-      ENDIF  
-                                                                                 
+        ENDDO
+
+      ENDIF
+
 C-----------------------------------------------
       RETURN
       END
@@ -168,8 +168,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (GROUP_),INTENT(IN)  :: PTR_IGRELEM  
-      CHARACTER,INTENT(IN) :: GROUP_NAME*7 
+      TYPE (GROUP_),INTENT(IN)  :: PTR_IGRELEM
+      CHARACTER,INTENT(IN) :: GROUP_NAME*7
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -181,34 +181,34 @@ C-----------------------------------------------
 
             ID = PTR_IGRELEM%ID
             LEN_=LEN_TRIM(PTR_IGRELEM%TITLE)
-            WRITE(VARNAME,'(A,I0,A,A)') GROUP_NAME//'(',ID,')%TITLE     =',PTR_IGRELEM%TITLE(1:LEN_)             
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NENTITY   ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%NENTITY,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SET_GROUP   ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%SET_GROUP,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%GRTYPE    ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%GRTYPE,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SORTED    ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%SORTED,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%GRPGRP    ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%GRPGRP,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%LEVEL     ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%LEVEL,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%R2R_ALL   ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%R2R_ALL,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%R2R_SHARE ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%R2R_SHARE,0.0_8) 
-            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%GRTYPE    ='              
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%GRTYPE,0.0_8) 
+            WRITE(VARNAME,'(A,I0,A,A)') GROUP_NAME//'(',ID,')%TITLE     =',PTR_IGRELEM%TITLE(1:LEN_)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NENTITY   ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%NENTITY,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SET_GROUP   ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%SET_GROUP,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%GRTYPE    ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%GRTYPE,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SORTED    ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%SORTED,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%GRPGRP    ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%GRPGRP,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%LEVEL     ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%LEVEL,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%R2R_ALL   ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%R2R_ALL,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%R2R_SHARE ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%R2R_SHARE,0.0_8)
+            WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%GRTYPE    ='
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%GRTYPE,0.0_8)
             !output only first & last elem
             DO KK=1,MIN(1,PTR_IGRELEM%NENTITY)
-              WRITE(VARNAME,'(A,A,I10,A,I10,A)') GROUP_NAME,'(',ID,')%ELEM(',KK,') =' 
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%ENTITY(KK),0.0_8) 
+              WRITE(VARNAME,'(A,A,I10,A,I10,A)') GROUP_NAME,'(',ID,')%ELEM(',KK,') ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%ENTITY(KK),0.0_8)
             ENDDO
             IF(PTR_IGRELEM%NENTITY > 1)THEN
-              WRITE(VARNAME,'(A,A,I10,A,I10,A)') GROUP_NAME,'(',ID,')%ELEM(',PTR_IGRELEM%NENTITY,') =' 
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%ENTITY(PTR_IGRELEM%NENTITY),0.0_8)               
+              WRITE(VARNAME,'(A,A,I10,A,I10,A)') GROUP_NAME,'(',ID,')%ELEM(',PTR_IGRELEM%NENTITY,') ='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRELEM%ENTITY(PTR_IGRELEM%NENTITY),0.0_8)
             ENDIF
-                  
+
       END

@@ -34,7 +34,7 @@ Chd|====================================================================
       SUBROUTINE I16TRI(
      1      BPE    ,PE      ,BPN      ,PN       ,NSN      ,
      2      TZINF  ,IXS     ,IXS16    ,IXS20    ,NELEM    ,
-     3      NSV    ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
+     3      NSV    ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,
      5      CONT   ,NB_N_B  ,EMINX    ,I_STOK_GLOB,NME    ,
      6      ITASK  ,NOINT   ,X        ,V        ,A        ,
      7      MX_CAND,IXS10   ,ESH_T    )
@@ -89,7 +89,7 @@ C---------------------------------
       ZMIN = EP30
       XMAX = -EP30
       YMAX = -EP30
-      ZMAX = -EP30      
+      ZMAX = -EP30
 C
       NB_EC = NME
       DO L=1,NB_EC
@@ -167,7 +167,7 @@ C-----------------------------------------------
         CALL I16CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
      2      X          ,NB_NC   ,NB_EC    ,XYZM     ,I_ADD    ,
-     3      NSV        ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
+     3      NSV        ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,
      4      CONT       ,NB_N_B  ,I_ADD_MAX,EMINX    ,NELEM    ,
      5      I_STOK     ,IXS     ,IXS16    ,IXS20    ,TZINF    ,
      6      I_STOK_GLOB,PROV_N  ,PROV_E   ,V        ,A        ,
@@ -210,7 +210,7 @@ Chd|====================================================================
       SUBROUTINE I16CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
      2      X          ,NB_NC   ,NB_EC    ,XYZM     ,I_ADD    ,
-     3      NSV        ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
+     3      NSV        ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,
      4      CONT       ,NB_N_B  ,I_ADD_MAX,EMINX    ,NELEM    ,
      5      I_STOK     ,IXS     ,IXS16    ,IXS20    ,TZINF    ,
      6      I_STOK_GLOB,PROV_N  ,PROV_E   ,V        ,A        ,
@@ -288,7 +288,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),XYZM(6,*),EMINX(6,*),
-     .   MINBOX,TZINF,DIST    
+     .   MINBOX,TZINF,DIST
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -427,7 +427,7 @@ Cel necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
                   ENDIF
                 ENDIF
               ENDIF
-            ENDDO 
+            ENDDO
 C-----------------------------------------------------------
         ELSE
 C-----------------------------------------------------------
@@ -519,7 +519,7 @@ C
           ADD(1,I_ADD+1) = ADDNN
           ADD(2,I_ADD+1) = ADDNE
 C-----on remplit les min de la boite suivante et les max de la courante
-          XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+          XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
           XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
           XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
           XYZM(4,I_ADD+1) = XYZM(4,I_ADD)

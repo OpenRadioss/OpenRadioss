@@ -79,11 +79,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER L,K,SIZE_LOC,IERROR,NI,NSN_LOC
       INTEGER, DIMENSION(:), ALLOCATABLE :: CAND_N_LOC,CAND_E_LOC,IFPEN_LOC
-      my_real, 
+      my_real,
      .  DIMENSION(:), ALLOCATABLE :: CAND_P_LOC,CAND_FX_LOC,CAND_FY_LOC,CAND_FZ_LOC,
      .                               CAND_F_LOC
 ! ----------------------------------------------
-!       we check the value of tag array on each nin interface 
+!       we check the value of tag array on each nin interface
 !       and for each process
 !       if NSVSI(NIN)P < 0 --> cand_n and cand_e are deleted
 !       else cand_n and cand_e are kept
@@ -104,7 +104,7 @@ C-----------------------------------------------
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
             ENDIF
-            CAND_E_LOC(1:I_STOK) = 0 
+            CAND_E_LOC(1:I_STOK) = 0
             ! ---------
             IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) THEN
                 ALLOCATE( CAND_P_LOC( I_STOK ) , STAT=IERROR)
@@ -112,7 +112,7 @@ C-----------------------------------------------
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
-                CAND_P_LOC(1:I_STOK) = 0      
+                CAND_P_LOC(1:I_STOK) = 0
             ENDIF
             ! ---------
             IF((NTY==7.OR.NTY==20).AND.IFQ>0) THEN
@@ -121,14 +121,14 @@ C-----------------------------------------------
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
-                CAND_FX_LOC(1:I_STOK) = 0 
+                CAND_FX_LOC(1:I_STOK) = 0
                 ! ---------
                 ALLOCATE( CAND_FY_LOC( I_STOK ) , STAT=IERROR)
                 IF(IERROR/=0) THEN
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
-                CAND_FY_LOC(1:I_STOK) = 0 
+                CAND_FY_LOC(1:I_STOK) = 0
                 ! ---------
                 ALLOCATE( CAND_FZ_LOC( I_STOK ) , STAT=IERROR)
                 IF(IERROR/=0) THEN
@@ -142,9 +142,9 @@ C-----------------------------------------------
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
-                IFPEN_LOC(1:I_STOK) = 0  
+                IFPEN_LOC(1:I_STOK) = 0
                 ! ---------
-            ENDIF 
+            ENDIF
             ! ---------
             IF(NTY==7.AND.ITIED/=0) THEN
                 ALLOCATE( CAND_F_LOC( 8*I_STOK ) , STAT=IERROR)
@@ -152,9 +152,9 @@ C-----------------------------------------------
                         CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                         CALL ARRET(2)
                 ENDIF
-                CAND_F_LOC(1:8*I_STOK) = 0      
+                CAND_F_LOC(1:8*I_STOK) = 0
             ENDIF
-            L = 1       
+            L = 1
             IF(nty/=11) THEN
              NSN_LOC = NSN
             ELSE
@@ -163,14 +163,14 @@ C-----------------------------------------------
             DO K=1,I_STOK
               NI = INTBUF_TAB%CAND_N(K)
               IF(NI > NSN_LOC) THEN
-              ! Remote 
+              ! Remote
                NI = NI - NSN_LOC
                IF(TAG(NI)>-1) THEN
                  CAND_N_LOC(L) = INTBUF_TAB%CAND_N(K)
                  CAND_E_LOC(L) = INTBUF_TAB%CAND_E(K)
                  IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0)
                  ELSE
-                   IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) 
+                   IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .              CAND_P_LOC(L) = INTBUF_TAB%CAND_P(K)
                    IF(IFQ>0) THEN
                     IFPEN_LOC(L) = INTBUF_TAB%IFPEN(K)
@@ -184,7 +184,7 @@ C-----------------------------------------------
                      CAND_FZ_LOC(L) = INTBUF_TAB%FTSAVZ(K)
                     ENDIF
                    ENDIF
-                   IF(NTY==7.AND.ITIED/=0) 
+                   IF(NTY==7.AND.ITIED/=0)
      .              CAND_F_LOC(8*(L-1)+1:8*(L-1)+8) = INTBUF_TAB%CAND_F(8*(K-1)+1:8*(K-1)+8)
                  ENDIF
                  L = L + 1
@@ -193,7 +193,7 @@ C-----------------------------------------------
               ! Local
                  CAND_N_LOC(L) = INTBUF_TAB%CAND_N(K)
                  CAND_E_LOC(L) = INTBUF_TAB%CAND_E(K)
-                 IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0) 
+                 IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0)
                  ELSE
                    IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .              CAND_P_LOC(L) = INTBUF_TAB%CAND_P(K)
@@ -209,7 +209,7 @@ C-----------------------------------------------
                      CAND_FZ_LOC(L) = INTBUF_TAB%FTSAVZ(K)
                     ENDIF
                    ENDIF
-                   IF(NTY==7.AND.ITIED/=0) 
+                   IF(NTY==7.AND.ITIED/=0)
      .              CAND_F_LOC(8*(L-1)+1:8*(L-1)+8) = INTBUF_TAB%CAND_F(8*(K-1)+1:8*(K-1)+8)
                  ENDIF
                  L = L + 1
@@ -217,7 +217,7 @@ C-----------------------------------------------
             ENDDO
             INTBUF_TAB%CAND_N(1:I_STOK) = 0
             INTBUF_TAB%CAND_E(1:I_STOK) = 0
-            IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0) 
+            IF(NTY==24.OR.NTY==25)THEN ! rien a faire (a TT=0)
             ELSE
               IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .           INTBUF_TAB%CAND_P(1:I_STOK) = 0
@@ -233,16 +233,16 @@ C-----------------------------------------------
                 INTBUF_TAB%FTSAVZ(1:I_STOK) = 0
                ENDIF
               ENDIF
-              IF(NTY==7.AND.ITIED/=0) 
+              IF(NTY==7.AND.ITIED/=0)
      .         INTBUF_TAB%CAND_F(1:8*I_STOK) = ZERO
             ENDIF
             I_STOK = L - 1
             IF(I_STOK>0) THEN
              INTBUF_TAB%CAND_N(1:I_STOK) = CAND_N_LOC(1:I_STOK)
              INTBUF_TAB%CAND_E(1:I_STOK) = CAND_E_LOC(1:I_STOK)
-             IF(NTY==24.OR.NTY==25)THEN ! rien a faire 
+             IF(NTY==24.OR.NTY==25)THEN ! rien a faire
              ELSE
-               IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7)) 
+               IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .            INTBUF_TAB%CAND_P(1:I_STOK) = CAND_P_LOC(1:I_STOK)
                IF(IFQ>0) THEN
                 INTBUF_TAB%IFPEN(1:I_STOK) = IFPEN_LOC(1:I_STOK)
@@ -256,13 +256,13 @@ C-----------------------------------------------
                  INTBUF_TAB%FTSAVZ(1:I_STOK) = CAND_FZ_LOC(1:I_STOK)
                 ENDIF
               ENDIF
-              IF(NTY==7.AND.ITIED/=0) 
+              IF(NTY==7.AND.ITIED/=0)
      .         INTBUF_TAB%CAND_F(1:8*I_STOK) = CAND_F_LOC(1:8*I_STOK)
             ENDIF
             ENDIF
             DEALLOCATE( CAND_N_LOC )
             DEALLOCATE( CAND_E_LOC )
-            IF(NTY==24.OR.NTY==25)THEN ! rien a faire 
+            IF(NTY==24.OR.NTY==25)THEN ! rien a faire
             ELSE
               IF((NTY==7.OR.NTY==20).AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7))
      .          DEALLOCATE( CAND_P_LOC )
@@ -272,15 +272,15 @@ C-----------------------------------------------
                DEALLOCATE( CAND_FZ_LOC )
                DEALLOCATE( IFPEN_LOC   )
               ENDIF
-              IF(NTY==7.AND.ITIED/=0) 
+              IF(NTY==7.AND.ITIED/=0)
      .          DEALLOCATE( CAND_F_LOC )
             ENDIF
-           ! -----------------   
+           ! -----------------
         ENDIF        ! i_sotk > 0
-        ! -----------------    
+        ! -----------------
         IF(IERROR/=0) THEN
            CALL ARRET(2)
-        ENDIF 
+        ENDIF
       RETURN
       END SUBROUTINE
 

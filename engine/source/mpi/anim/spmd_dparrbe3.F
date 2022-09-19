@@ -109,7 +109,7 @@ C Proc zero reception des tailles
         ENDDO
 
         DO P=2,NSPMD
-           MSGTYP = MSGOFF 
+           MSGTYP = MSGOFF
            CALL MPI_RECV(P0RECRBE3(1,P),NRBE3G,MPI_INTEGER,IT_SPMD(P),
      *                   MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
         ENDDO
@@ -117,7 +117,7 @@ C Proc zero reception des tailles
 
       ELSE
 C Procs autres envoi
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         CALL MPI_SEND(SZLOCRBE3,NRBE3G,MPI_INTEGER,IT_SPMD(1),
      .                MSGTYP,MPI_COMM_WORLD,IERROR)
 
@@ -159,8 +159,8 @@ C Envoi des noeuds secnds
              IF (WEIGHT(MN)==1) THEN
                NGRBE = IRBE3(10,I)
                SECNDNODS(NGRBE)=NODGLOB(MN)
-             ENDIF        
-           ENDIF        
+             ENDIF
+           ENDIF
          ENDDO
          CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 
@@ -188,7 +188,7 @@ C preparation P0RECRBE3 pour le proc0
          DO I=1,NRBE3G
 	    PGLOBRBE3(I)=IADRBE3(I)
          ENDDO
-	 	 
+	 	
          DO I=1,NRBE3
            NSN = IRBE3(5,I)
            IAD = IRBE3(1,I)
@@ -238,8 +238,8 @@ C Reception des Noeuds SECONDARYs
              IF (WEIGHT(MN)==1) THEN
                NGRBE = IRBE3(10,I)
                SECNDNODS(NGRBE)=NODGLOB(MN)
-             ENDIF        
-           ENDIF        
+             ENDIF
+           ENDIF
          ENDDO
          CALL SPMD_GLOB_ISUM9(SECNDNODS,NRBE3G)
 

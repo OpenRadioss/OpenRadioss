@@ -54,7 +54,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -148,8 +148,8 @@ C-----------------------------------------------
       CHARACTER*nchartitle,
      .   TITR1
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
@@ -227,8 +227,8 @@ c
 C
       NF1 = NFT+1
       IF(JCVT==0)THEN
-        CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT, 
-     .        PID, IX1, IX2, IX3, IX4, 
+        CALL QCOOR2(X,IXQ(1,NF1),NGL,MAT,
+     .        PID, IX1, IX2, IX3, IX4,
      .        Y1, Y2, Y3, Y4,
      .        Z1, Z2, Z3, Z4,
      .        SY, SZ, TY, TZ)
@@ -240,20 +240,20 @@ C
      .        PID, IX1, IX2, IX3, IX4,
      .        Y1, Y2, Y3, Y4,
      .        Z1, Z2, Z3, Z4,YAVG,Y234,Y124,
-     .        SY,SZ,TY,TZ, 
+     .        SY,SZ,TY,TZ,
      .        E1Y, E1Z, E2Y, E2Z)
       ENDIF
 C
       IF (IGTYP == 6) CALL QMORTH2(PID  ,GEO  ,IGEO ,GBUF%GAMA, NEL,
      .                   SY   ,SZ   ,TY   ,TZ  ,
-     .                   E1Y  ,E1Z  , E2Y, E2Z) 
+     .                   E1Y  ,E1Z  , E2Y, E2Z)
 C
       CALL Q4VOLI2(GBUF%VOL,IXQ(1,NF1),
-     .     NGL, AREA, 
-     .     Y1, Y2, Y3, Y4, 
+     .     NGL, AREA,
+     .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4,Y234,Y124)
-      CALL QDLEN2(IPARG(63), 
-     .     AREA, DELTAX, 
+      CALL QDLEN2(IPARG(63),
+     .     AREA, DELTAX,
      .     Y1, Y2, Y3, Y4,
      .     Z1, Z2, Z3, Z4)
       IF(JEUL/=0) CALL EDLEN2(VEUL(1,NF1), AREA, DELTAX)
@@ -315,7 +315,7 @@ C
      .            MAT     ,IPM     ,NSIGS      ,NUMQUAD      ,PTQUAD  ,
      .            IP      ,NGL     ,NPF        ,TF           ,BUFMAT  ,
      .            GBUF    ,LBUF    ,MBUF       ,ELBUF_STR    ,ILOADP  ,
-     .            FACLOAD, DELTAX)  
+     .            FACLOAD, DELTAX)
 C
         ENDDO
       ENDDO
@@ -343,7 +343,7 @@ C-------------------------------------------
 C      CALCUL DES DT ELEMENTAIRES
 C-------------------------------------------
        CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AREA, 
+     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AREA,
      .     GBUF%VOL, DTX, IGEO)
        DO 10 I=LFT,LLT
         IF(IXQ(6,I+NFT)/=0) THEN

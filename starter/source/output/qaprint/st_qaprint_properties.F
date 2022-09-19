@@ -55,7 +55,7 @@ C-----------------------------------------------
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MY_ID, MY_PID, 
+      INTEGER I, MY_ID, MY_PID,
      .        IADBUF, NUPARAM, IADMAT, NJMAT, IADPID, NJPID, IADFUN, NJFUN, IADTAB, NJTAB
       CHARACTER *nchartitle TITR
       CHARACTER (LEN=255) :: VARNAME
@@ -65,7 +65,7 @@ C=======================================================================
       IF (MYQAKEY('PROPERTIES')) THEN
 
         DO MY_PID=1,NUMGEO
-        CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,MY_PID),LTITR) 
+        CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,MY_PID),LTITR)
 C
 C         Le Titr de la PID sert de nom de la variable dans le ref.extract , suivi de l'ID de la PID 
 C         2 PIDs peuvent avoir le meme titre
@@ -152,7 +152,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
         END DO
-c          
+c
         DO MY_PID=1,NS_STACK
           MY_ID = MY_PID
           CALL QAPRINT('STACK_NAME_NO', MY_ID,0.0_8)
@@ -164,7 +164,7 @@ c
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             END IF
           END DO
-c                  
+c
           DO I=1,6*NPT_STACK+1
             IF (GEO_STACK(I,MY_PID) /= ZERO) THEN
               WRITE(VARNAME,'(A,I0)') 'STACK_GEO_',I
@@ -172,15 +172,15 @@ c
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             END IF
           END DO
-c        
+c
           DO I=1,3*NPT_STACK+2
             IF (IGEO_STACK(I,MY_PID) /= 0) THEN
-              WRITE(VARNAME,'(A,I0)') 'STACK_IGEO_',I     
+              WRITE(VARNAME,'(A,I0)') 'STACK_IGEO_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IGEO_STACK(I,MY_PID),0.0_8)
             END IF
-          END DO                
+          END DO
         END DO
-c        
+c
       END IF
 C-----------------------------------------------------------------------
       RETURN

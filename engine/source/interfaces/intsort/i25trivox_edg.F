@@ -52,7 +52,7 @@ Chd|====================================================================
      C      CANDM_E2S,CANDS_E2S,CAND_B,CAND_PS,GAPE ,
      D      GAP_E_L,NEDGE_LOCAL,IFQ,CANDE2E_FX ,CANDE2E_FY,
      E      CANDE2E_FZ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E,IFPEN_E2S,
-     F      KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ, 
+     F      KREMNODE_EDG_SIZ,REMNODE_EDG_SIZ,KREMNODE_E2S_SIZ,REMNODE_E2S_SIZ,
      G      DGAPLOAD   )
 C============================================================================
 C   M o d u l e s
@@ -74,7 +74,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -122,7 +122,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_STOK, SOL_EDGE, SH_EDGE, 
+      INTEGER I,J,I_STOK, SOL_EDGE, SH_EDGE,
      .        N1,N2,NN,NE,K,L,J_STOK,II,JJ,NA,NB,
      .        PROV_S(MVSIZ),PROV_M(MVSIZ),
      .        M,NS1,NS2,NSE,NS,SIZE,Z_FIRST,Z_LAST
@@ -146,7 +146,7 @@ c provisoire
      .   ZMAX_EDGS, ZMIN_EDGS,
      .   XMAX_EDGM, XMIN_EDGM,
      .   YMAX_EDGM, YMIN_EDGM,
-     .   ZMAX_EDGM, ZMIN_EDGM   
+     .   ZMAX_EDGM, ZMIN_EDGM
       my_real :: G ! gap
       INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGEDG
       INTEGER :: EDGE_TYPE
@@ -159,11 +159,11 @@ C-----------------------------------------------
       INTEGER IDS(4), PROV_IDS(2,MVSIZ)
 
 C-----------------------------------------------
-      INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGREMLINE    
+      INTEGER, DIMENSION(:), ALLOCATABLE ::  TAGREMLINE
 C-----------------------------------------------
 C
       DRAD2 =ZERO
-    
+
       IF(FLAGREMNODE==2) THEN
         ALLOCATE(TAGREMLINE(NEDGE))
         TAGREMLINE(1:NEDGE) = 0
@@ -180,8 +180,8 @@ C
       MIN_IZ=NBZ+2
       MAX_IX=1
       MAX_IY=1
-      MAX_IZ=1      
-      
+      MAX_IZ=1
+
       !---------------------------------------------------------!
       ! Allocation des tableaux chaines                         !
       !---------------------------------------------------------!
@@ -195,7 +195,7 @@ C
 C     Barrier to wait init voxel and allocation 
       CALL MY_BARRIER
 C
-      XMIN = XYZM(1)  
+      XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
       XMAX = XYZM(4)
@@ -229,37 +229,37 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
           IF(LEDGE(7,I) < 0) CYCLE   ! larete nest pas une arete second
           N1 = LEDGE(5,I)
           N2 = LEDGE(6,I)
-          EID = LEDGE(8,I) 
-          
+          EID = LEDGE(8,I)
+
           XX1=X(1,N1)
           XX2=X(1,N2)
           YY1=X(2,N1)
-          YY2=X(2,N2) 
+          YY2=X(2,N2)
           ZZ1=X(3,N1)
           ZZ2=X(3,N2)
           DEBUG_E2E(EID == D_ES,EID)
         ELSE IF(I > NEDGE) THEN
-          XX1=XREM_EDGE(E_X1,I-NEDGE) 
-          XX2=XREM_EDGE(E_X2,I-NEDGE)      
-          YY1=XREM_EDGE(E_Y1,I-NEDGE)      
-          YY2=XREM_EDGE(E_Y2,I-NEDGE)      
-          ZZ1=XREM_EDGE(E_Z1,I-NEDGE)      
-          ZZ2=XREM_EDGE(E_Z2,I-NEDGE)      
+          XX1=XREM_EDGE(E_X1,I-NEDGE)
+          XX2=XREM_EDGE(E_X2,I-NEDGE)
+          YY1=XREM_EDGE(E_Y1,I-NEDGE)
+          YY2=XREM_EDGE(E_Y2,I-NEDGE)
+          ZZ1=XREM_EDGE(E_Z1,I-NEDGE)
+          ZZ2=XREM_EDGE(E_Z2,I-NEDGE)
           EID = IREM_EDGE(E_GLOBAL_ID,I-NEDGE)
           DEBUG_E2E(EID == D_ES,EID)
         ELSE
           ! Secondary edge is boundary between domains
           ! ISPMD is not the owner of this edge
           ASSERT(NSPMD > 1)
-          CYCLE 
+          CYCLE
         ENDIF
         DEBUG_E2E(EID==D_ES,IGAP0)
-       
+
         IF(IGAP0 == 0)THEN
           XMAX_EDGS=MAX(XX1,XX2);
-          XMIN_EDGS=MIN(XX1,XX2);             
+          XMIN_EDGS=MIN(XX1,XX2);
           YMAX_EDGS=MAX(YY1,YY2);
-          YMIN_EDGS=MIN(YY1,YY2);         
+          YMIN_EDGS=MIN(YY1,YY2);
           ZMAX_EDGS=MAX(ZZ1,ZZ2);
           ZMIN_EDGS=MIN(ZZ1,ZZ2);
           DEBUG_E2E(EID==D_ES,XMIN_EDGS)
@@ -282,25 +282,25 @@ C         PRINTIF((STFE(I) == 0 .AND.LEDGE(6,I) == D_ES),STFE(I))
           IF(ZMIN_EDGS > ZMAX) CYCLE
 
         ELSE
-          IF(I <= NEDGE) THEN 
+          IF(I <= NEDGE) THEN
              G = GAPE(I)
           ELSE
-             G = XREM_EDGE(E_GAP,I-NEDGE) 
+             G = XREM_EDGE(E_GAP,I-NEDGE)
           END IF
 
 
 C         REACTIVER LES CYCLES
 c         XMAX_EDGS=MAX(XX1,XX2)+G; IF(XMAX_EDGS < XMIN) CYCLE
-c         XMIN_EDGS=MIN(XX1,XX2)-G; IF(XMIN_EDGS > XMAX) CYCLE 
+c         XMIN_EDGS=MIN(XX1,XX2)-G; IF(XMIN_EDGS > XMAX) CYCLE
 c         YMAX_EDGS=MAX(YY1,YY2)+G; IF(YMAX_EDGS < YMIN) CYCLE
-c         YMIN_EDGS=MIN(YY1,YY2)-G; IF(YMIN_EDGS > YMAX) CYCLE 
+c         YMIN_EDGS=MIN(YY1,YY2)-G; IF(YMIN_EDGS > YMAX) CYCLE
 c         ZMAX_EDGS=MAX(ZZ1,ZZ2)+G; IF(ZMAX_EDGS < ZMIN) CYCLE
 c         ZMIN_EDGS=MIN(ZZ1,ZZ2)-G; IF(ZMIN_EDGS > ZMAX) CYCLE
 
           XMAX_EDGS=MAX(XX1,XX2)+G;
-          XMIN_EDGS=MIN(XX1,XX2)-G; 
+          XMIN_EDGS=MIN(XX1,XX2)-G;
           YMAX_EDGS=MAX(YY1,YY2)+G;
-          YMIN_EDGS=MIN(YY1,YY2)-G; 
+          YMIN_EDGS=MIN(YY1,YY2)-G;
           ZMAX_EDGS=MAX(ZZ1,ZZ2)+G;
           ZMIN_EDGS=MIN(ZZ1,ZZ2)-G;
 
@@ -340,15 +340,15 @@ C         IF(ZMIN_EDGS > ZMAX) CYCLE
         IX2=MAX(1,2+MIN(NBX,IX2))
         IY2=MAX(1,2+MIN(NBY,IY2))
         IZ2=MAX(1,2+MIN(NBZ,IZ2))
-        
+
         !pour reset des voxel
         MIN_IX = MIN(MIN_IX,IX1)
         MIN_IY = MIN(MIN_IY,IY1)
-        MIN_IZ = MIN(MIN_IZ,IZ1)          
+        MIN_IZ = MIN(MIN_IZ,IZ1)
         MAX_IX = MAX(MAX_IX,IX2)
         MAX_IY = MAX(MAX_IY,IY2)
-        MAX_IZ = MAX(MAX_IZ,IZ2)                                     
- 
+        MAX_IZ = MAX(MAX_IZ,IZ2)
+
         !----------------------------------------------!
         ! EDGE STORAGE FOR EACH VOXEL (CHAINED ARRAY)  !
         !----------------------------------------------!
@@ -379,7 +379,7 @@ C                          +------------+-----------+
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
           DO IX = IX1,IX2
- 
+
                 FIRST_ADD = VOXEL(IX,IY,IZ)
 
                 IF(FIRST_ADD == 0)THEN
@@ -387,7 +387,7 @@ C                          +------------+-----------+
                  VOXEL(IX,IY,IZ)          = CURRENT_ADD ! adresse dans le tableau chaine de la premiere eddge trouvee occupant le voxel
                  LCHAIN_LAST(CURRENT_ADD) = CURRENT_ADD ! dernier=adresse pour l edge courante
                  LCHAIN_ELEM(CURRENT_ADD) = I               ! edge ID
-                 LCHAIN_NEXT(CURRENT_ADD) = 0               ! pas de suivant car dernier de la liste   ! 
+                 LCHAIN_NEXT(CURRENT_ADD) = 0               ! pas de suivant car dernier de la liste   !
                 ELSE
                  !voxel contenant deja une edge
                  PREV_ADD                 = LCHAIN_LAST(FIRST_ADD) ! devient l'avant-dernier
@@ -397,17 +397,17 @@ C                          +------------+-----------+
                  LCHAIN_NEXT(CURRENT_ADD) = 0                          ! pas de suivant car dernier de la liste
                 ENDIF
 
-                CURRENT_ADD = CURRENT_ADD+1 
+                CURRENT_ADD = CURRENT_ADD+1
 
                 IF( CURRENT_ADD>=MAX_ADD)THEN
                  !OPTIMISATION : suprresion du deallocate/GOTO debut.
                  !REALLOCATE SI PAS ASSEZ DE PLACE : inutile de recommencer de 1 a MAX_ADD-1, on poursuit de MAX_ADD a 2*MAX_ADD
-                 MAX_ADD = 2 * MAX_ADD        
+                 MAX_ADD = 2 * MAX_ADD
                  !print *, "reallocate"
                  LCHAIN_NEXT => IREALLOCATE(LCHAIN_NEXT, MAX_ADD)
                  LCHAIN_ELEM => IREALLOCATE(LCHAIN_ELEM, MAX_ADD)
-                 LCHAIN_LAST => IREALLOCATE(LCHAIN_LAST, MAX_ADD)                               
-                ENDIF                         
+                 LCHAIN_LAST => IREALLOCATE(LCHAIN_LAST, MAX_ADD)
+                ENDIF
 
            ENDDO !IX
           ENDDO !IY
@@ -508,8 +508,8 @@ C--- IREMGAP - tag of deactivated lines
 
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
-          DO IX = IX1,IX2        
-          
+          DO IX = IX1,IX2
+
             CHAIN_ADD = VOXEL(IX,IY,IZ)       ! adresse dans le tableau chaine de la premiere edge stoquee dans le voxel
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
@@ -525,27 +525,27 @@ C--- IREMGAP - tag of deactivated lines
               IF (JJ<=NEDGE)THEN
                 SS1= ITAB(LEDGE(5,JJ))
                 SS2= ITAB(LEDGE(6,JJ))
-                EID = LEDGE(8,JJ) 
-              ELSE 
+                EID = LEDGE(8,JJ)
+              ELSE
                 SS1=IREM_EDGE(E_NODE1_GLOBID,JJ-NEDGE)
-                SS2=IREM_EDGE(E_NODE2_GLOBID,JJ-NEDGE) 
+                SS2=IREM_EDGE(E_NODE2_GLOBID,JJ-NEDGE)
                 EID = IREM_EDGE(E_GLOBAL_ID,JJ-NEDGE)
               END IF
-              
+
               IF( (SS1==MM1).OR.(SS1==MM2).OR.
      .            (SS2==MM1).OR.(SS2==MM2)    )THEN
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
-              
+
               IF(ILEV==2)THEN
                 IF(JJ <= NEDGE) THEN
                   ISS1=BITGET(EBINFLG(JJ),0)
                   ISS2=BITGET(EBINFLG(JJ),1)
                 ELSE
 C                 double-check
-                  ISS1 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0) 
-                  ISS2 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1) 
+                  ISS1 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0)
+                  ISS2 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1)
                 ENDIF
 
                 IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
@@ -556,17 +556,17 @@ C                 double-check
               ENDIF
 
               IF( JJ <= NEDGE) THEN
-                EDGE_TYPE = LEDGE(7,JJ)  
+                EDGE_TYPE = LEDGE(7,JJ)
               ELSE
                 EDGE_TYPE = IREM_EDGE(E_TYPE ,JJ - NEDGE)
               ENDIF
 
               IF(IABS(LEDGE(7,IEDG))/=1 .AND. EDGE_TYPE /= 1 )THEN
-                ! attention les traitements de i25dst3e pour les solides 
+                ! attention les traitements de i25dst3e pour les solides
                 ! ne sont pas symetriques main second.
                 AS1 = MIN(SS1,SS2)
                 AS2 = MAX(SS1,SS2)
-                ! unicite des couples   
+                ! unicite des couples
                 IF(AM1 < AS1 .OR. (AM1 == AS1 .AND. AM2 < AS2))THEN
                   CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                   CYCLE
@@ -609,17 +609,17 @@ C-                Remote lines are identified by nodes
                     CYCLE
                   ENDIF
                 ENDIF
-              ENDIF  
+              ENDIF
 
               J_STOK = J_STOK + 1 !on dispose d'un candidat
-              ASSERT(JJ > 0) 
+              ASSERT(JJ > 0)
               ASSERT(JJ <= NEDGE + NEDGE_REMOTE)
               PROV_S(J_STOK) = JJ      !edge secnd
               PROV_M(J_STOK) = IEDG    !edge main
-                                                            
+
               DEBUG_E2E(LEDGE(8,IEDG) ==  D_EM .AND. EID == D_ES,EID)
-                                                            
-c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)                 
+
+c              IF(DEJA==0) NEDG = NEDG + 1     !nombre d edges candidate au calcul de contact (debug)
 c              DEJA=1                          !l edge main IEDG fait l'objet d'une ecriture de candidat. On compte les edges main faisant l'objet dun couple candidate : on ne doit plus incrementer NEDG pour les autres edge secnd testees.
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
 C-----------------------------------------------------
@@ -634,21 +634,21 @@ C-----------------------------------------------------
      7               DGAPLOAD)
                 IF(I_MEM(1)/=0) GOTO 300
                 J_STOK = 0
-              ENDIF                 
+              ENDIF
 C-----------------------------------------------------                   
 
               ENDDO ! WHILE(CHAIN_ADD /= 0)
 
           ENDDO   !NEXT IZ
          ENDDO    !NEXT IY
-        ENDDO     !NEXT IZ 
+        ENDDO     !NEXT IZ
 
 C       Reset TAGEDG
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
-          DO IX = IX1,IX2        
- 
-            CHAIN_ADD = VOXEL(IX,IY,IZ)      
+          DO IX = IX1,IX2
+
+            CHAIN_ADD = VOXEL(IX,IY,IZ)
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
 
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
@@ -660,7 +660,7 @@ C       Reset TAGEDG
 
           ENDDO   !NEXT IZ
          ENDDO    !NEXT IY
-        ENDDO     !NEXT IZ 
+        ENDDO     !NEXT IZ
 
 
 C--- IREMGAP - clean of tagremline
@@ -686,7 +686,7 @@ C-------------------------------------------------------------------------
      5                 GAPE  ,GAP_E_L,ADMSR  ,EDG_BISECTOR,VTX_BISECTOR ,
      6                 CAND_P,IFQ,CANDE2E_FX ,CANDE2E_FY,CANDE2E_FZ,IFPEN_E,
      7                 DGAPLOAD)
- 
+
  300  CONTINUE
 C=======================================================================
 C     Sorting vs main solid edges
@@ -748,7 +748,7 @@ C=======================================================================
         ZMAX_EDGM=ZMAX_EDGM+DZ
         ZMIN_EDGM=ZMIN_EDGM-DZ
 
-        AAA = MARGE+BGAPEMX+DGAPLOAD ! filtrer vs GAPE(JJ) dans i25pen3_edg ! 
+        AAA = MARGE+BGAPEMX+DGAPLOAD ! filtrer vs GAPE(JJ) dans i25pen3_edg !
 
         !-------------------------------------------!
         !  VOXEL OCCUPIED BY THE BRICK              !
@@ -798,8 +798,8 @@ C--- IREMGAP - tag of deactivated lines
 
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
-          DO IX = IX1,IX2        
-          
+          DO IX = IX1,IX2
+
             CHAIN_ADD = VOXEL(IX,IY,IZ)       ! adresse dans le tableau chaine de la premiere edge stoquee dans le voxel
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
@@ -823,7 +823,7 @@ C--- IREMGAP - tag of deactivated lines
                 SS2= ITAB(LEDGE(6,JJ))
               ELSE
                 SS1=IREM_EDGE(E_NODE1_GLOBID,JJ-NEDGE)
-                SS2=IREM_EDGE(E_NODE2_GLOBID,JJ-NEDGE) 
+                SS2=IREM_EDGE(E_NODE2_GLOBID,JJ-NEDGE)
               END IF
 
               IF((SS1==MM1).OR.(SS1==MM2).OR.(SS1==MM3).OR.(SS1==MM4).OR.
@@ -831,14 +831,14 @@ C--- IREMGAP - tag of deactivated lines
                 CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD)
                 CYCLE
               END IF
-             
+
               IF(ILEV==2)THEN
                 IF(JJ <= NEDGE) THEN
                   ISS1=BITGET(EBINFLG(JJ),0)
                   ISS2=BITGET(EBINFLG(JJ),1)
                 ELSE
-                  ISS1 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0) 
-                  ISS2 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1) 
+                  ISS1 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),0)
+                  ISS2 = BITGET(IREM_EDGE(E_EBINFLG,JJ-NEDGE),1)
                 ENDIF
                 IF(.NOT.((IMS1 == 1 .and. ISS2==1).or.
      .                   (IMS2 == 1 .and. ISS1==1)))THEN
@@ -896,7 +896,7 @@ C DEBUG ONLY
 #endif
 
 
-              ASSERT(JJ > 0) 
+              ASSERT(JJ > 0)
               ASSERT(JJ <= NEDGE + NEDGE_REMOTE)
 C-----------------------------------------------------
               IF(J_STOK==NVSIZ)THEN
@@ -909,10 +909,10 @@ C-----------------------------------------------------
      6               EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
      7               IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S,
      8               DGAPLOAD)
-                 
+
                 IF(I_MEM(2)/=0) GOTO 400
                 J_STOK = 0
-              ENDIF                 
+              ENDIF
 C-----------------------------------------------------                   
 
               CHAIN_ADD = LCHAIN_NEXT(CHAIN_ADD) ! Next RTM
@@ -921,14 +921,14 @@ C-----------------------------------------------------
 
           ENDDO   !NEXT IZ
          ENDDO    !NEXT IY
-        ENDDO     !NEXT IZ 
+        ENDDO     !NEXT IZ
 
 C       Reset TAGEDG
         DO IZ = IZ1,IZ2
          DO IY = IY1,IY2
-          DO IX = IX1,IX2        
- 
-            CHAIN_ADD = VOXEL(IX,IY,IZ)      
+          DO IX = IX1,IX2
+
+            CHAIN_ADD = VOXEL(IX,IY,IZ)
             DO WHILE(CHAIN_ADD /= 0)          ! BOUCLE SUR LES EDGES DU VOXEL COURANT
 
               JJ = LCHAIN_ELEM(CHAIN_ADD)       ! numeros des edge_id balayes dans le voxel courant
@@ -940,7 +940,7 @@ C       Reset TAGEDG
 
           ENDDO   !NEXT IZ
          ENDDO    !NEXT IY
-        ENDDO     !NEXT IZ 
+        ENDDO     !NEXT IZ
 
 C--- IREMGAP - clean of tagremline
         IF(FLAGREMNODE==2)THEN
@@ -964,7 +964,7 @@ C-------------------------------------------------------------------------
      6                 EDG_BISECTOR,VTX_BISECTOR ,CAND_PS,PROV_IDS,
      7                 IFQ,CANDE2S_FX ,CANDE2S_FY,CANDE2S_FZ,IFPEN_E2S,
      8                 DGAPLOAD)
- 
+
 C=======================================================================
 C 4   remise a zero des noeuds dans les boites
 C=======================================================================
@@ -989,7 +989,7 @@ C=======================================================================
 
 
  400  CONTINUE
-      
+
 
 
 C Barrier to avoid reinitialization before end of sorting
@@ -1002,8 +1002,8 @@ C Barrier to avoid reinitialization before end of sorting
       TMAX(1) = MAX_IX
       TMAX(2) = MAX_IY
       TMAX(3) = MAX_IZ
-      
-      IF (ITASK==0)THEN   
+
+      IF (ITASK==0)THEN
         !RESET VOXEL WITHIN USED RANGE ONLY
         DO K= TMIN(3),TMAX(3)
           DO J= TMIN(2),TMAX(2)
@@ -1011,12 +1011,12 @@ C Barrier to avoid reinitialization before end of sorting
                 VOXEL(I,J,K) = 0
              END DO
           END DO
-        END DO 
+        END DO
         !CHAINED LIST DEALLOCATION
         DEALLOCATE(LCHAIN_NEXT)
         DEALLOCATE(LCHAIN_ELEM)
-        DEALLOCATE(LCHAIN_LAST)   
-        IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)               
+        DEALLOCATE(LCHAIN_LAST)
+        IF(FLAGREMNODE==2) DEALLOCATE(TAGREMLINE)
       ENDIF
 
       DEALLOCATE(TAGEDG)

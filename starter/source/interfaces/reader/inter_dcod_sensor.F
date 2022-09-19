@@ -96,14 +96,14 @@ C
          IF(IPARI(64)/=0) THEN
               IERR1 = 1
             DO J=1,NSENSOR
-               IF (LSENSOR(1,J)==IPARI(64) ) THEN  
+               IF (LSENSOR(1,J)==IPARI(64) ) THEN
                   IPARI(64) = J
                   IERR1 = 0
                ENDIF
             ENDDO
          ENDIF
 C                
-         IF(IERR1 == 1) THEN    
+         IF(IERR1 == 1) THEN
             CALL ANCMSG(MSGID=1010,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,

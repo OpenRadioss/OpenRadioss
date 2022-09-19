@@ -43,9 +43,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE SPHBOX
-      USE ELBUFDEF_MOD 
-      USE MESSAGE_MOD 
-      USE SOLTOSPH_MOD        
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
+      USE SOLTOSPH_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,8 +66,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*),
-     .        IPARTSP(*), IPARG(NPARG,*), NGROUNC, 
-     .        IGROUNC(*), ITASK, IXSP(KVOISPH,*), NOD2SP(*), 
+     .        IPARTSP(*), IPARG(NPARG,*), NGROUNC,
+     .        IGROUNC(*), ITASK, IXSP(KVOISPH,*), NOD2SP(*),
      .        SOL2SPH(2,*), WASPACT(*)
       my_real
      .        X(3,*), SPBUF(NSPBUF,*)
@@ -80,8 +80,8 @@ C-----------------------------------------------
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       IF(ITASK==0)THEN
         ALLOCATE(WSPCLOUD(NUMSPH),STAT=IERROR)

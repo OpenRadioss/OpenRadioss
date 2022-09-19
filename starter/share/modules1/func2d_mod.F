@@ -34,7 +34,7 @@ Chd|        ST_QAPRINT_MODEL_TOOLS        source/output/qaprint/st_qaprint_model
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE FUNC2D_MOD
-#include "my_real.inc"   
+#include "my_real.inc"
       TYPE FUNC2D_STRUCT
       INTEGER :: ID, NPT, DIM
       my_real, DIMENSION(:, :), ALLOCATABLE :: XVAL

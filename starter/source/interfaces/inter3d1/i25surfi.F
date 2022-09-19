@@ -314,7 +314,7 @@ C for inteply activation needed for Plyxfem + Type24
 !!                IAD = IAD+1
               ENDDO
             ENDDO
-         ENDIF 
+         ENDIF
       ENDIF
 c-----------------------------------------------------------------
 c     noeuds de la surface S2 : build TAGS,set NSV,MSR if IALLO= 2
@@ -397,7 +397,7 @@ C=======================================================================
 c-----------------------------------------------------------------
 c     nombre de noeuds dans l'interface(SECONDARY+MAIN)
 c-----------------------------------------------------------------
-      IF(IALLO == 2) THEN 
+      IF(IALLO == 2) THEN
        NLN   = IPARI(35)
        IPARI(51) = NLS1
        IPARI(52) = NLS2
@@ -489,7 +489,7 @@ C--------coating shell <=> MSEGTYP(I) > NRTM
          MSEGTYP(I) =  NR+NRTM
          MSEGTYP(NR)=-(I+NRTM)
          IF(IMBIN/=0) MBINFLG(NR)=MBINFLG(I)
-        ELSEIF(ETYP(I) ==4 .OR. ETYP(I) ==8) THEN 
+        ELSEIF(ETYP(I) ==4 .OR. ETYP(I) ==8) THEN
          NR =NR +1
          IRECT(1,NR)=IRECT(2,I)
          IRECT(2,NR)=IRECT(1,I)

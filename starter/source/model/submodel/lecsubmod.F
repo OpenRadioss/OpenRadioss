@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  ITABM1(*),ISUBMOD(*),ITAB(*)
       my_real
      .   X(3,*),RTRANS(NTRANSF,*)
@@ -119,7 +119,7 @@ C=======================================================================
         ALLOCATE( IDNODSUB(NUMNUSR) )
         DO I=1,NUMNUSR
          IDNODSUB(I)=I
-        ENDDO 
+        ENDDO
       ENDIF
 C--------------------------------------------------
 C      TAG SUBMODEL NODES DYNA
@@ -134,7 +134,7 @@ C we have  IDNODSUB(1:NUMNUSR) => 1:NUMNOD
         CALL MY_ORDERS( 0, WORK, ITAB, INDEX1, NUMNOD , 1)
 
         I = 1
-        J = 1 
+        J = 1
         DO WHILE(J <= NUMNUSR .AND. I <= NUMNOD)
 C         TAGNODSUB(1:NUMNOD) TAGNODSUB_TMP(1:NUMNUSR) 
           IF(ITAB(INDEX1(I)) == IDNODSUB(INDEX(J))) THEN
@@ -158,10 +158,10 @@ C Recherche des ID doubles
 C-------------------------------------
 c      CALL UDOUBLE(ISUBMOD,LSUBMOD,NSUBMOD,MESS,0,BID)
 C-------------------------
-c dim LSUBMODEL(I)%IDTRANS()     
+c dim LSUBMODEL(I)%IDTRANS()
 C-------------------------
       CALL HM_OPTION_COUNT('TRANSFORM',NTRANS)
-      CALL HM_OPTION_START('TRANSFORM') 
+      CALL HM_OPTION_START('TRANSFORM')
       DO I=1,NTRANS
         TITR = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -177,21 +177,21 @@ C-------------------------
             IF (LSUBMODEL(J)%NOSUBMOD == ITRANSSUB) THEN
               LSUBMODEL(J)%NBTRANS = LSUBMODEL(J)%NBTRANS + 1
               EXIT
-            ENDIF 
+            ENDIF
           ENDDO
         ENDIF
       ENDDO
       DO I=1,NSUBMOD
         SIDTRANS = LSUBMODEL(I)%NBTRANS
-        ALLOCATE(LSUBMODEL(I)%IDTRANS(SIDTRANS)) 
+        ALLOCATE(LSUBMODEL(I)%IDTRANS(SIDTRANS))
         LSUBMODEL(I)%IDTRANS = 0
-      ENDDO   
+      ENDDO
 C----
 C-------------------------
-c build LSUBMODEL(I)%IDTRANS() 
+c build LSUBMODEL(I)%IDTRANS()
 C------------------------- 
       IDSUBOK = 0
-      CALL HM_OPTION_START('TRANSFORM') 
+      CALL HM_OPTION_START('TRANSFORM')
       DO I=1,NTRANS
         TITR = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -206,9 +206,9 @@ C----
             IF (LSUBMODEL(J)%NOSUBMOD == ITRANSSUB) THEN
               IDSUBOK(J) = IDSUBOK(J)+1
               LSUBMODEL(J)%IDTRANS(IDSUBOK(J)) = I
-              ISUBOK = 1 
+              ISUBOK = 1
               EXIT
-            ENDIF 
+            ENDIF
           ENDDO
         ENDIF
         IF (ITRANSSUB /= 0 .AND. ISUBOK == 0) THEN
@@ -228,7 +228,7 @@ C-------------------------
        CUR_SUBMOD = I
        SUB_LEVEL = LSUBMODEL(I)%LEVEL
        DO WHILE (SUB_LEVEL /= 0)
-        IF (LSUBMODEL(CUR_SUBMOD)%NBTRANS /= 0) THEN 
+        IF (LSUBMODEL(CUR_SUBMOD)%NBTRANS /= 0) THEN
          DO J = 1,LSUBMODEL(CUR_SUBMOD)%NBTRANS
           ITY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),2)
           IF(ITY == 1)THEN
@@ -253,7 +253,7 @@ C-------------------------
             DO K=1,NUMNOD
               IF(TAGNODSUB(K) == I)  CALL EULER_VROT(X0,X(1,K),ROT)
             ENDDO
-          ELSEIF(ITY == 3)THEN 
+          ELSEIF(ITY == 3)THEN
             TX = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),15)
             TY = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),16)
             TZ = RTRANS(LSUBMODEL(CUR_SUBMOD)%IDTRANS(J),17)
@@ -285,10 +285,10 @@ C-------------------------
                 XP = X(1,K) - XCOLD(1)
                 YP = X(2,K) - XCOLD(2)
                 ZP = X(3,K) - XCOLD(3)
-                X(1,K) = XCNEW(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP                        
-                X(2,K) = XCNEW(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP                         
-                X(3,K) = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP      
-              END IF                   
+                X(1,K) = XCNEW(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP
+                X(2,K) = XCNEW(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP
+                X(3,K) = XCNEW(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP
+              END IF
             ENDDO
           ENDIF
          ENDDO
@@ -307,13 +307,13 @@ C-------------------------
 C-------------------------
 c MAKE TRANSFORMATION ON SUBMODEL NODES
 C-------------------------   
-c      IF (IPRI > 5) THEN 
-c        IF (ITRANSSUB > 0) WRITE (IOUT,100)                                           
-c        WRITE (IOUT,1000)                                            
-c        DO K=1,NUMNOD                                                
-c          WRITE(IOUT,1500) ITAB(K),X(1,K),X(2,K),X(3,K)                                
+c      IF (IPRI > 5) THEN
+c        IF (ITRANSSUB > 0) WRITE (IOUT,100)
+c        WRITE (IOUT,1000)
+c        DO K=1,NUMNOD
+c          WRITE(IOUT,1500) ITAB(K),X(1,K),X(2,K),X(3,K)
 c        ENDDO
-c      ENDIF 
+c      ENDIF
 C-------------------------
 c 100  FORMAT(//
 c     .'  NODAL TRANSFORMATIONS       '/,

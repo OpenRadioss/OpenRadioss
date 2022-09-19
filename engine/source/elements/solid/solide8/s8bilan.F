@@ -53,7 +53,7 @@ C     REAL
      .   PARTSAV(NPSAV,*), EINT(*), RHO(*), RK(*), VOL(*),
      .   VNEW(MVSIZ), VX(MVSIZ,8),VY(MVSIZ,8),VZ(MVSIZ,8),
      .   GRESAV(*), X(MVSIZ,8), Y(MVSIZ,8), Z(MVSIZ,8)
-      INTEGER 
+      INTEGER
      .   IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),ITASK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NC(8,MVSIZ)
 C     REAL
       my_real
-     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ),
      .   VA2(MVSIZ), XMAS(MVSIZ), RBIDON(1),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
@@ -183,7 +183,7 @@ C
           PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-          PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
         ENDDO
       ENDIF
 C
@@ -211,7 +211,7 @@ C
       DO I=LFT,LLT
             OFF_L(I) = ONE
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
       RETURN
       END

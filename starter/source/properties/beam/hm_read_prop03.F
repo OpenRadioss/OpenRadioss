@@ -41,7 +41,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(*)
       INTEGER IGTYP,IG
       my_real
@@ -77,8 +77,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ISMSTR,ISHEAR,IHBE,
-     .   IHBE_OLD, 
-     .   IR1X, IR1Y, IR1Z, IR2X, IR2Y, IR2Z,IRX 
+     .   IHBE_OLD,
+     .   IR1X, IR1Y, IR1Z, IR2X, IR2Y, IR2Z,IRX
       my_real
      .    PUN,CVIS
       CHARACTER STRING*ncharfield,CHROT*7

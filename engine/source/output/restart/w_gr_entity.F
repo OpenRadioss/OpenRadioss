@@ -69,7 +69,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (IGROUP(LENIGR), STAT=ERR)
-      IGROUP(1:LENIGR) = 0  
+      IGROUP(1:LENIGR) = 0
       L_GROUP = 0
 !
       DO IGU=1,NGR

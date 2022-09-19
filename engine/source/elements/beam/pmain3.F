@@ -63,11 +63,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT,JLT,NEL,MTN,NPT,JTHE    
+      INTEGER JFT,JLT,NEL,MTN,NPT,JTHE
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),PID(*),MAT(*),NPF(*),NGL(*)
-      my_real 
+      my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),EPSP(MVSIZ),BUFMAT(*),
-     .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ), 
+     .   OFF(*),EINT(NEL,2),TF(*),AL(MVSIZ),
      .   FOR(NEL,3),MOM(NEL,3),EXX(MVSIZ),EXY(MVSIZ),
      .   EXZ(MVSIZ),KXX(MVSIZ),KYY(MVSIZ),KZZ(MVSIZ),
      .   F1(MVSIZ),F2(MVSIZ),F3(MVSIZ),M1(MVSIZ),M2(MVSIZ),M3(MVSIZ),
@@ -79,27 +79,27 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I1(MVSIZ),IFUNC(100)
       INTEGER I,J1,IPT,JPLA,NPAR,IADBUF,NFUNC,ISRATE,IPY,IPZ,IPA
-      my_real 
+      my_real
      .   DEGMB(MVSIZ),DEGSH(MVSIZ),DEGFX(MVSIZ),YPT(MVSIZ),ZPT(MVSIZ),
      .   APT(MVSIZ),IXX(MVSIZ),IYY(MVSIZ),IZZ(MVSIZ),ETSE(MVSIZ),
      .   G(MVSIZ),E(MVSIZ),EPSPL(MVSIZ)
-      my_real 
+      my_real
      .   DTINV,ASRATE,EPSPI,DMPM,DMPF,SPE,SPG,RHO,FACT,AREA
 C=======================================================================
 C       STRAIN RATE
 C-------------------
-      DO I=JFT,JLT                                              
+      DO I=JFT,JLT
         EPSPI  = HALF*(EXX(I)**2) + (HALF*EXY(I))**2 + (HALF*EXZ(I))**2
-        EPSPI  = AL(I)*SQRT(THREE*EPSPI)/THREE_HALF                         
-        ISRATE = IPM(3,MAT(I))                             
-        IF (ISRATE > 0) THEN                                    
+        EPSPI  = AL(I)*SQRT(THREE*EPSPI)/THREE_HALF
+        ISRATE = IPM(3,MAT(I))
+        IF (ISRATE > 0) THEN
           ASRATE = MIN(ONE, PM(9,MAT(I))*DT1)
           EPSP(I)= ASRATE*EPSPI + (ONE - ASRATE)*EPSP(I)
-        ELSE       
+        ELSE
           EPSP(I)= EPSPI
-        ENDIF                                                   
-        EPSPL(I) = EPSP(I)                                     
-      ENDDO                      
+        ENDIF
+        EPSPL(I) = EPSP(I)
+      ENDDO
 C-------------------
       DO I=JFT,JLT
         EXX(I) = EXX(I)*DT1
@@ -129,20 +129,20 @@ C
 C-----------------      
       IF (MTN == 2) THEN
         CALL M2LAWPI(ELBUF_STR,
-     1               JFT    ,JLT    ,NPT    ,PM     ,GEO, 
-     2               FOR    ,MOM    ,EINT   ,OFF    ,MAT,   
-     3               PID    ,EPSPL  ,EXX    ,EXY    ,EXZ,  
+     1               JFT    ,JLT    ,NPT    ,PM     ,GEO,
+     2               FOR    ,MOM    ,EINT   ,OFF    ,MAT,
+     3               PID    ,EPSPL  ,EXX    ,EXY    ,EXZ,
      4               KXX    ,KYY    ,KZZ    ,AL     ,NEL)
-      ELSEIF (MTN > 28) THEN   
+      ELSEIF (MTN > 28) THEN
 C---    User laws
         CALL MULAWP(ELBUF_STR,
      1              JFT     ,JLT     ,NEL     ,NPT     ,MTN,
-     2              MAT     ,PID     ,NGL     ,PM      ,IPM,	 
-     3              GEO     ,IGEO    ,OFF     ,FOR     ,MOM,	 
+     2              MAT     ,PID     ,NGL     ,PM      ,IPM,	
+     3              GEO     ,IGEO    ,OFF     ,FOR     ,MOM,	
      4              EINT    ,AL      ,EPSPL   ,BUFMAT  ,NPF,
      5              TF      ,EXX     ,EXY     ,EXZ     ,KXX,
      6              KYY     ,KZZ     ,JTHE    ,TEMPEL)
-       ENDIF      
+       ENDIF
 C-------------------------------------
       DO I=JFT,JLT
         FOR(I,1)=FOR(I,1)*OFF(I)
@@ -155,34 +155,34 @@ C-------------------------------------
 C---------------------------
 C     AMORTISSEMENT
 C---------------------------
-      DTINV = DT1/MAX(DT1**2,EM20)  
+      DTINV = DT1/MAX(DT1**2,EM20)
       IF (IMPL_S > 0 .AND. IDYNA == 0) DTINV = ZERO
 C
-      DO I=JFT,JLT                                             
-        E(I)  = PM(20,MAT(I))                    
-        G(I)  = PM(22,MAT(I))                    
+      DO I=JFT,JLT
+        E(I)  = PM(20,MAT(I))
+        G(I)  = PM(22,MAT(I))
         RHO   = PM(1 ,MAT(I))
         IXX(I)= GEO(4,PID(I))
         IYY(I)= GEO(2,PID(I))
         IZZ(I)= GEO(18,PID(I))
         AREA  = GEO(1 ,PID(I))
-        DMPM  = GEO(16,PID(I)) * AL(I)                                   
+        DMPM  = GEO(16,PID(I)) * AL(I)
         DMPF  = GEO(17,PID(I)) * AL(I)
 C
-        SPE   = DTINV * DMPM * SQRT(TWO*RHO*E(I))             
-        SPG   = DTINV * DMPF * SQRT(TWO*RHO*G(I))                            
-        F1(I) = FOR(I,1) + EXX(I)*SPE*AREA   
-        F2(I) = FOR(I,2) + EXY(I)*SPG*IZZ(I)*TWELVE/AL(I)**2    
-        F3(I) = FOR(I,3) + EXZ(I)*SPG*IYY(I)*TWELVE/AL(I)**2   
+        SPE   = DTINV * DMPM * SQRT(TWO*RHO*E(I))
+        SPG   = DTINV * DMPF * SQRT(TWO*RHO*G(I))
+        F1(I) = FOR(I,1) + EXX(I)*SPE*AREA
+        F2(I) = FOR(I,2) + EXY(I)*SPG*IZZ(I)*TWELVE/AL(I)**2
+        F3(I) = FOR(I,3) + EXZ(I)*SPG*IYY(I)*TWELVE/AL(I)**2
         M1(I) = MOM(I,1) + KXX(I)*SPG*IXX(I)
         M2(I) = MOM(I,2) + KYY(I)*SPG*IYY(I)
         M3(I) = MOM(I,3) + KZZ(I)*SPG*IZZ(I)
-      ENDDO                 
+      ENDDO
 C-------------------------------------
       DO I=JFT,JLT
         DEGMB(I) = DEGMB(I) + FOR(I,1)*EXX(I)
         DEGSH(I) = DEGSH(I) + FOR(I,2)*EXY(I) + FOR(I,3)*EXZ(I)
-        DEGFX(I) = DEGFX(I) 
+        DEGFX(I) = DEGFX(I)
      .           + MOM(I,1)*KXX(I) + MOM(I,2)*KYY(I) + MOM(I,3)*KZZ(I)
         FACT = HALF*OFF(I)*AL(I)
         EINT(I,1)  = EINT(I,1) + FACT*(DEGMB(I)+DEGSH(I))
@@ -192,8 +192,8 @@ C----------------------------
 C     TEST DE RUPTURE
 C---------converged implicit-------------------
       DO I=JFT,JLT
-        IF (OFF(I) == FOUR_OVER_5 .AND. IMCONV == 1) THEN 
-          IDEL7NOK = 1            
+        IF (OFF(I) == FOUR_OVER_5 .AND. IMCONV == 1) THEN
+          IDEL7NOK = 1
 #include "lockon.inc"
           WRITE(IOUT, 1000) NGL(I)
           WRITE(ISTDO,1100) NGL(I),TT
@@ -204,7 +204,7 @@ C
       DO I=JFT,JLT
         IF (OFF(I) < EM01)  OFF(I) = ZERO
         IF (OFF(I) < ONE  )  OFF(I) = OFF(I)*FOUR_OVER_5
-      ENDDO      
+      ENDDO
 C------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT :',I10,' AT TIME :',G11.4)

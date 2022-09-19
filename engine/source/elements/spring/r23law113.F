@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ),PID(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),
      .        MID(MVSIZ)
 C     REAL
-      my_real 
+      my_real
      .   STI(3,MVSIZ),STIR(3,MVSIZ),VISI(MVSIZ),VISIR(MVSIZ),
      .   USTI(MVSIZ),USTIR(MVSIZ),DF(MVSIZ),AL(MVSIZ),UNUSED(MVSIZ),
      .   UINER(MVSIZ),FR_W_E(MVSIZ),OFF(MVSIZ),BID
@@ -130,7 +130,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(6)
 C=======================================================================
-      GBUF => ELBUF_STR%GBUF      
+      GBUF => ELBUF_STR%GBUF
 !
       FX1(1:MVSIZ) = ZERO
       FX2(1:MVSIZ) = ZERO
@@ -189,9 +189,9 @@ C
         DO I=JFT,JLT
           MID(I)     = IXR(5,I)
           IADBUF = IPM(7,MID(I))
-          NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4))) 
+          NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4)))
         ENDDO
-!!   is like r4def3 (spring type113)     
+!!   is like r4def3 (spring type113)
         CALL R23L113DEF3(
      1 SKEW                   ,IPM                    ,IGEO                    ,MID                   ,PID                   ,
      2 GEO                    ,BUFMAT                 ,GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,
@@ -210,8 +210,8 @@ C
      F GBUF%YIELD(II(3))      ,GBUF%YIELD(II(4))       ,GBUF%YIELD(II(5))      ,GBUF%YIELD(II(6))      ,EXX                    ,
      H EYX                   , EZX                     ,EXY                    ,EYY                   , EZY                    ,
      I EXZ                    , EYZ                    ,EZZ                    ,XCR                   , RX1                    ,
-     J RY1                    , RZ1                    ,RX2                    ,RY2                   , RZ2                    , 
-     K XIN                    , AK                     ,XM                     ,XKM                   , XCM                    , 
+     J RY1                    , RZ1                    ,RX2                    ,RY2                   , RZ2                    ,
+     K XIN                    , AK                     ,XM                     ,XKM                   , XCM                    ,
      L XKR                    , VX1                    ,VX2                    ,VY1                   ,VY2                    ,
      I VZ1                    , VZ2                    ,NUVAR                  ,GBUF%VAR              ,GBUF%MASS              ,
      J GBUF%DEFINI(II(1))     ,GBUF%DEFINI(II(2))      ,GBUF%DEFINI(II(3))     ,GBUF%DEFINI(II(4))    ,GBUF%DEFINI(II(5))     ,

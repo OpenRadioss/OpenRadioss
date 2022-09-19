@@ -57,13 +57,13 @@ C----------------------------------------------------------------
       my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO0  (NEL),  EINT(NEL,2),
-     .      EPSPXX(NEL), EPSPYY(NEL),SHF(NEL), 
+     .      EPSPXX(NEL), EPSPYY(NEL),SHF(NEL),
      .      EPSPXY(NEL), EPSPYZ(NEL), EPSPZX(NEL),
-     .      DEPSXX(NEL), DEPSYY(NEL), 
+     .      DEPSXX(NEL), DEPSYY(NEL),
      .      DEPSXY(NEL), DEPSYZ(NEL), DEPSZX(NEL),
-     .      EPSXX (NEL), EPSYY (NEL), 
+     .      EPSXX (NEL), EPSYY (NEL),
      .      EPSXY (NEL), EPSYZ (NEL), EPSZX (NEL),
-     .      SIGOXX(NEL), SIGOYY(NEL), 
+     .      SIGOXX(NEL), SIGOYY(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
      .      THKLY(NEL) ,THK(NEL),AREA(NEL),EDOT(NEL),
      .      ASRATE
@@ -72,15 +72,15 @@ C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      SIGNXX (NEL), SIGNYY (NEL), 
+     .      SIGNXX (NEL), SIGNYY (NEL),
      .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
-     .      SIGVXX (NEL), SIGVYY (NEL), 
+     .      SIGVXX (NEL), SIGVYY (NEL),
      .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
      .      SOUNDSP(NEL), VISCMAX(NEL),ETSE(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -93,7 +93,7 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER I,J,KF,IFLAG,ICORRECT
 
-      my_real 
+      my_real
      .        POISSON,E,E1,E2,G02,BULK0,
      .        GT2,BULKT,LAMDA,LAMDAT,RELVEXP,
      .        VMU2,VLAMDA,VBULK,FAC,
@@ -112,7 +112,7 @@ C----------------------------------------------------------------
      .        SIGAIR(MVSIZ),RELVOL(MVSIZ),ENEW(MVSIZ),
      .        RHO   (MVSIZ),EPSP
 
-      my_real 
+      my_real
      .       SSM,EPSM,EPSPM,EPIN,SMALL,CSHEAR,MIDSTEP,DT05
 C=======================================================================
       SMALL = EM3
@@ -133,7 +133,7 @@ C SET INITIAL MATERIAL CONSTANTS
       GT2    = UPARAM(5)/(ONE+UPARAM(6))
       BULKT  = UPARAM(5)/(ONE-TWO*UPARAM(6))
       VMU2   = TWO*UPARAM(7)
-      VBULK  = THREE*UPARAM(8)+VMU2      
+      VBULK  = THREE*UPARAM(8)+VMU2
 
       P0     = UPARAM(9)
       PHI    = UPARAM(10)
@@ -172,8 +172,8 @@ c-------calcul E_eq-----
         EPSPC =EPSPXX(I)-EPSPYY(I)
         EPSP  = SQRT(HALF*(EPSPC*EPSPC+EPSPXX(I)*EPSPXX(I)+
      1          EPSPYY(I)*EPSPYY(I)) +THREE_HALF* (EPSPXY(I)*EPSPXY(I)
-     2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))    
-        IF (ISRATE == 0) THEN 
+     2          + EPSPYZ(I)*EPSPYZ(I)+EPSPZX(I)*EPSPZX(I)))
+        IF (ISRATE == 0) THEN
           EDOT(I) = EPSP
         ELSE
           EDOT(I) = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
@@ -214,7 +214,7 @@ C COMPUTE DEVIATORIC STRESSES
         DSXX(I)=SIGOXX(I)-SM(I)
         DSYY(I)=SIGOYY(I)-SM(I)
         DSXY(I)=SIGOXY(I)
- 
+
 C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
@@ -231,7 +231,7 @@ C COMPUTE DEVIATORIC STRESSES
         DSXX(I)=SIGOXX(I)-SM(I)
         DSYY(I)=SIGOYY(I)-SM(I)
         DSXY(I)=SIGOXY(I)
- 
+
 C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
@@ -315,7 +315,7 @@ C COMPUTE UPDATED STRESSES
         UVAR(I,1)=SIGAIR(I)
        END DO
       END IF
-c-----------        
+c-----------
       RETURN
       END
 

@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-      
+
 Chd|====================================================================
 Chd|  SPMD_EXCH_A_INT2              source/mpi/forces/spmd_exch_a_int2.F
 Chd|-- called by -----------
@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        REQ_S(NSPMD),REQ_R(NSPMD),INDEXI(NSPMD)
       DATA MSGOFF/117/
       my_real
-     .        SBUF(LCOMI2M*ISIZE), 
+     .        SBUF(LCOMI2M*ISIZE),
      .        RBUF(LCOMI2M*ISIZE)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -100,7 +100,7 @@ C
         LEN = IAD_I2M(I+1) - IAD_I2M(I)
         IAD = IAD_I2M(I)-1
         IF (INTTH2 == 1) THEN
-         IF(IDT_THERM == 1) THEN      
+         IF(IDT_THERM == 1) THEN
           IF (IRODDL==0) THEN
 #include      "vectorize.inc"
            DO J = 1, LEN
@@ -217,7 +217,7 @@ C
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         IAD = IAD_I2M(I)-1
         IF (INTTH2 == 1) THEN
-         IF(IDT_THERM == 1) THEN      
+         IF(IDT_THERM == 1) THEN
           IF (IRODDL==0) THEN
 #include      "vectorize.inc"
            DO J = 1, LEN

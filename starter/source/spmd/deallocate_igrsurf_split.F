@@ -32,11 +32,11 @@ Chd|====================================================================
 !$COMMENT
 !       DEALLOCATE_IGRSURF_SPLIT description
 !       DEALLOCATE_IGRSURF_SPLIT deallocates the local IGSURF_PROC arraies
-!       
+!
 !       DEALLOCATE_IGRSURF_SPLIT organization :
 !       -loop over NVOLU in order to deallocate the array
 !$ENDCOMMENT
-        
+
         USE GROUPDEF_MOD
         USE MONVOL_STRUCT_MOD
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: NV,IS,NN,J
         INTEGER :: ITY,II,PROC,K1
-        INTEGER :: OFFC,OFFTG   
+        INTEGER :: OFFC,OFFTG
         INTEGER, DIMENSION(NSPMD) :: JJ
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
@@ -75,12 +75,12 @@ C-----------------------------------------------------
         !       --------------------------------------
         K1 = 1
         DO NV=1,NVOLU                   !       NVOLU = number of volume
-                IS = T_MONVOL(NV)%EXT_SURFID  
+                IS = T_MONVOL(NV)%EXT_SURFID
                 DO PROC=1,NSPMD
                         !       several MONVOL can refer to the same surface ID
                         IF(IGRSURF_PROC(IS,PROC)%NSEG>0.AND.ALLOCATED(IGRSURF_PROC(IS,PROC)%ELTYP) ) THEN
-                                DEALLOCATE( IGRSURF_PROC(IS,PROC)%ELTYP ) 
-                                DEALLOCATE( IGRSURF_PROC(IS,PROC)%ELEM ) 
+                                DEALLOCATE( IGRSURF_PROC(IS,PROC)%ELTYP )
+                                DEALLOCATE( IGRSURF_PROC(IS,PROC)%ELEM )
                         ENDIF
                 ENDDO
                 K1 = K1 + NIMV
@@ -88,7 +88,7 @@ C-----------------------------------------------------
                 ! deallocation of NUMBER_TRI_PER_PROC :
                  DEALLOCATE( T_MONVOL(NV)%NUMBER_TRI_PER_PROC )
                 ! --------------------
-        ENDDO        
+        ENDDO
         !       --------------------------------------
         RETURN
         END SUBROUTINE DEALLOCATE_IGRSURF_SPLIT

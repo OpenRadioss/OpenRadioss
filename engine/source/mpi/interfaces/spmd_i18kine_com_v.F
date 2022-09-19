@@ -155,7 +155,7 @@ c                 BBUFS(L+5)=MTF(6,NOD)
 
          SIZ = L-IADS(P)
          IF(SIZ>0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
 C Send
               CALL MPI_ISEND(
      .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,
@@ -171,7 +171,7 @@ C Recieve
           L=0
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV( BBUFR(IADR(P)),SIZ,REAL,IT_SPMD(P),MSGTYP,
      *                     MPI_COMM_WORLD,STATUS,IERROR )
            DO NIN=1,NINTER

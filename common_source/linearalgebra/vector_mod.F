@@ -35,7 +35,7 @@ Chd|====================================================================
 !     ******     !
 !     Vector     !
 !     ******     !
-      
+
       type :: t_vector
       integer, private :: dim
       integer, dimension(:), allocatable :: irow
@@ -50,7 +50,7 @@ Chd|====================================================================
       end type t_vector
 
       contains
-      
+
 !     ********************     !
 !     Get Vector dimension     !
 !     ********************     !
@@ -99,7 +99,7 @@ C-----------------------------------------------
       if (allocated(this%irow)) deallocate(this%irow)
       if (allocated(this%val)) deallocate(this%val)
       end subroutine destroy
-      
+
 !     *******************     !
 !     Pointer association     !
 !     *******************     !
@@ -112,7 +112,7 @@ C-----------------------------------------------
       class(t_vector), intent(inout), target :: this
       integer, dimension(:), pointer :: ptr_irow
       double precision, dimension(:), pointer :: ptr_val
-      ptr_irow => this%irow 
+      ptr_irow => this%irow
       ptr_val => this%val
       end subroutine associate
 

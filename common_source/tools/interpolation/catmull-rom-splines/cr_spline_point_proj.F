@@ -46,7 +46,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        my_real,INTENT(IN)    :: LOCAL_PT(4,3),Z(3),ALPHA 
+        my_real,INTENT(IN)    :: LOCAL_PT(4,3),Z(3),ALPHA
         my_real,INTENT(INOUT) :: Zh(3),h
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
         T = 0.5
-        CALL CR_SPLINE_KNOTS(LOCAL_PT, KNOTS, ALPHA)                                        
+        CALL CR_SPLINE_KNOTS(LOCAL_PT, KNOTS, ALPHA)
         DO ITER=1,20
           CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T,C,C_D,C_DD)
           F   = DOT_PRODUCT(C(1:3)-Z(1:3), C_D(1:3))
@@ -73,7 +73,7 @@ C-----------------------------------------------
           IF(T<0.)T=1E-10
           IF(T>1.)T=1.-1E-10
         ENDDO
-        CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T,C,C_D,C_DD) 
+        CALL CR_SPLINE_INTERPOL(LOCAL_PT,KNOTS,T,C,C_D,C_DD)
         Zh(1:3) = C(1:3)
         h=SQRT(DOT_PRODUCT(C(1:3)-Z(1:3),C(1:3)-Z(1:3)))
        END SUBROUTINE CR_SPLINE_POINT_PROJ

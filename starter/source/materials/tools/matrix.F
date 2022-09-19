@@ -50,12 +50,12 @@ C-----------------------------------------------
      . , B(NN), Z(NN)
       INTEGER IZ,IS,ITER,J
       my_real
-     . SUMRS,EPS,G,H,T,C,S,TAU,THETA      
+     . SUMRS,EPS,G,H,T,C,S,TAU,THETA
 C----------------------------------------------------------------
       DO 130 IZ=1,N
         DO 120 IS=1,N
 C PRACTICAL FOR RADIOSS (PASS ONLY LOWER DIAGONAL MATRIX)
-          IF(IZ>IS) A(IS,IZ) = A(IZ,IS) 
+          IF(IZ>IS) A(IS,IZ) = A(IZ,IS)
           EV(IZ,IS)=ZERO
   120   CONTINUE
         B(IZ)=A(IZ,IZ)
@@ -68,7 +68,7 @@ C ...        EV(IZ,IZ)=1.0
       NROT=0
 
 C START ITERATION
- 
+
       DO 240 ITER = 1,50
         SUMRS = ZERO
 
@@ -78,7 +78,7 @@ C SUM OF THE OFF DIAGONALS
             SUMRS=SUMRS+ABS(A(IZ,IS))
   140     CONTINUE
   150   CONTINUE
- 
+
         IF (SUMRS ==ZERO) GOTO 9000
         IF (ITER > 4)   THEN
           EPS = ZERO
@@ -151,15 +151,15 @@ C SUM OF THE OFF DIAGONALS
       RETURN
 
       END
- 
-      
+
+
 Chd|====================================================================
 Chd|  DREH                          source/materials/tools/matrix.F
 Chd|-- called by -----------
 Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DREH(B,TR,II,JJ,KEN) 
+      SUBROUTINE DREH(B,TR,II,JJ,KEN)
 C-------------------------------------------------------KK010587-
 C KEN=0 -> ROTATION OF MATRIX B BY TR = TR(T)*B*TR
 C KEN=1 -> ROTATION OF MATRIX B BY TR(T) = TR*B*TR(T)
@@ -176,34 +176,34 @@ C-----------------------------------------------
 C----------------------------------------------------------------
       IF(II<=0) II=1
       IF(JJ<=0) JJ=1
-                       
-      DO 20 I=1,3                                                               
-        DO 20 J=1,3                                                               
-          J1=JJ+J-1                                                                 
-          X=0.0                                                                     
-          DO 10 K=1,3                                                               
+
+      DO 20 I=1,3
+        DO 20 J=1,3
+          J1=JJ+J-1
+          X=0.0
+          DO 10 K=1,3
 C          IF(TR(K,I)==ZERO) GOTO 10                                               
-           I1=K+II-1                                                                 
+           I1=K+II-1
 C          IF(B(I1,J1)==ZERO) GOTO 10                                             
-           IF(KEN/=1) X=X+TR(K,I)*B(I1,J1)                                                   
-           IF(KEN==1) X=X+TR(I,K)*B(I1,J1) 
- 10       CONTINUE                                                                  
+           IF(KEN/=1) X=X+TR(K,I)*B(I1,J1)
+           IF(KEN==1) X=X+TR(I,K)*B(I1,J1)
+ 10       CONTINUE
  20   LK(I,J)=X
-                                                                 
-      DO 40 I=1,3                                                               
-        DO 40 J=1,3                                                               
-          X=ZERO                                                       
-          DO 30 K=1,3                                                               
+
+      DO 40 I=1,3
+        DO 40 J=1,3
+          X=ZERO
+          DO 30 K=1,3
 C          IF(TR(K,J)==ZERO) GOTO 30                                               
 C          IF(LK(I,K)==ZERO) GOTO 30                                                
-           IF(KEN/=1) X=X+LK(I,K)*TR(K,J)                                                      
-           IF(KEN==1) X=X+LK(I,K)*TR(J,K)                                                      
- 30       CONTINUE                                                                  
+           IF(KEN/=1) X=X+LK(I,K)*TR(K,J)
+           IF(KEN==1) X=X+LK(I,K)*TR(J,K)
+ 30       CONTINUE
  40   B(II+I-1,JJ+J-1)=X
-                                                      
+
       RETURN
-                                                                    
-      END 
+
+      END
 C
 Chd|====================================================================
 Chd|  VALPVEC                       source/materials/tools/matrix.F
@@ -238,7 +238,7 @@ C-----------------------------------------------
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -256,7 +256,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
         CS(2) = SIG(2,NN)
@@ -278,7 +278,7 @@ C cas racine triple
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - TWO*CS(4)*CS(5)*CS(6)     
+     &     - TWO*CS(4)*CS(5)*CS(6)
 C
         CC=-SQRT(TWENTY7/AA)*BB*HALF/AA
         CC= MIN(CC,ONE)
@@ -432,7 +432,7 @@ C
         ELSE
           V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
-          V(3,2,NN)=ZERO  
+          V(3,2,NN)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -487,7 +487,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ENDIF
       ENDDO
 C
@@ -556,7 +556,7 @@ C-----------------------------------------------
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -575,7 +575,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
         CS(2) = SIG(2,NN)
@@ -680,7 +680,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -750,7 +750,7 @@ C
         ELSE
           V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
-          V(3,2,NN)=ZERO  
+          V(3,2,NN)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -782,7 +782,7 @@ C
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
-          V(3,1,NN)= ONE  
+          V(3,1,NN)= ONE
           V(1,2,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
@@ -805,7 +805,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ENDIF
       ENDDO
 C

@@ -66,7 +66,7 @@ C
          READ(IIN,'(I10,F20.0,I10)') ID, KSI, ITYP
          J=0
          II=0
-         DO WHILE (J<=NEIG.AND.II==0) 
+         DO WHILE (J<=NEIG.AND.II==0)
             J=J+1
             IDD=EIGIPM(1,J)
             IF (IDD==ID) THEN
@@ -90,12 +90,12 @@ C
       IF (IMACH/=3.OR.ISPMD==0) THEN
          WRITE(IOUT,'(A)') ' INPUT FILES FOR FLEXIBLE BODIES'
          DO I=1,NEIG
-            IF (CIEIG(I)>0) 
-     .         WRITE(IOUT,'(A14,I10,A17,1PG20.13)') 
+            IF (CIEIG(I)>0)
+     .         WRITE(IOUT,'(A14,I10,A17,1PG20.13)')
      .   ' EIGENPROBLEM ',CIEIG(I),' CRITICAL DAMPING ',CFEIG(I)
          ENDDO
          WRITE(IOUT,*)
       ENDIF
 C   
       RETURN
-      END     
+      END

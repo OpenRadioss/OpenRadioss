@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER), ITASK, NIN,
      .        COUNT_REMSLV(*)
-      my_real 
+      my_real
      .   X(*), V(3,*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   S o u r c e   C o d e
 C-----------------------------------------------
 
-      IFQ =IPARI(31,NIN) 
+      IFQ =IPARI(31,NIN)
       STARTT=INTBUF_TAB%VARIABLES(3)
       STOPT =INTBUF_TAB%VARIABLES(11)
       IF(STARTT>TT.OR.TT>STOPT) RETURN

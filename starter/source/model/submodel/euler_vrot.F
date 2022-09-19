@@ -54,9 +54,9 @@ C=======================================================================
       RY = X(2) - X0(2)
       RZ = X(3) - X0(3)
 C                                              
-      X(1) = X0(1) + ROT(1)*RX + ROT(4)*RY + ROT(7)*RZ                        
-      X(2) = X0(2) + ROT(2)*RX + ROT(5)*RY + ROT(8)*RZ                         
-      X(3) = X0(3) + ROT(3)*RX + ROT(6)*RY + ROT(9)*RZ                         
+      X(1) = X0(1) + ROT(1)*RX + ROT(4)*RY + ROT(7)*RZ
+      X(2) = X0(2) + ROT(2)*RX + ROT(5)*RY + ROT(8)*RZ
+      X(3) = X0(3) + ROT(3)*RX + ROT(6)*RY + ROT(9)*RZ
 C---
       RETURN
       END

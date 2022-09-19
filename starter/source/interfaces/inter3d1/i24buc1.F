@@ -39,7 +39,7 @@ Chd|====================================================================
      1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
      3   CAND_N,GAP  ,XYZM   ,NOINT ,I_STOK  ,
-     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,   
+     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,
      5   STF   ,STFN ,MULTIMP,ISTF  ,IDDLEVEL,
      6   ITAB  ,GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
      7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,I_MEM ,
@@ -139,12 +139,12 @@ C     REAL
       my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: XTEN
 C
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
-      
+!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
+
       GAPMAX=EP30
       GAPMIN=ZERO
 C----edge fictive nodes----- 
-      NSN0 = NSN - NSNE 
+      NSN0 = NSN - NSNE
       IF (NSNE >0) THEN
        NUMNODT =NUMNOD+NSNE
        ALLOCATE(XTEN(3,NUMNODT))
@@ -239,7 +239,7 @@ C-------input PENMAX will fix the PENMAX value-----
         IF (N_SOL>0) THEN
          D_MOY  = D_MOY/N_SOL
          DD_ST = D_MOY
-        END IF 
+        END IF
         PENSOL  = MIN(HALF*DD_ST,PENSOL)
         MARGE_ST  = MAX(MARGE_ST,PENSOL)
 C--------should also think about shells---- 
@@ -270,7 +270,7 @@ C DD + 2*TZINF : taille element augmentee de zone influence
       MINBOX0 = MINBOX
       MAXBOX0 = MAXBOX
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
-      DIST = ZERO     
+      DIST = ZERO
 C--------------------------------
 C     CALCUL DES BORNES DU DOMAINE
 C--------------------------------
@@ -279,10 +279,10 @@ C--------------------------------
       YMIN=EP30
       YMAX=-EP30
       ZMIN=EP30
-      ZMAX=-EP30 
+      ZMAX=-EP30
 C
       DO 20 I=1,NMN
-         J=MSR(I) 
+         J=MSR(I)
          XMIN= MIN(XMIN,X(1,J))
          YMIN= MIN(YMIN,X(2,J))
          ZMIN= MIN(ZMIN,X(3,J))
@@ -426,7 +426,7 @@ C       SEPARER B ET N EN TWO
      +   IWORK(IP31+2*(I_ADD-2)),
      2   IRECT   ,XTEN    ,NB_NC    ,NB_EC    ,XYZM     ,
      3   I_ADD   ,NSV     ,I_AMAX   ,XMAX     ,YMAX     ,
-     4   ZMAX    ,3*MAXSIZ,I_STOK   ,I_MEM    ,NB_N_B   , 
+     4   ZMAX    ,3*MAXSIZ,I_STOK   ,I_MEM    ,NB_N_B   ,
      5   CAND_N  ,CAND_E  ,NSN      ,NOINT    ,TZINF_ST ,
      6   MAXBOX  ,MINBOX  ,STF      ,STFN     ,J_STOK   ,
      7   MULTIMP ,ISTF    , ITAB    ,GAP      ,GAP_S    ,
@@ -452,7 +452,7 @@ C       SEPARER B ET N EN TWO
      1   MWA(IP1),MWA(IP2),MWA(IP21),MWA(IP22),MWA(IP31+2*(I_ADD-2)),
      2   IRECT   ,X       ,NB_NC    ,NB_EC    ,XYZM     ,
      3   I_ADD   ,NSV     ,I_AMAX   ,XMAX     ,YMAX     ,
-     4   ZMAX    ,3*MAXSIZ,I_STOK   ,I_MEM    ,NB_N_B   , 
+     4   ZMAX    ,3*MAXSIZ,I_STOK   ,I_MEM    ,NB_N_B   ,
      5   CAND_N  ,CAND_E  ,NSN      ,NOINT    ,TZINF_ST ,
      6   MAXBOX  ,MINBOX  ,STF      ,STFN     ,J_STOK   ,
      7   MULTIMP ,ISTF    , ITAB    ,GAP      ,GAP_S    ,
@@ -460,7 +460,7 @@ C       SEPARER B ET N EN TWO
      9   GAP_S_L,GAP_M_L  ,ID       ,TITR     ,ILEV     ,
      A   NBINFLG,MBINFLG  ,MVOISN   ,IXS      ,IXS10    ,
      B   IXS16  ,IXS20    ,IPARTNS  ,IPEN0    ,INACTI   ,
-     C   MSEGTYP,MARGE    ,NRTM ,IRTSE ,IS2SE   ,         
+     C   MSEGTYP,MARGE    ,NRTM ,IRTSE ,IS2SE   ,
      D   IX1    ,IX2    ,IX3    ,IX4    ,NSVG   ,
      E   X1     ,X2     ,X3     ,X4     ,Y1     ,
      F   Y2     ,Y3     ,Y4     ,Z1     ,Z2     ,
@@ -571,7 +571,7 @@ C
      +            1PG20.13,'IS USED',/)
  2500 FORMAT(2X,/,'COMPUTED SEARCHING DISTANCE FOR INITIAL PENETRATIONS ',1PG20.13,
      +            'IS USED',/)
-#endif                    
+#endif
 
 C
       IF (NSNE >0) DEALLOCATE(XTEN,IWORK)

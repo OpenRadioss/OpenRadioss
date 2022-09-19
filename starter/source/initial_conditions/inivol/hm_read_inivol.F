@@ -88,7 +88,7 @@ C-----------------------------------------------
       TYPE (INIVOL_)  , INTENT(INOUT), DIMENSION(:), ALLOCATABLE  :: INIVOL
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       my_real, DIMENSION(:), ALLOCATABLE, INTENT(INOUT) :: KVOL
-      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB
       INTEGER,INTENT(INOUT) :: NBSUBMAT
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -122,34 +122,34 @@ C-----------------------------------------------
       !---OUTPUT MESSAGE & SIZES
       SKVOL = 0
       SINIVOL = 0
-      ERR_MSG='INITIAL VOLUME FRACTION'                                                          
-      ERR_CATEGORY='INITIAL VOLUME FRACTION'                                                     
-      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))                                                  
-      IF (NINIVOL > 0)THEN                                                                       
-        WRITE(ISTDO,'(A)')' .. INITIAL VOLUME FRACTION'                                          
-        WRITE(IOUT,'(//A)')'     INITIAL VOLUME FRACTION'                                      
-        WRITE(IOUT,'(A/)')'     -----------------------'  
-        NBSUBMAT = 4 !(LAW51)   
+      ERR_MSG='INITIAL VOLUME FRACTION'
+      ERR_CATEGORY='INITIAL VOLUME FRACTION'
+      CALL TRACE_IN1(ERR_MSG,LEN_TRIM(ERR_MSG))
+      IF (NINIVOL > 0)THEN
+        WRITE(ISTDO,'(A)')' .. INITIAL VOLUME FRACTION'
+        WRITE(IOUT,'(//A)')'     INITIAL VOLUME FRACTION'
+        WRITE(IOUT,'(A/)')'     -----------------------'
+        NBSUBMAT = 4 !(LAW51)
         IF (MULTI_FVM%IS_USED) NBSUBMAT = MAX(NBSUBMAT, MULTI_FVM%NBMAT)  !up to 20 (LAW151)
         NUMEL_TOT = MAX(NUMELTG,MAX(NUMELS,NUMELQ))
         SKVOL = NBSUBMAT*NUMEL_TOT
         SINIVOL = NINIVOL
-      ENDIF    
-      
+      ENDIF
+
       !---ALLOCATION
       IF(.NOT.ALLOCATED(INIVOL))ALLOCATE (INIVOL(SINIVOL) ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='INIVOL')
 
       IF(.NOT.ALLOCATED(KVOL))ALLOCATE (KVOL(SKVOL)     ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR,C1='KVOL')
-      IF (SKVOL > 0) KVOL  = 0                                               
-                                                                                  
+      IF (SKVOL > 0) KVOL  = 0
+
 
       !---READ CARDS
       CALL HM_OPTION_START('/INIVOL')
-      IS_ENCRYPTED= .FALSE.                                                                  
-      IS_AVAILABLE = .FALSE.                                                                 
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)                                                                                             
+      IS_ENCRYPTED= .FALSE.
+      IS_AVAILABLE = .FALSE.
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       IGS=0
       NINTMAX = 3
       N_R2R = 0
@@ -165,19 +165,19 @@ C
         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
         CALL HM_GET_INTV('secondarycomponentlist', PARTID, IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV('NIP', NLIN, IS_AVAILABLE, LSUBMODEL)
-        
+
         WRITE(IOUT, 1001) TITR, ID, PARTID
-             
+
         IPARTFILL = 0
-        !search PART_ID                                                                                                      
-        DO J=1,NPART                                                                                                         
-          IP = IPART(LIPART1*(J-1)+4)                                                                                                    
-          IF(PARTID == IP)THEN                                                                                               
-            IPARTFILL = J                                                                                                    
-            EXIT                                                                                                             
-          ENDIF                                                                                                              
-        ENDDO                                                                                                                
-        IF(IPARTFILL == 0)CALL ANCMSG(MSGID=886,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=PARTID)  !PART_ID not found  
+        !search PART_ID
+        DO J=1,NPART
+          IP = IPART(LIPART1*(J-1)+4)
+          IF(PARTID == IP)THEN
+            IPARTFILL = J
+            EXIT
+          ENDIF
+        ENDDO
+        IF(IPARTFILL == 0)CALL ANCMSG(MSGID=886,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=PARTID)  !PART_ID not found
 
 
         INIVOL(IGS)%ID = ID
@@ -190,13 +190,13 @@ C
 
         WRITE(IOUT, '(A)') "     surf_ID ALE_PHASE FILL_OPT ICUMU          FILL_RATIO"
         DO KK=1,NLIN
-          CALL HM_GET_INT_ARRAY_INDEX('SETSURFID_ARR', IDSURF,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_INT_ARRAY_INDEX('ALE_PHASE', IPHASE,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_INT_ARRAY_INDEX('fill_opt_arr', IFILL,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_INT_ARRAY_INDEX('ICUMU', ICUMU,KK, IS_AVAILABLE, LSUBMODEL)         
-          CALL HM_GET_FLOAT_ARRAY_INDEX('FILL_RATIO', FILL_RATIO, KK, IS_AVAILABLE, LSUBMODEL,UNITAB)  
+          CALL HM_GET_INT_ARRAY_INDEX('SETSURFID_ARR', IDSURF,KK, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('ALE_PHASE', IPHASE,KK, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('fill_opt_arr', IFILL,KK, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('ICUMU', ICUMU,KK, IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('FILL_RATIO', FILL_RATIO, KK, IS_AVAILABLE, LSUBMODEL,UNITAB)
 
-          WRITE(IOUT, '(2X,I10,I10,I9,I6,F20.0)')    IDSURF,IPHASE, IFILL, ICUMU, FILL_RATIO        
+          WRITE(IOUT, '(2X,I10,I10,I9,I6,F20.0)')    IDSURF,IPHASE, IFILL, ICUMU, FILL_RATIO
 
           !IF(FLAG == 0)THEN
             IF((IPHASE < 0 .OR. IPHASE > 4).AND.  .NOT.MULTI_FVM%IS_USED )THEN
@@ -209,79 +209,79 @@ C
               CALL ANCMSG(MSGID=1596,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
             ENDIF
           !ENDIF
-                                                                                                  
-          IMAT = IPART(LIPART1*(IPARTFILL-1)+1)  
+
+          IMAT = IPART(LIPART1*(IPARTFILL-1)+1)
           ILAW=   IPM((IMAT-1)*NPROPMI + 2)     !IPM(2,IMAT)
           IF(ILAW/=51 .AND. ILAW/=151)THEN
-            CALL ANCMSG(MSGID=821, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)             
-          ENDIF   
+            CALL ANCMSG(MSGID=821, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=ID, C1=TITR)
+          ENDIF
 
           !!get bijective applocation to retrieve internal order of submaterial.
           !! (internally & historically phase4 is explosive submaterial)
-          IF(ILAW==51)THEN                    
-            IADBUF = IPM((IMAT-1)*NPROPMI + 7)!IPM(7,IMAT)                       
-            NUPARAM= IPM((IMAT-1)*NPROPMI + 9)!IPM(9,IMAT)                       
-            UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)          
+          IF(ILAW==51)THEN
+            IADBUF = IPM((IMAT-1)*NPROPMI + 7)!IPM(7,IMAT)
+            NUPARAM= IPM((IMAT-1)*NPROPMI + 9)!IPM(9,IMAT)
+            UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
             IPHASE=UPARAM(276+IPHASE)
           ENDIF
-          
+
           IF(FILL_RATIO==ZERO)FILL_RATIO = ONE
           IF(ICUMU/=0 .AND. ICUMU/=1)THEN
             ICUMU = 0
           ENDIF
           ISU=0
           NN =0
-          DO J=1,NSURF                                                                     
-            IF (IDSURF == IGRSURF(J)%ID) THEN                                              
-              ISU=J                                                                        
-              NN = IGRSURF(ISU)%NSEG                                                       
-              EXIT                                                                         
-            END IF                                                                         
-          ENDDO                                                                            
-          FAC = 0                                                                          
-          IF (ISU > 0) THEN                                                                
-            SRFTYP=IGRSURF(ISU)%TYPE 
-            IF(SRFTYP == 101) FAC = FAC + 1                                                                         
-            IF(SRFTYP == 200) FAC = FAC + 1                                                
-            !---   planar surface                                                          
-            IF(FAC /= 1)THEN                                                               
-              DO J=1,NN                                                                    
-                ITYP=IGRSURF(ISU)%ELTYP(J)                                                 
-                IF(ITYP==3 .or. ITYP==7) FAC = FAC + 1                                 
-              ENDDO                                                                        
-            ENDIF                                                                          
-            !---   discretized surface                                                     
-            INIVOL(IGS)%SURFCONTY(KK) = ISU                                     
-            INIVOL(IGS)%CONTY(KK)%IPHASE = IPHASE                               
-            INIVOL(IGS)%CONTY(KK)%IFILL = IFILL                                 
-            INIVOL(IGS)%CONTY(KK)%FILL_RATIO = INT(FILL_RATIO*EP9)              
-            INIVOL(IGS)%CONTY(KK)%ICUMU = ICUMU                                 
+          DO J=1,NSURF
+            IF (IDSURF == IGRSURF(J)%ID) THEN
+              ISU=J
+              NN = IGRSURF(ISU)%NSEG
+              EXIT
+            END IF
+          ENDDO
+          FAC = 0
+          IF (ISU > 0) THEN
+            SRFTYP=IGRSURF(ISU)%TYPE
+            IF(SRFTYP == 101) FAC = FAC + 1
+            IF(SRFTYP == 200) FAC = FAC + 1
+            !---   planar surface
+            IF(FAC /= 1)THEN
+              DO J=1,NN
+                ITYP=IGRSURF(ISU)%ELTYP(J)
+                IF(ITYP==3 .or. ITYP==7) FAC = FAC + 1
+              ENDDO
+            ENDIF
+            !---   discretized surface
+            INIVOL(IGS)%SURFCONTY(KK) = ISU
+            INIVOL(IGS)%CONTY(KK)%IPHASE = IPHASE
+            INIVOL(IGS)%CONTY(KK)%IFILL = IFILL
+            INIVOL(IGS)%CONTY(KK)%FILL_RATIO = INT(FILL_RATIO*EP9)
+            INIVOL(IGS)%CONTY(KK)%ICUMU = ICUMU
 C
-            IF(N2D == 0 .AND. FAC == 0)THEN                                                               
-              CALL ANCMSG(MSGID=890,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)          
+            IF(N2D == 0 .AND. FAC == 0)THEN
+              CALL ANCMSG(MSGID=890,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
             ELSEIF(N2D > 0 .AND. SRFTYP /=101 .AND. SRFTYP /= 200)THEN
-              CALL ANCMSG(MSGID=2012,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR) 
-            ENDIF                                                                          
-          ELSE  ! ISU == 0                                                                 
-            CALL ANCMSG(MSGID=889,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=IDSURF)  
-          ENDIF 
-        ENDDO   !next line 
-        WRITE(IOUT,'(A//)') 
+              CALL ANCMSG(MSGID=2012,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR)
+            ENDIF
+          ELSE  ! ISU == 0
+            CALL ANCMSG(MSGID=889,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=ID,C1=TITR,I2=IDSURF)
+          ENDIF
+        ENDDO   !next line
+        WRITE(IOUT,'(A//)')
       END DO !next option
-  
+
       NBSUBMAT = 4
       IF (MULTI_FVM%IS_USED)NBSUBMAT = MAX(NBSUBMAT, MULTI_FVM%NBMAT)
-             
+
 C-----------------------------
       RETURN
  999  CALL FREERR(1)
 C-----------------------------
  1001 FORMAT(
      .     5X,'INIVOL TITLE . . . . . . . . . . . . .=',A/,
-     .     5X,'INIVOL IDENTFIER . . . . . . . . . . .=',I10/,     
+     .     5X,'INIVOL IDENTFIER . . . . . . . . . . .=',I10/,
      .     5X,'PART IDENTIFIER. . . . . . . . . . . .=',I10)
 
       RETURN
       END
-      
+
 

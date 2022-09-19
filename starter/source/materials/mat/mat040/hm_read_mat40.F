@@ -36,18 +36,18 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT40(UPARAM   ,MAXUPARAM, NUPARAM   ,NUVAR  ,
-     .                         MAXFUNC  ,NFUNC    , STIFINT   ,UNITAB ,MAT_ID       , 
+     .                         MAXFUNC  ,NFUNC    , STIFINT   ,UNITAB ,MAT_ID       ,
      .                         MTAG     ,TITR     , LSUBMODEL ,PM     ,IMATVIS,
      .                         MATPARAM )
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,8 +67,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM), INTENT(INOUT) :: PM
       my_real, DIMENSION(100), INTENT(INOUT) :: STIFINT
       my_real, DIMENSION(MAXUPARAM), INTENT(OUT) :: UPARAM
       INTEGER, INTENT(INOUT) :: NFUNC, NUPARAM, NUVAR, IMATVIS
@@ -82,7 +82,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: AK, G0, G1, G2, G3, G4, G5, GT, BETA1,
      .     BETA2, BETA3, BETA4, BETA5, NU1, NU2,
-     .     ASTAS, BSTAS, VMISK, FAC_L, FAC_T, FAC_M, FAC_C, 
+     .     ASTAS, BSTAS, VMISK, FAC_L, FAC_T, FAC_M, FAC_C,
      .     RHO0, RHOR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C-----------------------------------------------
          RHOR = RHO0
       ENDIF
       PM(1) = RHOR
-      PM(89) = RHO0 
+      PM(89) = RHO0
 !     Line 1
       CALL HM_GET_FLOATV('MAT_BULK', AK, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GI', G0, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -128,9 +128,9 @@ C-----------------------------------------------
       IF (ASTAS <= EM20) ASTAS = INFINITY
       IF (BSTAS <= EM20) BSTAS = INFINITY
       IF (VMISK <= EM20) VMISK = INFINITY
-      NU1 = (THREE * AK - TWO * G0) / (TWO * G0 + SIX * AK) 
-      GT = G0 + G1 + G2 + G3 + G4 + G5 
-      NU2 = (THREE * AK - TWO * GT) / (TWO * GT + SIX * AK) 
+      NU1 = (THREE * AK - TWO * G0) / (TWO * G0 + SIX * AK)
+      GT = G0 + G1 + G2 + G3 + G4 + G5
+      NU2 = (THREE * AK - TWO * GT) / (TWO * GT + SIX * AK)
       IF (NU1 < ZERO .OR. NU1 >= HALF) THEN
       CALL ANCMSG(MSGID = 49,
      .     MSGTYPE = MSGERROR,
@@ -157,13 +157,13 @@ C-----------------------------------------------
      .        I2 = NUPARAM,
      .        I3 = MAXUPARAM)
       ELSE
-         UPARAM(1) = AK 
+         UPARAM(1) = AK
          UPARAM(2) = G0
          UPARAM(3) = G1
          UPARAM(4) = G2
          UPARAM(5) = G3
          UPARAM(6) = G4
-         UPARAM(7) = G5 
+         UPARAM(7) = G5
          UPARAM(8) =  MAX(BETA1, EM20)
          UPARAM(9) =  MAX(BETA2, EM20)
          UPARAM(10) = MAX(BETA3, EM20)
@@ -174,7 +174,7 @@ C-----------------------------------------------
          UPARAM(15) = VMISK
       ENDIF
 
-      STIFINT(1) = AK 
+      STIFINT(1) = AK
 
 !     Formulation for solid elements time step computation.
       STIFINT(16) = 2

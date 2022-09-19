@@ -31,11 +31,11 @@ Chd|====================================================================
 !$COMMENT
 !       GRP_SIZE_MOD description
 !       module for -grp_size command line option
-!       -grp_size defines a ENGINE group size       
+!       -grp_size defines a ENGINE group size
 !
 !       GRP_SIZE_MOD organization :
 !       - GRP_SIZE_BOOL : logical, true if -grp_size is used
-!       - GRP_SIZE : integer, group size 
+!       - GRP_SIZE : integer, group size
 !$ENDCOMMENT
             LOGICAL :: GRP_SIZE_BOOL
             INTEGER :: GRP_SIZE

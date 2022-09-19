@@ -180,7 +180,7 @@ C--------------------------------------------------------------------C
         NUM = 1
         IGS = NGROU+1
         DO I=1,NGROU
-          IF (NUM<=IGRNOD2(I)%ID) NUM=IGRNOD2(I)%ID+1     
+          IF (NUM<=IGRNOD2(I)%ID) NUM=IGRNOD2(I)%ID+1
         END DO
       ENDIF
 C--------------------------------------------------------------------C
@@ -199,32 +199,32 @@ C---------------Reset of out file + printout of new heading ---------C
         IPID_L = IPID
         IF (FLG_SWALE==1) THEN
           IF (IPID==0) IPID_L = 1
-          IF (IPID/=0) IPID_L = 0          
+          IF (IPID/=0) IPID_L = 0
         ENDIF
         IF (IPID_L==0) THEN
           CLOSE(UNIT=IOUT, STATUS='DELETE',IOSTAT=IO_ERR)
 
-          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//R2R_FILNAM(1:LEN_TRIM(R2R_FILNAM))    
+          TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//R2R_FILNAM(1:LEN_TRIM(R2R_FILNAM))
           LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_TRIM(R2R_FILNAM)
           OPEN(UNIT=IOUT,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .    ACCESS='SEQUENTIAL',
      .    FORM='FORMATTED',STATUS='UNKNOWN')
-          NAME = "SUBDOMAIN "//R2R_FILNAM(1:(LEN_TRIM(R2R_FILNAM)-9))   
+          NAME = "SUBDOMAIN "//R2R_FILNAM(1:(LEN_TRIM(R2R_FILNAM)-9))
           WRITE (IOUT,'(A)')  ''
           CALL PRINTCENTER(" ",0,IOUT,1)
-          CALL PRINTCENTER(" ",0,IOUT,2)   
+          CALL PRINTCENTER(" ",0,IOUT,2)
           CALL PRINTCENTER(NAME,LEN_TRIM(NAME),IOUT,2)
-          CALL PRINTCENTER(" ",0,IOUT,2)  
-          CALL PRINTCENTER(" ",0,IOUT,1)             
+          CALL PRINTCENTER(" ",0,IOUT,2)
+          CALL PRINTCENTER(" ",0,IOUT,1)
         ENDIF
 C---------------Allocation of arrays for tag of elements--------------C
         ALLOCATE(TAG_ELC(NUMELC+NPART),TAG_ELS(NUMELS+NPART))
         ALLOCATE(TAG_ELG(NUMELTG+NPART),TAG_ELSP(NUMSPH+NPART))
-        ALLOCATE(TAG_ELR(NUMELR+NPART),TAG_ELT(NUMELT+NPART))     
+        ALLOCATE(TAG_ELR(NUMELR+NPART),TAG_ELT(NUMELT+NPART))
         ALLOCATE(TAG_ELP(NUMELP+NPART),TAG_ELQ(NUMELQ+NPART))
         TAG_ELS(:)=0
         TAG_ELC(:)=0
-        TAG_ELG(:)=0      
+        TAG_ELG(:)=0
         TAG_ELT(:)=0
         TAG_ELP(:)=0
         TAG_ELR(:)=0
@@ -234,14 +234,14 @@ C---------------Tag of Parts-------------------------------------------C
         DO K=1,NPART
           TAGNO(K)=0
 C          ---> TAGNO(K)=-1 => PART K belongs to an already treated subdomain---	       	 
-          IF(TMP_PART(K)==-1) TAGNO(K)=-1  
+          IF(TMP_PART(K)==-1) TAGNO(K)=-1
         ENDDO
         ADD = ISUBDOM(3,N)
         DO K=1,NPART
-          DO I=1,ISUBDOM(1,N)        
+          DO I=1,ISUBDOM(1,N)
             IF(K == ISUBDOM_PART(I+ADD))THEN
               TAGNO(K)=1
-              TMP_PART(K)=-1  
+              TMP_PART(K)=-1
             ENDIF
           ENDDO	
         END DO
@@ -249,10 +249,10 @@ C----------------Full domain - inversion of part selection-------------C
         IF (IDDOM == 0) THEN
           DO K=1,NPART
             IF(TAGNO(K)==1) THEN
-              TAGNO(K)=0 
+              TAGNO(K)=0
             ELSEIF(TAGNO(K)==0) THEN
               TAGNO(K)=1
-            ENDIF  
+            ENDIF
           ENDDO
         ENDIF
 C---------------> TAG OF PARTS : ----------------------------------	  	  
@@ -268,7 +268,7 @@ C---------------> TAGNO(K) = 2 -> coupled node
 C---------------> TAGNO(K) = 3 -> coupled node -> main node of RBODY
 C---------------> TAGNO(K) = 4 -> coupled node for contacts
 C---------------Detag of already treated nodes----------------------C
-        CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,TAGNO,-1,N)       
+        CALL TAGNODS_R2R(IXS,IXS10,IXS20,IXS16,IPARTS,TAGNO,-1,N)
         CALL TAGNOD_R2R(IXQ,NIXQ,2,5,NUMELQ,IPARTQ,TAGNO,NPART,-1,N)
         CALL TAGNOD_R2R(IXC,NIXC,2,5,NUMELC,IPARTC,TAGNO,NPART,-1,N)
         CALL TAGNOD_R2R(IXT,NIXT,2,3,NUMELT,IPARTT,TAGNO,NPART,-1,N)
@@ -298,13 +298,13 @@ C---------------Tag of 3rd nodes of beams/springs -> pass 3----------C
         CALL TAGNOD_R2R(IXP,NIXP,4,4,NUMELP,IPARTP,TAGNO,NPART,3,N)
         CALL TAGNOD_R2R(IXR,NIXR,4,4,NUMELR,IPARTR,TAGNO,NPART,3,N)
 C---------------Tag of additionals nodes for kjoints-- --------------C        
-        CALL TAGNOD_R2R(IXR_KJ,5,1,3,NUMELR,IPARTR,TAGNO,NPART,4,N)        
+        CALL TAGNOD_R2R(IXR_KJ,5,1,3,NUMELR,IPARTR,TAGNO,NPART,4,N)
 C---------------Tag of specific nodes -> Skew,Frames-----------------C 
         IF (P==NSUBDOM_LOC) CALL TAGNOD_R2R_S(TAGNO)
 C---------------Storage of initial tag of nodes----------------------C 
         DO I=1,NUMNOD
           TAGNO(NPART+NUMNOD+I) = TAGNO(NPART+I)
-        END DO     
+        END DO
 C--------------------------------------------------------------------C
 C////////////////////////////////////////////////////////////////////C
 C--------------------------------------------------------------------C
@@ -369,11 +369,11 @@ C---------------Determination of flag for coupled sph particles------C
           FLG_SPH = 0
           DO J=1,NUMSPH
             IF (TAGNO(KXSP(NISP*(J-1)+3)+NPART)>1) FLG_SPH = 1
-          END DO   
+          END DO
 C---------------Couting of remaining nodes---------------------------C
           COMPT = 0
           DO J=1,NUMNOD
-            IF (TAGNO(J+NPART)>1) INNOD = INNOD+1	        
+            IF (TAGNO(J+NPART)>1) INNOD = INNOD+1	
           ENDDO
 C---------------Warnings for size of interfaces ---------------------C
           IF (INNOD==0) THEN
@@ -410,7 +410,7 @@ C---------------Warnings for splitted contact interfaces ------------C
      .                  ANMODE=ANINFO_BLIND_1)
             WRITE(IOUT,1301)
             WRITE(IOUT,1302) (TAGINT_WARN(1+J),J=1,TAGINT_WARN(1))
-          ENDIF  
+          ENDIF
 C--------------------------------------------------------------------C
         ELSE
 C--------------------------------------------------------------------C			
@@ -422,13 +422,13 @@ C--------------------------------------------------------------------C
             IAD_TMP = IAD
 C---------------Storage inside buffer--------------------------------C	
             DO J=1,NUMNOD
-              IF (TAGNO(J+NPART)==(K+N)) THEN 
+              IF (TAGNO(J+NPART)==(K+N)) THEN
                 BUF_NOD(IAD)=J
                 IAD=IAD+1
-                COMPT = COMPT+1	        
+                COMPT = COMPT+1	
               ENDIF
             ENDDO
-            INNOD = INNOD + COMPT   
+            INNOD = INNOD + COMPT
             IF (COMPT>0) THEN
 C---------------Creation of new GRNOD + LINK ------------------------C
               IF (K == 1) THEN
@@ -436,9 +436,9 @@ C---------------Creation of new GRNOD + LINK ------------------------C
               ELSEIF (K == 2) THEN
                 TITR="MULTIDOMAINS INTERFACE TYPE RBODY CONNECTION "
               ELSEIF (K == 4) THEN
-                TITR="MULTIDOMAINS INTERFACE TYPE KINEMATIC CONDITION"                
-              ELSE 
-                TITR="MULTIDOMAINS INTERFACE TYPE CONTACT "   
+                TITR="MULTIDOMAINS INTERFACE TYPE KINEMATIC CONDITION"
+              ELSE
+                TITR="MULTIDOMAINS INTERFACE TYPE CONTACT "
               ENDIF
 !---
               IGROUP_TEMP2(1,IGS)= NUM
@@ -448,23 +448,23 @@ C---------------Creation of new GRNOD + LINK ------------------------C
               NEW_TITLE(IGS) = TITR
 !---
 C---------------Creation of new LINK---------------------------------C
-               CALL NEW_LINK(NUM,N,K)              
+               CALL NEW_LINK(NUM,N,K)
 C---------------Incrementation of Variables for future GRNOD---------C
                NUM = NUM+1
                IGS = IGS+1
-               IF (COMPT>0) N_LNK_C = N_LNK_C+1   
+               IF (COMPT>0) N_LNK_C = N_LNK_C+1
              ENDIF
            END DO
            IF (INNOD==0) THEN	
              IF (IPID/=0) THEN
-             ENDIF  
+             ENDIF
              CALL ANCMSG(MSGID=839,
      .                   MSGTYPE=MSGERROR,
      .                   ANMODE=ANINFO,
      .                   C1="CONNECTIONS FOUND",
      .                   C2="FOR DOMAIN",
      .                   I1=ISUBDOM(1,P))
-           ENDIF   
+           ENDIF
       ENDIF
       END DO
 C--------------------------------------------------------------------C
@@ -515,9 +515,9 @@ C----- Creation of file "_0000.r2r"----------------------------------C
 C--------------------------------------------------------------------C
       IF (FLAG == 1) THEN
         IF (IPID/=0) THEN
-          WRITE(ISTDO,'(A)')' .. MULTIDOMAINS INPUT FILE GENERATION' 
-          CALL R2R_INPUT(IEXLNK)   
-        ENDIF      
+          WRITE(ISTDO,'(A)')' .. MULTIDOMAINS INPUT FILE GENERATION'
+          CALL R2R_INPUT(IEXLNK)
+        ENDIF
       ENDIF
 C--------------------------------------------------------------------C
 C--------------------------------------------------------------------C
@@ -529,6 +529,6 @@ C--------------------------------------------------------------------C
       RETURN
 C--------------------------------------------------------------------C
 1301  FORMAT( 1X,'LIST OF SPLITTED CONTACT INTERFACES : ')
-1302  FORMAT( 1X,10I9)  
-      
+1302  FORMAT( 1X,10I9)
+
       END

@@ -114,15 +114,15 @@ C-----------------------------------------------
      .        NRTMDIM, IAD17, IRLEN20, ISLEN20, IRLEN20T, ISLEN20T,
      .        IRLEN20E, ISLEN20E, DIMFB
       INTEGER IPARI(NPARI), ICODT(*),ICONTACT(*),
-     .        ITAB(*), ISKY(*), KINET(*), 
+     .        ITAB(*), ISKY(*), KINET(*),
      .        WEIGHT(*),IPARG(NPARG,*)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        NISKYFI, LINDMAX, NISKYFIE
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
-      INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
+      INTEGER IAD_ELEM(2,*),FR_ELEM(*),
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*), ISENSINT(*)
-      my_real 
+      my_real
      .        EMINX(*)
 C     REAL
       my_real DT2T,
@@ -201,7 +201,7 @@ C     REAL
      .    CMAJ(MVSIZ), PENRAD(MVSIZ),CONDINT(MVSIZ),FNI(MVSIZ),
      .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),EFRICT(MVSIZ)
       INTEGER N1(MVSIZ), N2(MVSIZ), M1(MVSIZ), M2(MVSIZ),
-     .        NL1(MVSIZ), NL2(MVSIZ),ML1(MVSIZ), ML2(MVSIZ), 
+     .        NL1(MVSIZ), NL2(MVSIZ),ML1(MVSIZ), ML2(MVSIZ),
      .        CS_LOC(MVSIZ), CM_LOC(MVSIZ), NSMS(MVSIZ)
       INTEGER ICURV,IMPL_S0
       my_real, DIMENSION(:,:,:), ALLOCATABLE :: FSAVPARIT
@@ -216,14 +216,14 @@ C
       INACTI=IPARI(22)
       ISECIN=IPARI(28)
       MFROT =IPARI(30)
-      IFQ =IPARI(31) 
-      IBAG =IPARI(32) 
+      IFQ =IPARI(31)
+      IBAG =IPARI(32)
       IGSTI=IPARI(34)
       NLN   =IPARI(35)
       NISUB =IPARI(36)
       ICURV =IPARI(39)
 C adaptive meshing
-      IADM =IPARI(44) 
+      IADM =IPARI(44)
 
       NRADM=IPARI(49)
       PADM =INTBUF_TAB%VARIABLES(24)
@@ -280,7 +280,7 @@ c----------------------------------------------------
           CALL I20NORMS(IPARI(4),INTBUF_TAB%IRECTM,NUMNOD,X,SOLIDN_NORMAL,
      2           IPARI(6),INTBUF_TAB%MSR,NLN,INTBUF_TAB%NLG,INTBUF_TAB%GAP_SH,
      3           IAD_ELEM,FR_ELEM,INTBUF_TAB%NSV,NSN)
- 
+
           IF(NSPMD > 1)THEN
               LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
             CALL SPMD_I20EXCH_N(SOLIDN_NORMAL,IAD_ELEM,FR_ELEM,LENR)
@@ -475,7 +475,7 @@ C cand_n et cand_e remplace par cand_n_n et cand_e_n
      7  GAP	  ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,GAPV    ,GAPR	     ,
      8  MS	  ,VXI        ,VYI	 ,NLN	       ,INTBUF_TAB%NLG,
      9  VZI	  ,MSI        ,NSN	 ,INTBUF_TAB%VA,KINET	     ,
-     A  KINI	  ,NTY        ,NIN	 ,IGSTI        ,KMIN	     ,  
+     A  KINI	  ,NTY        ,NIN	 ,IGSTI        ,KMIN	     ,
      B  KMAX	  ,GAPMAX     ,GAPMIN	 ,IADM         ,RCURV	     ,
      C  RCURVI    ,ANGLM      ,ANGLMI	 ,INTTH        ,TEMP	     ,
      D  TEMPI	  ,PHI        ,INTBUF_TAB%AREAS,INTBUF_TAB%IELEC,AREASI    ,
@@ -510,8 +510,8 @@ C
           IPARI(29) = 1
           IF (DEBUG(3)>=1)NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
 C
-          IF( INTTH > 0 ) THEN 
-             CALL I7THERM(JLT   ,IPARG ,PM  ,IXS   ,IFORM ,X      ,   
+          IF( INTTH > 0 ) THEN
+             CALL I7THERM(JLT   ,IPARG ,PM  ,IXS   ,IFORM ,X      ,
      1                    XI    ,YI    ,ZI  ,X1   ,Y1    ,Z1     ,
      2                    X2    ,Y2    ,Z2  ,X3   ,Y3    ,Z3     ,
      3                    X4    ,Y4    ,Z4  ,IX1  ,IX2   ,IX3    ,
@@ -520,7 +520,7 @@ C
      6                    GAPV  ,FNI    ,IFUNCTK,XTHE,NPC  ,TF    ,
      7                    CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                    FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                    H4)   
+     8                    H4)
 
           ENDIF
 C 
@@ -543,7 +543,7 @@ C
      +                                                   INTBUF_TAB%XFILTR,
      H  INTBUF_TAB%IFPEN,GAPR,INTBUF_TAB%AVX_ANCR      ,NLN      ,INTBUF_TAB%NLG,
      I  IBAG         ,ICONTACT  ,INTBUF_TAB%NSV,INTBUF_TAB%PENIS,
-     +                                                   INTBUF_TAB%PENIM,       
+     +                                                   INTBUF_TAB%PENIM,
      J  VISCN        ,VXI       ,VYI          ,VZI         ,MSI      ,
      K  KINI         ,NIN       ,NISUB   ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
      L  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,FSAVSUB,INTBUF_TAB%CAND_N,
@@ -736,7 +736,7 @@ C----------------------------------------------------------------------
      2      INTBUF_TAB%AVX_ANCR(1+3*NLN+3*NLNFT1),INTBUF_TAB%STFA(1+NLNFT1),WEIGHT,INACTI,
      3      INTBUF_TAB%DAANC6(1+18*2*NLNFT1),INTBUF_TAB%STFAC(1),
      3      INTBUF_TAB%PENIA(1+5*NLNFT1),INTBUF_TAB%ALPHAK(1+3*NLNFT1),
-     4      INTBUF_TAB%AVX_ANCR(1+6*NLN+3*NLNFT1),KMIN) 
+     4      INTBUF_TAB%AVX_ANCR(1+6*NLN+3*NLNFT1),KMIN)
 
       IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
       IF(IGAP/=0)THEN

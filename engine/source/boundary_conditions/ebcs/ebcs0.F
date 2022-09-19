@@ -77,7 +77,7 @@ C
      .       X13,Y13,Z13,X24,Y24,Z24,NX,NY,NZ,S,
      .       ROOU,ENOU,VMX,VMY,VMZ,FLUXI,FLUXO,VN,PN,DU,DP,P,
      .       ENER,R1,R2,S2,DPDV
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
       IRHO = EBCS%irho
       IENER = EBCS%iener
@@ -146,7 +146,7 @@ c
         LA(3,N2)=LA(3,N2)+NZ
         LA(1,N3)=LA(1,N3)+NX
         LA(2,N3)=LA(2,N3)+NY
-        LA(3,N3)=LA(3,N3)+NZ 
+        LA(3,N3)=LA(3,N3)+NZ
 C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
@@ -182,13 +182,13 @@ C Pression voisin
          KLT = IPARG(2,N)
          MFT = IPARG(3,N)
          IF (KTY==1 .AND. ESEG<=KLT+MFT) EXIT
-        ENDDO  
+        ENDDO
         EAD = ESEG-MFT
         GBUF => ELBUF_TAB(N)%GBUF
         DO I=1,6
           II(I) = KLT*(I-1)
         ENDDO
-      
+
         P  =-(GBUF%SIG(II(1)+EAD)+GBUF%SIG(II(2)+EAD)+GBUF%SIG(II(3)+EAD))*THIRD
 C
         P0(N1)=P0(N1)+P*(NX*LA(1,N1)+NY*LA(2,N1)+NZ*LA(3,N1))

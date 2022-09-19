@@ -89,7 +89,7 @@ C-----------------------------------------------
              PY1=HALF*(X(3,NC2)-X(3,NC4))
              PY2=HALF*(X(3,NC3)-X(3,NC1))
              PZ1=HALF*(X(2,NC4)-X(2,NC2))
-             PZ2=HALF*(X(2,NC1)-X(2,NC3))    
+             PZ2=HALF*(X(2,NC1)-X(2,NC3))
              AIRE=TWO*(PY1*PZ2-PZ1*PY2)
              VY13=V(2,NC1)-V(2,NC3)
              VY24=V(2,NC2)-V(2,NC4)

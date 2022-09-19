@@ -29,7 +29,7 @@ Chd|====================================================================
         SUBROUTINE DIST_NODE_PLANE_3N (DIST,
      .             XNOD,YNOD,ZNOD,XP1,YP1,ZP1,XP2,YP2,ZP2,XP3,YP3,ZP3)
 c-----------------------------------------------------------------------
-c Calculates distance between NODE(XNOD,YNOD,ZNOD) 
+c Calculates distance between NODE(XNOD,YNOD,ZNOD)
 c and a flat surface defined by three points P1, P2, P3
 c-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -52,9 +52,9 @@ C=======================================================================
       BX = XP3 - XP1
       BY = YP3 - YP1
       BZ = ZP3 - ZP1
-      VECX = XNOD - XP1 
-      VECY = YNOD - YP1 
-      VECZ = ZNOD - ZP1 
+      VECX = XNOD - XP1
+      VECY = YNOD - YP1
+      VECZ = ZNOD - ZP1
 c
       NX = AY*BZ - AZ*BY
       NY = AZ*BX - AX*BZ

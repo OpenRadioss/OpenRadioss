@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE REMESH_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   IXC(NIXC,*), IXTG(NIXTG,*), IPARG(NPARG,*),
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),
@@ -80,7 +80,7 @@ C-----------------------------------------------
      .        NN,LEVEL,MY_LEVEL,M,SON,LL,M1,M2,M3,M4,MC
 C     REAL
        my_real
-     .     AREA, A, AT, THK, 
+     .     AREA, A, AT, THK,
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z
        my_real

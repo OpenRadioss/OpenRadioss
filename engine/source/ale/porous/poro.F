@@ -74,7 +74,7 @@ C-----------------------------------------------
       INTEGER NAD,IG,I,K,JP,N,JRB,NG, FR_POR(NSPMD+2)
       my_real G1,G2,G3,R11,R12,R13,R21,R22,R23,R31,R32,R33,R(3,3),
      .        VX,VY,VZ,
-     .        RFM(3,NUMPORL),F1(NUMPORL),F2(NUMPORL), 
+     .        RFM(3,NUMPORL),F1(NUMPORL),F2(NUMPORL),
      .        F3(NUMPORL),F4(NUMPORL),F5(NUMPORL),F6(NUMPORL)
       DOUBLE PRECISION FPOR6(6,6)
 C-----------------------------------------------
@@ -192,7 +192,7 @@ C
           CALL SUM_6_FLOAT(1  ,N  ,F4, FPOR6(4,1), 6)
           CALL SUM_6_FLOAT(1  ,N  ,F5, FPOR6(5,1), 6)
           CALL SUM_6_FLOAT(1  ,N  ,F6, FPOR6(6,1), 6)
-  
+
           IF(NSPMD > 1) THEN
 C FR_POR built here
             DO I = 1, NSPMD

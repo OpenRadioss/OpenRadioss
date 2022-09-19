@@ -65,12 +65,12 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK, IPARG(NPARG,*), NGROUNC, IGROUNC(*), KXSP(NISP,*),
-     .        ISPCOND(NISPCOND,*),  ISPSYM(NSPCOND,*), WASPACT(*), 
+     .        ISPCOND(NISPCOND,*),  ISPSYM(NSPCOND,*), WASPACT(*),
      .        SPH2SOL(*), IXSP(KVOISPH,*), NOD2SP(*), IPART(LIPART1,*),
      .        IPARTSP(*)
 C     REAL
       my_real
-     .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*), STAB(7,*), 
+     .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*), STAB(7,*),
      .   SPBUF(NSPBUF,*), X(3,*), XSPSYM(3,*)
 C-----------------------------------------------
       my_real
@@ -79,7 +79,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, N, NS, INOD, JNOD, M, NVOIS, NN, 
+      INTEGER I, J, N, NS, INOD, JNOD, M, NVOIS, NN,
      .        NSPACTF, NSPACTL, IPRT, IGEO, ID, IS,
      .        NVOISS, JS, SM, NC, IACT
       my_real
@@ -190,11 +190,11 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK, IPARG(NPARG,*), NGROUNC, IGROUNC(*), KXSP(NISP,*),
-     .        ISPCOND(NISPCOND,*),  ISPSYM(NSPCOND,*), WASPACT(*), 
+     .        ISPCOND(NISPCOND,*),  ISPSYM(NSPCOND,*), WASPACT(*),
      .        SPH2SOL(*), IXSP(KVOISPH,*), NOD2SP(*)
 C     REAL
       my_real
-     .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*), STAB(7,*), 
+     .   WA(KWASPH,*), WASIGSM(6,*), WAR(10,*), STAB(7,*),
      .   SPBUF(NSPBUF,*), X(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -202,7 +202,7 @@ C-----------------------------------------------
       INTEGER I, J, N, NINDX, INDEX(MVSIZ), KS, JS, SM, SS, KR, NR,
      .        IG, NELEM, NG, OFFSET, NEL,
      .        NC, IC, IS, ISLIDE, NSPHRFT, NSPHRLT, L, SIZE,
-     .        NS, INOD, JNOD, M, NVOIS, 
+     .        NS, INOD, JNOD, M, NVOIS,
      .        NSPACTF, NSPACTL
       my_real
      .       SIGPRV(3,MVSIZ), DIRPRV(3,3,MVSIZ),
@@ -214,7 +214,7 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c------------------------
       DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
 C--------
 C Solids to SPH, particles must be computed when cloud active
         IF(IPARG(8,NG)==1)GOTO 350
@@ -545,13 +545,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, L, N, II, NN, LMAX, LMAXV(MVSIZ),
-     .       NINDEX1, NINDEX2, NINDEX3, 
+     .       NINDEX1, NINDEX2, NINDEX3,
      .       INDEX1(MVSIZ), INDEX2(MVSIZ), INDEX3(MVSIZ)
       my_real
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -569,7 +569,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO II = 1, NINDX
         NN=INDEX(II)
         CS(1) = SIG(1,NN)
@@ -593,7 +593,7 @@ c        AA = MAX(AAA(NN),NORMINF(NN),EM20)
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - TWO*CS(4)*CS(5)*CS(6)     
+     &     - TWO*CS(4)*CS(5)*CS(6)
 C
         CC=-SQRT(TWENTY7/MAX(EM20,AA))*BB*HALF/MAX(EM20,AA)
         CC= MIN(CC,ONE)
@@ -748,7 +748,7 @@ C
         ELSE
           V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
-          V(3,2,NN)=ZERO  
+          V(3,2,NN)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -803,7 +803,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ENDIF
       ENDDO
 C

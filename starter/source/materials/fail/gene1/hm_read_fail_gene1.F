@@ -91,7 +91,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB
       INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -99,7 +99,7 @@ C MODIFIED ARGUMENT
       my_real,INTENT(INOUT)          :: UPARAM(MAXUPARAM)
       INTEGER,INTENT(OUT)            :: NUPARAM,NUVAR
       CHARACTER TITR*nchartitle
-      TYPE(TTABLE) TABLE(NTABLE)    
+      TYPE(TTABLE) TABLE(NTABLE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C-----------------------------------------------
      .        Ismooth,NCRIT_MAX,IMINPRES,IMAXPRES,IMAXSIGP,IMAXTIME,
      .        IMINDT,IMAXSIGVM,IMAXKF,IMAXEPS,IEFFEPS,IVOLEPS,IMINEPS,
      .        IEPSSH,IMINTHIN,IMAXTEMP
-      my_real 
+      my_real
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,KF,
      .        EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
      .        THIN,VOLFRAC,PTHK,MAXTEMP,Fscale_el,El_ref,FREQ_UNIT,
@@ -121,10 +121,10 @@ C=======================================================================
       NCRIT_MAX    = 0
       ! Initialization of output flags
       IMINPRES     = 0
-      IMAXPRES     = 0    
+      IMAXPRES     = 0
       IMAXSIGP     = 0
       IMAXTIME     = 0
-      IMINDT       = 0  
+      IMINDT       = 0
       IMAXSIGVM    = 0
       IMAXKF       = 0
       IMAXEPS      = 0
@@ -155,7 +155,7 @@ C===============================================================================
         IMAXSIGP  = 1
       ENDIF
       CALL HM_GET_FLOATV ('MAT_TMAX'     ,TMAX      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (TMAX  /= ZERO) THEN 
+      IF (TMAX  /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IMAXTIME  = 1
       ENDIF
@@ -170,13 +170,13 @@ C===============================================================================
       CALL HM_GET_INTV   ('fct_IDsm'     ,fct_IDsm  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_EPSDSM'   ,EPSDOT_SM ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_SIGVM'    ,SIGVM     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((SIGVM /= ZERO).OR.(fct_IDsm /= 0)) THEN 
+      IF ((SIGVM /= ZERO).OR.(fct_IDsm /= 0)) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IMAXSIGVM = 1
       ENDIF
       CALL HM_GET_FLOATV ('MAT_SIGTH'    ,SIGTH     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_KF'       ,KF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((SIGTH /= ZERO).OR.(KF /= ZERO)) THEN 
+      IF ((SIGTH /= ZERO).OR.(KF /= ZERO)) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IMAXKF    = 1
       ENDIF
@@ -186,17 +186,17 @@ C===============================================================================
       CALL HM_GET_INTV   ('fct_IDps'     ,fct_IDps  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_EPSDPS'   ,EPSDOT_PS ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_MAXEPS'   ,MAXEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF ((MAXEPS /= ZERO).OR.(fct_IDps /= 0)) THEN 
+      IF ((MAXEPS /= ZERO).OR.(fct_IDps /= 0)) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IMAXEPS   = 1
       ENDIF
       CALL HM_GET_FLOATV ('MAT_EFFEPS'   ,EFFEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (EFFEPS /= ZERO) THEN 
+      IF (EFFEPS /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IEFFEPS   = 1
       ENDIF
       CALL HM_GET_FLOATV ('MAT_VOLEPS'   ,VOLEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (VOLEPS /= ZERO) THEN 
+      IF (VOLEPS /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IVOLEPS   = 1
       ENDIF
@@ -204,23 +204,23 @@ C===============================================================================
 ! -> Card4
 !---------------
       CALL HM_GET_FLOATV ('MAT_MINEPS'   ,MINEPS    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (MINEPS /= ZERO) THEN 
+      IF (MINEPS /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IMINEPS   = 1
       ENDIF
       CALL HM_GET_FLOATV ('MAT_EPSSH'    ,EPSSH     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (EPSSH  /= ZERO) THEN 
+      IF (EPSSH  /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IEPSSH    = 1
       ENDIF
       CALL HM_GET_INTV   ('fct_IDg12'    ,fct_IDg12 ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('fct_IDg13'    ,fct_IDg13 ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('fct_IDe1c'    ,fct_IDe1c ,IS_AVAILABLE,LSUBMODEL)
-      IF ((fct_IDg13 /= 0).AND.(fct_IDe1c /= 0)) THEN 
+      IF ((fct_IDg13 /= 0).AND.(fct_IDe1c /= 0)) THEN
         NCRIT_MAX = NCRIT_MAX + 2
-      ELSEIF ((fct_IDg12 /= 0).AND.((fct_IDg13 /= 0).OR.(fct_IDe1c /= 0))) THEN       
+      ELSEIF ((fct_IDg12 /= 0).AND.((fct_IDg13 /= 0).OR.(fct_IDe1c /= 0))) THEN
         NCRIT_MAX = NCRIT_MAX + 1
-      ELSEIF ((fct_IDg12 == 0).AND.(fct_IDg13 == 0).AND.(fct_IDe1c == 0)) THEN 
+      ELSEIF ((fct_IDg12 == 0).AND.(fct_IDg13 == 0).AND.(fct_IDe1c == 0)) THEN
       ELSE
         NCRIT_MAX = NCRIT_MAX + 1
       ENDIF
@@ -230,15 +230,15 @@ C===============================================================================
       CALL HM_GET_INTV   ('tab_IDfld'    ,tab_IDfld ,IS_AVAILABLE,LSUBMODEL)
       IF (tab_IDfld /= 0) NCRIT_MAX = NCRIT_MAX + 1
       CALL HM_GET_INTV   ('Itab'         ,Itab      ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('MAT_EPSDFLD'  ,EPSDOT_FLD,IS_AVAILABLE,LSUBMODEL,UNITAB)   
+      CALL HM_GET_FLOATV ('MAT_EPSDFLD'  ,EPSDOT_FLD,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('MAT_NSTEP'    ,NSTEP     ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Ismooth'      ,Ismooth   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Istrain'      ,Istrain   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_THIN'     ,THIN      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (THIN /= ZERO) THEN 
+      IF (THIN /= ZERO) THEN
         NCRIT_MAX = NCRIT_MAX + 1
         IMINTHIN  = 1
-      ENDIF 
+      ENDIF
 !---------------
 ! -> Card6
 !---------------
@@ -246,8 +246,8 @@ C===============================================================================
       CALL HM_GET_FLOATV ('Pthk'         ,PTHK      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('MAT_NCS'      ,NCS       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('MAT_MAXTEMP'  ,MAXTEMP   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      IF (MAXTEMP /= ZERO) THEN 
-        NCRIT_MAX = NCRIT_MAX + 1      
+      IF (MAXTEMP /= ZERO) THEN
+        NCRIT_MAX = NCRIT_MAX + 1
         IMAXTEMP  = 1
       ENDIF
 !---------------
@@ -267,7 +267,7 @@ C===============================================================================
       IF (SIGP1   == ZERO) SIGP1   = INFINITY
       IF (TMAX    == ZERO) TMAX    = INFINITY
       IF (DTMIN   == ZERO) DTMIN   = EM20
-      ! Card 2 
+      ! Card 2
       IF (fct_IDsm > 0) THEN
         IF (EPSDOT_SM == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_EPSDSM' ,FREQ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -282,12 +282,12 @@ C===============================================================================
       ENDIF
       IF (SIGTH == ZERO) SIGTH = INFINITY
       IF (KF    == ZERO) KF    = INFINITY
-      ! Card 3 
+      ! Card 3
       IF (fct_IDps > 0) THEN
         IF (EPSDOT_PS == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_EPSDPS' ,FREQ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
           EPSDOT_PS = ONE*FREQ_UNIT
-        ENDIF        
+        ENDIF
         IF (MAXEPS == ZERO) THEN
           MAXEPS = ONE
         ENDIF
@@ -296,13 +296,13 @@ C===============================================================================
       ENDIF
       IF (EFFEPS == ZERO) EFFEPS = INFINITY
       IF (VOLEPS == ZERO) VOLEPS = INFINITY
-      ! Card 4 
+      ! Card 4
       MINEPS = -ABS(MINEPS)
       IF (MINEPS == ZERO) MINEPS = -INFINITY
       IF (EPSSH  == ZERO) EPSSH  = INFINITY
       ! Card 5
-      IF (tab_IDfld > 0) THEN 
-        IF (EPSDOT_FLD == ZERO) THEN 
+      IF (tab_IDfld > 0) THEN
+        IF (EPSDOT_FLD == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('MAT_EPSDFLD' ,FREQ_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
           EPSDOT_FLD = ONE*FREQ_UNIT
         ENDIF
@@ -310,7 +310,7 @@ C===============================================================================
       IF (NSTEP   == 0)    NSTEP   = 10
       IF (Ismooth == 0)    Ismooth = 1
       IF (THIN    == ZERO) THIN    = -INFINITY
-      ! Card 6 
+      ! Card 6
       IF (VOLFRAC == ZERO) VOLFRAC = HALF
       VOLFRAC = MIN(VOLFRAC,ONE)
       VOLFRAC = MAX(ZERO,VOLFRAC)
@@ -321,11 +321,11 @@ C===============================================================================
       IF (NCS > NCRIT_MAX) THEN
         CALL ANCMSG(MSGID=2043,MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,
-     .              C1=TITR,I2=NCS,I3=NCRIT_MAX,I4=NCRIT_MAX)   
+     .              C1=TITR,I2=NCS,I3=NCRIT_MAX,I4=NCRIT_MAX)
         NCS = NCRIT_MAX
-      ENDIF 
+      ENDIF
       IF (MAXTEMP == ZERO) MAXTEMP = INFINITY
-      ! Card 7 
+      ! Card 7
       IF (Fscale_el == ZERO) Fscale_el = ONE
       IF (((fct_IDel > 0).OR.(fct_IDg12 > 0).OR.(fct_IDg13 > 0).OR.(fct_IDe1c > 0)
      .    .OR.(tab_IDfld > 0.AND.Itab == 2)).AND.(El_ref == ZERO)) THEN
@@ -340,27 +340,27 @@ C===============================================================================
       ! -> Number of functions
       NFUNC   = 0
       IF (fct_IDsm /= 0) THEN
-        NFUNC = NFUNC + 1 
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = fct_IDsm
       ENDIF
       IF (fct_IDps /= 0) THEN
-        NFUNC = NFUNC + 1 
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = fct_IDps
       ENDIF
       IF (fct_IDg12 /= 0) THEN
-        NFUNC = NFUNC + 1 
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = fct_IDg12
-      ENDIF                
+      ENDIF
       IF (fct_IDg13 /= 0) THEN
-        NFUNC = NFUNC + 1 
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = fct_IDg13
-      ENDIF 
+      ENDIF
       IF (fct_IDe1c /= 0) THEN
-        NFUNC = NFUNC + 1 
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = fct_IDe1c
-      ENDIF 
+      ENDIF
       IF (fct_IDel /= 0) THEN
-        NFUNC = NFUNC + 1 
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = fct_IDel
       ENDIF
       int_tab_IDfld = tab_IDfld
@@ -368,8 +368,8 @@ C===============================================================================
         CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,1,int_tab_IDfld)
       ENDIF
       ! -> Number of user variables
-      NUVAR = 8 
-! c-----------------------------------------------------    
+      NUVAR = 8
+! c-----------------------------------------------------
       UPARAM(1)  = MINPRES
       UPARAM(2)  = MAXPRES
       UPARAM(3)  = SIGP1
@@ -405,7 +405,7 @@ C===============================================================================
 c-----------------------------------------------------
 c--------------------------
 c     Printout data
-c-------------------------- 
+c--------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -423,9 +423,9 @@ c--------------------------
         IF (IMAXSIGP == 1) WRITE(IOUT,1102) SIGP1
         IF (IMAXTIME == 1) WRITE(IOUT,1103) TMAX
         IF (IMINDT   == 1) WRITE(IOUT,1104) DTMIN
-        ! Card 2 
-        IF (IMAXSIGVM == 1) THEN 
-          IF (fct_IDsm > 0) THEN 
+        ! Card 2
+        IF (IMAXSIGVM == 1) THEN
+          IF (fct_IDsm > 0) THEN
             WRITE(IOUT,2000) fct_IDsm,EPSDOT_SM,SIGVM
           ELSE
             WRITE(IOUT,2100) SIGVM
@@ -433,8 +433,8 @@ c--------------------------
         ENDIF
         IF (IMAXKF == 1) WRITE(IOUT,2001) SIGTH,KF
         ! Card 3
-        IF (IMAXEPS == 1) THEN 
-          IF (fct_IDps > 0) THEN 
+        IF (IMAXEPS == 1) THEN
+          IF (fct_IDps > 0) THEN
             WRITE(IOUT,3000) fct_IDps,EPSDOT_PS,MAXEPS
           ELSE
             WRITE(IOUT,3100) MAXEPS
@@ -449,7 +449,7 @@ c--------------------------
         IF (fct_IDg13 > 0) WRITE(IOUT,4200) fct_IDg13
         IF (fct_IDe1c > 0) WRITE(IOUT,4300) fct_IDe1c
         ! Card 5
-        IF (tab_IDfld > 0) THEN 
+        IF (tab_IDfld > 0) THEN
           WRITE(IOUT,5000) tab_IDfld,Itab,EPSDOT_FLD,
      .                     Ismooth,Istrain
         ENDIF
@@ -481,8 +481,8 @@ c-----------------------------------------------------
  1100 FORMAT(
      & 5X,'MINIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/)
  1101 FORMAT(
-     & 5X,'MAXIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/) 
- 1102 FORMAT(        
+     & 5X,'MAXIMUM PRESSURE (POSITIVE IN COMPRESSION) . . . . .=',1PG20.13,/)
+ 1102 FORMAT(
      & 5X,'MAXIMUM PRINCIPAL STRESS . . . . . . . . . . . . . .=',1PG20.13,/)
  1103 FORMAT(
      & 5X,'FAILURE TIME . . . . . . . . . . . . . . . . . . . .=',1PG20.13,/)
@@ -544,5 +544,5 @@ c-----------------------------------------------------
      & 5X,'----------------------------',/)
  8000 FORMAT(
      & 5X,' ----------------------------------------------------',//)
-c----------- 
+c-----------
       END

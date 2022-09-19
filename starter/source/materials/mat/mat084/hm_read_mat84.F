@@ -33,7 +33,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT84(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         ITABLE   ,MAXTABL  ,NTABLE,PM     ,IPM      )
 C-----------------------------------------------
@@ -56,10 +56,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
      .                                         ,NTABLE,ITABLE(MAXTABL)
@@ -102,17 +102,17 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------      
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
-!      
+!
       MTAG%G_TEMP = 1
       MTAG%L_TEMP = 1
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-!      
+!
       ISRATE=0
       IMATVIS=0
-      ILAW=84 
+      ILAW=84
 C 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
@@ -148,12 +148,12 @@ C
       CALL HM_GET_FLOATV('FScale11_2'    ,MTEMP          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale22_2'    ,DEPSAD         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !unit
-      !========== DEFAULT VALUES=============!              
+      !========== DEFAULT VALUES=============!
       RHOR=RHO0
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
-!  
+!
       AFRAC=ZERO
       NFRAC=ZERO
       BFRAC=ZERO
@@ -201,15 +201,15 @@ c
        UPARAM(23)= MTEMP
        UPARAM(24)= DEPSAD
 
-       UPARAM(25) =AFRAC    
-       UPARAM(26) =BFRAC   
-       UPARAM(27) =GAMA     
-       UPARAM(28) =CFRAC   
-       UPARAM(29) =NFRAC    
+       UPARAM(25) =AFRAC
+       UPARAM(26) =BFRAC
+       UPARAM(27) =GAMA
+       UPARAM(28) =CFRAC
+       UPARAM(29) =NFRAC
 
 C
        NUVAR   = 9
-       NUPARAM = 29 
+       NUPARAM = 29
        PARMAT(1) = YOUNG/THREE/(ONE - TWO*NU)
        PARMAT(2) = YOUNG
        PARMAT(3) = NU
@@ -218,16 +218,16 @@ C      Formulation for solid elements time step computation.
        PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C------------------------------
        WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
-       WRITE(IOUT,1000)           
+       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
-       WRITE(IOUT,1002)RHO0  
+       WRITE(IOUT,1002)RHO0
        WRITE(IOUT,1100) YOUNG,NU,P12,P22,P33,G12,G22,G33
        WRITE(IOUT,1200) QVOCE,BVOCE,K0,ALPHA
        WRITE(IOUT,1300) AN,NN,EPS0,CEPSP,DEPS0
        WRITE(IOUT,1400) ETA,CP,TINI,TREF,TMELT,MTEMP,DEPSAD
-      ENDIF 
+      ENDIF
 C
 c-----------
  1000 FORMAT
@@ -238,7 +238,7 @@ c-----------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS. . . . . . . . . .  . . . . =',E12.4/
      & 5X,'POISSON''S RATIO . . . . . . . . . . . . . . =',E12.4/
@@ -252,7 +252,7 @@ c-----------
      & 5X,'YIELD VOCE PARAMETER Q. . . . . . . . . . . .=',E12.4/
      & 5X,'YIELD VOCE PARAMETER B . . . . . . . . . . . =',E12.4/
      & 5X,'YIELD VOCE PARAMETER K0. . . . . . . . . . . =',E12.4/
-     & 5X,'YIELD GLOBAL PARAMETER ALPHA . . . . . . . . =',E12.4)    
+     & 5X,'YIELD GLOBAL PARAMETER ALPHA . . . . . . . . =',E12.4)
  1300 FORMAT(//
      & 5X,'YIELD SWIFT PARAMETER A. . . . . . . . . . . =',E12.4/
      & 5X,'YIELD SWIFT EXPONENT N . . . . . . . . . . . =',E12.4/
@@ -266,7 +266,7 @@ c-----------
      & 5X,'REFERENCE TEMPERATURE . . . . . . . . . . . .=',E12.4/
      & 5X,'MELTING TEMPERATURE . . . . . . . . . . . . .=',E12.4/
      & 5X,'TEMPERATURE EXPONENT. . . . . . . . . . . . .=',E12.4/
-     & 5X,'OPTIMIZATION STRAIN RATE COEFFICIENT . . . . =',E12.4)     
+     & 5X,'OPTIMIZATION STRAIN RATE COEFFICIENT . . . . =',E12.4)
 c-----------
       RETURN
       END

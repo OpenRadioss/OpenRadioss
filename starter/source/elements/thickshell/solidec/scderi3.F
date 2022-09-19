@@ -30,9 +30,9 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SCDERI3(NEL,VOL,JEUL ,VEUL ,GEO  ,
      .         VZL  ,VZQ  ,NGL  ,NGEO ,
-     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,  
-     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,  
-     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, DET)  
+     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
+     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8, DET)
 
 C-----------------------------------------------
 C   M o d u l e s
@@ -62,9 +62,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
       my_real
-     .   DETT(MVSIZ), 
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), 
-     .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ), 
+     .   DETT(MVSIZ),
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
+     .   X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -72,11 +72,11 @@ C-----------------------------------------------
      .   JAC1(MVSIZ), JAC2(MVSIZ), JAC3(MVSIZ), JAC4(MVSIZ),
      .   JAC5(MVSIZ), JAC6(MVSIZ), JAC7(MVSIZ), JAC8(MVSIZ),
      .   JAC9(MVSIZ),
-     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ), 
-     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), 
-     .   JACI9(MVSIZ), 
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ),
+     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ),
+     .   JACI9(MVSIZ),
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
-     .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ), 
+     .   Y17(MVSIZ), Y28(MVSIZ), Y35(MVSIZ), Y46(MVSIZ),
      .   Z17(MVSIZ), Z28(MVSIZ), Z35(MVSIZ), Z46(MVSIZ),
      .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   X_17_46(MVSIZ),Y_17_46(MVSIZ),Z_17_46(MVSIZ),
@@ -195,7 +195,7 @@ C
 C
       IF (GEO(12,NGEO(I)) == 15) THEN
           DO I=1,NEL
-            VOL(I)=VOL(I)*GEO(1,NGEO(I))      
+            VOL(I)=VOL(I)*GEO(1,NGEO(I))
           ENDDO
       ENDIF
 c-----------

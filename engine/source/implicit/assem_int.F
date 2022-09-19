@@ -50,8 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND  ,NS(*)  ,N1(*)    ,N2(*)  ,N3(*),N4(*)   
-      INTEGER 
+      INTEGER ND  ,NS(*)  ,N1(*)    ,N2(*)  ,N3(*),N4(*)
+      INTEGER
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*)
 C     REAL
       my_real
@@ -63,25 +63,25 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C-------NS,N1----
-       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KI11,ND,OFF) 
-       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,KI11,ND,OFF) 
+       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KI11,ND,OFF)
+       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,KI11,ND,OFF)
        CALL ASSEM_KIJ(NS,N1,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,KI12,ND,OFF) 
+     .                K_DIAG,K_LT,KI12,ND,OFF)
 C-------NS,N2----
-       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KJ11,ND,OFF) 
-       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,KJ11,ND,OFF) 
+       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KJ11,ND,OFF)
+       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,KJ11,ND,OFF)
        CALL ASSEM_KIJ(NS,N2,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,KJ12,ND,OFF) 
+     .                K_DIAG,K_LT,KJ12,ND,OFF)
 C-------NS,N3----
-       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KK11,ND,OFF) 
-       CALL ASSEM_KII(N3,NEL,IDDL,IADK,K_DIAG,K_LT ,KK11,ND,OFF) 
+       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KK11,ND,OFF)
+       CALL ASSEM_KII(N3,NEL,IDDL,IADK,K_DIAG,K_LT ,KK11,ND,OFF)
        CALL ASSEM_KIJ(NS,N3,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,KK12,ND,OFF) 
+     .                K_DIAG,K_LT,KK12,ND,OFF)
 C-------NS,N4----
-       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KL11,ND,OFF) 
-       CALL ASSEM_KII(N4,NEL,IDDL,IADK,K_DIAG,K_LT ,KL11,ND,OFF) 
+       CALL ASSEM_KII(NS,NEL,IDDL,IADK,K_DIAG,K_LT ,KL11,ND,OFF)
+       CALL ASSEM_KII(N4,NEL,IDDL,IADK,K_DIAG,K_LT ,KL11,ND,OFF)
        CALL ASSEM_KIJ(NS,N4,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,KL12,ND,OFF) 
+     .                K_DIAG,K_LT,KL12,ND,OFF)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -119,8 +119,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND  ,NS(*)  ,N1(*)    ,N2(*)  ,N3(*),N4(*)   
-      INTEGER 
+      INTEGER ND  ,NS(*)  ,N1(*)    ,N2(*)  ,N3(*),N4(*)
+      INTEGER
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*),NIN
 C     REAL
       my_real
@@ -130,7 +130,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,NINDEX,INDEX(NEL),J,K,NN,IDI,IDJ
 C
        NINDEX=0
@@ -142,13 +142,13 @@ C
 C--------spmd--secnd remote--Kss->(tempo)FFI,DFI, Diag_Kmm->Diag_I[KI 0]
 c------------------------------------------------------------------[0 Dm]-
          CALL ASSEM_KII(N1(I),1,IDDL,IADK,K_DIAG,K_LT ,KI11(1,1,I),
-     .                  ND   ,OFF(I)) 
-         CALL ASSEM_KII(N2(I),1,IDDL,IADK,K_DIAG,K_LT ,KJ11(1,1,I), 
-     .                  ND   ,OFF(I)) 
-         CALL ASSEM_KII(N3(I),1,IDDL,IADK,K_DIAG,K_LT ,KK11(1,1,I), 
-     .                  ND   ,OFF(I)) 
-         CALL ASSEM_KII(N4(I),1,IDDL,IADK,K_DIAG,K_LT ,KL11(1,1,I), 
-     .                  ND   ,OFF(I)) 
+     .                  ND   ,OFF(I))
+         CALL ASSEM_KII(N2(I),1,IDDL,IADK,K_DIAG,K_LT ,KJ11(1,1,I),
+     .                  ND   ,OFF(I))
+         CALL ASSEM_KII(N3(I),1,IDDL,IADK,K_DIAG,K_LT ,KK11(1,1,I),
+     .                  ND   ,OFF(I))
+         CALL ASSEM_KII(N4(I),1,IDDL,IADK,K_DIAG,K_LT ,KL11(1,1,I),
+     .                  ND   ,OFF(I))
 	 NN=IND_INT(NIN)%P(-NS(I))
          DO J=1,ND
 	  FFI(J,NN)=FFI(J,NN) +
@@ -175,7 +175,7 @@ C-------NS,N1----
           IDJ = IDDL(N4(I))
           CALL ASSFR_KIJ(IDI    ,IDJ   ,IAD_SI  ,JDI_SI,LT_SI  ,
      1                   KL12(1,1,I),ND    )
-        ENDIF 
+        ENDIF
         ENDIF
        ENDDO
        IF (NINDEX<NEL) THEN
@@ -201,7 +201,7 @@ C-------NS,N1----
           ENDDO
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
        NEL=NINDEX
 C
 C----6---------------------------------------------------------------7---------8
@@ -234,8 +234,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ND  ,N1(*)  ,N2(*)    ,M1(*) ,M2(*) 
-      INTEGER 
+      INTEGER ND  ,N1(*)  ,N2(*)    ,M1(*) ,M2(*)
+      INTEGER
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*)
 C     REAL
       my_real
@@ -247,25 +247,25 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C
 C-------N1,M1----
-       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,K1I11,ND,OFF) 
-       CALL ASSEM_KII(M1,NEL,IDDL,IADK,K_DIAG,K_LT ,K1I11,ND,OFF) 
+       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,K1I11,ND,OFF)
+       CALL ASSEM_KII(M1,NEL,IDDL,IADK,K_DIAG,K_LT ,K1I11,ND,OFF)
        CALL ASSEM_KIJ(N1,M1,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,K1I12,ND,OFF) 
+     .                K_DIAG,K_LT,K1I12,ND,OFF)
 C-------N1,M2----
-       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,K1J11,ND,OFF) 
-       CALL ASSEM_KII(M2,NEL,IDDL,IADK,K_DIAG,K_LT ,K1J11,ND,OFF) 
+       CALL ASSEM_KII(N1,NEL,IDDL,IADK,K_DIAG,K_LT ,K1J11,ND,OFF)
+       CALL ASSEM_KII(M2,NEL,IDDL,IADK,K_DIAG,K_LT ,K1J11,ND,OFF)
        CALL ASSEM_KIJ(N1,M2,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,K1J12,ND,OFF) 
+     .                K_DIAG,K_LT,K1J12,ND,OFF)
 C-------N2,M1----
-       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,K2I11,ND,OFF) 
-       CALL ASSEM_KII(M1,NEL,IDDL,IADK,K_DIAG,K_LT ,K2I11,ND,OFF) 
+       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,K2I11,ND,OFF)
+       CALL ASSEM_KII(M1,NEL,IDDL,IADK,K_DIAG,K_LT ,K2I11,ND,OFF)
        CALL ASSEM_KIJ(N2,M1,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,K2I12,ND,OFF) 
+     .                K_DIAG,K_LT,K2I12,ND,OFF)
 C-------N2,M2----
-       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,K2J11,ND,OFF) 
-       CALL ASSEM_KII(M2,NEL,IDDL,IADK,K_DIAG,K_LT ,K2J11,ND,OFF) 
+       CALL ASSEM_KII(N2,NEL,IDDL,IADK,K_DIAG,K_LT ,K2J11,ND,OFF)
+       CALL ASSEM_KII(M2,NEL,IDDL,IADK,K_DIAG,K_LT ,K2J11,ND,OFF)
        CALL ASSEM_KIJ(N2,M2,NEL,IDDL,IADK,JDIK,
-     .                K_DIAG,K_LT,K2J12,ND,OFF) 
+     .                K_DIAG,K_LT,K2J12,ND,OFF)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -302,7 +302,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ND  ,N1(*)    ,N2(*)  ,M1(*),M2(*)   ,NS(*)    ,NRTS
-      INTEGER 
+      INTEGER
      .        NEL   ,IDDL(*)   ,IADK(*)  ,JDIK(*),NIN
 C     REAL
       my_real
@@ -312,7 +312,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,NINDEX,INDEX(NEL),J,K,NN1,NN2,NN,IDI,IDJ
 C
        NINDEX=0
@@ -324,13 +324,13 @@ C
 C--------spmd--secnd remote--Kss->(tempo)FFI,DFI, Diag_Kmm->Diag_I[KI 0]
 c------------------------------------------------------------------[0 Dm]-
          CALL ASSEM_KII(M1(I),1,IDDL,IADK,K_DIAG,K_LT ,K1I11(1,1,I),
-     .                  ND   ,OFF(I)) 
-         CALL ASSEM_KII(M2(I),1,IDDL,IADK,K_DIAG,K_LT ,K1J11(1,1,I), 
-     .                  ND   ,OFF(I)) 
+     .                  ND   ,OFF(I))
+         CALL ASSEM_KII(M2(I),1,IDDL,IADK,K_DIAG,K_LT ,K1J11(1,1,I),
+     .                  ND   ,OFF(I))
          CALL ASSEM_KII(M1(I),1,IDDL,IADK,K_DIAG,K_LT ,K2I11(1,1,I),
-     .                  ND   ,OFF(I)) 
-         CALL ASSEM_KII(M2(I),1,IDDL,IADK,K_DIAG,K_LT ,K2J11(1,1,I), 
-     .                  ND   ,OFF(I)) 
+     .                  ND   ,OFF(I))
+         CALL ASSEM_KII(M2(I),1,IDDL,IADK,K_DIAG,K_LT ,K2J11(1,1,I),
+     .                  ND   ,OFF(I))
          NN = NS(I)-NRTS
 	 NN1=IND_INT(NIN)%P(NN)
 	 NN2=NN1+1
@@ -358,7 +358,7 @@ c------------------------------------------------------------------[0 Dm]-
           IDJ = IDDL(M1(I))
           CALL ASSFR_KIJ(IDI    ,IDJ   ,IAD_SI  ,JDI_SI,LT_SI  ,
      1                   K2I12(1,1,I),ND    )
-        ENDIF 
+        ENDIF
         ENDIF
        ENDDO
        IF (NINDEX<NEL) THEN
@@ -384,7 +384,7 @@ c------------------------------------------------------------------[0 Dm]-
           ENDDO
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
        NEL=NINDEX
 C
 C----6---------------------------------------------------------------7---------8

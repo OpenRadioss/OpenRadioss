@@ -65,7 +65,7 @@ C=======================================================================
         MX      =MAT(I)
         RHO0(I) =PM( 1,MX)
         E(I)    =PM(20,MX)
-        G(I)    =PM(22,MX)     
+        G(I)    =PM(22,MX)
         B(I)    =E(I)*G(I)/(NINE*G(I)-THREE*E(I))
         VIS(I) =  ZERO
       END DO

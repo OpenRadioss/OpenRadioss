@@ -285,11 +285,11 @@ Chd|====================================================================
      Q   RWL          ,RWSAV        ,RBY            ,RIVET        ,
      R   SECBUF       ,RVOLU        ,RCONX          ,NLOC_DMG     ,
      S   FVMAIN     ,LIBAGALE     ,LENTHG         ,LBUFMAT      ,LBUFGEO     ,
-     T   LBUFSF       ,LENXLAS                      ,LNOM_OPT     ,LENLAS      ,           
-     U   LENVOLU                    ,NPTS           ,CNE          ,LCNE        ,           
-     V   ADDCNE       ,CNI2         ,LCNI2G         ,ADDCNI2      ,CEPI2       ,           
-     W   CELI2        ,I2NSNT       ,PROBINT        ,DDSTAT       ,PM1SHF      ,           
-     X   DD_IAD       ,LSHSUB       ,DRSAV          ,ARSAV        ,STSAV       ,           
+     T   LBUFSF       ,LENXLAS                      ,LNOM_OPT     ,LENLAS      ,
+     U   LENVOLU                    ,NPTS           ,CNE          ,LCNE        ,
+     V   ADDCNE       ,CNI2         ,LCNI2G         ,ADDCNI2      ,CEPI2       ,
+     W   CELI2        ,I2NSNT       ,PROBINT        ,DDSTAT       ,PM1SHF      ,
+     X   DD_IAD       ,LSHSUB       ,DRSAV          ,ARSAV        ,STSAV       ,
      y   STRSAV       ,FSAVSAV      ,
      Z                 KXSP         ,IXSP           ,NOD2SP       ,CEPSP       ,
      a   NTHWA        ,NAIRWA       ,NMNT           ,L_MUL_LAG1   ,L_MUL_LAG   ,
@@ -505,7 +505,7 @@ C-----------------------------------------------
      .        I24MAXNSNE,SEGQUADFR(2,*),TAG_SKINS6(*),IBCSCYC(*),LBCSCYC(*)
       INTEGER, INTENT(IN) :: S_LOADPINTER
       INTEGER, INTENT(IN) ::  KLOADPINTER(NINTER+1)  ,LOADPINTER(S_LOADPINTER)
-      my_real , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER ) 
+      my_real , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER )
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER(KIND=8) :: DSMEMORY(*), MEMFLOW(*)
       INTEGER, DIMENSION(2,NPART), INTENT(IN) :: POIN_PART_SHELL,POIN_PART_TRI
@@ -856,7 +856,7 @@ C--------------------------------------
       IF (MSHSUB>0)
      .  CALL C_ISHSUB(LSHSUB,NSHFRONT_L,P-1)
 C--------------------------------------------
-c count local elements 
+c count local elements
 C--------------------------------------------
       OFF = 0
       CALL C_ELTLOC(CEP(OFF+1),P-1,NUMELS8,NUMELS8_L)
@@ -2057,7 +2057,7 @@ C--------------------------------------------
          CALL WRITE_I_C(KLOADPINTER, NINTER+1)
          LEN_IA = LEN_IA + NINTER + 1
          CALL WRITE_I_C(LOADPINTER,S_LOADPINTER )
-         LEN_IA = LEN_IA + S_LOADPINTER 
+         LEN_IA = LEN_IA + S_LOADPINTER
       ENDIF
 C--------------------------------------
 C IBFV

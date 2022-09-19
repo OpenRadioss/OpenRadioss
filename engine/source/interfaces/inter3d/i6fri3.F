@@ -101,7 +101,7 @@ C----------------------------------------------------------
       ELSE
         DO I=LFT,LLT
           XX(I) = FNI(I)*ASCALF
-        ENDDO 
+        ENDDO
         CALL NINTERP(IFRICF,NPC,TF,LLT,XX,KFRIC)
         DO I=LFT,LLT
           KFRIC(I) = FRIC*KFRIC(I)
@@ -110,10 +110,10 @@ C----------------------------------------------------------
       IF (IFRICV /= 0) THEN
         DO I=LFT,LLT
           XX(I) = VNT(I)*ASCALV
-        ENDDO 
+        ENDDO
         CALL NINTERP(IFRICV,NPC,TF,LLT,XX,KFRICV)
           KFRIC(I) = KFRIC(I)*KFRICV(I)
-      ENDIF      
+      ENDIF
 c----------------------------------------------------------
       DO I=LFT,LLT
         IL = I+NFT
@@ -205,9 +205,9 @@ C-------------------------------
               FYI(I) = FTY
               FZI(I) = FTZ
             ENDIF
-            FRIC0(1,IL) = FXI(I) 
-            FRIC0(2,IL) = FYI(I) 
-            FRIC0(3,IL) = FZI(I) 
+            FRIC0(1,IL) = FXI(I)
+            FRIC0(2,IL) = FYI(I)
+            FRIC0(3,IL) = FZI(I)
 C
           ENDIF  ! LOLD
       ENDDO      ! I=LFT,LLT

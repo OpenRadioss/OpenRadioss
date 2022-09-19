@@ -66,7 +66,7 @@ C
          NBLOC=IFLOW(IADI+12)
          NPROW=IFLOW(IADI+18)
          NPCOL=IFLOW(IADI+19)
-		 
+		
          IF (ITYP==1) THEN
             NINOUT=IFLOW(IADI+4)
             NNN=IFLOW(IADI+7)
@@ -82,7 +82,7 @@ C
                   IF(NSPMD == 1) THEN
                     IFLOW_L(IADL+NNO_L)=J  ! IBUFL
                   ELSE
-                    IFLOW_L(IADL+2*NNO+NNO_L)=J  
+                    IFLOW_L(IADL+2*NNO+NNO_L)=J
                   ENDIF
                ENDIF
             ENDDO
@@ -96,7 +96,7 @@ C
                   IF(NSPMD == 1) THEN
                     IFLOW_L(IADL+NNO+NNN_L)=J  ! IBUFIL
                   ELSE
-                    IFLOW_L(IADL+4*NNO+NNN_L)=J  
+                    IFLOW_L(IADL+4*NNO+NNN_L)=J
                   ENDIF
                ENDIF
             ENDDO
@@ -202,7 +202,7 @@ C
                  WRITE(IOUT,'(4X,A)') 'PROC  NB OF ROWS  NB OF COLUMNS'
               ENDIF
               WRITE(IOUT,'(3I10)') P,NNR_P,NNC_P
-			  
+			
               IFLOW_L(IADI+8) = NNR_P+NBLOC
               IFLOW_L(IADI+9) = NNR_P*NNC_P
               IFLOW_L(IADI+10)= IADMATI
@@ -217,7 +217,7 @@ C
             ENDIF
          ENDIF
          IADI=IADI+IFLOW(IADI+14)
-      ENDDO 
+      ENDDO
 C
  1000 FORMAT(/4X,'PARALLEL SOLVER PARAMETERS (SCALAPACK)'
      .       /4X,'--------------------------------------'

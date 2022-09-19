@@ -568,13 +568,13 @@ C---------------------------------------------------
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
          N3=ELEM(3,IEL)
-         AREA2 = ELAREA(IEL) 
+         AREA2 = ELAREA(IEL)
          ELAREA(IEL) = HALF * AREA2
          NODAREA(N1)=NODAREA(N1)+ONE_OVER_6*AREA2
          NODAREA(N2)=NODAREA(N2)+ONE_OVER_6*AREA2
          NODAREA(N3)=NODAREA(N3)+ONE_OVER_6*AREA2
          IF(IEL <= NEL) THEN
-           VOLG=VOLG+TMP(IEL)                      
+           VOLG=VOLG+TMP(IEL)
          ENDIF
       ENDDO
 C
@@ -1055,7 +1055,7 @@ C----------------
                         NX=-PNORM(1,KK)
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
-                     ENDIF 
+                     ENDIF
                      !check if adjacent polyhedron already updated
                      IF (NV  <  I) GOTO 100
                      FAC=NX*NRX+NY*NRY+NZ*NRZ
@@ -1265,14 +1265,14 @@ C----------------------------------------------------------------
                   UZ2=PU(3,NV)
                   GAMA2=GPOLH(NV)
 C
-                  VFX=HALF*(UX1+UX2)                  
+                  VFX=HALF*(UX1+UX2)
                   VFY=HALF*(UY1+UY2)
                   VFZ=HALF*(UZ1+UZ2)
                   IF(JEL == 0) THEN
 C Permeabilite du triangle interne
                     HM1=HMIN(KK)
                     H1 = ONE-RVOLU(51)/HM1
-                    IF(H1 > 0) THEN 
+                    IF(H1 > 0) THEN
                       AREA=AREA*H1
                     ELSE
                       AREA = ZERO
@@ -1452,9 +1452,9 @@ C---------------------------------------------------
       !  =         !  2     !  /DT/FVMBAG/2  !    velocity criterion at cendroid (2022) with characterisic length!
       ! IDT_FVMBAG !  3     !  /DT/FVMBAG/3  !    velocity criterion face by face (2022)                         !
       !------------!--------!----------------!-------------------------------------------------------------------!
-      
+
       !LAMBDA : is smoothing ratio (for time step increase during next cycle)
-      !L_TYPE : is characteristic length option (IDT_FVMBAG = 2 only)   
+      !L_TYPE : is characteristic length option (IDT_FVMBAG = 2 only)
       !         0 : default is 1
       !         1 : minimal edge length of initial bag mesh
       !         2 : VOL**1/3
@@ -1463,13 +1463,13 @@ C---------------------------------------------------
       ! --- CHARACTERISTIC LENGTH ---!
       !------------------------------!
       IDT_FVMBAG = FVDATA(IFV)%ID_DT_OPTION  ! /DT/FVMBAG/[IDT_FVMBAG]
-      PARAM_L_TYPE = FVDATA(IFV)%L_TYPE     
+      PARAM_L_TYPE = FVDATA(IFV)%L_TYPE
       SELECT CASE(IDT_FVMBAG)
 
-        ! /DT/FVMBAG/1 
+        ! /DT/FVMBAG/1
         CASE(0,1)
-        ! ------------ 
-!$OMP DO SCHEDULE(GUIDED,1)        
+        ! ------------
+!$OMP DO SCHEDULE(GUIDED,1)
           DO I=1,NPOLH
              IF (IBPOLH(I) == 0 .AND.IDTMIN(52) < 2) THEN
                 DLS(I)=DLH ! constant length calculated during starter
@@ -1477,28 +1477,28 @@ C---------------------------------------------------
                DLS(I)=PVOLU(I)**THIRD
              ENDIF
           ENDDO
-!$OMP END DO          
+!$OMP END DO
 
         ! /DT/FVMBAG/2
-        CASE(2) 
-        ! ------------        
+        CASE(2)
+        ! ------------
           SELECT CASE(PARAM_L_TYPE)
             CASE(0,1) !dl = starter constant
 !$OMP DO SCHEDULE(GUIDED,1)
               DO I=1,NPOLH
-                DLS(I)=DLH 
+                DLS(I)=DLH
               ENDDO
-!$OMP END DO          
+!$OMP END DO
             CASE(2) ! dl=VOL**1/3
 !$OMP DO SCHEDULE(GUIDED,1)
               DO I=1,NPOLH
-                DLS(I)=PVOLU(I)**THIRD  
+                DLS(I)=PVOLU(I)**THIRD
               ENDDO
-!$OMP END DO          
+!$OMP END DO
           END SELECT!PARAM_L_TYPE
 
         ! /DT/FVMBAG/3
-        CASE(3) 
+        CASE(3)
         ! ------------
 !$OMP DO SCHEDULE(GUIDED,1)
            DO I=1,NPOLH
@@ -1519,7 +1519,7 @@ C---------------------------------------------------
            IF(MPOLH(I)<=ZERO.OR.EPOLH(I)<=ZERO.OR.GPOLH(I)<=ONE) THEN
              DTPOLH(I)=EP30
              QVISC(I) =ZERO
-           ELSE 
+           ELSE
              AL=PVOLU(I)**THIRD
              DD=DM(I)/MPOLH(I)
              AD=MAX(ZERO,DD)
@@ -1650,13 +1650,13 @@ C---------------------------------------------------
             PHDT=I
          ENDIF
       ENDDO
-      
+
       !optionnal time step growth limitor (/DT/FVMBAG/2, 3rd parameter)
       IF(NCYCLE > 0)THEN
         PARAM_LAMBDA =  FVDATA(IFV)%LAMBDA
         IF(PARAM_LAMBDA > ZERO)THEN
           DTOLD = FVDATA(IFV)%DTOLD
-          IF(DTOLD > ZERO)THEN        
+          IF(DTOLD > ZERO)THEN
             DTX = MIN( DTX, DTOLD*(ONE+PARAM_LAMBDA))
           ENDIF
         ENDIF
@@ -1937,7 +1937,7 @@ C
       FSAV(14) = NPOLH
       RGAS_AV = CP_AV - CV_AV
       RHO_AV = AMTOT / VOLPH
-      FSAV(5) = FSAV(5) / AMTOT ! sum(mass[i]*T[i])/total_mass    
+      FSAV(5) = FSAV(5) / AMTOT ! sum(mass[i]*T[i])/total_mass
 
       IF(IVOLU(39) == 0) THEN
         FSAV(6) =ZERO
@@ -1995,7 +1995,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
 
       ENDIF
 
-      
+
 
       DO IEL=1,NELT
          IF (ITAGEL(IEL) > 0) THEN
@@ -2050,7 +2050,7 @@ C     Computations for anim, also needed if there are gauges.
                         NY=-PNORM(2,KK)
                         NZ=-PNORM(3,KK)
                   ENDIF
-                  IF (NV >= I) THEN 
+                  IF (NV >= I) THEN
                     IF (NV == I) AREA=AREA*HALF
                     II=I
                     FAC=NX*NRX+NY*NRY+NZ*NRZ
@@ -2226,7 +2226,7 @@ C Pentahedron
                  UA(1,JJ)=UA(1,JJ)+ONE_OVER_6*PU(1,I)*PVOLU(I)
                  UA(2,JJ)=UA(2,JJ)+ONE_OVER_6*PU(2,I)*PVOLU(I)
                  UA(3,JJ)=UA(3,JJ)+ONE_OVER_6*PU(3,I)*PVOLU(I)
-                ENDDO           
+                ENDDO
              ELSEIF(BRNA(5,II)==BRNA(8,II).AND.
      .              BRNA(6,II)==BRNA(8,II).AND.
      .              BRNA(7,II)==BRNA(8,II))THEN
@@ -2487,7 +2487,7 @@ C-----------------------------------------------
          DO K=1,5
             TEMP2=TEMP*TEMP
             HH=CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP2+
-     .         FOURTH*CPD*TEMP*TEMP2-CPE/TEMP2+ONE_FIFTH*CPF*TEMP2*TEMP2   
+     .         FOURTH*CPD*TEMP*TEMP2-CPE/TEMP2+ONE_FIFTH*CPF*TEMP2*TEMP2
             IF( (HH-RMW) > ZERO) THEN
               TEMP=EFAC/(HH-RMW)
             ELSE

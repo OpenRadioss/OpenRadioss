@@ -135,11 +135,11 @@ c--------------------------------------------------
      .                          KEYWORD2    = KEY)
 c--------------------------------------------------
         IF (KEY(1:4) == 'FGEO')   CYCLE
-c       
+c
         IOPT = IOPT + 1
         NOM_OPT(1,IOPT) = OPTID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,IOPT),LTITR)
-c        
+c
         ICOOR    = 0  ! ICOOR = 1 => axial coordinates
         IFGEO    = 0
         ILAGM    = 0
@@ -149,12 +149,12 @@ c
 c--------------------------------------------------
 c       READ STRING VALUES from /IMPDISP
 c--------------------------------------------------
-        CALL HM_GET_INTV  ('curveid'       ,FCT_ID  ,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_STRING('rad_dir'       ,XYZ     ,ncharfield,IS_AVAILABLE) 
+        CALL HM_GET_INTV  ('curveid'       ,FCT_ID  ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_STRING('rad_dir'       ,XYZ     ,ncharfield,IS_AVAILABLE)
         CALL HM_GET_INTV  ('inputsystem'   ,SKEW_ID ,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_INTV  ('rad_sensor_id' ,SENS_ID ,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV  ('entityid'      ,GRN_ID  ,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV  ('rad_icoor'     ,ICOOR   ,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV  ('rad_sensor_id' ,SENS_ID ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV  ('entityid'      ,GRN_ID  ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV  ('rad_icoor'     ,ICOOR   ,IS_AVAILABLE,LSUBMODEL)
 c
         CALL HM_GET_FLOATV('xscale'        ,XSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('magnitude'     ,YSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -178,21 +178,21 @@ c--------------------------------------------------
      .                I2= UID,
      .                C1='IMPDISP',
      .                C2='IMPDISP',
-     .                C3= TITR)                              
+     .                C3= TITR)
         ENDIF
 c--------------------------------------------------
 c       Check skew IDs
-c-------------------------------------------------- 
+c--------------------------------------------------
         IF ((SKEW_ID == 0).AND.(SUBID /= 0)) THEN
           SKEW_ID = LSUBMODEL(NOSUB)%SKEW
         ENDIF
 c----
         NOSKEW = 0
         DO I=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-          IF (SKEW_ID == ISKN(4,I+1)) THEN               
-            NOSKEW = I+1                         
-            EXIT                           
-          ENDIF                                   
+          IF (SKEW_ID == ISKN(4,I+1)) THEN
+            NOSKEW = I+1
+            EXIT
+          ENDIF
         ENDDO
         IF (SKEW_ID > 0 .and. NOSKEW == 0)
      .    CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -210,9 +210,9 @@ c
         IF (XSCALE == ZERO) XSCALE  = ONE * FSCAL_T
         XSCALE = ONE / XSCALE
         IF (YSCALE == ZERO)  YSCALE = ONE * FSCAL_L
-c        IF (LEN == 2) THEN  ! FSCALE = rad - to be checked in cfg file ! 
+c        IF (LEN == 2) THEN  ! FSCALE = rad - to be checked in cfg file !
 c          YSCALE = YSCALE / FSCAL_L
-c        ENDIF 
+c        ENDIF
         IF (TSTOP == ZERO)  TSTOP  = INFINITY
 c--------------------------------------------------
 c       Read NODE numbers from the group
@@ -245,7 +245,7 @@ c
 c
           INOD  = IABS(NODENUM(I))
           NODID = ITAB(INOD)
-c 
+c
 c---------------
 c         TAG NODES WITH KINEMATIC CONDITIONS
 c---------------

@@ -29,9 +29,9 @@ Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|====================================================================
       SUBROUTINE ASSADD2(ADDCNE  ,INDSKY  ,FSKY  ,FSKYM    ,IAD_ELEM ,
-     2             FR_ELEM ,FR_NBCC ,PROCNE,NISKYFI  ,ADDCNI2  ,        
-     3             PROCNI2 ,IAD_I2M ,FR_I2M,FR_NBCCI2,INDSKYI2 ,        
-     4             IADSDP  ,IADRCP  ,ISENDP,IRECVP   ,FTHESKY  ,        
+     2             FR_ELEM ,FR_NBCC ,PROCNE,NISKYFI  ,ADDCNI2  ,
+     3             PROCNI2 ,IAD_I2M ,FR_I2M,FR_NBCCI2,INDSKYI2 ,
+     4             IADSDP  ,IADRCP  ,ISENDP,IRECVP   ,FTHESKY  ,
      5             NISKYFIE,INOD_PXFEM,ADDCNE_PXFEM,PROCNE_PXFEM,
      6             ISENDP_PXFEM,IRECVP_PXFEM ,IADSDP_PXFEM,IADRCP_PXFEM,
      7             FR_NBCC1 ,INOD_CRKXFEM,ADDCNE_CRKXFEM,PROCNE_CRKXFEM,
@@ -74,7 +74,7 @@ C-----------------------------------------------
      .        ADDCNE_PXFEM(*),INOD_PXFEM(*),ADDCNE_CRKXFEM(*),
      .        INOD_CRKXFEM(*),PROCNE_CRKXFEM(*),ISENDP_CRKXFEM(*),
      .        IRECVP_CRKXFEM(*),IADSDP_CRKXFEM(*),IADRCP_CRKXFEM(*)
-      my_real 
+      my_real
      .        FSKY(8,LSKY),FSKYM(LSKY),FTHESKY(LSKY),CONDNSKY(LSKY)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -97,13 +97,13 @@ C-----------------------------------------------
 C
 C
       IF(ITHERM_FE > 0 ) THEN
-        DO I=1,LSKY 
+        DO I=1,LSKY
          FTHESKY(I) = ZERO
        ENDDO
       ENDIF
 C
       IF(NODADT_THERM > 0 ) THEN
-        DO I=1,LSKY 
+        DO I=1,LSKY
          CONDNSKY(I) = ZERO
        ENDDO
       ENDIF
@@ -128,20 +128,20 @@ C-----------------------------------------------
         DO I = 1, NSPMD+1
            FR_NBCC1(1,I) = 0
            FR_NBCC1(2,I) = 0
-        ENDDO 
+        ENDDO
       ENDIF
 C
       IF(ICRACK3D > 0 .AND. NSPMD > 1)THEN
         DO I = 1, NSPMD+1
            FR_NBCC1(1,I) = 0
            FR_NBCC1(2,I) = 0
-        ENDDO 
+        ENDDO
       ENDIF
 C
       LOC_PROC = ISPMD+1
 C
       LSD = 1
-      LRC = 1  
+      LRC = 1
 C
       LSD1 = 1
       LRC1 = 1
@@ -202,72 +202,72 @@ C
                       IRECVP_PXFEM(LRC1) = CC
                       LRC1 = LRC1 + 1
                     ENDIF
-                  ENDDO  
+                  ENDDO
                ENDIF
              ENDDO
            ENDIF
          ENDDO
          IADSDP(NSPMD+1)=LSD
-         IADRCP(NSPMD+1)=LRC      
+         IADRCP(NSPMD+1)=LRC
 C      
          IADSDP_PXFEM(NSPMD+1)=LSD1
-         IADRCP_PXFEM(NSPMD+1)=LRC1            
+         IADRCP_PXFEM(NSPMD+1)=LRC1
 c
       ELSE IF (ICRACK3D > 0 .AND. NSPMD > 1) THEN
         DO I = 1, NSPMD
-          IADSDP(I)=LSD                                                       
-          IADRCP(I)=LRC                                                       
+          IADSDP(I)=LSD
+          IADRCP(I)=LRC
 C                                                                             
-          IADSDP_CRKXFEM(I)=LSD1                                              
-          IADRCP_CRKXFEM(I)=LRC1                                              
-          IF (I /= LOC_PROC) THEN                                             
-            DO J = IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1                              
-              NOD = FR_ELEM(J)                                                
-              DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1                             
-                IF (PROCNE(CC) == LOC_PROC) THEN                               
-                  FR_NBCC(1,I) = FR_NBCC(1,I)+1                               
-                  ISENDP(LSD) = CC                                            
-                  LSD = LSD + 1                                               
-                ELSEIF (PROCNE(CC) == I) THEN                                  
-                  FR_NBCC(2,I) = FR_NBCC(2,I)+1                               
-                  IRECVP(LRC) = CC                                            
-                  LRC = LRC + 1                                               
-                ENDIF                                                         
-              ENDDO                                                           
+          IADSDP_CRKXFEM(I)=LSD1
+          IADRCP_CRKXFEM(I)=LRC1
+          IF (I /= LOC_PROC) THEN
+            DO J = IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
+              NOD = FR_ELEM(J)
+              DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
+                IF (PROCNE(CC) == LOC_PROC) THEN
+                  FR_NBCC(1,I) = FR_NBCC(1,I)+1
+                  ISENDP(LSD) = CC
+                  LSD = LSD + 1
+                ELSEIF (PROCNE(CC) == I) THEN
+                  FR_NBCC(2,I) = FR_NBCC(2,I)+1
+                  IRECVP(LRC) = CC
+                  LRC = LRC + 1
+                ENDIF
+              ENDDO
 c---
-              NOD1 = INOD_CRKXFEM(NOD)                                        
-              IF (NOD1 > 0 ) THEN                                             
-	               XFEM_REM_COUNT = 0                                            
-                DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1         
-                  IF (PROCNE_CRKXFEM(CC) == I) XFEM_REM_COUNT =                 
-     .                                         XFEM_REM_COUNT+1                 
-		              ENDDO                                                         
+              NOD1 = INOD_CRKXFEM(NOD)
+              IF (NOD1 > 0 ) THEN
+	               XFEM_REM_COUNT = 0
+                DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1
+                  IF (PROCNE_CRKXFEM(CC) == I) XFEM_REM_COUNT =
+     .                                         XFEM_REM_COUNT+1
+		              ENDDO
 c
-		              IF (XFEM_REM_COUNT /= 0) THEN                                 
-                  DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1       
-                    IF (PROCNE_CRKXFEM(CC)==LOC_PROC) THEN                  
-                      FR_NBCC1(1,I) = FR_NBCC1(1,I)+1                         
-                      ISENDP_CRKXFEM(LSD1) = CC                               
-                      LSD1 = LSD1 + 1                                         
-                    ELSEIF (PROCNE_CRKXFEM(CC)==I) THEN                     
-                      FR_NBCC1(2,I) = FR_NBCC1(2,I)+1                         
-                      IRECVP_CRKXFEM(LRC1) = CC                               
-                      LRC1 = LRC1 + 1                                         
-                    ENDIF                                                     
-                  ENDDO                                                       
-		              ENDIF                                                         
-c                                                                              
-              ENDIF                                                           
+		              IF (XFEM_REM_COUNT /= 0) THEN
+                  DO CC = ADDCNE_CRKXFEM(NOD1),ADDCNE_CRKXFEM(NOD1+1)-1
+                    IF (PROCNE_CRKXFEM(CC)==LOC_PROC) THEN
+                      FR_NBCC1(1,I) = FR_NBCC1(1,I)+1
+                      ISENDP_CRKXFEM(LSD1) = CC
+                      LSD1 = LSD1 + 1
+                    ELSEIF (PROCNE_CRKXFEM(CC)==I) THEN
+                      FR_NBCC1(2,I) = FR_NBCC1(2,I)+1
+                      IRECVP_CRKXFEM(LRC1) = CC
+                      LRC1 = LRC1 + 1
+                    ENDIF
+                  ENDDO
+		              ENDIF
+c
+              ENDIF
 c---
-            ENDDO !  loop over frontier nodes                                                            
-          ENDIF   ! I /= LOC_PROC                                                           
-        ENDDO     ! I = 1, NSPMD                   
-        IADSDP(NSPMD+1)=LSD          
-        IADRCP(NSPMD+1)=LRC          
+            ENDDO !  loop over frontier nodes
+          ENDIF   ! I /= LOC_PROC
+        ENDDO     ! I = 1, NSPMD
+        IADSDP(NSPMD+1)=LSD
+        IADRCP(NSPMD+1)=LRC
 C      
-        IADSDP_CRKXFEM(NSPMD+1)=LSD1 
-        IADRCP_CRKXFEM(NSPMD+1)=LRC1 
-      ENDIF   
+        IADSDP_CRKXFEM(NSPMD+1)=LSD1
+        IADRCP_CRKXFEM(NSPMD+1)=LRC1
+      ENDIF
 C-------------------------------------
       DO I = 1, NSPMD
         FR_NBCC(1,NSPMD+1) = FR_NBCC(1,NSPMD+1) +  FR_NBCC(1,I)
@@ -521,7 +521,7 @@ C
                    LRC = LRC + 1
                  ENDIF
                ENDDO
-            ENDIF 
+            ENDIF
           ENDDO
          ENDIF
         ENDDO
@@ -585,7 +585,7 @@ C
                    LRC = LRC + 1           ! long de frontiere d'echange pour rcv
                  ENDIF
                ENDDO
-            ENDIF 
+            ENDIF
           ENDDO
          ENDIF
         ENDDO

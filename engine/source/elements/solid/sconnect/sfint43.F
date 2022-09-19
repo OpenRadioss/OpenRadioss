@@ -40,9 +40,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPG,NEL,NPG
       my_real, DIMENSION(NEL) :: AREAPG,SIGNZZ,SIGNYZ,SIGNZX,SOFT,
-     .  FX1,FX2,FX3,FX4,FX5,FX6,FX7,FX8,FY1,FY2,FY3,FY4,FY5,FY6,FY7,FY8,         
+     .  FX1,FX2,FX3,FX4,FX5,FX6,FX7,FX8,FY1,FY2,FY3,FY4,FY5,FY6,FY7,FY8,
      .  FZ1,FZ2,FZ3,FZ4,FZ5,FZ6,FZ7,FZ8
-      my_real, DIMENSION(NPG,NPG) :: HH 
+      my_real, DIMENSION(NPG,NPG) :: HH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -50,7 +50,7 @@ C-----------------------------------------------
       my_real FZZ,FYZ,FZX,RX,RY
       my_real, DIMENSION(NEL) :: DFX1,DFX2,DFX3,DFX4,DFX5,DFX6,DFX7,DFX8,
      .                           DFY1,DFY2,DFY3,DFY4,DFY5,DFY6,DFY7,DFY8,
-     .                           DFZ1,DFZ2,DFZ3,DFZ4,DFZ5,DFZ6,DFZ7,DFZ8 
+     .                           DFZ1,DFZ2,DFZ3,DFZ4,DFZ5,DFZ6,DFZ7,DFZ8
 C=======================================================================
       DO I=1,NEL
         FZZ = SIGNZZ(I)*AREAPG(I)*SOFT(I)

@@ -97,9 +97,9 @@ Chd|====================================================================
       integer, dimension(:), allocatable :: ielem
 !     type of the attached element
       integer, dimension(:), allocatable :: itype
-!     iseg 
+!     iseg
       integer, dimension(:), allocatable :: iseg
-!     Local id of the face of ielem 
+!     Local id of the face of ielem
       logical :: has_iface = .false.
       integer, dimension(:), allocatable :: iface
 !     debug print
@@ -139,11 +139,11 @@ Chd|====================================================================
 !     -------------------
       type, public, extends(t_ebcs) :: t_ebcs_pres
       integer :: ipres = 0, irho = 0, iener = 0, ivx = 0, ivy = 0, ivz = 0
-      my_real :: c = 0, pres = 0, rho = 0, lcar = 0, r1 = 0, r2 = 0, 
+      my_real :: c = 0, pres = 0, rho = 0, lcar = 0, r1 = 0, r2 = 0,
      .     ener = 0, vx = 0, vy = 0, vz = 0
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_pres
       procedure, pass :: read_data => read_data_pres
       end type t_ebcs_pres
@@ -154,9 +154,9 @@ Chd|====================================================================
       integer :: ipres = 0, irho = 0, iener = 0
       my_real :: c = 0, ener = 0, rho = 0, pres = 0
       my_real :: lcar = 0, r1 = 0, r2 = 0
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_valvin
       procedure, pass :: read_data => read_data_valvin
       end type t_ebcs_valvin
@@ -167,9 +167,9 @@ Chd|====================================================================
       integer :: ipres = 0, irho = 0, iener = 0
       my_real :: c = 0, ener = 0, rho = 0, pres = 0
       my_real :: lcar = 0, r1 = 0, r2 = 0
-     
+
       contains
-      
+
       procedure, pass :: write_data => write_data_valvout
       procedure, pass :: read_data => read_data_valvout
       end type t_ebcs_valvout
@@ -182,7 +182,7 @@ Chd|====================================================================
       my_real :: lcar = 0, r1 = 0, r2 = 0
 
       contains
-      
+
       procedure, pass :: write_data => write_data_gradp0
       procedure, pass :: read_data => read_data_gradp0
       end type t_ebcs_gradp0
@@ -193,9 +193,9 @@ Chd|====================================================================
       integer :: ivx = 0, ivy = 0, ivz = 0, irho = 0, iener = 0
       my_real :: c = 0, ener = 0, rho = 0, vx = 0, vy = 0, vz = 0
       my_real :: lcar = 0, r1 = 0, r2 = 0
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_vel
       procedure, pass :: read_data => read_data_vel
       end type t_ebcs_vel
@@ -206,9 +206,9 @@ Chd|====================================================================
       integer :: ivimp = 0, irho = 0, iener = 0
       my_real :: c = 0, ener = 0, rho = 0, vimp = 0
       my_real :: lcar = 0, r1 = 0, r2 = 0
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_normv
       procedure, pass :: read_data => read_data_normv
       end type t_ebcs_normv
@@ -219,7 +219,7 @@ Chd|====================================================================
       my_real :: rho = 0, c = 0, lcar = 0
 
       contains
-      
+
       procedure, pass :: write_data => write_data_inip
       procedure, pass :: read_data => read_data_inip
       end type t_ebcs_inip
@@ -227,10 +227,10 @@ Chd|====================================================================
 !     type = 7 /EBCS/INIV
 !     -------------------
       type, public, extends(t_ebcs) :: t_ebcs_iniv
-      my_real :: rho = 0, c = 0, lcar = 0      
+      my_real :: rho = 0, c = 0, lcar = 0
 
       contains
-      
+
       procedure, pass :: write_data => write_data_iniv
       procedure, pass :: read_data => read_data_iniv
       end type t_ebcs_iniv
@@ -239,9 +239,9 @@ Chd|====================================================================
 !     -----------------------
       type, public, extends(t_ebcs) :: t_ebcs_monvol
       integer :: sensor_id = 0, monvol_id = 0
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_monvol
       procedure, pass :: read_data => read_data_monvol
       end type t_ebcs_monvol
@@ -250,9 +250,9 @@ Chd|====================================================================
 !     --------------------
       type, public, extends(t_ebcs) :: t_ebcs_inlet
       type(fvm_inlet_data_struct) :: fvm_inlet_data
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_inlet
       procedure, pass :: read_data => read_data_inlet
       end type t_ebcs_inlet
@@ -261,28 +261,28 @@ Chd|====================================================================
 !     ----------------------
       type, public, extends(t_ebcs) :: t_ebcs_fluxout
       type(fvm_inlet_data_struct) :: fvm_inlet_data
-      
+
       contains
-      
+
       procedure, pass :: write_data => write_data_fluxout
       procedure, pass :: read_data => read_data_fluxout
       end type t_ebcs_fluxout
-      
+
 !     type = 10 /EBCS/NRF
 !     ----------------------
       type, public, extends(t_ebcs) :: t_ebcs_nrf
       integer :: nbmat=21
       my_real :: tcar_p = 0., tcar_vf = 1E20
-      !my_real, dimension(:,:), allocatable :: phase_alpha      
-      type(fvm_inlet_data_struct) :: fvm_inlet_data    
-      
+      !my_real, dimension(:,:), allocatable :: phase_alpha
+      type(fvm_inlet_data_struct) :: fvm_inlet_data
+
       contains
-      
+
       procedure, pass :: write_data => write_data_nrf
       procedure, pass :: read_data => read_data_nrf
-      end type t_ebcs_nrf      
+      end type t_ebcs_nrf
 
-      
+
 !     ----------------------
 !     Polymorphic variable (points to a specific ebcs type)
 !     ----------------------
@@ -290,7 +290,7 @@ Chd|====================================================================
       class(t_ebcs), allocatable :: poly
       end type t_ebcs_poly
 
-!     Array of polymorphic variables, to handle every ebcs types (potentially different) in 
+!     Array of polymorphic variables, to handle every ebcs types (potentially different) in
 !     one same array of size nebcs
       type, public :: t_ebcs_tab
       integer :: nebcs
@@ -327,7 +327,7 @@ Chd|====================================================================
       if(allocated(this%v0)) deallocate(this%v0)
       if(allocated(this%reso)) deallocate(this%reso)
       end subroutine ebcs_destroy
-      
+
 !     ******************     !
 !     t_ebcs_tab methods     !
 !     ******************     !
@@ -355,7 +355,7 @@ Chd|====================================================================
       integer, dimension(nebcs), intent(in) :: type_tab
 
       integer :: ii, type
-      
+
       class (t_ebcs), pointer :: ebcs
 
       this%nebcs = 0
@@ -401,7 +401,7 @@ Chd|====================================================================
                   this%tab(ii)%poly%type = 9
               case (10) ! /EBCS/NRF
                   allocate (t_ebcs_nrf :: this%tab(ii)%poly)
-                  this%tab(ii)%poly%type = 10                  
+                  this%tab(ii)%poly%type = 10
                case default
                   print*, "EBCS type ", type, " unrecognized"
             end select
@@ -413,7 +413,7 @@ Chd|====================================================================
       subroutine destroy(this)
       implicit none
       class (t_ebcs_tab), intent(inout) :: this
-      
+
       integer :: ii
       if (allocated(this%tab)) then
          do ii = 1, this%nebcs
@@ -432,14 +432,14 @@ Chd|====================================================================
 
       integer, dimension(this%nebcs) :: integer_data
       integer :: ii
-      
+
       do ii = 1, this%nebcs
          integer_data(ii) = this%tab(ii)%poly%type
       enddo
       call write_i_c(integer_data, this%nebcs)
       leni = leni + this%nebcs
       end subroutine write_type_data
-      
+
       subroutine read_type_data(nebcs, integer_data)
       implicit none
       integer, intent(in) :: nebcs
@@ -481,7 +481,7 @@ Chd|====================================================================
 
       this%nb_node = nnode
       allocate(this%node_list(nnode))
-      
+
       nnode = 0
       do ii = 1, numnod
          if (tag_node(ii) == 1) then
@@ -518,7 +518,7 @@ Chd|====================================================================
       class (t_ebcs), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
       end subroutine write_data
-      
+
       subroutine read_data(this)
       implicit none
       class (t_ebcs), intent(inout) :: this
@@ -532,8 +532,8 @@ Chd|====================================================================
       class (t_ebcs), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
 
-      integer, dimension(7) :: integer_data 
-      integer :: siz     
+      integer, dimension(7) :: integer_data
+      integer :: siz
       integer_data(1) = this%type
       integer_data(2) = this%ebcs_id
       integer_data(3) = this%surf_id
@@ -553,7 +553,7 @@ Chd|====================================================================
       if (this%debug_print) print*, "node_list ", this%node_list
       call write_i_c(this%node_list, this%nb_node)
       leni = leni + this%nb_node
-      
+
 !     write elem_list
       if (this%debug_print) print*, "elem_list ", this%elem_list
       call write_i_c(this%elem_list, 4 * this%nb_elem)
@@ -609,7 +609,7 @@ Chd|====================================================================
          call write_i_c(0, 1)
          leni = leni + 1
       endif
-      
+
 !     write dp0
       if (this%has_dp0) then
          call write_i_c(1, 1)
@@ -620,7 +620,7 @@ Chd|====================================================================
       else
          call write_i_c(0, 1)
          leni = leni + 1
-      endif      
+      endif
 
 !     write ro0
       if (this%has_ro0) then
@@ -669,7 +669,7 @@ Chd|====================================================================
            siz=this%nb_elem
          else
            siz = this%nb_node
-         endif      
+         endif
          call write_i_c(1, 1)
          leni = leni + 1
          if (this%debug_print) print*, "vold ", this%vold
@@ -713,10 +713,10 @@ Chd|====================================================================
       implicit none
       class (t_ebcs), intent(inout) :: this
 
-      integer, dimension(7) :: integer_data  
-      integer :: ihas_la, ihas_iface, ihas_p0, ihas_dp0, ihas_ro0, ihas_en0, 
+      integer, dimension(7) :: integer_data
+      integer :: ihas_la, ihas_iface, ihas_p0, ihas_dp0, ihas_ro0, ihas_en0,
      .     ihas_pold, ihas_vold, ihas_v0, ihas_reso,siz
-      
+
       call read_i_c(integer_data, 7)
       this%type = integer_data(1)
       this%ebcs_id = integer_data(2)
@@ -734,7 +734,7 @@ Chd|====================================================================
       allocate(this%node_list(this%nb_node))
       call read_i_c(this%node_list, this%nb_node)
       if (this%debug_print) print*, "node_list ", this%node_list
-      
+
 !     read elem_list
       allocate(this%elem_list(4, this%nb_elem))
       call read_i_c(this%elem_list, 4 * this%nb_elem)
@@ -786,8 +786,8 @@ Chd|====================================================================
          if (this%debug_print) print*, 'p0 = ', this%p0
       else
          this%has_p0 = .false.
-      endif   
-      
+      endif
+
 !     read dp0
       call read_i_c(ihas_dp0, 1)
       if (ihas_dp0 == 1) then
@@ -797,7 +797,7 @@ Chd|====================================================================
          if (this%debug_print) print*, 'dp0 = ', this%dp0
       else
          this%has_dp0 = .false.
-      endif         
+      endif
 
 !     read ro0
       call read_i_c(ihas_ro0, 1)
@@ -808,7 +808,7 @@ Chd|====================================================================
          if (this%debug_print) print*, "ro0 ", this%ro0
       else
          this%has_ro0 = .false.
-      endif 
+      endif
 
 !     read en0
       call read_i_c(ihas_en0, 1)
@@ -819,39 +819,39 @@ Chd|====================================================================
          if (this%debug_print) print*, "en0 ", this%en0
       else
          this%has_en0 = .false.
-      endif    
+      endif
 
 !     read pold
-      call read_i_c(ihas_pold, 1)                      
+      call read_i_c(ihas_pold, 1)
       if (ihas_pold == 1) then
-         this%has_pold = .true.      
-         if(this%is_multifluid)then   
-           siz=this%nb_elem          
-         else                        
-           siz = this%nb_node           
-         endif       
+         this%has_pold = .true.
+         if(this%is_multifluid)then
+           siz=this%nb_elem
+         else
+           siz = this%nb_node
+         endif
          allocate(this%pold(siz))
          call read_db(this%pold, siz)
          if (this%debug_print) print*, "pold ", this%pold
       else
          this%has_pold = .false.
-      endif  
+      endif
 
 !     read vold
       call read_i_c(ihas_vold, 1)
       if (ihas_vold == 1) then
          this%has_vold = .true.
-         if(this%is_multifluid)then   
-           siz=this%nb_elem          
-         else                        
-           siz = this%nb_node           
-         endif                
+         if(this%is_multifluid)then
+           siz=this%nb_elem
+         else
+           siz = this%nb_node
+         endif
          allocate(this%vold(siz))
          call read_db(this%vold, siz)
          if (this%debug_print) print*, "vold ", this%vold
       else
          this%has_vold = .false.
-      endif  
+      endif
 
 !     read v0
       call read_i_c(ihas_v0, 1)
@@ -885,7 +885,7 @@ Chd|====================================================================
       integer, intent(inout) :: leni, lenr
       integer, dimension(6) :: integer_data
       my_real, dimension(10) :: real_data
-      
+
       integer_data(1) = this%ipres
       integer_data(2) = this%irho
       integer_data(3) = this%iener
@@ -933,8 +933,8 @@ Chd|====================================================================
       this%r1 = real_data(5)
       this%r2 = real_data(6)
       this%ener = real_data(7)
-      this%vx = real_data(8) 
-      this%vy = real_data(9) 
+      this%vx = real_data(8)
+      this%vy = real_data(9)
       this%vz = real_data(10)
       end subroutine read_data_pres
 
@@ -1271,7 +1271,7 @@ Chd|====================================================================
       implicit none
       class (t_ebcs_monvol), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
-      
+
       integer, dimension(2) :: integer_data
 
       integer_data(1) = this%sensor_id
@@ -1298,7 +1298,7 @@ Chd|====================================================================
       implicit none
       class (t_ebcs_inlet), intent(inout) :: this
       integer, intent(inout) :: leni, lenr
-      
+
       call write_i_c(this%fvm_inlet_data%vector_velocity, 1)
       leni = leni + 1
       call write_i_c(this%fvm_inlet_data%formulation, 1)
@@ -1387,7 +1387,7 @@ Chd|====================================================================
       call read_db(this%fvm_inlet_data%val_pres, 21)
 
       end subroutine read_data_fluxout
-      
+
 !     /EBCS/NRF
 !     ----------
 
@@ -1428,7 +1428,7 @@ Chd|====================================================================
         lenr = lenr + 21
         call write_db(this%fvm_inlet_data%val_pres, 21)
         lenr = lenr + 21
-       endif     
+       endif
       end subroutine write_data_nrf
 
       subroutine read_data_nrf(this)
@@ -1438,9 +1438,9 @@ Chd|====================================================================
 
       call read_i_c(this%nbmat, 1)
       call read_db(this%tcar_p, 1)
-      call read_db(this%tcar_vf, 1)      
+      call read_db(this%tcar_vf, 1)
       !if(this%nbmat > 0)then
-      !  allocate(this%phase_alpha(this%nbmat,this%nb_elem))      
+      !  allocate(this%phase_alpha(this%nbmat,this%nb_elem))
       !  call read_db(this%phase_alpha, this%nbmat*this%nb_elem)
       !endif
       if(this%is_multifluid)then
@@ -1455,8 +1455,8 @@ Chd|====================================================================
         call read_db(this%fvm_inlet_data%val_alpha, 21)
         call read_db(this%fvm_inlet_data%val_rho, 21)
         call read_db(this%fvm_inlet_data%val_pres, 21)
-      endif      
-      end subroutine read_data_nrf    
-      
+      endif
+      end subroutine read_data_nrf
+
 
       end module ebcs_mod

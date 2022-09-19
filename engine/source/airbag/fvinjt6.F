@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER NJET, IBAGJET(NIBJET,*), NPC(*)
 C     REAL
       my_real
-     .   RBAGJET(NRBJET,*), TF(*), SENSOR(NSENSR,*), SCALT, 
+     .   RBAGJET(NRBJET,*), TF(*), SENSOR(NSENSR,*), SCALT,
      .   DATAINJ(6,NJET)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER IINJ, IMASS, IFLU, ISENS, ITEMP
       my_real
      .   TSTART, FMASS, GMASS, GMASS_OLD, GMTOT, GMTOT_OLD, DGMASS,
-     .   TSG,    DYDX,  RMWG,  FTEMP,  TEMP,  EFAC , 
+     .   TSG,    DYDX,  RMWG,  FTEMP,  TEMP,  EFAC ,
      .   CPA,    CPB,   CPC,   CPG,    CVG
 C
       my_real

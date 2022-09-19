@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        SPMD_XVOIS                    source/mpi/fluid/spmd_cfd.F   
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
-      SUBROUTINE ALEW1( 
+      SUBROUTINE ALEW1(
      1   X              ,D       ,V       ,W       ,
      2   ALE_NN_CONNECT ,NALE    ,NODFT   ,NODLT   ,ITASK   ,
      3   NBRCVOIS       ,NBSDVOIS,LNRCVOIS,LNSDVOIS,ITAB         )
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .        NBRCVOIS(*),NBSDVOIS(*),
      .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD)
-      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3)     
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT
 
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C End part not parallel smt
          ELSE
             W(1,I)=ZERO
             W(2,I)=ZERO
-            W(3,I)=ZERO     
+            W(3,I)=ZERO
          ENDIF
 C     
       ENDDO

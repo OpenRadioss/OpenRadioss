@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -52,10 +52,10 @@ C-----------------------------------------------
 #include      "param_c.inc"
 #include      "task_c.inc"
 #include      "mvsiz_p.inc"
-#include      "scr18_c.inc"         
-#include      "units_c.inc"        
-#include      "com08_c.inc"           
-#include      "comlock.inc"        
+#include      "scr18_c.inc"
+#include      "units_c.inc"
+#include      "com08_c.inc"
+#include      "comlock.inc"
 C-----------------------------------------------
 C     D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -76,11 +76,11 @@ C-----------------------------------------------
       INTEGER :: NG, NEL, II, JJ, KFACE, I, J, NB_FACE, NFT, ITY
       INTEGER :: IPLA
       INTEGER :: NBMAT, IMAT
-      INTEGER :: NODE1, NODE2, NODE3, NODE4, 
+      INTEGER :: NODE1, NODE2, NODE3, NODE4,
      .     NODE5, NODE6, NODE7, NODE8
-      my_real :: W1(3), W2(3), W3(3), W4(3), 
+      my_real :: W1(3), W2(3), W3(3), W4(3),
      .     W5(3), W6(3), W7(3), W8(3)
-      my_real :: X1(3), X2(3), X3(3), X4(3), 
+      my_real :: X1(3), X2(3), X3(3), X4(3),
      .     X5(3), X6(3), X7(3), X8(3)
       my_real :: WFAC(1:3), SURF
       my_real :: LAMBDAII, LAMBDAF, NORMUII, NORMUJJ
@@ -95,7 +95,7 @@ C     Time step
       NELTST = 0
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
-         MATLAW = IPARG(1, NG)         
+         MATLAW = IPARG(1, NG)
          IF (MATLAW == 151) THEN
             NEL = IPARG(2, NG)
             NFT = IPARG(3, NG)
@@ -105,29 +105,29 @@ C     Time step
 C     DELTAX is to be kept
             GBUF%DELTAX(1:NEL) = ZERO
 C     Number of faces in an element
-            NB_FACE = 6 
+            NB_FACE = 6
             IF (ITY == 2) THEN
                NB_FACE = 4
             ELSEIF (ITY == 7) THEN
                NB_FACE = 3
             ENDIF
-            
+
 C     Flux computation
             DTEL(1:NEL) = ZERO
             DO II = 1, NEL
-               I = II + NFT               
+               I = II + NFT
 C     Face KFACE
-               DO KFACE = 1, NB_FACE              
+               DO KFACE = 1, NB_FACE
                   NX = MULTI_FVM%FACE_DATA%NORMAL(1, KFACE, I)
                   NY = MULTI_FVM%FACE_DATA%NORMAL(2, KFACE, I)
                   NZ = MULTI_FVM%FACE_DATA%NORMAL(3, KFACE, I)
                   WFAC(1:3) = MULTI_FVM%FACE_DATA%WFAC(1:3, KFACE, I)
                   SURF = MULTI_FVM%FACE_DATA%SURF(KFACE, I)
 C     Time step
-                  NORMAL_VEL2 = (MULTI_FVM%VEL(1, I) - WFAC(1)) * NX + 
-     .                 (MULTI_FVM%VEL(2, I) - WFAC(2)) * NY + 
+                  NORMAL_VEL2 = (MULTI_FVM%VEL(1, I) - WFAC(1)) * NX +
+     .                 (MULTI_FVM%VEL(2, I) - WFAC(2)) * NY +
      .                 (MULTI_FVM%VEL(3, I) - WFAC(3)) * NZ
-                  DTEL(II) = MAX(DTEL(II), 
+                  DTEL(II) = MAX(DTEL(II),
      .                 SURF / GBUF%VOL(II) * (MULTI_FVM%SOUND_SPEED(I) + ABS(NORMAL_VEL2)) / DTFAC1(102))
                   GBUF%DELTAX(II) = MAX(GBUF%DELTAX(II), SURF / GBUF%VOL(II))
                ENDDO            !KFACE
@@ -156,7 +156,7 @@ C     TRIANGLES
                   ENDIF
                ENDIF
             ENDDO
-            
+
             !CHECK IF LOWER THAN DTMIN
             IF(l_FOUND_LOWER .AND. DT2T/=ZERO)THEN
               IF(ONE/DT2T<DTMIN1(102))THEN
@@ -164,10 +164,10 @@ C     TRIANGLES
 #include "lockon.inc"
                 WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR ALE/EULER CELL',NELTST
                 WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR ALE/EULER CELL',NELTST
-#include "lockoff.inc"          
-              ENDIF  
-            ENDIF           
-            
+#include "lockoff.inc"
+              ENDIF
+            ENDIF
+
          ENDIF
       ENDDO  ! NG = ITASK + 1, NGROUP, NTHREAD
 C----------------------

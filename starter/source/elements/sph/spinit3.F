@@ -47,8 +47,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD    
-      USE DETONATORS_MOD              
+      USE ELBUFDEF_MOD
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -99,8 +99,8 @@ C-----------------------------------------------
      .        X1(MVSIZ),Y1(MVSIZ),Z1(MVSIZ),RBID(1), AIRE(1)
       my_real
      .        DIST,STI,FV,MP,BID,RHOCP
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 C-----------------------------------------------
@@ -247,10 +247,10 @@ C     CALCUL DES DT ELEMENTAIRES
 C--------------------------------------------------
        NDEPAR=NUMELC+NUMELS+NUMELT+NUMELQ+NUMELP+NUMELR+NUMELUR+NUMELTG
      .       +NUMELX+NFT
-     
+
       AIRE(1) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,NGEO    ,MXT     ,FV    ,
-     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .     GBUF%EINT ,GBUF%TEMP ,GBUF%DELTAX ,GBUF%RK ,GBUF%RE ,BUFMAT, DELTAX, AIRE,
      .     GBUF%VOL, DTX, IGEO)
 
        DO I=LFT,LLT

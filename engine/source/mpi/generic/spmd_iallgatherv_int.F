@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        SPMD_TRI7VOX_OPTIMIZED        source/mpi/interfaces/spmd_tri7vox_optimized.F
 Chd|-- calls ---------------
 Chd|====================================================================
-        SUBROUTINE SPMD_IALLGATHERV_INT(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE, 
+        SUBROUTINE SPMD_IALLGATHERV_INT(SENDBUF,RECVBUF,SEND_SIZE,TOTAL_RCV_SIZE,RCV_SIZE,
      .                              DISPLS,REQUEST,COMM,size_)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -62,9 +62,9 @@ C-----------------------------------------------
 
 !       ------------------------------------------
 !       processor P(1-->n) :
-!       send buffer 
+!       send buffer
 !                   |  s(m)   |
-!       size =         N(m)      
+!       size =         N(m)
 !
 !       For all processor :
 !       rcv buffer

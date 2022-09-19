@@ -149,7 +149,7 @@ C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE TTABLE_XY
-        my_real, 
+        my_real,
      .          DIMENSION(:), POINTER :: VALUES
       END TYPE TTABLE_XY
       TYPE TTABLE
@@ -225,7 +225,7 @@ C
         SUBROUTINE TABLE_INTERP(TABLE,XX,YY)
         USE TABLE_MOD
         TYPE(TTABLE) TABLE
-        my_real, 
+        my_real,
      .         DIMENSION(:) :: XX
         my_real
      .         YY
@@ -253,7 +253,7 @@ C
         SUBROUTINE TABLE_INTERP_LAW76(TABLE,IPOS2,XX,R2,DYDX,YY)
         USE TABLE_MOD
         TYPE(TTABLE) TABLE
-        my_real, 
+        my_real,
      .       DIMENSION(:) :: XX
         my_real
      .       YY, R2,DYDX

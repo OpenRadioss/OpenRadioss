@@ -75,7 +75,7 @@ C
          ENDIF
          VD(1,1)=ONE/ML(1,1)
          RETURN
-      ENDIF   
+      ENDIF
 C
       NBLF=MIN(NBLF0,NDI-2)
       NBLF=MIN(NBLF,NVMAX)
@@ -106,7 +106,7 @@ C      SHIFT=ZERO
 C
          CALL DSEIG(N,      NEV,    NCV,    WHICH,  INFO,
      .              MAXN,   MAXNEV, MAXNCV, LDV,    ISHFTS,
-     .              MAXITR, MODE,   TOL,    KLS,    ML, 
+     .              MAXITR, MODE,   TOL,    KLS,    ML,
      .              FREQ,   VECT,   0,      IMDIAG, TSHIFT,
      .              LDM   )
 C
@@ -125,15 +125,15 @@ C
                ENDDO
                IF (NVD==NVMAX) THEN
                   IF (IPRI>0) THEN
-*                     WRITE(ISTDO,'(A67,I5,A9,I5)') 
+*                     WRITE(ISTDO,'(A67,I5,A9,I5)')
 *     . ' ** INFO : MAXIMUM DYNAMIC MODES NUMBER REACHED FOR'//
 *     . ' SUPERELEMENT ',ISD,' OF PROC ',IPROC
-*                     WRITE(ISTDO,'(A23,I5,A11,I5)') 
+*                     WRITE(ISTDO,'(A23,I5,A11,I5)')
 *     . ' ** CONDENSATION LEVEL:',ILVL,' - NSVMAX: ',NVMAX
-                     WRITE(IOUT,'(A67,I5,A9,I5)') 
+                     WRITE(IOUT,'(A67,I5,A9,I5)')
      . ' ** INFO : MAXIMUM DYNAMIC MODES NUMBER REACHED FOR'//
      . ' SUPERELEMENT ',ISD,' OF PROC ',IPROC
-                     WRITE(IOUT,'(A23,I5,A11,I5)') 
+                     WRITE(IOUT,'(A23,I5,A11,I5)')
      . ' ** CONDENSATION LEVEL:',ILVL,' - NSVMAX: ',NVMAX
                   ENDIF
                   ISTOP=1
@@ -209,8 +209,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IMDIAG, NDI, LDM
       my_real
-     .        KLS(NDI,*), KL(NDI,*), ML(LDM,*), SHIFT      
-     
+     .        KLS(NDI,*), KL(NDI,*), ML(LDM,*), SHIFT
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -235,5 +235,5 @@ C
 C
       RETURN
       END
-      
-           
+
+

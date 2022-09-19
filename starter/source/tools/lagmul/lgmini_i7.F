@@ -31,7 +31,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE LGMINI_I7( IPARI, INTBUF_TAB, MASS, ITAB, IGRNOD, 
+      SUBROUTINE LGMINI_I7( IPARI, INTBUF_TAB, MASS, ITAB, IGRNOD,
      .                      NOM_OPT)
 C-----------------------------------------------
 C   M o d u l e s
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IPARI(NPARI,NINTER),ITAB(*)   
+      INTEGER  IPARI(NPARI,NINTER),ITAB(*)
       my_real
      .         MASS(*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -93,7 +93,7 @@ C======================================================================|
      .                       C2='INTERFACE TYPE7',
      .                       C3=TITR,C4='SECONDARY',
      .                       I2=ITAB(NN0))
-               ENDIF  
+               ENDIF
              ENDDO
            ELSE
             IF(NTY==16.AND.ILAGM==1) THEN
@@ -112,10 +112,10 @@ C======================================================================|
      .                       C2='INTERFACE TYPE7',
      .                       C3=TITR,C4='SECONDARY',
      .                       I2=ITAB(NN0))
-               ENDIF  
+               ENDIF
              ENDDO
             ENDIF
-           ENDIF 
+           ENDIF
       ENDDO
       RETURN
       END

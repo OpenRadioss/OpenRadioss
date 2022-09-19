@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER LOCAL_ID, NPC(*)
       INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
@@ -92,39 +92,39 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      
+
       IFLAGUNIT=0
-      DO J=1,NUNITS                                              
-        IF (UNITAB%UNIT_ID(J) == UID) THEN                                               
-          IFLAGUNIT = 1                                          
-          EXIT                                                   
-        ENDIF                                                    
-      ENDDO                                                      
-      IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
-        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
+      DO J=1,NUNITS
+        IF (UNITAB%UNIT_ID(J) == UID) THEN
+          IFLAGUNIT = 1
+          EXIT
+        ENDIF
+      ENDDO
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN
+        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I2=UID,
      .              I1=ID,
-     .              C1='EBCS',           
-     .              C2='EBCS',                           
-     .              C3=TITR)                                      
-      ENDIF      
+     .              C1='EBCS',
+     .              C2='EBCS',
+     .              C3=TITR)
+      ENDIF
 
-    
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV('tcar_p',  TCAR_P  ,IS_AVAILABLE,LSUBMODEL,UNITAB)                
-      CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-      
+      CALL HM_GET_FLOATV('tcar_p',  TCAR_P  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('tcar_vf',  TCAR_VF ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+
       IF(TCAR_VF == ZERO)TCAR_VF = INFINITY
-      
-      EBCS%tcar_p = TCAR_P  
+
+      EBCS%tcar_p = TCAR_P
       EBCS%tcar_vf = TCAR_VF
-      EBCS%HAS_IELEM = .TRUE. 
-      
+      EBCS%HAS_IELEM = .TRUE.
+
       IF(MULTI_FVM%IS_USED)THEN
         EBCS%is_multifluid = .TRUE.
-      ENDIF 
-      
+      ENDIF
+
             EBCS%fvm_inlet_data%FUNC_VEL(1:3) = -1
             EBCS%fvm_inlet_data%VAL_VEL(1:3)  =  ZERO
             EBCS%fvm_inlet_data%FORMULATION = 2
@@ -136,8 +136,8 @@ C-----------------------------------------------
                EBCS%fvm_inlet_data%VAL_ALPHA(IMAT)  = ZERO
                EBCS%fvm_inlet_data%VAL_RHO(IMAT)    = ZERO
                EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = ZERO
-            ENDDO                    
-      
+            ENDDO
+
          ISU=0
          INGR2USR => IGRSURF(1:NSURF)%ID
          IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
@@ -145,38 +145,38 @@ C-----------------------------------------------
          IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
          IF(SURF==0)THEN
             IERR=IERR+1
-            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
-            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
+            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
          ELSEIF(ISU==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
+            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
          ELSEIF(NSEG==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
             WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
          ENDIF
-         
+
          EBCS%nb_elem = NSEG
          !ALLOCATE(EBCS%DP0(NSEG))
 
          !ALLOCATE(EBCS%p0(NSEG)) !done in iniebcs.F
 
-         !ALLOCATE(EBCS%v0(NSEG)) !done in iniebcs.F 
-         
+         !ALLOCATE(EBCS%v0(NSEG)) !done in iniebcs.F
+
          !volume fraction buffer allocated in iniebcs_nrf_tcar
-         !EBCS%NBMAT=                 
+         !EBCS%NBMAT=
          !ALLOCATE(EBCS%PHASE_ALPHA(4*NSEG))
 
-       
-         WRITE(IOUT,1001)ID, TRIM(TITR)       
+
+         WRITE(IOUT,1001)ID, TRIM(TITR)
          WRITE(IOUT,1118)SURF,NSEG
-         
-      
+
+
 C-----------
       RETURN
 C-----------
- 1001 FORMAT( //'NON-REFLECTING FRONTIER EBCS NUMBER. . . . :',I8,1X,A)    
+ 1001 FORMAT( //'NON-REFLECTING FRONTIER EBCS NUMBER. . . . :',I8,1X,A)
 
  1118 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,

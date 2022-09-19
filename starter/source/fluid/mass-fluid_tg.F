@@ -32,7 +32,7 @@ Chd|        INTHTG                        source/fluid/inte_tg.F
 Chd|        INVERT                        source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE MASS_FLUID_TG(IFORM, ILVOUT, NNO, NEL, IBUF, ELEM, X, 
+      SUBROUTINE MASS_FLUID_TG(IFORM, ILVOUT, NNO, NEL, IBUF, ELEM, X,
      .                         NORMAL, AF, MFLE, RHO)
 C-----------------------------------------------
 C   M o d u l e s
@@ -56,10 +56,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IN, JN, KN, N1, N2, N3, NN1, NN2, NN3, NNJ, IEL, JEL, ERR
       my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, XQ, YQ, ZQ, R2,
-     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,	  
+     .        XP, YP, ZP, X12, Y12, Z12, X13, Y13, Z13,	
      .        NRX, NRY, NRZ, D2, AREA, RVAL, RVLH, RVLG
       my_real MASSX, MASSY, MASSZ, NORM
-      my_real, DIMENSION(:,:), ALLOCATABLE :: BBEM, CBEM, EBEM 
+      my_real, DIMENSION(:,:), ALLOCATABLE :: BBEM, CBEM, EBEM
       INTEGER :: AERR
 C-------------------------------------------------------------------
 C 1- Compute Bij Cij
@@ -68,11 +68,11 @@ C-------------------------------------------------------------------
 
       ALLOCATE(BBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
-         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
+         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR)
       ENDIF
       ALLOCATE(CBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
-         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
+         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR)
       ENDIF
       DO IN=1,NEL
          DO JN=1,NEL
@@ -101,7 +101,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z3=X(3,NN3)
 C Control point P
            XP=THIRD*(X1+X2+X3)
-           YP=THIRD*(Y1+Y2+Y3)    
+           YP=THIRD*(Y1+Y2+Y3)
            ZP=THIRD*(Z1+Z2+Z3)
            D2=MIN((XP-X1)**2+(YP-Y1)**2+(ZP-Z1)**2,
      .            (XP-X2)**2+(YP-Y2)**2+(ZP-Z2)**2,
@@ -133,21 +133,21 @@ C Control point P
                 AREA=AF(JEL)
 C Point source Q
                 XQ=THIRD*(X1+X2+X3)
-                YQ=THIRD*(Y1+Y2+Y3)    
+                YQ=THIRD*(Y1+Y2+Y3)
                 ZQ=THIRD*(Z1+Z2+Z3)
-                CALL INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
-     .                      X3,  Y3,  Z3,  XP,  YP,  ZP,                    
+                CALL INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,
+     .                      X3,  Y3,  Z3,  XP,  YP,  ZP,
      .                      NRX,NRY, NRZ,  D2,  AREA,
      .                      XQ,  YQ,  ZQ, RVAL )
                 CBEM(IEL,JEL)=RVAL
-                CALL INTGTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
-     .                      X3,  Y3,  Z3,  XP,  YP,  ZP,                    
+                CALL INTGTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,
+     .                      X3,  Y3,  Z3,  XP,  YP,  ZP,
      .                      D2,  AREA,
      .                      XQ,  YQ,  ZQ, RVAL )
                 BBEM(IEL,JEL)=RVAL
               ENDIF
            ENDDO
-        ENDDO 
+        ENDDO
 
       ELSEIF(IFORM == 2) THEN
 C Analytical integration
@@ -169,7 +169,7 @@ C           IF (ILVOUT>=2) CALL PROGBAR_C(IEL,NEL)
            Z2=X(3,NN2)
            Z3=X(3,NN3)
            XP=THIRD*(X1+X2+X3)
-           YP=THIRD*(Y1+Y2+Y3)    
+           YP=THIRD*(Y1+Y2+Y3)
            ZP=THIRD*(Z1+Z2+Z3)
            DO JEL=1,NEL
               N1=ELEM(1,JEL)
@@ -240,7 +240,7 @@ C---------------------------------------------------
       IF (ILVOUT>=1) WRITE(ISTDO,'(A)') ' .. FLUID MASS MATRIX'
       ALLOCATE(EBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
-         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
+         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR)
       ENDIF
       CALL INVERT(CBEM,EBEM,NEL,ERR)
 
@@ -307,8 +307,8 @@ C-----------------------------------------
             MASSX=MASSX+NORMAL(1,IN)*MFLE(IN,JN)*NORMAL(1,JN)
             MASSY=MASSY+NORMAL(2,IN)*MFLE(IN,JN)*NORMAL(2,JN)
             MASSZ=MASSZ+NORMAL(3,IN)*MFLE(IN,JN)*NORMAL(3,JN)
-         ENDDO	  
-      ENDDO	  
+         ENDDO	
+      ENDDO	
       WRITE (IOUT,'(/7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS XX', MASSX
       WRITE (IOUT,'( 7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS YY', MASSY
       WRITE (IOUT,'( 7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS ZZ', MASSZ
@@ -345,10 +345,10 @@ C
       ENDDO
 
       IF (ALLOCATED(BBEM)) DEALLOCATE(BBEM)
-      IF (ALLOCATED(EBEM)) DEALLOCATE(EBEM)	  
+      IF (ALLOCATED(EBEM)) DEALLOCATE(EBEM)	
       IF (ALLOCATED(CBEM)) DEALLOCATE(CBEM)
-	  
+	
       RETURN
       END
 
-      
+

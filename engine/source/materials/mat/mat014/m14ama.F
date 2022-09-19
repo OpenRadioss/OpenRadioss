@@ -27,7 +27,7 @@ Chd|        M12LAW                        source/materials/mat/mat012/m12law.F
 Chd|        M14LAW                        source/materials/mat/mat014/m14law.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M14AMA(PM, A,  RX, RY, RZ, SX, 
+      SUBROUTINE M14AMA(PM, A,  RX, RY, RZ, SX,
      2                  SY, SZ, AX, AY, AZ, BX,
      3                  BY, BZ, CX, CY, CZ)
 C-----------------------------------------------
@@ -142,7 +142,7 @@ C     CO-ROTATIONAL FORMULATION IN  ORTHOTROPIC CO-ROTATIONAL SYSTEM.
          CY(I)=ZERO
          AZ(I)=ZERO
          BZ(I)=ZERO
-         CZ(I)=ONE 
+         CZ(I)=ONE
   500   CONTINUE
       ENDIF
 C

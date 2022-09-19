@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER I, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD), REQ_R(NSPMD),
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
-     .        LEN      
+     .        LEN
       DATA MSGOFF/3000/
       my_real
      .        WA(LENCOM*3)
@@ -84,7 +84,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NBRCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -99,7 +99,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NBSDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -184,7 +184,7 @@ C-----------------------------------------------
       INTEGER I, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD), REQ_R(NSPMD),
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
-     .        LEN      
+     .        LEN
       DATA MSGOFF/3001/
       my_real
      .       WA(LENCOM*9)
@@ -199,7 +199,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NBRCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -214,7 +214,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NBSDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -315,7 +315,7 @@ C-----------------------------------------------
       INTEGER I, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD), REQ_R(NSPMD),
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
-     .        LEN      
+     .        LEN
       DATA MSGOFF/3002/
       my_real
      .        WA(LENCOM*2)
@@ -330,7 +330,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -458,7 +458,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -473,7 +473,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -570,7 +570,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -585,7 +585,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -692,7 +692,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -707,7 +707,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -804,7 +804,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -819,7 +819,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -922,7 +922,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -937,7 +937,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -1016,7 +1016,7 @@ C-----------------------------------------------
       INTEGER I, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE), REQ_S(NSPMD), REQ_R(NSPMD),
      .        LOC_PROC, N, NN, NBIRECV, IRINDEX(NSPMD), II, INDEX,
-     .        LEN, WA(LENCOM)      
+     .        LEN, WA(LENCOM)
       DATA MSGOFF/3005/
 C-----------------------------------------------
 C
@@ -1133,7 +1133,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -1148,7 +1148,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -1257,7 +1257,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -1272,7 +1272,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -1366,7 +1366,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -1381,7 +1381,7 @@ C
 C
       IDEB = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         LEN = NESDVOIS(I)
         IF(LEN>0) THEN
           DO N = 1, LEN
@@ -1436,7 +1436,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1481,8 +1481,8 @@ C-----------------------------------------------
      .     WA(6*LENCOM)
       my_real
      .     ELBUF(10000)  ! BIDON !!!!!!!
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C
 C Maj X sur Noeuds voisins
@@ -1494,7 +1494,7 @@ C
       IDEB2 = 0
       NBIRECV = 0
       DO I = 1, NSPMD
-        MSGTYP = MSGOFF 
+        MSGTYP = MSGOFF
         IAD_RECV(I) = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV = NBIRECV + 1
@@ -1525,46 +1525,46 @@ C
             ENDIF
 
             IF (ML /= 11) THEN
-              DO NI=1,NGROUP                                     
-                GBUF => ELBUF_TAB(NI)%GBUF                       
-                LBUF => ELBUF_TAB(NI)%BUFLY(1)%LBUF(1,1,1)       
-                KTY = IPARG(5,NI)                                
-                KLT = IPARG(2,NI)                                
-                MFT = IPARG(3,NI)                                
-                IF( (KTY == 1.OR.KTY == 2).AND.(NN<=KLT+MFT) .AND. NN>MFT) THEN  
-                  G_PLA = ELBUF_TAB(NI)%GBUF%G_PLA                
-                  G_RK  = ELBUF_TAB(NI)%GBUF%G_RK                 
-                  L_RE  = ELBUF_TAB(NI)%BUFLY(1)%L_RE             
-                  L_TEMP= ELBUF_TAB(NI)%BUFLY(1)%L_TEMP           
+              DO NI=1,NGROUP
+                GBUF => ELBUF_TAB(NI)%GBUF
+                LBUF => ELBUF_TAB(NI)%BUFLY(1)%LBUF(1,1,1)
+                KTY = IPARG(5,NI)
+                KLT = IPARG(2,NI)
+                MFT = IPARG(3,NI)
+                IF( (KTY == 1.OR.KTY == 2).AND.(NN<=KLT+MFT) .AND. NN>MFT) THEN
+                  G_PLA = ELBUF_TAB(NI)%GBUF%G_PLA
+                  G_RK  = ELBUF_TAB(NI)%GBUF%G_RK
+                  L_RE  = ELBUF_TAB(NI)%BUFLY(1)%L_RE
+                  L_TEMP= ELBUF_TAB(NI)%BUFLY(1)%L_TEMP
                   IS = NN-MFT
 !
                   DO K=1,6
                     KK(K) = KLT*(K-1)
                   ENDDO
 !
-                  WA(II+1) =-(GBUF%SIG(KK(1)+IS)+GBUF%SIG(KK(2)+IS)+ GBUF%SIG(KK(3)+IS))*THIRD               
-                  WA(II+2) = GBUF%EINT(IS)                        
-                  WA(II+3) = GBUF%RHO(IS)                         
-                  IF (G_PLA > 0) THEN                             
-                    WA(II+4) = GBUF%PLA(IS)                       
-                  ELSEIF (G_RK > 0) THEN                          
-                    WA(II+4) = GBUF%RK(IS)                        
-                  ELSE                                            
-                    WA(II+4) = ZERO                               
-                  ENDIF                                           
-                  IF (L_TEMP > 0)THEN                             
-                    WA(II+5) = LBUF%TEMP(IS)                      
-                  ELSE                                            
-                    WA(II+5) = ZERO                               
-                  ENDIF                                           
-                  IF (L_RE > 0) THEN                              
-                    WA(II+6) = LBUF%RE(IS)                        
-                  ELSE                                            
-                    WA(II+6) = ZERO                               
-                  ENDIF                                           
-                EXIT                                         
-                ENDIF                                            
-              ENDDO!next NI                                              
+                  WA(II+1) =-(GBUF%SIG(KK(1)+IS)+GBUF%SIG(KK(2)+IS)+ GBUF%SIG(KK(3)+IS))*THIRD
+                  WA(II+2) = GBUF%EINT(IS)
+                  WA(II+3) = GBUF%RHO(IS)
+                  IF (G_PLA > 0) THEN
+                    WA(II+4) = GBUF%PLA(IS)
+                  ELSEIF (G_RK > 0) THEN
+                    WA(II+4) = GBUF%RK(IS)
+                  ELSE
+                    WA(II+4) = ZERO
+                  ENDIF
+                  IF (L_TEMP > 0)THEN
+                    WA(II+5) = LBUF%TEMP(IS)
+                  ELSE
+                    WA(II+5) = ZERO
+                  ENDIF
+                  IF (L_RE > 0) THEN
+                    WA(II+6) = LBUF%RE(IS)
+                  ELSE
+                    WA(II+6) = ZERO
+                  ENDIF
+                EXIT
+                ENDIF
+              ENDDO!next NI
             ELSE  ! ML == 11
               WA(II+1) = ZERO
               WA(II+2) = ZERO
@@ -1692,7 +1692,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), NALE(*),
      .        SIZE, LENR
-      my_real 
+      my_real
      .        WA(3,*),WB(3,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1725,7 +1725,7 @@ C SIZE = 6
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
             L = L + SIZ
         ENDIF
-        IAD_RECV(I+1) = L               
+        IAD_RECV(I+1) = L
       END DO
 C
       L = 1
@@ -1756,7 +1756,7 @@ C
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
         ENDIF
-      ENDDO        
+      ENDDO
 C
 C decompactage
 C
@@ -1776,7 +1776,7 @@ C
               WB(3,NOD) = WB(3,NOD) + RBUF(L+5)
               L = L + SIZE
             END IF
-          ENDDO         
+          ENDDO
         ENDIF
       END DO
 C
@@ -1832,7 +1832,7 @@ C-----------------------------------------------
       INTEGER IAD_ELEM(2,*),FR_ELEM(*),FR_NBCC(2,*),NALE(*),
      .        ADDCNE(*), PROCNE(*),
      .        SIZE, LENR ,LENS
-      my_real 
+      my_real
      .        FSKY(8,LSKY), FSKYV(LSKY,8)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -1856,7 +1856,7 @@ C
 C SIZE = 6
 C
       NBIRECV = 0
-      L = 1     
+      L = 1
       IAD_RECV(1) = 1
       DO I=1,NSPMD
         IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0) THEN
@@ -1894,7 +1894,7 @@ C
             ELSE
               DO CC = ADDCNE(NOD),ADDCNE(NOD+1)-1
                 IF(PROCNE(CC) == LOC_PROC) THEN
-                  SBUF(L)   = FSKY(1,CC)    
+                  SBUF(L)   = FSKY(1,CC)
                   SBUF(L+1) = FSKY(2,CC)
                   SBUF(L+2) = FSKY(3,CC)
                   SBUF(L+3) = FSKY(4,CC)
@@ -2071,7 +2071,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER I, J, L, N, LOC_PROC, N_LEN, N_LEN2, NOD, SIZ,
      .        MSGOFF, IERROR, MSGTYP, LEN, M1, NB_NOD,
-     .        STATUS(MPI_STATUS_SIZE)       
+     .        STATUS(MPI_STATUS_SIZE)
       DATA MSGOFF/3010/
 C-----------------------------------------------
 C
@@ -2086,7 +2086,7 @@ C Envoi X local
 C
         L = 1
         DO J=1,NIMP
-          M1=ABS(NSW(J))                      
+          M1=ABS(NSW(J))
           IF(WEIGHT(M1) == 1)THEN
             WA(L) = M1
             WA(L+1) = X(1,M1)
@@ -2123,7 +2123,7 @@ C
 C Recuperation X
 C
         DO I = 2, NSPMD
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           LEN = NIMP*N_LEN
           CALL MPI_RECV(
      S      WA,LEN,REAL,IT_SPMD(I),MSGTYP,
@@ -2154,7 +2154,7 @@ C
         LEN = L - 1
 C
         DO I = 2, NSPMD
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_SEND(
      S      WA,LEN,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,ierror)
@@ -2228,7 +2228,7 @@ C
      G      MPI_COMM_WORLD,REQ_R(I),IERROR)
            L = L + SIZ
         ENDIF
-        IAD_RECV(I+1) = L               
+        IAD_RECV(I+1) = L
       END DO
 C
       L = 1
@@ -2257,7 +2257,7 @@ C
      S      SBUF(L),SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
         ENDIF
-      ENDDO        
+      ENDDO
 C
 C decompactage
 C
@@ -2271,7 +2271,7 @@ C
             NOD = FR_ELEM(J)
             NTAG(NOD) = NTAG(NOD)+RBUF(L)
             L = L + 1
-          ENDDO         
+          ENDDO
         ENDIF
       END DO
 C Wait terminaison isend
@@ -2328,7 +2328,7 @@ C-----------------------------------------------
 #ifdef MPI
       INTEGER I, IDEB, IDEB2, MSGOFF, IERROR,MSGTYP,IAD_RECV(NSPMD),
      .        STATUS(MPI_STATUS_SIZE), REQ_R(NSPMD), IRINDEX(NSPMD),
-     .        LOC_PROC, N, KK, NN, NBIRECV, II, INDEX, LEN      
+     .        LOC_PROC, N, KK, NN, NBIRECV, II, INDEX, LEN
       DATA MSGOFF/3012/
       my_real
      .        WA(SIZE*NVCONV)
@@ -2336,42 +2336,42 @@ C-----------------------------------------------
       CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
       LOC_PROC = ISPMD+1
-      IF(FLAG == 0) THEN  
+      IF(FLAG == 0) THEN
 C
 C Envoi segvar de pi vers p0
 C
         IF(LOC_PROC/=1)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           LEN = NPSEGCOM(1)
           IF(LEN>0) THEN
             DO N = 1, LEN
               KK = LSEGCOM(N)
-              
+
               NN=1
               IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
                WA(NVCONV*(N-1)+NN) = SEGVAR%RHO(KK)
               ENDIF
-              
-              NN=2              
+
+              NN=2
               IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
                 WA(NVCONV*(N-1)+NN) = SEGVAR%EINT(KK)
               ENDIF
-              
+
               NN=3
               IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
                 WA(NVCONV*(N-1)+NN) = SEGVAR%RK(KK)
               ENDIF
-              
+
               NN=4
               IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
                 WA(NVCONV*(N-1)+NN) = SEGVAR%RE(KK)
               ENDIF
-              
+
               NN=5
               IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                WA(NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)                                                        
+                WA(NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)
               ENDIF
-             
+
             ENDDO
             CALL MPI_SEND(
      S        WA            ,LEN*NVCONV,REAL,IT_SPMD(1),MSGTYP,
@@ -2403,32 +2403,32 @@ C
             IDEB = IDEB2 / NVCONV
             DO N = 1, NPSEGCOM(I)
               KK = LSEGCOM(IDEB+N)
-              
+
               NN=1
               IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
-               SEGVAR%RHO(KK) = WA(IDEB2+NVCONV*(N-1)+NN) 
+               SEGVAR%RHO(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
               ENDIF
-              
-              NN=2              
+
+              NN=2
               IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
                 SEGVAR%EINT(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
               ENDIF
-              
+
               NN=3
               IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
                 SEGVAR%RK(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
               ENDIF
-              
+
               NN=4
               IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
                 SEGVAR%RE(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
               ENDIF
-              
+
               NN=5
               IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                SEGVAR%UVAR(KK) = WA(IDEB2+NVCONV*(N-1)+NN)                                                       
+                SEGVAR%UVAR(KK) = WA(IDEB2+NVCONV*(N-1)+NN)
               ENDIF
-                            
+
             ENDDO
           ENDDO
         ENDIF
@@ -2438,7 +2438,7 @@ C
 C Envoi segvar de p0 vers pi
 C
         IF(LOC_PROC/=1)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           LEN = NPSEGCOM(1)
           IF(LEN>0) THEN
             CALL MPI_RECV(
@@ -2446,32 +2446,32 @@ C
      G        MPI_COMM_WORLD,status,ierror)
             DO N = 1, LEN
               KK = LSEGCOM(N)
-                            
+
               NN=1
               IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
-               SEGVAR%RHO(KK) = WA(NVCONV*(N-1)+NN) 
+               SEGVAR%RHO(KK) = WA(NVCONV*(N-1)+NN)
               ENDIF
-              
-              NN=2              
+
+              NN=2
               IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
                 SEGVAR%EINT(KK) = WA(NVCONV*(N-1)+NN)
               ENDIF
-              
+
               NN=3
               IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
                 SEGVAR%RK(KK) = WA(NVCONV*(N-1)+NN)
               ENDIF
-              
+
               NN=4
               IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
                 SEGVAR%RE(KK) = WA(NVCONV*(N-1)+NN)
               ENDIF
-              
+
               NN=5
               IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                SEGVAR%UVAR(KK) = WA(NVCONV*(N-1)+NN)                                                       
-              ENDIF              
-                            
+                SEGVAR%UVAR(KK) = WA(NVCONV*(N-1)+NN)
+              ENDIF
+
             ENDDO
           ENDIF
 C
@@ -2483,33 +2483,33 @@ C
               MSGTYP = MSGOFF
               DO N = 1, LEN
                 KK = LSEGCOM(IDEB+N)
-                
+
                 NN=1
                 IF(NN <= NVCONV .AND. SEGVAR%has_rho)THEN
                   WA(NVCONV*(N-1)+NN) = SEGVAR%RHO(KK)
                 ENDIF
-                
-                NN=2              
+
+                NN=2
                 IF(NN <= NVCONV .AND. SEGVAR%has_eint)THEN
                    WA(NVCONV*(N-1)+NN) = SEGVAR%EINT(KK)
                 ENDIF
-                
+
                 NN=3
                 IF(NN <= NVCONV .AND. SEGVAR%has_rk)THEN
                    WA(NVCONV*(N-1)+NN) = SEGVAR%RK(KK)
                 ENDIF
-                
+
                 NN=4
                 IF(NN <= NVCONV .AND. SEGVAR%has_re)THEN
                    WA(NVCONV*(N-1)+NN) = SEGVAR%RE(KK)
                 ENDIF
-                
+
                 NN=5
                 IF(NN <= NVCONV .AND. SEGVAR%has_uvar)THEN
-                   WA(NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)                                                       
+                   WA(NVCONV*(N-1)+NN) = SEGVAR%UVAR(KK)
                 ENDIF
-              
-                              
+
+
               ENDDO
               CALL MPI_SEND(
      S        WA            ,LEN*NVCONV,REAL,IT_SPMD(I),MSGTYP,
@@ -2561,7 +2561,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IAD_ELEM(2,*), FR_ELEM(*), ISIZXV
-     .        
+     .
       my_real
      .        V(3,*)
       TYPE(t_ebcs_tab), INTENT(IN) :: EBCS_TAB
@@ -2617,7 +2617,7 @@ C----------------------------------------------------------------------------
      S        WA(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G        MPI_COMM_WORLD,IERROR)
             L = L + SIZ
-          ENDIF        
+          ENDIF
         ENDDO
 C
 C decompactage
@@ -2649,7 +2649,7 @@ C
 #endif
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  SPMD_L51VOIS                  source/mpi/fluid/spmd_cfd.F   
 Chd|-- called by -----------
@@ -2666,7 +2666,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2689,7 +2689,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      
+
       INTEGER                  :: IPARG(NPARG,*),IXS(NIXS,*), IXQ(NIXQ,*),
      .                            NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*),
      .                            LENCOM, IPM(NPROPMI,*)
@@ -2707,12 +2707,12 @@ C-----------------------------------------------
      .                            G_PLA,G_RK,L_RE,L_TEMP,IMAT,IADBUF,IFLG,NELG,ITRIMAT,KK,KJ(6),K
 
       DATA MSGOFF/3014/
-      
+
       my_real                  :: WA(M51_IFLG6_SIZE*LENCOM), ELBUF(10000)   !necessary size : M51_IFLG6_SIZE
 
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF               
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
 C-----------------------------------------------
        CALL STARTIME(MACRO_TIMER_SPMDCFD,1)
 
@@ -2722,7 +2722,7 @@ C-----------------------------------------------
       IDEB2                = 0
       NBIRECV              = 0
       DO I = 1, NSPMD
-        MSGTYP             = MSGOFF 
+        MSGTYP             = MSGOFF
         IAD_RECV(I)        = IDEB2+1
         IF(NERCVOIS(I)>0) THEN
           NBIRECV          = NBIRECV + 1
@@ -2751,11 +2751,11 @@ C-----------------------------------------------
               IMAT = IXS(1,NN)
             ELSE
               ML   = NINT(PM(19,IXQ(1,NN)))
-              IMAT = IXQ(1,NN)              
+              IMAT = IXQ(1,NN)
             ENDIF
             IADBUF = IPM(7,IMAT)
             IFLG   = 6
-            IF(ML==51)IFLG   = NINT(BUFMAT(IADBUF-1+31)) 
+            IF(ML==51)IFLG   = NINT(BUFMAT(IADBUF-1+31))
             ! SEARCH FOR REMOTE ELEM DATA TO SEND
             IF (IFLG /= 6) THEN
                 DO NI=1,NGROUP
@@ -2773,22 +2773,22 @@ C-----------------------------------------------
                      KJ(K) = KLT*(K-1)
                    ENDDO
                    !-------------GLOBAL DATA------------------------------------------!
-                   WA(II+1)   = -(GBUF%SIG(KJ(1)+IS)+GBUF%SIG(KJ(2)+IS)+GBUF%SIG(KJ(3)+IS))*THIRD           
-                   WA(II+2)   = GBUF%EINT(IS)                    
-                   WA(II+3)   = GBUF%RHO(IS)                                   
-                   IF (L_TEMP > 0)THEN                         
-                     WA(II+4) = LBUF%TEMP(IS)                  
-                   ELSE                                        
-                     WA(II+4) = ZERO                           
+                   WA(II+1)   = -(GBUF%SIG(KJ(1)+IS)+GBUF%SIG(KJ(2)+IS)+GBUF%SIG(KJ(3)+IS))*THIRD
+                   WA(II+2)   = GBUF%EINT(IS)
+                   WA(II+3)   = GBUF%RHO(IS)
+                   IF (L_TEMP > 0)THEN
+                     WA(II+4) = LBUF%TEMP(IS)
+                   ELSE
+                     WA(II+4) = ZERO
                    ENDIF
                    WA(II+5)   = LBUF%SSP(IS)
-                   WA(II+6)   = ZERO 
-                   IF(ELBUF_TAB(NI)%BUFLY(1)%L_PLA > 0)WA(II+6)   = LBUF%PLA(IS) 
-                   !-------------SUBMATERIAL STATE------------------------------------!                
+                   WA(II+6)   = ZERO
+                   IF(ELBUF_TAB(NI)%BUFLY(1)%L_PLA > 0)WA(II+6)   = LBUF%PLA(IS)
+                   !-------------SUBMATERIAL STATE------------------------------------!
                    !Submaterial Data
                    NELG       = KLT
                    ITRIMAT    = 1
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS
                    IADBUF=18 ; WA(II+07) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+08) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+09) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2797,7 +2797,7 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+12) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+13) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 2
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS
                    IADBUF=18 ; WA(II+14) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+15) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+16) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
@@ -2806,33 +2806,33 @@ C-----------------------------------------------
                    IADBUF=14 ; WA(II+19) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+20) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 3
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS
                    IADBUF=18 ; WA(II+21) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+22) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+23) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
                    IADBUF=9  ; WA(II+24) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !DENS
-                   IADBUF=16 ; WA(II+25) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !TEMP 
+                   IADBUF=16 ; WA(II+25) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !TEMP
                    IADBUF=14 ; WA(II+26) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
                    IADBUF=15 ; WA(II+27) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    ITRIMAT    = 4
-                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS 
+                   KK         = N0PHAS + (ITRIMAT-1)*NVPHAS
                    IADBUF=18 ; WA(II+28) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !PRES
                    IADBUF=1  ; WA(II+29) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !VFRAC
                    IADBUF=8  ; WA(II+30) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !ENER
                    IADBUF=9  ; WA(II+31) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !DENS
                    IADBUF=16 ; WA(II+32) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !TEMP
-                   IADBUF=14 ; WA(II+33) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP 
-                   IADBUF=15 ; WA(II+34) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP 
+                   IADBUF=14 ; WA(II+33) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !SSP
+                   IADBUF=15 ; WA(II+34) = MBUF%VAR(NELG*(IADBUF+KK-1)+IS) !EPSP
                    !
                    WA(II+35) = MBUF%VAR(NELG*3+IS) !UVAR(4,I)
-                   WA(II+36) = IFLG    
-                   IADBUF = IPM(7,IMAT)  
-                   WA(II+37) = 51 +    100*NINT(BUFMAT(IADBUF-1+276+4))                     
-     .                            +   1000*NINT(BUFMAT(IADBUF-1+276+3)) 
-     .                            +  10000*NINT(BUFMAT(IADBUF-1+276+2)) 
-     .                            + 100000*NINT(BUFMAT(IADBUF-1+276+1))           
-                   !-------------REMAINING INDEXES------------------------------------!                     
-                   !WA(II+36:II+36)       = ZERO                    
+                   WA(II+36) = IFLG
+                   IADBUF = IPM(7,IMAT)
+                   WA(II+37) = 51 +    100*NINT(BUFMAT(IADBUF-1+276+4))
+     .                            +   1000*NINT(BUFMAT(IADBUF-1+276+3))
+     .                            +  10000*NINT(BUFMAT(IADBUF-1+276+2))
+     .                            + 100000*NINT(BUFMAT(IADBUF-1+276+1))
+                   !-------------REMAINING INDEXES------------------------------------!
+                   !WA(II+36:II+36)       = ZERO
                    EXIT
                  ENDIF
                 ENDDO

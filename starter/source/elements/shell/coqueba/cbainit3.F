@@ -67,7 +67,7 @@ Chd|====================================================================
      5           PARTSAV  ,V        ,IPART    ,MSC     ,INC     ,
      6           SKEW     ,I8MI     ,NSIGSH   ,IGEO    ,IPM     ,
      7           IUSER    ,ETNOD    ,NSHNOD   ,STC     ,PTSHEL  ,
-     8           BUFMAT   ,SH4TREE  ,MCP      ,MCPS    ,TEMP    ,  
+     8           BUFMAT   ,SH4TREE  ,MCP      ,MCPS    ,TEMP    ,
      9           MS_LAYER ,ZI_LAYER ,ITAG     ,ITAGEL  ,IPARG   ,
      A           MS_LAYERC,ZI_LAYERC,PART_AREA,CPT_ELTENS,
      B           MSZ2C    ,ZPLY     ,ITAGN    ,ITAGE   ,IXFEM   ,
@@ -78,13 +78,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE NLOCAL_REG_MOD
-      USE MATPARAM_DEF_MOD      
-      USE DRAPE_MOD        
+      USE MATPARAM_DEF_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NVC,NEL,ITHK,IHBE,ISIGSH,IXFEM,NSIGSH,IUSER,IYLDINI,
      .        ISUBSTACK,NG
-      INTEGER IXC(NIXC,*),IPART(*),PTSHEL(*),ITAG(*),ITAGEL(*), 
+      INTEGER IXC(NIXC,*),IPART(*),PTSHEL(*),ITAG(*),ITAGEL(*),
      .        IGEO(NPROPGI,*), IPM(NPROPMI,*), NSHNOD(*),NPF(*),
      .        SH4TREE(*),IPARG(*),CPT_ELTENS,ITAGN(*),ITAGE(*),
      .        IGEO_STACK(*),PERTURB(NPERTURB)
@@ -162,17 +162,17 @@ c
      .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
 C-----------------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
 c
-      IMAT  = IXC(1,1+NFT)         ! mat N   
-      IPROP = IXC(NIXC-1,1+NFT)    ! property N   
+      IMAT  = IXC(1,1+NFT)         ! mat N
+      IPROP = IXC(NIXC-1,1+NFT)    ! property N
       PROPID= IGEO(1 ,IPROP)       ! property ID
       IGTYP = IGEO(11,IPROP)
       IGMAT = IGEO(98,IPROP)       ! global mat flag
-      IREP  = IPARG(35) 
+      IREP  = IPARG(35)
       IFAIL = IPARG(43)
 C
       DO I=LFT,LLT
@@ -200,7 +200,7 @@ C
       LENEPINCHZZ = NEL*GBUF%G_EPGPINCHZZ/NPG
 C
       LENS = NEL*GBUF%G_STRPG/NPG
-    
+
       ALLOCATE(DIR_A(NLAY*NEL*2))
       ALLOCATE(DIR_B(NLAY*NEL*2))
       DIR_A = ZERO
@@ -234,14 +234,14 @@ C
       ENDIF
 c-------------------------------------------------
       CALL CCOORI(X,XREFC(1,1,NFT+1),IXC(1,NFT+1),
-     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .            IX1 ,IX2 ,IX3 ,IX4 ,NGL )
 c
       CALL CVEOK3(NVC,4,IX1,IX2,IX3,IX4)
 c
       CALL CNEVECI(LFT ,LLT ,AREA,
-     .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .             Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .             E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
 C------------
@@ -257,7 +257,7 @@ C         PART_AREA(J) = PART_AREA(J) + AREA(I)
 C------------
       CALL CINMAS(X,XREFC(1,1,NFT+1),IXC,GEO,PM,
      .            XMAS,IN,THKE,IHBE,PARTSAV,
-     .            V,IPART(NFT+1),MSC(NFT+1),INC(NFT+1),AREA    , 
+     .            V,IPART(NFT+1),MSC(NFT+1),INC(NFT+1),AREA    ,
      .            I8MI ,IGEO  ,ETNOD ,IMAT ,IPROP,NSHNOD ,STC(NFT+1),
      .            SH4TREE ,MCP  , MCPS(NFT+1)  ,TEMP    ,
      .            MS_LAYER, ZI_LAYER,MS_LAYERC,ZI_LAYERC,
@@ -274,14 +274,14 @@ C-----------------------------------------------
       IF (IPARG(6) == 0.OR.NPT==0) MPT=0
 C---------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
-     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .            E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .            X2L ,X3L ,X4L ,Y2L ,Y3L ,Y4L )
       CALL CNDLENI(PM      ,GEO     ,STIFN   ,STIFR   ,IXC(1,NFT+1),
      .            THKE     ,IHBE    ,IGEO    ,SH4TREE ,ALDT  ,
      .            BUFMAT   ,IPM     ,NLAY    ,STACK%PM,ISUBSTACK,
-     .            STRC(NFT+1),AREA  ,IMAT    ,IPROP   ,DTEL     , 
+     .            STRC(NFT+1),AREA  ,IMAT    ,IPROP   ,DTEL     ,
      .            X2L ,X3L ,X4L ,Y2L ,Y3L ,Y4L ,
      .            STACK%IGEO ,GROUP_PARAM)
       CALL C1BUF3(GEO,GBUF%THK,GBUF%OFF,THKE,KSH4TREE,SH4TREE)
@@ -331,7 +331,7 @@ c
      .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,X )
 c
           IF (( ISIGSH/=0 .OR. ITHKSHEL == 2) .and. IHBE == 11) THEN
-            IF (MPT>0) 
+            IF (MPT>0)
      .       CALL CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,LFT    ,LLT    ,
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
@@ -405,7 +405,7 @@ c----
         IF (ISTRAIN == 1 .AND. NXREF > 0) THEN
 c         REFERENCE STATE, QEPH
 c
-          UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  ! 
+          UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  !
           CALL CNEPSINI(ELBUF_STR,
      .        LFT      ,LLT     ,ISMSTR     ,MTN      ,ITHK   ,
      .        PM       ,GEO     ,IXC(1,NFT+1),X ,XREFC(1,1,NFT+1),
@@ -422,18 +422,18 @@ c
           IF (MTN==58) THEN
 C-------IINT to say NXREF > 0		  
 		    IPARG(36)=1
-            DO I=LFT,LLT                          
-              II = NFT + I            
-              ELBUF_STR%GBUF%HOURG(JJ(1)+I) = XREFC(2,1,II)-XREFC(1,1,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(2)+I) = XREFC(2,2,II)-XREFC(1,2,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(3)+I) = XREFC(2,3,II)-XREFC(1,3,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(4)+I) = XREFC(3,1,II)-XREFC(1,1,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(5)+I) = XREFC(3,2,II)-XREFC(1,2,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(6)+I) = XREFC(3,3,II)-XREFC(1,3,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(7)+I) = XREFC(4,1,II)-XREFC(1,1,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(8)+I) = XREFC(4,2,II)-XREFC(1,2,II)  
-              ELBUF_STR%GBUF%HOURG(JJ(9)+I) = XREFC(4,3,II)-XREFC(1,3,II)  
-            ENDDO                                 
+            DO I=LFT,LLT
+              II = NFT + I
+              ELBUF_STR%GBUF%HOURG(JJ(1)+I) = XREFC(2,1,II)-XREFC(1,1,II)
+              ELBUF_STR%GBUF%HOURG(JJ(2)+I) = XREFC(2,2,II)-XREFC(1,2,II)
+              ELBUF_STR%GBUF%HOURG(JJ(3)+I) = XREFC(2,3,II)-XREFC(1,3,II)
+              ELBUF_STR%GBUF%HOURG(JJ(4)+I) = XREFC(3,1,II)-XREFC(1,1,II)
+              ELBUF_STR%GBUF%HOURG(JJ(5)+I) = XREFC(3,2,II)-XREFC(1,2,II)
+              ELBUF_STR%GBUF%HOURG(JJ(6)+I) = XREFC(3,3,II)-XREFC(1,3,II)
+              ELBUF_STR%GBUF%HOURG(JJ(7)+I) = XREFC(4,1,II)-XREFC(1,1,II)
+              ELBUF_STR%GBUF%HOURG(JJ(8)+I) = XREFC(4,2,II)-XREFC(1,2,II)
+              ELBUF_STR%GBUF%HOURG(JJ(9)+I) = XREFC(4,3,II)-XREFC(1,3,II)
+            ENDDO
 		  END IF
 c
         ELSEIF (ISMSTR == 11 .OR. (ISMSTR==1 .AND. MTN==19) ) THEN
@@ -444,32 +444,32 @@ c
         ENDIF
 c----
         IF (ISMSTR == 10 ) THEN
-          DO I=LFT,LLT                          
-            II = NFT + I            
-            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXC(3,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXC(3,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXC(3,II))-X(3,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXC(4,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXC(4,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXC(4,II))-X(3,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(7)+I) = X(1,IXC(5,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(8)+I) = X(2,IXC(5,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(9)+I) = X(3,IXC(5,II))-X(3,IXC(2,II))  
-          ENDDO                                 
+          DO I=LFT,LLT
+            II = NFT + I
+            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXC(3,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXC(3,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXC(3,II))-X(3,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXC(4,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXC(4,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXC(4,II))-X(3,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(7)+I) = X(1,IXC(5,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(8)+I) = X(2,IXC(5,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(9)+I) = X(3,IXC(5,II))-X(3,IXC(2,II))
+          ENDDO
         ELSEIF (ISMSTR == 11 .OR. (ISMSTR==1 .AND. MTN==19) ) THEN
-          DO I=LFT,LLT                          
-            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)  
-            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = Y2S(I)  
-            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X3S(I)  
-            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = Y3S(I)  
-            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X4S(I)  
-            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = Y4S(I)  
-          ENDDO                                 
+          DO I=LFT,LLT
+            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)
+            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = Y2S(I)
+            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X3S(I)
+            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = Y3S(I)
+            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X4S(I)
+            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = Y4S(I)
+          ENDDO
         ENDIF
 c---
         IF (ISIGSH/=0 .OR. ITHKSHEL == 2) THEN
           IPG = 0
-            IF (MPT>0) 
+            IF (MPT>0)
      .       CALL CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,LFT    ,LLT    ,
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
@@ -513,8 +513,8 @@ c
 c         REFERENCE STATE, Batoz
 c
           IR = 1
-          IS = 1     
-c         using only one pt, suppose constant  
+          IS = 1
+c         using only one pt, suppose constant
           UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  ! loi 58 => nlay=1
 c
           CALL CNEPSINI(ELBUF_STR,
@@ -526,17 +526,17 @@ c
      .       GBUF%OFF,UVAR     ,BUFMAT     ,IPM      ,IMAT      ,
      .       IGEO    ,NEL      ,DIR_A      ,DIR_B    ,GBUF%SIGI ,
      .       NPF     ,TF       ,IREP      )
-c          
-          IF (ISMSTR /= 4) THEN 
-            DO I=LFT,LLT                         
-              ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I) 
-              ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = Y2S(I) 
-              ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X3S(I) 
-              ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = Y3S(I) 
-              ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X4S(I) 
-              ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = Y4S(I) 
-            ENDDO                                
-          ENDIF                                  
+c
+          IF (ISMSTR /= 4) THEN
+            DO I=LFT,LLT
+              ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)
+              ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = Y2S(I)
+              ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X3S(I)
+              ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = Y3S(I)
+              ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X4S(I)
+              ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = Y4S(I)
+            ENDDO
+          ENDIF
 c
           CALL CEPSCHK(LFT, LLT,NFT, PM, GEO,IXC(1,NFT+1),
      .                 GBUF%STRA,THKE,NEL     ,CPT_ELTENS)
@@ -577,31 +577,31 @@ c-----------------------------------------------------------
 C       
 C---------- ISMSTR == 10 in global system :9 + 9 place  + 3   
         ELSEIF (ISMSTR == 10 ) THEN
-          DO I=LFT,LLT                          
-            II = NFT + I            
-            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXC(3,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXC(3,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXC(3,II))-X(3,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXC(4,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXC(4,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXC(4,II))-X(3,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(7)+I) = X(1,IXC(5,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(8)+I) = X(2,IXC(5,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(9)+I) = X(3,IXC(5,II))-X(3,IXC(2,II))  
-          ENDDO                                 
+          DO I=LFT,LLT
+            II = NFT + I
+            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXC(3,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXC(3,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXC(3,II))-X(3,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXC(4,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXC(4,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXC(4,II))-X(3,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(7)+I) = X(1,IXC(5,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(8)+I) = X(2,IXC(5,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(9)+I) = X(3,IXC(5,II))-X(3,IXC(2,II))
+          ENDDO
         ELSEIF (ISMSTR == 11 .OR. (ISMSTR==1 .AND. MTN==19) ) THEN
 C to be checked for IGTYP = 51
           CALL CSMS11_INI(
      .           LFT      ,LLT     ,IXC(1,NFT+1),X      ,X2S     ,
      .           Y2S      ,X3S     ,Y3S         ,X4S    ,Y4S     )
-          DO I=LFT,LLT                          
+          DO I=LFT,LLT
             ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)
             ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = Y2S(I)
             ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X3S(I)
             ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = Y3S(I)
             ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X4S(I)
             ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = Y4S(I)
-          ENDDO                                 
+          ENDDO
         ENDIF
 c
       ENDIF  ! IHBE

@@ -22,15 +22,15 @@ Copyright>        software under a commercial license.  Contact Altair to discus
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
         FUNCTION MY_ISNAN(X) RESULT(BOOL)
 #ifdef COMP_ARMFLANG
-        USE, INTRINSIC :: IEEE_ARITHMETIC 
+        USE, INTRINSIC :: IEEE_ARITHMETIC
 #endif
 #include "implicit_f.inc"
         my_real, INTENT(IN) :: X
         LOGICAL :: BOOL
 
-#ifdef COMP_ARMFLANG      
+#ifdef COMP_ARMFLANG
         BOOL=IEEE_IS_NAN(X)
 #else
         BOOL=ISNAN(X)
-#endif      
+#endif
         END FUNCTION MY_ISNAN

@@ -77,7 +77,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ISKN(LISKN,*), ITAB(*), ITABM1(*), NSN(*)
 C     REAL
       my_real
@@ -150,7 +150,7 @@ C--------------------------------------------------
 C
       IFLAGUNIT = 0
       DO J=1,NUNITS
-        IF (UNITAB%UNIT_ID(J) == UID) THEN                 
+        IF (UNITAB%UNIT_ID(J) == UID) THEN
           IFLAGUNIT = 1
           EXIT
         ENDIF
@@ -205,7 +205,7 @@ C--------------------------------------------------
           IF(DIR(K:K) == 'Z'.OR.DIR(K:K) == 'Z')IDIR = 3
         ENDDO
         ISKN(6,I+1)=IDIR
-  
+
       ENDIF
       ISKN(4,I+1)=ID
 C----------------

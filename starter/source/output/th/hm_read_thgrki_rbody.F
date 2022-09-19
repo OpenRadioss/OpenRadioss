@@ -106,10 +106,10 @@ C-----------------------------------------------
         IFITMP=IFI+1000
 c
         ! Number of variables indicated by the user
-        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
 c
         ! Number of stored variables and reading the variables
-        IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR,LSUBMODEL) 
+        IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR,LSUBMODEL)
 c
         ! Filling the tables
         IF (NVAR == 0) THEN
@@ -124,7 +124,7 @@ c
         ELSE
 c
           ! Number of Objects IDs
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)  
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
 c
           ! Filling tables
           ITHGRP(6) = NVAR
@@ -137,13 +137,13 @@ c
           IAD2      = IAD+3*NNE
           ITHGRP(8) = IAD2
           CALL ZEROIN(IAD,IAD+43*NNE-1,ITHBUF)
-          NNE = 0  
-          TAG(:)=0  
+          NNE = 0
+          TAG(:)=0
 C
           ! Loop over Objects IDs
           DO K = 1,IDSMAX
-            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL) 
-            IF (NSUBDOM > 0) THEN 
+            CALL HM_GET_INT_ARRAY_INDEX('ids',IDS,K,IS_AVAILABLE,LSUBMODEL)
+            IF (NSUBDOM > 0) THEN
               IF (R2R_EXIST(ITYP,IDS) == 0) CYCLE
             ENDIF
             IF(IDS==0)CYCLE !skip empty object
@@ -165,7 +165,7 @@ C
      .                    C2=KEY,
      .                    I2=IDS)
             ELSE
-              IF(NPBY(12,N) /= 0) THEN 
+              IF(NPBY(12,N) /= 0) THEN
                 IRB=NPBY(13,N)
                 IF(TAG(IRB) == 0) THEN
                   NNE=NNE+1
@@ -181,14 +181,14 @@ C
                 IAD=IAD+1
                 TAG(N)=1
               ENDIF
-            ENDIF           
+            ENDIF
           ENDDO
 C
           IAD       = ITHGRP(5)
           ITHGRP(4) = NNE
           IAD2      = IAD+3*NNE
           ITHGRP(8) = IAD2
-          IFI       = IFI+3*NNE+40*NNE   
+          IFI       = IFI+3*NNE+40*NNE
 cc
           CALL HORD(ITHBUF(IAD),NNE)
 C
@@ -200,7 +200,7 @@ C
             ENDDO
             IAD=IAD+1
             IAD2=IAD2+40
-          ENDDO    
+          ENDDO
 C
           IAD = IAD2
 C

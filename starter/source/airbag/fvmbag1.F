@@ -338,28 +338,28 @@ C decoupage du quadrangle en 2 triangles
           ENDIF
 C Remplacement du quadrangle en 1 triangle en conservant le noeud libre et ses 2 noeuds adjacents
         ELSEIF(TAGE(I) == 1)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I1)  
-          TBEMTG(2,NTG)=ITABINV(I2)  
-          TBEMTG(3,NTG)=ITABINV(I4)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I1)
+          TBEMTG(2,NTG)=ITABINV(I2)
+          TBEMTG(3,NTG)=ITABINV(I4)
           ELEM_ID(NTG) = SURF%ELEM(I)
        ELSEIF(TAGE(I) == 2)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I2)  
-          TBEMTG(2,NTG)=ITABINV(I3)  
-          TBEMTG(3,NTG)=ITABINV(I1)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I2)
+          TBEMTG(2,NTG)=ITABINV(I3)
+          TBEMTG(3,NTG)=ITABINV(I1)
           ELEM_ID(NTG) = SURF%ELEM(I)
         ELSEIF(TAGE(I) == 3)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I3)  
-          TBEMTG(2,NTG)=ITABINV(I4)  
-          TBEMTG(3,NTG)=ITABINV(I2)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I3)
+          TBEMTG(2,NTG)=ITABINV(I4)
+          TBEMTG(3,NTG)=ITABINV(I2)
           ELEM_ID(NTG) = SURF%ELEM(I)
         ELSEIF(TAGE(I) == 4)THEN
-          NTG=NTG+1                  
-          TBEMTG(1,NTG)=ITABINV(I4)  
-          TBEMTG(2,NTG)=ITABINV(I1)  
-          TBEMTG(3,NTG)=ITABINV(I3)  
+          NTG=NTG+1
+          TBEMTG(1,NTG)=ITABINV(I4)
+          TBEMTG(2,NTG)=ITABINV(I1)
+          TBEMTG(3,NTG)=ITABINV(I3)
           ELEM_ID(NTG) = SURF%ELEM(I)
         ENDIF
       ENDDO
@@ -435,8 +435,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE FVVERIF(NELA, ELEMA, X    , MONVID,
      .     VX3 , VY3  , VZ3  , VX1   , VY1,
-     .     VZ1 , XB0  , YB0  , ZB0   , 
-     .     LX , LY , LZ, IBUF , IBUFA, TAGELA, 
+     .     VZ1 , XB0  , YB0  , ZB0   ,
+     .     LX , LY , LZ, IBUF , IBUFA, TAGELA,
      .     TITR)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -679,14 +679,14 @@ C-----------------------------------------------
             ENDIF
          ENDIF
       END DO
-      
+
       DEALLOCATE(T_MONVOLN%NODES)
       ALLOCATE(T_MONVOLN%NODES(NNB + NNS))
       DO I = 1, NNS
          T_MONVOLN%NODES(I) = BUFNODE(I)
       ENDDO
       T_MONVOLN%NNI = NNB
-      
+
       CALL INTVECTOR_COPY_TO(VEC_PTR_SURFINT, T_MONVOLN%NODES(NNS + 1))
 
       CALL INTVECTOR_DELETE(VEC_PTR_SURFINT)
@@ -856,7 +856,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       my_real
-     .        X1,  Y1,  Z1,  X2, Y2, Z2, X3,  Y3,  Z3, X12, Y12, Z12, 
+     .        X1,  Y1,  Z1,  X2, Y2, Z2, X3,  Y3,  Z3, X12, Y12, Z12,
      .        X13, Y13, Z13, X4, Y4, Z4, X24, Y24, Z24
 C-----------------------------------------------------------------------
 C Compute normal vector for a triangle and a quad

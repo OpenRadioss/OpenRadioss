@@ -50,7 +50,7 @@ C     REAL
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DT1D2
-      my_real 
+      my_real
      .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB,CCC,
      .   EXX,EXY,EXZ,EYX,EYY,EYZ,EZX,EZY,EZZ
 C-----------------------------------------------
@@ -193,7 +193,7 @@ C     REAL
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*)

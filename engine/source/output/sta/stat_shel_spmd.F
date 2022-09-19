@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,9 +74,9 @@ C-----------------------------------------------
       INTEGER NP(MAX(7*NUMELC,6*NUMELTG)),
      .        NPGLOB(MAX(7*LENGC,6*LENGTG)),
      .        WORK(70000),CLEF(2,MAX(NUMELCG,NUMELTGG))
-      double precision   
+      double precision
      .   THK(MAX(1,MAX(NUMELC,NUMELTG))),THK0(MAX(1,MAX(NUMELCG,NUMELTGG)))
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
        IF(ITY==3) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          ITHK  =IPARG(28,NG)
          LFT=1
@@ -178,7 +178,7 @@ C en spmd il faut envoyer l'info meme qd on a 0 elem local
        IF(ITY==7) THEN
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          ITHK  =IPARG(28,NG)
          LFT=1

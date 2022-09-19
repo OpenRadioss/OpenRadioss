@@ -67,7 +67,7 @@ C     NSUBMOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NNFT
       INTEGER NOM_OPT(LNOPT1,*)
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
       CHARACTER TITR*nchartitle
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
-      
+
       HM_NDAA = 0
       HM_NFLOW = 0
       CALL HM_OPTION_COUNT('/BEM/DAA', HM_NDAA)
@@ -97,8 +97,8 @@ C
       NNFT=0
       CALL HM_OPTION_START('/BEM/FLOW')
       DO I = 1, HM_NFLOW
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)         
-                                
+         CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
+
          ITYP = 1
 C     
          CALL HM_GET_INTV('surf_IDex', II, IS_AVAILABLE, LSUBMODEL)
@@ -140,7 +140,7 @@ C
          NNFT=NNFT+NNO
 C     
          CALL HM_GET_INTV('grn_IDaux', III, IS_AVAILABLE, LSUBMODEL)
-         
+
          NNN=0
          IF (III/=0) THEN
             IGR=0
@@ -163,17 +163,17 @@ C
             LIFLOW=LIFLOW+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+NEL+NNO+NNN
          ELSE
             LIFLOW=LIFLOW+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+NEL+4*NNO+2*NNN+2*NEL
-         ENDIF   
+         ENDIF
          LRFLOW=LRFLOW+NRFLOW+5*(NNO+NNN)+NINOUT*NRIOFLOW
 
       ENDDO
 C     
-      
+
 
       CALL HM_OPTION_START('/BEM/DAA')
       DO I = 1, HM_NDAA
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
-         
+
          ITYP = 3
 C     DAA SURFACES
          NELMAX=0
@@ -234,7 +234,7 @@ C
          ENDIF
          HG = HUGE(NEL)
          IF (NEL > INT(SQRT(REAL(HG)))) THEN
-            CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
+            CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR,
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)
          ENDIF			
@@ -309,7 +309,7 @@ C     NSUBMOD
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IFLOW(*),
      .        NPC(*)
       INTEGER NOM_OPT(LNOPT1,*), LGAUGE(3,*), IGRV(NIGRV,*)
@@ -346,7 +346,7 @@ C-----------------------------------------------
       CHARACTER KEY*ncharkey,TITR*nchartitle
       LOGICAL :: IS_AVAILABLE
       INTEGER :: HM_NDAA, HM_NFLOW
-      
+
       HM_NDAA = 0
       HM_NFLOW = 0
       CALL HM_OPTION_COUNT('/BEM/DAA', HM_NDAA)
@@ -363,7 +363,7 @@ C
 
       DO I=1,HM_NFLOW
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
-                                  
+
          ITYP = 1
          CALL HM_GET_INTV('surf_IDex', II, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Nio', NINOUT, IS_AVAILABLE, LSUBMODEL)
@@ -371,7 +371,7 @@ C
          CALL HM_GET_INTV('Ifsp', IFPA, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('Fscalesp', SFPA, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('Ascalesp', SCALT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          ISU=0
          DO J=1,NSURF
             IF (II==IGRSURF(J)%ID) ISU=J
@@ -444,12 +444,12 @@ C
             ENDIF
             IFPA=IFUNC
             IPIMP=IPIMP+1
-         ENDIF 
+         ENDIF
 C     
          CALL HM_GET_INTV('grn_IDaux', III, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Itest', ITEST, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('Tole', TOLE, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          IF (IINSIDE==2.AND.ITEST==1) ITEST=2
          IF (TOLE==ZERO) TOLE=EM5
 C     
@@ -466,18 +466,18 @@ C
                IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+J)=
      .              IGRNOD(IGR)%ENTITY(J)
             ENDDO
-         ENDIF 
+         ENDIF
 C     
          IVFREE=0
          DO J = 1, NINOUT
             CALL HM_GET_INT_ARRAY_INDEX('surf_IDio', II, J, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDvel', IFVEL, J, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDpr', IFPRES, J, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalenv', SFVEL, J, IS_AVAILABLE, LSUBMODEL, UNITAB)               
-            CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalepres', SFPRES, J, IS_AVAILABLE, LSUBMODEL, UNITAB)               
-            CALL HM_GET_FLOAT_ARRAY_INDEX('Ascalet', SCALT, J, IS_AVAILABLE, LSUBMODEL, UNITAB)               
+            CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalenv', SFVEL, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalepres', SFPRES, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
+            CALL HM_GET_FLOAT_ARRAY_INDEX('Ascalet', SCALT, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-            
+
             IF(SFVEL  == ZERO) THEN
                CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Sfvel', FAC_GEN, J, IS_AVAILABLE, LSUBMODEL, UNITAB)
                SFVEL  = ONE * FAC_GEN
@@ -617,16 +617,16 @@ C
             N3=IFLOW(IADI+NIFLOW+NNO+3*(J-1)+3)
             PROD=ITAGIO(N1)*ITAGIO(N2)*ITAGIO(N3)
             IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+J)=0
-            IF (PROD/=0) 
+            IF (PROD/=0)
      .           IFLOW(IADI+NIFLOW+NNO+3*NEL+NINOUT*NIIOFLOW+NNN+J)=
      .           MAX(ITAGIO(N1),ITAGIO(N2),ITAGIO(N3))
-         ENDDO 
+         ENDDO
 C     
          CALL HM_GET_INTV('Iform', IFORM, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Ipri', ILVOUT, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('Dtflow', DTSUB, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-         
+
          IF (IFORM==0) IFORM=1
 C     
          NBLOC=0
@@ -666,11 +666,11 @@ C
             CALL HM_GET_INTV('Ifvinf', IFVINI, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOATV('Fscalevel', SFVINI, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Ascalevel', SCALT_VI, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            
+
             CALL HM_GET_FLOATV('Dirx', DIRX, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Diry', DIRY, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('Dirz', DIRZ, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            
+
             IFUNC=0
             DO J=1,NFUNCT
                IF (IFVINI==NPC(J)) IFUNC=J
@@ -705,7 +705,7 @@ C
          IFLOW(IADI+4)=NINOUT
          IFLOW(IADI+5)=NNO
          IFLOW(IADI+6)=NEL
-         IFLOW(IADI+7)=NNN           
+         IFLOW(IADI+7)=NNN
          IFLOW(IADI+8)=NNO
          IFLOW(IADI+9)=NNO*NNO+NNO*(NEL+1)
          IFLOW(IADI+10)=IADMATI
@@ -789,7 +789,7 @@ C
       DO I=1,HM_NDAA
          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID)
 C     
-         
+
          CALL HM_GET_INTV('surf_ID', II, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('grav_ID', GRAV_ID, IS_AVAILABLE, LSUBMODEL)
          NELMAX=0
@@ -802,7 +802,7 @@ C
          CALL HM_GET_FLOATV('Xs', XS, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('Ys', YS, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('Zs', ZS, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          CALL HM_GET_INTV('Iform', IFORM, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Ipri', ILVOUT, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_INTV('Ipres', IPRES, IS_AVAILABLE, LSUBMODEL)
@@ -945,23 +945,23 @@ C     Initialization
 
          ELSEIF(IPRES == 4) THEN
          ENDIF
-         
+
          CALL HM_GET_FLOATV('Xc', XC, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('Yc', YC, IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('Zc', ZC, IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-         
-         
+
+
 
          XD=ZERO
          YD=ZERO
-         ZD=ZERO         
+         ZD=ZERO
          XA=ZERO
          YA=ZERO
-         ZA=ZERO 
+         ZA=ZERO
          DIRX=ZERO			
          DIRY=ZERO			
-         DIRZ=ZERO   
+         DIRZ=ZERO
          IF(FREESURF == 2 .OR. GRAV_ID > 0)THEN
             CALL HM_GET_FLOATV('XA', XA, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOATV('YA', YA, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -1037,7 +1037,7 @@ C
          ENDIF
          HG = HUGE(NEL)
          IF (NEL > INT(SQRT(REAL(HG)))) THEN
-            CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
+            CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR,
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)
          ENDIF
@@ -1076,7 +1076,7 @@ C
          RFLOW(IADR+13)=XD
          RFLOW(IADR+14)=YD
          RFLOW(IADR+15)=ZD
-         
+
          RFLOW(IADR+16)=XA
          RFLOW(IADR+17)=YA
          RFLOW(IADR+18)=ZA
@@ -1100,7 +1100,7 @@ C
             WRITE(IOUT,2600) PMAX, THETA, APMAX, ATHETA
          ELSEIF(IPRES == 2) THEN
             WRITE(IOUT,2700) IFPRES,SFPRES
-         ENDIF           
+         ENDIF
          IF(IWAVE == 1) WRITE(IOUT,3000) XC, YC, ZC
          IF(GRAV_ID > 0 .OR. FREESURF == 2) WRITE(IOUT,3500) XA,YA,ZA,DIRX,DIRY,DIRZ
          IF(FREESURF == 2) WRITE(IOUT,3600) XD,YD,ZD
@@ -1156,7 +1156,7 @@ C-------------------------------------------------------------------------------
          IR7=IR6+NEL*FREESURF
          HG = HUGE(NEL)
          IF (NEL > INT(SQRT(REAL(HG)))) THEN
-            CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR, 
+            CALL ANCMSG(MSGID = 1711, ANMODE=ANINFO, MSGTYPE = MSGERROR,
      .           I1 = INT(SQRT(REAL(HG))))
             CALL ARRET(2)
          ENDIF
@@ -1167,7 +1167,7 @@ C-------------------------------------------------------------------------------
          IF(JFORM == 1) THEN
             CALL INIT_TG(IFLOW(II1), IFLOW(II2), IFLOW(II3), X, XS, YS, ZS, XD, YD, ZD,
      .           RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6))
-            CALL MASS_FLUID_TG(IFORM, ILVOUT, NNO, NEL, IFLOW(II2), IFLOW(II3), X, 
+            CALL MASS_FLUID_TG(IFORM, ILVOUT, NNO, NEL, IFLOW(II2), IFLOW(II3), X,
      .           RFLOW(IR2), RFLOW(IR4), RFLOW(IR7), RHO)
          ELSEIF(JFORM == 2) THEN
             CALL INIT_QD(IFLOW(II1), IFLOW(II2), IFLOW(II3), X, XS, YS, ZS, XD, YD, ZD,
@@ -1184,7 +1184,7 @@ C-------------------------------------------------------------------------------
             IF(NBGAUGE > 0) THEN
                WRITE (IOUT,'(/5X,A)') 'GAUGE   ELEMENT   ELEMENT'
                DO J=1,NBGAUGE
-                  IFLOW(II5+J-1)=0                    
+                  IFLOW(II5+J-1)=0
                   IF(LGAUGE(1,J) /= 0) CYCLE
 C     Node or Shell input
                   N1=LGAUGE(3,J)
@@ -1193,7 +1193,7 @@ C     Node or Shell input
                      DO K=1,NEL
                         IF(J1 /= N_SHELL(K)) CYCLE
                         IFLOW(II5+J-1)=K
-                        GO TO 100               
+                        GO TO 100
                      ENDDO
                   ENDIF
  100              CONTINUE
@@ -1314,4 +1314,4 @@ C
      .       /10X,'Y-COORDINATE OF CHARGE IMAGE            ',1PE13.6
      .       /10X,'Z-COORDINATE OF CHARGE IMAGE            ',1PE13.6)
       END
-            
+

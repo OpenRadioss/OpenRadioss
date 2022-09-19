@@ -33,11 +33,11 @@ Chd|====================================================================
       MODULE SPH_MOD
 #include "my_real.inc"
 
-        INTEGER , DIMENSION(:), ALLOCATABLE :: 
+        INTEGER , DIMENSION(:), ALLOCATABLE ::
      .      SPH2SOL,SOL2SPH,IRST,SOL2SPH_TYP
 
         TYPE SPSYM_STRUCT
-            my_real, DIMENSION(:)  , POINTER :: BUF 
+            my_real, DIMENSION(:)  , POINTER :: BUF
         END TYPE SPSYM_STRUCT
 
       END MODULE SPH_MOD

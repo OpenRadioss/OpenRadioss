@@ -37,8 +37,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
-      USE ALE_EBCS_MOD 
+      USE ELBUFDEF_MOD
+      USE ALE_EBCS_MOD
       USE EBCS_MOD
       USE INIGRAV
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_),DIMENSION(NGROUP) :: ELBUF_STR
       TYPE(t_ebcs_tab), TARGET, INTENT(INOUT) :: EBCS_TAB
       my_real,INTENT(IN)  :: PM(NPROPM,NUMMAT)
-      INTEGER,INTENT(IN)  :: IPM(NPROPMI,NUMMAT)      
+      INTEGER,INTENT(IN)  :: IPM(NPROPMI,NUMMAT)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
       LOGICAL lFOUND_EBCS_NRF
 C=======================================================================
       lFOUND_EBCS_NRF = .FALSE.
-      
+
       DO I = 1, NEBCS
          EBCS => EBCS_TAB%tab(i)%poly
          SELECT TYPE (twf => EBCS)
@@ -86,19 +86,19 @@ C=======================================================================
              NSEG = twf%nb_elem
              CALL INIEBCS_DP(NSEG, NOD, twf%iseg, twf%ielem, twf%elem_list, twf%node_list,
      .                       IPARG, ELBUF_STR, X, IXS, IXQ, IXTG, twf%DP0,
-     .                       IPARTS, IPARTQ, IPARTTG)    
+     .                       IPARTS, IPARTQ, IPARTTG)
            CLASS DEFAULT
              !
         END SELECT
       ENDDO
-      
+
        IF(lFOUND_EBCS_NRF)THEN
           CALL INIEBCS_NRF_TCAR(EBCS_TAB,
      .                       IPARG, X, IXS, IXQ, IXTG,
      .                       IPARTS, IPARTQ, IPARTTG,
-     .                       PM, IPM) 
+     .                       PM, IPM)
        ENDIF
-      
+
       CALL INIGRAV_PARTS%destroy()
 c--------
       END

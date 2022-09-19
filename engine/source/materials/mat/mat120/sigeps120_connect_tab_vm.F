@@ -65,7 +65,7 @@ C----------------------------------------------------------------
      .         SIGOZZ,SIGOYZ,SIGOZX,AREA
 c
       my_real ,DIMENSION(NEL) ,INTENT(OUT) :: EPSD
-      my_real ,DIMENSION(NEL) ,INTENT(OUT) :: 
+      my_real ,DIMENSION(NEL) ,INTENT(OUT) ::
      .                   SIGNZZ,SIGNYZ,SIGNZX
       my_real ,DIMENSION(NEL) ,INTENT(INOUT) :: OFF,PLA,STIFM,DMELS
       my_real ,DIMENSION(NEL,NUVAR) ,INTENT(INOUT) :: UVAR
@@ -103,7 +103,7 @@ c     Paramters of yield function/hardening law and flow potential
       QQ    = UPARAM(6)
       BETA  = UPARAM(7)
       HH    = UPARAM(8)
-      A1F   = UPARAM(9) 
+      A1F   = UPARAM(9)
       A2F   = UPARAM(10)
 c      A1H   = UPARAM(11)
 c      A2H   = UPARAM(12)
@@ -115,14 +115,14 @@ c     Johnson-Cook failure parameters
       D2F   = UPARAM(17)
       D_TRX = UPARAM(18)
       D_JC  = UPARAM(19)
-      EXPN  = UPARAM(20) 
+      EXPN  = UPARAM(20)
 c     Johnson-Cook strain rate-dependency and distortional hardening
-      CC      = UPARAM(21) 
-      EPSDREF = UPARAM(22) 
-      EPSDMAX = UPARAM(23) 
+      CC      = UPARAM(21)
+      EPSDREF = UPARAM(22)
+      EPSDMAX = UPARAM(23)
       FCUT    = UPARAM(24)
 c
-      ITRX    = NINT(UPARAM(26)) 
+      ITRX    = NINT(UPARAM(26))
       IDAM    = NINT(UPARAM(27))
 c
       XSCALE  = UPARAM(30)
@@ -139,8 +139,8 @@ c
       ALPHAI = ONE - ALPHA
       DTINV   = ONE / (MAX(TIMESTEP, EM20))
 C---------------------------------------------
-      STF(1:NEL)     = YOUNG *  AREA(1:NEL)                                            
-      STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)                                              
+      STF(1:NEL)     = YOUNG *  AREA(1:NEL)
+      STIFM(1:NEL)   = STIFM(1:NEL)  + STF(1:NEL)*OFF(1:NEL)
 C---------------------------------------------
       DAM (1:NEL) = UVAR(1:NEL,2)
       FDAM(1:NEL) = ONE - DAM(1:NEL)
@@ -165,7 +165,7 @@ c
 
 c     Johnson & Cook rate dependency  (total strain rate)
       JCRATE(1:NEL)  = ONE
-      DO I=1,NEL   
+      DO I=1,NEL
         IF (OFF(I) == ONE) THEN
           EPSDOT  = SQRT(DEPSYZ(I)**2 + DEPSZX(I)**2 + DEPSZZ(I)**2)
           EPSDOT  = EPSDOT * DTINV / THICK(I)
@@ -178,9 +178,9 @@ c     Johnson & Cook rate dependency  (total strain rate)
           END IF
         END IF
       ENDDO
-c----------------------------------------------------      
+c----------------------------------------------------
 c     Computation of the initial yield stress
-c----------------------------------------------------      
+c----------------------------------------------------
       IF (NDIM_YLD == 1) THEN
         XVEC1(1:NEL,1) = PLA(1:NEL)
         IPOS1(1:NEL,1) = VARTMP(1:NEL,1)
@@ -190,7 +190,7 @@ c
         YLD(1:NEL)   = YLD(1:NEL)   * YSCALE * JCRATE(1:NEL)
         HARDP(1:NEL) = HARDP(1:NEL) * YSCALE * JCRATE(1:NEL)
         VARTMP(1:NEL,1) = IPOS1(1:NEL,1)
-        
+
       ELSE IF (NDIM_YLD == 2) THEN
         XVEC2(1:NEL,1) = PLA(1:NEL)
         XVEC2(1:NEL,2) = EPSD(1:NEL)
@@ -202,7 +202,7 @@ c
         YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
         HARDP(1:NEL) = HARDP(1:NEL) * YSCALE
         VARTMP(1:NEL,1) = IPOS2(1:NEL,1)
-        
+
       ELSE
         XVEC3(1:NEL,1) = PLA(1:NEL)
         XVEC3(1:NEL,2) = EPSD(1:NEL)
@@ -220,12 +220,12 @@ c
         YLD(1:NEL)   = YLD(1:NEL)   * YSCALE
         HARDP(1:NEL) = HARDP(1:NEL) * YSCALE
         VARTMP(1:NEL,1) = IPOS3(1:NEL,1)
-        
+
       END IF
 c
       DO I = 1,NEL
         FVM(I) = MAX(ZERO, I1(I) + HALF*SQR3*A1F*YLD0 / A2F )
-        PHI(I) = J2(I) + THIRD*A2F * FVM(I)**2 
+        PHI(I) = J2(I) + THIRD*A2F * FVM(I)**2
      .         - (YLD(I)**2 + FOURTH*(A1F*YLD0)**2/A2F)
       ENDDO
 c------------------------------------------------------------------
@@ -241,34 +241,34 @@ c------------------------------------------------------------------
       ENDDO
 c
       IF (NINDX > 0) THEN
-      
-        NITER = 4      
+
+        NITER = 4
         DPLA(1:NEL) = ZERO
-      
+
         DO ITER = 1,NITER
 c
           DO II = 1,NINDX
             I = INDX(II)
-            
+
             ! normal to non associated plastic flow surface = d_psi/d_sig
             I1P   = MAX(ZERO, I1(I))
             JP    = THIRD * AS * I1P
             TP    = TWO  * JP
 c
-            NP_XX = SXX(I) 
-            NP_YY = SYY(I) 
-            NP_ZZ = SZZ(I) + TP 
+            NP_XX = SXX(I)
+            NP_YY = SYY(I)
+            NP_ZZ = SZZ(I) + TP
             NP_YZ = SYZ(I)
             NP_ZX = SZX(I)
 c
             ! normal to plastic yield surface = d_phi/d_sig
             IP = TWO_THIRD * A2F * FVM(I)
             NF_XX = SXX(I)
-            NF_YY = SYY(I) 
+            NF_YY = SYY(I)
             NF_ZZ = SZZ(I) + IP
             NF_YZ = SYZ(I)
             NF_ZX = SZX(I)
-c         
+c
             ! derivative of yld criterion : dphi/dlam = d_phi/d_sig * dsig/dlam
             DFDLAM = - NF_ZZ * (YOUNG * NP_ZZ)
      .             -(  NF_YZ*NP_YZ + NF_ZX*NP_ZX)*TWO*G2
@@ -280,14 +280,14 @@ c----------------------------------------------------------------
             DLAM = -PHI(I) / DPHI_DLAM
 c----------------------------------------------------------------
             ! Plastic strains tensor update
-                         
-            DPZZ = DLAM*NP_ZZ                                                   
-            DPYZ = DLAM*NP_YZ                          
-            DPZX = DLAM*NP_ZX                 
-            ! Elasto-plastic stresses update   
 
-            SIGNZZ(I) = SIGNZZ(I) - YOUNG*DPZZ     
-            SIGNYZ(I) = SIGNYZ(I) - G2*DPYZ  
+            DPZZ = DLAM*NP_ZZ
+            DPYZ = DLAM*NP_YZ
+            DPZX = DLAM*NP_ZX
+            ! Elasto-plastic stresses update
+
+            SIGNZZ(I) = SIGNZZ(I) - YOUNG*DPZZ
+            SIGNYZ(I) = SIGNYZ(I) - G2*DPYZ
             SIGNZX(I) = SIGNZX(I) - G2*DPZX
 c
             ! Plastic strain increments update
@@ -295,67 +295,67 @@ c
             DPLA(I)= MAX(ZERO, DPLA(I) + DDEP)
             PLA(I) = PLA(I) + DDEP
           ENDDO  ! II = 1,NINDX
-c-----------------------------------------        
-c         Update yield from tabulated data   
-c-----------------------------------------        
+c-----------------------------------------
+c         Update yield from tabulated data
+c-----------------------------------------
 c
           IF (NDIM_YLD == 1) THEN
-            DO II = 1, NINDX 
+            DO II = 1, NINDX
               I = INDX(II)
               XVEC1(II,1) = PLA(I)
               IPOS1(II,1) = VARTMP(I,1)
             ENDDO
-c      
+c
             CALL TABLE_VINTERP(TABLE(FUNC_YLD),NEL,IPOS1,XVEC1,YLD_I,HARDP_I)
-c      
-            DO II = 1, NINDX 
+c
+            DO II = 1, NINDX
               I = INDX(II)
               YLD(I)   = YLD_I(II)*YSCALE
               HARDP(I) = HARDP_I(II)*YSCALE
               VARTMP(I,1) = IPOS1(II,1)
             ENDDO
-            
+
           ELSE IF (NDIM_YLD == 2) THEN
-            DO II = 1, NINDX 
+            DO II = 1, NINDX
               I = INDX(II)
               XVEC2(II,1) = PLA(I)
               XVEC2(II,2) = EPSD(I)
               IPOS2(II,1) = VARTMP(I,1)
             ENDDO
-c      
+c
             CALL TABLE_VINTERP(TABLE(FUNC_YLD),NINDX,IPOS2,XVEC2,YLD_I,HARDP_I)
-c      
-            DO II = 1, NINDX 
+c
+            DO II = 1, NINDX
               I = INDX(II)
               YLD(I)   = YLD_I(II)*YSCALE
               HARDP(I) = HARDP_I(II)*YSCALE
               VARTMP(I,1) = IPOS2(II,1)
             ENDDO
-            
+
           ELSE
-            DO II = 1, NINDX 
+            DO II = 1, NINDX
               I = INDX(II)
               XVEC3(II,1) = PLA(I)
               XVEC3(II,2) = EPSD(I)
               XVEC3(II,3) = TEMP(I)
               IPOS3(II,1) = VARTMP(I,1)
             ENDDO
-c      
+c
             CALL TABLE_VINTERP(TABLE(FUNC_YLD),NEL,IPOS3,XVEC3,YLD_I,HARDP_I)
-c      
-            DO II = 1, NINDX 
+c
+            DO II = 1, NINDX
               I = INDX(II)
               YLD(I)   = YLD_I(II)*YSCALE
               HARDP(I) = HARDP_I(II)*YSCALE
               VARTMP(I,1) = IPOS3(II,1)
-            ENDDO            
+            ENDDO
           END IF
-c----------------------        
-c           Update stress invariants and criterion function value    
-c----------------------        
+c----------------------
+c           Update stress invariants and criterion function value
+c----------------------
           DO II = 1,NINDX
             I = INDX(II)
-            I1(I)  = SIGNZZ(I) 
+            I1(I)  = SIGNZZ(I)
             SXX(I) = - I1(I)*THIRD
             SYY(I) = - I1(I)*THIRD
             SZZ(I) = SIGNZZ(I) - I1(I)*THIRD
@@ -364,14 +364,14 @@ c----------------------
             J2(I)  =(SXX(I)**2 + SYY(I)**2 + SZZ(I)**2 ) * HALF
      .           +   SYZ(I)**2 + SZX(I)**2
             FVM(I) = MAX(ZERO, I1(I) + HALF*SQR3*A1F*YLD0 / A2F )
-            PHI(I) = J2(I) + THIRD*A2F * FVM(I)**2 
+            PHI(I) = J2(I) + THIRD*A2F * FVM(I)**2
      .             - (YLD(I)**2 + FOURTH*(A1F*YLD0)**2/A2F)
             UVAR(I,4) = PHI(I) / YLD(I)**2
-          END DO 
+          END DO
 c
         END DO  ! Newton iterations
 c
-      END IF   ! NINDX > 0                                  
+      END IF   ! NINDX > 0
 c---------------------------------------------------------------------
 c     Update damage
 c---------------------------------------------------------------------
@@ -420,7 +420,7 @@ c       Update damaged stress
           FACD = ONE - DAM(I)
           SIGNZZ(I) = SIGNZZ(I) * FACD
           SIGNYZ(I) = SIGNYZ(I) * FACD
-          SIGNZX(I) = SIGNZX(I) * FACD        
+          SIGNZX(I) = SIGNZX(I) * FACD
         END DO
       END IF
 c-------------------------
@@ -434,15 +434,15 @@ c-------------------------
       END IF
 c-----------------------------------------------------------------
  1000 FORMAT(1X,'START DAMAGE IN SOLID ELEMENT NUMBER ',I10)
- 1100 FORMAT(1X,'START DAMAGE IN SOLID ELEMENT NUMBER ',I10,1X,' AT TIME :',G11.4) 
+ 1100 FORMAT(1X,'START DAMAGE IN SOLID ELEMENT NUMBER ',I10,1X,' AT TIME :',G11.4)
 c-----------------------------------------------------------------
-c-----------------------------------------------------      
+c-----------------------------------------------------
 c omega = sqrt(2k/2*dmels), dt=2/omega, 2*dmels=dt**2 * 2k / 4
       IF (IDTMINS==2 .AND. JSMS/=0 ) THEN
         DTB = (DTMINS/DTFACS)**2
-        DO I=1,NEL                                                 
+        DO I=1,NEL
           DMELS(I)=MAX(DMELS(I),HALF*DTB*STF(I)*OFF(I))
-        ENDDO                                                        
+        ENDDO
       ENDIF
 c-----------------------------------------------------------------
       RETURN

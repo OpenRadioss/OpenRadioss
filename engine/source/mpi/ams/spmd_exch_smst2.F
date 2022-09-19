@@ -40,7 +40,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C-----------------------------------------------
      *        NSN,SN,SSIZ,
      *        IT,LEN_NSNSI,NSNR,NI,NP,ALEN,NOD,NOD1,NOD2,
      *        SIZE_LOC, I_STOK,INACTI,IFQ,ITIED,NRTS
-!     Exchanged arrays for sent buffer 
+!     Exchanged arrays for sent buffer
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAB_SEND,TAB_LOC
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUFS, IBUFR
 
@@ -115,20 +115,20 @@ C     REAL
 !       --> one must build NSNSI and NSVSI one each process/domain
 !           using NSNFI and NSVFI arrays located on the others domain
 !
-!       1srt comm : building of NSNSI array (for ispmd domain) with NSNFI array (located on p domain, p/=ispmd) 
-!       2rd comm : building of NSVSI array (for ispmd domain) with NSVFI array (located on p domain, p/=ispmd) !      
-!       3rd comm  : comm of tag array (each ispmd domain sends NSNSI values of tag arrays to p domain) 
-!       chek the value of tag : if tag = -1, cand_a/e are deleted   
+!       1srt comm : building of NSNSI array (for ispmd domain) with NSNFI array (located on p domain, p/=ispmd)
+!       2rd comm : building of NSVSI array (for ispmd domain) with NSVFI array (located on p domain, p/=ispmd) !
+!       3rd comm  : comm of tag array (each ispmd domain sends NSNSI values of tag arrays to p domain)
+!       chek the value of tag : if tag = -1, cand_a/e are deleted
 !       -----------------------------------------------
         IF(NSPMD == 1)RETURN
-         
-        IERROR = 0       
+
+        IERROR = 0
         IF(NSPMD>1) THEN
         ! -----------------------
             ! FIRST COMM.
             ! building of NSNSI
             ! tab_loc : sent buffer (=NSNFI)
-            ! tab_send : recv. buffer (-->NSNSI) 
+            ! tab_send : recv. buffer (-->NSNSI)
             IF(NINTER>0) THEN
              ALLOCATE(TAB_SEND(NINTER*NSPMD), STAT=IERROR)
              IF(IERROR/=0) THEN
@@ -173,7 +173,7 @@ C     REAL
             ! building of NSVSI
             ! IBUFS : sent buffer (=NSVFI)
             ! IBUFR : recv. buffer (-->NSVSI)
-            ! TAB_NSVSI : NSVSI array 
+            ! TAB_NSVSI : NSVSI array
             DO P=1,NSPMD
               IADR(P) = LENRV_0 + 1
               DO NI=1,NBINTC
@@ -251,7 +251,7 @@ C     REAL
                     IF(NB>0) THEN
                      DO NN=1,NB
                       IBUFS(L) = NSVFI(NIN)%P(IDEBS(NIN)+NN)
-                      L=L+ALEN                
+                      L=L+ALEN
                      ENDDO
                      IDEBS(NIN)=IDEBS(NIN)+NB
                     ENDIF
@@ -268,7 +268,7 @@ C     REAL
             ! -----------------
             ! Recieve
             L=0
-            IDEBR = 0                
+            IDEBR = 0
 
             DO P=1, NSPMD
               L=0
@@ -313,8 +313,8 @@ C     REAL
             ! building of tag array
             ! IBUFS : sent buffer
             ! IBUFR : recv. buffer
-            ! TAG_LOC is used as tag array 
-            !    example for nspmd = 5,       TAG_LOC(nin)%P 
+            ! TAG_LOC is used as tag array
+            !    example for nspmd = 5,       TAG_LOC(nin)%P
             !         nin     |------*---*-----*-------------*-----|
             !                   P1   * P2*  P3 *    P4       *  P5
             IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)
@@ -355,7 +355,7 @@ C     REAL
                 CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
                 CALL ARRET(2)
              ENDIF
-            ENDIF 
+            ENDIF
             ! -----------------
             ! Recieved MPI comm
             DO P=1, NSPMD
@@ -431,7 +431,7 @@ C     REAL
              ENDIF
             ENDDO
             ! -----------------
-            ! building of tag array (TAG_LOC) as a structure 
+            ! building of tag array (TAG_LOC) as a structure
             L=0
             IDEBR(:) = 0
             DO P=1, NSPMD
@@ -441,7 +441,7 @@ C     REAL
                 MSGTYP = MSGOFF2
                 ! MPI WAIT
                 CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-                
+
                 DO NI=1,NBINTC
 	         NIN = INTLIST(NI)
                  NTY = IPARI(7,NIN)
@@ -482,12 +482,12 @@ C     REAL
               INACTI = IPARI(22,NIN)
               IFQ    = IPARI(31,NIN)
               ITIED  = IPARI(85,NIN)
-              NRTS = IPARI(3,NIN) 
+              NRTS = IPARI(3,NIN)
               IF(NTY==7.OR.NTY==10.OR.NTY==20.OR.NTY==24.OR.NTY==25.OR.NTY==11) THEN
                   CALL SPMD_CHECK_TAG(NIN,I_STOK,INTBUF_TAB(NIN),TAG_LOC(NIN)%P,
      .                                 NSNR,NSN,NTY,INACTI,IFQ,ITIED,NRTS)
               ENDIF
-              INTBUF_TAB(NIN)%I_STOK(1) = I_STOK  
+              INTBUF_TAB(NIN)%I_STOK(1) = I_STOK
             ENDDO
 
             IF(ALLOCATED(IBUFS)) DEALLOCATE(IBUFS)

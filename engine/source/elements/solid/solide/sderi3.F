@@ -40,7 +40,7 @@ Chd|====================================================================
      .   PX3H1, PX3H2, PX3H3,
      .   PX4H1, PX4H2, PX4H3,
      .   JAC1, JAC2, JAC3,
-     .   JAC4, JAC5, JAC6, 
+     .   JAC4, JAC5, JAC6,
      .   SAV, OFFG ,NEL, VOLDP, JHBE, ISMSTR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,18 +60,18 @@ C-----------------------------------------------
       INTEGER,INTENT(IN) :: NGL(*),NEL,JHBE,ISMSTR
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
-     .   SAV(NEL,21) ,VOLDP(*)  
+     .   SAV(NEL,21) ,VOLDP(*)
       my_real
      .   OFF(*), DET(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),
      .   JAC1(*), JAC2(*), JAC3(*),
      .   JAC4(*), JAC5(*), JAC6(*), OFFG(*)
 C-----------------------------------------------
@@ -131,7 +131,7 @@ C
         JAC9(I)=Z_17_46-Z_28_35
       ENDDO
 C                  
-      DO I=1,NEL      
+      DO I=1,NEL
         JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
         JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
         JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
@@ -474,20 +474,20 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)   
-      INTEGER, INTENT(IN) :: NGL(*), NEL, JHBE 
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
+      INTEGER, INTENT(IN) :: NGL(*), NEL, JHBE
       my_real
      .   OFF(*),DET(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),  
-     .   PX4H1(*), PX4H2(*), PX4H3(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),
+     .   PX4H1(*), PX4H2(*), PX4H3(*),
      .   JAC1(*), JAC2(*), JAC3(*),
-     .   JAC4(*), JAC5(*), JAC6(*)    
+     .   JAC4(*), JAC5(*), JAC6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -513,7 +513,7 @@ C Jacobian matrix
         X35=X5(I)-X3(I)
         X46=X6(I)-X4(I)
 C
-        Y17=Y7(I)-Y1(I)             
+        Y17=Y7(I)-Y1(I)
         Y28=Y8(I)-Y2(I)
         Y35=Y5(I)-Y3(I)
         Y46=Y6(I)-Y4(I)
@@ -543,7 +543,7 @@ C
         JAC9(I)=Z_17_46-Z_28_35
       ENDDO
 C                  
-      DO I=1,NEL      
+      DO I=1,NEL
         JAC_59_68(I)=JAC5(I)*JAC9(I)-JAC6(I)*JAC8(I)
         JAC_67_49(I)=JAC6(I)*JAC7(I)-JAC4(I)*JAC9(I)
         JAC_48_57(I)=JAC4(I)*JAC8(I)-JAC5(I)*JAC7(I)
@@ -551,7 +551,7 @@ C
 C                  
       DO I=1,NEL
         DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
-      ENDDO   
+      ENDDO
 C
 C Check volume
       CALL SCHKJAB3(OFF,DET,NGL)
@@ -647,10 +647,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
       my_real
-     .   OFF(*),DET(*),  
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .   OFF(*),DET(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   JAC_I(10,MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

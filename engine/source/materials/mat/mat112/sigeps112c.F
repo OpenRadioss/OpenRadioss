@@ -36,7 +36,7 @@ Chd|====================================================================
      2     TF      ,TIMESTEP,TIME    ,UPARAM  ,UVAR    ,JTHE    ,RHO     ,
      3     PLA     ,DPLA    ,SOUNDSP ,EPSD    ,OFF     ,
      4     DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,SHF     ,
-     5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,SIGY    ,     
+     5     SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,SIGY    ,
      6     SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,ET      ,NUMTABL ,
      7     ITABLE  ,TABLE   ,NVARTMP ,VARTMP  )
 C     
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -69,24 +69,24 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,JTHE,NUMTABL,NVARTMP
       INTEGER NPF(*),NGL(NEL),IFUNC(NFUNC),ITABLE(NUMTABL)
-      my_real 
+      my_real
      .   TIMESTEP,TIME,TF(*),UPARAM(NUPARAM)
       INTEGER :: VARTMP(NEL,NVARTMP)
-      my_real,DIMENSION(NEL), INTENT(IN) :: 
+      my_real,DIMENSION(NEL), INTENT(IN) ::
      .   RHO,DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,
      .   SHF
 c
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
 c
-      my_real ,DIMENSION(NEL) :: 
+      my_real ,DIMENSION(NEL) ::
      .   SIGY,ET
-      my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT) ::
      .   OFF,DPLA
-      my_real ,DIMENSION(NEL,4),INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,4),INTENT(INOUT) ::
      .   PLA,EPSD
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
 c
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
@@ -98,11 +98,11 @@ C=======================================================================
       IRES  = NINT(UPARAM(13)) ! Plastic projection method
                                !  = 1 => Nice method
                                !  = 2 => Newton-iteration method
-c=======================================================================           
+c=======================================================================
         ! Choice of return mapping algorithm
         SELECT CASE (IRES)
-          ! Nice explicit return mapping      
-          CASE(1)        
+          ! Nice explicit return mapping
+          CASE(1)
             CALL MAT112C_XIA_NICE(
      1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,TIME    ,TIMESTEP,
      2         UPARAM  ,UVAR    ,JTHE    ,OFF     ,RHO     ,
@@ -111,7 +111,7 @@ c=======================================================================
      5         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7         SIGY    ,ET      ,
-     8         NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  )        
+     8         NUMTABL ,ITABLE  ,TABLE   ,NVARTMP ,VARTMP  )
           ! Newton cutting plane return mapping
           CASE(2)
             CALL MAT112C_XIA_NEWTON(

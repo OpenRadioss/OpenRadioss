@@ -35,7 +35,7 @@ Chd|====================================================================
      6             R32     ,R33     ,GAMA    ,Y234    ,Y124    ,
      7             VIS     ,V       ,VY1     ,VY2     ,VY3     ,
      8             VY4     ,VZ1     ,VZ2     ,VZ3     ,VZ4     ,
-     9             YAVG    ,AY      ,EXX     )                   
+     9             YAVG    ,AY      ,EXX     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C-----------------------------------------------
       INTEGER I,II,IV
       my_real
      .   SY(MVSIZ) , SZ(MVSIZ) ,
-     .   TY(MVSIZ) , TZ(MVSIZ) , 
+     .   TY(MVSIZ) , TZ(MVSIZ) ,
      .   YL , ZL , SUMA,CS,CT,
      .   G22,G23,G32,G33,
      .   T22,T23,T32,T33,VYG
@@ -143,7 +143,7 @@ C-----------
           SUMA = SQRT(CS/MAX(EM20,CT))
           SY(I) = SY(I) + TZ(I)*SUMA
           SZ(I) = SZ(I) - TY(I)*SUMA
-        END IF 
+        END IF
       ENDDO
       DO I=LFT,LLT
         SUMA=ONE/MAX(SQRT(SY(I)*SY(I)+SZ(I)*SZ(I)),EM20)

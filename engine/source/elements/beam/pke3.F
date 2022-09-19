@@ -72,9 +72,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NCC(NIXP,*),JFT,JLT,OFFSET,NEL ,MTN,ISMSTR,IKGEO,
-     .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)     
+     .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 C     REAL
-      my_real 
+      my_real
      .   PM(*), X(*),GEO(*),
      .   KE11(36,MVSIZ),KE12(36,MVSIZ),KE22(36,MVSIZ),OFF(MVSIZ),
      .   K_DIAG(*) ,K_LT(*)
@@ -83,7 +83,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB10, 
+      INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB7, NB8, NB10,
      .        NB11, NB12,NB13, NB14, I ,J
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ)
       my_real
@@ -121,7 +121,7 @@ c      NB4 =NB4  + OFFSET*2
 c      NB5 =NB5  + OFFSET
 c      NB6 =NB6  + OFFSET*3
       CALL PCOORK3(JFT         ,JLT      ,X      ,NCC   ,GBUF%OFF,
-     2             PID         ,MAT      ,NGL    ,AL    ,ALI     , 
+     2             PID         ,MAT      ,NGL    ,AL    ,ALI     ,
      3             GBUF%LENGTH,ISMSTR    ,R11    ,R12   ,R13     ,
      4             R21        ,R22       ,R23    ,R31   ,R32     ,
      5             R33        ,GBUF%SKEW ,OFF    )
@@ -142,11 +142,11 @@ C-------------------------
         FX(I)=GBUF%FOR(2*NEL+I)
 !!        J = (I-JFT)*3
 !!        FX(I)=GBUF%FOR(J + 1)
-       ENDDO 
+       ENDDO
        CALL PKEG3(JFT    ,JLT    ,
      1            FX     ,AL     ,KE11    ,KE12    ,KE22   )
-      ENDIF 
-      
+      ENDIF
+
              IF (NEIG>0) CALL PEOFF(
      1                   NIXP, JFT, JLT, NCC, ETAG,
      2                   OFF )
@@ -169,16 +169,16 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT
-      MY_REAL 
+      MY_REAL
      .    FX(*),AL(*),KE11(6,6,*),KE12(6,6,*),KE22(6,6,*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J
-      MY_REAL 
+      MY_REAL
      .    H(MVSIZ)
 C-----------
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         H(EP)=FX(EP)/AL(EP)
        ENDDO
        DO I=1,3

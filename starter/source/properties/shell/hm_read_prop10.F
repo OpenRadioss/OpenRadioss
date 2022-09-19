@@ -42,7 +42,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -73,8 +73,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER
      .        IGTYP , IGEO(*),ISKN(LISKN,*), IG
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
       my_real GEO(*),RTRANS(NTRANSF,*)
@@ -90,7 +90,7 @@ C-----------------------------------------------
      .   IUNIT,ISEN,ISS,PID1,IPID1, IHBE_OLD,NSTACK,IGMAT,NN,NUMS
       INTEGER ISH3N,ISROT,SUB_ID,NLY,IRP,IDSK,ISK,IUN
       INTEGER NLYMAX,N1,M1,N2, N3, IPANG,IPTHK,IPPOS,IPWEIGHT,IPOS
-     
+
       my_real
      .    ANGL,PUN,CVIS,RBID,VX,VY,VZ,
      .    PTHK, AN, PHI_I,THK10
@@ -192,7 +192,7 @@ C---------IHBE,ISH3N-------------
      .                 I1=IG,
      .                 C1=IDTITL)
            IHBE=24
-         ENDIF         
+         ENDIF
 C    Double stockage temporaire - 
          IGEO(10)=IHBE
          GEO(171)=IHBE
@@ -207,7 +207,7 @@ C------don't know if still useful
          IGEO(18) = ISH3N
 C---------ISMSTR-------------
          IF(ISMSTR==0)ISMSTR=ISST_D
-         IF (ISST_D == -2) ISMSTR = -1      
+         IF (ISST_D == -2) ISMSTR = -1
          IF(ISMSTR==0)ISMSTR=2
          IF(ISMSTR==3.AND.IHBE/=0.AND.IHBE/=2) THEN
             ISMSTR = 2
@@ -259,10 +259,10 @@ C------Dn  : GEO(13) in Engine
            GEO(17)=CVIS
          ENDIF
 C------lecgeo10 :
-      NLYMAX= 100  
-      IPANG = 200  
-      IPTHK = 300  
-      IPPOS = 400  
+      NLYMAX= 100
+      IPANG = 200
+      IPTHK = 300
+      IPPOS = 400
       IPWEIGHT = 900
       IF(GEO(38) == ZERO) GEO(38)=FIVE_OVER_6
       IF(NLY == -1)NLY=NPTS_D
@@ -341,12 +341,12 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
        ELSE
        IF (IHBE>11.AND.IHBE<29) THEN
         WRITE(IOUT,2011)IG,NLY,ISTRAIN,GEO(1),ISS,IHBE,
-     .              ISH3N,IGEO(20),  
+     .              ISH3N,IGEO(20),
      .              GEO(16),GEO(13),GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,
      .              GEO(7),GEO(8),GEO(9),IDSK,IGEO(14)
        ELSE
         WRITE(IOUT,2010)IG,NLY,ISTRAIN,GEO(1),ISS,IHBE,
-     .               ISH3N,  
+     .               ISH3N,
      .              GEO(13),GEO(14),GEO(15),GEO(16),
      .              GEO(38),GEO(42),ISHEAR,ITHK,IPLAST,
      .              GEO(7),GEO(8),GEO(9),IDSK,IGEO(14)
@@ -376,12 +376,12 @@ C---+#---1----+----2----+----3----+----4----+----5----+----6----+----7-#
 C----------------------
        M1 = IPANG+K
        GEO(M1) = PHI_I
-       GEO(IPTHK+K) = THK10 
+       GEO(IPTHK+K) = THK10
        GEO(IPPOS+K) = -HALF*(ONE+THK10)+K*THK10
        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,2020)  K,GEO(M1)
        GEO(M1)=GEO(M1)*PI/HUNDRED80
       ENDDO
-      GEO(200)=GEO(1)  
+      GEO(200)=GEO(1)
 
 
 C--------   Variables stored in element buffer 
@@ -405,7 +405,7 @@ C
           PROP_TAG(IGTYP)%LY_GAMA = 6
           PROP_TAG(IGTYP)%LY_DIRA = 2
 C
-          PROP_TAG(IGTYP)%LY_PLAPT = 1      
+          PROP_TAG(IGTYP)%LY_PLAPT = 1
           PROP_TAG(IGTYP)%LY_SIGPT = 5
           PROP_TAG(IGTYP)%G_FORPG  = 5
           PROP_TAG(IGTYP)%G_MOMPG  = 3
@@ -462,7 +462,7 @@ C-----------
      & 5X,'SKEW OF THE FIRST ORTHOTROPY DIRECTION.=',I10/,
      & 5X,'REFERENCE DIRECTION FLAG IN SHELL PLANE=',I10/)
  2020 FORMAT(
-     & 5X,'LAYER,ANGLE (DIR 1,PROJ(DIR 1 / SHELL).=',I10,E12.5)     
+     & 5X,'LAYER,ANGLE (DIR 1,PROJ(DIR 1 / SHELL).=',I10,E12.5)
 C-----------
 
       END

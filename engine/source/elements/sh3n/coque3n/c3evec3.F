@@ -38,7 +38,7 @@ Chd|====================================================================
      .                   NEL      ,AREA     ,X21     ,Y21      ,Z21      ,
      .                   X31      ,Y31      ,Z31     ,
      .                   X1       ,X2       ,X3      ,Y1       ,Y2       ,
-     .                   Y3       ,Z1       ,Z2      ,Z3       )  
+     .                   Y3       ,Z1       ,Z2      ,Z3       )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -136,50 +136,50 @@ C
         E2Z(I)=E2Z(I)/SUM(I)
       ENDDO
 C---
-      DO I=JFT,JLT        
-        E1X0(I) = E1X(I)  
-        E1Y0(I) = E1Y(I)  
-        E1Z0(I) = E1Z(I)  
-        E2X0(I) = E2X(I)  
-        E2Y0(I) = E2Y(I)  
-        E2Z0(I) = E2Z(I)  
-        E3X0(I) = E3X(I)  
-        E3Y0(I) = E3Y(I)  
-        E3Z0(I) = E3Z(I)  
-      ENDDO               
+      DO I=JFT,JLT
+        E1X0(I) = E1X(I)
+        E1Y0(I) = E1Y(I)
+        E1Z0(I) = E1Z(I)
+        E2X0(I) = E2X(I)
+        E2Y0(I) = E2Y(I)
+        E2Z0(I) = E2Z(I)
+        E3X0(I) = E3X(I)
+        E3Y0(I) = E3Y(I)
+        E3Z0(I) = E3Z(I)
+      ENDDO
       IF(ISH3NFRAM ==0 ) THEN
        II = 0
        CALL CLSKEW3(JFT,JLT,II,
-     .   X21, Y21, Z21, 
-     .   X31, Y31, Z31, 
+     .   X21, Y21, Z21,
+     .   X31, Y31, Z31,
      .   E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM,OFFG)
-       DO I=JFT,JLT        
+       DO I=JFT,JLT
         ECOS(I) = E1X(I)*E1X0(I)+E1Y(I)*E1Y0(I)+E1Z(I)*E1Z0(I)
         AA = MAX(ZERO,ONE-ECOS(I)*ECOS(I))
         ESIN(I) = SQRT(AA)
         BB = E2X(I)*E1X0(I)+E2Y(I)*E1Y0(I)+E2Z(I)*E1Z0(I)
         IF (BB >ZERO) ESIN(I) = -ESIN(I)
-       ENDDO               
+       ENDDO
       END IF
 C-----------------------------------------
       IF (IREP == 1) THEN
-        DO N=1,NLAY                            
+        DO N=1,NLAY
           DIR1 => ELBUF_STR%BUFLY(N)%DIRA
 !          J = (N-1)*NEL
           J = 2*(N-1)
-          DO I=JFT,JLT                        
-            AA = DIR1(I)                          
-            BB = DIR1(I + NEL)                         
-            V1 = AA*E11(I) + BB*E21(I)        
-            V2 = AA*E12(I) + BB*E22(I)        
-            V3 = AA*E13(I) + BB*E23(I)        
-            VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)  
-            VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)  
-            SUMA=SQRT(VR*VR + VS*VS)          
-            DIR_A(I,J+1) = VR/SUMA               
-            DIR_A(I,J+2) = VS/SUMA               
-          ENDDO                               
-        ENDDO                                 
+          DO I=JFT,JLT
+            AA = DIR1(I)
+            BB = DIR1(I + NEL)
+            V1 = AA*E11(I) + BB*E21(I)
+            V2 = AA*E12(I) + BB*E22(I)
+            V3 = AA*E13(I) + BB*E23(I)
+            VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
+            VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
+            SUMA=SQRT(VR*VR + VS*VS)
+            DIR_A(I,J+1) = VR/SUMA
+            DIR_A(I,J+2) = VS/SUMA
+          ENDDO
+        ENDDO
       ELSEIF (IREP == 2) THEN
         DO N=1,NLAY
           DIR1 => ELBUF_STR%BUFLY(N)%DIRA
@@ -188,8 +188,8 @@ C-----------------------------------------
           J = 2*(N-1)
           DO I=JFT,JLT
 C---        Axe I
-            AA = DIR1(I)                          
-            BB = DIR1(I + NEL)                         
+            AA = DIR1(I)
+            BB = DIR1(I + NEL)
             V1 = AA*E11(I) + BB*E21(I)
             V2 = AA*E12(I) + BB*E22(I)
             V3 = AA*E13(I) + BB*E23(I)
@@ -199,8 +199,8 @@ C---        Axe I
             DIR_A(I,J+1) = VR*SUMA
             DIR_A(I,J+2) = VS*SUMA
 C---        Axe II
-            AA = DIR2(I)                          
-            BB = DIR2(I + NEL)                         
+            AA = DIR2(I)
+            BB = DIR2(I + NEL)
             V1 = AA*E11(I) + BB*E21(I)
             V2 = AA*E12(I) + BB*E22(I)
             V3 = AA*E13(I) + BB*E23(I)
@@ -220,26 +220,26 @@ C   mixing law58 with other user laws with IREP = 0 within PID51
           IF (ILAW == 58) THEN
             DIR1 => ELBUF_STR%BUFLY(N)%DIRA
             DIR2 => ELBUF_STR%BUFLY(N)%DIRB
-            DO I=JFT,JLT                              
+            DO I=JFT,JLT
 C---        Axe I                                   
-              AA = DIR1(I)                        
-              BB = DIR1(I + NEL)                       
+              AA = DIR1(I)
+              BB = DIR1(I + NEL)
               V1 = AA*E11(I) + BB*E21(I)		
               V2 = AA*E12(I) + BB*E22(I)		
               V3 = AA*E13(I) + BB*E23(I)		
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
               SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_A(I,J+1) = VR*SUMA
               DIR_A(I,J+2) = VS*SUMA
 C---        Axe II                                  
-              AA = DIR2(I)                         
-              BB = DIR2(I + NEL)                         
+              AA = DIR2(I)
+              BB = DIR2(I + NEL)
               V1 = AA*E11(I) + BB*E21(I)		
               V2 = AA*E12(I) + BB*E22(I)		
               V3 = AA*E13(I) + BB*E23(I)		
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
               SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_B(I,J+1) = VR*SUMA
               DIR_B(I,J+2) = VS*SUMA
@@ -261,26 +261,26 @@ C   mixing law58 with other user laws with IREP = 1 within PID51
           IF (ILAW == 58) THEN
             DIR1 => ELBUF_STR%BUFLY(N)%DIRA
             DIR2 => ELBUF_STR%BUFLY(N)%DIRB
-            DO I=JFT,JLT                              
+            DO I=JFT,JLT
 C---        Axe I                                   
-              AA = DIR1(I)                        
-              BB = DIR1(I + NEL)                       
+              AA = DIR1(I)
+              BB = DIR1(I + NEL)
               V1 = AA*E11(I) + BB*E21(I)		
               V2 = AA*E12(I) + BB*E22(I)		
               V3 = AA*E13(I) + BB*E23(I)		
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
               SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_A(I,J+1) = VR*SUMA
               DIR_A(I,J+2) = VS*SUMA
 C---        Axe II                                  
-              AA = DIR2(I)                         
-              BB = DIR2(I + NEL)                         
+              AA = DIR2(I)
+              BB = DIR2(I + NEL)
               V1 = AA*E11(I) + BB*E21(I)		
               V2 = AA*E12(I) + BB*E22(I)		
               V3 = AA*E13(I) + BB*E23(I)		
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
               SUMA = ONE / MAX( SQRT(VR*VR + VS*VS), EM20)
               DIR_B(I,J+1) = VR*SUMA
               DIR_B(I,J+2) = VS*SUMA
@@ -288,13 +288,13 @@ C---        Axe II
           ELSE  ! IREP = 1 within PID51
             DIR1 => ELBUF_STR%BUFLY(N)%DIRA
             DO I=JFT,JLT
-              AA = DIR1(I)                          
-              BB = DIR1(I + NEL)                         
+              AA = DIR1(I)
+              BB = DIR1(I + NEL)
               V1 = AA*E11(I) + BB*E21(I)		
               V2 = AA*E12(I) + BB*E22(I)		
               V3 = AA*E13(I) + BB*E23(I)		
-              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)    
-              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)    
+              VR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
               SUMA=SQRT(VR*VR + VS*VS)
               DIR_A(I,J+1) = VR/SUMA
               DIR_A(I,J+2) = VS/SUMA
@@ -305,32 +305,32 @@ C---        Axe II
 C------ restore old local sys compute cos, sin relative to old      
       IF(ISH3NFRAM ==0 ) THEN
        DO I=JFT,JLT
-        E11(I) = E1X(I)  
-        E12(I) = E1Y(I)  
-        E13(I) = E1Z(I)  
-        E21(I) = E2X(I)  
-        E22(I) = E2Y(I)  
-        E23(I) = E2Z(I)  
+        E11(I) = E1X(I)
+        E12(I) = E1Y(I)
+        E13(I) = E1Z(I)
+        E21(I) = E2X(I)
+        E22(I) = E2Y(I)
+        E23(I) = E2Z(I)
        ENDDO
        DO I=JFT,JLT
-        E1X(I) = E1X0(I)    
-        E1Y(I) = E1Y0(I)    
-        E1Z(I) = E1Z0(I)    
-        E2X(I) = E2X0(I)    
-        E2Y(I) = E2Y0(I)    
-        E2Z(I) = E2Z0(I)    
-        E3X(I) = E3X0(I)    
-        E3Y(I) = E3Y0(I)    
-        E3Z(I) = E3Z0(I)    
+        E1X(I) = E1X0(I)
+        E1Y(I) = E1Y0(I)
+        E1Z(I) = E1Z0(I)
+        E2X(I) = E2X0(I)
+        E2Y(I) = E2Y0(I)
+        E2Z(I) = E2Z0(I)
+        E3X(I) = E3X0(I)
+        E3Y(I) = E3Y0(I)
+        E3Z(I) = E3Z0(I)
        ENDDO
 C-------------Ej0 is used in mulawc for user'laws (99)       
        DO I=JFT,JLT
-        E1X0(I) = E11(I)  
-        E1Y0(I) = E12(I)  
-        E1Z0(I) = E13(I)  
-        E2X0(I) = E21(I)  
-        E2Y0(I) = E22(I)  
-        E2Z0(I) = E23(I)  
+        E1X0(I) = E11(I)
+        E1Y0(I) = E12(I)
+        E1Z0(I) = E13(I)
+        E2X0(I) = E21(I)
+        E2Y0(I) = E22(I)
+        E2Z0(I) = E23(I)
        ENDDO
       END IF
 c-----------
@@ -487,7 +487,7 @@ C-----------------------------------------------
        MN2(I)= TWO*MN(I)
       ENDDO
 C------Exy :2*exy 
-      IF (ISMSTR==10) THEN   
+      IF (ISMSTR==10) THEN
        DO I=JFT,JLT
         T1 = (F_DEF(I,3)+F_DEF(I,4))*MN(I)
         CM(1)=M2(I)*F_DEF(I,1)+N2(I)*F_DEF(I,2)-T1

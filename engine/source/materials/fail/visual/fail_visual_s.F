@@ -73,7 +73,7 @@ C-----------------------------------------------
         INTEGER  :: NGL(NEL)
         my_real TIME,TIMESTEP,UPARAM(NUPARAM),
      .   EPSXX(NEL) ,EPSYY(NEL) ,EPSZZ(NEL) ,
-     .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,DFMAX(NEL)     
+     .   EPSXY(NEL) ,EPSYZ(NEL) ,EPSZX(NEL) ,DFMAX(NEL)
 C-----------------------------------------------
 C I N P U T O U T P U T A r g u m e n t s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C-----------------------------------------------
      .    C_MIN,C_MAX,EMA,DAMAGE,ALPHA,F,FF,
      .    PI1,PI8,PI38,SPI8,SPI38,C0,C1,C2,C3,C4,C5,C6,C7,C8,C9,
      .    X1,X2,X3,Y1,Y2,Y3,Z1,Z2,Z3,D,DD,D2,DP,E,G
-        my_real A0(2),A1(2),A2(2),AS(3),VS(3)      
+        my_real A0(2),A1(2),A2(2),AS(3),VS(3)
         my_real ,DIMENSION(NEL) :: EPS1,EPS2,EPS3
 C=======================================================================
 C USER VARIABLES
@@ -124,14 +124,14 @@ c-------------------
         ELSE IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
           STRFLAG = 4
         END IF
-      END IF           
-             
-c!  ***********************       
-c!  *** NEW ... 26.06.2019  
-c!  ***********************      
+      END IF
+
+c!  ***********************
+c!  *** NEW ... 26.06.2019
+c!  ***********************
       DO I=1,NEL
         IF (UVAR(I,1) < ONE) THEN
-           
+
           IF (TYPE_MAX == 1) THEN   ! stress based
 c
              I1 = SIGNXX(I)+SIGNYY(I)+SIGNZZ(I)
@@ -148,12 +148,12 @@ c
              E11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
              E22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
              E33 = TWO*SQRT(-Q)*COS((PHI+4.0*PI)/THREE)+THIRD*I1
-             
-             IF (E11 < E22) THEN 
+
+             IF (E11 < E22) THEN
                 R_INTER = E11
                 E11     = E22
                 E22     = R_INTER
-             ENDIF 
+             ENDIF
              IF (E22 < E33)THEN
                 R_INTER = E22
                 E22     = E33
@@ -166,9 +166,9 @@ c
              ENDIF
 c
           ELSE ! TYPE_MAX   - strain based criterion
-           
+
 c! strains (deviatoric strain are in vector notation ==> gamma...==> division by 2 to get eps tensor components)
-           
+
              I1 = EPSXX(I)+EPSYY(I)+EPSZZ(I)
              I2 = EPSXX(I)*EPSYY(I)+EPSYY(I)*EPSZZ(I)+EPSZZ(I)*EPSXX(I)-
      .            HALF*EPSXY(I)*HALF*EPSXY(I)-HALF*EPSZX(I)*HALF*EPSZX(I)-
@@ -178,10 +178,10 @@ c! strains (deviatoric strain are in vector notation ==> gamma...==> division by
      .            TWO*HALF*EPSXY(I)*HALF*EPSZX(I)*HALF*EPSYZ(I)
              Q  = (THREE*I2 - I1*I1)/9.0
              R  = (TWO*I1*I1*I1-9.0*I1*I2+27.0*I3)/54.0     ! (2*I3^3-9*I1*I2+27*I3)/54
-             
+
              R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
              PHI = ACOS(MAX(R_INTER,-ONE))
-             
+
              E11 = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
              E22 = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
              E33 = TWO*SQRT(-Q)*COS((PHI+4.0*PI)/THREE) +THIRD*I1
@@ -203,12 +203,12 @@ c
                E22 = LOG(SQRT(E22 + ONE))
                E33 = LOG(SQRT(E33 + ONE))
              END IF
-c             
-             IF (E11 < E22) THEN 
+c
+             IF (E11 < E22) THEN
                 R_INTER = E11
                 E11     = E22
                 E22     = R_INTER
-             ENDIF 
+             ENDIF
              IF (E22 < E33)THEN
                 R_INTER = E22
                 E22     = E33
@@ -218,7 +218,7 @@ c
                 R_INTER = E11
                 E11     = E22
                 E22     = R_INTER
-             ENDIF                     
+             ENDIF
 c
           ENDIF ! TYPE_MAX
 c
@@ -235,7 +235,7 @@ C-----------------------------------------------
             SPI38   = SIN(PI38)
 C         
             D  = TAN(PI1*F*TIMESTEP)
-          
+
             DD = D*D
             D2 = TWO*D
             DP = ONE + DD
@@ -258,21 +258,21 @@ C
             C7 = C5
             C8 = TWO * G - C6
             C9 = (E - DP) * G
-          
+
 C-----------------------------------------------
 C BUTTERWORTH FILTERING
 C-----------------------------------------------
-         
+
             A0(1)     = UVAR(I,3)
-            A0(2)     = UVAR(I,4) 
-            A1(1)     = UVAR(I,5) 
-            A1(2)     = UVAR(I,6) 
-            A2(1)     = UVAR(I,7) 
-            A2(2)     = UVAR(I,8) 
+            A0(2)     = UVAR(I,4)
+            A1(1)     = UVAR(I,5)
+            A1(2)     = UVAR(I,6)
+            A2(1)     = UVAR(I,7)
+            A2(2)     = UVAR(I,8)
 
             X1 = A0(2)
             X2 = A0(1)
-          
+
             X3 = E11
             Y1 = A1(2)
             Y2 = A1(1)
@@ -289,19 +289,19 @@ C
             A1(1) = Y3
             A2(2) = Z2
             A2(1) = Z3
-          
+
             UVAR(I,3) = A0(1)
             UVAR(I,4) = A0(2)
             UVAR(I,5) = A1(1)
             UVAR(I,6) = A1(2)
             UVAR(I,7) = A2(1)
             UVAR(I,8) = A2(2)
-          
+
             E11       = A2(1)
-          
-           
-          ELSE           
-c!    
+
+
+          ELSE
+c!
 c! What it should be is like this:
 c!
 c! Value = USER_INPUT * 2 * Pi * DT1
@@ -313,24 +313,24 @@ c!           E11        = ALPHA * E11 + ( ONE - ALPHA ) * UVAR(I,2)
 c!           UVAR(I,2)  = E11
 
 c! EMA = 0 ==> 1 ==> no filtering  ;  EMA = 1e+20 extreme filtering
-c!           E11        = E11*(TWO/(ONE+EMA)) + UVAR(I,2) * (ONE-(TWO/(ONE+EMA))) 
+c!           E11        = E11*(TWO/(ONE+EMA)) + UVAR(I,2) * (ONE-(TWO/(ONE+EMA)))
            E11        = EMA * E11 + ( ONE - EMA ) * UVAR(I,2)
            UVAR(I,2)  = E11
           ENDIF
-c!      
+c!
           DAMAGE       =  MAX(ZERO , MIN(ONE ,(E11-C_MIN)/MAX(EM6,(C_MAX-C_MIN)) ))
           UVAR(I,1)    =  MAX(UVAR(I,1),DAMAGE)
           DFMAX(I)     =  UVAR(I,1)
 
           IF (UVAR(I,1) >= ONE) THEN
              NINDX       = NINDX+1
-             INDX(NINDX) = I              
+             INDX(NINDX) = I
           ENDIF
 
         ENDIF ! UVAR(I,1) < ONE
-        
+
       ENDDO   ! NEL
-c---------------------------------------------       
+c---------------------------------------------
       DO J=1,NINDX
         I = INDX(J)
 #include "lockon.inc"
@@ -339,11 +339,11 @@ c---------------------------------------------
 #include "lockoff.inc"
 
       ENDDO
-c---------------------------------------------       
+c---------------------------------------------
  1000 FORMAT(1X,'SOLID ELEMENT NUMBER (VISUAL) el#',I10,
-     .          ' LIMIT REACHED  AT TIME :',1PE12.4)     
+     .          ' LIMIT REACHED  AT TIME :',1PE12.4)
  1100 FORMAT(1X,'SOLID ELEMENT NUMBER (VISUAL) el#',I10,
-     .          ' LIMIT REACHED  AT TIME :',1PE12.4)     
+     .          ' LIMIT REACHED  AT TIME :',1PE12.4)
 c-----------
       RETURN
       END

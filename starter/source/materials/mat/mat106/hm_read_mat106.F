@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT106(UPARAM ,MAXUPARAM,NUPARAM  ,FSMOOTH   , IMATVIS  ,
-     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                          NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                          UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                          PM     ,IPM   )
 C-----------------------------------------------
@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,8 +83,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -98,7 +98,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
        my_real E, NU, CA, CB, CM, CN, EPSM,
      .        SIGM, TREF, TMELT, TMAX, TOL, FCUT,RHO0,RHOR,CM_UNIT
-       my_real 
+       my_real
      .    PMIN, CS, STIFINT, DUMMY
        INTEGER NMAX,ILAW
        LOGICAL IS_AVAILABLE,IS_ENCRYPTED
@@ -112,14 +112,14 @@ C-----------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-2
       CALL HM_GET_FLOATV('MAT_E'      , E      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'     , NU     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV('MLAW106_FCT_ID1' , IFUNC(1)  ,IS_AVAILABLE, LSUBMODEL)   
-      CALL HM_GET_INTV('MLAW106_FCT_ID2' , IFUNC(2)  ,IS_AVAILABLE, LSUBMODEL)  
+      CALL HM_GET_INTV('MLAW106_FCT_ID1' , IFUNC(1)  ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('MLAW106_FCT_ID2' , IFUNC(2)  ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('MLAW106_FCT_ID3' , IFUNC(3)  ,IS_AVAILABLE, LSUBMODEL)
-    
+
       !line-3
       CALL HM_GET_FLOATV('MAT_SIGY'           , CA     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_BETA'           , CB     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -128,13 +128,13 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MLAW106_SIGMA_MAX'  , SIGM   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-4
       CALL HM_GET_FLOATV('MAT_PC'        ,PMIN      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV('MLAW106_NMAX'    ,NMAX      ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV('MLAW106_NMAX'    ,NMAX      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MLAW106_TOL'   ,TOL      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-5
       CALL HM_GET_FLOATV('MAT_M'       , CM        ,IS_AVAILABLE, LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAT_TMELT'   , TMELT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_TMAX'    , TMAX     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !line-6 
+      !line-6
       CALL HM_GET_FLOATV('MAT_SPHEAT'   , CS     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MLAW106_TR'   , TREF   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C----------------------------------------------- 
@@ -170,37 +170,37 @@ C-----------------------------------------------
 C     CHECKS   
 C-----------------------------------------------
       IF(E <= ZERO)THEN
-        CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=106,I2=MAT_ID,C1=TITR)   
-      ENDIF 
-      IF(NU <= -ONE)  THEN       
+        CALL ANCMSG(MSGID=276,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=106,I2=MAT_ID,C1=TITR)
+      ENDIF
+      IF(NU <= -ONE)  THEN
         CALL ANCMSG(MSGID=300,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=106,I2=MAT_ID,C1=TITR)
-      ENDIF 
+      ENDIF
 
 C----------------------------------------------- 
 C     USER MATERIAL PARAMETERS DEFINITION   
 C----------------------------------------------- 
       NUPARAM   = 15
-      UPARAM(1) = E  
-      UPARAM(2) = NU 
-      UPARAM(3) = CA 
-      UPARAM(4) = CB 
-      UPARAM(5) = CM 
-      UPARAM(6) = CN 
-      UPARAM(7) = TMELT 
-      UPARAM(8) = TREF 
+      UPARAM(1) = E
+      UPARAM(2) = NU
+      UPARAM(3) = CA
+      UPARAM(4) = CB
+      UPARAM(5) = CM
+      UPARAM(6) = CN
+      UPARAM(7) = TMELT
+      UPARAM(8) = TREF
       UPARAM(9) = ZERO
-      UPARAM(10) = ZERO 
-      UPARAM(11) = EPSM 
-      UPARAM(12) = SIGM  
-      UPARAM(13) = NMAX  
-      UPARAM(14) = TOL  
+      UPARAM(10) = ZERO
+      UPARAM(11) = EPSM
+      UPARAM(12) = SIGM
+      UPARAM(13) = NMAX
+      UPARAM(14) = TOL
       UPARAM(15) = CS
 
       NUVAR = 14
-      NFUNC = 3  
+      NFUNC = 3
 C     STIFINT   = E/THREE/(ONE-TWO*NU)
       STIFINT   = E*(ONE-NU)/(ONE+NU)/(ONE-TWO*NU)
-      PARMAT(1) = STIFINT 
+      PARMAT(1) = STIFINT
       PARMAT(2) = E
       PARMAT(3) = NU
       PARMAT(4) = 0
@@ -217,7 +217,7 @@ C-------------------------------------------------
 C     LISTING OUTPUT 
 C------------------------------------------------- 
       WRITE(IOUT,1010) TRIM(TITR),MAT_ID,106
-      WRITE(IOUT,1000)   
+      WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -238,9 +238,9 @@ C
  1100 FORMAT(
      & 5X,'YOUNG MODULUS E. . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO NU . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'FUNCTION E(T) (HEATING). . . . . . . . . . .=',I10/ 
-     & 5X,'FUNCTION E(T) (COOLING). . . . . . . . . . .=',I10/ 
-     & 5X,'FUNCTION NU(T) . . . . . . . . . . . . . . .=',I10/ 
+     & 5X,'FUNCTION E(T) (HEATING). . . . . . . . . . .=',I10/
+     & 5X,'FUNCTION E(T) (COOLING). . . . . . . . . . .=',I10/
+     & 5X,'FUNCTION NU(T) . . . . . . . . . . . . . . .=',I10/
      & 5X,'YIELD COEFFICIENT A. . . . . . . . . . . . .=',1PG20.13/
      & 5X,'YIELD COEFFICIENT B. . . . . . . . . . . . .=',1PG20.13/
      & 5X,'YIELD COEFFICIENT M (TEMPERATURE). . . . . .=',1PG20.13/
@@ -252,7 +252,7 @@ C
      & 5X,'SPECIFIC HEAT RHO*CP . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'MAXIMUM NUMBER OF ITERATIONS . . . . . . . .=',I10/
-     & 5X,'PLASTICITY TOLERANCE . . . . . . . . . . . .=',1PG20.13/)     
+     & 5X,'PLASTICITY TOLERANCE . . . . . . . . . . . .=',1PG20.13/)
       RETURN
  999  CALL FREERR(3)
       END

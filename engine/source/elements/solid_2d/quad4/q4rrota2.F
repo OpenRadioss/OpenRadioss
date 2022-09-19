@@ -51,7 +51,7 @@ C     REAL
      .   Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*)
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   R22(*)~R33(*)      - [Rij]
@@ -90,4 +90,4 @@ C     OUTPUT: {X'}
 C
       RETURN
       END
-	  
+	

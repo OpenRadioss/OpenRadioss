@@ -88,7 +88,7 @@ Chd|-- calls ---------------
 Chd|        ARRET                         source/system/arret.F         
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
-      SUBROUTINE DSGRI7(GRAPHE, DSLEN, NDMAX, JLT , NS_IMP, 
+      SUBROUTINE DSGRI7(GRAPHE, DSLEN, NDMAX, JLT , NS_IMP,
      .                  NE_IMP, NSV  , IRECT, NDDL)
 C-----------------------------------------------
 C   M o d u l e s 
@@ -105,16 +105,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER DSLEN, NDMAX, JLT, NS_IMP(*), NE_IMP(*), NSV(*), 
+      INTEGER DSLEN, NDMAX, JLT, NS_IMP(*), NE_IMP(*), NSV(*),
      .        IRECT(4,*), NDDL
       TYPE(PRGRAPH) :: GRAPHE(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, PARENT(DSLEN), OFFSD, ILVL, NBSD, ISD, J, JJ, NSLV,
-     .        FMAST, NMAST(4), NNM, NDF, NDI, K, L, IIM(4), NIN, LL, 
-     .        IIN(3), M, NSSE, TSSE(9,NDMAX), TMSE(2), IMSE, 
-     .        NDSLV, IDSLV(3), TCSE(2,NDMAX+1), NSD, JL, ISDL, KK, 
+     .        FMAST, NMAST(4), NNM, NDF, NDI, K, L, IIM(4), NIN, LL,
+     .        IIN(3), M, NSSE, TSSE(9,NDMAX), TMSE(2), IMSE,
+     .        NDSLV, IDSLV(3), TCSE(2,NDMAX+1), NSD, JL, ISDL, KK,
      .        NDI_OLD, NCSE, DD1, DD2, PP(2,NDMAX+1), JP, NSDMAX,
      .        ISDP, ITAGP(NDDL), NDFP, NDIP, KK_OLD, NDIP_OLD, LLL,
      .        TCSE_TMP(2,NDMAX+1), NCSE_TMP, NSDEC, NSLEVEL, II, IDL,
@@ -434,7 +434,7 @@ C
                   KK_OLD=KK
                ENDDO
                IF (ITEST/=0) THEN
-                  WRITE(*,'(A)') 
+                  WRITE(*,'(A)')
      .                ' !! DSGRI7: RADIOSS INTERNAL ERROR !!'
                   CALL ARRET(2)
                ENDIF
@@ -464,12 +464,12 @@ C Modification des allocations pour D
                      DEALLOCATE(GRAPHE(JP)%DGRAPH(ISDP)%D)
                      ALLOCATE(
      .    GRAPHE(JP)%DGRAPH(ISDP)%D(NMAX,NDIP+NDFP+NSVMAX*NSDEC))
-                  ENDIF  
+                  ENDIF
                   EXIT
                ENDIF
 C
                IN=ITAGP(IDSLV(1))
-               IF (IN==0) THEN               
+               IF (IN==0) THEN
 C On rajoute les ddls secnd sur la frontiere
                   ALLOCATE(DDLS_TMP(NDFP+NDIP))
                   DO K=1,NDFP+NDIP
@@ -550,7 +550,7 @@ C Elimination des parents doubles
                ENDIF
             ENDDO
          ENDDO
-      ENDDO        
+      ENDDO
 C
       RETURN
       END

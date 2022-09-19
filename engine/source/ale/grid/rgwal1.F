@@ -30,7 +30,7 @@ Chd|        RGWATH                        source/interfaces/int09/rgwath.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE RGWAL1(X       ,A	,V	  ,W	  ,RWBUF   ,
-     2                  LPRW    ,NPRW	, 
+     2                  LPRW    ,NPRW	,
      3                  ICODT   ,ISKEW  ,SKEW	  ,MS	  ,FSAV    ,
      4                  IXS     ,IXQ	,ELBUF_TAB,IPARG  ,
      5                  PM      ,NALE	,TF	  ,NPF	  ,WEIGHT  ,
@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

@@ -105,7 +105,7 @@ C
         IF (IX4(I) /= IX3(I)) THEN
           DMINT2(4,I) = HALF * DTS * ( DTS * STIF(4,I) + VIS(4,I) )
         ENDIF
-      ENDDO                
+      ENDDO
 C-----------      
       RETURN
       END

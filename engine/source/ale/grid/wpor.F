@@ -83,7 +83,7 @@ C-----------------------------------------------
         	W(2,JP)= V(2,M) + V3X1-V1X3-HALF*DT12*(VG(3)*V3X2+VG(1)*V1X2)
         	W(3,JP)= V(3,M) + V1X2-V2X1-HALF*DT12*(VG(1)*V1X3+VG(2)*V2X3)
               ENDIF
-          ENDDO 
+          ENDDO
         ENDIF
         NAD=NAD+N
       ENDDO!next IG

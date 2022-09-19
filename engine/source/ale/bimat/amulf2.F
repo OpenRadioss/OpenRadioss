@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|====================================================================
       SUBROUTINE AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPV,
-     .     FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
+     .     FLUX1, FLUX2, FLUX3, FLUX4, UPW,
      .     NC1, NC2, NC3, NC4)
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------

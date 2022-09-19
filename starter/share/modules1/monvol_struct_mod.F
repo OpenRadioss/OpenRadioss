@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER :: TYPE
 !     Monvol ID
       INTEGER :: ID
-!     
+!
       INTEGER :: NCA
 !     Monvol name
       CHARACTER(LEN = nchartitle) :: TITLE
@@ -121,7 +121,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: ELTG
 !     Store mat number of triagnel surface
       INTEGER, DIMENSION(:), ALLOCATABLE :: MATTG
-!     
+!
       INTEGER :: NBRIC
       INTEGER, DIMENSION(:, :), ALLOCATABLE :: TBRIC, TFAC
 !     TAGELS
@@ -148,11 +148,11 @@ C-----------------------------------------------
       INTEGER :: NEDGE
       INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_NODE1, EDGE_NODE2, EDGE_ELEM, IAD_EDGE_ELEM
 !     Keep old adresses until full conversion is done
-      INTEGER :: IADALE, IADALE2, IADALE3, IADALE4, IADALE5, IADALE6, IADALE7, IADALE8, IADALE9, 
+      INTEGER :: IADALE, IADALE2, IADALE3, IADALE4, IADALE5, IADALE6, IADALE7, IADALE8, IADALE9,
      .     IADALE10, IADALE11, IADALE12, IADALE13, KRA5, KRA6, KR5
       LOGICAL :: OK_REORIENT
 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: NUMBER_TRI_PER_PROC      
+      INTEGER, DIMENSION(:), ALLOCATABLE :: NUMBER_TRI_PER_PROC
       END TYPE MONVOL_STRUCT_
 
       CONTAINS
@@ -185,7 +185,7 @@ C-----------------------------------------------
       INTEGER :: II, JJ, KK, I, ICOPY, N
       INTEGER :: NVENT
       INTEGER :: SHIFT
-      
+
       SHIFT = LICBAG
       DO N = 1, NVOLU
          SHIFT = SHIFT + NIMV
@@ -379,7 +379,7 @@ C-----------------------------------------------
 !     Velocities and node coordinates
          IF (T_MONVOL(II)%KR5 > 0) THEN
             ICOPY = T_MONVOL(II)%KR5
-            DO JJ = 1, T_MONVOL(II)%NTG + T_MONVOL(II)%NTGI 
+            DO JJ = 1, T_MONVOL(II)%NTG + T_MONVOL(II)%NTGI
                VOLMON(ICOPY) = T_MONVOL(II)%ELAREA(JJ)
                ICOPY = ICOPY + 1
             ENDDO
@@ -432,7 +432,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -457,7 +457,7 @@ C-----------------------------------------------
       INTEGER :: JJ, NEDGE, NELEM, IEDGE, NODE1, NODE2, INODE
       INTEGER :: NB_FREE_EDGE
       INTEGER(8) :: graph_ptr, tri_ptr, tri_ptr_global
-      INTEGER, DIMENSION(:), ALLOCATABLE :: FREE_EDGES_ID, FREE_EDGES, LOCAL_NODE_ID, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: FREE_EDGES_ID, FREE_EDGES, LOCAL_NODE_ID,
      .     GLOBAL_NODE_ID
       INTEGER :: NB_CONNECTED_COMPS, TOTAL_SIZE, II, ITRI
       INTEGER, DIMENSION(:), ALLOCATABLE :: PATHS, SIZES, CYCLES, SHIFT
@@ -532,7 +532,7 @@ C-----------------------------------------------
             FREE_EDGES(2 * (IEDGE - 1) + 1) = LOCAL_NODE_ID(FREE_EDGES(2 * (IEDGE - 1) + 1)) - 1
             FREE_EDGES(2 * (IEDGE - 1) + 2) = LOCAL_NODE_ID(FREE_EDGES(2 * (IEDGE - 1) + 2)) - 1
          ENDDO
-         CALL GRAPH_BUILD_PATH(INODE, NB_FREE_EDGE, FREE_EDGES, 
+         CALL GRAPH_BUILD_PATH(INODE, NB_FREE_EDGE, FREE_EDGES,
      .        NB_CONNECTED_COMPS, graph_ptr)
 
          ALLOCATE(SIZES(NB_CONNECTED_COMPS), CYCLES(NB_CONNECTED_COMPS))
@@ -548,7 +548,7 @@ C-----------------------------------------------
          ALLOCATE(PATHS(TOTAL_SIZE))
          CALL GRAPH_GET_PATH(graph_ptr, PATHS)
          CALL GRAPH_FREE_MEMORY(graph_ptr)
-         
+
          CALL TAB1_INIT(tri_ptr_global)
 #ifdef DNC
          DO II = 1, NB_CONNECTED_COMPS
@@ -575,7 +575,7 @@ C-----------------------------------------------
             DEALLOCATE(NODE_COORD)
          ENDDO
 #endif
-         
+
          CALL TAB1_GET_SIZE(tri_ptr_global, NTRI)
          IF (NTRI > 0) THEN
             T_MONVOLN%NB_FILL_TRI = NTRI / 3
@@ -630,14 +630,14 @@ C-----------------------------------------------
 C     E n d   o f   s o u r c e
 C-----------------------------------------------
  1000 FORMAT(
-     .     /5X,'EXTERNAL SURFACE OF THE MONITORED VOLUME IS NOT A CLOSED SURFACE', 
+     .     /5X,'EXTERNAL SURFACE OF THE MONITORED VOLUME IS NOT A CLOSED SURFACE',
      .     /5X, '  NUMBER OF FREE EDGES: ',I10,
-     .     /5X, '  NUMBER OF HOLES: ', I10)  
+     .     /5X, '  NUMBER OF HOLES: ', I10)
  1001 FORMAT(
      .     5X,'  ----> AUTOMATIC CLOSURE ACTIVATED'
-     .     /5X,'  ----> SURFACE CLOSE WITH: ',I10,' TRIANGLES')  
+     .     /5X,'  ----> SURFACE CLOSE WITH: ',I10,' TRIANGLES')
  1002 FORMAT(
-     .     /5X, '  NUMBER OF REMAINING FREE EDGES: ',I10) 
+     .     /5X, '  NUMBER OF REMAINING FREE EDGES: ',I10)
       END SUBROUTINE MONVOL_CHECK_SURFCLOSE
 
 Chd|====================================================================
@@ -658,8 +658,8 @@ Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE MONVOL_COMPUTE_VOLUME(T_MONVOLN, TITLE, IVOLU, SURF, 
-     .     ITAB, NODE_COORD, PM, GEO, IXC, IXTG, 
+      SUBROUTINE MONVOL_COMPUTE_VOLUME(T_MONVOLN, TITLE, IVOLU, SURF,
+     .     ITAB, NODE_COORD, PM, GEO, IXC, IXTG,
      .     SA, ROT, VOL, VMIN, VEPS, SV)
 C-----------------------------------------------
 C   M o d u l e s
@@ -669,7 +669,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -781,9 +781,9 @@ C
 C-----------------------------------------------
 C     E n d   o f   s o u r c e
 C-----------------------------------------------
-      RETURN 
+      RETURN
       END SUBROUTINE MONVOL_COMPUTE_VOLUME
-      
+
 Chd|====================================================================
 Chd|  MONVOL_CHECK_VENTHOLE_SURF    share/modules1/monvol_struct_mod.F
 Chd|-- called by -----------
@@ -805,7 +805,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"   
+#include      "implicit_f.inc"
 #include "units_c.inc"
 #include "param_c.inc"
 #include "com04_c.inc"
@@ -822,7 +822,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: ISUR, IPVENT, NN, J
-      my_real :: DIR, XX, YY, ZZ, X13, Y13, Z13, X24, Y24, Z24, 
+      my_real :: DIR, XX, YY, ZZ, X13, Y13, Z13, X24, Y24, Z24,
      .     NX, NY, NZ, DS
       INTEGER :: I1, I2, I3, I4, ISH34, CHKSURF, J1, ITY
       LOGICAL :: FOUND
@@ -952,7 +952,7 @@ C
       END IF
       RETURN
  1486 FORMAT(6X,'SHELL ELEMENT ID=',I10,' OF ',A17,1X,I10,' DOES NOT BELONG TO THE AIRBAG SURFACE')
- 1487 FORMAT(6X,'SH3N  ELEMENT ID=',I10,' OF ',A17,1X,I10,' DOES NOT BELONG TO THE AIRBAG SURFACE')     
+ 1487 FORMAT(6X,'SH3N  ELEMENT ID=',I10,' OF ',A17,1X,I10,' DOES NOT BELONG TO THE AIRBAG SURFACE')
       END SUBROUTINE MONVOL_CHECK_VENTHOLE_SURF
 
 Chd|====================================================================
@@ -965,7 +965,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"    
+#include      "implicit_f.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -981,7 +981,7 @@ C-----------------------------------------------
         ! ----------------------------------
         ! initialization of T_MONVOL
         T_MONVOL(1:NVOLU)%TYPE = 0
-        T_MONVOL(1:NVOLU)%ID = 0  
+        T_MONVOL(1:NVOLU)%ID = 0
         T_MONVOL(1:NVOLU)%NCA = 0
         T_MONVOL(1:NVOLU)%EXT_SURFID = 0
         T_MONVOL(1:NVOLU)%INT_SURFID = 0
@@ -991,7 +991,7 @@ C-----------------------------------------------
         T_MONVOL(1:NVOLU)%NNS = 0
         T_MONVOL(1:NVOLU)%NNI = 0
         T_MONVOL(1:NVOLU)%NTG = 0
-        T_MONVOL(1:NVOLU)%NTGI = 0     
+        T_MONVOL(1:NVOLU)%NTGI = 0
         T_MONVOL(1:NVOLU)%NBRIC = 0
         T_MONVOL(1:NVOLU)%NNA = 0
         T_MONVOL(1:NVOLU)%NTGA = 0
@@ -1020,7 +1020,7 @@ C-----------------------------------------------
       T_MONVOL_METADATA%NVOLU = NVOLU
       ALLOCATE(T_MONVOL_METADATA%ICBAG(NICBAG, NVOLU * NVOLU))
       ALLOCATE(T_MONVOL_METADATA%RCBAG(NRCBAG, NVOLU * NVOLU))
-      T_MONVOL_METADATA%RCBAG(:, :) = ZERO     
+      T_MONVOL_METADATA%RCBAG(:, :) = ZERO
       T_MONVOL_METADATA%ICBAG(:, :) = 0
       DO II = 1, NVOLU
          ALLOCATE(T_MONVOL(II)%IVOLU(NIMV))
@@ -1049,7 +1049,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"    
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------   
@@ -1059,7 +1059,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II
-      
+
       DO II = 1, NVOLU
          IF (ALLOCATED(T_MONVOL(II)%IVOLU)) DEALLOCATE(T_MONVOL(II)%IVOLU)
          IF (ALLOCATED(T_MONVOL(II)%RVOLU)) DEALLOCATE(T_MONVOL(II)%RVOLU)
@@ -1079,7 +1079,7 @@ C-----------------------------------------------
          IF (ALLOCATED(T_MONVOL(II)%ELEMA)) DEALLOCATE(T_MONVOL(II)%ELEMA)
          IF (ALLOCATED(T_MONVOL(II)%BRNA)) DEALLOCATE(T_MONVOL(II)%BRNA)
          IF (ALLOCATED(T_MONVOL(II)%TAGELA)) DEALLOCATE(T_MONVOL(II)%TAGELA)
-         IF (ALLOCATED(T_MONVOL(II)%NCONA)) DEALLOCATE(T_MONVOL(II)%NCONA)  
+         IF (ALLOCATED(T_MONVOL(II)%NCONA)) DEALLOCATE(T_MONVOL(II)%NCONA)
          IF (ALLOCATED(T_MONVOL(II)%VELOCITY)) DEALLOCATE(T_MONVOL(II)%VELOCITY)
          IF (ALLOCATED(T_MONVOL(II)%NODE_COORD)) DEALLOCATE(T_MONVOL(II)%NODE_COORD)
          IF (ALLOCATED(T_MONVOL(II)%POROSITY)) DEALLOCATE(T_MONVOL(II)%POROSITY)
@@ -1199,11 +1199,11 @@ C-----------------------------------------------
       !temporary memory
       INTEGER, ALLOCATABLE,DIMENSION(:) ::  PATHS, SIZES, CHECK_FLAG_ELEM, NB_ADJ,IAD_ADJ, LIST_ADJ_TAB
       INTEGER,ALLOCATABLE,DIMENSION(:) :: db_reversed, db_path
-      INTEGER, DIMENSION(:), ALLOCATABLE :: PAIR_LIST, NB_PAIR_BY_EDGE      
+      INTEGER, DIMENSION(:), ALLOCATABLE :: PAIR_LIST, NB_PAIR_BY_EDGE
       INTEGER :: NB_NOEUD, NB_ARC, NB_COMP_CONNEXE, SUM_SIZES
       INTEGER(8) :: graph_ptr
       INTEGER :: IELEM,ICOMP, EDGES_A(5),EDGES_B(5), NB_REVERSED
-      INTEGER :: NPT_A, NPT_B, IELEM1, IELEM2, ELTYP1, ELTYP2, NB_COMMON_NODE, 
+      INTEGER :: NPT_A, NPT_B, IELEM1, IELEM2, ELTYP1, ELTYP2, NB_COMMON_NODE,
      .     NODELIST1(4), NODELIST2(4), ELEM1ID, ELEM2ID, ELEMTG, ELEMC, IELEMTG, IELEMC
       LOGICAL :: lFOUND, lFOUND_ADJ
       INTEGER, POINTER, DIMENSION(:) :: ptrADJ
@@ -1241,7 +1241,7 @@ C-----------------------------------------------
          CALL MONVOL_BUILD_EDGES(T_MONVOLN, SURF)
       ENDIF
       NEDG = T_MONVOLN%NEDGE
-            
+
 !     *********************************     !
 !     ** Find any duplicated element **     !
 !     *********************************     !
@@ -1375,12 +1375,12 @@ C-----------------------------------------------
                IF (ELEM1ID * ELEM2ID /= 0) THEN
                   PAIR_LIST(IPAIR + 1) = ELEM1ID - 1
                   PAIR_LIST(IPAIR + 2) = ELEM2ID - 1
-                  IPAIR = IPAIR + 2 
+                  IPAIR = IPAIR + 2
                ENDIF
             ENDDO
          ENDDO
-      ENDDO     
-      
+      ENDDO
+
       !------------------------------------!
       ! 5. BUILD GRAPH                     !
       !------------------------------------!
@@ -1390,7 +1390,7 @@ C-----------------------------------------------
       NB_ARC=NPAIR
       NB_COMP_CONNEXE = 0
       CALL GRAPH_BUILD_PATH(NB_NOEUD, NB_ARC, PAIR_LIST, NB_COMP_CONNEXE, graph_ptr)
-      
+
       !------------------------------------!
       ! 6. GET PATH                        !
       !------------------------------------!
@@ -1407,7 +1407,7 @@ C-----------------------------------------------
       ENDDO
       IF(.NOT.ALLOCATED(PATHS))ALLOCATE(PATHS(SUM_SIZES))
       CALL GRAPH_GET_PATH(graph_ptr, PATHS)
-      
+
       !----------------------------------------!
       ! 7. DEBUG : HM TCL SCRIPT TO CHECK PATH !
       !----------------------------------------!
@@ -1416,60 +1416,60 @@ C-----------------------------------------------
         WRITE(FILENAME1, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_list_ids.tcl"
         OPEN(UNIT = 220582, FILE = FILENAME1, FORM ='formatted')
         write (220582,FMT='(A)')"set ids { \"
-        kk=0                                                                                                                           
-        do while (kk < sizes(1))                                                                                                       
-         if(kk+1<sizes(1))then                                                                                                         
-           ISH34 = SURF%ELTYP(1+PATHS(kk+1))                                                                                           
-           IF(ISH34==3)THEN                                                                                                            
-             write (220582,FMT='(I10,A,I10,A)')IXC(7,SURF%ELEM(1+PATHS(kk+1)) ) ," ",10000000+IXC(7,SURF%ELEM(1+PATHS(kk+1)) ),' \' 
-           ELSE                                                                                                                        
+        kk=0
+        do while (kk < sizes(1))
+         if(kk+1<sizes(1))then
+           ISH34 = SURF%ELTYP(1+PATHS(kk+1))
+           IF(ISH34==3)THEN
+             write (220582,FMT='(I10,A,I10,A)')IXC(7,SURF%ELEM(1+PATHS(kk+1)) ) ," ",10000000+IXC(7,SURF%ELEM(1+PATHS(kk+1)) ),' \'
+           ELSE
              write (220582,FMT='(I10,A,I10,A)')IXTG(6,SURF%ELEM(1+PATHS(kk+1)) )," ",10000000+IXTG(6,SURF%ELEM(1+PATHS(kk+1)) ),' \'
-           ENDIF                                                                                                                       
-         endif                                                                                                                         
-         kk=kk+1                                                                                                                       
-        enddo    
-        write (220582,FMT='(A)') " } ; "  
-        CLOSE(220582)                                                                                                                   
+           ENDIF
+         endif
+         kk=kk+1
+        enddo
+        write (220582,FMT='(A)') " } ; "
+        CLOSE(220582)
 
         WRITE(FILENAME2, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_list_types.tcl"
         OPEN(UNIT = 220582, FILE = FILENAME2, FORM ='formatted')
-        write (220582,FMT='(A)')"set types { \"       
-        kk=0                                              
-        do while (kk < sizes(1))                          
-         if(kk+1<sizes(1))then                            
-           ISH34 = SURF%ELTYP(1+PATHS(kk+1))              
-           IF(ISH34==3)THEN                               
-             write (*,FMT='(I10,A,I10,A)')3 ,"  ",3,'  \' 
-           ELSE                                           
-             write (*,FMT='(I10,A,I10,A)')7,"  ",7,'  \'  
-           ENDIF                                          
-         endif                                            
-         kk=kk+1                                          
-        enddo   
+        write (220582,FMT='(A)')"set types { \"
+        kk=0
+        do while (kk < sizes(1))
+         if(kk+1<sizes(1))then
+           ISH34 = SURF%ELTYP(1+PATHS(kk+1))
+           IF(ISH34==3)THEN
+             write (*,FMT='(I10,A,I10,A)')3 ,"  ",3,'  \'
+           ELSE
+             write (*,FMT='(I10,A,I10,A)')7,"  ",7,'  \'
+           ENDIF
+         endif
+         kk=kk+1
+        enddo
         CLOSE(220582)
-                                                  
+
         WRITE(FILENAME, "(A,I0,A)") "surfmesh_",T_MONVOLN%ID,"_HM_TCL_MACTO.tcl"
         OPEN(UNIT = 220582, FILE = FILENAME, FORM ='formatted')
-        write (220582,FMT='(A)') '#--$ids                                                                      '                
-        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME1//'";'               
-        write (220582,FMT='(A)') '#--$types                                                                    '                
-        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME2//'";'               
-        write (220582,FMT='(A)') '                                                                             '                
-        write (220582,FMT='(A)') 'for {set i 0} {$i < [llength $ids]} {incr i 2} {                             ' 
-        write (220582,FMT='(A)') '   set ityp [lindex $types $i]                                               '  
-        write (220582,FMT='(A)') '   set id [lindex $ids $i]                                                   '  
-        write (220582,FMT='(A)') '                                                                             '  
-        write (220582,FMT='(A)') '   if {$ityp == 3} {                                                         '  
-        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid shell_idpool $id -bypoolname] ;'  
-        write (220582,FMT='(A)') ' } elseif {$ityp == 7} {                                                     '  
-        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid sh3n_idpool $id -bypoolname] ; '  
-        write (220582,FMT='(A)') ' }                                                                           '  
-        write (220582,FMT='(A)') ' hm_redraw;                                                                  '  
-        write (220582,FMT='(A)') ' *movemark elements 1 \"COLOR\";                                             '  
-        write (220582,FMT='(A)') '}                                                                            '  
-        CLOSE(220582)                                                                                                                   
+        write (220582,FMT='(A)') '#--$ids                                                                      '
+        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME1//'";'
+        write (220582,FMT='(A)') '#--$types                                                                    '
+        write (220582,FMT='(A)') '::hwt::Source "'//FILENAME2//'";'
+        write (220582,FMT='(A)') '                                                                             '
+        write (220582,FMT='(A)') 'for {set i 0} {$i < [llength $ids]} {incr i 2} {                             '
+        write (220582,FMT='(A)') '   set ityp [lindex $types $i]                                               '
+        write (220582,FMT='(A)') '   set id [lindex $ids $i]                                                   '
+        write (220582,FMT='(A)') '                                                                             '
+        write (220582,FMT='(A)') '   if {$ityp == 3} {                                                         '
+        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid shell_idpool $id -bypoolname] ;'
+        write (220582,FMT='(A)') ' } elseif {$ityp == 7} {                                                     '
+        write (220582,FMT='(A)') '     *createmark elements 1 [hm_getinternalid sh3n_idpool $id -bypoolname] ; '
+        write (220582,FMT='(A)') ' }                                                                           '
+        write (220582,FMT='(A)') ' hm_redraw;                                                                  '
+        write (220582,FMT='(A)') ' *movemark elements 1 \"COLOR\";                                             '
+        write (220582,FMT='(A)') '}                                                                            '
+        CLOSE(220582)
       endif !(debug_output)
-      
+
       !------------------------------------!
       ! 8. GET PATH                        !
       !------------------------------------!
@@ -1485,7 +1485,7 @@ C-----------------------------------------------
       CALL GRAPH_GET_ADJ(graph_ptr, LIST_ADJ_TAB)
       DO KK=1,SUM_ADJ
         LIST_ADJ_TAB(KK)=LIST_ADJ_TAB(KK)+1
-      ENDDO      
+      ENDDO
       !------------------------------------!
       ! 7. DEBUG OUTPUT : SURF IN FILE     !
       !------------------------------------!
@@ -1515,61 +1515,61 @@ C-----------------------------------------------
         ENDDO
         DO kk = 1, NSEG
          II(1:4) = SURF%NODES(kk,1:4)
-         ISH34 = SURF%ELTYP(kk)        
+         ISH34 = SURF%ELTYP(kk)
          IF (ISH34 == 7) THEN
-          WRITE(210486, "(A5)") "/SH3N"         
+          WRITE(210486, "(A5)") "/SH3N"
           WRITE(210486, '(I10,I10,I10,I10)') IXTG(6,SURF%ELEM(kk)), ITAB(II(1)), ITAB(II(2)),ITAB(II(3))
          ENDIF
         ENDDO
         IF (T_MONVOLN%NB_FILL_TRI > 0) THEN
-           WRITE(210486, "(A5)") "/SH3N"  
+           WRITE(210486, "(A5)") "/SH3N"
         ENDIF
         DO kk = 1, T_MONVOLN%NB_FILL_TRI
            WRITE(210486, '(I10,I10,I10,I10)') kk + NSEG, ITAB(T_MONVOLN%FILL_TRI(3 * (kk - 1) + 1)),
      .          ITAB(T_MONVOLN%FILL_TRI(3 * (kk - 1) + 2)), ITAB(T_MONVOLN%FILL_TRI(3 * (kk - 1) + 3))
         ENDDO
-        CLOSE (210486)       
-      endif  !debug_output      
+        CLOSE (210486)
+      endif  !debug_output
       !------------------------------------!
       ! 9. SPREAD NORMAL                   !
       !------------------------------------!
       ! result : SIZES(1:NB_COMP_CONNEXE)
       !------------------------------------!
-      IF(.NOT.ALLOCATED(CHECK_FLAG_ELEM))ALLOCATE(CHECK_FLAG_ELEM(NSEG+NTRI))  
-      CHECK_FLAG_ELEM(:)=0 
-         
+      IF(.NOT.ALLOCATED(CHECK_FLAG_ELEM))ALLOCATE(CHECK_FLAG_ELEM(NSEG+NTRI))
+      CHECK_FLAG_ELEM(:)=0
+
       IF (T_MONVOLN%OK_REORIENT) THEN
          DO ICOMP=1,NB_COMP_CONNEXE
-            
+
 !--REFERENCE ELEM (FIRST ONE)
             JJ = 1 + PATHS(IAD_COMP_CONNEX(ICOMP))
-            
+
             CHECK_FLAG_ELEM(JJ)=1 !already traveled
             NB_REVERSED = 0
-            
+
             DO IELEM=IAD_COMP_CONNEX(ICOMP) + 1, IAD_COMP_CONNEX(ICOMP + 1) - 1
-               
+
 !--CURRENT ELEM
                JJ=1+PATHS(IELEM)
-               
+
                IF (JJ <= NSEG) THEN
-                  II(1:4) = SURF%NODES(JJ,1:4)                   
-                  ISH34 = SURF%ELTYP(JJ)                  
-                  IF(ISH34==3.AND.II(3)/=II(4))THEN 
+                  II(1:4) = SURF%NODES(JJ,1:4)
+                  ISH34 = SURF%ELTYP(JJ)
+                  IF(ISH34==3.AND.II(3)/=II(4))THEN
                      EDGES_A(1:5)=(/ II(1:4), II(1) /)
-                     NPT_A=4                                   
+                     NPT_A=4
                   ELSE
-                     EDGES_A(1:5)=(/ II(1:3), II(1), 0 /) 
-                     NPT_A=3                                                      
+                     EDGES_A(1:5)=(/ II(1:3), II(1), 0 /)
+                     NPT_A=3
                   ENDIF
                ELSE
                   II(1:3) = T_MONVOLN%FILL_TRI(3 * (JJ - NSEG - 1) + 1 : 3 * (JJ - NSEG - 1) + 3)
                   II(4) = II(3)
-                  EDGES_A(1:5) = (/ II(1:3), II(1), 0 /) 
-                  NPT_A = 3  
+                  EDGES_A(1:5) = (/ II(1:3), II(1), 0 /)
+                  NPT_A = 3
                ENDIF
-               
-!--CHECK ADJACENT ELEM ALREADY TREATED ( KK : CHECK_FLAG_ELEM(KK) = 1)  
+
+!--CHECK ADJACENT ELEM ALREADY TREATED ( KK : CHECK_FLAG_ELEM(KK) = 1)
 !need to get KK
                IDX1 = IAD_ADJ(JJ)
                IDX2 = IAD_ADJ(JJ+1)-1
@@ -1586,29 +1586,29 @@ C-----------------------------------------------
                   CALL ARRET(2);
                   return;
                ENDIF
-               KK = IELEM_ADJ 
-!print *, "found adjacent element already treated =", IXTG(6,  SURF%ELEM(KK) ) 
-               
+               KK = IELEM_ADJ
+!print *, "found adjacent element already treated =", IXTG(6,  SURF%ELEM(KK) )
+
 !--LIST OF EDGES FOR ADJACENT ELEM
                IF (KK <= NSEG) THEN
-                  II(1:4) = SURF%NODES(KK,1:4)                   
-                  ISH34 = SURF%ELTYP(KK)                  
-                  IF(ISH34==3.AND.II(3)/=II(4))THEN 
+                  II(1:4) = SURF%NODES(KK,1:4)
+                  ISH34 = SURF%ELTYP(KK)
+                  IF(ISH34==3.AND.II(3)/=II(4))THEN
                      EDGES_B(1:5)=(/ II(1:4), II(1) /)
-                     NPT_B=4                                   
+                     NPT_B=4
                   ELSE
-                     EDGES_B(1:5)=(/ II(1:3), II(1), 0 /) 
-                     NPT_B=3                                                      
-                  ENDIF 
+                     EDGES_B(1:5)=(/ II(1:3), II(1), 0 /)
+                     NPT_B=3
+                  ENDIF
                ELSE
                   II(1:3) = T_MONVOLN%FILL_TRI(3 * (KK - NSEG - 1) + 1 : 3 * (KK - NSEG - 1) + 3)
                   II(4) = II(3)
-                  EDGES_B(1:5) = (/ II(1:3), II(1), 0 /) 
-                  NPT_B = 3  
+                  EDGES_B(1:5) = (/ II(1:3), II(1), 0 /)
+                  NPT_B = 3
                ENDIF
-               
+
 !--CHECK PATTERN (CURRENT vs ADJACENT)
-               lFOUND = .FALSE.            
+               lFOUND = .FALSE.
                DO IDX_A=1,NPT_A
                   DO IDX_B=1,NPT_B
                      IF(EDGES_B(IDX_B)==EDGES_A(IDX_A))THEN
@@ -1620,11 +1620,11 @@ C-----------------------------------------------
                   ENDDO
                   IF(lFOUND)EXIT
                ENDDO
-               
-!--REVERSE IF NEEDED (CURRENT ELEM)                   
+
+!--REVERSE IF NEEDED (CURRENT ELEM)
                IF(lFOUND)THEN
                   IF (JJ <= NSEG) THEN
-                     II(1:4) = SURF%NODES(JJ,1:4) 
+                     II(1:4) = SURF%NODES(JJ,1:4)
                      IF(NPT_A == 4)THEN
                         SURF%NODES(JJ,1:4)=(/ II(1), II(4), II(3), II(2) /)
                      ELSE
@@ -1635,15 +1635,15 @@ C-----------------------------------------------
                      II(4) = II(3)
                      T_MONVOLN%FILL_TRI(3 * (JJ - NSEG - 1) + 1 : 3 * (JJ - NSEG - 1) + 3) = (/ II(2), II(1), II(3) /)
                   ENDIF
-!print *, "--> reversed normal =", IXTG(6,  SURF%ELEM(JJ) ) 
+!print *, "--> reversed normal =", IXTG(6,  SURF%ELEM(JJ) )
                   NB_REVERSED = NB_REVERSED + 1
-                  CHECK_FLAG_ELEM(JJ)=-1 
+                  CHECK_FLAG_ELEM(JJ)=-1
                ENDIF
-               
+
 !MARK ELEM AS TREATED & NEXT
                CHECK_FLAG_ELEM(JJ)=1 !treated and unchanged
                IF(lFOUND)CHECK_FLAG_ELEM(JJ)=-1 !treated and reversed
-               
+
             ENDDO               !next IELEM
          ENDDO
       ELSE
@@ -1673,14 +1673,14 @@ C-----------------------------------------------
             ENDIF
          ELSE
 !     Target element is necesserily the triangle
-            II(1:4) = SURF%NODES(ELEM2ID,1:4)  
-            EDGES_A(1:5) = (/ II(1:3), II(1), 0 /) 
-            NPT_A = 3 
-            II(1:4) = SURF%NODES(ELEM1ID,1:4)  
+            II(1:4) = SURF%NODES(ELEM2ID,1:4)
+            EDGES_A(1:5) = (/ II(1:3), II(1), 0 /)
+            NPT_A = 3
+            II(1:4) = SURF%NODES(ELEM1ID,1:4)
             EDGES_B(1:5) = (/ II(1:4), II(1) /)
-            NPT_B = 4   
+            NPT_B = 4
             !--CHECK PATTERN (CURRENT vs ADJACENT)
-            lFOUND = .FALSE.            
+            lFOUND = .FALSE.
             DO IDX_A=1,NPT_A
                DO IDX_B=1,NPT_B
                   IF(EDGES_B(IDX_B)==EDGES_A(IDX_A))THEN
@@ -1693,7 +1693,7 @@ C-----------------------------------------------
                IF(lFOUND)EXIT
             ENDDO
             IF(lFOUND)THEN
-               II(1:4) = SURF%NODES(ELEM2ID, 1:4) 
+               II(1:4) = SURF%NODES(ELEM2ID, 1:4)
                IF(NPT_A == 4)THEN
                   SURF%NODES(ELEM2ID,1:4)=(/ II(1), II(4), II(3), II(2) /)
                ELSE
@@ -1703,7 +1703,7 @@ C-----------------------------------------------
          ENDIF
       ENDDO
       CALL TAB1_FREE_MEMORY(duplicate_ptr)
-      
+
       !-------------------------------------!
       ! 11. DEBUG OUTPUT : RESULT ON SCREEN !
       !-------------------------------------!
@@ -1715,41 +1715,41 @@ C-----------------------------------------------
         do ielem=1,SIZES(ICOMP)
           JJ=1+PATHS(IELEM)
           II(1:4) = SURF%NODES(JJ,1:4)
-          ISH34 = SURF%ELTYP(JJ)                  
-          IF(ISH34==3.AND.II(3)/=II(4))THEN 
+          ISH34 = SURF%ELTYP(JJ)
+          IF(ISH34==3.AND.II(3)/=II(4))THEN
             db_path(JJ) = IXC(7,SURF%ELEM((JJ)))
           else
             db_path(JJ) = IXTG(6,SURF%ELEM((JJ)))
-          endif    
+          endif
         enddo
         print *,"____________________________________________________"
         print *, "there are ",SIZES(ICOMP)," elements along the path"
-        print *, db_path(1:SIZES(ICOMP))         
-        print *,"____________________________________________________"        
+        print *, db_path(1:SIZES(ICOMP))
+        print *,"____________________________________________________"
         deallocate(db_path)
       endif !debug_output
-           
+
       debug_output=.false.
       if(debug_output)then
-        !--display on screen the reversed elems (possible mixed SHELL,SH3N)      
+        !--display on screen the reversed elems (possible mixed SHELL,SH3N)
         idx=0
-        ALLOCATE(db_reversed(SIZES(ICOMP)))  
+        ALLOCATE(db_reversed(SIZES(ICOMP)))
         do ielem=1,SIZES(ICOMP)
           JJ=1+PATHS(IELEM)
           II(1:4) = SURF%NODES(JJ,1:4)
-          ISH34 = SURF%ELTYP(JJ)     
+          ISH34 = SURF%ELTYP(JJ)
           IF(CHECK_FLAG_ELEM(JJ)==-1)THEN
             idx=idx+1
-            IF(ISH34==3.AND.II(3)/=II(4))THEN 
+            IF(ISH34==3.AND.II(3)/=II(4))THEN
               db_reversed(IDX) = IXC(7,SURF%ELEM((JJ)))
             else
               db_reversed(IDX) = IXTG(6,SURF%ELEM((JJ)))
             endif
-          ENDIF  
+          ENDIF
         enddo
         print *, "there were ",NB_REVERSED," element(s) reversed along the path"
-        print *, db_reversed(1:NB_REVERSED)        
-        print *,"____________________________________________________"        
+        print *, db_reversed(1:NB_REVERSED)
+        print *,"____________________________________________________"
         DEALLOCATE(db_reversed)
       endif !debug_output
 
@@ -1825,8 +1825,8 @@ C-----------------------------------------------
 C     L o c a l   v a r i a b l e s
 C-----------------------------------------------
       INTEGER JJ,ISH34,II(4),KK,NSEG
-      CHARACTER(LEN=1024) :: FILENAME  
-      LOGICAL debug_output    
+      CHARACTER(LEN=1024) :: FILENAME
+      LOGICAL debug_output
 C-----------------------------------------------
 C     P r e   C o n d i t i o n
 C-----------------------------------------------
@@ -1843,22 +1843,22 @@ C-----------------------------------------------
          VOL = -VOL
          DO JJ=1,NSEG
             ISH34 = SURF%ELTYP(JJ)
-            II(1:4) = SURF%NODES(JJ,1:4) 
-            IF(ISH34 == 3)THEN                                         
-!SHELL                                                   
-               SURF%NODES(JJ,1:4)=(/ II(1), II(4), II(3), II(2) /)      
-            ELSEIF(ISH34 == 7)THEN                                        
-!SH3N                                                   
-               SURF%NODES(JJ,1:4)=(/ II(2), II(1), II(3), II(4) /)      
-            ENDIF                                                      
+            II(1:4) = SURF%NODES(JJ,1:4)
+            IF(ISH34 == 3)THEN
+!SHELL
+               SURF%NODES(JJ,1:4)=(/ II(1), II(4), II(3), II(2) /)
+            ELSEIF(ISH34 == 7)THEN
+!SH3N
+               SURF%NODES(JJ,1:4)=(/ II(2), II(1), II(3), II(4) /)
+            ENDIF
          ENDDO
          DO JJ = 1, T_MONVOLN%NB_FILL_TRI
             II(1:3) = T_MONVOLN%FILL_TRI(3 * (JJ - 1) + 1 : 3 * (JJ - 1) + 3)
             II(4) = II(3)
-            T_MONVOLN%FILL_TRI(3 * (JJ - 1) + 1 : 3 * (JJ - 1) + 3) = (/ II(2), II(1), II(3) /)    
+            T_MONVOLN%FILL_TRI(3 * (JJ - 1) + 1 : 3 * (JJ - 1) + 3) = (/ II(2), II(1), II(3) /)
          ENDDO
       ENDIF
-      
+
       !------------------------------------!
       ! 7. DEBUG OUTPUT : SURF IN FILE     !
       !------------------------------------!
@@ -1888,24 +1888,24 @@ C-----------------------------------------------
         ENDDO
         DO kk = 1, NSEG
          II(1:4) = SURF%NODES(kk,1:4)
-         ISH34 = SURF%ELTYP(kk)        
+         ISH34 = SURF%ELTYP(kk)
          IF (ISH34 == 7) THEN
-          WRITE(210486, "(A5)") "/SH3N"         
+          WRITE(210486, "(A5)") "/SH3N"
           WRITE(210486, '(I10,I10,I10,I10)') IXTG(6,SURF%ELEM(kk)), ITAB(II(1)), ITAB(II(2)),ITAB(II(3))
          ENDIF
         ENDDO
         IF (T_MONVOLN%NB_FILL_TRI > 0) THEN
-           WRITE(210486, "(A5)") "/SH3N"  
+           WRITE(210486, "(A5)") "/SH3N"
         ENDIF
         DO kk = 1, T_MONVOLN%NB_FILL_TRI
            WRITE(210486, '(I10,I10,I10,I10)') kk + NSEG, ITAB(T_MONVOLN%FILL_TRI(3 * (kk - 1) + 1)),
      .          ITAB(T_MONVOLN%FILL_TRI(3 * (kk - 1) + 2)), ITAB(T_MONVOLN%FILL_TRI(3 * (kk - 1) + 3))
         ENDDO
-        CLOSE (210486)       
-      endif  !debug_output    
+        CLOSE (210486)
+      endif  !debug_output
 
-      END SUBROUTINE      
-      
+      END SUBROUTINE
+
 
 Chd|====================================================================
 Chd|  MONVOL_BUILD_EDGES            share/modules1/monvol_struct_mod.F
@@ -1936,7 +1936,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include "param_c.inc"
-#include "com04_c.inc"      
+#include "com04_c.inc"
 C-----------------------------------------------
 C     D u m m y   a r g u m e n t s
 C-----------------------------------------------
@@ -1946,7 +1946,7 @@ C-----------------------------------------------
 C     L o c a l   v a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NSEG, NTRI
-      INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_ARRAY_N1, EDGE_ARRAY_N2, EDGE_ARRAY_ELEM, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: EDGE_ARRAY_N1, EDGE_ARRAY_N2, EDGE_ARRAY_ELEM,
      .     NB_CONNECT
       INTEGER(8) :: edge_ptr
       INTEGER :: JJ, II(4), IDX, ELTYP, NEDG, KK
@@ -1958,7 +1958,7 @@ C-----------------------------------------------
       IF (ALLOCATED(T_MONVOLN%EDGE_ELEM)) DEALLOCATE(T_MONVOLN%EDGE_ELEM)
       IF (ALLOCATED(T_MONVOLN%IAD_EDGE_ELEM)) DEALLOCATE(T_MONVOLN%IAD_EDGE_ELEM)
       T_MONVOLN%NEDGE = 0
-      
+
       NSEG = SURF%NSEG
       NTRI = T_MONVOLN%NB_FILL_TRI
 
@@ -1979,11 +1979,11 @@ C-----------------------------------------------
             EDGE_ARRAY_N1(IDX + 1) = MIN(II(1), II(2))
             EDGE_ARRAY_N2(IDX + 1) = MAX(II(1), II(2))
             EDGE_ARRAY_N1(IDX + 2) = MIN(II(2), II(3))
-            EDGE_ARRAY_N2(IDX + 2) = MAX(II(2), II(3)) 
+            EDGE_ARRAY_N2(IDX + 2) = MAX(II(2), II(3))
             EDGE_ARRAY_N1(IDX + 3) = MIN(II(3), II(4))
-            EDGE_ARRAY_N2(IDX + 3) = MAX(II(3), II(4)) 
+            EDGE_ARRAY_N2(IDX + 3) = MAX(II(3), II(4))
             EDGE_ARRAY_N1(IDX + 4) = MIN(II(4), II(1))
-            EDGE_ARRAY_N2(IDX + 4) = MAX(II(4), II(1)) 
+            EDGE_ARRAY_N2(IDX + 4) = MAX(II(4), II(1))
             EDGE_ARRAY_ELEM(IDX + 1:IDX + 4) = JJ
             IDX = IDX + 4
          CASE (7)
@@ -1991,11 +1991,11 @@ C-----------------------------------------------
             EDGE_ARRAY_N1(IDX + 1) = MIN(II(1), II(2))
             EDGE_ARRAY_N2(IDX + 1) = MAX(II(1), II(2))
             EDGE_ARRAY_N1(IDX + 2) = MIN(II(2), II(3))
-            EDGE_ARRAY_N2(IDX + 2) = MAX(II(2), II(3)) 
+            EDGE_ARRAY_N2(IDX + 2) = MAX(II(2), II(3))
             EDGE_ARRAY_N1(IDX + 3) = MIN(II(3), II(1))
-            EDGE_ARRAY_N2(IDX + 3) = MAX(II(3), II(1)) 
+            EDGE_ARRAY_N2(IDX + 3) = MAX(II(3), II(1))
             EDGE_ARRAY_ELEM(IDX + 1:IDX + 3) = JJ
-            IDX = IDX + 3      
+            IDX = IDX + 3
          CASE DEFAULT
 
          END SELECT
@@ -2009,28 +2009,28 @@ C-----------------------------------------------
          EDGE_ARRAY_N1(IDX + 1) = MIN(II(1), II(2))
          EDGE_ARRAY_N2(IDX + 1) = MAX(II(1), II(2))
          EDGE_ARRAY_N1(IDX + 2) = MIN(II(2), II(3))
-         EDGE_ARRAY_N2(IDX + 2) = MAX(II(2), II(3)) 
+         EDGE_ARRAY_N2(IDX + 2) = MAX(II(2), II(3))
          EDGE_ARRAY_N1(IDX + 3) = MIN(II(3), II(1))
-         EDGE_ARRAY_N2(IDX + 3) = MAX(II(3), II(1)) 
+         EDGE_ARRAY_N2(IDX + 3) = MAX(II(3), II(1))
          EDGE_ARRAY_ELEM(IDX + 1:IDX + 3) = JJ + NSEG
-         IDX = IDX + 3 
+         IDX = IDX + 3
       ENDDO
       NEDG = IDX
 
 !     *********************************     !
 !     ** Edge sorting and compaction **     !
 !     *********************************     !
-      
+
       edge_ptr = 0
       CALL EDGE_SORT(edge_ptr, EDGE_ARRAY_N1, EDGE_ARRAY_N2, EDGE_ARRAY_ELEM, NEDG)
       ALLOCATE(NB_CONNECT(NEDG))
       CALL EDGE_GET_NB_CONNECT(edge_ptr, NB_CONNECT)
-      
+
       ALLOCATE(T_MONVOLN%EDGE_NODE1(NEDG))
       ALLOCATE(T_MONVOLN%EDGE_NODE2(NEDG))
       ALLOCATE(T_MONVOLN%EDGE_ELEM(SUM(NB_CONNECT)))
       ALLOCATE(T_MONVOLN%IAD_EDGE_ELEM(NEDG + 1))
-          
+
       CALL EDGE_GET_CONNECT(edge_ptr, T_MONVOLN%EDGE_ELEM)
 
       T_MONVOLN%IAD_EDGE_ELEM(1) = 1
@@ -2045,7 +2045,7 @@ C-----------------------------------------------
       CALL EDGE_FREE_MEMORY(edge_ptr)
       T_MONVOLN%NEDGE = NEDG
       T_MONVOLN%EDGES_BUILT = .TRUE.
-      
+
 !     *************************     !
 !     ** Memory deallocation **     !
 !     *************************     !

@@ -102,7 +102,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       my_real, DIMENSION(2) :: XX0
-      my_real 
+      my_real
      .  UVAR(NEL,NUVAR),OFF(NEL),OFFL(NEL),
      .  SIGNXX(NEL),SIGNYY(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
      .  TENS(NEL,5),DFMAX(NEL),TDEL(NEL)
@@ -153,7 +153,7 @@ C-----------------------------------------------
       IF (TIME == ZERO) THEN
        DO I=1,NEL
          UVAR(I,4) = ZERO
-         UVAR(I,5) = ALDT(I) 
+         UVAR(I,5) = ALDT(I)
          DMG_FLAG_INT(I) = 0
        ENDDO
       ENDIF
@@ -181,10 +181,10 @@ c-----------------------------
       LAYXFEM = IXFEM
       IF (LAYXFEM == 1 .and. ISHELL == 1) ISHELL=2
 c-----------------------------
-      I_DAM = 0      
+      I_DAM = 0
       IF (ECRIT /= ZERO .OR. FADE_EXPO /= ZERO) I_DAM = 1
 C---------
-      NINDX = 0  
+      NINDX = 0
       RFLAG = 0
 C---------
       DO I=1,NEL
@@ -210,7 +210,7 @@ C-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
       ITABLE = IFUNC(1)
-c---- Scale functions       
+c---- Scale functions
       IFUN_EL   = IFUNC(2)
       IFUN_TEMP = IFUNC(3)
 c---- Instability function
@@ -218,15 +218,15 @@ c---- Instability function
 c
 c---  failure strain interpolation
       DO I=1,NEL
-        P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
-        SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
-     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
+        P    = THIRD*(SIGNXX(I) + SIGNYY(I))
+        SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
+     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
         SIGM = P / MAX(EM20,SVM)
 C----
 C         XX0(1)=SIGM *X1SCALE
          XX0(1)=SIGM
          XX0(2)=EPSP(I) *X2SCALE
-         CALL TABLE_INTERP (TABLE(ITABLE),XX0,YY)            
+         CALL TABLE_INTERP (TABLE(ITABLE),XX0,YY)
          EPSF(I) = YY * X1SCALE
       ENDDO
 c
@@ -234,44 +234,44 @@ c
 c----   element lenght scale function
         IF (IFUN_EL > 0) THEN
            LAMBDA = UVAR(I,5) / EL_REF
-           FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF) 
-           EPSF(I) = EPSF(I)* FAC 
-        ENDIF                                                              
+           FAC = SC_EL*FINTER(IFUN_EL,LAMBDA,NPF,TF,DF)
+           EPSF(I) = EPSF(I)* FAC
+        ENDIF
 c----   temperature scale function
         IF (IFUN_TEMP > 0) THEN
-           FAC = SC_TEMP*FINTER(IFUN_TEMP,TSTAR(I),NPF,TF,DF) 
-           EPSF(I) = EPSF(I)* FAC 
-        ENDIF    
-        
+           FAC = SC_TEMP*FINTER(IFUN_TEMP,TSTAR(I),NPF,TF,DF)
+           EPSF(I) = EPSF(I)* FAC
+        ENDIF
+
 C----   Instability function
 
         IF (INSTABIL > 0) THEN
            XX0(2)=EPSP(I) *X4SCALE
-           CALL TABLE_INTERP (TABLE(INSTABIL),XX0,YY_N)            
+           CALL TABLE_INTERP (TABLE(INSTABIL),XX0,YY_N)
            EPSF_N(I) = YY_N * X3SCALE
         ELSEIF (ECRIT > 0.0) THEN
            EPSF_N(I) = ECRIT
-        ELSE 
+        ELSE
            EPSF_N(I) = ZERO
         ENDIF
-        
+
 C----   Fading exponent
         IF (FADE_EXPO < ZERO) THEN
            LAMBDA = UVAR(I,5) / EL_REF
-           FADE_EXPO = FINTER(IFUNC(6),LAMBDA,NPF,TF,DF) 
+           FADE_EXPO = FINTER(IFUNC(6),LAMBDA,NPF,TF,DF)
         ENDIF
 C----         
       ENDDO
 C-------------------------------------------------------------------
           IF (ISHELL == 1) THEN    ! shell deleted when rupture in one integration point
-            IF (IXFEM == 1 .OR. IXFEM == 2) THEN 
+            IF (IXFEM == 1 .OR. IXFEM == 2) THEN
               DO I=1,NEL
                 IF (ISHELL == 1 .AND. OFF(I)==ONE) THEN
                   ID_DD = IFUNC(NFUNC)
                   IF(ID_DD /= 0 )THEN
                     DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                   ELSE
-                    IF(UVAR(I,1) == ZERO) THEN 
+                    IF(UVAR(I,1) == ZERO) THEN
                       DP = ONE
                       ELSE
 C                     DP = DN*DD**(ONE-ONE/DN) ! old and wrong
@@ -284,7 +284,7 @@ C                     DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     IF (ELCRKINI(ILAY,I)==0) THEN
                       IF (UVAR(I,1) >= DCRIT) THEN
                         ELCRKINI(ILAY,I) = -1
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = 1
@@ -293,7 +293,7 @@ C                     DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     ELSEIF (ELCRKINI(ILAY,I) == 2) THEN
                       IF (UVAR(I,1) >= DADV) THEN
                         ELCRKINI(ILAY,I) = 1
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = -1
@@ -301,13 +301,13 @@ C                     DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                       ENDIF
                     ENDIF
                   ELSEIF (UVAR(I,1 )>= DCRIT) THEN  ! IXEL > 0
-                    OFF(I) = FOUR_OVER_5                                           
+                    OFF(I) = FOUR_OVER_5
                     NINDX=NINDX+1
                     INDX(NINDX)=I
                     RFLAG(I) = 2
                   ENDIF ! IXEL
                 ENDIF
-              ENDDO ! DO J=1,IR 
+              ENDDO ! DO J=1,IR
             ENDIF  ! IF (IXFEM == 1 .OR. IXFEM == 2)
 C
             IF (NINDX > 0) THEN
@@ -330,7 +330,7 @@ c               delete
             ENDIF
           ENDIF  ! IF(ISHELL == 1)
 C-------------------------------
-          IF (ISHELL > 1) THEN  
+          IF (ISHELL > 1) THEN
             IF (IXFEM == 1) THEN
               DO I=1,NEL
                 IF (OFF(I) == ONE)THEN
@@ -339,7 +339,7 @@ C-------------------------------
                     IF(ID_DD /= 0 )THEN
                       DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                     ELSE
-                     IF(UVAR(I,1) == ZERO) THEN 
+                     IF(UVAR(I,1) == ZERO) THEN
                        DP = ONE
                        ELSE
 C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
@@ -349,7 +349,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     IF (EPSF(I) > ZERO) UVAR(I,1)=
      .                                  UVAR(I,1)+DP*DPLA(I)/EPSF(I)
                     IF (IXEL == 0) THEN
-                      IF (ELCRKINI(ILAY,I) == 0 .AND. 
+                      IF (ELCRKINI(ILAY,I) == 0 .AND.
      .                    UVAR(I,1) >= DCRIT) THEN
                         IF (ISHELL == 2) THEN
                           SIGNXX(I) = ZERO
@@ -363,9 +363,9 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                         ELCRKINI(ILAY,I) = -1
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
+                          OFF(I) = FOUR_OVER_5
                           TDEL(I)= TIME
-                        ENDIF 
+                        ENDIF
                         RFLAG(I) = 1
                       ELSEIF (ELCRKINI(ILAY,I) == 2 .AND.
      .                        UVAR(I,1) >= DADV) THEN
@@ -382,7 +382,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                         NOFF(I) = NOFF(I) + 1
                         IF(DADV < DCRIT) UVAR(I,1) = DCRIT
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
+                          OFF(I) = FOUR_OVER_5
                           TDEL(I)= TIME
                         ENDIF
                         RFLAG(I) = -1
@@ -400,7 +400,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                       NOFF(I) = NOFF(I) + 1
                       RFLAG(I) = 3
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         RFLAG(I) = 4 !!! obsolete
                       ENDIF
                     ENDIF ! IXEL
@@ -411,7 +411,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     SIGNYZ(I) = ZERO
                     SIGNZX(I) = ZERO
                   ENDIF
-                ENDIF ! OFF 
+                ENDIF ! OFF
               ENDDO
             ELSEIF (IXFEM == 2) THEN
               DO I=1,NEL
@@ -421,7 +421,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     IF(ID_DD /= 0 )THEN
                       DP = FINTER(ID_DD,UVAR(I,1),NPF,TF,DF)
                     ELSE
-                     IF(UVAR(I,1) == ZERO) THEN 
+                     IF(UVAR(I,1) == ZERO) THEN
                        DP = ONE
                        ELSE
 C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
@@ -432,7 +432,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     IF (EPSF(I) > ZERO) UVAR(I,1)=
      .                                  UVAR(I,1)+DP*DPLA(I)/EPSF(I)
                     IF (IXEL == 0) THEN
-                      IF (ELCRKINI(ILAY,I) == 0 .AND. 
+                      IF (ELCRKINI(ILAY,I) == 0 .AND.
      .                    UVAR(I,1) >= DCRIT) THEN
                         IF (ISHELL == 2) THEN
                           SIGNXX(I) = ZERO
@@ -445,7 +445,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                         INDX(NINDX)=I
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
+                          OFF(I) = FOUR_OVER_5
                           ELCRKINI(ILAY,I) = -1
                           RFLAG(I) = 1
                           TDEL(I)= TIME
@@ -464,14 +464,14 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                         NOFF(I) = NOFF(I) + 1
                         IF(DADV < DCRIT) UVAR(I,1) = DCRIT
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
+                          OFF(I) = FOUR_OVER_5
                           ELCRKINI(ILAY,I) = 1
                           RFLAG(I) = -1
                           TDEL(I)= TIME
                         ENDIF
                       ENDIF
                     ELSEIF (UVAR(I,1) >= DCRIT) THEN  ! IXEL > 0
-                      IF (ISHELL == 2) THEN 
+                      IF (ISHELL == 2) THEN
                         SIGNXX(I) = ZERO
                         SIGNYY(I) = ZERO
                         SIGNXY(I) = ZERO
@@ -482,7 +482,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                       INDX(NINDX)=I
                       NOFF(I) = NOFF(I) + 1
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         RFLAG(I) = 4
                       ENDIF
                     ENDIF ! IXEL
@@ -493,7 +493,7 @@ C                      DP = DN*DD**(ONE-ONE/DN) ! old and wrong
                     SIGNYZ(I) = ZERO
                     SIGNZX(I) = ZERO
                   ENDIF
-                ENDIF ! OFF 
+                ENDIF ! OFF
               ENDDO
             ENDIF  ! IF (IXFEM == 1)
 c
@@ -579,7 +579,7 @@ C---
  5010 FORMAT(1X,'SHELL ELEMENT FAILIURE DUE TO THINNING (TAB)',I10)
  5020 FORMAT(1X,'SHELL ELEMENT FAILIURE DUE TO THINNING (TAB)',I10,
      .       1X,':',/1X,'AT TIME :',1PE12.4)
- 
+
 c-----------
       RETURN
       END

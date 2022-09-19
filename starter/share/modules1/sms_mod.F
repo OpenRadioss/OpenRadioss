@@ -36,8 +36,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGPRT_SMS, TAGREL_SMS,
      .                      TAGSLV_RBY_SMS, TAG_LNK_SMS, NRWL_SMS,
      .                      TAGMSR_RBY_SMS, NATIV_SMS
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
-     .                      JAD_SMS, JDI_SMS, JSM_SMS, LAD_SMS, 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
+     .                      JAD_SMS, JDI_SMS, JSM_SMS, LAD_SMS,
      .                      IAD_SMS, IDI_SMS,
      .                      KAD_SMS, KDI_SMS, PK_SMS,
      .                      JADC_SMS, JADS_SMS, JADS10_SMS, JADT_SMS,

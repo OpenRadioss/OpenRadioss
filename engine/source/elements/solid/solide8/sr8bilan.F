@@ -56,7 +56,7 @@ C     REAL
      .   GRESAV(*), XX(MVSIZ), YY(MVSIZ), ZZ(MVSIZ),
      .   XX2(MVSIZ), YY2(MVSIZ), ZZ2(MVSIZ),
      .   XY(MVSIZ), YZ(MVSIZ), ZX(MVSIZ)
-      INTEGER 
+      INTEGER
      .   IPARTS(*),GRTH(*),IGRTH(*),IPARG(*),ITASK
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -151,7 +151,7 @@ C
           PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-          PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
         ENDDO
       ENDIF
 C
@@ -179,7 +179,7 @@ C
       DO I=LFT,LLT
             OFF_L(I) = ONE
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
       RETURN
       END

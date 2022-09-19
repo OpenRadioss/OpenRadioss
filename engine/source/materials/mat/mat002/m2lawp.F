@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER INDX(MVSIZ),ICC(MVSIZ),IRTY(MVSIZ)
       INTEGER  I,NPIF, J, NINDX
       my_real
-     .   YLDTMP(MVSIZ),YM(MVSIZ), 
+     .   YLDTMP(MVSIZ),YM(MVSIZ),
      .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), DEGMB(MVSIZ),
      .   DEGFX(MVSIZ),ESP(MVSIZ),RHO(MVSIZ),G(MVSIZ),
      .   DMPM(MVSIZ), DMPF(MVSIZ), SHF(MVSIZ),
@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   RR(MVSIZ), CC(MVSIZ), EPDR(MVSIZ), EPSP(MVSIZ),
      .   SH(MVSIZ), YMA2(MVSIZ), SH10(MVSIZ), SH20(MVSIZ), SH0(MVSIZ),
      .   SH1(MVSIZ), SH2(MVSIZ), FACT, EPIF,
-     .   TMP1(MVSIZ), TMP2(MVSIZ), TMP3(MVSIZ), ETMP, 
+     .   TMP1(MVSIZ), TMP2(MVSIZ), TMP3(MVSIZ), ETMP,
      .   FACTPHI,YMA2PHI, SH10P, SH20P, SH1P, SH2P,SHP, SH0P,
      .   YS,YSP,GS,GSP,TRM1,TRM1P,TRM2,TRM2P,TRM3,TRM3P,YEQ0,YEQ1
 C-----------------------------------------------
@@ -88,16 +88,16 @@ C-----------------------------------------------
       NPIF = 0
 C
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=LFT,LLT                    
-          DMPM(I)=GEO(16,PID(I))*AL(I)  
-          DMPF(I)=GEO(17,PID(I))*AL(I)  
+        DO I=LFT,LLT
+          DMPM(I)=GEO(16,PID(I))*AL(I)
+          DMPF(I)=GEO(17,PID(I))*AL(I)
         ENDDO
       ELSE
-        DO I=LFT,LLT                    
-          DMPM(I)=ZERO  
-          DMPF(I)=ZERO  
-        ENDDO 
-      ENDIF                                 
+        DO I=LFT,LLT
+          DMPM(I)=ZERO
+          DMPF(I)=ZERO
+        ENDDO
+      ENDIF
 C
       DO I=LFT,LLT
         RHO(I) =PM( 1,MAT(I))
@@ -316,12 +316,12 @@ C
 C
       DO I=LFT,LLT
         FA1(I) = FA1(I) + FOR(I,1)
-        FA2(I) = FA2(I) + FOR(I,2) 
-        FA3(I) = FA3(I) + FOR(I,3)  
-        MA1(I) = MA1(I) + MOM(I,1) 
-        MA2(I) = MA2(I) + MOM(I,2) 
-        MA3(I) = MA3(I) + MOM(I,3) 
-      ENDDO               
+        FA2(I) = FA2(I) + FOR(I,2)
+        FA3(I) = FA3(I) + FOR(I,3)
+        MA1(I) = MA1(I) + MOM(I,1)
+        MA2(I) = MA2(I) + MOM(I,2)
+        MA3(I) = MA3(I) + MOM(I,3)
+      ENDDO
 C
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT :',I10,' AT TIME :',G11.4)

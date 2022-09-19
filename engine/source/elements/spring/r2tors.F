@@ -66,11 +66,11 @@ C-----------------------------------------------
           TANI(2,I)= FORY(I)
           TANI(3,I)= FORZ(I)
           TANI(4,I)= XMOM(I)
-          TANI(5,I)= YMOM(I) 
+          TANI(5,I)= YMOM(I)
           TANI(6,I)= ZMOM(I)
           TANI(7,I)= -XMOM(I)
-          TANI(8,I)= -YMOM(I) 
-          TANI(9,I)= -ZMOM(I) 
+          TANI(8,I)= -YMOM(I)
+          TANI(9,I)= -ZMOM(I)
         ENDDO
       ENDIF
 !

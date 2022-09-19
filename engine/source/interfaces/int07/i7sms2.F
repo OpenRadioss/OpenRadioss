@@ -96,9 +96,9 @@ C
          CALL ARRET(2)
       ENDIF
 C
-      IF (DTMINI>ZERO) THEN 
+      IF (DTMINI>ZERO) THEN
         DTM_INT=DTMINI
-      ELSE 
+      ELSE
         DTM_INT=DTMINS_INT
       ENDIF
 
@@ -177,7 +177,7 @@ C
          ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
         END IF
        END IF
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

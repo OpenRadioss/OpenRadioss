@@ -37,7 +37,7 @@ C   D u m m y   A r g u m e n t s
 C----------------------------------------------
       INTEGER ADDCNE(*),NODFT_2,NODLT_2,POSI(*)
       INTEGER SIZESUB,SIZEA
-      my_real 
+      my_real
      .   A(SIZEA),FSKY(ADDCNE(SIZESUB+1),*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -50,7 +50,7 @@ C
         NC   = ADDCNE(N+1)-ADDCNE(N)                ! Number of elements attached to the node
         NPOS = POSI(N)                              ! Position of its first d.o.f in A
         NDDL = POSI(N+1) - NPOS                     ! Number of additional d.o.fs
-        
+
         DO K = NCT+1, NCT+NC                        ! Loop over attached elements
           DO J = 1,NDDL                             !   Loop over additional d.o.fs
             A(NPOS+J-1) = A(NPOS+J-1) + FSKY(K,J)

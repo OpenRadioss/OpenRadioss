@@ -109,7 +109,7 @@ c            IF(TSTOP == ZERO) TSTOP = EP30
               WRITE(ISTDO,*)' ** ERROR:  INPUT ERROR IN OPTION DAMP'
               WRITE(IOUT,* )' ** ERROR:  INPUT ERROR IN OPTION DAMP'
               WRITE(IOUT,*) '            NOT A V44 FORMAT '
-             END IF 
+             END IF
              CALL ARRET(2)
             ENDIF
             IF (FACTB == ZERO) FACTB = ONE
@@ -120,28 +120,28 @@ c     .                                          TSTART,TSTOP
               OK=0
               IF (NDAMP == 1 .AND. IDNEW == 0) THEN
                 ID = DAMPR(1,1)
-                DAMPR(3,1) = DAMPA  
-                DAMPR(4,1) = DAMPB  
+                DAMPR(3,1) = DAMPA
+                DAMPR(4,1) = DAMPB
                 DAMPR(16,1)= FACTB
-                OK=1                
+                OK=1
               ELSE
                 DO L=1,NDAMP
                   ID = DAMPR(1,L)
                   IF(ID==IDNEW) THEN
                     DAMPR(3,L) = DAMPA
                     DAMPR(4,L) = DAMPB
-                    DAMPR(5,L)  = DAMPA  
-                    DAMPR(6,L)  = DAMPB  
-                    DAMPR(7,L)  = DAMPA  
-                    DAMPR(8,L)  = DAMPB  
-                    DAMPR(9,L)  = DAMPA  
-                    DAMPR(10,L) = DAMPB  
-                    DAMPR(11,L) = DAMPA  
-                    DAMPR(12,L) = DAMPB  
-                    DAMPR(13,L) = DAMPA  
-                    DAMPR(14,L) = DAMPB  
+                    DAMPR(5,L)  = DAMPA
+                    DAMPR(6,L)  = DAMPB
+                    DAMPR(7,L)  = DAMPA
+                    DAMPR(8,L)  = DAMPB
+                    DAMPR(9,L)  = DAMPA
+                    DAMPR(10,L) = DAMPB
+                    DAMPR(11,L) = DAMPA
+                    DAMPR(12,L) = DAMPB
+                    DAMPR(13,L) = DAMPA
+                    DAMPR(14,L) = DAMPB
                     DAMPR(16,L) = FACTB
-c                    DAMPR(17,L) = TSTART  
+c                    DAMPR(17,L) = TSTART
 c                    DAMPR(18,L) = TSTOP
                     OK=1
                   ENDIF
@@ -185,7 +185,7 @@ c     .            TSTART,TSTOP
                   DAMPR(13,L) = DAMPARZ
                   DAMPR(14,L) = DAMPBRZ
                   DAMPR(16,L) = FACTB
-c                  DAMPR(17,L) = TSTART  
+c                  DAMPR(17,L) = TSTART
 c                  DAMPR(18,L) = TSTOP
                   OK=1
                 ENDIF

@@ -56,7 +56,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      
+
 #include      "vectorize.inc"
       DO N=NODFT,NODLT
         V(1,N)=V(1,N)+DT12*A(1,N)
@@ -64,7 +64,7 @@ C-----------------------------------------------
         V(3,N)=V(3,N)+DT12*A(3,N)
         A(1,N)=ZERO
         A(2,N)=ZERO
-        A(3,N)=ZERO     
+        A(3,N)=ZERO
       ENDDO
 
       IF(ISIGI==2.OR.ISIGI==4) THEN
@@ -83,13 +83,13 @@ C-----------------------------------------------
           VR(3,N)=VR(3,N)+DT12*AR(3,N)
           AR(1,N)=ZERO
           AR(2,N)=ZERO
-          AR(3,N)=ZERO      
+          AR(3,N)=ZERO
         ENDDO
       ENDIF
 
       !------------------------------------------------!
       !      FVM DOES NOT NEED ACCEL AND VEL           !
-      !------------------------------------------------!  
+      !------------------------------------------------!
       IF(INT22>0) THEN  !FVM
 #include      "vectorize.inc"
         DO N=NODFT,NODLT
@@ -103,6 +103,6 @@ C-----------------------------------------------
          ENDIF
         ENDDO
       ENDIF
-      
+
       RETURN
       END

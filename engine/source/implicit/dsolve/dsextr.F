@@ -45,11 +45,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IADK(*), JDIK(*), NDI, NDF, NDDL, NSDM, 
+      INTEGER IADK(*), JDIK(*), NDI, NDF, NDDL, NSDM,
      .        DDLS(*), IFAC(NSDM+1,*), NBD, NSCM, IOPT, IFACM(*),
      .        NDDLI7, IADI7(*), JDII7(*), I7TOK(*)
       my_real
-     .        K_DIAG(*), K_LT(*), KL(NDI+NDF,*), MASS(*), ML(*),  
+     .        K_DIAG(*), K_LT(*), KL(NDI+NDF,*), MASS(*), ML(*),
      .        BL(NSCM,*), B(NSCM,*), I7_DIAG(*), I7_LT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -165,7 +165,7 @@ C
                   ENDIF
                ENDDO
            ENDIF
-         ENDDO   
+         ENDDO
       ENDIF
 C
       RETURN
@@ -183,7 +183,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
-      USE DSGRAPH_MOD 
+      USE DSGRAPH_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -309,9 +309,9 @@ C Seconds membres si resolution statique
                ENDDO
             ENDDO
             CYCLE
-         ENDIF     
+         ENDIF
 C Chargement de la matrice de masse
-         ALLOCATE(MLC(LEN)) 
+         ALLOCATE(MLC(LEN))
          IREC=GRAPHE(IPROC)%DGRAPH(ISC)%MREC
          IMC=0
          DO IR=1,LEN/10
@@ -353,7 +353,7 @@ C Chargement de la matrice de masse
      .                       +MLC(IAD1+NDFC+NMI-NMI0)
          ENDDO
          DEALLOCATE(MLC)
-      ENDDO  
+      ENDDO
 C
       RETURN
       END
@@ -364,7 +364,7 @@ Chd|        DSCDKG                        source/implicit/dsolve/dscdkg.F
 Chd|        DSCOND                        source/implicit/dsolve/dscond.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DSEXTR3(KL , KLB, KLC, KLI, NDF, 
+      SUBROUTINE DSEXTR3(KL , KLB, KLC, KLI, NDF,
      .                   NDI)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -399,15 +399,15 @@ C
       ENDDO
 C
       RETURN
-      END            
+      END
 Chd|====================================================================
 Chd|  DSXKG1                        source/implicit/dsolve/dsextr.F
 Chd|-- called by -----------
 Chd|        DSCDKG                        source/implicit/dsolve/dscdkg.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DSXKG1(K_DIAG, K_LT, IADK, JDIK, NDI , 
-     .                  NDF   , NDDL, KL  , DDLS, IFAC, 
+      SUBROUTINE DSXKG1(K_DIAG, K_LT, IADK, JDIK, NDI ,
+     .                  NDF   , NDDL, KL  , DDLS, IFAC,
      .                  NSDM  , NBD )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -495,12 +495,12 @@ Chd|        DSCDKG                        source/implicit/dsolve/dscdkg.F
 Chd|-- calls ---------------
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
-      SUBROUTINE DSXKG2(GRAPHE, IPROC, IDOM, KL, NDF, 
+      SUBROUTINE DSXKG2(GRAPHE, IPROC, IDOM, KL, NDF,
      .                  NDI   , NDM  , NDDL)
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
-      USE DSGRAPH_MOD 
+      USE DSGRAPH_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -595,7 +595,7 @@ C Chargement de la matrice de rigidite
      .                       +KLC(IAD1+NDFC+NMI-NMI0)
          ENDDO
          DEALLOCATE(KLC)
-      ENDDO  
+      ENDDO
 C
       RETURN
       END

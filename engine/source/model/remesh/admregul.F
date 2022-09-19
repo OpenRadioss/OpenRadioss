@@ -89,7 +89,7 @@ C-----------------------------------------------
      .   NA1, NA2, NA3, NA4, NA5, NA6, NA7, NA8, NA9, NA10, NA11,
      .   NA12, NA13,NA14,NA15,NA16,NA17,NA18,NA19,NA20,NA21,NA22,
      .   NA17A,NA17B,NB17A,NB17B,LLL,
-     .   MATLY,MY_NUVAR,MY_NUVARR,NUVAR,NUVARR,II,IVAR, 
+     .   MATLY,MY_NUVAR,MY_NUVARR,NUVAR,NUVARR,II,IVAR,
      .   NA16A,NB16A,MPT,NPTM,NAM_S,NBM_S,IG,IH,IS,
      .   PTF,PTM,PTE,PTP,PTS,QTF,QTM,QTE,QTP,QTS,NPG
       INTEGER LEVEL,NTMP,LEV,P,NI,MYLEV,IP,
@@ -99,7 +99,7 @@ C-----------------------------------------------
       my_real
      .        MSBIG, INBIG, MCPM, MCPN
 C-----------------------------------------------
- 10   CONTINUE 
+ 10   CONTINUE
 
       IF(ITASK==0) THEN
 
@@ -247,7 +247,7 @@ C         1/4 of the element mass has been stored
 #include "lockoff.inc"
            END IF
 C
-           IF(ITHERM_FE > 0)THEN 
+           IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
              MCPM=MCPC(M)
              MCP(N1)=MCP(N1)+MCPM
@@ -300,7 +300,7 @@ C
 #include "lockoff.inc"
          END IF
 C
-         IF(ITHERM_FE > 0)THEN 
+         IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
            MCPN=MCPC(N)
            MCP(N1)=MAX(ZERO,MCP(N1)-MCPN)
@@ -375,7 +375,7 @@ C         1/4 of the element mass has been stored
 #include "lockoff.inc"
            END IF
 C
-           IF(ITHERM_FE > 0)THEN 
+           IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
              MCP(N1)=MCP(N1)+MCPTG(M)*PTG(1,M)
              MCP(N2)=MCP(N2)+MCPTG(M)*PTG(2,M)
@@ -421,7 +421,7 @@ C
 #include "lockoff.inc"
          END IF
 C
-         IF(ITHERM_FE > 0)THEN 
+         IF(ITHERM_FE > 0)THEN
 #include "lockon.inc"
            MCP(N1)=MAX(ZERO,MCP(N1)-MCPTG(N)*PTG(1,N))
            MCP(N2)=MAX(ZERO,MCP(N2)-MCPTG(N)*PTG(2,N))
@@ -455,13 +455,13 @@ C--
                 I = IXC(K+1,N)
                 MS(I) = MAX(ZERO , MS(I) - MSC(N))
                 IN(I) = MAX(ZERO , IN(I) - INC(N))
-              END DO   
+              END DO
             ELSE
               DO K=1,4
                 I = IXC(K+1,N)
                 MS(I) = MS(I) + MSC(N)
                 IN(I) = IN(I) + INC(N)
-              END DO   
+              END DO
             END IF
           END DO
         ELSE
@@ -475,7 +475,7 @@ C--
                 I = IXC(K+1,N)
                 MSCND(I) = MAX(ZERO , MSCND(I) - MSBIG)
                 INCND(I) = MAX(ZERO , INCND(I) - INBIG)
-              END DO   
+              END DO
             ELSE
               MSBIG=MSC(N)
               INBIG=INC(N)
@@ -483,7 +483,7 @@ C--
                 I = IXC(K+1,N)
                 MSCND(I) = MSCND(I) + MSBIG
                 INCND(I) = INCND(I) + INBIG
-              END DO   
+              END DO
             END IF
           END DO
         END IF
@@ -496,12 +496,12 @@ C
               DO K=1,4
                 I = IXC(K+1,N)
                 MCP(I) = MAX(ZERO , MCP(I) - MCPC(N))
-              END DO   
+              END DO
             ELSE
               DO K=1,4
                 I = IXC(K+1,N)
                 MCP(I) = MCP(I) + MCPC(N)
-              END DO   
+              END DO
             END IF
           END DO
         END IF
@@ -522,13 +522,13 @@ C--
                 I = IXTG(K+1,N)
                 MS(I) = MAX(ZERO , MS(I) - MSTG(N)*PTG(K,N))
                 IN(I) = MAX(ZERO , IN(I) - INTG(N)*PTG(K,N))
-              END DO   
+              END DO
             ELSE
               DO K=1,3
                 I = IXTG(K+1,N)
                 MS(I) = MS(I) + MSTG(N)*PTG(K,N)
                 IN(I) = IN(I) + INTG(N)*PTG(K,N)
-              END DO   
+              END DO
             END IF
           END DO
         ELSE
@@ -542,7 +542,7 @@ C--
                 I = IXTG(K+1,N)
                 MSCND(I) = MAX(ZERO , MSCND(I) - MSBIG)
                 INCND(I) = MAX(ZERO , INCND(I) - INBIG)
-              END DO   
+              END DO
             ELSE
               MSBIG=MSTG(N)
               INBIG=INTG(N)
@@ -550,7 +550,7 @@ C--
                 I = IXTG(K+1,N)
                 MSCND(I) = MSCND(I) + MSBIG
                 INCND(I) = INCND(I) + INBIG
-              END DO   
+              END DO
             END IF
           END DO
         END IF
@@ -563,12 +563,12 @@ C
               DO K=1,3
                 I = IXTG(K+1,N)
                 MCP(I) = MAX(ZERO , MCP(I) - MCPTG(N)*PTG(K,N))
-              END DO   
+              END DO
             ELSE
               DO K=1,3
                 I = IXTG(K+1,N)
                 MCP(I) = MCP(I) + MCPTG(N)*PTG(K,N)
-              END DO   
+              END DO
             END IF
           END DO
         END IF
@@ -585,7 +585,7 @@ C     compactage de LSH4ACT
             NSH4ACT=NSH4ACT+1
             LSH4ACT(NSH4ACT)=N
           END IF
-        END DO 
+        END DO
 
       END IF
 C
@@ -599,10 +599,10 @@ C     compactage de LSH3ACT
             NSH3ACT=NSH3ACT+1
             LSH3ACT(NSH3ACT)=N
           END IF
-        END DO 
+        END DO
       END IF
 
       GO TO 10
 C----6---------------------------------------------------------------7---------8
       RETURN
-      END     
+      END

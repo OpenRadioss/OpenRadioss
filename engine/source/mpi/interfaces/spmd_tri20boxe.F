@@ -183,7 +183,7 @@ C
 C
 C Envoi taille msg
 C
-          MSGTYP = MSGOFF2 
+          MSGTYP = MSGOFF2
           CALL MPI_ISEND(NBOX(P),1,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      .                 MPI_COMM_WORLD,REQ_SD(P),IERROR)
 C
@@ -865,7 +865,7 @@ C
           DO L = 1, NBIRECV
             P = ISINDEXI(L)
             LEN = NSNFIE(NIN)%P(P)*SIZ
-            MSGTYP = MSGOFF3 
+            MSGTYP = MSGOFF3
             IAD = IDEB
 C correction adresse pour passage tableau XREM SP utilise en DP ds la routine de comm
             IF(IR4R8 == 1) IAD = 2*IDEB-1

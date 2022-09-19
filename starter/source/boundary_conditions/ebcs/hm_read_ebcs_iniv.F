@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER LOCAL_ID, NPC(*)
       INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
@@ -103,12 +103,12 @@ C-----------------------------------------------
         IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
         IF (SURF==0)THEN
            IERR=IERR+1
-           WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'    
-           WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'    
+           WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+           WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
         ELSEIF(ISU==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-           WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
+           WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
         ELSEIF(NSEG==0)THEN
            IERR=IERR+1
            WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE, ID=',SURF
@@ -120,8 +120,8 @@ C-----------------------------------------------
            CALL HM_GET_FLOATV('rad_ebcs_lc',  LCAR  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
            WRITE(IOUT,1104)SURF,NSEG,RHO,C,LCAR
         ENDIF
-       
-        
+
+
         EBCS%c = C
         EBCS%rho = RHO
         EBCS%lcar = LCAR
@@ -130,11 +130,11 @@ C-----------------------------------------------
            CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .          I1 = ID, C1 = TRIM(TITR), C2 = "NOT COMPATIBLE WITH LAW 151")
         ENDIF
-      
+
 C-----------
       RETURN
 C-----------
- 1007 FORMAT( //'INITIAL VELOCITY  EBCS NUMBER  . . . . . :',I8,1X,A)    
+ 1007 FORMAT( //'INITIAL VELOCITY  EBCS NUMBER  . . . . . :',I8,1X,A)
  1104 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,

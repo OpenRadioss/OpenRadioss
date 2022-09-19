@@ -28,8 +28,8 @@ Chd|        SPMD_IFRONT                   source/mpi/interfaces/spmd_ifront.F
 Chd|-- calls ---------------
 Chd|        POINTERDEF                    share/modules/pointerdef_mod.F
 Chd|====================================================================
-      MODULE IFRONT_MOD 
-      
+      MODULE IFRONT_MOD
+
       USE POINTERDEF
         TYPE(int_pointer), DIMENSION(:), ALLOCATABLE :: MSGBUF_S, MSGBUF_R
         TYPE(int_pointer), DIMENSION(:), ALLOCATABLE  :: SIZBUF_S, SIZBUF_R
@@ -40,5 +40,5 @@ Chd|====================================================================
         INTEGER, DIMENSION(:), ALLOCATABLE ::  REQ_RECV_SIZ, REQ_RECV_MSG
         INTEGER, DIMENSION(:), ALLOCATABLE ::  REQ_SEND_SIZ, REQ_SEND_MSG
         INTEGER, DIMENSION(:), ALLOCATABLE ::  IRCOM, ISCOM, ISCOMS
-      END MODULE IFRONT_MOD              
+      END MODULE IFRONT_MOD
 

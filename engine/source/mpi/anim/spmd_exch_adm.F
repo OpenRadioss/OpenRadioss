@@ -102,7 +102,7 @@ C
 
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
 
-          
+
           MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
@@ -110,7 +110,7 @@ C
           CALL MPI_ISEND(
      S      SBUF(L),SIZ,REAL,IT_SPMD(I),MSGTYP,
      G      MPI_COMM_WORLD,REQ_S(I),IERROR)
-       ENDIF                
+       ENDIF
       END DO
 C   Reception et traitement
       DO I = 1, NSPMD

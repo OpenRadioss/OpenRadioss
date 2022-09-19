@@ -38,7 +38,7 @@ Chd|====================================================================
      .                          UNITAB   ,LSUBMODEL)
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)           :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)           :: UNITAB
       INTEGER  IGEO(NPROPGI),IGTYP,IG
 C     REAL
       my_real
@@ -81,7 +81,7 @@ C     REAL
      .   MASS,STIFF,DAMP,GAP,MIN_RUP,MAX_RUP,
      .   ASCALE1,ASCALE2,FSCALE1,FSCALE2,
      .   ASCALE1_UNIT,ASCALE2_UNIT,FSCALE1_UNIT,
-     .   FSCALE2_UNIT,NEXP,FCUT 
+     .   FSCALE2_UNIT,NEXP,FCUT
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C=======================================================================
 C
@@ -105,23 +105,23 @@ C     1st card
       CALL HM_GET_INTV('Ifail'     ,IFAIL    ,IS_AVAILABLE,LSUBMODEL)
 C     2nd card
       CALL HM_GET_FLOATV('STIFF'   ,STIFF    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('DAMP'    ,DAMP     ,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-      CALL HM_GET_FLOATV('NEXP'    ,NEXP     ,IS_AVAILABLE,LSUBMODEL,UNITAB)    
+      CALL HM_GET_FLOATV('DAMP'    ,DAMP     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('NEXP'    ,NEXP     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MIN_RUP' ,MIN_RUP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MAX_RUP' ,MAX_RUP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C     3rd card
-      CALL HM_GET_FLOATV('GAP'     ,GAP      ,IS_AVAILABLE,LSUBMODEL,UNITAB)    
+      CALL HM_GET_FLOATV('GAP'     ,GAP      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV('FSMOOTH'   ,Fsmooth  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('FCUT'    ,FCUT     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C     4th card 
       CALL HM_GET_INTV('FUN1'      ,IFUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('FUN2'      ,IFUNC2   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV('ASCALE1' ,ASCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-      IF (ASCALE1 == ZERO) THEN 
+      CALL HM_GET_FLOATV('ASCALE1' ,ASCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      IF (ASCALE1 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('ASCALE1' ,ASCALE1_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         ASCALE1 = ONE * ASCALE1_UNIT
       ENDIF
-      CALL HM_GET_FLOATV('FSCALE1' ,FSCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)    
+      CALL HM_GET_FLOATV('FSCALE1' ,FSCALE1  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       IF (FSCALE1 == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('FSCALE1' ,FSCALE1_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         FSCALE1 = ONE * FSCALE1_UNIT
@@ -164,7 +164,7 @@ C
       ELSE
         ! If no filtering frequency is given but the flag is activated
         IF (Fsmooth /= 0) THEN
-          FCUT  = 100000.0D0*FAC_T_WORK  
+          FCUT  = 100000.0D0*FAC_T_WORK
         ! If no filtering frequency and no flag is activated => no filtering
         ELSE
           FCUT  = ZERO
@@ -178,7 +178,7 @@ C-----------------------------
       IGEO(1)   = IG
       IGEO(3)   = ISENS
       IGEO(11)  = IGTYP
-      IGEO(101) = IFUNC                  
+      IGEO(101) = IFUNC
       IGEO(102) = IFUNC2
 C
       ! Filling GEO table
@@ -187,13 +187,13 @@ C
       GEO(3)   = DAMP
       GEO(5)   = EP06
       GEO(7)   = ZERO
-      GEO(8)   = ONEP1 
+      GEO(8)   = ONEP1
       GEO(10)  = FSCALE1
       GEO(12)  = IGTYP+EM01
-      GEO(15)  = MIN_RUP                          
+      GEO(15)  = MIN_RUP
       GEO(16)  = MAX_RUP
       GEO(18)  = ASCALE2
-      GEO(19)  = GAP       
+      GEO(19)  = GAP
       GEO(25)  = ZERO ! NUVAR - Number of user variables
       GEO(39)  = ASCALE1
       GEO(43)  = IFAIL
@@ -238,15 +238,15 @@ C-----------------------------
         ENDIF
         ! Spring stiffness
         !  -> Linear
-        IF (IFUNC == 0) THEN 
-          IF (ILENG == 0) THEN 
+        IF (IFUNC == 0) THEN
+          IF (ILENG == 0) THEN
             WRITE(IOUT,1450) STIFF,NEXP
           ELSE
             WRITE(IOUT,1460) STIFF,NEXP
           ENDIF
         !  -> Non-linear tabulated
         ELSE
-          IF (ILENG == 0) THEN 
+          IF (ILENG == 0) THEN
             WRITE(IOUT,1500) IFUNC,ASCALE1,FSCALE1
           ELSE
             WRITE(IOUT,1510) IFUNC,ASCALE1,FSCALE1
@@ -255,22 +255,22 @@ C-----------------------------
         ! Spring damping
         !  -> Linear
         IF (IFUNC2 == 0) THEN
-          IF (ILENG == 0) THEN 
+          IF (ILENG == 0) THEN
             WRITE(IOUT,1550) DAMP
           ELSE
             WRITE(IOUT,1560) DAMP
           ENDIF
         !  -> Non-linear tabulated
         ELSE
-          IF (ILENG == 0) THEN 
+          IF (ILENG == 0) THEN
             WRITE(IOUT,1600) IFUNC2,ASCALE2,FSCALE2
           ELSE
             WRITE(IOUT,1610) IFUNC2,ASCALE2,FSCALE2
           ENDIF
         ENDIF
         ! Gap for activation
-        IF (GAP /= ZERO) THEN 
-          IF (ILENG == 0) THEN 
+        IF (GAP /= ZERO) THEN
+          IF (ILENG == 0) THEN
             WRITE(IOUT,1650) GAP
           ELSE
             WRITE(IOUT,1660) GAP
@@ -283,8 +283,8 @@ C-----------------------------
         ! Velocity filtering
         WRITE(IOUT,1900) Fsmooth,FCUT
         ! Failure criterion
-        IF (IFAIL /= 0) THEN 
-          IF (ILENG == 0) THEN 
+        IF (IFAIL /= 0) THEN
+          IF (ILENG == 0) THEN
             WRITE(IOUT,1750) IFAIL,MIN_RUP,MAX_RUP
           ELSE
             WRITE(IOUT,1760) IFAIL,MIN_RUP,MAX_RUP

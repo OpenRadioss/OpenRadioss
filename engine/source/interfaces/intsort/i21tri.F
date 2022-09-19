@@ -45,7 +45,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -118,9 +118,9 @@ C-----------------------------------------------
      .        CAND_N(*),CAND_E(*),II_STOK
 C     REAL
       my_real
-     .   XLOC(3,*),XYZM(6,*),STF(*),STFN(*),GAP_S(*), 
+     .   XLOC(3,*),XYZM(6,*),STF(*),STFN(*),GAP_S(*),
      .   XM0(3,*), NOD_NORMAL(3,*),
-     .   TZINF,MAXBOX,MINBOX,MARGE,GAP,GAPMIN,GAPMAX, 
+     .   TZINF,MAXBOX,MINBOX,MARGE,GAP,GAPMIN,GAPMAX,
      .   DEPTH
       my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------

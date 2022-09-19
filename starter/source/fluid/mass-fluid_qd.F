@@ -88,7 +88,7 @@ C Collocation BEM
       WI(4,2)=ONE_OVER_6
       ALLOCATE(BBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
-         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
+         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR)
       ENDIF
       DO IN=1,NEL
          DO JN=1,NEL
@@ -178,20 +178,20 @@ C  Position de la source Q
      .                        D2, AREA, RVAL)
                   BBEM(IEL,JEL)=RVAL
                 ELSEIF(JN == 2) THEN
-                  CALL INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,  
-     .                        X3,  Y3,  Z3,  XP,  YP,  ZP,                    
+                  CALL INTHTG(X1 , Y1,  Z1,  X2,  Y2,  Z2,
+     .                        X3,  Y3,  Z3,  XP,  YP,  ZP,
      .                        NRX,NRY, NRZ,  D2,  AREA,
      .                        XQ,  YQ,  ZQ, RVAL )
                   CBEM(IEL,JEL)=RVAL
-                  CALL INTGTG(X1,  Y1,  Z1,  X2,  Y2,  Z2,  
-     .                        X3,  Y3,  Z3,  XP,  YP,  ZP,                    
+                  CALL INTGTG(X1,  Y1,  Z1,  X2,  Y2,  Z2,
+     .                        X3,  Y3,  Z3,  XP,  YP,  ZP,
      .                        D2,  AREA,
      .                        XQ,  YQ,  ZQ, RVAL )
                   BBEM(IEL,JEL)=RVAL
                 ENDIF
               ENDIF
            ENDDO
-        ENDDO 
+        ENDDO
 
       ELSEIF(IFORM == 2) THEN
 C Integration analytique
@@ -255,7 +255,7 @@ C  Control point P
 
               ELSEIF(JN == 2) THEN
                 CALL INTANL_TG(X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
-     .                         XP, YP, ZP, NRX,NRY,NRZ,                     
+     .                         XP, YP, ZP, NRX,NRY,NRZ,
      .                         AREA, RVLH, RVLG, IEL, JEL )
               ENDIF
 C Matrice C=H
@@ -305,7 +305,7 @@ c         MFLE  = CBEMt*BBEM ! DGEMM C := alpha*op( A )*op( B ) +beta*C
 C                              C = MFLE ; beta = 0
 C                              op = T A = CBEM
 C                              op = N , B = BBEM
-c         MFLE = MFLE + BBEMt*CBEM 
+c         MFLE = MFLE + BBEMt*CBEM
 C                              C = MFLE ; beta = 1
 C                              op = N A = BBEMt
 C                              op = T , B = CBEM
@@ -344,7 +344,7 @@ C---------------------------------------------------
       IF (ILVOUT>=1) WRITE(ISTDO,'(A)') ' .. FLUID MASS MATRIX'
       ALLOCATE(EBEM(NEL,NEL), STAT = AERR)
       IF (AERR /= 0) THEN
-         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR) 
+         CALL ANCMSG(MSGID = 1710, ANMODE=ANINFO, MSGTYPE = MSGERROR)
       ENDIF
        CALL INVERT(CBEM,EBEM,NEL,ERR)
 
@@ -398,7 +398,7 @@ c$$$      ENDDO
             MFLE(IN,JN)=HALF*RHO*AF(IN)*(CBEM(IN,JN)+CBEM(JN,IN))
             BBEM(IN,JN)=MFLE(IN,JN)
          ENDDO
-      ENDDO	  
+      ENDDO	
 C
       IF(ILVOUT>=3) THEN
         WRITE (*,'(//,A)') ' FLUID MASS MATRIX'
@@ -425,8 +425,8 @@ C---------------------------------
             MASSX=MASSX+NORMAL(1,IN)*MFLE(IN,JN)*NORMAL(1,JN)
             MASSY=MASSY+NORMAL(2,IN)*MFLE(IN,JN)*NORMAL(2,JN)
             MASSZ=MASSZ+NORMAL(3,IN)*MFLE(IN,JN)*NORMAL(3,JN)
-         ENDDO	  
-      ENDDO	  
+         ENDDO	
+      ENDDO	
       WRITE (IOUT,'(/7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS XX', MASSX
       WRITE (IOUT,'( 7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS YY', MASSY
       WRITE (IOUT,'( 7X,A,E13.5)')  'DAA : RIGID BODY FLUID MASS ZZ', MASSZ
@@ -465,7 +465,7 @@ C
         ENDDO
       ENDIF
       IF (ALLOCATED(BBEM)) DEALLOCATE(BBEM)
-      IF (ALLOCATED(EBEM))DEALLOCATE(EBEM)	  
-	  
+      IF (ALLOCATED(EBEM))DEALLOCATE(EBEM)	
+	
       RETURN
       END

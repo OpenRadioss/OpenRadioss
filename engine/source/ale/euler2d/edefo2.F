@@ -73,7 +73,7 @@ C-----------------------------------------------
         PY1(I)=HALF*(Z2(I)-Z4(I))
         PY2(I)=HALF*(Z3(I)-Z1(I))
         PZ1(I)=HALF*(Y4(I)-Y2(I))
-        PZ2(I)=HALF*(Y1(I)-Y3(I))      
+        PZ2(I)=HALF*(Y1(I)-Y3(I))
         AIRE(I)=VEUL(1,II)
         DELTAX(I)=VEUL(2,II)
       ENDDO !next I
@@ -97,7 +97,7 @@ C-----------------------------------------------
         VZ3(I)=V(3,NC3(I))
         VY4(I)=V(2,NC4(I))
         VZ4(I)=V(3,NC4(I))
-      ENDDO  
+      ENDDO
 
       IF(MTN /= 11)THEN
        DO I=LFT,LLT
@@ -109,7 +109,7 @@ C-----------------------------------------------
          VDY(I)=FOURTH*(VY1(I)+VY2(I)+VY3(I)+VY4(I))
          VDZ(I)=FOURTH*(VZ1(I)+VZ2(I)+VZ3(I)+VZ4(I))
          VD2(I)=VDY(I)**2+VDZ(I)**2
-       ENDDO 
+       ENDDO
 
        DO I=LFT,LLT
          EYY(I)=(PY1(I)*VY13(I)+PY2(I)*VY24(I))/AIRE(I)
@@ -119,7 +119,7 @@ C-----------------------------------------------
          DYZ(I)=(PZ1(I)*VY13(I)+PZ2(I)*VY24(I))/AIRE(I)
          EYT(I)=ZERO
          EZT(I)=ZERO
-       ENDDO 
+       ENDDO
 
        IF(N2D == 1) THEN
         DO I=LFT,LLT

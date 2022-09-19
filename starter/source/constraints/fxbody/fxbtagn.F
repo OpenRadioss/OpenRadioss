@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER FXBNOD(*), NSN, NTAG, IBCLD(NIBCLD,*), IBPRL(NIBCLD,*),
-     .        IXS(NIXS,*), IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*), 
+     .        IXS(NIXS,*), IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .        IXR(NIXR,*), IXTG(NIXTG,*), IPARG(NPARG,*), ITAG(*),
      .        NBMO, NBML, NELS, NELC, NELTG, IGRV(NIGRV,*),
      .        IBUF(*), NLGRAV, IPARI(NPARI,*), IFILE,
@@ -95,13 +95,13 @@ C     1. Solid elements
          NALL = ITAG(IXS(2,II)) * ITAG(IXS(3,II)) *
      +          ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
      +          ITAG(IXS(6,II)) * ITAG(IXS(7,II)) *
-     +          ITAG(IXS(8,II)) * ITAG(IXS(9,II)) 
+     +          ITAG(IXS(8,II)) * ITAG(IXS(9,II))
          IF(NALL==0)THEN
            DO J=1,8
               IF (ITAG(IXS(J+1,II))>0) ITAG(IXS(J+1,II))=2
            ENDDO
          ELSE
-           NELS=NELS+1 
+           NELS=NELS+1
          ENDIF
         ENDDO
 C     3. 4-nodes shell elements
@@ -109,11 +109,11 @@ C     3. 4-nodes shell elements
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
-     +          ITAG(IXC(4,II)) * ITAG(IXC(5,II)) 
+     +          ITAG(IXC(4,II)) * ITAG(IXC(5,II))
          IF(NALL==0)THEN
            DO J=1,4
               IF (ITAG(IXC(J+1,II))>0) ITAG(IXC(J+1,II))=2
-           ENDDO 
+           ENDDO
          ELSE
            NELC=NELC+1
          ENDIF
@@ -122,11 +122,11 @@ C     4. Truss elements
        ELSEIF(ITY==4)THEN
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II)) 
+         NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II))
          IF(NALL==0)THEN
            DO J=1,2
               IF (ITAG(IXT(J+1,II))>0) ITAG(IXT(J+1,II))=2
-           ENDDO 
+           ENDDO
          ELSE
            NELT=NELT+1
          ENDIF
@@ -135,11 +135,11 @@ C     5. Beam elements
        ELSEIF(ITY==5)THEN
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II)) 
+         NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II))
          IF(NALL==0)THEN
            DO J=1,2
               IF (ITAG(IXP(J+1,II))>0) ITAG(IXP(J+1,II))=2
-           ENDDO 
+           ENDDO
          ELSE
            NELP=NELP+1
          ENDIF
@@ -148,11 +148,11 @@ C     6. Spring elements
        ELSEIF(ITY==6.AND.MLW/=3)THEN
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II)) 
+         NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
          IF(NALL==0)THEN
            DO J=1,2
               IF (ITAG(IXR(J+1,II))>0) ITAG(IXR(J+1,II))=2
-           ENDDO 
+           ENDDO
          ENDIF
         ENDDO
 C     7. 3-nodes shell elements
@@ -164,13 +164,13 @@ C     7. 3-nodes shell elements
          IF(NALL==0)THEN
            DO J=1,3
               IF (ITAG(IXTG(J+1,II))>0) ITAG(IXTG(J+1,II))=2
-           ENDDO 
+           ENDDO
          ELSE
            NELTG=NELTG+1
          ENDIF
         ENDDO
-       ENDIF 
-      ENDDO     
+       ENDIF
+      ENDDO
 C-----------------------------------------
 C Search nodes in interfaces type 2, 7, 22
 C-----------------------------------------
@@ -216,7 +216,7 @@ C
       DO I=1,NSN
          II=FXBNOD(I)
          IF (ITAG(II)==2) FXBTAG(I)=1
-      ENDDO     
+      ENDDO
 C-------------------------------------------------------
 C Search nodes with concentrated loads or pressure loads
 C-------------------------------------------------------
@@ -276,7 +276,7 @@ C-----------------------
          DO I=1,NSN
             II=ABS(FXBNOD(I))
             IF (ITAG(II)>0) NNG=NNG+1
-         ENDDO     
+         ENDDO
          IF (NNG>0) NLGRAV=NLGRAV+1
          NNGT=NNGT+NNG
       ENDDO

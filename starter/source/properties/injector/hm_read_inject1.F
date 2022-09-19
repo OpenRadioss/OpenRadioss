@@ -46,7 +46,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(*)
       INTEGER ,INTENT(IN) :: IGTYP,PROP_ID,IPM(NPROPMI,*),NPC(*)
       my_real, INTENT(IN) :: PLD(*),PM(NPROPM,*)
@@ -119,26 +119,26 @@ C----------------------
       IGEO(22)=1 !I_INJECT : Injectors (1:'INJECT1' or 2:'INJECT2')
 
 C Initialisation
-      MAT_ID=0     
-      F_IDMASS=0   
-      F_IDTEMP=0   
-      F_IDMF=0     
-      MOLFR=0      
-      FSMASS=ZERO  
-      FSTEMP=ZERO  
-      ASTIME=ZERO  
-      CPAI_MIX=0   
-      CPBI_MIX=0   
-      CPCI_MIX=0   
-      CPDI_MIX=0   
-      CPEI_MIX=0   
-      CPFI_MIX=0   
-      FAC_TIME=ONE  
+      MAT_ID=0
+      F_IDMASS=0
+      F_IDTEMP=0
+      F_IDMF=0
+      MOLFR=0
+      FSMASS=ZERO
+      FSTEMP=ZERO
+      ASTIME=ZERO
+      CPAI_MIX=0
+      CPBI_MIX=0
+      CPCI_MIX=0
+      CPDI_MIX=0
+      CPEI_MIX=0
+      CPFI_MIX=0
+      FAC_TIME=ONE
 C Lecture carte 1
-      CALL HM_GET_INTV('NIP',NGASES,IS_AVAILABLE,LSUBMODEL)                       
-      CALL HM_GET_INTV('IFLOW',IFLOW,IS_AVAILABLE,LSUBMODEL)                      
-      CALL HM_GET_FLOATV('A_SCALE_X',ASTIME,IS_AVAILABLE,LSUBMODEL,UNITAB)        
-      CALL HM_GET_FLOATV_DIM('A_SCALE_X',FAC_TIME,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_INTV('NIP',NGASES,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV('IFLOW',IFLOW,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_FLOATV('A_SCALE_X',ASTIME,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV_DIM('A_SCALE_X',FAC_TIME,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
 C Verification
       IF (NGASES<1.OR.100<NGASES) THEN
@@ -162,62 +162,62 @@ C Lecture NGASES cartes
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_Smass',FAC_MASS,1,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_Stemp',FAC_TEMP,1,IS_AVAILABLE,LSUBMODEL,UNITAB)
       ENDIF
- 
-      DO I=1,NGASES                                                                           
-        CALL HM_GET_INT_ARRAY_INDEX('materialIds',MAT_ID(1,I),I,IS_AVAILABLE,LSUBMODEL)       
-        CALL HM_GET_INT_ARRAY_INDEX('ABG_Imass',F_IDMASS(1,I),I,IS_AVAILABLE,LSUBMODEL)       
-        CALL HM_GET_INT_ARRAY_INDEX('ABG_Itemp',F_IDTEMP(1,I),I,IS_AVAILABLE,LSUBMODEL)       
-        CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_Smass',FSMASS(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-        CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_Stemp',FSTEMP(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+
+      DO I=1,NGASES
+        CALL HM_GET_INT_ARRAY_INDEX('materialIds',MAT_ID(1,I),I,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INT_ARRAY_INDEX('ABG_Imass',F_IDMASS(1,I),I,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INT_ARRAY_INDEX('ABG_Itemp',F_IDTEMP(1,I),I,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_Smass',FSMASS(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_Stemp',FSTEMP(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C       Verification existence materiaux et functions                                         
 C ---
 C ---   Materiaux                                                                             
-        IF(FSMASS(I) == ZERO)FSMASS(I)=ONE*FAC_MASS                                            
-        IF(FSTEMP(I) == ZERO)FSTEMP(I)=ONE*FAC_TEMP                                            
-        MAT_ID(2,I) = NINTRI(MAT_ID(1,I),IPM,NPROPMI,NUMMAT,1)                                
-        IF(MAT_ID(2,I) == 0) THEN                                                             
-          CALL ANCMSG(MSGID=698,                                                              
-     .                MSGTYPE=MSGERROR,                                                       
-     .                ANMODE=ANINFO_BLIND_1,                                                  
-     .                I1=PROP_ID,                                                             
-     .                C1=IDTITL,                                                              
-     .                I2=MAT_ID(1,I))                                                         
-        ELSEIF(IPM(2,MAT_ID(2,I))/=999) THEN                                                
-          CALL ANCMSG(MSGID=857,                                                              
-     .                MSGTYPE=MSGERROR,                                                       
-     .                ANMODE=ANINFO_BLIND_1,                                                  
-     .                I1=PROP_ID,                                                             
-     .                C1=IDTITL,                                                              
-     .                I2=MAT_ID(1,I))                                                         
-        END IF                                                                                
+        IF(FSMASS(I) == ZERO)FSMASS(I)=ONE*FAC_MASS
+        IF(FSTEMP(I) == ZERO)FSTEMP(I)=ONE*FAC_TEMP
+        MAT_ID(2,I) = NINTRI(MAT_ID(1,I),IPM,NPROPMI,NUMMAT,1)
+        IF(MAT_ID(2,I) == 0) THEN
+          CALL ANCMSG(MSGID=698,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=PROP_ID,
+     .                C1=IDTITL,
+     .                I2=MAT_ID(1,I))
+        ELSEIF(IPM(2,MAT_ID(2,I))/=999) THEN
+          CALL ANCMSG(MSGID=857,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=PROP_ID,
+     .                C1=IDTITL,
+     .                I2=MAT_ID(1,I))
+        END IF
 C ---   Fonctions                                                                             
-        IF(F_IDMASS(1,I) > 0) THEN                                                            
-          DO J=1,NFUNCT                                                                       
-            IF(NPC(NFUNCT+1+J) == F_IDMASS(1,I)) F_IDMASS(2,I)=J                              
-          ENDDO                                                                               
-        ENDIF                                                                                 
-        IF(F_IDTEMP(1,I) > 0) THEN                                                            
-          DO J=1,NFUNCT                                                                       
-            IF(NPC(NFUNCT+1+J) == F_IDTEMP(1,I)) F_IDTEMP(2,I)=J                              
-          ENDDO                                                                               
-        ENDIF                                                                                 
-        IF(F_IDMASS(1,I)/=0.AND.F_IDMASS(2,I) == 0)THEN                                     
-          CALL ANCMSG(MSGID=708,                                                              
-     .                MSGTYPE=MSGERROR,                                                       
-     .                ANMODE=ANINFO_BLIND_1,                                                  
-     .                 I1=PROP_ID,                                                            
-     .                 C1=IDTITL,                                                             
-     .                 I2=F_IDMASS(1,I))                                                      
-        ENDIF                                                                                 
-        IF(F_IDTEMP(1,I)/=0.AND.F_IDTEMP(2,I) == 0)THEN                                     
-          CALL ANCMSG(MSGID=708,                                                              
-     .                MSGTYPE=MSGERROR,                                                       
-     .                ANMODE=ANINFO_BLIND_1,                                                  
-     .                I1=PROP_ID,                                                             
-     .                C1=IDTITL,                                                              
-     .                I2=F_IDTEMP(1,I))                                                       
-        ENDIF                                                                                 
-      ENDDO  ! I=1,NGASES                                                                     
+        IF(F_IDMASS(1,I) > 0) THEN
+          DO J=1,NFUNCT
+            IF(NPC(NFUNCT+1+J) == F_IDMASS(1,I)) F_IDMASS(2,I)=J
+          ENDDO
+        ENDIF
+        IF(F_IDTEMP(1,I) > 0) THEN
+          DO J=1,NFUNCT
+            IF(NPC(NFUNCT+1+J) == F_IDTEMP(1,I)) F_IDTEMP(2,I)=J
+          ENDDO
+        ENDIF
+        IF(F_IDMASS(1,I)/=0.AND.F_IDMASS(2,I) == 0)THEN
+          CALL ANCMSG(MSGID=708,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                 I1=PROP_ID,
+     .                 C1=IDTITL,
+     .                 I2=F_IDMASS(1,I))
+        ENDIF
+        IF(F_IDTEMP(1,I)/=0.AND.F_IDTEMP(2,I) == 0)THEN
+          CALL ANCMSG(MSGID=708,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=PROP_ID,
+     .                C1=IDTITL,
+     .                I2=F_IDTEMP(1,I))
+        ENDIF
+      ENDDO  ! I=1,NGASES
 
 C Conversion d unites ----------------------
       IF(ASTIME == ZERO)ASTIME=ONE*FAC_TIME
@@ -262,7 +262,7 @@ C     Verification de la croissance des fonctions de masse
                 END IF
               END DO
             END IF
-          END IF 
+          END IF
         END IF
       END DO
 

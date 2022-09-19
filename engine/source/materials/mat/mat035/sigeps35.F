@@ -32,7 +32,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -134,8 +134,8 @@ C----------------------------------------------------------------
      . SIGAIR(MVSIZ)
 
       my_real
-     . SMALL,TINY , AUX1, AUX2, 
-     . MIDSTEP, DT05    
+     . SMALL,TINY , AUX1, AUX2,
+     . MIDSTEP, DT05
       LOGICAL TEST
 C----------------------------------------------------------------
       SMALL = EM3
@@ -208,7 +208,7 @@ C COMPUTE DEVIATORIC STRESSES
         DSXY(I)=SIGOXY(I)
         DSYZ(I)=SIGOYZ(I)
         DSZX(I)=SIGOZX(I)
-        
+
 C  COMPUTE DEVIATORIC STRAINS
         DEXX(I)=EPSXX(I)-EM(I)
         DEYY(I)=EPSYY(I)-EM(I)
@@ -231,7 +231,7 @@ C  COMPUTE DEVIATORIC STRAIN RATES
         EPSP = MAX(
      &    ABS(EPSPXX(I)),ABS(EPSPYY(I)),ABS(EPSPZZ(I)),
      &    ABS(EPSPXY(I)),ABS(EPSPYZ(I)),ABS(EPSPZX(I)))
-        IF (ISRATE == 0) THEN 
+        IF (ISRATE == 0) THEN
           EDOT(I) = EPSP
         ELSE
           EDOT(I)   = ASRATE*EPSP + (ONE - ASRATE)*UVAR(I,4)
@@ -249,10 +249,10 @@ C UPDATE ELASTIC MODULUS
         ENEW(I)=(MAX(E,A*EDOT(I)+B))
        ENDDO
       ENDIF
-       
+
 
       AUX1 = ONE / (ONE+POISSON)
-      AUX2 = ONE / (ONE-TWO*POISSON) 
+      AUX2 = ONE / (ONE-TWO*POISSON)
       DO I=1,NEL
         G2(I)=ENEW(I)*AUX1
         BULK3(I)=ENEW(I)*AUX2

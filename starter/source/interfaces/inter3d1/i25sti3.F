@@ -54,7 +54,7 @@ Chd|====================================================================
      J IPARTFRICM,INTBUF_FRIC_TAB,IVIS2 ,GAPM_MX,GAPS_MX,
      K GAPM_L_MX,GAPS_L_MX ,IPARTSM,DRAD)
 C-----------------------------------------------
-      USE INTBUF_FRIC_MOD  
+      USE INTBUF_FRIC_MOD
       USE MESSAGE_MOD
 C
 C-----------------------------------------------
@@ -88,7 +88,7 @@ C-----------------------------------------------
      .        INACTI,NRT_SH ,ILEV ,IGAP0,IGEO(NPROPGI,*), IVIS2
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*), INTTH,
      .   SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),IXR(NIXR,*) ,
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
@@ -108,7 +108,7 @@ C     REAL
       INTEGER ID,IPARTS(*)
       CHARACTER*nchartitle,
      .   TITR
-      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*) 
+      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -120,7 +120,7 @@ C-----------------------------------------------
       INTEGER JPERM(4)
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX, 
+     .   DXM, GAPMX, GAPMN, AREA, VOL, DX, GAPM, DDX,
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   SLSFAC,XL,GAPS_MN, STV
       DATA JPERM/2,3,4,1/
@@ -212,7 +212,7 @@ C------------------------------------
        ELSEIF ( THK(I) /= ZERO .AND. IINTTHICK == 0) THEN
         DX=HALF*THK(I)
        ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP ==52) THEN
-          DX=HALF*THK(I)         
+          DX=HALF*THK(I)
        ELSE
           DX=HALF*GEO(1,MG)
        ENDIF
@@ -311,8 +311,8 @@ C-----------if node connects to both shell and solid -> takes shells
       IF(INTFRIC > 0) THEN
 C
         IF(NUMELS/=0)THEN
-          DO I = 1,NSN   
-             IPFMAX = 0 
+          DO I = 1,NSN
+             IPFMAX = 0
              IPFLMAX = 0
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
                IE = NOD2ELS(J)
@@ -321,7 +321,7 @@ C
                IF(IPG > 0.AND.IP>IPFMAX) THEN
                   CALL FRICTION_PARTS_SEARCH (
      .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+     .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
                   IF(IPL /=0) THEN
                      IPFMAX = IP
                      IPFLMAX = IPL
@@ -335,10 +335,10 @@ C
             ENDIF
 
           ENDDO
-        ENDIF 
+        ENDIF
 C
        IF(NUMELC/=0.OR.NUMELTG/=0) THEN
-          DO I = 1,NSN  
+          DO I = 1,NSN
              IPFMAX = 0
              IPFLMAX = 0
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
@@ -348,7 +348,7 @@ C
                IF(IPG > 0.AND.IP>IPFMAX) THEN
                   CALL FRICTION_PARTS_SEARCH (
      .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )  
+     .                             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
                   IF(IPL /=0) THEN
                      IPFMAX = IP
                      IPFLMAX = IPL
@@ -363,7 +363,7 @@ C
                IF(IPG > 0.AND.IP>IPFMAX) THEN
                   CALL FRICTION_PARTS_SEARCH (
      .                           IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+     .                           INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
 
                   IF(IPL /=0) THEN
                      IPFMAX = IP
@@ -377,9 +377,9 @@ C
             ENDIF
 
           ENDDO
-        ENDIF  
+        ENDIF
 C
- 
+
       ENDIF
 
 C----------------------------------
@@ -487,7 +487,7 @@ C calcul du surface second. ---
        IF(NUMELC/=0) THEN
 
         IF(NADMESH==0)THEN
-          DO I = 1,NSN    
+          DO I = 1,NSN
              AREAS(I) = ZERO
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                IE = NOD2ELC(J)
@@ -500,7 +500,7 @@ C calcul du surface second. ---
                SX3  = SY1*SZ2 - SZ1*SY2
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
-               AREAS(I) = AREAS(I) 
+               AREAS(I) = AREAS(I)
      .                    + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C 
                IF(INTTH > 0) THEN
@@ -519,7 +519,7 @@ C
                SX3  = SY1*SZ2 - SZ1*SY2
                SY3  = SZ1*SX2 - SX1*SZ2
                SZ3  = SX1*SY2 - SY1*SX2
-               AREAS(I) = AREAS(I) 
+               AREAS(I) = AREAS(I)
      .                    + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C 
                IF(INTTH > 0) THEN
@@ -528,7 +528,7 @@ C
              END DO
           END DO
         ELSE
-          DO I = 1,NSN    
+          DO I = 1,NSN
              AREAS(I) = ZERO
              DO J= KNOD2ELC(NSV(I))+1,KNOD2ELC(NSV(I)+1)
                IE = NOD2ELC(J)
@@ -538,7 +538,7 @@ C
                MYLEV=SH4TREE(3,IE)
                IF(MYLEV < 0) MYLEV=-(MYLEV+1)
 
-               IF(MYLEV==NLEV)THEN                 
+               IF(MYLEV==NLEV)THEN
                  SX1 = X(1,IXC(4,IE)) - X(1,IXC(2,IE))
                  SY1 = X(2,IXC(4,IE)) - X(2,IXC(2,IE))
                  SZ1 = X(3,IXC(4,IE)) - X(3,IXC(2,IE))
@@ -548,7 +548,7 @@ C
                  SX3  = SY1*SZ2 - SZ1*SY2
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
-                 AREAS(I) = AREAS(I) 
+                 AREAS(I) = AREAS(I)
      .                      + ONE_OVER_8*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C
                  IF(INTTH > 0) THEN
@@ -566,7 +566,7 @@ C
                MYLEV=SH3TREE(3,IE)
                IF(MYLEV < 0) MYLEV=-(MYLEV+1)
 
-               IF(MYLEV==NLEV)THEN                 
+               IF(MYLEV==NLEV)THEN
                  SX1 = X(1,IXTG(3,IE)) - X(1,IXTG(2,IE))
                  SY1 = X(2,IXTG(3,IE)) - X(2,IXTG(2,IE))
                  SZ1 = X(3,IXTG(3,IE)) - X(3,IXTG(2,IE))
@@ -576,7 +576,7 @@ C
                  SX3  = SY1*SZ2 - SZ1*SY2
                  SY3  = SZ1*SX2 - SX1*SZ2
                  SZ3  = SX1*SY2 - SY1*SX2
-                 AREAS(I) = AREAS(I) 
+                 AREAS(I) = AREAS(I)
      .                      + ONE_OVER_6*SQRT(SX3*SX3+SY3*SY3+SZ3*SZ3)
 C 
                  IF(INTTH > 0) THEN
@@ -593,7 +593,7 @@ C
 C     
        IF(ILEV /= 3 )THEN
         IF(NUMELS/=0)THEN
-          DO I = 1,NSN    
+          DO I = 1,NSN
              AREAS(I) = ZERO
              DO J= KNOD2ELS(NSV(I))+1,KNOD2ELS(NSV(I)+1)
                IE = NOD2ELS(J)
@@ -667,7 +667,7 @@ Ce warning pour les performances du tri.
      .               I2=ID)
         END IF
        END IF
-   
+
       IF(INTTH > 0) DEALLOCATE(INRTIE)
 
       RETURN
@@ -710,7 +710,7 @@ Chd|====================================================================
      I IPARTFRICM,IPARTS,INTBUF_FRIC_TAB,IPARTSM,INRTIE)
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUF_FRIC_MOD  
+      USE INTBUF_FRIC_MOD
 C
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -741,7 +741,7 @@ C-----------------------------------------------
       INTEGER NRT, NINT, NTY, NOINT,NSN,IGAP, NDX,INTFRIC
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), IXT(NIXT,*), IXP(NIXP,*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*), IELES(*), INTTH, IELEM(*),
      .   SH3TREE(KSH3TREE,*), SH4TREE(KSH4TREE,*),IXR(NIXR,*) ,
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),IPARTS(*),
@@ -760,7 +760,7 @@ C     REAL
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*) 
+      TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -770,7 +770,7 @@ C-----------------------------------------------
      .   ISUBSTACK,IPL,IPG
 C     REAL
       my_real
-     .   AREA, VOL, DX, GAPM, DDX, 
+     .   AREA, VOL, DX, GAPM, DDX,
      .   GAPTMP, SX1,SY1,SZ1,SX2,SY2,SZ2,SX3,SY3,SZ3,
      .   XL,STIFC, STV, STC
 C----------------------
@@ -813,7 +813,7 @@ C----------------------
      .                    C2='SOLID',
      .                    I3=I)
            ENDIF
-           IF(NINT<0) THEN 
+           IF(NINT<0) THEN
               CALL ANCMSG(MSGID=96,
      .                    MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_2,
@@ -840,7 +840,7 @@ C -----Friction model ------
             IF(IPG > 0) THEN
               CALL FRICTION_PARTS_SEARCH (
      .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
               IPARTFRICM(I) = IPL
               IPARTSM(I) = IP
             ENDIF
@@ -883,7 +883,7 @@ C -----Friction model ------
             IF(IPG > 0) THEN
               CALL FRICTION_PARTS_SEARCH (
      .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
               IPARTFRICM(I) = IPL
               IPARTSM(I) = IP
             ENDIF
@@ -900,7 +900,7 @@ C------------------------------------
      .          ((IGTYP == 17 .OR. IGTYP == 51)  .AND. IGMAT > 0))THEN
              ISUBSTACK = IWORKSH(3,NUMELC+NELTG)
              STC=SLSFAC*THK(NUMELC+NELTG)*PM_STACK(2 ,ISUBSTACK)
-           ELSE 
+           ELSE
 	     IF ( THK(NUMELC+NELTG) /= ZERO .AND. IINTTHICK == 0) THEN
 	       STC=SLSFAC*THK(NUMELC+NELTG)*PM(20,MT)
 	     ELSEIF(IGTYP == 17 .OR. IGTYP == 51) THEN
@@ -908,7 +908,7 @@ C------------------------------------
              ELSE
                STC=SLSFAC*GEO(1,MG)*PM(20,MT)
 	     ENDIF
-           ENDIF   
+           ENDIF
 C
            STF(I)=MAX(STF(I),STC)
            IF (MSEGTYP(I) > 0) THEN   ! (MSEGTYP /=0 .AND. MSEGTYP <= NRTT) .OR. MSEGTYP > NRTT
@@ -971,7 +971,7 @@ C -----Friction model ------
             IF(IPG > 0) THEN
               CALL FRICTION_PARTS_SEARCH (
      .             IPG,INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC,
-     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL ) 
+     .             INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC,IPL )
               IPARTFRICM(I) = IPL
               IPARTSM(I) = IP
             ENDIF
@@ -987,8 +987,8 @@ C------------------------------------
            ELSEIF(IGTYP ==52.OR.
      .          ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
                  ISUBSTACK = IWORKSH(3,NELC)
-	         STC=SLSFAC*THK(NELC)*PM_STACK(2,ISUBSTACK) 
-           ELSE 
+	         STC=SLSFAC*THK(NELC)*PM_STACK(2,ISUBSTACK)
+           ELSE
 	     IF ( THK(NELC) /= ZERO .AND. IINTTHICK == 0) THEN
 	       STC=SLSFAC*THK(NELC)*PM(20,MT)
 	     ELSEIF(IGTYP == 17 .OR. IGTYP == 51) THEN
@@ -996,7 +996,7 @@ C------------------------------------
              ELSE
                STC=SLSFAC*GEO(1,MG)*PM(20,MT)
 	     ENDIF
-           ENDIF   
+           ENDIF
 C
            STF(I)=MAX(STF(I),STC)
            IF (MSEGTYP(I) > 0) THEN   ! (MSEGTYP /=0 .AND. MSEGTYP <= NRTT) .OR. MSEGTYP > NRTT
@@ -1083,15 +1083,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NRTM, IRECT(4,*), TAGB(*)     
+      INTEGER NRTM, IRECT(4,*), TAGB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,L,NLMAX,STAT,LL,I1,I2,I3,I4,I5,I1M,I2M,IS,BORD,BOLD
       INTEGER NEXTK(4),IWORK(70000),NL
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .   LINEIX
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .   INDEX
 
 
@@ -1159,7 +1159,7 @@ C nest pas sur le bord
 C on vient de recoller, on repart avec cette nouvelle arete. 
 C           BORD=0
             BOLD=1
-          ELSE          
+          ELSE
             BORD=1 ! bord
             BOLD=1
             TAGB(I1M) = 1

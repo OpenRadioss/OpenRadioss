@@ -65,7 +65,7 @@ C
         TEMP_INT = IALEMUSCL
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C
-      ENDIF        
+      ENDIF
 C-----------------------------------------------------------------------
       RETURN
       END

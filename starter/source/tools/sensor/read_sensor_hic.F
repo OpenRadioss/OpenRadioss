@@ -69,7 +69,7 @@ C-----------------------------------------------
       CHARACTER (len=nchartitle) TITR
       TYPE (SENSOR_STR_)  :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -102,24 +102,24 @@ card3
 c--------------------------------------------------
 c     Check input data
 c--------------------------------------------------
-      IACC = 0                                                              
-      IF (ACC_ID > 0) THEN                                                  
-        DO K =1,NACCELM                                                     
-          IF (ACC_ID == LACCELM(2,K))THEN                                   
-            IACC = K                                                        
-            EXIT                                                            
-          ENDIF                                                             
-        ENDDO                                                               
+      IACC = 0
+      IF (ACC_ID > 0) THEN
+        DO K =1,NACCELM
+          IF (ACC_ID == LACCELM(2,K))THEN
+            IACC = K
+            EXIT
+          ENDIF
+        ENDDO
       END IF
-      IF (IACC == 0) THEN                                                 
+      IF (IACC == 0) THEN
         CALL ANCMSG(MSGID=45, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_2,
-     .              I1=SENS_ID,                                         
-     .              C1=TITR,                                              
-     .              I2=IACC)                                              
+     .              I1=SENS_ID,
+     .              C1=TITR,
+     .              I2=IACC)
       END IF
-c--------------------             
-      IDIR = 0  
-      DO K = 1,LFIELD                                            
+c--------------------
+      IDIR = 0
+      DO K = 1,LFIELD
         IF (DIR(K:K) == 'R' .OR .DIR(K:K) == 'r') THEN
           IDIR = 1
           DIR(1:1) = 'R'
@@ -128,21 +128,21 @@ c--------------------
           DIR(1:1) = 'X'
         ELSE IF (DIR(K:K) == 'Y' .OR .DIR(K:K) == 'y') THEN
           IDIR = 3
-          DIR(1:1) = 'Y'            
+          DIR(1:1) = 'Y'
         ELSE IF (DIR(K:K) == 'Z' .OR .DIR(K:K) == 'z') THEN
           IDIR = 4
-          DIR(1:1) = 'Z'            
+          DIR(1:1) = 'Z'
         END IF
         IF (IDIR > 0) THEN
           DIR(1:1) =  DIR(K:K)
-          EXIT         
+          EXIT
         END IF
       ENDDO
       IF (IDIR == 0) THEN
         DIR(1:1) =  'R'
         IDIR = 1
-      END IF 
-c--------------------             
+      END IF
+c--------------------
       IF (GRAVITY == ZERO) THEN
         FAC_GRAV  = FAC_T_WORK**2 / FAC_L_WORK
         GRAVITY   = DEF_GRAVITY * FAC_GRAV
@@ -154,7 +154,7 @@ c--------------------
       END IF
 c
       Time_Unit = FAC_T_WORK
-c-------------------------------                          
+c-------------------------------
       NPARIS = 4
       NPARRS = 4
       NVAR   = 4 + NPOINT
@@ -184,8 +184,8 @@ c
 c
       SENSOR_PTR%RPARAM(1) = PERIOD
       SENSOR_PTR%RPARAM(2) = HIC_CRIT
-      SENSOR_PTR%RPARAM(3) = GRAVITY          
-      SENSOR_PTR%RPARAM(4) = Time_Unit          
+      SENSOR_PTR%RPARAM(3) = GRAVITY
+      SENSOR_PTR%RPARAM(4) = Time_Unit
 c---------------------------
 c     old sensor data tables
 c---------------------------

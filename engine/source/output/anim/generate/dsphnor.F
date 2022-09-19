@@ -70,7 +70,7 @@ C
          ZI  =X(3,INOD)
          NX= ONE
          NY=-ONE
-         NZ=-ONE         
+         NZ=-ONE
 C         NX= SQRT(2.)
 C         NY= SQRT(2.)/SQRT(3.)
 C         NZ=-1./SQRT(3.)
@@ -78,11 +78,11 @@ C         NZ=-1./SQRT(3.)
          IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
-          NZ=THREE1000          
+          NZ=THREE1000
          ELSE
           NX=THREE1000*NX/NORMN
           NY=THREE1000*NY/NORMN
-          NZ=THREE1000*NZ/NORMN          
+          NZ=THREE1000*NZ/NORMN
          ENDIF
 c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
@@ -98,7 +98,7 @@ c         ELSE
 c         ENDIF
          NX=-ONE
          NY= ONE
-         NZ=-ONE         
+         NZ=-ONE
 C         NX=-SQRT(2.)
 C         NY= SQRT(2.)/sqrt(3.)
 C         NZ=-1./SQRT(3.)
@@ -106,11 +106,11 @@ C         NZ=-1./SQRT(3.)
         IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
-          NZ=THREE1000          
+          NZ=THREE1000
          ELSE
           NX=THREE1000*NX/NORMN
           NY=THREE1000*NY/NORMN
-          NZ=THREE1000*NZ/NORMN          
+          NZ=THREE1000*NZ/NORMN
          ENDIF
 c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
@@ -126,7 +126,7 @@ c         ELSE
 c         ENDIF
          NX=-ONE
          NY=-ONE
-         NZ= ONE         
+         NZ= ONE
 C         NX= 0.
 C         NY=-2.*SQRT(2.)/SQRT(3.)
 C         NZ=-1./SQRT(3.)
@@ -134,11 +134,11 @@ C         NZ=-1./SQRT(3.)
          IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
-          NZ=THREE1000          
+          NZ=THREE1000
          ELSE
           NX=THREE1000*NX/NORMN
           NY=THREE1000*NY/NORMN
-          NZ=THREE1000*NZ/NORMN          
+          NZ=THREE1000*NZ/NORMN
          ENDIF
 c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)
@@ -154,7 +154,7 @@ c         ELSE
 c         ENDIF
          NX= ONE
          NY= ONE
-         NZ= ONE         
+         NZ= ONE
 C         NX= 0.
 C         NY= 0.
 C         NZ= SQRT(3.)
@@ -162,11 +162,11 @@ C         NZ= SQRT(3.)
         IF (NORMN==ZERO) THEN
           NX=THREE1000
           NY=THREE1000
-          NZ=THREE1000          
+          NZ=THREE1000
          ELSE
           NX=THREE1000*NX/NORMN
           NY=THREE1000*NY/NORMN
-          NZ=THREE1000*NZ/NORMN          
+          NZ=THREE1000*NZ/NORMN
          ENDIF
 c         IF (IMACH/=3) THEN
 c           CALL WRITE_S_C(NINT(NX),1)

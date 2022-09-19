@@ -46,7 +46,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -234,7 +234,7 @@ C
       IF (JTHE /= 0) THEN
         IF(LEN(TRIM(FILE))==0)THEN
           CALL ANCMSG(MSGID=19,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1='MATERIAL',C2='MATERIAL',C3=TITR,C4=TRIM(FILE))
-        ELSE      
+        ELSE
           OPEN(UNIT=31,FILE=FILE,STATUS='OLD',FORM='FORMATTED',ERR=998)
         ENDIF
         READ(31,*) I1,MAT
@@ -275,7 +275,7 @@ C
       IF (SIG > ZERO) THEN
         IF(LEN(TRIM(FILE))==0)THEN
           CALL ANCMSG(MSGID=19,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=MAT_ID,C1='MATERIAL',C2='MATERIAL',C3=TITR,C4=TRIM(FILE))
-        ELSE      
+        ELSE
           OPEN(UNIT=31,FILE=FILE,STATUS='OLD',FORM='FORMATTED',ERR=998)
         ENDIF
         READ(31,*)I1,MAT
@@ -289,7 +289,7 @@ C
         IDR = IDF
         IDT = IDR + NR
         IDQ = IDT + NT
-        IDF = IDQ + NR * NT 
+        IDF = IDQ + NR * NT
         MFI = MFI + IDF - IDR
 C
         BUFMAT(IDR:IDF-1) = ZERO
@@ -304,15 +304,15 @@ C
       PM(52)=XKMAX
 !
 !----------------------
-      JTHE = 0 !                                 
+      JTHE = 0 !
 !----------------------
 !
 c
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_PLA   = 1    
-      MTAG%G_TEMP  = 1    
-      MTAG%G_EPSD  = 1   
+      MTAG%G_PLA   = 1
+      MTAG%G_TEMP  = 1
+      MTAG%G_EPSD  = 1
 c
       MTAG%L_PLA   = 1
       MTAG%L_TEMP  = 1
@@ -321,7 +321,7 @@ c
       MTAG%L_Z     = 1    ! taux ionisation
 c-----------
       RETURN
-c-----------       
+c-----------
   998 CONTINUE
       CALL ANCMSG(MSGID=19,
      .            MSGTYPE=MSGERROR,
@@ -331,7 +331,7 @@ c-----------
      .            C2='MATERIAL',
      .            C3=TITR,
      .            C4=TRIM(FILE))
-      RETURN        
+      RETURN
 c-----------
  1000 FORMAT(
      & 5X,40H  JOHNSON COOK - SESAME LAW               ,/,

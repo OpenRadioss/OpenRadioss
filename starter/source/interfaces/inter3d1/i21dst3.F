@@ -31,7 +31,7 @@ Chd|====================================================================
      2                  GAP_S  ,X      ,IRTLM  ,CSTS   ,DEPTH  ,
      3                  NOD_NORMAL,XM0 ,PENE   ,PENI   ,IFPEN  ,
      4                  IGAP   ,GAP    ,GAPMAX ,GAPMIN ,DRAD   ,
-     5                  DGAPLOAD) 
+     5                  DGAPLOAD)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -50,9 +50,9 @@ C-----------------------------------------------
      .        IRTLM(2,*), NSV(*), IFPEN(*)
       INTEGER IGAP
       my_real
-     .     X(3,*), CSTS(2,*), DEPTH, NOD_NORMAL(3,*), 
+     .     X(3,*), CSTS(2,*), DEPTH, NOD_NORMAL(3,*),
      .     XM0(3,*), PENE(*), PENI(*), GAP_S(*), GAP, GAPMIN, GAPMAX,
-     .     DRAD 
+     .     DRAD
       my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
      .        NSVG(MVSIZ), FAR(MVSIZ), I4N(MVSIZ),
      .        IRTLM_L(2,MVSIZ)
       my_real
-     .     GAPV(MVSIZ), 
+     .     GAPV(MVSIZ),
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
      .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
@@ -101,7 +101,7 @@ C-----------------------------------------------
      .     XI0V(MVSIZ),  YI0V(MVSIZ),  ZI0V(MVSIZ),
      .     XH(MVSIZ),  YH(MVSIZ),  ZH(MVSIZ),
      .     NX(MVSIZ),  NY(MVSIZ),  NZ(MVSIZ),
-     .     GAP2(MVSIZ), NN, 
+     .     GAP2(MVSIZ), NN,
      .     X0H(MVSIZ), Y0H(MVSIZ), Z0H(MVSIZ),
      .     X1H(MVSIZ), Y1H(MVSIZ), Z1H(MVSIZ),
      .     X2H(MVSIZ), Y2H(MVSIZ), Z2H(MVSIZ), HH(MVSIZ), LL,
@@ -172,7 +172,7 @@ C--------------------------------------------------------
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -182,21 +182,21 @@ C--------------------------------------------------------
 
        DO I=1,JLT
 
-        NNX1(I)=NOD_NORMAL(1,IX1(I))  
-        NNY1(I)=NOD_NORMAL(2,IX1(I))  
-        NNZ1(I)=NOD_NORMAL(3,IX1(I))  
+        NNX1(I)=NOD_NORMAL(1,IX1(I))
+        NNY1(I)=NOD_NORMAL(2,IX1(I))
+        NNZ1(I)=NOD_NORMAL(3,IX1(I))
 
-        NNX2(I)=NOD_NORMAL(1,IX2(I))  
-        NNY2(I)=NOD_NORMAL(2,IX2(I))  
-        NNZ2(I)=NOD_NORMAL(3,IX2(I))  
+        NNX2(I)=NOD_NORMAL(1,IX2(I))
+        NNY2(I)=NOD_NORMAL(2,IX2(I))
+        NNZ2(I)=NOD_NORMAL(3,IX2(I))
 
-        NNX3(I)=NOD_NORMAL(1,IX3(I))  
-        NNY3(I)=NOD_NORMAL(2,IX3(I))  
-        NNZ3(I)=NOD_NORMAL(3,IX3(I))  
+        NNX3(I)=NOD_NORMAL(1,IX3(I))
+        NNY3(I)=NOD_NORMAL(2,IX3(I))
+        NNZ3(I)=NOD_NORMAL(3,IX3(I))
 
-        NNX4(I)=NOD_NORMAL(1,IX4(I))  
-        NNY4(I)=NOD_NORMAL(2,IX4(I))  
-        NNZ4(I)=NOD_NORMAL(3,IX4(I))  
+        NNX4(I)=NOD_NORMAL(1,IX4(I))
+        NNY4(I)=NOD_NORMAL(2,IX4(I))
+        NNZ4(I)=NOD_NORMAL(3,IX4(I))
 
        ENDDO
 
@@ -494,7 +494,7 @@ C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(SIDE) 
+             IRTLM_L(2,I) = NINT(SIDE)
              CSTS_L(1,I)  = LB1(I)
              CSTS_L(2,I)  = LC1(I)
            END IF
@@ -528,7 +528,7 @@ C        SIDE=NX1(I)*NX(I)+NY1(I)*NY(I)+NZ1(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(SIDE) 
+             IRTLM_L(2,I) = NINT(SIDE)
              CSTS_L(1,I)  = LB1(I)
              CSTS_L(2,I)  = LC1(I)
            END IF
@@ -777,7 +777,7 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(TWO*SIDE) 
+             IRTLM_L(2,I) = NINT(TWO*SIDE)
              CSTS_L(1,I)  = LB2(I)
              CSTS_L(2,I)  = LC2(I)
            END IF
@@ -811,7 +811,7 @@ C        SIDE=NX2(I)*NX(I)+NY2(I)*NY(I)+NZ2(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(TWO*SIDE) 
+             IRTLM_L(2,I) = NINT(TWO*SIDE)
              CSTS_L(1,I)  = LB2(I)
              CSTS_L(2,I)  = LC2(I)
            END IF
@@ -1051,7 +1051,7 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(THREE*SIDE) 
+             IRTLM_L(2,I) = NINT(THREE*SIDE)
              CSTS_L(1,I)  = LB3(I)
              CSTS_L(2,I)  = LC3(I)
            END IF
@@ -1085,7 +1085,7 @@ C        SIDE=NX3(I)*NX(I)+NY3(I)*NY(I)+NZ3(I)*NZ(I)
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(THREE*SIDE) 
+             IRTLM_L(2,I) = NINT(THREE*SIDE)
              CSTS_L(1,I)  = LB3(I)
              CSTS_L(2,I)  = LC3(I)
            END IF
@@ -1322,7 +1322,7 @@ C
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = CAND_E(I)
-             IRTLM_L(2,I) = NINT(FOUR*SIDE) 
+             IRTLM_L(2,I) = NINT(FOUR*SIDE)
              CSTS_L(1,I)  = LB4(I)
              CSTS_L(2,I)  = LC4(I)
            END IF
@@ -1357,7 +1357,7 @@ C
              PENE(I)=GAPV(I)-DIST
 
              IRTLM_L(1,I) = -CAND_E(I)
-             IRTLM_L(2,I) = NINT(FOUR*SIDE) 
+             IRTLM_L(2,I) = NINT(FOUR*SIDE)
              CSTS_L(1,I)  = LB4(I)
              CSTS_L(2,I)  = LC4(I)
            END IF

@@ -69,16 +69,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB
       INTEGER                           :: ITABM1(SITABM1),ITAB(NUMNOD)
-      INTEGER                           :: IPM(NPROPMI,NUMMAT)    
+      INTEGER                           :: IPM(NPROPMI,NUMMAT)
       my_real                           :: X(3,NUMNOD)
-      CHARACTER*ncharkey                :: KEY, KEY2      
+      CHARACTER*ncharkey                :: KEY, KEY2
       TYPE(SUBMODEL_DATA),INTENT(IN)    :: LSUBMODEL(NSUBMOD)
-      INTEGER            ,INTENT(INOUT) :: I1,I2,I3,I4,I5 
-      INTEGER,INTENT(IN)                :: DET_ID 
-      INTEGER,INTENT(INOUT)             :: N1   ,NPEM 
-      TYPE(DETONATOR_STRUCT_),TARGET    :: DETONATORS      
+      INTEGER            ,INTENT(INOUT) :: I1,I2,I3,I4,I5
+      INTEGER,INTENT(IN)                :: DET_ID
+      INTEGER,INTENT(INOUT)             :: N1   ,NPEM
+      TYPE(DETONATOR_STRUCT_),TARGET    :: DETONATORS
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -94,14 +94,14 @@ C-----------------------------------------------
       CHARACTER*nchartitle :: TITR
       LOGICAL              :: IS_ENCRYPTED, IS_AVAILABLE
       INTEGER,POINTER,DIMENSION(:)  :: IECRAN
-      my_real,POINTER,DIMENSION(:)  :: DECRAN     
+      my_real,POINTER,DIMENSION(:)  :: DECRAN
       INTEGER              :: NDETPS,NDETSG,NECRAN,NDETPL,NDETCORD
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER,EXTERNAL     :: NODGRNR5, USR2SYS, NINTRI
       INTEGER              :: UNUSED_MAT_DETONATOR
-      DATA MESS/'DETONATORS DEFINITION                   '/      
+      DATA MESS/'DETONATORS DEFINITION                   '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -114,85 +114,85 @@ C-----------------------------------------------
       IECRAN => DETONATORS%IECRAN(1:)
       DECRAN => DETONATORS%DECRAN(1:)
 
-      IS_ENCRYPTED= .FALSE.                                                                  
-      IS_AVAILABLE = .FALSE. 
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)  
-      !---------------------------------!                                                    
-      !             READING             !                                                    
-      !---------------------------------!                                                    
-      CALL HM_GET_FLOATV('rad_det_locationA_X', VDET, IS_AVAILABLE, LSUBMODEL, UNITAB)       
-      CALL HM_GET_FLOATV('rad_det_locationA_Y', YC1, IS_AVAILABLE, LSUBMODEL, UNITAB)       
-      CALL HM_GET_FLOATV('rad_det_locationA_Z', ZC1, IS_AVAILABLE, LSUBMODEL, UNITAB)       
-      CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)              
-      CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)                 
-      CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)                 
-      !---------------------------------!                                                    
-      !      CHECKING USER FLAGS        !                                                    
-      !      +INTERNAL ID               !                                                    
-      !---------------------------------!                                                    
-      MDET=MAT !bak                                                                          
-      IF (ALT > INFINITY) ALT=INFINITY                                                      
-      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM) 
-      UNUSED=0                               
-      IF (MAT < 0) THEN                                                                     
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
-        CALL ANCMSG(MSGID=102,                                                               
-     .              MSGTYPE=MSGERROR,                                                        
-     .              ANMODE=ANINFO,                                                           
-     .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR IS REFERRING TO A NEGATIVE MATERIAL ID',                   
-     .              C2='/DFS/WAV_SHAPER',                                                    
-     .              I2=MDET)                                                                 
-      ELSEIF (UNUSED==1) THEN                                                                
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
-        CALL ANCMSG(MSGID=102,                                                               
-     .              MSGTYPE=MSGERROR,                                                        
-     .              ANMODE=ANINFO,                                                           
-     .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR IS REFERRING TO AN UNKNOWN MATERIAL ID',                   
-     .              C2='/DFS/WAV_SHAPER',                                                    
-     .              I2=MDET)                                                                 
-      ELSEIF (UNUSED==2) THEN                                                                
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)      
-        CALL ANCMSG(MSGID=102,                                                               
-     .              MSGTYPE=MSGERROR,                                                        
-     .              ANMODE=ANINFO,                                                           
-     .              I1=DET_ID,                                                                   
-     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',          
-     .              C2='/DFS/WAV_SHAPER',                                                    
-     .              I2=MDET)                                                                 
-      ELSE                                                                                   
-      !---------------------------------!                                                    
-      !        LISTING PRINTOUT         !                                                    
-      !---------------------------------!                                                    
-        I3=I3+1                                                                              
-        NPE = NODGRNR5(IGU ,IGS,IECRAN(N1),IGRNOD ,ITABM1 ,MESS) 
+      IS_ENCRYPTED= .FALSE.
+      IS_AVAILABLE = .FALSE.
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
+      !---------------------------------!
+      !             READING             !
+      !---------------------------------!
+      CALL HM_GET_FLOATV('rad_det_locationA_X', VDET, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('rad_det_locationA_Y', YC1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('rad_det_locationA_Z', ZC1, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL,UNITAB)
+      CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)
+      !---------------------------------!
+      !      CHECKING USER FLAGS        !
+      !      +INTERNAL ID               !
+      !---------------------------------!
+      MDET=MAT !bak
+      IF (ALT > INFINITY) ALT=INFINITY
+      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)
+      UNUSED=0
+      IF (MAT < 0) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR IS REFERRING TO A NEGATIVE MATERIAL ID',
+     .              C2='/DFS/WAV_SHAPER',
+     .              I2=MDET)
+      ELSEIF (UNUSED==1) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR IS REFERRING TO AN UNKNOWN MATERIAL ID',
+     .              C2='/DFS/WAV_SHAPER',
+     .              I2=MDET)
+      ELSEIF (UNUSED==2) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',
+     .              C2='/DFS/WAV_SHAPER',
+     .              I2=MDET)
+      ELSE
+      !---------------------------------!
+      !        LISTING PRINTOUT         !
+      !---------------------------------!
+        I3=I3+1
+        NPE = NODGRNR5(IGU ,IGS,IECRAN(N1),IGRNOD ,ITABM1 ,MESS)
               !Nodes in group are ordered from 1 to NPE. last point is the nearest from the detonation origin. Points are composing the screen lines (guard lines). Screen lines is the boundary of the obstacle (shadow area)
-        DETONATORS%NPE=NPE   
-        IF(IS_ENCRYPTED) WRITE(IOUT,1001)                    
-        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1550) DET_ID,VDET,YC1,ZC1,ALT,MDET,IGU,NPE                                     
-        NPEM=MAX0(NPE,NPEM)                                                                  
-        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,FMT=FMW_10I) (ITAB(IECRAN(I)),I=N1,N1+NPE-1)                              
-        DO I=N1,N1+NPE-1                                                                     
-          CALL IFRONTPLUS(IECRAN(I),1)                                                       
-        END DO                                                                               
-        DETONATORS%BURN(1,I3) = ALT                                                                        
-        DETONATORS%BURN(2,I3) = MAT                                                                        
-        DETONATORS%BURN(3,I3) = VDET                                                                        
-        DETONATORS%BURN(4,I3) = YC1                                                                        
-        DETONATORS%BURN(5,I3) = ZC1                                                                        
-        DETONATORS%BURN(6,I3) = NPE                                                                        
-        N1      = N1+NPE                                                                     
-        DETONATORS%BURN(7,I3) = N1                                                                         
-        DETONATORS%BURN(8,I3) = 0 !unused                                                                  
-      END IF                                                                                 
-            
+        DETONATORS%NPE=NPE
+        IF(IS_ENCRYPTED) WRITE(IOUT,1001)
+        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1550) DET_ID,VDET,YC1,ZC1,ALT,MDET,IGU,NPE
+        NPEM=MAX0(NPE,NPEM)
+        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,FMT=FMW_10I) (ITAB(IECRAN(I)),I=N1,N1+NPE-1)
+        DO I=N1,N1+NPE-1
+          CALL IFRONTPLUS(IECRAN(I),1)
+        END DO
+        DETONATORS%BURN(1,I3) = ALT
+        DETONATORS%BURN(2,I3) = MAT
+        DETONATORS%BURN(3,I3) = VDET
+        DETONATORS%BURN(4,I3) = YC1
+        DETONATORS%BURN(5,I3) = ZC1
+        DETONATORS%BURN(6,I3) = NPE
+        N1      = N1+NPE
+        DETONATORS%BURN(7,I3) = N1
+        DETONATORS%BURN(8,I3) = 0 !unused
+      END IF
+
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------
  1001 FORMAT(///'SHADOW LINE DETONATION    ',I10,/5X,
      &          '----------------------    ',/5X,
-     &          'CONFIDENTIAL DATA')    
+     &          'CONFIDENTIAL DATA')
  1550 FORMAT(///'SHADOW LINE DETONATION    =',I10,/5X,
      &          '----------------------     ',/5X,
      &          'OPTIONAL VELOCITY         =',1PG20.13,/5X,
@@ -203,6 +203,6 @@ C-----------------------------------------------
      &          'SHADOW LINE NODE GROUP ID =',I10/
      &          'NUMBER OF POINTS(SHADOW)  =',I10/
      &          'SHADOW LINE DEFINITION :   ')
-           
+
 C-----------------------------------------------
       END SUBROUTINE

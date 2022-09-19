@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER  
+      INTEGER
      .   IGSTI,IBID,IGAP,IREM25I2,IBAG,IDEL25,IEDGE,
      .   IGAP0,ISHARP,IVIS2,INACTI,MFROT,IFQ,MODFR,IDSENS,INTFRIC,
      .   IPRINT,IASSIGN,ITHK
@@ -77,7 +77,7 @@ C-----------------------------------------------
      .   GAPSCALE,PERCENT_SIZE,
      .   PENMIN,FRIC,GAP,STARTT,STOPT,VISC,VISCF,
      .   BUMULT,ALPHA,PMAX
-      CHARACTER 
+      CHARACTER
      .  BCFLAG*ncharfield, BCFLAGM*ncharfield,KEY*ncharkey,KEY1*ncharkey
       LOGICAL IS_AVAILABLE
 
@@ -85,7 +85,7 @@ C============================================================================
 C       READING DEFAULT VALUES INTERFACE TYPE25 (/DEFAULT/INTER/TYPE25)
 C============================================================================
 C
-      IGSTI = 0 
+      IGSTI = 0
       IBAG=0
       INACTI = 0
       IDSENS = 0
@@ -93,7 +93,7 @@ C
       IFQ=0
       INTFRIC = 0
       ITHK = 0
-      MODFR = 0 
+      MODFR = 0
 C
       GAPSCALE = ZERO
       PERCENT_SIZE = ZERO
@@ -105,7 +105,7 @@ C
       VISC = ZERO
       PMAX = EP30
 C
-      IASSIGN = 0 
+      IASSIGN = 0
 C---------------------------------------------------------------
       IPRINT = 0
 C
@@ -216,7 +216,7 @@ C--------------------------------------------------------------
  999  CALL FREERR(3)
       RETURN
 C--------------------------------------------------------------
- 
+
  5025 FORMAT(/
      .       '    INTERFACE TYPE 25                         ' //,
      .       '    STIFFNESS FORMULATION. .  . . . . . . . . ',I5/,
@@ -230,4 +230,4 @@ C--------------------------------------------------------------
      .       '    DE-ACTIVATION OF INITIAL PENETRATIONS . . ',I5/,
      .       '    FRICTION FORMULATION. . . . . . . . . . . ',I5/)
 C--------------------------------------------------------------
-      END 
+      END

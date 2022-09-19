@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE OPTIONDEF_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD    
+      USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -70,7 +70,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITABM1(*)
       TYPE (INICRACK_) , DIMENSION(NINICRACK) :: INICRACK
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -105,10 +105,10 @@ C
       DO I = 1,NINICRACK
 C      
         ! Reading title and keys
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID      = ID,
-     .                          OPTION_TITR    = TITR)               
+     .                          OPTION_TITR    = TITR)
 C        
         ! Storing IDs and Title
         INICRACK(I)%ID    = ID
@@ -125,7 +125,7 @@ C
         ENDDO
 C
         ! Filling the segment data structure
-        DO J = 1,NSEG      
+        DO J = 1,NSEG
           CALL HM_GET_INT_ARRAY_INDEX('node_ID1',J2(1),J,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INT_ARRAY_INDEX('node_ID2',J2(2),J,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('Ratio', RATIO,J,IS_AVAILABLE,LSUBMODEL,UNITAB)

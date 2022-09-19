@@ -29,7 +29,7 @@ Chd|        CINIT3                        source/elements/shell/coque/cinit3.F
 Chd|-- calls ---------------
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE CMATINI(ELBUF_STR, 
+      SUBROUTINE CMATINI(ELBUF_STR,
      1           JFT     ,JLT     ,NFT     ,NEL     ,NPT     ,
      2           ISTRAIN ,SIGSH   ,NUMEL   ,IX      ,NIX     ,
      3           NSIGSH  ,NUMSH   ,PTSH    ,IR      ,IS      ,
@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD      
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,13 +68,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C-----------------------------------------------
-      INTEGER I,I1,II,J,JJ,N,NPTI,NU,NIP, NPG,IPT, 
+      INTEGER I,I1,II,J,JJ,N,NPTI,NU,NIP, NPG,IPT,
      .        IPT_ALL,IT,ILAY,NPTT, PT
       my_real,
-     .   DIMENSION(:), POINTER :: FACYLD 
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+     .   DIMENSION(:), POINTER :: FACYLD
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
-       !print*, ' dans cmatini ' 
+       !print*, ' dans cmatini '
       DO I=JFT,JLT
         IF (ABS(ISIGI) /=3 .AND. ABS(ISIGI)/=4 .AND. ABS(ISIGI)/=5)THEN
           II = I+NFT
@@ -98,22 +98,22 @@ C=======================================================================
           II=PTSH(JJ)
           IF(II == 0)GOTO 200
         END IF
-        NIP  = NINT(SIGSH(NVSHELL +  2,II))       
+        NIP  = NINT(SIGSH(NVSHELL +  2,II))
         NPG  = NINT(SIGSH(NVSHELL +  3,II))
 !!        PT=NVSHELL+3  ! wrong position, overwriting FAIL
         PT = NVSHELL+NUSHELL+NORTSHEL+NVSHELL1+3
         !print*, 'npg, nip ', npg, nip
- 
-                                 
-        IF (NPG <= 1) THEN                                      
+
+
+        IF (NPG <= 1) THEN
           IF (NIP == 0) THEN
 !----------------------------------------------------------
 !!  ILAY --> not initialised here
 !!  SIGSH(PT, II) --> not filled within initia for NIP = 0
 !----------------------------------------------------------
 !!             LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,1)
-!!             LBUF%FAC_YLD(I) = SIGSH(PT, II)                                          
-          ELSE                                                  
+!!             LBUF%FAC_YLD(I) = SIGSH(PT, II)
+          ELSE
 c
 
             IPT_ALL = 0
@@ -121,7 +121,7 @@ c
               NPTT  = ELBUF_STR%BUFLY(ILAY)%NPTT
               DO IT=1,NPTT
                 IPT = IPT_ALL + IT
-                LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)   
+                LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
                 LBUF%FAC_YLD(I) = SIGSH(PT + IPT , II)
                   !print*, ' IT, IPT ,indx',  IT, IPT,PT+ IPT
                   !print*, ' sig ', SIGSH(PT + IPT , II)
@@ -130,8 +130,8 @@ c
               IPT_ALL = IPT_ALL + NPTT
             ENDDO  !  DO ILAY=1,NPT
 c
-          ENDIF                                                 
-        ENDIF                                                   
+          ENDIF
+        ENDIF
  200    CONTINUE
       ENDDO
 C-----------

@@ -29,7 +29,7 @@ Chd|        REDEF3                        source/elements/spring/redef3.F
 Chd|        REPLA3                        source/elements/spring/repla3.F
 Chd|====================================================================
       SUBROUTINE R23L108DEF3(
-     .        IPM     ,IGEO   ,MID    ,PID    , UPARAM   ,   
+     .        IPM     ,IGEO   ,MID    ,PID    , UPARAM   ,
      1        SKEW    ,GEO    ,FX     ,FY     ,FZ      ,
      2        E       ,DX     ,DY     ,DZ     ,NPF     ,
      3        TF      ,OFF    ,DPX    ,DPY    ,DPZ     ,
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NPF(*), IGEO(NPROPGI,*),NEL,NGL(*),NC1(*),NC2(*),NUVAR,
-     .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)     
+     .   IPM(NPROPMI,*),MID(*),PID(*),IEQUIL(*),SKEW_ID(*)
 C     REAL
       my_real
      .   SKEW(LSKEW,*), GEO(NPROPG,*), FX(*), FY(*), FZ(*), E(*), DX(*),
@@ -132,20 +132,20 @@ C
 C
       NUPAR = 4
       I1 = NUPAR
-      I2 = I1 + 6 
-      I3 = I2 + 6 
-      I4 = I3 + 6 
-      I5 = I4 + 6 
-      I6 = I5 + 6 
-      I7 = I6 + 6 
-      I8 = I7 + 6 
-      I9 = I8 + 6 
-      I10 = I9 + 6 
-      I11 = I10 + 6 
-      I12 = I11 + 6 
+      I2 = I1 + 6
+      I3 = I2 + 6
+      I4 = I3 + 6
+      I5 = I4 + 6
+      I6 = I5 + 6
+      I7 = I6 + 6
+      I8 = I7 + 6
+      I9 = I8 + 6
+      I10 = I9 + 6
+      I11 = I10 + 6
+      I12 = I11 + 6
       I13 = I12 + 6
       I14 = I13 + 6
-      NUPAR = NUPAR +  84   
+      NUPAR = NUPAR +  84
       DO I=LFT,LLT
         IADBUF= IPM(7,MID(I)) - 1
         EPLA(I)=ZERO
@@ -228,7 +228,7 @@ C
 !
         IF (INISPRI /= 0) THEN
 !  condition nedeed for spring type 8, which are not concerned by /INISPRI,
-!  and having initial length /= 0 
+!  and having initial length /= 0
           DO I=LFT,LLT
             IF (X0_INI(I) == ZERO .and. DX0(I) == ZERO) X0_INI(I) = X0DP(I)
             IF (Y0_INI(I) == ZERO .and. DY0(I) == ZERO) Y0_INI(I) = Y0DP(I)
@@ -317,7 +317,7 @@ C
         ENDDO
       ENDIF !(ISMDISP > 0) THEN
 C-------------------------------
-      NINDX = 0 
+      NINDX = 0
       IF1 = 0
       IF2 = 6
       IF3 = 12
@@ -404,7 +404,7 @@ C-------------------------------
       ENDDO
       KK = 1 + NUMELR * ANIM_FE(11)
 
-      IF (NUVAR >= 2) THEN 
+      IF (NUVAR >= 2) THEN
          COORD_OLD => UVAR(2,1:NEL)
       ELSE
          COORD_OLD => NOT_USED
@@ -457,15 +457,15 @@ C-------------------------------
         IFUNC2(I)= IPM(10 + IF3 + 3,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 3,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 3))
-        AK(I)    = UPARAM(IADBUF + I1 + 3) 
-        B(I)     = UPARAM(IADBUF + I2 + 3) 
-        D(I)     = UPARAM(IADBUF + I3 + 3) 
-        EE(I)    = UPARAM(IADBUF + I4 + 3) 
-        GF3(I)   = UPARAM(IADBUF + I5 + 3) 
-        RSCALE(I)= UPARAM(IADBUF + I6 + 3) 
-        LSCALE(I)= UPARAM(IADBUF + I7 + 3) 
-        DMN(I)   = UPARAM(IADBUF + I8 + 3) 
-        DMX(I)   = UPARAM(IADBUF + I9 + 3) 
+        AK(I)    = UPARAM(IADBUF + I1 + 3)
+        B(I)     = UPARAM(IADBUF + I2 + 3)
+        D(I)     = UPARAM(IADBUF + I3 + 3)
+        EE(I)    = UPARAM(IADBUF + I4 + 3)
+        GF3(I)   = UPARAM(IADBUF + I5 + 3)
+        RSCALE(I)= UPARAM(IADBUF + I6 + 3)
+        LSCALE(I)= UPARAM(IADBUF + I7 + 3)
+        DMN(I)   = UPARAM(IADBUF + I8 + 3)
+        DMX(I)   = UPARAM(IADBUF + I9 + 3)
       ENDDO
       KK = 1 + NUMELR * (ANIM_FE(11)+ANIM_FE(12))
       IF (NUVAR >= 3) THEN
@@ -559,7 +559,7 @@ C
         RZ(I)= DZOLD(I)+X21(I)*EXZ(I)+Y21(I)*EYZ(I)+Z21(I)*EZZ(I)
       ENDDO
 C-------------------------------
-      DO I=LFT,LLT 
+      DO I=LFT,LLT
         IADBUF   = IPM(7,MID(I)) - 1
         IFUNC(I) = IPM(10 + IF1 + 4,MID(I))
         IFV(I)   = IPM(10 + IF2 + 4,MID(I))
@@ -629,15 +629,15 @@ C-------------------------------------
         IFUNC2(I)= IPM(10 + IF3 + 5,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 5,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 5))
-        AK(I)    = UPARAM(IADBUF + I1 + 5) 
-        B(I)     = UPARAM(IADBUF + I2 + 5) 
-        D(I)     = UPARAM(IADBUF + I3 + 5) 
-        EE(I)    = UPARAM(IADBUF + I4 + 5) 
-        GF3(I)   = UPARAM(IADBUF + I5 + 5) 
-        RSCALE(I)= UPARAM(IADBUF + I6 + 5) 
-        LSCALE(I)= UPARAM(IADBUF + I7 + 5) 
-        DMN(I)   = UPARAM(IADBUF + I8 + 5) 
-        DMX(I)   = UPARAM(IADBUF + I9 + 5) 
+        AK(I)    = UPARAM(IADBUF + I1 + 5)
+        B(I)     = UPARAM(IADBUF + I2 + 5)
+        D(I)     = UPARAM(IADBUF + I3 + 5)
+        EE(I)    = UPARAM(IADBUF + I4 + 5)
+        GF3(I)   = UPARAM(IADBUF + I5 + 5)
+        RSCALE(I)= UPARAM(IADBUF + I6 + 5)
+        LSCALE(I)= UPARAM(IADBUF + I7 + 5)
+        DMN(I)   = UPARAM(IADBUF + I8 + 5)
+        DMX(I)   = UPARAM(IADBUF + I9 + 5)
       ENDDO
       IF (NUVAR >= 5) THEN
          COORD_OLD => UVAR(5,1:NEL)
@@ -693,15 +693,15 @@ C-----------------------------------
         IFUNC2(I)= IPM(10 + IF3 + 6,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 6,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 6))
-        AK(I)    = UPARAM(IADBUF + I1 + 6) 
-        B(I)     = UPARAM(IADBUF + I2 + 6) 
-        D(I)     = UPARAM(IADBUF + I3 + 6) 
-        EE(I)    = UPARAM(IADBUF + I4 + 6) 
-        GF3(I)   = UPARAM(IADBUF + I5 + 6) 
-        RSCALE(I)= UPARAM(IADBUF + I6 + 6) 
-        LSCALE(I)= UPARAM(IADBUF + I7 + 6) 
-        DMN(I)   = UPARAM(IADBUF + I8 + 6) 
-        DMX(I)   = UPARAM(IADBUF + I9 + 6) 
+        AK(I)    = UPARAM(IADBUF + I1 + 6)
+        B(I)     = UPARAM(IADBUF + I2 + 6)
+        D(I)     = UPARAM(IADBUF + I3 + 6)
+        EE(I)    = UPARAM(IADBUF + I4 + 6)
+        GF3(I)   = UPARAM(IADBUF + I5 + 6)
+        RSCALE(I)= UPARAM(IADBUF + I6 + 6)
+        LSCALE(I)= UPARAM(IADBUF + I7 + 6)
+        DMN(I)   = UPARAM(IADBUF + I8 + 6)
+        DMX(I)   = UPARAM(IADBUF + I9 + 6)
       ENDDO
       IF (NUVAR >= 6) THEN
           COORD_OLD => UVAR(6,1:NEL)

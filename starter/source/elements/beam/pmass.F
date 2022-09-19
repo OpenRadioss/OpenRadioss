@@ -60,8 +60,8 @@ C-----------------------------------------------
      .   GEO(NPROPG,*), PM(NPROPM,*), MS(*), TINER(*),
      .   STIFN(*),STIFR(*),V(3,*),PARTSAV(20,*),MSP(*),INP(*),
      .   STIFINT(*), STP(*),
-     .   X1(MVSIZ), X2(MVSIZ),  
-     .   Y1(MVSIZ), Y2(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ),
+     .   Y1(MVSIZ), Y2(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), AREA(MVSIZ), AL(MVSIZ), STRP(*),
      .   MCPP(*),MCP(*),TEMP(*)
 C-----------------------------------------------
@@ -76,8 +76,8 @@ C-----------------------------------------------
      .   RHO(MVSIZ), EMS(MVSIZ),
      .   TIN(MVSIZ), TIXX(MVSIZ), TIYY(MVSIZ), TIZZ(MVSIZ),RHOCP(MVSIZ)
 C=======================================================================
-      IPY = 200  
-      IPZ = 300  
+      IPY = 200
+      IPZ = 300
       IPA = 400
       DO I=LFT,LLT
         IGTYP =  nint(GEO(12,MXG(I)))
@@ -97,12 +97,12 @@ C=======================================================================
             TIZZ(I) = TIZZ(I) + INI + ARI * RZI*RZI
           ENDDO
           TIXX(I) = TIYY(I) + TIZZ(I)
-          GEO( 1,MXG(I)) = AREA(I) 
-          GEO( 4,MXG(I)) = TIXX(I) 
-          GEO( 2,MXG(I)) = TIYY(I) 
-          GEO(18,MXG(I)) = TIZZ(I) 
+          GEO( 1,MXG(I)) = AREA(I)
+          GEO( 4,MXG(I)) = TIXX(I)
+          GEO( 2,MXG(I)) = TIYY(I)
+          GEO(18,MXG(I)) = TIZZ(I)
         ELSE
-          AREA(I)=GEO(1,MXG(I)) 
+          AREA(I)=GEO(1,MXG(I))
           TIXX(I)=GEO(4,MXG(I))
           TIYY(I)=GEO(2,MXG(I))
           TIZZ(I)=GEO(18,MXG(I))
@@ -239,19 +239,19 @@ C
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
      .     +V(1,I2)*V(1,I2)+V(2,I2)*V(2,I2)+V(3,I2)*V(3,I2))
       ENDDO
-      IF(JTHE > 0 ) THEN                                          
-        IF(NINTEMP > 0 ) THEN                                   
-          DO I= LFT,LLT                                          
-            IF(TEMP(NC1(I))== ZERO) TEMP(NC1(I)) = PM(79,MXT(I))   
+      IF(JTHE > 0 ) THEN
+        IF(NINTEMP > 0 ) THEN
+          DO I= LFT,LLT
+            IF(TEMP(NC1(I))== ZERO) TEMP(NC1(I)) = PM(79,MXT(I))
             IF(TEMP(NC2(I))== ZERO) TEMP(NC2(I)) = PM(79,MXT(I))
-          ENDDO                                                  
-        ELSE                                          
-          DO I=LFT,LLT                                           
-            TEMP(NC1(I)) = PM(79,MXT(I))                           
-            TEMP(NC2(I)) = PM(79,MXT(I))                         
-          ENDDO                                                  
-        ENDIF                                                    
-      ENDIF          
+          ENDDO
+        ELSE
+          DO I=LFT,LLT
+            TEMP(NC1(I)) = PM(79,MXT(I))
+            TEMP(NC2(I)) = PM(79,MXT(I))
+          ENDDO
+        ENDIF
+      ENDIF
 C-----------
       RETURN
       END

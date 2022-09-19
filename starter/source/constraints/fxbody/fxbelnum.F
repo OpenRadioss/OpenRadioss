@@ -81,7 +81,7 @@ C     1. Solid elements
          IT6=MIN(1,ITAG(IXS(7,II)))
          IT7=MIN(1,ITAG(IXS(8,II)))
          IT8=MIN(1,ITAG(IXS(9,II)))
-         NALL = IT1 * IT2 * IT3 * IT4 * IT5 * IT6 * IT7 * IT8 
+         NALL = IT1 * IT2 * IT3 * IT4 * IT5 * IT6 * IT7 * IT8
          IF (NALL>0) THEN
             MAT=IXS(1,II)
             FXBELM(NEL2+1)=NG

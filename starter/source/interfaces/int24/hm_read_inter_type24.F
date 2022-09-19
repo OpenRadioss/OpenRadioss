@@ -77,7 +77,7 @@ C-----------------------------------------------
       CHARACTER TITR*nchartitle,TITR1*nchartitle
       TYPE(INTBUF_FRIC_STRUCT_) INTBUF_FRIC_TAB(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -102,9 +102,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,L,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP, IBID,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,
-     .    ILEV, IGAP,MULTIMP,HIERA,MFROT,IFQ,IBAG,MODFR,IERR1, 
-     .    IFLAGUNIT,ISYM,IEDGE,NOD1,IDUM,IGNORE,IDEL24,KK,II, 
-     .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM24I2,IPRINT,    
+     .    ILEV, IGAP,MULTIMP,HIERA,MFROT,IFQ,IBAG,MODFR,IERR1,
+     .    IFLAGUNIT,ISYM,IEDGE,NOD1,IDUM,IGNORE,IDEL24,KK,II,
+     .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM24I2,IPRINT,
      .    INTFRIC,MULTIMPE,IASSIGN,ICURV,INTPLY,INTTH,NPREF,
      .    INTNITSCHE,IPEN0,NA1,NA2,IADM,NRADM,IFORM
       my_real
@@ -140,12 +140,12 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
-      ILEV=0 
-      IDSENS = 0 
+      IGSTI = 0
+      ILEV=0
+      IDSENS = 0
       IDELKEEP=0
       INTFRIC = 0
-      NOD1 = 0    
+      NOD1 = 0
       INTKG = 0
       FLAGREMNOD = 0
       MULTIMP  = 0
@@ -245,8 +245,8 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-      CALL HM_GET_FLOATV('Tpressfit',TPFIT,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV('Tpressfit',TPFIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
       CALL HM_GET_FLOATV('Xfreq',ALPHA,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
@@ -364,7 +364,7 @@ C            3 : ISU1=0,ISU2>0;IS3>0
         ISYM = 1
 
         SELECT CASE (ILEV)
-          CASE(1)          
+          CASE(1)
             INGR2USR => IGRSURF(1:NSURF)%ID
             ISU1=NGR2USR(ISU1,INGR2USR,NSURF)
             ISU2=ISU1
@@ -409,7 +409,7 @@ c          IEDGE=MIN(4,IEDGE)
         END IF
 
 C--------change default EDG_ANGL=135         
-        IF((IEDGE>=3).AND. EDG_ANGL==ZERO) 
+        IF((IEDGE>=3).AND. EDG_ANGL==ZERO)
 C     +            EDG_ANGL=NINTY+ONE
      +            EDG_ANGL=HUNDRED+THIRTY+FIVE
         FRIGAP(26)  = COS((HUNDRED80-EDG_ANGL)*PI/HUNDRED80)
@@ -421,7 +421,7 @@ C---------Default Istif for implicit
         IF(IGSTI >= 10) THEN ! Nitsche Method Activation instead of penalty
            INTNITSCHE = 1
            IPARI(86) = 1
-           IGSTI = IGSTI - 10 
+           IGSTI = IGSTI - 10
            IF(INTNITSCHE > 0 ) NITSCHE = 1
            IF (ILEV /= 1.AND.ILEV /= 2) THEN
               CALL ANCMSG(MSGID=1622,
@@ -461,7 +461,7 @@ C------ consisting w/ manuel
         IF(INTTH > 0 ) INTHEAT = 1
         IF (IIMPLICIT>0) INTKG=1
 C flag to activate update of gap with plyxfem
-        IPARI(66) = INTPLY    
+        IPARI(66) = INTPLY
 
 C
 C....* Card3  *.............
@@ -499,7 +499,7 @@ c       FRIGAP(28) = PERCENT_SIZE
 
 C       IF(PENMAX==ZERO)PENMAX=EP30
         IF(PENMIN==ZERO)PENMIN=EM8
-        IF(ETEN_M == ZERO)ETEN_M =TWENTY5*EM03 
+        IF(ETEN_M == ZERO)ETEN_M =TWENTY5*EM03
         FRIGAP(35) = GAPMAX_S
         FRIGAP(36) = GAPMAX_M
         FRIGAP(37) = PENMAX
@@ -797,7 +797,7 @@ C........* PRINT INTERFACES INPUT *.....................
        IF (IEDGE/=1000.AND.IEDGE>0)IDUM =MIN(1,IEDGE)
 
        IF(INTNITSCHE > 0) THEN
-         IF(IDSENS/=0) THEN 
+         IF(IDSENS/=0) THEN
           WRITE(IOUT,3528)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STFAC,ILEV,IDUM,EDG_ANGL,
      .                 STMIN,STMAX,
@@ -813,7 +813,7 @@ C........* PRINT INTERFACES INPUT *.....................
      .                 INACTI,IREM24I2,VISC,IPARI(14)
          ENDIF
        ELSE
-         IF(IDSENS/=0) THEN 
+         IF(IDSENS/=0) THEN
           WRITE(IOUT,3524)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 IGSTI,STFAC,ILEV,IDUM,EDG_ANGL,
      .                 STMIN,STMAX,
@@ -839,9 +839,9 @@ C........* PRINT INTERFACES INPUT *.....................
           IF(IDELKEEP == 1)THEN
             WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-          ENDIF         
+          ENDIF
        ENDIF
-        
+
 C
        IF(INTFRIC > 0 ) THEN
           WRITE(IOUT,5030) INTFRIC
@@ -887,7 +887,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

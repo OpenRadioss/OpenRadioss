@@ -121,7 +121,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL),PLA(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -163,21 +163,21 @@ C-----------------------------------------------
         DPLA1(I) = ZERO
       ENDDO
 C       
-      IADBUF = IPM(7,MAT(1))       
-      IRATE  = NINT(UPARAM(IADBUF ))   
-      E   = UPARAM(IADBUF +1)                         
-      G   = UPARAM(IADBUF +4)        
-      NU  = UPARAM(IADBUF +5)                 
-      PC  = UPARAM(IADBUF +6)                         
-      PT = UPARAM(IADBUF +7)                     
-      EPSP0 = UPARAM(IADBUF +8)                      
-      CP= UPARAM(IADBUF +9) 
+      IADBUF = IPM(7,MAT(1))
+      IRATE  = NINT(UPARAM(IADBUF ))
+      E   = UPARAM(IADBUF +1)
+      G   = UPARAM(IADBUF +4)
+      NU  = UPARAM(IADBUF +5)
+      PC  = UPARAM(IADBUF +6)
+      PT = UPARAM(IADBUF +7)
+      EPSP0 = UPARAM(IADBUF +8)
+      CP= UPARAM(IADBUF +9)
       NCC = NINT(UPARAM(IADBUF + 10))
       NCT = NINT(UPARAM(IADBUF + 11))
-      FISOKIN = UPARAM(IADBUF +12)  
+      FISOKIN = UPARAM(IADBUF +12)
 C                                              
-      G2  = TWO*G                            
-      G3  = THREE*G                          
+      G2  = TWO*G
+      G3  = THREE*G
       C1  = E/THREE/(ONE - TWO*NU)
 C      
       NFUNC = IPM(10,MAT(1))
@@ -187,7 +187,7 @@ C
         RATE0(I) = UPARAM(IADBUF + 12 + NFUNC + I )
       ENDDO
 C    
-      SIGY = UPARAM(IADBUF +13 + 2*MFUNC) 
+      SIGY = UPARAM(IADBUF +13 + 2*MFUNC)
       VP   = NINT(UPARAM(IADBUF +14 + 2*MFUNC))
 C
       IF (ISIGI==0) THEN
@@ -218,10 +218,10 @@ C------------------------------------------
            SIGOYZ(I) = SIGOYZ(I) - UVAR(I, 6)
            SIGOZX(I) = SIGOZX(I) - UVAR(I, 7)
         ENDDO
-      ENDIF 
+      ENDIF
 C       
       DO I=1,NEL
-        
+
         PLA(I) = UVAR(I,1)
         P0(I) = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
         DAV = (DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*THIRD
@@ -233,11 +233,11 @@ C
         SIGNZX(I)=SIGOZX(I) + G *DEPSZX(I)
 C
         SOUNDSP(I) = SQRT((C1+FOUR*G/THREE)/RHO0(I))
-        VISCMAX(I) = ZERO 
+        VISCMAX(I) = ZERO
 C         
         SIGEXX(I) = SIGNXX(I)
         SIGEYY(I) = SIGNYY(I)
-        SIGEZZ(I) = SIGNZZ(I)               
+        SIGEZZ(I) = SIGNZZ(I)
         SIGEXY(I) = SIGNXY(I)
         SIGEYZ(I) = SIGNYZ(I)
         SIGEZX(I) = SIGNZX(I)
@@ -270,7 +270,7 @@ C
             YT(I)=YT(I)*YFAC(2)
             HC(I)=DYDX1(I)*YFAC(1)
             HT(I)=DYDX2(I)*YFAC(2)
-          ENDDO  
+          ENDDO
         ELSEIF(FISOKIN == ONE ) THEN
            DO I=1,NEL
              HC(I)=DYDX1(I)*YFAC(1)
@@ -281,7 +281,7 @@ C
              YT(I)=YC(I)*YFAC(2)
              YC(I) = MAX(EM20, YC(I))
              YT(I) = MAX(EM20, YT(I))
-           ENDDO 
+           ENDDO
         ELSE
            DO I=1,NEL
                YC(I)=YC(I)*YFAC(1)
@@ -301,151 +301,151 @@ C              ECROUISSAGE CINEMATIQUE
 C----------------------------------------------------------------------
 C       compression
 C------------------------------------------------------------------------ 
-        DO J = 2,NCC - 1                                           
-          DO I=1,NEL                                               
-            IF(EPSP(I) >= RATE0(J))JJC(I) = J                      
-          ENDDO                                                    
-        ENDDO                                                      
-        DO I=1,NEL                                                 
-          FAC=RATE0(JJC(I))                                        
-          RATE(I)=(EPSP(I) - FAC)/(RATE0(JJC(I)+1 ) - FAC)         
-        ENDDO                                                      
-        DO I=1,NEL                                                 
-          J1 = JJC(I)                                              
-          J2 = J1+1                                                
-          IPOS1(I) = NINT(UVAR(I,7+J1 ))                           
-          IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1                     
-          ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I)-IPOS1(I)    
-          IPOS2(I) = NINT(UVAR(I,7+J2))                            
-          IAD2(I)  = NPF(IFUNC(J2)) / 2 + 1                     
-          ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I)-IPOS2(I)    
+        DO J = 2,NCC - 1
+          DO I=1,NEL
+            IF(EPSP(I) >= RATE0(J))JJC(I) = J
+          ENDDO
+        ENDDO
+        DO I=1,NEL
+          FAC=RATE0(JJC(I))
+          RATE(I)=(EPSP(I) - FAC)/(RATE0(JJC(I)+1 ) - FAC)
+        ENDDO
+        DO I=1,NEL
+          J1 = JJC(I)
+          J2 = J1+1
+          IPOS1(I) = NINT(UVAR(I,7+J1 ))
+          IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
+          ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I)-IPOS1(I)
+          IPOS2(I) = NINT(UVAR(I,7+J2))
+          IAD2(I)  = NPF(IFUNC(J2)) / 2 + 1
+          ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I)-IPOS2(I)
 C                                                                  
-          UVAR(I,7+J1) = IPOS1(I)                                  
-          UVAR(I,7+J2) = IPOS2(I)                                  
-        END DO                                                     
-         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)         
-         CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)         
+          UVAR(I,7+J1) = IPOS1(I)
+          UVAR(I,7+J2) = IPOS2(I)
+        END DO
+         CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
+         CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)
 C                                                                  
-        IF (FISOKIN == ZERO) THEN                                 
-          DO I=1,NEL                                                
-            J1 = JJC(I)                                             
-            J2 = J1+1                                               
-            Y1(I)=Y1(I)*YFAC(J1)                                    
-            Y2(I)=Y2(I)*YFAC(J2)                                    
-            FAC   = RATE(I)                                         
-            YC(I) =(Y1(I)    + FAC*(Y2(I)-Y1(I)))                   
-            YC(I) = MAX(YC(I),EM20)                                 
-            DYDX1(I)=DYDX1(I)*YFAC(J1)                              
-            DYDX2(I)=DYDX2(I)*YFAC(J2)                              
-            HC(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))          
-          ENDDO                                                     
-        ELSEIF (FISOKIN == ONE ) THEN                              
-          DO I=1,NEL                                              
-            J1 = JJC(I)                                            
-            J2 = J1+1                                              
-            FAC   = RATE(I)                                        
-            DYDX1(I)=DYDX1(I)*YFAC(J1)                             
-            DYDX2(I)=DYDX2(I)*YFAC(J2)                             
-            HC(I)   =(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))          
+        IF (FISOKIN == ZERO) THEN
+          DO I=1,NEL
+            J1 = JJC(I)
+            J2 = J1+1
+            Y1(I)=Y1(I)*YFAC(J1)
+            Y2(I)=Y2(I)*YFAC(J2)
+            FAC   = RATE(I)
+            YC(I) =(Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YC(I) = MAX(YC(I),EM20)
+            DYDX1(I)=DYDX1(I)*YFAC(J1)
+            DYDX2(I)=DYDX2(I)*YFAC(J2)
+            HC(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
+          ENDDO
+        ELSEIF (FISOKIN == ONE ) THEN
+          DO I=1,NEL
+            J1 = JJC(I)
+            J2 = J1+1
+            FAC   = RATE(I)
+            DYDX1(I)=DYDX1(I)*YFAC(J1)
+            DYDX2(I)=DYDX2(I)*YFAC(J2)
+            HC(I)   =(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
 C          ECROUISSAGE CINEMATIQUE                                 
-            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1)) + 1)                  
-            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2)) + 1)                  
-            YC(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))                 
-            YC(I) = MAX(EM20,YC(I))                                
-          ENDDO                                                   
-        ELSE                                                     
-          DO I=1,NEL                                              
-            J1 = JJC(I)                                            
-            J2 = J1 + 1                                            
-            Y1(I)=Y1(I)*YFAC(J1)                                   
-            Y2(I)=Y2(I)*YFAC(J2)                                   
-            FAC   = RATE(I)                                        
-            YC(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))                 
-            YC(I) = MAX(YC(I),EM20)                                
-            DYDX1(I)=DYDX1(I)*YFAC(J1)                             
-            DYDX2(I)=DYDX2(I)*YFAC(J2)                             
-            HC(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))         
+            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1)) + 1)
+            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2)) + 1)
+            YC(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YC(I) = MAX(EM20,YC(I))
+          ENDDO
+        ELSE
+          DO I=1,NEL
+            J1 = JJC(I)
+            J2 = J1 + 1
+            Y1(I)=Y1(I)*YFAC(J1)
+            Y2(I)=Y2(I)*YFAC(J2)
+            FAC   = RATE(I)
+            YC(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YC(I) = MAX(YC(I),EM20)
+            DYDX1(I)=DYDX1(I)*YFAC(J1)
+            DYDX2(I)=DYDX2(I)*YFAC(J2)
+            HC(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
 C           ECROUISSAGE CINEMATIQUE                                
-            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1))+1)                    
-            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2))+1)                    
-            YC(I) = (ONE - FISOKIN) * YC(I) +                       
-     .              FISOKIN * (Y1(I)    + FAC*(Y2(I)-Y1(I)))       
-          ENDDO                                                   
-        ENDIF                                                   
+            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1))+1)
+            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2))+1)
+            YC(I) = (ONE - FISOKIN) * YC(I) +
+     .              FISOKIN * (Y1(I)    + FAC*(Y2(I)-Y1(I)))
+          ENDDO
+        ENDIF
 C----------------------------------------------------------------------
 C          traction
 C------------------------------------------------------------------------ 
-        DO J = 2,NCT - 1                                             
-          DO I=1,NEL                                                 
-            IF (EPSP(I)>=RATE0(NCC  + J))JJT(I)=NCC+J                
-          ENDDO                                                      
-        ENDDO                                                        
-        DO I=1,NEL                                                   
-          FAC=RATE0(JJT(I))                                          
-          RATE(I)=(EPSP(I) - FAC)/( RATE0(JJT(I)+1)- FAC)            
-        ENDDO                                                        
-        DO I=1,NEL                                                   
-          J1 = JJT(I)                                                
-          J2 = J1+1                                                  
-          IPOS1(I) = NINT(UVAR(I,7+J1))                              
-          IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1                       
-          ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I)-IPOS1(I)      
-          IPOS2(I) = NINT(UVAR(I,7+J2))                              
-          IAD2(I)  = NPF(IFUNC(J2)) / 2 + 1                       
-          ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I)-IPOS2(I)      
+        DO J = 2,NCT - 1
+          DO I=1,NEL
+            IF (EPSP(I)>=RATE0(NCC  + J))JJT(I)=NCC+J
+          ENDDO
+        ENDDO
+        DO I=1,NEL
+          FAC=RATE0(JJT(I))
+          RATE(I)=(EPSP(I) - FAC)/( RATE0(JJT(I)+1)- FAC)
+        ENDDO
+        DO I=1,NEL
+          J1 = JJT(I)
+          J2 = J1+1
+          IPOS1(I) = NINT(UVAR(I,7+J1))
+          IAD1(I)  = NPF(IFUNC(J1)) / 2 + 1
+          ILEN1(I) = NPF(IFUNC(J1)+1) / 2 - IAD1(I)-IPOS1(I)
+          IPOS2(I) = NINT(UVAR(I,7+J2))
+          IAD2(I)  = NPF(IFUNC(J2)) / 2 + 1
+          ILEN2(I) = NPF(IFUNC(J2)+1) / 2 - IAD2(I)-IPOS2(I)
 C                                                                    
-          UVAR(I,7+J1) = IPOS1(I)                                    
-          UVAR(I,7+J2) = IPOS2(I)                                    
-        END DO                                                       
-        CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)        
-        CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)        
+          UVAR(I,7+J1) = IPOS1(I)
+          UVAR(I,7+J2) = IPOS2(I)
+        END DO
+        CALL VINTER(TF,IAD1,IPOS1,ILEN1,NEL,PLA,DYDX1,Y1)
+        CALL VINTER(TF,IAD2,IPOS2,ILEN2,NEL,PLA,DYDX2,Y2)
 C                                                                
-        IF (FISOKIN == ZERO) THEN                                
-          DO I=1,NEL                                             
-            J1 = JJT(I)                                          
-            J2 = J1+1                                            
-            Y1(I)=Y1(I)*YFAC(J1)                                 
-            Y2(I)=Y2(I)*YFAC(J2)                                 
-            FAC   = RATE(I)                                      
-            YT(I) =(Y1(I)    + FAC*(Y2(I)-Y1(I)))                
-            YT(I) = MAX(YT(I),EM20)                              
-            DYDX1(I)=DYDX1(I)*YFAC(J1)                           
-            DYDX2(I)=DYDX2(I)*YFAC(J2)                           
-            HT(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))       
-          ENDDO                                                  
-        ELSEIF (FISOKIN == ONE ) THEN                             
-           DO I=1,NEL                                            
-            J1 = JJT(I)                                          
-            J2 = J1+1                                            
-            FAC   = RATE(I)                                      
-            DYDX1(I)=DYDX1(I)*YFAC(J1)                           
-            DYDX2(I)=DYDX2(I)*YFAC(J2)                           
-            HT(I)   =(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))        
+        IF (FISOKIN == ZERO) THEN
+          DO I=1,NEL
+            J1 = JJT(I)
+            J2 = J1+1
+            Y1(I)=Y1(I)*YFAC(J1)
+            Y2(I)=Y2(I)*YFAC(J2)
+            FAC   = RATE(I)
+            YT(I) =(Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YT(I) = MAX(YT(I),EM20)
+            DYDX1(I)=DYDX1(I)*YFAC(J1)
+            DYDX2(I)=DYDX2(I)*YFAC(J2)
+            HT(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
+          ENDDO
+        ELSEIF (FISOKIN == ONE ) THEN
+           DO I=1,NEL
+            J1 = JJT(I)
+            J2 = J1+1
+            FAC   = RATE(I)
+            DYDX1(I)=DYDX1(I)*YFAC(J1)
+            DYDX2(I)=DYDX2(I)*YFAC(J2)
+            HT(I)   =(DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
 C          ECROUISSAGE CINEMATIQUE                               
-            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1)) + 1)                
-            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2)) + 1)                
-            YT(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))               
-            YT(I) = MAX(EM20,YT(I))                              
-           ENDDO                                                 
-        ELSE                                                    
-           DO I=1,NEL                                            
-            J1 = JJT(I)                                          
-            J2 = J1 + 1                                          
-            Y1(I)=Y1(I)*YFAC(J1)                                 
-            Y2(I)=Y2(I)*YFAC(J2)                                 
-            FAC   = RATE(I)                                      
-            YT(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))               
-            YT(I) = MAX(YT(I),EM20)                              
-            DYDX1(I)=DYDX1(I)*YFAC(J1)                           
-            DYDX2(I)=DYDX2(I)*YFAC(J2)                           
-            HT(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))       
+            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1)) + 1)
+            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2)) + 1)
+            YT(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YT(I) = MAX(EM20,YT(I))
+           ENDDO
+        ELSE
+           DO I=1,NEL
+            J1 = JJT(I)
+            J2 = J1 + 1
+            Y1(I)=Y1(I)*YFAC(J1)
+            Y2(I)=Y2(I)*YFAC(J2)
+            FAC   = RATE(I)
+            YT(I) = (Y1(I)    + FAC*(Y2(I)-Y1(I)))
+            YT(I) = MAX(YT(I),EM20)
+            DYDX1(I)=DYDX1(I)*YFAC(J1)
+            DYDX2(I)=DYDX2(I)*YFAC(J2)
+            HT(I)   = (DYDX1(I) + FAC*(DYDX2(I)-DYDX1(I)))
 C           ECROUISSAGE CINEMATIQUE                              
-            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1))+1)                  
-            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2))+1)                  
-            YT(I) = (ONE - FISOKIN) * YT(I) +                     
-     .            FISOKIN * (Y1(I)    + FAC*(Y2(I)-Y1(I)))       
-           ENDDO                                                 
-        ENDIF                                                   
+            Y1(I)=YFAC(J1)*TF(NPF(IFUNC(J1))+1)
+            Y2(I)=YFAC(J2)*TF(NPF(IFUNC(J2))+1)
+            YT(I) = (ONE - FISOKIN) * YT(I) +
+     .            FISOKIN * (Y1(I)    + FAC*(Y2(I)-Y1(I)))
+           ENDDO
+        ENDIF
       ENDIF
 C          
 C strain effect on compression and traction
@@ -455,14 +455,14 @@ C compression
             YRATE = YFAC(3)*FINTER(IFUNC(3),EPSP(I),NPF,TF,DF)
             YC(I) = YRATE*YC(I)
             HC(I) = HC(I)*YRATE
-c traction            
+c traction
             YRATE = YFAC(4)*FINTER(IFUNC(4),EPSP(I),NPF,TF,DF)
             YT(I) = YRATE*YT(I)
             HT(I) = HT(I)*YRATE
           ENDDO
          ENDIF
 C interpolation entre (tracation & compression
-         DO I=1,NEL  
+         DO I=1,NEL
 c          P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
           P(I) = C1 * AMU(I)
           IF(P(I) <=  -PT) THEN
@@ -477,7 +477,7 @@ c          P(I) = C1 * (RHO(I)/RHO0(I)- ONE)
             YLD(I) = FAC*YT(I) + (ONE -FAC)*YC(I)
             YLD(I) = MAX(EM20,YLD(I))
             H(I) = FAC*HT(I) + (ONE -FAC)*HC(I)
-          ENDIF  
+          ENDIF
         ENDDO
 C
 C strain rate effect
@@ -486,13 +486,13 @@ C
 c analytical strain rate effect
 c (1 + (epsp/epsp0)**(1/cp)
       IF (VP == 0) THEN
-          IF(IRATE == 1) THEN      
+          IF(IRATE == 1) THEN
               DO I=1,NEL
                EPD = MAX(EM20,EPSP(I)/EPSP0)
                YRATE  = ONE + EXP(CP*LOG(EPD))
                YLD(I) = YLD(I)*YRATE
                H(I) = H(I)*YRATE
-              ENDDO     
+              ENDDO
 C 1 + cp*ln(epep/epsp0)     
           ELSEIF(IRATE == 2) THEN
               DO I=1,NEL
@@ -500,9 +500,9 @@ C 1 + cp*ln(epep/epsp0)
                  YRATE = ONE + CP*LOG(EPD)
                  YLD(I) = YLD(I)*YRATE
                  H(I) = H(I)*YRATE
-              ENDDO  
-          ENDIF  
-      ENDIF       
+              ENDDO
+          ENDIF
+      ENDIF
 C-------------------
 C     PROJECTION
 C-------------------
@@ -524,7 +524,7 @@ C
                H(I) = H(I)*YRATE
             ELSE
                YLD(I) = YLD(I) + SIGY*(YRATE - ONE)
-            ENDIF         
+            ENDIF
           ENDDO
         ENDIF
 C        
@@ -541,7 +541,7 @@ C
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE - R)*VM/MAX(G3 + H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA1(I) = (ONE - R)*VM/MAX(G3+H(I),EM20)         
+        DPLA1(I) = (ONE - R)*VM/MAX(G3+H(I),EM20)
        ENDDO
       ELSEIF(IPLA==2)THEN
 C
@@ -561,9 +561,9 @@ C
                H(I) = H(I)*YRATE
             ELSE
                YLD(I) = YLD(I) + SIGY*(YRATE - ONE)
-            ENDIF         
+            ENDIF
           ENDDO
-        ENDIF     
+        ENDIF
        DO I=1,NEL
         VM =HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
      1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
@@ -577,7 +577,7 @@ C
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE-R)*VM/MAX(G3,EM20)
         UVAR(I,1)=PLA(I)
-        DPLA1(I) =  (ONE-R)*VM/MAX(G3,EM20)       
+        DPLA1(I) =  (ONE-R)*VM/MAX(G3,EM20)
        ENDDO
       ELSEIF (IPLA == 1) THEN
 CC Viscoplatic        
@@ -589,7 +589,7 @@ CC Viscoplatic
             VM = SQRT(THREE*VM)
             R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 C 
-            EPD = (ONE - R)*VM/MAX(G3+H(I),EM20) 
+            EPD = (ONE - R)*VM/MAX(G3+H(I),EM20)
             EPD = EPD*DTINV
             EPD = MAX(EM20,EPD/EPSP0)
             YRATE  = ONE + EXP(CP*LOG(EPD))
@@ -598,9 +598,9 @@ C
                H(I) = H(I)*YRATE
             ELSE
                YLD(I) = YLD(I) + SIGY*(YRATE - ONE)
-            ENDIF         
+            ENDIF
           ENDDO
-        ENDIF    
+        ENDIF
 C           
         DO I=1,NEL
           VM = THREE*(HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
@@ -609,7 +609,7 @@ C
             VM = SQRT(VM)
             R  = YLD(I) / VM
 c           plastic strain increment
-            DPLA = (ONE - R)*VM / MAX(G3+H(I),EM20) 
+            DPLA = (ONE - R)*VM / MAX(G3+H(I),EM20)
 c           actualized yeld stress with kinematic hardening
             YLD(I) = MAX(YLD(I) + (ONE-FISOKIN)*DPLA*H(I), ZERO)
             R = MIN(ONE, YLD(I) / VM)
@@ -620,7 +620,7 @@ C
             SIGNXY(I) = SIGNXY(I)*R
             SIGNYZ(I) = SIGNYZ(I)*R
             SIGNZX(I) = SIGNZX(I)*R
-            PLA(I) = PLA(I) + DPLA     
+            PLA(I) = PLA(I) + DPLA
             UVAR(I,1)= PLA(I)
             DPLA1(I) = DPLA
           ENDIF
@@ -631,7 +631,7 @@ c
           SIGNYY(I) = SIGNYY(I) - P(I)
           SIGNZZ(I) = SIGNZZ(I) - P(I)
         ENDDO
-c        
+c
       ENDIF
 C+
 C------------------------------------------
@@ -640,7 +640,7 @@ C------------------------------------------
 C
        IF(FISOKIN > ZERO) THEN
          DO I=1,NEL
-          DSXX = SIGEXX(I) - SIGNXX(I) - P(I) 
+          DSXX = SIGEXX(I) - SIGNXX(I) - P(I)
           DSYY = SIGEYY(I) - SIGNYY(I) - P(I)
           DSZZ = SIGEZZ(I) - SIGNZZ(I) - P(I)
           DSXY = SIGEXY(I) - SIGNXY(I)
@@ -648,20 +648,20 @@ C
           DSZX = SIGEZX(I) - SIGNZX(I)
 CC         
           HKIN = TWO_THIRD*FISOKIN*H(I)
-          ALPHA = HKIN/(G2+HKIN)  
-          SIGPXX = ALPHA*DSXX 
+          ALPHA = HKIN/(G2+HKIN)
+          SIGPXX = ALPHA*DSXX
           SIGPYY = ALPHA*DSYY
-          SIGPZZ = ALPHA*DSZZ 
+          SIGPZZ = ALPHA*DSZZ
           SIGPXY = ALPHA*DSXY
           SIGPYZ = ALPHA*DSYZ
           SIGPZX = ALPHA*DSZX
 C         
-          UVAR(I,  2) = UVAR(I,  2) + SIGPXX 
+          UVAR(I,  2) = UVAR(I,  2) + SIGPXX
           UVAR(I,  3) = UVAR(I,  3) + SIGPYY
           UVAR(I,  4) = UVAR(I,  4) + SIGPZZ
           UVAR(I,  5) = UVAR(I,  5) + SIGPXY
           UVAR(I,  6) = UVAR(I,  6) + SIGPYZ
-          UVAR(I,  7) = UVAR(I,  7) + SIGPZX         
+          UVAR(I,  7) = UVAR(I,  7) + SIGPZX
 C          
           SIGNXX(I) = SIGNXX(I) + UVAR(I,  2)
           SIGNYY(I) = SIGNYY(I) + UVAR(I,  3)
@@ -670,7 +670,7 @@ C
           SIGNYZ(I) = SIGNYZ(I) + UVAR(I,  6)
           SIGNZX(I) = SIGNZX(I) + UVAR(I,  7)
        ENDDO
-      ENDIF 
+      ENDIF
 C   
       IF (IMPL_S > ZERO) THEN
        DO I=1,NEL

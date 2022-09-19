@@ -110,14 +110,14 @@ C-----------------------------------------------
 !
       EPIF   = MAX( EPIF, CC )
 !
-      DO I=JFT,JLT          
+      DO I=JFT,JLT
         EPDR(I) = MAX( EM20, PM(44,IMAT)*DT1C(I) )
         NPIF	= NPIF + IRTY
         T(I)	= TI
       ENDDO
 !
-      IF ( JTHE <= 0 ) THEN      
-        TM=Z4  
+      IF ( JTHE <= 0 ) THEN
+        TM=Z4
         DO I=JFT,JLT
           T(I) = T(I)+CP*(EINT(I,1)+EINT(I,2))/VOL0(I)
           TSTAR(I) = MAX( ZERO, (T(I)-TI)/(TM-TI) )
@@ -154,9 +154,9 @@ C-----------------------------------------------
             ENDIF
           ENDIF
         ENDDO
-c------------------------------------            
+c------------------------------------
 !     thickness update:
-c------------------------------------            
+c------------------------------------
       DO I=JFT,JLT
         IF (INLOC > 0) THEN
           EZZ(I) = -NU*(SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/YOUNG

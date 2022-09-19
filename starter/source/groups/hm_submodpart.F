@@ -78,7 +78,7 @@ C-----------------------------------------------
       CHARACTER TITR2*ncharline
       LOGICAL IS_AVAILABLE,IS_ENCRYPTED
       INTEGER,DIMENSION(:),ALLOCATABLE :: LIST_ELEM
-      INTEGER :: NENTITY      
+      INTEGER :: NENTITY
 C-----------------------------------------------
       INTERFACE
        SUBROUTINE GROUPS_GET_ELEM_LIST(arg1,arg2,arg3)
@@ -87,57 +87,57 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
 C     Tag submodels
 C-------------------------
       TAGS(1:NSUBMOD)   = 0
-      
-      CALL GROUPS_GET_ELEM_LIST(LIST_ELEM, NENTITY, LSUBMODEL)                                                               
-      DO KK=1,NENTITY                                                                                                            
-        JJ=LIST_ELEM(KK)                                              
-        IF(JJ > 0)THEN                                                                                                          
-          ISU=0                                                                                                                  
-          ISELECT = 0                                                                                                            
-          IOK = 0                                                                                                                
-          DO K=1,NSUBMOD                                                                                                         
-            CUR_SUBMOD = K                                                                                                       
-            ISELECT = 0                                                                                                          
-            DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)                                                                    
-              IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1                                                              
-              IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1                                                            
-              CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER                                                                         
-            ENDDO                                                                                                                
-            IF (ISELECT == 1) THEN                                                                                               
-              ISU=K                                                                                                              
-              TAGS(K) = TAGS(K) + 1                                                                                              
-              IOK = 1                                                                                                            
-            ELSEIF (ISELECT == -1) THEN                                                                                          
-              ISU=K                                                                                                              
-              TAGS(K) = TAGS(K) - 1                                                                                              
-              IOK = 1                                                                                                            
-            ENDIF                                                                                                                
-          ENDDO                                                                                                                  
-          IF (IOK == 0) CALL ANCMSG(MSGID=194,                                                                                   
-     .                   MSGTYPE=MSGWARNING,                                                                                     
-     .                   ANMODE=ANINFO,                                                                                          
-     .                   I1=ID,                                                                                                  
-     .                   C1=TITR1,                                                                                               
-     .                   C2=TITR,                                                                                                
-     .                   C3='SUBMODEL',                                                                                          
-     .                   I2=JJ)                                                                                                  
-        ENDIF                                                                                                                    
-      ENDDO      
-      IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM) 
+
+      CALL GROUPS_GET_ELEM_LIST(LIST_ELEM, NENTITY, LSUBMODEL)
+      DO KK=1,NENTITY
+        JJ=LIST_ELEM(KK)
+        IF(JJ > 0)THEN
+          ISU=0
+          ISELECT = 0
+          IOK = 0
+          DO K=1,NSUBMOD
+            CUR_SUBMOD = K
+            ISELECT = 0
+            DO WHILE (CUR_SUBMOD /= 0 .AND. ISELECT == 0)
+              IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == JJ) ISELECT = 1
+              IF (LSUBMODEL(CUR_SUBMOD)%NOSUBMOD == -JJ) ISELECT = -1
+              CUR_SUBMOD = LSUBMODEL(CUR_SUBMOD)%IFATHER
+            ENDDO
+            IF (ISELECT == 1) THEN
+              ISU=K
+              TAGS(K) = TAGS(K) + 1
+              IOK = 1
+            ELSEIF (ISELECT == -1) THEN
+              ISU=K
+              TAGS(K) = TAGS(K) - 1
+              IOK = 1
+            ENDIF
+          ENDDO
+          IF (IOK == 0) CALL ANCMSG(MSGID=194,
+     .                   MSGTYPE=MSGWARNING,
+     .                   ANMODE=ANINFO,
+     .                   I1=ID,
+     .                   C1=TITR1,
+     .                   C2=TITR,
+     .                   C3='SUBMODEL',
+     .                   I2=JJ)
+        ENDIF
+      ENDDO
+      IF(ALLOCATED(LIST_ELEM))DEALLOCATE (LIST_ELEM)
 
 C-------------------------
 C     Tag Parts
 C-------------------------   
-      DO K=1,NSUBMOD 
+      DO K=1,NSUBMOD
         IF (TAGS(K) > 1) TAGS(K) = 1
         IF (TAGS(K) < -1) TAGS(K) = -1
-      ENDDO 
+      ENDDO
 
 C--------------------------------------------------
 C BROWSING MODEL PARTS 1->NPART
@@ -151,7 +151,7 @@ C--------------------------------------------------
             NINDX=NINDX+1
             INDX(NINDX)=I
           END IF
-        END IF                
+        END IF
       ENDDO
 C-------------------------
       RETURN

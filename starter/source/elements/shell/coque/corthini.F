@@ -44,7 +44,7 @@ Chd|====================================================================
      7           GEO_STACK,IGEO_STACK,E3X  ,E3Y     ,E3Z     ,
      8           BETAORTH ,X1     ,X2      ,Y1      ,Y2      ,
      9           Z1       ,Z2     )
-c---     
+c---
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -102,7 +102,7 @@ C=======================================================================
 C       non orthotropic property
         RETURN
       ELSE
-        IPANG = 200      
+        IPANG = 200
         IPPHI = 500
         IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
           IPANG  =  1
@@ -167,19 +167,19 @@ C---    read property data
           DO I=JFT,JLT
             IPANG   = 1
             DO J=1,NLAY
-              IF (IGTYP == 52) THEN    
+              IF (IGTYP == 52) THEN
                 IF(IGEO_STACK(49,STACK%IGEO(2+J,ISUBSTACK)) == 1)THEN
-                  PHI1(J,I)= 
-     .              GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I) 
+                  PHI1(J,I)=
+     .              GEO_STACK(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)
                     DEF_ORTH(I) = DEF_ORTH(I) - 1
                 ELSE
                   PHI1(J,I)= STACK%GEO(IPANG+J,ISUBSTACK)
                 ENDIF
-              ELSEIF ((IGTYP == 17 .OR. IGTYP == 51) .AND. 
+              ELSEIF ((IGTYP == 17 .OR. IGTYP == 51) .AND.
      .             STACK%IGEO(2+J,ISUBSTACK) /= 0) THEN
                 IF (IGEO(49,STACK%IGEO(2+J,ISUBSTACK)) == 1) THEN
                   PHI1(J,I)= GEO(2,STACK%IGEO(2+J,ISUBSTACK)) + ANGLE(I)
-                    DEF_ORTH(I) = DEF_ORTH(I) - 1 
+                    DEF_ORTH(I) = DEF_ORTH(I) - 1
                 ELSE
                   PHI1(J,I)= STACK%GEO(IPANG+J,ISUBSTACK)
                 ENDIF
@@ -192,7 +192,7 @@ C---    read property data
               ENDIF
               IF (IREP >= 2) PHI2(J,I)= STACK%GEO(IPDIR+J,ISUBSTACK)
             ENDDO
-          ENDDO  
+          ENDDO
         ELSEIF (IGTYP == 16) THEN
           DO I=JFT,JLT
             DO J=1,NLAY
@@ -330,7 +330,7 @@ C
      .              IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
               DO J=1,NPTI
                 ILAW_LY = ELBUF_STR%BUFLY(J)%ILAW
-                IF (IGTYP == 16 .OR.(IGTYP == 51 .AND. ILAW_LY == 58) 
+                IF (IGTYP == 16 .OR.(IGTYP == 51 .AND. ILAW_LY == 58)
      .                          .OR.(IGTYP == 52 .AND. ILAW_LY == 58) ) THEN
              	  COOR1(J,I) = SIGSH(IPT+1,II)
              	  COOR2(J,I) = SIGSH(IPT+2,II)
@@ -379,14 +379,14 @@ C
 C----Beta angle computation(dyna input format)
 C
         DO I=JFT,JLT
-           
+
            E11= X2(I)-X1(I)
            E12= Y2(I)-Y1(I)
            E13= Z2(I)-Z1(I)
            NE1 = SQRT(E11*E11+E12*E12+E13*E13)
 
            BETAORTH(I) = (VX(I)*E11 + VY(I)*E12 +VZ(I)*E13 )/MAX(NE1,EM20)
-        ENDDO 
+        ENDDO
 C----
       ENDIF
 C-----------

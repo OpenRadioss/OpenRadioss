@@ -70,9 +70,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NOM_OPT(LNOPT1,*)
-      INTEGER IPARI(NPARI,*), NPBY(NNPBY,*), 
+      INTEGER IPARI(NPARI,*), NPBY(NNPBY,*),
      .        ICODE(NUMNOD)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
@@ -119,7 +119,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C CHECK IF READ OPTION IS /INTER/SUB
 C--------------------------------------------------
-        IF(KEY(1:LEN_TRIM(KEY))=='SUB') CYCLE 
+        IF(KEY(1:LEN_TRIM(KEY))=='SUB') CYCLE
 C--------------------------------------------------
          NI=NI+1
 C

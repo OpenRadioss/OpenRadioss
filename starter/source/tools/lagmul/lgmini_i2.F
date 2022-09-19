@@ -31,11 +31,11 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LGMINI_I2(IADLL ,JLL  ,LLL  ,INTBUF_TAB ,IPARI, NC,
-     .            MASS , ITAB    ,NOM_OPT) 
+     .            MASS , ITAB    ,NOM_OPT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE INTBUFDEF_MOD
 C----------------------------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,13 +60,13 @@ C-----------------------------------------------
       INTEGER NC, IADLL(*), JLL(*), LLL(*),
      .        IPARI(NPARI,NINTER),ITAB(*)
       my_real
-     .        MASS(*) 
+     .        MASS(*)
       INTEGER NOM_OPT(LNOPT1,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INOD(5), N,  II, JJ, IK, L, 
+      INTEGER INOD(5), N,  II, JJ, IK, L,
      .        ILAGM, NRTS, NRTM, NSN, NMN,IRECT ,NSV ,IRTL, IADDB,
      .        NIR, NTY, NDL, IAD, I, J, NN0, NM0
       INTEGER ID
@@ -96,7 +96,7 @@ C---
      .                    C2='INTERFACE TYPE2',
      .                    C3=TITR,C4='SECONDARY',
      .                    I2=ITAB(NN0))
-            ENDIF  
+            ENDIF
               ENDDO
               DO J=1,NMN
                 NM0=INTBUF_TAB(N)%MSR(J)
@@ -109,7 +109,7 @@ C---
      .                    C2='INTERFACE',
      .                    C3=TITR,C4='SECONDARY',
      .                    I2=ITAB(NM0))
-                ENDIF  
+                ENDIF
               ENDDO
 C
           DO II=1,NSN
@@ -376,7 +376,7 @@ C ---  ic = 6 (wz)
           ENDDO
 C---          
         ENDIF
-      ENDDO        
+      ENDDO
 C-----------
       RETURN
       END

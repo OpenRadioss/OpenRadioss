@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE HM_OPTION_READ_MOD    
+      USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -108,7 +108,7 @@ C-----------------------------------------------
       NLK = 0
 C
 C-----------------------------------------------
-      CALL HM_OPTION_START('/RLINK')       
+      CALL HM_OPTION_START('/RLINK')
 C-----------------------------------------------
 C
       DO I=1,3*NUMNOD
@@ -125,23 +125,23 @@ C----------Multidomaines --> on ignore les rlink non tages--------
          IF(TAGLNK(NLK) == 0)CALL SZ_R2R(TAGLNK,NLK)
        END IF
 C-----------------------------------------------------------------
-       CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = NUSER, 
-     .                          OPTION_TITR    = TITR)           
+       CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = NUSER,
+     .                          OPTION_TITR    = TITR)
        NOM_OPT(1,N) = NUSER
        CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,N),LTITR)
 !Tx, Ty, Tz, OmegaX, OmegaY, OmegaZ, SKEW_CSID, dependentnodeset, RLINK_IPOL);
 C--------------------read card-------------------------------------
-       CALL HM_GET_INTV('Tx'      ,J6(1) ,IS_AVAILABLE,LSUBMODEL)  
-       CALL HM_GET_INTV('Ty'      ,J6(2) ,IS_AVAILABLE,LSUBMODEL)  
-       CALL HM_GET_INTV('Tz'      ,J6(3) ,IS_AVAILABLE,LSUBMODEL) 
-       CALL HM_GET_INTV('OmegaX'  ,J6(4) ,IS_AVAILABLE,LSUBMODEL)  
-       CALL HM_GET_INTV('OmegaY'  ,J6(5) ,IS_AVAILABLE,LSUBMODEL)  
-       CALL HM_GET_INTV('OmegaZ'  ,J6(6) ,IS_AVAILABLE,LSUBMODEL) 
+       CALL HM_GET_INTV('Tx'      ,J6(1) ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('Ty'      ,J6(2) ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('Tz'      ,J6(3) ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('OmegaX'  ,J6(4) ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('OmegaY'  ,J6(5) ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('OmegaZ'  ,J6(6) ,IS_AVAILABLE,LSUBMODEL)
 
-       CALL HM_GET_INTV('SKEW_CSID'         ,IS  ,IS_AVAILABLE,LSUBMODEL) 
-       CALL HM_GET_INTV('dependentnodeset'  ,IGU ,IS_AVAILABLE,LSUBMODEL) 
-       CALL HM_GET_INTV('RLINK_IPOL'        ,IPOL,IS_AVAILABLE,LSUBMODEL) 
+       CALL HM_GET_INTV('SKEW_CSID'         ,IS  ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('dependentnodeset'  ,IGU ,IS_AVAILABLE,LSUBMODEL)
+       CALL HM_GET_INTV('RLINK_IPOL'        ,IPOL,IS_AVAILABLE,LSUBMODEL)
 C-----------------------------------------------------------------
        IC =J6(1)*4 +J6(2)*2 +J6(3)
        ICR=J6(4)*4 +J6(5)*2 +J6(6)

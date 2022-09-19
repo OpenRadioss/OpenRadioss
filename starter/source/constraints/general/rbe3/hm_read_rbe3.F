@@ -85,7 +85,7 @@ C-----------------------------------------------
       INTEGER IRBE3(NRBE3L,*), LRBE3(*), ITAB(*),ITABM1(*),
      .        ISKN(LISKN,*),LXINTD,
      .        IDDLEVEL,IKINE(*),ITAGND(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real
      .     FRBE3(6,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -208,7 +208,7 @@ C------- error out
          IF (W==ZERO.OR.IMODIF==3) W=ONE
          NM = 0
          IF(INGU > 0) THEN
-          CALL C_HASH_FIND(GRNOD_UID,INGU,IGM) 
+          CALL C_HASH_FIND(GRNOD_UID,INGU,IGM)
           IF (IGM == 0)THEN
             CALL ANCMSG(MSGID=53,
      .                  MSGTYPE=MSGERROR,
@@ -307,9 +307,9 @@ C
          WRITE(IOUT,1102) ITAB(LRBE3(IAD+J)),ISKEW0(IAD+J),
      .                    (FRBE3(JJ,IAD+J),JJ=1,6)
         ENDDO
-        WRITE(IOUT,*) 
+        WRITE(IOUT,*)
        ELSE
-c        WRITE(IOUT,1103) 
+c        WRITE(IOUT,1103)
         WRITE(IOUT,1104) NUSER,ITAB(NS),J6,NM,IMODIF
        END IF
         LXINTD = LXINTD + NM/4 + 1
@@ -346,7 +346,7 @@ C
  1103 FORMAT('      RBE3_ID DEPENDENT_NODE REF_DOF    #IND.   IMODIF'/)
  1104 FORMAT(3X,2I10,2X,3I1,1X,3I1,2I10)
 C 
-      END SUBROUTINE HM_READ_RBE3 
+      END SUBROUTINE HM_READ_RBE3
 Chd|====================================================================
 Chd|  INIRBE3                       source/constraints/general/rbe3/hm_read_rbe3.F
 Chd|-- called by -----------
@@ -365,7 +365,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------   
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -395,7 +395,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL       
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -423,7 +423,7 @@ C----- re-ordering by hierrrchy (only 1 level)
        NM = IRBE3(5,I)
        IROT =IRBE3(6,I)
        IMO = IRBE3(8,I)
-        
+
         ID=NOM_OPT(1,I)
         CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
         CALL RBE3CHK(LRBE3(IAD+1),LRBE3(NMT+IAD+1) ,NS     ,X      ,
@@ -1648,7 +1648,7 @@ C-----error out if >1 level
         ENDDO
 C----- re-ordering
         IADS = SLRBE3/2
-        LCOPY(1:SLRBE3) = LRBE3(1:SLRBE3)       
+        LCOPY(1:SLRBE3) = LRBE3(1:SLRBE3)
         ICOPY(1:NRBE3L,1:NRBE3) = IRBE3(1:NRBE3L,1:NRBE3)
         FCOPY(1:SLRBE3*3) = FRBE3(1:SLRBE3*3)
         IAD1 = 0

@@ -21,7 +21,7 @@ Copyright>        As an alternative to this open-source version, Altair also off
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 !hd|====================================================================
-!hd|  SIGEPS22G                     src/mate22/sigeps22g.F           
+!hd|  SIGEPS22G                     src/mate22/sigeps22g.F
 !hd|-- called by -----------
 !hd|-- calls ---------------
 !hd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
@@ -125,7 +125,7 @@ Chd|====================================================================
       EPMX_1 = PM(41,MX)
       YMAX_1 = PM(42,MX)
       CC_1   = PM(43,MX)
-      EPSL_1 = PM(45,MX)  
+      EPSL_1 = PM(45,MX)
       HL_1   = PM(46,MX)
       YLDL_1 = PM(47,MX)
       ICC_1  = NINT(PM(49,MX))
@@ -143,7 +143,7 @@ Chd|====================================================================
         YMAX(I) = YMAX_1
         CC(I)   = CC_1
         EPDR(I) = MAX(EM20,PM(44,MX)*DT1C(I))
-        EPSL(I) = EPSL_1  
+        EPSL(I) = EPSL_1
         HL(I)   = HL_1
         YLDL(I) = YLDL_1
         ICC(I)  = ICC_1
@@ -233,7 +233,7 @@ Chd|====================================================================
 !
       DO I=JFT,JLT
         M1(I) =(Q1*MP1(I) + Q2*MP2(I))*RR(I)*FOURTH
-        M2(I) =(Q2*MP1(I) + Q1*MP2(I))*RR(I)*FOURTH     
+        M2(I) =(Q2*MP1(I) + Q1*MP2(I))*RR(I)*FOURTH
         M3(I) = Q3*MP3(I)*RR(I)*FOURTH
 !
         DWELF(I) =(M1(I)+MOMOXX(I))*TWELVE*(C1(I)*(M1(I)-MOMOXX(I))+

@@ -30,7 +30,7 @@ Chd|        SPMD_IGLOB_PARTN              source/mpi/anim/spmd_iglob_partn.F
 Chd|        WRITE_I_C                     source/output/tools/sortie_c.c
 Chd|====================================================================
       SUBROUTINE PARSORS(IADD ,IPARG     ,IXS    ,MATER ,IPARTS ,
-     2                  EL2FA ,                   DD_IAD, 
+     2                  EL2FA ,                   DD_IAD,
      3                  IADG             ,INSPH  ,KXSP  ,IPARTSP,
      4                  IXS10 ,IXS20     ,IXS16  ,NNSPH ,ISPH3D,
      5                  NODGLOB,SHFT16   ,SHFTSPH ,NNSPHG,IPARTIG3D,
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
-      INTEGER II(8),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 
+      INTEGER II(8),IE,NG, ITY, LFT, LLT, KPT, N, I, J,
      .        IPID, NEL, IAD, NPAR, NFT, IPRT,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, INOD, ISOLNOD ,NNN,IE1,IDBRICK,
@@ -126,7 +126,7 @@ C-----------------------------------------------
            N16=IXS16(8,J)
            IF(N16==0)N16=IXS(9,N)
            IF(IPARTS(N)==IPRT) THEN
-             IF (NSPMD == 1) THEN 
+             IF (NSPMD == 1) THEN
                II(1) = IXS(2,N)    -1
                II(2) = N9   -1
                II(3) = NNN + 2*J-1 -1
@@ -185,7 +185,7 @@ C
                NP(JJ+17) = NODGLOB(N12)  -1
                NP(JJ+18) = (SHFT16-1) + 2*J-1 -1
                NP(JJ+19) = NODGLOB(N11) -1
-               NP(JJ+20) = NODGLOB(IXS(5,N)) -1 
+               NP(JJ+20) = NODGLOB(IXS(5,N)) -1
                NP(JJ+21) = NODGLOB(N16) -1
                NP(JJ+22) = (SHFT16-1) + 2*J   -1
                NP(JJ+23) = NODGLOB(N15)-1
@@ -194,7 +194,7 @@ C
                NP(JJ+25) = (SHFT16-1) + 2*J-1 -1
                NP(JJ+26) =  NODGLOB(N10)  -1
                NP(JJ+27) = NODGLOB(IXS(4,N)) -1
-               NP(JJ+28) = NODGLOB(N11) -1 
+               NP(JJ+28) = NODGLOB(N11) -1
                NP(JJ+29) = (SHFT16-1) + 2*J   -1
                NP(JJ+30) = NODGLOB(N14)-1
                NP(JJ+31) = NODGLOB(IXS(8,N))-1
@@ -213,7 +213,7 @@ C-----------------------------------------------
           DO 10 I=LFT,LLT
            N = I + NFT
            IF(IPARTS(N)/=IPRT) GOTO 10
-             IF (NSPMD == 1) THEN 
+             IF (NSPMD == 1) THEN
                II(1) = IXS(2,N)-1
                II(2) = IXS(3,N)-1
                II(3) = IXS(4,N)-1
@@ -245,7 +245,7 @@ C-----------------------------------------------
            N = I + NFT
            IF(IPARTSP(N)/=IPRT) GOTO 20
              INOD=KXSP(3,N)
-             IF (NSPMD == 1) THEN 
+             IF (NSPMD == 1) THEN
                II(1) = INSPH+4*(N-1)+1
                II(2) = INSPH+4*(N-1)+2
                II(3) = INSPH+4*(N-1)

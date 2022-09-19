@@ -130,12 +130,12 @@ C-----------------------------------------------
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   FT1(MVSIZ), FT2(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
-     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ), 
-     .   VT1(MVSIZ), VT2(MVSIZ), 
+     .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
+     .   VT1(MVSIZ), VT2(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
      .   T1X(MVSIZ),T1Y(MVSIZ),T1Z(MVSIZ),
      .   T2X(MVSIZ),T2Y(MVSIZ),T2Z(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   XP(MVSIZ), YP(MVSIZ), ZP(MVSIZ),
      .   S2,D1,D2,D3,D4,A1,A2,A3,A4,LA1,LA2,LA3,LA4,H0,
      .   ECONTT, DT05, NORMINV, VIS, DT1INV,ECONTDT,
@@ -145,7 +145,7 @@ C-----------------------------------------------
       my_real
      .   C(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
-     .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ), 
+     .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ),
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ),BID ,DTI
 C-----------------------------------------------
 #include "sync_dir.inc"
@@ -181,9 +181,9 @@ C
         A2 = P2(I)/MAX(EM20,D2)
         A3 = P3(I)/MAX(EM20,D3)
         A4 = P4(I)/MAX(EM20,D4)
-        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I) 
-        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I) 
-        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I) 
+        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
+        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
+        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
       ENDDO
 C
       DO I=1,JLT
@@ -193,7 +193,7 @@ C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I) 
+         LA4 = ONE - LB4(I) - LC4(I)
 C
           H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
@@ -296,9 +296,9 @@ C
         T2Y(I) = NZ(I)*T1X(I) - NX(I)*T1Z(I)
         T2Z(I) = NX(I)*T1Y(I) - NY(I)*T1X(I)
 C
-        VN(I)  = VX(I)*NX(I)  + VY(I)*NY(I)  + VZ(I)*NZ(I)  
-        VT1(I) = VX(I)*T1X(I) + VY(I)*T1Y(I) + VZ(I)*T1Z(I)  
-        VT2(I) = VX(I)*T2X(I) + VY(I)*T2Y(I) + VZ(I)*T2Z(I)  
+        VN(I)  = VX(I)*NX(I)  + VY(I)*NY(I)  + VZ(I)*NZ(I)
+        VT1(I) = VX(I)*T1X(I) + VY(I)*T1Y(I) + VZ(I)*T1Z(I)
+        VT2(I) = VX(I)*T2X(I) + VY(I)*T2Y(I) + VZ(I)*T2Z(I)
  20   CONTINUE
 C
       DO 25 I=1,JLT
@@ -339,7 +339,7 @@ Cel on ne devrait plus passer par ici (teste dans i10dst3)
             FT2(I) = ZERO
             VN(I)  = ZERO
             VT1(I) = ZERO
-            VT2(I) = ZERO    
+            VT2(I) = ZERO
           ELSE
             IF (INCONV==1) CAND_F(1,INDEX(I)) = FNI(I)
           ENDIF
@@ -351,31 +351,31 @@ Cel on ne devrait plus passer par ici (teste dans i10dst3)
       IF (INCONV==1) THEN
       CAND_F(2,INDEX(I)) = FT1(I)
       CAND_F(3,INDEX(I)) = FT2(I)
-      ENDIF 
+      ENDIF
 C    
  100  CONTINUE
 C
       IF(KDTINT==0.AND.(IDTMINS/=2.AND.IDTMINS_INT==0))THEN
        DO 120 I=1,JLT
-        VIS = VISC * SQRT(TWO * STIF(I) * MSI(I)) 
+        VIS = VISC * SQRT(TWO * STIF(I) * MSI(I))
         FNI(I) = FNI(I) + VN(I)  * VIS
         FT1(I) = FT1(I) + VT1(I) * VIS
         FT2(I) = FT2(I) + VT2(I) * VIS
         STIF(I) = STIF(I) + TWO * VIS * DT1INV
 C       no second order correction :
-        ECONTDT = ECONTDT 
+        ECONTDT = ECONTDT
      .          + VIS * (VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I)) * DT1
  120   CONTINUE
       ELSE
        DO I=1,JLT
-        VIS = VISC * SQRT(TWO * STIF(I) * MSI(I)) 
+        VIS = VISC * SQRT(TWO * STIF(I) * MSI(I))
         FNI(I) = FNI(I) + VN(I)  * VIS
         FT1(I) = FT1(I) + VT1(I) * VIS
         FT2(I) = FT2(I) + VT2(I) * VIS
 C   2*C dans modsti
         C(I) = VIS
 C       no second order correction :
-        ECONTDT = ECONTDT 
+        ECONTDT = ECONTDT
      .          + VIS * (VX(I)*VX(I)+VY(I)*VY(I)+VZ(I)*VZ(I)) * DT1
        ENDDO
       ENDIF
@@ -387,7 +387,7 @@ C---------------------------------
       FSAV3 = ZERO
       FSAV4 = ZERO
       FSAV5 = ZERO
-      FSAV6 = ZERO    
+      FSAV6 = ZERO
       FSAV8 = ZERO
       FSAV9 = ZERO
       FSAV10= ZERO
@@ -432,7 +432,7 @@ C---------------------------------
         FSAV15=FSAV15+SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
         FXI(I) = FXN(I) + FXT(I)
         FYI(I) = FYN(I) + FYT(I)
-        FZI(I) = FZN(I) + FZT(I) 
+        FZI(I) = FZN(I) + FZT(I)
         IMPX=FXI(I)*DT12
         IMPY=FYI(I)*DT12
         IMPZ=FZI(I)*DT12
@@ -478,7 +478,7 @@ C---------------------------------
         FSAV(26) = FSAV(26) + ECONTT
         FSAV(28) = FSAV(28) + ECONTDT
 #include "lockoff.inc"
-       ENDIF 
+       ENDIF
 C---------------------------------
 C     SORTIES TH PAR SOUS INTERFACE
 C---------------------------------
@@ -493,7 +493,7 @@ C---------------------------------
            DO WHILE(JJ<ADDSUBS(IN+1))
              JSUB=LISUBS(JJ)
              DO WHILE(KK<ADDSUBM(IE+1))
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                IF(KSUB==JSUB)THEN
                  IMPX=FXN(I)*DT12
                  IMPY=FYN(I)*DT12
@@ -543,7 +543,7 @@ C
                  FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                           +XP(I)*IMPY-YP(I)*IMPX
                  KK=KK+1
-                 GO TO 200             
+                 GO TO 200
                ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
@@ -567,7 +567,7 @@ C boucle separee sinon bug PGI en SMP
            DO WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
              JSUB=LISUBSFI(NIN)%P(JJ)
              DO WHILE(KK<ADDSUBM(IE+1))
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                IF(KSUB==JSUB)THEN
                  IMPX=FXN(I)*DT12
                  IMPY=FYN(I)*DT12
@@ -605,7 +605,7 @@ C
                  FSAVSUB1(24,JSUB)=FSAVSUB1(24,JSUB)
      .                           +XP(I)*IMPY-YP(I)*IMPX
                  KK=KK+1
-                 GO TO 250             
+                 GO TO 250
                ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
@@ -616,8 +616,8 @@ C
            JJ=JJ+1
            END DO
           END IF
-         END DO 
-        END IF 
+         END DO
+        END IF
 #include "lockon.inc"
          DO JSUB=1,NISUB
            NSUB=LISUB(JSUB)
@@ -700,7 +700,7 @@ C
      4                FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5                FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6                IBID  ,BID  ,BID  ,BID  ,BID    ,BID  ,
-     7                BID   ,BID  ,BID  ,JTASK,IBID ) 
+     7                BID   ,BID  ,BID  ,JTASK,IBID )
         ELSE
           CALL I7ASS05(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2                 NSVG  ,H1   ,H2   ,H3   ,H4     ,
@@ -861,15 +861,15 @@ C test modifie pour coherence avec communication SPMD (spmd_i7tools)
           JG = NSVG(I)
           IF(JG>0) THEN
 C en SPMD : traitement a refaire apres reception noeud remote si JG < 0
-            ICONTACT(JG)=1  
+            ICONTACT(JG)=1
           ENDIF
           ICONTACT(IX1(I))=1
           ICONTACT(IX2(I))=1
           ICONTACT(IX3(I))=1
-          ICONTACT(IX4(I))=1	  
+          ICONTACT(IX4(I))=1	
         ENDIF
        ENDDO
-      ENDIF   
+      ENDIF
 C
       RETURN
       END

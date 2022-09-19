@@ -67,7 +67,7 @@ C-----------------------------------------------
         VPINCH(3,N)=VPINCH(3,N)+DT12*APINCH(3,N)
         APINCH(1,N)=ZERO
         APINCH(2,N)=ZERO
-        APINCH(3,N)=ZERO     
+        APINCH(3,N)=ZERO
       ENDDO
       RETURN
       END

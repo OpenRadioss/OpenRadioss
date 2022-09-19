@@ -84,7 +84,7 @@ C=======================================================================
       ALLOCATE(PART_TAG(NPART))
       SOLID_TAG(1:NUMELS)=0
       PART_TAG(1:NPART)=0
-      
+
       IF(KEYSET == 'PART' )THEN
         DO I=1, CLAUSE%NB_PART
             PART_TAG(CLAUSE%PART(I))=1
@@ -278,7 +278,7 @@ C---   find shells SURF/PART/EXT
                 NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)
-              ENDIF               
+              ENDIF
             ELSEIF(NN==4)THEN
               KS = 0
               ISHEL = 0
@@ -303,7 +303,7 @@ C---   find shells SURF/PART/EXT
                NSEG = NSEG + 1
                 CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(4) ,JS  ,
      .                         BUFTMPSURF ,IAD_SURF ,1)
-              ENDIF                
+              ENDIF
             END IF
 C---
           END DO ! DO JJ=1,6
@@ -349,13 +349,13 @@ C
 C---
             IF(NN == 3)THEN
               NNS=1
-              FC10(1)=IXS10(FACES10(1,JJ),J)  
-              FC10(2)=IXS10(FACES10(2,JJ),J)  
-              FC10(3)=IXS10(FACES10(3,JJ),J)  
-              IF(FC10(1) /= 0)NNS=NNS+1  
-              IF(FC10(2) /= 0)NNS=NNS+1  
-              IF(FC10(3) /= 0)NNS=NNS+1  
-              IF(NNS == 3)NNS=2  
+              FC10(1)=IXS10(FACES10(1,JJ),J)
+              FC10(2)=IXS10(FACES10(2,JJ),J)
+              FC10(3)=IXS10(FACES10(3,JJ),J)
+              IF(FC10(1) /= 0)NNS=NNS+1
+              IF(FC10(2) /= 0)NNS=NNS+1
+              IF(FC10(3) /= 0)NNS=NNS+1
+              IF(NNS == 3)NNS=2
               NSEG=NSEG+NNS
               IF (NNS == 4) THEN
 c               4 triangles
@@ -369,40 +369,40 @@ c               4 triangles
      .                           BUFTMPSURF ,IAD_SURF ,1)
               ELSEIF (NNS == 3) THEN
 c               1 quadrangle, 1 triangle
-                IF(FC10(1) == 0)THEN                    
+                IF(FC10(1) == 0)THEN
                   CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FC10(2) ,FC10(3) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
                   CALL SURF_SEGMENT(FACE(3)    ,FC10(3) ,FC10(2) ,FC10(2) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
-                ELSEIF(FC10(2) == 0)THEN                    
+                ELSEIF(FC10(2) == 0)THEN
                   CALL SURF_SEGMENT(FACE(2)    ,FACE(3) ,FC10(3) ,FC10(1) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
                   CALL SURF_SEGMENT(FACE(1)    ,FC10(1) ,FC10(3) ,FC10(3) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
-                ELSEIF(FC10(3) == 0)THEN                    
+                ELSEIF(FC10(3) == 0)THEN
                   CALL SURF_SEGMENT(FACE(3)    ,FACE(1) ,FC10(1) ,FC10(2) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
                   CALL SURF_SEGMENT(FACE(2)    ,FC10(2) ,FC10(1) ,FC10(1) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
-                ENDIF                  
+                ENDIF
               ELSEIF (NNS == 2) THEN
 c               2 triangles
-                IF(FC10(1) /= 0)THEN                    
+                IF(FC10(1) /= 0)THEN
                   CALL SURF_SEGMENT(FACE(3)    ,FACE(1) ,FC10(1) ,FC10(1) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
                   CALL SURF_SEGMENT(FACE(2)    ,FACE(3) ,FC10(1) ,FC10(1) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
-                ELSEIF(FC10(2) /= 0)THEN                    
+                ELSEIF(FC10(2) /= 0)THEN
                   CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FC10(2) ,FC10(2) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
                   CALL SURF_SEGMENT(FACE(3)    ,FACE(1) ,FC10(2) ,FC10(2) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
-                ELSEIF(FC10(3) /= 0)THEN                    
+                ELSEIF(FC10(3) /= 0)THEN
                   CALL SURF_SEGMENT(FACE(2)    ,FACE(3) ,FC10(3) ,FC10(3) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
                   CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FC10(3) ,FC10(3) ,JS  ,
      .                           BUFTMPSURF ,IAD_SURF ,1)
-                ENDIF                  
+                ENDIF
               ELSEIF (NNS == 1) THEN
 c                 1 triangle
                   CALL SURF_SEGMENT(FACE(1)    ,FACE(2) ,FACE(3) ,FACE(3) ,JS  ,

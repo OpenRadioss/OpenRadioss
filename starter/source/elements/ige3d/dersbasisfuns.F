@@ -57,13 +57,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, KR, KP, J1, J2, NDERS, LS1, LS2
-      my_real 
+      my_real
      .  SAVED, TEMP, D
-      my_real, 
+      my_real,
      .  DIMENSION(PXI+1) :: ALEFT, RIGHT
-      my_real, 
+      my_real,
      .  DIMENSION(2,PXI+1) :: DERS, A
-      my_real, 
+      my_real,
      .  DIMENSION(PXI+1,PXI+1) :: ANDU
 C
 C=======================================================================
@@ -73,7 +73,7 @@ C
       NDERS=1
       ANDU(1,1)=ONE
 
-      DO J = 1,PXI   
+      DO J = 1,PXI
         ALEFT(J+1) = XI - KXI(IDXI+1-J)
         RIGHT(J+1) = KXI(IDXI+J) - XI
         SAVED = ZERO
@@ -112,7 +112,7 @@ C COMPUTE DERIVATES
           ENDIF
           IF ((L-1) <= KP) THEN
             J2 = K-1
-	  ELSE 
+	  ELSE
 	    J2 = PXI-L
           ENDIF
           DO J = J1,J2
@@ -144,6 +144,6 @@ C MULTIPLY THROUGH BY THE CORRECT FACTORS
         DERS1(J) = DERS(1,J)
         DERS2(J) = DERS(2,J)
       ENDDO
- 
+
       RETURN
       END

@@ -77,9 +77,9 @@ C-----------------------------------------------
      .        TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
-      INTEGER  IADC(*) 
+      INTEGER  IADC(*)
       my_real
-     .   LOADP(SLOADP,*), TF(*), A(3,*), V(3,*), 
+     .   LOADP(SLOADP,*), TF(*), A(3,*), V(3,*),
      .   X(3,*), SKEW(LSKEW,*), SENSOR(NSENSR,*),
      .   FSKY(8,LSKY), FEXT(3,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
@@ -93,7 +93,7 @@ C-----------------------------------------------
      .        IDEL
       my_real
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
-     .   SIXTH,TFEXTT,X_OLD, F1, F2,FCX,FCY,NORM 
+     .   SIXTH,TFEXTT,X_OLD, F1, F2,FCX,FCY,NORM
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
@@ -111,9 +111,9 @@ C code SPMD Parith/OFF or SMP
            IFUNC = ILOADP(3,NP)
            IAD = ILOADP(4,NP)
            NINTERP = ILOADP(5,NP)
-	   IDIR = ILOADP(6,NP)   
-           ISENS =  ILOADP(7,NP) 
-           ISK = ILOADP(8,NP)    
+	   IDIR = ILOADP(6,NP)
+           ISENS =  ILOADP(7,NP)
+           ISK = ILOADP(8,NP)
            INORM = ILOADP(9,NP)
            IFLOAD = ILOADP(10,NP)
            FCY = LOADP(1,NP)
@@ -124,11 +124,11 @@ C
            ELSE
               TS = TT-SENSOR(2,ISENS)
               IF(TS<ZERO)CYCLE
-           ENDIF    
+           ENDIF
 
 
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
-           AA = FCY*F1  
+           AA = FCY*F1
 
            DO N=1, NPRES/4
 C
@@ -150,9 +150,9 @@ C----------------
              TAGN1 = 0
              TAGN2 = 0
              TAGN3 = 0
-             TAGN4 = 0       
+             TAGN4 = 0
 
-             IF(NINTERP > 0 ) THEN           
+             IF(NINTERP > 0 ) THEN
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
                    SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
@@ -162,7 +162,7 @@ C----------------
                    ELSEIF(SEGCONT <= 1.AND.IFLOAD==2) THEN
                       SEGCONT = 1
                    ELSE
-                      SEGCONT = 0   
+                      SEGCONT = 0
                    ENDIF
                 ELSE
                    SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
@@ -174,7 +174,7 @@ C----------------
                    ELSE
                       SEGCONT = 0
                    ENDIF
-                ENDIF    
+                ENDIF
              ENDIF
 
              IF(SEGCONT == 0) THEN
@@ -204,7 +204,7 @@ C----------------
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_8*NORM*SKEW(1,ISK)
                            FY = ZERO
@@ -220,7 +220,7 @@ C----------------
                         ENDIF
                      ENDIF
                   ELSEIF(INORM==3) THEN
-   
+
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_8*NX
@@ -235,7 +235,7 @@ C----------------
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_8*SKEW(1,ISK)*NX
                            FY = ZERO
@@ -274,7 +274,7 @@ C
                      ENDIF
                   ENDIF
 C
-                  IF(TAGN3 == 0) THEN                  
+                  IF(TAGN3 == 0) THEN
                     A(1,N3)=A(1,N3)+FX
                     A(2,N3)=A(2,N3)+FY
                     A(3,N3)=A(3,N3)+FZ
@@ -326,7 +326,7 @@ C
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_6*NORM*SKEW(1,ISK)
                            FY = ZERO
@@ -342,7 +342,7 @@ C
                         ENDIF
                      ENDIF
                   ELSEIF(INORM==3) THEN
-   
+
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
                            IF(NX /= ZERO) FX = AA*ONE_OVER_6*NX
@@ -357,7 +357,7 @@ C
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_6*SKEW(1,ISK)*NX
                            FY = ZERO
@@ -396,7 +396,7 @@ C
                      ENDIF
                   ENDIF
 C
-                  IF(TAGN3 == 0) THEN                  
+                  IF(TAGN3 == 0) THEN
                     A(1,N3)=A(1,N3)+FX
                     A(2,N3)=A(2,N3)+FY
                     A(3,N3)=A(3,N3)+FZ
@@ -407,7 +407,7 @@ C
                     ENDIF
                   ENDIF
 
-                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) 
+                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                              + FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                              + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
                ENDIF
@@ -433,9 +433,9 @@ C-------------------------
            IFUNC = ILOADP(3,NP)
            IAD = ILOADP(4,NP)
            NINTERP = ILOADP(5,NP)
-	   IDIR = ILOADP(6,NP)   
-           ISENS =  ILOADP(7,NP) 
-           ISK = ILOADP(8,NP)    
+	   IDIR = ILOADP(6,NP)
+           ISENS =  ILOADP(7,NP)
+           ISK = ILOADP(8,NP)
            INORM = ILOADP(9,NP)
            IFLOAD = ILOADP(10,NP)
            FCY = LOADP(1,NP)
@@ -446,7 +446,7 @@ C
            ELSE
               TS = TT-SENSOR(2,ISENS)
               IF(TS<ZERO)CYCLE
-           ENDIF    
+           ENDIF
 
          ! -------------
          ! flush fsky array to 0.
@@ -471,7 +471,7 @@ C
 
 
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
-           AA = FCY*F1  
+           AA = FCY*F1
 
            DO N=1, NPRES/4
               N1 = LLOADP(IAD+4*(N-1))
@@ -493,9 +493,9 @@ C----------------
              TAGN1 = 0
              TAGN2 = 0
              TAGN3 = 0
-             TAGN4 = 0 
+             TAGN4 = 0
 
-             IF(NINTERP > 0 ) THEN           
+             IF(NINTERP > 0 ) THEN
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
                    SEGCONT = TAGNCONT(NPL,N1) + TAGNCONT(NPL,N2) +
@@ -517,10 +517,10 @@ C----------------
                    ELSE
                       SEGCONT = 0
                    ENDIF
-                ENDIF    
+                ENDIF
              ENDIF
-            
-             IF(SEGCONT == 0) THEN       
+
+             IF(SEGCONT == 0) THEN
 
                IF(N4/=0)THEN
 
@@ -547,7 +547,7 @@ C----------------
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_8*NORM*SKEW(1,ISK)
                            FY = ZERO
@@ -563,7 +563,7 @@ C----------------
                         ENDIF
                      ENDIF
                   ELSEIF(INORM==3) THEN
-   
+
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_8*NX
@@ -578,7 +578,7 @@ C----------------
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_8*SKEW(1,ISK)*NX
                            FY = ZERO
@@ -674,7 +674,7 @@ C
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_6*NORM*SKEW(1,ISK)
                            FY = ZERO
@@ -690,7 +690,7 @@ C
                         ENDIF
                      ENDIF
                   ELSEIF(INORM==3) THEN
-   
+
                      IF(ISK == 0) THEN
                         IF(IDIR == 1 ) THEN
                            IF(NX /= ZERO) FX = AA*ONE_OVER_6*NX
@@ -705,7 +705,7 @@ C
                            FX = ZERO
                            FY = ZERO
                         ENDIF
-                     ELSE 
+                     ELSE
                         IF(IDIR == 1 ) THEN
                            FX = AA*ONE_OVER_6*SKEW(1,ISK)*NX
                            FY = ZERO
@@ -758,7 +758,7 @@ C
                     ENDIF
                   ENDIF
 
-                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3)) 
+                  TFEXTT=TFEXTT+DT1*(FX*(V(1,N1)+V(1,N2)+V(1,N3))
      +                              + FY*(V(2,N1)+V(2,N2)+V(2,N3))
      +                              + FZ*(V(3,N1)+V(3,N2)+V(3,N3)))
 

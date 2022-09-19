@@ -47,13 +47,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER MXT(*) 
+      INTEGER MXT(*)
       my_real
      1    DXX(*) ,DYY(*) ,DZZ(*) ,D4(*) ,D5(*) ,D6(*) ,
      2    RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,
-     3    TX(*) ,TY(*) ,TZ(*) ,EINT(*),VOL0(*),SIGS(*), 
-     4    PM(NPROPM,*), DT1   
-      DOUBLE PRECISION 
+     3    TX(*) ,TY(*) ,TZ(*) ,EINT(*),VOL0(*),SIGS(*),
+     4    PM(NPROPM,*), DT1
+      DOUBLE PRECISION
      .        VOL0DP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -116,8 +116,8 @@ C-----------------------------------------------
         DXY   = RX(I)*A12+SX(I)*A22+TX(I)*A32
         DYZ   = RY(I)*A13+SY(I)*A23+TY(I)*A33
 
-        D4(I) = TWO * DXY 
-        D5(I) = TWO * DYZ 
+        D4(I) = TWO * DXY
+        D5(I) = TWO * DYZ
         D6(I) = TWO * DZX
       ENDDO
 C-----------

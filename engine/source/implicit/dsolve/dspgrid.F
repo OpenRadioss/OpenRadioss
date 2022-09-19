@@ -53,8 +53,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER LENBUF(NSPMD), IRQTAG, I, II, ITAG(2+NSPMD,NDDL), 
-     .        J, JJ, NMOD, NMDYN(NSPMD), N, NN, IADM, NRMAX, 
+      INTEGER LENBUF(NSPMD), IRQTAG, I, II, ITAG(2+NSPMD,NDDL),
+     .        J, JJ, NMOD, NMDYN(NSPMD), N, NN, IADM, NRMAX,
      .        NR, NBLOCMAX, NDDLL, IPR, IPC, IRL, ICL, NDDLF, IP, NP,
      .        IR, IC
       INTEGER, DIMENSION(:), ALLOCATABLE :: IBUF, IADR, IADC
@@ -62,7 +62,7 @@ C-----------------------------------------------
       my_real
      .        RNSPMD
       INTEGER MSGOFF
-      DATA MSGOFF  /200000/ 
+      DATA MSGOFF  /200000/
 C
       IF (ISPMD/=0) THEN
          LENBUF(1)=PGRAPH%DGRAPH(1)%NDDL_F+2
@@ -262,7 +262,7 @@ Chd|  DSDIM                         source/implicit/dsolve/dspgrid.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DSDIM(NDDLC, NRP, NCP)      
+      SUBROUTINE DSDIM(NDDLC, NRP, NCP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -328,4 +328,4 @@ C
 C
       RETURN
       END
-      
+

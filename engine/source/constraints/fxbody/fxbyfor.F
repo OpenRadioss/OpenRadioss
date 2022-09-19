@@ -35,7 +35,7 @@ Chd|====================================================================
      .                   FXBCPM, FXBCPS,  FXBLM  , FXBFLS  , FXBDLS ,
      .                   FXBDEP, FXBVIT,  FXBACC , A       , AR     ,
      .                   X     , FXBMVN,  FXBMCD , FXBSE   , FXBSV  ,
-     .                   FXBELM, FXBSIG,  ELBUF  , PARTSAV , ELBUF_TAB,       
+     .                   FXBELM, FXBSIG,  ELBUF  , PARTSAV , ELBUF_TAB,
      .                   FSAV  , FXBFP ,  FXBEFW , FXBFC   , D      ,
      .                   DT2T  , ITYPTST, NELTST , FXBGRVI , FXBGRVR,
      .                   IGRV  , NPC    , TF     , FXBGRP  , FXBGRW ,
@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,10 +71,10 @@ C-----------------------------------------------
      .        FXBGRVI(*), IGRV(NIGRV,*), NPC(*), IPARG(NPARG,*),
      .        LSENSOR(NSENSI,*), IAD_ELEM(2,*), FR_ELEM(*)
       my_real
-     .   FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*), FXBCPS(*), 
+     .   FXBRPM(*), FXBMOD(*), FXBGLM(*), FXBCPM(*), FXBCPS(*),
      .   FXBLM(*),  FXBFLS(*), FXBDLS(*), FXBDEP(*), FXBVIT(*),
      .   FXBACC(*), A(3,*),    AR(3,*),   X(3,*),    FXBMVN(*),
-     .   FXBMCD(*), FXBSE(*),  FXBSV(*),  FXBSIG(*), ELBUF(*) , 
+     .   FXBMCD(*), FXBSE(*),  FXBSV(*),  FXBSIG(*), ELBUF(*) ,
      .   PARTSAV(*),FSAV(NTHVKI,*), FXBFP(*),FXBEFW(*),
      .   FXBFC(*),  D(3,*), DT2T, FXBGRVR(*), TF(*), FXBGRP(*),
      .   FXBGRW(*), SENSOR(NSENSR,*), AGRV(LFACGRV,*)
@@ -130,7 +130,7 @@ C=======================================================================
          ASIG=FXBIPM(20,NFX)
          NSN=FXBIPM(18,NFX)
          ANOD2=ANOD+FXBIPM(3,NFX)
-         IF (NSN+FXBIPM(3,NFX)>0) 
+         IF (NSN+FXBIPM(3,NFX)>0)
      .CALL FXBODFP1(
      .FXBIPM(1,NFX),FXBRPM(ARPM),FXBNOD(ANOD),FXBMOD(AMOD),FXBDEP(AVAR),
      .FXBVIT(AVAR) ,FXBACC(AVAR),A           ,AR          ,NME         ,
@@ -183,4 +183,4 @@ C
 C
       RETURN
       END
-          
+

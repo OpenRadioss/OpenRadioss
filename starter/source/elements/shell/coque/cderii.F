@@ -29,7 +29,7 @@ Chd|        INIRIG_MAT                    source/elements/initia/inirig_mat.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CDERII(PX1 ,PX2 ,PY1 ,PY2 ,
-     .                  X1G ,X2G ,X3G ,X4G ,Y1G ,Y2G  , 
+     .                  X1G ,X2G ,X3G ,X4G ,Y1G ,Y2G  ,
      .                  Y3G ,Y4G ,Z1G ,Z2G ,Z3G ,Z4G  ,
      .                  E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .                  X2L ,X3L ,X4L ,Y2L ,Y3L ,Y4L)
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real, DIMENSION(MVSIZ), INTENT(IN)  :: 
+      my_real, DIMENSION(MVSIZ), INTENT(IN)  ::
      .         E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .         X1G,X2G,X3G,X4G,Y1G,Y2G,Y3G,Y4G,Z1G,Z2G,Z3G,Z4G
 c

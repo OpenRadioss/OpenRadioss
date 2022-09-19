@@ -53,7 +53,7 @@ Chd|====================================================================
      4       NODNX_SMS,JTASK   ,NB_DST2, MAIN_PROC,
      5       NEWFRONT ,ISENDTO ,IRCVFROM ,NBINTC,
      6       INTLIST ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
-     7       NB_DST1 ,H3D_DATA, 
+     7       NB_DST1 ,H3D_DATA,
      8       ICODT,
      9       ISKEW)
 
@@ -63,8 +63,8 @@ C-----------------------------------------------
       USE INTBUFMOD
       USE MESSAGE_MOD
       USE TRI7BOX
-      USE INTBUFDEF_MOD  
-      USE MPI_COMMOD  
+      USE INTBUFDEF_MOD
+      USE MPI_COMMOD
       USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -85,7 +85,7 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc" 
+#include      "warn_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
@@ -121,7 +121,7 @@ C-----------------------------------------------
      .                                      NSLIDE, FR_SLIDE, INDXTOSEND
 C
       TYPE(real_pointer),    DIMENSION(NSPMD,NINTER25) :: RBUFS,RBUFR
-      TYPE(int_pointer) ,    DIMENSION(NSPMD,NINTER25) :: IBUFS,IBUFR  
+      TYPE(int_pointer) ,    DIMENSION(NSPMD,NINTER25) :: IBUFS,IBUFR
 
 C     rassembler les trois structures + COMM_PATTERN 
       TYPE(MPI_COMM_STRUCT) :: COMM_INT
@@ -180,9 +180,9 @@ C
 C
 C-----------------------------------------------------------------------
 !$OMP SINGLE
-        CALL ALLOCATE_COMM_STRUCT(COMM_INT,NSPMD,NINTER25) 
-        CALL ALLOCATE_COMM_STRUCT(COMM_REAL,NSPMD,NINTER25) 
-        CALL ALLOCATE_COMM_STRUCT(COMM_SIZ,NSPMD,NINTER25) 
+        CALL ALLOCATE_COMM_STRUCT(COMM_INT,NSPMD,NINTER25)
+        CALL ALLOCATE_COMM_STRUCT(COMM_REAL,NSPMD,NINTER25)
+        CALL ALLOCATE_COMM_STRUCT(COMM_SIZ,NSPMD,NINTER25)
 
 C
         NSLIDMX=0
@@ -307,7 +307,7 @@ C            IF(TT<TS) CYCLE
 
 C ==========================================================================
 C            Post Asynchronous reception of the sizes
-             CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR      ,ISIZ(NI25)     ,RSIZ(NI25) 
+             CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR      ,ISIZ(NI25)     ,RSIZ(NI25)
      .                            ,SIZBUFR_GLOB,COMM_INT,COMM_REAL,COMM_SIZ
      .                            ,2                ,NI25, COMM_PATTERN)
 
@@ -320,7 +320,7 @@ C
              NADMSR=IPARI(67,NIN)
              ILEV  =IPARI(20,NIN)
              IGAP  =IPARI(21,NIN)
-             IFQ   =IPARI(31,NIN) 
+             IFQ   =IPARI(31,NIN)
              INTTH =IPARI(47,NIN)
              INTFRIC =IPARI(72,NIN)
              IVIS2 =IPARI(14,NIN)
@@ -331,7 +331,7 @@ C            NADD(1:NADMSR+1), KADD <=> liste sky line des noeuds secnd concerns
              CALL I25PREP_ADD(
      1      NIN    ,NI25     ,NSN          ,NSNR      ,ITAB     ,
      2      NADMSR ,INTBUF_TAB(NIN)%ADMSR  ,IAD_FRNOR ,FR_NOR   ,NADD   ,
-     3      KADD   ,INTBUF_TAB(NIN)%ISLIDE) 
+     3      KADD   ,INTBUF_TAB(NIN)%ISLIDE)
 C
 C           compute size of buffer for send
             CALL I25PREP_NINDEX(
@@ -357,7 +357,7 @@ C
             DO P=1,NSPMD
               NULLIFY(RBUFS(P,NI25)%P)
               NULLIFY(IBUFS(P,NI25)%P)
-              IF(SIZBUFS(P) > 0) THEN 
+              IF(SIZBUFS(P) > 0) THEN
                ALLOCATE(RBUFS(P,NI25)%P(RSIZ(NI25)*SIZBUFS(P)),STAT=IERROR)
                ALLOCATE(IBUFS(P,NI25)%P(ISIZ(NI25)*SIZBUFS(P)),STAT=IERROR)
                IBUFS(P,NI25)%P(1:ISIZ(NI25)*SIZBUFS(P)) = -1
@@ -372,7 +372,7 @@ C
 
 C ==========================================================================
 C           Send sizes
-            CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25) 
+            CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25)
      .                    ,SIZBUFS_GLOB       ,COMM_INT,COMM_REAL,COMM_SIZ
      .                    ,0                  ,NI25, COMM_PATTERN)
 
@@ -385,13 +385,13 @@ C ==========================================================================
      4        LENT25 ,NADD   ,KADD       ,KINET    ,
      5        NODNX_SMS ,X     ,V        ,MS    ,TEMP  ,
      .        INTBUF_TAB(NIN)  ,RBUFS, IBUFS,
-     6        RSIZ(NI25),      ISIZ(NI25),  SIZBUFS, FR_SLIDE,INDXTOSEND, 
-     7        MAIN_PROC,INTFRIC ,IVIS2, ICODT,ISKEW) 
+     6        RSIZ(NI25),      ISIZ(NI25),  SIZBUFS, FR_SLIDE,INDXTOSEND,
+     7        MAIN_PROC,INTFRIC ,IVIS2, ICODT,ISKEW)
 
 
 C ==========================================================================
 C           Send buffers 
-            CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25) 
+            CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25)
      .                    ,SIZBUFS_GLOB       ,COMM_INT,COMM_REAL,COMM_SIZ
      .                    ,1                  ,NI25, COMM_PATTERN)
 C ==========================================================================
@@ -401,7 +401,7 @@ C ==========================================================================
 
 
           END DO ! NI25 = 1:NINTER25
-         
+
         END IF ! IF(NSPMD > 1)THEN
 C-----------------------------------------------------------------------
 C
@@ -428,7 +428,7 @@ C         IF(TT<TS) CYCLE
 C
 C         Recieve buffer ( + wait for sizes)
           IF(NSPMD > 1) THEN
-            CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR      ,ISIZ(NI25)     ,RSIZ(NI25) 
+            CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR      ,ISIZ(NI25)     ,RSIZ(NI25)
      .                    ,SIZBUFR_GLOB       ,COMM_INT,COMM_REAL,COMM_SIZ
      .                    ,3                  ,NI25, COMM_PATTERN)
           ENDIF
@@ -441,7 +441,7 @@ C
           NADMSR=IPARI(67,NIN)
           ILEV  =IPARI(20,NIN)
           IGAP  =IPARI(21,NIN)
-          IFQ   =IPARI(31,NIN) 
+          IFQ   =IPARI(31,NIN)
           INTTH =IPARI(47,NIN)
           INTFRIC =IPARI(72,NIN)
           FLAGREMN =IPARI(63,NIN)
@@ -475,13 +475,13 @@ C  Ici on teste (2)
             NB_TOT = 0
             DO P = 1,NSPMD
                DO I = 1,SIZBUFS(P)
-         !       IF(IREM(3,NB_TOT+1) == ISPMD + 1) THEN 
+         !       IF(IREM(3,NB_TOT+1) == ISPMD + 1) THEN
          !        ! If PMAIN is the current processor: adding to local structures
          !        ! If current proc is PMAIN, then local number is in IREM
          !        ! i.e. no search necessary
-                  
+
          !       ELSE
-                   NB_TOT = NB_TOT + 1 
+                   NB_TOT = NB_TOT + 1
                    DO J =1,RSIZ(NI25)
                      XREM(J,NB_TOT) = RBUFR(P,NI25)%P((I-1)*RSIZ(NI25)+J)
                    ENDDO
@@ -492,8 +492,8 @@ C  Ici on teste (2)
                ENDDO
             ENDDO
 C================================================================================ 
-             
-           
+
+
            I_STOK_GLO = INTBUF_TAB(NIN)%I_STOK(2)
 
            IF(NSPMD > 1) THEN
@@ -501,7 +501,7 @@ C : on ne change pas NSNR dans IPARI depuis SPMD_I25_SLIDE_GAT, donc NSNR n est 
 C : des structures FI 
 C
              CALL SPMD_I25_SLIDE_GAT(NSN  ,NIN, NI25,
-     2                               IGAP  ,NSNR   ,INTTH   ,ILEV, INTBUF_TAB(NIN), 
+     2                               IGAP  ,NSNR   ,INTTH   ,ILEV, INTBUF_TAB(NIN),
      3                               FR_NOR,IAD_FRNOR, SIZBUFS, ITAB, H3D_DATA    ,
      4                               INTFRIC,FLAGREMN,LREMNORMAX,NRTM,IVIS2)
         ! Passer intbuftab(nin)
@@ -530,7 +530,7 @@ C         add new candidates wrt sliding to CAND_OPT_N, CAND_OPT_E
      4   INTBUF_TAB(NIN)%ADMSR,INTBUF_TAB(NIN)%ISLIDE,INTBUF_TAB(NIN)%NSV,
      .      INTBUF_TAB(NIN)%KNOR2MSR,INTBUF_TAB(NIN)%NOR2MSR,
      5   INTBUF_TAB(NIN)%IRTLM,INTBUF_TAB(NIN)%STFM,FLAGREMN,INTBUF_TAB(NIN)%KREMNOR,
-     .      INTBUF_TAB(NIN)%REMNOR) 
+     .      INTBUF_TAB(NIN)%REMNOR)
 C
 C         Merge NSNFI, etc 
 C
@@ -546,10 +546,10 @@ C
               NB_DST1(JTASK)  = NB_DST1(JTASK)  + K_STOK
               NB_DST2(JTASK)  = NB_DST2(JTASK)  - K_STOK
           ENDIF
-          
+
 !         !deallocate reception buffer
           IF(NSPMD > 1) THEN
-            CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR    ,ISIZ(NI25) ,RSIZ(NI25) 
+            CALL SPMD_I25_SLIDE_EXCH(IBUFR    ,RBUFR    ,ISIZ(NI25) ,RSIZ(NI25)
      .                      ,SIZBUFR_GLOB     ,COMM_INT ,COMM_REAL,COMM_SIZ
      .                      ,4                ,NI25     ,COMM_PATTERN)
           END IF
@@ -575,7 +575,7 @@ C         ENDIF
 C         IF(TT<TS) CYCLE
 
           ! Wait and deallocate Send buffers
-          CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25) 
+          CALL SPMD_I25_SLIDE_EXCH(IBUFS    ,RBUFS      ,ISIZ(NI25)     ,RSIZ(NI25)
      .                    ,SIZBUFS_GLOB       ,COMM_INT,COMM_REAL,COMM_SIZ
      .                    ,5                  ,NI25, COMM_PATTERN)
 
@@ -587,9 +587,9 @@ C         IF(TT<TS) CYCLE
 
 C
 C-----------------------------------------------------------------------
-      CALL DEALLOCATE_COMM_STRUCT(COMM_INT,NSPMD,NINTER25) 
-      CALL DEALLOCATE_COMM_STRUCT(COMM_REAL,NSPMD,NINTER25) 
-      CALL DEALLOCATE_COMM_STRUCT(COMM_SIZ,NSPMD,NINTER25) 
+      CALL DEALLOCATE_COMM_STRUCT(COMM_INT,NSPMD,NINTER25)
+      CALL DEALLOCATE_COMM_STRUCT(COMM_REAL,NSPMD,NINTER25)
+      CALL DEALLOCATE_COMM_STRUCT(COMM_SIZ,NSPMD,NINTER25)
 
 
 !$OMP END SINGLE

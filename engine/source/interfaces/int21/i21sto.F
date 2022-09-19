@@ -59,7 +59,7 @@ C-----------------------------------------------
       INTEGER PROV_N(MVSIZ),PROV_E(MVSIZ)
 C     REAL
       my_real
-     .        XLOC(3,*), GAP_S(*), 
+     .        XLOC(3,*), GAP_S(*),
      .        MARGE, GAP, GAPMIN, GAPMAX, CURV_MAX(*),
      .        DEPTH, XM0(3,*), NOD_NORMAL(3,*)
       my_real , INTENT(IN) :: DGAPLOAD,DRAD
@@ -85,7 +85,7 @@ C-----------------------------------------------
      1               PROV_N  ,IGAP ,GAP   ,X1    ,X2     ,
      2               X3      ,X4   ,Y1    ,Y2	 ,Y3	 ,
      3               Y4      ,Z1   ,Z2    ,Z3	 ,Z4	 ,
-     4               XI      ,YI   ,ZI    ,IX1   ,IX2    ,  
+     4               XI      ,YI   ,ZI    ,IX1   ,IX2    ,
      5               IX3     ,IX4  ,NSN   ,GAP_S ,GAPV   ,
      6               GAPMAX  ,GAPMIN,CURV_MAX,DEPTH ,XM0 ,
      7               DRAD    ,DGAPLOAD)
@@ -103,7 +103,7 @@ C-----------------------------------------------
         IF(K_STOK==0)RETURN
 C
 #include "lockon.inc"
-          I_STOK = II_STOK 
+          I_STOK = II_STOK
           IF(I_STOK+K_STOK>MULNSN) THEN
             I_MEM = 2
 #include "lockoff.inc"

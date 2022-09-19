@@ -248,14 +248,14 @@ C
        ! -------------------------------
        ! mpi communication for energy sensor (type 14)
        IF(COMM_SENS14%BOOL) THEN
-            IF(IPARIT>0) THEN 
+            IF(IPARIT>0) THEN
                 ALLOCATE( SBUF_DOUBLE(COMM_SENS14%NUM_SENS,2,6,NTHREAD) )
                 ALLOCATE( RBUF_DOUBLE(COMM_SENS14%NUM_SENS,2,6,NTHREAD) )
                 DO K=1,COMM_SENS14%NUM_SENS
                     J = COMM_SENS14%ID_SENS(K)
                     SBUF_DOUBLE(K,1:2,1:6,1:NTHREAD) = SENSOR_STRUCT(J)%FBSAV6_SENS(1:2,1:6,1:NTHREAD)
                 ENDDO
-                
+
                 MY_SIZE = COMM_SENS14%NUM_SENS*2*6*NTHREAD
                 MY_OPERATION = "SUM"
                 CALL SPMD_ALLREDUCE_DB(SBUF_DOUBLE,RBUF_DOUBLE,MY_SIZE,MY_OPERATION)
@@ -269,7 +269,7 @@ C
             ELSE
                 CALL SPMD_GLOB_DSUM9(PARTSAV2,2*NPART)
                 CALL SPMD_RBCAST(PARTSAV2,PARTSAV2,2,NPART,0,2)
-            ENDIF        
+            ENDIF
        ENDIF
        ! -------------------------------
 c-----------------------------------------------------------------------

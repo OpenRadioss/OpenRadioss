@@ -109,14 +109,14 @@ C     REAL
      .   AA, VV,A1,A2,A3,V1,V2,V3
 C-----------------------------------------------
 #include "vectorize.inc"
-      
+
       DO K = 1, NINDX
         LG = INDX(K)
         ISK =ISKEW(LG)
         LCOD=ICODT(LG)
         L = INOD(LG)
         IBC = IBC_PLY(LG)
-        IF(L > 0 .AND. IBC == 0) THEN                
+        IF(L > 0 .AND. IBC == 0) THEN
          IF(ISK == 0) THEN
 C------------------
 C     REPERE GLOBAL
@@ -126,7 +126,7 @@ C------------------
                 PLY(J)%V(3,L)=ZERO
                 PLY(J)%A(3,L)=ZERO
                 PLY(J)%U(3,L)=ZERO
-              ENDDO   
+              ENDDO
            ELSEIF(LCOD == 2)THEN
              DO J=1,NPLYMAX
                PLY(J)%V(2,L)=ZERO
@@ -136,12 +136,12 @@ C------------------
            ELSEIF(LCOD == 3)THEN
              DO J=1,NPLYMAX
                PLY(J)%V(2,L)=ZERO
-               PLY(J)%V(3,L)=ZERO      
+               PLY(J)%V(3,L)=ZERO
                PLY(J)%A(2,L)=ZERO
                PLY(J)%A(3,L)=ZERO
                PLY(J)%U(2,L)=ZERO
-               PLY(J)%U(3,L)=ZERO       
-            ENDDO   
+               PLY(J)%U(3,L)=ZERO
+            ENDDO
           ELSEIF(LCOD == 4)THEN
             DO J=1,NPLYMAX
                 PLY(J)%V(1,L)=ZERO
@@ -153,10 +153,10 @@ C------------------
                PLY(J)%V(1,L)=ZERO
                PLY(J)%V(3,L)=ZERO
                PLY(J)%A(1,L)=ZERO
-               PLY(J)%A(3,L)=ZERO  
+               PLY(J)%A(3,L)=ZERO
                PLY(J)%U(1,L)=ZERO
-               PLY(J)%U(3,L)=ZERO    
-              ENDDO  
+               PLY(J)%U(3,L)=ZERO
+              ENDDO
            ELSEIF(LCOD == 6)THEN
               DO J=1,NPLYMAX
                 PLY(J)%V(1,L)=ZERO
@@ -164,21 +164,21 @@ C------------------
                 PLY(J)%A(1,L)=ZERO
                 PLY(J)%A(2,L)=ZERO
                 PLY(J)%U(1,L)=ZERO
-                PLY(J)%U(2,L)=ZERO      
-              ENDDO   
+                PLY(J)%U(2,L)=ZERO
+              ENDDO
            ELSEIF(LCOD == 7)THEN
              DO J=1,NPLYMAX
                PLY(J)%V(1,L)=ZERO
                PLY(J)%V(2,L)=ZERO
                PLY(J)%V(3,L)=ZERO
-               
+
                PLY(J)%A(1,L)=ZERO
                PLY(J)%A(2,L)=ZERO
                PLY(J)%A(3,L)=ZERO
-               
+
                PLY(J)%U(1,L)=ZERO
                PLY(J)%U(2,L)=ZERO
-               PLY(J)%U(3,L)=ZERO     
+               PLY(J)%U(3,L)=ZERO
              ENDDO
            ENDIF
 C
@@ -188,7 +188,7 @@ C     REPERE OBLIQUE
 C-------------------
 C 
            IF(LCOD == 1)THEN
-              DO J=1,NPLYMAX 
+              DO J=1,NPLYMAX
                A1 = PLY(J)%A(1,L)
                A2 = PLY(J)%A(2,L)
                A3 = PLY(J)%A(3,L)
@@ -203,9 +203,9 @@ C
                PLY(J)%V(1,L) = PLY(J)%V(1,L) - B(7,ISK)*VV
                PLY(J)%V(2,L) = PLY(J)%V(2,L) - B(8,ISK)*VV
                PLY(J)%V(3,L) = PLY(J)%V(3,L) - B(9,ISK)*VV
-             ENDDO  
+             ENDDO
            ELSEIF(LCOD == 2)THEN
-             DO J=1,NPLYMAX 
+             DO J=1,NPLYMAX
                A1 = PLY(J)%A(1,L)
                A2 = PLY(J)%A(2,L)
                A3 = PLY(J)%A(3,L)
@@ -220,7 +220,7 @@ C
                PLY(J)%V(1,L)=PLY(J)%V(1,L) - B(4,ISK)*VV
                PLY(J)%V(2,L)=PLY(J)%V(2,L) - B(5,ISK)*VV
                PLY(J)%V(3,L)=PLY(J)%V(3,L) - B(6,ISK)*VV
-             ENDDO  
+             ENDDO
            ELSEIF(LCOD == 3)THEN
              DO J=1,NPLYMAX
                A1 = PLY(J)%A(1,L)
@@ -231,17 +231,17 @@ C
                V3 = PLY(J)%V(3,L)
                AA  =B(7,ISK)*A1 + B(8,ISK)*A2 + B(9,ISK)*A3
                VV  =B(7,ISK)*V1 + B(8,ISK)*V2 + B(9,ISK)*V3
-               
+
                PLY(J)%A(1,L)=PLY(J)%A(1,L) - B(7,ISK)*AA
                PLY(J)%A(2,L)=PLY(J)%A(2,L) - B(8,ISK)*AA
                PLY(J)%A(3,L)=PLY(J)%A(3,L) - B(9,ISK)*AA
                PLY(J)%V(1,L)=PLY(J)%V(1,L) - B(7,ISK)*VV
                PLY(J)%V(2,L)=PLY(J)%V(2,L) - B(8,ISK)*VV
                PLY(J)%V(3,L)=PLY(J)%V(3,L) - B(9,ISK)*VV
-               
+
                AA  =B(4,ISK)*A1 + B(5,ISK)*A2 + B(6,ISK)*A3
                VV  =B(4,ISK)*V1 + B(5,ISK)*V2 + B(6,ISK)*V3
-               
+
                PLY(J)%A(1,L)=PLY(J)%A(1,L) - B(4,ISK)*AA
                PLY(J)%A(2,L)=PLY(J)%A(2,L) - B(5,ISK)*AA
                PLY(J)%A(3,L)=PLY(J)%A(3,L) - B(6,ISK)*AA
@@ -257,7 +257,7 @@ C
                V1 = PLY(J)%V(1,L)
                V2 = PLY(J)%V(2,L)
                V3 = PLY(J)%V(3,L)
-               
+
                AA  =B(1,ISK)*A1 + B(2,ISK)*A2 + B(3,ISK)*A3
                VV  =B(1,ISK)*V1 + B(2,ISK)*V2 + B(3,ISK)*V3
                PLY(J)%A(1,L)=PLY(J)%A(1,L) - B(1,ISK)*AA
@@ -266,7 +266,7 @@ C
                PLY(J)%V(1,L)=PLY(J)%V(1,L) - B(1,ISK)*VV
                PLY(J)%V(2,L)=PLY(J)%V(2,L) - B(2,ISK)*VV
                PLY(J)%V(3,L)=PLY(J)%V(3,L) - B(3,ISK)*VV
-             ENDDO  
+             ENDDO
            ELSEIF(LCOD == 5)THEN
              DO  J=1,NPLYMAX
               A1 = PLY(J)%A(1,L)
@@ -291,7 +291,7 @@ C
               PLY(J)%V(1,L)=PLY(J)%V(1,L) -  B(1,ISK)*VV
               PLY(J)%V(2,L)=PLY(J)%V(2,L) -  B(2,ISK)*VV
               PLY(J)%V(3,L)=PLY(J)%V(3,L) -  B(3,ISK)*VV
-             ENDDO   
+             ENDDO
             ELSEIF(LCOD == 6)THEN
               DO  J=1,NPLYMAX
                A1 = PLY(J)%A(1,L)
@@ -316,7 +316,7 @@ C
                PLY(J)%V(1,L)=PLY(J)%V(1,L)-B(4,ISK)*VV
                PLY(J)%V(2,L)=PLY(J)%V(2,L)-B(5,ISK)*VV
                PLY(J)%V(3,L)=PLY(J)%V(3,L)-B(6,ISK)*VV
-            ENDDO  
+            ENDDO
           ELSEIF(LCOD == 7)THEN
            DO J=1,NPLYMAX
               PLY(J)%A(1,L)=ZERO
@@ -324,8 +324,8 @@ C
               PLY(J)%A(3,L)=ZERO
               PLY(J)%V(1,L)=ZERO
               PLY(J)%V(2,L)=ZERO
-              PLY(J)%V(3,L)=ZERO  
-             ENDDO  
+              PLY(J)%V(3,L)=ZERO
+             ENDDO
            ENDIF
 C
          END IF ! iskew
@@ -336,19 +336,19 @@ C
            J = 1
            DO WHILE (MS_PLY(L,J) == ZERO)
              J = J +1
-           ENDDO 
-           IINF = J 
+           ENDDO
+           IINF = J
            J = NPLYMAX
-           DO WHILE (MS_PLY(L,J) == ZERO) 
+           DO WHILE (MS_PLY(L,J) == ZERO)
              J = J - 1
-           ENDDO 
+           ENDDO
            ISUP = J
           IF(ISK == 0) THEN
 C------------------
 C     REPERE GLOBAL
 C------------------          
 C          
-             IF(IBC ==2 ) THEN 
+             IF(IBC ==2 ) THEN
                IF(LCOD == 1)THEN
                     PLY(ISUP)%V(3,L)=ZERO
                     PLY(ISUP)%A(3,L)=ZERO
@@ -364,22 +364,22 @@ C
 C                  
                    PLY(ISUP)%V(2,L)=ZERO
                    PLY(ISUP)%A(2,L)=ZERO
-                   PLY(ISUP)%U(2,L)=ZERO                  
+                   PLY(ISUP)%U(2,L)=ZERO
                ELSEIF(LCOD == 3)THEN
 C               
                    PLY(IINF)%V(2,L)=ZERO
-                   PLY(IINF)%V(3,L)=ZERO      
+                   PLY(IINF)%V(3,L)=ZERO
                    PLY(IINF)%A(2,L)=ZERO
                    PLY(IINF)%A(3,L)=ZERO
                    PLY(IINF)%U(2,L)=ZERO
-                   PLY(IINF)%U(3,L)=ZERO 
+                   PLY(IINF)%U(3,L)=ZERO
 C               
                    PLY(ISUP)%V(2,L)=ZERO
-                   PLY(ISUP)%V(3,L)=ZERO      
+                   PLY(ISUP)%V(3,L)=ZERO
                    PLY(ISUP)%A(2,L)=ZERO
                    PLY(ISUP)%A(3,L)=ZERO
                    PLY(ISUP)%U(2,L)=ZERO
-                   PLY(ISUP)%U(3,L)=ZERO        
+                   PLY(ISUP)%U(3,L)=ZERO
                ELSEIF(LCOD == 4)THEN
                     PLY(ISUP)%V(1,L)=ZERO
                     PLY(ISUP)%A(1,L)=ZERO
@@ -392,16 +392,16 @@ C
                    PLY(IINF)%V(1,L)=ZERO
                    PLY(IINF)%V(3,L)=ZERO
                    PLY(IINF)%A(1,L)=ZERO
-                   PLY(IINF)%A(3,L)=ZERO  
+                   PLY(IINF)%A(3,L)=ZERO
                    PLY(IINF)%U(1,L)=ZERO
-                   PLY(IINF)%U(3,L)=ZERO 
+                   PLY(IINF)%U(3,L)=ZERO
 C 
                    PLY(ISUP)%V(1,L)=ZERO
                    PLY(ISUP)%V(3,L)=ZERO
                    PLY(ISUP)%A(1,L)=ZERO
-                   PLY(ISUP)%A(3,L)=ZERO  
+                   PLY(ISUP)%A(3,L)=ZERO
                    PLY(ISUP)%U(1,L)=ZERO
-                   PLY(ISUP)%U(3,L)=ZERO 
+                   PLY(ISUP)%U(3,L)=ZERO
                ELSEIF(LCOD == 6)THEN
                     PLY(ISUP)%V(1,L)=ZERO
                     PLY(ISUP)%V(2,L)=ZERO
@@ -415,7 +415,7 @@ C
                     PLY(IINF)%A(1,L)=ZERO
                     PLY(IINF)%A(2,L)=ZERO
                     PLY(IINF)%U(1,L)=ZERO
-                    PLY(IINF)%U(2,L)=ZERO 
+                    PLY(IINF)%U(2,L)=ZERO
                ELSEIF(LCOD == 7)THEN
 
                    PLY(ISUP)%V(1,L)=ZERO
@@ -436,7 +436,7 @@ C
                    PLY(IINF)%A(3,L)=ZERO
                    PLY(IINF)%U(1,L)=ZERO
                    PLY(IINF)%U(2,L)=ZERO
-                   PLY(IINF)%U(3,L)=ZERO    
+                   PLY(IINF)%U(3,L)=ZERO
 
                ENDIF
 C sup       
@@ -448,14 +448,14 @@ C sup
                ELSEIF(LCOD == 2)THEN
                    PLY(ISUP)%V(2,L)=ZERO
                    PLY(ISUP)%A(2,L)=ZERO
-                   PLY(ISUP)%U(2,L)=ZERO                  
-               ELSEIF(LCOD == 3)THEN 
+                   PLY(ISUP)%U(2,L)=ZERO
+               ELSEIF(LCOD == 3)THEN
                    PLY(ISUP)%V(2,L)=ZERO
-                   PLY(ISUP)%V(3,L)=ZERO      
+                   PLY(ISUP)%V(3,L)=ZERO
                    PLY(ISUP)%A(2,L)=ZERO
                    PLY(ISUP)%A(3,L)=ZERO
                    PLY(ISUP)%U(2,L)=ZERO
-                   PLY(ISUP)%U(3,L)=ZERO        
+                   PLY(ISUP)%U(3,L)=ZERO
                ELSEIF(LCOD == 4)THEN
                     PLY(ISUP)%V(1,L)=ZERO
                     PLY(ISUP)%A(1,L)=ZERO
@@ -464,9 +464,9 @@ C sup
                    PLY(ISUP)%V(1,L)=ZERO
                    PLY(ISUP)%V(3,L)=ZERO
                    PLY(ISUP)%A(1,L)=ZERO
-                   PLY(ISUP)%A(3,L)=ZERO  
+                   PLY(ISUP)%A(3,L)=ZERO
                    PLY(ISUP)%U(1,L)=ZERO
-                   PLY(ISUP)%U(3,L)=ZERO 
+                   PLY(ISUP)%U(3,L)=ZERO
                ELSEIF(LCOD == 6)THEN
                     PLY(ISUP)%V(1,L)=ZERO
                     PLY(ISUP)%V(2,L)=ZERO
@@ -483,7 +483,7 @@ C sup
                    PLY(ISUP)%A(3,L)=ZERO
                    PLY(ISUP)%U(1,L)=ZERO
                    PLY(ISUP)%U(2,L)=ZERO
-                   PLY(ISUP)%U(3,L)=ZERO 
+                   PLY(ISUP)%U(3,L)=ZERO
                ENDIF
 C inf           
             ELSE ! ibc
@@ -499,11 +499,11 @@ C inf
                ELSEIF(LCOD == 3)THEN
 C               
                    PLY(IINF)%V(2,L)=ZERO
-                   PLY(IINF)%V(3,L)=ZERO      
+                   PLY(IINF)%V(3,L)=ZERO
                    PLY(IINF)%A(2,L)=ZERO
                    PLY(IINF)%A(3,L)=ZERO
                    PLY(IINF)%U(2,L)=ZERO
-                   PLY(IINF)%U(3,L)=ZERO 
+                   PLY(IINF)%U(3,L)=ZERO
                ELSEIF(LCOD == 4)THEN
 C                    
                     PLY(IINF)%V(1,L)=ZERO
@@ -513,7 +513,7 @@ C
                    PLY(IINF)%V(1,L)=ZERO
                    PLY(IINF)%V(3,L)=ZERO
                    PLY(IINF)%A(1,L)=ZERO
-                   PLY(IINF)%A(3,L)=ZERO  
+                   PLY(IINF)%A(3,L)=ZERO
                    PLY(IINF)%U(1,L)=ZERO
                    PLY(IINF)%U(3,L)=ZERO
                ELSEIF(LCOD == 6)THEN
@@ -522,7 +522,7 @@ C
                     PLY(IINF)%A(1,L)=ZERO
                     PLY(IINF)%A(2,L)=ZERO
                     PLY(IINF)%U(1,L)=ZERO
-                    PLY(IINF)%U(2,L)=ZERO 
+                    PLY(IINF)%U(2,L)=ZERO
                ELSEIF(LCOD == 7)THEN
                    PLY(IINF)%V(1,L)=ZERO
                    PLY(IINF)%V(2,L)=ZERO
@@ -532,9 +532,9 @@ C
                    PLY(IINF)%A(3,L)=ZERO
                    PLY(IINF)%U(1,L)=ZERO
                    PLY(IINF)%U(2,L)=ZERO
-                   PLY(IINF)%U(3,L)=ZERO 
-               ENDIF 
-            ENDIF    ! ibc 
+                   PLY(IINF)%U(3,L)=ZERO
+               ENDIF
+            ENDIF    ! ibc
 C 
          ELSE  ! iskew
 C-------------------
@@ -543,7 +543,7 @@ C-------------------
 C         
          IF(IBC == 2) THEN
             IF(LCOD == 1)THEN
- 
+
                A1 = PLY(IINF)%A(1,L)
                A2 = PLY(IINF)%A(2,L)
                A3 = PLY(IINF)%A(3,L)
@@ -602,7 +602,7 @@ C
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(6,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(4,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(5,ISK)*VV
-               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(6,ISK)*VV              
+               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(6,ISK)*VV
            ELSEIF(LCOD == 3)THEN
 
                A1 = PLY(IINF)%A(1,L)
@@ -613,17 +613,17 @@ C
                V3 = PLY(IINF)%V(3,L)
                AA  =B(7,ISK)*A1 + B(8,ISK)*A2 + B(9,ISK)*A3
                VV  =B(7,ISK)*V1 + B(8,ISK)*V2 + B(9,ISK)*V3
-               
+
                PLY(IINF)%A(1,L)=PLY(IINF)%A(1,L) - B(7,ISK)*AA
                PLY(IINF)%A(2,L)=PLY(IINF)%A(2,L) - B(8,ISK)*AA
                PLY(IINF)%A(3,L)=PLY(IINF)%A(3,L) - B(9,ISK)*AA
                PLY(IINF)%V(1,L)=PLY(IINF)%V(1,L) - B(7,ISK)*VV
                PLY(IINF)%V(2,L)=PLY(IINF)%V(2,L) - B(8,ISK)*VV
                PLY(IINF)%V(3,L)=PLY(IINF)%V(3,L) - B(9,ISK)*VV
-               
+
                AA  =B(4,ISK)*A1 + B(5,ISK)*A2 + B(6,ISK)*A3
                VV  =B(4,ISK)*V1 + B(5,ISK)*V2 + B(6,ISK)*V3
-               
+
                PLY(IINF)%A(1,L)=PLY(IINF)%A(1,L) - B(4,ISK)*AA
                PLY(IINF)%A(2,L)=PLY(IINF)%A(2,L) - B(5,ISK)*AA
                PLY(IINF)%A(3,L)=PLY(IINF)%A(3,L) - B(6,ISK)*AA
@@ -639,24 +639,24 @@ C
                V3 = PLY(ISUP)%V(3,L)
                AA  =B(7,ISK)*A1 + B(8,ISK)*A2 + B(9,ISK)*A3
                VV  =B(7,ISK)*V1 + B(8,ISK)*V2 + B(9,ISK)*V3
-               
+
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(7,ISK)*AA
                PLY(ISUP)%A(2,L)=PLY(ISUP)%A(2,L) - B(8,ISK)*AA
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(9,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(7,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(8,ISK)*VV
                PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(9,ISK)*VV
-               
+
                AA  =B(4,ISK)*A1 + B(5,ISK)*A2 + B(6,ISK)*A3
                VV  =B(4,ISK)*V1 + B(5,ISK)*V2 + B(6,ISK)*V3
-               
+
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(4,ISK)*AA
                PLY(ISUP)%A(2,L)=PLY(ISUP)%A(2,L) - B(5,ISK)*AA
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(6,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(4,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(5,ISK)*VV
                PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(6,ISK)*VV
-         
+
            ELSEIF(LCOD == 4)THEN
                A1 = PLY(IINF)%A(1,L)
                A2 = PLY(IINF)%A(2,L)
@@ -664,7 +664,7 @@ C
                V1 = PLY(IINF)%V(1,L)
                V2 = PLY(IINF)%V(2,L)
                V3 = PLY(IINF)%V(3,L)
-               
+
                AA  =B(1,ISK)*A1 + B(2,ISK)*A2 + B(3,ISK)*A3
                VV  =B(1,ISK)*V1 + B(2,ISK)*V2 + B(3,ISK)*V3
                PLY(IINF)%A(1,L)=PLY(IINF)%A(1,L) - B(1,ISK)*AA
@@ -680,7 +680,7 @@ C
                V1 = PLY(ISUP)%V(1,L)
                V2 = PLY(ISUP)%V(2,L)
                V3 = PLY(ISUP)%V(3,L)
-               
+
                AA  =B(1,ISK)*A1 + B(2,ISK)*A2 + B(3,ISK)*A3
                VV  =B(1,ISK)*V1 + B(2,ISK)*V2 + B(3,ISK)*V3
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(1,ISK)*AA
@@ -688,7 +688,7 @@ C
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(3,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(1,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(2,ISK)*VV
-               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(3,ISK)*VV               
+               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(3,ISK)*VV
            ELSEIF(LCOD == 5)THEN
               A1 = PLY(IINF)%A(1,L)
               A2 = PLY(IINF)%A(2,L)
@@ -735,7 +735,7 @@ C
               PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) -  B(1,ISK)*VV
               PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) -  B(2,ISK)*VV
               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) -  B(3,ISK)*VV
-                 
+
             ELSEIF(LCOD == 6)THEN
 
                A1 = PLY(IINF)%A(1,L)
@@ -784,7 +784,7 @@ C
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L)-B(5,ISK)*VV
                PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L)-B(6,ISK)*VV
           ELSEIF(LCOD == 7)THEN
- 
+
               PLY(IINF)%A(1,L)=ZERO
               PLY(IINF)%A(2,L)=ZERO
               PLY(IINF)%A(3,L)=ZERO
@@ -797,11 +797,11 @@ C
               PLY(ISUP)%A(3,L)=ZERO
               PLY(ISUP)%V(1,L)=ZERO
               PLY(ISUP)%V(2,L)=ZERO
-              PLY(ISUP)%V(3,L)=ZERO  
+              PLY(ISUP)%V(3,L)=ZERO
            ENDIF ! lcod
 C sup           
          ELSEIF(IBC == 1) THEn
-         
+
              IF(LCOD == 1)THEN
 C
                A1 = PLY(ISUP)%A(1,L)
@@ -833,7 +833,7 @@ C
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(6,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(4,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(5,ISK)*VV
-               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(6,ISK)*VV              
+               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(6,ISK)*VV
            ELSEIF(LCOD == 3)THEN
                A1 = PLY(ISUP)%A(1,L)
                A2 = PLY(ISUP)%A(2,L)
@@ -843,24 +843,24 @@ C
                V3 = PLY(ISUP)%V(3,L)
                AA  =B(7,ISK)*A1 + B(8,ISK)*A2 + B(9,ISK)*A3
                VV  =B(7,ISK)*V1 + B(8,ISK)*V2 + B(9,ISK)*V3
-               
+
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(7,ISK)*AA
                PLY(ISUP)%A(2,L)=PLY(ISUP)%A(2,L) - B(8,ISK)*AA
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(9,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(7,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(8,ISK)*VV
                PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(9,ISK)*VV
-               
+
                AA  =B(4,ISK)*A1 + B(5,ISK)*A2 + B(6,ISK)*A3
                VV  =B(4,ISK)*V1 + B(5,ISK)*V2 + B(6,ISK)*V3
-               
+
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(4,ISK)*AA
                PLY(ISUP)%A(2,L)=PLY(ISUP)%A(2,L) - B(5,ISK)*AA
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(6,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(4,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(5,ISK)*VV
                PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(6,ISK)*VV
-         
+
            ELSEIF(LCOD == 4)THEN
                A1 = PLY(ISUP)%A(1,L)
                A2 = PLY(ISUP)%A(2,L)
@@ -868,7 +868,7 @@ C
                V1 = PLY(ISUP)%V(1,L)
                V2 = PLY(ISUP)%V(2,L)
                V3 = PLY(ISUP)%V(3,L)
-               
+
                AA  =B(1,ISK)*A1 + B(2,ISK)*A2 + B(3,ISK)*A3
                VV  =B(1,ISK)*V1 + B(2,ISK)*V2 + B(3,ISK)*V3
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(1,ISK)*AA
@@ -876,7 +876,7 @@ C
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(3,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(1,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(2,ISK)*VV
-               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(3,ISK)*VV               
+               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(3,ISK)*VV
            ELSEIF(LCOD == 5)THEN
 C
                A1 = PLY(ISUP)%A(1,L)
@@ -885,7 +885,7 @@ C
                V1 = PLY(ISUP)%V(1,L)
                V2 = PLY(ISUP)%V(2,L)
                V3 = PLY(ISUP)%V(3,L)
-               
+
                AA  =B(1,ISK)*A1 + B(2,ISK)*A2 + B(3,ISK)*A3
                VV  =B(1,ISK)*V1 + B(2,ISK)*V2 + B(3,ISK)*V3
                PLY(ISUP)%A(1,L)=PLY(ISUP)%A(1,L) - B(1,ISK)*AA
@@ -893,7 +893,7 @@ C
                PLY(ISUP)%A(3,L)=PLY(ISUP)%A(3,L) - B(3,ISK)*AA
                PLY(ISUP)%V(1,L)=PLY(ISUP)%V(1,L) - B(1,ISK)*VV
                PLY(ISUP)%V(2,L)=PLY(ISUP)%V(2,L) - B(2,ISK)*VV
-               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(3,ISK)*VV  
+               PLY(ISUP)%V(3,L)=PLY(ISUP)%V(3,L) - B(3,ISK)*VV
             ELSEIF(LCOD == 6)THEN
 C             
                A1 = PLY(ISUP)%A(1,L)
@@ -925,12 +925,12 @@ C
               PLY(ISUP)%A(3,L)=ZERO
               PLY(ISUP)%V(1,L)=ZERO
               PLY(ISUP)%V(2,L)=ZERO
-              PLY(ISUP)%V(3,L)=ZERO  
-           ENDIF ! lcod        
+              PLY(ISUP)%V(3,L)=ZERO
+           ENDIF ! lcod
 C inf          
          ELSE
             IF(LCOD == 1)THEN
- 
+
                A1 = PLY(IINF)%A(1,L)
                A2 = PLY(IINF)%A(2,L)
                A3 = PLY(IINF)%A(3,L)
@@ -971,17 +971,17 @@ C
                V3 = PLY(IINF)%V(3,L)
                AA  =B(7,ISK)*A1 + B(8,ISK)*A2 + B(9,ISK)*A3
                VV  =B(7,ISK)*V1 + B(8,ISK)*V2 + B(9,ISK)*V3
-               
+
                PLY(IINF)%A(1,L)=PLY(IINF)%A(1,L) - B(7,ISK)*AA
                PLY(IINF)%A(2,L)=PLY(IINF)%A(2,L) - B(8,ISK)*AA
                PLY(IINF)%A(3,L)=PLY(IINF)%A(3,L) - B(9,ISK)*AA
                PLY(IINF)%V(1,L)=PLY(IINF)%V(1,L) - B(7,ISK)*VV
                PLY(IINF)%V(2,L)=PLY(IINF)%V(2,L) - B(8,ISK)*VV
                PLY(IINF)%V(3,L)=PLY(IINF)%V(3,L) - B(9,ISK)*VV
-               
+
                AA  =B(4,ISK)*A1 + B(5,ISK)*A2 + B(6,ISK)*A3
                VV  =B(4,ISK)*V1 + B(5,ISK)*V2 + B(6,ISK)*V3
-               
+
                PLY(IINF)%A(1,L)=PLY(IINF)%A(1,L) - B(4,ISK)*AA
                PLY(IINF)%A(2,L)=PLY(IINF)%A(2,L) - B(5,ISK)*AA
                PLY(IINF)%A(3,L)=PLY(IINF)%A(3,L) - B(6,ISK)*AA
@@ -996,7 +996,7 @@ C
                V1 = PLY(IINF)%V(1,L)
                V2 = PLY(IINF)%V(2,L)
                V3 = PLY(IINF)%V(3,L)
-               
+
                AA  =B(1,ISK)*A1 + B(2,ISK)*A2 + B(3,ISK)*A3
                VV  =B(1,ISK)*V1 + B(2,ISK)*V2 + B(3,ISK)*V3
                PLY(IINF)%A(1,L)=PLY(IINF)%A(1,L) - B(1,ISK)*AA
@@ -1004,7 +1004,7 @@ C
                PLY(IINF)%A(3,L)=PLY(IINF)%A(3,L) - B(3,ISK)*AA
                PLY(IINF)%V(1,L)=PLY(IINF)%V(1,L) - B(1,ISK)*VV
                PLY(IINF)%V(2,L)=PLY(IINF)%V(2,L) - B(2,ISK)*VV
-               PLY(IINF)%V(3,L)=PLY(IINF)%V(3,L) - B(3,ISK)*VV              
+               PLY(IINF)%V(3,L)=PLY(IINF)%V(3,L) - B(3,ISK)*VV
            ELSEIF(LCOD == 5)THEN
               A1 = PLY(IINF)%A(1,L)
               A2 = PLY(IINF)%A(2,L)
@@ -1054,18 +1054,18 @@ C
                PLY(IINF)%V(3,L)=PLY(IINF)%V(3,L)-B(6,ISK)*VV
 C             
           ELSEIF(LCOD == 7)THEN
- 
+
               PLY(IINF)%A(1,L)=ZERO
               PLY(IINF)%A(2,L)=ZERO
               PLY(IINF)%A(3,L)=ZERO
               PLY(IINF)%V(1,L)=ZERO
               PLY(IINF)%V(2,L)=ZERO
-              PLY(IINF)%V(3,L)=ZERO 
-           ENDIF ! lcod                           
-         ENDIF  
+              PLY(IINF)%V(3,L)=ZERO
+           ENDIF ! lcod
+         ENDIF
 C
-        END IF ! iskew        
-       ENDIF ! ibc 
+        END IF ! iskew
+       ENDIF ! ibc
       ENDDO
 C  
       RETURN

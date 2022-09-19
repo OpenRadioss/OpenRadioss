@@ -89,7 +89,7 @@ cc      my_real
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .   UVAR(NEL,NUVAR), OFF(NEL),DFMAX(NEL),TDELE(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -100,10 +100,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,K,IR,IADBUF,NINDX,IFAIL
-      INTEGER, DIMENSION(NEL) :: 
+      INTEGER, DIMENSION(NEL) ::
      .   INDX
 C
-      my_real 
+      my_real
      .    SEQ,INV2,ETA,SIGM,XI,EPSF,
      .    DEVXX,DEVYY,DEVZZ,BCOEF,LODE,DAM,
      .    BFRAC,GAMA,CFRAC,DEPS0,
@@ -120,13 +120,13 @@ C-----------------------------------------------
       DEPS0  = UPARAM(6)
       PLAP   = 0
 C-----------------------------------------------
-      INDX = 0                                  
-      NINDX  = 0  
+      INDX = 0
+      NINDX  = 0
 C-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 C-------------------------------------------------------------------
        DO I=1,NEL
-        
+
         DAM = UVAR(I,2)
         IF (OFF(I) < 0.1) OFF(I)=ZERO
         IF (OFF(I) < ONE)  OFF(I)=OFF(I)*FOUR_OVER_5
@@ -135,12 +135,12 @@ C-------------------------------------------------------------------
 C---      failure strain interpolation
 
           PLAP = DPLA(I)/TIMESTEP
-          
+
           SIGM  = (SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
           DEVXX = SIGNXX(I) - SIGM
           DEVYY = SIGNYY(I) - SIGM
           DEVZZ = SIGNZZ(I) - SIGM
-          SEQ   = SQRT(THREE_HALF*(DEVXX*DEVXX 
+          SEQ   = SQRT(THREE_HALF*(DEVXX*DEVXX
      .                       +DEVYY*DEVYY
      .                       +DEVZZ*DEVZZ
      .                + TWO*(SIGNXY(I)*SIGNXY(I)
@@ -148,7 +148,7 @@ C---      failure strain interpolation
      .                       +SIGNZX(I)*SIGNZX(I))))
 
           	  ! determinant du deviateur des contraintes
-          INV2 = DEVXX * DEVYY * DEVZZ 
+          INV2 = DEVXX * DEVYY * DEVZZ
      .         + TWO*SIGNXY(I)*SIGNZX(I)*SIGNYZ(I)
      .         - DEVXX*SIGNYZ(I)**2 - DEVYY*SIGNZX(I)**2
      .         - DEVZZ*SIGNXY(I)**2
@@ -156,17 +156,17 @@ C---      failure strain interpolation
           IF (SEQ == ZERO) THEN
             ETA = THIRD
             XI  = ZERO
-          ELSE    
+          ELSE
             ETA = SIGM/SEQ
             XI  = ONE/SEQ**3
             XI  = HALF*TWENTY7*INV2*XI
           ENDIF
-          
+
           IF (XI < -ONE) XI =-ONE
           IF (XI >  ONE) XI = ONE
 
           LODE = ONE - TWO*ACOS(XI)/PI
-          
+
           F1 = TWO_THIRD*COS((ONE   -LODE)*PI/SIX)
           F2 = TWO_THIRD*COS((THREE+LODE)*PI/SIX)
           F3 =-TWO_THIRD*COS((ONE   +LODE)*PI/SIX)
@@ -180,7 +180,7 @@ C---      failure strain interpolation
             DF23 = MAX(EM20,F2-F3)
             DF13 = MAX(EM20,F1-F3)
             EPSF = BCOEF*(ONE+CFRAC)**(ONE/NFRAC)
-     .           * ((HALF*(DF12**AFRAC  
+     .           * ((HALF*(DF12**AFRAC
      .                      +DF23**AFRAC
      .                      +DF13**AFRAC))**(ONE/AFRAC)
      .           +   CFRAC*(TWO*ETA+F1+F3))**(-ONE/NFRAC)
@@ -190,16 +190,16 @@ C---      failure strain interpolation
           DAM = UVAR(I,2) + (PLAS(I) - UVAR(I,1))/EPSF
 
           UVAR(I,1) = PLAS(I)
-          UVAR(I,2) = DAM  
-          DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),DAM ))        
+          UVAR(I,2) = DAM
+          DFMAX(I)  = MIN(ONE,MAX(DFMAX(I),DAM ))
 c
           IF (DAM >= ONE) THEN
             OFF(I) = FOUR_OVER_5
             NINDX  = NINDX+1
             INDX(NINDX)=I
-            IDEL7NOK  = 1  
-            TDELE(I) = TIME                
-          ENDIF         
+            IDEL7NOK  = 1
+            TDELE(I) = TIME
+          ENDIF
         ENDIF
         ! EPSF(I) = YY
 c
@@ -212,12 +212,12 @@ c-----------------------------
            WRITE(ISTDO,1100) NGL(INDX(J)),TIME
 #include "lockoff.inc"
          ENDDO
-      
+
       ENDIF
 c-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10,
      .          ' AT TIME :',1PE12.4)
-c-----------           
+c-----------
       RETURN
       END

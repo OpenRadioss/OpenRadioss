@@ -103,12 +103,12 @@ C--------------------------------------------------
 C-----------Multidomaines -> on decompte les noeuds communs, on ne les compte qu'une foi---
         IF (NSUBDOM>0) THEN
 	  IF (IDDOM>0) NN = NN-IGRNOD(IGS)%R2R_SHARE
-	  NNCL(I)=NN 
+	  NNCL(I)=NN
 	ENDIF
 C-----------
         NUMCLD = NUMCLD + NN
 C--------------------------------------------------
-      ENDDO                                       
+      ENDDO
 C---
       RETURN
       END SUBROUTINE HM_PREREAD_CLOAD

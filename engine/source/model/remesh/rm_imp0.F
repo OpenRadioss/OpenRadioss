@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),IXTG(NIXTG,*),NDOF(*),NNMAX,
-     1         NKINE,INLOC(*),NROW(*),ITAB(*), 
+     1         NKINE,INLOC(*),NROW(*),ITAB(*),
      2         SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
 C-----------------------------------------------
 C   External function
@@ -84,7 +84,7 @@ C
 	   MN = M(J)
            IF(TAGNOD(MN)==0.AND.NDOF(MN)>0) NSH_KIN= NSH_KIN + 1
            TAGNOD(MN)=1
-	  END DO 
+	  END DO
         END DO
 
         DO NN=PSH3KIN(LEVEL)+1,PSH3KIN(LEVEL+1)
@@ -99,15 +99,15 @@ C
 	   MN = M(J)
            IF(TAGNOD(MN)==0.AND.NDOF(MN)>0) NSH_KIN= NSH_KIN + 1
            TAGNOD(MN)=1
-	  END DO 
+	  END DO
         END DO
 
       END DO
-      
+
       IF (NSH_KIN==0) RETURN
 
       ALLOCATE(ISH_NS(NSH_KIN),ISH_MS(2,NSH_KIN))
-      
+
       NS = 0
       TAGNOD=0
       DO LEVEL=LEVELMAX-1,0,-1
@@ -119,7 +119,7 @@ C
 
 	  DO J = 1 , 4
 	   NI(J) = IXC(J+1,N)
-	  END DO 
+	  END DO
 	  NI(5) = NI(1)
 C
           MC=IXC(4,SON)
@@ -139,7 +139,7 @@ C
 	    ISH_MS(2,NS) = NI(J+1)
            END IF
            TAGNOD(MN)=1
-	  END DO 
+	  END DO
         END DO
 
 
@@ -150,7 +150,7 @@ C
 
 	  DO J = 1 , 3
 	   NI(J) = IXTG(J+1,N)
-	  END DO 
+	  END DO
 	  NI(4) = NI(1)
 C
           M(1)=IXTG(4,SON+3)
@@ -165,7 +165,7 @@ C
 	    ISH_MS(2,NS) = NI(J+1)
            END IF
            TAGNOD(MN)=1
-	  END DO 
+	  END DO
         END DO
 
       END DO
@@ -178,7 +178,7 @@ C
         NK=NK+1
         TAGNOD(NS)=NK
        END IF
-      END DO 
+      END DO
       NKS = NK
 C-------i,j<->j,i
       DO NN=1,NSH4ACT
@@ -187,8 +187,8 @@ C-------i,j<->j,i
          DO J=1,4
           M(J)=IXC(J+1,N)
           MN = TAGNOD(M(J))
-	  IF (MN>0.AND.MN<=NKS) IS = MN 
-         ENDDO 
+	  IF (MN>0.AND.MN<=NKS) IS = MN
+         ENDDO
          IF (IS > 0) THEN
           DO J=1,4
            NS=M(J)
@@ -197,16 +197,16 @@ C-------i,j<->j,i
             TAGNOD(NS)=NK
            END IF
           END DO
-         END IF 
-      END DO 
+         END IF
+      END DO
       DO NN=1,NSH3ACT
         N    =LSH3ACT(NN)
 	 IS = 0
          DO J=1,3
           M(J)=IXTG(J+1,N)
           MN = TAGNOD(M(J))
-	  IF (MN>0.AND.MN<=NKS) IS = MN 
-         ENDDO 
+	  IF (MN>0.AND.MN<=NKS) IS = MN
+         ENDDO
          IF (IS > 0) THEN
           DO J=1,3
            NS=M(J)
@@ -215,8 +215,8 @@ C-------i,j<->j,i
             TAGNOD(NS)=NK
            END IF
           END DO
-         END IF 
-      END DO 
+         END IF
+      END DO
 C
       L=4**LEVELMAX
       ALLOCATE(NROWK(NK),ICOK(NNMAX+L,NK))
@@ -226,36 +226,36 @@ C-----------------elementary connectivity -----
         N    =LSH4ACT(NN)
          DO J=1,4
           M(J)=IXC(J+1,N)
-         ENDDO 
+         ENDDO
          DO J=1,4
           NS=M(J)
           K=TAGNOD(NS)
           IF (K > 0) THEN
            DO L=1,4
             IF (NS/=M(L)) THEN
-             CALL REORDER_A(NROWK(K),ICOK(1,K),M(L)) 
+             CALL REORDER_A(NROWK(K),ICOK(1,K),M(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-      END DO 
+      END DO
       DO NN=1,NSH3ACT
         N    =LSH3ACT(NN)
          DO J=1,3
           M(J)=IXTG(J+1,N)
-         ENDDO 
+         ENDDO
          DO J=1,3
           NS=M(J)
           K=TAGNOD(NS)
           IF (K > 0) THEN
            DO L=1,3
             IF (NS/=M(L)) THEN
-             CALL REORDER_A(NROWK(K),ICOK(1,K),M(L)) 
+             CALL REORDER_A(NROWK(K),ICOK(1,K),M(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-      END DO 
+      END DO
 C-----------------new connectivity due to kin-----
       DO I = 1, NSH_KIN
        NS = ISH_NS(I)
@@ -268,15 +268,15 @@ C-----------------new connectivity due to kin-----
 	NN = ICOK(J,K)
 	MN = TAGNOD(NN)
         IF (NN/=M1) THEN
-         CALL REORDER_A(NROWK(MK1),ICOK(1,MK1),NN) 
-         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M1) 
+         CALL REORDER_A(NROWK(MK1),ICOK(1,MK1),NN)
+         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M1)
         END IF
         IF (NN/=M2) THEN
-         CALL REORDER_A(NROWK(MK2),ICOK(1,MK2),NN) 
-         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M2) 
+         CALL REORDER_A(NROWK(MK2),ICOK(1,MK2),NN)
+         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M2)
         END IF
-       END DO 
-      END DO 
+       END DO
+      END DO
 C
       NZ = 0
       DO I = 1, NSH_KIN
@@ -296,27 +296,27 @@ C
          INLOC(NN)=NKINE
         END IF
         NROW(NN)=MAX(NROW(NN),NROWK(MN))
-       END DO 
+       END DO
        NZ = NZ + NROWK(K)
-      END DO 
+      END DO
 C
-      
+
       ALLOCATE(IAD_NJ(NSH_KIN+1),JDI_NJ(NZ))
-      
+
       IAD_NJ(1) = 1
-      
+
       DO I = 1, NSH_KIN
        NS = ISH_NS(I)
        K=TAGNOD(NS)
        IAD_NJ(I+1) = IAD_NJ(I) + NROWK(K)
        CALL CP_INT(NROWK(K),ICOK(1,K),JDI_NJ(IAD_NJ(I)))
       END DO
-      
+
 C
       DEALLOCATE(NROWK,ICOK)
 C
       RETURN
-      END     
+      END
 
 Chd|====================================================================
 Chd|  RMIND_IMP                     source/model/remesh/rm_imp0.F 
@@ -366,18 +366,18 @@ C-----------------------------------------------
         NN = JDI_NJ(J)
         MN = INLOC(NN)
         IF (NN/=M1) THEN
-         CALL REORDER_A(NROWK(MK1),ICOK(1,MK1),NN) 
-         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M1) 
-        END IF 
+         CALL REORDER_A(NROWK(MK1),ICOK(1,MK1),NN)
+         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M1)
+        END IF
         IF (NN/=M2) THEN
-         CALL REORDER_A(NROWK(MK2),ICOK(1,MK2),NN) 
-         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M2) 
-        END IF 
-       END DO 
-      END DO 
+         CALL REORDER_A(NROWK(MK2),ICOK(1,MK2),NN)
+         CALL REORDER_A(NROWK(MN),ICOK(1,MN),M2)
+        END IF
+       END DO
+      END DO
 C
       RETURN
-      END     
+      END
 
 Chd|====================================================================
 Chd|  RM_IMP0                       source/model/remesh/rm_imp0.F 
@@ -425,7 +425,7 @@ C-----------------------------------------------
       END DO
 C
       RETURN
-      END     
+      END
 
 Chd|====================================================================
 Chd|  RM_IMP1                       source/model/remesh/rm_imp0.F 
@@ -450,7 +450,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NIR,IRECT(*),I,NR,NODS(*),ITAB(*)
       INTEGER NDDL,IADK(*),JDIK(*),NDOF(*),IDDL(*),IKC(*)
 C     REAL
@@ -480,12 +480,12 @@ C --------------------------------------------------
       FACM2 = FACM*FACM
         DO K=1,NDOF(I)
          ID = IDDL(I)+K
-         IKC(ID)=12 
-         BD(K)=B(ID) 
-        ENDDO 
+         IKC(ID)=12
+         BD(K)=B(ID)
+        ENDDO
         DO K=NDOF(I)+1,6
-         BD(K)=ZERO 
-        ENDDO 
+         BD(K)=ZERO
+        ENDDO
         CALL GET_KII(I ,IDDL ,IADK,DIAG_K,LT_K ,KDD,NDOF(I))
 C-------Update K(main node),B---
         DO J=1,NIR
@@ -496,15 +496,15 @@ C-------Update K(main node),B---
           DO K=1,ND
            ID = IDDL(NJ)+K
            B(ID) = B(ID) + FACM*BD(K)
-          ENDDO 
+          ENDDO
           DO I1=J+1,NIR
            NM=IRECT(I1)
            ND = MIN(ND,NDOF(NM))
            CALL UPDKDD(ND,KDD,KII,FACM2,0)
            CALL PUT_KIJ(NJ,NM,IDDL,IADK,JDIK,LT_K,KII,ND,ND,IR)
            IF (IR==1) CALL PRINT_WKIJ(ITAB(NJ) ,ITAB(NM) ,3 )
-          ENDDO 
-        ENDDO 
+          ENDDO
+        ENDDO
 C--------no diag--Kjm=sum(KjsCsm)--
         DO I1 = 1,NR
           NI=NODS(I1)
@@ -525,9 +525,9 @@ C------- Update ---
              CALL UPDKDD1(NDI,NDOF(I),KDD,KII,FACM,0)
              CALL PUT_KIJ(NI,NJ,IDDL,IADK,JDIK,LT_K,KII,NDI,NDJ,IR)
              IF (IR==1) CALL PRINT_WKIJ(ITAB(NI) ,ITAB(NJ) ,3 )
-            ENDIF 
-           ENDIF 
-          ENDDO 
+            ENDIF
+           ENDIF
+          ENDDO
         ENDDO
 C
       RETURN
@@ -696,4 +696,4 @@ C
       END DO
 C
       RETURN
-      END     
+      END

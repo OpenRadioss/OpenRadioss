@@ -40,17 +40,17 @@ Chd|====================================================================
      6        FZEP    ,X0     ,Y0     , Z0     ,XMOM  ,
      7        YMOM    ,ZMOM   , RX     ,RY     ,RZ    ,
      8        RPX     ,RPY    ,RPZ    ,XMEP   ,YMEP   ,
-     9        ZMEP    ,RPX2   , RPY2   ,RPZ2   ,ANIM  , 
+     9        ZMEP    ,RPX2   , RPY2   ,RPZ2   ,ANIM  ,
      A        POSX    ,POSY   ,POSZ   ,POSXX  ,POSYY  ,
      B        POSZZ   ,FR_WAVE,E6     ,NEL    , EXX2  ,
-     C        EYX2    ,EZX2   ,EXY2   ,EYY2   ,EZY2   , 
-     D        EXZ2    ,EYZ2   , EZZ2   , AL2DP  , NGL , 
+     C        EYX2    ,EZX2   ,EXY2   ,EYY2   ,EZY2   ,
+     D        EXZ2    ,EYZ2   , EZZ2   , AL2DP  , NGL ,
      E        CRIT_NEW,X0_ERR ,ALDP  ,YIELDX , YIELDY,
      F        YIELDZ  ,YIELDX2,YIELDY2,YIELDZ2,EXX    ,
      G        EYX    ,EZX   , EXY     ,EYY    ,  EZY  ,
      H        EXZ    , EYZ   ,EZZ     ,XCR    , RX1   ,
      I        RY1    ,RZ1   ,RX2      ,RY2    ,RZ2    ,
-     K        XIN     ,AK    ,XM      ,XKM    , XCM   , 
+     K        XIN     ,AK    ,XM      ,XKM    , XCM   ,
      L        XKR     , VX1   ,VX2     ,VY1   ,VY2    ,
      M        VZ1     ,VZ2   ,NUVAR   ,UVAR   ,MASS   ,
      N        DX0    ,DY0    ,DZ0     ,RX0    ,RY0    ,
@@ -168,20 +168,20 @@ C-----------------------------------------------
 C
       NUPAR = 4
       I1 = NUPAR
-      I2 = I1 + 6 
-      I3 = I2 + 6 
-      I4 = I3 + 6 
-      I5 = I4 + 6 
-      I6 = I5 + 6 
-      I7 = I6 + 6 
-      I8 = I7 + 6 
-      I9 = I8 + 6 
-      I10 = I9 + 6 
-      I11 = I10 + 6 
-      I12 = I11 + 6 
+      I2 = I1 + 6
+      I3 = I2 + 6
+      I4 = I3 + 6
+      I5 = I4 + 6
+      I6 = I5 + 6
+      I7 = I6 + 6
+      I8 = I7 + 6
+      I9 = I8 + 6
+      I10 = I9 + 6
+      I11 = I10 + 6
+      I12 = I11 + 6
       I13 = I12 + 6
       I14 = I13 + 6
-      NUPAR = NUPAR +  84    
+      NUPAR = NUPAR +  84
       DO I=LFT,LLT
 C
        INDEX1(I) = I
@@ -211,7 +211,7 @@ C
        XH(I)= MAX(HX(I),HY(I),HZ(I))
        XCM(I)= MAX(XC(I),YC(I),ZC(I))
        XCM(I)= XCM(I)+XH(I)
-     
+
        XKR(I)= MAX(YKA,ZKA) * ALDP(I) * ALDP(I)
        XCR(I)= (MAX(YC(I),ZC(I)) + MAX(HY(I),HZ(I))) * ALDP(I) * ALDP(I)
        VRT(I) = UPARAM(IADBUF + NUPAR + 1)
@@ -223,7 +223,7 @@ C
        IF (TT == ZERO) LMIN(I) = UPARAM(IADBUF + 119)
        FX_MAX(I) = UPARAM(IADBUF + 120)
        MX_MAX(I) = UPARAM(IADBUF + 121)
-      ENDDO      
+      ENDDO
 C
       IF (INISPRI /= 0 .and. TT == ZERO) THEN
         DO I=LFT,LLT
@@ -530,7 +530,7 @@ C
       CALL REDEF_SEATBELT(FX      ,XK     ,DX     ,FXEP   ,DXOLD ,
      .                    DPX     ,TF     ,NPF    ,XC     ,OFF   ,
      .                    E6(1,1) ,ANIM   ,ANIM_FE(11),POSX(1)  ,XL0,
-     .                    DMN     ,DMX    ,LSCALE ,YIELDX ,AK    ,  
+     .                    DMN     ,DMX    ,LSCALE ,YIELDX ,AK    ,
      .                    IECROU  ,IFUNC  ,IFUNC2 ,COORD_OLD,FX_MAX,
      .                    XK_COMP ,LLT    ,INDEX1 ,FLAG     ,XKP   ,
      .                    EPS_OLD,FRAM_FACTOR)
@@ -545,7 +545,7 @@ C
 C-      Computation of lenght of 2nd strand 
         DO J=1,COMPT
           I = INDEX2(J)
-          STRD = SLIPRING_STRAND(I)   
+          STRD = SLIPRING_STRAND(I)
           DIR = SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%STRAND_DIRECTION(STRD)
 C---      Depending on the orientation of the spring the 2nd strand is defined by IXR(2)/IXR(3) or IXR(1)/IXR(3)       
           IF (((STRD==1).AND.(DIR ==1)).OR.((STRD==2).AND.(DIR==-1))) THEN
@@ -585,9 +585,9 @@ C--     Computation of stress of 2nd strand for sliprings
         CALL REDEF_SEATBELT(FX_B2   ,XK     ,DX_B2  ,FXEP_B2,DXOLDB ,
      .                      DPX_B2  ,TF     ,NPF    ,XC     ,OFF   ,
      .                      EB      ,ANIM   ,ANIM_FE(11),POSX_B2,XL02,
-     .                      DMN     ,DMX    ,LSCALE ,YIELDX_B2,AK    ,  
+     .                      DMN     ,DMX    ,LSCALE ,YIELDX_B2,AK    ,
      .                      IECROU  ,IFUNC  ,IFUNC2 ,XX_OLD_B2,FX_MAX ,
-     .                      XK_COMP ,COMPT  ,INDEX2 ,FLAG    ,XKP_B2 ,  
+     .                      XK_COMP ,COMPT  ,INDEX2 ,FLAG    ,XKP_B2 ,
      .                      EPS_OLD_B2,FRAM_FACTOR)
 
 C--     Computation of material flow for slipring and retractor
@@ -604,13 +604,13 @@ C--     Computation of material flow for slipring and retractor
      A                     XKP_B2)
 C
         DO I=LFT,LLT
-          IF (SLIPRING_STRAND(I) > 0) THEN   
+          IF (SLIPRING_STRAND(I) > 0) THEN
             FX(I) = FX(I) + DFX(I)
             E6(I,1) = E6(I,1) + (DX(I)-DXOLD(I))*DFX(I)*HALF
             DX(I) = ALDP(I)-X0DP(I)
             XKM(I) = MAX(XKM(I),FRAM_FACTOR(I)*XK(I)*(ONE + XL0(I)/XL02(I)))
             SLIPRING(SLIPRING_ID(I))%FRAM(FR_ID(I))%SLIP_FORCE(SLIPRING_STRAND(I)) = FX(I)
-          ELSEIF (SLIPRING_STRAND(I) < 0) THEN 
+          ELSEIF (SLIPRING_STRAND(I) < 0) THEN
             FX(I) = FX(I) + DFX(I)
             E6(I,1) = E6(I,1) + (DX(I)-DXOLD(I))*DFX(I)*HALF
             DX(I) = ALDP(I)-X0DP(I)
@@ -676,7 +676,7 @@ C
         IFUNC2(I)= IPM(10 + IF3 + 2,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 2,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 2))
-        IF (IECROU(I) > 0) IFUNC(I) = -1 
+        IF (IECROU(I) > 0) IFUNC(I) = -1
         AK(I)    = UPARAM(IADBUF + I1 + 2)
         B(I)     = UPARAM(IADBUF + I2 + 2)
         D(I)     = UPARAM(IADBUF + I3 + 2)
@@ -754,7 +754,7 @@ C
         IFUNC2(I)= IPM(10 + IF3 + 3,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 3,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 3))
-        IF (IECROU(I) > 0) IFUNC(I) = -1 
+        IF (IECROU(I) > 0) IFUNC(I) = -1
         AK(I)    = UPARAM(IADBUF + I1 + 3)
         B(I)     = UPARAM(IADBUF + I2 + 3)
         D(I)     = UPARAM(IADBUF + I3 + 3)
@@ -878,7 +878,7 @@ C-------------------------------
         IFUNC2(I)= IPM(10 + IF3 + 4,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 4,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 4))
-        IF (IECROU(I) > 0) IFUNC(I) = -1 
+        IF (IECROU(I) > 0) IFUNC(I) = -1
         AK(I)    = UPARAM(IADBUF + I1 + 4)
         B(I)     = UPARAM(IADBUF + I2 + 4)
         D(I)     = UPARAM(IADBUF + I3 + 4)
@@ -954,7 +954,7 @@ C
         IFUNC2(I)= IPM(10 + IF3 + 5,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 5,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 5))
-        IF (IECROU(I) > 0) IFUNC(I) = -1 
+        IF (IECROU(I) > 0) IFUNC(I) = -1
         AK(I)    = UPARAM(IADBUF + I1 + 5)
         B(I)     = UPARAM(IADBUF + I2 + 5)
         D(I)     = UPARAM(IADBUF + I3 + 5)
@@ -1030,7 +1030,7 @@ C
         IFUNC2(I)= IPM(10 + IF3 + 6,MID(I))
         IFUNC3(I)= IPM(10 + IF4 + 6,MID(I))
         IECROU(I)= NINT(UPARAM(IADBUF + I13 + 6))
-        IF (IECROU(I) > 0) IFUNC(I) = -1 
+        IF (IECROU(I) > 0) IFUNC(I) = -1
         AK(I)    = UPARAM(IADBUF + I1 + 6)
         B(I)     = UPARAM(IADBUF + I2 + 6)
         D(I)     = UPARAM(IADBUF + I3 + 6)

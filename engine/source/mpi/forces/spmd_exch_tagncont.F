@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
       DATA MSGOFF/120/
-      
+
       INTEGER, DIMENSION(:), ALLOCATABLE :: RBUF,SBUF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -81,11 +81,11 @@ C-----------------------------------------------
       IERROR = IERROR + IERROR2
       ALLOCATE( SBUF(NLOADP_HYD_INTER*LENR),STAT=IERROR2)
       IERROR = IERROR + IERROR2
-              
+
       IF(IERROR/=0) THEN
          CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
          CALL ARRET(2)
-      END IF   
+      END IF
       L = 1
       IAD_RECV(1) = 1
       DO I=1,NSPMD
@@ -124,7 +124,7 @@ C--------------------------------------------------------------------
 C Send to N+I mod P 
 C-------------------------------------------------------------------
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(
@@ -189,15 +189,15 @@ Chd|        INTSTAMP_MOD                  share/modules/intstamp_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE SPMD_TAGNCONT_STAMP(IPARI    ,TAGNCONT  ,KLOADPINTER , LOADPINTER , 
-     .                               LOADP_HYD_INTER,SENSOR ,INTBUF_TAB ) 
+      SUBROUTINE SPMD_TAGNCONT_STAMP(IPARI    ,TAGNCONT  ,KLOADPINTER , LOADPINTER ,
+     .                               LOADP_HYD_INTER,SENSOR ,INTBUF_TAB )
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
       USE INTSTAMP_GLOB_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -261,15 +261,15 @@ C
       NODSITOT = 0  ! Global Number of remote main node
       NODFITOT = 0  ! Global Number of remote main node
 C 
-      LENS(1:NSPMD) = 0   
-      LENR(1:NSPMD) = 0  
+      LENS(1:NSPMD) = 0
+      LENR(1:NSPMD) = 0
 
       DO NI = 1, NINTSTAMP
          NIN = INTSTAMP(NI)%NOINTER
          ISENS = IPARI(64,NIN)  ! IF an interface sensor is defined
          INTERACT = 0
 
-         IF(ISENS/=0) THEN             ! Sensor ID  
+         IF(ISENS/=0) THEN             ! Sensor ID
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
          ELSE
@@ -280,7 +280,7 @@ C
 C
          IFLAGLOADP = IPARI(95,NIN)
 C
-         IF (INTERACT/=0.AND.IFLAGLOADP > 0)THEN  
+         IF (INTERACT/=0.AND.IFLAGLOADP > 0)THEN
              NIACTIF = NIACTIF + 1
              INTERACTIF(NIACTIF) = NIN
              NODSI(NIACTIF) = 0
@@ -296,7 +296,7 @@ C
          ENDIF
       ENDDO
 
-      IF(NIACTIF /= 0 ) THEN 
+      IF(NIACTIF /= 0 ) THEN
 C alloc comm structure      
          ALLOCATE(RBUFS(2*NSPMD*NODFITOT),STAT=IERROR)
          IF(IERROR/=0) THEN
@@ -315,25 +315,25 @@ C FILL comm structure
             IDEBUT2(NI) = 0
          ENDDO
          IF(NODFITOT/= 0) THEN
-          DO P = 1, NSPMD    
-            IADS(P) = IDEB +1         
+          DO P = 1, NSPMD
+            IADS(P) = IDEB +1
             IF(P/= LOC_PROC.AND.LENR(P)/= 0)THEN
               DO NI = 1, NIACTIF
                 NIN = INTERACTIF(NI)
-                LEN = NMNFI(NIN)%P(P) 
-                IF(LEN /= 0) THEN 
-                  IDEB2 = IDEBUT2(NI)       
-                  DO I = 1,LEN 
+                LEN = NMNFI(NIN)%P(P)
+                IF(LEN /= 0) THEN
+                  IDEB2 = IDEBUT2(NI)
+                  DO I = 1,LEN
                      RBUFS(IDEB+1)= NMVFI(NIN)%P(IDEB2+I)
                      RBUFS(IDEB+2)= TAGNCONTFI(NIN)%P(IDEB2+I)
                      TAGNCONTFI(NIN)%P(IDEB2+I)= 0
                      IDEB = IDEB + 2
                   ENDDO
-                  IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                  IDEBUT2(NI) = IDEBUT2(NI) + LEN
                 ENDIF
-              ENDDO  
+              ENDDO
 C SEND comm structure 
-           
+
               MSGTYP = MSGOFF
               CALL MPI_ISEND(
      S         RBUFS(IADS(P)),2*LENR(P),REAL,IT_SPMD(P),MSGTYP,
@@ -341,11 +341,11 @@ C SEND comm structure
             ENDIF
           ENDDO
          ENDIF
-       
-         IADR(1) = 1           
+
+         IADR(1) = 1
          DO P=1,NSPMD-1
             IADR(P+1) =IADR(P)+2*LENS(P)
-         ENDDO 
+         ENDDO
 C RECEIVE comm structure 
          DO NI = 1, NIACTIF
             IDEBUT2(NI) = 0
@@ -354,30 +354,30 @@ C RECEIVE comm structure
          IF(NODSITOT /=0) THEN
              DO P=1,NSPMD
                IF(P/= LOC_PROC.AND.LENS(P)/= 0)THEN
-                 MSGTYP = MSGOFF 
+                 MSGTYP = MSGOFF
                  CALL MPI_RECV(RBUFR(IADR(P)),2*LENS(P),REAL,IT_SPMD(P),
      .                     MSGTYP,MPI_COMM_WORLD,STATUS,IERROR)
                  IDEB= IADR(P)-1
 
                  DO NI = 1, NIACTIF
-                   NIN = INTERACTIF(NI) 
-                   LEN = NMNSI(NIN)%P(P)    
-                   IF(LEN /= 0) THEN 
-                     IDEB2 = IDEBUT2(NI) 
+                   NIN = INTERACTIF(NI)
+                   LEN = NMNSI(NIN)%P(P)
+                   IF(LEN /= 0) THEN
+                     IDEB2 = IDEBUT2(NI)
                      DO I = 1,LEN
                         N = RBUFR(IDEB+1)
                         NOD = INTBUF_TAB(NIN)%MSR_L(N)
                         TAGNCONT(PPL,NOD) = MAX(TAGNCONT(PPL,NOD), RBUFR(IDEB+2))
-                        DO NP = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1) 
+                        DO NP = KLOADPINTER(NIN)+1, KLOADPINTER(NIN+1)
                            PP = LOADPINTER(NP)
                            PPL = LOADP_HYD_INTER(PP)
                            TAGNCONT(PPL,NOD) = MAX(TAGNCONT(PPL,NOD), RBUFR(IDEB+2))
                         ENDDO
                      ENDDO
-                     IDEB = IDEB + 2	 
-                   ENDIF  
+                     IDEB = IDEB + 2	
+                   ENDIF
                  ENDDO
-                 IDEBUT2(NI) = IDEBUT2(NI) + LEN 
+                 IDEBUT2(NI) = IDEBUT2(NI) + LEN
                ENDIF
              ENDDO
            ENDIF

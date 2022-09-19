@@ -48,7 +48,7 @@ C-----------------------------------------------
       INTEGER NODGLOB(*),WEIGHT(NUMNOD)
 C     REAL
       my_real
-     .   XNORM(3,*) 
+     .   XNORM(3,*)
 C     REAL
       my_real
      .   S3000,S
@@ -65,7 +65,7 @@ C
          IF(S/=ZERO)THEN
            S = S3000 / S
            INORM(1) = XNORM(1,I) * S
-           INORM(2) = XNORM(2,I) * S 
+           INORM(2) = XNORM(2,I) * S
            INORM(3) = XNORM(3,I) * S
          ELSE
            INORM(1) = 0

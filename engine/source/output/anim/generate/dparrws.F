@@ -79,7 +79,7 @@ C-----------------------------------------------
      .            0,0,0,0,0,0,3,0,0,0,4,0,4,4,3,
      .            0,0,0,0,0,0,0,0,0,0,0,0,0,0,4/
 
-!       1st step : count the number of value send by each proc 
+!       1st step : count the number of value send by each proc
 !       2nd step : allocate the sended buffer for each proc and the recieved buffer (proc = 0)
 !       3rd step : initialize and send the sended buffer to proc 0
 !       4rd step : write the data (proc=0)
@@ -91,7 +91,7 @@ C-----------------------------------------------
 !       sended buffer (local on each proc) :
 !       sh = shell ; t = shell3n ; s = solid
 !
-!       
+!
 !       sh | t | s | sh | t | s | sh | t | s | sh | t | s | sh | t | s | sh | t | s | sh | t | s | sh | t | s | ...
 !      \__________/ \__________/ \__________/ \__________/ \__________/ \__________/ \__________/ \__________/  ...
 ! nsect =    1            2            3            4    ...
@@ -100,10 +100,10 @@ C-----------------------------------------------
 !
 !
 !       received buffer (only on proc 0) :
-!       
+!
 !       sh | t | s | sh | t | s |... sh | t | s | sh | t | s | sh | t | s |... sh | t | s | ... sh | t | s | sh | t | s | ...
 !      \__________/ \__________/     \__________/ \__________/ \__________/   \__________/  ...\__________/ \__________/  ...
-! nsect =    1            2      ...      n     ||     1            2      ...      n     |    ||     1            2      ...       
+! nsect =    1            2      ...      n     ||     1            2      ...      n     |    ||     1            2      ...
 !     ||________________________________________||________________________________________| ...||_____________________________
 !                          |                                           |                                      |
 ! proc =                   0                                           1                    ...               m
@@ -115,8 +115,8 @@ C-----------------------------------------------
 !
 !
 
-!  SHIFT_R(1)                                 SHIFT_R(2)                                      SHIFT_R(m+1)     
-!  
+!  SHIFT_R(1)                                 SHIFT_R(2)                                      SHIFT_R(m+1)
+!
 !     ||________________________________________||________________________________________| ...||_____________________________
 !                          |                                           |                                      |
 ! proc =                   0                                           1                    ...               m
@@ -124,7 +124,7 @@ C-----------------------------------------------
 !  SHIFT_SECT :
 !    (1,1)       (2,1)             (n,1)         (1,2) ...
 !      \__________/ \__________/     \__________/ \__________/ \__________/   \__________/  ...\__________/ \__________/  ...
-! nsect =    1            2      ...      n     ||     1            2      ...      n     |    ||     1            2      ...       
+! nsect =    1            2      ...      n     ||     1            2      ...      n     |    ||     1            2      ...
 !
 !   RINDEX_PROC
 !            (1)       (2)       (3)
@@ -262,7 +262,7 @@ C brick, shell16, brick20
                         K0=NSTRF(K0+24)
                         SINDEX(I,3) = JJ
                 ENDDO
-        
+
                 SIZE_BUFFER_S = JJ
                 SINDEX(NSECT+1,1:3) = SIZE_BUFFER_S
 !               -----------------------------------------------
@@ -282,9 +282,9 @@ C brick, shell16, brick20
         !       shift for the _gatherv comm
                         SHIFT_R(1) = 0
                         RINDEX_PROC(1:NSECT,1:3,1) = SINDEX(1:NSECT,1:3)
-                ENDIF    
+                ENDIF
 
-                IF(ISPMD==0) THEN                
+                IF(ISPMD==0) THEN
                         DEALLOCATE( BUFFER00_R )
                         ALLOCATE( BUFFER00_R(SIZE_BUFFER00_R) )
                 ENDIF
@@ -512,7 +512,7 @@ C brick, shell16, brick20
                 ENDIF
                 DEALLOCATE( BUFFER_S )
         ENDIF
-        
+
 !               ----------------------
 !               write the received buffer
 !               ----------------------
@@ -520,10 +520,10 @@ C brick, shell16, brick20
 
 
 !       received buffer (only on proc 0) :
-!       
+!
 !       sh | t | s | sh | t | s |... sh | t | s | sh | t | s | sh | t | s |... sh | t | s | ... sh | t | s | sh | t | s | ...
 !      \__________/ \__________/     \__________/ \__________/ \__________/   \__________/  ...\__________/ \__________/  ...
-! nsect =    1            2      ...      n     ||     1            2      ...      n     |    ||     1            2      ...       
+! nsect =    1            2      ...      n     ||     1            2      ...      n     |    ||     1            2      ...
 !     ||________________________________________||________________________________________| ...||_____________________________
 !                          |                                           |                                      |
 ! proc =                   0                                           1                    ...               m
@@ -540,7 +540,7 @@ C brick, shell16, brick20
                                 SHIFT_SECT(JJ,3,I) = RINDEX_PROC(JJ,2,I)
                         ENDDO
                 ENDDO
-        
+
                 DO JJ=1,NSECT
         !       ----------------
         !       SHELL
@@ -575,7 +575,7 @@ C brick, shell16, brick20
                 ENDDO
         ENDIF
 
-        
+
 
         IF (ISPMD==0) THEN
                 N0 = NUMNODG + NODCUT + NSECT

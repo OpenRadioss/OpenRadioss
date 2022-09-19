@@ -178,7 +178,7 @@ C-----------------------------------------------
      .  L0, L, DX, DXOLD, DDX, DT11, DVX, FX, G, Y, DFDX, DGDX, F,
      .  STIF, MU1, MU2, FRIC, MU, BETA, FMAX, DFS, DF,   FF,
      .  EPSMOY, DF1, DF2, XN, FXOLD, EPSTOT, EPSMIN, EPSMAX, DEPS,
-     .  RHO, XM, XKM, XKS, XCM, DTC, DTK, FACT, FFAC,XFAC  
+     .  RHO, XM, XKM, XKS, XCM, DTC, DTK, FACT, FFAC,XFAC
 C-----------------------------------------------
 C       initial total lenght UVAR(NB1:NB1)
         NB1=1
@@ -314,7 +314,7 @@ C       into nstrand element.
           WRITE(IOUT, 1000) UID
 #include "lockoff.inc"
          GOTO 100
-        ENDIF                 
+        ENDIF
 C-------
         MU1    = GET_U_GEO(10,IPROP)
         MU2    = GET_U_GEO(11,IPROP)
@@ -350,13 +350,13 @@ C          default pulley friction.
            MU  = GET_U_GEO(50+K,IPROP)
            IF (MU>=ZERO) FRIC=MU
            MU  = GET_U_GEO(525+K-1,IPROP)
-           IF (MU>=ZERO) THEN 
+           IF (MU>=ZERO) THEN
              FRIC=FRIC + HALF*MU
            ELSE
              FRIC=FRIC + HALF*MU2
            ENDIF
            MU  = GET_U_GEO(525+K,IPROP)
-           IF (MU>=ZERO) THEN 
+           IF (MU>=ZERO) THEN
              FRIC=FRIC+HALF*MU
            ELSE
              FRIC=FRIC + HALF*MU2
@@ -425,7 +425,7 @@ C-------
         DO K=1,NX
          TORQ(1,K)=ZERO
          TORQ(2,K)=ZERO
-         TORQ(3,K)=ZERO 
+         TORQ(3,K)=ZERO
         ENDDO
 C-----------------------------------------------
 C       SAVE ELONGATION AND INTERNAL ENERGY OF EACH STRAND (for TH).
@@ -504,13 +504,13 @@ C-----------------------------------------------
         DO K=1,NX
          XINER(K) =ZERO
          STIFR(K) =ZERO
-         VISCR(K) =ZERO 
+         VISCR(K) =ZERO
         ENDDO
 C
         IF (OFF==ZERO) THEN
          DO K=1,NX
           VISCM(K) =ZERO
-          STIFM(K) =ZERO  
+          STIFM(K) =ZERO
          ENDDO
         ELSE
          VISCM(1) =(F*DGDX+XC)*L/(MAX(EM15,MASS(1))*L0)
@@ -535,4 +535,4 @@ C-----
       CALL ANCMSG(MSGID=217,ANMODE=ANINFO)
       CALL ARRET(2)
       END
-      
+

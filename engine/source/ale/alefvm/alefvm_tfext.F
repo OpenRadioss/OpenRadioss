@@ -94,11 +94,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, II, IV, J, MT, IALEFVM_FLG, ICF(4,6),IX(4)
-      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ),  
-     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ), 
+      my_real :: VALEL(MVSIZ)  , VALVOIS(NV46,MVSIZ),
+     .           S1(MVSIZ)     , S2(MVSIZ)          , S3(MVSIZ),
      .           S4(MVSIZ)     , S5(MVSIZ)          , S6(MVSIZ),
      .           PVOIS(6,MVSIZ), Vface(3,6)         , GradV(3,3) ,
-     .           EPSDOT(6) 
+     .           EPSDOT(6)
       INTEGER :: NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),NC4(MVSIZ),NC5(MVSIZ),NC6(MVSIZ),NC7(MVSIZ),NC8(MVSIZ)
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ) , X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
@@ -115,15 +115,15 @@ C-----------------------------------------------
       MT          = IXS(1,NFT+LFT)
       IALEFVM_FLG = IPM(251,MT)
       IF(IALEFVM_FLG <= 1)RETURN
-      
-      IF(JALE == 0)RETURN 
+
+      IF(JALE == 0)RETURN
 C-----------------------------------------------
 C   S o u r c e   L i n e s 
 C-----------------------------------------------
 
       !-------------------------------------------------------------!
       ! NORMAL VECTOR FOR ALE                                       !
-      !-------------------------------------------------------------!                                       
+      !-------------------------------------------------------------!
       IF(JALE==1)THEN
         DO I=LFT,LLT
           II     = I + NFT
@@ -169,8 +169,8 @@ C-----------------------------------------------
           X8(I)=X(1,NC8(I))
           Y8(I)=X(2,NC8(I))
           Z8(I)=X(3,NC8(I))
-        ENDDO    
-        DO I=LFT,LLT        
+        ENDDO
+        DO I=LFT,LLT
           ! Face-1
           N1X(I)=(Y3(I)-Y1(I))*(Z2(I)-Z4(I)) - (Z3(I)-Z1(I))*(Y2(I)-Y4(I))
           N1Y(I)=(Z3(I)-Z1(I))*(X2(I)-X4(I)) - (X3(I)-X1(I))*(Z2(I)-Z4(I))
@@ -196,7 +196,7 @@ C-----------------------------------------------
           N6Y(I)=(Z8(I)-Z1(I))*(X4(I)-X5(I)) - (X8(I)-X1(I))*(Z4(I)-Z5(I))
           N6Z(I)=(X8(I)-X1(I))*(Y4(I)-Y5(I)) - (Y8(I)-Y1(I))*(X4(I)-X5(I))
         ENDDO
-  
+
         DO I=LFT,LLT
           Wface(1,1,I) = FOURTH*(W(1,NC1(I))+W(1,NC2(I))+W(1,NC3(I))+W(1,NC4(I)))
           Wface(2,1,I) = FOURTH*(W(2,NC1(I))+W(2,NC2(I))+W(2,NC3(I))+W(2,NC4(I)))
@@ -218,14 +218,14 @@ C-----------------------------------------------
           Wface(2,5,I) = FOURTH*(W(2,NC2(I))+W(2,NC3(I))+W(2,NC6(I))+W(2,NC7(I)))
           Wface(3,5,I) = FOURTH*(W(3,NC2(I))+W(3,NC3(I))+W(3,NC6(I))+W(3,NC7(I)))
 
-          Wface(1,6,I) = FOURTH*(W(1,NC1(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC8(I)))                                       
-          Wface(2,6,I) = FOURTH*(W(2,NC1(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC8(I)))                                        
-          Wface(3,6,I) = FOURTH*(W(3,NC1(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC8(I)))                    
+          Wface(1,6,I) = FOURTH*(W(1,NC1(I))+W(1,NC4(I))+W(1,NC5(I))+W(1,NC8(I)))
+          Wface(2,6,I) = FOURTH*(W(2,NC1(I))+W(2,NC4(I))+W(2,NC5(I))+W(2,NC8(I)))
+          Wface(3,6,I) = FOURTH*(W(3,NC1(I))+W(3,NC4(I))+W(3,NC5(I))+W(3,NC8(I)))
         ENDDO
-        
+
       !-------------------------------------------------------------!
       ! NORMAL VECTOR FOR EULER                                     !
-      !-------------------------------------------------------------!         
+      !-------------------------------------------------------------!
       !ELSE
       !  DO I=LFT,LLT
       !    II = I+NFT
@@ -251,53 +251,53 @@ C-----------------------------------------------
       !  DO I=LFT,LLT
       !    Wface(1:3,1:6,I) = ZERO
       !  ENDDO
-      
-      ENDIF      
+
+      ENDIF
 
       !-------------------------------------------------------------!
       ! EXTERNAL FORCE WORK                                         !
-      !-------------------------------------------------------------! 
+      !-------------------------------------------------------------!
       WFEXT_CELL(LFT+NFT:LLT+NFT) = ZERO
       TFEXTT                      = ZERO
-      DO I=LFT,LLT   
-        II                        = I + NFT 
+      DO I=LFT,LLT
+        II                        = I + NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         ! < W, 2S.n> = 2S.wn
-        SWn(1)                    = Wface(1,1,I)*N1X(I) + Wface(2,1,I)*N1Y(I) + Wface(3,1,I)*N1Z(I)           
-        SWn(2)                    = Wface(1,2,I)*N2X(I) + Wface(2,2,I)*N2Y(I) + Wface(3,2,I)*N2Z(I)           
-        SWn(3)                    = Wface(1,3,I)*N3X(I) + Wface(2,3,I)*N3Y(I) + Wface(3,3,I)*N3Z(I)           
-        SWn(4)                    = Wface(1,4,I)*N4X(I) + Wface(2,4,I)*N4Y(I) + Wface(3,4,I)*N4Z(I)           
-        SWn(5)                    = Wface(1,5,I)*N5X(I) + Wface(2,5,I)*N5Y(I) + Wface(3,5,I)*N5Z(I)           
-        SWn(6)                    = Wface(1,6,I)*N6X(I) + Wface(2,6,I)*N6Y(I) + Wface(3,6,I)*N6Z(I)           
-        WFEXT_ADD                 = ZERO                                                                
+        SWn(1)                    = Wface(1,1,I)*N1X(I) + Wface(2,1,I)*N1Y(I) + Wface(3,1,I)*N1Z(I)
+        SWn(2)                    = Wface(1,2,I)*N2X(I) + Wface(2,2,I)*N2Y(I) + Wface(3,2,I)*N2Z(I)
+        SWn(3)                    = Wface(1,3,I)*N3X(I) + Wface(2,3,I)*N3Y(I) + Wface(3,3,I)*N3Z(I)
+        SWn(4)                    = Wface(1,4,I)*N4X(I) + Wface(2,4,I)*N4Y(I) + Wface(3,4,I)*N4Z(I)
+        SWn(5)                    = Wface(1,5,I)*N5X(I) + Wface(2,5,I)*N5Y(I) + Wface(3,5,I)*N5Z(I)
+        SWn(6)                    = Wface(1,6,I)*N6X(I) + Wface(2,6,I)*N6Y(I) + Wface(3,6,I)*N6Z(I)
+        WFEXT_ADD                 = ZERO
         Do J=1,NV46
           IV = ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
           !IF(IV /= 0)CYCLE                                   !domain border only
-          IX(1)                   = IXS(ICF(1,J)+1,II)                                       
-          IX(2)                   = IXS(ICF(2,J)+1,II)                                       
-          IX(3)                   = IXS(ICF(3,J)+1,II)                                       
-          IX(4)                   = IXS(ICF(4,J)+1,II)                                       
-          IF(SUM(IABS(NALE(IX(1:4))))==4)CYCLE          !4 lagrangian nodes only    
-          !dt * P*S*wn          
+          IX(1)                   = IXS(ICF(1,J)+1,II)
+          IX(2)                   = IXS(ICF(2,J)+1,II)
+          IX(3)                   = IXS(ICF(3,J)+1,II)
+          IX(4)                   = IXS(ICF(4,J)+1,II)
+          IF(SUM(IABS(NALE(IX(1:4))))==4)CYCLE          !4 lagrangian nodes only
+          !dt * P*S*wn
           WFEXT_ADD               = WFEXT_ADD  - DT1*THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))*SWn(J)*HALF  !Swn=2S.w.n
         ENDDO
-        WFEXT_CELL(II)            = WFEXT_ADD                             
-        TFEXTT                    = TFEXTT + WFEXT_ADD                    
-      ENDDO  
-      
+        WFEXT_CELL(II)            = WFEXT_ADD
+        TFEXTT                    = TFEXTT + WFEXT_ADD
+      ENDDO
+
 #include "lockon.inc"
       TFEXT = TFEXT + TFEXTT
 #include "lockoff.inc"
-      
+
 
 
         !DEBUG-OUTPUT---------------!
         if(IALEFVM_OUTP_TFEXT == 1)then
           IF(TFEXTT /= ZERO)THEN
-!#!include "lockon.inc"       
+!#!include "lockon.inc"
             print *, "    |----alefvm_tfext.F------|"
             print *, "    |   THREAD INFORMATION   |"
-            print *, "    |------------------------|" 
+            print *, "    |------------------------|"
             print *, "     NCYCLE =", NCYCLE
             do i=lft,llt
               ii = nft + i
@@ -306,9 +306,9 @@ C-----------------------------------------------
      .             WFEXT_CELL(II), "P(I)=", P(I), "SWn(1:6)=",Swn(1:6)
             enddo
           ENDIF
-!#!include "lockoff.inc"       
+!#!include "lockoff.inc"
         endif
       !-----------------------------------------!
-        
+
       RETURN
       END

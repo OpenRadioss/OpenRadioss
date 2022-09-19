@@ -75,7 +75,7 @@ C-----------------------------------------------
           CALL I12_NEAREST_SEG(XS, XM, IL, JL, M, N, LSEG, LSEG_NEW, BMIN, BMAX)
           IF(BMIN >= ZERO) CYCLE
         END IF
- 
+
         LL1=NSEG(JL)
         LL2=NSEG(JL+1)-1
         DO LL=LL1,LL2

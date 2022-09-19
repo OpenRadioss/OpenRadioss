@@ -100,7 +100,7 @@ C-------------------------------------
             RBY6(5,K,N) = ZERO
             RBY6(6,K,N) = ZERO
             RBY6(7,K,N) = ZERO
-            RBY6(8,K,N) = ZERO          
+            RBY6(8,K,N) = ZERO
           ENDDO
         ENDIF
       ENDDO

@@ -43,8 +43,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD           
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE TABLE_MOD
@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER :: BUFLEN,IADBUF
       INTEGER ,DIMENSION(NPROPMI,NUMMAT)    ,INTENT(INOUT) :: IPM
 
@@ -81,17 +81,17 @@ C-----------------------------------------------
       INTEGER I,J,MAT_ID,IMID,UID,IUNIT,FLAGUNIT,NFUNC,NUPARAM,NUVAR,
      .   MAXPARAM,MAXFUNC,NV,IMAT,IVISC,ILAW,MTN,N_NET,IADD,HM_NVISC,FLAGMAT
       PARAMETER (MAXPARAM = 1000)
-      PARAMETER (MAXFUNC  = 100)   
+      PARAMETER (MAXFUNC  = 100)
       INTEGER ,DIMENSION(MAXFUNC)   :: IFUNC
       my_real ,DIMENSION(MAXPARAM)  :: UPARAM
       CHARACTER TITR*nchartitle,KEY*ncharkey
-c======================================================================-       
+c======================================================================-
       VISC_TAG(:)%NUVAR = 0
 c
 c--------------------------------------------------
 c     COUNT VISCOSITY MODELS USING CFG FILES
 c--------------------------------------------------
-c      
+c
       CALL HM_OPTION_COUNT('/VISC',HM_NVISC)
 c
 c--------------------------------------------------
@@ -125,7 +125,7 @@ c--------------------------------------------------
      .                I1= MAT_ID,
      .                C1='VISCOSITY',
      .                C2= KEY,
-     .                C3='')                              
+     .                C3='')
         ENDIF
 c--------------------------------------------------
 c       Check Unit_ID
@@ -143,38 +143,38 @@ c--------------------------------------------------
      .                I2= UID,
      .                C1='MATERIAL',
      .                C2='VISCOSITY MODEL',
-     .                C3='')                              
+     .                C3='')
         ENDIF
 C--------------------------------------------------
 C          CHECK VISCOSITY MODEL
 C--------------------------------------------------
         IF(KEY(1:5) == 'PRONY')THEN
-              IVISC=1 
+              IVISC=1
         ELSE
               IVISC=0
-        ENDIF      
+        ENDIF
 c--------------------------------------------------
 c       Read Viscosity model
 c--------------------------------------------------
         UPARAM(:) = ZERO
-        NFUNC   = 0 
+        NFUNC   = 0
         NUVAR   = 0
         NUPARAM = 0
-c----      
-c--------------------------------------------      
+c----
+c--------------------------------------------
 c       CALL Viscosity MODEL READING ROUTINES FOR EACH MATERIAL LAW
-c--------------------------------------------      
+c--------------------------------------------
         DO I=1,NUMMAT-1
           IMID  = IPM(1,I)
           IF (IMID == MAT_ID) THEN
             WRITE(IOUT,1000) TRIM(KEY),MAT_ID
 c
 c-----------------------------
-c--------------------------------------------      
+c--------------------------------------------
             SELECT CASE (IVISC)
-c--------------------------------------------      
-            CASE (1)     
-              CALL HM_READ_VISC_PRONY( UPARAM ,MAXPARAM, NUPARAM, 
+c--------------------------------------------
+            CASE (1)
+              CALL HM_READ_VISC_PRONY( UPARAM ,MAXPARAM, NUPARAM,
      .                                 NUVAR  ,IFUNC   , MAXFUNC,
      .                                 NFUNC  ,UNITAB  , LSUBMODEL,
      .                                 TABLE  ,MAT_ID  )
@@ -185,14 +185,14 @@ c--------------------------------------------
                IPM(216  ,I) = 1
               END IF
             CASE DEFAULT
-              IVISC = 0        
+              IVISC = 0
             END SELECT
 c-------------------------
-            MTN = INT(PM(19,I))      
+            MTN = INT(PM(19,I))
             IF (IVISC == 1 .AND . MTN == 100) THEN
              IADD    = IPM(7,I)
              N_NET = NINT(BUFMAT(IADD) )
-             IF (N_NET /= 0) 
+             IF (N_NET /= 0)
      .          CALL ANCMSG(MSGID=1568 ,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_2,
@@ -205,13 +205,13 @@ c-----------------------------
           IPM(223 ,I) = IADBUF
           IPM(224 ,I) = NUPARAM
           IPM(225 ,I) = NUVAR
-c 
+c
           VISC_TAG(IVISC)%NUVAR = NUVAR
-c-------------------------  
+c-------------------------
           DO J=1,NUPARAM
-            BUFMAT(IADBUF+J-1) = UPARAM(J) 
+            BUFMAT(IADBUF+J-1) = UPARAM(J)
           END DO
-          IADBUF  = IADBUF + NUPARAM  
+          IADBUF  = IADBUF + NUPARAM
           BUFLEN =  BUFLEN + NUPARAM
 c--------------------------------------------------
          ENDIF   !IMID == MAT_ID
@@ -220,11 +220,11 @@ c--------------------------------------------------
 c--------------------------------------------------
 c
       ENDDO      !  HM_NVISC
-c-----------       
+c-----------
       RETURN
 c--------------------------------------------------
  1000 FORMAT(//
      & 5X,'VISCOSITY MODEL: ',5X,A,/,
      & 5X,'MATERIAL ID  . . . . . . . . . . . .=',I10/)
-c-----------       
+c-----------
       END

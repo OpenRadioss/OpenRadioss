@@ -52,9 +52,9 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE NL_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,D     ,
      1                   DR    ,NNZ   ,IADK  ,JDIK  ,DIAG_K,
-     2                   LT_K  ,F     ,NDDLI ,IADI  ,JDII  ,   
-     3                   DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,   
-     4                   DIAG_M,LT_M  ,R02   ,DD    ,DDR   ,   
+     2                   LT_K  ,F     ,NDDLI ,IADI  ,JDII  ,
+     3                   DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,
+     4                   DIAG_M,LT_M  ,R02   ,DD    ,DDR   ,
      5                   ITASK0,IT    ,ITC   ,RU0   ,ROLD  ,
      6                   IDIV ,INPRINT,ICPREC,ISTOP ,E02   ,
      7                   DE0  ,EIMP   ,INLOC ,NDDL0 ,LS    ,
@@ -88,9 +88,9 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "units_c.inc" 
-#include      "impl1_c.inc" 
-#include      "impl2_c.inc" 
+#include      "units_c.inc"
+#include      "impl1_c.inc"
+#include      "impl2_c.inc"
 #include      "com08_c.inc"
 #include      "task_c.inc"
 #include      "dmumps_struc.h"
@@ -103,10 +103,10 @@ C----------resol [K]{X}={F}------
      .         NDOF(*),IDDL(*),IKC(*),IDIV  ,INPRINT,ISTOP,
      .         IT,ITC,NDDL0,ITAB(*),FR_ELEM(*),IAD_ELEM(*),W_DDL(*)
       INTEGER  NE_IMP(*),NSREM ,NSL,ICONT,ISIGN,IMP1,
-     .         IPARI(*) ,NUM_IMP(*),NS_IMP(*), IPIV_K(*), NK 
+     .         IPARI(*) ,NUM_IMP(*),NS_IMP(*), IPIV_K(*), NK
       INTEGER NMONV,IMONV(*),MONVOL(*),FR_MV(*),
      .        IBFV(*),IND_IMP(*),IRBE3(*) ,LRBE3(*),NDIV ,ICONT0,
-     .        IRBE2(*),LRBE2(*) 
+     .        IRBE2(*),LRBE2(*)
       INTEGER NEWFRONT(*),NBINTC,INTLIST(*),ISENDTO(*),IRECVFROM(*),
      .        NODFT ,NODLT,IDIV0
 C     REAL
@@ -138,7 +138,7 @@ C     REAL
      .  GAPN,LAMDA,FA,UC2,UM1,UM2,PMAX
 C-----------------------------------------------
 C------------------------------------------
-c     insolv=1 =>  (elast) Newton modified  
+c     insolv=1 =>  (elast) Newton modified
 c     insolv=2,3 =>  BFGS
 c     insolv=4,5 =>  elastoplastic
 C------------------------------------------
@@ -197,7 +197,7 @@ c          WRITE(ISTDO,1008)IT,RE,R01,RE
         RELRES(1) = RE
         RELRES(2) = R01
         RELRES(3) = RE
-        IDIV = -2       
+        IDIV = -2
         ISETK=1
         RETURN
        ELSE
@@ -216,9 +216,9 @@ C---------
        IF (IRIKS>0) THEN
           CALL LIN_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,DG    ,
      1               DGR   ,TOL   ,NNZ   ,IADK  ,JDIK  ,
-     2               DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,   
-     3               DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,   
-     4               DIAG_M,LT_M  ,FEXT  ,DE    ,INLOC ,   
+     2               DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,
+     3               DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,
+     4               DIAG_M,LT_M  ,FEXT  ,DE    ,INLOC ,
      5               FR_ELEM,IAD_ELEM,W_DDL,ITASK0,ICPREC,
      6               ISTOP ,A     ,AR     ,V    ,
      7               MS    ,X     ,IPARI ,INTBUF_TAB ,
@@ -236,10 +236,10 @@ C-------distinquer converge or diverge---
 citask0         IF (ITASK == 0) THEN
 	      IF (IDIV/=-2) THEN
            CALL CP_REAL(ND,DD,DG0)
-           IF (IRODDL/=0) CALL CP_REAL(ND,DDR,DGR0) 
+           IF (IRODDL/=0) CALL CP_REAL(ND,DDR,DGR0)
 	      ELSE
            DLA_RIKS = ISIGN*DT2
-	      ENDIF 
+	      ENDIF
 citask0         END IF !(ITASK == 0) THEN
           CALL PRODUT_UHP2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                    DG    ,DGR   ,DG0   ,DGR0  ,UC2   ,
@@ -265,7 +265,7 @@ C          LAMDA = ALEN/SQRT(U2)
 	     ENDIF
 c           print *,'UC2,DLA_RIKS,ISIGN=',UC2,DLA_RIKS,ISIGN
           IF (IMPDEB>0) THEN
-           IF (NCYCLE>=NDEB0.AND.NCYCLE<=NDEB1) 
+           IF (NCYCLE>=NDEB0.AND.NCYCLE<=NDEB1)
      .      WRITE(IOUT,1025)UC2,DLA_RIKS,ISIGN
 	      ENDIF
 	     IF (ISIGN<0) THEN
@@ -284,13 +284,13 @@ C---------------------
           CALL PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     DD    ,DDR   ,F     ,DE    ,W_DDL )
           CALL INTEGRATOR2_HP(IDDL,NDOF,IKC,D,DR,DD,DDR)
-         ELSE 
+         ELSE
           CALL FRAC_DD_HP(IDDL,NDOF,IKC,D,DR,DG,DGR,LAMDA)
           CALL PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     D     ,DR    ,F     ,DE    ,W_DDL )
          ENDIF
        ELSE
-       
+
         IF ((N_LIM /= 1.OR.ISPRB /= 0).AND.
      .      (NCYCLE>1.AND.IDIV/=-2.AND.ICONT==0.AND.IKT==0
      .     .OR.(NCYCLE==1.AND.IDIV==10)))THEN
@@ -306,9 +306,9 @@ C---------------------
 
          CALL LIN_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,DD    ,
      1               DDR   ,TOL   ,NNZ   ,IADK  ,JDIK  ,
-     2               DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,   
-     3               DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,   
-     4               DIAG_M,LT_M  ,F     ,DE    ,INLOC ,   
+     2               DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,
+     3               DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,
+     4               DIAG_M,LT_M  ,F     ,DE    ,INLOC ,
      5               FR_ELEM,IAD_ELEM,W_DDL,ITASK0,ICPREC,
      6               ISTOP ,A     ,AR     ,V    ,
      7               MS    ,X     ,IPARI ,INTBUF_TAB ,
@@ -345,8 +345,8 @@ citask0       IF (ITASK == 0) THEN
         IF (DE>EP10.AND.ILINE==0.AND.IDYNA==0
      .     .AND.NCYCLE==1) THEN
          IF(ISPMD==0)THEN
-          WRITE(IOUT,1030)EIMP  
-          WRITE(ISTDO,1030)EIMP  
+          WRITE(IOUT,1030)EIMP
+          WRITE(ISTDO,1030)EIMP
          ENDIF
 	     CALL IMP_STOP(-1)
         ENDIF
@@ -354,12 +354,12 @@ C--------pour idtc>=2-----
         U02=U2
         IF(INPRINT/=0)THEN
          RU=SQRT(U2)
-c         WRITE(IOUT,*)  
+c         WRITE(IOUT,*)
 c         WRITE(IOUT,1002)IT,RU,R01,EIMP
          WRITE(IOUT,1102)
          WRITE(IOUT,1003)IT,anew_stif,RU,R01,EIMP
           IF(INPRINT<0)THEN
-c          WRITE(ISTDO,*)  
+c          WRITE(ISTDO,*)
 c          WRITE(ISTDO,1002)IT,RU,R01,EIMP
           WRITE(ISTDO,1102)
           WRITE(ISTDO,1003)IT,anew_stif,RU,R01,EIMP
@@ -370,10 +370,10 @@ c          WRITE(ISTDO,1002)IT,RU,R01,EIMP
         RELRES(2) = R01
         RELRES(3) = EIMP
        ELSE
-          WRITE(IOUT,*)  
+          WRITE(IOUT,*)
           WRITE(IOUT,1013) DE
           IF(INPRINT<0)THEN
-           WRITE(ISTDO,*)  
+           WRITE(ISTDO,*)
            WRITE(ISTDO,1013)DE
           ENDIF
 C
@@ -385,7 +385,7 @@ C--------R=Fext-Fint correction due to Fext---------
        IF (IRIKS>0.AND.DLA_RIKS/=ZERO) THEN
         CALL VAXPY_HP(NDDL, F   ,FEXT,DLA_RIKS)
        ENDIF
-       CALL PRODUT_HP(NDDL,F,F,W_DDL,R2)                      
+       CALL PRODUT_HP(NDDL,F,F,W_DDL,R2)
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
@@ -405,16 +405,16 @@ C
          CALL PRODUT_UHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                   D     ,DR    ,U2    ,W_DDL )
          CALL PRODUT_UHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
-     .                   DD    ,DDR   ,DU2   ,W_DDL ) 
+     .                   DD    ,DDR   ,DU2   ,W_DDL )
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
          RU=LS(3)*SQRT(DU2/U2)
          IF (INSOLV==5) RU=SQRT(DU2/U2)
-       ENDIF 
+       ENDIF
        CALL CRIT_ITE(IT,RU,RR1,RE,NDIV,NL_TOL)
       ELSE
-       IMCONV =-2  
+       IMCONV =-2
        RR1 =EP30
       ENDIF
 C----------------------
@@ -557,7 +557,7 @@ C----------------------
 c       CALL MY_BARRIER
 C---------------------
 C
-         IF ((INSOLV==2.OR.INSOLV==3).AND.FR>ONE.AND.IKT==0) 
+         IF ((INSOLV==2.OR.INSOLV==3).AND.FR>ONE.AND.IKT==0)
      .       FR = MIN(FR,TWO)
         ENDIF
 C        IF (IABS(INSOLV)==5) THEN
@@ -587,10 +587,10 @@ C------------
          ENDIF
          IF (INPRINT/=0)THEN
           IF(MOD(IT,IP)==0)THEN
-c           WRITE(IOUT,*)  
+c           WRITE(IOUT,*)
            WRITE(IOUT,1003)IT,anew_stif,RU,RR,RE
            IF(INPRINT<0)THEN
-c            WRITE(ISTDO,*)  
+c            WRITE(ISTDO,*)
             WRITE(ISTDO,1003)IT,anew_stif,RU,RR,RE
            ENDIF
           ENDIF
@@ -600,10 +600,10 @@ c            WRITE(ISTDO,*)
          RELRES(3) = RE
          IF(ITC>=N_LIM.AND.ISMDISP==0) THEN
 c          IF(INPRINT/=0)THEN
-c            WRITE(IOUT,*)  
+c            WRITE(IOUT,*)
 c            WRITE(IOUT,1006)ITC
 c            IF(INPRINT<0)THEN
-c             WRITE(ISTDO,*)  
+c             WRITE(ISTDO,*)
 c             WRITE(ISTDO,1006)ITC
 c            ENDIF
 c          ENDIF
@@ -618,9 +618,9 @@ C---------------------
           IF (ISETK0==1) THEN
            CALL LIN_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,DG    ,
      1               DGR   ,TOL   ,NNZ   ,IADK  ,JDIK  ,
-     2               DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,   
-     3               DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,   
-     4               DIAG_M,LT_M  ,FEXT  ,DE    ,INLOC ,   
+     2               DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,
+     3               DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,
+     4               DIAG_M,LT_M  ,FEXT  ,DE    ,INLOC ,
      5               FR_ELEM,IAD_ELEM,W_DDL,ITASK0,ICPREC,
      6               ISTOP ,A     ,AR     ,V    ,
      7               MS    ,X     ,IPARI ,INTBUF_TAB ,
@@ -632,16 +632,16 @@ C---------------------
      E               IRBE3 ,LRBE3 ,IRBE2  ,LRBE2 )
 	      ICPREC = 0
 	      IDSC = 0
-          END IF 
+          END IF
           CALL PRODUT_VMHP(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                     DG    ,DGR   ,F     ,UM1   ,W_DDL )
-         END IF 
+         END IF
 C
         CALL LIN_SOLV(NDDL  ,IDDL  ,NDOF  ,IKC   ,DD    ,
      1                 DDR   ,TOL   ,NNZ   ,IADK  ,JDIK  ,
-     2                 DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,   
-     3                 DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,   
-     4                 DIAG_M,LT_M  ,F     ,DE    ,INLOC ,   
+     2                 DIAG_K,LT_K  ,NDDLI ,IADI  ,JDII  ,
+     3                 DIAG_I,LT_I  ,ITOK  ,IADM  ,JDIM  ,
+     4                 DIAG_M,LT_M  ,F     ,DE    ,INLOC ,
      5                 FR_ELEM,IAD_ELEM,W_DDL,ITASK0,ICPREC,
      6                 ISTOP ,A     ,AR     ,V    ,
      7                 MS    ,X     ,IPARI ,INTBUF_TAB ,
@@ -751,15 +751,15 @@ C----condition IMCONV==1 reforming [K] for nothing (no resolution)-
       IF ((IDTC==3.OR.IKT>0).AND.IMCONV<=-2) ISETK=1
 C-----if still diverge, try w/o [K] reforming      
       IF (IMCONV<=-2.AND.RR1>EP20.AND.IDIV0>=0) ISETK=1
-      IF ((ISTOP==1.OR.ISTOP==2).AND.(ISOLV==5.OR.ISOLV==6))THEN 
+      IF ((ISTOP==1.OR.ISTOP==2).AND.(ISOLV==5.OR.ISOLV==6))THEN
         ISTOP = 0
         ISETK = 1
         IMCONV=-2
       ENDIF
       IF (IMCONV<=-2.AND.ISPRB>0.AND.RR1>EP04) ISETK=1
-! sb 
+! sb
       IF(IMCONV<= -2.AND.N_LIM == 1 .AND. ISPRB == 0)  ISETK = 1
-      
+
 C----------------------
 c      CALL MY_BARRIER
 C---------------------
@@ -809,8 +809,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "impl1_c.inc" 
-#include      "impl2_c.inc" 
+#include      "impl1_c.inc"
+#include      "impl2_c.inc"
 #include      "units_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -834,13 +834,13 @@ C--------1:E,2:r,3:E+U,4:r+U,5,r+E,6,r+E+U-----
 C--new:  1:E,2:r,3:U,12:E+r,13,E+U,23,r+U,123,r+E+U
       IF (NITOL==1) THEN
        ERR=ABS(ER)/TOL
-       IF (IT==1.OR.RR>=ONE) ERR=ERR+TOLR 
+       IF (IT==1.OR.RR>=ONE) ERR=ERR+TOLR
       ELSEIF (NITOL==2) THEN
        ERR=RR/TOL
       ELSEIF (NITOL==3) THEN
        ERR=UR/TOL
 C       ERR=MAX(SQRT(ABS(ER)),UR)
-       IF (RR>=ONE) ERR=ERR+TOLR 
+       IF (RR>=ONE) ERR=ERR+TOLR
       ELSEIF (NITOL==12) THEN
        ERR=MAX(RR/N_TOLF,ABS(ER)/N_TOLE)
 c       ERR=MAX(RR,UR)
@@ -899,7 +899,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "impl1_c.inc" 
+#include      "impl1_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -919,9 +919,9 @@ C      IF (R1<=ONE) THEN
       DR=ABS(R0-R1)
       R=MIN(R1/PREC,DR)
 c      R=MIN(R1,DR*PREC)
-      IF ((R<DTOL.OR.IDIV<-NLS_LIM) 
+      IF ((R<DTOL.OR.IDIV<-NLS_LIM)
      .    .OR.(R1>ONE.AND.IINT>0.AND.IREFI<2)) THEN
-       IF (IMCONV==-1)IMCONV=0 
+       IF (IMCONV==-1)IMCONV=0
 c       IDIV=0
        IDIV=IDIV-1
        RETURN
@@ -930,7 +930,7 @@ c       IDIV=0
        S=S0
        RETURN
       ENDIF
-      IMCONV=-1     
+      IMCONV=-1
       S1=S
       S=ABS(S0*R1-S1*R0)/DR
       IF (R1>ONE) THEN
@@ -969,7 +969,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
-#include      "scr05_c.inc" 
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -992,8 +992,8 @@ C-----------------------------------------------
          VMAX = T
          I=K
         ENDIF
-       ENDDO 
-       IF (IMACH==3.AND.NSPMD>1) 
+       ENDDO
+       IF (IMACH==3.AND.NSPMD>1)
      . CALL SPMD_MAX_S(VMAX)
 C
       RETURN
@@ -1014,8 +1014,8 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "impl1_c.inc" 
-#include      "com01_c.inc" 
+#include      "impl1_c.inc"
+#include      "com01_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -1047,7 +1047,7 @@ C------find sl so that el<0
          RETURN
         ELSEIF (IDIV>0) THEN
          SOLD = S
-         IF (ABS(E1-EP)<DTOL.OR.E1>EP.OR.IDIV>NLS_LIM) THEN	 
+         IF (ABS(E1-EP)<DTOL.OR.E1>EP.OR.IDIV>NLS_LIM) THEN	
           IF (E1>EP) S = S - ONE
           IMCONV =0
          ELSE
@@ -1061,7 +1061,7 @@ C------find sl so that el<0
         SP = S
         EP = E1
        ELSE
-        IF (IDIV==0) THEN	 
+        IF (IDIV==0) THEN	
          SP = ZERO
          EP = ONE
          S = HALF
@@ -1070,7 +1070,7 @@ C------find sl so that el<0
          EN = E1
          RETURN
         ELSEIF (SP==ZERO) THEN
-          IF (ABS(E1-EN)<DTOL.OR.IDIV<-NLS_LIM) THEN	 
+          IF (ABS(E1-EN)<DTOL.OR.IDIV<-NLS_LIM) THEN	
            IMCONV =0
           ELSEIF (IRIKS>0.OR.ISMDISP>0) THEN
            IMCONV =0
@@ -1089,7 +1089,7 @@ c	  EN = E1
         EN = E1
        ENDIF
        IDIV = IDIV - 1
-c----------return to       
+c----------return to
        SOLD = S
        IM = MAX(ICONT,ICONT0)
        IF (IM>0) THEN
@@ -1216,7 +1216,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*)  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*)
 C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
@@ -1237,7 +1237,7 @@ C-----------------------------------------------
          CALL PRODUT_U2(NDDL0 ,NDDL  ,IDDL  ,NDOF  ,IKC   ,
      .                  DD    ,DDR   ,DI    ,DIR   ,UIUD  ,
      .                  W_DDL )
-         S = SW2*LAMDA	 
+         S = SW2*LAMDA	
          LAMDA = ((L_A-GI)*GI-UIUD)/(UIUT+S)
 C
       RETURN
@@ -1260,7 +1260,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL 
+      INTEGER  NDDL
 C     REAL
       my_real
      .  DLAMDA,F(*),FEXT(*)
@@ -1293,7 +1293,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  F_DDL  ,L_DDL 
+      INTEGER  F_DDL  ,L_DDL
 C     REAL
       my_real
      .  DLAMDA,F(*),FEXT(*)
@@ -1430,7 +1430,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*),  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*),
      .         FT_N  ,LT_N  ,F_DDL ,L_DDL ,ITASK
 C     REAL
       my_real
@@ -1456,7 +1456,7 @@ C----------------------
       CALL MY_BARRIER
 C---------------------
          GI = SQRT(UI2)
-         S = SW2*LAMDA	 
+         S = SW2*LAMDA	
          LAMDA = ((L_A-GI)*GI-UIUD)/(UIUT+S)
 C
       RETURN
@@ -1527,7 +1527,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*) ,IER,
-     .         FT_N  ,LT_N  
+     .         FT_N  ,LT_N
 C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
@@ -1609,7 +1609,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*)  
+      INTEGER  NDDL,NDDL0,IDDL(*)  ,NDOF(*)  ,IKC(*),W_DDL(*)
 C     REAL
       my_real
      .  LAMDA,DG(3,*),DGR(3,*),DI(3,*),DIR(3,*),DD(3,*),DDR(3,*),
@@ -1631,7 +1631,7 @@ C-----------------------------------------------
      .                    W_DDL )
 C---------------------
          GI = SQRT(UI2)
-         S = SW2*LAMDA	 
+         S = SW2*LAMDA	
          LAMDA = ((L_A-GI)*GI-UIUD)/(UIUT+S)
 C
       RETURN

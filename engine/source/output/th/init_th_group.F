@@ -130,7 +130,7 @@ C-----------------------------------------------
             GR(I) = GRTMP
             GRTMP = IGRTMP(J)
             IGRTMP(J)= IGRTMP(I)
-            IGRTMP(I) = GRTMP 
+            IGRTMP(I) = GRTMP
           ENDIF
         ENDDO
       ENDDO
@@ -144,7 +144,7 @@ C-----------------------------------------------
       IF (IGR(1) == 0) THEN
         IGR(1) = 1
       ELSE
-        IGR(2) = 1 + IGR(1) 
+        IGR(2) = 1 + IGR(1)
         IGR(1) = 1
         FLAG = 1
       ENDIF

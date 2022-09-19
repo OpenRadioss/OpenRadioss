@@ -68,7 +68,7 @@ C-----------------------------------------------
       TAB_MAT(1:NGROUP_L)=ZERO
       DO NG=1,NGROUP
         P   = IPARG(32,NG)
-        
+
         IF(P==PROC)THEN
            NG_L = NG_L+1
            NFT = IPARG(3,NG)+1
@@ -112,7 +112,7 @@ C-----------------------------------------------
              ELSE
                 TAB_MAT(NG_L) = ZERO
              ENDIF
-             
+
            ELSEIF(ITY==3) THEN
              MID = IXC(1,NFT)
              PID = IXC(6,NFT)

@@ -32,7 +32,7 @@ Chd|====================================================================
      .    IPM     ,GEO     ,OFF     ,PLA     ,EINT    ,AL      ,
      .    EXX     ,EXY     ,EXZ     ,KXX     ,KYY     ,KZZ     ,
      .    FA1     ,FA2     ,FA3     ,MA1     ,MA2     ,MA3     ,
-     .    FOR     ,MOM     ,PM      ,NUVAR   ,UVAR    ,NFUNC   , 
+     .    FOR     ,MOM     ,PM      ,NUVAR   ,UVAR    ,NFUNC   ,
      .    IFUNC   ,TF      ,NPF     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,16 +80,16 @@ C=======================================================================
       EPIF = ZERO
 C
       IF (IMPL_S == 0 .OR. IDYNA > 0) THEN
-        DO I=1,NEL                    
-          DMPM(I)=GEO(16,PID(I))*AL(I)  
-          DMPF(I)=GEO(17,PID(I))*AL(I)  
+        DO I=1,NEL
+          DMPM(I)=GEO(16,PID(I))*AL(I)
+          DMPF(I)=GEO(17,PID(I))*AL(I)
         ENDDO
       ELSE
-        DO I=1,NEL                    
-          DMPM(I)=ZERO  
-          DMPF(I)=ZERO  
-        ENDDO 
-      ENDIF                                 
+        DO I=1,NEL
+          DMPM(I)=ZERO
+          DMPF(I)=ZERO
+        ENDDO
+      ENDIF
 C
       DO I=1,NEL
         IADBUF   = IPM(7,MAT(I))-1
@@ -104,7 +104,7 @@ C
         CN(I)    = UPARAM(IADBUF+9)
         ICC(I)   = NINT(UPARAM(IADBUF+10))
         EPDR(I)  = UPARAM(IADBUF+11)
-        EPIF     = MAX(EPIF,EPDR(I))              
+        EPIF     = MAX(EPIF,EPDR(I))
         CP(I)    = UPARAM(IADBUF+12)
         G(I)     = UPARAM(IADBUF+16)
         G3(I)    = UPARAM(IADBUF+18)
@@ -191,7 +191,7 @@ C-----------------------------------
         !IPOS(1:NEL) = VARTMP(1:NEL,1)
         !IAD (1:NEL) = NPF(IFUNC(1)) / 2 + 1
         !ILEN(1:NEL) = NPF(IFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
-        !CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 
+        !CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD)
         DO I = 1, NEL
           YLD(I) = YSCALE(I)*FINTER(IFUNC(1),PLA(I),NPF,TF,DFDPLA(I))
         ENDDO
@@ -201,7 +201,7 @@ c
 c
 c
       DO I = 1,NEL
-        IF (NFUNC > 0) THEN 
+        IF (NFUNC > 0) THEN
           YLD(I) = YSCALE(I)*YLD(I)
         ELSE
           YLD(I) = CA(I)
@@ -212,13 +212,13 @@ c
 c
       DO I = 1,NEL
         IF (PLA(I) > ZERO) THEN
-          IF (NFUNC > 0) THEN 
+          IF (NFUNC > 0) THEN
             YLD(I) = YSCALE(I)*YLD(I)
           ELSE
             YLD(I) = CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I)))
           ENDIF
-        ENDIF                                          
-      ENDDO  
+        ENDIF
+      ENDDO
 C-------------
 C     STRAIN RATE EFFECT
 C-------------
@@ -239,15 +239,15 @@ C-------------
             ENDIF
             FRATE   = ONE + (EPSDOT*EPDR(I))**CP(I)
             IF (ICC(I)== 1) YLDMAX(I) = YLDMAX(I) * FRATE
-            IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN 
-              IF (PLA(I)>ZERO) THEN 
+            IF ((NFUNC > 0) .AND. (CA(I) /= ZERO)) THEN
+              IF (PLA(I)>ZERO) THEN
                 YLD(I) = YLD(I) + (CA(I) + CB(I)*EXP(CN(I)*LOG(PLA(I))))*(FRATE-ONE)
               ELSE
                 YLD(I) = YLD(I) + CA(I)*(FRATE-ONE)
               ENDIF
             ELSE
               YLD(I) = YLD(I) * FRATE
-            ENDIF  
+            ENDIF
           ENDIF
         ENDDO
       ELSE
@@ -257,7 +257,7 @@ c-------------------
 c     PROJECTION
 c-------------------
       DO I=1,NEL
-        YLD(I) = MIN(YLD(I),YLDMAX(I))    
+        YLD(I) = MIN(YLD(I),YLDMAX(I))
         RR(I)  = MIN(ONE, YLD(I) / YEQ(I))
         F1(I)  = F1(I)*RR(I)
         DWELM(I) =(F1(I) + FOR(I,1))*(F1(I)-FOR(I,1)) / E(I)/A1(I)
@@ -297,7 +297,7 @@ c--------------------------------
         IF (OFF(I) < ONE)   OFF(I) = OFF(I)*FOUR_OVER_5
       ENDDO
 c--------------------------------
-c     AXIAL TENSION OR PLASTIC STRAIN FAILURE 
+c     AXIAL TENSION OR PLASTIC STRAIN FAILURE
 c--------------------------------
       NINDX = 0
       DO I = 1,NEL
@@ -319,16 +319,16 @@ c         test strain failure
             IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX) = I
-          ENDIF   
+          ENDIF
 c
-          IF (VFLAG(I) == 1) THEN 
+          IF (VFLAG(I) == 1) THEN
             ALPHA   = MIN(ONE, ASRATE(I)*DT1)
             EPSDOT  = DPLA(I)/MAX(EM20,DT1)
             UVAR(I,1) = ALPHA*EPSDOT + (ONE - ALPHA)*UVAR(I,1)
           ENDIF
 c
         ENDIF
-      ENDDO                                          
+      ENDDO
 c--------------------------------
       IF (NINDX > 0 .AND. IMCONV == 1) THEN
         DO J=1,NINDX
@@ -351,12 +351,12 @@ C
 C
       DO I=1,NEL
         FA1(I) = FA1(I) + FOR(I,1)
-        FA2(I) = FA2(I) + FOR(I,2) 
-        FA3(I) = FA3(I) + FOR(I,3)  
-        MA1(I) = MA1(I) + MOM(I,1) 
-        MA2(I) = MA2(I) + MOM(I,2) 
-        MA3(I) = MA3(I) + MOM(I,3) 
-      ENDDO               
+        FA2(I) = FA2(I) + FOR(I,2)
+        FA3(I) = FA3(I) + FOR(I,3)
+        MA1(I) = MA1(I) + MOM(I,1)
+        MA2(I) = MA2(I) + MOM(I,2)
+        MA3(I) = MA3(I) + MOM(I,3)
+      ENDDO
 c-----------------------------------------------
  1000 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'-- RUPTURE OF BEAM ELEMENT :',I10,' AT TIME :',G11.4)

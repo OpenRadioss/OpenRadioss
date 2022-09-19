@@ -31,7 +31,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE QMORTH2(PID  ,GEO  ,IGEO ,GAMA, NEL,
-     .                   RY   ,RZ   ,SY   ,SZ, 
+     .                   RY   ,RZ   ,SY   ,SZ,
      .                   E1Y  ,E1Z  ,E2Y  ,E2Z)
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C=======================================================================
         CP  = COS(PHI)
         SP  = SIN(PHI)
 c
-        IF (JCVT == 0) THEN 
+        IF (JCVT == 0) THEN
 c ------------------------------
 c Angle d'orthotropie defini par rapport
 c a la premiere direction du repere isoparametrique
@@ -149,7 +149,7 @@ c ------------------------------
             GAMA(I,6)= ZERO
           ENDIF
         ELSEIF (JCVT > 0) THEN
-          IF(IPNUM==11) THEN       
+          IF(IPNUM==11) THEN
             SUM=SQRT(E1Y(I)**2+E1Z(I)**2)
             IF (SUM > ZERO) SUM=ONE/SUM
             HX=ZERO
@@ -193,16 +193,16 @@ c ------------------------------
             ENDIF
             SK(4) = LY* SK(3) - LZ* SK(2)
             SK(5) = LZ* SK(1) - LX* SK(3)
-            SK(6) = LX* SK(2) - LY* SK(1)        
+            SK(6) = LX* SK(2) - LY* SK(1)
           ELSE
 c ------------------------------
 c ATTENTION !
-c Angle d'orthotropie est desormais toujours donne par l'utilisateur 
+c Angle d'orthotropie est desormais toujours donne par l'utilisateur
 c par rapport au repere isoparametrique
 c Puis transforme en interne en angle par rapport au repere corrotationnel
 c (pour plus de simplicite cote utilisateur)
 c (anciennement donne directement par rapport au repere corot)
-c ------------------------------          
+c ------------------------------
             SUM=SQRT(RY(I)**2+RZ(I)**2)
             SUM=ONE/MAX(SUM,EM20)
             HX=ZERO
@@ -223,7 +223,7 @@ c ------------------------------
             IF (SUM > ZERO) SUM=ONE/SUM
             KX=KX*SUM
             KY=KY*SUM
-            KZ=KZ*SUM  
+            KZ=KZ*SUM
             SK(1)= CP*HX+SP*KX
             SK(2)= CP*HY+SP*KY
             SK(3)= CP*HZ+SP*KZ
@@ -235,7 +235,7 @@ c ------------------------------
             HZ=E1Z(I)
             KX=ZERO
             KY=E2Y(I)
-            KZ=E2Z(I)         
+            KZ=E2Z(I)
           ENDIF
           GAMA(I,1) = ZERO
           GAMA(I,2) = SK(1)*HX + SK(2)*HY + SK(3)*HZ
@@ -249,4 +249,4 @@ C-----
 
       RETURN
       END SUBROUTINE QMORTH2
-      
+

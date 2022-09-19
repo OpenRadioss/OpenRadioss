@@ -74,16 +74,16 @@ C     Possibly Merge Nodes
       DO I = 1, NUMNUSR
         INDX(I) = I
       END DO
-      
+
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNUSR,1)
-      
+
       IF(NUMNUSR>=1)THEN
         ITABM1(1)         = ITAB(INDX(1))
         ITABM1(NUMNUSR+1) = INDX(1)
       ENDIF
-      
+
       IF(IS_DYNA == 0)THEN
-      
+
         DO I = 2, NUMNUSR
           ITABM1(I) = ITAB(INDX(I))
           IF(ITABM1(I)==ITABM1(I-1))THEN
@@ -106,12 +106,12 @@ C     Possibly Merge Nodes
         ZMIN =  EP20
         ZMAX = -EP20
         DO I = 1, NUMNUSR
-          XMIN = MIN(XMIN,X(1,I))       
-          XMAX = MAX(XMAX,X(1,I))       
-          YMIN = MIN(YMIN,X(2,I))       
-          YMAX = MAX(YMAX,X(2,I))       
-          ZMIN = MIN(ZMIN,X(3,I))       
-          ZMAX = MAX(ZMAX,X(3,I))       
+          XMIN = MIN(XMIN,X(1,I))
+          XMAX = MAX(XMAX,X(1,I))
+          YMIN = MIN(YMIN,X(2,I))
+          YMAX = MAX(YMAX,X(2,I))
+          ZMIN = MIN(ZMIN,X(3,I))
+          ZMAX = MAX(ZMAX,X(3,I))
         END DO
         DX  = XMAX-XMIN
         DY  = YMAX-YMIN
@@ -124,22 +124,22 @@ C     Possibly Merge Nodes
           ITABM1(I) = ITAB(INDX(I))
 
           IREF = I-1
-          XMIN = X(1,INDX(IREF))       
-          XMAX = X(1,INDX(IREF))       
-          YMIN = X(2,INDX(IREF))       
-          YMAX = X(2,INDX(IREF))       
-          ZMIN = X(3,INDX(IREF))       
-          ZMAX = X(3,INDX(IREF))       
-         
+          XMIN = X(1,INDX(IREF))
+          XMAX = X(1,INDX(IREF))
+          YMIN = X(2,INDX(IREF))
+          YMAX = X(2,INDX(IREF))
+          ZMIN = X(3,INDX(IREF))
+          ZMAX = X(3,INDX(IREF))
+
           DO WHILE(I <= NUMNUSR .AND. ITABM1(I)==ITABM1(IREF))
 
-            XMIN = MIN(XMIN,X(1,INDX(I)))       
-            XMAX = MAX(XMAX,X(1,INDX(I)))       
-            YMIN = MIN(YMIN,X(2,INDX(I)))       
-            YMAX = MAX(YMAX,X(2,INDX(I)))       
-            ZMIN = MIN(ZMIN,X(3,INDX(I)))       
-            ZMAX = MAX(ZMAX,X(3,INDX(I)))       
-            
+            XMIN = MIN(XMIN,X(1,INDX(I)))
+            XMAX = MAX(XMAX,X(1,INDX(I)))
+            YMIN = MIN(YMIN,X(2,INDX(I)))
+            YMAX = MAX(YMAX,X(2,INDX(I)))
+            ZMIN = MIN(ZMIN,X(3,INDX(I)))
+            ZMAX = MAX(ZMAX,X(3,INDX(I)))
+
             INDX(I)           = INDX(IREF) ! Possibly merging a cnode and a node, or 2 cnodes
             ITABM1(NUMNUSR+I) = INDX(IREF)
 
@@ -147,7 +147,7 @@ C     Possibly Merge Nodes
             ITABM1(I)=ITAB(INDX(I))
 
           END DO
-          
+
           IF(I > IREF+1)THEN
 
             DX = XMAX-XMIN
@@ -185,14 +185,14 @@ C-----------------------------------------------
       DO I = 1, NUMNUSR+NUMCNOD
         INDX(I) = I
       END DO
-      
+
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNUSR+NUMCNOD,1)
-      
+
       IF(NUMNUSR+NUMCNOD>=1)THEN
         ITABM1(1)                 = ITAB(INDX(1))
         ITABM1(NUMNUSR+NUMCNOD+1) = INDX(1)
       ENDIF
-      
+
       DO I = 2, NUMNUSR+NUMCNOD
         ITABM1(I) = ITAB(INDX(I))
         IF(ITABM1(I)==ITABM1(I-1))THEN
@@ -218,4 +218,4 @@ C-----------------------------------------------
       DEALLOCATE(ITABM1,INDX)
       RETURN
       END
-      
+

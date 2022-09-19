@@ -69,7 +69,7 @@ C-----------------------------------------------
       my_real
      .       XI,YI,ZI,DI,DIVV,COEFF,GET_U_GEO
 C-----------------------------------------------
-      EXTERNAL GET_U_GEO      
+      EXTERNAL GET_U_GEO
 C-----------------------------------------------
       DO NS=ITASK+1,NSPHACT,NTHREAD
         N=WASPACT(NS)

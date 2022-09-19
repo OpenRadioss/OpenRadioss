@@ -32,8 +32,8 @@ Chd|====================================================================
         SUBROUTINE WRITE_JOINT()
 !$COMMENT
 !       WRITE_JOINT description
-!       write the joint structure 
-!       
+!       write the joint structure
+!
 !       WRITE_JOINT organization :
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: N,IS_SMS_AVAILABLE
         INTEGER, DIMENSION(NJOINT) :: NUMBER_NODE
-        
+
         IF(NJOINT>0) THEN
             DO N=1,NJOINT
                 NUMBER_NODE(N) = CYL_JOIN(N)%NUMBER_NODE
@@ -73,8 +73,8 @@ C-----------------------------------------------
             !   number of node per proc (all proc --> size=nspmd)
             CALL WRITE_I_C(NUMBER_NODE,NJOINT)
 
-            !   ------------------------------        
-            DO N=1,NJOINT     
+            !   ------------------------------
+            DO N=1,NJOINT
                 IF(NUMBER_NODE(N)>0) THEN
                     !   proc main for the current joint
                     CALL WRITE_I_C(CYL_JOIN(N)%PROC_MAIN,1)

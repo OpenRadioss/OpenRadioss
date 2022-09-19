@@ -75,19 +75,19 @@ C     REAL
       my_real
      .  E, SIGNXX,DFXX,APT
 C
-      TYPE(L_BUFEL_),POINTER :: LBUF  
+      TYPE(L_BUFEL_),POINTER :: LBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================
-!   
-   
+!
+
 C-------------------------------------
 C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
 C--------------------------------------
 C             
-      IPA  = 400  
+      IPA  = 400
       DO I=1,3
         II(I) = NEL*(I-1)
-      ENDDO 
+      ENDDO
       DO IPT= 1,NPT
         ILAYER=1
         IR = 1
@@ -100,25 +100,25 @@ C
           DO I= 1,NEL
             LBUF%STRA(II(1)+I) = LBUF%STRA(II(1)+I) + ETH(I)
           ENDDO
-        ENDIF        
+        ENDIF
 C
 C---    Contraintes elastiques
 C
-        DO I =1 ,NEL             
-          MX = MAT(I)                            
-          E    = PM(20,MX)                         
-          SIGNXX =  -E*ETH(I)  
+        DO I =1 ,NEL
+          MX = MAT(I)
+          E    = PM(20,MX)
+          SIGNXX =  -E*ETH(I)
 C       FORCES ET MOMENTS
-          APT = GEO(IPA+IPT,PID(I)) 
+          APT = GEO(IPA+IPT,PID(I))
           DFXX = APT*SIGNXX
-          FOR(I,1) = FOR(I,1) + DFXX		 
+          FOR(I,1) = FOR(I,1) + DFXX		
 C                                                    
           LBUF%SIG(II(1)+I) = LBUF%SIG(II(1)+I) + SIGNXX
-        ENDDO                                                       
+        ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION
 C-------------------------------------
-       ENDDO   
+       ENDDO
 C-----------
       RETURN
       END
@@ -167,9 +167,9 @@ C-----------------------------------------------
       DO I=1,NEL
         YM  =PM(20,MAT(I))
         A1  =GEO(1,PID(I))
-        FOR(I,1) = (FOR(I,1)  - ETH(I)*A1*YM )*OFF(I)   
+        FOR(I,1) = (FOR(I,1)  - ETH(I)*A1*YM )*OFF(I)
 !!        EINT(I,1) = EINT(I,1) - FOR(I,1)*ETH(I)*AL(I)*HALF*OFF(I)
-      ENDDO             
+      ENDDO
 C-----------------------------------------------
       RETURN
       END

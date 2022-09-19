@@ -38,7 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,13 +66,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, II, N1, N2, IE, NG, MAT, IFA, LENR, 
+      INTEGER I, II, N1, N2, IE, NG, MAT, IFA, LENR,
      .        IFACE(2,4)
       my_real
      .  Y1, Y2, Y3, Y4, Z1, Z2, Z3, Z4,
      .  NY, NZ, DY, DZ, DD, GRAD, PHI, TEMPE, VOL,
      .  TSTIFE, COEF,EE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 c---
       DATA IFACE/ 2, 3, 3, 4, 4, 5, 5, 2/
 C----------------------
@@ -107,12 +107,12 @@ C---------------------------------
 C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
 C---------------------------------
           DO 200 NG=II/NVSIZ,NGROUP
-            CALL INITBUF (IPARG    ,NG      ,                   
-     2            MTN     ,LLT     ,NFT     ,IAD     ,ITY     , 
-     3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    , 
-     4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    , 
-     5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL , 
-     6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   , 
+            CALL INITBUF (IPARG    ,NG      ,
+     2            MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3            NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4            JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5            NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6            IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7            ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             IF(ITY/=2)          GO TO 200
             IF(II>NFT+LLT)     GO TO 200
@@ -122,7 +122,7 @@ C---------------------------------
             GOTO 250
   200     CONTINUE
   250     CONTINUE
-c          
+c
           GBUF => ELBUF_TAB(NG)%GBUF
 c
           VOL  = GBUF%VOL(I)

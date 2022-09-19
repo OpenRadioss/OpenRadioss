@@ -64,7 +64,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'VEL'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Velocity'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  =
      .'Node translational velocity'
 c-----------------------------------------------
       I = I + 1
@@ -193,13 +193,13 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'VEL/TMAX'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Max_Velocity'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  =
      .'Maximum node translational velocity over time'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_NODAL_VECTOR(I)%KEY3  = 'DIS/TMAX'
       H3D_KEYWORD_NODAL_VECTOR(I)%TEXT1  = 'Max_Displacement'
-      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  = 
+      H3D_KEYWORD_NODAL_VECTOR(I)%COMMENT  =
      .'Maximum node displacement over time'
 c-----------------------------------------------
 

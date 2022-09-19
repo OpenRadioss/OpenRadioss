@@ -34,7 +34,7 @@ Chd|====================================================================
      .   X1 , X2 , X3 , X4 , X5 ,  X6   ,
      .   Y1 , Y2 , Y3 , Y4 , Y5 ,  Y6   ,
      .   Z1 , Z2 , Z3 , Z4 , Z5 ,  Z6   ,
-     .   VX1, VX2, VX3, VX4, VX5, VX6   , 
+     .   VX1, VX2, VX3, VX4, VX5, VX6   ,
      .   VY1, VY2, VY3, VY4, VY5, VY6   ,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6   ,
      .   VD2,VIS,OFFG,OFF,SAV,RHO,RHOO  ,
@@ -65,12 +65,12 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),V(3,*),W(3,*), VIS(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), 
-     .  VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), 
-     .  VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), 
-     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), 
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*),
+     .  VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*),
+     .  VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*),
+     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*),
      .  VD2(*), OFFG(*), OFF(*),  RHO(*), RHOO(*),
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
@@ -106,7 +106,7 @@ C     REAL
       my_real
      .   XL,YL,ZL
       my_real
-     .   XX,YY,ZZ,XY,XZ,YZ,RTR(6),ABC,XXYZ2,ZZXY2,YYXZ2,DETA   
+     .   XX,YY,ZZ,XY,XZ,YZ,RTR(6),ABC,XXYZ2,ZZXY2,YYXZ2,DETA
       my_real
      .   OFF_L
 C-----------------------------------------------
@@ -260,16 +260,16 @@ C-----------
        CALL S6CORTHO3(
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6,
-     .   Z1, Z2, Z3, Z4, Z5, Z6, 
+     .   Z1, Z2, Z3, Z4, Z5, Z6,
      .   R11, R12, R13, R21, R22, R23, R31, R32, R33,
      .   RX , RY , RZ , SX , SY , SZ , TX , TY , TZ )
 C------stocker [R] in %GAMA_R--------------     
-       GAMA_R(LFT:LLT,1) = R11(LFT:LLT)                             
-       GAMA_R(LFT:LLT,2) = R21(LFT:LLT)                             
-       GAMA_R(LFT:LLT,3) = R31(LFT:LLT)                             
-       GAMA_R(LFT:LLT,4) = R12(LFT:LLT)                             
-       GAMA_R(LFT:LLT,5) = R22(LFT:LLT)                             
-       GAMA_R(LFT:LLT,6) = R32(LFT:LLT)                             
+       GAMA_R(LFT:LLT,1) = R11(LFT:LLT)
+       GAMA_R(LFT:LLT,2) = R21(LFT:LLT)
+       GAMA_R(LFT:LLT,3) = R31(LFT:LLT)
+       GAMA_R(LFT:LLT,4) = R12(LFT:LLT)
+       GAMA_R(LFT:LLT,5) = R22(LFT:LLT)
+       GAMA_R(LFT:LLT,6) = R32(LFT:LLT)
 C-----------
 C     PASSAGE AU REPERE CONVECTE.
 C-----------
@@ -474,7 +474,7 @@ C
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6,
      .   Z1, Z2, Z3, Z4, Z5, Z6,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
+     .   VX1, VX2, VX3, VX4, VX5, VX6,
      .   VY1, VY2, VY3, VY4, VY5, VY6,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6,
      .   DI)
@@ -492,7 +492,7 @@ Chd|====================================================================
      .   X1, X2, X3, X4, X5, X6,
      .   Y1, Y2, Y3, Y4, Y5, Y6,
      .   Z1, Z2, Z3, Z4, Z5, Z6,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
+     .   VX1, VX2, VX3, VX4, VX5, VX6,
      .   VY1, VY2, VY3, VY4, VY5, VY6,
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6,
      .   DI)
@@ -513,19 +513,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), 
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), 
-     .  VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), 
-     .  VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), 
-     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), 
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*),
+     .  VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*),
+     .  VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*),
+     .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*),
      .  DI(MVSIZ,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   XVY,XVZ,YVX,YVZ,ZVX,ZVY, 
+     .   XVY,XVZ,YVX,YVZ,ZVX,ZVY,
      .   AR(3),ALR(3)
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -580,7 +580,7 @@ Chd|====================================================================
      .   XD1   ,XD2   ,XD3   ,XD4   ,XD5   ,XD6   ,
      .   YD1   ,YD2   ,YD3   ,YD4   ,YD5   ,YD6   ,
      .   ZD1   ,ZD2   ,ZD3   ,ZD4   ,ZD5   ,ZD6   ,
-     .   NEL   ) 
+     .   NEL   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -600,15 +600,15 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*), SAV(NEL,15)
-      
-      my_real 
-     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*),  
-     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*),  
-     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*)      
+
+      my_real
+     .   XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*),
+     .   YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*),
+     .   ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I      
+      INTEGER I
 C=======================================================================
         DO I=LFT,LLT
           IF(ABS(OFFG(I)) <= ONE )THEN

@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER I, M, FLAG
 C     REAL
       my_real
-     .   XMAS(MVSIZ), 
+     .   XMAS(MVSIZ),
      .   EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
@@ -173,7 +173,7 @@ C
             PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
             PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
             PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-            PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+            PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
 C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
           END DO
         ELSE
@@ -193,7 +193,7 @@ C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
             PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
             PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
             PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-            PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+            PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
 C           PARTSAV(8,M)=PARTSAV(8,M) + EHOU(I)
           END DO
         END IF
@@ -230,7 +230,7 @@ C
           ENDIF
       ENDDO
 
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)    
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
       RETURN
       END

@@ -58,7 +58,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL         
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -131,7 +131,7 @@ Cel noeud abscent => 0
           DO IH=IAD,IAD+NNE-1
 c            local number of cluster, or zero
              ITHBUF_L(IH) = NUMLOCCLUSTER(ITHBUF(IH))
-          ENDDO               
+          ENDDO
         ENDIF
       ENDDO
 C

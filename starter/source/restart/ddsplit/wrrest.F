@@ -315,7 +315,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N
 C     REAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -393,7 +393,7 @@ C-----------------------------------------------
      .        FXBRPM(*), FXBMOD_L(*), FXBGLM_L(*), FXBCPM_L(*),
      .        FXBCPS_L(*), FXBLM_L(*), FXBFLS_L(*), FXBDLS_L(*),
      .        FXBDEP(*), FXBVIT(*), FXBACC(*), FXBSIG_L(*),
-     .        FXBGRVR_L(*) 
+     .        FXBGRVR_L(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -537,7 +537,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)      
+      SUBROUTINE EIGWREST(EIGIPM, EIGIBUF, EIGRPM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -608,7 +608,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE EIGWRESTP(EIGIPM, EIGIBUF, EIGRPM, LEIBUF_L,LEN_AM)      
+      SUBROUTINE EIGWRESTP(EIGIPM, EIGIBUF, EIGRPM, LEIBUF_L,LEN_AM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -958,7 +958,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE THCWREST(MCP,TEMP)      
+      SUBROUTINE THCWREST(MCP,TEMP)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1042,7 +1042,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE CONVWREST(IBCV,FCONV)      
+      SUBROUTINE CONVWREST(IBCV,FCONV)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1085,7 +1085,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE FXTEMPWREST(IBFT,FBFT)      
+      SUBROUTINE FXTEMPWREST(IBFT,FBFT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1129,7 +1129,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM, WEIGHT)      
+      SUBROUTINE RIGMATWREST(RBYM  ,IRBYM    ,LCRBYM, WEIGHT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1156,14 +1156,14 @@ C--------------------------------------
       IF (IRFORM/5 <= 1) THEN
         CALL WRTSQR (RBYM,NFRBYM*NRBYM,IRFORM)
         CALL WRTSQI (IRBYM,NIRBYM*NRBYM,IRFORM)
-        CALL WRTSQI (LCRBYM,NGSLNRBYM,IRFORM) 
-        CALL WRTSQI (WEIGHT,NRBYM,IRFORM) 
+        CALL WRTSQI (LCRBYM,NGSLNRBYM,IRFORM)
+        CALL WRTSQI (WEIGHT,NRBYM,IRFORM)
       ELSE
         CALL WRITE_DB(RBYM,NFRBYM*NRBYM)
-        CALL WRITE_I_C(IRBYM,NIRBYM*NRBYM) 
+        CALL WRITE_I_C(IRBYM,NIRBYM*NRBYM)
         CALL WRITE_I_C( LCRBYM,NGSLNRBYM)
         CALL WRITE_I_C( WEIGHT,NRBYM)
-              
+
       ENDIF
       RETURN
       END
@@ -1177,7 +1177,7 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        WRTSQI                        source/output/tools/wrtsqi.F  
 Chd|        WRTSQR                        source/output/tools/wrtsqr.F  
 Chd|====================================================================
-      SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,IEL,INOD,ICODE,ISKEW)      
+      SUBROUTINE PLYXFEM_WREST(MS_PLY,ZI_PLY,IEL,INOD,ICODE,ISKEW)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1207,23 +1207,23 @@ C--------------------------------------
              CALL WRTSQR (MS_PLY,NPLYXFE*NPLYMAX,IRFORM)
              CALL WRTSQR (ZI_PLY,NPLYXFE*NPLYMAX,IRFORM)
              CALL WRTSQI (INOD,NUMNOD,IRFORM)
-             CALL WRTSQI (IEL,NUMELC,IRFORM) 
+             CALL WRTSQI (IEL,NUMELC,IRFORM)
             ELSE
              CALL WRITE_DB(MS_PLY,NPLYXFE*NPLYMAX)
              CALL WRITE_DB(ZI_PLY,NPLYXFE*NPLYMAX)
              CALL WRITE_I_C(INOD,NUMNOD)
              CALL WRITE_I_C(IEL,NUMELC)
             ENDIF
-        ENDIF    
+        ENDIF
 C       
        IF(IPLYBCS > 0) THEN
          IF (IRFORM/5 <= 1) THEN
            CALL WRTSQI (ICODE,NUMNOD,IRFORM)
-           CALL WRTSQI (ISKEW,NUMNOD,IRFORM)           
+           CALL WRTSQI (ISKEW,NUMNOD,IRFORM)
           ELSE
            CALL WRITE_I_C(ICODE,NUMNOD)
            CALL WRITE_I_C(ISKEW,NUMNOD)
-         ENDIF            
+         ENDIF
        ENDIF
       RETURN
       END

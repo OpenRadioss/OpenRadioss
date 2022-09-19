@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I17TRI(
      2      TZINF  ,IXS     ,IXS16    ,IXS20    ,NELEM    ,
-     3      NELES  ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
+     3      NELES  ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,
      5      CONT   ,NB_N_B  ,EMINX    ,I_STOK_GLOB,NME    ,
      6      ITASK  ,NOINT   ,X        ,V        ,A        ,
      7      MX_CAND,EMINXS  ,ESH_T    ,MAXSIZS  ,I_ADD_MAX,
@@ -70,7 +70,7 @@ C     PARAMETER (I_ADD_MAX = 1001) declare dans I17BUCE
      .        MAXSIZ,NB_N_B,I_STOK_GLOB,NME,NMES ,ITASK,NOINT ,MX_CAND,
      .        IXS(NIXS,*),IXS16(8,*),
      .        NELES(*),CAND_N(*),CAND_E(*),NELEM(*),IXS20(12,*),ESH_T,
-     .        MAXSIZS  
+     .        MAXSIZS
 C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),EMINX(6,*),EMINXS(6,*),
@@ -79,7 +79,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT,NE 
+      INTEGER I,J,I_ADD,I_STOK,L,NB_NC,NB_EC,CONT,NE
       INTEGER ADD(2,I_ADD_MAX) ,PROV_N(MVSIZ),PROV_E(MVSIZ),
      .        BPE(MAXSIZ/3), PE(MAXSIZ), BPN(MAXSIZS/3), PN(MAXSIZS)
 C en toute rigueur MAXSIZ = NME et MAXSIZS = NMES+NMESR
@@ -144,7 +144,7 @@ C-----------------------------------------------
         CALL I17CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
      2      X          ,NB_NC   ,NB_EC    ,XYZM     ,I_ADD    ,
-     3      NELES      ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
+     3      NELES      ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,
      4      CONT       ,NB_N_B  ,I_ADD_MAX,EMINX    ,NELEM    ,
      5      I_STOK     ,IXS     ,IXS16    ,IXS20    ,TZINF    ,
      6      I_STOK_GLOB,PROV_N  ,PROV_E   ,V        ,A        ,
@@ -187,7 +187,7 @@ Chd|====================================================================
       SUBROUTINE I17CUT(
      1      BPE        ,PE      ,BPN      ,PN       ,ADD      ,
      2      X          ,NB_NC   ,NB_EC    ,XYZM     ,I_ADD    ,
-     3      NELES      ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,                       
+     3      NELES      ,MAXSIZ  ,CAND_N   ,CAND_E   ,MINBOX   ,
      4      CONT       ,NB_N_B  ,I_ADD_MAX,EMINX    ,NELEM    ,
      5      I_STOK     ,IXS     ,IXS16    ,IXS20    ,TZINF    ,
      6      I_STOK_GLOB,PROV_N  ,PROV_E   ,V        ,A        ,
@@ -271,7 +271,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),V(3,*),A(3,*),XYZM(6,*),EMINX(6,*),EMINXS(6,*),
-     .   MINBOX,TZINF    
+     .   MINBOX,TZINF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -372,7 +372,7 @@ Cel necessaire qd NB_NC<=NB_N_B ou DSUP<MINBOX et NB_EC+NB_NC>128
                   IF(CONT==-2)RETURN
                 ENDIF
               END IF
-            ENDDO 
+            ENDDO
 C-----------------------------------------------------------
         ELSE
 C-----------------------------------------------------------
@@ -502,7 +502,7 @@ C
           ADD(1,I_ADD+1) = ADDNN
           ADD(2,I_ADD+1) = ADDNE
 C-----on remplit les min de la boite suivante et les max de la courante
-          XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+          XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
           XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
           XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
           XYZM(4,I_ADD+1) = XYZM(4,I_ADD)

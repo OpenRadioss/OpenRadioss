@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CBASTRA3(GSTR,GSTRPG,
      1                   JFT, JLT, NFT, NPG,VDEF,
-     2                   EXX, EYY, EXY, EXZ, EYZ,  
+     2                   EXX, EYY, EXY, EXZ, EYZ,
      3                   KXX, KYY, KXY, DT1C,EPSDOT,
      4                   IEPSDOT, ISTRAIN,UX1 ,UX2 ,UX3 ,
      5                   UX4    ,UY1    ,UY2 ,UY3 ,UY4 ,
@@ -145,7 +145,7 @@ C
        ELSE
        IF (ISROT > 0) THEN
 #include "vectorize.inc"
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          I=IPLAT(EP)
          UX13=UX1(I)-UX3(I)
          UX24=UX2(I)-UX4(I)
@@ -159,7 +159,7 @@ C
      .          +BM(I,5)*UX13+BM(I,6)*UX24+BM(I,7)*UXHI
         END DO
 #include "vectorize.inc"
-        DO EP=NPLAT+1,JLT 
+        DO EP=NPLAT+1,JLT
          I=IPLAT(EP)
          EXXT(I)=BM(I,1)*UX1(I)+BM(I,4)*UY1(I)
      .          +BM(I,10)*UX2(I)+BM(I,13)*UY2(I)
@@ -176,7 +176,7 @@ C
         END DO
        ELSE
 #include "vectorize.inc"
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          I=IPLAT(EP)
          UX13=UX1(I)-UX3(I)
          UX24=UX2(I)-UX4(I)
@@ -190,7 +190,7 @@ C
      .          -X24(I)*UX13+X13(I)*UX24
         END DO
 #include "vectorize.inc"
-        DO EP=NPLAT+1,JLT 
+        DO EP=NPLAT+1,JLT
          I=IPLAT(EP)
          UX13=UX1(I)-UX3(I)
          UX24=UX2(I)-UX4(I)
@@ -208,7 +208,7 @@ C
      .          -X24(I)*UX13+X13(I)*UX24
         END DO
        END IF !(ISROT > 0) THEN
-        DO I=JFT,JLT 
+        DO I=JFT,JLT
          GSTR(I,1)=GSTR(I,1)+EXXT(I)*QUATRE1
          GSTR(I,2)=GSTR(I,2)+EYYT(I)*QUATRE1
          GSTR(I,3)=GSTR(I,3)+EXYT(I)*QUATRE1

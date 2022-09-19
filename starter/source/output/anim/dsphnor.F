@@ -27,110 +27,110 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_S_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE DSPHNOR(KXSP,X,SPBUF,NNSPH)                            
+      SUBROUTINE DSPHNOR(KXSP,X,SPBUF,NNSPH)
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com04_c.inc"                                             
-#include      "sphcom.inc"                                              
-#include      "scr05_c.inc"                                             
-#include      "param_c.inc"                                             
+#include      "com04_c.inc"
+#include      "sphcom.inc"
+#include      "scr05_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER KXSP(NISP,*),NNSPH                                        
-      my_real                                                           
-     .  X(3,*),SPBUF(*)                                                 
+      INTEGER KXSP(NISP,*),NNSPH
+      my_real
+     .  X(3,*),SPBUF(*)
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I3000,NXX,NYY,NZZ                                         
-      INTEGER N, J, INOD                                                
-      INTEGER INP(NNSPH*3),CNT,LRECV                                    
-      my_real                                                           
-     3   XI,YI,ZI,R,NX,NY,NZ,NORMN,                                     
-     4   XQ(3)                                                          
+      INTEGER I3000,NXX,NYY,NZZ
+      INTEGER N, J, INOD
+      INTEGER INP(NNSPH*3),CNT,LRECV
+      my_real
+     3   XI,YI,ZI,R,NX,NY,NZ,NORMN,
+     4   XQ(3)
 C-----------------------------------------------                        
-      IF (NUMSPH+MAXPJET==0) GOTO 100                                 
+      IF (NUMSPH+MAXPJET==0) GOTO 100
 C-----------------------------------------------                        
-      I3000 = 3000                                                      
-      CNT = 0                                                           
+      I3000 = 3000
+      CNT = 0
 C                                                                       
-      DO 200 N=1,NUMSPH+MAXPJET                                         
-         INOD=KXSP(3,N)                                                 
-         XI  =X(1,INOD)                                                 
-         YI  =X(2,INOD)                                                 
-         ZI  =X(3,INOD)                                                 
-         NX= ONE                                                         
-         NY=-ONE                                                         
-         NZ=-ONE                                                         
-         NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-         IF (NORMN==ZERO) THEN                                        
-          NX=THREE1000                                                  
-          NY=THREE1000                                                  
-          NZ=THREE1000                                                  
-         ELSE                                                           
-          NX=THREE1000*NX/NORMN                                         
-          NY=THREE1000*NY/NORMN                                         
-          NZ=THREE1000*NZ/NORMN                                         
-         ENDIF                                                          
-         CALL WRITE_S_C(NINT(NX),1)                                     
-         CALL WRITE_S_C(NINT(NY),1)                                     
-         CALL WRITE_S_C(NINT(NZ),1)                                     
-         NX=-ONE                                                         
-         NY= ONE                                                         
-         NZ=-ONE                                                         
-         NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-        IF (NORMN==ZERO) THEN                                         
-          NX=THREE1000                                                  
-          NY=THREE1000                                                  
-          NZ=THREE1000                                                  
-         ELSE                                                           
-          NX=THREE1000*NX/NORMN                                         
-          NY=THREE1000*NY/NORMN                                         
-          NZ=THREE1000*NZ/NORMN                                         
-         ENDIF                                                          
-         CALL WRITE_S_C(NINT(NX),1)                                     
-         CALL WRITE_S_C(NINT(NY),1)                                     
-         CALL WRITE_S_C(NINT(NZ),1)                                     
-         NX=-ONE                                                         
-         NY=-ONE                                                         
-         NZ= ONE                                                         
-         NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-         IF (NORMN==ZERO) THEN                                        
-          NX=THREE1000                                                  
-          NY=THREE1000                                                  
-          NZ=THREE1000                                                  
-         ELSE                                                           
-          NX=THREE1000*NX/NORMN                                         
-          NY=THREE1000*NY/NORMN                                         
-          NZ=THREE1000*NZ/NORMN                                         
-         ENDIF                                                          
-         CALL WRITE_S_C(NINT(NX),1)                                     
-         CALL WRITE_S_C(NINT(NY),1)                                     
-         CALL WRITE_S_C(NINT(NZ),1)                                     
-         NX= ONE                                                         
-         NY= ONE                                                         
-         NZ= ONE                                                         
-         NORMN=SQRT(NX**2+NY**2+NZ**2)                                  
-        IF (NORMN==ZERO) THEN                                         
-          NX=THREE1000                                                  
-          NY=THREE1000                                                  
-          NZ=THREE1000                                                  
-         ELSE                                                           
-          NX=THREE1000*NX/NORMN                                         
-          NY=THREE1000*NY/NORMN                                         
-          NZ=THREE1000*NZ/NORMN                                         
-         ENDIF                                                          
-         CALL WRITE_S_C(NINT(NX),1)                                     
-         CALL WRITE_S_C(NINT(NY),1)                                     
-         CALL WRITE_S_C(NINT(NZ),1)                                     
- 200   CONTINUE                                                         
- 100   CONTINUE                                                         
+      DO 200 N=1,NUMSPH+MAXPJET
+         INOD=KXSP(3,N)
+         XI  =X(1,INOD)
+         YI  =X(2,INOD)
+         ZI  =X(3,INOD)
+         NX= ONE
+         NY=-ONE
+         NZ=-ONE
+         NORMN=SQRT(NX**2+NY**2+NZ**2)
+         IF (NORMN==ZERO) THEN
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000
+         ELSE
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN
+         ENDIF
+         CALL WRITE_S_C(NINT(NX),1)
+         CALL WRITE_S_C(NINT(NY),1)
+         CALL WRITE_S_C(NINT(NZ),1)
+         NX=-ONE
+         NY= ONE
+         NZ=-ONE
+         NORMN=SQRT(NX**2+NY**2+NZ**2)
+        IF (NORMN==ZERO) THEN
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000
+         ELSE
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN
+         ENDIF
+         CALL WRITE_S_C(NINT(NX),1)
+         CALL WRITE_S_C(NINT(NY),1)
+         CALL WRITE_S_C(NINT(NZ),1)
+         NX=-ONE
+         NY=-ONE
+         NZ= ONE
+         NORMN=SQRT(NX**2+NY**2+NZ**2)
+         IF (NORMN==ZERO) THEN
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000
+         ELSE
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN
+         ENDIF
+         CALL WRITE_S_C(NINT(NX),1)
+         CALL WRITE_S_C(NINT(NY),1)
+         CALL WRITE_S_C(NINT(NZ),1)
+         NX= ONE
+         NY= ONE
+         NZ= ONE
+         NORMN=SQRT(NX**2+NY**2+NZ**2)
+        IF (NORMN==ZERO) THEN
+          NX=THREE1000
+          NY=THREE1000
+          NZ=THREE1000
+         ELSE
+          NX=THREE1000*NX/NORMN
+          NY=THREE1000*NY/NORMN
+          NZ=THREE1000*NZ/NORMN
+         ENDIF
+         CALL WRITE_S_C(NINT(NX),1)
+         CALL WRITE_S_C(NINT(NY),1)
+         CALL WRITE_S_C(NINT(NZ),1)
+ 200   CONTINUE
+ 100   CONTINUE
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

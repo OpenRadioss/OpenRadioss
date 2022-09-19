@@ -81,7 +81,7 @@ C     REAL
      . TITLE(20),TIT40(10)
        CHARACTER FILNAM*100, CH8*8 , EOR*8, CARD*80, CH40*40, CH80*80
        INTEGER :: LEN_TMP_NAME
-       CHARACTER(len=2148) :: TMP_NAME 
+       CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C-----------------------------------------------
       DATA EOR/'ZZZZZEOR'/
 C-----------------------------------------------
 CFP Modif format @T + ajout acceleration et pression
-c si on de demande pas explicitement une reinitialisation 
+c si on de demande pas explicitement une reinitialisation
 c et qu'il existe un sauvegarde anterieure alors on continue
       IF(RNOI==0 .AND. NNOISER/=0)RNOI=1
 c reinitialisation demandee
@@ -163,7 +163,7 @@ C
        NOISEV=INOISE(2*NNOISE+8)
        NOISEP=INOISE(2*NNOISE+9)
        NOISEA=INOISE(2*NNOISE+10)
-      ENDIF      
+      ENDIF
       IF(NOISEV+NOISEP+NOISEA==0)NOISEV=1
       IF(ISPMD==0) THEN
         WRITE(IOUT,999)
@@ -184,7 +184,7 @@ C
       NOILEN=MIN(ROOTLEN,7)
       FILNAM=ROOTNAM(1:NOILEN)//'_'//CHRUN//'_@.thy'
       LEN_TMP_NAME = OUTFILE_NAME_LEN + NOILEN + 11
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))  
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
       IF(ITFORM==0)THEN
        OPEN(UNIT=IUNIT,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
@@ -263,11 +263,11 @@ C-------ivers date------------
        CALL EOR_C(80)
       ENDIF
 C-------HIERARCHIE INFO------------
-      IWA(1)=1      
-      IWA(2)=1      
-      IWA(3)=1      
-      IWA(4)=1      
-      IWA(5)=1      
+      IWA(1)=1
+      IWA(2)=1
+      IWA(3)=1
+      IWA(4)=1
+      IWA(5)=1
       IWA(6)=1
       CALL WRTDES(IWA,IWA,6,ITFORM,0)
 C 1 VARIABLE GLOBALE
@@ -404,7 +404,7 @@ C
       WRITE(CH40,'(40X)')
       DO I=1,NNOISE
         WRITE(CH40,'(I10)')INOISE(I+NNOISE)
-        READ(CH40,'(10A4)')TIT40 
+        READ(CH40,'(10A4)')TIT40
         DO J=1,40
           ITIT40(J)=ICHAR(CH40(J:J))
         ENDDO

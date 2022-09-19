@@ -47,14 +47,14 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (NLOCAL_STR_),TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_),TARGET :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ILOC,NNOD,L_NLOC,NUMELS_NL,NUMELC_NL,NDDMAX,
      .        NUMELTG_NL,LCNE_NL
       my_real, DIMENSION(:), POINTER :: FNL
-      INTEGER, DIMENSION(8)  :: 
+      INTEGER, DIMENSION(8)  ::
      .  HEAD
 C=======================================================================
       ILOC       = NLOC_DMG%IMOD
@@ -66,7 +66,7 @@ C=======================================================================
       NDDMAX     = NLOC_DMG%NDDMAX
       LCNE_NL    = NLOC_DMG%LCNE_NL
       HEAD(1)    = ILOC
-      HEAD(2)    = NNOD 
+      HEAD(2)    = NNOD
       HEAD(3)    = L_NLOC
       HEAD(4)    = NUMELS_NL
       HEAD(5)    = NUMELC_NL

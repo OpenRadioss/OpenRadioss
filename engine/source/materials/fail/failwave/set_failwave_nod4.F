@@ -57,13 +57,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NROT
       INTEGER ,DIMENSION(NIXC,NEL) ,INTENT(IN)  :: IXC
-      INTEGER ,DIMENSION(NUMNOD)   ,INTENT(IN)  :: ITAB 
+      INTEGER ,DIMENSION(NUMNOD)   ,INTENT(IN)  :: ITAB
       INTEGER ,DIMENSION(NEL)      ,INTENT(IN)  :: NGL,FWAVE_EL
 C
       my_real ,DIMENSION(NEL,NROT) ,INTENT(IN)  :: DIR_A
       my_real ,DIMENSION(NEL,2)    ,INTENT(IN)  :: CRKDIR
       my_real ,DIMENSION(NEL)      ,INTENT(IN)  :: XL2,XL3,XL4,YL2,YL3,YL4
-      TYPE (FAILWAVE_STR_)  :: FAILWAVE 
+      TYPE (FAILWAVE_STR_)  :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 c
       my_real :: DIR11,DIR22,COSX,SINX,COSY,SINY,LMAX,XM,YM,
      .   X1,Y1,X2,Y2,X3,Y3,X4,Y4,X5,Y5,X6,Y6,X7,Y7,X8,Y8,DX1,DY1,DX2,DY2,
-     .   XINT,YINT,RAT1,RAT2,RX,RY   
+     .   XINT,YINT,RAT1,RAT2,RX,RY
       my_real ,DIMENSION(2,NEL) :: P1,P2,P3,P4,P5,P6,P7,P8
       INTEGER  SEG_INTERSECT
       EXTERNAL SEG_INTERSECT
@@ -127,7 +127,7 @@ c
           IF (NEWCRK1 + NEWCRK2 > 0) THEN
 c
 c------------------------------------------------
-c           Propagation in first direction    
+c           Propagation in first direction
 c------------------------------------------------
             DO II=1,NEWCRK1
               I = INDX1(II)
@@ -135,13 +135,13 @@ c------------------------------------------------
               N2 = IXC(3,I)
               N3 = IXC(4,I)
               N4 = IXC(5,I)
-              NOD_NN(1) = FAILWAVE%IDXI(N1)  
-              NOD_NN(2) = FAILWAVE%IDXI(N2)  
-              NOD_NN(3) = FAILWAVE%IDXI(N3)  
-              NOD_NN(4) = FAILWAVE%IDXI(N4)  
-              NOD_ID(1) = ITAB(N1)   
-              NOD_ID(2) = ITAB(N2)   
-              NOD_ID(3) = ITAB(N3)   
+              NOD_NN(1) = FAILWAVE%IDXI(N1)
+              NOD_NN(2) = FAILWAVE%IDXI(N2)
+              NOD_NN(3) = FAILWAVE%IDXI(N3)
+              NOD_NN(4) = FAILWAVE%IDXI(N4)
+              NOD_ID(1) = ITAB(N1)
+              NOD_ID(2) = ITAB(N2)
+              NOD_ID(3) = ITAB(N3)
               NOD_ID(4) = ITAB(N4)
               IDF1(:) = 0
               IDF2(:) = 0
@@ -152,8 +152,8 @@ c
               ELSE
                 COSX  = DIR_A(I,1)
                 SINX  = DIR_A(I,2)
-                COSY  =-CRKDIR(I,2)                  
-                SINY  = CRKDIR(I,1)                   
+                COSY  =-CRKDIR(I,2)
+                SINY  = CRKDIR(I,1)
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF
@@ -164,7 +164,7 @@ c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
               DX2 = XM + DIR11 * LMAX
-              DY2 = YM + DIR22 * LMAX        
+              DY2 = YM + DIR22 * LMAX
 c
               X1 = ZERO
               Y1 = ZERO
@@ -191,8 +191,8 @@ c               edges N2-N3 and N4-N1
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF                                              
-              ENDIF 
+                ENDIF
+              ENDIF
               IF (INTERSECTION == 0) THEN
 c               edge N3-N4
                 INTERSECTION = SEG_INTERSECT(X3,Y3,X4,Y4,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -201,8 +201,8 @@ c               edge N3-N4
                   IDF1(2) = NOD_ID(1)
                   IDF1(3) = NOD_ID(4)
                   IDF1(4) = NOD_ID(3)
-                END IF 
-              END IF 
+                END IF
+              END IF
               IF (INTERSECTION == 0) THEN
 c               edge N4-N1
                 INTERSECTION = SEG_INTERSECT(X4,Y4,X1,Y1,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -211,16 +211,16 @@ c               edge N4-N1
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF                                              
-              ENDIF 
+                ENDIF
+              ENDIF
 c
               IF (INTERSECTION == 1) THEN
                 DO K=1,4
-                  NCURR  = NOD_NN(K)    
+                  NCURR  = NOD_NN(K)
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 c--------------------------------------------------------------------
-!$OMP ATOMIC CAPTURE 
-                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1 
+!$OMP ATOMIC CAPTURE
+                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 !$OMP END ATOMIC
 c--------------------------------------------------------------------
@@ -235,17 +235,17 @@ c--------------------------------------------------------------------
                   FAILWAVE%FWAVE_NOD_STACK(1,NCURR,MAXLEV) = IDF1(K)
 c
                 END DO
-              
-              ELSE   ! NO intersection found           
+
+              ELSE   ! NO intersection found
 c
 #include "lockon.inc"
-                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 1st DIR ',NGL(I)     
+                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 1st DIR ',NGL(I)
 #include "lockoff.inc"
               ENDIF
 c
-            ENDDO ! NEWCRK1 
+            ENDDO ! NEWCRK1
 c--------------------------------------
-c           Propagation in second direction    
+c           Propagation in second direction
 c--------------------------------------
             DO II=1,NEWCRK2
               I = INDX2(II)
@@ -253,13 +253,13 @@ c--------------------------------------
               N2 = IXC(3,I)
               N3 = IXC(4,I)
               N4 = IXC(5,I)
-              NOD_NN(1) = FAILWAVE%IDXI(N1)  
-              NOD_NN(2) = FAILWAVE%IDXI(N2)  
-              NOD_NN(3) = FAILWAVE%IDXI(N3)  
-              NOD_NN(4) = FAILWAVE%IDXI(N4)  
-              NOD_ID(1) = ITAB(N1)   
-              NOD_ID(2) = ITAB(N2)   
-              NOD_ID(3) = ITAB(N3)   
+              NOD_NN(1) = FAILWAVE%IDXI(N1)
+              NOD_NN(2) = FAILWAVE%IDXI(N2)
+              NOD_NN(3) = FAILWAVE%IDXI(N3)
+              NOD_NN(4) = FAILWAVE%IDXI(N4)
+              NOD_ID(1) = ITAB(N1)
+              NOD_ID(2) = ITAB(N2)
+              NOD_ID(3) = ITAB(N3)
               NOD_ID(4) = ITAB(N4)
               IDF1(:) = 0
               IDF2(:) = 0
@@ -270,8 +270,8 @@ c
               ELSE
                 COSX  = DIR_A(I,1)
                 SINX  = DIR_A(I,2)
-                COSY  = CRKDIR(I,1)                  
-                SINY  = CRKDIR(I,2)                    
+                COSY  = CRKDIR(I,1)
+                SINY  = CRKDIR(I,2)
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
               ENDIF
@@ -283,7 +283,7 @@ c
               DX1  = XM - DIR11 * LMAX
               DY1  = YM - DIR22 * LMAX
               DX2  = XM + DIR11 * LMAX
-              DY2  = YM + DIR22 * LMAX        
+              DY2  = YM + DIR22 * LMAX
 c
               X1 = ZERO
               Y1 = ZERO
@@ -302,7 +302,7 @@ c             edge N1-N2
                 IDF1(3) = NOD_ID(4)
                 IDF1(4) = NOD_ID(3)
               END IF
-              IF (INTERSECTION == 0) THEN 
+              IF (INTERSECTION == 0) THEN
 c               edge N2-N3
                 INTERSECTION = SEG_INTERSECT(X2,Y2,X3,Y3,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
                 IF (INTERSECTION == 1) THEN
@@ -310,10 +310,10 @@ c               edge N2-N3
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF                                              
-              ENDIF 
+                ENDIF
+              ENDIF
 c             edge N3-N4
-              IF (INTERSECTION == 0) THEN 
+              IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X3,Y3,X4,Y4,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
                 IF (INTERSECTION == 1) THEN
                   IDF1(1) = NOD_ID(2)
@@ -322,7 +322,7 @@ c             edge N3-N4
                   IDF1(4) = NOD_ID(3)
                 END IF
               END IF
-              IF (INTERSECTION == 0) THEN 
+              IF (INTERSECTION == 0) THEN
 c               edge N4-N1
                 INTERSECTION = SEG_INTERSECT(X4,Y4,X1,Y1,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
                 IF (INTERSECTION == 1) THEN
@@ -330,16 +330,16 @@ c               edge N4-N1
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF                                              
-              ENDIF 
+                ENDIF
+              ENDIF
 c
               IF (INTERSECTION == 1) THEN
                 DO K=1,4
-                  NCURR  = NOD_NN(K)    
+                  NCURR  = NOD_NN(K)
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 c--------------------------------------------------------------------
-!$OMP ATOMIC CAPTURE 
-                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1 
+!$OMP ATOMIC CAPTURE
+                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 !$OMP END ATOMIC
 c--------------------------------------------------------------------
@@ -355,14 +355,14 @@ c--------------------------------------------------------------------
 c
                 END DO
 
-              ELSE     ! No intersection found        
+              ELSE     ! No intersection found
 c
 #include "lockon.inc"
-                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 2nd DIR ',NGL(I)     
+                  WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 2nd DIR ',NGL(I)
 #include "lockoff.inc"
               ENDIF
 c
-            ENDDO   ! NEWCRK2 
+            ENDDO   ! NEWCRK2
           ENDIF     ! NEWCRK1 + NEWCRK2 > 0
 c
 c---------------
@@ -387,11 +387,11 @@ c
           ENDDO
 c
           IF (NEWCRK1 + NEWCRK2 > 0) THEN
-c   
+c
             RAT1 = HALF * TAN(PI/EIGHT)
             RAT2 = ONE - RAT1
 c------------------------------------------------
-c             Propagation in first direction    
+c             Propagation in first direction
 c------------------------------------------------
             DO II=1,NEWCRK1
               I = INDX1(II)
@@ -399,15 +399,15 @@ c------------------------------------------------
               N2 = IXC(3,I)
               N3 = IXC(4,I)
               N4 = IXC(5,I)
-c              
-              NOD_NN(1) = FAILWAVE%IDXI(N1)  
-              NOD_NN(2) = FAILWAVE%IDXI(N2)  
-              NOD_NN(3) = FAILWAVE%IDXI(N3)  
-              NOD_NN(4) = FAILWAVE%IDXI(N4)  
-c              
-              NOD_ID(1) = ITAB(N1)   
-              NOD_ID(2) = ITAB(N2)   
-              NOD_ID(3) = ITAB(N3)   
+c
+              NOD_NN(1) = FAILWAVE%IDXI(N1)
+              NOD_NN(2) = FAILWAVE%IDXI(N2)
+              NOD_NN(3) = FAILWAVE%IDXI(N3)
+              NOD_NN(4) = FAILWAVE%IDXI(N4)
+c
+              NOD_ID(1) = ITAB(N1)
+              NOD_ID(2) = ITAB(N2)
+              NOD_ID(3) = ITAB(N3)
               NOD_ID(4) = ITAB(N4)
               IDF1(:) = 0
               IDF2(:) = 0
@@ -418,11 +418,11 @@ c
               ELSE
                 COSX  = DIR_A(I,1)
                 SINX  = DIR_A(I,2)
-                COSY  =-CRKDIR(I,2)                  
-                SINY  = CRKDIR(I,1)                  
+                COSY  =-CRKDIR(I,2)
+                SINY  = CRKDIR(I,1)
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
-              ENDIF   
+              ENDIF
 c------------------------
               XM = (XL2(I) + XL3(I) + XL4(I)) * FOURTH
               YM = (YL2(I) + YL3(I) + YL4(I)) * FOURTH
@@ -431,7 +431,7 @@ c
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
               DX2 = XM + DIR11 * LMAX
-              DY2 = YM + DIR22 * LMAX        
+              DY2 = YM + DIR22 * LMAX
 c
               X1 = XL2(I)*RAT1
               Y1 = YL2(I)*RAT1
@@ -461,7 +461,7 @@ c             edge P1-P2
                 IDF1(2) = NOD_ID(1)
                 IDF1(3) = NOD_ID(4)
                 IDF1(4) = NOD_ID(3)
-              ENDIF   
+              ENDIF
 c             diagonal P2-P3
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X2,Y2,X3,Y3,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -470,8 +470,8 @@ c             diagonal P2-P3
                   IDF2(2) = NOD_ID(3)
                   IDF1(4) = NOD_ID(3)
                   IDF2(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             edge P3-P4
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X3,Y3,X4,Y4,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -480,8 +480,8 @@ c             edge P3-P4
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             diagonal P4-P5
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X4,Y4,X5,Y5,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -490,8 +490,8 @@ c             diagonal P4-P5
                   IDF2(1) = NOD_ID(2)
                   IDF1(3) = NOD_ID(2)
                   IDF2(3) = NOD_ID(4)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             edge P5-P6
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X5,Y5,X6,Y6,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -500,8 +500,8 @@ c             edge P5-P6
                   IDF1(2) = NOD_ID(1)
                   IDF1(3) = NOD_ID(4)
                   IDF1(4) = NOD_ID(3)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             diagonal P6-P7
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X6,Y6,X7,Y7,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -510,8 +510,8 @@ c             diagonal P6-P7
                   IDF2(2) = NOD_ID(3)
                   IDF1(4) = NOD_ID(3)
                   IDF2(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             edge P7-P8
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X7,Y7,X8,Y8,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -520,8 +520,8 @@ c             edge P7-P8
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             diagonal P8-P1
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X8,Y8,X1,Y1,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -530,15 +530,15 @@ c             diagonal P8-P1
                   IDF2(1) = NOD_ID(2)
                   IDF1(3) = NOD_ID(2)
                   IDF2(3) = NOD_ID(4)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c
               IF (INTERSECTION == 1) THEN
                 DO K=1,4
-                  NCURR  = NOD_NN(K)    
+                  NCURR  = NOD_NN(K)
 c--------------------------------------------------------------------
-!$OMP ATOMIC CAPTURE 
-                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1 
+!$OMP ATOMIC CAPTURE
+                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 !$OMP END ATOMIC
 c--------------------------------------------------------------------
@@ -555,16 +555,16 @@ c--------------------------------------------------------------------
 c
                 END DO
 
-              ELSE  ! NO intersection founs               
+              ELSE  ! NO intersection founs
 c
 #include "lockon.inc"
-                WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 1st DIR ',NGL(I)   
+                WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 1st DIR ',NGL(I)
 #include "lockoff.inc"
-              ENDIF   
+              ENDIF
 c
-            ENDDO     !  II=1,NEWCRK1       
+            ENDDO     !  II=1,NEWCRK1
 c--------------------------------------
-c           Propagation in second direction    
+c           Propagation in second direction
 c--------------------------------------
 c
             DO II=1,NEWCRK2
@@ -573,13 +573,13 @@ c
               N2 = IXC(3,I)
               N3 = IXC(4,I)
               N4 = IXC(5,I)
-              NOD_NN(1) = FAILWAVE%IDXI(N1)  
-              NOD_NN(2) = FAILWAVE%IDXI(N2)  
-              NOD_NN(3) = FAILWAVE%IDXI(N3)  
-              NOD_NN(4) = FAILWAVE%IDXI(N4)  
-              NOD_ID(1) = ITAB(N1)   
-              NOD_ID(2) = ITAB(N2)   
-              NOD_ID(3) = ITAB(N3)   
+              NOD_NN(1) = FAILWAVE%IDXI(N1)
+              NOD_NN(2) = FAILWAVE%IDXI(N2)
+              NOD_NN(3) = FAILWAVE%IDXI(N3)
+              NOD_NN(4) = FAILWAVE%IDXI(N4)
+              NOD_ID(1) = ITAB(N1)
+              NOD_ID(2) = ITAB(N2)
+              NOD_ID(3) = ITAB(N3)
               NOD_ID(4) = ITAB(N4)
               IDF1(:) = 0
               IDF2(:) = 0
@@ -590,11 +590,11 @@ c
               ELSE
                 COSX  = DIR_A(I,1)
                 SINX  = DIR_A(I,2)
-                COSY  = CRKDIR(I,1)               
-                SINY  = CRKDIR(I,2)                
+                COSY  = CRKDIR(I,1)
+                SINY  = CRKDIR(I,2)
                 DIR11 = COSX*COSY - SINX*SINY
                 DIR22 = COSX*SINY + SINX*COSY
-              ENDIF   
+              ENDIF
 c------------------------------------------------
               XM = (XL2(I) + XL3(I) + XL4(I)) * FOURTH
               YM = (YL2(I) + YL3(I) + YL4(I)) * FOURTH
@@ -603,7 +603,7 @@ c------------------------------------------------
               DX1 = XM - DIR11 * LMAX
               DY1 = YM - DIR22 * LMAX
               DX2 = XM + DIR11 * LMAX
-              DY2 = YM + DIR22 * LMAX        
+              DY2 = YM + DIR22 * LMAX
 c
               X1 = XL2(I)*RAT1
               Y1 = YL2(I)*RAT1
@@ -633,7 +633,7 @@ c             edge P1-P2
                 IDF1(2) = NOD_ID(1)
                 IDF1(3) = NOD_ID(4)
                 IDF1(4) = NOD_ID(3)
-              ENDIF   
+              ENDIF
 c             diagonal P2-P3
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X2,Y2,X3,Y3,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -642,8 +642,8 @@ c             diagonal P2-P3
                   IDF2(2) = NOD_ID(3)
                   IDF1(4) = NOD_ID(3)
                   IDF2(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             edge P3-P4
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X3,Y3,X4,Y4,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -652,8 +652,8 @@ c             edge P3-P4
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             diagonal P4-P5
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X4,Y4,X5,Y5,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -662,8 +662,8 @@ c             diagonal P4-P5
                   IDF2(1) = NOD_ID(2)
                   IDF1(3) = NOD_ID(2)
                   IDF2(3) = NOD_ID(4)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             edge P5-P6
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X5,Y5,X6,Y6,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -672,8 +672,8 @@ c             edge P5-P6
                   IDF1(2) = NOD_ID(1)
                   IDF1(3) = NOD_ID(4)
                   IDF1(4) = NOD_ID(3)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             diagonal P6-P7
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X6,Y6,X7,Y7,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -682,8 +682,8 @@ c             diagonal P6-P7
                   IDF2(2) = NOD_ID(3)
                   IDF1(4) = NOD_ID(3)
                   IDF2(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             edge P7-P8
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X7,Y7,X8,Y8,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -692,8 +692,8 @@ c             edge P7-P8
                   IDF1(2) = NOD_ID(3)
                   IDF1(3) = NOD_ID(2)
                   IDF1(4) = NOD_ID(1)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c             diagonal P8-P1
               IF (INTERSECTION == 0) THEN
                 INTERSECTION = SEG_INTERSECT(X8,Y8,X1,Y1,DX1,DY1,DX2,DY2,XINT,YINT,IDEBUG)
@@ -702,15 +702,15 @@ c             diagonal P8-P1
                   IDF2(1) = NOD_ID(2)
                   IDF1(3) = NOD_ID(2)
                   IDF2(3) = NOD_ID(4)
-                ENDIF   
-              ENDIF   
+                ENDIF
+              ENDIF
 c
               IF (INTERSECTION == 1) THEN
                 DO K=1,4
-                  NCURR  = NOD_NN(K)    
+                  NCURR  = NOD_NN(K)
 c--------------------------------------------------------------------
-!$OMP ATOMIC CAPTURE 
-                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1 
+!$OMP ATOMIC CAPTURE
+                  FAILWAVE%MAXLEV_STACK(NCURR) = FAILWAVE%MAXLEV_STACK(NCURR) + 1
                   MAXLEV = FAILWAVE%MAXLEV_STACK(NCURR)
 !$OMP END ATOMIC
 c--------------------------------------------------------------------
@@ -727,17 +727,17 @@ c--------------------------------------------------------------------
 c
                 END DO  ! K=1,4
 
-              ELSE    ! NO intersection found        
+              ELSE    ! NO intersection found
 c
 #include "lockon.inc"
-                WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 2nd DIR ',NGL(I)     
+                WRITE(IOUT,*) 'ERROR ADVANCING CRACK IN ELEMENT, 2nd DIR ',NGL(I)
 #include "lockoff.inc"
               ENDIF
 c
             ENDDO     ! NEWCRK2
 c-------
           ENDIF       ! NEWCRK1 + NEWCRK2 > 0
-c   
+c
 c---------------
       END SELECT
 c---------------

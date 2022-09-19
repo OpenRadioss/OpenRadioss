@@ -109,7 +109,7 @@ C initialisation dd_iad
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
 C
-        DO I = 1, NEL 
+        DO I = 1, NEL
           INDEX(I) = I
           INUM(1,I)=IPARTX(NFT+I)
           INUM(2,I)=KXX(1,NFT+I)
@@ -118,7 +118,7 @@ C
           INUM(5,I)=KXX(4,NFT+I)
           INUM(6,I)=KXX(5,NFT+I)
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
@@ -155,13 +155,13 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO           
+      ENDDO
 C
 C RENUMEROTATION POUR SURFACE voir pour 100==ITYP
 C

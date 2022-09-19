@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
-     .  IXS(NIXS,*),IXS10(6,*),IADLL(*),NSV(*)  ,NELEM(*) 
+     .  IXS(NIXS,*),IXS10(6,*),IADLL(*),NSV(*)  ,NELEM(*)
 C     REAL
       my_real
      .  X(3,*),V(3,*),XLL(*),
@@ -240,7 +240,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX   
+      INTEGER LLT,N_MUL_MX,ITIED,NINT ,NKMAX
       INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
      .        III(MVSIZ,7),IADLL(*)
 C     REAL
@@ -257,7 +257,7 @@ C-----------------------------------------------
       my_real
      .   R(MVSIZ),S(MVSIZ),T(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
-     .   NI(MVSIZ,7) 
+     .   NI(MVSIZ,7)
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------
@@ -367,7 +367,7 @@ C-----------------------------------------------
 C         test si vitesse entrante en s
 C-----------------------------------------------
           IF(S(I)*VN<=ZERO)THEN
-c          
+c
 c      print *, "vitesse entrante",vn
 c      print *, "s = ",S(I)
 c
@@ -540,11 +540,11 @@ C-----------------------------------------------
      .   VX,VY,VZ,VN
       my_real
      .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
+     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
      .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ),
      .   DXDR(MVSIZ),DYDR(MVSIZ),DZDR(MVSIZ),
      .   DXDT(MVSIZ),DYDT(MVSIZ),DZDT(MVSIZ),
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)     
+     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ)
 C-----------------------------------------------
 C
 C      r=s=t=0
@@ -652,7 +652,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LLT
       my_real
-     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),NI(MVSIZ,7)  
+     .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),NI(MVSIZ,7)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -739,8 +739,8 @@ C-----------------------------------------------
      .   RR(MVSIZ),SS(MVSIZ),TT(MVSIZ),
      .   XX(MVSIZ,7) ,YY(MVSIZ,7) ,ZZ(MVSIZ,7) ,
      .   DRDX(MVSIZ),DRDY(MVSIZ),DRDZ(MVSIZ),
-     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),     
-     .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ)     
+     .   DSDX(MVSIZ),DSDY(MVSIZ),DSDZ(MVSIZ),
+     .   DTDX(MVSIZ),DTDY(MVSIZ),DTDZ(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -763,7 +763,7 @@ C
      +     - NI(I, 4)*ZZ(I, 4) - NI(I, 5)*ZZ(I, 5) - NI(I, 6)*ZZ(I, 6)
 C
         DR = DRDX(I)*DX + DRDY(I)*DY + DRDZ(I)*DZ
-        DS = DSDX(I)*DX + DSDY(I)*DY + DSDZ(I)*DZ 
+        DS = DSDX(I)*DX + DSDY(I)*DY + DSDZ(I)*DZ
         DT = DTDX(I)*DX + DTDY(I)*DY + DTDZ(I)*DZ
 C
         RR(I) = RR(I) + DR
@@ -910,7 +910,7 @@ C
         NI(I,6) = U_M_R * UPS_UPT * A
 C
         A = -T05 - RR(I)
-        DNIDR(1) = -UMS_UMT * A 
+        DNIDR(1) = -UMS_UMT * A
         DNIDR(5) = -UPS_UMT * A
         DNIDR(2) = -UMS_UPT * A
         DNIDR(6) = -UPS_UPT * A

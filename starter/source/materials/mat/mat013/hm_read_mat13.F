@@ -35,13 +35,13 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT13(LSUBMODEL, MTAG, UNITAB, IPM, PM, 
+      SUBROUTINE HM_READ_MAT13(LSUBMODEL, MTAG, UNITAB, IPM, PM,
      .                         MAT_ID   , TITR,MATPARAM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
@@ -72,13 +72,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .     YOUNG, ANU, G, C0, C1, E0, E1MN2, EN1N2, SDSP, 
+     .     YOUNG, ANU, G, C0, C1, E0, E1MN2, EN1N2, SDSP,
      .     RHO0, RHOR
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      
+
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
 
@@ -91,7 +91,7 @@ C     Initial and reference density
          RHOR = RHO0
       ENDIF
       PM(1) = RHOR
-      PM(89) = RHO0 
+      PM(89) = RHO0
 C     Get input values
       CALL HM_GET_FLOATV('MAT_E', YOUNG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU', ANU, IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -104,7 +104,7 @@ C     Get input values
      .        C1=TITR)
       ENDIF
       IF(ANU==HALF)ANU=ZEP499
-      
+
       G=YOUNG/(TWO*(ONE+ANU))
       C1=YOUNG/(THREE*(ONE-TWO*ANU))
       E1MN2=YOUNG/(ONE-ANU**2)

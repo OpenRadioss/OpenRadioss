@@ -57,9 +57,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB
       INTEGER,INTENT(IN)             :: ID,FAIL_ID,UNIT_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -116,9 +116,9 @@ C--------------------------------------------------
       CALL HM_GET_INTV           ('fct_ID'    ,IRFUN ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV         ('Epsilon_f1',EPSP1 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('Epsilon_f2',EPSP2 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('S_Flag'    ,S_FLAG,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV           ('S_Flag'    ,S_FLAG,IS_AVAILABLE,LSUBMODEL)
 c
-      IF (S_FLAG == 2  .or. S_FLAG == 3 .or. S_FLAG == 12 .or. S_FLAG == 13 .or. 
+      IF (S_FLAG == 2  .or. S_FLAG == 3 .or. S_FLAG == 12 .or. S_FLAG == 13 .or.
      .    S_FLAG == 22 .or. S_FLAG == 23) THEN
         CALL HM_GET_INTV           ('fct_IDel' ,FUNC_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV         ('Fscale_el',SCALE_EL,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -127,12 +127,12 @@ c
         CALL HM_GET_INTV           ('fct_IDt' ,FUNC_ID2 ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOATV         ('FscaleT',SCALE_TEMP,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
-        !units 
+        !units
         CALL HM_GET_FLOATV_DIM('Fscale_el',FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         IF (SCALE_EL == ZERO) SCALE_EL = ONE*FSCAL_UNIT
 c
         CALL HM_GET_FLOATV_DIM('EI_ref',FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF (EL_REF == ZERO) EL_REF = ONE *FSCAL_UNIT           
+        IF (EL_REF == ZERO) EL_REF = ONE *FSCAL_UNIT
       ENDIF
 c--------------------------------------------------
       IF (S_FLAG == 0) S_FLAG = 1
@@ -145,7 +145,7 @@ c--------------------------------------------------
       ELSE
         STRDEF = 1  ! input = strain defined by Ismstr flag in the property
       END IF
-c        
+c
       IF (SCALE_TEMP == ZERO) SCALE_TEMP = ONE
       IF (SCALE_EL   == ZERO) SCALE_EL = ONE
       IF (EL_REF     == ZERO) EL_REF = ONE
@@ -155,18 +155,18 @@ C
       IF (RF1 > RF2) THEN
         CALL ANCMSG(MSGID=617, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
      .              I1=ID)
-      ENDIF     
+      ENDIF
 c-----------------------
       NFUNC     = 3
       NUPARAM   = 10
       NUVAR     = 1
 c-----------------------
-      UPARAM(1) = RF1 
+      UPARAM(1) = RF1
       UPARAM(2) = RF2
       UPARAM(3) = EPSP1
       UPARAM(4) = EPSP2
       UPARAM(5) = SCALE_EL
-      UPARAM(6) = EL_REF    
+      UPARAM(6) = EL_REF
       UPARAM(7) = SCALE_TEMP
       UPARAM(8) = S_FLAG
       UPARAM(9) = UNIT_T
@@ -208,7 +208,7 @@ C--------------------------------------------------
      & 5X,'                 =2 (ENGINEERING STRAIN) . . . . . . . . ',/
      & 5X,'                 =3 (TRUE STRAIN). . . . . . . . . . . . ')
  2000 FORMAT(
-     & 5X,'MAXIMUM FIRST PRINCIPAL STRAIN FOR ELEMENT DELETION . . =',E12.4/ 
+     & 5X,'MAXIMUM FIRST PRINCIPAL STRAIN FOR ELEMENT DELETION . . =',E12.4/
      & 5X,'MAXIMUM SECOND PRINCIPAL STRAIN FOR ELEMENT DELETION. . =',E12.4/)
  2900 FORMAT(
      & 5X,'EQUIVALENT STRAIN METHOD USED '/)
@@ -216,10 +216,10 @@ C--------------------------------------------------
      & 5X,'FIRST PRINCIPAL STRAIN METHOD USED '/)
  3000 FORMAT(
      & 5X,'ELEMENT LENGTH REGULARIZATION USED:     ',/
-     & 5X,'REGULARIZATION FUNCTION . . . . . . . . . . . . . . . . =',I10/ 
+     & 5X,'REGULARIZATION FUNCTION . . . . . . . . . . . . . . . . =',I10/
      & 5X,'EL SCALING FACTOR . . . . . . . . . . . . . . . . . . . =',E12.4/
      & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . . . . . . . . . . =',E12.4/
-     & 5X,'TEMPERATURE FUNCTION. . . . . . . . . . . . . . . . . . =',I10/ 
+     & 5X,'TEMPERATURE FUNCTION. . . . . . . . . . . . . . . . . . =',I10/
      & 5X,'TEMP SCALING FACTOR . . . . . . . . . . . . . . . . . . =',E12.4/)
  4000 FORMAT(
      & 5X,'FAIL_ID . . . . . . . . . . . . . . . . . . . . . . . . =',I10/)

@@ -38,13 +38,13 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 C
       INTEGER NODFT,NODLT
-      my_real 
+      my_real
      .  STIFN(*),VISCN(*),MS(*)
 C----------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------
       INTEGER I,N
-      my_real 
+      my_real
      .  C2,C21,AUX
 C----------------------------------------
        DO I=NODFT,NODLT

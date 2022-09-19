@@ -31,7 +31,7 @@ Chd|====================================================================
      2                  PX2,PY1,PY2 ,SIGY,IXC,DT1C,
      3                  SSP,RHO,STI ,Z2 ,EANI,STIR,
      4                  SHF,THK0,THK02,VISCMX,G  ,A11 ,
-     5   H1  ,H2  ,H3 ,YM   ,NU  , ALPE, 
+     5   H1  ,H2  ,H3 ,YM   ,NU  , ALPE,
      6   VHX ,VHY ,VX1 ,VX2 ,VX3 ,VX4 ,VY1 ,
      7   VY2 ,VY3 ,VY4,VZ1  ,VZ2  ,VZ3 ,VZ4 ,AREA,
      8   H11 ,H12 ,H13 ,H21 ,H22 ,H23  ,H31  ,H32  ,H33  ,
@@ -98,11 +98,11 @@ C     REAL
       my_real
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ),
      .   H3L(MVSIZ), H3Q(MVSIZ),
-     .   HG1(MVSIZ), HG2(MVSIZ) ,HP1(MVSIZ), HP2(MVSIZ) , 
-     .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),  
+     .   HG1(MVSIZ), HG2(MVSIZ) ,HP1(MVSIZ), HP2(MVSIZ) ,
+     .   G(MVSIZ) ,  B1(MVSIZ),  B2(MVSIZ),
      .   A11(MVSIZ) ,EHOU(MVSIZ),
-     .   PX1V, PX2V, PY1V, PY2V, SSPHVL,ZZ2,VV, 
-     .   SHFPR3, FAC, BB, HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
+     .   PX1V, PX2V, PY1V, PY2V, SSPHVL,ZZ2,VV,
+     .   SHFPR3, FAC, BB, HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ),
      .   EHOURT, PX1VP,PX2VP,PY1VP,PY2VP, FMAX(MVSIZ),
      .   HOUR1P,HOUR2P,HOUR3P,FMAX1,FMAXP1,FMAX2,FMAXP2,FMAXP,
      .   SCALE(MVSIZ)
@@ -119,7 +119,7 @@ C
          GAMA1(I)= OFF(I)*( ONE - PX1V-PY1V)
          GAMA3(I)= OFF(I)*( ONE + PX1V+PY1V)
          GAMA2(I)= OFF(I)*(-ONE - PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)	 
+         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)	
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -154,7 +154,7 @@ C-----------------------------------
          H3Q(I)=ZERO
          H3L(I)=ZERO
          H1(I)=ZERO
-         H2(I)=ZERO	 
+         H2(I)=ZERO	
        ENDIF
       ENDDO
 C-----------------------------------
@@ -169,39 +169,39 @@ C-----------------------------------
      .              GAMA3(I)*GAMA3(I),GAMA4(I)*GAMA4(I)) *
      .    DT1C(I)*MAX(H1(I),H2(I),H3L(I)) /
      .              MAX(DT1C(I)*DT1C(I),EM20)
-          STI(I)=STI(I) + SCALE(I) 
+          STI(I)=STI(I) + SCALE(I)
         ENDDO
 C     
         !!IF(IDTMINS==2)IGMAT = 1
         IF(IGTYP == 52 .OR.
-     .    ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51) 
+     .    ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                       .AND. IGMAT > 0)) THEN
           IF(NADMESH==0)THEN
              DO I=JFT,JLT
               IF (OFF(I)==ZERO) THEN
                STI(I) = ZERO
-               STIR(I) = ZERO          
+               STIR(I) = ZERO
              ELSE
                VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
-               STI(I) =  STI(I) + FAC * THK0(I) * A11(I) 
+               STI(I) =  STI(I) + FAC * THK0(I) * A11(I)
                STIR(I) = FAC *  A11R(I)*THK0(I)*THK02(I)*ONE_OVER_12 +
      .                   FAC *  A11(I) *THK0(I)*AREA(I) *ONE_OVER_9 +
      .                   SCALE(I)*(THK02(I)* ONE_OVER_12 +  AREA(I)*ONE_OVER_9)
-             ENDIF 
+             ENDIF
              ENDDO
          ELSE
             DO I=JFT,JLT
              IF (OFF(I)==ZERO) THEN
               STI(I) = ZERO
-              STIR(I) = ZERO          
+              STIR(I) = ZERO
             ELSE
               VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
-               STI(I) =  STI(I) + FAC * THK0(I) * A11(I) 
+               STI(I) =  STI(I) + FAC * THK0(I) * A11(I)
                STIR(I) = FAC *  A11R(I)*THK0(I)*THK02(I)* ONE_OVER_12 +
      .                           SCALE(I)*THK02(I)* ONE_OVER_12
-            ENDIF 
+            ENDIF
             ENDDO
          END IF
         ELSE ! IGTYP
@@ -209,30 +209,30 @@ C
              DO I=JFT,JLT
               IF (OFF(I)==ZERO) THEN
                STI(I) = ZERO
-               STIR(I) = ZERO          
+               STIR(I) = ZERO
              ELSE
                VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
-               STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
+               STI(I) =  STI(I) + MAX(B1(I),B2(I))
      .                      * THK0(I) * A11(I) / (AREA(I) * VV)
                STIR(I) = STI(I) * (THK02(I)* ONE_OVER_12 + AREA(I) * ONE_OVER_9)
-c     ..                + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I)) 
-             ENDIF 
+c     ..                + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
+             ENDIF
              ENDDO
          ELSE
             DO I=JFT,JLT
              IF (OFF(I)==ZERO) THEN
               STI(I) = ZERO
-              STIR(I) = ZERO          
+              STIR(I) = ZERO
             ELSE
               VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
-              STI(I) =  STI(I) + MAX(B1(I),B2(I)) 
+              STI(I) =  STI(I) + MAX(B1(I),B2(I))
      .                     * THK0(I) * A11(I) / (AREA(I) * VV)
               STIR(I) = STI(I) * THK02(I)* ONE_OVER_12
-            ENDIF 
+            ENDIF
             ENDDO
         END IF
        ENDIF! igtyp
-      ENDIF ! 
+      ENDIF !
 C-----------------------------------
 C     FORCES ANTISABLIER DE MEMBRANE
 C-----------------------------------

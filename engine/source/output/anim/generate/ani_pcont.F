@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),IXQ(7,*),SEGQUADFR(2,*),
      .   IXS10(6,*)
@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        I,N,IFAC,ILINE,
      .        IERROR, LENR
        my_real
-     .     AREA, 
+     .     AREA,
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
      .     FS2, FS3, FT2, FT3, E, F, G, RAYON,AY1,AY2,AY3,AY4
@@ -197,30 +197,30 @@ C
         ELSEIF( N  <= NUMELS8+NUMELS10 ) THEN
 
 C SubFac1 
-           DO J=1,4         
+           DO J=1,4
               NN1=FACES10(1,4*(IFAC-1)+J)
               NN2=FACES10(2,4*(IFAC-1)+J)
               NN3=FACES10(3,4*(IFAC-1)+J)
-       
-              IF(NN1 > 0 ) THEN 
+
+              IF(NN1 > 0 ) THEN
                  IF(NN1 >0.AND.NN1 < 10) THEN
-                    N1=IXS(NN1+1,N) 
+                    N1=IXS(NN1+1,N)
                  ELSE
                     N1=IXS10(NN1-10,N-NUMELS8)
                  ENDIF
               ENDIF
 
-              IF(NN2 > 0 ) THEN 
+              IF(NN2 > 0 ) THEN
                 IF(NN2 < 10) THEN
-                   N2=IXS(NN2+1,N) 
+                   N2=IXS(NN2+1,N)
                  ELSE
                    N2=IXS10(NN2-10,N-NUMELS8)
                  ENDIF
-              ENDIF 
+              ENDIF
 
-              IF(NN3 > 0 ) THEN 
+              IF(NN3 > 0 ) THEN
                  IF(NN3 < 10) THEN
-                    N3=IXS(NN3+1,N) 
+                    N3=IXS(NN3+1,N)
                  ELSE
                     N3=IXS10(NN3-10,N-NUMELS8)
                  ENDIF
@@ -475,7 +475,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), FASOLFR(2,*),
      .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), NODGLOB(*)
       my_real
@@ -489,7 +489,7 @@ C-----------------------------------------------
      .        I,K,N,IFAC,
      .        IERROR, LENR
        my_real
-     .     AREA, 
+     .     AREA,
      .     X1,Y1,Z1,X2,Y2,Z2,X3,Y3,Z3,X4,Y4,Z4,
      .     X31,Y31,Z31,X42,Y42,Z42,X32,Y32,Z32,E3X,E3Y,E3Z,
      .     TMP

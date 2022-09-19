@@ -136,10 +136,10 @@ C
         DO K=1,8
           N = IXS(K+1,I)
           MS(N) = MS(N) + MSS(K,I)
-          MCP(N) = MCP(N) + MCPS(K,I) 
+          MCP(N) = MCP(N) + MCPS(K,I)
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 C
       IF(IALE==1.OR.IEULER==1 .OR. IALELAG==1) THEN
         DO J=1,NUMELS
@@ -229,7 +229,7 @@ C
             ENDDO
           ENDDO
         ENDIF
-       ENDIF 
+       ENDIF
 C
 
       IF(IRODDL /= 0)THEN
@@ -370,7 +370,7 @@ C
             N = IXC(K+1,I)
             MS(N) = MS(N) + MSC(I)
             IN(N) = IN(N) + INC(I)
-            MCP(N) = MCP(N) + MCPC(I) 
+            MCP(N) = MCP(N) + MCPC(I)
           ENDDO
         ENDDO
        ELSE
@@ -382,7 +382,7 @@ C
                  N = IXC(K+1,I)
                  MS(N) = MS(N) + MSC(I)
                  IN(N) = IN(N) + INC(I)
-                 MCP(N) = MCP(N) + MCPC(I) 
+                 MCP(N) = MCP(N) + MCPC(I)
                ENDDO
              END IF
            ENDDO
@@ -400,35 +400,35 @@ C
                  N = IXC(K+1,I)
                  MS(N) = MS(N) + MSC(I)
                  IN(N) = IN(N) + INC(I)
-                 MCP(N) = MCP(N) + MCPC(I) 
+                 MCP(N) = MCP(N) + MCPC(I)
                ENDDO
              ELSEIF(SH4TREE(3,I) > 0) THEN
                DO K=1,4
                  N = IXC(K+1,I)
-                 MCP(N) = MCP(N) + MCPC(I) 
+                 MCP(N) = MCP(N) + MCPC(I)
                ENDDO
              END IF
            ENDDO
          END IF
-       END IF       
-      ENDIF 
+       END IF
+      ENDIF
 C
       IF(IPLYXFEM > 0) THEN
         DO IP=1,NPLYMAX
           DO J=1,NUMELC
-            I = INDEX(J) 
+            I = INDEX(J)
             DO K=1,4
               N = IXC(K+1,I)
-              MS_LAYER(N,IP) = MS_LAYER(N,IP) + MS_LAYERC(I,IP)            
+              MS_LAYER(N,IP) = MS_LAYER(N,IP) + MS_LAYERC(I,IP)
               IF(ZI_LAYERC(I,IP) == ZERO) THEN
                  ZI_LAYER(N,IP) = ZPLY(IP)
               ELSE
                ZI_LAYER(N,IP) = ZI_LAYERC(I,IP)
-              ENDIF 
+              ENDIF
             ENDDO
-            
+
           ENDDO
-        ENDDO 
+        ENDDO
 C     sum mi*zi*zi   
         DO J=1,NUMELC
             I = INDEX(J)
@@ -436,7 +436,7 @@ C     sum mi*zi*zi
               N = IXC(K+1,I)
               MSZ2(N) = MSZ2(N) + MSZ2C(I)
             ENDDO
-          ENDDO  
+          ENDDO
       ENDIF
 C      
       IF(I7STIFS/=0)THEN
@@ -499,8 +499,8 @@ C
            MS(N)  = MS(N)  + MSP(I)
            IN(N)  = IN(N)  + INP(I)
            MCP(N) = MCP(N) + MCPP(I)
-          ENDDO   
-       ENDIF   
+          ENDDO
+       ENDIF
 C
       IF(I7STIFS/=0)THEN
        DO J=1,NUMELP
@@ -618,22 +618,22 @@ C
                  N = IXTG(K+1,I)
                  MS(N) = MS(N) + MSTG(I)*PTG(K,I)
                ENDDO
-             ELSEIF(SH3TREE(3,I) == 0)THEN   
+             ELSEIF(SH3TREE(3,I) == 0)THEN
                DO K=1,3
                  N = IXTG(K+1,I)
                  MS(N) = MS(N) + MSTG(I)*PTG(K,I)
                  MCP(N) = MCP(N) + MCPTG(I)*PTG(K,I)
-               ENDDO   
-             ELSEIF(SH3TREE(3,I) > 0)THEN   
+               ENDDO
+             ELSEIF(SH3TREE(3,I) > 0)THEN
                DO K=1,3
                  N = IXTG(K+1,I)
                  MCP(N) = MCP(N) + MCPTG(I)*PTG(K,I)
-               ENDDO        
+               ENDDO
              END IF
            ENDDO
          END IF
        END IF
-      ENDIF 
+      ENDIF
 C
       IF(I7STIFS/=0)THEN
        DO J=1,NUMELTG

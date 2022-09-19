@@ -121,12 +121,12 @@ C-----------------------------------------------
      .    SIGVXY(NEL),SIGVYZ(NEL),SIGVZX(NEL),
      .    SOUNDSP(NEL),VISCMAX(NEL),SIGY(NEL),
      .    PLA(NEL),DPLA1(MVSIZ)
-       INTEGER :: VARTMP(NEL,NVARTMP)  
+       INTEGER :: VARTMP(NEL,NVARTMP)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
-     .    UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real
+     .    UVAR(NEL,NUVAR), OFF(NEL)
 C-------------------------
 C    variables non utilisees (fonctions utilisateur)
 C-------------------------
@@ -192,7 +192,7 @@ C-----------------------------------------------
 C
         SOUNDSP(I) = SQRT((C1+ FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
-        DPLA1(I)   = ZERO        
+        DPLA1(I)   = ZERO
       ENDDO
 C
 C-----------------------------------------------
@@ -218,7 +218,7 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - E1*E1 - E2*E2 - E3*E3 - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - TWO*E4*E5*E6 
+     &      - TWO*E4*E5*E6
         CD = C*THIRD
         EPST  = SQRT(-CD)
         EPST2 = EPST * EPST
@@ -257,7 +257,7 @@ C-----------------------------------------------
         IPOS(1:NEL)     = VARTMP(1:NEL,1)
         IAD (1:NEL)     = NPF(KFUNC(1)) / 2 + 1
         ILEN(1:NEL)     = NPF(KFUNC(1)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
-        CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD) 
+        CALL VINTER(TF,IAD,IPOS,ILEN,NEL,PLA,DFDPLA,YLD)
         VARTMP(1:NEL,1) = IPOS(1:NEL)
       ENDIF
 
@@ -272,9 +272,9 @@ C-----------------------------------------------
             H(I)   = FAIL(I) * (YSCALE*DFDPLA(I)*RQ)
           ELSEIF ((MFUNC > 0) .AND. (CA > ZERO)) THEN
             YLD(I) = YSCALE  * YLD(I)
-     .                        + (CA + CB*PLA(I)**CN) * (RQ-ONE)     
+     .                        + (CA + CB*PLA(I)**CN) * (RQ-ONE)
             H(I)   = FAIL(I) * (YSCALE*DFDPLA(I) + CN*CB*(RQ-ONE)/(PLA(I)**(ONE-CN)))
-          ELSE 
+          ELSE
             YLD(I) = (CA + CB*PLA(I)**CN) * RQ
             H(I)   = FAIL(I)*CN*CB*RQ/(PLA(I)**(ONE-CN))
           ENDIF
@@ -296,7 +296,7 @@ C-----------------------------------------------
         SIGY(I)  = YLD(I)
         IF (PLA(I) >= EPMAX) YLD(I) = ZERO
        ENDDO
-      ELSE 
+      ELSE
        DO I=1,NEL
         RQ = ONE
         IF (CC /= ZERO) RQ = ONE + (CC*EPSP(I))**CP
@@ -309,7 +309,7 @@ C-----------------------------------------------
             YLD(I) = YSCALE * YLD(I)
      .                        + (CA + CB*PLA(I)**CN) * (RQ-ONE)
             H(I)   = FAIL(I)* (YSCALE*DFDPLA(I) + CN*CB*(RQ-ONE)/(PLA(I)**(ONE-CN)))
-          ELSE 
+          ELSE
             YLD(I) = (CA + CB*PLA(I)**CN) * RQ
             H(I)   = FAIL(I)*CN*CB*RQ/(PLA(I)**(ONE-CN))
           ENDIF
@@ -331,7 +331,7 @@ C-----------------------------------------------
         SIGY(I) = YLD(I)
         IF (PLA(I) >= EPMAX) YLD(I)=ZERO
        ENDDO
-      ENDIF       
+      ENDIF
 C
 C-----------------------------------------------
 C     VON MISES & RADIAL RETURN
@@ -339,7 +339,7 @@ C-----------------------------------------------
       IF (IPLA == 0) THEN
        DO I = 1,NEL
         VM = HALF*(SIGNXX(I)**2+SIGNYY(I)**2+SIGNZZ(I)**2)
-     1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2     
+     1          +SIGNXY(I)**2+SIGNYZ(I)**2+SIGNZX(I)**2
         VM = SQRT(THREE*VM)
         R  = MIN(ONE,YLD(I)/ MAX(VM,EM20))
 c        P = C1(I) * (RHO(I)/RHO0(I)-1.)
@@ -351,7 +351,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I)-1.)
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
         PLA(I)    = PLA(I) + (ONE -R)*VM/MAX(G3+H(I),EM20)
-        DPLA1(I)  = (ONE -R)*VM/MAX(G3+H(I),EM20)       
+        DPLA1(I)  = (ONE -R)*VM/MAX(G3+H(I),EM20)
        ENDDO
       ELSEIF (IPLA == 2) THEN
        DO I = 1,NEL
@@ -368,7 +368,7 @@ c        P = C1(I) * (RHO(I)/RHO0(I)-ONE)
         SIGNYZ(I) = SIGNYZ(I)*R
         SIGNZX(I) = SIGNZX(I)*R
         PLA(I)    = PLA(I) + (ONE -R)*VM/MAX(G3,EM20)
-        DPLA1(I)  = (ONE -R)*VM/MAX(G3,EM20)        
+        DPLA1(I)  = (ONE -R)*VM/MAX(G3,EM20)
        ENDDO
       ELSEIF (IPLA == 1) THEN
        DO I = 1,NEL
@@ -398,7 +398,7 @@ C-----------
       DO I=1,NEL
 C
 C      PLASTIC STRAIN RATE
-       IF (VFLAG == 1) THEN 
+       IF (VFLAG == 1) THEN
          DPDT    = DPLA1(I) / MAX(EM20,TIMESTEP)
          EPSP(I) = ASRATE * DPDT + (ONE - ASRATE) * EPSP(I)
        ENDIF

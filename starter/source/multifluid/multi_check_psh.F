@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
-      INTEGER, INTENT(IN) :: NUMMAT, NPROPM, NPROPMI, 
+      INTEGER, INTENT(IN) :: NUMMAT, NPROPM, NPROPMI,
      .     IPM(NPROPMI, *)
       my_real, INTENT(IN) :: PM(NPROPM, *)
 C-----------------------------------------------

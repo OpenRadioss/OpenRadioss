@@ -48,14 +48,14 @@ C-----------------------------------------------
           INTEGER   :: IPHASE ! Phase of the multi-material ALE to fill the Part
           my_real   :: FILL_RATIO ! Filling ratio
           INTEGER   :: ICUMU ! Flag for cumulate volume filling
-          INTEGER   :: IFILL ! Filling option parameter for filling action (inside or outside the container) 
-                       ! 0 ! filling the side along normal direction 
+          INTEGER   :: IFILL ! Filling option parameter for filling action (inside or outside the container)
+                       ! 0 ! filling the side along normal direction
                        ! 1 ! filling the side against normal direction
         END TYPE CONTY_
 C-----------------------------------------------
         TYPE INIVOL_
           INTEGER   :: ID ! - INIVOL IDENTIFIER
-          INTEGER   :: SIPHASE          
+          INTEGER   :: SIPHASE
           CHARACTER :: TITLE*nchartitle ! INIVOL title
           INTEGER   :: NBCONTY ! NUMBER of INIVOL containers
           INTEGER, DIMENSION(:),ALLOCATABLE :: SURFCONTY ! Surface defining containers of the INIVOL
@@ -63,7 +63,7 @@ C-----------------------------------------------
           !INTEGER   :: ISURF ! INIVOL CONTAINER SURFACE IDENTIFIER
           TYPE (CONTY_) ,DIMENSION(:) ,ALLOCATABLE :: CONTY ! CONTAINER to be
         END TYPE INIVOL_
-        
+
 C-----------------------------------------------
       END MODULE INIVOL_DEF_MOD
 C-----------------------------------------------
@@ -125,11 +125,11 @@ C------------------------------------------------
          USE MULTI_FVM_MOD
          USE GROUPDEF_MOD
          USE INIVOL_DEF_MOD
-         USE SUBMODEL_MOD 
-         USE SETDEF_MOD   
-#include "tabsiz_c.inc"           
-#include "com04_c.inc"  
-#include "submod_c.inc"  
+         USE SUBMODEL_MOD
+         USE SETDEF_MOD
+#include "tabsiz_c.inc"
+#include "com04_c.inc"
+#include "submod_c.inc"
          TYPE (INIVOL_)  , INTENT(INOUT), DIMENSION(:), ALLOCATABLE  :: INIVOL_STRUCT
               my_real, DIMENSION(:), ALLOCATABLE, INTENT(INOUT) :: KVOL
               INTEGER, DIMENSION(SIPART) :: IPART
@@ -139,7 +139,7 @@ C------------------------------------------------
               my_real,INTENT(IN),TARGET :: BUFMAT(*)
               TYPE (SURF_)   , DIMENSION(NSURF+NSETS)   :: IGRSURF
               TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
-             TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+             TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB
              INTEGER,INTENT(INOUT) :: NSUBMAT
            END SUBROUTINE HM_READ_INIVOL
          END INTERFACE

@@ -27,9 +27,9 @@ Chd|        CFORC3                        source/elements/shell/coque/cforc3.F
 Chd|        CFORC3_CRK                    source/elements/xfem/cforc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CSTRA3(JFT    ,JLT  ,GSTR   ,SHF     ,AREA  , 
-     2                  EXX    ,EYY  ,EXY    ,EXZ     ,EYZ   ,  
-     3                  KXX    ,KYY  ,KXY    ,DT1C    ,EPSDOT, 
+      SUBROUTINE CSTRA3(JFT    ,JLT  ,GSTR   ,SHF     ,AREA  ,
+     2                  EXX    ,EYY  ,EXY    ,EXZ     ,EYZ   ,
+     3                  KXX    ,KYY  ,KXY    ,DT1C    ,EPSDOT,
      4                  FOR    ,MOM  ,ISMSTR ,MTN   ,
      6                  IHBE   ,NFT  ,ISTRAIN,UX1     ,UX2   ,
      7                  UX3    ,UX4  ,UY1    ,UY2     ,UY3   ,
@@ -71,7 +71,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, MX, J, K
 C     REAL
       my_real
@@ -110,7 +110,7 @@ C
       ENDDO
 C
       IF(ISHFRAM==1.AND.IHBE>=2)THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
        DO I=JFT,JLT
          FTMP1(I) = FOR(I,1)
          FTMP2(I) = FOR(I,2)
@@ -175,7 +175,7 @@ C-------- WXY
          GSTRW(I)=GSTRW(I)+WXY(I)*FAC1(I)
         ENDDO
 C-----    
-        DO I=JFT,JLT 
+        DO I=JFT,JLT
           F_DEF(I,6) = GSTR(I,6)
           F_DEF(I,7) = GSTR(I,7)
           F_DEF(I,8) = (GSTR(I,8)+GSTRW(I))*HALF

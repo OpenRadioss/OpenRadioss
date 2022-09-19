@@ -80,9 +80,9 @@ C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*)
       INTEGER IPM(NPROPMI,*), ITAB(*)
       INTEGER NOM_OPT(LNOPT1,*), NB_NODE
-     
+
       my_real
-     .        XYZINI(3,NB_NODE), PM(NPROPM,*), 
+     .        XYZINI(3,NB_NODE), PM(NPROPM,*),
      .        XYZREF(3,NB_NODE)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -90,8 +90,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFV,
      .        N, ITYP, NNS, NTG, NBRIC, NBX, NBY, NNB, IMESH,
-     .        NBA, NTGA, NNA, 
-     .        PFLAG, NNI, NTGI, ILVOUT, NNFV, NNT, NSURFI, 
+     .        NBA, NTGA, NNA,
+     .        PFLAG, NNI, NTGI, ILVOUT, NNFV, NNT, NSURFI,
      .        NSEG, IREF, NTRFV,  NPOLH, ID,
      .        NTGT, INODE
       INTEGER I
@@ -165,8 +165,8 @@ C
             CALL FVVERIF(
      .           NTGA, T_MONVOL(N)%ELEMA, X, ID,
      .           DIRX, DIRY, DIRZ, DIR2X, DIR2Y,
-     .           DIR2Z, ORIGX, ORIGY, ORIGZ, 
-     .           LX, LY, LZ, T_MONVOL(N)%NODES, T_MONVOL(N)%IBUFA, T_MONVOL(N)%TAGELA, 
+     .           DIR2Z, ORIGX, ORIGY, ORIGZ,
+     .           LX, LY, LZ, T_MONVOL(N)%NODES, T_MONVOL(N)%IBUFA, T_MONVOL(N)%TAGELA,
      .           TITR)
 C    
             T_MONVOL(N)%RVOLU(44) = LX
@@ -174,8 +174,8 @@ C
             T_MONVOL(N)%RVOLU(53) = LZ
 C
             NBX = T_MONVOL(N)%IVOLU(54)
-            NBY = T_MONVOL(N)%IVOLU(55)          
-            NBRIC = NBX * NBY          
+            NBY = T_MONVOL(N)%IVOLU(55)
+            NBRIC = NBX * NBY
             NNB = (NBX + 1) * (NBY + 1) * 2
             ALLOCATE(FVDATA(IFV)%BRIC(8,NBRIC),
      .           FVDATA(IFV)%TBRIC(13,NBRIC),
@@ -245,8 +245,8 @@ C-----------------------------------------------------------------------
 C        REDEFINE INTERNAL TRIANGLE FOR NORMAL CONSISTENCY FOR INJECTORS
 C-----------------------------------------------------------------------
               CALL FVINJNORMAL(
-     .             T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), IXC, IXTG, 
-     .             T_MONVOL(N)%ITAGEL(NTG + 1), T_MONVOL(N)%ELTG(NTG + 1), NTGI, ILVOUT, 
+     .             T_MONVOL(N)%NODES, T_MONVOL(N)%ELEM(1, NTG + 1), IXC, IXTG,
+     .             T_MONVOL(N)%ITAGEL(NTG + 1), T_MONVOL(N)%ELTG(NTG + 1), NTGI, ILVOUT,
      .             MINUS_SIGN_REVERSE)
               DEALLOCATE(MINUS_SIGN_REVERSE)
               CALL FVELPRINT(
@@ -270,7 +270,7 @@ C---------------------------------
             ENDIF
 C
             NNFV = T_MONVOL(N)%IVOLU(46)
-            NTRFV = T_MONVOL(N)%IVOLU(47) 
+            NTRFV = T_MONVOL(N)%IVOLU(47)
             NPOLH = T_MONVOL(N)%IVOLU(49)
 C------------------------------------
 C    REFERENCE METRICS : VOLUME CHECK
@@ -281,7 +281,7 @@ C------------------------------------
      2              XYZINI,      T_MONVOL(N)%IVOLU,   T_MONVOL(N)%RVOLU,
      3              FVDATA(IFV)%IFVNOD, FVDATA(IFV)%RFVNOD, FVDATA(IFV)%IFVTRI,
      4              FVDATA(IFV)%IFVPOLY,FVDATA(IFV)%IFVTADR,FVDATA(IFV)%IFVPOLH,
-     5              FVDATA(IFV)%IFVPADR,FVDATA(IFV)%IDPOLH, FVDATA(IFV)%MPOLH, 
+     5              FVDATA(IFV)%IFVPADR,FVDATA(IFV)%IDPOLH, FVDATA(IFV)%MPOLH,
      6              FVDATA(IFV)%EPOLH,  FVDATA(IFV)%VPOLH_INI )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 
@@ -294,7 +294,7 @@ C----------------------------------------
      2           XYZINI,     T_MONVOL(N)%IVOLU,   T_MONVOL(N)%RVOLU,
      3           FVDATA(IFV)%IFVNOD, FVDATA(IFV)%RFVNOD, FVDATA(IFV)%IFVTRI,
      4           FVDATA(IFV)%IFVPOLY,FVDATA(IFV)%IFVTADR,FVDATA(IFV)%IFVPOLH,
-     5           FVDATA(IFV)%IFVPADR,FVDATA(IFV)%IBPOLH, FVDATA(IFV)%DLH    ) 
+     5           FVDATA(IFV)%IFVPADR,FVDATA(IFV)%IBPOLH, FVDATA(IFV)%DLH    )
 C----------------------------
 C     COMPUTE INITIAL SURFACE
 C----------------------------
@@ -351,13 +351,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*)
-      INTEGER ITAB(*)                        
+      INTEGER ITAB(*)
       INTEGER NOM_OPT(LNOPT1,*), NB_NODE
       TYPE(MONVOL_STRUCT_), DIMENSION(NVOLU), INTENT(INOUT) :: T_MONVOL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: IFV, N, ITYP, NNS, NTG, NBA, NTGA, NNA, 
+      INTEGER :: IFV, N, ITYP, NNS, NTG, NBA, NTGA, NNA,
      .     NNI, NTGI,  NNT,  IREF, ID, NTGT
       INTEGER I, J, IEL, NJET, NODE_ID
       INTEGER NJ1, NJ2, NJ3, P, NJ
@@ -393,21 +393,21 @@ C           PERMUTATION ELTG
                 ELSE IF (IEL > NUMELC) THEN
                   TMP(J) = NUMELC + PERMUTATION%TRIANGLE(IEL - NUMELC + NUMELTG)
                 ENDIF
-              ENDDO 
+              ENDDO
               T_MONVOL(N)%ELTG(1:NTG) = TMP(1:NTG)
               DEALLOCATE(TMP)
             ENDIF
-     
+
             IF (NTGI > 0) THEN
               ALLOCATE(TMP(NTGI))
               DO J = 1, NTGI
-                IEL = T_MONVOL(N)%ELTG(NTG + J) 
+                IEL = T_MONVOL(N)%ELTG(NTG + J)
                 IF (IEL <= NUMELC) THEN
                   TMP(J) = PERMUTATION%SHELL(IEL + NUMELC)
                 ELSE IF (IEL > NUMELC) THEN
                   TMP(J) = NUMELC + PERMUTATION%TRIANGLE(IEL - NUMELC + NUMELTG)
                 ENDIF
-              ENDDO 
+              ENDDO
               T_MONVOL(N)%ELTG(NTG + 1: NTG + NTGI) = TMP(1:NTGI)
               DEALLOCATE(TMP)
             ENDIF
@@ -415,9 +415,9 @@ C           PERMUTATION ELTG
 C      PERMUTATION TBA 
             IF (NTG > 0 .AND. (.NOT. TETRAMESHER_USED)) THEN
               DO J = 1, NBA
-                IEL = T_MONVOL(N)%TBRIC(1, J) 
+                IEL = T_MONVOL(N)%TBRIC(1, J)
                 T_MONVOL(N)%TBRIC(1, J) = PERMUTATION%SOLID(IEL + NUMELS)
-              ENDDO 
+              ENDDO
             ELSE IF(NTG > 0 .AND. TETRAMESHER_USED) THEN
 C     Not possible
             ENDIF

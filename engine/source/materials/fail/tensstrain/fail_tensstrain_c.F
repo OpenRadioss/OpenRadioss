@@ -143,13 +143,13 @@ C-----------------------------------------------
 c
       IF (TIME == ZERO) THEN
         DO I=1,NEL
-          UVAR(I,1) = ALDT(I) 
+          UVAR(I,1) = ALDT(I)
 
           SELECT CASE (S_FLAG)
           CASE (2)
             IF (IFUNC(2) /= 0)THEN
               LAMBDA = UVAR(I,1) / EL_REF
-              FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
+              FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF)
               UVAR(I,1) = FAC
             ELSE
               UVAR(I,1) = ONE
@@ -157,7 +157,7 @@ c
           CASE (3)
             IF (IFUNC(2) /= 0)THEN
               LAMBDA = UVAR(I,1) / EL_REF
-              FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF) 
+              FAC = SC_EL * FINTER(IFUNC(2),LAMBDA,NPF,TF,DF)
               UVAR(I,1) = FAC
             ELSE
               UVAR(I,1) = ONE
@@ -180,7 +180,7 @@ c
         ELSE IF (ISMSTR == 10 .or. ISMSTR == 12) THEN
           STRFLAG = 4              ! Cauchy-Green to true strain
         END IF
-      END IF           
+      END IF
 c------------------------------------
 c     Equivalent or principal strain
 c------------------------------------
@@ -188,7 +188,7 @@ c------------------------------------
 c
         CASE (1,2)      ! equivalent strain criterion
           IF (STRFLAG == 1 .or. STRFLAG == 4) THEN
-            DO I=1,NEL          
+            DO I=1,NEL
               EPST_A = HALF*(EPSXX(I)+EPSYY(I))
               EPST_B = SQRT( (HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
               EPST1(I)  = EPST_A + EPST_B
@@ -203,7 +203,7 @@ c
           END IF
 c
         CASE (3)      ! max tensile principal strain criterion
-          DO I=1,NEL          
+          DO I=1,NEL
             EPST_A = HALF*(EPSXX(I)+EPSYY(I))
             EPST_B = SQRT((HALF*(EPSXX(I)-EPSYY(I)))**2 + (HALF*EPSXY(I))**2)
             EPST1(I)  = EPST_A + EPST_B
@@ -257,16 +257,16 @@ c
 c
         CASE DEFAULT
            ! no transformation : failure strain measure is defined by Ismstr
-           EPSRATE(1:NEL) = EPSP(1:NEL)         
+           EPSRATE(1:NEL) = EPSP(1:NEL)
       END SELECT
 c----------------------------------------------
 c     Calculate failure criterion
 c-------------------
 c
-      NINDXD = 0  
-      NINDXF = 0  
-      NINDX1 = 0  
-      NINDX2 = 0  
+      NINDXD = 0
+      NINDXF = 0
+      NINDX1 = 0
+      NINDX2 = 0
 c
       SELECT CASE (S_FLAG)
         CASE (2)
@@ -281,29 +281,29 @@ C-------------------
                 RFAC = MAX(RFAC,EM20)
               ELSE
                 RFAC = ONE
-              ENDIF  
+              ENDIF
               IF (IFUNC(3) > 0) THEN   ! temperatuer
                 RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
                 RFAC2 = MAX(RFAC2,EM20)
               ELSE
                 RFAC2 = ONE
-              ENDIF  
+              ENDIF
               R1 = EPSF1*RFAC*RFAC2*UVAR(I,1)
-              R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)  
+              R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)
               IF (EPS_MAX(I) > R1) THEN
                 IF (DFMAX(I) == ZERO) THEN
-                  NINDXD = NINDXD + 1  
+                  NINDXD = NINDXD + 1
                   INDXD(NINDXD) = I
-                ENDIF   
+                ENDIF
                 DAMAGE(I) = MIN(ONE, (EPS_MAX(I)-R1)/(R2-R1))
               ENDIF
               IF (EPS_MAX(I) >= R2) THEN
                 FOFF(I) = 0
-                TDEL(I) = TIME 
-                NINDXF  = NINDXF + 1  
+                TDEL(I) = TIME
+                NINDXF  = NINDXF + 1
                 INDXF(NINDXF) = I
-              ENDIF 
-            ENDIF          
+              ENDIF
+            ENDIF
           ENDDO
 
         CASE (3)
@@ -318,35 +318,35 @@ C-------------------
                 RFAC = MAX(RFAC,EM20)
               ELSE
                 RFAC = ONE
-              ENDIF  
+              ENDIF
               IF (IFUNC(3) > 0) THEN   ! temperatuer
                 RFAC2 = FINTER(IFUNC(3),TSTAR(I),NPF,TF,DYDX)
                 RFAC2 = MAX(RFAC2,EM20)
               ELSE
                 RFAC2 = ONE
-              ENDIF  
+              ENDIF
               R1 = EPSF1*RFAC*RFAC2*UVAR(I,1)
-              R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)  
+              R2 = EPSF2*RFAC*RFAC2*UVAR(I,1)
               IF ( EPS_MAX(I) > R1) THEN
                 IF (DFMAX(I) == ZERO) THEN
-                  NINDXD = NINDXD + 1  
+                  NINDXD = NINDXD + 1
                   INDXD(NINDXD) = I
-                ENDIF   
+                ENDIF
                 DAMAGE(I) = MIN(ONE, (EPS_MAX(I)-R1)/(R2-R1))
               ENDIF
               IF ( EPS_MAX(I) >= R2) THEN
                 FOFF(I) = 0
-                TDEL(I) = TIME 
-                NINDXF  = NINDXF + 1  
+                TDEL(I) = TIME
+                NINDXF  = NINDXF + 1
                 INDXF(NINDXF) = I
-              ENDIF 
-            ENDIF          
+              ENDIF
+            ENDIF
           ENDDO
-          
+
 C-------------------
 c     Equivalent strain.  No change for downward compatibility.
 C-------------------
-        CASE DEFAULT  
+        CASE DEFAULT
 
           DO I=1,NEL
             IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
@@ -356,23 +356,23 @@ C-------------------
                 RFAC = MAX(RFAC,EM20)
               ELSE
                 RFAC = ONE
-              ENDIF  
+              ENDIF
               R1 = EPSF1*RFAC
-              R2 = EPSF2*RFAC      
+              R2 = EPSF2*RFAC
               IF (EPS_MAX(I) > R1) THEN
                 IF (DFMAX(I) == ZERO) THEN
-                  NINDXD = NINDXD + 1  
+                  NINDXD = NINDXD + 1
                   INDXD(NINDXD) = I
-                ENDIF   
+                ENDIF
                 DAMAGE(I) = MIN(ONE, (EPS_MAX(I)-R1)/(R2-R1))
               ENDIF
               IF (EPS_MAX(I) >= R2) THEN
                 FOFF(I) = 0
-                TDEL(I) = TIME 
-                NINDXF  = NINDXF + 1  
+                TDEL(I) = TIME
+                NINDXF  = NINDXF + 1
                 INDXF(NINDXF) = I
-              ENDIF 
-c         
+              ENDIF
+c
               E22 = ZERO
               IF (EPSP1 > ZERO .OR. EPSP2 > ZERO) THEN
                 IF (EPSP2 > ZERO) THEN
@@ -391,34 +391,34 @@ c
                 ENDIF
                 IF (EPS_MAX(I) > UVAR(I,1) .AND. UVAR(I,1) /= ZERO) THEN
                   FOFF(I) = 0
-                  TDEL(I) = TIME 
-                  NINDX1  = NINDX1 + 1  
+                  TDEL(I) = TIME
+                  NINDX1  = NINDX1 + 1
                   INDX1(NINDX1) = I
                 ELSEIF (E22 > EPSP2 .AND. EPSP2 /= ZERO) THEN
                   FOFF(I) = 0
-                  TDEL(I) = TIME 
-                  NINDX2  = NINDX2 + 1  
+                  TDEL(I) = TIME
+                  NINDX2  = NINDX2 + 1
                   INDX2(NINDX2) = I
                   EPS_MAX(I) = E22
                 ENDIF
                 DFMAX(I)  = MAX(DFMAX(I),MIN( ONE, (EPS_MAX(I) / UVAR(I,1))))
                 SCALE_FLAG = 0
               ENDIF
-c              
-            ENDIF          
+c
+            ENDIF
           ENDDO
       END SELECT
-c----------------------------------------------------------------------- 
+c-----------------------------------------------------------------------
 c---  Maximum Damage for output : 0 < DFMAX < 1
       DO I=1,NEL
         DFMAX(I)     = MAX(DFMAX(I), DAMAGE(I))
         IF (SCALE_FLAG == 1) DMG_SCALE(I) = ONE - DFMAX(I)
-      ENDDO           
+      ENDDO
 c------------------------
 c     print
 c------------------------
       IF (NINDXD > 0) THEN    ! start damage
-        DO J=1,NINDXD    
+        DO J=1,NINDXD
           I = INDXD(J)
           IF (S_FLAG == 3) THEN
 #include  "lockon.inc"
@@ -432,10 +432,10 @@ c------------------------
 #include  "lockoff.inc"
           ENDIF
         END DO
-      END IF              
+      END IF
 c
       IF (NINDXF > 0) THEN    ! failure
-        DO J=1,NINDXF    
+        DO J=1,NINDXF
           I = INDXF(J)
           IF (S_FLAG == 3) THEN
 #include  "lockon.inc"
@@ -447,27 +447,27 @@ c
             WRITE(ISTDO,3102) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
           ENDIF
         END DO
-      END IF              
+      END IF
 c
-      IF (NINDX1 > 0) THEN 
-        DO J=1,NINDX1    
+      IF (NINDX1 > 0) THEN
+        DO J=1,NINDX1
           I = INDX1(J)
 #include  "lockon.inc"
           WRITE(IOUT, 4000) NGL(I),IPG,ILAY,IPT,EPS_MAX(I)
           WRITE(ISTDO,4100) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c
-      IF (NINDX2 > 0) THEN 
-        DO J=1,NINDX2    
+      IF (NINDX2 > 0) THEN
+        DO J=1,NINDX2
           I = INDX2(J)
 #include  "lockon.inc"
           WRITE(IOUT, 5000) NGL(I),IPG,ILAY,IPT,EPS_MAX(I)
           WRITE(ISTDO,5100) NGL(I),IPG,ILAY,IPT,EPS_MAX(I),TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c-----------------------------------------------
  2001 FORMAT(1X,'START DAMAGE (TENS) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3,/

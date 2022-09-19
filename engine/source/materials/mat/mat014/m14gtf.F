@@ -27,7 +27,7 @@ Chd|        M12LAW                        source/materials/mat/mat012/m12law.F
 Chd|        M14LAW                        source/materials/mat/mat014/m14law.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,  
+      SUBROUTINE M14GTF(SIG,AX ,AY ,AZ ,BX ,BY,
      2                  BZ ,CX ,CY ,CZ ,D1 ,D2,
      3                  D3 ,D4 ,D5 ,D6 ,T1 ,T2,
      4                  T3 ,T4 ,T5 ,T6 ,E1 ,E2,

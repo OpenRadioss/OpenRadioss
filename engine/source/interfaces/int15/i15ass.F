@@ -69,7 +69,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  AF(*) , X(3,*), V(3,*),BUFSF(*),
-     .  STIFN(*), FS(NTHVKI), 
+     .  STIFN(*), FS(NTHVKI),
      .  FCONT(3,*),FSKYI(LSKYI,NFSKYI), DE,
      .  WNF(3,*) ,WTF(3,*) ,WNS(*) ,
      .  FNORMX,FNORMY,FNORMZ,FTANGX,FTANGY,FTANGZ

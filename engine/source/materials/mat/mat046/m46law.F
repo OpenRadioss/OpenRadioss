@@ -33,7 +33,7 @@ Chd|====================================================================
      3                  QOLD   ,VOL    ,UVAR  ,BUFMAT  ,STIFN ,
      4                  MAT    ,NGL    ,NUVAR ,DT2T    ,NELTST,RHO0   ,
      5                  ITYPTST,OFFG   ,JLAG  ,GEO     ,PID   ,SSP    ,
-     6                  AIRE   ,VOLN   ,VD2   ,DELTAX  ,VIS   ,D1     , 
+     6                  AIRE   ,VOLN   ,VD2   ,DELTAX  ,VIS   ,D1     ,
      7                  D2     ,D3     ,PNEW  ,PSH     ,Q     ,SSP_EQ ,
      8                  WXX  ,
      9                  WYY    ,WZZ    ,IPM   ,MSSA    ,DMELS ,DVOL   ,
@@ -65,20 +65,20 @@ C
       INTEGER NELTST, ITYPTST,JLAG
       my_real DT2T
 C 
-      my_real  PM(NPROPM,*),OFF(*), SIG(NEL,6), EINT(*), 
+      my_real  PM(NPROPM,*),OFF(*), SIG(NEL,6), EINT(*),
      .         RHO(*),QOLD(*), VOL(*), UVAR(*), BUFMAT(*),
      .         OFFG(*),STIFN(*),GEO(*) ,SSP(*) ,
-     .         AIRE(*) ,VOLN(*) ,VD2(*) ,DELTAX(*) ,VIS(*) , D1(*) , 
+     .         AIRE(*) ,VOLN(*) ,VD2(*) ,DELTAX(*) ,VIS(*) , D1(*) ,
      .         D2(*) ,D3(*) ,PNEW(*) ,PSH(*) ,Q(*) ,SSP_EQ(*) ,
      .         WXX(MVSIZ), WYY(MVSIZ), WZZ(MVSIZ),RHO0(MVSIZ),
      .         MSSA(*), DMELS(*),SOLD1(*) ,SOLD2(*) ,SOLD3(*) ,
      .         SOLD4(*) ,SOLD5(*) ,SOLD6(*), DVOL(MVSIZ),CONDE(*),
      .         VOL_AVG(*),DTEL(*),D4(MVSIZ),D5(MVSIZ),D6(MVSIZ),
-     .         RHOREF(*)  ,RHOSP(*)  
+     .         RHOREF(*)  ,RHOSP(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .E1,E2,E3,E4,E5,E6,P2,BID1,BID2,BID3,C1(MVSIZ),
      .EP1(MVSIZ),EP2(MVSIZ),EP3(MVSIZ),EP4(MVSIZ),EP5(MVSIZ),EP6(MVSIZ),
      .S1(MVSIZ) ,S2(MVSIZ) ,S3(MVSIZ) ,S4(MVSIZ) ,S5(MVSIZ) ,S6(MVSIZ),
@@ -93,7 +93,7 @@ C=======================================================================
       NPAR   = IPM(9,MX)
       IADBUF = IPM(7,MX)
       FACQ0 = ONE
-      
+
 C
       DO I=LFT,LLT
         VIS(I) = ZERO

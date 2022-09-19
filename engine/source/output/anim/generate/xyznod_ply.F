@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE XYZNOD_PLY(IPLY,IDPLY,NOD_PXFEM,X,ZI_PLY,NODGLOB,
      *                      EMPSIZPL )
 C 
-      USE PLYXFEM_MOD        
+      USE PLYXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

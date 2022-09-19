@@ -129,7 +129,7 @@ C
           SLIPRING(I)%FAC_D = ZERO
           SLIPRING(I)%FRICS = ZERO
           SLIPRING(I)%FAC_S = ZERO
-        ENDDO  
+        ENDDO
 C
         CALL HM_OPTION_START('/SLIPRING')
 C
@@ -166,22 +166,22 @@ C
 C
           IF (IFUNC(1) > 0) THEN
             IF (FRICD== ZERO) FRICD = ONE
-            IF (XSCALE1== ZERO) XSCALE1 = ONE*XSCALE1_UNIT    
+            IF (XSCALE1== ZERO) XSCALE1 = ONE*XSCALE1_UNIT
           ENDIF
 C
           IF (IFUNC(2) > 0) THEN
             IF (YSCALE2== ZERO) YSCALE2 = ONE
-            IF (XSCALE2== ZERO) XSCALE2 = ONE*XSCALE2_UNIT    
+            IF (XSCALE2== ZERO) XSCALE2 = ONE*XSCALE2_UNIT
           ENDIF
 C
           IF (IFUNC(3) > 0) THEN
             IF (FRICS== ZERO) FRICS = ONE
-            IF (XSCALE3== ZERO) XSCALE3 = ONE*XSCALE1_UNIT    
+            IF (XSCALE3== ZERO) XSCALE3 = ONE*XSCALE1_UNIT
           ENDIF
 C
           IF (IFUNC(4) > 0) THEN
             IF (YSCALE4== ZERO) YSCALE4 = ONE
-            IF (XSCALE4== ZERO) XSCALE4 = ONE*XSCALE2_UNIT  
+            IF (XSCALE4== ZERO) XSCALE4 = ONE*XSCALE2_UNIT
           ENDIF
 C
 C---------CHeck of sensors is done in creat_seatblet as sensors are not yet avaialble
@@ -190,11 +190,11 @@ C---------CHeck of functions
 C
           IFUNC_LOC(1:4) = 0
 C              
-          DO J=1,4       
+          DO J=1,4
             IF (IFUNC(J) > 0) THEN
-              DO K=1,NFUNCT               
-                IF (FUNC_ID(K) == IFUNC(J)) IFUNC_LOC(J) = K                                        
-              ENDDO         
+              DO K=1,NFUNCT
+                IF (FUNC_ID(K) == IFUNC(J)) IFUNC_LOC(J) = K
+              ENDDO
               IF(IFUNC_LOC(J) == 0) CALL ANCMSG(MSGID=2002,
      .                                   MSGTYPE=MSGERROR,
      .                                   ANMODE=ANINFO_BLIND_1,
@@ -207,9 +207,9 @@ C
           SLIPRING(I)%SENSID = ISENS
           SLIPRING(I)%FL_FLAG = FLOW_FLAG
 C
-          SLIPRING(I)%IFUNC(1) = IFUNC_LOC(1) 
-          SLIPRING(I)%IFUNC(2) = IFUNC_LOC(2) 
-          SLIPRING(I)%IFUNC(3) = IFUNC_LOC(3) 
+          SLIPRING(I)%IFUNC(1) = IFUNC_LOC(1)
+          SLIPRING(I)%IFUNC(2) = IFUNC_LOC(2)
+          SLIPRING(I)%IFUNC(3) = IFUNC_LOC(3)
           SLIPRING(I)%IFUNC(4) = IFUNC_LOC(4)
 C
           SLIPRING(I)%DC = ED_FACTOR
@@ -222,7 +222,7 @@ C
           SLIPRING(I)%FRICS = FRICS
           SLIPRING(I)%FAC_S(1) = XSCALE3
           SLIPRING(I)%FAC_S(2) = XSCALE4
-          SLIPRING(I)%FAC_S(3) = YSCALE4    
+          SLIPRING(I)%FAC_S(3) = YSCALE4
 C
           IF (KEY(1:6)=='SPRING') THEN
 C
@@ -253,7 +253,7 @@ C
               IF (MTYP /= 114) CALL ANCMSG(MSGID=2032,
      .                                     MSGTYPE=MSGERROR,
      .                                     ANMODE=ANINFO,
-     .                                     I1=ID,I2=EL1) 
+     .                                     I1=ID,I2=EL1)
             ENDIF
 C
             IF(EL2_LOC == 0) THEN
@@ -268,7 +268,7 @@ C
               IF (MTYP /= 114) CALL ANCMSG(MSGID=2032,
      .                                     MSGTYPE=MSGERROR,
      .                                     ANMODE=ANINFO,
-     .                                     I1=ID,I2=EL2) 
+     .                                     I1=ID,I2=EL2)
             ENDIF
 C
 C--------   Initialisaton of fram structure
@@ -305,7 +305,7 @@ C
 C---------- Fill of fram structure
 C
             NODE_ID = USR2SYS(NODE_ID,ITABM1,MESS,SLIPRING(I)%ID)
-            IF (NODE_ID2 > 0) NODE_ID2 = USR2SYS(NODE_ID2,ITABM1,MESS,SLIPRING(I)%ID)                                                                                        
+            IF (NODE_ID2 > 0) NODE_ID2 = USR2SYS(NODE_ID2,ITABM1,MESS,SLIPRING(I)%ID)
 C
 C---------
 C
@@ -363,7 +363,7 @@ C--         compatibility with random noise
               ALEA_MAX = ZERO
               DO J=1,NRAND
                 ALEA_MAX = MAX(ALEA_MAX,ALEA(J))
-              ENDDO 
+              ENDDO
               TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
             ENDIF
 C
@@ -424,7 +424,7 @@ C
               SCAL = ABS(N3(1)*NN(1)+N3(2)*NN(2)+N3(3)*NN(3))
               SLIPRING(I)%FRAM(1)%ORIENTATION_ANGLE = ACOS(SCAL)
 C
-              WRITE(IOUT,1200) SLIPRING(I)%FRAM(1)%ORIENTATION_ANGLE   
+              WRITE(IOUT,1200) SLIPRING(I)%FRAM(1)%ORIENTATION_ANGLE
 C
             ENDIF
 C
@@ -484,7 +484,7 @@ C--------   CHeck of alignement of anchorage nodes
             N_FIRST = IGRNOD(GRN_LOC)%ENTITY(1)
             N_LAST = IGRNOD(GRN_LOC)%ENTITY(IGRNOD(GRN_LOC)%NENTITY)
             DIST(1) = ZERO
-            DIST(NFRAM) = (X(1,N_FIRST)-X(1,N_LAST))**2+(X(2,N_FIRST)-X(2,N_LAST))**2+(X(3,N_FIRST)-X(3,N_LAST))**2    
+            DIST(NFRAM) = (X(1,N_FIRST)-X(1,N_LAST))**2+(X(2,N_FIRST)-X(2,N_LAST))**2+(X(3,N_FIRST)-X(3,N_LAST))**2
             NORM = SQRT(MAX(EM20,DIST(NFRAM)))
             VECT(1) = (X(1,N_FIRST)-X(1,N_LAST))/NORM
             VECT(2) = (X(2,N_FIRST)-X(2,N_LAST))/NORM
@@ -495,7 +495,7 @@ C--------   CHeck of alignement of anchorage nodes
               NORMJ = SQRT(MAX(EM20,DIST(J)))
               VECTJ(1) = (X(1,N_FIRST)-X(1,NJ))/NORMJ
               VECTJ(2) = (X(2,N_FIRST)-X(2,NJ))/NORMJ
-              VECTJ(3) = (X(3,N_FIRST)-X(3,NJ))/NORMJ 
+              VECTJ(3) = (X(3,N_FIRST)-X(3,NJ))/NORMJ
               SCAL =  ONE - ABS(VECT(1)*VECTJ(1)+VECT(2)*VECTJ(2)+VECT(3)*VECTJ(3))
               IF (ABS(SCAL) > EM08) THEN
                 CALL ANCMSG(MSGID=2051,
@@ -549,7 +549,7 @@ C--           Search for closest node on element set 1 for each anchorage node
                     DIST_MIN = DISTN
                     CORES1(J) = NODE
                     ELEM1_NOD(J) = ISHELL
-                    IPOS1_NOD(J) = L  
+                    IPOS1_NOD(J) = L
                   ENDIF
                 ENDDO
                 MID = IXC(1,ISHELL)
@@ -558,10 +558,10 @@ C--           Search for closest node on element set 1 for each anchorage node
      .                        MSGTYPE=MSGERROR,
      .                        ANMODE=ANINFO_BLIND_1,
      .                        I1=IXC(NIXC,ISHELL),
-     .                        PRMOD=MSG_CUMU)  
-                ENDIF             
+     .                        PRMOD=MSG_CUMU)
+                ENDIF
               ENDDO
-              IF (CORES1(J) > 0) TAGNO(CORES1(J)) = 1   
+              IF (CORES1(J) > 0) TAGNO(CORES1(J)) = 1
 C--           Search for closest node on element set 2 for each anchorage node 
               DIST_MIN = EP30
               DO K=1,IGRSH4N(GRS2_LOC)%NENTITY
@@ -573,7 +573,7 @@ C--           Search for closest node on element set 2 for each anchorage node
                     DIST_MIN = DISTN
                     CORES2(J) = NODE
                     ELEM2_NOD(J) = ISHELL
-                    IPOS2_NOD(J) = L 
+                    IPOS2_NOD(J) = L
                   ENDIF
                 ENDDO
                 MID = IXC(1,ISHELL)
@@ -582,10 +582,10 @@ C--           Search for closest node on element set 2 for each anchorage node
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
      .                      I1=IXC(NIXC,ISHELL),
-     .                      PRMOD=MSG_CUMU)      
-                ENDIF        
+     .                      PRMOD=MSG_CUMU)
+                ENDIF
               ENDDO
-              IF (CORES2(J) > 0) TAGNO(CORES2(J)) = 1  
+              IF (CORES2(J) > 0) TAGNO(CORES2(J)) = 1
 C--
               IF (CORES1(J) /= CORES2(J)) THEN
                 CALL ANCMSG(MSGID=2053,
@@ -600,7 +600,7 @@ C
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
      .                  I1=ID,
-     .                  PRMOD=MSG_PRINT)     
+     .                  PRMOD=MSG_PRINT)
 C
 C---------- Fill of fram structure
 C
@@ -625,7 +625,7 @@ C
               DO K=1,4
                 IF ((K/=IPOS+2).AND.(K/=IPOS-2).AND.(TAGNO(IXC(K+1,ISHELL)) == 0)) NODE3 = IXC(K+1,ISHELL)
               ENDDO
-              SLIPRING(I)%FRAM(J)%NODE(3) = NODE3            
+              SLIPRING(I)%FRAM(J)%NODE(3) = NODE3
 C
               DIST1 = (X(1,NODE1)-X(1,NODE_ID))**2+(X(2,NODE1)-X(2,NODE_ID))**2+(X(3,NODE1)-X(3,NODE_ID))**2
               DIST2 = (X(1,NODE2)-X(1,NODE_ID))**2+(X(2,NODE2)-X(2,NODE_ID))**2+(X(3,NODE2)-X(3,NODE_ID))**2
@@ -638,7 +638,7 @@ C--           compatibility with random noise
                 ALEA_MAX = ZERO
                 DO K=1,NRAND
                   ALEA_MAX = MAX(ALEA_MAX,ALEA(K))
-                ENDDO 
+                ENDDO
                 TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
               ENDIF
 C
@@ -654,12 +654,12 @@ C
                 CALL ANCMSG(MSGID=2054,
      .                      MSGTYPE=MSGERROR,
      .                      ANMODE=ANINFO_BLIND_1,
-     .                      I1=ID,I2=ITAB(NODE_ID)) 
-              ENDIF            
+     .                      I1=ID,I2=ITAB(NODE_ID))
+              ENDIF
 C
             ENDDO
 C
-            DEALLOCATE(ELEM1_NOD,IPOS1_NOD,ELEM2_NOD,IPOS2_NOD,CORES1,CORES2,TAGNO)   
+            DEALLOCATE(ELEM1_NOD,IPOS1_NOD,ELEM2_NOD,IPOS2_NOD,CORES1,CORES2,TAGNO)
 C
           ENDIF
 C

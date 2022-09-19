@@ -37,18 +37,18 @@ Chd|====================================================================
 !$COMMENT
 !       INT18_LAW151_UPDATE description
 !       mass/position/velocity update
-!       
+!
 !       INT18_LAW151_UPDATE organization :
 !       - // with openmp
 !       - update of the element buffer is mandatory (for 2nd order scheme)
 !       - force_int array needs to be flush to 0 for the next cycle
-!$ENDCOMMENT  
+!$ENDCOMMENT
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------      
         USE MULTI_FVM_MOD
         USE GROUPDEF_MOD
-        USE ELBUFDEF_MOD 
+        USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc" 
+#include      "task_c.inc"
 #include      "com01_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
@@ -103,14 +103,14 @@ C-----------------------------------------------
         REAL(kind=8), DIMENSION(:,:), ALLOCATABLE, SAVE :: VEL_DP
 C-----------------------------------------------
         NODF = 1 + ITASK * NUMNOD / NTHREAD
-        NODL = (1 + ITASK) * NUMNOD / NTHREAD 
+        NODL = (1 + ITASK) * NUMNOD / NTHREAD
 
         !   1:NUMNOD --> classical x/v/mass
         IF(IALE/=0) X_APPEND(1:3,NODF:NODL) = X(1:3,NODF:NODL)
         V_APPEND(1:3,NODF:NODL) = V(1:3,NODF:NODL)
         MASS_APPEND(NODF:NODL) = MS(NODF:NODL)
         KINET_APPEND(NODF:NODL) = KINET(NODF:NODL)
-            
+
         CALL MY_BARRIER()
         ! -------------------------------------
         ! update of vel array : parith/on part
@@ -118,10 +118,10 @@ C-----------------------------------------------
             DO NN=1,MULTI_FVM%NUMBER_INT18
                 N = MULTI_FVM%INT18_LIST(NN)
                 ISU1 = IPARI(45,N)
-                NBRIC = IGRBRIC(ISU1)%NENTITY 
+                NBRIC = IGRBRIC(ISU1)%NENTITY
                 NSN = IPARI(5,N)    ! number of secondary nodes
                 NSNF = 1 + ITASK * NSN / NTHREAD
-                NSNL = (1 + ITASK) * NSN / NTHREAD 
+                NSNL = (1 + ITASK) * NSN / NTHREAD
 
                 DO I = 1,NTHREAD
                     INDEX_THREADS(I) = 1 + 3*(I-1)*NSN/NTHREAD
@@ -162,23 +162,23 @@ C-----------------------------------------------
                         LOCAL_FORCE_INT_DP(3) = LOCAL_FORCE_INT_DP(3) + VEL_DP(J,(II-1)+3)
                     ENDDO
                     LOCAL_FORCE_INT_DP(1:3) = LOCAL_FORCE_INT_DP(1:3) / MASS
-                    MULTI_FVM%VEL(1:3,IBRIC) = MULTI_FVM%VEL(1:3,IBRIC) + LOCAL_FORCE_INT_DP(1:3)              
+                    MULTI_FVM%VEL(1:3,IBRIC) = MULTI_FVM%VEL(1:3,IBRIC) + LOCAL_FORCE_INT_DP(1:3)
                 ENDDO
 
                 DEALLOCATE( VEL )
                 DEALLOCATE( VEL_DP )
 !$OMP END SINGLE
-            ENDDO  
+            ENDDO
         ! -------------------------------------
         ! update of vel array : parith/off part
         ELSE
             DO NN=1,MULTI_FVM%NUMBER_INT18
                 N = MULTI_FVM%INT18_LIST(NN)
                 ISU1 = IPARI(45,N)
-                NBRIC = IGRBRIC(ISU1)%NENTITY 
+                NBRIC = IGRBRIC(ISU1)%NENTITY
                 NSN = IPARI(5,N)    ! number of secondary nodes
                 NSNF = 1 + ITASK * NSN / NTHREAD
-                NSNL = (1 + ITASK) * NSN / NTHREAD 
+                NSNL = (1 + ITASK) * NSN / NTHREAD
                 DO II = NSNF,NSNL
                     IBRIC = IGRBRIC(ISU1)%ENTITY(II)    ! id of the phantom element
                     GROUP_ID = IGROUPS(IBRIC)       ! id of the element group
@@ -200,21 +200,21 @@ C-----------------------------------------------
                     ENDDO
                 ENDDO
             ENDDO
-        ENDIF  
+        ENDIF
         ! -------------------------------------
 
 
-        !   NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of 
+        !   NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of
         !                              the ALE elements)
         !                              x_phantom = sum( 1/8 * x(i), i=1,8)
 
         DO NN=1,MULTI_FVM%NUMBER_INT18
             N = MULTI_FVM%INT18_LIST(NN)
             ISU1 = IPARI(45,N)
-            NBRIC = IGRBRIC(ISU1)%NENTITY 
+            NBRIC = IGRBRIC(ISU1)%NENTITY
             NSN = IPARI(5,N)    ! number of secondary nodes
             NSNF = 1 + ITASK * NSN / NTHREAD
-            NSNL = (1 + ITASK) * NSN / NTHREAD 
+            NSNL = (1 + ITASK) * NSN / NTHREAD
             DO II = NSNF,NSNL
                 IBRIC = IGRBRIC(ISU1)%ENTITY(II)    ! id of the phantom element
                 GROUP_ID = IGROUPS(IBRIC)       ! id of the element group
@@ -232,7 +232,7 @@ C-----------------------------------------------
                     DO JJ = 2, 9
                         NODE_ID = IXS(JJ, IBRIC) ! id of node of the phantom element
                         X_APPEND(1, NUMNOD + IBRIC) = X_APPEND(1, NUMNOD + IBRIC) + ONE_OVER_8 * X(1, NODE_ID)
-                        X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + ONE_OVER_8 * X(2, NODE_ID) 
+                        X_APPEND(2, NUMNOD + IBRIC) = X_APPEND(2, NUMNOD + IBRIC) + ONE_OVER_8 * X(2, NODE_ID)
                         X_APPEND(3, NUMNOD + IBRIC) = X_APPEND(3, NUMNOD + IBRIC) + ONE_OVER_8 * X(3, NODE_ID)
                     ENDDO
                 ENDIF
@@ -247,7 +247,7 @@ C-----------------------------------------------
                 ELBUF_TAB(GROUP_ID)%GBUF%MOM(ILOC+1*NEL)= MULTI_FVM%VEL(2, IBRIC)
                 ELBUF_TAB(GROUP_ID)%GBUF%MOM(ILOC+2*NEL)= MULTI_FVM%VEL(3, IBRIC)
             ENDDO
-        ENDDO   
+        ENDDO
 
         RETURN
         END SUBROUTINE INT18_LAW151_UPDATE

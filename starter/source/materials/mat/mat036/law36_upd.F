@@ -61,50 +61,50 @@ C-----------------------------------------------
       INTEGER :: I,J,IFE,IE,IX1,IX2,IY1,IY2,NRATE,IYLD,IFAIL,FUNC1,FUNC2
       my_real :: EPSMAX,EPSLAST,X1,X2,Y1,Y2,FAC1,FAC2,XINT,YINT
 C==================================================================== 
-c     Check if scale factor function of Young modulus is decreasing with plastic strain   
-c    
-      IFE = IFUNC(NFUNC)                   
-      IF (IFE > 0) THEN 
-        IE  = NPC(IFE)                                                       
-        IY2 = NPC(IFE+1)                                                     
-        DO I = IE+1,IY2-3,2                                                  
-          IF (PLD(I) < PLD(I+2)) THEN                                       
-             CALL ANCMSG(MSGID=975, MSGTYPE=MSGERROR, ANMODE=ANINFO,        
-     .            I1 = FUNC_ID(NFUNC),                                               
-     .            C1 = TITR   )                                               
-             EXIT                                                           
-          ENDIF                                                             
-        ENDDO                                                                
-      ENDIF                                      
-c    
+c     Check if scale factor function of Young modulus is decreasing with plastic strain
+c
+      IFE = IFUNC(NFUNC)
+      IF (IFE > 0) THEN
+        IE  = NPC(IFE)
+        IY2 = NPC(IFE+1)
+        DO I = IE+1,IY2-3,2
+          IF (PLD(I) < PLD(I+2)) THEN
+             CALL ANCMSG(MSGID=975, MSGTYPE=MSGERROR, ANMODE=ANINFO,
+     .            I1 = FUNC_ID(NFUNC),
+     .            C1 = TITR   )
+             EXIT
+          ENDIF
+        ENDDO
+      ENDIF
+c
 c     Check if static yield function decreases to zero (last point or negative slope)
 c     In this case we introduce failure at the plastic strain corresponding to sig_yld=0
-c  
+c
       NRATE  = NINT(UPARAM(1))
       EPSMAX = UPARAM(2*NRATE + 7)
       IFAIL  = NINT(UPARAM(2*NRATE + 27))
       IYLD = IFUNC(1)
-      IX1  = NPC(IYLD+1) - 4                                     
-      IY1  = NPC(IYLD+1) - 3                                     
-      IY2  = NPC(IYLD+1) - 1                                     
+      IX1  = NPC(IYLD+1) - 4
+      IY1  = NPC(IYLD+1) - 3
+      IY2  = NPC(IYLD+1) - 1
       IX2  = NPC(IYLD+1) - 2
-      X1 = PLD(IX1)                                    
-      X2 = PLD(IX2)                                    
-      Y1 = PLD(IY1)                                    
-      Y2 = PLD(IY2)                                    
+      X1 = PLD(IX1)
+      X2 = PLD(IX2)
+      Y1 = PLD(IY1)
+      Y2 = PLD(IY2)
       IF (IX2 > ZERO .and. Y2 == ZERO) THEN  ! last value of yield curve is 0
         EPSLAST = X2
         EPSMAX  = UPARAM(7+2*NRATE)
         IF (EPSLAST < EPSMAX) UPARAM(2*NRATE + 7 ) = EPSLAST
         IF (IFAIL == 0)       UPARAM(2*NRATE + 27) = 1    ! IFAIL
         UPARAM(2*NRATE + 28) = 1    ! YLDCHECK
-      ELSE IF (Y1 > Y2) THEN                 ! yield function slope is negative 
+      ELSE IF (Y1 > Y2) THEN                 ! yield function slope is negative
         EPSLAST = (X2*Y1 - X1*Y2) / (Y1 - Y2)
         IF (EPSLAST < EPSMAX) UPARAM(2*NRATE + 7 ) = EPSLAST
         IF (IFAIL == 0)       UPARAM(2*NRATE + 27) = 1    ! IFAIL
         UPARAM(2*NRATE + 28) = 1    ! YLDCHECK
-      ENDIF                                      
-c-----------------------------------------------------------------------    
+      ENDIF
+c-----------------------------------------------------------------------
 c     Check if yield curves for different strain rates do not intersect
 c-----------------------------------------------------------------------
       DO I = 1,NRATE
@@ -118,14 +118,14 @@ c-----------------------------------------------------------------------
      .                 NPC ,PLD   ,XINT ,YINT )
 c
             IF (XINT > ZERO .and. YINT > ZERO) THEN
-              CALL ANCMSG(MSGID=2064, MSGTYPE=MSGWARNING, ANMODE=ANINFO,        
-     .                    I1 = MAT_ID,                                               
-     .                    I2 = FUNC_ID(FUNC1),                                               
-     .                    I3 = FUNC_ID(FUNC2),                                               
+              CALL ANCMSG(MSGID=2064, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
+     .                    I1 = MAT_ID,
+     .                    I2 = FUNC_ID(FUNC1),
+     .                    I3 = FUNC_ID(FUNC2),
      .                    C1 = TITR   )
             END IF
           END IF
-        END DO                                                      
+        END DO
       END DO
 c--------------------------------------------------------
       RETURN

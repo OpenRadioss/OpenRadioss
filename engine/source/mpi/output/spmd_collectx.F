@@ -75,10 +75,10 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       WRITE(CYCLENUM,'(I7.7)')NCYCLE
       FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.xdb'
-    
+
       OPEN(UNIT=67,FILE=FILNAM,ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
-     
+
       FILEN = ROOTLEN+17
       IF (ISPMD/=0) THEN
         N = 0

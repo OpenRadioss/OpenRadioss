@@ -33,7 +33,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE CCOORI(X,XREFC,IXC,
-     .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .           Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .           IX1 ,IX2 ,IX3 ,IX4 ,NGL )
 C-----------------------------------------------
@@ -62,12 +62,12 @@ C-----------------------------------------------
       INTEGER , DIMENSION(MVSIZ), INTENT(OUT)  :: NGL,
      .                     IX1,IX2,IX3,IX4
       my_real X(3,*),XREFC(4,3,*)
-      my_real , DIMENSION(MVSIZ), INTENT(OUT)  :: 
+      my_real , DIMENSION(MVSIZ), INTENT(OUT)  ::
      .                           X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, TEST0, TEST1, TEST2 
+      INTEGER I, TEST0, TEST1, TEST2
       my_real XN14, XN13, XN24, XN23, XN12, X31,
      .   Y31, Z31, X42, Y42, Z42, E3X, E3Y, E3Z, SURF
 C=======================================================================
@@ -79,7 +79,7 @@ C----------------------------
         IX3(I)=IXC(4,I)
         IX4(I)=IXC(5,I)
         NGL(I)=IXC(NIXC,I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     COORDONNEES           
 C----------------------------
@@ -160,7 +160,7 @@ C
           Z3(I)=ZERO
           X4(I)=ZERO
           Y4(I)=ONE
-          Z4(I)=ZERO 
+          Z4(I)=ZERO
         ENDIF
       ENDDO
 C-----------

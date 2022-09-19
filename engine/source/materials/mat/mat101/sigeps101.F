@@ -49,8 +49,8 @@ Chd|        VALPROP_TPU                   source/materials/mat/mat101/sigeps101.
 Chd|        VEC6X1TOMAT3X3                source/materials/mat/mat101/sigeps101.F
 Chd|====================================================================
        SUBROUTINE SIGEPS101(
-     1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC , 
-     2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM, 
+     1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC ,
+     2      NPF    ,TF      , TIME    , TIMESTEP, UPARAM,
      3      RHO0  , RHO     ,VOLUME   , EINT   , NGL     ,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
@@ -59,10 +59,10 @@ Chd|====================================================================
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      C      SOUNDSP, VISCMAX, UVAR    , OFF   , ISMSTR, ET  ,
      D      IHET   ,OFFG    , EPSTH, IEXPAN   ,TEMPEL,
-     1      FPSXX    , FPSXY  , FPSXZ  , FPSYX  ,    
-     2      FPSYY  ,FPSYZ    , FPSZX  , FPSZY  , FPSZZ  , 
+     1      FPSXX    , FPSXY  , FPSXZ  , FPSYX  ,
+     2      FPSYY  ,FPSYZ    , FPSZX  , FPSZY  , FPSZZ  ,
      3      UPSXX  ,UPSYY    , UPSZZ  , UPSXY  , UPSYZ  ,
-     4      UPSXZ  )   
+     4      UPSXZ  )
 C
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -101,7 +101,7 @@ C----------------------------------------------------------------
      .   UPSXX(NEL),UPSYY(NEL),UPSZZ(NEL),
      .   UPSXY(NEL),UPSYZ(NEL),UPSXZ(NEL)
 C----------------------------------------------- 
-     
+
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -115,7 +115,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -127,21 +127,21 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I,J,KK,LL,N
       INTEGER IE,NROT,IER,NDI,NSHR,NTENS,SIGN
- 
+
       my_real
-     .   ET1,ET2,ET3,G,RBULK,AA,CC,SB, 
+     .   ET1,ET2,ET3,G,RBULK,AA,CC,SB,
 C
-     .   BI1(NEL),BI2(NEL),JDET(NEL),I1(NEL),IP1(NEL),GAMMAOLD(NEL),STIFF(NEL), 
+     .   BI1(NEL),BI2(NEL),JDET(NEL),I1(NEL),IP1(NEL),GAMMAOLD(NEL),STIFF(NEL),
      .   TEMP(NEL),
 C
      .   NB(NEL,3),SNINV(NEL,3,3)
 C----------------------------------------------------------------
 
       LOGICAL DEBUG, DEBUG1, DEBUG2, DEBUG3, DEBUG4, DEBUG5
-      
+
       my_real
-     . TIMEA(2),DTIME,F(3,3), F0(3,3), U0(3,3), F1(3,3), U1(3,3), 
-     . TENSOR1(3,3), TENSOR2(3,3), TENSOR3(3,3), TENSOR4(3,3), 
+     . TIMEA(2),DTIME,F(3,3), F0(3,3), U0(3,3), F1(3,3), U1(3,3),
+     . TENSOR1(3,3), TENSOR2(3,3), TENSOR3(3,3), TENSOR4(3,3),
      . TENSOR5(3,3),
      . TENS0(3,3), TENS1(3,3),
      . RDFGRD(3,3), VGRAD(3,3),
@@ -150,7 +150,7 @@ C----------------------------------------------------------------
      . BETAM(3,3), BETAM0(3,3), ALPHAM(3,3),
      . DEV_ALPHAM(3,3), DEV_xM(3,3),
      . TAUM(3,3), SIGMA_Q(3,3),
-     . FVM(3,3), FVM_INV(3,3), BP(3,3), 
+     . FVM(3,3), FVM_INV(3,3), BP(3,3),
      . FTHETA(3,3), FTHETA_INV(3,3),
      . FE0(3,3), FI_INV(3,3), CE0(3,3), UE0(3,3),
      . UE0_INV(3,3), EE0(3,3), XM(3,3), SIGMAM(3,3),
@@ -161,14 +161,14 @@ C----------------------------------------------------------------
      . UE1_INV(3,3), EE1(3,3),
      . VCE0(3,3), DCE0(3),
      . VCE1(3,3), DCE1(3),
-     . A(3,3),   
+     . A(3,3),
 c
      . FV(6), SIGMA(6),
      . BETA(6),
      . DEV_MEFF_VEC(6), NV_VEC(6),
      . DV_VEC(6), TAU(6),
      . FV_ITER(6), XM_VEC(6), D_UMAT_VEC(6),
-c      
+c
      . J1, T1, T2, T3,
      . DEREF, DE0, DE, DPOISS,
      . DEDOT_REF, DVE1, DVE2,
@@ -196,9 +196,9 @@ c
      . DE1, DE2, DE3,
      . TR_EE1, TR_EE0, COEFF1_A, COEFF1_B,
      . COEFF1, COEFF2, COEFF3, EXCHANGE, GAMV0, ROT, ps
-     
+
       my_real
-     . TSEVEN,  SMALL, BIG,  DS32, DS3, DS13, DKB, 
+     . TSEVEN,  SMALL, BIG,  DS32, DS3, DS13, DKB,
      . DR
 
       my_real
@@ -216,7 +216,7 @@ C
         NDI= 3
 C----------------------------------------------- 
 C   TIMESTEP
- 
+
 
       DTIME = TIMESTEP
       TSEVEN  = TWO*TEN+SEVEN
@@ -234,7 +234,7 @@ C
 C---- DEBUG
 C
       DEBUG = .FALSE.  !STEP0
-      DEBUG1= .FALSE.  !STEP1 DATA  
+      DEBUG1= .FALSE.  !STEP1 DATA
       DEBUG2= .FALSE.  !STEP1 BRANCHA_0
       DEBUG3= .FALSE.  !STEP1 VISCOPLASTICITY
       DEBUG4= .FALSE.  !STEP1 BRANCHB_1
@@ -245,8 +245,8 @@ C
       DVE1       = UPARAM(4)
       DVE2       = UPARAM(5)
       DEDOT_REF  = UPARAM(6)
-      GAMV_REF   = UPARAM(7) 
-      ALPHAP     = UPARAM(8) 
+      GAMV_REF   = UPARAM(7)
+      ALPHAP     = UPARAM(8)
       DQ         = UPARAM(9)
       DV1        = UPARAM(10)
       DM         = UPARAM(11)
@@ -279,10 +279,10 @@ C
       FACTOR     = UPARAM(38)
       D_THETA_OPT = UPARAM(39)
       THETAI     = UPARAM(40)
-      THETAG     = UPARAM(41)  
-      DR         = UPARAM(42)  
- 
-      
+      THETAG     = UPARAM(41)
+      DR         = UPARAM(42)
+
+
 c------------------------------------------------------
 
 C----------------------------------------------- 
@@ -292,15 +292,15 @@ C-----------------------------------------------
 C----------------------------------------------- 
 C     USER VARIABLES INITIALIZATION 
 C----------------------------------------------- 
- 
+
 
       IF ( (TIME == ZERO) ) THEN
- 
+
 C
 C     LOOP THROUGH ALL BLOCKS
 C
       DO IE = 1, NEL
- 
+
 C
 C------ TEMPERATURE DEPENDENCE 1
 C        
@@ -320,7 +320,7 @@ C
         UVAR(IE, 5) = ZERO !FV23
         UVAR(IE, 6) = ZERO !FV13
         UVAR(IE, 7) = DES1_0 !DES1
-        UVAR(IE, 8) = DESTAR_0 !DESTAR   
+        UVAR(IE, 8) = DESTAR_0 !DESTAR
         UVAR(IE, 9) = DES2_0 !DES2
         UVAR(IE,10) = ONE  !BETA11
         UVAR(IE,11) = ONE  !BETA22
@@ -337,7 +337,7 @@ C
             UVAR(IE,20)  = TEMP(IE)
         ENDIF
         UVAR(IE,21) = ZERO !THETADOT (ADIABATIC)
-                
+
         UVAR(IE,22) = ONE !F011
         UVAR(IE,23) = ONE !F022
         UVAR(IE,24) = ONE !F033
@@ -347,7 +347,7 @@ C
         UVAR(IE,28) = ZERO !F031
         UVAR(IE,29) = ZERO !F023
         UVAR(IE,30) = ZERO !F032
-                
+
         UVAR(IE,31) = ONE !U011
         UVAR(IE,32) = ONE !U022
         UVAR(IE,33) = ONE !U033
@@ -356,14 +356,14 @@ C
         UVAR(IE,36) = ZERO !U013
         UVAR(IE,37) = ZERO !U031
         UVAR(IE,38) = ZERO !U023
-        UVAR(IE,39) = ZERO !U032                
+        UVAR(IE,39) = ZERO !U032
                UVAR(IE,40) = ZERO !E133 true strain xx
         UVAR(IE,41) = ZERO !E133 true strain yy
         UVAR(IE,42) = ZERO !E133 true strain zz
 
 C
 C------ INTERNAL STATE VARIABLES AT BEGINNING OF STEP
-       
+
         FV(1)  = UVAR(IE, 1)
         FV(2)  = UVAR(IE, 2)
         FV(3)  = UVAR(IE, 3)
@@ -383,7 +383,7 @@ C
         F1(3,1) = FPSZX(IE)
         F1(2,3) = FPSYZ(IE)
         F1(3,2) = FPSZY(IE)
-          
+
         U1(1,1) = UPSXX(IE)
         U1(2,2) = UPSYY(IE)
         U1(3,3) = UPSZZ(IE)
@@ -392,7 +392,7 @@ C
         U1(1,3) = UPSXZ(IE)
         U1(3,1) = UPSXZ(IE)
         U1(2,3) = UPSYZ(IE)
-        U1(3,2) = UPSYZ(IE) 
+        U1(3,2) = UPSYZ(IE)
 C----   COMPUTE DROT_ABA
 C
 C-----  --- ROTATION TENSORS FROM F=RU, I.E., R=F*U^(-1)
@@ -400,7 +400,7 @@ C
         CALL ST_TPU(TENSOR1, ZERO, 3*3)
         CALL INV_TPU(U1, TENSOR1, DET)
         CALL AXB_TPU(F1, TENSOR1, ROT1, 3)
-      
+
        !--------------------------------------------------------------
        !-------- COMPUTE ELASTIC STRESSES
        !--------------------------------------------------------------
@@ -441,18 +441,18 @@ C
             DO J=1,NDI
               A(I,J)= CE1(I,J)
             ENDDO
-        ENDDO 
+        ENDDO
 C
         CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)
 C
-        CALL EIGSRT(DCE1, VCE1, 3, 3) 
+        CALL EIGSRT(DCE1, VCE1, 3, 3)
 C
         IF (IER==1) THEN
         CALL ERR_TPU('ERROR IN EIG VAL')
         ENDIF
-       !EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM 
+       !EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM
        !LARGER TO SMALLER.
-       !REDEFINE AXIS(2) TO BE THE LARGEST IN ORDER TO IMPROVE 
+       !REDEFINE AXIS(2) TO BE THE LARGEST IN ORDER TO IMPROVE
        !ACCURACY IN THE
        !CALCULATION OF THE ESHELBY TENSOR.
        !IF DET(B)<0 MEANS THAT THE SYSTEM IS LEFT HANDED. IT IS MADE
@@ -503,7 +503,7 @@ C
             COEFF1_B       = BULKA0*TR_EE1
             CALL AT_TPU(COEFF1_A, EE1, COEFF1_B, PMIDENT, XM, 9)
             CALL QAQT_TPU(ROTE1, XM, TAUM, 3)
-        
+
 C
             !DETERMINATION OF SIGMA
 C
@@ -538,14 +538,14 @@ C-------    SIGMA_Q(I,J)
             UVAR(IE,41) = LOG(U1(2,2)) !E122
             UVAR(IE,42) = LOG(U1(3,3)) !E133
             SIGNXX(IE) = SIGOXX(IE)
-            SIGNYY(IE) = SIGOYY(IE)  
-            SIGNZZ(IE) = SIGOZZ(IE)    
-            SIGNXY(IE) = SIGOXY(IE)  
-            SIGNYZ(IE) = SIGOYZ(IE)   
-            SIGNZX(IE) = SIGOZX(IE)     
- 
-            SOUNDSP(IE) = SQRT((DK+4*DMU/3)/RHO0(IE)) 
-            VISCMAX(IE) = ZERO     
+            SIGNYY(IE) = SIGOYY(IE)
+            SIGNZZ(IE) = SIGOZZ(IE)
+            SIGNXY(IE) = SIGOXY(IE)
+            SIGNYZ(IE) = SIGOYZ(IE)
+            SIGNZX(IE) = SIGOZX(IE)
+
+            SOUNDSP(IE) = SQRT((DK+4*DMU/3)/RHO0(IE))
+            VISCMAX(IE) = ZERO
 
       ENDDO
 C
@@ -553,7 +553,7 @@ C
 C
       ENDIF ! ( (TIME == ZERO) )
 C
- 
+
 C
 C---------------------------------------------
 C---- EVOLVE MATERIAL STATE - COMPUTE STRESSES
@@ -561,7 +561,7 @@ C---------------------------------------------
 C
 C---- LOOP OVER ELEMENTS/IPS TO UPDATE STRESS
 C
- 
+
       DO 20 IE = 1, NEL
 C
        !INTERNAL STATE VARIABLES AT BEGINNING OF STEP
@@ -571,9 +571,9 @@ C
         FV(4)   = UVAR(IE, 4)
         FV(5)   = UVAR(IE, 5)
         FV(6)   = UVAR(IE, 6)
-        DES10   = UVAR(IE, 7) 
+        DES10   = UVAR(IE, 7)
         DESTAR0 = UVAR(IE, 8)
-        DES20   = UVAR(IE, 9) 
+        DES20   = UVAR(IE, 9)
         BETA(1) = UVAR(IE,10)
         BETA(2) = UVAR(IE,11)
         BETA(3) = UVAR(IE,12)
@@ -588,10 +588,10 @@ C
         IF (ABS(D_THETA_OPT-ONE) < SMALL) THETA=TEMP(IE)
 C
 C-----  SETUP F0; U0; F1; U1; 
-        CALL ST_TPU(F0, ZERO, 3*3)  
-        CALL ST_TPU(U0, ZERO, 3*3)  
-        CALL ST_TPU(F1, ZERO, 3*3)  
-        CALL ST_TPU(U1, ZERO, 3*3)  
+        CALL ST_TPU(F0, ZERO, 3*3)
+        CALL ST_TPU(U0, ZERO, 3*3)
+        CALL ST_TPU(F1, ZERO, 3*3)
+        CALL ST_TPU(U1, ZERO, 3*3)
 C
 
 C
@@ -606,7 +606,7 @@ C
         F0(3,1) = UVAR(IE,28)
         F0(2,3) = UVAR(IE,29)
         F0(3,2) = UVAR(IE,30)
-      
+
         U0(1,1) = UVAR(IE,31)
         U0(2,2) = UVAR(IE,32)
         U0(3,3) = UVAR(IE,33)
@@ -626,7 +626,7 @@ C
         F1(3,1) = FPSZX(IE)
         F1(2,3) = FPSYZ(IE)
         F1(3,2) = FPSZY(IE)
-      
+
         U1(1,1) = UPSXX(IE)
         U1(2,2) = UPSYY(IE)
         U1(3,3) = UPSZZ(IE)
@@ -641,65 +641,65 @@ C------ !COMPUTE L,D,W,DROT FROM F_N & F_(N+1)
 C
 C-------!RELATIVE DEFORMATION GRADIENT: F=F_(N+1)*F_N^{-1}
 C
-        CALL ST_TPU(TENSOR1,  ZERO, 3*3)                             
-        CALL ST_TPU(RDFGRD,   ZERO, 3*3)                             
-        CALL ST_TPU(TENSOR2,  ZERO, 3*3)                             
-        CALL ST_TPU(TENSOR3,  ZERO, 3*3)                             
-        CALL ST_TPU(VGRAD,    ZERO, 3*3)                             
+        CALL ST_TPU(TENSOR1,  ZERO, 3*3)
+        CALL ST_TPU(RDFGRD,   ZERO, 3*3)
+        CALL ST_TPU(TENSOR2,  ZERO, 3*3)
+        CALL ST_TPU(TENSOR3,  ZERO, 3*3)
+        CALL ST_TPU(VGRAD,    ZERO, 3*3)
 C
-        CALL INV_TPU(F0, TENSOR1, DET)                               
-        CALL AXB_TPU(F1, TENSOR1, RDFGRD, 3)                         
+        CALL INV_TPU(F0, TENSOR1, DET)
+        CALL AXB_TPU(F1, TENSOR1, RDFGRD, 3)
 C
 C------- APPROXIMATION TO VELOCITY GRADIENT: L=2/DT*(F-I)*(F+I)^{-1}-
 C
-        CALL AT_TPU(ONE, RDFGRD, -ONE, PMIDENT, TENSOR2, 3*3)        
-        CALL AT_TPU(ONE, RDFGRD, ONE, PMIDENT, TENSOR1, 3*3)         
-        CALL INV_TPU(TENSOR1, TENSOR3, DET)                          
-        CALL AXB_TPU(TENSOR2, TENSOR3, VGRAD, 3)                     
-        CALL SST_TPU(TWO/DTIME, VGRAD, VGRAD, 3*3)                  
+        CALL AT_TPU(ONE, RDFGRD, -ONE, PMIDENT, TENSOR2, 3*3)
+        CALL AT_TPU(ONE, RDFGRD, ONE, PMIDENT, TENSOR1, 3*3)
+        CALL INV_TPU(TENSOR1, TENSOR3, DET)
+        CALL AXB_TPU(TENSOR2, TENSOR3, VGRAD, 3)
+        CALL SST_TPU(TWO/DTIME, VGRAD, VGRAD, 3*3)
 C
 C------- RATE OF DEFORMATION AND SPIN: D_UMAT=SYM(L), W_UMAT=SKW(L) -
 C
-        CALL ST_TPU(D_UMAT, ZERO, 3*3)                               
-        CALL ST_TPU(W_UMAT, ZERO, 3*3)                               
+        CALL ST_TPU(D_UMAT, ZERO, 3*3)
+        CALL ST_TPU(W_UMAT, ZERO, 3*3)
 C
-        CALL SYM_TPU(VGRAD, D_UMAT, 3)                               
-        CALL SKW_TPU(VGRAD, W_UMAT, 3)                               
+        CALL SYM_TPU(VGRAD, D_UMAT, 3)
+        CALL SKW_TPU(VGRAD, W_UMAT, 3)
 C
 C------- COMPUTE EDOT=SQRT(2/3*D:D)                                 -
 C
-        CALL ST_TPU(D_UMAT_VEC, ZERO, 6)                             
+        CALL ST_TPU(D_UMAT_VEC, ZERO, 6)
 C
-        CALL MAT3X3TOVEC6X1(D_UMAT,D_UMAT_VEC,3)                     
-        CALL SP_TPU(D_UMAT_VEC,D_UMAT_VEC,COEFF3,6)                  
-        COEFF2 = SQRT((TWO/THREE)*COEFF3)                           
+        CALL MAT3X3TOVEC6X1(D_UMAT,D_UMAT_VEC,3)
+        CALL SP_TPU(D_UMAT_VEC,D_UMAT_VEC,COEFF3,6)
+        COEFF2 = SQRT((TWO/THREE)*COEFF3)
 C
 C-------- ROTATION TENSORS FROM F=RU, I.E., R=F*U^(-1)
 C
-        CALL ST_TPU(ROT1, ZERO, 3*3)                                
-        CALL ST_TPU(TENSOR1, ZERO, 3*3)                             
+        CALL ST_TPU(ROT1, ZERO, 3*3)
+        CALL ST_TPU(TENSOR1, ZERO, 3*3)
 C
-        CALL INV_TPU(U1,  TENSOR1, DET)                             
-        CALL AXB_TPU(F1,  TENSOR1, ROT1, 3)                         
+        CALL INV_TPU(U1,  TENSOR1, DET)
+        CALL AXB_TPU(F1,  TENSOR1, ROT1, 3)
 C
 C------- TEMPERATURE DEPENDENCE OF PARAMETERS                      -
-        IF (COEFF2 < SMALL) THEN                                 
-            COEFF2 = EM04                                           
-        ENDIF                                                       
+        IF (COEFF2 < SMALL) THEN
+            COEFF2 = EM04
+        ENDIF
 C
-        CALL EMOD_TPU(DEREF,DE0,THETA,THETA0,DVE1,DVE2,             
-     &                COEFF2,DEDOT_REF,DE)                          
-        DMU  = DE / (TWO+TWO*DPOISS)                              
-        DK   = TWO*DMU*(ONE+DPOISS)/(THREE*(ONE-TWO*DPOISS))        
-        DY0  = DC3*(THETA-THETA0)+DC4                               
-        CKAPPA1 = CALPHAK1*DMU                                      
-        DESTAR_0 = DC5*(THETA-THETA0)+DC6                           
-        DESTAR_S = DC7*(THETA-THETA0)+DC8                           
-        G0       = DC9*(THETA-THETA0)+DC10                          
-        CKAPPA2 = CALPHAK2*DMU                                      
-        DES2_S  = DC11*(THETA-THETA0)+DC12                          
-        DMU_R = DC1*(THETA-THETA0)+DC2                              
-        DRS1  = DC13*(THETA-THETA0)+ DC14                           
+        CALL EMOD_TPU(DEREF,DE0,THETA,THETA0,DVE1,DVE2,
+     &                COEFF2,DEDOT_REF,DE)
+        DMU  = DE / (TWO+TWO*DPOISS)
+        DK   = TWO*DMU*(ONE+DPOISS)/(THREE*(ONE-TWO*DPOISS))
+        DY0  = DC3*(THETA-THETA0)+DC4
+        CKAPPA1 = CALPHAK1*DMU
+        DESTAR_0 = DC5*(THETA-THETA0)+DC6
+        DESTAR_S = DC7*(THETA-THETA0)+DC8
+        G0       = DC9*(THETA-THETA0)+DC10
+        CKAPPA2 = CALPHAK2*DMU
+        DES2_S  = DC11*(THETA-THETA0)+DC12
+        DMU_R = DC1*(THETA-THETA0)+DC2
+        DRS1  = DC13*(THETA-THETA0)+ DC14
 C
         !-----------------------------------------------------
         !CHECK PARAM
@@ -749,393 +749,393 @@ C
         IF (IER==1) THEN
           CALL ERR_TPU('ERROR IN EIG VAL')
         ENDIF
-       !EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM LARGER 
+       !EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM LARGER
        !TO SMALLER.
        !REDEFINE AXIS(2) TO BE THE LARGEST IN ORDER TO IMPROVE ACCURACY
        !IN THE CALCULATION OF THE ESHELBY TENSOR.
-       !IF DET(B)<0 MEANS THAT THE SYSTEM IS LEFT HANDED. IT IS MADE 
+       !IF DET(B)<0 MEANS THAT THE SYSTEM IS LEFT HANDED. IT IS MADE
        !RIGHT HANDED BY EXCHANGING 1 AND 2.
         SIGN=-ONE
         CALL DET_TPU(VCE0, DET_VCE0)
         IF(DET_VCE0 <= ZERO) SIGN=ONE
-        DO I=1,3                                               
-          EXCHANGE=VCE0(I,1)                                   
-          VCE0(I,1)=VCE0(I,2)                                  
-          VCE0(I,2)=EXCHANGE*SIGN                              
-        ENDDO                                                  
-        EXCHANGE=DCE0(1)                                       
-        DCE0(1)=DCE0(2)                                        
-        DCE0(2)=EXCHANGE                                       
+        DO I=1,3
+          EXCHANGE=VCE0(I,1)
+          VCE0(I,1)=VCE0(I,2)
+          VCE0(I,2)=EXCHANGE*SIGN
+        ENDDO
+        EXCHANGE=DCE0(1)
+        DCE0(1)=DCE0(2)
+        DCE0(2)=EXCHANGE
 C
-        !COMPUTE UE0                                           
-        D1=SQRT(DCE0(1))                                       
-        D2=SQRT(DCE0(2))                                       
-        D3=SQRT(DCE0(3))                                       
-        DE1=LOG(SQRT(DCE0(1)))                                 
-        DE2=LOG(SQRT(DCE0(2)))                                 
-        DE3=LOG(SQRT(DCE0(3)))                                 
-        DO I=1,3                                               
-           DO J=1,3                                            
-           UE0(I,J)=D1*VCE0(I,1)*VCE0(J,1)                     
-     &     +D2*VCE0(I,2)*VCE0(J,2)+D3*VCE0(I,3)*VCE0(J,3)      
-           END DO                                              
-        END DO                                                 
-        DO I=1,3                                               
-           DO J=1,3                                            
-           EE0(I,J)=DE1*VCE0(I,1)*VCE0(J,1)                    
-     &     +DE2*VCE0(I,2)*VCE0(J,2)+DE3*VCE0(I,3)*VCE0(J,3)    
-           END DO                                              
-        END DO                                                 
-        CALL INV_TPU(UE0, UE0_INV, DET)                                    
-        CALL AXB_TPU(FE0, UE0_INV, ROTE0, 3)                               
-        CALL DET_TPU(FE0, DET_FE)                                          
+        !COMPUTE UE0
+        D1=SQRT(DCE0(1))
+        D2=SQRT(DCE0(2))
+        D3=SQRT(DCE0(3))
+        DE1=LOG(SQRT(DCE0(1)))
+        DE2=LOG(SQRT(DCE0(2)))
+        DE3=LOG(SQRT(DCE0(3)))
+        DO I=1,3
+           DO J=1,3
+           UE0(I,J)=D1*VCE0(I,1)*VCE0(J,1)
+     &     +D2*VCE0(I,2)*VCE0(J,2)+D3*VCE0(I,3)*VCE0(J,3)
+           END DO
+        END DO
+        DO I=1,3
+           DO J=1,3
+           EE0(I,J)=DE1*VCE0(I,1)*VCE0(J,1)
+     &     +DE2*VCE0(I,2)*VCE0(J,2)+DE3*VCE0(I,3)*VCE0(J,3)
+           END DO
+        END DO
+        CALL INV_TPU(UE0, UE0_INV, DET)
+        CALL AXB_TPU(FE0, UE0_INV, ROTE0, 3)
+        CALL DET_TPU(FE0, DET_FE)
 C
 C====   DETERMINATION OF MANDEL STRESS M                                ===
 C
-        CALL TR_TPU(EE0, TR_EE0, 3)                                        
-        COEFF1_A       = TWOMU0                                            
-        COEFF1_B       = BULKA0*TR_EE0                                     
+        CALL TR_TPU(EE0, TR_EE0, 3)
+        COEFF1_A       = TWOMU0
+        COEFF1_B       = BULKA0*TR_EE0
 C
-        CALL AT_TPU(COEFF1_A, EE0, COEFF1_B, PMIDENT, XM, 9)               
+        CALL AT_TPU(COEFF1_A, EE0, COEFF1_B, PMIDENT, XM, 9)
 C
-       !-------------------------------------------------------------72    
-       !- CHECK 2                                                          
-       !- ELASTIC STRESSES AT THE BEGINNING OF THE STEP                    
-       !-!------------------------------------------------------------72   
-       !-------------------------------------------------------------72    
-       !DETERMINATION OF FLOW RULE FOR TIME-DEPENDENT DASHPOT              
-       !-------------------------------------------------------------72    
+       !-------------------------------------------------------------72
+       !- CHECK 2
+       !- ELASTIC STRESSES AT THE BEGINNING OF THE STEP
+       !-!------------------------------------------------------------72
+       !-------------------------------------------------------------72
+       !DETERMINATION OF FLOW RULE FOR TIME-DEPENDENT DASHPOT
+       !-------------------------------------------------------------72
        !DETERMINATION OF EQSTRESS, PRESSURE, DIRECTION OF PLASTIC FLOW
-        CALL ST_TPU(DEV_ALPHAM,   ZERO, 3*3)                             
-        CALL ST_TPU(BETAM0,       ZERO, 3*3)                             
-        CALL ST_TPU(DEV_XM,       ZERO, 3*3)                             
-        CALL ST_TPU(ALPHAM,       ZERO, 3*3)                             
-        CALL ST_TPU(XMEFF,        ZERO, 3*3)                             
-        CALL ST_TPU(DEV_MEFF,     ZERO, 3*3)                             
-        CALL ST_TPU(TEMP1,        ZERO, 3*3)                             
-        CALL ST_TPU(TEMP1_INV,    ZERO, 3*3)                             
-        CALL ST_TPU(TEMP2,        ZERO, 3*3)                             
-        CALL ST_TPU(TEMP2_INV,    ZERO, 3*3)                             
-        CALL ST_TPU(EXP_DVDT,     ZERO, 3*3)                             
-        CALL ST_TPU(FVM_ITER,     ZERO, 3*3)                             
-        CALL ST_TPU(DEV_MEFF_VEC, ZERO, 6)                               
-        DO I = 1, 6!NTENS                                         
-          NV_VEC(I)=PIDENT(I)                                     
-        ENDDO                                                     
+        CALL ST_TPU(DEV_ALPHAM,   ZERO, 3*3)
+        CALL ST_TPU(BETAM0,       ZERO, 3*3)
+        CALL ST_TPU(DEV_XM,       ZERO, 3*3)
+        CALL ST_TPU(ALPHAM,       ZERO, 3*3)
+        CALL ST_TPU(XMEFF,        ZERO, 3*3)
+        CALL ST_TPU(DEV_MEFF,     ZERO, 3*3)
+        CALL ST_TPU(TEMP1,        ZERO, 3*3)
+        CALL ST_TPU(TEMP1_INV,    ZERO, 3*3)
+        CALL ST_TPU(TEMP2,        ZERO, 3*3)
+        CALL ST_TPU(TEMP2_INV,    ZERO, 3*3)
+        CALL ST_TPU(EXP_DVDT,     ZERO, 3*3)
+        CALL ST_TPU(FVM_ITER,     ZERO, 3*3)
+        CALL ST_TPU(DEV_MEFF_VEC, ZERO, 6)
+        DO I = 1, 6!NTENS
+          NV_VEC(I)=PIDENT(I)
+        ENDDO
 C
-        CALL VEC6X1TOMAT3X3(BETA, BETAM0, 3)                      
-        CALL SST_TPU(DMU_B, BETAM0, ALPHAM, 3*3)                  
-        CALL DEV_TPU(ALPHAM, DEV_ALPHAM, 3)                       
-        CALL DEV_TPU(XM, DEV_XM, 3)                               
-        CALL AT_TPU(ONE, DEV_XM, -ONE, DEV_ALPHAM, DEV_MEFF, 9)   
-        CALL MAT3X3TOVEC6X1(DEV_MEFF,DEV_MEFF_VEC,3)              
-        CALL SP_TPU(DEV_MEFF_VEC,DEV_MEFF_VEC, ps, 6)             
-        NORM_DEVMEFF = SQRT(ps)                                   
+        CALL VEC6X1TOMAT3X3(BETA, BETAM0, 3)
+        CALL SST_TPU(DMU_B, BETAM0, ALPHAM, 3*3)
+        CALL DEV_TPU(ALPHAM, DEV_ALPHAM, 3)
+        CALL DEV_TPU(XM, DEV_XM, 3)
+        CALL AT_TPU(ONE, DEV_XM, -ONE, DEV_ALPHAM, DEV_MEFF, 9)
+        CALL MAT3X3TOVEC6X1(DEV_MEFF,DEV_MEFF_VEC,3)
+        CALL SP_TPU(DEV_MEFF_VEC,DEV_MEFF_VEC, ps, 6)
+        NORM_DEVMEFF = SQRT(ps)
 C
-        DKAPPA1 = CKAPPA1*DES10                                   
-        DKAPPA2 = CKAPPA2*DES20                                   
-        DKAPPA  = DKAPPA1 + DKAPPA2                               
-        CALL TR_TPU(XM, TR_M, 3)                                  
-        PRESSURE    = -THIRD*TR_M                                 
+        DKAPPA1 = CKAPPA1*DES10
+        DKAPPA2 = CKAPPA2*DES20
+        DKAPPA  = DKAPPA1 + DKAPPA2
+        CALL TR_TPU(XM, TR_M, 3)
+        PRESSURE    = -THIRD*TR_M
         EQSTRESS = (NORM_DEVMEFF/SQRT(TWO))
      &              -(DY0+DKAPPA+ALPHAP*PRESSURE)
 C
            !DETERMINATION OF GAMVDOT
 C
-        IF (EQSTRESS < SMALL) THEN                                 
-            DGAMV_ITER = ZERO                                         
+        IF (EQSTRESS < SMALL) THEN
+            DGAMV_ITER = ZERO
 C           WRITE(0 ,*) '!!!NO VISCOSITY!!!! ', DGAMV_ITER            
-        ELSE                                                          
+        ELSE
 C        WRITE(0 ,*) '!!!VISCOSITY!!!! ', DGAMV_ITER                  
-         CALL  SST_TPU(ONE/NORM_DEVMEFF, DEV_MEFF_VEC, NV_VEC,6)      
+         CALL  SST_TPU(ONE/NORM_DEVMEFF, DEV_MEFF_VEC, NV_VEC,6)
 C
-            GAMV0      = GAMV_REF*EXP(-DQ/(DR*THETA))                 
-            DGAMV_ITER = GAMV0*DTIME*                                 
-     &                   (SINH(EQSTRESS*DV1/(TWO*DKB*THETA)))**DM     
-            IF (DGAMV_ITER > EP06) THEN                            
-                 CALL ERR_TPU('PLASTICITY > 1.0D6!!!')             
-             ENDIF                                                    
+            GAMV0      = GAMV_REF*EXP(-DQ/(DR*THETA))
+            DGAMV_ITER = GAMV0*DTIME*
+     &                   (SINH(EQSTRESS*DV1/(TWO*DKB*THETA)))**DM
+            IF (DGAMV_ITER > EP06) THEN
+                 CALL ERR_TPU('PLASTICITY > 1.0D6!!!')
+             ENDIF
 C
-        ENDIF                                                         
+        ENDIF
 C
 C.......DETERMINATION OF INTERNAL STRAIN                   
 C
-        DESTAR     = DESTAR0                               
-     &                + (DESTAR_S-G0*DESTAR0)*DGAMV_ITER   
+        DESTAR     = DESTAR0
+     &                + (DESTAR_S-G0*DESTAR0)*DGAMV_ITER
 C
-        DES1       = DES10 + H0*                           
-     &                 (ONE-DES10/DESTAR)*DGAMV_ITER               
+        DES1       = DES10 + H0*
+     &                 (ONE-DES10/DESTAR)*DGAMV_ITER
 C
-        DLAMBDAP_BAR = ONE/DS3*SQRT(TR_BP)                 
-        DES2         = DES20 + H1*(DLAMBDAP_BAR-ONE)*      
-     &                 (ONE-DES20/DES2_S)*DGAMV_ITER       
+        DLAMBDAP_BAR = ONE/DS3*SQRT(TR_BP)
+        DES2         = DES20 + H1*(DLAMBDAP_BAR-ONE)*
+     &                 (ONE-DES20/DES2_S)*DGAMV_ITER
 C
 C.......DETERMINATION OF BETA                              
 C
-        CALL ST_TPU(DV_VEC,   ZERO, 6)                                  
-        CALL ST_TPU(DV,       ZERO, 3*3)                                
-        CALL ST_TPU(TENSOR1,  ZERO, 3*3)                                
-        CALL ST_TPU(TENSOR2,  ZERO, 3*3)                                
-        CALL ST_TPU(TENSOR3,  ZERO, 3*3)                                
-        CALL ST_TPU(TENSOR4,  ZERO, 3*3)                                
-        CALL ST_TPU(TENSOR5,  ZERO, 3*3)                                
-        CALL ST_TPU(BETAM,    ZERO, 3*3)                                
+        CALL ST_TPU(DV_VEC,   ZERO, 6)
+        CALL ST_TPU(DV,       ZERO, 3*3)
+        CALL ST_TPU(TENSOR1,  ZERO, 3*3)
+        CALL ST_TPU(TENSOR2,  ZERO, 3*3)
+        CALL ST_TPU(TENSOR3,  ZERO, 3*3)
+        CALL ST_TPU(TENSOR4,  ZERO, 3*3)
+        CALL ST_TPU(TENSOR5,  ZERO, 3*3)
+        CALL ST_TPU(BETAM,    ZERO, 3*3)
 C
-        CALL SST_TPU(DGAMV_ITER/(DTIME*SQRT(TWO)), NV_VEC, DV_VEC, 6)   
-        CALL VEC6X1TOMAT3X3(DV_VEC, DV,3)                               
+        CALL SST_TPU(DGAMV_ITER/(DTIME*SQRT(TWO)), NV_VEC, DV_VEC, 6)
+        CALL VEC6X1TOMAT3X3(DV_VEC, DV,3)
 C
 C       COMPUTE BETA_DOT                                                
 C
-        CALL AXB_TPU(DV, BETAM0, TENSOR1, 3)                            
-        CALL AXB_TPU(BETAM0, DV, TENSOR2, 3)                            
-        CALL AT_TPU(ONE, TENSOR1, ONE, TENSOR2, TENSOR3, 9)             
+        CALL AXB_TPU(DV, BETAM0, TENSOR1, 3)
+        CALL AXB_TPU(BETAM0, DV, TENSOR2, 3)
+        CALL AT_TPU(ONE, TENSOR1, ONE, TENSOR2, TENSOR3, 9)
 C
-        CALL SST_TPU(DRS1,                                   
-     &               TENSOR3, TENSOR4, 3*3)                  
-        CALL AT_TPU(ONE, BETAM0, DTIME, TENSOR4, BETAM, 9)   
+        CALL SST_TPU(DRS1,
+     &               TENSOR3, TENSOR4, 3*3)
+        CALL AT_TPU(ONE, BETAM0, DTIME, TENSOR4, BETAM, 9)
 C
 C       EIGEN VALUES AND VECTOR OF BETA                      
 C
-        DO I=1,NDI                                                             
-            DO J=1,NDI                                                         
-              A(I,J)= BETAM(I,J)                                               
-            ENDDO                                                              
-        ENDDO                                                                  
-        CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)                       
-        CALL EIGSRT(DCE1, VCE1, 3, 3)                                          
-        IF (IER==1) THEN                                                     
-          CALL ERR_TPU('ERROR IN EIG VAL')                                     
-        ENDIF                                                                  
-        SIGN=-ONE                                                               
-        CALL DET_TPU(VCE1, DET_VCE1)                                           
-        IF(DET_VCE1<=0.) SIGN=ONE                                             
-        DO I=1,3                                                                   
-           EXCHANGE=VCE1(I,1)                                                      
-           VCE1(I,1)=VCE1(I,2)                                                     
-           VCE1(I,2)=EXCHANGE*SIGN                                                 
-        ENDDO                                                                  
-        EXCHANGE=DCE1(1)                                                           
-        DCE1(1)=DCE1(2)                                                            
-        DCE1(2)=EXCHANGE                                                           
+        DO I=1,NDI
+            DO J=1,NDI
+              A(I,J)= BETAM(I,J)
+            ENDDO
+        ENDDO
+        CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)
+        CALL EIGSRT(DCE1, VCE1, 3, 3)
+        IF (IER==1) THEN
+          CALL ERR_TPU('ERROR IN EIG VAL')
+        ENDIF
+        SIGN=-ONE
+        CALL DET_TPU(VCE1, DET_VCE1)
+        IF(DET_VCE1<=0.) SIGN=ONE
+        DO I=1,3
+           EXCHANGE=VCE1(I,1)
+           VCE1(I,1)=VCE1(I,2)
+           VCE1(I,2)=EXCHANGE*SIGN
+        ENDDO
+        EXCHANGE=DCE1(1)
+        DCE1(1)=DCE1(2)
+        DCE1(2)=EXCHANGE
 C
-        DO I=1,3                                                                   
-           DO J=1,3                                                                
-           BETAM0(I,J)=DCE1(1)*VCE1(I,1)*VCE1(J,1)                                 
-     &     +DCE1(2)*VCE1(I,2)*VCE1(J,2)+DCE1(3)*VCE1(I,3)*VCE1(J,3)                
-           END DO                                                                  
-        END DO                                                                     
+        DO I=1,3
+           DO J=1,3
+           BETAM0(I,J)=DCE1(1)*VCE1(I,1)*VCE1(J,1)
+     &     +DCE1(2)*VCE1(I,2)*VCE1(J,2)+DCE1(3)*VCE1(I,3)*VCE1(J,3)
+           END DO
+        END DO
 C
 C...... DETERMINATION OF MATERIAL FUNCTION  MU_B                                  
-        DMU_B = DMU_R*(ONE-(DCE1(1)+DCE1(2)+DCE1(3)-THREE)/DLAMBDA_L)**(-1.0)     
+        DMU_B = DMU_R*(ONE-(DCE1(1)+DCE1(2)+DCE1(3)-THREE)/DLAMBDA_L)**(-1.0)
 C...... DETERMINATION OF ALPHA                                                    
 C
 C
-        CALL AT_TPU(DTIME, DV, ONE, PMIDENT, TEMP1, 9)                             
-         CALL AXB_TPU(TEMP1, FVM, FVM_ITER, 3)                                      
-        CALL MAT3X3TOVEC6X1(FVM_ITER,FV_ITER,3)                                    
+        CALL AT_TPU(DTIME, DV, ONE, PMIDENT, TEMP1, 9)
+         CALL AXB_TPU(TEMP1, FVM, FVM_ITER, 3)
+        CALL MAT3X3TOVEC6X1(FVM_ITER,FV_ITER,3)
 C--------------------------------------------------------------------72
 C-------- ELASTIC STRESSES AT THE END OF THE STEP
 C--------------------------------------------------------------------72
 C
 C----   COMPUTE: FE->CE->UE->RE->EE                                       
-        CALL ST_TPU(FVM_INV, ZERO, 3*3)                                   
-        CALL ST_TPU(FTHETA,  ZERO, 3*3)                                   
-        CALL ST_TPU(FTHETA_INV, ZERO, 3*3)                                
-        CALL ST_TPU(TENS0, ZERO, 3*3)                                     
-        CALL ST_TPU(TENS1, ZERO, 3*3)                                     
-        CALL ST_TPU(FE1,     ZERO, 3*3)                                   
-        CALL ST_TPU(CE1,     ZERO, 3*3)                                   
-        CALL ST_TPU(UE1,     ZERO, 3*3)                                   
-        CALL ST_TPU(UE1_INV, ZERO, 3*3)                                   
-        CALL ST_TPU(ROTE1,   ZERO, 3*3)                                   
-        CALL ST_TPU(EE1,     ZERO, 3*3)                                   
+        CALL ST_TPU(FVM_INV, ZERO, 3*3)
+        CALL ST_TPU(FTHETA,  ZERO, 3*3)
+        CALL ST_TPU(FTHETA_INV, ZERO, 3*3)
+        CALL ST_TPU(TENS0, ZERO, 3*3)
+        CALL ST_TPU(TENS1, ZERO, 3*3)
+        CALL ST_TPU(FE1,     ZERO, 3*3)
+        CALL ST_TPU(CE1,     ZERO, 3*3)
+        CALL ST_TPU(UE1,     ZERO, 3*3)
+        CALL ST_TPU(UE1_INV, ZERO, 3*3)
+        CALL ST_TPU(ROTE1,   ZERO, 3*3)
+        CALL ST_TPU(EE1,     ZERO, 3*3)
 C
 C       DETERMINATION OF FE AND CE                                        
 C
-        CALL SST_TPU(ONE+BETA0*(THETA-THETAI), PMIDENT, FTHETA, 3*3)      
-        CALL INV_TPU(FTHETA, FTHETA_INV, DET)                             
-        CALL INV_TPU(FVM_ITER, FVM_INV, DET)                              
-        CALL AXB_TPU(F1, FTHETA_INV, TENS0, 3)                            
-        CALL AXB_TPU(TENS0, FVM_INV, FE1, 3)                              
-        CALL ATXB_TPU(FE1, FE1, CE1, 3)                                   
-        DO I=1,NDI                                                        
-            DO J=1,NDI                                                    
-              A(I,J)= CE1(I,J)                                            
-            ENDDO                                                         
-        ENDDO                                                             
-        CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)                                
-        CALL EIGSRT(DCE1, VCE1, 3, 3)                                                   
-        IF (IER==1) THEN                                                              
-          CALL ERR_TPU('ERROR IN EIG VAL')                                              
-        ENDIF                                                                           
+        CALL SST_TPU(ONE+BETA0*(THETA-THETAI), PMIDENT, FTHETA, 3*3)
+        CALL INV_TPU(FTHETA, FTHETA_INV, DET)
+        CALL INV_TPU(FVM_ITER, FVM_INV, DET)
+        CALL AXB_TPU(F1, FTHETA_INV, TENS0, 3)
+        CALL AXB_TPU(TENS0, FVM_INV, FE1, 3)
+        CALL ATXB_TPU(FE1, FE1, CE1, 3)
+        DO I=1,NDI
+            DO J=1,NDI
+              A(I,J)= CE1(I,J)
+            ENDDO
+        ENDDO
+        CALL VALPROP_TPU(A, 3, 3, DCE1, VCE1, NROT, IER)
+        CALL EIGSRT(DCE1, VCE1, 3, 3)
+        IF (IER==1) THEN
+          CALL ERR_TPU('ERROR IN EIG VAL')
+        ENDIF
         !*** EIGENVALUES (AND ASSOC EIGENVECTORS) ARE ORDERED FROM LARGER TO SMALLER.  !
         !*** REDEFINE AXIS(2) TO BE THE LARGEST IN ORDER TO IMPROVE ACCURACY IN THE    !
         !   CALCULATION OF THE ESHELBY TENSOR.                                        !
         !*** IF DET(B)<0 MEANS THAT THE SYSTEM IS LEFT HANDED. IT IS MADE RIGHT        !
         !   HANDED BY EXCHANGING 1 AND 2.                                             !
-        SIGN=-ONE                                                                       
-        CALL DET_TPU(VCE1, DET_VCE1)                                                    
-        IF(DET_VCE1<=ZERO) SIGN=ONE                                                   
-        DO I=1,3                                                                        
-           EXCHANGE=VCE1(I,1)                                                           
-           VCE1(I,1)=VCE1(I,2)                                                          
-           VCE1(I,2)=EXCHANGE*SIGN                                                      
-        ENDDO                                                                           
-        EXCHANGE=DCE1(1)                                                                
-        DCE1(1)=DCE1(2)                                                                 
-        DCE1(2)=EXCHANGE                                                                
+        SIGN=-ONE
+        CALL DET_TPU(VCE1, DET_VCE1)
+        IF(DET_VCE1<=ZERO) SIGN=ONE
+        DO I=1,3
+           EXCHANGE=VCE1(I,1)
+           VCE1(I,1)=VCE1(I,2)
+           VCE1(I,2)=EXCHANGE*SIGN
+        ENDDO
+        EXCHANGE=DCE1(1)
+        DCE1(1)=DCE1(2)
+        DCE1(2)=EXCHANGE
 C
 C------ COMPUTE UE1                                                                     
 C
-        D1=SQRT(DCE1(1))                                                                
-        D2=SQRT(DCE1(2))                                                                
-        D3=SQRT(DCE1(3))                                                                
-        DE1=LOG(SQRT(DCE1(1)))                                                          
-        DE2=LOG(SQRT(DCE1(2)))                                                          
-        DE3=LOG(SQRT(DCE1(3)))                                                          
+        D1=SQRT(DCE1(1))
+        D2=SQRT(DCE1(2))
+        D3=SQRT(DCE1(3))
+        DE1=LOG(SQRT(DCE1(1)))
+        DE2=LOG(SQRT(DCE1(2)))
+        DE3=LOG(SQRT(DCE1(3)))
 C
-        DO I=1,3                                                
-           DO J=1,3                                             
-             UE1(I,J)=D1*VCE1(I,1)*VCE1(J,1)                    
-     &     +D2*VCE1(I,2)*VCE1(J,2)+D3*VCE1(I,3)*VCE1(J,3)       
-           END DO                                               
-        END DO                                                  
+        DO I=1,3
+           DO J=1,3
+             UE1(I,J)=D1*VCE1(I,1)*VCE1(J,1)
+     &     +D2*VCE1(I,2)*VCE1(J,2)+D3*VCE1(I,3)*VCE1(J,3)
+           END DO
+        END DO
 C
-        DO I=1,3                                                
-           DO J=1,3                                             
-             EE1(I,J)=DE1*VCE1(I,1)*VCE1(J,1)                     
-     &     +DE2*VCE1(I,2)*VCE1(J,2)+DE3*VCE1(I,3)*VCE1(J,3)     
-           END DO                                               
-        END DO                                                  
+        DO I=1,3
+           DO J=1,3
+             EE1(I,J)=DE1*VCE1(I,1)*VCE1(J,1)
+     &     +DE2*VCE1(I,2)*VCE1(J,2)+DE3*VCE1(I,3)*VCE1(J,3)
+           END DO
+        END DO
 C
-        CALL INV_TPU(UE1, UE1_INV, DET)                         
-        CALL AXB_TPU(FE1, UE1_INV, ROTE1, 3)                    
-        CALL DET_TPU(FE1, DET_FE)                               
+        CALL INV_TPU(UE1, UE1_INV, DET)
+        CALL AXB_TPU(FE1, UE1_INV, ROTE1, 3)
+        CALL DET_TPU(FE1, DET_FE)
 C
 C=======DETERMINATION OF TAU
 C
-        CALL ST_TPU(XM,        ZERO, 3*3)                                  
-        CALL ST_TPU(TAUM,      ZERO, 3*3)                                  
+        CALL ST_TPU(XM,        ZERO, 3*3)
+        CALL ST_TPU(TAUM,      ZERO, 3*3)
 C
-        CALL TR_TPU(EE1, TR_EE1, 3)                                        
-        COEFF1_A       = TWOMU0                                            
-        COEFF1_B       = BULKA0*TR_EE1                                     
-        CALL AT_TPU(COEFF1_A,EE1, COEFF1_B, PMIDENT, XM, 9)                
-        CALL QAQT_TPU(ROTE1, XM, TAUM, 3)                                  
+        CALL TR_TPU(EE1, TR_EE1, 3)
+        COEFF1_A       = TWOMU0
+        COEFF1_B       = BULKA0*TR_EE1
+        CALL AT_TPU(COEFF1_A,EE1, COEFF1_B, PMIDENT, XM, 9)
+        CALL QAQT_TPU(ROTE1, XM, TAUM, 3)
 C
 C-------DETERMINATION OF SIGMA AND INTERNAL STATE VARIABLES                
 C
-        CALL ST_TPU(SIGMAM,      ZERO, 3*3)                                
-        CALL ST_TPU(SIGMA_Q,     ZERO, 3*3)                                
+        CALL ST_TPU(SIGMAM,      ZERO, 3*3)
+        CALL ST_TPU(SIGMA_Q,     ZERO, 3*3)
 C
-        CALL SST_TPU(ONE/DET_FE, TAUM, SIGMAM, 3*3)                        
+        CALL SST_TPU(ONE/DET_FE, TAUM, SIGMAM, 3*3)
 C
 C-------DETERMINATION OF SIGMA  (IN THE ROTATED CONFIGURATION)    
 C
-        CALL QTAQ_TPU(ROT1, SIGMAM, SIGMA_Q, 3)                            
+        CALL QTAQ_TPU(ROT1, SIGMAM, SIGMA_Q, 3)
 C
 C====================================================================72
 C============ UPDATE VARIABLES
 C====================================================================72
 C
-                      CALL SP_TPU(DV_VEC, DV_VEC,ps,6)                          
-        GAMV_ITER    = GAMV + DGAMV_ITER                          
-        GAMVEQ       = GAMVEQ +SQRT((TWO/THREE)*ps)*DTIME        
+                      CALL SP_TPU(DV_VEC, DV_VEC,ps,6)
+        GAMV_ITER    = GAMV + DGAMV_ITER
+        GAMVEQ       = GAMVEQ +SQRT((TWO/THREE)*ps)*DTIME
 C
 C-------TEMPERATURE, ASSUMING ADIABATIC CONDITIONS            ----
 C
-        IF (ABS(D_THETA_OPT-ZERO) < SMALL .OR.                 
-     &      ABS(D_THETA_OPT-ONE)  < SMALL) FACTOR = ZERO       
+        IF (ABS(D_THETA_OPT-ZERO) < SMALL .OR.
+     &      ABS(D_THETA_OPT-ONE)  < SMALL) FACTOR = ZERO
 C
-        CALL ST_TPU(XM_VEC,  ZERO, 6)                             
+        CALL ST_TPU(XM_VEC,  ZERO, 6)
 C
-        RHO_P = RHO_P*(1.42D0*THETAG+44.7D0)                      
-     &                / (1.42D0*THETAG+0.15D0*THETA)              
-        CV = CV*(0.106D0+THREE*EM03*THETA)                        
+        RHO_P = RHO_P*(1.42D0*THETAG+44.7D0)
+     &                / (1.42D0*THETAG+0.15D0*THETA)
+        CV = CV*(0.106D0+THREE*EM03*THETA)
 C
-        CALL MAT3X3TOVEC6X1(XM, XM_VEC, 3)                        
-                                    CALL SP_TPU(XM_VEC,DV_VEC,ps,6)                           
-        DTHETA_ITER  = (DTIME*FACTOR*ps) /(CV*RHO_P)              
-        THETAITER    = THETA + DTHETA_ITER                        
-        THETADOTITER = DTHETA_ITER/DTIME                          
+        CALL MAT3X3TOVEC6X1(XM, XM_VEC, 3)
+                                    CALL SP_TPU(XM_VEC,DV_VEC,ps,6)
+        DTHETA_ITER  = (DTIME*FACTOR*ps) /(CV*RHO_P)
+        THETAITER    = THETA + DTHETA_ITER
+        THETADOTITER = DTHETA_ITER/DTIME
 C=======DETERMINATION OF SIGMA AND INTERNAL STATE VARIABLES       
 C
 C-------SIGMA_Q(I,J)                   
 C
-        SIGNXX(IE) = SIGMA_Q(1,1)      
-        SIGNYY(IE) = SIGMA_Q(2,2)      
-        SIGNZZ(IE) = SIGMA_Q(3,3)      
-        SIGNXY(IE) = SIGMA_Q(1,2)      
-        SIGNYZ(IE) = SIGMA_Q(2,3)      
-        SIGNZX(IE) = SIGMA_Q(1,3)      
-        
+        SIGNXX(IE) = SIGMA_Q(1,1)
+        SIGNYY(IE) = SIGMA_Q(2,2)
+        SIGNZZ(IE) = SIGMA_Q(3,3)
+        SIGNXY(IE) = SIGMA_Q(1,2)
+        SIGNYZ(IE) = SIGMA_Q(2,3)
+        SIGNZX(IE) = SIGMA_Q(1,3)
+
 C
-        UVAR(IE, 1)  = FV_ITER(1)      
-        UVAR(IE, 2)  = FV_ITER(2)      
-        UVAR(IE, 3)  = FV_ITER(3)      
-        UVAR(IE, 4)  = FV_ITER(4)      
-        UVAR(IE, 5)  = FV_ITER(5)      
-        UVAR(IE, 6)  = FV_ITER(6)      
-        UVAR(IE, 7)  = DES1            
-        UVAR(IE, 8)  = DESTAR          
-        UVAR(IE, 9)  = DES2            
-        UVAR(IE, 10) = BETAM0(1,1)     
-        UVAR(IE, 11) = BETAM0(2,2)     
-        UVAR(IE, 12) = BETAM0(3,3)     
-        UVAR(IE, 13) = BETAM0(1,2)     
-        UVAR(IE, 14) = BETAM0(2,3)     
-        UVAR(IE, 15) = BETAM0(3,1)     
-        UVAR(IE, 16) = DMU_B           
-        UVAR(IE, 17) = GAMV_ITER       
-        UVAR(IE, 18) = DGAMV_ITER      
-        UVAR(IE, 19) = GAMVEQ          
-        UVAR(IE, 20) = THETAITER       
-        UVAR(IE, 21) = THETADOTITER    
-        UVAR(IE,22) = F1(1,1) !F011    
-        UVAR(IE,23) = F1(2,2) !F022         
-        UVAR(IE,24) = F1(3,3) !F033         
-        UVAR(IE,25) = F1(1,2) !F012         
-        UVAR(IE,26) = F1(2,1) !F021         
-        UVAR(IE,27) = F1(1,3) !F013         
-           UVAR(IE,28) = F1(3,1) !F031         
-        UVAR(IE,29) = F1(2,3) !F023         
-        UVAR(IE,30) = F1(3,2) !F032         
-        UVAR(IE,31) = U1(1,1) !U011         
-        UVAR(IE,32) = U1(2,2) !U022         
-        UVAR(IE,33) = U1(3,3) !U033         
-        UVAR(IE,34) = U1(1,2) !U012         
-        UVAR(IE,35) = U1(2,1) !U021         
-        UVAR(IE,36) = U1(1,3) !U013         
-           UVAR(IE,37) = U1(3,1) !U031         
-        UVAR(IE,38) = U1(2,3) !U023         
-        UVAR(IE,39) = U1(3,2) !U032         
-        UVAR(IE,40) = LOG(U1(1,1)) !E111    
-        UVAR(IE,41) = LOG(U1(2,2)) !E122    
-        UVAR(IE,42) = LOG(U1(3,3)) !E133    
-                
+        UVAR(IE, 1)  = FV_ITER(1)
+        UVAR(IE, 2)  = FV_ITER(2)
+        UVAR(IE, 3)  = FV_ITER(3)
+        UVAR(IE, 4)  = FV_ITER(4)
+        UVAR(IE, 5)  = FV_ITER(5)
+        UVAR(IE, 6)  = FV_ITER(6)
+        UVAR(IE, 7)  = DES1
+        UVAR(IE, 8)  = DESTAR
+        UVAR(IE, 9)  = DES2
+        UVAR(IE, 10) = BETAM0(1,1)
+        UVAR(IE, 11) = BETAM0(2,2)
+        UVAR(IE, 12) = BETAM0(3,3)
+        UVAR(IE, 13) = BETAM0(1,2)
+        UVAR(IE, 14) = BETAM0(2,3)
+        UVAR(IE, 15) = BETAM0(3,1)
+        UVAR(IE, 16) = DMU_B
+        UVAR(IE, 17) = GAMV_ITER
+        UVAR(IE, 18) = DGAMV_ITER
+        UVAR(IE, 19) = GAMVEQ
+        UVAR(IE, 20) = THETAITER
+        UVAR(IE, 21) = THETADOTITER
+        UVAR(IE,22) = F1(1,1) !F011
+        UVAR(IE,23) = F1(2,2) !F022
+        UVAR(IE,24) = F1(3,3) !F033
+        UVAR(IE,25) = F1(1,2) !F012
+        UVAR(IE,26) = F1(2,1) !F021
+        UVAR(IE,27) = F1(1,3) !F013
+           UVAR(IE,28) = F1(3,1) !F031
+        UVAR(IE,29) = F1(2,3) !F023
+        UVAR(IE,30) = F1(3,2) !F032
+        UVAR(IE,31) = U1(1,1) !U011
+        UVAR(IE,32) = U1(2,2) !U022
+        UVAR(IE,33) = U1(3,3) !U033
+        UVAR(IE,34) = U1(1,2) !U012
+        UVAR(IE,35) = U1(2,1) !U021
+        UVAR(IE,36) = U1(1,3) !U013
+           UVAR(IE,37) = U1(3,1) !U031
+        UVAR(IE,38) = U1(2,3) !U023
+        UVAR(IE,39) = U1(3,2) !U032
+        UVAR(IE,40) = LOG(U1(1,1)) !E111
+        UVAR(IE,41) = LOG(U1(2,2)) !E122
+        UVAR(IE,42) = LOG(U1(3,3)) !E133
+
 C
 
 C sound velocity  
-            SOUNDSP(IE) = SQRT((DK+4*DMU/3)/RHO0(IE)) 
-            VISCMAX(IE) = ZERO     
-         
+            SOUNDSP(IE) = SQRT((DK+4*DMU/3)/RHO0(IE))
+            VISCMAX(IE) = ZERO
+
 C................................... MODEL IMPLEMENTATION CHOICE
 C
-20    ENDDO 
+20    ENDDO
 C
 C................................... END ELEMENT LOOP
-     
-         
+
+
 C Temperature         
          TEMP(1:NEL)   = TEMPEL(1:NEL)
-         
-         
+
+
       RETURN
       END
 C
 
-      
-      
+
+
 C=====================================================================72
 C=====================================================================72
 C---- SUPPORTING ROUTINES FOR TPU MATERIAL ROUTINE
@@ -1436,7 +1436,7 @@ Chd|====================================================================
       SUBROUTINE AT_TPU(COEFA, A, COEFB, B, C, N)
 #include "implicit_f.inc"
 
-      INTEGER N, I 
+      INTEGER N, I
       my_real  COEFA, COEFB
       my_real  A(N), B(N), C(N)
 C
@@ -1720,17 +1720,17 @@ C
 ! C
       ! SP_TPU =ZERO
       ! DO I = 1, 3
-        ! SP_TPU = SP_TPU + A(I)*B(I)        
-      ! ENDDO   
+        ! SP_TPU = SP_TPU + A(I)*B(I)
+      ! ENDDO
 
       ! DO I = 4, N
-        ! SP_TPU = SP_TPU + TWO*A(I)*B(I)        
-      ! ENDDO   
+        ! SP_TPU = SP_TPU + TWO*A(I)*B(I)
+      ! ENDDO
 
       ! RETURN
       ! END
-          
-          
+
+
 Chd|====================================================================
 Chd|  SP_TPU                        source/materials/mat/mat101/sigeps101.F
 Chd|-- called by -----------
@@ -1747,17 +1747,17 @@ C---------------------------------------------------------------------72
 C
       c =ZERO
       DO I = 1, 3
-        c = c + A(I)*B(I)        
-      ENDDO   
+        c = c + A(I)*B(I)
+      ENDDO
 
       DO I = 4, N
-        c = c + TWO*A(I)*B(I)        
-      ENDDO   
+        c = c + TWO*A(I)*B(I)
+      ENDDO
 
       RETURN
-      END         
-          
-          
+      END
+
+
 C
 C=====================================================================72
 C
@@ -1783,7 +1783,7 @@ C
 C---------------------------------------------------------------------72
 C
       CALL ATXB_TPU(Q, A, TMP, N)      ! TMP = QT*A
-      CALL INV_TPU(Q, QM1, DET)        
+      CALL INV_TPU(Q, QM1, DET)
       CALL AXBT_TPU(TMP, QM1, B, N)    ! B = TMP*QMT
 C                                                                               
       RETURN
@@ -2156,7 +2156,7 @@ C
       ELSE
         WRITE(0 ,*) 'CHECK ERROR LANGEVIN'
         WRITE(0 ,*) 'LAMBDA_BAR ', A, ' COEFF ', B
-        WRITE(0 ,*) 'ARG ', ARG         
+        WRITE(0 ,*) 'ARG ', ARG
         CALL ERR_TPU('ERROR IN INVERSE LANGEVIN ARGUMENT')
       ENDIF
 C

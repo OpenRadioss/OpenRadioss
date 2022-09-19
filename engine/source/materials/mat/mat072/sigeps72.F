@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .    UVAR(NEL,NUVAR),OFF(NEL),PLA(NEL),SEQ(NEL),
      .    DMG(NEL),DPLANL(NEL)
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C-----------------------------------------------
       BULK    = UPARAM(9)   ! Bulk modulus
       LAMHOOK = UPARAM(10)  ! Hooke's lamba coefficient
       ! Hardening parameter
-      SIGY    = UPARAM(11)  ! Initial yield stress 
+      SIGY    = UPARAM(11)  ! Initial yield stress
       EPS0    = UPARAM(12)  ! Initial plastic strain (> 0)
       NEXPO   = UPARAM(13)  ! Hardening exponent
       ! Hill yield criterion parameters
@@ -123,12 +123,12 @@ C-----------------------------------------------
       C3      = UPARAM(22)  ! Third failure parameter
       MEXP    = UPARAM(23)  ! Damage exponent
       DC      = UPARAM(24)  ! Critical damage value
-c 
+c
       ! Initial value
       IF (ISIGI == 0) THEN
         IF (TIME == ZERO) THEN
           DO I=1,NEL
-            UVAR(I,1) = ZERO                              
+            UVAR(I,1) = ZERO
           ENDDO
         ENDIF
       ENDIF
@@ -163,18 +163,18 @@ c
             BETA(I) = (DC - DAM(I))*BETA(I)
             BETA(I) = BETA(I)**MEXP
           ENDIF
-        ENDIF       
+        ENDIF
         ! Computation of the yield stress
         CC(I)  = PLA(I) + EPS0
         YLD(I) = BETA(I)*SIGY*EXP(NEXPO*LOG(CC(I)))
         YLD(I) = MAX(YLD(I), EM10)
       ENDDO
-c      
+c
       !========================================================================
       ! - COMPUTATION OF TRIAL VALUES
-      !======================================================================== 
+      !========================================================================
       DO I = 1,NEL
-c    
+c
         ! Computation of the trial stress tensor
         DAV = (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * LAMHOOK
         SIGNXX(I) = SIG0XX(I) + DEPSXX(I)*G2 + DAV
@@ -190,7 +190,7 @@ C
      .             TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         SIGHL(I) = SQRT(MAX(ZERO,SIGHL(I)))
 C        
-      ENDDO  
+      ENDDO
 c
       !========================================================================
       ! - COMPUTATION OF YIELD FONCTION
@@ -199,27 +199,27 @@ c
       ! Checking plastic behavior for all elements
       NINDX = 0
       INDX  = 0
-      DO I=1,NEL         
+      DO I=1,NEL
         IF ((PHI(I)>ZERO).AND.(OFF(I) == ONE)) THEN
           NINDX = NINDX+1
           INDX(NINDX) = I
         ENDIF
       ENDDO
-c      
+c
       !====================================================================
       ! - PLASTIC CORRECTION WITH CUTTING PLANE ALGORITHM (NEWTON ITERATION)
-      !====================================================================       
-c      
+      !====================================================================
+c
       ! Number of maximum Newton iterations
       NITER = 3
 c
-      ! Loop over the iterations     
+      ! Loop over the iterations
       DO ITER = 1, NITER
-#include "vectorize.inc" 
+#include "vectorize.inc"
         ! Loop over yielding elements
-        DO II=1,NINDX 
+        DO II=1,NINDX
           I = INDX(II)
-c          
+c
           ! Note     : in this part, the purpose is to compute for each iteration
           ! a plastic multiplier allowing to update internal variables to satisfy
           ! the consistency condition using the backward Euler implicit method
@@ -227,22 +227,22 @@ c
           ! Its expression at each iteration is : DLAMBDA = - PHI/DPHI_DLAMBDA
 	  ! -> PHI          : current value of yield function (known)
           ! -> DPHI_DLAMBDA : derivative of PHI with respect to DLAMBDA by taking
-          !                   into account of internal variables kinetic : 
+          !                   into account of internal variables kinetic :
           !                   plasticity, temperature and damage (to compute)
-c        
+c
 	  ! 1 - Computation of DPHI_DSIG the normal to the yield surface
-          !------------------------------------------------------------- 
-          
+          !-------------------------------------------------------------
+
           NORMXX = (GG*(SIGNXX(I)-SIGNZZ(I)) + HH*(SIGNXX(I)-SIGNYY(I)))/(MAX(SIGHL(I),EM20))
           NORMYY = (FF*(SIGNYY(I)-SIGNZZ(I)) + HH*(SIGNYY(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
           NORMZZ = (FF*(SIGNZZ(I)-SIGNYY(I)) + GG*(SIGNZZ(I)-SIGNXX(I)))/(MAX(SIGHL(I),EM20))
           NORMXY = TWO*NN*SIGNXY(I)/(MAX(SIGHL(I),EM20))
           NORMYZ = TWO*LL*SIGNYZ(I)/(MAX(SIGHL(I),EM20))
           NORMZX = TWO*MM*SIGNZX(I)/(MAX(SIGHL(I),EM20))
-c          
+c
           ! 2 - Computation of DPHI_DLAMBDA
           !---------------------------------------------------------
-c        
+c
           !   a) Derivative with respect stress increments tensor DSIG			
           !   --------------------------------------------------------
           DFDSIG2 = NORMXX * NORMXX * G2
@@ -250,43 +250,43 @@ c
      .            + NORMZZ * NORMZZ * G2
      .            + NORMXY * NORMXY * G
      .            + NORMYZ * NORMYZ * G
-     .            + NORMZX * NORMZX * G  
+     .            + NORMZX * NORMZX * G
 c
           !   b) Derivatives with respect to plastic strain P 			
-          !   ------------------------------------------------  
-c          
+          !   ------------------------------------------------
+c
           !     i) Derivative of the yield stress with respect to plastic strain dYLD / dPLA
           !     ----------------------------------------------------------------------------
           H(I) = BETA(I)*NEXPO*SIGY*EXP((NEXPO-1)*LOG(CC(I)))
-c          
+c
           !     ii) Derivative of dPLA with respect to DLAM
-          !     -------------------------------------------  
+          !     -------------------------------------------
           SIG_DFDSIG = SIGNXX(I) * NORMXX
      .               + SIGNYY(I) * NORMYY
      .               + SIGNZZ(I) * NORMZZ
      .               + SIGNXY(I) * NORMXY
      .               + SIGNYZ(I) * NORMYZ
-     .               + SIGNZX(I) * NORMZX  
+     .               + SIGNZX(I) * NORMZX
           DPLA_DLAM(I) = SIG_DFDSIG / MAX(YLD(I),EM20)
 c
           ! 3 - Computation of plastic multiplier and variables update
           !----------------------------------------------------------
-c          
+c
           ! Derivative of PHI with respect to DLAM
           DPHI_DLAM(I) = - DFDSIG2 - H(I)*DPLA_DLAM(I)
           DPHI_DLAM(I) = SIGN(MAX(ABS(DPHI_DLAM(I)),EM20) ,DPHI_DLAM(I))
-c          
+c
           ! Computation of the plastic multiplier
           DLAM = -PHI(I)/DPHI_DLAM(I)
-c         
+c
           ! Plastic strains tensor update
           DPXX(I) = DLAM * NORMXX
           DPYY(I) = DLAM * NORMYY
           DPZZ(I) = DLAM * NORMZZ
           DPXY(I) = DLAM * NORMXY
           DPYZ(I) = DLAM * NORMYZ
-          DPZX(I) = DLAM * NORMZX  
-c          
+          DPZX(I) = DLAM * NORMZX
+c
           ! Elasto-plastic stresses update
           SIGNXX(I) = SIGNXX(I) - DPXX(I)*G2
           SIGNYY(I) = SIGNYY(I) - DPYY(I)*G2
@@ -294,8 +294,8 @@ c
           SIGNXY(I) = SIGNXY(I) - DPXY(I)*G
           SIGNYZ(I) = SIGNYZ(I) - DPYZ(I)*G
           SIGNZX(I) = SIGNZX(I) - DPZX(I)*G
-c          
-          ! Cumulated plastic strain and strain rate update           
+c
+          ! Cumulated plastic strain and strain rate update
           DDEP    = DLAM*DPLA_DLAM(I)
           DPLA(I) = MAX(ZERO, DPLA(I) + DDEP)
           PLA(I)  = MAX(PLA(I) + DDEP,ZERO)
@@ -317,7 +317,7 @@ c
         ENDDO
         ! End of the loop over the yielding elements
       ENDDO
-      ! End of the loop over the iterations 
+      ! End of the loop over the iterations
       !===================================================================
       ! - END OF PLASTIC CORRECTION WITH CUTTING PLANE ALGORITHM
       !===================================================================
@@ -334,7 +334,7 @@ C
           SD11 = SIGNXX(I) - P
           SD22 = SIGNYY(I) - P
           SD33 = SIGNZZ(I) - P
-          SVM  = HALF*(SD11**2 + SD22**2 + SD33**2) + 
+          SVM  = HALF*(SD11**2 + SD22**2 + SD33**2) +
      +                   SIGNXY(I)**2 + SIGNZX(I)**2 + SIGNYZ(I)**2
           SVM  = SQRT(MAX(THREE*SVM,ZERO))
           ! Determinant of the deviatoric stress tensor
@@ -352,7 +352,7 @@ C
 C 
           ! Computation of failure coefficient
           F1 = COS(THETA*PI/SIX)
-          F2 = SIN(THETA*PI/SIX) 
+          F2 = SIN(THETA*PI/SIX)
           F3 = C3 + (SQRT(THREE)/(TWO - SQRT(THREE)))*(ONE - C3)*(ONE/MAX(F1,EM20) - ONE)
 C
           ! Computation of the failure plastic strain
@@ -360,7 +360,7 @@ C
           EPSF = MAX(EPSF,EM20)**(-ONE/NEXPO)
 C           
           ! Computation of the damage variable
-          IF (INLOC > 0) THEN 
+          IF (INLOC > 0) THEN
             DAM(I) = DAM(I) + MAX(DPLANL(I),ZERO)/MAX(EPSF,EM20)
           ELSE
             DAM(I) = DAM(I) + DPLA(I)/MAX(EPSF,EM20)
@@ -371,7 +371,7 @@ C
             IDEL7NOK = 1
             NINDX = NINDX+1
             INDX(NINDX)=I
-          ENDIF  
+          ENDIF
 C
           ! Store the new value of damage
           UVAR(I,1) = DAM(I)
@@ -381,10 +381,10 @@ C
         ! Normalized damage
         DMG(I)     = DAM(I)/DC
         ! Sound-speed
-        SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I)) 
+        SOUNDSP(I) = SQRT((BULK + FOUR_OVER_3*G)/RHO0(I))
         ! Coefficient for hourglass
         ETSE(I)    = H(I) / (H(I) + E)
-      ENDDO 
+      ENDDO
 C
       ! Printout element deletion
       IF(NINDX>0)THEN
@@ -398,7 +398,7 @@ C
 !---
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10,
-     .          ' AT TIME :',G11.4)                          
+     .          ' AT TIME :',G11.4)
 !---
       END
 C

@@ -77,7 +77,7 @@ C-----------------------------------------------
       RHO=EBCS%rho
       ROC=RHO*C
       LCAR=EBCS%lcar
-      ALP=ZERO 
+      ALP=ZERO
       IF (LCAR > 0) ALP=C*DT1/LCAR
 C Sauve densite et energie initiale
       IF(TT == 0)THEN
@@ -85,7 +85,7 @@ C Sauve densite et energie initiale
           KSEG=ABS(ISEG(IS))
           RO0(IS) = SEGVAR%RHO(KSEG)
           EN0(IS) = SEGVAR%EINT(KSEG)
-        ENDDO            
+        ENDDO
       ENDIF
 C SURFACE NORMALE NODALES
       DO I=1,NOD
@@ -131,7 +131,7 @@ c
         LA(3,N2)=LA(3,N2)+NZ
         LA(1,N3)=LA(1,N3)+NX
         LA(2,N3)=LA(2,N3)+NY
-        LA(3,N3)=LA(3,N3)+NZ 
+        LA(3,N3)=LA(3,N3)+NZ
 C
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)
         VMY=V(2,NG1)+V(2,NG2)+V(2,NG3)
@@ -174,7 +174,7 @@ C
 c on memorise la pression d'arret
           P0(I)=P0(I)/S
           IF(VN<ZERO)P0(I)=P0(I)+HALF*RHO*VN**2
-c          write(6,*)'P nodale', P0(I) 
+c          write(6,*)'P nodale', P0(I)
           VO(I)=VN
           PO(I)=P0(I)
         ENDDO

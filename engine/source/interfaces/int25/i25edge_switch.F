@@ -76,7 +76,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NEDG,NEDGFT,NEDGLT
-      INTEGER :: IRM,IEDG,JRM,JEDG 
+      INTEGER :: IRM,IEDG,JRM,JEDG
       my_real :: S1,S2
       IF(IEDGE/=0)THEN
 C
@@ -109,7 +109,7 @@ C secnd side treated by ISPMD
               S1 = STIFM(IRM)
 !exact stiffness on the other side of the boundary is not known yet
 ! But we can determine if it is zero or not according to MVOISIN
-              S2 = ONE 
+              S2 = ONE
               IF(MVOISIN(IEDG,IRM) == 0) S2 = ZERO
             ELSE
 C not supposed to be there
@@ -161,9 +161,9 @@ C             tag for comm in spmd_getstif25_edg
               IF(LEDGE(LEDGE_WEIGHT,NEDG) == 1) THEN
                 LEDGE(LEDGE_GLOBAL_ID,NEDG) = -ABS(LEDGE(LEDGE_GLOBAL_ID,NEDG))
               ENDIF
- 
 
-            END IF          
+
+            END IF
           END IF
         END DO
 
@@ -183,7 +183,7 @@ C           DEBUG_E2E(LEDGE(LEDGE_GLOBAL_ID,NEDG) == D_ES,STIFM(IRM))
               ENDIF
             ENDIF
           ELSE IF(IRM < 0) THEN
-! Edge frontiere 
+! Edge frontiere
 ! The only way that IRM < 0  is when
 C   -  the a boundary edge owned by ISPMD
 !   -  the local segment is broken
@@ -205,7 +205,7 @@ C             S1 = 0
             ELSE
               ASSERT(.FALSE.)
             ENDIF
-           
+
             IF(S1==ZERO)THEN
               IF(STFE(NEDG) > ZERO) THEN
                  STFE(NEDG) = -STFE(NEDG)
@@ -213,10 +213,10 @@ C             S1 = 0
             ENDIF
 
           ELSEIF (IRM == 0) THEN
-            ASSERT(.FALSE.) ! 
+            ASSERT(.FALSE.) !
             IF(STFE(NEDG) > ZERO) THEN
                STFE(NEDG) = -STFE(NEDG)
-            END IF          
+            END IF
           END IF
         END DO
 

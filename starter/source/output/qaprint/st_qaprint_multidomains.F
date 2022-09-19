@@ -68,9 +68,9 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IF(NR2RLNK + NSUBDOM == 0) RETURN
 C
-      OK_QA = MYQAKEY('/SUBDOMAIN')  
+      OK_QA = MYQAKEY('/SUBDOMAIN')
 C                                                         
-      IF (OK_QA) THEN   
+      IF (OK_QA) THEN
          DO I = 1, NSUBDOM
 C
             CALL QAPRINT('NB_SUBDOMAIN',NSUBDOM,0.0_8)
@@ -85,20 +85,20 @@ C
               ID = IPART(4,ISUBDOM_PART(ISUBDOM(3,I)+J))
               CALL QAPRINT('SUBDOMAIN -> PART ID',ID,0.0_8)
             ENDDO
-         ENDDO 
+         ENDDO
       ENDIF
 C        
-      OK_QA = MYQAKEY('/EXT/LINK')  
+      OK_QA = MYQAKEY('/EXT/LINK')
 C                                                         
-      IF (OK_QA) THEN   
+      IF (OK_QA) THEN
          DO I = 1, NR2RLNK
            CALL QAPRINT('EXTLNK ID ',IEXLNK(2,I),0.0_8)
            CALL QAPRINT('EXTLNK GROUP ID ',IGRNOD(IEXLNK(1,I))%ID,0.0_8)
            CALL QAPRINT('EXTLNK ID DOM1 ',IEXLNK(2,I),0.0_8)
            CALL QAPRINT('EXTLNK ID DOM2 ',IEXLNK(3,I),0.0_8)
            CALL QAPRINT('EXTLNK TYPE '   ,IEXLNK(4,I),0.0_8)
-         ENDDO 
-      ENDIF                                                                        
+         ENDDO
+      ENDIF
 C-----------------------------------------------
       RETURN
       END

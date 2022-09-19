@@ -101,34 +101,34 @@ C
                DT1C(I) = DT1
                IPID=PID(I)
                MX = PID(I)
-               RHO(I) = GEO(IPGMAT +1 ,MX) 
-               YM(I)  = GEO(IPGMAT +2 ,MX) 
+               RHO(I) = GEO(IPGMAT +1 ,MX)
+               YM(I)  = GEO(IPGMAT +2 ,MX)
                NU(I)  = GEO(IPGMAT +3 ,MX)
-               G(I)   = GEO(IPGMAT +4 ,MX) 
+               G(I)   = GEO(IPGMAT +4 ,MX)
                A11(I) = GEO(IPGMAT +5 ,MX)
-               A12(I) = GEO(IPGMAT +6 ,MX) 
+               A12(I) = GEO(IPGMAT +6 ,MX)
                A11R(I)= GEO(IPGMAT +7 ,MX)
                SSP(I) = GEO(IPGMAT +9 ,MX)
                GSR(I)  =GEO(IPGMAT +10 ,MX)
                A11SR(I)=GEO(IPGMAT +11 ,MX)
                A12SR(I)=GEO(IPGMAT +12 ,MX)
                NUSR(I) =GEO(IPGMAT +13 ,MX)
-               KRZ(I) =KFAC*G(I) 
-!!               IZ(I) = GEO(198,PID(I)) ! ---> sum(ti*(ti/2 + zi**2) 
+               KRZ(I) =KFAC*G(I)
+!!               IZ(I) = GEO(198,PID(I)) ! ---> sum(ti*(ti/2 + zi**2)
           ENDDO
-      ELSEIF(IGTYP == 52 .OR. 
+      ELSEIF(IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0 )) THEN
            DO I=JFT,JLT
                THK02(I) = THK0(I)*THK0(I)
                VOLG(I) = THK0(I)*AREA(I)
                DT1C(I) = DT1
                IPID=PID(I)
-               RHO(I) = PM_STACK(1 ,ISUBSTACK) 
-               YM(I)  = PM_STACK(2 ,ISUBSTACK) 
+               RHO(I) = PM_STACK(1 ,ISUBSTACK)
+               YM(I)  = PM_STACK(2 ,ISUBSTACK)
                NU(I)  = PM_STACK(3 ,ISUBSTACK)
-               G(I)   = PM_STACK(4 ,ISUBSTACK) 
+               G(I)   = PM_STACK(4 ,ISUBSTACK)
                A11(I) = PM_STACK(5 ,ISUBSTACK)
-               A12(I) = PM_STACK(6 ,ISUBSTACK) 
+               A12(I) = PM_STACK(6 ,ISUBSTACK)
                A11R(I)= PM_STACK(7 ,ISUBSTACK)
                SSP(I) = PM_STACK(9 ,ISUBSTACK)
                GSR(I)  =PM_STACK(10 ,ISUBSTACK)
@@ -136,7 +136,7 @@ C
                A12SR(I)=PM_STACK(12 ,ISUBSTACK)
                NUSR(I) =PM_STACK(13 ,ISUBSTACK)
                KRZ(I) =KFAC*G(I)
-          ENDDO 
+          ENDDO
       ELSEIF(MTN==58) THEN
            MX  =MAT(JFT)
 C---- due to too high young update (Starter) w/ input func            
@@ -144,23 +144,23 @@ C---- due to too high young update (Starter) w/ input func
            K58(1) = FAC1TMP*UPARAM( 9)  ! young dir1
            K58(2) = FAC1TMP*UPARAM(10)  ! young dir2
            K58(3) = FAC1TMP*MAX(UPARAM(13),UPARAM(14))
-           K58I = EM02		   
+           K58I = EM02		
            FAC58(JFT:JLT,1:2) = K58I
          IF(NPT==1) THEN
-           DO I=JFT,JLT                                             
-             R1 = DIRA(I,1)                                         
-             S1 = DIRA(I,2)                                         
-             R2 = DIRB(I,1)                                         
-             S2 = DIRB(I,2)                                         
-             RS1= R1*S1                                             
-             RS2= R2*S2                                             
-             R12= R1*R1                                             
-             R22= R2*R2                                             
-             S12= S1*S1                                             
-             S22= S2*S2                                             
-             T1 = K58(1)                                         
-             T2 = K58(2)                                         
-             T3 = K58(3)                                         
+           DO I=JFT,JLT
+             R1 = DIRA(I,1)
+             S1 = DIRA(I,2)
+             R2 = DIRB(I,1)
+             S2 = DIRB(I,2)
+             RS1= R1*S1
+             RS2= R2*S2
+             R12= R1*R1
+             R22= R2*R2
+             S12= S1*S1
+             S22= S2*S2
+             T1 = K58(1)
+             T2 = K58(2)
+             T3 = K58(3)
              E11 = R12*T1 + R22*T2
              E22 = S12*T1 + S22*T2
              YM(I)  = MAX(E11,E22)
@@ -170,7 +170,7 @@ C---- due to too high young update (Starter) w/ input func
 C---- for dt compute			 
              A11(I) = YM(I)
              A12(I) = NU(I)*A11(I)
-             RFAC = EXP(UVAR(I,4)) 
+             RFAC = EXP(UVAR(I,4))
              RFAT = EXP(UVAR(I,5))
 C----	FAC58(I,1:2) could be different values, but too complicated		 
              IF (UVAR(I,11)/=ZERO.AND.UVAR(I,12)/=ZERO) THEN
@@ -178,11 +178,11 @@ C----	FAC58(I,1:2) could be different values, but too complicated
              ELSEIF (MIN(RFAC,RFAT)>ONE) THEN
                FAC58(I,1:2) = 1.2*K58I
 			 END IF
-           ENDDO                                                    
+           ENDDO
          ELSE
-           DO I=JFT,JLT                                             
-             E11 = K58(1)                                         
-             E22 = K58(2)                                         
+           DO I=JFT,JLT
+             E11 = K58(1)
+             E22 = K58(2)
              YM(I)  = MAX(E11,E22)
              G(I)  = HALF*YM(I)
              NU(I)  = ZERO
@@ -190,7 +190,7 @@ C----	FAC58(I,1:2) could be different values, but too complicated
 C---- for dt compute			 
              A11(I) = YM(I)
              A12(I) = NU(I)*A11(I)
-           ENDDO                                                    
+           ENDDO
 		 END IF
            MX  =MAT(JFT)
            DO I=JFT,JLT
@@ -201,11 +201,11 @@ C---- for dt compute
              KRZ(I) =KFAC*G(I)
              GSR(I)  =SQRT(G(I))
 C----- used in mem damping
-             RFAC = MAX(FAC58(I,1),FAC58(I,2))             
+             RFAC = MAX(FAC58(I,1),FAC58(I,2))
              A11SR(I)=SQRT(RFAC*YM(I))
              A12SR(I)=NUSR(I)*A11SR(I)
-           ENDDO 
-            
+           ENDDO
+
       ELSE
           MX  =MAT(JFT)
           DO I=JFT,JLT
@@ -295,7 +295,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK 
+      INTEGER JFT, JLT,MTN,ITHK,NPT,IHBE,ISUBSTACK
       INTEGER MAT(*), PID(*), IGEO(NPROPGI,*)
 C     REAL
       my_real GEO(NPROPG,*), PM(NPROPM,*), OFF(*), AREA(*),
@@ -308,7 +308,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,ISH,MX,IPID,J,IGTYP,IPGMAT,IGMAT
 C     REAL
-      my_real FSH,VISCDEF,FAC1TMP,KFAC,DN      
+      my_real FSH,VISCDEF,FAC1TMP,KFAC,DN
 C-----------------------------------------------
       IF(ITHK>0.AND.ISMDISP==0)THEN
         DO I=JFT,JLT
@@ -335,33 +335,33 @@ C
              VOLG(I) = THK0(I)*AREA(I)
              DT1C(I) = DT1
              IPID=PID(I)
-             RHO(I) = GEO(IPGMAT +1 ,IPID) 
-             YM(I)  = GEO(IPGMAT +2 ,IPID) 
+             RHO(I) = GEO(IPGMAT +1 ,IPID)
+             YM(I)  = GEO(IPGMAT +2 ,IPID)
              NU(I)  = GEO(IPGMAT +3 ,IPID)
-             G(I)   = GEO(IPGMAT +4 ,IPID) 
+             G(I)   = GEO(IPGMAT +4 ,IPID)
              A11(I) = GEO(IPGMAT +5 ,IPID)
-             A12(I) = GEO(IPGMAT +6 ,IPID) 
+             A12(I) = GEO(IPGMAT +6 ,IPID)
              A11R(I)= GEO(IPGMAT +7 ,IPID)
              SSP(I) = GEO(IPGMAT +9 ,IPID)
              KRZ(I) =KFAC*G(I)
           ENDDO
-      ELSEIF(IGTYP == 52 .OR. 
+      ELSEIF(IGTYP == 52 .OR.
      .     ((IGTYP == 17 .OR. IGTYP == 51 ) .AND. IGMAT > 0)) THEN
          DO I=JFT,JLT
              THK02(I) = THK0(I)*THK0(I)
              VOLG(I) = THK0(I)*AREA(I)
              DT1C(I) = DT1
-             RHO(I) = PM_STACK(1 ,ISUBSTACK) 
-             YM(I)  = PM_STACK(2 ,ISUBSTACK) 
+             RHO(I) = PM_STACK(1 ,ISUBSTACK)
+             YM(I)  = PM_STACK(2 ,ISUBSTACK)
              NU(I)  = PM_STACK(3 ,ISUBSTACK)
-             G(I)   = PM_STACK(4 ,ISUBSTACK) 
+             G(I)   = PM_STACK(4 ,ISUBSTACK)
              A11(I) = PM_STACK(5 ,ISUBSTACK)
-             A12(I) = PM_STACK(6 ,ISUBSTACK) 
+             A12(I) = PM_STACK(6 ,ISUBSTACK)
              A11R(I)= PM_STACK(7 ,ISUBSTACK)
              SSP(I) = PM_STACK(9 ,ISUBSTACK)
              KRZ(I) =KFAC*G(I)
-          ENDDO       
-                  
+          ENDDO
+
       ELSE
            MX  =MAT(JFT)
            DO I=JFT,JLT
@@ -378,7 +378,7 @@ C
              SSP(I) =PM(27,MX)
              KRZ(I) =KFAC*G(I)
            ENDDO
-          
+
       ENDIF
       IF(NPT==1) THEN
         DO I=JFT,JLT
@@ -410,7 +410,7 @@ c
             ELSEIF(IHBE == 30)THEN
               DN = EM4
             ENDIF
-        ENDIF    
+        ENDIF
       ENDIF
       AMU(JFT:JLT) = DN
 c-----------
@@ -544,7 +544,7 @@ c                          HM(1:D11,2:D22,3:D12,4:G 5:D13,6:D23);
 c  O   HF(NEL,6)         - bending stiffness modulus (plane stress) same than HM
 c                         -HF=integration(t^2*HM) explicitly of thickness
 c  O   HC(NEL,2)         - transverse shear modulus HC(1:G23,2:G13)
-c  O   HMFOR(NEL,6)      - suppermentary membrane-bending coupling modulus for orthotropic 
+c  O   HMFOR(NEL,6)      - suppermentary membrane-bending coupling modulus for orthotropic
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -611,11 +611,11 @@ C----------unify the factor ONE_OVER_12 after
                 HF(I,6)=ONE_OVER_12*HMOR(I,2)
               ENDDO
             CASE(10,11,16,17,51,52)
-              CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    , 
-     .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   , 
-     .                    IGTYP    ,0        ,0        ,NLAY     ,NPT     , 
+              CALL LAYINI(ELBUF_STR,JFT      ,JLT      ,GEO      ,IGEO    ,
+     .                    MAT      ,PID      ,THKLY    ,MATLY    ,POSLY   ,
+     .                    IGTYP    ,0        ,0        ,NLAY     ,NPT     ,
      .                    ISUBSTACK,STACK    ,DRAPE    ,NFT      ,THK     ,
-     .                    JLT      ,THK_LY   )                              
+     .                    JLT      ,THK_LY   )
               HM(JFT:JLT,1:6)=ZERO
               HF(JFT:JLT,1:6)=ZERO
               HC(JFT:JLT,1:2)=ZERO
@@ -643,7 +643,7 @@ C----------unify the factor ONE_OVER_12 after
                     HF(I,5)=HF(I,5)+WMC*HMORLY(I,1)
                     HF(I,6)=HF(I,6)+WMC*HMORLY(I,2)
                   ENDDO
-                ENDDO 
+                ENDDO
               ELSE
                 IORTH=2
                 IF ((IGTYP == 11 .OR. IGTYP == 17).AND. IGMAT > 0) THEN
@@ -670,8 +670,8 @@ C
                       HC(I,2)=HC(I,2)+THKLY(JJ)*HCLY(I,2)
                       HM(I,5)=HM(I,5)+THKLY(JJ)*HMORLY(I,1)
                       HM(I,6)=HM(I,6)+THKLY(JJ)*HMORLY(I,2)
-                      IZZ(I) = IZZ(I) + WMC 
-                      IZ(I) = IZ(I) + WM 
+                      IZZ(I) = IZZ(I) + WMC
+                      IZ(I) = IZ(I) + WM
 C                
                       HF(I,1)=HF(I,1)+WMC*HMLY(I,1)
                       HF(I,2)=HF(I,2)+WMC*HMLY(I,2)
@@ -687,7 +687,7 @@ C-----------
                       HMFOR(I,5)=HMFOR(I,5)+WM*HMORLY(I,1)
                       HMFOR(I,6)=HMFOR(I,6)+WM*HMORLY(I,2)
                     ENDDO
-                  ENDDO 
+                  ENDDO
 C----------HM is caculated as mean value not need be modified when IPOS >0 (HF supposed the same)            
                 ELSEIF(IGTYP == 11 .OR. IGTYP == 17) THEN
 C             
@@ -723,10 +723,10 @@ C-----------
                       HMFOR(I,5)=HMFOR(I,5)+WM*HMORLY(I,1)
                       HMFOR(I,6)=HMFOR(I,6)+WM*HMORLY(I,2)
                     ENDDO
-                  ENDDO             
+                  ENDDO
 C                        
               ELSEIF(IGTYP == 52 .OR. (IGTYP == 51 .AND. IGMAT > 0)) THEN
-              
+
                 IPT_ALL = 0
                 DO I=JFT,JLT
                     IZZ(I) = ZERO
@@ -746,7 +746,7 @@ C
                     DO I=JFT,JLT
                       JJ = J2 - 1 + I
                       WM = POSLY(I,J)*THKLY(JJ)
-                      WMC= POSLY(I,J)*WM 
+                      WMC= POSLY(I,J)*WM
                       HM(I,1)=HM(I,1)+THKLY(JJ)*HMLY(I,1)
                       HM(I,2)=HM(I,2)+THKLY(JJ)*HMLY(I,2)
                       HM(I,3)=HM(I,3)+THKLY(JJ)*HMLY(I,3)
@@ -769,8 +769,8 @@ C-----------
                       HMFOR(I,4)=HMFOR(I,4)+WM*HMLY(I,4)
                       HMFOR(I,5)=HMFOR(I,5)+WM*HMORLY(I,1)
                       HMFOR(I,6)=HMFOR(I,6)+WM*HMORLY(I,2)
-                      IZZ(I) = IZZ(I) + WMC 
-                      IZ(I) = IZ(I) + WM 
+                      IZZ(I) = IZZ(I) + WMC
+                      IZ(I) = IZ(I) + WM
                     ENDDO
                   ENDDO  !  DO J=1,NPTT
                   IPT_ALL = IPT_ALL + NPTT
@@ -791,7 +791,7 @@ C
                     DO I=JFT,JLT
                       JJ = J2 - 1 + I
                       WM = POSLY(I,J)*THKLY(JJ)
-                      WMC= POSLY(I,J)*WM 
+                      WMC= POSLY(I,J)*WM
                       HM(I,1)=HM(I,1)+THKLY(JJ)*HMLY(I,1)
                       HM(I,2)=HM(I,2)+THKLY(JJ)*HMLY(I,2)
                       HM(I,3)=HM(I,3)+THKLY(JJ)*HMLY(I,3)

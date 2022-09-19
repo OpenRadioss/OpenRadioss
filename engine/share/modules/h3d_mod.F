@@ -298,7 +298,7 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
 c
-      LOGICAL :: IS_H3D_USED = .FALSE. 
+      LOGICAL :: IS_H3D_USED = .FALSE.
 C-----------------------------------------------
 C   H3D_KEYWORD : LIST OF AVAILABLE /H3D OPTIONS
 C-----------------------------------------------
@@ -309,36 +309,36 @@ C-----------------------------------------------
           CHARACTER KEY6*100
           CHARACTER KEY7*100
           CHARACTER KEY8*100
-          INTEGER ::  ID = 0 
+          INTEGER ::  ID = 0
           CHARACTER*50  TEXT1
           CHARACTER*50  TEXT2
           CHARACTER*80  COMMENT
 c
-          INTEGER ::  IS_PLY = 0 
-          INTEGER ::  IS_PLY_ALL = 0 
-          INTEGER ::  IS_LAYER = 0 
-          INTEGER ::  IS_LAYER_ALL = 0 
-          INTEGER ::  IS_IPT = 0 
-          INTEGER ::  IS_IPT_ALL = 0 
-          INTEGER ::  IS_GAUSS = 0 
-          INTEGER ::  IS_GAUSS_ALL = 0 
-          INTEGER ::  IS_UVAR = 0 
-          INTEGER ::  IS_UVAR_ALL = 0 
-          INTEGER ::  IS_IR = 0 
-          INTEGER ::  IS_IR_ALL = 0 
-          INTEGER ::  IS_IS = 0 
-          INTEGER ::  IS_IS_ALL = 0 
-          INTEGER ::  IS_IT = 0 
-          INTEGER ::  IS_IT_ALL = 0 
-          INTEGER ::  IS_ID = 0 
-          INTEGER ::  IS_ID_ALL = 0 
-          INTEGER ::  IS_INTER = 0 
-          INTEGER ::  IS_INTER_ALL = 0 
-          INTEGER ::  IS_SKIN = 0 
+          INTEGER ::  IS_PLY = 0
+          INTEGER ::  IS_PLY_ALL = 0
+          INTEGER ::  IS_LAYER = 0
+          INTEGER ::  IS_LAYER_ALL = 0
+          INTEGER ::  IS_IPT = 0
+          INTEGER ::  IS_IPT_ALL = 0
+          INTEGER ::  IS_GAUSS = 0
+          INTEGER ::  IS_GAUSS_ALL = 0
+          INTEGER ::  IS_UVAR = 0
+          INTEGER ::  IS_UVAR_ALL = 0
+          INTEGER ::  IS_IR = 0
+          INTEGER ::  IS_IR_ALL = 0
+          INTEGER ::  IS_IS = 0
+          INTEGER ::  IS_IS_ALL = 0
+          INTEGER ::  IS_IT = 0
+          INTEGER ::  IS_IT_ALL = 0
+          INTEGER ::  IS_ID = 0
+          INTEGER ::  IS_ID_ALL = 0
+          INTEGER ::  IS_INTER = 0
+          INTEGER ::  IS_INTER_ALL = 0
+          INTEGER ::  IS_SKIN = 0
           INTEGER ::  IS_CORNER_DATA = 0
-          INTEGER ::  IS_MDSVAR = 0 
-          INTEGER ::  IS_MDSVAR_ALL = 0 
-          INTEGER ::  IS_MDSVAR_DEF = 0  
+          INTEGER ::  IS_MDSVAR = 0
+          INTEGER ::  IS_MDSVAR_ALL = 0
+          INTEGER ::  IS_MDSVAR_DEF = 0
 c
       END TYPE H3D_KEYWORD
 C-----------------------------------------------
@@ -417,7 +417,7 @@ C   H3D_DATABASE
 C-----------------------------------------------
       TYPE H3D_DATABASE
 
-          
+
         INTEGER N_TITLE
         INTEGER N_SENS_H3D
         INTEGER N_OUTP_H3D
@@ -431,7 +431,7 @@ C-----------------------------------------------
         INTEGER N_SCAL_DMAS             !ANIM_N(2)
         INTEGER N_SCAL_DINER            !ANIM_N(12)
         INTEGER N_SCAL_DAMA2            !ANIM_N(15&16)
-        INTEGER N_SCAL_SKID               
+        INTEGER N_SCAL_SKID
         INTEGER N_SCAL_STIFR            !ANIM_N(18)
         INTEGER N_SCAL_STIFN            !ANIM_N(19)
 
@@ -470,11 +470,11 @@ C-----------------------------------------------
         my_real DTH3D0
         my_real PERCENTAGE_ERROR
 
-        INTEGER, DIMENSION(:), ALLOCATABLE :: N_SKID_INTER   
-        INTEGER, DIMENSION(:), ALLOCATABLE :: ITITLE 
-        INTEGER, DIMENSION(:), ALLOCATABLE :: LSENS_H3D      
+        INTEGER, DIMENSION(:), ALLOCATABLE :: N_SKID_INTER
+        INTEGER, DIMENSION(:), ALLOCATABLE :: ITITLE
+        INTEGER, DIMENSION(:), ALLOCATABLE :: LSENS_H3D
 
-        CHARACTER*80, DIMENSION(:), ALLOCATABLE ::TITLE        
+        CHARACTER*80, DIMENSION(:), ALLOCATABLE ::TITLE
 
         TYPE (H3D_INPUT), DIMENSION(:), ALLOCATABLE :: INPUT_LIST
 
@@ -483,7 +483,7 @@ C-----------------------------------------------
         TYPE (H3D_OUTPUT), DIMENSION(:), ALLOCATABLE :: OUTPUT_LIST
 
       END TYPE H3D_DATABASE
-      
+
 C-----------------------------------------------
       TYPE H3D_NUMBER_OF_KEY
         INTEGER NODAL_SCALAR
@@ -506,5 +506,5 @@ C-----------------------------------------------
         INTEGER QUAD_TENSOR
       END TYPE H3D_NUMBER_OF_KEY
 C-----------------------------------------------
-      
+
       END MODULE H3D_MOD

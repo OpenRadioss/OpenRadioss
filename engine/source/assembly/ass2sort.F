@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JJ1, JJ2, NFSK
 C     REAL
-      my_real 
+      my_real
      .   FSKYI(LSKYI,NFSK), FSKYT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -72,7 +72,7 @@ C-----------------------------------------------
           FSKYI(K,L) = FSKYT(JJ2-K+1)
         ENDDO
       ENDDO
-      
+
 C
       RETURN
       END
@@ -110,7 +110,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JJ1, JJ2, NFSK
 C     REAL
-      my_real 
+      my_real
      .   FSKYI(LSKYI,NFSK), FSKYT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -121,13 +121,13 @@ C-----------------------------------------------
 C-----------------------------------------------   
       N1 = 1
       N2 = 0
-      KK = JJ1                   
-      DO WHILE(FSKYI(KK,5)== ZERO .AND. KK <= JJ2) 
-       KK = KK + 1                    
+      KK = JJ1
+      DO WHILE(FSKYI(KK,5)== ZERO .AND. KK <= JJ2)
+       KK = KK + 1
       ENDDO
       IPLY = INT(FSKYI(KK,5))
       IDX1(1) = KK
-      IF(IPLY == 0) N1 = 0          
+      IF(IPLY == 0) N1 = 0
 C      
       IF(IPLY /=  0) THEN
           DO K = JJ1+1, JJ2
@@ -135,12 +135,12 @@ C
             IF(IPLY1 == IPLY) THEN
               N1 = N1 + 1
               IDX1(N1) = K
-            ELSEIF(IPLY1 /= 0) THEN 
+            ELSEIF(IPLY1 /= 0) THEN
               N2 = N2 + 1
               IDX2(N2) = K
             ENDIF
           ENDDO
-      ENDIF 
+      ENDIF
 C          
       IF(N1 > 0) THEN
         DO L = 1, NFSK-1
@@ -154,7 +154,7 @@ C
              FSKYI(KK,L) = FSKYT(N1-K+1)
           ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
 C         
        IF(N2 > 0) THEN
           DO L = 1, NFSK-1
@@ -166,9 +166,9 @@ C
            DO K = 1, N2
              KK = IDX2(K)
              FSKYI(KK,L) = FSKYT(N2-K+1)
-           ENDDO     
+           ENDDO
          ENDDO
-        ENDIF        
+        ENDIF
 C
       RETURN
       END

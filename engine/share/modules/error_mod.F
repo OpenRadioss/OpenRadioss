@@ -29,8 +29,8 @@ Chd|====================================================================
       MODULE ERROR_MOD
 #include "my_real.inc"
 
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE :: 
+        my_real ,
+     .    DIMENSION(:), ALLOCATABLE ::
      .      ERR_THK_SH4, ERR_THK_SH3
 
       END MODULE ERROR_MOD

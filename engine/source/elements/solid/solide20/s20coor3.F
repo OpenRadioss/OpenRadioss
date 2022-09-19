@@ -28,7 +28,7 @@ Chd|        S20FORC3                      source/elements/solid/solide20/s20forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S20COOR3(X,IXS,IXSP,V,W,IPERM1,IPERM2,NPE,
-     2   XX, YY, ZZ, VX,VY, VZ,VDXX, VDYY, VDZZ, 
+     2   XX, YY, ZZ, VX,VY, VZ,VDXX, VDYY, VDZZ,
      3   VDX,VDY,VDZ,VD2,VIS,OFFG,OFF,SAV,
      4   NC,NGL,MXT,NGEO,FX,FY,FZ,STIG,
      5   SIGG,EINTG,RHOG,QG,EPLASM,EPSDG,G_PLA,G_EPSD,NEL,CONDEN)
@@ -63,7 +63,7 @@ C     REAL
      .  FX(MVSIZ,NPE), FY(MVSIZ,NPE), FZ(MVSIZ,NPE), EPSDG(*),
      .  SIGG(NEL,6),EINTG(*),RHOG(*),QG(*),STIG(MVSIZ,NPE),EPLASM(*),
      .  CONDEN(MVSIZ,NPE)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   SAV(NEL,3*NPE)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -111,7 +111,7 @@ C
       ENDDO
       IF (G_PLA > 0) THEN
         DO I=LFT,LLT
-          EPLASM(I)=ZERO  
+          EPLASM(I)=ZERO
         ENDDO
       ENDIF
       IF (G_EPSD > 0) THEN
@@ -132,7 +132,7 @@ C
         DO I=LFT,LLT
           VDX(I)=ZERO
           VDY(I)=ZERO
-          VDZ(I)=ZERO  
+          VDZ(I)=ZERO
         ENDDO
       ENDIF
 C
@@ -180,7 +180,7 @@ C
             VZ(I,N)=V(3,NN)
             FX(I,N)=ZERO
             FY(I,N)=ZERO
-            FZ(I,N)=ZERO    
+            FZ(I,N)=ZERO
         ENDDO
         IF(OFF_L<0.)THEN
           DO I=LFT,LLT
@@ -221,8 +221,8 @@ C
         DO I=LFT,LLT
           VDX(I)=FOURTH*VDX(I)
           VDY(I)=FOURTH*VDY(I)
-          VDZ(I)=FOURTH*VDZ(I)  
-          VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
+          VDZ(I)=FOURTH*VDZ(I)
+          VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
         ENDDO
       ENDIF
 C
@@ -236,7 +236,7 @@ C
             ZZ(I,N) = HALF*(ZZ(I,N1)+ZZ(I,N2))
             VX(I,N) = HALF*(VX(I,N1)+VX(I,N2))
             VY(I,N) = HALF*(VY(I,N1)+VY(I,N2))
-            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))    
+            VZ(I,N) = HALF*(VZ(I,N1)+VZ(I,N2))
           ENDIF
         ENDDO
       ENDDO

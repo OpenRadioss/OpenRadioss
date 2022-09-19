@@ -98,7 +98,7 @@ C-----------------------------------------------
      .        OFF_PART(NSUBMOD)
       CHARACTER MESS*40, MESS2*40
       my_real
-     .   BID 
+     .   BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_BEAM
       INTEGER N2,N3,N4
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C--------------------------------------------------
       ALLOCATE (SUB_BEAM(NUMELP),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_BEAM') 
+     .                             C1='SUB_BEAM')
       SUB_BEAM(1:NUMELP) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -134,12 +134,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
-      DO I=1,NUMELP  
+      DO I=1,NUMELP
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_BEAM(I) /= 0)THEN
-          IF(IPARTP(I) /= 0) IPARTP(I) = IPARTP(I) + OFF_PART(SUB_BEAM(I)) 
+          IF(IPARTP(I) /= 0) IPARTP(I) = IPARTP(I) + OFF_PART(SUB_BEAM(I))
           IF(IXP(NIXP,I) /= 0) IXP(NIXP,I) = IXP(NIXP,I) + OFF_EL(SUB_BEAM(I))
           DO J=2,5
             IF(IXP(J,I) /= 0) IXP(J,I) = IXP(J,I) + OFF_NOD(SUB_BEAM(I))
@@ -148,10 +148,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTP(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTP(I) ) INDEX_PART = J            
-          ENDDO  
+        IF( IPART(4,INDEX_PART) /= IPARTP(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTP(I) ) INDEX_PART = J
+          ENDDO
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTP(I)) THEN
           CALL ANCMSG(MSGID=402,
@@ -161,33 +161,33 @@ C--------------------------------------------------
      .                I1=IPARTP(I),
      .                I2=IPARTP(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF             
+        ENDIF
         IPARTP(I) = INDEX_PART
 C--------------------------------------------------
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)  
-        IXP(1,I)=MT                               
-        IXP(5,I)=IPID 
-        IF (IXP(6,I)>ID_LIMIT) THEN               
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXP(1,I)=MT
+        IXP(5,I)=IPID
+        IF (IXP(6,I)>ID_LIMIT) THEN
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXP(6,I),C1=LINE,C2='/BEAM')
         ENDIF
-                           
-        DO J=2,4                                            
-          IXP(J,I)=USR2SYS(IXP(J,I),ITABM1,MESS,IXP(6,I))  
+
+        DO J=2,4
+          IXP(J,I)=USR2SYS(IXP(J,I),ITABM1,MESS,IXP(6,I))
         ENDDO
 C Node 1 and 2 Must be connected to something (CHECK_BEAM)
 C Node 3 is just a used node, to define directions (CHECK_USED)
-        CALL ANODSET(IXP(2,I), CHECK_BEAM)  
-        CALL ANODSET(IXP(3,I), CHECK_BEAM)  
+        CALL ANODSET(IXP(2,I), CHECK_BEAM)
+        CALL ANODSET(IXP(3,I), CHECK_BEAM)
         CALL ANODSET(IXP(4,I), CHECK_USED)
       ENDDO
       IF(ALLOCATED(SUB_BEAM)) DEALLOCATE(SUB_BEAM)
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Recherche des ID doubles
 C-------------------------------------
@@ -205,14 +205,14 @@ C
 C-------------------------------------
    90 WRITE (IOUT,300)
       DO I=I1,I2
-        MID=IPM (1,IXP(1,I))   
-        PID=IGEO(1,IXP(5,I))  
+        MID=IPM (1,IXP(1,I))
+        PID=IGEO(1,IXP(5,I))
         N2=IXP(2,I)
         N3=IXP(3,I)
-        N4=IXP(4,I) 
+        N4=IXP(4,I)
         IF(N2>0)N2=ITAB(N2)
         IF(N3>0)N3=ITAB(N3)
-        IF(N4>0)N4=ITAB(N4)                
+        IF(N4>0)N4=ITAB(N4)
         WRITE (IOUT,'(7(I10,1X))')I,IXP(6,I),MID,PID,N2,N3,N4
       ENDDO
       IF(I2==NUMELP)GOTO 200

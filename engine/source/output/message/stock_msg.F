@@ -74,7 +74,7 @@ C-----------------------------------------------
             IF (BUFMSG(I)(J:J)==achar(92)) then !'\') THEN
 C             => skip \ print next
               IF (J<ncharline) THEN
-                J=J+1 
+                J=J+1
                 IF (BUFMSG(I)(J:J)=='n') THEN
                   MESSAGES(ITYPE,ID)%MESSAGE(I)(JDX:JDX)=CHAR(10)
                   JDX=JDX+1
@@ -98,4 +98,4 @@ C               => end of loop
           END DO
         END DO
       END IF
-      END SUBROUTINE 
+      END SUBROUTINE

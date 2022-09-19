@@ -30,7 +30,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
       INTEGER IERR
       IERR=0
-      END      
+      END
 Chd|====================================================================
 Chd|  GET_U_NUMTABLE                source/user_interface/utable.F
 Chd|-- called by -----------
@@ -38,7 +38,7 @@ Chd|-- calls ---------------
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      INTEGER FUNCTION GET_U_NUMTABLE(TID) 
+      INTEGER FUNCTION GET_U_NUMTABLE(TID)
       USE TABLE_GLOB_MOD
       USE TABLE_MOD
       TYPE(TTABLE) CUR_TABLE
@@ -63,7 +63,7 @@ Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules1/table_mod.F    
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|====================================================================
-      SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
+      SUBROUTINE GET_U_TABLE(ITABLE,XX,YY)
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
       INTEGER ITABLE
-      my_real, 
+      my_real,
      .       DIMENSION(:) :: XX
       my_real
      .       YY
@@ -90,7 +90,7 @@ Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules1/table_mod.F    
 Chd|        TABLE_GLOB_MOD                share/modules1/table_glob_mod.F
 Chd|====================================================================
-      SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1) 
+      SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1)
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITABLE,NEL0
       INTEGER, DIMENSION(:,:) :: IPOS
-      my_real, 
+      my_real,
      .       DIMENSION(:,:) :: XX
       my_real
      .       YY(*), DYDX1(*)

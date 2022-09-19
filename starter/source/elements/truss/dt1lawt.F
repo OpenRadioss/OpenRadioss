@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER I, MX
 C     REAL
       my_real
-     .   RHO0, E, C1, SSP, C, 
+     .   RHO0, E, C1, SSP, C,
      .   IYY, IZZ
 C
 C

@@ -54,12 +54,12 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "tablen_c.inc"
 #include      "scr23_c.inc"
-#include      "spmd_c.inc" 
+#include      "spmd_c.inc"
 #include      "ddspmd_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  
+      INTEGER
      .  NUMELS,
      .  NUMMAT,NUMGEO,
      .  IXS(NIXS,*),IGEO(NPROPGI,NUMGEO),ISOLNOD(*),
@@ -87,7 +87,7 @@ C-----------------------------------------------
       INTEGER :: INDI3,ADD_OPTION,INDI_OPT_1,INDI_OPT_2
       INTEGER :: IRUP_TAB(SIZE_IRUP)
       my_real :: OPT_1,OPT_2
-     
+
       REAL
      .   WTYPE(9),FWIHBE,FAC8,
      .   TABMAT(3),TABX(3),TIMMAT,NPT,TELT,POIDS,W,
@@ -96,33 +96,33 @@ C-----------------------------------------------
       INTEGER :: SPECIAL_OPTION,SPE_I_1,SPE_I_2,SPE_I_3
       my_real :: INVTREF,MULT_SPE
       INTEGER :: INDI4,POIN_PID,POIN_MID,POIN_PART,COST_CHECK,POIN_ELM_TYP
-      my_real :: INVTELT_PRO      
+      my_real :: INVTELT_PRO
       my_real :: CC,A,B,A1,A2
-      ! thick shell element cost : 
+      ! thick shell element cost :
       INTEGER :: OVERCOST_ELM ,ICPR,NUMBER_LAYER
       INTEGER :: NLAY,COMPOSITE_MID,COMPOSITE_MLN
       LOGICAL :: COMPOSITE_OPTION
 
-      DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/     
+      DATA WTYPE /1.6 ,1. ,1. ,.9 ,1.1 ,1.4 ,0.65 ,.9 ,2.0/
 C-----------------------------------------------
        CALL BIDON()
 !     DD_OPTIMIZATION = 0 --> default case, DD optimized for Broadwell processor
-!     DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor 
-!     DD_OPTIMIZATION = 2 --> DD optimized for Sandy Bridge processor   
-!     DD_OPTIMIZATION = 3 --> default case for ARM processor, DD optimized for ThunderX2 processor (ARM)    
+!     DD_OPTIMIZATION = 1 --> DD optimized for Skylake processor
+!     DD_OPTIMIZATION = 2 --> DD optimized for Sandy Bridge processor
+!     DD_OPTIMIZATION = 3 --> default case for ARM processor, DD optimized for ThunderX2 processor (ARM)
       IF(DD_OPTIMIZATION==1) THEN
-!       Skylake processor 
+!       Skylake processor
 #include "weights_p4linux964_spmd_avx512.inc"
       ELSEIF(DD_OPTIMIZATION==2) THEN
-!       Sandy Bridge processor   
+!       Sandy Bridge processor
 #include "weights_p4linux964_spmd_sse3.inc"
       ELSEIF(DD_OPTIMIZATION==3) THEN
-!       ThunderX2 processor (ARMV8.0)      
+!       ThunderX2 processor (ARMV8.0)
 #include "weights_p4linuxa964_spmd.inc"
       ELSE
 !       DEFAULT CASE
 #if ARCH_CPU
-!       ThunderX2 processor (ARMV8.0)      
+!       ThunderX2 processor (ARMV8.0)
 #include "weights_p4linuxa964_spmd.inc"
 #elif 1
 !       Broadwell processor
@@ -138,7 +138,7 @@ C -------------------------------
         JHBE=IHBE_D
         MID= IXS(1,I)
         PID= IXS(10,I)
-        
+
         MLN = NINT(PM(19,ABS(MID)))
         ISOL = ISOLNOD(I)
         WD_LOCAL = WD(I)
@@ -150,7 +150,7 @@ C -------------------------------
          ISOL = ISOL_OLD
          WD_LOCAL = ZERO
         ENDIF
-        ! ----------------- 
+        ! -----------------
         IF(ISOL==8) THEN
           INDI3 = 3
         ELSEIF(ISOL==10) THEN
@@ -186,8 +186,8 @@ C -------------------------------
         OPT_1 = ZERO
         OPT_2 = ZERO
         ADD_OPTION = 0
-        MULT = 0 
-        FLAG_NON_LOCAL = 0  
+        MULT = 0
+        FLAG_NON_LOCAL = 0
         SPECIAL_OPTION = 0
         SPE_I_1 = 1
         SPE_I_2 = 1
@@ -234,7 +234,7 @@ C -------------------------------
            IF(MLN==62) NFUNC = NINT(BUFMAT(IAD+3))
            IF(MLN==69) THEN
             NFUNC = 0
-            IF(IPM(222,ABS(MID)) > 0) THEN 
+            IF(IPM(222,ABS(MID)) > 0) THEN
              IAD = IPM(223,ABS(MID))
              NFUNC =  NINT(BUFMAT(IAD +1 ))
             ENDIF
@@ -248,7 +248,7 @@ C -------------------------------
            ELSEIF(NFUNC>2) THEN
             INDI = 3
             MULT = NFUNC - 2
-            INDI2 = 2            
+            INDI2 = 2
            ENDIF
         ELSEIF((MLN==82)) THEN
            IAD=IPM(7,ABS(MID))-1
@@ -262,7 +262,7 @@ C -------------------------------
            ELSEIF(NFUNC>3) THEN
             INDI = 3
             MULT = NFUNC - 3
-            INDI2 = 2            
+            INDI2 = 2
            ENDIF
         ELSEIF(MLN==100) THEN
         !       SPECIAL TREATMENT :
@@ -275,7 +275,7 @@ C -------------------------------
            ADD_OPTION = 0
            OPT_1 = ZERO
            INDI_OPT_1 = 2
-           OPT_2 = ZERO   
+           OPT_2 = ZERO
            INDI_OPT_2 = 2
 
         !  viscosity flag
@@ -286,7 +286,7 @@ C -------------------------------
            ENDIF
         !  network flag
            IF(NINT(BUFMAT(IAD+1))>0) THEN
-                OPT_2 = NINT(BUFMAT(IAD+1))         
+                OPT_2 = NINT(BUFMAT(IAD+1))
                 INDI_OPT_2 = 3
                 ADD_OPTION = 1
                 !   if network is used, then, viscosity is also used
@@ -314,7 +314,7 @@ C -------------------------------
              SPE_I_2 = 2
            ELSEIF(FLAG_GURSON==3) THEN
              SPE_I_2 = 3
-           ENDIF                
+           ENDIF
            FLAG_NON_LOCAL = IPM(253,ABS(MID))
         ELSE
            INDI = 1
@@ -329,7 +329,7 @@ C -------------------------------
 !****************************************
 !       ---------------------------
 !       TETRA 4
-!       ---------------------------       
+!       ---------------------------
         IF (ISOL==4.AND. (JSROT /= 1)) THEN
         ! check if the (mid,pid) cost must be initialized from a previous run
          IF(RECHERCHE==0.AND.TEST_POIDS/=0) THEN
@@ -351,7 +351,7 @@ C -------------------------------
            ELSE
               IF(MULT/=0) TMATADD = MULT * (TET4TNL(MLN,INDI)-TET4TNL(MLN,INDI2))
               IF(ADD_OPTION/=0) TMATADD = OPT_1 * TET4TNL(MLN,INDI_OPT_1) + OPT_2 * TET4TNL(MLN,INDI_OPT_2)
-              IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+              IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
               TMAT = TET4TNL(MLN,INDI) + TMATADD
            ENDIF
 !          --------------
@@ -361,7 +361,7 @@ C -------------------------------
              TRUP = TRUP + RUPTURE_TET4(IRUP_TAB(J),IRUP2)
             ENDDO
            ENDIF
-!          --------------            
+!          --------------
            TELT = TMAT + TET4TELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
          ENDIF
 !****************************************
@@ -375,8 +375,8 @@ C -------------------------------
             POIN_PART = IPARTS(I)
             POIN_MID = POIN_PART_SOL(1,POIN_PART,2)
             POIN_PID = POIN_PART_SOL(2,POIN_PART,2)
-        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized 
-        ! from the .inc file 
+        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized
+        ! from the .inc file
             IF(POIN_MID/=0.AND.POIN_PID/=0) THEN
              IF(MID_PID_SOL(POIN_MID,2)%COST1D(POIN_PID)/=ZERO) THEN
                  COST_CHECK = 1
@@ -388,8 +388,8 @@ C -------------------------------
             POIN_PART = IPARTS(I)
             POIN_MID = POIN_PART_SOL(1,POIN_PART,6)
             POIN_PID = POIN_PART_SOL(2,POIN_PART,6)
-        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized 
-        ! from the .inc file 
+        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized
+        ! from the .inc file
             IF(POIN_MID/=0.AND.POIN_PID/=0) THEN
              IF(MID_PID_SOL(POIN_MID,6)%COST1D(POIN_PID)/=ZERO) THEN
                  COST_CHECK = 1
@@ -406,7 +406,7 @@ C -------------------------------
             ELSE
               IF(MULT/=0) TMATADD = MULT * (TET10TNL(MLN,INDI)-TET10TNL(MLN,INDI2))
               IF(ADD_OPTION/=0) TMATADD = OPT_1 * TET10TNL(MLN,INDI_OPT_1) + OPT_2 * TET10TNL(MLN,INDI_OPT_2)
-              IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+              IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
               TMAT = TET10TNL(MLN,INDI) + TMATADD
             ENDIF
 !           --------------
@@ -442,8 +442,8 @@ C -------------------------------
              POIN_PART = IPARTS(I)
              POIN_MID = POIN_PART_SOL(1,POIN_PART,POIN_ELM_TYP)
              POIN_PID = POIN_PART_SOL(2,POIN_PART,POIN_ELM_TYP)
-        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized 
-        ! from the .inc file 
+        ! if POIN_MID==0 and POIN_PID == 0, the element cost in the .ddw file is 0 --> must be initialized
+        ! from the .inc file
              IF(POIN_MID/=0.AND.POIN_PID/=0) THEN
                IF(MID_PID_SOL(POIN_MID,POIN_ELM_TYP)%COST1D(POIN_PID)/=ZERO) THEN
                   COST_CHECK = 1
@@ -460,7 +460,7 @@ C -------------------------------
               ELSE
                IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                TMAT = SOL1TNL(MLN,INDI) + TMATADD
               ENDIF
 !             --------------
@@ -470,7 +470,7 @@ C -------------------------------
                 TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
                ENDDO
               ENDIF
-!             -------------- 
+!             --------------
               TELT = TMAT + SOLTELT(1)  + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF (JHBE==2) THEN
 !           Solides ISOLD2
@@ -479,7 +479,7 @@ C -------------------------------
               ELSE
                IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                TMAT = SOL1TNL(MLN,INDI) + TMATADD
               ENDIF
 !             --------------
@@ -489,7 +489,7 @@ C -------------------------------
                 TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
                ENDDO
               ENDIF
-!             -------------- 
+!             --------------
               TELT = TMAT + SOLTELT(2) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF (JHBE==24.OR.JHBE==104) THEN
 !           Solides ISOLD24  - HEPH
@@ -498,7 +498,7 @@ C -------------------------------
               ELSE
                IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                TMAT = SOL1TNL(MLN,INDI) + TMATADD
               ENDIF
 !             --------------
@@ -508,7 +508,7 @@ C -------------------------------
                 TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
                ENDDO
               ENDIF
-!             -------------- 
+!             --------------
               TELT = TMAT + SOLTELT(3) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
 C
             ELSEIF (JHBE==12) THEN
@@ -518,7 +518,7 @@ C
               ELSE
                IF(MULT/=0) TMATADD = MULT * (SOL8TNL(MLN,INDI)-SOL8TNL(MLN,INDI2))
                IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL8TNL(MLN,INDI_OPT_1) + OPT_2 * SOL8TNL(MLN,INDI_OPT_2)
-               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+               IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                TMAT = SOL8TNL(MLN,INDI) + TMATADD
               ENDIF
 !             --------------
@@ -528,7 +528,7 @@ C
                 TRUP = TRUP + RUPTURE_SOL12(IRUP_TAB(J),IRUP2)
                ENDDO
               ENDIF
-!             -------------- 
+!             --------------
               TELT = TMAT + SOLTELT(4) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSEIF ( (JHBE==14.OR.(JHBE>=222.AND.JHBE<=999)).AND.(IGT/=20.AND.IGT/=21.AND.IGT/=22)) THEN
 !           Solides HA8
@@ -543,7 +543,7 @@ C
                ELSE
                 IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                 IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                 TMAT = SOL1TNL(MLN,INDI) + TMATADD
                ENDIF
 !              --------------
@@ -554,8 +554,8 @@ C
                 ENDDO
                ENDIF
 !              --------------
-               ! 8 NPT = 222 = reference weight 
-               ! if NPT > 8, element weight = reference weight + (NPT-8) * overweight 
+               ! 8 NPT = 222 = reference weight
+               ! if NPT > 8, element weight = reference weight + (NPT-8) * overweight
                OVERCOST_ELM = 0
                IF(NPTOT>8) OVERCOST_ELM = NPTOT-8
                TELT = NPTOT*(TMAT+TRUP)+SOLTELT(5) +OVERCOST_ELM *SOLTELT(6) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
@@ -572,7 +572,7 @@ C
                ELSE
                 IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                 IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
 
                 NUMBER_LAYER = 0
                 !   ---------------------
@@ -602,7 +602,7 @@ C
                     ELSE                !   t direction
                         NUMBER_LAYER = NPTT
                         OVERCOST_ELM = NPTS*NPTR
-                    ENDIF          
+                    ENDIF
                 ENDIF
                 !   ---------------------
                 !   check if composite material is used
@@ -625,19 +625,19 @@ C
                 ENDDO
                ENDIF
 !              --------------
-               ! 4 NPT = 202 = 4 * reference weight 
+               ! 4 NPT = 202 = 4 * reference weight
                ! if NPT > 4, element weight = reference weight + overcost
-               TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP + 
-     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)     
-            ELSEIF (JHBE==17) THEN   
-!           ISOLIDE=17 H8C Standard 8-nodes compatible 
+               TELT = OVERCOST_ELM*TMAT+NPTOT*TRUP +
+     .                OVERCOST_ELM*NUMBER_LAYER*SOLTELT(10) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
+            ELSEIF (JHBE==17) THEN
+!           ISOLIDE=17 H8C Standard 8-nodes compatible
 !           solid full integration formulation 2*2*2 integration points, no hourglass
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
                ELSE
                 IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                 IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                 TMAT = SOL1TNL(MLN,INDI) + TMATADD
                ENDIF
 !              --------------
@@ -647,16 +647,16 @@ C
                  TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
                 ENDDO
                ENDIF
-!              -------------- 
+!              --------------
                TELT =  (TMAT+TRUP)*8 + SOLTELT(7) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
-            ELSEIF (JHBE==18) THEN   
+            ELSEIF (JHBE==18) THEN
 !           ISOLIDE=18
                IF( DDWEIGHTS(1,1,IABS(MID))/=0)THEN
                 TMAT = DDWEIGHTS(1,1,IABS(MID)) * TPSREF
                ELSE
                 IF(MULT/=0) TMATADD = MULT * (SOL1TNL(MLN,INDI)-SOL1TNL(MLN,INDI2))
                 IF(ADD_OPTION/=0) TMATADD = OPT_1 * SOL1TNL(MLN,INDI_OPT_1) + OPT_2 * SOL1TNL(MLN,INDI_OPT_2)
-                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2) 
+                IF(SPECIAL_OPTION/=0) TMATADD = TMATADD + SOL_OPTION(SPE_I_1,SPE_I_2)
                 TMAT = SOL1TNL(MLN,INDI) + TMATADD
                ENDIF
 !              --------------
@@ -666,7 +666,7 @@ C
                  TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
                 ENDDO
                ENDIF
-!              -------------- 
+!              --------------
                TELT =  (TMAT+TRUP)*8 + SOLTELT(9) + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ELSE
 !             --------------
@@ -676,11 +676,11 @@ C
                 TRUP = TRUP + RUPTURE_SOL(IRUP_TAB(J),IRUP2)
                ENDDO
               ENDIF
-!             -------------- 
+!             --------------
               TELT = SOL1TNL(MLN,1) + SOLTELT(1) + TRUP + MULT_SPE*NLOCAL_OPTION(SPE_I_3)
             ENDIF
            ENDIF
-        ENDIF      
+        ENDIF
 C
           POIDS = TELT * INVTREF
           ! --------------------
@@ -719,7 +719,7 @@ C
           ELSE
            TELT_PRO = TELT
           ENDIF
-          ! --------------------               
+          ! --------------------
       ENDDO
       RETURN
       END

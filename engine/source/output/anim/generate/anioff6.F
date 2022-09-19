@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,10 +65,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
       INTEGER I, NG, NEL, NFT, IAD, ITY, LFT, NPT,
-     .        N, J, LLT, MLW, K1, K2,MT,JALE, IMID, 
+     .        N, J, LLT, MLW, K1, K2,MT,JALE, IMID,
      .        N1,N2,N3,N4,ISOLNOD,NN1,NN2,NN3,NN4,NN5
       INTEGER IOFFBUF(NBF),RBUF
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       NN1 = 1
       NN2 = 1

@@ -42,7 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,7 +86,7 @@ c
         CALL I2VIT28(INTBUF_TAB,IPARI,WEIGHT,NSN     ,
      .                   X    ,V   ,A    ,VR   ,AR   ,
      .                   MS  ,IN   )
-c            
+c
       ELSEIF (ILEV == 1.AND.IRODDL /= 0) THEN
 C
 C       FORMULATION SANS MOMENT SUR MAIN
@@ -122,25 +122,25 @@ C
      3 INTBUF_TAB%CSTS,INTBUF_TAB%MSR,INTBUF_TAB%NSV,INTBUF_TAB%IRTLM,
      4 V         ,MS        ,WEIGHT    ,INTBUF_TAB%NMAS)
 C
-      ELSEIF (ILEV >= 10 .AND. ILEV < 23) THEN       
+      ELSEIF (ILEV >= 10 .AND. ILEV < 23) THEN
 C       FORMULATION AVEC RUPTURE
 C
-         CALL I2VIT10(                                                  
-     1       NSN       ,NMN       ,MS        ,V         ,A         ,     
-     2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
+         CALL I2VIT10(
+     1       NSN       ,NMN       ,MS        ,V         ,A         ,
+     2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
      3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT	 )
-         IF(IRODDL /= 0) THEN                                          
-           CALL I2ROT10(                                                
-     1        NSN       ,NMN       ,MS        ,V         ,A         ,   
-     2        AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,   
-     3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT ) 
-         ENDIF                                                         
-      ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN       
+         IF(IRODDL /= 0) THEN
+           CALL I2ROT10(
+     1        NSN       ,NMN       ,MS        ,V         ,A         ,
+     2        AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
+     3        INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,INTBUF_TAB%IRUPT,WEIGHT )
+         ENDIF
+      ELSEIF (ILEV == 30 .AND. IRODDL /= 0) THEN
 C       Formulation avec courbure du main 
-         CALL I2CURVV(                                                  
-     1       NSN       ,NMN       ,MS        ,V         ,A         ,     
-     2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,     
-     3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,WEIGHT    )   
+         CALL I2CURVV(
+     1       NSN       ,NMN       ,MS        ,V         ,A         ,
+     2       AR        ,VR        ,X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
+     3       INTBUF_TAB%MSR,INTBUF_TAB%IRTLM,INTBUF_TAB%CSTS,WEIGHT    )
 C
       ELSEIF(ILEV == 0.OR.IRODDL == 0)THEN
 C       FORMULATION AVEC MOMENT SUR MAIN

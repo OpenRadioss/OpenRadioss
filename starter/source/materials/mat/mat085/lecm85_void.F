@@ -91,7 +91,7 @@ C
      .                ' MAXUPARAM =',MAXUPARAM
       ELSE
 C used in sigeps29 (solid 2d,3d)
-        UPARAM(1) = A11 
+        UPARAM(1) = A11
         UPARAM(2) = A12
         UPARAM(3) = A44
         UPARAM(4) = E/(ONE-NU*NU)

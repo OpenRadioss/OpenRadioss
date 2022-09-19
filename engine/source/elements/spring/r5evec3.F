@@ -68,7 +68,7 @@ C-----------------------------------------------
       INTEGER I,J
 C     REAL
       my_real
-     .     RX(3),RXX1, RXX2, SINT(MVSIZ), 
+     .     RX(3),RXX1, RXX2, SINT(MVSIZ),
      .     SUM(MVSIZ) ,SUM2(MVSIZ), SUM3(MVSIZ) ,THETA(MVSIZ),
      .     COST(MVSIZ)
 C-----------------------------------------------
@@ -86,11 +86,11 @@ C
           EZX(I)= ZERO
           EXY(I)= ZERO
           EYY(I)= ONE
-          EZY(I)= ZERO	  
+          EZY(I)= ZERO	
         ELSE
-          EXX(I)=EXX(I)/AL(I) 
-          EYX(I)=EYX(I)/AL(I) 
-          EZX(I)=EZX(I)/AL(I) 
+          EXX(I)=EXX(I)/AL(I)
+          EYX(I)=EYX(I)/AL(I)
+          EZX(I)=EZX(I)/AL(I)
         ENDIF
       ENDDO
 C
@@ -132,9 +132,9 @@ C ... it is modified.
 C
       DO I=LFT,LLT
         SUM(I)=MAX(EM15,SQRT(EXY(I)**2+EYY(I)**2+EZY(I)**2))
-        EXY(I)=EXY(I)/SUM(I) 
-        EYY(I)=EYY(I)/SUM(I) 
-        EZY(I)=EZY(I)/SUM(I) 
+        EXY(I)=EXY(I)/SUM(I)
+        EYY(I)=EYY(I)/SUM(I)
+        EZY(I)=EZY(I)/SUM(I)
       ENDDO
 C
       DO I=LFT,LLT
@@ -145,9 +145,9 @@ C
 C
       DO I=LFT,LLT
         SUM(I)=MAX(EM15,SQRT(EXZ(I)**2+EYZ(I)**2+EZZ(I)**2))
-        EXZ(I)=EXZ(I)/SUM(I) 
-        EYZ(I)=EYZ(I)/SUM(I) 
-        EZZ(I)=EZZ(I)/SUM(I) 
+        EXZ(I)=EXZ(I)/SUM(I)
+        EYZ(I)=EYZ(I)/SUM(I)
+        EZZ(I)=EZZ(I)/SUM(I)
       ENDDO
 C
       DO I=LFT,LLT

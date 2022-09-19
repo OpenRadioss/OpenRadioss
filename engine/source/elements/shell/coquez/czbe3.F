@@ -45,10 +45,10 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*)
-      my_real 
+      my_real
      .   X13(*),X24(*),Y13(*),Y24(*),AREA(*),Z1(*),A_I(*),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*)
-      my_real 
+      my_real
      .   PX1(*),PX2(*),PY1(*),PY2(*),PH1(*),PH2(*),
      .   RX(*),RY(*), SX(*),SY(*),RX2(*),RY2(*), SX2(*),SY2(*),
      .   RHX(MVSIZ,4),RHY(MVSIZ,4), SHX(MVSIZ,4),SHY(MVSIZ,4),HXX(*),HYY(*),HXY(*)
@@ -66,21 +66,21 @@ C-----------gama(I)=hI/4-PH(I), PH:anti-sym comme bxI------
         PY2(I) =  X13(EP)*A_I(EP)
         PH1(I) =  MX13(EP)*PX1(I)+ MY13(EP)*PY1(I)
         PH2(I) =  MX13(EP)*PX2(I)+ MY13(EP)*PY2(I)
-       ENDDO 
+       ENDDO
 C-----------Bc = Bcr0(1+r*rI)+Bcs0(1+s*sI)------
 C-----------rhx(I)=rkxk+hkxk*SI---shx(I)=skxk+hkxk*RI-
 C----------shear----R : -1 1 1 -1; S: -1 -1 1 1--
 #include "vectorize.inc"
        DO I=JFT,JLT
         EP=IPLAT(I)
-        SX(I) = MX34(EP)*A_I(EP) 
-        SY(I) = MY34(EP)*A_I(EP) 
-        RX(I) = MX23(EP)*A_I(EP) 
-        RY(I) = MY23(EP)*A_I(EP) 
-        RHX(I,1) = MX23(EP)-MX13(EP) 
-        RHX(I,3) = MX23(EP)+MX13(EP) 
-        RHY(I,1) = MY23(EP)-MY13(EP) 
-        RHY(I,3) = MY23(EP)+MY13(EP) 
+        SX(I) = MX34(EP)*A_I(EP)
+        SY(I) = MY34(EP)*A_I(EP)
+        RX(I) = MX23(EP)*A_I(EP)
+        RY(I) = MY23(EP)*A_I(EP)
+        RHX(I,1) = MX23(EP)-MX13(EP)
+        RHX(I,3) = MX23(EP)+MX13(EP)
+        RHY(I,1) = MY23(EP)-MY13(EP)
+        RHY(I,3) = MY23(EP)+MY13(EP)
         SHX(I,1) = MX34(EP)-MX13(EP)
         SHX(I,2) = MX34(EP)+MX13(EP)
         SHY(I,1) = MY34(EP)-MY13(EP)
@@ -88,14 +88,14 @@ C----------shear----R : -1 1 1 -1; S: -1 -1 1 1--
        ENDDO
 C
        DO I=JFT,JLT
-        SX2(I) = SX(I)*SX(I) 
-        SY2(I) = SY(I)*SY(I) 
-        RX2(I) = RX(I)*RX(I) 
+        SX2(I) = SX(I)*SX(I)
+        SY2(I) = SY(I)*SY(I)
+        RX2(I) = RX(I)*RX(I)
         RY2(I) = RY(I)*RY(I)
-        RHX(I,2) = RHX(I,1) 
-        RHX(I,4) = RHX(I,3) 
-        RHY(I,2) = RHY(I,1) 
-        RHY(I,4) = RHY(I,3) 
+        RHX(I,2) = RHX(I,1)
+        RHX(I,4) = RHX(I,3)
+        RHY(I,2) = RHY(I,1)
+        RHY(I,4) = RHY(I,3)
         SHX(I,3) = SHX(I,2)
         SHX(I,4) = SHX(I,1)
         SHY(I,3) = SHY(I,2)
@@ -130,19 +130,19 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,IPLAT(*)
-      my_real 
+      my_real
      .   X13(*),X24(*),Y13(*),Y24(*),AREA(*),Z1(*),A_I(*),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*),
      .   RX(*),RY(*), SX(*),SY(*)
-      my_real 
+      my_real
      .   PRX(4,*),PRY(4,*),PRXY(4,*),PHKRX(4,*),PHKRY(4,*),
      .   PHKRXY(4,*),PHERX(4,*),PHERY(4,*),PHERXY(4,*),PRZ(4,*),
-     .   PHKRZ(4,*),PHERZ(4,*),PHKX(*) ,PHKY(*) ,PHEX(*) ,PHEY(*) 
+     .   PHKRZ(4,*),PHERZ(4,*),PHKX(*) ,PHKY(*) ,PHEX(*) ,PHEY(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,EP
-      my_real 
+      my_real
      .   BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4)
 C---------------
         CALL CZDERIRZ(JFT ,JLT  ,AREA ,X13 ,X24   ,
@@ -166,7 +166,7 @@ C
          PHERXY(J,I)=BMERZ(EP,3,J)*A_I(EP)
 C         
          PRZ(J,I)=BM0RZ(EP,4,J)*A_I(EP)
-        ENDDO 
+        ENDDO
        ENDDO
 C       
        DO J=1,4
@@ -174,15 +174,15 @@ C
         EP=IPLAT(I)
         PHKRZ(J,I)=BMKRZ(EP,4,J)*A_I(EP)
         PHERZ(J,I)=BMERZ(EP,4,J)*A_I(EP)
-       ENDDO 
-       ENDDO 
+       ENDDO
+       ENDDO
 C       
        DO I=JFT,JLT
         PHEX(I)= FOUR*SY(I)
         PHEY(I) =-FOUR*SX(I)
-        PHKX(I)=-FOUR*RY(I)  
+        PHKX(I)=-FOUR*RY(I)
         PHKY(I)= FOUR*RX(I)
-       ENDDO 
+       ENDDO
 C
       RETURN
       END

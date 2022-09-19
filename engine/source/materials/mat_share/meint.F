@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE MEINT(OFF  ,SNEW ,QOLD ,EINT ,VNEW ,ESPE ,
      2                 SOLD1,SOLD2,SOLD3,SOLD4,SOLD5,SOLD6,
-     3                 D1   ,D2   ,D3   ,D4   ,D5   ,D6   , 
+     3                 D1   ,D2   ,D3   ,D4   ,D5   ,D6   ,
      4                 PSH  ,DVOL ,DF   ,QNEW ,PNEW ,VIS  ,
      5                 TMU  ,EINC ,MLN  ,VOL_AVG ,NEL)
 C-----------------------------------------------
@@ -51,7 +51,7 @@ C-----------------------------------------------
      .   OFF(*), SNEW(NEL,6), QOLD(*), EINT(*)
       my_real
      .   VNEW(*), ESPE(*), QNEW(*), PNEW(*), SOLD1(*), SOLD2(*),
-     .   SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*), 
+     .   SOLD3(*), SOLD4(*), SOLD5(*), SOLD6(*),
      .   DVOL(*), DF(*), D1(*), D2(*), D3(*), D4(*), D5(*),
      .   D6(*), PSH(*), EINC(*),
      .   VIS(*), TMU(*), VOL_AVG(*)
@@ -66,9 +66,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   POLD(MVSIZ), VAVG, 
+     .   POLD(MVSIZ), VAVG,
      .   E1, E2, E3, E4, E5, E6,
-     .   DTA, TFEXTT   
+     .   DTA, TFEXTT
 C-----------------------------------------------
 C
       DTA =HALF*DT1
@@ -118,14 +118,14 @@ C
       IF(MLN==21)THEN
         TFEXTT = ZERO
         DO I=LFT,LLT
-          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))  
-          TFEXTT=TFEXTT-DVOL(I)*PSH(I)                                
+          EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I))
+          TFEXTT=TFEXTT-DVOL(I)*PSH(I)
         ENDDO
 #include "atomic.inc"
         TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
-        
-      ENDIF      
+
+      ENDIF
 C
       RETURN
       END

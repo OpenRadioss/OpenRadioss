@@ -82,12 +82,12 @@ C-----------------------------------------------
 C=======================================================================
 C     MODULE COMPONENTS
 C-----------------------------------------------
-      ISECND =  USERBUF%ISECND     
-      AREA  =  USERBUF%AREA        
-      DIS_N =  USERBUF%DXN       
-      DIS_T =  USERBUF%DXT       
-      SIGN  =  USERBUF%SIGN       
-      SIGT  =  USERBUF%SIGT       
+      ISECND =  USERBUF%ISECND
+      AREA  =  USERBUF%AREA
+      DIS_N =  USERBUF%DXN
+      DIS_T =  USERBUF%DXT
+      SIGN  =  USERBUF%SIGN
+      SIGT  =  USERBUF%SIGT
       DTIM  =  USERBUF%DT
       IRUPT =  NINT(USERBUF%RUPT)
       IRUPT0= IRUPT
@@ -95,38 +95,38 @@ C-----------------------------------------------
       SIGNA  = ABS(SIGN)
 C-----------------------------------------------
       SSR  = ONE
-      FACN = ONE    
-      FACT = ONE    
+      FACN = ONE
+      FACT = ONE
 C-----
-      SCAL_F  = PROP(1)        
-      SCAL_D  = PROP(2)   
-      SCAL_SR = PROP(3)    
+      SCAL_F  = PROP(1)
+      SCAL_D  = PROP(2)
+      SCAL_SR = PROP(3)
       ALPHA   = PROP(4)
       DNMAX   = PROP(5)
       DTMAX   = PROP(6)
 C-------
-c      IF (IRUPT == 0) THEN            
+c      IF (IRUPT == 0) THEN
 c        UVAR(1) = SIGN
 c        UVAR(2) = SIGT
-c      ENDIF                             
+c      ENDIF
 c
 C---  Force filtering
 c
-      SIGN1  = UVAR(1)                           
-      SIGT1  = UVAR(2)                           
+      SIGN1  = UVAR(1)
+      SIGT1  = UVAR(2)
       IF (IFILTR == 1) THEN
         SIGN = ALPHA*SIGN + (ONE-ALPHA)*SIGN1
         SIGT = ALPHA*SIGT + (ONE-ALPHA)*SIGT1
       ENDIF
 C        
-      DFSIGN = (SIGN - SIGN1) / DTIM                           
-      DFSIGT = (SIGT - SIGT1) / DTIM                           
-      DSIG   = SQRT(DFSIGN**2 + DFSIGT**2)   
+      DFSIGN = (SIGN - SIGN1) / DTIM
+      DFSIGT = (SIGT - SIGT1) / DTIM
+      DSIG   = SQRT(DFSIGN**2 + DFSIGT**2)
       IF (IFUNS > 0) SSR = FINTER(IFUNS,DSIG/SCAL_SR,NPF,TF,DERI)
 c
 C---  Rupture Criteria 
 c
-      SIGNMAX = SSR*SCAL_F * FINTER(IFUNN,DIS_NA/SCAL_D,NPF,TF,DERI) 
+      SIGNMAX = SSR*SCAL_F * FINTER(IFUNN,DIS_NA/SCAL_D,NPF,TF,DERI)
       SIGTMAX = SSR*SCAL_F * FINTER(IFUNT,DIS_T /SCAL_D,NPF,TF,DERI)
 C       
       IF (SIGT > ZERO) FACT = MIN(ONE, ABS(SIGTMAX / SIGT))
@@ -139,9 +139,9 @@ C
             FACN = ZERO
             FACT = ZERO
           ENDIF
-          IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
+          IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)
      .            PDAMA2(1,ISECND)=MIN(HUNDRED*DIS_NA/DNMAX,HUNDRED)
-          IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
+          IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)
      .            PDAMA2(2,ISECND)=MIN(HUNDRED*DIS_T/DTMAX,HUNDRED)
         ELSEIF (IMOD == 1) THEN
           DIS_NA = DIS_NA / DNMAX
@@ -151,9 +151,9 @@ C
             FACN = ZERO
             FACT = ZERO
           ENDIF
-          IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
+          IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)
      .            PDAMA2(1,ISECND)=MIN(HUNDRED*DIS_NA,HUNDRED)
-          IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
+          IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)
      .            PDAMA2(2,ISECND)=MIN(HUNDRED*DIS_T,HUNDRED)
         ENDIF
 C
@@ -165,9 +165,9 @@ C
             FACN = ZERO
             FACT = ZERO
           ENDIF
-          IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
+          IF (ANIM_N(15)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)
      .            PDAMA2(1,ISECND)=MIN(HUNDRED*DIS_NA/DNMAX,HUNDRED)
-          IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1) 
+          IF (ANIM_N(16)==1 .OR. H3D_DATA%N_SCAL_DAMA2 == 1)
      .            PDAMA2(2,ISECND)=MIN(HUNDRED*DIS_T/DTMAX,HUNDRED)
         ENDIF
       ENDIF  ! ISYM
@@ -179,43 +179,43 @@ C-----
         IRUPT = -1
       ENDIF
 C-----
-      if (IDBG > 0) then                                       
-        IF (IRUPT /= 0) THEN                                         
+      if (IDBG > 0) then
+        IF (IRUPT /= 0) THEN
           IF (IRUPT == 1) THEN
-            WRITE(IOUT,*)'RUPTURE TOTALE' 
+            WRITE(IOUT,*)'RUPTURE TOTALE'
           ELSEIF (IRUPT == -1) THEN
-            WRITE(IOUT,*)'RUPTURE PARTIELLE' 
+            WRITE(IOUT,*)'RUPTURE PARTIELLE'
           ENDIF
           WRITE(IOUT,*)'Time =',TT, ' SECONDARY =',ISL,ITAB(ISECND)
-          if (IDBG == 2) WRITE(IOUT,*)'AREA  =',AREA                     
-          WRITE(IOUT,*)'Dist N  =',DIS_N,  ' Dist T  =',DIS_T                             
-          WRITE(IOUT,*)'DNmax  =',DNMAX,  ' DTmax  =',Dtmax                           
-          WRITE(IOUT,*)'Sig N   =',sign,   ' sig T   =',sigt        
-          WRITE(IOUT,*)'SIGNMAX =',SIGNMAX,' SIGTMAX =',SIGTMAX                               
-          WRITE(IOUT,*)'Facn,t  =',FACN,FACT                            
-          WRITE(IOUT,*)'------------------------------------- '     
-        ENDIF                                                         
-      endif                                                       
+          if (IDBG == 2) WRITE(IOUT,*)'AREA  =',AREA
+          WRITE(IOUT,*)'Dist N  =',DIS_N,  ' Dist T  =',DIS_T
+          WRITE(IOUT,*)'DNmax  =',DNMAX,  ' DTmax  =',Dtmax
+          WRITE(IOUT,*)'Sig N   =',sign,   ' sig T   =',sigt
+          WRITE(IOUT,*)'SIGNMAX =',SIGNMAX,' SIGTMAX =',SIGTMAX
+          WRITE(IOUT,*)'Facn,t  =',FACN,FACT
+          WRITE(IOUT,*)'------------------------------------- '
+        ENDIF
+      endif
 C
       IF (IRUPT0 == 0 .AND. IRUPT /= 0) THEN
         WRITE(IOUT,'(A,I9,A,E16.9,A,I9)')
-     .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,                   
+     .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,
      .            '   START RUPTURE SECONDARY NODE ',ITAB(ISECND)
         WRITE(*,'(A,I9,A,E16.9,A,I9)')
-     .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,                   
+     .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,
      .            '   START RUPTURE SECONDARY NODE ',ITAB(ISECND)
       ENDIF
-      IF (IRUPT0 /= 1 .AND. IRUPT == 1) THEN                            
+      IF (IRUPT0 /= 1 .AND. IRUPT == 1) THEN
         WRITE(IOUT,'(A,I9,A,E16.9,A,I9)')
-     .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,                   
+     .            'INTERFACE TYPE 2 N ',NOINT, '  TIME= ',TT,
      .            '   TOTAL RUPTURE SECONDARY NODE ',ITAB(ISECND)
-      ENDIF                                           
+      ENDIF
 C-----------
-      UVAR(1) = SIGN   
-      UVAR(2) = SIGT  
+      UVAR(1) = SIGN
+      UVAR(2) = SIGT
       USERBUF%FACN = FACN
       USERBUF%FACT = FACT
-      USERBUF%RUPT = IRUPT      
+      USERBUF%RUPT = IRUPT
 C-------------------------------
       RETURN
       END SUBROUTINE RUPTINT2

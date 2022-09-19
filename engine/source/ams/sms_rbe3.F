@@ -50,12 +50,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IRBE3(NRBE3L,*),LRBE3(*),NODXI_SMS(*), IAD_M(*), FR_M(*)   
+      INTEGER IRBE3(NRBE3L,*),LRBE3(*),NODXI_SMS(*), IAD_M(*), FR_M(*)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER N, I, M, JT(3,NRBE3), JR(3,NRBE3), IAD, NS, NML, FIN, 
+      INTEGER N, I, M, JT(3,NRBE3), JR(3,NRBE3), IAD, NS, NML, FIN,
      .        FINFIN, ICOM, IROTG, MAX_M
 C-----------------------------------------------
       CALL PRERBE3(IRBE3 ,MAX_M , IROTG,JT  ,JR   )
@@ -297,9 +297,9 @@ C-----------------------------------------------
      .        JT(3,NRBE3),JR(3,NRBE3),NM,NN,K,
      .        NMT,NMT0,IADMP(SLRBE3/2),IML(SLRBE3/2)
 C     REAL
-      my_real 
+      my_real
      .        AS(3)
-      my_real, 
+      my_real,
      .         DIMENSION(:,:,:),ALLOCATABLE :: FDSTNB ,MDSTNB
 C======================================================================|
       IADS = SLRBE3/2

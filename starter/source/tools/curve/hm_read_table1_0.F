@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE HM_READ_TABLE1_0(NTABLE0, NTABLE, TABLE ,NFUNCT, 
+      SUBROUTINE HM_READ_TABLE1_0(NTABLE0, NTABLE, TABLE ,NFUNCT,
      .                            NPC ,PLD, L,
      .                            NOM_OPT,UNITAB, LSUBMODEL)
 C-----------------------------------------------
@@ -93,10 +93,10 @@ C======================================================================|
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_START('/TABLE/0')
-      DO I=1,NTABLE0 
-       CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                         OPTION_TITR = TITR, 
-     .                         OPTION_ID = LL) 
+      DO I=1,NTABLE0
+       CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                         OPTION_TITR = TITR,
+     .                         OPTION_ID = LL)
        CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
        NX(1) = 0
@@ -111,17 +111,17 @@ C-----------------------------------------------
      .               I1=LL,
      .               C1=TITR)
        END IF
-       IF(NDIM > 0)CALL HM_GET_INTV('N1', NX(1), IS_AVAILABLE, LSUBMODEL) 
+       IF(NDIM > 0)CALL HM_GET_INTV('N1', NX(1), IS_AVAILABLE, LSUBMODEL)
        IF(NDIM==1)THEN
           L=L+1
           NPTS=NX(1)
-          NPC(NFUNCT+L+1)=LL                                       
-          NPC(L+1)=NPC(L)                                          
-c read abscissa values      
+          NPC(NFUNCT+L+1)=LL
+          NPC(L+1)=NPC(L)
+c read abscissa values
           DO N = 1, NPTS
             CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N1',PLD(NPC(L)+ 2*N-2),N,IS_AVAILABLE, LSUBMODEL, UNITAB)
           END DO
-c read ordinate values          
+c read ordinate values
           DO N = 1, NPTS
               CALL HM_GET_FLOAT_ARRAY_INDEX('ENG_FUNCT_yValues',PLD(NPC(L)+2*N-1),N,IS_AVAILABLE,LSUBMODEL,UNITAB)
           END DO
@@ -153,9 +153,9 @@ C         build table structure
             TABLE(L)%Y%VALUES(N)   =PLD(NPC(L)+2*N-1)
           END DO
 C
-          IF (IS_ENCRYPTED)THEN                                     
-             WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     
-          ELSE     
+          IF (IS_ENCRYPTED)THEN
+             WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
+          ELSE
             WRITE(IOUT,2100) TABLE(L)%NOTABLE, TABLE(L)%NDIM
             DO K=1,TABLE(L)%NDIM
               NX(K)=SIZE( TABLE(L)%X(K)%VALUES )
@@ -165,9 +165,9 @@ C
             NY=SIZE(TABLE(L)%Y%VALUES)
             WRITE(IOUT,2300)
             WRITE(IOUT,2350) (TABLE(L)%Y%VALUES(N),N=1,NY)
-           END IF!(IS_ENCRYPTED > 0) 
+           END IF!(IS_ENCRYPTED > 0)
           ENDIF!(NDIM==1)
-       ENDDO !I=1,NTABLE0 
+       ENDDO !I=1,NTABLE0
       RETURN
 C-----------------------------------------------------------------
 2000  FORMAT(//

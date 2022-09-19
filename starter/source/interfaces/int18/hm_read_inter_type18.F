@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr17_c.inc"
-#include      "submod_c.inc" 
+#include      "submod_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -71,13 +71,13 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI)
       my_real FRIGAP(*),FRIC_P(*),STFAC,XFILTR
       CHARACTER,INTENT(IN) :: TITR*nchartitle
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE (UNIT_TYPE_), INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_), INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -100,13 +100,13 @@ C-----------------------------------------------
      .    IDUM,NTYP,INACTI,IGSTI,BCOPT,ITIED,VISCF,ILEV,MULTIMP,ICURV,
      .    IVIS2,IDELKEEP,MFROT,IFQ,MODFR,ISU1_user,ISU2_user,ISU3_user,
      .    INTKG,IDIR,ISTIFF
-     
+
       my_real BID,GAP,STARTT,STOPT,BUMULT,RDUM,VISC,
      .        GAPSCALE,GAPMAX,STMIN,STMAX,FRIC,ALPHA,DTMIN,VREF
       CHARACTER MESS*40, MSGTITL*nchartitle
 
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      
+
       LOGICAL :: IS_AVAILABLE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -119,34 +119,34 @@ C  /INTER/TYPE18 READING
 C Initializations
       IS1=0
       IS2=0
-      IGSTI = 1 !in any cases otherwise negative stiffness node error at cycle 0            
+      IGSTI = 1 !in any cases otherwise negative stiffness node error at cycle 0
 !-INIT-default
-      BCOPT=0             
-      ITIED=0             
-      VISCF=0             
-      ILEV=0              
-      IBUC = 0            
-      IGAP=0              
-      MULTIMP=0           
-      ICURV=0             
-      GAPSCALE=ONE         
-      GAPMAX=EP30         
-      STMIN=ZERO          
-      STMAX=ZERO          
-      FRIC=ZERO           
-      IVIS2=0             
-      IDELKEEP=0          
-      MFROT=0             
-      IFQ=00              
-      ALPHA=ZERO          
-      MODFR=1             
-      XFILTR=ZERO         
-      BUMULT=ZERO         
-      VISC=ZERO           
-      INTKG = 0 
+      BCOPT=0
+      ITIED=0
+      VISCF=0
+      ILEV=0
+      IBUC = 0
+      IGAP=0
+      MULTIMP=0
+      ICURV=0
+      GAPSCALE=ONE
+      GAPMAX=EP30
+      STMIN=ZERO
+      STMAX=ZERO
+      FRIC=ZERO
+      IVIS2=0
+      IDELKEEP=0
+      MFROT=0
+      IFQ=00
+      ALPHA=ZERO
+      MODFR=1
+      XFILTR=ZERO
+      BUMULT=ZERO
+      VISC=ZERO
+      INTKG = 0
       IDIR=0
-      ISTIFF=0 
-      VREF=ZERO         
+      ISTIFF=0
+      VREF=ZERO
 
       STARTT = ZERO
       STOPT=EP30
@@ -156,7 +156,7 @@ C Initializations
       INACTI = 7
       IPARI(15)=NOINT
       IPARI(7)=NTYP
-      
+
       MSGTITL(1:nchartitle)=' '
 C------------------------------------------------------------
 C  Card1
@@ -184,7 +184,7 @@ C  Card3
 C------------------------------------------------------------
       CALL HM_GET_FLOATV('STIFF_DC', VISC, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SORT_FACT', BUMULT, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
 !===TO BE ABLE TO OUTPUT USER ids
        ISU1_user=ISU1
        ISU2_user=ISU2
@@ -192,7 +192,7 @@ C------------------------------------------------------------
 
 !===CHECK GAP FORMULATION
       IF(IGAP == 0)IGAP=1000 !default (constant gap)
-      IF(IGAP /= 1000 .AND. IGAP /= 1)IGAP = 1000 !unexpected value => default value 
+      IF(IGAP /= 1000 .AND. IGAP /= 1)IGAP = 1000 !unexpected value => default value
       IF(IGAP == 1)INTER18_IS_VARIABLE_GAP_DEFINED = .TRUE.
       IGAP0=IGAP
 
@@ -200,80 +200,80 @@ C------------------------------------------------------------
       IF(ISTIFF==0)ISTIFF=1 !default
       IF(ISTIFF <= -1 .OR. ISTIFF >2)ISTIFF = 1  !default
       IF(ISTIFF == 2) INTER18_AUTOPARAM = 1
-      
-!===CHECK STRUCTURE:ISU2=SURF_ID                                                                                                      
-       IF(ISU2 == 0) THEN 
-             MSGTITL='LAGRANGIAN SURFACE IS EMPTY (SURF_ID)'
-             CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=NOINT,C1=TITR,C2=MSGTITL)                
-            IS2=0      
-          ELSE 
-            IS2=1 
-            INGR2USR => IGRSURF(1:NSURF)%ID  
-            ISU2=NGR2USR(ISU2,INGR2USR,NSURF) 
-            MSGTITL='SURFACE CANNOT BE FOUND (SURF_ID)' 
-            IF(ISU2 == 0)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                        
-       ENDIF 
 
-!===CHECK ALE CELLS:ISU1=GRNOD_ID (old format) otherwise use Group of solids (GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                                    
-       IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1) 
-c          IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)THEN                                                                          
-c             MSGTITL='YOU CANNOT DEFINE BOTH GRNOD_ID and GRBRIC_ID'                                                                       
-c             CALL ANCMSG(MSGID=1115,                                                                                                    
-c     .                   MSGTYPE=MSGERROR,  
-c     .                   ANMODE=ANINFO,                                   
-c     .                   I1=NOINT,                                        
-c     .                   C1=TITR,                                         
-c     .                   C2=MSGTITL)                                      
-c          ENDIF                                                           
-        IF(ISU1 /= 0)THEN                                                  
-            INGR2USR => IGRNOD(1:NGRNOD)%ID                                
-            ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)                             
-            IS1 =2  
+!===CHECK STRUCTURE:ISU2=SURF_ID
+       IF(ISU2 == 0) THEN
+             MSGTITL='LAGRANGIAN SURFACE IS EMPTY (SURF_ID)'
+             CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO, I1=NOINT,C1=TITR,C2=MSGTITL)
+            IS2=0
+          ELSE
+            IS2=1
+            INGR2USR => IGRSURF(1:NSURF)%ID
+            ISU2=NGR2USR(ISU2,INGR2USR,NSURF)
+            MSGTITL='SURFACE CANNOT BE FOUND (SURF_ID)'
+            IF(ISU2 == 0)CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+       ENDIF
+
+!===CHECK ALE CELLS:ISU1=GRNOD_ID (old format) otherwise use Group of solids (GRBRIC_ID,GRQUAD_ID,GRTRIA_ID
+       IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)GRBRIC_ID=0 ! Possible Istf flag defined in input (was removed from manuabecause Istf is always 1)
+c          IF(ISU1 /= 0 .AND. GRBRIC_ID /= 0)THEN
+c             MSGTITL='YOU CANNOT DEFINE BOTH GRNOD_ID and GRBRIC_ID'
+c             CALL ANCMSG(MSGID=1115,
+c     .                   MSGTYPE=MSGERROR,
+c     .                   ANMODE=ANINFO,
+c     .                   I1=NOINT,
+c     .                   C1=TITR,
+c     .                   C2=MSGTITL)
+c          ENDIF
+        IF(ISU1 /= 0)THEN
+            INGR2USR => IGRNOD(1:NGRNOD)%ID
+            ISU1=NGR2USR(ISU1,INGR2USR,NGRNOD)
+            IS1 =2
              IF(ISU1 == 0)THEN
-               MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)'              
-               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)  
-             ELSEIF(MULTI_FVM%IS_USED)THEN            
-               MSGTITL='GRBRIC_id (COLUMN 3) MUST BE PROVIDED INSTEAD OF GRNOD_id (COLUMN 1)' 
+               MSGTITL='GROUP OF NODES CANNOT BE FOUND (GRNOD_ID)'
                CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
-             ENDIF 
-        ELSE                                                               
-            !GRBRIC_ID,GRQUAD_ID,GRTRIA_ID                                 
-            IF(GRBRIC_ID /= 0)THEN                                         
-              INGR2USR => IGRBRIC(1:NGRBRIC)%ID                            
-              GRBRIC_ID = NGR2USR(GRBRIC_ID,INGR2USR,NGRBRIC)              
-              IS1 = 5                                                      
-            ENDIF                                                          
-            IF(GRBRIC_ID == 0) THEN                                        
-             MSGTITL='GROUP OF ALE CELLS IS EMPTY (GRBRIC_ID)'             
-             CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)             
-            ELSE                                                           
-              ISU1=GRBRIC_ID !ISU1 outgoing argument used to get nodes in grbrick  
-            ENDIF                                              
-        ENDIF                                                  
-!===CHECK STFAC                                                
-        IF(STFAC <= ZERO .AND. ISTIFF==1)THEN                                  
+             ELSEIF(MULTI_FVM%IS_USED)THEN
+               MSGTITL='GRBRIC_id (COLUMN 3) MUST BE PROVIDED INSTEAD OF GRNOD_id (COLUMN 1)'
+               CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+             ENDIF
+        ELSE
+            !GRBRIC_ID,GRQUAD_ID,GRTRIA_ID
+            IF(GRBRIC_ID /= 0)THEN
+              INGR2USR => IGRBRIC(1:NGRBRIC)%ID
+              GRBRIC_ID = NGR2USR(GRBRIC_ID,INGR2USR,NGRBRIC)
+              IS1 = 5
+            ENDIF
+            IF(GRBRIC_ID == 0) THEN
+             MSGTITL='GROUP OF ALE CELLS IS EMPTY (GRBRIC_ID)'
+             CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR,ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
+            ELSE
+              ISU1=GRBRIC_ID !ISU1 outgoing argument used to get nodes in grbrick
+            ENDIF
+        ENDIF
+!===CHECK STFAC
+        IF(STFAC <= ZERO .AND. ISTIFF==1)THEN
              MSGTITL='STIFFNESS VALUE MUST BE DEFINED (STFVAL)'
-             CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)                          
+             CALL ANCMSG(MSGID=1115,MSGTYPE=MSGERROR, ANMODE=ANINFO,I1=NOINT,C1=TITR,C2=MSGTITL)
         ENDIF
         IF(ISTIFF==2)THEN
           IF(STFAC == ZERO)STFAC=ONE
-        ENDIF                                                                                                  
-      
+        ENDIF
+
       IF(ISTIFF == 2 .AND. GRBRIC_ID == 0)THEN
-        MSGTITL='GROUP OF ALE CELLS (GRBRIC_ID) MUST BE DEFINED WHEN ISTIFF=2'                                                   
-        CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=NOINT, C1=TITR, C2=MSGTITL)        
+        MSGTITL='GROUP OF ALE CELLS (GRBRIC_ID) MUST BE DEFINED WHEN ISTIFF=2'
+        CALL ANCMSG(MSGID=1115, MSGTYPE=MSGERROR, ANMODE=ANINFO, I1=NOINT, C1=TITR, C2=MSGTITL)
       ENDIF
-      
+
 !===DEFAULT
         IF(IBAG <= -1 .OR. IBAG >= 4)IBAG=1
         IF(IDEL7N <= -1 .OR. IDEL7N >= 3)IDEL7N=0
         IF(STFAC == ZERO)STFAC=ONE
-        STFAC=-STFAC 
-        
+        STFAC=-STFAC
+
         !IF DEFINTER IS CALLED IN A FURTHER VERSION : remove this line
         IF(IGAP==1000)IGAP=0
-          
-!===STORAGE  
+
+!===STORAGE
 
         FRIGAP(13) = ONE     !GAPSCALE
         FRIGAP(16) = EP30   !GAPMAX
@@ -285,15 +285,15 @@ c          ENDIF
 
         IPARI(7)=NTYP
         IPARI(45)=ISU1
-        IPARI(46)=ISU2     
-        IPARI(13)=IS1*10+IS2             
+        IPARI(46)=ISU2
+        IPARI(13)=IS1*10+IS2
         IPARI(14) = 0       !IVIS2
-        IPARI(17) = IDEL7N         
-        IPARI(18) = INACTI 
+        IPARI(17) = IDEL7N
+        IPARI(18) = INACTI
         IPARI(30) = 0       !MFROT
         IPARI(31) = 0       !IFQ
         IPARI(32) = IBAG
-        IPARI(34) = IDIR    !ILAGM   
+        IPARI(34) = IDIR    !ILAGM
         IPARI(39) = 0       !ICURV
         IPARI(40) = 0       !NA1
         IPARI(41) = 0       !NA2
@@ -334,73 +334,73 @@ C     PRINTOUT
 C------------------------------------------------------------
 C
       DTMIN = ZERO
-      
+
         !==OUTPUTS USER IDS FOR MAIN/SECONDARY DEFINITION
-        WRITE(IOUT,3017)  
+        WRITE(IOUT,3017)
         IF(GRBRIC_ID > 0)THEN
             WRITE(IOUT,6002)ISU3_user  !SECONDARY side from grbrick_id
         ELSE
             WRITE(IOUT,6001)ISU1_user  !SECONDARY side from grnod_id
         ENDIF
-        WRITE(IOUT,6003) ISU2_user   !MAIN side from surf_id     
-        
+        WRITE(IOUT,6003) ISU2_user   !MAIN side from surf_id
+
         IF(ISTIFF==1)THEN
-          WRITE(IOUT,3018)IGAP0,ISTIFF,IBAG 
-          WRITE(IOUT,3015)          
+          WRITE(IOUT,3018)IGAP0,ISTIFF,IBAG
+          WRITE(IOUT,3015)
           WRITE(IOUT,3020)-STFAC
           !IF(IGAP==0) WRITE(IOUT,3020)GAP
-          ! WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT!,IDIR                                                  
+          ! WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT!,IDIR
         ELSE
           WRITE(IOUT,3018)IGAP0,ISTIFF,IBAG
-          WRITE(IOUT,3016)          
+          WRITE(IOUT,3016)
           WRITE(IOUT,3021)VREF
-          !IF(GAP > ZERO)WRITE(IOUT,3020)GAP     
-          !IF(STFAC > ZERO)WRITE(IOUT,3020)GAP                                                    
+          !IF(GAP > ZERO)WRITE(IOUT,3020)GAP
+          !IF(STFAC > ZERO)WRITE(IOUT,3020)GAP
         ENDIF
 
-        IF(IGAP == 0)THEN                                  
-          !CONSTANT GAP  
+        IF(IGAP == 0)THEN
+          !CONSTANT GAP
           WRITE(IOUT,3013)
-          IF(GAP > ZERO)THEN                                
-            WRITE(IOUT,3024)GAP              
+          IF(GAP > ZERO)THEN
+            WRITE(IOUT,3024)GAP
           ELSE
             WRITE(IOUT,3026)
           ENDIF
-        ELSE                                             
-          !AUTOMATIC GAP                                 
-          WRITE(IOUT,3014) 
-          WRITE(IOUT,3025)                             
-        ENDIF                                            
-                                                         
-         WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT        
-        
+        ELSE
+          !AUTOMATIC GAP
+          WRITE(IOUT,3014)
+          WRITE(IOUT,3025)
+        ENDIF
+
+         WRITE(IOUT,3028)STARTT,STOPT,VISC,BUMULT
+
         IF(IDEL7N /= 0) THEN
            WRITE(IOUT,'(A,A,I5/)')'    DELETION FLAG ON FAILURE OF MAIN ELEMENT','  (1:YES-ALL/2:YES-ANY) : ',IDEL7N
            IF(IDELKEEP == 1)THEN
              WRITE(IOUT,'(A)')    '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-           ENDIF         
+           ENDIF
         ENDIF
-        
+
 C--------------------------------------------------------------
 C 1000 FORMAT(/1X,'  INTERFACE NUMBER :',I10,1X,A)
 C------------
       RETURN
 
- 3013 FORMAT('    --- CONSTANT GAP ---' )  
- 3014 FORMAT('    --- VARIABLE GAP ---' )  
- 3015 FORMAT('    --- USER STIFFNESS ---' )  
- 3016 FORMAT('    --- AUTOMATIC STIFFNESS ---' )  
-          
+ 3013 FORMAT('    --- CONSTANT GAP ---' )
+ 3014 FORMAT('    --- VARIABLE GAP ---' )
+ 3015 FORMAT('    --- USER STIFFNESS ---' )
+ 3016 FORMAT('    --- AUTOMATIC STIFFNESS ---' )
+
  3017 FORMAT('    TYPE == 18 ALE-LAGRANGE COUPLING' /)
  3018 FORMAT(
      .    '    IGAP FLAG FORMULATION . . . . . . . . . . . ',I10/,
      .    '    ISTF FLAG FORMULATION . . . . . . . . . . . ',I10/,
      .    '    PRESSURE CORRECTION FLAG . . . . . . . . . .',I10/)
-          
+
  3020 FORMAT(
      .    '    STFVAL. . . . . . . . . . . . . . . . . . . ',1PG20.13)
  3021 FORMAT(
-     .    '    REFERENCE VELOCITY. . . . . . . . . . . . . ',1PG20.13)          
+     .    '    REFERENCE VELOCITY. . . . . . . . . . . . . ',1PG20.13)
  3024 FORMAT(
      .    '    CONSTANT USER GAP . . . . . . . . . . . . . ',1PG20.13)
  3025 FORMAT(
@@ -411,13 +411,13 @@ C------------
      .   /'    START TIME. . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    STOP TIME . . . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    CRITICAL DAMPING FACTOR . . . . . . . . . . ',1PG20.13/,
-     .    '    SORTING FACTOR. . . . . . . . . . . . . . . ',1PG20.13) 
-     
+     .    '    SORTING FACTOR. . . . . . . . . . . . . . . ',1PG20.13)
+
  6001 FORMAT(
      .       '    NODE GROUP IDENTIFIER.  . . . . . . . . ',I10)
  6002 FORMAT(
      .       '    BRICK GROUP IDENTIFIER  . . . . . . . . ',I10)
  6003 FORMAT(
-     .       '    SURFACE GROUP IDENTIFIER. . . . . . . . ',I10/)   
+     .       '    SURFACE GROUP IDENTIFIER. . . . . . . . ',I10/)
 
       END

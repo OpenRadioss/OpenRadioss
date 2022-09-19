@@ -142,14 +142,14 @@ C-----------------------------------------------
       IF (FLAGG == 0) ISH3N = 0
       IF (NGRSH3N > 0 .AND. N2D/=0)THEN
         CALL HM_OPTION_START('/GRTRIA')
-        CALL HM_GROGRO(NUMELTG,NGRSH3N,IGRSH3N,ISH3N,IFLAG,ITER,'TRIA' ,LSUBMODEL)  
+        CALL HM_GROGRO(NUMELTG,NGRSH3N,IGRSH3N,ISH3N,IFLAG,ITER,'TRIA' ,LSUBMODEL)
       ENDIF
 C-----------------------------------------------
 C     PART GROUP
 C-----------------------------------------------
       IF (FLAGG == 0) IPRT = 0
       IF (NGRPART > 0)THEN
-        CALL HM_OPTION_START('/GRPART')      
+        CALL HM_OPTION_START('/GRPART')
         CALL HM_GROGRO(NPART ,NGRPART,IGRPART,IPRT,IFLAG ,ITER   ,'PART' ,LSUBMODEL)
       ENDIF
 C-----------

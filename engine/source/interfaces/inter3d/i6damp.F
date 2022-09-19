@@ -90,20 +90,20 @@ C--------------------------------
       IF (NDAMP1 > 0) THEN    ! velocity function
         DO I=LFT,LLT
           XX(I) = VNI(I)*ASCALV
-        ENDDO 
+        ENDDO
         CALL NINTERP(NDAMP1,NPC,TF,LLT,XX,VISCV)
       ELSE
         VISCV(1:LLT) = ZERO
-      ENDIF 
+      ENDIF
 c
       IF (NDAMP2 > 0) THEN    ! Force amplification factor
         DO I=LFT,LLT
           XX(I) = FNI(I)*ASCALF
-        ENDDO 
+        ENDDO
         CALL NINTERP(NDAMP2,NPC,TF,LLT,XX,FACT)
       ELSE
         FACT(1:LLT) = ONE
-      ENDIF 
+      ENDIF
 C--------------------------------
       DO  I=LFT,LLT
         IL = I+NFT
@@ -112,11 +112,11 @@ C--------------------------------
         FZI(I) = ZERO
 c
         IF (LOLD(I) /= 0) THEN
-          IG = NSV(IL)     
+          IG = NSV(IL)
           L  = IRTL(IL)
 c
-          FDAMP = - (VISC*VNI(I) + FSCALV*VISCV(I))*FACT(I)   
-c     
+          FDAMP = - (VISC*VNI(I) + FSCALV*VISCV(I))*FACT(I)
+c
 c          FXI(I) = N1(I)*FDAMP
 c          FYI(I) = N2(I)*FDAMP
 c          FZI(I) = N3(I)*FDAMP
@@ -140,7 +140,7 @@ C
           FY4(I)=FYI(I)*H4(I)
           FZ4(I)=FZI(I)*H4(I)
 c
-c         Force visc main        
+c         Force visc main
 c
           J3=3*IRECT(1,L)
           J2=J3-1
@@ -170,7 +170,7 @@ C
           EM(J2)=EM(J2)+FY4(I)
           EM(J3)=EM(J3)+FZ4(I)
 c
-c         Force visc secnd        
+c         Force visc secnd
 c
           I3 = 3*IL
           I2 = I3-1

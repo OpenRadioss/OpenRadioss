@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*),ITABM1(*)
       my_real
      .   X(3,*)
@@ -94,7 +94,7 @@ C-----------------------------------------------
      .   TRANS1,TRANS2,TRANS3,XP,YP,ZP
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
-     .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
+     .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1,
      .   SCAL2, SCAL3, EPS
       CHARACTER KEY*10
       CHARACTER MOT1*ncharfield,TITR*nchartitle,SOLVERKEYWORD*ncharline
@@ -112,11 +112,11 @@ C--------------------------------------------------
       CALL HM_OPTION_COUNT('TRANSFORM',NTRANS)
       FAC_L = ONE
       IS_AVAILABLE = .FALSE.
-      IF (NTRANS > 0) WRITE (IOUT,100)   
+      IF (NTRANS > 0) WRITE (IOUT,100)
 C--------------------------------------------------
 C      START READING TRANSFORM OPTIONS
 C--------------------------------------------------    
-      CALL HM_OPTION_START('TRANSFORM')  
+      CALL HM_OPTION_START('TRANSFORM')
 C--------------------------------------------------
 C BROWSING MODEL TRANSFORM 1->NTRANS
 C--------------------------------------------------
@@ -158,7 +158,7 @@ c---------------------
 c---------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
-          IF (IGS == 0) THEN           
+          IF (IGS == 0) THEN
             CALL ANCMSG(MSGID=1865,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -191,8 +191,8 @@ c---------------------
             TZ = X(3,I1) - X(3,I0)
           ELSE
             TX = TX * FAC_L
-            TY = TY * FAC_L 
-            TZ = TZ * FAC_L 
+            TY = TY * FAC_L
+            TZ = TZ * FAC_L
           ENDIF
           DO J=1,IGRNOD(IGS)%NENTITY
             IS=IGRNOD(IGS)%ENTITY(J)
@@ -202,16 +202,16 @@ c---------------------
           ENDDO
           S = SQRT(TX*TX + TY*TY + TZ*TZ)
 C
-          WRITE(IOUT,500) ID,IGU   
+          WRITE(IOUT,500) ID,IGU
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
           WRITE(IOUT,510) S,TX,TY,TZ
-          IF (IPRI > 3) THEN                                          
-            WRITE (IOUT,3000)                                            
+          IF (IPRI > 3) THEN
+            WRITE (IOUT,3000)
             DO J=1,IGRNOD(IGS)%NENTITY
               IS=IGRNOD(IGS)%ENTITY(J)
-              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
+              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)
             ENDDO
-          ENDIF 
+          ENDIF
 C----
         ELSEIF (KEY(1:3) == 'ROT') THEN
 C--------------------------------------------------
@@ -264,18 +264,18 @@ c---------------------
      .                    I2=N1)
             END IF
             X0(1) = X(1,I0)
-            X0(2) = X(2,I0) 
+            X0(2) = X(2,I0)
             X0(3) = X(3,I0)
             X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
+            X1(2) = X(2,I1)
             X1(3) = X(3,I1)
           ELSE
-            X0(1) = X0(1) * FAC_L 
-            X0(2) = X0(2) * FAC_L  
-            X0(3) = X0(3) * FAC_L 
-            X1(1) = X1(1) * FAC_L 
-            X1(2) = X1(2) * FAC_L  
-            X1(3) = X1(3) * FAC_L 
+            X0(1) = X0(1) * FAC_L
+            X0(2) = X0(2) * FAC_L
+            X0(3) = X0(3) * FAC_L
+            X1(1) = X1(1) * FAC_L
+            X1(2) = X1(2) * FAC_L
+            X1(3) = X1(3) * FAC_L
           ENDIF
           TX = X1(1) - X0(1)
           TY = X1(2) - X0(2)
@@ -287,7 +287,7 @@ c---------------------
           TZ = TZ * AT
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
-          IF (IGS == 0) THEN           
+          IF (IGS == 0) THEN
             CALL ANCMSG(MSGID=1865,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -304,15 +304,15 @@ c---------------------
             ENDDO
           ENDIF
 C
-          WRITE(IOUT,600) ID,IGU  
+          WRITE(IOUT,600) ID,IGU
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
           WRITE(IOUT,610) X0(1),X0(2),X0(3),TX,TY,TZ,ANGLE
-          IF (IPRI > 3) THEN                                           
-            WRITE (IOUT,3000)                                         
+          IF (IPRI > 3) THEN
+            WRITE (IOUT,3000)
             DO J=1,IGRNOD(IGS)%NENTITY
               IS=IGRNOD(IGS)%ENTITY(J)
-              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
-            ENDDO                                              
+              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)
+            ENDDO
           ENDIF
 C----
         ELSEIF (KEY(1:3) == 'SYM') THEN
@@ -340,7 +340,7 @@ C--------------------------------------------------
 C--------------------------------------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
-          IF (IGS == 0) THEN           
+          IF (IGS == 0) THEN
             CALL ANCMSG(MSGID=1865,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -369,18 +369,18 @@ C--------------------------------------------------
      .                    I2=N1)
             END IF
             X0(1) = X(1,I0)
-            X0(2) = X(2,I0) 
+            X0(2) = X(2,I0)
             X0(3) = X(3,I0)
             X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
+            X1(2) = X(2,I1)
             X1(3) = X(3,I1)
           ELSE
-            X0(1) = X0(1) * FAC_L 
-            X0(2) = X0(2) * FAC_L  
-            X0(3) = X0(3) * FAC_L 
-            X1(1) = X1(1) * FAC_L 
-            X1(2) = X1(2) * FAC_L  
-            X1(3) = X1(3) * FAC_L 
+            X0(1) = X0(1) * FAC_L
+            X0(2) = X0(2) * FAC_L
+            X0(3) = X0(3) * FAC_L
+            X1(1) = X1(1) * FAC_L
+            X1(2) = X1(2) * FAC_L
+            X1(3) = X1(3) * FAC_L
           ENDIF
           TX = X1(1) - X0(1)
           TY = X1(2) - X0(2)
@@ -403,12 +403,12 @@ C
           WRITE(IOUT,700) ID,IGU
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
           WRITE(IOUT,710) X0(1),X0(2),X0(3),TX,TY,TZ
-          IF (IPRI > 3) THEN                                           
-            WRITE (IOUT,3000)                                             
+          IF (IPRI > 3) THEN
+            WRITE (IOUT,3000)
             DO J=1,IGRNOD(IGS)%NENTITY
               IS=IGRNOD(IGS)%ENTITY(J)
-              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
-            ENDDO                                                
+              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)
+            ENDDO
           ENDIF
 C----
         ELSEIF (KEY(1:3) == 'SCA') THEN
@@ -433,7 +433,7 @@ C--------------------------------------------------
 C--------------------------------------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
-          IF (IGS == 0) THEN           
+          IF (IGS == 0) THEN
             CALL ANCMSG(MSGID=1865,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -453,11 +453,11 @@ C--------------------------------------------------
      .                    I2=N1)
             END IF
             X0(1) = X(1,I0)
-            X0(2) = X(2,I0) 
+            X0(2) = X(2,I0)
             X0(3) = X(3,I0)
           ELSE
             X0(1) = ZERO
-            X0(2) = ZERO 
+            X0(2) = ZERO
             X0(3) = ZERO
           ENDIF
           DO J=1,IGRNOD(IGS)%NENTITY
@@ -470,12 +470,12 @@ C
           WRITE(IOUT,800) ID,IGU
           IF (N0 > 0) WRITE(IOUT,300) N0
           WRITE(IOUT,810) TX,TY,TZ
-          IF (IPRI > 3) THEN                                           
-            WRITE (IOUT,3000)                                             
+          IF (IPRI > 3) THEN
+            WRITE (IOUT,3000)
             DO J=1,IGRNOD(IGS)%NENTITY
               IS=IGRNOD(IGS)%ENTITY(J)
-              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
-            ENDDO                                                
+              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)
+            ENDDO
           ENDIF
 C----
         ELSEIF (KEY(1:6) == 'MATRIX') THEN
@@ -501,7 +501,7 @@ c---------------------
 c---------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
-          IF (IGS == 0) THEN           
+          IF (IGS == 0) THEN
             CALL ANCMSG(MSGID=1865,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -523,7 +523,7 @@ c
           SCAL2 = ROT(1)*ROT(3)+ROT(4)*ROT(6)+ROT(7)*ROT(9)
           SCAL3 = ROT(2)*ROT(3)+ROT(5)*ROT(6)+ROT(8)*ROT(9)
           IF(ABS(ONE-NORM1) > EPS .OR. ABS(ONE-NORM2) > EPS .OR.
-     .       ABS(ONE-NORM3) > EPS .OR. 
+     .       ABS(ONE-NORM3) > EPS .OR.
      .      SCAL1 > (EPS * NORM1*NORM2) .OR. SCAL2 > (EPS * NORM1*NORM3)
      .      .OR. SCAL3 > (EPS * NORM2*NORM3))THEN
             CALL ANCMSG(MSGID=986,
@@ -533,12 +533,12 @@ c
 c---------------------
           DO J=1,IGRNOD(IGS)%NENTITY
             IS=IGRNOD(IGS)%ENTITY(J)
-            XP = ROT(1)*X(1,IS) + ROT(2)*X(2,IS) + ROT(3)*X(3,IS) 
-     .           + TRANS1     
-            YP = ROT(4)*X(1,IS) + ROT(5)*X(2,IS) + ROT(6)*X(3,IS) 
-     .           + TRANS2   
-            ZP = ROT(7)*X(1,IS) + ROT(8)*X(2,IS) + ROT(9)*X(3,IS) 
-     .           + TRANS3                                  
+            XP = ROT(1)*X(1,IS) + ROT(2)*X(2,IS) + ROT(3)*X(3,IS)
+     .           + TRANS1
+            YP = ROT(4)*X(1,IS) + ROT(5)*X(2,IS) + ROT(6)*X(3,IS)
+     .           + TRANS2
+            ZP = ROT(7)*X(1,IS) + ROT(8)*X(2,IS) + ROT(9)*X(3,IS)
+     .           + TRANS3
             X(1,IS) = XP
             X(2,IS) = YP
             X(3,IS) = ZP
@@ -546,7 +546,7 @@ c---------------------
 c
           WRITE(IOUT,900) ID,IGU
 c
-          WRITE(IOUT,910) 
+          WRITE(IOUT,910)
      .         ROT(1),ROT(2),ROT(3),TRANS1,
      .         ROT(4),ROT(5),ROT(6),TRANS2,
      .         ROT(7),ROT(8),ROT(9),TRANS3
@@ -600,7 +600,7 @@ C--------------------------------------------------
 c---------------------
           INGR2USR => IGRNOD(1:NGRNOD)%ID
           IGS = NGR2USR(IGU,INGR2USR,NGRNOD)
-          IF (IGS == 0) THEN           
+          IF (IGS == 0) THEN
             CALL ANCMSG(MSGID=1865,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -611,7 +611,7 @@ c---------------------
           RTRANS(I,18)=IGS
 c---------------------
 C
-          IF (N1 > 0 .OR. N2 > 0 .OR. N3 > 0 .OR. 
+          IF (N1 > 0 .OR. N2 > 0 .OR. N3 > 0 .OR.
      .        N4 > 0 .OR. N5 > 0 .OR. N6 > 0) THEN
             I1 = USRTOS(N1,ITABM1)
             I2 = USRTOS(N2,ITABM1)
@@ -628,7 +628,7 @@ C
      .                    I2=N1)
             END IF
             X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
+            X1(2) = X(2,I1)
             X1(3) = X(3,I1)
             IF (I2 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -639,7 +639,7 @@ C
      .                    I2=N2)
             END IF
             X2(1) = X(1,I2)
-            X2(2) = X(2,I2) 
+            X2(2) = X(2,I2)
             X2(3) = X(3,I2)
             IF (I3 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -650,7 +650,7 @@ C
      .                    I2=N3)
             END IF
             X3(1) = X(1,I3)
-            X3(2) = X(2,I3) 
+            X3(2) = X(2,I3)
             X3(3) = X(3,I3)
             IF (I4 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -661,7 +661,7 @@ C
      .                    I2=N4)
             END IF
             X4(1) = X(1,I4)
-            X4(2) = X(2,I4) 
+            X4(2) = X(2,I4)
             X4(3) = X(3,I4)
             IF (I5 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -672,7 +672,7 @@ C
      .                    I2=N5)
             END IF
             X5(1) = X(1,I5)
-            X5(2) = X(2,I5) 
+            X5(2) = X(2,I5)
             X5(3) = X(3,I5)
             IF (I6 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -683,31 +683,31 @@ C
      .                    I2=N6)
             END IF
             X6(1) = X(1,I6)
-            X6(2) = X(2,I6) 
+            X6(2) = X(2,I6)
             X6(3) = X(3,I6)
           ELSE
-            X1(1) = X1(1) * FAC_L 
-            X1(2) = X1(2) * FAC_L  
-            X1(3) = X1(3) * FAC_L 
-            X2(1) = X2(1) * FAC_L 
-            X2(2) = X2(2) * FAC_L  
-            X2(3) = X2(3) * FAC_L 
-            X3(1) = X3(1) * FAC_L 
-            X3(2) = X3(2) * FAC_L  
-            X3(3) = X3(3) * FAC_L 
-            X4(1) = X4(1) * FAC_L 
-            X4(2) = X4(2) * FAC_L  
-            X4(3) = X4(3) * FAC_L 
-            X5(1) = X5(1) * FAC_L 
-            X5(2) = X5(2) * FAC_L  
-            X5(3) = X5(3) * FAC_L 
-            X6(1) = X6(1) * FAC_L 
-            X6(2) = X6(2) * FAC_L  
-            X6(3) = X6(3) * FAC_L 
+            X1(1) = X1(1) * FAC_L
+            X1(2) = X1(2) * FAC_L
+            X1(3) = X1(3) * FAC_L
+            X2(1) = X2(1) * FAC_L
+            X2(2) = X2(2) * FAC_L
+            X2(3) = X2(3) * FAC_L
+            X3(1) = X3(1) * FAC_L
+            X3(2) = X3(2) * FAC_L
+            X3(3) = X3(3) * FAC_L
+            X4(1) = X4(1) * FAC_L
+            X4(2) = X4(2) * FAC_L
+            X4(3) = X4(3) * FAC_L
+            X5(1) = X5(1) * FAC_L
+            X5(2) = X5(2) * FAC_L
+            X5(3) = X5(3) * FAC_L
+            X6(1) = X6(1) * FAC_L
+            X6(2) = X6(2) * FAC_L
+            X6(3) = X6(3) * FAC_L
           END IF
 C--------------------------------------------------
           CALL POINTS_TO_FRAME(X1,X2,X3,PP,IERROR)
-          IF(IERROR==1.OR.IERROR==3)THEN 
+          IF(IERROR==1.OR.IERROR==3)THEN
             CALL ANCMSG(MSGID=1866,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -720,7 +720,7 @@ C--------------------------------------------------
      .                  I1=ID,C1=TITR)
           END IF
           CALL POINTS_TO_FRAME(X4,X5,X6,QQ,IERROR)
-          IF(IERROR == 1)THEN 
+          IF(IERROR == 1)THEN
             CALL ANCMSG(MSGID=1868,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -772,9 +772,9 @@ C--------------------------------------------------
             XP = X(1,K) - X1(1)
             YP = X(2,K) - X1(2)
             ZP = X(3,K) - X1(3)
-            X(1,K) = X4(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP                        
-            X(2,K) = X4(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP                         
-            X(3,K) = X4(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP      
+            X(1,K) = X4(1) + ROT(1)*XP + ROT(4)*YP + ROT(7)*ZP
+            X(2,K) = X4(2) + ROT(2)*XP + ROT(5)*YP + ROT(8)*ZP
+            X(3,K) = X4(3) + ROT(3)*XP + ROT(6)*YP + ROT(9)*ZP
           END DO
 C
           WRITE(IOUT,1000) ID,IGU
@@ -785,12 +785,12 @@ C
      .         RTRANS(I,4),RTRANS(I,7),RTRANS(I,10),
      .         RTRANS(I,5),RTRANS(I,8),RTRANS(I,11)
 C
-          IF (IPRI > 3) THEN                                           
-            WRITE (IOUT,3000)                                         
+          IF (IPRI > 3) THEN
+            WRITE (IOUT,3000)
             DO J=1,IGRNOD(IGS)%NENTITY
               IS=IGRNOD(IGS)%ENTITY(J)
-              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)                                
-            ENDDO                                              
+              WRITE(IOUT,3500) ITAB(IS),X(1,IS),X(2,IS),X(3,IS)
+            ENDDO
           ENDIF
         ENDIF
       ENDDO
@@ -805,7 +805,7 @@ C-----------------------
      .       10X,'                   N1   . . . . .= ',I10)
  300  FORMAT(10X,'   CENTER NODE     N0   . . . . .= ',I10)
  500  FORMAT(/
-     . '    NODAL TRANSLATION, TRANSFORMATION ID   = ',I10/,                        
+     . '    NODAL TRANSLATION, TRANSFORMATION ID   = ',I10/,
      . '       NODE GROUP ID. . . . . . . . . . . .= ',I10/,
      . '       TRANSLATION VECTOR :')
  510  FORMAT(10X,'   VALUE. . . . . . . . . . . . .= ',E20.13/,
@@ -813,7 +813,7 @@ C-----------------------
      . '                             Y. . . . . . .= ',E20.13/,
      . '                             Z. . . . . . .= ',E20.13)
  600  FORMAT(/
-     . '    NODAL ROTATION, TRANSFORMATION ID.     = ',I10/,                       
+     . '    NODAL ROTATION, TRANSFORMATION ID.     = ',I10/,
      . '       NODE GROUP ID. . . . . . . . . . . .= ',I10/,
      . '       ROTATION VECTOR: ')
  610  FORMAT(10X,'   CENTER          X. . . . . . .= ',E20.13/,
@@ -824,7 +824,7 @@ C-----------------------
      . '                             Z. . . . . . .= ',E20.13/,
      . '             ANGLE            . . . . . . .= ',E20.13)
  700  FORMAT(/
-     . '    PLANE SYMMETRY, TRANSFORMATION ID = ',I10/,                        
+     . '    PLANE SYMMETRY, TRANSFORMATION ID = ',I10/,
      . '       NODE GROUP ID. . . . . . . . . . . .= ',I10/,
      . '       VECTOR ORTHOGONAL TO PLANE: ')
  710  FORMAT(10X,'   CENTER          X. . . . . . .= ',E20.13/,
@@ -840,7 +840,7 @@ C-----------------------
      . '                             Y. . . . . . .= ',E20.13/,
      . '                             Z. . . . . . .= ',E20.13)
  900  FORMAT(/
-     . '    MATRIX TRANSFORMATION, TRANSFORMATION ID.=   ',I10/,                       
+     . '    MATRIX TRANSFORMATION, TRANSFORMATION ID.=   ',I10/,
      . '       NODE GROUP ID. . . . . . . . . . . .= ',I10/)
  910  FORMAT(4X,'MATRIX '/,
      .'  '/,
@@ -851,8 +851,8 @@ C-----------------------
      . 17X,'M31',17X,'M32',17X,'M33',18X,'TZ' /,
      .         4E20.13/)
  1000 FORMAT(/
-     . '   SUBMODEL TRANSFORMATION WRT 6 POSITIONS',/, 
-     . '       TRANSFORMATION ID. . . . . . . . . . . = ',I10/,                       
+     . '   SUBMODEL TRANSFORMATION WRT 6 POSITIONS',/,
+     . '       TRANSFORMATION ID. . . . . . . . . . . = ',I10/,
      . '       NODE GROUP ID. . . . . . . . . . . . . = ',I10)
  1010 FORMAT(
      . '             CENTER N1       X1 . . . . . .= ',E20.13/,

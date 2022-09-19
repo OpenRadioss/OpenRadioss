@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELA, NPTR, NPTS, NPTT
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*)
-      my_real X(3,*), VOLG(*), VOLP(MVSIZ,*)                      
+      my_real X(3,*), VOLG(*), VOLP(MVSIZ,*)
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -55,8 +55,8 @@ C-----------------------------------------------
       INTEGER IR,IS,IT,IP
 C
       my_real
-     .  X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ), 
-     .  Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ), 
+     .  X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ), X5(MVSIZ), X6(MVSIZ), X7(MVSIZ), X8(MVSIZ),
+     .  Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ), Y5(MVSIZ), Y6(MVSIZ), Y7(MVSIZ), Y8(MVSIZ),
      .  Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), Z5(MVSIZ), Z6(MVSIZ), Z7(MVSIZ), Z8(MVSIZ)
       my_real
      .   AJ1(MVSIZ),AJ2(MVSIZ),AJ3(MVSIZ),
@@ -83,7 +83,7 @@ C
      .   PG2, PG, WI
       my_real
      .  W_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -116,31 +116,31 @@ C
 
 C---+----1
       DO I=1,NELA
-        X1(I)=X(1,NC1(I))  
-        Y1(I)=X(2,NC1(I))  
-        Z1(I)=X(3,NC1(I))  
-        X2(I)=X(1,NC2(I))  
-        Y2(I)=X(2,NC2(I))  
-        Z2(I)=X(3,NC2(I))  
-        X3(I)=X(1,NC3(I))  
-        Y3(I)=X(2,NC3(I))  
-        Z3(I)=X(3,NC3(I))  
-        X4(I)=X(1,NC4(I))  
-        Y4(I)=X(2,NC4(I))  
-        Z4(I)=X(3,NC4(I))  
-        X5(I)=X(1,NC5(I))  
-        Y5(I)=X(2,NC5(I))  
-        Z5(I)=X(3,NC5(I))  
-        X6(I)=X(1,NC6(I))  
-        Y6(I)=X(2,NC6(I))  
-        Z6(I)=X(3,NC6(I))  
-        X7(I)=X(1,NC7(I))  
-        Y7(I)=X(2,NC7(I))  
-        Z7(I)=X(3,NC7(I))  
-        X8(I)=X(1,NC8(I))  
-        Y8(I)=X(2,NC8(I))  
-        Z8(I)=X(3,NC8(I))  
-      ENDDO      
+        X1(I)=X(1,NC1(I))
+        Y1(I)=X(2,NC1(I))
+        Z1(I)=X(3,NC1(I))
+        X2(I)=X(1,NC2(I))
+        Y2(I)=X(2,NC2(I))
+        Z2(I)=X(3,NC2(I))
+        X3(I)=X(1,NC3(I))
+        Y3(I)=X(2,NC3(I))
+        Z3(I)=X(3,NC3(I))
+        X4(I)=X(1,NC4(I))
+        Y4(I)=X(2,NC4(I))
+        Z4(I)=X(3,NC4(I))
+        X5(I)=X(1,NC5(I))
+        Y5(I)=X(2,NC5(I))
+        Z5(I)=X(3,NC5(I))
+        X6(I)=X(1,NC6(I))
+        Y6(I)=X(2,NC6(I))
+        Z6(I)=X(3,NC6(I))
+        X7(I)=X(1,NC7(I))
+        Y7(I)=X(2,NC7(I))
+        Z7(I)=X(3,NC7(I))
+        X8(I)=X(1,NC8(I))
+        Y8(I)=X(2,NC8(I))
+        Z8(I)=X(3,NC8(I))
+      ENDDO
 C---+----1
       DO I=1,NELA
          X17(I)=X7(I)-X1(I)
@@ -243,7 +243,7 @@ C
        AJP8(I,IP)=AJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
        AJP9(I,IP)=AJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
       ENDDO
-      IP=2	  
+      IP=2	
 C + - -	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)-HX3PG(I)-HX2PG(I)+HX4PG2(I)
@@ -258,7 +258,7 @@ C
        AJP8(I,IP)=AJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
        AJP9(I,IP)=AJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=3	  
+      IP=3	
 C - + -	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
@@ -273,7 +273,7 @@ C
        AJP8(I,IP)=AJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
        AJP9(I,IP)=AJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=4	  
+      IP=4	
 C + + -	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)+HX3PG(I)-HX2PG(I)-HX4PG2(I)
@@ -288,7 +288,7 @@ C
        AJP8(I,IP)=AJ8(I)+HY2PG(I)+HY1PG(I)+HY4PG2(I)
        AJP9(I,IP)=AJ9(I)+HZ2PG(I)+HZ1PG(I)+HZ4PG2(I)
       ENDDO
-      IP=5	  
+      IP=5	
 C - - +	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
@@ -303,7 +303,7 @@ C
        AJP8(I,IP)=AJ8(I)-HY2PG(I)-HY1PG(I)+HY4PG2(I)
        AJP9(I,IP)=AJ9(I)-HZ2PG(I)-HZ1PG(I)+HZ4PG2(I)
       ENDDO
-      IP=6	  
+      IP=6	
 C + - +	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)-HX3PG(I)+HX2PG(I)-HX4PG2(I)
@@ -318,7 +318,7 @@ C
        AJP8(I,IP)=AJ8(I)+HY2PG(I)-HY1PG(I)-HY4PG2(I)
        AJP9(I,IP)=AJ9(I)+HZ2PG(I)-HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=7	  
+      IP=7	
 C - + +	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)
@@ -333,7 +333,7 @@ C
        AJP8(I,IP)=AJ8(I)-HY2PG(I)+HY1PG(I)-HY4PG2(I)
        AJP9(I,IP)=AJ9(I)-HZ2PG(I)+HZ1PG(I)-HZ4PG2(I)
       ENDDO
-      IP=8	  
+      IP=8	
 C + + +	  
       DO I=1,NELA
        AJP1(I,IP)=AJ1(I)+HX3PG(I)+HX2PG(I)+HX4PG2(I)

@@ -33,12 +33,12 @@ Chd|====================================================================
      1                          INTBUF_TAB,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
 !$COMMENT
 !       INTER_TRC_7 description
-!       INTER_TRC_7 organization :      
+!       INTER_TRC_7 organization :
 !$ENDCOMMENT
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -113,9 +113,9 @@ C-----------------------------------------------
                 ELSE
                     INACIMP = 1
                 ENDIF
-    
+
                 INTER_STRUCT(NIN)%I_SK_OLD = INTBUF_TAB(NIN)%I_STOK(1)
-    
+
                 IF( INTER_STRUCT(NIN)%SIZE_CAND_A<NSN+NSNROLD+3) THEN
                     IF(ALLOCATED(INTER_STRUCT(NIN)%CAND_A)) DEALLOCATE(INTER_STRUCT(NIN)%CAND_A)
                     ALLOCATE(INTER_STRUCT(NIN)%CAND_A(NSN+NSNROLD+3) )

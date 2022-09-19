@@ -39,15 +39,15 @@ Chd|====================================================================
      A               KINI     ,ITY      ,NIN     ,IGSTI   ,KMIN     ,
      B               KMAX     ,GAP_S    ,GAPS    ,NODNX_SMS,NSMS    ,
      C               ITRIV    ,XFIC     ,VFIC    ,MSF     ,IRTSE    ,
-     D               IS2SE    ,IS2PT    ,ISEGPT  ,NSNE     , 
-     E               IRTLM    ,NPT      ,NRTSE   ,IEDG4   ,ISPT2    , 
+     D               IS2SE    ,IS2PT    ,ISEGPT  ,NSNE     ,
+     E               IRTLM    ,NPT      ,NRTSE   ,IEDG4   ,ISPT2    ,
      F               ISPT2_LOC,INTFRIC  ,IPARTFRICS,IPARTFRICSI,
      G               IPARTFRICM,IPARTFRICMI,INTNITSCHE,FORNEQS,FORNEQSI,
      H               IORTHFRIC,IREP_FRICM,DIR_FRICM,IREP_FRICMI,DIR_FRICMI,
      I               IXX3     ,IXX4      , XX1     ,XX2   ,XX3       ,
      3               XX4      ,YY1       ,YY2      ,YY3   ,YY4       ,
      4               ZZ1      ,ZZ2       ,ZZ3      ,ZZ4   ,NINLOADP  ,
-     5               DIST    ) 
+     5               DIST    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -79,7 +79,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),KINET(*),KINI(*),
      .        JLT,IDT, NOINT ,NDDIM, NSN, ITY, NIN, IGSTI,NRTSE,
      .        NVOISIN(8,*), NODNX_SMS(*), CAND_T(*),IRTLM(2,*),NPT,
-     .        IEDG4,INTFRIC,INTNITSCHE ,IORTHFRIC 
+     .        IEDG4,INTFRIC,INTNITSCHE ,IORTHFRIC
       INTEGER IXX(MVSIZ,13), NSVG(MVSIZ), NSMS(MVSIZ),ITRIV(4,MVSIZ),
      .        IRTSE(5,*),IS2SE(2,*),IS2PT(*),ISEGPT(*),NSNE,ISPT2(NSN),
      *        ISPT2_LOC(MVSIZ),IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),
@@ -131,7 +131,7 @@ C-initialize ISPT2_LOC (local or Remote)
          DO I=1,JLT
              ISPT2_LOC(I) = 0
          ENDDO
-                  
+
        END IF !(IEDGE4 > 0) THEN
 C      
       DO I=1,JLT
@@ -141,7 +141,7 @@ C
              IG = NSV(NI)
              NSVG(I) = IG
 C---------------voir KINET(IG) est initi   quand    
-            IF (IG <= NUMNOD) THEN         
+            IF (IG <= NUMNOD) THEN
              KINI(I) = KINET(IG)
              XI(I) = X(1,IG)
              YI(I) = X(2,IG)
@@ -177,92 +177,92 @@ C             KINI(I) = KINETF(IGF)
              GAPS(I) = GAPFI(NIN)%P(NN)
            END IF
 C
-           IX=IRECT(1,L)  
-           IXX(I,1)=IX      
-           XX0(I,1)=X(1,IX)  
-           YY0(I,1)=X(2,IX)  
-           ZZ0(I,1)=X(3,IX)  
-           VX(I,1)=V(1,IX)  
-           VY(I,1)=V(2,IX)  
-           VZ(I,1)=V(3,IX)  
+           IX=IRECT(1,L)
+           IXX(I,1)=IX
+           XX0(I,1)=X(1,IX)
+           YY0(I,1)=X(2,IX)
+           ZZ0(I,1)=X(3,IX)
+           VX(I,1)=V(1,IX)
+           VY(I,1)=V(2,IX)
+           VZ(I,1)=V(3,IX)
 C
-           IX=IRECT(2,L)  
-           IXX(I,2)=IX      
-           XX0(I,2)=X(1,IX)  
-           YY0(I,2)=X(2,IX)  
-           ZZ0(I,2)=X(3,IX)  
-           VX(I,2)=V(1,IX)  
-           VY(I,2)=V(2,IX)  
-           VZ(I,2)=V(3,IX)  
+           IX=IRECT(2,L)
+           IXX(I,2)=IX
+           XX0(I,2)=X(1,IX)
+           YY0(I,2)=X(2,IX)
+           ZZ0(I,2)=X(3,IX)
+           VX(I,2)=V(1,IX)
+           VY(I,2)=V(2,IX)
+           VZ(I,2)=V(3,IX)
 C
-           IX=IRECT(3,L)  
-           IXX(I,3)=IX      
-           XX0(I,3)=X(1,IX)  
-           YY0(I,3)=X(2,IX)  
-           ZZ0(I,3)=X(3,IX)  
-           VX(I,3)=V(1,IX)  
-           VY(I,3)=V(2,IX)  
-           VZ(I,3)=V(3,IX)  
+           IX=IRECT(3,L)
+           IXX(I,3)=IX
+           XX0(I,3)=X(1,IX)
+           YY0(I,3)=X(2,IX)
+           ZZ0(I,3)=X(3,IX)
+           VX(I,3)=V(1,IX)
+           VY(I,3)=V(2,IX)
+           VZ(I,3)=V(3,IX)
 C
-           IX=IRECT(4,L)  
-           IXX(I,4)=IX      
-           XX0(I,4)=X(1,IX)  
-           YY0(I,4)=X(2,IX)  
-           ZZ0(I,4)=X(3,IX)  
-           VX(I,4)=V(1,IX)  
-           VY(I,4)=V(2,IX)  
-           VZ(I,4)=V(3,IX)  
+           IX=IRECT(4,L)
+           IXX(I,4)=IX
+           XX0(I,4)=X(1,IX)
+           YY0(I,4)=X(2,IX)
+           ZZ0(I,4)=X(3,IX)
+           VX(I,4)=V(1,IX)
+           VY(I,4)=V(2,IX)
+           VZ(I,4)=V(3,IX)
 C
            IF(IXX(I,3) /= IXX(I,4))THEN
             XX0(I,5) = FOURTH*(XX0(I,1)+XX0(I,2)+XX0(I,3)+XX0(I,4))
             YY0(I,5) = FOURTH*(YY0(I,1)+YY0(I,2)+YY0(I,3)+YY0(I,4))
-            ZZ0(I,5) = FOURTH*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4)) 
+            ZZ0(I,5) = FOURTH*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4))
             VX(I,5) = FOURTH*(VX(I,1)+VX(I,2)+VX(I,3)+VX(I,4))
             VY(I,5) = FOURTH*(VY(I,1)+VY(I,2)+VY(I,3)+VY(I,4))
-            VZ(I,5) = FOURTH*(VZ(I,1)+VZ(I,2)+VZ(I,3)+VZ(I,4)) 
+            VZ(I,5) = FOURTH*(VZ(I,1)+VZ(I,2)+VZ(I,3)+VZ(I,4))
            ELSE
             XX0(I,5) = XX0(I,3)
             YY0(I,5) = YY0(I,3)
-            ZZ0(I,5) = ZZ0(I,3) 
+            ZZ0(I,5) = ZZ0(I,3)
             VX(I,5) = VX(I,3)
             VY(I,5) = VY(I,3)
-            VZ(I,5) = VZ(I,3) 
+            VZ(I,5) = VZ(I,3)
            ENDIF
 
-           IX=IABS(NVOISIN(1,L))  
-           IXX(I,6)=IX 
-           IF(IX /= 0)THEN 
-            XX0(I,6)=X(1,IX) 
-            YY0(I,6)=X(2,IX) 
-            ZZ0(I,6)=X(3,IX) 
-            VX(I,6) =V(1,IX) 
-            VY(I,6) =V(2,IX) 
+           IX=IABS(NVOISIN(1,L))
+           IXX(I,6)=IX
+           IF(IX /= 0)THEN
+            XX0(I,6)=X(1,IX)
+            YY0(I,6)=X(2,IX)
+            ZZ0(I,6)=X(3,IX)
+            VX(I,6) =V(1,IX)
+            VY(I,6) =V(2,IX)
             VZ(I,6) =V(3,IX)
            ELSE
-            XX0(I,6)=XX0(I,1) 
-            YY0(I,6)=YY0(I,1) 
-            ZZ0(I,6)=ZZ0(I,1) 
-            VX(I,6) =VX(I,1)  
-            VY(I,6) =VY(I,1)  
-            VZ(I,6) =VZ(I,1) 
+            XX0(I,6)=XX0(I,1)
+            YY0(I,6)=YY0(I,1)
+            ZZ0(I,6)=ZZ0(I,1)
+            VX(I,6) =VX(I,1)
+            VY(I,6) =VY(I,1)
+            VZ(I,6) =VZ(I,1)
            ENDIF
- 
-           IF(NVOISIN(2,L)/=0)IX=IABS(NVOISIN(2,L)) 
-           IXX(I,7)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,7)=X(1,IX) 
-            YY0(I,7)=X(2,IX) 
-            ZZ0(I,7)=X(3,IX) 
-            VX(I,7)=V(1,IX) 
-            VY(I,7)=V(2,IX) 
+
+           IF(NVOISIN(2,L)/=0)IX=IABS(NVOISIN(2,L))
+           IXX(I,7)=IX
+           IF(IX /= 0)THEN
+            XX0(I,7)=X(1,IX)
+            YY0(I,7)=X(2,IX)
+            ZZ0(I,7)=X(3,IX)
+            VX(I,7)=V(1,IX)
+            VY(I,7)=V(2,IX)
             VZ(I,7)=V(3,IX)
            ELSE
-            XX0(I,7)=XX0(I,2) 
-            YY0(I,7)=YY0(I,2) 
-            ZZ0(I,7)=ZZ0(I,2) 
-            VX(I,7) =VX(I,2)  
-            VY(I,7) =VY(I,2)  
-            VZ(I,7) =VZ(I,2) 
+            XX0(I,7)=XX0(I,2)
+            YY0(I,7)=YY0(I,2)
+            ZZ0(I,7)=ZZ0(I,2)
+            VX(I,7) =VX(I,2)
+            VY(I,7) =VY(I,2)
+            VZ(I,7) =VZ(I,2)
            ENDIF
 
            IF(NVOISIN(1,L)<0)THEN
@@ -277,40 +277,40 @@ C
                ITRIV(1,I)=1
            ENDIF
 
-           IX=IABS(NVOISIN(3,L))  
-           IXX(I,8)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,8)=X(1,IX) 
-            YY0(I,8)=X(2,IX) 
-            ZZ0(I,8)=X(3,IX) 
-            VX(I,8)=V(1,IX) 
-            VY(I,8)=V(2,IX) 
-            VZ(I,8)=V(3,IX) 
+           IX=IABS(NVOISIN(3,L))
+           IXX(I,8)=IX
+           IF(IX /= 0)THEN
+            XX0(I,8)=X(1,IX)
+            YY0(I,8)=X(2,IX)
+            ZZ0(I,8)=X(3,IX)
+            VX(I,8)=V(1,IX)
+            VY(I,8)=V(2,IX)
+            VZ(I,8)=V(3,IX)
            ELSE
-            XX0(I,8)=XX0(I,2) 
-            YY0(I,8)=YY0(I,2) 
-            ZZ0(I,8)=ZZ0(I,2) 
-            VX(I,8) =VX(I,2)  
-            VY(I,8) =VY(I,2)  
-            VZ(I,8) =VZ(I,2) 
+            XX0(I,8)=XX0(I,2)
+            YY0(I,8)=YY0(I,2)
+            ZZ0(I,8)=ZZ0(I,2)
+            VX(I,8) =VX(I,2)
+            VY(I,8) =VY(I,2)
+            VZ(I,8) =VZ(I,2)
            ENDIF
- 
-           IF(NVOISIN(4,L)/=0)IX=IABS(NVOISIN(4,L)) 
-           IXX(I,9)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,9)=X(1,IX) 
-            YY0(I,9)=X(2,IX) 
-            ZZ0(I,9)=X(3,IX) 
-            VX(I,9)=V(1,IX) 
-            VY(I,9)=V(2,IX) 
+
+           IF(NVOISIN(4,L)/=0)IX=IABS(NVOISIN(4,L))
+           IXX(I,9)=IX
+           IF(IX /= 0)THEN
+            XX0(I,9)=X(1,IX)
+            YY0(I,9)=X(2,IX)
+            ZZ0(I,9)=X(3,IX)
+            VX(I,9)=V(1,IX)
+            VY(I,9)=V(2,IX)
             VZ(I,9)=V(3,IX)
            ELSE
-            XX0(I,9)=XX0(I,3) 
-            YY0(I,9)=YY0(I,3) 
-            ZZ0(I,9)=ZZ0(I,3) 
-            VX(I,9) =VX(I,3)  
-            VY(I,9) =VY(I,3)  
-            VZ(I,9) =VZ(I,3) 
+            XX0(I,9)=XX0(I,3)
+            YY0(I,9)=YY0(I,3)
+            ZZ0(I,9)=ZZ0(I,3)
+            VX(I,9) =VX(I,3)
+            VY(I,9) =VY(I,3)
+            VZ(I,9) =VZ(I,3)
            ENDIF
 
            IF(NVOISIN(3,L)<0)THEN
@@ -325,44 +325,44 @@ C
                ITRIV(2,I)=1
            ENDIF
 
- 
-           IX=IABS(NVOISIN(5,L))  
-           IXX(I,10)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,10)=X(1,IX) 
-            YY0(I,10)=X(2,IX) 
-            ZZ0(I,10)=X(3,IX) 
-            VX(I,10)=V(1,IX) 
-            VY(I,10)=V(2,IX) 
-            VZ(I,10)=V(3,IX) 
+
+           IX=IABS(NVOISIN(5,L))
+           IXX(I,10)=IX
+           IF(IX /= 0)THEN
+            XX0(I,10)=X(1,IX)
+            YY0(I,10)=X(2,IX)
+            ZZ0(I,10)=X(3,IX)
+            VX(I,10)=V(1,IX)
+            VY(I,10)=V(2,IX)
+            VZ(I,10)=V(3,IX)
            ELSE
-            XX0(I,10)=XX0(I,3) 
-            YY0(I,10)=YY0(I,3) 
-            ZZ0(I,10)=ZZ0(I,3) 
-            VX(I,10) =VX(I,3)  
-            VY(I,10) =VY(I,3)  
-            VZ(I,10) =VZ(I,3) 
-           ENDIF
- 
-           IF(NVOISIN(6,L)/=0)IX=IABS(NVOISIN(6,L))
-           IXX(I,11)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,11)=X(1,IX) 
-            YY0(I,11)=X(2,IX) 
-            ZZ0(I,11)=X(3,IX) 
-            VX(I,11)=V(1,IX) 
-            VY(I,11)=V(2,IX) 
-            VZ(I,11)=V(3,IX)
-           ELSE
-            XX0(I,11)=XX0(I,4) 
-            YY0(I,11)=YY0(I,4) 
-            ZZ0(I,11)=ZZ0(I,4) 
-            VX(I,11) =VX(I,4)  
-            VY(I,11) =VY(I,4)  
-            VZ(I,11) =VZ(I,4) 
+            XX0(I,10)=XX0(I,3)
+            YY0(I,10)=YY0(I,3)
+            ZZ0(I,10)=ZZ0(I,3)
+            VX(I,10) =VX(I,3)
+            VY(I,10) =VY(I,3)
+            VZ(I,10) =VZ(I,3)
            ENDIF
 
- 
+           IF(NVOISIN(6,L)/=0)IX=IABS(NVOISIN(6,L))
+           IXX(I,11)=IX
+           IF(IX /= 0)THEN
+            XX0(I,11)=X(1,IX)
+            YY0(I,11)=X(2,IX)
+            ZZ0(I,11)=X(3,IX)
+            VX(I,11)=V(1,IX)
+            VY(I,11)=V(2,IX)
+            VZ(I,11)=V(3,IX)
+           ELSE
+            XX0(I,11)=XX0(I,4)
+            YY0(I,11)=YY0(I,4)
+            ZZ0(I,11)=ZZ0(I,4)
+            VX(I,11) =VX(I,4)
+            VY(I,11) =VY(I,4)
+            VZ(I,11) =VZ(I,4)
+           ENDIF
+
+
            IF(NVOISIN(5,L)<0)THEN
              IF(NVOISIN(6,L)<0)THEN
                ITRIV(3,I)=4
@@ -375,27 +375,27 @@ C
                ITRIV(3,I)=1
            ENDIF
 
-           IX=IABS(NVOISIN(7,L))  
-           IXX(I,12)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,12)=X(1,IX) 
-            YY0(I,12)=X(2,IX) 
-            ZZ0(I,12)=X(3,IX) 
-            VX(I,12)=V(1,IX) 
-            VY(I,12)=V(2,IX) 
+           IX=IABS(NVOISIN(7,L))
+           IXX(I,12)=IX
+           IF(IX /= 0)THEN
+            XX0(I,12)=X(1,IX)
+            YY0(I,12)=X(2,IX)
+            ZZ0(I,12)=X(3,IX)
+            VX(I,12)=V(1,IX)
+            VY(I,12)=V(2,IX)
             VZ(I,12)=V(3,IX)
            ELSE
-            XX0(I,12)=XX0(I,4) 
-            YY0(I,12)=YY0(I,4) 
-            ZZ0(I,12)=ZZ0(I,4) 
-            VX(I,12) =VX(I,4)  
-            VY(I,12) =VY(I,4)  
-            VZ(I,12) =VZ(I,4) 
+            XX0(I,12)=XX0(I,4)
+            YY0(I,12)=YY0(I,4)
+            ZZ0(I,12)=ZZ0(I,4)
+            VX(I,12) =VX(I,4)
+            VY(I,12) =VY(I,4)
+            VZ(I,12) =VZ(I,4)
            ENDIF
- 
+
            IF(NVOISIN(8,L)/=0)IX=IABS(NVOISIN(8,L))
-           IXX(I,13)=IX  
-           IF(IX /= 0)THEN 
+           IXX(I,13)=IX
+           IF(IX /= 0)THEN
             XX0(I,13)=X(1,IX)
             YY0(I,13)=X(2,IX)
             ZZ0(I,13)=X(3,IX)
@@ -403,12 +403,12 @@ C
             VY(I,13)=V(2,IX)
             VZ(I,13)=V(3,IX)
            ELSE
-            XX0(I,13)=XX0(I,1) 
-            YY0(I,13)=YY0(I,1) 
-            ZZ0(I,13)=ZZ0(I,1) 
-            VX(I,13) =VX(I,1)  
-            VY(I,13) =VY(I,1)  
-            VZ(I,13) =VZ(I,1) 
+            XX0(I,13)=XX0(I,1)
+            YY0(I,13)=YY0(I,1)
+            ZZ0(I,13)=ZZ0(I,1)
+            VX(I,13) =VX(I,1)
+            VY(I,13) =VY(I,1)
+            VZ(I,13) =VZ(I,1)
            ENDIF
 
            IF(NVOISIN(7,L)<0)THEN
@@ -565,14 +565,14 @@ C----------
       IF(IDTMINS==2)THEN
        DO I=1,JLT
         IF(NSVG(I)>0)THEN
-         IF (NSVG(I) <= NUMNOD) THEN 
+         IF (NSVG(I) <= NUMNOD) THEN
           NN = NODNX_SMS(NSVG(I))
          ELSE
           NN = NSVG(I)-NUMNOD
           CALL I24FIC_GETN(NN      ,IRTSE   ,IS2SE   ,IE    ,NS1     ,
      +                     NS2     )
           NN = MAX(NODNX_SMS(NS1),NODNX_SMS(NS2))
-         END IF         
+         END IF
           NSMS(I)=      NN
      .                       +NODNX_SMS(IXX(I,1))+NODNX_SMS(IXX(I,2))
      .                       +NODNX_SMS(IXX(I,3))+NODNX_SMS(IXX(I,4))
@@ -593,7 +593,7 @@ C----------
          NSMS(I)=-1
         ENDDO
       ENDIF
-         
+
 C----Friction model : secnd part IDs---------
       IF(INTFRIC > 0) THEN
          DO I=1,JLT
@@ -609,8 +609,8 @@ C
            IPARTFRICMI(I) = IPARTFRICM(L)
 
            IF(IORTHFRIC > 0) THEN
-              IREP_FRICMI(I) =IREP_FRICM(L) 
-              DIR_FRICMI(I,1:2)=DIR_FRICM(1:2,L) 
+              IREP_FRICMI(I) =IREP_FRICM(L)
+              DIR_FRICMI(I,1:2)=DIR_FRICM(1:2,L)
               IXX3(I) = IXX(I,3)
               IXX4(I) = IXX(I,4)
               XX1(I) = XX0(I,1)
@@ -652,23 +652,23 @@ C-----------------------------------------------
 C         Distance between secnd node 
 C              and main segment 
 C-----------------------------------------------
-        DO I=1,JLT 
+        DO I=1,JLT
 C
            SX1=(YY0(I,1)-YY0(I,3))*(ZZ0(I,2)-ZZ0(I,4)) - (ZZ0(I,1)-ZZ0(I,3))*(YY0(I,2)-YY0(I,4))
            SY1=(ZZ0(I,1)-ZZ0(I,3))*(XX0(I,2)-XX0(I,4)) - (XX0(I,1)-XX0(I,3))*(ZZ0(I,2)-ZZ0(I,4))
            SZ1=(XX0(I,1)-XX0(I,3))*(YY0(I,2)-YY0(I,4)) - (YY0(I,1)-YY0(I,3))*(XX0(I,2)-XX0(I,4))
 C         
-           NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
+           NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)
 C
            IF(IXX(I,4)/=IXX(I,3))THEN
-             SX2 = FOURTH*(XX0(I,1) + XX0(I,2) + XX0(I,3) + XX0(I,4)) - XI(I)    
-             SY2 = FOURTH*(YY0(I,1) + YY0(I,2) + YY0(I,3) + YY0(I,4)) - YI(I)    
-             SZ2 = FOURTH*(ZZ0(I,1) + ZZ0(I,2) + ZZ0(I,3) + ZZ0(I,4)) - ZI(I)  
+             SX2 = FOURTH*(XX0(I,1) + XX0(I,2) + XX0(I,3) + XX0(I,4)) - XI(I)
+             SY2 = FOURTH*(YY0(I,1) + YY0(I,2) + YY0(I,3) + YY0(I,4)) - YI(I)
+             SZ2 = FOURTH*(ZZ0(I,1) + ZZ0(I,2) + ZZ0(I,3) + ZZ0(I,4)) - ZI(I)
            ELSE
-             SX2 = THIRD*(XX0(I,1) + XX0(I,2) + XX0(I,3)) - XI(I)    
-             SY2 = THIRD*(YY0(I,1) + YY0(I,2) + YY0(I,3)) - YI(I)    
-             SZ2 = THIRD*(ZZ0(I,1) + ZZ0(I,2) + ZZ0(I,3)) - ZI(I)  
-           END IF  
+             SX2 = THIRD*(XX0(I,1) + XX0(I,2) + XX0(I,3)) - XI(I)
+             SY2 = THIRD*(YY0(I,1) + YY0(I,2) + YY0(I,3)) - YI(I)
+             SZ2 = THIRD*(ZZ0(I,1) + ZZ0(I,2) + ZZ0(I,3)) - ZI(I)
+           END IF
            DIST(I) = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
            DIST(I) = ABS(DIST(I))
 
@@ -685,7 +685,7 @@ Chd|====================================================================
       SUBROUTINE I24INI_ISPT2(
      1               JLT     ,NSV   ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE   ,ISPT2 ,ISEGPT ,IRTLM ,NSNE   ,
-     3               NRTSE   ,IEDG4 ) 
+     3               NRTSE   ,IEDG4 )
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -761,7 +761,7 @@ C---------interal nodes
            ELSEIF (NSI <0) THEN
              ISPT2(I) = NSI
            END IF
-        END DO 
+        END DO
 C      
 C-----------
       RETURN
@@ -775,7 +775,7 @@ Chd|====================================================================
       SUBROUTINE I24ISPT2_INI(
      1               JLT     ,NSV   ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE   ,ISPT2 ,ISEGPT ,IRTLM ,NSNE   ,
-     3               NRTSE   ,IEDG4 ,NIN) 
+     3               NRTSE   ,IEDG4 ,NIN)
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -833,7 +833,7 @@ C---------interal nodes
              END IF
            ELSE
              NSI=ISEGPT_FI(NIN)%P(NI-NSN)
-             IF (NSI >0) THEN 
+             IF (NSI >0) THEN
                 ICONT1 = IRTLM_FI(NIN)%P(1,NSI)
                 IF (ICONT1 /=0) THEN
                   ISPT2(I) = 0
@@ -842,9 +842,9 @@ C---------interal nodes
                 ENDIF
              ELSE
                 ISPT2(I) = NSI
-             ENDIF       
+             ENDIF
            ENDIF
-        END DO 
+        END DO
 C      
 C-----------
       RETURN
@@ -861,7 +861,7 @@ Chd|====================================================================
       SUBROUTINE I24ISPT2_INI_OPTTRI(
      1               JFT,JLT     ,NSV   ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE   ,ISPT2 ,ISEGPT ,IRTLM ,NSNE   ,
-     3               NRTSE   ,IEDG4 ,NIN) 
+     3               NRTSE   ,IEDG4 ,NIN)
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -915,7 +915,7 @@ C---------interal nodes
              ELSEIF (NSI <0) THEN
                ISPT2(NI) = 1
              END IF
-        END DO 
+        END DO
 C      
 C-----------
       RETURN
@@ -932,7 +932,7 @@ Chd|====================================================================
       SUBROUTINE I_CORPFIT3(
      1               JLT      ,STF     ,STFN    ,STIF     ,NSN    ,
      2               CAND_E   ,CAND_N  ,NIN     ,IGSTI   ,KMIN     ,
-     3               KMAX     ,INACTI  ,NCFIT   ,TNCY) 
+     3               KMAX     ,INACTI  ,NCFIT   ,TNCY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -1003,7 +1003,7 @@ Chd|        TRI7BOX                       share/modules/tri7box.F
 Chd|====================================================================
       SUBROUTINE I_COR_EPFIT3(
      1               JLT      ,STFE    ,STIF    ,CAND_S ,CAND_M ,
-     3               NEDGE    ,NIN     ,INACTI  ,NCFIT   ,TNCY) 
+     3               NEDGE    ,NIN     ,INACTI  ,NCFIT   ,TNCY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

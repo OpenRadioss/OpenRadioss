@@ -80,7 +80,7 @@ C=======================================================================
         ANS(I) = ZERO
         DIST(I) = ZERO
 
- 
+
         IF (XFACE(I) == ZERO) CYCLE
         IF (ABS(SSC(I))>ONE+ALP(I) .OR. ABS(TTC(I))>ONE+ALP(I)) THEN
          !WRITE(6,*) "XFACE(",I,")=0",SSC(I),TTC(I),ALP(I)
@@ -103,8 +103,8 @@ C
         H2(I) = FOURTH*(ONE-TTC(I))*(ONE+SSC(I))
         H3(I) = FOURTH*(ONE+TTC(I))*(ONE+SSC(I))
         H4(I) = FOURTH*(ONE+TTC(I))*(ONE-SSC(I))
-c       IF(H3(I) /= H3(I) .OR. H1(I) /= H1(I) .OR. 
-c    .  H4(I) /= H4(I)  ) THEN 
+c       IF(H3(I) /= H3(I) .OR. H1(I) /= H1(I) .OR.
+c    .  H4(I) /= H4(I)  ) THEN
 c       WRITE(6,*) "BUG! :",TTC(I),SSC(I)
 c       ENDIF
       END DO

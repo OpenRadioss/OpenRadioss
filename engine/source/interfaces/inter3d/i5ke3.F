@@ -75,8 +75,8 @@ C-----------------------------------------------
       INTEGER NUM_IMP,CAND_N(*),CAND_E(*),IDDL(*),
      .         IADK(*)     ,JDIK(*)
 C     REAL
-      my_real 
-     .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*) 
+      my_real
+     .  A(3,*), MS(*), V(3,*),X(*),K_DIAG(*),K_LT(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -183,7 +183,7 @@ c
      2         IADK     ,JDIK      ,KI11      ,KI12      ,KJ11     ,
      3         KJ12     ,KK11      ,KK12      ,KL11      ,KL12     ,
      4         OFF      )
-        END DO 
+        END DO
       ELSEIF(NTY==6)THEN
 C
       ELSEIF(NTY==7.OR.NTY==22)THEN

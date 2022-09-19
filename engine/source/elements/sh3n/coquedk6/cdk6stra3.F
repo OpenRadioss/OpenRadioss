@@ -27,7 +27,7 @@ Chd|        CDK6FORC3                     source/elements/sh3n/coquedk6/cdk6forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CDK6STRA3(JFT, JLT, NFT, VDEF, GSTR,
-     2                   EXX, EYY, EXY, EXZ, EYZ,  
+     2                   EXX, EYY, EXY, EXZ, EYZ,
      3                   KXX, KYY, KXY, DT1C,EPSDOT,
      4                   IEPSDOT, ISTRAIN,NEL)
 C-----------------------------------------------

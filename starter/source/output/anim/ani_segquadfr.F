@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   NSEG,
      .   IXQ(NIXQ,*),SEGTAG(4,*),KNOD2ELQ(*),NOD2ELQ(*)
       my_real
@@ -67,10 +67,10 @@ C
            DO L=1,4
               NQ(L) = IXQ(L+1,JQ)
               L1 = LINES(1,L)
-              L2 = LINES(2,L) 
-              NQQ1 = IXQ(L1+1,JQ)         
+              L2 = LINES(2,L)
+              NQQ1 = IXQ(L1+1,JQ)
               NQQ2 = IXQ(L2+1,JQ)
-              DO K=KNOD2ELQ(NQQ1)+1,KNOD2ELQ(NQQ1+1)            
+              DO K=KNOD2ELQ(NQQ1)+1,KNOD2ELQ(NQQ1+1)
                 KQ=NOD2ELQ(K)
                 IF(KQ==JQ .OR. KQ > NUMELQ)CYCLE
                 DO KK=1,4
@@ -85,7 +85,7 @@ C
 C
           DO L=1,4
              L1 = LINES(1,L)
-             L2 = LINES(2,L)      
+             L2 = LINES(2,L)
              TRUEAXE= 1
              N1 = NQ(L1)
              N2 = NQ(L2)
@@ -94,8 +94,8 @@ C
              ENDIF
 
              IF(TRUEAXE==1)THEN
-               IF(NODTAG(L)==1) THEN ! nodes of external lines      
-                  NSEG=NSEG+1  
+               IF(NODTAG(L)==1) THEN ! nodes of external lines
+                  NSEG=NSEG+1
                   SEGTAG(L,JQ) = 1
                ENDIF
              ENDIF
@@ -129,7 +129,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   SEGTAG(4,*), SEGQUADFR(2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -147,6 +147,6 @@ C
             SEGQUADFR(2,NSEGQUADFR)=JJ
           END IF
         END DO
-      END DO    
+      END DO
       RETURN
       END

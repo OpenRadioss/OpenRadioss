@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE ELBUFTAG_MOD
 C-----------------------------------------------
@@ -72,9 +72,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
       INTEGER, INTENT(OUT)   :: IMATVIS
       INTEGER, INTENT(OUT)   :: NUPARAM,NUVAR,NFUNC,ISRATE
@@ -112,13 +112,13 @@ c
       CALL HM_GET_FLOATV('MAT_CO1'   ,C1       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_CO2'   ,C2       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_CO3'   ,C3       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV  ('Itype'     ,IFLAG    ,IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV  ('Itype'     ,IFLAG    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_PC'    ,PMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
-      CALL HM_GET_INTV  ('FUN_A1'    ,FCT_ID   ,IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV  ('FUN_A1'    ,FCT_ID   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('IFscale'   ,FSCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV  ('Fsmooth'   ,ISRATE   ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_FLOATV('Fcut'      ,ASRATE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_INTV  ('Fsmooth'   ,ISRATE   ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('Fcut'      ,ASRATE   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
       CALL HM_GET_FLOATV('MAT_ETAN'  ,ET       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NUt'   ,POISSONT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -135,7 +135,7 @@ c
       IF (FSCAL == ZERO) FSCAL = ONE*FSCAL_UNIT
 c
       IF (MU   <= ZERO) MU   = EP20
-      IF (PMIN == ZERO) PMIN =-EP20 
+      IF (PMIN == ZERO) PMIN =-EP20
       IF (PMIN >  ZERO) PMIN =-PMIN
       BULK = THIRD*E/(ONE - TWO*POISSON)
 C
@@ -147,21 +147,21 @@ C
       ELSE
         ! If no filtering frequency is given but the flag is activated
         IF (ISRATE /= 0) THEN
-          ASRATE  = 10000.0D0*FAC_T_WORK  
+          ASRATE  = 10000.0D0*FAC_T_WORK
         ! If no filtering frequency and no flag is activated => no filtering
         ELSE
           ASRATE  = ZERO
         ENDIF
       ENDIF
-      !---------------------------------------------------------- 
+      !----------------------------------------------------------
       ! Checking filtering and strain-rate dependency
-      IF (((C1 /= ZERO).OR.(E1 /= ZERO)).AND.(ISRATE == 0)) THEN         
+      IF (((C1 /= ZERO).OR.(E1 /= ZERO)).AND.(ISRATE == 0)) THEN
         CALL ANCMSG(MSGID=1220,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_1,
      .              I1=ID,
-     .              C1=TITR)  
-      ENDIF 
+     .              C1=TITR)
+      ENDIF
 C
 c-----------------
       UPARAM(1)  = E
@@ -182,7 +182,7 @@ c-----------------
       UPARAM(16) = PMIN
       UPARAM(17) = RELVEXP
       UPARAM(18) = FSCAL
-      UPARAM(19) = 0  
+      UPARAM(19) = 0
 c-----------------
       IFUNC(1) = FCT_ID
 c-----------------
@@ -199,7 +199,7 @@ c-----------------
 c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0
-      PM(100)= E      
+      PM(100)= E
 c-----------------
       NUPARAM = 19
       NFUNC   = 1
@@ -219,7 +219,7 @@ c-----------------
         WRITE(IOUT,1300) E,POISSON,E1,E2,RELVEXP,C1,C2,C3,FCT_ID,FSCAL,
      .                   IFLAG,PMIN,ET,POISSONT,MU,LAMBDA,P0,PHI,GAMA0
         WRITE(IOUT,1500) ISRATE,ASRATE
-      ENDIF     
+      ENDIF
 C-----------------
       RETURN
 C-----------------
@@ -231,10 +231,10 @@ C-----------------
      & 5X,   'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,   'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1200 FORMAT(
-     & 5X,   'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,   'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT
-     & (5X,  'YOUNG''S MODULUS. . . . . . . . . . . .=',1PG20.13/ 
-     & ,5X,  'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/ 
+     & (5X,  'YOUNG''S MODULUS. . . . . . . . . . . .=',1PG20.13/
+     & ,5X,  'POISSON''S RATIO. . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'E1. . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'E2. . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'EXPONENT ON RELATIVE VOLUME . . . . . .=',1PG20.13//
@@ -246,7 +246,7 @@ C-----------------
      & ,5X,  'FLAG FOR OPEN CELL FOAM FORMULATION . .=',I10/
      & ,5X,  'CUT OFF PRESSURE IN TENSION . . . . . .=',1PG20.13//
      & ,5X,  'ET. . . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & ,5X,  'POISSON''S RATIO (TANGENT). . . . . . .=',1PG20.13/ 
+     & ,5X,  'POISSON''S RATIO (TANGENT). . . . . . .=',1PG20.13/
      & ,5X,  'VISCOSITY COEFFICIENT (IN PURE SHEAR) .=',1PG20.13/
      & ,5X,  'VISCOSITY COEFFICIENT (VOLUMETRIC). . .=',1PG20.13//
      & ,5X,  'INITIAL PRESSURE. . . . . . . . . . . .=',1PG20.13/

@@ -195,30 +195,30 @@ C
 
       NINDX=0
       DO I=1,NEL
-        IADBUF = IPM(7,MAT(I)) - 1  
-        EMX11 = UPARAM(IADBUF+9)    
-        EMX22 = UPARAM(IADBUF+10)   
-        EMX33 = UPARAM(IADBUF+11)   
-        EMX12 = UPARAM(IADBUF+12)   
-        EMX23 = UPARAM(IADBUF+13)   
+        IADBUF = IPM(7,MAT(I)) - 1
+        EMX11 = UPARAM(IADBUF+9)
+        EMX22 = UPARAM(IADBUF+10)
+        EMX33 = UPARAM(IADBUF+11)
+        EMX12 = UPARAM(IADBUF+12)
+        EMX23 = UPARAM(IADBUF+13)
         EMX31 = UPARAM(IADBUF+14)
-        FAC1(I) = UPARAM(IADBUF+15) 
-        FAC2(I) = UPARAM(IADBUF+16) 
-        FAC3(I) = UPARAM(IADBUF+17) 
-        FAC4(I) = UPARAM(IADBUF+18) 
-        FAC5(I) = UPARAM(IADBUF+19) 
-        FAC6(I) = UPARAM(IADBUF+20) 
-        IF((EPSXX(I)>EMX11.OR.                                  
-     .      EPSYY(I)>EMX22.OR.                                  
-     .      EPSZZ(I)>EMX33.OR.                                  
-     .      ABS(EPSXY(I)/TWO)>EMX12.OR.                             
-     .      ABS(EPSYZ(I)/TWO)>EMX23.OR.                             
-     .      ABS(EPSZX(I)/TWO)>EMX31).AND.OFF(I)/=ZERO) THEN       
-          OFF(I) = ZERO                                            
-          IDEL7NOK = 1                                             
-          NINDX=NINDX+1  
-          INDX(NINDX)=I  
-        ENDIF                                                      
+        FAC1(I) = UPARAM(IADBUF+15)
+        FAC2(I) = UPARAM(IADBUF+16)
+        FAC3(I) = UPARAM(IADBUF+17)
+        FAC4(I) = UPARAM(IADBUF+18)
+        FAC5(I) = UPARAM(IADBUF+19)
+        FAC6(I) = UPARAM(IADBUF+20)
+        IF((EPSXX(I)>EMX11.OR.
+     .      EPSYY(I)>EMX22.OR.
+     .      EPSZZ(I)>EMX33.OR.
+     .      ABS(EPSXY(I)/TWO)>EMX12.OR.
+     .      ABS(EPSYZ(I)/TWO)>EMX23.OR.
+     .      ABS(EPSZX(I)/TWO)>EMX31).AND.OFF(I)/=ZERO) THEN
+          OFF(I) = ZERO
+          IDEL7NOK = 1
+          NINDX=NINDX+1
+          INDX(NINDX)=I
+        ENDIF
       ENDDO
       IF(NINDX>0)THEN
         DO J=1,NINDX
@@ -238,27 +238,27 @@ c        AMU = RHO(I)/RHO0(I) - ONE ! Change using AMU(I) to take into account T
         EP(I,4) = AMU(I)
         EP(I,5) = AMU(I)
         EP(I,6) = AMU(I)
-        IADBUF = IPM(7,MAT(I))     
-        IF1=NINT(UPARAM(IADBUF+6)) 
-        IF2=NINT(UPARAM(IADBUF+7)) 
-        IF(IF1==1)THEN           
-          EP(I,1) = EPSXX(I)       
-          EP(I,2) = EPSYY(I)       
-          EP(I,3) = EPSZZ(I)       
-        ELSEIF(IF1==-1)THEN      
-          EP(I,1) = -EPSXX(I)      
-          EP(I,2) = -EPSYY(I)      
-          EP(I,3) = -EPSZZ(I)      
-        ENDIF                      
-        IF(IF2==1)THEN           
-          EP(I,4) = EPSXY(I)       
-          EP(I,5) = EPSYZ(I)       
-          EP(I,6) = EPSZX(I)       
-        ELSEIF(IF2==-1)THEN      
-          EP(I,4) = -EPSXY(I)      
-          EP(I,5) = -EPSYZ(I)      
-          EP(I,6) = -EPSZX(I)      
-        ENDIF                      
+        IADBUF = IPM(7,MAT(I))
+        IF1=NINT(UPARAM(IADBUF+6))
+        IF2=NINT(UPARAM(IADBUF+7))
+        IF(IF1==1)THEN
+          EP(I,1) = EPSXX(I)
+          EP(I,2) = EPSYY(I)
+          EP(I,3) = EPSZZ(I)
+        ELSEIF(IF1==-1)THEN
+          EP(I,1) = -EPSXX(I)
+          EP(I,2) = -EPSYY(I)
+          EP(I,3) = -EPSZZ(I)
+        ENDIF
+        IF(IF2==1)THEN
+          EP(I,4) = EPSXY(I)
+          EP(I,5) = EPSYZ(I)
+          EP(I,6) = EPSZX(I)
+        ELSEIF(IF2==-1)THEN
+          EP(I,4) = -EPSXY(I)
+          EP(I,5) = -EPSYZ(I)
+          EP(I,6) = -EPSZX(I)
+        ENDIF
        ENDDO
 C---------------------------
       DO J = 1, 6
@@ -295,35 +295,35 @@ C
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
-            UVAR(I,J)=IPOS1(II) 
+            UVAR(I,J)=IPOS1(II)
             SIGNYY(I)=SIGN(MIN(ABS(SIGNYY(I)),YC(II)*FAC2(I)),SIGNYY(I))
           ENDDO
         ELSEIF (J==3) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
-            UVAR(I,J)=IPOS1(II) 
+            UVAR(I,J)=IPOS1(II)
             SIGNZZ(I)=SIGN(MIN(ABS(SIGNZZ(I)),YC(II)*FAC3(I)),SIGNZZ(I))
           ENDDO
         ELSEIF (J==4) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
-            UVAR(I,J)=IPOS1(II) 
+            UVAR(I,J)=IPOS1(II)
             SIGNXY(I)=SIGN(MIN(ABS(SIGNXY(I)),YC(II)*FAC4(I)),SIGNXY(I))
           ENDDO
         ELSEIF (J==5) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
-            UVAR(I,J)=IPOS1(II) 
+            UVAR(I,J)=IPOS1(II)
             SIGNYZ(I)=SIGN(MIN(ABS(SIGNYZ(I)),YC(II)*FAC5(I)),SIGNYZ(I))
           ENDDO
         ELSEIF (J==6) THEN
 #include "vectorize.inc"
           DO II = 1, IC
             I = INDEX(II)
-            UVAR(I,J)=IPOS1(II) 
+            UVAR(I,J)=IPOS1(II)
             SIGNZX(I)=SIGN(MIN(ABS(SIGNZX(I)),YC(II)*FAC6(I)),SIGNZX(I))
           ENDDO
         ENDIF

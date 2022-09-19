@@ -72,7 +72,7 @@ C=======================================================================
          CLAUSE%SOLID(I) = I
         ENDDO
       ENDIF ! IF (NUMELS > 0)
-      
+
 !
       !  QUAD
       IF (NUMELQ > 0) THEN

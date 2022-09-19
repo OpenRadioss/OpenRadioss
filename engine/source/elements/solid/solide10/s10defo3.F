@@ -27,7 +27,7 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10DEFO3(
-     .   PX, PY, PZ, VX, VY, VZ, 
+     .   PX, PY, PZ, VX, VY, VZ,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY,
      .   DZZ, D4, D5, D6, WXX, WYY, WZZ,VOLP,VOLN,RHO,RHOO)
 C-----------------------------------------------
@@ -62,11 +62,11 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   DT1D2
-      my_real 
+      my_real
      .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P,AAA,BBB
 C-----------------------------------------------
 C   
-      IF(ISROT /= 1)THEN                                                                 
+      IF(ISROT /= 1)THEN
         DO I=LFT,LLT
           VOLN(I)=VOLP(I)
           RHOO(I)=RHO(I)
@@ -155,7 +155,7 @@ Chd|        S10FORC3                      source/elements/solid/solide10/s10forc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10DEFOT3(
-     .   PX, PY, PZ, VX, VY, VZ, 
+     .   PX, PY, PZ, VX, VY, VZ,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY,
      .   DZZ)
 C-----------------------------------------------
@@ -235,7 +235,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NPT,NEL
       my_real ,DIMENSION(MVSIZ) ,INTENT(IN) :: NU
-      my_real ,DIMENSION(MVSIZ,5) ,INTENT(INOUT) :: 
+      my_real ,DIMENSION(MVSIZ,5) ,INTENT(INOUT) ::
      .   DXX, DXY, DXZ,
      .   DYX, DYY, DYZ,
      .   DZX, DZY, DZZ
@@ -247,13 +247,13 @@ C-----------------------------------------------
      .   JAC0(MVSIZ),JAC(MVSIZ,5),FAC,BASE,JFAC
 C-----------------------------------------------
 C
-      JAC0(1:NEL)=ZERO   
+      JAC0(1:NEL)=ZERO
       DO IP=1,NPT
         CALL JACOB_J33(JAC(1,IP),
      .                DXX(1,IP), DXY(1,IP), DXZ(1,IP),
      .                DYX(1,IP), DYY(1,IP), DYZ(1,IP),
      .                DZX(1,IP), DZY(1,IP), DZZ(1,IP))
-        JAC0(1:NEL)=JAC0(1:NEL)+JAC(1:NEL,IP)   
+        JAC0(1:NEL)=JAC0(1:NEL)+JAC(1:NEL,IP)
       ENDDO
 C
       DO IP=1,NPT
@@ -328,13 +328,13 @@ c-------------------------------------------------------------------------
         DO I=1,NEL
          IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
          FACVM = VOLG(I)/VOLG0(I)
-         VOLDP(I) = (ONE-FACP(I))*VOLDP(I)+FACP(I)*FACVM*VOL0DP(I)             
+         VOLDP(I) = (ONE-FACP(I))*VOLDP(I)+FACP(I)*FACVM*VOL0DP(I)
         ENDDO
        ELSE
         DO I=1,NEL
          IF(OFFG(I)==ZERO.OR.ABS(OFFG(I))>ONE) CYCLE
          FACVM = VOLG(I)/VOLG0(I)
-         VOLN(I) = (ONE-FACP(I))*VOLN(I)+FACP(I)*FACVM*VOL0(I)             
+         VOLN(I) = (ONE-FACP(I))*VOLN(I)+FACP(I)*FACVM*VOL0(I)
         ENDDO
        ENDIF
       END IF !(ISMSTR==1.OR.ISMSTR>=10)THEN

@@ -43,17 +43,17 @@ Chd|====================================================================
        SUBROUTINE GENDYNAIN(X  ,ELBUF_TAB, BUFEL  ,IXC      ,IXTG     ,
      2                IPARG    ,IPM      , IGEO   ,ITAB     ,IPART    ,
      3                PM       ,GEO      , IPARTC ,IPARTTG  ,LENG     ,
-     4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,               
-     5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 , 
-     6                IPART_DYNAIN) 
+     4                LENGC    ,LENGTG   , WEIGHT ,NODGLOB  ,THKE     ,
+     5                NPBY     ,LPBY     , STACK  ,DRAPE_Q4 ,DRAPE_T3 ,
+     6                IPART_DYNAIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      USE MESSAGE_MOD    
-      USE INOUTFILE_MOD 
+      USE MESSAGE_MOD
+      USE INOUTFILE_MOD
       USE STACK_MOD
-      USE DRAPE_MOD  
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -126,7 +126,7 @@ C-----------------------------------------------
       FILEN = ROOTLEN + 12
       LEN_TMP_NAME = OUTFILE_NAME_LEN + FILEN
       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:FILEN)
-c       
+c
       IF(ISPMD == 0) THEN
         OPEN(UNIT=IUDYNAIN,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
         WRITE(IUDYNAIN,'(2A)')'$RADIOSS DYNAIN FILE ',FILNAM(1:FILEN)
@@ -142,7 +142,7 @@ C-----------------------
 C-----------------------------------------------
 C   CONNECTIVITIES + NODAL COORDINATES
 C-----------------------------------------------
-c     
+c
       IF (NSPMD > 1)CALL SPMD_OUTPITAB(ITAB,WEIGHT,NODGLOB,ITABG)
 
       NODTAG=0
@@ -151,19 +151,19 @@ c
       DYNAIN_NUMELTG =0
 
       IF(NSPMD == 1)THEN
-        !  - shells -   
+        !  - shells -
         CALL DYNAIN_SHEL_MP(ITAB   ,ITABG   ,LENG    ,IGEO     ,IXC    ,
      .                      IXTG   ,IPARTC  ,IPARTTG ,IPART_DYNAIN     ,
      .                      NODTAG ,DYNAIN_INDXC,DYNAIN_INDXTG,IPARG   ,
-     .                      ELBUF_TAB,THKE  ,IPART   )                                 
-        DYNAIN_NUMELC_G =DYNAIN_NUMELC 
-        DYNAIN_NUMELTG_G =DYNAIN_NUMELTG 
+     .                      ELBUF_TAB,THKE  ,IPART   )
+        DYNAIN_NUMELC_G =DYNAIN_NUMELC
+        DYNAIN_NUMELTG_G =DYNAIN_NUMELTG
       ELSE
         !  - shells -
         CALL DYNAIN_SHEL_SPMD(ITAB   ,ITABG   ,LENG    ,IGEO   ,IXC    ,
      .                          IXTG   ,IPARTC  ,IPARTTG ,IPART_DYNAIN     ,
      .                          NODTAG ,DYNAIN_INDXC,DYNAIN_INDXTG,IPARG   ,
-     .                          ELBUF_TAB,THKE  ,LENGC   ,LENGTG  ,IPART   )     
+     .                          ELBUF_TAB,THKE  ,LENGC   ,LENGTG  ,IPART   )
       END IF
 
 
@@ -176,7 +176,7 @@ C-----------------------------------------------
             IF (NODTAG(N)/=0) THEN
               NODTAG(NPBY(1,I)) = 1
               EXIT
-            END IF 
+            END IF
           ENDDO
        ENDDO
 C-----------------------------------------------
@@ -198,7 +198,7 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
-       END IF 
+       END IF
 
       IERR = 0
       SIZP0 = MAX(1,SIZP0)
@@ -207,7 +207,7 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
-       END IF 
+       END IF
 C-----------------------------------------------
 C   SHELL SCALAR
 C-----------------------------------------------
@@ -250,8 +250,8 @@ C-----------------------------------------------
         WRITE (IOUT,1000)  FILNAM(1:FILEN)
         WRITE (ISTDO,1000) FILNAM(1:FILEN)
       ENDIF
-      
-      
+
+
  1000 FORMAT (4X,' DYNAIN FILE:',1X,A,' WRITTEN')
 C
       RETURN

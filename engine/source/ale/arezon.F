@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,7 +69,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real FLUX(*), PHI(*)
       INTEGER NDIM, NVAR, ITASK, LENCOM,ITRIMAT,NV,
-     .        IPARG(NPARG,NGROUP), 
+     .        IPARG(NPARG,NGROUP),
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .        BHOLE(*),IXS(NIXS,NUMELS)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_STR
@@ -95,12 +95,12 @@ C---------------------
        DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
-         CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+         CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !-----------------------------!
         ! CONDITIONS DE DEBRANCHEMENT !
@@ -145,9 +145,9 @@ C     ALE ON / OFF
            IF (MTN == 41) CYCLE
           IF (MTN==51) THEN
             IF(ITRIMAT==0)CYCLE
-            ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS             
+            ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS
             ADD = ADD0 + 15                               ! UVAR(ADD+1) => PLAS
-            K   = LLT*(ADD-1)                               
+            K   = LLT*(ADD-1)
             VAR  => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
           ELSEIF (MTN == 5 .OR. MTN ==97 .OR. MTN==105) THEN
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%TB(1:LLT)
@@ -159,23 +159,23 @@ C     ALE ON / OFF
           ELSE
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ENDIF
-          DO I=LFT,LLT                                           
-            J = I+NFT                                            
+          DO I=LFT,LLT
+            J = I+NFT
             PHI(J) = VAR(I)
-          ENDDO  
+          ENDDO
         !----------------------------!
         !        N V A R = 11        !
         !             (EPS_P_VOL)    !
         !----------------------------!
         ELSEIF (NVAR == 11 .AND. IRE == 1 .AND. MTN == 81) THEN
           VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT+1:LLT*2)
-          DO I=LFT,LLT                                           
-            J = I+NFT                                            
+          DO I=LFT,LLT
+            J = I+NFT
             PHI(J) = VAR(I)
-          ENDDO  
+          ENDDO
         !----------------------------!
         !        DEFUALT             !
-        !----------------------------!                                                
+        !----------------------------!
         ELSE
           DO I=LFT,LLT
             J=I+NFT
@@ -186,9 +186,9 @@ C     ALE ON / OFF
 C---------------------
        CALL MY_BARRIER
 C---------------------
-       !------------------------------------! 
+       !------------------------------------!
        ! ECHANGES SPMD PHI SUR ELTS VOISINS !
-       !------------------------------------! 
+       !------------------------------------!
        IF (NSPMD > 1)THEN
          !Part no parallel smt
 !$OMP SINGLE
@@ -206,12 +206,12 @@ C=======================================================================
        DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG) == 1) CYCLE ! --> OFF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !-----------------------------!
         ! CONDITIONS DE DEBRANCHEMENT !
@@ -234,19 +234,19 @@ C     ALE ON / OFF
         !----------------------------!
         IF (NVAR == 2 .AND. IRS == 1) THEN
           INDX = IDX
-          IF (ITRIMAT>0) THEN 
+          IF (ITRIMAT>0) THEN
             ADD    = N0PHAS + (ITRIMAT-1)*NVPHAS + IDX          ! ADD+1 => SIG[IDX](i=1)
             ADD    = ADD *LLT
             SIG    => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT*NDIM)
             ADD    = N0PHAS + (ITRIMAT-1)*NVPHAS + 10          ! ADD+1 => VOL(1)
             ADD    = ADD *LLT
-            VOL => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT) 
+            VOL => ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(ADD+1:ADD+LLT)
             INDX   = 1
           ELSE
             SIG => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%SIG(1:LLT*NDIM)
             VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           ENDIF
-          IF (N2D == 0) THEN 
+          IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
             CALL AREZO3_SIG(ALE_CONNECT,SIG,INDX,PHI,NDIM,FLUX(6*NFT+1),
      .                      VOL,TAG22,IXS,ITRIMAT,NEL)
@@ -268,12 +268,12 @@ C     ALE ON / OFF
         !----------------------------!
         ELSEIF (NVAR == 10 .AND. IRE == 1) THEN
            IF (MTN == 41) CYCLE
-          INDX = IDX        
+          INDX = IDX
           VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           IF (ITRIMAT /= 0) THEN
-            ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS             
+            ADD0= N0PHAS + (ITRIMAT-1)*NVPHAS
             ADD = ADD0 + 15                                ! UVAR(ADD+1) => PLAS
-            K   = LLT*(ADD-1)                               
+            K   = LLT*(ADD-1)
             VAR =>ELBUF_STR(NG)%BUFLY(1)%MAT(1,1,1)%VAR(K+1:K+LLT*NDIM)
             INDX=1
           ELSEIF (MTN == 5 .OR. MTN == 97 .OR. MTN==105) THEN
@@ -285,42 +285,42 @@ C     ALE ON / OFF
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
           ELSE
             VAR => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%PLA(1:LLT)
-          ENDIF        
-          IF (N2D == 0) THEN 
-            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT) 
+          ENDIF
+          IF (N2D == 0) THEN
+            TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
             CALL AREZO3(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT)
-          ELSE                                                        
-            NFX=NFT+(NM-1)*NUMELQ                                     
-            IF(NMULT == 0)THEN                                        
+          ELSE
+            NFX=NFT+(NM-1)*NUMELQ
+            IF(NMULT == 0)THEN
               CALL AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
-            ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,           
-     .                    FLUX(4*NFX+1),VOL,BHOLE,NM)                          
-            ENDIF                                                     
-          ENDIF                                                       
+            ELSE
+              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,
+     .                    FLUX(4*NFX+1),VOL,BHOLE,NM)
+            ENDIF
+          ENDIF
         !----------------------------!
         !        N V A R = 11        !
         !             (EPS_P_VOL)    !
         !----------------------------!
         ELSEIF (NVAR == 11 .AND. IRE == 1 .AND. MTN == 81) THEN
-          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)        
+          VOL => ELBUF_STR(NG)%BUFLY(NM)%LBUF(1,1,1)%VOL(1:LLT)
           VAR => ELBUF_STR(NG)%BUFLY(NM)%MAT(1,1,1)%VAR(LLT+1:LLT*2)
-          DO I=LFT,LLT                                           
-            J = I+NFT                                            
+          DO I=LFT,LLT
+            J = I+NFT
             PHI(J) = VAR(I)
-          ENDDO  
-          IF (N2D == 0) THEN                                   
+          ENDDO
+          IF (N2D == 0) THEN
             TAG22  => ELBUF_STR(NG)%GBUF%TAG22(1:LLT)
             CALL AREZO3(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(6*NFT+1),VOL,TAG22,IXS,ITRIMAT)
-          ELSE                                                        
-            NFX=NFT+(NM-1)*NUMELQ                                     
-            IF(NMULT == 0)THEN                                        
+          ELSE
+            NFX=NFT+(NM-1)*NUMELQ
+            IF(NMULT == 0)THEN
               CALL AREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,FLUX(4*NFX+1),VOL)
-            ELSE                                                      
-              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,           
-     .                    FLUX(4*NFX+1),VOL,BHOLE,NM)                          
-            ENDIF                                                     
-          ENDIF                                                       
+            ELSE
+              CALL BREZO2(ALE_CONNECT,VAR,IDX,PHI,NDIM,
+     .                    FLUX(4*NFX+1),VOL,BHOLE,NM)
+            ENDIF
+          ENDIF
         ENDIF !  (NVAR == 2 .AND. IRS == 1)
        ENDDO  ! next NG
       END DO !next NM

@@ -50,10 +50,10 @@ Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod
 Chd|====================================================================
       SUBROUTINE MULTI_TIMEEVOLUTION(TIMESTEP, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .     PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, VEL, ACCELE, WGRID, XGRID, DNOD, NALE,
-     .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
-     .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
+     .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH,
+     .     NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
      .     ITAB, ITABM1, CURRENT_TIME,
-     .     STIFN, FSKY, IADS, FSKYM, 
+     .     STIFN, FSKY, IADS, FSKYM,
      .     CONDN, CONDNSKY, BUFMAT, FUNC_VALUE, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPF,TF)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE ALEFVM_MOD
@@ -85,7 +85,7 @@ C-----------------------------------------------
 !     IPARIT
 #include      "parit_c.inc"
 !     DTFAC1
-#include      "scr18_c.inc" 
+#include      "scr18_c.inc"
 !     SMPD
 #include "spmd_c.inc"
 !     SNPC,STF
@@ -128,11 +128,11 @@ C-----------------------------------------------
       INTEGER :: NG, NEL, II, JJ, KFACE, I, J
       INTEGER :: IPLA, LOCAL_MATID
       INTEGER :: NBMAT, IMAT, NIX
-      INTEGER :: NODE1, NODE2, NODE3, NODE4, 
+      INTEGER :: NODE1, NODE2, NODE3, NODE4,
      .     NODE5, NODE6, NODE7, NODE8
-      my_real :: W1(3), W2(3), W3(3), W4(3), 
+      my_real :: W1(3), W2(3), W3(3), W4(3),
      .     W5(3), W6(3), W7(3), W8(3)
-      my_real :: X1(3), X2(3), X3(3), X4(3), 
+      my_real :: X1(3), X2(3), X3(3), X4(3),
      .     X5(3), X6(3), X7(3), X8(3)
       my_real :: NORM(MVSIZ, 6, 3)
       my_real :: WFAC(MVSIZ, 6, 3)
@@ -160,7 +160,7 @@ C     -------------------------
             VDT = HALF * TIMESTEP * WGRID(1, NODE_ID)
             DNOD(1, NODE_ID) = DNOD(1, NODE_ID) + VDT
             XGRID(1, NODE_ID) = XGRID(1, NODE_ID) + VDT
-            
+
             VDT = HALF * TIMESTEP * WGRID(2,NODE_ID)
             DNOD(2, NODE_ID) = DNOD(2, NODE_ID) + VDT
             XGRID(2, NODE_ID) = XGRID(2, NODE_ID) + VDT
@@ -187,45 +187,45 @@ C------------------
 !$OMP SINGLE
          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
 C     Temporary vars used for fluxes computation
-         CALL SPMD_E1VOIS(MULTI_FVM%RHO, 
+         CALL SPMD_E1VOIS(MULTI_FVM%RHO,
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         CALL SPMD_E1VOIS(MULTI_FVM%PRES, 
+         CALL SPMD_E1VOIS(MULTI_FVM%PRES,
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         CALL SPMD_E1VOIS(MULTI_FVM%EINT, 
+         CALL SPMD_E1VOIS(MULTI_FVM%EINT,
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 C     Velocity
-         CALL SPMD_E1VOIS(MULTI_FVM%VEL(1, :), 
+         CALL SPMD_E1VOIS(MULTI_FVM%VEL(1, :),
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         CALL SPMD_E1VOIS(MULTI_FVM%VEL(2, :), 
+         CALL SPMD_E1VOIS(MULTI_FVM%VEL(2, :),
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         CALL SPMD_E1VOIS(MULTI_FVM%VEL(3, :), 
+         CALL SPMD_E1VOIS(MULTI_FVM%VEL(3, :),
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 C     Sound speed
-         CALL SPMD_E1VOIS(MULTI_FVM%SOUND_SPEED, 
+         CALL SPMD_E1VOIS(MULTI_FVM%SOUND_SPEED,
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 C     Burnt fraction 
-         CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%BFRAC, 
+         CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%BFRAC,
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 C     SUBMAT VARTIABLES
          IF (MULTI_FVM%NBMAT > 1) THEN
-            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_ALPHA, 
+            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_ALPHA,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_RHO, 
+            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_RHO,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_EINT, 
+            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_EINT,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_PRES, 
+            CALL SPMD_ENVOIS(MULTI_FVM%NBMAT, MULTI_FVM%PHASE_PRES,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDIF
 
          IF (MULTI_FVM%MUSCL > 0) THEN
             IF (IALE /= 0) THEN
-               CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
+               CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID,
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             ENDIF
             ! for parith/on, need to communicate FACE_DATA%CENTROID
             ! in order to use the same data
-            CALL SPMD_ENVOIS(18, MULTI_FVM%FACE_DATA%CENTROID, 
+            CALL SPMD_ENVOIS(18, MULTI_FVM%FACE_DATA%CENTROID,
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDIF
 !$OMP END SINGLE
@@ -239,10 +239,10 @@ C     gradients computation for MUSCL
 C     ==============================
       IF (MULTI_FVM%MUSCL > 0) THEN
          CALL MULTI_MUSCL_GRADIENTS(ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .        PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, MULTI_FVM%NBMAT, 
-     .        CURRENT_TIME, BUFMAT) 
+     .        PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, MULTI_FVM%NBMAT,
+     .        CURRENT_TIME, BUFMAT)
       ENDIF
-      CALL MY_BARRIER    
+      CALL MY_BARRIER
 
 C     Gradient communication
       IF (NSPMD > 1 .AND. MULTI_FVM%MUSCL > 0) THEN
@@ -250,28 +250,28 @@ C     Gradient communication
          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
          IF (MULTI_FVM%MUSCL == 1) THEN
 C     Velocity gradients
-            CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_U, 
+            CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_U,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-            CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_V, 
+            CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_V,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-            CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_W, 
+            CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_W,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
          ENDIF
 C     SUBMAT gradients
          IF (MULTI_FVM%NBMAT == 1) THEN
             IF (MULTI_FVM%MUSCL == 1) THEN
-               CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_RHO, 
+               CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_RHO,
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-               CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_PRES, 
+               CALL SPMD_ENVOIS(3, MULTI_FVM%GRAD_PRES,
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             ENDIF
          ELSE
-            CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_ALPHA, 
+            CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_ALPHA,
      .           NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             IF (MULTI_FVM%MUSCL == 1) THEN
-               CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_RHO, 
+               CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_RHO,
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-               CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_PRES, 
+               CALL SPMD_ENVOIS(3 * MULTI_FVM%NBMAT, MULTI_FVM%PHASE_GRAD_PRES,
      .              NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
             ENDIF
          ENDIF
@@ -288,14 +288,14 @@ C     SUBMAT gradients
             GBUF => ELBUF_TAB(NG)%GBUF
             IF (MULTI_FVM%MUSCL > 0) THEN
                CALL MULTI_MUSCL_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
+     .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB,
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
      .              ID_GLOBAL_VOIS,FACE_VOIS,NPF,TF)
             ELSE
                CALL MULTI_FLUXES_COMPUTATION(NG, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB, 
+     .              PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, WGRID, XGRID, ITAB,
      .              MULTI_FVM%NBMAT, CURRENT_TIME, BUFMAT,
-     .              ID_GLOBAL_VOIS,NPF,TF) 
+     .              ID_GLOBAL_VOIS,NPF,TF)
             ENDIF
          ENDIF
       ENDDO                     ! DO NG = ITASK + 1, NGROUP, NTHREAD
@@ -305,7 +305,7 @@ C---------------------
 
       IF (EBCS_TAB%nebcs_fvm > 0) THEN
          CALL MY_BARRIER
-         CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE, 
+         CALL MULTI_EBCS(ITASK, MULTI_FVM, IXS, IXQ, IXTG, XGRID, WGRID, IPM, PM, FUNC_VALUE,
      .        EBCS_TAB,NPF,TF)
          CALL MY_BARRIER
       ENDIF
@@ -317,7 +317,7 @@ C     -------------------------
             VDT = HALF * TIMESTEP * WGRID(1, NODE_ID)
             DNOD(1, NODE_ID) = DNOD(1, NODE_ID) + VDT
             XGRID(1, NODE_ID) = XGRID(1, NODE_ID) + VDT
-            
+
             VDT = HALF * TIMESTEP * WGRID(2,NODE_ID)
             DNOD(2, NODE_ID) = DNOD(2, NODE_ID) + VDT
             XGRID(2, NODE_ID) = XGRID(2, NODE_ID) + VDT
@@ -327,7 +327,7 @@ C     -------------------------
             XGRID(3, NODE_ID) = XGRID(3, NODE_ID) + VDT
          ENDDO
       ENDIF
-      
+
       CALL MY_BARRIER
 
 C---------------------  
@@ -339,18 +339,18 @@ C---------------------
 C     -------------------------  
 C     Multifluid law: update global values
 C     -------------------------
-            CALL MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB, 
-     .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, VERTEX)  
+            CALL MULTI_EVOLVE_GLOBAL(TIMESTEP, NG, ELBUF_TAB,
+     .           IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, VERTEX)
             IF (NBMAT > 1) THEN
 C     -------------------------  
 C     Multifluid law: evolve partial values
 C     -------------------------
-               CALL MULTI_EVOLVE_PARTIAL(TIMESTEP, NG, ELBUF_TAB, 
-     .              IPARG, ITASK, IXS, IXQ, IXTG,  MULTI_FVM, 
-     .              PM, IPM, VERTEX, CURRENT_TIME)                  
+               CALL MULTI_EVOLVE_PARTIAL(TIMESTEP, NG, ELBUF_TAB,
+     .              IPARG, ITASK, IXS, IXQ, IXTG,  MULTI_FVM,
+     .              PM, IPM, VERTEX, CURRENT_TIME)
             ENDIF
          ENDIF                  !IF (MATLAW == 151) THEN
-      ENDDO                     !NG = ITASK + 1, NGROUP, NTHREAD    
+      ENDDO                     !NG = ITASK + 1, NGROUP, NTHREAD
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MATLAW = IPARG(1, NG)
@@ -362,13 +362,13 @@ C     -------------------------
 C     -------------------------  
 C     Volume computation
 C     -------------------------  
-            CALL MULTI_COMPUTEVOLUME(NEL, NG, IPARG, MULTI_FVM%SYM, 
+            CALL MULTI_COMPUTEVOLUME(NEL, NG, IPARG, MULTI_FVM%SYM,
      .           ELBUF_TAB, IXS, IXQ, IXTG, VOLNEW, XGRID)
 C     -------------------------  
 C     Multifluid law: update global values
 C     -------------------------
-            CALL MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
-     .           PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW(1:NEL), PRED) 
+            CALL MULTI_UPDATE_GLOBAL(NG, ELBUF_TAB, IPARG, ITASK, MULTI_FVM,
+     .           PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, VOLNEW(1:NEL), PRED)
 
             IF (MULTI_FVM%SYM == 0) THEN
                IX => IXS(1:NIXS, 1 + NFT:NEL + NFT)
@@ -390,10 +390,10 @@ C     Check if rho is negative, then stop RADIOSS instance
                I = II + NFT
                IF (MULTI_FVM%RHO(I) <= ZERO) THEN
                   IF (ELEMTYP == 0) THEN
-                     CALL ANCMSG(MSGID = 167, ANMODE = ANINFO, I1 = IX(NIX, II), 
+                     CALL ANCMSG(MSGID = 167, ANMODE = ANINFO, I1 = IX(NIX, II),
      .                    R1 = MULTI_FVM%RHO(I))
                   ELSE
-                     CALL ANCMSG(MSGID = 12, ANMODE = ANINFO, I1 = IX(NIX, II), 
+                     CALL ANCMSG(MSGID = 12, ANMODE = ANINFO, I1 = IX(NIX, II),
      .                    R1 = MULTI_FVM%RHO(I))
                   ENDIF
                   CALL ARRET(2)
@@ -406,7 +406,7 @@ C     Multifluid law: evolve partial values
 C     -------------------------
                DO IMAT = 1, NBMAT
                   LOCAL_MATID = IPM(20 + IMAT, IX(1, 1))
-                  CALL MULTI_UPDATE_PARTIAL(LOCAL_MATID, PM, IMAT, NG, 
+                  CALL MULTI_UPDATE_PARTIAL(LOCAL_MATID, PM, IMAT, NG,
      .                 ELBUF_TAB, IPARG, ITASK, MULTI_FVM, VOLNEW)
                ENDDO
             ENDIF
@@ -426,7 +426,7 @@ C     -------------------------
             ENDIF
          ENDIF                  !IF (MATLAW == 151) THEN
       ENDDO                     !NG = ITASK + 1, NGROUP, NTHREAD
-      
+
       CALL MY_BARRIER
 
       END SUBROUTINE MULTI_TIMEEVOLUTION

@@ -43,7 +43,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
 #include       "vect01_c.inc"
-#include       "com01_c.inc" 
+#include       "com01_c.inc"
 #include       "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -67,81 +67,81 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MA
 C-----------------------------------------------
-      DO I=LFT,LLT                                                       
-        IF (STRAGLOB(I) == 1 )THEN                                       
-          IF(JCVT==2)THEN                                   
-            GAMA(1)=BUFGAMA(I	     )  				 
-            GAMA(2)=BUFGAMA(I +   NEL)  				 
-            GAMA(3)=BUFGAMA(I + 2*NEL)  				 
-            GAMA(4)=BUFGAMA(I + 3*NEL)  				 
-            GAMA(5)=BUFGAMA(I + 4*NEL)  				 
-            GAMA(6)=BUFGAMA(I + 5*NEL)  				 
-          ELSE                                                           
-            GAMA(1)=ONE                                                   
-            GAMA(2)=ZERO                                                 
-            GAMA(3)=ZERO                                                 
-            GAMA(4)=ZERO                                                 
-            GAMA(5)=ONE                                                   
-            GAMA(6)=ZERO                                                 
-          END IF                                                         
-        ENDIF                                                            
+      DO I=LFT,LLT
+        IF (STRAGLOB(I) == 1 )THEN
+          IF(JCVT==2)THEN
+            GAMA(1)=BUFGAMA(I	     )  				
+            GAMA(2)=BUFGAMA(I +   NEL)  				
+            GAMA(3)=BUFGAMA(I + 2*NEL)  				
+            GAMA(4)=BUFGAMA(I + 3*NEL)  				
+            GAMA(5)=BUFGAMA(I + 4*NEL)  				
+            GAMA(6)=BUFGAMA(I + 5*NEL)  				
+          ELSE
+            GAMA(1)=ONE
+            GAMA(2)=ZERO
+            GAMA(3)=ZERO
+            GAMA(4)=ZERO
+            GAMA(5)=ONE
+            GAMA(6)=ZERO
+          END IF
+        ENDIF
 C    
         II=NFT+I
         JJ=PT(II)
         IFLAGINI = 1
-        IF (JJ == 0) IFLAGINI = 0   
-c                                                        
+        IF (JJ == 0) IFLAGINI = 0
+c
         IF (IUSER /= 0 .AND. IFLAGINI == 1) THEN
           IF (MTN == 36 .and. L_SIGB == 6) THEN
-            IADB  = IPM(7,IMAT)                  
+            IADB  = IPM(7,IMAT)
             NRATE = NINT(BUFMAT(IADB))
             NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)
-            IPSU = NVSOLID1 + NVSOLID2 + 4                     
+            IPSU = NVSOLID1 + NVSOLID2 + 4
             IF (NVAR_TMP > 6) THEN
-              DO IUS = 1,6                                          
+              DO IUS = 1,6
                 IPP = I + (IUS - 1)*NEL
-                IPS = IPSU + NRATE + 5                               
-                SIGB(IPP) = SIGSP(IPS + IUS, JJ)                        
+                IPS = IPSU + NRATE + 5
+                SIGB(IPP) = SIGSP(IPS + IUS, JJ)
               ENDDO
-            ENDIF                                                     
-c                        
-          ELSE IF (MTN >= 28) THEN     
-            NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)                 
-            IPSU = NVSOLID1 + NVSOLID2 + 4                              
-            DO IUS = 1, NVAR_TMP                                            
-              IPP = I + (IUS -1)*NEL                                     
-              UVAR(IPP) = SIGSP(IPSU + IUS, JJ)                          
-            ENDDO                                                          
-            DO IUS = NVAR_TMP+1, NUVAR                                            
-              IPP = I + (IUS -1)*NEL                                     
-              UVAR(IPP) = ZERO                          
-            ENDDO                                                      
-          ENDIF                                                       
-        ENDIF                                                              
-        IF(IDEF /= 0 .AND. NVSOLID2 /= 0 .AND. IFLAGINI == 1) THEN  		       
-            EPS(I,1)=SIGSP(NVSOLID1 + 1 ,JJ)			       
-            EPS(I,2)=SIGSP(NVSOLID1 + 2 ,JJ)			       
-            EPS(I,3)=SIGSP(NVSOLID1 + 3 ,JJ)			       
-            EPS(I,4)=SIGSP(NVSOLID1 + 4 ,JJ)			       
-            EPS(I,5)=SIGSP(NVSOLID1 + 5 ,JJ)			       
-            EPS(I,6)=SIGSP(NVSOLID1 + 6 ,JJ)			       
-            IF (STRAGLOB(I) == 1) THEN				       
+            ENDIF
+c
+          ELSE IF (MTN >= 28) THEN
+            NVAR_TMP = SIGSP(NVSOLID1 + NVSOLID2 + 3, JJ)
+            IPSU = NVSOLID1 + NVSOLID2 + 4
+            DO IUS = 1, NVAR_TMP
+              IPP = I + (IUS -1)*NEL
+              UVAR(IPP) = SIGSP(IPSU + IUS, JJ)
+            ENDDO
+            DO IUS = NVAR_TMP+1, NUVAR
+              IPP = I + (IUS -1)*NEL
+              UVAR(IPP) = ZERO
+            ENDDO
+          ENDIF
+        ENDIF
+        IF(IDEF /= 0 .AND. NVSOLID2 /= 0 .AND. IFLAGINI == 1) THEN  		
+            EPS(I,1)=SIGSP(NVSOLID1 + 1 ,JJ)			
+            EPS(I,2)=SIGSP(NVSOLID1 + 2 ,JJ)			
+            EPS(I,3)=SIGSP(NVSOLID1 + 3 ,JJ)			
+            EPS(I,4)=SIGSP(NVSOLID1 + 4 ,JJ)			
+            EPS(I,5)=SIGSP(NVSOLID1 + 5 ,JJ)			
+            EPS(I,6)=SIGSP(NVSOLID1 + 6 ,JJ)			
+            IF (STRAGLOB(I) == 1) THEN				
               TENS(1)=EPS(I,1)
               TENS(2)=EPS(I,2)
               TENS(3)=EPS(I,3)
               TENS(4)=EPS(I,4)
               TENS(5)=EPS(I,5)
               TENS(6)=EPS(I,6)
-              CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)   
-              EPS(I,1)=TENS(1)  		     
-              EPS(I,2)=TENS(2)  		     
-              EPS(I,3)=TENS(3)  		     
-              EPS(I,4)=TENS(4)  		     
-              EPS(I,5)=TENS(5)  		     
+              CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)
+              EPS(I,1)=TENS(1)  		
+              EPS(I,2)=TENS(2)  		
+              EPS(I,3)=TENS(3)  		
+              EPS(I,4)=TENS(4)  		
+              EPS(I,5)=TENS(5)  		
               EPS(I,6)=TENS(6)
             ENDIF
-        ENDIF							       
-      ENDDO !  I=LFT,LLT                                                           
+        ENDIF							
+      ENDDO !  I=LFT,LLT
 c-----------
       RETURN
       END
@@ -166,7 +166,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
 #include       "vect01_c.inc"
-#include       "com01_c.inc" 
+#include       "com01_c.inc"
 #include       "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -189,25 +189,25 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MA
 C-----------------------------------------------
-      DO I=LFT,LLT                                                       
+      DO I=LFT,LLT
         II=NFT+I
         JJ=PT(II)
-        IF ((JCVT+ISORTH)==0.OR.JJ==0 .OR. STRSGLOB(I) /= 1) CYCLE                                       
-          IF(JCVT==2)THEN                                   
-            GAMA(1)=BUFGAMA(I	     )  				 
-            GAMA(2)=BUFGAMA(I +   NEL)  				 
-            GAMA(3)=BUFGAMA(I + 2*NEL)  				 
-            GAMA(4)=BUFGAMA(I + 3*NEL)  				 
-            GAMA(5)=BUFGAMA(I + 4*NEL)  				 
-            GAMA(6)=BUFGAMA(I + 5*NEL)  				 
-          ELSE                                                           
-            GAMA(1)=ONE                                                   
-            GAMA(2)=ZERO                                                 
-            GAMA(3)=ZERO                                                 
-            GAMA(4)=ZERO                                                 
-            GAMA(5)=ONE                                                   
-            GAMA(6)=ZERO                                                 
-          END IF                                                         
+        IF ((JCVT+ISORTH)==0.OR.JJ==0 .OR. STRSGLOB(I) /= 1) CYCLE
+          IF(JCVT==2)THEN
+            GAMA(1)=BUFGAMA(I	     )  				
+            GAMA(2)=BUFGAMA(I +   NEL)  				
+            GAMA(3)=BUFGAMA(I + 2*NEL)  				
+            GAMA(4)=BUFGAMA(I + 3*NEL)  				
+            GAMA(5)=BUFGAMA(I + 4*NEL)  				
+            GAMA(6)=BUFGAMA(I + 5*NEL)  				
+          ELSE
+            GAMA(1)=ONE
+            GAMA(2)=ZERO
+            GAMA(3)=ZERO
+            GAMA(4)=ZERO
+            GAMA(5)=ONE
+            GAMA(6)=ZERO
+          END IF
 C 
           TENS(1)=SIGI(1,JJ)
           TENS(2)=SIGI(2,JJ)
@@ -215,15 +215,15 @@ C
           TENS(4)=SIGI(4,JJ)
           TENS(5)=SIGI(5,JJ)
           TENS(6)=SIGI(6,JJ)
-          CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)   
-          SIG(I,1)=TENS(1)  		     
-          SIG(I,2)=TENS(2)  		     
-          SIG(I,3)=TENS(3)  		     
-          SIG(I,4)=TENS(4)  		     
-          SIG(I,5)=TENS(5)  		     
+          CALL SROTA6_M1(X,IX(1,II),JCVT,TENS,GAMA,JHBE,IGTYP)
+          SIG(I,1)=TENS(1)  		
+          SIG(I,2)=TENS(2)  		
+          SIG(I,3)=TENS(3)  		
+          SIG(I,4)=TENS(4)  		
+          SIG(I,5)=TENS(5)  		
           SIG(I,6)=TENS(6)
          VOLDP(I) = RHO(I)*VOLDP(I) / RHO0(I)
-      ENDDO !  I=LFT,LLT                                                           
+      ENDDO !  I=LFT,LLT
 c-----------
       RETURN
       END

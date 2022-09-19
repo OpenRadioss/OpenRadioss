@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE CDKDERII(JFT   ,JLT,PM ,GEO ,PX2,PY2,PX3,PY3,
      .                    STIFN ,STIFR  ,IXTG ,THK ,SH3TREE ,
      .                    ALDT  ,UPARAM ,IPM  ,IGEO,PM_STACK,
-     .                    ISUBSTACK,STRTG,GROUP_PARAM, 
+     .                    ISUBSTACK,STRTG,GROUP_PARAM,
      .                    IMAT,IPROP,AREA,   DT  ,
      .                    X1G ,X2G ,X3G ,Y1G ,Y2G ,Y3G ,
      .                    Z1G ,Z2G ,Z3G ,E1X ,E2X ,E3X ,
@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MATPARAM_DEF_MOD            
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
      .   X31G(MVSIZ), Y31G(MVSIZ), Z31G(MVSIZ),
      .   X32G(MVSIZ), Y32G(MVSIZ), Z32G(MVSIZ),
      .   X2(MVSIZ), X3(MVSIZ), Y2(MVSIZ),Y3(MVSIZ),
-     .   DT(MVSIZ), AREA(MVSIZ),FAC, ALMIN, 
+     .   DT(MVSIZ), AREA(MVSIZ),FAC, ALMIN,
      .   VISCMX, A11, G, STI,STIR,SHF,VISCDEF,BULK,GMAX,
      .   AL1, AL2, AL3, ALMAX, SSP,YOUNG,NU,RHO,AREAI,
      .   C1,IZ,THICKT,THKLY,POSLY,A1THK,C1THK,
@@ -107,9 +107,9 @@ c
 C       
 C global material
 C
-      IGTYP = IGEO(11,IPROP) 
-      IGMAT = IGEO(98,IPROP) 
-      IPGMAT = 700 
+      IGTYP = IGEO(11,IPROP)
+      IGMAT = IGEO(98,IPROP)
+      IPGMAT = 700
 C      
       IF(MTN == 19)THEN
           VISCDEF=FOURTH
@@ -120,8 +120,8 @@ C
       ENDIF
 c
       DO 40 I=JFT,JLT
-        AL1 = X2(I) * X2(I) + Y2(I) * Y2(I)     
-        AL2 = (X3(I)-X2(I)) * (X3(I)-X2(I)) + 
+        AL1 = X2(I) * X2(I) + Y2(I) * Y2(I)
+        AL2 = (X3(I)-X2(I)) * (X3(I)-X2(I)) +
      .        (Y3(I)-Y2(I)) * (Y3(I)-Y2(I))
         AL3 = X3(I) * X3(I) + Y3(I) * Y3(I)
         ALMAX = MAX(AL1,AL2,AL3)
@@ -131,23 +131,23 @@ c
         ALMAX = ALMAX*FAC
         IF(IGTYP == 11 .AND. IGMAT > 0) THEN
           SSP = GEO(IPGMAT +9 ,IPROP)
-        ELSEIF(IGTYP == 52 .OR. 
+        ELSEIF(IGTYP == 52 .OR.
      .       ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
           SSP = PM_STACK(9 ,ISUBSTACK)
         ELSE
           IF(MTN<=28)THEN
           SSP=PM(27,IMAT)
          ELSEIF (MTN == 42 .OR. MTN  == 69) THEN
-          IADB = IPM(7,IMAT)-1                                               
-          BULK = UPARAM(IADB+11)                                                
-          NU = UPARAM(IADB+14)                              
-          GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)                 
-     .         + UPARAM(IADB+2)*UPARAM(IADB+7)  
-     .         + UPARAM(IADB+3)*UPARAM(IADB+8) 
-     .         + UPARAM(IADB+4)*UPARAM(IADB+9)  
-     .         + UPARAM(IADB+5)*UPARAM(IADB+10) 
+          IADB = IPM(7,IMAT)-1
+          BULK = UPARAM(IADB+11)
+          NU = UPARAM(IADB+14)
+          GMAX = UPARAM(IADB+1)*UPARAM(IADB+6)
+     .         + UPARAM(IADB+2)*UPARAM(IADB+7)
+     .         + UPARAM(IADB+3)*UPARAM(IADB+8)
+     .         + UPARAM(IADB+4)*UPARAM(IADB+9)
+     .         + UPARAM(IADB+5)*UPARAM(IADB+10)
           RHO  = PM(1,IMAT)
-          A11 = GMAX*(ONE + NU)/(ONE - NU**2)                                   
+          A11 = GMAX*(ONE + NU)/(ONE - NU**2)
           SSP  = MAX(SSP, SQRT(A11/RHO))
          ELSEIF (MTN == 65) THEN
           RHO  =PM(1,IMAT)
@@ -159,7 +159,7 @@ c
           NU   =PM(21,IMAT)
           SSP=SQRT(YOUNG/(ONE-NU*NU)/RHO)
          ENDIF
-        ENDIF 
+        ENDIF
         VISCMX = GROUP_PARAM%VISC_DM
         IF (VISCMX == ZERO) VISCMX = VISCDEF
         IF(MTN == 1.OR.MTN == 2.OR.MTN == 3.OR.
@@ -171,15 +171,15 @@ c
 C-----------------    
 C     DT NODAL
 C-----------------         
-      IPGMAT = 700    
+      IPGMAT = 700
       IF(NADMESH==0)THEN
        IF(IGTYP == 11 .AND. IGMAT > 0) THEN
            DO I=JFT,JLT
             A11  = GEO(IPGMAT +  5 ,IPROP)
-            A11R = GEO(IPGMAT +  7 ,IPROP) 
+            A11R = GEO(IPGMAT +  7 ,IPROP)
             G   =  GEO(IPGMAT +  4 ,IPROP)
             FAC = AREA(I)* THK(I) / (ALDT(I))**2
-            STI = FAC * A11 
+            STI = FAC * A11
             STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
             STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
             STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
@@ -189,14 +189,14 @@ C-----------------
             STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
             STRTG(I) = STIR
            END DO
-       ELSEIF(IGTYP == 52 .OR. 
+       ELSEIF(IGTYP == 52 .OR.
      .      ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
            DO I=JFT,JLT
             A11  = PM_STACK(5 ,ISUBSTACK)
             A11R = PM_STACK(7 ,ISUBSTACK)
             G    = PM_STACK(4 ,ISUBSTACK)
             FAC = AREA(I)* THK(I) / (ALDT(I))**2
-            STI = FAC * A11 
+            STI = FAC * A11
             STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
             STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
             STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
@@ -209,11 +209,11 @@ C-----------------
        ELSE
            DO I=JFT,JLT
             A11 =GEO(IPGMAT +5 ,IPROP)
-            A11R =GEO(IPGMAT +7 ,IPROP) 
+            A11R =GEO(IPGMAT +7 ,IPROP)
             G   =GEO(IPGMAT +4 ,IPROP)
             FAC  =AREA(I)* THK(I) / (ALDT(I))**2
-            STI  =FAC*  A11 
-            STIR =ONE_OVER_12*FAC* A11R*THK(I)**2 
+            STI  =FAC*  A11
+            STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
             STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
             STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
             STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -222,20 +222,20 @@ C-----------------
             STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
             STRTG(I) = STIR
            END DO
-       ENDIF 
+       ENDIF
       ELSE
        IF(IGTYP == 11 .AND. IGMAT > 0 )THEN
             DO I=JFT,JLT
              N=NFT+I
              IF(SH3TREE(3,N) >= 0)THEN
               A11  =GEO(IPGMAT +5 ,IPROP)
-              A11R =GEO(IPGMAT +7 ,IPROP) 
+              A11R =GEO(IPGMAT +7 ,IPROP)
               G    =GEO(IPGMAT +4 ,IPROP)
 !!              STI = AREA(I) * THK(I) * A11 / (ALDT(I))**2
 !!              STIR = STI * THK(I) * THK(I) / 12.
               FAC  =AREA(I)* THK(I) / (ALDT(I))**2
-              STI  =FAC*  A11 
-              STIR =ONE_OVER_12*FAC* A11R*THK(I)**2  
+              STI  =FAC*  A11
+              STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
               STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
               STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
               STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -245,7 +245,7 @@ C-----------------
               STRTG(I) = STIR
              END IF
             END DO
-          ELSEIF(IGTYP == 52 .OR. 
+          ELSEIF(IGTYP == 52 .OR.
      .         ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0)) THEN
             DO I=JFT,JLT
              N=NFT+I
@@ -254,25 +254,8 @@ C-----------------
               A11R = PM_STACK(7 ,ISUBSTACK)
               G    = PM_STACK(4 ,ISUBSTACK)
               FAC  =AREA(I)* THK(I) / (ALDT(I))**2
-              STI  =FAC*  A11 
-              STIR =ONE_OVER_12*FAC* A11R*THK(I)**2  
-              STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
-              STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
-              STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
-              STIFR(IXTG(2,I))=STIFR(IXTG(2,I))+STIR
-              STIFR(IXTG(3,I))=STIFR(IXTG(3,I))+STIR
-              STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
-              STRTG(I) = STIR
-             END IF
-            END DO  
-          ELSE
-             DO I=JFT,JLT
-             N=NFT+I
-             IF(SH3TREE(3,N) >= 0)THEN
-              A11 =PM(24,IMAT)
-              G   =PM(22,IMAT)
-              STI = AREA(I) * THK(I) * A11 / (ALDT(I))**2
-              STIR = STI * THK(I) * THK(I) / 12. 
+              STI  =FAC*  A11
+              STIR =ONE_OVER_12*FAC* A11R*THK(I)**2
               STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
               STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
               STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
@@ -282,7 +265,24 @@ C-----------------
               STRTG(I) = STIR
              END IF
             END DO
-          ENDIF   
+          ELSE
+             DO I=JFT,JLT
+             N=NFT+I
+             IF(SH3TREE(3,N) >= 0)THEN
+              A11 =PM(24,IMAT)
+              G   =PM(22,IMAT)
+              STI = AREA(I) * THK(I) * A11 / (ALDT(I))**2
+              STIR = STI * THK(I) * THK(I) / 12.
+              STIFN(IXTG(2,I))=STIFN(IXTG(2,I))+STI
+              STIFN(IXTG(3,I))=STIFN(IXTG(3,I))+STI
+              STIFN(IXTG(4,I))=STIFN(IXTG(4,I))+STI
+              STIFR(IXTG(2,I))=STIFR(IXTG(2,I))+STIR
+              STIFR(IXTG(3,I))=STIFR(IXTG(3,I))+STIR
+              STIFR(IXTG(4,I))=STIFR(IXTG(4,I))+STIR
+              STRTG(I) = STIR
+             END IF
+            END DO
+          ENDIF
       END IF
 C
 C---------------------------------------------------------

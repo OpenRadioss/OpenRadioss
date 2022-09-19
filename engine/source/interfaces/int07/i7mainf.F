@@ -34,7 +34,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       module MOD_RCURV
       implicit none
 #include      "my_real.inc"
-      my_real 
+      my_real
      .       , DIMENSION(:), ALLOCATABLE :: RCURV,ANGLM
       END MODULE MOD_RCURV
 C
@@ -95,7 +95,7 @@ Chd|====================================================================
      D                   PCONTACT       ,TEMP        ,FTHE           ,FTHESKYI         ,
      E                   PM             ,IPARG       ,IAD17          ,MSKYI_SMS        ,ISKYI_SMS  ,
      F                   NODNX_SMS      ,MS0         ,QFRICINT       ,NPC              ,TF         ,
-     G                   CONDN          ,CONDNSKYI   ,INTBUF_TAB     , 
+     G                   CONDN          ,CONDNSKYI   ,INTBUF_TAB     ,
      H                   FBSAV6         ,ISENSINT    ,DIMFB          ,IXIG3D           ,KXIG3D     ,
      I                   WIGE           ,KNOT        ,IGEO           ,MULTI_FVM        ,H3D_DATA   ,
      J                   INTBUF_FRIC_TAB,KNOTLOCPC   ,KNOTLOCEL      ,ITASK            ,TAGNCONT   ,
@@ -104,7 +104,7 @@ C======================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE MOD_NODNORM
       USE MOD_RCURV
@@ -157,7 +157,7 @@ C-----------------------------------------------
      .        NISKYFI, LINDMAX,ITASK
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
-      INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
+      INTEGER IAD_ELEM(2,*),FR_ELEM(*),
      .        ISKYI_SMS(*), NODNX_SMS(*),NPC(*),
      .        KXIG3D(NIXIG3D,*),IXIG3D(*),IGEO(NPROPGI,*)
       INTEGER  , INTENT(IN) :: S_LOADPINTER
@@ -245,7 +245,7 @@ C-----------------------------------------------
      .   KS(MVSIZ),K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K4(MVSIZ),
      .   CS(MVSIZ),C1(MVSIZ),C2(MVSIZ),C3(MVSIZ),C4(MVSIZ),
      .   KT(MVSIZ),C(MVSIZ),CF(MVSIZ),
-     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ), 
+     .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
      .   FX1(MVSIZ), FX2(MVSIZ), FX3(MVSIZ), FX4(MVSIZ),
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
@@ -255,9 +255,9 @@ C-----------------------------------------------
      .    FRIC_COEFS2(MVSIZ,10),VISCFFRIC2(MVSIZ),FRICC2(MVSIZ),
      .    DIR1(MVSIZ,3),DIR2(MVSIZ,3),DIR_FRICMI(MVSIZ,2)
       INTEGER, DIMENSION(:) ,POINTER  :: TABCOUPLEPARTS_FRIC
-      INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC 
-      INTEGER, DIMENSION(:) ,POINTER  :: ADPARTS_FRIC 
-      INTEGER, DIMENSION(:) ,POINTER  :: IFRICORTH 
+      INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC
+      INTEGER, DIMENSION(:) ,POINTER  :: ADPARTS_FRIC
+      INTEGER, DIMENSION(:) ,POINTER  :: IFRICORTH
       my_real, DIMENSION(:) ,POINTER  :: TABCOEF_FRIC
 
       INTEGER,TARGET, DIMENSION(1):: TABCOUPLEPARTS_FRIC_BID
@@ -265,7 +265,7 @@ C-----------------------------------------------
       INTEGER,TARGET, DIMENSION(1):: ADPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: IFRICORTH_BID
       my_real,TARGET, DIMENSION(1):: TABCOEF_FRIC_BID
-      
+
       LOGICAL TYPE18
       INTEGER :: IDIR
 C-----------------------------------------------
@@ -282,19 +282,19 @@ C-----------------------------------------------
       INACTI=IPARI(22,NIN)
       ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       NISUB =IPARI(36,NIN)
       ICURV =IPARI(39,NIN)
-      ITIED          =IPARI(85,NIN) 
-      SYM_FLAG_TYPE19=IPARI(71,NIN)       
+      ITIED          =IPARI(85,NIN)
+      SYM_FLAG_TYPE19=IPARI(71,NIN)
 C heat interface
       INTTH          =IPARI(47,NIN)
       IFORM          =IPARI(48,NIN)
-      IRSTH          =IPARI(42,NIN)           
+      IRSTH          =IPARI(42,NIN)
 C adaptive meshing
-      IADM =IPARI(44,NIN) 
+      IADM =IPARI(44,NIN)
       NRADM=IPARI(49,NIN)
 
       PADM =INTBUF_TAB%VARIABLES(24)
@@ -333,11 +333,11 @@ C adaptive meshing
 C--- Corresponding Friction model  
       INTFRIC=IPARI(72,NIN)
       IORTHFRIC = 0
-      IF(INTFRIC /= 0) THEN 
+      IF(INTFRIC /= 0) THEN
          TABCOUPLEPARTS_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABCOUPLEPARTS_FRIC
          TABCOEF_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABCOEF_FRIC
          TABPARTS_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC
-         ADPARTS_FRIC   => INTBUF_FRIC_TAB(INTFRIC)%ADPARTS_FRIC 
+         ADPARTS_FRIC   => INTBUF_FRIC_TAB(INTFRIC)%ADPARTS_FRIC
          XFILTR_FRIC   = INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC
          NSETPRTS =   INTBUF_FRIC_TAB(INTFRIC)%NSETPRTS
          NPARTFRIC =   INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC
@@ -346,7 +346,7 @@ C--- Corresponding Friction model
       ELSE
          TABCOUPLEPARTS_FRIC  => TABCOUPLEPARTS_FRIC_BID
          TABPARTS_FRIC  => TABPARTS_FRIC_BID
-         TABCOEF_FRIC  => TABCOEF_FRIC_BID 
+         TABCOEF_FRIC  => TABCOEF_FRIC_BID
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
          IFRICORTH   => IFRICORTH_BID
          IF (IFQ/=0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
@@ -361,7 +361,7 @@ C
       !ELSEIF(NTY==5)THEN
       !ELSEIF(NTY==6)THEN
       !ELSEIF(NTY==7)THEN
-      IF(NTY==7)THEN      
+      IF(NTY==7)THEN
         IF(INACTI==7)TYPE18=.TRUE.
         IF(INACTI==7.and.IPARI(34,NIN) == -2) RETURN
 c----------------------------------------------------
@@ -453,7 +453,7 @@ C Calcul espace memoire parith/on sans communication
 C----------------------------------------------------
 C
         I_STOK = INTBUF_TAB%I_STOK(1)
-        
+
 C decoupage statique
         IF(INACTI/=7.OR.IBAG==0)THEN
 
@@ -600,9 +600,9 @@ C
            CALL ARRET(2)
           ENDIF
         ENDIF
-        
+
         !--------------------------------------------------------
-        ! FORCE COMPUTATION : 
+        ! FORCE COMPUTATION :
         !    inter 7 & inter 18
         !--------------------------------------------------------
 C!$OMP ORDERED
@@ -624,7 +624,7 @@ C         print *, "---a-b-c-----------------",NFT
      7      GAP       ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,GAPV ,
      9  MS        ,VXI        ,VYI       ,
      A  VZI       ,MSI        ,NSN       ,V            ,KINET        ,
-     B  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,  
+     B  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,
      C  KMAX      ,GAPMAX     ,GAPMIN    ,IADM         ,RCURV        ,
      D  RCURVI    ,ANGLM      ,ANGLMI    ,INTTH        ,TEMP         ,
      E  TEMPI     ,PHI        ,INTBUF_TAB%AREAS,INTBUF_TAB%IELEC,AREASI ,
@@ -633,14 +633,14 @@ C         print *, "---a-b-c-----------------",NFT
      H  IORTHFRIC,INTBUF_TAB%IREP_FRICM,INTBUF_TAB%DIR_FRICM,IREP_FRICMI,DIR_FRICMI  )
           ! -- PIT
 
-  
+
 
           JLT_NEW = 0
           JLT_TIED= 0
 C
           IF(TYPE18)THEN
             CALL I18DST3(
-     1        JLT           ,CAND_N_N ,CAND_E_N, CN_LOC            ,CE_LOC                     , 
+     1        JLT           ,CAND_N_N ,CAND_E_N, CN_LOC            ,CE_LOC                     ,
      2        X1            ,X2       ,X3      , X4                ,Y1                         ,
      3        Y2            ,Y3       ,Y4      , Z1                ,Z2                         ,
      4        Z3            ,Z4       ,XI      , YI                ,ZI                         ,
@@ -651,7 +651,7 @@ C
      9        P1            ,P2       ,P3      , P4                ,IX1                        ,
      A        IX2           ,IX3      ,IX4     , NSVG              ,STIF                       ,
      B        JLT_NEW       ,GAPV     ,INACTI  , INTBUF_TAB%CAND_P ,ALE_CONNECTIVITY%NE_CONNECT,
-     C        INDEX2(NFT+1) ,VXI      ,VYI     , ITAB              ,XCELL                      ,               
+     C        INDEX2(NFT+1) ,VXI      ,VYI     , ITAB              ,XCELL                      ,
      D        VZI           ,MSI      ,KINI    , SURF              ,IBAG                       ,
      E        IGAP          ,MULTI_FVM)
 
@@ -681,7 +681,7 @@ C
      D  GAPV	     ,INACTI	,INTBUF_TAB%CAND_P,INDEX2(NFT+1),NISKYFI ,
      E  KINET	     ,NEWFRONT  ,ISECIN       ,NSTRF	   ,SECFCUM  ,
      F  X	     ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT ,IFQ ,
-     G          INTBUF_TAB%FRIC_P     ,INTBUF_TAB%FTSAVX, INTBUF_TAB%FTSAVY, INTBUF_TAB%FTSAVZ, INTBUF_TAB%XFILTR ,  
+     G          INTBUF_TAB%FRIC_P     ,INTBUF_TAB%FTSAVX, INTBUF_TAB%FTSAVY, INTBUF_TAB%FTSAVZ, INTBUF_TAB%XFILTR ,
      H          INTBUF_TAB%IFPEN      ,IBAG             , ICONTACT         , IGROUPS          , IPARG             ,
      J          VISCN                 ,VXI              , VYI              , VZI              , MSI_APPEND        ,
      K  KINI	     ,NIN	,NISUB   ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
@@ -690,7 +690,7 @@ C
      N          JTASK                 ,ISENSINT         , FSAVPARIT        , NFT              , MULTI_FVM         ,
      O          H3D_DATA              ,ELBUF_TAB        , IDIR             )
             ENDIF
-            
+
           ELSE
             CALL I7DST3(
      1        JLT          ,CAND_N_N,CAND_E_N,CN_LOC ,CE_LOC       ,
@@ -734,8 +734,8 @@ C
      3           FRIC           ,VISCF        ,INTBUF_TAB%FRIC_P,FRIC_COEFS   , FRICC     ,
      4           VISCFFRIC      ,NTY          ,MFROT            ,IORTHFRIC    , FRIC_COEFS2,
      5           FRICC2         ,VISCFFRIC2   ,IFRICORTH        ,NFORTH       , NFISOT    ,
-     6           INDEXORTH      ,INDEXISOT    ,JLT_TIED         ,IREP_FRICMI  , DIR_FRICMI,         
-     7           IX3            ,IX4           ,X1              ,Y1            , Z1        , 
+     6           INDEXORTH      ,INDEXISOT    ,JLT_TIED         ,IREP_FRICMI  , DIR_FRICMI,
+     7           IX3            ,IX4           ,X1              ,Y1            , Z1        ,
      8           X2             ,Y2            ,Z2              ,X3            , Y3        ,
      9           Z3             ,X4            ,Y4              ,Z4            ,CE_LOC     ,
      A           DIR1           ,DIR2          )
@@ -770,16 +770,16 @@ C
      D  ISECIN       ,NSTRF	,X	 ,INTBUF_TAB%IRECTM,CE_LOC    ,
      E  MFROT        ,IFQ       ,INTBUF_TAB%FTSAVX  ,INTBUF_TAB%FTSAVY,
      F  INTBUF_TAB%FTSAVZ,XFILTR_FRIC,INTBUF_TAB%IFPEN     ,IBAG     ,
-     H  ICONTACT     ,VISCN	,VXI	      ,VYI	   ,VZI	     ,	  
+     H  ICONTACT     ,VISCN	,VXI	      ,VYI	   ,VZI	     ,	
      I  MSI         ,KINI	,NIN	      ,NISUB   ,INTBUF_TAB%LISUB,
      J  INTBUF_TAB%ADDSUBS,INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS     ,
      .                                     INTBUF_TAB%LISUBM,FSAVSUB,
-     K  INTBUF_TAB%CAND_N,IPARI(33,NIN),IPARI(39,NIN),NOD_NORMAL ,FNCONT,     
+     K  INTBUF_TAB%CAND_N,IPARI(33,NIN),IPARI(39,NIN),NOD_NORMAL ,FNCONT,
      L  FTCONT       ,X1	 ,X2          ,X3         ,X4         ,
      M  Y1	     , Y2	 ,Y3          ,Y4         ,Z1         ,
      N  Z2	     ,Z3	 ,Z4          ,XI         ,YI         ,
      O  ZI	     ,IADM       ,RCURVI      ,RCONTACT   ,ACONTACT   ,
-     P  PCONTACT     ,ANGLMI     ,PADM        ,INTTH      ,TEMP       , 
+     P  PCONTACT     ,ANGLMI     ,PADM        ,INTTH      ,TEMP       ,
      Q  TEMPI        ,IFORM      ,NPC         ,TF         ,CMAJ       ,
      R  DTMINI       ,DRAD       ,FHEATS      ,FHEATM     ,EFRICT     ,
      S  QFRICINT(NIN),FNI        ,IFRIC       ,JTASK      ,H1         ,
@@ -790,17 +790,17 @@ C
      Y  FZI          ,FX1        ,FY1         ,FZ1        ,FX2        ,
      Z  FY2          ,FZ2        ,FX3         ,FY3        ,FZ3        ,
      1  FX4          ,FY4        ,FZ4         ,ISENSINT    ,FSAVPARIT  ,
-     5  NFT          ,SYM_FLAG_TYPE19,H3D_DATA,FRICC      ,VISCFFRIC  , 
+     5  NFT          ,SYM_FLAG_TYPE19,H3D_DATA,FRICC      ,VISCFFRIC  ,
      6  FRIC_COEFS   ,ITIED      ,JLT_TIED   ,INTBUF_TAB%CAND_F,IORTHFRIC,
      7  FRIC_COEFS2  ,FRICC2     ,VISCFFRIC2  ,NFORTH      ,NFISOT     ,
      8  INDEXORTH    ,INDEXISOT  ,DIR1        ,DIR2        ,TAGNCONT   ,
-     9  KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB    ,  
+     9  KLOADPINTER  ,LOADPINTER ,LOADP_HYD_INTER,INTBUF_TAB%TYPSUB    ,
      .                                            INTBUF_TAB%INFLG_SUBS,
      A  INTBUF_TAB%INFLG_SUBM,NINLOADP,DGAPLOADINT,S_LOADPINTER,DGAPLOADP)
 
 
-              IF( INTTH > 0 ) THEN 
-                 CALL I7THERM(JLT   ,IPARG ,PM  ,IXS   ,IFORM ,X      ,   
+              IF( INTTH > 0 ) THEN
+                 CALL I7THERM(JLT   ,IPARG ,PM  ,IXS   ,IFORM ,X      ,
      1                        XI    ,YI    ,ZI  ,X1   ,Y1    ,Z1      ,
      2                        X2    ,Y2    ,Z2  ,X3   ,Y3    ,Z3      ,
      3                        X4    ,Y4    ,Z4  ,IX1  ,IX2   ,IX3     ,
@@ -809,7 +809,7 @@ C
      6                        GAPV  ,FNI  ,IRSTH,XTHE  ,NPC    ,TF    ,
      6                        CONDINT,PHI1,PHI2  ,PHI3   ,PHI4  ,FHEATS,
      7                        FHEATM,EFRICT,TEMP ,H1     ,H2     ,H3   ,
-     8                        H4    )      
+     8                        H4    )
               ENDIF
 
 C
@@ -818,7 +818,7 @@ C
      2 STIF      ,FSKYI      ,ISKY      ,FCONT     ,IX1       ,
      3  IX2       ,IX3       ,IX4       ,NSVG      ,NELTST    ,
      4  ITYPTST   ,DT2T      ,NISKYFI   ,ISECIN    ,NSTRF     ,
-     5  SECFCUM   ,VISCN     ,NIN       ,FXI       ,FYI       , 
+     5  SECFCUM   ,VISCN     ,NIN       ,FXI       ,FYI       ,
      6  FZI       ,FX1       ,FY1       ,FZ1       ,FX2       ,
      7  FY2       ,FZ2       ,FX3       ,FY3       ,FZ3       ,
      8  FX4       ,FY4       ,FZ4       ,H1        ,H2        ,
@@ -831,7 +831,7 @@ C
      F  CONDN     ,CONDINT   ,CONDNSKYI ,IXIG3D    ,KXIG3D    ,
      J  WIGE      ,KNOT      ,IGEO      ,INTBUF_TAB%NIGE      ,
      K  INTBUF_TAB%RIGE      ,X         ,H3D_DATA  ,KNOTLOCPC ,
-     L  KNOTLOCEL ,IFORM     ) 
+     L  KNOTLOCEL ,IFORM     )
 C
             ENDIF
           ENDIF

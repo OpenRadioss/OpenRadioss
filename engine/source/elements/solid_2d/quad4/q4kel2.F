@@ -56,15 +56,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ICP, IKSUP
       my_real
-     .    PY1(*), PY2(*), PY3(*), PY4(*), 
-     .    PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .    PY1(*), PY2(*), PY3(*), PY4(*),
+     .    PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .    PYC1(*), PYC2(*), PZC1(*), PZC2(*), AY(*), R22(*), R23(*),
-     .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*), 
-     .    K23(2,2,*), K24(2,2,*), K33(2,2,*), K34(2,2,*), K44(2,2,*), 
-     .    K11U(2,2,*),K12U(2,2,*),K13U(2,2,*),K14U(2,2,*),K22U(2,2,*), 
-     .    K23U(2,2,*),K24U(2,2,*),K33U(2,2,*),K34U(2,2,*),K44U(2,2,*), 
-     .    K11L(2,2,*),K12L(2,2,*),K13L(2,2,*),K14L(2,2,*),K22L(2,2,*), 
-     .    K23L(2,2,*),K24L(2,2,*),K33L(2,2,*),K34L(2,2,*),K44L(2,2,*), 
+     .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*),
+     .    K23(2,2,*), K24(2,2,*), K33(2,2,*), K34(2,2,*), K44(2,2,*),
+     .    K11U(2,2,*),K12U(2,2,*),K13U(2,2,*),K14U(2,2,*),K22U(2,2,*),
+     .    K23U(2,2,*),K24U(2,2,*),K33U(2,2,*),K34U(2,2,*),K44U(2,2,*),
+     .    K11L(2,2,*),K12L(2,2,*),K13L(2,2,*),K14L(2,2,*),K22L(2,2,*),
+     .    K23L(2,2,*),K24L(2,2,*),K33L(2,2,*),K34L(2,2,*),K44L(2,2,*),
      .    DD(3,3,*), GG(*), DG(3,3,*), G33(3,3,*), OFF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -192,23 +192,23 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       DO EP=LFT,LLT
-        KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                DD(1,1,EP)*PYI(EP)*PYJ(EP) + 
-     .                DG(1,1,EP)*(PYI(EP)*PZCJ(EP)+PZCI(EP)*PYJ(EP)) + 
+        KIJ(1,1,EP) = KIJ(1,1,EP) +
+     .                DD(1,1,EP)*PYI(EP)*PYJ(EP) +
+     .                DG(1,1,EP)*(PYI(EP)*PZCJ(EP)+PZCI(EP)*PYJ(EP)) +
      .                G33(1,1,EP)*(PZCI(EP)*PZCJ(EP))
-        KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                DD(1,2,EP)*PYI(EP)*PZJ(EP) + 
-     .                DG(1,1,EP)*PYI(EP)*PYCJ(EP) + 
-     .                DG(2,1,EP)*PZCI(EP)*PZJ(EP) + 
+        KIJ(1,2,EP) = KIJ(1,2,EP) +
+     .                DD(1,2,EP)*PYI(EP)*PZJ(EP) +
+     .                DG(1,1,EP)*PYI(EP)*PYCJ(EP) +
+     .                DG(2,1,EP)*PZCI(EP)*PZJ(EP) +
      .                G33(1,1,EP)*PZCI(EP)*PYCJ(EP)
-        KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                DD(1,2,EP)*PZI(EP)*PYJ(EP) + 
-     .                DG(1,1,EP)*PYCI(EP)*PYJ(EP) + 
-     .                DG(2,1,EP)*PZI(EP)*PZCJ(EP) + 
+        KIJ(2,1,EP) = KIJ(2,1,EP) +
+     .                DD(1,2,EP)*PZI(EP)*PYJ(EP) +
+     .                DG(1,1,EP)*PYCI(EP)*PYJ(EP) +
+     .                DG(2,1,EP)*PZI(EP)*PZCJ(EP) +
      .                G33(1,1,EP)*PYCI(EP)*PZCJ(EP)
-        KIJ(2,2,EP) = KIJ(2,2,EP) + 
-     .                DD(2,2,EP)*PZI(EP)*PZJ(EP) + 
-     .                DG(2,1,EP)*(PYCI(EP)*PZJ(EP)+PZI(EP)*PYCJ(EP)) + 
+        KIJ(2,2,EP) = KIJ(2,2,EP) +
+     .                DD(2,2,EP)*PZI(EP)*PZJ(EP) +
+     .                DG(2,1,EP)*(PYCI(EP)*PZJ(EP)+PZI(EP)*PYCJ(EP)) +
      .                G33(1,1,EP)*PYCI(EP)*PYCJ(EP)
       ENDDO
 C
@@ -235,21 +235,21 @@ C          IF (IASY/=0) THEN
 C          ENDIF
         ELSE
           DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + 
+            KIJ(1,1,EP) = KIJ(1,1,EP) +
      .                  DD(1,3,EP)*R22(EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
      .                  DD(3,3,EP)*R22(EP)*R22(EP)*AYS(EP) +
      .                  DG(3,1,EP)*AY(EP)*R22(EP)*(PYCI(EP)+PZCJ(EP))
-            KIJ(1,2,EP) = KIJ(1,2,EP) + 
+            KIJ(1,2,EP) = KIJ(1,2,EP) +
      .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYI(EP) +
      .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZJ(EP) +
      .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP) +
      .          DG(3,1,EP)*AY(EP)*(R22(EP)*PYCJ(EP)+R23(EP)*PZCI(EP))
-            KIJ(2,1,EP) = KIJ(2,1,EP) + 
+            KIJ(2,1,EP) = KIJ(2,1,EP) +
      .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYJ(EP) +
      .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZI(EP) +
      .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP) +
      .          DG(3,1,EP)*AY(EP)*(R23(EP)*PZCJ(EP)+R22(EP)*PYCI(EP))
-            KIJ(2,2,EP) = KIJ(2,2,EP) + 
+            KIJ(2,2,EP) = KIJ(2,2,EP) +
      .                  DD(2,3,EP)*R23(EP)*AY(EP)*(PZI(EP)+PZJ(EP)) +
      .                  DD(3,3,EP)*R23(EP)*R23(EP)*AYS(EP) +
      .                  DG(3,1,EP)*AY(EP)*R23(EP)*(PYCI(EP)+PZCJ(EP))
@@ -303,17 +303,17 @@ C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
       DO EP=LFT,LLT
-        KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                DD(1,1,EP)*PYI(EP)*PYJ(EP) + 
+        KIJ(1,1,EP) = KIJ(1,1,EP) +
+     .                DD(1,1,EP)*PYI(EP)*PYJ(EP) +
      .                GG(EP)*PZCI(EP)*PZCJ(EP)
-        KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                DD(1,2,EP)*PYI(EP)*PZJ(EP) + 
+        KIJ(1,2,EP) = KIJ(1,2,EP) +
+     .                DD(1,2,EP)*PYI(EP)*PZJ(EP) +
      .                GG(EP)*PZCI(EP)*PYCJ(EP)
-        KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                DD(1,2,EP)*PZI(EP)*PYJ(EP) + 
+        KIJ(2,1,EP) = KIJ(2,1,EP) +
+     .                DD(1,2,EP)*PZI(EP)*PYJ(EP) +
      .                GG(EP)*PYCI(EP)*PZCJ(EP)
-        KIJ(2,2,EP) = KIJ(2,2,EP) + 
-     .                DD(2,2,EP)*PZI(EP)*PZJ(EP) + 
+        KIJ(2,2,EP) = KIJ(2,2,EP) +
+     .                DD(2,2,EP)*PZI(EP)*PZJ(EP) +
      .                GG(EP)*PYCI(EP)*PYCJ(EP)
       ENDDO
 C
@@ -323,13 +323,13 @@ C
         ENDDO
         IF (JCVT==0) THEN
           DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + 
-     .                  DD(1,3,EP)*AY(EP)*(PYI(EP)+PYJ(EP)) + 
+            KIJ(1,1,EP) = KIJ(1,1,EP) +
+     .                  DD(1,3,EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
      .                  DD(3,3,EP)*AYS(EP)
-            KIJ(1,2,EP) = KIJ(1,2,EP) + 
-     .                  DD(2,3,EP)*AY(EP)*PZJ(EP) 
-            KIJ(2,1,EP) = KIJ(2,1,EP) + 
-     .                  DD(2,3,EP)*PZI(EP)*AY(EP) 
+            KIJ(1,2,EP) = KIJ(1,2,EP) +
+     .                  DD(2,3,EP)*AY(EP)*PZJ(EP)
+            KIJ(2,1,EP) = KIJ(2,1,EP) +
+     .                  DD(2,3,EP)*PZI(EP)*AY(EP)
           ENDDO
 C         asymmetric part
 C          IASY = 0
@@ -349,18 +349,18 @@ C          ENDDO
 C          ENDIF
         ELSE
           DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + 
+            KIJ(1,1,EP) = KIJ(1,1,EP) +
      .                  DD(1,3,EP)*R22(EP)*AY(EP)*(PYI(EP)+PYJ(EP)) +
      .                  DD(3,3,EP)*R22(EP)*R22(EP)*AYS(EP)
-            KIJ(1,2,EP) = KIJ(1,2,EP) + 
+            KIJ(1,2,EP) = KIJ(1,2,EP) +
      .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYI(EP) +
      .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZJ(EP) +
      .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP)
-            KIJ(2,1,EP) = KIJ(2,1,EP) + 
+            KIJ(2,1,EP) = KIJ(2,1,EP) +
      .                  DD(1,3,EP)*R23(EP)*AY(EP)*PYJ(EP) +
      .                  DD(2,3,EP)*R22(EP)*AY(EP)*PZI(EP) +
      .                  DD(3,3,EP)*R22(EP)*R23(EP)*AYS(EP)
-            KIJ(2,2,EP) = KIJ(2,2,EP) + 
+            KIJ(2,2,EP) = KIJ(2,2,EP) +
      .                  DD(2,3,EP)*R23(EP)*AY(EP)*(PZI(EP)+PZJ(EP)) +
      .                  DD(3,3,EP)*R23(EP)*R23(EP)*AYS(EP)
           ENDDO

@@ -63,13 +63,13 @@ C
            V(2,N)=VS(2,N)
            V(3,N)=VS(3,N)
            IFOAM(N) = 0
-         ENDIF   
+         ENDIF
            W(1,N) = VS(1,N)
            W(2,N) = VS(2,N)
            W(3,N) = VS(3,N)
            A(1,N)=ZERO
            A(2,N)=ZERO
-           A(3,N)=ZERO 
+           A(3,N)=ZERO
         ELSE ! lagrangian or not Law77 node.
            V(1,N)=ZERO
            V(2,N)=ZERO
@@ -81,8 +81,8 @@ C
 C          
            A(1,N)=ZERO
            A(2,N)=ZERO
-           A(3,N)=ZERO            
-        ENDIF    
+           A(3,N)=ZERO
+        ENDIF
       ENDDO
 C
       IF(ISIGI==2.OR.ISIGI==4) THEN
@@ -92,11 +92,11 @@ C
             A(1,N)=FZERO(1,N)
             A(2,N)=FZERO(2,N)
             A(3,N)=FZERO(3,N)
-            
+
             W(1,N) = VS(1,N)
             W(2,N) = VS(2,N)
             W(3,N) = VS(3,N)
-          ENDIF  
+          ENDIF
         ENDDO
       ENDIF
 C

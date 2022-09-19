@@ -71,7 +71,7 @@ C
       ELSE
          CALL SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
 C
-      END IF 
+      END IF
       IF (ISPMD==0) THEN
       DX = XMAX - XMIN
       DY = YMAX - YMIN
@@ -95,12 +95,12 @@ C
         IF (XN == ZERO .AND. YN == ZERO .AND. ZN /= ZERO ) THEN
           V1 = -ZEP707
           V2 = ZEP707
-          V3 = ZERO        
-        ELSE 
+          V3 = ZERO
+        ELSE
           V1 = ZERO
           V2 = -ZEP707
-          V3 = ZEP707  
-        ENDIF      
+          V3 = ZEP707
+        ENDIF
         VV1 = V2 * ZN - V3 * YN
         VV2 = V3 * XN - V1 * ZN
         VV3 = V1 * YN - V2 * XN

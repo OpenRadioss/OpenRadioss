@@ -54,9 +54,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -103,9 +103,9 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV         ('m'            ,CM     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       CALL HM_GET_FLOATV         ('n_WIERZBICKI' ,CN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV           ('Ifail_sh'     ,ISHELL ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID ,IS_AVAILABLE,LSUBMODEL) 
-      CALL HM_GET_INTV           ('Imoy'         ,IMOY   ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV           ('Ifail_sh'     ,ISHELL ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV           ('Ifail_so'     ,ISOLID ,IS_AVAILABLE,LSUBMODEL)
+      CALL HM_GET_INTV           ('Imoy'         ,IMOY   ,IS_AVAILABLE,LSUBMODEL)
 
       IF(ISHELL==0)ISHELL=1
       IF(ISOLID==0)ISOLID=1
@@ -117,27 +117,27 @@ C--------------------------------------------------
       UPARAM(6) = CN
       UPARAM(7) = ISHELL
       UPARAM(8) = ISOLID
-      UPARAM(9) = IMOY 
+      UPARAM(9) = IMOY
       NUPARAM = 9
       NUVAR   = 2
       NFUNC = 0
 
       IF(IS_ENCRYPTED)THEN
        WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE       
-       WRITE(IOUT, 1000)C1,C2,C3,C4,CM,CN,IMOY     
+      ELSE
+       WRITE(IOUT, 1000)C1,C2,C3,C4,CM,CN,IMOY
        IF(ISHELL==1)THEN
         WRITE(IOUT, 1100)
        ELSEIF(ISHELL==2)THEN
         WRITE(IOUT, 1200)
-       ENDIF    
+       ENDIF
        IF(ISOLID==1)THEN
         WRITE(IOUT, 2100)
        ELSEIF(ISOLID==2)THEN
          WRITE(IOUT, 2200)
        ENDIF
-      ENDIF   
-                  
+      ENDIF
+
  1000 FORMAT(
      & 5X,40H  Xue-WIERZBICKI FAILURE MODEL          ,/,
      & 5X,40H  -----------------------------         ,/,
@@ -149,14 +149,14 @@ C--------------------------------------------------
      & 5X,' HARDENING EXPONENT.   . . . .=',E12.4/
      & 5X,' FLAG FOR 3D FAILURE MODEL (BRICK) =',I10//)
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION ') 
+     & 5X,'   SHELL ELEMENT DELETION ')
  2100 FORMAT(
-     & 5X,'   SOLID ELEMENT  DELETION ') 
+     & 5X,'   SOLID ELEMENT  DELETION ')
 
  1200 FORMAT(
-     & 5X,'    SHELL TENSOR STRESS OF LAYER WILL BE VANISHED ')    
+     & 5X,'    SHELL TENSOR STRESS OF LAYER WILL BE VANISHED ')
  2200 FORMAT(
-     & 5X,'    DEVIATORIC STRESS WILL BE VANISHED ')    
+     & 5X,'    DEVIATORIC STRESS WILL BE VANISHED ')
 
       RETURN
       END

@@ -51,7 +51,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER JFT,JLT,IDRIL
-      my_real 
+      my_real
      .   VQN(MVSIZ,3,4),VF(MVSIZ,3,4),VM(MVSIZ,2,4),VQ(MVSIZ,3,3),
      .   COREL(MVSIZ,2,4),DI(MVSIZ,6),DB(MVSIZ,3,4),Z1(*)
       my_real
@@ -73,7 +73,7 @@ c Note:
 c ARGUMENTS:  (I: input, O: output, IO: input * output, W: workspace)
 c
 c TYPE NAME                FUNCTION
-c  I   JFT,JLT           - element id limit 
+c  I   JFT,JLT           - element id limit
 c  I   VQN(3,4,NEL)      - nodal normal vectors (basd on the local sys)
 c  I   VQ(3,3,NEL)       - local sys (e1,e2,e3)
 c  I   VF(3,4,NEL),VM(2,4,NEL) - internal forces&moment (5dofs) in local system
@@ -87,7 +87,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K ,IFINI
-      my_real 
+      my_real
      .     MM(3,4),FL(3,4),ML(2,4),C1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
      .     TEMP1, TEMP2, TEMP3
@@ -201,7 +201,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   VQN(MVSIZ,3,4),VQ(MVSIZ,3,3),MLZ(4,*)
       my_real
      .   M11(*), M12(*), M13(*), M14(*),
@@ -211,7 +211,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K
-      my_real 
+      my_real
      .     VXL, VYL, VZL
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       DO K=JFT,JLT
@@ -302,7 +302,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER JFT,JLT,IDRIL,IFINI
-      my_real 
+      my_real
      .   VQN(MVSIZ,3,4),VF(MVSIZ,3,4),VM(MVSIZ,2,4),VQ(MVSIZ,3,3),
      .   DI(MVSIZ,6),DB(MVSIZ,3,4),Z1(*)
       my_real
@@ -321,7 +321,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K
-      my_real 
+      my_real
      .     MM(3,4),FL(3,4),ML(2,4),C1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
 C
@@ -911,7 +911,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       LOGICAL PLAT(*)
       INTEGER JFT,JLT,IDRIL,IFINI
-      my_real 
+      my_real
      .   VQN(MVSIZ,3,4),VF(MVSIZ,3,4),VM(MVSIZ,2,4),VQ(MVSIZ,3,3),
      .   COREL(MVSIZ,2,4),DI(MVSIZ,6),DB(MVSIZ,3,4),Z1(*)
       my_real
@@ -927,7 +927,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K
-      my_real 
+      my_real
      .     MM(3,4),FL(3,4),ML(2,4),C1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),
      .     TEMP1, TEMP2, TEMP3,ARZ

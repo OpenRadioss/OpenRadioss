@@ -34,14 +34,14 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , WXXDT , WYYDT ,
-     B      WZZDT  , ISMSTR , MFXX    , MFXY  , MFXZ  , MFYX  ,    
+     B      WZZDT  , ISMSTR , MFXX    , MFXY  , MFXZ  , MFYX  ,
      C      MFYY   , MFYZ   , MFZX    , MFZY  , MFZZ  )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -72,7 +72,7 @@ C----------------------------------------------------------------
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
      .      MFXX(NEL)  ,   MFXY(NEL),   MFXZ(NEL),
      .      MFYX(NEL)  ,   MFYY(NEL),   MFYZ(NEL),
-     .      MFZX(NEL)  ,   MFZY(NEL),   MFZZ(NEL),    
+     .      MFZX(NEL)  ,   MFZY(NEL),   MFZZ(NEL),
      .      WZZDT(MVSIZ),WYYDT(MVSIZ),WXXDT(MVSIZ)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
@@ -87,7 +87,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -115,7 +115,7 @@ C----------------------------------------------------------------
       my_real
      .            AV(6,MVSIZ),EVV(3,MVSIZ),DIRPRV(3,3,MVSIZ)
       my_real
-     .            A(3,3),DPRA(3,3),EIGEN(3)       
+     .            A(3,3),DPRA(3,3),EIGEN(3)
 C----------------------------------------------------------------
 C SET INITIAL MATERIAL CONSTANTS
 
@@ -192,7 +192,7 @@ C         for a simple precision executing
 * ISMSTR = 1 OR 2 ( STRAIN IS ENGINEERING)
           EV(1,I)=EVV(1,I)+ ONE
           EV(2,I)=EVV(2,I)+ ONE
-          EV(3,I)=EVV(3,I)+ ONE  
+          EV(3,I)=EVV(3,I)+ ONE
         ENDIF
       ENDDO
 
@@ -202,7 +202,7 @@ C         for a simple precision executing
       ENDDO
 
       DO I=1,NEL
-* COMPUTE MODIFIED (NORMALIZED) STRETCHES - THIS UNIFIES A COMPRESSIBLE AND 
+* COMPUTE MODIFIED (NORMALIZED) STRETCHES - THIS UNIFIES A COMPRESSIBLE AND
 * INCOMPRESIBLE FORMULATIONS
         EVM(1,I)=EV(1,I)*RV(I)**(-THIRD)
         EVM(2,I)=EV(2,I)*RV(I)**(-THIRD)

@@ -98,13 +98,13 @@ C-----------------------------------------------
       INTEGER NF1,I,II,J,JHBE
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
-     .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)       
+     .   IX5(MVSIZ),IX6(MVSIZ),IX7(MVSIZ),IX8(MVSIZ)
 C
       INTEGER IBID
       my_real
      .   X1(MVSIZ),X2(MVSIZ),X3(MVSIZ),X4(MVSIZ),X5(MVSIZ),X6(MVSIZ),
      .   X7(MVSIZ),X8(MVSIZ),Y1(MVSIZ),Y2(MVSIZ),Y3(MVSIZ),Y4(MVSIZ),
-     .   Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ), 
+     .   Y5(MVSIZ),Y6(MVSIZ),Y7(MVSIZ),Y8(MVSIZ),Z1(MVSIZ),Z2(MVSIZ),
      .   Z3(MVSIZ),Z4(MVSIZ),Z5(MVSIZ),Z6(MVSIZ),Z7(MVSIZ),Z8(MVSIZ),
      .   RX(MVSIZ) ,RY(MVSIZ) ,RZ(MVSIZ) ,S_X(MVSIZ) ,
      .   S_Y(MVSIZ) ,S_Z(MVSIZ) ,TX(MVSIZ) ,TY(MVSIZ) ,TZ(MVSIZ) ,
@@ -116,13 +116,13 @@ C
 C
       my_real
      .   RBID
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -141,7 +141,7 @@ C
      .                 Y3   ,Y4   ,Z1   ,Z2   ,Z3   ,Z4   )
         ELSEIF (ISOLNOD == 8) THEN
           IF (JCVT == 0) THEN
-            CALL SCOOR3( X   ,XREFS(1,1,NF1) ,IXS(1,NF1)  ,GEO  ,MAT  ,PID  ,NGL  ,  
+            CALL SCOOR3( X   ,XREFS(1,1,NF1) ,IXS(1,NF1)  ,GEO  ,MAT  ,PID  ,NGL  ,
      .                   IX1 ,IX2            ,IX3         ,IX4  ,IX5  ,IX6  ,IX7  ,IX8,
      .                   X1  ,X2             ,X3          ,X4   ,X5   ,X6   ,X7   ,X8 ,
      .                   Y1  ,Y2             ,Y3          ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,
@@ -155,9 +155,9 @@ C
           ELSE
             CALL SRCOOR3(  X  ,XREFS(1,1,NF1) ,IXS(1,NF1) ,GEO  ,MAT  ,PID  ,NGL  ,JHBE ,
      .                   IX1  ,IX2            ,IX3        ,IX4  ,IX5  ,IX6  ,IX7  ,IX8  ,
-     .                   X1   ,X2             ,X3         ,X4   ,X5   ,X6   ,X7   ,X8   ,  
-     .                   Y1   ,Y2             ,Y3         ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,  
-     .                   Z1   ,Z2             ,Z3         ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,  
+     .                   X1   ,X2             ,X3         ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .                   Y1   ,Y2             ,Y3         ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
+     .                   Z1   ,Z2             ,Z3         ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .                   RX   ,RY             ,RZ         ,S_X   ,S_Y   ,S_Z   ,TX   ,TY   ,TZ  ,
      .                   E1X  ,E1Y            ,E1Z        ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z ,
      .                   F1X  ,F1Y            ,F1Z        ,F2X  ,F2Y  ,F2Z  ,RBID ,RBID  ,
@@ -169,46 +169,46 @@ C
       ELSEIF(N2D > 0)THEN
         IF(ITYP == 7)THEN
           DO II = LFT, LLT
-            I = II + NFT                                                                      
-            IX1(II) = IXTG(1 + 1, I)                                                          
-            IX2(II) = IXTG(1 + 2, I)                                                          
+            I = II + NFT
+            IX1(II) = IXTG(1 + 1, I)
+            IX2(II) = IXTG(1 + 2, I)
             IX3(II) = IXTG(1 + 3, I)
-            X1(II) = ZERO            
-            X2(II) = ZERO
-            X3(II) = ZERO                                                                      
-            Y1(II) = X(2, IXTG(1 + 1, I))                                                 
-            Z1(II) = X(3, IXTG(1 + 1, I))                                                 
-            Y2(II) = X(2, IXTG(1 + 2, I))                                                 
-            Z2(II) = X(3, IXTG(1 + 2, I))                                                 
-            Y3(II) = X(2, IXTG(1 + 3, I))                                                 
-            Z3(II) = X(3, IXTG(1 + 3, I))                                                 
-            NGL(II) = IXTG(6, I)                                                                      
-          ENDDO
-        ELSEIF(ITYP == 2)THEN
-          DO II = LFT, LLT                                                                     
-            X1(II) = ZERO            
+            X1(II) = ZERO
             X2(II) = ZERO
             X3(II) = ZERO
-            X4(II) = ZERO                                    
+            Y1(II) = X(2, IXTG(1 + 1, I))
+            Z1(II) = X(3, IXTG(1 + 1, I))
+            Y2(II) = X(2, IXTG(1 + 2, I))
+            Z2(II) = X(3, IXTG(1 + 2, I))
+            Y3(II) = X(2, IXTG(1 + 3, I))
+            Z3(II) = X(3, IXTG(1 + 3, I))
+            NGL(II) = IXTG(6, I)
+          ENDDO
+        ELSEIF(ITYP == 2)THEN
+          DO II = LFT, LLT
+            X1(II) = ZERO
+            X2(II) = ZERO
+            X3(II) = ZERO
+            X4(II) = ZERO
           ENDDO
           CALL QCOOR2(X, IXQ(1, NF1), NGL, MAT, PID,
-     .         IX1, IX2, IX3, IX4, 
-     .         Y1, Y2, Y3, Y4, 
+     .         IX1, IX2, IX3, IX4,
+     .         Y1, Y2, Y3, Y4,
      .         Z1, Z2, Z3, Z4,
-     .         S_Y, S_Z, TY, TZ)        
+     .         S_Y, S_Z, TY, TZ)
         ENDIF
       ENDIF
 C-----------
       NULLIFY(pIXS)
       NULLIFY(pIXQ)
       NULLIFY(pIXTG)
-      IF(NUMELS>0)  pIXS  => IXS(1,NF1)            
-      IF(NUMELQ>0)  pIXQ  => IXQ(1,NF1)    
+      IF(NUMELS>0)  pIXS  => IXS(1,NF1)
+      IF(NUMELQ>0)  pIXQ  => IXQ(1,NF1)
       IF(N2D>0 .AND. NUMELTG>0) pIXTG => IXTG(1,NF1)
 
       CALL RATIO_FILL(
      . X1         ,X2         ,X3        ,X4         ,X5            ,X6            ,X7            ,X8         ,
-     . Y1         ,Y2         ,Y3        ,Y4         ,Y5            ,Y6            ,Y7            ,Y8         , 
+     . Y1         ,Y2         ,Y3        ,Y4         ,Y5            ,Y6            ,Y7            ,Y8         ,
      . Z1         ,Z2         ,Z3        ,Z4         ,Z5            ,Z6            ,Z7            ,Z8         ,
      . IDP        ,X          ,
      . pIXS       ,IPART_(NF1),IFILL     ,NTRACE     ,NTRACE0       ,DIS           ,NSOLTOSF      ,

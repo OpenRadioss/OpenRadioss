@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ID,ITABM1(*),ITAG(*),MATRIX_ADD(4,*), CPT_STIFF,CPT_MASS,FLAG
-      my_real 
+      my_real
      .        MATRIX(*)
       CHARACTER PCH_FILE*100,TITR*nchartitle
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NFX,REF,IFO,TIN,TOUT,POLAR,NCOL,DUM,DUM2,SIZE,TRIANGLE,
      .        ID_NOD1,ID_NOD2,J,K,ISTOP
-      my_real 
+      my_real
      .        RELL
       CHARACTER DEBUT*8,NAME*8,MATRIX_TYPE*16,NWLINE*100,MESS*40
 
@@ -79,12 +79,12 @@ C     FLAG = 0 -> PREREADING FOR NODES DETECTION AND NUMBERING (SETRFXBYON.F)
 C     FLAG = 1 -> READING OF NODES AND MATRIX (LECFXB1.F)
 C
       REF = 71
-      I_ERR = 0  
+      I_ERR = 0
 C
       LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(PCH_FILE)
       TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//PCH_FILE(1:len_trim(PCH_FILE))
       OPEN(UNIT=REF,FILE=TMP_NAME(1:LEN_TMP_NAME),
-     .      ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')  
+     .      ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='UNKNOWN')
 C
       CALL FXRLINE(REF,NWLINE,ID,TITR)
       READ(NWLINE,'((A,A,5I8,I16))') DEBUT,NAME,DUM,IFO,TIN,TOUT,POLAR,NCOL
@@ -125,14 +125,14 @@ C
                 ITAG(ID_NOD2) = 1
                 IF (FLAG == 1) THEN
                   MATRIX(CPT_STIFF-1) = RELL
-                  MATRIX_ADD(1,CPT_STIFF-1) = ID_NOD1   
+                  MATRIX_ADD(1,CPT_STIFF-1) = ID_NOD1
                   MATRIX_ADD(2,CPT_STIFF-1) = ID_NOD2
-                  MATRIX_ADD(3,CPT_STIFF-1) = I 
-                  MATRIX_ADD(4,CPT_STIFF-1) = J 
+                  MATRIX_ADD(3,CPT_STIFF-1) = I
+                  MATRIX_ADD(4,CPT_STIFF-1) = J
                 ENDIF
               ELSE
                 RETURN
-              ENDIF   
+              ENDIF
               READ(REF,'(A)',IOSTAT=I_ERR,END=100) NWLINE
             END DO
 C
@@ -144,14 +144,14 @@ C
               IF (ID_NOD2 /= 0) THEN
                 IF (FLAG == 1) THEN
                   MATRIX(CPT_MASS-1) = RELL
-                  MATRIX_ADD(1,CPT_MASS-1) = ID_NOD1   
+                  MATRIX_ADD(1,CPT_MASS-1) = ID_NOD1
                   MATRIX_ADD(2,CPT_MASS-1) = ID_NOD2
-                  MATRIX_ADD(3,CPT_MASS-1) = I 
-                  MATRIX_ADD(4,CPT_MASS-1) = J 
+                  MATRIX_ADD(3,CPT_MASS-1) = I
+                  MATRIX_ADD(4,CPT_MASS-1) = J
                 ENDIF
               ELSE
                 RETURN
-              ENDIF   
+              ENDIF
               READ(REF,'(A)',IOSTAT=I_ERR,END=100) NWLINE
             END DO
 C
@@ -165,9 +165,9 @@ C--         Input not compatible
      .                  I1=ID,
      .                  C1=TITR,
      .                  C2=ADJUSTL(MATRIX_TYPE))
-            ENDIF            
+            ENDIF
 C
-          ENDIF      
+          ENDIF
 C
           BACKSPACE(REF)
 C
@@ -177,8 +177,8 @@ C
 C
       ENDIF
 C
-      CLOSE(UNIT=REF,STATUS='KEEP')                            
+      CLOSE(UNIT=REF,STATUS='KEEP')
 C 
-      RETURN     
+      RETURN
 C
       END SUBROUTINE READ_PCH_FILE

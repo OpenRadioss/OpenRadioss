@@ -41,7 +41,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TRI7BOX
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,7 +100,7 @@ C-----------------------------------------------
       my_real ,
      *   DIMENSION(:,:), ALLOCATABLE :: RSENDBUF
 
-     
+
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: ISENDBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRECBUF
       INTEGER, DIMENSION(:), ALLOCATABLE :: SNIDX
@@ -116,7 +116,7 @@ C-----------------------------------------------
       SAVE IADS,IADR,BBUFS,BBUFR,REQ_S,REQ_S2,
      *                    REQ_SI,REQ_R,REQ_R2,
      *                    RRECBUF,IRECBUF,RSENDBUF,ISENDBUF,
-     *                    ILEN,RLEN,LEN,LENSD,LENRV 
+     *                    ILEN,RLEN,LEN,LENSD,LENRV
 C-----------------------------------------------
       ALEN=10
       LOC_PROC = ISPMD+1
@@ -276,12 +276,12 @@ C Send
 
       RETURN
       ENDIF
-     
+
 C----------------------------------      
 C IFLAG=2 partie2 - Recieve      
 C ----------------------------------      
       IF(FLAG==2)THEN
-    
+
 C Recieve
       L=0
       IDEB = 0
@@ -314,11 +314,11 @@ C Merge IRTLM & TIME_S
                    SURFR   = BBUFR(IADR(P)+L)
                    TIME_SR = BBUFR(IADR(P)+L+2)
 
-                   IF (BBUFR(IADR(P)+L)==0 
+                   IF (BBUFR(IADR(P)+L)==0
      *                               .AND.BBUFR(IADR(P)+L+2)==ZERO) THEN
 C Si IRTLM(1, == 0 et TIME_S(SNR)==0. Alors il n'est pas candidat retenu   
-                  
-		   ELSEIF (INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) == 0 
+
+		   ELSEIF (INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) == 0
      *  			    .AND. INTBUF_TAB(NIN)%TIME_S(ND) ==ZERO)THEN
 C Si candidat local n'est pas retenu, on copie simplement                 
                      INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) = BBUFR(IADR(P)+L)
@@ -356,28 +356,28 @@ C nothing to do
                      IF (TIME_SR ==  TIME_S) THEN
                         IF (ABS(SURFR) > ABS(SURF))THEN
                           INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1)  = BBUFR(IADR(P)+L)
-                          INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+2)= 
+                          INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+2)=
      *                                      BBUFR(IADR(P)+L+1)
                           INTBUF_TAB(NIN)%TIME_S(ND) = BBUFR(IADR(P)+L+2)
                         ENDIF
                      ELSEIF (TIME_S <= TIME_SR ) THEN
-                       INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1)  = 
+                       INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1)  =
      *                                        BBUFR(IADR(P)+L)
                        INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+2)= INT(BBUFR(IADR(P)+L+1))
                        INTBUF_TAB(NIN)%TIME_S(ND) = BBUFR(IADR(P)+L+2)
                      ENDIF
-                   ENDIF 
+                   ENDIF
 C Merge SECND_FR
-		   
-		   IF(ABS(BBUFR(IADR(P)+L+3)) > 
+		
+		   IF(ABS(BBUFR(IADR(P)+L+3)) >
      *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)))
      *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)   = BBUFR(IADR(P)+L+3)
 C
-                   IF(ABS(BBUFR(IADR(P)+L+4)) > 
+                   IF(ABS(BBUFR(IADR(P)+L+4)) >
      *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2)))
      *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+2)   = BBUFR(IADR(P)+L+4)
 C
-                   IF(ABS(BBUFR(IADR(P)+L+5)) > 
+                   IF(ABS(BBUFR(IADR(P)+L+5)) >
      *                ABS(INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3)))
      *                    INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+3)   = BBUFR(IADR(P)+L+5)
 
@@ -408,7 +408,7 @@ cc                     IF(TT==ZERO)THEN   !due to Inacti=6
 cc                     ENDIF
 cctobemoved                     IF(INTBUF_TAB(NIN)%IRTLM(2*(ND-1)+1) ==0)
 cctobemoved     *                    INTBUF_TAB(NIN)%PENE_OLD(5*(ND-1)+5)=ZERO
-                     
+
 
                      INTBUF_TAB(NIN)%STIF_OLD(2*(ND-1)+1)=MAX(INTBUF_TAB(NIN)%STIF_OLD(2*(ND-1)+1),
      *                                          BBUFR(IADR(P)+L+7) )
@@ -470,7 +470,7 @@ C Basic case : Secnd node is not part of an Edge
                      ENDIF
                   ELSEIF(NSI<0)THEN
                      INTBUF_TAB(NIN)%ISPT2(SN) = 1
-                  ENDIF 
+                  ENDIF
                ENDDO
             ENDIF
           ENDDO
@@ -506,7 +506,7 @@ C mise en place du irecieve
      S      IRECBUF(LI),LEN,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(P),IERROR)
 
-          MSGTYP = MSGOFF4 
+          MSGTYP = MSGOFF4
           LEN = SIZ*8
           CALL MPI_IRECV(
      S      RRECBUF(LR),LEN,REAL,IT_SPMD(P),MSGTYP,
@@ -525,7 +525,7 @@ C mise en place du irecieve
 	     IF(NTY==24) THEN
 
                DO I=IAD_I24(NI,P),IAD_I24(NI+1,P)-1
-                
+
                  ND = FR_I24(I)
                  SN = INTBUF_TAB(NIN)%NSV(ND)
 
@@ -535,7 +535,7 @@ C mise en place du irecieve
                  IF(IEDG4 > 0) THEN
                       ISENDBUF(4,NB)= INTBUF_TAB(NIN)%ISPT2(ND)
                  ELSE
-                      ISENDBUF(4,NB)=0                  
+                      ISENDBUF(4,NB)=0
                  ENDIF
                  RSENDBUF(1,NB) = INTBUF_TAB(NIN)%TIME_S(ND)
                  RSENDBUF(2,NB) = INTBUF_TAB(NIN)%SECND_FR(6*(ND-1)+1)
@@ -562,7 +562,7 @@ C
            CALL MPI_ISEND(
      S        ISENDBUF(1,L),SIZ*4,MPI_INTEGER,IT_SPMD(P),MSGTYP,
      G        MPI_COMM_WORLD,REQ_S(P),IERROR)
-     
+
            MSGTYP = MSGOFF4
            CALL MPI_ISEND(
      S        RSENDBUF(1,L),SIZ*8,REAL,IT_SPMD(P),MSGTYP,
@@ -574,14 +574,14 @@ C--------------------------------------------------------------------
 
       RETURN
       ENDIF
-      
+
 C ----------------------------------      
 C IFLAG=3 partie3 - Recieve 
 C ----------------------------------      
       IF(FLAG==3)THEN
-      
+
       IF(I24COM3==0)RETURN
-     
+
 C Reception
       DO P=1,NSPMD
         SIZ = IADS(P+1)-IADS(P)
@@ -595,13 +595,13 @@ C Traitements
 	
          DO NI=1,NBINTC
            NIN = INTLIST(NI)
-	    
+	
            NTY    = IPARI(7,NIN)
            NSN    = IPARI(5,NIN)
            IEDG4 = IPARI(59,NIN)
 	   IF (NTY == 24)THEN
 
-             DO K=IAD_I24(NI,P),IAD_I24(NI+1,P)-1 
+             DO K=IAD_I24(NI,P),IAD_I24(NI+1,P)-1
                 SN = FR_I24(K)
                 TIME_S = INTBUF_TAB(NIN)%TIME_S(SN)
                 SURF   = INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)
@@ -632,49 +632,49 @@ C Case both SURFR values are positive & TIME_S is Equal to EP20
 C We choose the highest value
                       IF (SURFR > SURF)THEN
                         INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1) = IRECBUF(2+(IDB-1)*ILEN)
-                        INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = 
+                        INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) =
      *                                           IRECBUF(3+(IDB-1)*ILEN)
                         INTBUF_TAB(NIN)%TIME_S(SN) = -EP20
                         INTBUF_TAB(NIN)%PENE_OLD(5*(SN-1)+1)=RRECBUF(5+(IDB-1)*RLEN)
                         INTBUF_TAB(NIN)%STIF_OLD(2*(SN-1)+1)=RRECBUF(7+(IDB-1)*RLEN)
                       ENDIF
-                     
+
                    ELSEIF(  SURF > 0 .AND.  TIME_S == -EP20)THEN
 c rien a faire
-                   
+
                    ELSEIF( SURFR > 0 .AND.  TIME_SR == -EP20)THEN
                       INTBUF_TAB(NIN)%TIME_S(SN) = -EP20
                       INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   = IRECBUF(2+(IDB-1)*ILEN)
                       INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = IRECBUF(3+(IDB-1)*ILEN)
-                   
+
                    ELSEIF(  SURFR < 0 )THEN
                         IF (TIME_SR ==  TIME_S) THEN
                            IF (ABS(SURFR) > ABS(SURF))THEN
                             INTBUF_TAB(NIN)%TIME_S(SN) = TIME_SR
-                            INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   = 
+                            INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   =
      *                                           IRECBUF(2+(IDB-1)*ILEN)
-                            INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = 
+                            INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) =
      *                                           IRECBUF(3+(IDB-1)*ILEN)
                            ENDIF
                     ELSEIF (TIME_S <= TIME_SR ) THEN
 			   INTBUF_TAB(NIN)%TIME_S(SN) = TIME_SR
-			   INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   = 
+			   INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)   =
      *  					 IRECBUF(2+(IDB-1)*ILEN)
-			   INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) = 
+			   INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+2) =
      *  					 IRECBUF(3+(IDB-1)*ILEN)
                         ENDIF
                     ENDIF
-                 
+
 C Max pour les SECND_FR
-		    IF (ABS(RRECBUF(2+(IDB-1)*RLEN)) > 
+		    IF (ABS(RRECBUF(2+(IDB-1)*RLEN)) >
      *                 (ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1)) ) )
      *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+1) = RRECBUF(2+(IDB-1)*RLEN)
-     
- 		    IF (ABS(RRECBUF(3+(IDB-1)*RLEN)) > 
+
+ 		    IF (ABS(RRECBUF(3+(IDB-1)*RLEN)) >
      *                  ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2)) )
      *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+2) = RRECBUF(3+(IDB-1)*RLEN)
-     
- 		    IF (ABS(RRECBUF(4+(IDB-1)*RLEN)) > 
+
+ 		    IF (ABS(RRECBUF(4+(IDB-1)*RLEN)) >
      *                  ABS(INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3)) )
      *                 	INTBUF_TAB(NIN)%SECND_FR(6*(SN-1)+3) = RRECBUF(4+(IDB-1)*RLEN)
 
@@ -704,17 +704,17 @@ cc                  ENDIF
 
 cctobemoved                  IF(INTBUF_TAB(NIN)%IRTLM(2*(SN-1)+1)==0)
 cctobemoved     *                INTBUF_TAB(NIN)%PENE_OLD(5*(SN-1)+5)=ZERO
-     
+
                   INTBUF_TAB(NIN)%STIF_OLD(2*(SN-1)+1)=MAX(INTBUF_TAB(NIN)%STIF_OLD(2*(SN-1)+1),
      *                                     RRECBUF(7+(IDB-1)*RLEN) )
-     
+
 C T24 E2E Merge ISPT2
                   IF(IEDG4 > 0)THEN
                      ND=INTBUF_TAB(NIN)%NSV(SN)
                      INTBUF_TAB(NIN)%ISPT2(SN) = MAX ( INTBUF_TAB(NIN)%ISPT2(SN), IRECBUF(4+(IDB-1)*ILEN))
                   ENDIF
                IDB=IDB+1
-             ENDDO        ! K=,IAD_I24(NI,P),IAD_I24(NI+1,P)-1 
+             ENDDO        ! K=,IAD_I24(NI,P),IAD_I24(NI+1,P)-1
            ENDIF          ! IF (NTY == 24)THEN
          ENDDO            ! DO NI=1,NBINTC
         ENDIF             !IF(SIZ/=0)THEN
@@ -730,7 +730,7 @@ C Fin send
       ENDDO
 
 C Treat PENE_OLD(5
-      
+
            DO NI=1,NBINTC
 	     NIN = INTLIST(NI)
              NTY   = IPARI( 7,NIN)
@@ -790,8 +790,8 @@ C Preparation du recieve
             CALL ARRET(2)
           ENDIF
       ENDIF
-      
-      
+
+
       DO P=1, NSPMD
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
@@ -800,7 +800,7 @@ C Preparation du recieve
      *                     MPI_COMM_WORLD,REQ_R(P),IERROR )
          ENDIF
       ENDDO
-      
+
 C Send
       L=1
       IDEB = 0
@@ -851,18 +851,18 @@ C Send
       IADS(NSPMD+1)=L
 C Third part of Comm routine has been done      
       I24COM3 = 0
-      
+
 C Fourth part of Comm routine has been done      
       I24COM4 = 1
       RETURN
       ENDIF
-      
+
 C ----------------------------------      
 C IFLAG=4 partie4 - Recieve 
 C ----------------------------------      
       IF(FLAG==4)THEN
       IF(I24COM4==0)RETURN
-     
+
 C Recieve
       L=0
       IDEB = 0
@@ -871,7 +871,7 @@ C Recieve
           L=0
           SIZ=IADR(P+1)-IADR(P)
           IF (SIZ > 0) THEN
-           
+
 	   CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
            DO NI=1,NBINTC
 	     NIN=INTLIST(NI)

@@ -108,7 +108,7 @@ C
             K = 3*(I-1)
             RWSAV(K+1) = ZERO
             RWSAV(K+2) = ZERO
-            RWSAV(K+3) = ZERO    
+            RWSAV(K+3) = ZERO
             GOTO 20
           ENDIF
 C---      test pour noeuds penetres
@@ -178,7 +178,7 @@ C-----------------------------------------------
       INTEGER NSW(*), WEIGHT(*), IMPACT(*), NRWL_SMS(*)
 C     REAL
       my_real
-     .   X(*), A(*), V(*), RWL(*), MS(*), RWSAV(*), FSAV(*), 
+     .   X(*), A(*), V(*), RWL(*), MS(*), RWSAV(*), FSAV(*),
      .   FOPT(*), RES(*), FREA(*), R(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -187,7 +187,7 @@ C-----------------------------------------------
 
 C     REAL
       my_real
-     .   XWL, YWL, ZWL, VXW, VYW, VZW, VX, VY, VZ, 
+     .   XWL, YWL, ZWL, VXW, VYW, VZW, VX, VY, VZ,
      .   DV, DA, DVT, FN, MSW,
      .   FNXN, FNYN, FNZN, FNXT, FNYT, FNZT, FNDFN, FTDFT, FRIC, FRIC2,
      .   FCOE, FAC, ALPHA, ALPHI, FXT, FYT, FZT, FXN, FYN, FZN
@@ -583,7 +583,7 @@ C     REAL
       my_real
      .   X(*), V(*), RWL(*), MS(*), RWSAV(*), FSAV(*), FREA(3,*),
      .   FOPT(*), A(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRWL6(7,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -633,7 +633,7 @@ C
         F1(J) = FXN
         F2(J) = FYN
         F3(J) = FZN
-        F4(J) = MS(N) 
+        F4(J) = MS(N)
         F5(J) = ZERO
         F6(J) = ZERO
         F7(J) = ZERO

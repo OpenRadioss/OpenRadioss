@@ -54,7 +54,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NUMINT, IWRN, I_MEM, RESORT    
+      INTEGER NUMINT, IWRN, I_MEM, RESORT
       INTEGER INSCR(*), IXS(NIXS,*), IXC(NIXC,*),
      .   IXTG(NIXTG,*), IPARI(*), ITAB(*), MWA(*), IKINE(*),
      .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*),
@@ -191,7 +191,7 @@ C
      9 INTBUF_TAB%VARIABLES(23),GAP_S0,INTBUF_TAB%AREAS,
      .                             INTBUF_TAB%XM0,INTBUF_TAB%VARIABLES(27),
      A INTBUF_TAB%VARIABLES(28),INTBUF_TAB%VARIABLES(29),INTTH  ,INTBUF_TAB%VARIABLES(32),
-     .                                           IPARTS          , 
+     .                                           IPARTS          ,
      B IPARTC, IPARTG, THK_PART,INTBUF_TAB%THKNOD0      ,ID,TITR ,
      C INTBUF_TAB%VARIABLES(46))
 C

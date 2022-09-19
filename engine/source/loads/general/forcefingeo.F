@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE H3D_MOD 
+      USE H3D_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBFV(NIFV,*), NPC(*), LSENSOR(NSENSI,*)
       INTEGER ITABM1(*)
-      my_real 
+      my_real
      .   TF(*), A(3,*), V(3,*), X(3,*),
      .   VEL(LFXVELR,*), SENSOR(NSENSR,*),
      .   FSKY(8,LSKY),FEXT(3,*)
@@ -154,7 +154,7 @@ C
         A(3,N2) = A(3,N2)+SKEW3*AA
 C
         IF( ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT+
-     .      ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0 
+     .      ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT > 0
      .           .AND.IMPL_S==0) THEN
           FEXT(1,N2) = FEXT(1,N2)+SKEW1*AA
           FEXT(2,N2) = FEXT(2,N2)+SKEW2*AA

@@ -134,7 +134,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFUNC1,IFUNC2,IFUNC3,IFUNC4,ILOAD
-      my_real 
+      my_real
      .        ELASTIF,X,DXDY,XLIM1,XLIM2,FMX,FMN,DX,AMAS,D1,D2,FSCAL
 C-----------------------------------------------
 C
@@ -146,10 +146,10 @@ C
       D2     = GET_U_GEO(6,IPROP)
       FSCAL  = GET_U_GEO(8,IPROP)
       ILOAD  = NINT(GET_U_GEO(7,IPROP))
-      IFUNC1= GET_U_PNU(1,IPROP,KFUNC) 
-      IFUNC2= GET_U_PNU(2,IPROP,KFUNC) 
-      IFUNC3= GET_U_PNU(3,IPROP,KFUNC) 
-      IFUNC4= GET_U_PNU(4,IPROP,KFUNC) 
+      IFUNC1= GET_U_PNU(1,IPROP,KFUNC)
+      IFUNC2= GET_U_PNU(2,IPROP,KFUNC)
+      IFUNC3= GET_U_PNU(3,IPROP,KFUNC)
+      IFUNC4= GET_U_PNU(4,IPROP,KFUNC)
 C
       DO I=1,NEL
         MASS(I) = AMAS
@@ -159,18 +159,18 @@ c
         IF (UVAR(3,I) == ZERO) THEN
           FMX = FSCAL*GET_U_FUNC(IFUNC1,X,DXDY)
           FMN = FSCAL*GET_U_FUNC(IFUNC2,X,DXDY)
-        ELSE            
+        ELSE
           FMX = UVAR(2,I)*FSCAL*GET_U_FUNC(IFUNC3,X,DXDY)
-          FMN = UVAR(2,I)*FSCAL*GET_U_FUNC(IFUNC4,X,DXDY)            
+          FMN = UVAR(2,I)*FSCAL*GET_U_FUNC(IFUNC4,X,DXDY)
         ENDIF
 c
         IF (UVAR(3,I) >= ONE) THEN
           FR_WAVE(I)=ONE
-c  UVAR(2,I) = endommagement sur fonction yield et stiffness 
-c              par facteur 0 <= D1 < 1.              
+c  UVAR(2,I) = endommagement sur fonction yield et stiffness
+c              par facteur 0 <= D1 < 1.
           IF (ILOAD == 0 .OR. DX > ZERO) UVAR(2,I)=UVAR(2,I)*(ONE-D1)
         ELSEIF (FR_WAVE(I) == ONE) THEN
-          IF (ILOAD == 0 .OR. DX > ZERO) UVAR(3,I)=UVAR(3,I)+D2    
+          IF (ILOAD == 0 .OR. DX > ZERO) UVAR(3,I)=UVAR(3,I)+D2
 c FR_WAVE est laisse a 1.
         ENDIF
 C
@@ -185,7 +185,7 @@ C    change I to global indice
           FR_WAVE(I)=ZERO
         ENDIF
 c
-        UVAR(1,I) = X 
+        UVAR(1,I) = X
         FX(I) = FX(I) + ELASTIF * DX * UVAR(2,I)
         FX(I) = MIN(FX(I),FMX)
         FX(I) = MAX(FX(I),FMN)
@@ -197,7 +197,7 @@ C----------------
         STIFR(I) = ZERO
         VISCM(I) = ZERO
         VISCR(I) = ZERO
-        XINER(I) = ZERO 
+        XINER(I) = ZERO
       ENDDO
 C-------------------------------
       RETURN

@@ -67,13 +67,13 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRESS/MEMB'
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Stress (membrane)'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'generalized stresses. For full-integrated element, mean value of 4 Gauss points'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRESS/BEND'
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Stress (moment/t^2)'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'generalized stresses. For full-integrated element, mean value of 4 Gauss points'
 c-----------------------------------------------
       I = I + 1
@@ -131,7 +131,7 @@ c-----------------------------------------------
       H3D_KEYWORD_SHELL_TENSOR(I)%IS_PLY = 1
       H3D_KEYWORD_SHELL_TENSOR(I)%IS_PLY_ALL = 1
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Infinitesimal Strain'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'Total strain tensor is caculated from 2(initial&actual) configurations'
 c-----------------------------------------------
       I = I + 1
@@ -150,25 +150,25 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRESS/TMAX'
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Max_Stress'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'Maximum (P1) Stress tensor over time&ipt'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRAIN/TMAX'
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Max_Strain'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'Maximum (P1) Strain tensor over time&ipt'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRESS/TMIN'
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Min_Stress'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'Minimum (P3) Stress tensor over time&ipt'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_SHELL_TENSOR(I)%KEY3  = 'TENS/STRAIN/TMIN'
       H3D_KEYWORD_SHELL_TENSOR(I)%TEXT1  = 'Min_Strain'
-      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_SHELL_TENSOR(I)%COMMENT  =
      .'Minimum (P3) Strain tensor over time&ipt'
 c-----------------------------------------------
 

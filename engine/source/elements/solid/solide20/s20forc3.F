@@ -57,10 +57,10 @@ Chd|====================================================================
      5                    DT2T     ,NELTST ,ITYPTST,STIFN  ,FSKY   ,
      6                    IADS     ,OFFSET ,EANI   ,IPARTS ,
      7                    IXS20    ,IADS20 ,NEL    ,FX     ,
-     8                    FY       ,FZ     ,VOLNP  ,RX     ,RY     , 
+     8                    FY       ,FZ     ,VOLNP  ,RX     ,RY     ,
      9                    RZ       ,SX     ,SY     ,SZ     ,TX     ,
      A                    TY       ,TZ     ,STIG   ,STIN   ,UL     ,
-     B                    XX       ,YY     ,ZZ     ,VX     ,VY     , 
+     B                    XX       ,YY     ,ZZ     ,VX     ,VY     ,
      C                    VZ       ,VDXX   ,VDYY   ,VDZZ   ,DNIDR  ,
      D                    DNIDS    ,DNIDT  ,PX     ,PY     ,PZ     ,
      G                    IPM      ,ISTRAIN,
@@ -73,7 +73,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -116,8 +116,8 @@ C-----------------------------------------------
       my_real
      .   DT2T
       my_real
-     .   PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),FLU1(*), 
-     .   VEUL(*), FV(*), TF(*),TEMP(*), FTHE(*),FTHESKY(*),GRESAV(*), 
+     .   PM(*), GEO(*), X(*), A(*), V(*), MS(*), W(*), FLUX(6,*),FLU1(*),
+     .   VEUL(*), FV(*), TF(*),TEMP(*), FTHE(*),FTHESKY(*),GRESAV(*),
      .   BUFMAT(*),PARTSAV(*),STIFN(*), FSKY(*),EANI(*),VOLN(MVSIZ)
       my_real
      .   FX(MVSIZ,NPE),FY(MVSIZ,NPE),FZ(MVSIZ,NPE),VOLNP(MVSIZ,NIPMAX),
@@ -133,7 +133,7 @@ C-----------------------------------------------
      .   CONDN(*),CONDNSKY(*)
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -150,7 +150,7 @@ C-----------------------------------------------
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . VDX(MVSIZ),VDY(MVSIZ),VDZ(MVSIZ),SSP_EQ(MVSIZ),
      . AIRE(MVSIZ),CONDE(MVSIZ),CONDEG(MVSIZ,NPE),AMU(MVSIZ),DIVDE(MVSIZ)
 
@@ -162,12 +162,12 @@ C-----------------------------------------------
       my_real
      .   MUVOID(MVSIZ)
 
-      ! Variables void MMAIN 
+      ! Variables void MMAIN
       my_real
      . SIGY(MVSIZ),ET(MVSIZ),GAMA(MVSIZ,6),
      . R1_FREE(MVSIZ),R3_FREE(MVSIZ),R4_FREE(MVSIZ),
      . TEMPEL(MVSIZ),DIE(MVSIZ),THEM(MVSIZ,NPE)
-     
+
       ! Variables utilisees dans les routines solides uniquement (en arguments).
       INTEGER NC(MVSIZ,NPE)
       my_real
@@ -179,13 +179,13 @@ C-----------------------------------------------
       DOUBLE PRECISION
      .  VOLDP(MVSIZ,NIPMAX)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 c------------------------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
 c---
      1 2.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -215,7 +215,7 @@ c---
      9 0.312347077040003D0,0.330239355001260D0,0.312347077040003D0,
      9 0.260610696402935D0,0.180648160694857D0,0.081274388361574D0/
 c------------------------------------------------------------
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -261,7 +261,7 @@ c
 C     
       CALL S20COOR3(
      1   X,IXS(1,NF1),IXS20(1,NF2),V,W, IPERM1,IPERM2,NPE,
-     2   XX, YY, ZZ, VX, VY, VZ,VDXX, VDYY, VDZZ, 
+     2   XX, YY, ZZ, VX, VY, VZ,VDXX, VDYY, VDZZ,
      3   VDX,VDY,VDZ,VD2,VIS,GBUF%OFF,OFF,GBUF%SMSTR,
      4   NC,NGL,MXT,NGEO,   FX,FY,FZ,STIG,
      5   GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
@@ -336,11 +336,11 @@ C--------
      .    DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
      .    WXX, WYY, WZZ,LBUF%RHO,RHOO,VOLNP(1,IP),VOLN)
 C                                                                     
-         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))   
+         DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))
          CALL SRHO3( PM         , LBUF%VOL  , LBUF%RHO, LBUF%EINT, DIVDE,
      .               FLUX(1,NF1), FLU1(NF1) , VOLN    , DVOL     , NGL, MXT, OFF,
      .               0          , GBUF%TAG22 ,VOLDP(1,IP),LBUF%VOL0DP,AMU  ,GBUF%OFF)
-     
+
          CALL SROTA3(LBUF%SIG,S1   ,S2   ,S3   ,S4 ,
      .               S5      ,S6   ,WXX  ,WYY  ,WZZ,
      .               NEL     )
@@ -353,7 +353,7 @@ C         for heat transfert
 C
           IF(JTHE < 0 ) THEN
              CALL S20TEMPCG(LFT,LLT,NPE, NC,NI(1,IP),TEMP,TEMPEL)
-          ENDIF             
+          ENDIF
 C------------------------------------------------------
 C         CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C------------------------------------------------------
@@ -369,16 +369,16 @@ C------------------------------------------------------
      A    RX(1,IP) ,RY(1,IP) ,RZ(1,IP) ,SX(1,IP) ,SY(1,IP) ,SZ(1,IP) ,
      B    VDX      ,VDY      ,VDZ      ,MUVOID   ,SSP_EQ   ,AIRE     ,
      C    SIGY     ,ET       ,R1_FREE  ,LBUF%PLA,     R3_FREE	     ,AMU      ,
-     D    BID      ,BID      ,BID      ,BID      ,BID      ,BID      , 
+     D    BID      ,BID      ,BID      ,BID      ,BID      ,BID      ,
      E    BID      ,BID      ,BID      ,IPM      ,GAMA     ,BID      ,
      F    BID      ,BID      ,BID      ,BID      ,BID      ,BID      ,
      G    ISTRAIN  ,TEMPEL   ,DIE      ,IEXPAN   ,ILAY     ,MBID     ,
      H    MBID     ,IR       ,IS       ,IT       ,TABLE    ,BID      ,
      I    BID      ,BID      ,BID      ,IPARG(1,NG)   ,IGEO     ,CONDE    ,
      J    ITASK    ,NLOC_DMG ,VARNL    ,MATPARAM_TAB  ,H3D_STRAIN)
-c     
-          IF (ISTRAIN == 1) THEN 
-            CALL SSTRA3(DXX,DYY,DZZ,D4,D5, 
+c
+          IF (ISTRAIN == 1) THEN
+            CALL SSTRA3(DXX,DYY,DZZ,D4,D5,
      .                  D6,LBUF%STRA, WXX, WYY, WZZ,
      .                  OFF,NEL)
           ENDIF
@@ -399,14 +399,14 @@ c
      5    LBUF%VOL,GBUF%VOL,GBUF%G_PLA,NEL,CONDE,DELTAX,CONDEG)
 C
 C-------------------------
-c    finite element heat transfert  
+c    finite element heat transfert
 C--------------------------
           IF(JTHE < 0) THEN
-            CALL S20THERM(NPE,PM     ,MXT    ,NC,VOLN, 
+            CALL S20THERM(NPE,PM     ,MXT    ,NC,VOLN,
      .               PX(1,1,IP), PY(1,1,IP), PZ(1,1,IP),NI(1,IP),
      .               DT1 ,TEMP  ,TEMPEL ,DIE  , THEM ,
-     .               GBUF%OFF,LBUF%OFF) 
-          ENDIF  
+     .               GBUF%OFF,LBUF%OFF)
+          ENDIF
         ENDDO
        ENDDO
       ENDDO

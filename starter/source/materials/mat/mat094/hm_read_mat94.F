@@ -34,7 +34,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT94(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -57,10 +57,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -93,7 +93,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ID,IDAM,ILAW
       my_real
-     .  E,NU,G,MU,RBULK,C10,C20,C30,D1,D2,D3  
+     .  E,NU,G,MU,RBULK,C10,C20,C30,D1,D2,D3
       CHARACTER  STRING*ncharfield
       my_real :: RHO0, RHOR
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
@@ -111,8 +111,8 @@ C-----------------------------------------------
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      !! CALL HM_GET_FLOATV('MAT_RHO'      ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-       !line-1 Is not active (Blank) 
+      !! CALL HM_GET_FLOATV('MAT_RHO'      ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+       !line-1 Is not active (Blank)
       !CALL HM_GET_INTV  ('Itype'        ,ITEST    ,IS_AVAILABLE, LSUBMODEL)
       !CALL HM_GET_INTV  ('MAT_FCT_IDI'  ,IFUNC(1) ,IS_AVAILABLE, LSUBMODEL)
       !CALL HM_GET_FLOATV('MAT_NU'       ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -123,19 +123,19 @@ C-----------------------------------------------
       !line-3
       CALL HM_GET_FLOATV('LAW94_D1'     ,D1      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('LAW94_D2'     ,D2      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('LAW94_D3'     ,D3      ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      !========== DEFAULT VALUES=============!              
+      CALL HM_GET_FLOATV('LAW94_D3'     ,D3      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      !========== DEFAULT VALUES=============!
       RHOR=ZERO
       !!IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
       PM(89)=RHO0
-      
+
 C 
 C Uniaxial - itest = 1       
 C equibiaxial - Itest = 2
 c Planar - Itest = 3
 C       
-!the proposed one      READ(LINE,FMT=FMT_A_I_F)STRING,IFUNC(1),NU     
+!the proposed one      READ(LINE,FMT=FMT_A_I_F)STRING,IFUNC(1),NU
 CSTRING = UNIAXIAL
 CSTRING = EQUIBIAXIAL 
 CSTRING = PLANAR 
@@ -145,23 +145,23 @@ C
       RBULK = ZERO
       E  = ZERO
 C I                                    
-      IF(D2 /=  ZERO ) D2 = ONE/D2                          
-      IF(D3 /= ZERO )  D3 = ONE/D3                          
+      IF(D2 /=  ZERO ) D2 = ONE/D2
+      IF(D3 /= ZERO )  D3 = ONE/D3
 C                                 
-      G = TWO*C10                                         
-      IF(D1 == ZERO) THEN                                  
-        D2 = ZERO                                          
-        D3 = ZERO                                          
-        NU = 0.495                                          
-        RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)            
-        D1 = RBULK / TWO ! 1/D1                           
-        E = TWO*G*(ONE + NU)                               
-      ELSE                                                  
-        D1 = ONE/D1                                  
-        RBULK= TWO*D1                                     
-        NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO  
-        E = NINE*RBULK*G/(THREE*RBULK + G)                 
-      ENDIF                                               
+      G = TWO*C10
+      IF(D1 == ZERO) THEN
+        D2 = ZERO
+        D3 = ZERO
+        NU = 0.495
+        RBULK = TWO_THIRD*G*(ONE + NU)/(ONE-TWO*NU)
+        D1 = RBULK / TWO ! 1/D1
+        E = TWO*G*(ONE + NU)
+      ELSE
+        D1 = ONE/D1
+        RBULK= TWO*D1
+        NU = (THREE*RBULK -TWO*G)/(THREE*RBULK + G)/TWO
+        E = NINE*RBULK*G/(THREE*RBULK + G)
+      ENDIF
 C               
       UPARAM(1) = G
       UPARAM(2) = RBULK
@@ -179,7 +179,7 @@ C
         WRITE(IOUT,*)' ** ERROR : NUPARAM GT MAXUPARAM'
         WRITE(IOUT,*)'      NUPARAM =',NUPARAM,
      .                ' MAXUPARAM =',MAXUPARAM
-      ENDIF    
+      ENDIF
 C     
       PARMAT(1) = RBULK
       PARMAT(2) = E
@@ -187,40 +187,40 @@ C
 C
 C     Formulation for solid elements time step computation.
       PARMAT(16) = 2
-      PARMAT(17) = TWO*G/(RBULK + FOUR_OVER_3*G) 
+      PARMAT(17) = TWO*G/(RBULK + FOUR_OVER_3*G)
 C  
-       IMATVIS = 1                 
+       IMATVIS = 1
        PM(100) = RBULK
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
 c-----------------
       !========== OUTPUT =============!
-      
+
       WRITE(IOUT,1010) TRIM(TITR),MAT_ID,94
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
         WRITE(IOUT,1020)RHO0
 ! not used
 !!        IF (IFUNC(1) > 0) THEN
-!!           IF(ITEST == 1) THEN 
+!!           IF(ITEST == 1) THEN
 !!              WRITE(IOUT,1300)IFUNC(1), NU
-!!           ELSEIF(ITEST == 2) THEN 
+!!           ELSEIF(ITEST == 2) THEN
 !!              WRITE(IOUT,1310)IFUNC(1), NU
-!!           ELSEIF(ITEST == 3) THEN 
+!!           ELSEIF(ITEST == 3) THEN
 !!              WRITE(IOUT,1320)IFUNC(1), NU
-!!           ENDIF   
-!!        ELSE        
+!!           ENDIF
+!!        ELSE
           WRITE(IOUT,1100)C10,C20,C30,D1,D2,D3
           WRITE(IOUT,1200)G,RBULK, NU
-!!        ENDIF  
+!!        ENDIF
       ENDIF
 C
  1000 FORMAT(
      & 5X,'  YEOH LAW ',/,
-     & 5X,'  ---------- ',//) 
+     & 5X,'  ---------- ',//)
  1010 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . =',I10/,
@@ -237,10 +237,10 @@ C
  1200 FORMAT(
      & 5X,'INITIAL SHEAR MODULUS . . . . . . . . . .=',1PG20.13/
      & 5X,'BULK MODULUS. . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13/)      
+     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'UNIAXIAL DATA TEST CURVE. . . . . . . . .=',I10/
-     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///) 
+     & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)
  1310 FORMAT(
      & 5X,'EQUIBIAXIAL DATA TEST CURVE . . . . . . .=',I10/
      & 5X,'POISSON RATIO . . . . . . . . . . . . . .=',1PG20.13///)

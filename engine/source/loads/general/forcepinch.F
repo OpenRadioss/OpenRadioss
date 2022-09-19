@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE H3D_MOD
-      USE PINCHTYPE_MOD  
+      USE PINCHTYPE_MOD
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C-----------------------------------------------
      .   NX, NY, NZ, AXI, AA, A0, VV, FX, FY, FZ, AX, DYDX, TS,
      .   SIXTH,TFEXTT,X_OLD, F1, F2,XSENS,FCX,FCY
       my_real FINTER, ZFx,ZFy,ZFz, ZZFx,ZZFy,ZZFz,PS, Zx,Zy,Zz,FINTER_SMOOTH
-      my_real 
+      my_real
      .    FCYPINCH, FXPINCH, FYPINCH, FZPINCH, AAPINCH
       EXTERNAL FINTER,FINTER_SMOOTH
 
@@ -202,7 +202,7 @@ C
           APINCH(2,N3)=APINCH(2,N3)+FYPINCH
           APINCH(3,N3)=APINCH(3,N3)+FZPINCH
 C         
-         ENDIF        
+         ENDIF
  10    CONTINUE
 C
 #include "atomic.inc"
@@ -210,4 +210,4 @@ C
 #include "atomend.inc"
 C
       RETURN
-      END        
+      END

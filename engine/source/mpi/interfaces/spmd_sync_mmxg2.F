@@ -70,10 +70,10 @@ C-----------------------------------------------
       my_real
      .        SBUF(NINTC*I_LEN), RBUF(NINTC*I_LEN)
       INTEGER :: MESSAGE_LEN
-      my_real SBUF3(NINTC), RBUF3(NINTC) 
-      INTEGER SBUF2(NINTC), RBUF2(NINTC) 
+      my_real SBUF3(NINTC), RBUF3(NINTC)
+      INTEGER SBUF2(NINTC), RBUF2(NINTC)
 
-      INTEGER :: I17 !Number of TYPE17 interface 
+      INTEGER :: I17 !Number of TYPE17 interface
 
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -133,7 +133,7 @@ C
 C NEWFRONT
           SBUF(L+1) = -NEWFRONT(NIN)
           SBUF2(KK) = NEWFRONT(NIN)
-          SBUF3(KK) = 0 
+          SBUF3(KK) = 0
         ELSE     ! interface 17 avec courbure
 
           SBUF(L+1) = ZERO

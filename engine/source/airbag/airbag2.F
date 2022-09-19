@@ -79,19 +79,19 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   GAMA, CV, CP, PEXT, PDEF, DTPDEFI, DTPDEFC, TVENT, TSTOPE,
-     .   APVENT, AVENT, BVENT, 
-     .   AMTOT, P, RO, VOL, HSPEC, 
+     .   APVENT, AVENT, BVENT,
+     .   AMTOT, P, RO, VOL, HSPEC,
      .   GMTOT, CPA, CPB, CPC, GMI, CPAI, CPBI, CPCI, TBAG,
      .   U, DEOUT, DMOUT, AREA, PCRIT, PVOIS, TVOIS, AA, VEPS,
-     .   AOUT, AOUT1, AOUTOT, FLOUT, DE, VVOIS, 
-     .   DGEOUT, DGMOUT, RNM, RMWI, RNMI, RMWG, RNMG, 
+     .   AOUT, AOUT1, AOUTOT, FLOUT, DE, VVOIS,
+     .   DGEOUT, DGMOUT, RNM, RMWI, RNMI, RMWG, RNMG,
      .   DERI, TEMP(4),AISENT,ACHEMK,FCHEMK,VMAX,
      .   FPORT,FPORP,FPORA,FPORT1,FPORP1,FPORA1,SCALT,SCALP,SCALS,
      .   FVDP, ROEX, UISENT,TT1,
      .   F1(NN), F2(NN),TTF
       my_real GET_U_FUNC
       EXTERNAL GET_U_FUNC
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRMV6(2,6), FRMV6B(6)
 C-----------------------------------------------
        PMAIN = FR_MV(NSPMD+2)
@@ -106,9 +106,9 @@ C-----------------------------------------------
        AMTOT  =RVOLU(20)
        P      =RVOLU(12)
        AREA   =RVOLU(18)
-       SCALT  =RVOLU(26)   
-       SCALP  =RVOLU(27)   
-       SCALS  =RVOLU(28)   
+       SCALT  =RVOLU(26)
+       SCALP  =RVOLU(27)
+       SCALS  =RVOLU(28)
 C
        RO    = AMTOT/VOL
        PCRIT = P*(TWO/(GAMA+ONE))**(GAMA/(GAMA-ONE))
@@ -287,7 +287,7 @@ C
      .             FRMV6(2,4)+FRMV6(2,5)+FRMV6(2,6)
         ELSE
            AOUT =AVENT
-           AVENT=ONE 
+           AVENT=ONE
            AOUT1=ZERO
         ENDIF
 C
@@ -299,12 +299,12 @@ C
          IPORT1=IBAGHOL(6,IV)
          IPORP1=IBAGHOL(7,IV)
          IPORA1=IBAGHOL(8,IV)
-         FPORT = RBAGHOL(7,IV)      
-         FPORP = RBAGHOL(8,IV)      
-         FPORA = RBAGHOL(9,IV)      
-         FPORT1= RBAGHOL(10,IV)     
-         FPORP1= RBAGHOL(11,IV)     
-         FPORA1= RBAGHOL(12,IV)     
+         FPORT = RBAGHOL(7,IV)
+         FPORP = RBAGHOL(8,IV)
+         FPORA = RBAGHOL(9,IV)
+         FPORT1= RBAGHOL(10,IV)
+         FPORP1= RBAGHOL(11,IV)
+         FPORA1= RBAGHOL(12,IV)
          IF(IPORA/=0.AND.IPVENT/=0)THEN
            AOUT=FPORA*AVENT*GET_U_FUNC(IPORA,AOUT*SCALS,DERI)
          ELSE
@@ -460,7 +460,7 @@ C---------------------------------------------
      .               .AND.VOL>EM3*AREA**THREE_HALF)THEN
              IDEF=1
              IF(ISPMD+1==PMAIN) THEN
-               WRITE(IOUT,*) 
+               WRITE(IOUT,*)
      .          ' *** CHAMBER VENT HOLES MEMBRANE IS DEFLATED ***'
                WRITE(IOUT,*)
      .          ' *** MONITORED VOLUME ',IVOLU(1),' ***'
@@ -502,7 +502,7 @@ C comm si necessaire
                CALL SPMD_EXCH_FR6(FR_MV,FRMV6B,6)
              ENDIF
              APVENT = FRMV6B(1)+FRMV6B(2)+FRMV6B(3)+
-     .                FRMV6B(4)+FRMV6B(5)+FRMV6B(6)             
+     .                FRMV6B(4)+FRMV6B(5)+FRMV6B(6)
          ELSE
              APVENT = ONE
          ENDIF

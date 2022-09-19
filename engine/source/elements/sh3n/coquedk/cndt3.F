@@ -77,7 +77,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER INDXOF(MVSIZ),
      .        I, J, II, NINDX,IDT,ITYEL
-      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ   
+      my_real DT(MVSIZ),FAC,MAS,DIVM,MMIN  ,IZ
 C=======================================================================
       DO I=JFT,JLT
         VISCMX(I) = MAX(VISCMX(I), AMU(I))
@@ -93,19 +93,19 @@ C----- isub will add here-----
         DO I=JFT,JLT
          IF (OFF(I)==ZERO) THEN
           STI(I) = ZERO
-          STIR(I) = ZERO          
+          STIR(I) = ZERO
          ELSE
           STI(I) = HALF*VOL0(I) * A1(I) / ALDT(I)**2
-       IF(IGTYP == 52 .OR. 
+       IF(IGTYP == 52 .OR.
      .   ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
             FAC = HALF*VOL0(I)/ ALDT(I)**2
-            STIR(I) =(FAC * A11R(I)*THK02(I) + 
+            STIR(I) =(FAC * A11R(I)*THK02(I) +
      .                 FAC * A1(I) *AREA(I)) *ONE_OVER_12
           ELSE
             STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
           ENDIF
-         ENDIF 
+         ENDIF
         ENDDO
 C
         IF(JSMS /= 0)THEN
@@ -113,7 +113,7 @@ C
            DO I=JFT,JLT
             IF(OFFG(I) < ZERO .OR. OFF(I) == ZERO) CYCLE
 c
-c dmelc = 2*dmelc !!   
+c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/3) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             DMELC(I)=MAX(DMELC(I),
@@ -132,7 +132,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
 c
             MMIN=MSC(I)*MIN(PTG(1,I),PTG(2,I),PTG(3,I))
 c
-c dmelc = 2*dmelc !!   
+c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/2) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             DMELC(I)=MAX(DMELC(I),
@@ -148,13 +148,13 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
          END IF
         ENDIF
       ELSEIF(NODADT/=0)THEN
-          IF(IGTYP == 52 .OR. 
+          IF(IGTYP == 52 .OR.
      .        ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 ))THEN
             DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                    STI(I) = ZERO
-                   STIR(I) = ZERO          
+                   STIR(I) = ZERO
                 ELSE
                    STI(I) = HALF*VOL0(I) * A1(I) / ALDT(I)**2
                    FAC =  HALF*VOL0(I)/ ALDT(I)**2
@@ -166,17 +166,17 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                    STI(I) = ZERO
-                   STIR(I) = ZERO          
+                   STIR(I) = ZERO
                 ELSE
                    STI(I) = HALF*VOL0(I) * A1(I) / ALDT(I)**2
                    STIR(I) = STI(I) * (THK02(I)+AREA(I)) *ONE_OVER_12
                 ENDIF
              ENDDO
-          ENDIF 
+          ENDIF
       ENDIF
 C
       DO I=JFT,JLT
-        DT(I)=DTFAC1(ITYEL)*ALDT(I)/SSP(I)   
+        DT(I)=DTFAC1(ITYEL)*ALDT(I)/SSP(I)
       ENDDO
       IF(G_DT>0)THEN
         DO I=JFT,JLT
@@ -208,7 +208,7 @@ C
 #include "lockoff.inc"
   100   CONTINUE
       ELSEIF(IDTMIN(ITYEL)==2)THEN
-        IF(NINDX>IOFC) IDEL7NOK = 1         
+        IF(NINDX>IOFC) IDEL7NOK = 1
         DO 125 J=IOFC+1,NINDX
          I = INDXOF(J)
          OFF(I)=0.
@@ -302,7 +302,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT  ,JLT 
+      INTEGER JFT  ,JLT
       INTEGER MAT(*)
 C
       my_real
@@ -341,7 +341,7 @@ c       DT_THERM = EP20
           LC2 = LC(I)*LC(I)
           DT = HALF*LC2*SPH/MAX(AKK,EM20)
           IF(DT<DT_THERM)  DT_THERM = DT
-          CONDE(I) = FOUR*VOL(I)*AKK/LC2  
+          CONDE(I) = FOUR*VOL(I)*AKK/LC2
           CONDE(I) = CONDE(I)*OFF(I)
        ENDDO
 

@@ -70,7 +70,7 @@ C------------------------------------
 C         /INIBRI
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INIBRI')  
+      OK_QA = MYQAKEY('/INIBRI')
 
       IF (OK_QA) THEN
 
@@ -96,7 +96,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMSOL
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 
@@ -104,7 +104,7 @@ C------------------------------------
 C         /INIHE3
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INISHE')  
+      OK_QA = MYQAKEY('/INISHE')
 
       IF (OK_QA) THEN
 
@@ -121,7 +121,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMSHEL
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 
@@ -129,7 +129,7 @@ C------------------------------------
 C         /INIHE3
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INISH3')  
+      OK_QA = MYQAKEY('/INISH3')
 
       IF (OK_QA) THEN
 
@@ -146,7 +146,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMSHEL+1,NUMSHEL+NUMSH3N
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 
@@ -154,7 +154,7 @@ C------------------------------------
 C         /INIQUA
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INIQUA')  
+      OK_QA = MYQAKEY('/INIQUA')
 
       IF (OK_QA) THEN
 
@@ -174,7 +174,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMQUAD
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 
@@ -182,7 +182,7 @@ C------------------------------------
 C         /INIBEAM
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INIBEAM')  
+      OK_QA = MYQAKEY('/INIBEAM')
 
       IF (OK_QA) THEN
 
@@ -199,7 +199,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMBEAM
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 
@@ -208,7 +208,7 @@ C------------------------------------
 C         /INITRUSS
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INITRUSS')  
+      OK_QA = MYQAKEY('/INITRUSS')
 
       IF (OK_QA) THEN
 
@@ -225,7 +225,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMTRUS
-                
+
       ENDIF ! IF (OK_QA) THEN
 
 
@@ -233,7 +233,7 @@ C------------------------------------
 C         /INISPRING
 C------------------------------------
 
-      OK_QA = MYQAKEY('/INISPRING')  
+      OK_QA = MYQAKEY('/INISPRING')
 
       IF (OK_QA) THEN
 
@@ -250,7 +250,7 @@ C------------------------------------
           ENDDO
 
         ENDDO ! DO I=1,NUMSPRI
-                
+
       ENDIF ! IF (OK_QA) THEN
 C------------------------------------
       RETURN

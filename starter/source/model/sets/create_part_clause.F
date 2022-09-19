@@ -189,7 +189,7 @@ C=======================================================================
          CALL HM_GET_INT_ARRAY_2INDEXES('ids',IDS,JCLAUSE,I,IS_AVAILABLE,LSUBMODEL)
 !
          PARTM = SET_USRTOS(IDS,IPARTM1,NPART)
-         IF(PARTM == 0)THEN        
+         IF(PARTM == 0)THEN
            ! Part was not found. Issue a Warning & Skip.
            CALL ANCMSG(MSGID=1902,ANMODE=ANINFO,
      .                             MSGTYPE=MSGWARNING,
@@ -208,13 +208,13 @@ C=======================================================================
       ENDDO ! DO K=1,IDS_MAX
 
       ! Sort the Readed PARTs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       DO I=1,NINDX
         INDEX(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,PART_READ_TMP,INDEX,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_PARTS(I) = PART_READ_TMP(INDEX(I))
       ENDDO
@@ -223,7 +223,7 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      CLAUSE%NB_PART = LIST_SIZE  
+      CLAUSE%NB_PART = LIST_SIZE
       ALLOCATE( CLAUSE%PART( LIST_SIZE ) )
 
       DO I=1,LIST_SIZE
@@ -330,7 +330,7 @@ C=======================================================================
 
           PSTART = SET_USRTOS_NEAREST(START_GENE,IPARTM1,NPART,1)
           PSTOP  = SET_USRTOS_NEAREST(END_GENE,IPARTM1,NPART,2)
-     
+
           STACK_ONE=0
 
           DO P=PSTART, PSTOP

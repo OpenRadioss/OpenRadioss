@@ -33,14 +33,14 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   , NGL     ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   , ISMSTR, ET  ,
-     B      MFXX   , MFXY   , MFXZ    , MFYX  , MFYY  , MFYZ  , 
+     B      MFXX   , MFXY   , MFXZ    , MFYX  , MFYY  , MFYZ  ,
      C      MFZX   , MFZY   , MFZZ    , IHET  ,OFFG   ,EPSTH3 ,
      D      IEXPAN  )
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -111,7 +111,7 @@ C----------------------------------------------------------------
       my_real
      .    A(3,3),DPRA(3,3),EIGEN(3) ,AMAX ,ETI,P,EFAC
       my_real ,DIMENSION(NEL,3) :: CII
-      my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX  
+      my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX
 C----------------------------------------------------------------
 
 C SET INITIAL MATERIAL CONSTANTS
@@ -123,7 +123,7 @@ cc      NU      = UPARAM(1)
        AL(I) = UPARAM(1 + NORDRE + I)
        D(I)  = UPARAM(1 + 2*NORDRE + I)
        GMAX  = GMAX  + MU(I)
-       
+
       ENDDO
 
 cc      RBULK   = TWO/D(1) + TWO*GMAX*THIRD
@@ -135,9 +135,9 @@ C iniialisation des variabesl users
          UVAR(I,J) = ZERO
         ENDDO
        ENDDO
-      ENDIF   
+      ENDIF
 C---------------------------------
-c       ENDIF                      
+c       ENDIF
       DO I=1,NEL
        AV(I,1)=EPSXX(I)
        AV(I,2)=EPSYY(I)
@@ -145,7 +145,7 @@ c       ENDIF
        AV(I,4)=EPSXY(I)/2
        AV(I,5)=EPSYZ(I)/2
        AV(I,6)=EPSZX(I)/2
-      ENDDO       
+      ENDDO
 CEigenvalues needed to be calcultated in double precision
 C        for a simple precision executing
       IF (IRESP==1) THEN
@@ -163,7 +163,7 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))
          EV(I,2)=EXP(EVV(I,2))
          EV(I,3)=EXP(EVV(I,3))
-        ENDDO 
+        ENDDO
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
         IF(OFFG(I)<=ONE) THEN
@@ -175,14 +175,14 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
         END IF
-        ENDDO 
+        ENDDO
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
-        ENDDO 
+        ENDDO
       ENDIF
 
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
@@ -194,7 +194,7 @@ C ----  STRAIN IS ENGINEERING)
          DO K= 1,NORDRE
           ETI  = ETI + MU(K)*AMAX**(AL(K)-ONE) !MU(K)*EXP((AL(K)-ONE)*LOG(AMAX))
          ENDDO
-        ENDIF         
+        ENDIF
         ET(I)= MAX(ETI,ET(I))
        ENDDO
        ENDDO
@@ -246,36 +246,36 @@ C----------------
             ENDDO
            ELSE
             DO II=1,3
-             IF(EVD(I,II)/=ZERO) THEN 
+             IF(EVD(I,II)/=ZERO) THEN
               PUI_TAB(II) = ONE
              ELSE
               PUI_TAB(II) = ZERO
              ENDIF
             ENDDO
-           ENDIF         
+           ENDIF
 
 
            IF(D(J) /= ZERO)PP = ONE/D(J)
-           S(I,1) =  S(I,1) + DD*(TWO_THIRD*PUI_TAB(1) 
+           S(I,1) =  S(I,1) + DD*(TWO_THIRD*PUI_TAB(1)
      .                      - THIRD*(PUI_TAB(2) + PUI_TAB(3)))
 C
-           S(I,2) =  S(I,2) + DD*(TWO_THIRD*PUI_TAB(2) 
+           S(I,2) =  S(I,2) + DD*(TWO_THIRD*PUI_TAB(2)
      .                      - THIRD*(PUI_TAB(1) + PUI_TAB(3)))
 C  
-           S(I,3) =  S(I,3) + DD*(TWO_THIRD*PUI_TAB(3) 
+           S(I,3) =  S(I,3) + DD*(TWO_THIRD*PUI_TAB(3)
      .                      - THIRD*(PUI_TAB(2) + PUI_TAB(1)))
 C  (-) pression
             P = P + 2*J*PP*(RV(I) - ONE)**(2*J - 1)
-        ENDDO 
+        ENDDO
 
         S(I,1) = S(I,1) + P
         S(I,2) = S(I,2) + P
-        S(I,3) = S(I,3) + P           
-      ENDDO          
+        S(I,3) = S(I,3) + P
+      ENDDO
 C
 C---------tagent G, RBULK:
-       GTMAX(1:NEL) = GMAX 
-       RKMAX(1:NEL) = RBULK 
+       GTMAX(1:NEL) = GMAX
+       RKMAX(1:NEL) = RBULK
 C------max of Cii :   
          CII(1:NEL,1:3) = ZERO
          DO II = 1,NORDRE
@@ -300,8 +300,8 @@ C------GT=3/4 Cii (factor 1/2*1/3 already inside CII)
          DO I=1,NEL
            AMAX= HALF*MAX(CII(I,1),CII(I,2),CII(I,3))/GMAX
 C---------reduce old result change		   
-           ETI = MAX(ONE,AMAX*0.81) 
-           GTMAX(I) = GMAX*ETI 
+           ETI = MAX(ONE,AMAX*0.81)
+           GTMAX(I) = GMAX*ETI
            RKMAX(I) = MAX(RBULK,RKMAX(I))
 C---- 		   
            ET(I)= MAX(ONE,AMAX)
@@ -311,23 +311,23 @@ C cauchy to glabale
         SIGNXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*S(I,1)
      .            + DIRPRV(I,1,2)*DIRPRV(I,1,2)*S(I,2)
      .            + DIRPRV(I,1,3)*DIRPRV(I,1,3)*S(I,3)
-     
+
         SIGNYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*S(I,2)
      .            + DIRPRV(I,2,3)*DIRPRV(I,2,3)*S(I,3)
      .            + DIRPRV(I,2,1)*DIRPRV(I,2,1)*S(I,1)
-     
-        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*S(I,3)        
+
+        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*S(I,3)
      .            + DIRPRV(I,3,1)*DIRPRV(I,3,1)*S(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,3,2)*S(I,2)
-     
+
         SIGNXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*S(I,1)
-     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*S(I,2)     
+     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*S(I,2)
      .            + DIRPRV(I,1,3)*DIRPRV(I,2,3)*S(I,3)
-     
+
         SIGNYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*S(I,2)
      .            + DIRPRV(I,2,3)*DIRPRV(I,3,3)*S(I,3)
      .            + DIRPRV(I,2,1)*DIRPRV(I,3,1)*S(I,1)
-     
+
         SIGNZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*S(I,3)
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*S(I,1)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*S(I,2)

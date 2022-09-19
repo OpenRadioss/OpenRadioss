@@ -46,7 +46,7 @@ Chd|====================================================================
       procedure, pass :: matrix_associate
       procedure, pass :: get_dim
       end type t_cfs_matrix
-      
+
       contains
 
 !     ************     !
@@ -63,7 +63,7 @@ C-----------------------------------------------
       type(t_vector), intent(in) :: xvec
       type(t_vector), intent(inout) :: bvec
       integer :: i, j
-      
+
       integer :: ii
       bvec%val(1:bvec%get_dim()) = zero
       do ii = 1, this%dim
@@ -71,13 +71,13 @@ C-----------------------------------------------
          j = this%jcol(ii)
          bvec%val(i) = bvec%val(i) + this%val(ii) * xvec%val(j)
       enddo
-     
+
       end subroutine prod_vec
 
 !     ********************     !
 !     Get Matrix dimension     !
 !     ********************     !
-      
+
       function get_dim(this)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -130,7 +130,7 @@ C-----------------------------------------------
       class(t_cfs_matrix), intent(inout), target :: this
       integer, dimension(:), pointer :: ptr_irow, ptr_jcol
       double precision, dimension(:), pointer :: ptr_val
-      ptr_irow => this%irow 
+      ptr_irow => this%irow
       ptr_jcol => this%jcol
       ptr_val => this%val
       end subroutine matrix_associate

@@ -35,7 +35,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPHTRI0(X   , SPBUF, KXSP, WSP2SORT,BMINMA , DMAX,
-     2                 NSP2SORTF,NSP2SORTL,NMN,ITASK, DBUC)  
+     2                 NSP2SORTF,NSP2SORTL,NMN,ITASK, DBUC)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
@@ -75,14 +75,14 @@ C-----------------------------------------------
       my_real
      .        XMAX  ,YMAX  ,ZMAX,XMIN,YMIN,ZMIN, DBUCL,
      .   MX,MY,MZ,DX,DY,DZ,SX,SY,SZ,SX2,SY2,SZ2
-     
+
 C-----------------------------------------------
       XMIN=EP30
       XMAX=-EP30
       YMIN=EP30
       YMAX=-EP30
       ZMIN=EP30
-      ZMAX=-EP30     
+      ZMAX=-EP30
       SX=ZERO
       SY=ZERO
       SZ=ZERO
@@ -129,13 +129,13 @@ cc      DBUC=DBUC*SQRT(ONE +SPATRUE)
       CALL MY_BARRIER
 
 #include "lockon.inc"
-      BMINMA(1) = MAX(BMINMA(1),XMAX) 
-      BMINMA(2) = MAX(BMINMA(2),YMAX) 
-      BMINMA(3) = MAX(BMINMA(3),ZMAX) 
-      BMINMA(4) = MIN(BMINMA(4),XMIN) 
-      BMINMA(5) = MIN(BMINMA(5),YMIN) 
+      BMINMA(1) = MAX(BMINMA(1),XMAX)
+      BMINMA(2) = MAX(BMINMA(2),YMAX)
+      BMINMA(3) = MAX(BMINMA(3),ZMAX)
+      BMINMA(4) = MIN(BMINMA(4),XMIN)
+      BMINMA(5) = MIN(BMINMA(5),YMIN)
       BMINMA(6) = MIN(BMINMA(6),ZMIN)
-      DBUC = MAX(DBUC,DBUCL) 
+      DBUC = MAX(DBUC,DBUCL)
       DMAX = DBUC
       BMINMA(7) = BMINMA(7)+SX
       BMINMA(8) = BMINMA(8)+SY
@@ -175,7 +175,7 @@ C   => 95% of the population for normal distribution
         BMINMA(10)=MAX(MX-2*DX,BMINMA(4))
         BMINMA(11)=MAX(MY-2*DY,BMINMA(5))
         BMINMA(12)=MAX(MZ-2*DZ,BMINMA(6))
-   
+
 C   Test cas particulier 2D
         IF(BMINMA(10)==BMINMA(7))THEN
           BMINMA(10)=BMINMA(4)
@@ -204,7 +204,7 @@ C
 
         CALL SPMD_SPHVOX0(KXSP ,SPBUF,WSP2SORT,BMINMA,X,
      2                    NSP2SORTF,NSP2SORTL)
- 
+
         CALL MY_BARRIER
 
         IF(ITASK==0)THEN
@@ -223,8 +223,8 @@ C
          CALL STOPTIME(91,1)
         ENDIF
 
-      END IF 
-  
+      END IF
+
       CALL MY_BARRIER
 C
       RETURN

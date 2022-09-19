@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER IG, ITYP
 C     REAL
       my_real
-     .   DTX, DTY, GAMA, P, V, S, ROT, VMIN, AL      
+     .   DTX, DTY, GAMA, P, V, S, ROT, VMIN, AL
 C-----------------------------------------------
          VMIN = EM8
       DTX=ONE

@@ -56,9 +56,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)  :: ID,FAIL_ID,MAXFUNC,MAXUPARAM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C OUTPUT ARGUMENTS
@@ -107,34 +107,34 @@ C--------------------------------------------------
 Card1
       CALL HM_GET_INTV   ('Ifail_sh'    ,ISHELL      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Ifail_so'    ,ISOLID      ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('P_thickfail' ,P_THICKFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('P_thinfail'  ,P_THINNFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('P_thickfail' ,P_THICKFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('P_thinfail'  ,P_THINNFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('Ixfem'       ,IXFEM       ,IS_AVAILABLE,LSUBMODEL)
 Card2
       CALL HM_GET_FLOATV ('Dcrit'       ,DCRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('D'           ,DD          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('n'           ,DN          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV ('Dadv'        ,DADV        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Dadv'        ,DADV        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('fct_IDd'     ,IFUN_DMG    ,IS_AVAILABLE,LSUBMODEL)
 Card3
       CALL HM_GET_INTV   ('table1_ID'   ,IFUN_EPSF   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Xscale1'     ,Y1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Xscale2'     ,X1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Xscale1'     ,Y1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Xscale2'     ,X1SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('table2_ID'   ,IFUN_STAB   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Xscale3'     ,Y2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Xscale4'     ,X2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Xscale3'     ,Y2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Xscale4'     ,X2SCALE     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card4
       CALL HM_GET_INTV   ('fct_IDel'    ,IFUN_SIZE   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Fscale_el'   ,SCALE_EL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('EI_ref'      ,EL_REF      ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Inst_start'  ,ECRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Fad_exp'     ,FADE_EXPO   ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Fscale_el'   ,SCALE_EL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('EI_ref'      ,EL_REF      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Inst_start'  ,ECRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Fad_exp'     ,FADE_EXPO   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('Ch_i_f'      ,INST_FLAG   ,IS_AVAILABLE,LSUBMODEL)
 Card5
       CALL HM_GET_INTV   ('fct_IDt'     ,IFUN_TEMP   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('FscaleT'     ,SCALE_TEMP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Shear_limit' ,SHRF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('Biax_limit'  ,BIAXF       ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('FscaleT'     ,SCALE_TEMP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Shear_limit' ,SHRF        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('Biax_limit'  ,BIAXF       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c-----------------------------------------------------------------------
       ! Error massage: 'table1_ID' is mandatory:
       IF (IFUN_EPSF == 0) THEN
@@ -186,7 +186,7 @@ c-----------------------------------------------------------------------
 c
       IF (FADE_EXPO > ZERO .or. ECRIT /= ZERO) THEN
         DMG_FLAG = 1
-      ELSE 
+      ELSE
         DMG_FLAG = 0
       ENDIF
       IF (INST_FLAG == 0 .OR. INST_FLAG > 3) INST_FLAG = 1
@@ -241,7 +241,7 @@ C     8 = IPOS 1 for vinter
 c-----------------------------------------------------------------------
       IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
         WRITE(IOUT, 1001) IFUNC(1), Y1SCALE, X1SCALE
         IF (IFUNC(5) /= 0) THEN
           WRITE(IOUT, 1002) IFUNC(5), Y2SCALE, X2SCALE
@@ -266,17 +266,17 @@ c       for shell
           ELSEIF (ISHELL == 3) THEN
             WRITE(IOUT, 1300)
           ENDIF
-        ELSE IF (IXFEM == 1) THEN      
+        ELSE IF (IXFEM == 1) THEN
           WRITE(IOUT, 1400)
         END IF
-c       for solid      
+c       for solid
         IF (ISOLID == 1) THEN
           WRITE(IOUT, 2100)
         ELSEIF(ISOLID == 2) THEN
           WRITE(IOUT, 2200)
         ENDIF
 C
-      ENDIF  ! IS_ENCRYPTED             
+      ENDIF  ! IS_ENCRYPTED
 c-----------
       RETURN
 c-----------------------------------------------------------------------
@@ -292,7 +292,7 @@ c-----------------------------------------------------------------------
  1003 FORMAT(
      & 5X,'FLAG XFEM. . . . . . . .. . . . . . . . . . . . . . .=',I10/
      & 5X,'     XFEM ADVANCEMENT SOFTENING FACTOR. . . . . . . .=',E12.4)
- 1004 FORMAT(    
+ 1004 FORMAT(
      & 5X,'PER HUNDRED OF SHELL THICKNESS FAILURE . . . . . . . . .=',E12.4/
      & 5X,'SHELL FAILURE DUE TO THINNING . . . . . . . . . . . .=',E12.4)
  1005 FORMAT(
@@ -305,7 +305,7 @@ c-----------------------------------------------------------------------
  1007 FORMAT(
      & 5X,'FADE FUNCTION . . . . . . . . . . . . . . . . . . . .=',I10)
  1008 FORMAT(
-     & 5X,'DAMAGE FLAG . . . . . . . . . . . . . . . . . . . . .=',I10/    
+     & 5X,'DAMAGE FLAG . . . . . . . . . . . . . . . . . . . . .=',I10/
      & 5X,'TEMPERATURE SCALE FUNCTION. . . . . . . . . . . . . .=',I10/
      & 5X,'SCALE FACTOR OF TEMPERATURE FUNCTION. . . . . . . . .=',E12.4/
      & 5X,'ELEMENT LENGTH FUNCTION . . . . . . . . . . . . . . .=',I10/
@@ -316,16 +316,16 @@ c-----------------------------------------------------------------------
      & 5X,'REGULARIZATION FLAG . . . . . . . . . . . . . . . . .=',I10/
      & 5X,'FAILURE OPTION:')
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ONE LAYER') 
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ONE LAYER')
  1200 FORMAT(
-     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')   
+     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')
  1300 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ALL LAYERS')   
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ALL LAYERS')
  1400 FORMAT(
-     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')   
+     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')
  2100 FORMAT(
-     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE')
  2200 FORMAT(
-     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')    
+     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')
 c-----------------------------------------------------------------------
       END

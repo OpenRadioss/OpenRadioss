@@ -65,9 +65,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,N,COMPT,K,NVAL,SIZ,SIZG,SIZ_MAX,ND,IGROUP
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGN
-      my_real, DIMENSION(:),ALLOCATABLE,TARGET :: 
+      my_real, DIMENSION(:),ALLOCATABLE,TARGET ::
      .   DT2_L
-      my_real, DIMENSION(:),ALLOCATABLE :: 
+      my_real, DIMENSION(:),ALLOCATABLE ::
      .   STF_L,MS_L
       my_real, DIMENSION(:),POINTER ::
      .   TMP
@@ -86,7 +86,7 @@ C---  Condensed nodes of TETRA10 are excluded
       DO I=1,NS10E
         ND = IABS(ICNDS10(1,I))
         TAGN(ND) = -1
-      ENDDO 
+      ENDDO
 C
       IF (IGRP_USR < 0) THEN
         DO I=1,NGRNOD
@@ -94,7 +94,7 @@ C
         ENDDO
       ELSE
         IGROUP = IGRP_USR
-      ENDIF     
+      ENDIF
 C
 C---  Count and tag nodes to be taken into account for target_dt computation
       IF (IGROUP > 0) THEN
@@ -140,7 +140,7 @@ C---  Counstruction of arrays
 C
       DEALLOCATE(TAGN)
 C
-      IF (ISPMD == 0) THEN     
+      IF (ISPMD == 0) THEN
 C
         TMP => DT2_L(SIZG+1:SIZG*2)
 C

@@ -55,7 +55,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,MX  
+      INTEGER I,MX
 C     REAL
       my_real
      .   SHEAR, DAM1, DAM2
@@ -80,7 +80,7 @@ C
         DAM1=(SHEAR-SHRDAM_1)/(SHRMAX_1-SHRDAM_1)
         DAM2=DAM1*SHRMAX_1/SHEAR
         DAMDL(I)=MAX(DAM2,DAMDL(I))
-        DAMDL(I)=MIN(SHRDMAX_1,DAMDL(I))       
+        DAMDL(I)=MIN(SHRDMAX_1,DAMDL(I))
       ENDIF
   100 CONTINUE
 C
@@ -99,10 +99,10 @@ C
         ENDIF
        ENDIF
       ENDIF
-  110 CONTINUE 
+  110 CONTINUE
 C
  1200 FORMAT('- DELAMINATION OF SHELL ELEMENT NUMBER ',I10)
  1300 FORMAT('- DELAMINATION OF SHELL ELEMENT :',I10,' AT TIME :',G11.4)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       RETURN
-      END     
+      END

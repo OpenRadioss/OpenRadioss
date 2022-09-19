@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
-     4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
+     4        N1(*) ,N2(*) ,M1(*) ,M2(*)
       INTEGER NSV(*),IWPENE
 C     REAL
       my_real
@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER I, IS, IM
 C     REAL
       my_real
-     .     PENE(MVSIZ), 
+     .     PENE(MVSIZ),
      .     PENEOLD, S2, D, PPLUS,PS2, PENMAX
 C-----------------------------------------------
 C
@@ -98,7 +98,7 @@ C
             PENMAX = FPENMAX*GAPV(I)
             IF (INACTI == 1 .OR. PENE(I) > PENMAX) THEN
 C               DESACTIVATION DES NOEUDS
-                IF (PENE(I) > PENMAX) 
+                IF (PENE(I) > PENMAX)
      .          WRITE(IOUT,'(A,1PG20.13,A)')
      .                ' MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')' SECONDARY STIFFNESS IS SET TO ZERO'
@@ -283,7 +283,7 @@ C
 
             IF (INACTI == 1 .OR. PENE(I) > PENMAX) THEN
 C               DESACTIVATION DES NOEUDS
-                IF (PENE(I) > PENMAX) 
+                IF (PENE(I) > PENMAX)
      .          WRITE(IOUT,'(A,I8,A,1PG20.13,A)')' NODE ',ITAB(NSVG(I)),
      .                ' : MAX INITIAL PENETRATION ',PENMAX,' IS REACHED'
                 WRITE(IOUT,'(A)')' SECONDARY STIFFNESS IS SET TO ZERO'
@@ -473,8 +473,8 @@ C
 C=======================================================================
       JWARN = 0
         DO 100 I=LFT,LLT
-          IS=CAND_N(I)      
-          IM=CAND_E(I)     
+          IS=CAND_N(I)
+          IM=CAND_E(I)
           IF(STFN(IS)==ZERO) CYCLE
 C
           IF(IPRI>=1.AND.PENE(I)>ZERO)THEN
@@ -586,11 +586,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITAB(*),CAND_M(*),CAND_S(*),INACTI,IGAP  ,
-     4        N1(*) ,N2(*) ,M1(*) ,M2(*)        
+     4        N1(*) ,N2(*) ,M1(*) ,M2(*)
       INTEGER NSV(*),IWPENE
 C     REAL
       my_real
-     .   STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) , 
+     .   STFS(*),STFM(*),X(3,*),GAP_S(*) ,GAP_M(*),PENIS(2,*) ,
      .   PENIM(2,*),NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),GAPV(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -605,7 +605,7 @@ C-----------------------------------------------
       INTEGER I, IS, IM,JWARN
 C     REAL
       my_real
-     .     PENE(MVSIZ), 
+     .     PENE(MVSIZ),
      .     PENEOLD, S2, D, PPLUS
 C-----------------------------------------------
 C

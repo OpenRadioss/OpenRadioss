@@ -64,10 +64,10 @@ C-----------------------------------------------
       INTEGER I, II, IE, IV1, IV2, IV3, IV4, IAD1
       my_real  Y1(MVSIZ),  Y2(MVSIZ),  Y3(MVSIZ),  Y4(MVSIZ),
      .         Z1(MVSIZ),  Z2(MVSIZ),  Z3(MVSIZ),  Z4(MVSIZ),
-     .         YC(MVSIZ),  ZC(MVSIZ), 
+     .         YC(MVSIZ),  ZC(MVSIZ),
      .         N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ),
      .         N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ),
-     .         DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ), DD4(MVSIZ), 
+     .         DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ), DD4(MVSIZ),
      .         D1Y(MVSIZ), D2Y(MVSIZ), D3Y(MVSIZ), D4Y(MVSIZ),
      .         D1Z(MVSIZ), D2Z(MVSIZ), D3Z(MVSIZ), D4Z(MVSIZ)
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C-----------------------------------------------
 C ---- COORDINATES -----------------------------
       DO I=LFT,LLT
         II=I+NFT
-        
+
 	Y1(I)=X(2,IXQ(2,II))
         Z1(I)=X(3,IXQ(2,II))
 
@@ -121,7 +121,7 @@ C ---- NORMAL VECTORS ON FACES------------------
           N4Z(I)= N4Z(I)*(Y1(I)+Y4(I))*0.5
         END DO
       ENDIF
-      
+
 C ---- DISTANCES BETWEEN ELEMS (*4.)------------
       DO I=LFT,LLT
         IE =NFT+I
@@ -130,7 +130,7 @@ C ---- DISTANCES BETWEEN ELEMS (*4.)------------
         IV2 = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + 2 - 1)
         IV3 = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + 3 - 1)
         IV4 = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + 4 - 1)
-        
+
         IF(IV1 <= 0) IV1=IE
         IF(IV2 <= 0) IV2=IE
         IF(IV3 <= 0) IV3=IE

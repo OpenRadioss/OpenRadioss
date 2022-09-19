@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .    KX(*),DKX(*),R11(*),R21(*),R31(*),R12(*),R22(*),R32(*)
        my_real
      .    KE11(3,3,*),KE22(3,3,*),KE33(3,3,*),KE12(3,3,*),
@@ -62,7 +62,7 @@ C---------------------------------------
         K1(2,1,EP)=K1(1,2,EP)
         K1(3,2,EP)=K1(2,3,EP)
         K1(3,1,EP)=K1(1,3,EP)
-       ENDDO 
+       ENDDO
        DO EP=JFT,JLT
         K2(1,1,EP)=R12(EP)*R12(EP)
         K2(1,2,EP)=R12(EP)*R22(EP)
@@ -73,7 +73,7 @@ C---------------------------------------
         K2(2,1,EP)=K2(1,2,EP)
         K2(3,2,EP)=K2(2,3,EP)
         K2(3,1,EP)=K2(1,3,EP)
-       ENDDO 
+       ENDDO
        DO EP=JFT,JLT
         K3(1,1,EP)=R11(EP)*R12(EP)
         K3(1,2,EP)=R11(EP)*R22(EP)
@@ -84,10 +84,10 @@ C---------------------------------------
         K3(3,1,EP)=R31(EP)*R12(EP)
         K3(3,2,EP)=R31(EP)*R22(EP)
         K3(3,3,EP)=R31(EP)*R32(EP)
-       ENDDO 
+       ENDDO
 C
-       DO I=1,3 
-        DO J=I,3 
+       DO I=1,3
+        DO J=I,3
          DO EP=JFT,JLT
           KE11(I,J,EP)=KX(EP)*K1(I,J,EP)
           KE22(I,J,EP)=KX(EP)*(K1(I,J,EP)+K2(I,J,EP)+
@@ -96,8 +96,8 @@ C
          ENDDO
         ENDDO
        ENDDO
-       DO I=1,3 
-        DO J=1,3 
+       DO I=1,3
+        DO J=1,3
          DO EP=JFT,JLT
           KE12(I,J,EP)=-KX(EP)*(K1(I,J,EP)+K3(I,J,EP))
           KE13(I,J,EP)=KX(EP)*K3(I,J,EP)
@@ -108,26 +108,26 @@ C
 C-----frotement---
        DO EP=JFT,JLT
         IF (DKX(EP)>ZERO) THEN
-         DO I=1,3 
-          DO J=I,3 
+         DO I=1,3
+          DO J=I,3
            KE11(I,J,EP)=KE11(I,J,EP)+DKX(EP)*K1(I,J,EP)
            KE22(I,J,EP)=KE22(I,J,EP)+DKX(EP)*(K1(I,J,EP)-K3(I,J,EP))
            KE33(I,J,EP)=KE33(I,J,EP)+DKX(EP)*K2(I,J,EP)
            KE22(I,J,EP)=KE22(I,J,EP)+DKX(EP)*(K2(I,J,EP)-K3(J,I,EP))
           ENDDO
          ENDDO
-         DO I=1,3 
-          DO J=1,3 
+         DO I=1,3
+          DO J=1,3
            KE12(I,J,EP)=KE12(I,J,EP)-DKX(EP)*(K1(I,J,EP)-K3(I,J,EP))
            KE13(I,J,EP)=KE13(I,J,EP)-DKX(EP)*K3(I,J,EP)
            KE23(I,J,EP)=KE23(I,J,EP)-DKX(EP)*(K2(I,J,EP)-K3(I,J,EP))
           ENDDO
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
 C
-       DO I=1,3 
-        DO J=I+1,3 
+       DO I=1,3
+        DO J=I+1,3
          DO EP=JFT,JLT
           KE11(J,I,EP)=KE11(I,J,EP)
           KE22(J,I,EP)=KE22(I,J,EP)
@@ -138,4 +138,4 @@ C
 C
       RETURN
       END
- 
+

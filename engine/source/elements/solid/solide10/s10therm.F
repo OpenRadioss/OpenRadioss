@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        S10FORC3                      source/elements/solid/solide10/s10forc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S10THERM(PM   ,MAT   ,NC  ,VOL, 
-     .                    PX   ,PY    ,PZ  ,NI, 
+      SUBROUTINE S10THERM(PM   ,MAT   ,NC  ,VOL,
+     .                    PX   ,PY    ,PZ  ,NI,
      .                    DT1  ,TEMPNC,TEL ,DIE  ,
      .                    FPHI ,OFFG  ,OFF )
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C
       DO N=1,10
        DO I=LFT,LLT
           IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
-          PHIX(I) = PHIX(I) +  TEMPNC(NC(I,N))*PX(I,N)              
+          PHIX(I) = PHIX(I) +  TEMPNC(NC(I,N))*PX(I,N)
           PHIY(I) = PHIY(I) +  TEMPNC(NC(I,N))*PY(I,N)
           PHIZ(I) = PHIZ(I) +  TEMPNC(NC(I,N))*PZ(I,N)
        ENDDO
@@ -80,7 +80,7 @@ C
 C
       DO I=LFT,LLT
         IF(OFF(I)==ZERO.OR.OFFG(I)<=ZERO) CYCLE
-        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
         PHIX(I) = KC*PHIX(I)
         PHIY(I) = KC*PHIY(I)
         PHIZ(I) = KC*PHIZ(I)

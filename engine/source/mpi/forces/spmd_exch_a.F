@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE SPMD_EXCH_A(
      1   A        ,AR     ,STIFN,STIFR ,MS  ,
      2   IAD_ELEM ,FR_ELEM,MSNF ,IFSUBM,SIZE,
-     3   LENR     ,FTHE   ,MCP  ,DMSPH ,CONDN, 
+     3   LENR     ,FTHE   ,MCP  ,DMSPH ,CONDN,
      4   MS_2D,MCP_OFF,
      5   FORNEQS  ,NFACNIT,LENC  ,FCONT ,H3D_DATA )
 C--------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
      .        IAD_SEND(NSPMD+1),IAD_RECV(NSPMD+1),
      .        REQ_R(NSPMD),REQ_S(NSPMD)
       DATA MSGOFF/120/
-      
+
       REAL(kind=8)
      .        RBUF(SIZE*LENR +  NFACNIT*LENR + LENC*LENR),
      .        SBUF(SIZE*LENR +  NFACNIT*LENR + LENC*LENR)
@@ -97,7 +97,7 @@ C-----------------------------------------------
         ACC_POINTER=>ACC_DP(1:3,1:NUMNOD)
 #else
         ACC_POINTER=>A(1:3,1:NUMNOD)
-#endif    
+#endif
       LOC_PROC = ISPMD + 1
       L = 1
       IAD_RECV(1) = 1
@@ -454,7 +454,7 @@ C--------------------------------------------------------------------
 C envoi a N+I mod P
 Cel test si msg necessaire a envoyer a completer par test interface
        IF(IAD_ELEM(1,I+1)-IAD_ELEM(1,I)>0)THEN
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           SIZ = IAD_SEND(I+1)-IAD_SEND(I)
           L = IAD_SEND(I)
           CALL MPI_ISEND(
@@ -466,7 +466,7 @@ C--------------------------------------------------------------------
 C
 C decompactage
 C
-      IF(SOL2SPH_FLAG/=0)THEN 
+      IF(SOL2SPH_FLAG/=0)THEN
        IADMSPH=5
        IF(IRODDL/=0)IADMSPH=IADMSPH+4
        IF(INTHEAT /= 0 .OR. ITHERM_FE /= 0 )IADMSPH=IADMSPH+1
@@ -787,7 +787,7 @@ C --- NITSCHE
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
-             FORNEQS(1,NOD) = FORNEQS(1,NOD) + RBUF(L) 
+             FORNEQS(1,NOD) = FORNEQS(1,NOD) + RBUF(L)
              FORNEQS(2,NOD) = FORNEQS(2,NOD) + RBUF(L+1)
              FORNEQS(3,NOD) = FORNEQS(3,NOD) + RBUF(L+2)
              L = L + NFACNIT
@@ -798,9 +798,9 @@ C --- /CONT/MAX output
 #include      "vectorize.inc"
           DO J=IAD_ELEM(1,I),IAD_ELEM(1,I+1)-1
              NOD = FR_ELEM(J)
-             FCONT(1,NOD) =  FCONT(1,NOD) + RBUF(L)  
+             FCONT(1,NOD) =  FCONT(1,NOD) + RBUF(L)
              FCONT(2,NOD) =  FCONT(2,NOD) + RBUF(L+1)
-             FCONT(3,NOD) =  FCONT(3,NOD) + RBUF(L+2) 
+             FCONT(3,NOD) =  FCONT(3,NOD) + RBUF(L+2)
              L = L + 3
           END DO
        ENDIF
@@ -824,7 +824,7 @@ C
                     A(3,NOD) = ACC_POINTER(3,NOD)
                 ENDDO
             ENDIF
-        ENDDO   
+        ENDDO
       ENDIF
 
       DO I = 1, NSPMD

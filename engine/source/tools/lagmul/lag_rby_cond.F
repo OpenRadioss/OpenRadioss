@@ -59,7 +59,7 @@ C-----------------------------------------------
      .        XROT(9),IPR(3)
 C======================================================================|
       MSL = NPBYL(2,NN)
-      MSL2= MSL*2 
+      MSL2= MSL*2
       NFIX= 0
       NFRE= 0
       IFX = 0
@@ -124,7 +124,7 @@ C---    CONDENSATION: CDG, masse, transl velocity, accel
           XX = X(1,N) - XM(1)
           YY = X(2,N) - XM(2)
           ZZ = X(3,N) - XM(3)
-c         
+c
 c          VG(1)=VG(1) + VR(1,N)*INER(N)+MASS(N)*(YY*V(3,N)-ZZ*V(2,N))
 c          VG(2)=VG(2) + VR(2,N)*INER(N)+MASS(N)*(ZZ*V(1,N)-XX*V(3,N))
 c          VG(3)=VG(3) + VR(3,N)*INER(N)+MASS(N)*(XX*V(2,N)-YY*V(1,N))
@@ -137,7 +137,7 @@ c---
           XY=XX*YY
           YZ=YY*ZZ
           XZ=XX*ZZ
-c          
+c
           XX=XX*XX
           YY=YY*YY
           ZZ=ZZ*ZZ
@@ -178,7 +178,7 @@ C
 c        VRM(1)= VG(1)*B1 + VG(2)*C3 + VG(3)*C2
 c        VRM(2)= VG(1)*C3 + VG(2)*B2 + VG(3)*C1
 c        VRM(3)= VG(1)*C2 + VG(2)*C1 + VG(3)*B3
-        
+
 C
         AG(1) = AG(1) - VRM(2)*VG(3) + VRM(3)*VG(2)
         AG(2) = AG(2) - VRM(3)*VG(1) + VRM(1)*VG(3)
@@ -186,7 +186,7 @@ C
 C
         ARM(1)= AG(1)*B1 + AG(2)*C3 + AG(3)*C2
         ARM(2)= AG(1)*C3 + AG(2)*B2 + AG(3)*C1
-        ARM(3)= AG(1)*C2 + AG(2)*C1 + AG(3)*B3        
+        ARM(3)= AG(1)*C2 + AG(2)*C1 + AG(3)*B3
 C-----------------------------        
         IF (NFRE==0) THEN
 C---      Total condensation => direct solution + decondensation
@@ -208,7 +208,7 @@ C---      Total condensation => direct solution + decondensation
             VX3 = VRM(1)*YY - VRM(2)*XX
             A(1,NS) = ATM(1) + USDT*
      .                (VTM(1)-V(1,NS)+VX1+DDT*(VRM(2)*VX3-VRM(3)*VX2))
-            A(2,NS) = ATM(2) + USDT* 
+            A(2,NS) = ATM(2) + USDT*
      .                (VTM(2)-V(2,NS)+VX2+DDT*(VRM(3)*VX1-VRM(1)*VX3))
             A(3,NS) = ATM(3) + USDT*
      .                (VTM(3)-V(3,NS)+VX3+DDT*(VRM(1)*VX2-VRM(2)*VX1))
@@ -316,11 +316,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,JF,IC,IK,IR,IFX,IFR,N,NS,NFIX,NFRE,MSL,TNSL
-      my_real 
+      my_real
      .  XX,YY,ZZ,VX1,VX2,VX3,USDT,DDT,XM(3),VTM(3),VRM(3),ATM(3),ARM(3)
 C======================================================================|
       USDT = ONE / DT12
-      DDT  = HALF *DT12 
+      DDT  = HALF *DT12
       TNSL = 0
       IC = NCR
       DO IR = 1,NRBYLAG
@@ -339,7 +339,7 @@ C---      calculate acceleration of condensed node: a = ao + [M]-1[L]t la
               IF (J<=3) THEN
 c                A(J,I)  = A(J,I)  - XLL(IK)/MASS(I)
                 CALL ANCMSG(MSGID=117,ANMODE=ANINFO,
-     .                    I1=I) 
+     .                    I1=I)
                 CALL ARRET(2)
               ELSEIF(I/=IFX) THEN
                 J = J-3

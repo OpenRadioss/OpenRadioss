@@ -71,7 +71,7 @@ C-----------------------------------------------
 !       TAG_SKN : integer ; dimension=NUMSKW+NSUBMOD+1
 !                 tag array --> tag the i SKEW if a SPRING uses it
 !                 tag array=0 --> the SKEW is not used by a SPRING
-!                 tag array=1 --> the SKEW is used by one SPRING      
+!                 tag array=1 --> the SKEW is used by one SPRING
 !                 tag array>1 --> the SKEW is used by several SPRING
 !                 tag array <0 --> the SKEW is used by serveral options (has to be duplicated to all domains that have the nodes)
 !       CEP : integer ; dimension=NUMNOD
@@ -110,17 +110,17 @@ C=======================================================================
 !       CHECK_SKEW description
 !       CHECK_SKEW sticks a SKEW on a given processor in order to reduce
 !       the SKEW communication in the engine.
-!       A SKEW can be linked to a SPRING --> in this case, the SKEW is 
+!       A SKEW can be linked to a SPRING --> in this case, the SKEW is
 !       stuck on the local SPRING processor
-!       If a SKEW is used by several SPRING, the SKEW is stuck on each 
+!       If a SKEW is used by several SPRING, the SKEW is stuck on each
 !       processors that need it
-!       
+!
 !       CHECK_SKEW organization :
 !       - link every SPRING with theirs SKEW
 !       - if several SPRING use a same SKEW, allocate MULTIPLE_SKEW(I)%PLIST
 !       - stick a SKEW on a given processor, count the number of SKEW per
 !         processor, initialize the MULTIPLE_SKEW(I)%PLIST array
-!       - count the number of SKEW per processor in the case of multiple 
+!       - count the number of SKEW per processor in the case of multiple
 !         SPRING per SKEW
 !$ENDCOMMENT
 C
@@ -149,7 +149,7 @@ C
 C
           IF (IGEO(2,IXR(1,I) )>1) THEN
             IF(  TAG_SKN( IGEO(2,IXR(1,I))) >= 0  ) THEN
-            IF(SPRING_TYPE==8 .OR. SPRING_TYPE==13 .OR. SPRING_TYPE== 23) NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1     
+            IF(SPRING_TYPE==8 .OR. SPRING_TYPE==13 .OR. SPRING_TYPE== 23) NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
             ENDIF
           ENDIF
         ENDDO
@@ -172,10 +172,10 @@ C
                 IF (IXR(5,I) > 0) MAT_TYPE = IPM(2,IXR(5,I))
 C
                 IF (R_SKEW(I) > 1) THEN
-                    IF( TAG_SKN(R_SKEW(I)) >= 0) THEN    
+                    IF( TAG_SKN(R_SKEW(I)) >= 0) THEN
                         IF(SPRING_TYPE==8 .OR. (SPRING_TYPE== 23 .AND. MAT_TYPE == 108)) THEN
                                 NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
-                                SKEW_PER_SP( NUMBER_SKEW_SP ) = R_SKEW(I)   
+                                SKEW_PER_SP( NUMBER_SKEW_SP ) = R_SKEW(I)
                                 LOCAL_P(NUMBER_SKEW_SP) = CEP(I)+1
                                 TAG_SKN( R_SKEW(I) ) = TAG_SKN( R_SKEW(I) ) + 1
                         ENDIF
@@ -186,10 +186,10 @@ C
                     IF(  TAG_SKN(IGEO(2,IXR(1,I))) >=0 ) THEN
                         IF(SPRING_TYPE==8 .OR. SPRING_TYPE==13 .OR. SPRING_TYPE== 23) THEN
                                 NUMBER_SKEW_SP = NUMBER_SKEW_SP + 1
-                                SKEW_PER_SP( NUMBER_SKEW_SP ) = IGEO( 2,IXR(1,I) )    
+                                SKEW_PER_SP( NUMBER_SKEW_SP ) = IGEO( 2,IXR(1,I) )
                                 LOCAL_P(NUMBER_SKEW_SP) = CEP(I)+1
                                 TAG_SKN( IGEO(2,IXR(1,I)) ) = TAG_SKN( IGEO(2,IXR(1,I)) ) + 1
-                        ENDIF     
+                        ENDIF
                     ENDIF
                 ENDIF
         ENDDO
@@ -201,11 +201,11 @@ C
                         IF(.NOT.ALLOCATED(MULTIPLE_SKEW(I)%PLIST)) ALLOCATE( MULTIPLE_SKEW(I)%PLIST(SIZE_SKEW) )
                         MULTIPLE_SKEW(I)%PLIST(1:SIZE_SKEW) = 0
                 ENDIF
-        ENDDO    
+        ENDDO
 
         ALLOCATE(P_SKEW(NUMSKW+1))
         P_SKEW(1:NUMSKW+1) = 0
-                
+
 !       stick a SKEW on a given processor
         DO J=1,NUMBER_SKEW_SP
                 I = SKEW_PER_SP(J)
@@ -225,7 +225,7 @@ C
                                 MULTIPLE_SKEW(I)%PLIST(P_SKEW(I)) =  IMAIN
                         ELSE
                                 NSKWP(IMAIN) = NSKWP(IMAIN) + 1
-                        ENDIF                                
+                        ENDIF
                 ENDIF
         ENDDO
 

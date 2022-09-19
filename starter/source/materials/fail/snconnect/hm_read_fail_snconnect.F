@@ -55,9 +55,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
        TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C     REAL
-      INTEGER    ::     ID_0N,ID_0S,ID_FN,ID_FS,ISOLID,NFAIL,ISYM 
+      INTEGER    ::     ID_0N,ID_0S,ID_FN,ID_FS,ISOLID,NFAIL,ISYM
       my_real    ::     A2, B2 , A3, B3,XSCALE0,XSCALEF,AREASCALE,
      .                  XSCALE0_UNIT,XSCALEF_UNIT
 C-----------------------------------------------
@@ -119,22 +119,22 @@ Card2
       CALL HM_GET_FLOATV         ('XSCALE_F'  ,XSCALEF   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('AREA_scale',AREASCALE ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-------------------------------------------- 
-      IF (XSCALE0 == ZERO) THEN 
+      IF (XSCALE0 == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('XSCALE0' ,XSCALE0_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          XSCALE0 = ONE * XSCALE0_UNIT
       ENDIF
 
-      IF (XSCALEF == ZERO)THEN 
+      IF (XSCALEF == ZERO)THEN
          CALL HM_GET_FLOATV_DIM('XSCALEF' ,XSCALEF_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          XSCALEF = ONE * XSCALEF_UNIT
-      ENDIF 
+      ENDIF
 C-------------------------------------------- 
       NFAIL  = 1
       IF (ISOLID == 0) THEN
         ISOLID = 1
       ELSE IF (ISOLID == 2) THEN
         NFAIL = 4                ! all Gauss points must fail
-      END IF  
+      END IF
       IF (B2 == ZERO) B2 = ONE
       IF (B3 == ZERO) B3 = ONE
 c-----------------------------------------------------------------------
@@ -161,7 +161,7 @@ c-----------------------------------------------------------------------
         WRITE(IOUT, 1000)
       ELSE
         WRITE(IOUT, 1100) A2,B2,A3,B3,ISOLID,ISYM,
-     .                    ID_0N,ID_0S,ID_FN,ID_FS,XSCALE0,XSCALEF                  
+     .                    ID_0N,ID_0S,ID_FN,ID_FS,XSCALE0,XSCALEF
       ENDIF
 C-----------
       RETURN

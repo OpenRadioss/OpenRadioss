@@ -56,7 +56,7 @@ C-----------------------------------------------
       my_real
      .  DETJAC
       my_real,
-     .  DIMENSION(NCTRL,MVSIZ) :: N 
+     .  DIMENSION(NCTRL,MVSIZ) :: N
       my_real,
      .  DIMENSION(3*NCTRL,MVSIZ) :: B
       my_real,
@@ -83,10 +83,10 @@ C                                       [  ..      ..    ..  ] /  L
 
       DO J=1,NCTRL
        INCTRL = (J-1)*3
-       N(J,I)=R(J) 
+       N(J,I)=R(J)
        B(INCTRL+1,I) = DRDXI(J,1)
        B(INCTRL+2,I) = DRDXI(J,2)
-       B(INCTRL+3,I) = DRDXI(J,3) 
+       B(INCTRL+3,I) = DRDXI(J,3)
       ENDDO
 
 C-----------

@@ -213,7 +213,7 @@ C
         IDEB = 1+(IAD_I2M(I)-1)*ISIZE
         LEN = IAD_I2M(I+1)-IAD_I2M(I)
         IAD = IAD_I2M(I)-1
-        IF(INTTH2 == 1) THEN 
+        IF(INTTH2 == 1) THEN
          IF (IDT_THERM== 1) THEN
           IF (IRODDL==0) THEN
 #include      "vectorize.inc"

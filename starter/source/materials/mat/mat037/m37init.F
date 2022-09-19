@@ -44,7 +44,7 @@ C     which is defined by B and n in input
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
       my_real :: PM(NPROPM,*),X(3,*), UVAR(LLT,NUVAR)
       INTEGER,INTENT(IN)                   :: ILOADP(SIZLOADP,*),NEL
       my_real,INTENT(IN)                   :: FACLOAD(LFACLOAD,*)
-      TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF  
+      TYPE(G_BUFEL_), INTENT(INOUT),TARGET :: GBUF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -94,9 +94,9 @@ C-----------------------------------------------
         P0        =  UPARAM(9)
         RHO10     =  UPARAM(11)
         RHO20     =  UPARAM(12)
-        A1        =  UPARAM(10)         
-        P         = -P0  
-        RHO       =  RHO10 * A1 + (ONE-A1)*RHO20     
+        A1        =  UPARAM(10)
+        P         = -P0
+        RHO       =  RHO10 * A1 + (ONE-A1)*RHO20
         IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
           MU1P1     = ONE       !(P/C1+ONE)
           MU2P1     = ONE       !( ONE+P/P0)**(ONE/GAM)

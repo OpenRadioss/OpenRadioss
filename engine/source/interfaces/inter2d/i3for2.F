@@ -203,7 +203,7 @@ C
          FSKYI(NISKYL+1,5)= ZERO
          ISKY(NISKYL+3) = I
         ENDIF
-      ENDIF  
+      ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
      .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.
@@ -295,7 +295,7 @@ C
  400   E(J3)=E(J3)+FZI*H(JJ)
        E(I2)=E(I2)-FYI
        E(I3)=E(I3)-FZI
-      ELSE 
+      ELSE
 C
         IF(IPAS==0) THEN
 #include "lockon.inc"
@@ -353,7 +353,7 @@ C
          FSKYI(NISKYL+3,2)= FSKYI(NISKYL+3,2)-FYI
          FSKYI(NISKYL+3,3)= FSKYI(NISKYL+3,3)-FZI
         ENDIF
-      ENDIF  
+      ENDIF
 C
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT>0.AND.
      .    (TT>=TANIM.OR.TT>=TOUTP.OR.TT>=H3D_DATA%TH3D.OR.

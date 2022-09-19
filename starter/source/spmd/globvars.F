@@ -105,7 +105,7 @@ C   calcul nu nombre Elts 1D pour animations.
      .       IGEO(11,IXR(1,I))==26.OR.
      .       IGEO(11,IXR(1,I))==13.OR.
      .       IGEO(11,IXR(1,I))==25.OR.
-     .       IGEO(11,IXR(1,I))==45.OR.     
+     .       IGEO(11,IXR(1,I))==45.OR.
      .         IGEO(11,IXR(1,I))>=29.AND.
      .         IGEO(11,IXR(1,I))<=33 .OR.
      .       IGEO(11,IXR(1,I))==23)THEN
@@ -118,7 +118,7 @@ C   calcul nu nombre Elts 1D pour animations.
             NB1DG =NB1DG+1
           ENDIF
 
-        ENDDO    
+        ENDDO
 C   pour les sections et pour le proc0 on calcule le max
 C   des nombres d'elements coques pour toutes les sections
 cow

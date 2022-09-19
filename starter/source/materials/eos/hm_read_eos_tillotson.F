@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -104,9 +104,9 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM(23)  = E0
@@ -122,7 +122,7 @@ C-----------------------------------------------
       PM(163) = BETA
 
       !COMPUTING INITIAL PRESSURE FOR PM(31) -> SIG(1:3,*)
-      
+
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
       ELSE
@@ -132,7 +132,7 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
@@ -152,25 +152,25 @@ C-----------------------------------------------
          FACC1 = EXPA*EXPB
          FACPB = EXPA
         ENDIF
-      ENDIF      
-      ETA   = ONE+MU0       
+      ENDIF
+      ETA   = ONE+MU0
       OMEGA = ONE+E0/(ER*ETA**2)
       AA    = FACC1*C1*MU0+FACC2*C2*MU2
       BB    = A+FACPB*B/OMEGA
       PP    = MAX(AA+BB*ETA*E0,PM(37))
       PM(31)= PP
-        
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
-      
+
       DPDMU=FACC1*C1+TWO*FACC2*C2*MU0+BB*ETA*PP*DF*DF
      .         +E0*( BB+(TWO*E0/ETA-PP*DF*DF)
      .         *B*FACPB/(ER*ETA*OMEGA**2) )
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0      
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
 
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -180,7 +180,7 @@ C-----------------------------------------------
       ENDIF
 
       RETURN
-      
+
  1000 FORMAT(
      & 5X,'  TILLOTSON EOS     ',/,
      & 5X,'  --------------     ',/)
@@ -197,7 +197,7 @@ C-----------------------------------------------
      & 5X,'REFERENCE DENSITY. . .  . . . . . . . . .=',1PG20.13/,
      & 5X,'ALPHA . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BETA. . . . . . . . . . . . . . . . . . .=',1PG20.13//)
- 
+
       RETURN
       END
 

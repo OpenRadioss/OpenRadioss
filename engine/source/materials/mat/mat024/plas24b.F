@@ -64,8 +64,8 @@ C-----------------------------------------------
      .   YOUNG, NU, G, DEN,  RATE, FAC, FAC1,ROK, R2, AJ3, CS3T,
      .   BB, DF, RF, RF2, AJ2, AJJ, DKDSM, DRFDSM, B0, DRF3, B1,
      .   B2, ALPHA, PHI, TO, DFDTO, HPV, HP, ECR,SIGM,
-     .   TS1, TS2, TS3, TS4, TS5, TS6, 
-     .   DFS1,DFS2,DFS3,DFS4,DFS5,DFS6,DGS1,DGS2,DGS3,DGS4,DGS5,DGS6, 
+     .   TS1, TS2, TS3, TS4, TS5, TS6,
+     .   DFS1,DFS2,DFS3,DFS4,DFS5,DFS6,DGS1,DGS2,DGS3,DGS4,DGS5,DGS6,
      .   H1A, H2A, H3A, H4A,H5A, H6A, H1N, H2N, H3N, H4N, H5N, H6N, HH,
      .   LAMBDA,DEPSP1,DEPSP2,DEPSP3,DEPSP4,DEPSP5,DEPSP6,
      .   DEPSEL1,DEPSEL2,DEPSEL3,DEPSEL4,DEPSEL5,DEPSEL6,
@@ -115,7 +115,7 @@ c------------------------------------------------
         DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
         SCAL1(I)=HALF+SIGN(HALF,DE1(I)-ONE)
         SCAL2(I)=HALF+SIGN(HALF,DE2(I)-ONE)
-        SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)      
+        SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)
         DE4(I)=SCAL1(I)*SCAL2(I)
         DE5(I)=SCAL2(I)*SCAL3(I)
         DE6(I)=SCAL3(I)*SCAL1(I)
@@ -152,26 +152,26 @@ c-----
         S1(I) = S1(I) - SM(I)
         S2(I) = S2(I) - SM(I)
         S3(I) = S3(I) - SM(I)
-c----------------------------     
+c----------------------------
         DENOM = ABS(CRAK(I,1))+ABS(CRAK(I,2))+ABS(CRAK(I,3))
-     .        +(ABS(SIG(I,4)) +ABS(SIG(I,5)) +ABS(SIG(I,6)))/G 
-c----------------------------     
+     .        +(ABS(SIG(I,4)) +ABS(SIG(I,5)) +ABS(SIG(I,6)))/G
+c----------------------------
         IF (DENOM == ZERO) CYCLE
-c----------------------------    
+c----------------------------
         NUMER = ABS(DEPS1(I))+ABS(DEPS2(I))+ABS(DEPS3(I))
      .        + ABS(DEPS4(I))+ABS(DEPS5(I))+ABS(DEPS6(I))
 c
         RATE  = NUMER / DENOM
         NITER = NINT(THREE*RATE) + 1
-        NITER = MIN0(NITER,10)    
+        NITER = MIN0(NITER,10)
 c--------------------------------
-        FAC = SCLE2(I)/NITER      
-        DEPS1(I) = FAC * DEPS1(I) 
-        DEPS2(I) = FAC * DEPS2(I) 
-        DEPS3(I) = FAC * DEPS3(I) 
-        DEPS4(I) = FAC * DEPS4(I) 
-        DEPS5(I) = FAC * DEPS5(I) 
-        DEPS6(I) = FAC * DEPS6(I) 
+        FAC = SCLE2(I)/NITER
+        DEPS1(I) = FAC * DEPS1(I)
+        DEPS2(I) = FAC * DEPS2(I)
+        DEPS3(I) = FAC * DEPS3(I)
+        DEPS4(I) = FAC * DEPS4(I)
+        DEPS5(I) = FAC * DEPS5(I)
+        DEPS6(I) = FAC * DEPS6(I)
 c---------------------------------------------------------
 c ...   DEBUT DES ITERATIONS
 c---------------------------------------------------------
@@ -238,13 +238,13 @@ C           DF/DSIG
             TS3 = S3(I)**2 + S5(I)**2 + S6(I)**2 - TWO*THIRD*AJ2
             TS4 = TWO* (S5(I)*S6(I)-S4(I)*S3(I))
             TS5 = TWO* (S6(I)*S4(I)-S5(I)*S1(I))
-            TS6 = TWO* (S4(I)*S5(I)-S6(I)*S2(I))     
+            TS6 = TWO* (S4(I)*S5(I)-S6(I)*S2(I))
             DFS1= B0 + B1*S1(I) + B2*TS1
             DFS2= B0 + B1*S2(I) + B2*TS2
             DFS3= B0 + B1*S3(I) + B2*TS3
-            DFS4= TWO*B1*S4(I) + B2*TS4 
-            DFS5= TWO*B1*S5(I) + B2*TS5 
-            DFS6= TWO*B1*S6(I) + B2*TS6 
+            DFS4= TWO*B1*S4(I) + B2*TS4
+            DFS5= TWO*B1*S5(I) + B2*TS5
+            DFS6= TWO*B1*S6(I) + B2*TS6
 C
             IF (SM(I) > ROK .and. VK(I) > VKY) THEN
               ALPHA = (ONE-VK(I))*ALI0  + (VK(I)-VKY)*ALF0
@@ -272,7 +272,7 @@ c              FAC=(SEUIL-B0)/(SEUIL+THIRD * VK0(I) *DRFDSM)
               FAC1= ZERO
             ENDIF
 c           Securite on ne veut pas que la normale a la loi d'ecoulement soit rentrante
-c + on liminte le cos de l'angle max entre citere etloi d'ecoulement a 0.5 
+c + on liminte le cos de l'angle max entre citere etloi d'ecoulement a 0.5
 c dans le repere I1 J=sqrt(J2) ng=normale a  G (alpha,1)
 c normal a f nf=(B0,DFDJ)
 c cos= ng.nf/||nf||||ng||
@@ -289,7 +289,7 @@ c           Dilatation max atteinte
 c           Ecoulement non associe
             DGS1=FAC*ALPHA+S1(I)/(TWO*AJJ)
             DGS2=FAC*ALPHA+S2(I)/(TWO*AJJ)
-            DGS3=FAC*ALPHA+S3(I)/(TWO*AJJ)       
+            DGS3=FAC*ALPHA+S3(I)/(TWO*AJJ)
             DGS4=S4(I)/AJJ
             DGS5=S5(I)/AJJ
             DGS6=S6(I)/AJJ
@@ -306,7 +306,7 @@ c correction erreur           ALPHA = DGS1+DGS2+DGS3
 C ECROUISSAGE
 c contribution deviatorique
             IF (SM(I) < ROK) THEN
-              TO = SQR3_2*VK0(I)*RF         
+              TO = SQR3_2*VK0(I)*RF
             ELSE
               TO = SQR3_2*VK(I)*RF
             ENDIF
@@ -315,7 +315,7 @@ c contribution deviatorique
             ECR  = PHI*DFDTO*HBP*FAC
 c           ECR=  TEN*PHI*DFDTO*HBP*FAC*(ONE-VK0(I))/(ONE-VKY) ! ecrousissage progressif
 c            IF (VK0(I)==ONE ) ECR=ZERO
-c Contribution volumetrique 
+c Contribution volumetrique
             HPV =HV0*(ONE-HVFAC*VK(I))*MAX(ONE,EXP(EXPO*EPSVP(I)))
             IF (SM(I) >= ROK) THEN
               IF(ALPHA>=ZERO) HPV=ZERO
@@ -327,7 +327,7 @@ c Contribution volumetrique
               ENDIF
             ENDIF
 c plasticite parfaite sur le critere de rupture
-c            ECR=ECR*(HALF-SIGN(HALF,VK(I)-ONE)) 
+c            ECR=ECR*(HALF-SIGN(HALF,VK(I)-ONE))
 c            write(993,"(A,3E12.3)")'vkvk0  ',VK(I),VK0(I),SQRT(R2/RF2)
 c            write(993,"(A,3E12.3)")'SMrobrk',sm(I),ROB(I),ROK
             IF(R2>=RF2 .OR.VK(I)>=ONE )THEN
@@ -368,7 +368,7 @@ C LAMBDA
      .         - MIN(ZERO,ECR)
 C
             LAMBDA= H1A*DEPS1(I)+H2A*DEPS2(I)+H3A*DEPS3(I)
-     .             +H4A*DEPS4(I)+H5A*DEPS5(I)+H6A*DEPS6(I)  
+     .             +H4A*DEPS4(I)+H5A*DEPS5(I)+H6A*DEPS6(I)
             LAMBDA=LAMBDA/HH
 !---
 ! avoid negative plastic strain
@@ -424,7 +424,7 @@ c
             DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
             SCAL1(I)=HALF+SIGN(HALF,DE1(I)-ONE)
             SCAL2(I)=HALF+SIGN(HALF,DE2(I)-ONE)
-            SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)      
+            SCAL3(I)=HALF+SIGN(HALF,DE3(I)-ONE)
             DE4(I)=SCAL1(I)*SCAL2(I)
             DE5(I)=SCAL2(I)*SCAL3(I)
             DE6(I)=SCAL3(I)*SCAL1(I)
@@ -496,7 +496,7 @@ c           on reprojette si en dehors du critere
               IF (SCAL3(I) > ZEP9) SIG(I,3) =  S3(I)*FAC+SM(I)
               IF (SCAL1(I)*SCAL2(I) > ZEP9) SIG(I,4) =  S4(I)*FAC
               IF (SCAL2(I)*SCAL3(I) > ZEP9) SIG(I,5) =  S5(I)*FAC
-              IF (SCAL3(I)*SCAL1(I) > ZEP9) SIG(I,6) =  S6(I)*FAC      
+              IF (SCAL3(I)*SCAL1(I) > ZEP9) SIG(I,6) =  S6(I)*FAC
               VK(I) = ONE
               C11 = ONE/DE1(I)/YOUNG
               C12 = -NU*SCAL1(I)*SCAL2(I)/YOUNG
@@ -513,7 +513,7 @@ C
               DE3(I)=ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
               SCAL1(I)=HALF + SIGN(HALF,DE1(I)-ONE)
               SCAL2(I)=HALF + SIGN(HALF,DE2(I)-ONE)
-              SCAL3(I)=HALF + SIGN(HALF,DE3(I)-ONE)        
+              SCAL3(I)=HALF + SIGN(HALF,DE3(I)-ONE)
               DE4(I)=SCAL1(I)*SCAL2(I)
               DE5(I)=SCAL2(I)*SCAL3(I)
               DE6(I)=SCAL3(I)*SCAL1(I)
@@ -540,7 +540,7 @@ C
 C
             ROB(I) = MIN(ROB(I), ROB(I)+HPV*DEPSVP, SM(I))
             ROK = ROB(I) - RO0 + ROK0
- 
+
             IF (SM(I) >= RT-TOL)THEN
               VKK=ONE
             ELSEIF(SM(I) > RC) THEN
@@ -556,13 +556,13 @@ c             si au dela de la cape, on change rob
                 ROB(I) = ROK+RO0-ROK0
                 VKK = ONE
               ELSE
-c               sinon on calcule k0          
+c               sinon on calcule k0
                 VKK = VK(I)/MAX(VKMAX,EM03)
               ENDIF
             ENDIF
             VKK   = MIN(VKK,ONE)
             VK0(I)= MAX(VKK,VK0(I))
-c            write(7,*)'normal'         
+c            write(7,*)'normal'
 c
           ELSE
 c           PURE TRIAXIAL TO SOLVE UNDETERMINATION
@@ -582,10 +582,10 @@ c           PURE TRIAXIAL TO SOLVE UNDETERMINATION
 	           SIG(I,5) = SIG(I,5) + G*DEPS5(I)
             SIG(I,6) = SIG(I,6) + G*DEPS6(I)
             ROB(I) = RO
-            VK0(I) = ONE  
-c            write(7,*)'pure triaxial'         
+            VK0(I) = ONE
+c            write(7,*)'pure triaxial'
           ENDIF
-c         equivalent plastic strain for output     
+c         equivalent plastic strain for output
           R2  = (S1(I)**2 + S2(I)**2 + S3(I)**2
      .        + (S4(I)**2 + S5(I)**2 + S6(I)**2)*TWO)*THREE_HALF
           SIGM = SIG(I,1) + SIG(I,2) + SIG(I,2)

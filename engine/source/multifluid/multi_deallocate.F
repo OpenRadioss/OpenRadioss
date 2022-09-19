@@ -81,27 +81,27 @@ C     Face data
 C     Phase data
          NBMAT = MULTI_FVM%NBMAT
          IF (NBMAT > 1) THEN
-            IF (ALLOCATED(MULTI_FVM%PHASE_ALPHA)) 
+            IF (ALLOCATED(MULTI_FVM%PHASE_ALPHA))
      .           DEALLOCATE(MULTI_FVM%PHASE_ALPHA)
-            IF (ALLOCATED(MULTI_FVM%PHASE_PRES)) 
+            IF (ALLOCATED(MULTI_FVM%PHASE_PRES))
      .           DEALLOCATE(MULTI_FVM%PHASE_PRES)
-            IF (ALLOCATED(MULTI_FVM%PHASE_RHO)) 
+            IF (ALLOCATED(MULTI_FVM%PHASE_RHO))
      .           DEALLOCATE(MULTI_FVM%PHASE_RHO)
-            IF (ALLOCATED(MULTI_FVM%PHASE_EINT)) 
+            IF (ALLOCATED(MULTI_FVM%PHASE_EINT))
      .           DEALLOCATE(MULTI_FVM%PHASE_EINT)
-            
+
             IF (MULTI_FVM%MUSCL > 0) THEN
-               IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_RHO)) 
+               IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_RHO))
      .              DEALLOCATE(MULTI_FVM%PHASE_GRAD_RHO)
-               IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_ALPHA)) 
+               IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_ALPHA))
      .              DEALLOCATE(MULTI_FVM%PHASE_GRAD_ALPHA)
-               IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_PRES)) 
+               IF (ALLOCATED(MULTI_FVM%PHASE_GRAD_PRES))
      .              DEALLOCATE(MULTI_FVM%PHASE_GRAD_PRES)
             ENDIF
          ENDIF
          IF (ALLOCATED(MULTI_FVM%FVM_CONNECTIVITY%KVOIS))
      .        DEALLOCATE(MULTI_FVM%FVM_CONNECTIVITY%KVOIS)
-        
+
       ENDIF
 C----------------------------------------------
 C     E n d   o f   s u b r o u t i n e

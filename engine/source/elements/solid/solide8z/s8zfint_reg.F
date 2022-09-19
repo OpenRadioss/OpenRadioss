@@ -62,29 +62,29 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ::  NEL,IMAT,IP,ITASK
       INTEGER, DIMENSION(NEL) :: NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8
-      my_real, DIMENSION(NEL), INTENT(IN) :: 
+      my_real, DIMENSION(NEL), INTENT(IN) ::
      .   OFFG
       my_real, INTENT(INOUT)                     ::
      .   DT2T
-      my_real, DIMENSION(NEL), INTENT(IN) :: 
+      my_real, DIMENSION(NEL), INTENT(IN) ::
      .   VAR_REG,PX1,PX2,PX3,PX4,PX5,PX6,PX7,PX8,
      .   PY1,PY2,PY3,PY4,PY5,PY6,PY7,PY8,PZ1,PZ2,
      .   PZ3,PZ4,PZ5,PZ6,PZ7,PZ8,VOL,H(8)
-      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG 
+      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG
       my_real
      .   WI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,NNOD,N1,N2,N3,N4,N5,N6,N7,N8,L_NLOC
-      my_real 
+      my_real
      . DX, DY, DZ, L2,XI,NTVAR,A,
      . B1,B2,B3,B4,B5,B6,B7,B8,
      . A1,A2,A3,A4,A5,A6,A7,A8,C1,C2,C3,C4,C5,C6,C7,C8,
      . ZETA,SSPNL,DTNL,LE_MAX,MAXSTIF
-      my_real, DIMENSION(NEL) :: 
+      my_real, DIMENSION(NEL) ::
      . F1,F2,F3,F4,F5,F6,F7,F8
-      my_real, DIMENSION(:) ,ALLOCATABLE   :: 
+      my_real, DIMENSION(:) ,ALLOCATABLE   ::
      . BTB11,BTB12,BTB13,BTB14,BTB15,BTB16,BTB17,BTB18,
      . BTB22,BTB23,BTB24,BTB25,BTB26,BTB27,BTB28,BTB33,
      . BTB34,BTB35,BTB36,BTB37,BTB38,BTB44,BTB45,BTB46,
@@ -93,7 +93,7 @@ C-----------------------------------------------
      . STI6,STI7,STI8
       INTEGER, DIMENSION(:), ALLOCATABLE   ::
      . POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
-      my_real, POINTER, DIMENSION(:) :: 
+      my_real, POINTER, DIMENSION(:) ::
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
       ! Coefficient for non-local stability to take into account damping
       my_real, PARAMETER :: CDAMP = 0.7D0
@@ -145,18 +145,18 @@ c
         N6 = NLOC_DMG%IDXI(NC6(I))
         N7 = NLOC_DMG%IDXI(NC7(I))
         N8 = NLOC_DMG%IDXI(NC8(I))
-c        
+c
         ! Recovering the position of the non-local d.o.f.s
         POS1(I) = NLOC_DMG%POSI(N1)
         POS2(I) = NLOC_DMG%POSI(N2)
         POS3(I) = NLOC_DMG%POSI(N3)
-        POS4(I) = NLOC_DMG%POSI(N4) 
+        POS4(I) = NLOC_DMG%POSI(N4)
         POS5(I) = NLOC_DMG%POSI(N5)
         POS6(I) = NLOC_DMG%POSI(N6)
         POS7(I) = NLOC_DMG%POSI(N7)
         POS8(I) = NLOC_DMG%POSI(N8)
-c        
-        ! Computation of the product BtxB 
+c
+        ! Computation of the product BtxB
         BTB11(I) = PX1(I)**2 + PY1(I)**2 + PZ1(I)**2
         BTB12(I) = PX1(I)*PX2(I) + PY1(I)*PY2(I) + PZ1(I)*PZ2(I)
         BTB13(I) = PX1(I)*PX3(I) + PY1(I)*PY3(I) + PZ1(I)*PZ3(I)
@@ -193,8 +193,8 @@ c
         BTB77(I) = PX7(I)**2 + PY7(I)**2 + PZ7(I)**2
         BTB78(I) = PX7(I)*PX8(I) + PY7(I)*PY8(I) + PZ7(I)*PZ8(I)
         BTB88(I) = PX8(I)**2 + PY8(I)**2 + PZ8(I)**2
-c     
-      ENDDO        
+c
+      ENDDO
 c
       !-----------------------------------------------------------------------
       ! Computation of non-local forces
@@ -204,108 +204,108 @@ c
       DO I=1,NEL
 c
         ! If the element is not broken, normal computation
-        IF (OFFG(I)/=ZERO) THEN  
+        IF (OFFG(I)/=ZERO) THEN
           ! Computation of LEN**2*BTB*Unl product and NTN*UNL, NTN*VNL
           A1 = WI * VOL(I) * (H(1)*H(1)*UNL(POS1(I)) + H(1)*H(2)*UNL(POS2(I)) + H(1)*H(3)*UNL(POS3(I))
      .       + H(1)*H(4)*UNL(POS4(I)) + H(1)*H(5)*UNL(POS5(I)) + H(1)*H(6)*UNL(POS6(I))
      .       + H(1)*H(7)*UNL(POS7(I)) + H(1)*H(8)*UNL(POS8(I)))
 c
-          IF (NODADT == 0) THEN 
+          IF (NODADT == 0) THEN
             A1 = A1 + WI * VOL(I) * XI * (H(1)*H(1)*VNL(POS1(I)) + H(1)*H(2)*VNL(POS2(I)) + H(1)*H(3)*VNL(POS3(I))
      .         + H(1)*H(4)*VNL(POS4(I)) + H(1)*H(5)*VNL(POS5(I)) + H(1)*H(6)*VNL(POS6(I))
      .         + H(1)*H(7)*VNL(POS7(I)) + H(1)*H(8)*VNL(POS8(I)))
           ELSE
-            A1 = A1 + WI * VOL(I) * XI * (H(1)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(1)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(1)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(1)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(1)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(1)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(1)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A1 = A1 + WI * VOL(I) * XI * (H(1)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(1)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(1)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(1)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(1)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(1)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(1)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(1)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B1 = L2 * WI * VOL(I) * ( BTB11(I)*UNL(POS1(I)) + BTB12(I)*UNL(POS2(I)) 
+c
+          B1 = L2 * WI * VOL(I) * ( BTB11(I)*UNL(POS1(I)) + BTB12(I)*UNL(POS2(I))
      .       + BTB13(I)*UNL(POS3(I)) + BTB14(I)*UNL(POS4(I)) + BTB15(I)*UNL(POS5(I))
      .       + BTB16(I)*UNL(POS6(I)) + BTB17(I)*UNL(POS7(I)) + BTB18(I)*UNL(POS8(I)))
-c     
-          C1 = WI * VOL(I) * H(1) * VAR_REG(I)     
-c     
+c
+          C1 = WI * VOL(I) * H(1) * VAR_REG(I)
+c
           A2 = WI * VOL(I) * (H(2)*H(1)*UNL(POS1(I)) + H(2)*H(2)*UNL(POS2(I)) + H(2)*H(3)*UNL(POS3(I))
      .       + H(2)*H(4)*UNL(POS4(I)) + H(2)*H(5)*UNL(POS5(I)) + H(2)*H(6)*UNL(POS6(I))
      .       + H(2)*H(7)*UNL(POS7(I)) + H(2)*H(8)*UNL(POS8(I)))
 c
-          IF (NODADT == 0) THEN 
+          IF (NODADT == 0) THEN
             A2 = A2 + WI * VOL(I) * XI * (H(2)*H(1)*VNL(POS1(I)) + H(2)*H(2)*VNL(POS2(I)) + H(2)*H(3)*VNL(POS3(I))
      .         + H(2)*H(4)*VNL(POS4(I)) + H(2)*H(5)*VNL(POS5(I)) + H(2)*H(6)*VNL(POS6(I))
      .         + H(2)*H(7)*VNL(POS7(I)) + H(2)*H(8)*VNL(POS8(I)))
           ELSE
-            A2 = A2 + WI * VOL(I) * XI * (H(2)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(2)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(2)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(2)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(2)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(2)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(2)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A2 = A2 + WI * VOL(I) * XI * (H(2)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(2)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(2)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(2)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(2)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(2)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(2)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(2)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B2 = L2 * WI * VOL(I) * ( BTB12(I)*UNL(POS1(I)) + BTB22(I)*UNL(POS2(I)) 
+c
+          B2 = L2 * WI * VOL(I) * ( BTB12(I)*UNL(POS1(I)) + BTB22(I)*UNL(POS2(I))
      .       + BTB23(I)*UNL(POS3(I)) + BTB24(I)*UNL(POS4(I)) + BTB25(I)*UNL(POS5(I))
      .       + BTB26(I)*UNL(POS6(I)) + BTB27(I)*UNL(POS7(I)) + BTB28(I)*UNL(POS8(I)))
-c     
-          C2 = WI * VOL(I) * H(2) * VAR_REG(I) 
-c     
+c
+          C2 = WI * VOL(I) * H(2) * VAR_REG(I)
+c
           A3 = WI * VOL(I) * (H(3)*H(1)*UNL(POS1(I)) + H(3)*H(2)*UNL(POS2(I)) + H(3)*H(3)*UNL(POS3(I))
      .       + H(3)*H(4)*UNL(POS4(I)) + H(3)*H(5)*UNL(POS5(I)) + H(3)*H(6)*UNL(POS6(I))
      .       + H(3)*H(7)*UNL(POS7(I)) + H(3)*H(8)*UNL(POS8(I)))
 c
-          IF (NODADT == 0) THEN 
+          IF (NODADT == 0) THEN
             A3 = A3 + WI * VOL(I) * XI * (H(3)*H(1)*VNL(POS1(I)) + H(3)*H(2)*VNL(POS2(I)) + H(3)*H(3)*VNL(POS3(I))
      .         + H(3)*H(4)*VNL(POS4(I)) + H(3)*H(5)*VNL(POS5(I)) + H(3)*H(6)*VNL(POS6(I))
-     .         + H(3)*H(7)*VNL(POS7(I)) + H(3)*H(8)*VNL(POS8(I))) 
+     .         + H(3)*H(7)*VNL(POS7(I)) + H(3)*H(8)*VNL(POS8(I)))
           ELSE
-            A3 = A3 + WI * VOL(I) * XI * (H(3)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(3)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(3)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(3)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(3)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(3)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(3)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A3 = A3 + WI * VOL(I) * XI * (H(3)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(3)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(3)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(3)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(3)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(3)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(3)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(3)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B3 = L2 * WI * VOL(I) * ( BTB13(I)*UNL(POS1(I)) + BTB23(I)*UNL(POS2(I)) 
+c
+          B3 = L2 * WI * VOL(I) * ( BTB13(I)*UNL(POS1(I)) + BTB23(I)*UNL(POS2(I))
      .       + BTB33(I)*UNL(POS3(I)) + BTB34(I)*UNL(POS4(I)) + BTB35(I)*UNL(POS5(I))
      .       + BTB36(I)*UNL(POS6(I)) + BTB37(I)*UNL(POS7(I)) + BTB38(I)*UNL(POS8(I)))
-c     
-          C3 = WI * VOL(I) * H(3) * VAR_REG(I) 
-c     
+c
+          C3 = WI * VOL(I) * H(3) * VAR_REG(I)
+c
           A4 = WI * VOL(I) * (H(4)*H(1)*UNL(POS1(I)) + H(4)*H(2)*UNL(POS2(I)) + H(4)*H(3)*UNL(POS3(I))
      .       + H(4)*H(4)*UNL(POS4(I)) + H(4)*H(5)*UNL(POS5(I)) + H(4)*H(6)*UNL(POS6(I))
      .       + H(4)*H(7)*UNL(POS7(I)) + H(4)*H(8)*UNL(POS8(I)))
 c
-          IF (NODADT == 0) THEN 
+          IF (NODADT == 0) THEN
             A4 = A4 + WI * VOL(I) * XI * (H(4)*H(1)*VNL(POS1(I)) + H(4)*H(2)*VNL(POS2(I)) + H(4)*H(3)*VNL(POS3(I))
      .         + H(4)*H(4)*VNL(POS4(I)) + H(4)*H(5)*VNL(POS5(I)) + H(4)*H(6)*VNL(POS6(I))
-     .         + H(4)*H(7)*VNL(POS7(I)) + H(4)*H(8)*VNL(POS8(I)))  
+     .         + H(4)*H(7)*VNL(POS7(I)) + H(4)*H(8)*VNL(POS8(I)))
           ELSE
-            A4 = A4 + WI * VOL(I) * XI * (H(4)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(4)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(4)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(4)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(4)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(4)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(4)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A4 = A4 + WI * VOL(I) * XI * (H(4)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(4)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(4)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(4)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(4)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(4)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(4)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(4)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B4 = L2 * WI * VOL(I) * ( BTB14(I)*UNL(POS1(I)) + BTB24(I)*UNL(POS2(I)) 
+c
+          B4 = L2 * WI * VOL(I) * ( BTB14(I)*UNL(POS1(I)) + BTB24(I)*UNL(POS2(I))
      .       + BTB34(I)*UNL(POS3(I)) + BTB44(I)*UNL(POS4(I)) + BTB45(I)*UNL(POS5(I))
      .       + BTB46(I)*UNL(POS6(I)) + BTB47(I)*UNL(POS7(I)) + BTB48(I)*UNL(POS8(I)))
-c     
-          C4 = WI * VOL(I) * H(4) * VAR_REG(I)      
-c     
+c
+          C4 = WI * VOL(I) * H(4) * VAR_REG(I)
+c
           A5 = WI * VOL(I) * (H(5)*H(1)*UNL(POS1(I)) + H(5)*H(2)*UNL(POS2(I)) + H(5)*H(3)*UNL(POS3(I))
      .       + H(5)*H(4)*UNL(POS4(I)) + H(5)*H(5)*UNL(POS5(I)) + H(5)*H(6)*UNL(POS6(I))
      .       + H(5)*H(7)*UNL(POS7(I)) + H(5)*H(8)*UNL(POS8(I)))
@@ -313,24 +313,24 @@ c
           IF (NODADT == 0) THEN
             A5 = A5 + WI * VOL(I) * XI * (H(5)*H(1)*VNL(POS1(I)) + H(5)*H(2)*VNL(POS2(I)) + H(5)*H(3)*VNL(POS3(I))
      .         + H(5)*H(4)*VNL(POS4(I)) + H(5)*H(5)*VNL(POS5(I)) + H(5)*H(6)*VNL(POS6(I))
-     .         + H(5)*H(7)*VNL(POS7(I)) + H(5)*H(8)*VNL(POS8(I)))  
+     .         + H(5)*H(7)*VNL(POS7(I)) + H(5)*H(8)*VNL(POS8(I)))
           ELSE
-            A5 = A5 + WI * VOL(I) * XI * (H(5)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(5)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(5)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(5)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(5)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(5)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(5)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A5 = A5 + WI * VOL(I) * XI * (H(5)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(5)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(5)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(5)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(5)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(5)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(5)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(5)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B5 = L2 * WI * VOL(I) * ( BTB15(I)*UNL(POS1(I)) + BTB25(I)*UNL(POS2(I)) 
+c
+          B5 = L2 * WI * VOL(I) * ( BTB15(I)*UNL(POS1(I)) + BTB25(I)*UNL(POS2(I))
      .       + BTB35(I)*UNL(POS3(I)) + BTB45(I)*UNL(POS4(I)) + BTB55(I)*UNL(POS5(I))
      .       + BTB56(I)*UNL(POS6(I)) + BTB57(I)*UNL(POS7(I)) + BTB58(I)*UNL(POS8(I)))
-c     
-          C5 = WI * VOL(I) * H(5) * VAR_REG(I)      
-c     
+c
+          C5 = WI * VOL(I) * H(5) * VAR_REG(I)
+c
           A6 = WI * VOL(I) * (H(6)*H(1)*UNL(POS1(I)) + H(6)*H(2)*UNL(POS2(I)) + H(6)*H(3)*UNL(POS3(I))
      .       + H(6)*H(4)*UNL(POS4(I)) + H(6)*H(5)*UNL(POS5(I)) + H(6)*H(6)*UNL(POS6(I))
      .       + H(6)*H(7)*UNL(POS7(I)) + H(6)*H(8)*UNL(POS8(I)))
@@ -338,24 +338,24 @@ c
           IF (NODADT == 0) THEN
             A6 = A6 + WI * VOL(I) * XI * (H(6)*H(1)*VNL(POS1(I)) + H(6)*H(2)*VNL(POS2(I)) + H(6)*H(3)*VNL(POS3(I))
      .         + H(6)*H(4)*VNL(POS4(I)) + H(6)*H(5)*VNL(POS5(I)) + H(6)*H(6)*VNL(POS6(I))
-     .         + H(6)*H(7)*VNL(POS7(I)) + H(6)*H(8)*VNL(POS8(I))) 
+     .         + H(6)*H(7)*VNL(POS7(I)) + H(6)*H(8)*VNL(POS8(I)))
           ELSE
-            A6 = A6 + WI * VOL(I) * XI * (H(6)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(6)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(6)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(6)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(6)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(6)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(6)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A6 = A6 + WI * VOL(I) * XI * (H(6)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(6)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(6)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(6)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(6)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(6)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(6)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(6)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B6 = L2 * WI * VOL(I) * ( BTB16(I)*UNL(POS1(I)) + BTB26(I)*UNL(POS2(I)) 
+c
+          B6 = L2 * WI * VOL(I) * ( BTB16(I)*UNL(POS1(I)) + BTB26(I)*UNL(POS2(I))
      .       + BTB36(I)*UNL(POS3(I)) + BTB46(I)*UNL(POS4(I)) + BTB56(I)*UNL(POS5(I))
      .       + BTB66(I)*UNL(POS6(I)) + BTB67(I)*UNL(POS7(I)) + BTB68(I)*UNL(POS8(I)))
-c     
-          C6 = WI * VOL(I) * H(6) * VAR_REG(I)      
-c     
+c
+          C6 = WI * VOL(I) * H(6) * VAR_REG(I)
+c
           A7 = WI * VOL(I) * (H(7)*H(1)*UNL(POS1(I)) + H(7)*H(2)*UNL(POS2(I)) + H(7)*H(3)*UNL(POS3(I))
      .       + H(7)*H(4)*UNL(POS4(I)) + H(7)*H(5)*UNL(POS5(I)) + H(7)*H(6)*UNL(POS6(I))
      .       + H(7)*H(7)*UNL(POS7(I)) + H(7)*H(8)*UNL(POS8(I)))
@@ -365,22 +365,22 @@ c
      .         + H(7)*H(4)*VNL(POS4(I)) + H(7)*H(5)*VNL(POS5(I)) + H(7)*H(6)*VNL(POS6(I))
      .         + H(7)*H(7)*VNL(POS7(I)) + H(7)*H(8)*VNL(POS8(I)))
           ELSE
-            A7 = A7 + WI * VOL(I) * XI * (H(7)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(7)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(7)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(7)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(7)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(7)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(7)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A7 = A7 + WI * VOL(I) * XI * (H(7)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(7)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(7)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(7)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(7)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(7)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(7)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(7)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
-          ENDIF  
-c        
-          B7 = L2 * WI * VOL(I) * ( BTB17(I)*UNL(POS1(I)) + BTB27(I)*UNL(POS2(I)) 
+          ENDIF
+c
+          B7 = L2 * WI * VOL(I) * ( BTB17(I)*UNL(POS1(I)) + BTB27(I)*UNL(POS2(I))
      .       + BTB37(I)*UNL(POS3(I)) + BTB47(I)*UNL(POS4(I)) + BTB57(I)*UNL(POS5(I))
      .       + BTB67(I)*UNL(POS6(I)) + BTB77(I)*UNL(POS7(I)) + BTB78(I)*UNL(POS8(I)))
-c     
-          C7 = WI * VOL(I) * H(7) * VAR_REG(I)      
-c     
+c
+          C7 = WI * VOL(I) * H(7) * VAR_REG(I)
+c
           A8 = WI * VOL(I) * (H(8)*H(1)*UNL(POS1(I)) + H(8)*H(2)*UNL(POS2(I)) + H(8)*H(3)*UNL(POS3(I))
      .       + H(8)*H(4)*UNL(POS4(I)) + H(8)*H(5)*UNL(POS5(I)) + H(8)*H(6)*UNL(POS6(I))
      .       + H(8)*H(7)*UNL(POS7(I)) + H(8)*H(8)*UNL(POS8(I)))
@@ -388,29 +388,29 @@ c
           IF (NODADT == 0) THEN
             A8 = A8 + WI * VOL(I) * XI * (H(8)*H(1)*VNL(POS1(I)) + H(8)*H(2)*VNL(POS2(I)) + H(8)*H(3)*VNL(POS3(I))
      .         + H(8)*H(4)*VNL(POS4(I)) + H(8)*H(5)*VNL(POS5(I)) + H(8)*H(6)*VNL(POS6(I))
-     .         + H(8)*H(7)*VNL(POS7(I)) + H(8)*H(8)*VNL(POS8(I)))  
+     .         + H(8)*H(7)*VNL(POS7(I)) + H(8)*H(8)*VNL(POS8(I)))
           ELSE
-            A8 = A8 + WI * VOL(I) * XI * (H(8)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) + 
-     .                                    H(8)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) + 
-     .                                    H(8)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) + 
-     .                                    H(8)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) + 
-     .                                    H(8)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) + 
-     .                                    H(8)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) + 
-     .                                    H(8)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) + 
+            A8 = A8 + WI * VOL(I) * XI * (H(8)*H(1)*(SQRT(MASS(POS1(I))/MASS0(POS1(I))))*VNL(POS1(I)) +
+     .                                    H(8)*H(2)*(SQRT(MASS(POS2(I))/MASS0(POS2(I))))*VNL(POS2(I)) +
+     .                                    H(8)*H(3)*(SQRT(MASS(POS3(I))/MASS0(POS3(I))))*VNL(POS3(I)) +
+     .                                    H(8)*H(4)*(SQRT(MASS(POS4(I))/MASS0(POS4(I))))*VNL(POS4(I)) +
+     .                                    H(8)*H(5)*(SQRT(MASS(POS5(I))/MASS0(POS5(I))))*VNL(POS5(I)) +
+     .                                    H(8)*H(6)*(SQRT(MASS(POS6(I))/MASS0(POS6(I))))*VNL(POS6(I)) +
+     .                                    H(8)*H(7)*(SQRT(MASS(POS7(I))/MASS0(POS7(I))))*VNL(POS7(I)) +
      .                                    H(8)*H(8)*(SQRT(MASS(POS8(I))/MASS0(POS8(I))))*VNL(POS8(I)))
           ENDIF
-c        
-          B8 = L2 * WI * VOL(I) * ( BTB18(I)*UNL(POS1(I)) + BTB28(I)*UNL(POS2(I)) 
+c
+          B8 = L2 * WI * VOL(I) * ( BTB18(I)*UNL(POS1(I)) + BTB28(I)*UNL(POS2(I))
      .       + BTB38(I)*UNL(POS3(I)) + BTB48(I)*UNL(POS4(I)) + BTB58(I)*UNL(POS5(I))
      .       + BTB68(I)*UNL(POS6(I)) + BTB78(I)*UNL(POS7(I)) + BTB88(I)*UNL(POS8(I)))
-c     
-          C8 = WI * VOL(I) * H(8) * VAR_REG(I)      
 c
-c       Fint = Vol * (L*L * BT*B*Unl + NT*N*Unl + Damp*NT*N*Vnl - NT*Vreg  )    
-c       L    = longueur stocke ds la structure 
+          C8 = WI * VOL(I) * H(8) * VAR_REG(I)
+c
+c       Fint = Vol * (L*L * BT*B*Unl + NT*N*Unl + Damp*NT*N*Vnl - NT*Vreg  )
+c       L    = longueur stocke ds la structure
 c       Unl  = cumul nodal def
 c       vnl  = vitesse non locale
-c          
+c
           F1(I) = A1 + B1 - C1
           F2(I) = A2 + B2 - C2
           F3(I) = A3 + B3 - C3
@@ -421,7 +421,7 @@ c
           F8(I) = A8 + B8 - C8
 c
           ! Computing nodal equivalent stiffness
-          IF (NODADT > 0) THEN 
+          IF (NODADT > 0) THEN
             STI1(I) = (ABS(L2*BTB11(I)  + H(1)*H(1)) + ABS(L2*BTB12(I)  + H(1)*H(2)) + ABS(L2*BTB13(I)  + H(1)*H(3)) +
      .                 ABS(L2*BTB14(I)  + H(1)*H(4)) + ABS(L2*BTB15(I)  + H(1)*H(5)) + ABS(L2*BTB16(I)  + H(1)*H(6)) +
      .                 ABS(L2*BTB17(I)  + H(1)*H(7)) + ABS(L2*BTB18(I)  + H(1)*H(8)))*WI*VOL(I)
@@ -450,7 +450,7 @@ c
 c
         ! If the element is broken
         ELSE
-          IF (NODADT > 0) THEN           
+          IF (NODADT > 0) THEN
             ! Non-local absorbing forces
             F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*H(1)*ZETA*SSPNL*HALF*
      .                                (VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LE_MAX**2)
@@ -491,14 +491,14 @@ c
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c     Assemblage       
+c     Assemblage
 c-----------------------------------------------------------------------
-      IF (IPARIT == 0) THEN 
+      IF (IPARIT == 0) THEN
 c
         FNL => NLOC_DMG%FNL(1:L_NLOC,ITASK+1)
         IF (NODADT > 0) STIFNL => NLOC_DMG%STIFNL(1:L_NLOC,ITASK+1) ! Non-local equivalent nodal stiffness
         DO I=1,NEL
-          ! Assembling the forces in the classic way 
+          ! Assembling the forces in the classic way
           FNL(POS1(I)) = FNL(POS1(I)) - F1(I)
           FNL(POS2(I)) = FNL(POS2(I)) - F2(I)
           FNL(POS3(I)) = FNL(POS3(I)) - F3(I)
@@ -534,7 +534,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(1,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F1(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -543,7 +543,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(2,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F2(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -552,7 +552,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(3,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F3(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -561,7 +561,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(4,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F4(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -570,7 +570,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(5,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F5(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -579,7 +579,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(6,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F6(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -588,7 +588,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(7,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F7(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -597,7 +597,7 @@ c
           ENDIF
 c
           K = NLOC_DMG%IADS(8,II)
-          IF (IP == 1) THEN 
+          IF (IP == 1) THEN
             NLOC_DMG%FSKY(K,1) = -F8(I)
             IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
           ELSE
@@ -606,11 +606,11 @@ c
           ENDIF
 c
         ENDDO
-      ENDIF      
-c      
+      ENDIF
+c
       !-----------------------------------------------------------------------
       ! Computing non-local timestep
-      !-----------------------------------------------------------------------   
+      !-----------------------------------------------------------------------
       IF (NODADT == 0) THEN
         DO I = 1,NEL
           ! If the element is not broken, normal computation
@@ -634,13 +634,13 @@ c-----------
       IF (ALLOCATED(BTB17)) DEALLOCATE(BTB17)
       IF (ALLOCATED(BTB18)) DEALLOCATE(BTB18)
       IF (ALLOCATED(BTB22)) DEALLOCATE(BTB22)
-      IF (ALLOCATED(BTB23)) DEALLOCATE(BTB23)      
+      IF (ALLOCATED(BTB23)) DEALLOCATE(BTB23)
       IF (ALLOCATED(BTB24)) DEALLOCATE(BTB24)
       IF (ALLOCATED(BTB25)) DEALLOCATE(BTB25)
       IF (ALLOCATED(BTB26)) DEALLOCATE(BTB26)
       IF (ALLOCATED(BTB27)) DEALLOCATE(BTB27)
       IF (ALLOCATED(BTB28)) DEALLOCATE(BTB28)
-      IF (ALLOCATED(BTB33)) DEALLOCATE(BTB33)      
+      IF (ALLOCATED(BTB33)) DEALLOCATE(BTB33)
       IF (ALLOCATED(BTB34)) DEALLOCATE(BTB34)
       IF (ALLOCATED(BTB35)) DEALLOCATE(BTB35)
       IF (ALLOCATED(BTB36)) DEALLOCATE(BTB36)
@@ -662,19 +662,19 @@ c-----------
       IF (ALLOCATED(BTB78)) DEALLOCATE(BTB78)
       IF (ALLOCATED(BTB88)) DEALLOCATE(BTB88)
       IF (ALLOCATED(POS1))  DEALLOCATE(POS1)
-      IF (ALLOCATED(POS2))  DEALLOCATE(POS2) 
+      IF (ALLOCATED(POS2))  DEALLOCATE(POS2)
       IF (ALLOCATED(POS3))  DEALLOCATE(POS3)
-      IF (ALLOCATED(POS4))  DEALLOCATE(POS4) 
+      IF (ALLOCATED(POS4))  DEALLOCATE(POS4)
       IF (ALLOCATED(POS5))  DEALLOCATE(POS5)
-      IF (ALLOCATED(POS6))  DEALLOCATE(POS6) 
+      IF (ALLOCATED(POS6))  DEALLOCATE(POS6)
       IF (ALLOCATED(POS7))  DEALLOCATE(POS7)
       IF (ALLOCATED(POS8))  DEALLOCATE(POS8)
       IF (ALLOCATED(STI1))  DEALLOCATE(STI1)
-      IF (ALLOCATED(STI2))  DEALLOCATE(STI2) 
+      IF (ALLOCATED(STI2))  DEALLOCATE(STI2)
       IF (ALLOCATED(STI3))  DEALLOCATE(STI3)
-      IF (ALLOCATED(STI4))  DEALLOCATE(STI4) 
+      IF (ALLOCATED(STI4))  DEALLOCATE(STI4)
       IF (ALLOCATED(STI5))  DEALLOCATE(STI5)
-      IF (ALLOCATED(STI6))  DEALLOCATE(STI6) 
+      IF (ALLOCATED(STI6))  DEALLOCATE(STI6)
       IF (ALLOCATED(STI7))  DEALLOCATE(STI7)
       IF (ALLOCATED(STI8))  DEALLOCATE(STI8)
 c

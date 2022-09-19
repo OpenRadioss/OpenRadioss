@@ -27,49 +27,49 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE DELNUMB0(IPARG   ,EL2FA   ,NBF     ,INUM    ,KXSP    )                                       
+      SUBROUTINE DELNUMB0(IPARG   ,EL2FA   ,NBF     ,INUM    ,KXSP    )
 C===============================================                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com01_c.inc"                                             
-#include      "com04_c.inc"                                             
-#include      "sphcom.inc"                                              
-#include      "param_c.inc"                                             
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "sphcom.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER IPARG(NPARG,*),EL2FA(*),INUM(*),KXSP(NISP,*),NBF                                          
+      INTEGER IPARG(NPARG,*),EL2FA(*),INUM(*),KXSP(NISP,*),NBF
 C-----------------------------------------------                        
-      INTEGER I,N,NFT,NG, ITY, LFT, LLT,  NEL, NN1                                              
+      INTEGER I,N,NFT,NG, ITY, LFT, LLT,  NEL, NN1
 C-----------------------------------------------                        
-      NN1 = 1                                                           
-      DO 490 NG=1,NGROUP                                                
-        NEL   =IPARG(2,NG)                                              
-        NFT   =IPARG(3,NG)                                              
-        ITY   =IPARG(5,NG)                                              
-        LFT=1                                                           
-        LLT=NEL                                                         
+      NN1 = 1
+      DO 490 NG=1,NGROUP
+        NEL   =IPARG(2,NG)
+        NFT   =IPARG(3,NG)
+        ITY   =IPARG(5,NG)
+        LFT=1
+        LLT=NEL
 C-----------------------------------------------                        
-        IF(ITY==51)THEN                                               
+        IF(ITY==51)THEN
 C-----------------------------------------------                        
 C         PARTICULES SPH.                                               
 C-----------------------------------------------                        
-          DO I=LFT,LLT                                                  
-           N = I + NFT                                                  
-           IF(EL2FA(NN1+N)/=0)THEN                                    
-               INUM(EL2FA(NN1+N)) = KXSP(NISP,N)                        
-           ENDIF                                                        
-          ENDDO                                                         
-        ELSE                                                            
-        ENDIF                                                           
- 490  CONTINUE                                                          
+          DO I=LFT,LLT
+           N = I + NFT
+           IF(EL2FA(NN1+N)/=0)THEN
+               INUM(EL2FA(NN1+N)) = KXSP(NISP,N)
+           ENDIF
+          ENDDO
+        ELSE
+        ENDIF
+ 490  CONTINUE
 C-----------------------------------------------                        
-      CALL WRITE_I_C(INUM,NBF)                                          
+      CALL WRITE_I_C(INUM,NBF)
 C-----------------------------------------------                        
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

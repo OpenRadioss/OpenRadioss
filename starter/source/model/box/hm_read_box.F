@@ -69,7 +69,7 @@ C-----------------------------------------------
       my_real ,DIMENSION(3,NUMNOD)  ,INTENT(IN) :: X
       my_real ,DIMENSION(LSKEW,*)   ,INTENT(IN) :: SKEW
       my_real ,DIMENSION(NTRANSF,*) ,INTENT(IN) :: RTRANS
-      TYPE (UNIT_TYPE_)             ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)             ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA),DIMENSION(*) ,INTENT(IN) :: LSUBMODEL
       TYPE (BOX_)  ,DIMENSION(NBBOX)  :: IBOX
 C-----------------------------------------------
@@ -120,8 +120,8 @@ c
       CALL HM_OPTION_COUNT('/BOX/CYLIN' ,NBOX_CYL   )
       CALL HM_OPTION_COUNT('/BOX/SPHER' ,NBOX_SPHER )
       CALL HM_OPTION_COUNT('/BOX/BOX'   ,NBOX_BOX   )
-c      
-      NBOX = NBOX_RECT + NBOX_CYL + NBOX_SPHER + NBOX_BOX     
+c
+      NBOX = NBOX_RECT + NBOX_CYL + NBOX_SPHER + NBOX_BOX
 c-----------------------------------------------
       IAD = 0
       LEN = 5*NBBOX
@@ -155,7 +155,7 @@ c--------------------------------------------------
       IF (NBOX_BOX > 0) THEN
         II = 0
         DO I = 1,NBBOX
-          IF (IBOX(I)%TYPE == 0) THEN                  
+          IF (IBOX(I)%TYPE == 0) THEN
             NLIST = IBOX(I)%NBOXBOX
             BOXID = IBOX(I)%ID
             TITR  = IBOX(I)%TITLE
@@ -170,7 +170,7 @@ c--------------------------------------------------
             ENDIF
           ENDIF
         ENDDO
-      ENDIF      
+      ENDIF
 C-----------------------------
       IF (ALLOCATED(IBOXTMP)) DEALLOCATE (IBOXTMP)
       IF (ALLOCATED(BUFTMP) ) DEALLOCATE (BUFTMP )

@@ -31,7 +31,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_LAGBOUNDS_EXCH_I22(
-     1   BMINMAL_SPMD, BMINMAL   ,ISENDTO, IRCVFROM , NIN    )  
+     1   BMINMAL_SPMD, BMINMAL   ,ISENDTO, IRCVFROM , NIN    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------

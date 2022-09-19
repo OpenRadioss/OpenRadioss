@@ -29,7 +29,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE DIM_TSHEDG(ELBUF_STR,NEDG, IXS ,IPARG )
 C=======================================================================
-      USE ELBUFDEF_MOD     
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C     REAL
 C-------
       ITAG(1:NUMNOD)=0
@@ -69,7 +69,7 @@ C-------
        JHBE = IPARG(23,NG)
        IGTYP  = IPARG(38,NG)
        ISOLNOD= IPARG(28,NG)
-       IF (IPARG(8,NG)==1) CYCLE                                 
+       IF (IPARG(8,NG)==1) CYCLE
        IF (ITY /= 1) CYCLE
        IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
          GBUF => ELBUF_STR(NG)%GBUF
@@ -111,7 +111,7 @@ C--------only linear for the moment
           ENDDO
           IF (JHBE==14) THEN
              SELECT CASE (ICSTR)
-              CASE(100)                                             
+              CASE(100)
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
@@ -143,7 +143,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(10)                                          
+              CASE(10)
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
@@ -175,7 +175,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(1)                                          
+              CASE(1)
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
@@ -207,7 +207,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-             END SELECT 
+             END SELECT
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
               IF (GBUF%IDT_TSH(I)<=0) CYCLE
@@ -243,7 +243,7 @@ C--------only linear for the moment
           END IF
         END IF
        END IF
-      ENDDO 
+      ENDDO
 C
       RETURN
       END SUBROUTINE DIM_TSHEDG
@@ -256,7 +256,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|====================================================================
       SUBROUTINE IND_TSHEDG(ELBUF_STR,IENUNL,IXS ,IPARG )
 C=======================================================================
-      USE ELBUFDEF_MOD     
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -282,7 +282,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NG, NEL, NFT,N, ITY,JHBE,IGTYP,ICSTR,ISOLNOD
       INTEGER ITAG(NUMNOD),N1,N2,NC(8,MVSIZ),NEDG
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C     REAL
 C------ -
       ITAG(1:NUMNOD)=0
@@ -295,7 +295,7 @@ C------ -
        JHBE = IPARG(23,NG)
        IGTYP  = IPARG(38,NG)
        ISOLNOD= IPARG(28,NG)
-       IF (IPARG(8,NG)==1) CYCLE                                 
+       IF (IPARG(8,NG)==1) CYCLE
        IF (ITY /= 1) CYCLE
        IF (IGTYP == 20.OR.IGTYP == 21.OR.IGTYP == 22)THEN
          GBUF => ELBUF_STR(NG)%GBUF
@@ -343,7 +343,7 @@ C--------only linear for the moment
           ENDDO
           IF (JHBE==14) THEN
              SELECT CASE (ICSTR)
-              CASE(100)                                             
+              CASE(100)
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
@@ -383,7 +383,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(10)                                          
+              CASE(10)
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
@@ -423,7 +423,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-              CASE(1)                                          
+              CASE(1)
                 DO I=1,NEL
                   IF (GBUF%IDT_TSH(I)<=0) CYCLE
  	              N1 = NC(1,I)
@@ -463,7 +463,7 @@ C--------only linear for the moment
 	                ITAG(N2)=NEDG
                   END IF
                 ENDDO
-             END SELECT 
+             END SELECT
           ELSEIF (JHBE==15) THEN
             DO I=1,NEL
               IF (GBUF%IDT_TSH(I)<=0) CYCLE
@@ -507,7 +507,7 @@ C--------only linear for the moment
           END IF
         END IF
        END IF
-      ENDDO 
+      ENDDO
 C
       RETURN
       END SUBROUTINE IND_TSHEDG
@@ -546,7 +546,7 @@ C-----------------------------------------------
       my_real
      .   VOLN(*),LLSH(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -557,7 +557,7 @@ C-----------------------------------------------
      .   VQ(3,3,MVSIZ), LXYZ0(3),DETA1(MVSIZ),XX,YY,ZZ,
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),ZL1(MVSIZ),AREA(MVSIZ),
-     .   XN(4,MVSIZ) , YN(4,MVSIZ) , ZN(4,MVSIZ) 
+     .   XN(4,MVSIZ) , YN(4,MVSIZ) , ZN(4,MVSIZ)
       my_real
      .   AL1,AL2,LL(MVSIZ),COREL(2,4)
       my_real
@@ -577,7 +577,7 @@ C=======================================================================
           XN(4,I) = HALF*(X4(I)+X8(I))
           YN(4,I) = HALF*(Y4(I)+Y8(I))
           ZN(4,I) = HALF*(Z4(I)+Z8(I))
-        ENDDO 
+        ENDDO
 C------g1,g2 :
         DO I=LFT,LLT
           RX(I)=XN(2,I)+XN(3,I)-XN(1,I)-XN(4,I)
@@ -586,9 +586,9 @@ C------g1,g2 :
           SX(I)=XN(3,I)+XN(4,I)-XN(1,I)-XN(2,I)
           SY(I)=YN(3,I)+YN(4,I)-YN(1,I)-YN(2,I)
           SZ(I)=ZN(3,I)+ZN(4,I)-ZN(1,I)-ZN(2,I)
-        ENDDO 
+        ENDDO
 C------Local elem. base:
-        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
+        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ,
      .              VQ, DETA1,LLT)
 C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=LFT,LLT
@@ -617,7 +617,7 @@ C
           XL4(I)=VQ(1,1,I)*XX+VQ(2,1,I)*YY+VQ(3,1,I)*ZZ
           YL4(I)=VQ(1,2,I)*XX+VQ(2,2,I)*YY+VQ(3,2,I)*ZZ
           AREA(I)=FOURTH*DETA1(I)
-        ENDDO 
+        ENDDO
       FAC = TWO
       FACDT = FIVE_OVER_4
 C-------same than QBAT       
@@ -697,7 +697,7 @@ C-----------------------------------------------
       my_real
      .   VOLN(*),LLSH3N(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -711,7 +711,7 @@ C-----------------------------------------------
      .        X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),
      .        X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ), AREA(MVSIZ),
      .        X2L(MVSIZ), X3L(MVSIZ), Y3L(MVSIZ),
-     .        XN(3,MVSIZ) , YN(3,MVSIZ) , ZN(3,MVSIZ) 
+     .        XN(3,MVSIZ) , YN(3,MVSIZ) , ZN(3,MVSIZ)
       my_real
      .   AL1,AL2,AL3,ALMAX,SUM
 C=======================================================================
@@ -725,7 +725,7 @@ C=======================================================================
           XN(3,I) = HALF*(X3(I)+X6(I))
           YN(3,I) = HALF*(Y3(I)+Y6(I))
           ZN(3,I) = HALF*(Z3(I)+Z6(I))
-       ENDDO 
+       ENDDO
       DO I=LFT,LLT
         X21(I)=XN(2,I)-XN(1,I)
         Y21(I)=YN(2,I)-YN(1,I)
@@ -771,7 +771,7 @@ C
         X3L(I)=E1X(I)*X31(I)+E1Y(I)*Y31(I)+E1Z(I)*Z31(I)
       ENDDO
       DO I=LFT,LLT
-        AL1 = X2L(I) * X2L(I)      
+        AL1 = X2L(I) * X2L(I)
         AL2 = (X3L(I)-X2L(I)) * (X3L(I)-X2L(I)) + Y3L(I) * Y3L(I)
         AL3 = X3L(I) * X3L(I) + Y3L(I) * Y3L(I)
         ALMAX = MAX(AL1,AL2,AL3)
@@ -793,7 +793,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE DTDC_MOD  
+      USE DTDC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -857,7 +857,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE DTDC_MOD  
+      USE DTDC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -936,7 +936,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      
+
       !------------------------------------------------!
       !       MODIF  ACCELERATIONS (TRANSLATIONS) !
       !------------------------------------------------!
@@ -962,7 +962,7 @@ C-----------------------------------------------
         ALPHA_1 =ONE/MAX(ALPHA_DC(N1),ALPHA_DC(N2))
         A(1:3,N1) = AM(1:3) - AD(1:3)*ALPHA_1
         A(1:3,N2) = AM(1:3) + AD(1:3)*ALPHA_1
-      END DO 
+      END DO
 C      
       RETURN
       END SUBROUTINE ACCDTDC

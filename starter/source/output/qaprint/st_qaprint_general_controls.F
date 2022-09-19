@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT), 
+      INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT),
      .                       IRAND(*),QP_IPERTURB(NPERTURB,6),EIGIPM(NEIPM,*)
       my_real, INTENT(IN) :: DAMPR(NRDAMP,*),ALEA(*),XSEED(*),EIGRPM(NERPM,*)
       my_real, INTENT(IN) :: QP_RPERTURB(NPERTURB,4)
@@ -557,32 +557,32 @@ C----------------------------------------------
 
       IF (MYQAKEY('/PERTURB')) THEN
 C       
-        IF (NPERTURB > 0) THEN 
+        IF (NPERTURB > 0) THEN
 C
 !         Sort by ID to ensure internal order independant output
-          DO I = 1,NPERTURB 
+          DO I = 1,NPERTURB
             IDS(I)    = QP_IPERTURB(I,1)
             IDX(I)    = I
           ENDDO
-          CALL QUICKSORT_I2(IDS, IDX, 1, NPERTURB)          
+          CALL QUICKSORT_I2(IDS, IDX, 1, NPERTURB)
 C         
 !         Loop over INIGRAVs
           DO II = 1, NPERTURB
 C
             MY_ID = IDX(II)
-            CALL QAPRINT('/PERTURB_FAKE_NAME',II,0.0_8)     
+            CALL QAPRINT('/PERTURB_FAKE_NAME',II,0.0_8)
 C
             DO I = 1,6
               WRITE(VARNAME,'(A,I0)') 'QP_IPERTURB_',I
               TEMP_INT = QP_IPERTURB(MY_ID,I)
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)            
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
             ENDDO
 C
             DO I = 1,4
               WRITE(VARNAME,'(A,I0)') 'QP_RPERTURB_',I
               TEMP_DOUBLE = QP_RPERTURB(MY_ID,I)
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)           
-            ENDDO 
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+            ENDDO
 C
           ENDDO
 C
@@ -622,14 +622,14 @@ C
           DO I=1,NEIPM
             IF(EIGIPM(I,MY_EIG) /=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'EIGIPM_',I      
+              WRITE(VARNAME,'(A,I0)') 'EIGIPM_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),EIGIPM(I,MY_EIG),0.0_8)
             END IF
           END DO
 C          
           DO I=1,NERPM
             IF(EIGRPM(I,MY_EIG) /=ZERO)THEN
-              WRITE(VARNAME,'(A,I0)') 'EIGRPM_',I      
+              WRITE(VARNAME,'(A,I0)') 'EIGRPM_',I
               TEMP_DOUBLE = EIGRPM(I,MY_EIG)
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             END IF

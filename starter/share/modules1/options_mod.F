@@ -32,7 +32,7 @@ Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod
 Chd|====================================================================
       MODULE OPTION_MOD
 
-        USE OPTIONDEF_MOD      
+        USE OPTIONDEF_MOD
 ! OPTIONS
         TYPE(INICRACK_) ,TARGET,DIMENSION(:),ALLOCATABLE :: INICRACK !  NINICRACK
         TYPE(ADMAS_)    ,TARGET,DIMENSION(:),ALLOCATABLE :: IPMAS    !  NODMAS

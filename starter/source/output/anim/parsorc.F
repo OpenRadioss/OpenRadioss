@@ -66,7 +66,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFF
-      INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J, 
+      INTEGER II(4),IE,NG, ITY, LFT, LLT, KPT, N, I, J,
      .        IPRT, NEL, IAD, NPAR, NFT, IMID,IALEL,MTN,
      .        NN1,NN2,NN3,NN4,NN5,NN6,NN7,NN8,NN9,NN10,
      .        JJ, K, SH_IH, IHBE,BUF
@@ -126,7 +126,7 @@ C-----------------------------------------------
 
              XNORM(1,II(1)) = ONE
              XNORM(2,II(1)) = ZERO
-             XNORM(3,II(1)) = ZERO             
+             XNORM(3,II(1)) = ZERO
              II(1) = II(1)-1
              II(2) = II(2)-1
              II(3) = II(3)-1

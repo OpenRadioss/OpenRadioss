@@ -82,7 +82,7 @@ C-----------------------------------------------
 C       
        DO I=JFT,JLT
          DIVM=MAX(ALDT(I)*ALDT(I),EM20)
-         DO J=1,NPT - 1 
+         DO J=1,NPT - 1
            JINF = J
            JSUP = J + 1
 C    sti = vol*E/lc*lc
@@ -93,11 +93,11 @@ cc           FAC = OFF(I)*ONE_OVER_8*AREA(I)/THK_IPLY(I,J)
 cc           FAC = OFFI(I,J)*AREA(I)/THK_IPLY(I,J)
            IF(OFF(I)/=ZERO)THEN
              FAC = AREA(I)*FOUR
-             STI(I,JINF) = STI(I,JINF) + FAC * A1_IPLY(I,J)  
-             STI(I,JSUP) = STI(I,JSUP) + FAC * A1_IPLY(I,J) 
+             STI(I,JINF) = STI(I,JINF) + FAC * A1_IPLY(I,J)
+             STI(I,JSUP) = STI(I,JSUP) + FAC * A1_IPLY(I,J)
            END IF
          ENDDO
-       ENDDO       
+       ENDDO
 C
       RETURN
       END

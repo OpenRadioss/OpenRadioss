@@ -29,19 +29,19 @@ Chd|        SCUMUALPHA                    source/elements/thickshell/solidec/scd
 Chd|        SCUMUALPHA6                   source/elements/thickshell/solidec/scdtdc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE DTDC_MOD 
+      MODULE DTDC_MOD
 C----------------------------------------------------------------------- 
 C    thick-shell dt of shell, DC : Dynamic,Condensation  
 C----------------------------------------------------------------------- 
-#include "my_real.inc"      
+#include "my_real.inc"
 C=======================================================================
 c DEFINE ARRAYS (integers arrays)
 C=======================================================================
-        integer  NTSHEGG 
-        integer, DIMENSION(:) , POINTER ::  IENUNL   !  2*NTSHEG 
+        integer  NTSHEGG
+        integer, DIMENSION(:) , POINTER ::  IENUNL   !  2*NTSHEG
 C-- 1:N_U (Upper), 2:N_L (Lower)  
-        integer, DIMENSION(:) , POINTER ::  IAD_STSH,FR_STSH   !  on the front 
-        integer, DIMENSION(:) , POINTER ::  IAD_RTSH,FR_RTSH   !  on the front 
+        integer, DIMENSION(:) , POINTER ::  IAD_STSH,FR_STSH   !  on the front
+        integer, DIMENSION(:) , POINTER ::  IAD_RTSH,FR_RTSH   !  on the front
 C=======================================================================
 c DEFINE ARRAYS (float arrays) : work arrays
 C=======================================================================

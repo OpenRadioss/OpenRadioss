@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER I,J,K,N,LENR
       my_real
      .  FAC
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
 C-----------------------------------------------
@@ -138,7 +138,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -183,7 +183,7 @@ C-----------------------------------------------
       INTEGER I,J,K,N,LENR
       my_real
      .  FAC
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
 C-----------------------------------------------
@@ -253,7 +253,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=1,NEL 
+      DO  I=1,NEL
         T1 = SIG(I,1)+SIG(I,2)
         DET = SIG(I,1)*SIG(I,2)-SIG(I,3)*SIG(I,3)
         R = SQRT(T1*T1-FOUR*DET)
@@ -294,20 +294,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=1,NEL 
+      DO  I=1,NEL
         S1 = SIG(I,4)*SIG(I,4)+SIG(I,5)*SIG(I,5)+SIG(I,6)*SIG(I,6)
         IF (S1 > EM10) THEN
           T1 = THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
           S(1:3) = SIG(I,1:3) - T1
-          S(4:6) = SIG(I,4:6) 
+          S(4:6) = SIG(I,4:6)
           T2 = S(1)*S(1)+S(2)*S(2)+S(3)*S(3) + TWO*S1
           P1 = SQRT(T2/SIX)
           DETS = S(1)*(S(2)*S(3)-S(6)*S(6))-S(4)*(S(4)*S(3)-S(5)*S(6))
-     .          +S(5)*(S(4)*S(6)-S(2)*S(5))           
+     .          +S(5)*(S(4)*S(6)-S(2)*S(5))
           DETB = DETS/P1
           R = HALF*DETB
           IF (R <= -ONE) THEN
-            ALPHA = THIRD*PI 
+            ALPHA = THIRD*PI
           ELSEIF (R >= ONE) THEN
             ALPHA = ZERO
           ELSE
@@ -424,9 +424,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=1,NNOD 
+      DO  I=1,NNOD
         S(1:3) = TM_D(1:3,I)
-        TM_NORM2(I) = S(1)*S(1)+S(2)*S(2)+S(3)*S(3) 
+        TM_NORM2(I) = S(1)*S(1)+S(2)*S(2)+S(3)*S(3)
       ENDDO
 C      
       RETURN
@@ -462,8 +462,8 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
         DO I=1,NEL
-          S(1:6) = SIG(I,1:6)				  
-          IF(IVISC > 0 ) S(1:6) = S(1:6) + VISC(I,1:6)				  
+          S(1:6) = SIG(I,1:6)				
+          IF(IVISC > 0 ) S(1:6) = S(1:6) + VISC(I,1:6)				
           P = - (S(1)  + S(2) + S(3) ) * THIRD
           S1= S(1) + P
           S2= S(2) + P
@@ -472,7 +472,7 @@ C-----------------------------------------------
      .    	   HALF*(S1*S1 + S2*S2  + S3*S3) )
           VONM= SQRT(VONM2) ! can be optimized
           VALUE(I) = MAX(VALUE(I),VONM)
-        ENDDO 
+        ENDDO
 C      
       RETURN
       END
@@ -488,7 +488,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -508,8 +508,8 @@ C-----------------------------------------------
       INTEGER  I,J,IL,IR,IS,IT
       my_real
      .   S(6),S1,S2,S3,VONM
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
@@ -518,7 +518,7 @@ C-----------------------------------------------
           DO IT=1,NPTT
             DO IR=1,NPTR
               DO IS=1,NPTS
-                LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)        
+                LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)
                 IF (ELBUF_TAB%BUFLY(IL)%L_SEQ > 0) THEN
                   DO I=1,NEL
                     VALUE(I) = MAX(VALUE(I),LBUF%SEQ(I))
@@ -544,7 +544,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -562,27 +562,27 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,IL,IR,IS,IT,NFAIL,IIR
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: DFMAX
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-        DO IL=1,NLAY 
-         NFAIL = ELBUF_TAB%BUFLY(IL)%NFAIL								    
+        DO IL=1,NLAY
+         NFAIL = ELBUF_TAB%BUFLY(IL)%NFAIL								
          DO IS=1,NPTS					
            DO IT=1,NPTT					
              DO IIR=1,NPTR	
-               DO IR=1,NFAIL 											   
+               DO IR=1,NFAIL 											
                  DFMAX=>ELBUF_TAB%BUFLY(IL)%FAIL(IIR,IS,IT)%FLOC(IR)%DAMMX
-                 DO I=1,NEL  			       
+                 DO I=1,NEL  			
                    VALUE(I) = MAX(VALUE(I),DFMAX(I))
                  ENDDO
-               ENDDO 
+               ENDDO
              ENDDO
            ENDDO
           ENDDO
-        ENDDO 
+        ENDDO
 C      
       RETURN
       END
@@ -599,7 +599,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -620,7 +620,7 @@ C-----------------------------------------------
       INTEGER  I,J,IL,IR,IS,IT,JJ(6)
       my_real
      .   S(NEL,6),S1,S2,S3,SP2(NEL,2)
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -631,26 +631,26 @@ C-----------------------------------------------
          DO IT=1,NPTT
            DO IR=1,NPTR
              DO IS=1,NPTS
-               LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)        
+               LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)
                DO I = 1,NEL
-                 S(I,1:6) = LBUF%SIG(JJ(1:6)+I)				  
-               END DO 
+                 S(I,1:6) = LBUF%SIG(JJ(1:6)+I)				
+               END DO
                IF(IVISC > 0 ) THEN
                  DO I = 1,NEL
-                   S(I,1:6) = S(I,1:6) + LBUF%VISC(JJ(1:6)+I)				  
-                 END DO 
+                   S(I,1:6) = S(I,1:6) + LBUF%VISC(JJ(1:6)+I)				
+                 END DO
                END IF
                CALL SIG3DPIN2(S,SP2,NEL)
                DO I = 1,NEL
                  IF (SP2(I,1) > P2(I,1)) THEN
                     TEN1(I,1:6) = S(I,1:6)
-                    P2(I,1) = SP2(I,1)                     
+                    P2(I,1) = SP2(I,1)
                  END IF
                  IF (SP2(I,2) < P2(I,2)) THEN
                     TEN3(I,1:6) = S(I,1:6)
-                    P2(I,2) = SP2(I,2)                     
+                    P2(I,2) = SP2(I,2)
                  END IF
-               END DO                
+               END DO
              ENDDO ! DO IS=1,NPTS
            ENDDO ! DO IR=1,NPTR
          ENDDO ! DO IT=1,NPTT
@@ -667,11 +667,11 @@ Chd|        SIG3DPIN2                     source/output/outmaxsubr.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE TM_STRA_SOLID(ELBUF_TAB,NLAY,NPTR,NPTS,NPTT,
-     .                         TEN1,TEN3,P2,NEL) 
+     .                         TEN1,TEN3,P2,NEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -692,7 +692,7 @@ C-----------------------------------------------
       INTEGER  I,J,IL,IR,IS,IT,JJ(6)
       my_real
      .   S(NEL,6),S1,S2,S3,SP2(NEL,2)
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -703,23 +703,23 @@ C-----------------------------------------------
          DO IT=1,NPTT
            DO IR=1,NPTR
              DO IS=1,NPTS
-               LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)  
+               LBUF =>  ELBUF_TAB%BUFLY(IL)%LBUF(IR,IS,IT)
 C !!!!! law 12,14                
                IF (ELBUF_TAB%BUFLY(IL)%L_STRA > 0) THEN
                  DO I = 1,NEL
-                   S(I,1:6) = LBUF%STRA(JJ(1:6)+I)				  
-                 END DO 
+                   S(I,1:6) = LBUF%STRA(JJ(1:6)+I)				
+                 END DO
                  CALL SIG3DPIN2(S,SP2,NEL)
                  DO I = 1,NEL
                    IF (SP2(I,1) > P2(I,1)) THEN
                       TEN1(I,1:6) = S(I,1:6)
-                      P2(I,1) = SP2(I,1)                     
+                      P2(I,1) = SP2(I,1)
                    END IF
                    IF (SP2(I,2) < P2(I,2)) THEN
                       TEN3(I,1:6) = S(I,1:6)
-                      P2(I,2) = SP2(I,2)                     
+                      P2(I,2) = SP2(I,2)
                    END IF
-                 END DO                
+                 END DO
                END IF !(ELBUF_TAB%BUFLY(IL)%L_STRA > 0) THEN
              ENDDO ! DO IS=1,NPTS
            ENDDO ! DO IR=1,NPTR
@@ -759,13 +759,13 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
         DO I=1,NEL
-          S1 = FOR(I,1)				  
-          S2 = FOR(I,2)				  
-          S12 = FOR(I,3)				  
-          VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12 
+          S1 = FOR(I,1)				
+          S2 = FOR(I,2)				
+          S12 = FOR(I,3)				
+          VONM2= S1*S1 + S2*S2 - S1*S2 + THREE*S12*S12
           VONM= SQRT(VONM2)
           VALUE(I) = MAX(VALUE(I),VONM)
-        ENDDO 
+        ENDDO
 C      
       RETURN
       END
@@ -781,7 +781,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -802,7 +802,7 @@ C-----------------------------------------------
       my_real
      .   S(3),S1,S2,S3,VONM
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
@@ -838,7 +838,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -860,7 +860,7 @@ C-----------------------------------------------
       my_real
      .   S(NEL,3),S1,S2,S3,SP2(NEL,2)
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -874,19 +874,19 @@ C-----------------------------------------------
             DO IT=1,BUFLY%NPTT
               LBUF  => BUFLY%LBUF(IR,IS,IT)
                DO I = 1,NEL
-                 S(I,1:3) = LBUF%SIG(JJ(1:3)+I)				  
-               END DO 
+                 S(I,1:3) = LBUF%SIG(JJ(1:3)+I)				
+               END DO
                CALL SIG2DPIN2(S,SP2,NEL)
                DO I = 1,NEL
                  IF (SP2(I,1) > P2(I,1)) THEN
                     TEN1(I,1:3) = S(I,1:3)
-                    P2(I,1) = SP2(I,1)                     
+                    P2(I,1) = SP2(I,1)
                  END IF
                  IF (SP2(I,2) < P2(I,2)) THEN
                     TEN3(I,1:3) = S(I,1:3)
-                    P2(I,2) = SP2(I,2)                     
+                    P2(I,2) = SP2(I,2)
                  END IF
-               END DO                
+               END DO
             ENDDO ! IT=1,
           ENDDO ! ILAY =1
         ENDDO ! IR = 1
@@ -906,7 +906,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -927,7 +927,7 @@ C-----------------------------------------------
       INTEGER  I,J,IL,IR,IS,IT,JJ(3),NPG,LENS,NG,PTS
       my_real
      .   S(NEL,3),S1,S2,S3,SP2(NEL,2)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -938,19 +938,19 @@ C-----------------------------------------------
        NPG = NPTS*NPTR
       IF (NPG == 1) THEN
         DO I = 1,NEL
-          S(I,1:3) = GBUF%STRA(JJ(1:3)+I)				  
-        END DO 
+          S(I,1:3) = GBUF%STRA(JJ(1:3)+I)				
+        END DO
         CALL SIG2DPIN2(S,SP2,NEL)
         DO I = 1,NEL
           IF (SP2(I,1) > P2(I,1)) THEN
              TEN1(I,1:3) = S(I,1:3)
-             P2(I,1) = SP2(I,1)                     
+             P2(I,1) = SP2(I,1)
           END IF
           IF (SP2(I,2) < P2(I,2)) THEN
              TEN3(I,1:3) = S(I,1:3)
-             P2(I,2) = SP2(I,2)                     
+             P2(I,2) = SP2(I,2)
           END IF
-        END DO                
+        END DO
       ELSE
         LENS = NEL*GBUF%G_STRPG/NPG
         DO IS = 1,NPTS
@@ -958,19 +958,19 @@ C-----------------------------------------------
             NG = NPTR*(IS-1) + IR
             PTS = (NG-1)*LENS+1
                DO I = 1,NEL
-                 S(I,1:3) = GBUF%STRPG(PTS+JJ(1:3)+I)				  
-               END DO 
+                 S(I,1:3) = GBUF%STRPG(PTS+JJ(1:3)+I)				
+               END DO
                CALL SIG2DPIN2(S,SP2,NEL)
                DO I = 1,NEL
                  IF (SP2(I,1) > P2(I,1)) THEN
                     TEN1(I,1:3) = S(I,1:3)
-                    P2(I,1) = SP2(I,1)                     
+                    P2(I,1) = SP2(I,1)
                  END IF
                  IF (SP2(I,2) < P2(I,2)) THEN
                     TEN3(I,1:3) = S(I,1:3)
-                    P2(I,2) = SP2(I,2)                     
+                    P2(I,2) = SP2(I,2)
                  END IF
-               END DO                
+               END DO
           ENDDO ! IR = 1
         ENDDO ! DO IS = 1
       END IF !(NPG == 1) THEN
@@ -988,7 +988,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1012,22 +1012,22 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-       DO IL=1,NLAY 
+       DO IL=1,NLAY
          BUFLY => ELBUF_TAB%BUFLY(IL)
-         NFAIL = BUFLY%NFAIL								    
+         NFAIL = BUFLY%NFAIL								
          DO IS=1,NPTS					
            DO IR=1,NPTR					
              DO IT=1,BUFLY%NPTT	
-               DO IIR=1,NFAIL 											   
+               DO IIR=1,NFAIL 											
                  DFMAX=>BUFLY%FAIL(IR,IS,IT)%FLOC(IIR)%DAMMX
-                 DO I=1,NEL  			       
+                 DO I=1,NEL  			
                    VALUE(I) = MAX(VALUE(I),DFMAX(I))
                  ENDDO
-               ENDDO 
+               ENDDO
              ENDDO
            ENDDO
           ENDDO
-       ENDDO 
+       ENDDO
 C      
       RETURN
       END
@@ -1043,7 +1043,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C-----------------------------------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1074,19 +1074,19 @@ C-----------------------------------------------
       my_real,
      .  DIMENSION(:), POINTER  :: DFMAX
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-       DO IL=1,NLAY 
+       DO IL=1,NLAY
          BUFLY => ELBUF_TAB%BUFLY(IL)
-         NFAIL = BUFLY%NFAIL								    
+         NFAIL = BUFLY%NFAIL								
          DO IS=1,NPTS					
            DO IR=1,NPTR					
              DO IT=1,BUFLY%NPTT	
-               DO IIR=1,NFAIL 											   
+               DO IIR=1,NFAIL 											
                  DFMAX=>BUFLY%FAIL(IR,IS,IT)%FLOC(IIR)%DAMMX
-                 DO I=1,NEL  			       
+                 DO I=1,NEL  			
                    VALUE(I) = MAX(VALUE(I),DFMAX(I))
                  END DO
                END DO
@@ -1095,49 +1095,49 @@ C-----------------------------------------------
          END DO !DO IS=1
        END DO
 C       
-       IF(IGTYP == 10 .OR. IGTYP == 11 .OR. 
-     .    IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN   
+       IF(IGTYP == 10 .OR. IGTYP == 11 .OR.
+     .    IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52 ) THEN
          DO I=1,3
            JJ(I) = NEL*(I-1)
          ENDDO
-         DO IL=1,NLAY 
+         DO IL=1,NLAY
            BUFLY => ELBUF_TAB%BUFLY(IL)
            DO IPT=1,BUFLY%NPTT	
-             IADR = (IPT - 1)*NEL			      
-             DO I=1,NEL  					  
-               J = IADR + I 
+             IADR = (IPT - 1)*NEL			
+             DO I=1,NEL  					
+               J = IADR + I
                VLY(1:5) = ZERO
                VG(1:5) = ZERO
                DO IR=1,NPTR
                  DO IS=1,NPTS
-                   LBUF => BUFLY%LBUF(IR,IS,IPT)        
+                   LBUF => BUFLY%LBUF(IR,IS,IPT)
                    DMAX(I) = ONE/PM(64,MATLY(J))				
                    WPMAX(I)= ONE/PM(41,MATLY(J))				
-                   EPST1(I)= PM(60,MATLY(J))  			     
-                   EPST2(I)= PM(61,MATLY(J))  			     
+                   EPST1(I)= PM(60,MATLY(J))  			
+                   EPST2(I)= PM(61,MATLY(J))  			
                    EPSF1(I)= ONE/PM(98,MATLY(J))				
                    EPSF2(I)= ONE/PM(99,MATLY(J))
 C        
-                   VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I)) 
-                   VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I)) 
-                   VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I)) 
+                   VG(1) = MAX(VG(1),LBUF%DAM(JJ(1)+I)*DMAX(I))
+                   VG(2) = MAX(VG(2),LBUF%DAM(JJ(2)+I)*DMAX(I))
+                   VG(3) = MAX(VG(3),ABS(LBUF%PLA(I))*WPMAX(I))
                    IF(LBUF%CRAK(JJ(1)+I) > ZERO) VG(4)=  MAX(VG(4),
-     .         	     (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I)) 
-                   IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5), 
+     .         	     (LBUF%CRAK(JJ(1)+I)+EPST1(I))*EPSF1(I))
+                   IF(LBUF%CRAK(JJ(2)+I) > ZERO )VG(5) = MAX(VG(5),
      .         	     (LBUF%CRAK(JJ(2)+I)+EPST2(I))*EPSF2(I))
                  END DO
                END DO
-               VLY(1) =VLY(1) + VG(1) 
-               VLY(2) =VLY(2) + VG(2) 
-               VLY(3) =VLY(3) + VG(3) 
-               VLY(4) =VLY(4) + VG(4) 
+               VLY(1) =VLY(1) + VG(1)
+               VLY(2) =VLY(2) + VG(2)
+               VLY(3) =VLY(3) + VG(3)
+               VLY(4) =VLY(4) + VG(4)
                VLY(5) =VLY(5) + VG(5)
 C                 	 
                VALUE(I) = MAX(VALUE(I),VLY(1),VLY(2),VLY(3),VLY(4),VLY(5))
              END DO  ! I=1,NEL
            END DO !IPT=1,BUFLY%NPTT	
-         END DO !IL=1,NLAY 
-       END IF !(IGTYP == 10 .OR. IGTYP == 11 .OR. 
+         END DO !IL=1,NLAY
+       END IF !(IGTYP == 10 .OR. IGTYP == 11 .OR.
 C      
       RETURN
       END
@@ -1172,13 +1172,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=NFT,NLT 
+      DO  I=NFT,NLT
         S(1:3) = D(1:3,I)
         NORM2 = S(1)*S(1)+S(2)*S(2)+S(3)*S(3)
         IF (NORM2 > TM_NORM2(I)) THEN
           TM_NORM2(I) = NORM2
           TM_D(1:3,I) = S(1:3)
-        END IF        
+        END IF
       ENDDO
 C      
       RETURN
@@ -1215,15 +1215,15 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=NFT,NLT 
+      DO  I=NFT,NLT
         IF (PNSIG(I,1) > TM_PNSIG(I,1)) THEN
           TM_PNSIG(I,1) = PNSIG(I,1)
           TM_NSIG1(I,1:6) = NSIG(I,1:6)
-        END IF        
+        END IF
         IF (PNSIG(I,2) < TM_PNSIG(I,2)) THEN
           TM_PNSIG(I,2) = PNSIG(I,2)
           TM_NSIG3(I,1:6) = NSIG(I,1:6)
-        END IF        
+        END IF
       ENDDO
 C      
       RETURN
@@ -1258,20 +1258,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=NFT,NLT 
+      DO  I=NFT,NLT
         S1 = SIG(I,4)*SIG(I,4)+SIG(I,5)*SIG(I,5)+SIG(I,6)*SIG(I,6)
         IF (S1 > EM10) THEN
           T1 = THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
           S(1:3) = SIG(I,1:3) - T1
-          S(4:6) = SIG(I,4:6) 
+          S(4:6) = SIG(I,4:6)
           T2 = S(1)*S(1)+S(2)*S(2)+S(3)*S(3) + TWO*S1
           P1 = SQRT(T2/SIX)
           DETS = S(1)*(S(2)*S(3)-S(6)*S(6))-S(4)*(S(4)*S(3)-S(5)*S(6))
-     .          +S(5)*(S(4)*S(6)-S(2)*S(5))           
+     .          +S(5)*(S(4)*S(6)-S(2)*S(5))
           DETB = DETS/P1
           R = HALF*DETB
           IF (R <= -ONE) THEN
-            ALPHA = THIRD*PI 
+            ALPHA = THIRD*PI
           ELSEIF (R >= ONE) THEN
             ALPHA = ZERO
           ELSE

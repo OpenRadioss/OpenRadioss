@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITABM1(*), LACCELM(3,*),
      .   IXC(NIXC,*),ISKN(LISKN,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D a t a
 C-----------------------------------------------
-      DATA MESS/'ACCELEROMETER DEFINITION                '/  
+      DATA MESS/'ACCELEROMETER DEFINITION                '/
 C---------------------------------------------------
 C     B e g i n n i n g   o f   S u b r o u t i n e 
 C---------------------------------------------------
@@ -108,14 +108,14 @@ C---------------------------------------------------
         CALL FRETITL(TITR, NOM_OPT(LNOPT1-LTITR+1, I), LTITR)
         FOUND = .FALSE.
           DO J=1,NUNITS
-            IF (UNITAB%UNIT_ID(J) == UID) THEN  
-              FOUND = .TRUE.  
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
+              FOUND = .TRUE.
               EXIT
            ENDIF
         ENDDO
         IF (.NOT. (UID == 0 .OR. FOUND)) THEN
            CALL ANCMSG(MSGID = 659, ANMODE = ANINFO, MSGTYPE = MSGERROR,
-     .          C1 = 'ACCELEROMETER', C2 = 'ACCELEROMETER', C3 = TITR, 
+     .          C1 = 'ACCELEROMETER', C2 = 'ACCELEROMETER', C3 = TITR,
      .          I2 = UID, I1 = ID)
         ENDIF
         DIST = ZERO

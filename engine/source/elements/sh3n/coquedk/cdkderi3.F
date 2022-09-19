@@ -42,9 +42,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       my_real
-     .     X2(*), Y2(*), X3(*), Y3(*),AREA2(*), 
-     .     PX2(*), PY2(*), PX3(*), PY3(*), 
-     .     PX(MVSIZ,3), PY(MVSIZ,3), PXY(MVSIZ,3), PYY(MVSIZ,3), 
+     .     X2(*), Y2(*), X3(*), Y3(*),AREA2(*),
+     .     PX2(*), PY2(*), PX3(*), PY3(*),
+     .     PX(MVSIZ,3), PY(MVSIZ,3), PXY(MVSIZ,3), PYY(MVSIZ,3),
      .     ALDT(*),ALPE(*),VOL(*),VOLG(*),NU(*),THK2(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -58,7 +58,7 @@ C     REAL
      .     AREAI(MVSIZ),
      .     AL1, AL2, AL3, ALMAX,ALMIN,FAC
       MY_REAL
-     .   X32(MVSIZ), Y32(MVSIZ),AL4, AL5, AL6      
+     .   X32(MVSIZ), Y32(MVSIZ),AL4, AL5, AL6
 C-----------------------------------------------
       DO I=JFT,JLT
        AREAI(I)=ONE/AREA2(I)
@@ -73,7 +73,7 @@ C         PY1(I)=-PY2(I)-PY3(I)
       ENDDO
 C
       DO I=JFT,JLT
-       AL1 = X32(I)*X32(I) + Y32(I)*Y32(I)       
+       AL1 = X32(I)*X32(I) + Y32(I)*Y32(I)
        AL2 = X3(I) * X3(I) + Y3(I) * Y3(I)
        AL3 = X2(I) * X2(I) + Y2(I) * Y2(I)
        ALMAX = MAX(AL1,AL2,AL3)
@@ -93,7 +93,7 @@ C
        PYY(I,3)=Y2(I)*Y2(I)*AL6
        AL4 = TWO*AL4
        AL5 = TWO*AL5
-       AL6 = TWO*AL6       
+       AL6 = TWO*AL6
        PX(I,1)=X32(I)*AL4
        PX(I,2)=-X3(I)*AL5
        PX(I,3)=X2(I)*AL6
@@ -112,7 +112,7 @@ Chd|-- called by -----------
 Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CDKDERI3(JFT ,JLT,PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,  
+      SUBROUTINE CDKDERI3(JFT ,JLT,PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,
      1                    BZ1,BZ2,BZ3,BRX1,BRX2,BRX3,
      2                    BRY1,BRY2,BRY3,KSI,ETA)
 C-----------------------------------------------
@@ -128,7 +128,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT
       my_real
-     .     PX2(*), PY2(*), PX3(*), PY3(*), 
+     .     PX2(*), PY2(*), PX3(*), PY3(*),
      .     PX(MVSIZ,3), PY(MVSIZ,3), PXY(MVSIZ,3), PYY(MVSIZ,3),
      .     BZ1(MVSIZ,2),BZ2(MVSIZ,2),BZ3(MVSIZ,2), BRX1(MVSIZ,3),
      .     BRX2(MVSIZ,3),BRX3(MVSIZ,3),BRY1(MVSIZ,3),BRY2(MVSIZ,3),BRY3(MVSIZ,3),
@@ -149,7 +149,7 @@ C-----------------------------------------------
       Y2X =ONE-TWO*ETA-KSI
       X6  = SIX*KSI-ONE
       Y6  = SIX*ETA-ONE
-      XY6 = X6+Y6-THREE      
+      XY6 = X6+Y6-THREE
       DO I=JFT,JLT
        XR1= PX(I,3)*X2Y
        XR2= PX(I,2)*ETA

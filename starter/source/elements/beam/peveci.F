@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        PINIT3                        source/elements/beam/pinit3.F 
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE PEVECI(RLOC, X1,X3, Y1,Y3, Z1,Z3) 
+      SUBROUTINE PEVECI(RLOC, X1,X3, Y1,Y3, Z1,Z3)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -41,9 +41,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RLOC(3,*),
-     .   X1(MVSIZ), X3(MVSIZ), 
+     .   X1(MVSIZ), X3(MVSIZ),
      .   Y1(MVSIZ), Y3(MVSIZ),
-     .   Z1(MVSIZ), Z3(MVSIZ), 
+     .   Z1(MVSIZ), Z3(MVSIZ),
      .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

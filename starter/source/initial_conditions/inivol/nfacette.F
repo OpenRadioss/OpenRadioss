@@ -59,15 +59,15 @@ c       SZ=XFAS(3,3)+XFAS(3,4)-XFAS(3,1)-XFAS(3,2)
        RZ=XFAS(3,3) - XFAS(3,1)
        SZ=XFAS(3,4) - XFAS(3,2)
 C---------NORMAL------------
-       NX = RY * SZ - RZ * SY 
-       NY = RZ * SX - RX * SZ 
-       NZ = RX * SY - RY * SX 
+       NX = RY * SZ - RZ * SY
+       NY = RZ * SX - RX * SZ
+       NZ = RX * SY - RY * SX
        SUM = SQRT(NX*NX + NY*NY + NZ*NZ)
 C
        SUM = ONE/MAX(SUM,EM30)
-       NX = NX * SUM 
-       NY = NY * SUM 
-       NZ = NZ * SUM 
+       NX = NX * SUM
+       NY = NY * SUM
+       NZ = NZ * SUM
 C---
       RETURN
       END

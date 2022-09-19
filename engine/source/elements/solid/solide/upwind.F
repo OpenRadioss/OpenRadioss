@@ -76,19 +76,19 @@ C-----------------------------------------------
         IF(N2D==0)THEN
           DO  I=LFT,LLT
             V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
-            D1=R(1,I)*VDX(I)+R(2,I)*VDY(I)+R(3,I)*VDZ(I) 
-            D2=S(1,I)*VDX(I)+S(2,I)*VDY(I)+S(3,I)*VDZ(I) 
-            D3=T(1,I)*VDX(I)+T(2,I)*VDY(I)+T(3,I)*VDZ(I) 
+            D1=R(1,I)*VDX(I)+R(2,I)*VDY(I)+R(3,I)*VDZ(I)
+            D2=S(1,I)*VDX(I)+S(2,I)*VDY(I)+S(3,I)*VDZ(I)
+            D3=T(1,I)*VDX(I)+T(2,I)*VDY(I)+T(3,I)*VDZ(I)
             GAM(I)=SQRT(D1**2+D2**2+D3**2)
-          ENDDO 
+          ENDDO
         ELSE
           DO  I=LFT,LLT
-            D2=S(2,I)*VDY(I)+S(3,I)*VDZ(I) 
-            D3=T(2,I)*VDY(I)+T(3,I)*VDZ(I) 
+            D2=S(2,I)*VDY(I)+S(3,I)*VDZ(I)
+            D3=T(2,I)*VDY(I)+T(3,I)*VDZ(I)
             GAM(I)=SQRT(D2**2+D3**2)
             V(I)=VDY(I)**2+VDZ(I)**2
-          ENDDO 
-        ENDIF               
+          ENDDO
+        ENDIF
         CH2=CUPWM*HALF
         CH1=CH2*THIRD
         DO  I=LFT,LLT
@@ -162,19 +162,19 @@ C-----------------------------------------------
         IF(N2D==0)THEN
           DO  I=LFT,LLT
             V(I)=VDX(I)**2+VDY(I)**2+VDZ(I)**2
-            D1=R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I) 
-            D2=S(I,1)*VDX(I)+S(I,2)*VDY(I)+S(I,3)*VDZ(I) 
-            D3=T(I,1)*VDX(I)+T(I,2)*VDY(I)+T(I,3)*VDZ(I) 
+            D1=R(I,1)*VDX(I)+R(I,2)*VDY(I)+R(I,3)*VDZ(I)
+            D2=S(I,1)*VDX(I)+S(I,2)*VDY(I)+S(I,3)*VDZ(I)
+            D3=T(I,1)*VDX(I)+T(I,2)*VDY(I)+T(I,3)*VDZ(I)
             GAM(I)=SQRT(D1**2+D2**2+D3**2)
-          ENDDO 
+          ENDDO
         ELSE
           DO  I=LFT,LLT
-            D2=S(I,2)*VDY(I)+S(I,3)*VDZ(I) 
-            D3=T(I,2)*VDY(I)+T(I,3)*VDZ(I) 
+            D2=S(I,2)*VDY(I)+S(I,3)*VDZ(I)
+            D3=T(I,2)*VDY(I)+T(I,3)*VDZ(I)
             GAM(I)=SQRT(D2**2+D3**2)
             V(I)=VDY(I)**2+VDZ(I)**2
-          ENDDO 
-        ENDIF               
+          ENDDO
+        ENDIF
         CH2=CUPWM*HALF
         CH1=CH2*THIRD
         DO  I=LFT,LLT

@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE ASSEM_C4(
      1         IXC      ,NEL       ,IDDL      ,NDOF      ,K_DIAG    ,
      2         K_LT     ,IADK      ,JDIK      ,KC11      ,KC12      ,
-     3         KC13     ,KC14      ,KC22      , KC23     ,KC24      ,    
+     3         KC13     ,KC14      ,KC22      , KC23     ,KC24      ,
      5         KC33     ,KC34      ,KC44      ,OFF       )
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -49,7 +49,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .       IXC(NIXC,*), NEL   ,IDDL(*)   ,
      .       IADK(*)  ,JDIK(*)  ,NDOF(*)
 C     REAL
@@ -66,30 +66,30 @@ C
        DO K = 1,4
         DO EP = 1,NEL
          NN(EP,K)=IXC(K+1,EP)
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
 C-------block diagonal k11,k22...k44-----
-       CALL ASSEMC_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,KC11,6,OFF, 
-     1                NDOF) 
-       CALL ASSEMC_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,KC22,6,OFF, 
-     1                NDOF) 
-       CALL ASSEMC_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,KC33,6,OFF, 
-     1                NDOF) 
-       CALL ASSEMC_KII(NN(1,4),NEL,IDDL,IADK,K_DIAG,K_LT ,KC44,6,OFF, 
-     1                NDOF) 
+       CALL ASSEMC_KII(NN(1,1),NEL,IDDL,IADK,K_DIAG,K_LT ,KC11,6,OFF,
+     1                NDOF)
+       CALL ASSEMC_KII(NN(1,2),NEL,IDDL,IADK,K_DIAG,K_LT ,KC22,6,OFF,
+     1                NDOF)
+       CALL ASSEMC_KII(NN(1,3),NEL,IDDL,IADK,K_DIAG,K_LT ,KC33,6,OFF,
+     1                NDOF)
+       CALL ASSEMC_KII(NN(1,4),NEL,IDDL,IADK,K_DIAG,K_LT ,KC44,6,OFF,
+     1                NDOF)
 C-------non diag kij-----
        CALL ASSEMC_KIJ(NN(1,1),NN(1,2),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,KC12,6,OFF,NDOF) 
+     .                 K_DIAG,K_LT,KC12,6,OFF,NDOF)
        CALL ASSEMC_KIJ(NN(1,1),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,KC13,6,OFF,NDOF) 
+     .                 K_DIAG,K_LT,KC13,6,OFF,NDOF)
        CALL ASSEMC_KIJ(NN(1,1),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,KC14,6,OFF,NDOF) 
+     .                 K_DIAG,K_LT,KC14,6,OFF,NDOF)
        CALL ASSEMC_KIJ(NN(1,2),NN(1,3),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,KC23,6,OFF,NDOF) 
+     .                 K_DIAG,K_LT,KC23,6,OFF,NDOF)
        CALL ASSEMC_KIJ(NN(1,2),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,KC24,6,OFF,NDOF) 
+     .                 K_DIAG,K_LT,KC24,6,OFF,NDOF)
        CALL ASSEMC_KIJ(NN(1,3),NN(1,4),NEL,IDDL,IADK,JDIK,
-     .                 K_DIAG,K_LT,KC34,6,OFF,NDOF) 
+     .                 K_DIAG,K_LT,KC34,6,OFF,NDOF)
 C----6---------------------------------------------------------------7---------8
       RETURN
       END

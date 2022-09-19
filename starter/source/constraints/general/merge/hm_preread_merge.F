@@ -114,12 +114,12 @@ c
               SMGRBY = SMGRBY + 1
               IF(S_TYPE == 2) THEN
                 SLPBY = SLPBY + 1
-                NXTRA_NODE = NXTRA_NODE + 1 
+                NXTRA_NODE = NXTRA_NODE + 1
               ELSEIF(S_TYPE == 3) THEN
                 IGU=ISECONDARY
-                NN = GRSIZEN(IGU,IGRNOD,NGRNOD) 
-                SLPBY = SLPBY + NN   
-                NXTRA_NODE = NXTRA_NODE + NN                
+                NN = GRSIZEN(IGU,IGRNOD,NGRNOD)
+                SLPBY = SLPBY + NN
+                NXTRA_NODE = NXTRA_NODE + NN
               ENDIF
             ENDIF  ! IMAIN /= 0
         ENDDO
@@ -129,6 +129,6 @@ C-----------
       RETURN
  999  CALL FREERR(3)
       RETURN
-      END 
+      END
 C
 

@@ -71,7 +71,7 @@ C-----------------------------------------------
       INTEGER I, J
 C     REAL
       my_real
-     .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
+     .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ),
      .   M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
      .   M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
      .   YMOM1, YMOM2, ZMOM1, ZMOM2, YMOM1P, ZMOM1P,
@@ -112,7 +112,7 @@ C-------------------------
         M21(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM1+EYZ(I)*ZMOM1
         M31(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM1+EZZ(I)*ZMOM1
         YMOM2 = YMOM(I) + HALF*AL(I)*FORZ(I)
-        ZMOM2 = ZMOM(I) - HALF*AL(I)*FORY(I)      
+        ZMOM2 = ZMOM(I) - HALF*AL(I)*FORY(I)
         M12(I)=EXX(I)*XMOM(I)+EXY(I)*YMOM2+EXZ(I)*ZMOM2
         M22(I)=EYX(I)*XMOM(I)+EYY(I)*YMOM2+EYZ(I)*ZMOM2
         M32(I)=EZX(I)*XMOM(I)+EZY(I)*YMOM2+EZZ(I)*ZMOM2
@@ -192,7 +192,7 @@ C-----------------------------------------------
       INTEGER I, II, N, J
 C     REAL
       my_real
-     .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
+     .   F11(MVSIZ), F21(MVSIZ), F31(MVSIZ),
      .   M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
      .   M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
      .   YMOM1, YMOM2, ZMOM1, ZMOM2, YMOM1P, ZMOM1P,

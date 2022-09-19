@@ -39,7 +39,7 @@ Chd|====================================================================
 !$COMMENT
 !       MULTI_I18_FORCE_POFF description
 !       accumulation of force for local and remote nodes
-!       
+!
 !       MULTI_I18_FORCE_POFF organization :
 !       - secondary nodes:
 !            * if NSV > 0 --> local node (phantom node id = NSV - NUMNOD)
@@ -53,7 +53,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MULTI_FVM_MOD
       USE TRI7BOX
-      USE ELBUFDEF_MOD       
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -134,7 +134,7 @@ C
             NG = IGROUPS(IG)
             NFT=IPARG(3,NG)
             NEL=IPARG(2,NG)
-            ILOC=IG-NFT     
+            ILOC=IG-NFT
 
             SHIFT_FORCE_INT = (JTASK-1)*NUMELS
             MULTI_FVM%FORCE_INT(1,IG+SHIFT_FORCE_INT) = MULTI_FVM%FORCE_INT(1,IG+SHIFT_FORCE_INT) - DT*FXI(I)
@@ -144,9 +144,9 @@ C
          ! remote node
          ELSE
             IG = - IG
-            AFI(NIN)%P(1,IG+ISHIFT) = AFI(NIN)%P(1,IG+ISHIFT) - DT * FXI(I) 
-            AFI(NIN)%P(2,IG+ISHIFT) = AFI(NIN)%P(2,IG+ISHIFT) - DT * FYI(I) 
-            AFI(NIN)%P(3,IG+ISHIFT) = AFI(NIN)%P(3,IG+ISHIFT) - DT * FZI(I) 
+            AFI(NIN)%P(1,IG+ISHIFT) = AFI(NIN)%P(1,IG+ISHIFT) - DT * FXI(I)
+            AFI(NIN)%P(2,IG+ISHIFT) = AFI(NIN)%P(2,IG+ISHIFT) - DT * FYI(I)
+            AFI(NIN)%P(3,IG+ISHIFT) = AFI(NIN)%P(3,IG+ISHIFT) - DT * FZI(I)
          ENDIF
          ! --------------------
       ENDDO

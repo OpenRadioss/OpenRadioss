@@ -58,10 +58,10 @@ C-----------------------------------------------
        OPEN(UNIT=INPUTF,
      .     FORM='FORMATTED',
      .     FILE=FILNAM(1:LEN_FILNAM),
-     .     ACTION='READ' )      
-     
+     .     ACTION='READ' )
+
        DO WHILE(TEST)
-          READ(INPUTF,END=999,FMT='(A)')LINE    
+          READ(INPUTF,END=999,FMT='(A)')LINE
           LEN=LEN_TRIM(LINE)
           WRITE(IOUT,FMT='(A)')LINE(1:LEN)
        ENDDO

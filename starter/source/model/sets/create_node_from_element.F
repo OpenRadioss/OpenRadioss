@@ -126,7 +126,7 @@ C=======================================================================
 !
 !
       ! SPH
-!      IF (NUMSPH > 0) 
+!      IF (NUMSPH > 0)
 !     .    CALL TAGNOD_PART(KXSP,NISP,3,3,NUMSPH,IPARTSP,TAGPART,TAGNOD)
 C-----------
       LIMIT = NUMNOD/2

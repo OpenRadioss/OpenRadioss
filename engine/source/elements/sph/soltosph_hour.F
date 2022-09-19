@@ -32,7 +32,7 @@ Chd|-- called by -----------
 Chd|        SOLTOSPHP                     source/elements/sph/soltosph.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SIG_HEPH1(JR0     ,JS0  ,JT0  ,GSIG, FHOUR  , 
+      SUBROUTINE SIG_HEPH1(JR0     ,JS0  ,JT0  ,GSIG, FHOUR  ,
      .                     SIG_HEPH,PM   ,IXS  ,II  , NEL    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -93,7 +93,7 @@ C
            SIG_HEPH(I,2,4)=2*TWENTY4*(NU1*FHOUR(I,2,3)+NU2*FHOUR(I,3,2))
            SIG_HEPH(I,3,4)=2*TWENTY4*(NU1*FHOUR(I,3,2)+NU2*FHOUR(I,2,3))
            SIG_HEPH(I,5,4)=TWENTY4*(JS0(I)*FHOUR(I,2,2)/JT0(I)+JT0(I)*FHOUR(I,3,3)/JS0(I))
-           SIG_HEPH(I,1,5)=2*TWENTY4*NU3*FHOUR(I,1,4)        
+           SIG_HEPH(I,1,5)=2*TWENTY4*NU3*FHOUR(I,1,4)
            SIG_HEPH(I,2,6)=2*TWENTY4*NU3*FHOUR(I,2,4)
            SIG_HEPH(I,3,7)=2*TWENTY4*NU3*FHOUR(I,3,4)
         END DO

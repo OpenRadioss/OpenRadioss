@@ -27,7 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-      SUBROUTINE ASSPARXX(ITSK,INTLIST,NBINTC,IPARI) 
+      SUBROUTINE ASSPARXX(ITSK,INTLIST,NBINTC,IPARI)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -59,7 +59,7 @@ C
 
          IF(NTY /= 7 .AND. NTY /= 10 .AND. NTY /= 11.AND. NTY /= 24 .AND. NTY /= 25 .AND. NTY /= 20.AND. NTY /= 23) CYCLE
          NODFI = NLSKYFI(NIN)
-          
+
          NODFTSK   = 1+ITSK*NODFI/ NTHREAD
          NODLTSK   = (ITSK+1)*NODFI/NTHREAD
 
@@ -84,7 +84,7 @@ C
                 FTHEFI(NIN)%P(IG)=FTHEFI(NIN)%P(IG)+FTHEFI(NIN)%P(IG+ISHIFT)
                 FTHEFI(NIN)%P(IG+ISHIFT)=ZERO
 
-                IF(NODADT_THERM == 1 ) THEN  
+                IF(NODADT_THERM == 1 ) THEN
                   CONDNFI(NIN)%P(IG)=CONDNFI(NIN)%P(IG)+CONDNFI(NIN)%P(IG+ISHIFT)
                   CONDNFI(NIN)%P(IG+ISHIFT)=ZERO
                 ENDIF
@@ -104,7 +104,7 @@ C
             IF(NODFIE > 0)THEN
                NODFTSK   = 1+ITSK*NODFIE/ NTHREAD
                NODLTSK   = (ITSK+1)*NODFIE/NTHREAD
- 
+
                DO K=2,NTHREAD
                  ISHIFT = NODFIE*(K-1)
                  DO IG=NODFTSK,NODLTSK !LENR
@@ -127,11 +127,11 @@ C
                 ENDIF
                ENDDO
 
-                
+
             ENDIF
          ENDIF
       ENDDO
-      
+
 
       RETURN
       END

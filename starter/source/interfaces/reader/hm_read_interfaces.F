@@ -47,7 +47,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_INTERFACES(
      1           IPARI    ,FRIGAP   ,LINTER   ,ITAB       ,ITABM1     ,
      2           IGRNOD   ,IGRSURF  ,IGRSLIN  ,IGRBRIC    ,IGRSH3N    ,
-     3           IGRTRUSS ,NPC      ,ISKN     ,XFILTR     ,STFAC      , 
+     3           IGRTRUSS ,NPC      ,ISKN     ,XFILTR     ,STFAC      ,
      4           FRIC_P   ,I2RUPT   ,AREASL   ,UNITAB     ,NOM_OPT    ,
      5           DEF_INTER,NPC1     ,LSENSOR  ,MULTI_FVM  ,NOM_OPTFRIC,
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF         ,
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IDDLEVEL
       INTEGER NOM_OPT(LNOPT1,*)
       INTEGER LINTER
@@ -135,7 +135,7 @@ C=======================================================================
 
 
       NI        = 0
-      NB        = 0 
+      NB        = 0
       IDINT7    = 0
       IDINT7B   = 0
       IDINT11   = 0
@@ -163,7 +163,7 @@ C----------Multidomaines --> on ignore les interfaces et sous-interfaces non tag
          ENDIF
 c
          ILAGM = 0
-         KEY = ''   
+         KEY = ''
 C
 C--------------------------------------------------
 C EXTRACT DATAS OF /INTER/... LINE
@@ -178,20 +178,20 @@ C--------------------------------------------------
 C--------------------------------------------------
 C CHECK IF READ OPTION IS /INTER/SUB
 C--------------------------------------------------
-        IF(KEY(1:LEN_TRIM(KEY)) == 'SUB') CYCLE 
+        IF(KEY(1:LEN_TRIM(KEY)) == 'SUB') CYCLE
 C--------------------------------------------------
          NI=NI+1
 C                                      
          DO I = 1,NPARI
             IPARI(I,NI) = 0
          ENDDO
-         IPARI(23,NI) = 1                               
+         IPARI(23,NI) = 1
 C--------------------------------------------------
 C CHECK IF UID IS EXISTING
 C--------------------------------------------------
       IFLAGUNIT = 0
       DO J=1,NUNITS
-          IF (UNITAB%UNIT_ID(J) == UID) THEN    
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
             IFLAGUNIT = 1
             EXIT
           ENDIF
@@ -205,7 +205,7 @@ C--------------------------------------------------
 C--------------------------------------------------
 C WRITE TITLE IN OUT FILE
 C--------------------------------------------------
-        WRITE(IOUT,1300) 
+        WRITE(IOUT,1300)
 
         STR_TMP = KEY(1:LEN_TRIM(KEY))
 
@@ -217,7 +217,7 @@ C--------------------------------------------------
            CALL HM_READ_INTER_FSI(
      1          IPARI(1,NI) ,STFAC(NI) ,FRIGAP(1,NI) ,XFILTR(NI),FRIC_P(1,NI),
      2          IGRNOD      ,IGRSURF   ,ILAGM        ,UNITAB    ,NI          ,
-     3          NOM_OPT     ,TITR      ,IGRBRIC      ,IGRSH3N   ,IGRTRUSS    ,       
+     3          NOM_OPT     ,TITR      ,IGRBRIC      ,IGRSH3N   ,IGRTRUSS    ,
      4          IDDLEVEL    ,NOINT     ,KEY          ,LSUBMODEL ,ITAB        ,
      5          ITABM1      ,ISKN      ,MULTI_FVM)
 
@@ -265,14 +265,14 @@ C---------------------------------------------------------------
              ENDIF
            ENDDO
          ENDIF
-         
-               
+
+
 C-------
          IF(IPARI(39,NI) == 1)THEN
            IPARI(40,NI)=USR2SYS(IPARI(40,NI),ITABM1,MESS,IPARI(15,NI))
            IF(IMACH == 3)THEN
              DO P = 1, NSPMD
-	       CALL IFRONTPLUS(IPARI(40,NI),P) 
+	       CALL IFRONTPLUS(IPARI(40,NI),P)
              END DO
            END IF
          ELSEIF(IPARI(39,NI) == 2)THEN
@@ -281,13 +281,13 @@ C-------
            IF(IMACH == 3)THEN
               DO P = 1, NSPMD
                 CALL IFRONTPLUS(IPARI(40,NI),P)
-                CALL IFRONTPLUS(IPARI(41,NI),P)	      
+                CALL IFRONTPLUS(IPARI(41,NI),P)	
               END DO
             END IF
          ENDIF
 
         IF(NINTLOADP > 0)IPARI(95,NI) = KLOADPINTER(NI+1)  - KLOADPINTER(NI)
-        IF(NINTLOADP > 0)FRIGAP(46,NI) = DGAPINT(NI) 
+        IF(NINTLOADP > 0)FRIGAP(46,NI) = DGAPINT(NI)
 
 C--------
       ENDDO ! NI

@@ -47,8 +47,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE GROUPDEF_MOD    
-      USE SUBMODEL_MOD        
+      USE GROUPDEF_MOD
+      USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -73,9 +73,9 @@ C-----------------------------------------------
       INTEGER ICODE(*), ISKEW(*), ITAB(*), ITABM1(*), IKINE(*),
      .        IBCSLAG(5,*),
      .        LAG_NCF,LAG_NKF,LAG_NHF,IKINE1LAG(*),ISKN(LISKN,*)
-      INTEGER NOM_OPT(LNOPT1,*),IBCSCYC(4,*) ,LBCSCYC(2,*) 
+      INTEGER NOM_OPT(LNOPT1,*),IBCSCYC(4,*) ,LBCSCYC(2,*)
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
 C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
@@ -182,7 +182,7 @@ C
               CHKCOD = 1
             ENDIF
           ENDDO
-          IF(CHKCOD == 1) 
+          IF(CHKCOD == 1)
      .         CALL ANCMSG(MSGID=1051,ANMODE=ANINFO_BLIND,
      .                MSGTYPE=MSGERROR,I1=ID,C1=TITR,C2=CODE)
           IC1=J6(1)*4 +J6(2)*2 +J6(3)
@@ -205,7 +205,7 @@ C
      .                    I1=ITAB(NOSYS),PRMOD=MSG_CUMU)
               ENDIF
               ISKEW(NOSYS)=CHECK_NEW
-            
+
               DO K=1,6
                 IF(J6(K)/=0)
      .          CALL KINSET(1,ITAB(NOSYS),IKINE(NOSYS),K,ISKEW(NOSYS)

@@ -100,7 +100,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE  :: SET_ARRAY,SET_CLAUSE_ARRAY,RESULT,SETCOL_ARRAY
       INTEGER, DIMENSION(:),ALLOCATABLE  :: COLLECT_LIST,IS_COLLECT
       INTEGER CLAUSE_OPERATOR
-      
+
 C-----------------------------------------------
 C     Characters
       CHARACTER MESS*40
@@ -110,12 +110,12 @@ C-----------------------------------------------
       IDEBUG=0
 
       IF (IDEBUG == 1)THEN
-         print*,' ' 
-         print*,' ' 
+         print*,' '
+         print*,' '
          print*,' -----------------------------------------------'
          print*,'  SORTING SETS'
          print*,' -----------------------------------------------'
-         print*,' ' 
+         print*,' '
       ENDIF
 
       ALLOCATE(SET_ARRAY(NSETS))
@@ -124,7 +124,7 @@ C-----------------------------------------------
       ALLOCATE(IS_COLLECT(NSETS))
       ALLOCATE(RESULT(NSETS))
       ALLOCATE(COLLECT_LIST(MAP_TABLES%NSET_COLLECT))
-      
+
 
       !-------------------------------------------------
       ! SET%IS_ACTIVE & /SET/COLLECT
@@ -132,8 +132,8 @@ C-----------------------------------------------
       ! Loops to define which set is active
       ! In /SET/COLLECT only one SET of the SERIES is active
       ! And assembled by the others.
-      ! All secondary SETs needs to be treated before the 
-      ! the active SET. 
+      ! All secondary SETs needs to be treated before the
+      ! the active SET.
       ! /SET/GENERAL : all SETs are active
       !-------------------------------------------------
 
@@ -141,13 +141,13 @@ C-----------------------------------------------
         SET(IGS)%SET_ACTIV=-1
         IS_COLLECT(IGS)=0
       ENDDO
-      
+
       IF (MAP_TABLES%NSET_COLLECT > 0)THEN
 
         IGS = MAP_TABLES%ISETCOLM(1,2)
         IS_COLLECT(IGS)=1
         SET(IGS)%SET_ACTIV=1
-        
+
         DO I=2,MAP_TABLES%NSET_COLLECT
            IGS = MAP_TABLES%ISETCOLM(I,2)
            IGS2 = MAP_TABLES%ISETCOLM(I-1,2)
@@ -162,16 +162,16 @@ C-----------------------------------------------
              SET(IGS)%SET_ACTIV=0
            ENDIF
         ENDDO
-      ENDIF 
+      ENDIF
       DO IGS=1,NSETS
          IF(IS_COLLECT(IGS) == 0) SET(IGS)%SET_ACTIV=1
-      ENDDO     
+      ENDDO
       !-------------------------------------------------
-    
+
       CALL HM_OPTION_START('/SET')
 
       DO IGS=1,NSETS
-        
+
         SET_ARRAY_SIZE=0
 
         CALL HM_OPTION_READ_KEY (LSUBMODEL,
@@ -188,33 +188,33 @@ C-----------------------------------------------
 
 
 
-          !  Parse all clauses find SET clauses 
+          !  Parse all clauses find SET clauses
           ! -------------------------
           DO J=1,CLAUSES_MAX  ! max KEY's of the current /SET
              CALL HM_GET_STRING_INDEX('KEY_type', KEYSET, J, ncharline, IS_AVAILABLE)
-  
+
              CALL HM_GET_INT_ARRAY_INDEX('opt_D',OPT_D,J,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INT_ARRAY_INDEX('opt_O',OPT_O,J,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INT_ARRAY_INDEX('opt_G',OPT_G,J,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INT_ARRAY_INDEX('opt_B',OPT_B,J,IS_AVAILABLE,LSUBMODEL)
-             CALL HM_GET_INT_ARRAY_INDEX('opt_A',OPT_A,J,IS_AVAILABLE,LSUBMODEL) 
+             CALL HM_GET_INT_ARRAY_INDEX('opt_A',OPT_A,J,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INT_ARRAY_INDEX('opt_E',OPT_E,J,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INT_ARRAY_INDEX('opt_I',OPT_I,J,IS_AVAILABLE,LSUBMODEL)
              CALL HM_GET_INT_ARRAY_INDEX('opt_C',OPT_C,J,IS_AVAILABLE,LSUBMODEL)
 
-           
+
              IF(TRIM(KEYSET) == 'SET' )THEN
-  
+
               !  get the list of SETs for the current clause
               ! ---------------------------------------------
                SET_CLAUSE_SIZE = 0
-               CALL CREATE_SET_ARRAY(SET_CLAUSE_ARRAY  , SET_CLAUSE_SIZE, 
+               CALL CREATE_SET_ARRAY(SET_CLAUSE_ARRAY  , SET_CLAUSE_SIZE,
      .                               MAP_TABLES%ISETM  , MAP_TABLES%NSET_GENERAL,
      .                               J  ,OPT_G ,IS_AVAILABLE ,
-     .                               LSUBMODEL,CLAUSE,0)              
+     .                               LSUBMODEL,CLAUSE,0)
 
                IF( SET_CLAUSE_SIZE > 0 ) THEN
-  
+
                  NEW_SIZE = 0
                  CALL SET_MERGE_SIMPLE( SET_ARRAY       , SET_ARRAY_SIZE  ,
      *                                  SET_CLAUSE_ARRAY, SET_CLAUSE_SIZE ,
@@ -229,10 +229,10 @@ C-----------------------------------------------
                 CALL CREATE_SETCOL_ARRAY(SET,SETCOL_ARRAY,SETCOL_ARRAY_SIZE  ,
      *                                   MAP_TABLES%ISETCOLM,MAP_TABLES%NSET_COLLECT,
      *                                   J,OPT_G ,IS_AVAILABLE ,
-     *                                   LSUBMODEL) 
+     *                                   LSUBMODEL)
 
                 IF(SETCOL_ARRAY_SIZE > 0 ) THEN
-  
+
                  NEW_SIZE = 0
                  CALL SET_MERGE_SIMPLE( SET_ARRAY       , SET_ARRAY_SIZE    ,
      *                                  SETCOL_ARRAY    , SETCOL_ARRAY_SIZE ,
@@ -243,14 +243,14 @@ C-----------------------------------------------
                  SET_ARRAY_SIZE = NEW_SIZE
                ENDIF
 
-                
-             ENDIF 
+
+             ENDIF
 
 
           ENDDO           ! DO J=1,CLAUSES_MAX
 
 
-          IF(TRIM(KEY) == 'COLLECT')THEN                 ! SET COLLECT - find all other SETs with Same ID. 
+          IF(TRIM(KEY) == 'COLLECT')THEN                 ! SET COLLECT - find all other SETs with Same ID.
 
             IF (SET(IGS)%SET_ACTIV==1 ) THEN
 
@@ -260,9 +260,9 @@ C-----------------------------------------------
                  IG = MAP_TABLES%ISETCOLM(J,2)
 
                  IF (ID > SET_ID) EXIT                   ! ISETCOLM is sorted by UID, when ID is greater we have finished.
-                 
-                
-                 IF( ID == SET_ID .AND. SET(IG)%SET_ACTIV==0)THEN      
+
+
+                 IF( ID == SET_ID .AND. SET(IG)%SET_ACTIV==0)THEN
                     SET_ARRAY_SIZE = SET_ARRAY_SIZE + 1
                     SET_ARRAY(SET_ARRAY_SIZE)=IG
                  ENDIF
@@ -275,32 +275,32 @@ C-----------------------------------------------
         IF (IDEBUG == 1)THEN
              WRITE(6,'(A,I8,A,I8,A,I8)') 'SET ',SET_ID,'-> ',IGS,' Number of Child list : ',SET_ARRAY_SIZE
              WRITE(6,'(A, 100I8)') 'Child List      ',( SET_ARRAY(T), T=1,SET_ARRAY_SIZE)
-             WRITE(6,'(A)') ' ' 
+             WRITE(6,'(A)') ' '
          ENDIF
 
          ! Create an Edge in the Dependancy Graph
-         CALL SET_GRAPH_ADD_SET ( IGS, SET_ARRAY, SET_ARRAY_SIZE) 
-           
+         CALL SET_GRAPH_ADD_SET ( IGS, SET_ARRAY, SET_ARRAY_SIZE)
+
 
       ENDDO
- 
+
       !  ALL Edges are done
       ! --------------------
       CALL SET_GRAPH_SORT ( SET_LIST , IERROR)
-      
+
       IF (IERROR < 0) THEN
          print*,'ERROR CIRCULAR DEPENDANCY ON SET ',-IERROR
          CALL ARRET(2)
       ENDIF
 
       IF (IDEBUG == 1)THEN
-         print*,' ' 
+         print*,' '
          print*,' -----------------------------------------------'
          WRITE(6,'(A)') 'SORTED SETS'
          print*,SET_LIST(1:NSETS)
-         print*,' ' 
+         print*,' '
          print*,' -----------------------------------------------'
-         print*,' ' 
+         print*,' '
       ENDIF
 
       CALL SET_GRAPH_CLEAN()

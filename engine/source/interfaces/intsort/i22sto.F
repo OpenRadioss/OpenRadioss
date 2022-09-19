@@ -73,36 +73,36 @@ C-----------------------------------------------
 !#include "sync_dir.inc"
 C-----------------------------------------------
 
-      IF(.NOT.IsSTO)THEN         
+      IF(.NOT.IsSTO)THEN
         IsSTO=.TRUE.
 c        if(ibug22_trivox==1)print *, "   lockon", ITASK
-#include "lockon.inc" 
+#include "lockon.inc"
       END IF
 
       I_STOK = II_STOK
 
       IF(I_STOK + J_STOK>MULNSN) THEN
-        I_MEM = 2 ! Pas assez de place allouee  
+        I_MEM = 2 ! Pas assez de place allouee
         IsSTO = .FALSE.
-        !II_STOK = ZERO fait dans i22buce     
-c        if(ibug22_trivox==1)print *, "   lockoff", ITASK             
-#include "lockoff.inc"  
+        !II_STOK = ZERO fait dans i22buce
+c        if(ibug22_trivox==1)print *, "   lockoff", ITASK
+#include "lockoff.inc"
         RETURN
       ENDIF
 
-      DO I=1,J_STOK         
-        I_STOK = I_STOK + 1                         
+      DO I=1,J_STOK
+        I_STOK = I_STOK + 1
         CAND_B(I_STOK) = PROV_B(I) !numero de la brique dans le groupe local
-        CAND_E(I_STOK) = PROV_E(I) !est deja un numero global (1:NIRECT_L) pas besoin ESHIFT    
+        CAND_E(I_STOK) = PROV_E(I) !est deja un numero global (1:NIRECT_L) pas besoin ESHIFT
 c        if(ibug22_trivox==1)WRITE(*,FMT='(A,I8,A,I8,I8)')
-c     .   "   I22sto : ecriture Bric=", 
+c     .   "   I22sto : ecriture Bric=",
 c     .   IXS(11,BUFBRIC(PROV_B(I))), " ShellDiag= ",
 c     .   NINT(IRECT_L((/1,3/),ABS(PROV_E(I))))
 c        if(ibug22_trivox==1)print *, ""
       ENDDO
 C-----------------------------------------------
       II_STOK = II_STOK + J_STOK
-         
+
 !#include "lockoff.inc"  lockoff seulement losque la brique courante est completement traitee
 
       RETURN

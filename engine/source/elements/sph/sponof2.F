@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE SPHBOX
       USE GROUPDEF_MOD
 C----6---------------------------------------------------------------7---------8
@@ -115,9 +115,9 @@ C     REAL
      .       YI_OLD,ZI_OLD,DT_OLD,VMAXS
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: OFF_SPH, TAG_SPH
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF 
-      
-      LOGICAL :: lBOOL    
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+
+      LOGICAL :: lBOOL
 C-----------------------------------------------
       my_real
      .         GET_U_GEO
@@ -355,7 +355,7 @@ C------
 C      control section / new outlet - silent boundary
 C------
         TFLAG = 0
-        IVAD = ISPHIO(4,I) 
+        IVAD = ISPHIO(4,I)
         DMAX=-VSPHIO(IVAD+3)
 C-------
         XBMIN =EP20
@@ -393,11 +393,11 @@ C           calcul nod4
             ZI = XX(6)+XX(9)-XX(3)
 C           permutation nod3 nod4
             XX(10) = XX(7)
-            XX(11) = XX(8)  
+            XX(11) = XX(8)
             XX(12) = XX(9)
             XX(7) = XI
-            XX(8) = YI  
-            XX(9) = ZI      
+            XX(8) = YI
+            XX(9) = ZI
           ENDIF
           XBMIN=MIN(XBMIN,XI)
           YBMIN=MIN(YBMIN,YI)
@@ -433,7 +433,7 @@ C-------
         ZBMIN=ZBMIN+DMAX
         XBMAX=XBMAX-DMAX
         YBMAX=YBMAX-DMAX
-        ZBMAX=ZBMAX-DMAX   
+        ZBMAX=ZBMAX-DMAX
 C------
         KVNORM=NUMSPH+1
 C------
@@ -462,7 +462,7 @@ C       la particule a traverse la surface dans le sens +
               IF (DPS_OLD>ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)-SPBUF(12,N)
 C       la particule a traverse la surface dans le sens -
               IF (DPS_OLD<ZERO) VSPHIO(IVAD+13) = VSPHIO(IVAD+13)+SPBUF(12,N)
-            ENDIF        
+            ENDIF
           ENDIF
         ENDDO
 C------
@@ -487,12 +487,12 @@ C           conditions multiples => la derniere condition rencontree impose ..
      .                  +WA(KK+1)*V(2,INOD)
      .                  +WA(KK+2)*V(3,INOD)
             NG=MOD(KXSP(2,N),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                 
-     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS)
 !
             DO IJ=1,6
@@ -517,12 +517,12 @@ C           conditions multiples => la derniere condition rencontree impose ..
      .                  +WA(KK+1)*V(2,INOD)
      .                  +WA(KK+2)*V(3,INOD)
             NG=MOD(KXSP(2,N),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                 
-     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS)
 !
             DO IJ=1,6
@@ -544,7 +544,7 @@ C-----------------------------------------------
           IF(NSPMD>1)THEN
 C send IMPOSE value
              CALL SPMD_SPHGETIMP(KXSP)
-          END IF 
+          END IF
 C     requete ppv <=> non zero interaction / impose
 c     ppv: plus proche voisin
 C-----------------------------------------------
@@ -564,7 +564,7 @@ C      general outlets & silent boundary.
           IPPV=0
           DMIN=EP20
 
-	  DO J=1,KXSP(4,N)         
+	  DO J=1,KXSP(4,N)
 	   JNOD=IXSP(J,N)
 
            IF(JNOD>0)THEN      ! particule locale
@@ -588,8 +588,8 @@ C      general outlets & silent boundary.
                  ENDIF
                ENDIF
              ENDIF
-           ELSE                   ! particule remote   
-             NN = -JNOD             
+           ELSE                   ! particule remote
+             NN = -JNOD
              IMPOSE = NINT(XSPHR(12,NN))
              IF(IMPOSE>0)THEN
                IMPOSE2=ISPHIO(1,IMPOSE)
@@ -618,7 +618,7 @@ c elmt delete OFF_SPH set to 1
             OFF_SPH(N)=1
             IF (R2R_SIU/=0)  OFF_SPH_R2R(INOD) = -1
           ENDIF
-         ENDIF 
+         ENDIF
         ENDDO
        END IF
       ENDDO
@@ -687,12 +687,12 @@ c            IN2B=IBUFSSG(IAD+1)
             D(2,INOD)=ZERO
             D(3,INOD)=ZERO
             NG=MOD(ABS(KXSP(2,N)),NGROUP+1)
-            CALL INITBUF (IPARG    ,NG      ,                 
-     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,  
-     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+            CALL INITBUF (IPARG    ,NG      ,
+     2         MTN     ,NEL     ,NFT     ,KAD     ,ITY     ,
+     3         NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4         JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5         NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6         IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7         ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS)
 !
             DO IJ=1,6
@@ -736,12 +736,12 @@ c 1) ON NE TRAITE QUE LES VOISINS LOCAUX
              IF(INOD0<0)THEN
 c will be treated in SPMD_SPHGETVOIS_OFF
 c TAG_SPH set to 1
-               TAG_SPH(-INOD0)=1 
+               TAG_SPH(-INOD0)=1
              ELSE
                M    =NOD2SP(INOD0)
                NVOIS1=0
                DO K=1,KXSP(4,M)
-                 KNOD=IXSP(K,M)           
+                 KNOD=IXSP(K,M)
                  IF(KNOD/=INOD)THEN
                    NVOIS1=NVOIS1+1
                    IXSP(NVOIS1,M)=KNOD

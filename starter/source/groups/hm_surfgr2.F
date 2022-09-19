@@ -73,15 +73,15 @@ C-----------------------------------------------
 !
       TYPE (GROUP_)  , DIMENSION(NGRELE) :: IGRELEM
       TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
-!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
+!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
-!                     and optimize an old and expensive treatment in SSURFTAG      
+!                     and optimize an old and expensive treatment in SSURFTAG
 !       NINDX_SOL(10) : number of the tagged solid(10) element
-!                      --> need to split solid and solid10 
+!                      --> need to split solid and solid10
 !                      for a treatment in the SSURFTAG routine
 !                      only usefull for /SURF/GRBRIC
 !       INDX_SOL(10) : ID of the tagged solid(10) element
-!                      --> need to split solid and solid10 
+!                      --> need to split solid and solid10
 !                      for a treatment in the SSURFTAG routine
 !                      only usefull for /SURF/GRBRIC
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -100,14 +100,14 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C=======================================================================
       IF(ELCHAR(1:6)=='GRBRIC') FLAG_GRBRIC = .TRUE.
 
-        CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)       
-        DO KK=1,NENTITY                                                              
-          JJ=LIST_ENTITY(KK)      
+        CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
+        DO KK=1,NENTITY
+          JJ=LIST_ENTITY(KK)
           IF(JJ/=0)THEN
             ISU=0
             DO K=1,NGRELE
@@ -155,7 +155,7 @@ C=======================================================================
             ENDIF
           ENDIF
         ENDDO
-        IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)        
+        IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
 C-----------
       RETURN
       END

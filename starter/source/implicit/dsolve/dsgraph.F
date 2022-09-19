@@ -61,7 +61,7 @@ C-----------------------------------------------
      .        IXP(NIXP,*), IXR(NIXR,*), IXUR(NIXUR,*), IXTG(NIXTG,*),
      .        CEP(*), NELEM, NELEMINT, IXINT(6,*), KXX(NIXX,NUMELX),
      .        IXX(*), NELDOM(*), NELDMAX, ADSKY(0:*), IGEO(NPROPGI,*),
-     .        ISOLNOD(*), IWCONT(*), IWCIN2(*), DSDOF(*), 
+     .        ISOLNOD(*), IWCONT(*), IWCIN2(*), DSDOF(*),
      .        DSARCH, NSPRI,IPM(*),
      .        TAILLE,TABMP_L
       INTEGER, DIMENSION(NUMMAT_OLD) :: POIN_UMP_OLD
@@ -96,7 +96,7 @@ C
 *     .' DSOLVE : DOMAIN DECOMPOSITION'
 *      WRITE(IOUT,'(A)')
 *     .' --------------------------------------'
-      IF (NSPRI<0) WRITE(ISTDO,'(A36,I3)') 
+      IF (NSPRI<0) WRITE(ISTDO,'(A36,I3)')
      .'    --> DOMAIN DECOMPOSITION - LEVEL',1
       DO IEL=1,NELEM
          WD(IEL)=ZERO
@@ -246,7 +246,7 @@ C-----------------------------------------------
      .        IELUR, IELX, II, J, NUMSD2, IDDLEVEL, LENPROG,
      .        ITAG(NELEM), NDOFL, N
       REAL WD(NELEM)
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: TBPAR, IXSL, IXQL, IXCL, 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE :: TBPAR, IXSL, IXQL, IXCL,
      .        IXTL, IXPL, IXRL, IXTGL, IXURL, KXXL
       INTEGER, DIMENSION(:), ALLOCATABLE :: CEPL, CORR, ISOLNODL
 C
@@ -469,7 +469,7 @@ C
                         IXCL(J,IELC)=IXC(J,II)
                      ENDDO
                   ENDIF
-               ENDDO             
+               ENDDO
                IELT=0
                DO I=1,NUMELTD
                   IEL=IEL+1
@@ -483,7 +483,7 @@ C
                         IXTL(J,IELT)=IXT(J,II)
                      ENDDO
                   ENDIF
-               ENDDO             
+               ENDDO
                IELP=0
                DO I=1,NUMELPD
                   IEL=IEL+1
@@ -497,7 +497,7 @@ C
                         IXPL(J,IELP)=IXP(J,II)
                      ENDDO
                   ENDIF
-               ENDDO             
+               ENDDO
                IELR=0
                DO I=1,NUMELRD
                   IEL=IEL+1
@@ -511,7 +511,7 @@ C
                         IXRL(J,IELR)=IXR(J,II)
                      ENDDO
                   ENDIF
-               ENDDO             
+               ENDDO
                IELTG=0
                DO I=1,NUMELTGD
                   IEL=IEL+1
@@ -525,7 +525,7 @@ C
                         IXTGL(J,IELTG)=IXTG(J,II)
                      ENDDO
                   ENDIF
-               ENDDO             
+               ENDDO
                IELUR=0
                DO I=1,NUMELURD
                   IEL=IEL+1
@@ -539,7 +539,7 @@ C
                         IXURL(J,IELUR)=IXUR(J,II)
                      ENDDO
                   ENDIF
-               ENDDO 
+               ENDDO
                IELX=0
                DO I=1,NUMELXD
                   IEL=IEL+1
@@ -553,7 +553,7 @@ C
                         KXX(J,IELX)=KXX(J,II)
                      ENDDO
                   ENDIF
-               ENDDO            
+               ENDDO
 C
 C --- Appel de la DOMDEC sur le parent
 C
@@ -664,7 +664,7 @@ C
                         WRITE(ISTDO,*)
                         WRITE(ISTDO,'(A41,I4)')
      . ' ** MINIMUM DOF NUMBER REACHED FOR LEVEL ',ILVL
-                        WRITE(ISTDO,'(A)') 
+                        WRITE(ISTDO,'(A)')
      . ' ** REDUCING NLEVEL AND RESTARTING MULTI-LEVEL DOM. DEC.'
                         NSLEVEL=NSLEVEL-1
                         DEALLOCATE(IXSL, IXQL, IXCL, IXTL, IXPL, IXRL,
@@ -677,7 +677,7 @@ C
                         WRITE(ISTDO,*)
                         WRITE(ISTDO,'(A41,I4)')
      . ' ** MINIMUM DOF NUMBER REACHED FOR LEVEL ',ILVL
-                        WRITE(ISTDO,'(A)') 
+                        WRITE(ISTDO,'(A)')
      . ' ** REDUCING NLEVEL AND RESTARTING MULTI-LEVEL DOM. DEC.'
                         NSLEVEL=ILVL
                         DEALLOCATE(IXSL, IXQL, IXCL, IXTL, IXPL, IXRL,
@@ -790,7 +790,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE DSGRAPH_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -821,10 +821,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILVL, ISD, NBSD, I, J, IPROC, ISD2, DSLEN,
-     .        OFF, IEL, ITAG(NUMNOD), NUMELSL, NUMELQL, NUMELCL, 
+     .        OFF, IEL, ITAG(NUMNOD), NUMELSL, NUMELQL, NUMELCL,
      .        NUMELTL, NUMELPL, NUMELRL, NUMELTGL, NUMELURL, NUMELXL,
      .        OFFEL, IS, NODSD(NSDMAX+1,NUMNOD), N, DDLADR(NUMNOD),
-     .        TMPI(NUMNOD), TMPF(NUMNOD), TMPDOM(NSDMAX), IAD, NNI, 
+     .        TMPI(NUMNOD), TMPF(NUMNOD), TMPDOM(NSDMAX), IAD, NNI,
      .        OFFSD, NNF, K, II, NN, NSDDL, NMAX, IDM, DSNDDL,
      .        NMAX2, IDM2, NSN, INDEX, NIMAX, NIMAX2, IDMI, IDMI2,
      .        NFDDL, NDDL_F, L, NSLEVEL, NSDEC, IINT2(NINTER), NINT2,
@@ -934,7 +934,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELCL    
+            OFFEL=OFFEL+NUMELCL
 C
             DO I=1,NUMELTL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -949,7 +949,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELTL    
+            OFFEL=OFFEL+NUMELTL
 C
             DO I=1,NUMELPL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -964,7 +964,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELPL    
+            OFFEL=OFFEL+NUMELPL
 C
             DO I=1,NUMELRL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -979,7 +979,7 @@ C
                   ENDDO
                ENDIF
             ENDDO
-            OFFEL=OFFEL+NUMELRL    
+            OFFEL=OFFEL+NUMELRL
 C
             DO I=1,NUMELTGL
                IEL=ELDOM(IPROC,1,OFFEL+I)
@@ -1039,7 +1039,7 @@ C
                   ENDIF
                ENDDO
             ENDDO
-         ENDDO  
+         ENDDO
          OFF=OFF+DSLEN
 C
       ENDDO
@@ -1207,7 +1207,7 @@ C
             ELSE
                NODSD(1,I)=0
             ENDIF
-         ENDDO               
+         ENDDO
       ENDDO
 C
 C Taille du probleme apres condensation
@@ -1290,7 +1290,7 @@ C
      .                  +(LEN2/10+MIN((LEN2/10)*10,1))*(NV1+NDDL_F)
          ENDDO
 C
-         IF (IMACH==3) 
+         IF (IMACH==3)
      .      MEMORY(2,IPROC)=MEMORY(2,IPROC)+MEMGRAPH-MEMGRAPH_OLD
       ENDDO
       IF (IMACH/=3) MEMORY(2,1)=MEMGRAPH
@@ -1342,16 +1342,16 @@ C
                MEMORY(3,IPROC)=MEMSEL
                MEMORY(5,IPROC)=IPROC
                MEMORY(6,IPROC)=I
-            ENDIF   
+            ENDIF
          ENDDO
-      ENDDO   
+      ENDDO
 C Probleme final apres condensation
       MEMT=ZERO
       LEN1=NFDDL
       IF (NEIG/=0) THEN
          DO IPROC=1,NSPROC
             LEN1=LEN1+GRAPHE(IPROC)%NSVMAX
-         ENDDO   
+         ENDDO
          MEMT=LEN1*(LEN1+1)+2*LEN1**2
       ELSE
          MEMT=LEN1*(LEN1+1)/2+LEN1**2+NSBMAX*LEN1
@@ -1467,14 +1467,14 @@ C
      .       10X,'(WITHOUT BCS AND RBODIES) ',7X,I10)
 2000  FORMAT(/5X,'ESTIMATED REQUESTED MEMORY IN RADIOSS ENGINE'/
      .       10X,I10,' MWORDS - ',I10,' Mo'/
-     .       10X,'DYNAMIC/STATIC MODES',13X,I10,' Mo' 
+     .       10X,'DYNAMIC/STATIC MODES',13X,I10,' Mo'
      .      /10X,'CONDENSED MULTI-LEVEL DATA ',6X,I10,' Mo'
      .      /10X,'TEMPORARY STORAGE ',15X,I10,' Mo')
 2050  FORMAT(15X,'(SUPERELEMENT ASSEMBLY AND CONDENSATION'
      .      /15X,' PROC ',I10,' SUPERELEMENT ',I10,')')
-2100  FORMAT(20X,'(CONDENSED PROBLEM SOLUTION)') 
-2200  FORMAT(/5X,'ESTIMATED DISK SPACE FOR GRAPH STORAGE ') 
+2100  FORMAT(20X,'(CONDENSED PROBLEM SOLUTION)')
+2200  FORMAT(/5X,'ESTIMATED DISK SPACE FOR GRAPH STORAGE ')
 2225  FORMAT(10X,'PROCESSOR ',I4,': ',I7,
      .      ' MW (MAT.: ',I7,' MW, MOD.: ',I7,' MW)'/
-     .       10X,'TOTAL ',27X,I10,' MW') 
+     .       10X,'TOTAL ',27X,I10,' MW')
       END

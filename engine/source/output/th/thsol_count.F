@@ -79,22 +79,22 @@ C--------------------------------------------
             IF(ITYP==1)THEN
 !   -------------------------------
                 IH=IADB
-                                          
-                DO WHILE((ITHBUF(IH+NN) /= ISPMD).AND.(IH < IADB+NN))                
-                    IH = IH + 1                           
-                ENDDO  
-                      
+
+                DO WHILE((ITHBUF(IH+NN) /= ISPMD).AND.(IH < IADB+NN))
+                    IH = IH + 1
+                ENDDO
+
                 IF (IH >= IADB+NN) GOTO 666
 
                 DO NG=1,NGROUP
                         ITY     = IPARG(5,NG)
                         ISVIS   = IPARG(60,NG)
                         IVISC   = IPARG(61,NG)
-                        NFT     = IPARG(3,NG)  
-c               
+                        NFT     = IPARG(3,NG)
+c
                         IF (ITY == ITYP) THEN
                             MTE = IPARG(1,NG)
-                            NEL = IPARG(2,NG)  
+                            NEL = IPARG(2,NG)
                             IF (MTE /= 0 .AND. MTE /= 13) THEN
                                 DO I=1,NEL
                                     N =I+NFT

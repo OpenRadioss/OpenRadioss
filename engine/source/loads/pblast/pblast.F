@@ -40,9 +40,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE H3D_MOD 
+      USE H3D_MOD
       USE PBLAST_MOD
-      USE GROUPDEF_MOD      
+      USE GROUPDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -100,8 +100,8 @@ C-----------------------------------------------
          T0INF_PBLAST = EP20
          DT_PBLAST    = EP20
          IDT_PBLAST   = 0
-         RETURN 
-       ENDIF     
+         RETURN
+       ENDIF
 C-----------------------------------------------,
 C   S o u r c e   C o d e
 C-----------------------------------------------
@@ -111,16 +111,16 @@ C-----------------------------------------------
 
        !-----------------------------------------------
        !   LOOP OVER all /LOAD/PBLAST options
-       !----------------------------------------------- 
+       !-----------------------------------------------
        DO NL=NLOADP_F+1, NLOADP_F+NLOADP_B
 
          ABAC_ID = ILOADP(07,NL)
-         ID      = ILOADP(08,NL) !user_id                
-         NDT     = PBLAST_NDT                            
-         NDT0    = ILOADP(10,NL)                         
-         IF(NDT0/=0) NDT = NDT0                  
-                   
-         
+         ID      = ILOADP(08,NL) !user_id
+         NDT     = PBLAST_NDT
+         NDT0    = ILOADP(10,NL)
+         IF(NDT0/=0) NDT = NDT0
+
+
          SELECT CASE(ABAC_ID)
            CASE(1)
              !--- LOADING MODEL : FREE AIR, SPHERICAL CHARGE
@@ -130,7 +130,7 @@ C-----------------------------------------------
      3                   TFEXC   ,IADC    ,
      4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
      5                   H3D_DATA,NL      ,T0INF_LOC)
-     
+
            CASE(2)
              !--- LOADING MODEL : GROUND REFLECTION, HEMISPHERICAL CHARGE
              CALL PBLAST_2(
@@ -138,7 +138,7 @@ C-----------------------------------------------
      2                   V       ,X       ,
      3                   TFEXC   ,IADC    ,
      4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
-     5                   H3D_DATA,NL      ,T0INF_LOC)           
+     5                   H3D_DATA,NL      ,T0INF_LOC)
            CASE(3)
              !--- LOADING MODEL : SURFACE BURST, SPHERICAL CHARGE
              CALL PBLAST_3(
@@ -146,21 +146,21 @@ C-----------------------------------------------
      2                   V       ,X       ,
      3                   TFEXC   ,IADC    ,
      4                   FSKY    ,FSKYV   ,LLOADP   ,FEXT   ,ITAB ,
-     5                   H3D_DATA,NL      ,T0INF_LOC) 
-     
+     5                   H3D_DATA,NL      ,T0INF_LOC)
+
 #include "lockon.inc"
       IF(T0INF_LOC<T0INF_PBLAST) USER_ID   = ID
 #include "lockoff.inc"
 
-           END SELECT 
-     
+           END SELECT
+
          ENDDO !next NL
-         
+
       !this is required to compute pblast Time step : DT=inf(T0)/N(parameter)
 #include "lockon.inc"
       T0INF_PBLAST = MIN(T0INF_LOC,T0INF_PBLAST)
       DT_PBLAST    = T0INF_PBLAST/NDT
       IDT_PBLAST   = USER_ID
-#include "lockoff.inc"                 
+#include "lockoff.inc"
 
       END SUBROUTINE

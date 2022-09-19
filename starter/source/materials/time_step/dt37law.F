@@ -58,17 +58,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER                                :: I, MX, IADBUF,IFLG(MVSIZ)
       my_real,DIMENSION(:),POINTER           :: UPARAM
-      
+
       my_real
-     .   SSP(MVSIZ)  , DPDM(MVSIZ) , RHO0(MVSIZ)    , 
-     .   BULK , C1   ,  P  ,        
+     .   SSP(MVSIZ)  , DPDM(MVSIZ) , RHO0(MVSIZ)    ,
+     .   BULK , C1   ,  P  ,
      .   MAS(MVSIZ), MU1P1(MVSIZ),MU1P2(MVSIZ),RHO1(MVSIZ),RHO2(MVSIZ),
      .   GAM,RHO10,RHO20,P0,VFRAC1,VFRAC2,UVAR1,A1,R1,VISA1,VISB1,VISA2,VISB2,
      .   B1,B2,MAS1,MAS2,SSP1,SSP2,VIS(MVSIZ),A
-     
+
       INTEGER ISOLVER
 
-     
+
 c-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -88,7 +88,7 @@ C-----------------------------------------------
       VISB1    = UPARAM(3)
       VISA2    = UPARAM(13)
       VISB2    = UPARAM(15)
-    
+
        DO I=LFT,LLT
         RHO0(I)= RHO10 * A1 + (ONE-A1)*RHO20
         MAS(I)= RHO0(I)*VOL(I)
@@ -98,9 +98,9 @@ C-----------------------------------------------
        IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
          RHO1(I) = RHO10
          RHO2(I) = RHO20
-       ENDIF 
+       ENDIF
       ENDDO
-                
+
       IF (ISOLVER==2) THEN
         DO I=LFT,LLT
           MAS1 = A1 * VOL(I)
@@ -137,16 +137,16 @@ C-----------------------------------------------
           B1=UVAR1
           B2=RHO0(I)-B1
           VIS(I)=(B1*RHO1(I)*VISA1 + B2*RHO2(I)*VISA2)/RHO0(I)
-        
+
         ENDDO
       ELSE
         DO I=LFT,LLT
           SSP(I)=SQRT(R1)
           VIS(I)=ZERO
         ENDDO
-      ENDIF 
+      ENDIF
 
-      
+
       !----------------------------------------------!
       !  ELEMENTARY TIME STEP (ARTIFICIAL VISCOSITY) !
       !----------------------------------------------!

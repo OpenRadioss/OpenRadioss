@@ -39,7 +39,7 @@ Chd|====================================================================
      8   STFN     ,NIN     ,STF          ,IGAP        ,GAP_S   ,
      A   NSNR     ,NCONT   ,RENUM        ,NSNROLD     ,GAP_M   ,
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX ,NUM_IMP     ,GAP_S_L ,
-     C   GAP_M_L  ,INTTH   ,ITASK        ,BGAPSMX     ,I_MEM   ,  
+     C   GAP_M_L  ,INTTH   ,ITASK        ,BGAPSMX     ,I_MEM   ,
      D   KREMNOD  ,REMNOD  ,ITAB         ,FLAGREMNODE , DRAD ,
      E   ITIED    ,CAND_F  ,DGAPLOAD     )
 C============================================================================
@@ -79,7 +79,7 @@ C     REAL
       my_real , INTENT(IN) :: DRAD,DGAPLOAD
       my_real
      .   X(3,*), CAND_P(*), STFN(*),
-     .   STF(*), GAP_S(*), GAP_M(*), 
+     .   STF(*), GAP_S(*), GAP_M(*),
      .   GAP_S_L(*), GAP_M_L(*), CAND_F(*)
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -89,7 +89,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I_ADD_MAX,I_ADD
-      PARAMETER (I_ADD_MAX = 1001) 
+      PARAMETER (I_ADD_MAX = 1001)
       INTEGER ADD(2,I_ADD_MAX)
 
       INTEGER I, J, IP0, IP1,
@@ -107,7 +107,7 @@ cc      SAVE INIVOXEL, VOXEL
 cc      DATA INIVOXEL /1/
       INTEGER NBX,NBY,NBZ
       INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
-      INTEGER MAXSIZ                 
+      INTEGER MAXSIZ
 
 
       MAXSIZ = 10 * (NRTM+100)
@@ -171,7 +171,7 @@ C
      A      CAND_F ,KREMNOD  ,REMNOD  ,FLAGREMNODE,DGAPLOAD)
 
  234  CONTINUE
-c     WRITE(6,*) "IMEM=",I_MEM 
+c     WRITE(6,*) "IMEM=",I_MEM
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
@@ -203,7 +203,7 @@ Chd|====================================================================
      8   STFN     ,NIN     ,STF     ,IGAP     ,GAP_S   ,
      A   NSNR     ,NCONT   ,RENUM   ,NSNROLD  ,GAP_M   ,
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX,NUM_IMP,GAP_S_L ,
-     C   GAP_M_L  ,INTTH   ,ITASK   ,BGAPSMX  ,I_MEM   ,  
+     C   GAP_M_L  ,INTTH   ,ITASK   ,BGAPSMX  ,I_MEM   ,
      D   KREMNOD  ,REMNOD  ,ITAB    ,FLAGREMNODE, DRAD ,
      E   ITIED    ,CAND_F  ,DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
 C============================================================================
@@ -245,7 +245,7 @@ C     REAL
       my_real , INTENT(IN) :: DRAD,DGAPLOAD
       my_real
      .   X(3,*), CAND_P(*), STFN(*),
-     .   STF(*), GAP_S(*), GAP_M(*), 
+     .   STF(*), GAP_S(*), GAP_M(*),
      .   GAP_S_L(*), GAP_M_L(*), CAND_F(*)
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -349,12 +349,12 @@ C
       NBX = MAX(NBX,1)
       NBY = MAX(NBY,1)
       NBZ = MAX(NBZ,1)
-     
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8) THEN
         AAA = LVOXEL
@@ -367,12 +367,12 @@ C
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
       ENDIF
-      
+
       NBX8=NBX
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))
@@ -397,7 +397,7 @@ C (en // SMP il y a possibilite de redondance de traitement mais no pb)
      9   NIN     ,ITASK    ,BGAPSMX  ,KREMNOD  ,REMNOD  ,
      A   ITAB    ,FLAGREMNODE,DRAD   ,ITIED    ,CAND_F  ,
      B   DGAPLOAD,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
- 
+
  234  CONTINUE
 
 C

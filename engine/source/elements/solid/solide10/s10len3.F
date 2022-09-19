@@ -77,21 +77,21 @@ C-----------------------------------------------
      .   AA,BB,A1,A2,A3,A4,
      .   A1X,A2X,A3X,A4X,A1Y,A2Y,A3Y,A4Y,A1Z,A2Z,A3Z,A4Z,AA0
       my_real
-     .   UX(MVSIZ,10), UY(MVSIZ,10), UZ(MVSIZ,10), VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10), 
+     .   UX(MVSIZ,10), UY(MVSIZ,10), UZ(MVSIZ,10), VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),
      .   NV(MVSIZ), LL, BU(MVSIZ,6), NINV(MVSIZ)
       my_real
-     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), BB4(MVSIZ), 
+     .   B1(MVSIZ), B2(MVSIZ), B3(MVSIZ), BB4(MVSIZ),
      .   C1(MVSIZ), C2(MVSIZ), C3(MVSIZ), C4(MVSIZ),
      .   D1(MVSIZ), D2(MVSIZ), D3(MVSIZ), D4(MVSIZ),
-     .   P4X1(MVSIZ), P4X2(MVSIZ), P4X3(MVSIZ), P4X4(MVSIZ),  
-     .   P4Y1(MVSIZ), P4Y2(MVSIZ), P4Y3(MVSIZ), P4Y4(MVSIZ),  
+     .   P4X1(MVSIZ), P4X2(MVSIZ), P4X3(MVSIZ), P4X4(MVSIZ),
+     .   P4Y1(MVSIZ), P4Y2(MVSIZ), P4Y3(MVSIZ), P4Y4(MVSIZ),
      .   P4Z1(MVSIZ), P4Z2(MVSIZ), P4Z3(MVSIZ), P4Z4(MVSIZ),
      .   DET6,DD
       INTEGER ILEAT
-      my_real 
+      my_real
      .        ALEAT, NN, WX(10), WY(10), WZ(10)
 C-----------------------------------------------
-      FAC     = ONE/(NINE+THIRD) ! cf FACIROT == NINE+THIRD 
+      FAC     = ONE/(NINE+THIRD) ! cf FACIROT == NINE+THIRD
       IF(IDT1TET10/=0 .AND. ISROT==0)THEN
 
         IF(IDTMINS==0)THEN
@@ -104,7 +104,7 @@ C-------- AMS (possible mix of elements inside the group)
             IF(TAGELEM_SMS(I)==0)THEN
               FACEIGV(I)=TRHEE_OVER_14    ! computing eigenvalues of Me-1 Ke, TRHEE_OVER_14 = (1/32) / (7/48) rapport des masses
             ELSE
-              FACEIGV(I)=ONE           ! compute here maximum eigenvalue K of Ke 
+              FACEIGV(I)=ONE           ! compute here maximum eigenvalue K of Ke
                                       ! => Retrieve K in mqviscb.F
                                       ! Non diagonal mass is computed in mqviscb.F, considering Maximum eigenvalue of Me-1 Ke >= K / Minimum eigenvalue of Me
             END IF
@@ -173,18 +173,18 @@ C                 PYZ(I) =PYZ(I) + FACEIGV(I)*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
      .                            PZ(I,8,IP)*PZ(I,8,IP)+PZ(I,9,IP)*PZ(I,9,IP)+PZ(I,10,IP)*PZ(I,10,IP))
                 PXY(I)=PX(I,1,IP)*PY(I,1,IP)+PX(I,2,IP)*PY(I,2,IP)+PX(I,3,IP)*PY(I,3,IP)+PX(I,4,IP)*PY(I,4,IP)+
      .                 FACEIGV(I)*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
-     .                            PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP)) 
-                PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+ 
+     .                            PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP))
+                PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+
      .                 FACEIGV(I)*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
-     .                            PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP)) 
+     .                            PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP))
                 PYZ(I)=PY(I,1,IP)*PZ(I,1,IP)+PY(I,2,IP)*PZ(I,2,IP)+PY(I,3,IP)*PZ(I,3,IP)+PY(I,4,IP)*PZ(I,4,IP)+
      .                 FACEIGV(I)*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
-     .                            PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP)) 
+     .                            PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP))
               ENDDO
 
               DO I=LFT,LLT
                 AA = -(PXX(I)+PYY(I)+PZZ(I))
-                BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
+                BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2)
                 P  = BB-THIRD*AA*AA
                 D(I)  = D(I)+ LD * VOL(I,IP) * (TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
               ENDDO
@@ -210,18 +210,18 @@ C                 PYZ(I) =PYZ(I) + FACEIGV(I)*VOL(I,IP)*PY(I,N,IP)*PZ(I,N,IP)
      .                            PZ(I,8,IP)*PZ(I,8,IP)+PZ(I,9,IP)*PZ(I,9,IP)+PZ(I,10,IP)*PZ(I,10,IP))
                 PXY(I)=PX(I,1,IP)*PY(I,1,IP)+PX(I,2,IP)*PY(I,2,IP)+PX(I,3,IP)*PY(I,3,IP)+PX(I,4,IP)*PY(I,4,IP)+
      .                 FACEIGV(I)*(PX(I,5,IP)*PY(I,5,IP)+PX(I,6,IP)*PY(I,6,IP)+PX(I,7,IP)*PY(I,7,IP)+
-     .                            PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP)) 
-                PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+ 
+     .                            PX(I,8,IP)*PY(I,8,IP)+PX(I,9,IP)*PY(I,9,IP)+PX(I,10,IP)*PY(I,10,IP))
+                PXZ(I)=PX(I,1,IP)*PZ(I,1,IP)+PX(I,2,IP)*PZ(I,2,IP)+PX(I,3,IP)*PZ(I,3,IP)+PX(I,4,IP)*PZ(I,4,IP)+
      .                 FACEIGV(I)*(PX(I,5,IP)*PZ(I,5,IP)+PX(I,6,IP)*PZ(I,6,IP)+PX(I,7,IP)*PZ(I,7,IP)+
-     .                            PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP)) 
+     .                            PX(I,8,IP)*PZ(I,8,IP)+PX(I,9,IP)*PZ(I,9,IP)+PX(I,10,IP)*PZ(I,10,IP))
                 PYZ(I)=PY(I,1,IP)*PZ(I,1,IP)+PY(I,2,IP)*PZ(I,2,IP)+PY(I,3,IP)*PZ(I,3,IP)+PY(I,4,IP)*PZ(I,4,IP)+
      .                 FACEIGV(I)*(PY(I,5,IP)*PZ(I,5,IP)+PY(I,6,IP)*PZ(I,6,IP)+PY(I,7,IP)*PZ(I,7,IP)+
-     .                            PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP)) 
+     .                            PY(I,8,IP)*PZ(I,8,IP)+PY(I,9,IP)*PZ(I,9,IP)+PY(I,10,IP)*PZ(I,10,IP))
               ENDDO
 
               DO I=LFT,LLT
                AA = -(PXX(I)+PYY(I)+PZZ(I))
-               BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
+               BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2)
                P  = BB-THIRD*AA*AA
 
                D(I)  = D(I)+VOL(I,IP)*(TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
@@ -295,7 +295,7 @@ C           are computed using Gmax and c is also computed in the material using
             BFAC=THREE-FOUR*GFAC     ! 3B/(B+4/3G)
           ELSE ! conservative formulation in all other cases
             GFAC=HALF ! over-estimation of G/(B+4/3G)
-            BFAC=THREE  ! 
+            BFAC=THREE  !
           END IF
 
           DO ITER=1,NITER
@@ -409,7 +409,7 @@ C
         DO I=LFT,LLT
 C
 C         DELTAX2 is not used w/IDT1TET10
-          DELTAX2(I) = ONE 
+          DELTAX2(I) = ONE
 C
           MASS       = VOLGO(I) ! (multiplied by RHOG0)
 
@@ -442,7 +442,7 @@ C-----------------------------------------------------------------------------
 C
 C             Q = M-1 Transpose(B)
               DO I=LFT,LLT
-                QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+                QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))
                 QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
                 QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
                 QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
@@ -524,7 +524,7 @@ C-----------------------------------------------------------------------------
 C
 C             Q = M-1 Transpose(B)
               DO I=LFT,LLT
-                QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+                QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))
                 QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
                 QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
                 QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
@@ -575,7 +575,7 @@ C             B M-1 Transpose(B)
                 PXY(I)=PX(I,1,IP)*QY(I,1)+PX(I,2,IP)*QY(I,2)+PX(I,3,IP)*QY(I,3)+PX(I,4,IP)*QY(I,4)+
      .                 PX(I,5,IP)*QY(I,5)+PX(I,6,IP)*QY(I,6)+PX(I,7,IP)*QY(I,7)+
      .                            PX(I,8,IP)*QY(I,8)+PX(I,9,IP)*QY(I,9)+PX(I,10,IP)*QY(I,10)
-                PXZ(I)=PX(I,1,IP)*QZ(I,1)+PX(I,2,IP)*QZ(I,2)+PX(I,3,IP)*QZ(I,3)+PX(I,4,IP)*QZ(I,4)+ 
+                PXZ(I)=PX(I,1,IP)*QZ(I,1)+PX(I,2,IP)*QZ(I,2)+PX(I,3,IP)*QZ(I,3)+PX(I,4,IP)*QZ(I,4)+
      .                 PX(I,5,IP)*QZ(I,5)+PX(I,6,IP)*QZ(I,6)+PX(I,7,IP)*QZ(I,7)+
      .                            PX(I,8,IP)*QZ(I,8)+PX(I,9,IP)*QZ(I,9)+PX(I,10,IP)*QZ(I,10)
                 PYZ(I)=PY(I,1,IP)*QZ(I,1)+PY(I,2,IP)*QZ(I,2)+PY(I,3,IP)*QZ(I,3)+PY(I,4,IP)*QZ(I,4)+
@@ -585,7 +585,7 @@ C             B M-1 Transpose(B)
 
               DO I=LFT,LLT
                 AA = -(PXX(I)+PYY(I)+PZZ(I))
-                BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
+                BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2)
                 P  = BB-THIRD*AA*AA
                 D(I)  = D(I)+ LD * VOL(I,IP) * (TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
               ENDDO
@@ -604,7 +604,7 @@ C-----------------------------------------------------------------------------
 C
 C             Q = M-1 Transpose(B)
               DO I=LFT,LLT
-                QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+                QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))
                 QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
                 QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
                 QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
@@ -655,7 +655,7 @@ C             B M-1 Transpose(B)
                 PXY(I)=PX(I,1,IP)*QY(I,1)+PX(I,2,IP)*QY(I,2)+PX(I,3,IP)*QY(I,3)+PX(I,4,IP)*QY(I,4)+
      .                 PX(I,5,IP)*QY(I,5)+PX(I,6,IP)*QY(I,6)+PX(I,7,IP)*QY(I,7)+
      .                            PX(I,8,IP)*QY(I,8)+PX(I,9,IP)*QY(I,9)+PX(I,10,IP)*QY(I,10)
-                PXZ(I)=PX(I,1,IP)*QZ(I,1)+PX(I,2,IP)*QZ(I,2)+PX(I,3,IP)*QZ(I,3)+PX(I,4,IP)*QZ(I,4)+ 
+                PXZ(I)=PX(I,1,IP)*QZ(I,1)+PX(I,2,IP)*QZ(I,2)+PX(I,3,IP)*QZ(I,3)+PX(I,4,IP)*QZ(I,4)+
      .                 PX(I,5,IP)*QZ(I,5)+PX(I,6,IP)*QZ(I,6)+PX(I,7,IP)*QZ(I,7)+
      .                            PX(I,8,IP)*QZ(I,8)+PX(I,9,IP)*QZ(I,9)+PX(I,10,IP)*QZ(I,10)
                 PYZ(I)=PY(I,1,IP)*QZ(I,1)+PY(I,2,IP)*QZ(I,2)+PY(I,3,IP)*QZ(I,3)+PY(I,4,IP)*QZ(I,4)+
@@ -665,7 +665,7 @@ C             B M-1 Transpose(B)
 C-------------------------------------------------------------------------------
               DO I=LFT,LLT
                AA = -(PXX(I)+PYY(I)+PZZ(I))
-               BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
+               BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2)
                P  = BB-THIRD*AA*AA
 
                D(I)  = D(I)+VOL(I,IP)*(TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA)
@@ -741,7 +741,7 @@ C           are computed using Gmax and c is also computed in the material using
             BFAC=THREE-FOUR*GFAC     ! 3B/(B+4/3G)
           ELSE ! conservative formulation in all other cases
             GFAC=HALF ! over-estimation of G/(B+4/3G)
-            BFAC=THREE  ! 
+            BFAC=THREE  !
           END IF
 
           DO ITER=1,NITER
@@ -789,7 +789,7 @@ C             Vol_ip * Transpose(Bip).Bip.U
 
 C           M-1 K . U
             DO I=LFT,LLT
-              VX(I,1)=VX(I,1)+HALF*(VX(I,5)+VX(I,7)+VX(I,8))   
+              VX(I,1)=VX(I,1)+HALF*(VX(I,5)+VX(I,7)+VX(I,8))
               VX(I,2)=VX(I,2)+HALF*(VX(I,5)+VX(I,6)+VX(I,9))
               VX(I,3)=VX(I,3)+HALF*(VX(I,6)+VX(I,7)+VX(I,10))
               VX(I,4)=VX(I,4)+HALF*(VX(I,8)+VX(I,9)+VX(I,10))
@@ -802,7 +802,7 @@ C                      +FOURTH(VX(I,6)+VX(I,7)+VX(I,8)+VX(I,9)
               VX(I,9) =HALF*(VX(I,2)+VX(I,4))+FAC*VX(I,9)
               VX(I,10)=HALF*(VX(I,3)+VX(I,4))+FAC*VX(I,10)
 
-              VY(I,1)=VY(I,1)+HALF*(VY(I,5)+VY(I,7)+VY(I,8))   
+              VY(I,1)=VY(I,1)+HALF*(VY(I,5)+VY(I,7)+VY(I,8))
               VY(I,2)=VY(I,2)+HALF*(VY(I,5)+VY(I,6)+VY(I,9))
               VY(I,3)=VY(I,3)+HALF*(VY(I,6)+VY(I,7)+VY(I,10))
               VY(I,4)=VY(I,4)+HALF*(VY(I,8)+VY(I,9)+VY(I,10))
@@ -813,7 +813,7 @@ C                      +FOURTH(VX(I,6)+VX(I,7)+VX(I,8)+VX(I,9)
               VY(I,9) =HALF*(VY(I,2)+VY(I,4))+FAC*VY(I,9)
               VY(I,10)=HALF*(VY(I,3)+VY(I,4))+FAC*VY(I,10)
 
-              VZ(I,1)=VZ(I,1)+HALF*(VZ(I,5)+VZ(I,7)+VZ(I,8))   
+              VZ(I,1)=VZ(I,1)+HALF*(VZ(I,5)+VZ(I,7)+VZ(I,8))
               VZ(I,2)=VZ(I,2)+HALF*(VZ(I,5)+VZ(I,6)+VZ(I,9))
               VZ(I,3)=VZ(I,3)+HALF*(VZ(I,6)+VZ(I,7)+VZ(I,10))
               VZ(I,4)=VZ(I,4)+HALF*(VZ(I,8)+VZ(I,9)+VZ(I,10))
@@ -868,7 +868,7 @@ C
 C
 C           Q = M-1 Transpose(B)
             DO I=LFT,LLT
-              QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))   
+              QX(I,1)=PX(I,1,IP)+HALF*(PX(I,5,IP)+PX(I,7,IP)+PX(I,8,IP))
               QX(I,2)=PX(I,2,IP)+HALF*(PX(I,5,IP)+PX(I,6,IP)+PX(I,9,IP))
               QX(I,3)=PX(I,3,IP)+HALF*(PX(I,6,IP)+PX(I,7,IP)+PX(I,10,IP))
               QX(I,4)=PX(I,4,IP)+HALF*(PX(I,8,IP)+PX(I,9,IP)+PX(I,10,IP))
@@ -925,7 +925,7 @@ C
         DO I=LFT,LLT
 C
 C         DELTAX2 is not used w/IDT1TET10
-          DELTAX2(I) = ONE 
+          DELTAX2(I) = ONE
 C
           MASS       = VOLGO(I) ! (multiplied by RHOG0)
           MREF       = FOURTH * MASS
@@ -1034,7 +1034,7 @@ c             DELTAX2(I) = ONE
               PYZ(I)=P4Y1(I)*P4Z1(I)+P4Y2(I)*P4Z2(I)+P4Y3(I)*P4Z3(I)+P4Y4(I)*P4Z4(I)
 C
               AA = -(PXX(I)+PYY(I)+PZZ(I))
-              BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
+              BB =  (PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2)
               P  = BB-THIRD*AA*AA
               DD = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -1055,7 +1055,7 @@ C
               PYZ(I)=P4Y1(I)*P4Z1(I)+P4Y2(I)*P4Z2(I)+P4Y3(I)*P4Z3(I)+P4Y4(I)*P4Z4(I)
 C
               AA = -(PXX(I)+PYY(I)+PZZ(I))
-              BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2) 
+              BB =  GFAC*(PXX(I)*PYY(I)+PXX(I)*PZZ(I)+PYY(I)*PZZ(I)-PXY(I)**2-PXZ(I)**2-PYZ(I)**2)
               P  = BB-THIRD*AA*AA
               DD = TWO*SQRT(THIRD*MAX(-P,ZERO))-THIRD*AA
 C
@@ -1065,37 +1065,37 @@ C
           ELSE
 C        
             DO I=LFT,LLT
-      
+
               A1X = RY(I)*SZ(I)-RZ(I)*SY(I)
               A1Y = RZ(I)*SX(I)-RX(I)*SZ(I)
               A1Z = RX(I)*SY(I)-RY(I)*SX(I)
               A1 = A1X*A1X+A1Y*A1Y+A1Z*A1Z
-      
+
               A2X = SY(I)*TZ(I)-SZ(I)*TY(I)
               A2Y = SZ(I)*TX(I)-SX(I)*TZ(I)
               A2Z = SX(I)*TY(I)-SY(I)*TX(I)
               A2 = A2X*A2X+A2Y*A2Y+A2Z*A2Z
-      
+
               A3X = TY(I)*RZ(I)-TZ(I)*RY(I)
               A3Y = TZ(I)*RX(I)-TX(I)*RZ(I)
               A3Z = TX(I)*RY(I)-TY(I)*RX(I)
               A3 = A3X*A3X+A3Y*A3Y+A3Z*A3Z
-      
+
               A4X = A1X+A2X+A3X
               A4Y = A1Y+A2Y+A3Y
               A4Z = A1Z+A2Z+A3Z
               A4 = A4X*A4X+A4Y*A4Y+A4Z*A4Z
-      
+
               DELTAX(I) = SIX*VOLG(I)/SQRT(MAX(A1,A2,A3,A4))
-cc minoration deltax car inertie constante avec marge 
-cc d'un facteur sqrt(8) sur le cot    AA0 
+cc minoration deltax car inertie constante avec marge
+cc d'un facteur sqrt(8) sur le cot    AA0
 cc approche a partir du volume initial
 c            AA0 = ((SIX*SQR2*VOLO(I))**TWO_THIRD) * EIGHT
 c
-c inertie major   e d'un facteur 9.6 (ratio des Lc^2) 
+c inertie major   e d'un facteur 9.6 (ratio des Lc^2)
 c sur +grand cot    initial
 c et non plus le cot    moyen (SIX*SQR2*VOLO(I))**TWO_THIRD
-c => il faudrait recalculer ou stocker AA0 avec la m   me 
+c => il faudrait recalculer ou stocker AA0 avec la m   me
 c    formule que AA
               AA  = MAX(RX(I)*RX(I)+RY(I)*RY(I)+RZ(I)*RZ(I),
      .                  SX(I)*SX(I)+SY(I)*SY(I)+SZ(I)*SZ(I),
@@ -1123,8 +1123,8 @@ C-----------
      .        ' INTEGRATION POINT NB ',I1/)
  2000 FORMAT(/' ZERO OR NEGATIVE VOLUME : DELETE 3D-ELEMENT NB',I10/)
  3000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/,
-     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/) 
- 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/) 
+     +        ' ELEMENT IS SWITCHED TO SMALL STRAIN OPTION'/)
+ 4000 FORMAT(/' ZERO OR NEGATIVE VOLUME : 3D-ELEMENT NB:',I10/)
 C-----------
       RETURN
       END

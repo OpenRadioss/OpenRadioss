@@ -94,7 +94,7 @@ Chd|====================================================================
      J         XDP         , IGRNOD      ,VARNOD                   ,FSKYI     ,ISKY            ,
      K         INTBUF_TAB  , IXT         ,IGRV          ,AGRAV     ,SENSOR    ,LSENSOR         ,
      L         LGRAV       , CONDNSKY    ,CONDN         ,MS_2D     ,MULTI_FVM ,IGRTRUSS        ,
-     M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY, 
+     M         IGRBRIC     , NLOC_DMG    ,ID_GLOBAL_VOIS,FACE_VOIS ,EBCS_TAB  ,ALE_CONNECTIVITY,
      N         DIFFUSION   , MATPARAM_TAB,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
@@ -144,7 +144,7 @@ C-----------------------------------------------
 #include      "inter18.inc"
 #include      "inter22.inc"
 #include      "alefvm.inc"
-#include      "mmale51_c.inc" 
+#include      "mmale51_c.inc"
 #include      "scr07_c.inc"
 #include      "stati_c.inc"
 #include      "macro.inc"
@@ -157,7 +157,7 @@ C-----------------------------------------------
      .   IADS(8,*),IADQ(4,*),ICODT(*),ISKEW(*), IMS(*),
      .   IGEO(NPROPGI,NUMGEO),
      .   IPART(LIPART1,*) ,IPARTS(*) ,IPARTQ(*),IPM(NPROPMI,*),NODFT,
-     .   NELTST ,ITYPTST, ITASK, 
+     .   NELTST ,ITYPTST, ITASK,
      .   NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .   NELTSA, ITYPTSA,NPSEGCOM(*),LSEGCOM(*),
@@ -168,9 +168,9 @@ C-----------------------------------------------
      .   IGRV(*),LSENSOR(NSENSI,*),LGRAV(*)
       ! for parith/on : ID_GLOBAL_VOIS --> user id ; FACE_VOIS --> face of the remote element
       INTEGER, DIMENSION(*), INTENT(in) :: ID_GLOBAL_VOIS,FACE_VOIS
-     
+
       DOUBLE PRECISION XDP(3,*)
-      
+
       my_real X(3,NUMNOD),V(3,NUMNOD),MS(*),PM(NPROPM,NUMMAT),SKEW(LSKEW,*),
      .        GEO(NPROPG,NGROUP),BUFMAT(*) ,W(3,NUMNOD),VEUL(*),FILL(NUMNOD,*),
      .        DFILL(NUMNOD,*),ALPH(*),TF(*),
@@ -182,14 +182,14 @@ C-----------------------------------------------
      .        MSNF(*),VOLMON(*),FSAV(NTHVKI,*),GRESAV(*),
      .        MSSA(*), DMELS(*),VARNOD(*),FSKYI(LSKYI,NFSKYI),
      .        AGRAV(*),SENSOR(NSENSR,*),CONDN(*),CONDNSKY(*),MS_2D(*),TEMP(*)
-     
+
       TYPE(t_segvar) :: SEGVAR
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
       TYPE(MULTI_FVM_STRUCT) :: MULTI_FVM
-      TYPE (NLOCAL_STR_)     :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)     :: NLOC_DMG
 !
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRBRIC) :: IGRBRIC
@@ -208,16 +208,16 @@ C-----------------------------------------------
       INTEGER IPLA
       INTEGER IADBH, IAD22, NIN, NBRIC_L
       INTEGER SBUFVOIS
-      
-      my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),VOLN(MVSIZ) 
+
+      my_real FX(MVSIZ,10),FY(MVSIZ,10),FZ(MVSIZ,10),VOLN(MVSIZ)
       my_real, TARGET  :: BID
       my_real, DIMENSION(:,:),ALLOCATABLE,TARGET  :: QMV
-      my_real, POINTER :: pQMV      
+      my_real, POINTER :: pQMV
       ! SPMD array for adjacent data ALE/CFD
       my_real, DIMENSION(:,:),ALLOCATABLE ::BUFVOIS
 
       LOGICAL :: PRED
-      
+
       SAVE BUFVOIS
 
       DATA OFFSET/0/
@@ -251,10 +251,10 @@ C  IOUTPRT (assembly report)
      .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(7)).
      .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(8)).
      .   OR.(IALESUB /= 0.AND.T1S+DT2S >= THIS1(9)).OR.ISTAT==3) IOUTPRT=1
-      
+
       ALLOCATE(QMV(2*NV46,LENQMV)) !MM-ALE 51 only                       !OPTIM : SHOULD BE ALLOCATED IN ARRALOC
       IF(M51_IFLG6 == 1)SBUFVOIS = M51_IFLG6_SIZE
-      
+
       IF(ITASK==0)ALLOCATE(BUFVOIS(SBUFVOIS ,NSVOIS+NQVOIS)) !SPMD array of adjacent ALE/CFD elems           !OPTIM : SHOULD BE ALLOCATED IN ARRALOC,  same for FLUX_VOIS & N4_VOIS
 
       IF(N2D /= 0 .AND. NMULT /= 0)THEN
@@ -274,10 +274,10 @@ C  IOUTPRT (assembly report)
        IF(IALEFVM > 0)THEN
          DO N=NODFT,NODLT
            IF(ALE_CONNECTIVITY%NALE(N) /= 0) V(1:3,N) = ZERO !reset velocities
-         ENDDO       
+         ENDDO
        ENDIF
       ENDIF
-            
+
       !---------------------------------------------
       !     INTERFACE 18 - VARIABLE GAP
       !---------------------------------------------
@@ -293,29 +293,29 @@ C  IOUTPRT (assembly report)
      5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE   ,IPLA    ,
      6          IREP    ,IINT    ,IGTYP   ,ISRAT    ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE ,JSMS    )
-             IF (ITY == 1 .AND. ISOLNOD /= 4) THEN    
-               DO I=1,NEL                             
+             IF (ITY == 1 .AND. ISOLNOD /= 4) THEN
+               DO I=1,NEL
                  XCELL(1,I+NFT)=EXP(LOG(ELBUF_TAB(NG)%GBUF%VOL(I))/THREE)
                  XCELL(2,I+NFT)=ZERO
-                 XCELL(3,I+NFT)=ZERO                   
-               ENDDO      
-             ENDIF                                    
+                 XCELL(3,I+NFT)=ZERO
+               ENDDO
+             ENDIF
           ENDDO
       CALL MY_BARRIER
         IF(NSPMD>1)THEN
            LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-           CALL SPMD_ENVOIS(1, XCELL, 
-     .          NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)    
+           CALL SPMD_ENVOIS(1, XCELL,
+     .          NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
         ENDIF
       ENDIF
-      
+
       !--------------------------------------------------------
       ! F L U I D E
       !       ALE SUB-CYCLING PREPARATION
       !       IALESUB=1 LEGACY IMPLMENTATION, NOT PARALLEL, DELETED IN V11
       !       IALESUB=2 PARALLEL IMPLMEMENTATION IN 2002
       !--------------------------------------------------------
-      IF(IALESUB /= 0) CALL MY_BARRIER    
+      IF(IALESUB /= 0) CALL MY_BARRIER
       !-----
       IF(IALESUB == 2)THEN
         IF(ITASK == 0)THEN
@@ -345,8 +345,8 @@ C  IOUTPRT (assembly report)
         IFSUB = 0
         T1S   = TT
       ENDIF
-      !-----      
-      
+      !-----
+
       IF(ITHERM == 1 .AND. IALE+IEULER == 0) IFSUBM=0
 C----------------------------------
 C       ALE - EULER - THERMAL
@@ -355,7 +355,7 @@ C----------------------------------
 
       CALL MY_BARRIER
 C
-      IF (IPARIT == 0 .AND. NSPMD > 1 .AND. 
+      IF (IPARIT == 0 .AND. NSPMD > 1 .AND.
      +    IFSUBM == 1 .AND. N2D == 0 .AND. INCOMP == 0) THEN
         DO N = NODFT, NODLT
           MS(N) = MS(N)*WEIGHT(N)
@@ -393,10 +393,10 @@ C Part not parallel smt
 !$OMP END SINGLE
               ENDIF
             ENDIF
-            
+
             !------------------------------------------------!
             ! INTERFACE CONVECTIONS                          !
-            !------------------------------------------------!  
+            !------------------------------------------------!
             IF(NINTER /= 0)THEN
 C              element from Interface type 12 calculated on proc_0 + sending X proc_i -> proc_0
 C              Envoi X pour interface type 12 ?
@@ -416,7 +416,7 @@ C              Envoi X pour interface type 12 ?
                ENDIF
                CALL MY_BARRIER
             ENDIF
-            !------------------------------------------------!              
+            !------------------------------------------------!
 
             IF(NSEGFLU > 0) THEN
 C Comm SPMD SEGVAR P0 -> Pi
@@ -437,23 +437,23 @@ c
          !==========inter22=================================================================
          !------------------------------------------------!
          ! SUPERCELLS MANAGEMENT + VELOCITY INTERPOLATION !
-         !------------------------------------------------!         
-         IF(INT22>0)THEN 
-           NIN     = 1 !temporary (max 1 inteface) !!!interface number                     
-           IAD22   = IPARI(NPARI*(NIN-1)+39)                                   
+         !------------------------------------------------!
+         IF(INT22>0)THEN
+           NIN     = 1 !temporary (max 1 inteface) !!!interface number
+           IAD22   = IPARI(NPARI*(NIN-1)+39)
            NBRIC_L = IGRBRIC(IPARI(NPARI*(NIN-1)+45))%NENTITY
 
            CALL MY_BARRIER
 
            CALL SINIT22_FVM(
-     1                       IXS           , ELBUF_TAB, IPARG, ITAB  , ITASK   ,       
+     1                       IXS           , ELBUF_TAB, IPARG, ITAB  , ITASK   ,
      2                       IBID          , NBRIC_L  , X    , ALE_CONNECTIVITY , V       ,
      3                       NV46          , VEUL     , IGRNOD, IPARI, IGRTRUSS ,
      4                       IXT           , BUFMAT   , IPM
-     5                     )                
+     5                     )
          ENDIF
-         !==================================================================================   
-         
+         !==================================================================================
+
 
          IF (MULTI_FVM%IS_USED) THEN
           IF(ITASK==0) CALL STARTIME(MACRO_TIMER_MULTIFVM,1)
@@ -470,7 +470,7 @@ C     -------------------------
                         NEL = IPARG(2, NG)
                         NFT = IPARG(3, NG)
                         ITY = IPARG(5, NG)
-                        CALL MULTI_COMPUTEVOLUME(NEL, NG, IPARG, MULTI_FVM%SYM, 
+                        CALL MULTI_COMPUTEVOLUME(NEL, NG, IPARG, MULTI_FVM%SYM,
      .                       ELBUF_TAB, IXS, IXQ, IXTG, MULTI_FVM%VOL(1 + NFT : NEL + NFT),X)
                      ENDIF
                   ENDDO
@@ -494,11 +494,11 @@ C     ---------------------
                IF (NSPMD  >  1 .AND. ((MULTI_FVM%MUSCL  >  0) .OR. MULTI_FVM%NS_DIFF)) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-                  CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
+                  CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID,
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
                   IF (ALLOCATED(MULTI_FVM%VOL)) THEN
-                     CALL SPMD_ENVOIS(1, MULTI_FVM%VOL, 
-     .                    NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM) 
+                     CALL SPMD_ENVOIS(1, MULTI_FVM%VOL,
+     .                    NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
                   ENDIF
 !$OMP END SINGLE
                   CALL MY_BARRIER
@@ -506,29 +506,29 @@ C     ---------------------
 C     -------------------------
 C     Multifluid law time step computation
 C     -------------------------
-               CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,   
+               CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, W, X,
-     .              NELTST, ITYPTST)  
+     .              NELTST, ITYPTST)
 C     -------------------------
 C     Internal forces and nodal mass computation
 C     -------------------------
                IF(N2D == 0)THEN
-                  DO I=NODFT,NODLT       
-                     MS(I)=MS(I)-MSNF(I)  
-                     MSNF(I)=ZERO         
-                  ENDDO                  
+                  DO I=NODFT,NODLT
+                     MS(I)=MS(I)-MSNF(I)
+                     MSNF(I)=ZERO
+                  ENDDO
                ENDIF
                CALL MY_BARRIER
                IF (IALE  >  0) THEN
-                  CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
-     .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
-     .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, MULTI_FVM)  
+                  CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK,
+     .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL,
+     .                 STIFN, FSKY, IADS, FSKYM,
+     .                 CONDN, CONDNSKY, MULTI_FVM)
                ENDIF
                CALL MY_BARRIER
 !$OMP SINGLE
                   MULTI_FVM%IS_RESTART = .FALSE.
-!$OMP END SINGLE     
+!$OMP END SINGLE
             ELSE
                IF (MULTI_FVM%IS_RESTART) THEN
 C     -------------------------
@@ -553,14 +553,14 @@ C     ------------------------
                IF (NSPMD  >  1 .AND. MULTI_FVM%MUSCL  >  0) THEN
 !$OMP SINGLE
                   LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
-                  CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID, 
+                  CALL SPMD_ENVOIS(3, MULTI_FVM%ELEM_DATA%CENTROID,
      .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 !$OMP END SINGLE
                      CALL MY_BARRIER
                   ENDIF
 !$OMP SINGLE
                   MULTI_FVM%IS_RESTART = .FALSE.
-!$OMP END SINGLE                  
+!$OMP END SINGLE
                ENDIF
 C     -------------------------
 C     Gravity terms
@@ -568,7 +568,7 @@ C     -------------------------
                CALL ALEFVM_GRAV_INIT(
      1              AGRAV, IGRV    , LGRAV, SENSOR, LSENSOR,
      2              IXS  , ITASK   , NPC  , TF    , SKEW   ,
-     3              ITAB 
+     3              ITAB
      .              )
                CALL MY_BARRIER
                IF (MULTI_FVM%MUSCL  ==  1) THEN
@@ -578,12 +578,12 @@ C     Half time step evolution
 C     --------------------------------------------------     
                   PRED = .TRUE.
 
-                  CALL MULTI_TIMEEVOLUTION(HALF * DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(HALF * DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
-     .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
-     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
-     .                 ITAB, ITABM1, TT - DT1, 
-     .                 STIFN, FSKY, IADS, FSKYM, 
+     .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH,
+     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
+     .                 ITAB, ITABM1, TT - DT1,
+     .                 STIFN, FSKY, IADS, FSKYM,
      .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
 
                   CALL MY_BARRIER
@@ -591,20 +591,20 @@ C     -------------------------
 C     Multifluid pressure computation
 C     -------------------------
                   CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .                 PM, IPM, MULTI_FVM, TT - DT1, BUFMAT,NPC,TF) 
-                  CALL MY_BARRIER  
+     .                 PM, IPM, MULTI_FVM, TT - DT1, BUFMAT,NPC,TF)
+                  CALL MY_BARRIER
 C     --------------------------------------------------
 C     Multifluid law time evolution --> Correction phase
 C     Full time step evolution, with predicted fluxes
 C     --------------------------------------------------     
                   PRED = .FALSE.
 
-                  CALL MULTI_TIMEEVOLUTION(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
-     .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
-     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
-     .                 ITAB, ITABM1, TT - DT1, 
-     .                 STIFN, FSKY, IADS, FSKYM, 
+     .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH,
+     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
+     .                 ITAB, ITABM1, TT - DT1,
+     .                 STIFN, FSKY, IADS, FSKYM,
      .                 CONDN, CONDNSKY, BUFMAT, FV, PRED,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
 
                   CALL MY_BARRIER
@@ -612,25 +612,25 @@ C     -------------------------
 C     Multifluid pressure equilibration
 C     -------------------------
                   CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .                 PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF) 
-                  CALL MY_BARRIER                    
+     .                 PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF)
+                  CALL MY_BARRIER
                ELSE
 C     -------------------------
 C     Multifluid law time evolution
 C     ------------------------- 
-                  CALL MULTI_TIMEEVOLUTION(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+                  CALL MULTI_TIMEEVOLUTION(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .                 PM, IPM, MULTI_FVM, ALE_CONNECTIVITY, V, A, W, X, D, ALE_CONNECTIVITY%NALE,
-     .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH, 
-     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
-     .                 ITAB, ITABM1, TT - DT1, 
-     .                 STIFN, FSKY, IADS, FSKYM, 
+     .                 PARTSAV, IPARTS, GRESAV, IGRTH, GRTH,
+     .                 NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
+     .                 ITAB, ITABM1, TT - DT1,
+     .                 STIFN, FSKY, IADS, FSKYM,
      .                 CONDN, CONDNSKY, BUFMAT, FV, .FALSE.,ID_GLOBAL_VOIS,FACE_VOIS,EBCS_TAB,NPC,TF)
                   CALL MY_BARRIER
 
                   IF (MULTI_FVM%NS_DIFF) THEN
 !$OMP SINGLE
-                     CALL NS_FVM_DIFFUSION(ALE_CONNECTIVITY, MULTI_FVM, DT1, EBCS_TAB, DIFFUSION, 
-     .                    IPM, PM, IPARG, ELBUF_TAB, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, 
+                     CALL NS_FVM_DIFFUSION(ALE_CONNECTIVITY, MULTI_FVM, DT1, EBCS_TAB, DIFFUSION,
+     .                    IPM, PM, IPARG, ELBUF_TAB, NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS,
      .                    IXS, FV)
 !$OMP END SINGLE
                   ENDIF
@@ -638,8 +638,8 @@ C     -------------------------
 C     Multifluid pressure equilibration
 C     -------------------------
                   CALL MULTI_PRESSURE_EQUILIBRIUM(DT1, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
-     .                 PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF) 
-                  CALL MY_BARRIER   
+     .                 PM, IPM, MULTI_FVM, TT, BUFMAT,NPC,TF)
+                  CALL MY_BARRIER
                ENDIF
 
 C     -------------------------
@@ -651,32 +651,32 @@ C     -------------------------
 C     Internal forces and nodal mass computation
 C     -------------------------
                IF(N2D == 0)THEN
-                  DO I=NODFT,NODLT       
-                     MS(I)=MS(I)-MSNF(I)  
-                     MSNF(I)=ZERO         
-                  ENDDO                  
+                  DO I=NODFT,NODLT
+                     MS(I)=MS(I)-MSNF(I)
+                     MSNF(I)=ZERO
+                  ENDDO
                ENDIF
                CALL MY_BARRIER
                IF (IALE  >  0) THEN
-                  CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK, 
-     .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL, 
-     .                 STIFN, FSKY, IADS, FSKYM, 
-     .                 CONDN, CONDNSKY, MULTI_FVM)  
+                  CALL MULTI_FVM2FEM(DT1, ELBUF_TAB, ITASK,
+     .                 IXS, IXQ, IPARG, X, A, V, W, MS, MSNF, VEUL,
+     .                 STIFN, FSKY, IADS, FSKYM,
+     .                 CONDN, CONDNSKY, MULTI_FVM)
                   CALL MY_BARRIER
                ENDIF
 C     -------------------------
 C     Multifluid law time step computation
 C     -------------------------
-               CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG, 
+               CALL MULTI_COMPUTE_DT(DT2T, ELBUF_TAB, IPARG, ITASK, IXS, IXQ, IXTG,
      .              PM, IPM, MULTI_FVM, W, X,
-     .              NELTST, ITYPTST)  
+     .              NELTST, ITYPTST)
                CALL MY_BARRIER
             ENDIF
             IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_MULTIFVM,1)
          ELSE
 !------------------------------------------------!
 ! CONVECTION, CONDUCTION, REZONING               !
-!------------------------------------------------! 
+!------------------------------------------------!
             CALL ALETHE(
      1           IPARG    ,ELBUF_TAB ,WA      ,VAL2    ,PHI     ,
      2           ALE_CONNECTIVITY    ,IXS       ,IXQ     ,V       ,W       ,
@@ -711,20 +711,20 @@ C
 
          !---------------------------------------------
          !     ALEFVM : FINITE VOLUME FOR MOMENTUM
-         !---------------------------------------------          
+         !---------------------------------------------
           IF(IALEFVM > 0) THEN
             !GRAVITY INIT
             ! VERTEX(4,1:NUMNOD) = ZERO  !-> not needed, nodes remain the same ones and VERTEX is initialized on allcoation
             CALL ALEFVM_GRAV_INIT(
      1                           AGRAV, IGRV    , LGRAV, SENSOR, LSENSOR,
      2                           IXS  , ITASK   , NPC  , TF    , SKEW   ,
-     3                           ITAB 
+     3                           ITAB
      .                           )
-          ENDIF       
-          
+          ENDIF
+
 
           CALL MY_BARRIER  !MM-ALE 20 + ALEFVM
-          
+
          !---------------------------------------------
          ! TETRA4 : SMOOTH FINITE ELEMENT FORMULATIONS
          !---------------------------------------------
@@ -789,30 +789,30 @@ C
      F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB,IBID)
 C
                  ELSEIF (ITY == 1 .AND. ISOLNOD /= 4) THEN
-                  NULLIFY(pQMV); 
+                  NULLIFY(pQMV);
                   IF(TRIMAT>0)THEN
                     pQMV => QMV(1,1+NFT)
                   ELSE
                     pQMV => BID
                   ENDIF
                   CALL SFORC3(ELBUF_TAB,NG      ,
-     2            PM           ,GEO          ,IXS          ,X            ,NV46    , 
-     3            A            ,V            ,MS           ,W            ,WA      , 
-     4            VAL2         ,VEUL         ,FV           ,ALE_CONNECTIVITY     ,IPARG   , 
-     5            TF           ,NPC          ,BUFMAT       ,PARTSAV      ,ITAB    ,          
-     6            DT2T         ,NELTST       ,ITYPTST      ,STIFN        ,FSKY    , 
-     7            IADS         ,OFFSET       ,EANI         ,IPARTS(1+NFT),   
-     8            FX(1,1)      ,FY(1,1)      ,FZ(1,1)      ,FX(1,2)      ,FY(1,2) ,     
-     9            FZ(1,2)      ,FX(1,3)      ,FY(1,3)      ,FZ(1,3)      ,FX(1,4) ,     
-     A            FY(1,4)      ,FZ(1,4)      ,FX(1,5)      ,FY(1,5)      ,FZ(1,5) ,     
-     B            FX(1,6)      ,FY(1,6)      ,FZ(1,6)      ,FX(1,7)      ,FY(1,7) ,     
-     C            FZ(1,7)      ,FX(1,8)      ,FY(1,8)      ,FZ(1,8)      ,NEL     ,     
+     2            PM           ,GEO          ,IXS          ,X            ,NV46    ,
+     3            A            ,V            ,MS           ,W            ,WA      ,
+     4            VAL2         ,VEUL         ,FV           ,ALE_CONNECTIVITY     ,IPARG   ,
+     5            TF           ,NPC          ,BUFMAT       ,PARTSAV      ,ITAB    ,
+     6            DT2T         ,NELTST       ,ITYPTST      ,STIFN        ,FSKY    ,
+     7            IADS         ,OFFSET       ,EANI         ,IPARTS(1+NFT),
+     8            FX(1,1)      ,FY(1,1)      ,FZ(1,1)      ,FX(1,2)      ,FY(1,2) ,
+     9            FZ(1,2)      ,FX(1,3)      ,FY(1,3)      ,FZ(1,3)      ,FX(1,4) ,
+     A            FY(1,4)      ,FZ(1,4)      ,FX(1,5)      ,FY(1,5)      ,FZ(1,5) ,
+     B            FX(1,6)      ,FY(1,6)      ,FZ(1,6)      ,FX(1,7)      ,FY(1,7) ,
+     C            FZ(1,7)      ,FX(1,8)      ,FY(1,8)      ,FZ(1,8)      ,NEL     ,
      D            FSKYM        ,MSNF         ,ISKY         ,FSKYI        ,
-     E            NVC          ,IPM          ,IGEO         ,BID          ,BID     ,     
-     F            BID          ,BID          ,BID          ,BUFVOIS ,       
-     G            ITASK        ,pQMV         ,ISTRA        ,TEMP         ,BID     ,        
-     H            BID          ,IBID         ,GRESAV       ,GRTH         ,IGRTH   ,       
-     I            MSSA         ,DMELS        ,TABLE        ,BID          ,BID     ,       
+     E            NVC          ,IPM          ,IGEO         ,BID          ,BID     ,
+     F            BID          ,BID          ,BID          ,BUFVOIS ,
+     G            ITASK        ,pQMV         ,ISTRA        ,TEMP         ,BID     ,
+     H            BID          ,IBID         ,GRESAV       ,GRTH         ,IGRTH   ,
+     I            MSSA         ,DMELS        ,TABLE        ,BID          ,BID     ,
      J            BID          ,BID          ,BID          ,BID          ,BID     ,
      K            BID          ,BID          ,IPARG(1,NG)  ,XDP     ,
      M            BID          ,IBID         ,IBID         ,VOLN         ,CONDN   ,
@@ -822,24 +822,24 @@ C
      Q            MATPARAM_TAB ,IBID)
 C
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
-                  NULLIFY(pQMV); 
+                  NULLIFY(pQMV);
                   IF(TRIMAT>0)THEN
                     pQMV => QMV(1,1+NFT)
                   ELSE
                     pQMV => BID
-                  ENDIF   
+                  ENDIF
                   CALL QFORC2(
      .              ELBUF_TAB,NG ,
-     1              PM           ,GEO          ,IXQ         ,X         ,A        ,  
-     2              V            ,MS           ,W           ,WA        ,VAL2     ,  
+     1              PM           ,GEO          ,IXQ         ,X         ,A        ,
+     2              V            ,MS           ,W           ,WA        ,VAL2     ,
      3              VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG     ,NLOC_DMG ,
      4              TF           ,NPC          ,BUFMAT      ,PARTSAV   ,
-     5              DT2T         ,NELTST       ,ITYPTST     ,STIFN     ,OFFSET   ,  
-     6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,  
+     5              DT2T         ,NELTST       ,ITYPTST     ,STIFN     ,OFFSET   ,
+     6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ      ,FSKY     ,
      9              IPM          ,BUFVOIS      ,pQMV        ,
      A              GRESAV       ,GRTH         ,IGRTH       ,TABLE     ,IGEO     ,
      B              VOLN         ,ITASK        ,MS_2D       ,FSKYM     ,IOUTPRT  ,MATPARAM_TAB,
-     C              H3D_DATA%STRAIN) 
+     C              H3D_DATA%STRAIN)
 c
                  ELSEIF (ITY == 2 .AND. JMULT /= 0) THEN
                   CALL BFORC2(ELBUF_TAB,NG      ,
@@ -900,7 +900,7 @@ C Partie non parallele smt
               ENDIF
 !$OMP END SINGLE
             ENDIF
-            
+
             DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
                NGR_SENSOR = NG
@@ -947,7 +947,7 @@ C     ALE ON / OFF
      F            SENSOR    ,LSENSOR   ,IOUTPRT ,MATPARAM_TAB ,IBID)
 
                  ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
-                  NULLIFY(pQMV); 
+                  NULLIFY(pQMV);
                   IF(TRIMAT>0)THEN
                     pQMV => QMV(1,1+NFT)
                   ELSE
@@ -955,43 +955,43 @@ C     ALE ON / OFF
                   ENDIF
                   CALL SFORC3(ELBUF_TAB,NG      ,
      2            PM           ,GEO         ,IXS       ,X            ,NV46    ,
-     3            A            ,V           ,MS        ,W            ,WA      ,   
-     4            VAL2         ,VEUL        ,FV        ,ALE_CONNECTIVITY        ,IPARG   ,   
-     5            TF           ,NPC         ,BUFMAT    ,PARTSAV      ,ITAB    ,           
-     6            DT2T         ,NELTST      ,ITYPTST   ,STIFN        ,FSKY    ,   
-     7            IADS         ,OFFSET      ,EANI      ,IPARTS(1+NFT),   
-     8            FX(1,1)      ,FY(1,1)     ,FZ(1,1)   ,FX(1,2)      ,FY(1,2) ,      
-     9            FZ(1,2)      ,FX(1,3)     ,FY(1,3)   ,FZ(1,3)      ,FX(1,4) ,      
-     A            FY(1,4)      ,FZ(1,4)     ,FX(1,5)   ,FY(1,5)      ,FZ(1,5) ,      
-     B            FX(1,6)      ,FY(1,6)     ,FZ(1,6)   ,FX(1,7)      ,FY(1,7) ,      
-     C            FZ(1,7)      ,FX(1,8)     ,FY(1,8)   ,FZ(1,8)      ,NEL     ,      
+     3            A            ,V           ,MS        ,W            ,WA      ,
+     4            VAL2         ,VEUL        ,FV        ,ALE_CONNECTIVITY        ,IPARG   ,
+     5            TF           ,NPC         ,BUFMAT    ,PARTSAV      ,ITAB    ,
+     6            DT2T         ,NELTST      ,ITYPTST   ,STIFN        ,FSKY    ,
+     7            IADS         ,OFFSET      ,EANI      ,IPARTS(1+NFT),
+     8            FX(1,1)      ,FY(1,1)     ,FZ(1,1)   ,FX(1,2)      ,FY(1,2) ,
+     9            FZ(1,2)      ,FX(1,3)     ,FY(1,3)   ,FZ(1,3)      ,FX(1,4) ,
+     A            FY(1,4)      ,FZ(1,4)     ,FX(1,5)   ,FY(1,5)      ,FZ(1,5) ,
+     B            FX(1,6)      ,FY(1,6)     ,FZ(1,6)   ,FX(1,7)      ,FY(1,7) ,
+     C            FZ(1,7)      ,FX(1,8)     ,FY(1,8)   ,FZ(1,8)      ,NEL     ,
      D            FSKYM        ,MSNF        ,ISKY      ,FSKYI        ,
      E            NVC          ,IPM         ,IGEO      ,BID          ,BID     ,
      F            BID          ,BID         ,BID       ,BUFVOIS ,
      G            ITASK        ,pQMV        ,ISTRA     ,TEMP         ,BID     ,
-     H            BID          ,IBID        ,GRESAV    ,GRTH         ,IGRTH   ,      
-     I            MSSA         ,DMELS       ,TABLE     ,BID          ,BID     ,      
-     J            BID          ,BID         ,BID       ,BID          ,BID     ,      
-     K            BID          ,BID         ,IPARG(1,NG)  ,XDP     ,      
+     H            BID          ,IBID        ,GRESAV    ,GRTH         ,IGRTH   ,
+     I            MSSA         ,DMELS       ,TABLE     ,BID          ,BID     ,
+     J            BID          ,BID         ,BID       ,BID          ,BID     ,
+     K            BID          ,BID         ,IPARG(1,NG)  ,XDP     ,
      M            BID          ,IBID        ,IBID      ,VOLN         ,CONDN   ,
      N            CONDNSKY     ,AGRAV       ,IGRV      ,LGRAV        ,SENSOR  ,
      O            LSENSOR      ,SKEW        ,
      P            ALE_CONNECTIVITY%NALE         ,D           ,IOUTPRT   ,NLOC_DMG     ,
      Q            MATPARAM_TAB ,IBID)
-               
+
                  ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
-                  NULLIFY(pQMV); 
+                  NULLIFY(pQMV);
                   IF(TRIMAT>0)THEN
                     pQMV => QMV(1,1+NFT)
                   ELSE
                     pQMV => BID
-                  ENDIF  
+                  ENDIF
                   CALL QFORC2(
      .              ELBUF_TAB,NG ,
-     1              PM           ,GEO          ,IXQ         ,X        ,A         ,  
-     2              V            ,MS           ,W           ,WA       ,VAL2      ,      
-     3              VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG  ,              
-     4              TF           ,NPC          ,BUFMAT      ,PARTSAV  ,              
+     1              PM           ,GEO          ,IXQ         ,X        ,A         ,
+     2              V            ,MS           ,W           ,WA       ,VAL2      ,
+     3              VEUL         ,FV           ,ALE_CONNECTIVITY       ,IPARG    ,NLOC_DMG  ,
+     4              TF           ,NPC          ,BUFMAT      ,PARTSAV  ,
      5              DT2T         ,NELTST       ,ITYPTST     ,STIFN    ,OFFSET    ,
      6              EANI         ,IPARTQ(1+NFT),NEL         ,IADQ     ,FSKY      ,
      9              IPM          ,BUFVOIS      ,pQMV        ,
@@ -1001,13 +1001,13 @@ C     ALE ON / OFF
 c
                       ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
                   CALL BFORC2(ELBUF_TAB,NG      ,
-     1            PM         ,GEO     ,IXQ       ,X         ,    
-     2            A          ,V         ,MS      ,W         ,WA        ,  
-     3            VAL2       ,VEUL      ,FV      ,ALE_CONNECTIVITY     ,IPARG     ,  
-     4            IPARG(1,NG),FILL      ,DFILL   ,IMS       ,NLOC_DMG  ,             
-     5            IFILL      ,TF        ,NPC     ,BUFMAT    ,PARTSAV   ,       
-     5            DT2T       ,NELTST    ,ITYPTST ,STIFN     ,OFFSET    ,       
-     6            EANI       ,IPARTQ(1+NFT),NEL  ,IADQ      ,FSKY      ,       
+     1            PM         ,GEO     ,IXQ       ,X         ,
+     2            A          ,V         ,MS      ,W         ,WA        ,
+     3            VAL2       ,VEUL      ,FV      ,ALE_CONNECTIVITY     ,IPARG     ,
+     4            IPARG(1,NG),FILL      ,DFILL   ,IMS       ,NLOC_DMG  ,
+     5            IFILL      ,TF        ,NPC     ,BUFMAT    ,PARTSAV   ,
+     5            DT2T       ,NELTST    ,ITYPTST ,STIFN     ,OFFSET    ,
+     6            EANI       ,IPARTQ(1+NFT),NEL  ,IADQ      ,FSKY      ,
      7            IPM        ,BUFVOIS   ,
      8            GRESAV     ,GRTH      ,IGRTH   ,TABLE     ,IGEO      ,
      9            VOLN       ,ITASK     ,MS_2D   ,FSKYM     ,MATPARAM_TAB,
@@ -1018,9 +1018,9 @@ c
                ENDIF
               ENDIF
             ENDDO!next NG
-            
+
           ENDIF!IF (ILAW11 /= 0) THEN
-           
+
         ENDIF!IF(IALE+IEULER+ITHERM /= 0)THEN
         IF(ITASK==0) CALL STOPTIME(MACRO_TIMER_IFSUB0,1)
       ENDIF!IF(IFSUB == 0)THEN

@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
 c      USE INITBUF_MOD
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
 c      USE I22TRI_MOD
 c      USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
-#include      "i22edges.inc"  
+#include      "i22edges.inc"
 #include      "inter22.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -76,12 +76,12 @@ C-----------------------------------------------
       IRES         = 0
       NFAC(1:8)    = ZERO
       IDEMERGE     = 0
-      
-      NumNOD       = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD 
+
+      NumNOD       = BRICK_LIST(NIN,IB)%POLY(ICELL)%NumNOD
       NbCut        = BRICK_LIST(NIN,IB)%NbCut
       ListNOD(1:8) = BRICK_LIST(NIN,IB)%POLY(ICELL)%ListNodID(1:8)
       ALPHA(1:8)     =ZERO
-      
+
       DO J=1,6
         RATIO(J)   = BRICK_LIST(NIN,IB)%POLY(ICELL)%FACE(J)%Surf / BRICK_LIST(NIN,IB)%Face_Brick(J)
       ENDDO
@@ -89,7 +89,7 @@ C-----------------------------------------------
       DO K=1,NumNOD
        I           = ListNOD(K)
         DO J=1,3
-         IFAC      = iFacesFromNode(I,J)      
+         IFAC      = iFacesFromNode(I,J)
          !IF(RATIO(IFAC)==ZERO)CYCLE
          NFAC(I)   = NFAC(I) + ONE
          ALPHA(I)  = ALPHA(I) + RATIO(IFAC)
@@ -97,13 +97,13 @@ C-----------------------------------------------
         IF(NFAC(I)>ZERO)ALPHA(I) = ALPHA(I) / NFAC(I)
         IF(ALPHA(I)>CritDVol22 .AND. BRICK_LIST(NIN,IB)%NODE(I)%NodWasMain==0)IDEMERGE=1
       ENDDO!next K
-      
+
       IF(NumNOD>0) IRES = MAXLOC(ALPHA(1:8),1)
-      
+
 !      IF(NumNOD==0)THEN
 !        print *, "**error : inter22. Connectivity issue."
 !        stop
 !      ENDIF
-      
+
       RETURN
       END

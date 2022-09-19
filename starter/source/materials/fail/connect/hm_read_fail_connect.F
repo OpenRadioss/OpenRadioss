@@ -54,9 +54,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID,UNIT_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -126,9 +126,9 @@ C--------------------------------------------
       NFAIL = 1
       IF (ISOLID == 0) THEN
         ISOLID = 1
-      ELSE IF (ISOLID == 2) THEN 
+      ELSE IF (ISOLID == 2) THEN
         NFAIL = 4
-      END IF 
+      END IF
       IF (MAXDN == ZERO) MAXDN = INFINITY
       IF (MAXDT == ZERO) MAXDT = INFINITY
       IF (MAXEI == ZERO) MAXEI = INFINITY
@@ -141,8 +141,8 @@ C--------------------------------------------
       IF (NN    == ZERO) NN    = ONE
       IF (NT    == ZERO) NT    = ONE
 c-----------------------------------------------------------------------
-c     Rupture model flag 
-c 
+c     Rupture model flag
+c
 c     IFAILS =  1 => strain based unidimensional rupture
 c     IFAILS =  2 => strain based multidimensional rupture
 c     IFAILE =  1 => total energy based rupture
@@ -222,7 +222,7 @@ C--------------------------------------------------
      & 5X,'Energy exponent in normal direction      . . . . . =',E16.9/
      & 5X,'Energy exponent in tangent direction     . . . . . =',E16.9/
      & 5X,'Damage duration parameter      . . . . . . . . . . =',E16.9/
-     & 5X,'Damage softening parameter     . . . . . . . . . . =',E16.9/ 
+     & 5X,'Damage softening parameter     . . . . . . . . . . =',E16.9/
      & 5X,'Element deformation parameter  . . . . . . . . . . =',E16.9/)
 C-----------       
       RETURN

@@ -75,13 +75,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE MATPARAM_DEF_MOD
-      USE NLOCAL_REG_MOD    
-      USE DRAPE_MOD        
+      USE NLOCAL_REG_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -162,7 +162,7 @@ c
       IGMAT = IGEO(98,IXC(6,1+NFT))
       IREP  = IPARG(35)
       IFAIL = IPARG(43)
-c      
+c
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1,IPROP),LTITR)
       VX   = ZERO
       VY   = ZERO
@@ -223,7 +223,7 @@ C
       ENDIF
 C
       CALL CCOORI(X,XREFC(1,1,NFT+1),IXC(1,NFT+1),
-     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .            IX1 ,IX2 ,IX3 ,IX4 ,NGL )
 c
@@ -256,7 +256,7 @@ C------------
      .            PERTURB,IX1     ,IX2      ,IX3     ,IX4       )
 C-----------------------------------------------
       CALL CDERII(PX1G,PX2G,PY1G,PY2G,
-     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  , 
+     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .            E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ,
      .            X2L ,X3L ,X4L ,Y2L ,Y3L ,Y4L )
@@ -288,8 +288,8 @@ c     PHI, COOR used only with dimension(NLAY,MVSIZ); !! now corrected
      .   IREP       ,ELBUF_STR ,DRAPE     ,SH4ANG(NFT+1),X        ,
      .   GEO_STACK  ,IGEO_STACK,E3X       ,E3Y        ,E3Z        ,
      .   GBUF%BETAORTH,X1       ,X2        ,Y1         ,Y2        ,
-     .   Z1         ,Z2        ) 
-c---     
+     .   Z1         ,Z2        )
+c---
 C-----
       IF(IGTYP == 51 .OR. IGTYP == 52 .AND. IGMAT > 0) THEN
 c
@@ -298,7 +298,7 @@ c
      .                PHI1     ,PHI2      ,COOR1      ,COOR2   ,COOR3    ,
      .                COOR4    ,IORTHLOC  ,NLAY       ,IREP    ,ISUBSTACK,
      .                STACK    ,GEO_STACK ,IGEO_STACK ,IR      ,IS       ,
-     .                NEL      ,IMAT      ,IPROP      ,     
+     .                NEL      ,IMAT      ,IPROP      ,
      .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
      .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
@@ -332,7 +332,7 @@ c
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
       ENDIF
 c
-      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN  
+      IF (MTN == 58 .AND. IGTYP /= 16 .AND. IGTYP /= 51 .AND. IGTYP /= 52) THEN
           CALL ANCMSG(MSGID=658,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -351,7 +351,7 @@ C
             DIR2 => ELBUF_STR%BUFLY(IL)%DIRB
             DO IT=1,NPTT
               LBUF => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IT)
-              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR 
+              UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR
               NUVAR = ELBUF_STR%BUFLY(IL)%NVAR_MAT
               CALL CM58IN3(
      .             IREP     ,IMAT     ,IPM     ,DIR1    ,DIR2    ,
@@ -385,10 +385,10 @@ C to be checked for IGTYP = 51 : ok
      2       GBUF%THK,GBUF%EINT,GBUF%STRA,GBUF%HOURG,GBUF%PLA  ,
      3       GBUF%FOR,GBUF%MOM ,SIGSH    ,NLAY      ,GBUF%G_HOURG,
      4       NUMELC  ,IXC      ,NIXC     ,NSIGSH    ,NUMSHEL   ,
-     5       PTSHEL  ,IGEO     ,THK      ,NEL       ,E1X       ,                       
+     5       PTSHEL  ,IGEO     ,THK      ,NEL       ,E1X       ,
      6       E2X     ,E3X      ,E1Y      ,E2Y       ,E3Y       ,
      7       E1Z     ,E2Z      ,E3Z      ,ISIGSH    ,DIR_A     ,
-     8       DIR_B   ,POSLY    ,IGTYP    )    
+     8       DIR_B   ,POSLY    ,IGTYP    )
       ELSEIF ( ITHKSHEL == 1 ) THEN
         CALL THICKINI(LFT     ,LLT   ,NFT    ,PTSHEL,NUMELC,
      2                GBUF%THK,THK   ,IXC    ,NIXC  ,NSIGSH,
@@ -420,28 +420,28 @@ C       to be checked for IGTYP = 51
       ENDIF
 c----------------------------
       IF (ISMSTR == 10 ) THEN
-          DO I=LFT,LLT                          
-            II = NFT + I            
-            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXC(3,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXC(3,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXC(3,II))-X(3,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXC(4,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXC(4,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXC(4,II))-X(3,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(7)+I) = X(1,IXC(5,II))-X(1,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(8)+I) = X(2,IXC(5,II))-X(2,IXC(2,II))  
-            ELBUF_STR%GBUF%SMSTR(JJ(9)+I) = X(3,IXC(5,II))-X(3,IXC(2,II))  
-          ENDDO                                 
-      ELSEIF (ISMSTR == 11 .OR.(ISMSTR==1 .AND. MTN==19)) THEN                  
-        DO I=LFT,LLT                          
+          DO I=LFT,LLT
+            II = NFT + I
+            ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X(1,IXC(3,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = X(2,IXC(3,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X(3,IXC(3,II))-X(3,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = X(1,IXC(4,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X(2,IXC(4,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = X(3,IXC(4,II))-X(3,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(7)+I) = X(1,IXC(5,II))-X(1,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(8)+I) = X(2,IXC(5,II))-X(2,IXC(2,II))
+            ELBUF_STR%GBUF%SMSTR(JJ(9)+I) = X(3,IXC(5,II))-X(3,IXC(2,II))
+          ENDDO
+      ELSEIF (ISMSTR == 11 .OR.(ISMSTR==1 .AND. MTN==19)) THEN
+        DO I=LFT,LLT
           ELBUF_STR%GBUF%SMSTR(JJ(1)+I) = X2S(I)
           ELBUF_STR%GBUF%SMSTR(JJ(2)+I) = Y2S(I)
           ELBUF_STR%GBUF%SMSTR(JJ(3)+I) = X3S(I)
           ELBUF_STR%GBUF%SMSTR(JJ(4)+I) = Y3S(I)
           ELBUF_STR%GBUF%SMSTR(JJ(5)+I) = X4S(I)
           ELBUF_STR%GBUF%SMSTR(JJ(6)+I) = Y4S(I)
-        ENDDO                                 
-      ENDIF                                   
+        ENDDO
+      ENDIF
 C-----
       IF (IUSER == 1 .AND. MTN > 28) THEN
 C to be checked for IGTYP = 51
@@ -479,8 +479,8 @@ C-------------------------------------------
 c        IGTYP=GEO(12,IXC(6,I+NFT))
         IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.
      .      IGTYP /= 9  .AND. IGTYP /= 10 .AND.
-     .      IGTYP /= 11 .AND. IGTYP /= 16 .AND. 
-     .      IGTYP /= 17 .AND. IGTYP /= 51 .AND. 
+     .      IGTYP /= 11 .AND. IGTYP /= 16 .AND.
+     .      IGTYP /= 17 .AND. IGTYP /= 51 .AND.
      .      IGTYP /= 52) THEN
           CALL ANCMSG(MSGID=25,
      .                ANMODE=ANINFO,
@@ -501,12 +501,12 @@ C---
      .               IS       ,IXFEM,MTN ,NG)
       ENDIF
 C---
-      IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)                                                          
-      IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)  
-      DEALLOCATE(PHI1,PHI2,COOR1,COOR2,COOR3,COOR4)  
+      IF (ALLOCATED(DIR_B))    DEALLOCATE(DIR_B)
+      IF (ALLOCATED(DIR_A))    DEALLOCATE(DIR_A)
+      DEALLOCATE(PHI1,PHI2,COOR1,COOR2,COOR3,COOR4)
 C-----------------------------
       RETURN
-      END SUBROUTINE CINIT3      
+      END SUBROUTINE CINIT3
 Chd|====================================================================
 Chd|  CSMS11_INI                    source/elements/shell/coque/cinit3.F
 Chd|-- called by -----------
@@ -583,25 +583,25 @@ C
           E3Z(I) = E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
         ENDDO
 C---
-        DO I=JFT,JLT                         
-          SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-          E3X(I) = E3X(I)*SUMA                              
-          E3Y(I) = E3Y(I)*SUMA                              
-          E3Z(I) = E3Z(I)*SUMA                              
+        DO I=JFT,JLT
+          SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
+          SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+          E3X(I) = E3X(I)*SUMA
+          E3Y(I) = E3Y(I)*SUMA
+          E3Z(I) = E3Z(I)*SUMA
 C
-          S1     = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I) 
-          S2     = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I) 
-          SUMA   = SQRT(S1/S2)                
+          S1     = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+          S2     = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
+          SUMA   = SQRT(S1/S2)
           E1X(I) = E1X(I) + (E2Y(I)*E3Z(I)-E2Z(I)*E3Y(I))*SUMA
           E1Y(I) = E1Y(I) + (E2Z(I)*E3X(I)-E2X(I)*E3Z(I))*SUMA
           E1Z(I) = E1Z(I) + (E2X(I)*E3Y(I)-E2Y(I)*E3X(I))*SUMA
 C
-          SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-          SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-          E1X(I) = E1X(I)*SUMA                              
-          E1Y(I) = E1Y(I)*SUMA                              
-          E1Z(I) = E1Z(I)*SUMA                              
+          SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+          SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+          E1X(I) = E1X(I)*SUMA
+          E1Y(I) = E1Y(I)*SUMA
+          E1Z(I) = E1Z(I)*SUMA
 C
           E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
           E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)

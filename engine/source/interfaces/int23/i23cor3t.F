@@ -31,7 +31,7 @@ Chd|====================================================================
      1                   CAND_N  ,IGAP  ,GAP   ,X1    ,X2     ,
      2                   X3      ,X4    ,Y1    ,Y2    ,Y3     ,
      3                   Y4      ,Z1    ,Z2    ,Z3    ,Z4     ,
-     4                   XI      ,YI    ,ZI    ,IX1   ,IX2    , 
+     4                   XI      ,YI    ,ZI    ,IX1   ,IX2    ,
      5                   IX3     ,IX4   ,NSN   ,GAP_S ,GAPV   ,
      6                   GAPMAX  ,GAPMIN,CURV_MAX,NSV ,MSR    ,
      7                   GAP_M )

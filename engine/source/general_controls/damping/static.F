@@ -120,7 +120,7 @@ C
        ENCINT = ENCIN+ENROT
        IF(ENCINT<ENCINO)THEN
         IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   TFEXT = TFEXT - ENCINT 
+     .   TFEXT = TFEXT - ENCINT
         ENCINO=ZERO
         LAST=0
 C
@@ -185,7 +185,7 @@ C
        ENCINT = ENCIN+ENROT
        IF(ENCINT<ENCINO)THEN
         IF (IMACH/=3.OR.(IMACH==3.AND.ISPMD==0))
-     .   TFEXT = TFEXT - ENCINT 
+     .   TFEXT = TFEXT - ENCINT
         ENCINO=ZERO
         LAST=0
 C
@@ -250,42 +250,42 @@ C     REAL
 C-----------------------------------------------
        IF (TT == ZERO) THEN
         FF= ENCIN+ENROT
-        FIL_KE(1) = FF                               
-        FIL_KE(2) = FF                              
-        FIL_KE(3) = FF                              
+        FIL_KE(1) = FF
+        FIL_KE(2) = FF
+        FIL_KE(3) = FF
         FIL_KE(4) = FF
         FF= ENINT
-        FIL_IE(1) = FF                               
-        FIL_IE(2) = FF                              
-        FIL_IE(3) = FF                              
+        FIL_IE(1) = FF
+        FIL_IE(2) = FF
+        FIL_IE(3) = FF
         FIL_IE(4) = FF
-       END IF       
+       END IF
        IF (F_FIL>ZERO) THEN
           FF = ENCIN+ENROT
-    	     VV1 = FIL_KE(1)                                
-    	     VV2 = FIL_KE(2)                               
-    	     FV1 = FIL_KE(3)                                
-    	     FV2 = FIL_KE(4)                                
-    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
-    	       FIL_KE(1)= FF                               
-    	       FIL_KE(2)= VV1                              
-    	       FIL_KE(3)= FV                              
-    	       FIL_KE(4)= FV1                              
+    	     VV1 = FIL_KE(1)
+    	     VV2 = FIL_KE(2)
+    	     FV1 = FIL_KE(3)
+    	     FV2 = FIL_KE(4)
+    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV)
+    	       FIL_KE(1)= FF
+    	       FIL_KE(2)= VV1
+    	       FIL_KE(3)= FV
+    	       FIL_KE(4)= FV1
               ENCINT = FV
 C         
           FF = ENINT
-    	     VV1 = FIL_IE(1)                                
-    	     VV2 = FIL_IE(2)                               
-    	     FV1 = FIL_IE(3)                                
-    	     FV2 = FIL_IE(4)                                
-    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV) 
-    	       FIL_IE(1) = FF                                
-    	       FIL_IE(2) = VV1                              
-    	       FIL_IE(3) = FV                               
+    	     VV1 = FIL_IE(1)
+    	     VV2 = FIL_IE(2)
+    	     FV1 = FIL_IE(3)
+    	     FV2 = FIL_IE(4)
+    	     CALL BUTTERWORTH(DT2,F_FIL,VV2,VV1,FF,FV2,FV1,FV)
+    	       FIL_IE(1) = FF
+    	       FIL_IE(2) = VV1
+    	       FIL_IE(3) = FV
     	       FIL_IE(4) = FV1
               EINT = FV
 C 
-       ELSE      
+       ELSE
         ENCINT = ENCIN+ENROT
         EINT = ENINT
        END IF
@@ -343,7 +343,7 @@ C-----------------------------------------------
 #include      "scr16_c.inc"
 #include      "task_c.inc"
 #include      "sms_c.inc"
-#include      "warn_c.inc"   
+#include      "warn_c.inc"
 #include      "scr05_c.inc"
 #include      "scr07_c.inc"
 C-----------------------------------------------
@@ -363,7 +363,7 @@ C-----------------------------------------------
       IF (NCYCLE==0) THEN
        BETATE = BETATE_0
        IF (DEBUG(11)==1.AND.ISPMD==0) THEN
-        IDF = 251  
+        IDF = 251
          FILNAME='P_ES.TMP'
          OPEN(UNIT=IDF,FILE=FILNAME,STATUS='UNKNOWN',FORM='FORMATTED')
          write(IDF,*)
@@ -377,10 +377,10 @@ C-------      /DEBUG/ADYREL for periods print out
        IDF = 251
       ELSE
        IDF = 0
-      END IF 
+      END IF
       IFIRST = NINT(NFIRST)
       EI_TOL=EM12
-      IF (IRESP==1) EI_TOL=EM07        
+      IF (IRESP==1) EI_TOL=EM07
 C-----0.5%w_max 5*0.5 for AMS     
       IF(IDTMINS==0) THEN
        F_MAX=EM02/DT1
@@ -437,13 +437,13 @@ C------initial frequency is 1% of F_MAX otherwise damping too high especially w/
        IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,IFIRST,FI,PIMAX ,PCMAX
       END IF
 C--Case BETATE too high w/ large periods for both Eint and Ke    
-      IF (IFIRST>=1.AND.(IPC+IPI)==0) THEN 
+      IF (IFIRST>=1.AND.(IPC+IPI)==0) THEN
        FI = ONE/MAX(PIMAX,PCMAX)
        IF (BETATE>1.1*FI) THEN
         BETATE=FI
         IF (IDF>0) write(IDF,1000)NCYCLE,BETATE,-IFIRST,FI,PIMAX ,PCMAX
        END IF
-      END IF      
+      END IF
       IF (IFIRST==1.AND.IRUN>1.AND.MCHECK==0) IFIRST = 2
       NFIRST = IFIRST
 C

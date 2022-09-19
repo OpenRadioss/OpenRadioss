@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE INITBUF_MOD
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
       USE I22TRI_MOD
       USE ELBUFDEF_MOD
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "task_c.inc"
-#include      "i22edges.inc"  
+#include      "i22edges.inc"
 #include      "inter22.inc"
 #include      "comlock.inc"
 C-----------------------------------------------
@@ -77,14 +77,14 @@ C-----------------------------------------------
       IPOS              = 1
       LEVEL             = 3   !3:X, 2:Y, 1:Z
       SCORE(1:6)        = ZERO
-                     
+
       IPOS      = MAXLOC(SharedFACE(1:6),1)
-      
+
       IF(SharedFACE(IPOS) == ZERO) THEN
         LINK_WITH_UNIQUE_MAIN_CELL = 0
         RETURN
       ENDIF
-      
+
       MySum = SUM(SharedFACE(1:IPOS-1))
       IF (IPOS/=6)THEN
         MySUM = MySUM + SUM(SharedFACE(IPOS+1:6))
@@ -96,14 +96,14 @@ C-----------------------------------------------
 
       XYZmax(1) = MAXVAL(Centroid(1,1:6))
       XYZmax(2) = MAXVAL(Centroid(2,1:6))
-      XYZmax(3) = MAXVAL(Centroid(3,1:6))            
-           
+      XYZmax(3) = MAXVAL(Centroid(3,1:6))
+
       !find max
       MAX                          = SharedFACE(IPOS)       !init with maximum value
       LINK_WITH_UNIQUE_MAIN_CELL = IPOS
       !score it
-      SCORE(IPOS) = 1000*(XYZmax(1)-Centroid(1,IPOS))+ 100*(XYZmax(2)-Centroid(2,IPOS))+ 10*(XYZmax(3)-Centroid(3,IPOS))      
-      
+      SCORE(IPOS) = 1000*(XYZmax(1)-Centroid(1,IPOS))+ 100*(XYZmax(2)-Centroid(2,IPOS))+ 10*(XYZmax(3)-Centroid(3,IPOS))
+
       !find other ones equal to MAX
       IF (IPOS == 6)RETURN
       IIP = IPOS
@@ -117,6 +117,6 @@ C-----------------------------------------------
 
       IPOS                         = MAXLOC(SCORE(1:6),1)
       LINK_WITH_UNIQUE_MAIN_CELL = IPOS
-      
+
       RETURN
       END

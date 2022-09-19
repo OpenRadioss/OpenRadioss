@@ -87,7 +87,7 @@ C
 C-----------------------------------------------
 C  maj PENIS sur partie non locale
 C-----------------------------------------------
-        IF(NSPMD>1 .AND. TT > ZERO) THEN ! frontieres partiellement baties a tt=0 
+        IF(NSPMD>1 .AND. TT > ZERO) THEN ! frontieres partiellement baties a tt=0
 C
 C Partie non parallele smt
 C

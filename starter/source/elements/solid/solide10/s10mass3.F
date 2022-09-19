@@ -30,7 +30,7 @@ Chd|        S4FRACA10                     source/elements/solid/solide10/s10mass
 Chd|====================================================================
       SUBROUTINE S10MASS3(
      1   MASS,MS ,PARTSAV,IPART  ,MSS ,VOLU,
-     2   XX  ,YY ,ZZ     ,VX     ,VY  ,VZ  ,  
+     2   XX  ,YY ,ZZ     ,VX     ,VY  ,VZ  ,
      3   NC  ,STI,STIFN  ,DELTAX2,MSSX,MASSCP,
      4   MCP ,MCPS       ,MCPSX  ,IN  ,STIFR,
      5   INS ,MSSA       ,X      ,FILL)
@@ -57,7 +57,7 @@ C-----------------------------------------------
      .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
 C     REAL
       my_real
-     .   MASS(*), MS(*),PARTSAV(20,*), MSS(8,*),DELTAX2(*), 
+     .   MASS(*), MS(*),PARTSAV(20,*), MSS(8,*),DELTAX2(*),
      .   VOLU(*),
      .   VX(MVSIZ,10), VY(MVSIZ,10), VZ(MVSIZ,10),STI(*),STIFN(*),
      .   MSSX(12,*), MASSCP(*),  MCP(*) ,MCPS(8,*) ,MCPSX(12,*),
@@ -105,7 +105,7 @@ C       same as RD Engine
           STIFN(NC(I,2))=STIFN(NC(I,2))+STI(I)*DELTAX2(I)
           STIFN(NC(I,3))=STIFN(NC(I,3))+STI(I)*DELTAX2(I)
           STIFN(NC(I,4))=STIFN(NC(I,4))+STI(I)*DELTAX2(I)
-          DO N=5,10	    
+          DO N=5,10	
            IF(NC(I,N)/=0)THEN
              MSSX(N-4,I)=BM*PTG(N,I)
              STIFN(NC(I,N))=STIFN(NC(I,N))+STI(I)
@@ -115,9 +115,9 @@ C       same as RD Engine
              N22=IPERM2(N)
              N2=IPERM3(N22)
              MSS(N1,I)=MSS(N1,I) + HALF*BM*PTG(N,I)
-             MSS(N2,I)=MSS(N2,I) + HALF*BM*PTG(N,I)	     
+             MSS(N2,I)=MSS(N2,I) + HALF*BM*PTG(N,I)	
              STIFN(NC(I,N11))=STIFN(NC(I,N11))  + HALF*STI(I)
-             STIFN(NC(I,N22))=STIFN(NC(I,N22))  + HALF*STI(I)      
+             STIFN(NC(I,N22))=STIFN(NC(I,N22))  + HALF*STI(I)
            ENDIF
           ENDDO
         ELSE
@@ -135,7 +135,7 @@ C         Not yet compatible with IMAS_DS/=0
           STIFN(NC(I,2))=STIFN(NC(I,2))+AAA
           STIFN(NC(I,3))=STIFN(NC(I,3))+AAA
           STIFN(NC(I,4))=STIFN(NC(I,4))+AAA
-          DO N=5,10	    
+          DO N=5,10	
            IF(NC(I,N)/=0)THEN
              MSSX(N-4,I)=BM
              STIFN(NC(I,N))=STIFN(NC(I,N))+BBB
@@ -145,9 +145,9 @@ C         Not yet compatible with IMAS_DS/=0
              N22=IPERM2(N)
              N2 =IPERM3(N22)
              MSS(N1,I)=MSS(N1,I) + HALF*BM
-             MSS(N2,I)=MSS(N2,I) + HALF*BM       
+             MSS(N2,I)=MSS(N2,I) + HALF*BM
              STIFN(NC(I,N11))=STIFN(NC(I,N11))  + HALF*BBB
-             STIFN(NC(I,N22))=STIFN(NC(I,N22))  + HALF*BBB      
+             STIFN(NC(I,N22))=STIFN(NC(I,N22))  + HALF*BBB
            ENDIF
           ENDDO
         END IF
@@ -311,7 +311,7 @@ C
         MCPS(3,I)=AM
         MCPS(6,I)=AM
         MCPS(5,I)=AM
-        DO N=5,10	  
+        DO N=5,10	
           IF(NC(I,N)/=0)THEN
             MCPSX(N-4,I) = BM
           ELSE
@@ -324,7 +324,7 @@ C
           ENDIF
         ENDDO
        ENDDO
-      ENDIF  
+      ENDIF
 C
       RETURN
       END
@@ -398,10 +398,10 @@ C
            EINTG(I)  = EINTG(I)  + WIP * EINT(I)
            OFFG(I)   = OFF(I)
            MASSCP(I) = MASSCP(I) + FILL(I)*RHOCP(I)*VOLU(I)
-         ENDDO       
-         
-       
-       ENDIF  
+         ENDDO
+
+
+       ENDIF
 C
       RETURN
       END
@@ -460,7 +460,7 @@ C ------------Ai -> A²(i)-----------
        CALL AREA_TRIA(X,IX1,IX2,IX4, A3  )
        CALL AREA_TRIA(X,IX1,IX2,IX3, A4  )
       DO I=LFT,LLT
-        S = FOUR/(A1(I) +A2(I) +A3(I) +A4(I)) 
+        S = FOUR/(A1(I) +A2(I) +A3(I) +A4(I))
         PTG(1,I)=A1(I)*S
         PTG(2,I)=A2(I)*S
         PTG(3,I)=A3(I)*S

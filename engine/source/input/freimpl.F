@@ -36,7 +36,7 @@ Chd|        IMP_PCG_PROJ                  share/modules/impbufdef_mod.F
 Chd|        IMP_SPBRM                     share/modules/impbufdef_mod.F 
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FREIMPL(IKAD,KEY0,KIMPL) 
+      SUBROUTINE FREIMPL(IKAD,KEY0,KIMPL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -103,7 +103,7 @@ C----------------------------------------
       PRSTIFMAT=0
       PRSTIFMAT_TOL=ZERO
       PRSTIFMAT_NC=1
-      PRSTIFMAT_IT=0 
+      PRSTIFMAT_IT=0
       IMPMV=1
       ISIGINI=0
       ILINTF=0
@@ -193,7 +193,7 @@ C----------------------------
          ELSEIF(IDYNA==2)THEN
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*)NEWM_A,NEWM_B
-         ELSE 
+         ELSE
           HHT_A =-EM20
          ENDIF
         ENDIF
@@ -212,9 +212,9 @@ C----------------------------
         IF(KEY3(1:3)=='OFF')IMPMV=0
        ELSEIF(KEY2(1:5)=='SPRIN')THEN
          IF(KEY3(1:4)=='NONL')THEN
-          ISPRN = 1 
+          ISPRN = 1
          ELSEIF(KEY3(1:4)=='LINE')THEN
-          ISPRN = 0 
+          ISPRN = 0
          ELSE
           GOTO 9990
          ENDIF
@@ -261,9 +261,9 @@ C----------------------------
          ELSEIF(KEY3(1:4)=='NONL')THEN
           READ(KEY4,'(I5)')NPRINT
          ELSEIF(KEY3(1:4)=='STIF')THEN
-          PRSTIFMAT = 1    
+          PRSTIFMAT = 1
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-          READ(IUSC2,*)PRSTIFMAT_TOL,PRSTIFMAT_NC,PRSTIFMAT_IT          
+          READ(IUSC2,*)PRSTIFMAT_TOL,PRSTIFMAT_NC,PRSTIFMAT_IT
          ELSE
           GOTO 9990
          ENDIF
@@ -332,15 +332,15 @@ C----------------------------
          READ(TITLE,*)N_LIM,NITOL,N_TOL
          IF (NITOL>10) THEN
           SELECT CASE (NITOL)
-           CASE(12)                                            
+           CASE(12)
             READ(TITLE,*)N_LIM,NITOL,N_TOLE,N_TOLF
-           CASE(13)                                   
+           CASE(13)
             READ(TITLE,*)N_LIM,NITOL,N_TOLE,N_TOLU
-           CASE(23)                                   
+           CASE(23)
             READ(TITLE,*)N_LIM,NITOL,N_TOLF,N_TOLU
-           CASE(123)                                            
+           CASE(123)
             READ(TITLE,*)N_LIM,NITOL,N_TOLE,N_TOLF,N_TOLU
-          END SELECT      
+          END SELECT
          ENDIF !(NITOL>10)
          IF(NITOL==1.AND.IRREF==1) IRREF = 0
         ENDIF
@@ -369,7 +369,7 @@ C----------------------------
            NJ = NVAR(CARTE)
            IF ((NDTFIX+NJ)>100) THEN
             NJ = 100-NDTFIX
-            WRITE(ISTDO,*) 
+            WRITE(ISTDO,*)
      .       ' ** WARNING ** : MAXMUM 100 FIX POINTS PERMITTED '
            ENDIF
            READ(IUSC2,*,ERR=9990,END=9990)(DTIMPF(NDTFIX+J),J=1,NJ)
@@ -419,7 +419,7 @@ C---------will be suppressed in the 14.0.210
          ELSEIF(KEY3(1:5)=='KNONL')THEN
 C-----0 nonlinear, 1: linear ----
           READ(KEY4,'(I2)')IM
-          INTP_C = -IM -1 
+          INTP_C = -IM -1
 C         ELSEIF(KEY3(1:5)=='KCOMP'.AND.INTP_C==0)THEN
          ELSEIF(KEY3(1:5)=='KCOMP')THEN
 c          INTP_C = 1
@@ -604,7 +604,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N 
+      INTEGER N
       my_real
      .        RC(*)
 C-----------------------------------------------

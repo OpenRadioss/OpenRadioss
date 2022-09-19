@@ -72,7 +72,7 @@ Chd|====================================================================
      A            M32    ,M33    ,KFTS   ,GROUP_PARAM,MATPARAM_TAB,
      B            NEL    ,ISTRAIN,ISH3N  ,
      C            ITHK   ,IOFC   ,IPLA   ,NFT    ,ISMSTR    ,
-     D            FZERO  ,IGEO   ,IPM    ,IFAILURE,ITASK     , 
+     D            FZERO  ,IGEO   ,IPM    ,IFAILURE,ITASK     ,
      E            JTHE   ,TEMP   ,FTHE   ,FTHESKY ,IEXPAN    ,
      F            GRESAV ,GRTH   ,IGRTH  ,MSTG    ,DMELTG    ,
      G            JSMS   ,TABLE  ,IPARG  ,LSENSOR ,SENSOR    ,
@@ -87,9 +87,9 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD  
-      USE DRAPE_MOD 
-      USE NLOCAL_REG_MOD          
+      USE MATPARAM_DEF_MOD
+      USE DRAPE_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -124,7 +124,7 @@ C-----------------------------------------------
      .   IPARTTG(*),ITASK,JTHE,IEXPAN,GRTH(*),IGRTH(*),IPARG(*),
      .   LSENSOR(NSENSI,*),IXFEM,INOD_CRK(*),IEL_CRK(*),IADTG_CRK(3,*),
      .   ELCUTC(2,*),NODEDGE(2,*)
-      my_real 
+      my_real
      .   PM(*),F(*),M(*),V(*),R(*),
      .   GEO(NPROPG,*),TF(*),BUFMAT(*),PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
@@ -145,16 +145,16 @@ C-----------------------------------------------
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
       TYPE (XFEM_SKY_)    , DIMENSION(*) :: CRKSKY
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
-      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
+      TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE(DRAPE_) :: DRAPE_T3
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c     indx utilise localement contrairement aux coques 4n 
-      INTEGER 
+c     indx utilise localement contrairement aux coques 4n
+      INTEGER
      .   I,J,J1,J2,IR,IS,IT,IPT,IFLAG,IGTYP,IXFEM2,IREP,IMAT,
      .   IUN,NPG,IBID,IDRIL,NG,IXLAY,NXLAY,NLAYER,NPTT,STEP,
      .   L_DIRA,L_DIRB,ILEV,IGMAT,IPTHK,ISH3NFR
@@ -186,7 +186,7 @@ c     indx utilise localement contrairement aux coques 4n
      .   RLZ(MVSIZ,3),WXY(MVSIZ),MLZ(MVSIZ,3),KRZ(MVSIZ),
      .   B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),BM0RZ(MVSIZ,3,2),
      .   ECOS(MVSIZ),ESIN(MVSIZ),A11R(MVSIZ),THKE0(MVSIZ),ALDT(MVSIZ)
-      my_real 
+      my_real
      .   BID,THKR,F_DEF(MVSIZ,8),WKXY(MVSIZ)
 !       SP issue :
         REAL(kind=8), DIMENSION(MVSIZ) ::X1G,X2G,X3G
@@ -194,7 +194,7 @@ c     indx utilise localement contrairement aux coques 4n
         REAL(kind=8), DIMENSION(MVSIZ) ::Z1G,Z2G,Z3G
 C---
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB,DIR1_CRK,DIR2_CRK
       my_real,
      .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B
@@ -210,13 +210,13 @@ C
       DOUBLE PRECISION,
      .  DIMENSION(:) ,POINTER  ::  SMSTRG
       my_real,
-     .  DIMENSION(:,:), ALLOCATABLE :: VARNL 
+     .  DIMENSION(:,:), ALLOCATABLE :: VARNL
 C---------------------------
 c     Attention : Coque3N + ISMSTR=10 pas compatible avec XFEM !!!
 C=======================================================================
       BID    = ZERO
-      IUN  = 1  
-      IBID = 0  
+      IUN  = 1
+      IBID = 0
       NPG  = 0
       IR   = 1
       IS   = 1
@@ -346,17 +346,17 @@ C----------use always old local sys
      .               E2Y      ,E2Z     ,E3X     ,E3Y     ,E3Z      ,
      .               NXLAY    ,GBUF%OFF,ECOS    ,ESIN    ,ISH3NFR  ,
      .               NEL      ,AREA    ,X21G    ,Y21G    ,Z21G     ,
-     .               X31G     ,Y31G    ,Z31G    , 
+     .               X31G     ,Y31G    ,Z31G    ,
      .               X1G      ,X2G     ,X3G     ,Y1G     ,Y2G      ,
-     .               Y3G      ,Z1G     ,Z2G     ,Z3G     ) 
+     .               Y3G      ,Z1G     ,Z2G     ,Z3G     )
         IF (ISMSTR /= 3) THEN
           CALL C3DERI3(JFT      ,JLT     ,PX1     ,PY1     ,PY2     ,
-     .                 SMSTRG   ,OFFG    ,ISMSTR  ,ALPE    ,ALDT    ,  
+     .                 SMSTRG   ,OFFG    ,ISMSTR  ,ALPE    ,ALDT    ,
      .                 UX1      ,UX2     ,UX3     ,UY1     ,UY2     ,
      .                 UY3      ,NEL     ,AREA    ,X21G    ,Y21G     ,
      .                 Z21G     ,X31G    ,Y31G    ,Z31G    ,X2       ,
-     .                 Y2       ,X3      ,Y3      , 
-     .                 E1X      ,E1Y     ,E1Z     ,E2X      ,               
+     .                 Y2       ,X3      ,Y3      ,
+     .                 E1X      ,E1Y     ,E1Z     ,E2X      ,
      .                 E2Y      ,E2Z     ,E3X     ,E3Y      ,E3Z     )
         ELSE
 C         bug : ismstr=3 non supporte pour coques 3N
@@ -409,7 +409,7 @@ c
      9               F_DEF  ,WKXY    ,GBUF%STRW,NEL     )
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-        IF (JTHE > 0 ) CALL TEMP3CG(JFT  ,JLT   ,PM     ,MAT   ,IXTG,   
+        IF (JTHE > 0 ) CALL TEMP3CG(JFT  ,JLT   ,PM     ,MAT   ,IXTG,
      .                              TEMP ,TEMPEL)
 C--------------------------
         IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STARTIME(35,1)
@@ -483,7 +483,7 @@ C----------------------------
      6                  OFF       ,VOL0 ,NEL  )
         ENDIF
 C-------------------------
-c     Thermique des coques 
+c     Thermique des coques
 C--------------------------
         IF (JTHE > 0) THEN
           CALL THERM3C(JFT   ,JLT   ,PM   ,MAT  ,THK0 ,IXTG,

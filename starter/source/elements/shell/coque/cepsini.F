@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C-----------------------------------------------
      .   X4R(MVSIZ), Y4R(MVSIZ), Z4R(MVSIZ),
      .   X4H(MVSIZ), Y4H(MVSIZ),
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EYZ(MVSIZ),EZX(MVSIZ)
-      my_real, 
+      my_real,
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
 C=======================================================================
 c     initial state - rep global
@@ -119,8 +119,8 @@ c     initial state - rep global
       ENDDO
 c
       CALL CEVECI(JFT ,JLT ,AREA,
-     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,               
-     .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,               
+     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .            E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
 c
       DO I=JFT,JLT
@@ -146,8 +146,8 @@ c     ref state - rep global
       ENDDO
 c
       CALL CEVECI(JFT ,JLT ,AREA,
-     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,                
-     .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,                
+     .            X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .            Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .            E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
 c
       FAC = ONE / FLOAT(NITRS)
@@ -196,8 +196,8 @@ c-----------------
           ENDDO
 c         rep intermediaire
           CALL CEVECI(JFT ,JLT ,AREA,
-     .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,               
-     .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,               
+     .                X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .                Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
      .                E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z )
 c         DIRA, DIRB : rep intermediaire
           CALL CORTH3(ELBUF_STR,DIR_A,DIR_B,JFT,JLT,
@@ -224,7 +224,7 @@ c
      .                FOR   ,THK  ,EINT  ,GSTR ,DIR_A ,
      .                DIR_B ,UVAR ,UPARAM,IPM  ,IGEO  ,
      .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,
-     .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  ) 
+     .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  )
 C
         ENDDO
 C------
@@ -243,16 +243,16 @@ C
         DIR2 => ELBUF_STR%BUFLY(1)%DIRB
 c
         DO NT=1,NITRS
-          CALL CDEFOI(JFT  ,JLT  ,VL   ,GSTR ,                             
-     .                PX1  ,PX2  ,PY1  ,PY2  ,NEL,                         
-     .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,                 
-     .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )  
+          CALL CDEFOI(JFT  ,JLT  ,VL   ,GSTR ,
+     .                PX1  ,PX2  ,PY1  ,PY2  ,NEL,
+     .                AREA ,EXX  ,EYY  ,EXY  ,EYZ  ,EZX  ,
+     .                E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z ,E2Z ,E3Z )
 c
-          CALL CMLAWI(JFT   ,JLT  ,MTN   ,ITHK ,PM    ,                             
-     .                FOR   ,THK  ,EINT  ,GSTR ,DIR1  ,                          
-     .                DIR2  ,UVAR ,UPARAM,IPM  ,IGEO  ,                       
-     .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,                       
-     .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  )                   
+          CALL CMLAWI(JFT   ,JLT  ,MTN   ,ITHK ,PM    ,
+     .                FOR   ,THK  ,EINT  ,GSTR ,DIR1  ,
+     .                DIR2  ,UVAR ,UPARAM,IPM  ,IGEO  ,
+     .                NEL   ,SIGI ,ISMSTR,NPF  ,TF    ,
+     .                AREA  ,EXX  ,EYY   ,EXY  ,IMAT  )
         ENDDO
       ENDIF
 c-----------
@@ -280,7 +280,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -378,15 +378,15 @@ C-----------------------------------------------
       my_real PX1(*),  PX2(*),  PY1(*),  PY2(*),
      .        PX1G(*), PX2G(*), PY1G(*), PY2G(*),
      .        X2L(*) ,Y2L(*),X3L(*),Y3L(*),X4L(*),Y4L(*)
-      my_real, DIMENSION(MVSIZ), INTENT(IN)  :: 
-     .     X1G,X2G,X3G,X4G,Y1G,Y2G,Y3G,Y4G,Z1G,Z2G,Z3G,Z4G,    
-     .     E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z         
+      my_real, DIMENSION(MVSIZ), INTENT(IN)  ::
+     .     X1G,X2G,X3G,X4G,Y1G,Y2G,Y3G,Y4G,Z1G,Z2G,Z3G,Z4G,
+     .     E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z
       my_real, DIMENSION(MVSIZ) , INTENT(OUT) :: AREA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real, DIMENSION(MVSIZ) :: 
+      my_real, DIMENSION(MVSIZ) ::
      .         X21G,Y21G,Z21G,X31G,Y31G,Z31G,X41G, Y41G, Z41G
 C=======================================================================
       IF (ISMSTR /= 3)THEN

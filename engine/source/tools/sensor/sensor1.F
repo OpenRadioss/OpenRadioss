@@ -108,7 +108,7 @@ C--------------------------------
             SENS1(2)  = TT
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TT
 #include "lockoff.inc"
         ENDIF
@@ -121,7 +121,7 @@ C--------------------------------
           AMIN = SENS2(1+(I-1)*3,1)
           DURE = SENS2(2+(I-1)*3,1)
           TACT = SENS2(3+(I-1)*3,1)
-          IACC = LSENS2(1+(I-1)*2,1) 
+          IACC = LSENS2(1+(I-1)*2,1)
           IDIR = LSENS2(2+(I-1)*2,1)
           ACTIVE = 0
           IF(IDIR == 1)THEN
@@ -163,7 +163,7 @@ C           ACTIVATION DU SENSOR
             SENS1(2)=TSTART
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -193,7 +193,7 @@ C--------------------------------
             SENS1(2)=TSTART
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -234,7 +234,7 @@ C--------------------------------
         ACTIVE = 0
         FF = ZERO
 c
-c   BUTTERWORTH FILTERING 
+c   BUTTERWORTH FILTERING
 c
         IF(FREQ  /=  ZERO)THEN
          ISECT=TABS(NSECT+IN+1)-TABS(NSECT+IN)
@@ -247,28 +247,28 @@ c
      +      	    FBSAV6(2,5,ISECT)+FBSAV6(2,6,ISECT)) **2  +
      +                (FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)+
      +      	      FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)+
-     +      	      FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)) **2)  
-c  
-    	     IF (TT == ZERO) THEN                             
-    	       VV1 = FF                                       
-    	       VV2 = FF                                       
-    	       FV1 = FF                                       
-    	       FV2 = FF                                       
-    	       SENS2(9,1) = VV1                               
-    	       SENS2(10,1) = VV2                              
-    	       SENS2(11,1) = FV1                              
-    	       SENS2(12,1) = FV2                              
-    	     ENDIF                                            
-    	     VV1 = SENS2(9,1)                                 
-    	     VV2 = SENS2(10,1)                                
-    	     FV1 = SENS2(11,1)                                
-    	     FV2 = SENS2(12,1)                                
-    	     CALL BUTTERWORTH(DT2,FREQ,VV2,VV1,FF,FV2,FV1,FV) 
-    	     SENS2(9,1) = FF                                  
-    	     SENS2(10,1) = VV1                                
-    	     SENS2(11,1) = FV                                 
-    	     SENS2(12,1) = FV1                                
-    	     FF = FV                                          
+     +      	      FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)) **2)
+c
+    	     IF (TT == ZERO) THEN
+    	       VV1 = FF
+    	       VV2 = FF
+    	       FV1 = FF
+    	       FV2 = FF
+    	       SENS2(9,1) = VV1
+    	       SENS2(10,1) = VV2
+    	       SENS2(11,1) = FV1
+    	       SENS2(12,1) = FV2
+    	     ENDIF
+    	     VV1 = SENS2(9,1)
+    	     VV2 = SENS2(10,1)
+    	     FV1 = SENS2(11,1)
+    	     FV2 = SENS2(12,1)
+    	     CALL BUTTERWORTH(DT2,FREQ,VV2,VV1,FF,FV2,FV1,FV)
+    	     SENS2(9,1) = FF
+    	     SENS2(10,1) = VV1
+    	     SENS2(11,1) = FV
+    	     SENS2(12,1) = FV1
+    	     FF = FV
 c
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
          ELSEIF (IDIR == 2) THEN
@@ -280,8 +280,8 @@ c
      +      	    FBSAV6(5,5,ISECT)+FBSAV6(5,6,ISECT)) **2  +
      +                (FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)+
      +      	      FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)+
-     +      	      FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)) **2) 
-c          
+     +      	      FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)) **2)
+c
     	  IF (TT == ZERO) THEN
     	    VV1 = FF
     	    VV2 = FF
@@ -297,10 +297,10 @@ c
     	  FV1 = SENS2(17,1)
     	  FV2 = SENS2(18,1)
     	  CALL BUTTERWORTH(DT2,FREQ,VV2,VV1,FF,FV2,FV1,FV)
-    	  SENS2(15,1) = FF  
-    	  SENS2(16,1) = VV1  
-    	  SENS2(17,1) = FV  
-    	  SENS2(18,1) = FV1  
+    	  SENS2(15,1) = FF
+    	  SENS2(16,1) = VV1
+    	  SENS2(17,1) = FV
+    	  SENS2(18,1) = FV1
     	  FF = FV
 c
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
@@ -308,13 +308,13 @@ c
           ACTIVE = 1
          ENDIF
         ENDIF
-c       
+c
         ID_INTER = IN
         IF(IN > NINTER)ID_INTER = INTSUB
         IF (IPARI(29,ID_INTER) == 1) THEN
           IF(FREQ == ZERO)THEN
             ISECT=TABS(NSECT+IN+1)-TABS(NSECT+IN)
-            IF (IDIR == 1) THEN 
+            IF (IDIR == 1) THEN
               FF = SQRT( (FBSAV6(1,1,ISECT)+FBSAV6(1,2,ISECT)+
      +      	  FBSAV6(1,3,ISECT)+FBSAV6(1,4,ISECT)+
      +      	  FBSAV6(1,5,ISECT)+FBSAV6(1,6,ISECT)) **2   +
@@ -323,7 +323,7 @@ c
      +      	    FBSAV6(2,5,ISECT)+FBSAV6(2,6,ISECT)) **2  +
      +                (FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)+
      +      	      FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)+
-     +      	      FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)) **2) 
+     +      	      FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)) **2)
 c
               IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
             ELSEIF (IDIR == 2) THEN
@@ -335,7 +335,7 @@ c
      +      	    FBSAV6(5,5,ISECT)+FBSAV6(5,6,ISECT)) **2  +
      +                (FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)+
      +      	      FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)+
-     +      	      FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)) **2)  
+     +      	      FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)) **2)
 c
               IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
             ELSE
@@ -359,7 +359,7 @@ C           activation du sensor
               SENS1(2)  = TSTART
 #include "lockon.inc"
               IF(IMACH /= 3.OR.ISPMD == 0)
-     .          WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .          WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .          ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
               RETURN
@@ -374,7 +374,7 @@ C           desactivation
             SENS1(3) = TSTOPS
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' DEACTIVATED AT TIME ',TT
 #include "lockoff.inc"
             RETURN
@@ -426,7 +426,7 @@ C--------------------------------
             FZ = FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)+
      +           FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)+
      +           FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)
-            FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
+            FF = SQRT(FX*FX + FY*FY + FZ*FZ)
             IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
           ELSEIF (IDIR == 6) THEN
             ISECT=TABS(IN+NSECT+NINTER+NINTSUB+1)-TABS(IN+NSECT+NINTER+NINTSUB)
@@ -439,7 +439,7 @@ C--------------------------------
             FZ = FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)+
      +           FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)+
      +           FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)
-            FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
+            FF = SQRT(FX*FX + FY*FY + FZ*FZ)
             IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
           ELSE
             ACTIVE = 1
@@ -460,7 +460,7 @@ C           activation du sensor
               SENS1(2)  = TSTART
 #include "lockon.inc"
               IF(IMACH /= 3.OR.ISPMD == 0)
-     .          WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .          WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .         ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
               RETURN
@@ -475,7 +475,7 @@ C -desactivation
             SENS1(3) = TSTOPS
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' DEACTIVATED AT TIME ',TT
 #include "lockoff.inc"
             RETURN
@@ -488,7 +488,7 @@ C--------------------------------
         N1    = LSENS2(1,1)
         VEL   = SENS2(1,1)
         FREQ  = SENS2(2,1)
-        
+
         V1 = V(1,N1)
         V2 = V(2,N1)
         V3 = V(3,N1)
@@ -509,10 +509,10 @@ C--------------------------------
           FV1 = SENS2(5,1)
           FV2 = SENS2(6,1)
           CALL BUTTERWORTH(DT2,FREQ,VV2,VV1,VV,FV2,FV1,FV)
-          SENS2(3,1) = VV  
-          SENS2(4,1) = VV1  
-          SENS2(5,1) = FV  
-          SENS2(6,1) = FV1  
+          SENS2(3,1) = VV
+          SENS2(4,1) = VV1
+          SENS2(5,1) = FV
+          SENS2(6,1) = FV1
           VV = FV
         ENDIF
         IF (VV > VEL) THEN
@@ -520,7 +520,7 @@ C--------------------------------
             SENS1(2)=TSTART
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -549,7 +549,7 @@ C           ACTIVATION DU SENSOR
             SENS1(2)=TSTART
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .        WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .    ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -569,7 +569,7 @@ C--------------------------------
         DURE   = SENS1(6)
         TACT   = SENS1(7)
         ACTIVE = 0
-        IAD = NINTER+NRWALL+IN 
+        IAD = NINTER+NRWALL+IN
 
         IF (IDIR == 1) THEN
           ISECT=TABS(IN+NSECT+NINTER+NINTSUB+NRWALL+1)-
@@ -583,7 +583,7 @@ C--------------------------------
           FZ = FBSAV6(3,1,ISECT)+FBSAV6(3,2,ISECT)+
      +         FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)+
      +         FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)
-          FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
+          FF = SQRT(FX*FX + FY*FY + FZ*FZ)
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 2) THEN
           ISECT=TABS(IN+NSECT+NINTER+NINTSUB+NRWALL+1)-
@@ -597,29 +597,29 @@ C--------------------------------
           FZ = FBSAV6(6,1,ISECT)+FBSAV6(6,2,ISECT)+
      +         FBSAV6(6,3,ISECT)+FBSAV6(6,4,ISECT)+
      +         FBSAV6(6,5,ISECT)+FBSAV6(6,6,ISECT)
-          FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
+          FF = SQRT(FX*FX + FY*FY + FZ*FZ)
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1	
-        ELSE                                        
-          ACTIVE = 1                                
-        ENDIF           
+        ELSE
+          ACTIVE = 1
+        ENDIF
 
-        IF (ACTIVE == 1) THEN                       
-          TACT = MIN(TACT,TT)                       
-        ELSE                                        
-          TACT = EP20                               
-        ENDIF                                       
-        SENS1(7) = TACT                             
-        IF (TACT+DURE <= TT) THEN                   
-          TSTOPS = TT+TDELAY                        
-          SENS1(3)  = TSTOPS                        
-          IF (LSENS1(3) == 0) THEN                  
+        IF (ACTIVE == 1) THEN
+          TACT = MIN(TACT,TT)
+        ELSE
+          TACT = EP20
+        ENDIF
+        SENS1(7) = TACT
+        IF (TACT+DURE <= TT) THEN
+          TSTOPS = TT+TDELAY
+          SENS1(3)  = TSTOPS
+          IF (LSENS1(3) == 0) THEN
 C           activation du sensor                      
-            LSENS1(3) = 1                           
-            TSTART    = TT                          
-            SENS1(2)  = TSTART                      
+            LSENS1(3) = 1
+            TSTART    = TT
+            SENS1(2)  = TSTART
 #include "lockon.inc"
             IF(IMACH /= 3.OR.ISPMD == 0)
-     .          WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+     .          WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .         ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -639,12 +639,12 @@ C--------------------------------
         DURE   = SENS1(6)
         TACT   = SENS1(7)
         ACTIVE = 0
-        IAD = NINTER+NRWALL+NRBODY+IN        
-        IF (IDIR == 1) THEN  ! FN                       
+        IAD = NINTER+NRWALL+NRBODY+IN
+        IF (IDIR == 1) THEN  ! FN
           IF(IPARSENS==0) THEN !         Parith/Off
-           FX = FSAV(1,IAD)              
-           FY = FSAV(2,IAD)                          
-           FZ = FSAV(3,IAD)                          
+           FX = FSAV(1,IAD)
+           FY = FSAV(2,IAD)
+           FZ = FSAV(3,IAD)
           ELSE               !         Parith/on
             ISECT=TABS(IN+1)-TABS(IN)
             FX = FBSAV6(1,1,ISECT)+FBSAV6(1,2,ISECT)+
@@ -657,13 +657,13 @@ C--------------------------------
      +           FBSAV6(3,3,ISECT)+FBSAV6(3,4,ISECT)+
      +           FBSAV6(3,5,ISECT)+FBSAV6(3,6,ISECT)
           ENDIF
-          FF = SQRT(FX*FX + FY*FY + FZ*FZ) 
+          FF = SQRT(FX*FX + FY*FY + FZ*FZ)
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 2) THEN  ! FT
           IF(IPARSENS==0) THEN !         Parith/Of
-           FX = FSAV(4,IAD)                          
-           FY = FSAV(5,IAD)                          
-           FZ = FSAV(6,IAD)                          
+           FX = FSAV(4,IAD)
+           FY = FSAV(5,IAD)
+           FZ = FSAV(6,IAD)
           ELSE               !         Parith/on
             ISECT=TABS(IN+1)-TABS(IN)
             FX = FBSAV6(4,1,ISECT)+FBSAV6(4,2,ISECT)+
@@ -679,9 +679,9 @@ C--------------------------------
           FF = SQRT(FX*FX + FY*FY + FZ*FZ)
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 3) THEN  ! TF
-          IF(IPARSENS==0) THEN !         Parith/Off  
-           FX = FSAV(34,IAD)                         
-           FY = FSAV(35,IAD)                         
+          IF(IPARSENS==0) THEN !         Parith/Off
+           FX = FSAV(34,IAD)
+           FY = FSAV(35,IAD)
            FZ = FSAV(36,IAD)
           ELSE               !         Parith/on
             ISECT=TABS(IN+1)-TABS(IN)
@@ -694,13 +694,13 @@ C--------------------------------
             FZ = FBSAV6(12,1,ISECT)+FBSAV6(12,2,ISECT)+
      +           FBSAV6(12,3,ISECT)+FBSAV6(12,4,ISECT)+
      +           FBSAV6(12,5,ISECT)+FBSAV6(12,6,ISECT)
-          ENDIF  
-          FF = SQRT(FX*FX + FY*FY + FZ*FZ)          
-          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1  
+          ENDIF
+          FF = SQRT(FX*FX + FY*FY + FZ*FZ)
+          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 4) THEN  !  TM
-          IF(IPARSENS==0) THEN !         Parith/Off  
-           FX = FSAV(31,IAD)                         
-           FY = FSAV(32,IAD)                         
+          IF(IPARSENS==0) THEN !         Parith/Off
+           FX = FSAV(31,IAD)
+           FY = FSAV(32,IAD)
            FZ = FSAV(33,IAD)
           ELSE               !         Parith/on
            ISECT=TABS(IN+1)-TABS(IN)
@@ -713,9 +713,9 @@ C--------------------------------
            FZ = FBSAV6(9,1,ISECT)+FBSAV6(9,2,ISECT)+
      +          FBSAV6(9,3,ISECT)+FBSAV6(9,4,ISECT)+
      +          FBSAV6(9,5,ISECT)+FBSAV6(9,6,ISECT)
-          ENDIF  
-          FF = SQRT(FX*FX + FY*FY + FZ*FZ)          
-          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1  
+          ENDIF
+          FF = SQRT(FX*FX + FY*FY + FZ*FZ)
+          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 5) THEN  !  FX
           IF(IPARSENS==0) THEN !         Parith/Off
               FF = FSAV(34,IAD)
@@ -734,8 +734,8 @@ C--------------------------------
             FF=FBSAV6(11,1,ISECT)+FBSAV6(11,2,ISECT)+
      +         FBSAV6(11,3,ISECT)+FBSAV6(11,4,ISECT)+
      +         FBSAV6(11,5,ISECT)+FBSAV6(11,6,ISECT)
-          ENDIF                         
-          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1  
+          ENDIF
+          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 7) THEN  !  FZ
           IF(IPARSENS==0) THEN  !         Parith/Off
               FF = FSAV(36,IAD)
@@ -744,8 +744,8 @@ C--------------------------------
             FF=FBSAV6(12,1,ISECT)+FBSAV6(12,2,ISECT)+
      +         FBSAV6(12,3,ISECT)+FBSAV6(12,4,ISECT)+
      +         FBSAV6(12,5,ISECT)+FBSAV6(12,6,ISECT)
-          ENDIF                          
-          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1  
+          ENDIF
+          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 8) THEN  !  MX
           IF(IPARSENS==0) THEN!         Parith/Off
               FF = FSAV(31,IAD)
@@ -754,7 +754,7 @@ C--------------------------------
             FF=FBSAV6(7,1,ISECT)+FBSAV6(7,2,ISECT)+
      +         FBSAV6(7,3,ISECT)+FBSAV6(7,4,ISECT)+
      +         FBSAV6(7,5,ISECT)+FBSAV6(7,6,ISECT)
-          ENDIF                          
+          ENDIF
           IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 9) THEN  !  MY
           IF(IPARSENS==0) THEN!         Parith/Off
@@ -764,8 +764,8 @@ C--------------------------------
             FF=FBSAV6(8,1,ISECT)+FBSAV6(8,2,ISECT)+
      +         FBSAV6(8,3,ISECT)+FBSAV6(8,4,ISECT)+
      +         FBSAV6(8,5,ISECT)+FBSAV6(8,6,ISECT)
-          ENDIF                           
-          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1  
+          ENDIF
+          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
         ELSEIF (IDIR == 10) THEN  !  MZ
           IF(IPARSENS==0) THEN!         Parith/Off
               FF = FSAV(33,IAD)
@@ -774,27 +774,27 @@ C--------------------------------
             FF=FBSAV6(9,1,ISECT)+FBSAV6(9,2,ISECT)+
      +         FBSAV6(9,3,ISECT)+FBSAV6(9,4,ISECT)+
      +         FBSAV6(9,5,ISECT)+FBSAV6(9,6,ISECT)
-           ENDIF                          
-          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1  
-        ELSE                                        
-          ACTIVE = 1                                
-        ENDIF 
-        IF (ACTIVE == 1) THEN                       
-          TACT = MIN(TACT,TT)                       
-        ELSE                                        
-          TACT = EP20                               
-        ENDIF                                       
-        SENS1(7) = TACT                     
-        IF (TACT+DURE <= TT) THEN                   
-          TSTOPS = TT+TDELAY                        
-          SENS1(3)  = TSTOPS                        
-          IF (LSENS1(3) == 0) THEN                  
+           ENDIF
+          IF (FF < FMIN .OR. FF > FMAX) ACTIVE = 1
+        ELSE
+          ACTIVE = 1
+        ENDIF
+        IF (ACTIVE == 1) THEN
+          TACT = MIN(TACT,TT)
+        ELSE
+          TACT = EP20
+        ENDIF
+        SENS1(7) = TACT
+        IF (TACT+DURE <= TT) THEN
+          TSTOPS = TT+TDELAY
+          SENS1(3)  = TSTOPS
+          IF (LSENS1(3) == 0) THEN
 C         activation du sensor                      
-            LSENS1(3) = 1                           
-            TSTART    = TT                          
-            SENS1(2)  = TSTART                      
+            LSENS1(3) = 1
+            TSTART    = TT
+            SENS1(2)  = TSTART
 #include "lockon.inc"
-            IF (ISPMD == 0) WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+            IF (ISPMD == 0) WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .         ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -805,7 +805,7 @@ C--------------------------------
 C--------------------------------
 C       SENSOR WORK
 C--------------------------------
-        N1 = LSENS1(4) 
+        N1 = LSENS1(4)
         N2 = LSENS1(5)
         TACT   = SENS1(3)
         DURE   = SENS1(5)
@@ -923,20 +923,20 @@ c-------
 c
         IF (WORK > WMAX) THEN
           TACT = MIN(TACT,TT)
-        ELSE  
-          TACT = EP20                               
-        ENDIF                                       
-        SENS1(3) = TACT          ! start counting duration              
-        IF (TACT + DURE <= TT) THEN                   
-          TSTOPS   = TT                
-          SENS1(4) = TSTOPS                        
-          IF (LSENS1(3) == 0) THEN                  
+        ELSE
+          TACT = EP20
+        ENDIF
+        SENS1(3) = TACT          ! start counting duration
+        IF (TACT + DURE <= TT) THEN
+          TSTOPS   = TT
+          SENS1(4) = TSTOPS
+          IF (LSENS1(3) == 0) THEN
 C         activation du sensor                      
-            LSENS1(3) = 1                           
-            TSTART    = TT                          
+            LSENS1(3) = 1
+            TSTART    = TT
             SENS1(2)  = TSTART
 #include "lockon.inc"
-            IF (ISPMD == 0) WRITE (IOUT,'(A,I10,A,1PE12.5)')   
+            IF (ISPMD == 0) WRITE (IOUT,'(A,I10,A,1PE12.5)')
      .         ' SENSOR NUMBER ',NSENS,' ACTIVATED AT TIME ',TSTART
 #include "lockoff.inc"
             RETURN
@@ -947,7 +947,7 @@ c--------------------------------
       ELSEIF (TYP == 14) THEN
 c--------------------------------
 c       SENSOR --- ENERGY ---
-c--------------------------------        
+c--------------------------------
       CALL SENSOR_ENERGY(SENSOR_TAB   ,SENS1    ,LSENS1    ,ISENS    ,
      .                   SUBSET   ,PARTSAV2 )
 c
@@ -987,7 +987,7 @@ c
         CALL USENS_SHIFT_AB(SENS1)
 c
 c----
-      ENDIF  ! TYP 
+      ENDIF  ! TYP
 c-----------
       RETURN
       END

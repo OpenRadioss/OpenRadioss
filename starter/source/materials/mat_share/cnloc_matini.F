@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD      
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,10 +76,10 @@ C-----------------------------------------------
      .        IJ(5),IJ1,IJ2,IJ3,IJ4,IJ5,IPG,
      .        ILAW,IMAT,NUVAR,NUPARAM
       TYPE(BUF_LAY_), POINTER :: BUFLY
-      TYPE(L_BUFEL_), POINTER :: LBUF     
+      TYPE(L_BUFEL_), POINTER :: LBUF
       TYPE(BUF_MAT_), POINTER :: MBUF
       TYPE(G_BUFEL_), POINTER :: GBUF
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: UPARAM,UVAR,THKN
 C=======================================================================
       ! Buffer of the first layer
@@ -99,8 +99,8 @@ C
 C
       ! Material properties and parameters
       IADBUF  = MAX(1,IPM(7,IMAT))
-      NUPARAM = IPM(9,IMAT) 
-      UPARAM  => BUFMAT(IADBUF:IADBUF+NUPARAM)       
+      NUPARAM = IPM(9,IMAT)
+      UPARAM  => BUFMAT(IADBUF:IADBUF+NUPARAM)
 C
       DO K=1,5
         IJ(K) = NEL*(K-1)
@@ -117,7 +117,7 @@ C
           ! Current Gauss point
           IPG  = (IS-1)*ELBUF_STR%NPTR + IR
           ! Loop over thickness integration points
-          DO IT = 1,NPTT       
+          DO IT = 1,NPTT
             ! Integration point buffer
             LBUF => BUFLY%LBUF(IR,IS,IT)
             ! Interval variable buffer
@@ -129,10 +129,10 @@ C
      .                                UVAR     ,LBUF%PLA ,LBUF%OFF ,LBUF%THK ,GBUF%OFF ,LBUF%SIG(IJ1),
      .                                LBUF%SIG(IJ2),LBUF%SIG(IJ3)  ,LBUF%SIG(IJ4)      ,LBUF%SIG(IJ5),
      .                                THKN     ,LBUF%DMG ,NPTR     ,NPTS     ,NPTT     ,BUFLY        ,
-     .                                TIME     ,VARNL(1,IT),FAILURE)                  
+     .                                TIME     ,VARNL(1,IT),FAILURE)
               CASE DEFAULT
                 CALL ANCMSG(MSGID=1766,MSGTYPE=MSGERROR,
-     .                      ANMODE=ANINFO_BLIND_1,I1=ILAW) 
+     .                      ANMODE=ANINFO_BLIND_1,I1=ILAW)
                 EXIT
             ENDSELECT
           ENDDO

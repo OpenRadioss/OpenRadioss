@@ -99,7 +99,7 @@ C--------------------
 C  crack xfem for layered shell
 C--------------------
 c
-        DO I=1,NLEVMAX       
+        DO I=1,NLEVMAX
           ALLOCATE(CRKLVSET(I)%ELCUT(ECRKXFE))
           ALLOCATE(CRKLVSET(I)%HFI0(4,ECRKXFE))
           ALLOCATE(CRKLVSET(I)%ENRICH0(4,ECRKXFE))

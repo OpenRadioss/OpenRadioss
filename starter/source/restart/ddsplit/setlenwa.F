@@ -73,10 +73,10 @@ C work array WASPH, prive au SPH.
      .                            +MIN(IUN,NSPHSOL)*NUMSPH0
 C---------------------------------------------------------------------
 C ALE / CFD
-      NFLUWA  = MAX(IALE,ITHERM,IEULER) * MAX(1,NMULT) * 
+      NFLUWA  = MAX(IALE,ITHERM,IEULER) * MAX(1,NMULT) *
      .          MAX(7 * (NUMELS0+NUMELQ0),3 * NUMNOD0)
       NBHOLWA = MAX(IALE,ITHERM,IEULER) * NMULT * NUMELQ0
-      LENVOISWA = 3 * ( NUMNOD0 + NRCVVOIS0 ) 
+      LENVOISWA = 3 * ( NUMNOD0 + NRCVVOIS0 )
 C AirBag 
       NAIRWA  = MAX(NAIRWA0, 4 * (NUMELC0 + NUMELTG0 + IBAGSURF))   ! en toute rigueur NAIRWA0 et IBAGSURF locaux
 C Interface

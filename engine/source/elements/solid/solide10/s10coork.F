@@ -27,7 +27,7 @@ Chd|        S10KE3                        source/elements/solid/solide10/s10ke3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S10COORK(X,IXS,IXS10,
-     .   XX, YY, ZZ,  
+     .   XX, YY, ZZ,
      .   OFFG,OFF,SAV,
      .   NC,NGL,MXT,NGEO,
      .   K11,K12,K13,K14,K15,K16,K17,K18,K19,K10,
@@ -60,7 +60,7 @@ C     REAL
      .   X(3,*),
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
      .   OFFG(*), OFF(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   SAV(NEL,30)
       my_real
      .   K11(9,*)   ,K12(9,*)   ,K13(9,*)    ,K14(9,*)    ,K15(9,*)   ,
@@ -73,7 +73,7 @@ C     REAL
      .   K56(9,*)   ,K57(9,*)   ,K58(9,*)   ,K59(9,*)    ,K50(9,*)   ,
      .   K66(9,*)   ,K67(9,*)   ,K68(9,*)   ,K69(9,*)    ,K60(9,*)   ,
      .   K77(9,*)   ,K78(9,*)   ,K79(9,*)   ,K70(9,*)    ,K88(9,*)   ,
-     .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)   ,K00(9,*)   
+     .   K89(9,*)   ,K80(9,*)   ,K99(9,*)   ,K90(9,*)   ,K00(9,*)
       INTEGER NC(MVSIZ,10),MXT(*), NGL(*),NGEO(*)
       INTEGER IXS(NIXS,*), IXS10(6,*)
 C-----------------------------------------------
@@ -143,7 +143,7 @@ C
         ENDDO
       ENDDO
 C-----------
-      DO J=1,9      
+      DO J=1,9
       DO I=LFT,LLT
         K11(J,I)=ZERO
         K12(J,I)=ZERO

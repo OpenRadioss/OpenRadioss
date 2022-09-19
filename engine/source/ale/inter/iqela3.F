@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE IQELA3(
      1                  V    ,W    ,IRECT ,CRST ,NSV ,
      2                  ILOC ,IRTL ,ICODE ,IBCS ,BCS ,
-     3                  MSR 
+     3                  MSR
      .                  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
       NIR=2
-      IF(N2D == 0)NIR=4      
+      IF(N2D == 0)NIR=4
       DO  II=1,NSN
         N        = NSV(II)
         L        = IRTL(II)
@@ -74,7 +74,7 @@ C-----------------------------------------------
         CALL SHAPEH(H,SS,TT)
         VMX      = ZERO
         VMY      = ZERO
-        VMZ      = ZERO     
+        VMZ      = ZERO
         DO JJ=1,NIR
         VMX      = VMX+V(1,IX(JJ))*H(JJ)
         VMY      = VMY+V(2,IX(JJ))*H(JJ)

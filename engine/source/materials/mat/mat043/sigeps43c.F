@@ -38,7 +38,7 @@ Chd|====================================================================
      7     SIGOXX   ,SIGOYY   ,SIGOXY   ,SIGOYZ   ,SIGOZX   ,
      8     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
      9     SOUNDSP  ,THK      ,PLA      ,UVAR     ,OFF      ,
-     A     NGL      ,ETSE     ,HARDM    ,SIGY     ,GS       , 
+     A     NGL      ,ETSE     ,HARDM    ,SIGY     ,GS       ,
      B     DPLA1    ,EPSP     ,SHF      ,INLOC    ,DPLANL   ,
      C     SEQ      )
 C=======================================================================
@@ -58,7 +58,7 @@ C   I N P U T   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL, NUPARAM, NUVAR, NFUNC ,ISRATE,INLOC
       INTEGER NGL(NEL),IFUNC(NFUNC)
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),AREA(NEL),RHO0(NEL),EINT(NEL,2),
      .   THKLY(NEL),PLA(NEL),EPSPXX(NEL),EPSPYY(NEL),GS(NEL),SHF(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .   IAD1(MVSIZ),IPOS1(MVSIZ),ILEN1(MVSIZ),
      .   IAD2(MVSIZ),IPOS2(MVSIZ),ILEN2(MVSIZ),
      .   JJ(MVSIZ),INDEX(MVSIZ)
-      my_real 
+      my_real
      .   A,B,S12,FAC,DEZZ,SIGZ,S1,S2,S3,DPLA,VM2,EPST,
      .   A_1,A_2,A_3,P_1,P_2,P_3,PP1,PP2,PP3,DR,DR0,
      .   E(MVSIZ),A1(MVSIZ),A2(MVSIZ),G(MVSIZ),G3(MVSIZ),
@@ -140,46 +140,46 @@ c------------------------------------------------------
         G(I)   = UPARAM(5)
         G3(I)  = UPARAM(NS+2*NRATE+5)
       ENDDO
-      IF (OPTE == 1)THEN      
-        DO I=1,NEL      
-          IF (PLA(I) > ZERO)THEN                
-             IFUNCE = UPARAM(NS+2*NRATE+9)                                        
-             ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))     
-             E(I) =  ESCALE(I)* E(I)   
+      IF (OPTE == 1)THEN
+        DO I=1,NEL
+          IF (PLA(I) > ZERO)THEN
+             IFUNCE = UPARAM(NS+2*NRATE+9)
+             ESCALE(I) = FINTER(IFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
+             E(I) =  ESCALE(I)* E(I)
              A1(I) = E(I)/(ONE - NU*NU)
-             A2(I) = NU*A1(I) 
-             G(I) =  HALF*E(I)/(ONE+NU)                                   
-             G3(I) = THREE*G(I)    
-             GS(I) = G(I) * SHF(I)                 
+             A2(I) = NU*A1(I)
+             G(I) =  HALF*E(I)/(ONE+NU)
+             G3(I) = THREE*G(I)
+             GS(I) = G(I) * SHF(I)
            ENDIF
-         ENDDO           
+         ENDDO
       ELSEIF ( CE /= ZERO) THEN
-        DO I=1,NEL      
-           IF(PLA(I) > ZERO)THEN                                                        
-             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))  
+        DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
              A1(I) = E(I)/(ONE - NU*NU)
-             A2(I) = NU*A1(I)                                             
-             G(I) =  HALF*E(I)/(ONE+NU)                                    
-             G3(I) = THREE*G(I)   
-             GS(I) = G(I) * SHF(I)                                              
-           ENDIF                                                                    
+             A2(I) = NU*A1(I)
+             G(I) =  HALF*E(I)/(ONE+NU)
+             G3(I) = THREE*G(I)
+             GS(I) = G(I) * SHF(I)
+           ENDIF
         ENDDO
       ENDIF
 
 c--------------------------------------------------------------
-c      IF (TIME == ZERO) THEN  
-c        DO I=1,NEL            
-c          DO J=1,NRATE(I)     
+c      IF (TIME == ZERO) THEN
+c        DO I=1,NEL
+c          DO J=1,NRATE(I)
 c            UVAR(I,J+4) = ONE
-c          ENDDO               
-c        ENDDO                 
-c      ENDIF                   
+c          ENDDO
+c        ENDDO
+c      ENDIF
 C
       DO I=1,NEL
 !        SIGOXX(I) = SIGOXX(I) - UVAR(I,2)
 !        SIGOYY(I) = SIGOYY(I) - UVAR(I,3)
 !        SIGOXY(I) = SIGOXY(I) - UVAR(I,4)
-        DPLA1(I) = ZERO           
+        DPLA1(I) = ZERO
       ENDDO
       DO I=1,NEL
         SIGNXX(I)=SIGOXX(I) - UVAR(I,2) +A1(I)*DEPSXX(I)+A2(I)*DEPSYY(I)
@@ -249,7 +249,7 @@ C
 C       ECROUISSAGE CINEMATIQUE
         Y1(I)=TF(NPF(IFUNC(J1))+1)
         Y2(I)=TF(NPF(IFUNC(J2))+1)
-        YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+        YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .       FISOKIN * (FAIL(I)*(Y1(I) + FAC*(Y2(I)-Y1(I))))
         YLD(I) = MAX(YLD(I),EM20)
         SIGY(I) = YLD(I)
@@ -263,7 +263,7 @@ C-------------------------
        S2=A02*SIGNYY(I)*SIGNYY(I)
        S3=A03*SIGNXX(I)*SIGNYY(I)
        AXY(I)=A12*SIGNXY(I)*SIGNXY(I)
-       SVM(I)=SQRT(S1+S2-S3+AXY(I))  
+       SVM(I)=SQRT(S1+S2-S3+AXY(I))
        IF (INLOC == 0) THEN
          DEZZ = -(DEPSXX(I)+DEPSYY(I))*NNU1
          THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
@@ -304,12 +304,12 @@ C        ---
          S2=A02*NU1*TWO-A03-FA03
          S12=A03-NU1*(A01+A02)+FA03
          S3=SQRT(NU2(I)*(A01-A02)*(A01-A02)+S12*S12)
-         IF (ABS(S1)<EM20) THEN 
+         IF (ABS(S1)<EM20) THEN
            Q12(I)=ZERO
          ELSE
            Q12(I)=-(A01-A02+S3+FA01-FA02)/S1
          ENDIF
-         IF (ABS(S2)<EM20) THEN 
+         IF (ABS(S2)<EM20) THEN
            Q21(I)=ZERO
          ELSE
            Q21(I)=(A01-A02+S3+FA01-FA02)/S2
@@ -357,7 +357,7 @@ C
             DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F*HALF/DF)
            ELSE
             DPLA_J(I)=ZERO
-           ENDIF        
+           ENDIF
           ENDDO
         ENDDO
 C------------------------------------------
@@ -379,7 +379,7 @@ C------------------------------------------
          SIGNXY(I)=SIGNXY(I)*P_3
          S1=A01*SIGNXX(I)+A02*SIGNYY(I)
      .          -A03*(SIGNXX(I)+SIGNYY(I))*HALF
-         IF (INLOC == 0) THEN 
+         IF (INLOC == 0) THEN
            DEZZ = - NU5(I)*DPLA_J(I)*S1/YLD_I
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDIF
@@ -412,18 +412,18 @@ C--------------------------------
 C---------------------------------------------------------------
 C     EQUIVALENT STRESS OUTPUT AND NON-LOCAL THICKNESS VARIATION
 C---------------------------------------------------------------
-      DO I = 1,NEL 
+      DO I = 1,NEL
         S1      = A01*SIGNXX(I)*SIGNXX(I)
         S2      = A02*SIGNYY(I)*SIGNYY(I)
         S3      = A03*SIGNXX(I)*SIGNYY(I)
         AXY(I)  = A12*SIGNXY(I)*SIGNXY(I)
-        SEQ(I)  = SQRT(S1+S2-S3+AXY(I)) 
-        IF (INLOC > 0) THEN 
+        SEQ(I)  = SQRT(S1+S2-S3+AXY(I))
+        IF (INLOC > 0) THEN
           NORMXX  = (TWO*A01*SIGNXX(I) - A03*SIGNYY(I))/(MAX(TWO*SEQ(I),EM20))
           NORMYY  = (TWO*A02*SIGNYY(I) - A03*SIGNXX(I))/(MAX(TWO*SEQ(I),EM20))
           DEZZ    = MAX(DPLANL(I),ZERO)*(NORMXX + NORMYY)
           DEZZ    = -NU*((SIGNXX(I)-SIGOXX(I)+SIGNYY(I)-SIGOYY(I))/E(I)) - DEZZ
-          THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)          
+          THK(I)  = THK(I) + DEZZ*THKLY(I)*OFF(I)
         ENDIF
       ENDDO
 !-----------

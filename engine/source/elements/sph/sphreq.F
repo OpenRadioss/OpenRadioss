@@ -370,7 +370,7 @@ C
               CALL SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP,LONFSPH,IXP,DPS,WNORMAL,0)
             END DO
             DPS_OLD=DPS(NP)
-          ENDIF 
+          ENDIF
 C
           DPS(NP)= 1.E+20
           WNORMAL(1,LONFSPH(IXP(NP)))=ZERO
@@ -395,7 +395,7 @@ C
               TFLAG = 1
             ENDIF
             CALL SPH_NODSEG(XI,YI,ZI,XX,TFLAG,NP,LONFSPH,IXP,DPS,WNORMAL,0)
-          END DO    
+          END DO
 C
           IF (ITYPE>1) THEN
 C       detection if the particle is crossing the surface
@@ -407,7 +407,7 @@ C       la particule a traverse la surface dans le sens +
 C       la particule a traverse la surface dans le sens -
                IF (DPS_OLD<ZERO) MASS_CUM = MASS_CUM+SPBUF(12,N)
              ENDIF
-          ENDIF   
+          ENDIF
 C
           NN=WNORMAL(1,LONFSPH(IXP(NP)))*WNORMAL(1,LONFSPH(IXP(NP)))
      .      +WNORMAL(2,LONFSPH(IXP(NP)))*WNORMAL(2,LONFSPH(IXP(NP)))

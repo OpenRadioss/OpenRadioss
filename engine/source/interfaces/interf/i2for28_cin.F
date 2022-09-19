@@ -52,7 +52,7 @@ C     REAL
      .   X(3,*),V(3,*),A(3,*),AR(3,*), MMASS(*), CRST(2,*),
      .   DPARA(7,*), MS(*), IN(*),STIFN(*),STIFR(*),DMAST,ADM(*),
      .   SMASS(*), SINER(*),FSAV(*), FNCONT(3,*), MINER(*),FNCONTP(3,*),
-     .   FTCONTP(3,*) 
+     .   FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -75,7 +75,7 @@ C     REAL
      .   MX,MY,MZ,DET,FX0,FY0,FZ0,INS,
      .   X0,X1,X2,X3,X4,XS,Y0,Y1,Y2,Y3,Y4,YS,Z0,Z1,Z2,Z3,Z4,ZS,
      .   X12,X22,X32,X42,Y12,Y22,Y32,Y42,Z12,Z22,Z32,Z42,
-     .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,S,T,    
+     .   XX,YY,ZZ,XXX,YYY,ZZZ,XY,YZ,ZX,XY2,YZ2,ZX2,S,T,
      .   A1,A2,A3,B1,B2,B3,C1,C2,C3,MR,MRX,MRY,MRZ,INX,INY,INZ,STF,FACT
 C=======================================================================
 C
@@ -113,17 +113,17 @@ C
        IF(I>0)THEN
         L=IRTL(II)
 C
-        S = CRST(1,II)  
-        T = CRST(2,II)  
-        SP=ONE + S          
-        SM=ONE - S          
-        TP=FOURTH*(ONE + T)  
-        TM=FOURTH*(ONE - T)  
+        S = CRST(1,II)
+        T = CRST(2,II)
+        SP=ONE + S
+        SM=ONE - S
+        TP=FOURTH*(ONE + T)
+        TM=FOURTH*(ONE - T)
 C    
-        H(1)=ONE/NIR                                         
-        H(2)=ONE/NIR                                          
-        H(3)=ONE/NIR                                          
-        H(4)=ONE/NIR                                         
+        H(1)=ONE/NIR
+        H(2)=ONE/NIR
+        H(3)=ONE/NIR
+        H(4)=ONE/NIR
 C
         NIR=4
         DO JJ=1,NIR
@@ -131,7 +131,7 @@ C
          XM(JJ)=X(1,J)
          YM(JJ)=X(2,J)
          ZM(JJ)=X(3,J)
-        ENDDO 
+        ENDDO
         IF(IRECT(3,L)==IRECT(4,L)) THEN
          NIR=3
          XM(4)=ZERO
@@ -149,15 +149,15 @@ C----------------------------------------------------
          XM(J)=XM(J)-X0
          YM(J)=YM(J)-Y0
          ZM(J)=ZM(J)-Z0
-        ENDDO 
+        ENDDO
         XS=X(1,I)-X0
         YS=X(2,I)-Y0
         ZS=X(3,I)-Z0
-        XX=0 
-        YY=0 
-        ZZ=0 
-        XY=0 
-        YZ=0 
+        XX=0
+        YY=0
+        ZZ=0
+        XY=0
+        YZ=0
         ZX=0
         DO J=1,NIR
           XX=XX+ XM(J)*XM(J)
@@ -166,10 +166,10 @@ C----------------------------------------------------
           XY=XY+ XM(J)*YM(J)
           YZ=YZ+ YM(J)*ZM(J)
           ZX=ZX+ ZM(J)*XM(J)
-        ENDDO 
+        ENDDO
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -222,7 +222,7 @@ C------------------------------------------------------
          A(1,J)=A(1,J) + FX0 + A2*ZM(JJ) - A3*YM(JJ)
          A(2,J)=A(2,J) + FY0 + A3*XM(JJ) - A1*ZM(JJ)
          A(3,J)=A(3,J) + FZ0 + A1*YM(JJ) - A2*XM(JJ)
-        ENDDO 
+        ENDDO
 C------------------------------------------------------
 C     INERTIES => MASSES
 C------------------------------------------------------
@@ -242,7 +242,7 @@ C------------------------------------------------------
          DO JJ=1,NIR
           J=IRECT(JJ,L)
           ADM(J) = ADM(J) + XMSI - FACM*MS(I)
-         ENDDO 
+         ENDDO
         ENDIF
 C
         IF (IRODDL == 1) THEN
@@ -257,7 +257,7 @@ C
          J=IRECT(JJ,L)
          MS(J)=MS(J)+XMSI
          STIFN(J)=STIFN(J) + STF
-        ENDDO 
+        ENDDO
 C
         IF(IDEL2/=0.AND.MS(I)/=0.)SMASS(II)=MS(I)
         MS(I)=ZERO
@@ -275,11 +275,11 @@ C----
 C---     output of tied contact forces
  	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
-     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)                     
-       ENDIF                            
+     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+       ENDIF
 C----
       ENDDO
-      
+
       ELSE
 C
       DO II=1,NSN
@@ -290,17 +290,17 @@ C
        IF(I>0)THEN
         L=IRTL(II)
 C
-        S = CRST(1,II)  
-        T = CRST(2,II)  
-        SP=ONE + S          
-        SM=ONE - S          
-        TP=FOURTH*(ONE + T)  
-        TM=FOURTH*(ONE - T)  
+        S = CRST(1,II)
+        T = CRST(2,II)
+        SP=ONE + S
+        SM=ONE - S
+        TP=FOURTH*(ONE + T)
+        TM=FOURTH*(ONE - T)
 C
-        H(1)=ONE/NIR                                         
-        H(2)=ONE/NIR                                          
-        H(3)=ONE/NIR                                          
-        H(4)=ONE/NIR                                           
+        H(1)=ONE/NIR
+        H(2)=ONE/NIR
+        H(3)=ONE/NIR
+        H(4)=ONE/NIR
 C
         J1=IRECT(1,L)
         J2=IRECT(2,L)
@@ -340,24 +340,24 @@ C
         X12=X1*X1
         X22=X2*X2
         X32=X3*X3
-        X42=X4*X4 
+        X42=X4*X4
         Y12=Y1*Y1
         Y22=Y2*Y2
         Y32=Y3*Y3
-        Y42=Y4*Y4 
-        Z12=Z1*Z1 
+        Y42=Y4*Y4
+        Z12=Z1*Z1
         Z22=Z2*Z2
-        Z32=Z3*Z3 
-        Z42=Z4*Z4 
-        XX=X12 + X22 + X32 + X42 
-        YY=Y12 + Y22 + Y32 + Y42 
-        ZZ=Z12 + Z22 + Z32 + Z42 
-        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4 
-        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4 
+        Z32=Z3*Z3
+        Z42=Z4*Z4
+        XX=X12 + X22 + X32 + X42
+        YY=Y12 + Y22 + Y32 + Y42
+        ZZ=Z12 + Z22 + Z32 + Z42
+        XY=X1*Y1 + X2*Y2 + X3*Y3 + X4*Y4
+        YZ=Y1*Z1 + Y2*Z2 + Y3*Z3 + Y4*Z4
         ZX=Z1*X1 + Z2*X2 + Z3*X3 + Z4*X4
         ZZZ=XX+YY
         XXX=YY+ZZ
-        YYY=ZZ+XX 
+        YYY=ZZ+XX
         XY2=XY*XY
         YZ2=YZ*YZ
         ZX2=ZX*ZX
@@ -489,8 +489,8 @@ C----
 C---     output of tied contact forces
  	 CALL I2FORCES(X      ,V	,A	 ,MS	  ,I	  ,
      .	               IRECT(1,L),H	,NIR     ,FSAV    ,FNCONT ,
-     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA) 
-       ENDIF                        
+     .                 FNCONTP,FTCONTP ,WEIGHT  ,H3D_DATA)
+       ENDIF
 C----
       ENDDO
 C

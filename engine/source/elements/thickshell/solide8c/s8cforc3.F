@@ -95,7 +95,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -132,17 +132,17 @@ C-----------------------------------------------
      .        IPARTS(*), IPM(NPROPMI,*),IGEO(NPROPGI,*),GRTH(*),
      .        IGRTH(*),IADS(8,*),LSENSOR(NSENSI,*),IOUTPRT,H3D_STRAIN
 C
-      INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP, 
+      INTEGER NELTST,ITYPTST,OFFSET,NEL,ICP,
      .        ICSIG, NVC,ITASK, ISTRAIN, IEXPAN ,NNPT,NG
-     
-      DOUBLE PRECISION 
-     .        XDP(3,*)     
-     
+
+      DOUBLE PRECISION
+     .        XDP(3,*)
+
       my_real
      .   DT2T
 C
       my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(*),MS(*),W(*), 
+     .   PM(NPROPM,*),GEO(NPROPG,*),X(*),A(*),V(*),MS(*),W(*),
      .   FLUX(6,*),FLU1(*),VEUL(*),FV(*),TF(*),BUFMAT(*),
      .   PARTSAV(*),STIFN(*), FSKY(*),EANI(*),
      .   F11(MVSIZ),F21(MVSIZ),F31(MVSIZ),
@@ -158,12 +158,12 @@ C
      .    MFXX(MVSIZ,729),MFXY(MVSIZ,729),MFYX(MVSIZ,729),
      .    MFYY(MVSIZ,729),MFYZ(MVSIZ,729),MFZY(MVSIZ,729),
      .    MFZZ(MVSIZ,729),MFZX(MVSIZ,729),MFXZ(MVSIZ,729),
-     .    TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*), 
+     .    TEMP(*), FTHE(*), FTHESKY(*),GRESAV(*), MSSA(*),
      .    DMELS(*), VOLN(MVSIZ),CONDN(*),CONDNSKY(*),
      .    SENSOR(NSENSR,*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -175,8 +175,8 @@ C-----------------------------------------------
      .   II(6)
       INTEGER MXT(MVSIZ),NGL(MVSIZ),NGEO(MVSIZ),MXT0(MVSIZ),IBIDON(1),
      .  IDEG(MVSIZ)
-     
-      DOUBLE PRECISION 
+
+      DOUBLE PRECISION
      .   X0(MVSIZ,8),Y0(MVSIZ,8),Z0(MVSIZ,8),
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
@@ -184,14 +184,14 @@ C-----------------------------------------------
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
      .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ),VOLDP(MVSIZ)
-          
+
       my_real
      . VD2(MVSIZ) , DVOL(MVSIZ),DELTAX(MVSIZ),
      . VIS(MVSIZ) , QVIS(MVSIZ), CXX(MVSIZ) ,
      . S1(MVSIZ)  , S2(MVSIZ)  , S3(MVSIZ)  ,
      . S4(MVSIZ)  , S5(MVSIZ)  , S6(MVSIZ)  ,
      . DXX(MVSIZ) , DYY(MVSIZ) , DZZ(MVSIZ) ,
-     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  , 
+     . D4(MVSIZ)  , D5(MVSIZ)  , D6(MVSIZ)  ,
      . AJC1(MVSIZ) , AJC2(MVSIZ) , AJC3(MVSIZ) ,
      . AJC4(MVSIZ) , AJC5(MVSIZ) , AJC6(MVSIZ) ,
      . AJC7(MVSIZ) , AJC8(MVSIZ) , AJC9(MVSIZ) ,
@@ -213,7 +213,7 @@ C Variables utilisees en argument par les materiaux si SPH uniquement.
      .   OFFS(MVSIZ),DSV(MVSIZ)
 C-----
 C Variables utilisees dans les routines solides uniquement (en arguments).
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), 
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .        NC5(MVSIZ), NC6(MVSIZ), NC7(MVSIZ), NC8(MVSIZ)
       my_real
      .   OFF(MVSIZ) ,OFFL(MVSIZ) , RHOO(MVSIZ),
@@ -300,7 +300,7 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
       my_real
      .   VX0(MVSIZ,8),VY0(MVSIZ,8),VZ0(MVSIZ,8),
      .   ALPHA_E(MVSIZ),LLSH(MVSIZ),LLSMIN(MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FACDP
       my_real
      .   SHF(MVSIZ),ZR,ZS,ZT,WT,ZZ,
@@ -308,20 +308,20 @@ C Variables utilisees dans les routines solides uniquement (en arguments).
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   TX(MVSIZ), TY(MVSIZ), TZ(MVSIZ)
       my_real, DIMENSION(MVSIZ,NNPT) :: SMTT
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: EINT
 C-----
       my_real VARNL(NEL)
       my_real
      .   EV(mvsiz),evd(mvsiz)    !!!!   BIDON !!!!!
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 c-----------------------------------------------------
       PARAMETER (NLYMAX = 200,IPMAT = 100,IPANG = 200)
 c-----------------------------------------------------
       my_real
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -349,7 +349,7 @@ c-----------------------------------------------------
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -380,7 +380,7 @@ c-----------------------------------------------------
 c-----------------------------------------------------
 c     Flag Bolt Preloading
       INTEGER IBOLTP,NBPRELD
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: BPRELD
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -403,7 +403,7 @@ C-----
       IF (IGTYP /= 22) THEN
         IF (ISORTH > 0) IAD0 = 1 + 6*NEL
         ISORTHG = 0
-      END IF 
+      END IF
       IOR_TSH = 0
       IF (IGTYP == 21.OR.IGTYP == 22) IOR_TSH = 1
 C
@@ -453,10 +453,10 @@ C       GATHER NODAL VARIABLES AND COMPUTE INTRINSIC ROTATION.
      .    NGL,MXT,NGEO,IOUTPRT, VGXA, VGYA, VGZA, VGA2,
      .    XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .    YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
-     .    ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,     
+     .    ZD1, ZD2, ZD3, ZD4, ZD5, ZD6, ZD7, ZD8,
      .    XDP, X0 , Y0 , Z0 , NEL, XGXA, XGYA, XGZA,
      .    XGXA2,XGYA2,XGZA2,XGXYA,XGYZA,XGZXA,IPARG(1,NG),
-     .    GBUF%GAMA_R) 
+     .    GBUF%GAMA_R)
       ENDIF
 c
       IF (JCVT == 2 .AND. IOR_TSH  == 0) THEN
@@ -472,7 +472,7 @@ c
         USB(I)=EM01/C1
         IDEG(I)=0
       ENDDO
-c      
+c
 C---------R,S,T->S,T,R-------------
       ICS=ICSIG/100
       ICT=MOD(ICSIG/10,10)
@@ -486,7 +486,7 @@ c      NPTR=MOD(NPT,10)
       NPTS=ELBUF_TAB(NG)%NPTS
       NPTT=ELBUF_TAB(NG)%NPTT
       IT = 1
-c---------------------------      
+c---------------------------
       CALL S8ZDERIC3(OFFL,VOLG,NGL,
      .   XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
      .   YD1, YD2, YD3, YD4, YD5, YD6, YD7, YD8,
@@ -498,24 +498,24 @@ c---------------------------
      .   PX2H1, PX2H2, PX2H3, PX2H4,
      .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
-     .   HX,   HY,   HZ,   
+     .   HX,   HY,   HZ,
      .   AJC1,AJC2,AJC3,
      .   AJC4,AJC5,AJC6,
      .   AJC7,AJC8,AJC9,SMAX,GBUF%SMSTR,GBUF%OFF ,NEL)
-      IF (IDTS6>0) THEN                   
-        CALL SDLEN_DEGE(VOLG,DELTAX,         
-     .       X1, X2, X3, X4, X5, X6, X7, X8, 
-     .       Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
-     .       Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8, 
-     .       IXS(1,NF1),IDEG )  
-      END IF                                 
+      IF (IDTS6>0) THEN
+        CALL SDLEN_DEGE(VOLG,DELTAX,
+     .       X1, X2, X3, X4, X5, X6, X7, X8,
+     .       Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .       Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
+     .       IXS(1,NF1),IDEG )
+      END IF
       IF (NTSHEG > 0) THEN
          CALL SDLENSH(VOLN,LLSH,
      .   X1, X2, X3, X4, X5, X6, X7, X8,
      .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8)
          LLSMIN(LFT:LLT) = DELTAX(LFT:LLT)
-      END IF        
+      END IF
 C --------------------------
 C  --- UPDATE REF CONFIGURATION (possible future change to small strain option)
 C  --- ! Total strain option doesn't change the Ref CONF.
@@ -537,27 +537,27 @@ C
         DO I=LFT,LLT
           NU1(I)=NU(I)
         ENDDO
-      ENDIF 
+      ENDIF
 C-----don't do it w/ degenerated elm    
       IF (ICP >0 .AND. IDTS6==0)  CALL DEGENES8(IXS(1,NF1),IDEG)
 C-----------
 C INITIALIZATION---Before increment-----
 C-----------
       CALL S8ZZERO3(
-     .  F11, F21, F31, F12, F22, F32, F13, F23, F33, F14, F24, F34, 
+     .  F11, F21, F31, F12, F22, F32, F13, F23, F33, F14, F24, F34,
      .  F15, F25, F35, F16, F26, F36, F17, F27, F37, F18, F28, F38,
      .  GBUF%SIG ,GBUF%EINT,GBUF%RHO,GBUF%QVIS, GBUF%PLA ,
-     .  GBUF%EPSD,STIN     ,PP      ,GBUF%G_PLA,GBUF%G_EPSD, 
+     .  GBUF%EPSD,STIN     ,PP      ,GBUF%G_PLA,GBUF%G_EPSD,
      .  IEXPAN,   GBUF%EINTTH,NEL   ,CONDEN)
 C-------------------------------------------
 C    COMPUTE AVERAGE TEMPERATURE IN ELEMENT
 C-------------------------------------------
-      IF(JTHE < 0) THEN 
+      IF(JTHE < 0) THEN
          DO I=LFT,LLT
            IF(GBUF%OFF(I) == ZERO) CYCLE
-           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))  
-     .                          + TEMP(NC3(I)) + TEMP(NC4(I)) 
-     .                          + TEMP(NC5(I)) + TEMP(NC6(I)) 
+           TEMPEL(I) = ONE_OVER_8 *(  TEMP(NC1(I)) + TEMP(NC2(I))
+     .                          + TEMP(NC3(I)) + TEMP(NC4(I))
+     .                          + TEMP(NC5(I)) + TEMP(NC6(I))
      .                          + TEMP(NC7(I)) + TEMP(NC8(I)))
            GBUF%TEMP(I) = TEMPEL(I)
          ENDDO
@@ -579,125 +579,125 @@ c        ELSEIF (ICR == 1) THEN
 c          NPTR=NPTS0
 c          NPTS=NPTT0
 c          NPTT=NPTR0
-c        ENDIF 
+c        ENDIF
 c        IF (IGTYP == 22 .AND. NLAY==0) NLAY=IGEO(15,PID)
-c------------------   
+c------------------
         DO IR=1,NPTR
           DO IS=1,NPTS
             DO I=LFT,LLT
               SIGM(I) = ZERO
               VOLM(I) = ZERO
             ENDDO
-            DO IL=1,NLAY                                    
-              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)         
-              DO I=LFT,LLT                                         
-               SIGM(I) = SIGM(I)+LBUF%SIG(II(3)+I)*LBUF%VOL(I)         
-               VOLM(I) = VOLM(I)+LBUF%VOL(I)                       
-              ENDDO                                                
-            ENDDO                                                  
-            DO IL=1,NLAY                                        
-              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)         
+            DO IL=1,NLAY
+              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+              DO I=LFT,LLT
+               SIGM(I) = SIGM(I)+LBUF%SIG(II(3)+I)*LBUF%VOL(I)
+               VOLM(I) = VOLM(I)+LBUF%VOL(I)
+              ENDDO
+            ENDDO
+            DO IL=1,NLAY
+              LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
               IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
-              DO I=LFT,LLT                                         
-                SMTT(I,IP)=(LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)  
-              ENDDO                                                
-            ENDDO 
-          ENDDO 
+              DO I=LFT,LLT
+                SMTT(I,IP)=(LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)
+              ENDDO
+            ENDDO
+          ENDDO
         ENDDO
 c------------------
 C       
-        IF (IGTYP == 21) THEN                                           
+        IF (IGTYP == 21) THEN
           CALL SCTORTH3(LFT,LLT,ICSIG,NEL,
-     .                  RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,            
-     .                  R11,R21,R31,R12,R22,R32,R13,R23,R33,            
-     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GBUF%GAMA) 
-c     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,EV(NBGAMA)) 
-        ELSEIF (IGTYP == 22) THEN                                       
-          IPTHK = IPANG+NLYMAX                                          
-          IPPOS = IPTHK+NLYMAX                                          
-          MTN0=MTN                                                      
-          DO I=LFT,LLT                                                  
-            MXT0(I)=MXT(I)                                               
-            SHF(I)=GEO(38,NGEO(I))                                       
-          ENDDO                                                         
-        ENDIF                                                           
+     .                  RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,
+     .                  R11,R21,R31,R12,R22,R32,R13,R23,R33,
+     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,GBUF%GAMA)
+c     .                  G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z,EV(NBGAMA))
+        ELSEIF (IGTYP == 22) THEN
+          IPTHK = IPANG+NLYMAX
+          IPPOS = IPTHK+NLYMAX
+          MTN0=MTN
+          DO I=LFT,LLT
+            MXT0(I)=MXT(I)
+            SHF(I)=GEO(38,NGEO(I))
+          ENDDO
+        ENDIF
 c---------
       ELSE  ! IOR_TSH == 0 = Isotropic thick shell
 C-------------R--direction------
         IF (ICR == 1) THEN     ! normal = local X direction
           DO IS=1,NPTS
             DO IL=1,NLAY
-              DO I=LFT,LLT                                       
-               SIGM(I) = ZERO                                    
-               VOLM(I) = ZERO                                    
-              ENDDO                                              
-              DO IR=1,NPTR                                     
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-                DO I=LFT,LLT                                     
-                  SIGM(I) = SIGM(I) + LBUF%SIG(II(1)+I)*LBUF%VOL(I)  
-                  VOLM(I) = VOLM(I) + LBUF%VOL(I)                
-                ENDDO                                            
-              ENDDO                                              
-              DO IR=1,NPTR                                     
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR               
-                DO I=LFT,LLT                                          
-                  SMR(I,IP) = (LBUF%SIG(II(1)+I)-SIGM(I)/VOLM(I))*USB(I)  
-                ENDDO                                                 
-              ENDDO                                                   
-            ENDDO                                                     
+              DO I=LFT,LLT
+               SIGM(I) = ZERO
+               VOLM(I) = ZERO
+              ENDDO
+              DO IR=1,NPTR
+                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                DO I=LFT,LLT
+                  SIGM(I) = SIGM(I) + LBUF%SIG(II(1)+I)*LBUF%VOL(I)
+                  VOLM(I) = VOLM(I) + LBUF%VOL(I)
+                ENDDO
+              ENDDO
+              DO IR=1,NPTR
+                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
+                DO I=LFT,LLT
+                  SMR(I,IP) = (LBUF%SIG(II(1)+I)-SIGM(I)/VOLM(I))*USB(I)
+                ENDDO
+              ENDDO
+            ENDDO
           ENDDO
-        ENDIF                                                     
+        ENDIF
 C--------------S--direction--
         IF (ICS == 1) THEN     ! normal = local Y direction
-          DO IL=1,NLAY                                       
-            DO IR=1,NPTR                                           
-              DO I=LFT,LLT                                       
-               SIGM(I) = ZERO                                    
-               VOLM(I) = ZERO                                    
-              ENDDO                                              
-              DO IS=1,NPTS                                         
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-                DO I=LFT,LLT                                     
-                  SIGM(I) = SIGM(I) + LBUF%SIG(II(2)+I)*LBUF%VOL(I)  
-                  VOLM(I) = VOLM(I) + LBUF%VOL(I)                
-                ENDDO                                            
-              ENDDO                                              
-              DO IS=1,NPTS                                         
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR               
-                DO I=LFT,LLT                                          
-                  SMS(I,IP) = (LBUF%SIG(II(2)+I)-SIGM(I)/VOLM(I))*USB(I)  
-                ENDDO                                                 
-              ENDDO                                                   
-            ENDDO                                                     
-          ENDDO                                                       
-        ENDIF                                                     
+          DO IL=1,NLAY
+            DO IR=1,NPTR
+              DO I=LFT,LLT
+               SIGM(I) = ZERO
+               VOLM(I) = ZERO
+              ENDDO
+              DO IS=1,NPTS
+                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                DO I=LFT,LLT
+                  SIGM(I) = SIGM(I) + LBUF%SIG(II(2)+I)*LBUF%VOL(I)
+                  VOLM(I) = VOLM(I) + LBUF%VOL(I)
+                ENDDO
+              ENDDO
+              DO IS=1,NPTS
+                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
+                DO I=LFT,LLT
+                  SMS(I,IP) = (LBUF%SIG(II(2)+I)-SIGM(I)/VOLM(I))*USB(I)
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDIF
 C------------T--direction--
         IF (ICT == 1) THEN     ! normal = local Z direction
-          DO IR=1,NPTR                                           
-            DO IS=1,NPTS                                         
-              DO I=LFT,LLT                                       
-               SIGM(I) = ZERO                                    
-               VOLM(I) = ZERO                                    
-              ENDDO                                              
-              DO IL=1,NLAY                                       
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-                DO I=LFT,LLT                                     
-                  SIGM(I) = SIGM(I) + LBUF%SIG(II(3)+I)*LBUF%VOL(I)  
-                  VOLM(I) = VOLM(I) + LBUF%VOL(I)                
-                ENDDO                                            
-              ENDDO                                              
-              DO IL=1,NLAY                                            
-                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)             
-                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR               
-                DO I=LFT,LLT                                          
-                  SMT(I,IP) = (LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)  
-                ENDDO                                                 
-              ENDDO                                                   
-            ENDDO                                                     
-          ENDDO                                                     
-        ENDIF                                                     
+          DO IR=1,NPTR
+            DO IS=1,NPTS
+              DO I=LFT,LLT
+               SIGM(I) = ZERO
+               VOLM(I) = ZERO
+              ENDDO
+              DO IL=1,NLAY
+                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                DO I=LFT,LLT
+                  SIGM(I) = SIGM(I) + LBUF%SIG(II(3)+I)*LBUF%VOL(I)
+                  VOLM(I) = VOLM(I) + LBUF%VOL(I)
+                ENDDO
+              ENDDO
+              DO IL=1,NLAY
+                LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+                IP = IR + ( (IS-1) + (IL-1)*NPTS )*NPTR
+                DO I=LFT,LLT
+                  SMT(I,IP) = (LBUF%SIG(II(3)+I)-SIGM(I)/VOLM(I))*USB(I)
+                ENDDO
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDIF
 C----------
       ENDIF ! IF (IOR_TSH  > 0)
 C---------------------------------
@@ -706,8 +706,8 @@ C---------------------------------
           DTI =ZERO
         ELSE
           DTI = ONE/DT1
-        ENDIF 
-      ENDIF 
+        ENDIF
+      ENDIF
 C
       IOFFS=0
       DO I=LFT,LLT
@@ -761,14 +761,14 @@ C----------------
             ZR = ZZ
             ZS = A_GAUSS(IR,NPTR)
             ZT = A_GAUSS(IS,NPTS)
-           ENDIF 
+           ENDIF
          ELSE  !  solid property
           ZR = A_GAUSS(IR,NPTR)
           ZS = A_GAUSS(IS,NPTS)
           ZT = A_GAUSS(IL,NLAY)
           WT = W_GAUSS(IL,NLAY)
          ENDIF ! IF (IOR_TSH)
-         WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*WT    
+         WI = W_GAUSS(IR,NPTR)*W_GAUSS(IS,NPTS)*WT
 c
          CALL S8ZDERI3(OFFL,OFF,VOLN,NGL,
      .    ZR,ZS,ZT,WI,
@@ -779,7 +779,7 @@ c
      .    PX2H1, PX2H2, PX2H3, PX2H4,
      .    PX3H1, PX3H2, PX3H3, PX3H4,
      .    PX4H1, PX4H2, PX4H3, PX4H4,
-     .    HX,   HY,   HZ,   
+     .    HX,   HY,   HZ,
      .    PX1, PX2, PX3, PX4, PX5, PX6, PX7, PX8,
      .    PY1, PY2, PY3, PY4, PY5, PY6, PY7, PY8,
      .    PZ1, PZ2, PZ3, PZ4, PZ5, PZ6, PZ7, PZ8,
@@ -884,7 +884,7 @@ C
      .       WXX, WYY, WZZ,LBUF%VOL,OFF,LBUF%EINT,GBUF%OFF,DSV,
      .       ICP,ICR,ICS,ICT,DTI,SMTT(1,IP),SMS(1,IP),SMT(1,IP),
      .       NGL,IDEG,LBUF%VOL0DP)
-           ENDIF 
+           ENDIF
 	     ELSE
            CALL S8ZDEFO3(
      .     PXC1, PXC2, PXC3, PXC4,
@@ -912,14 +912,14 @@ C
      .     WXX, WYY, WZZ,LBUF%VOL,OFF,LBUF%EINT,GBUF%OFF,DSV,
      .     ICP,ICR,ICS,ICT,DTI,SMR(1,IP),SMS(1,IP),SMT(1,IP),
      .     NGL,IDEG,LBUF%VOL0DP)
-        ENDIF 
+        ENDIF
 C
         MX = MXT(LFT)
         DO I=LFT,LLT
           RHOO(I) = LBUF%RHO(I)
           TEMPEL(I) = PM(79,MX)
         ENDDO
-        IF (IGTYP == 22)  
+        IF (IGTYP == 22)
      .     CALL SCTORTH3(LFT,LLT,ICSIG,NEL,
      .                    RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ ,
      .                    R11,R21,R31,R12,R22,R32,R13,R23,R33,
@@ -939,13 +939,13 @@ C
             D4(I)=SHF(I)*D4(I)
             D6(I)=SHF(I)*D6(I)
            ENDDO
-          ELSEIF (ICT == 1) THEN 
+          ELSEIF (ICT == 1) THEN
            DO I=LFT,LLT
             D5(I)=SHF(I)*D5(I)
             D6(I)=SHF(I)*D6(I)
            ENDDO
-          ENDIF 
-        ENDIF 
+          ENDIF
+        ENDIF
 C        
         IF (NTSHEG > 0) THEN
           DO I=LFT,LLT
@@ -954,7 +954,7 @@ C
             DELTAX(I) = MAX(LLSH(I),DELTAX(I))
           ENDDO
         END IF
-        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)   
+        DIVDE(1:NEL) = DT1*(DXX(1:NEL)+ DYY(1:NEL)+ DZZ(1:NEL))+DSV(1:NEL)
         CALL SRHO3(PM         , LBUF%VOL  , LBUF%RHO , LBUF%EINT, DIVDE,
      2             FLUX(1,NF1), FLU1(NF1) , VOLN     , DVOL     , NGL, MXT, OFF,
      3             0          , GBUF%TAG22 , VOLDP,LBUF%VOL0DP,AMU  ,GBUF%OFF)
@@ -983,7 +983,7 @@ C
      1                 ZR,ZS,ZT,
      2                 NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8,
      3                 TEMP,TEMPEL)
-        ENDIF    
+        ENDIF
 C------------------------------------------------------
 C     CALCUL DES CONTRAINTES SUIVANT LOIS CONSTITUTIVES
 C     TIME STEP EST CALCULE ICI DT2T
@@ -1003,7 +1003,7 @@ c
      A           AJ1      ,AJ2    ,AJ3    ,AJ4      ,AJ5     ,AJ6     ,
      B           VDX      ,VDY    ,VDZ    ,MUVOID   ,SSP_EQ  ,AIRE    ,
      C           SIGY     ,ET     ,R1_FREE,LBUF%PLA ,R3_FREE ,AMU   ,
-     DMFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP)   ,MFYY(1,IP),MFYZ(1,IP), 
+     DMFXX(1,IP),MFXY(1,IP),MFXZ(1,IP),MFYX(1,IP)   ,MFYY(1,IP),MFYZ(1,IP),
      EMFZX(1,IP),MFZY(1,IP),MFZZ(1,IP)  ,IPM        ,GAMA      ,BID    ,
      F           BID    ,BID    ,BID    ,BID        ,BID        ,BID     ,
      G           ISTRAIN,TEMPEL ,DIE    ,IEXPAN     ,IL         ,MSSA    ,
@@ -1011,7 +1011,7 @@ c
      I           BID    ,BID    ,BID    ,IPARG(1,NG),IGEO    ,CONDE  ,
      J           ITASK  ,NLOC_DMG,VARNL ,MATPARAM_TAB,H3D_STRAIN)
 C    
-        IF (ISTRAIN == 1) THEN 
+        IF (ISTRAIN == 1) THEN
           CALL SSTRA3(DXX,DYY,DZZ,D4,D5,
      .                D6, LBUF%STRA, WXX, WYY, WZZ,
      .                OFF,NEL)
@@ -1050,7 +1050,7 @@ C
      .    GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
      .    VOLG,STI,STIN,ICP,OFF,LBUF%VOL,GBUF%VOL,
      .    GBUF%G_PLA*L_PLA,L_EPSD,FAC,
-     .    LBUF%EINTTH,GBUF%EINTTH,IEXPAN,NEL,IDEG,CONDE,CONDEN) 
+     .    LBUF%EINTTH,GBUF%EINTTH,IEXPAN,NEL,IDEG,CONDE,CONDEN)
         ELSE
 C----------------------------
 C         INTERNAL FORCES
@@ -1080,23 +1080,23 @@ C----------------------------
      .    LBUF%EINT,LBUF%RHO,LBUF%QVIS,LBUF%PLA,LBUF%EPSD,GBUF%EPSD,
      .    GBUF%SIG,GBUF%EINT,GBUF%RHO,GBUF%QVIS,GBUF%PLA,
      .    VOLG,STI,STIN,ICP,OFF,LBUF%VOL,GBUF%VOL,
-     .    L_PLA,L_EPSD,FAC, 
-     .    LBUF%EINTTH,GBUF%EINTTH,IEXPAN,NEL,IDEG,CONDE,CONDEN) 
+     .    L_PLA,L_EPSD,FAC,
+     .    LBUF%EINTTH,GBUF%EINTTH,IEXPAN,NEL,IDEG,CONDE,CONDEN)
         ENDIF
-        DO I=LFT,LLT                                        
-          OFFL(I)=MIN(OFFL(I),OFF(I))                        
-          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN  
-            OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))                 
-            IOFFS  =1                                        
-          END IF                                             
-        ENDDO                                               
+        DO I=LFT,LLT
+          OFFL(I)=MIN(OFFL(I),OFF(I))
+          IF (LBUF%OFF(I) > ONE .AND. GBUF%OFF(I) == ONE) THEN
+            OFFS(I)=MIN(LBUF%OFF(I),OFFS(I))
+            IOFFS  =1
+          END IF
+        ENDDO
 CC-------------------------
-c    finite element heat transfert  
+c    finite element heat transfert
 C--------------------------
           IF(JTHE < 0) THEN
             CALL S8ETHERM(PM ,MXT ,VOLN,  NI,
      .                   NC1, NC2, NC3, NC4,
-     .                   NC5, NC6, NC7, NC8, 
+     .                   NC5, NC6, NC7, NC8,
      .                   PX1, PX2, PX3, PX4,
      .                   PY1, PY2, PY3, PY4,
      .                   PZ1, PZ2, PZ3, PZ4,
@@ -1104,9 +1104,9 @@ C--------------------------
      .                   PY5, PY6, PY7, PY8,
      .                   PZ5, PZ6, PZ7, PZ8,
      .                   DT1, TEMP,TEMPEL, DIE,
-     .                   THEM,GBUF%OFF, LBUF%OFF, 
-     .                   PARTSAV,IPARTS,LBUF%VOL) 
-          ENDIF 
+     .                   THEM,GBUF%OFF, LBUF%OFF,
+     .                   PARTSAV,IPARTS,LBUF%VOL)
+          ENDIF
         ENDDO  ! IL=1,NLAY
        ENDDO   ! IS=1,NPTS
       ENDDO    ! IR=1,NPTR
@@ -1117,18 +1117,18 @@ c
           IF (OFFS(I) <= TWO) GBUF%OFF(I)=OFFS(I)
         END DO
 c
-        DO IR=1,NPTR                                         
-         DO IS=1,NPTS                                        
-          DO IL=1,NLAY                                       
-            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)       
-            DO I=LFT,LLT                                     
-              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)  
-            END DO                                           
-          END DO                                             
-         END DO                                              
-        END DO                                               
+        DO IR=1,NPTR
+         DO IS=1,NPTS
+          DO IL=1,NLAY
+            LBUF => ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)
+            DO I=LFT,LLT
+              IF (GBUF%OFF(I) > ONE) LBUF%OFF(I)=GBUF%OFF(I)
+            END DO
+          END DO
+         END DO
+        END DO
       END IF
-c----------------------      
+c----------------------
       IF (ICP == 1) THEN
        CALL S8ZFINTP3(
      .   PXC1, PXC2, PXC3, PXC4,
@@ -1186,7 +1186,7 @@ C----------------------------
 C----------------------------
       IF(NFILSOL/=0) CALL SFILLOPT(GBUF%FILL,STIN,
      1   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
-     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)    
+     2   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38)
 C----------------------------
       IF(IPARIT == 0)THEN
           CALL SCUMU3(GBUF%OFF,A,NC1, NC2, NC3, NC4,
@@ -1208,19 +1208,19 @@ C----------------------------
      8   THEM, FTHESKY,CONDNSKY,CONDEN)
       ENDIF
       IF (NTSHEG > 0) THEN
-        ALPHA_E(LFT:LLT) = ONE  
+        ALPHA_E(LFT:LLT) = ONE
         DO I=LFT,LLT
           IF (GBUF%IDT_TSH(I)<=0) CYCLE
           FACDP = 1.343*LLSH(I)/LLSMIN(I)
-          ALPHA_E(I) = FACDP*FACDP  
+          ALPHA_E(I) = FACDP*FACDP
         ENDDO
         CALL SCUMUALPHA(GBUF%OFF,ALPHA_E,NC1, NC2, NC3, NC4,
      +                               NC5, NC6, NC7, NC8)
-      END IF        
+      END IF
 C-----------
       RETURN
       END SUBROUTINE S8CFORC3
-      
+
 Chd|====================================================================
 Chd|  SCTORTH3                      source/elements/thickshell/solide8c/s8cforc3.F
 Chd|-- called by -----------
@@ -1258,15 +1258,15 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      my_real 
+      my_real
      .   V1,V2,V3,VR,VS,AA,BB,SUMA,CPN(MVSIZ),SPN(MVSIZ)
 C-----------------------------------------------
         IF(IREP == 0) THEN
            CPN(JFT:JLT) = GAMA(JFT:JLT,1)
            SPN(JFT:JLT) = GAMA(JFT:JLT,2)
         ELSE
-         SELECT CASE (ICSTR)                                             
-          CASE (1)                                                        
+         SELECT CASE (ICSTR)
+          CASE (1)
           DO I=JFT,JLT
             AA = GAMA(I,1)
             BB = GAMA(I,2)
@@ -1280,7 +1280,7 @@ C-----------------------------------------------
             CPN(I) = VR*SUMA
             SPN(I) = VS*SUMA
           ENDDO
-         CASE (100)                                                        
+         CASE (100)
           DO I=JFT,JLT
             AA = GAMA(I,1)
             BB = GAMA(I,2)
@@ -1294,7 +1294,7 @@ C-----------------------------------------------
             CPN(I) = VR*SUMA
             SPN(I) = VS*SUMA
           ENDDO
-        CASE (10)                                                        
+        CASE (10)
           DO I=JFT,JLT
             AA = GAMA(I,1)
             BB = GAMA(I,2)
@@ -1308,42 +1308,42 @@ C-----------------------------------------------
             CPN(I) = VR*SUMA
             SPN(I) = VS*SUMA
           ENDDO
-         END SELECT                                                      
+         END SELECT
         ENDIF
 C
-        SELECT CASE (ICSTR)                                             
-        CASE (1)                                                        
+        SELECT CASE (ICSTR)
+        CASE (1)
             G1X(JFT:JLT)=ZERO
             G1Y(JFT:JLT)=CPN(JFT:JLT)
             G1Z(JFT:JLT)=SPN(JFT:JLT)
-            G2X(JFT:JLT)=ZERO                                                 
-            G2Y(JFT:JLT)=-SPN(JFT:JLT)                                                 
-            G2Z(JFT:JLT)=CPN(JFT:JLT)                                               
+            G2X(JFT:JLT)=ZERO
+            G2Y(JFT:JLT)=-SPN(JFT:JLT)
+            G2Z(JFT:JLT)=CPN(JFT:JLT)
             G3X(JFT:JLT)=ONE
             G3Y(JFT:JLT)=ZERO
             G3Z(JFT:JLT)=ZERO
-        CASE (100)                                                        
+        CASE (100)
             G1X(JFT:JLT)=SPN(JFT:JLT)
             G1Y(JFT:JLT)=ZERO
             G1Z(JFT:JLT)=CPN(JFT:JLT)
-            G2X(JFT:JLT)=CPN(JFT:JLT)                                                 
-            G2Y(JFT:JLT)=ZERO                                                 
-            G2Z(JFT:JLT)=-SPN(JFT:JLT)                                               
+            G2X(JFT:JLT)=CPN(JFT:JLT)
+            G2Y(JFT:JLT)=ZERO
+            G2Z(JFT:JLT)=-SPN(JFT:JLT)
             G3X(JFT:JLT)=ZERO
             G3Y(JFT:JLT)=ONE
             G3Z(JFT:JLT)=ZERO
-        CASE (10)                                                        
+        CASE (10)
             G1X(JFT:JLT)=CPN(JFT:JLT)
             G1Y(JFT:JLT)=SPN(JFT:JLT)
             G1Z(JFT:JLT)=ZERO
-            G2X(JFT:JLT)=-SPN(JFT:JLT)                                                 
-            G2Y(JFT:JLT)=CPN(JFT:JLT)                                                 
-            G2Z(JFT:JLT)= ZERO                                               
+            G2X(JFT:JLT)=-SPN(JFT:JLT)
+            G2Y(JFT:JLT)=CPN(JFT:JLT)
+            G2Z(JFT:JLT)= ZERO
             G3X(JFT:JLT)= ZERO
             G3Y(JFT:JLT)= ZERO
             G3Z(JFT:JLT)= ONE
-       END SELECT                                                      
+       END SELECT
 C----------
       RETURN
       END SUBROUTINE SCTORTH3
-      
+

@@ -67,19 +67,19 @@ C-----------------------------------------------
      .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
      .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ), ASI(MVSIZ),
      .   BSI(MVSIZ), GAPV(MVSIZ), CONDINT(MVSIZ),
-     .   FNI(MVSIZ), TF(*), EFRICT(MVSIZ),  
+     .   FNI(MVSIZ), TF(*), EFRICT(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   PHI1(MVSIZ),PHI2(MVSIZ),PHI3(MVSIZ),PHI4(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
-      my_real 
-     .   FINTER 
+      my_real
+     .   FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MATS , MATM 
+      INTEGER I, MATS , MATM
 C     REAL
       my_real
      .   SX1 , SY1 , SZ1 , SX2 , SY2 , SZ2,
@@ -90,11 +90,11 @@ C-----------------------------------------------
       IF(IFUNCTK==0)THEN
         RSTIF = ONE/MAX(EM30,KTHE)
         DO I=1,JLT
-          TS = TEMPI(I)   
+          TS = TEMPI(I)
           IF(IFORM ==0) THEN
             TM = TINT
           ELSE
-            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I)) 
+            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I))
      .         + H3(I)*TEMP(IX3(I)) + H4(I)*TEMP(IX4(I))
           ENDIF
           CONDINT(I) = ZERO
@@ -107,29 +107,29 @@ C------------------------------------------
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
          SZ1=(X1(I)-X3(I))*(Y2(I)-Y4(I)) - (Y1(I)-Y3(I))*(X2(I)-X4(I))
 C         
-         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
+         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)
          ELSE
-           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
-           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
-           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)  
-         END IF  
+           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)
+           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)
+           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)
+         END IF
 C
 C-----------------------------------------------
 C         Distance between secnd node 
 C              and main segment 
 C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
-         
+
          PENRAD = ABS(DIST) - GAPV(I)
 C
-          IF(AREAS(I) == ZERO )THEN 
+          IF(AREAS(I) == ZERO )THEN
 C            
             AREAC =HALF*NORM
 C
@@ -180,7 +180,7 @@ C---------------------------------
             TSTIFT = TSTIFM  + RSTIF
             CONDINT(I) = AREAC /TSTIFT
 C---------------------------------
-            PHI(I) =  AREAC*(TM - TS)*DT1 / TSTIFT  
+            PHI(I) =  AREAC*(TM - TS)*DT1 / TSTIFT
 C----------------------------------------------------------------------
 C         Conduction + Radiation : Heat exchange depending on distance
 C----------------------------------------------------------------------
@@ -216,23 +216,23 @@ C---------------------------------
             IF(COND /= ZERO) TSTIFM =   MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
             DD = PENRAD /DDCOND
-            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
+            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT
             CONDINT(I) = AREAC*HCOND
 
-            PHI(I) = AREAC * (TM - TS)*DT1* HCOND     
+            PHI(I) = AREAC * (TM - TS)*DT1* HCOND
 
-            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1   
+            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS)
+     .                    * (TM + TS) * (TM - TS) * DT1
 C-------------------------------------
 C         Radiation :
 C-------------------------------------
           ELSEIF(PENRAD <= DRAD)THEN
 C---------------------------------
-            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
+            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
      .                    * (TM + TS) * (TM - TS) * DT1
-          END IF  
+          END IF
 C
-         IF(IFORM == 1 )THEN 
+         IF(IFORM == 1 )THEN
 C
             PHI1(I) = -PHI(I) *H1(I)
             PHI2(I) = -PHI(I) *H2(I)
@@ -241,7 +241,7 @@ C
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            PHIM   = FHEATM * EFRICT(I) 
+            PHIM   = FHEATM * EFRICT(I)
             PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
@@ -256,11 +256,11 @@ C---------------------------------
 C
       ELSE
         DO I=1,JLT
-          TS = TEMPI(I)  
+          TS = TEMPI(I)
           IF(IFORM ==0) THEN
             TM = TINT
           ELSE
-            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I)) 
+            TM = H1(I)*TEMP(IX1(I)) + H2(I)*TEMP(IX2(I))
      .         + H3(I)*TEMP(IX3(I)) + H4(I)*TEMP(IX4(I))
           ENDIF
           CONDINT(I) = ZERO
@@ -273,19 +273,19 @@ C------------------------------------------
          SY1=(Z1(I)-Z3(I))*(X2(I)-X4(I)) - (X1(I)-X3(I))*(Z2(I)-Z4(I))
          SZ1=(X1(I)-X3(I))*(Y2(I)-Y4(I)) - (Y1(I)-Y3(I))*(X2(I)-X4(I))
 C         
-         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)  
+         NORM = SQRT(SX1**2 + SY1**2 + SZ1**2)
 C--------+---------+---------+---------+---------+---------+---------+--
 C         CALCUL DE LA DISTANCE ENTRE CENTRE ET SURFACE 
 C-------------------------------------------------------------
          IF(IX3(I)/=IX4(I))THEN
-           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)    
-           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)    
-           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)  
+           SX2 = FOURTH*(X1(I) + X2(I) + X3(I) + X4(I)) - XI(I)
+           SY2 = FOURTH*(Y1(I) + Y2(I) + Y3(I) + Y4(I)) - YI(I)
+           SZ2 = FOURTH*(Z1(I) + Z2(I) + Z3(I) + Z4(I)) - ZI(I)
          ELSE
-           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)    
-           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)    
-           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)  
-         END IF  
+           SX2 = THIRD*(X1(I) + X2(I) + X3(I)) - XI(I)
+           SY2 = THIRD*(Y1(I) + Y2(I) + Y3(I)) - YI(I)
+           SZ2 = THIRD*(Z1(I) + Z2(I) + Z3(I)) - ZI(I)
+         END IF
 C
 C-----------------------------------------------
 C         Distance between secnd node 
@@ -294,7 +294,7 @@ C-----------------------------------------------
          DIST = (SX2*SX1+SY2*SY1+SZ2*SZ1) / MAX(EM15,NORM)
          PENRAD = ABS(DIST) - GAPV(I)
 C
-          IF(AREAS(I) == ZERO )THEN 
+          IF(AREAS(I) == ZERO )THEN
 C            
             AREAC =HALF*NORM
 C
@@ -384,24 +384,24 @@ C---------------------------------
             TSTIFT = TSTIFM  + RSTIF
 
             DD = PENRAD /DDCOND
-            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
+            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT
             CONDINT(I) = AREAC*HCOND
 
-            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND         
+            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND
 
-            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1  
+            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS)
+     .                    * (TM + TS) * (TM - TS) * DT1
 C-------------------------------------
 C         Radiation :
 C-------------------------------------   
 C---------------------------------
           ELSEIF(PENRAD <= DRAD)THEN
 C---------------------------------
-            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
+            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
      .                 * (TM + TS) * (TM - TS) * DT1
           END IF
 C
-         IF(IFORM == 1 )THEN 
+         IF(IFORM == 1 )THEN
 C
             PHI1(I) = -PHI(I) *H1(I)
             PHI2(I) = -PHI(I) *H2(I)
@@ -410,7 +410,7 @@ C
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            PHIM   = FHEATM * EFRICT(I) 
+            PHIM   = FHEATM * EFRICT(I)
             PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)

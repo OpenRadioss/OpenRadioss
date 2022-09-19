@@ -40,8 +40,8 @@ Chd|====================================================================
      3   IRST    ,SPBUF   ,PARTSAV  ,SOL2SPH ,IPARG   ,
      4   NGROUNC ,IGROUNC ,ELBUF_TAB,IGEO)
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
-      USE SOLTOSPH_MOD         
+      USE ELBUFDEF_MOD
+      USE SOLTOSPH_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -68,7 +68,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), KXSP(NISP,*), ITASK,
-     .        IPARTSP(*), IRST(3,*), NGROUNC, IGROUNC(*), 
+     .        IPARTSP(*), IRST(3,*), NGROUNC, IGROUNC(*),
      .        IPARTS(*), IPARG(NPARG,*), SOL2SPH(2,*), IPART(LIPART1,*),
      .        IGEO(NPROPGI,*)
       my_real
@@ -93,8 +93,8 @@ C
      .   RHO0, MASS, VI2
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),A_GAUSS_TETRA(9,9)
@@ -184,7 +184,7 @@ C
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 250
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -343,7 +343,7 @@ C--------
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 350
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -414,7 +414,7 @@ C
 !$OMP END DO
 C
 #include "lockon.inc"
-      ENCIN=ENCIN + ENCIN_T     
+      ENCIN=ENCIN + ENCIN_T
       XMASS=XMASS + XMASS_T
       XMOMT=XMOMT + XMOMT_T
       YMOMT=YMOMT + YMOMT_T

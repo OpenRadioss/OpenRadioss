@@ -174,7 +174,7 @@ C------
        VX3(I)=ROT(1)*V1+ROT(2)*V2+ROT(3)*V3
        VY3(I)=ROT(4)*V1+ROT(5)*V2+ROT(6)*V3
        VZ3(I)=ROT(7)*V1+ROT(8)*V2+ROT(9)*V3
- 100  CONTINUE     
+ 100  CONTINUE
 C----------------------------------------------------------
 C     Force normale.
 C----------------------------------------------------------
@@ -211,7 +211,7 @@ C----------------------------------------------------------
 C------------------------------
       FXT(I)=ZERO
       FYT(I)=ZERO
-      FZT(I)=ZERO     
+      FZT(I)=ZERO
 C-------------------------------
 C     TOURNER DELTA(T-1) DANS LE PLAN TANGENT.
 C-------------------------------
@@ -233,7 +233,7 @@ C-------------------------------
       ELSE
        DELTX=ZERO
        DELTY=ZERO
-       DELTZ=ZERO    
+       DELTZ=ZERO
       ENDIF
 C-------------------------------
 C     INCREMENT SUR DELTA (T-1 -> T) : VITESSE RELATIVE TANGENTE DE POLD * DT
@@ -267,7 +267,7 @@ C-------------------------------
       ELSE
        DVX=ZERO
        DVY=ZERO
-       DVZ=ZERO    
+       DVZ=ZERO
       ENDIF
 C-----
 C     Force tangente K.DELTA, K=1. et Norme.

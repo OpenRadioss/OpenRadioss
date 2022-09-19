@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NSN, ITASK, NSV(*), NIN 
+      INTEGER NSN, ITASK, NSV(*), NIN
       my_real
      .   X(3,*), V(3,*), XSAV(3,*), STFN(*),
      .   XSLV_G(*), XMSR_G(*), VSLV_G(*), VMSR_G(*),
@@ -112,15 +112,15 @@ c xloc in main local frame
            XX=X(1,J)-INTSTAMP%XG(1)
            YY=X(2,J)-INTSTAMP%XG(2)
            ZZ=X(3,J)-INTSTAMP%XG(3)
-           XLOC(1,I)= 
+           XLOC(1,I)=
      .                INTSTAMP%ROT(1)*XX
      .               +INTSTAMP%ROT(2)*YY
      .               +INTSTAMP%ROT(3)*ZZ
-           XLOC(2,I)= 
+           XLOC(2,I)=
      .                INTSTAMP%ROT(4)*XX
      .               +INTSTAMP%ROT(5)*YY
      .               +INTSTAMP%ROT(6)*ZZ
-           XLOC(3,I)= 
+           XLOC(3,I)=
      .                INTSTAMP%ROT(7)*XX
      .               +INTSTAMP%ROT(8)*YY
      .               +INTSTAMP%ROT(9)*ZZ

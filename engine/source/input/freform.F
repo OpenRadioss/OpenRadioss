@@ -256,27 +256,27 @@ C
       IKAD(0:NKEY+1)=0
       NSLASH(1:NKEY) = 0
       IKEY = 0
-      
+
       DTFACA = EP30
       DTMINA = EP30
       LAMBDA = ZERO
       L_TYPE = ZERO
       ID_BAG = 0
-      
+
       PERCENT_ADDMASS = ZERO
       DT_STOP_PERCENT_ADDMASS = ZERO
       IDT_PERCENT_ADDMASS = 0
-      
+
       TH_TITLES = 0
-           
+
       IERR1=0
       IF(.NOT.ALLOCATED(FVMBAG_INPUT_OPTIONS)) ALLOCATE(FVMBAG_INPUT_OPTIONS(8192),STAT=IERR1)
       IF (IERR1/=0) GOTO 1000
       DO II=1,8192
-        FVMBAG_INPUT_OPTIONS(II)%LAMBDA = ZERO 
+        FVMBAG_INPUT_OPTIONS(II)%LAMBDA = ZERO
         FVMBAG_INPUT_OPTIONS(II)%ID_BAG = 0
         FVMBAG_INPUT_OPTIONS(II)%L_type = 0
-        FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION = 0        
+        FVMBAG_INPUT_OPTIONS(II)%ID_DT_OPTION = 0
       ENDDO
       NUM_OPT_DT_FVMBAG = 0
       NUM_OPT_DT_FVMBAG_1 = 0
@@ -989,40 +989,40 @@ C
           IF (DTFACA == ZERO) DTFACA = ZEP9
           IF (DTFAC_AMS == ZERO) DTFAC_AMS = ZEP67
         ELSEIF(KEY2(1:5) == 'FVMBA')THEN
-          ! ---/DT/FVMBAG/. ---                                                 
+          ! ---/DT/FVMBAG/. ---
           !     dtfaca dtmina lambda l_type
           !     fvbag_id
-          IERR1=0                                                               
-          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))                               
-          READ(IUSC2,'(A)',ERR=9990,END=9990)LINE                                                 
-          READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA,L_TYPE                  
-          IF(IERR1 /= 0)THEN                                                    
-            !l_type left blank (default 0)                                      
-            L_TYPE=ZERO                                                         
-            IERR1=0                                                             
-            READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA                       
-            IF(IERR1 /= 0)THEN                                                  
-              !param 3 also left blank (default 0.0)                            
-              LAMBDA=ZERO                                                       
-              IERR1=0                                                           
-              ! this is minimanl input, goto to error message if reading fails  
-              READ(LINE,*,ERR=9990,END=9990)DTFACA,DTMINA                       
-            ENDIF                                                               
-          ENDIF                                                                 
-          ID_BAG = 0                                                            
-          IF(KEY3(1:1)=='2')THEN                                                
-            K=K+1                                                               
+          IERR1=0
+          CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
+          READ(IUSC2,'(A)',ERR=9990,END=9990)LINE
+          READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA,L_TYPE
+          IF(IERR1 /= 0)THEN
+            !l_type left blank (default 0)
+            L_TYPE=ZERO
+            IERR1=0
+            READ(LINE,*,iostat=IERR1)DTFACA,DTMINA,LAMBDA
+            IF(IERR1 /= 0)THEN
+              !param 3 also left blank (default 0.0)
+              LAMBDA=ZERO
+              IERR1=0
+              ! this is minimanl input, goto to error message if reading fails
+              READ(LINE,*,ERR=9990,END=9990)DTFACA,DTMINA
+            ENDIF
+          ENDIF
+          ID_BAG = 0
+          IF(KEY3(1:1)=='2')THEN
+            K=K+1
             CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
-            READ(IUSC2,'(A)',ERR=9990,END=9990)LINE                                              
-            READ(LINE,*,ERR=9990,END=9990)ID_BAG 
+            READ(IUSC2,'(A)',ERR=9990,END=9990)LINE
+            READ(LINE,*,ERR=9990,END=9990)ID_BAG
             IF(ID_BAG <= 0)THEN
                 CALL ANCMSG(MSGID=299,ANMODE=ANINFO,I1=ID_BAG)
-                CALL ARRET(0)         
-            ENDIF                            
-          ENDIF                                                                 
+                CALL ARRET(0)
+            ENDIF
+          ENDIF
         ELSE
           ! --- /DT/NODA/CST, and others ... ---
-          !     dtfaca dtmina percent_addmass  
+          !     dtfaca dtmina percent_addmass
           CALL WRIUSC2(IKAD(IKEY)+K,1,KEY0(IKEY))
           READ(IUSC2,*,ERR=9003,END=9003)DTFACA,DTMINA,PERCENT_ADDMASS
           ! Read of target % of added mass
@@ -1200,17 +1200,17 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          ELSE
            ID_DT_OPTION = 1
          ENDIF
-         IDTMIN(52) = ID_DT_OPTION        
+         IDTMIN(52) = ID_DT_OPTION
          LAMBDA = MAX(ZERO, LAMBDA)
          FVMBAG_L_TYPE = INT(L_TYPE)
          FVMBAG_L_TYPE = MIN(FVMBAG_L_TYPE,2) !input check:upper bound
          FVMBAG_L_TYPE = MAX(0,FVMBAG_L_TYPE) !input check:lower bound
-         !storing in temporary data structure. It will be used to fill the final data structure when restart file is read (not yet allocated)         
+         !storing in temporary data structure. It will be used to fill the final data structure when restart file is read (not yet allocated)
          IF(ID_DT_OPTION == 1)NUM_OPT_DT_FVMBAG_1 = NUM_OPT_DT_FVMBAG_1 + 1
          IF(ID_DT_OPTION == 2)NUM_OPT_DT_FVMBAG_2 = NUM_OPT_DT_FVMBAG_2 + 1
-         IF(ID_DT_OPTION == 3)NUM_OPT_DT_FVMBAG_3 = NUM_OPT_DT_FVMBAG_3 + 1         
+         IF(ID_DT_OPTION == 3)NUM_OPT_DT_FVMBAG_3 = NUM_OPT_DT_FVMBAG_3 + 1
          NUM_OPT_DT_FVMBAG = NUM_OPT_DT_FVMBAG + 1
-         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%LAMBDA = LAMBDA 
+         FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%LAMBDA = LAMBDA
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_BAG = ID_BAG
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%L_type = FVMBAG_L_TYPE
          FVMBAG_INPUT_OPTIONS(NUM_OPT_DT_FVMBAG)%ID_DT_OPTION = ID_DT_OPTION
@@ -1218,8 +1218,8 @@ C           si /DT/AMS lu + tard ce qui suit sera ecrase
          IF(NUM_OPT_DT_FVMBAG_1 * NUM_OPT_DT_FVMBAG_2 > 0)THEN
             CALL ANCMSG(MSGID=298,ANMODE=ANINFO,I1=ID_BAG)
          ENDIF
-         
-         
+
+
         ELSEIF(KEY2(1:3)=='AMS')THEN
           DT_CTRL_COMPATIBILITY(2) = 1
           DTFACS = DTFACA
@@ -2615,7 +2615,7 @@ C
      .            C1=KEY0(IKEY))
       CALL ARRET(0)
       RETURN
-      
+
 C-----------------------------------------------
  1000 CONTINUE
        IF (IERR1/=0) THEN
@@ -2624,7 +2624,7 @@ C-----------------------------------------------
          CALL ARRET(2)
        END IF
 C-----------------------------------------------
-      
+
       END
 Chd|====================================================================
 Chd|  NGR2USR                       source/input/freform.F        

@@ -48,9 +48,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)  :: ID,FAIL_ID,MAXFUNC,MAXUPARAM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C OUTPUT ARGUMENTS
@@ -98,26 +98,26 @@ Card1
       CALL HM_GET_INTV   ('Ifail_sh'    ,ISHELL      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('Ifail_so'    ,ISOLID      ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('N_rate'      ,NRATE       ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('P_thickfail' ,P_THICKFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('P_thickfail' ,P_THICKFAIL ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('Ixfem'       ,IXFEM       ,IS_AVAILABLE,LSUBMODEL)
 Card2
       CALL HM_GET_FLOATV ('Dcrit'       ,DCRIT       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('D'           ,DD          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('n'           ,DN          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV ('Dadv'        ,DADV        ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Dadv'        ,DADV        ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card3
       DO I = 1,NRATE
         CALL HM_GET_INT_ARRAY_INDEX('fct_ID_TAB'     ,IFUNC(I),I,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX('Fscale'       ,YFAC(I) ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('Epsdot'       ,RATE(I) ,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      ENDDO 
+      ENDDO
 Card4
       CALL HM_GET_INTV   ('fct_IDel'    ,IFUN_SIZE   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('Fscale_el'   ,SCALE_EL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-      CALL HM_GET_FLOATV ('EI_ref'      ,EL_REF      ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('Fscale_el'   ,SCALE_EL    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
+      CALL HM_GET_FLOATV ('EI_ref'      ,EL_REF      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 Card5
       CALL HM_GET_INTV   ('fct_IDt'     ,IFUN_TEMP   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV ('FscaleT'     ,SCALE_TEMP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV ('FscaleT'     ,SCALE_TEMP  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c-----------------------------------------------------------------------
 c     Set default parameter values
 c-----------------------------------------------------------------------
@@ -187,17 +187,17 @@ c       for shell
           ELSEIF (ISHELL == 3) THEN
             WRITE(IOUT, 1300)
           ENDIF
-        ELSE IF (IXFEM == 1) THEN      
+        ELSE IF (IXFEM == 1) THEN
           WRITE(IOUT, 1400)
         END IF
-c       for solid      
+c       for solid
         IF (ISOLID == 1) THEN
           WRITE(IOUT, 2100)
         ELSEIF(ISOLID == 2) THEN
           WRITE(IOUT, 2200)
         ENDIF
 C
-      ENDIF  ! IS_ENCRYPTED             
+      ENDIF  ! IS_ENCRYPTED
 c-----------
       RETURN
 c-----------------------------------------------------------------------
@@ -226,16 +226,16 @@ c-----------------------------------------------------------------------
      & 5X,'REGULARIZATION FLAG . . . . . . . . . . . . .=',I10/
      & 5X,'FAILURE OPTION:')
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ONE LAYER') 
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ONE LAYER')
  1200 FORMAT(
-     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')   
+     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')
  1300 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ALL LAYERS')   
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE OF ALL LAYERS')
  1400 FORMAT(
-     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')   
+     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')
  2100 FORMAT(
-     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE')
  2200 FORMAT(
-     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')    
+     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')
 c-----------------------------------------------------------------------
       END

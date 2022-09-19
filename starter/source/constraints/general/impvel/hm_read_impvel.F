@@ -96,7 +96,7 @@ C======================================================================|
 c--------------------------------------------------
 c     READ /IMPDISP
 c--------------------------------------------------
-c           
+c
       CALL HM_OPTION_COUNT('/IMPDISP'     ,NIMPDISP )
       NIMPDISP_0 = NIMPDISP
       CALL HM_OPTION_COUNT('/IMPDISP/FGEO',FGEOD)
@@ -108,18 +108,18 @@ c
       NFDISP = NIMPDISP - FGEOD
       NFVEL  = NIMPVEL  - FGEOV - LAGMULV
       NOPT   = NFDISP + NFVEL
-c    
+c
 c--------------------------------------------------
       IF (NIMPDISP > 0) THEN
-      
-        IF (NFDISP > 0) THEN 
+
+        IF (NFDISP > 0) THEN
           CALL READ_IMPDISP(
      .         NIMPDISP ,INUM     ,IOPT     ,FBFVEL   ,IBFVEL   ,
      .         ITAB     ,ITABM1   ,IKINE    ,IGRNOD   ,NOM_OPT  ,
      .         ISKN     ,UNITAB   ,LSUBMODEL)
         ENDIF
 c
-        IF (FGEOD > 0) THEN 
+        IF (FGEOD > 0) THEN
           CALL READ_IMPDISP_FGEO(
      .         FGEOD    ,INUM     ,IOPT     ,FBFVEL   ,IBFVEL   ,
      .         ITAB     ,ITABM1   ,IGRNOD   ,NOM_OPT  ,X0       ,
@@ -140,9 +140,9 @@ c--------------------------------------------------
 c     READ /IMPVEL
 c--------------------------------------------------
       IF (NIMPVEL > 0) THEN
-      
+
 c
-        IF (NFVEL > 0) THEN 
+        IF (NFVEL > 0) THEN
           CALL READ_IMPVEL(
      .              NIMPVEL  ,INUM     ,IOPT     ,FBFVEL   ,IBFVEL   ,
      .              ITAB     ,ITABM1   ,IKINE    ,IKINE1LAG,NOM_OPT  ,
@@ -151,7 +151,7 @@ c
 c
 c       READ /IMPVEL/FGEO
 c
-        IF (FGEOV > 0) THEN 
+        IF (FGEOV > 0) THEN
           CALL READ_IMPVEL_FGEO(
      .              FGEOV    ,INUM     ,IOPT     ,FBFVEL   ,IBFVEL   ,
      .              ITAB     ,ITABM1   ,IGRNOD   ,NOM_OPT  ,X0       ,
@@ -160,7 +160,7 @@ c
 c
 c       READ /IMPVEL/LAGMUL
 c
-        IF (LAGMULV > 0) THEN 
+        IF (LAGMULV > 0) THEN
           CALL READ_IMPVEL_LAGMUL(
      .              LAGMULV  ,INUM     ,IOPT     ,FBFVEL   ,IBFVEL   ,
      .              ITAB     ,ITABM1   ,IGRNOD   ,NOM_OPT  ,X0       ,
@@ -175,7 +175,7 @@ c
         DEALLOCATE( OPTID )
 c
       END IF  ! NIMPVEL > 0
-c-----------      
+c-----------
       NIMPVEL = INUM - NIMPDISP
       NFXVEL  = INUM
 c--------------------------------------------------

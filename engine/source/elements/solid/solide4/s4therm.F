@@ -27,7 +27,7 @@ Chd|        S4FORC3                       source/elements/solid/solide4/s4forc3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S4THERM(PM   ,MAT  ,VOL,
-     .                 NC1, NC2, NC3, NC4, 
+     .                 NC1, NC2, NC3, NC4,
      .                 PX1, PX2, PX3, PX4,
      .                 PY1, PY2, PY3, PY4,
      .                 PZ1, PZ2, PZ3, PZ4,
@@ -50,7 +50,7 @@ C-----------------------------------------------
       INTEGER MAT(*),NC1(*),NC2(*),NC3(*),NC4(*)
 C     REAL
       my_real
-     .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*), 
+     .    VOL(*), PX1(*), PX2(*), PX3(*), PX4(*),
      .    PY1(*), PY2(*), PY3(*), PY4(*),
      .    PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .    TEMPNC(*), FPHI(MVSIZ,4), PM(NPROPM,*),DIE(*),
@@ -77,13 +77,13 @@ C
 C - flux
 C      
           PHIX =  TEMPNC(NC1(I))*PX1(I) + TEMPNC(NC2(I))*PX2(I)  +
-     .            TEMPNC(NC3(I))*PX3(I) + TEMPNC(NC4(I))*PX4(I)      
-          
+     .            TEMPNC(NC3(I))*PX3(I) + TEMPNC(NC4(I))*PX4(I)
+
           PHIY =  TEMPNC(NC1(I))*PY1(I) + TEMPNC(NC2(I))*PY2(I)  +
-     .            TEMPNC(NC3(I))*PY3(I) + TEMPNC(NC4(I))*PY4(I)  
-      
+     .            TEMPNC(NC3(I))*PY3(I) + TEMPNC(NC4(I))*PY4(I)
+
           PHIZ =  TEMPNC(NC1(I))*PZ1(I) + TEMPNC(NC2(I))*PZ2(I)  +
-     .            TEMPNC(NC3(I))*PZ3(I) + TEMPNC(NC4(I))*PZ4(I)        
+     .            TEMPNC(NC3(I))*PZ3(I) + TEMPNC(NC4(I))*PZ4(I)
 C      
           KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
           PHIX = KC*PHIX

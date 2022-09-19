@@ -71,12 +71,12 @@ C-----------------------------------------------
       INTEGER NTYP, NI
       INTEGER NPC1(*),IPARI(*),NOM_OPT(LNOPT1,*),NPC(*)
       my_real PLD(*)
-      
+
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ID,OK,FCOND,FCOND0,PN1,PN2,JJ
-      my_real CMAX,CMIN 
+      my_real CMAX,CMIN
       CHARACTER*nchartitle,
      .   TITR
 C     DATA IUN/1/
@@ -89,7 +89,7 @@ C
 C---------------------------------------------------------
 C     FUNCTIONS IN INTERFACES
 C---------------------------------------------------------
-                                                  
+
 c
 C---------------------------------------------------------
       IF (NTYP == 7.OR.NTYP==21) THEN
@@ -97,42 +97,42 @@ C---------------------------------------------------------
 C         Inter type 7 , 21 : function friction/temperature
 C---------------------------------------------------------
           OK = 0
-          IF (IPARI(50) > 0) THEN           
-            DO J=1,NFUNCT                     
-              IF(IPARI(50) == NPC1(J)) THEN 
-                 IPARI(50)=J 
-                 OK = 1               
+          IF (IPARI(50) > 0) THEN
+            DO J=1,NFUNCT
+              IF(IPARI(50) == NPC1(J)) THEN
+                 IPARI(50)=J
+                 OK = 1
                  EXIT
-              ENDIF                           
-            ENDDO    
-            IF (OK == 0) THEN                         
-               CALL ANCMSG(MSGID=127,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=IPARI(50))          
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+               CALL ANCMSG(MSGID=127,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IPARI(50))
              ENDIF
           ENDIF
 
 C         Inter type 7 , 21 : function conduvity/Pressure
 C---------------------------------------------------------
           OK = 0
-          IF (IPARI(42) > 0) THEN           
-            DO J=1,NFUNCT                     
-              IF(IPARI(42) == NPC1(J)) THEN 
-                 IPARI(42)=J                
-                 OK = 1               
-                 EXIT                    
-              ENDIF                           
-            ENDDO   
-            IF (OK == 0) THEN                                                   
-                CALL ANCMSG(MSGID=127,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=IPARI(42))          
+          IF (IPARI(42) > 0) THEN
+            DO J=1,NFUNCT
+              IF(IPARI(42) == NPC1(J)) THEN
+                 IPARI(42)=J
+                 OK = 1
+                 EXIT
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+                CALL ANCMSG(MSGID=127,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IPARI(42))
              ENDIF
            ENDIF
 
@@ -140,25 +140,25 @@ C         Inter type 21 : function conduvity/Distance
 C---------------------------------------------------------
           OK = 0
           FCOND0 = IPARI(53)
-          IF (IPARI(53) > 0) THEN           
-            DO J=1,NFUNCT                     
-              IF(IPARI(53) == NPC1(J)) THEN 
-                 IPARI(53)=J                
-                 OK = 1               
-                 EXIT                    
-              ENDIF                           
-            ENDDO   
-            IF (OK == 0) THEN                                                   
-                CALL ANCMSG(MSGID=127,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=IPARI(53))          
+          IF (IPARI(53) > 0) THEN
+            DO J=1,NFUNCT
+              IF(IPARI(53) == NPC1(J)) THEN
+                 IPARI(53)=J
+                 OK = 1
+                 EXIT
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+                CALL ANCMSG(MSGID=127,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IPARI(53))
              ENDIF
 C
-             FCOND = IPARI(53) 
- 
+             FCOND = IPARI(53)
+
               PN1 = NPC(FCOND)
               PN2 = NPC(FCOND+1)
               CMAX =  PLD(PN1+1)
@@ -173,12 +173,12 @@ C
 
               ENDDO
                IF(CMIN < ZERO.OR.CMAX > ONE) THEN
-                CALL ANCMSG(MSGID=1811,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=FCOND0)  
+                CALL ANCMSG(MSGID=1811,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=FCOND0)
                 ENDIF
 
 
@@ -193,42 +193,42 @@ C---------------------------------------------------------
 C         Function conduvity/Pressure
 C---------------------------------------------------------
           OK = 0
-          IF (IPARI(92) > 0) THEN           
-            DO J=1,NFUNCT                     
-              IF(IPARI(92) == NPC1(J)) THEN 
-                 IPARI(92)=J                
-                 OK = 1               
-                 EXIT                    
-              ENDIF                           
-            ENDDO   
-            IF (OK == 0) THEN                                                   
-                CALL ANCMSG(MSGID=127,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=IPARI(92))          
+          IF (IPARI(92) > 0) THEN
+            DO J=1,NFUNCT
+              IF(IPARI(92) == NPC1(J)) THEN
+                 IPARI(92)=J
+                 OK = 1
+                 EXIT
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+                CALL ANCMSG(MSGID=127,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IPARI(92))
              ENDIF
            ENDIF
 
 C         function friction/temperature
 C---------------------------------------------------------
           OK = 0
-          IF (IPARI(50) > 0) THEN           
-            DO J=1,NFUNCT                     
-              IF(IPARI(50) == NPC1(J)) THEN 
-                 IPARI(50)=J 
-                 OK = 1               
+          IF (IPARI(50) > 0) THEN
+            DO J=1,NFUNCT
+              IF(IPARI(50) == NPC1(J)) THEN
+                 IPARI(50)=J
+                 OK = 1
                  EXIT
-              ENDIF                           
-            ENDDO    
-            IF (OK == 0) THEN                         
-               CALL ANCMSG(MSGID=127,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=IPARI(50))          
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+               CALL ANCMSG(MSGID=127,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IPARI(50))
              ENDIF
           ENDIF
 
@@ -237,25 +237,25 @@ C         Inter type 25 : function conduvity/Distance
 C---------------------------------------------------------
           OK = 0
           FCOND0 = IPARI(93)
-          IF (IPARI(93) > 0) THEN           
-            DO J=1,NFUNCT                     
-              IF(IPARI(93) == NPC1(J)) THEN 
-                 IPARI(93)=J                
-                 OK = 1               
-                 EXIT                    
-              ENDIF                           
-            ENDDO   
-            IF (OK == 0) THEN                                                   
-                CALL ANCMSG(MSGID=127,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=IPARI(93))          
+          IF (IPARI(93) > 0) THEN
+            DO J=1,NFUNCT
+              IF(IPARI(93) == NPC1(J)) THEN
+                 IPARI(93)=J
+                 OK = 1
+                 EXIT
+              ENDIF
+            ENDDO
+            IF (OK == 0) THEN
+                CALL ANCMSG(MSGID=127,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=IPARI(93))
              ENDIF
 C
-             FCOND = IPARI(93) 
- 
+             FCOND = IPARI(93)
+
               PN1 = NPC(FCOND)
               PN2 = NPC(FCOND+1)
               CMAX =  PLD(PN1+1)
@@ -270,12 +270,12 @@ C
 
               ENDDO
                IF(CMIN < ZERO.OR.CMAX > ONE) THEN
-                CALL ANCMSG(MSGID=1811,            
-     .                  MSGTYPE=MSGERROR,        
-     .                  ANMODE=ANINFO_BLIND_1,   
-     .                  I1=ID,                   
-     .                  C1=TITR,                 
-     .                  I2=FCOND0)  
+                CALL ANCMSG(MSGID=1811,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=ID,
+     .                  C1=TITR,
+     .                  I2=FCOND0)
                 ENDIF
 
 

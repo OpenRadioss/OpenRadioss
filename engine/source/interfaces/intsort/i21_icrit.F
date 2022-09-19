@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IPARI(NPARI,*), 
+      INTEGER IPARI(NPARI,*),
      .        NELTST, ITYPTST,NBINTC21,
      .        INTLIST21(*)
 C     REAL
@@ -107,7 +107,7 @@ C
 C
           INTERACT = 0
           ISENS = IPARI(64,I)
-          IF(ISENS/=0) THEN             
+          IF(ISENS/=0) THEN
             TS = SENSOR(2,ISENS)
             IF (TT>=TS) INTERACT = 1
           ELSE
@@ -195,7 +195,7 @@ C test sur pas de temps sur l'interface (parith on spmd)
      .          ' IN INTERFACE ID=',IPARI(15,I)
                 IF (ISTAMPING == 1) IMESS=1
                 TSTOP=TT
-              END IF  
+              END IF
             END IF
           END IF
       END DO

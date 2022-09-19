@@ -82,19 +82,19 @@ C
           PHIX =  TEMPNC(NC1(I))*PX1(I) + TEMPNC(NC2(I))*PX2(I)  +
      .            TEMPNC(NC3(I))*PX3(I) + TEMPNC(NC4(I))*PX4(I)  -
      .            TEMPNC(NC5(I))*PX3(I) - TEMPNC(NC6(I))*PX4(I)  -
-     .            TEMPNC(NC7(I))*PX1(I) - TEMPNC(NC8(I))*PX2(I)       
-          
+     .            TEMPNC(NC7(I))*PX1(I) - TEMPNC(NC8(I))*PX2(I)
+
           PHIY =  TEMPNC(NC1(I))*PY1(I) + TEMPNC(NC2(I))*PY2(I)  +
      .            TEMPNC(NC3(I))*PY3(I) + TEMPNC(NC4(I))*PY4(I)  -
      .            TEMPNC(NC5(I))*PY3(I) - TEMPNC(NC6(I))*PY4(I)  -
      .            TEMPNC(NC7(I))*PY1(I) - TEMPNC(NC8(I))*PY2(I)
-      
+
           PHIZ =  TEMPNC(NC1(I))*PZ1(I) + TEMPNC(NC2(I))*PZ2(I)  +
      .            TEMPNC(NC3(I))*PZ3(I) + TEMPNC(NC4(I))*PZ4(I)  -
      .            TEMPNC(NC5(I))*PZ3(I) - TEMPNC(NC6(I))*PZ4(I)  -
-     .            TEMPNC(NC7(I))*PZ1(I) - TEMPNC(NC8(I))*PZ2(I) 
+     .            TEMPNC(NC7(I))*PZ1(I) - TEMPNC(NC8(I))*PZ2(I)
 C
-        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
         PHIX = KC*PHIX
         PHIY = KC*PHIY
         PHIZ = KC*PHIZ

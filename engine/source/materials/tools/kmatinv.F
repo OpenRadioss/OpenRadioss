@@ -58,8 +58,8 @@ C
           AINV(I,2,1)=FAC*(MAT(I,2,3)*MAT(I,3,1)-MAT(I,3,3)*MAT(I,2,1))
           AINV(I,3,2)=FAC*(MAT(I,1,2)*MAT(I,3,1)-MAT(I,1,1)*MAT(I,3,2))
           AINV(I,1,3)=FAC*(MAT(I,1,2)*MAT(I,2,3)-MAT(I,2,2)*MAT(I,1,3))
-        
-        ENDDO  
+
+        ENDDO
 C
       RETURN
-      END      
+      END

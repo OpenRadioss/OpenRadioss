@@ -29,7 +29,7 @@ Chd|        FCRIT                         source/materials/mat/mat081/sigeps81.F
 Chd|        FINTER                        source/tools/curve/finter.F   
 Chd|====================================================================
       SUBROUTINE SIGEPS81 (
-     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NGL    , 
+     1     NEL    ,NUPARAM,NUVAR   ,NFUNC   ,IFUNC   ,NGL    ,
      2     NPF    ,TF     ,TIME    ,UPARAM  ,RHO0    ,RHO    ,
      3     VOLUME ,AMU    ,DEFP    ,SOUNDSP ,VISCMAX ,UVAR   ,
      4     EPSPXX ,EPSPYY ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX ,
@@ -45,7 +45,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "vect01_c.inc"
@@ -132,13 +132,13 @@ C-----------------------------------------------
      .  DEPSP5,DEPSP6,DEPSL1,DEPSL2,DEPSL3,DEPSL4,DEPSL5,DEPSL6,
      .  SY1,SY2,SY3,SY4,SY5,SY6,QY,FY,PY,UY,DERI,FAC,
      .  EPSPVOL0,RHOW0,KWATER,POR0,VISCFAC,SAT0,U0,UNMSPOR0,TOLMU,PU,
-     .  DRCDPB,AA,RC,RP,PMPA,F1,F2,X,X1,X2,DX    
+     .  DRCDPB,AA,RC,RP,PMPA,F1,F2,X,X1,X2,DX
       my_real, DIMENSION(NEL) :: K,G,G2,C,PB,DEPSVOL,DAV,D1,D2,D3,
      .  DS1,DS2,DS3,DS4,DS5,DS6,DP,S1,S2,S3,S4,S5,S6,P,
      .  DCDEPSP,DPBDEPSP,PA,PBMPA,PBMPA2,S1N,S2N,S3N,S4N,S5N,S6N,
      .  P0,PN,QN,Q2,Q,F,DE1,DE2,DE3,DE4,DE5,DE6,POR,MUW,U,DU,DUDMU,
      .  PO,UO,SO1,SO2,SO3,SO4,SO5,SO6,FO
-      my_real SMALL,BIG,TOL 
+      my_real SMALL,BIG,TOL
       my_real ,DIMENSION(:), POINTER :: EPSPD,EPSPV
 C=======================================================================
 C         UVAR(1) COHESION
@@ -167,17 +167,17 @@ C=======================================================================
       SMALL = EM10
       BIG   = EP20
       TOL   = EM20
-c---------------------     
-      EPSPD => DEFP(1:NEL,1)   ! Von Mises Equivalent Plastic Strain  
+c---------------------
+      EPSPD => DEFP(1:NEL,1)   ! Von Mises Equivalent Plastic Strain
       EPSPV => DEFP(1:NEL,2)   ! Volumetric Plastic Strain
-c---------------------     
+c---------------------
       KINI = UPARAM(1)
       GINI = UPARAM(2)
       TGB  = UPARAM(3)
       TGP  = UPARAM(4)
       ALPHA= UPARAM(5)
-      MAX_DILAT = UPARAM(6) 
-      SOFT_FLAG = INT(UPARAM(7)) 
+      MAX_DILAT = UPARAM(6)
+      SOFT_FLAG = INT(UPARAM(7))
 C
       EPSPVOL0 = UPARAM(8)
       KWATER   = UPARAM(9)
@@ -189,17 +189,17 @@ C
       YLDINI   = UPARAM(15)
       CAPINI   = UPARAM(16)
 c
-      UNMSPOR0 = ONE-POR0      
+      UNMSPOR0 = ONE-POR0
 c------------------------------------------------
 c     ATTENTION INITIALISATIONS PROVISOIREMENT ICI
 c     A rendre compatible : IF(EPSPV(I) == ZERO) EPSPV(I)=UPARAM(8)! EPSVINI
-      IF (ISIGI == 0) THEN  
+      IF (ISIGI == 0) THEN
         IF (TIME == ZERO) THEN
           DO I=1,NEL
             IF(EPSPV(I) == ZERO) EPSPV(I)=UPARAM(8)
             ! -------------------------------------------------------------------------
             ! Modification (26/05/2020) - V.DAVAZE - for missing scale factors in manual
-            IF (IFUNC(3) > 0) THEN 
+            IF (IFUNC(3) > 0) THEN
               C(I) = YLDINI*FINTER(IFUNC(3),EPSPD(I),NPF,TF,DCDEPSP(I))
             ELSE
               C(I) = YLDINI
@@ -235,24 +235,24 @@ C - SIGO and SIGN are the skeleton stress tensors (effective stress)
 C - Pore presure U goes into SIGV and is stored into AUX UVAR (I,5)
 C
       IF (IFUNC(1) > 0)THEN
-        DO I=1,NEL 
+        DO I=1,NEL
           K(I) = KINI*FINTER(IFUNC(1),EPSPV(I),NPF,TF,DERI)
         ENDDO
       ELSE
         K(1:NEL) = KINI
       ENDIF
       IF (IFUNC(2) > 0)THEN
-        DO I=1,NEL 
+        DO I=1,NEL
           G(I) = GINI*FINTER(IFUNC(2),EPSPV(I),NPF,TF,DERI)
         ENDDO
       ELSE
         G(1:NEL) = GINI
       ENDIF
-c---------------      
+c---------------
       DO I=1,NEL
         ! -------------------------------------------------------------------------
         ! Modification (26/05/2020) - V.DAVAZE - for missing scale factors in manual
-        IF (IFUNC(3) > 0) THEN 
+        IF (IFUNC(3) > 0) THEN
           C(I) = YLDINI*FINTER(IFUNC(3),EPSPD(I),NPF,TF,DCDEPSP(I))
         ELSE
           C(I) = YLDINI
@@ -280,15 +280,15 @@ C
         D1(I)  = DEPSXX(I)-DAV(I)
         D2(I)  = DEPSYY(I)-DAV(I)
         D3(I)  = DEPSZZ(I)-DAV(I)
-c       Increments elastiques pression et deviateur        
+c       Increments elastiques pression et deviateur
         DP(I) =-K(I)* DEPSVOL(I)
-        DS1(I)= G2(I)* D1(I) 
+        DS1(I)= G2(I)* D1(I)
         DS2(I)= G2(I)* D2(I)
         DS3(I)= G2(I)* D3(I)
         DS4(I)= G(I) * DEPSXY(I)
         DS5(I)= G(I) * DEPSYZ(I)
         DS6(I)= G(I) * DEPSZX(I)
-c       Valeurs elastiques pression et deviateur   
+c       Valeurs elastiques pression et deviateur
         PO(I)  =-(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I))*THIRD
         SO1(I) = SIGOXX(I) + PO(I)
         SO2(I) = SIGOYY(I) + PO(I)
@@ -315,7 +315,7 @@ C
       ENDDO
 c------------------------------------------
 c     old criterion
-      DO I=1,NEL          
+      DO I=1,NEL
         Q2(I) = THREE_HALF*(SO1(I)**2+SO2(I)**2+SO3(I)**2)
      .        + THREE*(SO4(I)**2+SO5(I)**2+SO6(I)**2)
         Q(I)  = SQRT(Q2(I))
@@ -348,11 +348,11 @@ cfp_poro in the first part U is the non linear cap shift
           DU(I) = ZERO
           DUDMU(I)=ZERO
         ENDDO
-      ENDIF  
+      ENDIF
 c------------------------------------------
 c     EVALUATION FONCTION CRITERE DE PLASTICITE
 c------------------------------------------
-      DO I=1,NEL          
+      DO I=1,NEL
         Q2(I) = THREE_HALF*(S1(I)**2+S2(I)**2+S3(I)**2)
      .        + THREE*(S4(I)**2+S5(I)**2+S6(I)**2)
         Q(I)= SQRT(Q2(I))
@@ -371,12 +371,12 @@ c------------------------------------------
             DO NIT=1,NITMAX
               X   = (X1*F2 - X2*F1) / (F2 - F1)  ! regula falsi
               SY1 = S1(I) - X * DS1(I)
-              SY2 = S2(I) - X * DS2(I)    
+              SY2 = S2(I) - X * DS2(I)
               SY3 = S3(I) - X * DS3(I)
               SY4 = S4(I) - X * DS4(I)
               SY5 = S5(I) - X * DS5(I)
               SY6 = S6(I) - X * DS6(I)
-              PY  = P(I)  - X * DP(I) 
+              PY  = P(I)  - X * DP(I)
               UY  = U(I)  - X * DU(I)
               QY  = THREE_HALF*(SY1**2+SY2**2+SY3**2) + THREE*(SY4**2+SY5**2+SY6**2)
               QY  = SQRT(QY)
@@ -439,36 +439,36 @@ c---------------------------------
       DO I=1,NEL
         IF (F(I) > ZERO) THEN
           IF (P(I) <= PA(I)) THEN
-            RC = ONE     
-            DFDP =-TGB  
-            DGDP =-TGP  
-            DFDPB= ZERO 
+            RC = ONE
+            DFDP =-TGB
+            DGDP =-TGP
+            DFDPB= ZERO
           ELSE
-            IF (P(I) < P0(I)) THEN                                 
-              PU = P(I)                                           
-            ELSE IF (P(I) <= P0(I)+U(I)) THEN                      
-              PU = P0(I)                                          
-            ELSE                                                   
-              PU = P(I)-U(I)                                      
-            ENDIF                                                  
-            PMPA = PU - PA(I)                                      
-            RP = PMPA / PBMPA(I)                                   
-            RC = ONE - MIN(ONE, PMPA**2/PBMPA2(I))                   
-            RC = SQRT(RC)                                          
-            AA = TGB*PU + C(I)                                     
-            DRCDP = -PMPA/PBMPA2(I)/MAX(SMALL,RC)                  
-            DFDP  = -(TGB*RC + DRCDP*AA)                           
-            DRCDPB = PMPA**2/PBMPA2(I)/PBMPA(I)                    
-            DFDPB = -PU*PMPA*AA/PB(I)/PBMPA2(I)                     
-            DFDPB = DFDPB/MAX(SMALL,RC)                           
+            IF (P(I) < P0(I)) THEN
+              PU = P(I)
+            ELSE IF (P(I) <= P0(I)+U(I)) THEN
+              PU = P0(I)
+            ELSE
+              PU = P(I)-U(I)
+            ENDIF
+            PMPA = PU - PA(I)
+            RP = PMPA / PBMPA(I)
+            RC = ONE - MIN(ONE, PMPA**2/PBMPA2(I))
+            RC = SQRT(RC)
+            AA = TGB*PU + C(I)
+            DRCDP = -PMPA/PBMPA2(I)/MAX(SMALL,RC)
+            DFDP  = -(TGB*RC + DRCDP*AA)
+            DRCDPB = PMPA**2/PBMPA2(I)/PBMPA(I)
+            DFDPB = -PU*PMPA*AA/PB(I)/PBMPA2(I)
+            DFDPB = DFDPB/MAX(SMALL,RC)
 c
-            IF (P(I) > P0(I)) THEN                                 
-              DGDP = DFDP   ! associe sur le cap                   
-            ELSE                                                   
-              DGDP = -TGP*(P0(I)-P(I))/(P0(I)-PA(I))              
-              IF (SOFT_FLAG == 1) DFDPB = ZERO                     
-              DU(I) = ZERO                                         
-            ENDIF                                                  
+            IF (P(I) > P0(I)) THEN
+              DGDP = DFDP   ! associe sur le cap
+            ELSE
+              DGDP = -TGP*(P0(I)-P(I))/(P0(I)-PA(I))
+              IF (SOFT_FLAG == 1) DFDPB = ZERO
+              DU(I) = ZERO
+            ENDIF
             IF (MUW(I) >= ZERO) DGDP = ZERO
           ENDIF
 c
@@ -493,12 +493,12 @@ c         MAX_DILAT est toujours negatif.
             DFDS3 =ZERO
             DFDS4 =ZERO
             DFDS5 =ZERO
-            DFDS6 =ZERO        
+            DFDS6 =ZERO
           ENDIF
 c
           IF (RC > EM05) THEN
-c           DENOMINATEUR         
-            HH = THREE*G(I) - DFDC*DCDEPSP(I) + K(I)*DFDP*DGDP 
+c           DENOMINATEUR
+            HH = THREE*G(I) - DFDC*DCDEPSP(I) + K(I)*DFDP*DGDP
      .         - DGDP*DFDPB*DPBDEPSP(I)
 c
 c           INCREMENT DEFORMATIONS PASTIQUES
@@ -510,12 +510,12 @@ c
 C
             DLAMBDA = DLAMBDA/MAX(HH,EM20)
 C
-            DEPSP1 =   DLAMBDA*DFDS1 
-            DEPSP2 =   DLAMBDA*DFDS2 
-            DEPSP3 =   DLAMBDA*DFDS3 
+            DEPSP1 =   DLAMBDA*DFDS1
+            DEPSP2 =   DLAMBDA*DFDS2
+            DEPSP3 =   DLAMBDA*DFDS3
 c           le facteur 2 est du au fait que c'est des gamma
-            DEPSP4 = TWO*DLAMBDA*DFDS4 
-            DEPSP5 = TWO*DLAMBDA*DFDS5 
+            DEPSP4 = TWO*DLAMBDA*DFDS4
+            DEPSP5 = TWO*DLAMBDA*DFDS5
             DEPSP6 = TWO*DLAMBDA*DFDS6
             DEPSPV = DLAMBDA*DGDP
           ELSE
@@ -549,7 +549,7 @@ C
           DS6(I)= G(I) *DEPSL6
           DP(I) =-K(I) *DEPSLV
 C
-c         NOUVELLES CONTRAINTES 
+c         NOUVELLES CONTRAINTES
 C
           S1N(I) = S1(I)+DS1(I)
           S2N(I) = S2(I)+DS2(I)
@@ -562,9 +562,9 @@ C
 c         NOUVEAUX PARAMETRES ECROUISSAGE
 C         
           DWPX2 = (S1N(I)+S1(I))*DEPSP1
-     .          + (S2N(I)+S2(I))*DEPSP2    
-     .          + (S3N(I)+S3(I))*DEPSP3    
-     .          + ((S4N(I)+S4(I))*DEPSP4  
+     .          + (S2N(I)+S2(I))*DEPSP2
+     .          + (S3N(I)+S3(I))*DEPSP3
+     .          + ((S4N(I)+S4(I))*DEPSP4
      .          +  (S5N(I)+S5(I))*DEPSP5
      .          +  (S6N(I)+S6(I))*DEPSP6 )*HALF
 C
@@ -577,13 +577,13 @@ C
 C          
           ! -------------------------------------------------------------------------
           ! Modification (26/05/2020) - V.DAVAZE - for missing scale factors in manual
-          IF (IFUNC(3) > 0) THEN 
+          IF (IFUNC(3) > 0) THEN
             C(I) = YLDINI*FINTER(IFUNC(3),EPSPD(I),NPF,TF,DCDEPSP(I))
           ELSE
             C(I) = YLDINI
           ENDIF
           C(I) = MAX(C(I), ZERO)
-          ! -------------------------------------------------------------------------          
+          ! -------------------------------------------------------------------------
 C
           IF (SOFT_FLAG == 1) THEN
              EPSPV(I) = EPSPV(I) + MAX(DEPSPV,ZERO)
@@ -644,7 +644,7 @@ c
               S5N(I) = ZERO
               S6N(I) = ZERO
 C             WRITE(6,*)'TRI-TRACTION FAILURE'
-            ELSE 
+            ELSE
 c******
 c               fp_poro This section has been simplified w.r.t. DPCAP
 c******
@@ -676,13 +676,13 @@ C                   ENDIF
                   ENDIF
                 ELSE
                   S1N(I) = ZERO
-                  S2N(I) = ZERO 
+                  S2N(I) = ZERO
                   S3N(I) = ZERO
-                  S4N(I) = ZERO 
-                  S5N(I) = ZERO 
+                  S4N(I) = ZERO
+                  S5N(I) = ZERO
                   S6N(I) = ZERO
-                  PN(I)  = PB(I)+U(I)                    
-               ENDIF               
+                  PN(I)  = PB(I)+U(I)
+               ENDIF
             ENDIF
           ENDIF
           SIGNXX(I) = S1N(I)-PN(I)
@@ -692,7 +692,7 @@ C                   ENDIF
           SIGNYZ(I) = S5N(I)
           SIGNZX(I) = S6N(I)
 C         
-        ENDIF   ! F > 0       
+        ENDIF   ! F > 0
       ENDDO     ! I=1,NEL
 c----------------------------------------------
 c     END OF PLASTICITY PROJECTION LOOP
@@ -715,10 +715,10 @@ C
         DO I=1,NEL
           VISCMAX(I) = ZERO
 c         fp_poro adding viscosity close to saturation
-          IF (MUW(I) > -TOLMU) THEN 
+          IF (MUW(I) > -TOLMU) THEN
             VISCMAX(I) = VISCFAC*(SQRT(KWATER*RHO(I))*VOLUME(I)**THIRD)
             U(I) = U(I) - VISCMAX(I)*(EPSPXX(I)+EPSPYY(I)+EPSPZZ(I))
-          ENDIF 
+          ENDIF
 c         fp_poro the pore pressure is stored in the viscous stress
 c         for practical reasons including compatibility with ALE
           SIGVXX(I) = -U(I)

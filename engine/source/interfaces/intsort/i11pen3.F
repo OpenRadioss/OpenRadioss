@@ -57,7 +57,7 @@ C-----------------------------------------------
       my_real
      .     GAPMIN,MARGE
       my_real
-     .     X(3,*), PENE(MVSIZ), 
+     .     X(3,*), PENE(MVSIZ),
      .     GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
       my_real , INTENT(IN) :: DGAPLOAD,DRAD
 C-----------------------------------------------
@@ -90,7 +90,7 @@ C-----------------------------------------------
             GAPV(I)=MAX(DRAD,MAX(GAPMIN,GAPV(I))+DGAPLOAD)+MARGE
           ELSE
             GAPV(I)=XREM(16,L-NRTS )+GAP_M(CAND_M(I))
-            IF(IGAP == 3) 
+            IF(IGAP == 3)
      .        GAPV(I)=MIN(XREM(17,L-NRTS)+GAP_M_L(CAND_M(I)),GAPV(I))
             GAPV(I)=MAX(DRAD,MAX(GAPMIN,GAPV(I))+DGAPLOAD)+MARGE
           ENDIF ! L <= NRTS
@@ -135,7 +135,7 @@ C
         DO I=1,JLT
           L = CAND_S(I)
           IF(L<=NRTS) THEN
-            NI=0 
+            NI=0
             N1=IRECTS(1,CAND_S(I))
             N2=IRECTS(2,CAND_S(I))
             X11 = X(1,N1)
@@ -193,7 +193,7 @@ c         calcul de la distance^2
           XM2 = XM12*XM12 + YM12*YM12 + ZM12*ZM12
           XSM = - (XS12*XM12 + YS12*YM12 + ZS12*ZM12)
           XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-          XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+          XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
           DET = XM2*XS2 - XSM*XSM
           DET = MAX(EM20,DET)
 C
@@ -307,7 +307,7 @@ C
         DO I=1,JLT
           L = CAND_S(I)
           IF(L<=NRTS) THEN
-            NI=0 
+            NI=0
 	    N1=IRECTS(1,CAND_S(I))
             N2=IRECTS(2,CAND_S(I))
             X11 = X(1,N1)
@@ -365,7 +365,7 @@ c         calcul de la distance^2
           XM2 = XM12*XM12 + YM12*YM12 + ZM12*ZM12
           XSM = - (XS12*XM12 + YS12*YM12 + ZS12*ZM12)
           XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-          XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+          XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
           DET = XM2*XS2 - XSM*XSM
           DET = MAX(EM20,DET)
 C

@@ -183,11 +183,11 @@ C-------NDOF(M)> 3 comme rigid body---
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
-        ENDIF 
+        ENDIF
        DO K =1,3
         D(K,I)=ZERO
        ENDDO
@@ -196,8 +196,8 @@ C-------NDOF(M)> 3 comme rigid body---
         DO K =1,3
          D(K,I)=D(K,I)+H(J)*D(K,NJ)
         ENDDO
-       ENDDO 
-       IF (ND==6) THEN 
+       ENDDO
+       IF (ND==6) THEN
         DO K =1,3
           DR(K,I)=ZERO
         ENDDO
@@ -216,12 +216,12 @@ C-------NDOF(M)> 3 comme rigid body---
           DO K = 1 , 3
             D(K,I) = D(K,I) + DS(K)
           END DO
-        ELSE  
+        ELSE
           D(1,I)=D(1,I)+ZS*DR(2,I)-YS*DR(3,I)
           D(2,I)=D(2,I)-ZS*DR(1,I)+XS*DR(3,I)
           D(3,I)=D(3,I)+YS*DR(1,I)-XS*DR(2,I)
         END IF
-       ENDIF  
+       ENDIF
       ENDDO
 C
       RETURN
@@ -274,25 +274,25 @@ C------------------------------------
         DO K =1,3
          DR(K,I)=ZERO
         ENDDO
-       ENDIF 
+       ENDIF
        DO J=1,NIR(II)
         NJ=IRECT(J,L)
 C-------recupere salve dis : in function of main's translation--
          DO K=1,3
           D(K,I)=D(K,I)+RJT(K,1,J,II)*D(1,NJ)+
      .           RJT(K,2,J,II)*D(2,NJ)+RJT(K,3,J,II)*D(3,NJ)
-         ENDDO 
+         ENDDO
          IF (NDOF(I)>3) THEN
           DO K=1,3
            DR(K,I)=DR(K,I)+RJ(K,1,J,II)*D(1,NJ)+
      .           RJ(K,2,J,II)*D(2,NJ)+RJ(K,3,J,II)*D(3,NJ)
-          ENDDO 
-         ENDIF 
-       ENDDO 
+          ENDDO
+         ENDIF
+       ENDDO
       ENDDO
 C
       RETURN
-      END      
+      END
 Chd|====================================================================
 Chd|  I2RECU2                       source/interfaces/interf/i2_imp2.F
 Chd|-- called by -----------
@@ -342,7 +342,7 @@ C------------------------------------
         XM(J)=X(1,NJ)
         YM(J)=X(2,NJ)
         ZM(J)=X(3,NJ)
-       ENDDO 
+       ENDDO
        IF(IRECT(3,L)==IRECT(4,L)) THEN
         NIRI=3
         XM(4)=ZERO
@@ -355,10 +355,10 @@ C       VITESSE DE ROTATION MOYENNE DU SEGMENT MAIN
 C----------------------------------------------------
         X0=FACM*(XM(1)+XM(2)+XM(3)+XM(4))
         Y0=FACM*(YM(1)+YM(2)+YM(3)+YM(4))
-        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	   
+        Z0=FACM*(ZM(1)+ZM(2)+ZM(3)+ZM(4))	
         LSM(1)=X(1,I)-X0
         LSM(2)=X(2,I)-Y0
-        LSM(3)=X(3,I)-Z0             
+        LSM(3)=X(3,I)-Z0
        DO K =1,3
         D(K,I)=ZERO
        ENDDO
@@ -366,7 +366,7 @@ C----------------------------------------------------
         DO K =1,3
          DR(K,I)=ZERO
         ENDDO
-       ENDIF 
+       ENDIF
        call ZERO1(DR2,3)
        call ZERO1(DT,3)
        DO J=1,NIR(II)
@@ -377,19 +377,19 @@ C-------recupere salve dis : in function of main's translation--
      .           RJ(K,2,J,II)*D(2,NJ)+RJ(K,3,J,II)*D(3,NJ)
            DT(K) = DT(K) + FACM*D(K,NJ)
           END DO
-          
+
          IF (NDOF(I)>3) THEN
           DO K=1,3
            DR(K,I)=DR(K,I)+RJ(K,1,J,II)*D(1,NJ)+
      .           RJ(K,2,J,II)*D(2,NJ)+RJ(K,3,J,II)*D(3,NJ)
-          ENDDO           
-         ENDIF          
+          ENDDO
+         ENDIF
        ENDDO
        CALL VELROT(DR2,LSM,DS)
        DO K=1,3
         D(K,I)=D(K,I)+ DS(K)+ DT(K)
        ENDDO
-       
+
       ENDDO
 C
       RETURN
@@ -410,7 +410,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IRECT(4,*), NSV(*), IRTL(*),II
 C     REAL
       my_real
@@ -478,11 +478,11 @@ C
         VMY=FOURTH*(D(2,J1)+D(2,J2)+D(2,J3)+D(2,J4))
         VMZ=FOURTH*(D(3,J1)+D(3,J2)+D(3,J3)+D(3,J4))
 C
-        MGX = Y1*D(3,J1) + Y2*D(3,J2) + Y3*D(3,J3) + Y4*D(3,J4) 
+        MGX = Y1*D(3,J1) + Y2*D(3,J2) + Y3*D(3,J3) + Y4*D(3,J4)
      .      - Z1*D(2,J1) - Z2*D(2,J2) - Z3*D(2,J3) - Z4*D(2,J4)
-        MGY = Z1*D(1,J1) + Z2*D(1,J2) + Z3*D(1,J3) + Z4*D(1,J4) 
+        MGY = Z1*D(1,J1) + Z2*D(1,J2) + Z3*D(1,J3) + Z4*D(1,J4)
      .      - X1*D(3,J1) - X2*D(3,J2) - X3*D(3,J3) - X4*D(3,J4)
-        MGZ = X1*D(2,J1) + X2*D(2,J2) + X3*D(2,J3) + X4*D(2,J4) 
+        MGZ = X1*D(2,J1) + X2*D(2,J2) + X3*D(2,J3) + X4*D(2,J4)
      .      - Y1*D(1,J1) - Y2*D(1,J2) - Y3*D(1,J3) - Y4*D(1,J4)
         VRX=DET*(MGX*B1+MGY*C3+MGZ*C2)
         VRY=DET*(MGY*B2+MGZ*C1+MGX*C3)
@@ -509,7 +509,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IRECT(4,*), NSV(*), IRTL(*), II,NDOF(*)
 C     REAL
       my_real
@@ -556,11 +556,11 @@ C-------NDOF(M)> 3 comme rigid body---
           XS0=XS0+X(1,NJ)*H(J)
           YS0=YS0+X(2,NJ)*H(J)
           ZS0=ZS0+X(3,NJ)*H(J)
-         ENDDO 
+         ENDDO
          XS=X(1,I)-XS0
          YS=X(2,I)-YS0
          ZS=X(3,I)-ZS0
-        ENDIF 
+        ENDIF
 C-------Update K(main node),B---
        DO K =1,3
         D(K,I)=ZERO
@@ -570,8 +570,8 @@ C-------Update K(main node),B---
         DO K =1,3
          D(K,I)=D(K,I)+H(J)*D(K,NJ)
         ENDDO
-       ENDDO 
-       IF (ND==6) THEN 
+       ENDDO
+       IF (ND==6) THEN
         DO K =1,3
           DR1(K)=ZERO
         ENDDO
@@ -579,11 +579,11 @@ C-------Update K(main node),B---
          DO K =1,3
           DR1(K)=DR1(K)+H(J)*DR(K,NJ)
          ENDDO
-        ENDDO 
+        ENDDO
         D(1,I)=D(1,I)+ZS*DR1(2)-YS*DR1(3)
         D(2,I)=D(2,I)-ZS*DR1(1)+XS*DR1(3)
         D(3,I)=D(3,I)+YS*DR1(1)-XS*DR1(2)
-       ENDIF  
+       ENDIF
 C
       RETURN
       END

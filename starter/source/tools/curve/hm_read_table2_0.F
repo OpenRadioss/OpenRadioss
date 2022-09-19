@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        JREC, NPTS, STAT, IDS, LL, LX(2)
       INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
-      INTEGER IERROR, NF  
+      INTEGER IERROR, NF
 C     REAL
       my_real
      .   BID, XK, XX, X1, X2, X234(3), YY, Y1, Y2, R, XMIN, XMAX,
@@ -97,10 +97,10 @@ C======================================================================|
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       CALL HM_OPTION_START('/TABLE/0')
-      DO I=1,NTABLE0 
-       CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                         OPTION_TITR = TITR, 
-     .                         OPTION_ID   = ID) 
+      DO I=1,NTABLE0
+       CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                         OPTION_TITR = TITR,
+     .                         OPTION_ID   = ID)
        CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
        NX(1) = 0
@@ -139,29 +139,29 @@ C-----------------------------------------------
      .                      I2=K)
          END IF !NX(K) < 2
        ENDDO !K=1,NDIM
-       !ndim = 1 
+       !ndim = 1
        ALLOCATE(TABLE(L)%X(1)%VALUES(NX(1)),STAT=stat)
        IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGERROR,
      .                                   C1='TABLE')
 C
-      ! read abscissa values for this parameter           
+      ! read abscissa values for this parameter
        DO N =1, NX(1)
-         CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N1', XK, N, IS_AVAILABLE, LSUBMODEL, UNITAB)            
+         CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N1', XK, N, IS_AVAILABLE, LSUBMODEL, UNITAB)
          TABLE(L)%X(1)%VALUES(N)= XK
        END DO
-       !ndim = 2 
-       IF(NDIM > 1 ) THEN 
+       !ndim = 2
+       IF(NDIM > 1 ) THEN
          ALLOCATE(TABLE(L)%X(2)%VALUES(NX(2)),STAT=stat)
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                   MSGTYPE=MSGERROR,
      .                                   C1='TABLE')
-        ! read abscissa values for this parameter           
+        ! read abscissa values for this parameter
          DO N =1, NX(2)
            CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N2',XK,N,IS_AVAILABLE, LSUBMODEL, UNITAB)
            TABLE(L)%X(2)%VALUES(N)= XK
          END DO
-         IF(NDIM > 2 ) THEN 
+         IF(NDIM > 2 ) THEN
             ALLOCATE(TABLE(L)%X(3)%VALUES(NX(3)),STAT=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGERROR,
@@ -170,43 +170,43 @@ C
                CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N3',XK,N,IS_AVAILABLE, LSUBMODEL, UNITAB)
                TABLE(L)%X(3)%VALUES(N)= XK
              END DO
-           IF(NDIM > 3 ) THEN 
+           IF(NDIM > 3 ) THEN
              ALLOCATE(TABLE(L)%X(4)%VALUES(NX(4)),STAT=stat)
              IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
-     .      MSGTYPE=MSGERROR,                                
-     .      C1='TABLE')                                      
-             DO N =1, NX(4)                                                                         
-              CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N4',XK,N,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-              TABLE(L)%X(4)%VALUES(N)= XK                                                           
-             END DO                                                                                 
+     .      MSGTYPE=MSGERROR,
+     .      C1='TABLE')
+             DO N =1, NX(4)
+              CALL HM_GET_FLOAT_ARRAY_INDEX('temparray2d_N4',XK,N,IS_AVAILABLE, LSUBMODEL, UNITAB)
+              TABLE(L)%X(4)%VALUES(N)= XK
+             END DO
            ENDIF !NDIM > 3
          ENDIF!(NDIM > 2 )
-       ENDIF !(NDIM > 1 )   
-       ! number of ordinate values                                                                
-       NY=1                                                                                      
-       DO K=1,NDIM                                                                               
-         NY=NY*SIZE(TABLE(L)%X(K)%VALUES)                                                        
-       END DO                                                                                    
-       ALLOCATE(TABLE(L)%Y,STAT=stat)                                                            
+       ENDIF !(NDIM > 1 )
+       ! number of ordinate values
+       NY=1
+       DO K=1,NDIM
+         NY=NY*SIZE(TABLE(L)%X(K)%VALUES)
+       END DO
+       ALLOCATE(TABLE(L)%Y,STAT=stat)
 
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,                                       
-     .                                MSGTYPE=MSGERROR,                                          
-     .                        C1='TABLE')                                                        
+       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                                MSGTYPE=MSGERROR,
+     .                        C1='TABLE')
 
-       ALLOCATE(TABLE(L)%Y%VALUES(NY),STAT=stat)                                                 
+       ALLOCATE(TABLE(L)%Y%VALUES(NY),STAT=stat)
 
-       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,                                       
-     .                                MSGTYPE=MSGERROR,                                          
-     .                        C1='TABLE')                                                        
+       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
+     .                                MSGTYPE=MSGERROR,
+     .                        C1='TABLE')
 C
-       ! read ordinate values                                                                    
-       DO N = 1, NY                                                                              
-        CALL HM_GET_FLOAT_ARRAY_INDEX('ENG_FUNCT_yValues',YY,N,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-        TABLE(L)%Y%VALUES(N)=YY                                                                  
-       ENDDO !N = 1, NY                                                                          
+       ! read ordinate values
+       DO N = 1, NY
+        CALL HM_GET_FLOAT_ARRAY_INDEX('ENG_FUNCT_yValues',YY,N,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        TABLE(L)%Y%VALUES(N)=YY
+       ENDDO !N = 1, NY
 
 
-       IF (IS_ENCRYPTED)THEN                                     
+       IF (IS_ENCRYPTED)THEN
          WRITE(IOUT,'(A)')'CONFIDENTIAL DATA'
        ELSE
          WRITE(IOUT,2100) TABLE(L)%NOTABLE, TABLE(L)%NDIM
@@ -219,7 +219,7 @@ C
          WRITE(IOUT,2300)
          WRITE(IOUT,2350) (TABLE(L)%Y%VALUES(N),N=1,NY)
        END IF
-      END DO  
+      END DO
       RETURN
 
 C-----------------------------------------------------------------

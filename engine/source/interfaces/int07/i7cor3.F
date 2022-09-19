@@ -74,7 +74,7 @@ C-----------------------------------------------
      .        JLT,IDT, NOINT,IGAP , NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH,INTFRIC,IORTHFRIC
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
+     .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ),
      .        NODNX_SMS(*),IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),
      .        IPARTFRICMI(MVSIZ),IREP_FRICM(*),IREP_FRICMI(MVSIZ)
 C     REAL
@@ -106,7 +106,7 @@ C-----------------------------------------------
       ELSE
         DO I=1,JLT
           IF(CAND_N(I)<=NSN) THEN
-            GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I)) 
+            GAPV(I)=GAP_S(CAND_N(I))+GAP_M(CAND_E(I))
           ELSE
             GAPV(I)=GAPFI(NIN)%P(CAND_N(I)-NSN)+GAP_M(CAND_E(I))
           ENDIF
@@ -117,13 +117,13 @@ C-----------------------------------------------
               GAPV(I)=MIN(GAP_S_L(CAND_N(I))+GAP_M_L(CAND_E(I)),GAPV(I))
             ELSE
               GAPV(I)= MIN(GAP_LFI(NIN)%P(CAND_N(I)-NSN)+GAP_M_L(CAND_E(I)),GAPV(I))
-            ENDIF                 
+            ENDIF
           ENDDO!next I
         ENDIF
         DO I=1,JLT
           GAPV(I)=MIN(GAPV(I),GAPMAX)
           GAPV(I)=MAX(GAPMIN,GAPV(I))
-        ENDDO      
+        ENDDO
       ENDIF
 
       IF(ITY==7) THEN
@@ -155,29 +155,29 @@ C-----------------------------------------------
              MSI(I)= MSFI(NIN)%P(NN)
            END IF
 C
-           IX=IRECT(1,L)  
-           IX1(I)=IX      
-           X1(I)=X(1,IX)  
-           Y1(I)=X(2,IX)  
-           Z1(I)=X(3,IX)  
+           IX=IRECT(1,L)
+           IX1(I)=IX
+           X1(I)=X(1,IX)
+           Y1(I)=X(2,IX)
+           Z1(I)=X(3,IX)
 C
-           IX=IRECT(2,L)  
-           IX2(I)=IX      
-           X2(I)=X(1,IX)  
-           Y2(I)=X(2,IX)  
-           Z2(I)=X(3,IX)  
+           IX=IRECT(2,L)
+           IX2(I)=IX
+           X2(I)=X(1,IX)
+           Y2(I)=X(2,IX)
+           Z2(I)=X(3,IX)
 C
-           IX=IRECT(3,L)  
-           IX3(I)=IX      
-           X3(I)=X(1,IX)  
-           Y3(I)=X(2,IX)  
-           Z3(I)=X(3,IX)  
+           IX=IRECT(3,L)
+           IX3(I)=IX
+           X3(I)=X(1,IX)
+           Y3(I)=X(2,IX)
+           Z3(I)=X(3,IX)
 C
-           IX=IRECT(4,L)  
-           IX4(I)=IX      
-           X4(I)=X(1,IX)  
-           Y4(I)=X(2,IX)  
-           Z4(I)=X(3,IX)  
+           IX=IRECT(4,L)
+           IX4(I)=IX
+           X4(I)=X(1,IX)
+           Y4(I)=X(2,IX)
+           Z4(I)=X(3,IX)
 C
           END DO
         ELSE
@@ -215,32 +215,32 @@ C
              IELECI(I)= MATSFI(NIN)%P(NN)
            END IF
 C
-           IX=IRECT(1,L)  
-           IX1(I)=IX      
-           X1(I)=X(1,IX)  
-           Y1(I)=X(2,IX)  
-           Z1(I)=X(3,IX)  
+           IX=IRECT(1,L)
+           IX1(I)=IX
+           X1(I)=X(1,IX)
+           Y1(I)=X(2,IX)
+           Z1(I)=X(3,IX)
 C
-           IX=IRECT(2,L)  
-           IX2(I)=IX      
-           X2(I)=X(1,IX)  
-           Y2(I)=X(2,IX)  
-           Z2(I)=X(3,IX)  
+           IX=IRECT(2,L)
+           IX2(I)=IX
+           X2(I)=X(1,IX)
+           Y2(I)=X(2,IX)
+           Z2(I)=X(3,IX)
 C
-           IX=IRECT(3,L)  
-           IX3(I)=IX      
-           X3(I)=X(1,IX)  
-           Y3(I)=X(2,IX)  
-           Z3(I)=X(3,IX)  
+           IX=IRECT(3,L)
+           IX3(I)=IX
+           X3(I)=X(1,IX)
+           Y3(I)=X(2,IX)
+           Z3(I)=X(3,IX)
 C
-           IX=IRECT(4,L)  
-           IX4(I)=IX      
-           X4(I)=X(1,IX)  
-           Y4(I)=X(2,IX)  
-           Z4(I)=X(3,IX)  
+           IX=IRECT(4,L)
+           IX4(I)=IX
+           X4(I)=X(1,IX)
+           Y4(I)=X(2,IX)
+           Z4(I)=X(3,IX)
 C
           END DO
-        ENDIF 
+        ENDIF
         IF(IGSTI<=1)THEN
          DO I=1,JLT
           L  = CAND_E(I)
@@ -318,8 +318,8 @@ C
 C
            IPARTFRICMI(I) = IPARTFRICM(L)
            IF(IORTHFRIC > 0) THEN
-              IREP_FRICMI(I) =IREP_FRICM(L) 
-              DIR_FRICMI(I,1:2)=DIR_FRICM(1:2,L) 
+              IREP_FRICMI(I) =IREP_FRICM(L)
+              DIR_FRICMI(I,1:2)=DIR_FRICM(1:2,L)
            ENDIF
           ENDDO
         ENDIF
@@ -439,9 +439,9 @@ C
            X4(I)=X(1,IX)
            Y4(I)=X(2,IX)
            Z4(I)=X(3,IX)
-          END DO           
+          END DO
 C         
-         ENDIF 
+         ENDIF
       END IF
 C
       IF(IDTMINS==2)THEN

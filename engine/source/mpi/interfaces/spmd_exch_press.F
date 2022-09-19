@@ -199,7 +199,7 @@ C noeud generant une force
             ENDDO
             SIZ = L+1-ADD
             IF(SIZ>0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
               ASSERT(ADD + SIZ -1 <= IALLOCS+NBINTC*NSPMD)
               CALL MPI_ISEND(
      .          BBUFS(ADD),SIZ,REAL     ,IT_SPMD(P),MSGTYP,

@@ -36,7 +36,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NSN, IRTLM(2,*)
 C     REAL
-      my_real 
+      my_real
      .   CSTS(2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

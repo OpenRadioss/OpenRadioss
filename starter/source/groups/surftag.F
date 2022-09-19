@@ -52,14 +52,14 @@ C-----------------------------------------------
       TYPE(PART_TYPE), DIMENSION(*) :: SURF_ELM
 !
       TYPE (SURF_) :: ISU
-!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
+!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       ----------------
-!       NINDX : number of tagged part 
-!       INDX  : tagged part     
+!       NINDX : number of tagged part
+!       INDX  : tagged part
 !       ----------------
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structur
 !                  %NSHELL or %NTRI : number of element per part
-!                  %SHELL_PART or %TRI_PART : ID of the element 
+!                  %SHELL_PART or %TRI_PART : ID of the element
 !       ----------------
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
@@ -82,9 +82,9 @@ C=======================================================================
       DO JS_PART=1,NUM_PART
        ID_PART = INDX(JS_PART)
        IF(IELTYP==3) NUM_ELM = SURF_ELM(ID_PART)%NSHELL
-       IF(IELTYP==4) NUM_ELM = SURF_ELM(ID_PART)%NTRUSS    
+       IF(IELTYP==4) NUM_ELM = SURF_ELM(ID_PART)%NTRUSS
        IF(IELTYP==5) NUM_ELM = SURF_ELM(ID_PART)%NBEAM
-       IF(IELTYP==6) NUM_ELM = SURF_ELM(ID_PART)%NSPRING       
+       IF(IELTYP==6) NUM_ELM = SURF_ELM(ID_PART)%NSPRING
        IF(IELTYP==7) NUM_ELM = SURF_ELM(ID_PART)%NTRI
        DO JS_ELM=1,NUM_ELM
         IF(IELTYP==3) JJ = SURF_ELM(ID_PART)%SHELL_PART(JS_ELM)
@@ -94,13 +94,13 @@ C=======================================================================
         IF(IELTYP==7) JJ = SURF_ELM(ID_PART)%TRI_PART(JS_ELM)
 !      DO JJ=1,NUMEL
 !        IF (IABS(TAGBUF(IPARTE(JJ))) == 1)THEN
-          NSEG=NSEG+1                           
+          NSEG=NSEG+1
           IF (FLAG == 1) THEN
             IF(TAGBUF(IPARTE(JJ)) == 1)THEN
                IF (FILL_REVERSED) ISU%REVERSED(NSEG) = 0
-               DO K=NIX1,NIX2                      
+               DO K=NIX1,NIX2
                 ISU%NODES(NSEG,K-1) = IX(K,JJ)
-              ENDDO                               
+              ENDDO
             ELSEIF(TAGBUF(IPARTE(JJ)) == -1)THEN
                IF (FILL_REVERSED) ISU%REVERSED(NSEG) = 1
               IF (IELTYP == 3) THEN
@@ -112,10 +112,10 @@ C=======================================================================
                    ISU%NODES(NSEG,INV3(K-1)) = IX(K,JJ)
                  ENDDO
                ENDIF ! IF (IELTYP == 3)
-            ENDIF                                 
+            ENDIF
             IF (NIX2-NIX1 == 2)THEN
               ISU%NODES(NSEG,4) = ISU%NODES(NSEG,3)
-            ENDIF                                 
+            ENDIF
             ISU%ELTYP(NSEG) = IELTYP
             ISU%ELEM(NSEG)  = JJ
           ENDIF
@@ -235,24 +235,24 @@ C-----------------------------------------------
 C=======================================================================
       DO JJ=1,NUMEL
         IF (IABS(TAGBUF(IPARTE(JJ))) == 1)THEN
-            NSEG=NSEG+KXX(3,JJ) - 1                      
+            NSEG=NSEG+KXX(3,JJ) - 1
             ISEG = NSEG-(KXX(3,JJ) - 1)
           IF (FLAG == 1) THEN
             NIX1 = KXX(4,JJ)
-            NIX2 = KXX(4,JJ) + KXX(3,JJ) - 1 
-            IF(TAGBUF(IPARTE(JJ)) == 1)THEN       
+            NIX2 = KXX(4,JJ) + KXX(3,JJ) - 1
+            IF(TAGBUF(IPARTE(JJ)) == 1)THEN
               DO K=1,KXX(3,JJ) - 1  ! loop over Nstrand segments
                 IGRSLIN%NODES(ISEG+K,1) = IXX(KXX(4,JJ)+K-1)
                 IGRSLIN%NODES(ISEG+K,2) = IXX(KXX(4,JJ)+K)
                 IGRSLIN%ELTYP(ISEG+K) = IELTYP
                 IGRSLIN%ELEM(ISEG+K)  = JJ
-              ENDDO                                            
-c            ELSEIF(TAGBUF(IPARTE(JJ)) == -1)THEN  
-c              DO K=NIX2,NIX1,-1                   
-c                IBUFSSG(IAD)=IX(K,JJ)             
-c                IAD=IAD+1                         
-c              ENDDO                               
-            ENDIF                            
+              ENDDO
+c            ELSEIF(TAGBUF(IPARTE(JJ)) == -1)THEN
+c              DO K=NIX2,NIX1,-1
+c                IBUFSSG(IAD)=IX(K,JJ)
+c                IAD=IAD+1
+c              ENDDO
+            ENDIF
           ENDIF
         ENDIF
       ENDDO

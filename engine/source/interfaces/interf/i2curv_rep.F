@@ -65,72 +65,72 @@ C     REAL
       my_real
      .   XM(4),YM(4),ZM(4)
 C=======================================================================
-      NIR=4                                                           
-      IF (INOD(3) == INOD(4)) THEN                                      
-        NIR=3                                                         
-        XM(4)=ZERO                                                    
-        YM(4)=ZERO                                                    
-        ZM(4)=ZERO                                                    
-      ENDIF                                                           
-      DO JJ=1,NIR                                                     
-        J=INOD(JJ)  
-        XM(JJ)=X(1,J)+ V(1,J)*DT12*HALF                                                
-        YM(JJ)=X(2,J)+ V(2,J)*DT12*HALF                                                
-        ZM(JJ)=X(3,J)+ V(3,J)*DT12*HALF                                                
-      ENDDO                                                           
+      NIR=4
+      IF (INOD(3) == INOD(4)) THEN
+        NIR=3
+        XM(4)=ZERO
+        YM(4)=ZERO
+        ZM(4)=ZERO
+      ENDIF
+      DO JJ=1,NIR
+        J=INOD(JJ)
+        XM(JJ)=X(1,J)+ V(1,J)*DT12*HALF
+        YM(JJ)=X(2,J)+ V(2,J)*DT12*HALF
+        ZM(JJ)=X(3,J)+ V(3,J)*DT12*HALF
+      ENDDO
 C-----repere local main                                             
-      X21 = XM(2) - XM(1)                                             
-      X32 = XM(3) - XM(2)                                             
-      X34 = XM(3) - XM(4)                                             
-      X41 = XM(4) - XM(1)                                             
-      Y21 = YM(2) - YM(1)                                             
-      Y32 = YM(3) - YM(2)                                             
-      Y34 = YM(3) - YM(4)                                             
-      Y41 = YM(4) - YM(1)                                             
-      Z21 = ZM(2) - ZM(1)                                             
-      Z32 = ZM(3) - ZM(2)                                             
-      Z34 = ZM(3) - ZM(4)                                             
-      Z41 = ZM(4) - ZM(1)                                             
-                                                                      
-      E1X = (X21+X34 )                                                
-      E1Y = (Y21+Y34 )                                                
-      E1Z = (Z21+Z34 )                                                
+      X21 = XM(2) - XM(1)
+      X32 = XM(3) - XM(2)
+      X34 = XM(3) - XM(4)
+      X41 = XM(4) - XM(1)
+      Y21 = YM(2) - YM(1)
+      Y32 = YM(3) - YM(2)
+      Y34 = YM(3) - YM(4)
+      Y41 = YM(4) - YM(1)
+      Z21 = ZM(2) - ZM(1)
+      Z32 = ZM(3) - ZM(2)
+      Z34 = ZM(3) - ZM(4)
+      Z41 = ZM(4) - ZM(1)
 
-      E2X = (X32+X41 )                                                
-      E2Y = (Y32+Y41 )                                                
-      E2Z = (Z32+Z41 )                                                
+      E1X = (X21+X34 )
+      E1Y = (Y21+Y34 )
+      E1Z = (Z21+Z34 )
 
-      E3X = E1Y*E2Z-E1Z*E2Y                                           
-      E3Y = E1Z*E2X-E1X*E2Z                                           
-      E3Z = E1X*E2Y-E1Y*E2X                                           
+      E2X = (X32+X41 )
+      E2Y = (Y32+Y41 )
+      E2Z = (Z32+Z41 )
+
+      E3X = E1Y*E2Z-E1Z*E2Y
+      E3Y = E1Z*E2X-E1X*E2Z
+      E3Z = E1X*E2Y-E1Y*E2X
 C
-      SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z                                
-      SUMA   = ONE / MAX(SQRT(SUMA),EM20)                              
-      E3X = E3X * SUMA                                                
-      E3Y = E3Y * SUMA                                                
-      E3Z = E3Z * SUMA                                                
+      SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z
+      SUMA   = ONE / MAX(SQRT(SUMA),EM20)
+      E3X = E3X * SUMA
+      E3Y = E3Y * SUMA
+      E3Z = E3Z * SUMA
 C
-      S1     = E1X*E1X+E1Y*E1Y+E1Z*E1Z                                
-      S2     = E2X*E2X+E2Y*E2Y+E2Z*E2Z                                
-      SUMA   = SQRT(S1/S2)                                            
-      E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUMA                              
-      E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUMA                              
-      E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA                              
+      S1     = E1X*E1X+E1Y*E1Y+E1Z*E1Z
+      S2     = E2X*E2X+E2Y*E2Y+E2Z*E2Z
+      SUMA   = SQRT(S1/S2)
+      E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUMA
+      E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUMA
+      E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA
 C
-      SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z                                
-      SUMA   = ONE / MAX(SQRT(SUMA),EM20)                              
-      E1X = E1X * SUMA                                                
-      E1Y = E1Y * SUMA                                                
-      E1Z = E1Z * SUMA                                                
+      SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z
+      SUMA   = ONE / MAX(SQRT(SUMA),EM20)
+      E1X = E1X * SUMA
+      E1Y = E1Y * SUMA
+      E1Z = E1Z * SUMA
 C
-      E2X = E3Y * E1Z - E3Z * E1Y                                     
-      E2Y = E3Z * E1X - E3X * E1Z                                     
-      E2Z = E3X * E1Y - E3Y * E1X                                     
+      E2X = E3Y * E1Z - E3Z * E1Y
+      E2Y = E3Z * E1X - E3X * E1Z
+      E2Z = E3X * E1Y - E3Y * E1X
 C----- longueurs                                            
-      LS1 = SQRT(X21**2 + Y21**2 + Z21**2)                  
-      LS2 = SQRT(X34**2 + Y34**2 + Z34**2)                  
-      LT1 = SQRT(X41**2 + Y41**2 + Z41**2)                  
-      LT2 = SQRT(X32**2 + Y32**2 + Z32**2)   
+      LS1 = SQRT(X21**2 + Y21**2 + Z21**2)
+      LS2 = SQRT(X34**2 + Y34**2 + Z34**2)
+      LT1 = SQRT(X41**2 + Y41**2 + Z41**2)
+      LT2 = SQRT(X32**2 + Y32**2 + Z32**2)
 C-----------
       RETURN
       END

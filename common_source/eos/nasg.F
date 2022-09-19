@@ -27,7 +27,7 @@ Chd|        EOSMAIN                       common_source/eos/eosmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE NASG
-     1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 , 
+     1              (IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU  ,MU2 ,
      2               ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3               PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -51,9 +51,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
       my_real, INTENT(INOUT) :: PSH(*)
@@ -79,7 +79,7 @@ C-----------------------------------------------
       !-----------------------------------------
       IF(IFLAG == 0) THEN
          MX           = MAT(1)
-         E0           = PM(23 ,MX)         
+         E0           = PM(23 ,MX)
          GAMMA        = PM(34 ,MX)
          P0           = PM(32 ,MX)
          PSH(LFT:LLT) = PM(88 ,MX)
@@ -96,7 +96,7 @@ C-----------------------------------------------
            DENOM   = (ONE-RHO0*b*UNPMU)
            NUM     = (ESPE(I)-RHO0*q)
            PP      = (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
-           dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative    
+           dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                         !partial derivative
            DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + DPDE(I)*(PP+PSH(I))/UNPMU/UNPMU     !total derivative
          ENDDO
          DO I=LFT,LLT
@@ -108,9 +108,9 @@ C-----------------------------------------------
       !     UPDATE PRESSURE AND INTERNAL ENERGY
       !----------------------------------------
       ELSEIF(IFLAG == 1) THEN
-         TFEXTT       = ZERO      
+         TFEXTT       = ZERO
          MX           = MAT(1)
-         E0           = PM(23 ,MX)         
+         E0           = PM(23 ,MX)
          GAMMA        = PM(34 ,MX)
          P0           = PM(32 ,MX)
          PSH(LFT:LLT) = PM(88 ,MX)
@@ -129,9 +129,9 @@ C-----------------------------------------------
            V0      = VNEW(I)*RHO/RHO0
            DENOM   = (VNEW(I)/V0-RHO0*b)
            AA      = (GAMMA-ONE)*(-RHO0*q/DENOM)-GAMMA*PSTAR
-           BB      = (GAMMA-ONE)/ DENOM     
-           PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)      
-           PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)         
+           BB      = (GAMMA-ONE)/ DENOM
+           PNEW(I) = (AA+BB*EINT(I)/V0)/(ONE+BB*DVOL(I)/TWO/V0)
+           PNEW(I) = MAX(PNEW(I),-GAMMA*PSTAR)*OFF(I)
            TFEXTT  = TFEXTT-DVOL(I)*PSH(I)
          ENDDO
 #include "atomic.inc"
@@ -144,13 +144,13 @@ C-----------------------------------------------
            THETA(I) = (ONE/RHO-B)*(PNEW(I)+PSTAR)/Cv/(GAMMA-ONE)
            THETA(I) = MAX(ZERO,THETA(I))
          ENDDO
-         
+
        !----------------------------------------
        !     FOR USE WITH MULTULMATERIAL LAW 151
        !----------------------------------------
        ELSEIF(IFLAG == 2) THEN
          MX           = MAT(1)
-         E0           = PM(23 ,MX)         
+         E0           = PM(23 ,MX)
          GAMMA        = PM(34 ,MX)
          P0           = PM(32 ,MX)
          PSH(LFT:LLT) = PM(88 ,MX)
@@ -170,12 +170,12 @@ C-----------------------------------------------
                 NUM     = (ESPE(I)-RHO0*q)
                 PNEW(I) = -PSH(I) +  (GAMMA-ONE)*UNPMU*NUM/DENOM - GAMMA*PSTAR
                 PNEW(I) = MAX(PNEW(I),MAX(PC, -GAMMA*PSTAR))*OFF(I)
-                dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                              !partial derivative    
+                dPdE(I) = (GAMMA-ONE)*UNPMU / DENOM                                              !partial derivative
                 DPDM(I) = (GAMMA-ONE)*NUM/DENOM/DENOM + dPdE(I)*(PNEW(I)+PSH(I))/UNPMU/UNPMU     !total derivative
              ENDIF
           ENDDO
       ENDIF
-      
+
 C-----------------------------------------------
       RETURN
       END

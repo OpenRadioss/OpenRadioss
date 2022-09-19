@@ -34,9 +34,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT71(UPARAM   ,MAXUPARAM,NUPARAM ,NUVAR  ,MFUNC , 
+      SUBROUTINE HM_READ_MAT71(UPARAM   ,MAXUPARAM,NUPARAM ,NUVAR  ,MFUNC ,
      .                         MAXFUNC  ,MTAG     ,PARMAT  ,UNITAB ,
-     .                         PM       ,LSUBMODEL, ID     ,TITR   ,IMATVIS)                     
+     .                         PM       ,LSUBMODEL, ID     ,TITR   ,IMATVIS)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,11 +57,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,11 +81,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
-      
+
       INTEGER, INTENT(INOUT)          :: MFUNC,NUPARAM,NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)   :: MTAG
       INTEGER,INTENT(IN)              :: ID,MAXFUNC,MAXUPARAM
@@ -141,22 +141,22 @@ Card4
       CALL HM_GET_FLOATV('CP'       ,CP      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('TINI'     ,TINI    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C=======================================================================
-      EFLAG = 0         
-      IF (YLD_ASS >= YLD_ASF) 
+      EFLAG = 0
+      IF (YLD_ASS >= YLD_ASF)
      .         CALL ANCMSG(MSGID=1122,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ID,
      .                C1=TITR)
 
-      IF (YLD_SAS <= YLD_SAF ) 
+      IF (YLD_SAS <= YLD_SAF )
      .         CALL ANCMSG(MSGID=1123,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=ID,
      .                C1=TITR)
 
-      IF (ALPHA > SQRT(TWO/THREE) ) 
+      IF (ALPHA > SQRT(TWO/THREE) )
      .         CALL ANCMSG(MSGID=1124,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -167,19 +167,19 @@ C=======================================================================
       IF(YLD_ASS == ZERO) YLD_ASS = EM20
       IF(YLD_ASF == ZERO) YLD_ASF = EM20
       IF(YLD_SAS == ZERO) YLD_SAS = EM20
-      IF(YLD_SAF == ZERO) YLD_SAF = EM20  
+      IF(YLD_SAF == ZERO) YLD_SAF = EM20
 
       IF(TSSA == ZERO) TSSA = 298.0
       IF(TFSA == ZERO) TFSA = 298.0
       IF(TSAS == ZERO) TSAS = 298.0
-      IF(TFAS == ZERO) TFAS = 298.0  
+      IF(TFAS == ZERO) TFAS = 298.0
 
 
       IF(CP      == ZERO) CP = EP20
       IF(TINI    == ZERO) TINI = 360.0
       IF(EMART   /= ZERO) EFLAG = 1
       IF(EMART ==    E) EFLAG = 0
-      !IF(EPSL == ZERO) EPSL = un 
+      !IF(EPSL == ZERO) EPSL = un
 c HOOK 3D
       G     = HALF*E/(ONE + NU)
       LAMDA = E*(ONE-NU)/(ONE + NU)/(ONE - TWO*NU)
@@ -187,7 +187,7 @@ c HOOK 3D
 c
       GM = G
       KM = C1
-      IF (EFLAG == 1 ) THEN 
+      IF (EFLAG == 1 ) THEN
        GM = HALF*EMART/(ONE + NU)
        KM = EMART/THREE/(ONE - TWO*NU)
       ENDIF
@@ -215,15 +215,15 @@ C HOOk 2D
       UPARAM(18)  = CAS
       UPARAM(19)  = CSA
       UPARAM(20)  = TSAS
-      UPARAM(21)  = TFAS 
-      UPARAM(22)  = TSSA 
-      UPARAM(23)  = TFSA 
-      UPARAM(24)  = CP 
-      UPARAM(25)  = TINI 
+      UPARAM(21)  = TFAS
+      UPARAM(22)  = TSSA
+      UPARAM(23)  = TFSA
+      UPARAM(24)  = CP
+      UPARAM(25)  = TINI
 c-----------------------------------
       IMATVIS = 1
 c-----------------------------------
-      NUPARAM = 25 
+      NUPARAM = 25
       NUVAR = 11
       MFUNC = 0
 c-----------------------------------
@@ -231,14 +231,14 @@ c     PARMAT
 c-----------------------------------
       PARMAT(1) = C1
       PARMAT(2) = E
-      PARMAT(3) = NU  
+      PARMAT(3) = NU
       PARMAT(16) = 2 !Formulation for solid elements time step computation.
       PARMAT(17) = (ONE - TWO*NU)/(ONE - NU) ! ==TWO*G/(C1+sFOUR_OVER_3*G)
 c--------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1)  = RHOR
       PM(89) = RHO0
-      PM(27) = SQRT(E/MAX(RHOR,EM20)) 
+      PM(27) = SQRT(E/MAX(RHOR,EM20))
 c-----------------------------------
       MTAG%L_PLA  = 1
       MTAG%L_FRAC = 1   ! austenite phase fraction for output
@@ -253,7 +253,7 @@ c-----------------------------------
       ELSE
         WRITE(IOUT,1001) RHO0
         WRITE(IOUT,1300)E,NU,YLD_ASS, YLD_ASF,YLD_SAS, YLD_SAF,ALPHA,EPSL,EMART
-        WRITE(IOUT,1200)CAS,CSA,TSAS,TFAS,TSSA,TFSA,CP,TINI   
+        WRITE(IOUT,1200)CAS,CSA,TSAS,TFAS,TSSA,TFSA,CP,TINI
         ENDIF
 C
       RETURN
@@ -262,7 +262,7 @@ C
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . . . . . . =',I10/)
  1001 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . . . . =',1PG20.13/)  
+     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'  SUPERELASTIC MATERIAL FOR SHAPE MEMORY ALLOYS LAW71 ',/,
      & 5X,'  --------------------------------------------------- ',//)

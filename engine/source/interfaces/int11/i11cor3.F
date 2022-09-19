@@ -107,11 +107,11 @@ C
         DO I=1,JLT
           IF(CAND_S(I)<=NRTS) THEN
             GAPV(I)=GAP_S(CAND_S(I))+GAP_M(CAND_M(I))
-            IF(IGAP == 3)  
+            IF(IGAP == 3)
      .      GAPV(I)=MIN(GAP_S_L(CAND_S(I))+GAP_M_L(CAND_M(I)),GAPV(I))
           ELSE
             GAPV(I)=GAPFI(NIN)%P(CAND_S(I)-NRTS)+GAP_M(CAND_M(I))
-            IF(IGAP == 3) 
+            IF(IGAP == 3)
      .      GAPV(I)=
      .    MIN(GAP_LFI(NIN)%P(CAND_S(I)-NRTS)+GAP_M_L(CAND_M(I)),GAPV(I))
           ENDIF
@@ -125,7 +125,7 @@ C
             STIF(I)=ABS(STFS(CAND_S(I)))*STFM(CAND_M(I))
      .             / MAX(EM20,ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
-            NN = CAND_S(I) - NRTS            
+            NN = CAND_S(I) - NRTS
             STIF(I)=ABS(STIFI(NIN)%P(NN))*STFM(CAND_M(I))
      .             / MAX(EM20,ABS(STIFI(NIN)%P(NN))+STFM(CAND_M(I)))
           END IF
@@ -136,7 +136,7 @@ C
             STIF(I)=ABS(STFS(CAND_S(I)))*STFM(CAND_M(I))
      .             / MAX(EM20,ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
-            NN = CAND_S(I) - NRTS            
+            NN = CAND_S(I) - NRTS
             STIF(I)=ABS(STIFI(NIN)%P(NN))*STFM(CAND_M(I))
      .             / MAX(EM20,ABS(STIFI(NIN)%P(NN))+STFM(CAND_M(I)))
           END IF
@@ -147,7 +147,7 @@ C
           IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=HALF*(ABS(STFS(CAND_S(I)))+STFM(CAND_M(I)))
           ELSE
-            NN = CAND_S(I) - NRTS            
+            NN = CAND_S(I) - NRTS
             STIF(I)=HALF*(ABS(STIFI(NIN)%P(NN))+STFM(CAND_M(I)))
           END IF
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
@@ -157,7 +157,7 @@ C
           IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=MAX(ABS(STFS(CAND_S(I))),STFM(CAND_M(I)))
           ELSE
-            NN = CAND_S(I) - NRTS            
+            NN = CAND_S(I) - NRTS
             STIF(I)=MAX(ABS(STIFI(NIN)%P(NN)),STFM(CAND_M(I)))
           END IF
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
@@ -167,7 +167,7 @@ C
           IF(CAND_S(I)<=NRTS) THEN
             STIF(I)=MIN(ABS(STFS(CAND_S(I))),STFM(CAND_M(I)))
           ELSE
-            NN = CAND_S(I) - NRTS            
+            NN = CAND_S(I) - NRTS
             STIF(I)=MIN(ABS(STIFI(NIN)%P(NN)),STFM(CAND_M(I)))
           END IF
           STIF(I)=MAX(KMIN,MIN(STIF(I),KMAX))
@@ -209,7 +209,7 @@ C
           MM1(I) = MS(M1(I))
           MM2(I) = MS(M2(I))
         ELSE
-          NN = CAND_S(I) - NRTS            
+          NN = CAND_S(I) - NRTS
           N1(I)=2*(NN-1)+1
           N2(I)=2*NN
           M1(I)=IRECTM(1,CAND_M(I))
@@ -289,7 +289,7 @@ C     SECND TEMPERATURE
              TEMPI2(I) = TEMP(N2(I))
              IELECI(I)= IELEC(CAND_S(I))
            ELSE
-             NN = CAND_S(I) - NRTS            
+             NN = CAND_S(I) - NRTS
 C     SECND EDGE AREA
              SECS =AREASFI(NIN)%P(NN)
 C     AREA COMPUTING
@@ -346,7 +346,7 @@ C     main TEMPERATURE
              IELECI(I)= IELEC(CAND_S(I))
              IELESI(I)= IELES(CAND_M(I))
            ELSE
-             NN = CAND_S(I) - NRTS            
+             NN = CAND_S(I) - NRTS
 C     SECND NODAL AREA
              SECS =AREASFI(NIN)%P(NN)
 C     main EDGE AREA

@@ -69,12 +69,12 @@ C-----------------------------------------------
       INTEGER I, II, IE, IV1, IV2, IV3, IV4, IAD2
       my_real
      .   Y1(MVSIZ) , Y2(MVSIZ) , Y3(MVSIZ) , Y4(MVSIZ) ,
-     .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ) , Z4(MVSIZ) , 
-     .   YC(MVSIZ) , ZC(MVSIZ) , N1Y(MVSIZ), 
+     .   Z1(MVSIZ) , Z2(MVSIZ) , Z3(MVSIZ) , Z4(MVSIZ) ,
+     .   YC(MVSIZ) , ZC(MVSIZ) , N1Y(MVSIZ),
      .   N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), N1Z(MVSIZ),
      .   N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ),
-     .   DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ), DD4(MVSIZ), 
-     .   D1Y(MVSIZ), D2Y(MVSIZ), D3Y(MVSIZ), D4Y(MVSIZ), 
+     .   DD1(MVSIZ), DD2(MVSIZ), DD3(MVSIZ), DD4(MVSIZ),
+     .   D1Y(MVSIZ), D2Y(MVSIZ), D3Y(MVSIZ), D4Y(MVSIZ),
      .   D1Z(MVSIZ), D2Z(MVSIZ), D3Z(MVSIZ), D4Z(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -88,7 +88,7 @@ C-----------------------------------------------
         Y3(I) = X(2,IXQ(4,II))
         Z3(I) = X(3,IXQ(4,II))
         Y4(I) = X(2,IXQ(5,II))
-        Z4(I) = X(3,IXQ(5,II))       
+        Z4(I) = X(3,IXQ(5,II))
       ENDDO
 C------------------------------------------
 C     CALCUL DE LA NORMALE A CHAQUE FACE
@@ -115,7 +115,7 @@ C------------------------------------------
          N3Y(I) = N3Y(I)*(Y3(I)+Y4(I))*HALF
          N3Z(I) = N3Z(I)*(Y3(I)+Y4(I))*HALF
          N4Y(I) = N4Y(I)*(Y1(I)+Y4(I))*HALF
-         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF  
+         N4Z(I) = N4Z(I)*(Y1(I)+Y4(I))*HALF
        ENDDO
       ENDIF
 C------------------------------------------

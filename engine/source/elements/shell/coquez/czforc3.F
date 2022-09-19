@@ -105,9 +105,9 @@ C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD     
-      USE NLOCAL_REG_MOD        
-      USE DRAPE_MOD       
+      USE MATPARAM_DEF_MOD
+      USE NLOCAL_REG_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -155,16 +155,16 @@ C     REAL OU REAL*8
      .   STIFN(*), STIFR(*),FSKY(*),TANI(6,*),EANI(*),THKE(*),
      .   FZERO(3,4,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),
      .   MSC(*), DMELC(*),SENSOR(NSENSR,*),CONDN(*),CONDNSKY(*)
-      my_real    
+      my_real
      .   TT, DT1, DT2T
       TARGET :: BUFMAT
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE (ELBUF_STRUCT_), DIMENSION(NXEL) :: XFEM_STR
       TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX) :: CRKEDGE
       TYPE (STACK_PLY)     :: STACK
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
@@ -172,13 +172,13 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
       LOGICAL PLAT(MVSIZ)
-      INTEGER 
+      INTEGER
      .   I,J,IR,IS,MX,NNOD,NUPAR,NLAY,NXLAY,ILAY,NPG,IXEL,IFAILWAVE,
      .   IBID,ISROT,NG,IXFEM2,L_DIRA,L_DIRB,J1,J2,IORTH,IGTYP,IGMAT,IXLAY,
      .   NPTTOT,IREP,IPOUT
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE_EL(NEL)
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .  RH0(MVSIZ),LL(MVSIZ),
      .  VL13(MVSIZ,3), VL24(MVSIZ,3), VLHI(MVSIZ,3), RLXYZ(MVSIZ,8),
      .  X13(MVSIZ),  X24(MVSIZ),  Y13(MVSIZ),  Y24(MVSIZ),
@@ -188,7 +188,7 @@ C--------------------------------
      .  AREA(MVSIZ), VQN(MVSIZ,12), L13(MVSIZ), L24(MVSIZ),
      .  ZCFAC(MVSIZ,2), A_I(MVSIZ), THK02(MVSIZ),
      .  EXX(MVSIZ) ,EYY(MVSIZ) ,EXY(MVSIZ)   ,EXZ(MVSIZ) ,EYZ(MVSIZ),
-     .  KXX(MVSIZ) ,KYY(MVSIZ) ,KXY(MVSIZ)   ,SIGY(MVSIZ), 
+     .  KXX(MVSIZ) ,KYY(MVSIZ) ,KXY(MVSIZ)   ,SIGY(MVSIZ),
      .  DT1C(MVSIZ),SSP(MVSIZ) ,VISCMX(MVSIZ),RHO(MVSIZ) ,
      .  NU(MVSIZ)  ,G(MVSIZ)   ,A11(MVSIZ)   ,A12(MVSIZ) ,VOL0(MVSIZ),
      .  THK0(MVSIZ),STI(MVSIZ) ,STIR(MVSIZ)  ,SHF(MVSIZ) ,
@@ -220,12 +220,12 @@ C--------------------------------
      .  HM(MVSIZ,6), HF(MVSIZ,6), HC(MVSIZ,2),HMFOR(MVSIZ,6),
      .  CONDE(MVSIZ),A11R(MVSIZ),XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),
      .  YL2(MVSIZ),YL3(MVSIZ),YL4(MVSIZ)
-      my_real 
+      my_real
      .   AREAT(MVSIZ),X13T(MVSIZ) ,Y13T(MVSIZ), X24T(MVSIZ),Y24T(MVSIZ),
      .  MX13T(MVSIZ), MX23T(MVSIZ), MX34T(MVSIZ),
      .  MY13T(MVSIZ), MY23T(MVSIZ), MY34T(MVSIZ), Z1T(MVSIZ),
      .  A_IT(MVSIZ),F_DEF(MVSIZ,8), U13(MVSIZ,2),U24(MVSIZ,2),
-     .  AXYZ(MVSIZ,4),WXY(MVSIZ),FAC58(MVSIZ,2)  
+     .  AXYZ(MVSIZ,4),WXY(MVSIZ),FAC58(MVSIZ,2)
 C--- Variables pour le non-local
       INTEGER :: NDDL, K, INOD(4),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           IPOS(4), L_NLOC, IMAT, INLOC,NUPARAM,IADBUF,IINT
@@ -270,10 +270,10 @@ C
         NPTTOT = NPTTOT + ELBUF_STR%BUFLY(ILAY)%NPTT
       ENDDO
       UVAR  => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
-!-------------------------------------------      
+!-------------------------------------------
 ! Tableau pour la variable non-locale
       NDDL = NPTTOT
-      ALLOCATE(VAR_REG(NEL,NDDL)) 
+      ALLOCATE(VAR_REG(NEL,NDDL))
 !-------------------------------------------
       IF (NPT == 0) NPTTOT = NPT  !  compatibility with global integration
 c-------------------------------------
@@ -307,7 +307,7 @@ c-------------------------------------
         ALPE(I)    = ONE
       ENDDO
 C
-      DO I=JFT,JLT                
+      DO I=JFT,JLT
         FAC1(I) = GEO(17,PID(I))
         VF(I,1:12) =ZERO		
         VM(I,1:8) =ZERO		
@@ -317,7 +317,7 @@ C
       IGTYP = IGEO(11,PID(1))
       IGMAT = IGEO(98,PID(1))
       IADBUF = MAX(1,IPM(7,IMAT))
-      NUPARAM= IPM(9,IMAT)       
+      NUPARAM= IPM(9,IMAT)
       UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
 c--------------------------------------------
 c     Front wave
@@ -330,7 +330,7 @@ c--------------------------------------------
           DO J=1,NEL
             OFFLY(J) = MAX(OFFLY(J), ELBUF_STR%BUFLY(I)%OFF(J))
           ENDDO
-        ENDDO        
+        ENDDO
         DADV   => GBUF%DMG
         CALL SET_FAILWAVE_SH4N(FAILWAVE ,FWAVE_EL ,DADV     ,
      .     NEL      ,IXC      ,ITAB     ,NGL      ,OFFLY    )
@@ -349,7 +349,7 @@ c-------------------------------------
         DIR1_CRK = ZERO
         DIR2_CRK = ZERO
         ELCRKINI = 0
-        IF (NLEVSET > 0) THEN   
+        IF (NLEVSET > 0) THEN
           CALL PRECRKLAY(JFT     ,JLT    ,NFT     ,NXLAY  ,ELCRKINI,
      .                   IEL_CRK,INOD_CRK,NODENR  ,CRKEDGE,XEDGE4N )
         ENDIF
@@ -443,7 +443,7 @@ C----------------------------------
 C     CALCUL DES DEFORMATIONS 
 C----------------------------------
       CALL CZSTRA3(JFT    ,JLT    ,NFT   ,VDEF ,GBUF%STRA,
-     2             EXX    ,EYY    ,EXY   ,EXZ  ,EYZ      ,  
+     2             EXX    ,EYY    ,EXY   ,EXZ  ,EYZ      ,
      3             KXX    ,KYY    ,KXY   ,DT1C ,TANI     ,
      4             IEPSDOT,ISTRAIN,UX1   ,UX2  ,UX3      ,
      5             UX4    ,UY1    ,UY2   ,UY3  ,UY4      ,
@@ -456,10 +456,10 @@ C----------------------------------
      2               IXC    ,PM     ,GBUF%OFF,
      3               VQ     ,GBUF%HOURG,THKE   ,NPTTOT ,ISMSTR ,
      7               LXYZ   ,Z2     ,IINT   ,NEL    )
-       END IF 
+       END IF
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
-c-------------------------------------------     
+c-------------------------------------------
       IF (INLOC > 0) THEN
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
@@ -470,21 +470,21 @@ c-------------------------------------------
           NC4(I) = IXC(5,I)
         ENDDO
         DO K = 1,NDDL
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO I=JFT,JLT
             INOD(1) = NLOC_DMG%IDXI(NC1(I))
             INOD(2) = NLOC_DMG%IDXI(NC2(I))
             INOD(3) = NLOC_DMG%IDXI(NC3(I))
-            INOD(4) = NLOC_DMG%IDXI(NC4(I)) 
-            IPOS(1) = NLOC_DMG%POSI(INOD(1)) 
-            IPOS(2) = NLOC_DMG%POSI(INOD(2)) 
-            IPOS(3) = NLOC_DMG%POSI(INOD(3)) 
+            INOD(4) = NLOC_DMG%IDXI(NC4(I))
+            IPOS(1) = NLOC_DMG%POSI(INOD(1))
+            IPOS(2) = NLOC_DMG%POSI(INOD(2))
+            IPOS(3) = NLOC_DMG%POSI(INOD(3))
             IPOS(4) = NLOC_DMG%POSI(INOD(4))
-            VAR_REG(I,K) = FOURTH*(DNL(IPOS(1)+K-1) + DNL(IPOS(2)+K-1) 
+            VAR_REG(I,K) = FOURTH*(DNL(IPOS(1)+K-1) + DNL(IPOS(2)+K-1)
      .                          + DNL(IPOS(3)+K-1) + DNL(IPOS(4)+K-1))
           ENDDO
         ENDDO
-      ENDIF     
+      ENDIF
 C-----------------
 C     CONTRAINTES
 C-----------------
@@ -522,7 +522,7 @@ C-----------------------------------------------
      O      IXLAY     ,IXEL      ,ISUBSTACK ,STACK     ,
      P      F_DEF     ,ITASK     ,DRAPE_Q4  ,VAR_REG   ,NLOC_DMG   )
 C-----------------------------------------------
-c        
+c
       IF ((ITASK==0).AND.(IMON_MAT==1)) CALL STOPTIME(35,1)
 C--------------------------
 C     BILANS PAR MATERIAU
@@ -577,7 +577,7 @@ c
      2                      X13  ,X24  ,Y13  ,Y24  ,Z1   ,MX23 ,
      3                      MX13 ,MX34 ,MY13 ,MY23 ,MY34 ,GBUF%HOURG,
      4                      GBUF%FOR,GBUF%MOM,VF  ,VM  ,ZCFAC  ,A11  ,
-     5                      A12  ,G    ,GS   ,SIGY ,OFF  ,FAC1 , 
+     5                      A12  ,G    ,GS   ,SIGY ,OFF  ,FAC1 ,
      6                      RHO  ,AREA ,  DT1,GBUF%EINT,AMU  ,VLHI  ,
      7                      NPTTOT,IPARTC,PARTSAV,KFTS  ,GSR  ,
      8                      A11SR,A12SR ,NUSR,SHFSR,BMKRZ,BMERZ ,
@@ -602,25 +602,25 @@ c
      2                      X13  ,X24  ,Y13  ,Y24  ,Z1   ,MX23 ,
      3                      MX13 ,MX34 ,MY13 ,MY23 ,MY34 ,GBUF%HOURG,
      4                      GBUF%FOR,GBUF%MOM,VF  ,VM  ,ZCFAC  ,A11  ,
-     5                      A12  ,G    ,GS   ,SIGY ,OFF  ,FAC1 , 
+     5                      A12  ,G    ,GS   ,SIGY ,OFF  ,FAC1 ,
      6                      RHO  ,AREA ,  DT1,GBUF%EINT,AMU  ,VLHI  ,
      7                      NPTTOT,IPARTC,PARTSAV,KFTS  ,GSR  ,
      8                      A11SR,A12SR ,NUSR,SHFSR ,IORTH  ,HM    ,
-     9                      HF   ,HC    ,HMFOR,MTN  ,NEL) 
+     9                      HF   ,HC    ,HMFOR,MTN  ,NEL)
           END IF ! (IMPL_S > 0 .OR. IORTH == 0) THEN
-        ENDIF    !  ISROT 
+        ENDIF    !  ISROT
 c-------------------------
-c     Virtual internal forces of regularized non local ddl 
+c     Virtual internal forces of regularized non local ddl
 c--------------------------
       IF (INLOC > 0) THEN
         ! Warning : Y24 = PX1
         CALL CFINT_REG(NLOC_DMG,VAR_REG ,GBUF%THK,NEL     ,
      .                 OFF     ,AREA    ,NC1     ,NC2     ,
      .                 NC3     ,NC4     ,Y24     ,PY1     ,
-     .                 PX2     ,PY2     ,ELBUF_STR%NLOC(1,1), 
+     .                 PX2     ,PY2     ,ELBUF_STR%NLOC(1,1),
      .                 IMAT    ,NDDL    ,ITASK   ,DT2T    ,
      .                 LL      )
-      ENDIF 
+      ENDIF
 c-------------------------------
         IF (NPTTOT == 1) THEN
           IF (MTN==58.OR.MTN==19.OR.MTN==119) THEN
@@ -648,20 +648,20 @@ c-------------------------------
      8            Z1     ,LXYZ   ,DD     ,DB     ,LXYZ,
      9            ISROT  ,DIZ    ,VMZ    )
 C-------------------------
-c     Thermique des coques 
+c     Thermique des coques
 C--------------------------
-        IF (JTHE > 0) THEN  
+        IF (JTHE > 0) THEN
           CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
      .                TEMP   ,TEMPEL  ,DIE     ,THEM )
-        ENDIF 
+        ENDIF
 c--------------------------
 c     THERMAL TIME STEP
 c--------------------------
         IF (JTHE > 0 .AND. IDT_THERM == 1) THEN
            CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE  ,
      2                  RHO  ,GBUF%RK ,VOL0 ,LL,MAT ,
-     3                  DT_THERM,OFF    ,CONDE) 
+     3                  DT_THERM,OFF    ,CONDE)
         ENDIF
 C
 C--------------------------
@@ -688,7 +688,7 @@ C--------------------------
      8               M31     ,M32   ,M33   ,M34  ,GBUF%EINT,
      A               PARTSAV ,MAT   ,IPARTC,FACN ,JTHE     ,
      B               THEM    ,FTHE  ,CONDN ,CONDE)
-      ELSE 
+      ELSE
         CALL CUPDTN3P(JFT      ,JLT     ,GBUF%OFF,OFF   ,STI   ,
      2                STIR     ,FSKY    ,FSKY    ,IADC  ,
      4                F11      ,F12     ,F13     ,F14   ,F21   ,
@@ -701,29 +701,29 @@ C--------------------------
      C                FTHESKY  ,CONDNSKY,CONDE   )
       ENDIF
 C-------------------------
-c     Fissure des coques 
+c     Fissure des coques
 C--------------------------
       IF (IXFEM > 0) THEN
         DO ILAY=1,NXLAY
-          ! crack length calculation for advancing crack                                            
+          ! crack length calculation for advancing crack
           CRKLEN => ELBUF_STR%BUFLY(ILAY)%DMG(1:NEL)
           CALL  CRKLEN4N_ADV(
      .          NEL       ,NFT       ,ILAY      ,NLAY      ,IXC       ,
-     .          CRKLEN    ,ELCRKINI  ,IEL_CRK   ,DIR1_CRK  ,DIR2_CRK  ,     
+     .          CRKLEN    ,ELCRKINI  ,IEL_CRK   ,DIR1_CRK  ,DIR2_CRK  ,
      .          NODEDGE   ,CRKEDGE   ,XEDGE4N   ,NGL       ,XL2       ,
      .          XL3       ,XL4       ,YL2       ,YL3       ,YL4       ,
      .          LL        )
 c
-          ! crack advancement                                             
+          ! crack advancement
           CALL CRKLAYER4N_ADV(
-     .         XFEM_STR ,NEL      ,NFT      ,IXC      ,ELCUTC   ,             
-     .         ILAY     ,NXLAY    ,IEL_CRK  ,INOD_CRK ,             
-     .         IADC_CRK ,NODENR   ,ELCRKINI ,DIR1_CRK ,DIR2_CRK ,             
-     .         NODEDGE  ,CRKNODIAD,KNOD2ELC ,CRKEDGE  ,A_I      ,        
+     .         XFEM_STR ,NEL      ,NFT      ,IXC      ,ELCUTC   ,
+     .         ILAY     ,NXLAY    ,IEL_CRK  ,INOD_CRK ,
+     .         IADC_CRK ,NODENR   ,ELCRKINI ,DIR1_CRK ,DIR2_CRK ,
+     .         NODEDGE  ,CRKNODIAD,KNOD2ELC ,CRKEDGE  ,A_I      ,
      .         XL2      ,XL3      ,XL4      ,YL2      ,YL3      ,
-     .         YL4      ,XEDGE4N  ,NGL      )                                                         
+     .         YL4      ,XEDGE4N  ,NGL      )
 c
-          ! crack initialization                                               
+          ! crack initialization
           CALL CRKLAYER4N_INI(
      .         XFEM_STR ,NEL      ,NFT      ,IXC      ,ELCUTC   ,
      .         ILAY     ,NXLAY    ,IEL_CRK  ,INOD_CRK ,
@@ -731,19 +731,19 @@ c
      .         NODEDGE  ,CRKNODIAD,KNOD2ELC ,CRKEDGE  ,A_I      ,
      .         XL2      ,XL3      ,XL4      ,YL2      ,YL3      ,
      .         YL4      ,XEDGE4N  ,NGL      )
-        ENDDO                                                              
+        ENDDO
 C
         CALL CRKOFFC(ELBUF_STR,XFEM_STR  ,
      .               JFT      ,JLT       ,NFT    ,IR      ,IS        ,
      .               NXLAY    ,IEL_CRK   ,CRKEDGE,XEDGE4N )
-      ENDIF 
+      ENDIF
 
 c--------------------------------------------
 c     Front wave
 c--------------------------------------------
       IF (IFAILWAVE > 0) THEN
         CRKDIR => ELBUF_STR%BUFLY(1)%CRKDIR
-c         
+c
         CALL SET_FAILWAVE_NOD4(FAILWAVE   ,FWAVE_EL ,NGL      ,
      .       NEL      ,IXC      ,ITAB     ,CRKDIR   ,DIR_A    ,
      .       L_DIRA   ,XL2      ,XL3      ,XL4      ,YL2      ,

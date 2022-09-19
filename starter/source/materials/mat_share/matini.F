@@ -76,13 +76,13 @@ Chd|====================================================================
      .                  MAT      ,IPM    ,NSIG        ,NUMS      ,PT     ,
      .                  IPT      ,NGL    ,NPF         ,TF        ,BUFMAT ,
      .                  GBUF     ,LBUF   ,MBUF        ,ELBUF_STR ,ILOADP ,
-     .                  FACLOAD  ,DDELTAX)   
+     .                  FACLOAD  ,DDELTAX)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD   
-      USE DETONATORS_MOD   
+      USE ELBUFDEF_MOD
+      USE DETONATORS_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -115,8 +115,8 @@ C-----------------------------------------------
       my_real
      .   X(*), GEO(*), PM(NPROPM,*),
      .   SIGI(NSIG,*),SKEW(LSKEW,*),BUFMAT(*),TF(*)
-      TYPE(G_BUFEL_), TARGET  :: GBUF     
-      TYPE(L_BUFEL_), TARGET  :: LBUF     
+      TYPE(G_BUFEL_), TARGET  :: GBUF
+      TYPE(L_BUFEL_), TARGET  :: LBUF
       TYPE(BUF_MAT_) :: MBUF
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       INTEGER,INTENT(IN) :: ILOADP(SIZLOADP,*)
@@ -141,7 +141,7 @@ C
       CHARACTER*nchartitle, TITR
 C=======================================================================
       TMP(1:NEL)=ZERO
-      
+
       IF (IPT == 0) THEN
         OFF   => GBUF%OFF(1:NEL)
         SIG   => GBUF%SIG(1:NEL*6)
@@ -162,17 +162,17 @@ C=======================================================================
         OFF   => LBUF%OFF(1:NEL)
         SIG   => LBUF%SIG(1:NEL*6)
         EINT  => LBUF%EINT(1:NEL)
-        EPSD  => LBUF%EPSD(1:NEL) 
+        EPSD  => LBUF%EPSD(1:NEL)
         RHO   => LBUF%RHO(1:NEL)
         VOL   => LBUF%VOL(1:NEL)
         DELTAX=> LBUF%DELTAX(1:NEL)
         TB    => LBUF%TB(1:NEL)
         EPLAS => LBUF%PLA(1:NEL)
         IF(ELBUF_STR%BUFLY(1)%L_TEMP > 0)THEN
-          TEMP  => LBUF%TEMP(1:NEL) 
+          TEMP  => LBUF%TEMP(1:NEL)
         ELSE
           TEMP => TMP(1:NEL)
-        ENDIF               
+        ENDIF
       ENDIF
       IF(JSPH==0)THEN
          FILL  => GBUF%FILL(1:NEL)
@@ -185,13 +185,13 @@ c
      .            SIG     ,IX      ,NIX     ,SIGI     ,EPLAS    ,
      .            NSIG    ,MAT     ,NUMS    ,PT       ,NEL      ,
      .            FILL    ,TEMP    )
-     
+
 C--------------------
       IF(JMULT <= 1)THEN  !reset only once
         IPARG(15)=0   !  FLAG REZONE SIG
         IPARG(16)=0   !  FLAG REZONE EPS PLAST.
         IPARG(63)=0   !  FLAG FOR FLUID MATERIAL
-        IPARG(64)=0   !  FLAG FOR NON REFLECTING BOUNDARY      
+        IPARG(64)=0   !  FLAG FOR NON REFLECTING BOUNDARY
       ENDIF
 C---------------------------      
       IF (MTN == 1) THEN
@@ -218,7 +218,7 @@ C---------------------------
         IPARG(16)=1
       ELSEIF (MTN == 11) THEN
         IPARG(63)=1 !Loi fluide
-        IPARG(64)=1 !Loi frontiere        
+        IPARG(64)=1 !Loi frontiere
       ELSEIF (MTN == 12) THEN
         IPARG(15)=1
         IPARG(16)=1
@@ -256,7 +256,7 @@ C---------------------------
           CALL ANCMSG(MSGID=129,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO)
-          CALL ARRET(2)             	  
+          CALL ARRET(2)             	
 	       ENDIF
       ELSEIF (MTN == 21.OR.MTN == 22.OR.MTN == 23) THEN
         IPARG(15)=1
@@ -298,7 +298,7 @@ c
         IADBUF = IPM(7,MAT(1))
         IADBUF = MAX(1,IADBUF)
         UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
-c        
+c
         DO I=LFT,LLT
           RHO0(I)= PM( 1,MAT(I))
         END DO
@@ -314,7 +314,7 @@ c
      .                 NGL     ,NUVAR   ,MBUF%VAR ,UPARAM   ,X      ,
      .                 MAT     ,IPARG   ,IFORM    ,IX       ,NIX    ,
      .                 ILOADP  ,FACLOAD  ,GBUF     ,NEL)
-        ELSEIF (MTN == 38) THEN 
+        ELSEIF (MTN == 38) THEN
           CALL M38INIT(
      1       NEL   , NPAR, NUVAR   ,NFUNC  ,IFUNC  ,
      2       NPF   ,TF      ,BUFMAT(IADBUF),RHO0   ,VOL    ,
@@ -366,14 +366,14 @@ c
         ENDIF
 
       ENDIF
-      
+
       !must be set, once m51init() was called
       IF(ELBUF_STR%BUFLY(1)%L_SSP /= 0)THEN
         DO I=1,NEL
           LBUF%SSP(I)=PM(27,MAT(I))
         ENDDO
       ENDIF
-      
+
 C------------
       RETURN
       END

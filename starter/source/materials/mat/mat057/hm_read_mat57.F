@@ -39,9 +39,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT57(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MFUNC    , 
-     .                         MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   , 
-     .                         ISRATE   ,PM       ,LSUBMODEL,ID       ,TITR     )                     
+      SUBROUTINE HM_READ_MAT57(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,MFUNC    ,
+     .                         MAXFUNC  ,IFUNC    ,MTAG     ,PARMAT   ,UNITAB   ,
+     .                         ISRATE   ,PM       ,LSUBMODEL,ID       ,TITR     )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,11 +62,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,8 +86,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(UNIT_TYPE_),INTENT(IN) :: UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)  :: PM     
+      TYPE(UNIT_TYPE_),INTENT(IN) :: UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)  :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)    :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT) :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT) :: IFUNC
@@ -102,7 +102,7 @@ C-----------------------------------------------
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: I,J,NRATE,NPS,OPTE,IFUNCE,ILAW,NFUNC
       my_real :: RHO0, RHOR,E,NU,G,C1,EPSMAX,EPSR1,EPSR2,RATE(11),YFAC(11),YFAC_UNIT(11),
-     .           R0,R45,R90,R,H,FISOKIN,M,EINF,CE,ASRATE      
+     .           R0,R45,R90,R,H,FISOKIN,M,EINF,CE,ASRATE
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -145,11 +145,11 @@ Card5 - 15
         CALL HM_GET_INT_ARRAY_INDEX        ('FunctionIds',IFUNC(J)    ,J,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_FLOAT_ARRAY_INDEX      ('ABG_cpa'    ,YFAC(J)     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         IF(YFAC(J) == ZERO) THEN
-          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_cpa'    ,YFAC_UNIT(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('ABG_cpa'    ,YFAC_UNIT(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
           YFAC(J)=ONE * YFAC_UNIT(J)
         ENDIF
         CALL HM_GET_FLOAT_ARRAY_INDEX      ('ABG_cpb'    ,RATE(J)     ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        IF(IFUNC(J) /= 0) NRATE = J                          
+        IF(IFUNC(J) /= 0) NRATE = J
       ENDDO
 c
       IF (NRATE == 0) THEN
@@ -175,13 +175,13 @@ C
       ELSE
         ! If no filtering frequency is given but the flag is activated
         IF (ISRATE /= 0) THEN
-          ASRATE  = 10000.0D0*FAC_T_WORK  
+          ASRATE  = 10000.0D0*FAC_T_WORK
         ! If no filtering frequency and no flag is activated => no filtering
         ELSE
           ASRATE  = ZERO
         ENDIF
       ENDIF
-      !----------------------------------------------------------           
+      !----------------------------------------------------------
 C
       IF (NRATE == 1) THEN
         NFUNC=2
@@ -253,7 +253,7 @@ C      PM PARMAT
 C---------------------------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1)  = RHOR
-      PM(89) = RHO0    
+      PM(89) = RHO0
       PARMAT(1) = C1
       PARMAT(2) = E
       PARMAT(3) = NU
@@ -273,9 +273,9 @@ C---------------------------------
 C---------------------------------
       WRITE(IOUT,1001) TRIM(TITR),ID,57
       WRITE(IOUT,1000)
-      IF (IS_ENCRYPTED)THEN                                     
+      IF (IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
+      ELSE
         WRITE(IOUT,1002) RHO0
         WRITE(IOUT,1100)E,NU,G,R0,R45,R90,FISOKIN,M
         WRITE(IOUT,1400)UPARAM(7),UPARAM(8),UPARAM(9),UPARAM(10)
@@ -296,7 +296,7 @@ C
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)  
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
@@ -343,7 +343,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real  A  ,C ,H , P,  M, R45 
+      my_real  A  ,C ,H , P,  M, R45
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

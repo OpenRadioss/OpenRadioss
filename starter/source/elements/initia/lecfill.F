@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .      INI,J,N,ID_ELEM,IE,UID,SUB_ID,STAT,NB_INIBRI,
      .      IFLAGUNIT,IUNIT,NB_ELEMENTS
       INTEGER WORKS(70000)
@@ -98,7 +98,7 @@ C------------------------------------
 !
       IF ( NB_INIBRI > 0 ) THEN
 !
-        ! Start reading /INIBRI card 
+        ! Start reading /INIBRI card
         CALL HM_OPTION_START('/INIBRI')
 !
         NFILSOL=0
@@ -166,7 +166,7 @@ C------------------------------------
 !
           IFLAGUNIT = 0
           DO IUNIT=1,NUNITS
-            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
+            IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
               IFLAGUNIT = 1
               EXIT
             ENDIF

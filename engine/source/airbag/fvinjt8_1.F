@@ -28,7 +28,7 @@ Chd|        FV_UP_SWITCH                  source/airbag/fv_up_switch.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVINJT8_1(NJET   , IBAGJET , RBAGJET ,
-     2                    IGEO,     GEO,     PM, 
+     2                    IGEO,     GEO,     PM,
      3                    IVOLU,   RVOLU, DMOUT, DHOUT)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

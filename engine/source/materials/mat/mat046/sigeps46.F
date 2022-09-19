@@ -76,7 +76,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      . UVAR(NEL,NUVAR), OFF(NEL),WXX(NEL),WYY(NEL),WZZ(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,ISGS,IADBUF,K
-      my_real 
+      my_real
      . VIS,C1,SMAG2,
      . DAV(MVSIZ),DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),
 C     . DAV,DXX(MVSIZ),DYY(MVSIZ),DZZ(MVSIZ),

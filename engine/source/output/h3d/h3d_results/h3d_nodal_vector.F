@@ -38,14 +38,14 @@ Chd|====================================================================
      .                  INFO1    , INFO2       , IS_WRITTEN_NODE, H3D_PART   , IPARTC   ,
      .                  IPARTTG  , IXC         , IXTG           , TEMP       , IFLOW    ,
      .                  RFLOW    , IXS         , IXQ            , NV46,MONVOL, VOLMON   ,
-     .                  DIAG_SMS    , MS             , PDAMA2     , X        , 
-     .                  STIFR    , STIFN       , A              , D          , V        , 
+     .                  DIAG_SMS    , MS             , PDAMA2     , X        ,
+     .                  STIFR    , STIFN       , A              , D          , V        ,
      .                  CONT     , FCONTG      , FINT           , FEXT       , KEYWORD  ,
-     .                  FNCONT   , FNCONTG     , FTCONT         , FTCONTG    , FNCONT2  , 
+     .                  FNCONT   , FNCONTG     , FTCONT         , FTCONTG    , FNCONT2  ,
      .                  DR       , DXANCG      , FANREAC        , FCLUSTER   , MCLUSTER ,
      .                  VR       , FOPT        , NPBY           , IXUR       , VGAZ     ,
-     .                  IPARI    , IGRNOD      , WEIGHT         ,NODGLOB     ,FCONT_MAX , 
-     .                  FNCONTP2 , FTCONTP2    ) 
+     .                  IPARI    , IGRNOD      , WEIGHT         ,NODGLOB     ,FCONT_MAX ,
+     .                  FNCONTP2 , FTCONTP2    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -106,7 +106,7 @@ C-----------------------------------------------
 C
       VALUE = ZERO
 c
-      DO  I=1,NUMNOD 
+      DO  I=1,NUMNOD
         NODE_ID(I) = ITAB(I)
       ENDDO
 
@@ -285,7 +285,7 @@ C--------------------------------------------------
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
           ENDDO
-        ENDIF 
+        ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'FVEL') THEN
 C--------------------------------------------------
@@ -310,7 +310,7 @@ C--------------------------------------------------
 c      IF (KEYWORD == 'FRES') THEN
 c       IF(IDTMINS==0.AND.IDTMINS_INT==0)THEN
 c         FAC=ONE
-c         IF (IMPL_S>0.AND.IDYNA==0)FAC=ZERO 
+c         IF (IMPL_S>0.AND.IDYNA==0)FAC=ZERO
 c          DO J=1,3
 c          DO N=1,NUMNOD
 c           VFLU(J,N)=FEXT(J,N)+FINT(J,N)-FAC*MS(N)*A(J,N)
@@ -335,7 +335,7 @@ C--------------------------------------------------
             VALUE(3) = FNCONT(3,I)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO  
+          ENDDO
         ELSE
           DO I=1,NUMNOD
             K=NODGLOB(I)
@@ -344,7 +344,7 @@ C--------------------------------------------------
             VALUE(3) = FNCONT(3,I)+FNCONTG(3,K)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO  
+          ENDDO
         ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT/TANGENT') THEN
@@ -356,7 +356,7 @@ C--------------------------------------------------
             VALUE(3) = FTCONT(3,I)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO  
+          ENDDO
         ELSE
           DO I=1,NUMNOD
             K=NODGLOB(I)
@@ -365,7 +365,7 @@ C--------------------------------------------------
             VALUE(3) = FTCONT(3,I)+FTCONTG(3,K)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO  
+          ENDDO
         ENDIF
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'CONT2') THEN
@@ -376,7 +376,7 @@ C--------------------------------------------------
             VALUE(3) = FNCONT2(3,I)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO 
+          ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT2/NORMAL') THEN
 C--------------------------------------------------
@@ -386,7 +386,7 @@ C--------------------------------------------------
             VALUE(3) = FNCONTP2(3,I)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO 
+          ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'PCONT2/TANGENT') THEN
 C--------------------------------------------------
@@ -396,7 +396,7 @@ C--------------------------------------------------
             VALUE(3) = FTCONTP2(3,I)
             CALL H3D_WRITE_VECTOR(IOK_PART,IS_WRITTEN_NODE,NODAL_VECTOR,I,0,0,
      .                                    VALUE)
-          ENDDO 
+          ENDDO
 C--------------------------------------------------
       ELSEIF(KEYWORD == 'DROT')THEN
 C--------------------------------------------------

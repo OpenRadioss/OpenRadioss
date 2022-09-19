@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
      .        STAT_INDXC(*), STAT_INDXTG(*)
-      my_real   
+      my_real
      .   THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       double precision WA(*),WAP0(*)
@@ -75,14 +75,14 @@ C-----------------------------------------------
      .    ITHK,KK(8)
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
-      double precision   
+      double precision
      .   THK, EM, EB, H1, H2, H3
       CHARACTER*100 DELIMIT,LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      my_real, 
-     .   DIMENSION(:),POINTER  :: STRAIN    
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      my_real,
+     .   DIMENSION(:),POINTER  :: STRAIN
 C-----------------------------------------------
       DATA DELIMIT(1:60)
      ./'#---1----|----2----|----3----|----4----|----5----|----6----|'/
@@ -98,14 +98,14 @@ C-----------------------------------------------
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF (ITY == 3) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          NPT  = IPARG(6,NG)
          ITHK  =IPARG(28,NG)
-         NPTR = ELBUF_TAB(NG)%NPTR    
-         NPTS = ELBUF_TAB(NG)%NPTS    
+         NPTR = ELBUF_TAB(NG)%NPTR
+         NPTS = ELBUF_TAB(NG)%NPTS
          NPG  = NPTR*NPTS
          LFT=1
          LLT=NEL
@@ -152,8 +152,8 @@ c         Strain in Gauss points
               DO J=1,G_STRA
                 JJ    = JJ + 1
                 WA(JJ)=ZERO
-              END DO      
-            END DO        
+              END DO
+            END DO
           ELSEIF (G_STRA /= 0) THEN
             IF (NPG > 1) THEN
               STRAIN => GBUF%STRPG
@@ -162,12 +162,12 @@ c         Strain in Gauss points
             ENDIF
             II = G_STRA*(I-1)
             DO IPG=1,NPG
-              K = (IPG-1)*NEL*G_STRA              
+              K = (IPG-1)*NEL*G_STRA
               DO J=1,G_STRA
                 JJ    = JJ + 1
                 WA(JJ) = STRAIN(KK(J)+I+K)
-              END DO      
-            END DO        
+              END DO
+            END DO
           END IF
 
           IE=IE+1
@@ -208,21 +208,21 @@ C         retrouve l'adresse dans WAP0
 
           IOFF  = NINT(WAP0(J + 1))
           IF(IOFF >= 1)THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             IF(IPRT /= IPRT0)THEN
              IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(A)') DELIMIT
                WRITE(IUGEO,'(A)')'/INISHE/STRA_F'
                WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                WRITE(IUGEO,'(A)')
-     .      '#  SHELLID       NPT       NPG                 THK' 
+     .      '#  SHELLID       NPT       NPG                 THK'
                WRITE(IUGEO,'(A/A/A)')
      .'# REPEAT I=1,NPG :',
      .'#   E1, E2, E12, E23, E31,',
      .'#   K1, K2, K12'
                WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
              ELSE
                WRITE(LINE,'(A)') DELIMIT
@@ -230,10 +230,10 @@ C         retrouve l'adresse dans WAP0
                WRITE(LINE,'(A)')'/INISHE/STRA_F'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .      '#  SHELLID       NPT       NPG                 THK' 
+     .      '#  SHELLID       NPT       NPG                 THK'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')'# REPEAT I=1,NPG :'
                CALL STRS_TXT50(LINE,100)
@@ -242,17 +242,17 @@ C         retrouve l'adresse dans WAP0
                WRITE(LINE,'(A)')'#   K1, K2, K12'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                CALL STRS_TXT50(LINE,100)
                WRITE(LINE,'(A)') DELIMIT
                CALL STRS_TXT50(LINE,100)
              ENDIF
               IPRT0=IPRT
             END IF
-            ID    = NINT(WAP0(J + 3)) 
-            NPT   = NINT(WAP0(J + 4)) 
-            NPG   = NINT(WAP0(J + 5)) 
-            THK   = WAP0(J + 6) 
+            ID    = NINT(WAP0(J + 3))
+            NPT   = NINT(WAP0(J + 4))
+            NPG   = NINT(WAP0(J + 5))
+            THK   = WAP0(J + 6)
             J = J + 6
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -271,7 +271,7 @@ C         retrouve l'adresse dans WAP0
               ENDIF
             END DO
           END IF
-        ENDDO		    
+        ENDDO		
       ENDIF
 
 C-----------------------------------------------
@@ -284,15 +284,15 @@ C-----------------------------------------------
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF (ITY == 7) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          G_STRA = GBUF%G_STRA
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
          NPT  = IPARG(6,NG)
          ITHK = IPARG(28,NG)
-         NPTR = ELBUF_TAB(NG)%NPTR    
-         NPTS = ELBUF_TAB(NG)%NPTS    
+         NPTR = ELBUF_TAB(NG)%NPTR
+         NPTS = ELBUF_TAB(NG)%NPTS
          NPG  = NPTR*NPTS
          LFT=1
          LLT=NEL
@@ -340,8 +340,8 @@ c         Strain in Gauss points
               DO J=1,G_STRA
                 JJ    = JJ + 1
                 WA(JJ) = ZERO
-              END DO      
-            END DO        
+              END DO
+            END DO
           ELSEIF (G_STRA > 0) THEN
             IF (NPG > 1) THEN
               STRAIN => GBUF%STRPG
@@ -350,12 +350,12 @@ c         Strain in Gauss points
             ENDIF
             II = G_STRA*(I-1)
             DO IPG=1,NPG
-              K = (IPG-1)*NEL*G_STRA              
+              K = (IPG-1)*NEL*G_STRA
               DO J=1,G_STRA
                 JJ = JJ + 1
                 WA(JJ) = STRAIN(KK(J)+I+K)
-              END DO      
-            END DO        
+              END DO
+            END DO
           END IF  ! ISTRAIN /=0
 
           IE=IE+1
@@ -396,21 +396,21 @@ C         retrouve l'adresse dans WAP0
 
           IOFF  = NINT(WAP0(J + 1))
           IF(IOFF >= 1)THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             IF(IPRT /= IPRT0)THEN
              IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(A)') DELIMIT
               WRITE(IUGEO,'(A)')'/INISH3/STRA_F'
               WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
               WRITE(IUGEO,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
              WRITE(IUGEO,'(A/A/A)')
      .'# REPEAT I=1,NPG :',
      .'#   E1, E2, E12, E23, E31,',
      .'#   K1, K2, K12'
               WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
               WRITE(IUGEO,'(A)') DELIMIT
              ELSE
               WRITE(LINE,'(A)') DELIMIT
@@ -419,28 +419,28 @@ C         retrouve l'adresse dans WAP0
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'#------------------------ REPEAT --------------------------'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
               CALL STRS_TXT50(LINE,100)
-              WRITE(LINE,'(A)')'# REPEAT I=1,NPG :' 
+              WRITE(LINE,'(A)')'# REPEAT I=1,NPG :'
               CALL STRS_TXT50(LINE,100)
-              WRITE(LINE,'(A)')'#   E1, E2, E12, E23, E31,' 
+              WRITE(LINE,'(A)')'#   E1, E2, E12, E23, E31,'
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')'#   K1, K2, K12'
               CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)')
      .'#---------------------- END REPEAT ------------------------'
-              CALL STRS_TXT50(LINE,100) 
+              CALL STRS_TXT50(LINE,100)
               WRITE(LINE,'(A)') DELIMIT
               CALL STRS_TXT50(LINE,100)
              END IF
              IPRT0=IPRT
             END IF
-            ID    = NINT(WAP0(J + 3)) 
-            NPT   = NINT(WAP0(J + 4)) 
-            NPG   = NINT(WAP0(J + 5)) 
-            THK   = WAP0(J + 6) 
+            ID    = NINT(WAP0(J + 3))
+            NPT   = NINT(WAP0(J + 4))
+            NPG   = NINT(WAP0(J + 5))
+            THK   = WAP0(J + 6)
             J = J + 6
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -459,7 +459,7 @@ C         retrouve l'adresse dans WAP0
             END DO
           END IF
 
-        ENDDO		    
+        ENDDO		
       ENDIF
 
       RETURN

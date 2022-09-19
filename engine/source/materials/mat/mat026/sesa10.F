@@ -56,7 +56,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real
-     .   VAVG(MVSIZ), 
+     .   VAVG(MVSIZ),
      .   E1(MVSIZ), E2(MVSIZ), E3(MVSIZ), E4(MVSIZ),
      .   E5(MVSIZ), E6(MVSIZ), DTA,VOLN(MVSIZ)
 C-----------------------------------------------

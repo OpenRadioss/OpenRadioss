@@ -31,7 +31,7 @@ Chd|====================================================================
 C----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER OFFSET,ITY,MLW,NEL,NFT,NG,I
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 
       DO NG=1,NGROUP
@@ -66,7 +66,7 @@ C-----------------------------------------------
         OFFSET = 0
 c
         IF(ITY==1)THEN
-          DO I=1,NEL 
+          DO I=1,NEL
             ID_ELEM(OFFSET+NFT+I) = IXS(NIXS,NFT+I)
             ITY_ELEM(OFFSET+NFT+I) = 1
             ISOLNOD(OFFSET+NFT+I) = IPARG(28,NG)

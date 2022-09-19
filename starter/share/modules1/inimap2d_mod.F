@@ -38,14 +38,14 @@ Chd|====================================================================
 
         TYPE FUNC_DATA
           my_real, ALLOCATABLE, DIMENSION(:,:) :: RHO
-          my_real, ALLOCATABLE, DIMENSION(:,:) :: VFRAC                 
-          my_real, ALLOCATABLE, DIMENSION(:,:) :: PRES  
+          my_real, ALLOCATABLE, DIMENSION(:,:) :: VFRAC
+          my_real, ALLOCATABLE, DIMENSION(:,:) :: PRES
         END TYPE
-        
+
         TYPE INIMAP2D_STRUCT
           INTEGER :: FORMULATION, ID, FUNC_VEL, NBMAT
           my_real :: FAC_VEL
-          INTEGER, DIMENSION(:), ALLOCATABLE :: FUNC_ALPHA, FUNC_RHO, FUNC_PRES, FUNC_ENER 
+          INTEGER, DIMENSION(:), ALLOCATABLE :: FUNC_ALPHA, FUNC_RHO, FUNC_PRES, FUNC_ENER
           my_real, DIMENSION(:), ALLOCATABLE :: FAC_RHO, FAC_PRES_ENER
           INTEGER :: NODEID1, NODEID2, NODEID3
           INTEGER :: GRBRICID, GRQUADID, GRSH3NID
@@ -55,13 +55,13 @@ Chd|====================================================================
           CHARACTER*nchartitle :: TITLE
           LOGICAL :: FILE
           INTEGER :: NUM_CENTROIDS, NUM_NODE_VEL
-          LOGICAL :: CORRECTLY_READ          
+          LOGICAL :: CORRECTLY_READ
 
           !function - /INIMAP1D/FILE
-          my_real, ALLOCATABLE, DIMENSION(:,:) :: XVAL, XVAL_V 
+          my_real, ALLOCATABLE, DIMENSION(:,:) :: XVAL, XVAL_V
           my_real, ALLOCATABLE, DIMENSION(:,:) :: VEL
-          TYPE(FUNC_DATA),DIMENSION(:),ALLOCATABLE :: SUBMAT         
-          
+          TYPE(FUNC_DATA),DIMENSION(:),ALLOCATABLE :: SUBMAT
+
         END TYPE INIMAP2D_STRUCT
-        
+
       END MODULE INIMAP2D_MOD

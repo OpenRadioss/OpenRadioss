@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT   ,IPLAT(*),ISROT
-      my_real 
+      my_real
      .   VQN(MVSIZ,9,4),VF(MVSIZ,3,4),VM(MVSIZ,2,4),VQ(MVSIZ,3,3),
      .   COREL(MVSIZ,3,4),DI(MVSIZ,6),VMZ(MVSIZ,4)
       my_real
@@ -61,12 +61,12 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K,EP
-      my_real 
+      my_real
      .     MM(3,4),FL(3,4),ML(2,4),C1,Z1,
      .     AR(3),AD(4),ALR(3),ALD(4),DBAD(3),MLZ(MVSIZ,3,4)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO EP=JFT,NPLAT 
+       DO EP=JFT,NPLAT
         K=IPLAT(EP)
 C      I=1
         FL(1,1)= VF(K,1,1)+VF(K,1,3)
@@ -166,7 +166,7 @@ C
         ENDDO
         DO J=1,4
 #include "vectorize.inc"
-        DO EP=NPLAT+1,JLT 
+        DO EP=NPLAT+1,JLT
          K=IPLAT(EP)
          MLZ(EP,1,J)= VQN(K,7,J)*VMZ(EP,J)
          MLZ(EP,2,J)= VQN(K,8,J)*VMZ(EP,J)
@@ -175,7 +175,7 @@ C
         ENDDO
        ELSE
         DO J=1,4
-        DO EP=NPLAT+1,JLT 
+        DO EP=NPLAT+1,JLT
          MLZ(EP,1,J)= ZERO
          MLZ(EP,2,J)= ZERO
          MLZ(EP,3,J)= ZERO
@@ -183,7 +183,7 @@ C
         ENDDO
        END IF !(ISROT>0) THEN
 C       
-       DO EP=NPLAT+1,JLT 
+       DO EP=NPLAT+1,JLT
         K=IPLAT(EP)
          MM(1,1)= VQN(K,1,1)*VM(K,1,1)+VQN(K,4,1)*VM(K,2,1)+MLZ(EP,1,1)
          MM(2,1)= VQN(K,2,1)*VM(K,1,1)+VQN(K,5,1)*VM(K,2,1)+MLZ(EP,2,1)
@@ -314,7 +314,7 @@ C
          F14(EP)= F14(EP)*OFF(EP)
          F24(EP)= F24(EP)*OFF(EP)
          F34(EP)= F34(EP)*OFF(EP)
-         
+
          M11(EP)=M11(EP)*OFF(EP)
          M21(EP)=M21(EP)*OFF(EP)
          M31(EP)=M31(EP)*OFF(EP)
@@ -329,9 +329,9 @@ C
 C         
          M14(EP)= M14(EP)*OFF(EP)
          M24(EP)= M24(EP)*OFF(EP)
-         M34(EP)= M34(EP)*OFF(EP) 
+         M34(EP)= M34(EP)*OFF(EP)
 
-      ENDDO 
-      
+      ENDDO
+
       RETURN
       END

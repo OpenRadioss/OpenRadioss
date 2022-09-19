@@ -39,7 +39,7 @@ Chd|====================================================================
      .           UPARAM   ,MAXUPARAM ,NUPARAM  ,NUVAR    ,IFUNC    ,
      .           MAXFUNC  ,NFUNC     ,PARMAT   ,IMATVIS  ,IFORM    ,
      .           UNITAB   ,ID        ,TITR     ,LSUBMODEL,MTAG     ,
-     .           PM       ,IPM       ,ISRATE) 
+     .           PM       ,IPM       ,ISRATE)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,10 +80,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC,IFORM
       INTEGER, INTENT(INOUT) :: IPM(NPROPMI),IMATVIS,ISRATE
-      my_real, INTENT(INOUT) :: PM(NPROPM)     
+      my_real, INTENT(INOUT) :: PM(NPROPM)
       CHARACTER*nchartitle,INTENT(IN) :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       INTEGER, INTENT(OUT) :: NUPARAM,NUVAR,NFUNC
@@ -106,7 +106,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
       IS_ENCRYPTED   = .FALSE.
       IS_AVAILABLE = .FALSE.
-      RHOR    = ZERO 
+      RHOR    = ZERO
       NUVAR   = 0
       NUPARAM = 0
       NFUNC   = 0
@@ -126,7 +126,7 @@ C
       CALL HM_GET_FLOATV('MAT_HARD'   ,CN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS'    ,EPSM   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SIG'    ,SIGM   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
- 
+
        !line-4
       CALL HM_GET_FLOATV('MAT_SRC'  ,CC        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SRP'  ,EPS0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -135,9 +135,9 @@ C
       CALL HM_GET_FLOATV('MAT_DAMAGE'      ,EPSL      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ETAN'         ,EL       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C 
-      IF(RHOR == ZERO)RHOR = RHO0 
+      IF(RHOR == ZERO)RHOR = RHO0
        PM(1) = RHOR
-       PM(89)= RHO0    
+       PM(89)= RHO0
 C           
       IF(ANU == HALF) ANU=ZEP499
       IF(EPSL == ZERO) EPSL=ZEP15
@@ -149,7 +149,7 @@ C
       E0=ZERO
       C0=ZERO
       C1=YOUNG/(THREE*(ONE - TWO*ANU))
-      E1MN2=YOUNG/(ONE - ANU**2)            
+      E1MN2=YOUNG/(ONE - ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(PM(1),EM20))
       HL   =YOUNG * EL / MAX(EM20,YOUNG-EL)
@@ -187,11 +187,11 @@ C     Formulation for solid elements time step computation.
       PM(105) = TWO*G/(C1+FOUR_OVER_3*G) ! =(1-2*Nu)/(1-Nu)
 C
       WRITE(IOUT,1010) TRIM(TITR),ID,ILAW
-      WRITE(IOUT,1000)     
+      WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
-        WRITE(IOUT,1020)RHO0 
+      ELSE
+        WRITE(IOUT,1020)RHO0
         WRITE(IOUT,1300)YOUNG,ANU,G
         WRITE(IOUT,1400)CA,CB,CN,EPSM,SIGM
         WRITE(IOUT,1600)CC,EPS0,ICC
@@ -224,11 +224,11 @@ C
 C
 C---- Definition des variables internes (stockage elementaire)
 c
-      MTAG%G_EPSD  = 1   
-      MTAG%G_PLA   = 1   
+      MTAG%G_EPSD  = 1
+      MTAG%G_PLA   = 1
 c
-      MTAG%L_EPSD  = 1   
-      MTAG%L_PLA   = 1   
+      MTAG%L_EPSD  = 1
+      MTAG%L_PLA   = 1
 c-------------------
       RETURN
 c-------------------
@@ -238,9 +238,9 @@ c-------------------
  1010 FORMAT(/
      & 5X,A,/,
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . . .=',I10/,
-     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . .=',I10/) 
+     & 5X,'MATERIAL LAW . . . . . . . . . . . . . . .=',I10/)
  1020 FORMAT(
-     & 5X,'INITIAL DENSITY. . . . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG''S MODULUS . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . .=',1PG20.13/,

@@ -36,8 +36,8 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE HM_READ_TABLE1_1(NTABLE1,NTABLE, TABLE ,NFUNCT, 
-     .                            NPC ,PLD,L, 
+      SUBROUTINE HM_READ_TABLE1_1(NTABLE1,NTABLE, TABLE ,NFUNCT,
+     .                            NPC ,PLD,L,
      .                            NOM_OPT,UNITAB, LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -93,12 +93,12 @@ C======================================================================|
       IS_AVAILABLE = .FALSE.
 
       CALL HM_OPTION_START('/TABLE/1')
-      DO I=1,NTABLE1 
+      DO I=1,NTABLE1
 
 
-       CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                         OPTION_TITR = TITR, 
-     .                         OPTION_ID = LL) 
+       CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                         OPTION_TITR = TITR,
+     .                         OPTION_ID = LL)
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
 C-----------------------------------------------
        NX(1) = 0
@@ -119,18 +119,18 @@ C-----------------------------------------------
        IF(NDIM==1)THEN
           L=L+1
           NPTS=NPT
-          NPC(NFUNCT+L+1)=LL                                       
-          NPC(L+1)=NPC(L)                                          
+          NPC(NFUNCT+L+1)=LL
+          NPC(L+1)=NPC(L)
 
-          NPTS=0                                                   
-c read abscissa values      
+          NPTS=0
+c read abscissa values
           DO IPT = 1, NPT
              CALL HM_GET_FLOAT_ARRAY_INDEX('table2darray',TIME,2*IPT-1,IS_AVAILABLE,LSUBMODEL,UNITAB)
-c read ordinate values          
-             CALL HM_GET_FLOAT_ARRAY_INDEX('table2darray',FUNCT,2*IPT,IS_AVAILABLE,LSUBMODEL, UNITAB) 
-             NPTS=NPTS+1                                              
+c read ordinate values
+             CALL HM_GET_FLOAT_ARRAY_INDEX('table2darray',FUNCT,2*IPT,IS_AVAILABLE,LSUBMODEL, UNITAB)
+             NPTS=NPTS+1
              PLD(NPC(L+1))=TIME
-             IF(NPTS > 1 .AND. PLD(NPC(L+1)) <= PLD(NPC(L+1)-2))THEN  
+             IF(NPTS > 1 .AND. PLD(NPC(L+1)) <= PLD(NPC(L+1)-2))THEN
                  CALL ANCMSG(MSGID=156,
      .                       MSGTYPE=MSGERROR,
      .                       ANMODE=ANINFO_BLIND_1,
@@ -138,10 +138,10 @@ c read ordinate values
      .                       C1=TITR1,
      .                       I2=NPTS,
      .                       I3=NPTS-1)
-             ENDIF                                                    
-             NPC(L+1)=NPC(L+1)+1                                      
-             PLD(NPC(L+1))=FUNCT                                      
-             NPC(L+1)=NPC(L+1)+1                                      
+             ENDIF
+             NPC(L+1)=NPC(L+1)+1
+             PLD(NPC(L+1))=FUNCT
+             NPC(L+1)=NPC(L+1)+1
           ENDDO ! IPT
 
 C         build table structure
@@ -170,9 +170,9 @@ C         build table structure
             TABLE(L)%Y%VALUES(N)   =PLD(NPC(L)+2*N-1)
           END DO
 C
-          IF (IS_ENCRYPTED)THEN                                     
-            WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'     
-          ELSE     
+          IF (IS_ENCRYPTED)THEN
+            WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
+          ELSE
             WRITE(IOUT,2100) TABLE(L)%NOTABLE, TABLE(L)%NDIM
             DO K=1,TABLE(L)%NDIM
               NX(K)=SIZE( TABLE(L)%X(K)%VALUES )
@@ -185,8 +185,8 @@ C
           END IF
 
         ENDIF!(NDIM==1)
-       ENDDO !I=1,NTABLE0 
-  
+       ENDDO !I=1,NTABLE0
+
       RETURN
 C-----------------------------------------------------------------
 2000  FORMAT(//

@@ -30,11 +30,11 @@ Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE I25SORS(NSN  ,NRTS, ITAB, ILEV  ,IPARI, 
+      SUBROUTINE I25SORS(NSN  ,NRTS, ITAB, ILEV  ,IPARI,
      .                  INTBUF_TAB)
 C
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C     REAL
 C-----------------------------------------------
       ALLOCATE (ITRI(NSN),ISAV(3,NSN),INDEX(2*NSN),STAT=IERROR)
-      IF (IERROR /= 0) 
+      IF (IERROR /= 0)
      .  CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                     MSGTYPE=MSGERROR,
      .               C1='SORTING SECONDARY NODES IN INTERFACE TYPE25')
@@ -80,7 +80,7 @@ C
        NISUBS =IPARI(37)
        IF(NISUB > 0)THEN
          ALLOCATE (LISUBS(NISUBS),INFLG_SUBS(NISUBS),ADDSUBS(NSN+1),STAT=IERROR)
-         IF (IERROR /= 0) 
+         IF (IERROR /= 0)
      .     CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                     MSGTYPE=MSGERROR,
      .                     C1='SORTING SECONDARY NODES IN INTERFACE TYPE25')
@@ -97,7 +97,7 @@ C
        END DO
 C
        IF(NISUB > 0)THEN
-         INTBUF_TAB%ADDSUBS(1)=1         
+         INTBUF_TAB%ADDSUBS(1)=1
          DO N=1,NSN
            M=INDEX(N)
            INTBUF_TAB%ADDSUBS(N+1)= INTBUF_TAB%ADDSUBS(N)

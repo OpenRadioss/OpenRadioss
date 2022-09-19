@@ -50,7 +50,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J
       my_real
-     .        VX1, VY1, VZ1, VX2, VY2, VZ2, S1, S12, S2, NR1, NR2, 
+     .        VX1, VY1, VZ1, VX2, VY2, VZ2, S1, S12, S2, NR1, NR2,
      .        X0, Y0, Z0, KSI(4), ETA(4), DKSI(3), DETA(3), R(4),
      .        XLS, YLS, ZLS, S(3), V, FLN, ARG,
      .        D2, L12, L22, L32, LM2
@@ -68,9 +68,9 @@ C SIMPLIFICATION SI SOURCE LOIN DE L'ELEMENT
       L32=(X1-X3)**2+(Y1-Y3)**2+(Z1-Z3)**2
       LM2=MAX(L12,L22,L32)
 
-      IF(D2>TWENTY5*LM2) THEN  
+      IF(D2>TWENTY5*LM2) THEN
         RVLG=AREA/SQRT(D2)
-        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	  
+        RVLH=AREA*(NRX*(X0-XP)+NRY*(Y0-YP)+NRZ*(Z0-ZP))/(D2**THREE_HALF)	
       ELSE
 C
 C COORDONNEES LOCALES
@@ -124,7 +124,7 @@ C
         S(2)=SQRT(L22)
         S(3)=SQRT(L32)
         R(4)=R(1)
-	  
+	
         DO I=1,3
           CS(I)=DKSI(I)/S(I)
           SN(I)=DETA(I)/S(I)

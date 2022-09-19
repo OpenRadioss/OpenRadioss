@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
         USE TRI7BOX
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE MESSAGE_MOD
         USE INTER_SORTING_MOD
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
         INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRCVFROM
         TYPE(sorting_comm_type), DIMENSION(NINTER), INTENT(inout) :: SORT_COMM   ! structure for interface sorting comm
 
-#ifdef MPI        
+#ifdef MPI
         INTEGER :: I,J,NOD,L,L2,KK,KKK,IJK
         INTEGER :: P,P_LOC
 
@@ -98,7 +98,7 @@ C-----------------------------------------------
                 CALL MPI_WAITANY(SORT_COMM(NIN)%NBSEND_NB,
      .                           SORT_COMM(NIN)%REQUEST_NB_S,P_LOC,STATUS,IERROR)
             ENDDO
-        ENDIF   
+        ENDIF
         ! ----------------------------
 
         ! ----------------------------

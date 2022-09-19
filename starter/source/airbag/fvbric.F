@@ -50,12 +50,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, NBX, NBY, NBRIC, NNB, IFV, NNB1, J, K, NV, NALL,
      .        NC, TNC(4), TNV(5,6), KK, L, N1, N2, N3, N4, N5, N6, N7,
-     .        N8 
+     .        N8
       my_real
      .        VX3, VY3, VZ3, VX1, VY1, VZ1, NORM, SS, VX2, VY2, VZ2,
      .        X0, Y0, Z0, ZLMIN, ZLMAX, XX, YY, ZZ, ZL, LX, LY, DX, DY,
      .        XLC, YLC, ZLC1, ZLC2, XXG, YYG, ZZG, XC, YC, ZC, L1, L2,
-     .        L3, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4, 
+     .        L3, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4,
      .        NX1, NY1, NZ1, NX2, NY2, NZ2, AREA1, AREA2, NX, NY, NZ,
      .        RR, XCF, YCF, ZCF, VX, VY, VZ
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITAG
@@ -251,10 +251,10 @@ C
             VX1=FVDATA(IFV)%XB(1,N2)-FVDATA(IFV)%XB(1,N1)
             VY1=FVDATA(IFV)%XB(2,N2)-FVDATA(IFV)%XB(2,N1)
             VZ1=FVDATA(IFV)%XB(3,N2)-FVDATA(IFV)%XB(3,N1)
-            VX2=FVDATA(IFV)%XB(1,N4)-FVDATA(IFV)%XB(1,N1)     
+            VX2=FVDATA(IFV)%XB(1,N4)-FVDATA(IFV)%XB(1,N1)
             VY2=FVDATA(IFV)%XB(2,N4)-FVDATA(IFV)%XB(2,N1)
             VZ2=FVDATA(IFV)%XB(3,N4)-FVDATA(IFV)%XB(3,N1)
-            VX3=FVDATA(IFV)%XB(1,N5)-FVDATA(IFV)%XB(1,N1)     
+            VX3=FVDATA(IFV)%XB(1,N5)-FVDATA(IFV)%XB(1,N1)
             VY3=FVDATA(IFV)%XB(2,N5)-FVDATA(IFV)%XB(2,N1)
             VZ3=FVDATA(IFV)%XB(3,N5)-FVDATA(IFV)%XB(3,N1)
             L1=SQRT(VX1**2+VY1**2+VZ1**2)
@@ -264,19 +264,19 @@ C
          ENDIF
 C
          DO J=1,6
-            N1=FVDATA(IFV)%BRIC(FAC(1,J),I)         
-            N2=FVDATA(IFV)%BRIC(FAC(2,J),I)         
-            N3=FVDATA(IFV)%BRIC(FAC(3,J),I)         
+            N1=FVDATA(IFV)%BRIC(FAC(1,J),I)
+            N2=FVDATA(IFV)%BRIC(FAC(2,J),I)
+            N3=FVDATA(IFV)%BRIC(FAC(3,J),I)
             N4=FVDATA(IFV)%BRIC(FAC(4,J),I)
             X1=FVDATA(IFV)%XB(1,N1)
             Y1=FVDATA(IFV)%XB(2,N1)
-            Z1=FVDATA(IFV)%XB(3,N1)        
+            Z1=FVDATA(IFV)%XB(3,N1)
             X2=FVDATA(IFV)%XB(1,N2)
             Y2=FVDATA(IFV)%XB(2,N2)
-            Z2=FVDATA(IFV)%XB(3,N2)        
+            Z2=FVDATA(IFV)%XB(3,N2)
             X3=FVDATA(IFV)%XB(1,N3)
             Y3=FVDATA(IFV)%XB(2,N3)
-            Z3=FVDATA(IFV)%XB(3,N3)        
+            Z3=FVDATA(IFV)%XB(3,N3)
             X4=FVDATA(IFV)%XB(1,N4)
             Y4=FVDATA(IFV)%XB(2,N4)
             Z4=FVDATA(IFV)%XB(3,N4)
@@ -320,7 +320,7 @@ C
                FVDATA(IFV)%SFAC(J,2,I)=-NX/RR
                FVDATA(IFV)%SFAC(J,3,I)=-NY/RR
                FVDATA(IFV)%SFAC(J,4,I)=-NZ/RR
-            ENDIF   
+            ENDIF
          ENDDO
       ENDDO
 C

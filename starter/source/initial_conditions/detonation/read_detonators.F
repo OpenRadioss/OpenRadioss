@@ -41,7 +41,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE READ_DETONATORS(ITABM1     ,ITAB   ,IGRNOD,
-     .                           IPM        ,X      ,IXQ    ,IXS    ,UNITAB, 
+     .                           IPM        ,X      ,IXQ    ,IXS    ,UNITAB,
      .                           LSUBMODEL  ,DETONATORS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB
       INTEGER                        :: ITABM1(SITABM1),ITAB(NUMNOD)
       INTEGER                        :: MDET,IPM(NPROPMI,NUMMAT),IXQ(NIXQ,NUMELQ),IXS(NIXS,NUMELS)
       my_real                        :: X(3,NUMNOD)
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      DATA MESS/'DETONATORS DEFINITION                   '/      
+      DATA MESS/'DETONATORS DEFINITION                   '/
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -111,68 +111,68 @@ C-----------------------------------------------
       ALLOCATE (DETONATORS%BURN(8,NDET)    ,STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO, MSGTYPE=MSGERROR,C1='BURN')
       IF (NDET > 0) DETONATORS%BURN = ZERO
-      
+
       !---SIZING & ALLOCATION
       CALL PRELECDET(IGRNOD, LSUBMODEL, DETONATORS)
-      
+
       !---INITIALIZATIONS
       I1   = 0
       I2   = NDETPS
       I3   = NDETPS+NDETSG
       I4   = NDETPS+NDETSG+NECRAN
       I5   = NDETPS+NDETSG+NECRAN+NDETPL
-      I6   = NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD      
+      I6   = NDETPS+NDETSG+NECRAN+NDETPL+NDETCORD
       N1   = 1
       N2   = 1
       NPCM = 0
       NPEM = 0
-      
+
       !---READING OPTIONS
       CALL HM_OPTION_START('/DFS')
       WRITE(IOUT,1000)
-      
+
       DO K=1,NDET+NLASER
         CALL HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID=DET_ID, UNIT_ID=UID,KEYWORD2=KEY,KEYWORD3=KEY2)
         IF (LEN_TRIM(KEY) > 0) KEY = KEY(1:7)
-        IF (LEN_TRIM(KEY2) > 0) KEY2 = KEY2(1:4)                     
+        IF (LEN_TRIM(KEY2) > 0) KEY2 = KEY2(1:4)
         IFLAGUNIT=0
-        DO IUNIT=1,NUNITS                           
-          IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN    
-            IFLAGUNIT = 1               
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                              
+        DO IUNIT=1,NUNITS
+          IF (UNITAB%UNIT_ID(IUNIT) == UID) THEN
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID /= 0 .AND. IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,
      .                I1=DET_ID,
      .                C1='DETONATORS',
      .                C2='DETONATORS',
-     .                C3='/DFS')                             
-        ENDIF  
-c-------        
+     .                C3='/DFS')
+        ENDIF
+c-------
         SELECT CASE(KEY(1:7))
 c-------
           CASE ('DETPOIN')
             CALL READ_DFS_DETPOINT(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5)
 c-------
           CASE ('DETLINE')
-            CALL READ_DFS_DETLINE(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5)      
+            CALL READ_DFS_DETLINE(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5)
 c-------
           CASE ('WAV_SHA')
             CALL READ_DFS_WAVE_SHAPER(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5,
      .                                N1,NPEM,ITAB)
 c-------
           CASE ('DETPLAN')
-            CALL READ_DFS_DETPLAN(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5)               
+            CALL READ_DFS_DETPLAN(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5)
 c-------
           CASE ('DETCORD')
             CALL READ_DFS_DETCORD(DET_ID,DETONATORS,X,IGRNOD,IPM,ITABM1,UNITAB,LSUBMODEL,KEY,KEY2,I1,I2,I3,I4,I5,
-     .                            N2,NPCM,ITAB)               
-c-------      
+     .                            N2,NPCM,ITAB)
+c-------
           CASE ('LASERS')
-            !SKIP IT               
-c-------         
+            !SKIP IT
+c-------
 	END SELECT !CASE(KEY)
 c-------
       ENDDO !K=1,NDET

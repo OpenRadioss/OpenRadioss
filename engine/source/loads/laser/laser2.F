@@ -32,12 +32,12 @@ Chd|        INITBUF_MOD                   share/resol/initbuf.F
 Chd|====================================================================
       SUBROUTINE LASER2(NL ,N1   ,N2   ,IFUNC    ,IAFUNC ,
      .                 LAS ,XLAS ,X    ,ELBUF_TAB,PM     ,
-     .                 WA  ,IPARG,IXQ  ,TF       ,NPF    ) 
+     .                 WA  ,IPARG,IXQ  ,TF       ,NPF    )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -75,8 +75,8 @@ C-----------------------------------------------
      .   DFI, DE, AF, BID, RHOC, C0, ZM, ZMC, Y1, Y2, Y3, Y4, A1, A2,
      .   AIRE, D, VM, SZ, DAR, FI0, VOL, XKZZ, RHOA2, RHO0,
      .   TC, DFI1, SY, SX, P, DP, XK0,HNUK,XK,ATOM,RHO,Z,TE,TSCAL,FIFUN
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 C-----------------------------------------------
        CHALEUR = XLAS(1)
        FI      = XLAS(2)
@@ -103,13 +103,13 @@ C------------------------------------------------------------
          LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
 
          CALL INITBUF (
-     1     IPARG   ,NG      ,                  
-     2     MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLA    ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
+     1     IPARG   ,NG      ,
+     2     MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLA    ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 
         II = I + NFT
         Z1 = X(3,IXQ(2,II))
@@ -134,7 +134,7 @@ C
         RHOA2    = ((RHO-RHO0)/ATOM)**2
         IF(TE<=EP04) XKZZ = XKZZ + DAR * RHOA2 * ZZ
 C
-        DDFI     = (ONE - EXP(-XKZZ)) 
+        DDFI     = (ONE - EXP(-XKZZ))
         DFI      = FI * DDFI
         FI       = FI - DFI
         DE       = DFI * DT2 / ZZ
@@ -142,8 +142,8 @@ C
         GBUF%EINT(I) = GBUF%EINT(I) + DE
         TFEXT    = TFEXT + DE * VOL
 C
-        WA(1,IL) = ZZ  
-        WA(2,IL) = DDFI  
+        WA(1,IL) = ZZ
+        WA(2,IL) = DDFI
 C
   200  CONTINUE
 C
@@ -174,7 +174,7 @@ c
        GBUF     => ELBUF_TAB(NG)%GBUF
 c
        NELC     = IPARG(2,NG)
-       NB1C     = IPARG(4,NG)   
+       NB1C     = IPARG(4,NG)
        NFTC     = IPARG(3,NG)
        II       = IC + NFTC
        M4C      = NB1C+8*NELC+IC-1
@@ -219,9 +219,9 @@ c       P   = -(SX+SY+SZ) * THIRD
 c       DP  = RHOC*C0*D
 c       DP  = MIN(DP,P)
 c       DP  = MAX(DP,ZERO)
-c       SX  = -P + DP * HALF 
+c       SX  = -P + DP * HALF
 c       SY  = -P + DP * HALF
-c       SZ  = -P - DP 
+c       SZ  = -P - DP
 C     
 C-------------------------
 C REFLEXION DU RAYON LASER  
@@ -234,8 +234,8 @@ C-------------------------------------------------------------
         NG           = LAS(1,IL)
         I            = LAS(2,IL)
         GBUF         => ELBUF_TAB(NG)%GBUF
-        ZZ           = WA(1,IL)  
-        DDFI         = WA(2,IL)  
+        ZZ           = WA(1,IL)
+        DDFI         = WA(2,IL)
         DFI          = FI * DDFI
         FI           = FI - DFI
         DE           = DFI * DT2 / ZZ
@@ -264,7 +264,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -303,7 +303,7 @@ C-----------------------------------------------
      .   AIRE, D, VM, SZ, VOL, RHOA2, RHO0,
      .   TC, DFI1, SY, SX, P, DP, TSCAL,FIFUN,
      .   XK0,HNUK,XK,ATOM,RHO,Z,TE,ENERLIM,ENER
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       ENERLIM   = XLAS(1)
       FI        = XLAS(2)
@@ -321,15 +321,15 @@ C
 C-------------------------------------------------------------
       DO IL=1,NL
         NG   = LAS(1,IL)
-        I    = LAS(2,IL)        
+        I    = LAS(2,IL)
         GBUF => ELBUF_TAB(NG)%GBUF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLA    ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLA    ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         II   = I + NFT
         MX   = IXQ(1,II)
         ENER = GBUF%EINT(I)

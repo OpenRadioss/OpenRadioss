@@ -75,7 +75,7 @@ C     REAL
      .   XM,YM,ZM,NX3,NY3,NZ3,
      .   PS1,PS2,PS3,AN2,AN3,DET,MU,FACR,
      .   API,DIST,TSTART,TS,TMPO,FPT,FPA,FPZ,SCALT,SCALA,SCALD
-      my_real 
+      my_real
      .   FINTER
 C=======================================================================
       API=HUNDRED80/PI
@@ -83,9 +83,9 @@ C-----------------------------------------------
       PRES   =RVOLU(12)
       Q      =RVOLU(23)
       PEXT   =RVOLU(3)
-      SCALT  =RVOLU(26)   
-      SCALA  =RVOLU(29)   
-      SCALD  =RVOLU(30)   
+      SCALT  =RVOLU(26)
+      SCALA  =RVOLU(29)
+      SCALD  =RVOLU(30)
       DP     =Q+PRES-PEXT
       DO I=1,NN
 C
@@ -252,7 +252,7 @@ C
 C
           XX = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
           YY = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
+          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	
 C
           XM=HALF*(X(1,NJ1)+X(1,NJ3))
           YM=HALF*(X(2,NJ1)+X(2,NJ3))
@@ -337,7 +337,7 @@ C
      +                    +FY*(V(2,N1)+V(2,N2)+V(2,N3)+V(2,N4))
      +                    +FZ*(V(3,N1)+V(3,N2)+V(3,N3)+V(3,N4)))
         ELSEIF(SURF_ELTYP(I)==7)THEN
-          PJ=PJ0*THIRD         
+          PJ=PJ0*THIRD
 C
           N1 = SURF_NODES(I,1)
           N2 = SURF_NODES(I,2)
@@ -347,7 +347,7 @@ C
 C
           XX = (X(1,N1)+X(1,N2)+X(1,N3)) * THIRD
           YY = (X(2,N1)+X(2,N2)+X(2,N3)) * THIRD
-          ZZ = (X(3,N1)+X(3,N2)+X(3,N3)) * THIRD	  
+          ZZ = (X(3,N1)+X(3,N2)+X(3,N3)) * THIRD	
 C
           XM=0.5*(X(1,NJ1)+X(1,NJ3))
           YM=0.5*(X(2,NJ1)+X(2,NJ3))
@@ -439,11 +439,11 @@ C
 C
           XX = FOURTH*(X(1,N1)+X(1,N2)+X(1,N3)+X(1,N4))
           YY = FOURTH*(X(2,N1)+X(2,N2)+X(2,N3)+X(2,N4))
-          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	  
+          ZZ = FOURTH*(X(3,N1)+X(3,N2)+X(3,N3)+X(3,N4))	
 C
           XM=HALF*(X(1,NJ1)+X(1,NJ3))
           YM=HALF*(X(2,NJ1)+X(2,NJ3))
-          ZM=HALF*(X(3,NJ1)+X(3,NJ3))	  
+          ZM=HALF*(X(3,NJ1)+X(3,NJ3))	
 C
           NX1 = XX-XM
           NY1 = YY-YM

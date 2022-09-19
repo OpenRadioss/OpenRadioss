@@ -48,7 +48,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
       USE STACK_MOD
@@ -77,8 +77,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER :: 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER ::
      .   IGEO(NPROPGI),IPM(NPROPMI,*),SUB_ID,ISKN(LISKN,*),
      .   PROP_ID
       my_real
@@ -96,11 +96,11 @@ C-----------------------------------------------
      .           IMID_PI,INTER ,IPID1 , IPID2 , IREP, ISHEAR ,IHBEOUTP ,IPID0,
      .           ISK , J, ISS, N1, IMID, K, NC, KK, II, NPT_SUB, M1, IMAT,
      .           N,IPID,ISHELL,ISH3N,ID,ID1,IUN,NPLY_SUB,IGTYP,FAIL_SHELL,IS,IRP
-      my_real :: 
+      my_real ::
      .   AN, VX, VY, VZ, THICKT, DT, TMIN, TMAX,PTHK,CVIS,PUN,ZSHIFT, THK ,
      .   ASHEAR, ANG, POS, HM, HF, HR, DN, DM,VISC_INT
       INTEGER, DIMENSION(:),ALLOCATABLE :: IDMAT_INTP,IDMAT_SUB
-      
+
       CHARACTER*nchartitle,
      .   TITR,TITR1
       LOGICAL :: IS_AVAILABLE, IS_ENCRYPTED
@@ -121,7 +121,7 @@ C======================================================================|
 c
       IGTYP   = 17
       IGMAT   = 1
-      CVIS    = ONE  
+      CVIS    = ONE
       ISTRAIN  = 1
       IRP = 0
       IDSK = 0
@@ -136,26 +136,26 @@ C======================================================================|
       CALL HM_GET_INTV('ISH3N',ISH3N,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Idrill',ISROT,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('plyxfem',ISHXFEM,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_FLOATV('Z0',ZSHIFT,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+      CALL HM_GET_FLOATV('Z0',ZSHIFT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Vinterply',VISC_INT,IS_AVAILABLE,LSUBMODEL,UNITAB) ! global interply viscosity for plyxfem formulation
        ! Card 2
-      
+
       CALL HM_GET_FLOATV('Hm',HM,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Hf',HF,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Hr',HR,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Dm',DM,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Dn',DN,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      ! card3      
-!!      CALL HM_GET_INTV  ('ISTRAIN'   ,ISTRAIN   ,IS_AVAILABLE, LSUBMODEL) ! removed 
-      CALL HM_GET_FLOATV('THICK'     ,THK       ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('AREA_SHEAR',ASHEAR    ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      ! card3
+!!      CALL HM_GET_INTV  ('ISTRAIN'   ,ISTRAIN   ,IS_AVAILABLE, LSUBMODEL) ! removed
+      CALL HM_GET_FLOATV('THICK'     ,THK       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('AREA_SHEAR',ASHEAR    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('ITHICK'    ,ITHK      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('IPLAS'     ,IPLAST    ,IS_AVAILABLE, LSUBMODEL)
-!!      CALL HM_GET_FLOATV('Fexp'      ,FAIL_SHELL ,IS_AVAILABLE, LSUBMODEL, UNITAB)   not existing 
+!!      CALL HM_GET_FLOATV('Fexp'      ,FAIL_SHELL ,IS_AVAILABLE, LSUBMODEL, UNITAB)   not existing
       ! card4
-      CALL HM_GET_FLOATV('V_X'       ,VX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('V_Y'       ,VY      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-      CALL HM_GET_FLOATV('V_Z'       ,VZ      ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
+      CALL HM_GET_FLOATV('V_X'       ,VX      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('V_Y'       ,VY      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('V_Z'       ,VZ      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('SKEW_CSID'   ,IDSK    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Iorth'       ,IORTH   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Ipos'        ,IPOS    ,IS_AVAILABLE, LSUBMODEL)
@@ -168,26 +168,26 @@ c--------------------------------------------
       CALL HM_GET_INTV('laminateconfig'    ,LAMIN, IS_AVAILABLE, LSUBMODEL)
 c
       NSUB = 0
-      NISUB = 0 
+      NISUB = 0
       IF (LAMIN  > 0) THEN
         CALL HM_GET_INTV('sublaminateidlistmax' ,NSUB,  IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV('interfacepairsize'    ,NISUB,  IS_AVAILABLE, LSUBMODEL)
         NPLY = 0
         DO IS = 1,NSUB
           CALL HM_GET_INT_ARRAY_INDEX('plyidlistmax',NPLY_SUB,IS,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INT_ARRAY_INDEX('DUMMY',IDSUB,IS,IS_AVAILABLE,LSUBMODEL) ! 
+          CALL HM_GET_INT_ARRAY_INDEX('DUMMY',IDSUB,IS,IS_AVAILABLE,LSUBMODEL) !
           !!
-          STACK_INFO%SUB(2*(IS - 1) + 1) = IDSUB 
+          STACK_INFO%SUB(2*(IS - 1) + 1) = IDSUB
           STACK_INFO%SUB(2*(IS - 1) + 2) = NPLY_SUB
           DO I = 1,NPLY_SUB
             CALL HM_GET_INT_ARRAY_2INDEXES  ('plyidlist',PLY_ID,IS,I,IS_AVAILABLE,LSUBMODEL)
             CALL HM_GET_FLOAT_ARRAY_2INDEXES('Prop_phi' ,ANG   ,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
-            CALL HM_GET_FLOAT_ARRAY_2INDEXES('Prop_Zi'  ,POS   ,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-            CALL HM_GET_INT_ARRAY_2INDEXES  ('Prop_mi' ,IMID_PI,IS,I,IS_AVAILABLE,LSUBMODEL) 
+            CALL HM_GET_FLOAT_ARRAY_2INDEXES('Prop_Zi'  ,POS   ,IS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+            CALL HM_GET_INT_ARRAY_2INDEXES  ('Prop_mi' ,IMID_PI,IS,I,IS_AVAILABLE,LSUBMODEL)
             ! stockage
                   STACK_INFO%PID(NPLY + I) = PLY_ID
                   STACK_INFO%ANG(NPLY + I) = ANG
-                  STACK_INFO%POS(NPLY + I) = POS  
+                  STACK_INFO%POS(NPLY + I) = POS
                   STACK_INFO%MID_IP(NPLY + I) = IMID_PI
           END DO
            NPLY = NPLY + NPLY_SUB
@@ -203,18 +203,18 @@ c
               STACK_INFO%ISUB(3*(INTER - 1) + 2) = IPID2
               STACK_INFO%ISUB(3*(INTER - 1) + 3) = IMID_PI
           END DO
-        END IF  
+        END IF
       ELSE  ! property defined by a list of plies
         CALL HM_GET_INTV('plyidlistmax' ,NPLY ,IS_AVAILABLE ,LSUBMODEL)
         DO I=1,NPLY
           CALL HM_GET_INT_ARRAY_INDEX  ('plyidlist' ,PLY_ID,I,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',ANG,I,IS_AVAILABLE,LSUBMODEL,UNITAB)   
-          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)  
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',ANG,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi' ,POS,I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_INT_ARRAY_INDEX  ('Prop_mi' ,IMID_PI,I,IS_AVAILABLE,LSUBMODEL) !
           !!
           STACK_INFO%PID(I) = PLY_ID
           STACK_INFO%ANG(I) = ANG
-          STACK_INFO%POS(I) = POS     
+          STACK_INFO%POS(I) = POS
           STACK_INFO%MID_IP(I) = IMID_PI
         END DO
       END IF
@@ -253,7 +253,7 @@ C
      .                  ANMODE=ANINFO_BLIND_2,
      .                  I1=PROP_ID,
      .                  C1=IDTITL)
-       ENDIF  
+       ENDIF
        IF(IHBE==0)IHBE=IHBE_D
          IHBEOUTP=IHBE
          IF (IHBE == 4 .AND. ISH3N==0 .AND. ISH3N_D == 1) THEN
@@ -270,11 +270,11 @@ C
      .                 I1=PROP_ID,
      .                 C1=IDTITL)
            IHBE=24
-         ENDIF         
+         ENDIF
          IF(ISH3N==0) ISH3N = ISH3N_D
          IGEO(18) = ISH3N
          IF (DM == ZERO) IGEO(31) = 1
-         
+
          IF (IHBE==24) THEN
            IF (CVIS==ZERO) CVIS = ONE
            IF (DN == ZERO) DN = ZEP015
@@ -294,7 +294,7 @@ C---
            IF(HF == ZERO)HF = EM02
            IF(HR == ZERO)HR = EM02
          ENDIF
-         
+
          IF(ASHEAR == ZERO) ASHEAR=FIVE_OVER_6
 C
          IF (IHBE>11.AND.IHBE<29) THEN
@@ -332,7 +332,7 @@ C---
       IGEO(32) =  0  ! ISLV not used (may be needed for plyxfem)
       IF(GEO(38) == ZERO) GEO(38) = FIVE_OVER_6
        !! IF(NLY == 1) GEO(38)= ZERO
-      GEO(42) = EM03 ! default value  ! not used 
+      GEO(42) = EM03 ! default value  ! not used
       FAIL_SHELL = 0
       AN=SQRT(VX*VX+VY*VY+VZ*VZ)
       IF(AN < EM10)THEN
@@ -390,13 +390,13 @@ c     check duplicated py IDs
           CALL ANCMSG(MSGID=1584,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_2,
      .         I1=PROP_ID,
      .         I2=IPID0)
-        ENDIF      
-      ENDDO 
+        ENDIF
+      ENDDO
 c
       IF(ITHK == 0)ITHK=ITHK_D
       IF(ISHEAR == 0)ISHEAR=ISHEA_D
       IF(IPLAST == 0)IPLAST=IPLA_D
-!      
+!
       IHBE = IGEO(10)
       ISS  = IGEO(5)
 C======================================================================|
@@ -412,8 +412,8 @@ C======================================================================|
       IGEO(14)  = IRP
 !!      IGEO(47) = IINT
       !! is not necessary it done in translation : before 2017 igmat=-1
-      !! the new global mat is by default since 2017 version IGMAT IS USED GENERALLY > 0 
-      IGEO(98) = IGMAT  
+      !! the new global mat is by default since 2017 version IGMAT IS USED GENERALLY > 0
+      IGEO(98) = IGMAT
 c
       GEO(3)  = ISMSTR
       GEO(7)  = VX
@@ -432,37 +432,37 @@ c
       GEO(38) = ASHEAR
       GEO(39) = IPLAST
       GEO(171)= IHBE  ! double stockage
-      GEO(199)= ZSHIFT  
+      GEO(199)= ZSHIFT
 C      
-      IHBE=NINT(GEO(171))                                 
-      IF(IHBE==0)THEN                                       
-        GEO(171)=0                                        
-      ELSEIF(IHBE==1)THEN                                   
-        GEO(171)= 1                                        
-      ELSEIF(IHBE==2)THEN                                   
-        GEO(171)=0                                        
-      ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN   
-        GEO(171)=IHBE-1                                   
-      ENDIF                                                 
+      IHBE=NINT(GEO(171))
+      IF(IHBE==0)THEN
+        GEO(171)=0
+      ELSEIF(IHBE==1)THEN
+        GEO(171)= 1
+      ELSEIF(IHBE==2)THEN
+        GEO(171)=0
+      ELSEIF(IHBE>=3.AND.IHBE<100.AND.IHBE/=4)THEN
+        GEO(171)=IHBE-1
+      ENDIF
 
-      ISTRAIN=NINT(GEO(11))                               
-      IF(ISTRAIN==0)THEN                                    
-        GEO(11)=0                                         
-      ELSEIF(ISTRAIN==1)THEN                                
-        GEO(11)=1                                         
-      ELSEIF(ISTRAIN==2)THEN                                
-        GEO(11)=0                                         
-      ENDIF                                                 
+      ISTRAIN=NINT(GEO(11))
+      IF(ISTRAIN==0)THEN
+        GEO(11)=0
+      ELSEIF(ISTRAIN==1)THEN
+        GEO(11)=1
+      ELSEIF(ISTRAIN==2)THEN
+        GEO(11)=0
+      ENDIF
 
-      ISHEAR = GEO(37)                                    
-      IF(ISHEAR==0)THEN                                     
-        GEO(37)=0                                         
-      ELSEIF(ISHEAR==1)THEN                                 
-        GEO(37)=1                                         
-      ELSEIF(ISHEAR==2)THEN                                 
-        GEO(37)=0                                         
-      ENDIF                                                 
-!! N1 it not used  only with old input format     
+      ISHEAR = GEO(37)
+      IF(ISHEAR==0)THEN
+        GEO(37)=0
+      ELSEIF(ISHEAR==1)THEN
+        GEO(37)=1
+      ELSEIF(ISHEAR==2)THEN
+        GEO(37)=0
+      ENDIF
+!! N1 it not used  only with old input format
 !!      IGEO(IPPID + N1) = IPOS
       CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 C-----------------------------------------------------------------
@@ -502,7 +502,7 @@ C-----------------------------------------------------------------
        ENDIF
        IF(ISHXFEM > 0) WRITE(IOUT, 2114)
       ENDIF
-      
+
 C---
 !!!      IF (NLY>NLYMAX) THEN
 !!         CALL ANCMSG(MSGID=28,
@@ -513,17 +513,17 @@ C---
 !!     .               I2=NLYMAX)
 !!      ENDIF
 C          
-        NC = NPLY        
+        NC = NPLY
         ALLOCATE( IDMAT_INTP(NPLY),IDMAT_SUB(NISUB))
         IDMAT_INTP = 0
-        IDMAT_SUB = 0   
+        IDMAT_SUB = 0
         N1 = NPLY
         GEO(6)=N1 + EM01
         IGEO(4) = N1
 C
-        IGEO(43) = NSUB ! number of substack               
-        IGEO(44) = NISUB ! number of interface 
-         DO 250 K = 1, NPLY 
+        IGEO(43) = NSUB ! number of substack
+        IGEO(44) = NISUB ! number of interface
+         DO 250 K = 1, NPLY
            IMID = STACK_INFO%MID_IP(K)
            IDMAT_INTP(K) = IMID
            IF( IMID == 0 .AND. ISHXFEM > 0) THEN
@@ -583,23 +583,23 @@ C isub stack
            ENDIF
            STACK_INFO%ISUB (3*(K-1) + 3) = 0
   300    CONTINUE
-       ENDIF 
+       ENDIF
        IGEO(99)  = IPOS
        IF(NSUB > 0) THEN
          KK = 0
          DO  II = 1,NSUB
-            IDSUB   = STACK_INFO%SUB ( 2*(II - 1) + 1)  
-            NPT_SUB = STACK_INFO%SUB ( 2*(II - 1) + 2) 
+            IDSUB   = STACK_INFO%SUB ( 2*(II - 1) + 1)
+            NPT_SUB = STACK_INFO%SUB ( 2*(II - 1) + 2)
 C            
              IF(IS_ENCRYPTED .EQV. .FALSE. )WRITE(IOUT,3000)IDSUB
              DO K=1,NPT_SUB
-               M1=  KK + K 
+               M1=  KK + K
                IF(IS_ENCRYPTED .EQV. .FALSE. ) THEN
                    WRITE(IOUT,2121)K,STACK_INFO%PID(M1),STACK_INFO%ANG(M1),
      .                                                  STACK_INFO%POS(M1)
                    IF(ISHXFEM > 0) WRITE(IOUT,2122)IDMAT_INTP(M1),GEO(20)
-               ENDIF  
-               STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/HUNDRED80                              
+               ENDIF
+               STACK_INFO%ANG(M1)=STACK_INFO%ANG(M1)*PI/HUNDRED80
              ENDDO
              KK = KK + NPT_SUB
          ENDDO
@@ -609,16 +609,16 @@ C
             IPID2  =STACK_INFO%ISUB (3*(K - 1) + 2)
             IMAT   =STACK_INFO%ISUB (3*(K - 1) + 3)
             IF( IS_ENCRYPTED .EQV. .FALSE.  ) THEN
-              WRITE(IOUT,3100)K 
+              WRITE(IOUT,3100)K
               IF(ISHXFEM > 0) THEN
                  WRITE(IOUT,3200)IPID1,IPID2,IMAT
-              ELSE  
+              ELSE
                  WRITE(IOUT,3300)IPID1,IPID2
               ENDIF
-           ENDIF 
+           ENDIF
          ENDDO
        ELSE
-           DO N=1,N1 
+           DO N=1,N1
               IF(IS_ENCRYPTED .EQV. .FALSE. )THEN
                 WRITE(IOUT,2121)N,STACK_INFO%PID(N),STACK_INFO%ANG(N),
      .                            STACK_INFO%POS(N)
@@ -626,7 +626,7 @@ C
               ENDIF
               STACK_INFO%ANG(N)=STACK_INFO%ANG(N)*PI/HUNDRED80
            ENDDO
-      ENDIF     
+      ENDIF
 C      
       DEALLOCATE (IDMAT_INTP,IDMAT_SUB)
 C----
@@ -731,17 +731,17 @@ C----
      & 5X,'      ANGLE (DIR 1,PROJ(DIR 1 / SHELL).=',1PG20.13/,
      & 5X,'      POSITION. . . . . . . . . . . . .=',1PG20.13/)
  2122 FORMAT(
-     & 5X,'      INTER-PLY MID NUMBER  . . . . . .=',I10/ 
+     & 5X,'      INTER-PLY MID NUMBER  . . . . . .=',I10/
      & 5X,'      INTER-PLY SHELL DAMPING . . . . . .=',1PG20.13/)
  3000 FORMAT(
-     & 5X,' COMPOSITE SUBSTACK SHELL ID . . . . . . =',I10/ ) 
+     & 5X,' COMPOSITE SUBSTACK SHELL ID . . . . . . =',I10/ )
  3100 FORMAT(
      & 5X,'  INTERFACE NUMBER BETWEEN-SUBSTACK . . .:',I10/ )
  3200 FORMAT(
-     & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/, 
-     & 5X,'      INTER-PLY_2 PID NUMBER . . . . . .=',I10/,   
-     & 5X,'      INTER-PLY MID NUMBER  . . . . . . =',I10/) 
+     & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/,
+     & 5X,'      INTER-PLY_2 PID NUMBER . . . . . .=',I10/,
+     & 5X,'      INTER-PLY MID NUMBER  . . . . . . =',I10/)
  3300 FORMAT(
-     & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/, 
+     & 5X,'      INTER-PLY_1 PID NUMBER  . . . . . =',I10/,
      & 5X,'      INTER-PLY_2 PID NUMBER . . . . . .=',I10/)
       END

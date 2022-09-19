@@ -369,8 +369,8 @@ C
            IF(IBM(I)>=0) IGM=IGM+1
 
         ENDIF
-      ENDDO 
-       
+      ENDDO
+
 #include "lockon.inc"
       NISKYL = NISKY
       NISKY = NISKY + NISKYL1 + IGP
@@ -411,7 +411,7 @@ C
           FSKYI(NISKYL,4)=STIF(I)*ABS(HS2(I))
           ISKY(NISKYL) = N2(I)
 
-#ifdef WITH_ASSERT         
+#ifdef WITH_ASSERT
           WRITE(6,"(2I20,X,A,6Z20)") EDGE_ID(1,I),EDGE_ID(2,I),"A",FX1(I),FY1(I),FZ1(I),FX2(I),FY2(I),FZ2(I)
 #endif
 
@@ -442,7 +442,7 @@ C
           FSKYFIE(NIN)%P(7,NISKYFIEL)=FZ2(I)
           FSKYFIE(NIN)%P(8,NISKYFIEL)=STIF(I)*ABS(HS2(I))
 
-#ifdef WITH_ASSERT         
+#ifdef WITH_ASSERT
           WRITE(6,"(2I20,X,A,6Z20)") EDGE_ID(1,I),EDGE_ID(2,I),"A",FX1(I),FY1(I),FZ1(I),FX2(I),FY2(I),FZ2(I)
 #endif
 
@@ -510,7 +510,7 @@ C
         ISKY(NISKYL) = M2(I)
        ENDIF
       ENDDO
-      
+
 
 C
       RETURN
@@ -593,7 +593,7 @@ C
         ELSE
            IGM = IGM+1 !2
         ENDIF
-      ENDDO        
+      ENDDO
 
 #include "lockon.inc"
       NISKYL = NISKY

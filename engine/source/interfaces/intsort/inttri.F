@@ -123,13 +123,13 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
       USE INTBUFMOD
       USE INTSTAMP_MOD
       USE TRI7BOX
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE I22TRI_MOD
-      USE I22BUFBRIC_MOD      
+      USE I22BUFBRIC_MOD
       USE MOD_I25MAIN_NORM
       USE MULTI_FVM_MOD
       USE H3D_MOD
@@ -160,7 +160,7 @@ C-----------------------------------------------
 #include      "spmd_c.inc"
 #include      "task_c.inc"
 #include      "timeri_c.inc"
-#include      "warn_c.inc" 
+#include      "warn_c.inc"
 #include      "scr17_c.inc"
 #include      "units_c.inc"
 #include      "tabsiz_c.inc"
@@ -183,22 +183,22 @@ C-----------------------------------------------
      .        IND_IMP(*),NUM_IMP(*),RENUM(*), NSNFIOLD(NSPMD),
      .        NODNX_SMS(NODNX_SMS_SIZ),IKINE(NUMNOD),I_MEM,COUNT_REMSLV(*),
      .        COUNT_REMSLVE(*), IXTG(NIXTG,*),DELTA_PMAX_GAP_NODE(*),
-     .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(*), FR_EDG(*), 
-     .        NB25_CANDT(PARASIZ), NB25_IMPCT(PARASIZ), 
+     .        IAD_FRNOR(*), FR_NOR(*), IAD_FREDG(*), FR_EDG(*),
+     .        NB25_CANDT(PARASIZ), NB25_IMPCT(PARASIZ),
      .        NB25_DST1(PARASIZ), NB25_DST2(PARASIZ), IPARG(NPARG,*),
      .        INTLIST25(*), MAIN_PROC(*), NATIV_SMS(*), I_OPT_STOK(NINTER),
      .        T2MAIN_SMS(6,*), LSKYI_SMS_NEW, IDEL7NOK_SAV,
      .        ADDCSRECT(*), PROCNOR(*)
       INTEGER, INTENT(IN) ::  ICODT(*), ISKEW(*)
 !     INT7ITIED : check if an interface type 7 with ITIED /= 0 is used
-!                 in order to force the communication of a list of candidate nodes 
+!                 in order to force the communication of a list of candidate nodes
 !                 INT7ITIED = 0 type 7 + ITIED/=0 not used
 !                 INT7ITIED = 1 type 7 + ITIED/=0 used
       INTEGER, INTENT(IN) :: INT7ITIED
       INTEGER, DIMENSION(*), TARGET :: KINET
       INTEGER, INTENT(in) :: TEMP_SIZ
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
-      my_real 
+      my_real
      .   WAG(*),
      .   VR(3,*),IN(*),DT2T,DIST, DRETRI(*), TEMP(TEMP_SIZ), EMINX(*),
      .        THKNOD(*),DELTA_PMAX_GAP(NINTER),
@@ -256,10 +256,10 @@ C Single region
           CALL STARTIME(56,1)
           CALL SPMD_BARRIER()
           CALL STOPTIME(56,1)
-        END IF 
+        END IF
         CALL STARTIME(15,1)
       ENDIF
-     
+
       !Init variable globale interface
       DO KK=1,NBINTC
         N = INTLIST(KK)
@@ -309,8 +309,8 @@ C Single region
         VMSR(4,N)= EP30
         VMSR(5,N)= EP30
         VMSR(6,N)= EP30
-        SIZE_T(N)=ZERO  
-        DELTA_PMAX_DGAP(N)=ZERO    
+        SIZE_T(N)=ZERO
+        DELTA_PMAX_DGAP(N)=ZERO
       END DO
       ! idem pour interface 21
       DO KK=1,NINTSTAMP
@@ -341,16 +341,16 @@ C Single region
         VMSR(6,N)= EP30
       END DO
 C-----int24 edge pourait etre optimis  e apres
-      NSNE_MAX=0    
-      MAX_IGE = 0  
+      NSNE_MAX=0
+      MAX_IGE = 0
       DO KK=1,NBINTC
 C
         N = INTLIST(KK)
         NTY   =IPARI(7,N)
 C        Look if interface is activated 
         ISENS = 0
-        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) 
-     .    ISENS = IPARI(64,N)  
+        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25)
+     .    ISENS = IPARI(64,N)
         IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
@@ -359,7 +359,7 @@ C        Look if interface is activated
         IF(NTY == 24.AND.TT>=TS)THEN
          NSNE_MAX = MAX(NSNE_MAX,IPARI(55,N))
 C-- 
-ccc         NFIC = 3   
+ccc         NFIC = 3
 ccc         CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
         END IF
 
@@ -413,17 +413,17 @@ C
       DO KK=1,NBINTC
         N      = INTLIST(KK)
         NTY    = IPARI(7,N)
-        INACTI = IPARI(22,N)        
+        INACTI = IPARI(22,N)
         TYPE18 = .FALSE.
         IF(NTY == 7 .AND. INACTI ==7)TYPE18=.TRUE.
         IF(IMONM > 0 ) THEN
-         IF(ITASK == 0) CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_CRIT_TRI)  
+         IF(ITASK == 0) CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_CRIT_TRI)
         ENDIF
         IPARI(29,N) = 0
         NTY   =IPARI(7,N)
-        ! Look if interface is activated 
+        ! Look if interface is activated
         ISENS = 0
-        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
+        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
         IF(ISENS/=0)  THEN         ! Interface activated by sensor
            TS = SENSOR(2,ISENS)
         ELSE
@@ -490,7 +490,7 @@ C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
 C
 C ITHK = 1 : main gap should be modified as per change in thickness
           ITHK =  IPARI(91,N)
-          IF(ITHK == 1) THEN          
+          IF(ITHK == 1) THEN
             CALL I25MAIN_GAP(
      1        IPARI  ,INTBUF_TAB(N)  ,N    ,ITASK  ,
      2        THKNOD, MAXDGAP(N))
@@ -561,14 +561,14 @@ C-----------------------------------------------
         ENDIF
 C-----------------------------------------------
         IF(IMONM > 0 ) THEN
-         IF(ITASK == 0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_CRIT_TRI)  
+         IF(ITASK == 0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_CRIT_TRI)
         ENDIF
       ENDDO
 C
       DO KK=1,NINTSTAMP
         N = INTSTAMP(KK)%NOINTER
         ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -606,9 +606,9 @@ C
           CALL STARTIME(57,1)
           CALL SPMD_BARRIER()
           CALL STOPTIME(57,1)
-        END IF 
+        END IF
         CALL STARTIME(16,1)
-       ENDIF 
+       ENDIF
 C
 C Communication critere de tri
 C
@@ -641,17 +641,17 @@ C
 C Fin Partie non parallele smt
 !$OMP END SINGLE
 
-      IF(ITASK==0)CALL STOPTIME(120,1) 
+      IF(ITASK==0)CALL STOPTIME(120,1)
 
 
       RETRI = 0
       ! ------------------------
-      ! new sorting algorythm     
+      ! new sorting algorythm
       IF(ITASK==0) NEED_TO_SORT = 0
       ! find the list of interface (for the moment : type7) that needs to be sorted
       CALL INTER_CHECK_SORT( ITASK,NEED_TO_SORT,NBINTC,INTLIST,IPARI,
      .                           INTBUF_TAB,SENSOR,NB_INTER_SORTED,LIST_INTER_SORTED,INTER_STRUCT)
-      ! globalize NEED_TO_SORT : 1= one or several interface(s) must be sorted 
+      ! globalize NEED_TO_SORT : 1= one or several interface(s) must be sorted
       IF(NSPMD>1.AND.ITASK==0) CALL SPMD_ALLGLOB_ISUM9(NEED_TO_SORT,1)
       CALL MY_BARRIER()
       ! ------------------------
@@ -675,12 +675,12 @@ C Fin Partie non parallele smt
                             N = LIST_INTER_SORTED(KK)
                             IPARI(22,N) = INTER_STRUCT(N)%INACTI
                         ENDDO
-                    ENDIF   
+                    ENDIF
                 ENDIF
                 CALL MY_BARRIER()
             ENDIF
             ! -----------
-            ! prepare the sort 
+            ! prepare the sort
             CALL INTER_PREPARE_SORT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,ISENDTO,IRECVFROM,
      .                               IPARI,IAD_ELEM,FR_ELEM,X,V,
      .                               MS,TEMP,KINET,NODNX_SMS,ITAB,
@@ -694,11 +694,11 @@ C Fin Partie non parallele smt
      3                       INTER_STRUCT,SORT_COMM ,RENUM_SIZ)
       ENDIF
       ! end : new sorting algorythm
-      ! ------------------------  
+      ! ------------------------
 
 
       ! ------------------------
-      ! old sorting algorythm   
+      ! old sorting algorythm
 C=======================================================================
 C     non implicit options-------
 C=======================================================================
@@ -718,13 +718,13 @@ C
           INTBUF_TAB(N)%METRIC%NCONT   = IPARI(18,N)
           INTBUF_TAB(N)%METRIC%MULTIMP = IPARI(23,N)
           INTBUF_TAB(N)%METRIC%NSNR   = MAX(INTBUF_TAB(N)%METRIC%NSNR , IPARI(24,N))
-          INTBUF_TAB(N)%METRIC%NSN    = NSN 
-          CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
+          INTBUF_TAB(N)%METRIC%NSN    = NSN
+          CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)
         ENDIF
 
         ISENS = 0
-        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -740,8 +740,8 @@ c-----------------------------------------------------------------------
             PTR_X => X_IGE
             V_IGE(3*NUMNOD+1:3*(NUMNOD+INTBUF_TAB(N)%S_NIGE)) = INTBUF_TAB(N)%VIGE(1:3*INTBUF_TAB(N)%S_NIGE)
             PTR_V => V_IGE
-            PTR_MS => MS(1:NUMNOD)  
-            PTR_KINET => KINET(1:NUMNOD)      
+            PTR_MS => MS(1:NUMNOD)
+            PTR_KINET => KINET(1:NUMNOD)
           ELSEIF (MULTI_FVM%IS_USED .AND. TYPE18) THEN
              PTR_X => MULTI_FVM%X_APPEND
              PTR_V => MULTI_FVM%V_APPEND
@@ -831,7 +831,7 @@ c-----------------------------------------------------------------------
      6 NODNX_SMS,INTBUF_TAB(N),H3D_DATA)
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 22)THEN
-c-----------------------------------------------------------------------         
+c-----------------------------------------------------------------------
           NRTM_T = IPARI(4,N)/NTHREAD
           ESHIFT = ITASK*NRTM_T
           IF(ITASK==NTHREAD-1)NRTM_T=IPARI(4,N)-(NTHREAD-1)*NRTM_T
@@ -850,12 +850,12 @@ c-----------------------------------------------------------------------
      3                   W       ,IGRSH3N      )            !OPTIM : mettre avant ecriture animation
 
           CALL MY_BARRIER
-          IF(ITASK==0)THEN            
+          IF(ITASK==0)THEN
             DEALLOCATE(IRECT_L)
           END IF
           !--------------------------------------------------------------
           !    CINEMATIC TIME STEP (MINIMUM LENGTH)
-          !-------------------------------------------------------------- 
+          !--------------------------------------------------------------
            NBF              = 1+ITASK*NB/NTHREAD
            NBL              = (ITASK+1)*NB/NTHREAD
            DX22MIN_L(ITASK) = EP30
@@ -865,20 +865,20 @@ c-----------------------------------------------------------------------
            DO IB = NBF,NBL  !1,NBRIC
               NBCUT            = BRICK_LIST(NIN,IB)%NBCUT
               IF(NBCUT==0)CYCLE
-              DO J=1,12              
+              DO J=1,12
                 NBCUT            = BRICK_LIST(NIN,IB)%Edge(J)%NBCUT
                 IF(NBCUT == 0) CYCLE
                 LEN              = BRICK_LIST(NIN,IB)%Edge(J)%LEN
                 DX22MIN_L(ITASK) = MIN(DX22MIN_L(ITASK), LEN)
               ENDDO
            ENDDO !IB=1,NBRIC
-           
+
            CALL MY_BARRIER
-           
+
 #include "lockon.inc"
-          DX22_MIN = MIN(DX22_MIN,DX22MIN_L(ITASK)) 
-#include "lockoff.inc"           
-        
+          DX22_MIN = MIN(DX22_MIN,DX22MIN_L(ITASK))
+#include "lockoff.inc"
+
 c-----------------------------------------------------------------------
         ELSEIF(NTY == 23)THEN
 c-----------------------------------------------------------------------
@@ -947,7 +947,7 @@ c-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
         ENDIF
         IF(IMONM > 0) THEN
-        IF(ITASK==0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)   
+        IF(ITASK==0) CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_TRI)
         ENDIF
 
 C-----------------------------------------------------------------------
@@ -956,7 +956,7 @@ C
        DO KK=1,NINTSTAMP
           N = INTSTAMP(KK)%NOINTER
           ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
             TS = SENSOR(2,ISENS)
           ELSE
             TS = TT
@@ -967,7 +967,7 @@ C
      1          IPARI   ,X       ,N            ,
      2          ITASK  ,WEIGHT   ,RETRI21(N)   ,IDUM    ,IDUM    ,
      3          INTSTAMP(KK) ,WAG,INTBUF_TAB(N) )
-           IF(RETRI21(N)==1) RETRI = 1 
+           IF(RETRI21(N)==1) RETRI = 1
           ENDIF
        ENDDO
       ELSE
@@ -979,8 +979,8 @@ C=======================================================================
         N   = INTLIST(KK)
 C
         ISENS = 0
-        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
+        IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -1008,7 +1008,7 @@ C-----------------------------------------------------------------------
             PTR_V => MULTI_FVM%V_APPEND
             PTR_MS => MULTI_FVM%MASS_APPEND
             PTR_KINET => MULTI_FVM%KINET_APPEND(1:NUMNOD+NUMELS)
-          ELSE          
+          ELSE
             PTR_X => X
             PTR_V => V
             PTR_MS => MS(1:NUMNOD)
@@ -1153,15 +1153,15 @@ C=======================================================================
       IF(NINTER25 /= 0)THEN
 
         IF(IDEL7NOK_SAV/=0)THEN
-          CALL STOPTIME(2,1)  
-          CALL STARTIME(8,1)  
+          CALL STOPTIME(2,1)
+          CALL STARTIME(8,1)
           CALL I25MAIN_FREE(ITASK, IPARI  ,INTBUF_TAB ,INTLIST25, ISENDTO,
      2                      IRECVFROM)
 C
           CALL MY_BARRIER()
 C
-          CALL STARTIME(2,1)  
-          CALL STOPTIME(8,1)  
+          CALL STARTIME(2,1)
+          CALL STOPTIME(8,1)
         END IF
 
         DO KK=1,NINTER25
@@ -1171,11 +1171,11 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
          ISENS = 0
 
          IF(IMONM > 0) THEN
-         IF(ITASK ==0)  CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)  
+         IF(ITASK ==0)  CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)
          ENDIF
 
-         ISENS = IPARI(64,N)      
-         IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+         ISENS = IPARI(64,N)
+         IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
@@ -1185,17 +1185,17 @@ C
 C-----------------------------------------------------------------------
           CALL I25MAIN_OPT_TRI(
      1       N       ,IPARI  ,INTBUF_TAB(N),X            ,V      ,
-     2       ITASK   ,ITAB   ,KINET        ,COUNT_REMSLV, 
+     2       ITASK   ,ITAB   ,KINET        ,COUNT_REMSLV,
      3       COUNT_REMSLVE, NB25_CANDT(ITASK+1), I_OPT_STOK(N))
 
          ENDIF
 C-----------------------------------------------------------------------
 
          IF(IMONM > 0) THEN
-           IF(ITASK==0)  CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)  
+           IF(ITASK==0)  CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)
          ENDIF
 
-        ENDDO     
+        ENDDO
 C=======================================================================
 C
 C       Calcul // des normales
@@ -1204,9 +1204,9 @@ C       il FAUT garder une barriere avant i25main_norm !!!
         CALL MY_BARRIER
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(2,1)  
-          CALL STARTIME(8,1)  
-          CALL STARTIME(MACRO_TIMER_T25NORM,1)  
+          CALL STOPTIME(2,1)
+          CALL STARTIME(8,1)
+          CALL STARTIME(MACRO_TIMER_T25NORM,1)
         ENDIF
 
         CALL I25MAIN_NORM(
@@ -1220,7 +1220,7 @@ C
          CALL STOPTIME(MACRO_TIMER_T25NORM,1)
          CALL STARTIME(MACRO_TIMER_T25STFE,1)
        ENDIF
-       
+
 !$OMP SINGLE
        IF(IDEL7NOK_SAV > 0) THEN
          DO N = 1,NINTER25
@@ -1230,7 +1230,7 @@ C
 C           Also needed in SMP for resetting STFE !
             CALL SPMD_GET_STIF25_EDG(
      .        INTBUF_TAB(NIN)%STFE,    IPARI(MACRO_NEDGE,NIN), INTBUF_TAB(NIN)%LEDGE,
-     .        NIN ,  ISENDTO, IRECVFROM, INTBUF_TAB(NIN)%MPI_COMM, INTBUF_TAB(NIN)%RANK, 
+     .        NIN ,  ISENDTO, IRECVFROM, INTBUF_TAB(NIN)%MPI_COMM, INTBUF_TAB(NIN)%RANK,
      .        INTBUF_TAB(NIN)%NSPMD)
           ENDIF
          ENDDO
@@ -1240,18 +1240,18 @@ C           Also needed in SMP for resetting STFE !
 C
         IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(MACRO_TIMER_T25STFE,1)
-          CALL STOPTIME(8,1)  
-          CALL STARTIME(2,1)  
+          CALL STOPTIME(8,1)
+          CALL STARTIME(2,1)
         END IF
 
 C=======================================================================
         CALL MY_BARRIER
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(2,1) 
-          CALL STARTIME(8,1)  
+          CALL STOPTIME(2,1)
+          CALL STARTIME(8,1)
           CALL STARTIME(MACRO_TIMER_T25SLIDING,1)
-        END IF 
+        END IF
 C
 C statistique interface
         IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
@@ -1260,7 +1260,7 @@ C statistique interface
           NB25_DST1(ITASK+1)  = 0
           NB25_DST2(ITASK+1)  = 0
         ENDIF
-      
+
         CALL I25MAIN_SLID(
      1      IPARI    ,IAD_ELEM ,FR_ELEM   ,ITAB     ,SENSOR ,
      2      INTLIST25,INTBUF_TAB ,IAD_FRNOR,FR_NOR ,
@@ -1268,7 +1268,7 @@ C statistique interface
      4      NATIV_SMS,ITASK+1 ,NB25_DST2, MAIN_PROC,
      5      NEWFRONT ,ISENDTO ,IRECVFROM ,NBINTC,
      6      INTLIST ,ISLEN7   ,IRLEN7  ,IRLEN7T  ,ISLEN7T,
-     7      NB25_DST1(ITASK+1),H3D_DATA, 
+     7      NB25_DST1(ITASK+1),H3D_DATA,
      8      ICODT,
      9      ISKEW)
 C
@@ -1276,16 +1276,16 @@ C
 C
         IF (IMON>0 .AND. ITASK==0) THEN
           CALL STOPTIME(MACRO_TIMER_T25SLIDING,1)
-          CALL STOPTIME(8,1)  
-          CALL STARTIME(2,1)  
+          CALL STOPTIME(8,1)
+          CALL STARTIME(2,1)
         END IF
 C
       END IF
-      ! end : old sorting algorythm 
+      ! end : old sorting algorythm
       ! ------------------------
 
       ! ------------------------------
-      ! new sorting algorythm 
+      ! new sorting algorythm
       ! deallocation & wait
       CALL MY_BARRIER()
       ! ------------------------
@@ -1294,7 +1294,7 @@ C
         CALL INTER_DEALLOCATE_WAIT( ITASK,NB_INTER_SORTED,LIST_INTER_SORTED,IPARI,ISENDTO,
      1                                IRECVFROM,INTBUF_TAB,SENSOR,INTER_STRUCT,SORT_COMM )
       ENDIF
-      ! end : new sorting algorythm 
+      ! end : new sorting algorythm
       ! ------------------------------
 C=======================================================================
 C
@@ -1308,8 +1308,8 @@ C
           CALL SPMD_BARRIER()
           CALL STOPTIME(58,1)
         END IF
-      END IF 
-      IF (NSPMD > 1 .AND. (RETRI == 1 .OR. NINTER25 > 0 ) ) THEN        
+      END IF
+      IF (NSPMD > 1 .AND. (RETRI == 1 .OR. NINTER25 > 0 ) ) THEN
 C
 C Communication apres retri
 C
@@ -1326,7 +1326,7 @@ C
      1      IPARI   ,INTBUF_TAB, RETRI21,TEMP    ,SENSOR,  ITAB,
      2      NBINTC21,INTLIST21)
         ENDIF
-         
+
 C Fin Partie non parallele
         IF (IMONM > 0) CALL STOPTIME(18,1)
       ENDIF
@@ -1345,13 +1345,13 @@ C--------TEST IF INTERFACE IS ACTIVE WHEN USING SENSOR-----------
 
 
       IF(IMONM > 0) THEN
-      IF(ITASK ==0)  CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)  
+      IF(ITASK ==0)  CALL INT_STARTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)
       ENDIF
 
 
 
-        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)      
-        IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+        IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
+        IF   (ISENS   /=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
            TS = SENSOR(2,ISENS)
         ELSE
            TS = TT
@@ -1381,7 +1381,7 @@ C-----------------------------------------------------------------------
           CALL I7MAIN_OPT_TRI(
      1       IPARI     ,PTR_X        ,PTR_V,
      2       N         ,ITASK        ,COUNT_REMSLV ,INTBUF_TAB(N))
-          
+
 C-----------------------------------------------------------------------
         ELSEIF(NTY == 10)THEN
 C-----------------------------------------------------------------------
@@ -1442,10 +1442,10 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
 
       IF(IMONM > 0) THEN
-        IF(ITASK==0)  CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)  
+        IF(ITASK==0)  CALL INT_STOPTIME(INTBUF_TAB(N)%METRIC,I_MAIN_OPT_TRI)
       ENDIF
 
-      ENDDO     
+      ENDDO
 C
       IF (NINTSTAMP/=0) THEN
          IF (DEBUG(3)>=1.AND.NCYCLE==0) THEN
@@ -1458,7 +1458,7 @@ C
           N = INTSTAMP(KK)%NOINTER
 C
           ISENS = IPARI(64,N)       ! INTERFACE SENSOR NUMBER
-          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+          IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
            TS = SENSOR(2,ISENS)
          ELSE
            TS = TT
@@ -1501,13 +1501,13 @@ C
 !$OMP SINGLE
       IF (IMONM > 0) CALL STOPTIME(19,1)
       IF (NSNE_MAX>0 ) DEALLOCATE(XE,VE)
-!$OMP END SINGLE  
+!$OMP END SINGLE
 
       ! If law151+int18 : shift NSV array
       IF( MULTI_FVM%IS_INT18_LAW151 ) THEN
         CALL MY_BARRIER()
         CALL INT18_LAW151_NSV_SHIFT('-',ITASK,MULTI_FVM,IPARI,INTBUF_TAB)
-      ENDIF   
+      ENDIF
 C
 C=======================================================================
 C Partie parallele
@@ -1517,10 +1517,10 @@ C       il FAUT garder une barriere apres i25main_opt_tri !!!
         CALL MY_BARRIER()
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(2,1) 
-          CALL STARTIME(8,1)  
-        END IF 
-      
+          CALL STOPTIME(2,1)
+          CALL STARTIME(8,1)
+        END IF
+
         CALL I25MAIND_2(
      1      IPARI    ,ITAB     ,SENSOR ,INTLIST25,INTBUF_TAB ,
      2      X        ,V       ,KINET      ,ITASK+1 ,NB25_DST2,
@@ -1529,19 +1529,19 @@ C
 C       CALL MY_BARRIER() ! Barrier vs timer only     
 C
         IF (IMON>0 .AND. ITASK==0) THEN
-          CALL STOPTIME(8,1)  
+          CALL STOPTIME(8,1)
           CALL STARTIME(2,1)
         END IF
 C
       END IF
-      
-        
+
+
 !$OMP SINGLE
-     
+
       IF ((NSPMD > 1 .AND. (RETRI == 1 .OR. NINTER25 > 0 ))) THEN
 
 ! If ifront is done at this cycle (retri or ninter25>0
-! and not already terminated because of type25 edge2edge 
+! and not already terminated because of type25 edge2edge
 C
 C Communication apres retri
 C

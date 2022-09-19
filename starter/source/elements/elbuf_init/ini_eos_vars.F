@@ -31,7 +31,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,15 +57,15 @@ C=======================================================================
       DO IEOS = 0,MAXEOS
         ETAG => EOS_TAG(IEOS)
 
-        ETAG%G_MU     = 0 
-        ETAG%G_TB     = 0 
-        ETAG%G_ABURN  = 0  
-        ETAG%G_BFRAC  = 0 
+        ETAG%G_MU     = 0
+        ETAG%G_TB     = 0
+        ETAG%G_ABURN  = 0
+        ETAG%G_BFRAC  = 0
  	
         ETAG%L_MU     = 0
-        ETAG%L_TB     = 0  
-        ETAG%L_ABURN  = 0  
-        ETAG%L_BFRAC  = 0        
+        ETAG%L_TB     = 0
+        ETAG%L_ABURN  = 0
+        ETAG%L_BFRAC  = 0
       ENDDO
 
 C-----------------------------------------------

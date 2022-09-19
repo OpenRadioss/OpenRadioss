@@ -38,7 +38,7 @@ Chd|====================================================================
      6 KY    ,KZ    ,PX    ,
      7 PY    ,PZ    ,BOOLG ,
      8 IDX2  ,IDY2  ,IDZ2  ,
-     9 KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ) 
+     9 KNOTLOCELX,KNOTLOCELY,KNOTLOCELZ)
 C--------------------------------------------------------------------------------------------------------
 C
 C This subroutine calculates the vector of local shape functions R and an array of their derivatives dR.dx
@@ -103,7 +103,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NUMLOC, I, J, K, NA, NB, NC
       my_real
-     .  DRDXI(NCTRL,3),SUMTOT, DETDXDXI, FN(NCTRL), 
+     .  DRDXI(NCTRL,3),SUMTOT, DETDXDXI, FN(NCTRL),
      .  DNDXI(NCTRL), FM(NCTRL), DMDXI(NCTRL), FL(NCTRL),
      .  DLDXI(NCTRL), XI(3), SUMXI(3), AJMAT(3,3),
      .  DXIDTILDEXI(3,3), DXIDX(3,3), DXDXI(3,3)
@@ -161,7 +161,7 @@ C BUILD NUMERATORS AND DENOMINATORS
       SUMXI(3)=ZERO
 
       DO NUMLOC=1,NCTRL
-        R(NUMLOC)=FN(NUMLOC)*FM(NUMLOC)*FL(NUMLOC)*WWI(NUMLOC) 
+        R(NUMLOC)=FN(NUMLOC)*FM(NUMLOC)*FL(NUMLOC)*WWI(NUMLOC)
         SUMTOT=SUMTOT+R(NUMLOC)
 
         DRDXI(NUMLOC,1)=DNDXI(NUMLOC)*FM(NUMLOC)*FL(NUMLOC)*
@@ -191,10 +191,10 @@ C GRADIENT OF MAPPING FROM PARAMETER SPACE TO PHYSICAL SPACE
 
       DO NB=1,3
         DO NUMLOC=1,NCTRL
-          DXDXI(1,NB)=DXDXI(1,NB)+XXI(NUMLOC)*DRDXI(NUMLOC,NB)  
-          DXDXI(2,NB)=DXDXI(2,NB)+YYI(NUMLOC)*DRDXI(NUMLOC,NB)  
+          DXDXI(1,NB)=DXDXI(1,NB)+XXI(NUMLOC)*DRDXI(NUMLOC,NB)
+          DXDXI(2,NB)=DXDXI(2,NB)+YYI(NUMLOC)*DRDXI(NUMLOC,NB)
           DXDXI(3,NB)=DXDXI(3,NB)+ZZI(NUMLOC)*DRDXI(NUMLOC,NB)
-        ENDDO                             
+        ENDDO
       ENDDO
 
 C COMPUTE INVERSE OF GRADIENT (OBTENIR DXIDX)
@@ -239,7 +239,7 @@ C COMPUTE DERIVATES OF BASIS FUNCTIONS WITH RESPECT TO PHYSICAL COORDINATES
             DRDX(NUMLOC,NA)=DRDX(NUMLOC,NA)+(DRDXI(NUMLOC,NB)*DXIDX(NB,NA))
           ENDDO
           DO NC=1,3
-            AJMAT(NA,NB)=AJMAT(NA,NB)+DXDXI(NA,NC)*DXIDTILDEXI(NC,NB)  
+            AJMAT(NA,NB)=AJMAT(NA,NB)+DXDXI(NA,NC)*DXIDTILDEXI(NC,NB)
           ENDDO
         ENDDO
       ENDDO
@@ -254,7 +254,7 @@ C DETERMINANT DE LA MATRICE AJMAT (QUI REGROUPE DONC LES TWO JACOBIENS)
      .      -(AJMAT(1,2)*AJMAT(2,1)*AJMAT(3,3))
      .      -(AJMAT(2,3)*AJMAT(3,2)*AJMAT(1,1))
 
-      RETURN 
+      RETURN
       END
 
 

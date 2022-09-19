@@ -59,7 +59,7 @@ C-----------------------------------------------
       my_real FRIGAP(*) , STFAC
       TYPE (GROUP_)  ,TARGET ,DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C----------------------s-------------------------
 C   C o m m o n   B l o c k s
@@ -137,7 +137,7 @@ C
 C------------------------------------------------------------
 C     PRINTOUT
 C------------------------------------------------------------
-      WRITE(IOUT,1000)ISU10,ISU20,ITIED,STARTT,STOPT 
+      WRITE(IOUT,1000)ISU10,ISU20,ITIED,STARTT,STOPT
 C 
       IF(IS1 == 0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -150,7 +150,7 @@ C
       ELSEIF(IS1 == 4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1 == 5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2 == 0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

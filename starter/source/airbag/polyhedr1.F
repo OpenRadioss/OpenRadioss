@@ -43,7 +43,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NPPMAX, IPOLY(6+NPPMAX,*), POLB(*), NPOLB, NPHMAX, 
+      INTEGER NPPMAX, IPOLY(6+NPPMAX,*), POLB(*), NPOLB, NPHMAX,
      .        POLH(NPHMAX+2,*),NPOLH, NRPMAX, IBRIC, INFO, NPOLHMAX
       INTEGER TAGELA(*)
       INTEGER NEL, INZ
@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER L, LL, ICUR_OLD, ITY, JMIN, PMIN, POLD, NEDGE, NVERTEX
       INTEGER IMIN, IMAX, I1, I2, I3, I4, N1, N2, N3, K1, K2
       INTEGER M1, M2, L1, L2
-      INTEGER ITAG(2,NPOLB), POLEDG(NPOLB,NPPMAX+1), ITYP(NPOLB) 
+      INTEGER ITAG(2,NPOLB), POLEDG(NPOLB,NPPMAX+1), ITYP(NPOLB)
       INTEGER NTYP(3), REDIR(4), TEMP1(4), TEMP2(4)
       INTEGER NNP, NHOL, NSEG, NELP, JTAG(3), NTRI3(NPOLB,NPPMAX)
       INTEGER, ALLOCATABLE :: EDGPOL(:,:)
@@ -221,7 +221,7 @@ C--------------------------------------------------------------
      .                (DD21<=TOLE.AND.DD12<=TOLE)) THEN
                       POLEDG(K,L+1)=NEDGE
                   ENDIF
-               ENDDO               
+               ENDDO
             ENDDO
          ENDDO
       ENDDO
@@ -249,7 +249,7 @@ C---------------------------------------------------------------
             IF(KK > 4) THEN
                N1=EDGVER(K,1)
                N2=EDGVER(K,2)
-               WRITE(IOUT,'(A,I5,A /A,1P3G20.13,A/A,1P3G20.13,A)') 
+               WRITE(IOUT,'(A,I5,A /A,1P3G20.13,A/A,1P3G20.13,A)')
      .         ' FVMBAG MESH ERROR : EDGE N1N2 IS CONNECTED TO ',KK,
      .         ' POLYGONS BUT THE LIMIT IS 4',
      .         ' N1 = (',XX(N1),YY(N1),ZZ(N1),')',
@@ -257,8 +257,8 @@ C---------------------------------------------------------------
             CALL ARRET(2)
             ENDIF
             EDGPOL(K,1)=KK
-            EDGPOL(K,KK+1)=I 
-            EDGLOC(K,KK)=J 
+            EDGPOL(K,KK+1)=I
+            EDGLOC(K,KK)=J
          ENDDO
       ENDDO
 C
@@ -284,18 +284,18 @@ C-------
          DO K=1,L
             II=EDGPOL(J,K+1)
             IF(ITYP(II) == 1) NTYP(1)=NTYP(1)+1
-            IF(ITYP(II) == 2) NTYP(2)=NTYP(2)+1         
+            IF(ITYP(II) == 2) NTYP(2)=NTYP(2)+1
             IF(ITYP(II) == 3) NTYP(3)=NTYP(3)+1
-         ENDDO         
+         ENDDO
          IF(L == 1) THEN
-            WRITE(IOUT,'(/2(A,I5),A,2(/A,1P3G20.13,A))') 
+            WRITE(IOUT,'(/2(A,I5),A,2(/A,1P3G20.13,A))')
      .        ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .        ' EDGE N1N2 IS CONNECTED TO ONLY 1 POLYGON',
      .        ' N1 = (',XX(N1),YY(N1),ZZ(N1),')',
      .        ' N2 = (',XX(N2),YY(N2),ZZ(N2),')'
             CALL ARRET(2)
          ELSEIF(L == 2 .AND. NTYP(3) == 1) THEN
-            WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))') 
+            WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))')
      .        ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .        ' EDGE N1N2 IS CONNECTED TO 2 POLYGONS BUT ONLY 1',
      .        ' INTERNAL POLYGON',
@@ -303,7 +303,7 @@ C-------
      .        ' N2 = (',XX(N2),YY(N2),ZZ(N2),')'
             CALL ARRET(2)
          ELSEIF(L == 3 .AND. NTYP(3) == 2) THEN
-            WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))') 
+            WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))')
      .        ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .        ' EDGE N1N2 IS CONNECTED TO 3 POLYGONS 2 BEING',
      .        ' INTERNAL POLYGONS',
@@ -312,7 +312,7 @@ C-------
             CALL ARRET(2)
          ELSEIF(L == 4) THEN
             IF(NTYP(3) == 1) THEN
-              WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))') 
+              WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))')
      .          ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .          ' EDGE N1N2 IS CONNECTED TO 4 POLYGONS ONLY 1 BEING',
      .          ' INTERNAL POLYGON',
@@ -320,7 +320,7 @@ C-------
      .          ' N2 = (',XX(N2),YY(N2),ZZ(N2),')'
               CALL ARRET(2)
             ELSEIF( NTYP(3) >= 3) THEN
-              WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))') 
+              WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))')
      .          ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .          ' EDGE N1N2 IS CONNECTED TO 4 POLYGONS 3 BEING',
      .          ' INTERNAL POLYGONS',
@@ -329,7 +329,7 @@ C-------
               CALL ARRET(2)
             ENDIF
          ELSEIF(L >= 5) THEN
-            WRITE(IOUT,'(/2(A,I5),A,2(/A,1P3G20.13,A))') 
+            WRITE(IOUT,'(/2(A,I5),A,2(/A,1P3G20.13,A))')
      .        ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .        ' EDGE N1N2 IS CONNECTED TO MORE THAN 4 POLYGONS',
      .        ' N1 = (',XX(N1),YY(N1),ZZ(N1),')',
@@ -441,7 +441,7 @@ C
 C			 
           IF(TST12*TST21 < ZERO) THEN
             N2=EDGVER(J,2)
-            WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))') 
+            WRITE(IOUT,'(/2(A,I5),2A,2(/A,1P3G20.13,A))')
      .        ' FVMBAG MESH ERROR : BRICK ',IBRIC,' LAYER ',INZ,
      .        ' WRONG NORMAL ORIENTATION OF INTERNAL SURFACE ELEMENTS',
      .        ' CONNECTED TO EDGE N1N2',
@@ -506,7 +506,7 @@ C---------------------------------------
 C Arete connectee a 3 polygones internes
 C---------------------------------------
       DO J=1,NEDGE
-          IF(EDGPOL(J,1) /= 3) CYCLE		  
+          IF(EDGPOL(J,1) /= 3) CYCLE		
           I1=EDGPOL(J,2)
           I2=EDGPOL(J,3)
           IF(ITYP(I2) /= 3) CYCLE
@@ -591,7 +591,7 @@ C Premier polyedre
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
                ENDDO
             ENDIF			
-          ENDIF 
+          ENDIF
 C Deuxieme polyedre
           IF(ITAG(M1,I3) == 0 .AND. ITAG(L2,I2) == 0) THEN
             ICMAX=ICMAX+1
@@ -631,13 +631,13 @@ C Troisieme polyedre
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
                ENDDO
             ENDIF
-          ENDIF		  
+          ENDIF		
       ENDDO ! J=1,NEDGE
 C-------------------------------------------------------
 C Arete connectee a 3 polygones (1 interne + 2 externes)
 C-------------------------------------------------------
       DO J=1,NEDGE
-          IF(EDGPOL(J,1) /= 3) CYCLE		  
+          IF(EDGPOL(J,1) /= 3) CYCLE		
           I1=EDGPOL(J,2)
           I2=EDGPOL(J,3)
           IF(ITYP(I2) == 3) CYCLE
@@ -717,8 +717,8 @@ C-------------------------------------------------------
                  IF(ITYP(I) /= 3) CYCLE
                  IF(ITAG(2,I) == IMAX) ITAG(2,I)=IMIN
                ENDDO
-            ENDIF 
-          ENDIF 		  
+            ENDIF
+          ENDIF 		
       ENDDO ! J=1,NEDGE
 C------------------------------------------------
 C Arete connectee a 2 polygones

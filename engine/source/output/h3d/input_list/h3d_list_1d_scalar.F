@@ -74,7 +74,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_SCALAR(I)%KEY3  = 'ENER'
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Specific Energy'
-      H3D_KEYWORD_ONED_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_ONED_SCALAR(I)%COMMENT  =
      .'Specific energy density (internal energy divided by the element mass)'
 c-----------------------------------------------
       I = I + 1
@@ -128,7 +128,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_SCALAR(I)%KEY3  = 'OFF'
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Element status'
-      H3D_KEYWORD_ONED_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_ONED_SCALAR(I)%COMMENT  =
      .'0.0:deleted  >0.&<1.:under failure process 1.0:activated  <0:Standby'
 c-----------------------------------------------
       I = I + 1
@@ -144,7 +144,7 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_SCALAR(I)%KEY3  = 'FRACTION/MARTENSITE/TMAX'
       H3D_KEYWORD_ONED_SCALAR(I)%TEXT1  = 'Maximum of martensite fraction'
-      H3D_KEYWORD_ONED_SCALAR(I)%COMMENT  = 
+      H3D_KEYWORD_ONED_SCALAR(I)%COMMENT  =
      .' - over time and over integration points'
 c-----------------------------------------------
        I = I + 1

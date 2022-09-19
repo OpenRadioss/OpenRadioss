@@ -53,10 +53,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, M
-      my_real :: EI_SAV(NEL), EK_SAV(NEL), 
+      my_real :: EI_SAV(NEL), EK_SAV(NEL),
      .     XM_SAV(NEL), YM_SAV(NEL), ZM_SAV(NEL), RBIDON(1), VA2(NEL),
      .     MAS(NEL), OFF(NEL), VX(NEL), VY(NEL), VZ(NEL)
-      
+
       RBIDON(1) = ZERO
       OFF(1:NEL) = ONE
       DO I = 1, NEL

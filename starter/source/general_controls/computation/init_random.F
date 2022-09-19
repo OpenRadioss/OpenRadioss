@@ -30,8 +30,8 @@ Chd|====================================================================
         SUBROUTINE INIT_RANDOM( )
 !$COMMENT
 !       INIT_RANDOM description
-!       initialization of RAND_STRUCT structure     
-!       
+!       initialization of RAND_STRUCT structure
+!
 !       INIT_RANDOM organization :
 !       - check -rxalea or -rseed cmd line is used
 !       - check the value or -rxalea / -rseed and print
@@ -70,7 +70,7 @@ C-----------------------------------------------
                     !   error, 0 <= seed < 1
                     WRITE(IOUT,'(A)') ' '
                     WRITE(IOUT,'(A)') '** WARNING : -RSEED VALUE MUST BE DEFINED BETWEEN'
-                    WRITE(IOUT,'(A)') '              0. AND 1.'     
+                    WRITE(IOUT,'(A)') '              0. AND 1.'
                     WRITE(IOUT,'(A)') ' '
                 ENDIF
             ENDIF
@@ -79,7 +79,7 @@ C-----------------------------------------------
                     !   error, 0 <= alea < +infinity
                     WRITE(IOUT,'(A)') ' '
                     WRITE(IOUT,'(A)') '** WARNING : -RALEA VALUE MUST BE DEFINED BETWEEN'
-                    WRITE(IOUT,'(A)') '              0 AND +INFINITY'       
+                    WRITE(IOUT,'(A)') '              0 AND +INFINITY'
                     WRITE(IOUT,'(A)') ' '
                 ENDIF
             ELSE

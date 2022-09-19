@@ -129,7 +129,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL),  PLA(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -160,20 +160,20 @@ C-----------------------------------------------
      .    DFM, FSS,DSXX,DSYY,DSXY,DSYZ,DSZX,DSZZ,VAR,H,ET,
      .    PM,DELTA,X1,X2,test,test2,ftest,gnew,knew,BETAn,
      .    NX2,NY2 ,NZ2,NXY2,NYZ2,NZX2,NE,DNX,DNY,DNZ,DNXY,DNYZ,DNZX,
-     .    NXX(NEL),NYY(NEL),NZZ(NEL),NXY(NEL),NYZ(NEL),NZX(NEL), 
+     .    NXX(NEL),NYY(NEL),NZZ(NEL),NXY(NEL),NYZ(NEL),NZX(NEL),
      .    E1(NEL),E2(NEL),E3(NEL),E4(NEL),E5(NEL),E6(NEL),TRDE(NEL),
      .    DE1(NEL),DE2(NEL),DE3(NEL),GT(NEL),KT(NEL),TEMP(NEL),
      .    EE1(NEL),EE2(NEL),EE3(NEL),PP(NEL),NNE(NEL),DET(NEL),
      .    SIGXX(NEL), SIGYY(NEL), SIGZZ(NEL)
       my_real
-     .            EV(MVSIZ,3) 
+     .            EV(MVSIZ,3)
       my_real
      .            AV(MVSIZ,6),EVV(MVSIZ,3),DIRPRV(MVSIZ,3,3)
 
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
- 
+
         E         = UPARAM(1)
         NU        = UPARAM(2)
         G         = UPARAM(3)
@@ -200,7 +200,7 @@ C-----------------------------------------------
         TFSA      = UPARAM(23)
         CP        = UPARAM(24)
         TINI      = UPARAM(25)
-c 
+c
 C
       DO I=1,NEL
         AV(I,1)=EPSXX(I)
@@ -224,20 +224,20 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))
          EV(I,2)=EXP(EVV(I,2))
          EV(I,3)=EXP(EVV(I,3))
-        ENDDO 
+        ENDDO
       ELSEIF(ISMSTR==10.OR.ISMSTR==12) THEN
         DO I =1,NEL
          EV(I,1)=SQRT(EVV(I,1)+ ONE)! = lambda
          EV(I,2)=SQRT(EVV(I,2)+ ONE)
          EV(I,3)=SQRT(EVV(I,3)+ ONE)
-        ENDDO 
+        ENDDO
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
-        ENDDO 
+        ENDDO
       ENDIF
       DO I =1,NEL
          !DET A (A = GRADIENT OF DEFORMATION)
@@ -252,17 +252,17 @@ C ----  STRAIN IS ENGINEERING)
          EE1(I)  = LOG(EV(I,1)*RV_PUI) !DEVIATOR OF DEFORMATION
          EE2(I)  = LOG(EV(I,2)*RV_PUI)
          EE3(I)  = LOG(EV(I,3)*RV_PUI)
-      ENDDO 
+      ENDDO
 C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
         IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
+         DO I=1,NEL
            TEMP(I) = TEMPEL(I)
          ENDDO
-        ELSE         
+        ELSE
          DO I=1,NEL
-           TEMP(I) = TINI 
+           TEMP(I) = TINI
      .             + EINT(I)/ RHO0(I)/CP/MAX(EM15,VOLUME(I))
          ENDDO
         ENDIF
@@ -276,31 +276,31 @@ C=======================================================================
        RFSA = YLD_SAF *(SQDT+ALPHA)-CSA*TFSA
        DO I = 1,NEL
 C
-	   FM = UVAR(I,1)   ! fraction of Martensite    
+	   FM = UVAR(I,1)   ! fraction of Martensite
         GT(I) = G + FM * (GM - G) !G_n
         KT(I) = K + FM * (KM - K) !K_n
         !pressure
         P = KT(I) * (TRDE(I) - THREE*ALPHA*EPSL*FM)
         ! n= e/ norm(e)
-        NE = SQRT( EE1(I)**2 + EE2(I)**2 + EE3(I)**2) 
-        NXX(I) =EE1(I)/MAX(NE,EM20) 
-        NYY(I) =EE2(I)/MAX(NE,EM20)  
-        NZZ(I) =EE3(I)/MAX(NE,EM20)  
+        NE = SQRT( EE1(I)**2 + EE2(I)**2 + EE3(I)**2)
+        NXX(I) =EE1(I)/MAX(NE,EM20)
+        NYY(I) =EE2(I)/MAX(NE,EM20)
+        NZZ(I) =EE3(I)/MAX(NE,EM20)
 !       Estimation dev(sigma_n+1)
         SXX= TWO*GT(I)*(EE1(I) -EPSL*FM*NXX(I))
         SYY= TWO*GT(I)*(EE2(I) -EPSL*FM*NYY(I))
         SZZ= TWO*GT(I)*(EE3(I) -EPSL*FM*NZZ(I))
 
 	   SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
-c       sound velocity    
+c       sound velocity
         SOUNDSP(I) = SQRT(AA1/RHO0(I))
-        
+
         VISCMAX(I) = ZERO
 C-------------------
 C transformation  
 C------------------- 
         DFMSA = ZERO
-        DFMAS = ZERO 
+        DFMAS = ZERO
 c       loading function
         FS = SV + THREE*ALPHA*P  - CAS*TEMP(I)
 C----------------------
@@ -315,13 +315,13 @@ C   Check Austenite -----> martensite
          UNMXN = ONE - FM
          DFTR  = TWO*NE*(GM-G) + THREE*ALPHA*TRDE(I)*(KM-K)
          DFMAS = MIN(ONE, -(FS-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  )
-         A = UNMXN *DB 
+         A = UNMXN *DB
          B = (RFAS-FS+UNMXN*(BETA-DFTR))
          C =  UNMXN*(FS0 - FS)
          DO KK = 1,3
           FCT  = DFMAS*DFMAS *A+ DFMAS*   B  +C
           FCTP = TWO*DFMAS *A+ B
-          DFMAS = DFMAS - FCT / FCTP     
+          DFMAS = DFMAS - FCT / FCTP
          ENDDO
          DFMAS = MIN(ONE,DFMAS  ) ! (should be positive)
         ENDIF
@@ -329,28 +329,28 @@ C----------------------
 C   Check marteniste -----> austenite  (dependance au tempurature a voir ...)
 c      Unloading function
         FS = SV + THREE*ALPHA*P  - CSA*TEMP(I)
-        FSAS = FS -RSSA  
-        FSAF = FS -RFSA  
+        FSAS = FS -RSSA
+        FSAF = FS -RFSA
         FS0 = UVAR(I,3)
 
-        IF((FS - FS0) < ZERO .AND. FSAS < ZERO.AND. FSAF > ZERO )THEN 
+        IF((FS - FS0) < ZERO .AND. FSAS < ZERO.AND. FSAF > ZERO )THEN
          !DFMSA =  MAX(-ONE , FM * (FS - FS0)/ (FSAF+BETA*FM) )
          DB    = (TWO * (GM-G) +NINE*ALPHA*ALPHA*(KM-K))*EPSL
          DFTR  = TWO * (GM-G)*NE+ THREE*ALPHA*(KM-K)*TRDE(I)
          DFMSA = ZERO
-         A = FM *DB 
+         A = FM *DB
          B = -(RFSA-FS+FM*(DFTR-BETA))
          C =  -FM*(FS - FS0)
          DO KK = 1,3
           FCT  = DFMSA*DFMSA *A+ DFMSA*   B  +C
           FCTP = TWO*DFMSA *A+ B
-          DFMSA = DFMSA - FCT / FCTP        
+          DFMSA = DFMSA - FCT / FCTP
          ENDDO
          DFMSA =  MAX(-ONE , DFMSA )
         ENDIF
 C--------------------------------
 C      new martensite fraction        
-       DFM =  DFMAS + DFMSA 
+       DFM =  DFMAS + DFMSA
        IF(DFM < ZERO .AND. FM == ZERO) DFM = ZERO
 C----------------------
        !UPDATE
@@ -359,11 +359,11 @@ C----------------------
        DGT = DFM * (GM - G)
        DKT = DFM * (KM - K)
 
-       SXX =  SXX -TWO*GT(I)      *   EPSL*NXX(I)*DFM 
+       SXX =  SXX -TWO*GT(I)      *   EPSL*NXX(I)*DFM
      .           + TWO*DGT* (EE1(I)-EPSL*NXX(I)*DFM)
-       SYY =  SYY -TWO*GT(I)* EPSL*DFM*NYY(I) 
+       SYY =  SYY -TWO*GT(I)* EPSL*DFM*NYY(I)
      .           + TWO*DGT* (EE2(I)-EPSL*NYY(I)*DFM)
-       SZZ =  SZZ -TWO*GT(I)* EPSL*DFM*NZZ(I) 
+       SZZ =  SZZ -TWO*GT(I)* EPSL*DFM*NZZ(I)
      .           + TWO*DGT* (EE3(I)-EPSL*NZZ(I)*DFM)
 
        P = P - KT(I)*EPSL*THREE*ALPHA*DFM
@@ -372,10 +372,10 @@ C----------------------
        SIGXX(I)= SXX + P
        SIGYY(I)= SYY + P
        SIGZZ(I)= SZZ + P
-	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
-       FS = SV + THREE*ALPHA*P      
+	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ )
+       FS = SV + THREE*ALPHA*P
        !CAUCHY STRESS
-       IF(DET(I)/=zero)THEN 
+       IF(DET(I)/=zero)THEN
        INVE = ONE/DET(I)
        ELSE
        INVE = zero
@@ -386,28 +386,28 @@ C----------------------
 C      TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS
            SIGNXX(I) =  DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGXX(I)
      .               + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGYY(I)
-     .               + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGZZ(I)     
+     .               + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGZZ(I)
             SIGNYY(I) =  DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGYY(I)
      .               + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGZZ(I)
-     .               + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGXX(I)     
+     .               + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGXX(I)
             SIGNZZ(I) =  DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGZZ(I)
      .               + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGXX(I)
-     .               + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGYY(I)     
+     .               + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGYY(I)
             SIGNXY(I) =  DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGXX(I)
      .               + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGYY(I)
-     .               + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGZZ(I)     
+     .               + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGZZ(I)
             SIGNYZ(I) =  DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGYY(I)
      .               + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGZZ(I)
-     .               + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGXX(I)     
+     .               + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGXX(I)
             SIGNZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGZZ(I)
      .               + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGXX(I)
-     .               + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGYY(I) 
+     .               + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGYY(I)
 c
         UVAR(I,1) = UVAR(I,1) + DFM
         UVAR(I,1) = MAX(ZERO, UVAR(I,1))
         UVAR(I,1) = MIN(ONE, UVAR(I,1))
         UVAR(I,2) = FS- CAS*TEMP(I)
-        UVAR(I,3) = FS- CSA*TEMP(I) 
+        UVAR(I,3) = FS- CSA*TEMP(I)
         IF (DFMAS /= ZERO) DFS     = ABS(UVAR(I,2) - FS0)
         IF (DFMSA /= ZERO) DFS     = ABS(UVAR(I,3) - FS0)
         IF (DFS   /= ZERO .AND. EPSL /= ZERO .AND. DFM/= ZERO) THEN
@@ -418,7 +418,7 @@ c
         ENDIF
         UVAR(I,10) = EPSXX(I)
         UVAR(I,11) = temp(I)
-      ENDDO  
+      ENDDO
 C=======================================================================
       ELSE !EFLAG = 0
        RSAS = YLD_ASS *(SQDT+ALPHA)-CAS*TSAS
@@ -427,21 +427,21 @@ C=======================================================================
        RFSA = YLD_SAF *(SQDT+ALPHA)-CSA*TFSA
        DO I = 1,NEL
 C
-	   FM = UVAR(I,1)   ! fraction of Martensite    
+	   FM = UVAR(I,1)   ! fraction of Martensite
         !pressure
         P = K * (TRDE(I) - THREE*ALPHA*EPSL*FM)
         ! n= e/ norm(e)
-        NE = SQRT( EE1(I)**2 + EE2(I)**2 + EE3(I)**2) 
-        NXX(I) =EE1(I)/MAX(NE,EM20) 
-        NYY(I) =EE2(I)/MAX(NE,EM20)  
-        NZZ(I) =EE3(I)/MAX(NE,EM20)  
+        NE = SQRT( EE1(I)**2 + EE2(I)**2 + EE3(I)**2)
+        NXX(I) =EE1(I)/MAX(NE,EM20)
+        NYY(I) =EE2(I)/MAX(NE,EM20)
+        NZZ(I) =EE3(I)/MAX(NE,EM20)
 !       Estimation dev(sigma_n+1)
         SXX= G2*(EE1(I) -EPSL*FM*NXX(I))
         SYY= G2*(EE2(I) -EPSL*FM*NYY(I))
         SZZ= G2*(EE3(I) -EPSL*FM*NZZ(I))
 
 	   SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ  )
-c       sound velocity    
+c       sound velocity
         SOUNDSP(I) = SQRT(AA1/RHO0(I))
         VISCMAX(I) = ZERO
 C-------------------
@@ -449,16 +449,16 @@ C transformation
 C------------------- 
        DFMSA = ZERO
        DFMAS = ZERO
-  
+
 c loading function
        FS = SV + THREE*ALPHA*P - CAS*TEMP(I) ! loading function A--> M
-       !FSS = FS - YLD_ASS 
+       !FSS = FS - YLD_ASS
 C----------------------
 C   Check Austenite -----> martensite  (dependance tempurature a voir ...)
-       FASS = FS -RSAS 
-       FASF = FS -RFAS 
+       FASS = FS -RSAS
+       FASF = FS -RFAS
        FS0 = UVAR(I,2)
-       IF((FS - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < ONE ) THEN!          
+       IF((FS - FS0) > ZERO .AND. FASS > ZERO.AND. FASF < ZERO.AND. FM < ONE ) THEN!
                 DFMAS = MIN(ONE, -(FS-FS0)*(ONE-FM)/(FASF-BETA*(ONE-FM) )  ) ! (should be positive)
        ENDIF
 C----------------------
@@ -472,11 +472,11 @@ C   Check marteniste -----> austenite  (dependance au tempurature a voir ...)
        ENDIF
 C----------------------
 C      new martensite fraction        
-       DFM =  DFMAS + DFMSA 
+       DFM =  DFMAS + DFMSA
        IF(DFM < ZERO .AND. FM == ZERO) DFM = ZERO
 C----------------------
        !UPDATE
-	  SXX =  SXX -G2* EPSL*DFM*NXX(I) 
+	  SXX =  SXX -G2* EPSL*DFM*NXX(I)
 	  SYY =  SYY -G2* EPSL*DFM*NYY(I)
 	  SZZ =  SZZ -G2* EPSL*DFM*NZZ(I)
        P = P - K*EPSL*THREE*ALPHA*DFM
@@ -484,10 +484,10 @@ C----------------------
        SIGXX(I)= SXX + P
        SIGYY(I)= SYY + P
        SIGZZ(I)= SZZ + P
-	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ ) 
-       FS = SV + THREE*ALPHA*P      
+	  SV =  SQRT( SXX*SXX + SYY*SYY + SZZ*SZZ )
+       FS = SV + THREE*ALPHA*P
        !CAUCHY STRESS
-       IF(DET(I)/=zero)THEN 
+       IF(DET(I)/=zero)THEN
        INVE = ONE/DET(I)
        ELSE
        INVE = zero
@@ -498,27 +498,27 @@ C----------------------
 C      TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS           
            SIGNXX(I) =  DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGXX(I)
      .               + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGYY(I)
-     .               + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGZZ(I)     
+     .               + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGZZ(I)
             SIGNYY(I) =  DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGYY(I)
      .               + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGZZ(I)
-     .               + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGXX(I)     
+     .               + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGXX(I)
             SIGNZZ(I) =  DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGZZ(I)
      .               + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGXX(I)
-     .               + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGYY(I)     
+     .               + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGYY(I)
             SIGNXY(I) =  DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGXX(I)
      .               + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGYY(I)
-     .               + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGZZ(I)     
+     .               + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGZZ(I)
             SIGNYZ(I) =  DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGYY(I)
      .               + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGZZ(I)
-     .               + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGXX(I)     
+     .               + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGXX(I)
             SIGNZX(I) =  DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGZZ(I)
      .               + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGXX(I)
-     .               + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGYY(I) 
+     .               + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGYY(I)
         UVAR(I,1) = UVAR(I,1) + DFM
         UVAR(I,1) = MAX(ZERO, UVAR(I,1))
         UVAR(I,1) = MIN(ONE, UVAR(I,1))
         UVAR(I,2) = FS- CAS*TEMP(I)
-        UVAR(I,3) = FS- CSA*TEMP(I) 
+        UVAR(I,3) = FS- CSA*TEMP(I)
         DFS = ZERO
         IF (DFMAS /= ZERO) DFS     = ABS(UVAR(I,2) - FS0)
         IF (DFMSA /= ZERO) DFS     = ABS(UVAR(I,3) - FS0)
@@ -532,9 +532,9 @@ C      TRANSFORM PRINCIPAL  CAUCHY STRESSES TO GLOBAL DIRECTIONS
         UVAR(I,7) = UVAR(I,7)+EPSL*DFM
         UVAR(I,10) = EPSXX(I)
         UVAR(I,11) = TEMP(I)
-      ENDDO  
+      ENDDO
 C             
-      ENDIF ! EFLAG 
+      ENDIF ! EFLAG
       RETURN
       END
 C

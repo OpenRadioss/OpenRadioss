@@ -56,7 +56,7 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .   X13(MVSIZ), X24(MVSIZ), Y13(MVSIZ),
-     .   Y24(MVSIZ), Z13(MVSIZ), Z24(MVSIZ), 
+     .   Y24(MVSIZ), Z13(MVSIZ), Z24(MVSIZ),
      .   FS1(MVSIZ), FS2(MVSIZ), FS3(MVSIZ), FT1(MVSIZ), FT2(MVSIZ),
      .   FT3(MVSIZ), E(MVSIZ), F(MVSIZ), G(MVSIZ)
 C-----------------------------------------------------------------------
@@ -80,6 +80,6 @@ C
         AREA(J,I) = E(I)*G(I)-F(I)*F(I)
         AREAM(I)  = MAX(AREA(J,I),AREAM(I))
       END DO
-      
+
       RETURN
       END

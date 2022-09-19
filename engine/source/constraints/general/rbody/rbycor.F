@@ -104,7 +104,7 @@ Cel optimisation locks
       YMOMT_T=ZERO
       ZMOMT_T=ZERO
       ENROT2_T=ZERO
-      ENCIN2_T=ZERO         
+      ENCIN2_T=ZERO
 C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO KK=1,NRBYKIN_L
@@ -133,13 +133,13 @@ C
 C
 #include "lockon.inc"
       ENROT=ENROT + ENROT_T
-      ENCIN=ENCIN + ENCIN_T    
+      ENCIN=ENCIN + ENCIN_T
       XMASS=XMASS + XMASS_T
       XMOMT=XMOMT + XMOMT_T
       YMOMT=YMOMT + YMOMT_T
       ZMOMT=ZMOMT + ZMOMT_T
       ENCIN2=ENCIN2 + ENCIN2_T
-      ENROT2=ENROT2 + ENROT2_T              
+      ENROT2=ENROT2 + ENROT2_T
 #include "lockoff.inc"
 C
       RETURN

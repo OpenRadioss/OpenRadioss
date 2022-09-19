@@ -61,7 +61,7 @@ C-----------------------------------------------
         INTEGER :: error
         INTEGER :: MPI_OPERATION
 !       ----------------------------------------
-        
+
         IF(MY_OPERATION(1:3)=="SUM") THEN
                 MPI_OPERATION=MPI_SUM
         ELSEIF(MY_OPERATION(1:4)=="PROD") THEN
@@ -69,7 +69,7 @@ C-----------------------------------------------
         ELSEIF(MY_OPERATION(1:3)=="MAX") THEN
                 MPI_OPERATION=MPI_MAX
         ELSEIF(MY_OPERATION(1:3)=="MIN") THEN
-                MPI_OPERATION=MPI_MIN               
+                MPI_OPERATION=MPI_MIN
         ENDIF
 
 !       ------------------

@@ -33,7 +33,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
      .        NUVAR,IGTYP,NFT, NBX, IMX,NPTT
       my_real
      .   FAC,AA,VAR(200),FUNC(6)
-      TYPE(BUF_MAT_) ,POINTER :: MBUF     
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C=======================================================================
 C     QBAT----
       IF (ITY == 3 .AND. IHBE == 11) THEN
@@ -84,45 +84,45 @@ C---Transfert to QBAT------
             NUVAR  = MAX(NUVAR,IPM(8,IXC(1,NFT+1)))
           ENDDO
           IGTYP = IGEO(11,IXC(6,NFT+1))
-          ENDIF       
+          ENDIF
 c
-           II = NBX - 19       
+           II = NBX - 19
            I1 = (II -1)*NEL
            DO I=1,NEL
-            AA = ZERO      
-            IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW>=33) THEN 
-c             
-              IF (NLAY > 1) THEN                                       
-                IT = 1                                                   
-                DO IPT=1,NLAY                                                
-                  DO IR=1,NPTR                                             
-                   DO IS=1,NPTS                                           
-                     MBUF => ELBUF_TAB%BUFLY(IPT)%MAT(1,1,IT)      
-                     VAR(IPT) = VAR(IPT) + MBUF%VAR(I1 + I )*FAC       
-                     IF (VAR(IPT) >= AA) AA = VAR(IPT)                 
+            AA = ZERO
+            IF (MLW == 29.OR.MLW == 30.OR.MLW == 31.OR.MLW>=33) THEN
+c
+              IF (NLAY > 1) THEN
+                IT = 1
+                DO IPT=1,NLAY
+                  DO IR=1,NPTR
+                   DO IS=1,NPTS
+                     MBUF => ELBUF_TAB%BUFLY(IPT)%MAT(1,1,IT)
+                     VAR(IPT) = VAR(IPT) + MBUF%VAR(I1 + I )*FAC
+                     IF (VAR(IPT) >= AA) AA = VAR(IPT)
             ENDDO
            ENDDO
-                ENDDO                                                  
+                ENDDO
               ELSE  ! NLAY = 1
-                IL = 1                                               
+                IL = 1
                 NPTT = ELBUF_TAB%NPTT
-                DO IPT=1,NPTT                                          
-                  VAR(IPT) = ZERO                                      
-                  DO IR=1,NPTR                                             
-                   DO IS=1,NPTS                                           
-                     MBUF => ELBUF_TAB%BUFLY(IL)%MAT(1,1,IPT)      
-                     VAR(IPT) = VAR(IPT) + MBUF%VAR(I1 + I )*FAC       
-                     IF (VAR(IPT) >= AA) AA = VAR(IPT)                 
-                   ENDDO                                               
-                  ENDDO                                                
-                ENDDO                                                  
-              ENDIF  ! NLAY                                                   
-c             
+                DO IPT=1,NPTT
+                  VAR(IPT) = ZERO
+                  DO IR=1,NPTR
+                   DO IS=1,NPTS
+                     MBUF => ELBUF_TAB%BUFLY(IL)%MAT(1,1,IPT)
+                     VAR(IPT) = VAR(IPT) + MBUF%VAR(I1 + I )*FAC
+                     IF (VAR(IPT) >= AA) AA = VAR(IPT)
+                   ENDDO
+                  ENDDO
+                ENDDO
+              ENDIF  ! NLAY
+c
              IF(IMX == 0)THEN
              WA(JJ +1) = VAR(IABS(NPT)/2 + 1)
              ELSE
              WA(JJ + 1) = AA
-             ENDIF                
+             ENDIF
              JJ = JJ + 1
            ENDIF
           ENDDO

@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER I,J,M, FLAG
 C     REAL
       my_real
-     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ), 
+     .   VXA(MVSIZ), VYA(MVSIZ) , VZA(MVSIZ),
      .   VA2(MVSIZ), XMAS(MVSIZ), RBIDON(1),
      .   OFF(MVSIZ), EI(MVSIZ) , EK(MVSIZ),
      .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ),
@@ -197,7 +197,7 @@ C
           PARTSAV(19,M)=PARTSAV(19,M) + IYZ(I)
           PARTSAV(20,M)=PARTSAV(20,M) + IZX(I)
           PARTSAV(21,M)=PARTSAV(21,M) + REI(I)
-          PARTSAV(22,M)=PARTSAV(22,M) + REK(I) 
+          PARTSAV(22,M)=PARTSAV(22,M) + REK(I)
         ENDDO
       ENDIF
 C
@@ -218,7 +218,7 @@ C
       DO I=LFT,LLT
         OFF_L(I) = ONE
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK) 
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF_L,IPARTS,ITASK)
 C
 C-----------
       RETURN

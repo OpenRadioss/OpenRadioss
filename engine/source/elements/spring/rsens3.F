@@ -124,7 +124,7 @@ C
           IF (TT > SENSOR(2,ISENS) .AND. OFF(I) == -TEN) THEN
             OFF(I) = ONE
             X0(I) = X0(I) + DX(I)
-            DX(I) = ZERO 
+            DX(I) = ZERO
           ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == ONE) THEN
             OFF(I) = -TEN
           ENDIF
@@ -217,9 +217,9 @@ C
             DZ(I) = ZERO
             RX(I) = ZERO
             RY(I) = ZERO
-            RZ(I) = ZERO    
+            RZ(I) = ZERO
           ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == ONE) THEN
-            OFF(I) = ZERO    
+            OFF(I) = ZERO
           ENDIF
         ELSEIF (USENS > 0) THEN
 C
@@ -312,9 +312,9 @@ C
             DZ(I) = ZERO
             RX(I) = ZERO
             RY(I) = ZERO
-            RZ(I) = ZERO    
+            RZ(I) = ZERO
           ELSEIF (TT < SENSOR(2,ISENS) .AND. OFF(I) == ONE) THEN
-            OFF(I) = ZERO    
+            OFF(I) = ZERO
           ENDIF
         ELSEIF (USENS > 0) THEN
 C

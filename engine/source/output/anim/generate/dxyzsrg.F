@@ -113,7 +113,7 @@ C-------------------------------------------------------
             INOE=INOE+1
             NCOR(1,INOE) = A*XL * THIRD
             NCOR(2,INOE) = B*YL * THIRD
-            NCOR(3,INOE) = C*ZL * THIRD            
+            NCOR(3,INOE) = C*ZL * THIRD
             XL = XL + DX0(I)
             YL = YL + DY0(I)
             ZL = ZL + DZ0(I)

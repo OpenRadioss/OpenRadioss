@@ -73,8 +73,8 @@ C-----------------------------------------------
           IF(SH4TREE(3,N) == -1)THEN
             PTR=PTR+1
             LSH4UPL(PTR)=N
-          END IF 
-        END IF 
+          END IF
+        END IF
       END DO
 
       DO LEVEL=0,LEVELMAX-1
@@ -113,8 +113,8 @@ C--------------------------------------------
           IF(SH3TREE(3,N) == -1)THEN
             PTR=PTR+1
             LSH3UPL(PTR)=N
-          END IF 
-        END IF 
+          END IF
+        END IF
       END DO
 
       DO LEVEL=0,LEVELMAX-1
@@ -143,4 +143,4 @@ C--------------------------------------------
       END DO
 
       RETURN
-      END     
+      END

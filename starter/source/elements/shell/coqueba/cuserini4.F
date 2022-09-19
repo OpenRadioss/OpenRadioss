@@ -73,8 +73,8 @@ C-----------------------------------------------
      .   TITR
       INTEGER I,J,II,JJ,KK,N,NPTI,I1,I2,PT,NPGI,NU,NUVAR,NVARS,IPT,NPI,
      .  IPID1,PID1,C1,IPT_ALL,IT,ILAY,NPTT,L_SIGB
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       my_real, DIMENSION(:), POINTER :: UVAR,SIGA,SIGB,SIGC
 C--------------------------------------------------------------
       DO I=JFT,JLT
@@ -185,7 +185,7 @@ c
                   NPTT  = BUFLY%NPTT
                   DO IT=1,NPTT
                     UVAR => BUFLY%MAT(IR,IS,IT)%VAR
-   
+
                     SIGB => BUFLY%LBUF(IR,IS,IT)%SIGB
 c
                     DO NU = 1,NUVAR
@@ -208,9 +208,9 @@ c
                   NUVAR = ELBUF_STR%BUFLY(ILAY)%NVAR_MAT
                   DO IT=1,NPTT
                     IPT = IPT_ALL + IT
-                    UVAR => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IT)%VAR                      
-                    DO NU = 1,MIN(NVARS,NUVAR) 
-                      UVAR((NU -1)*NEL + I) = 
+                    UVAR => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IT)%VAR
+                    DO NU = 1,MIN(NVARS,NUVAR)
+                      UVAR((NU -1)*NEL + I) =
      .                SIGSH(NVSHELL+4+(IPG-1)*NVARS*NPI+(IPT-1)*NVARS+NU,II)
                     ENDDO
                   ENDDO

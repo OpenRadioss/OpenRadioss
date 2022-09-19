@@ -40,7 +40,7 @@ Chd|====================================================================
      8                VXI    ,VYI  ,
      A                VZI     ,MSI       ,NSN    ,V       ,KINET  ,
      B                KINI    ,ITY       ,NIN    ,IGSTI   ,KMIN   ,
-     C                KMAX    ,GAPMAX    ,GAPMIN ,IADM    ,INDEX  , 
+     C                KMAX    ,GAPMAX    ,GAPMIN ,IADM    ,INDEX  ,
      D                INTTH   ,TEMP      ,CAND__E,CAND__B ,
      E                TEMPI   ,PHI       ,AREAS  ,IELEC   ,AREASI ,
      F                IELECI  ,NODNX_SMS ,NSMS   ,GAP_S_L ,GAP_M_L,
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .        JLT,IDT, NOINT,IGAP ,NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH, CAND__E(*), CAND__B(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
+     .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ),
      .        NODNX_SMS(*), BUFBRIC(*), JTASK,INDEX(*)
       my_real
      .   GAP, X(3,*), STF(*), STFN(*),GAP_S(*),GAP_M(*),
@@ -126,19 +126,19 @@ C-----------------------------------------------
           !INDEX is index array for current thread
           DO I=1,JLT
             CAND_E(I) = CAND__E(INDEX(I))
-            CAND_B(I) = CAND__B(INDEX(I))      
+            CAND_B(I) = CAND__B(INDEX(I))
           ENDDO
-          
+
 
           DO I=1,JLT
            BI = CAND_B(I)    !up to i22intersect() : cand_b is related to couple I. It corresponds to brick IID = bufbric(cand_b(i))
 	                     !after that cand_b(i) is replaced by address in brick_list
-           EI = IABS(CAND_E(I))   
+           EI = IABS(CAND_E(I))
            NI=BI
-           
+
            !-------------------------------!
            !RETRIEVING FACES COORDINATES   !
-           !-------------------------------! 
+           !-------------------------------!
 
            IX=IRECT(1,EI)
            IX1(I)=IX
@@ -163,7 +163,7 @@ C-----------------------------------------------
            X4(I)=X(1,IX)
            Y4(I)=X(2,IX)
            Z4(I)=X(3,IX)
-           
+
            STIF(I) = ZERO
 
           END DO

@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER I, J
 C     REAL
       my_real
-     .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
+     .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ),
      .     M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
      .     M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
      .     XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
@@ -76,7 +76,7 @@ C-------------------------
         F11(I)=EX(1)*FORX(I)+EX(4)*FORY(I)+EX(7)*FORZ(I)
         F21(I)=EX(2)*FORX(I)+EX(5)*FORY(I)+EX(8)*FORZ(I)
    20   F31(I)=EX(3)*FORX(I)+EX(6)*FORY(I)+EX(9)*FORZ(I)
-   
+
 C----  Assemble
       DO 100 I=JFT,JLT
         F(1,NC1(I))=F(1,NC1(I))+F11(I)
@@ -127,7 +127,7 @@ C
       STIR(1,I) = STIR(1,I) + STI(2,I)*XX
       STIR(2,I) = STIR(2,I) + STI(1,I)*XX
  120  CONTINUE
- 
+
 C----   Assemble
       DO 140 I=JFT,JLT
         XM(1,NC1(I))=XM(1,NC1(I))+M11(I)
@@ -180,18 +180,18 @@ C-----------------------------------------------
       INTEGER JFT,JLT,IADR(3,*),NUVAR
 C     REAL
       my_real
-     .   FORX(*), FORY(*), FORZ(*), XMOM(*), YMOM(*), ZMOM(*), 
-     .   STI(3,*),STIR(3,*),FSKY(8,LSKY),FSKYV(LSKY,8), 
-     .   FX1(*),FX2(*),FY1(*),FY2(*),FZ1(*),FZ2(*), 
+     .   FORX(*), FORY(*), FORZ(*), XMOM(*), YMOM(*), ZMOM(*),
+     .   STI(3,*),STIR(3,*),FSKY(8,LSKY),FSKYV(LSKY,8),
+     .   FX1(*),FX2(*),FY1(*),FY2(*),FZ1(*),FZ2(*),
      .   MX1(*),MX2(*),MY1(*),MY2(*),MZ1(*),MZ2(*),UVAR(NUVAR,*)
-      DOUBLE PRECISION XL(MVSIZ,3)     
+      DOUBLE PRECISION XL(MVSIZ,3)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, II, N,J
 C     REAL
       my_real
-     .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ), 
+     .     F11(MVSIZ), F21(MVSIZ), F31(MVSIZ),
      .     M11(MVSIZ), M21(MVSIZ), M31(MVSIZ),
      .     M12(MVSIZ), M22(MVSIZ), M32(MVSIZ),
      .     XMOM1, XMOM2, YMOM1, YMOM2, ZMOM1, ZMOM2, M1,M2,M3,
@@ -204,7 +204,7 @@ C
       DO 20 I=JFT,JLT
         DO J=1,9
 	  EX(J) = UVAR(21+J,I)
-        END DO      
+        END DO
         F11(I)=EX(1)*FORX(I)+EX(4)*FORY(I)+EX(7)*FORZ(I)
         F21(I)=EX(2)*FORX(I)+EX(5)*FORY(I)+EX(8)*FORZ(I)
    20   F31(I)=EX(3)*FORX(I)+EX(6)*FORY(I)+EX(9)*FORZ(I)

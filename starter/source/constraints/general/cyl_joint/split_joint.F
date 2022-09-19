@@ -34,7 +34,7 @@ Chd|====================================================================
 !$COMMENT
 !       SPLIT_JOINT description
 !       split the node (secondary & main node) on the different processor
-!       
+!
 !       SPLIT_JOINT organization :
 !       loop over the joint :
 !           - for each joint, loop over the node to find where is the node
@@ -79,7 +79,7 @@ C-----------------------------------------------
 
         INTEGER :: PROC,PROC_NUMBER_1,PROC_NUMBER_2
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST_1,PROC_LIST_2
-        INTEGER, EXTERNAL :: NLOCAL  
+        INTEGER, EXTERNAL :: NLOCAL
 
         LOGICAL, DIMENSION(:), ALLOCATABLE :: CHECK_MAIN
         TYPE(joint_main_node), DIMENSION(:), ALLOCATABLE :: MAIN_AND_SECONDARY
@@ -98,11 +98,11 @@ C=======================================================================
             ENDDO
         ENDDO
         ALLOCATE( MAIN_AND_SECONDARY(NUMNOD) )
-        
+
         MAIN_AND_SECONDARY(1:NUMNOD)%ID_JOINT = 0
         MAIN_AND_SECONDARY(1:NUMNOD)%NB_PROC = 0
 
-        DO I=1,NJOINT                
+        DO I=1,NJOINT
             PROC_LIST(1:NSPMD) = -1
             PROC_NUMBER = 0
             ALLOCATE( CYL_JOIN(I)%PROC(NSPMD) )
@@ -111,14 +111,14 @@ C=======================================================================
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE
             DO LJ=1,NS
                 !   ----------------------
-                !   check where is the secondary node 
+                !   check where is the secondary node
                     PROC_LIST(1:NSPMD) = -1
                     PROC_NUMBER = 0
                     NN = CYL_JOIN(I)%SECONDARY_NODE(LJ)
 	                CALL PLIST_IFRONT(PROC_LIST,NN,PROC_NUMBER)
                     !returns in "PROC_LIST" array list of SPMD domains on which node I is sticked
                     !PROC_NUMBER is the number of SPMD domains on which node I is sticked
-                    
+
 !                    IF( CHECK_MAIN(NN) ) THEN
 !                        MAIN_AND_SECONDARY(NN)%ID_JOINT = I
 !                        MAIN_AND_SECONDARY(NN)%NB_PROC = PROC_NUMBER
@@ -146,10 +146,10 @@ C=======================================================================
 
         !   ----------------------
         ! loop over the CYL_JOINT in order to find the proc main
-        ! and add the main nodes to the processor where at least 1 
+        ! and add the main nodes to the processor where at least 1
         ! secondary node is present
         K = 0
-        DO I=1,NJOINT                
+        DO I=1,NJOINT
             PROC_LIST(1:NSPMD) = -1
             PROC_NUMBER = 0
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE
@@ -187,7 +187,7 @@ C=======================================================================
 
 
 
-        DO I=NJOINT,1,-1         
+        DO I=NJOINT,1,-1
             PROC_LIST(1:NSPMD) = -1
             PROC_NUMBER = 0
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE
@@ -224,7 +224,7 @@ C=======================================================================
         !   ----------------------
         ! check : if a main node is on a processor, need to add the other main node
 !        K = 0
-!        DO I=1,NJOINT                
+!        DO I=1,NJOINT
 !            PROC_LIST(1:NSPMD) = -1
 !            PROC_NUMBER = 0
 !            NS = CYL_JOIN(I)%NB_SECONDARY_NODE
@@ -297,14 +297,14 @@ C-----------------------------------------------
         INTEGER :: WEIGHT,M1,M2
         INTEGER :: P,PROC_NUMBER,NB_NODE
         INTEGER, DIMENSION(NSPMD) :: PROC_LIST
-      INTEGER, EXTERNAL :: NLOCAL  
+      INTEGER, EXTERNAL :: NLOCAL
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 
 C=======================================================================
         K = 0
-        DO I=1,NJOINT                
+        DO I=1,NJOINT
             PROC_LIST(1:NSPMD) = -1
             PROC_NUMBER = 0
             NS = CYL_JOIN(I)%NB_SECONDARY_NODE

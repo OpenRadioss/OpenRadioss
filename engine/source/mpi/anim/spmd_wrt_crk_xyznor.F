@@ -30,7 +30,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
        SUBROUTINE SPMD_WRT_CRK_XYZNOR(ICRK,XNORM,NUM)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
 C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER SIZ,MSGTYP,I,K,NG,NREC,MSGOFF2,SI,MSGTYP2,SIZ0
 C
       INTEGER,DIMENSION(:,:),ALLOCATABLE ::  RNGLOB,IBUF
- 
+
 C   Tableau utilise par proc 0
       my_real
      .   S3000,S,XN1,XN2,XN3,IXNN
@@ -132,7 +132,7 @@ c             XN3 = XNORM(3,I) * S
              XN1 = 0
              XN2 = 0
              XN3 = IXNN
-           END IF 
+           END IF
 c           RNGLOB(1,NG) = XN1
 c           RNGLOB(2,NG) = XN2
 c           RNGLOB(3,NG) = XN3

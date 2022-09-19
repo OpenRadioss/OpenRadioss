@@ -33,7 +33,7 @@ Chd|====================================================================
       SUBROUTINE CHKTYP2(IPARI   ,ITAB,
      .                   NOM_OPT ,INTBUF_TAB, NATIV_SMS)
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C-----------------------------------------------
           NMN   =IPARI(6,N)
           ILEV  =IPARI(20,N)
 C
-          DO II=1,NSN        
+          DO II=1,NSN
             J = INTBUF_TAB(N)%NSV(II)
             IF (ILEV /=25 .and. ILEV/=26 .and. ILEV/=27 .and. ILEV/=28) TAGHIER(J) = ONE
           ENDDO
@@ -94,7 +94,7 @@ C
           ILEV = IPARI(20,N)
           IF (ILEV == 0 .OR. ILEV == 1 .OR. ILEV == 27 .OR. ILEV == 28) THEN
             NMN  = IPARI(6,N)
-            DO II=1,NMN        
+            DO II=1,NMN
               J=INTBUF_TAB(N)%MSR(II)
               IF (TAGHIER(J) == ONE) THEN
                 CALL ANCMSG(MSGID=556,
@@ -120,7 +120,7 @@ C
           ILEV = IPARI(20,N)
           IF (NTY == 2 .AND. ILEV/=25 .and. ILEV /= 26) THEN
             NSN   =IPARI(5,N)
-            DO II=1,NSN        
+            DO II=1,NSN
               J = INTBUF_TAB(N)%NSV(II)
 C-- Only secnds nodes with AMS are checked
               IF (NATIV_SMS(J)/=0) TAGHIER(J) = ONE

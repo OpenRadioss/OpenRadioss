@@ -49,7 +49,7 @@ C-----------------------------------------------
         INTEGER :: RUN_NBR
         REAL(kind=8) :: STARTER_TIME
         REAL(kind=8), DIMENSION(:), ALLOCATABLE :: ENGINE_TIME
-           
+
       END TYPE TIME_TYPE
 
       TYPE(TIME_TYPE) :: GLOBAL_COMP_TIME

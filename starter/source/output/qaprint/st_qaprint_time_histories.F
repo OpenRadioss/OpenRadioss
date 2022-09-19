@@ -28,10 +28,10 @@ Chd|-- calls ---------------
 Chd|        ST_QAPRINT_THGROU             source/output/qaprint/st_qaprint_time_histories.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_TIME_HISTORIES(ITHGRP , ITHBUF  , ITHVAR , IPART  , SUBSETS, 
-     .                                     ITHGRPA, ITHGRPB , ITHGRPC, ITHGRPD, ITHGRPE, 
-     .                                     ITHGRPF, ITHGRPG , ITHGRPH, ITHGRPI, ITHBUFA, 
-     .                                     ITHBUFB, ITHBUFC , ITHBUFD, ITHBUFE, ITHBUFF, 
+      SUBROUTINE ST_QAPRINT_TIME_HISTORIES(ITHGRP , ITHBUF  , ITHVAR , IPART  , SUBSETS,
+     .                                     ITHGRPA, ITHGRPB , ITHGRPC, ITHGRPD, ITHGRPE,
+     .                                     ITHGRPF, ITHGRPG , ITHGRPH, ITHGRPI, ITHBUFA,
+     .                                     ITHBUFB, ITHBUFC , ITHBUFD, ITHBUFE, ITHBUFF,
      .                                     ITHBUFG, ITHBUFH , ITHBUFI, IPARTTH, NTHGRPMX)
 C============================================================================
 C   M o d u l e s
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        INTEGER, INTENT(IN) :: ITHGRP(NITHGR,*) ,ITHBUF(SITHBUF)  ,ITHVAR(SITHVAR)  , 
+        INTEGER, INTENT(IN) :: ITHGRP(NITHGR,*) ,ITHBUF(SITHBUF)  ,ITHVAR(SITHVAR)  ,
      .                         ITHGRPA(NITHGR,*),ITHGRPB(NITHGR,*),ITHGRPC(NITHGR,*),
      .                         ITHGRPD(NITHGR,*),ITHGRPE(NITHGR,*),ITHGRPF(NITHGR,*),
      .                         ITHGRPG(NITHGR,*),ITHGRPH(NITHGR,*),ITHGRPI(NITHGR,*),
@@ -86,22 +86,22 @@ C
           IPARTTHI => IPART(8:9,1:NPART+NTHPART)
           CALL ST_QAPRINT_THGROU(NTHGRP     ,ITHGRP    ,ITHBUF    ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,10       )
-     
+
           !/ATH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(1:2*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(1) ,ITHGRPA   ,ITHBUFA   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,1        )
-     
+
           !/BTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(2*(NPART+NTHPART)+1:4*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(2) ,ITHGRPB   ,ITHBUFB   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,2        )
-      
+
           !/CTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(4*(NPART+NTHPART)+1:6*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(3) ,ITHGRPC   ,ITHBUFC   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,3        )
-      
+
           !/DTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(6*(NPART+NTHPART)+1:8*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(4) ,ITHGRPD   ,ITHBUFD   ,ITHVAR   ,IPART    ,
@@ -111,22 +111,22 @@ C
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(8*(NPART+NTHPART)+1:10*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(5) ,ITHGRPE   ,ITHBUFE   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,5        )
- 
+
           !/FTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(10*(NPART+NTHPART)+1:12*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(6) ,ITHGRPF   ,ITHBUFF   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,6        )
-     
+
           !/GTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(12*(NPART+NTHPART)+1:14*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(7) ,ITHGRPG   ,ITHBUFG   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,7        )
-     
+
           !/HTH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(14*(NPART+NTHPART)+1:16*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(8) ,ITHGRPH   ,ITHBUFH   ,ITHVAR   ,IPART    ,
      .                           IPARTTHI   ,NTHGRPMX  ,SUBSETS   ,8        )
-     
+
           !/ITH
           IPARTTHI(1:2,1:NPART+NTHPART) => IPARTTH(16*(NPART+NTHPART)+1:18*(NPART+NTHPART))
           CALL ST_QAPRINT_THGROU(NTHGRP1(9) ,ITHGRPI   ,ITHBUFI   ,ITHVAR   ,IPART    ,
@@ -150,7 +150,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_THGROU(NTHGROUP ,ITHGRP   ,ITHBUF   ,ITHVAR   ,IPART    ,
-     .                             IPARTTH  ,NTHGRPMX ,SUBSETS  ,ISUBVAR  ) 
+     .                             IPARTTH  ,NTHGRPMX ,SUBSETS  ,ISUBVAR  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -195,21 +195,21 @@ C
             DO I = 1, NTHGROUP
               IDS(I)    = ITHGRP(1,I)
               IDX(I)    = I
-            ENDDO    
-            CALL QUICKSORT_I2(IDS, IDX, 1, NTHGROUP)    
+            ENDDO
+            CALL QUICKSORT_I2(IDS, IDX, 1, NTHGROUP)
           ENDIF
-          
+
           !-------------------------------------!
           ! All /TH expect                      !
           ! /TH/SUBS and /TH/PART and /THPART   !
-          !-------------------------------------!          
+          !-------------------------------------!
           DO II = 1, NTHGROUP
 C
             ! Sorted ID users
             MY_TH = IDX(II)
             ID    = ITHGRP(1,MY_TH)
 C
-            ! Printing only if ID is stored          
+            ! Printing only if ID is stored
             IF (ID /= 0) THEN
 C          
               ! Time history title
@@ -225,7 +225,7 @@ C
               DO I = 1, NITHGR-LTITR
                 WRITE(VARNAME,'(A,I0,A,I0)') 'ITHGRP_',I,'_',MY_TH
                 TEMP_INT = ITHGRP(I,MY_TH)
-                IF ((TEMP_INT /= 0).OR.(I == 2)) THEN 
+                IF ((TEMP_INT /= 0).OR.(I == 2)) THEN
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                 ENDIF
               ENDDO
@@ -234,7 +234,7 @@ C
               DO I = ITHGRP(5,MY_TH), ITHGRP(8,MY_TH)-1
                 WRITE(VARNAME,'(A,I0,A,I0)') 'ITHBUF_',I
                 TEMP_INT = ITHBUF(I)
-                IF (TEMP_INT /= 0) THEN 
+                IF (TEMP_INT /= 0) THEN
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                 ENDIF
               ENDDO
@@ -250,26 +250,26 @@ C
                 ELSE
                   CALL QAPRINT('A_TH_OBJECT_FAKE_NAME',0,0.0_8)
                 END IF
-                K=K+40  
+                K=K+40
               ENDDO
 C
-              ! Time history saved variable 
+              ! Time history saved variable
               DO I = 0, ITHGRP(6,MY_TH)-1
                 DO K = 1,10
                   WRITE(VARNAME,'(A,I0,A,I0)') 'ITHVAR_',(ITHGRP(9,MY_TH)+I-1)*10+K
-                  TEMP_INT = ITHVAR((ITHGRP(9,MY_TH)+I-1)*10+K)         
-                  IF (TEMP_INT /= ICHAR(' ')) THEN 
+                  TEMP_INT = ITHVAR((ITHGRP(9,MY_TH)+I-1)*10+K)
+                  IF (TEMP_INT /= ICHAR(' ')) THEN
                     CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                   ENDIF
                 ENDDO
               ENDDO
-            ENDIF 
+            ENDIF
           ENDDO  !next /TH    (expect /TH/SUBS, /TH/PART, /THPART)
 C
           !--------------------!
           ! Loop over /PART    !
           !     and /THPART    !
-          !--------------------!          
+          !--------------------!
           DO II = 1, NPART+NTHPART
 C
             ! ID of the part
@@ -304,13 +304,13 @@ C
               ! IAD in the buffer table
               WRITE(VARNAME,'(A,I0,A,I0)') 'IPARTTH_',2,'_',II
               TEMP_INT = IAD
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8) 
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C      
-              ! Printing the corresponding buffer    
+              ! Printing the corresponding buffer
               DO I = IAD,NVAR+IAD-1
                 WRITE(VARNAME,'(A,I0,A,I0)') 'ITHBUF_',I
                 TEMP_INT = ITHBUF(I)
-                IF (TEMP_INT /= 0) THEN 
+                IF (TEMP_INT /= 0) THEN
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                 ENDIF
               ENDDO
@@ -318,54 +318,54 @@ C
             ENDIF
           ENDDO !next /TH/PART or /THPART
 
-          !--------------------!        
+          !--------------------!
           ! /TH/SUBS           !
-          !--------------------!                                                   
-          DO II = 1, NSUBS                                                     
+          !--------------------!
+          DO II = 1, NSUBS
 C        
-            ! ID of the subset                                                 
-            ID   = SUBSETS(II)%ID                                              
-            ! Number of variables                                              
-            NVAR = SUBSETS(II)%NVARTH(ISUBVAR)                                 
-            ! IAD in the buffer table                                          
-            IAD  = SUBSETS(II)%THIAD                                           
+            ! ID of the subset
+            ID   = SUBSETS(II)%ID
+            ! Number of variables
+            NVAR = SUBSETS(II)%NVARTH(ISUBVAR)
+            ! IAD in the buffer table
+            IAD  = SUBSETS(II)%THIAD
 C                                                                              
-            ! Printing only is the number of variables is higher than 0        
-            IF (NVAR>0) THEN                                                   
+            ! Printing only is the number of variables is higher than 0
+            IF (NVAR>0) THEN
 C
-              ! ID of the part                                                 
-              WRITE(VARNAME,'(A,I0,A,I0)') 'SUBSET_ID_',ID                     
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)        
+              ! ID of the part
+              WRITE(VARNAME,'(A,I0,A,I0)') 'SUBSET_ID_',ID
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C                                                                              
-              ! Title of the subset                                            
-              TITR = SUBSETS(II)%TITLE                                         
-              IF (LEN_TRIM(TITR) /= 0) THEN                                    
-                CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),ID,0.0_8)                  
-              ELSE                                                             
-                CALL QAPRINT('A_SUBSET_FAKE_NAME', ID,0.0_8)                   
-              ENDIF                                                            
+              ! Title of the subset
+              TITR = SUBSETS(II)%TITLE
+              IF (LEN_TRIM(TITR) /= 0) THEN
+                CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),ID,0.0_8)
+              ELSE
+                CALL QAPRINT('A_SUBSET_FAKE_NAME', ID,0.0_8)
+              ENDIF
 C                                                                              
-              ! Number of variable                                             
-              WRITE(VARNAME,'(A,I0,A,I0)') 'SUBSET_NVARTH_',II                 
-              TEMP_INT = NVAR                                                  
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)        
+              ! Number of variable
+              WRITE(VARNAME,'(A,I0,A,I0)') 'SUBSET_NVARTH_',II
+              TEMP_INT = NVAR
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C                                                                              
-              ! IAD in the buffer table                                        
-              WRITE(VARNAME,'(A,I0,A,I0)') 'SUBSET_THIAD_',II                  
-              TEMP_INT = IAD                                                   
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)        
+              ! IAD in the buffer table
+              WRITE(VARNAME,'(A,I0,A,I0)') 'SUBSET_THIAD_',II
+              TEMP_INT = IAD
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C                                                                              
-              ! Printing the corresponding buffer table                        
-              DO I = IAD,NVAR+IAD-1                                            
-                WRITE(VARNAME,'(A,I0,A,I0)') 'ITHBUF_',I                       
-                TEMP_INT = ITHBUF(I)                                           
-                IF (TEMP_INT /= 0) THEN                                        
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)    
-                ENDIF                                                          
-              ENDDO                                                            
+              ! Printing the corresponding buffer table
+              DO I = IAD,NVAR+IAD-1
+                WRITE(VARNAME,'(A,I0,A,I0)') 'ITHBUF_',I
+                TEMP_INT = ITHBUF(I)
+                IF (TEMP_INT /= 0) THEN
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
+                ENDIF
+              ENDDO
 C                                                                              
-            ENDIF                                                              
-          ENDDO !next /TH/SUBS                                                                
+            ENDIF
+          ENDDO !next /TH/SUBS
 
 C
       END SUBROUTINE

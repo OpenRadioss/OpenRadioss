@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CBAFORC3                      source/elements/shell/coqueba/cbaforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-       SUBROUTINE CBACOORPINCH( 
+       SUBROUTINE CBACOORPINCH(
      1                         TNPG    ,VPINCHXYZ ,VPINCH ,
      2                         VQ      ,VQN       ,IXC    ,JFT  ,JLT  ,
      3                         NPLAT   ,IPLAT     ,THK    ,DT1C,
@@ -39,22 +39,22 @@ C-----------------------------------------------
 c-----------------------------------------------
 c   g l o b a l   p a r a m e t e r s
 c-----------------------------------------------
-#include      "mvsiz_p.inc" 
-#include      "param_c.inc" 
+#include      "mvsiz_p.inc"
+#include      "param_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*), JFT, JLT, NPLAT, IPLAT(*)
-      my_real 
-     .   TNPG(MVSIZ,4,4), VPINCHXYZ(MVSIZ,4), VPINCH(3,*), 
+      my_real
+     .   TNPG(MVSIZ,4,4), VPINCHXYZ(MVSIZ,4), VPINCH(3,*),
      .   VQ(MVSIZ,3,3), VQN(MVSIZ,9,4), THK(*), DT1C(*),
      .   FACP(MVSIZ), LC(MVSIZ),
-     .   VPINCHT1(MVSIZ,4),VPINCHT2(MVSIZ,4)   
+     .   VPINCHT1(MVSIZ,4),VPINCHT2(MVSIZ,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NN(4), I, EP
-      my_real 
+      my_real
      .   PG, PGPP, PGPM, PGMM, BETABETA(3,4), ELTHKINV, THKN(4), AVGTHK
       DATA   PG/.577350269189626/
 C=======================================================================
@@ -90,9 +90,9 @@ C
       ENDDO
 
 C Transform VPINCH into VPINCHXYZ 
-     
+
       DO I=JFT,JLT
-        EP =IPLAT(I)   
+        EP =IPLAT(I)
         NN(1)=IXC(2,EP)
         NN(2)=IXC(3,EP)
         NN(3)=IXC(4,EP)
@@ -152,7 +152,7 @@ C       projecting BETABETA on t2
      +             VQN(EP,5,4)*BETABETA(2,4)+VQN(EP,6,4)*BETABETA(3,4)
 
 C       projection of BETABETA onto nodal normal giving VPINCHXYZ 
-         
+
         VPINCHXYZ(EP,1)=VQN(EP,7,1)*BETABETA(1,1)+
      +             VQN(EP,8,1)*BETABETA(2,1)+VQN(EP,9,1)*BETABETA(3,1)
 
@@ -168,7 +168,7 @@ C       projection of BETABETA onto nodal normal giving VPINCHXYZ
 C       calculate average thickness
         THKN(1) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,1)*DT1C(EP))
         THKN(2) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,2)*DT1C(EP))
-        THKN(3) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,3)*DT1C(EP))          
+        THKN(3) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,3)*DT1C(EP))
         THKN(4) = THK(EP)*(ONE+TWO*VPINCHXYZ(EP,4)*DT1C(EP))
 C    
         AVGTHK = FOURTH*(THKN(1) + THKN(2) + THKN(3) + THKN(4))
@@ -178,24 +178,24 @@ C       dividing by thickness (definition of beta for pinching)
         VPINCHXYZ(EP,1) = VPINCHXYZ(EP,1)*ELTHKINV
         VPINCHXYZ(EP,2) = VPINCHXYZ(EP,2)*ELTHKINV
         VPINCHXYZ(EP,3) = VPINCHXYZ(EP,3)*ELTHKINV
-        VPINCHXYZ(EP,4) = VPINCHXYZ(EP,4)*ELTHKINV  
+        VPINCHXYZ(EP,4) = VPINCHXYZ(EP,4)*ELTHKINV
 
 C       dividing by thickness (definition of beta for pinching) in t1
         VPINCHT1(EP,1) = VPINCHT1(EP,1)*ELTHKINV
         VPINCHT1(EP,2) = VPINCHT1(EP,2)*ELTHKINV
         VPINCHT1(EP,3) = VPINCHT1(EP,3)*ELTHKINV
-        VPINCHT1(EP,4) = VPINCHT1(EP,4)*ELTHKINV 
+        VPINCHT1(EP,4) = VPINCHT1(EP,4)*ELTHKINV
 
 C       dividing by thickness (definition of beta for pinching) in t2
         VPINCHT2(EP,1) = VPINCHT2(EP,1)*ELTHKINV
         VPINCHT2(EP,2) = VPINCHT2(EP,2)*ELTHKINV
         VPINCHT2(EP,3) = VPINCHT2(EP,3)*ELTHKINV
-        VPINCHT2(EP,4) = VPINCHT2(EP,4)*ELTHKINV 
+        VPINCHT2(EP,4) = VPINCHT2(EP,4)*ELTHKINV
 
 C       calculate scaling factor for stiffness 
 C       to be used later for dynamic condensation STIFPINCH
         FACP(EP) = (LC(EP)/AVGTHK)**2
 
-      ENDDO    
+      ENDDO
       RETURN
       END

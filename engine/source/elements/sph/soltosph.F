@@ -41,8 +41,8 @@ Chd|====================================================================
      4   NODFT  ,NODLT  ,ISKY     ,FSKYI    ,IGEO   ,
      5   SOL2SPH_TYP)
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
-      USE SOLTOSPH_MOD         
+      USE ELBUFDEF_MOD
+      USE SOLTOSPH_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -86,8 +86,8 @@ C
      .   KSI, ETA, ZETA
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       my_real
      .  A_GAUSS(9,9),A_GAUSS_TETRA(9,9)
@@ -175,7 +175,7 @@ C
        MY_IAW=ITASK*NUMNOD
 !$OMP DO SCHEDULE(DYNAMIC,1)
        DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 350
         IF (IDDW>0) CALL STARTIMEG(NG)
         DO NELEM = 1,IPARG(2,NG),NVSIZ
@@ -525,7 +525,7 @@ Chd|====================================================================
      .   SOL2SPH,WA       ,PM)
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -549,7 +549,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), KXSP(NISP,*),
-     .        IPARTSP(*), IRST(3,*), IPARG(NPARG,*), NGROUNC, 
+     .        IPARTSP(*), IRST(3,*), IPARG(NPARG,*), NGROUNC,
      .        IGROUNC(*), SOL2SPH(2,*)
       my_real
      .        X(3,*), SPBUF(NSPBUF,*), WA(KWASPH,*),PM(NPROPM,*)
@@ -574,14 +574,14 @@ C-----------------------------------------------
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   S11,S22,S33,S12,S21,S23,S32,S13,S31,
      .   L11,L22,L33,L12,L21,L23,L32,L13,L31,
-     .   SIGLO(MVSIZ,6), STRAGLO(MVSIZ,6), ANGL(MVSIZ,6), 
+     .   SIGLO(MVSIZ,6), STRAGLO(MVSIZ,6), ANGL(MVSIZ,6),
      .   DGLO24(MVSIZ,6),SIG_HEPH(MVSIZ,6,7),
      .   JR0(MVSIZ),JS0(MVSIZ),JT0(MVSIZ),NU(MVSIZ),SIG_HEPH_GLO(MVSIZ,6,7),
      .   RBID(6,MVSIZ),ZETA,ETA,KSI,SIG_HA8(MVSIZ,3,3,3,6)
 C                                                                    
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF, GBUFSP
-      TYPE(L_BUFEL_) ,POINTER :: LBUF, LBUFSP, LBUF2     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF, LBUFSP, LBUF2
       TYPE(BUF_MAT_) ,POINTER :: MBUF, MBUFSP
 C-----------------------------------------------
       my_real A_GAUSS(9,9)
@@ -612,11 +612,11 @@ C-----------------------------------------------
      8 0.796666477413627,0.960289856497536,0.               ,
      9 -.968160239507626,-.836031107326636,-.613371432700590,
      9 -.324253423403809,0.               ,0.324253423403809,
-     9 0.613371432700590,0.836031107326636,0.968160239507626/  
+     9 0.613371432700590,0.836031107326636,0.968160239507626/
 C-----------------------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUNC
-        NG = IGROUNC(IG)         
+        NG = IGROUNC(IG)
         IF(IPARG(8,NG)==1)GOTO 300
         IF (IDDW>0) CALL STARTIMEG(NG)
         OFFSET  = 0
@@ -625,15 +625,15 @@ C-----------------------------------------------
         IF(ITY==1.AND.IPARTSPH/=0) THEN
 C
 C---
-          CALL INITBUF (IPARG    ,NG      ,                              
-     2       MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,               
-     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,               
-     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,               
-     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,               
-     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,               
-     7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )               
-          LFT   = 1                  
-          LLT   = MIN(NVSIZ,NEL)     
+          CALL INITBUF (IPARG    ,NG      ,
+     2       MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3       NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4       JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5       NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,
+     6       IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7       ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
+          LFT   = 1
+          LLT   = MIN(NVSIZ,NEL)
 !
           DO I=1,6
             II(I) = NEL*(I-1)
@@ -655,7 +655,7 @@ C----------- HEPH -------
 C------------------------
           SIG_HEPH(1:MVSIZ,1:6,1:7) = ZERO
           CALL SIG_HEPH1(JR0     ,JS0  ,JT0  ,GBUF%SIG  ,GBUF%HOURG,
-     .                   SIG_HEPH,PM   ,IXS  ,II        ,NEL       )          
+     .                   SIG_HEPH,PM   ,IXS  ,II        ,NEL       )
 C
           IF(ISORTH==0)THEN
            DO J=1,7
@@ -667,12 +667,12 @@ C hourglass stress in corotational system
             L12    =SIG_HEPH(I,4,J)
             L23    =SIG_HEPH(I,5,J)
             L13    =SIG_HEPH(I,6,J)
-            S11    =L11*R11(I)+L12*R12(I)+L13*R13(I) 
-            S12    =L11*R21(I)+L12*R22(I)+L13*R23(I) 
+            S11    =L11*R11(I)+L12*R12(I)+L13*R13(I)
+            S12    =L11*R21(I)+L12*R22(I)+L13*R23(I)
             S13    =L11*R31(I)+L12*R32(I)+L13*R33(I)
             S21    =L12*R11(I)+L22*R12(I)+L23*R13(I)
             S22    =L12*R21(I)+L22*R22(I)+L23*R23(I)
-            S23    =L12*R31(I)+L22*R32(I)+L23*R33(I) 
+            S23    =L12*R31(I)+L22*R32(I)+L23*R33(I)
             S31    =L13*R11(I)+L23*R12(I)+L33*R13(I)
             S32    =L13*R21(I)+L23*R22(I)+L33*R23(I)
             S33    =L13*R31(I)+L23*R32(I)+L33*R33(I)
@@ -694,12 +694,12 @@ C hourglass stress in orthotropic system
             L12    =SIG_HEPH(I,4,J)
             L23    =SIG_HEPH(I,5,J)
             L13    =SIG_HEPH(I,6,J)
-            S11    =L11*T11(I)+L12*T12(I)+L13*T13(I) 
-            S12    =L11*T21(I)+L12*T22(I)+L13*T23(I) 
+            S11    =L11*T11(I)+L12*T12(I)+L13*T13(I)
+            S12    =L11*T21(I)+L12*T22(I)+L13*T23(I)
             S13    =L11*T31(I)+L12*T32(I)+L13*T33(I)
             S21    =L12*T11(I)+L22*T12(I)+L23*T13(I)
             S22    =L12*T21(I)+L22*T22(I)+L23*T23(I)
-            S23    =L12*T31(I)+L22*T32(I)+L23*T33(I) 
+            S23    =L12*T31(I)+L22*T32(I)+L23*T33(I)
             S31    =L13*T11(I)+L23*T12(I)+L33*T13(I)
             S32    =L13*T21(I)+L23*T22(I)+L33*T23(I)
             S33    =L13*T31(I)+L23*T32(I)+L33*T33(I)
@@ -735,12 +735,12 @@ C hourglass stress in corotational system
             L12    =LBUF2%SIG(II(4)+I)
             L23    =LBUF2%SIG(II(5)+I)
             L13    =LBUF2%SIG(II(6)+I)
-            S11    =L11*R11(I)+L12*R12(I)+L13*R13(I) 
-            S12    =L11*R21(I)+L12*R22(I)+L13*R23(I) 
+            S11    =L11*R11(I)+L12*R12(I)+L13*R13(I)
+            S12    =L11*R21(I)+L12*R22(I)+L13*R23(I)
             S13    =L11*R31(I)+L12*R32(I)+L13*R33(I)
             S21    =L12*R11(I)+L22*R12(I)+L23*R13(I)
             S22    =L12*R21(I)+L22*R22(I)+L23*R23(I)
-            S23    =L12*R31(I)+L22*R32(I)+L23*R33(I) 
+            S23    =L12*R31(I)+L22*R32(I)+L23*R33(I)
             S31    =L13*R11(I)+L23*R12(I)+L33*R13(I)
             S32    =L13*R21(I)+L23*R22(I)+L33*R23(I)
             S33    =L13*R31(I)+L23*R32(I)+L33*R33(I)
@@ -767,12 +767,12 @@ C hourglass stress in orthotropic system
             L12    =LBUF2%SIG(II(4)+I)
             L23    =LBUF2%SIG(II(5)+I)
             L13    =LBUF2%SIG(II(6)+I)
-            S11    =L11*T11(I)+L12*T12(I)+L13*T13(I) 
-            S12    =L11*T21(I)+L12*T22(I)+L13*T23(I) 
+            S11    =L11*T11(I)+L12*T12(I)+L13*T13(I)
+            S12    =L11*T21(I)+L12*T22(I)+L13*T23(I)
             S13    =L11*T31(I)+L12*T32(I)+L13*T33(I)
             S21    =L12*T11(I)+L22*T12(I)+L23*T13(I)
             S22    =L12*T21(I)+L22*T22(I)+L23*T23(I)
-            S23    =L12*T31(I)+L22*T32(I)+L23*T33(I) 
+            S23    =L12*T31(I)+L22*T32(I)+L23*T33(I)
             S31    =L13*T11(I)+L23*T12(I)+L33*T13(I)
             S32    =L13*T21(I)+L23*T22(I)+L33*T23(I)
             S33    =L13*T31(I)+L23*T32(I)+L33*T33(I)
@@ -812,12 +812,12 @@ C mean stress in corotational system
             L12    =GBUF%SIG(II(4)+I)
             L23    =GBUF%SIG(II(5)+I)
             L13    =GBUF%SIG(II(6)+I)
-            S11    =L11*R11(I)+L12*R12(I)+L13*R13(I) 
-            S12    =L11*R21(I)+L12*R22(I)+L13*R23(I) 
+            S11    =L11*R11(I)+L12*R12(I)+L13*R13(I)
+            S12    =L11*R21(I)+L12*R22(I)+L13*R23(I)
             S13    =L11*R31(I)+L12*R32(I)+L13*R33(I)
             S21    =L12*R11(I)+L22*R12(I)+L23*R13(I)
             S22    =L12*R21(I)+L22*R22(I)+L23*R23(I)
-            S23    =L12*R31(I)+L22*R32(I)+L23*R33(I) 
+            S23    =L12*R31(I)+L22*R32(I)+L23*R33(I)
             S31    =L13*R11(I)+L23*R12(I)+L33*R13(I)
             S32    =L13*R21(I)+L23*R22(I)+L33*R23(I)
             S33    =L13*R31(I)+L23*R32(I)+L33*R33(I)
@@ -837,12 +837,12 @@ C mean stress in orthotropic system
             L12    =GBUF%SIG(II(4)+I)
             L23    =GBUF%SIG(II(5)+I)
             L13    =GBUF%SIG(II(6)+I)
-            S11    =L11*T11(I)+L12*T12(I)+L13*T13(I) 
-            S12    =L11*T21(I)+L12*T22(I)+L13*T23(I) 
+            S11    =L11*T11(I)+L12*T12(I)+L13*T13(I)
+            S12    =L11*T21(I)+L12*T22(I)+L13*T23(I)
             S13    =L11*T31(I)+L12*T32(I)+L13*T33(I)
             S21    =L12*T11(I)+L22*T12(I)+L23*T13(I)
             S22    =L12*T21(I)+L22*T22(I)+L23*T23(I)
-            S23    =L12*T31(I)+L22*T32(I)+L23*T33(I) 
+            S23    =L12*T31(I)+L22*T32(I)+L23*T33(I)
             S31    =L13*T11(I)+L23*T12(I)+L33*T13(I)
             S32    =L13*T21(I)+L23*T22(I)+L33*T23(I)
             S33    =L13*T31(I)+L23*T32(I)+L33*T33(I)
@@ -877,12 +877,12 @@ C strain in corotational system
               L12    =HALF*LBUF%STRA(II(4)+I)
               L23    =HALF*LBUF%STRA(II(5)+I)
               L13    =HALF*LBUF%STRA(II(6)+I)
-              S11    =L11*R11(I)+L12*R12(I)+L13*R13(I) 
-              S12    =L11*R21(I)+L12*R22(I)+L13*R23(I) 
+              S11    =L11*R11(I)+L12*R12(I)+L13*R13(I)
+              S12    =L11*R21(I)+L12*R22(I)+L13*R23(I)
               S13    =L11*R31(I)+L12*R32(I)+L13*R33(I)
               S21    =L12*R11(I)+L22*R12(I)+L23*R13(I)
               S22    =L12*R21(I)+L22*R22(I)+L23*R23(I)
-              S23    =L12*R31(I)+L22*R32(I)+L23*R33(I) 
+              S23    =L12*R31(I)+L22*R32(I)+L23*R33(I)
               S31    =L13*R11(I)+L23*R12(I)+L33*R13(I)
               S32    =L13*R21(I)+L23*R22(I)+L33*R23(I)
               S33    =L13*R31(I)+L23*R32(I)+L33*R33(I)
@@ -903,12 +903,12 @@ C strain in orthotropic system
               L12    =HALF*LBUF%STRA(II(4)+I)
               L23    =HALF*LBUF%STRA(II(5)+I)
               L13    =HALF*LBUF%STRA(II(6)+I)
-              S11    =L11*T11(I)+L12*T12(I)+L13*T13(I) 
-              S12    =L11*T21(I)+L12*T22(I)+L13*T23(I) 
+              S11    =L11*T11(I)+L12*T12(I)+L13*T13(I)
+              S12    =L11*T21(I)+L12*T22(I)+L13*T23(I)
               S13    =L11*T31(I)+L12*T32(I)+L13*T33(I)
               S21    =L12*T11(I)+L22*T12(I)+L23*T13(I)
               S22    =L12*T21(I)+L22*T22(I)+L23*T23(I)
-              S23    =L12*T31(I)+L22*T32(I)+L23*T33(I) 
+              S23    =L12*T31(I)+L22*T32(I)+L23*T33(I)
               S31    =L13*T11(I)+L23*T12(I)+L33*T13(I)
               S32    =L13*T21(I)+L23*T22(I)+L33*T23(I)
               S33    =L13*T31(I)+L23*T32(I)+L33*T33(I)
@@ -1125,7 +1125,7 @@ C-----------
      .                             +KSI*SIG_HEPH_GLO(I,K,4)
      .                        +ZETA*ETA*SIG_HEPH_GLO(I,K,5)
      .                        +ZETA*KSI*SIG_HEPH_GLO(I,K,6)
-     .                         +ETA*KSI*SIG_HEPH_GLO(I,K,7)            
+     .                         +ETA*KSI*SIG_HEPH_GLO(I,K,7)
                 END DO
               ELSE
                 GBUFSP%SIG(JJ(1)+J) = SIGLO(I,1)

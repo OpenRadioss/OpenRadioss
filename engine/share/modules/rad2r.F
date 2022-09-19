@@ -51,16 +51,16 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----------------------------------------------
 
-      INTEGER, DIMENSION(:), ALLOCATABLE ::      
-     .      SOCKET,DBNO,NBELTN_R2R,TCNELT,TCNELTDB,TYPLNK,  
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
+     .      SOCKET,DBNO,NBELTN_R2R,TCNELT,TCNELTDB,TYPLNK,
      .      OFFSET,NBELT_R2R,ROTLNK,RBYLNK,TAG_RBY,ADD_RBY,
-     .      KINLNK,TAGEL_R2R_SEND       
+     .      KINLNK,TAGEL_R2R_SEND
 
-      INTEGER, DIMENSION(:,:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:,:), ALLOCATABLE ::
      .      DBN,NBEL,NBELN,TBCNEL,TBCNELDB
-     
+
       DOUBLE PRECISION, ALLOCATABLE ::
-     .      R2R_KINE(:,:) 
-          
+     .      R2R_KINE(:,:)
+
 C-----------------------------------------------
       END MODULE RAD2R_MOD

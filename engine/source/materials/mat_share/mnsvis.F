@@ -180,7 +180,7 @@ C-----------------------------------------------
       INTEGER I
       my_real
      .   DD(MVSIZ), AL(MVSIZ), NRHO(MVSIZ), CNS1, CNS2, CNS3, DAV, PVIS
-c=======================================================================     
+c=======================================================================
       DD(1:NEL)=-D1(1:NEL)-D2(1:NEL)-D3(1:NEL)
 C      
       IF(N2D > 0) THEN
@@ -188,7 +188,7 @@ C
           AL(I)=ZERO
           IF(OFF(I) >= ONE)AL(I)=SQRT(AIRE(I))
         ENDDO
-      ELSE 
+      ELSE
         DO  I=1,NEL
          AL(I)=ZERO
          IF(OFF(I) >= ONE) AL(I)=EXP(THIRD*LOG(VOL(I)))
@@ -228,7 +228,7 @@ C
           SV5(I)= SV5(I) + CNS3 * D5(I)
           SV6(I)= SV6(I) + CNS3 * D6(I)
 C          IF(GEO(16,PID(I)) /= ZERO .OR. GEO(17,PID(I))/=ZERO) ISVIS = 1
-        ENDDO 
+        ENDDO
       ELSE
         DO I=1,NEL
           CNS1=GEO(16,PID(1))*NRHO(I)*SSP(I)**2*OFF(I)
@@ -243,9 +243,9 @@ C          IF(GEO(16,PID(I)) /= ZERO .OR. GEO(17,PID(I))/=ZERO) ISVIS = 1
           SV5(I)= SV5(I) + CNS3 * D5(I)
           SV6(I)= SV6(I) + CNS3 * D6(I)
 C          IF(GEO(16,PID(I)) /= ZERO .OR. GEO(17,PID(I))/=ZERO) ISVIS = 1
-        ENDDO 
+        ENDDO
       END IF
 C
       RETURN
       END
-      
+

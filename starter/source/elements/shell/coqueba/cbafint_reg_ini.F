@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE NLOCAL_REG_MOD
 C-----------------------------------------------
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_) , TARGET                    :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) , TARGET                    :: NLOC_DMG
       INTEGER IXC(NIXC,*),NFT,NEL,NG,IPM(NPROPMI,*)
-      my_real ,DIMENSION(NUMELC+NUMELTG),INTENT(IN)  :: 
-     .   AREA 
+      my_real ,DIMENSION(NUMELC+NUMELTG),INTENT(IN)  ::
+     .   AREA
       my_real
      .   X(3,*),XREFC(4,3,*),DT_NL,BUFMAT(*),TIME
       LOGICAL :: FAILURE
@@ -79,7 +79,7 @@ C-----------------------------------------------
      .   NTVAR,Z01(11,11),WF1(11,11),ZN1(12,11),B1,B2,
      .   B3,B4,NTH1,NTH2,BTH1,BTH2,K1,K12,K2,SSPNL,LE_MAX
       my_real, DIMENSION(:,:), ALLOCATABLE :: VPRED,VAR_REG
-      my_real, 
+      my_real,
      . DIMENSION(:), POINTER  :: FNL,UNL,VNL,DNL,MNL,THCK
       my_real, DIMENSION(NEL) :: X1,X2,X3,X4,
      .   Y1,Y2,Y3,Y4,PX1,PX2,PY1,PY2,E1X,E2X,E3X,
@@ -87,7 +87,7 @@ C-----------------------------------------------
      .   X4L,Y4L,Z1,Z2,Z3,Z4,SURF,OFFG,VOLS,BTB11,
      .   BTB12,BTB22
       TYPE(BUF_NLOC_),POINTER :: BUFNL
-      my_real, DIMENSION(:,:), POINTER :: 
+      my_real, DIMENSION(:,:), POINTER ::
      .   MASSTH,FNLTH,VNLTH,UNLTH
       ! Position of integration points in the thickness
       DATA  Z01/
@@ -113,7 +113,7 @@ C-----------------------------------------------
      A 0.0555555,0.1666667,0.2777778,0.3888889,0.5      ,0.       ,
      B -.5      ,-.4      ,-.3      ,-.2      ,-.1      ,
      B 0.       ,0.1      ,0.2      ,0.3      ,0.4      ,0.5      /
-      ! Weight of integration in the thickness 
+      ! Weight of integration in the thickness
       DATA  WF1/
      1 1.       ,0.       ,0.       ,0.       ,0.       ,
      1 0.       ,0.       ,0.       ,0.       ,0.       ,0.       ,
@@ -154,7 +154,7 @@ C-----------------------------------------------
      7 -.5      ,-.4166667,-.25     ,-.0833333,0.0833333,0.25     ,
      7 0.4166667,0.5      ,0.       ,0.       ,0.       ,0.       ,
      8 -.5      ,-.4285715,-.2857143,-.1428572,0.0      ,0.1428572,
-     8 0.2857143,0.4285715,0.5      ,0.       ,0.       ,0.       ,     
+     8 0.2857143,0.4285715,0.5      ,0.       ,0.       ,0.       ,
      9 -.5      ,-.4375   ,-.3125   ,-.1875   ,-.0625   ,0.0625   ,
      9 0.1875   ,0.3125   ,0.4375   ,0.5      ,0.       ,0.       ,
      A -.5      ,-.4444444,-.3333333,-.2222222,-.1111111,0.       ,
@@ -180,7 +180,7 @@ C=======================================================================
          THCK => ELBUF_TAB(NG)%GBUF%THK(1:NEL)
          ! Global minimal length
          IF (NDOF>1) THEN
-           LE_MIN = MIN(LE_MIN,MINVAL(THCK(1:NEL))/NDOF)        
+           LE_MIN = MIN(LE_MIN,MINVAL(THCK(1:NEL))/NDOF)
          ENDIF
          ! Non-local internal length
          LEN    = NLOC_DMG%LEN(IMAT)
@@ -197,7 +197,7 @@ C=======================================================================
      .                              (SQRT(TWELVE*(LEN**2)+(MIN(LE_MIN,LE_MAX)**2)))))
          ! Allocation of the velocities predictor
          IF (NDOF>1) THEN
-           IF (NDOF > 2) THEN 
+           IF (NDOF > 2) THEN
              ALLOCATE(VPRED(NEL,NDOF+1))
              NDNOD = NDOF+1
            ELSE
@@ -255,8 +255,8 @@ c
            POS4(I) = NLOC_DMG%POSI(N4)
          ENDDO
 c
-         ! Non-local variable transfer at Gauss point 
-         ! Loop over Gauss points in the thickness 
+         ! Non-local variable transfer at Gauss point
+         ! Loop over Gauss points in the thickness
          DO K = 1,NDOF
            ! Loop over element
 # include "vectorize.inc"
@@ -302,24 +302,24 @@ c
            BTB11(I) = PX1(I)**2 + PY1(I)**2
            BTB12(I) = PX1(I)*PX2(I) + PY1(I)*PY2(I)
            BTB22(I) = PX2(I)**2 + PY2(I)**2
-c           
+c
            ! Computation of the element volume
            VOLS(I) = AREA(NFT+I)*THCK(I)
 c
            ! To check if element is not broken
            OFFG(I) = ELBUF_TAB(NG)%GBUF%OFF(I)
-c           
+c
          ENDDO
 C
          !-----------------------------------------------------------------------
          ! Pre-treatment non-local regularization in the thickness
          !-----------------------------------------------------------------------
          ! Only if NDOF > 1
-         IF ((NDOF > 1).AND.(LEN>ZERO)) THEN 
+         IF ((NDOF > 1).AND.(LEN>ZERO)) THEN
 c
            ! Pointing the non-local values in the thickness of the corresponding element
            BUFNL  => ELBUF_TAB(NG)%NLOC(1,1)
-c 
+c
            ! Pointing the non-local values in the thickness of the corresponding element
            MASSTH => BUFNL%MASSTH(1:NEL,1:NDNOD)
            UNLTH  => BUFNL%UNLTH(1:NEL ,1:NDNOD)
@@ -341,16 +341,16 @@ c
 c
            ! Computation of non-local forces in the shell thickness
            DO K = 1, NDOF
-c          
+c
              ! Computation of shape functions value
-             IF ((NDOF==2).AND.(K==2)) THEN 
+             IF ((NDOF==2).AND.(K==2)) THEN
                NTH1 = (Z01(K,NDOF) - ZN1(K,NDOF))/(ZN1(K-1,NDOF)   - ZN1(K,NDOF))
                NTH2 = (Z01(K,NDOF) - ZN1(K-1,NDOF)) /(ZN1(K,NDOF) - ZN1(K-1,NDOF))
-             ELSE 
+             ELSE
                NTH1 = (Z01(K,NDOF) - ZN1(K+1,NDOF))/(ZN1(K,NDOF)   - ZN1(K+1,NDOF))
                NTH2 = (Z01(K,NDOF) - ZN1(K,NDOF))  /(ZN1(K+1,NDOF) - ZN1(K,NDOF))
              ENDIF
-c          
+c
              ! Loop over elements
              DO I = 1,NEL
                ! Computation of B-matrix values
@@ -361,7 +361,7 @@ c
                  BTH1 = (ONE/(ZN1(K,NDOF)    - ZN1(K+1,NDOF)))*(ONE/THCK(I))
                  BTH2 = (ONE/(ZN1(K+1,NDOF)  - ZN1(K,NDOF)))*(ONE/THCK(I))
                ENDIF
-c            
+c
                ! Computation of the non-local K matrix
                K1   = (LEN**2)*(BTH1**2)  + NTH1**2
                K12  = (LEN**2)*(BTH1*BTH2)+ (NTH1*NTH2)
@@ -369,34 +369,34 @@ c
 c
                ! Computation of the non-local forces
                IF ((NDOF==2).AND.(K==2)) THEN
-                 FNLTH(I,K-1) = FNLTH(I,K-1) + (K1*UNLTH(I,K-1) + K12*UNLTH(I,K) 
-     .                                   + DAMP*((NTH1**2)*VPRED(I,K-1) 
+                 FNLTH(I,K-1) = FNLTH(I,K-1) + (K1*UNLTH(I,K-1) + K12*UNLTH(I,K)
+     .                                   + DAMP*((NTH1**2)*VPRED(I,K-1)
      .                                   + (NTH1*NTH2)*VPRED(I,K))
      .                                   - (NTH1*VAR_REG(I,K)))*VOLS(I)*WF1(K,NDOF)
                  FNLTH(I,K)   = FNLTH(I,K)   + (K12*UNLTH(I,K-1) + K2*UNLTH(I,K)
-     .                                   + DAMP*(NTH1*NTH2*VPRED(I,K-1) 
+     .                                   + DAMP*(NTH1*NTH2*VPRED(I,K-1)
      .                                   + (NTH2**2)*VPRED(I,K))
      .                                   - NTH2*VAR_REG(I,K))*VOLS(I)*WF1(K,NDOF)
                ELSE
-                 FNLTH(I,K)   = FNLTH(I,K)   + (K1*UNLTH(I,K) + K12*UNLTH(I,K+1) 
-     .                                   + DAMP*((NTH1**2)*VPRED(I,K) 
+                 FNLTH(I,K)   = FNLTH(I,K)   + (K1*UNLTH(I,K) + K12*UNLTH(I,K+1)
+     .                                   + DAMP*((NTH1**2)*VPRED(I,K)
      .                                   + (NTH1*NTH2)*VPRED(I,K+1))
      .                                   - (NTH1*VAR_REG(I,K)))*VOLS(I)*WF1(K,NDOF)
                  FNLTH(I,K+1) = FNLTH(I,K+1) + (K12*UNLTH(I,K) + K2*UNLTH(I,K+1)
-     .                                   + DAMP*(NTH1*NTH2*VPRED(I,K) 
+     .                                   + DAMP*(NTH1*NTH2*VPRED(I,K)
      .                                   + (NTH2**2)*VPRED(I,K+1))
      .                                   - NTH2*VAR_REG(I,K))*VOLS(I)*WF1(K,NDOF)
                ENDIF
              ENDDO
            ENDDO
-c       
+c
            DO K = 1,NDNOD
              DO I = 1,NEL
-               ! Updating the non-local in-thickness velocities   
+               ! Updating the non-local in-thickness velocities
                VNLTH(I,K) = VNLTH(I,K) - (FNLTH(I,K)/MASSTH(I,K))*DT_NL
              ENDDO
            ENDDO
-c          
+c
            DO K = 1,NDNOD
              DO I = 1,NEL
                ! Computing the non-local in-thickness cumulated values
@@ -422,9 +422,9 @@ c
                ELSE
                  VAR_REG(I,K) = NTH1*UNLTH(I,K)   + NTH2*UNLTH(I,K+1)
                ENDIF
-             ENDDO  
+             ENDDO
            ENDDO
-c           
+c
            IF ((NPTR>1).OR.(NPTS>1)) THEN
              DO IR = 1,NPTR
                DO IS = 1,NPTS
@@ -435,35 +435,35 @@ c
                  BUFNL%MASSTH(1:NEL,1:NDNOD) = ELBUF_TAB(NG)%NLOC(1,1)%FNLTH(1:NEL,1:NDNOD)
                ENDDO
              ENDDO
-           ENDIF           
+           ENDIF
          ENDIF
-c         
+c
          !-----------------------------------------------------------------------
          ! Computation of the elementary non-local forces
          !-----------------------------------------------------------------------
          ! Loop over integration points in the thickness
-         DO K = 1,NDOF   
-c         
+         DO K = 1,NDOF
+c
            ! Computation of non-local forces
 # include "vectorize.inc"
            DO I = 1,NEL
 c
              ! Computing the elementary non-local forces
-             IF (OFFG(I) > ZERO) THEN 
+             IF (OFFG(I) > ZERO) THEN
                ! Computing the product BtB*UNL
-               B1 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(BTB11(I)*UNL(POS1(I)+K-1) + BTB12(I)*UNL(POS2(I)+K-1) 
+               B1 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(BTB11(I)*UNL(POS1(I)+K-1) + BTB12(I)*UNL(POS2(I)+K-1)
      .                                            - BTB11(I)*UNL(POS3(I)+K-1) - BTB12(I)*UNL(POS4(I)+K-1))
                B2 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(BTB12(I)*UNL(POS1(I)+K-1) + BTB22(I)*UNL(POS2(I)+K-1)
-     .                                            - BTB12(I)*UNL(POS3(I)+K-1) - BTB22(I)*UNL(POS4(I)+K-1))        
-               B3 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(-BTB11(I)*UNL(POS1(I)+K-1) - BTB12(I)*UNL(POS2(I)+K-1) 
-     .                                             + BTB11(I)*UNL(POS3(I)+K-1) + BTB12(I)*UNL(POS4(I)+K-1))   
-               B4 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(-BTB12(I)*UNL(POS1(I)+K-1) - BTB22(I)*UNL(POS2(I)+K-1) 
-     .                                             + BTB12(I)*UNL(POS3(I)+K-1) + BTB22(I)*UNL(POS4(I)+K-1)) 
+     .                                            - BTB12(I)*UNL(POS3(I)+K-1) - BTB22(I)*UNL(POS4(I)+K-1))
+               B3 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(-BTB11(I)*UNL(POS1(I)+K-1) - BTB12(I)*UNL(POS2(I)+K-1)
+     .                                             + BTB11(I)*UNL(POS3(I)+K-1) + BTB12(I)*UNL(POS4(I)+K-1))
+               B4 = ((LEN**2)/VOLS(I))*WF1(K,NDOF)*(-BTB12(I)*UNL(POS1(I)+K-1) - BTB22(I)*UNL(POS2(I)+K-1)
+     .                                             + BTB12(I)*UNL(POS3(I)+K-1) + BTB22(I)*UNL(POS4(I)+K-1))
                ! Computing the product NtN*UNL
-               NTN_UNL = ((UNL(POS1(I)+K-1) + UNL(POS2(I)+K-1) + UNL(POS3(I)+K-1) + 
+               NTN_UNL = ((UNL(POS1(I)+K-1) + UNL(POS2(I)+K-1) + UNL(POS3(I)+K-1) +
      .                     UNL(POS4(I)+K-1))*FOURTH*FOURTH)*VOLS(I)*WF1(K,NDOF)
                ! Computing the product DAMP*NtN*VNL!
-               NTN_VNL = ((VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) + 
+               NTN_VNL = ((VNL(POS1(I)+K-1) + VNL(POS2(I)+K-1) + VNL(POS3(I)+K-1) +
      .                     VNL(POS4(I)+K-1))*FOURTH*FOURTH)*DAMP*VOLS(I)*WF1(K,NDOF)
                ! Introducing the internal variable to be regularized
                NTVAR   = VAR_REG(I,K)*FOURTH*VOLS(I)*WF1(K,NDOF)

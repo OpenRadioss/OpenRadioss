@@ -85,36 +85,36 @@ C-----------------------------------------------
         CALL HM_OPTION_START('/REFSTA')
         CALL HM_OPTION_READ_KEY(LSUBMODEL)
         CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      
-        RS0_FMT=0                                                                                                        
-        NITRS=0     
-        XRFILE(1:ncharline)=' '                                                                                                     
-        CALL HM_GET_STRING('filename',XRFILE,ncharline,IS_AVAILABLE)                                                       
-        CALL HM_GET_INTV('nitrs',NITRS,IS_AVAILABLE,LSUBMODEL)                                                           
-        CALL HM_GET_INTV('refsta_fileformat',RS0_FMT,IS_AVAILABLE,LSUBMODEL)                                                        
-                                                                                                                         
-        IF (NITRS == 0) NITRS=100  
-        LEN_ = LEN_TRIM(XRFILE)                                                                                       
+
+        RS0_FMT=0
+        NITRS=0
+        XRFILE(1:ncharline)=' '
+        CALL HM_GET_STRING('filename',XRFILE,ncharline,IS_AVAILABLE)
+        CALL HM_GET_INTV('nitrs',NITRS,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('refsta_fileformat',RS0_FMT,IS_AVAILABLE,LSUBMODEL)
+
+        IF (NITRS == 0) NITRS=100
+        LEN_ = LEN_TRIM(XRFILE)
         IF(LEN_ > 0 )XRFILE(LEN_+1:ncharline) = ' '
         !
-        IF (XRFILE==' ') THEN                                                                                          
-          XRFILE=ROOTNAM(1:ROOTLEN)//'RS0'                                                                               
-        ELSE                                                                                                             
-          J=0                                                                                                            
-          DO I=1,ncharline                                                                                               
-            IF(XRFILE(I:I)/=' ')THEN                                                                                   
-              J=J+1                                                                                                      
-              XRFILE(J:J) = XRFILE(I:I)                                                                                  
-            ENDIF                                                                                                        
-          ENDDO                                                                                                          
-          DO I=J+1,ncharline                                                                                             
-              XRFILE(I:I) = ' '                                                                                          
-          ENDDO                                                                                                          
-        ENDIF                                                                                                            
-        REFSTA_FILENAME = XRFILE                                                                                         
-        TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//XRFILE(1:len_trim(XRFILE))                                              
-        LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(XRFILE)                                                                  
-        OPEN(UNIT=IIN6,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='OLD',ERR=111)          
+        IF (XRFILE==' ') THEN
+          XRFILE=ROOTNAM(1:ROOTLEN)//'RS0'
+        ELSE
+          J=0
+          DO I=1,ncharline
+            IF(XRFILE(I:I)/=' ')THEN
+              J=J+1
+              XRFILE(J:J) = XRFILE(I:I)
+            ENDIF
+          ENDDO
+          DO I=J+1,ncharline
+              XRFILE(I:I) = ' '
+          ENDDO
+        ENDIF
+        REFSTA_FILENAME = XRFILE
+        TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//XRFILE(1:len_trim(XRFILE))
+        LEN_TMP_NAME = INFILE_NAME_LEN+len_trim(XRFILE)
+        OPEN(UNIT=IIN6,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',FORM='FORMATTED',STATUS='OLD',ERR=111)
 
 C-----------------------------------------------
       RETURN

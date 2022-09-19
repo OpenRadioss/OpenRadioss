@@ -33,7 +33,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LAG_I2MAIN(
-     1      IPARI    ,INTBUF_TAB,IADLL    ,LLL      ,JLL      ,    
+     1      IPARI    ,INTBUF_TAB,IADLL    ,LLL      ,JLL      ,
      2      SLL      ,XLL      ,COMNTAG  ,LTSM     ,ICFTAG   ,
      3      JCFTAG   ,IN       ,MS       ,X        ,V        ,
      4      VR       ,A        ,AR       ,ISKIP    ,NCF_S    ,
@@ -137,7 +137,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER INOD(5), I,J,K,L,IC,JC,II,JJ,IK,ISK,IAD,NIR,NDL, 
+      INTEGER INOD(5), I,J,K,L,IC,JC,II,JJ,IK,ISK,IAD,NIR,NDL,
      .   NC_INI,NCL,COMFLAG
 C     REAL
       my_real
@@ -290,7 +290,7 @@ C------------------------------
         C3=ZZZ*XY+YZ*ZX
         C1=XXX*YZ+ZX*XY
         C2=YYY*ZX+XY*YZ
-       
+
 C======================================================================|
 C ---   ic = 1 (vx)
         NC = NC + 1

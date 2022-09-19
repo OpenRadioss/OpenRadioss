@@ -68,16 +68,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NELTST,ITYPTST 
+      INTEGER NELTST,ITYPTST
       INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),NT_IMP
-      INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*), 
-     .        NPC(*), ISKY(*), 
+      INTEGER IPARI(NPARI,*), ICODT(*),ITAB(*),
+     .        NPC(*), ISKY(*),
      .        ICONTACT(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD),
      .        KLOADPINTER(NINTER+1),LOADPINTER(NINTER*NLOADP_HYD),
      .        LOADP_HYD_INTER(NLOADP_HYD)
 
 C     REAL
-      my_real DT2T, 
+      my_real DT2T,
      .   X(*), A(*), FSAV(NTHVKI,*) , WA(*), V(*),MS(*),
      .   STIFN(*), TF(*),FSKYI(LSKY,NFSKYI),VR(3,*),FCONT(3,*),IN(*),
      .   BUFSF(*), FNCONT(3,*),FTCONT(3,*),RCONTACT(*),SENSOR(NSENSR,*),
@@ -99,7 +99,7 @@ C-----------------------------------------------
 C-----------------------------------------------
       !CALL STARTIME(96,1)
       NBT8 = 0
-    
+
 
       IF (IMPL_S==1) IAD = 1
 C
@@ -110,14 +110,14 @@ C
        ! MPI 3.0 support
 c      IF(ISPMD/=0) GOTO 200 !TO REMOVE
        IF(NTY==8) THEN
-        NBT8 = NBT8 + 1    
+        NBT8 = NBT8 + 1
         IF(IPARI(16,N)==NCYCLE)THEN
         ELSE
         IPARI(16,N) = NCYCLE
 C 
          ISENS = 0
 
-         IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+         IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
             TS = SENSOR(2,ISENS)
          ELSE
             TS = TT
@@ -168,13 +168,13 @@ c        IF(ISPMD/=0) GOTO 200 !TO REMOVE
            STOPT=INTBUF_TAB(N)%VARIABLES(11)
            IF(STARTT<=TT .AND. TT<= STOPT) THEN
              IF(IPARI(48,N) == 2) THEN
-               NSLV = IPARI(5,N)         
+               NSLV = IPARI(5,N)
                ALLOCATE(FTSAV_BUF(3,NSLV))
                FTSAV_BUF(1:3,1:NSLV) = 0
                DO I = 1, NSLV
-                 FTSAV_BUF(1,I) = INTBUF_TAB(N)%FTSAVX(I) 
-                 FTSAV_BUF(2,I) = INTBUF_TAB(N)%FTSAVY(I) 
-                 FTSAV_BUF(3,I) = INTBUF_TAB(N)%FTSAVZ(I) 
+                 FTSAV_BUF(1,I) = INTBUF_TAB(N)%FTSAVX(I)
+                 FTSAV_BUF(2,I) = INTBUF_TAB(N)%FTSAVY(I)
+                 FTSAV_BUF(3,I) = INTBUF_TAB(N)%FTSAVZ(I)
                ENDDO
                SIZ = 3*NSLV
                CALL SPMD_I8_REDUCE(FTSAV_BUF,SIZ,NBT8)

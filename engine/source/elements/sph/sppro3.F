@@ -64,14 +64,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER J, KB, JB, NSBT, IB, IL, MM1, MM2, KM, MM, MG,
      .   JJL, NFT, LLT, JL, JG, JLO, LL1, LL2, LL, LG, N, NN,
-     .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR 
+     .   NVOIS, KL, K, JK, L, NVOIS1, NVOIS2, IERROR
 C     REAL
       my_real
      .   CMS2(MVSIZ),XJJ, YJJ, ZJJ,DK, DL
       my_real, DIMENSION(:), ALLOCATABLE :: DSTOR
 
 
-        IF(IL <= NUMSPH.AND.IL > 0)THEN 
+        IF(IL <= NUMSPH.AND.IL > 0)THEN
 C-----------------
 C       TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS 
 C       (COEF DE SECURITE CROISSANT).
@@ -81,8 +81,8 @@ C-----------------
             TAB_DK(IL) = -ONE
             IF(NVOIS>KVOISPH)THEN
 
-                IREDUCE    =1 
-                KREDUCE(IL)=1 
+                IREDUCE    =1
+                KREDUCE(IL)=1
 
                 CALL MYQSORT(NVOIS,DVOIS,JPERM,IERROR)
                 DO K=1,NVOIS
@@ -127,7 +127,7 @@ C       TRI DE LA LISTE, GARDE LES KVOISPH PREMIERS
 C       (COEF DE SECURITE CROISSANT).
 C-----------------
 ! Get the DK of the original cell
-            DK = DKR(IL - NUMSPH) 
+            DK = DKR(IL - NUMSPH)
             NVOIS=KXSPR(IL-NUMSPH)
             IF(DK>=ZERO) THEN
                 IF(NVOIS>KVOISPH) THEN
@@ -142,7 +142,7 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
                         JVOIS(K)=JSTOR(JPERM(K))
                     ENDDO
                     NVOIS=MIN(NVOIS,KVOISPH)
-                ELSE    
+                ELSE
                     ALLOCATE(DSTOR(KXSPR(IL-NUMSPH)))
                     DO K=1,KXSPR(IL-NUMSPH)
                         JSTOR(K)=JVOIS(K)
@@ -160,7 +160,7 @@ C Choix des cellules a conserver tq distance < DK pour eviter pb de parith/on
                     NVOIS=MIN(NVOIS,KVOISPH)
                 ENDIF
             ELSE
-                NVOIS=KXSPR(IL-NUMSPH) 
+                NVOIS=KXSPR(IL-NUMSPH)
             ENDIF
 C-----------------
             KXSPR(IL-NUMSPH)=NVOIS
@@ -229,6 +229,6 @@ C-----------------
             KXSP(4,IL)=NVOIS1
 C-----------------------------------------------------------
         END IF
-    
+
         RETURN
         END

@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*),ITABM1(*),
      .        ISUBMOD(*),IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*),
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*),IXTG(NIXTG,*),
@@ -214,7 +214,7 @@ C-----------------------------------------------
         CALL HM_LECGRE(
      1      IGRSH3N   ,IXTG      ,
      2      3         ,NIXTG     ,NUMELTG   ,NGRSH3N       ,7       ,
-     3      IPART     ,IPARTG    ,X         ,'SH3N'       , 
+     3      IPART     ,IPARTG    ,X         ,'SH3N'       ,
      4      ISUBMOD   ,FLAGG     ,KSH3TREE  ,SH3TREE      ,2        ,
      5      4         ,3         ,SKEW      ,ISKN         ,UNITAB   ,
      6      ITABM1    ,IBOX      ,RTRANS    ,LSUBMODEL    ,

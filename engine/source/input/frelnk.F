@@ -68,7 +68,7 @@ C-----------------------------------------------
       CHARACTER KEYA*80, CARTE*ncharline, KEY2*5, KEY3*5
 C
       K=0
-      NVEL = 0 
+      NVEL = 0
       LLLINK=0
       IKEY=KVEL
       DO N=1,NRLINK

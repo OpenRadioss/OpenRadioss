@@ -33,7 +33,7 @@ Chd|====================================================================
      .              IPARI,SORT_COMM,NB_REQUEST_COARSE_CELL,ARRAY_REQUEST_COARSE_CELL,LIST_INTER_COARSE_CELL)
 !$COMMENT
 !       SPMD_COARSE_CELL_EXCHANGE description :
-!       for large interfaces : communication of coarse cells with alltoll mpi comm 
+!       for large interfaces : communication of coarse cells with alltoll mpi comm
 !       and check if 2 procs need to echange data
 !
 !       SPMD_COARSE_CELL_EXCHANGE organization :
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-#ifdef MPI        
+#ifdef MPI
         INTEGER :: KK,NIN,I,J
         INTEGER :: P,P_LOC,LOCAL_RANK
         INTEGER :: MY_SIZE,OLD_POINTER
@@ -152,13 +152,13 @@ C-----------------------------------------------
                     ENDIF
                 ENDDO
 
-                IF(.NOT.ALLOCATED(SORT_COMM(NIN)%GLOBAL_COARSE_CELL ) )THEN                
+                IF(.NOT.ALLOCATED(SORT_COMM(NIN)%GLOBAL_COARSE_CELL ) )THEN
                     ALLOCATE(SORT_COMM(NIN)%GLOBAL_COARSE_CELL(TOTAL_RCV_SIZE))
                 ENDIF
                 SORT_COMM(NIN)%SIZE_GLOBAL_COARSE_CELL = TOTAL_RCV_SIZE
 
                 IF(ISENDTO(NIN,LOC_PROC)>0) TOTAL_SEND_SIZE = NB_BOX_COARSE_GRID**3 + 1
-       
+
                 NB_REQUEST_COARSE_CELL = NB_REQUEST_COARSE_CELL + 1
                 LIST_INTER_COARSE_CELL(NB_REQUEST_COARSE_CELL) = NIN
 
@@ -168,7 +168,7 @@ C-----------------------------------------------
      .            TOTAL_RCV_SIZE,SORT_COMM(NIN)%RCV_SIZE_COARSE_CELL,
      .            SORT_COMM(NIN)%RCV_DISPLS_COARSE_CELL,ARRAY_REQUEST_COARSE_CELL(NB_REQUEST_COARSE_CELL),
      .            SORT_COMM(NIN)%COMM,SORT_COMM(NIN)%PROC_NUMBER)
-            ENDIF               
+            ENDIF
           ENDDO
         ENDIF
         !   -------------------------
@@ -176,15 +176,15 @@ C-----------------------------------------------
         !            - check if curent proc and remote proc need to communicate
         IF(MODE==2) THEN
             DO KK=1,NB_REQUEST_COARSE_CELL
-                CALL MPI_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS,IERROR)  
+                CALL MPI_WAIT(ARRAY_REQUEST_COARSE_CELL(KK),STATUS,IERROR)
                 NIN = LIST_INTER_COARSE_CELL(KK)
                 ITIED = IPARI(85,NIN)
                 CALL CHECK_COARSE_GRID(NIN,SORT_COMM(NIN)%MAIN_COARSE_GRID,SORT_COMM,ITIED)
 
                 DEALLOCATE( SORT_COMM(NIN)%GLOBAL_COARSE_CELL )
                 DEALLOCATE( SORT_COMM(NIN)%COARSE_GRID )
-            ENDDO 
-            NB_REQUEST_COARSE_CELL = 0                   
+            ENDDO
+            NB_REQUEST_COARSE_CELL = 0
         ENDIF
 !   -------------------------
 

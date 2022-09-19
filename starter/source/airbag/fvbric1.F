@@ -31,7 +31,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|====================================================================
       SUBROUTINE FVBRIC1(T_MONVOLN, IBUF , ELEM  , IXS    , IBRIC,
-     .                   TBRIC, NEL   , NELA   , NBRIC, 
+     .                   TBRIC, NEL   , NELA   , NBRIC,
      .                   TFAC , TAGELS, MONVID , NELI,
      .                   NNA   , ILVOUT ,
      .                   ELTG , X     , TITR, NB_NODE)
@@ -56,7 +56,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
       INTEGER IXS(NIXS,*),
-     .        IBRIC, NEL, NELA, NBRIC, 
+     .        IBRIC, NEL, NELA, NBRIC,
      .        MONVID, NNA, ILVOUT,
      .        NELI, NB_NODE
       INTEGER, DIMENSION(T_MONVOLN%NNS + T_MONVOLN%NNI), INTENT(IN) :: IBUF
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ITAG(NB_NODE), IAD, J, NG, NNO, NFAC, NV, NG2, NALL, 
+      INTEGER I, ITAG(NB_NODE), IAD, J, NG, NNO, NFAC, NV, NG2, NALL,
      .        NC, NNO2, K, KK, L, JJ, II,
      .        ITAG2(NB_NODE), NALL2, LL, N1, N2, N3, N4,
      .        INFO, NFAC2, NN1, NN2, NN3, NN4,
@@ -151,7 +151,7 @@ C     ============================
 
 C
       ISPLIT=0
-  10  IERROR=0  
+  10  IERROR=0
       INFO=0
       NELA=0
       DO I=1,NBRIC
@@ -159,7 +159,7 @@ C
          NTYPE=TBRIC(2,I)
          NFAC=NFACE(NTYPE)
          SELECT CASE (NTYPE)
-         CASE (1) 
+         CASE (1)
             FAC => FAC8(1:4, 1:6)
             NOD => NOD8(1:6)
          CASE (2)
@@ -226,7 +226,7 @@ C     the face have to be considered
 C
                   IF(IFOUND == 0) THEN
                     IERROR=1
-                    IF(ILVOUT >= 2) WRITE(IOUT,'(A,I10)') 
+                    IF(ILVOUT >= 2) WRITE(IOUT,'(A,I10)')
      .                'WARNING : CANNOT FIND AIRBAG TRIANGLE FOR BRICK',
      .                IXS(NIXS,II)
                   ENDIF
@@ -273,7 +273,7 @@ C
                      IF (NALL2==1) THEN
                         IF (TAGELS(2*K-NEL-1) == 0) THEN
                            TAGELS(2*K-NEL-1)=I
-                        ELSE 
+                        ELSE
                            TAGELS(2*K-NEL)=I
                         ENDIF
                      ENDIF
@@ -310,7 +310,7 @@ C Split quad element along diagonal 13
            TAGELS(K)=0
         ENDDO
       GO TO 10
-      ELSEIF(IERROR==1.AND.ISPLIT==1) THEN 
+      ELSEIF(IERROR==1.AND.ISPLIT==1) THEN
            CALL ANCMSG(MSGID=1048,
      .                 MSGTYPE=MSGERROR,
      .                 ANMODE=ANINFO_BLIND_1,
@@ -318,7 +318,7 @@ C Split quad element along diagonal 13
       ENDIF
 C
 
- 
+
 C
       IF(ILVOUT >= 3) THEN
         WRITE(IOUT,'(A)')'SOLID ELEMENT'
@@ -510,7 +510,7 @@ C
 C
       IF(NELA > 0) THEN
         WRITE(IOUT,'(/5X,A,I10/)') 'NUMBER OF AIRBAG TRIANGLES NOT CONNECTED TO A SOLID ELEMENT . .=',NELA
-      ENDIF	  
+      ENDIF	
 C
 C Noeuds auxiliaires
 C

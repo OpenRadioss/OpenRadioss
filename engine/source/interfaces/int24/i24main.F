@@ -106,7 +106,7 @@ C-----------------------------------------------
 #include      "parit_c.inc"
 #include      "timeri_c.inc"
 #include      "impl1_c.inc"
-#include      "macro.inc" 
+#include      "macro.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -114,7 +114,7 @@ C-----------------------------------------------
      .        NSTRF(*),
      .        NRTMDIM, IAD17, IPARSENS
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
-     .        ITAB(*), ISKY(*), KINET(*), 
+     .        ITAB(*), ISKY(*), KINET(*),
      .        IPARG(NPARG,*),INOD_PXFEM(*),NPC(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER  , INTENT(IN) :: S_LOADPINTER
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
@@ -123,10 +123,10 @@ C-----------------------------------------------
      .        NISKYFI, LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
-      INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
+      INTEGER IAD_ELEM(2,*),FR_ELEM(*),
      .        ISKYI_SMS(*), NODNX_SMS(*), ISENSINT(*),DIMFB,T2MAIN_SMS(6,*)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real 
+      my_real
      .        EMINX(*)
 C     REAL
       my_real DT2T,
@@ -175,7 +175,7 @@ C     REAL
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
      .     NY1(MVSIZ), NY2(MVSIZ), NY3(MVSIZ), NY4(MVSIZ),
      .     NZ1(MVSIZ), NZ2(MVSIZ), NZ3(MVSIZ), NZ4(MVSIZ),
-     .     SUBTRIA(MVSIZ), 
+     .     SUBTRIA(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
@@ -183,11 +183,11 @@ C     REAL
      .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
      .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
-     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
+     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   GAPV(MVSIZ),MSI(MVSIZ),
-     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
+     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ),
      .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),
      .   XX0(MVSIZ,17),YY0(MVSIZ,17),ZZ0(MVSIZ,17),
      .   VX(MVSIZ,17),VY(MVSIZ,17),VZ(MVSIZ,17),
@@ -213,11 +213,11 @@ C     REAL
      .    YY1(MVSIZ), YY2(MVSIZ), YY3(MVSIZ), YY4(MVSIZ),
      .    ZZ1(MVSIZ), ZZ2(MVSIZ), ZZ3(MVSIZ), ZZ4(MVSIZ)
       INTEGER, DIMENSION(:) ,POINTER  :: TABCOUPLEPARTS_FRIC
-      INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC 
-      INTEGER, DIMENSION(:) ,POINTER  :: ADPARTS_FRIC 
-      INTEGER, DIMENSION(:) ,POINTER  :: IFRICORTH 
+      INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC
+      INTEGER, DIMENSION(:) ,POINTER  :: ADPARTS_FRIC
+      INTEGER, DIMENSION(:) ,POINTER  :: IFRICORTH
       my_real, DIMENSION(:) ,POINTER  :: TABCOEF_FRIC
- 
+
       INTEGER,TARGET, DIMENSION(1):: TABCOUPLEPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: TABPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: ADPARTS_FRIC_BID
@@ -236,16 +236,16 @@ C
       INACTI=IPARI(22,NIN)
       ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       NISUB =IPARI(36,NIN)
       ICURV =IPARI(39,NIN)
       IEDGE = IPARI(58,NIN)
 
 C adaptive meshing
-      IADM =IPARI(44,NIN) 
-      NRADM=IPARI(49,NIN) 
+      IADM =IPARI(44,NIN)
+      NRADM=IPARI(49,NIN)
       PADM =INTBUF_TAB%VARIABLES(24)
       ANGLT=INTBUF_TAB%VARIABLES(25)
       MARGE=INTBUF_TAB%VARIABLES(25)
@@ -291,22 +291,22 @@ C
 C--- Corresponding Friction model  
       INTFRIC=IPARI(72,NIN)
       IORTHFRIC = 0
-      IF(INTFRIC /= 0) THEN 
+      IF(INTFRIC /= 0) THEN
          TABCOUPLEPARTS_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABCOUPLEPARTS_FRIC
          TABCOEF_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABCOEF_FRIC
          TABPARTS_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC
-         ADPARTS_FRIC   => INTBUF_FRIC_TAB(INTFRIC)%ADPARTS_FRIC 
-         XFILTR_FRIC   = INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC  
+         ADPARTS_FRIC   => INTBUF_FRIC_TAB(INTFRIC)%ADPARTS_FRIC
+         XFILTR_FRIC   = INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC
          NSETPRTS =   INTBUF_FRIC_TAB(INTFRIC)%NSETPRTS
          NPARTFRIC =   INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC
          IORTHFRIC = INTBUF_FRIC_TAB(INTFRIC)%IORTHFRIC
          IFRICORTH => INTBUF_FRIC_TAB(INTFRIC)%IFRICORTH
 c         MFROT    =   INTBUF_FRIC_TAB(INTFRIC)%FRICMOD  ! These Flags are already put in Ipari
-c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER 
+c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
       ELSE
          TABCOUPLEPARTS_FRIC  => TABCOUPLEPARTS_FRIC_BID
          TABPARTS_FRIC  => TABPARTS_FRIC_BID
-         TABCOEF_FRIC  => TABCOEF_FRIC_BID 
+         TABCOEF_FRIC  => TABCOEF_FRIC_BID
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
          IFRICORTH   => IFRICORTH_BID
          IF (IFQ/=0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
@@ -323,7 +323,7 @@ C-----T_FIT .OR. NCY_PFIT
         INTBUF_TAB%VARIABLES(15) = T_PFIT
        END IF
        IF (T_PFIT>ZERO) THEN
-        IF (TT <=(STARTT+T_PFIT)) THEN 
+        IF (TT <=(STARTT+T_PFIT)) THEN
          TNCY = (TT+EM05-STARTT)/T_PFIT
         ELSE
          IPARI(40,NIN)= 0
@@ -416,7 +416,7 @@ C
      .           C1='(/INTER/TYPE24)')
            CALL ARRET(2)
           ENDIF
-          
+
         ENDIF
 c
 c------------------------------------------------
@@ -436,13 +436,13 @@ C-------ISPT2 change    dimension NSN, initialis   au Starter
           CALL I24COR3(
      1  JLT       ,X          ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV  ,CAND_E_N  ,
      2  CAND_N_N  ,CAND_T_N   ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,
-     3  XX0       ,YY0        ,ZZ0       ,VX           ,VY           ,   
+     3  XX0       ,YY0        ,ZZ0       ,VX           ,VY           ,
      5  VZ        ,XI         ,YI        ,ZI           ,VXI          ,
      7  VYI       ,VZI        ,IXX       ,NSVG         ,INTBUF_TAB%NVOISIN,
      9  MS,MSI    ,NSN        ,V         ,KINET        ,
-     A  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,  
+     A  KINI      ,NTY        ,NIN       ,IGSTI        ,KMIN         ,
      B  KMAX      ,INTBUF_TAB%GAP_S,GAPS ,NODNX_SMS    ,NSMS         ,
-     C  ITRIV     ,INTBUF_TAB%XFIC,INTBUF_TAB%VFIC ,INTBUF_TAB%MSFIC  ,  
+     C  ITRIV     ,INTBUF_TAB%XFIC,INTBUF_TAB%VFIC ,INTBUF_TAB%MSFIC  ,
      D  INTBUF_TAB%IRTSE  ,INTBUF_TAB%IS2SE,INTBUF_TAB%IS2PT,INTBUF_TAB%ISEGPT,
      E  NSNE      ,INTBUF_TAB%IRTLM,NPT  ,NRTSE ,IEDG4,INTBUF_TAB%ISPT2,
      F  ISPT2_LOC ,INTFRIC    ,INTBUF_TAB%IPARTFRICS,IPARTFRICSI ,
@@ -451,16 +451,16 @@ C-------ISPT2 change    dimension NSN, initialis   au Starter
      I  IXX3     ,IXX4        , XX1       ,XX2         ,XX3          ,
      3  XX4      ,YY1         ,YY2        ,YY3         ,YY4          ,
      4  ZZ1      ,ZZ2         ,ZZ3        ,ZZ4         ,NINLOADP     ,
-     5  DIST     ) 
+     5  DIST     )
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
-     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY ) 
+     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY )
 
           JLT_NEW = 0
           IF(IMPL_S > 0 ) THEN
 	   CALL IMPL_SAV0(
-     1        JLT    ,CAND_N_N ,SUBTRIA_OLD ,INTBUF_TAB%IRTLM,NSN  ,NIN  ) 
+     1        JLT    ,CAND_N_N ,SUBTRIA_OLD ,INTBUF_TAB%IRTLM,NSN  ,NIN  )
           END IF!(IMPL_S > 0 ) THEN
 C
           CALL I24DST3(
@@ -481,7 +481,7 @@ C
      E ZZ0         ,VX          ,VY          ,VZ          ,IXX         ,
      F INTBUF_TAB%MVOISIN,PMAX_GAP,INTBUF_TAB%SECND_FR,INTBUF_TAB%GAP_M,
      . INTBUF_TAB%PENE_OLD,
-     G INTBUF_TAB%STIF_OLD,ITRIV      ,ITAB       ,CAND_T_N    ,IEDGE  ,      
+     G INTBUF_TAB%STIF_OLD,ITRIV      ,ITAB       ,CAND_T_N    ,IEDGE  ,
      H NFT         ,PENMIN      ,EPS        ,NM1         ,NM2          ,
      I NM3         ,INTPLY      ,INTBUF_TAB%DGAP_NM ,INTBUF_TAB%ICONT_I,
      J MARGE       ,IEDG4       ,ISPT2_LOC  ,IPARI(40,NIN))
@@ -499,15 +499,15 @@ C
      1                  JLT    ,CAND_N_N ,CAND_E_N ,INTBUF_TAB%IRTLM,STIF ,
      2                  PENE   ,SUBTRIA,NS_IMP ,NE_IMP ,IND_IMP,
      3                  NUM_IMP,JLT_NEW,INTBUF_TAB%NSV,SUBTRIA_OLD,
-     4                  INTBUF_TAB%MSEGLO,NSN    ,NIN   ,NRTM ) 
+     4                  INTBUF_TAB%MSEGLO,NSN    ,NIN   ,NRTM )
           ELSE
             DO I = 1 ,JLT
              IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
               JLT_NEW = JLT_NEW + 1
-              
+
              END IF
             ENDDO
-          ENDIF 
+          ENDIF
 C
           IF(NINLOADP==0.AND.JLT_NEW == 0)CYCLE
           IPARI(29,NIN) = 1
@@ -518,11 +518,11 @@ C
              CALL I24IPLY_PXFEM(
      1          JLT       ,CAND_E_N   ,INTBUF_TAB%MSEGTYP24     ,IX1     ,IX2 ,
      2          IX3      ,IX4          , PENE, MS_PLY     ,INOD_PXFEM   ,
-     3          IPLY     ,ITAB ) 
-          ENDIF   
+     3          IPLY     ,ITAB )
+          ENDIF
 
           IF (DEBUG(3)>=1) NB_JLT_NEW = NB_JLT_NEW + JLT_NEW
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1) 
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
 
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts
@@ -536,11 +536,11 @@ C-------------------------------------------------------------------------------
      3       FRIC          ,VISCF         ,INTBUF_TAB%FRIC_P,FRIC_COEFS, FRICC       ,
      4       VISCFFRIC     ,NTY           ,MFROT         ,IORTHFRIC    , FRIC_COEFS2 ,
      5       FRICC2        ,VISCFFRIC2    ,IFRICORTH     ,NFORTH       , NFISOT      ,
-     6       INDEXORTH     ,INDEXISOT     ,JJ            ,IREP_FRICMI  ,DIR_FRICMI   ,        
-     7       IXX3          ,IXX4          ,XX1           ,YY1          , ZZ1         , 
+     6       INDEXORTH     ,INDEXISOT     ,JJ            ,IREP_FRICMI  ,DIR_FRICMI   ,
+     7       IXX3          ,IXX4          ,XX1           ,YY1          , ZZ1         ,
      8       XX2           ,YY2           ,ZZ2           ,XX3          , YY3         ,
      9       ZZ3           ,XX4           ,YY4           ,ZZ4          ,CE_LOC       ,
-     A       DIR1          ,DIR2          ) 
+     A       DIR1          ,DIR2          )
         ELSE
             NFORTH = 0
             NFISOT = 0
@@ -551,9 +551,9 @@ C-------------------------------------------------------------------------------
      4       VISCFFRIC     ,NTY           ,MFROT         ,IORTHFRIC     ,IFRIC       ,
      5       JJ            , TINT         ,TEMPI         ,NPC           ,TF          ,
      6       TEMP          , H1           ,H2            ,H3            ,H4          ,
-     7       IX1          , IX2           ,IX3           ,IX4           ,IFORM       ) 
-        ENDIF 
-        IF(JTASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)      
+     7       IX1          , IX2           ,IX3           ,IX4           ,IFORM       )
+        ENDIF
+        IF(JTASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)
 
           CALL I24FOR3(
      1  JLT          ,A         ,V            ,IBC         ,ICODT    ,
@@ -568,7 +568,7 @@ C-------------------------------------------------------------------------------
      A  KINET        ,NEWFRONT  ,ISECIN       ,NSTRF       ,SECFCUM  ,
      B  X            ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT       ,IFQ  ,
      C  INTBUF_TAB%FRIC_P,INTBUF_TAB%SECND_FR,XFILTR_FRIC,
-     D  IBAG         ,ICONTACT ,INTBUF_TAB%IRTLM,       
+     D  IBAG         ,ICONTACT ,INTBUF_TAB%IRTLM,
      E  VISCN        ,VXI       ,VYI          ,VZI         ,MSI      ,
      F  KINI         ,NIN       ,NISUB        ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
      G  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,FSAVSUB,
@@ -592,9 +592,9 @@ C-------------------------------------------------------------------------------
      Y  TAGNCONT    ,KLOADPINTER ,LOADPINTER  ,LOADP_HYD_INTER,
      Z  INTBUF_TAB%TYPSUB,INTBUF_TAB%INFLG_SUBS,INTBUF_TAB%INFLG_SUBM,
      .                                      NINLOADP,DGAPLOADINT,
-     1  S_LOADPINTER, DIST       ,IXX         ) 
+     1  S_LOADPINTER, DIST       ,IXX         )
 C
-          IF(IMPL_S > 0 ) 
+          IF(IMPL_S > 0 )
      +     CALL IMPL_SAV1(
      1                  JLT    ,CAND_N_N ,CAND_E_N ,INTBUF_TAB%IRTLM,STIF ,
      2                  PENE   ,SUBTRIA,INTBUF_TAB_IMP(NIN)%CAND_N,
@@ -602,7 +602,7 @@ C
      3                  INTBUF_TAB_IMP(NIN)%I_STOK(1),
      2                  N1     ,N2     ,N3     ,H1     ,H2     ,H3     ,
      4                  H4     ,INTBUF_TAB_IMP(NIN)%NJ,INTBUF_TAB_IMP(NIN)%HJ    ,
-     5                  INTBUF_TAB_IMP(NIN)%STIF,NIN   ,NSN     ) 
+     5                  INTBUF_TAB_IMP(NIN)%STIF,NIN   ,NSN     )
           IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
 
       ENDDO
@@ -617,13 +617,13 @@ c
       INTBUF_TAB%VARIABLES(23) = MAX(PMAX_GAP,INTBUF_TAB%VARIABLES(23))
 #include "lockoff.inc"
 C        
-      IF(INTPLY > 0) THEN  
+      IF(INTPLY > 0) THEN
           CALL I24GAP_PXFEM(
      1    NRTM           ,INTBUF_TAB%IRECTM,INTBUF_TAB%IRTLM ,INTBUF_TAB%GAP_N0 ,
      2    INTBUF_TAB%MVOISIN ,INTBUF_TAB%NVOISIN,INTBUF_TAB%MSEGTYP24 ,INOD_PXFEM    ,
      3    X             ,MS_PLY        ,WAGAP        ,ITAB         ,
-     4    INTBUF_TAB%ISEG_PXFEM ,INTBUF_TAB%ISEG_PLY,INTBUF_TAB%STFM) 
-      ENDIF  !intply 
+     4    INTBUF_TAB%ISEG_PXFEM ,INTBUF_TAB%ISEG_PLY,INTBUF_TAB%STFM)
+      ENDIF  !intply
 C
 
 ccc      IF(NSNE > 0) CALL MY_BARRIER()
@@ -641,7 +641,7 @@ Chd|====================================================================
      1                  JLT    ,CAND_N ,CAND_E ,IRTLM  ,STIF   ,
      2                  PENE   ,SUBTRIA,NS_IMP ,NE_IMP ,IND_IMP,
      3                  NUM_IMP,JLT_NEW,NSV    ,SUBTRIA_OLD,
-     4                  MSEGLO ,NSN    ,NIN    ,NRTM  ) 
+     4                  MSEGLO ,NSN    ,NIN    ,NRTM  )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -676,7 +676,7 @@ C-----------------------------------------------
       INTEGER I,NS,NE,ITQ,NEG,J
 C----------------------------------------------------
             DO I = 1 ,JLT
-             IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN             
+             IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
               JLT_NEW = JLT_NEW + 1
               NS=CAND_N(I)
               NE=CAND_E(I)
@@ -706,7 +706,7 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE IMPL_SAV0(
-     1                  JLT    ,CAND_N ,SUBTRIA_OLD ,IRTLM  ,NSN ,NIN) 
+     1                  JLT    ,CAND_N ,SUBTRIA_OLD ,IRTLM  ,NSN ,NIN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -751,7 +751,7 @@ Chd|        I24MAINF                      source/interfaces/int24/i24main.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I24CDCOR3(JLT,INDEX,CAND_E,CAND_N,CAND_T,
-     .                    CAND_E_N,CAND_N_N,CAND_T_N,IEDGE)      
+     .                    CAND_E_N,CAND_N_N,CAND_T_N,IEDGE)
 C============================================================================
 C============================================================================
 C-----------------------------------------------
@@ -773,7 +773,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
 C-----------------------------------------------
 C
       DO I=1,JLT
@@ -801,7 +801,7 @@ Chd|====================================================================
      2                  PENE   ,SUBTRIA,NS_IMP ,NE_IMP ,IND_IMP,
      3                  II_STOK,N1     ,N2     ,N3     ,H1     ,
      4                  H2     ,H3     ,H4      ,NJ_IMP ,HJ_IMP,
-     5                  STIF_IMP,NIN   ,NSN     ) 
+     5                  STIF_IMP,NIN   ,NSN     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -836,8 +836,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NS,NE,ITQ,NEG,J,K_STOK,J_STOK,IC(4,4)
-      DATA IC / 
-     1    3, 4, 1, 2, 
+      DATA IC /
+     1    3, 4, 1, 2,
      2    4, 1, 2, 3,
      3    1, 2, 3, 4,
      4    2, 3, 4, 1/
@@ -853,7 +853,7 @@ C
       II_STOK   = J_STOK + K_STOK
 #include "lockoff.inc"
             DO I = 1 ,JLT
-             IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN             
+             IF(PENE(I)/=ZERO.AND.STIF(I)/=ZERO)THEN
               J_STOK = J_STOK + 1
               NS=CAND_N(I)
               NE=CAND_E(I)

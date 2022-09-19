@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        INIT_TH                       source/output/th/init_th.F    
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE THSPH_COUNT(NTHGRP2, ITHGRP, WA_SIZE, INDEX_WA_SPH, 
+      SUBROUTINE THSPH_COUNT(NTHGRP2, ITHGRP, WA_SIZE, INDEX_WA_SPH,
      .                       IPARG  , ITHBUF )
 C-----------------------------------------------
 C   M o d u l e s
@@ -58,10 +58,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER II,JJ, I, J, N, IH, NG, 
+      INTEGER II,JJ, I, J, N, IH, NG,
      .        K, IST, IP, L, LWA, NEL,KK(6)
       INTEGER :: J_FIRST,NITER,IADR,NN,IADV,NVAR,ITYP,IJK
-      INTEGER, DIMENSION(NTHGRP2) :: INDEX_SPH 
+      INTEGER, DIMENSION(NTHGRP2) :: INDEX_SPH
 C-----------------------------------------------
 C   S o u r c e    L i n e s
 C-----------------------------------------------
@@ -78,18 +78,18 @@ C-----------------------------------------------
             IF(ITYP==51)THEN
 
                 II=0
-                IH=IADR                          
-                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))               
-                    IH = IH + 1                           
-                ENDDO                                   
-                IF (IH>=IADR+NN) GOTO 666               
+                IH=IADR
+                DO WHILE((ITHBUF(IH+NN)/=ISPMD).AND.(IH<IADR+NN))
+                    IH = IH + 1
+                ENDDO
+                IF (IH>=IADR+NN) GOTO 666
 C-------------------
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
 c
                     IF(ITY==51.OR.ITY==52) THEN
-                        NEL = IPARG(2,NG)  
-                        NFT = IPARG(3,NG) 
+                        NEL = IPARG(2,NG)
+                        NFT = IPARG(3,NG)
                         DO I=1,6
                             KK(I) = NEL*(I-1)
                         ENDDO

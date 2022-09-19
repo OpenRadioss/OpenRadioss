@@ -45,7 +45,7 @@ C-----------------------------------------------
       INTEGER NODFT, NODLT, IFLAG
       INTEGER NODREAC(*)
       my_real
-     .   A(3,NUMNOD) , AR(3,NUMNOD), MS(NUMNOD), IN(IRODDL*NUMNOD), 
+     .   A(3,NUMNOD) , AR(3,NUMNOD), MS(NUMNOD), IN(IRODDL*NUMNOD),
      .   FTHREAC(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      
+
       !-------------------------------------------------------------!
       !       COMPUTE REACTION FORCES for /TH/NODE (FINALIZATION)   !
       !-------------------------------------------------------------!

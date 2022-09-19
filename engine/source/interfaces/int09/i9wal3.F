@@ -44,7 +44,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C     REAL
      .   T3X, T3Y, T3Z, STENSX, STENSY, STENSZ,
      .   COMAREA(ISIZEM+ISIZES),COMSTF(ISIZEM+ISIZES),
      .   COMT(ISIZEM+ISIZES),COMVOL(ISIZEM+ISIZES),COMBUF(ISIZEM+ISIZES)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 c
       DATA IPERM/ 4, 1, 2, 3, 4, 1/
 C-----------------------------------------------
@@ -449,7 +449,7 @@ C
          IF(IELEM(L)>0) THEN
            IGROU = ICOMNGR(II)
            IELN  = ICOMNEL(II)
-           ELBUF_TAB(IGROU)%GBUF%EINT(IELN) = 
+           ELBUF_TAB(IGROU)%GBUF%EINT(IELN) =
      .     ELBUF_TAB(IGROU)%GBUF%EINT(IELN) + COMBUF(II)
          ENDIF
        ENDDO
@@ -459,7 +459,7 @@ C
          IF(IELES(L)>0) THEN
            IGROU = ICOMNGR(IM+II)
            IELN  = ICOMNEL(IM+II)
-           ELBUF_TAB(IGROU)%GBUF%EINT(IELN) = 
+           ELBUF_TAB(IGROU)%GBUF%EINT(IELN) =
      .     ELBUF_TAB(IGROU)%GBUF%EINT(IELN) + COMBUF(IM+II)
          ENDIF
        ENDDO

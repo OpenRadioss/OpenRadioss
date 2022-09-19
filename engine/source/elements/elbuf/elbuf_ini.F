@@ -29,12 +29,12 @@ Chd|        ALLOCBUF_AUTO                 source/elements/elbuf/allocbuf_auto.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|        ELBUF_MOD                     share/modules/elbuf_mod.F     
 Chd|====================================================================
-      SUBROUTINE ELBUF_INI(NGROUP, IPARG)  
+      SUBROUTINE ELBUF_INI(NGROUP, IPARG)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE ELBUF_MOD            
+      USE ELBUFDEF_MOD
+      USE ELBUF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ERR,NG,BUFLEN,ITY,NPT,IXFEM,IXEL,ISNOD,NEWLEN,INLOC
 C=======================================================================
-c      Element Buffer Routine (Solid) 
+c      Element Buffer Routine (Solid)
 c------
 c      1) taille du tableau ELBUF pour restart
 c      2) allocation de la structure ELBUF_STR
@@ -63,11 +63,11 @@ C=======================================================================
       ERR = 0
       ALLOCATE (ELBUF_TAB(NGROUP), STAT=ERR)
       IF (ERR /= 0) THEN
-      ENDIF 
+      ENDIF
 c-------------------------------------------------
-      DO NG = 1,NGROUP                                                 
+      DO NG = 1,NGROUP
         ITY    = IPARG(5,NG)
-        NPT    = IPARG(6,NG)                                   
+        NPT    = IPARG(6,NG)
         BUFLEN = IPARG(66,NG)
         IXFEM  = IPARG(54,NG)
         INLOC  = IPARG(78,NG)
@@ -101,7 +101,7 @@ c        ENDIF
             INLOC  = IPARG(78,NG)
             NEWLEN = BUFLEN
 c----
-c      if xfem, count buffer's length only in the groups with xfem phantom elements  
+c      if xfem, count buffer's length only in the groups with xfem phantom elements
 c----
             IF (IXFEM > 0 .and. (ITY==3 .or. ITY==7)) THEN
               CALL ALLOCBUF_AUTO(XFEM_TAB(NG,IXEL),BUFLEN,NPT,ITY,ISNOD,NEWLEN,INLOC)
@@ -110,7 +110,7 @@ c----
           ENDDO
         ENDDO
       ELSE
-        ALLOCATE (XFEM_TAB(0,0), STAT=ERR)  
+        ALLOCATE (XFEM_TAB(0,0), STAT=ERR)
       ENDIF
 C-----------
       RETURN

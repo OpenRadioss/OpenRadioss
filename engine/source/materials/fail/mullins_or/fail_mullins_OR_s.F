@@ -30,7 +30,7 @@ Chd|        MULLINS_OR                    source/materials/fail/mullins_or/fail_
 Chd|====================================================================
       SUBROUTINE FAIL_MULLINS_OR_S(
      1     NEL    ,NUPARAM  ,NUVAR   ,NPF    ,TF     ,
-     2     TIME   ,TIMESTEP ,UPARAM  ,NGL    ,  
+     2     TIME   ,TIMESTEP ,UPARAM  ,NGL    ,
      3     MAT    ,SIGNXX   ,SIGNYY  ,SIGNZZ ,SIGNXY  ,
      4     SIGNYZ ,SIGNZX   ,UVAR    ,OFF    ,IP     ,
      5     DFMAX  ,WW)
@@ -84,7 +84,7 @@ C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real, DIMENSION(NEL), INTENT(INOUT) :: SIGNXX,
      .   SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX,DFMAX, OFF
-      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR      
+      my_real, DIMENSION(NEL,NUVAR), INTENT(INOUT) :: UVAR
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
@@ -94,21 +94,21 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,K,IR,IADBUF,NINDX,IFAIL
-      INTEGER, DIMENSION(NEL) :: 
+      INTEGER, DIMENSION(NEL) ::
      .   INDX
 C
 
-      my_real 
+      my_real
      .    COEFR, BETAF ,COEFM,SXX,SYY,SZZ,TRACE,ETA(NEL)
 C=======================================================================
 C     INITIALIZATIONS
 C-----------------------------------------------
-      COEFR = UPARAM(1)    
-      BETAF = UPARAM(2)    
-      COEFM = UPARAM(3)   
+      COEFR = UPARAM(1)
+      BETAF = UPARAM(2)
+      COEFM = UPARAM(3)
 
        CALL MULLINS_OR(
-     1                NEL  ,NUVAR,  COEFR,BETAF , 
+     1                NEL  ,NUVAR,  COEFR,BETAF ,
      2                COEFM,WW  , UVAR, ETA )
 
 c-----------------------------------------------
@@ -122,13 +122,13 @@ c-----------------------------------------------
        SIGNZZ(I) = ETA(I) * SZZ + TRACE
 
        SIGNXY(I) = ETA(I) * SIGNXY(I)
-       SIGNYZ(I) = ETA(I) * SIGNYZ(I) 
-       SIGNZX(I) = ETA(I) * SIGNZX(I) 
+       SIGNYZ(I) = ETA(I) * SIGNYZ(I)
+       SIGNZX(I) = ETA(I) * SIGNZX(I)
 
-      ENDDO 
+      ENDDO
 
 
-c-----------           
+c-----------
       RETURN
       END
 Chd|====================================================================
@@ -182,7 +182,7 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) ::  NEL,NUVAR
-      my_real, INTENT(IN) ::  COEFR,BETAF ,COEFM 
+      my_real, INTENT(IN) ::  COEFR,BETAF ,COEFM
       my_real, DIMENSION(NEL), INTENT(IN) :: WW
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
@@ -199,27 +199,27 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,JJ,K,IR,IADBUF,NINDX,IFAIL
-      INTEGER, DIMENSION(NEL) :: 
+      INTEGER, DIMENSION(NEL) ::
      .   INDX
 C
       my_real, DIMENSION(NEL)  ::  WMAX
       my_real :: DF12, DF23, DF13,TERM
 C=======================================================================
-      DO I = 1, NEL 
+      DO I = 1, NEL
        WMAX(I)  = MAX (UVAR(I,1),WW(I))
        UVAR(I,1)= WMAX(I)
-      ENDDO 
+      ENDDO
       DO I=1,NEL !erf(x) computes the error function of x integral from 0 to x
 
         TERM = ERF((WMAX(I) - WW(I))/(COEFM + BETAF *WMAX(I)))
 
-        ETA(I) = ONE - TERM/COEFR 
-      ENDDO 
+        ETA(I) = ONE - TERM/COEFR
+      ENDDO
 
 C-----------------------------------------------
 
 
-c-----------           
+c-----------
       RETURN
       END
 

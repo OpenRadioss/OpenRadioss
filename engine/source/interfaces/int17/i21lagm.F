@@ -58,7 +58,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NC,I_STOK,N_MUL_MX,ITASK,ITIED,NINT,NKMAX ,
      .  LLL(*),JLL(*),SLL(*),CANDN(*),CANDE(*),COMNTAG(*),
-     .  IXS(NIXS,*),IXS20(12,*),IADLL(*),NSV(*)  ,NELEM(*) 
+     .  IXS(NIXS,*),IXS20(12,*),IADLL(*),NSV(*)  ,NELEM(*)
 C     REAL
       my_real
      .  X(3,*),V(3,*),XLL(*),
@@ -236,7 +236,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER LLT,NC,N_MUL_MX,ITIED,NINT ,NKMAX   
+      INTEGER LLT,NC,N_MUL_MX,ITIED,NINT ,NKMAX
       INTEGER LLL(*),JLL(*),SLL(*),COMNTAG(*),
      .        III(MVSIZ,21),IADLL(*)
 C     REAL
@@ -254,7 +254,7 @@ C-----------------------------------------------
      .   R(MVSIZ),S(MVSIZ),T(MVSIZ),
      .   NSX(MVSIZ), NSY(MVSIZ), NSZ(MVSIZ),
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ),
-     .   NI(MVSIZ,21) 
+     .   NI(MVSIZ,21)
 C-----------------------------------------------
 C      calcul de r,s,t
 C-----------------------------------------------

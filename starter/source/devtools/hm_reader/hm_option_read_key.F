@@ -261,7 +261,7 @@ C     KEYWORD4        OPTIONAL : KEYWORD4 OF THE OPTION
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -309,14 +309,14 @@ C=======================================================================
       IF(PRESENT(OPT_POS)) MY_POSITION=OPT_POS
 C--------------------------------------------------
       CALL CPP_OPTION_READ(TMP_OPTION_ID,TMP_UNIT_ID,TMP_SUBMODEL_INDEX,KEYWORD,S_KEYWORD,
-     .                      TITR_TMP,S_TITR_TMP,OFFSET_CATEGORY,MY_POSITION) 
+     .                      TITR_TMP,S_TITR_TMP,OFFSET_CATEGORY,MY_POSITION)
 C--------------------------------------------------
       IF(PRESENT(OPTION_ID)) OPTION_ID = TMP_OPTION_ID
       IF(PRESENT(UNIT_ID)) UNIT_ID = TMP_UNIT_ID
       IF(PRESENT(SUBMODEL_INDEX)) SUBMODEL_INDEX = TMP_SUBMODEL_INDEX
       IF(PRESENT(SUBMODEL_ID)) THEN
         IF(TMP_SUBMODEL_INDEX /= 0) THEN
-          SUBMODEL_ID = LSUBMODEL(TMP_SUBMODEL_INDEX)%NOSUBMOD 
+          SUBMODEL_ID = LSUBMODEL(TMP_SUBMODEL_INDEX)%NOSUBMOD
         ELSE
           SUBMODEL_ID = 0
         ENDIF
@@ -325,7 +325,7 @@ C--------------------------------------------------
 C--------------------------------------------------
       CPT  = 2
       CPT1 = 2
-      CPT2 = 2 
+      CPT2 = 2
       IOK = 0
 
       DO WHILE (CPT < ncharline .AND. IOK == 0)

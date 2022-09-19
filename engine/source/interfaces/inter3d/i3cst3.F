@@ -82,7 +82,7 @@ C-----------------------------------------------
       my_real
      .     A12(MVSIZ), A23(MVSIZ), A34(MVSIZ), A41(MVSIZ),
      .     B12(MVSIZ), B23(MVSIZ), B34(MVSIZ), B41(MVSIZ),
-     .     AB1(MVSIZ), AB2(MVSIZ), AN     
+     .     AB1(MVSIZ), AB2(MVSIZ), AN
 C-----------------------------------------------
 !      EQUIVALENCE (X1,BV(1,1)) ,(Y1,BV(1,2)) ,(Z1,BV(1,3))
 !      EQUIVALENCE (X2,BV(1,4)) ,(Y2,BV(1,5)) ,(Z2,BV(1,6))

@@ -74,14 +74,14 @@ C-----------------------------------------------
       my_real            ,DIMENSION(3,NUMNOD)  ,INTENT(IN) :: X
       my_real            ,DIMENSION(LSKEW,*)   ,INTENT(IN) :: SKEW
       my_real            ,DIMENSION(NTRANSF,*) ,INTENT(IN) :: RTRANS
-      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)                        ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA),DIMENSION(*) ,INTENT(IN) :: LSUBMODEL
       TYPE (BOX_)  , DIMENSION(NBBOX)  :: IBOX
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,J,N1,N2,UID,BOXID,SUB_ID,SKEW_ID,ISK,IUNIT,FLAGUNIT,
-     .           SUB_INDEX 
+     .           SUB_INDEX
       my_real :: FAC_L,XP1,YP1,ZP1,XP2,YP2,ZP2
       CHARACTER(ncharkey)    :: KEY
       CHARACTER(nchartitle)  :: TITR,MESS
@@ -142,7 +142,7 @@ c-----------------------
      .                  I2= UID  ,I1=BOXID,
      .                  C1='BOX' ,
      .                  C2='BOX' ,
-     .                  C3='TITR')                              
+     .                  C3='TITR')
           ENDIF
         ENDIF
 c-----------------------
@@ -166,12 +166,12 @@ c-----------------------
         IF (SKEW_ID == 0 .and. SUB_ID > 0) SKEW_ID = LSUBMODEL(SUB_INDEX)%SKEW
         ISK = 0
         IF (SKEW_ID > 0) THEN
-          DO J=1,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD       
-            IF (ISKN(4,J+1) == SKEW_ID) THEN 
-              ISK = J                     
-              EXIT                        
-            END IF                        
-          END DO                          
+          DO J=1,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
+            IF (ISKN(4,J+1) == SKEW_ID) THEN
+              ISK = J
+              EXIT
+            END IF
+          END DO
           IF (ISK == 0) THEN
             CALL ANCMSG(MSGID=748,  MSGTYPE=MSGERROR,
      .                              ANMODE=ANINFO_BLIND_1,

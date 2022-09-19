@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT33(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,MATPARAM )
 C-----------------------------------------------
@@ -61,10 +61,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -84,8 +84,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -100,7 +100,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KEN,IFN1,IFN2,IFN3,IFN4,IFN5,IFN6,ICASE
 
-      my_real 
+      my_real
      .  E,A,B,C,P0,PHI,GAMA0,FAC,SIGT_COFF
 
       my_real C1,C2,ET,VMU,VMU0
@@ -114,7 +114,7 @@ C-----------------------------------------------
       my_real C1YZ,C2YZ,GTYZ,VMUYZ
       my_real C1ZX,C2ZX,GTZX,VMUZX
       my_real FAC_UNIT,RHO0,RHOR,FAC1
-      
+
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -129,14 +129,14 @@ C-----------------------------------------------
 
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'    ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_E'        ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_INTV  ('Itype'        ,KEN      ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('FUN_A1'       ,IFN1     ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('Itype'        ,KEN      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_A1'       ,IFN1     ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('IFscale'      ,FAC      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV_DIM('IFscale'  ,FAC_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV_DIM('IFscale'  ,FAC_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !hidden param/flag
-      !CALL HM_GET_INTV  ('IFORM'       ,IFN2     ,IS_AVAILABLE, LSUBMODEL) 
+      !CALL HM_GET_INTV  ('IFORM'       ,IFN2     ,IS_AVAILABLE, LSUBMODEL)
       !CALL HM_GET_FLOATV('MAT_RHO'     ,FAC1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       IFN2=0
       FAC1=ZERO
@@ -144,19 +144,19 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_P0'       ,P0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_PHI'      ,PHI      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_GAMA0'    ,GAMA0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-  
+
       IF (FAC == ZERO) FAC = ONE * FAC_UNIT
-      !hiddent no longer supported 
+      !hiddent no longer supported
       !FAC1 = ONE / FAC_UNIT
       PARMAT(1)=E
-      
+
       IF(RHOR==ZERO)RHOR=RHO0
       PM(01)=RHOR
       PM(89)=RHO0
       ICASE = ABS(KEN)+1
-      SELECT CASE (ICASE) 
+      SELECT CASE (ICASE)
 C-------------
-        CASE(1,3)      
+        CASE(1,3)
 C-------------
 c       KEN = 0 or KEN = 2
 C-------------
@@ -168,7 +168,7 @@ C-------------
           CALL HM_GET_FLOATV('MAT_SIGT_CUTOFF'    ,SIGT_COFF    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 !!
           IF(SIGT_COFF == ZERO) SIGT_COFF = EP20
-          UPARAM(1)=KEN    
+          UPARAM(1)=KEN
           UPARAM(2)=E
           UPARAM(3)=A
           UPARAM(4)=B
@@ -183,17 +183,17 @@ C-------------
           IFUNC(1)=IFN1
           IFUNC(2)=IFN2
           NFUNC=2
-!      
+!
            WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
            WRITE(IOUT,1000)
 
            IF(IS_ENCRYPTED)THEN
              WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
            ELSE
-             WRITE(IOUT,1002) RHO0           
+             WRITE(IOUT,1002) RHO0
              WRITE(IOUT,1200) E,KEN,IFN1,FAC,IFN2,FAC1,
      &             A,B,C,SIGT_COFF,P0,PHI,GAMA0
-          ENDIF 
+          ENDIF
 C-------------
        CASE(2)
 C-------------
@@ -217,7 +217,7 @@ C-------------
      .                   I1=MAT_ID,
      .                   C1=TITR)
           ENDIF
-          UPARAM(1)=KEN    
+          UPARAM(1)=KEN
           UPARAM(2)=E
           UPARAM(3)=A
           UPARAM(4)=B
@@ -240,20 +240,20 @@ C-------------
 C
 C     Formulation for solid elements time step computation.
          PARMAT(16) = 2
-         PARMAT(17) =  ONE 
+         PARMAT(17) =  ONE
 c-----------------
          CALL INIT_MAT_KEYWORD(MATPARAM,"COMPRESSIBLE")
 c-----------------
-          WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33        
-          WRITE(IOUT,1000)                             
-          IF(IS_ENCRYPTED)THEN                           
-            WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA' 
-          ELSE                                         
-            WRITE(IOUT,1100) E,KEN,IFN1,FAC,IFN2,FAC1, 
-     &                 C1,C2,ET,VMU,VMU0,          
-     &                 A,B,C,P0,PHI,GAMA0          
-          ENDIF                                       
-      END SELECT 
+          WRITE(IOUT,1001) TRIM(TITR),MAT_ID,33
+          WRITE(IOUT,1000)
+          IF(IS_ENCRYPTED)THEN
+            WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
+          ELSE
+            WRITE(IOUT,1100) E,KEN,IFN1,FAC,IFN2,FAC1,
+     &                 C1,C2,ET,VMU,VMU0,
+     &                 A,B,C,P0,PHI,GAMA0
+          ENDIF
+      END SELECT
       RETURN
 C              12345678901234567890123456789012345678901
  1000 FORMAT

@@ -32,7 +32,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   , NGL     ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -85,7 +85,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -104,7 +104,7 @@ C----------------------------------------------------------------
      .   DIRPRV(MVSIZ,3,3),EVD(3),C0(3),D(3),INVR,ETI,ET1,ET2,ET3,
      .   EV2(3),CLAM(3),LAM_2(3),LAM_4(3),AMAX,CLP
       my_real ,DIMENSION(NEL,3) :: EVM,CII
-      my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX,TRAC3 
+      my_real ,DIMENSION(NEL)   :: GTMAX,RKMAX,TRAC3
 C----------------------------------------------------------------
 C material parameters
         G        = UPARAM(1)
@@ -113,11 +113,11 @@ C material parameters
         C0(2)    = UPARAM(5)
         C0(3)    = UPARAM(6)
 C        
-        D(1)     = UPARAM(7) 
+        D(1)     = UPARAM(7)
         D(2)     = UPARAM(8)
-        D(3)     = UPARAM(9)  
+        D(3)     = UPARAM(9)
 
-        
+
 C iniialisation des variabesl users 
 
       IF(TIME==ZERO)THEN
@@ -126,7 +126,7 @@ C iniialisation des variabesl users
          UVAR(I,J) = ZERO
         ENDDO
        ENDDO
-      ENDIF   
+      ENDIF
 C           
       DO I=1,NEL
        AV(I,1)=EPSXX(I)
@@ -135,7 +135,7 @@ C
        AV(I,4)=EPSXY(I)/2
        AV(I,5)=EPSYZ(I)/2
        AV(I,6)=EPSZX(I)/2
-      ENDDO       
+      ENDDO
 CEigenvalues needed to be calcultated in double precision
 C        for a simple precision executing
       IF (IRESP==1) THEN
@@ -153,7 +153,7 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,1)=EXP(EVV(I,1))
          EV(I,2)=EXP(EVV(I,2))
          EV(I,3)=EXP(EVV(I,3))
-        ENDDO 
+        ENDDO
       ELSEIF(ISMSTR==10) THEN
         DO I =1,NEL
         IF(OFFG(I)<=ONE) THEN
@@ -165,14 +165,14 @@ C ---- (STRAIN IS LOGARITHMIC)
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
         END IF
-        ENDDO 
+        ENDDO
       ELSE
 C ----  STRAIN IS ENGINEERING)
         DO I=1,NEL
          EV(I,1)=EVV(I,1)+ ONE
          EV(I,2)=EVV(I,2)+ ONE
          EV(I,3)=EVV(I,3)+ ONE
-        ENDDO 
+        ENDDO
       ENDIF
 
       IF (IMPL_S > 0 .OR. IHET > 1) THEN
@@ -182,8 +182,8 @@ C
          EV2(2) = EV(I,2)*EV(I,2)
          EV2(3) = EV(I,3)*EV(I,3)
 C
-         TRACE = EV2(1) + EV2(2) + EV2(3)  
-         AA = (TRACE - THREE) 
+         TRACE = EV2(1) + EV2(2) + EV2(3)
+         AA = (TRACE - THREE)
          BB = AA*AA
          CC =  (C0(1) + TWO*C0(2)*AA + THREE*C0(3)*BB)
          ET1 = EV2(1)*CC + EV2(1)**2*(TWO*C0(2) + SIX*C0(3)*AA)
@@ -210,35 +210,35 @@ C----THERM STRESS COMPUTATION-----
 C---------------- 
       DO I = 1,NEL
          INVR = ONE/(MAX(RV(I), EM20))
-         
+
 !         RVD   = RV**(-THIRD)
          ! if rv > 0 --> rvd = exp(-third * ln(rv))
          ! else      --> rvd = 0
          RVD = ZERO
          IF(RV(I) > ZERO) RVD = EXP((-THIRD)*LOG(RV(I)))
-         
+
          EVD(1) = EV(I,1)*RVD
          EVD(2) = EV(I,2)*RVD
          EVD(3) = EV(I,3)*RVD
          EVM(I,1:3) = EVD(1:3)
 C         
-         TRACE = EVD(1)*EVD(1) + EVD(2)*EVD(2) + EVD(3)*EVD(3)                  
+         TRACE = EVD(1)*EVD(1) + EVD(2)*EVD(2) + EVD(3)*EVD(3)
          L1DI1LAM1 = TWO*(EVD(1)**2 - THIRD*TRACE)
          L2DI1LAM2 = TWO*(EVD(2)**2 - THIRD*TRACE)
-         L3DI1LAM3 = TWO*(EVD(3)**2 - THIRD*TRACE) 
-         
-         AA = (TRACE - THREE) 
+         L3DI1LAM3 = TWO*(EVD(3)**2 - THIRD*TRACE)
+
+         AA = (TRACE - THREE)
          BB = AA*AA
          CC =  (C0(1) + TWO*C0(2)*AA + THREE*C0(3)*BB)*INVR
          TRAC3(I) = AA
 C             
-         
+
          T1(I) =  L1DI1LAM1*CC
          T2(I) =  L2DI1LAM2*CC
          T3(I) =  L3DI1LAM3*CC
 C RBilk = 2/D          
          P = RBULK*(RV(I) - ONE) + FOUR*D(2)*(RV(I) - ONE)**3 + SIX*D(3)*(RV(I) - ONE)**5
-         
+
          T1(I) = T1(I) + P
          T2(I) = T2(I) + P
          T3(I) = T3(I) + P
@@ -265,7 +265,7 @@ c----compute GT_MAX
           DO I=1,NEL
            AMAX= MAX(CII(I,1),CII(I,2),CII(I,3))
 C---------reduce old result change		   
-           ETI = MAX(ONE,AMAX*0.81) 
+           ETI = MAX(ONE,AMAX*0.81)
            GTMAX(I) = G*ETI
 C---- see if many QA return for HEPH 		   
            RKMAX(I) = RBULK+TWELVE*D(2)*(RV(I) - ONE)**2 + 30*D(3)*(RV(I) - ONE)**4
@@ -277,23 +277,23 @@ C cauchy to glabale
         SIGNXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*T1(I)
      .            + DIRPRV(I,1,2)*DIRPRV(I,1,2)*T2(I)
      .            + DIRPRV(I,1,3)*DIRPRV(I,1,3)*T3(I)
-     
+
         SIGNYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*T2(I)
      .            + DIRPRV(I,2,3)*DIRPRV(I,2,3)*T3(I)
      .            + DIRPRV(I,2,1)*DIRPRV(I,2,1)*T1(I)
-     
-        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*T3(I)        
+
+        SIGNZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*T3(I)
      .            + DIRPRV(I,3,1)*DIRPRV(I,3,1)*T1(I)
      .            + DIRPRV(I,3,2)*DIRPRV(I,3,2)*T2(I)
-     
+
         SIGNXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*T1(I)
-     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*T2(I)     
+     .            + DIRPRV(I,1,2)*DIRPRV(I,2,2)*T2(I)
      .            + DIRPRV(I,1,3)*DIRPRV(I,2,3)*T3(I)
-     
+
         SIGNYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*T2(I)
      .            + DIRPRV(I,2,3)*DIRPRV(I,3,3)*T3(I)
      .            + DIRPRV(I,2,1)*DIRPRV(I,3,1)*T1(I)
-     
+
         SIGNZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*T3(I)
      .            + DIRPRV(I,3,1)*DIRPRV(I,1,1)*T1(I)
      .            + DIRPRV(I,3,2)*DIRPRV(I,1,2)*T2(I)

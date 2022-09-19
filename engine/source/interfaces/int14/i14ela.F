@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER NSC, NSP, KSURF,KSI(*),
      .        IMPACT(*), NLO, NPC(*)
 C     REAL
-      my_real 
+      my_real
      .  BUFSF(*),KSC(*)    ,KSP(*)   ,STFAC , GAPMIN,
      .  X(3,*)  , CIMP(3,*),NIMP(3,*),PLD(*),WF(*)  ,
      .  STF
@@ -88,7 +88,7 @@ C-----------------------------------------------
       CN=C**DGR
       AN=ONE/AN
       BN=ONE/BN
-      CN=ONE/CN      
+      CN=ONE/CN
       DO I=1,9
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
@@ -122,7 +122,7 @@ C-------------------------------
       IN=KSI(IL)
 C-------------------------------
       XPVN1 =XPV(1,I)**(DGR-1)
-      SGNXN=-ONE      
+      SGNXN=-ONE
       IF (XPVN1*XPV(1,I)>=ZERO) SGNXN=ONE
       YPVN1 =XPV(2,I)**(DGR-1)
       SGNYN=-ONE
@@ -245,7 +245,7 @@ C-----------------------------------------------
       IF (NLO/=0) THEN
        FNORMX=ZERO
        FNORMY=ZERO
-       FNORMZ=ZERO     
+       FNORMZ=ZERO
        DO I=1,NSC
        IL=KSC(I)
        IN=KSI(IL)

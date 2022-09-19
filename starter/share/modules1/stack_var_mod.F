@@ -39,10 +39,10 @@ C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
 C---------------------------------------------   
-       TYPE(STACK_INFO_ ) , DIMENSION(:), POINTER :: STACK_INFO  
-       INTEGER, DIMENSION (:), ALLOCATABLE :: NUMGEOSTACK  
-       INTEGER, DIMENSION (:,:), ALLOCATABLE :: PLY_INFO  
-       INTEGER NPROP_STACK      
+       TYPE(STACK_INFO_ ) , DIMENSION(:), POINTER :: STACK_INFO
+       INTEGER, DIMENSION (:), ALLOCATABLE :: NUMGEOSTACK
+       INTEGER, DIMENSION (:,:), ALLOCATABLE :: PLY_INFO
+       INTEGER NPROP_STACK
 C      
       END MODULE STACK_VAR_MOD
 

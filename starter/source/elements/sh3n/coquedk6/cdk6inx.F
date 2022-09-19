@@ -77,15 +77,15 @@ C
        IF (IXTG1(1,I)==0.OR.IXTG1(2,I)==0
      .     .OR.IXTG1(3,I)==0) THEN
         II=IXTG1(4,I)
-        N1= IXTG(2,II)  
-        N2= IXTG(3,II)  
+        N1= IXTG(2,II)
+        N2= IXTG(3,II)
         N3= IXTG(4,II)
 C        IMIN= MIN(N1,N2,N3)
 C        IMAX= MAX(N1,N2,N3)
-        DO J =I+1,NUMELTG6 
+        DO J =I+1,NUMELTG6
          JJ=IXTG1(4,J)
-         NJ1= IXTG(2,JJ)  
-         NJ2= IXTG(3,JJ)  
+         NJ1= IXTG(2,JJ)
+         NJ2= IXTG(3,JJ)
          NJ3= IXTG(4,JJ)
 C         JMIN= MIN(NJ1,NJ2,NJ3)
 C         JMAX= MAX(NJ1,NJ2,NJ3)
@@ -95,60 +95,60 @@ C---------   ligne 1----------
             IF (ABS(N1-N2)==ABS(NJ1-NJ2)) THEN
              IXTG1(1,I) = NJ3
              IXTG1(1,J) = N3
-            ENDIF 
+            ENDIF
            ELSEIF ((N1+N2)==(NJ2+NJ3)) THEN
             IF (ABS(N1-N2)==ABS(NJ2-NJ3)) THEN
              IXTG1(1,I) = NJ1
              IXTG1(2,J) = N3
-            ENDIF 
+            ENDIF
            ELSEIF ((N1+N2)==(NJ3+NJ1)) THEN
             IF (ABS(N1-N2)==ABS(NJ3-NJ1)) THEN
              IXTG1(1,I) = NJ2
              IXTG1(3,J) = N3
-            ENDIF 
-           ENDIF 
-          ENDIF 
+            ENDIF
+           ENDIF
+          ENDIF
 C---------   ligne 2----------
           IF (IXTG1(2,I)==0) THEN
            IF ((N2+N3)==(NJ1+NJ2)) THEN
             IF (ABS(N2-N3)==ABS(NJ1-NJ2)) THEN
              IXTG1(2,I) = NJ3
              IXTG1(1,J) = N1
-            ENDIF 
+            ENDIF
            ELSEIF ((N2+N3)==(NJ2+NJ3)) THEN
             IF (ABS(N2-N3)==ABS(NJ2-NJ3)) THEN
              IXTG1(2,I) = NJ1
              IXTG1(2,J) = N1
-            ENDIF 
+            ENDIF
            ELSEIF ((N2+N3)==(NJ3+NJ1)) THEN
             IF (ABS(N2-N3)==ABS(NJ3-NJ1)) THEN
              IXTG1(2,I) = NJ2
              IXTG1(3,J) = N1
-            ENDIF 
-           ENDIF 
-          ENDIF 
+            ENDIF
+           ENDIF
+          ENDIF
 C---------   ligne 3----------
           IF (IXTG1(3,I)==0) THEN
            IF ((N1+N3)==(NJ1+NJ2)) THEN
             IF (ABS(N1-N3)==ABS(NJ1-NJ2)) THEN
              IXTG1(3,I) = NJ3
              IXTG1(1,J) = N2
-            ENDIF 
+            ENDIF
            ELSEIF ((N1+N3)==(NJ2+NJ3)) THEN
             IF (ABS(N1-N3)==ABS(NJ2-NJ3)) THEN
              IXTG1(3,I) = NJ1
              IXTG1(2,J) = N2
-            ENDIF 
+            ENDIF
            ELSEIF ((N1+N3)==(NJ3+NJ1)) THEN
             IF (ABS(N1-N3)==ABS(NJ3-NJ1)) THEN
              IXTG1(3,I) = NJ2
              IXTG1(3,J) = N2
-            ENDIF 
-           ENDIF 
-          ENDIF 
-        ENDDO 
+            ENDIF
+           ENDIF
+          ENDIF
+        ENDDO
 C        write(*,*)I,IXTG1(1,I),IXTG1(2,I),IXTG1(3,I)
-       ENDIF 
+       ENDIF
       ENDDO
       RETURN
       END

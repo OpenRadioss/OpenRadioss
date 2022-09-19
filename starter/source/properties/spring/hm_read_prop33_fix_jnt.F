@@ -60,7 +60,7 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT, ITYP, SKFLAG,IUNIT
       my_real PARGEO(*)
       INTEGER ID
@@ -87,7 +87,7 @@ C
       FAC_M = UNITAB%FAC_M(IUNIT)
       FAC_L = UNITAB%FAC_L(IUNIT)
       FAC_T = UNITAB%FAC_T(IUNIT)
-      FAC_CT = FAC_M / FAC_T      
+      FAC_CT = FAC_M / FAC_T
       FAC_KT  = FAC_CT / FAC_T
       FAC_CTX = FAC_T / FAC_L
       FAC_CRX = FAC_T
@@ -125,7 +125,7 @@ C-----------------------
      .  	     I1=ID,
      .  	     C1=TITR)
       ENDIF
-      IF (CR==ZERO) CR = FIVEEM2	      
+      IF (CR==ZERO) CR = FIVEEM2	
 C
       XTYP = ITYP
       XFLG = SKFLAG

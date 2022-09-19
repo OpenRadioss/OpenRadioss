@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (FAILWAVE_STR_)    :: FAILWAVE 
+      TYPE (FAILWAVE_STR_)    :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -57,8 +57,8 @@ C=======================================================================
       SIZE  = FAILWAVE%SIZE
       NNOD  = FAILWAVE%NNOD
       HEAD(1) = IWAVE
-      HEAD(2) = NDDL 
-      HEAD(3) = SIZE 
+      HEAD(2) = NDDL
+      HEAD(3) = SIZE
       HEAD(4) = NNOD
       CALL WRITE_I_C(HEAD,4)
 c
@@ -71,9 +71,9 @@ c
             DO I = 1,NDDL
               IAD = IAD+1
               RBUF(IAD) = FAILWAVE%FWAVE_NOD(I,J,K)
-            END DO 
-          END DO 
-        END DO 
+            END DO
+          END DO
+        END DO
 c
         CALL WRITE_I_C(FAILWAVE%INDX  , NNOD)
         CALL WRITE_I_C(FAILWAVE%IDXI  , NUMNOD)

@@ -106,7 +106,7 @@ C=======================================================================
       IRELOAD = NINT(UPARAM(21))
       DET     = ONE / (ONE - NU12*NU21)
 c
-      FUNC = ITABLE(1)      
+      FUNC = ITABLE(1)
       FUND = ITABLE(2)
       NINDXT = 0
       NINDXC = 0
@@ -120,7 +120,7 @@ c-----------------------------------------
         S  = HALF*(EPSXX(I) + EPSYY(I))
         D  = HALF*(EPSXX(I) - EPSYY(I))
         R  = SQRT(EPSXY(I)**2 + D*D)
-        P1 = S + R 
+        P1 = S + R
         P2 = S - R
         IF (P2 >= -P1) THEN    ! max principal deformation in tension
           NINDXT = NINDXT + 1
@@ -137,7 +137,7 @@ c-----------------------------------------
         SIGNXY(I) = G12*EPSXY(I)*BETA(I)
         SIGNYZ(I) = GS *EPSYZ(I)*BETA(I)
         SIGNZX(I) = GS *EPSZX(I)*BETA(I)
-        ET(I) = BETA(I)                                  
+        ET(I) = BETA(I)
       END DO
 c-----------------------------------------
       IF (FUNC == 0) THEN
@@ -156,12 +156,12 @@ c
         XX1(1:NEL,1) = EPSQ(1:NEL)
         IPOS1(1:NEL,1) = 1
 c
-        CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)                    
+        CALL TABLE_VINTERP(TABLE(FUNC),NEL,IPOS1,XX1,SIGF,ETL)
 c
         DO I=1,NEL
           A11 = ETL(I) * DET * FSCALE1
           A22 = A11 * FSCALET
-          A12 = A11 * NU21         
+          A12 = A11 * NU21
           SIGNXX(I) = SIGOXX(I) + (A11*DEPSXX(I) + A12*DEPSYY(I))*BETA(I)
           SIGNYY(I) = SIGOYY(I) + (A12*DEPSXX(I) + A22*DEPSYY(I))*BETA(I)
         ENDDO
@@ -195,14 +195,14 @@ c
             INDXR(NINDXR) = I
           END IF
         END DO
-c      
+c
         IF (NINDXL > 0) THEN
-c          
+c
           DO II=1,NINDXL
             I = INDXL(II)
             A11 = ETL(I) * DET * FSCALE1
             A22 = A11 * FSCALET
-            A12 = A11 * NU21         
+            A12 = A11 * NU21
             SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
             SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
             SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
@@ -233,18 +233,18 @@ c
             END DO
           END IF
           IPOS1(1:NINDXR,1) = 1
-          CALL TABLE_VINTERP(TABLE(FUNCR),NINDXR,IPOS1,XX1,SIGF,ETX)                    
+          CALL TABLE_VINTERP(TABLE(FUNCR),NINDXR,IPOS1,XX1,SIGF,ETX)
 c
           IF (IRELOAD == 1) THEN! reloading follows loading curve
             DO II=1,NINDXR
               I = INDXR(II)
               HT = (SMAX(I)-SMINRL(I)) / (EMAX(I)-EMINRL(I))
-              HF = SMAX(I) / EMAX(I)              
+              HF = SMAX(I) / EMAX(I)
               ETX(I) = FSCALE * ETX(I) * HT / HF
 c
               A11 = ETX(I) * DET
               A22 = A11 * FSCALET
-              A12 = A11 * NU21         
+              A12 = A11 * NU21
               SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
               SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
               SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
@@ -261,7 +261,7 @@ c
 c
               A11 = ETX(I) * DET
               A22 = A11 * FSCALET
-              A12 = A11 * NU21         
+              A12 = A11 * NU21
               SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
               SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
               SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
@@ -280,13 +280,13 @@ c
             XX1(II,1) = EPSQ(I) * XINT / EMAXRL(I)
             IPOS1(II,1) = 1
           END DO
-          CALL TABLE_VINTERP(TABLE(FUND),NINDXU,IPOS1,XX1,SIGF,ETU)                    
+          CALL TABLE_VINTERP(TABLE(FUND),NINDXU,IPOS1,XX1,SIGF,ETU)
 c
           DO II=1,NINDXU
             I = INDXU(II)
             ETX(I) = ETU(I) * (SMAXRL(I) / EMAXRL(I)) * (XINT  / YINT)
             IF (EPSQ(I) > ZERO) THEN
-              ETX(I) = MAX(ETX(I), SVM(I) / EPSQ(I))         
+              ETX(I) = MAX(ETX(I), SVM(I) / EPSQ(I))
             END IF
           END DO
 c
@@ -294,7 +294,7 @@ c
             I = INDXU(II)
             A11 = ETX(I) * DET * FSCALE2
             A22 = A11 * FSCALET
-            A12 = A11 * NU21         
+            A12 = A11 * NU21
             SIGNXX(I) = SIGOXX(I) + A11*DEPSXX(I) + A12*DEPSYY(I)
             SIGNYY(I) = SIGOYY(I) + A12*DEPSXX(I) + A22*DEPSYY(I)
             SVM2 = SIGNXX(I)**2 + SIGNYY(I)**2 - SIGNXX(I)*SIGNYY(I)
@@ -311,14 +311,14 @@ c-------------------------------------------------------------------------
             I = INDXC(II)
             A11 = ETL(I) * DET * FSCALE1
             A22 = A11 * FSCALET
-            A12 = A11 * NU21         
+            A12 = A11 * NU21
             SIGNXX(I) = SIGOXX(I) + (A11*DEPSXX(I) + A12*DEPSYY(I))*BETA(I)
             SIGNYY(I) = SIGOYY(I) + (A12*DEPSXX(I) + A22*DEPSYY(I))*BETA(I)
           ENDDO
         END IF
 c
-        UVAR(1:NEL,1) = EMAX(1:NEL)  
-        UVAR(1:NEL,2) = SMAX(1:NEL)  
+        UVAR(1:NEL,1) = EMAX(1:NEL)
+        UVAR(1:NEL,2) = SMAX(1:NEL)
         UVAR(1:NEL,3) = EMINRL(1:NEL)
         UVAR(1:NEL,4) = EMAXRL(1:NEL)
         UVAR(1:NEL,5) = SMINRL(1:NEL)

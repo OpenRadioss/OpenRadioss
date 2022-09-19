@@ -52,16 +52,16 @@ C-----------------------------------------------
       my_real
      .  VELTMP1(3,NNODPXFE_L),VELTMP2(4,NNODPXFE_L)
 C
-      
+
          DO J = 1, NNODPXFE_L
             VELTMP1(1,J)= ZERO
             VELTMP1(2,J)= ZERO
-            VELTMP1(3,J)= ZERO 
+            VELTMP1(3,J)= ZERO
             VELTMP2(1,J) = ZERO
             VELTMP2(2,J) = ZERO
             VELTMP2(3,J) = ZERO
             VELTMP2(4,J) = ZERO
-         ENDDO        
+         ENDDO
          DO J = 1, NPLYMAX
 C deplacement
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
@@ -70,8 +70,8 @@ C vitesse
             CALL WRITE_DB(VELTMP1,3*NNODPXFE_L)
                LEN_AM = LEN_AM + 3*NNODPXFE_L
 cc            CALL WRITE_DB(VELTMP2,4*NNODPXFE_L)
-cc               LEN_AM = LEN_AM + 4*NNODPXFE_L 
-         ENDDO        
+cc               LEN_AM = LEN_AM + 4*NNODPXFE_L
+         ENDDO
 C
       RETURN
       END

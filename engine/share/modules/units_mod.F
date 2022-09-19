@@ -33,7 +33,7 @@ C-----------------------------------------------
 #include      "my_real.inc"
 C-----
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_) ::UNITAB 
+      TYPE (UNIT_TYPE_) ::UNITAB
 C---------------------------
 C     UNITAB(1)         unit ID
 C     UNITAB(2)         Mass unit
@@ -41,4 +41,4 @@ C     UNITAB(3)         Length unit
 C     UNITAB(4)         Time unit
 C-----------------------------------------------
       END MODULE UNITS_MOD
-      
+

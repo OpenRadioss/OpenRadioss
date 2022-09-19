@@ -146,7 +146,7 @@ C
      .       ( (A2 + B2 - C2)/(2. * AA * BB) <= -ONE ) .OR.
      .       ( (A2 + B2 - C2)/(2. * AA * BB) >=  ONE ) .OR.
      .       ( (B2 + C2 - A2)/(2. * BB * CC) <= -ONE ) .OR.
-     .       ( (B2 + C2 - A2)/(2. * BB * CC) >=  ONE ) ) THEN      
+     .       ( (B2 + C2 - A2)/(2. * BB * CC) >=  ONE ) ) THEN
           CALL ANCMSG(MSGID=880,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO,

@@ -96,7 +96,7 @@ C-----------------------------------------------
 C
       NOD_NORMAL(1:3,1:4,1:NRTM) = RZERO
 C optimisable en spmd si ajout flag pour routine de comm, spmd_exchange_n
-      SOL_EDGE = 0 
+      SOL_EDGE = 0
       IF(IEDGE/=0) SOL_EDGE =IEDGE/10 ! solids
       IF(SOL_EDGE  /=0)THEN
         DO I=1,NADMSR
@@ -135,7 +135,7 @@ C
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)

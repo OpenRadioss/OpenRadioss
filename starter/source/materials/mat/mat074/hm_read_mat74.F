@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT74(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         ITABLE   ,MAXTABL  ,NTABLE,PM     ,IPM       )
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
      .                                         ,NTABLE,ITABLE(MAXTABL)
@@ -94,7 +94,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,NRATE,NPS,IR0,ILAW
-       my_real 
+       my_real
      .         E,NU,G,C1,EPSMAX,EPSR1,EPSR2,X2FAC,YFAC,
      .         S11Y,S22Y,S33Y,S12Y,S23Y,S31Y,
      .         FISOKIN,M,FAC_L,FAC_T,FAC_M,FAC_C,
@@ -145,14 +145,14 @@ C
       !line-7
       CALL HM_GET_INTV  ('FUN_A1'      ,ITABLE(1)   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_FScale'  ,YFAC        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_PScale'  ,X2FAC       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('MAT_PScale'  ,X2FAC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-8
       CALL HM_GET_FLOATV('T_Initial'   ,T0          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SPHEAT'  ,RHOCP       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !unit
       CALL HM_GET_FLOATV_DIM('MAT_FScale'  ,FAC_PRES         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV_DIM('MAT_PScale'  ,FAC_STRAIN_RATE  ,IS_AVAILABLE, LSUBMODEL, UNITAB)     
-      !========== DEFAULT VALUES=============!              
+      CALL HM_GET_FLOATV_DIM('MAT_PScale'  ,FAC_STRAIN_RATE  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      !========== DEFAULT VALUES=============!
       RHOR = RHO0
       PM(1) =RHOR
       PM(89)=RHO0
@@ -279,11 +279,11 @@ CC     Formulation for solid elements time step computation.
       PARMAT(17) =  (ONE - TWO*NU)/(ONE - NU) ! == TWO*G/(C1+FOUR_OVER_3*G)
 C
         WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
-        WRITE(IOUT,1000)        
+        WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
-        WRITE(IOUT,1002)RHO0  
+      ELSE
+        WRITE(IOUT,1002)RHO0
         WRITE(IOUT,1100)E,NU,G,S11Y,S22Y,S33Y,S12Y,S23Y,S31Y,FISOKIN,
      .                  ISRATE,FCUT
         WRITE(IOUT,1300)EPSMAX,EPSR1,EPSR2
@@ -301,7 +301,7 @@ C
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/) 
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG MODULUS . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
@@ -331,4 +331,4 @@ C
      & 5X,'PARAMETER CE. . . . . . . . . . . . . .=',1PG20.13)
       END
 
- 
+

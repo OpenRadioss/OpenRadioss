@@ -108,29 +108,29 @@ C--        Shape functions of triangles
            H2(4) = ZERO
          ELSE
 C--        Shape functions of quadrangles
-           SS=CRST(1,II)                                    
+           SS=CRST(1,II)
            ST=CRST(2,II)
-           SP=ONE + SS                                       
-           SM=ONE - SS                                       
-           TP=FOURTH*(ONE + ST)                               
-           TM=FOURTH*(ONE - ST)                               
-           H(1)=TM*SM                                       
-           H(2)=TM*SP                                       
-           H(3)=TP*SP                                       
+           SP=ONE + SS
+           SM=ONE - SS
+           TP=FOURTH*(ONE + ST)
+           TM=FOURTH*(ONE - ST)
+           H(1)=TM*SM
+           H(2)=TM*SP
+           H(3)=TP*SP
            H(4)=TP*SM
 
 C          Additional form functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-           SS=CSTS_BIS(1,II)                                    
+           SS=CSTS_BIS(1,II)
            ST=CSTS_BIS(2,II)
-           SP=ONE + SS                                       
-           SM=ONE - SS                                       
-           TP=FOURTH*(ONE + ST)                               
-           TM=FOURTH*(ONE - ST)                               
-           H2(1)=TM*SM                                       
-           H2(2)=TM*SP                                       
-           H2(3)=TP*SP                                       
-           H2(4)=TP*SM  
-         ENDIF  
+           SP=ONE + SS
+           SM=ONE - SS
+           TP=FOURTH*(ONE + ST)
+           TM=FOURTH*(ONE - ST)
+           H2(1)=TM*SM
+           H2(2)=TM*SP
+           H2(3)=TP*SP
+           H2(4)=TP*SM
+         ENDIF
 C
          X0 = X(1,I)
          Y0 = X(2,I)
@@ -149,8 +149,8 @@ C
          Y4 = X(2,IRECT(4,L))
          Z4 = X(3,IRECT(4,L))
 C
-         XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)  
-         YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)  
+         XC = X1 * H(1) + X2 * H(2) + X3 * H(3) + X4 * H(4)
+         YC = Y1 * H(1) + Y2 * H(2) + Y3 * H(3) + Y4 * H(4)
          ZC = Z1 * H(1) + Z2 * H(2) + Z3 * H(3) + Z4 * H(4)
 C
          XC0=X0-XC

@@ -51,7 +51,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODGLOB(*),RBUF,NUMPOG
 
-      my_real 
+      my_real
      .   V(3,*)
 
 C-----------------------------------------------
@@ -103,7 +103,7 @@ C   on envoie le nodglob
           DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
@@ -111,11 +111,11 @@ C   Reception du buffer entier des adresses NODGLOB
 
             CALL MPI_RECV(NGLOBI,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             MSGTYP = MSGOFF2
             CALL MPI_RECV(VRECV,3*SIZ,REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
- 
+
             DO J = 1, SIZ
               K = NGLOBI(J)
               VTOTAL(1,K)= VTOTAL(1,K) + VRECV(1,J)
@@ -129,7 +129,7 @@ C   Reception du buffer entier des adresses NODGLOB
 
        DEALLOCATE(NGLOBI)
        DEALLOCATE(VRECV)
-       
+
 #endif
        RETURN
        END

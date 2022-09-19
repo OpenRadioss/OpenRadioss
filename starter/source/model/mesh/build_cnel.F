@@ -394,7 +394,7 @@ c fill LELX (use in I11STI3 and I20STI3E)
 	LELX(1:NUMELX) = ZERO
 	DO I=1,NUMELX
 	  DO J=KXX(4,I)+1,KXX(3,I)+KXX(4,I)-1
-	    LELX(I) = LELX(I) + 
+	    LELX(I) = LELX(I) +
      .       SQRT((X(1,IXX(J))-X(1,IXX(J-1)))**2
      .  	 +(X(2,IXX(J))-X(2,IXX(J-1)))**2
      .  	 +(X(3,IXX(J))-X(3,IXX(J-1)))**2)
@@ -452,7 +452,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -480,7 +480,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NIN, NTY, NRTM, NADMSR, NSN, 
+      INTEGER NIN, NTY, NRTM, NADMSR, NSN,
      .        NRTLM_L(NSPMD), K, P, N, IERROR
       INTEGER, ALLOCATABLE, DIMENSION(:) :: IRTLM_L
 C-----------------------------------------------
@@ -498,9 +498,9 @@ C
       DO  NIN=1,NINTER
         NTY=IPARI(7,NIN)
         IF(NTY/=25) CYCLE
- 
+
         NINTER25 = NINTER25 + 1
- 
+
         NRTM  =IPARI(4,NIN)
         NADMSR=IPARI(67,NIN)
 
@@ -527,7 +527,7 @@ C
 
         NRTLM_L(1:NSPMD)=0
         DO K=1,NRTM
-          P = INTERCEP(1,NIN)%P(K)          
+          P = INTERCEP(1,NIN)%P(K)
           NRTLM_L(P)=NRTLM_L(P)+1
           IRTLM_L(K)=NRTLM_L(P)
         ENDDO
@@ -538,7 +538,7 @@ C         IRTLM(3,-) <=> n° de segment local sur IRTLM(4,-)
           K = INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)
           IF(K /= 0)THEN
             INTBUF_TAB(NIN)%IRTLM(4*(N-1)+3)=IRTLM_L(K)
-            INTBUF_TAB(NIN)%IRTLM(4*(N-1)+4)=INTERCEP(1,NIN)%P(K) 
+            INTBUF_TAB(NIN)%IRTLM(4*(N-1)+4)=INTERCEP(1,NIN)%P(K)
           END IF
         END DO
 
@@ -546,7 +546,7 @@ C         IRTLM(3,-) <=> n° de segment local sur IRTLM(4,-)
       END DO
 
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  BUILD_CSRECT                  source/model/mesh/build_cnel.F
 Chd|-- called by -----------
@@ -559,7 +559,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -591,11 +591,11 @@ C Pre construction ADRESSES
 C   
       ADDCSRECT(0) = 0
 
-      ISHIFT=0 
+      ISHIFT=0
       DO  NIN=1,NINTER
         NTY=IPARI(7,NIN)
         IF(NTY/=25) CYCLE
- 
+
         NRTM  =IPARI(4,NIN)
         NADMSR=IPARI(67,NIN)
         DO N=1,NRTM
@@ -639,7 +639,7 @@ C
         END DO
 C
         ISHIFT=ISHIFT+NADMSR
- 
+
       END DO
 C-----------------------------------------------
       DO I=0,NUMNOR

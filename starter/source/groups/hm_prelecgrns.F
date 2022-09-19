@@ -126,7 +126,7 @@ C
      .                          OPTION_TITR = TITR  ,
      .                          UNIT_ID     = UID,
      .                          KEYWORD2    = KEY   ,
-     .                          KEYWORD3    = KEY2)   
+     .                          KEYWORD3    = KEY2)
 C
         ! Increasing the counter
         IGS=IGS+1
@@ -140,7 +140,7 @@ C
         NN=0
         NNOD=0
         !-----------------------------------------------------------------
-        ! GRNOD from NODENS        
+        ! GRNOD from NODENS
         IF(KEY(1:6) == 'NODENS') THEN
 !         groupe de noeuds (non sorted)
           CALL HM_GET_INTV('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
@@ -160,7 +160,7 @@ C
               NN = NN + 1
               IGRNOD(IGS)%ENTITY(NN)=USR2SYS(JJ,ITABM1,MESS,ID)
             ENDIF
-          ENDDO          
+          ENDDO
         ENDIF ! IF(LINE(1:1) == '/')
       ENDDO
 !-----

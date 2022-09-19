@@ -133,7 +133,7 @@ C-----------------------------------------------
             mat(2, 1) = mat(2, 1) + (ZL - ZK) * (YL - YK)
             mat(2, 2) = mat(2, 2) + (ZL - ZK) * (ZL - ZK)
          ENDDO
-         
+
          det = mat(1, 1) * mat(2, 2) - mat(2, 1) * mat(1, 2)
          IF (det == 0) THEN
             PRINT*, "OUPS"

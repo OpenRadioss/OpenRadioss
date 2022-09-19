@@ -38,10 +38,10 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|        TABLE_MOD                     share/modules1/table_mod.F    
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT76(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    , 
-     .                         MAXFUNC  ,NFUNC    ,PARMAT   ,UNITAB   ,ID       , 
+      SUBROUTINE HM_READ_MAT76(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,IFUNC    ,
+     .                         MAXFUNC  ,NFUNC    ,PARMAT   ,UNITAB   ,ID       ,
      .                         MTAG     ,TITR     ,LSUBMODEL,PM       ,ISRATE   ,
-     .                         MATPARAM ,MAXTABL  ,NUMTABL  ,ITABLE   )                     
+     .                         MATPARAM ,MAXTABL  ,NUMTABL  ,ITABLE   )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,11 +62,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
       USE TABLE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -86,13 +86,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)    :: ID,MAXFUNC,MAXTABL,MAXUPARAM
       INTEGER, INTENT(INOUT) :: NFUNC,NUMTABL,NUPARAM,NUVAR,ISRATE
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
       INTEGER, DIMENSION(MAXTABL)   ,INTENT(OUT)  :: ITABLE
       CHARACTER*nchartitle,INTENT(IN) :: TITR
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE (SUBMODEL_DATA),INTENT(IN)      :: LSUBMODEL(*)
       TYPE (MLAW_TAG_)    ,INTENT(INOUT)   :: MTAG
       TYPE (MATPARAM_STRUCT_) ,INTENT(OUT) :: MATPARAM
@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER :: IFORM,ICONV,IQUAD,ICAS,ISRAT,ILAW
       my_real :: E,NU,G,RHO0,RHOR,FCUT,NUP,C1,A1,A2,EPSR,EPSF,
      .           XFAC,XFAC_UNIT
-      my_real :: TFAC(3),YFAC(2),FAC_UNIT(5) 
+      my_real :: TFAC(3),YFAC(2),FAC_UNIT(5)
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED,FOUND
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -139,14 +139,14 @@ Card5
       CALL HM_GET_FLOATV('MAT_asrate'     ,FCUT        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 Card6
       CALL HM_GET_FLOATV('MAT_Epsilon_F'  ,EPSF        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('Epsilon_0'      ,EPSR        ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('Epsilon_0'      ,EPSR        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 Card7 
       CALL HM_GET_INTV  ('FUN_A1'         ,IFUNC(2)    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('SCALE'          ,YFAC(2)     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 Card8
       CALL HM_GET_INTV  ('IFORM'          ,IFORM       ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_Iflag'      ,IQUAD       ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV  ('Gflag'          ,ICONV       ,IS_AVAILABLE,LSUBMODEL)      
+      CALL HM_GET_INTV  ('Gflag'          ,ICONV       ,IS_AVAILABLE,LSUBMODEL)
 !-- unit
       CALL HM_GET_FLOATV_DIM('FScale11'   ,FAC_UNIT(1) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV_DIM('FScale22'   ,FAC_UNIT(2) ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -160,11 +160,11 @@ C------------
 c
       IF (FCUT == ZERO) THEN
         FCUT = 500.0D0*FAC_T_WORK
-      END IF 
+      END IF
       ISRAT  = 0
       ISRATE = 0
 c
-      IF (ITABLE(1) > 0 .AND. ITABLE(2) > 0 .AND. ITABLE(3) > 0) THEN 
+      IF (ITABLE(1) > 0 .AND. ITABLE(2) > 0 .AND. ITABLE(3) > 0) THEN
         ICONV = 1
       ELSE
         ICONV = 0
@@ -186,7 +186,7 @@ c     icas      ifunt   | ifunc   | ifuncs
 c       -1         1    |    1    |    1
 c        0         1    |    0    |    0
 c        1         1    |    1    |    0
-c        2         1    |    0    |    1   
+c        2         1    |    0    |    1
 c-----------------------------------------
       ICAS = MIN(ITABLE(2),1) + MIN(ITABLE(3),1)
       IF (ICAS == 2) ICAS = -1
@@ -194,7 +194,7 @@ c-----------------------------------------
       IF (ITABLE(3) > 0 .AND. ICAS == 1) ICAS = 2
       NUP = MAX(ZERO, MIN(NUP, HALF))
       IF(ICAS==0 .AND. NUP == ZERO .AND. IFUNC(1)==0)NUP = HALF
-c     
+c
       IF (XFAC    == ZERO) XFAC    = XFAC_UNIT
       IF (TFAC(1) == ZERO) TFAC(1) = FAC_UNIT(1)
       IF (TFAC(2) == ZERO) TFAC(2) = FAC_UNIT(2)
@@ -237,11 +237,11 @@ c-----------------------------------------------
       UPARAM(28) = YFAC(1)
       UPARAM(29) = YFAC(2)
 c
-      NUPARAM = 29 
+      NUPARAM = 29
       NUVAR   = 9
       NFUNC   = 2
       NUMTABL = 3
-c                
+c
 c --------------------------
       PARMAT(1)  = C1
       PARMAT(2)  = E
@@ -253,15 +253,15 @@ c --------------------------
 c
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
-      PM(89)= RHO0  
-      !!-----------------------       
+      PM(89)= RHO0
+      !!-----------------------
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
 c
       MATPARAM%NTABLE = 3
-      IF (ICAS == 0) THEN 
+      IF (ICAS == 0) THEN
         CALL INIT_MAT_KEYWORD(MATPARAM,"ELASTO_PLASTIC")
       ELSE
         CALL INIT_MAT_KEYWORD(MATPARAM ,"COMPRESSIBLE")
@@ -274,7 +274,7 @@ C
       WRITE(IOUT,1000)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE    
+      ELSE
         WRITE(IOUT,1020) RHO0
         WRITE(IOUT,1100) E,NU
         WRITE(IOUT,1200) ITABLE(1),TFAC(1)
@@ -306,16 +306,16 @@ c-----------------------------------------------------------------------
  1210 FORMAT(
      & 5X,'COMPRESSION YIELD STRESS FUNCTION NUMBER. . .=',I10/
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13)
-     
+
  1220 FORMAT(
      & 5X,'SHEAR YIELD STRESS FUNCTION NUMBER. . . . . .=',I10/
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'STRAIN RATE SCALE FACTOR .  . . . . . . . . .=',1PG20.13)
-   
- 1300 FORMAT(              
+
+ 1300 FORMAT(
      & 5X,'PLASTIC POISSON RATIO   . . . . . . . . . .  =',1PG20.13/
      & 5X,'PLASTIC POISSON RATIO FUNCTION NUMBER . . .  =',I10/
-     & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . . .  =',1PG20.13/   
+     & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . . .  =',1PG20.13/
      & 5X,'SMOOTH STRAIN RATE OPTION. . . . . . . . . . =',I10/
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . . . . .=',1PG20.13/)
  1400 FORMAT(
@@ -323,7 +323,7 @@ c-----------------------------------------------------------------------
      & 5X,'RUPTURE PLASTIC STRAIN. . . . . . . . . . . .=',1PG20.13/
      & 5X,'DAMAGE  FUNCTION NUMBER . . . . . . . . . .  =',I10/,
      & 5X,'DAMAGE SCALE FACTOR. . . . . . . . . . . . . =',1PG20.13 )
- 1500 FORMAT(              
+ 1500 FORMAT(
      & 5X,'FORMULATION FLAG . . . . . . . . . . . . .   =', I10,/
      & 5X,'       = 0  No associated formulation  ' ,/
      & 5X,'       = 1  VonMises associated formulation     ' ,/

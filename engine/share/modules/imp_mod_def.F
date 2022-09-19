@@ -28,9 +28,9 @@ Chd|        IMP_INTBUF_INI                source/implicit/imp_solv.F
 Chd|        IMP_INTBUF                    share/modules/imp_mod_def.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE IMP_INTBUFDEF 
+      MODULE IMP_INTBUFDEF
 C----------------------------------------------------------------------- 
-#include "my_real.inc"      
+#include "my_real.inc"
 c
 C=======================================================================
       TYPE IMP_INTBUF_STRUCT_
@@ -39,10 +39,10 @@ c define typeINTBUF_STRUCT_ for interface buffer IMP_INTBUF_TAB
 C=======================================================================
 c DEFINE SIZES (integers arrays)
 C=======================================================================
-        integer ::   S_I_STOK     !  replace NUM_IMP (after)            
-        integer ::   S_CAND_N     !  replace NS_IMP (after)  
-        integer ::   S_CAND_E     !  replace NE_IMP (after)   
-        integer ::   S_INDSUBT    !  replace IND_IMP (after)  
+        integer ::   S_I_STOK     !  replace NUM_IMP (after)
+        integer ::   S_CAND_N     !  replace NS_IMP (after)
+        integer ::   S_CAND_E     !  replace NE_IMP (after)
+        integer ::   S_INDSUBT    !  replace IND_IMP (after)
 C=======================================================================
 c DEFINE SIZES (float arrays)
 C=======================================================================
@@ -52,17 +52,17 @@ C=======================================================================
 C=======================================================================
 c DEFINE ARRAYS (integers arrays)
 C=======================================================================
-        integer, DIMENSION(:) , POINTER ::  I_STOK      
-        integer, DIMENSION(:) , POINTER ::  CAND_N      
-        integer, DIMENSION(:) , POINTER ::  CAND_E    
-        integer, DIMENSION(:) , POINTER ::  INDSUBT   
+        integer, DIMENSION(:) , POINTER ::  I_STOK
+        integer, DIMENSION(:) , POINTER ::  CAND_N
+        integer, DIMENSION(:) , POINTER ::  CAND_E
+        integer, DIMENSION(:) , POINTER ::  INDSUBT
 !type24
 C=======================================================================
 c DEFINE ARRAYS (float arrays)
 C=======================================================================
-        my_real, DIMENSION(:) , POINTER ::   HJ           
-        my_real, DIMENSION(:) , POINTER ::   NJ           
-        my_real, DIMENSION(:) , POINTER ::   STIF         
+        my_real, DIMENSION(:) , POINTER ::   HJ
+        my_real, DIMENSION(:) , POINTER ::   NJ
+        my_real, DIMENSION(:) , POINTER ::   STIF
 C=======================================================================
       END TYPE IMP_INTBUF_STRUCT_
 C=======================================================================

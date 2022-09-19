@@ -103,7 +103,7 @@ c inlet outl spmd
      .                             MSGTYPE=MSGERROR,
      .                         C1='DOMDEC')
         IBUFSSG_IO_L(1:SIBUFSSG_IO) = 0
-      ENDIF 
+      ENDIF
 c
       IF(NSPHSOL_L/=0)THEN
         ALLOCATE(SPH2SOL_L(NUMSPH_L)    ,STAT=stat)
@@ -185,7 +185,7 @@ C
       END DO
       CALL WRITE_I_C(NOD2SP_L,NUMNOD_L)
 
-      LEN_IA = LEN_IA + (NUMSPH_L+NBGAUGE)*NISP 
+      LEN_IA = LEN_IA + (NUMSPH_L+NBGAUGE)*NISP
      .                + (NUMSPH_L+NBGAUGE)*KVOISPH + NUMNOD_L
 C
       IF(NSPCOND>0)THEN
@@ -213,7 +213,7 @@ c SLPRTSPH_L is already set to SLPRTSPH
          LPRTSPH_L((IPRT-1)*2+1+2)=SUIVSPH_L
          DO N=1,NUMSPH
           IF(CEPSP(N)==PROC.AND.IPARTSP(N)==IPRT.AND.
-     .       (KXSP(2,N) < 0.AND. 
+     .       (KXSP(2,N) < 0.AND.
      .           (N < FIRST_SPHSOL .OR. N >= FIRST_SPHSOL+NSPHSOL)))THEN
            SUIVSPH_L=SUIVSPH_L+1
            LONFSPH_L(SUIVSPH_L)=CELSPH(N)
@@ -223,27 +223,27 @@ c SLPRTSPH_L is already set to SLPRTSPH
         ENDDO
 
 c on passe IBUFSSG_IO en local
-        DO I = 1, SIBUFSSG_IO   
+        DO I = 1, SIBUFSSG_IO
           IBUFSSG_IO_L(I) = NODLOCAL(IBUFSSG_IO(I))
-        ENDDO    
+        ENDDO
 
 c on passe ISPHIO en local pour les outlet definies par noeuds
         DO I = 1, NSPHIO
           DO N=1,NISPHIO
             ISPHIO_L(NISPHIO*(I-1)+N) = ISPHIO(NISPHIO*(I-1)+N)
-          END DO   
+          END DO
           IF (ISPHIO(NISPHIO*(I-1)+12)==2) THEN
             ISPHIO_L(NISPHIO*(I-1)+13) = NODLOCAL(ISPHIO(NISPHIO*(I-1)+13))
             ISPHIO_L(NISPHIO*(I-1)+14) = NODLOCAL(ISPHIO(NISPHIO*(I-1)+14))
             ISPHIO_L(NISPHIO*(I-1)+15) = NODLOCAL(ISPHIO(NISPHIO*(I-1)+15))
           ENDIF
-        ENDDO  
-    
+        ENDDO
+
         CALL WRITE_I_C(ISPHIO_L,SISPHIO)
         CALL WRITE_I_C(LPRTSPH_L,SLPRTSPH_L)
         CALL WRITE_I_C(LONFSPH_L,SLONFSPH_L)
         CALL WRITE_I_C(IBUFSSG_IO_L,SIBUFSSG_IO)
-        LEN_IA = LEN_IA + SISPHIO + SLPRTSPH_L + SLONFSPH_L + 
+        LEN_IA = LEN_IA + SISPHIO + SLPRTSPH_L + SLONFSPH_L +
      .           SIBUFSSG_IO
 
         DEALLOCATE(LPRTSPH_L,LONFSPH_L,IBUFSSG_IO_L)
@@ -256,7 +256,7 @@ C
           IF(CEPSP(FIRST_SPHSOL+I-1)==PROC) THEN
             IE_L = IE_L + 1
             IF(CEP(SPH2SOL(FIRST_SPHSOL+I-1))/=PROC)THEN
-              write(6,'(A)') 
+              write(6,'(A)')
      .        'internal error - Solid and SPH not on the same domain'
               stop
             END IF

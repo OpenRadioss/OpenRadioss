@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT53(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -109,11 +109,11 @@ C-----------------------------------------------
       IMATVIS = 0
       MTAG%G_PLA  = 1
       MTAG%L_PLA  = 1
-      
+
       NUPARAM=10
       NFUNC = 5
       NUVAR = 6
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
       CALL HM_GET_FLOATV('MAT_RHO'        ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -139,12 +139,12 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('MAT_SFAC45'     ,FAC5     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !units
       CALL HM_GET_FLOATV_DIM('MAT_SFAC11' ,FAC_UNIT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
 
       !---DEFAULT VALUES
       IF(RHOR == ZERO)RHOR=RHO0
       PM(1) =RHOR
-      PM(89)=RHO0  
+      PM(89)=RHO0
       IF (FAC1 == ZERO) FAC1 = ONE*FAC_UNIT
       IF (FAC2 == ZERO) FAC2 = ONE*FAC_UNIT
       IF (FAC3 == ZERO) FAC3 = ONE*FAC_UNIT
@@ -153,7 +153,7 @@ C-----------------------------------------------
 
       !---STORAGE
       UPARAM(1)=E11
-      UPARAM(2)=E22      
+      UPARAM(2)=E22
       UPARAM(3)=G12
       UPARAM(4)=G23
       UPARAM(5)=IFLAG
@@ -161,10 +161,10 @@ C-----------------------------------------------
       UPARAM(7)=FAC2
       UPARAM(8)=FAC3
       UPARAM(9)=FAC4
-      UPARAM(10)=FAC5      
+      UPARAM(10)=FAC5
       !Formulation for solid elements time step computation.
       PARMAT(16) = 1
-      DMIN = E11*E22   
+      DMIN = E11*E22
       DMAX = MAX(E11,E22)
       PARMAT(17) = DMIN/DMAX/DMAX
 c
@@ -180,7 +180,7 @@ c
         WRITE(IOUT,1100)E11,E22,G12,G23,(IFUNC(I),I=1,5)
         WRITE(IOUT,1200)FAC1,FAC2,FAC3,FAC4,FAC5
       ENDIF
-      
+
       !---OUTPUT FORMAT
 
  1000 FORMAT(
@@ -194,7 +194,7 @@ c
      & 5X,'INITIAL DENSITY . . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'E11 . . . . . . . . . . . . . . . . . .=',1PG20.13/
-     & 5X,'E22 . . . . . . . . . . . . . . . . . .=',1PG20.13/   
+     & 5X,'E22 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'G12 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'G23 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & 5X,'YIELD STRESS 11 FUNCTION NUMBER . . . .=',I10/

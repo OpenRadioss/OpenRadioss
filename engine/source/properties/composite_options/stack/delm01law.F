@@ -88,7 +88,7 @@ C-----------------------------------------------
 C
       INTEGER NEL, NUPARAM, NUVAR,NGL(*),IPM(NPROPMI,*),
      .        MAT(*),IP, IPLY
-      my_real 
+      my_real
      .   TIME,TIMESTEP(*),UPARAM(*),SIGNZZ(*),
      .   SIGNYZ0(*),SIGNXZ0(*),SIGNYZ(*),SIGNXZ(*),
      .   OFFI(*),COUNT(*),REDUC(*)
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -117,11 +117,11 @@ C        NPF,TF  : FUNCTION PARAMETER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
-     .   I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,     
+      INTEGER
+     .   I,J,IDEL,IDEL_L,IFLAG(MVSIZ),INDX(MVSIZ),IADBUF,NINDX,
      .   IFAIL,JST(MVSIZ),IR,JJ,IMATLY,
-     .   NINDX0,INDX0(MVSIZ)        
-      my_real 
+     .   NINDX0,INDX0(MVSIZ)
+      my_real
      .   K1(MVSIZ),K2(MVSIZ),K3(MVSIZ),K(MVSIZ),
      .   A(MVSIZ),GAMA1(MVSIZ),GAMA2(MVSIZ),
      .   Y0(MVSIZ),YC(MVSIZ),TMAX(MVSIZ),FAC,
@@ -133,9 +133,9 @@ C
 C
         IF(OFF(I)==ZERO) CYCLE
 C
-        IMATLY=MAT(I)  
+        IMATLY=MAT(I)
         IFAIL = IPM(111 +IP,IMATLY)
-        IF(IFAIL == 18)THEN  
+        IF(IFAIL == 18)THEN
           IADBUF     =  IPM(114 +IP, IMATLY)
           K1(I)      = UPARAM(IADBUF )
           K2(I)      = UPARAM(IADBUF + 1)
@@ -146,12 +146,12 @@ C
           YC(I)      = UPARAM(IADBUF + 6)
           K(I)       = UPARAM(IADBUF + 7)
           A(I)       = UPARAM(IADBUF + 8)
-          REDUC(I)   = UPARAM(IADBUF + 12) 
+          REDUC(I)   = UPARAM(IADBUF + 12)
           IR = IR + 1
-          JST(IR) = I  
-        ENDIF 
+          JST(IR) = I
+        ENDIF
         INDX(I) = 0
-      ENDDO      
+      ENDDO
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -160,20 +160,20 @@ C-----------------------------------------------
           I = JST(JJ)
           UEL(I) = ZERO
           UVAR(I,9)  = ONE
-        ENDDO   
-      ENDIF   
+        ENDDO
+      ENDIF
 C-------------------------------
 C      
 C     OFF = 0.
 C-------------------------------
 C           
-        NINDX  = 0 
-        NINDX0 = 0 
+        NINDX  = 0
+        NINDX0 = 0
         DO J =1,IR
           I=JST(J)
           IF (OFF(I) == ONE ) THEN
 C------------------------------- 
-            IF(UVAR(I,1) < ONE)THEN 
+            IF(UVAR(I,1) < ONE)THEN
              DAM0 = UVAR(I,1)
              DAM  = DAM0
 C
@@ -191,15 +191,15 @@ C
              YD2 = K2(I)*(ONE - DAM)**2
              YD2 = HALF*SIG*SIG/MAX(YD2, EM20)
              YD2 = MAX(YD2, UVAR(I,3))
-             UVAR(I,3) = YD2             
+             UVAR(I,3) = YD2
 C
 C   direction 13
 C
-             SIG =SIGNXZ(I) 
+             SIG =SIGNXZ(I)
              YD1 = K1(I)*(ONE - DAM)**2
              YD1 = HALF*SIG*SIG/MAX(YD1, EM20)
              YD1 = MAX(YD1, UVAR(I,4))
-             UVAR(I,4) = YD1                            
+             UVAR(I,4) = YD1
 C
 C  compute new damage
 C              
@@ -212,14 +212,14 @@ C
               FAC = K(I)*TIMESTEP(I)/A(I)
               DAM = DAM + FAC*(ONE - EXP(-A(I)*CC))
               DAM = MIN(ONE, DAM)
-              UVAR(I,1)  = DAM              
+              UVAR(I,1)  = DAM
 C
 C  reduce stress interply only
 C
               IF( SIGNZZ(I) > ZERO )
      .          SIGNZZ(I)  = SIGNZZ(I) *MAX((ONE  - DAM),REDUC(I))
               SIGNYZ0(I) = SIGNYZ0(I)*MAX((ONE  - DAM),REDUC(I))
-              SIGNXZ0(I) = SIGNXZ0(I)*MAX((ONE  - DAM),REDUC(I)) 
+              SIGNXZ0(I) = SIGNXZ0(I)*MAX((ONE  - DAM),REDUC(I))
 C
               IF(DAM0 == ZERO .AND. DAM > ZERO) THEN
                NINDX0=NINDX0+1
@@ -236,15 +236,15 @@ C
                    WRITE(IOUT, 1300) NGL(I),IPLY,TIME
                    WRITE(ISTDO,1300) NGL(I),IPLY, TIME
                ENDIF
-              ENDIF 
+              ENDIF
              ELSE ! complete damage
 !!                SIGNZZ(I)  = ZERO
 !!                SIGNYZ0(I) = ZERO
-!!                SIGNXZ0(I) = ZERO  
+!!                SIGNXZ0(I) = ZERO
                 OFFI(I) = REDUC(I)
-             ENDIF 
-            ENDIF  
-         ENDDO  
+             ENDIF
+            ENDIF
+         ENDDO
 
         IF(NINDX0 > 0)THEN
           DO J=1,NINDX0
@@ -254,7 +254,7 @@ C
            WRITE(ISTDO,1100) NGL(I),IPLY, TIME
 #include "lockoff.inc"
           END DO
-         ENDIF            
+         ENDIF
 
         IF(NINDX > 0)THEN
           DO J=1,NINDX
@@ -264,7 +264,7 @@ C
            WRITE(ISTDO,1200) NGL(I),IPLY, TIME
 #include "lockoff.inc"
           END DO
-         ENDIF            
+         ENDIF
 C--------------------------------------------
 
  1100 FORMAT(1X,'DAMAGE INITIATION OF SHELL  #',I10,1X,

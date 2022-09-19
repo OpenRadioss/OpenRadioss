@@ -79,7 +79,7 @@ C-----------------------------------------------
       CHARACTER*10  TIME
       CHARACTER ELTYP(0:105)*5
       CHARACTER*256 OUTNAME
-      CHARACTER*120 CART  
+      CHARACTER*120 CART
       my_real
      .   ENTOT, ENTOT1, ERR, ERR1, X99, EMASS,MAS,
      .   VX,VY,VZ,DT05,ENTMP(20)  ,RTMP(10),
@@ -87,7 +87,7 @@ C-----------------------------------------------
       DOUBLE PRECISION ETIME, RETIME, TT0,
      .                 ENCIND, XMOMTD, YMOMTD, ZMOMTD,
      .                 XMASSD, ENROTD, ENINTD, ENCIND2,
-     .                 ENROTD2, ENTOTB, EAMSD 
+     .                 ENROTD2, ENTOTB, EAMSD
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------------
@@ -117,21 +117,21 @@ c
       DATA X99/99.9/
 C=======================================================================
       OUT_TMP = 777777
-      IF(ISPMD == 0) THEN 
+      IF(ISPMD == 0) THEN
 c
        ENTOT = ENCIN + ENINT + ENROT
-       ENTOTB = ENTOT + ENCIN2 + ENROT2 
+       ENTOTB = ENTOT + ENCIN2 + ENROT2
        ENTOT1=ENTOT0 + TFEXT
-       ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD       
+       ENTOT1B=ENTOT0 + TFEXT + DELTAE + TFEXT_MD
        IF(ABS(ENTOT1B)>EM20)THEN
          ERR = ENTOTB/ENTOT1B - ONE
-         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))     
+         ERR1 = MAX(-X99, MIN(X99,ERR*HUNDRED))
        ELSE
         ERR = ZERO
         ERR1 =ZERO
        ENDIF
        EMASS = (XMASS - MASS0) / MASS0
-        
+
        CALL DATE_AND_TIME(DATE,TIME)
        STATUS = GETCWD(CWD)
        LEN_CWD = LEN_TRIM(CWD)
@@ -140,12 +140,12 @@ c
        IOUTREP = 123124
 
        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
+       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
 
        OPEN(UNIT=IOUTREP,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .        ACCESS='SEQUENTIAL',
      .        FORM='FORMATTED',STATUS='UNKNOWN')
- 
+
        WRITE(IOUTREP,'(A)')'<html>'
        WRITE(IOUTREP,'(A)')'<head>'
        IF(GOT_INSPIRE_ALM == 1)THEN
@@ -640,14 +640,14 @@ c       WRITE(IOUTREP,'(A)')' '
        READ(OUT_TMP,'(A)',END=100)CART
        DO WHILE (IEND /= 1)
          WRITE(IOUTREP,'(A)')'<tr>'
-         IF (CART /= ' ' . AND. 
+         IF (CART /= ' ' . AND.
      .       CART(61:118) /= '---------------------------------------------------------')
      .     WRITE(IOUTREP,'(A)')'<td><font face="Arial" size="1">&nbsp;&nbsp;&nbsp;&nbsp;',CART(63:119),' </td>'
          WRITE(IOUTREP,'(A)')'</tr>'
          READ(OUT_TMP,'(A)',END=100)CART
          IF (CART(1:29) == '-----------------------------')IEND = 1
        END DO
-  100  CONTINUE 
+  100  CONTINUE
        IF ( IS_FILE_FOUND == 0 )THEN
          WRITE(IOUTREP,'(A)')' '
          WRITE(IOUTREP,'(A)')'<li type="square">'
@@ -693,7 +693,7 @@ c       WRITE(IOUTREP,'(A)')'<p>'
          WRITE(IOUTREP,'(A)')'<tr>'
          WRITE(IOUTREP,'(A)')'<td><font face="Arial" size="2">ERROR TERMINATION &nbsp;&nbsp;</td>'
          WRITE(IOUTREP,'(A)')'</tr>'
-       ELSEIF(N == 3)THEN 
+       ELSEIF(N == 3)THEN
          WRITE(IOUTREP,'(A)')'<tr>'
          WRITE(IOUTREP,'(A)')'<td><font face="Arial" size="2">USER BREAK &nbsp;&nbsp;</td>'
          WRITE(IOUTREP,'(A)')'</tr>'
@@ -812,7 +812,7 @@ c     .HyperViewPlayer plugin installed.'
 
        CLOSE(UNIT=IOUTREP)
 
-        
+
       ENDIF
 c-----------
       RETURN

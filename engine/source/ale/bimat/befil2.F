@@ -28,8 +28,8 @@ Chd|-- calls ---------------
 Chd|        IDP_FREE                      source/system/machine.F       
 Chd|        IDP_LOCK                      source/system/machine.F       
 Chd|====================================================================
-      SUBROUTINE BEFIL2(PM,V,FILL,DFILL,IMS,X,ALPH1,ALPH2, 
-     .     AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2, 
+      SUBROUTINE BEFIL2(PM,V,FILL,DFILL,IMS,X,ALPH1,ALPH2,
+     .     AIRE, PY1, PY2, PZ1, PZ2, DALPH1, DALPH2,
      .     MAT, NC1, NC2, NC3, NC4)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -60,14 +60,14 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ), NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ), I, N1, N2, N3, N4,
      .   NP
       my_real
-!     .   GAMMA(MVSIZ), XMS(MVSIZ), 
-     .   FI1(MVSIZ), FI2(MVSIZ), FI3(MVSIZ), FI4(MVSIZ), 
+!     .   GAMMA(MVSIZ), XMS(MVSIZ),
+     .   FI1(MVSIZ), FI2(MVSIZ), FI3(MVSIZ), FI4(MVSIZ),
      .   FA(MVSIZ), VDY1(MVSIZ), VDY2(MVSIZ), VDY3(MVSIZ), VDY4(MVSIZ),
-     .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ), 
+     .   VDZ1(MVSIZ), VDZ2(MVSIZ), VDZ3(MVSIZ), VDZ4(MVSIZ), VDY(MVSIZ), VDZ(MVSIZ),
      .   VY1, VY2, VY3, VY4,
      .   VZ1, VZ2, VZ3, VZ4, ABF, DN, P1, P2, P3, P4, PT, PSY, PSZ, PTY,
-     .   PTZ, PS, PST, PTS, DS0, DT0, DS, DT, 
-     .    INC,     
+     .   PTZ, PS, PST, PTS, DS0, DT0, DS, DT,
+     .    INC,
      .   DF1(MVSIZ), DF2(MVSIZ), DF3(MVSIZ), DF4(MVSIZ)
 C-----------------------------------------------
       !EQUIVALENCE (GAMMA,BV(1,61)),(XMS,BV(1,62))

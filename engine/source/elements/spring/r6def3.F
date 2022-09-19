@@ -260,7 +260,7 @@ C---- Traction / Compression
         FF(I)    = GEO(44,MGN(I))
         LSCALE(I)= GEO(39 ,MGN(I))
         DMN(I)   = GEO(65,MGN(I))
-        DMX(I)   = GEO(66,MGN(I))        
+        DMX(I)   = GEO(66,MGN(I))
       ENDDO
 C
       CALL REDEF3(FX      ,XK      ,DX      ,FXEP       ,DXOLD   ,

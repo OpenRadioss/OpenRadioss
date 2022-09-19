@@ -65,13 +65,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER LOCAL_ID, NPC(*)
       INTEGER NOM_OPT(LNOPT1),ID,TYP,UID
       TYPE (MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE (SURF_)   ,TARGET,  DIMENSION(NSURF)   :: IGRSURF
       CHARACTER*nchartitle, INTENT(IN) :: TITR
-      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)      
+      TYPE(SUBMODEL_DATA) LSUBMODEL(NSUBMOD)
       TYPE(t_ebcs_fluxout), INTENT(INOUT) :: EBCS
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -92,7 +92,7 @@ C   S o u r c e   L i n e s
 C-----------------------------------------------
 
       EBCS%IS_MULTIFLUID = .TRUE.
-      EBCS%HAS_IELEM = .TRUE.             
+      EBCS%HAS_IELEM = .TRUE.
       EBCS%FVM_INLET_DATA%FORMULATION = -1
       EBCS%FVM_INLET_DATA%VECTOR_VELOCITY = 0
       EBCS%FVM_INLET_DATA%FUNC_VEL(1:3) = 0
@@ -104,28 +104,28 @@ C-----------------------------------------------
       EBCS%FVM_INLET_DATA%VAL_RHO(1:21) = ZERO
       EBCS%FVM_INLET_DATA%VAL_PRES(1:21) = ZERO
       IFLAGUNIT=0
-      DO J=1,NUNITS                                              
-        IF (UNITAB%UNIT_ID(J) == UID) THEN    
+      DO J=1,NUNITS
+        IF (UNITAB%UNIT_ID(J) == UID) THEN
           FAC_M = UNITAB%FAC_M(J)
           FAC_L = UNITAB%FAC_L(J)
           FAC_T = UNITAB%FAC_T(J)
-          FAC_C = FAC_M/ ( FAC_L * FAC_T * FAC_T )                                            
-          IFLAGUNIT = 1                                          
-          EXIT                                                   
-        ENDIF                                                    
-      ENDDO                                                      
-      IF (UID/=0.AND.IFLAGUNIT==0) THEN                      
-        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,    
+          FAC_C = FAC_M/ ( FAC_L * FAC_T * FAC_T )
+          IFLAGUNIT = 1
+          EXIT
+        ENDIF
+      ENDDO
+      IF (UID/=0.AND.IFLAGUNIT==0) THEN
+        CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              I2=UID,
      .              I1=ID,
-     .              C1='EBCS',           
-     .              C2='EBCS',                           
-     .              C3=TITR)                                      
-      ENDIF  
-      
+     .              C1='EBCS',
+     .              C2='EBCS',
+     .              C3=TITR)
+      ENDIF
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)        
-         
+      CALL HM_GET_INTV('entityid',  SURF  ,IS_AVAILABLE,LSUBMODEL)
+
          ISU=0
          INGR2USR => IGRSURF(1:NSURF)%ID
          IF (SURF/=0) ISU=NGR2USR(SURF,INGR2USR,NSURF)
@@ -133,18 +133,18 @@ C-----------------------------------------------
          IF (ISU/=0) NSEG=IGRSURF(ISU)%NSEG
          IF(SURF==0)THEN
             IERR=IERR+1
-            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'  
-            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'       
+            WRITE(ISTDO,'(6X,A)')' ** A SURFACE SHOULD BE INPUT'
+            WRITE(IOUT, '(6X,A)')' ** A SURFACE SHOULD BE INPUT'
          ELSEIF(ISU==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR SURFACE NOT FOUND, ID=',SURF
-            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF        
+            WRITE(IOUT,*) ' ** ERROR SURFACE NOT FOUND, ID=',SURF
          ELSEIF(NSEG==0)THEN
             IERR=IERR+1
             WRITE(ISTDO,*)' ** ERROR EMPTY SURFACE',SURF
             WRITE(IOUT,*) ' ** ERROR EMPTY SURFACE',SURF
          ENDIF
-        
+
          IF(TYP==9) THEN
             WRITE(IOUT,1019)ID,TRIM(TITR)
             EBCS%fvm_inlet_data%FUNC_VEL(1) = -1
@@ -164,7 +164,7 @@ C-----------------------------------------------
                EBCS%fvm_inlet_data%VAL_PRES(IMAT)   = ZERO
             ENDDO
          ENDIF
-                 
+
          WRITE(IOUT,1118)SURF,NSEG
          IF (.NOT. MULTI_FVM%IS_USED) THEN
                CALL ANCMSG(MSGID=1602,
@@ -174,24 +174,24 @@ C-----------------------------------------------
      .              C1 = TRIM(TITR),
      .              C2 = "ONLY COMPATIBLE WITH LAW 151")
             ENDIF
-                  
+
 C-----------
       RETURN
 C-----------
- 1000 FORMAT( //'ZERO PRESSURE GRADIENT EBCS NUMBER . . . :',I8,1X,A)    
- 1001 FORMAT( //'IMPOSED PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)    
- 1002 FORMAT( //'INLET VALVE  EBCS NUMBER   . . . . . . . :',I8,1X,A)    
- 1003 FORMAT( //'OUTLET VALVE  EBCS NUMBER  . . . . . . . :',I8,1X,A)    
- 1004 FORMAT( //'IMPOSED VELOCITY . . . . . . . . . . . . :',I8,1X,A)    
- 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I8,1X,A)    
- 1006 FORMAT( //'INITIAL PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)    
- 1007 FORMAT( //'INITIAL VELOCITY  EBCS NUMBER  . . . . . :',I8,1X,A)    
- 1018 FORMAT( //'FLUID INLET EBCS NUMBER .  . . . . . . . :',I8,1X,A)    
- 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I8,1X,A)    
+ 1000 FORMAT( //'ZERO PRESSURE GRADIENT EBCS NUMBER . . . :',I8,1X,A)
+ 1001 FORMAT( //'IMPOSED PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)
+ 1002 FORMAT( //'INLET VALVE  EBCS NUMBER   . . . . . . . :',I8,1X,A)
+ 1003 FORMAT( //'OUTLET VALVE  EBCS NUMBER  . . . . . . . :',I8,1X,A)
+ 1004 FORMAT( //'IMPOSED VELOCITY . . . . . . . . . . . . :',I8,1X,A)
+ 1005 FORMAT( //'IMPOSED NORMAL VELOCITY EBCS NUMBER  . . :',I8,1X,A)
+ 1006 FORMAT( //'INITIAL PRESSURE EBCS NUMBER . . . . . . :',I8,1X,A)
+ 1007 FORMAT( //'INITIAL VELOCITY  EBCS NUMBER  . . . . . :',I8,1X,A)
+ 1018 FORMAT( //'FLUID INLET EBCS NUMBER .  . . . . . . . :',I8,1X,A)
+ 1019 FORMAT( //'FLUX OUT  EBCS NUMBER  . . . . . . . . . :',I8,1X,A)
  1020 FORMAT( //'AXIS (N2D = 1) EBCS NUMBER.  . . . . . . :',I8,1X,A)
- 1021 FORMAT( '   VELOCITY & PRESSURE')    
- 1022 FORMAT( '   VELOCITY & ENERGY')  
-    
+ 1021 FORMAT( '   VELOCITY & PRESSURE')
+ 1022 FORMAT( '   VELOCITY & ENERGY')
+
  1101 FORMAT(
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/,
@@ -241,7 +241,7 @@ C-----------
      .        '    ON SURFACE  . . . . . . . . . . . . . . . ',I8,/,
      .        '    NUMBER OF SEGMENTS FOUND. . . . . . . . . ',I8,/)
  1008 FORMAT(//
-     .        'EBCS NUMBER :',I8,1X,A,/,    
+     .        'EBCS NUMBER :',I8,1X,A,/,
      .        '    CONNECTION TO MONITORED VOLUME. . . . . . ',I8,/,
      .        '    THROUGH SURFACE . . . . . . . . . . . . . ',I8,/,
      .        '    ACTIVATED BY SENSOR . . . . . . . . . . . ',I8,/,
@@ -256,7 +256,7 @@ C-----------
      .        '    IVz FUNCTION ID . . . . . . . . . . . . . ',I8,/,
      .        '    Vz SCALE FACTOR . . . . . . . . . . . . . ',E16.6)
  1124 FORMAT(
-     .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I2) 
+     .        '    IVx FUNCTION ID . . . . . . . . . . . . . ',I2)
  1125 FORMAT(
      .        '    IVy FUNCTION ID . . . . . . . . . . . . . ',I2)
  1126 FORMAT(
@@ -285,7 +285,7 @@ C-----------
      .        '    IVn FUNCTION ID . . . . . . . . . . . . . ',I8,/,
      .        '    Vn SCALE FACTOR . . . . . . . . . . . . . ',E16.6)
  1134 FORMAT(
-     .        '    Vn CONSTANT VELOCITY. . . . . . . . . . . ',E16.6) 
+     .        '    Vn CONSTANT VELOCITY. . . . . . . . . . . ',E16.6)
  1135 FORMAT(
      .        '    IVn FUNCTION ID . . . . . . . . . . . . . ',I2,/,
      .        '      Von Neumann BCS :  d/dn Vn = 0')

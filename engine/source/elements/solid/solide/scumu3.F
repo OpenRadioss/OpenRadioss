@@ -174,7 +174,7 @@ C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
           ENDIF
          ENDDO
         ENDIF
-       ENDIF  
+       ENDIF
       ENDIF
       NVC1 = NVC / 128
       NVC2 =(NVC-NVC1*128) / 64
@@ -189,7 +189,7 @@ C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
         STI(I)=FOURTH*STI(I)
       END DO
-      IF(NODADT_THERM == 1 ) THEN  
+      IF(NODADT_THERM == 1 ) THEN
         DO I=LFT,LLT
            CONDE(I)=ONE_OVER_8*CONDE(I)
         END DO
@@ -319,7 +319,7 @@ C
       ENDIF
 CCC
       ELSE
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
         IF(NVC1==0)THEN
         DO I=LFT,LLT
          E(1,NC1(I))=E(1,NC1(I))+F11(I)
@@ -373,7 +373,7 @@ CCC
          E(2,NC3(I))=E(2,NC3(I))+F23(I)
          E(3,NC3(I))=E(3,NC3(I))+F33(I)
          STIFN(NC3(I))=STIFN(NC3(I))+STI(I)
-         FTHE(NC3(I)) = FTHE(NC3(I)) + THEM(I,3) 
+         FTHE(NC3(I)) = FTHE(NC3(I)) + THEM(I,3)
          CONDN(NC3(I))= CONDN(NC3(I))+ CONDE(I)
         ENDDO
        ENDIF
@@ -523,7 +523,7 @@ C
          E(2,NC3(I))=E(2,NC3(I))+F23(I)
          E(3,NC3(I))=E(3,NC3(I))+F33(I)
          STIFN(NC3(I))=STIFN(NC3(I))+STI(I)
-         FTHE(NC3(I)) = FTHE(NC3(I)) + THEM(I,3) 
+         FTHE(NC3(I)) = FTHE(NC3(I)) + THEM(I,3)
         ENDDO
        ENDIF
        IF(NVC4==0)THEN
@@ -532,7 +532,7 @@ C
          E(2,NC4(I))=E(2,NC4(I))+F24(I)
          E(3,NC4(I))=E(3,NC4(I))+F34(I)
          STIFN(NC4(I))=STIFN(NC4(I))+STI(I)
-         FTHE(NC4(I)) = FTHE(NC4(I)) + THEM(I,4) 
+         FTHE(NC4(I)) = FTHE(NC4(I)) + THEM(I,4)
         ENDDO
        ELSE
         DO I=LFT,LLT
@@ -612,7 +612,7 @@ C
         ENDDO
        ENDIF
 C
-       ENDIF       
+       ENDIF
       ENDIF
 C
       IF(ISROT/=0)THEN
@@ -862,7 +862,7 @@ C case /DT/BRICK/DEL => OFFG==0 &  F,STI/=0
           ENDIF
          ENDDO
         ENDIF
-       ENDIF  
+       ENDIF
       ENDIF
 
 C
@@ -870,7 +870,7 @@ C     because 2*Mnodal = 2*Melement/8
       DO I=LFT,LLT
         STI(I)=FOURTH*STI(I)
       END DO
-      IF(NODADT_THERM == 1 ) THEN  
+      IF(NODADT_THERM == 1 ) THEN
         DO I=LFT,LLT
            CONDE(I)=ONE_OVER_8*CONDE(I)
         END DO
@@ -994,7 +994,7 @@ C
           FSKYV(K,2)=F21(I)
           FSKYV(K,3)=F31(I)
           FSKYV(K,7)=STI(I)
-          FTHESKY(K) = THEM(I,1)       
+          FTHESKY(K) = THEM(I,1)
 C
           K = IADS(7,II)
           FSKYV(K,1)=F17(I)
@@ -1172,8 +1172,8 @@ C
           FTHESKY(K) = THEM(I,6)
          ENDDO
         ENDIF
-       ENDIF      
-      
+       ENDIF
+
       ENDIF
 
       IF(ISROT/=0)THEN

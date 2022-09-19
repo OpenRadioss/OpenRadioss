@@ -26,8 +26,8 @@ Chd|-- called by -----------
 Chd|        SIGEPS51                      source/materials/mat/mat051/sigeps51.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DPRAG51 
-     .          (NEL    ,SIGD   ,TEMP   ,VOL    ,EPSEQ  , 
+      SUBROUTINE DPRAG51
+     .          (NEL    ,SIGD   ,TEMP   ,VOL    ,EPSEQ  ,
      .           DEPS   ,EPD    ,UPARAM ,VOLUME ,EINT   , EPX   ,
      .           UVAR   ,NUVAR  ,KK     ,RHO0   ,
      .           C0     ,C1     ,C2     ,C3     ,PFRAC  ,PP     ,
@@ -38,7 +38,7 @@ Chd|====================================================================
 !COMMENTAIRE
 !       1) passer EPX en argument et initialiser
 !       2) SSP depend de G, voir si pris encompte dans sigeps510.F, ssp non calcule ici
-!       3) EPX = muold a cosnerver dans PLAS() et sortie dans "Plastic Strain" 
+!       3) EPX = muold a cosnerver dans PLAS() et sortie dans "Plastic Strain"
 
 !EQUIVALENCES PAR RAPPORT A M10LAW()
         !SIGD   = tenseur deviateur du sous-materiau stocke dans UVAR
@@ -46,7 +46,7 @@ Chd|====================================================================
         !SVRT   = DE dans routine parent
         !G*DEPSXX = G * DT1*D1
         !PFRAC  = PFRAC
-        
+
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
       INTEGER NEL, ITRIMAT
-      my_real 
+      my_real
      .   RHO0,PFRAC,SSP(NEL),OFF(NEL),
      .   SIGD(6,NEL),DEPS(6,NEL),TEMP(NEL),EPD(NEL),
      .   VOL(NEL),UPARAM(*) ,VOLUME(NEL),EINT(NEL), HYDRO(4),
@@ -79,13 +79,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, KK,NUVAR
-       my_real 
+       my_real
      .   GG, S1,S2,S3,VM,DPLA,R,DY,CMX,TSTAR,
      .   A0,A1,A2,AMAX,TMELT,THETL,AMUMX,SIGMX,
-     .   YI,VM2X,T0,EPS0,BEPS0PNM1,CTE,FACT,FAC2,  
+     .   YI,VM2X,T0,EPS0,BEPS0PNM1,CTE,FACT,FAC2,
      .   UVAR(NEL,NUVAR),
      .   C0, C1, C2, C3, MAS
-      my_real 
+      my_real
      .   Y(NEL),H(NEL),VM2(NEL), YOUNG, NU,
      .   DF(NEL), AMU(NEL), POLD(NEL), SVRT(NEL), AMU2(NEL),
      .   T1(NEL), T2(NEL), T3(NEL), T4(NEL), T5(NEL), T6(NEL),
@@ -100,8 +100,8 @@ C
       A2           = UPARAM(18)
       AMAX         = UPARAM(19)
       YOUNG        = UPARAM(02)
-      NU           = UPARAM(22)            
-      PSTAR        = UPARAM(23)       
+      NU           = UPARAM(22)
+      PSTAR        = UPARAM(23)
       TMELT        = UPARAM(08)
       THETL        = UPARAM(09)
       AMUMX        = UPARAM(20)
@@ -111,13 +111,13 @@ C
       BULK(1:NEL)  = UPARAM(21)
       BULK2(1:NEL) = UPARAM(21)
 C              
-      if(timestep==zero)return        
+      if(timestep==zero)return
       DO I=1,NEL
         POLD(I)    = UVAR(I,18+KK)
-        RHO_OLD(I) = UVAR(I,12+KK)   
-        VNEW(I)    = UVAR(I,1+KK)*VOLUME(I) -TIMESTEP*UVAR(I,13+KK) 
+        RHO_OLD(I) = UVAR(I,12+KK)
+        VNEW(I)    = UVAR(I,1+KK)*VOLUME(I) -TIMESTEP*UVAR(I,13+KK)
         VNEW(I)    = MIN(MAX(ZERO,VNEW(I)),VOLUME(I))
-        IF(VNEW(I)>EM15)THEN        
+        IF(VNEW(I)>EM15)THEN
           RHO_NEW(I) = UVAR(I,9+KK) / VNEW(I)  !MASS/VOLUME
         ELSE
           RHO_NEW(I)=RHO_OLD(I)
@@ -125,12 +125,12 @@ C
 
         G(I)    = GG !* DT1
         G2(I)   = TWO * G(I)
-        G43(I)  = ONEP333*GG     
+        G43(I)  = ONEP333*GG
         MAS     = UVAR(I,9+KK)
         IF(MAS>=EM20)THEN
           DF(I)   = RHO_NEW(I)/RHO0
-          AMU(I)  = DF(I)-ONE     
-          AMU2(I) = AMU(I) * MAX(ZERO,AMU(I))          
+          AMU(I)  = DF(I)-ONE
+          AMU2(I) = AMU(I) * MAX(ZERO,AMU(I))
         ELSE
           AMU(I)  = ZERO
           AMU2(I) = ZERO
@@ -150,8 +150,8 @@ C
         PNE1(I)=POLD(I)+AMU(I)*BULK2(I)-EPX(I)*BULK(I)
 
 !UNLOAD BEHAVIOR
-!        IF(AMU(I)<AMUMX) P(I) = MIN(P(I),PNE1(I))    
-        FAC2 = ONE   
+!        IF(AMU(I)<AMUMX) P(I) = MIN(P(I),PNE1(I))
+        FAC2 = ONE
         IF(P(I)<PFRAC)THEN
 !         !EPX(I) =EPX(I)+(PFRAC-POLD(I))/BULK2(I)
           P(I)  = PFRAC
@@ -159,7 +159,7 @@ C
 !        ELSE
 !          EPX(I) =AMU(I)
         ENDIF
-        PP(I) = P(I)        
+        PP(I) = P(I)
 
         SIGDO(1:6,I) = SIGD(1:6,I) * OFF(I)
         FACT = VOL(I)/VOLUME(I)
@@ -172,11 +172,11 @@ C
 
         AJ2(I)=HALF
      .        *(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
-        PTOT = P(I)+PEXT     
+        PTOT = P(I)+PEXT
         G0(I) =A0+A1*PTOT+A2*PTOT*PTOT
         G0(I)= MIN(AMAX,FAC2*G0(I))    !FAC2=1 ou 0 si P<Pmin
         G0(I)= MAX(ZERO,G0(I))
-        IF(PTOT <= PSTAR)G0(I)=ZERO        
+        IF(PTOT <= PSTAR)G0(I)=ZERO
         YIELD2(I)=AJ2(I)-G0(I)
 
         RATIO(I)=ZERO
@@ -205,9 +205,9 @@ C
      .                    + (SIGD(3,I)+SIGDO(3,I)) * DEPS(3,I)
      .                    + (SIGD(4,I)+SIGDO(4,I)) * DEPS(4,I)
      .                    + (SIGD(5,I)+SIGDO(5,I)) * DEPS(5,I)
-     .                    + (SIGD(6,I)+SIGDO(6,I)) * DEPS(6,I)) 
+     .                    + (SIGD(6,I)+SIGDO(6,I)) * DEPS(6,I))
 
-      ENDDO !next I     
+      ENDDO !next I
 
 
       RETURN

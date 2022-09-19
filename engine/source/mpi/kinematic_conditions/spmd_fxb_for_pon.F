@@ -153,7 +153,7 @@ C
 
 
 
-#elif 1 
+#elif 1
 
 
 C version simplifiee pour mono non SPMD

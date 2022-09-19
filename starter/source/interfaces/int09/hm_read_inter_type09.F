@@ -67,7 +67,7 @@ C-----------------------------------------------
       my_real
      .   FRIGAP(*)
       CHARACTER TITR*nchartitle,TITR1*nchartitle
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
@@ -117,7 +117,7 @@ C=======================================================================
       IBC2M = 0
       IBC3M = 0
       IGSTI = 0
-      ILEV  = 0  
+      ILEV  = 0
       INTKG = 0
       IBUC  = 0
       IEULT = 0
@@ -129,7 +129,7 @@ C=======================================================================
       VISC   = ZERO
       FHEAT  = ZERO
       STENS  = ZERO
-      ! Type 
+      ! Type
       NTYP      = 9
       IPARI(15) = NOINT
       IPARI(7)  = NTYP
@@ -175,15 +175,15 @@ C=======================================================================
       ! Thermal bridge flag
       CALL HM_GET_INTV('I_TH'      ,IBUC     ,IS_AVAILABLE, LSUBMODEL)
       ! Euler flag
-      CALL HM_GET_INTV('I_EUL'     ,IEULT    ,IS_AVAILABLE, LSUBMODEL)  
+      CALL HM_GET_INTV('I_EUL'     ,IEULT    ,IS_AVAILABLE, LSUBMODEL)
       ! Upwind value
       CALL HM_GET_FLOATV('UPWIND'  ,VISC     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ! Surface tension force
-      CALL HM_GET_FLOATV('Fs'      ,STENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('Fs'      ,STENS    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ! Storage IPARI FRIGAP
       IPARI(14)  = IEULT
       FRIGAP(4)  = FHEAT
-      FRIGAP(15) = STENS 
+      FRIGAP(15) = STENS
       IPARI(11)  = 4*IBC1+2*IBC2+IBC3 + 8 *(4*IBC1M+2*IBC2M+IBC3M)
       FRIGAP(14) = VISC
       IPARI(12)  = IBUC
@@ -205,7 +205,7 @@ C
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -232,6 +232,6 @@ C------------
      .    '    INITIAL GAP . . . . . . . . . . . . . . . ',1PG20.13/,
      .    '    FREE SURFACE UPWIND . . . . . . . . . . . ',1PG20.13/,
      .    '    SURFACE TENSION . . . . . . . . . . . . . ',1PG20.13//)
-    
+
       RETURN
       END

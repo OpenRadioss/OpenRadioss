@@ -33,14 +33,14 @@ Chd|        OPTIONDEF_MOD                 ../common_source/modules/optiondef_mod
 Chd|====================================================================
       SUBROUTINE ST_QAPRINT_INITIAL_CONDITIONS(
      1     NOM_OPT   ,INOM_OPT  ,ITAB      ,V         ,VR        ,
-     2     W         ,TEMP      ,INICRACK  ,FVM_INIVEL, 
+     2     W         ,TEMP      ,INICRACK  ,FVM_INIVEL,
      3     INIMAP1D, INIMAP2D)
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
       USE INIGRAV
-      USE OPTIONDEF_MOD 
+      USE OPTIONDEF_MOD
       USE MULTI_FVM_MOD
       USE INIMAP1D_MOD
       USE INIMAP2D_MOD
@@ -229,14 +229,14 @@ C     INITEMP
 C-----------------------------------------------
       IF (MYQAKEY('/INIGRAV')) THEN
 C      
-        IF (NINIGRAV > 0) THEN 
+        IF (NINIGRAV > 0) THEN
 C          
 !         Sort by ID to ensure internal order independant output
           DO I = 1, NINIGRAV
             IDS(I)    = INIGRV(4,I)
             IDX(I)    = I
           ENDDO
-          CALL QUICKSORT_I2(IDS, IDX, 1, NINIGRAV)  
+          CALL QUICKSORT_I2(IDS, IDX, 1, NINIGRAV)
 C         
 !         Loop over INIGRAVs
           DO II = 1, NINIGRAV
@@ -254,7 +254,7 @@ C
             DO I = 1,11
               WRITE(VARNAME,'(A,I0)') 'LINIGRAV_',I
               TEMP_DOUBLE = LINIGRAV(I,MY_ID)
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)  
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
             ENDDO
           ENDDO
         ENDIF
@@ -274,7 +274,7 @@ C
 C        
         ! Inista output format
         WRITE(VARNAME,'(A)') 'IOUTP_FMT_'
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IOUTP_FMT,0.0_8)    
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IOUTP_FMT,0.0_8)
 C        
         ! Inista file format reading
         WRITE(VARNAME,'(A)') 'IROOTYY_R_'
@@ -293,7 +293,7 @@ C
             IDS2(I) = INICRACK(I)%ID
             IDX2(I) = I
           ENDDO
-          CALL QUICKSORT_I2(IDS2, IDX2, 1, NINICRACK)  
+          CALL QUICKSORT_I2(IDS2, IDX2, 1, NINICRACK)
 C
 !         Loop over INICRACKs
           DO II = 1, NINICRACK
@@ -319,9 +319,9 @@ C
 C             
               WRITE(VARNAME,'(A,I0,A,I0,A)') 'INICRACK_',II,'_SEG_',I,'_RATIO_'
               TEMP_DOUBLE = INICRACK(MY_ID)%SEG(I)%RATIO
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)  
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 C   
-            ENDDO          
+            ENDDO
           ENDDO
 C        
         ENDIF

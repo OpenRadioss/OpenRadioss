@@ -31,7 +31,7 @@ Chd|====================================================================
      1   X      ,IRECT  ,NSV     ,BUMULT  ,NSEG     ,
      2   NMN    ,NRTM   ,MWA     ,NSN     ,CAND_E   ,
      3   CAND_N ,GAP    ,XYZM    ,NOINT   ,I_STOK   ,
-     4   DIST   ,TZINF  ,MAXBOX  ,MINBOX  ,MSR      ,   
+     4   DIST   ,TZINF  ,MAXBOX  ,MINBOX  ,MSR      ,
      5   STF    ,STFN   ,MULTIMP ,ISTF    ,IDDLEVEL ,
      6   ITAB   ,GAP_S  ,GAP_M   ,IGAP    ,GAPMIN   ,
      7   GAPMAX ,INACTI ,GAP_S_L ,GAP_M_L ,I_MEM    ,
@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   STF(*),STFN(*),X(3,*),XYZM(6,*),GAP_S(*),GAP_M(*),
      .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX,
      .   GAP_S_L(*),GAP_M_L(*), XX(8),YY(8), ZZ(8), CoorMIN(3), CoorMAX(3), DDmax
-     
+
       INTEGER ID, BUFBRIC(*), NBRIC
       CHARACTER*nchartitle,
      .   TITR
@@ -92,7 +92,7 @@ C-----------------------------------------------
      .   BID,TZINF_ST,MARGE,MARGE_ST,GAPV(MVSIZ),
      .   DIAG(4)
 C-----------------------------------------------
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
+!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C-----------------------------------------------
 C   P r e c o n d i t i o n s
 C-----------------------------------------------
@@ -103,38 +103,38 @@ C-----------------------------------------------
       !1-CALCUL TAILLE DES ZONES INFLUENCES
       !DD EST LA DIMENSION DE LA BOULE CIRCONSCRITE (NORME L1)
 
-      
+
       L = 1
       NE = BUFBRIC(L)
       XX(1:8)    = X(1, IXS(2:9,NE) )
       YY(1:8)    = X(2, IXS(2:9,NE) )
-      ZZ(1:8)    = X(3, IXS(2:9,NE) ) 
+      ZZ(1:8)    = X(3, IXS(2:9,NE) )
 
-      DIAG(1)    = SQRT((XX(1)-XX(7))**2 + (YY(1)-YY(7))**2 + (ZZ(1)-ZZ(7))**2) 
+      DIAG(1)    = SQRT((XX(1)-XX(7))**2 + (YY(1)-YY(7))**2 + (ZZ(1)-ZZ(7))**2)
       DIAG(2)    = SQRT((XX(3)-XX(5))**2 + (YY(3)-YY(5))**2 + (ZZ(3)-ZZ(5))**2)
       DIAG(3)    = SQRT((XX(2)-XX(8))**2 + (YY(2)-YY(8))**2 + (ZZ(2)-ZZ(8))**2)
       DIAG(4)    = SQRT((XX(4)-XX(6))**2 + (YY(4)-YY(6))**2 + (ZZ(4)-ZZ(6))**2)
-      
+
       DDmax      = MAXVAL(DIAG(1:4))
 
       DO L=2,NBRIC
         NE = BUFBRIC(L)
         XX(1:8)    = X(1, IXS(2:9,NE) )
         YY(1:8)    = X(2, IXS(2:9,NE) )
-        ZZ(1:8)    = X(3, IXS(2:9,NE) ) 
-        DIAG(1)    = SQRT((XX(1)-XX(7))**2 + (YY(1)-YY(7))**2 + (ZZ(1)-ZZ(7))**2) 
+        ZZ(1:8)    = X(3, IXS(2:9,NE) )
+        DIAG(1)    = SQRT((XX(1)-XX(7))**2 + (YY(1)-YY(7))**2 + (ZZ(1)-ZZ(7))**2)
         DIAG(2)    = SQRT((XX(3)-XX(5))**2 + (YY(3)-YY(5))**2 + (ZZ(3)-ZZ(5))**2)
         DIAG(3)    = SQRT((XX(2)-XX(8))**2 + (YY(2)-YY(8))**2 + (ZZ(2)-ZZ(8))**2)
-        DIAG(4)    = SQRT((XX(4)-XX(6))**2 + (YY(4)-YY(6))**2 + (ZZ(4)-ZZ(6))**2)      
-        DD         = MAXVAL(DIAG(1:4))      
+        DIAG(4)    = SQRT((XX(4)-XX(6))**2 + (YY(4)-YY(6))**2 + (ZZ(4)-ZZ(6))**2)
+        DD         = MAXVAL(DIAG(1:4))
         IF(DD>DDmax)THEN
           DDmax = DD
           !print *, "TZINF : briqueID=", IXS(11,NE)
           !print *, "          New DD=", DD
         ENDIF
       ENDDO
-      
+
       TZINF = (ONE+FIVE/HUNDRED) * DDmax
-           
+
       RETURN
       END

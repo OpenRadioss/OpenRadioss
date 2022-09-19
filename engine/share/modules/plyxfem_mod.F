@@ -89,8 +89,8 @@ C-------------------------------
            integer, DIMENSION(:),POINTER :: ITAG
         END TYPE PLY_DATA
 C        
-        TYPE(PLY_DATA), DIMENSION(:), ALLOCATABLE :: PLY,PLYSKY 
-        TYPE(PLY_DATA), ALLOCATABLE :: PLYSKYI 
+        TYPE(PLY_DATA), DIMENSION(:), ALLOCATABLE :: PLY,PLYSKY
+        TYPE(PLY_DATA), ALLOCATABLE :: PLYSKYI
         my_real,
      .            DIMENSION(:,:), ALLOCATABLE :: VN_NOD
 
@@ -132,4 +132,4 @@ cc        TYPE(PLYSKY_DATA), DIMENSION(:), ALLOCATABLE :: PLYSKY
 cc        INTEGER,
 cc     .            DIMENSION(:), ALLOCATABLE :: IADC_PXFEM, IADSKY_PFXEM
       END MODULE PLYXFEM_MOD
-     
+

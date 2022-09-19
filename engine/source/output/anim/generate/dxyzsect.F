@@ -115,7 +115,7 @@ C
         IF (NSECT > 0) CALL SPMD_AGET_SECT(NSTRF,X,XSEC,WEIGHT,ITAB)
 
           IF (ISPMD==0) THEN
- 
+
             DO I=1,NSECT
 
              XX1 = XSEC(1,1,I)
@@ -179,7 +179,7 @@ C verifier que ce noeud est sur proc0 !
           IF(ITYP==4)THEN
            XWL = XWL + HALF*(RWBUF(7,N)+RWBUF(10,N))
            YWL = YWL + HALF*(RWBUF(8,N)+RWBUF(11,N))
-           ZWL = ZWL + HALF*(RWBUF(9,N)+RWBUF(12,N)) 
+           ZWL = ZWL + HALF*(RWBUF(9,N)+RWBUF(12,N))
           ENDIF
           K=K+NPRW(N)
           IF(NPRW(N4)==-1)K=K+NINT(RWBUF(8,N))

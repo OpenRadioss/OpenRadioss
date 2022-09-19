@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NPC(SNPC), LSENSOR(NSENSI,NSENSOR), IFRAME(LISKN,NUMFRAM+1),
      .        NUMLOADP, ILOADP(SIZLOADP,NLOADP), LLOADP(SLLOADP)
       my_real FACLOADP(LFACLOAD,NUMLOADP)
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real FCX,FCY,FAC_FCX,FAC_FCY,FCX1,FCY1,FCX2,FCY2
-      INTEGER I,J,K, 
+      INTEGER I,J,K,
      .        SUB_INDEX, SUB_ID, UID, ID, IFLAGUNIT,
      .        NN,IAD,TSENS,ISENS,IS,ISU,IFRA,
      .        FUN_HSP,FUN_CX,FUN_VEL,IFRA1,IFRA2,ICFIELD8,ICFIELD12,ICFIELD9,ICFIELD13,
@@ -139,7 +139,7 @@ C     FACLOADP( 7,K) = UNUSED		                              ZERO ! TA_SHIFT
 C----------------------------------------------------------------------------------        
 C   S o u r c e   L i n e s
 C----------------------------------------------------------------------------------        
-      NN = 0 
+      NN = 0
 C--------------------------------------------------
 C START BROWSING MODEL /LOAD/PFLUID
 C--------------------------------------------------
@@ -173,7 +173,7 @@ C--------------------------------------------------
      .                I1      = ID,
      .                C1      = 'FLUID PRESSURE LOAD',
      .                C2      = 'FLUID PRESSURE LOAD',
-     .                C3      = TITR)  
+     .                C3      = TITR)
         ENDIF
 C-----------        
         ILOADP(2,K) = ID
@@ -187,24 +187,24 @@ C-----------
           CALL HM_GET_INTV('surf_ID',ISU,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('sens_ID',ISENS,IS_AVAILABLE,LSUBMODEL)
           !-----------
-          IS=0                                                     
+          IS=0
           DO J=1,NSURF
             IF (ISU  == IGRSURF(J)%ID) IS=J
-          ENDDO                                                     
-          IF(IS /= 0)THEN                                          
+          ENDDO
+          IF(IS /= 0)THEN
             NN=IGRSURF(IS)%NSEG
-            DO J=1,NN                                               
+            DO J=1,NN
               LLOADP(IAD+4*(J-1))  =IGRSURF(IS)%NODES(J,1)
               LLOADP(IAD+4*(J-1)+1)=IGRSURF(IS)%NODES(J,2)
               LLOADP(IAD+4*(J-1)+2)=IGRSURF(IS)%NODES(J,3)
               IF(IGRSURF(IS)%ELTYP(J)  == 7)THEN
-               LLOADP(IAD+4*(J-1)+3)=0                                         
-              ELSE                                                 
+               LLOADP(IAD+4*(J-1)+3)=0
+              ELSE
                LLOADP(IAD+4*(J-1)+3)=IGRSURF(IS)%NODES(J,4)
-              ENDIF  
+              ENDIF
             ENDDO
-          ENDIF   
-	  ILOADP(1,K)=4*NN   
+          ENDIF
+	  ILOADP(1,K)=4*NN
           !-----------
 	  TSENS=0
           DO J=1,NSENSOR
@@ -219,7 +219,7 @@ C-----------
      .                I1=ID,
      .                C1=TITR,
      .                I2=ISENS)
-	  ENDIF                             
+	  ENDIF
           !-----------
           CALL HM_GET_INTV('fct_hsp',NCUR_HSP,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOATV('Ascalex_hsp',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -250,9 +250,9 @@ C-----------
           ICFIELD8 = 0
           IF(XYZ(1:1)  == char_X)ICFIELD8=1
           IF(XYZ(1:1)  == char_Y)ICFIELD8=2
-          IF(XYZ(1:1)  == char_Z)ICFIELD8=3          
+          IF(XYZ(1:1)  == char_Z)ICFIELD8=3
           IF (NCUR_HSP /= 0)THEN
-            IF(XYZ(1:1)   /= char_X  .AND. 
+            IF(XYZ(1:1)   /= char_X  .AND.
      .         XYZ(1:1)   /= char_Y  .AND.
      .         XYZ(1:1)   /= char_Z  ) THEN
                CALL ANCMSG(MSGID=927,
@@ -330,7 +330,7 @@ C-----------
           IF(XYZ1(1:1)  == char_Y)ICFIELD12=2
           IF(XYZ1(1:1)  == char_Z)ICFIELD12=3
           IF (NCUR_VEL /= 0)THEN
-            IF(XYZ1(1:1)   /= char_X  .AND. 
+            IF(XYZ1(1:1)   /= char_X  .AND.
      .         XYZ1(1:1)   /= char_Y  .AND.
      .         XYZ1(1:1)   /= char_Z  ) THEN
                CALL ANCMSG(MSGID=927,
@@ -342,7 +342,7 @@ C-----------
             ENDIF
           ENDIF
           DO J=0,NUMFRAM
-            IF(IFRA2  == IFRAME(4,J+1)) THEN 
+            IF(IFRA2  == IFRAME(4,J+1)) THEN
               ICFIELD13=J+1
             ENDIF
           ENDDO
@@ -355,37 +355,37 @@ C-----------
      .                  C1=TITR,
      .                  I2=IFRA2)
           ENDIF
-           
-         ILOADP(5,K)=2 
-                      
-         IF(IS /= 0)THEN            
-	   IF (IDDOM /= 0) THEN         
+
+         ILOADP(5,K)=2
+
+         IF(IS /= 0)THEN
+	   IF (IDDOM /= 0) THEN
 C----------Multidomains -> deleting common segments (one single time)
-	      CAPT=0 
+	      CAPT=0
               DO H=1,4
 !!	        CAPT=CAPT+TAGNO(NPART+IBUFSSG(IAD+H-1))
 !!cmi                CAPT=CAPT+TAGNO(NPART+IGRSURF(IS)%NODES(J,H))
-              END DO    
+              END DO
 	      IF (CAPT == 8) GOTO 150
-	   ENDIF                      
+	   ENDIF
 150        ILOADP  ( 4,K) = IAD
-           ILOADP  ( 6,K) = ISENS  
-           ILOADP  ( 7,K) = FUN_HSP                                                   
-           FACLOADP( 1,K) = FCY                                          
-           FACLOADP( 2,K) = ONE/FCX   
-           ILOADP  ( 8,K) = ICFIELD8 
+           ILOADP  ( 6,K) = ISENS
+           ILOADP  ( 7,K) = FUN_HSP
+           FACLOADP( 1,K) = FCY
+           FACLOADP( 2,K) = ONE/FCX
+           ILOADP  ( 8,K) = ICFIELD8
            ILOADP  ( 9,K) = ICFIELD9
-           ILOADP  (10,K) = FUN_CX                                                   
-           FACLOADP( 3,K) = FCY1                                          
-           FACLOADP( 4,K) = ONE/FCX1   
-           ILOADP  (11,K) = FUN_VEL                                                  
-           FACLOADP( 5,K) = FCY2                                          
-           FACLOADP( 6,K) = ONE/FCX2 
+           ILOADP  (10,K) = FUN_CX
+           FACLOADP( 3,K) = FCY1
+           FACLOADP( 4,K) = ONE/FCX1
+           ILOADP  (11,K) = FUN_VEL
+           FACLOADP( 5,K) = FCY2
+           FACLOADP( 6,K) = ONE/FCX2
            ILOADP  (12,K) = ICFIELD12
            ILOADP  (13,K) = ICFIELD13
-           !Multidomains -> numbering common segments (one singe time)        
-	   IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)                
-         ENDIF    
+           !Multidomains -> numbering common segments (one singe time)
+	   IF (IDDOM > 0) NN = NN-ISURF_R2R(1,IS)
+         ENDIF
 
          WRITE (IOUT,2002)
          WRITE (IOUT,'(I10,2X,I10,9X,A1,2X,I10,2X,I10,2X,1PG20.13,2X,1PG20.13)')ISU,IFRA1,XYZ(1:1),NCUR_HSP,ISENS,FCX,FCY

@@ -69,10 +69,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IPARG(NPARG,*),NG,NEL
       my_real
-     .  X(3,*),V(3,*),W(3,*), VIS(*),VR(3,*),VXR(*),VYR(*),VZR(*),                           
-     .  X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*), 
-     .  Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
-     .  Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*), 
+     .  X(3,*),V(3,*),W(3,*), VIS(*),VR(3,*),VXR(*),VYR(*),VZR(*),
+     .  X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
+     .  Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .  Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .  VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), VX7(*), VX8(*),
      .  VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), VY7(*), VY8(*),
      .  VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
@@ -81,15 +81,15 @@ C-----------------------------------------------
      .  VDZ1(*),VDZ2(*),VDZ3(*),VDZ4(*),VDZ5(*),VDZ6(*),VDZ7(*),VDZ8(*),
      .  VDX(*), VDY(*), VDZ(*),VD2(*),OFFG(*),OFF(*),RHO(*),
      .  RHOO(*),GAMA0(NEL,6),GAMA(MVSIZ,6),FR_WAVE(*),FR_WAV(*)
-               
+
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*),
      .        NC5(*), NC6(*), NC7(*), NC8(*), MXT(*), NGL(*),NGEO(*)
-     
-      DOUBLE PRECISION 
-     .  XDP(3,*),SAV(NEL,21),      
-     .  XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*), 
-     .  YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*), 
-     .  ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)     
+
+      DOUBLE PRECISION
+     .  XDP(3,*),SAV(NEL,21),
+     .  XD1(*), XD2(*), XD3(*), XD4(*), XD5(*), XD6(*), XD7(*), XD8(*),
+     .  YD1(*), YD2(*), YD3(*), YD4(*), YD5(*), YD6(*), YD7(*), YD8(*),
+     .  ZD1(*), ZD2(*), ZD3(*), ZD4(*), ZD5(*), ZD6(*), ZD7(*), ZD8(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -121,61 +121,61 @@ C=======================================================================
       !----------------------------
       !     NODAL COORDINATES     |
       !----------------------------
-      IF(IRESP==1)THEN 
+      IF(IRESP==1)THEN
         DO I=LFT,LLT
-          XD1(I)=XDP(1,NC1(I))  
-          YD1(I)=XDP(2,NC1(I))  
-          ZD1(I)=XDP(3,NC1(I))  
-          XD2(I)=XDP(1,NC2(I))  
-          YD2(I)=XDP(2,NC2(I))  
-          ZD2(I)=XDP(3,NC2(I))  
-          XD3(I)=XDP(1,NC3(I))  
-          YD3(I)=XDP(2,NC3(I))  
-          ZD3(I)=XDP(3,NC3(I))  
-          XD4(I)=XDP(1,NC4(I))  
-          YD4(I)=XDP(2,NC4(I))  
-          ZD4(I)=XDP(3,NC4(I))  
-          XD5(I)=XDP(1,NC5(I))  
-          YD5(I)=XDP(2,NC5(I))  
-          ZD5(I)=XDP(3,NC5(I))  
-          XD6(I)=XDP(1,NC6(I))  
-          YD6(I)=XDP(2,NC6(I))  
-          ZD6(I)=XDP(3,NC6(I))  
-          XD7(I)=XDP(1,NC7(I))  
-          YD7(I)=XDP(2,NC7(I))  
-          ZD7(I)=XDP(3,NC7(I))  
-          XD8(I)=XDP(1,NC8(I))  
-          YD8(I)=XDP(2,NC8(I))  
-          ZD8(I)=XDP(3,NC8(I))  	  	  	  
+          XD1(I)=XDP(1,NC1(I))
+          YD1(I)=XDP(2,NC1(I))
+          ZD1(I)=XDP(3,NC1(I))
+          XD2(I)=XDP(1,NC2(I))
+          YD2(I)=XDP(2,NC2(I))
+          ZD2(I)=XDP(3,NC2(I))
+          XD3(I)=XDP(1,NC3(I))
+          YD3(I)=XDP(2,NC3(I))
+          ZD3(I)=XDP(3,NC3(I))
+          XD4(I)=XDP(1,NC4(I))
+          YD4(I)=XDP(2,NC4(I))
+          ZD4(I)=XDP(3,NC4(I))
+          XD5(I)=XDP(1,NC5(I))
+          YD5(I)=XDP(2,NC5(I))
+          ZD5(I)=XDP(3,NC5(I))
+          XD6(I)=XDP(1,NC6(I))
+          YD6(I)=XDP(2,NC6(I))
+          ZD6(I)=XDP(3,NC6(I))
+          XD7(I)=XDP(1,NC7(I))
+          YD7(I)=XDP(2,NC7(I))
+          ZD7(I)=XDP(3,NC7(I))
+          XD8(I)=XDP(1,NC8(I))
+          YD8(I)=XDP(2,NC8(I))
+          ZD8(I)=XDP(3,NC8(I))  	  	  	
         ENDDO
       ELSE	
         DO I=LFT,LLT
-          XD1(I)=X(1,NC1(I))  
-          YD1(I)=X(2,NC1(I))  
-          ZD1(I)=X(3,NC1(I))  
-          XD2(I)=X(1,NC2(I))  
-          YD2(I)=X(2,NC2(I))  
-          ZD2(I)=X(3,NC2(I))  
-          XD3(I)=X(1,NC3(I))  
-          YD3(I)=X(2,NC3(I))  
-          ZD3(I)=X(3,NC3(I))  
-          XD4(I)=X(1,NC4(I))  
-          YD4(I)=X(2,NC4(I))  
-          ZD4(I)=X(3,NC4(I))  
-          XD5(I)=X(1,NC5(I))  
-          YD5(I)=X(2,NC5(I))  
-          ZD5(I)=X(3,NC5(I))  
-          XD6(I)=X(1,NC6(I))  
-          YD6(I)=X(2,NC6(I))  
-          ZD6(I)=X(3,NC6(I))  
-          XD7(I)=X(1,NC7(I))  
-          YD7(I)=X(2,NC7(I))  
-          ZD7(I)=X(3,NC7(I))  
-          XD8(I)=X(1,NC8(I))  
-          YD8(I)=X(2,NC8(I))  
-          ZD8(I)=X(3,NC8(I))  
-        ENDDO      
-      ENDIF                   
+          XD1(I)=X(1,NC1(I))
+          YD1(I)=X(2,NC1(I))
+          ZD1(I)=X(3,NC1(I))
+          XD2(I)=X(1,NC2(I))
+          YD2(I)=X(2,NC2(I))
+          ZD2(I)=X(3,NC2(I))
+          XD3(I)=X(1,NC3(I))
+          YD3(I)=X(2,NC3(I))
+          ZD3(I)=X(3,NC3(I))
+          XD4(I)=X(1,NC4(I))
+          YD4(I)=X(2,NC4(I))
+          ZD4(I)=X(3,NC4(I))
+          XD5(I)=X(1,NC5(I))
+          YD5(I)=X(2,NC5(I))
+          ZD5(I)=X(3,NC5(I))
+          XD6(I)=X(1,NC6(I))
+          YD6(I)=X(2,NC6(I))
+          ZD6(I)=X(3,NC6(I))
+          XD7(I)=X(1,NC7(I))
+          YD7(I)=X(2,NC7(I))
+          ZD7(I)=X(3,NC7(I))
+          XD8(I)=X(1,NC8(I))
+          YD8(I)=X(2,NC8(I))
+          ZD8(I)=X(3,NC8(I))
+        ENDDO
+      ENDIF
 
       CALL SREPISO3(
      .       XD1, XD2, XD3, XD4, XD5, XD6, XD7, XD8,
@@ -185,21 +185,21 @@ C=======================================================================
       CALL SREPLOC3(
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z )
-      IF (ISORTH == 0) THEN            
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                               
-          GAMA(I,2) = ZERO                                
-          GAMA(I,3) = ZERO             
-          GAMA(I,4) = ZERO                                
-          GAMA(I,5) = ONE                                
-          GAMA(I,6) = ZERO             
-        ENDDO                          
-      ELSE                             
+      IF (ISORTH == 0) THEN
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
+          GAMA(I,3) = ZERO
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
+        ENDDO
+      ELSE
         CALL SORTHDIR3(
      .       RX , RY , RZ , SX , SY , SZ , TX , TY , TZ  ,
      .       E1X, E2X, E3X, E1Y, E2Y, E3Y, E1Z, E2Z, E3Z ,
      .       GAMA0,GAMA )
-      ENDIF                             
+      ENDIF
       IF(ISMSTR<=4.AND.JLAG>0.OR.(ISMSTR==12.AND.IDTMIN(1)==3)) THEN
 C
        DO I=LFT,LLT
@@ -243,34 +243,34 @@ C
         ENDDO
       ENDIF
 
-      !copy and cast XD (DP) to X (SP) to assure coherence between XD and X      
+      !copy and cast XD (DP) to X (SP) to assure coherence between XD and X
       DO I=LFT,LLT
-        X1(I)= XD1(I) 
-        Y1(I)= YD1(I) 
+        X1(I)= XD1(I)
+        Y1(I)= YD1(I)
         Z1(I)= ZD1(I)
-        X2(I)= XD2(I)  
-        Y2(I)= YD2(I)  
-        Z2(I)= ZD2(I) 
-        X3(I)= XD3(I) 
-        Y3(I)= YD3(I) 
-        Z3(I)= ZD3(I) 
-        X4(I)= XD4(I) 
-        Y4(I)= YD4(I) 
-        Z4(I)= ZD4(I) 
-        X5(I)= XD5(I) 
+        X2(I)= XD2(I)
+        Y2(I)= YD2(I)
+        Z2(I)= ZD2(I)
+        X3(I)= XD3(I)
+        Y3(I)= YD3(I)
+        Z3(I)= ZD3(I)
+        X4(I)= XD4(I)
+        Y4(I)= YD4(I)
+        Z4(I)= ZD4(I)
+        X5(I)= XD5(I)
         Y5(I)= YD5(I)
-        Z5(I)= ZD5(I) 
-        X6(I)= XD6(I) 
-        Y6(I)= YD6(I) 
-        Z6(I)= ZD6(I) 
-        X7(I)= XD7(I) 
-        Y7(I)= YD7(I) 
-        Z7(I)= ZD7(I) 
-        X8(I)= XD8(I) 
-        Y8(I)= YD8(I) 
-        Z8(I)= ZD8(I) 
-      ENDDO    
-            
+        Z5(I)= ZD5(I)
+        X6(I)= XD6(I)
+        Y6(I)= YD6(I)
+        Z6(I)= ZD6(I)
+        X7(I)= XD7(I)
+        Y7(I)= YD7(I)
+        Z7(I)= ZD7(I)
+        X8(I)= XD8(I)
+        Y8(I)= YD8(I)
+        Z8(I)= ZD8(I)
+      ENDDO
+
       DO I=LFT,LLT
        VX1(I)=V(1,NC1(I))
        VY1(I)=V(2,NC1(I))
@@ -297,7 +297,7 @@ C
        VY8(I)=V(2,NC8(I))
        VZ8(I)=V(3,NC8(I))
       ENDDO
-      
+
       IF(ISROT/=0)THEN
        DO I=LFT,LLT
         VXR(I)=(VR(1,NC1(I))+VR(1,NC2(I))+VR(1,NC3(I))+VR(1,NC4(I)) + VR(1,NC5(I))+VR(1,NC6(I))+VR(1,NC7(I))+VR(1,NC8(I)))/EIGHT
@@ -308,7 +308,7 @@ C
      +  FR_WAVE(NC5(I)),FR_WAVE(NC6(I)),FR_WAVE(NC7(I)),FR_WAVE(NC8(I)))
        ENDDO
       ENDIF
-      
+
       IF(OFF_L<ZERO)THEN
         DO I=LFT,LLT
           IF(OFFG(I)<ZERO)THEN
@@ -456,7 +456,7 @@ C
 	 VDZ8(I)=ZERO
          ENDDO
          RETURN
-       ENDIF      
+       ENDIF
        DO I=LFT,LLT
         VDX1(I)=VX1(I)
         VDY1(I)=VY1(I)
@@ -489,7 +489,7 @@ C
        VDX(I)=ONE_OVER_8*(VDX1(I)+VDX2(I)+VDX3(I)+VDX4(I)+VDX5(I)+VDX6(I)+VDX7(I)+VDX8(I))
        VDY(I)=ONE_OVER_8*(VDY1(I)+VDY2(I)+VDY3(I)+VDY4(I)+VDY5(I)+VDY6(I)+VDY7(I)+VDY8(I))
        VDZ(I)=ONE_OVER_8*(VDZ1(I)+VDZ2(I)+VDZ3(I)+VDZ4(I)+VDZ5(I)+VDZ6(I)+VDZ7(I)+VDZ8(I))
-       VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)  
+       VD2(I)=(VDX(I)**2+VDY(I)**2+VDZ(I)**2)
       ENDDO
 C-----------     
       RETURN

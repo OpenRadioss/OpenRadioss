@@ -158,7 +158,7 @@ C
      5   MINBOX  ,I_MEM   ,NB_N_B   ,I_ADD_MAX,ESHIFT  ,
      6   INACTI  ,IFQ     ,MWAG(IP0),CAND_P   ,IFPEN   ,
      7   NRTM    ,NSNROLD ,IGAP     ,GAP      ,GAP_S   ,
-     6   GAP_M   ,GAPMIN  ,GAPMAX   ,MARGE    ,CURV_MAX, 
+     6   GAP_M   ,GAPMIN  ,GAPMAX   ,MARGE    ,CURV_MAX,
      7   NIN     ,GAP_SH  ,NBINFLG ,MBINFLG  ,ISYM     )
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
@@ -328,7 +328,7 @@ C       SEPARER B ET N EN TWO
      4   CAND_M  ,NCONTACT,NOINT    ,TZINF    ,MAXBOX ,
      5   MINBOX  ,I_MEM   ,NB_N_B   ,I_ADD_MAX,ESHIFT ,
      6   ADDCM   ,CHAINE  ,NLINSA   ,ITAB     ,NB_OLD ,
-     7   STIFS   ,STIFM   ,IAUTO    ,NIN      ) 
+     7   STIFS   ,STIFM   ,IAUTO    ,NIN      )
 C
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS

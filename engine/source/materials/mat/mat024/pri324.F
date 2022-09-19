@@ -58,27 +58,27 @@ C . . . . . . . . . . . . . . . . . . .
       VEC(1)=1
       VEC(5)=1
 C
-      PR = -(CS(1)+CS(2)+CS(3)) * THIRD                               
-      CS(1)=CS(1) + PR                                                
-      CS(2)=CS(2) + PR                                                
-      CS(3)=CS(3) + PR                                                
+      PR = -(CS(1)+CS(2)+CS(3)) * THIRD
+      CS(1)=CS(1) + PR
+      CS(2)=CS(2) + PR
+      CS(3)=CS(3) + PR
 C
-      AA = CS(4)**2 + CS(5)**2 + CS(6)**2 - CS(1)*CS(2) - CS(2)*CS(3) 
-     &   - CS(1)*CS(3)                                                
+      AA = CS(4)**2 + CS(5)**2 + CS(6)**2 - CS(1)*CS(2) - CS(2)*CS(3)
+     &   - CS(1)*CS(3)
 
-      IF (AA < EM20) RETURN                                           
+      IF (AA < EM20) RETURN
 C
-      BB = CS(1)*CS(5)**2 + CS(2)*CS(6)**2 + CS(3)*CS(4)**2             
-     &   - CS(1)*CS(2)*CS(3) - TWO*CS(4)*CS(5)*CS(6)                  
+      BB = CS(1)*CS(5)**2 + CS(2)*CS(6)**2 + CS(3)*CS(4)**2
+     &   - CS(1)*CS(2)*CS(3) - TWO*CS(4)*CS(5)*CS(6)
 C
-      CC=-SQRT(TWENTY7/AA)*BB*HALF/AA                                
-      CC= MIN(CC,ONE)                                                  
-      CC= MAX(CC,-ONE)                                                 
-      ANGP=ACOS(CC) * THIRD                                           
-      DD=TWO*SQRT(AA*THIRD)                                          
-      STR(1)=DD*COS(ANGP)                                             
-      STR(2)=DD*COS(ANGP+FTPI)                                        
-      STR(3)=DD*COS(ANGP+TTPI)                                        
+      CC=-SQRT(TWENTY7/AA)*BB*HALF/AA
+      CC= MIN(CC,ONE)
+      CC= MAX(CC,-ONE)
+      ANGP=ACOS(CC) * THIRD
+      DD=TWO*SQRT(AA*THIRD)
+      STR(1)=DD*COS(ANGP)
+      STR(2)=DD*COS(ANGP+FTPI)
+      STR(3)=DD*COS(ANGP+TTPI)
 C . . . . . . . . . . .
 C      VECTEURS PROPRES
 C . . . . . . . . . . .
@@ -160,7 +160,7 @@ C
              ELSE
                V(1,2)=ONE
                V(2,2)=ZERO
-               V(3,2)=ZERO     
+               V(3,2)=ZERO
              ENDIF
            ENDIF
         ELSE
@@ -170,18 +170,18 @@ C . . . . . . . . . . . . .
           DO L=1,3
             XMAG(L) = SQRT(A(1,L)**2 + A(2,L)**2)
           ENDDO
-          XMAX = ZERO              
-          DO L=1,3             
-            IF(XMAG(L) > XMAX)THEN 
-              LMAX=L               
-              XMAX=XMAG(L)         
-            ENDIF                  
+          XMAX = ZERO
+          DO L=1,3
+            IF(XMAG(L) > XMAX)THEN
+              LMAX=L
+              XMAX=XMAG(L)
+            ENDIF
           ENDDO
 C
          IF(MAX(ABS(A(3,1)),ABS(A(3,2)),ABS(A(3,3))) < TOL2)THEN
            V(1,1) = ZERO
            V(2,1) = ZERO
-           V(3,1) = ONE   
+           V(3,1) = ONE
            V(1,2) = -A(2,LMAX)/XMAX
            V(2,2) =  A(1,LMAX)/XMAX
            V(3,2) =  ZERO
@@ -203,7 +203,7 @@ C
            V(3,1) = ZERO
            V(1,2) = ZERO
            V(2,2) = ONE
-           V(3,2) = ZERO	   
+           V(3,2) = ZERO	
          ENDIF
       ENDIF
 C
@@ -241,7 +241,7 @@ C
 C
       EPS(4)=HALF*EPS(4)
       EPS(5)=HALF*EPS(5)
-      EPS(6)=HALF*EPS(6)      
+      EPS(6)=HALF*EPS(6)
       A11=EPS(1)*S11+EPS(4)*S21+EPS(6)*S31
       A12=EPS(1)*S12+EPS(4)*S22+EPS(6)*S32
       A13=EPS(1)*S13+EPS(4)*S23+EPS(6)*S33
@@ -256,7 +256,7 @@ C
       EPS(3)=S13*A13+S23*A23+S33*A33
       EPSTOT(4)=HALF*EPSTOT(4)
       EPSTOT(5)=HALF*EPSTOT(5)
-      EPSTOT(6)=HALF*EPSTOT(6)      
+      EPSTOT(6)=HALF*EPSTOT(6)
       A11=EPSTOT(1)*S11+EPSTOT(4)*S21+EPSTOT(6)*S31
       A12=EPSTOT(1)*S12+EPSTOT(4)*S22+EPSTOT(6)*S32
       A13=EPSTOT(1)*S13+EPSTOT(4)*S23+EPSTOT(6)*S33

@@ -160,7 +160,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER N
 C     REAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   A(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

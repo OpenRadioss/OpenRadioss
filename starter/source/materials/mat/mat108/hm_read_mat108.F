@@ -44,7 +44,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
       USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e sXM
@@ -61,9 +61,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN) :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
       INTEGER, INTENT(INOUT) :: ISRATE,IFUNC(MAXFUNC)
       INTEGER, INTENT(OUT)   :: NUPARAM,NFUNC
@@ -103,7 +103,7 @@ c
 c-------------------------------------------------------------------------------
       WRITE(IOUT,1100) TRIM(TITR),MAT_ID,ILAW
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      WRITE(IOUT,1300) RHO0  
+      WRITE(IOUT,1300) RHO0
       PM(1)  = RHO0
       PM(89) = RHO0
 c-------------------------------------------------------------------------------
@@ -114,31 +114,31 @@ c-------------------------------------------------------------------------------
       CALL HM_GET_INTV  ('Ifail'     ,IFAIL    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('Iequil'    ,IEQUIL   ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('Ifail2'    ,IFAIL2   ,IS_AVAILABLE, LSUBMODEL)
-c      
+c
 C----
 C----
 C
       IF (IFAIL2 /= 1 .AND. IFAIL2 /= 2 .AND. IFAIL2 /= 3) IFAIL2 = 0
-      
+
       UPARAM(1)=IFAIL
       UPARAM(2)=0  ! not used for this law
       UPARAM(3)=IFAIL2
-      UPARAM(4)=IEQUIL 
+      UPARAM(4)=IEQUIL
       NUPARAM = 4
-c      
+c
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,1000)MAT_ID
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
         WRITE(IOUT,1700)IFAIL,IFAIL2,IEQUIL
       ENDIF
-c-------------------------------------------------------------------------------      
+c-------------------------------------------------------------------------------
 !-------------------------------------------------------
 !                      Translations
 !-------------------------------------------------------
 !-----------------
       ! Traction X
-!-----------------   
+!-----------------
       CALL HM_GET_FLOATV('STIFF1'    ,XK       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('DAMP1'     ,XC       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Acoeft1'   ,A        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -213,9 +213,9 @@ C----
       IF (A == ZERO) THEN
         CALL HM_GET_FLOATV_DIM('Acoeft1' ,A_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         A  = ONE * A_UNIT
-      ENDIF  
+      ENDIF
       IF (D == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Dcoeft1' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Dcoeft1' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
@@ -242,25 +242,25 @@ C----
 !
 C----
       I1 = NUPARAM
-      I2 = I1 + 6 
-      I3 = I2 + 6 
-      I4 = I3 + 6 
-      I5 = I4 + 6 
-      I6 = I5 + 6 
-      I7 = I6 + 6 
-      I8 = I7 + 6 
-      I9 = I8 + 6 
-      I10 = I9 + 6  
+      I2 = I1 + 6
+      I3 = I2 + 6
+      I4 = I3 + 6
+      I5 = I4 + 6
+      I6 = I5 + 6
+      I7 = I6 + 6
+      I8 = I7 + 6
+      I9 = I8 + 6
+      I10 = I9 + 6
       I11 = I10 + 6 ! not used
-      I12 = I11 + 6 
+      I12 = I11 + 6
       I13 = I12 + 6
-      ! I14 not used 
+      ! I14 not used
 C       
-      UPARAM(I1 + 1)   = A   ! 
+      UPARAM(I1 + 1)   = A   !
       UPARAM(I2 + 1)   = B
       UPARAM(I3 + 1)   = D
       UPARAM(I4 + 1)   = E
-      UPARAM(I5 + 1)   = GF3                       
+      UPARAM(I5 + 1)   = GF3
       UPARAM(I6 + 1)   = ONE / F
       UPARAM(I7 + 1)   = ONE / LSCALE
       UPARAM(I8 + 1)   = DN
@@ -268,11 +268,11 @@ C
       UPARAM(I10 + 1)  = ZERO ! not used
       UPARAM(I11 + 1)  = XK
       UPARAM(I12 + 1)  = XC
-      UPARAM(I13 + 1)  = IECROU+PUN      
+      UPARAM(I13 + 1)  = IECROU+PUN
 C  
 C     for interface stifness
-      PM(191) = XK       
-      !!    
+      PM(191) = XK
+      !!
 C--   If H=6 - 
       IF (IECROU == 6) THEN
         UPARAM(4) = 6
@@ -282,11 +282,11 @@ C
       IF2 = 6
       IF3 = 12
       IF4 = 18
-!!      
+!!
       IFUNC(1) = IFUNC1
       IFUNC(IF2 + 1) = IFUNC2
       IFUNC(IF3 + 1) = IFUNC3
-      IFUNC(IF4 + 1) = IFUNC4      
+      IFUNC(IF4 + 1) = IFUNC4
       NFUNC = 4
 C----
       IF (IS_ENCRYPTED) THEN
@@ -297,10 +297,10 @@ C----
      .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
         ELSE
             WRITE(IOUT,1820)'X',XK,XC,IFUNC1,LSCALE,IFUNC3,F,IECROU,
-     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX       
+     .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
-c-------------------------------------------------------------------------------  
+c-------------------------------------------------------------------------------
 !-----------------
       ! Shear XY
 !-----------------
@@ -329,7 +329,7 @@ C
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-!!            IF (IECROU == 4 .AND. GEO(2) == ZERO)THEN 
+!!            IF (IECROU == 4 .AND. GEO(2) == ZERO)THEN
       IF (IECROU == 4 )THEN
          CALL ANCMSG(MSGID=230,
      .               MSGTYPE=MSGERROR,
@@ -356,7 +356,7 @@ C
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=TITR) 
+     .               C1=TITR)
       ELSEIF (IECROU == 7 .AND. IFUNC3 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -381,7 +381,7 @@ C----
         A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Dcoeft2' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Dcoeft2' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
@@ -406,11 +406,11 @@ C----
         E = ZERO
       ENDIF
 C----
-      UPARAM(I1 + 2)   = A   ! 
+      UPARAM(I1 + 2)   = A   !
       UPARAM(I2 + 2)   = B
       UPARAM(I3 + 2)   = D
       UPARAM(I4 + 2)   = E
-      UPARAM(I5 + 2)   = GF3           
+      UPARAM(I5 + 2)   = GF3
       UPARAM(I6 + 2)   = ONE / F
       UPARAM(I7 + 2)   = ONE / LSCALE
       UPARAM(I8 + 2)   = DN
@@ -420,7 +420,7 @@ C----
       UPARAM(I12 + 2)  = XC
       UPARAM(I13 + 2)  = IECROU+PUN
 C     for interface stifness
-      PM(192) = XK       
+      PM(192) = XK
       !!
 C--   If H=6 - addditional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
@@ -430,7 +430,7 @@ C
       IFUNC(2) = IFUNC1
       IFUNC(IF2 + 2) = IFUNC2
       IFUNC(IF3 + 2) = IFUNC3
-      IFUNC(IF4 + 2) = IFUNC4 
+      IFUNC(IF4 + 2) = IFUNC4
       NFUNC = NFUNC  + 4
 C----
       IF (IS_ENCRYPTED) THEN
@@ -444,7 +444,7 @@ C----
      .                       A,B,D,E,GF3,IFUNC2,IFUNC4,DN,DX
         ENDIF ! IF (IECROU /= 5)
       ENDIF ! IF (IS_ENCRYPTED)
-c-------------------------------------------------------------------------------  
+c-------------------------------------------------------------------------------
 !-----------------
       ! Traction Z
 !-----------------
@@ -473,7 +473,7 @@ C----
      .               I1=IG,
      .               C1=TITR)
       ENDIF
-!!      IF (IECROU == 4 .AND. GEO(2) == ZERO) THEN 
+!!      IF (IECROU == 4 .AND. GEO(2) == ZERO) THEN
       IF (IECROU == 4 ) THEN
          CALL ANCMSG(MSGID=230,
      .               MSGTYPE=MSGERROR,
@@ -525,7 +525,7 @@ C----
         A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Dcoeft3' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Dcoeft3' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
@@ -550,11 +550,11 @@ C----
         E = ZERO
       ENDIF
 C----
-      UPARAM(I1 + 3)   = A   ! 
+      UPARAM(I1 + 3)   = A   !
       UPARAM(I2 + 3)   = B
       UPARAM(I3 + 3)   = D
       UPARAM(I4 + 3)   = E
-      UPARAM(I5 + 3)   = GF3                       
+      UPARAM(I5 + 3)   = GF3
       UPARAM(I6 + 3)   = ONE / F
       UPARAM(I7 + 3)   = ONE / LSCALE
       UPARAM(I8 + 3)   = DN
@@ -562,9 +562,9 @@ C----
       UPARAM(I10 + 3)  = ZERO ! not used
       UPARAM(I11 + 3)  = XK
       UPARAM(I12 + 3)  = XC
-      UPARAM(I13 + 3)  = IECROU+PUN   
+      UPARAM(I13 + 3)  = IECROU+PUN
 C     for interface stifness
-      PM(193) = XK       
+      PM(193) = XK
       !!
 C--   If H=6 - addditional internal variables must be stored in UVAR 
       IF (IECROU == 6) THEN
@@ -574,7 +574,7 @@ C
       IFUNC(3) = IFUNC1
       IFUNC(IF2 + 3) = IFUNC2
       IFUNC(IF3 + 3) = IFUNC3
-      IFUNC(IF4 + 3) = IFUNC4 
+      IFUNC(IF4 + 3) = IFUNC4
       NFUNC = NFUNC + 4
 C----
       IF (IS_ENCRYPTED) THEN
@@ -646,7 +646,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=TITR) 
+     .               C1=TITR)
       ELSEIF (IECROU == 7 .AND. IFUNC3 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -671,7 +671,7 @@ C----
         A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Dcoeft4' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Dcoeft4' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
@@ -697,11 +697,11 @@ C----
       ENDIF
 C----
 C      
-      UPARAM(I1 + 4)   = A   ! 
+      UPARAM(I1 + 4)   = A   !
       UPARAM(I2 + 4)   = B
       UPARAM(I3 + 4)   = D
       UPARAM(I4 + 4)   = E
-      UPARAM(I5 + 4)   = GF3           
+      UPARAM(I5 + 4)   = GF3
       UPARAM(I6 + 4)   = ONE / F
       UPARAM(I7 + 4)   = ONE / LSCALE
       UPARAM(I8 + 4)   = DN
@@ -718,7 +718,7 @@ C
       IFUNC(4) = IFUNC1
       IFUNC(IF2 + 4) = IFUNC2
       IFUNC(IF3 + 4) = IFUNC3
-      IFUNC(IF4 + 4) = IFUNC4 
+      IFUNC(IF4 + 4) = IFUNC4
       NFUNC = NFUNC + 4
 C----
       IF (IS_ENCRYPTED) THEN
@@ -761,7 +761,7 @@ C----
      .               C1=TITR)
       ENDIF
 !!      IF (IECROU == 4 .AND. GEO(2) == ZERO) THEN
-      IF (IECROU == 4 ) THEN      
+      IF (IECROU == 4 ) THEN
          CALL ANCMSG(MSGID=230,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
@@ -787,7 +787,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=TITR) 
+     .               C1=TITR)
       ELSEIF (IECROU == 7 .AND. IFUNC3 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -812,7 +812,7 @@ C----
         A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Dcoeft5' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Dcoeft5' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
@@ -837,11 +837,11 @@ C----
         E = ZERO
       ENDIF
 C----
-      UPARAM(I1 + 5)   = A   ! 
+      UPARAM(I1 + 5)   = A   !
       UPARAM(I2 + 5)   = B
       UPARAM(I3 + 5)   = D
       UPARAM(I4 + 5)   = E
-      UPARAM(I5 + 5)   = GF3           
+      UPARAM(I5 + 5)   = GF3
       UPARAM(I6 + 5)   = ONE / F
       UPARAM(I7 + 5)   = ONE / LSCALE
       UPARAM(I8 + 5)   = DN
@@ -849,7 +849,7 @@ C----
       UPARAM(I10 + 5)  = ZERO ! not used
       UPARAM(I11 + 5)  = XK
       UPARAM(I12 + 5)  = XC
-      UPARAM(I13 + 5)  = IECROU+PUN  
+      UPARAM(I13 + 5)  = IECROU+PUN
 C--   If H=6 - addditional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
          UPARAM(4) = 6
@@ -858,7 +858,7 @@ C
       IFUNC(5) = IFUNC1
       IFUNC(IF2 + 5) = IFUNC2
       IFUNC(IF3 + 5) = IFUNC3
-      IFUNC(IF4 + 5) = IFUNC4 
+      IFUNC(IF4 + 5) = IFUNC4
       NFUNC = NFUNC + 4
 C----
       IF (IS_ENCRYPTED) THEN
@@ -927,7 +927,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=TITR) 
+     .               C1=TITR)
       ELSEIF (IECROU == 7 .AND. IFUNC3 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -952,7 +952,7 @@ C----
         A  = ONE * A_UNIT
       ENDIF
       IF (D == ZERO) THEN
-        CALL HM_GET_FLOATV_DIM('Dcoeft6' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+        CALL HM_GET_FLOATV_DIM('Dcoeft6' ,D_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         D  = ONE * D_UNIT
       ENDIF
       IF (E == ZERO) THEN
@@ -977,11 +977,11 @@ C----
         E = ZERO
       ENDIF
 C---     
-      UPARAM(I1 + 6)   = A   ! 
+      UPARAM(I1 + 6)   = A   !
       UPARAM(I2 + 6)   = B
       UPARAM(I3 + 6)   = D
       UPARAM(I4 + 6)   = E
-      UPARAM(I5 + 6)   = GF3           
+      UPARAM(I5 + 6)   = GF3
       UPARAM(I6 + 6)   = ONE / F
       UPARAM(I7 + 6)   = ONE / LSCALE
       UPARAM(I8 + 6)   = DN
@@ -989,8 +989,8 @@ C---
       UPARAM(I10 + 6)  = ZERO ! not used
       UPARAM(I11 + 6)  = XK
       UPARAM(I12 + 6)  = XC
-      UPARAM(I13 + 6)  = IECROU+PUN  
-!!      
+      UPARAM(I13 + 6)  = IECROU+PUN
+!!
       NUPARAM = NUPARAM + 6*14
 C--   If H=6 - addditional internal variables must be stored in UVAR - 
       IF (IECROU == 6) THEN
@@ -1000,7 +1000,7 @@ C
       IFUNC(6) = IFUNC1
       IFUNC(IF2 + 6) = IFUNC2
       IFUNC(IF3 + 6) = IFUNC3
-      IFUNC(IF4 + 6) = IFUNC4 
+      IFUNC(IF4 + 6) = IFUNC4
       NFUNC = NFUNC + 4
 C----
       IF (IS_ENCRYPTED) THEN
@@ -1017,11 +1017,11 @@ C----
 C----
 C-----------------------------
 !-------------------------------------------------------
-c---    filtring 
+c---    filtring
 !-------------------------------------------------------
       CALL HM_GET_FLOATV('Asrate'      ,ASRATE    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('ISRATE'      ,ISRATE    ,IS_AVAILABLE, LSUBMODEL)
-c           
+c
 C----
       IF (ASRATE == ZERO) ASRATE = INFINITY
 C----
@@ -1033,7 +1033,7 @@ C----
       ENDIF
 !
 C----! NUPARAM = 88 = 4 + 14*6
-!      
+!
       UPARAM(NUPARAM + 1) = ISRATE
       UPARAM(NUPARAM + 2) = ASRATE
 C      
@@ -1057,7 +1057,7 @@ C------------------------
       MTAG%G_RUPTCRIT = 1
       MTAG%G_NUVAR = MAX(MTAG%G_NUVAR,NINT(UPARAM(4)))
       MTAG%G_MASS = 1
-      MTAG%G_SKEW_ID = 1  
+      MTAG%G_SKEW_ID = 1
 C
       PARMAT(4) = ISRATE
       PARMAT(5) = ASRATE
@@ -1074,7 +1074,7 @@ c-----------
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1300 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1700 FORMAT(
      & 5X,'FAILURE FLAG (0:UNCOUPLED 1:COUPLED). .=',I10/,
      & 5X,'FAILURE2 (0:DISPL,1:FORCE,2:ENERGY) . .=',I10/,

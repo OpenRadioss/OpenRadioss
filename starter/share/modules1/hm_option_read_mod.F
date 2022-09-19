@@ -382,7 +382,7 @@ Chd|====================================================================
       MODULE HM_OPTION_READ_MOD
       INTERFACE
       SUBROUTINE HM_OPTION_READ_KEY(LSUBMODEL,OPTION_ID,UNIT_ID,SUBMODEL_INDEX,SUBMODEL_ID,OPTION_TITR,
-     .                              KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPT_POS)  
+     .                              KEYWORD1,KEYWORD2,KEYWORD3,KEYWORD4,OPT_POS)
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -403,4 +403,4 @@ C-----------------------------------------------
       END SUBROUTINE
       END INTERFACE
 C=======================================================================
-      END MODULE 
+      END MODULE

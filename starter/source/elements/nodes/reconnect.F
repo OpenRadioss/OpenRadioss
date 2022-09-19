@@ -221,10 +221,10 @@ C
           NN  = IGRNOD(I)%NENTITY
 C--------- Pass 1        
           DO J=1,NN
-            TAGNO(IGRNOD(I)%ENTITY(J)) = 1           
+            TAGNO(IGRNOD(I)%ENTITY(J)) = 1
           ENDDO
 C--------- Pass 2
-          NM = 0        
+          NM = 0
           DO J=1,NN
             DO K = 1,NMERGED
               IF (IGRNOD(I)%ENTITY(J) == IMERGE(K)) THEN
@@ -235,19 +235,19 @@ C--               node is replaced
                 ELSE
 C--               node is removed
                   NM = NM + 1
-                  TAGNO(IGRNOD(I)%ENTITY(J)) = -1 
+                  TAGNO(IGRNOD(I)%ENTITY(J)) = -1
                 ENDIF
               ENDIF
             ENDDO
           ENDDO
 C--------- Pass 3  
           IF (NM > 0) THEN
-            L = 0      
+            L = 0
             DO J=1,NN
               IF (TAGNO(IGRNOD(I)%ENTITY(J)) /= -1) THEN
                 L = L + 1
                 IGRNOD(I)%ENTITY(L) = IGRNOD(I)%ENTITY(J)
-              ENDIF         
+              ENDIF
             ENDDO
             IGRNOD(I)%NENTITY = IGRNOD(I)%NENTITY - NM
           ENDIF

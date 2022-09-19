@@ -43,9 +43,9 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
-      USE MULTI_FVM_MOD      
+      USE MULTI_FVM_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE PINCHTYPE_MOD
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(*)
       INTEGER IGTYP,IG,UID,SUB_ID
       my_real
@@ -96,7 +96,7 @@ C-----------------------------------------------
      .   NSHELL, NSHSUP, NSHINF,
      .   NSST_D, NSST_DS, NPSH,ISEN,ISORTH,
      .   IHBE_OLD,  ISH3N,ISROT,IPINCH,I1,I2
-     
+
       my_real
      .    PUN,CVIS,DN_P,PTHK
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -186,18 +186,18 @@ C fixing flag and removed from input
      .                I1=IG,
      .                C1=IDTITL)
           IHBE=24
-        ENDIF         
+        ENDIF
         IF(ISH3N==0) ISH3N = ISH3N_D
         IGEO(18) = ISH3N
         IF (GEO(16) == ZERO) IGEO(31) = 1
-        
+
         IF (IHBE==24) THEN
           IF (CVIS==ZERO) CVIS=ONE
           IF (GEO(17)==ZERO) GEO(17)=ZEP015
         ENDIF
 C---
         IF(ISMSTR==0)ISMSTR=ISST_D
-        IF (ISST_D == -2) ISMSTR = -1      
+        IF (ISST_D == -2) ISMSTR = -1
         IF(IHBE==3)THEN
           IF(GEO(13)==ZERO)GEO(13)=EM01
           IF(GEO(14)==ZERO)GEO(14)=EM01
@@ -260,7 +260,7 @@ C
      .                ANMODE=ANINFO,
      .                 I1=IG,
      .                 C1=IDTITL)
-          
+
         ENDIF
         IF(ITHK==0)   ITHK=ITHK_D
         IF(ITHK_D==-2)  ITHK=-1
@@ -291,7 +291,7 @@ C-------not change default dn of DKT with old define (ishel=12)
         IF (GEO(1)<FOURTH) NSHINF = NSHINF +1
         GEO(6)  =NIP+PUN
         IGEO(4) =NIP
-        
+
         GEO(35) =ITHK
         GEO(39) =IPLAST
         IGEO(3) =ISEN
@@ -343,14 +343,14 @@ C-----------------------------
         PROP_TAG(IGTYP)%G_VOL = 0
         PROP_TAG(IGTYP)%L_VOL = 0
         PROP_TAG(IGTYP)%LY_DMG = 2
-        PROP_TAG(IGTYP)%LY_PLAPT = 1      
+        PROP_TAG(IGTYP)%LY_PLAPT = 1
         PROP_TAG(IGTYP)%LY_SIGPT = 5
         PROP_TAG(IGTYP)%G_FORPG  = 5
         PROP_TAG(IGTYP)%G_MOMPG  = 3
         PROP_TAG(IGTYP)%G_STRPG  = 8
 C pinching for batoz shells         
         IF (IGTYP == 1 .AND. IHBE == 12 .AND. IPINCH == 1) THEN
-          PROP_TAG(IGTYP)%G_FORPGPINCH  = 1 
+          PROP_TAG(IGTYP)%G_FORPGPINCH  = 1
           PROP_TAG(IGTYP)%G_MOMPGPINCH  = 2
           PROP_TAG(IGTYP)%G_EPGPINCHXZ  = 1
           PROP_TAG(IGTYP)%G_EPGPINCHYZ  = 1

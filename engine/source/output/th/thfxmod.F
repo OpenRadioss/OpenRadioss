@@ -28,7 +28,7 @@ Chd|        HIST2                         source/output/th/hist2.F
 Chd|-- calls ---------------
 Chd|        WRTDES                        source/output/th/wrtdes.F     
 Chd|====================================================================
-      SUBROUTINE THFXMOD(IAD   , NNE   , ITHBUF, IADV  , NVAR, 
+      SUBROUTINE THFXMOD(IAD   , NNE   , ITHBUF, IADV  , NVAR,
      .                   FXBIPM, FXBDEP, FXBVIT, FXBACC,IFORM)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -55,7 +55,7 @@ C-----------------------------------------------
       INTEGER NFXB, IFXBC, I, IFXB, TFXB(NFXBODY), ADR(NFXBODY+1),
      .        N, NN, AVAR, J, JJ, II
       my_real
-     .        VV(NVAR,NNE), WA(NVAR*NNE) 
+     .        VV(NVAR,NNE), WA(NVAR*NNE)
 C
       IF (IMACH/=3) THEN
          NFXB=0
@@ -113,8 +113,8 @@ C
             ENDDO
          ENDDO
          CALL WRTDES(WA, WA, II, IFORM, 1)
-      ENDIF   
+      ENDIF
 C
       RETURN
       END
-      
+

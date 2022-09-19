@@ -65,7 +65,7 @@ C-----------------------------------------------
      .   CSTS(2,*),SMAS(*),MMAS(*),SINER(*),MINER(*),ADI(*),SKEW(9,*),
      .   FSKYI2(I2SIZE,*),
      .   DPARA(7,*),CSTS_BIS(2,*),T2FAC_SMS(*),
-     .   FNCONTP(3,*),FTCONTP(3,*) 
+     .   FNCONTP(3,*),FTCONTP(3,*)
       TYPE (H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -81,13 +81,13 @@ C-----------------------------------------------
       INTEGER I,ISN,NI,I0BASE,NINDXC,NINDXP
       INTEGER IADX(NSN),INDXC(NSN),INDXP(NSN)
 C=======================================================================
-      INDXC(1:NSN) = 0      
-      INDXP(1:NSN) = 0      
-      IADX(1:NSN)  = 0      
-      NINDXC = 0     
-      NINDXP = 0     
+      INDXC(1:NSN) = 0
+      INDXP(1:NSN) = 0
+      IADX(1:NSN)  = 0
+      NINDXC = 0
+      NINDXP = 0
       I0BASE = I0
-      NI     = 0      
+      NI     = 0
 C----------------          
       DO I=1,NSN
         ISN = ABS(NSV(I))
@@ -96,22 +96,22 @@ C----------------
           IADX(I) = NI
         ENDIF
 c
-        IF (IPENA(I) == 0) THEN     
-          NINDXC = NINDXC + 1       
-          INDXC(I) = I              
-        ELSE                        
+        IF (IPENA(I) == 0) THEN
+          NINDXC = NINDXC + 1
+          INDXC(I) = I
+        ELSE
           NINDXP = NINDXP + 1
-          INDXP(I) = I              
-        ENDIF                       
+          INDXP(I) = I
+        ENDIF
       ENDDO
 c-----------
       IF (NINDXC > 0) THEN
         I0 = I0BASE
         CALL I2FOR27P_CIN(
-     1       NSN       ,NMN       ,A         ,CSTS      ,NSV        ,  
-     2       MS        ,WEIGHT    ,STIFN     ,MMAS      ,FSKYI2     ,  
-     3       IADI2     ,I0        ,NIR       ,I2SIZE    ,IDEL2      ,  
-     4       SMAS      ,IRECTM    ,X         ,V         ,FSAV       ,    
+     1       NSN       ,NMN       ,A         ,CSTS      ,NSV        ,
+     2       MS        ,WEIGHT    ,STIFN     ,MMAS      ,FSKYI2     ,
+     3       IADI2     ,I0        ,NIR       ,I2SIZE    ,IDEL2      ,
+     4       SMAS      ,IRECTM    ,X         ,V         ,FSAV       ,
      5       FNCONT    ,IRTLM     ,INDXC     ,IADX      ,H3D_DATA   ,
      6       IN        ,SINER     ,DPARA     ,MSEGTYP2  ,AR         ,
      7       STIFR     ,CSTS_BIS  ,T2FAC_SMS ,FNCONTP   ,FTCONTP    )
@@ -130,7 +130,7 @@ c
 c
       IF (NINDXP > 0) THEN
         I0 = I0BASE
-        CALL I2FOR27P_PEN(                                               
+        CALL I2FOR27P_PEN(
      .       X         ,V         ,VR        ,A         ,AR        ,
      .       MS        ,IN        ,STIFN     ,STIFR     ,WEIGHT    ,
      .       NSV       ,IRTLM     ,CSTS      ,SKEW      ,DL        ,
@@ -141,8 +141,8 @@ c
      .       IRECTM    ,INDXP     ,IADX      ,H3D_DATA  ,MSEGTYP2  ,
      .       FNCONTP   ,FTCONTP   )
 c
-      ENDIF 
-      I0 = I0BASE + NI                                                         
+      ENDIF
+      I0 = I0BASE + NI
 c-----------
       RETURN
       END SUBROUTINE I2FOR27P

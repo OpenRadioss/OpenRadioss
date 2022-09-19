@@ -118,7 +118,7 @@ C      INOM_OPT(31)= INOM_OPT(30)+ NRBMERGE
 C      .. TO BE MAINTAINED (cf doc/inom_opt.txt) ..
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NIMPDISP,NIMPVEL,NIMPACC
-      INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBYKIN), NPBYL(NNPBY,NRBYLAG), 
+      INTEGER, INTENT(IN) :: NPBY(NNPBY,NRBYKIN), NPBYL(NNPBY,NRBYLAG),
      .                       LPBY(*), LPBYL(*), IBCSCYC(4,NBCSCYC)
       INTEGER, INTENT(IN) :: IBFTEMP(NIFT,NFXTEMP), IBFFLUX(NITFLUX,NFXFLUX)
       INTEGER, INTENT(IN) :: ICODE(NUMNOD), ISKEW(NUMNOD),IBFVEL(NIFV,NFXVEL)
@@ -134,7 +134,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: IBMPC(NUMMPC),IBMPC2(LMPC),IBMPC3(LMPC),IBMPC4(LMPC)
       my_real, INTENT(IN) ::
      .                       RBY(NRBY,NRBYKIN),RBYL(NRBY,NRBYLAG),FRBE3(6,*),GJBUFR(LKJNR,*),MS(*),IN(*)
-      my_real, INTENT(IN) ::  
+      my_real, INTENT(IN) ::
      .                       FBFTEMP(LFACTHER,NFXTEMP), FBFFLUX(LFACTHER,NFXFLUX),
      .                       FBFVEL(LFXVELR,NFXVEL)
       my_real, INTENT(IN) ::
@@ -172,7 +172,7 @@ C
             IF(NPBY(I,MY_RBODY) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'NPBY_',I      
+              WRITE(VARNAME,'(A,I0)') 'NPBY_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPBY(I,MY_RBODY),0.0_8)
             END IF
           END DO
@@ -180,7 +180,7 @@ C
           DO I=NPBY(11,MY_RBODY)+1,NPBY(11,MY_RBODY)+NPBY(2,MY_RBODY)
 C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LPBY_',I      
+            WRITE(VARNAME,'(A,I0)') 'LPBY_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LPBY(I),0.0_8)
           END DO
 C
@@ -211,7 +211,7 @@ C
             IF(NPBYL(I,MY_RBODY) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'NPBYL_',I      
+              WRITE(VARNAME,'(A,I0)') 'NPBYL_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPBYL(I,MY_RBODY),0.0_8)
             END IF
           END DO
@@ -219,7 +219,7 @@ C
           DO I=1,NPBYL(2,MY_RBODY)-1
 C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LPBYL_',I      
+            WRITE(VARNAME,'(A,I0)') 'LPBYL_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(LPBYL(TNSL+I)),0.0_8)
           END DO
 C
@@ -482,7 +482,7 @@ C
             IF(IBCSCYC(I,MY_CONSTRAINT)/=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0,I0)') 'IBCSCYC_',I      
+              WRITE(VARNAME,'(A,I0,I0)') 'IBCSCYC_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBCSCYC(I,MY_CONSTRAINT),0.0_8)
             END IF
 C
@@ -527,7 +527,7 @@ C               VARNAME: variable name in ref.extract (without blanks)
               END IF
             END DO
 C
-            DO I = 1,NRWLP        
+            DO I = 1,NRWLP
               IF (RWBUF(I,MY_RWALL) /= ZERO) THEN
 C
 C               VARNAME: variable name in ref.extract (without blanks)
@@ -569,7 +569,7 @@ C
             IF(IRBE3(I,MY_CONSTRAINT) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'IRBE3_',I      
+              WRITE(VARNAME,'(A,I0)') 'IRBE3_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IRBE3(I,MY_CONSTRAINT),0.0_8)
             END IF
           END DO
@@ -577,14 +577,14 @@ C
           DO I=IRBE3(1,MY_CONSTRAINT)+1,IRBE3(1,MY_CONSTRAINT)+IRBE3(5,MY_CONSTRAINT)
 C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LRBE3_',I      
+            WRITE(VARNAME,'(A,I0)') 'LRBE3_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LRBE3(I),0.0_8)
           END DO
 C          
           DO I=IRBE3(1,MY_CONSTRAINT)+1,IRBE3(1,MY_CONSTRAINT)+IRBE3(5,MY_CONSTRAINT)
 C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LRBE3s_',I      
+            WRITE(VARNAME,'(A,I0)') 'LRBE3s_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LRBE3(I+IADS),0.0_8)
           END DO
 C          
@@ -624,7 +624,7 @@ C
             DO I=1,NMGRBY
               IF(MGRBY(I,MY_MERGE) /=0)THEN
 C               VARNAME: variable name in ref.extract (without blanks)
-                WRITE(VARNAME,'(A,I0)') 'MGRBY_',I      
+                WRITE(VARNAME,'(A,I0)') 'MGRBY_',I
                 CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),MGRBY(I,MY_MERGE),0.0_8)
               END IF
             END DO
@@ -649,7 +649,7 @@ C
           DO I=1,NISPCOND
             IF(ISPCOND(I,MY_CONSTRAINT)/=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0,I0)') 'ISPCOND_',I      
+              WRITE(VARNAME,'(A,I0,I0)') 'ISPCOND_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ISPCOND(I,MY_CONSTRAINT),0.0_8)
             END IF
 C
@@ -675,7 +675,7 @@ C
             IF(IRBE2(I,MY_CONSTRAINT) /=0)THEN
 C
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'IRBE2_',I      
+              WRITE(VARNAME,'(A,I0)') 'IRBE2_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IRBE2(I,MY_CONSTRAINT),0.0_8)
             END IF
           END DO
@@ -683,7 +683,7 @@ C
           DO I=IRBE2(1,MY_CONSTRAINT)+1,IRBE2(1,MY_CONSTRAINT)+IRBE2(5,MY_CONSTRAINT)
 C
 C           VARNAME: variable name in ref.extract (without blanks)
-            WRITE(VARNAME,'(A,I0)') 'LRBE2_',I  
+            WRITE(VARNAME,'(A,I0)') 'LRBE2_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LRBE2(I),0.0_8)
           END DO
 C
@@ -709,19 +709,19 @@ C
 
             IF(IBMPC2(II+I) /=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'NOD_',I      
+              WRITE(VARNAME,'(A,I0)') 'NOD_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBMPC2(II+I),0.0_8)
             END IF
 
             IF(IBMPC3(II+I) /=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'IDOF_',I      
+              WRITE(VARNAME,'(A,I0)') 'IDOF_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBMPC3(II+I),0.0_8)
             END IF
 
             IF(IBMPC4(II+I) /=0)THEN
 C             VARNAME: variable name in ref.extract (without blanks)
-              WRITE(VARNAME,'(A,I0)') 'ISKEW_',I      
+              WRITE(VARNAME,'(A,I0)') 'ISKEW_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IBMPC4(II+I),0.0_8)
             END IF
 
@@ -756,13 +756,13 @@ C
           NS = LJOINT(II)
 C
           DO I=1,NS
-            WRITE(VARNAME,'(A,I0)') 'NOD_',I      
+            WRITE(VARNAME,'(A,I0)') 'NOD_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(LJOINT(II+I)),0.0_8)
           ENDDO
 C
           II=II+NS+1
 C
-        END DO 
+        END DO
       END IF
 C-----------------------------------------------
 C     /GJOINT
@@ -780,7 +780,7 @@ C
           END IF
 C
           DO I=1,LKJNI
-            WRITE(VARNAME,'(A,I0)') 'GJBUFI_',I      
+            WRITE(VARNAME,'(A,I0)') 'GJBUFI_',I
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),GJBUFI(I,MY_CONSTRAINT),0.0_8)
           ENDDO
 C
@@ -795,7 +795,7 @@ C
             IF (GJBUFI(2+I,MY_CONSTRAINT) > 0) THEN
               TEMP_DOUBLE = MS(GJBUFI(2+I,MY_CONSTRAINT))
             ELSE
-              TEMP_DOUBLE = ZERO             
+              TEMP_DOUBLE = ZERO
             ENDIF
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           ENDDO
@@ -805,23 +805,23 @@ C
             IF (GJBUFI(2+I,MY_CONSTRAINT) > 0) THEN
               TEMP_DOUBLE = IN(GJBUFI(2+I,MY_CONSTRAINT))
             ELSE
-              TEMP_DOUBLE = ZERO             
+              TEMP_DOUBLE = ZERO
             ENDIF
             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           ENDDO
 C
-        END DO 
+        END DO
       END IF
 C-----------------------------------------------
 C     RLINK 
 C-----------------------------------------------
       IF (MYQAKEY('/RLINK')) THEN
 C      
-        IF (NLINK > 0) THEN 
+        IF (NLINK > 0) THEN
 C          
 C         
           DO MY_CONSTRAINT = 1, NLINK
-c            
+c
            CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,INOM_OPT(9)+MY_CONSTRAINT),LTITR)
            MY_ID = NOM_OPT(1,INOM_OPT(9)+MY_CONSTRAINT)
            IF(LEN_TRIM(TITR)/=0)THEN
@@ -832,7 +832,7 @@ c
 c
            DO I = 1,10
             IF(NNLINK(I,MY_CONSTRAINT) /=0)THEN
-              WRITE(VARNAME,'(A,I0)') 'NNLINK_',I    
+              WRITE(VARNAME,'(A,I0)') 'NNLINK_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NNLINK(I,MY_CONSTRAINT),0.0_8)
             END IF
            ENDDO
@@ -840,7 +840,7 @@ c
           ENDDO
           DO I = 1,SLNLINK
            IF(LNLINK(I) /=0)THEN
-              WRITE(VARNAME,'(A,I0)') 'LNLINK_',I    
+              WRITE(VARNAME,'(A,I0)') 'LNLINK_',I
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),LNLINK(I),0.0_8)
            END IF
           ENDDO
@@ -861,7 +861,7 @@ C-----------------------------------------------
 C     /FXBODY
 C-----------------------------------------------
       IF (MYQAKEY('/FXBODY')) THEN
-        IF (NFXBODY > 0) THEN 
+        IF (NFXBODY > 0) THEN
 C          
 !     Sort by ID to ensure internal order independant output
           DO I = 1, NFXBODY
@@ -886,7 +886,7 @@ C
             DO I = 1,NBIPM
               IF (FXBIPM(I,MY_FXBODY) /= 0) THEN
                 WRITE(VARNAME,'(A,I0)') 'FXBIPM_',I
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),FXBIPM(I,MY_FXBODY),0.0_8)      
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),FXBIPM(I,MY_FXBODY),0.0_8)
               ENDIF
             ENDDO
 C

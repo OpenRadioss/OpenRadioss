@@ -69,17 +69,17 @@ C-----------------------------------------------
       my_real
      .   VOL(*), VEUL(LVEUL,*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),  
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX5(*), PX6(*), PX7(*), PX8(*),
+     .   PY5(*), PY6(*), PY7(*), PY8(*),
+     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),
      .   PX4H1(*), PX4H2(*), PX4H3(*),
      .   DET(*),DELTAX(*)
       my_real
@@ -92,9 +92,9 @@ C-----------------------------------------------
       INTEGER I, II
       my_real
      .   HX,HY,HZ,
-     .   PMX1(MVSIZ), PMX2(MVSIZ), PMX3(MVSIZ), PMX4(MVSIZ),  
-     .   PMY1(MVSIZ), PMY2(MVSIZ), PMY3(MVSIZ), PMY4(MVSIZ),  
-     .   PMZ1(MVSIZ), PMZ2(MVSIZ), PMZ3(MVSIZ), PMZ4(MVSIZ) 
+     .   PMX1(MVSIZ), PMX2(MVSIZ), PMX3(MVSIZ), PMX4(MVSIZ),
+     .   PMY1(MVSIZ), PMY2(MVSIZ), PMY3(MVSIZ), PMY4(MVSIZ),
+     .   PMZ1(MVSIZ), PMZ2(MVSIZ), PMZ3(MVSIZ), PMZ4(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -169,7 +169,7 @@ C-----------------------------------------------
          PMY4(I)=PY4(I)
          PMZ4(I)=PZ4(I)
         ENDDO
-       ELSE 
+       ELSE
         DO I=LFT,LLT
          PMX1(I)=HALF*(PX1(I)-PX7(I))
          PMY1(I)=HALF*(PY1(I)-PY7(I))
@@ -182,7 +182,7 @@ C-----------------------------------------------
          PMZ3(I)=HALF*(PZ3(I)-PZ5(I))
          PMX4(I)=HALF*(PX4(I)-PX6(I))
          PMY4(I)=HALF*(PY4(I)-PY6(I))
-         PMZ4(I)=HALF*(PZ4(I)-PZ6(I))	 
+         PMZ4(I)=HALF*(PZ4(I)-PZ6(I))	
         ENDDO
        ENDIF
         DO I=LFT,LLT

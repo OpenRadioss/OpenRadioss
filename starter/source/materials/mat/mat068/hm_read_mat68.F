@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT68(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,MATPARAM )
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: IPM(NPROPMI),ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      . E11,E22,E33,G12,G23,G31,EMX11,EMX22,EMX33,EMX12,EMX23,EMX31,
      . EMF11,EMF22,EMF33,EMF12,EMF23,EMF31,
      . FAC1,FAC2,FAC3,FAC4,FAC5,FAC6,FAC7,FAC8,FAC9,
@@ -115,11 +115,11 @@ C-----------------------------------------------
       MTAG%G_GAMA = 6
       MTAG%L_SIGL = 6
       MTAG%L_SIGD = 6
-      MTAG%L_EPSA = 1 ! hyperelastic energy needed for mullins              
+      MTAG%L_EPSA = 1 ! hyperelastic energy needed for mullins
       NUPARAM=38
       NFUNC=18
       NUVAR=18
-      
+
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
       !line+1
       CALL HM_GET_FLOATV('MAT_RHO'      ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -177,28 +177,28 @@ C-----------------------------------------------
       !line-11
       CALL HM_GET_INTV  ('MAT_YFUN12_2' ,J12      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV  ('MAT_YFUN23_2' ,J23      ,IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV  ('MAT_YFUN31_2' ,J31      ,IS_AVAILABLE, LSUBMODEL)            
-      CALL HM_GET_FLOATV('FScale12_2'   ,FAC13    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('FScale23_2'   ,FAC14    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('FScale31_2'   ,FAC15    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_INTV  ('MAT_YFUN31_2' ,J31      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('FScale12_2'   ,FAC13    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('FScale23_2'   ,FAC14    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('FScale31_2'   ,FAC15    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-12
-      CALL HM_GET_FLOATV('MAT_EPS12_2'  ,EMF12    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('MAT_EPS23_2'  ,EMF23    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('MAT_EPS31_2'  ,EMF31    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_FLOATV('MAT_EPS12_2'  ,EMF12    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPS23_2'  ,EMF23    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_EPS31_2'  ,EMF31    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-13
-      CALL HM_GET_INTV  ('MAT_YFUN21_2' ,J21      ,IS_AVAILABLE, LSUBMODEL)            
-      CALL HM_GET_INTV  ('MAT_YFUN32_2' ,J32      ,IS_AVAILABLE, LSUBMODEL)            
-      CALL HM_GET_INTV  ('MAT_YFUN13_2' ,J13      ,IS_AVAILABLE, LSUBMODEL)            
-      CALL HM_GET_FLOATV('FScale21_2'   ,FAC16    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('FScale32_2'   ,FAC17    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
-      CALL HM_GET_FLOATV('FScale13_2'   ,FAC18    ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_INTV  ('MAT_YFUN21_2' ,J21      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('MAT_YFUN32_2' ,J32      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('MAT_YFUN13_2' ,J13      ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_FLOATV('FScale21_2'   ,FAC16    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('FScale32_2'   ,FAC17    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('FScale13_2'   ,FAC18    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !units
       CALL HM_GET_FLOATV_DIM('FScale11' ,FAC_UNIT,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       !---DEFAULT VALUES
       IF(RHOR == ZERO)RHOR=RHO0
       PM(1) =RHOR
-      PM(89)=RHO0  
+      PM(89)=RHO0
       IF (FAC1 == ZERO) FAC1  = ONE*FAC_UNIT
       IF (FAC2 == ZERO) FAC2  = ONE*FAC_UNIT
       IF (FAC3 == ZERO) FAC3  = ONE*FAC_UNIT
@@ -251,15 +251,15 @@ C-----------------------------------------------
       IF(UPARAM(18) == ZERO)UPARAM(18)=INFINITY
       IF(UPARAM(19) == ZERO)UPARAM(19)=INFINITY
       IF(UPARAM(20) == ZERO)UPARAM(20)=INFINITY
-      UPARAM(21)=FAC1 
-      UPARAM(22)=FAC2 
-      UPARAM(23)=FAC3 
-      UPARAM(24)=FAC4 
-      UPARAM(25)=FAC5 
-      UPARAM(26)=FAC6 
-      UPARAM(27)=FAC7 
-      UPARAM(28)=FAC8 
-      UPARAM(29)=FAC9  
+      UPARAM(21)=FAC1
+      UPARAM(22)=FAC2
+      UPARAM(23)=FAC3
+      UPARAM(24)=FAC4
+      UPARAM(25)=FAC5
+      UPARAM(26)=FAC6
+      UPARAM(27)=FAC7
+      UPARAM(28)=FAC8
+      UPARAM(29)=FAC9
       UPARAM(30)=FAC10
       UPARAM(31)=FAC11
       UPARAM(32)=FAC12
@@ -269,7 +269,7 @@ C-----------------------------------------------
       UPARAM(36)=FAC16
       UPARAM(37)=FAC17
       UPARAM(38)=FAC18
-      
+
       PARMAT(1)= MAX(E11,E22,E33,G12,G23,G31)
 
       IFUNC(1)=I11
@@ -299,7 +299,7 @@ C-----------------------------------------------
       IFUNC(16)=J21
       IFUNC(17)=J32
       IFUNC(18)=J13
- 
+
       !Formulation for solid elements time step computation.
       DMIN  = MIN(E11*E22, E22*E33,E11*E33)
       DMAX = MAX(E11,E22,E33)
@@ -326,8 +326,8 @@ c
       ENDIF
 
       RETURN
-      
-      !---OUTPUT FORMAT    
+
+      !---OUTPUT FORMAT
  1000 FORMAT(
      & 5X,40H  HONEYCOMS LAW - COSSERA FORMULATION   ,/,
      & 5X,40H  -----------------------------------   ,//)

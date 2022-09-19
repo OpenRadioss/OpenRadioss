@@ -40,7 +40,7 @@ C-----------------------------------------------
       USE IMP_ASPC
       USE IMP_KBCS
       USE IMP_INTM
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -56,8 +56,8 @@ C-----------------------------------------------
 #include      "com08_c.inc"
 #include      "impl1_c.inc"
 #include      "impl2_c.inc"
-#include      "scr05_c.inc" 
-#include      "units_c.inc" 
+#include      "scr05_c.inc"
+#include      "units_c.inc"
 #include      "mvsiz_p.inc"
 #include      "param_c.inc"
 C-----------------------------------------------------------------
@@ -107,7 +107,7 @@ C--------non-linear-----
        ENDIF
        IF (ISPRB==1.AND.IDYNA==0) THEN
          CALL ZEROR(V,NUMNOD)
-         IF (IRODDL/=0) CALL ZEROR(VR,NUMNOD)    
+         IF (IRODDL/=0) CALL ZEROR(VR,NUMNOD)
        ENDIF
        IF (NEXP==0.OR.IDYNA==1) NEXP=1
        IF (INTP_C>=0)THEN
@@ -143,10 +143,10 @@ C
       NZ_SI = 0
       NZ_SL = 0
 C 
-      IHELAS=0     
+      IHELAS=0
       IF (IKT > 0 .OR.ISPRB==1) CALL KTBUF_INI(ELBUF_TAB,IPARG ,IPM ,IGEO)
 C
-      IDTFIX=0     
+      IDTFIX=0
       IF (NITOL==123) THEN
        N_TOL=MAX(N_TOLE,N_TOLF,N_TOLU)
       ELSEIF (NITOL==12) THEN
@@ -180,7 +180,7 @@ C-----------------------------------------------
       USE IMP_KTAN
       USE MESSAGE_MOD
       USE IMP_KTAN_DEF
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -249,10 +249,10 @@ c-------------------------------------------------
 c----------------------------------------------------
        IF (ITY == 1) THEN   ! solides
 
-        NLAY    = ELBUF_TAB(NG)%NLAY   
-        NPTR    = ELBUF_TAB(NG)%NPTR   
-        NPTS    = ELBUF_TAB(NG)%NPTS   
-        NPTT    = ELBUF_TAB(NG)%NPTT   
+        NLAY    = ELBUF_TAB(NG)%NLAY
+        NPTR    = ELBUF_TAB(NG)%NPTR
+        NPTS    = ELBUF_TAB(NG)%NPTS
+        NPTT    = ELBUF_TAB(NG)%NPTT
 c       Compatibility :S8(HA8,HC8),S4,S10,S20,SC6
         ISNOD   = IPARG(28,NG)
         IPLA    = IPARG(29,NG)

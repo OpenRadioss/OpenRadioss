@@ -68,7 +68,7 @@ C
 C
         RTMP3(1,I) = WFLOW(1,N)
         RTMP3(2,I) = WFLOW(2,N)
-        RTMP3(3,I) = WFLOW(3,N)        
+        RTMP3(3,I) = WFLOW(3,N)
       ENDDO
 C displacement
       CALL WRITE_DB(RTMP1,3*NUMNOD_L)
@@ -86,4 +86,4 @@ C
        DEALLOCATE( RTMP3 )
 ! ------------------------------------
       RETURN
-      END      
+      END

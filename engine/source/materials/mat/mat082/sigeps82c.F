@@ -88,7 +88,7 @@ C----------------------------------------------------------------
       my_real
      .   EVV(NEL,3),EV(NEL,3),EVM(NEL,3),RV(NEL),RHO(NEL),DWDL(NEL,3),
      .   DEZZ(NEL),EIGV(NEL,3,2),TRAV(NEL),ROOTV(NEL),T(NEL,3)
-      my_real     
+      my_real
      .   MU(100),AL(100),D(100),EVMA1(NEL,100),EVMA2(NEL,100),EVMA3(NEL,100)
 C=======================================================================
 C SET INITIAL MATERIAL CONSTANTS
@@ -106,12 +106,12 @@ C SET INITIAL MATERIAL CONSTANTS
       IF (TIME == ZERO) UVAR(1:NEL,1)=ONE
 C     principal stretch (def gradient eigenvalues)
       DO I=1,NEL
-        TRAV(I)  = EPSXX(I)+EPSYY(I)                           
+        TRAV(I)  = EPSXX(I)+EPSYY(I)
         ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .           + EPSXY(I)*EPSXY(I))
-	       EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))                  
-        EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))                  
-        EVV(I,3) = ZERO                                       
+	       EVV(I,1) = HALF*(TRAV(I)+ROOTV(I))
+        EVV(I,2) = HALF*(TRAV(I)-ROOTV(I))
+        EVV(I,3) = ZERO
       ENDDO
 C     rot matrix (eigenvectors)
       DO I=1,NEL
@@ -148,22 +148,22 @@ C---  Strain definition
 C--------------------------------------
 C     Newton method =>  Find root EV(3) : T3(EV(3)) = 0
 C--------------------------------------
-      DO ITER = 1,3                  
+      DO ITER = 1,3
           RV(1:NEL) = EV(1:NEL,1)*EV(1:NEL,2)*EV(1:NEL,3)
 c----     normalized stretch => unified compressible/uncompressible formulation
           DO I=1,NEL
-            IF(RV(I)/=ZERO) THEN                   
+            IF(RV(I)/=ZERO) THEN
             ! RVT    = RV(I)**(-THIRD)
               RVT = RV(I)**(-THIRD) ! EXP((-THIRD)*LOG(RV(I)))
             ELSE
               RVT = ZERO
-            ENDIF                                                 
-            EVM(I,1) = EV(I,1)*RVT                                        
-            EVM(I,2) = EV(I,2)*RVT                                        
-            EVM(I,3) = EV(I,3)*RVT                                        
+            ENDIF
+            EVM(I,1) = EV(I,1)*RVT
+            EVM(I,2) = EV(I,2)*RVT
+            EVM(I,3) = EV(I,3)*RVT
           ENDDO
           DO K = 1,NORDRE
-            DO I=1,NEL 
+            DO I=1,NEL
               IF(EVM(I,1)/=ZERO) THEN
                EVMA1(I,K) = EVM(I,1)**AL(K)
               ELSE
@@ -174,7 +174,7 @@ c----     normalized stretch => unified compressible/uncompressible formulation
               ELSE
                EVMA2(I,K) = ZERO
               ENDIF
-              IF(EVM(I,3)/=ZERO) THEN 
+              IF(EVM(I,3)/=ZERO) THEN
                EVMA3(I,K) = EVM(I,3)**AL(K)
               ELSE
                EVMA3(I,K) = ZERO
@@ -184,10 +184,10 @@ c----     normalized stretch => unified compressible/uncompressible formulation
 
 C----     partial derivatives of strain energy                                             
           PARTT(1:NEL) =ZERO
-          DO K = 1,NORDRE  
+          DO K = 1,NORDRE
             DD  = TWO*MU(K)/AL(K)
-            DO I=1,NEL 
-              SUM = THIRD*(EVMA1(I,K) + EVMA2(I,K) + EVMA3(I,K))                                      
+            DO I=1,NEL
+              SUM = THIRD*(EVMA1(I,K) + EVMA2(I,K) + EVMA3(I,K))
               PARTT(I) = PARTT(I) + DD*(EVMA3(I,K) - SUM)
             ENDDO
           ENDDO
@@ -208,7 +208,7 @@ C--------------------------------
 c         second derivative (d_sigma/d_lambda3)
           PARTT(1:NEL) =ZERO
           DO K = 1,NORDRE
-            PARTT(1:NEL) = PARTT(1:NEL) 
+            PARTT(1:NEL) = PARTT(1:NEL)
      .            + TWO*MU(K)*(EVMA1(1:NEL,K)+EVMA2(1:NEL,K)+FOUR*EVMA3(1:NEL,K))/NINE
           ENDDO
           PARTP(1:NEL) = ZERO
@@ -222,22 +222,22 @@ c         second derivative (d_sigma/d_lambda3)
             ENDIF
           ENDDO
           PARTT(1:NEL)   = PARTT(1:NEL) / RV(1:NEL)+ PARTP(1:NEL) - T(1:NEL,3)
-          EV(1:NEL,3) = EV(1:NEL,3)*(ONE - T(1:NEL,3)/PARTT(1:NEL)) 
+          EV(1:NEL,3) = EV(1:NEL,3)*(ONE - T(1:NEL,3)/PARTT(1:NEL))
       ENDDO   ! ITER
 C----------------
 c     Recalculate the principal stress
       DO I=1,NEL
         RV(I)  = EV(I,1)*EV(I,2)*EV(I,3)
 !        RVT    = RV(I)**(-THIRD)
-        IF(RV(I)/=ZERO) THEN                                                            
+        IF(RV(I)/=ZERO) THEN
          RVT = RV(I)**(-THIRD) !EXP((-THIRD)*LOG(RV(I)))
         ELSE
          RVT = ZERO
         ENDIF
-        EVM(I,1) = EV(I,1)*RVT                                                                
-        EVM(I,2) = EV(I,2)*RVT                                                                
-        EVM(I,3) = EV(I,3)*RVT   
-      ENDDO                                                             
+        EVM(I,1) = EV(I,1)*RVT
+        EVM(I,2) = EV(I,2)*RVT
+        EVM(I,3) = EV(I,3)*RVT
+      ENDDO
       DO K = 1,NORDRE
         DO I=1,NEL
           IF(EVM(I,1)/=ZERO) THEN
@@ -249,35 +249,35 @@ c     Recalculate the principal stress
            EVMA2(I,K) = EVM(I,2)**AL(K)
           ELSE
            EVMA2(I,K) = ZERO
-          ENDIF  
+          ENDIF
           IF(EVM(I,3)>ZERO) THEN
            EVMA3(I,K) = EVM(I,3)**AL(K)
           ELSE
            EVMA3(I,K) = ZERO
-          ENDIF                                                                          
-        ENDDO   ! 1:NEL                                                          
-      ENDDO     ! Nordre                                                                               
+          ENDIF
+        ENDDO   ! 1:NEL
+      ENDDO     ! Nordre
       DWDL(1:NEL,1)=ZERO
       DWDL(1:NEL,2)=ZERO
       DWDL(1:NEL,3)=ZERO
-      DO K = 1,NORDRE                                         
-          DD  = MU(K)/AL(K)                               
+      DO K = 1,NORDRE
+          DD  = MU(K)/AL(K)
           DO I=1,NEL
-            SUM = THIRD*(EVMA1(I,K) + EVMA2(I,K) + EVMA3(I,K))                                        
-            DWDL(I,1) = DWDL(I,1) + DD*(EVMA1(I,K) - SUM)   
-            DWDL(I,2) = DWDL(I,2) + DD*(EVMA2(I,K) - SUM)   
-            DWDL(I,3) = DWDL(I,3) + DD*(EVMA3(I,K) - SUM) 
-          ENDDO  
-      ENDDO                                                   
-      PARTP(1:NEL) = ZERO                                          
-      DO K = 1,NORDRE                                     
-          IF (D(K) /= ZERO) THEN                            
+            SUM = THIRD*(EVMA1(I,K) + EVMA2(I,K) + EVMA3(I,K))
+            DWDL(I,1) = DWDL(I,1) + DD*(EVMA1(I,K) - SUM)
+            DWDL(I,2) = DWDL(I,2) + DD*(EVMA2(I,K) - SUM)
+            DWDL(I,3) = DWDL(I,3) + DD*(EVMA3(I,K) - SUM)
+          ENDDO
+      ENDDO
+      PARTP(1:NEL) = ZERO
+      DO K = 1,NORDRE
+          IF (D(K) /= ZERO) THEN
             K2 = TWO*K
             I_K2 = 2*K
-            DD = K2/D(K)   
+            DD = K2/D(K)
             PARTP(1:NEL) = PARTP(1:NEL) + DD*(RV(1:NEL)-ONE)**(I_K2-1)
-          ENDIF                                             
-      ENDDO                                               
+          ENDIF
+      ENDDO
 C
       T(1:NEL,1) = TWO*DWDL(1:NEL,1)/RV(1:NEL) + PARTP(1:NEL)
       T(1:NEL,2) = TWO*DWDL(1:NEL,2)/RV(1:NEL) + PARTP(1:NEL)

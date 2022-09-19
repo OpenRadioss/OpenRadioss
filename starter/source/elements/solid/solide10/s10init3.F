@@ -63,7 +63,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE BPRELOAD_MOD
       USE DETONATORS_MOD
@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   TITR
       INTEGER NC(MVSIZ,10),MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ)
       DOUBLE PRECISION
-     .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10) 
+     .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
       my_real
      .   BID, FV,
      .   V8LOC(51,MVSIZ), VOLU(MVSIZ), MASS(MVSIZ),VOLG(MVSIZ),
@@ -134,8 +134,8 @@ C-----------------------------------------------
      .   RHOCP(MVSIZ),TEMP0(MVSIZ), AIRE(1), DTX(MVSIZ)
 C
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
       DATA WIP / 1.  ,0.  ,0.  ,0.  ,0.  ,
@@ -181,7 +181,7 @@ C
       ENDDO
 C
       CALL S10COOR3(
-     1              X          ,V     ,IXS(1,NF1) ,IXS10(1,NF2) ,XX      , 
+     1              X          ,V     ,IXS(1,NF1) ,IXS10(1,NF2) ,XX      ,
      2              YY         ,ZZ    ,VX         ,VY           ,VZ      ,
      3              NC         ,NGL   ,MAT        ,PID          ,MASS    ,
      4              DTELEM(NF1),STI   ,GBUF%SIG   ,GBUF%EINT    ,GBUF%RHO,
@@ -247,7 +247,7 @@ C       CALCUL DES DT ELEMENTAIRES
 C------------------------------------------
       AIRE(:) = ZERO
       CALL DTMAIN(GEO       ,PM        ,IPM         ,PID     ,MAT     ,FV    ,
-     .     LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE, 
+     .     LBUF%EINT ,LBUF%TEMP ,LBUF%DELTAX ,LBUF%RK ,LBUF%RE ,BUFMAT, DELTAX, AIRE,
      .     VOLU, DTX , IGEO)
 C----------------------------------------
 C     INITIALISATION DES MASSES
@@ -297,7 +297,7 @@ C
 C----------------------------------------
 c Initialization of stress tensor in case of Orthotropic properties
 C----------------------------------------
-        IF (ISIGI /= 0 .AND. ISORTH/=0) THEN 
+        IF (ISIGI /= 0 .AND. ISORTH/=0) THEN
           LBUF%SIGL = LBUF%SIG
         ENDIF
 C

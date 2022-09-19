@@ -100,17 +100,17 @@ c
         IF (KEY(1:4) /= 'FGEO') THEN
           CALL HM_GET_INTV('entityid' ,GRNOD_ID ,IS_AVAILABLE,LSUBMODEL)
           IGS = NGR2USRN(GRNOD_ID,IGRNOD,NGRNOD,NNOD)
-          IF (IGS > 0) NIMPDISP = NIMPDISP + NNOD                                         
+          IF (IGS > 0) NIMPDISP = NIMPDISP + NNOD
         ENDIF
 c
       ENDDO ! DO I=1,NFDISP
-c--------------------------      
-c     /IMPDISP/FGEO    
-c--------------------------         
+c--------------------------
+c     /IMPDISP/FGEO
+c--------------------------
       CALL HM_OPTION_COUNT('/IMPDISP/FGEO',NFGEO)
 c
       CALL HM_OPTION_START('/IMPDISP/FGEO')
-c     
+c
       DO I=1,NFGEO
 c
         CALL HM_OPTION_READ_KEY(LSUBMODEL,

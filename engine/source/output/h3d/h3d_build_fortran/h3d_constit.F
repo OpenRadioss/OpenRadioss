@@ -65,14 +65,14 @@ C-----------------------------------------------
       DO I = 1, NUMNOD
         INDX(I) = I
       END DO
-      
+
       CALL MY_ORDERS(0,WORK,ITAB,INDX,NUMNOD,1)
-      
+
       IF(NUMNOD>=1)THEN
         ITABM1(1) = ITAB(INDX(1))
         ITABM1(NUMNOD+1) = INDX(1)
       ENDIF
-      
+
       DO I = 2, NUMNOD
         ITABM1(I) = ITAB(INDX(I))
         ITABM1(NUMNOD+I) = INDX(I)

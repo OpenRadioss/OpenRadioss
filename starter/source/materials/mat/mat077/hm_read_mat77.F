@@ -47,8 +47,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -78,9 +78,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(OUT)  :: NUPARAM,NUVAR,NFUNC,ISRATE,IMATVIS,JALE
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)   :: IFUNC
@@ -114,13 +114,13 @@ c     foam input cards
 c
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c      
+c
       CALL HM_GET_FLOATV('MAT_E'      ,E0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'     ,NU      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('E_Max'      ,EMAX    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_EPS'    ,EPSMAX  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_FP0'    ,FP_INI  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-c      
+c
       CALL HM_GET_FLOATV('MAT_asrate' ,FCUT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('ISRATE'     ,ISRATE  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('NRATEP'     ,NRATEP  ,IS_AVAILABLE,LSUBMODEL)
@@ -130,7 +130,7 @@ c
       CALL HM_GET_FLOATV('MAT_HYST'   ,HYS     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
       IF (NRATEP > 0) THEN
-        DO I=1,NRATEP    
+        DO I=1,NRATEP
           CALL HM_GET_INT_ARRAY_INDEX  ('FUN_LOAD'       ,FLOAD(I),I,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_LOAD',RLOAD(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_LOAD'     ,SLOAD(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -138,7 +138,7 @@ c
       ENDIF
 c
       IF (NRATEN > 0) THEN
-        DO I=1,NRATEN    
+        DO I=1,NRATEN
           CALL HM_GET_INT_ARRAY_INDEX  ('FUN_UNLOAD'       ,FUNLOAD(I),I,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_FLOAT_ARRAY_INDEX('STRAINRATE_UNLOAD',RUNLOAD(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOAT_ARRAY_INDEX('SCALE_UNLOAD'     ,SUNLOAD(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -175,14 +175,14 @@ c-----------------------------------------------------------------------
      .                ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                C1=TITR)
-      ENDIF  
+      ENDIF
       IF (NRATEN == 0 .AND. (IUNLOAD == 0 .OR. IUNLOAD == 1) ) THEN
           CALL ANCMSG(MSGID=867,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND,
      .                I1=MAT_ID,
      .                C1=TITR)
-      ENDIF    
+      ENDIF
 
 c
       DO I = 1, NRATEP
@@ -190,15 +190,15 @@ c
         IFUNC(I) = FLOAD(I)
         RATE(I)  = RLOAD(I)
         YFAC(I)  = SLOAD(I)
-      ENDDO                     
-      NFUNC = NRATEP + NRATEN 
+      ENDDO
+      NFUNC = NRATEP + NRATEN
       DO I  = 1, NRATEN
          J  = NRATEP + I
         IF (SUNLOAD(I) == ZERO) SUNLOAD(I) = ONE*FSCAL_UNIT
         IFUNC(J) = FUNLOAD(I)
         RATE(J)  = RUNLOAD(I)
         YFAC(J)  = SUNLOAD(I)
-      ENDDO                     
+      ENDDO
 c
       DO I=1,NFUNC
         IF (IFUNC(I) == 0)THEN
@@ -213,7 +213,7 @@ c
 c---
       IFUNC(NFUNC + 1) = IFUNCK
       IFUNC(NFUNC + 2) = IFUNCR
-      NFUNC = NFUNC + 2 
+      NFUNC = NFUNC + 2
 c-----------------------------------------------------------------------
 c     Default values
 c-----------------------------------------------------------------------
@@ -239,7 +239,7 @@ c-----------------------------------------------------------------------
       UPARAM(3) = A1
       UPARAM(4) = EPSMAX
       UPARAM(5) = G
-      UPARAM(6) = NU       
+      UPARAM(6) = NU
       UPARAM(7) = NRATEP
       UPARAM(8) = NRATEN
       DO I=1,NFUNC - 2
@@ -260,7 +260,7 @@ c-----------------------------------------------------------------------
       UPARAM(NPAR_FOAM + 7) = EINT0
       UPARAM(NPAR_FOAM + 8) = KK
 c-----------------------------------------------------------------------
-      NUPARAM = NPAR_FOAM + 8  
+      NUPARAM = NPAR_FOAM + 8
       NUVAR   = 23
 c-----------------------------------------------------------------------
 
@@ -270,18 +270,18 @@ c-----------------------------------------------------------------------
       PARMAT(4)  = ISRATE
       PARMAT(5)  = FCUT
       PARMAT(16) = 2  !  Formulation for solid elements time step computation
-      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU)       
+      PARMAT(17) = (ONE - TWO*NU)/(ONE - NU)
 c
-      PM(192) = RHOA     
-      PM(193) = FRAC     
-      PM(194) = AA       
-      PM(195) = BB       
-      PM(196) = TAUX     
-      PM(197) = KK       
-      PM(198) = ICLOS    
-      PM(199) = RHOEXT   
-      PM(200) = EINT_EXT 
-      PM(201) = INCGAS   
+      PM(192) = RHOA
+      PM(193) = FRAC
+      PM(194) = AA
+      PM(195) = BB
+      PM(196) = TAUX
+      PM(197) = KK
+      PM(198) = ICLOS
+      PM(199) = RHOEXT
+      PM(200) = EINT_EXT
+      PM(201) = INCGAS
 c--------------------------
       PM(1)  = RHOR
       PM(89) = RHO0
@@ -301,7 +301,7 @@ c--------------------------------------------------
       ELSE
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) E0,NU,EMAX,EPSMAX,FP_INI
-        WRITE(IOUT,1400) FCUT,ISRATE,NRATEP,NRATEN,IUNLOAD,EXPO,HYS      
+        WRITE(IOUT,1400) FCUT,ISRATE,NRATEP,NRATEN,IUNLOAD,EXPO,HYS
         WRITE(IOUT,1500)(IFUNC(J),RATE(J),YFAC(J),J=1,NRATEP)
         WRITE(IOUT,1600)(IFUNC(J+NRATEP),RATE(J+NRATEP),YFAC(J+NRATEP),J=1,NRATEN)
         WRITE(IOUT,2000)
@@ -310,7 +310,7 @@ c--------------------------------------------------
         WRITE(IOUT,2300) RHOEXT,PEXT,ICLOS,INCGAS
         WRITE(IOUT,3000)
         WRITE(IOUT,3100) AA,BB,TAUX,KK,IFUNCK
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -320,7 +320,7 @@ c-----------------------------------------------------------------------
      &(5X,'MATERIAL : TABULATED NON-LINEAR VISCO ELASTIC (LAW77) ',/,
      & 5X,'----------------------------------------------------- ',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY    . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'INITIAL YOUNG''S MODULUS . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON''S RATIO . . . . . . . . . . . . . .=',1PG20.13/,
@@ -345,7 +345,7 @@ c-----------------------------------------------------------------------
      & 5X,'SCALE FACTOR . . . . . . . . . . . . . . . .=',1PG20.13/)
  2000 FORMAT(
      & 5X,'  GAS PARAMETERS' ,/,
-     & 5X,'  -----------------',/)  
+     & 5X,'  -----------------',/)
  2100 FORMAT(
      & 5X,'DENSITY. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'P0 . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
@@ -354,7 +354,7 @@ c-----------------------------------------------------------------------
      & 5X,'SCALE FUNCTION FOR GAS FRACTION R(V/V0). . .=',I10/)
  2200 FORMAT(
      & 5X,'  EXTERNAL GAS PARAMETERS' ,/,
-     & 5X,'  -----------------------',/)  
+     & 5X,'  -----------------------',/)
  2300 FORMAT(
      & 5X,'DENSITY. . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'PEXT. . . . . . . .. . . . . . . . . . . . .=',1PG20.13/,
@@ -362,7 +362,7 @@ c-----------------------------------------------------------------------
      & 5X,'INCOMNIG GAS FLAG. . . . . . . . . . . . . .=',I10/ )
  3000 FORMAT(
      & 5X,'  DARCY PARAMETERS ',/,
-     & 5X,'  -----------------',/)  
+     & 5X,'  -----------------',/)
  3100 FORMAT(
      & 5X,'A. . . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'BETA . . . . . . . . . . . . . . . . . . . .=',1PG20.13/,

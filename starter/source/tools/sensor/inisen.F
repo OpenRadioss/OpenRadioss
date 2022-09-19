@@ -75,7 +75,7 @@ C---------------------------------------------
         IN =0
         ID=LSENSOR(1,K)
 c        CALL FRETITL2(TITR,LSENSOR(NSENSI-LTITR+1,K),LTITR)
-         TITR = 'SENSOR '     
+         TITR = 'SENSOR '
 
         TYP = LSENSOR(2,K)
         IF (TYP == 3)THEN
@@ -121,7 +121,7 @@ C-------------------------------------
 C         Interfaces
 C-------------------------------------
           DO I=1,NINTER
-            IF (IPARI(15,I) == LSENSOR(4,K)) THEN 
+            IF (IPARI(15,I) == LSENSOR(4,K)) THEN
               IN=I
               EXIT
             ENDIF
@@ -277,7 +277,7 @@ C-------------------------------------
       DO I=1,NSENSOR
          IF (LSENSOR(2,I)== 6 .OR. LSENSOR(2,I)== 12 .OR.
      .       LSENSOR(2,I)== 7 .OR. LSENSOR(2,I)== 11 .OR.
-     .       LSENSOR(2,I)== 13) THEN 
+     .       LSENSOR(2,I)== 13) THEN
             NBR_SENS=NBR_SENS+1
             IPARSENS=1
          ENDIF

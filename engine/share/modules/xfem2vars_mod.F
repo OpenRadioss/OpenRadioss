@@ -30,7 +30,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
       MODULE XFEM2VARS_MOD
 C-----------------------------------------------
-c     Global XFEM variables and structures declarations 
+c     Global XFEM variables and structures declarations
 C=======================================================================
       USE CRACKXFEM_MOD
 c----------------------
@@ -48,7 +48,7 @@ c----------------------
 !      TYPE(XFEM_AVX_)   , DIMENSION(:), ALLOCATABLE :: CRKAVX
 
 !      TYPE (XFEM_NODES_), DIMENSION(:), ALLOCATABLE :: CRKNOD
- 
+
 !      TYPE (XFEM_SHELL_), DIMENSION(:), ALLOCATABLE :: CRKSHELL
 
 C NCRKPART & IND_CRK are global values shared by all processors

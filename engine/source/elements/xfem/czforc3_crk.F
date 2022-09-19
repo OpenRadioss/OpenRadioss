@@ -88,9 +88,9 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD  
-      USE DRAPE_MOD 
-      USE NLOCAL_REG_MOD         
+      USE MATPARAM_DEF_MOD
+      USE DRAPE_MOD
+      USE NLOCAL_REG_MOD
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -137,7 +137,7 @@ C     REAL OU REAL*8
      .   FTHESKY(*),GRESAV(*),MSC(*), DMELC(*),SENSOR(NSENSR,*),
      .   UXINT_MEAN(NLEVXF,MVSIZ),
      .   UYINT_MEAN(NLEVXF,MVSIZ),UZINT_MEAN(NLEVXF,MVSIZ)
-      my_real    
+      my_real
      .   TT,DT1,DT2T
       TARGET :: BUFMAT
       TYPE(TTABLE) TABLE(*)
@@ -145,33 +145,33 @@ C     REAL OU REAL*8
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
       TYPE (XFEM_SKY_)    , DIMENSION(*) :: CRKSKY
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C   L O C A L   V A R I A B L E S
 C--------------------------------
       LOGICAL PLAT(MVSIZ)
-      INTEGER 
+      INTEGER
      .   I,J,NEL,MX,NNOD,NPG,IBID,ISROT,IXLAY,NXLAY,NLAYER,NPTT,
      .   IR,IS,IT,IPT,NG,L_DIRA,L_DIRB,J1,J2,IXFEM2,IPTHK,
      .   IORTH,ILEV,IGMAT,IGTYP,IREP,NUPARAM,IADBUF,IMAT
       INTEGER  MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),FWAVE(MVSIZ)
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .  RH0(MVSIZ),LL(MVSIZ),VL13(MVSIZ,3),VL24(MVSIZ,3),VLHI(MVSIZ,3),
      .  RLXYZ(MVSIZ,8),X13(MVSIZ),X24(MVSIZ),Y13(MVSIZ),Y24(MVSIZ),
      .  MX13(MVSIZ),MX23(MVSIZ),MX34(MVSIZ),MY13(MVSIZ),MY23(MVSIZ),
      .  MY34(MVSIZ),Z1(MVSIZ),Z2(MVSIZ)
-      my_real 
+      my_real
      .   VQ(MVSIZ,9),VDEF(MVSIZ,8),OFF(MVSIZ),DHG(MVSIZ,6),
      .   AREA(MVSIZ),VQN(MVSIZ,12),L13(MVSIZ),L24(MVSIZ),
      .   ZCFAC(MVSIZ,2),A_I(MVSIZ),THK02(MVSIZ)
-      my_real 
+      my_real
      .   EXX(MVSIZ),EYY(MVSIZ),EXY(MVSIZ),EXZ(MVSIZ),EYZ(MVSIZ),
-     .   KXX(MVSIZ),KYY(MVSIZ),KXY(MVSIZ),SIGY(MVSIZ), 
+     .   KXX(MVSIZ),KYY(MVSIZ),KXY(MVSIZ),SIGY(MVSIZ),
      .   DT1C(MVSIZ),SSP(MVSIZ),VISCMX(MVSIZ),RHO(MVSIZ) ,
      .   NU(MVSIZ),G(MVSIZ),A11(MVSIZ),A12(MVSIZ),VOL0(MVSIZ),
      .   THK0(MVSIZ),STI(MVSIZ),STIR(MVSIZ),SHF(MVSIZ) ,
@@ -185,7 +185,7 @@ C--------------------------------
      .   R32(MVSIZ),R33(MVSIZ),RLZ(MVSIZ,4),VHGZK(MVSIZ,5),
      .   VHGZE(MVSIZ,5),VRLZ(MVSIZ),BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),
      .   BMERZ(MVSIZ,4,4),VMZ(MVSIZ,4),KRZ(MVSIZ),DIZ(MVSIZ,3)
-      my_real 
+      my_real
      .   X1G(MVSIZ),X2G(MVSIZ),X3G(MVSIZ),X4G(MVSIZ),
      .   Y1G(MVSIZ),Y2G(MVSIZ),Y3G(MVSIZ),Y4G(MVSIZ),
      .   Z1G(MVSIZ),Z2G(MVSIZ),Z3G(MVSIZ),Z4G(MVSIZ),
@@ -204,7 +204,7 @@ C--------------------------------
       my_real  BID,THKR
 C---
       INTEGER, ALLOCATABLE, DIMENSION(:) :: ELCRKINI
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB,DIR1_CRK,DIR2_CRK
       my_real,
      .  DIMENSION(:) ,POINTER  ::  DIR_A,DIR_B,UPARAM,UVAR
@@ -213,7 +213,7 @@ C---
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_) ,POINTER :: LBUF
-      my_real 
+      my_real
      .   HM(MVSIZ,6), HF(MVSIZ,6), HC(MVSIZ,2),HMFOR(MVSIZ,6)
       my_real,
      .  DIMENSION(:) ,POINTER  ::  OFFG,THKG,STRAG,FORG,MOMG,
@@ -242,8 +242,8 @@ C
         NGL(I) = IXC(7,I)
       ENDDO
 C
-      DO I=JFT,JLT                
-        FAC1(I) = GEO(17,PID(I))  
+      DO I=JFT,JLT
+        FAC1(I) = GEO(17,PID(I))
       ENDDO
 C      
       ISROT = IPARG(41)
@@ -252,7 +252,7 @@ C
       IREP  = IPARG(35)
       IMAT  = IXC(1,JFT)
       IADBUF = MAX(1,IPM(7,IMAT))
-      NUPARAM= IPM(9,IMAT)       
+      NUPARAM= IPM(9,IMAT)
       UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
 C-----------------------------------------
       GBUF => XFEM_STR%GBUF
@@ -328,7 +328,7 @@ c
           BUFLY  => XFEM_STR%BUFLY(IXLAY)
           OFFG   => LBUF%OFF
           SMSTRG => LBUF%SMSTR
-          THKG   => LBUF%THK     ! layer thickness, not integration pt ! 
+          THKG   => LBUF%THK     ! layer thickness, not integration pt !
           STRAG  => LBUF%STRA
           FORG   => LBUF%FOR
           MOMG   => LBUF%MOM
@@ -397,14 +397,14 @@ C
      5                RHO    ,VOL0    ,GS      ,MTN    ,ITHK   ,
      6                NPTT   ,DT1C    ,DT1     ,IHBE   ,AMU    ,
      7                GSR    ,A11SR   ,A12SR   ,NUSR   ,SHFSR  ,
-     8                KRZ    ,IGEO    ,A11R  ,ISUBSTACK, STACK%PM, 
+     8                KRZ    ,IGEO    ,A11R  ,ISUBSTACK, STACK%PM,
      9                UPARAM ,DIRA    ,DIRB    ,UVAR   ,FAC58  )
 C
-        CALL CNCOEFORT(JFT    ,JLT    ,PM       ,MAT     ,GEO    ,  
-     1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,  
-     2                 HC     ,HMFOR  ,IORTH    ,DIR_A   ,IGEO   ,  
+        CALL CNCOEFORT(JFT    ,JLT    ,PM       ,MAT     ,GEO    ,
+     1                 PID    ,MTN    ,NPTT     ,HM      ,HF     ,
+     2                 HC     ,HMFOR  ,IORTH    ,DIR_A   ,IGEO   ,
      3                 ISUBSTACK,STACK,XFEM_STR ,NXLAY   ,THKG   ,
-     4                 DRAPE_Q4 ,NFT  ,NEL      )           
+     4                 DRAPE_Q4 ,NFT  ,NEL      )
 C----------------------------------
 C     CALCUL VITESSE DE DEFORMATION 
 C----------------------------------
@@ -425,7 +425,7 @@ C----------------------------------
 C     CALCUL DES DEFORMATIONS 
 C----------------------------------
         CALL CZSTRA3(JFT    ,JLT    ,NFT, VDEF,STRAG    ,
-     2               EXX    ,EYY    ,EXY, EXZ ,EYZ      ,  
+     2               EXX    ,EYY    ,EXY, EXZ ,EYZ      ,
      3               KXX    ,KYY    ,KXY, DT1C,TANI     ,
      4               IEPSDOT,ISTRAIN,UX1 ,UX2 ,UX3      ,
      5               UX4    ,UY1    ,UY2 ,UY3 ,UY4      ,
@@ -509,7 +509,7 @@ C
      2         X13     ,X24     ,Y13    ,Y24      ,Z1   ,MX23      ,
      3         MX13    ,MX34    ,MY13   ,MY23     ,MY34 ,HOURGG    ,
      4         FORG    ,MOMG    ,VF     ,VM       ,ZCFAC,A11       ,
-     5         A12     ,G       ,GS     ,SIGY     ,OFF  ,FAC1      , 
+     5         A12     ,G       ,GS     ,SIGY     ,OFF  ,FAC1      ,
      6         RHO     ,AREA    ,DT1    ,EINTG    ,AMU  ,VLHI      ,
      7         NPTT    ,IPARTC  ,PARTSAV,KFTS     ,GSR       ,
      8         A11SR   ,A12SR   ,NUSR   ,SHFSR    ,BMKRZ,BMERZ     ,
@@ -530,7 +530,7 @@ C
      2                    X13  ,X24  ,Y13  ,Y24  ,Z1   ,MX23    ,
      3                    MX13 ,MX34 ,MY13 ,MY23 ,MY34 ,HOURGG  ,
      4                    FORG ,MOMG ,VF   ,VM  ,ZCFAC  ,A11    ,
-     5                    A12  ,G    ,GS   ,SIGY ,OFF  ,FAC1    , 
+     5                    A12  ,G    ,GS   ,SIGY ,OFF  ,FAC1    ,
      6                    RHO  ,AREA ,  DT1,EINTG,AMU  ,VLHI    ,
      7                    NPTT ,IPARTC,PARTSAV,KFTS  ,GSR  ,
      8                    A11SR,A12SR ,NUSR,SHFSR ,IORTH  ,HM   ,
@@ -554,14 +554,14 @@ C
      8               Z1     ,LXYZ   ,DD     ,DB     ,LXYZ ,
      9               ISROT  ,DIZ    ,VMZ    )
 C-------------------------
-c     Thermique des coques 
+c     Thermique des coques
 C--------------------------
 C
-        IF (JTHE > 0) THEN    
+        IF (JTHE > 0) THEN
           CALL THERMC(JFT    ,JLT     ,PM      ,MAT  ,THK0 ,IXC  ,
      .                Y24    ,PX2     ,PY1     ,PY2  ,AREA ,DT1C ,
      .                TEMP   ,TEMPEL  ,DIE     ,THEM )
-        ENDIF 
+        ENDIF
 C
 C--------------------------
 C     ASSEMBLAGE des forces dans les adresses sky des noeuds phantomes

@@ -45,7 +45,7 @@ C----add ID--at end--if not inside already----------------
        DO I =1,N
         IF (IC(I)==ID) RETURN
        ENDDO
-      END IF 
+      END IF
       N =N+1
       IC(N)=ID
 C----6---------------------------------------------------------------7---------8
@@ -110,7 +110,7 @@ C----6---------------------------------------------------------------7---------8
          INTAB=.TRUE.
          RETURN
         ENDIF
-       ENDDO 
+       ENDDO
 C
       RETURN
       END
@@ -359,7 +359,7 @@ C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
        SAME_SEG=.TRUE.
        DO I = 1,4
-        J= IRECT2(I) 
+        J= IRECT2(I)
         IF (.NOT.INTAB(4,IRECT1,J)) THEN
          SAME_SEG=.FALSE.
          CYCLE
@@ -410,7 +410,7 @@ C---
          IF (IOP == 0 ) THEN
           NN = 0
           DO I = 1,3
-           J= IRECT(I,EI) 
+           J= IRECT(I,EI)
            IF (INTAB(3,IRECT(1,EJ),J)) NN = NN +1
            IF (IRECT(3,EJ)/=IRECT(4,EJ).AND.J==IRECT(4,EJ)) NN = NN +1
           END DO
@@ -529,14 +529,14 @@ C ------still no valid one-----------
         IF (J1==0) then
 c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
          IRR = 11
-         IC(1)=0         
+         IC(1)=0
         ELSE
          IC(1)=IC(J1)
         END IF
 C        
         DO I=2,N
          IC(I)=0
-        END DO 
+        END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -659,14 +659,14 @@ C ------still no valid one-----------
         IF (J1==0) then
 c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
          IRR = 11
-         IC(1)=0         
+         IC(1)=0
         ELSE
          IC(1)=IC(J1)
         END IF
 C        
         DO I=2,N
          IC(I)=0
-        END DO 
+        END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
       END

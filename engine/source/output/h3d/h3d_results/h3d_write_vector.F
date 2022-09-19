@@ -60,6 +60,6 @@ C
       VECTOR(2,OFFSET+NFT+I) = VALUE(2)
       VECTOR(3,OFFSET+NFT+I) = VALUE(3)
       IF(IOK_PART(I) == 1 ) IS_WRITTEN(OFFSET+NFT+I)= 1
- 
+
       RETURN
       END

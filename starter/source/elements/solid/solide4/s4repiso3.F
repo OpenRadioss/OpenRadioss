@@ -43,7 +43,7 @@ C     REAL
       DOUBLE PRECISION
      .   X1(*), X2(*), X3(*), X4(*),Y1(*), Y2(*), Y3(*), Y4(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*)
-       my_real    
+       my_real
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -82,7 +82,7 @@ C
 C-------------
       RETURN
       END SUBROUTINE S4REPISO3
-      
+
 Chd|====================================================================
 Chd|  S4REPISOT3                    source/elements/solid/solide4/s4repiso3.F
 Chd|-- called by -----------
@@ -103,9 +103,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-       my_real       
+       my_real
      .   X1(*), X2(*), X3(*), X4(*),Y1(*), Y2(*), Y3(*), Y4(*),
-     .   Z1(*), Z2(*), Z3(*), Z4(*),  
+     .   Z1(*), Z2(*), Z3(*), Z4(*),
      .   RX(*) ,RY(*) ,RZ(*) ,SX(*) ,SY(*) ,SZ(*) ,TX(*) ,TY(*) ,TZ(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -143,4 +143,4 @@ C
       ENDDO
 C-------------
       RETURN
-      END SUBROUTINE S4REPISOT3      
+      END SUBROUTINE S4REPISOT3

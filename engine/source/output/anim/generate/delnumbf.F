@@ -67,13 +67,13 @@ C
       NN1 = 1
       NN2 = 1
       NN3 = 1
-      NN4 = NN3 
-      NN5 = NN4 
-      NN6 = NN5 
+      NN4 = NN3
+      NN5 = NN4
+      NN6 = NN5
       NN7 = NN6 + NUMELT
       NN8 = NN7 + NUMELP
       NN9 = NN8 + NUMELR
-      NN10= NN9 
+      NN10= NN9
 C
       DO 490 NG=1,NGROUP
         MLW   =IPARG(1,NG)

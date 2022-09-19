@@ -105,14 +105,14 @@ C-----------------------------------------------
 
       INTEGER :: P_LOC
       INTEGER :: KEY,CODE
-     
-      DATA MSGOFF4/6026/ 
-      DATA MSGOFF5/6027/ 
-        
+
+      DATA MSGOFF4/6026/
+      DATA MSGOFF5/6027/
+
       my_real
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB
-      
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI  
+
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGNSNFI
       my_real, DIMENSION(:,:), ALLOCATABLE :: XTMP
       INTEGER :: ADRESS, LOCAL_RANK
       INTEGER :: SIZE_S
@@ -127,7 +127,7 @@ C================================================================
       LOC_PROC = ISPMD + 1
       ! save the old NSNFI values
       IF(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0
-     .   .OR.ITIED/=0.OR.ITYP==23.OR.ITYP==24   
+     .   .OR.ITIED/=0.OR.ITYP==23.OR.ITYP==24
      .   .OR.ITYP==25) THEN
          DO P = 1, NSPMD
            NSNFIOLD(P) = INTER_STRUCT(NIN)%NSNFIOLD(P)
@@ -144,14 +144,14 @@ C================================================================
       IF(IRCVFROM(NIN,LOC_PROC)/=0) THEN  !   local nmn>0
 
         RSIZ = SORT_COMM(NIN)%RSIZ
-        ISIZ = SORT_COMM(NIN)%ISIZ  
+        ISIZ = SORT_COMM(NIN)%ISIZ
 
        IF(NSNR>0) THEN   !   nsn remote > 0 --> only on proc with nmn>0
-        
+
           ALLOCATE(XREM(RSIZ,NSNR),STAT=IERROR)
-          ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)          
-          
-        
+          ALLOCATE(IREM(ISIZ,NSNR),STAT=IERROR)
+
+
           IF(IERROR/=0) THEN
             CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
             CALL ARRET(2)
@@ -160,17 +160,17 @@ C================================================================
           DO L = 1, SORT_COMM(NIN)%NBIRECV
             P = SORT_COMM(NIN)%ISINDEXI(L)
             LEN = NSNFI(NIN)%P(P)*RSIZ
-            MSGTYP = MSGOFF4 
+            MSGTYP = MSGOFF4
             CALL MPI_IRECV(
      1        XREM(1,IDEB),LEN,REAL,IT_SPMD(P),
      2        MSGTYP,MPI_COMM_WORLD,REQ_RD(L),IERROR)
-     
+
             LEN2 = NSNFI(NIN)%P(P)*ISIZ
-            MSGTYP = MSGOFF5 
+            MSGTYP = MSGOFF5
             CALL MPI_IRECV(
      1        IREM(1,IDEB),LEN2,MPI_INTEGER,IT_SPMD(P),
      2        MSGTYP,MPI_COMM_WORLD,REQ_RD2(L),IERROR)
-            IDEB = IDEB + NSNFI(NIN)%P(P)                  
+            IDEB = IDEB + NSNFI(NIN)%P(P)
           ENDDO
         ENDIF
       ENDIF
@@ -220,12 +220,12 @@ C================================================================
             IF(P/=LOC_PROC) THEN
               IF(SORT_COMM(NIN)%NB(P)/=0) THEN
                 IF(NMN/=0) THEN
-                    CALL MPI_WAIT(SORT_COMM(NIN)%REQ_SD2(P),STATUS,IERROR) 
+                    CALL MPI_WAIT(SORT_COMM(NIN)%REQ_SD2(P),STATUS,IERROR)
                     DEALLOCATE(SORT_COMM(NIN)%DATA_PROC(P)%RBUF)
-                    !   can be moved if local nsn>0 & local nmn=0  
-                    CALL MPI_WAIT(SORT_COMM(NIN)%REQ_SD3(P),STATUS,IERROR) 
-                    DEALLOCATE(SORT_COMM(NIN)%DATA_PROC(P)%IBUF)         
-                    SORT_COMM(NIN)%NB(P) = 0             
+                    !   can be moved if local nsn>0 & local nmn=0
+                    CALL MPI_WAIT(SORT_COMM(NIN)%REQ_SD3(P),STATUS,IERROR)
+                    DEALLOCATE(SORT_COMM(NIN)%DATA_PROC(P)%IBUF)
+                    SORT_COMM(NIN)%NB(P) = 0
                 ENDIF
               END IF
             ENDIF

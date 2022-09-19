@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,I,
      .        IPARI(NPARI,NINTER), IKINE(NUMNOD)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*),MS(*),DXANCG(3,*),
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   DIAG_SMS(*)

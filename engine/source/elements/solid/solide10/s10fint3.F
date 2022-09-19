@@ -96,16 +96,16 @@ C
         ENDDO
       ENDIF
 c
-      IF (ISRAT > 0) THEN                                                    
+      IF (ISRAT > 0) THEN
         DO I=LFT,LLT
          EPSDG(I) = EPSDG(I) + WIP * EPSD(I)
         ENDDO
       ENDIF
-      IF (G_PLA > 0) THEN                                                    
-        DO I=LFT,LLT                                                          
-          EPLASG(I)  = EPLASG(I)  + WIP * EPLAS(I)                              
-        ENDDO                                                                 
-      ENDIF                                                                  
+      IF (G_PLA > 0) THEN
+        DO I=LFT,LLT
+          EPLASG(I)  = EPLASG(I)  + WIP * EPLAS(I)
+        ENDDO
+      ENDIF
 C
       DO N=1,10
         DO I=LFT,LLT

@@ -74,7 +74,7 @@ C             Corotational Frame E1 E2 E3
                     N2=IXC(3,NN)
                     N3=IXC(4,NN)
                     N4=IXC(5,NN)
-                  
+
                     X1=X(1,N1)
                     X2=X(1,N2)
                     X3=X(1,N3)
@@ -118,24 +118,24 @@ c
                     E3Y = E1Z*E2X-E1X*E2Z
                     E3Z = E1X*E2Y-E1Y*E2X
 
-                    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z  
-                    SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-                    E3X = E3X*SUMA                              
-                    E3Y = E3Y*SUMA                              
-                    E3Z = E3Z*SUMA                              
+                    SUMA   = E3X*E3X+E3Y*E3Y+E3Z*E3Z
+                    SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+                    E3X = E3X*SUMA
+                    E3Y = E3Y*SUMA
+                    E3Z = E3Z*SUMA
 c
                     S1     = E1X*E1X+E1Y*E1Y+E1Z*E1Z
                     S2     = E2X*E2X+E2Y*E2Y+E2Z*E2Z
-                    SUMA   = SQRT(S1/S2)                
+                    SUMA   = SQRT(S1/S2)
                     E1X = E1X + (E2Y*E3Z-E2Z*E3Y)*SUMA
                     E1Y = E1Y + (E2Z*E3X-E2X*E3Z)*SUMA
                     E1Z = E1Z + (E2X*E3Y-E2Y*E3X)*SUMA
 c
-                   SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z 
-                   SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-                   E1X = E1X*SUMA                              
-                   E1Y = E1Y*SUMA                              
-                   E1Z = E1Z*SUMA                              
+                   SUMA   = E1X*E1X+E1Y*E1Y+E1Z*E1Z
+                   SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+                   E1X = E1X*SUMA
+                   E1Y = E1Y*SUMA
+                   E1Z = E1Z*SUMA
 c
                    E2X = E3Y * E1Z - E3Z * E1Y
                    E2Y = E3Z * E1X - E3X * E1Z
@@ -162,8 +162,8 @@ C           Cos and Sin calculation
 c           Save data in RTHBUF
                    ITHBUF(IAD2)=IADR+1
                    RTHBUF(IADR+1)=VR
-                   RTHBUF(IADR+2)=VS 
- 
+                   RTHBUF(IADR+2)=VS
+
                    IADR=IADR+2
                  ENDIF
                  IAD=IAD+1
@@ -247,7 +247,7 @@ C           Cos and Sin calculation
 c           Save data in RTHBUF
                     ITHBUF(IAD2)=IADR+1
                     RTHBUF(IADR+1)=VR
-                    RTHBUF(IADR+2)=VS 
+                    RTHBUF(IADR+2)=VS
                     IADR=IADR+2
                  ENDIF
                  IAD=IAD+1

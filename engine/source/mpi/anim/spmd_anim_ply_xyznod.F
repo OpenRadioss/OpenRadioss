@@ -96,7 +96,7 @@ C Les plynods du proc 0
              NORM = SQRT(VN_NOD(1,N)**2+VN_NOD(2,N)**2+VN_NOD(3,N)**2)
              NORM = ONE/MAX(EM20,NORM)
              EMPL = PLYNOD(IPLY)%PLYNODID(ND)-EMPSIZPL
-             
+
              VN = VN_NOD(1,N)*NORM
              VAL = X(1,I)+ZI_PLY(N,IPLY)*VN + PLY(IPLY)%U(1,N)
              WRTBUF(1,EMPL)= VAL

@@ -31,7 +31,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -69,7 +69,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -86,14 +86,14 @@ C----------------------------------------------------------------
      .   DEXX,DEYY,DEZZ,DEXY,DEYZ,DEZX,DEPSDXX,DEPSDYY,DEPSDZZ,
      .   DEPSDXY,DEPSDYZ,DEPSDZX,DDEXX,DDEYY,DDEZZ,DDEXY,DDEYZ,DDEZX
 C=======================================================================
-      BULK  = UPARAM(1)     
+      BULK  = UPARAM(1)
       G_INS = UPARAM(2)        ! instant shear modulus
       G_INF = UPARAM(3)        ! long term shear modulus
       BETA  = UPARAM(4)
       P0    = UPARAM(5)
       PHI   = UPARAM(6)
       GAMA0 = UPARAM(7)
-c      
+c
       GE  = G_INF              ! elastic part of shear modulus
       GV  = G_INS-G_INF        ! viscous part of shear modulus
       GE2 = GE * TWO
@@ -110,7 +110,7 @@ c
         EM(I)    = THIRD *(EPSXX(I) +EPSYY(I) +EPSZZ(I) )
       END DO
 c
-c     Deviators of strain, strain increment and strain rate       
+c     Deviators of strain, strain increment and strain rate
 c
       DO I=1,NEL
         DEXX(I) = EPSXX(I)-EM(I)
@@ -118,7 +118,7 @@ c
         DEZZ(I) = EPSZZ(I)-EM(I)
         DEXY(I) = EPSXY(I)
         DEYZ(I) = EPSYZ(I)
-        DEZX(I) = EPSZX(I) 
+        DEZX(I) = EPSZX(I)
 c
         DDEXX(I) = DEPSXX(I)-DEPSM(I)
         DDEYY(I) = DEPSYY(I)-DEPSM(I)
@@ -153,7 +153,7 @@ c
         SIGNXY(I) = SIGOXY(I) + GE *DDEXY(I) - GV *DEPSVXY(I)
         SIGNYZ(I) = SIGOYZ(I) + GE *DDEYZ(I) - GV *DEPSVYZ(I)
         SIGNZX(I) = SIGOZX(I) + GE *DDEZX(I) - GV *DEPSVZX(I)
-      END DO        
+      END DO
 c
       DP_DRHO = FOUR_OVER_3*G_INS + BULK
       SOUNDSP(1:NEL) = SQRT(DP_DRHO / RHO0(1:NEL))

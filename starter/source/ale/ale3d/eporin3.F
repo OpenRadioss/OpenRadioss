@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,II,J,NG,JAD,JVOI,IGT,NG1,IAD1
-      my_real :: NX,NY,NZ,PORO 
+      my_real :: NX,NY,NZ,PORO
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
           ENDIF
           JVOI = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)
           ! --- Normal vector is modified if adjacent element is porous
-          IF(JVOI > 0)THEN     
+          IF(JVOI > 0)THEN
             NG1=IXS(10,JVOI)
             IF(NG1 /= 0.AND.NG1 /= NG)THEN
               IGT=INT(GEO(12,NG1))

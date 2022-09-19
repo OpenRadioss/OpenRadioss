@@ -119,7 +119,7 @@ c-------shells
 c------------scalar
                   CALL C_H3D_CREATE_SHELL_SCALAR_DATATYPE(
      .                      H3D_DATA%OUTPUT_LIST(I)%N_OUTP, H3D_DATA%OUTPUT_LIST(I)%STRING1, H3D_DATA%OUTPUT_LIST(I)%S_STRING1,
-     .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%INFO2, H3D_DATA%OUTPUT_LIST(I)%STRING2, 
+     .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%INFO2, H3D_DATA%OUTPUT_LIST(I)%STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%S_STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%LAYER, H3D_DATA%OUTPUT_LIST(I)%IPT, H3D_DATA%OUTPUT_LIST(I)%PLY,
      .                      H3D_DATA%OUTPUT_LIST(I)%IUVAR,H3D_DATA%OUTPUT_LIST(I)%GAUSS,H3D_DATA%OUTPUT_LIST(I)%IDMDS,
@@ -130,7 +130,7 @@ c------------scalar
 c------------vector
                   CALL C_H3D_CREATE_SHELL_VECTOR_DATATYPE(
      .                      H3D_DATA%OUTPUT_LIST(I)%N_OUTP, H3D_DATA%OUTPUT_LIST(I)%STRING1, H3D_DATA%OUTPUT_LIST(I)%S_STRING1,
-     .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%INFO2, H3D_DATA%OUTPUT_LIST(I)%STRING2, 
+     .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%INFO2, H3D_DATA%OUTPUT_LIST(I)%STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%S_STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%LAYER, H3D_DATA%OUTPUT_LIST(I)%IPT, H3D_DATA%OUTPUT_LIST(I)%PLY,
      .                      H3D_DATA%OUTPUT_LIST(I)%IUVAR,H3D_DATA%OUTPUT_LIST(I)%GAUSS,
@@ -139,7 +139,7 @@ c------------vector
 c------------tensor
                   CALL C_H3D_CREATE_SHELL_TENSOR_DATATYPE(
      .                      H3D_DATA%OUTPUT_LIST(I)%N_OUTP, H3D_DATA%OUTPUT_LIST(I)%STRING1, H3D_DATA%OUTPUT_LIST(I)%S_STRING1,
-     .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%INFO2, H3D_DATA%OUTPUT_LIST(I)%STRING2, 
+     .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%INFO2, H3D_DATA%OUTPUT_LIST(I)%STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%S_STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%LAYER, H3D_DATA%OUTPUT_LIST(I)%IPT, H3D_DATA%OUTPUT_LIST(I)%PLY,
      .                      H3D_DATA%OUTPUT_LIST(I)%IUVAR,H3D_DATA%OUTPUT_LIST(I)%GAUSS,H3D_DATA%OUTPUT_LIST(I)%OBJECT_ID,
@@ -154,7 +154,7 @@ c------------scalar
      .                      H3D_DATA%OUTPUT_LIST(I)%INFO1, H3D_DATA%OUTPUT_LIST(I)%STRING2, H3D_DATA%OUTPUT_LIST(I)%S_STRING2,
      .                      H3D_DATA%OUTPUT_LIST(I)%LAYER, H3D_DATA%OUTPUT_LIST(I)%IUVAR  , H3D_DATA%OUTPUT_LIST(I)%IR       ,
      .                      H3D_DATA%OUTPUT_LIST(I)%IS, H3D_DATA%OUTPUT_LIST(I)%IT        , H3D_DATA%OUTPUT_LIST(I)%IDMDS    ,
-     .                      H3D_DATA%OUTPUT_LIST(I)%IMDSVAR                               , H3D_DATA%OUTPUT_LIST(I)%IDMATMDS ,  
+     .                      H3D_DATA%OUTPUT_LIST(I)%IMDSVAR                               , H3D_DATA%OUTPUT_LIST(I)%IDMATMDS ,
      .                      H3D_DATA%OUTPUT_LIST(I)%COMMENT                               , H3D_DATA%OUTPUT_LIST(I)%S_COMMENT ,
      .                      H3D_DATA%OUTPUT_LIST(I)%MDSVAR_NAME                           , H3D_DATA%OUTPUT_LIST(I)%SMDSVAR_NAME)
               ELSEIF(H3D_DATA%OUTPUT_LIST(I)%OUTP_TYPE ==  2) THEN

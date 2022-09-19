@@ -45,7 +45,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -201,10 +201,10 @@ c
      .                 X1   ,X2   ,X3   ,Y1   ,Y2   ,Y3   ,
      .                 Z1   ,Z2   ,Z3   ,E1X  ,E2X  ,E3X  ,
      .                 E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
-          CALL C3DEFOI(JFT ,JLT ,NEL ,VL  ,GSTR,                        
-     .                 PX1 ,PY1 ,PY2 ,AREA,                             
-     .                 EXX ,EYY ,EXY ,EYZ ,EZX ,                        
-     .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )    
+          CALL C3DEFOI(JFT ,JLT ,NEL ,VL  ,GSTR,
+     .                 PX1 ,PY1 ,PY2 ,AREA,
+     .                 EXX ,EYY ,EXY ,EYZ ,EZX ,
+     .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
 c
           IF (ISH3NFR ==0 ) CALL SHTROTO3(JFT,JLT,ECOS,ESIN,GSTR,NEL)
 c
@@ -230,10 +230,10 @@ C------
         DIR2 => ELBUF_STR%BUFLY(1)%DIRB
 c
         DO NT=1,NITRS
-          CALL C3DEFOI(JFT ,JLT ,NEL ,VL  ,GSTR,                        
-     .                 PX1 ,PY1 ,PY2 ,AREA,                             
-     .                 EXX ,EYY ,EXY ,EYZ ,EZX ,                        
-     .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )    
+          CALL C3DEFOI(JFT ,JLT ,NEL ,VL  ,GSTR,
+     .                 PX1 ,PY1 ,PY2 ,AREA,
+     .                 EXX ,EYY ,EXY ,EYZ ,EZX ,
+     .                 E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
 c
           IF (ISH3NFR == 0) CALL SHTROTO3(JFT,JLT,ECOS,ESIN,GSTR,NEL)
 c
@@ -334,10 +334,10 @@ Chd|-- called by -----------
 Chd|        C3EPSINI                      source/elements/sh3n/coque3n/c3epsini.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE C3DEFOI(JFT ,JLT ,NEL ,VL  ,GSTR,                        
-     .                   PX1 ,PY1 ,PY2 ,AREA,                          
-     .                   EXX ,EYY ,EXY ,EYZ ,EZX ,                     
-     .                   E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z ) 
+      SUBROUTINE C3DEFOI(JFT ,JLT ,NEL ,VL  ,GSTR,
+     .                   PX1 ,PY1 ,PY2 ,AREA,
+     .                   EXX ,EYY ,EXY ,EYZ ,EZX ,
+     .                   E1X ,E2X ,E3X ,E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -355,7 +355,7 @@ C-----------------------------------------------
      .    EZX(MVSIZ) , EYZ(MVSIZ) , AREA(MVSIZ),
      .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
      .    E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
-     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) 
+     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -471,40 +471,40 @@ C-----------------------------------------------
      .   E2X0(MVSIZ), E2Y0(MVSIZ), E2Z0(MVSIZ),
      .   E3X0(MVSIZ), E3Y0(MVSIZ), E3Z0(MVSIZ)
 C=======================================================================
-      DO I=JFT,JLT        
-        E1X0(I) = E1X(I)  
-        E1Y0(I) = E1Y(I)  
-        E1Z0(I) = E1Z(I)  
-        E2X0(I) = E2X(I)  
-        E2Y0(I) = E2Y(I)  
-        E2Z0(I) = E2Z(I)  
-        E3X0(I) = E3X(I)  
-        E3Y0(I) = E3Y(I)  
-        E3Z0(I) = E3Z(I)  
-      ENDDO               
+      DO I=JFT,JLT
+        E1X0(I) = E1X(I)
+        E1Y0(I) = E1Y(I)
+        E1Z0(I) = E1Z(I)
+        E2X0(I) = E2X(I)
+        E2Y0(I) = E2Y(I)
+        E2Z0(I) = E2Z(I)
+        E3X0(I) = E3X(I)
+        E3Y0(I) = E3Y(I)
+        E3Z0(I) = E3Z(I)
+      ENDDO
 c
       CALL CDKEVEC3(JFT ,JLT ,AREA,
      .              X1  ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .              Z1  ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
      .              E1Y ,E2Y ,E3Y ,E1Z ,E2Z ,E3Z )
 c
-      DO I=JFT,JLT        
+      DO I=JFT,JLT
         ECOS(I) = E1X(I)*E1X0(I)+E1Y(I)*E1Y0(I)+E1Z(I)*E1Z0(I)
         AA = MAX(ZERO,ONE-ECOS(I)*ECOS(I))
         ESIN(I) = SQRT(AA)
         BB = E1X(I)*E2X0(I)+E1Y(I)*E2Y0(I)+E1Z(I)*E2Z0(I)
         IF (BB >ZERO) ESIN(I) = -ESIN(I)
-      ENDDO               
+      ENDDO
       DO I=JFT,JLT
-        E1X(I) = E1X0(I)   
-        E1Y(I) = E1Y0(I)   
-        E1Z(I) = E1Z0(I)   
-        E2X(I) = E2X0(I)   
-        E2Y(I) = E2Y0(I)   
-        E2Z(I) = E2Z0(I)   
-        E3X(I) = E3X0(I)   
-        E3Y(I) = E3Y0(I)   
-        E3Z(I) = E3Z0(I)   
+        E1X(I) = E1X0(I)
+        E1Y(I) = E1Y0(I)
+        E1Z(I) = E1Z0(I)
+        E2X(I) = E2X0(I)
+        E2Y(I) = E2Y0(I)
+        E2Z(I) = E2Z0(I)
+        E3X(I) = E3X0(I)
+        E3Y(I) = E3Y0(I)
+        E3Z(I) = E3Z0(I)
       ENDDO
 c-----------
       RETURN

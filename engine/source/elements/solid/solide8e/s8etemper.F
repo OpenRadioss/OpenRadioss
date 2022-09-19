@@ -44,7 +44,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NELA, NPTR, NPTS, NPTT
       INTEGER NC1(*), NC2(*), NC3(*), NC4(*), NC5(*), NC6(*), NC7(*), NC8(*)
-      my_real TEMP(*), TEMPEL(MVSIZ,*)                      
+      my_real TEMP(*), TEMPEL(MVSIZ,*)
 C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -55,7 +55,7 @@ C
       my_real RP,SP,TP,SM,RM,TM,KSI,ETA,ZETA
       my_real NI(8),A_GAUSS(9,9)
 
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -91,11 +91,11 @@ C------------------------------------------------------------------------------
            KSI = A_GAUSS(IR,NPTR)
            ETA = A_GAUSS(IS,NPTS)
            ZETA= A_GAUSS(IT,NPTT)
-           RP = ONE + KSI            
-           SP = ONE + ETA            
-           TP = ONE + ZETA           
-           RM = ONE - KSI            
-           SM = ONE - ETA            
+           RP = ONE + KSI
+           SP = ONE + ETA
+           TP = ONE + ZETA
+           RM = ONE - KSI
+           SM = ONE - ETA
            TM = ONE - ZETA
            NI(1) = ONE_OVER_8*RM*SM*TM
            NI(2) = ONE_OVER_8*RP*SM*TM
@@ -109,7 +109,7 @@ C------------------------------------------------------------------------------
              TEMPEL(I,IP)= NI(1)*TEMP(NC1(I)) +  NI(2)*TEMP(NC2(I)) +
      .                     NI(3)*TEMP(NC3(I)) +  NI(4)*TEMP(NC4(I)) +
      .                     NI(5)*TEMP(NC5(I)) +  NI(6)*TEMP(NC6(I)) +
-     .                     NI(7)*TEMP(NC7(I)) +  NI(8)*TEMP(NC8(I))  
+     .                     NI(7)*TEMP(NC7(I)) +  NI(8)*TEMP(NC8(I))
            ENDDO
         ENDDO  ! IT=1,NPTT
        ENDDO   ! IS=1,NPTS

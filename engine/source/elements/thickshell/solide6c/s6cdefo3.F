@@ -30,19 +30,19 @@ Chd|====================================================================
      .   PX1, PX2, PX3, PX4,
      .   PY1, PY2, PY3, PY4,
      .   PZ1, PZ2, PZ3, PZ4,
-     .   VX1, VX2, VX3, VX4, VX5, VX6, 
-     .   VY1, VY2, VY3, VY4, VY5, VY6, 
-     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, 
+     .   VX1, VX2, VX3, VX4, VX5, VX6,
+     .   VY1, VY2, VY3, VY4, VY5, VY6,
+     .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6,
      .   DXX, DXY, DXZ, DYX, DYY, DYZ, DZX, DZY, DZZ, D4, D5, D6,
-     .   WXX, WYY, WZZ, 
+     .   WXX, WYY, WZZ,
      .   DHXX, DHXY, DHXZ,DHYX, DHYY, DHYZ,DHZX, DHZY, DHZZ,
      .   DH4, DH5, DH6,
-     .   PX1H, PX2H, PX3H, 
-     .   PY1H, PY2H, PY3H, 
-     .   PZ1H, PZ2H, PZ3H,  
+     .   PX1H, PX2H, PX3H,
+     .   PY1H, PY2H, PY3H,
+     .   PZ1H, PZ2H, PZ3H,
      .   JI33,B1X,B1Y,B2Y,B2X,B1122,B1221,B2212,B1121,
      .   B1XH,B1YH,B2XH,B2YH,B1122H,B1221H,B2212H,B1121H,
-     .   DDHV,NU) 
+     .   DDHV,NU)
 C   ---
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -63,26 +63,26 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*), 
-     .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*), 
-     .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), 
+     .   VX1(*), VX2(*), VX3(*), VX4(*), VX5(*), VX6(*),
+     .   VY1(*), VY2(*), VY3(*), VY4(*), VY5(*), VY6(*),
+     .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
      .   WXX(*), WYY(*), WZZ(*),
 C   +++
-     .   PX1H(*), PX2H(*), PX3H(*), 
-     .   PY1H(*), PY2H(*), PY3H(*), 
-     .   PZ1H(*), PZ2H(*), PZ3H(*), 
+     .   PX1H(*), PX2H(*), PX3H(*),
+     .   PY1H(*), PY2H(*), PY3H(*),
+     .   PZ1H(*), PZ2H(*), PZ3H(*),
      .   JI33(*),B1X(MVSIZ,2),B1Y(MVSIZ,2),B2X(MVSIZ,2),B2Y(MVSIZ,2),
      .   B1XH(MVSIZ,2),B1YH(MVSIZ,2),B2XH(MVSIZ,2),B2YH(MVSIZ,2),
      .   B1122(*),B1221(*),B2212(*),B1121(*),
      .   B1122H(*),B1221H(*),B2212H(*),B1121H(*),
-     .   DHXX(*), DHXY(*), DHXZ(*),  
-     .   DHYX(*), DHYY(*), DHYZ(*), 
+     .   DHXX(*), DHXY(*), DHXZ(*),
+     .   DHYX(*), DHYY(*), DHYZ(*),
      .   DHZX(*), DHZY(*), DHZZ(*),DH4(*), DH5(*), DH6(*),
      .   DDHV(*),NU(*)
 C-----------------------------------------------
@@ -99,7 +99,7 @@ C     REAL
      .   VX36N(MVSIZ), VY36N(MVSIZ), VZ36N(MVSIZ),
      .   VX3614N(MVSIZ),VY3614N(MVSIZ),VX2514N(MVSIZ),VY2514N(MVSIZ),
      .   VXHI(MVSIZ), VYHI(MVSIZ), VZHI(MVSIZ), DT1D2, DT1D1
-      my_real 
+      my_real
      .  NU1,PXSVX,PYSVY,PZSVZ,PXAVX,PYAVY,PZAVZ,TERMAD
 C-----------------------------------------------
       DO I=LFT,LLT
@@ -148,16 +148,16 @@ C   ----------constant part--------------------------------------
 C   --------shear traitement-------
         DXZ(I)=JI33(I)*TWO*VXHI(I)
      .         -B1122(I)*VX36N(I)+B1221(I)*VX25N(I)
-     .         +B2212(I)*(VY25N(I)-VY36N(I))  
+     .         +B2212(I)*(VY25N(I)-VY36N(I))
         DXZ(I)= DXZ(I)+JI33(I)*(VXHI(I)-VX14N(I))
-     .         -B1X(I,1)*VX3614N(I)+B1X(I,2)*VX2514N(I)  
-     .         -B1Y(I,1)*VY3614N(I)+B1Y(I,2)*VY2514N(I)  
+     .         -B1X(I,1)*VX3614N(I)+B1X(I,2)*VX2514N(I)
+     .         -B1Y(I,1)*VY3614N(I)+B1Y(I,2)*VY2514N(I)
         DYZ(I)=JI33(I)*TWO*VYHI(I)
      .         -B1122(I)*VY25N(I)+B1221(I)*VY36N(I)
-     .         +B1121(I)*(VX36N(I)-VX25N(I))  
+     .         +B1121(I)*(VX36N(I)-VX25N(I))
         DYZ(I)= DYZ(I)+ JI33(I)*(VYHI(I)-VY14N(I))
      .         +B2X(I,1)*VX3614N(I)-B2X(I,2)*VX2514N(I)
-     .         +B2Y(I,1)*VY3614N(I)-B2Y(I,2)*VY2514N(I)  
+     .         +B2Y(I,1)*VY3614N(I)-B2Y(I,2)*VY2514N(I)
 C
         DZX(I)=HALF*(PX1(I)*VZ14(I)+PX2(I)*VZ25(I)+
      .         PX3(I)*VZ36(I))
@@ -198,15 +198,15 @@ C   ----------non-constant part--------------------------------------
      .          PX3H(I)*VY36(I)
 C   --------shear traitement-------
         DHXZ(I)=-B1122H(I)*VX36N(I)+B1221H(I)*VX25N(I)
-     .          +B2212H(I)*(VY25N(I)-VY36N(I))  
+     .          +B2212H(I)*(VY25N(I)-VY36N(I))
         DHXZ(I)= DHXZ(I)
-     .         -B1XH(I,1)*VX3614N(I)+B1XH(I,2)*VX2514N(I)  
-     .         -B1YH(I,1)*VY3614N(I)+B1YH(I,2)*VY2514N(I)  
+     .         -B1XH(I,1)*VX3614N(I)+B1XH(I,2)*VX2514N(I)
+     .         -B1YH(I,1)*VY3614N(I)+B1YH(I,2)*VY2514N(I)
         DHYZ(I)=-B1122H(I)*VY25N(I)+B1221H(I)*VY36N(I)
-     .          +B1121H(I)*(VX36N(I)-VX25N(I))  
-        DHYZ(I)= DHYZ(I) 
+     .          +B1121H(I)*(VX36N(I)-VX25N(I))
+        DHYZ(I)= DHYZ(I)
      .         +B2XH(I,1)*VX3614N(I)-B2XH(I,2)*VX2514N(I)
-     .         +B2YH(I,1)*VY3614N(I)-B2YH(I,2)*VY2514N(I)  
+     .         +B2YH(I,1)*VY3614N(I)-B2YH(I,2)*VY2514N(I)
         DHZX(I)=HALF*(PX1H(I)*VZ14(I)+PX2H(I)*VZ25(I)+
      .          PX3H(I)*VZ36(I))
         DHZY(I)=HALF*(PY1H(I)*VZ14(I)+PY2H(I)*VZ25(I)+

@@ -60,7 +60,7 @@ C-----------------------------------------------
       my_real
      +       , DIMENSION(:),ALLOCATABLE :: RDATA
       INTEGER I
-      CHARACTER FNAME*2048 
+      CHARACTER FNAME*2048
       INTEGER LFNAME
       INTEGER DUM_IERR
       INTEGER :: DYN_LIB_MODE
@@ -81,10 +81,10 @@ C
      *                  GOT_PATH,  PATH,  LENPATH )
 
 !     ----------------------------
-!     if -infile or outfile cdl are used, then one needs to change $TMPDIR 
+!     if -infile or outfile cdl are used, then one needs to change $TMPDIR
 !     in order to write all scratch files in the user folder
       IF(INOUT_BOOL) CALL RADIOSS_SET_ENV_VARIABLE(OUTFILE_NAME , OUTFILE_NAME_LEN)
-!     ---------------------------- 
+!     ----------------------------
 C
 C---------------------------------------------------------------------------------------
 C Dummy call for Linux to avoid object files with user interface routines to be removed
@@ -105,6 +105,6 @@ C-----------------------------------------------
 C-----------------------------------------------
 9999  CONTINUE
       RETURN
-      END 
+      END
 
 

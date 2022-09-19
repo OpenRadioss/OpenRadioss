@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -95,8 +95,8 @@ C-----------------------------------------------
      .   VIS(MVSIZ), CXX(MVSIZ), OFF(MVSIZ), EPSD(MVSIZ)
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C=======================================================================
       IF (MTN >= 28 .AND. MTN /= 49) THEN
         GBUF  => ELBUF_STR%GBUF

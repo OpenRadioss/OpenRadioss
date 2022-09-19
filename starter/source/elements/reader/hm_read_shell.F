@@ -95,7 +95,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::ITAB(*)
       INTEGER,INTENT(IN)::ITABM1(*)
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
@@ -109,7 +109,7 @@ C OUTPUT ARGUMENTS
       my_real,
      .  INTENT(OUT)::ANGLE(*)
       my_real,
-     .  INTENT(OUT)::THK(*) 
+     .  INTENT(OUT)::THK(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -146,26 +146,26 @@ C--------------------------------------------------
       ALLOCATE (SUB_SHELL(NUMELC0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_SHELL') 
+     .                             C1='SUB_SHELL')
       ALLOCATE (UID_SHELL(NUMELC0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='UID_SHELL') 
+     .                             C1='UID_SHELL')
       ALLOCATE (HM_THK(NUMELC0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='HM_THK') 
+     .                             C1='HM_THK')
       ALLOCATE (HM_ANGLE(NUMELC0),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='HM_ANGLE') 
+     .                             C1='HM_ANGLE')
       SUB_SHELL(1:NUMELC0) = 0
       UID_SHELL(1:NUMELC0) = 0
       HM_THK(1:NUMELC0) = ZERO
       HM_ANGLE(1:NUMELC0) = ZERO
       NDEGEN = 0
       INDEX_PART = 1
-      UID = -1 
+      UID = -1
 C--------------------------------------------------
 C      READING SHELLS INPUTS IN HM STRUCTURE
 C-------------------------------------------------- 
@@ -183,13 +183,13 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SHELL(I) /= 0)THEN
-          IF(IPARTC(I) /= 0) IPARTC(I) = IPARTC(I) + OFF_PART(SUB_SHELL(I)) 
+          IF(IPARTC(I) /= 0) IPARTC(I) = IPARTC(I) + OFF_PART(SUB_SHELL(I))
           IF(IXC(NIXC,I) /= 0) IXC(NIXC,I) = IXC(NIXC,I) + OFF_EL(SUB_SHELL(I))
           DO J=2,5
             IF(IXC(J,I) /= 0) IXC(J,I) = IXC(J,I) + OFF_NOD(SUB_SHELL(I))
           ENDDO
           IF(UID_SHELL(I) /= 0) UID_SHELL(I) = UID_SHELL(I) + OFF_DEF(SUB_SHELL(I))
-          IF(UID_SHELL(I) == 0 .AND. LSUBMODEL(SUB_SHELL(I))%UID /= 0) 
+          IF(UID_SHELL(I) == 0 .AND. LSUBMODEL(SUB_SHELL(I))%UID /= 0)
      .         UID_SHELL(I) = LSUBMODEL(SUB_SHELL(I))%UID
         ENDIF
 C--------------------------------------------------
@@ -198,26 +198,26 @@ C--------------------------------------------------
         FAC_L = ONE
         IF(UID_SHELL(I) /= UID )THEN
           UID = UID_SHELL(I)
-          IFLAGUNIT = 0          
-          DO J=1,NUNITS                         
-            IF (UNITAB%UNIT_ID(J) == UID) THEN  
-              FAC_L = UNITAB%FAC_L(J)                 
-              IFLAGUNIT = 1                     
-            ENDIF                               
-          ENDDO                                  
+          IFLAGUNIT = 0
+          DO J=1,NUNITS
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
+              FAC_L = UNITAB%FAC_L(J)
+              IFLAGUNIT = 1
+            ENDIF
+          ENDDO
           IF (UID/=0.AND.IFLAGUNIT==0) THEN
             CALL ANCMSG(MSGID=643,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=UID,C1='/SHELL')
-          ENDIF 
-        ENDIF 
+          ENDIF
+        ENDIF
         THK(I) = THK(I) * FAC_L
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTC(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTC(I) ) INDEX_PART = J 
-          ENDDO  
+        IF( IPART(4,INDEX_PART) /= IPARTC(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTC(I) ) INDEX_PART = J
+          ENDDO
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTC(I)) THEN
           CALL ANCMSG(MSGID=402,
@@ -227,42 +227,42 @@ C--------------------------------------------------
      .                I1=IPARTC(I),
      .                I2=IPARTC(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF 
+        ENDIF
         IPARTC(I) = INDEX_PART
 C--------------------------------------------------
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)                                 
-        IXC(1,I)=MT                                
-        IXC(6,I)=IPID 
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXC(1,I)=MT
+        IXC(6,I)=IPID
         IF (IXC(NIXC,I)>ID_LIMIT)THEN
             CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
         ELSEIF (NADMESH/=0.AND.IXC(NIXC,I)>ID_LIMIT_ADMESH)THEN
             CALL ANCMSG(MSGID=1069,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                  I1=IXC(NIXC,I),C1=LINE,C2='/SHELL')
-        ENDIF                            
-        IF(  ( IXC(4,I) == IXC(5,I)) .OR.        
-     .       ( IXC(5,I) == 0 )) THEN             
-           NDEGEN = NDEGEN + 1                     
+        ENDIF
+        IF(  ( IXC(4,I) == IXC(5,I)) .OR.
+     .       ( IXC(5,I) == 0 )) THEN
+           NDEGEN = NDEGEN + 1
            CALL ANCMSG(MSGID=430,
      .                 MSGTYPE=MSGWARNING,
      .                 I1=IXC(NIXC,I),
      .                 ANMODE=ANINFO_BLIND_2,
      .                 PRMOD=MSG_CUMU)
-        ENDIF                                                                  
-        IF(THK(I)>0) THEN                       
-           CALL APARTSET(INDEX_PART, CHECK_THICK_SHELL)   
-        ENDIF 
-                               
-        DO J=2,5                                                 
-          IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID) 
-          CALL ANODSET(IXC(J,I), CHECK_SHELL)     
+        ENDIF
+        IF(THK(I)>0) THEN
+           CALL APARTSET(INDEX_PART, CHECK_THICK_SHELL)
+        ENDIF
+
+        DO J=2,5
+          IXC(J,I)=USR2SYS(IXC(J,I),ITABM1,MESS,ID)
+          CALL ANODSET(IXC(J,I), CHECK_SHELL)
         ENDDO
 
         ISHXFEM = IGEO(19,IPID)
 
         IF(ISHXFEM > 0) THEN
-          DO J=2,5                                                 
+          DO J=2,5
              ITAG(IXC(J,I)) = 1
           ENDDO
         ENDIF
@@ -281,7 +281,7 @@ C
    90  WRITE (IOUT,'(//A/A//A,A/)')TITRE(110),TITRE(111),TITRE(102),TITRE(105)
        DO I=I1,I2
          MID = IPM(1,IXC(1,I))
-         PID = IGEO(1,IXC(6,I)) 
+         PID = IGEO(1,IXC(6,I))
          WRITE (IOUT,FMT='(8(I10,1X),1PG20.13,1X,1PG20.13)') IXC(NIXC,I),I,MID,PID,
      .                      (ITAB(IXC(J,I)),J=2,5),ANGLE(I),THK(I)
        ENDDO
@@ -293,10 +293,10 @@ C
 C
  200  CONTINUE
 C-----------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
-     .            PRMOD=MSG_PRINT) 
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
+     .            PRMOD=MSG_PRINT)
 C-------------------------------------
 C Search Duplicated Ids
 C-------------------------------------
@@ -305,7 +305,7 @@ C-------------------------------------
       J = 0
       CALL VDOUBLE(IXC(NIXC,1),NIXC,NUMELC0,MESS,0,BID)
       IDS = 17
-      
+
       RETURN
 
       END

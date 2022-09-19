@@ -34,11 +34,11 @@ Chd|====================================================================
       SUBROUTINE STAT_C_STRSF(
      1                  ELBUF_TAB  ,IPARG     ,IPM        ,IGEO  ,IXC    ,
      2                  IXTG       ,WA        ,WAP0       ,IPARTC,IPARTTG,
-     3                  IPART_STATE,STAT_INDXC,STAT_INDXTG,THKE  ,SIZP0) 
+     3                  IPART_STATE,STAT_INDXC,STAT_INDXTG,THKE  ,SIZP0)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_STATE(*),
      .        STAT_INDXC(*), STAT_INDXTG(*)
-      my_real   
+      my_real
      .   THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       double precision WA(*),WAP0(*)
@@ -78,15 +78,15 @@ C-----------------------------------------------
      .   IGTYP,NPT_ALL,IL,KK(12)
       INTEGER PTWA(MAX(STAT_NUMELC ,STAT_NUMELTG)),
      .        PTWA_P0(0:MAX(1,STAT_NUMELC_G,STAT_NUMELTG_G))
-      double precision   
+      double precision
      .  THK, EM, EB, H1, H2, H3
-      my_real   
+      my_real
      .   PG,MPG,QPG(2,4),THKQ,
      .   SK(2),ST(2),MK(2),MT(2),SHK(2),SHT(2),Z01(11,11),ZZ
       CHARACTER*100 DELIMIT,LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
 C-----------------------------------------------
       PARAMETER (PG = .577350269189626)
       PARAMETER (MPG=-.577350269189626)
@@ -128,7 +128,7 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -136,12 +136,12 @@ C
           IHBE = IPARG(23,NG)
           ITHK = IPARG(28,NG)
           IGTYP= IPARG(38,NG)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           IF (IHBE == 23) NPG=4
           LFT=1
           LLT=NEL
@@ -206,7 +206,7 @@ C
             ELSE
               WA(JJ) = ZERO
             ENDIF
-c ----    Hourglass          
+c ----    Hourglass
             IF (IHBE==11 .or. IHBE==23 .or. MLW == 0 .or. MLW == 13) THEN
               JJ = JJ + 1
               WA(JJ) = ZERO
@@ -216,79 +216,79 @@ c ----    Hourglass
               WA(JJ) = ZERO
             ELSE  ! not Batoz & not QEPH
               JJ = JJ + 1
-              WA(JJ) = GBUF%HOURG(KK(1)+I) 
+              WA(JJ) = GBUF%HOURG(KK(1)+I)
               JJ = JJ + 1
-              WA(JJ) = GBUF%HOURG(KK(2)+I)  
+              WA(JJ) = GBUF%HOURG(KK(2)+I)
               JJ = JJ + 1
-              WA(JJ) = GBUF%HOURG(KK(3)+I)  
+              WA(JJ) = GBUF%HOURG(KK(3)+I)
             ENDIF
 c---------
             IF (IHBE /= 23) THEN
               IF (MPT == 0) THEN  ! global integration
                 IF (MLW == 0 .or. MLW == 13) THEN
-                  DO IPG=1,NPG 
+                  DO IPG=1,NPG
                     DO J=1,8        ! forces and moments           	
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                    ENDDO                                                               
+                    ENDDO
                   ENDDO
                 ELSEIF (NPG == 1) THEN
-                  JJ = JJ + 1                                      
-                  WA(JJ) = GBUF%FOR(KK(1)+I)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = GBUF%FOR(KK(2)+I)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = GBUF%FOR(KK(3)+I)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = GBUF%FOR(KK(4)+I)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = GBUF%FOR(KK(5)+I)             
-c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF                        
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FOR(KK(1)+I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FOR(KK(2)+I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FOR(KK(3)+I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FOR(KK(4)+I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FOR(KK(5)+I)
 c
                   JJ = JJ + 1
-                  WA(JJ) = GBUF%MOM(KK(1)+I)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = GBUF%MOM(KK(2)+I)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = GBUF%MOM(KK(3)+I)             
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
+c
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%MOM(KK(1)+I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%MOM(KK(2)+I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%MOM(KK(3)+I)
                 ELSE  ! NPG > 1
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
                       JJ = JJ + 1
-                      WA(JJ) = GBUF%FORPG(K + KK(1) + I)         
-                      JJ = JJ + 1               
-                      WA(JJ) = GBUF%FORPG(K + KK(2) + I)         
-                      JJ = JJ + 1               
-                      WA(JJ) = GBUF%FORPG(K + KK(3) + I)         
-                      JJ = JJ + 1               
-                      WA(JJ) = GBUF%FORPG(K + KK(4) + I)         
-                      JJ = JJ + 1               
-                      WA(JJ) = GBUF%FORPG(K + KK(5) + I)         
+                      WA(JJ) = GBUF%FORPG(K + KK(1) + I)
+                      JJ = JJ + 1
+                      WA(JJ) = GBUF%FORPG(K + KK(2) + I)
+                      JJ = JJ + 1
+                      WA(JJ) = GBUF%FORPG(K + KK(3) + I)
+                      JJ = JJ + 1
+                      WA(JJ) = GBUF%FORPG(K + KK(4) + I)
+                      JJ = JJ + 1
+                      WA(JJ) = GBUF%FORPG(K + KK(5) + I)
 c
                       JJ = JJ + 1
-                      IF (GBUF%G_PLA > 0) THEN    
+                      IF (GBUF%G_PLA > 0) THEN
             	        WA(JJ) = LBUF%PLA(I)
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF                        
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
 c
                       K = (IPG-1)*NEL*3
                       JJ = JJ + 1
-                      WA(JJ) = GBUF%MOMPG(K + KK(1) + I)         
-                      JJ = JJ + 1               
-                      WA(JJ) = GBUF%MOMPG(K + KK(2) + I)         
-                      JJ = JJ + 1          	    
-                      WA(JJ) = GBUF%MOMPG(K + KK(3) + I)       
-                    ENDDO                                                               
+                      WA(JJ) = GBUF%MOMPG(K + KK(1) + I)
+                      JJ = JJ + 1
+                      WA(JJ) = GBUF%MOMPG(K + KK(2) + I)
+                      JJ = JJ + 1          	
+                      WA(JJ) = GBUF%MOMPG(K + KK(3) + I)
+                    ENDDO
                   ENDDO
                 ENDIF  !  IF (MLW == 0 .or. MLW == 13)
 C           (MPT /=0 ):
@@ -298,15 +298,15 @@ C           (MPT /=0 ):
                     DO J=1,6     ! Stress + plastic strain
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                    ENDDO                                                               
-                  ENDDO                                                                 
+                    ENDDO
+                  ENDDO
                 ENDDO
               ELSEIF (NLAY == 1) THEN    ! PID1
                 BUFLY => ELBUF_TAB(NG)%BUFLY(1)
                 NPTT = BUFLY%NPTT
                 DO IT=1,NPTT
-                  DO IS=1,NPTS 
-                    DO IR=1,NPTR                                                         
+                  DO IS=1,NPTS
+                    DO IR=1,NPTR
                       LBUF => BUFLY%LBUF(IR,IS,IT)
                       IPG = NPTR*(IS-1) + IR
                       JJ = JJ + 1
@@ -325,8 +325,8 @@ C           (MPT /=0 ):
                       ELSE
                         WA(JJ) = ZERO
                       ENDIF
-                    ENDDO      
-                  ENDDO	    
+                    ENDDO
+                  ENDDO	
                 ENDDO  !  DO IPT = 1,NPTT
               ELSE  !  NLAY > 1, PID10,PID11,PID16,PID17,PID51
                 II = 5*(I-1)
@@ -334,8 +334,8 @@ C           (MPT /=0 ):
                   BUFLY => ELBUF_TAB(NG)%BUFLY(IL)
                   NPTT = BUFLY%NPTT
                   DO IT=1,NPTT
-                    DO IS=1,NPTS 
-                      DO IR=1,NPTR                                                         
+                    DO IS=1,NPTS
+                      DO IR=1,NPTR
                         LBUF => BUFLY%LBUF(IR,IS,IT)
                         JJ = JJ + 1
                         WA(JJ) = LBUF%SIG(KK(1)+I)
@@ -354,8 +354,8 @@ C           (MPT /=0 ):
                           WA(JJ) = ZERO
                         ENDIF
                       ENDDO
-                    ENDDO	    
-                  ENDDO	    
+                    ENDDO	
+                  ENDDO	
                 ENDDO
               ENDIF    ! MPT, NLAY
 c---------
@@ -376,30 +376,30 @@ c---------
                 SHK(2)= ZERO
                 IF (MPT == 0) THEN
                   DO IPG=1,NPG
-                    DO J=1,8           
+                    DO J=1,8
                       JJ = JJ + 1
-                      WA(JJ) = ZERO     
-                    ENDDO                                                               
-                  ENDDO               
+                      WA(JJ) = ZERO
+                    ENDDO
+                  ENDDO
                 ELSE
                   DO IPG=1,NPG
-              	   DO J=1,6         
-                     JJ = JJ + 1      
+              	   DO J=1,6
+                     JJ = JJ + 1
                      WA(JJ) = ZERO
-                   ENDDO                                                               
+                   ENDDO
                   ENDDO
                 ENDIF
               ELSE   ! MLW /= 0
-                ST(1) = GBUF%HOURG(KK(1)+I) 
-                ST(2) =-GBUF%HOURG(KK(2)+I) 
-                MT(1) = GBUF%HOURG(KK(3)+I) 
-                MT(2) =-GBUF%HOURG(KK(4)+I) 
-                SK(1) =-GBUF%HOURG(KK(7)+I) 
-                SK(2) = GBUF%HOURG(KK(8)+I) 
-                MK(1) =-GBUF%HOURG(KK(9)+I) 
-                MK(2) = GBUF%HOURG(KK(10)+I) 
-                SHT(1)= GBUF%HOURG(KK(5)+I) 
-                SHT(2)=-GBUF%HOURG(KK(6)+I) 
+                ST(1) = GBUF%HOURG(KK(1)+I)
+                ST(2) =-GBUF%HOURG(KK(2)+I)
+                MT(1) = GBUF%HOURG(KK(3)+I)
+                MT(2) =-GBUF%HOURG(KK(4)+I)
+                SK(1) =-GBUF%HOURG(KK(7)+I)
+                SK(2) = GBUF%HOURG(KK(8)+I)
+                MK(1) =-GBUF%HOURG(KK(9)+I)
+                MK(2) = GBUF%HOURG(KK(10)+I)
+                SHT(1)= GBUF%HOURG(KK(5)+I)
+                SHT(2)=-GBUF%HOURG(KK(6)+I)
                 SHK(1)=-GBUF%HOURG(KK(11)+I)
                 SHK(2)= GBUF%HOURG(KK(12)+I)
               ENDIF
@@ -442,36 +442,36 @@ C
                     ZZ = GBUF%THK(I)*Z01(IPT,MAX(NLAY,NPT))
 C
                     DO IPG=1,NPG
-                      JJ = JJ + 1                                       
+                      JJ = JJ + 1
                       WA(JJ) = LBUF%SIG(KK(1)+I)
-     .                       + (ST(1)+ZZ*MT(1))*QPG(2,IPG)              
-     .                       + (SK(1)+ZZ*MK(1))*QPG(1,IPG)              
+     .                       + (ST(1)+ZZ*MT(1))*QPG(2,IPG)
+     .                       + (SK(1)+ZZ*MK(1))*QPG(1,IPG)
 C
-                      JJ = JJ + 1                                       
+                      JJ = JJ + 1
                       WA(JJ) = LBUF%SIG(KK(2)+I)
-     .                       + (ST(2)+ZZ*MT(2))*QPG(2,IPG)              
-     .                       + (SK(2)+ZZ*MK(2))*QPG(1,IPG)              
+     .                       + (ST(2)+ZZ*MT(2))*QPG(2,IPG)
+     .                       + (SK(2)+ZZ*MK(2))*QPG(1,IPG)
 C
-                      JJ = JJ + 1                                       
+                      JJ = JJ + 1
                       WA(JJ) = LBUF%SIG(KK(3)+I)
 C
-                      JJ = JJ + 1                                       
+                      JJ = JJ + 1
                       WA(JJ) = LBUF%SIG(KK(4)+I)
-     .                       + SHT(2)*QPG(2,IPG) + SHK(2)*QPG(1,IPG)    
+     .                       + SHT(2)*QPG(2,IPG) + SHK(2)*QPG(1,IPG)
 C
-                      JJ = JJ + 1                                       
+                      JJ = JJ + 1
                       WA(JJ) = LBUF%SIG(KK(5)+I)
-     .                       + SHT(1)*QPG(2,IPG) + SHK(1)*QPG(1,IPG)    
+     .                       + SHT(1)*QPG(2,IPG) + SHK(1)*QPG(1,IPG)
 C
-                      JJ = JJ + 1 
-                      IF (L_PLA > 0) THEN                               
-                        WA(JJ) = LBUF%PLA(I) 
-                      ELSE                                              
-                        WA(JJ) = ZERO                                   
-                      ENDIF	                                            
-                    ENDDO  !  DO IPG=1,NPG      
+                      JJ = JJ + 1
+                      IF (L_PLA > 0) THEN
+                        WA(JJ) = LBUF%PLA(I)
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF	
+                    ENDDO  !  DO IPG=1,NPG
                   ENDDO  !  DO IT=1,NPTT
-                ENDDO  !  DO IL=1,NLAY           
+                ENDDO  !  DO IL=1,NLAY
               ENDIF  !  IF (MPT == 0 .and. MLW /= 0 .and. MLW /= 13)
             ENDIF
 C
@@ -513,16 +513,16 @@ C         retrouve l'adresse dans WAP0
 
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            IPRT = NINT(WAP0(J + 2)) 
+            IPRT = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INISHE/STRS_F'
                 WRITE(IUGEO,'(A)')
-     .          '#------------------------ REPEAT --------------------------' 
+     .          '#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .          '#  SHELLID       NPT       NPG                 THK' 
-                WRITE(IUGEO,'(A)') '# EM, EB, H1, H2, H3' 
+     .          '#  SHELLID       NPT       NPG                 THK'
+                WRITE(IUGEO,'(A)') '# EM, EB, H1, H2, H3'
                 WRITE(IUGEO,'(A/A/A)')
      .          '# IF(NPT == 0), REPEAT I=1,NPG :',
      .          '#   N1, N2, N12, N23, N31',
@@ -532,7 +532,7 @@ C         retrouve l'adresse dans WAP0
      .          '#   S1, S2, S12',
      .          '#   S23, S31, EPSP'
                 WRITE(IUGEO,'(A)')
-     .          '#---------------------- END REPEAT ------------------------' 
+     .          '#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -540,12 +540,12 @@ C         retrouve l'adresse dans WAP0
                 WRITE(LINE,'(A)')'/INISHE/STRS_F'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .          '#------------------------ REPEAT --------------------------' 
+     .          '#------------------------ REPEAT --------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .          '#  SHELLID       NPT       NPG                 THK' 
+     .          '#  SHELLID       NPT       NPG                 THK'
                 CALL STRS_TXT50(LINE,100)
-                WRITE(LINE,'(A)') '# EM, EB, H1, H2, H3' 
+                WRITE(LINE,'(A)') '# EM, EB, H1, H2, H3'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') '# IF(NPT == 0), REPEAT I=1,NPG :'
                 CALL STRS_TXT50(LINE,100)
@@ -562,22 +562,22 @@ C         retrouve l'adresse dans WAP0
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .          '#---------------------- END REPEAT ------------------------'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF
               IPRT0=IPRT
             ENDIF
 c
-            ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
-            NPG = NINT(WAP0(J + 5)) 
-            THK = WAP0(J + 6) 
-            EM  = WAP0(J + 7) 
-            EB  = WAP0(J + 8) 
-            H1  = WAP0(J + 9) 
-            H2  = WAP0(J + 10) 
-            H3  = WAP0(J + 11) 
+            ID  = NINT(WAP0(J + 3))
+            NPT = NINT(WAP0(J + 4))
+            NPG = NINT(WAP0(J + 5))
+            THK = WAP0(J + 6)
+            EM  = WAP0(J + 7)
+            EB  = WAP0(J + 8)
+            H1  = WAP0(J + 9)
+            H2  = WAP0(J + 10)
+            H3  = WAP0(J + 11)
             J = J + 11
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK
@@ -618,7 +618,7 @@ C
       DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -626,12 +626,12 @@ C
           IHBE = IPARG(23,NG)
           ITHK = IPARG(28,NG)
           IGTYP= IPARG(38,NG)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
 !
@@ -699,70 +699,70 @@ C
             WA(JJ) = ZERO
             JJ = JJ + 1
             WA(JJ) = ZERO
-c----          
+c----
             IF (MPT == 0) THEN  ! global integration
               IF (MLW == 0 .or. MLW == 13) THEN
-                DO IPG=1,NPG 
-                  DO J=1,9                                     
-                    JJ = JJ + 1                                
-                    WA(JJ) = ZERO                              
-                  ENDDO                                        
-                ENDDO                                          
+                DO IPG=1,NPG
+                  DO J=1,9
+                    JJ = JJ + 1
+                    WA(JJ) = ZERO
+                  ENDDO
+                ENDDO
               ELSEIF (NPG == 1) THEN
-                JJ = JJ + 1                                      
-                WA(JJ) = GBUF%FOR(KK(1) + I)                 
-                JJ = JJ + 1                                 
-                WA(JJ) = GBUF%FOR(KK(2) + I)                 
-                JJ = JJ + 1                                
-                WA(JJ) = GBUF%FOR(KK(3) + I)                 
-                JJ = JJ + 1                                  
-                WA(JJ) = GBUF%FOR(KK(4) + I)                 
-                JJ = JJ + 1                                  
-                WA(JJ) = GBUF%FOR(KK(5) + I)                 
+                JJ = JJ + 1
+                WA(JJ) = GBUF%FOR(KK(1) + I)
+                JJ = JJ + 1
+                WA(JJ) = GBUF%FOR(KK(2) + I)
+                JJ = JJ + 1
+                WA(JJ) = GBUF%FOR(KK(3) + I)
+                JJ = JJ + 1
+                WA(JJ) = GBUF%FOR(KK(4) + I)
+                JJ = JJ + 1
+                WA(JJ) = GBUF%FOR(KK(5) + I)
 c
-                JJ = JJ + 1                                        
-                IF (GBUF%G_PLA > 0) THEN           
-                  WA(JJ) = GBUF%PLA(I)            
-                ELSE                               
-                  WA(JJ) = ZERO                    
-                ENDIF                              
+                JJ = JJ + 1
+                IF (GBUF%G_PLA > 0) THEN
+                  WA(JJ) = GBUF%PLA(I)
+                ELSE
+                  WA(JJ) = ZERO
+                ENDIF
 c
-                JJ = JJ + 1                                      
-                WA(JJ) = GBUF%MOM(KK(1) + I)                 
-                JJ = JJ + 1                                
-                WA(JJ) = GBUF%MOM(KK(2) + I)                 
-                JJ = JJ + 1                                
-                WA(JJ) = GBUF%MOM(KK(3) + I)                 
-              ELSE                                              
-                DO IPG=1,NPG                                     
+                JJ = JJ + 1
+                WA(JJ) = GBUF%MOM(KK(1) + I)
+                JJ = JJ + 1
+                WA(JJ) = GBUF%MOM(KK(2) + I)
+                JJ = JJ + 1
+                WA(JJ) = GBUF%MOM(KK(3) + I)
+              ELSE
+                DO IPG=1,NPG
                   LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IPG,1,1)
                   K = (IPG-1)*NEL*5
-                  JJ = JJ + 1                                    
-                  WA(JJ) = GBUF%FORPG(K + KK(1) + I)               
-                  JJ = JJ + 1          	                          
-                  WA(JJ) = GBUF%FORPG(K + KK(2) + I)               
-                  JJ = JJ + 1                                    
-                  WA(JJ) = GBUF%FORPG(K + KK(3) + I)               
-                  JJ = JJ + 1                                      
-                  WA(JJ) = GBUF%FORPG(K + KK(4) + I)               
-                  JJ = JJ + 1                                      
-                  WA(JJ) = GBUF%FORPG(K + KK(5) + I)               
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FORPG(K + KK(1) + I)
+                  JJ = JJ + 1          	
+                  WA(JJ) = GBUF%FORPG(K + KK(2) + I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FORPG(K + KK(3) + I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FORPG(K + KK(4) + I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%FORPG(K + KK(5) + I)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN         
-            	    WA(JJ) = LBUF%PLA(I)       
-                  ELSE                             
-                    WA(JJ) = ZERO                  
-                  ENDIF                            
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = LBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
 c
-                  K = (IPG-1)*NEL*3                              
-                  JJ = JJ + 1                                    
-                  WA(JJ) = GBUF%MOMPG(K + KK(1) + I)               
-                  JJ = JJ + 1                                    
-                  WA(JJ) = GBUF%MOMPG(K + KK(2) + I)               
-                  JJ = JJ + 1                                    
-                  WA(JJ) = GBUF%MOMPG(K + KK(3) + I)               
-                ENDDO  !  DO IPG=1,NPG                                         
+                  K = (IPG-1)*NEL*3
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%MOMPG(K + KK(1) + I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%MOMPG(K + KK(2) + I)
+                  JJ = JJ + 1
+                  WA(JJ) = GBUF%MOMPG(K + KK(3) + I)
+                ENDDO  !  DO IPG=1,NPG
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
             ELSE ! MPT > 0
               IF (MLW == 0 .or. MLW == 13) THEN
@@ -782,16 +782,16 @@ c
                       L_PLA = BUFLY%L_PLA
                       DO J=1,5
                         JJ = JJ + 1
-                        WA(JJ) = LBUF%SIG(KK(J)+I)    
-                      ENDDO      
+                        WA(JJ) = LBUF%SIG(KK(J)+I)
+                      ENDDO
                       JJ = JJ + 1
-                      IF (L_PLA > 0) THEN                                   
+                      IF (L_PLA > 0) THEN
                         WA(JJ) = LBUF%PLA(I)
                       ELSE
                         WA(JJ) = ZERO
                       ENDIF
                     ENDDO !  DO IPG=1,NPG
-                  ENDDO !  DO IT=1,NPTT   
+                  ENDDO !  DO IT=1,NPTT
                 ENDDO  !  DO IL=1,NLAY
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
             ENDIF  !  IF (MPT == 0)
@@ -831,17 +831,17 @@ C         retrouve l'adresse dans WAP0
 C
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             IF (IPRT /= IPRT0) THEN
               IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(A)') DELIMIT
                 WRITE(IUGEO,'(A)')'/INISH3/STRS_F'
                 WRITE(IUGEO,'(A)')
-     .'#------------------------ REPEAT --------------------------' 
+     .'#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
                 WRITE(IUGEO,'(A)')
-     .'# EM, EB, H1, H2, H3' 
+     .'# EM, EB, H1, H2, H3'
                 WRITE(IUGEO,'(A/A/A)')
      .'# IF(NPT == 0), REPEAT I=1,NPG :',
      .'#   N1, N2, N12, N23, N31',
@@ -851,7 +851,7 @@ C
      .'#   S1, S2, S12',
      .'#   S23, S31, EPSP'
                 WRITE(IUGEO,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)') DELIMIT
               ELSE
                 WRITE(LINE,'(A)') DELIMIT
@@ -860,13 +860,13 @@ C
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'#------------------------ REPEAT --------------------------'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .      '#   SH3NID       NPT       NPG                 THK' 
+     .      '#   SH3NID       NPT       NPG                 THK'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# EM, EB, H1, H2, H3'
-                CALL STRS_TXT50(LINE,100) 
+                CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
      .'# IF(NPT == 0), REPEAT I=1,NPG :'
                 CALL STRS_TXT50(LINE,100)
@@ -882,22 +882,22 @@ C
                 WRITE(LINE,'(A)')'#   S23, S31, EPSP'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)')
-     .'#---------------------- END REPEAT ------------------------' 
+     .'#---------------------- END REPEAT ------------------------'
                 CALL STRS_TXT50(LINE,100)
                 WRITE(LINE,'(A)') DELIMIT
                 CALL STRS_TXT50(LINE,100)
               ENDIF  !  IF (IZIPSTRS == 0)
               IPRT0=IPRT
             ENDIF  !  IF (IPRT /= IPRT0)
-            ID  = NINT(WAP0(J + 3)) 
-            NPT = NINT(WAP0(J + 4)) 
-            NPG = NINT(WAP0(J + 5)) 
-            THK = WAP0(J + 6) 
-            EM  = WAP0(J + 7) 
-            EB  = WAP0(J + 8) 
-            H1  = WAP0(J + 9) 
-            H2  = WAP0(J + 10) 
-            H3  = WAP0(J + 11) 
+            ID  = NINT(WAP0(J + 3))
+            NPT = NINT(WAP0(J + 4))
+            NPG = NINT(WAP0(J + 5))
+            THK = WAP0(J + 6)
+            EM  = WAP0(J + 7)
+            EB  = WAP0(J + 8)
+            H1  = WAP0(J + 9)
+            H2  = WAP0(J + 10)
+            H3  = WAP0(J + 11)
             J = J + 11
             IF (IZIPSTRS == 0) THEN
               WRITE(IUGEO,'(3I10,1PE20.13)')ID,NPT,NPG,THK

@@ -42,7 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE OUTMAX_MOD
       USE STACK_MOD
 C-----------------------------------------------------------------------
@@ -89,14 +89,14 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  N, I, J,NG,ITY,NEL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF  
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-c-----doing TT=0 initialization instead of Starter; elementary first      
-       NMAX_E = 0    
+c-----doing TT=0 initialization instead of Starter; elementary first
+       NMAX_E = 0
        IF (TT==ZERO) THEN
          IF (ITASK==0) THEN
            DO NG=1,NGROUP
@@ -105,11 +105,11 @@ c-----doing TT=0 initialization instead of Starter; elementary first
              IF (ITY /= 1 .AND. ITY /= 3 .AND. ITY /= 7) CYCLE
              GBUF => ELBUF_TAB(NG)%GBUF
              NMAX_E = NMAX_E + GBUF%G_TM_YIELD
-             NMAX_E = NMAX_E + GBUF%G_TM_SEQ  
-             NMAX_E = NMAX_E + GBUF%G_TM_EINT 
-             NMAX_E = NMAX_E + GBUF%G_TM_DMG  
-             NMAX_E = NMAX_E + GBUF%G_TM_SIG  
-             NMAX_E = NMAX_E + GBUF%G_TM_STRA 
+             NMAX_E = NMAX_E + GBUF%G_TM_SEQ
+             NMAX_E = NMAX_E + GBUF%G_TM_EINT
+             NMAX_E = NMAX_E + GBUF%G_TM_DMG
+             NMAX_E = NMAX_E + GBUF%G_TM_SIG
+             NMAX_E = NMAX_E + GBUF%G_TM_STRA
            END DO
            NMAX_N = LMAX_DIS+LMAX_VEL+LMAX_NSIG+LMAX_NSTRA
            IF (NMAX_N>0) THEN
@@ -141,11 +141,11 @@ C
            IF (ITY /= 1 .AND. ITY /= 3 .AND. ITY /= 7) CYCLE
            GBUF => ELBUF_TAB(NG)%GBUF
            NMAX_E = NMAX_E + GBUF%G_TM_YIELD
-           NMAX_E = NMAX_E + GBUF%G_TM_SEQ  
-           NMAX_E = NMAX_E + GBUF%G_TM_EINT 
-           NMAX_E = NMAX_E + GBUF%G_TM_DMG  
-           NMAX_E = NMAX_E + GBUF%G_TM_SIG  
-           NMAX_E = NMAX_E + GBUF%G_TM_STRA 
+           NMAX_E = NMAX_E + GBUF%G_TM_SEQ
+           NMAX_E = NMAX_E + GBUF%G_TM_EINT
+           NMAX_E = NMAX_E + GBUF%G_TM_DMG
+           NMAX_E = NMAX_E + GBUF%G_TM_SIG
+           NMAX_E = NMAX_E + GBUF%G_TM_STRA
           SELECT CASE (ITY)
             CASE(1)
                IF (GBUF%G_TM_SIG>0) THEN

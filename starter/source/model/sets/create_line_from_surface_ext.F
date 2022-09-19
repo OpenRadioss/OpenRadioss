@@ -104,7 +104,7 @@ C=======================================================================
               K=K+1
               IW1(K)=CLAUSE%SURF_NODES(I,J2)
               IW2(K)=CLAUSE%SURF_NODES(I,J1)
-              IW5(K)=CLAUSE%SURF_ELTYP(I)  
+              IW5(K)=CLAUSE%SURF_ELTYP(I)
               IW6(K)=CLAUSE%SURF_ELEM(I)
             ELSEIF (CLAUSE%SURF_NODES(I,J1) /= 0 .AND.
      .              CLAUSE%SURF_NODES(I,J1) < CLAUSE%SURF_NODES(I,J2)) THEN

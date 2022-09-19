@@ -30,8 +30,8 @@ Chd|        FREERR                        starter/source/starter/freform.F
 Chd|        MESSAGE_MOD                   starter/share/message_module/message_mod.F
 Chd|        MESSAGE_MOD                   engine/share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y, 
-     .                      INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE, 
+      SUBROUTINE PLOT_CURVE(X, Y, NB_POINTS, INPUT_SIZE_X, INPUT_SIZE_Y,
+     .                      INPUT_X_MINVALUE, INPUT_Y_MINVALUE, INPUT_X_MAXVALUE,
      .                      INPUT_Y_MAXVALUE, INPUT_SYMBOL, INPUT_CURVE_TYPE,
      .                      INPUT_TXT_X, INPUT_TXT_Y)
 c
@@ -68,8 +68,8 @@ C-----------------------------------------------
       CHARACTER(*) INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
       OPTIONAL ::
-     .                 INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE, 
-     .                 INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL, 
+     .                 INPUT_SIZE_X, INPUT_SIZE_Y, INPUT_X_MINVALUE, INPUT_Y_MINVALUE,
+     .                 INPUT_X_MAXVALUE, INPUT_Y_MAXVALUE, INPUT_SYMBOL,
      .                 INPUT_CURVE_TYPE, INPUT_TXT_X, INPUT_TXT_Y
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -110,7 +110,7 @@ C             1 : PLOT HISTOGRAM
 C       INPUT_TXT_X : ABSCISSA LEGEND , DEFAULT : NONE
 C       INPUT_TXT_Y : ORDINATE LEGEND , DEFAULT : NONE
 C=======================================================================
-       IF ( .NOT. PRESENT(INPUT_SIZE_X)) THEN 
+       IF ( .NOT. PRESENT(INPUT_SIZE_X)) THEN
          SIZE_X = 100
        ELSE
          SIZE_X = INPUT_SIZE_X
@@ -254,23 +254,23 @@ c
        LENA = LEN_TRIM(CHAR2)
        WRITE(IOUT,'(20X,A)') CHAR2(1:LENA)
 C
-       IF (SIZE_X <= 10) THEN 
+       IF (SIZE_X <= 10) THEN
          FMTA='(14X,1PG11.3,5X,1PG11.3)'
-       ELSEIF (SIZE_X <= 20) THEN 
+       ELSEIF (SIZE_X <= 20) THEN
          FMTA='(14X,1PG11.3,8X,1PG11.3)'
-       ELSEIF (SIZE_X <= 30) THEN 
+       ELSEIF (SIZE_X <= 30) THEN
          FMTA='(14X,1PG11.3,18X,1PG11.3)'
-       ELSEIF (SIZE_X <= 40) THEN 
+       ELSEIF (SIZE_X <= 40) THEN
          FMTA='(14X,1PG11.3,28X,1PG11.3)'
-       ELSEIF (SIZE_X <= 50) THEN 
+       ELSEIF (SIZE_X <= 50) THEN
          FMTA='(14X,1PG11.3,38X,1PG11.3)'
-       ELSEIF (SIZE_X <= 60) THEN 
+       ELSEIF (SIZE_X <= 60) THEN
          FMTA='(14X,1PG11.3,48X,1PG11.3)'
-       ELSEIF (SIZE_X <= 70) THEN 
+       ELSEIF (SIZE_X <= 70) THEN
          FMTA='(14X,1PG11.3,58X,1PG11.3)'
-       ELSEIF (SIZE_X <= 80) THEN 
+       ELSEIF (SIZE_X <= 80) THEN
          FMTA='(14X,1PG11.3,68X,1PG11.3)'
-       ELSEIF (SIZE_X <= 90) THEN 
+       ELSEIF (SIZE_X <= 90) THEN
          FMTA='(14X,1PG11.3,78X,1PG11.3)'
        ELSE
          FMTA='(14 X,1PG11.3,85X,1PG11.3)'

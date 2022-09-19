@@ -95,7 +95,7 @@ C-----------------------------------------------
      .                    MPI_COMM_WORLD,STATUS,ierror)
 
             ENDIF
-            LRECV = LRECV + RLEN 
+            LRECV = LRECV + RLEN
 
         END DO
 

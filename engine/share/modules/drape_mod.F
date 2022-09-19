@@ -70,19 +70,19 @@ Chd|        STAT_C_STRSFG                 source/output/sta/stat_c_strsfg.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE DRAPE_MOD
-c=======================================================================      
+c=======================================================================
 C-----------------------------------------------
 C   m y _ r e a l
 C-----------------------------------------------
 #include      "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c
       TYPE DRAPE_
         integer                                 :: NDIM
         integer, DIMENSION(:),    ALLOCATABLE   :: INDX
         integer, DIMENSION(:) ,   ALLOCATABLE   :: NPT
         integer, DIMENSION(:) ,   ALLOCATABLE   :: IDRAPE
-        my_real, DIMENSION(:,:) , ALLOCATABLE   :: RDRAPE  
-      END TYPE DRAPE_   
+        my_real, DIMENSION(:,:) , ALLOCATABLE   :: RDRAPE
+      END TYPE DRAPE_
 C=======================================================================
       END MODULE DRAPE_MOD

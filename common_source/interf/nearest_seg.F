@@ -39,7 +39,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN)  :: IS, M1, M2, M3, LSEG
-      INTEGER, INTENT(OUT) :: LSEG_NEW 
+      INTEGER, INTENT(OUT) :: LSEG_NEW
       my_real, INTENT(IN)  :: X(3,*)
       my_real, INTENT(OUT) :: BMIN
       my_real, INTENT(INOUT) :: BMAX
@@ -80,7 +80,7 @@ C
       B2 =(UW(1)*N(1)+UW(2)*N(2)+UW(3)*N(3))*FAC
       B1 =(WV(1)*N(1)+WV(2)*N(2)+WV(3)*N(3))*FAC
       B0 = ONE - B1 - B2
-      BMIN=MIN(B0,B1,B2)	  
+      BMIN=MIN(B0,B1,B2)	
 C BMIN > 0 Projection est a l'interieur du triangle
 C BMIN = 0 Projection est sur un cote du triangle
 C BMIN < 0 Projection est a l'exterieur du triangle

@@ -116,11 +116,11 @@ C
         PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX
 C
-        PARTSAV(11,IP)=PARTSAV(11,IP) 
+        PARTSAV(11,IP)=PARTSAV(11,IP)
      .              + EMS2*(V(1,I1)+V(1,I3)) + EMS*V(1,I2)
-        PARTSAV(12,IP)=PARTSAV(12,IP) 
+        PARTSAV(12,IP)=PARTSAV(12,IP)
      .              + EMS2*(V(2,I1)+V(2,I3)) + EMS*V(2,I2)
-        PARTSAV(13,IP)=PARTSAV(13,IP) 
+        PARTSAV(13,IP)=PARTSAV(13,IP)
      .              + EMS2*(V(3,I1)+V(3,I3)) + EMS*V(3,I2)
         PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS2 *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)
@@ -168,11 +168,11 @@ C
         PARTSAV(9,IP) =PARTSAV(9,IP)  - EMS * YZ
         PARTSAV(10,IP)=PARTSAV(10,IP) - EMS * ZX
 C
-        PARTSAV(11,IP)=PARTSAV(11,IP) 
+        PARTSAV(11,IP)=PARTSAV(11,IP)
      .              + EMS2*(V(1,I1)+V(1,I3)) + EMS*V(1,I2)
-        PARTSAV(12,IP)=PARTSAV(12,IP) 
+        PARTSAV(12,IP)=PARTSAV(12,IP)
      .              + EMS2*(V(2,I1)+V(2,I3)) + EMS*V(2,I2)
-        PARTSAV(13,IP)=PARTSAV(13,IP) 
+        PARTSAV(13,IP)=PARTSAV(13,IP)
      .              + EMS2*(V(3,I1)+V(3,I3)) + EMS*V(3,I2)
         PARTSAV(14,IP)=PARTSAV(14,IP) + HALF * EMS2 *
      .     (V(1,I1)*V(1,I1)+V(2,I1)*V(2,I1)+V(3,I1)*V(3,I1)

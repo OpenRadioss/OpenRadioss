@@ -50,7 +50,7 @@ Chd|        SMS_RGWALT                    source/ams/sms_rgwal0.F
 Chd|        SPMD_ALLGLOB_ISUM9            source/mpi/generic/spmd_allglob_isum9.F
 Chd|        SPMD_EXCH_FR6                 source/mpi/kinematic_conditions/spmd_exch_fr6.F
 Chd|====================================================================
-      SUBROUTINE SMS_RGWAL_0(IFLAG  ,X      ,V      ,RWBUF   ,LPRW    ,   
+      SUBROUTINE SMS_RGWAL_0(IFLAG  ,X      ,V      ,RWBUF   ,LPRW    ,
      2                       NPRW   ,MS     ,FSAV   ,FR_WALL ,FOPT    ,
      3                       RWSAV  ,WEIGHT ,IRWL_WORK, NRWL_SMS,FRWL6,
      4                       A      ,RES    ,R      ,FREA    )
@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        IRWL_WORK(*), NRWL_SMS(*), IFLAG
       my_real
      .   X(3,*), V(3,*),RWBUF(NRWLP,*),RWSAV(*),MS(*),
-     .   FSAV(NTHVKI,*), FOPT(6,*), 
+     .   FSAV(NTHVKI,*), FOPT(6,*),
      .   A(3,*), RES(3,*), R(3,*), FREA(3,*)
       DOUBLE PRECISION
      .        FRWL6(7,6,NRWALL)
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER K, N, ITYP, ISL, IFQ, N2, N3, N4, N5, N6, N7, N8, L, M,
-     .        PMAIN, NSMS, 
+     .        PMAIN, NSMS,
      .        KIND(NRWALL), ISLIND(NRWALL)
 C-----------------------------------------------
           ISL = 1
@@ -136,22 +136,22 @@ C
             NSMS= NPRW(N7)
             IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_IMPACT(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_IMPACT(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_IMPACT(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_IMPACT(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ENDIF
@@ -181,22 +181,22 @@ C
             NSMS= NPRW(N7)
             IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_BCS_0(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BCS_0(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K)   )
             ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BCS_0(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BCS_0(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ENDIF
@@ -223,22 +223,22 @@ C
             NSMS= NPRW(N7)
             IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_BCS_1(
-     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BCS_1(
-     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BCS_1(
-     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  , NRWL_SMS(K))
             ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BCS_1(
-     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,RES         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
      +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K))
             ENDIF
@@ -265,27 +265,27 @@ C
             NSMS= NPRW(N7)
             IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_FRIC(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K), 
+     +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),
      +          FSAV(1,N),FOPT(1,N),RES         ,R     ,FREA       )
             ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_FRIC(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
+     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N),
      +          FOPT(1,N),RES      ,R       ,FREA       )
             ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_FRIC(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
+     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N),
      +          FOPT(1,N),RES      ,R       ,FREA       )
             ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_FRIC(
-     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,A         ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
+     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N),
      +          FOPT(1,N),RES      ,R       ,FREA       )
             ENDIF
           END DO
@@ -317,27 +317,27 @@ C
             NSMS= NPRW(N7)
             IF(ITYP==1.AND.NSMS/=0)THEN
               CALL SMS_RGWALL_BILAN(
-     +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT  ,
-     +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K), 
+     +          RWSAV(ISL),NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),
      +          FSAV(1,N),FOPT(1,N),FRWL6(1,1,N),A     )
             ELSEIF(ITYP==2.AND.NSMS/=0)THEN
               CALL SMS_RGWALC_BILAN(
-     +          X       ,FREA      ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,FREA      ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
+     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N),
      +          FOPT(1,N),FRWL6(1,1,N),A    )
             ELSEIF(ITYP==3.AND.NSMS/=0)THEN
               CALL SMS_RGWALS_BILAN(
-     +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
+     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N),
      +          FOPT(1,N),FRWL6(1,1,N),A    )
             ELSEIF(ITYP==4.AND.NSMS/=0)THEN
               CALL SMS_RGWALP_BILAN(
-     +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K), 
+     +          X       ,FREA        ,V           ,RWBUF(1,N),LPRW(K),
      +          NPRW(N) ,NPRW(N2)  ,NPRW(N3)    ,MS        ,WEIGHT ,
-     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N), 
+     +          NPRW(N8),IRWL_WORK(K),NSMS  ,NRWL_SMS(K),FSAV(1,N),
      +          FOPT(1,N),FRWL6(1,1,N),A    )
             ENDIF
           END DO

@@ -178,14 +178,14 @@ c
 
             LELT   =1
             NELT(1)=N
-   
+
             LELT1  =0
             LELT2  =1
-                  
+
             DO WHILE (LEV < LEVELMAX)
 
               DO LE=LELT1+1,LELT2
-  
+
                 NE =NELT(LE)
                 SON=SH4TREE(2,NE)
 
@@ -234,14 +234,14 @@ c
 
             LELT   =1
             NELT(1)=N
-   
+
             LELT1  =0
             LELT2  =1
 
             DO WHILE (LEV < LEVELMAX)
 
               DO LE=LELT1+1,LELT2
-  
+
                 NE =NELT(LE)
                 SON=SH3TREE(2,NE)
 

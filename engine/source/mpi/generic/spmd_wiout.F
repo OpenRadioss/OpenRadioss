@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SPMD_WIOUT(IOUT,IWIOUT)
 C ecrit le buffer L01 sur p0
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE IO_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -99,7 +99,7 @@ C IWIOUT est utilise pour connaitre le nb max de characteres a echanger
         DISPLACEMENT(1:NSPMD) = 0
         DO P = 2, NSPMD
             IF(IWIOUT_SPMD(P)/=0) THEN
-                NINDX_PROC = NINDX_PROC + 1 
+                NINDX_PROC = NINDX_PROC + 1
                 PROC_RCV(NINDX_PROC) = P
                 DISPLACEMENT(NINDX_PROC) = SIZE_MESSAGE
                 SIZE_MESSAGE = SIZE_MESSAGE + IWIOUT_SPMD(P) + 1

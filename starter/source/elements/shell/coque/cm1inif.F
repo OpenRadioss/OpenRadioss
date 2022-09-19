@@ -28,7 +28,7 @@ Chd|        FSIGTINI                      source/constraints/fxbody/fsigtini.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE CM1INIF(JFT  ,JLT  ,FOR  ,MOM  ,ITHK ,
-     .                   THK  ,EINT ,NU   ,G    ,A1   , 
+     .                   THK  ,EINT ,NU   ,G    ,A1   ,
      .                   A2   ,GS   ,KXX  ,KYY  ,KXY  ,
      .                   EXX  ,EYY  ,EXY  ,EYZ  ,EXZ  ,
      .                   AREA )
@@ -45,7 +45,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JFT, JLT, ITHK
       my_real
-     .    EXX(MVSIZ) , EYY(MVSIZ) , EXY(MVSIZ) , 
+     .    EXX(MVSIZ) , EYY(MVSIZ) , EXY(MVSIZ) ,
      .    EXZ(MVSIZ) , EYZ(MVSIZ) , KXX(MVSIZ) ,
      .    KYY(MVSIZ) , KXY(MVSIZ) , AREA(MVSIZ)
       my_real
@@ -93,6 +93,6 @@ C
 C-----------
       RETURN
       END
-      
-      
-     
+
+
+

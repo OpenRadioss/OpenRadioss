@@ -33,14 +33,14 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
-        SUBROUTINE SPMD_INT18_LAW151_PON(     
+        SUBROUTINE SPMD_INT18_LAW151_PON(
      1   IPARI   ,ISLEN7  ,IRLEN7  ,IFLAG   ,INTBUF_TAB,
      2   MULTI_FVM)
 !$COMMENT
 !       SPMD_INT18_LAW151_PON description
-!       communication of the remote values of the 
-!       phantom nodes 
-!       
+!       communication of the remote values of the
+!       phantom nodes
+!
 !       SPMD_INT18_LAW151_PON organization :
 !           part 1 = received part & send part :
 !                    - 6*3 values per phantom nodes
@@ -51,7 +51,7 @@ Chd|====================================================================
 !           | NB1| x1 |     | x1 | x1 | y1 |... | znb | NB2  | ...
 !           |---------|-------------------------------|----------|---------------|
 !                   proc1                                     proc2
-!           
+!
 !           part 2 = accumulation of received values in the local array
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -122,14 +122,14 @@ C-----------------------------------------------
         NB_INT18 = MULTI_FVM%NUMBER_INT18
 C
         !   18 values for the forces (6 per direction x/y/z)
-        !   1 value for the 
-        LEN = 3*6 + 1  
+        !   1 value for the
+        LEN = 3*6 + 1
 
         IF(IFLAG==1)THEN
 C
 C Partie 1 envoi et preparation buffer reception
 C
-            
+
 C Init
             DO II=1,MULTI_FVM%NUMBER_INT18
                 NIN = MULTI_FVM%INT18_LIST(II)
@@ -211,7 +211,7 @@ C
                                        BBUFS(L+6+IJ)  = MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,IJ,IDEB+N)
                                        BBUFS(L+12+IJ) = MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,IJ,IDEB+N)
                                     ENDDO
-                                    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1:3,1:6,IDEB+N) = 0.d+00   
+                                    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1:3,1:6,IDEB+N) = 0.d+00
                                     L = L + 18
                                 ENDIF
                             ENDDO
@@ -244,20 +244,20 @@ C
                         NIN = MULTI_FVM%INT18_LIST(II)
                         NTY   =IPARI(7,NIN)
                         IF(NSNSI(NIN)%P(P)>0)THEN
-                            NB = NINT(BBUFR(L))                   
+                            NB = NINT(BBUFR(L))
                             L = L + 1
                             DO IJ=1,NB
                                 IBRIC = INTBUF_TAB(NIN)%NSV( NINT(BBUFR(L)) ) !   id of the phantom node
-                                MULTI_FVM%FORCE_INT_PON(1,1:6,IBRIC) = 
+                                MULTI_FVM%FORCE_INT_PON(1,1:6,IBRIC) =
      .                          MULTI_FVM%FORCE_INT_PON(1,1:6,IBRIC) + BBUFR(L+1:L+6)
-                                MULTI_FVM%FORCE_INT_PON(2,1:6,IBRIC) = 
+                                MULTI_FVM%FORCE_INT_PON(2,1:6,IBRIC) =
      .                          MULTI_FVM%FORCE_INT_PON(2,1:6,IBRIC) + BBUFR(L+7:L+12)
-                                MULTI_FVM%FORCE_INT_PON(3,1:6,IBRIC) = 
+                                MULTI_FVM%FORCE_INT_PON(3,1:6,IBRIC) =
      .                          MULTI_FVM%FORCE_INT_PON(3,1:6,IBRIC) + BBUFR(L+13:L+18)
                                 L = L + LEN
                             ENDDO
 !                            L = L + NB*LEN
-                        END IF   ! NSNSI > 0           
+                        END IF   ! NSNSI > 0
                     ENDDO ! DO II=1,MULTI_FVM%NUMBER_INT18
                 ENDIF !FLAG adress
             ENDDO ! NSPMD

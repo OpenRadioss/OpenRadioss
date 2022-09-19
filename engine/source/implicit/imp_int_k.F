@@ -50,7 +50,7 @@ Chd|====================================================================
      B                      ITOK   ,UD    ,LB    ,GAPMIN,DIRUL  ,
      C                      NT_RW  ,NUM_IMP1,IRBE3,LRBE3,FRBE3  ,
      D                      NSS3   ,ISS3   ,IRBE2 ,LRBE2,NSB2   ,
-     E                      ISB2   ) 
+     E                      ISB2   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -193,7 +193,7 @@ c     2        NUM_IMP1(N),NS_IMP1(IAD),NE_IMP1(IAD)   ,IND_IMP1(IAD),
      3        IDDLI     ,DIAG_I ,LT_I  , IADI     ,JDII   ,GAPMIN   ,
      4        LREM(N)   ,INTBUF_TAB_IMP(N))
           ENDIF
-          IAD=IAD+NUM_IMP1(N) 
+          IAD=IAD+NUM_IMP1(N)
         ELSE
         ENDIF
        ENDDO
@@ -349,9 +349,9 @@ C
           IAD=IAD+NUM_IMP(N)
         ENDIF
       ENDDO
-      END IF !(NT_IMP1>0) 
+      END IF !(NT_IMP1>0)
 C
-        IF(GAPMIN<ZERO)RETURN  
+        IF(GAPMIN<ZERO)RETURN
             CALL UPD_INT_K(ICODT ,ICODR ,ISKEW ,IBFV    ,NPC    ,
      1                      TF   ,VEL   ,SENSOR ,LSENSOR,XFRAME ,
      2                      RBY   ,X     ,SKEW   ,LPBY   ,NPBY  ,
@@ -363,7 +363,7 @@ C
      7                      JDIK   ,IKC   ,DIAG_K,LT_K  ,IDDL   ,
      8                      NDOFI  ,ITOK  ,UD    ,LB    ,DIRUL  ,
      9                      NT_RW  ,IRBE3 ,LRBE3 ,FRBE3  ,NSS3  ,
-     A                      ISS3   ,IRBE2 ,LRBE2 ,NSB2  ,ISB2   ) 
+     A                      ISS3   ,IRBE2 ,LRBE2 ,NSB2  ,ISB2   )
 C
       RETURN
       END
@@ -412,7 +412,7 @@ C-----------------------------------------------
      .        NEWFRONT(*),NBINTC,INTLIST(*),
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
      .        ITASK
-      my_real 
+      my_real
      .   X(3,*), V(3,*),VR(3,*),DTK(*),DT_MIN,MS(*),
      .   SENSOR(NSENSR,*),MAXDGAP(NINTER)
 
@@ -477,7 +477,7 @@ C        N = INTLIST(KK)
         VMSR_L(4,N)= EP30
         VMSR_L(5,N)= EP30
         VMSR_L(6,N)= EP30
-        SIZE_T(N)=ZERO       
+        SIZE_T(N)=ZERO
       END DO
       DT_MIN = EP30
 C      DO KK=1,NBINTC
@@ -494,7 +494,7 @@ C
 C         IPARI(4,N) = NRTM ; IPARI(5,N)=NSN
 C
           ISENS = 0
-          IF(NTY == 7) ISENS = IPARI(64,N)  
+          IF(NTY == 7) ISENS = IPARI(64,N)
           IF(ISENS/=0)  THEN
              TS = SENSOR(2,ISENS)
           ELSE
@@ -510,7 +510,7 @@ C
         ELSEIF(NTY==11)THEN
           I7KGLO = 1
 C
-          ISENS = IPARI(64,N)  
+          ISENS = IPARI(64,N)
           IF(ISENS/=0)  THEN
              TS = SENSOR(2,ISENS)
           ELSE
@@ -552,7 +552,7 @@ Chd|====================================================================
      1  INTBUF_TAB,IPARI  ,NEWFRONT,ISENDTO,
      2  IRCVFROM,DT2T   ,ITAB   ,XSLV_L  ,XMSR_L ,
      3  VSLV_L ,VMSR_L  ,SIZE_T ,N       ,SENSOR ,
-     4  INTLIST ,NBINTC ,MAXDGAP) 
+     4  INTLIST ,NBINTC ,MAXDGAP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -584,7 +584,7 @@ C-----------------------------------------------
      .        NBINTC,INTLIST(*)
 C     REAL
       my_real
-     .   DT2T,XSLV_L(6,*), XMSR_L(6,*), VSLV_L(6,*), 
+     .   DT2T,XSLV_L(6,*), XMSR_L(6,*), VSLV_L(6,*),
      .VMSR_L(6,*), SIZE_T(*),SENSOR(NSENSR,*),MAXDGAP(NINTER)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -617,8 +617,8 @@ C
           INTERACT = 0
           ISENS = 0
           IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 21.OR.
-     .       NTY == 5.OR.NTY == 19 ) ISENS = IPARI(64,I)      
-          IF(ISENS/=0) THEN             
+     .       NTY == 5.OR.NTY == 19 ) ISENS = IPARI(64,I)
+          IF(ISENS/=0) THEN
             TS = SENSOR(2,ISENS)
             IF (TT>=TS) INTERACT = 1
           ELSE
@@ -685,7 +685,7 @@ C-------supposee s est encore loin de M ------
 	    GAPINF =GAPINF+MAX(ZERO,DIST0)
             DTI = ONEP8*GAPINF/VV
 Ctmp            DTI = ZEP9*GAPINF/VV
-            IF(DTI<DT2T) DT2T    = DTI            
+            IF(DTI<DT2T) DT2T    = DTI
           ENDIF
           IF(DIST0<=ZERO) THEN
             INTBUF_TAB(I)%VARIABLES(5) = -ONE
@@ -761,10 +761,10 @@ C-----------------------------------------------
      .       NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),
      .       KINET(*),IKINE(*),COUNT_REMSLV(*),
      .       COUNT_REMSLVE(*)
-     
+
       DOUBLE PRECISION XDP(3,*)
-      
-      my_real 
+
+      my_real
      .   X(3,*), D(3,*),MS(*),WA(*),
      .   DT2PREV, TEMP(*),D_IMP(3,*),DR_IMP(3,*),IN(*),DIAG_SMS(*),
      .   SENSOR(NSENSR,*),FORNEQS(3,*),MAXDGAP(NINTER)
@@ -788,7 +788,7 @@ C     REAL
      .        X_TMP(3,NUMNOD),DTI,FAC,FAC1,DT_MIN,DX,DY,DZ,
      .        STARTT,STOPT, TS
 C-------------before inttri------
-       NT_IMP1 = 0  
+       NT_IMP1 = 0
        DO N = 1,NINTER
         NUM_IMP1(N)=0
        ENDDO
@@ -808,7 +808,7 @@ C----deactive cette fonction.
            VR(2,I)=DR_IMP(2,I)*DTI
            VR(3,I)=DR_IMP(3,I)*DTI
          ENDDO
-        ENDIF 
+        ENDIF
        CALL IMP_INTDT(
      1       IPARI    ,INTBUF_TAB       ,X        ,
      2       V        ,VR      ,ISENDTO ,IRECVFROM,
@@ -838,7 +838,7 @@ C        N   = INTLIST(KK)
 C
         INTERACT = 0
         ISENS = 0
-        IF(NTY == 7.OR.NTY == 11) ISENS = IPARI(64,N)      
+        IF(NTY == 7.OR.NTY == 11) ISENS = IPARI(64,N)
         IF(ISENS/=0) THEN             !CMAAAAA
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
@@ -884,7 +884,7 @@ C
 C---------necessair pour spmd-----
       CALL CP_INTTD(NT_IMP1,NUM_IMP ,NS_IMP,NE_IMP,IND_IMP,NUM_IMP1)
  1000 CONTINUE
-      IF (NTHR_CP>1) NTHREAD = NTHR_CP 
+      IF (NTHR_CP>1) NTHREAD = NTHR_CP
 C
       RETURN
       END
@@ -970,7 +970,7 @@ C
            VR(3,I)=DR(3,I)*FACV
           END IF
          END DO
-        END IF 
+        END IF
 C
       RETURN
       END
@@ -1056,7 +1056,7 @@ C
            VR(3,I)=DR(3,I)*FACV
           END IF
          END DO
-        END IF 
+        END IF
 C
       RETURN
       END
@@ -1095,7 +1095,7 @@ Chd|====================================================================
      8       ISENDTO ,IRECVFROM ,RETRI,WEIGHT,
      9       IXS    ,TEMP  ,DT2PREV,WAG    ,N   ,NTY ,
      A       IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,
-     B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,  
+     B       ISLEN20E,IKINE,DIAG_SMS,COUNT_REMSLV,COUNT_REMSLVE,
      C       SENSOR  ,XDP,H3D_DATA,MULTI_FVM,FORNEQS)
 C-----------------------------------------------
 C   M o d u l e s
@@ -1128,17 +1128,17 @@ C-----------------------------------------------
      .        NEWFRONT(*),NBINTC,INTLIST(*),IKINE(*),
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
      .        ITASK,IMSCH ,I2MSCH ,ISIZXV,ILENXV,COUNT_REMSLV(*),
-     .        COUNT_REMSLVE(*) 
+     .        COUNT_REMSLVE(*)
       INTEGER ISLEN7,IRLEN7 ,ISLEN11,IRLEN11,ISLEN17,
      .        IRLEN20,ISLEN20,IRLEN20T,ISLEN20T,IRLEN20E,ISLEN20E,
      .        IRLEN17,IRLEN7T,ISLEN7T,IAD_ELEM(*),FR_ELEM(*) ,
      .        WEIGHT(*),IAD,N,IXS(*)  ,
      .        NUM_IMP(*),NS_IMP(*),NE_IMP(*),IND_IMP(*),
      .        KINET(*),NTY
-     
-      DOUBLE PRECISION XDP(3,*)     
-      
-      my_real 
+
+      DOUBLE PRECISION XDP(3,*)
+
+      my_real
      .   X(3,*), D(3,*),V(*),MS(*),WAG(*),
      .   VR(3,*),DT2PREV, TEMP(*),IN(*), DIAG_SMS(*), SENSOR(NSENSR,*),
      .   FORNEQS(3,*)
@@ -1384,7 +1384,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc" 
+#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1415,8 +1415,8 @@ C
         CALL CP_INT(NT_IMP1,IND_IMP,IND_IMP1)
         IAD1 = 0
         DO N = 1,NINTER
-         IAD1_NIN(N) =IAD1  
-         IAD1 =IAD1 + NUMIMP1(N) 
+         IAD1_NIN(N) =IAD1
+         IAD1 =IAD1 + NUMIMP1(N)
         END DO
 C
       RETURN
@@ -1448,7 +1448,7 @@ C-----------------------------------------------
 #include      "com04_c.inc"
 #include      "impl1_c.inc"
 #include      "task_c.inc"
-#include      "scr05_c.inc" 
+#include      "scr05_c.inc"
 #include      "param_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -1473,7 +1473,7 @@ C------dans NS_IMP input:d'abord NT_IMP1, + NT_IMP-NT_IMP1, output: NT_IMP
 	 DO I = 1,NUMIMP1(N)
           NS_IMP(IAD1+I)=NS_IMP1(IAD1+I)
          END DO
-         IAD1 =IAD1 + NUMIMP1(N) 
+         IAD1 =IAD1 + NUMIMP1(N)
         END DO
        ENDIF
 C----
@@ -1491,7 +1491,7 @@ C
 	 NE_IMP1(IAD1+I) = NE_IMP(IAD1+I)
 	 IND_IMP1(IAD1+I) = IND_IMP(IAD1+I)
         END DO
-        IAD1 =IAD1 + NUMIMP1(N) 
+        IAD1 =IAD1 + NUMIMP1(N)
        END DO
        DO N = 1,NINTER
 	DO I = 1,NUMIMP(N)
@@ -1499,7 +1499,7 @@ C
 	 NE_IMP1(IAD1+I) = NE_IMP(IAD1+I)
 	 IND_IMP1(IAD1+I) = IND_IMP(IAD1+I)
         END DO
-        IAD1 =IAD1 + NUMIMP(N) 
+        IAD1 =IAD1 + NUMIMP(N)
        END DO
 C--------change ind for NS_IMP,INE_IMP,IND_IMP---
        IAD = 0
@@ -1515,13 +1515,13 @@ C--------change ind for NS_IMP,INE_IMP,IND_IMP---
        END DO
        IAD = 0
        DO N = 1,NINTER
-        IADT =IAD + NUMIMP1(N) 
+        IADT =IAD + NUMIMP1(N)
 	DO I = 1,NUMIMP(N)
 	 NS_IMP(IADT+I) = NS_IMP1(IAD1+I)
 	 NE_IMP(IADT+I) = NE_IMP1(IAD1+I)
 	 IND_IMP(IADT+I) = IND_IMP1(IAD1+I)
         END DO
-        IAD1 =IAD1 + NUMIMP(N) 
+        IAD1 =IAD1 + NUMIMP(N)
         IAD =IAD + NUMIMP1(N) + NUMIMP(N)
        END DO
 C--------change ind for NUM_IMP---
@@ -1575,7 +1575,7 @@ C-----------------------------------------------
         IF(NI>NSN) THEN
           NI = NI - NSN
           NS_IMP1(IAD+I) = CAND_N(INDEX(I))
-        END IF        
+        END IF
        END DO
 C
       RETURN
@@ -1622,7 +1622,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*),IRECVFROM(NINTER+1,*),
      .        ITASK
       INTEGER IDDL(*)  ,NDOF(*),IKC(*)
-      my_real 
+      my_real
      .   X(3,*), V(3,*),VR(3,*),
      .   D_IMP(3,*),DR_IMP(3,*),SCAL,MS(*),SENSOR(NSENSR,*),
      .   MAXDGAP(NINTER)
@@ -1652,7 +1652,7 @@ C-------------before inttri------
            VR(2,I)=DR_IMP(2,I)*DTI
            VR(3,I)=DR_IMP(3,I)*DTI
          ENDDO
-        ENDIF 
+        ENDIF
        CALL IMP_INTDT(
      1       IPARI    ,INTBUF_TAB       ,X        ,
      2       V        ,VR      ,ISENDTO ,IRECVFROM,
@@ -1673,7 +1673,7 @@ C
            DR_IMP(2,I)=DR_IMP(2,I)*SCAL
            DR_IMP(3,I)=DR_IMP(3,I)*SCAL
          ENDDO
-        ENDIF 
+        ENDIF
        ENDIF
 C       
        IF (NTHR_CP>1) NTHREAD = NTHR_CP
@@ -1693,7 +1693,7 @@ Chd|        IMP_ASPC                      share/modules/impbufdef_mod.F
 Chd|        IMP_KNON                      share/modules/impbufdef_mod.F 
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE KIN_KNL(         
+      SUBROUTINE KIN_KNL(
      1    IPARI     ,INTBUF_TAB ,NUM_IMP   ,NS_IMP    ,NE_IMP    ,
      2    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      3    NINT2     ,IINT2     ,IBFV      ,LJ        ,ISKEW     ,
@@ -1741,16 +1741,16 @@ C-----------------------------------------------
 C-----------------------------------------------
        DO N=1,NUMNOD
         NDOFII(N) = IABS(NDOFI(N))
-       ENDDO 
+       ENDDO
        NUMN_KN = 0
        DO N=1,NUMNOD
         IF (NDOFII(N)>0) NUMN_KN = NUMN_KN + 1
-       ENDDO 
+       ENDDO
 C--------allocation------ 
 C
        ALLOCATE(IN_KN(NUMN_KN),ID_KN(3,NUMN_KN),STAT=IERR1)
       IF (NUMN_KN > 0) THEN
-       ID_KN = -7	  
+       ID_KN = -7	
        N = 0
 C------------valeur nega pour les nsl nodes-----      
        DO I=1,NUMNOD
@@ -1758,8 +1758,8 @@ C------------valeur nega pour les nsl nodes-----
         N = N + 1
         IN_KN(N) = I
        ENDIF
-       ENDDO 
-      END IF 
+       ENDDO
+      END IF
       CALL DIM_KINKN(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
      2    IINT2     ,IPARI     ,INTBUF_TAB,NDOFII    ,IBFV      ,
@@ -1768,18 +1768,18 @@ C------------valeur nega pour les nsl nodes-----
      5    NSPC_KN   ,IRBE2     ,LRBE2     ,NRBE2_KN  )
       IF (NI2_KN>0) THEN
        ALLOCATE(II2_KN(2,NI2_KN),ID_KNM2(6,4,NI2_KN),STAT=IERR2)
-      ENDIF 
+      ENDIF
       IF (NRB_KN>0) THEN
        ALLOCATE(IRB_KN(2,NRB_KN),ID_KNM(6,NRB_KN),STAT=IERR3)
-      ENDIF 
+      ENDIF
       IF (NBC_KN>0) THEN
        IF(ALLOCATED(IBC_KN)) DEALLOCATE(IBC_KN)
        ALLOCATE(IBC_KN(3,NBC_KN),STAT=IERR4)
-      ENDIF 
+      ENDIF
       IF (NSPC_KN>0) THEN
        IF(ALLOCATED(ISPC_KN)) DEALLOCATE(ISPC_KN)
        ALLOCATE(ISPC_KN(NSPC_KN),STAT=IERR4)
-      ENDIF 
+      ENDIF
 C--
       IF (NFX_KN>0) THEN
        IF(ALLOCATED(IFX_KN)) DEALLOCATE(IFX_KN)
@@ -1793,11 +1793,11 @@ C
 C       
       IF (NRBE3_KN>0) THEN
        ALLOCATE(IRBE3_KN(NRBE3_KN),STAT=IERR6)
-      ENDIF 
+      ENDIF
 C       
       IF (NRBE2_KN>0) THEN
        ALLOCATE(IRBE2_KN(2,NRBE2_KN),ID_KNM4(6,NRBE2_KN),STAT=IERR3)
-      ENDIF 
+      ENDIF
 C       
       CALL INI_KINKN(
      1    NPBY      ,LPBY      ,NRBYAC    ,IRBYAC    ,NINT2     ,
@@ -1818,7 +1818,7 @@ C ------ini RBE3---
          IAD=MAX(IAD,NUMN)
          NMT = NMT + NUMN
          IROT=MAX(IROT,IRBE3(6,N))
-        ENDDO 
+        ENDDO
         ALLOCATE(ID_KNM3(6,IAD,NRBE3_KN),STAT=IERR3)
 	 ID_KNM3=0
 	 RKN_MAX=IAD
@@ -1827,10 +1827,10 @@ C ------ini RBE3---
         IF (IROT>0) THEN
 	 ALLOCATE(MCDI_KN(18*NMT),STAT=IERR5)
 	 MCDI_KN=ZERO
-        ENDIF 
+        ENDIF
         CALL RBE3_MINT(IRBE3   ,LRBE3    ,FRBE3   ,X     ,SKEW ,
      .                 NRBE3_KN,IRBE3_KN ,FCDI_KN,MCDI_KN)
-      ENDIF 
+      ENDIF
 C--------- use NDOFII(I)--as IDDLM ------------
       IF (NUMN_KN == 0) RETURN
       NKC=0
@@ -1840,7 +1840,7 @@ C--------- use NDOFII(I)--as IDDLM ------------
        DO J=1,NDOF(I)
         ND = IDDL(I)+J
         IF (IKC(ND)/=0) NKC = NKC + 1
-       ENDDO 
+       ENDDO
       ENDDO
       CALL IDDL_MINT(NUMN_KN,IN_KN   ,IDDL    ,IKC     ,NDOF     ,
      .              NDOFII  ,IPARI   ,INTBUF_TAB,ID_KN   ,NRB_KN   ,
@@ -1850,7 +1850,7 @@ C--------- use NDOFII(I)--as IDDLM ------------
 C------------return origine NDOFI(I)----
       DO I=1,NUMNOD
        IF (NDOFI(I)<0) NDOFI(I) = 0
-      ENDDO 
+      ENDDO
       RETURN
       END
 Chd|====================================================================
@@ -1902,7 +1902,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,
      .        JI,K10,K11,K12,K13,K14,KFI,NS
 C----------------------------
@@ -1957,26 +1957,26 @@ C
       LBCL = 0
       DO N=1,NUMNOD
         IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
-         IF (INLOC(N)>0)LBCL = LBCL + 1  
+         IF (INLOC(N)>0)LBCL = LBCL + 1
         ENDIF
       ENDDO
       LSPCL = 0
       DO N=1,NSPCL
-       IF (INLOC(N)>0.AND.IC_SPC(N)<=3)LSPCL = LSPCL + 1  
+       IF (INLOC(N)>0.AND.IC_SPC(N)<=3)LSPCL = LSPCL + 1
       ENDDO
 C ---
       LFXL = 0
       DO J=1,NFXVEL
         IF (LJ(J)>0.AND.LJ(J)<=3) THEN
          N=IABS(IBFV(1,J))
-         IF (INLOC(N)>0)LFXL = LFXL + 1  
+         IF (INLOC(N)>0)LFXL = LFXL + 1
         ENDIF
       ENDDO
 C
       LRW = 0
       DO J=1,N_RWL
        N=IN_RWL(J)
-       IF (INLOC(N)>0) LRW = LRW + 1  
+       IF (INLOC(N)>0) LRW = LRW + 1
       ENDDO
 C-----Rbe2------
       LNS4=0
@@ -2040,7 +2040,7 @@ C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*),NRBYAC,IRBYAC(*),
      .        NINT2,IINT2(*),IPARI(NPARI,*),IRBE3(NRBE3L,*),
      .        IRBE2(NRBE2L,*),LRBE2(*)
-      INTEGER 
+      INTEGER
      .   INLOC(*),NRB_MV,NI2_MV,IRB_MV(2,*),II2_MV(2,*),
      .   NBC_MV,IBC_MV(3,*) ,NFX_MV,IFX_MV(2,*),NRW_MV,IRW_MV(*),
      .   NRBE3_MV,IRBE3_MV(*),NSPC_MV,ISPC_MV(*),NRBE2_MV,IRBE2_MV(*)
@@ -2050,7 +2050,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,NR3,NR4,
      .        JI,K10,K11,K12,K13,K14,KFI,NI2,NRB,NBC,NFX,NRW,NSPC
 c----------------------
@@ -2080,7 +2080,7 @@ C------IRTL(NSN)--main el number---
         ENDDO
        ENDDO
        IF (NI2/=NI2_MV) WRITE(*,*)'pb cal NI2_M'
-      ENDIF 
+      ENDIF
 C--------RBE3--------------------
       IF (NRBE3_MV>0) THEN
        NR3=0
@@ -2093,7 +2093,7 @@ C--------RBE3--------------------
         ENDIF
        ENDDO
        IF (NR3/=NRBE3_MV) WRITE(*,*)'pb cal NRBE3_M'
-      ENDIF 
+      ENDIF
 C-----active rigid body main nodes------
       NRB=0
       IF (NRB_MV>0) THEN
@@ -2112,36 +2112,36 @@ C-----active rigid body main nodes------
            IRB_MV(2,NRB)=NI
           ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
        IF (NRB/=NRB_MV) WRITE(*,*)'pb cal NRB_M'
-      ENDIF 
+      ENDIF
 C +++
       IF (NBC_MV>0) THEN
        NBC = 0
        DO N=1,NUMNOD
         IF (ISKEW(N)>1.AND.ICODT(N)/=7) THEN
          IF (INLOC(N)>0) THEN
-           NBC = NBC + 1  
-           IBC_MV(1,NBC) = N 
+           NBC = NBC + 1
+           IBC_MV(1,NBC) = N
            IBC_MV(2,NBC) = ISKEW(N)
            IBC_MV(3,NBC) = ICODT(N)
-         ENDIF 
+         ENDIF
         ENDIF
        ENDDO
        IF (NBC/=NBC_MV) WRITE(*,*)'pb cal NBC_M'
-      ENDIF 
+      ENDIF
 C-
       IF (NSPC_MV>0) THEN
        NSPC = 0
        DO N=1,NSPCL
         IF (INLOC(N)>0.AND.IC_SPC(N)<=3)THEN
-	 NSPC = NSPC + 1  
-         ISPC_MV(NSPC) = N 
-        ENDIF 
+	 NSPC = NSPC + 1
+         ISPC_MV(NSPC) = N
+        ENDIF
        ENDDO
        IF (NSPC/=NSPC_MV) WRITE(*,*)'pb cal NSPC_M'
-      ENDIF 
+      ENDIF
 C---      
       IF (NFX_MV>0) THEN
        NFX = 0
@@ -2149,10 +2149,10 @@ C---
         IF (LJ(J)>0.AND.LJ(J)<=3) THEN
          N=IABS(IBFV(1,J))
          IF (INLOC(N)>0) THEN
-           NFX = NFX + 1  
-           IFX_MV(1,NFX) = J 
+           NFX = NFX + 1
+           IFX_MV(1,NFX) = J
            IFX_MV(2,NFX) = LJ(J)
-         ENDIF 
+         ENDIF
         ENDIF
        ENDDO
        IF (NFX/=NFX_MV) WRITE(*,*)'pb cal NFX_M'
@@ -2163,12 +2163,12 @@ C
        DO J=1,N_RWL
          N=IN_RWL(J)
          IF (INLOC(N)>0) THEN
-           NRW = NRW + 1  
-           IRW_MV(NRW) = J 
-         ENDIF 
+           NRW = NRW + 1
+           IRW_MV(NRW) = J
+         ENDIF
        ENDDO
        IF (NRW/=NRW_MV) WRITE(*,*)'pb cal NRW_M'
-      ENDIF 
+      ENDIF
 C-----RBE2------
       NR4=0
       IF (NRBE2_MV>0) THEN
@@ -2186,10 +2186,10 @@ C-----RBE2------
            IRB_MV(2,NR4)=NI
           ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
        IF (NR4/=NRBE2_MV) WRITE(*,*)'pb cal NRBE2'
-      ENDIF 
+      ENDIF
 C ---
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -2226,7 +2226,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NML,IML(*),IDDL(*) ,IKC(*) ,NDOF(*) ,IDDLM(*),M_MAX
-      INTEGER  IPARI(NPARI,*),IDDML(3,*),NRB_FR , 
+      INTEGER  IPARI(NPARI,*),IDDML(3,*),NRB_FR ,
      .         IDDMR(6,*) ,NI2_FR  ,IDDMI2(6,4,*) ,IFRSR(2,*),
      .         IFRS2(2,*),IRBE3(NRBE3L,*),LRBE3(*),NRBE3_FR,IFRS3(*),
      .         IDDMI3(6,M_MAX,*),IRBE2(NRBE2L,*),NRBE2_FR,IFRS4(*),
@@ -2252,13 +2252,13 @@ C--------initialization for ndof=0---
 	  ID = IDDL(N) + J
           IF (IKC(ID)<1) THEN
            NDD = NDD + 1
-           IDDML(J,I) = IDDLM(N) + NDD	  
+           IDDML(J,I) = IDDLM(N) + NDD	
           ELSE
-           IDDML(J,I) = -IKC(ID)	  
+           IDDML(J,I) = -IKC(ID)	
           ENDIF
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
 C
        IF (NRB_FR>0) THEN
         DO I = 1, NRB_FR
@@ -2268,9 +2268,9 @@ C
 	  ID = IDDL(N) + J
           IF (IKC(ID)<1) THEN
            NDD = NDD + 1
-           IDDMR(J,I) = IDDLM(N) + NDD	  
+           IDDMR(J,I) = IDDLM(N) + NDD	
           ELSE
-           IDDMR(J,I) = -IKC(ID)	  
+           IDDMR(J,I) = -IKC(ID)	
           ENDIF
          ENDDO
         ENDDO
@@ -2305,14 +2305,14 @@ C-------si noeud main est dependant aussi-----
 	   ID = IDDL(NJ) + J
            IF (IKC(ID)<1) THEN
             NDD = NDD + 1
-            IDDMI2(J,M,I) = IDDLM(NJ) + NDD	  
+            IDDMI2(J,M,I) = IDDLM(NJ) + NDD	
            ELSE
-            IDDMI2(J,M,I) = -IKC(ID)	  
+            IDDMI2(J,M,I) = -IKC(ID)	
            ENDIF
           ENDDO
-         ENDDO 
-        ENDDO 
-       ENDIF 
+         ENDDO
+        ENDDO
+       ENDIF
 C-------RBE3-----------
        IF (NRBE3_FR>0) THEN
         DO I=1,NRBE3_FR
@@ -2328,14 +2328,14 @@ C-------
 	     ID = IDDL(NJ) + J
            IF (IKC(ID)<1) THEN
             NDD = NDD + 1
-            IDDMI3(J,M,I) = IDDLM(NJ) + NDD	  
+            IDDMI3(J,M,I) = IDDLM(NJ) + NDD	
            ELSE
-            IDDMI3(J,M,I) = -IKC(ID)	  
+            IDDMI3(J,M,I) = -IKC(ID)	
            ENDIF
           ENDDO
-         ENDDO 
-        ENDDO 
-       ENDIF 
+         ENDDO
+        ENDDO
+       ENDIF
 C------RBE2
        IF (NRBE2_FR>0) THEN
         DO I = 1, NRBE2_FR
@@ -2346,9 +2346,9 @@ C------RBE2
 	  ID = IDDL(M) + J
           IF (IKC(ID)<1) THEN
            NDD = NDD + 1
-           IDDMI4(J,I) = IDDLM(M) + NDD	  
+           IDDMI4(J,I) = IDDLM(M) + NDD	
           ELSE
-           IDDMI4(J,I) = -IKC(ID)	  
+           IDDMI4(J,I) = -IKC(ID)	
           ENDIF
          ENDDO
         ENDDO
@@ -2381,7 +2381,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  IRBE3(NRBE3L,*),LRBE3(*) ,NRBE3_KN,IRBE3_KN(*)  
+      INTEGER  IRBE3(NRBE3L,*),LRBE3(*) ,NRBE3_KN,IRBE3_KN(*)
       my_real
      .  FRBE3(*),X(*),SKEW(*),FRCDI(*),MRCDI(*)
 C-----------------------------------------------
@@ -2407,8 +2407,8 @@ C------- init FRCDI,MRCDI
      .              MRCDI(IADS) ,IRBE3(2,N))
 C-------
          IADS = IADS + NNOD
-        ENDDO 
-       ENDIF 
+        ENDDO
+       ENDIF
 C
       RETURN
       END
@@ -2475,7 +2475,7 @@ C----------------actualise D,X_IMP---------------------
       CALL ZEROR(A,NUMNOD)
       IF ((NRB_KN+NI2_KN+NRBE3_KN)>0) CALL ZEROR(AR,NUMNOD)
 C----------------
-      IF (IUPD>0) THEN 
+      IF (IUPD>0) THEN
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB    ,X_IMP,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2,IUPD )
@@ -2488,7 +2488,7 @@ C----------------
      6              ID_KNM3,RKN_MAX,FCDI_KN,MCDI_KN,NSPC_KN,
      7              ISPC_KN,IRBE2  ,LRBE2  ,NRBE2_KN,IRBE2_KN,
      .              ID_KNM4)
-      ELSE 
+      ELSE
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB   ,X    ,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2     ,IUPD   )
@@ -2501,7 +2501,7 @@ C----------------
      6              ID_KNM3,RKN_MAX,FCDI_KN,MCDI_KN,NSPC_KN,
      7              ISPC_KN,IRBE2  ,LRBE2  ,NRBE2_KN,IRBE2_KN,
      .              ID_KNM4)
-      ENDIF     
+      ENDIF
       RETURN
       END
 Chd|====================================================================
@@ -2578,7 +2578,7 @@ C-----renvoie D (NSL) et receive DFI (NSREM)-----
        IF (NSREM>0) CALL ZEROR(FFI,NSREM)
       ENDIF
 C----------------
-      IF (IUPD>0) THEN      
+      IF (IUPD>0) THEN
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB,X_IMP,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2,IUPD )
@@ -2592,7 +2592,7 @@ C----------------
      6              ID_KNM3,RKN_MAX,FCDI_KN,MCDI_KN,NSPC_KN,
      7              ISPC_KN,IRBE2  ,LRBE2  ,NRBE2_KN,IRBE2_KN,
      .              ID_KNM4)
-      ELSE      
+      ELSE
        CALL INT_FKU3(A      ,V      ,MS         ,D      ,
      1               IPARI  ,INTBUF_TAB   ,X    ,NUM_IMP,
      2               NS_IMP ,NE_IMP ,INDEX2     ,IUPD )
@@ -2606,7 +2606,7 @@ C----------------
      6              ID_KNM3,RKN_MAX,FCDI_KN,MCDI_KN,NSPC_KN,
      7              ISPC_KN,IRBE2  ,LRBE2  ,NRBE2_KN,IRBE2_KN,
      .              ID_KNM4)
-      ENDIF     
+      ENDIF
       RETURN
       END
 Chd|====================================================================
@@ -2642,7 +2642,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,*), INDEX2(*)
-      INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),IUPD 
+      INTEGER NUM_IMP(*),NS_IMP(*),NE_IMP(*),IUPD
       my_real
      .   X(3,*),A(3,*),D(3,*), MS(*),V(3,*)
 
@@ -2652,7 +2652,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,N,K,K1,ID,IAD,IS,NN,NTY,I_INT7
 C 
-      IAD = 1     
+      IAD = 1
 C-----------int5 first-------------       
       DO N=1,NINTER
         NTY   =IPARI(7,N)
@@ -2695,13 +2695,13 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
-#include      "task_c.inc" 
-#include      "scr05_c.inc" 
+#include      "task_c.inc"
+#include      "scr05_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER 
+      INTEGER
      .        NDDLI,IADI(*),JDII(*),ITOK(*),IMCONV
       my_real
      .  DIAG_I(*),LT_I(*)

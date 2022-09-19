@@ -74,7 +74,7 @@ C     REAL
      .   SLSFAC, GAP
       INTEGER IRECT(4,*), IXS(NIXS,*), IXC(NIXC,*),
      .   NSV(*), IXTG(NIXTG,*), NSEG(*), LNSV(*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*),IXS10(*), IXS16(*), IXS20(*),
      .   IGEO(NPROPGI,*),IWORKSH(3,*)
 C     REAL
@@ -144,7 +144,7 @@ C----------------------
      .                   C2='SOLID',
      .                   I3=I)
           ENDIF
-          IF(NINT<0) THEN 
+          IF(NINT<0) THEN
              CALL ANCMSG(MSGID=96,
      .                   MSGTYPE=MSGWARNING,
      .                   ANMODE=ANINFO_BLIND_2,
@@ -173,7 +173,7 @@ C----------------------
            IF( IGTYP == 11 .AND. IGMAT > 0) THEN
             STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
             STFMIN = MIN(STFMIN,STF(I))
-           ELSEIF(IGTYP == 52 .OR. 
+           ELSEIF(IGTYP == 52 .OR.
      .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
               ISUBSTACK = IWORKSH(3,NUMELC+NELTG)
               STF(I)=SLSFAC*DX*PM_STACK(2,ISUBSTACK)
@@ -219,7 +219,7 @@ C----------------------
             IF(IGTYP  == 11 .AND. IGMAT > 0) THEN
              STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
              STFMIN = MIN(STFMIN,STF(I))
-            ELSEIF(IGTYP == 52 .OR. 
+            ELSEIF(IGTYP == 52 .OR.
      .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
               ISUBSTACK = IWORKSH(3,NELC)
               STF(I)=SLSFAC*DX*PM_STACK(2 ,ISUBSTACK)
@@ -227,7 +227,7 @@ C----------------------
             ELSE
              STF(I)=SLSFAC*DX*PM(20,MT)
              STFMIN = MIN(STFMIN,STF(I))
-            ENDIF 
+            ENDIF
           ELSE
             IF(NINT>=0) THEN
                CALL ANCMSG(MSGID=95,
@@ -315,11 +315,11 @@ C---------------------
          IF(IGTYP  == 11 .AND. IGMAT > 0) THEN
            STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
            STFMIN = MIN(STFMIN,STF(I))
-         ELSEIF(IGTYP == 52 .OR. 
+         ELSEIF(IGTYP == 52 .OR.
      .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
             ISUBSTACK = IWORKSH(3,NELC)
             STF(I)=SLSFAC*DX*PM_STACK(2 ,ISUBSTACK)
-            STFMIN = MIN(STFMIN,STF(I)) 
+            STFMIN = MIN(STFMIN,STF(I))
          ELSE
            STF(I)=SLSFAC*DX*PM(20,MT)
            STFMIN = MIN(STFMIN,STF(I))
@@ -360,15 +360,15 @@ C---------------------
          IF(IGTYP  == 11 .AND. IGMAT > 0) THEN
            STF(I)=SLSFAC*DX*GEO(IPGMAT + 2 ,MG)
            STFMIN = MIN(STFMIN,STF(I))
-         ELSEIF(IGTYP == 52 .OR. 
+         ELSEIF(IGTYP == 52 .OR.
      .           ((IGTYP == 17 .OR. IGTYP == 51) .AND. IGMAT > 0))THEN
             ISUBSTACK = IWORKSH(3,NELC)
             STF(I)=SLSFAC*DX*PM_STACK(2 ,ISUBSTACK)
-            STFMIN = MIN(STFMIN,STF(I))  
+            STFMIN = MIN(STFMIN,STF(I))
          ELSE
            STF(I)=SLSFAC*DX*PM(20,MT)
            STFMIN = MIN(STFMIN,STF(I))
-         ENDIF  
+         ENDIF
         ELSE
            IF(NINT>=0) THEN
               CALL ANCMSG(MSGID=95,
@@ -419,7 +419,7 @@ C---------------------------
       IF(NTY==8)THEN
         IF(FMAX/=ZERO) THEN
           IF(DEPTH<=EM20) THEN
-            DO I=1,NRT   
+            DO I=1,NRT
              STF8(I) = STF(I)
             ENDDO
            CALL ANCMSG(MSGID=1043,
@@ -428,7 +428,7 @@ C---------------------------
      .                 I1=ID,
      .                 C1=TITR,
      .                 R1=DEPTH)
-          ELSE                    
+          ELSE
            SLOPE = FMAX/DEPTH
            IF(SLOPE>STFMIN.AND.STFMIN/=ZERO)THEN
               DO I=1,NRT
@@ -444,8 +444,8 @@ C---------------------------
      .                 R3=SLOPE)
              ELSE
               DO I=1,NRT
-                STF8(I) = SLOPE   
-              ENDDO         
+                STF8(I) = SLOPE
+              ENDDO
              ENDIF
           ENDIF
         ENDIF

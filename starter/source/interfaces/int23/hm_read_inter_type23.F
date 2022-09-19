@@ -93,7 +93,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IBC1, IBC2, IBC3, IBUC, NOINT, NTYP,
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI,IS1, IS2,
-     .    ILEV, IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR, INTKG, 
+     .    ILEV, IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR, INTKG,
      .    IDEL23,OK,IDELKEEP,IADM,IFSTF
       my_real
      .    FRIC,GAP,STARTT,BUMULT,STOPT,C1,C2,C3,C4,C5,C6,ALPHA,
@@ -122,8 +122,8 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
-      ILEV=0 
+      IGSTI = 0
+      ILEV=0
       IDELKEEP=0
       INTKG = 0
       MULTIMP  = 0
@@ -250,8 +250,8 @@ C
       FRIGAP(17) = STMIN
       FRIGAP(18) = STMAX
       IF(IGSTI==0)I7STIFS=1
-      IPARI(48) =IFSTF    ! IFSTF is not read anymore 
-      SCAL_T=ONE           ! SCAL_T is not read anymore 
+      IPARI(48) =IFSTF    ! IFSTF is not read anymore
+      SCAL_T=ONE           ! SCAL_T is not read anymore
       FRIGAP(33)=SCAL_T
 C
       IF(STFAC==ZERO) THEN
@@ -326,7 +326,7 @@ C------------------------------------------------------------
 C     RENUMBERING OF FUNCTIONS  USER TO INTERNAL ID
 C------------------------------------------------------------
 C
-      IF (IPARI(48) /= 0) THEN        
+      IF (IPARI(48) /= 0) THEN
         OK = 0
         DO J=1,NFUNCT
           IF (IPARI(48) == NPC1(J)) THEN
@@ -335,7 +335,7 @@ C
             EXIT
           ENDIF
         ENDDO
-        IF(OK == 1) THEN    
+        IF(OK == 1) THEN
           CALL ANCMSG(MSGID=121,
      .                MSGTYPE=MSGERROR,
      .                ANMODE=ANINFO_BLIND_1,
@@ -372,7 +372,7 @@ C
         IF(IDELKEEP == 1)THEN
           WRITE(IOUT,'(A)')
      .    '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-        ENDIF         
+        ENDIF
       ENDIF
 
 C--------------------------------------------------------------
@@ -387,7 +387,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

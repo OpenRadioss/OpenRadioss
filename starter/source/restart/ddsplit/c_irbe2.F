@@ -117,7 +117,7 @@ C          List of All domains where M is sticked
               ENDIF
            ENDDO
          ENDIF
-      ENDDO 
+      ENDDO
 C --------------------------------
       DEALLOCATE(MAIN_NODES)
       DEALLOCATE(TAG)

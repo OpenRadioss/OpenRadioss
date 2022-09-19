@@ -29,7 +29,7 @@ Chd|-- calls ---------------
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        REORDER_MOD                   share/modules1/reorder_mod.F  
 Chd|====================================================================
-      SUBROUTINE C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L, 
+      SUBROUTINE C_IDGLOB(NUMEL, NUMELS_L, NUMELQ_L, NUMELTG_L,
      .     PROC, CEL, CEP, IPARG, ALE_CONNECTIVITY, IXS, IDGLOB_L, UIDGLOB_L)
       USE REORDER_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -90,7 +90,7 @@ C-----------------------------------------------
             ENDIF
          ENDDO
       ENDDO
-      
+
       DEALLOCATE(TAG)
       END SUBROUTINE C_IDGLOB
 C

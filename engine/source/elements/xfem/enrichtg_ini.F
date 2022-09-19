@@ -181,8 +181,8 @@ C
               IF (IED > 0) THEN
                 IEDGE = XEDGE3N(K,ELCRKTG)
                 BETA  = CRKEDGE(ILAY)%RATIO(IEDGE)
-                NOD1  = NODEDGE(1,IEDGE)   
-                NOD2  = NODEDGE(2,IEDGE)              
+                NOD1  = NODEDGE(1,IEDGE)
+                NOD2  = NODEDGE(2,IEDGE)
                 IF (NOD1 == IXTG(K+1,I+NFT) .and. NOD2 == IXTG(dd(K)+1,I+NFT)) THEN
                   p1 = K
                   p2 = dd(K)
@@ -191,7 +191,7 @@ C
                   p2 = K
                 ENDIF
                 XIN(IED,I) = XN(P1) + BETA*(XN(P2) - XN(P1))
-                YIN(IED,I) = YN(P1) + BETA*(YN(P2) - YN(P1)) 
+                YIN(IED,I) = YN(P1) + BETA*(YN(P2) - YN(P1))
                 XM(IED)    = HALF*(XN(p1)+XN(p2))
                 YM(IED)    = HALF*(YN(p1)+YN(p2))
               ENDIF
@@ -299,8 +299,8 @@ C
             ENDDO
 c------------------------------------------
             ITRI = 0
-            NM   = 0    
-            NP   = 0    
+            NM   = 0
+            NP   = 0
             DO K=1,3
               IF (ISIGN0(1,K) > 0) THEN
                 ITRI = ITRI + 1
@@ -311,15 +311,15 @@ c------------------------------------------
             ENDDO
             IF (ITRI == 1) THEN
               ITRI = -1
-              NX1  = NP          
+              NX1  = NP
             ELSEIF (ITRI == 2) THEN
               ITRI = 1
-              NX1 = NM 
+              NX1 = NM
             ENDIF
-            NX2 = DX(NX1+1)                            
-            NX3 = DX(NX2+1)                            
-            XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) = ITRI  
-            XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) = NX1     
+            NX2 = DX(NX1+1)
+            NX3 = DX(NX2+1)
+            XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) = ITRI
+            XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) = NX1
 C
             XFEM_PHANTOM(ILAY)%IFI(IADC(1)) = ISIGN0(1,1)
             XFEM_PHANTOM(ILAY)%IFI(IADC(2)) = ISIGN0(1,2)
@@ -356,8 +356,8 @@ C-------------------
 c           IXEL = 3 => Third phantom element  (ILEV = PP3)
 C-------------------
             IF (ITRI < 0) THEN          ! sign ILEV3 = ILEV2 < 0
-              IE1 = XEDGE3N(NX1,ELCRKTG) 
-              IE2 = XEDGE3N(NX3,ELCRKTG) 
+              IE1 = XEDGE3N(NX1,ELCRKTG)
+              IE2 = XEDGE3N(NX3,ELCRKTG)
 c              IF (CRKEDGE(ILAY)%ICUTEDGE(IE2) == 2) THEN   ! tip edge
               CRKLVSET(PP3)%ENR0(1,IADC(NX1)) = ABS(CRKLVSET(PP2)%ENR0(1,IADC(NX1)))
               CRKLVSET(PP3)%ENR0(1,IADC(NX2)) = CRKLVSET(PP2)%ENR0(1,IADC(NX2))
@@ -367,34 +367,34 @@ c
               BETA = CRKEDGE(ILAY)%RATIO(IE2)
               NOD1 = NODEDGE(1,IE2)
               NOD2 = NODEDGE(2,IE2)
-              K = NX3   ! starting edge node (local) 
+              K = NX3   ! starting edge node (local)
               IF (NOD1 == IXTG(K+1,I+NFT) .and.
      .            NOD2 == IXTG(DD(K)+1,I+NFT)) THEN
-                P1 = K      
-                P2 = DD(K)  
+                P1 = K
+                P2 = DD(K)
                 SIGBETA = IE2
               ELSEIF (NOD2 == IXTG(K+1,I+NFT) .and.
      .                NOD1 == IXTG(DD(K)+1,I+NFT)) THEN
-                P1 = DD(K)  
-                P2 = K      
+                P1 = DD(K)
+                P2 = K
                 SIGBETA = -IE2
               ENDIF
 c
 c--           AREA factors
-              X1  = XXL(NX1,I)    
-              Y1  = YYL(NX1,I)                   
-              IED = CRKEDGE(ILAY)%IEDGETG(NX1,ELCRKTG)         
-              X2  = XIN(IED,I)                            
-              Y2  = YIN(IED,I)                            
-              IED = CRKEDGE(ILAY)%IEDGETG(NX3,ELCRKTG)         
-              X3  = XIN(IED,I)                            
-              Y3  = YIN(IED,I)                            
+              X1  = XXL(NX1,I)
+              Y1  = YYL(NX1,I)
+              IED = CRKEDGE(ILAY)%IEDGETG(NX1,ELCRKTG)
+              X2  = XIN(IED,I)
+              Y2  = YIN(IED,I)
+              IED = CRKEDGE(ILAY)%IEDGETG(NX3,ELCRKTG)
+              X3  = XIN(IED,I)
+              Y3  = YIN(IED,I)
               AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
               AREA1 = AREA1 / AREA(I)
-              X1  = XXL(NX2,I)    
-              Y1  = YYL(NX2,I)                   
-              X2  = XXL(NX3,I)    
-              Y2  = YYL(NX3,I)                   
+              X1  = XXL(NX2,I)
+              Y1  = YYL(NX2,I)
+              X2  = XXL(NX3,I)
+              Y2  = YYL(NX3,I)
               AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
               AREA3 = ONE - AREA1 - AREA2
 c
@@ -410,46 +410,46 @@ c
               BETA = CRKEDGE(ILAY)%RATIO(IE1)
               NOD1 = NODEDGE(1,IE1)
               NOD2 = NODEDGE(2,IE1)
-              K = NX1   ! starting edge node (local) 
+              K = NX1   ! starting edge node (local)
               IF (NOD1 == IXTG(K+1,I+NFT) .and.
      .            NOD2 == IXTG(DD(K)+1,I+NFT)) THEN
-                P1 = K      
-                P2 = DD(K)  
+                P1 = K
+                P2 = DD(K)
                 SIGBETA = IE1
               ELSEIF (NOD2 == IXTG(K+1,I+NFT) .and.
      .                NOD1 == IXTG(DD(K)+1,I+NFT)) THEN
-                P1 = DD(K)  
-                P2 = K      
+                P1 = DD(K)
+                P2 = K
                 SIGBETA = -IE1
               ENDIF
 c
-c--           AREA factors for each phantom                          
-              X1  = XXL(NX1,I)                                       
-              Y1  = YYL(NX1,I)                                       
-              IED = CRKEDGE(ILAY)%IEDGETG(NX3,ELCRKTG)               
-              X2  = XIN(IED,I)                                       
-              Y2  = YIN(IED,I)                                       
-              IED = CRKEDGE(ILAY)%IEDGETG(NX1,ELCRKTG)               
-              X3  = XIN(IED,I)                                       
-              Y3  = YIN(IED,I)                                       
-              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
-              AREA1 = AREA1 / AREA(I)                                
-              X1  = XXL(NX2,I)                                       
-              Y1  = YYL(NX2,I)                                       
-              X3  = XXL(NX3,I)                                       
-              Y3  = YYL(NX3,I)                                       
-              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
-              AREA3 = ONE - AREA1 - AREA2                             
+c--           AREA factors for each phantom
+              X1  = XXL(NX1,I)
+              Y1  = YYL(NX1,I)
+              IED = CRKEDGE(ILAY)%IEDGETG(NX3,ELCRKTG)
+              X2  = XIN(IED,I)
+              Y2  = YIN(IED,I)
+              IED = CRKEDGE(ILAY)%IEDGETG(NX1,ELCRKTG)
+              X3  = XIN(IED,I)
+              Y3  = YIN(IED,I)
+              AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+              AREA1 = AREA1 / AREA(I)
+              X1  = XXL(NX2,I)
+              Y1  = YYL(NX2,I)
+              X3  = XXL(NX3,I)
+              Y3  = YYL(NX3,I)
+              AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+              AREA3 = ONE - AREA1 - AREA2
 c
             ENDIF  ! ITRI
 c
-            CRKLVSET(PP3)%ENR0(2,IADC(1)) = CRKLVSET(PP3)%ENR0(1,IADC(1))  
-            CRKLVSET(PP3)%ENR0(2,IADC(2)) = CRKLVSET(PP3)%ENR0(1,IADC(2))  
-            CRKLVSET(PP3)%ENR0(2,IADC(3)) = CRKLVSET(PP3)%ENR0(1,IADC(3))  
+            CRKLVSET(PP3)%ENR0(2,IADC(1)) = CRKLVSET(PP3)%ENR0(1,IADC(1))
+            CRKLVSET(PP3)%ENR0(2,IADC(2)) = CRKLVSET(PP3)%ENR0(1,IADC(2))
+            CRKLVSET(PP3)%ENR0(2,IADC(3)) = CRKLVSET(PP3)%ENR0(1,IADC(3))
 c
-            CRKLVSET(PP1)%AREA(ELCRK) = AREA1                                                       
-            CRKLVSET(PP2)%AREA(ELCRK) = AREA2                                                       
-            CRKLVSET(PP3)%AREA(ELCRK) = AREA3                                                      
+            CRKLVSET(PP1)%AREA(ELCRK) = AREA1
+            CRKLVSET(PP2)%AREA(ELCRK) = AREA2
+            CRKLVSET(PP3)%AREA(ELCRK) = AREA3
 C-------------------
           ENDIF  ! LAYCUT /= 0
         ENDDO    ! DO I=JFT,JLT

@@ -64,7 +64,7 @@ C-----------------------------------------------
      .           4,1/
       my_real
      .   Y1,Z1,Y2,Z2,Y3,Z3,Y4,Z4,
-     .   YG,ZG,PVECT,PSCA,DY,DZ,NY,NZ   
+     .   YG,ZG,PVECT,PSCA,DY,DZ,NY,NZ
 C=======================================================================
 C
       IF(IEXT==1)THEN
@@ -77,10 +77,10 @@ c         NQ(N) = IXQ(JJ-1,JQ)
           DO L=1,4
             NQ(L) = IXQ(L+1,JQ)
             L1 = LINES(1,L)
-            L2 = LINES(2,L) 
-            NQQ1 = IXQ(L1+1,JQ)         
+            L2 = LINES(2,L)
+            NQQ1 = IXQ(L1+1,JQ)
             NQQ2 = IXQ(L2+1,JQ)
-            DO K=KNOD2ELQ(NQQ1)+1,KNOD2ELQ(NQQ1+1)            
+            DO K=KNOD2ELQ(NQQ1)+1,KNOD2ELQ(NQQ1+1)
               KQ=NOD2ELQ(K)
               IF (KQ==JQ .OR. KQ > NUMELQ) CYCLE
               IF (CLAUSE%QUAD(KQ)==0) CYCLE
@@ -105,13 +105,13 @@ c
 c
           Y4 = X(2,NQ(4))
           Z4 = X(3,NQ(4))
-c        
+c
           YG = (Y1+Y2+Y3+Y4)/FOUR
-          ZG = (Z1+Z2+Z3+Z4)/FOUR 
+          ZG = (Z1+Z2+Z3+Z4)/FOUR
 
           DO L=1,4
              L1 = LINES(1,L)
-             L2 = LINES(2,L)      
+             L2 = LINES(2,L)
              TRUEAXE= 1
              N1 = NQ(L1)
              N2 = NQ(L2)
@@ -120,8 +120,8 @@ c
              ENDIF
 
              IF (TRUEAXE==1) THEN
-               IF (NODTAG(L)==1) THEN ! nodes of external lines      
-                 NSEG=NSEG+1  
+               IF (NODTAG(L)==1) THEN ! nodes of external lines
+                 NSEG=NSEG+1
 C           normal computation
                   DY = X(2,N2)-X(2,N1)
                   DZ = X(3,N2)-X(3,N1)

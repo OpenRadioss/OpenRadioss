@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT32(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM)
 C-----------------------------------------------
@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,9 +83,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(INOUT)                         :: IPM(NPROPMI)
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)     :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(INOUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(INOUT)  :: IFUNC
@@ -103,7 +103,7 @@ C-----------------------------------------------
      .   YOUNG, ANU, CA, CE, CN, EPSM, SIGM, CM, EPS0, G, E0, C0, C1,
      .   E1MN2, EN1N2, SDSP, EPST1, EPSM1, EPST2, EPSM2, DMAX1, DMAX2,
      .   AMU, R00, R45, R90, R, H, A11, A22, A1122, A12, RHO0, RHOR
-      
+
       LOGICAL :: IS_ENCRYPTED,IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -155,7 +155,7 @@ C
       E0=ZERO
       C0=ZERO
       C1=YOUNG/(THREE*(ONE  - TWO*ANU))
-      E1MN2=YOUNG/(ONE-ANU**2)      
+      E1MN2=YOUNG/(ONE-ANU**2)
       EN1N2=ANU*E1MN2
       SDSP =SQRT(YOUNG/MAX(PM(1),EM20))
       AMU=PM(17)
@@ -203,7 +203,7 @@ CCC-----------
 C     Formulation for solid elements time step computation.
       IPM(252)= 2
       PM(105) = (ONE -TWO*ANU)/(ONE - ANU)
-      
+
       MTAG%G_SEQ = 1
 C      
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,32
@@ -282,4 +282,4 @@ c-------------------
 c-----------
       RETURN
       END
- 
+

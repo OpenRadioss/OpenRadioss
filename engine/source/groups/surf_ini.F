@@ -57,10 +57,10 @@ C-----------------------------------------------
 !!   ---  ISURF  ---
 !
 !  --- READ IGRSURF ---
-      IF (NSURF > 0)THEN 
+      IF (NSURF > 0)THEN
         MY_ALLOCATE(IGRSURF,NSURF)
         CALL ALLOC_SURF_STR(IGRSURF)
-      ELSE           
+      ELSE
         MY_ALLOCATE(IGRSURF,0)
       ENDIF
 !---------

@@ -108,14 +108,14 @@ C-----------------------------------------------
 
         SCK=ABS(SS) - ONE
         TCK=ABS(TT) - ONE
-        
+
         LK=L
         NUM=NSEG(J+1)-NSEG(J)
-        IF(NUM <= 4 .AND. (ABS(SCK) <= FIVEEM2.OR.ABS(TCK) <= FIVEEM2) ) THEN  
+        IF(NUM <= 4 .AND. (ABS(SCK) <= FIVEEM2.OR.ABS(TCK) <= FIVEEM2) ) THEN
           NPT = NSEG(J)-1
           N1  = ZERO
           N2  = ZERO
-          N3  = ZERO    
+          N3  = ZERO
           IF(ABS(SCK) > FIVEEM2 .OR. ABS(TCK) > FIVEEM2) THEN
             !C----------------------------------------------------
             !C     TRAITEMENT DES BORDS
@@ -202,7 +202,7 @@ C-----------------------------------------------
             !C------------------------------------------------------
             !C     TREATMENT SPECIFIC TO CORNERS
             !C------------------------------------------------------
-            DO  JJ=1,NUM 
+            DO  JJ=1,NUM
               L=LMSR(NPT+JJ)
               DO  KK=1,4
                  NN=MSR(IRECT(KK,L))

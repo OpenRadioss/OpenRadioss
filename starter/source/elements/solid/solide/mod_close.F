@@ -62,7 +62,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .  X13,Y13,Z13,X24,Y24,Z24,SX(3),SY(3),SZ(3),SN(3),DH,DHX,DHY,DHZ,
-     .  XC1,YC1,ZC1,XC2,YC2,ZC2,X(3,8),H,SNMAX,HTEST(MVSIZ) 
+     .  XC1,YC1,ZC1,XC2,YC2,ZC2,X(3,8),H,SNMAX,HTEST(MVSIZ)
       INTEGER ICF1(4,3),ICF2(4,3)
       DATA ICF1/1,2,3,4, 2,6,7,3, 1,5,6,2/
       DATA ICF2/5,6,7,8, 1,5,8,4, 4,8,7,3/

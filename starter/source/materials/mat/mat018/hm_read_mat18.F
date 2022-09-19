@@ -36,14 +36,14 @@ Chd|====================================================================
       SUBROUTINE HM_READ_MAT18(
      .           NUPARAM  ,NUVAR    ,NFUNC    ,MAT_ID   ,TITR      ,
      .           UNITAB   ,LSUBMODEL,MTAG     ,PM       ,IPM       ,
-     .           JTHE     ) 
+     .           JTHE     )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD 
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   ROUTINE DESCRIPTION :
 C   ===================
@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER, INTENT(IN)    :: MAT_ID
 c
       INTEGER, INTENT(OUT)   :: IPM(NPROPMI)
-      my_real, INTENT(OUT)   :: PM(NPROPM)     
+      my_real, INTENT(OUT)   :: PM(NPROPM)
       INTEGER, INTENT(OUT)   :: NUPARAM,NUVAR,NFUNC,JTHE
       TYPE(MLAW_TAG_) ,INTENT(OUT)         :: MTAG
 C-----------------------------------------------
@@ -99,12 +99,12 @@ c
       CALL HM_GET_FLOATV('MAT_A'     ,AS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_B'     ,BS       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
-      CALL HM_GET_INTV  ('Xt_fun'    ,ITF      ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('Xt_fun'    ,ITF      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_T0'    ,T0       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SCALE'     ,TIMESCAL ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c
-      CALL HM_GET_INTV  ('FUN_A1'    ,ISPH     ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV  ('FUN_A2'    ,IAS      ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('FUN_A1'    ,ISPH     ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('FUN_A2'    ,IAS      ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('FScale11'  ,TSCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale22'  ,ESCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('FScale33'  ,KSCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -174,7 +174,7 @@ c--------------------------------------------------
         WRITE(IOUT,1200) RHO0,RHOR
         IF (ITF > 0) WRITE(IOUT,1300) ITF
         WRITE(IOUT,1400) T0,SPH,AS,BS,ISPH,IAS
-      ENDIF     
+      ENDIF
 c-----------------------------------------------------------------------
  1000 FORMAT(/
      & 5X,A,/,
@@ -184,7 +184,7 @@ c-----------------------------------------------------------------------
      & 5X,'    THERMAL MATERIAL  ',/,
      & 5X,'--------------------  ',/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/,  
+     & 5X,'INITIAL DENSITY  . . . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'REFERENCE DENSITY. . . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'TEMPERATURE LOAD CURVE . . . . . . . . . . .=',I10/)

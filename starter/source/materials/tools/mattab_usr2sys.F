@@ -60,26 +60,26 @@ C=======================================================================
         ! NTABL  =  IPM(226,IMAT)
         ! ITABLE => IPM(226+1:226+NTABL,IMAT) in updmat.f
 c-----------------------------------------------------
-      DO I=1,NTABL          ! number of tables in material                 
+      DO I=1,NTABL          ! number of tables in material
         TABL_ID = ITABLE(I)
         IF (TABL_ID > 0) THEN
           OK = 0
-          DO J=1,NTABLE     ! total number of tables                
-           IF (TABL_ID == TABLE(J)%NOTABLE) THEN           
+          DO J=1,NTABLE     ! total number of tables
+           IF (TABL_ID == TABLE(J)%NOTABLE) THEN
               ITABLE(I) = J
               OK = 1
-              EXIT                            
-            ENDIF                              
-          ENDDO                                
+              EXIT
+            ENDIF
+          ENDDO
           IF (OK == 0) THEN
             CALL ANCMSG(MSGID=779, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                  I1=MAT_ID  ,
      .                  C1=TITR,
      .                  I2=TABL_ID  )
-          ENDIF                                 
-        ENDIF                                 
+          ENDIF
+        ENDIF
 c
-      ENDDO  ! I=1,NTABL 
+      ENDDO  ! I=1,NTABL
 c-----------
       RETURN
       END

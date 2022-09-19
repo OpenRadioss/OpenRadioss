@@ -77,7 +77,7 @@ C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
       INTEGER NEL,IOUT,IPROP,NUVAR,IX(4,MVSIZ)
-      my_real 
+      my_real
      .        MASS(NEL) ,XINER(NEL) ,STIFN(NEL),XL(MVSIZ,3) ,
      .        STIFR(NEL),VISCM(NEL) ,VISCR(NEL),UVAR(NUVAR,*)
 C-----------------------------------------------
@@ -107,11 +107,11 @@ C=======================================================================
       KRY  = GET_U_GEO(8,IPROP)
       KRZ  = GET_U_GEO(9,IPROP)
       KNN  = GET_U_GEO(10,IPROP)
-      IFKNX = GET_U_PNU(1,IPROP,KFUNC) 
-      IFKNY = GET_U_PNU(2,IPROP,KFUNC) 
-      IFKNZ = GET_U_PNU(3,IPROP,KFUNC) 
-      IFKRX = GET_U_PNU(4,IPROP,KFUNC) 
-      IFKRY = GET_U_PNU(5,IPROP,KFUNC) 
+      IFKNX = GET_U_PNU(1,IPROP,KFUNC)
+      IFKNY = GET_U_PNU(2,IPROP,KFUNC)
+      IFKNZ = GET_U_PNU(3,IPROP,KFUNC)
+      IFKRX = GET_U_PNU(4,IPROP,KFUNC)
+      IFKRY = GET_U_PNU(5,IPROP,KFUNC)
       IFKRZ = GET_U_PNU(6,IPROP,KFUNC)
 C----
       K1 = KXX
@@ -138,7 +138,7 @@ C----
       ENDIF
       IF (IFKRY/=0) THEN
         XF = GET_U_FUNC(IFKRY,ZERO,DERI)
-        K5  = MAX(KRY*DERI, EM20) 
+        K5  = MAX(KRY*DERI, EM20)
       ENDIF
       IF (IFKRZ/=0) THEN
         XF = GET_U_FUNC(IFKRZ,ZERO,DERI)
@@ -151,11 +151,11 @@ C----
       CRY = GET_U_GEO(25,IPROP)
       CRZ = GET_U_GEO(26,IPROP)
 C
-      IFCNX = GET_U_PNU(7,IPROP,KFUNC) 
-      IFCNY = GET_U_PNU(8,IPROP,KFUNC) 
-      IFCNZ = GET_U_PNU(9,IPROP,KFUNC) 
-      IFCRX = GET_U_PNU(10,IPROP,KFUNC) 
-      IFCRY = GET_U_PNU(11,IPROP,KFUNC) 
+      IFCNX = GET_U_PNU(7,IPROP,KFUNC)
+      IFCNY = GET_U_PNU(8,IPROP,KFUNC)
+      IFCNZ = GET_U_PNU(9,IPROP,KFUNC)
+      IFCRX = GET_U_PNU(10,IPROP,KFUNC)
+      IFCRY = GET_U_PNU(11,IPROP,KFUNC)
       IFCRZ = GET_U_PNU(12,IPROP,KFUNC)
 C
       C1 = CXX
@@ -182,7 +182,7 @@ C
       ENDIF
       IF (IFCRY/=0) THEN
         XF = GET_U_FUNC(IFCRY,ZERO,DERI)
-        C5  = MAX(CRY*DERI, EM20) 
+        C5  = MAX(CRY*DERI, EM20)
       ENDIF
       IF (IFCRZ/=0) THEN
         XF = GET_U_FUNC(IFCRZ,ZERO,DERI)
@@ -229,13 +229,13 @@ C--------------------------------------
           UVAR(27,I)= EX(6)
           UVAR(28,I)= EX(7)
           UVAR(29,I)= EX(8)
-          UVAR(30,I)= EX(9)	  
+          UVAR(30,I)= EX(9)	
 C
           KR = KNN*MAX(ONE,LEN2)
           UVAR(19,I)= KXX
           UVAR(20,I)= KYY
           UVAR(21,I)= KZZ
-	  
+	
           IF(JTYP>=2.AND.JTYP<=4) THEN
             UVAR(31,I)= KRX
             UVAR(32,I)= KR
@@ -259,7 +259,7 @@ C
           UVAR(36,I)= ZERO
           UVAR(37,I)= ZERO
           UVAR(38,I)= ZERO
-          UVAR(39,I)= ZERO	  
+          UVAR(39,I)= ZERO	
 C
           STIFN(I) = KTT
           STIFR(I) = KRR+KTT*LEN2
@@ -302,8 +302,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IERR1,ISK1,ISK2,IP1,IP2, GET_U_SKEW,N1,N2,N3
-      my_real 
-     .        NX,NY,NZ,CO,SI,KSI,    
+      my_real
+     .        NX,NY,NZ,CO,SI,KSI,
      .        T(3),Q(LSKEW),Q1(LSKEW),Q2(LSKEW),X1(LSKEW),X2(LSKEW)
 C-----------------------------
       EXTERNAL GET_U_SKEW
@@ -323,9 +323,9 @@ C---     universal joint
           X(1) = X(1) / NX
           X(2) = X(2) / NX
           X(3) = X(3) / NX
-          X(4) = U(1) 
+          X(4) = U(1)
           X(5) = U(2)
-          X(6) = U(3) 
+          X(6) = U(3)
           X(7) = V(1)
           X(8) = V(2)
           X(9) = V(3)
@@ -382,7 +382,7 @@ C
           A(6) = HALF * (Q1(6) + Q2(8))
           A(7) = HALF * (Q1(7) + Q2(3))
           A(8) = HALF * (Q1(8) + Q2(6))
-          A(9) = HALF * (Q1(9) + Q2(9))	  
+          A(9) = HALF * (Q1(9) + Q2(9))	
 C
           CALL PROD_AB(U,A,X1)
           CALL PROD_ABT(V,A,X2)
@@ -432,7 +432,7 @@ C=======================================================================
       E22 = U2 * U2 *CI + C
       E33 = U3 * U3 *CI + C
 
-      E12 = U1 * U2 * CI   
+      E12 = U1 * U2 * CI
       E21 = E12 + U3 * S
       E12 = E12 - U3 * S
 
@@ -444,15 +444,15 @@ C=======================================================================
       E32 = E23 + U1 * S
       E23 = E23 - U1 * S
 C
-      SKEW(1) =  E11  
-      SKEW(4) =  E12    
-      SKEW(7) =  E13    
-      SKEW(2) =  E21    
-      SKEW(5) =  E22   
-      SKEW(8) =  E23  
-      SKEW(3) =  E31  
-      SKEW(6	) =  E32  
-      SKEW(9) =  E33  
+      SKEW(1) =  E11
+      SKEW(4) =  E12
+      SKEW(7) =  E13
+      SKEW(2) =  E21
+      SKEW(5) =  E22
+      SKEW(8) =  E23
+      SKEW(3) =  E31
+      SKEW(6	) =  E32
+      SKEW(9) =  E33
       RETURN
       END
 Chd|====================================================================
@@ -479,21 +479,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
       my_real E,E11,E22,E33,E12,E21,E13,E31,E23,E32,SI2,NR,
-     .        UMI 
+     .        UMI
       DATA  UMI/-1.0/
 C=======================================================================
 C
        PI = 2.*ATAN2(ONE,ZERO)
 C---   first skew rotation
-       E11 = SKEW(1)   
-       E12 = SKEW(4)   
-       E13 = SKEW(7)   
-       E21 = SKEW(2)   
-       E22 = SKEW(5)   
-       E23 = SKEW(8)   
-       E31 = SKEW(3)   
-       E32 = SKEW(6)   
-       E33 = SKEW(9)  
+       E11 = SKEW(1)
+       E12 = SKEW(4)
+       E13 = SKEW(7)
+       E21 = SKEW(2)
+       E22 = SKEW(5)
+       E23 = SKEW(8)
+       E31 = SKEW(3)
+       E32 = SKEW(6)
+       E33 = SKEW(9)
        E = E11+E22+E33
        C = HALF * (E - 1.)
        C = MIN(C,ONE)
@@ -511,8 +511,8 @@ C---   first skew rotation
        NR = SQRT(T(1)*T(1)+T(2)*T(2)+T(3)*T(3))
        IF (NR/=ZERO) NR = ONE/NR
        T(1) = T(1)*NR
-       T(2) = T(2)*NR 
-       T(3) = T(3)*NR 
+       T(2) = T(2)*NR
+       T(3) = T(3)*NR
 C
        C = HALF*(C+ ONE)
        S = SQRT(ONE-C)
@@ -534,15 +534,15 @@ Chd|====================================================================
       INTEGER I,J
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
-      X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7) 
-      X(4)=A(1)*B(2)+A(4)*B(5)+A(7)*B(8) 
-      X(7)=A(1)*B(3)+A(4)*B(6)+A(7)*B(9) 
-      X(2)=A(2)*B(1)+A(5)*B(4)+A(8)*B(7) 
-      X(5)=A(2)*B(2)+A(5)*B(5)+A(8)*B(8) 
-      X(8)=A(2)*B(3)+A(5)*B(6)+A(8)*B(9) 
-      X(3)=A(3)*B(1)+A(6)*B(4)+A(9)*B(7) 
-      X(6)=A(3)*B(2)+A(6)*B(5)+A(9)*B(8) 
-      X(9)=A(3)*B(3)+A(6)*B(6)+A(9)*B(9) 
+      X(1)=A(1)*B(1)+A(4)*B(4)+A(7)*B(7)
+      X(4)=A(1)*B(2)+A(4)*B(5)+A(7)*B(8)
+      X(7)=A(1)*B(3)+A(4)*B(6)+A(7)*B(9)
+      X(2)=A(2)*B(1)+A(5)*B(4)+A(8)*B(7)
+      X(5)=A(2)*B(2)+A(5)*B(5)+A(8)*B(8)
+      X(8)=A(2)*B(3)+A(5)*B(6)+A(8)*B(9)
+      X(3)=A(3)*B(1)+A(6)*B(4)+A(9)*B(7)
+      X(6)=A(3)*B(2)+A(6)*B(5)+A(9)*B(8)
+      X(9)=A(3)*B(3)+A(6)*B(6)+A(9)*B(9)
       RETURN
       END
 C==================================================== 
@@ -559,15 +559,15 @@ Chd|====================================================================
 #include      "param_c.inc"
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
-      X(1)=A(1)*B(1)+A(2)*B(2)+A(3)*B(3) 
-      X(2)=A(4)*B(1)+A(5)*B(2)+A(6)*B(3) 
-      X(3)=A(7)*B(1)+A(8)*B(2)+A(9)*B(3) 
-      X(4)=A(1)*B(4)+A(2)*B(5)+A(3)*B(6) 
-      X(5)=A(4)*B(4)+A(5)*B(5)+A(6)*B(6) 
-      X(6)=A(7)*B(4)+A(8)*B(5)+A(9)*B(6) 
-      X(7)=A(1)*B(7)+A(2)*B(8)+A(3)*B(9) 
-      X(8)=A(4)*B(7)+A(5)*B(8)+A(6)*B(9) 
-      X(9)=A(7)*B(7)+A(8)*B(8)+A(9)*B(9) 
+      X(1)=A(1)*B(1)+A(2)*B(2)+A(3)*B(3)
+      X(2)=A(4)*B(1)+A(5)*B(2)+A(6)*B(3)
+      X(3)=A(7)*B(1)+A(8)*B(2)+A(9)*B(3)
+      X(4)=A(1)*B(4)+A(2)*B(5)+A(3)*B(6)
+      X(5)=A(4)*B(4)+A(5)*B(5)+A(6)*B(6)
+      X(6)=A(7)*B(4)+A(8)*B(5)+A(9)*B(6)
+      X(7)=A(1)*B(7)+A(2)*B(8)+A(3)*B(9)
+      X(8)=A(4)*B(7)+A(5)*B(8)+A(6)*B(9)
+      X(9)=A(7)*B(7)+A(8)*B(8)+A(9)*B(9)
       RETURN
       END
 C==================================================== 
@@ -582,14 +582,14 @@ Chd|====================================================================
 #include      "param_c.inc"
       my_real A(LSKEW),B(LSKEW),X(LSKEW)
 C
-      X(1)=A(1)*B(1)+A(4)*B(2)+A(7)*B(3) 
-      X(2)=A(2)*B(1)+A(5)*B(2)+A(8)*B(3) 
-      X(3)=A(3)*B(1)+A(6)*B(2)+A(9)*B(3) 
-      X(4)=A(1)*B(4)+A(4)*B(5)+A(7)*B(6) 
-      X(5)=A(2)*B(4)+A(5)*B(5)+A(8)*B(6) 
-      X(6)=A(3)*B(4)+A(6)*B(5)+A(9)*B(6) 
-      X(7)=A(1)*B(7)+A(4)*B(8)+A(7)*B(9) 
-      X(8)=A(2)*B(7)+A(5)*B(8)+A(8)*B(9) 
-      X(9)=A(3)*B(7)+A(6)*B(8)+A(9)*B(9) 
+      X(1)=A(1)*B(1)+A(4)*B(2)+A(7)*B(3)
+      X(2)=A(2)*B(1)+A(5)*B(2)+A(8)*B(3)
+      X(3)=A(3)*B(1)+A(6)*B(2)+A(9)*B(3)
+      X(4)=A(1)*B(4)+A(4)*B(5)+A(7)*B(6)
+      X(5)=A(2)*B(4)+A(5)*B(5)+A(8)*B(6)
+      X(6)=A(3)*B(4)+A(6)*B(5)+A(9)*B(6)
+      X(7)=A(1)*B(7)+A(4)*B(8)+A(7)*B(9)
+      X(8)=A(2)*B(7)+A(5)*B(8)+A(8)*B(9)
+      X(9)=A(3)*B(7)+A(6)*B(8)+A(9)*B(9)
       RETURN
       END

@@ -119,10 +119,10 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
       HM_NTHGRP = 0
 c
-      ! Choose TH file type 
-      IF (IFLAG == 0) THEN 
+      ! Choose TH file type
+      IF (IFLAG == 0) THEN
         THFILE = '/TH'
-      ELSEIF (IFLAG == 1) THEN 
+      ELSEIF (IFLAG == 1) THEN
         THFILE = '/ATH'
       ELSEIF (IFLAG == 2) THEN
         THFILE = '/BTH'
@@ -151,14 +151,14 @@ C-----------------------------------------------
       ! /TH/ACCEL
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/ACCEL',NTHACCEL)
-      IF (NTHACCEL > 0) THEN 
+      IF (NTHACCEL > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/ACCEL')
         HM_NTHGRP = HM_NTHGRP + NTHACCEL
         DO I = 1, NTHACCEL
           NVALL   = 3
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARAC + 3*IDSMAX + 40*IDSMAX
         ENDDO
@@ -166,15 +166,15 @@ C-----------------------------------------------
       !-------------------------------------------
       ! /TH/INTER
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/INTER' ,NTHINTER  )   
-      IF (NTHINTER > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/INTER' ,NTHINTER  )
+      IF (NTHINTER > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/INTER')
         HM_NTHGRP = HM_NTHGRP + NTHINTER
         DO I = 1, NTHINTER
           NVALL   = 7
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARIN + 3*IDSMAX + 40*IDSMAX
         ENDDO
@@ -182,15 +182,15 @@ C-----------------------------------------------
       !-------------------------------------------
       ! /TH/RWALL
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RWALL' ,NTHRWALL  )   
-      IF (NTHRWALL > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RWALL' ,NTHRWALL  )
+      IF (NTHRWALL > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/RWALL')
         HM_NTHGRP = HM_NTHGRP + NTHRWALL
         DO I = 1, NTHRWALL
           NVALL   = 6
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARRW + 3*IDSMAX + 40*IDSMAX
         ENDDO
@@ -199,14 +199,14 @@ C-----------------------------------------------
       ! /TH/SECTIO
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SECTIO' ,NTHSECTIO)
-      IF (NTHSECTIO > 0) THEN 
+      IF (NTHSECTIO > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SECTIO')
         HM_NTHGRP = HM_NTHGRP + NTHSECTIO
         DO I = 1, NTHSECTIO
-          NVALL   = 13 
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          NVALL   = 13
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARSE + 3*IDSMAX + 40*IDSMAX
         ENDDO
@@ -214,15 +214,15 @@ C-----------------------------------------------
       !-------------------------------------------
       ! /TH/CLUSTER
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/CLUSTER' ,NTHCLUS)  
-      IF (NTHCLUS > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/CLUSTER')  
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/CLUSTER' ,NTHCLUS)
+      IF (NTHCLUS > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/CLUSTER')
         HM_NTHGRP = HM_NTHGRP + NTHCLUS
         DO I = 1, NTHCLUS
           NVALL   = 11
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARCLUS + 3*IDSMAX + 40*IDSMAX
         ENDDO
@@ -230,264 +230,264 @@ C-----------------------------------------------
       !-------------------------------------------
       ! /TH/BEAM
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BEAM' ,NTHBEAM)  
-      IF (NTHBEAM > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/BEAM') 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BEAM' ,NTHBEAM)
+      IF (NTHBEAM > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/BEAM')
         HM_NTHGRP = HM_NTHGRP + NTHBEAM
         DO I = 1, NTHBEAM
           NVALL   = 8
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARP + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF  
+      ENDIF
       !-------------------------------------------
       ! /TH/TRUS
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/TRUSS' ,NTHTRUS)
-      IF (NTHTRUS > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/TRUSS') 
+      IF (NTHTRUS > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/TRUSS')
         HM_NTHGRP = HM_NTHGRP + NTHTRUS
         DO I = 1, NTHTRUS
           NVALL   = 6
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVART + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF     
+      ENDIF
       !-------------------------------------------
       ! /TH/SPRING
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPRING' ,NTHSPRING)
-      IF (NTHSPRING > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/SPRING')   
+      IF (NTHSPRING > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/SPRING')
         HM_NTHGRP = HM_NTHGRP + NTHSPRING
         DO I = 1, NTHSPRING
           NVALL   = 16
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARR + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF     
+      ENDIF
       !-------------------------------------------
       ! /TH/BRIC
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BRIC' ,NTHBRIC)
-      IF (NTHBRIC > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/BRIC') 
+      IF (NTHBRIC > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/BRIC')
         HM_NTHGRP = HM_NTHGRP + NTHBRIC
         DO I = 1, NTHBRIC
           NVALL   = 40
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARS + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF     
+      ENDIF
       !-------------------------------------------
       ! /TH/NODE
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/NODE' ,NTHNODE)
       IF (NTHNODE > 0) THEN
-        CALL HM_OPTION_START(TRIM(THFILE)//'/NODE')  
+        CALL HM_OPTION_START(TRIM(THFILE)//'/NODE')
         HM_NTHGRP = HM_NTHGRP + NTHNODE
         DO I = 1, NTHNODE
           NVALL   = 9
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARN + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF   
+      ENDIF
       !-------------------------------------------
       ! /TH/SHEL
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SHEL' ,NTHSHEL) 
-      IF (NTHSHEL > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SHEL' ,NTHSHEL)
+      IF (NTHSHEL > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SHEL')
         HM_NTHGRP = HM_NTHGRP + NTHSHEL
         DO I = 1, NTHSHEL
           NVALL   = 22
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARC + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF   
+      ENDIF
       !-------------------------------------------
       ! /TH/SH3N
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SH3N' ,NTHSH3N)
-      IF (NTHSH3N > 0) THEN 
+      IF (NTHSH3N > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SH3N')
         HM_NTHGRP = HM_NTHGRP + NTHSH3N
         DO I = 1, NTHSH3N
           NVALL   = 22
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARC + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF  
+      ENDIF
       !-------------------------------------------
       ! /TH/RBODY
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RBODY' ,NTHRBODY)
-      IF (NTHRBODY > 0) THEN 
+      IF (NTHRBODY > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/RBODY')
         HM_NTHGRP = HM_NTHGRP + NTHRBODY
         DO I = 1, NTHRBODY
           NVALL   = 15
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARRB + 3*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF  
+      ENDIF
       !-------------------------------------------
       ! /TH/MONV
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/MONV' ,NTHMONVOL)
       IF (NTHMONVOL > 0) THEN
-        CALL HM_OPTION_START(TRIM(THFILE)//'/MONV')  
+        CALL HM_OPTION_START(TRIM(THFILE)//'/MONV')
         HM_NTHGRP = HM_NTHGRP + NTHMONVOL
         DO I = 1, NTHMONVOL
           NVALL   = 9
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + (NVARMV + 3*IDSMAX + 40*IDSMAX)*10*NVOLU
         ENDDO
-      ENDIF                                                  
+      ENDIF
       !-------------------------------------------
       ! /TH/PART
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)
-      IF (HM_NTHPART > 0) THEN 
+      IF (HM_NTHPART > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/PART')
         HM_NTHGRP = HM_NTHGRP + HM_NTHPART
         DO I = 1, HM_NTHPART
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
           IFI     = IFI     + NVARPA
         ENDDO
-      ENDIF      
+      ENDIF
       !-------------------------------------------
       ! /TH/SUBSET
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SUBS' ,HM_NTHSUBS)
-      IF (HM_NTHSUBS > 0) THEN 
+      IF (HM_NTHSUBS > 0) THEN
         HM_NTHGRP = HM_NTHGRP + HM_NTHSUBS
         NVARTOT   = NVARTOT   + 180*HM_NTHSUBS
         IFI       = IFI       + NVARPA*HM_NTHSUBS
-      ENDIF        
+      ENDIF
       !-------------------------------------------
       ! /TH/FXBODY
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/FXBODY' ,HM_NTHFXBODY)
-      IF (HM_NTHFXBODY > 0) THEN 
+      IF (HM_NTHFXBODY > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/FXBODY')
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
         HM_NTHGRP = HM_NTHGRP + HM_NTHFXBODY
         NVARTOT   = NVARTOT   + 180*HM_NTHFXBODY
         IFI       = IFI       + NVARFX + 3*IDSMAX + 40*IDSMAX
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/SPHCEL
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPHCEL' ,HM_NTHSPHCEL  )
-      IF (HM_NTHSPHCEL > 0) THEN 
+      IF (HM_NTHSPHCEL > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SPHCEL')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSPHCEL
         DO I = 1, HM_NTHSPHCEL
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
-          IFI     = IFI     + NVARSPH + LVARITHB*IDSMAX + 40*IDSMAX 
+          IFI     = IFI     + NVARSPH + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
       ENDIF
       !-------------------------------------------
       ! /TH/CYL_JO
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/CYL_JO' ,HM_NTHCYLJO)
-      IF (HM_NTHCYLJO > 0) THEN 
+      IF (HM_NTHCYLJO > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/CYL_JO')
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
         HM_NTHGRP = HM_NTHGRP + HM_NTHCYLJO
         NVARTOT   = NVARTOT   + 180*HM_NTHCYLJO
         IFI       = IFI       + NVARJO + 3*IDSMAX + 40*IDSMAX
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/FRAME
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/FRAME' ,HM_NTHFRAME)      
-      IF (HM_NTHFRAME > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/FRAME') 
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/FRAME' ,HM_NTHFRAME)
+      IF (HM_NTHFRAME > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/FRAME')
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
         HM_NTHGRP = HM_NTHGRP + HM_NTHFRAME
         NVARTOT   = NVARTOT   + 180*HM_NTHFRAME
         IFI       = IFI       + NVARFR + 3*IDSMAX + 40*IDSMAX
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/GAUGE
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/GAUGE' ,HM_NTHGAUGE)
-      IF (HM_NTHGAUGE > 0) THEN 
+      IF (HM_NTHGAUGE > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/GAUGE')
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
         HM_NTHGRP = HM_NTHGRP + HM_NTHGAUGE
         NVARTOT   = NVARTOT   + 180*HM_NTHGAUGE
         IFI       = IFI       + NVARGAU + 3*IDSMAX + 40*IDSMAX
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/SPH_FLOW
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPH_FLOW' ,HM_NTHSPHFLOW)   
-      IF (HM_NTHSPHFLOW > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPH_FLOW' ,HM_NTHSPHFLOW)
+      IF (HM_NTHSPHFLOW > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SPH_FLOW')
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)            
-        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+        CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
         HM_NTHGRP = HM_NTHGRP + HM_NTHSPHFLOW
         NVARTOT   = NVARTOT   + 180*HM_NTHSPHFLOW
         IFI       = IFI       + NVARFLOW + 3*IDSMAX + 40*IDSMAX
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/QUAD
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/QUAD' ,HM_NTHQUAD  )
-      IF (HM_NTHQUAD > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/QUAD') 
+      IF (HM_NTHQUAD > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/QUAD')
         HM_NTHGRP = HM_NTHGRP + HM_NTHQUAD
         DO I = 1, HM_NTHQUAD
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180
-          IFI     = IFI     + NVARS + LVARITHB*IDSMAX + 40*IDSMAX 
+          IFI     = IFI     + NVARS + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
       ENDIF
       !-------------------------------------------
@@ -495,81 +495,81 @@ C-----------------------------------------------
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/NSTRAND' ,HM_NTHNSTRAND  )
       IF (HM_NTHNSTRAND > 0) THEN
-        CALL HM_OPTION_START(TRIM(THFILE)//'/NSTRAND') 
+        CALL HM_OPTION_START(TRIM(THFILE)//'/NSTRAND')
         HM_NTHGRP = HM_NTHGRP + HM_NTHNSTRAND
         NVALL = 4
         DO I = 1, HM_NTHNSTRAND
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('Num_Cards',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('Num_Cards',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180 !NVARTOT = NVARTOT + PRETHGRVAR()
           IFI     = IFI     + NVARNS + LVARITHB*IDSMAX + 40*IDSMAX ! IFI = IFI +  PRETHGRNS(NVARNS)
         ENDDO
-      ENDIF    
+      ENDIF
       !-------------------------------------------
       ! /TH/SURF
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SURF' ,HM_NTHSURF  )
-      IF (HM_NTHSURF> 0) THEN 
+      IF (HM_NTHSURF> 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SURF')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSURF
         NVALL = 1
         DO I = 1, HM_NTHSURF
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180 !NVARTOT = NVARTOT + PRETHGRVAR()
           IFI     = IFI     + NVARSURF + 43*IDSMAX ! IFI = IFI +  PRETHGRKI(NVARSURF)
         ENDDO
-      ENDIF   
+      ENDIF
       !-------------------------------------------
       ! /TH/TRIA
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/TRIA' ,HM_NTHTRIA  )
-      IF (HM_NTHTRIA> 0) THEN 
+      IF (HM_NTHTRIA> 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/TRIA')
         HM_NTHGRP = HM_NTHGRP + HM_NTHTRIA
         NVALL = 1
         DO I = 1, HM_NTHTRIA
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180 !NVARTOT = NVARTOT + PRETHGRVAR()
-          IFI     = IFI     + NVARS + LVARITHB*IDSMAX + 40*IDSMAX 
+          IFI     = IFI     + NVARS + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
       ENDIF
       !-------------------------------------------
       ! /TH/SLIPRING
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SLIPRING' ,HM_NTHSLIPRING  )
-      IF (HM_NTHSLIPRING> 0) THEN 
+      IF (HM_NTHSLIPRING> 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SLIPRING')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSLIPRING
         NVALL = 1
         DO I = 1, HM_NTHSLIPRING
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180 !NVARTOT = NVARTOT + PRETHGRVAR()
-          IFI     = IFI     + NVARSLIP + LVARITHB*IDSMAX + 40*IDSMAX 
+          IFI     = IFI     + NVARSLIP + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/RETRACTOR
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RETRACTOR' ,HM_NTHRETRACTOR  )
-      IF (HM_NTHRETRACTOR> 0) THEN 
+      IF (HM_NTHRETRACTOR> 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/RETRACTOR')
         HM_NTHGRP = HM_NTHGRP + HM_NTHRETRACTOR
         NVALL = 1
         DO I = 1, HM_NTHRETRACTOR
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           NVARTOT = NVARTOT + 180 !NVARTOT = NVARTOT + PRETHGRVAR()
-          IFI     = IFI     + NVARRET + LVARITHB*IDSMAX + 40*IDSMAX 
+          IFI     = IFI     + NVARRET + LVARITHB*IDSMAX + 40*IDSMAX
         ENDDO
-      ENDIF       
+      ENDIF
 C   
       RETURN
       END

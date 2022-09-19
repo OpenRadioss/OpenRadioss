@@ -65,13 +65,13 @@ C=======================================================================
         IF (IELTYP == 5) JJ = CLAUSE%BEAM(J)
         IF (IELTYP == 6) JJ = CLAUSE%SPRING(J)
 !
-        NSEG=NSEG+1                           
+        NSEG=NSEG+1
 !
         DO K=NIX1,NIX2
           NODE(K-1) = IX(K,JJ)
         ENDDO
 !
-        DO K=NIX1,NIX2                      
+        DO K=NIX1,NIX2
           BUFTMPLINE(IAD_LINE) = NODE(K-1)
           IAD_LINE=IAD_LINE+1
         ENDDO

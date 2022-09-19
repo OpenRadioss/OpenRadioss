@@ -29,7 +29,7 @@ Chd|====================================================================
       SUBROUTINE HORIEDGE(IPOLY  , RPOLY , NX    , NY  , NZ  ,
      .                    NBNEDGE, INEDGE, RNEDGE, X0  , Y0  ,
      .                    Z0     , INZ   , NNS3  , NREF, AREF,
-     .                    NNSP   ) 
+     .                    NNSP   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -48,10 +48,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, I, II
       my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, TOLE, DD 
+     .        X1, Y1, Z1, X2, Y2, Z2, ZL1, ZL2, TOLE, DD
 C
 *      TOLE=DLAMCH('Epsmach')
-      TOLE=EM10   
+      TOLE=EM10
       NN=IPOLY(2)
       NNSP=0
       DO I=1,NN
@@ -91,11 +91,11 @@ C
             INEDGE(5,NBNEDGE)=IPOLY(4)
             INEDGE(6,NBNEDGE)=INZ
 C
-            RNEDGE(1,NBNEDGE)=RPOLY(4+3*(I-1)+1)    
-            RNEDGE(2,NBNEDGE)=RPOLY(4+3*(I-1)+2)      
-            RNEDGE(3,NBNEDGE)=RPOLY(4+3*(I-1)+3)     
-            RNEDGE(4,NBNEDGE)=RPOLY(4+3*(II-1)+1)      
-            RNEDGE(5,NBNEDGE)=RPOLY(4+3*(II-1)+2)      
+            RNEDGE(1,NBNEDGE)=RPOLY(4+3*(I-1)+1)
+            RNEDGE(2,NBNEDGE)=RPOLY(4+3*(I-1)+2)
+            RNEDGE(3,NBNEDGE)=RPOLY(4+3*(I-1)+3)
+            RNEDGE(4,NBNEDGE)=RPOLY(4+3*(II-1)+1)
+            RNEDGE(5,NBNEDGE)=RPOLY(4+3*(II-1)+2)
             RNEDGE(6,NBNEDGE)=RPOLY(4+3*(II-1)+3)
          ENDIF
       ENDDO
@@ -132,11 +132,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NN, I, II, TNOD(2*NEDGE), TSEG(3,NEDGE), NN_OLD, JFOUND,
      .        J, JJ, REDIR1(2*NEDGE), REDIR2(2*NEDGE), ITAG(2*NEDGE),
-     .        ITAGSEG(NEDGE+1), ISTOP, ICLOSE, N1, N2, IN, NNP, 
+     .        ITAGSEG(NEDGE+1), ISTOP, ICLOSE, N1, N2, IN, NNP,
      .        POLY(2*NEDGE,NEDGE), ISEG, LENPOLY(NEDGE), IFOUND,
      .        IADHOL(NEDGE), NHOL, K, KK, IPOUT, M, MM, NSEC, KSMIN,
-     .        NEDGE_OLD, TSEG_OLD(3,NEDGE), REDIR(NEDGE), JSEG, 
-     .        JTAGSEG(NEDGE), JTAG(2*NEDGE) 
+     .        NEDGE_OLD, TSEG_OLD(3,NEDGE), REDIR(NEDGE), JSEG,
+     .        JTAGSEG(NEDGE), JTAG(2*NEDGE)
       my_real
      .        TOLE, XNOD(3,2*NEDGE), XX1, YY1, ZZ1, XX2, YY2, ZZ2,
      .        DD, XLOC(2,NEDGE), XSEC(NEDGE), PHOL(3,NEDGE), ALPHA,
@@ -149,7 +149,7 @@ C
       EXTERNAL DLAMCH
 C
 *      TOLE=DLAMCH('Epsmach')
-      TOLE=EM10   
+      TOLE=EM10
 C Creation de la liste des noeuds
       NN=0
       LMAX=ZERO
@@ -162,7 +162,7 @@ C Creation de la liste des noeuds
          XNOD(3,NN)=RNEDGE(3,II)
          TSEG(1,I)=NN
          NN=NN+1
-         TNOD(NN)=INEDGE(3,II)  
+         TNOD(NN)=INEDGE(3,II)
          XNOD(1,NN)=RNEDGE(4,II)
          XNOD(2,NN)=RNEDGE(5,II)
          XNOD(3,NN)=RNEDGE(6,II)

@@ -32,7 +32,7 @@ Chd|        SFORC3                        source/elements/solid/solide/sforc3.F
 Chd|        SZFORC3                       source/elements/solid/solidez/szforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE BOLTST (IBOLTP, IP, BPRELD, SIG, TT, NEL, SENSOR, LSENSOR)   
+      SUBROUTINE BOLTST (IBOLTP, IP, BPRELD, SIG, TT, NEL, SENSOR, LSENSOR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,K,ISENS 
+      INTEGER I,K,ISENS
       my_real
      .   TS,TE
 C-----------------------------------------------
@@ -69,7 +69,7 @@ C
       IF (NCYCLE == 0 .AND. IP == 1) THEN
        DO I=LFT,LLT
         ISENS = INT(BPRELD(I,10))
-        IF (ISENS > 0)THEN            
+        IF (ISENS > 0)THEN
          DO K=1,NSENSOR
           IF(ISENS==LSENSOR(1,K))GOTO 100
          ENDDO
@@ -77,13 +77,13 @@ C
         ENDIF
        ENDDO
       ENDIF
-      
+
        DO I=LFT,LLT
         TS = BPRELD(I,1)
         TE = BPRELD(I,2)
         IF(BPRELD(I,3) == ZERO)THEN
           ISENS = INT(BPRELD(I,10))
-        
+
           IF (ISENS > 0) THEN
            TS = TS+SENSOR(2,ISENS)
            TE = TE+SENSOR(2,ISENS)
@@ -99,19 +99,19 @@ C
            SIG(I,5) = BPRELD(I,8) !SIG(I,5)+BPRELD(I,8)
            SIG(I,6) = BPRELD(I,9) !SIG(I,6)+BPRELD(I,9)
            BPRELD(I,3) = REAL(IP)/REAL(NPT)
-           
-!          Added to shift all the preloading duration in case of sensor use        
+
+!          Added to shift all the preloading duration in case of sensor use
            BPRELD(I,1) = TS
            BPRELD(I,2) = TE
           ENDIF
         ENDIF
        ENDDO
-      
+
 ! Added to compensate loss of stress when filling the gap
        IF(BPRELD(LFT,3) == ONE)THEN
          TS = BPRELD(LFT,1)
          TE = BPRELD(LFT,2)
-!         IF (TT <= (TE+EM01*(TE-TS))) THEN       ! sb : seems to be an error 
+!         IF (TT <= (TE+EM01*(TE-TS))) THEN       ! sb : seems to be an error
          IF (TT <= (TS+EM01*(TE-TS))) THEN
           DO I=LFT,LLT
             SIG(I,1) = BPRELD(I,4)
@@ -128,7 +128,7 @@ C
          ENDIF
        ENDIF
 
-       
+
       RETURN
       END
 

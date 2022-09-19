@@ -84,12 +84,12 @@ C-----------------------------------------------
      .                JDIK ,DIAG_K ,LT_K  ,B  )
           DO J=1,NSN
            NN  = NN  + NSS2(K+J-1)
-          ENDDO 
+          ENDDO
           K  = K  + NSN
           NK  = NK  + 2*NSC2(I)
-        ENDDO 
-        IF (NMC2>0) 
-     .  CALL I2_IMPM(IPARI     ,INTBUF_TAB,NMC2   ,IMIJ2  , 
+        ENDDO
+        IF (NMC2>0)
+     .  CALL I2_IMPM(IPARI     ,INTBUF_TAB,NMC2   ,IMIJ2  ,
      .                X        ,MS     ,     IN,WEIGHT,
      .                NDOF     ,NDDL     ,IDDL   ,IADK   ,JDIK  ,
      .                LT_K     ,DIAG_K   )
@@ -159,10 +159,10 @@ C-----------------------------------------------
      .                JDIK ,DIAG_K ,LT_K  ,B  )
          DO J=1,NSN
            NN  = NN  + NSS2(K+J-1)
-         ENDDO 
+         ENDDO
          K  = K  + NSN
-         ENDIF 
-        ENDDO 
+         ENDIF
+        ENDDO
 C
       RETURN
       END

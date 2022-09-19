@@ -59,14 +59,14 @@ C-----------------------------------------------
 C=======================================================================
       MX = MAT(LFT)
       IFUNC = IPM(13,MX)
-      KSCAL = PM(44,MX) 
+      KSCAL = PM(44,MX)
       IF(IFUNC/=0)THEN
         DO 10 I=LFT,LLT
         NPOINT=(NPF(IFUNC+1)-NPF(IFUNC))/2
-        TSCAL = T(I) / PM(42,MX)              
+        TSCAL = T(I) / PM(42,MX)
         CALL INTERP(TF(NPF(IFUNC)),TSCAL,NPOINT,XK(I),BID)
         XK(I) = XK(I) * KSCAL
-   10 CONTINUE 
+   10 CONTINUE
       ENDIF
 
       RETURN

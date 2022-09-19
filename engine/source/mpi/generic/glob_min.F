@@ -53,7 +53,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER I, L
-      INTEGER, PARAMETER ::  VLEN = 10 
+      INTEGER, PARAMETER ::  VLEN = 10
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -76,7 +76,7 @@ C        DO L=11,VLEN
 C          RINOUT(L+(I-1)*VLEN) = MAX(RINOUT(L+(I-1)*VLEN),RIN(L+(I-1)*VLEN))
 C        END DO
       ENDDO
-      
+
 C
 #endif
       RETURN

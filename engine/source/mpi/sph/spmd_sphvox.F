@@ -65,7 +65,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), WSP2SORT(*)
-      my_real 
+      my_real
      .        X(3,*),BMINMAL(*), SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -78,10 +78,10 @@ C-----------------------------------------------
      .        REQ_RB(NSPMD), REQ_SB(NSPMD), REQ_SD(NSPMD),
      .        REQ_RD(NSPMD), REQ_SD2(NSPMD), REQ_SC(NSPMD),
      .        REQ_RC(NSPMD),
-     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD), 
+     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD),
      .        INDEX(NSP2SORT), STATUS(MPI_STATUS_SIZE),
      .        MSGOFF,MSGOFF2,MSGOFF3,MSGOFF4
-      my_real 
+      my_real
      .        BMINMA(6,NSPMD),ALPHA_MARGE,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        AAA
@@ -107,7 +107,7 @@ C-----------------------------------------------
       INTEGER :: REQUEST_NBO
 
       INTEGER, DIMENSION(NSPMD) :: SEND_SIZE_SBUF,DISPLS_SBUF
-      INTEGER :: TOTAL_SEND_SIZE,TOTAL_RCV_SIZE_RBUF      
+      INTEGER :: TOTAL_SEND_SIZE,TOTAL_RCV_SIZE_RBUF
       INTEGER, DIMENSION(NSPMD) :: RCV_SIZE_RBUF,DISPLS_RBUF
       INTEGER :: REQUEST_SBUF
 
@@ -146,7 +146,7 @@ C
 !   allgather communication with uniform size
 !   for real array : send : BMINMAL --> rcv : BMINMAL
       CALL SPMD_IALLGATHER(BMINMAL,BMINMA,SEND_SIZE_BMINMA,
-     .                     TOTAL_RCV_SIZE_BMINMA,RCV_SIZE_BMINMA, 
+     .                     TOTAL_RCV_SIZE_BMINMA,RCV_SIZE_BMINMA,
      .                     REQUEST_BMINMA,MPI_COMM_WORLD)
 !   -------------------------
 
@@ -160,7 +160,7 @@ C
 !   allgather communication with uniform size
 !   for integer array : send : CRVOXEL_LOC --> rcv : CRVOXEL
       CALL SPMD_IALLGATHER_INT(CRVOXEL_LOC(0,0),CRVOXEL(0,0,1),SEND_SIZE_CRVOX,
-     .                         TOTAL_RCV_SIZE_CRVOX,RCV_SIZE_CRVOX, 
+     .                         TOTAL_RCV_SIZE_CRVOX,RCV_SIZE_CRVOX,
      .                         REQUEST_CRVOX,MPI_COMM_WORLD)
 !   -------------------------
 C
@@ -242,11 +242,11 @@ C
       ENDDO
 !   -------------------------
 
-      PSPHR(1:NSPMD) = 0    
+      PSPHR(1:NSPMD) = 0
 !   -------------------------
 !   alltoall communication with uniform size
-!   for integer array : send : NBO --> rcv : PSPHR  
-      CALL SPMD_IALLTOALL_INT(NBO,PSPHR,NSPMD,1, 
+!   for integer array : send : NBO --> rcv : PSPHR
+      CALL SPMD_IALLTOALL_INT(NBO,PSPHR,NSPMD,1,
      .                        NSPMD,1,REQUEST_NBO,MPI_COMM_WORLD)
 !   -------------------------
 
@@ -272,15 +272,15 @@ C
             SBUF(L+6) = KXSP(8,N)
             L = L + SIZSPT
           END DO
-        END IF  
+        END IF
       END DO
 
 C
       ! Total number of particules to send
-      NSPHS = 0 
-      DO P = 1, NSPMD  
+      NSPHS = 0
+      DO P = 1, NSPMD
          IF(LOC_PROC /=P) THEN
-         NSPHS = NSPHS + PSPHS(P) 
+         NSPHS = NSPHS + PSPHS(P)
          ENDIF
       ENDDO
 
@@ -300,15 +300,15 @@ C
       END IF
       LSPHS = 0
       DKS = -ONE
-      ! Fill LSPHS with local numbers 
-      IDEB = 0 
+      ! Fill LSPHS with local numbers
+      IDEB = 0
       L = 0
-      DO P = 1, NSPMD  
+      DO P = 1, NSPMD
         IF(LOC_PROC /=P) THEN
 #include "novectorize.inc"
-           DO I = 1,PSPHS(P) 
+           DO I = 1,PSPHS(P)
              IDEB = IDEB + 1
-             LSPHS(IDEB) = SBUF(L+1) !BUF(P)%P(L+1)      
+             LSPHS(IDEB) = SBUF(L+1) !BUF(P)%P(L+1)
              L = L + SIZSPT
            ENDDO
         ENDIF
@@ -452,7 +452,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER KXSP(NISP,*), WSP2SORT(*)
-      my_real 
+      my_real
      .        X(3,*),BMINMAL(*), SPBUF(NSPBUF,*)
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -465,10 +465,10 @@ C-----------------------------------------------
      .        REQ_RB(NSPMD), REQ_SB(NSPMD), REQ_SD(NSPMD),
      .        REQ_RD(NSPMD), REQ_SD2(NSPMD), REQ_SC(NSPMD),
      .        REQ_RC(NSPMD),
-     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD), 
+     .        IRINDEXI(NSPMD), ISINDEXI(NSPMD), NBO(NSPMD),
      .        INDEX(NSP2SORT), STATUS(MPI_STATUS_SIZE),
      .        MSGOFF,MSGOFF2,MSGOFF3,MSGOFF4
-      my_real 
+      my_real
      .        BMINMA(6,NSPMD),ALPHA_MARGE,
      .        XMAXB,YMAXB,ZMAXB,XMINB,YMINB,ZMINB,
      .        AAA
@@ -625,14 +625,14 @@ C
           MSGTYP = MSGOFF4
           CALL MPI_ISEND(BUF(P)%P(1),L,REAL,IT_SPMD(P),MSGTYP,
      .                   MPI_COMM_WORLD,REQ_SD2(P),IERROR)
-        END IF  
+        END IF
       END DO
 C
       ! Total number of particules to send
-      NSPHS = 0 
-      DO P = 1, NSPMD  
+      NSPHS = 0
+      DO P = 1, NSPMD
          IF(LOC_PROC /=P) THEN
-         NSPHS = NSPHS + PSPHS(P) 
+         NSPHS = NSPHS + PSPHS(P)
          ENDIF
       ENDDO
 
@@ -651,15 +651,15 @@ C
       END IF
       LSPHS = 0
       DKS = -ONE
-      ! Fill LSPHS with local numbers 
-      IDEB = 0 
-      DO P = 1, NSPMD  
+      ! Fill LSPHS with local numbers
+      IDEB = 0
+      DO P = 1, NSPMD
         IF(LOC_PROC /=P) THEN
           L = 0
 #include "novectorize.inc"
-           DO I = 1,PSPHS(P) 
+           DO I = 1,PSPHS(P)
              IDEB = IDEB + 1
-             LSPHS(IDEB) = BUF(P)%P(L+1)      
+             LSPHS(IDEB) = BUF(P)%P(L+1)
              L = L + SIZSPT
            ENDDO
         ENDIF
@@ -714,7 +714,7 @@ C
         DO L = 1, NBIRECV
           CALL MPI_WAITANY(NBIRECV,REQ_RD,INDEXI,STATUS,IERROR)
         END DO
-      END IF  
+      END IF
 C
       DO P = 1, NSPMD
         IF(P/=LOC_PROC) THEN

@@ -31,7 +31,7 @@ Chd|        IMP_SAIC                      source/implicit/imp_pc_inv.F
 Chd|        SP_STATIC                     source/implicit/imp_fsa_inv.F 
 Chd|====================================================================
       SUBROUTINE IMP_PC_INV(
-     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,   
+     1                    NDDL  ,NNZ   ,IADK  ,JDIK  ,DIAG_K ,
      2                    LT_K  ,IADM  ,JDIM  ,DIAG_M, LT_M  ,
      3                    PSI   ,NNZM  ,MAXC  ,MAXA  ,MAX_L  ,
      4                    IOPT  ,NNE   )
@@ -51,7 +51,7 @@ C-----------------------------------------------
      .         MAXC ,MAXA ,MAX_L,IOPT,NNE
 C     REAL
       my_real
-     .  DIAG_K(*), DIAG_M(*), LT_K(*)  ,LT_M(*) ,PSI 
+     .  DIAG_K(*), DIAG_M(*), LT_K(*)  ,LT_M(*) ,PSI
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C------------parallelisation ici----
       NNZM = 0
       IADM(1)=1
       NNE=0
-      TOL = PSI*PSI 
+      TOL = PSI*PSI
       DO I=1,NDDL
        CALL GET_SUBA(NDDL  ,IADK  ,JDIK  ,DIAG_K ,LT_K  ,
      .               NC    ,JM    ,A     ,MAXC   ,MAXA  ,
@@ -96,7 +96,7 @@ C------------post-filtrage----
          ENDIF
         ENDDO
        IADM(I+1)=NNZM+1
-      ENDDO 
+      ENDDO
 C------------eventuellement deuxieme niveau----
 C
       RETURN
@@ -203,7 +203,7 @@ c       write(*,*)'I1,IM,M=',I1,IM,M
          CALL GET_KIJS(J  ,I ,IADK,JDIK,LT_K ,A(M,N))
          N=N+1
          GOTO 100
-        ENDIF 
+        ENDIF
 C------A(M,N)=DIAG_K(I)------
         A(M,N)=DIAG_K(I)
         N=N+1
@@ -220,9 +220,9 @@ C------A(M,N)=DIAG_K(I)------
            A(M,K)=DIAG_K(I)
           ELSE
            CALL GET_KIJS(I  ,J ,IADK,JDIK,LT_K ,A(M,K))
-          ENDIF 
+          ENDIF
          ENDDO
-       ENDIF 
+       ENDIF
       ENDDO
 C------ajoute autres lignes-----------
       DO I=1,NDDL
@@ -242,10 +242,10 @@ C------ajoute autres lignes-----------
            A(M,K)=DIAG_K(I)
           ELSE
            CALL GET_KIJS(I  ,J ,IADK,JDIK,LT_K ,A(M,K))
-          ENDIF 
+          ENDIF
          ENDDO
-        ENDIF 
-       ENDIF 
+        ENDIF
+       ENDIF
       ENDDO
 C------INITIAL ej------
       DO I=1,M
@@ -294,32 +294,32 @@ C------------Qi=1-u(i)u(i)^t/tau(i)--------------------------------
        SCAL=ZERO
        DO I=J,M
         SCAL=MAX(SCAL,ABS(A(I,J)))
-       ENDDO 
+       ENDDO
        IF (SCAL==ZERO) THEN
-        TAU(J)=ZERO 
+        TAU(J)=ZERO
         D_R(J)=ZERO
-        WRITE(*,*)'SIGNULAR A' 
+        WRITE(*,*)'SIGNULAR A'
        ELSE
         SCAL=ONE/SCAL
         DO I=J,M
          A(I,J)=A(I,J)*SCAL
         ENDDO
         L=M-J+1
-        CALL PRODUT_V( L  ,A(J,J)   ,A(J,J)  ,NORM2) 
+        CALL PRODUT_V( L  ,A(J,J)   ,A(J,J)  ,NORM2)
         S =SIGN(SQRT(NORM2),A(J,J))
         A(J,J)=A(J,J)+S
-        TAU(J)=S*A(J,J) 
+        TAU(J)=S*A(J,J)
         D_R(J)=-S/SCAL
 C------------R=QA--------------------------------
         DO K=J+1,N
-         CALL PRODUT_V( L  ,A(J,J)   ,A(J,K)  ,NORM2) 
+         CALL PRODUT_V( L  ,A(J,J)   ,A(J,K)  ,NORM2)
          S = NORM2/TAU(J)
          DO I=J,N
-          A(I,K)=A(I,K)-S*A(I,J) 
+          A(I,K)=A(I,K)-S*A(I,J)
          ENDDO
         ENDDO
-       ENDIF 
-      ENDDO 
+       ENDIF
+      ENDDO
       D_R(N)=A(N,N)
 C
       RETURN
@@ -359,12 +359,12 @@ C-----------------------------------------------
 C--------------------------------------------
       DO J=1,N-1
        K=M-J+1
-       CALL PRODUT_V( K  ,A(J,J)   ,B(J)  ,NORM2) 
+       CALL PRODUT_V( K  ,A(J,J)   ,B(J)  ,NORM2)
        S = NORM2/TAU(J)
        DO I=J,N
-        B(I)=B(I)-S*A(I,J) 
+        B(I)=B(I)-S*A(I,J)
        ENDDO
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -405,10 +405,10 @@ C--------------------------------------------
       DO I=N-1,1,-1
        S = ZERO
        DO J=I+1,N
-        S=S+A(I,J)*B(J) 
+        S=S+A(I,J)*B(J)
        ENDDO
        B(I)=(B(I)-S)/D_R(I)
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -433,8 +433,8 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER I,J        
-      INTEGER IADK(*) , JDIK(*)      
+      INTEGER I,J
+      INTEGER IADK(*) , JDIK(*)
 C     REAL
       my_real
      .   K_LT(*) ,KIJ
@@ -459,4 +459,4 @@ C----6---------------------------------------------------------------7---------8
 C
       RETURN
       END
-      
+

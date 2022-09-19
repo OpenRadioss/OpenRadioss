@@ -52,7 +52,7 @@ C-----------------------------------------------
           IF (EPSIP(I)==IP) THEN
             SIGP(I,1:6) = SIGPI(I,1:6)
           END IF
-         END DO    
+         END DO
 C-----------
       RETURN
       END SUBROUTINE S8ESIGP3I

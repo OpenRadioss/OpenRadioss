@@ -64,16 +64,16 @@ C-----------------------------------------------
      .        CAND_N(*),
      .        CAND_E(*),NSVG(MVSIZ), ETYP(*), ICODT(*), ISKEW(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        INTTH,MSEGLO(*),IRTLM(4,NSN), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4), 
+     .        INTTH,MSEGLO(*),IRTLM(4,NSN), KSLIDE(MVSIZ,4), MVOISN(MVSIZ,4),
      .        IBOUND(4,MVSIZ)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .     TIME_S(2,NSN), GAPS(*), GAPM(*)
       my_real
-     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5), 
+     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .     NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
-     .     PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4), 
+     .     PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4),
      .     LBP(MVSIZ,4), LCP(MVSIZ,4), GAP_NM(4,MVSIZ), GAPMXL(MVSIZ)
       INTEGER IRECT(4,*),ITAB(*),FAR(MVSIZ,4)
       REAL*4 VTX_BISECTOR(3,2,*)
@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER I4N(MVSIZ),
      .        INGAP(MVSIZ,4),
      .        IT, JJ, I1, I2, ITRIA(2,4), SUBTRIA(MVSIZ),
-     .        IBC21, IBC22, IBC23, IBCS, ISKS, IBCM(4), ISKM(4), 
+     .        IBC21, IBC22, IBC23, IBCS, ISKS, IBCM(4), ISKM(4),
      .        IBCX(MVSIZ), IBCY(MVSIZ), IBCZ(MVSIZ)
       my_real
      .     XIJ(MVSIZ,4),  XI0V(MVSIZ),  XI5,
@@ -107,7 +107,7 @@ C-----------------------------------------------
       my_real
      .     GAP_MM(MVSIZ), GAP, GAP2,
      .     XP, YP, ZP,
-     .     DX, DY, DZ, DMIN, DD(MVSIZ,4), 
+     .     DX, DY, DZ, DMIN, DD(MVSIZ,4),
      .     LAP, HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     AL(MVSIZ,4)
       my_real
@@ -115,10 +115,10 @@ C-----------------------------------------------
      .     SX1,SX2,SX3,SX4,
      .     SY1,SY2,SY3,SY4,
      .     SZ1,SZ2,SZ3,SZ4,
-     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
+     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4),
      .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),
-     .     SIDE(MVSIZ,4), 
-     .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ), 
+     .     SIDE(MVSIZ,4),
+     .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ),
      .     PX, PY, PZ, PP, P1, P2, XH, YH, ZH, D1, D2, D3, VX, VY, VZ,
      .     LL ,NN, PN, LD(MVSIZ), LX, LAX, LBX, LCX,
      .     PREC
@@ -445,7 +445,7 @@ C       Erase Subtria (cf intersections)
 C
         IF(IX3(I)/=IX4(I))THEN
           DMIN=MIN(DD(I,1),DD(I,2),DD(I,3),DD(I,4))
-          
+
           DO JJ=1,4
             IF(DD(I,JJ) <= ONEP03*DMIN)THEN
               LBX = LB(I,JJ)
@@ -497,9 +497,9 @@ C
           IBCS = ICODT(NSVG(I))
           ISKS = ISKEW(NSVG(I))
         ELSE
-          N = CAND_N(I)-NSN 
+          N = CAND_N(I)-NSN
           IBCS = ICODT_FI(NIN)%P(N)
-          ISKS = ISKEW_FI(NIN)%P(N) 
+          ISKS = ISKEW_FI(NIN)%P(N)
         END IF
 
         IBCM(1)=ICODT(IX1(I))
@@ -580,7 +580,7 @@ C
 C
           IB1=IBOUND(I1,I)
           IB2=IBOUND(I2,I)
-          IF(MVOISN(I,IT)==0)THEN     
+          IF(MVOISN(I,IT)==0)THEN
 C
             IF( (XH-XX(I,I1))* NNX(I,IT)+
      .          (YH-YY(I,I1))* NNY(I,IT)+
@@ -635,14 +635,14 @@ C
               Z12(I)=ZZ(I,I2)-ZZ(I,I1)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)  
-              PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)  
-              PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)  
+              PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)
+              PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)
+              PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
 C
-              SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))                 
+              SIDE(I,IT)=-(XIJ(I,I1)*PX+YIJ(I,I1)*PY+ZIJ(I,I1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,IT) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -728,14 +728,14 @@ C
               Z12(I)=ZZ(I,2)-ZZ(I,1)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,1)-Y12(I)*NNZ(I,1)  
-              PY = X12(I)*NNZ(I,1)-Z12(I)*NNX(I,1)  
-              PZ = Y12(I)*NNX(I,1)-X12(I)*NNY(I,1)  
+              PX = Z12(I)*NNY(I,1)-Y12(I)*NNZ(I,1)
+              PY = X12(I)*NNZ(I,1)-Z12(I)*NNX(I,1)
+              PZ = Y12(I)*NNX(I,1)-X12(I)*NNY(I,1)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDE(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDE(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,1) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -752,14 +752,14 @@ C
               Z12(I)=ZZ(I,3)-ZZ(I,2)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,2)-Y12(I)*NNZ(I,2)  
-              PY = X12(I)*NNZ(I,2)-Z12(I)*NNX(I,2)  
-              PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)  
+              PX = Z12(I)*NNY(I,2)-Y12(I)*NNZ(I,2)
+              PY = X12(I)*NNZ(I,2)-Z12(I)*NNX(I,2)
+              PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDE(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDE(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,2) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -776,14 +776,14 @@ C
               Z12(I)=ZZ(I,1)-ZZ(I,3)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,4)-Y12(I)*NNZ(I,4)  
-              PY = X12(I)*NNZ(I,4)-Z12(I)*NNX(I,4)  
-              PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)  
+              PX = Z12(I)*NNY(I,4)-Y12(I)*NNZ(I,4)
+              PY = X12(I)*NNZ(I,4)-Z12(I)*NNX(I,4)
+              PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDE(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDE(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,4) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -819,7 +819,7 @@ c     .      print *,'dst21 nat',ispmd+1,it,irtlm(1,n),mglob,cand_e(i),pent(i,it
 c     .      itab(nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i)),
 c     .         ibound(1:4,i),lb(i,it),lc(i,it),lb(i,it)+lc(i,it),
 c     .      BB(i,it),far(i,it),TIME_S(1,N),time_s(2,n),
-c     .      dist(i),ld(i)    
+c     .      dist(i),ld(i)
           IF(DIST(I) < ONEP02*TIME_S(1,N) .AND.
      *      (DIST(I) < TIME_S(2,N) .OR.
      *             (DIST(I) == TIME_S(2,N) .AND. IRTLM(1,N) < MGLOB)))THEN

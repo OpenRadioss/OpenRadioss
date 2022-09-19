@@ -31,18 +31,18 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      MY_REAL 
+      MY_REAL
      .    FX(*),AL(*),KE11(3,3,*),KE12(3,3,*),KE22(3,3,*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J
-      MY_REAL 
+      MY_REAL
      .    H(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
          H(EP)=FX(EP)/AL(EP)
          IF (H(EP)<ZERO) H(EP)=EM9
        ENDDO

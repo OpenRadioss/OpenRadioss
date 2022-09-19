@@ -58,7 +58,7 @@ Chd|====================================================================
      .                  IXR      ,X        ,GEO      ,XMAS   ,NPC   ,
      .                  PLD      ,XIN      ,SKEW     ,DTELEM ,NEL   ,
      .                  STIFN    ,STIFR    ,PARTSAV  ,V      ,IPART ,
-     .                  ITAB     ,MSR      , 
+     .                  ITAB     ,MSR      ,
      .                  INR      ,STIFINT  ,STR      ,IGEO   ,SIGRS ,
      .                  NSIGRS   ,IMERGE2  ,IADMERGE2,MSRT   ,IXR_KJ,
      .                  NOM_OPT  ,STRR     ,PTSPRI   ,IPM    ,PM   ,
@@ -113,13 +113,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,I2, IGTYP, NDEPAR, NB1, NB2, NB3, NB4, NB5,NB5A,NB5B,
-     .   NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14, 
+     .   NB6, NB7, NB8, NB9, NB10, NB11, NB12, NB13, NB14,
      .   NB15, NB15A, NB15B, NB15C, NB15D, NB15E, NB16, NBFI,
      .   NEL4,K,KK,KK1,ITMP,NEL5,
      .   I1, I0, I3,NEL3,NUVAR,NUPARAM,NFUNC,IADFUN,
      .   NMAT,IADMAT,NJPID,IADPID,ILENG,NFUND,
      3   UIX(4,MVSIZ),
-     .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A, 
+     .   NB2A ,NB2B ,NB4A ,NB4B ,NB6A ,NB6B,NB7A,NB7B,NB8A ,NB8B,NB9A,
      .    NB9B ,NB10A,NB10B,NB11A,NB11B,NB12A,NB12B,NB13A,NB13B,NB18,
      .    IMAT,K1,K11,K14,K12,K13,IADBUF,IMASS
 C     REAL
@@ -130,17 +130,17 @@ C     REAL
      .   UINER(MVSIZ) ,USTIFM(MVSIZ) ,
      .   USTIFR(MVSIZ),UVISM(MVSIZ)  ,
      .   UVISR(MVSIZ), XL(MVSIZ), DX(MVSIZ,3),EMS(MVSIZ)
-      my_real 
+      my_real
      .     LENGTH, RATIO, LMIN
-      my_real 
+      my_real
      .     MINL, MAXL, RFAC, IXX, IYY, INE2
-      INTEGER IDS, CNT1, CNT2, NSPRG, NSPRG4, NSPRG8, NSPRG12, 
+      INTEGER IDS, CNT1, CNT2, NSPRG, NSPRG4, NSPRG8, NSPRG12,
      .     NSPRG13, NSPRG25, NSPRG26, NSPRGU, IUN,NSPRG23,NSPRG27
-      DATA NSPRG /0/, NSPRG4 /0/, NSPRG8 /0/, NSPRG12 /0/, 
-     .     NSPRG13 /0/, NSPRG25 /0/,NSPRG26/0/,NSPRGU /0/, 
+      DATA NSPRG /0/, NSPRG4 /0/, NSPRG8 /0/, NSPRG12 /0/,
+     .     NSPRG13 /0/, NSPRG25 /0/,NSPRG26/0/,NSPRGU /0/,
      .     NSPRG23 /0/,NSPRG27/0/
       INTEGER MINIDL, MAXIDL,IPID
-      my_real 
+      my_real
      .     NOISE,BIDON,MAS2
       INTEGER ID
       CHARACTER*nchartitle,
@@ -204,7 +204,7 @@ C
      .                  ONE       ,ONE    ,ID,TITR,NOM_OPT)
           ENDDO
         ELSEIF (IGTYP == 23) THEN
-          GEO(4,I) = EP30 ! 
+          GEO(4,I) = EP30 !
         ENDIF ! IF (IGTYP
       ENDDO ! DO I=1,NUMGEO
 C
@@ -387,7 +387,7 @@ C
      +       +  (X(3,I3)-X(3,I2))*(X(3,I3)-X(3,I2)) )
         ENDIF
 C
-        IF (MINL <= 0 .OR. (LENGTH < MINL .AND. LENGTH > EM15)) THEN 
+        IF (MINL <= 0 .OR. (LENGTH < MINL .AND. LENGTH > EM15)) THEN
           MINIDL = IXR(NIXR,J)
           MINL = LENGTH
         ENDIF
@@ -459,7 +459,7 @@ C-              1D material of 2D seatbelt - no need for inertia - mass and iner
                 RFAC = ZERO
               ENDIF
 C-            inertia of element is automaically computed acording to moment of inertia area if Young modulus > 0
-              UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))     
+              UINER(I) = MAX(EM20,RFAC*MAX((RHO*GEO(1,I0)*LENGTH*LENGTH*LENGTH)/TWELVE + RHO*IYY*LENGTH,RHO*IXX*LENGTH))
             ENDIF
             IF(IMASS == 1) THEN
              GBUF%MASS(I) = GEO(1,I0)*LENGTH*RHO
@@ -497,8 +497,8 @@ C
      .                    R1=XINE,
      .                    I2=IXR(NIXR,I+NFT),
      .                    PRMOD=MSG_CUMU)
-            ENDIF   
-          ENDIF  
+            ENDIF
+          ENDIF
         ENDIF
       ENDDO ! DO I=LFT,LLT
 C
@@ -549,7 +549,7 @@ C------------------------------------------
             J=I+NFT
             I0=IXR(1,J)
             I1=IXR(2,J)
-            I2=IXR(3,J) 
+            I2=IXR(3,J)
             STI = MAX(GEO(3,I0)*GEO(41,I0),GEO(10,I0)*GEO(45,I0))/MAX(EM30,XL(I))
             STR(I)=STI
           ENDDO
@@ -562,7 +562,7 @@ C------------------------------------------
             I3=IXR(4,J)
             STI = GEO(2,I0)/MAX(EM30,XL(I))
             STR(I)=STI
-          ENDDO    
+          ENDDO
         ELSE
           DO I=LFT,LLT
             J=I+NFT
@@ -588,7 +588,7 @@ C=======================================================================
         CALL R1BUF3(GBUF%OFF ,GEO  ,X  ,GBUF%LENGTH(II(1)) ,IXR ,GBUF%POSX,
      2              IGEO     )
 C----
-       IF (INISPRI /= 0) 
+       IF (INISPRI /= 0)
      .   CALL R4INI(SIGRS        ,IXR        ,NSIGRS           ,GBUF%EINT       ,GBUF%FOR   ,
      2              GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS ,GBUF%DEP_IN_COMP,GBUF%LENGTH,
      3              BIDON        ,BIDON      ,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
@@ -600,12 +600,12 @@ C----
         CALL R1BUF3(GBUF%OFF ,GEO  ,X  ,GBUF%LENGTH(II(1)) ,IXR ,GBUF%POSX,
      2              IGEO     )
 C----
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL R4INI(SIGRS        ,IXR        ,NSIGRS          ,GBUF%EINT       ,GBUF%FOR   ,
      2               GBUF%TOTDEPL ,GBUF%FOREP ,BIDON           ,BIDON           ,GBUF%LENGTH,
      3               BIDON        ,GBUF%DV    ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
      4               GBUF%FORINI  )
-c------     
+c------
 C=======================================================================
       ELSEIF (IGTYP == 8) THEN
 C=======================================================================
@@ -617,7 +617,7 @@ C=======================================================================
      3              GBUF%POSZ       ,GBUF%POSXX,GBUF%POSYY,GBUF%POSZZ,IGEO     ,
      3              GBUF%SKEW_ID)
 C----
-       IF (INISPRI /= 0) 
+       IF (INISPRI /= 0)
      .   CALL R8INI(
      2 IGTYP                  ,NEL                    ,SIGRS                  ,IXR                    ,NSIGRS                 ,
      3 GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,GBUF%MOM(II(1))        ,GBUF%MOM(II(2))        ,
@@ -642,7 +642,7 @@ C=======================================================================
         CALL R3BUF3(GBUF%OFF,GEO  ,X ,GBUF%LENGTH(II(1)) ,IXR ,GBUF%POSX,
      .              IGEO    ,ITAB )
         NSPRG = NSPRG + CNT2
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL R4INI(SIGRS        ,IXR        ,NSIGRS          ,GBUF%EINT       ,GBUF%FOR   ,
      2               GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS,GBUF%DEP_IN_TENS,GBUF%LENGTH,
      3               GBUF%DFS     ,BIDON      ,IGTYP           ,PTSPRI          ,GBUF%DEFINI,
@@ -653,17 +653,17 @@ C=======================================================================
         CALL RMASS(IXR         ,GEO ,XMAS        ,XIN,PARTSAV     ,
      2             X           ,V   ,IPART(NFT+1),XL ,MSR(1,NFT+1),
      3             INR(1,NFT+1),MSRT,EMS         )
-     
+
         IDS = 325
         CNT1 = 0
         CNT2 = 0
         CALL R4BUF3(
      1       GBUF%OFF          ,GEO       ,X         ,GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),
-     2       GBUF%LENGTH(II(3)),IXR       ,SKEW      ,GBUF%SKEW         ,GBUF%POSX, 
-     3       GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ, 
+     2       GBUF%LENGTH(II(3)),IXR       ,SKEW      ,GBUF%SKEW         ,GBUF%POSX,
+     3       GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ,
      4       ITAB              ,GBUF%E6   ,IGEO      ,IPM)
         NSPRG = NSPRG + CNT2
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL R8INI(
      2 IGTYP                  ,NEL                    ,SIGRS                  ,IXR                    ,NSIGRS                 ,
      3 GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,GBUF%MOM(II(1))        ,GBUF%MOM(II(2))        ,
@@ -692,24 +692,24 @@ C
      3                 GBUF%POSZ       ,GBUF%POSXX,GBUF%POSYY,GBUF%POSZZ,IGEO     ,
      4                 GBUF%SKEW_ID)
 C----
-       ELSEIF (MTN==113) THEN  
+       ELSEIF (MTN==113) THEN
           CALL R4BUF3(
      1         GBUF%OFF          ,GEO       ,X         ,GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),
-     2         GBUF%LENGTH(II(3)),IXR       ,SKEW      ,GBUF%SKEW         ,GBUF%POSX, 
-     3         GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ, 
+     2         GBUF%LENGTH(II(3)),IXR       ,SKEW      ,GBUF%SKEW         ,GBUF%POSX,
+     3         GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ,
      4         ITAB              ,GBUF%E6   ,IGEO      ,IPM)
            NSPRG = NSPRG + CNT2
 C----
        ELSEIF(MTN == 114) THEN
           CALL R4BUF3(
      1         GBUF%OFF          ,GEO       ,X         ,GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)),
-     2         GBUF%LENGTH(II(3)),IXR       ,SKEW      ,GBUF%SKEW         ,GBUF%POSX, 
-     3         GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ, 
+     2         GBUF%LENGTH(II(3)),IXR       ,SKEW      ,GBUF%SKEW         ,GBUF%POSX,
+     3         GBUF%POSY         ,GBUF%POSZ ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ,
      4         ITAB              ,GBUF%E6   ,IGEO      ,IPM)
            NSPRG = NSPRG + CNT2
        ENDIF ! MTN
 
-       IF (INISPRI /= 0) 
+       IF (INISPRI /= 0)
      .      CALL R8INI(
      2    IGTYP                  ,NEL                    ,SIGRS                  ,IXR                    ,NSIGRS                 ,
      3    GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,GBUF%MOM(II(1))        ,GBUF%MOM(II(2))        ,
@@ -732,11 +732,11 @@ C=======================================================================
         CNT1 = 0
         CNT2 = 0
         CALL R4BUF3(GBUF%OFF          ,GEO      ,X         ,GBUF%LENGTH(II(1)),GBUF%LENGTH(II(2)) ,
-     2              GBUF%LENGTH(II(3)),IXR      ,SKEW      ,GBUF%SKEW         ,GBUF%POSX, 
-     3              GBUF%POSY         ,GBUF%POSZ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ, 
+     2              GBUF%LENGTH(II(3)),IXR      ,SKEW      ,GBUF%SKEW         ,GBUF%POSX,
+     3              GBUF%POSY         ,GBUF%POSZ,GBUF%POSXX,GBUF%POSYY        ,GBUF%POSZZ,
      4              ITAB              ,GBUF%E6  ,IGEO      ,IPM)
         NSPRG = NSPRG + CNT2
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL R8INI(
      2 IGTYP                  ,NEL                    ,SIGRS                  ,IXR                    ,NSIGRS                 ,
      3 GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,GBUF%MOM(II(1))        ,GBUF%MOM(II(2))        ,
@@ -758,7 +758,7 @@ C=======================================================================
         CALL R1BUF3(GBUF%OFF ,GEO  ,X  ,GBUF%LENGTH(II(1)) ,IXR ,GBUF%POSX,
      2              IGEO     )
 C----
-       IF (INISPRI /= 0) 
+       IF (INISPRI /= 0)
      .   CALL R4INI(SIGRS        ,IXR        ,NSIGRS           ,GBUF%EINT       ,GBUF%FOR   ,
      2              GBUF%TOTDEPL ,GBUF%FOREP ,GBUF%DEP_IN_TENS ,GBUF%DEP_IN_COMP,GBUF%LENGTH,
      3              BIDON        ,BIDON      ,IGTYP            ,PTSPRI   ,GBUF%DEFINI(II(1)),
@@ -838,7 +838,7 @@ C
      1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL RUINI(
      2 SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3 GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
@@ -848,7 +848,7 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 35 .OR. IGTYP == 36) THEN
 C=======================================================================
-        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
+        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
         NUPARAM =  NINT(GEO(26,I0))
@@ -900,7 +900,7 @@ C---
      1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      +    CALL RUINI(
      2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
@@ -911,12 +911,12 @@ C
 C=======================================================================
       ELSEIF (IGTYP > 28 .AND. IGTYP < 43) THEN  ! reserved for user properties
 C=======================================================================
-        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
+        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
         NUPARAM =  NINT(GEO(26,I0))
 C
-        IF (IGTYP == 29) THEN   
+        IF (IGTYP == 29) THEN
           IF (USERL_AVAIL == 1) THEN
             CALL ST_USERLIB_RINIUSER(IGTYP,ROOTNAM,ROOTLEN,
      1        NEL      ,I0     ,
@@ -1080,7 +1080,7 @@ C
      1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL RUINI(
      2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
@@ -1090,13 +1090,13 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 44) THEN
 C=======================================================================
-        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
+        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
         NUPARAM =  NINT(GEO(26,I0))
-        CALL RINI44(                                 
-     1    NEL    ,IOUT  ,I0         ,                      
-     2    UIX    ,UL    ,GBUF%MASS  ,UINER   ,USTIFM ,   
+        CALL RINI44(
+     1    NEL    ,IOUT  ,I0         ,
+     2    UIX    ,UL    ,GBUF%MASS  ,UINER   ,USTIFM ,
      3    USTIFR ,UVISM ,UVISR      ,GBUF%VAR,NUVAR  )
 C
         DO I=LFT,LLT
@@ -1134,7 +1134,7 @@ C
      1    IXR         ,GBUF%MASS,UINER,XMAS        ,XIN         ,
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .    CALL RUINI(
      2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
@@ -1144,13 +1144,13 @@ C
 C=======================================================================
       ELSEIF (IGTYP == 46) THEN
 C=======================================================================
-        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,  
+        CALL RINI3U(GBUF%OFF ,GEO       ,X      ,UL     ,IXR ,
      2              SKEW     ,GBUF%SKEW ,ITAB   ,UIX    ,IGEO)
         NUVAR =  NINT(GEO(25,I0))
         NUPARAM =  NINT(GEO(26,I0))
-        CALL RINI46(                                 
-     1    NEL    ,IOUT  ,I0        ,                      
-     2    UIX    ,UL    ,GBUF%MASS ,UINER   ,USTIFM ,   
+        CALL RINI46(
+     1    NEL    ,IOUT  ,I0        ,
+     2    UIX    ,UL    ,GBUF%MASS ,UINER   ,USTIFM ,
      3    USTIFR ,UVISM ,UVISR     ,GBUF%VAR,NUVAR  )
 C
         DO I=LFT,LLT
@@ -1190,7 +1190,7 @@ C
      2    PARTSAV     ,X        ,V    ,IPART(NFT+1),MSR(1,NFT+1),
      3    INR(1,NFT+1),MSRT     ,EMS  )
 C
-        IF (INISPRI /= 0) 
+        IF (INISPRI /= 0)
      .   CALL RUINI(
      2  SIGRS                ,IXR                 ,NSIGRS              ,NUVAR                ,GBUF%FOR(II(1))      ,
      3  GBUF%FOR(II(2))      ,GBUF%FOR(II(3))     ,GBUF%MOM(II(1))     ,GBUF%MOM(II(2))      ,GBUF%MOM(II(3))      ,
@@ -1376,7 +1376,7 @@ C
      .                 UPARAM(IADBUF + K11 + 5)*UPARAM(IADBUF + K1 + 5),
      .                 UPARAM(IADBUF + K11 + 6)*UPARAM(IADBUF + K1 + 6))/XL(I)
 C          
-              XCR= (MAX(UPARAM(IADBUF + K12 + 4),UPARAM(IADBUF + K12 + 5),UPARAM(IADBUF + K12 + 6)))/XL(I) 
+              XCR= (MAX(UPARAM(IADBUF + K12 + 4),UPARAM(IADBUF + K12 + 5),UPARAM(IADBUF + K12 + 6)))/XL(I)
               ! old Geo 144,145,146 not used.
               XM  = GBUF%MASS(I)*XL(I)
               XINE= GEO(2,I0)*XL(I)
@@ -1390,7 +1390,7 @@ C
               GEO(4,I0)= MIN(GEO(4,I0),DT,DTC)  ! to be fixed also put it in buffer material
               MAS2 = TWO*MSR(1,J)
               INE2 = TWO*INR(1,J)
-          ELSEIF (MTN==113) THEN           
+          ELSEIF (MTN==113) THEN
               EX=X(1,I2)-X(1,I1)
               EY=X(2,I2)-X(2,I1)
               EZ=X(3,I2)-X(3,I1)
@@ -1402,7 +1402,7 @@ C
      .             + MAX(UPARAM(IADBUF + K14 + 1),UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))/XL(I)
               XKR= MAX(UPARAM(IADBUF + K11 + 2)*UPARAM(IADBUF + K1 + 2),
      .                 UPARAM(IADBUF + K11 + 3)*UPARAM(IADBUF + K1 + 3)) * AL2
-              XCR= (MAX(UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3)) + 
+              XCR= (MAX(UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3)) +
      .              MAX(UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))* AL2
               XKR= ( XKR
      .              + MAX(UPARAM(IADBUF + K11 + 4)*UPARAM(IADBUF + K1 + 4),
@@ -1423,7 +1423,7 @@ C
               DTELEM(NDEPAR+I)= DT
               MAS2 = TWO*MSR(1,J)
               INE2 = TWO*INR(1,J)
-          ELSEIF (MTN==114) THEN           
+          ELSEIF (MTN==114) THEN
               EX=X(1,I2)-X(1,I1)
               EY=X(2,I2)-X(2,I1)
               EZ=X(3,I2)-X(3,I1)
@@ -1438,7 +1438,7 @@ C
      .             + MAX(UPARAM(IADBUF + K14 + 1),UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))/XL(I)
               XKR= MAX(UPARAM(IADBUF + K11 + 2)*UPARAM(IADBUF + K1 + 2),
      .                 UPARAM(IADBUF + K11 + 3)*UPARAM(IADBUF + K1 + 3)) * AL2
-              XCR= (MAX(UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3)) + 
+              XCR= (MAX(UPARAM(IADBUF + K12 + 2),UPARAM(IADBUF + K12 + 3)) +
      .              MAX(UPARAM(IADBUF + K14 + 2),UPARAM(IADBUF + K14 + 3)))* AL2
               XKR= ( XKR
      .              + MAX(UPARAM(IADBUF + K11 + 4)*UPARAM(IADBUF + K1 + 4),
@@ -1474,7 +1474,7 @@ C
               DT = MIN(DT,DTC)
               GEO(4,I0)= MIN(GEO(4,I0),DT)
               DTELEM(NDEPAR+I)= DT
-           ENDIF   
+           ENDIF
            IF (MAS2>ZERO) THEN
             STI = (SQRT(XCM**2+XKM*MAS2)+XCM)**2/MAS2
            ELSE
@@ -1513,7 +1513,7 @@ C
           END IF
           STIFN(I1)=STIFN(I1)+STI
           STIFN(I2)=STIFN(I2)+STI
-        END IF 
+        END IF
       ENDDO
       IDS = 42
 c      CALL ANCHECK(IDS)
@@ -1910,14 +1910,14 @@ C---
             DPL2(I) = SIGRS(6,JJ)
           ENDIF
           XL0(I)  = SIGRS(7,JJ)
-          EINT(I) = SIGRS(8,JJ) 
+          EINT(I) = SIGRS(8,JJ)
           IF (IGTYP == 12) THEN
             DFS(I) = SIGRS(9,JJ)
           ELSEIF (IGTYP == 26) THEN
             DV(I) = SIGRS(9,JJ)
           ENDIF
 C---
- 200      CONTINUE 
+ 200      CONTINUE
         ENDDO ! DO I=LFT,LLT
       ENDIF ! IF (INISPRI /= 0)
 C---
@@ -1933,7 +1933,7 @@ Chd|====================================================================
      .                 FX    ,FY   ,FZ    ,MX    ,MY   ,
      .                 MZ    ,FXEP ,FYEP  ,FZEP  ,XMEP ,
      .                 YMEP  ,ZMEP ,DXPL  ,DYPL  ,DZPL ,
-     .                 RPX   ,RPY  ,RPZ   ,DXPL2 ,DYPL2, 
+     .                 RPX   ,RPY  ,RPZ   ,DXPL2 ,DYPL2,
      .                 DZPL2 ,RPX2 ,RPY2  ,RPZ2  ,DX   ,
      .                 DY    ,DZ   ,RX    ,RY    ,RZ   ,
      .                 XL0   ,YL0  ,ZL0   ,EINT  ,E6   ,
@@ -1993,7 +1993,7 @@ C---
 !          FY(I)    = SIGRS(7, JJ)
 !          DY(I)    = SIGRS(8, JJ)
           FYEP(I)  = SIGRS(9,JJ)
-          DYPL(I)  = SIGRS(10,JJ) 
+          DYPL(I)  = SIGRS(10,JJ)
           DYPL2(I) = SIGRS(11,JJ)
 !          FZ(I)    = SIGRS(12,JJ)
 !          DZ(I)    = SIGRS(13,JJ)
@@ -2007,10 +2007,10 @@ C---
           RPX2(I)  = SIGRS(21,JJ)
 !          MY(I)    = SIGRS(22,JJ)
 !          RY(I)    = SIGRS(23,JJ)
-          YMEP(I)  = SIGRS(24,JJ) 
+          YMEP(I)  = SIGRS(24,JJ)
           RPY(I)   = SIGRS(25,JJ)
           RPY2(I)  = SIGRS(26,JJ)
-!          MZ(I)	   = SIGRS(27,JJ) 
+!          MZ(I)	   = SIGRS(27,JJ)
 !          RZ(I)	   = SIGRS(28,JJ)
           ZMEP(I)  = SIGRS(29,JJ)
           RPZ(I)   = SIGRS(30,JJ)
@@ -2042,12 +2042,12 @@ C---
             E6(I,6) = SIGRS(41,JJ)
           ENDIF
 C---
- 200      CONTINUE      
+ 200      CONTINUE
         ENDDO ! DO I=LFT,LLT
       ENDIF  ! IF (INISPRI /= 0)
 C---
       RETURN
-      END      
+      END
 Chd|====================================================================
 Chd|  RUINI                         source/elements/spring/rinit3.F
 Chd|-- called by -----------
@@ -2107,7 +2107,7 @@ C---
           YMOM(I) = SIGRS(10,JJ)
           RY(I)	  = SIGRS(11,JJ)
           ZMOM(I) = SIGRS(12,JJ)
-          RZ(I)   = SIGRS(13,JJ)  
+          RZ(I)   = SIGRS(13,JJ)
           EINT(I) = SIGRS(14,JJ)
 C
           PT = 14
@@ -2123,9 +2123,9 @@ C  -- UVAR --
             UVAR(K,I) = SIGRS(PT + K ,JJ)
           ENDDO
 C---
-  200     CONTINUE            
+  200     CONTINUE
         ENDDO ! DO I=LFT,LLT
       ENDIF ! IF (INISPRI /= 0)
 C-----------
       RETURN
-      END      
+      END

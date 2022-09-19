@@ -66,8 +66,8 @@ C-----------------------------------------------
       INTEGER I,K,J
       INTEGER IX(4)
       my_real AV(NBSUBMAT)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF  
-      TYPE(L_BUFEL_) ,POINTER :: LBUF  
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
 C---
 C FILL ELEMENTS INPUT PHASES
@@ -80,7 +80,7 @@ C---
         ELSE
           GBUF => ELBUF_TAB(NG)%GBUF
           DO I=1,MULTI_FVM%NBMAT
-            LBUF  => ELBUF_TAB(NG)%BUFLY(I)%LBUF(1,1,1) 
+            LBUF  => ELBUF_TAB(NG)%BUFLY(I)%LBUF(1,1,1)
             AV(I) = LBUF%VOL(1) / GBUF%VOL(1)              !same value for idx=1,NEL then idx=1 here.
           ENDDO
         ENDIF

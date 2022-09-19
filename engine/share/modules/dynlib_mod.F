@@ -67,9 +67,9 @@ C-----------------------------------------------
 
         TYPE DYN_LIB_TYPE
             CHARACTER(len=DLIB_NAME_LEN) :: DLIB_NAME
-            LOGICAL :: DLIB_BOOL      
+            LOGICAL :: DLIB_BOOL
         END TYPE DYN_LIB_TYPE
-    
+
         TYPE(DYN_LIB_TYPE),DIMENSION(:), ALLOCATABLE :: DLIB_STRUCT
 
         !   local user variables
@@ -98,8 +98,8 @@ Chd|====================================================================
         SUBROUTINE INIT_DYN_LIB_STRUC(MODE)
 !$COMMENT
 !           INIT_DYN_LIB_STRUC description
-!           INIT_DYN_LIB_STRUC initializes the name of user routines and 
-!           the DLIB_BOOL flag available / non-available 
+!           INIT_DYN_LIB_STRUC initializes the name of user routines and
+!           the DLIB_BOOL flag available / non-available
 !$ENDCOMMENT
 !       -----------------------------------------------
 !           I m p l i c i t   T y p e s
@@ -112,7 +112,7 @@ Chd|====================================================================
                 DLIB_STRUCT(I)%DLIB_NAME(1:DLIB_NAME_LEN) = ''
                 DLIB_STRUCT(I)%DLIB_BOOL=.FALSE.
             ENDDO
-       
+
         ELSE
             DO I=1,NBR_DLIB
                 IF(DLIB_ARRAY(I)/=0) DLIB_STRUCT(I)%DLIB_BOOL=.TRUE.
@@ -125,6 +125,6 @@ Chd|====================================================================
 
         RETURN
         END SUBROUTINE INIT_DYN_LIB_STRUC
-        
-        
+
+
       END MODULE DYNLIB_MOD

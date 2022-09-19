@@ -91,7 +91,7 @@ C-----------------------------------------------
         END DO
 
       END IF
-    
+
       PSH4ACT=0
 
       DO NN=1,NSH4ACT
@@ -99,7 +99,7 @@ C-----------------------------------------------
         LEVEL=SH4TREE(3,N)
         PSH4ACT(LEVEL)=PSH4ACT(LEVEL)+1
         LTMP4(NN)=N
-      END DO 
+      END DO
 C
       DO LEVEL=1,LEVELMAX
         PSH4ACT(LEVEL)=PSH4ACT(LEVEL)+PSH4ACT(LEVEL-1)
@@ -157,7 +157,7 @@ C--------------------------------------------
         LEVEL=SH3TREE(3,N)
         PSH3ACT(LEVEL)=PSH3ACT(LEVEL)+1
         LTMP3(NN)=N
-      END DO 
+      END DO
 C
       DO LEVEL=1,LEVELMAX
         PSH3ACT(LEVEL)=PSH3ACT(LEVEL)+PSH3ACT(LEVEL-1)
@@ -206,4 +206,4 @@ C
       PSH3KIN(LEVELMAX+1)=PTR
 
       RETURN
-      END     
+      END

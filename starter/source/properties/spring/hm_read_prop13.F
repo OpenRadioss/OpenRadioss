@@ -43,8 +43,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD   
-      USE SUBMODEL_MOD         
+      USE ELBUFTAG_MOD
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),ISKN(LISKN,*),IGTYP,IG
 C     REAL
       my_real GEO(NPROPG)
@@ -292,7 +292,7 @@ C----
       GEO(42) = B
       GEO(43) = D
       GEO(40) = E
-      GEO(132)= GF3                       
+      GEO(132)= GF3
       GEO(44) = ONE / F
       GEO(39) = ONE / LSCALE
       GEO(65) = DN
@@ -405,7 +405,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=IDTITL) 
+     .               C1=IDTITL)
       ELSEIF (IECROU == 7 .AND. IFUNC2 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -433,7 +433,7 @@ C----
         A = ONE
         B = ZERO
         E = ZERO
-      ENDIF 
+      ENDIF
 C
       IF ((IFAIL2 == 0).OR.(IFAIL2 ==1)) THEN
         DN = DN * LSCALE / CRIT_SCALE(2)
@@ -447,7 +447,7 @@ C----
       GEO(46) = B
       GEO(47) = D
       GEO(180)= E
-      GEO(133)= GF3                       
+      GEO(133)= GF3
       GEO(48) = ONE / F
       GEO(174)= ONE / LSCALE
       GEO(67) = DN
@@ -602,7 +602,7 @@ C----
       GEO(50) = B
       GEO(51) = D
       GEO(181)= E
-      GEO(134)= GF3                       
+      GEO(134)= GF3
       GEO(52) = ONE / F
       GEO(175)= ONE / LSCALE
       GEO(69) = DN
@@ -733,7 +733,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=IDTITL) 
+     .               C1=IDTITL)
       ELSEIF (IECROU == 7 .AND. IFUNC2 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -775,7 +775,7 @@ C----
       GEO(54)  = B
       GEO(55)  = D
       GEO(182) = E
-      GEO(135) = GF3                       
+      GEO(135) = GF3
       GEO(56)  = ONE / F
       GEO(176) = ONE / LSCALE
       GEO(71)  = DN
@@ -886,7 +886,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=IDTITL) 
+     .               C1=IDTITL)
       ELSEIF (IECROU == 7 .AND. IFUNC2 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -928,7 +928,7 @@ C----
       GEO(58)  = B
       GEO(59)  = D
       GEO(183) = E
-      GEO(136) = GF3                       
+      GEO(136) = GF3
       GEO(60)  = ONE / F
       GEO(177) = ONE / LSCALE
       GEO(73)  = DN
@@ -1039,7 +1039,7 @@ C----
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
-     .               C1=IDTITL) 
+     .               C1=IDTITL)
       ELSEIF (IECROU == 7 .AND. IFUNC2 == 0) THEN
          CALL ANCMSG(MSGID=1059,
      .               MSGTYPE=MSGWARNING,
@@ -1081,7 +1081,7 @@ C----
       GEO(62)  = B
       GEO(63)  = D
       GEO(184) = E
-      GEO(137) = GF3                       
+      GEO(137) = GF3
       GEO(64)  = ONE / F
       GEO(178) = ONE / LSCALE
       GEO(75)  = DN

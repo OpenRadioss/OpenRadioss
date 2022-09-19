@@ -187,13 +187,13 @@ C-----------------------------------------------
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------
 c     tag bord libre d'un element std efface dans une loi
-c     on delete les phantomes 
+c     on delete les phantomes
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
 C---
       DO I=JFT,JLT
         ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem
-        IF (ELCRK == 0) CYCLE 
+        IF (ELCRK == 0) CYCLE
         IFAC = 0
         DO ILAY=1,NXLAY
           ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
@@ -203,18 +203,18 @@ C---
 C----
         IF (IFAC == NXLAY) THEN
           DO ILAY=1,NXLAY
-            DO K=1,4                                                      
-              IEDGE = XEDGE4N(K,ELCRK)                                    
-              CRKEDGE(ILAY)%IBORDEDGE(IEDGE) = 2   ! devient bord libre  
-            ENDDO                                                         
+            DO K=1,4
+              IEDGE = XEDGE4N(K,ELCRK)
+              CRKEDGE(ILAY)%IBORDEDGE(IEDGE) = 2   ! devient bord libre
+            ENDDO
 C---
-            DO IXEL=1,NXEL                                              
-              IF (NXLAY == 1) THEN                                      
-                XFEM_STR(IXEL)%GBUF%OFF(I) = ZERO                       
-              ELSEIF (NXLAY > 1) THEN                                   
-                XFEM_STR(IXEL)%BUFLY(ILAY)%LBUF(IR,IS,1)%OFF(I) = ZERO  
-              ENDIF                                                     
-            ENDDO                                                       
+            DO IXEL=1,NXEL
+              IF (NXLAY == 1) THEN
+                XFEM_STR(IXEL)%GBUF%OFF(I) = ZERO
+              ELSEIF (NXLAY > 1) THEN
+                XFEM_STR(IXEL)%BUFLY(ILAY)%LBUF(IR,IS,1)%OFF(I) = ZERO
+              ENDIF
+            ENDDO
 C---
           ENDDO
         ENDIF
@@ -280,18 +280,18 @@ C---
 C----
         IF (IFAC == NXLAY) THEN
           DO ILAY=1,NXLAY
-            DO K=1,3                               
-              IEDGE = XEDGE3N(K,ELCRKTG)           
-              CRKEDGE(ILAY)%IBORDEDGE(IEDGE) = 2  
-            ENDDO                                  
+            DO K=1,3
+              IEDGE = XEDGE3N(K,ELCRKTG)
+              CRKEDGE(ILAY)%IBORDEDGE(IEDGE) = 2
+            ENDDO
 C---
-            DO IXEL=1,NXEL                                              
-              IF (NXLAY == 1) THEN                                      
-                XFEM_STR(IXEL)%GBUF%OFF(I) = ZERO                       
-              ELSEIF (NXLAY > 1) THEN                                   
-                XFEM_STR(IXEL)%BUFLY(ILAY)%LBUF(IR,IS,1)%OFF(I) = ZERO  
-              ENDIF                                                     
-            ENDDO                                                       
+            DO IXEL=1,NXEL
+              IF (NXLAY == 1) THEN
+                XFEM_STR(IXEL)%GBUF%OFF(I) = ZERO
+              ELSEIF (NXLAY > 1) THEN
+                XFEM_STR(IXEL)%BUFLY(ILAY)%LBUF(IR,IS,1)%OFF(I) = ZERO
+              ENDIF
+            ENDDO
 C---
           ENDDO
         ENDIF

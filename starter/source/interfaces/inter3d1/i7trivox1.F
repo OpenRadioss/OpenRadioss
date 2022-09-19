@@ -65,7 +65,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -163,7 +163,7 @@ C     REAL
       INTEGER  LAST_NOD(NSN)
 c     .  maxvox, meanvox, ttvox, maxjj, ttjj, numjj, jj1, jj2, jj3,iii,
 c     .  nbbox1,nbin1,nbin2,nbin3
-      INTEGER*8 meanjj8     
+      INTEGER*8 meanjj8
       INTEGER  IX,IY,IZ,NEXT,M1,M2,M3,M4,
      .         IX1,IY1,IZ1,IX2,IY2,IZ2
       INTEGER,  DIMENSION(:),ALLOCATABLE :: IIX,IIY,IIZ
@@ -184,7 +184,7 @@ C-----------------------------------------------
       ALLOCATE(IIZ(NSN))
 
 C
-      XMIN = XYZM(1,1)  
+      XMIN = XYZM(1,1)
       YMIN = XYZM(2,1)
       ZMIN = XYZM(3,1)
       XMAX = XYZM(4,1)
@@ -192,13 +192,13 @@ C
       ZMAX = XYZM(6,1)
 
 c     dev future: xminb plus grand que xmin...
-      XMINB = XYZM(1,2)  
+      XMINB = XYZM(1,2)
       YMINB = XYZM(2,2)
       ZMINB = XYZM(3,2)
       XMAXB = XYZM(4,2)
       YMAXB = XYZM(5,2)
       ZMAXB = XYZM(6,2)
-      
+
 c      XMINB = XMIN
 c      YMINB = YMIN
 c      ZMINB = ZMIN
@@ -218,7 +218,7 @@ C=======================================================================
         IIZ(I)=0
         IF(STFN(I) == ZERO)CYCLE
         J=NSV(I)
-        
+
 C First test vs CRVOXEL
         IX=INT(LRVOXEL*(X(1,J)-XMIN)/(XMAX-XMIN))
         IF(IX < 0 .OR. IX > LRVOXEL) CYCLE
@@ -230,17 +230,17 @@ C First test vs CRVOXEL
 
 C Second test vs reduced Box
         IF( (X(1,J)-XMINB)/(XMAXB-XMINB) > ONE ) THEN
-          IIX(I) = NBX  
+          IIX(I) = NBX
         ELSE
           IIX(I)=INT(MAX(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB),-ONE))
         ENDIF
         IF( (X(2,J)-YMINB)/(YMAXB-YMINB) > ONE ) THEN
-          IIY(I) = NBY  
+          IIY(I) = NBY
         ELSE
           IIY(I)=INT(MAX(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB),-ONE))
         ENDIF
         IF( (X(3,J)-ZMINB)/(ZMAXB-ZMINB) > ONE ) THEN
-          IIZ(I) = NBZ  
+          IIZ(I) = NBZ
         ELSE
           IIZ(I)=INT(MAX(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB),-ONE))
         ENDIF
@@ -310,8 +310,8 @@ C on ne retient pas les facettes detruites
      .       MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
          ENDIF
 c        maxaaa=max(maxaaa,aaa)
-c     il est possible d'ameliorer l'algo en decoupant la facette 
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+c     il est possible d'ameliorer l'algo en decoupant la facette
+c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -349,40 +349,40 @@ c        calcul de la surface (pour elimination future de candidats)
 
 c        indice des voxels occupes par la facette
          IF( (XMINE - AAA - XMINB)/(XMAXB-XMINB) > ONE ) THEN
-           IX1 = NBX  
+           IX1 = NBX
          ELSE
            IX1=INT(MAX(NBX*(XMINE-AAA-XMINB)/(XMAXB-XMINB),-ONE))
          ENDIF
          IF( (YMINE - AAA - YMINB)/(YMAXB-YMINB) > ONE ) THEN
-           IY1 = NBY  
+           IY1 = NBY
          ELSE
            IY1=INT(MAX(NBY*(YMINE-AAA-YMINB)/(YMAXB-YMINB),-ONE))
          ENDIF
          IF( (ZMINE - AAA - ZMINB)/(ZMAXB-ZMINB) > ONE ) THEN
-           IZ1 = NBZ  
+           IZ1 = NBZ
          ELSE
            IZ1=INT(MAX(NBZ*(ZMINE-AAA-ZMINB)/(ZMAXB-ZMINB),-ONE))
          ENDIF
 
-         
-            
+
+
          IX1=MAX(1,2+IX1)
          IY1=MAX(1,2+IY1)
          IZ1=MAX(1,2+IZ1)
 
-         
+
          IF( (XMAXE + AAA - XMINB)/(XMAXB-XMINB) > ONE ) THEN
-           IX2 = NBX  
+           IX2 = NBX
          ELSE
            IX2=INT(MAX(NBX*(XMAXE+AAA-XMINB)/(XMAXB-XMINB),-ONE))
          ENDIF
          IF( (YMAXE + AAA - YMINB)/(YMAXB-YMINB) > ONE ) THEN
-           IY2 = NBY  
+           IY2 = NBY
          ELSE
            IY2=INT(MAX(NBY*(YMAXE+AAA-YMINB)/(YMAXB-YMINB),-ONE))
          ENDIF
          IF( (ZMAXE + AAA - ZMINB)/(ZMAXB-ZMINB) > ONE ) THEN
-           IZ2 = NBZ  
+           IZ2 = NBZ
          ELSE
            IZ2=INT(MAX(NBZ*(ZMAXE+AAA-ZMINB)/(ZMAXB-ZMINB),-ONE))
          ENDIF
@@ -412,7 +412,7 @@ c
                IF(NN == M2)GOTO 300
                IF(NN == M3)GOTO 300
                IF(NN == M4)GOTO 300
-               
+
 c
 
                XS = X(1,NN)
@@ -440,7 +440,7 @@ c    sousestimation de la distance**2 pour elimination de candidats
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 300
                ENDIF
@@ -540,6 +540,6 @@ C=======================================================================
       DEALLOCATE(IIX)
       DEALLOCATE(IIY)
       DEALLOCATE(IIZ)
-    
+
       RETURN
       END

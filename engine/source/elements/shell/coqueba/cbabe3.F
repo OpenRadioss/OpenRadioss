@@ -49,26 +49,26 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NPG,NG,JFT,JLT,NPLAT,IPLAT(*),ISROT
       PARAMETER (NPG = 4)
-      MY_REAL 
+      MY_REAL
      .   VCORE(MVSIZ,12),VQN(MVSIZ,9,4),VKSI(4,4),VETA(4,4),
      .   BM(MVSIZ,36),BMF(MVSIZ,36),BF(MVSIZ,24),BC(MVSIZ,40),HX(MVSIZ,4),HY(MVSIZ,4)
-      MY_REAL 
+      MY_REAL
      .   VNRM(MVSIZ,12),VASTN(MVSIZ,16),VJFI(MVSIZ,3,2,4),
      .   VQ(MVSIZ,3,3,4),AREA(*)
-      MY_REAL 
+      MY_REAL
      .   CDET(*),TC(MVSIZ,2,2),BZZ(MVSIZ,8),BRZ(MVSIZ,4,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER PT,PT00,PT0,I,J,EP,NG1,K
-      MY_REAL 
+      MY_REAL
      .   VPG(2,NPG),THK(MVSIZ),DETJ,DET,
      .   TFN(3,2),BCX,BCY,V1(2),V2(2),C1,C2,BC1,BC2,VB1,
      .   VJF1(2,3),VJF(3,3),TBI(2,2),TBC(MVSIZ,2,2),V11(4)
-      MY_REAL 
+      MY_REAL
      .   A_1,C11,C12,C21,C22,CC,BETA1,KSI1,KSIY1,BETA2,KSI2,KSIY2,
      .   BMT(8),BCT(12),BXY(3),BYX(3)
-      MY_REAL 
+      MY_REAL
      .   PG1,PG
        PARAMETER (PG=.577350269189626)
        PARAMETER (PG1=-.577350269189626)
@@ -78,7 +78,7 @@ C--------------------------
       DATA VPG/PG1,PG1,PG,PG1,PG,PG,PG1,PG/
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
 C-------VCORE(12):BX0(2),BY0(2),GAMA(2),MX23,MY23,MX34,MY34,MX13,MY13
 C-------BM(1-4)->BxI,BM(5-8)->ByI
@@ -99,8 +99,8 @@ C------- (I=1:BMT(1)+BMT(3);I=2:BMT(2)+BMT(4);I=3:-BMT(1)+BMT(3);I=4:-BMT(2)+BMT
         BM(I,6)=BMT(6)+BMT(8)
         BM(I,7)=-BMT(5)+BMT(7)
         BM(I,8)=-BMT(6)+BMT(8)
-       ENDDO 
-       DO I=JFT,NPLAT 
+       ENDDO
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
         A_1 = ONE/MAX(CDET(EP),EM20)
         C11=(VCORE(EP,10)+VCORE(EP,12)*VPG(1,NG))*A_1
@@ -172,10 +172,10 @@ C-------NOEUD--- 4
         BC(I,22)=-BC(I,10)+BCT(10)+BCT(10)
         BC(I,23)=-BC(I,11)+BCT(11)+BCT(11)
         BC(I,24)=-BC(I,12)+BCT(12)+BCT(12)
-       ENDDO 
+       ENDDO
 C
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
 C---------------------------------------------------
 C  CALCUL DE [FN] 
@@ -225,7 +225,7 @@ C------------------------------
           TBC(EP,2,1)=TBI(2,1)*TC(EP,1,1)+TBI(2,2)*TC(EP,2,1)
           TBC(EP,1,2)=TBI(1,1)*TC(EP,1,2)+TBI(1,2)*TC(EP,2,2)
           TBC(EP,2,2)=TBI(2,1)*TC(EP,1,2)+TBI(2,2)*TC(EP,2,2)
-       ENDDO 
+       ENDDO
 C
 C--------------------------
 C--------------------------
@@ -236,7 +236,7 @@ C--------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C---------- NOEUDS J=1         II =0 KK = 0
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
 C--------TERMES DE [B0]=<T>CI-------
          C1=VKSI(1,NG)*TC(EP,1,1)+VETA(1,NG)*TC(EP,2,1)
@@ -301,11 +301,11 @@ C           JJ = 3*II =0
             BF(I,4)=V1(2)*C1
             BF(I,5)=V2(2)*C2
             BF(I,6)=V1(2)*C2+V2(2)*C1
-       ENDDO 
+       ENDDO
 C
 C--------J=2---II=(J-1)*2 =2  KK = 3*(J-1) =3
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
 C--------- [B0], [B01]---------
 C--------TERMES DE [B0]=<T>CI-------
@@ -373,11 +373,11 @@ C           JJ = 3*II=6
             BF(I,10)=V1(2)*C1
             BF(I,11)=V2(2)*C2
             BF(I,12)=V1(2)*C2+V2(2)*C1
-       ENDDO 
+       ENDDO
 C
 C--------J=3---II=(J-1)*2 =4 KK = 3*(J-1)=6
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
 C--------- [B0], [B01]---------
 C--------TERMES DE [B0]=<T>CI-------
@@ -442,11 +442,11 @@ C           JJ = 3*II =12
             BF(I,16)=V1(2)*C1
             BF(I,17)=V2(2)*C2
             BF(I,18)=V1(2)*C2+V2(2)*C1
-       ENDDO 
+       ENDDO
 C
 C--------J=4---II=(J-1)*2  =6 KK = 3*(J-1)=9
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
 C--------- [B0], [B01]---------
 C--------TERMES DE [B0]=<T>CI-------
@@ -510,14 +510,14 @@ C           JJ = 3*II=18
             BF(I,23)=V2(2)*C2
             BF(I,24)=V1(2)*C2+V2(2)*C1
 C
-       ENDDO 
+       ENDDO
 C--------------------------
 C     DEFORMATION OUT-PLANE (C.T)
 C--------------------------
 C      [BC](2,5*NPG),VDEF(4,5) 
 C--------------------------
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
         V11(1)=VKSI(2,NG)
         V11(2)=VKSI(3,NG)
@@ -615,11 +615,11 @@ C--------TERMES <ASI>-------
           BC(I,20)=V11(4)*VASTN(EP,14)
           BC(I,28)=V11(4)*VASTN(EP,15)
           BC(I,30)=V11(4)*VASTN(EP,16)
-       ENDDO 
+       ENDDO
 C--------pour rigidite en rzz-------
        IF (ISROT==0) THEN
 #include "vectorize.inc"
-       DO I=NPLAT+1,JLT 
+       DO I=NPLAT+1,JLT
         EP=IPLAT(I)
         BZZ(I,1)=TC(EP,1,1)*VKSI(1,NG)+TC(EP,2,1)*VETA(1,NG)
         BZZ(I,2)=TC(EP,1,2)*VKSI(1,NG)+TC(EP,2,2)*VETA(1,NG)
@@ -629,7 +629,7 @@ C--------pour rigidite en rzz-------
         BZZ(I,6)=TC(EP,1,2)*VKSI(3,NG)+TC(EP,2,2)*VETA(3,NG)
         BZZ(I,7)=TC(EP,1,1)*VKSI(4,NG)+TC(EP,2,1)*VETA(4,NG)
         BZZ(I,8)=TC(EP,1,2)*VKSI(4,NG)+TC(EP,2,2)*VETA(4,NG)
-       ENDDO 
+       ENDDO
        END IF !(ISROT==0) THEN
        RETURN
        END
@@ -653,14 +653,14 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NPLAT,IPLAT(*)
-       my_real 
+       my_real
      .     X13(*),X24(*),Y13(*),Y24(*),BM(MVSIZ,36)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J,EP
 #include "vectorize.inc"
-       DO EP=NPLAT+1,JLT 
+       DO EP=NPLAT+1,JLT
         I=IPLAT(EP)
           BM(EP,3)=-X24(I)
           BM(EP,6)=Y24(I)

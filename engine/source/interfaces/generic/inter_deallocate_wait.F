@@ -46,7 +46,7 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE H3D_MOD
         USE METRIC_MOD
-        USE INTBUFDEF_MOD  
+        USE INTBUFDEF_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
 C-----------------------------------------------
@@ -81,7 +81,7 @@ C-----------------------------------------------
         INTEGER, INTENT(in) :: NB_INTER_SORTED        !   number of interfaces that need to be sorted
         INTEGER, DIMENSION(NB_INTER_SORTED), INTENT(in) :: LIST_INTER_SORTED   !   list of interfaces that need to be sorted
         INTEGER, DIMENSION(NPARI,NINTER), INTENT(in) :: IPARI    !   interface data
-        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM 
+        INTEGER, DIMENSION(NINTER+1,NSPMD+1), INTENT(in) :: ISENDTO,IRECVFROM
         TYPE(INTBUF_STRUCT_),DIMENSION(NINTER), INTENT(inout) :: INTBUF_TAB    ! interface data
         my_real, DIMENSION(NSENSR,NSENSOR), INTENT(in) :: SENSOR
         TYPE(inter_struct_type), DIMENSION(NINTER), INTENT(inout) :: INTER_STRUCT   !   struture for interface
@@ -108,8 +108,8 @@ C-----------------------------------------------
                 IF(NTY==7.AND.INACTI==7)TYPE18=.TRUE.
 
                 ISENS = 0
-                IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)  
-                IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR 
+                IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 25) ISENS = IPARI(64,N)
+                IF(ISENS/=0) THEN    ! IF INTERFACE IS ACTIVATED BY SENSOR
                     TS = SENSOR(2,ISENS)
                 ELSE
                     TS = TT
@@ -120,19 +120,19 @@ C-----------------------------------------------
                 ! -----------------------------------------------------
                 ! type 7
                 IF((NTY==7.AND.TT>=TS).AND.(.NOT.TYPE18))THEN
-                    ! wait the message only for proc with only secondary nodes 
+                    ! wait the message only for proc with only secondary nodes
                     IF(NSN>0.AND.NMN==0) THEN   !   local nsn>0 && local nmn == 0
                         DO P = 1, NSPMD
                             IF(IRECVFROM(N,P)/=0) THEN     !   nmn >0
                                 IF(P/=ISPMD+1) THEN
                                     IF(SORT_COMM(N)%NB(P)/=0) THEN
 #ifdef MPI
-                                        CALL MPI_WAIT(SORT_COMM(N)%REQ_SD2(P),STATUS,IERROR) 
-                                        DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%RBUF) 
-                                        CALL MPI_WAIT(SORT_COMM(N)%REQ_SD3(P),STATUS,IERROR) 
-                                        DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%IBUF)  
-                                        SORT_COMM(N)%NB(P) = 0 
-#endif                     
+                                        CALL MPI_WAIT(SORT_COMM(N)%REQ_SD2(P),STATUS,IERROR)
+                                        DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%RBUF)
+                                        CALL MPI_WAIT(SORT_COMM(N)%REQ_SD3(P),STATUS,IERROR)
+                                        DEALLOCATE(SORT_COMM(N)%DATA_PROC(P)%IBUF)
+                                        SORT_COMM(N)%NB(P) = 0
+#endif
                                     END IF
                                 ENDIF
                             ENDIF
@@ -149,7 +149,7 @@ C-----------------------------------------------
                 IF(ALLOCATED(SORT_COMM(N)%RCV_SIZE_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_SIZE_COARSE_CELL )
                 IF(ALLOCATED(SORT_COMM(N)%SEND_DISPLS_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%SEND_DISPLS_COARSE_CELL )
                 IF(ALLOCATED(SORT_COMM(N)%RCV_DISPLS_COARSE_CELL) ) DEALLOCATE( SORT_COMM(N)%RCV_DISPLS_COARSE_CELL )
-               
+
 
                 IF(ALLOCATED(SORT_COMM(N)%KEEP_PROC) )DEALLOCATE( SORT_COMM(N)%KEEP_PROC )
                 IF(ALLOCATED(SORT_COMM(N)%CELL_LIST) )DEALLOCATE( SORT_COMM(N)%CELL_LIST )

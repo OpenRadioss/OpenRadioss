@@ -51,7 +51,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPARG,NGROUP), INTENT(IN) :: IPARG
       INTEGER ,DIMENSION(NIXC,*)  ,INTENT(IN) :: IXC
       INTEGER ,DIMENSION(NIXTG,*) ,INTENT(IN) :: IXTG
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -90,18 +90,18 @@ c
                 DO J=2,5
                   INOD = IXC(J,I+NFT)
                   TAGNOD(INOD) = 1
-                ENDDO      
-              ENDDO      
+                ENDDO
+              ENDDO
             ELSE IF (ITY == 7) THEN
               DO I=1,NEL
                 DO J=2,4
                   INOD = IXC(J,I+NFT)
                   TAGNOD(INOD) = 1
-                ENDDO      
-              ENDDO      
+                ENDDO
+              ENDDO
             ENDIF
           ENDIF
-        ENDDO      
+        ENDDO
 c
         NNOD = 0
         DO I=1,NUMNOD
@@ -135,7 +135,7 @@ c
         FAILWAVE%FWAVE_NOD_STACK = 0
       ENDIF
 
-      DEALLOCATE( TAGNOD,INDX,IDXI )    
+      DEALLOCATE( TAGNOD,INDX,IDXI )
 c
 c--------------------------------
       RETURN

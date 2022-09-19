@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IXS(NIXS,*), IXQ(NIXQ,*),IXC(NIXC,*),
      .   IGEO(NPROPGI,*), IXT(NIXT,*),IXP(NIXP,*), IXR(NIXR,*),
      .   IXTG(NIXTG,*),INDEX(*),ITRI(*),KXSP(*),IPM(NPROPMI,*),
@@ -113,7 +113,7 @@ C
 C=======================================================================
       IUSER = 0
       IYLDINI = 0
-      IUSOLYLD = 0 
+      IUSOLYLD = 0
       FAIL_INI(1:5) = 0
       ISIGSH =0
       KSIGSH3 = 0
@@ -170,9 +170,9 @@ C
 C
 C      FICHIER Y000
 C
-         CALL LEC_INISTATE_YFILE( 
-     1                  NSIGSH    ,NSIGS     ,NSIGSPH   ,NSIGRS    ,NSIGI     ,                 
-     2                  SIGSH     ,SIGI      ,SIGSPH    ,SIGRS     ,SIGSP     ,                  
+         CALL LEC_INISTATE_YFILE(
+     1                  NSIGSH    ,NSIGS     ,NSIGSPH   ,NSIGRS    ,NSIGI     ,
+     2                  SIGSH     ,SIGI      ,SIGSPH    ,SIGRS     ,SIGSP     ,
      3                  ISIGSH    ,IUSER     ,
      4                  ID_SIGSH  , ID_SOLID_SIGI, ID_QUAD_SIGI  )
 
@@ -193,7 +193,7 @@ C-----------------------------------------
 !     6                  NSIGI      ,NSIGBEAM     ,NSIGTRUSS    ,
 !     7                  SIGI       ,SIGSH        ,SIGSP        ,SIGSPH       ,SIGRS     ,
 !     8                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB ,
-!     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     , 
+!     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     ,
 !     A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
 !     B                  ID_SIGTRUSS,WORK         ,IGRBRIC )
 
@@ -206,7 +206,7 @@ C-----------------------------------------
      6                  NSIGI      ,NSIGBEAM     ,NSIGTRUSS    ,
      7                  SIGI       ,SIGSH        ,SIGSP        ,SIGSPH       ,SIGRS     ,
      8                  SIGBEAM    ,SIGTRUSS     ,STRSGLOB     ,STRAGLOB     ,ORTHOGLOB ,
-     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     , 
+     9                  ISIGSH     ,IYLDINI      ,FAIL_INI     ,IUSOLYLD     ,IUSER     ,
      A                  ID_SIGSH   ,ID_SOLID_SIGI,ID_QUAD_SIGI ,ID_SIGSPRI   ,ID_SIGBEAM,
      B                  ID_SIGTRUSS,WORK         ,IGRBRIC      ,NIBRICK      ,NIQUAD    ,
      C                  NISHELL    ,NISH3N       ,NISPRING     ,NIBEAM       ,NITRUSS   ,

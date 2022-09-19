@@ -77,7 +77,7 @@ C-----------------------------------------------
       my_real
      .       CMS2,DMS,DMS2,
      .       XI,YI,ZI,XJ,YJ,ZJ,D,DK,DL,
-     .       DVOIS(NUMSPH+NSPHR)    
+     .       DVOIS(NUMSPH+NSPHR)
 C-----------------------------------------------
          NSN=0
          DO NS=1,NSP2SORT
@@ -100,7 +100,7 @@ C--------
      1              X     ,KXSP   ,IXSP  ,NOD2SP,NSP2SORT,
      2              SPBUF ,MWA    ,JVOIS ,JSTOR ,JPERM  ,
      3              DVOIS ,IREDUCE,BMINMA,NSPHR ,NSP2SORTF,
-     4              NSP2SORTL,ITASK,KREDUCE,LGAUGE ,GAUGE ) 
+     4              NSP2SORTL,ITASK,KREDUCE,LGAUGE ,GAUGE )
 C
          DO NS=NSP2SORTF,NSP2SORTL
           N=WSP2SORT(NS)
@@ -111,7 +111,7 @@ C
           SPBUF(8,N)=SPBUF(1,N)
          ENDDO
 C
-         
+
          DO N=ITASK+1,NBGAUGE,NTHREAD
            IF(LGAUGE(1,N) <= -(NUMELS+1))THEN
              GAUGE(6,N)=GAUGE(2,N)

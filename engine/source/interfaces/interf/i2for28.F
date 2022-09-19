@@ -35,7 +35,7 @@ Chd|====================================================================
      .           IRECTM      ,NSV         ,IRTLM       ,DR          ,DL          ,
      .           FINI        ,STFN_PEN    ,STFR_PEN    ,FSAV        ,FNCONT      ,
      .           IPENA       ,VISC        ,CSTS        ,MSR         ,ADI         ,
-     .           SMAS        ,SINER       ,MMAS        ,SAV_FOR_PENA,MS_PENA     ,                                                        
+     .           SMAS        ,SINER       ,MMAS        ,SAV_FOR_PENA,MS_PENA     ,
      .           NOINT       ,NODNX_SMS   ,DMINT2      ,DT2T        ,NELTST      ,
      .           ITYPTST     ,NSN         ,NMN         ,IDEL2       ,PENFLAG     ,
      .           IROT        ,SKEW        ,
@@ -62,7 +62,7 @@ C-----------------------------------------------
      .   DL(3,4,*),DR(3,4,*),STIFN(*),STIFR(*),STFN_PEN(*),STFR_PEN(*),
      .   FSAV(*),FNCONT(3,*),DMINT2(4,*),SAV_FOR_PENA(8,*),MS_PENA(*),
      .   CSTS(2,*),SMAS(*),MMAS(*),SINER(*),ADI(*),SKEW(9,*),FNCONTP(3,*),
-     .   FTCONTP(3,*) 
+     .   FTCONTP(3,*)
       my_real
      .   DPARA(7,*),DMAST,ADM(*),
      .   NMAS(*),MINER(*)
@@ -81,19 +81,19 @@ C-----------------------------------------------
       INTEGER I,NI,NINDXC,NINDXP
       INTEGER INDXC(NSN),INDXP(NSN)
 C=======================================================================
-      INDXC(1:NSN) = 0      
-      INDXP(1:NSN) = 0 
-      NINDXC = 0     
-      NINDXP = 0     
+      INDXC(1:NSN) = 0
+      INDXP(1:NSN) = 0
+      NINDXC = 0
+      NINDXP = 0
 C----------------          
       DO I=1,NSN
-        IF (IPENA(I) == 0) THEN     
-          NINDXC = NINDXC + 1     
-          INDXC(I) = I              
-        ELSE                        
-          NINDXP = NINDXP + 1     
-          INDXP(I) = I              
-        ENDIF                       
+        IF (IPENA(I) == 0) THEN
+          NINDXC = NINDXC + 1
+          INDXC(I) = I
+        ELSE
+          NINDXP = NINDXP + 1
+          INDXP(I) = I
+        ENDIF
       ENDDO
 c-----------
       IF (NINDXC > 0) THEN
@@ -108,7 +108,7 @@ C
       ENDIF
 c
       IF (NINDXP > 0) THEN
-         CALL I2FOR28_PEN(                                               
+         CALL I2FOR28_PEN(
      .       X         ,V         ,VR        ,A           ,AR        ,
      .       MS_PENA   ,IN        ,STIFN     ,STIFR       ,WEIGHT    ,
      .       NSV       ,IRTLM     ,CSTS      ,SKEW        ,DL        ,
@@ -119,7 +119,7 @@ c
      .       INDXP     ,MINER     ,H3D_DATA    ,FNCONTP   ,
      .       FTCONTP   )
 c
-      ENDIF                                                            
+      ENDIF
 c-----------
       RETURN
       END SUBROUTINE I2FOR28

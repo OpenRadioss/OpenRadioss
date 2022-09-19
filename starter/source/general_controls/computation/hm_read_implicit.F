@@ -83,8 +83,8 @@ C
         IF(SUB_ID == 0) THEN
           IIMPLICIT = 1
           EXIT
-        END IF        
+        END IF
       ENDDO
 C--------------------------------------------------------------
       RETURN
-      END 
+      END

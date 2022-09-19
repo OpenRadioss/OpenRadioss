@@ -62,8 +62,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE NLOCAL_REG_MOD
-      USE ELBUFTAG_MOD  
-      USE MESSAGE_MOD   
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -87,7 +87,7 @@ C-----------------------------------------------
       TARGET IPM,BUFMAT
       TYPE(MLAW_TAG_), TARGET, DIMENSION(NUMMAT)  :: MLAW_TAG
       TYPE(TTABLE), DIMENSION(NTABLE) ::  TABLE
-      TYPE (NLOCAL_STR_) :: NLOC_DMG 
+      TYPE (NLOCAL_STR_) :: NLOC_DMG
       TYPE(MATPARAM_STRUCT_) ,DIMENSION(NUMMAT), INTENT(INOUT), TARGET :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -153,7 +153,7 @@ c
 c
         IADD     = MAX(1,IPM(7,IMAT))
         NPARAM  = MIN(IPM(9,IMAT),SBUFMAT)
-        UPARAM   => BUFMAT(IADD:IADD+NPARAM-1) 
+        UPARAM   => BUFMAT(IADD:IADD+NPARAM-1)
         MATPARAM => MATPARAM_TAB(IMAT)
 c
 c-----------------------------------------------------------------------
@@ -164,30 +164,30 @@ c
         NUMTABL =  IPM(226,IMAT)
         IFUNC   => IPM(10+1:10+NFUNC,IMAT)
         ITABLE  => IPM(226+1:226+NUMTABL,IMAT)
-c        
-        IF (NFUNC > 0 ) THEN 
+c
+        IF (NFUNC > 0 ) THEN
           CALL MATFUN_USR2SYS(TITR,MAT_ID,NFUNC,IFUNC,FUNC_ID  )
         ENDIF
         IF (ILAW /= 73 .and. ILAW /= 74 .and. ILAW /= 80) THEN
           IF (NUMTABL > 0 ) THEN
             TABLE_ID(1:NUMTABL) = IPM(226+1:226+NUMTABL,IMAT)
             CALL MATTAB_USR2SYS(TITR,MAT_ID,TABLE,NUMTABL,ITABLE)
-          ENDIF 
-        ENDIF 
+          ENDIF
+        ENDIF
 c
 c-----------------------------------------------------------------------
         SELECT CASE (ILAW)
 c-------------------------
-          CASE (36) 
+          CASE (36)
 c------------------
             CALL LAW36_UPD(IOUT   ,TITR   ,MAT_ID ,NPARAM,UPARAM ,
-     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )        
+     .                     NFUNC  ,IFUNC  ,FUNC_ID,NPC    ,PLD    )
 c-------------------------
-          CASE (42) 
+          CASE (42)
 c------------------
-            CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM)        
+            CALL LAW42_UPD(IOUT,TITR,MAT_ID,UPARAM)
 c-------------------------
-          CASE (58) 
+          CASE (58)
 c------------------
 c
             NFUNCL =  IPM(6,IMAT)
@@ -196,36 +196,36 @@ c
      .                     NFUNC,NFUNCL,IFUNC,MAT_ID,FUNC_ID,
      .                     PM(1,IMAT),NPARAM,LSENSOR)
 c------------------
-          CASE (69) 
+          CASE (69)
 c------------------
-           CALL LAW69_UPD(IOUT, TITR    , MAT_ID, UPARAM, NFUNC, 
-     .                    IFUNC, FUNC_ID , NPC   , PLD , 
+           CALL LAW69_UPD(IOUT, TITR    , MAT_ID, UPARAM, NFUNC,
+     .                    IFUNC, FUNC_ID , NPC   , PLD ,
      .                    PM(1,IMAT),IPM(1,IMAT))
-c          
+c
 c------------------
-          CASE (76) 
+          CASE (76)
 c------------------
             CALL LAW76_UPD(IOUT   ,TITR    ,MAT_ID   ,NPARAM ,MATPARAM ,
      .                     UPARAM ,NUMTABL ,ITABLE   ,TABLE   ,NFUNC    ,
-     .                     IFUNC  ,NPC     ,PLD      )       
+     .                     IFUNC  ,NPC     ,PLD      )
 c
 c------------------
           CASE (87) !BARLAT 2D
 c------------------
             NFUNC = UPARAM(25)
             FLAG_FIT = NINT ( UPARAM(25+2*NFUNC+9) )
-            IF (FLAG_FIT == 1) THEN 
+            IF (FLAG_FIT == 1) THEN
               CALL LAW87_UPD(IOUT,TITR,MAT_ID   ,UPARAM,NFUNC  ,
      .                       IFUNC,FUNC_ID,NPC,PLD,PM(1,IMAT))
             ENDIF
 c-------------------------
-          CASE (88) 
+          CASE (88)
 c------------------
 c
             CALL LAW88_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,IFUNC,MAT_ID,FUNC_ID)
 c------------------
-          CASE (90) 
+          CASE (90)
 c------------------
 c
             CALL LAW90_UPD(IOUT,TITR,MAT_ID   ,UPARAM,
@@ -237,7 +237,7 @@ c
             UPARAM(13) = MULLINS(IMAT)
             IFC = IPM(11,IMAT)
             IF (IFC > 0) THEN
-              CALL LAW92_UPD(IOUT  ,TITR    ,MAT_ID ,UPARAM ,NFUNC     , 
+              CALL LAW92_UPD(IOUT  ,TITR    ,MAT_ID ,UPARAM ,NFUNC     ,
      .                 IFUNC ,FUNC_ID ,NPC    ,PLD   ,PM(1,IMAT),IPM(1,IMAT))
             ENDIF
 c------------------
@@ -246,7 +246,7 @@ c------------------
 c------------------
 
 c------------------
-          CASE (98)    ! 
+          CASE (98)    !
 c------------------
 c
 C           CALL LAW98_UPD(IOUT,TITR,MAT_ID  ,UPARAM,IPM,FUNC_ID,NPC,PLD,PM(1,IMAT))
@@ -259,12 +259,12 @@ c
             UPARAM(3) = MULLINS(IMAT)
             IF (FLAG_HE == 2 )THEN
               IFC = IPM(11,IMAT)
-              IF( IFC /=0 ) THEN 
-                CALL LAW100_UPD_AB(IOUT, TITR    , MAT_ID, UPARAM, NFUNC, 
+              IF( IFC /=0 ) THEN
+                CALL LAW100_UPD_AB(IOUT, TITR    , MAT_ID, UPARAM, NFUNC,
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM(1,IMAT))
               ENDIF
             ELSEIF(FLAG_HE == 13 )THEN
-                CALL LAW100_UPD_NHT(IOUT, TITR    , MAT_ID, UPARAM, NFUNC, 
+                CALL LAW100_UPD_NHT(IOUT, TITR    , MAT_ID, UPARAM, NFUNC,
      .                        IFUNC, FUNC_ID , NPC   , PLD , PM(1,IMAT))
             ENDIF
 c------------------
@@ -277,22 +277,22 @@ c
               NUPARF = IPM(II,IMAT)
               II     = 114 + 15*(IR-1)
               IADD   = IPM(II,IMAT)
-              UPARF => BUFMAT(IADD:IADD+NUPARF-1) 
+              UPARF => BUFMAT(IADD:IADD+NUPARF-1)
 c
               CALL LAW104_UPD(IFAILG  ,NPARAM,NUPARF,UPARAM,UPARF   ,
      .                        NLOC_DMG,IMAT   ,MLAW_TAG(IMAT),IPM    ,
      .                        MATPARAM)
-            ENDIF 
+            ENDIF
 c------------------
           CASE (108)    ! Spring material------------------
             CALL LAW108_UPD(IOUT,TITR,UPARAM,NPC,PLD,
      .                     NFUNC,IFUNC,MAT_ID,FUNC_ID,
-     .                     PM(1,IMAT))     
+     .                     PM(1,IMAT))
 c------------------
-          CASE (109)    ! ------------------  
-            IF (IPM(253,IMAT) > 0) THEN 
+          CASE (109)    ! ------------------
+            IF (IPM(253,IMAT) > 0) THEN
               MLAW_TAG(IMAT)%NUVAR = 1
-            ENDIF            
+            ENDIF
 c------------------
           CASE (111) ! Marlow  hyperelastic law
 c------------------
@@ -300,7 +300,7 @@ c
            !! UPARAM(13) = MULLINS(IMAT)
             IFC = IPM(11,IMAT)
             IF (IFC > 0) THEN
-              CALL LAW111_UPD(IOUT  ,TITR    ,MAT_ID ,UPARAM ,NFUNC     , 
+              CALL LAW111_UPD(IOUT  ,TITR    ,MAT_ID ,UPARAM ,NFUNC     ,
      .                 IFUNC ,FUNC_ID ,NPC    ,PLD   ,PM(1,IMAT),IPM(1,IMAT))
             ENDIF
 c------------------
@@ -321,11 +321,11 @@ c------------------
 c------------------
           CASE (119)    ! fabric material for seatbelts
             CALL LAW119_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,TABLE_ID,
-     .                      UPARAM,PM(1,IMAT),TITR    ,MAT_ID )          
+     .                      UPARAM,PM(1,IMAT),TITR    ,MAT_ID )
 c------------------
           CASE (120)    ! TAPO material for adhesives
-            CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)          
-        END SELECT ! (ILAW)  
+            CALL LAW120_UPD(NPARAM ,NUMTABL ,ITABLE ,TABLE ,UPARAM)
+        END SELECT ! (ILAW)
 c------------------
       ENDDO        ! IMAT=1,NUMMAT
 c-----------

@@ -43,7 +43,7 @@ C        Local Variables
 C---------------------------------------------
 
        INTEGER I,J,IBEGIN, NNZ
-       
+
        CALL READ_I_C(IBEGIN,1)
        J = 2
        DO WHILE(IBEGIN > 0)
@@ -83,7 +83,7 @@ C        Local Variables
 C---------------------------------------------
 
        INTEGER I,J,IBEGIN, NNZ
-       
+
        CALL READ_I_C(IBEGIN,1)
        J = 2
        DO WHILE(IBEGIN > 0)

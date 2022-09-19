@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD         
+      USE H3D_MOD
       USE INOUTFILE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -79,7 +79,7 @@ C     REAL
      .   TMPMAN(50)
       my_real
      .   TMAN,TMAN_LOC
-      CHARACTER FILNAM*100, CARTE*ncharline, KEY2*80, FMT*80, 
+      CHARACTER FILNAM*100, CARTE*ncharline, KEY2*80, FMT*80,
      . KEY0(NKEY)*5,REC*1
       INTEGER :: LEN_TMP_NAME
       CHARACTER(len=2148) :: TMP_NAME
@@ -101,7 +101,7 @@ C-----------------------------------------------
       DATA MH3D0/0/
       DATA KEY0/'TIME ','CYCLE','GFILE','PATRA','RFILE','STOP ',
      .          'KILL ','INFO ','ANIM ','OUTP ','LFLUS','CHKPT',
-     .          'H3D  '/  
+     .          'H3D  '/
 C-----------------------------
 C     INTERVENTION MANUELLE
 C-----------------------------
@@ -114,7 +114,7 @@ C-----------------------------
       MH3D0=0
 
       MSG_R2R = 0
-      IF ((IRAD2R==1).AND.(NCYCLE<2)) R2R_MFILR = 0   
+      IF ((IRAD2R==1).AND.(NCYCLE<2)) R2R_MFILR = 0
 C
       IF(IALESUB/=0 .AND. TT+DT2<=T1S+DT2S)RETURN
 C SOUS CYCLAGE ALE
@@ -182,7 +182,7 @@ C
        IF(ISPMD==0)THEN
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'.ctl'
         LEN_TMP_NAME = INFILE_NAME_LEN + LEN_TRIM(FILNAM)
-        TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))         
+        TMP_NAME=INFILE_NAME(1:INFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
         OPEN(UNIT=IUSC3,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .       STATUS='OLD',ERR=999)
         READ(IUSC3,'(A)',ERR=990,END=990)CARTE
@@ -219,13 +219,13 @@ C CYCLE
            WRITE(FMT,'(A,I2,A)')'(I',LK2,')'
           ELSE
            GOTO 100
-          ENDIF  
+          ENDIF
           READ(KEY2,FMT,ERR=990,END=990)MCYCLE
 C MCYCLE DESATIVE EN MULTIDOMAINES	  
 	  IF (IRAD2R==1) THEN
 	    MSG_R2R = 1
 	    MCYCLE = 0
-	  ENDIF 	  
+	  ENDIF 	
           GOTO 100
 C PLOT
  30       MANIM0=MANIM0+1
@@ -238,8 +238,8 @@ C RESTART
           GOTO 100
 C STOP
 60       MSTOP0=1
-         MREST0=1  
-         ICTLSTOP0 = 1                    
+         MREST0=1
+         ICTLSTOP0 = 1
          GOTO 100
 C KILL
  70       MSTOP0=1
@@ -258,10 +258,10 @@ C L01 FLUSH
           READ(IOUT,'(A)')REC
           GOTO 100
  97         WMCHECK0 = 1
-          GOTO 100 
+          GOTO 100
 C H3D PLOT
  98       MH3D0=1
-          GOTO 100  
+          GOTO 100
  100      CONTINUE
           READ(IUSC3,'(A)',ERR=400,END=400)CARTE
          GOTO 5
@@ -275,7 +275,7 @@ C
          IF (MSG_R2R==1) THEN
            WRITE (IUSC3,'(A)',ERR=990)
      .     ' MULTIDOMAINS -> /CYCLE NOT ALLOWED'
-         ENDIF        
+         ENDIF
           WRITE(CARTE,'(A)')' AT CURRENT CYCLE'
          ELSEIF(TMAN==0.0)THEN
           WRITE(CARTE,'(A,I10)')' AT CYCLE',MCYCLE
@@ -314,41 +314,41 @@ C
          IF(MH3D0 == 1)
      .    WRITE(IUSC3,'(A,A)',ERR=990)' UPDATE H3D FILE', CARTE
          MFILR=1
-	 IF (IRAD2R==1) R2R_MFILR=1    
+	 IF (IRAD2R==1) R2R_MFILR=1
          GOTO 999
  990    CONTINUE
         CLOSE (IUSC3)
  999    CONTINUE
-       ENDIF             
+       ENDIF
 C       
       ENDIF
 C
 C---------------------------------
 C     TRAITEMENT MULTIDOMAINES
 C---------------------------------
-       
+
        IF (IRAD2R==1) THEN
          IF (ISPMD==0) THEN
 C *** traitement flag mstop ***       
 	   MSTOP = R2R_MSTOP
            R2R_MSTOP = MSTOP0
-	   MSTOP0 = MSTOP	 	 	 
-       	   IF (R2R_MFILR == 1) THEN      
+	   MSTOP0 = MSTOP	 	 	
+       	   IF (R2R_MFILR == 1) THEN
 C *** stockage des flags pour envoi     rad2rad ***
-             TMAN_R2R = TMAN	  	       
+             TMAN_R2R = TMAN	  	
              R2R_CTR(1) = MREST0
              R2R_CTR(2) = MANIM0
-             R2R_CTR(3) = WMCHECK0	   
+             R2R_CTR(3) = WMCHECK0	
 	   ELSEIF (R2R_MFILR == 2) THEN
 C *** on applique les flags recus de rad2rad ***
              MFILR = 1
 	     R2R_MFILR = 0
              TMAN = TMAN_R2R
 	     MANIM0 = R2R_CTR(2)
-	     WMCHECK0= R2R_CTR(3)	     	   	 	 	 	 	 	 
+	     WMCHECK0= R2R_CTR(3)	     	   	 	 	 	 	 	
 	   ENDIF
 	 ENDIF
-         IF(NSPMD > 1) CALL SPMD_IBCAST(MFILR,MFILR,1,1,0,2)	   	 	 	 	          
+         IF(NSPMD > 1) CALL SPMD_IBCAST(MFILR,MFILR,1,1,0,2)	   	 	 	 	
        ENDIF
 
 C---------------------------------
@@ -356,7 +356,7 @@ C     ECHANGE MULTIPROCS
 C---------------------------------
       IF((IANISENS/=0.OR.NLSENS/=0.OR.H3D_DATA%N_SENS_H3D>0).OR.
      .  ((NCYCLE/NCINP)*NCINP==NCYCLE).OR.
-     .  ((IRAD2R==1).AND.(MFILR==1))) THEN    
+     .  ((IRAD2R==1).AND.(MFILR==1))) THEN
           IF (ISPMD==0) THEN
              TMPMAN(1) = MDESS
              TMPMAN(2) = MREST0
@@ -384,7 +384,7 @@ C---------------------------------
               MANIM  = NINT(TMPMAN(7))
               MCYCLE = NINT(TMPMAN(8))
               MFILR  = NINT(TMPMAN(9))
-              TMAN   = TMPMAN(10)      
+              TMAN   = TMPMAN(10)
               WMCHECK0 = NINT(TMPMAN(11))
               ICTLSTOP0 = NINT(TMPMAN(12))
               MH3D0 =     NINT(TMPMAN(13))
@@ -392,7 +392,7 @@ C---------------------------------
            ENDIF
         ENDIF
 C---------------------------------
-    
+
       IF(MFILR==1)THEN
        IF(TT>=TMAN.AND.NCYCLE>=MCYCLE)THEN
         MFILR=0

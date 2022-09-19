@@ -71,8 +71,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NRTS, NRTM, NINT, NTY, NOINT, NSN, NMN, IGAP
       INTEGER IRECTS(4,*), IRECTM(4,*), IXS(NIXS,*), IXC(NIXC,*),
-     .   NSV(*), IXTG(NIXTG,*), 
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .   NSV(*), IXTG(NIXTG,*),
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .   NOD2ELTG(*),
      .   INTTH, MSR(*), IXS10(*),
      .   IXS16(*), IXS20(*), IPARTC(*), IPARTTG(*),IGEO(NPROPGI,*),

@@ -38,21 +38,21 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
       INTEGER,  INTENT(IN) ::  NEL
       my_real,  DIMENSION(NEL,3, 3),INTENT(IN) ::  A
-      my_real,  DIMENSION(NEL,3, 3),INTENT(OUT) :: C 
+      my_real,  DIMENSION(NEL,3, 3),INTENT(OUT) :: C
 C
       INTEGER  I
 C-----------------------------------------------
-      DO I =1, NEL                                      
+      DO I =1, NEL
         C(I,1,1) = A(I,1,1)**2 + A(I,1,2)**2 + A(I,1,3)**2
         C(I,2,2) = A(I,2,1)**2 + A(I,2,2)**2 + A(I,2,3)**2
         C(I,3,3) = A(I,3,1)**2 + A(I,3,2)**2 + A(I,3,3)**2
         C(I,1,2) = A(I,1,1)*A(I,2,1) + A(I,1,2)*A(I,2,2) + A(I,1,3)*A(I,2,3)
         C(I,1,3) = A(I,1,1)*A(I,3,1) + A(I,1,2)*A(I,3,2) + A(I,1,3)*A(I,3,3)
         C(I,2,3) = A(I,2,1)*A(I,3,1) + A(I,2,2)*A(I,3,2) + A(I,2,3)*A(I,3,3)
-        C(I,2,1) = C(I,1,2) 
-        C(I,3,1) = C(I,1,3) 
-        C(I,3,2) = C(I,2,3) 
-      ENDDO                                             
+        C(I,2,1) = C(I,1,2)
+        C(I,3,1) = C(I,1,3)
+        C(I,3,2) = C(I,2,3)
+      ENDDO
 C
       RETURN
-      END  
+      END

@@ -78,7 +78,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGE, nb_connect_l
 !
 !     Number of local elements
-      NUMEL_L = 0 
+      NUMEL_L = 0
       DO NG = 1, NGROUP
          IF (IPARG(32, NG) == PROC) THEN
             NEL = IPARG(2, NG)
@@ -171,12 +171,12 @@ Cel recopie IXS + chgt no local des noeuds
                    ENDIF
 Cel ivois     
                    ee_connect_l%connected(IAD2) = TAGE(IV)
-                   
+
                    ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = IXS(NIXS,IV) ! pas sur le proc courant
                    DO K=1,INDX_S(IE)
                         IF( IXS(NIXS,IV)==FACE_ELM_S(6*(IE-1)+K,2) ) THEN
                             FACE_VOIS( (IE_LOC-1)*6+J ) = FACE_ELM_S(6*(IE-1)+K,1) ! pas sur le proc courant
-                        ENDIF                     
+                        ENDIF
                    ENDDO
                  ELSE
 Cel element interne
@@ -188,7 +188,7 @@ Cel element interne
                  ID_GLOBAL_VOIS( (IE_LOC-1)*6+J ) = 0  ! pas de voisin
                ENDIF
                ee_connect_l%type(IAD2) = ALE_CONNECTIVITY%ee_connect%type(IAD1 + J - 1)
-               ee_connect_l%iface2(IAD2) = ALE_CONNECTIVITY%ee_connect%iface2(IAD1 + J - 1)  
+               ee_connect_l%iface2(IAD2) = ALE_CONNECTIVITY%ee_connect%iface2(IAD1 + J - 1)
              ENDDO
            ENDDO
            NFT_LOC = NFT_LOC + NEL
@@ -229,11 +229,11 @@ Cel ivois
                    DO K=1,INDX_Q(IE)
                         IF( IXQ(NIXQ,IV)==FACE_ELM_Q(4*(IE-1)+K,2) ) THEN
                             FACE_VOIS( (IE_LOC-1)*4+J ) = FACE_ELM_Q(4*(IE-1)+K,1) ! pas sur le proc courant
-                        ENDIF                       
+                        ENDIF
                    ENDDO
                  ELSE
 Cel element interne
-                   ee_connect_l%connected(IAD2) = IV_LOC 
+                   ee_connect_l%connected(IAD2) = IV_LOC
                    ID_GLOBAL_VOIS( (IE_LOC-1)*4+J ) = IXQ(NIXQ,IV)
                  ENDIF
                ELSE
@@ -283,7 +283,7 @@ Cel ivois
                    DO K=1,INDX_TG(IE)
                         IF( IXTG(NIXTG,IV)==FACE_ELM_TG(3*(IE-1)+K,2) ) THEN
                             FACE_VOIS( (IE_LOC-1)*3+J ) = FACE_ELM_TG(3*(IE-1)+K,1) ! pas sur le proc courant
-                        ENDIF                      
+                        ENDIF
                    ENDDO
 
                  ELSE

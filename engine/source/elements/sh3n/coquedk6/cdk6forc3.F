@@ -67,7 +67,7 @@ Chd|====================================================================
      F            IEXPAN ,GRESAV ,GRTH  ,IGRTH  ,MSTG       ,
      G            DMELTG ,JSMS   ,TABLE ,IPARG  ,LSENSOR    ,
      H            SENSOR ,PTG    ,JTHE  ,CONDN  ,CONDNSKY   ,
-     K            ISUBSTACK,STACK,ITASK ,DRAPE_T3  ,IPRI, 
+     K            ISUBSTACK,STACK,ITASK ,DRAPE_T3  ,IPRI,
      L            NLOC_DMG )
 C-----------------------------------------------
 C   M o d u l e s
@@ -76,9 +76,9 @@ C-----------------------------------------------
       USE TABLE_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD   
-      USE NLOCAL_REG_MOD       
-      USE DRAPE_MOD       
+      USE MATPARAM_DEF_MOD
+      USE NLOCAL_REG_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
      .   IPARTTG(*),IGEO(NPROPGI,*),IPM(NPROPMI,*),GRTH(*),IGRTH(*),
      .   IPARG(*),LSENSOR(NSENSI,*)
 C     REAL
-      my_real 
+      my_real
      .   PM(*), X(*), F(*), M(*), V(*), R(*),
      .   GEO(NPROPG,*), TF(*), BUFMAT(*), PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
@@ -127,7 +127,7 @@ C     REAL
       TYPE (TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_) :: DRAPE_T3
@@ -135,31 +135,31 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  indx utilise localement contrairement aux coques 4n
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),IVS(MVSIZ),
      .   FWAVE_EL(NEL)
-      INTEGER 
+      INTEGER
      .   I, J, NG,NPG,NNOD,PT0,PT1,PT2,NVS,IFLAG,IBID,NFAIL,
      .   IR,IS,ILAY,NLAY,L_DIRA,L_DIRB,J1,J2,N1,N2,N3,
      .   IGTYP,IGMAT,NPTTOT,IREP,IFAILWAVE
       INTEGER ,DIMENSION(:) ,POINTER     :: FWAVE_NOD
       PARAMETER (NNOD = 3)
-      my_real 
+      my_real
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),AREA2(MVSIZ),
      .   AREA4(MVSIZ),AREA5(MVSIZ),AREA6(MVSIZ)
-      my_real 
+      my_real
      .   EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ),
      .   KXX(MVSIZ), KYY(MVSIZ), KXY(MVSIZ),
      .   PX2(MVSIZ),PY2(MVSIZ),  PX3(MVSIZ), PY3(MVSIZ),
      .   PB1(MVSIZ,9),PB2(MVSIZ,9),PB3(MVSIZ,18),
      .   OFF(MVSIZ), SIGY(MVSIZ),THK0(MVSIZ),
      .   NU(MVSIZ) , SHF(MVSIZ), DT1C(MVSIZ)
-      my_real 
+      my_real
      .   G(MVSIZ)   , YM(MVSIZ)  , A11(MVSIZ)   , A12(MVSIZ),
      .   VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2), GS(MVSIZ),
      .   ALPE(MVSIZ)
-      my_real 
+      my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),R21(MVSIZ),R22(MVSIZ),
      .   R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .   N4X(MVSIZ),N4Y(MVSIZ),N4Z(MVSIZ),N5X(MVSIZ),N5Y(MVSIZ),
@@ -172,7 +172,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   VZ4(MVSIZ,3),VZ5(MVSIZ,3),VZ6(MVSIZ,3),
      .   ALDT(MVSIZ),AMU(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ),
      .   TEMPEL(MVSIZ),BID,KRZ(MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
      .  DIMENSION(:) ,POINTER  :: DIR_A,DIR_B
@@ -224,7 +224,7 @@ c--------------------------------------------
           N1 = FAILWAVE%IDXI(IXTG(2,I))
           N2 = FAILWAVE%IDXI(IXTG(3,I))
           N3 = FAILWAVE%IDXI(IXTG(4,I))
-          NFAIL = FAILWAVE%FWAVE_NOD(1,N1,1) 
+          NFAIL = FAILWAVE%FWAVE_NOD(1,N1,1)
      .          + FAILWAVE%FWAVE_NOD(1,N2,1)
      .          + FAILWAVE%FWAVE_NOD(1,N3,1)
           IF (NFAIL > 0) FWAVE_EL(I) = 1
@@ -253,7 +253,7 @@ C     transfert thermique pour les coques 3 noeud n'est pas dispo
       DO I=JFT,JLT
         A11R(I)   = ZERO
         TEMPEL(I) = ZERO
-      ENDDO 
+      ENDDO
 c---
       CALL CDK6COOR3(ELBUF_STR,JFT,JLT,MAT,PID,
      .              NGL,X,V,R,IXTG,GBUF%OFF,
@@ -281,14 +281,14 @@ C
      3               AREA4,AREA5,AREA6,PB1,PB2,PB3,NVS,IVS,IXTG1)
 C
       CALL CDK6DEFO3(JFT,JLT,VLX,VLY,VLZ,VZ4,VZ5,VZ6,
-     1               PX2,PY2,PX3,PY3,PB1,PB2,PB3,VDEF)  
+     1               PX2,PY2,PX3,PY3,PB1,PB2,PB3,VDEF)
       CALL CDK6STRA3(JFT, JLT, NFT, VDEF,GBUF%STRA,
-     1             EXX, EYY, EXY, EXZ,  EYZ,  
+     1             EXX, EYY, EXY, EXZ,  EYZ,
      2             KXX, KYY, KXY, DT1C, EPSDOT,
      3             IEPSDOT, ISTRAIN,NEL)
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
-c-------------------------------------------     
+c-------------------------------------------
       IF (INLOC > 0) THEN
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
@@ -299,7 +299,7 @@ c-------------------------------------------
           NC3(I)  = IXTG(4,I)
         ENDDO
         DO K = 1,NDDL
-#include "vectorize.inc"        
+#include "vectorize.inc"
           DO I = JFT,JLT
             INOD(1) = NLOC_DMG%IDXI(NC1(I))
             INOD(2) = NLOC_DMG%IDXI(NC2(I))
@@ -307,12 +307,12 @@ c-------------------------------------------
             IPOS(1) = NLOC_DMG%POSI(INOD(1))
             IPOS(2) = NLOC_DMG%POSI(INOD(2))
             IPOS(3) = NLOC_DMG%POSI(INOD(3))
-            VAR_REG(I,K) = THIRD*(DNL(IPOS(1)+K-1) 
-     .                          + DNL(IPOS(2)+K-1) 
+            VAR_REG(I,K) = THIRD*(DNL(IPOS(1)+K-1)
+     .                          + DNL(IPOS(2)+K-1)
      .                          + DNL(IPOS(3)+K-1))
           ENDDO
         ENDDO
-      ENDIF   
+      ENDIF
 C----------------------------------------------------------------------------
        CALL CMAIN3(
      1   ELBUF_STR ,JFT       ,JLT       ,NFT       ,IPARG      ,
@@ -381,14 +381,14 @@ C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
            CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE ,
      2                  RHO  ,GBUF%RK  ,VOL0 ,ALDT,MAT ,
-     3                  DT_THERM,OFF,CONDE) 
+     3                  DT_THERM,OFF,CONDE)
          ENDIF
 c-------------------------
-c     Virtual internal forces of regularized non local ddl 
+c     Virtual internal forces of regularized non local ddl
 c--------------------------
       IF (INLOC > 0) THEN
         CALL CDK6FINT_REG(NLOC_DMG,VAR_REG ,THK0    ,NEL     ,
-     .                    OFF     ,AREA    ,NC1     ,NC2     , 
+     .                    OFF     ,AREA    ,NC1     ,NC2     ,
      .                    NC3     ,PX2     ,PY2     ,PX3     ,
      .                    PY3     ,ELBUF_STR%NLOC(1,1),IXTG(1,JFT),
      .                    NDDL    ,ITASK   ,DT2T    ,ALDT    )
@@ -435,6 +435,6 @@ c--------------------------------------------
         ENDDO
       ENDIF
 C-----------
-      IF (ALLOCATED(VAR_REG))  DEALLOCATE(VAR_REG)     
+      IF (ALLOCATED(VAR_REG))  DEALLOCATE(VAR_REG)
       RETURN
       END

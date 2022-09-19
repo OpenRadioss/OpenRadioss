@@ -61,13 +61,13 @@ C-----------------------------------------------
      .        NER1,NER0,IEL
 C     REAL
 
-       INTEGER, DIMENSION(:), ALLOCATABLE :: 
+       INTEGER, DIMENSION(:), ALLOCATABLE ::
      .                             IRN,INDX,INDX0,ITAG,IRE,
      .                             INDXE, INDXE0, ITAGE
 C
 C  construction des materiaux rigides
 C
-      ALLOCATE (IRN(NUMNOD))  
+      ALLOCATE (IRN(NUMNOD))
       IRN = 0
       NR = 0
       NRSLN =0
@@ -76,12 +76,12 @@ C
            NR = NR + 1
            IRN(NR)= I
          ENDIF
-      ENDDO 
+      ENDDO
 C     
 C  allocation de tableau de travail
 C 
       ALLOCATE (INDX(NR),INDX0(NR),ITAG(NUMNOD))
-      ALLOCATE (INDXE(NER),INDXE0(NER),ITAGE(NER)) 
+      ALLOCATE (INDXE(NER),INDXE0(NER),ITAGE(NER))
 C initialisation      
       ITAG = 0
       ITAGE = 0
@@ -90,7 +90,7 @@ C initialisation
       INDXE  = 0
       INDXE0 = 0
 C      
-      NR1 = 0 
+      NR1 = 0
       NRB = 1
       ITAGE(1) = NRB
       INDXE(1) = 1
@@ -101,17 +101,17 @@ C
         IF(II > 0 ) THEN
           ITAG(II) = NRB
           NR1 = NR1 + 1
-          INDX(NR1) = II 
+          INDX(NR1) = II
         ENDIF
       ENDDO
 C      
       NREST = NR - NR1
       NER1 = 0
-      
+
       DO I=2,NER
           NER1 = NER1 + 1
           INDXE(NER1) = I
-      ENDDO  
+      ENDDO
 c      NRC = NR1
       KK = 0
        DO WHILE(NREST >  0 )
@@ -130,8 +130,8 @@ c      NRC = NR1
                     ENDIF
                   ENDDO
                 ENDIF
-             ENDDO 
-          ENDDO  
+             ENDDO
+          ENDDO
           NR1 = 0
           IF(NER0 > 0) THEN
               DO I=1,NER0
@@ -151,20 +151,20 @@ c      NRC = NR1
 C nbre d'element restant  
                  NER0 = 0
                  DO IE = 1, NER1
-                   IEL = INDXE(IE) 
+                   IEL = INDXE(IE)
                    IF(ITAGE(IEL) == 0) THEN
                       NER0 = NER0 + 1
                       INDXE0(NER0) = IEL
-                   ENDIF        
-                 ENDDO 
+                   ENDIF
+                 ENDDO
                  NER1  = NER0
                  DO I=1,NER0
                     INDXE(I)  = INDXE0(I)
                 ENDDO
 C noeud restant
-                 NREST = NREST - NR1 
+                 NREST = NREST - NR1
               ELSE
-               NRB = NRB  + 1 
+               NRB = NRB  + 1
                NER0 = 0
                 DO IE =1 , NER1
                   IEL = INDXE(IE)
@@ -172,7 +172,7 @@ C noeud restant
                     NER0 = NER0 + 1
                     INDXE0(NER0) = IEL
                   ENDIF
-                ENDDO    
+                ENDDO
 C creation d'un autre corps rigid 
                NER1 = NER0
                DO I=1,NER1
@@ -188,13 +188,13 @@ C
                   IF(II > 0 ) THEN
                       ITAG(II) = NRB
                       NR1 = NR1 + 1
-                      INDX(NR1) = II 
+                      INDX(NR1) = II
                   ENDIF
-                ENDDO 
+                ENDDO
 C                
                    NREST = NREST - NR1
-              ENDIF          
-          ELSE 
+              ENDIF
+          ELSE
                NRB = NRB + 1
 C creation d'un autre corps rigid 
                 NER0 = 0
@@ -204,28 +204,28 @@ C creation d'un autre corps rigid
                     NER0 = NER0 + 1
                     INDXE0(NER0) = IEL
                   ENDIF
-                ENDDO    
+                ENDDO
 C creation d'un autre corps rigid 
                NER1 = NER0
                DO I=1,NER1
                  INDXE(I) = INDXE0(I)
-               ENDDO 
+               ENDDO
                IEL = INDXE(1)
                ITAGE(IEL) = NRB
-               NR1 = 0    
+               NR1 = 0
                DO J=1,10
 cc                  IEL = INDXE(1)
                   II = CONNEC(IEL,J)
                   IF(II > 0 ) THEN
                       ITAG(II) = NRB
                       NR1 = NR1 + 1
-                      INDX(NR1) = II 
+                      INDX(NR1) = II
                   ENDIF
-               ENDDO 
+               ENDDO
 C
-               NREST = NREST - NR1  
+               NREST = NREST - NR1
              ENDIF
-           ENDDO 
+           ENDDO
 C
 C   creation des corps rigide
 C
@@ -244,7 +244,7 @@ C
             ENDIF
          ENDDO
          SLN(IR) = II
-         KK = KK + II 
+         KK = KK + II
          NRSLN = NRSLN + II
       ENDDO
 C          
@@ -252,4 +252,4 @@ C
        DEALLOCATE(INDXE,INDXE0,ITAGE)
       RETURN
       END
-      
+

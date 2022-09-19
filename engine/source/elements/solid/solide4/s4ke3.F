@@ -46,7 +46,7 @@ Chd|====================================================================
 C----------------------------------------------- 
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,12 +74,12 @@ C
      .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
 C
       my_real
-     .   PM(NPROPM,*), GEO(NPROPG,*), X(*), 
+     .   PM(NPROPM,*), GEO(NPROPG,*), X(*),
      .   K11(9,MVSIZ) ,K12(9,MVSIZ)  ,K13(9,MVSIZ)  ,K14(9,MVSIZ)  ,
      .   K22(9,MVSIZ) ,K23(9,MVSIZ)  ,K24(9,MVSIZ)  ,K33(9,MVSIZ)  ,
      .   K34(9,MVSIZ) ,K44(9,MVSIZ)  , OFF(MVSIZ)   ,BUFMAT(*)     ,
      .   K_DIAG(*)   ,K_LT(*)
-      TYPE(G_BUFEL_)  :: GBUF     
+      TYPE(G_BUFEL_)  :: GBUF
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -89,12 +89,12 @@ C-----------------------------------------------
      . RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      . SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,
      . TX(MVSIZ) , TY(MVSIZ) , TZ(MVSIZ) ,
-     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
-     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) , 
+     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
+     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
      .  E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,
      . VOLN(MVSIZ), DELTAX(MVSIZ), BID(1)
 C----------------
-      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ) 
+      INTEGER NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ)
       my_real
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
@@ -107,7 +107,7 @@ C                                                                     12
      .  HH(2,MVSIZ),DD(9,MVSIZ),GG(MVSIZ),DM(9,MVSIZ),GM(9,MVSIZ),
      .      DGM(9,MVSIZ),DG(9,MVSIZ),G33(9,MVSIZ),GAMA(MVSIZ,6)
 C----HH(1,):lamda,HH(2,):G
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -120,36 +120,36 @@ C-----------------------------------------------
 C-----------
       NF1=NFT+1
 C-----------
-      CALL S4COORK(X,IXS(1,NF1),                                    
-     .X1, X2, X3, X4,                                               
-     .Y1, Y2, Y3, Y4,                                               
-     .Z1, Z2, Z3, Z4,                                               
-     .GBUF%OFF,OFF,GBUF%SMSTR,                                      
-     .NC1,NC2,NC3,NC4,NGL,MXT,NGEO,                                 
-     .K11,K12,K13,K14,K22,K23,                                      
-     .K24,K33,K34,K44,NEL)                                              
-      CALL S4DERIT3(OFF,VOLN,NGL,DELTAX,MXT,                             
-     . X1, X2, X3, X4, Y1, Y2, Y3, Y4,                              
-     . Z1, Z2, Z3, Z4, PX1, PX2, PX3, PX4,                          
-     . PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,                      
+      CALL S4COORK(X,IXS(1,NF1),
+     .X1, X2, X3, X4,
+     .Y1, Y2, Y3, Y4,
+     .Z1, Z2, Z3, Z4,
+     .GBUF%OFF,OFF,GBUF%SMSTR,
+     .NC1,NC2,NC3,NC4,NGL,MXT,NGEO,
+     .K11,K12,K13,K14,K22,K23,
+     .K24,K33,K34,K44,NEL)
+      CALL S4DERIT3(OFF,VOLN,NGL,DELTAX,MXT,
+     . X1, X2, X3, X4, Y1, Y2, Y3, Y4,
+     . Z1, Z2, Z3, Z4, PX1, PX2, PX3, PX4,
+     . PY1, PY2, PY3, PY4, PZ1, PZ2, PZ3, PZ4,
      . RX,  RY,  RZ,  SX,  SY,  SZ, TX , TY , TZ,
-     . PM,VOLDP)                   
-      CALL SREPLOC3(                                                
-     .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,   
-     .     E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )   
-      IF (ISORTH == 0) THEN            
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                               
-          GAMA(I,2) = ZERO                                
-          GAMA(I,3) = ZERO             
-          GAMA(I,4) = ZERO                                
-          GAMA(I,5) = ONE                                
-          GAMA(I,6) = ZERO             
-        ENDDO                          
-      ELSE                             
+     . PM,VOLDP)
+      CALL SREPLOC3(
+     .     RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
+     .     E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  )
+      IF (ISORTH == 0) THEN
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
+          GAMA(I,3) = ZERO
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
+        ENDDO
+      ELSE
         CALL SORTHDIR3(
      .       RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
-     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  , 
+     .       E1X  ,E2X  ,E3X  ,E1Y  ,E2Y  ,E3Y  ,E1Z  ,E2Z  ,E3Z  ,
      .       GBUF%GAMA,GAMA )
         CALL MORTHLOCK3(LFT,LLT ,GAMA,E1X,E2X,E3X,
      +                  E1Y,E2Y ,E3Y ,E1Z,E2Z,E3Z)
@@ -187,15 +187,15 @@ C----------------------------
      .   PZ1, PZ2, PZ3, PZ4,
      .   K11,K12,K13,K14,K22,K23,
      .   K24,K33,K34,K44,NEL)
-      ENDIF 
-      
+      ENDIF
+
       IF (NEIG>0) CALL S8EOFF(
      1   LFT, LLT, IXS(1,NF1), ETAG, OFF)
       CALL ASSEM_S4(
      1   IXS(1,NF1),NEL   ,IDDL  ,NDOF  ,K_DIAG,
-     2   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,     
+     2   K_LT  ,IADK  ,JDIK  ,K11   ,K12   ,
      3   K13   ,K14   ,K22   ,K23   ,K24   ,
-     4   K33   ,K34   ,K44   ,OFF   )      
+     4   K33   ,K34   ,K44   ,OFF   )
 C
       RETURN
       END
@@ -230,9 +230,9 @@ C-----------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*) ,
      .   K22(3,3,*) ,K23(3,3,*)  ,K24(3,3,*),
      .   K33(3,3,*),K34(3,3,*),
@@ -259,34 +259,34 @@ C-----------------------------------------------
        ENDDO
 C -----------------------------------------------
       CALL S4KEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX1, PY1, PZ1, 
+     .   PX1, PY1 ,PZ1 ,PX1, PY1, PZ1,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K11 )
       CALL S4KEH3(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX2, PY2, PZ2, 
+     .   PX2, PY2 ,PZ2 ,PX2, PY2, PZ2,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K22 )
       CALL S4KEH3(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX3, PY3, PZ3, 
+     .   PX3, PY3 ,PZ3 ,PX3, PY3, PZ3,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K33 )
       CALL S4KEH3(LFT,LLT,
-     .   PX4, PY4 ,PZ4 ,PX4, PY4, PZ4, 
+     .   PX4, PY4 ,PZ4 ,PX4, PY4, PZ4,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K44 )
       CALL S4KEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX2, PY2, PZ2, 
+     .   PX1, PY1 ,PZ1 ,PX2, PY2, PZ2,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K12 )
       CALL S4KEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX3, PY3, PZ3, 
+     .   PX1, PY1 ,PZ1 ,PX3, PY3, PZ3,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K13 )
       CALL S4KEH3(LFT,LLT,
-     .   PX1, PY1 ,PZ1 ,PX4, PY4, PZ4, 
+     .   PX1, PY1 ,PZ1 ,PX4, PY4, PZ4,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K14 )
       CALL S4KEH3(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX3, PY3, PZ3, 
+     .   PX2, PY2 ,PZ2 ,PX3, PY3, PZ3,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K23 )
       CALL S4KEH3(LFT,LLT,
-     .   PX2, PY2 ,PZ2 ,PX4, PY4, PZ4, 
+     .   PX2, PY2 ,PZ2 ,PX4, PY4, PZ4,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K24 )
       CALL S4KEH3(LFT,LLT,
-     .   PX3, PY3 ,PZ3 ,PX4, PY4, PZ4, 
+     .   PX3, PY3 ,PZ3 ,PX4, PY4, PZ4,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,K34 )
 C
       RETURN
@@ -301,7 +301,7 @@ Chd|-- calls ---------------
 Chd|        S8ZKEH3                       source/elements/solid/solide8z/s8zke3.F
 Chd|====================================================================
       SUBROUTINE S4KEH3(LFT,LLT,
-     .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ, 
+     .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ,
      .   FXX, FYY ,FZZ ,FXY, FYZ, FXZ,KIJ )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -320,7 +320,7 @@ C-----------------------------------------------
       INTEGER LFT,LLT
 C     REAL
       my_real
-     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),  
+     .   PXI(*), PXJ(*),PYI(*), PYJ(*), PZI(*), PZJ(*),
      .   FXX(*),FYY(*),FZZ(*),FXY(*),FXZ(*),FYZ(*),KIJ(3,3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -331,7 +331,7 @@ C-----------------------------------------------
       INTEGER I,J
 C     REAL
       my_real
-     .   HIJ(MVSIZ) 
+     .   HIJ(MVSIZ)
 C-----------------------------------------------
       CALL S8ZKEH3(LFT,LLT,
      .   PXI, PYI ,PZI ,PXJ, PYJ, PZJ, HIJ ,
@@ -369,15 +369,15 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT
-      my_real  
-     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) , 
-     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) , 
+      my_real
+     .  E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
+     .  E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
      .  E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) ,GAMA(MVSIZ,6)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   S11, S12, S13, S21, S22, S31,S32,S1,S2
 C-----gama -> orthotropic system [{a}{b}{c}]---
         DO I=LFT,LLT
@@ -388,11 +388,11 @@ C
           S12 = GAMA(I,4)*E1X(I)+GAMA(I,5)*E2X(I)+GAMA(I,6)*E3X(I)
           S22 = GAMA(I,4)*E1Y(I)+GAMA(I,5)*E2Y(I)+GAMA(I,6)*E3Y(I)
           S32 = GAMA(I,4)*E1Z(I)+GAMA(I,5)*E2Z(I)+GAMA(I,6)*E3Z(I)
-          GAMA(I,1) = S11                                  
-          GAMA(I,2) = S21                                  
-          GAMA(I,3) = S31 
-          GAMA(I,4) = S12                                  
-          GAMA(I,5) = S22                                  
+          GAMA(I,1) = S11
+          GAMA(I,2) = S21
+          GAMA(I,3) = S31
+          GAMA(I,4) = S12
+          GAMA(I,5) = S22
           GAMA(I,6) = S32
        END DO
 C

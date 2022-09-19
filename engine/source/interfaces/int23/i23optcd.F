@@ -159,7 +159,7 @@ C necessaire pour gap TYPE5
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
            IG(IS) = NSV(CAND_N(I))
            XI = X(1,IG(IS))
            YI = X(2,IG(IS))
@@ -208,7 +208,7 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
            IG(IS) = NSV(CAND_N(I))
            ZI = X(3,IG(IS))
            IX1(IS)=IRECT(1,L)
@@ -294,7 +294,7 @@ C
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
              ZI = XFI(NIN)%P(3,II)
@@ -344,7 +344,7 @@ C
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
               ZI = XFI(NIN)%P(3,II)
               IX1(IS)=IRECT(1,L)
               Z1=X(3,IX1(IS))
@@ -411,7 +411,7 @@ C
 C
 #include "lockon.inc"
       LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
-      COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT 
+      COUNT_REMSLV(NIN)=COUNT_REMSLV(NIN)+CT
 #include "lockoff.inc"
 C
 C-----------------------------------------------

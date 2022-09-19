@@ -137,14 +137,14 @@ C---------------------------------------------
           LL=LNSV(NPT+JJ)
           STFN(J)=STFN(J) + HALF*STF(LL)
         ENDDO
-      ENDDO	  
+      ENDDO	
 
 C---------------------------------------------
 C     SECND NODAL SURFACE COMPUTATION
 C---------------------------------------------
 C
       IF(NTY == 3) THEN
-       DO I = 1,NSN    
+       DO I = 1,NSN
          AREAS(I) = ZERO
          DO J= KNOD2ELQ(NSV(I))+1,KNOD2ELQ(NSV(I)+1)
             IE = NOD2ELQ(J)
@@ -165,21 +165,21 @@ c
           ENDDO
        ENDDO
       ELSEIF(NTY == 5) THEN
-       DO I = 1,NSNS   
+       DO I = 1,NSNS
          AREAS(I) = ZERO
           DO J= KNOD2ELQ(NSVS(I))+1,KNOD2ELQ(NSVS(I)+1)
             IE = NOD2ELQ(J)
-            DO L=1,4 
+            DO L=1,4
               IF(IXQ(LINES(1,L)+1,IE) ==NSVS(I)) THEN
                  LIN = L
                  EXIT
-              ENDIF   
+              ENDIF
             ENDDO
 
            DO K=1,NSEGQUADFR
               N  =SEGQUADFR(1,K)
               ILINE=SEGQUADFR(2,K)
-              
+
               IF(N==IE.AND.ILINE==LIN) THEN
 
                 N1=IXQ(LINES(1,ILINE)+1,N)

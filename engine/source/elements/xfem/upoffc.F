@@ -136,18 +136,18 @@ C---
             ENDIF  !  IF (ABS(ILAYCUT) == 1)
           ENDDO  !  DO IXEL=1,NXEL
 c
-          FAC = 0                                      
-          DO K=1,4                                     
-            IF (OPEN_EDGE(K,ILAY) == 1) FAC = FAC + 1  
-          ENDDO                                        
-          IF (FAC > 0) THEN                            
-            DO K=1,4                                   
-              IEDGE = XEDGE4N(K,ELCRK)                 
-              IF (OPEN_EDGE(K,ILAY) == 1) THEN         
-                CRKEDGE(ILAY)%IBORDEDGE(IEDGE) = 2     
-              ENDIF                                    
-            ENDDO                                      
-          ENDIF                                        
+          FAC = 0
+          DO K=1,4
+            IF (OPEN_EDGE(K,ILAY) == 1) FAC = FAC + 1
+          ENDDO
+          IF (FAC > 0) THEN
+            DO K=1,4
+              IEDGE = XEDGE4N(K,ELCRK)
+              IF (OPEN_EDGE(K,ILAY) == 1) THEN
+                CRKEDGE(ILAY)%IBORDEDGE(IEDGE) = 2
+              ENDIF
+            ENDDO
+          ENDIF
 C--------------------------
 c         delete both phantoms on the same side for ITRI /= 0
 C--------------------------
@@ -165,7 +165,7 @@ C--------------------------
               ELSEIF (XFEM_TAB(NG,3)%GBUF%OFF(I) == ZERO) THEN
                   XFEM_TAB(NG,2)%GBUF%OFF(I) =  ZERO
               ENDIF
-            ENDIF              
+            ENDIF
           ELSEIF (ITRI > 0) THEN
             IF (NXLAY > 1) THEN
               IF (XFEM_TAB(NG,1)%BUFLY(ILAY)%LBUF(1,1,1)%OFF(I) == ZERO) THEN
@@ -179,7 +179,7 @@ C--------------------------
               ELSEIF (XFEM_TAB(NG,3)%GBUF%OFF(I) == ZERO) THEN
                   XFEM_TAB(NG,1)%GBUF%OFF(I) =  ZERO
               ENDIF
-            ENDIF              
+            ENDIF
           ENDIF
 C---
         ENDDO  !  DO ILAY=1,NXLAY

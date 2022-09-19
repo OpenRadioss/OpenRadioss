@@ -34,7 +34,7 @@ Chd|====================================================================
      .            VR,IXC,PM,OFFG,LL,
      1            AREA,VXYZ, RXYZ,VCORE,JAC,HX,HY,VKSI,VETA,
      2            VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,
-     3            X13_T  ,X24_T  ,Y13_T,Y24_T,OFF,DI,NLAY, 
+     3            X13_T  ,X24_T  ,Y13_T,Y24_T,OFF,DI,NLAY,
      4            IREP  ,NPT   ,ISMSTR,NEL   ,ISROT ,
      5            SMSTR ,DIR_A ,DIR_B ,FACN  ,ZL1   ,
      6            R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,
@@ -118,20 +118,20 @@ c  O  VJFI,VNRM,VASTN     - terms used for assumed strains
 c  O  NPLAT,IPLAT(NEL)    - num. of plat element and indice
 c  O  Xij_T,Yij_T(NEL)    - [B] components used for in-plane shear assumed strain
 c  IO XiS,YiS,ZiS(NEL)    - reference configurations used for small strain options
-c  I  ISMSTR,IREP         - small strain and orthotrop flags 
+c  I  ISMSTR,IREP         - small strain and orthotrop flags
 c  O  DIR_A,DIR_B(2,NEL)  - actual orthotropic directions
 c  O  ZL1(NEL)            - warped length
 c  O  Rij(NEL)            - local system base
 c  I  IDRIL               - drilling dof flag
-c  O  RLZ(4,NEL)          - nodal Rz (rotational velocity) in local system 
+c  O  RLZ(4,NEL)          - nodal Rz (rotational velocity) in local system
 c                          (used only Idril active )
-c  I  INOD(NUMNOD)        -Node numbers for PLYXFEM     
+c  I  INOD(NUMNOD)        -Node numbers for PLYXFEM
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,II(6),J,K,L,M,I1,I2,I3,I4,EP,SPLAT,JJ
       INTEGER NN(4),JPLAT(MVSIZ)
-      MY_REAL 
+      MY_REAL
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
       MY_REAL
      .   C1,C2,L13(MVSIZ),L24(MVSIZ),
@@ -143,14 +143,14 @@ C-----------------------------------------------
      .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z_2,Z41,Z32,L12,L34,
      .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,LM(MVSIZ),Y24,Y24_2,
      .    MY23,MY34,SCAL,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2,
-     .   AR(3),AD(NNOD),BTB(6),XX1,YY,ZZ,XY,XZ1,YZ,D(6), 
+     .   AR(3),AD(NNOD),BTB(6),XX1,YY,ZZ,XY,XZ1,YZ,D(6),
      .   ALR(3),ALD(NNOD),DBAD(3),ABC,XXYZ2,ZZXY2,YYXZ2
-      my_real 
+      my_real
      .   LXYZ0(3),DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),
      .   XX,AREA_I(MVSIZ),SSZ(MVSIZ)
 C
-      my_real 
+      my_real
      .   VG13(3),VG24(3),VGHI(3),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   FACI,FAC1,FAC2,
      .   DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2,DDRZ,
@@ -205,14 +205,14 @@ C
         SY(I)=X(2,IXC(4,I))+X(2,IXC(5,I))-X(2,IXC(2,I))-X(2,IXC(3,I))
         RZ(I)=X(3,IXC(3,I))+X(3,IXC(4,I))-X(3,IXC(2,I))-X(3,IXC(5,I))
         SSZ(I)=X(3,IXC(4,I))+X(3,IXC(5,I))-X(3,IXC(2,I))-X(3,IXC(3,I))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
       K = 0
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SSZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SSZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         AREA(I)=FOURTH*DETA1(I)
@@ -226,7 +226,7 @@ C----------------------------
         VQ(I,1,3)=R13(I)
         VQ(I,2,3)=R23(I)
         VQ(I,3,3)=R33(I)
-      ENDDO 
+      ENDDO
 c
       DO I=JFT,JLT
 
@@ -347,7 +347,7 @@ C----------------------------
 C     ORTHOTROPY
 C----------------------------
         CALL CORTDIR3(ELBUF_STR,DIR_A  ,DIR_B ,JFT    ,JLT    ,
-     .                NLAY     ,IREP   ,RX    ,RY     ,RZ     , 
+     .                NLAY     ,IREP   ,RX    ,RY     ,RZ     ,
      .                SX       ,SY     ,SSZ   ,R11    ,R21    ,
      .                R31      ,R12    ,R22   ,R32    ,NEL    )
 C----------------------------
@@ -373,7 +373,7 @@ C
         C1 =VCORE(EP,1,2)*VCORE(EP,2,4)-VCORE(EP,2,2)*VCORE(EP,1,4)
         C2 =VCORE(EP,1,1)*VCORE(EP,2,3)-VCORE(EP,2,1)*VCORE(EP,1,3)
         LM(EP) =MAX(ABS(C1),ABS(C2))
-      ENDDO 
+      ENDDO
 c
       DO EP=JFT,JLT
 
@@ -425,7 +425,7 @@ C
      1           +VQ(EP,3,3)*VG24(3))
         VHI(EP,3)=(VQ(EP,1,3)*VGHI(1)+VQ(EP,2,3)*VGHI(2)
      1           +VQ(EP,3,3)*VGHI(3))
-      ENDDO 
+      ENDDO
 C
        IF (ISHV51>51.AND.(IMPL_S==0.OR.IMP_LR>0)) THEN
         DT05 = HALF*DT1
@@ -449,7 +449,7 @@ C
          V24(I,2) = V24(I,2)-DDRX*V24(I,3)-DDRZ2*V24X
          VHI(I,2) = VHI(I,2)-DDRX*VHI(I,3)-DDRZ2*VHIX
         ENDDO
-       ENDIF 
+       ENDIF
       NPLAT=JFT-1
       SPLAT= 0
 C [PM] in order to make all shells as non-flat shells for pinching
@@ -463,10 +463,10 @@ C [PM] flat shells algorithm not implemented for pinching
         SPLAT=SPLAT+1
         JPLAT(SPLAT)=EP
        ENDIF
-      ENDDO 
+      ENDDO
       DO EP=NPLAT+1,JLT
         IPLAT(EP)=JPLAT(EP-NPLAT)
-      ENDDO 
+      ENDDO
 #include "vectorize.inc"
       DO I=JFT,NPLAT
         EP =IPLAT(I)
@@ -567,36 +567,36 @@ C----   JAC(jacobiens aux points d'integration)peut etre negative------
         HY(EP,3)=-J1/JAC(EP,3)
         HY(EP,4)=-J2/JAC(EP,4)
 C
-            
+
       ENDDO
 #include "vectorize.inc"
       DO I=NPLAT+1,JLT
        EP =IPLAT(I)
        Z1=ZL1(EP)
        Z2=Z1*Z1
-       VCORE(EP,3,1)=Z1 
-       VCORE(EP,3,2)=-Z1 
-       VCORE(EP,3,3)=Z1 
-       VCORE(EP,3,4)=-Z1 
-       COREL(1,1)=VCORE(EP,1,1) 
-       COREL(1,2)=VCORE(EP,1,2) 
-       COREL(1,3)=VCORE(EP,1,3) 
+       VCORE(EP,3,1)=Z1
+       VCORE(EP,3,2)=-Z1
+       VCORE(EP,3,3)=Z1
+       VCORE(EP,3,4)=-Z1
+       COREL(1,1)=VCORE(EP,1,1)
+       COREL(1,2)=VCORE(EP,1,2)
+       COREL(1,3)=VCORE(EP,1,3)
        COREL(1,4)=VCORE(EP,1,4)
-       COREL(2,1)=VCORE(EP,2,1) 
-       COREL(2,2)=VCORE(EP,2,2) 
+       COREL(2,1)=VCORE(EP,2,1)
+       COREL(2,2)=VCORE(EP,2,2)
        COREL(2,3)=VCORE(EP,2,3)
        COREL(2,4)=VCORE(EP,2,4)
        X13 =X13_T(EP)
        X24 =X24_T(EP)
        Y13 =Y13_T(EP)
        Y24 =Y24_T(EP)
-cc       
+cc
        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
        MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*HALF
        MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*HALF
        MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*HALF
-       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF       
+       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF
        X13_T(EP) =X13*AREA_I(EP)
        X24_T(EP) =X24*AREA_I(EP)
        Y13_T(EP) =Y13*AREA_I(EP)
@@ -707,12 +707,12 @@ C
 C        
 C desactiver pour l'instant   
 !!         IF(ANIM_PLY < 0 ) THEN
-!!            I1 = INOD(NN(1)) 
+!!            I1 = INOD(NN(1))
 !!            I2 = INOD(NN(2))
-!!            I3 = INOD(NN(3)) 
+!!            I3 = INOD(NN(3))
 !!           I4 = INOD(NN(4))
 C            
-!!            NORM =SQRT(VQN(EP,7,1)**2 + VQN(EP,8,1)**2 + VQN(EP,9,1)**2) 
+!!            NORM =SQRT(VQN(EP,7,1)**2 + VQN(EP,8,1)**2 + VQN(EP,9,1)**2)
 !!            VN_NOD(1,I1)=VN_NOD(1,I1)+VQN(EP,7,1)/MAX(NORM, EM20)
 !!            VN_NOD(2,I1)=VN_NOD(2,I1)+VQN(EP,8,1)/MAX(NORM, EM20)
 !!            VN_NOD(3,I1)=VN_NOD(3,I1)+VQN(EP,9,1)/MAX(NORM, EM20)
@@ -725,14 +725,14 @@ C
 !!            NORM =SQRT(VQN(EP,7,3)**2 + VQN(EP,8,3)**2 + VQN(EP,9,3)**2)
 !!            VN_NOD(1,I3)=VN_NOD(1,I3)+VQN(EP,7,3)/MAX(NORM, EM20)
 !!            VN_NOD(2,I3)=VN_NOD(2,I3)+VQN(EP,8,3)/MAX(NORM, EM20)
-!!            VN_NOD(3,I3)=VN_NOD(3,I3)+VQN(EP,9,3)/MAX(NORM, EM20) 
+!!            VN_NOD(3,I3)=VN_NOD(3,I3)+VQN(EP,9,3)/MAX(NORM, EM20)
 c
 !!            NORM =SQRT(VQN(EP,7,4)**2 + VQN(EP,8,4)**2 + VQN(EP,9,4)**2)
 !!            VN_NOD(1,I4)=VN_NOD(1,I4)+VQN(EP,7,4)/MAX(NORM, EM20)
 !!            VN_NOD(2,I4)=VN_NOD(2,I4)+VQN(EP,8,4)/MAX(NORM, EM20)
 !!            VN_NOD(3,I4)=VN_NOD(3,I4)+VQN(EP,9,4)/MAX(NORM, EM20)
 C     
-!!         ENDIF      
+!!         ENDIF
 C--------------------------------------------------
 C   CALCUL DE AS N AU MILIEU DES COTES
 C--------------------------------------------------
@@ -817,7 +817,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         G1X1=MX23-JMX13
         G1Y1=MY23-JMY13
         C1 = SQRT(G1X1*G1X1 + G1Y1*G1Y1 +J2MYZ )
-        G2X1=MX34-JMX13 
+        G2X1=MX34-JMX13
         G2Y1=MY34-JMY13
         C2 = SQRT(G2X1*G2X1 + G2Y1*G2Y1 +J2MYZ)
        VJFI(EP,1,1)=(G2Y1*VQG(EP,9,1)+JMZ13*VQG(EP,8,1))
@@ -858,7 +858,7 @@ C
         G1Y3=MY23+JMY13
         J1 = SQRT(G1X3*G1X3 + G1Y3*G1Y3 +J2MYZ )
 C--------G2X3=G2X2------
-        G2X2=MX34+JMX13 
+        G2X2=MX34+JMX13
         G2Y2=MY34+JMY13
         J2 = SQRT(G2X2*G2X2 + G2Y2*G2Y2 +J2MYZ)
        VJFI(EP,1,3)=(G2Y2*VQG(EP,9,3)-JMZ13*VQG(EP,8,3))
@@ -984,12 +984,12 @@ C
         EP =IPLAT(I)
         Z1=ZL1(EP)
         Z2=Z1*Z1
-        COREL(1,1)=VCORE(EP,1,1) 
-        COREL(1,2)=VCORE(EP,1,2) 
-        COREL(1,3)=VCORE(EP,1,3) 
+        COREL(1,1)=VCORE(EP,1,1)
+        COREL(1,2)=VCORE(EP,1,2)
+        COREL(1,3)=VCORE(EP,1,3)
         COREL(1,4)=VCORE(EP,1,4)
-        COREL(2,1)=VCORE(EP,2,1) 
-        COREL(2,2)=VCORE(EP,2,2) 
+        COREL(2,1)=VCORE(EP,2,1)
+        COREL(2,2)=VCORE(EP,2,2)
         COREL(2,3)=VCORE(EP,2,3)
         COREL(2,4)=VCORE(EP,2,4)
         NN(1)=IXC(2,EP)
@@ -1141,7 +1141,7 @@ C--------drilling dof
          RLZ(I,4)=(VQN(EP,7,4)*RR(1,4)+
      1             VQN(EP,8,4)*RR(2,4)+VQN(EP,9,4)*RR(3,4))
         END IF !(ISROT>0) THEN
-       END DO 
+       END DO
 C
 C----------------------------
 C---------Facteur pour longueur caracteristique---
@@ -1206,16 +1206,16 @@ C
           RXYZ(EP,1,3)= ZERO
           RXYZ(EP,2,3)= ZERO
           RXYZ(EP,1,4)= ZERO
-          RXYZ(EP,2,4)= ZERO  
+          RXYZ(EP,2,4)= ZERO
          ENDIF
         ENDDO
       ENDIF
          IF(ANIM_PLY > 0) THEN
 #include "lockon.inc"
            DO EP=JFT,JLT
-            I1 = INOD(IXC(2,EP)) 
+            I1 = INOD(IXC(2,EP))
             I2 = INOD(IXC(3,EP))
-            I3 = INOD(IXC(4,EP)) 
+            I3 = INOD(IXC(4,EP))
             I4 = INOD(IXC(5,EP))
 cc
            VN_NOD(1,I1) = VN_NOD(1,I1)+VQ(EP,1,3)
@@ -1236,7 +1236,7 @@ C
             VN_NOD(3,I4) =VN_NOD(3,I4)+VQ(EP,3,3)
            ENDDO
 #include "lockoff.inc"
-         ENDIF  
+         ENDIF
 C-------------              
         RETURN
         END
@@ -1316,7 +1316,7 @@ c  O  JAC,HX,HY(4,NEL)    -Jacobien,asymetric part(hourglass) at 4 Gauss points
 c  O  VQ(9,NEL),VQN,VQG(9,4,) - local system of element, nodal(4) and Gauss points(4)
 c  O  Xij_T,Yij_T(NEL)    - [B] components used for in-plane shear assumed strain
 c  IO XiS,YiS,ZiS(NEL)    - reference configurations used for small strain options
-c  I  ISMSTR              - small strain  
+c  I  ISMSTR              - small strain
 c  O  ZL1(NEL)            - warped length
 c  I  IDRIL               - drilling dof flag
 c                          (used only Idril active )
@@ -1325,7 +1325,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,II(9),J,K,L,M,I1,I2,I3,I4,EP,SPLAT,JJ
       INTEGER NN(4),JPLAT(MVSIZ),IFPROJ
-      MY_REAL 
+      MY_REAL
      .   XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
       MY_REAL
      .   C1,C2,L13(MVSIZ),L24(MVSIZ),
@@ -1337,16 +1337,16 @@ C-----------------------------------------------
      .    X21,X34,Y21,Y34,Z21,Z34,X41,X32,Y41,Y32,Z_2,Z41,Z32,L12,L34,
      .    A_4,SL,SZ2,SZ,JMX13,JMY13,JMZ13,J2MYZ,LM(MVSIZ),Y24,Y24_2,
      .    MY23,MY34,SCAL,G1X1,G1X3,G1Y1,G1Y3,G2X1,G2X2,G2Y1,G2Y2,
-     .   AR(3),AD(NNOD),BTB(6),XX1,YY,ZZ,XY,XZ1,YZ,D(6), 
+     .   AR(3),AD(NNOD),BTB(6),XX1,YY,ZZ,XY,XZ1,YZ,D(6),
      .   ALR(3),ALD(NNOD),DBAD(3),ABC,XXYZ2,ZZXY2,YYXZ2
-      my_real 
+      my_real
      .   LXYZ0(3),DETA1(MVSIZ),
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),
      .   YL3(MVSIZ),YL4(MVSIZ),XX,AREA_I(MVSIZ),
      .   X0G2(MVSIZ),X0G3(MVSIZ),X0G4(MVSIZ),Y0G2(MVSIZ),
      .   Y0G3(MVSIZ),Y0G4(MVSIZ),Z0G2(MVSIZ),Z0G3(MVSIZ),Z0G4(MVSIZ)
 C
-      my_real 
+      my_real
      .   VG13(3),VG24(3),VGHI(3),V13(MVSIZ,3),V24(MVSIZ,3),VHI(MVSIZ,3),
      .   FACI,FAC1,FAC2,VR1_12,VR1_21,
      .   DT05,DT025,EXZ,EYZ,DDRX,DDRY,V13X,V24X,VHIX,DDRZ1,DDRZ2,DDRZ,
@@ -1390,7 +1390,7 @@ C
             AXYZ(I,2,4) = DR(2,NN(4))
             AXYZ(I,3,4) = DR(3,NN(4))
            END IF !(ISROT > 0  ) THEN
-            
+
             X0G2(I) = SMSTR(II(1)+I)
             Y0G2(I) = SMSTR(II(2)+I)
             Z0G2(I) = SMSTR(II(3)+I)
@@ -1414,14 +1414,14 @@ C--       normal in initial conf. to compute Z1
         SY(I)=Y0G3(I)+Y0G4(I)-Y0G2(I)
         RZ(I)=Z0G2(I)+Z0G3(I)-Z0G4(I)
         SSZ(I)=Z0G3(I)+Z0G4(I)-Z0G2(I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM VQ0
 C----------------------------
       K = 0
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SSZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SSZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         AREA(I)=FOURTH*DETA1(I)
@@ -1435,13 +1435,13 @@ C----------------------------
         VQ0(I,1,3)=R13(I)
         VQ0(I,2,3)=R23(I)
         VQ0(I,3,3)=R33(I)
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         LXYZ0(1)=FOURTH*(X0G2(I)+X0G3(I)+X0G4(I))
         LXYZ0(2)=FOURTH*(Y0G2(I)+Y0G3(I)+Y0G4(I))
         LXYZ0(3)=FOURTH*(Z0G2(I)+Z0G3(I)+Z0G4(I))
         ZL1(I)=-(VQ0(I,1,3)*LXYZ0(1)+VQ0(I,2,3)*LXYZ0(2)+VQ0(I,3,3)*LXYZ0(3))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     xl =R1^t x0l; R1^t=(VQ0^t*VQ)^t---extract Rz0 of R1
 C----------------------------
@@ -1451,7 +1451,7 @@ C----------------------------
        DIRZ(I,2) = HALF*(VR1_12-VR1_21)
        NORM = ONE-DIRZ(I,2)*DIRZ(I,2)
        DIRZ(I,1) = SQRT(MAX(ZERO,NORM))
-      ENDDO 
+      ENDDO
       DO I=JFT,JLT
         X0L2(I)=VQ0(I,1,1)*X0G2(I)+VQ0(I,2,1)*Y0G2(I)+VQ0(I,3,1)*Z0G2(I)
         Y0L2(I)=VQ0(I,1,2)*X0G2(I)+VQ0(I,2,2)*Y0G2(I)+VQ0(I,3,2)*Z0G2(I)
@@ -1496,7 +1496,7 @@ C-----------UL : xl - x0l' (rotated of rz0)
         V13(I,3)=ZERO
         V24(I,3)=ZERO
         VHI(I,3)=FOUR*(ZL(I)-ZL1(I))
-      ENDDO 
+      ENDDO
 C-------set up B_l by rotating B0_l (Rz0)      
       DO I=JFT,JLT
         XL2(I)=X0L2(I)
@@ -1526,7 +1526,7 @@ C
         L13(EP)=X13_T(EP)*X13_T(EP)+Y13_T(EP)*Y13_T(EP)
         L24(EP)=X24_T(EP)*X24_T(EP)+Y24_T(EP)*Y24_T(EP)
         LL(EP)=MAX(L13(EP),L24(EP))
-      ENDDO 
+      ENDDO
 c
       NPLAT=JFT-1
       SPLAT= 0
@@ -1539,10 +1539,10 @@ c
         SPLAT=SPLAT+1
         JPLAT(SPLAT)=EP
        ENDIF
-      ENDDO 
+      ENDDO
       DO EP=NPLAT+1,JLT
         IPLAT(EP)=JPLAT(EP-NPLAT)
-      ENDDO 
+      ENDDO
 #include "vectorize.inc"
       DO I=JFT,NPLAT
         EP =IPLAT(I)
@@ -1636,29 +1636,29 @@ C----------group warped elements , VJFI,VQN,VQG
        EP =IPLAT(I)
        Z1=ZL1(EP)
        Z2=Z1*Z1
-       VCORE(EP,3,1)=Z1 
-       VCORE(EP,3,2)=-Z1 
-       VCORE(EP,3,3)=Z1 
-       VCORE(EP,3,4)=-Z1 
-       COREL(1,1)=VCORE(EP,1,1) 
-       COREL(1,2)=VCORE(EP,1,2) 
-       COREL(1,3)=VCORE(EP,1,3) 
+       VCORE(EP,3,1)=Z1
+       VCORE(EP,3,2)=-Z1
+       VCORE(EP,3,3)=Z1
+       VCORE(EP,3,4)=-Z1
+       COREL(1,1)=VCORE(EP,1,1)
+       COREL(1,2)=VCORE(EP,1,2)
+       COREL(1,3)=VCORE(EP,1,3)
        COREL(1,4)=VCORE(EP,1,4)
-       COREL(2,1)=VCORE(EP,2,1) 
-       COREL(2,2)=VCORE(EP,2,2) 
+       COREL(2,1)=VCORE(EP,2,1)
+       COREL(2,2)=VCORE(EP,2,2)
        COREL(2,3)=VCORE(EP,2,3)
        COREL(2,4)=VCORE(EP,2,4)
        X13 =X13_T(EP)
        X24 =X24_T(EP)
        Y13 =Y13_T(EP)
        Y24 =Y24_T(EP)
-cc       
+cc
        MX13=(VCORE(EP,1,1)+VCORE(EP,1,3))*HALF
        MY13=(VCORE(EP,2,1)+VCORE(EP,2,3))*HALF
        MX23=(VCORE(EP,1,2)+VCORE(EP,1,3))*HALF
        MY23=(VCORE(EP,2,2)+VCORE(EP,2,3))*HALF
        MX34=(VCORE(EP,1,3)+VCORE(EP,1,4))*HALF
-       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF       
+       MY34=(VCORE(EP,2,3)+VCORE(EP,2,4))*HALF
        X13_T(EP) =X13*AREA_I(EP)
        X24_T(EP) =X24*AREA_I(EP)
        Y13_T(EP) =Y13*AREA_I(EP)
@@ -1712,7 +1712,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
         G1X1=MX23-JMX13
         G1Y1=MY23-JMY13
         C1 = SQRT(G1X1*G1X1 + G1Y1*G1Y1 +J2MYZ )
-        G2X1=MX34-JMX13 
+        G2X1=MX34-JMX13
         G2Y1=MY34-JMY13
         C2 = SQRT(G2X1*G2X1 + G2Y1*G2Y1 +J2MYZ)
        VJFI(EP,1,1)=(G2Y1*VQG(EP,9,1)+JMZ13*VQG(EP,8,1))
@@ -1753,7 +1753,7 @@ C
         G1Y3=MY23+JMY13
         J1 = SQRT(G1X3*G1X3 + G1Y3*G1Y3 +J2MYZ )
 C--------G2X3=G2X2------
-        G2X2=MX34+JMX13 
+        G2X2=MX34+JMX13
         G2Y2=MY34+JMY13
         J2 = SQRT(G2X2*G2X2 + G2Y2*G2Y2 +J2MYZ)
        VJFI(EP,1,3)=(G2Y2*VQG(EP,9,3)-JMZ13*VQG(EP,8,3))

@@ -35,7 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,17 +69,17 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       INTEGER I,NSKIN,ISOLNOD,ICS,NG,N,J
-      INTEGER 
-     .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
+      INTEGER
+     .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ,
      .        NN,NN1,N1,IDB
       INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL
       INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
       DATA PWR/1,2,4,8,16,32,64/
       DATA FACES/4,3,2,1,
      .           5,6,7,8,
@@ -93,20 +93,20 @@ C-----------------------------------------------
      .           4,6,5/
 C-----------------------------------------------
        NSKIN =0
-      IF (NUMSKIN> NUMSKINP) THEN      
+      IF (NUMSKIN> NUMSKINP) THEN
        DO NG=1,NGROUP
         ISOLNOD = IPARG(28,NG)
-        ICS     = IPARG(17,NG)                                        
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
+        ICS     = IPARG(17,NG)
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
         GBUF => ELBUF_TAB(NG)%GBUF
-        IF(MLW == 13 .OR. MLW == 0) CYCLE          
+        IF(MLW == 13 .OR. MLW == 0) CYCLE
 C-----------------------------------------------
 C       THICK-SHELL 
 C-----------------------------------------------
@@ -115,7 +115,7 @@ C-----------------------------------------------
 !              5--------------|6
 !              |  |           | |
 !              |  4-----------|-3
-!              | /            |/     
+!              | /            |/
 !              1--------------2
         IF (ITY == 1.AND.(IGTYP==20 .OR. IGTYP==21 .OR. IGTYP==22)) THEN
 
@@ -130,31 +130,31 @@ C-------- grp skin_sup
             END DO
             NSKIN = NSKIN + NEL
 C-----------------------------------------------
-        ENDIF !IF (ITY == 1.AND.(IGTYP==20 
+        ENDIF !IF (ITY == 1.AND.(IGTYP==20
        END DO ! NG=1,NGROUP
-      END IF !(NUMSKIN> NUMSKINP) THEN      
+      END IF !(NUMSKIN> NUMSKINP) THEN
 C------SOLID elements 
        NFT = NSKIN
-      IF (NUMSKIN> (NSKIN+NUMSKINP)) THEN      
+      IF (NUMSKIN> (NSKIN+NUMSKINP)) THEN
 C      
        DO NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
         GBUF => ELBUF_TAB(NG)%GBUF
-        IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE   
+        IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE
 C------     
         IF (IGTYP==6 .OR. IGTYP==14 ) THEN
            ISOLNOD = IPARG(28,NG)
-           ICS     = IPARG(17,NG)                                        
+           ICS     = IPARG(17,NG)
            IF(ISOLNOD == 4)THEN
 C---------each face             
-             DO I=1,NEL 
+             DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
                JJ = 5
@@ -185,7 +185,7 @@ C---------1,2,4
            ELSEIF(ISOLNOD == 6)THEN
            ELSEIF(ISOLNOD == 10)THEN
 C---------each face    4x4         
-             DO I=1,NEL 
+             DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
 C---------1,2,3             
@@ -194,7 +194,7 @@ C---------1,2,3
                   DO J=1,4
                      NSKIN = NSKIN + 1
                      SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
-                  END DO 
+                  END DO
                END IF
 C---------2,3 ,4            
                JJ = 4
@@ -202,7 +202,7 @@ C---------2,3 ,4
                   DO J=1,4
                      NSKIN = NSKIN + 1
                      SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
-                  END DO 
+                  END DO
                END IF
 C---------1,4,3           
                JJ = 3
@@ -210,7 +210,7 @@ C---------1,4,3
                   DO J=1,4
                      NSKIN = NSKIN + 1
                      SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
-                  END DO 
+                  END DO
                END IF
 C---------1,2,4            
                JJ = 6
@@ -218,12 +218,12 @@ C---------1,2,4
                   DO J=1,4
                      NSKIN = NSKIN + 1
                      SKIN_OFF(NSKIN) = NINT(MIN(GBUF%OFF(I),ONE))
-                  END DO 
+                  END DO
                END IF
              ENDDO
 C-----------S8 (&degenerated),S20           
            ELSE
-             DO I=1,NEL 
+             DO I=1,NEL
                 N = I + NFT
                 NC(1:8,I) = IXS(2:9,N)
                 LL=TAG_SKINS6(N)
@@ -254,16 +254,16 @@ C---------for degenerated cases
                ENDDO
              ENDDO
            ENDIF
-        ENDIF !IF (IGTYP== 
+        ENDIF !IF (IGTYP==
        END DO ! NG=1,NGROUP
-      END IF !(NUMSKIN> (NSKIN+NUMSKINP)) THEN  
+      END IF !(NUMSKIN> (NSKIN+NUMSKINP)) THEN
 C------to show pressure 
        NFT = NSKIN
-      IF (NUMSKINP>0) THEN      
+      IF (NUMSKINP>0) THEN
        DO I=NFT+1,NSKIN
          SKIN_OFF(I) = ONE
-       END DO 
-      END IF      
+       END DO
+      END IF
 C-----------
       RETURN
       END

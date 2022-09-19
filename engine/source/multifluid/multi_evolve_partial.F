@@ -29,8 +29,8 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_EVOLVE_PARTIAL(TIMESTEP, NG, ELBUF_TAB, 
-     .     IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM, 
+      SUBROUTINE MULTI_EVOLVE_PARTIAL(TIMESTEP, NG, ELBUF_TAB,
+     .     IPARG, ITASK, IXS, IXQ, IXTG, MULTI_FVM,
      .     PM, IPM, GRAVITY, CURRENT_TIME)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -38,7 +38,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s u b r o u t i n e
 C-----------------------------------------------
-      
+
       GBUF => ELBUF_TAB(NG)%GBUF
       NEL = IPARG(2, NG)
       NFT = IPARG(3, NG)
@@ -129,37 +129,37 @@ C     UPDATE
 C     Fluxes sum
             IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD /= 4) THEN
 C     Volume flux
-               SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + 
+               SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) +
      .              MULTI_FVM%SUBVOL_FLUXES(IMAT, 3, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 4, I) +
      .              MULTI_FVM%SUBVOL_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 6, I)
 C     Mass flux
-               SUMFLUX(2) = MULTI_FVM%SUBMASS_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 2, I) + 
+               SUMFLUX(2) = MULTI_FVM%SUBMASS_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 2, I) +
      .              MULTI_FVM%SUBMASS_FLUXES(IMAT, 3, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 4, I) +
      .              MULTI_FVM%SUBMASS_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 6, I)
 C     Energy flux
-               SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) + 
+               SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) +
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 3, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 4, I) +
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 6, I)
             ELSEIF (ISOLNOD == 4) THEN
 C     Volume flux
-               SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 6, I) + 
+               SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 6, I) +
      .              MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 4, I)
 C     Mass flux
-               SUMFLUX(2) = MULTI_FVM%SUBMASS_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 6, I) + 
+               SUMFLUX(2) = MULTI_FVM%SUBMASS_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 6, I) +
      .              MULTI_FVM%SUBMASS_FLUXES(IMAT, 2, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 4, I)
 C     Energy flux
-               SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 6, I) + 
+               SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 5, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 6, I) +
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 4, I)
             ELSE
 C     TRIANGLES
 C     Volume flux
-               SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) + 
+               SUMFLUX(1) = MULTI_FVM%SUBVOL_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBVOL_FLUXES(IMAT, 2, I) +
      .              MULTI_FVM%SUBVOL_FLUXES(IMAT, 3, I)
 C     Mass flux
-               SUMFLUX(2) = MULTI_FVM%SUBMASS_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 2, I) + 
+               SUMFLUX(2) = MULTI_FVM%SUBMASS_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBMASS_FLUXES(IMAT, 2, I) +
      .              MULTI_FVM%SUBMASS_FLUXES(IMAT, 3, I)
 C     Energy flux
-               SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) + 
+               SUMFLUX(3) = MULTI_FVM%SUBENER_FLUXES(IMAT, 1, I) + MULTI_FVM%SUBENER_FLUXES(IMAT, 2, I) +
      .              MULTI_FVM%SUBENER_FLUXES(IMAT, 3, I)
                IF (ITY == 2) THEN
 C     QUADS
@@ -170,8 +170,8 @@ C     Mass flux
 C     Energy flux
                   SUMFLUX(3) = SUMFLUX(3) + MULTI_FVM%SUBENER_FLUXES(IMAT, 4, I)
                ENDIF
-            ENDIF         
-            
+            ENDIF
+
             SUM_NORMALVEL = ZERO
             IF (MULTI_FVM%SYM == 0 .AND. ISOLNOD == 4) THEN
                KFACE = 5
@@ -196,15 +196,15 @@ C     Energy flux
             PII = MULTI_FVM%PHASE_PRES(IMAT, I)
 
 C     Update massic fraction
-            TMP2 = LBUFS(IMAT)%LBUF%VOL(II) * LBUFS(IMAT)%LBUF%RHO(II) - 
+            TMP2 = LBUFS(IMAT)%LBUF%VOL(II) * LBUFS(IMAT)%LBUF%RHO(II) -
      .           TIMESTEP * SUMFLUX(2)
 C     Udate energy
-            TMP3 = LBUFS(IMAT)%LBUF%VOL(II) * LBUFS(IMAT)%LBUF%EINT(II) - 
+            TMP3 = LBUFS(IMAT)%LBUF%VOL(II) * LBUFS(IMAT)%LBUF%EINT(II) -
      .           TIMESTEP * (SUMFLUX(3) + ALPHAII * (PII + PSHIFT) * SUM_NORMALVEL)
-            
+
 
 C     Update volume
-            TMP4 = LBUFS(IMAT)%LBUF%VOL(II) - 
+            TMP4 = LBUFS(IMAT)%LBUF%VOL(II) -
      .           TIMESTEP * (SUMFLUX(1) - ALPHAII * SUM_NORMALVEL)
 
 C     Store volume in PHASE_ALPHA

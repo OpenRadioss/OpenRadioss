@@ -69,7 +69,7 @@ C-----------------------------------------------
       INTEGER IRECT(4,*),NSV(*),MWAG(*)
       INTEGER CAND_E(*),CAND_N(*),RENUM(*)
       INTEGER ILD,NB_N_B,ESHIFT,NCONTACT,NCONT,I_MEM,II_STOK
-     .        
+     .
 C     REAL
       my_real
      .   GAP,TZINF,MAXBOX,MINBOX,GAPMIN, GAPMAX, BMINMA(6)
@@ -133,9 +133,9 @@ C
 C       SEPARER B ET N EN TWO
       MARGE = TZINF-GAP  ! il s agit bien de la marge
       CALL I10TRI(
-     1   ADD     ,NSN     ,RENUM    ,NSNR     ,NRTM     ,    
+     1   ADD     ,NSN     ,RENUM    ,NSNR     ,NRTM     ,
      2   IRECT   ,X       ,XYZM     ,IGAP     ,GAP      ,
-     3   I_ADD   ,NSV     ,MAXSIZ   ,II_STOK  ,CAND_N   ,  
+     3   I_ADD   ,NSV     ,MAXSIZ   ,II_STOK  ,CAND_N   ,
      4   CAND_E  ,NCONTACT,NOINT    ,TZINF    ,MAXBOX   ,
      5   MINBOX  ,I_MEM   ,NB_N_B   ,I_ADD_MAX,MWAG(IP0),
      6   ESHIFT  ,NSNROLD ,STF      ,STFN     ,GAP_S    ,

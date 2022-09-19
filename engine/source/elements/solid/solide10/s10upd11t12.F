@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER NC(MVSIZ,10),NEL
       DOUBLE PRECISION
      .  XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10)
-     
+
 C     REAL
       my_real
      .  OFFG(*),OFFG0(*)
@@ -65,7 +65,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   PX(MVSIZ,10,5),PY(MVSIZ,10,5),PZ(MVSIZ,10,5)
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       DOUBLE PRECISION
      .  XXD(MVSIZ,10), YYD(MVSIZ,10), ZZD(MVSIZ,10)
 C-----------------------------------------------

@@ -261,7 +261,7 @@ C     IS_ENCRYPTED   IS AT LEAST ONE LINE OF THE OPTION CRYPTED TRUE OR FALSE
 C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD       
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -287,7 +287,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
-      CALL CPP_OPTION_IS_CRYPTED(IS_ENCRYPTED) 
+      CALL CPP_OPTION_IS_CRYPTED(IS_ENCRYPTED)
       RETURN
 C
       END

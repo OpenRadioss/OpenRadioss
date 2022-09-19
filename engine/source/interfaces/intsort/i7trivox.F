@@ -38,7 +38,7 @@ Chd|====================================================================
      2      IRECT  ,X           ,STF     ,STFN     ,XYZM     ,
      3      NSV    ,II_STOK     ,CAND_N  ,ESHIFT   ,CAND_E   ,
      4      MULNSN ,NOINT       ,TZINF   ,GAP_S_L  ,GAP_M_L  ,
-     5      VOXEL  ,NBX         ,NBY     ,NBZ      ,INTTH    ,  
+     5      VOXEL  ,NBX         ,NBY     ,NBZ      ,INTTH    ,
      6      INACTI ,IFQ         ,CAND_A  ,CAND_P   ,IFPEN    ,
      7      NRTM   ,NSNROLD     ,IGAP    ,GAP      ,GAP_S    ,
      8      GAP_M  ,GAPMIN      ,GAPMAX  ,MARGE    ,CURV_MAX ,
@@ -59,7 +59,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -130,7 +130,7 @@ C-----------------------------------------------
       INTEGER NB_NCN,NB_NCN1,NB_ECN,I,J,DIR,NB_NC,NB_EC,
      .        N1,N2,N3,N4,NN,NE,K,L,NCAND_PROV,J_STOK,II,JJ,
      .        PROV_N(MVSIZ),PROV_E(MVSIZ),
-     .        OLDNUM(ISZNSNR), NSNF, NSNL,DELNOD,M           
+     .        OLDNUM(ISZNSNR), NSNF, NSNL,DELNOD,M
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGREMNODE
       my_real
      .   DX,DY,DZ,XS,YS,ZS,XX,SX,SY,SZ,S2,
@@ -170,7 +170,7 @@ C-----------------------------------------------
 
 ! Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 
-      XMIN = XYZM(1)  
+      XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
       XMAX = XYZM(4)
@@ -198,12 +198,12 @@ C-----------------------------------------------
         YMAXB = YMAX
         ZMAXB = ZMAX
       ENDIF
-  
+
       ! En SPMD, pour inacti ou IFQ, retrouve ancienne numerotation des candidats non locaux
       IF(NSPMD>1.AND.(INACTI==5.OR.INACTI==6.OR.INACTI==7.OR.IFQ>0.OR.ITIED/=0)) THEN
         CALL SPMD_OLDNUMCD(RENUM,OLDNUM,ISZNSNR,NSNROLD)
-      END IF 
-      
+      END IF
+
 C=======================================================================
 C 1   NODE CLUSTERING
 C=======================================================================
@@ -211,54 +211,54 @@ C=======================================================================
        !==========LAGRANGIAN and STAGGERED ALE==========!
        CPT_VOX0 = 0
        TEST_V0 = FIRST_TEST(NIN)
-       DO I=1,NSN                                                            
-        IIX(I)=0                                                             
-        IIY(I)=0                                                             
-        IIZ(I)=0                                                             
-        IF(STFN(I) == ZERO)CYCLE                                             
-        J=NSV(I)                                                             
-        !C Optimisation // recherche les noeuds compris dans xmin xmax des   
-        !C elements du processeur                                            
-        IF(X(1,J) < XMIN)  CYCLE                                             
-        IF(X(1,J) > XMAX)  CYCLE                                             
-        IF(X(2,J) < YMIN)  CYCLE                                             
-        IF(X(2,J) > YMAX)  CYCLE                                             
-        IF(X(3,J) < ZMIN)  CYCLE                                             
-        IF(X(3,J) > ZMAX)  CYCLE                                             
-        IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))                         
-        IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))                         
-        IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))                         
-        IIX(I)=MAX(1,2+MIN(NBX,IIX(I)))                                      
-        IIY(I)=MAX(1,2+MIN(NBY,IIY(I)))                                      
-        IIZ(I)=MAX(1,2+MIN(NBZ,IIZ(I)))                                      
-        FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))                                  
+       DO I=1,NSN
+        IIX(I)=0
+        IIY(I)=0
+        IIZ(I)=0
+        IF(STFN(I) == ZERO)CYCLE
+        J=NSV(I)
+        !C Optimisation // recherche les noeuds compris dans xmin xmax des
+        !C elements du processeur
+        IF(X(1,J) < XMIN)  CYCLE
+        IF(X(1,J) > XMAX)  CYCLE
+        IF(X(2,J) < YMIN)  CYCLE
+        IF(X(2,J) > YMAX)  CYCLE
+        IF(X(3,J) < ZMIN)  CYCLE
+        IF(X(3,J) > ZMAX)  CYCLE
+        IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
+        IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
+        IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
+        IIX(I)=MAX(1,2+MIN(NBX,IIX(I)))
+        IIY(I)=MAX(1,2+MIN(NBY,IIY(I)))
+        IIZ(I)=MAX(1,2+MIN(NBZ,IIZ(I)))
+        FIRST = VOXEL(IIX(I),IIY(I),IIZ(I))
         IF(TEST_V0) THEN
-! count the number of SECONDARY nodes outiside the reduced box 
+! count the number of SECONDARY nodes outiside the reduced box
           IF(IIX(I) ==  1    .OR.  IIY(I) ==  1    .OR. IIZ(I) == 1 .AND.
      .       IIX(I) ==  NBX+2 .OR. IIY(I) == NBY+2 .OR. IIZ(I) == NBZ+2) THEN
-              CPT_VOX0 = CPT_VOX0 +1  
+              CPT_VOX0 = CPT_VOX0 +1
           ENDIF
         ENDIF
-        IF(FIRST == 0)THEN                                                   
-          !boite vide                                                        
-          VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first                            
-          NEXT_NOD(I)                 = 0 ! pas de next                      
-          LAST_NOD(I)                 = 0 ! pas de last                      
-        ELSEIF(LAST_NOD(FIRST) == 0)THEN                                     
-          !boite contenant un seul noeud                                     
-          !on ajoute comme suivant                                           
-          NEXT_NOD(FIRST) = I ! next                                         
-          LAST_NOD(FIRST) = I ! last                                         
-          NEXT_NOD(I)     = 0 ! pas de next apres I                          
-        ELSE                                                                 
-          !boite contenant plusieurs noeuds                                  
-          !on saute directement au dernier                                   
-          LAST = LAST_NOD(FIRST) ! dernier noeud de la boite                 
-          NEXT_NOD(LAST)  = I ! next apres precedant                         
-          LAST_NOD(FIRST) = I ! last                                         
-          NEXT_NOD(I)     = 0 ! pas de next apres I                          
-        ENDIF                                                                
-       ENDDO                                                                 
+        IF(FIRST == 0)THEN
+          !boite vide
+          VOXEL(IIX(I),IIY(I),IIZ(I)) = I ! first
+          NEXT_NOD(I)                 = 0 ! pas de next
+          LAST_NOD(I)                 = 0 ! pas de last
+        ELSEIF(LAST_NOD(FIRST) == 0)THEN
+          !boite contenant un seul noeud
+          !on ajoute comme suivant
+          NEXT_NOD(FIRST) = I ! next
+          LAST_NOD(FIRST) = I ! last
+          NEXT_NOD(I)     = 0 ! pas de next apres I
+        ELSE
+          !boite contenant plusieurs noeuds
+          !on saute directement au dernier
+          LAST = LAST_NOD(FIRST) ! dernier noeud de la boite
+          NEXT_NOD(LAST)  = I ! next apres precedant
+          LAST_NOD(FIRST) = I ! last
+          NEXT_NOD(I)     = 0 ! pas de next apres I
+        ENDIF
+       ENDDO
 
 C=======================================================================
 C 2   REMOTE NODE CLUSTERING
@@ -266,12 +266,12 @@ C=======================================================================
        REMOTE_S_NODE = 0
        DO J = 1, NSNR
 
-        IF(XREM(1,J) < XMIN)  CYCLE                                             
-        IF(XREM(1,J) > XMAX)  CYCLE                                             
-        IF(XREM(2,J) < YMIN)  CYCLE                                             
-        IF(XREM(2,J) > YMAX)  CYCLE                                             
-        IF(XREM(3,J) < ZMIN)  CYCLE                                             
-        IF(XREM(3,J) > ZMAX)  CYCLE 
+        IF(XREM(1,J) < XMIN)  CYCLE
+        IF(XREM(1,J) > XMAX)  CYCLE
+        IF(XREM(2,J) < YMIN)  CYCLE
+        IF(XREM(2,J) > YMAX)  CYCLE
+        IF(XREM(3,J) < ZMIN)  CYCLE
+        IF(XREM(3,J) > ZMAX)  CYCLE
 
         REMOTE_S_NODE = REMOTE_S_NODE + 1
         LIST_REMOTE_S_NODE( REMOTE_S_NODE ) = J
@@ -284,10 +284,10 @@ C=======================================================================
 
         FIRST = VOXEL(IIX(NSN+J),IIY(NSN+J),IIZ(NSN+J))
         IF(TEST_V0) THEN
-! count the number of SECONDARY nodes outiside the reduced box 
+! count the number of SECONDARY nodes outiside the reduced box
           IF(IIX(J+NSN) ==  1     .OR. IIY(J+NSN) ==  1     .OR. IIZ(J+NSN) == 1 .AND.
      .       IIX(J+NSN) ==  NBX+2 .OR. IIY(J+NSN) ==  NBY+2 .OR. IIZ(J+NSN) == NBZ+2) THEN
-              CPT_VOX0 = CPT_VOX0 +1  
+              CPT_VOX0 = CPT_VOX0 +1
           ENDIF
         ENDIF
 
@@ -313,16 +313,16 @@ C=======================================================================
 
       CALL MY_BARRIER ! Barrier to wait task0 treatment
 
-      IF(FIRST_TEST(NIN)) THEN 
+      IF(FIRST_TEST(NIN)) THEN
 !During the first sorting, we use the reduced box
 !If too many (>5 %) nodes are outside the reduced box
 !then the box is not reduced anymore
-        CALL MY_BARRIER 
+        CALL MY_BARRIER
         IF(ITASK == 0) THEN
-          IF(CPT_VOX0 > 5*(NSNR + NSN)/100) TO_TRIM(NIN) = .FALSE. 
+          IF(CPT_VOX0 > 5*(NSNR + NSN)/100) TO_TRIM(NIN) = .FALSE.
           FIRST_TEST(NIN) = .FALSE.
         ENDIF
-        CALL MY_BARRIER 
+        CALL MY_BARRIER
       ENDIF
 
 
@@ -336,7 +336,7 @@ C=======================================================================
            TAGREMNODE(I) = 0
          ENDDO
        ENDIF
-       DO NE=1,NRTM      
+       DO NE=1,NRTM
         IF(STF(NE) == ZERO)CYCLE ! on ne retient pas les facettes detruites
           IF(FLAGREMNODE == 2) THEN
              K = KREMNOD(2*(NE-1)+1)+1
@@ -350,8 +350,8 @@ C=======================================================================
          ELSE
            AAA = MARGE+CURV_MAX(NE)+MAX(MIN(GAPMAX,MAX(GAPMIN,BGAPSMX+GAP_M(NE)))+DGAPLOAD,DRAD)
          ENDIF
-         !il est possible d'ameliorer l'algo en decoupant la facette 
-         !en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+         !il est possible d'ameliorer l'algo en decoupant la facette
+         !en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
          M3 = IRECT(3,NE)
@@ -440,7 +440,7 @@ C=======================================================================
                  IF(NN == M2)GOTO 200
                  IF(NN == M3)GOTO 200
                  IF(NN == M4)GOTO 200
-                
+
                  IF(FLAGREMNODE == 2) THEN
                    IF( TAGREMNODE(NSV(JJ)) == 1)GOTO 200
                  ENDIF
@@ -491,8 +491,8 @@ C=======================================================================
                D2Z = ZS - ZZ2
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
-               IF(DD1*DD2 > ZERO)THEN                               
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+               IF(DD1*DD2 > ZERO)THEN
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 200
                ENDIF
@@ -567,7 +567,7 @@ C=======================================================================
 C=======================================================================
 C 6   DEBUG OUTPUT 
 C=======================================================================
- 
+
       DBG_type18_fvm=.false.
       if(inacti==7 .AND. DBG_type18_fvm)then
          write(*,FMT='(A)')"------------------------------------------"
@@ -586,9 +586,9 @@ C=======================================================================
          write(*,FMT='(A,F30.16,A,F30.16)')" Xmin=",XMIN-AAA,"  Xmax=",XMAX+AAA
          write(*,FMT='(A,F30.16,A,F30.16)')" Ymin=",YMIN-AAA,"  Ymax=",YMAX+AAA
          write(*,FMT='(A,F30.16,A,F30.16)')" Zmin=",ZMIN-AAA,"  Zmax=",ZMAX+AAA
-         write(*,FMT='(A)')"------------------------------------------"         
+         write(*,FMT='(A)')"------------------------------------------"
       endif
-      
+
 C=======================================================================
 C 7   DEALLOCATE 
 C=======================================================================

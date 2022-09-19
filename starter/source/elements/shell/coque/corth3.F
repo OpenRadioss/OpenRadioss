@@ -42,7 +42,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER JFT,JLT,NLAY,IREP,NEL
       my_real
      .   DIR_A(*),DIR_B(*)
-      my_real, DIMENSION(MVSIZ), INTENT(IN)  :: 
+      my_real, DIMENSION(MVSIZ), INTENT(IN)  ::
      .   X1,X2,X3,X4,Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   E1X, E2X, E3X, E1Y, E2Y, E3Y ,E1Z, E2Z, E3Z
       TYPE (ELBUF_STRUCT_), TARGET :: ELBUF_STR
@@ -79,65 +79,65 @@ C     REAL
      .  E21(MVSIZ),E22(MVSIZ),E23(MVSIZ)
       my_real
      .     V1,V2,V3,VR,VS,AA,BB,SUMA,S1,S2
-      my_real, 
+      my_real,
      .   DIMENSION(:) , POINTER :: DIR1, DIR2
 C=======================================================================
-      IF (ITY == 3)THEN                    
+      IF (ITY == 3)THEN
 C---    coque 4N                           
-        DO I=JFT,JLT                       
-          E11(I)= X2(I)+X3(I)-X1(I)-X4(I)  
-          E12(I)= Y2(I)+Y3(I)-Y1(I)-Y4(I)  
-          E13(I)= Z2(I)+Z3(I)-Z1(I)-Z4(I)  
-          E21(I)= X3(I)+X4(I)-X1(I)-X2(I)  
-          E22(I)= Y3(I)+Y4(I)-Y1(I)-Y2(I)  
-          E23(I)= Z3(I)+Z4(I)-Z1(I)-Z2(I)  
-        ENDDO                              
-      ELSEIF (ITY == 7) THEN               
+        DO I=JFT,JLT
+          E11(I)= X2(I)+X3(I)-X1(I)-X4(I)
+          E12(I)= Y2(I)+Y3(I)-Y1(I)-Y4(I)
+          E13(I)= Z2(I)+Z3(I)-Z1(I)-Z4(I)
+          E21(I)= X3(I)+X4(I)-X1(I)-X2(I)
+          E22(I)= Y3(I)+Y4(I)-Y1(I)-Y2(I)
+          E23(I)= Z3(I)+Z4(I)-Z1(I)-Z2(I)
+        ENDDO
+      ELSEIF (ITY == 7) THEN
 C---    coque 3N                           
-        DO I=JFT,JLT                       
-          E11(I)= X2(I)-X1(I)              
-          E12(I)= Y2(I)-Y1(I)              
-          E13(I)= Z2(I)-Z1(I)              
-          E21(I)= X3(I)-X1(I)              
-          E22(I)= Y3(I)-Y1(I)              
-          E23(I)= Z3(I)-Z1(I)              
-        ENDDO                              
-      ENDIF                                
+        DO I=JFT,JLT
+          E11(I)= X2(I)-X1(I)
+          E12(I)= Y2(I)-Y1(I)
+          E13(I)= Z2(I)-Z1(I)
+          E21(I)= X3(I)-X1(I)
+          E22(I)= Y3(I)-Y1(I)
+          E23(I)= Z3(I)-Z1(I)
+        ENDDO
+      ENDIF
 C
       IF (ELBUF_STR%BUFLY(1)%LY_DIRA == 0) THEN
-        DO N=1,NLAY                              
+        DO N=1,NLAY
           J = (N-1)*NEL*2
-          DO I=JFT,JLT                          
-            DIR_A(J+I) = ONE          
-            DIR_A(J+I+NEL) = ZERO                    
-          ENDDO                                 
-        ENDDO                                   
+          DO I=JFT,JLT
+            DIR_A(J+I) = ONE
+            DIR_A(J+I+NEL) = ZERO
+          ENDDO
+        ENDDO
       ELSEIF (IREP == 0) THEN
-        DO N=1,NLAY                              
-          DIR1 => ELBUF_STR%BUFLY(N)%DIRA   
-          J = (N-1)*NEL*2
-          DO I=JFT,JLT                          
-            DIR_A(J+I) = DIR1(I)
-            DIR_A(J+I+NEL) = DIR1(I+NEL)
-          ENDDO                                 
-        ENDDO                                   
-      ELSEIF (IREP == 1) THEN
-        DO N=1,NLAY                            
+        DO N=1,NLAY
           DIR1 => ELBUF_STR%BUFLY(N)%DIRA
           J = (N-1)*NEL*2
-          DO I=JFT,JLT                        
-            AA = DIR1(I)                    
-            BB = DIR1(I+NEL)                    
-            V1 = AA*E11(I) + BB*E21(I)        
-            V2 = AA*E12(I) + BB*E22(I)        
-            V3 = AA*E13(I) + BB*E23(I)        
-            VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)  
-            VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)  
-            SUMA=SQRT(VR*VR + VS*VS)          
-            DIR_A(J+I) = VR/SUMA		   
-            DIR_A(J+I+NEL) = VS/SUMA		   
-          ENDDO                               
-        ENDDO                                 
+          DO I=JFT,JLT
+            DIR_A(J+I) = DIR1(I)
+            DIR_A(J+I+NEL) = DIR1(I+NEL)
+          ENDDO
+        ENDDO
+      ELSEIF (IREP == 1) THEN
+        DO N=1,NLAY
+          DIR1 => ELBUF_STR%BUFLY(N)%DIRA
+          J = (N-1)*NEL*2
+          DO I=JFT,JLT
+            AA = DIR1(I)
+            BB = DIR1(I+NEL)
+            V1 = AA*E11(I) + BB*E21(I)
+            V2 = AA*E12(I) + BB*E22(I)
+            V3 = AA*E13(I) + BB*E23(I)
+            VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
+            VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
+            SUMA=SQRT(VR*VR + VS*VS)
+            DIR_A(J+I) = VR/SUMA		
+            DIR_A(J+I+NEL) = VS/SUMA		
+          ENDDO
+        ENDDO
       ELSEIF (IREP == 2) THEN
         DO N=1,NLAY
           DIR1 => ELBUF_STR%BUFLY(N)%DIRA
@@ -202,9 +202,9 @@ C---        Axe II
             ENDDO
           ELSE  ! IREP = 0 within PID51
             DIR1 => ELBUF_STR%BUFLY(N)%DIRA
-            DO I=JFT,JLT                          
-              DIR_A(J+I) = DIR1(I)  		     
-              DIR_A(J+I+NEL) = DIR1(I+NEL)		       
+            DO I=JFT,JLT
+              DIR_A(J+I) = DIR1(I)  		
+              DIR_A(J+I+NEL) = DIR1(I+NEL)		
             ENDDO
           ENDIF ! IF (ILAW == 58) THEN
         ENDDO ! DO N=1,NLAY
@@ -242,17 +242,17 @@ C---        Axe II
             ENDDO
           ELSE  ! IREP = 1 within PID51
             DIR1 => ELBUF_STR%BUFLY(N)%DIRA
-            DO I=JFT,JLT                        
-              AA = DIR1(I)                    
-              BB = DIR1(I+NEL)                    
-              V1 = AA*E11(I) + BB*E21(I)        
-              V2 = AA*E12(I) + BB*E22(I)        
-              V3 = AA*E13(I) + BB*E23(I)        
-              VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)  
-              VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)  
-              SUMA=SQRT(VR*VR + VS*VS)          
-              DIR_A(J+I) = VR/SUMA  	     
-              DIR_A(J+I+NEL) = VS/SUMA  	     
+            DO I=JFT,JLT
+              AA = DIR1(I)
+              BB = DIR1(I+NEL)
+              V1 = AA*E11(I) + BB*E21(I)
+              V2 = AA*E12(I) + BB*E22(I)
+              V3 = AA*E13(I) + BB*E23(I)
+              VR = V1*E1X(I) + V2*E1Y(I) + V3*E1Z(I)
+              VS = V1*E2X(I) + V2*E2Y(I) + V3*E2Z(I)
+              SUMA=SQRT(VR*VR + VS*VS)
+              DIR_A(J+I) = VR/SUMA  	
+              DIR_A(J+I+NEL) = VS/SUMA  	
             ENDDO
           ENDIF ! IF (ILAW == 58) THEN
         ENDDO ! DO N=1,NLAY

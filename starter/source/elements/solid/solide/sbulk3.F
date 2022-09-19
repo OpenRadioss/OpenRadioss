@@ -165,7 +165,7 @@ C     10 nodes tetrahedra :
        BNS(3,I)=CV1
        BNS(6,I)=CV1
        BNS(5,I)=CV1
-       DO N=5,10         
+       DO N=5,10
          IF(NC(I,N)/=0)THEN
            VNSX(N-4,I)=AV2
            BNSX(N-4,I)=CV2
@@ -206,7 +206,7 @@ C     16 nodes thick shells :
        BNS(6,I)=CV1
        BNS(7,I)=CV1
        BNS(8,I)=CV1
-       DO N=9,16        
+       DO N=9,16
          IF(NC(I,N)/=0)THEN
            VNSX(N-4,I)=AV2
            BNSX(N-4,I)=CV2
@@ -246,7 +246,7 @@ C     20 nodes bricks :
        BNS(6,I)=CV1
        BNS(7,I)=CV1
        BNS(8,I)=CV1
-       DO N=9,20        
+       DO N=9,20
          IF(NC(I,N)/=0)THEN
            VNSX(N-4,I)=AV2
            BNSX(N-4,I)=CV2

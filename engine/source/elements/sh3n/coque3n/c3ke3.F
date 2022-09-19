@@ -45,16 +45,16 @@ Chd|====================================================================
      2            ITHK   ,NCYCLE ,
      3            ISTRAIN,IPLA   ,PM     ,GEO    ,IXTG   ,
      4            ELBUF_STR  ,BUFMAT ,OFFSET ,INDXOF ,
-     5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,     
+     5            ETAG  , IDDL  ,NDOF  ,K_DIAG ,K_LT  , IADK  ,JDIK  ,
      6            IHBE   ,THKE   ,ISMSTR ,X      ,
      7            IKGEO  ,IPM    ,IGEO   ,IEXPAN ,
      8            IPARG  ,ISUBSTACK,STACK,DRAPE_T3 )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
-      USE STACK_MOD  
-      USE DRAPE_MOD        
+      USE ELBUFDEF_MOD
+      USE STACK_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C
 C     REAL OU REAL*8
       my_real
      .   PM(NPROPM,*),GEO(NPROPG,*),BUFMAT(*),   X(3,*),THKE(*)
-      my_real    
+      my_real
      .   KE11(36,MVSIZ),KE22(36,MVSIZ),KE33(36,MVSIZ),
      .   KE12(36,MVSIZ),KE13(36,MVSIZ),KE23(36,MVSIZ),OFF(MVSIZ),
      .   K_DIAG(*) ,K_LT(*)
@@ -92,19 +92,19 @@ C     REAL OU REAL*8
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  indx utilise localement contrairement aux coques 4n
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ)
       INTEGER I,J,J1,J2,IREP,IUN,NEL,IORTH,IGTYP,L_DIRA,L_DIRB,NLAY,
      .   IDRIL,EP
-      my_real 
+      my_real
      .   AREA(MVSIZ),PX1(MVSIZ), PY1(MVSIZ), PY2(MVSIZ),
      .   SIGY(MVSIZ),THK0(MVSIZ),
      .   X2(MVSIZ) ,Y2(MVSIZ), X3(MVSIZ),Y3(MVSIZ)
-      my_real 
-     .   G(MVSIZ) , VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2), 
+      my_real
+     .   G(MVSIZ) , VOL0(MVSIZ),THK02(MVSIZ),ZCFAC(MVSIZ,2),
      .   HM(MVSIZ,4),HF(MVSIZ,4),HC(MVSIZ,2),HZ(MVSIZ),
      .   HMOR(MVSIZ,2),HFOR(MVSIZ,2),HMFOR(MVSIZ,6),GS(MVSIZ)
-      MY_REAL 
+      MY_REAL
      .    R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .    R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .    R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -119,9 +119,9 @@ c  indx utilise localement contrairement aux coques 4n
 C-----------------------------------------------
       my_real,
      .  DIMENSION(:) ,POINTER  :: DIR_A, DIR_B
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C-----------------------------------------------
       IUN = 1
       NEL=JLT-JFT+IUN
@@ -148,15 +148,15 @@ C-----------------------------------------------
       ENDIF
 C
       CALL C3COORK3(JFT   ,JLT    ,X     ,IXTG   ,GBUF%OFF,
-     1               GEO  ,PID    ,MAT    ,NGL   ,AREA   ,  
+     1               GEO  ,PID    ,MAT    ,NGL   ,AREA   ,
      2               IREP ,NPT    ,ISMSTR ,NLAY  ,
      2               ELBUF_STR    ,GBUF%SMSTR, DIR_A,DIR_B  ,
      3               X2   ,X3  ,Y3 ,
      4               R11,R12,R13,R21,R22,R23,R31,R32,R33,
      5               K11,K12,K13,K22,K23,K33,
-     6               M11,M12,M13,M22,M23,M33, 
-     7               MF11,MF12,MF13,MF22,MF23,MF33, 
-     8               FM12,FM13,FM23,OFF ,NEL) 
+     6               M11,M12,M13,M22,M23,M33,
+     7               MF11,MF12,MF13,MF22,MF23,MF33,
+     8               FM12,FM13,FM23,OFF ,NEL)
 
       IF (IREP>0) THEN
        CALL CMATC3(JFT    ,JLT       ,PM     ,MAT     ,GEO      ,
@@ -184,8 +184,8 @@ C-----------------------------------------------
      1               MTN    ,NPT     ,HM     ,HF      ,IORTH  ,
      2               HMOR   ,HFOR    ,HMFOR  ,IUN      )
       IF (IORTH >0 ) THEN
-        DO I=1,9 
-        DO EP=JFT,JLT 
+        DO I=1,9
+        DO EP=JFT,JLT
          MF11(I,EP) =ZERO
          MF22(I,EP) =ZERO
          MF33(I,EP) =ZERO
@@ -205,11 +205,11 @@ C----------------------------
       CALL C3LKE3(JFT,JLT,AREA,THK0,THK02,HM,HF,HC,HZ,
      1                      PX1,PY1,PY2,VOL0,
      2                      K11,K12,K13,K22,K23,K33,
-     3                      M11,M12,M13,M22,M23,M33, 
-     4                      MF11,MF12,MF13,MF22,MF23,MF33, 
-     5                      FM12,FM13,FM23,IKGEO,GBUF%FOR,GBUF%MOM, 
+     3                      M11,M12,M13,M22,M23,M33,
+     4                      MF11,MF12,MF13,MF22,MF23,MF33,
+     5                      FM12,FM13,FM23,IKGEO,GBUF%FOR,GBUF%MOM,
      6                      IORTH,HMOR,HFOR,HMFOR,IDRIL,
-     7                      NEL) 
+     7                      NEL)
       IF (IDRIL>0) THEN
        DO I=JFT,JLT
         Y2(I)=ZERO
@@ -232,12 +232,12 @@ C----------------------------
      1                     R11,R12,R13,R21,R22,R23,R31,R32,R33,
      2                     K11,K12,K13,K22,K23,K33,
      3                     M11,M12,M13,M22,M23,M33,
-     4                     MF11,MF12,MF13,MF22,MF23,MF33, 
-     5                     FM12,FM13,FM23, 
+     4                     MF11,MF12,MF13,MF22,MF23,MF33,
+     5                     FM12,FM13,FM23,
      6                     KE11,KE22,KE33,KE12,KE13,KE23,IDRIL,
      7                     IORTH)
-     
-     
+
+
               IF (NEIG>0) CALL C3EOFF(
      1                   JFT, JLT, IXTG, ETAG, OFF)
               CALL ASSEM_C3(

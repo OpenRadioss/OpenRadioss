@@ -34,7 +34,7 @@ Chd|====================================================================
      3     RHO0    ,PLA     ,DPLA    ,SOUNDSP ,ET      ,SEQ     ,
      4     DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5     SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
-     6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )      
+     6     SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -42,7 +42,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -58,22 +58,22 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR
       INTEGER ,DIMENSION(NEL), INTENT(IN) :: NGL
-      my_real 
+      my_real
      .   TIME,TIMESTEP
-      my_real,DIMENSION(NUPARAM), INTENT(IN) :: 
+      my_real,DIMENSION(NUPARAM), INTENT(IN) ::
      .   UPARAM
-      my_real,DIMENSION(2*NEL), INTENT(IN)     :: 
+      my_real,DIMENSION(2*NEL), INTENT(IN)     ::
      .   GRHO
-      my_real,DIMENSION(NEL), INTENT(IN)     :: 
+      my_real,DIMENSION(NEL), INTENT(IN)     ::
      .   RHO0,
      .   DEPSXX,DEPSYY,DEPSZZ,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOZZ,SIGOXY,SIGOYZ,SIGOZX
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGY,ET,
      .   SIGNXX,SIGNYY,SIGNZZ,SIGNXY,SIGNYZ,SIGNZX
-      my_real ,DIMENSION(NEL), INTENT(INOUT)       :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT)       ::
      .   PLA,DPLA,OFF,SEQ
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -89,28 +89,28 @@ c
       CFAIL = UPARAM(14)       ! Tensile volumetric strain at failure
       PFAIL = UPARAM(15)       ! Maximum principal stress at failure
 c
-c--------------------------                              
+c--------------------------
       SELECT CASE (IRES)
-c      
-        CASE(1) 
+c
+        CASE(1)
           CALL MAT115_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,GRHO    , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,GRHO    ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,OFF     ,SIGY    ,
      3         RHO0    ,PLA     ,DPLA    ,SOUNDSP ,ET      ,SEQ     ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
-        CASE(2) 
+        CASE(2)
           CALL MAT115_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,GRHO    , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,GRHO    ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,OFF     ,SIGY    ,
      3         RHO0    ,PLA     ,DPLA    ,SOUNDSP ,ET      ,SEQ     ,
      4         DEPSXX  ,DEPSYY  ,DEPSZZ  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
      5         SIGOXX  ,SIGOYY  ,SIGOZZ  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      6         SIGNXX  ,SIGNYY  ,SIGNZZ  ,SIGNXY  ,SIGNYZ  ,SIGNZX  )
 c
-      END SELECT         
-c  
+      END SELECT
+c
 c-----------
 C
       ! Counting broken elements
@@ -136,6 +136,6 @@ C
 !---
  1000 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'RUPTURE OF SOLID ELEMENT NUMBER ',I10,
-     .          ' AT TIME :',G11.4)                          
+     .          ' AT TIME :',G11.4)
 !---
       END

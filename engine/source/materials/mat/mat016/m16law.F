@@ -155,7 +155,7 @@ C
           SIG(I,3)=ZERO
           SIG(I,4)=ZERO
           SIG(I,5)=ZERO
-          SIG(I,6)=ZERO    
+          SIG(I,6)=ZERO
         ELSEIF(AJ2(I)>AK(I)) THEN
           DPLA(I)=(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))
           AK(I)=AK(I)+DPLA(I)*QH(I)

@@ -92,7 +92,7 @@ C     REAL
      .   XCR(MVSIZ),RX1(MVSIZ),RX2(MVSIZ),RY1(MVSIZ),
      .   RY2(MVSIZ),RZ1(MVSIZ),RZ2(MVSIZ),XIN(MVSIZ),
      .   AK(MVSIZ),XM(MVSIZ),XKM(MVSIZ),XCM(MVSIZ),XKR(MVSIZ),
-     .   UVAR(NUVAR,*),DX0(*),DY0(*),DZ0(*),RX0(*),RY0(*),RZ0(*) 
+     .   UVAR(NUVAR,*),DX0(*),DY0(*),DZ0(*),RX0(*),RY0(*),RZ0(*)
       DOUBLE PRECISION X1DP(3,*),X2DP(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -202,7 +202,7 @@ C
 !
         IF (INISPRI /= 0) THEN
 !  condition nedeed for spring type 8, which are not concerned by /INISPRI,
-!  and having initial length /= 0 
+!  and having initial length /= 0
           DO I=LFT,LLT
             IF (X0_INI(I) == ZERO .and. DX0(I) == ZERO) X0_INI(I) = X0DP(I)
             IF (Y0_INI(I) == ZERO .and. DY0(I) == ZERO) Y0_INI(I) = Y0DP(I)

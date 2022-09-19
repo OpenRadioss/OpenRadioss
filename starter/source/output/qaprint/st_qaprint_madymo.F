@@ -67,32 +67,32 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF (MYQAKEY('/MADYMO') ) THEN 
-        DO I=1,NMADPRT           
-          WRITE(VARNAME,'(A,I0)') 'MADYMO_PART_',I                  
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPART(4,IEXMAD(I)),0.0_8)                                                          
-        ENDDO              
+      IF (MYQAKEY('/MADYMO') ) THEN
+        DO I=1,NMADPRT
+          WRITE(VARNAME,'(A,I0)') 'MADYMO_PART_',I
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IPART(4,IEXMAD(I)),0.0_8)
+        ENDDO
 C            
         DO I=NMADPRT+1,NMADPRT+NMADSH4
-          WRITE(VARNAME,'(A,I0)') 'MADYMO_SH4_',I                  
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXC(NIXC,IEXMAD(I)),0.0_8)                                                          
-        ENDDO      
+          WRITE(VARNAME,'(A,I0)') 'MADYMO_SH4_',I
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXC(NIXC,IEXMAD(I)),0.0_8)
+        ENDDO
 C                
         DO I=NMADPRT+NMADSH4+1,NMADPRT+NMADSH4+NMADSH3
-          WRITE(VARNAME,'(A,I0)') 'MADYMO_SH3_',I                  
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXTG(NIXTG,IEXMAD(I)),0.0_8)                                                          
-        ENDDO     
+          WRITE(VARNAME,'(A,I0)') 'MADYMO_SH3_',I
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXTG(NIXTG,IEXMAD(I)),0.0_8)
+        ENDDO
 C                 
         DO I=NMADPRT+NMADSH4+NMADSH3+1,NMADPRT+NMADSH4+NMADSH3+NMADSOL
-          WRITE(VARNAME,'(A,I0)') 'MADYMO_SOL_',I                  
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXS(NIXS,IEXMAD(I)),0.0_8)                                                         
-        ENDDO     
+          WRITE(VARNAME,'(A,I0)') 'MADYMO_SOL_',I
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IXS(NIXS,IEXMAD(I)),0.0_8)
+        ENDDO
 C                            
         DO I=NMADPRT+NMADSH4+NMADSH3+NMADSOL+1,NMADPRT+NMADSH4+NMADSH3+NMADSOL+NMADNOD
-          WRITE(VARNAME,'(A,I0)') 'MADYMO_NOD_',I                  
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IEXMAD(I)),0.0_8)                                                        
-        ENDDO                                                               
-      ENDIF                
+          WRITE(VARNAME,'(A,I0)') 'MADYMO_NOD_',I
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ITAB(IEXMAD(I)),0.0_8)
+        ENDDO
+      ENDIF
 C-----------------------------------------------
       RETURN
       END

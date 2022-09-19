@@ -54,7 +54,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: NOM_OPT(LNOPT1,SNOM_OPT1), INOM_OPT(SINOM_OPT)
       INTEGER, INTENT(IN) :: LACCELM(3, NACCELM)
-      my_real, INTENT(IN) ::  
+      my_real, INTENT(IN) ::
      .                        ACCELM(LLACCELM, NACCELM)
       INTEGER, INTENT(IN) :: LGAUGE(3,NBGAUGE)
       my_real, INTENT(IN) :: GAUGE(LLGAUGE,NBGAUGE)
@@ -93,7 +93,7 @@ C
              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
           END DO
 C
-        END DO 
+        END DO
       END IF
 C-----------------------------------------------
 C-----------------------------------------------
@@ -101,14 +101,14 @@ C     /GAUGE
 C-----------------------------------------------
       IF (MYQAKEY('/GAUGE')) THEN
 C       
-       IF (NBGAUGE > 0) THEN 
+       IF (NBGAUGE > 0) THEN
         DO II = 1, NBGAUGE
           TITR(1:nchartitle)=''
           IF(LEN_TRIM(TITR)/=0)THEN
             CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),II,0.0_8)
           ELSE
             CALL QAPRINT('A_GAUGE_FAKE_NAME', II,0.0_8)
-          END IF     
+          END IF
           DO I = 1, 3
            IF(LGAUGE(I,II) /=0)THEN
              WRITE(VARNAME,'(A,I0,A,I0)') 'LGAUGE_',I,'_',II
@@ -123,7 +123,7 @@ C
              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
            ENDIF
           END DO
-        END DO 
+        END DO
        END IF
       END IF
 

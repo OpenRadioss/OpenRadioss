@@ -168,7 +168,7 @@ C--------------------------------------------------
      .                             C1='SUB_SPH')
       SUB_SPH(1:NUMSPH) = 0
       INDEX_PART = 1
-      UID = -1 
+      UID = -1
 
 C--------------------------------------------------
 C      READING QUADS INPUTS IN HM STRUCTURE
@@ -186,7 +186,7 @@ C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_SPH(I) /= 0)THEN
-          IF(IPARTSP(I) /= 0) IPARTSP(I) = IPARTSP(I) + OFF_PART(SUB_SPH(I)) 
+          IF(IPARTSP(I) /= 0) IPARTSP(I) = IPARTSP(I) + OFF_PART(SUB_SPH(I))
           IF(KXSP(NISP,I) /= 0) KXSP(NISP,I) = KXSP(NISP,I) + OFF_EL(SUB_SPH(I))
 
           IF(KXSP(3,I) /= 0) KXSP(3,I) = KXSP(3,I) + OFF_NOD(SUB_SPH(I))
@@ -195,10 +195,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPARTSP(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPARTSP(I) ) INDEX_PART = J 
-          ENDDO  
+        IF( IPART(4,INDEX_PART) /= IPARTSP(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPARTSP(I) ) INDEX_PART = J
+          ENDDO
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPARTSP(I)) THEN
           CALL ANCMSG(MSGID=402,
@@ -208,7 +208,7 @@ C--------------------------------------------------
      .                I1=IPARTSP(I),
      .                I2=IPARTSP(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF 
+        ENDIF
         IDNOD = KXSP(3,I)
         INOD=USR2SYS(IDNOD,ITABM1,MESS,ID)
         KXSP(3,I)=INOD
@@ -235,7 +235,7 @@ C-------------------------------------
         NBP = 1
 
         CALL HM_OPTION_START('/SPH/RESERVE')
-        DO N=1,NBPARTINLET 
+        DO N=1,NBPARTINLET
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                         OPTION_ID = ID,
      .                         KEYWORD2 = KEY)
@@ -266,11 +266,11 @@ C if SPH part not found reserve is emptied to prevent additional errors
             NSPHRES = NSPHRES - KSPHRES*NSPMD
             NUMSPH = NUMSPH - KSPHRES*NSPMD
             KSPHRES = 0
-          ENDIF 
-c store nb of reserve for this part  
+          ENDIF
+c store nb of reserve for this part
           RESERVEP(NBP)=KSPHRES
           NBP=NBP+1
-c KSPHRES by proc  
+c KSPHRES by proc
           KSPHRES = KSPHRES*NSPMD
           DO J=1,KSPHRES
             NCELL=NCELL+1
@@ -369,12 +369,12 @@ C-- Hexa + degenerated penta6
        TAG_PART(1:NPART) = .FALSE.
        IF(NSPHSOL/=0) THEN
             DO I =1,NUMSPH
-                N = SPH2SOL(I) 
+                N = SPH2SOL(I)
                 IF(N/=0) THEN
                     MID_SPH = IPART(1,IPARTSP(I))
-                    MID_SOL = IPART(1,IPARTS(N))            
+                    MID_SOL = IPART(1,IPARTS(N))
                     LAW_SPH = IPM(2,MID_SPH)
-                    LAW_SOL = IPM(2,MID_SOL)                                 
+                    LAW_SOL = IPM(2,MID_SOL)
                     IF(LAW_SPH/=LAW_SOL) THEN
                         CHECK_LAW = .TRUE.
                         IF( .NOT.TAG_PART(IPARTSP(I)) ) THEN
@@ -387,7 +387,7 @@ C-- Hexa + degenerated penta6
                 ENDIF
             ENDDO
        ENDIF
-    
+
        IF(CHECK_LAW) THEN
             DO I=1,ERROR_NUM
                 TITR(1:nchartitle) =''

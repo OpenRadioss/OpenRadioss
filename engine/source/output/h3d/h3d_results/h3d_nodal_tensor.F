@@ -42,15 +42,15 @@ Chd|====================================================================
      .                  INFO1    , INFO2       , IS_WRITTEN_NODE, H3D_PART   , IPARTC   ,
      .                  IPARTTG  , IXC         , IXTG           , TEMP       , IFLOW    ,
      .                  RFLOW    , IXS         , IXQ            , NV46,MONVOL, VOLMON   ,
-     .                  DIAG_SMS    , MS             , PDAMA2     , X        , 
-     .                  STIFR    , STIFN       , A              , D          , V        , 
+     .                  DIAG_SMS    , MS             , PDAMA2     , X        ,
+     .                  STIFR    , STIFN       , A              , D          , V        ,
      .                  CONT     , FCONTG      , FINT           , FEXT       , KEYWORD  ,
      .                  BUFMAT   , IXS10       , IXS16          , IXS20      , IXT      ,
      .                  IXP      , IXR         ,IAD_ELEM        ,FR_ELEM     , WEIGHT   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE OUTMAX_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER I,J,K,N,IOK_PART(NUMNOD),LENR
       my_real
      .   VALUE(6,NUMNOD)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS    
+      INTEGER, DIMENSION(:), ALLOCATABLE :: ITAGPS
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: AFLU, VFLU
       my_real
@@ -113,7 +113,7 @@ C
 
       VALUE(1:6,1:NUMNOD) = ZERO
 c
-      DO  I=1,NUMNOD 
+      DO  I=1,NUMNOD
         NODE_ID(I) = ITAB(I)
       ENDDO
 
@@ -258,7 +258,7 @@ C-----------------------------------------------
      .  	       IXS	,IXS10   ,IXS16   ,IXS20   ,IXQ     ,
      .  	       IXC	,IXTG	 ,IXT	  ,IXP     ,IXR     ,
      .  	       X	,ITAGPS  ,PM	  )
-     
+
          IF(NSPMD > 1)THEN
            LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
            CALL SPMD_EXCH_NODAREAI(ITAGPS,IAD_ELEM,FR_ELEM,LENR,WEIGHT)
@@ -340,7 +340,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------     
-      DO  I=1,NNOD 
+      DO  I=1,NNOD
         VALUE(1:6,I) = TM_NSIG(I,1:6)
       ENDDO
 C      

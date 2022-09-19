@@ -44,7 +44,7 @@ C-------------------------------------------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-------------------------------------------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*)
-      my_real 
+      my_real
      .   VQN(MVSIZ,9,4),VFPINCH(MVSIZ,4),VQ(MVSIZ,3,3),
      .   COREL(MVSIZ,3,4),DI(MVSIZ,6),FP(MVSIZ,3,4), THK0(*),
      .   VFPINCHDAMPX(MVSIZ,4),VFPINCHDAMPY(MVSIZ,4)
@@ -52,12 +52,12 @@ C-------------------------------------------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-------------------------------------------------------------------------------
       INTEGER I, J, K,EP
-      my_real 
+      my_real
      .     FPP(3,4), ELTHKINV
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
       DO EP=JFT,JLT
-        K=IPLAT(EP)        
+        K=IPLAT(EP)
         ELTHKINV = ONE/THK0(EP)
 C       FPP(1:3,node) = VFPINCH(node) * Normal(1:3,node)
 C       Node 1 : FX,FY,FZ
@@ -130,6 +130,6 @@ C       Node 4 : FX,FY,FZ
         FP(K,2,4)= VQ(K,2,1)*FPP(1,4)+VQ(K,2,2)*FPP(2,4)+VQ(K,2,3)*FPP(3,4)
         FP(K,3,4)= VQ(K,3,1)*FPP(1,4)+VQ(K,3,2)*FPP(2,4)+VQ(K,3,3)*FPP(3,4)
 C
-      ENDDO     
+      ENDDO
       RETURN
       END

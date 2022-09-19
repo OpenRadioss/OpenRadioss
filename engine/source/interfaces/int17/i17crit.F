@@ -85,7 +85,7 @@ C--------------------------------------------------------------
       XMSR(3) = -EP30
       XMSR(4) =  EP30
       XMSR(5) =  EP30
-      XMSR(6) =  EP30    
+      XMSR(6) =  EP30
       SIZE_T  =  ZERO
 C------------------------------------
 C     CALCUL DES BORNES DES ELEMENTS
@@ -96,7 +96,7 @@ C------------------------------------
         EMINX(3,I) = EP30
         EMINX(4,I) = -EP30
         EMINX(5,I) = -EP30
-        EMINX(6,I) = -EP30      
+        EMINX(6,I) = -EP30
       ENDDO
 C
       LFT16=1

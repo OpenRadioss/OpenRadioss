@@ -30,7 +30,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|====================================================================
       SUBROUTINE PGRHEAD(
      1       IXP    ,PM     ,GEO     ,INUM    ,ISEL    ,
-     2       ITR1   ,EADD   ,INDEX   ,ITRI    ,IPARTP  ,      
+     2       ITR1   ,EADD   ,INDEX   ,ITRI    ,IPARTP  ,
      3       ND     ,IGRSURF,IGRBEAM ,CEP     ,
      4       XEP    ,IGEO   ,IPOUOFF ,
      5       TAGPRT_SMS ,IPM)
@@ -91,7 +91,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I, K,  MLN, NG, ISSN, NN, N, MID, PID,IGTYP,
      .        II, J, II2,JJ2,JJ,L,II3,JJ3,NPG,
      .        MSKMLN,MSKTYP,MSKISN,MSKPID,MSKMID,MODE,

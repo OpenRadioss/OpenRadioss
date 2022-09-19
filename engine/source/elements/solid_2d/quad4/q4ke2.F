@@ -49,7 +49,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -183,10 +183,10 @@ C
      +  WI,KSI,ETA
       my_real
      +  W_GAUSS(9,9),A_GAUSS(9,9)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
 c
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -214,7 +214,7 @@ c
      9 0.081274388361574,0.180648160694857,0.260610696402935,
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -256,7 +256,7 @@ C-----------------------------------------------
           GAMA(I,6) = ZERO
         ENDDO
       ELSE
-        DO I=LFT,LLT                                            
+        DO I=LFT,LLT
           GAMA(I,1) = GBUF%GAMA(I        )
           GAMA(I,2) = GBUF%GAMA(I +   NEL)
           GAMA(I,3) = GBUF%GAMA(I + 2*NEL)
@@ -316,7 +316,7 @@ C---- now assumed strain is used, no effect for Isolid17
         DO I=LFT,LLT
           NUU(I)=ZERO
         ENDDO
-      ENDIF 
+      ENDIF
 C     COMPUTE AREA & VOLUME/THICKNESS
       CALL QVOLU2(GBUF%OFF,AIRE,VOLU,NGL,
      2            Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,

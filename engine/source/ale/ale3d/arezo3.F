@@ -98,7 +98,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
           IV3=ALE_CONNECT%ee_connect%connected(IAD2 + 3 - 1)
           IV4=ALE_CONNECT%ee_connect%connected(IAD2 + 4 - 1)
           IV5=ALE_CONNECT%ee_connect%connected(IAD2 + 5 - 1)
-          IV6=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1) 
+          IV6=ALE_CONNECT%ee_connect%connected(IAD2 + 6 - 1)
           IF(IV1 <= 0)IV1=IE
           IF(IV2 <= 0)IV2=IE
           IF(IV3 <= 0)IV3=IE
@@ -110,7 +110,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
      3     -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)
      4     -PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I))/
      5      VOL(I)
-        ENDDO       
+        ENDDO
       ENDIF
 C-----------
       RETURN
@@ -207,7 +207,7 @@ C NOT YET TREATED WITH INTER22(OBSOLETE), MUST STACK REZONED VALUE WITH SUPERCEL
      .       -PHI(IV1)*FLUX(1,I)-PHI(IV2)*FLUX(2,I)-PHI(IV3)*FLUX(3,I)-PHI(IV4)*FLUX(4,I)-PHI(IV5)*FLUX(5,I)-PHI(IV6)*FLUX(6,I)
      .                                      ) / VOL(I)
           ENDIF
-        ENDDO       
+        ENDDO
       ENDIF
 C-----------------------------------------------
       RETURN

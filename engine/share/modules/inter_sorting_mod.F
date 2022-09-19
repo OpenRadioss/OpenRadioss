@@ -53,8 +53,8 @@ Chd|        SPMD_WAIT_NB                  source/mpi/interfaces/spmd_wait_nb.F
 Chd|-- calls ---------------
 Chd|====================================================================
         MODULE INTER_SORTING_MOD
-#include      "my_real.inc"    
-!   -------------------------    
+#include      "my_real.inc"
+!   -------------------------
             LOGICAL :: NEED_COMM_INACTI         ! flag : true if inacti comm is mandatory
             INTEGER :: NB_INTER_INACTI          ! number of interface with inacti > 0
             INTEGER :: NEED_TO_SORT             ! flag : 1 if 1 or several interfaces must be sorted
@@ -79,7 +79,7 @@ Chd|====================================================================
             END TYPE buffer_comm_type
             !   ---------------------
             TYPE sorting_comm_type
-                INTEGER :: COMM              ! sub communicator for communication 
+                INTEGER :: COMM              ! sub communicator for communication
                 !   -----------------------------
                 !   COARSE CELL data
                 INTEGER :: PROC_NUMBER              ! number of processor for the interface NIN
@@ -90,10 +90,10 @@ Chd|====================================================================
                 INTEGER, DIMENSION(:), ALLOCATABLE :: RCV_DISPLS_COARSE_CELL    ! displacement for R
                 INTEGER, DIMENSION(:), ALLOCATABLE :: COARSE_GRID               ! list of local cell colored by secondary nodes S (S --> R) : size = NB_BOX_COARSE_GRID**3 + 1
                 INTEGER, DIMENSION(:,:,:), ALLOCATABLE :: MAIN_COARSE_GRID          ! list of cell colored by main node
-                INTEGER :: SIZE_GLOBAL_COARSE_CELL                              ! total number of cell 
+                INTEGER :: SIZE_GLOBAL_COARSE_CELL                              ! total number of cell
                 INTEGER, DIMENSION(:), ALLOCATABLE :: GLOBAL_COARSE_CELL        ! list of remote cell colored by secondary nodes R : size = nspmd x (NB_BOX_COARSE_GRID**3 + 1)
 
-                LOGICAL, DIMENSION(:), ALLOCATABLE :: KEEP_PROC                 ! boolean, true if current proc and P proc need to communicate 
+                LOGICAL, DIMENSION(:), ALLOCATABLE :: KEEP_PROC                 ! boolean, true if current proc and P proc need to communicate
                 !   -----------------------------
                 !   FINE CELL data
                 INTEGER, DIMENSION(2) :: SIZE_CELL_LIST ! 1 = total number of cell  ; 2 = always 0 for mpi communication
@@ -151,14 +151,14 @@ Chd|====================================================================
                 INTEGER, DIMENSION(:), ALLOCATABLE :: REQ_SD3       ! request for Send : IREM comm
                 !   -----------------------------
             END TYPE sorting_comm_type
-              
+
             LOGICAL :: COARSE_GRID
             INTEGER, DIMENSION(:), ALLOCATABLE :: NB_LOCAL_CELL
             LOGICAL, DIMENSION(:,:,:), ALLOCATABLE :: CELL_BOOL
 
             INTEGER :: REMOTE_S_NODE    ! number of real remote secondary nodes
             INTEGER, DIMENSION(:), ALLOCATABLE :: LIST_REMOTE_S_NODE ! list of real remote secondary nodes
-!   -------------------------    
+!   -------------------------
         END MODULE INTER_SORTING_MOD
 
 

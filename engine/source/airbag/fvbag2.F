@@ -36,7 +36,7 @@ Chd|====================================================================
       SUBROUTINE FVBAG2(IFV,   ITYP, NNA,  NVENT, NJET, IVOLU, IBAGHOL, RBAGHOL,
      .                  X,    RVOLU, XXXA, NCONA, RBAGJET ,
      .                  A,    LGAUGE , GAUGE , NNT   ,FEXT   , NSKIP,
-     .                  H3D_DATA     ) 
+     .                  H3D_DATA     )
 C
 C Boardcast data from PMAIN to other processors
 C Arrays sended:
@@ -80,19 +80,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFV, ITYP, NNA, NVENT, NJET, IVOLU(*), NCONA(16,*), IBAGHOL(NIBHOL,*)
       my_real RVOLU(*), X(3,*), XXXA(3,*), RBAGJET(NRBJET,*), RBAGHOL(NRBHOL,*)
-      INTEGER NNT,LGAUGE(3,*) 
-      INTEGER NSKIP          
+      INTEGER NNT,LGAUGE(3,*)
+      INTEGER NSKIP
       my_real
      .        A(3,*),
-     .        FEXT(3,*), 
+     .        FEXT(3,*),
      .        GAUGE(LLGAUGE,*)
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER II,J,N21,N22,N1
-      INTEGER I, I1, I2, IFVENT, NPOLH  
-      INTEGER IDEF(NVENT) 
+      INTEGER I, I1, I2, IFVENT, NPOLH
+      INTEGER IDEF(NVENT)
       my_real TTF
       LOGICAL :: UP_SWITCH, AUTO_SWITCH
 
@@ -153,7 +153,7 @@ C Shell input
         CALL SPMD_IBCAST_SUBCOMM(IVOLU(49),1,0,FVSPMD(IFV)%MPI_COMM)
         CALL SPMD_RBCAST_SUBCOMM(FVDATA(IFV)%PDISP_OLD,1,0,FVSPMD(IFV)%MPI_COMM)
         CALL SPMD_RBCAST_SUBCOMM(FVDATA(IFV)%PDISP,1,0,FVSPMD(IFV)%MPI_COMM)
-      ENDIF 
+      ENDIF
       DO I=1,FVSPMD(IFV)%NN_L+FVSPMD(IFV)%NNI_L
          I1=FVSPMD(IFV)%IBUF_L(1,I)
          I2=FVSPMD(IFV)%IBUF_L(2,I)
@@ -166,7 +166,7 @@ C Shell input
            FEXT(2,I2) = FEXT(2,I2)+FVSPMD(IFV)%AAA(2,I1)
            FEXT(3,I2) = FEXT(3,I2)+FVSPMD(IFV)%AAA(3,I1)
          ENDIF
-      ENDDO     
+      ENDDO
 
 90    CONTINUE
 C
@@ -177,11 +177,11 @@ C----------------------------
       IF( FVSPMD(IFV)%NNA_L_GLOB > 0) THEN
       ! The BCAST is necessery if at least one proc. has NNA_L > 0
         IF(NSPMD > 1 .AND. FVSPMD(IFV)%RANK > -1 )THEN
-     
+
           CALL SPMD_RBCAST_SUBCOMM(XXXA,3*NNA,0,
      .         FVSPMD(IFV)%MPI_COMM)
-     
-        ENDIF 
+
+        ENDIF
         IF (KMESH(IFV) < 2) THEN
            DO I=1,FVSPMD(IFV)%NNA_L
               I1=FVSPMD(IFV)%IBUFA_L(1,I)
@@ -212,7 +212,7 @@ C -------------------
       ENDIF
       IF (IVOLU(74) > 0) THEN
 C     Automatic switch to uniform pressure when dispersion of pressure is low
-         AUTO_SWITCH = (FVDATA(IFV)%PDISP < FVDATA(IFV)%PDISP_OLD) .AND. 
+         AUTO_SWITCH = (FVDATA(IFV)%PDISP < FVDATA(IFV)%PDISP_OLD) .AND.
      .        (FVDATA(IFV)%PDISP < RVOLU(73))
          UP_SWITCH = TT-TTF >= RVOLU(70)
          UP_SWITCH = UP_SWITCH .OR. AUTO_SWITCH
@@ -221,23 +221,23 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
       IF (UP_SWITCH) THEN
          IF (IVOLU(74) == 0 .OR. IVOLU(74) == 1) THEN
             DO I=1,NVENT
-               IF(IBAGHOL(1,I) == 2) IBAGHOL(1,I) = 0                     
-               IDEF(I) = IBAGHOL(1,I) 
+               IF(IBAGHOL(1,I) == 2) IBAGHOL(1,I) = 0
+               IDEF(I) = IBAGHOL(1,I)
             ENDDO
             IF(NSPMD > 1 .AND. FVSPMD(IFV)%RANK > -1 )THEN
                CALL SPMD_RBCAST_SUBCOMM(RVOLU,NRVOLU,0,FVSPMD(IFV)%MPI_COMM)
                CALL SPMD_RBCAST_SUBCOMM(RBAGJET,NRBJET*NJET,0,FVSPMD(IFV)%MPI_COMM)
                CALL SPMD_IBCAST_SUBCOMM(IDEF,NVENT,0,FVSPMD(IFV)%MPI_COMM)
-            ENDIF 
+            ENDIF
             IVOLU(2) = 7
             IVOLU(15)=-1
             IF(ISPMD+1 == FVSPMD(IFV)%PMAIN) THEN
-               WRITE(IOUT,'(A,I10,A,E12.4/)') 
+               WRITE(IOUT,'(A,I10,A,E12.4/)')
      .              ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .              ' IS SWITCHED TO UNIFORM PRESSURE AT TIME',TT
                IF (AUTO_SWITCH) THEN
                   WRITE(IOUT, '(A,E12.4)')
-     .                 '->AUTO SWITCH DUE TO LOW STANDARD DEVIATION OF PRESSURE AROUND ITS AVERAGE:', 
+     .                 '->AUTO SWITCH DUE TO LOW STANDARD DEVIATION OF PRESSURE AROUND ITS AVERAGE:',
      .                 FVDATA(IFV)%PDISP
                ENDIF
             ENDIF
@@ -250,7 +250,7 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
          ELSE IF (IVOLU(74) == 2) THEN
 !     Cmerg
             RVOLU(31) = EP30
-!     Tswitch 
+!     Tswitch
             RVOLU(70) = EP30
 !     Iswitch
             IVOLU(74) = -2
@@ -258,15 +258,15 @@ C     Automatic switch to uniform pressure when dispersion of pressure is low
                CALL SPMD_RBCAST_SUBCOMM(RVOLU,NRVOLU,0,FVSPMD(IFV)%MPI_COMM)
                CALL SPMD_RBCAST_SUBCOMM(RBAGJET,NRBJET*NJET,0,FVSPMD(IFV)%MPI_COMM)
                CALL SPMD_IBCAST_SUBCOMM(IDEF,NVENT,0,FVSPMD(IFV)%MPI_COMM)
-            ENDIF 
-            
+            ENDIF
+
             IF(ISPMD+1 == FVSPMD(IFV)%PMAIN) THEN
-               WRITE(IOUT,'(A,I10,A,E12.4/)') 
+               WRITE(IOUT,'(A,I10,A,E12.4/)')
      .              ' ** MONITORED VOLUME ID: ',IVOLU(1),
      .              ' IS SWITCHED TO 1 FINITE VOLUME AT TIME',TT
                IF (AUTO_SWITCH) THEN
                   WRITE(IOUT, '(A,E12.4)')
-     .                 '->AUTO SWITCH DUE TO LOW STANDARD DEVIATION OF PRESSURE AROUND ITS AVERAGE:', 
+     .                 '->AUTO SWITCH DUE TO LOW STANDARD DEVIATION OF PRESSURE AROUND ITS AVERAGE:',
      .                 FVDATA(IFV)%PDISP
                ENDIF
             ENDIF

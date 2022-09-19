@@ -68,7 +68,7 @@ C-----------------------------------------------
       CHARACTER TITR*nchartitle
       TYPE (SENSOR_STR_) :: SENSOR_TAB
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -94,33 +94,33 @@ c--------------------------------------------------
 c     Check input data
 c--------------------------------------------------
       IDIR = 0
-      IF (DIR(1:2) == 'FN' .OR. DIR(1:2) == 'fn') IDIR = 1  
-      IF (DIR(1:2) == 'FT' .OR. DIR(1:2) == 'ft') IDIR = 2  
-      IF (DIR(1:2) == 'TF' .OR. DIR(1:2) == 'tf') IDIR = 3  
-      IF (DIR(1:2) == 'TM' .OR. DIR(1:2) == 'tm') IDIR = 4  
-      IF (DIR(1:2) == 'FX' .OR. DIR(1:2) == 'fx') IDIR = 5    
-      IF (DIR(1:2) == 'FY' .OR. DIR(1:2) == 'fy') IDIR = 6    
-      IF (DIR(1:2) == 'FZ' .OR. DIR(1:2) == 'fz') IDIR = 7    
-      IF (DIR(1:2) == 'MX' .OR. DIR(1:2) == 'mx') IDIR = 8    
-      IF (DIR(1:2) == 'MY' .OR. DIR(1:2) == 'my') IDIR = 9    
-      IF (DIR(1:2) == 'MZ' .OR. DIR(1:2) == 'mz') IDIR = 10    
+      IF (DIR(1:2) == 'FN' .OR. DIR(1:2) == 'fn') IDIR = 1
+      IF (DIR(1:2) == 'FT' .OR. DIR(1:2) == 'ft') IDIR = 2
+      IF (DIR(1:2) == 'TF' .OR. DIR(1:2) == 'tf') IDIR = 3
+      IF (DIR(1:2) == 'TM' .OR. DIR(1:2) == 'tm') IDIR = 4
+      IF (DIR(1:2) == 'FX' .OR. DIR(1:2) == 'fx') IDIR = 5
+      IF (DIR(1:2) == 'FY' .OR. DIR(1:2) == 'fy') IDIR = 6
+      IF (DIR(1:2) == 'FZ' .OR. DIR(1:2) == 'fz') IDIR = 7
+      IF (DIR(1:2) == 'MX' .OR. DIR(1:2) == 'mx') IDIR = 8
+      IF (DIR(1:2) == 'MY' .OR. DIR(1:2) == 'my') IDIR = 9
+      IF (DIR(1:2) == 'MZ' .OR. DIR(1:2) == 'mz') IDIR = 10
       IF (IDIR == 0 .AND. LEN_TRIM(DIR) /= 0 ) THEN
         CALL ANCMSG(MSGID=1594, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND,
      .              I1=SENS_ID, C1=TITR, C2=DIR)
-      END IF                                       
+      END IF
 c--------------------------------------------------
 c
       SENS_TYPE  = 12
       LSENSOR(1) = SENS_ID
       LSENSOR(2) = SENS_TYPE
       LSENSOR(4) = SECT_ID     ! section ID is converted to sys number in inisen()
-      LSENSOR(6) = IDIR     
+      LSENSOR(6) = IDIR
       SENSOR(1)  = TDEL
       SENSOR(2)  = INFINITY   ! activation time
-      SENSOR(3)  = INFINITY 
-      SENSOR(4)  = FMIN     
-      SENSOR(5)  = FMAX     
-      SENSOR(6)  = TMIN     
+      SENSOR(3)  = INFINITY
+      SENSOR(4)  = FMIN
+      SENSOR(5)  = FMAX
+      SENSOR(6)  = TMIN
 c------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
       WRITE (IOUT, 2000) SECT_ID,FMIN,FMAX,TMIN,DIR

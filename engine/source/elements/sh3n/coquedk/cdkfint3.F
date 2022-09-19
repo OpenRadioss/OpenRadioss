@@ -37,9 +37,9 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NG,NEL
-      MY_REAL 
-     .   FOR(NEL,5),MOM(NEL,3), 
-     .   PX2(*), PY2(*), PX3(*), PY3(*), 
+      MY_REAL
+     .   FOR(NEL,5),MOM(NEL,3),
+     .   PX2(*), PY2(*), PX3(*), PY3(*),
      .   BRX1(MVSIZ,3),BRX2(MVSIZ,3),BRX3(MVSIZ,3),BRY1(MVSIZ,3),BRY2(MVSIZ,3),BRY3(MVSIZ,3),
      .   BZ1(MVSIZ,2),BZ2(MVSIZ,2),BZ3(MVSIZ,2),
      .   F11(*), F12(*), F13(*),
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
-      MY_REAL 
+      MY_REAL
      .    C2,FX2,FX3,FY2,FY3
 C--------------------------------------------------------------------------------------------------
       DO I=JFT,JLT
@@ -66,7 +66,7 @@ C-------------------------------------------------------------------------------
         F23(I)=F23(I)+FY3
 C        F11(I)=F11(I)-FX2-FX3
 C        F21(I)=F21(I)-FY2-FY3
-      ENDDO     
+      ENDDO
       DO I=JFT,JLT
  	C2=VOL(I)*THK0(I)
         F32(I)=F32(I)+C2*(BZ1(I,1)*MOM(I,1)+BZ2(I,1)*MOM(I,2)+
@@ -85,7 +85,7 @@ C        F21(I)=F21(I)-FY2-FY3
      .                    BRX3(I,3)*MOM(I,3))
         M23(I)=M23(I)+C2*(BRY1(I,3)*MOM(I,1)+BRY2(I,3)*MOM(I,2)+
      .                    BRY3(I,3)*MOM(I,3))
-      ENDDO     
+      ENDDO
 C    
       RETURN
       END

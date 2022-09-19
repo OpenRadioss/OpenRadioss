@@ -117,7 +117,7 @@ C initialisation dd_iad
       DO N=1,ND
         NEL = EADD(N+1)-EADD(N)
 C
-        DO I = 1, NEL 
+        DO I = 1, NEL
           INDEX(I) = I
           INUM(1,I)=IPARTIG3D(NFT+I)
           DO J=1,NIXIG3D
@@ -127,14 +127,14 @@ C
             KNOTLOCELINDX((I-1)*6+J)=KNOTLOCEL((NFT+I-1)*6+J)
           ENDDO
         ENDDO
-      
+
         MODE=0
         CALL MY_ORDERS( MODE, WORK, CEP(NFT+1), INDEX, NEL , 1)
         DO I = 1, NEL
           IPARTIG3D(I+NFT)=INUM(1,INDEX(I))
           DO J=1,6
             KNOTLOCEL((I+NFT-1)*6+J)=KNOTLOCELINDX((INDEX(I)-1)*6+J)
-          ENDDO 
+          ENDDO
           DO J=1,NIXIG3D
             KXIG3D(J,I+NFT)=INUM(J+1,INDEX(I))
           ENDDO
@@ -166,13 +166,13 @@ C
 C maj CEP
 C
         DO I = 1, NEL
-          INDEX(I) = CEP(NFT+INDEX(I))          
+          INDEX(I) = CEP(NFT+INDEX(I))
         ENDDO
         DO I = 1, NEL
-          CEP(NFT+I) = INDEX(I)          
+          CEP(NFT+I) = INDEX(I)
         ENDDO
         NFT = NFT + NEL
-      ENDDO  
+      ENDDO
 C phase 2 : bornage en groupe de mvsiz
 C ngroup est global, iparg est global mais organise en fonction de dd
 C
@@ -196,11 +196,11 @@ C xgroup global
           MTNN= NINT(PM(19,ABS(KXIG3D(1,II))))
           IETYP = 101
           GEO(8,PID)=IETYP + EM01
-          
+
           JALE_FROM_MAT = NINT(PM(72,MID))
           JALE_FROM_PROP = IGEO(62,PID)
           JALE = MAX(JALE_FROM_MAT, JALE_FROM_PROP) !if unconsistent, error message was displayed in PART reader
- 
+
           JLAG=0
           IF(JALE == 0.AND.MTNN/=18)JLAG=1
           JEUL=0
@@ -209,15 +209,15 @@ C xgroup global
             JEUL=1
 C foam + air
           ELSEIF(JALE == 3 .AND. MTNN == 77) THEN
-            JLAG=1          
+            JLAG=1
           ENDIF
-          IF(MTNN/=50)JTUR=NINT(PM(70,MID)) 
+          IF(MTNN/=50)JTUR=NINT(PM(70,MID))
           JTHE=NINT(PM(71,MID))
 
 C
           CALL ZEROIN(1,NPARG,IPARG(1,NGROUP))
 C
-          NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT) 
+          NE1 = MIN( NVSIZ, NEL + NEL_PREC - NFT)
           NUVAR =NINT( GEO(25,PID))
           NUVARN=NINT( GEO(35,PID))
 
@@ -237,7 +237,7 @@ C
           IPARG(38,NGROUP) = IGEO(11,PID)
           IPARG(56,NGROUP) = IGEO(41,PID)
           IPARG(57,NGROUP) = IGEO(42,PID)
-          IPARG(58,NGROUP) = IGEO(43,PID) 
+          IPARG(58,NGROUP) = IGEO(43,PID)
 C
 c          LBUFEL= IPARG(4,NGROUP)+NE1*
 c     .            (NXVIE+NUVAR+INND*(NXVIN+NUVARN))-1

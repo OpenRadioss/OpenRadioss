@@ -104,9 +104,9 @@ C
         RY13TA = RY1(I)-RY3(I)
         RY24TA = RY2(I)-RY4(I)
 C
-         WXY(I) = PY1(I)*RY13TA+PY2(I)*RY24TA + 
+         WXY(I) = PY1(I)*RY13TA+PY2(I)*RY24TA +
      +            PX1(I)*RX13TA+PX2(I)*RX24TA
-        ENDDO 
+        ENDDO
        ENDIF
 c-----------
       RETURN

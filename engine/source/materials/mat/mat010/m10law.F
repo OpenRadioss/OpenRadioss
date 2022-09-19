@@ -76,7 +76,7 @@ C-----------------------------------------------
       my_real
      .   VNEW(*), SSP(*), SIGY(*),DEFP(*),
      .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
-     .   DVOL(*), MU_NEW(*),    
+     .   DVOL(*), MU_NEW(*),
      .   SOLD1(MVSIZ), SOLD2(MVSIZ), SOLD3(MVSIZ),
      .   SOLD4(MVSIZ), SOLD5(MVSIZ), SOLD6(MVSIZ),
      .   DPDM(MVSIZ)
@@ -85,12 +85,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX
       my_real
-     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ), T4(MVSIZ), 
+     .   T1(MVSIZ), T2(MVSIZ), T3(MVSIZ), T4(MVSIZ),
      .   T5(MVSIZ), T6(MVSIZ), POLD(MVSIZ), P(MVSIZ), PNE1(MVSIZ),
      .    G(MVSIZ), BULK(MVSIZ), A0(MVSIZ), A1(MVSIZ),
-     .   A2(MVSIZ), AMX(MVSIZ), AJ2(MVSIZ), G0(MVSIZ), GG(MVSIZ), 
-     .   MU2(MVSIZ), SVRT(MVSIZ), RATIO(MVSIZ), 
-     .   YIELD2(MVSIZ), G43(MVSIZ), 
+     .   A2(MVSIZ), AMX(MVSIZ), AJ2(MVSIZ), G0(MVSIZ), GG(MVSIZ),
+     .   MU2(MVSIZ), SVRT(MVSIZ), RATIO(MVSIZ),
+     .   YIELD2(MVSIZ), G43(MVSIZ),
      .   RHO0(MVSIZ),PTOT,PSTAR(MVSIZ),
      .   G43_1,C0_1,C1_1,C2_1,C3_1,
      .   BULK_1,BULK2_1,MU_MAX_1,PSH_1,
@@ -104,40 +104,40 @@ C-----------------------------------------------
       !  PARAMETER INITIALIZATION                                      !
       !----------------------------------------------------------------!
       MX=MAT(LFT)
-      G43_1    = ONEP333*PM(22,MX)   
-      PSTAR_1  = PM(44,MX)          
-      A0_1     = PM(38,MX)          
-      A1_1     = PM(39,MX)          
-      A2_1     = PM(40,MX)          
-      AMX_1    = PM(41,MX)          
-      RHO0_1   = PM(1,MX)   
-      PSH_1    = PM(88,MX)  
-      PFRAC    = PM(37,MX)      
+      G43_1    = ONEP333*PM(22,MX)
+      PSTAR_1  = PM(44,MX)
+      A0_1     = PM(38,MX)
+      A1_1     = PM(39,MX)
+      A2_1     = PM(40,MX)
+      AMX_1    = PM(41,MX)
+      RHO0_1   = PM(1,MX)
+      PSH_1    = PM(88,MX)
+      PFRAC    = PM(37,MX)
       DO I=LFT,LLT
         G(I)     = DT1*PM(22,MX)
         G43(I)   = G43_1
         GG(I)    = TWO*G(I)
         PSH(I)   = PSH_1
-        PSTAR(I) = PSTAR_1    
+        PSTAR(I) = PSTAR_1
         A0(I)    = A0_1
         A1(I)    = A1_1
         A2(I)    = A2_1
         AMX(I)   = AMX_1
         RHO0(I)  = RHO0_1
       ENDDO !next I
-      
+
       !----------------------------------------------------------------!
       !  STATE INIT.                                                   !
-      !----------------------------------------------------------------!        
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         POLD(I)=-THIRD*(SIG(I,1)+SIG(I,2)+SIG(I,3))
         SVRT(I)= THIRD*(D1(I)+D2(I)+D3(I))
         MU2(I) = MU_NEW(I) * MAX(ZERO,MU_NEW(I))
-      ENDDO !next I        
+      ENDDO !next I
 
       !----------------------------------------------------------------!
       !  TEMPORARY DEVIATORIC STRESS TENSOR : T(1:6)                   !
-      !----------------------------------------------------------------!  
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         T1(I)=SIG(I,1)+POLD(I)
         T2(I)=SIG(I,2)+POLD(I)
@@ -145,19 +145,19 @@ C-----------------------------------------------
         T4(I)=SIG(I,4)
         T5(I)=SIG(I,5)
         T6(I)=SIG(I,6)
-      ENDDO !next I  
+      ENDDO !next I
 
       !----------------------------------------------------------------!
       !  SOUND SPEED                                                   !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         DPDM(I) = G43(I) + DPDM(I)
         SSP(I)  = SQRT(ABS(DPDM(I))/RHO0(I))
-      ENDDO !next I      
+      ENDDO !next I
 
       !----------------------------------------------------------------!
       !  DEVIATORIC TENSOR - ELASTIC INCREMENT                         !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         T1(I)=T1(I)+GG(I)*(D1(I)-SVRT(I))
         T2(I)=T2(I)+GG(I)*(D2(I)-SVRT(I))
@@ -165,11 +165,11 @@ C-----------------------------------------------
         T4(I)=T4(I)+G(I)*D4(I)
         T5(I)=T5(I)+G(I)*D5(I)
         T6(I)=T6(I)+G(I)*D6(I)
-      ENDDO !next I 
+      ENDDO !next I
 
       !----------------------------------------------------------------!
       !  YIELD SURFACE                                                 !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         AJ2(I)= HALF*(T1(I)**2+T2(I)**2+T3(I)**2)+T4(I)**2+T5(I)**2+T6(I)**2
         PTOT  = PNEW(I)+PSH(I)
@@ -179,11 +179,11 @@ C-----------------------------------------------
         IF(PNEW(I)<=PFRAC)G0(I)=ZERO
         IF(PTOT <= PSTAR(I))G0(I)=ZERO
         YIELD2(I)=AJ2(I)-G0(I)
-      ENDDO !next I  
-      
+      ENDDO !next I
+
       !----------------------------------------------------------------!
       !  PROJECTION FACTOR ON YIELD SURFACE                            !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO  I=LFT,LLT
         RATIO(I)=ZERO
         IF(YIELD2(I)<=ZERO .AND. G0(I)>ZERO)THEN
@@ -191,11 +191,11 @@ C-----------------------------------------------
         ELSE
           RATIO(I)=SQRT(G0(I)/(AJ2(I)+ EM14))
         ENDIF
-      ENDDO !next I 
+      ENDDO !next I
 
       !----------------------------------------------------------------!
       !  UPDATE DEVIATORIC STRESS TENSOR IN SIG(:,:)                   !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         SIG(I,1)=RATIO(I)*T1(I)*OFF(I)
         SIG(I,2)=RATIO(I)*T2(I)*OFF(I)
@@ -204,11 +204,11 @@ C-----------------------------------------------
         SIG(I,5)=RATIO(I)*T5(I)*OFF(I)
         SIG(I,6)=RATIO(I)*T6(I)*OFF(I)
         EPSEQ(I)=EPSEQ(I)+(ONE -RATIO(I))*SQRT(ABS(AJ2(I)))*DT1 / MAX(EM20,THREE*G(I))
-      ENDDO !next I     
+      ENDDO !next I
 
       !----------------------------------------------------------------!
       !  OUTPUT / MISC.                                                !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=LFT,LLT
         SIGY(I)=G0(I)     !YIELD SURFACE
         DEFP(I)=EPSEQ(I)  !VOLUMETRIC PLASTIC STRAIN

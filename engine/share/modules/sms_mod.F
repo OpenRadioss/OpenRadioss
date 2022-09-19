@@ -37,9 +37,9 @@ C-----------------------------------------------
      .         DIMENSION(:), ALLOCATABLE :: LT_SMS, LTK_SMS,
      .                                      MSKYI_SMS, LTI_SMS,
      .                                      PREC_SMS
-      INTEGER, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, DIMENSION(:), ALLOCATABLE ::
      .                 INDX1_SMS, INDX2_SMS
-      INTEGER, TARGET, DIMENSION(:), ALLOCATABLE :: 
+      INTEGER, TARGET, DIMENSION(:), ALLOCATABLE ::
      .                 NATIV_SMS, TAGNOD_SMS, NODXI_SMS, NODII_SMS
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGPRT_SMS, TAGREL_SMS,
      .                      TAGSLV_RBY_SMS, TAGMSR_RBY_SMS,
@@ -79,5 +79,5 @@ Chd|====================================================================
      .         DIMENSION(:,:),ALLOCATABLE :: PROJ_K
       my_real,
      .         DIMENSION(:),ALLOCATABLE :: PROJ_LA_1,PROJ_W
- 
+
       END MODULE SMS_PCG_PROJ

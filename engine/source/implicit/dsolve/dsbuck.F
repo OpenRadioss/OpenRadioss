@@ -32,7 +32,7 @@ Chd|====================================================================
       SUBROUTINE DSBUCK(N     , NEV   , NCV   , WHICH, INFO  ,
      .                  MAXN  , MAXNEV, MAXNCV, LDV  , ISHFTS,
      .                  MAXITR, MODE  , TOL   , OP   , RIGI  ,
-     .                  RIGIG , D     , V     , IPRI , SIGMA ) 
+     .                  RIGIG , D     , V     , IPRI , SIGMA )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
       my_real
      .        TOL, OP(N,*), RIGI(N,*), RIGIG(N,*), D(MAXNCV,*),
      .        V(LDV,*), SIGMA
-      CHARACTER*2 WHICH    
+      CHARACTER*2 WHICH
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

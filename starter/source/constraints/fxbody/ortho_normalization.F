@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        WSUM                          source/constraints/fxbody/ortho_normalization.F
 Chd|        PRSCAL                        source/constraints/fxbody/ortho_normalization.F
 Chd|====================================================================
-      SUBROUTINE ORTHRG(VECT, MAS, NDDL,NB_MODES ) 
+      SUBROUTINE ORTHRG(VECT, MAS, NDDL,NB_MODES )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -43,7 +43,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL, NB_MODES
       my_real
-     .        VECT(NDDL,*), MAS(NDDL,NDDL)      
+     .        VECT(NDDL,*), MAS(NDDL,NDDL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -81,7 +81,7 @@ Chd|-- calls ---------------
 Chd|        WSUM                          source/constraints/fxbody/ortho_normalization.F
 Chd|        PRSCAL                        source/constraints/fxbody/ortho_normalization.F
 Chd|====================================================================
-      SUBROUTINE ORTHSR(VECTS, VECTR, MAS, NDDL, NMS,NMR) 
+      SUBROUTINE ORTHSR(VECTS, VECTR, MAS, NDDL, NMS,NMR)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,7 +104,7 @@ C-----------------------------------------------
       my_real
      .        VT(NDDL), S, MS
 C
-      my_real 
+      my_real
      .        PRSCAL
       EXTERNAL PRSCAL
 C
@@ -154,7 +154,7 @@ C-----------------------------------------------
       my_real
      .        S, MS, NORM, UNSN, REF, VT(NDDL)
 C
-      my_real 
+      my_real
      .        PRSCAL
       EXTERNAL PRSCAL
 C
@@ -182,7 +182,7 @@ C
          ENDDO
 C
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  PRSCAL                        source/constraints/fxbody/ortho_normalization.F
 Chd|-- called by -----------
@@ -192,7 +192,7 @@ Chd|        ORTHSR                        source/constraints/fxbody/ortho_normal
 Chd|        ORTHST                        source/constraints/fxbody/ortho_normalization.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      my_real FUNCTION PRSCAL(V1    , V2, NDDL, VALUE) 
+      my_real FUNCTION PRSCAL(V1    , V2, NDDL, VALUE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -205,7 +205,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NDDL
       my_real
-     .        V1(*), V2(*), VALUE(NDDL,NDDL)    
+     .        V1(*), V2(*), VALUE(NDDL,NDDL)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -256,4 +256,4 @@ C
       ENDDO
 C
       RETURN
-      END       
+      END

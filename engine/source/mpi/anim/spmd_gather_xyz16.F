@@ -64,9 +64,9 @@ C-----------------------------------------------
 C   Tableau utilise par proc 0
        REAL
      .   XGLOB(3,NUM)
-         
+
        IF (ISPMD/=0) THEN
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(V,6*NUMELS16,MPI_REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -77,7 +77,7 @@ C   Tableau utilise par proc 0
           DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)

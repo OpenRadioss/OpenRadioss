@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ITRIMHPSORT(TAB,LEN)
 C-----------------------------------------------
-c in place heap sort algorithm of integer table with elimination 
+c in place heap sort algorithm of integer table with elimination
 c of double entries. Returns the sorted table and final length.
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -41,18 +41,18 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,J,K,L,VAL 
-c=======================================================================    
+      INTEGER I,J,K,L,VAL
+c=======================================================================
       IF (LEN < 2) RETURN
       L  = LEN/2 + 1
       K = LEN
 c
       !The index L will be decremented from its initial value during the
-      !"hKing" (heap creation) phase. Once it reaches 1, the index K 
+      !"hKing" (heap creation) phase. Once it reaches 1, the index K
       !will be decremented from its initial value down to 1 during the
       !"retKement-and-promotion" (heap selection) phase.
 
-      DO   ! main heap sort loop 
+      DO   ! main heap sort loop
         IF (L > 1)THEN
           L=L-1
           VAL=TAB(L)
@@ -82,19 +82,19 @@ c
         TAB(I)=VAL
       ENDDO  ! main heap sort loop
 c
-c-----------      
+c-----------
 c     eliminate double entries
-c-----------      
+c-----------
       J   = 1
       VAL = TAB(1)
-      DO I=2,LEN                
+      DO I=2,LEN
         IF (TAB(I) == VAL) CYCLE
         VAL = TAB(I)
-        J   = J+1                
-        TAB(J) = VAL           
-      END DO                     
-      LEN = J                 
-c-----------      
+        J   = J+1
+        TAB(J) = VAL
+      END DO
+      LEN = J
+c-----------
       RETURN
       END
 

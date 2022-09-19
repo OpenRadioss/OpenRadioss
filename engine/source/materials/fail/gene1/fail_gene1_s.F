@@ -47,7 +47,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE TABLE_MOD
       USE INTERFACE_TABLE_MOD
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
 C!-----------------------------------------------
 C!   I m p l i c i t   T y p e s
 C!-----------------------------------------------
@@ -99,11 +99,11 @@ C!-----------------------------------------------
      .        IEPSMAX(NEL),IEFFEPS(NEL),IVOLEPS(NEL),IMINEPS(NEL),ISHEAR(NEL),
      .        IMIX12(NEL),IMIX13(NEL),IMXE1C(NEL),IFLD(NEL),ITHIN(NEL),
      .        IMAXTEMP(NEL)
-      my_real 
+      my_real
      .        MINPRES,MAXPRES,SIGP1,TMAX,DTMIN,EPSDOT_SM,SIGVM,SIGTH,
      .        KF,EPSDOT_PS,MAXEPS,EFFEPS,VOLEPS,MINEPS,EPSSH,EPSDOT_FLD,
      .        THIN,VOLFRAC,PTHK,MAXTEMP,Fscale_el,El_ref,LAMBDA,FAC,DF
-      my_real 
+      my_real
      .        E1,E2,E3,E4,E5,E6,E42,E52,E62,I1,I2,I3,P(NEL),SXX,SYY,SZZ,SVM(NEL),
      .        Q,R,R_INTER,PHI,E11(NEL),E22(NEL),E33(NEL),VOL_STRAIN(NEL),DAV,E1D,
      .        E2D,E3D,E4D,E5D,E6D,S11(NEL),S22(NEL),S33(NEL),EFF_STRAIN(NEL),PSI,
@@ -118,7 +118,7 @@ C!--------------------------------------------------------------
       MINPRES    = UPARAM(1)
       MAXPRES    = UPARAM(2)
       SIGP1      = UPARAM(3)
-      TMAX       = UPARAM(4)   
+      TMAX       = UPARAM(4)
       DTMIN      = UPARAM(5)
       EPSDOT_SM  = UPARAM(6)
       SIGVM      = UPARAM(7)
@@ -149,12 +149,12 @@ C!--------------------------------------------------------------
       Istrain    = NINT(UPARAM(32))
 c
       ! Initialization of variable
-      NINDX  = 0 
+      NINDX  = 0
       NINDX2 = 0
       NINDX3 = 0
       INDX(1:NEL)     = 0
-      INDX2(1:NEL)    = 0 
-      INDX3(1:NEL)    = 0 
+      INDX2(1:NEL)    = 0
+      INDX3(1:NEL)    = 0
       VFAIL(1:NEL)    = ZERO
       IPMAX(1:NEL)    = 0
       IPMIN(1:NEL)    = 0
@@ -183,23 +183,23 @@ c
       IG12 = 0
       IG13 = 0
       IE1C = 0
-      IREG = 0 
+      IREG = 0
       IF (EPSDOT_SM /= ZERO) THEN
         ISM = ISM + 1
-      ENDIF    
+      ENDIF
       ! -> maximul principal strain VS strain-rate
       IPS = ISM
       IF (EPSDOT_PS /= ZERO) THEN
         IPS = IPS + 1
-      ENDIF   
+      ENDIF
       ! -> in-plane shear strain VS element size
       IG12 = IPS
-      IF (fct_IDg12 > 0) THEN 
+      IF (fct_IDg12 > 0) THEN
         IG12 = IG12 + 1
-      ENDIF    
+      ENDIF
       ! -> transverse shear strain VS element size
       IG13 = IG12
-      IF (fct_IDg13 > 0) THEN 
+      IF (fct_IDg13 > 0) THEN
         IG13 = IG13 + 1
       ENDIF
       ! -> major in plane-strain VS element size
@@ -211,14 +211,14 @@ c
       IREG  = IE1C
       IF (fct_IDel > 0) THEN
         IREG = IREG + 1
-      ENDIF       
-c      
+      ENDIF
+c
       ! At initial time, compute the element size regularization factor
       IF (ISIGI == 0 .and. TIME == ZERO) THEN
-        IF (fct_IDel > 0) THEN 
-          DO I=1,NEL   
+        IF (fct_IDel > 0) THEN
+          DO I=1,NEL
             LAMBDA      = ALDT(I)/El_ref
-            FAC         = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF) 
+            FAC         = FINTER(KFUNC(IREG),LAMBDA,NPF,TF,DF)
             UVAR(I,1)   = FAC*Fscale_el
           ENDDO
         ELSE
@@ -231,7 +231,7 @@ c
       DO I=1,NEL
        ! Integration point failure
        IF (TIME == ZERO) UVAR(I,5) = ONE
-       IF (UVAR(I,5) < ONE .AND. UVAR(I,5) >= EM08) THEN 
+       IF (UVAR(I,5) < ONE .AND. UVAR(I,5) >= EM08) THEN
          UVAR(I,5) = UVAR(I,5) - ONE/NSTEP
        ENDIF
        IF (UVAR(I,5) <= EM08) UVAR(I,5) = ZERO
@@ -249,12 +249,12 @@ c
          IF (UVAR(I,5) == ZERO) UVAR(I,4) = VOLN(I)
        ENDIF
       ENDDO
-c      
+c
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO COMPUTE THE STRESSES AND STRAINS
-      !====================================================================       
+      !====================================================================
       DO I=1,NEL
-c       
+c
         ! ----------------------------------------------------------------------------------------
         ! Computation of volumetric strain, effective strain, shear strain and principal strains
         ! ----------------------------------------------------------------------------------------
@@ -274,17 +274,17 @@ c
         I3  = E1*E2*E3 - E1*E52 - E2*E62 - E3*E42 + TWO*E4*E5*E6
         !  -> computation of principal strains
         Q   = (THREE*I2 - I1*I1)/NINE
-        R   = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54  
+        R   = (TWO*I1*I1*I1-NINE*I1*I2+TWENTY7*I3)/CINQUANTE4     ! (2*I3^3-9*I1*I2+27*I3)/54
         R_INTER = MIN(R/SQRT(MAX(EM20,(-Q**3))),ONE)
         PHI = ACOS(MAX(R_INTER,-ONE))
         E11(I) = TWO*SQRT(-Q)*COS(PHI/THREE)+THIRD*I1
         E22(I) = TWO*SQRT(-Q)*COS((PHI+TWO*PI)/THREE)+THIRD*I1
         E33(I) = TWO*SQRT(-Q)*COS((PHI+FOUR*PI)/THREE)+THIRD*I1
-        IF (E11(I) < E22(I)) THEN 
+        IF (E11(I) < E22(I)) THEN
           R_INTER = E11(I)
           E11(I)  = E22(I)
           E22(I)  = R_INTER
-        ENDIF 
+        ENDIF
         IF (E22(I) < E33(I))THEN
           R_INTER = E22(I)
           E22(I)  = E33(I)
@@ -297,7 +297,7 @@ c
         ENDIF
         !  -> computation of volumetric strain
         VOL_STRAIN(I) = E11(I) + E22(I) + E33(I)
-c       
+c
         !  -> computation of effective strain
         DAV = (EPSXX(I)+EPSYY(I)+EPSZZ(I))*THIRD
         E1D = EPSXX(I) - DAV
@@ -335,11 +335,11 @@ c
         S11(I) = TWO*SQRT(-Q)*COS(PSI/THREE)+THIRD*I1
         S22(I) = TWO*SQRT(-Q)*COS((PSI+TWO*PI)/THREE)+THIRD*I1
         S33(I) = TWO*SQRT(-Q)*COS((PSI+FOUR*PI)/THREE)+THIRD*I1
-        IF (S11(I) < S22(I)) THEN 
+        IF (S11(I) < S22(I)) THEN
           R_INTER = S11(I)
           S11(I)  = S22(I)
           S22(I)  = R_INTER
-        ENDIF 
+        ENDIF
         IF (S22(I) < S33(I)) THEN
           R_INTER = S22(I)
           S22(I)  = S33(I)
@@ -353,10 +353,10 @@ c
       ENDDO
 c
       !  -> Forming limit diagram
-      IF (tab_IDfld > 0) THEN 
-        IF (Itab == 1) THEN 
+      IF (tab_IDfld > 0) THEN
+        IF (Itab == 1) THEN
           ! Diagram using true strains
-          IF (Istrain == 0) THEN 
+          IF (Istrain == 0) THEN
             ! In-plane tabulation with strain-rate
             XVEC(1:NEL,1) = E22(1:NEL)
             XVEC(1:NEL,2) = EPSP(1:NEL)/EPSDOT_FLD
@@ -375,7 +375,7 @@ c
           ENDIF
         ELSE
           ! Diagram using true strains
-          IF (Istrain == 0) THEN 
+          IF (Istrain == 0) THEN
             ! In-plane tabulation with strain-rate
             XVEC(1:NEL,1) = E22(1:NEL)
             XVEC(1:NEL,2) = ALDT(1:NEL)/El_ref
@@ -393,11 +393,11 @@ c
             E1FLD = LOG(ONE + E1FLD)
           ENDIF
         ENDIF
-      ENDIF 
+      ENDIF
 c
       !====================================================================
       ! - LOOP OVER THE ELEMENT TO CHECK THE EROSION CRITERIA
-      !====================================================================    
+      !====================================================================
       DO I = 1,NEL
         IF ((UVAR(I,5) == ONE).AND.(OFF(I)==ONE)) THEN
           !  -> maximum pressure
@@ -411,7 +411,7 @@ c
             IPMIN(I) = 1
           ENDIF
           !  -> maximal principal stress
-          IF (S11(I) >= SIGP1*FACL(I)) THEN 
+          IF (S11(I) >= SIGP1*FACL(I)) THEN
             NCRIT(I)  = NCRIT(I) + 1
             IS1MAX(I) = 1
           ENDIF
@@ -421,55 +421,55 @@ c
             ITMAX(I) = 1
           ENDIF
           !  -> minimum timestep
-          IF ((DT(I) <= DTMIN).AND.(TIME > ZERO)) THEN 
+          IF ((DT(I) <= DTMIN).AND.(TIME > ZERO)) THEN
             NCRIT(I)  = NCRIT(I) + 1
             IMINDT(I) = 1
-          ENDIF 
+          ENDIF
           !  -> equivalent stress
-          IF (EPSDOT_SM /= ZERO) THEN 
+          IF (EPSDOT_SM /= ZERO) THEN
             LAMBDA    = EPSP(I)/EPSDOT_SM
-            SIGMAX(I) = FINTER(KFUNC(ISM),LAMBDA,NPF,TF,DF) 
-            SIGMAX(I) = SIGMAX(I)*SIGVM       
+            SIGMAX(I) = FINTER(KFUNC(ISM),LAMBDA,NPF,TF,DF)
+            SIGMAX(I) = SIGMAX(I)*SIGVM
           ELSE
             SIGMAX(I) = SIGVM
           ENDIF
-          IF (SVM(I) >= SIGMAX(I)*FACL(I)) THEN 
-            NCRIT(I)   = NCRIT(I) + 1  
+          IF (SVM(I) >= SIGMAX(I)*FACL(I)) THEN
+            NCRIT(I)   = NCRIT(I) + 1
             ISIGMAX(I) = 1
           ENDIF
           !  -> Tuler-Butcher
-          IF (S11(I) > SIGTH) THEN 
+          IF (S11(I) > SIGTH) THEN
             UVAR(I,2) = UVAR(I,2) + TIMESTEP*(S11(I) - SIGTH)**2
-            IF (UVAR(I,2) >= KF*FACL(I)) THEN 
-              NCRIT(I)  = NCRIT(I) + 1 
+            IF (UVAR(I,2) >= KF*FACL(I)) THEN
+              NCRIT(I)  = NCRIT(I) + 1
               ISIGTH(I) = 1
             ENDIF
           ENDIF
           !  -> maximal principal strain
-          IF (EPSDOT_PS /= ZERO) THEN 
-            LAMBDA    = EPSP(I)/EPSDOT_PS    
+          IF (EPSDOT_PS /= ZERO) THEN
+            LAMBDA    = EPSP(I)/EPSDOT_PS
             EPSMAX(I) = FINTER(KFUNC(IPS),LAMBDA,NPF,TF,DF)
             EPSMAX(I) = EPSMAX(I)*MAXEPS
           ELSE
             EPSMAX(I) = MAXEPS
           ENDIF
-          IF (E11(I) >= EPSMAX(I)*FACL(I)) THEN 
-            NCRIT(I)   = NCRIT(I) + 1       
+          IF (E11(I) >= EPSMAX(I)*FACL(I)) THEN
+            NCRIT(I)   = NCRIT(I) + 1
             IEPSMAX(I) = 1
-          ENDIF  
+          ENDIF
           !  -> maximum effective strain
           IF (EFF_STRAIN(I) >= EFFEPS*FACL(I)) THEN
             NCRIT(I)   = NCRIT(I) + 1
             IEFFEPS(I) = 1
           ENDIF
           !  -> maximum volumetric strain
-          IF (VOLEPS > ZERO) THEN 
-            IF (VOL_STRAIN(I) >= VOLEPS*FACL(I)) THEN 
+          IF (VOLEPS > ZERO) THEN
+            IF (VOL_STRAIN(I) >= VOLEPS*FACL(I)) THEN
               NCRIT(I)   = NCRIT(I) + 1
               IVOLEPS(I) = 1
             ENDIF
           ELSE
-            IF (VOL_STRAIN(I) <= VOLEPS*FACL(I)) THEN 
+            IF (VOL_STRAIN(I) <= VOLEPS*FACL(I)) THEN
               NCRIT(I)   = NCRIT(I) + 1
               IVOLEPS(I) = 1
             ENDIF
@@ -480,48 +480,48 @@ c
             IMINEPS(I) = 1
           ENDIF
           !  -> maximum tensorial shear strain
-          IF ((E11(I) - E33(I))/TWO >= EPSSH*FACL(I)) THEN 
+          IF ((E11(I) - E33(I))/TWO >= EPSSH*FACL(I)) THEN
             NCRIT(I)  = NCRIT(I) + 1
             ISHEAR(I) = 1
-          ENDIF 
-          !  -> mixed mode 
-          IF (fct_IDg12 > 0) THEN 
+          ENDIF
+          !  -> mixed mode
+          IF (fct_IDg12 > 0) THEN
             LAMBDA  = UVAR(I,8)/El_ref
-            SH12(I) = FINTER(KFUNC(IG12),LAMBDA,NPF,TF,DF) 
-            DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
+            SH12(I) = FINTER(KFUNC(IG12),LAMBDA,NPF,TF,DF)
+            DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))
             IF (((E22(I)/DENOM)<=-HALF).AND.((E22(I)/DENOM)>=-TWO)) THEN
-              IF ((E11(I) - E22(I))/TWO >= SH12(I)) THEN 
+              IF ((E11(I) - E22(I))/TWO >= SH12(I)) THEN
                 NCRIT(I)  = NCRIT(I) + 1
                 IMIX12(I) = 1
               ENDIF
             ENDIF
           ENDIF
-          IF (fct_IDg13 > 0) THEN 
+          IF (fct_IDg13 > 0) THEN
             LAMBDA  = UVAR(I,8)/El_ref
             SH13(I) = FINTER(KFUNC(IG13),LAMBDA,NPF,TF,DF)
-            DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
+            DENOM   = SIGN(MAX(ABS(E11(I)),EM20),E11(I))
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
-              IF ((E11(I) - E33(I))/TWO >= SH13(I)) THEN 
+              IF ((E11(I) - E33(I))/TWO >= SH13(I)) THEN
                 NCRIT(I)  = NCRIT(I) + 1
                 IMIX13(I) = 1
               ENDIF
             ENDIF
           ENDIF
-          IF (fct_IDe1c > 0) THEN 
+          IF (fct_IDe1c > 0) THEN
             LAMBDA = UVAR(I,8)/El_ref
-            E1C(I) = FINTER(KFUNC(IE1C),LAMBDA,NPF,TF,DF) 
-            DENOM  = SIGN(MAX(ABS(E11(I)),EM20),E11(I))  
+            E1C(I) = FINTER(KFUNC(IE1C),LAMBDA,NPF,TF,DF)
+            DENOM  = SIGN(MAX(ABS(E11(I)),EM20),E11(I))
             IF (((E22(I)/DENOM)<=ONE).AND.((E22(I)/DENOM)>=-HALF)) THEN
-              IF (E11(I) >= E1C(I)) THEN 
+              IF (E11(I) >= E1C(I)) THEN
                 NCRIT(I)  = NCRIT(I) + 1
                 IMXE1C(I) = 1
               ENDIF
             ENDIF
           ENDIF
           !  -> Forming limit diagram
-          IF (tab_IDfld > 0) THEN 
-            IF (Itab == 1) THEN 
-              IF (E11(I) >= E1FLD(I)*FACL(I)) THEN 
+          IF (tab_IDfld > 0) THEN
+            IF (Itab == 1) THEN
+              IF (E11(I) >= E1FLD(I)*FACL(I)) THEN
                 NCRIT(I) = NCRIT(I) + 1
                 IFLD(I)  = 1
               ENDIF
@@ -533,20 +533,20 @@ c
             ENDIF
           ENDIF
           !  -> maximum shell thinning
-          IF (EPSZZ(I) <= -ABS(THIN)*FACL(I)) THEN 
+          IF (EPSZZ(I) <= -ABS(THIN)*FACL(I)) THEN
             NCRIT(I) = NCRIT(I) + 1
             ITHIN(I) = 1
           ENDIF
           !  -> maximum temperature
-          IF (TEMP(I) >= MAXTEMP) THEN 
-            NCRIT(I)    = NCRIT(I) + 1 
+          IF (TEMP(I) >= MAXTEMP) THEN
+            NCRIT(I)    = NCRIT(I) + 1
             IMAXTEMP(I) = 1
           ENDIF
 c
           !  -> Checking failure
           DFMAX(I) = REAL(NCRIT(I)/NCS,KIND(DFMAX(I)))
           DFMAX(I) = MIN(DFMAX(I),ONE)
-          IF (NCRIT(I) >= NCS) THEN 
+          IF (NCRIT(I) >= NCS) THEN
             UVAR(I,5)   = UVAR(I,5) - ONE/NSTEP
             SIGNXX(I)   = SIGNXX(I)*UVAR(I,5)
             SIGNYY(I)   = SIGNYY(I)*UVAR(I,5)
@@ -564,24 +564,24 @@ c
 c
       !====================================================================
       ! - LOOKING FOR ELEMENT DELETION
-      !====================================================================      
+      !====================================================================
       ! Case of under-integrated solids
-      IF (NPG == 1) THEN 
+      IF (NPG == 1) THEN
         DO I = 1,NEL
-          IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= ZERO)) THEN 
+          IF ((UVAR(I,5) == ZERO).AND.(OFF(I) /= ZERO)) THEN
             NINDX2        = NINDX2 + 1
             INDX2(NINDX2) = I
-            DFMAX(I)      = ONE 
+            DFMAX(I)      = ONE
             OFF(I)        = ZERO
-            IDEL7NOK      = 1   
+            IDEL7NOK      = 1
             TDELE(I)      = TIME
           ENDIF
         ENDDO
       ! Case of fully integrated solids
       ELSE
-        IF ((IPG == NPG).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN 
-          DO I = 1,NEL       
-            IF (OFF(I) == ONE) THEN 
+        IF ((IPG == NPG).AND.(ILAY1 == ELBUF_TAB%NLAY)) THEN
+          DO I = 1,NEL
+            IF (OFF(I) == ONE) THEN
               ! Initialization of volumes computation
               VTOT = ZERO
               VDAM = ZERO
@@ -605,7 +605,7 @@ c
                 NINDX3        = NINDX3 + 1
                 INDX3(NINDX3) = I
                 VFAIL(I)      = VDAM/VTOT
-                IDEL7NOK      = 1   
+                IDEL7NOK      = 1
                 TDELE(I)      = TIME
                 OFF(I)        = ZERO
               ENDIF
@@ -617,7 +617,7 @@ c------------------------
 c------------------------
       IF (NINDX > 0) THEN
         DO J=1,NINDX
-          I = INDX(J)     
+          I = INDX(J)
 #include "lockon.inc"
           IF (NCRIT(I) == 1) THEN
             WRITE(IOUT, 1000) NGL(I),IPG,TIME,NCRIT(I)
@@ -626,7 +626,7 @@ c------------------------
             WRITE(IOUT, 1001) NGL(I),IPG,TIME,NCRIT(I)
             WRITE(ISTDO,1001) NGL(I),IPG,TIME,NCRIT(I)
           ENDIF
-          IF (IPMAX(I) == 1) THEN 
+          IF (IPMAX(I) == 1) THEN
             WRITE(IOUT, 1002) P(I),MAXPRES*FACL(I)
             WRITE(ISTDO,1002) P(I),MAXPRES*FACL(I)
           ENDIF
@@ -638,23 +638,23 @@ c------------------------
             WRITE(IOUT, 1004) S11(I),SIGP1*FACL(I)
             WRITE(ISTDO,1004) S11(I),SIGP1*FACL(I)
           ENDIF
-          IF (ITMAX(I) == 1) THEN 
+          IF (ITMAX(I) == 1) THEN
             WRITE(IOUT, 1005) TIME,TMAX
-            WRITE(ISTDO,1005) TIME,TMAX    
+            WRITE(ISTDO,1005) TIME,TMAX
           ENDIF
-          IF (IMINDT(I) == 1) THEN 
+          IF (IMINDT(I) == 1) THEN
             WRITE(IOUT, 1006) DT(I),DTMIN
-            WRITE(ISTDO,1006) DT(I),DTMIN        
+            WRITE(ISTDO,1006) DT(I),DTMIN
           ENDIF
-          IF (ISIGMAX(I) == 1) THEN 
+          IF (ISIGMAX(I) == 1) THEN
             WRITE(IOUT, 1007) SVM(I),SIGMAX(I)*FACL(I)
-            WRITE(ISTDO,1007) SVM(I),SIGMAX(I)*FACL(I)    
+            WRITE(ISTDO,1007) SVM(I),SIGMAX(I)*FACL(I)
           ENDIF
-          IF (ISIGTH(I) == 1) THEN 
+          IF (ISIGTH(I) == 1) THEN
             WRITE(IOUT, 1008) UVAR(I,2),KF*FACL(I)
-            WRITE(ISTDO,1008) UVAR(I,2),KF*FACL(I)              
+            WRITE(ISTDO,1008) UVAR(I,2),KF*FACL(I)
           ENDIF
-          IF (IEPSMAX(I) == 1) THEN 
+          IF (IEPSMAX(I) == 1) THEN
             WRITE(IOUT, 1009) E11(I),EPSMAX(I)*FACL(I)
             WRITE(ISTDO,1009) E11(I),EPSMAX(I)*FACL(I)
           ENDIF
@@ -663,19 +663,19 @@ c------------------------
             WRITE(ISTDO,1010) EFF_STRAIN(I),EFFEPS*FACL(I)
           ENDIF
           IF (IVOLEPS(I) == 1) THEN
-            IF (VOLEPS >= ZERO) THEN 
+            IF (VOLEPS >= ZERO) THEN
               WRITE(IOUT, 1011) VOL_STRAIN(I),VOLEPS*FACL(I)
               WRITE(ISTDO,1011) VOL_STRAIN(I),VOLEPS*FACL(I)
             ELSE
               WRITE(IOUT, 1012) VOL_STRAIN(I),VOLEPS*FACL(I)
-              WRITE(ISTDO,1012) VOL_STRAIN(I),VOLEPS*FACL(I) 
+              WRITE(ISTDO,1012) VOL_STRAIN(I),VOLEPS*FACL(I)
             ENDIF
           ENDIF
-          IF (IMINEPS(I) == 1) THEN 
+          IF (IMINEPS(I) == 1) THEN
             WRITE(IOUT, 1013) E33(I),MINEPS*FACL(I)
             WRITE(ISTDO,1013) E33(I),MINEPS*FACL(I)
           ENDIF
-          IF (ISHEAR(I) == 1) THEN 
+          IF (ISHEAR(I) == 1) THEN
             WRITE(IOUT, 1014) (E11(I) - E33(I))/TWO,EPSSH*FACL(I)
             WRITE(ISTDO,1014) (E11(I) - E33(I))/TWO,EPSSH*FACL(I)
           ENDIF
@@ -687,42 +687,42 @@ c------------------------
             WRITE(IOUT, 1016) (E11(I) - E33(I))/TWO,SH13(I)
             WRITE(ISTDO,1016) (E11(I) - E33(I))/TWO,SH13(I)
           ENDIF
-          IF (IMXE1C(I) == 1) THEN 
+          IF (IMXE1C(I) == 1) THEN
             WRITE(IOUT, 1017) E11(I),E1C(I)
-            WRITE(ISTDO,1017) E11(I),E1C(I)           
+            WRITE(ISTDO,1017) E11(I),E1C(I)
           ENDIF
-          IF (IFLD(I) == 1) THEN 
-            IF (Itab == 1) THEN 
+          IF (IFLD(I) == 1) THEN
+            IF (Itab == 1) THEN
               WRITE(IOUT, 1018) E11(I),E1FLD(I)*FACL(I)
-              WRITE(ISTDO,1018) E11(I),E1FLD(I)*FACL(I)   
+              WRITE(ISTDO,1018) E11(I),E1FLD(I)*FACL(I)
             ELSE
               WRITE(IOUT, 1018) E11(I),E1FLD(I)
-              WRITE(ISTDO,1018) E11(I),E1FLD(I) 
+              WRITE(ISTDO,1018) E11(I),E1FLD(I)
             ENDIF
           ENDIF
-          IF (ITHIN(I) == 1) THEN 
+          IF (ITHIN(I) == 1) THEN
             WRITE(IOUT, 1019) EPSZZ(I),-ABS(THIN)*FACL(I)
             WRITE(ISTDO,1019) EPSZZ(I),-ABS(THIN)*FACL(I)
           ENDIF
-          IF (IMAXTEMP(I) == 1) THEN 
+          IF (IMAXTEMP(I) == 1) THEN
             WRITE(IOUT, 1020) TEMP(I),MAXTEMP
             WRITE(ISTDO,1020) TEMP(I),MAXTEMP
           ENDIF
 #include "lockoff.inc"
         END DO
-      END IF    
+      END IF
       IF (NINDX2 > 0) THEN
         DO J=1,NINDX2
-          I = INDX2(J)     
+          I = INDX2(J)
 #include "lockon.inc"
           WRITE(IOUT, 1021) NGL(I),TIME
           WRITE(ISTDO,1021) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-      END IF      
+      END IF
       IF (NINDX3 > 0) THEN
         DO J=1,NINDX3
-          I = INDX3(J)     
+          I = INDX3(J)
 #include "lockon.inc"
           WRITE(IOUT, 1021) NGL(I),TIME
           WRITE(ISTDO,1021) NGL(I),TIME
@@ -730,18 +730,18 @@ c------------------------
           WRITE(ISTDO,3000) VFAIL(I),VOLFRAC
 #include "lockoff.inc"
         END DO
-      END IF     
+      END IF
 c------------------------
  1000 FORMAT(1X,'>> FOR SOLID ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT # ',I5,
-     .          ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERION HAS BEEN REACHED:')     
+     .          ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERION HAS BEEN REACHED:')
  1001 FORMAT(1X,'>> FOR SOLID ELEMENT NUMBER (GENE1) el#',I10,', GAUSS POINT # ',I5,
      .          ', FAILURE START AT TIME: ',1PE12.4,', ',I3,' CRITERIA HAVE BEEN REACHED:')
- 1002 FORMAT(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4) 
- 1003 FORMAT(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4) 
- 1004 FORMAT(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4) 
- 1005 FORMAT(1X,'TIME VALUE:                  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4) 
- 1006 FORMAT(1X,'ELEMENT TIMESTEP VALUE:      ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4) 
- 1007 FORMAT(1X,'EQUIVALENT STRESS VALUE:     ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4) 
+ 1002 FORMAT(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
+ 1003 FORMAT(1X,'HYDROSTATIC PRESSURE VALUE:  ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
+ 1004 FORMAT(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
+ 1005 FORMAT(1X,'TIME VALUE:                  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
+ 1006 FORMAT(1X,'ELEMENT TIMESTEP VALUE:      ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
+ 1007 FORMAT(1X,'EQUIVALENT STRESS VALUE:     ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
  1008 FORMAT(1X,'T-BUTCHER INTG. VALUE:       ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
  1009 FORMAT(1X,'1ST PRINCIPAL STRAIN VALUE:  ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
  1010 FORMAT(1X,'EFFECTIVE STRAIN VALUE:      ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
@@ -754,7 +754,7 @@ c------------------------
  1017 FORMAT(1X,'IN-PLANE PRINC.STRAIN VALUE: ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
  1018 FORMAT(1X,'1ST PRINCIPAL STRESS VALUE:  ',1PE12.4,' > FORMING LIMIT VALUE : ',1PE12.4)
  1019 FORMAT(1X,'THINNING VALUE:              ',1PE12.4,' < CRITICAL VALUE: ',1PE12.4)
- 1020 FORMAT(1X,'TEMPERATURE VALUE:           ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)  
- 1021 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT : ',I10,' AT TIME :',1PE12.4)    
- 3000 FORMAT(1X,'DAMAGED VOLUME FRACTION : ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)  
+ 1020 FORMAT(1X,'TEMPERATURE VALUE:           ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
+ 1021 FORMAT(1X,'-- RUPTURE OF SOLID ELEMENT : ',I10,' AT TIME :',1PE12.4)
+ 3000 FORMAT(1X,'DAMAGED VOLUME FRACTION : ',1PE12.4,' > CRITICAL VALUE: ',1PE12.4)
       END

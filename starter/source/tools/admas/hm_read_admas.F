@@ -81,7 +81,7 @@ C-----------------------------------------------
       my_real    ,INTENT(IN) :: X(3,*)
       my_real    ,INTENT(INOUT) :: MS(*),TOTADDMAS
       TYPE(SUBMODEL_DATA),DIMENSION(*)         ,INTENT(IN)    :: LSUBMODEL
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
 C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  ,INTENT(IN)   :: IGRNOD
       TYPE (GROUP_)  , DIMENSION(NGRPART) ,INTENT(IN)   :: IGRPART
@@ -121,7 +121,7 @@ C=======================================================================
 !                    = 6 ! Additional mass distributed on each single part
 !                    = 7 ! Final mass distributed on each single part
 !     IPMAS(IGM)%TITLE  : ADMAS title
-!     IPMAS(IGM)%WEIGHT_FLAG : Flag to switch between area weighted distribution and volume 
+!     IPMAS(IGM)%WEIGHT_FLAG : Flag to switch between area weighted distribution and volume
 !                                   weighted distribution of the added mass to parts)
 !                    = 0 ! Volume weighted distribution (shell and solid parts) (default)
 !                    = 1 ! Area weighted distribution (shell parts only)
@@ -215,9 +215,9 @@ c in case on non sorted file, a dichotomic search is more appropriate
 c	        group found
 	        GOTO 100
 	      ENDIF
-	      IF (J == NGRNOD) THEN 
+	      IF (J == NGRNOD) THEN
                 IF(LOOP_2)THEN
-c second passage IGRS has not been found we output in error 
+c second passage IGRS has not been found we output in error
                   GOTO 100
                 ELSE
 c first passage in loop, we will start a 2nd passage from 1 to jcurr
@@ -234,7 +234,7 @@ c end OPTIMISATION1
 ccccccccccccccccccccccccc
 100         CONTINUE
 C---
-            IF (ITYPE == 1) THEN 
+            IF (ITYPE == 1) THEN
 	      COEFF_R2R = 1
               NNOD = IGRNOD(IGRS)%NENTITY
 C-----------Multidomaines : on corrige la masse totale avec le nouveau nb de noeuds--------------
@@ -322,7 +322,7 @@ C
                 IBUFN(1)=IGRSURF(ISS)%NODES(J,1)
                 IBUFN(2)=IGRSURF(ISS)%NODES(J,2)
                 IBUFN(3)=IGRSURF(ISS)%NODES(J,3)
-                IF (IGRSURF(ISS)%NODES(J,3) == 
+                IF (IGRSURF(ISS)%NODES(J,3) ==
      .              IGRSURF(ISS)%NODES(J,4)) ITY = 7
                 IF (ITY == 7) THEN
 C          true triangles (not segments built from 3 nodes) or degenerated
@@ -362,7 +362,7 @@ C
      .                  R1=AMAS)
           ENDIF
 !!          AMAS = AMAS * FAC_M
-          IF (IGRPA == 0 .and. FLAG == 0) THEN 
+          IF (IGRPA == 0 .and. FLAG == 0) THEN
               CALL ANCMSG(MSGID=878,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
@@ -406,7 +406,7 @@ C-----------Multidomaines : on ne peut pas splitter la masse dans ce cas--------
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
      .                    I1=ID)
-	      ENDIF	      
+	      ENDIF	
               DO J=1,NEL
                 IDP=IGRPART(IGRS)%ENTITY(J)
                 IPMAS(I)%PARTID(J) = IDP

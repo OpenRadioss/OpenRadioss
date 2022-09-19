@@ -64,8 +64,8 @@ C-----------------------------------------------
       USE MOD_SMS_WORK
       USE INTSTAMP_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD 
-      USE INTBUFDEF_MOD 
+      USE ELBUFDEF_MOD
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -94,31 +94,31 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITASK, NODFT, NODLT,
-     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*), 
-     .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*), 
-     .        NODNX_SMS(*), JAD_SMS(*), JDI_SMS(*), 
+     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*),
+     .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*),
+     .        NODNX_SMS(*), JAD_SMS(*), JDI_SMS(*),
      .        KAD_SMS(*), KDI_SMS(*), PK_SMS(*),
-     .        JADC_SMS(4,*), JADS_SMS(8,*), 
+     .        JADC_SMS(4,*), JADS_SMS(8,*),
      .        JADT_SMS(2,*), JADP_SMS(2,*),
      .        JADR_SMS(3,*), JADTG_SMS(3,*),
-     .        INDX1_SMS(*), INDX2_SMS(*), TAGPRT_SMS(*), TAGREL_SMS(*), 
+     .        INDX1_SMS(*), INDX2_SMS(*), TAGPRT_SMS(*), TAGREL_SMS(*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
      .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*), IPARTX(*),
      .        IAD_ELEM(2,NSPMD+1) ,FR_ELEM(*),
      .        NPBY(NNPBY,*), LPBY(*), TAGSLV_RBY_SMS(*),
-     .        LAD_SMS(*), JSM_SMS(*), 
+     .        LAD_SMS(*), JSM_SMS(*),
      .        ISKYI_SMS(LSKYI_SMS,*),
-     .        JADI_SMS(*), JDII_SMS(*), NODXI_SMS(*), NODII_SMS(*), 
-     .        IGEO(NPROPGI,*), 
+     .        JADI_SMS(*), JDII_SMS(*), NODXI_SMS(*), NODII_SMS(*),
+     .        IGEO(NPROPGI,*),
      .        FR_RMS(NSPMD+1), FR_SMS(NSPMD+1),
      .        IPARI(NPARI,*), KINET(*),
-     .        TAGSLV_I21_SMS(*), JADI21_SMS(*), 
+     .        TAGSLV_I21_SMS(*), JADI21_SMS(*),
      .        IXS10(6,*), JADS10_SMS(6,*),
-     .        ILINK(*), RLINK(*), NNLINK(10,*), LNLINK(*), 
+     .        ILINK(*), RLINK(*), NNLINK(10,*), LNLINK(*),
      .        TAG_LNK_SMS(*), LJOINT(*), FR_CJ(*),IADCJ(NSPMD+1,*),
      .        ITAB(*), WEIGHT(*), TAGMSR_RBY_SMS(*),
      .        NPRW(*), LPRW(*), FR_WALL(*), NRWL_SMS(*),
-     .        IRBE2(*), LRBE2(*), 
+     .        IRBE2(*), LRBE2(*),
      .        IRBE3(*), LRBE3(*), IAD_RBE3M(*),FR_RBE3M(*), NATIV_SMS(*),
      .        T2MAIN_SMS(6,*)
       my_real
@@ -139,7 +139,7 @@ C-----------------------------------------------
      .        ILOC4(4), IG, IGTYP, IERROR, IPERM1(6), IPERM2(6),IPENTA6(6)
       INTEGER MSR, NSN, KI, KJ, KL, NSR
       INTEGER SIZE, LENR, IAD, L, JI,TAGA(NUMNOD),NAD_SMS(NUMNOD),
-     .        KADI_SMS(NUMNOD+1), NADI_SMS(NUMNOD), TAG8(NUMNOD), 
+     .        KADI_SMS(NUMNOD+1), NADI_SMS(NUMNOD), TAG8(NUMNOD),
      .        NAD_SMS_0(NUMNOD)
       INTEGER NTY, ILAGM, N1, N2, N3, N4,
      .        NMN,ILEV, KSN, KMULT
@@ -875,7 +875,7 @@ C
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                          .AND.NATIV_SMS(N2)==0
      .                          .AND.NATIV_SMS(N3)==0
@@ -1070,7 +1070,7 @@ C
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                          .AND.NATIV_SMS(N2)==0
      .                          .AND.NATIV_SMS(N3)==0
@@ -1143,7 +1143,7 @@ C
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
               FAC_SCAL_I = T2FAC_SMS(I)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                          .AND.NATIV_SMS(N2)==0
      .                          .AND.NATIV_SMS(N3)==0
@@ -1337,7 +1337,7 @@ C              KSN=KSN+1
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                          .AND.NATIV_SMS(N2)==0
      .                          .AND.NATIV_SMS(N3)==0
@@ -1391,7 +1391,7 @@ C              KSN=KSN+1
                 LT_SMS(NAD_SMS(N4))= LTIJ
                 NAD_SMS(I) =NAD_SMS(I)+1
                 NAD_SMS(N4)=NAD_SMS(N4)+1
-              END IF              
+              END IF
 C
               ENDIF
 C
@@ -1498,11 +1498,11 @@ C
 C
 C non //
       IF(ITASK==0)THEN
- 
+
         DO N=1,NUMNOD
           NADI_SMS(N)=0
         END DO
- 
+
         DO NN=1,NISKY_SMS
           P  =ISKYI_SMS(NN,3)
           IF(P/=LOC_PROC) CYCLE
@@ -1514,14 +1514,14 @@ C non //
           NADI_SMS(I)=NADI_SMS(I)+1
           NADI_SMS(J)=NADI_SMS(J)+1
         END DO
- 
+
         JADI_SMS(1)=1
         KADI_SMS(1)=1
         DO N=2,NUMNOD+1
           JADI_SMS(N)=JADI_SMS(N-1)+NADI_SMS(N-1)
           KADI_SMS(N)=JADI_SMS(N)
         END DO
- 
+
         DO NN=1,NISKY_SMS
           P  =ISKYI_SMS(NN,3)
           IF(P/=LOC_PROC) CYCLE
@@ -1534,13 +1534,13 @@ C non //
           JDII_SMS(KK)=J
           LTI_SMS(KK) =-MSKYI_SMS(NN)
           KADI_SMS(I) = KADI_SMS(I)+1
- 
+
           KK =KADI_SMS(J)
           JDII_SMS(KK)=I
           LTI_SMS(KK) =-MSKYI_SMS(NN)
           KADI_SMS(J) = KADI_SMS(J)+1
         END DO
- 
+
       END IF
 C 
       CALL MY_BARRIER()

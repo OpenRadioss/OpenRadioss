@@ -67,7 +67,7 @@ C-----------------------------------------------
      .        STF(*), GAP_M(*), BGAPSMX,PMAX_GAP,VMAXDT,
      .        MARGE,GAP,CURV_MAX(NRTM),
      .        BGAPEMX,DRAD
-      my_real GAPE(*) 
+      my_real GAPE(*)
       my_real , INTENT(IN) :: DGAPLOAD
 C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
@@ -288,7 +288,7 @@ C=======================================================================
       DO IE = 1, NEDGE
 C check with :
         IF(STFE(IE) == ZERO ) CYCLE
-        IF(LEDGE(9,IE) == 0) CYCLE ! not main of secnd edge 
+        IF(LEDGE(9,IE) == 0) CYCLE ! not main of secnd edge
 
         M1 = LEDGE(1,IE)
 c       IF(M1 > 0) THEN
@@ -305,7 +305,7 @@ C       END IF
 
         N1 = LEDGE(5,IE)
         N2 = LEDGE(6,IE)
-        
+
         XX1=X(1,N1)
         XX2=X(1,N2)
         YY1=X(2,N1)

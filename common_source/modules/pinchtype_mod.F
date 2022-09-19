@@ -71,21 +71,21 @@ Chd|====================================================================
 #include "my_real.inc"
 
       INTEGER  :: NPINCH
-      INTEGER  :: NPLOADPINCH 
+      INTEGER  :: NPLOADPINCH
 
-      TYPE PINCH 
-        INTEGER :: SAPINCH  ! since acceleration size is 3*NUMNOD*NTHREAD                              
-c       INTEGER ,DIMENSION(:), ALLOCATABLE :: INDEXPINCH  
+      TYPE PINCH
+        INTEGER :: SAPINCH  ! since acceleration size is 3*NUMNOD*NTHREAD
+c       INTEGER ,DIMENSION(:), ALLOCATABLE :: INDEXPINCH
 C       [PM] future : mapping of NUMNOD to NUMPINCH
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: XPINCH   
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: DPINCH    
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: VPINCH    
-        my_real ,DIMENSION(:,:), ALLOCATABLE :: APINCH  
-        my_real ,DIMENSION(:)  , ALLOCATABLE :: STIFPINCH  
-        my_real ,DIMENSION(:)  , ALLOCATABLE :: MSPINCH      
-      END TYPE PINCH  
+        my_real ,DIMENSION(:,:), ALLOCATABLE :: XPINCH
+        my_real ,DIMENSION(:,:), ALLOCATABLE :: DPINCH
+        my_real ,DIMENSION(:,:), ALLOCATABLE :: VPINCH
+        my_real ,DIMENSION(:,:), ALLOCATABLE :: APINCH
+        my_real ,DIMENSION(:)  , ALLOCATABLE :: STIFPINCH
+        my_real ,DIMENSION(:)  , ALLOCATABLE :: MSPINCH
+      END TYPE PINCH
 
-      
+
       END MODULE PINCHTYPE_MOD
 
 Chd|====================================================================
@@ -106,11 +106,11 @@ C-----------------------------------------------
 #include      "implicit_f.inc"
         TYPE(PINCH) :: PINCH_DATA
 
-         IF(ALLOCATED(PINCH_DATA%XPINCH    )) DEALLOCATE(PINCH_DATA%XPINCH   ) 
-         IF(ALLOCATED(PINCH_DATA%DPINCH    )) DEALLOCATE(PINCH_DATA%DPINCH   )  
-         IF(ALLOCATED(PINCH_DATA%VPINCH    )) DEALLOCATE(PINCH_DATA%VPINCH   )   
-         IF(ALLOCATED(PINCH_DATA%APINCH    )) DEALLOCATE(PINCH_DATA%APINCH   )  
-         IF(ALLOCATED(PINCH_DATA%STIFPINCH )) DEALLOCATE(PINCH_DATA%STIFPINCH)   
-         IF(ALLOCATED(PINCH_DATA%MSPINCH   )) DEALLOCATE(PINCH_DATA%MSPINCH  )  
+         IF(ALLOCATED(PINCH_DATA%XPINCH    )) DEALLOCATE(PINCH_DATA%XPINCH   )
+         IF(ALLOCATED(PINCH_DATA%DPINCH    )) DEALLOCATE(PINCH_DATA%DPINCH   )
+         IF(ALLOCATED(PINCH_DATA%VPINCH    )) DEALLOCATE(PINCH_DATA%VPINCH   )
+         IF(ALLOCATED(PINCH_DATA%APINCH    )) DEALLOCATE(PINCH_DATA%APINCH   )
+         IF(ALLOCATED(PINCH_DATA%STIFPINCH )) DEALLOCATE(PINCH_DATA%STIFPINCH)
+         IF(ALLOCATED(PINCH_DATA%MSPINCH   )) DEALLOCATE(PINCH_DATA%MSPINCH  )
       END SUBROUTINE FREE_PINCH
 

@@ -30,7 +30,7 @@ Chd|        FRETITL2                      source/starter/freform.F
 Chd|        INEPRI                        source/materials/mat/mat019/inepri.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE RIGID_MAT(NRB, GNSL  ,LSN , NSLNRM  ,STIFN, 
+      SUBROUTINE RIGID_MAT(NRB, GNSL  ,LSN , NSLNRM  ,STIFN,
      .                   STIFR, X, V     ,MS    ,IN   ,
      .                    RBYM, IRBYM ,LCRBM,NOM_OPT)
       USE MESSAGE_MOD
@@ -86,7 +86,7 @@ C     REAL
 C
       TOL=ONE+EM04
       KK = 0
-      DO NR = 1, NRB 
+      DO NR = 1, NRB
         NSL  = NSLNRM(NR)
         IRBYM(1,NR) = NR
         IRBYM(2,NR) = NSL
@@ -104,7 +104,7 @@ C-----CDG DES NOEUDS SECONDS
          XG(3) = ZERO
          DO I=1,9
            RBY(I) = ZERO
-         ENDDO  
+         ENDDO
          DO I=1,NSL
            N=LSN(I + KK)
            LCRBM(I + KK ) = N
@@ -113,7 +113,7 @@ C-----CDG DES NOEUDS SECONDS
            ENDDO
              MASRB   = MASRB + MS(N)
          ENDDO
-        
+
 C
           IF(MASRB<=EM30) THEN
 c            CALL ANSTCKI(RBYID)
@@ -129,8 +129,8 @@ C
            RBYM(1,NR) = MASRB
            DO J=1,3
              XG(J)=XG(J)/MASRB
-             RBYM(1 + J,NR) = XG(J) 
-           ENDDO   
+             RBYM(1 + J,NR) = XG(J)
+           ENDDO
 C--------------------------------------
 C      L'INERTIE DU MAIN
 C--------------------------------------
@@ -150,7 +150,7 @@ C--------------------------------------
                RBY(6) = RBY(6) - YZ*MS(N)
                RBY(7) = RBY(7) - XZ*MS(N)
                RBY(8) = RBY(8) - YZ*MS(N)
-               RBY(9) = RBY(9) + IN(N)+(XX+YY)*MS(N)               
+               RBY(9) = RBY(9) + IN(N)+(XX+YY)*MS(N)
           ENDDO
 C
 C Rigidite au noeud main pour estimation DT.
@@ -160,7 +160,7 @@ C
         RBYM(27,NR)= RBYM(27,NR) + STIFN(I + KK)
         DD = (X(1,N)-XG(1))**2 + (X(2,N)-XG(2))**2 + (X(3,N)-XG(3))**2
         RBYM(28,NR) = RBYM(28,NR) + (STIFR(I + KK) + DD*STIFN(I + KK))
-      END DO        
+      END DO
 C----------------------------------------------------------------
 C     CALCUL DU REPERE D'INERTIE PRINCIPALE
 C----------------------------------------------------------------
@@ -263,9 +263,9 @@ C
            RBYM(23,NR)=RBY(2)*II3 + RBY(5)*II6 + RBY(8)*II9
            RBYM(24,NR)=RBY(3)*II1 + RBY(6)*II4 + RBY(9)*II7
            RBYM(25,NR)=RBY(3)*II2 + RBY(6)*II5 + RBY(9)*II8
-           RBYM(26,NR)=RBY(3)*II3 + RBY(6)*II6 + RBY(9)*II9  
+           RBYM(26,NR)=RBY(3)*II3 + RBY(6)*II6 + RBY(9)*II9
         KK = KK + NSL
-      ENDDO     
+      ENDDO
 C
       RETURN
 C

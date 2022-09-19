@@ -36,7 +36,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -57,8 +57,8 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER       NEL,     NUPARAM, NUVAR 
-      my_real 
+      INTEGER       NEL,     NUPARAM, NUVAR
+      my_real
      .      TIME       , TIMESTEP   , UPARAM(NUPARAM),
      .      RHO   (NEL), RHO0  (NEL), VOLUME(NEL), EINT(NEL),
      .      EPSPXX(NEL), EPSPYY(NEL), EPSPZZ(NEL),
@@ -72,7 +72,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real 
+      my_real
      .      SIGNXX (NEL), SIGNYY (NEL), SIGNZZ(NEL),
      .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
      .      SIGVXX (NEL), SIGVYY (NEL), SIGVZZ(NEL),
@@ -81,7 +81,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -93,7 +93,7 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER I,J,K,L,NROT,KEN
       INTEGER VPVEC,ICASE
-      my_real 
+      my_real
      . EY,C1,C2,ET,VMU,VMU0
      . , A,B,C,D,VAR
      . , AXX,BXX,CXX,AYY,BYY,CYY,AZZ,BZZ,CZZ
@@ -103,11 +103,11 @@ C----------------------------------------------------------------
      . , C1ZX,C2ZX,GTZX,VMUZX, P0,PHI,GAMA0,FAC,FAC1
      . , S(3,3),SIGPR(3),DIRPR(3,3)
      . , C1ZZ,C2ZZ,ETZZ,VMUZZ,SIGT_CUTOFF,SIGC_CUTOFF
-      my_real  
+      my_real
      .   E(MVSIZ),EDOT(MVSIZ),DAV,E1,E2,E3,E4,E5,E6,EPSP
      . , EPET(MVSIZ),EMET(MVSIZ),EPETS(MVSIZ),EMETS(MVSIZ)
      . , EMXX(MVSIZ),EMYY(MVSIZ),EMZZ(MVSIZ)
-     . , GMXY(MVSIZ),GMYZ(MVSIZ),GMZX(MVSIZ) 
+     . , GMXY(MVSIZ),GMYZ(MVSIZ),GMZX(MVSIZ)
      . , EPETXX(MVSIZ),EPETYY(MVSIZ),EPETZZ(MVSIZ)
      . , EMETXX(MVSIZ),EMETYY(MVSIZ),EMETZZ(MVSIZ)
      . , GPGTXY(MVSIZ),GPGTYZ(MVSIZ),GPGTZX(MVSIZ)
@@ -124,7 +124,7 @@ C----------------------------------------------------------------
      . , DSDTXX(MVSIZ),DSDTYY(MVSIZ),DSDTZZ(MVSIZ)
      . , DSDTXY(MVSIZ),DSDTYZ(MVSIZ),DSDTZX(MVSIZ)
 C
-      my_real 
+      my_real
      .   SIGV(MVSIZ,6), SIGPRV(MVSIZ,3), DIRPRV(MVSIZ,3,3)
 C
 
@@ -138,7 +138,7 @@ C INITIALIZATION
              UVAR(I,J)=ZERO
  1000     CONTINUE
       ENDIF
-      ENDIF      
+      ENDIF
 
       KEN   = UPARAM(1)
       EY    = UPARAM(2)
@@ -156,7 +156,7 @@ C COMPUTE VOLUMETRIC STRAIN-AIR PRESSURE
         VAR = -(P0*GAMA(I))/(ONE+GAMA(I)-PHI+EM15)
         SIGAIR(I) = MAX(ZERO,VAR)
   900 CONTINUE
-      ICASE = ABS(KEN) + 1       
+      ICASE = ABS(KEN) + 1
       SELECT CASE (ICASE)
 C----------------------------------
        CASE(1)
@@ -227,7 +227,7 @@ C TRANSFORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
                 IF(K==L) S(K,L)= SIGPR(K)
   131       CONTINUE
             CALL DREH(S,DIRPR,1,1,1)
-   
+
             SIGSXX(I)=S(1,1)
             SIGSXY(I)=S(2,1)
             SIGSYY(I)=S(2,2)
@@ -292,7 +292,7 @@ C COMPUTE UPDATED STRESSES AND SOUND SPEED
   140     CONTINUE
 
 C--------------------------
-       CASE(2)  
+       CASE(2)
 C--------------------------
          C1    = UPARAM(9)
          C2    = UPARAM(10)
@@ -310,7 +310,7 @@ C COMPUTE YOUNG MODULUS, ETC.
            E(I)=C1*EDOT(I)+C2
            E(I)=MAX(E(I),EY)
            EPET(I)=(E(I)+ET)/VMU
-           EMET(I)=(E(I)*ET)/VMU 
+           EMET(I)=(E(I)*ET)/VMU
            EPETS(I)=(E(I)+ET)/VMU0
            EMETS(I)=TWO*(E(I)*ET)/VMU0
   200    CONTINUE
@@ -404,7 +404,7 @@ C TRANSFORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
                IF(K==L) S(K,L)= SIGPR(K)
   251      CONTINUE
            CALL DREH(S,DIRPR,1,1,1)
-   
+
            SIGSXX(I)=S(1,1)
            SIGSXY(I)=S(2,1)
            SIGSYY(I)=S(2,2)
@@ -528,8 +528,8 @@ C YIELD   CRITERIA - SCALING
                SIGPRV(I,1)=SIGN(MIN(ABS(SIGPRV(I,1)), SIGT_CUTOFF),SIGPRV(I,1))
                SIGPRV(I,2)=SIGN(MIN(ABS(SIGPRV(I,2)), SIGT_CUTOFF),SIGPRV(I,2))
                SIGPRV(I,3)=SIGN(MIN(ABS(SIGPRV(I,3)), SIGT_CUTOFF),SIGPRV(I,3))
-             ELSEIF(GAMA(I) < ZERO )then            
-               !!IF(DELTA_GAMA(I) < ZERO)then 
+             ELSEIF(GAMA(I) < ZERO )then
+               !!IF(DELTA_GAMA(I) < ZERO)then
                   SIGPRV(I,1)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,1))),SIGPRV(I,1))
                   SIGPRV(I,2)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,2))),SIGPRV(I,2))
                   SIGPRV(I,3)=SIGN(MIN(SYIELD(I),ABS(SIGPRV(I,3))),SIGPRV(I,3))
@@ -537,7 +537,7 @@ C YIELD   CRITERIA - SCALING
                   SIGPRV(I,1)=MIN(SIGPRV(I,1), SIGT_CUTOFF)
                   SIGPRV(I,2)=MIN(SIGPRV(I,2), SIGT_CUTOFF)
                   SIGPRV(I,3)=MIN(SIGPRV(I,3), SIGT_CUTOFF)
-               !!  ENDIF   
+               !!  ENDIF
               ELSE
                  SIGPRV(I,1)=SIGN(MIN(ABS(SIGPRV(I,1)), SIGT_CUTOFF),SIGPRV(I,1))
                  SIGPRV(I,2)=SIGN(MIN(ABS(SIGPRV(I,2)), SIGT_CUTOFF),SIGPRV(I,2))
@@ -550,32 +550,32 @@ C YIELD   CRITERIA - SCALING
                   SIGPRV(I,2)=MAX(SIGPRV(I,2), ZERO)
                   SIGPRV(I,3)=MAX(SIGPRV(I,3), ZERO)
               !!  ENDIF
-              ENDIF  
+              ENDIF
 C TRANSF  ORM PRINCIPAL STRESSES (SIGMA_K) TO GLOBAL STRESSES (SIGMA_IJ)
               SIGSXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
      .                  + DIRPRV(I,1,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
      .                  + DIRPRV(I,1,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
-!!     
+!!
               SIGSYY(I) = DIRPRV(I,2,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
      .                  + DIRPRV(I,2,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
      .                  + DIRPRV(I,2,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
-!!     
+!!
               SIGSZZ(I) = DIRPRV(I,3,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
      .                  + DIRPRV(I,3,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
      .                  + DIRPRV(I,3,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
-!!     
+!!
               SIGSXY(I) = DIRPRV(I,1,1)*DIRPRV(I,2,1)*SIGPRV(I,1)
      .                  + DIRPRV(I,1,2)*DIRPRV(I,2,2)*SIGPRV(I,2)
      .                  + DIRPRV(I,1,3)*DIRPRV(I,2,3)*SIGPRV(I,3)
-!!     
+!!
               SIGSYZ(I) = DIRPRV(I,2,2)*DIRPRV(I,3,2)*SIGPRV(I,2)
      .                  + DIRPRV(I,2,3)*DIRPRV(I,3,3)*SIGPRV(I,3)
      .                  + DIRPRV(I,2,1)*DIRPRV(I,3,1)*SIGPRV(I,1)
-!!     
+!!
               SIGSZX(I) = DIRPRV(I,3,3)*DIRPRV(I,1,3)*SIGPRV(I,3)
      .                  + DIRPRV(I,3,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
      .                  + DIRPRV(I,3,2)*DIRPRV(I,1,2)*SIGPRV(I,2)
-!!      
+!!
           ENDDO
 C fin chgt
 C COMPUTE UPDATED STRESSES AND SOUND SPEED
@@ -589,7 +589,7 @@ C
           SIGNZX(I)=OFF(I)*SIGSZX(I)
           SOUNDSP(I)=SQRT(EY/RHO0(I))
         ENDDO
-      END SELECT 
+      END SELECT
 
       RETURN
 
@@ -628,12 +628,12 @@ C-----------------------------------------------
      . , B(NN), Z(NN)
       INTEGER IZ,IS,ITER,J
       my_real
-     . SUMRS,EPS,G,H,T,C,S,TAU,THETA      
+     . SUMRS,EPS,G,H,T,C,S,TAU,THETA
 C----------------------------------------------------------------
       DO 130 IZ=1,N
         DO 120 IS=1,N
 C PRACTICAL FOR RADIOSS (PASS ONLY LOWER DIAGONAL MATRIX)
-          IF(IZ>IS) A(IS,IZ) = A(IZ,IS) 
+          IF(IZ>IS) A(IS,IZ) = A(IZ,IS)
           EV(IZ,IS)=ZERO
   120   CONTINUE
         B(IZ)=A(IZ,IZ)
@@ -645,7 +645,7 @@ C PRACTICAL FOR RADIOSS (PASS ONLY LOWER DIAGONAL MATRIX)
       NROT=0
 
 C START ITERATION
- 
+
       DO 240 ITER = 1,50
         SUMRS = ZERO
 
@@ -655,7 +655,7 @@ C SUM OF THE OFF DIAGONALS
             SUMRS=SUMRS+ABS(A(IZ,IS))
   140     CONTINUE
   150   CONTINUE
- 
+
         IF (SUMRS ==ZERO) GOTO 9000
         IF (ITER > 4)   THEN
           EPS = ZERO
@@ -728,8 +728,8 @@ C SUM OF THE OFF DIAGONALS
       RETURN
 
       END
- 
-      
+
+
 Chd|====================================================================
 Chd|  DREH                          source/materials/mat/mat033/sigeps33.F
 Chd|-- called by -----------
@@ -737,7 +737,7 @@ Chd|        SIGEPS33                      source/materials/mat/mat033/sigeps33.F
 Chd|        SIGEPS38                      source/materials/mat/mat038/sigeps38.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DREH(B,TR,II,JJ,KEN) 
+      SUBROUTINE DREH(B,TR,II,JJ,KEN)
 C-------------------------------------------------------KK010587-
 C KEN=0 -> ROTATION OF MATRIX B BY TR = TR(T)*B*TR
 C KEN=1 -> ROTATION OF MATRIX B BY TR(T) = TR*B*TR(T)
@@ -754,34 +754,34 @@ C-----------------------------------------------
 C----------------------------------------------------------------
       IF(II<=0) II=1
       IF(JJ<=0) JJ=1
-                       
-      DO 20 I=1,3                                                               
-        DO 20 J=1,3                                                               
-          J1=JJ+J-1                                                                 
-          X=0.0                                                                     
-          DO 10 K=1,3                                                               
+
+      DO 20 I=1,3
+        DO 20 J=1,3
+          J1=JJ+J-1
+          X=0.0
+          DO 10 K=1,3
 C          IF(TR(K,I)==ZERO) GOTO 10                                               
-           I1=K+II-1                                                                 
+           I1=K+II-1
 C          IF(B(I1,J1)==ZERO) GOTO 10                                             
-           IF(KEN/=1) X=X+TR(K,I)*B(I1,J1)                                                   
-           IF(KEN==1) X=X+TR(I,K)*B(I1,J1) 
- 10       CONTINUE                                                                  
+           IF(KEN/=1) X=X+TR(K,I)*B(I1,J1)
+           IF(KEN==1) X=X+TR(I,K)*B(I1,J1)
+ 10       CONTINUE
  20   LK(I,J)=X
-                                                                 
-      DO 40 I=1,3                                                               
-        DO 40 J=1,3                                                               
-          X=ZERO                                                       
-          DO 30 K=1,3                                                               
+
+      DO 40 I=1,3
+        DO 40 J=1,3
+          X=ZERO
+          DO 30 K=1,3
 C          IF(TR(K,J)==ZERO) GOTO 30                                               
 C          IF(LK(I,K)==ZERO) GOTO 30                                                
-           IF(KEN/=1) X=X+LK(I,K)*TR(K,J)                                                      
-           IF(KEN==1) X=X+LK(I,K)*TR(J,K)                                                      
- 30       CONTINUE                                                                  
+           IF(KEN/=1) X=X+LK(I,K)*TR(K,J)
+           IF(KEN==1) X=X+LK(I,K)*TR(J,K)
+ 30       CONTINUE
  40   B(II+I-1,JJ+J-1)=X
-                                                      
+
       RETURN
-                                                                    
-      END 
+
+      END
 C
 Chd|====================================================================
 Chd|  VALPVEC                       source/materials/mat/mat033/sigeps33.F
@@ -816,7 +816,7 @@ C-----------------------------------------------
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -834,7 +834,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
         CS(2) = SIG(2,NN)
@@ -857,7 +857,7 @@ c        AA = MAX(AAA(NN),NORMINF(NN),EM20)
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - TWO*CS(4)*CS(5)*CS(6)     
+     &     - TWO*CS(4)*CS(5)*CS(6)
 C
         CC=-SQRT(TWENTY7/MAX(EM20,AA))*BB*HALF/MAX(EM20,AA)
         CC= MIN(CC,ONE)
@@ -1011,7 +1011,7 @@ C
         ELSE
           V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
-          V(3,2,NN)=ZERO  
+          V(3,2,NN)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -1066,7 +1066,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ENDIF
       ENDDO
 C
@@ -1135,7 +1135,7 @@ C-----------------------------------------------
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -1154,7 +1154,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
         CS(2) = SIG(2,NN)
@@ -1260,7 +1260,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -1330,7 +1330,7 @@ C
         ELSE
           V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
-          V(3,2,NN)=ZERO  
+          V(3,2,NN)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -1362,7 +1362,7 @@ C
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
-          V(3,1,NN)= ONE  
+          V(3,1,NN)= ONE
           V(1,2,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
@@ -1385,7 +1385,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ENDIF
       ENDDO
 C
@@ -1444,8 +1444,8 @@ Chd|        VALPVEC                       source/materials/mat/mat033/sigeps33.F
 Chd|        VALPVECDP                     source/materials/mat/mat033/sigeps33.F
 Chd|====================================================================
               SUBROUTINE EPSF2U(
-     1      NEL    ,FXX    , FXY  , FXZ  , FYX  ,    
-     2      FYY    ,FYZ    , FZX  , FZY  , FZZ  , 
+     1      NEL    ,FXX    , FXY  , FXZ  , FYX  ,
+     2      FYY    ,FYZ    , FZX  , FZY  , FZZ  ,
      3      UXX    ,UYY    , UZZ  , UXY  , UYZ  ,
      4      UXZ    )
 C-----------------------------------------------
@@ -1468,13 +1468,13 @@ C----------------------------------------------------------------
       my_real
      .      FXX(NEL)  ,   FXY(NEL),   FXZ(NEL),
      .      FYX(NEL)  ,   FYY(NEL),   FYZ(NEL),
-     .      FZX(NEL)  ,   FZY(NEL),   FZZ(NEL)    
+     .      FZX(NEL)  ,   FZY(NEL),   FZZ(NEL)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
      .      UXX(NEL)  ,   UXY(NEL),   UXZ(NEL),
-     .      UYY(NEL)  ,   UYZ(NEL),   UZZ(NEL)    
+     .      UYY(NEL)  ,   UYZ(NEL),   UZZ(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -1511,23 +1511,23 @@ C
         UXX(I) = DIRPRV(1,1,I)*DIRPRV(1,1,I)*EV(1,I)
      .         + DIRPRV(1,2,I)*DIRPRV(1,2,I)*EV(2,I)
      .         + DIRPRV(1,3,I)*DIRPRV(1,3,I)*EV(3,I)
-c     
+c
         UYY(I) = DIRPRV(2,2,I)*DIRPRV(2,2,I)*EV(2,I)
      .         + DIRPRV(2,3,I)*DIRPRV(2,3,I)*EV(3,I)
      .         + DIRPRV(2,1,I)*DIRPRV(2,1,I)*EV(1,I)
-c     
+c
         UZZ(I) = DIRPRV(3,3,I)*DIRPRV(3,3,I)*EV(3,I)
      .         + DIRPRV(3,1,I)*DIRPRV(3,1,I)*EV(1,I)
      .         + DIRPRV(3,2,I)*DIRPRV(3,2,I)*EV(2,I)
-c     
+c
         UXY(I) = DIRPRV(1,1,I)*DIRPRV(2,1,I)*EV(1,I)
      .         + DIRPRV(1,2,I)*DIRPRV(2,2,I)*EV(2,I)
      .         + DIRPRV(1,3,I)*DIRPRV(2,3,I)*EV(3,I)
-c     
+c
         UYZ(I) = DIRPRV(2,2,I)*DIRPRV(3,2,I)*EV(2,I)
      .         + DIRPRV(2,3,I)*DIRPRV(3,3,I)*EV(3,I)
      .         + DIRPRV(2,1,I)*DIRPRV(3,1,I)*EV(1,I)
-c     
+c
         UXZ(I) = DIRPRV(3,3,I)*DIRPRV(1,3,I)*EV(3,I)
      .         + DIRPRV(3,1,I)*DIRPRV(1,1,I)*EV(1,I)
      .         + DIRPRV(3,2,I)*DIRPRV(1,2,I)*EV(2,I)
@@ -1565,7 +1565,7 @@ C-----------------------------------------------
      .   CS(6), STR(3,MVSIZ), A(3,3,MVSIZ), V(3,3,MVSIZ), B(3,3,MVSIZ),
      .   XMAG(3,MVSIZ), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -1584,9 +1584,9 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0 
-      C1 = HALF*SQRT(TWENTY7)      
-      C2 = TWO*SQRT(THIRD)      
+      NINDEX3=0
+      C1 = HALF*SQRT(TWENTY7)
+      C2 = TWO*SQRT(THIRD)
       DO NN = 1, NEL
         CS(1) = SIG(1,NN)
         CS(2) = SIG(2,NN)
@@ -1699,7 +1699,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ELSEIF(XMAXV(NN)>TOL1(NN)*TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -1775,7 +1775,7 @@ C
         ELSE
           V(1,2,NN)=ONE
           V(2,2,NN)=ZERO
-          V(3,2,NN)=ZERO  
+          V(3,2,NN)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -1808,7 +1808,7 @@ C
           XMAXINV = ONE/XMAXV(NN)
           V(1,1,NN)= ZERO
           V(2,1,NN)= ZERO
-          V(3,1,NN)= ONE  
+          V(3,1,NN)= ONE
           V(1,2,NN)=-A(2,LMAX,NN)*XMAXINV
           V(2,2,NN)= A(1,LMAX,NN)*XMAXINV
           V(3,2,NN)= ZERO
@@ -1833,7 +1833,7 @@ C
           V(3,1,NN) = ZERO
           V(1,2,NN) = ZERO
           V(2,2,NN) = ONE
-          V(3,2,NN) = ZERO	  
+          V(3,2,NN) = ZERO	
         ENDIF
       ENDDO
 C
@@ -1923,7 +1923,7 @@ C-----------------------------------------------
      .   CS(6), STR(MVSIZ,3), A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   XMAG(MVSIZ,3), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -1941,7 +1941,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO NN = 1, NEL
         CS(1) = SIG(NN,1)
         CS(2) = SIG(NN,2)
@@ -1964,7 +1964,7 @@ c        AA = MAX(AAA(NN),NORMINF(NN),EM20)
 C
         BB=CS(1)*CS(5)**2 + CS(2)*CS(6)**2
      &     + CS(3)*CS(4)**2 - CS(1)*CS(2)*CS(3)
-     &     - TWO*CS(4)*CS(5)*CS(6)     
+     &     - TWO*CS(4)*CS(5)*CS(6)
 C
         CC=-SQRT(TWENTY7/MAX(EM20,AA))*BB*HALF/MAX(EM20,AA)
         CC= MIN(CC,ONE)
@@ -2118,7 +2118,7 @@ C
         ELSE
           V(NN,1,2)=ONE
           V(NN,2,2)=ZERO
-          V(NN,3,2)=ZERO  
+          V(NN,3,2)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -2173,7 +2173,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO	  
+          V(NN,3,2) = ZERO	
         ENDIF
       ENDDO
 C
@@ -2247,7 +2247,7 @@ C-----------------------------------------------
      .   CS(6), STR(MVSIZ,3), A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   XMAG(MVSIZ,3), PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   A22, A23, A31, A32, A33,
@@ -2266,7 +2266,7 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS(1),CS(2),FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0  
+      NINDEX3=0
       DO NN = 1, NEL
         CS(1) = SIG(NN,1)
         CS(2) = SIG(NN,2)
@@ -2372,7 +2372,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO	  
+          V(NN,3,2) = ZERO	
         ELSEIF(XMAXV(NN)>TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -2442,7 +2442,7 @@ C
         ELSE
           V(NN,1,2)=ONE
           V(NN,2,2)=ZERO
-          V(NN,3,2)=ZERO  
+          V(NN,3,2)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -2474,7 +2474,7 @@ C
           XMAXINV = ONE/XMAXV(NN)
           V(NN,1,1)= ZERO
           V(NN,2,1)= ZERO
-          V(NN,3,1)= ONE  
+          V(NN,3,1)= ONE
           V(NN,1,2)=-A(NN,2,LMAX)*XMAXINV
           V(NN,2,2)= A(NN,1,LMAX)*XMAXINV
           V(NN,3,2)= ZERO
@@ -2497,7 +2497,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO	  
+          V(NN,3,2) = ZERO	
         ENDIF
       ENDDO
 C
@@ -2583,7 +2583,7 @@ C-----------------------------------------------
      .   A(MVSIZ,3,3), V(MVSIZ,3,3), B(MVSIZ,3,3),
      .   PR, AA, BB, AAA(MVSIZ),
      .   CC, ANGP, DD, FTPI, TTPI, STRMAX,
-     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ), 
+     .   TOL1(MVSIZ), TOL2(MVSIZ), XMAXV(MVSIZ), NORMINF(MVSIZ),
      .   VMAG, S11,
      .   S21, S31, S12, S22, S32, S13, S23, S33, A11, A12, A13, A21,
      .   S1,S2,S3,
@@ -2613,9 +2613,9 @@ C . . . . . . . . . . . . . . . . . . .
 C precision minimum dependant du type REAL ou DOUBLE
       CALL FLOATMIN(CS1,CS2,FLMIN)
       FLM = TWO*SQRT(FLMIN)
-      NINDEX3=0 
-      C1 = HALF*SQRT(TWENTY7)      
-      C2 = TWO*SQRT(THIRD)      
+      NINDEX3=0
+      C1 = HALF*SQRT(TWENTY7)
+      C2 = TWO*SQRT(THIRD)
       DO NN = 1, NEL
         CS1 = SIG(NN,1)
         CS2 = SIG(NN,2)
@@ -2736,7 +2736,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO        
+          V(NN,3,2) = ZERO
         ELSEIF(XMAXV(NN)>TOL1(NN)*TOL1(NN)) THEN
           NINDEX1 = NINDEX1 + 1
           INDEX1(NINDEX1) = NN
@@ -2812,7 +2812,7 @@ C
         ELSE
           V(NN,1,2)=ONE
           V(NN,2,2)=ZERO
-          V(NN,3,2)=ZERO  
+          V(NN,3,2)=ZERO
         ENDIF
       ENDDO
 C . . . . . . . . . . . . .
@@ -2846,7 +2846,7 @@ C
           XMAXINV = ONE/XMAXV(NN)
           V(NN,1,1)= ZERO
           V(NN,2,1)= ZERO
-          V(NN,3,1)= ONE  
+          V(NN,3,1)= ONE
           V(NN,1,2)=-A(NN,2,LMAX)*XMAXINV
           V(NN,2,2)= A(NN,1,LMAX)*XMAXINV
           V(NN,3,2)= ZERO
@@ -2874,7 +2874,7 @@ C
           V(NN,3,1) = ZERO
           V(NN,1,2) = ZERO
           V(NN,2,2) = ONE
-          V(NN,3,2) = ZERO        
+          V(NN,3,2) = ZERO
           INDEX3(NN) = 0
         ENDIF
       ENDDO
@@ -2922,4 +2922,4 @@ C str utilise com tableau temporaire au lieu de scalaires temporaires
       ENDDO
       RETURN
       END
- 
+

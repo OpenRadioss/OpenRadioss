@@ -43,8 +43,8 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD   
-      USE SUBMODEL_MOD     
+      USE ELBUFTAG_MOD
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER  IGEO(NPROPGI),IGTYP,IG
 C     REAL
       my_real GEO(NPROPG)
@@ -127,7 +127,7 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('Bcoeft1',B,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Dcoeft1',D,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('MIN_RUP1',DN,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('MAX_RUP1',DX,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('MAX_RUP1',DX,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Prop_X_F',F,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Prop_X_E',E,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('scale1',LSCALE,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -137,7 +137,7 @@ C--optional-
       CALL HM_GET_FLOATV('scale3',XSCALEF,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('P12_SPR_PUL_F_min',FMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('P12_SPR_PUL_F_max',FMAX,IS_AVAILABLE,LSUBMODEL,UNITAB)
-c            
+c
       CALL HM_GET_FLOATV_DIM('Acoeft1',A_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV_DIM('Dcoeft1',D_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV_DIM('h',GF3_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -146,50 +146,50 @@ c
       CALL HM_GET_FLOATV_DIM('scale1',LSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV_DIM('MIN_RUP1',RUP_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV_DIM('scale3',XSCALE_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV_DIM('P12_SPR_PUL_F_min',FMIN_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV_DIM('P12_SPR_PUL_F_min',FMIN_UNIT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C----                             
-      IF(GEO(2)==ZERO.AND.GEO(3)==ZERO.AND.IFUNC==ZERO) THEN 
+      IF(GEO(2)==ZERO.AND.GEO(3)==ZERO.AND.IFUNC==ZERO) THEN
          CALL ANCMSG(MSGID=602,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=IDTITL)
-      END IF                                                       
-      IF(GEO(1)<=EM15)THEN                                       
+      END IF
+      IF(GEO(1)<=EM15)THEN
          CALL ANCMSG(MSGID=229,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=IDTITL)
-      ENDIF                                                        
-!      IF(IFUNC/=0.AND.IECROU>=1.AND.GEO(2)==ZERO)THEN        
+      ENDIF
+!      IF(IFUNC/=0.AND.IECROU>=1.AND.GEO(2)==ZERO)THEN
 !         CALL ANCMSG(MSGID=230,
 !     .               MSGTYPE=MSGERROR,
 !     .               ANMODE=ANINFO_BLIND_1,
 !     .               I1=IG,
 !     .               C1=TITR)
-!      ENDIF                                                        
-      IF(IECROU==4.AND.(IFUNC==0.OR.IFUNC2==0))THEN          
+!      ENDIF
+      IF(IECROU==4.AND.(IFUNC==0.OR.IFUNC2==0))THEN
          CALL ANCMSG(MSGID=231,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=IDTITL)
-      ENDIF                                                        
-      IF(IECROU==4.AND.GEO(2)==ZERO)THEN                        
+      ENDIF
+      IF(IECROU==4.AND.GEO(2)==ZERO)THEN
          CALL ANCMSG(MSGID=230,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=IDTITL)
-      ENDIF                                                        
-      IF(IECROU==5.AND.(IFUNC==0.OR.IFUNC2==0))THEN          
+      ENDIF
+      IF(IECROU==5.AND.(IFUNC==0.OR.IFUNC2==0))THEN
          CALL ANCMSG(MSGID=231,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=IDTITL)
-      ENDIF                                                        
+      ENDIF
        IF(IECROU==6.AND.(IFUNC==0.OR.IFUNC2==0))THEN
           CALL ANCMSG(MSGID=1057,
      .                MSGTYPE=MSGERROR,
@@ -203,7 +203,7 @@ C----
      .                ANMODE=ANINFO_BLIND_1,
      .                I1=IG,
      .                C1=IDTITL)
-       
+
        ELSEIF(IECROU==7.AND.IFUNC2==0)THEN
           CALL ANCMSG(MSGID=1059,
      .                MSGTYPE=MSGWARNING,
@@ -219,7 +219,7 @@ C----
      .              ANMODE=ANINFO_BLIND_1,
      .               I1=IG,
      .               C1=IDTITL)
-      ENDIF                                        
+      ENDIF
 C----
       IF (A == ZERO) A = ONE * A_UNIT
       IF (D == ZERO) D = ONE * D_UNIT
@@ -244,39 +244,39 @@ c
       IF (FMIN == ZERO) FMIN = -EP30
       IF (FMAX == ZERO) FMAX =  EP30
 C------------------------
-      IF(IS_ENCRYPTED)THEN                                    
-        WRITE(IOUT,1000)IG                                     
-      ELSE                                                     
-       IF (IECROU/=5) THEN                                   
-        WRITE(IOUT,1400)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,F,IECROU, 
-     .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ISENS,IFL,ILENG,FRIC,   
-     .                FTAB_ID,IFRIC,YSCALEF,XSCALEF,FMIN,FMAX
-       ELSE                                                    
-        WRITE(IOUT,1500)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,F,IECROU, 
+      IF(IS_ENCRYPTED)THEN
+        WRITE(IOUT,1000)IG
+      ELSE
+       IF (IECROU/=5) THEN
+        WRITE(IOUT,1400)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,F,IECROU,
      .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ISENS,IFL,ILENG,FRIC,
      .                FTAB_ID,IFRIC,YSCALEF,XSCALEF,FMIN,FMAX
-       ENDIF                                                   
-      ENDIF                                               
+       ELSE
+        WRITE(IOUT,1500)IG,(GEO(J),J=1,3),IFUNC,LSCALE,IFUNC2,F,IECROU,
+     .                A,B,D,E,IFV,GF3,IFUNC3,DN,DX,ISENS,IFL,ILENG,FRIC,
+     .                FTAB_ID,IFRIC,YSCALEF,XSCALEF,FMIN,FMAX
+       ENDIF
+      ENDIF
 C----
 cmi      IF (FTAB_ID > 0) FRIC = YSCALEF
 C----
       GEO(2)  = GEO(2) / A
-      GEO(7)  = IECROU+PUN                                   
-      GEO(8)  = 3                                            
-      GEO(9)  = ZERO                                         
-      GEO(10) = A                                            
-      GEO(11) = B                                            
-      GEO(13) = D                                            
-      GEO(18) = ONE / F             
-      GEO(39) = ONE / LSCALE 
-      GEO(40) = E                         
-      GEO(132)= GF3                       
-      GEO(15) = DN                                           
-      GEO(16) = DX                                           
-      GEO(17) = FRIC                                         
-      GEO(20) = ONE/XSCALEF            
-      GEO(80) = IFL                                          
-      GEO(93) = ILENG                                        
+      GEO(7)  = IECROU+PUN
+      GEO(8)  = 3
+      GEO(9)  = ZERO
+      GEO(10) = A
+      GEO(11) = B
+      GEO(13) = D
+      GEO(18) = ONE / F
+      GEO(39) = ONE / LSCALE
+      GEO(40) = E
+      GEO(132)= GF3
+      GEO(15) = DN
+      GEO(16) = DX
+      GEO(17) = FRIC
+      GEO(20) = ONE/XSCALEF
+      GEO(80) = IFL
+      GEO(93) = ILENG
       GEO(138) = FMIN
       GEO(139) = FMAX
       GEO(140) = YSCALEF
@@ -286,9 +286,9 @@ C--   If H=6 - addditional internal variables must be stored in UVAR -  - GEO(25
         GEO(25) = 1
       ENDIF
 C                         
-      IGEO(101) = IFUNC                                      
-      IGEO(102) = IFV                                        
-      IGEO(103) = IFUNC2                                     
+      IGEO(101) = IFUNC
+      IGEO(102) = IFV
+      IGEO(103) = IFUNC2
       IGEO(201) = FTAB_ID
       IGEO(119) = IFUNC3
       IGEO(202) = IFRIC

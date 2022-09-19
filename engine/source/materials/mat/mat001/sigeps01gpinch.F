@@ -104,10 +104,10 @@ C         PA2 = C1122, C1133, C2233
 C         PA3 = C1212, C1313, C2323
 C         PA4 = C1111*, C2222* 
 C         PA5 = C1122*
-          PA1(I) = E(I)*(ONE-NU(I))/(ONE+NU(I))/(ONE-TWO*NU(I))          
-          PA2(I) = E(I)*NU(I)/(ONE+NU(I))/(ONE-TWO*NU(I))         
-          PA3(I) = E(I)/TWO/(ONE+NU(I))         
-          PA4(I) = (ONE+NU(I))*(ONE-TWO*NU(I))/(ONE-NU(I)**2)/(ONE-NU(I))*PA1(I)         
+          PA1(I) = E(I)*(ONE-NU(I))/(ONE+NU(I))/(ONE-TWO*NU(I))
+          PA2(I) = E(I)*NU(I)/(ONE+NU(I))/(ONE-TWO*NU(I))
+          PA3(I) = E(I)/TWO/(ONE+NU(I))
+          PA4(I) = (ONE+NU(I))*(ONE-TWO*NU(I))/(ONE-NU(I)**2)/(ONE-NU(I))*PA1(I)
           PA5(I) = (ONE+NU(I))*(ONE-TWO*NU(I))/(ONE-NU(I)**2)*PA2(I)
 C
           THK08(I) = THK0(I)*ONE_OVER_12

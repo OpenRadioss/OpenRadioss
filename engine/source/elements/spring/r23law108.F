@@ -102,7 +102,7 @@ C-----------------------------------------------
       INTEGER NGL(MVSIZ),PID(MVSIZ),NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ),
      .        MID(MVSIZ),IEQUIL(MVSIZ)
 C     REAL
-      my_real 
+      my_real
      .   STI(3,MVSIZ),STIR(3,MVSIZ),VISI(MVSIZ),VISIR(MVSIZ),
      .   USTI(MVSIZ),USTIR(MVSIZ),DF(MVSIZ),AL(MVSIZ),UNUSED(MVSIZ),
      .   UINER(MVSIZ),FR_W_E(MVSIZ),OFF(MVSIZ),BID
@@ -129,7 +129,7 @@ C-----------------------------------------------
       TYPE(G_BUFEL_),POINTER :: GBUF
       INTEGER II(6)
 C=======================================================================
-      GBUF => ELBUF_STR%GBUF      
+      GBUF => ELBUF_STR%GBUF
 !
       FX1(1:MVSIZ) = ZERO
       FX2(1:MVSIZ) = ZERO
@@ -178,9 +178,9 @@ C
         DO I=JFT,JLT
           MID(I)     = IXR(5,I)
           IADBUF = IPM(7,MID(I))
-          NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4))) 
+          NUVAR = MAX(NUVAR, NINT(BUFMAT(IADBUF + 4)))
         ENDDO
-!!    is like r2def3 (spring type08)    
+!!    is like r2def3 (spring type08)
         CALL R23L108DEF3(
      . IPM                    ,IGEO                    ,MID                    ,PID                   ,BUFMAT                 ,
      1 SKEW                   ,GEO                     ,GBUF%FOR(II(1))        ,GBUF%FOR(II(2))        ,GBUF%FOR(II(3))        ,

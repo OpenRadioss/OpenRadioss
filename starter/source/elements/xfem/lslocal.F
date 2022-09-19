@@ -85,8 +85,8 @@ C
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP,NXEL) :: XFEM_TAB
       TYPE (XFEM_LVSET_)  , DIMENSION(NLEVMAX)     :: CRKLVSET
       TYPE (XFEM_SHELL_)  , DIMENSION(NLEVMAX)     :: CRKSHELL
-      TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX)    :: CRKEDGE       
-      TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX)    :: XFEM_PHANTOM  
+      TYPE (XFEM_EDGE_)   , DIMENSION(NXLAYMAX)    :: CRKEDGE
+      TYPE (XFEM_PHANTOM_), DIMENSION(NXLAYMAX)    :: XFEM_PHANTOM
       CHARACTER TITR*nchartitle
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -104,14 +104,14 @@ C
       my_real,DIMENSION(:,:),ALLOCATABLE :: BETA
 C=======================================================================
       ITG = 1+NUMELC
-      ALLOCATE (ELCUT(NUMELC+NUMELTG))  
-      ALLOCATE (BETA(2,NUMELC+NUMELTG)) 
-      ALLOCATE (EDGEC(4,NUMELC))        
-      ALLOCATE (EDGETG(3,NUMELTG))      
-      ELCUT  = 0                         
-      BETA   = 0                          
-      EDGEC  = 0                         
-      EDGETG = 0                        
+      ALLOCATE (ELCUT(NUMELC+NUMELTG))
+      ALLOCATE (BETA(2,NUMELC+NUMELTG))
+      ALLOCATE (EDGEC(4,NUMELC))
+      ALLOCATE (EDGETG(3,NUMELTG))
+      ELCUT  = 0
+      BETA   = 0
+      EDGEC  = 0
+      EDGETG = 0
 C
       TAGXNOD = 0
 c-----------------------
@@ -197,14 +197,14 @@ C
               ENDIF
 C---
               FAC = 0
-c             find edge corresponding to Xnod1  =>  EDGEC(IED) = 1  
+c             find edge corresponding to Xnod1  =>  EDGEC(IED) = 1
               IED = 1
               CALL ELCUT4N(I, IXC(1,NFT+1), XNOD, EDGEC(1,NFT+1),FAC,IED)
               IF (FAC == 1) TAGXNOD(LS) = 1
 C
 C add warning message if FAC /= 1  ! XNOD1 must fit an element edge's
 C
-c             find edge corresponding to Xnod2  =>  EDGEC(IED) = 2      
+c             find edge corresponding to Xnod2  =>  EDGEC(IED) = 2
               IED = 2
               CALL ELCUT4N(I, IXC(1,NFT+1), XNOD, EDGEC(1,NFT+1),FAC,IED)
               IF (FAC == 2) TAGXNOD(LS+1) = 1
@@ -221,9 +221,9 @@ C---
             IF(NELCUT == 0)GOTO 200
 C---
             CALL CCOORI(X,XREFC(1,1,NFT+1),IXC(1,NFT+1),
-     .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,       
-     .           Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,       
-     .           IX1 ,IX2 ,IX3 ,IX4 ,NGL )            
+     .           X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
+     .           Y3  ,Y4  ,Z1  ,Z2  ,Z3  ,Z4  ,
+     .           IX1 ,IX2 ,IX3 ,IX4 ,NGL )
 C           local coordinates
             CALL XYZLOC4N(X1L,Y1L,X2L,Y2L,X3L,Y3L,X4L,Y4L,
      .                    X1 ,X2 ,X3 ,X4 ,Y1 ,Y2 ,
@@ -231,12 +231,12 @@ C           local coordinates
 C 
 c---
             CALL PREINICRK4N(ELBUF_TAB(NG),XFEM_TAB(NG,1:NXEL)  ,
-     .           X1L     ,Y1L    ,X2L     ,Y2L     ,X3L     ,        
-     .           Y3L     , X4L   ,Y4L     ,LFT     ,LLT     ,        
-     .           NFT     ,NXLAY  ,IELCRKC ,EDGEC   ,BETA0   ,        
-     .           IEDGESH4,ELCUT  ,XNOD    ,IXC     ,NODEDGE ,        
+     .           X1L     ,Y1L    ,X2L     ,Y2L     ,X3L     ,
+     .           Y3L     , X4L   ,Y4L     ,LFT     ,LLT     ,
+     .           NFT     ,NXLAY  ,IELCRKC ,EDGEC   ,BETA0   ,
+     .           IEDGESH4,ELCUT  ,XNOD    ,IXC     ,NODEDGE ,
      .           TAGSKYC ,KNOD2ELC,TAGEDGE,CRKLVSET,CRKSHELL,
-     .           CRKEDGE ,XFEM_PHANTOM)                 
+     .           CRKEDGE ,XFEM_PHANTOM)
 c
 c-------------------------
           ELSE IF (ITY==7) THEN
@@ -338,44 +338,44 @@ c-----
 c------------------------------------------------------------------------
 c     Tag tip edges and activate xfem groups
 c------------------------------------------------------------------------
-      DO NG=1,NGROUP                                                
-        IXFEM = IPARG(54,NG)                                        
-        IF (IXFEM == 0) CYCLE                                       
+      DO NG=1,NGROUP
+        IXFEM = IPARG(54,NG)
+        IF (IXFEM == 0) CYCLE
 c
-        NXLAY = ELBUF_TAB(NG)%NLAY                                  
-        NEL   = IPARG(2,NG)                                         
-        NFT   = IPARG(3,NG)                                         
-        ITY   = IPARG(5,NG)                                         
-        LFT   = 1                                                   
-        LLT   = MIN(NVSIZ,NEL)                                      
+        NXLAY = ELBUF_TAB(NG)%NLAY
+        NEL   = IPARG(2,NG)
+        NFT   = IPARG(3,NG)
+        ITY   = IPARG(5,NG)
+        LFT   = 1
+        LLT   = MIN(NVSIZ,NEL)
 C---
-        IF (ITY == 3) THEN                                          
-          CALL EDGETIP4N(LFT   ,LLT    ,NFT    ,IELCRKC ,IEDGESH4,  
-     .                   NXLAY ,EDGEC  ,TAGEDGE,CRKLVSET,CRKEDGE)           
+        IF (ITY == 3) THEN
+          CALL EDGETIP4N(LFT   ,LLT    ,NFT    ,IELCRKC ,IEDGESH4,
+     .                   NXLAY ,EDGEC  ,TAGEDGE,CRKLVSET,CRKEDGE)
 C
 C         activation of new group if initial cracks                 
-          CALL ACTIV_XFEM(IPARG ,NFT    ,LFT    ,LLT ,NXLAY,        
-     .                    NG    ,IELCRKC,ITY    ,CRKEDGE)                   
-        ELSEIF (ITY == 7) THEN                                      
-          CALL EDGETIP3N(LFT   ,LLT    ,NFT    ,IELCRKTG,IEDGESH3,  
-     .                   NXLAY ,EDGETG ,TAGEDGE,CRKLVSET,CRKEDGE)           
+          CALL ACTIV_XFEM(IPARG ,NFT    ,LFT    ,LLT ,NXLAY,
+     .                    NG    ,IELCRKC,ITY    ,CRKEDGE)
+        ELSEIF (ITY == 7) THEN
+          CALL EDGETIP3N(LFT   ,LLT    ,NFT    ,IELCRKTG,IEDGESH3,
+     .                   NXLAY ,EDGETG ,TAGEDGE,CRKLVSET,CRKEDGE)
 C
 C         activation of new group if initial cracks                 
-          CALL ACTIV_XFEM(IPARG ,NFT     ,LFT    ,LLT ,NXLAY,       
-     .                    NG    ,IELCRKTG,ITY    ,CRKEDGE)                  
-        ENDIF                                                       
-      ENDDO                                                         
+          CALL ACTIV_XFEM(IPARG ,NFT     ,LFT    ,LLT ,NXLAY,
+     .                    NG    ,IELCRKTG,ITY    ,CRKEDGE)
+        ENDIF
+      ENDDO
 c     Tag ICUTEDGE=2 for tip edges
       DO ILAY=1,NXLAY
         DO I=1,NUMEDGES
-          IF (CRKEDGE(ILAY)%EDGETIP(1,I) == 1 .or. 
-     .        CRKEDGE(ILAY)%EDGETIP(2,I) == 1) THEN 
-             DO K=1,NXEL                             
-               CRKLVSET(NXEL*(ILAY-1)+K)%ICUTEDGE(I) = 2     
+          IF (CRKEDGE(ILAY)%EDGETIP(1,I) == 1 .or.
+     .        CRKEDGE(ILAY)%EDGETIP(2,I) == 1) THEN
+             DO K=1,NXEL
+               CRKLVSET(NXEL*(ILAY-1)+K)%ICUTEDGE(I) = 2
             ENDDO
           ENDIF
-        ENDDO                                   
-      ENDDO                                                         
+        ENDDO
+      ENDDO
 c------------------------------------------------------------------------
       IF(ALLOCATED(ELCUT)) DEALLOCATE(ELCUT)
       IF(ALLOCATED(BETA))  DEALLOCATE(BETA)
@@ -450,25 +450,25 @@ C
         E3Z(I) = E1X(I)*E2Y(I)-E1Y(I)*E2X(I)
       ENDDO
 C---
-      DO I=LFT,LLT                         
-        SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)  
-        SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-        E3X(I) = E3X(I)*SUMA                              
-        E3Y(I) = E3Y(I)*SUMA                              
-        E3Z(I) = E3Z(I)*SUMA                              
+      DO I=LFT,LLT
+        SUMA   = E3X(I)*E3X(I)+E3Y(I)*E3Y(I)+E3Z(I)*E3Z(I)
+        SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+        E3X(I) = E3X(I)*SUMA
+        E3Y(I) = E3Y(I)*SUMA
+        E3Z(I) = E3Z(I)*SUMA
 C
-        S1     = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I) 
-        S2     = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I) 
-        SUMA   = SQRT(S1/S2)                
+        S1     = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+        S2     = E2X(I)*E2X(I)+E2Y(I)*E2Y(I)+E2Z(I)*E2Z(I)
+        SUMA   = SQRT(S1/S2)
         E1X(I) = E1X(I) + (E2Y(I)*E3Z(I)-E2Z(I)*E3Y(I))*SUMA
         E1Y(I) = E1Y(I) + (E2Z(I)*E3X(I)-E2X(I)*E3Z(I))*SUMA
         E1Z(I) = E1Z(I) + (E2X(I)*E3Y(I)-E2Y(I)*E3X(I))*SUMA
 C
-        SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)  
-        SUMA   = ONE/MAX(SQRT(SUMA),EM20)                    
-        E1X(I) = E1X(I)*SUMA                              
-        E1Y(I) = E1Y(I)*SUMA                              
-        E1Z(I) = E1Z(I)*SUMA                              
+        SUMA   = E1X(I)*E1X(I)+E1Y(I)*E1Y(I)+E1Z(I)*E1Z(I)
+        SUMA   = ONE/MAX(SQRT(SUMA),EM20)
+        E1X(I) = E1X(I)*SUMA
+        E1Y(I) = E1Y(I)*SUMA
+        E1Z(I) = E1Z(I)*SUMA
 C
         E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
         E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
@@ -535,7 +535,7 @@ C=======================================================================
 C----------------------------
       I1 = 0
       CALL CLSKEW3(LFT,LLT,I1,
-     .     RX, RY, RZ, SX, SY, SZ, 
+     .     RX, RY, RZ, SX, SY, SZ,
      .     E1X,E2X,E3X,E1Y,E2Y,E3Y,E1Z,E2Z,E3Z,SUM)
 c      DO I=JFT,JLT
 c        AREA(I) = HALF*SUM(I)
@@ -635,8 +635,8 @@ C-----------------------------------------------
       DATA d2/3,4,5,2/
 C=======================================================================
       DO K=1,4    ! edges
-        N1 = IXC(d1(K),IEL)  ! 1st Node 
-        N2 = IXC(d2(K),IEL)  ! 2nd Node 
+        N1 = IXC(d1(K),IEL)  ! 1st Node
+        N2 = IXC(d2(K),IEL)  ! 2nd Node
         IF ((N1 == XNOD(IED,1) .AND. N2 == XNOD(IED,2)) .OR.
      .      (N2 == XNOD(IED,1) .AND. N1 == XNOD(IED,2))) THEN
           FAC = FAC + 1

@@ -71,7 +71,7 @@ Chd|        SET_SCRATCH_MOD               ../common_source/modules/setdef_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_SET(SET      ,LSUBMODEL ,INV_GROUP ,MAP_TABLES,IPART     ,
-     .                  IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   , 
+     .                  IGRSURF  ,IGRNOD    ,IGRSLIN   ,IGRPART  ,IGRBRIC   ,
      .                  IGRQUAD  ,IGRSH4N   ,IGRSH3N   ,IGRTRUSS ,IGRBEAM   ,
      .                  IGRSPRING,IXS       ,IXS10     ,IXC      ,IXTG      ,
      .                  KNOD2ELS ,NOD2ELS   ,KNOD2ELC  ,NOD2ELC  ,KNOD2ELTG ,
@@ -222,7 +222,7 @@ C-----------------------------------------------
         CALL HM_GET_INTV  ('iset_Type', ISET_TYPE,IS_AVAILABLE,LSUBMODEL)
 
         ! --------------------
-        !   Current SET_INIT  
+        !   Current SET_INIT
         ! --------------------
         CALL SET_INIT(SET  ,IGS  ,SET_ID, SET_TITLE, ISET_TYPE)
 
@@ -251,7 +251,7 @@ C-----------------------------------------------
            CALL HM_GET_INT_ARRAY_INDEX('opt_O',OPT_O,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_G',OPT_G,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_B',OPT_B,J,IS_AVAILABLE,LSUBMODEL)
-           CALL HM_GET_INT_ARRAY_INDEX('opt_A',OPT_A,J,IS_AVAILABLE,LSUBMODEL) 
+           CALL HM_GET_INT_ARRAY_INDEX('opt_A',OPT_A,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_E',OPT_E,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_I',OPT_I,J,IS_AVAILABLE,LSUBMODEL)
            CALL HM_GET_INT_ARRAY_INDEX('opt_C',OPT_C,J,IS_AVAILABLE,LSUBMODEL)
@@ -284,8 +284,8 @@ C-----------------------------------------------
            ! To issue error & Warnings, initialize Clause ID & Title with SET_ID + TITLE
            CLAUSE%SET_ID = SET(IGS)%SET_ID
            CLAUSE%TITLE  = TRIM(SET(IGS)%TITLE)
-           
-           ! Clause Treatment 
+
+           ! Clause Treatment
            !------------------------
 
            SELECT CASE (TRIM(KEYSET))
@@ -300,7 +300,7 @@ C-----------------------------------------------
 
                   ! Element from PART
                   !-------------------
-                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP) 
+                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP)
 
                   ! Surface from ELEMENT
                   !-------------------
@@ -341,12 +341,12 @@ C-----------------------------------------------
 
 
               CASE ( 'SOLID' )
-                  
+
                   ! SOLID LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_SOLID,
-     .                                    MAP_TABLES%ISOLM, NUMELS, 
+     .                                    MAP_TABLES%ISOLM, NUMELS,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW      ,SET_TITLE,
      .                                    KEYSET ,NIXS    ,IXS         ,8         ,IPARTS   ,
@@ -376,12 +376,12 @@ C-----------------------------------------------
 
 
               CASE ( 'QUAD' )
-                  
+
                   ! QUAD LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_QUAD,
-     .                                    MAP_TABLES%IQUADM, NUMELQ, 
+     .                                    MAP_TABLES%IQUADM, NUMELQ,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW      ,SET_TITLE,
      .                                    KEYSET ,NIXQ    ,IXQ         ,4         ,IPARTQ   ,
@@ -411,12 +411,12 @@ C-----------------------------------------------
 
 
               CASE ( 'SHELL' )
-                  
+
                   ! SHELL LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_SH4N,
-     .                                    MAP_TABLES%ISH4NM, NUMELC, 
+     .                                    MAP_TABLES%ISH4NM, NUMELC,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL  ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW       ,SET_TITLE,
      .                                    KEYSET ,NIXC    ,IXC         ,4          ,IPARTC   ,
@@ -447,12 +447,12 @@ C-----------------------------------------------
 
 
               CASE ( 'SH3N' )
-                  
+
                   ! SH3N LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_SH3N,
-     .                                    MAP_TABLES%ISH3NM, NUMELTG, 
+     .                                    MAP_TABLES%ISH3NM, NUMELTG,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL  ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW       ,SET_TITLE,
      .                                    KEYSET ,NIXTG   ,IXTG        ,3          ,IPARTG   ,
@@ -482,12 +482,12 @@ C-----------------------------------------------
 
 
               CASE ( 'TRIA' )
-                  
+
                   ! SH3N LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_TRIA,
-     .                                    MAP_TABLES%ITRIAM, NUMELTRIA, 
+     .                                    MAP_TABLES%ITRIAM, NUMELTRIA,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL  ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW       ,SET_TITLE,
      .                                    KEYSET ,NIXTG   ,IXTG        ,3          ,IPARTG   ,
@@ -504,12 +504,12 @@ C-----------------------------------------------
 
 
               CASE ( 'TRUSS' )
-                  
+
                   ! TRUSS LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_TRUSS,
-     .                                    MAP_TABLES%ITRUSSM, NUMELT, 
+     .                                    MAP_TABLES%ITRUSSM, NUMELT,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL  ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW       ,SET_TITLE,
      .                                    KEYSET ,NIXT    ,IXT         ,2          ,IPARTT   ,
@@ -529,12 +529,12 @@ C-----------------------------------------------
 
 
               CASE ( 'BEAM' )
-                  
+
                   ! BEAM LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_BEAM,
-     .                                    MAP_TABLES%IBEAMM, NUMELP, 
+     .                                    MAP_TABLES%IBEAMM, NUMELP,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL  ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW       ,SET_TITLE,
      .                                    KEYSET ,NIXP    ,IXP         ,2          ,IPARTP   ,
@@ -553,12 +553,12 @@ C-----------------------------------------------
      .                            DUMMY_ARRAY   ,DSZ    ,.FALSE. )
 
               CASE ( 'SPRING' )
-                  
+
                   ! SPRING LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_ELT_CLAUSE(
      .                                    CLAUSE, ELT_SPRING,
-     .                                    MAP_TABLES%ISPRINGM, NUMELR, 
+     .                                    MAP_TABLES%ISPRINGM, NUMELR,
      .                                    J      ,OPT_G   ,IS_AVAILABLE,LSUBMODEL  ,OPT_B    ,
      .                                    OPT_C  ,IBOX    ,X           ,SKEW       ,SET_TITLE,
      .                                    KEYSET ,NIXR    ,IXR         ,2          ,IPARTR   ,
@@ -581,13 +581,13 @@ C-----------------------------------------------
 
                   ALLOCATE(SETL(NSETS))
                   SETL_SIZE=0
-            
+
                   CALL CREATE_SET_ARRAY(SETL ,SETL_SIZE,      ! Read the clause & compute the list of SETs
      .                                  MAP_TABLES%ISETM  , MAP_TABLES%NSET_GENERAL,
      .                                  J ,OPT_G ,IS_AVAILABLE ,
      .                                  LSUBMODEL,CLAUSE,1)
-                  
-                  CALL CREATE_SET_CLAUSE( SET,  
+
+                  CALL CREATE_SET_CLAUSE( SET,
      *                                    SETL ,SETL_SIZE,
      *                                    CLAUSE,
      *                                    IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,
@@ -608,12 +608,12 @@ C-----------------------------------------------
                   CALL CREATE_SETCOL_ARRAY(SET,SETL, SETL_SIZE ,
      *                                   MAP_TABLES%ISETCOLM,MAP_TABLES%NSET_COLLECT,
      *                                   J,OPT_G ,IS_AVAILABLE ,
-     *                                   LSUBMODEL) 
+     *                                   LSUBMODEL)
 
                   ! At this stage we have list of SETs with internal IDs
                   ! The merge is same for SETs
                   ! -----------------------------------------------------
-                  CALL CREATE_SET_CLAUSE( SET,                
+                  CALL CREATE_SET_CLAUSE( SET,
      *                                    SETL ,SETL_SIZE,
      *                                    CLAUSE,
      *                                    IXS       ,IXS10    ,IXS20     ,IXS16     ,IXQ    ,
@@ -625,7 +625,7 @@ C-----------------------------------------------
      *                                    X         ,KEYSET   ,OPT_E     ,DELBUF    )
 
               CASE ( 'SEG' )
-                  
+
                   ! Surfaces and lignes LIST FROM CLAUSE
                   !-----------------------
                   CALL CREATE_SEG_CLAUSE(
@@ -644,7 +644,7 @@ C-----------------------------------------------
 
               CASE ( 'ALL' )
 
-                  !-----------------------     
+                  !-----------------------
                   ! ALL model
                   !-----------------------
 
@@ -698,7 +698,7 @@ C-----------------------------------------------
 
               CASE ( 'BOX', 'BOX2' )
 
-                  CALL CREATE_BOX_CLAUSE( 
+                  CALL CREATE_BOX_CLAUSE(
      *                  CLAUSE   ,J        ,IS_AVAILABLE,LSUBMODEL ,KEYSET   ,
      *                  ITABM1   ,IBOX     ,X           ,SKEW      ,IXS10    ,
      *                  SET_TITLE,IPART    ,SH4TREE     ,SH3TREE   ,IPARTS   ,
@@ -720,7 +720,7 @@ C-----------------------------------------------
 
                   ! Element from PART
                   !-------------------
-                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP) 
+                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP)
 
                   ! Surface from ELEMENT
                   !-------------------
@@ -761,7 +761,7 @@ C-----------------------------------------------
 
                   ! Element from PART
                   !-------------------
-                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP) 
+                  CALL CREATE_ELEMENT_FROM_PART(CLAUSE  ,INV_GROUP)
 
                   ! Surface from ELEMENT
                   !-------------------
@@ -806,7 +806,7 @@ C-----------------------------------------------
      .                             C2=TRIM(KEYSET)  )
 
 
-           END SELECT 
+           END SELECT
 
 C -----------------------------------------------------
           CALL INSERT_CLAUSE_IN_SET(SET(IGS)  ,CLAUSE   ,CLAUSE_OPERATOR,
@@ -822,7 +822,7 @@ C -----------------------------------------------------
         ENDDO ! DO J=1,CLAUSES_MAX
 
         IF( TRIM(KEY) == 'COLLECT' ) THEN
-       
+
            IF (SET(IGS)%SET_ACTIV == 1)THEN         ! Merge the Collect SETs only if Active
 
             CALL CREATE_SET_COLLECT(SET       ,SET_ID   ,IGS     ,MAP_TABLES%ISETCOLM ,MAP_TABLES%NSET_COLLECT,
@@ -864,8 +864,8 @@ C -----------------------------------------------------
       ! Fill Radioss group, lines surfaces
       !  -----------------------------------------------------
       CALL FILL_IGR(SET,
-     .              IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC, IGRQUAD ,   
+     .              IGRSURF ,IGRNOD  ,IGRSLIN  ,IGRPART ,IGRBRIC, IGRQUAD ,
      .              IGRSH4N ,IGRSH3N ,IGRTRUSS ,IGRBEAM ,IGRSPRING)
 
 
-      END 
+      END

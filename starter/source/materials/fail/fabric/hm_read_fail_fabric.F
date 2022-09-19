@@ -45,9 +45,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::MAT_ID,FAIL_ID,UNIT_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -85,7 +85,7 @@ c
         FAC_T = UNITAB%FAC_T(UNIT_ID)
       ELSE
         FAC_T = ONE
-      ENDIF     
+      ENDIF
 C--------------------------------------------------
 C     check crypting
 C--------------------------------------------------
@@ -108,15 +108,15 @@ c--------------------------------------------------
       IF (EPSR1 <= ZERO) EPSR1 = EP20*TWO
       IF (EPSF2 <= ZERO) EPSF2 = EP20
       IF (EPSR2 <= ZERO) EPSR2 = EP20*TWO
-c          
+c
       IF (EPSF1 > EPSR1 .or. EPSF2 > EPSR2) THEN
         CALL ANCMSG(MSGID=617,
      .              MSGTYPE=MSGERROR,
      .              ANMODE=ANINFO_BLIND_1,
      .              I1=MAT_ID)
-      ENDIF     
+      ENDIF
 c--------------------------------------------------
-      UPARAM(1) = EPSF1 
+      UPARAM(1) = EPSF1
       UPARAM(2) = EPSR1
       UPARAM(3) = EPSF2
       UPARAM(4) = EPSR2
@@ -135,7 +135,7 @@ c-----------------------------------------------------
       ENDIF
 c-----------
       RETURN
-c-------------------------------------------------- 
+c--------------------------------------------------
  1000 FORMAT(
      & 5X,'    CRYPTED DATA IN FAILURE MODEL             '/,
      & 5X,'    -----------------------------             '/)
@@ -147,5 +147,5 @@ c--------------------------------------------------
      & 5X,'FAILURE TENSION STRAIN DIRECTION 2 . . =',E12.4/
      & 5X,'RUPTURE TENSION STRAIN DIRECTION 2 . . =',E12.4/
      & 5X,'STRAIN RATE SCALING FUNCTION . . . . . =',I8)
-c-------------------------------------------------- 
+c--------------------------------------------------
       END

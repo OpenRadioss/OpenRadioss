@@ -75,7 +75,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  , DIMENSION(NGRBEAM) :: IGRBEAM
       TYPE (GROUP_)  , DIMENSION(NGRSPRI) :: IGRSPRING
       TYPE (SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
-      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -141,12 +141,12 @@ C
           IF(STOPT == ZERO) STOPT= EP30
           IF(ISEN > 0) THEN
              J = IACTIV(2,I)
-             FACTIV(1,I) = STARTT + SENSOR(2,J)  
+             FACTIV(1,I) = STARTT + SENSOR(2,J)
              FACTIV(2,I) = STOPT  + SENSOR(2,J)
           ELSE
-             FACTIV(1,I) = STARTT  
+             FACTIV(1,I) = STARTT
              FACTIV(2,I) = STOPT
-          ENDIF			 
+          ENDIF			
         ENDIF
 C
         IF (IGBR > 0) THEN
@@ -290,7 +290,7 @@ C
           WRITE(IOUT,'(1X,10(1X,I10),1X,G20.13,1X,G20.13)')
      .          ID,ISEN,IGBR,IGQU,IGSH,IGTR,IGBM,IGSP,IGSH3,IFORM,STARTT,STOPT
         ENDIF
-      ENDDO      
+      ENDDO
 C
       RETURN
  999  CALL FREERR(3)
@@ -305,4 +305,4 @@ C
 C
       RETURN
       END
-      
+

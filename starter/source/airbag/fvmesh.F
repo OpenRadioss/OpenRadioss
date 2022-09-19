@@ -98,7 +98,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IFLAG
       PARAMETER (NVMAX=12)
       my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X12, Y12, Z12, 
+     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X12, Y12, Z12,
      .        X13, Y13, Z13, NRX, NRY, NRZ, AREA2, ELAREA(NEL+NELI),
      .        NORM(3,NEL+NELI), XBMAX, YBMAX, ZBMAX, XBMIN, YBMIN, ZBMIN,
      .        XC, YC, ZC, XX, YY, ZZ, PP(3,3), XL7(3), BCENTER(3),
@@ -106,8 +106,8 @@ C-----------------------------------------------
      .        TVERTS(9), TMPTRI(3,3), TMPBOX(3,8), TMPNORM(3,6), TOLE,
      .        XG, YG, ZG, FV0(3), FV1(3), FV2(3), FU0(3), FU1(3),
      .        FU2(3), QUAD(3,4), NR(3), AREA, NX, NY, NZ, NNX,
-     .        NNY, NNZ, X0, Y0, Z0, LMAX2, TOLE2, DD, VM, VOLUMIN, 
-     .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ, 
+     .        NNY, NNZ, X0, Y0, Z0, LMAX2, TOLE2, DD, VM, VOLUMIN,
+     .        AREAMAX, VOLPH, AREAP, AREAEL, VPX, VPY, VPZ,
      .        V1X, V1Y, V1Z, V2X, V2Y, V2Z, NRM1, VX, VY, VZ, SS,
      .        NORMF(3,4), KSI, ETA, VX1, VY1, VZ1, VX2, VY2, VZ2,
      .        VMIN, VTMP, X4, Y4, Z4, X14, Y14, Z14, NORMA(3,NELA),
@@ -136,7 +136,7 @@ C
      .                        PHOLES(:,:), RPOLY_OLD(:), VOLUSORT(:),
      .                        VOLU_OLD(:), RPOLY_F_OLD(:,:),
      .                        RFVNOD_OLD(:,:), XNEW(:,:), RNEDGE(:,:),
-     .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:), 
+     .                        AREF(:,:), RFVNOD2(:,:), XNS(:,:),
      .                        XNS2(:,:), AREATR(:)
 C
       INTEGER FAC(4,6), FACNOR(4,6), FAC4(3,4), FAC6(4,5)
@@ -219,7 +219,7 @@ C
       NULLIFY(PTR_CUR)
 C
       ILVOUT=IVOLU(44)
-      IF (ILVOUT >=1.AND.NBA == 0) WRITE(ISTDO,'(A19,I10)') 
+      IF (ILVOUT >=1.AND.NBA == 0) WRITE(ISTDO,'(A19,I10)')
      .   '    --> FVMBAG ID: ',IVOLU(1)
 C
       NLAYER=IVOLU(40)
@@ -231,7 +231,7 @@ C
          DO J=1,6
             TBRIC(7+J,I)=0
          ENDDO
-      ENDDO    
+      ENDDO
 C---------------------------------------------------
 C Normales elementaires
 C---------------------------------------------------
@@ -268,7 +268,7 @@ C
          NORMA(1,IEL)=NRX/AREA2
          NORMA(2,IEL)=NRY/AREA2
          NORMA(3,IEL)=NRZ/AREA2
-      ENDDO   
+      ENDDO
 C---------------------------------------------------
 C Creation de tous les polygones
 C---------------------------------------------------
@@ -380,7 +380,7 @@ C
             YTMIN=MIN(Y1,Y2,Y3)
             ZTMIN=MIN(Z1,Z2,Z3)
             IF (XBMAX < XTMIN.OR.YBMAX < YTMIN.OR.ZBMAX < ZTMIN.OR.
-     .          XBMIN > XTMAX.OR.YBMIN > YTMAX.OR.ZBMIN > ZTMAX) 
+     .          XBMIN > XTMAX.OR.YBMIN > YTMAX.OR.ZBMIN > ZTMAX)
      .         CYCLE
 C
             TVERTS(1)=PP(1,1)*(X1-XC)+PP(2,1)*(Y1-YC)+PP(3,1)*(Z1-ZC)
@@ -565,7 +565,7 @@ C
                NSMAX=MAX(NSMAX,FACET(J,1))
             ENDDO
             NFACMAX=NSMAX
-            IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)') 
+            IF(ILVOUT >=1) WRITE(IOUT,'(A,I10,A,I10)')
      .                      ' MONITORED VOLUME ID: ',IVOLU(1),
      .                      ' NFACMAX IS RESET TO ',NSMAX
 C Destruction des polygones crees pour rien
@@ -576,7 +576,7 @@ C Destruction des polygones crees pour rien
             ENDIF
             DO J=1,NPOLY-NPOLY_OLD
                PTR_TMP => PTR_CUR%PTR
-               DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY, 
+               DEALLOCATE(PTR_CUR%IPOLY, PTR_CUR%RPOLY,
      .                    PTR_CUR%IELNOD)
                DEALLOCATE(PTR_CUR)
                PTR_CUR => PTR_TMP
@@ -652,7 +652,7 @@ C
 C
   200          CONTINUE
                NRPMAX=NPPMAX*3+4
-               ALLOCATE(IPOLY(6+NPPMAX+1+NPOLMAX,NPOLMAX), 
+               ALLOCATE(IPOLY(6+NPPMAX+1+NPOLMAX,NPOLMAX),
      .                  RPOLY(NRPMAX+3*NPOLMAX,NPOLMAX),
      .                  IELNOD(NPPMAX,NPOLMAX))
 C
@@ -882,8 +882,8 @@ C
      .                     IZ(3,NN))
                   CALL GPOLCUT(
      .    IPOLY,   RPOLY,   PTR_CUR%IPOLY, PTR_CUR%RPOLY,  INEDGE,
-     .    RNEDGE,  NBNEDGE, VX3,           VY3,            VZ3,   
-     .    X0,      Y0,      Z0,            NREF,           AREF,    
+     .    RNEDGE,  NBNEDGE, VX3,           VY3,            VZ3,
+     .    X0,      Y0,      Z0,            NREF,           AREF,
      .    NN,      NHOL,    IIZ,           IZ,             NNS3,
      .    NNP   ,  NNSP,    IELNOD,        PTR_CUR%IELNOD)
 C
@@ -965,7 +965,7 @@ C
      .                 NNSP         )
 C
                      IF (NNSP > 0) THEN
-                        ALLOCATE(PTR_CUR%NREF(3,NNSP), 
+                        ALLOCATE(PTR_CUR%NREF(3,NNSP),
      .                           PTR_CUR%AREF(4,NNSP))
                         PTR_CUR%NNSP=NNSP
                         DO N=1,NNSP
@@ -979,10 +979,10 @@ C
                            PTR_CUR%AREF(4,N)=AREF(4,N)
                         ENDDO
                      ENDIF
-                     DEALLOCATE(NREF, AREF)   
+                     DEALLOCATE(NREF, AREF)
                   ENDIF
 C
-                  IF (ZLMIN >= ZERO) THEN 
+                  IF (ZLMIN >= ZERO) THEN
                      PTR_CUR%IZ(1)=1
                      PTR_CUR%IZ(2)=IIZ+1
                   ELSEIF (IIZ == 1.AND.ZLMAX <= ZERO) THEN
@@ -1044,12 +1044,12 @@ C
                   IF (INEDGE(6,K) /= I) CYCLE
                   IF (INEDGE(1,K) == 1.AND.INEDGE(5,K) /= J) CYCLE
                   IF (INEDGE(1,K) == 2.AND.INEDGE(4,K) /= J.AND.
-     .                                     INEDGE(5,K) /= J) CYCLE 
+     .                                     INEDGE(5,K) /= J) CYCLE
                   NEDGE=NEDGE+1
                   LEDGE(NEDGE)=K
                ENDDO
                IF (NEDGE == 0) CYCLE
-               ALLOCATE(IPOLY(6+2*NEDGE+1+NEDGE,NEDGE), 
+               ALLOCATE(IPOLY(6+2*NEDGE+1+NEDGE,NEDGE),
      .                  RPOLY(4+6*NEDGE+3*NEDGE,NEDGE),
      .                  IZ(3,NEDGE), IELNOD(NEDGE,NEDGE))
 C               
@@ -1065,7 +1065,7 @@ C
                   PTR_PREC%PTR => PTR_CUR
                   NN=IPOLY(2,N)
                   NHOL=IPOLY(6+NN+1,N)
-                  ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL), 
+                  ALLOCATE(PTR_CUR%IPOLY(6+NN+1+NHOL),
      .                     PTR_CUR%RPOLY(4+3*NN+3*NHOL),
      .                     PTR_CUR%IELNOD(NN))
                   PTR_CUR%NNSP=0
@@ -1249,7 +1249,7 @@ C
 C---------------------------------------------------
 C Passage listes chainees -> tableaux classiques pour la suite des traitements
 C---------------------------------------------------
-  370 CONTINUE     
+  370 CONTINUE
 C      
       PTR_CUR => FIRST
       LENIMAX=0
@@ -1443,7 +1443,7 @@ C Calcul de IBSA =1 si tous les noeuds de la brique sont sur l'airbag =0 autreme
 C
       ALLOCATE(IPOLY_F(LENIMAX,NPOLY), RPOLY_F(LENRMAX,NPOLY),
      .         POLH_F(2+NPHMAX,NPOLH), IFVNOD(NNS), VOLU(NPOLH),
-     .         IFVNOD2(2,NNS2), RFVNOD2(4,NNS2), XNS(3,NNS), 
+     .         IFVNOD2(2,NNS2), RFVNOD2(4,NNS2), XNS(3,NNS),
      .         XNS2(3,NNS2))
 C
       NPOLY=NPOLY_OLD
@@ -1493,7 +1493,7 @@ C
               IPOLY_F(4,I)=IPOLY_F(5,I)
               IPOLY_F(5,I)=0
             ELSEIF(TAGELA(IEL) > 0) THEN
-              IF(TAGELA(IEL) <= NEL) THEN           
+              IF(TAGELA(IEL) <= NEL) THEN
                 IPOLY_F(4,I)=IPOLY_F(5,I)
                 IPOLY_F(5,I)=0
               ENDIF
@@ -1643,7 +1643,7 @@ C Face interne brique/brique
                         N2=FAC(2,J)
                         N3=FAC(3,J)
                         N4=FAC(4,J)
-                     ENDIF						  
+                     ENDIF						
 C
                      IF(IQUAD==0) THEN
 C Face=triangle
@@ -1787,7 +1787,7 @@ C
                         ENDIF
                      ENDDO
                   ENDIF
-               ELSEIF (ITY == 2) THEN        
+               ELSEIF (ITY == 2) THEN
 C Face brique appuyee sur surface externe (traitee plus loin)
                   COUNT_ELEM_EXT = COUNT_ELEM_EXT + 1
                ELSEIF (ITY == -2) THEN
@@ -2024,7 +2024,7 @@ C     Internal surface elements have two neighbours
                POLH_F(2+NNP,NPOLH_OLD+TAGELS(2*IEL-NEL))=NPOLY
             ENDIF
          ENDDO
-      ENDIF 
+      ENDIF
 C---------------------------------------------------
 C Surface des polygones
 C---------------------------------------------------
@@ -2185,7 +2185,7 @@ C---------------------------------------------------
      .              I2 = IXS(11, TBA(1, I)))
             ENDIF
          ENDDO
-      ENDIF 
+      ENDIF
 C---------------------------------------------------
 C Elimination des segments de longueur nulle dans les polygones
 C---------------------------------------------------
@@ -2361,23 +2361,23 @@ C
                   Z1=RPOLY_OLD(3*(K-1)+3)
                   DD=(X1-X0)**2+(Y1-Y0)**2+(Z1-Z0)**2
                   IF (DD > TOLE2) THEN
-                     NNP=NNP+1                       
-                     IF (IPOLY_OLD(K) > 0) THEN           
-                        NNS=NNS+1                       
-                        IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD) 
-                        RPOLY_F(4+3*(NNP-1)+1,I)=X1     
-                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1     
-                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1     
+                     NNP=NNP+1
+                     IF (IPOLY_OLD(K) > 0) THEN
+                        NNS=NNS+1
+                        IFVNOD(NNS)=IFVNOD_OLD(NNS_OLD)
+                        RPOLY_F(4+3*(NNP-1)+1,I)=X1
+                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1
+                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1
                         IPOLY_F(6+NNP,I)=NNS
                      ELSE
-                        RPOLY_F(4+3*(NNP-1)+1,I)=X1     
-                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1     
-                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1     
+                        RPOLY_F(4+3*(NNP-1)+1,I)=X1
+                        RPOLY_F(4+3*(NNP-1)+2,I)=Y1
+                        RPOLY_F(4+3*(NNP-1)+3,I)=Z1
                         IPOLY_F(6+NNP,I)=IPOLY_OLD(K)
-                     ENDIF           
-                     X0=X1                           
-                     Y0=Y1                           
-                     Z0=Z1                           
+                     ENDIF
+                     X0=X1
+                     Y0=Y1
+                     Z0=Z1
                   ELSEIF (IPOLY_OLD(K) > 0.AND.
      .                    IPOLY_OLD(K0) < 0) THEN
                      NNS=NNS+1
@@ -2406,7 +2406,7 @@ C
                   RPOLY_F(4+3*(ADR(J)-1)+3,I)=Z0
                   IPOLY_F(6+ADR(J)+1,I)=NNS
                ENDIF
-               ADR(J+1)=NNP                             
+               ADR(J+1)=NNP
             ENDDO
             IPOLY_F(6+NNP+1,I)=NHOL
             DO J=1,NHOL
@@ -2418,7 +2418,7 @@ C
                RPOLY_F(4+3*NNP+3*(J-1)+3,I)=
      .                 RPOLY_F(4+3*NNP_OLD+3*(J-1)+3,I)
             ENDDO
-         ENDIF      
+         ENDIF
          IPOLY_F(2,I)=NNP
 C
          IF (NNP < NNP_OLD) THEN
@@ -2630,7 +2630,7 @@ C on ne devrait plus passer la
 
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--            
             IF(ILVOUT >= 2) THEN
-               WRITE(IOUT,'(A,I8,A6,G11.4,A1,A,I8,A6,G11.4,A1)') 
+               WRITE(IOUT,'(A,I8,A6,G11.4,A1,A,I8,A6,G11.4,A1)')
      .         '** GLOBAL MERGE: MERGING FINITE VOLUME ',I,' (VOL=',
      .         VOLU(I),')',' WITH FINITE VOLUME ',IMAX,
      .         ' (VOL=',VOLU(IMAX),')'
@@ -2661,7 +2661,7 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
                ENDIF
             ENDDO
             POLH_NEW(2,I)=IMAX
-            IF (INFO == 0) POLH_NEW(1,IMAX)=NP   
+            IF (INFO == 0) POLH_NEW(1,IMAX)=NP
          ENDIF
       ENDDO  !I=1,NPOLH
       IF (INFO == 1) GOTO 400
@@ -2777,7 +2777,7 @@ C
                VPZ=ZZ-Z1
                V1X=X2-X1
                V1Y=Y2-Y1
-               V1Z=Z2-Z1            
+               V1Z=Z2-Z1
                V2X=X3-X1
                V2Y=Y3-Y1
                V2Z=Z3-Z1
@@ -2849,7 +2849,7 @@ C
          NHOL=0
          IF (IPOLY_F(1,I) == 2) NHOL=IPOLY_F(6+NNP+1,I)
          ALLOCATE(PNODES(2,NNP), PSEG(2,NNP), PHOLES(2,NHOL),
-     .            PTRI(3,NNP), REDIR(NNP))   
+     .            PTRI(3,NNP), REDIR(NNP))
 C
          DO J=1,NNP
             IF (IPOLY_F(6+J,I) > 0) THEN
@@ -2874,7 +2874,7 @@ C
             IPSURF=0
             IC1=IPOLY_F(5,I)
             IC2=IPOLY_F(6,I)
-         ENDIF 
+         ENDIF
 C
 C Coordonnees des sommets dans le plan du polygone
          NX=RPOLY_F(2,I)
@@ -3014,7 +3014,7 @@ C
                FVDATA(IFV)%IFVTRI(1,NNTR)=REDIR(N1)
                FVDATA(IFV)%IFVTRI(2,NNTR)=REDIR(N3)
                FVDATA(IFV)%IFVTRI(3,NNTR)=REDIR(N2)
-            ENDIF 
+            ENDIF
             FVDATA(IFV)%IFVTRI(4,NNTR)=IPSURF
             FVDATA(IFV)%IFVTRI(5,NNTR)=IC1
             FVDATA(IFV)%IFVTRI(6,NNTR)=IC2
@@ -3086,7 +3086,7 @@ C
       ALLOCATE(FVDATA(IFV)%MPOLH(NPOLH), FVDATA(IFV)%QPOLH(3,NPOLH),
      .         FVDATA(IFV)%EPOLH(NPOLH), FVDATA(IFV)%PPOLH(NPOLH),
      .         FVDATA(IFV)%RPOLH(NPOLH), FVDATA(IFV)%GPOLH(NPOLH),
-     .         FVDATA(IFV)%TPOLH(NPOLH), 
+     .         FVDATA(IFV)%TPOLH(NPOLH),
      .         FVDATA(IFV)%CPAPOLH(NPOLH), FVDATA(IFV)%CPBPOLH(NPOLH),
      .         FVDATA(IFV)%CPCPOLH(NPOLH), FVDATA(IFV)%RMWPOLH(NPOLH),
      .         FVDATA(IFV)%VPOLH_INI(NPOLH), FVDATA(IFV)%DTPOLH(NPOLH))
@@ -3111,7 +3111,7 @@ C
       CPI=CPAI+HALF*CPBI*TI+THIRD*CPCI*TI2
       IF(IVOLU(2) == 8) THEN
         CPI=CPI+FOURTH*CPDI*TI2*TI-CPEI/TI2+ONE_FIFTH*CPFI*TI2*TI2
-      ENDIF      
+      ENDIF
       CVI=CPI-RMWI
 C
       TMASS=0
@@ -3250,7 +3250,7 @@ C--------------------------
       IF(ILVOUT >=3 ) THEN
        ALLOCATE(AREATR(NNTR))
        DO I=1,NNTR
-         N1=FVDATA(IFV)%IFVTRI(1,I)        
+         N1=FVDATA(IFV)%IFVTRI(1,I)
          N2=FVDATA(IFV)%IFVTRI(2,I)
          N3=FVDATA(IFV)%IFVTRI(3,I)
          X1=PNODES(1,N1)
@@ -3296,7 +3296,7 @@ C
                WRITE(IOUT,'(3I10,2X,F10.2,4X,I5,5X,I10,5X,G14.6,3I10)')
      .                      N1,N2,N3,VOLPH,JJJ,KK,AREA,IEL,IC1,IC2
              ELSE
-               WRITE(IOUT,'(46X,I5,5X,I10,5X,G14.6,3I10)') 
+               WRITE(IOUT,'(46X,I5,5X,I10,5X,G14.6,3I10)')
      .                                     JJJ,KK,AREA,IEL,IC1,IC2
              ENDIF
             ENDDO
@@ -3307,7 +3307,7 @@ C
 C-------------------------------------------
 C Merge des points coincidents
 C-------------------------------------------
-      IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)') 
+      IF (ILVOUT >=1) WRITE(ISTDO,'(8X,A)')
      .   'MERGING COINCIDENT NODES FOR ANIM'
 
       ALLOCATE(RADIUS(NNS + NNS2), IDX(NNS + NNS2))
@@ -3318,7 +3318,7 @@ C-------------------------------------------
          RADIUS(I) = XX*XX + YY*YY + ZZ*ZZ
          IDX(I) = I
       ENDDO
-      
+
       CALL QUICKSORT(RADIUS, IDX, 1, NNS + NNS2)
       I = 1
       DO WHILE(I  <  NNS+ NNS2)
@@ -3332,7 +3332,7 @@ C-------------------------------------------
          REDIR(IAD1) = NNS_ANIM
          FVDATA(IFV)%REDIR_ANIM(NNS_ANIM)=IAD1
          FVDATA(IFV)%NOD_ANIM(1,NNS_ANIM)=XX
-         FVDATA(IFV)%NOD_ANIM(2,NNS_ANIM)=YY         
+         FVDATA(IFV)%NOD_ANIM(2,NNS_ANIM)=YY
          FVDATA(IFV)%NOD_ANIM(3,NNS_ANIM)=ZZ
          J = I
          DO WHILE(J  <=  NNS + NNS2)
@@ -3343,9 +3343,9 @@ C-------------------------------------------
             ENDIF
          ENDDO
          J = J - 1
-         
+
          IAD = I + 1
-         DO WHILE (IAD  <=  J) 
+         DO WHILE (IAD  <=  J)
             IAD2 = IDX(IAD)
             XN(1) = PNODES(1,IAD2)
             XN(2) = PNODES(2,IAD2)
@@ -3365,14 +3365,14 @@ C     put it at the end
          ENDDO
          I = J + 1
       ENDDO
-      
+
       DEALLOCATE(RADIUS, IDX)
 
       FVDATA(IFV)%NNS_ANIM=NNS_ANIM
       FVDATA(IFV)%ID=IVOLU(1)
 C
       DO I=1,NNTR
-         N1=FVDATA(IFV)%IFVTRI(1,I)        
+         N1=FVDATA(IFV)%IFVTRI(1,I)
          N2=FVDATA(IFV)%IFVTRI(2,I)
          N3=FVDATA(IFV)%IFVTRI(3,I)
          FVDATA(IFV)%IFVTRI_ANIM(1,I)=REDIR(N1)
@@ -3502,7 +3502,7 @@ Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|        FVBAG_MOD                     share/modules1/fvbag_mod.F    
 Chd|====================================================================
-      SUBROUTINE FVDEAL()            
+      SUBROUTINE FVDEAL()
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -3526,77 +3526,77 @@ C-----------------------------------------------
 C
       IF (ALLOCATED(FVDATA)) THEN
          DO I=1,NFVBAG
-            IF (ASSOCIATED(FVDATA(I)%IFVNOD)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVNOD))
      .              DEALLOCATE(FVDATA(I)%IFVNOD)
-            IF (ASSOCIATED(FVDATA(I)%RFVNOD)) 
+            IF (ASSOCIATED(FVDATA(I)%RFVNOD))
      .              DEALLOCATE(FVDATA(I)%RFVNOD)
-            IF (ASSOCIATED(FVDATA(I)%IFVTRI)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVTRI))
      .              DEALLOCATE(FVDATA(I)%IFVTRI)
-            IF (ASSOCIATED(FVDATA(I)%IFVPOLY)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVPOLY))
      .              DEALLOCATE(FVDATA(I)%IFVPOLY)
-            IF (ASSOCIATED(FVDATA(I)%IFVTADR)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVTADR))
      .              DEALLOCATE(FVDATA(I)%IFVTADR)
-            IF (ASSOCIATED(FVDATA(I)%IFVPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVPOLH))
      .              DEALLOCATE(FVDATA(I)%IFVPOLH)
-            IF (ASSOCIATED(FVDATA(I)%IFVPADR)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVPADR))
      .              DEALLOCATE(FVDATA(I)%IFVPADR)
-            IF (ASSOCIATED(FVDATA(I)%IDPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%IDPOLH))
      .              DEALLOCATE(FVDATA(I)%IDPOLH)
-            IF (ASSOCIATED(FVDATA(I)%IBPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%IBPOLH))
      .              DEALLOCATE(FVDATA(I)%IBPOLH)
-            IF (ASSOCIATED(FVDATA(I)%IFVPOLY_ANIM)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVPOLY_ANIM))
      .              DEALLOCATE(FVDATA(I)%IFVPOLY_ANIM)
-            IF (ASSOCIATED(FVDATA(I)%IFVTADR_ANIM)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVTADR_ANIM))
      .              DEALLOCATE(FVDATA(I)%IFVTADR_ANIM)
-            IF (ASSOCIATED(FVDATA(I)%IFVPOLH_ANIM)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVPOLH_ANIM))
      .              DEALLOCATE(FVDATA(I)%IFVPOLH_ANIM)
-            IF (ASSOCIATED(FVDATA(I)%IFVPADR_ANIM)) 
+            IF (ASSOCIATED(FVDATA(I)%IFVPADR_ANIM))
      .              DEALLOCATE(FVDATA(I)%IFVPADR_ANIM)
-            IF (ASSOCIATED(FVDATA(I)%REDIR_ANIM)) 
+            IF (ASSOCIATED(FVDATA(I)%REDIR_ANIM))
      .              DEALLOCATE(FVDATA(I)%REDIR_ANIM)
-            IF (ASSOCIATED(FVDATA(I)%NOD_ANIM)) 
+            IF (ASSOCIATED(FVDATA(I)%NOD_ANIM))
      .              DEALLOCATE(FVDATA(I)%NOD_ANIM)
-            IF (ASSOCIATED(FVDATA(I)%MPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%MPOLH))
      .              DEALLOCATE(FVDATA(I)%MPOLH)
-            IF (ASSOCIATED(FVDATA(I)%QPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%QPOLH))
      .              DEALLOCATE(FVDATA(I)%QPOLH)
-            IF (ASSOCIATED(FVDATA(I)%EPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%EPOLH))
      .              DEALLOCATE(FVDATA(I)%EPOLH)
-            IF (ASSOCIATED(FVDATA(I)%PPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%PPOLH))
      .              DEALLOCATE(FVDATA(I)%PPOLH)
-            IF (ASSOCIATED(FVDATA(I)%RPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%RPOLH))
      .              DEALLOCATE(FVDATA(I)%RPOLH)
-            IF (ASSOCIATED(FVDATA(I)%GPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%GPOLH))
      .              DEALLOCATE(FVDATA(I)%GPOLH)
-            IF (ASSOCIATED(FVDATA(I)%CPAPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%CPAPOLH))
      .              DEALLOCATE(FVDATA(I)%CPAPOLH)
-            IF (ASSOCIATED(FVDATA(I)%CPBPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%CPBPOLH))
      .              DEALLOCATE(FVDATA(I)%CPBPOLH)
-            IF (ASSOCIATED(FVDATA(I)%CPCPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%CPCPOLH))
      .              DEALLOCATE(FVDATA(I)%CPCPOLH)
-            IF (ASSOCIATED(FVDATA(I)%RMWPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%RMWPOLH))
      .              DEALLOCATE(FVDATA(I)%RMWPOLH)
-            IF (ASSOCIATED(FVDATA(I)%VPOLH_INI)) 
+            IF (ASSOCIATED(FVDATA(I)%VPOLH_INI))
      .              DEALLOCATE(FVDATA(I)%VPOLH_INI)
-            IF (ASSOCIATED(FVDATA(I)%DTPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%DTPOLH))
      .              DEALLOCATE(FVDATA(I)%DTPOLH)
 C
-            IF (ASSOCIATED(FVDATA(I)%BRIC)) 
+            IF (ASSOCIATED(FVDATA(I)%BRIC))
      .              DEALLOCATE(FVDATA(I)%BRIC)
-            IF (ASSOCIATED(FVDATA(I)%TBRIC)) 
+            IF (ASSOCIATED(FVDATA(I)%TBRIC))
      .              DEALLOCATE(FVDATA(I)%TBRIC)
-            IF (ASSOCIATED(FVDATA(I)%XB)) 
+            IF (ASSOCIATED(FVDATA(I)%XB))
      .              DEALLOCATE(FVDATA(I)%XB)
-            IF (ASSOCIATED(FVDATA(I)%SFAC)) 
+            IF (ASSOCIATED(FVDATA(I)%SFAC))
      .              DEALLOCATE(FVDATA(I)%SFAC)
 C
-            IF (ASSOCIATED(FVDATA(I)%TPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%TPOLH))
      .              DEALLOCATE(FVDATA(I)%TPOLH)
-            IF (ASSOCIATED(FVDATA(I)%CPDPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%CPDPOLH))
      .              DEALLOCATE(FVDATA(I)%CPDPOLH)
-            IF (ASSOCIATED(FVDATA(I)%CPEPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%CPEPOLH))
      .              DEALLOCATE(FVDATA(I)%CPEPOLH)
-            IF (ASSOCIATED(FVDATA(I)%CPFPOLH)) 
+            IF (ASSOCIATED(FVDATA(I)%CPFPOLH))
      .              DEALLOCATE(FVDATA(I)%CPFPOLH)
          ENDDO
          DEALLOCATE(FVDATA)
@@ -3605,15 +3605,15 @@ C
       IF (IMACH == 3) THEN
          IF (ALLOCATED(FVSPMD)) THEN
             DO I=1,NFVBAG
-               IF (ASSOCIATED(FVSPMD(I)%IBUF_L)) 
+               IF (ASSOCIATED(FVSPMD(I)%IBUF_L))
      .            DEALLOCATE(FVSPMD(I)%IBUF_L)
-               IF (ASSOCIATED(FVSPMD(I)%IBUFA_L)) 
+               IF (ASSOCIATED(FVSPMD(I)%IBUFA_L))
      .            DEALLOCATE(FVSPMD(I)%IBUFA_L)
-               IF (ASSOCIATED(FVSPMD(I)%IBUFSA_L)) 
+               IF (ASSOCIATED(FVSPMD(I)%IBUFSA_L))
      .            DEALLOCATE(FVSPMD(I)%IBUFSA_L)
-               IF (ASSOCIATED(FVSPMD(I)%IXSA)) 
+               IF (ASSOCIATED(FVSPMD(I)%IXSA))
      .            DEALLOCATE(FVSPMD(I)%IXSA)
-               IF (ASSOCIATED(FVSPMD(I)%ELEMSA)) 
+               IF (ASSOCIATED(FVSPMD(I)%ELEMSA))
      .            DEALLOCATE(FVSPMD(I)%ELEMSA)
             ENDDO
             DEALLOCATE(FVSPMD)

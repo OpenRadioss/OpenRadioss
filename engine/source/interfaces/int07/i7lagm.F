@@ -30,7 +30,7 @@ Chd|        ARRET                         source/system/arret.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I7LAGM(LLL     ,JLL     ,SLL    ,XLL   ,IADLL  ,
-     2                  N_MUL_MX,ITASK   ,NINT   ,NKMAX , 
+     2                  N_MUL_MX,ITASK   ,NINT   ,NKMAX ,
      3                  JLT     ,A       ,V      ,ITAG  ,XTAG   ,
      4                  GAP     ,NOINT   ,STFN   ,ITAB  ,CN_LOC ,
      5                  NX1     ,NX2     ,NX3    ,NX4   ,NY1    ,
@@ -98,11 +98,11 @@ C-----------------------------------------------
      .        I16,IAD,LL
       my_real
      .   AA,XMIN,YMIN,ZMIN,XMAX,YMAX,ZMAX
-      INTEGER IG 
+      INTEGER IG
       my_real
      .   NX(MVSIZ), NY(MVSIZ), NZ(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   H0, LA1, LA2, LA3, LA4,D1,D2,D3,D4,A1,A2,A3,A4
 C-----------------------------------------------
 C
@@ -180,9 +180,9 @@ C
         A2 = P2(I)/MAX(EM20,D2)
         A3 = P3(I)/MAX(EM20,D3)
         A4 = P4(I)/MAX(EM20,D4)
-        NX(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I) 
-        NY(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I) 
-        NZ(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I) 
+        NX(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
+        NY(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
+        NZ(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
       ENDDO
 C
       DO I=1,JLT
@@ -192,9 +192,9 @@ C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I)         
+         LA4 = ONE - LB4(I) - LC4(I)
 C
-         H0    = FOURTH * 
+         H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
@@ -234,7 +234,7 @@ C
 C---------------------
 C
       DO I=1,JLT
-       IF( (GAPV(I)-PENE(I))/GAPV(I) <EM10 .AND. 
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <EM10 .AND.
      .     STIF(I)>ZERO) THEN
          STIF(I) = ZERO
          IF (IMACH==3) NEWFRONT = -1
@@ -243,10 +243,10 @@ C
 
          WRITE(ISTDO,'(A,I8)')' WARNING INTERFACE ',NOINT
          WRITE(ISTDO,'(A,I8,A)')' NODE ',ITAB(NSVG(I)),
-     .                   ' DE-ACTIVATED FROM INTERFACE'                 
+     .                   ' DE-ACTIVATED FROM INTERFACE'
          WRITE(IOUT ,'(A,I8)')' WARNING INTERFACE ',NOINT
          WRITE(IOUT ,'(A,I8,A)')' NODE ',ITAB(NSVG(I)),
-     .                   ' DE-ACTIVATED FROM INTERFACE'   
+     .                   ' DE-ACTIVATED FROM INTERFACE'
 #include "lockoff.inc"
        ENDIF
       ENDDO
@@ -263,7 +263,7 @@ C
      .                  - H2(I)*(V(2,IX2(I))+DT12*A(2,IX2(I)))
      .                  - H3(I)*(V(2,IX3(I))+DT12*A(2,IX3(I)))
      .                  - H4(I)*(V(2,IX4(I))+DT12*A(2,IX4(I)))
-        VZ(I) = V(3,IG)+DT12*A(3,IG)  
+        VZ(I) = V(3,IG)+DT12*A(3,IG)
      .                  - H1(I)*(V(3,IX1(I))+DT12*A(3,IX1(I)))
      .                  - H2(I)*(V(3,IX2(I))+DT12*A(3,IX2(I)))
      .                  - H3(I)*(V(3,IX3(I))+DT12*A(3,IX3(I)))

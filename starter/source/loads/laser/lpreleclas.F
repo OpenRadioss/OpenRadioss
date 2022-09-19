@@ -69,18 +69,18 @@ C-----------------------------------------------
       CALL HM_OPTION_START('/DFS/LASER')
 
       DO I=1,NLASER
-      
+
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = ID,
      .                          OPTION_TITR = TITR  ,
      .                          UNIT_ID     = UID   ,
      .                          KEYWORD2    = KEY   )
 
-          CALL HM_GET_INTV  ('Np'      ,NL       ,IS_AVAILABLE, LSUBMODEL)                
+          CALL HM_GET_INTV  ('Np'      ,NL       ,IS_AVAILABLE, LSUBMODEL)
           NUM  = NUM  + 6 + 2*(NL+1)
           NUMR = NUMR + 7
 
-        
+
       ENDDO
 C----
       RETURN

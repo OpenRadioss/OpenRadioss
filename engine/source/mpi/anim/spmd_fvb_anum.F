@@ -93,8 +93,8 @@ C
          CALL WRITE_I_C(IDMAX+NFVNOD+1,1)
          CALL WRITE_I_C(IDMAX+NFVNOD+2,1)
          CALL WRITE_I_C(IDMAX+NFVNOD+3,1)
-      ENDIF     
+      ENDIF
 C
 #endif
       RETURN
-      END      
+      END

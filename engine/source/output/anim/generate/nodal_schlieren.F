@@ -52,10 +52,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD  
-      USE I22BUFBRIC_MOD   
-      USE I22EDGE_MOD    
-      USE I22TRI_MOD           
+      USE ELBUFDEF_MOD
+      USE I22BUFBRIC_MOD
+      USE I22EDGE_MOD
+      USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -80,7 +80,7 @@ C-----------------------------------------------
       REAL WA4(*)
       my_real :: X(3,*)
       INTEGER :: IBID
-      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB            
+      TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECTIVITY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -90,11 +90,11 @@ C-----------------------------------------------
      .        IALEL,NNOD,IPOS,NGv,IDLOCv,K, IAD2
       INTEGER IV(6), IE
       INTEGER MLW, NG, KCVT, II, NBF, NBL, IB, ICELL, NIN, MCELL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv     
-      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL    
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF,GBUFv
+      my_real, ALLOCATABLE, DIMENSION(:) :: COUNT_VOL
       my_real D,V, DPHI(MVSIZ)
-      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK 
-      my_real :: GRAD(6,MVSIZ)     
+      INTEGER,DIMENSION(:,:), POINTER   :: pAdjBRICK
+      my_real :: GRAD(6,MVSIZ)
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -115,22 +115,22 @@ C-----------------------------------------------
 
          NNOD = NIXS-3   !8-node brick or 4-node quad
 
-         !---------------------------------------------------------!         
+         !---------------------------------------------------------!
          !         ALE STANDARD FORMULATION  : 3D                  !
-         !---------------------------------------------------------!       
-           ALLOCATE(COUNT_VOL(NUMNOD))                 
-           COUNT_VOL(:) = 0                           
+         !---------------------------------------------------------!
+           ALLOCATE(COUNT_VOL(NUMNOD))
+           COUNT_VOL(:) = 0
            DO NG = 1, NGROUP
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
              ITYP  =IPARG(5,NG)
-             IALEL =IPARG(7,NG)+IPARG(11,NG)             
-             IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
+             IALEL =IPARG(7,NG)+IPARG(11,NG)
+             IF(ITYP/=1 .AND. ITYP/=2)CYCLE
              IF(IALEL==0)CYCLE
-              GBUF => ELBUF_TAB(NG)%GBUF   
+              GBUF => ELBUF_TAB(NG)%GBUF
               DO I=1,NEL
                 J = I+NFT
-!                PHI(J) = GBUF%RHO(I)  
+!                PHI(J) = GBUF%RHO(I)
               ENDDO
            ENDDO
 
@@ -138,10 +138,10 @@ C-----------------------------------------------
              NEL   =IPARG(2,NG)
              NFT   =IPARG(3,NG)
              ITYP  =IPARG(5,NG)
-             IALEL =IPARG(7,NG)+IPARG(11,NG)             
-             IF(ITYP/=1 .AND. ITYP/=2)CYCLE 
+             IALEL =IPARG(7,NG)+IPARG(11,NG)
+             IF(ITYP/=1 .AND. ITYP/=2)CYCLE
              IF(IALEL==0)CYCLE
-              GBUF => ELBUF_TAB(NG)%GBUF   
+              GBUF => ELBUF_TAB(NG)%GBUF
               DO I=1,NEL
                 LFT = 1
                 LLT = NEL
@@ -161,17 +161,17 @@ C-----------------------------------------------
                 IF(IV(5)<=0)IV(5)=IE
                 IF(IV(6)<=0)IV(6)=IE
                 DPHI(I) = ZERO
-!     .           (PHI(IV(1))-PHI(IE))*GRAD(1,I) 
-!     .          +(PHI(IV(2))-PHI(IE))*GRAD(2,I) 
-!     .          +(PHI(IV(3))-PHI(IE))*GRAD(3,I) 
-!     .          +(PHI(IV(4))-PHI(IE))*GRAD(4,I) 
-!     .          +(PHI(IV(5))-PHI(IE))*GRAD(5,I) 
-!     .          +(PHI(IV(6))-PHI(IE))*GRAD(6,I)  
+!     .           (PHI(IV(1))-PHI(IE))*GRAD(1,I)
+!     .          +(PHI(IV(2))-PHI(IE))*GRAD(2,I)
+!     .          +(PHI(IV(3))-PHI(IE))*GRAD(3,I)
+!     .          +(PHI(IV(4))-PHI(IE))*GRAD(4,I)
+!     .          +(PHI(IV(5))-PHI(IE))*GRAD(5,I)
+!     .          +(PHI(IV(6))-PHI(IE))*GRAD(6,I)
                   DO J=2,NNOD+1
                     JJ=IXS(J,NFT+I)
                     K = J-1
-                    WA4(JJ)       = WA4(JJ)+ DPHI(I) 
-                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + 1        
+                    WA4(JJ)       = WA4(JJ)+ DPHI(I)
+                    COUNT_VOL(JJ) = COUNT_VOL(JJ) + 1
                   ENDDO
               ENDDO
            ENDDO!next NG
@@ -181,8 +181,8 @@ C-----------------------------------------------
              IF(COUNT_VOL(I)/=ZERO)THEN
                WA4(I)=WA4(I)/COUNT_VOL(I)
              ENDIF
-           ENDDO                 
-           DEALLOCATE(COUNT_VOL)             
+           ENDDO
+           DEALLOCATE(COUNT_VOL)
 
            END
-        
+

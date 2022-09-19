@@ -37,9 +37,9 @@ Chd|====================================================================
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1H1, PX1H2, PX1H3, PX1H4, 
+     .   PX1H1, PX1H2, PX1H3, PX1H4,
      .   PX2H1, PX2H2, PX2H3, PX2H4,
-     .   PX3H1, PX3H2, PX3H3, PX3H4, 
+     .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
      .   VOL,MAT,CXX,VIS,VD2,DELTAX,PID,GEO,PARTSAV,IPARTS,
      .   DXX, DYY, DZZ, D4, D5, D6 ,
@@ -82,12 +82,12 @@ C-----------------------------------------------
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   PX1H1(*), PX1H2(*), PX1H3(*), PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*), PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*), PX3H4(*),  
+     .   PX1H1(*), PX1H2(*), PX1H3(*), PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*), PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*), PX3H4(*),
      .   PX4H1(*), PX4H2(*), PX4H3(*), PX4H4(*),
      .   PARTSAV(NPSAV,*),
-     .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*), 
+     .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*),
      .   FHOUR(NEL,3,4),JR0(*),JS0(*),JT0(*) ,EINT(*),
      .   DXX(*), DYY(*), DZZ(*), D4(*), D5(*), D6(*) ,
      .   SIGY(*) ,SIG0(NEL,6),VOL0(*),SIGOLD(NEL,6),DEFP(*),ET(*),
@@ -105,13 +105,13 @@ C-----------------------------------------------
      .   HGX1(MVSIZ), HGX2(MVSIZ), HGX3(MVSIZ), HGX4(MVSIZ),
      .   HGY1(MVSIZ), HGY2(MVSIZ), HGY3(MVSIZ), HGY4(MVSIZ),
      .   HGZ1(MVSIZ), HGZ2(MVSIZ), HGZ3(MVSIZ), HGZ4(MVSIZ),
-     .   VX3478, VX2358, VX1467, VX1256, 
+     .   VX3478, VX2358, VX1467, VX1256,
      .   VY3478, VY2358, VY1467, VY1256,
      .   VZ3478, VZ2358, VZ1467, VZ1256,
      .   VX17, VY17, VZ17,
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
-     .   VX46, VY46, VZ46, 
+     .   VX46, VY46, VZ46,
      .   G_3DT(MVSIZ),NU,GG(MVSIZ),DE,DS,DSIG(6),
      .   SM1(MVSIZ),SM2(MVSIZ),SMO1(MVSIZ),SMO2(MVSIZ),SMO,
      .   JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),NFHOUR(MVSIZ,3,4),
@@ -121,7 +121,7 @@ C-----------------------------------------------
      .   SIG0V(MVSIZ,6),DAMA_G(MVSIZ,6),G0,C1
 C-----------------------------------------------
        IET =IINT
-       COEFH = ZEP9999   
+       COEFH = ZEP9999
 C---- attention : r->eta; s->zeta; t->ksi------------
 
 C +++ MAT Visco-----
@@ -140,10 +140,10 @@ C +++ MAT Visco-----
       C1=PM(32,MX)
       SELECT CASE (MTN)
 C  +++ MAT Hydro---
-        CASE (3,4,6,70) 
+        CASE (3,4,6,70)
           DO I=LFT,LLT
-           GG(I)=MAX(G0,VIS(I))    
-          ENDDO        
+           GG(I)=MAX(G0,VIS(I))
+          ENDDO
 C  +++ MAT Hyper-elas----Et=1
         CASE (62,95)
           DO I=LFT,LLT
@@ -151,10 +151,10 @@ C  +++ MAT Hyper-elas----Et=1
           ENDDO
 C  +++ MAT Hyper-elas----Et>1
         CASE (42,69,82,92,94)
-          GG(LFT:LLT)=G0    
+          GG(LFT:LLT)=G0
         CASE DEFAULT
           DO I=LFT,LLT
-           GG(I)=HALF*RHO0*CXX(I)*CXX(I)*(ONE -TWO*NU)/(ONE-NU)     
+           GG(I)=HALF*RHO0*CXX(I)*CXX(I)*(ONE -TWO*NU)/(ONE-NU)
           ENDDO
       END SELECT
 C        
@@ -179,7 +179,7 @@ C
          DSIG(2)=DSIG(2)-FF
          DSIG(3)=DSIG(3)-FF
          DS =DSIG(1)*DSIG(1)+DSIG(2)*DSIG(2)+DSIG(3)*DSIG(3)+
-     .       DSIG(4)*DSIG(4)+DSIG(5)*DSIG(5)+DSIG(6)*DSIG(6) 
+     .       DSIG(4)*DSIG(4)+DSIG(5)*DSIG(5)+DSIG(6)*DSIG(6)
          GG(I)=MAX(FIVEEM2*GG(I),SQRT(DS/MAX(DE,EM30)))
        ENDDO
       ENDIF
@@ -267,17 +267,17 @@ C
        HGX3(I)=(VX1467-VX2358)*ONE_OVER_8
        HGX1(I)=(VX1467+VX2358)*ONE_OVER_8
        HGX2(I)=(VX1256-VX3478)*ONE_OVER_8
-       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8       
+       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8
 C
        HGY3(I)=(VY1467-VY2358)*ONE_OVER_8
        HGY1(I)=(VY1467+VY2358)*ONE_OVER_8
        HGY2(I)=(VY1256-VY3478)*ONE_OVER_8
-       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8       
+       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8
 C
        HGZ3(I)=(VZ1467-VZ2358)*ONE_OVER_8
        HGZ1(I)=(VZ1467+VZ2358)*ONE_OVER_8
        HGZ2(I)=(VZ1256-VZ3478)*ONE_OVER_8
-       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8       
+       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8
       ENDDO
       DO I=LFT,LLT
         VX17=VX1(I)-VX7(I)
@@ -366,8 +366,8 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
-      IF (MATVIS==0) 
-     .   CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIGOLD,NU4,SMO1,SMO2,NEL) 
+      IF (MATVIS==0)
+     .   CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIGOLD,NU4,SMO1,SMO2,NEL)
       !-----------For energy calculation------------
       IF(JLAG==1)THEN
        DO I=LFT,LLT
@@ -409,13 +409,13 @@ C
        ENDDO
 C
        DO I=LFT,LLT
-        DEINT(I)= 
-     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) + 
-     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) + 
-     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) + 
-     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) + 
-     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) + 
-     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I) 
+        DEINT(I)=
+     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) +
+     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) +
+     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) +
+     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) +
+     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) +
+     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I)
         EINT(I)= EINT(I)+DT05*DEINT(I)/MAX(EM20,VOL0(I))
        ENDDO
       ENDIF
@@ -461,8 +461,8 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
-      IF (MATVIS==0) 
-     .    CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIG0,NU4,SM1,SM2,NEL) 
+      IF (MATVIS==0)
+     .    CALL SZSVM(JR0,JS0,JT0,FHOUR,SIGY,SIG0,NU4,SM1,SM2,NEL)
       !-----------ELASTIC-PLASTIC yield criterion------------
       IF (MATVIS==0) THEN
       DO I=LFT,LLT
@@ -479,7 +479,7 @@ C
            FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
            FAC1 =HALF + SQRT(FAC1)
            FAC = MIN(FAC1,ONE)*FAC
-         ENDIF  
+         ENDIF
          FHOUR(I,1,1) = FHOUR(I,1,1) - FAC*DFHOUR(I,1,1)
          FHOUR(I,1,2) = FHOUR(I,1,2) - FAC*DFHOUR(I,1,2)
          FHOUR(I,1,3) = FHOUR(I,1,3) - FAC*DFHOUR(I,1,3)
@@ -601,18 +601,18 @@ C
       IF(JLAG==1)THEN
        DO I=LFT,LLT
         EINT(I)= EINT(I)+DT05*(
-     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) + 
-     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) + 
-     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) + 
-     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) + 
-     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) + 
-     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I) ) 
+     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) +
+     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) +
+     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) +
+     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) +
+     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) +
+     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I) )
      .   /MAX(EM20,VOL0(I))
        ENDDO
       ENDIF
-      IF(ISTRAIN>0 .AND.  
-     .  ((ANIM_N(IAD_GPS+400+1) == 1) .OR. (ANIM_N(IAD_GPS+400+2) == 1) .OR. 
-     .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR. 
+      IF(ISTRAIN>0 .AND.
+     .  ((ANIM_N(IAD_GPS+400+1) == 1) .OR. (ANIM_N(IAD_GPS+400+2) == 1) .OR.
+     .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR.
      .   (ANIM_N(IAD_GPS+400+5) == 1) .OR. (ANIM_N(IAD_GPS+400+6) == 1)) )THEN
        DO I=LFT,LLT
         NU2(I) =HALF*NU2(I)
@@ -660,7 +660,7 @@ C-----------------------------------------------
      .   S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
      .   SS1,SS2,SS3,SS4,ST1,ST2,ST3,ST4,SVMR,SVMS,SVMT,
      .   SVM,SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,
-     .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0    
+     .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0
 C         coef= (3*8*0.75)^2 coef1 =1/0.75
           COEF= THREEHUNDRED24
           COEF1= ONEP333
@@ -735,7 +735,7 @@ C
         SVM2(I) = SQRT(MAX(SVMRST+COEF*MIN0,ZERO))
         SVM2(I) = MIN(SVM2(I),SVM0)
        ENDIF
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -781,9 +781,9 @@ C-------IKT=2 for the moment----------
 
       IF (IKT == 2 ) THEN
        SELECT CASE (MTN)
-        CASE (2,36) 
-        
-        CASE (42,62,69,82,88,92,94,95,111)                                          
+        CASE (2,36)
+
+        CASE (42,62,69,82,88,92,94,95,111)
 c          FAC_MIN=EP10
 c          FAC_MAX=ZERO
          DO I=LFT,LLT
@@ -795,7 +795,7 @@ C
           END IF
 c           IF (FAC_MIN>FAC(I)) FAC_MIN=FAC(I)
 c           IF (FAC_MAX<FAC(I)) FAC_MAX=FAC(I)
-         END DO           
+         END DO
         CASE(38,70,90)
           FAC_L=EM02
 c          FAC_MIN=EP10
@@ -806,35 +806,35 @@ c          FAC_MAX=ZERO
           ELSE
 C-----    -G(i) is already calculated with EMAX          
            FAC(I)=ONE
-          END IF         
+          END IF
 c           IF (FAC_MIN>FAC(I)) FAC_MIN=FAC(I)
 c           IF (FAC_MAX<FAC(I)) FAC_MAX=FAC(I)
-         END DO 
+         END DO
 c          write(iout,*),'FAC_L,FAC(1),ET(1)=',FAC_L,FAC(1),ET(1)
-        CASE (71) 
+        CASE (71)
          FAC_L=EM02
          DO I=LFT,LLT
           IF (ET(I)<=ONE) THEN
            FAC(I)=MAX(FAC_L,ET(I))
           END IF
-         END DO 
+         END DO
        END SELECT
 C-------IKT>2 hide option :limited by IKT ----------
       ELSE
 C---------    
         FAC_U=ONE*IKT
         SELECT CASE (MTN)
-         CASE (2,36) 
-        
-         CASE (42,62,69,82,88,92,94,111)                                          
+         CASE (2,36)
+
+         CASE (42,62,69,82,88,92,94,111)
           DO I=LFT,LLT
            IF (ET(I)<=ONE) THEN
             FAC(I)=MAX(FAC_L,ET(I))
            ELSE
             FAC(I)=MIN(FAC_U,ET(I))
            END IF
-          ENDDO           
-        CASE(38,70,90)  
+          ENDDO
+        CASE(38,70,90)
           FAC_L=FAC_L/IKT
           DO I=LFT,LLT
            IF (ET(I)<=ONE) THEN
@@ -842,7 +842,7 @@ C---------
            ELSE
             FAC(I)=MIN(FAC_U,ET(I))
            END IF
-          ENDDO 
+          ENDDO
         END SELECT
       END IF !(IKT ==2 THEN
 C       
@@ -899,14 +899,14 @@ c        DO I=LFT,LLT
          NU2=NU(I)*NU1
          NU3=ONE+NU(I)
          SXX=NU1*(FHOUR(I,1,2)*ZETA+FHOUR(I,1,3)*ETA)+
-     .       NU2*(FHOUR(I,2,1)*ZETA+FHOUR(I,3,1)*ETA)+         
-     .       NU3*FHOUR(I,1,4)*ZETA*ETA         
+     .       NU2*(FHOUR(I,2,1)*ZETA+FHOUR(I,3,1)*ETA)+
+     .       NU3*FHOUR(I,1,4)*ZETA*ETA
          SYY=NU1*(FHOUR(I,2,1)*ZETA+FHOUR(I,2,3)*KSI)+
-     .       NU2*(FHOUR(I,1,2)*ZETA+FHOUR(I,3,2)*KSI)+         
-     .       NU3*FHOUR(I,2,4)*ZETA*KSI         
+     .       NU2*(FHOUR(I,1,2)*ZETA+FHOUR(I,3,2)*KSI)+
+     .       NU3*FHOUR(I,2,4)*ZETA*KSI
          SZZ=NU1*(FHOUR(I,3,1)*ETA+FHOUR(I,3,2)*KSI)+
-     .       NU2*(FHOUR(I,1,3)*ETA+FHOUR(I,2,3)*KSI)+         
-     .       NU3*FHOUR(I,3,4)*ETA*KSI         
+     .       NU2*(FHOUR(I,1,3)*ETA+FHOUR(I,2,3)*KSI)+
+     .       NU3*FHOUR(I,3,4)*ETA*KSI
          SIG(I,1)=SIG0(I,1)+TWO*SXX*TWENTY4
          SIG(I,2)=SIG0(I,2)+TWO*SYY*TWENTY4
          SIG(I,3)=SIG0(I,3)+TWO*SZZ*TWENTY4
@@ -914,12 +914,12 @@ c        ENDDO
 C        
 c        DO I=LFT,LLT
          SXY=ZETA*(JR0(I)*FHOUR(I,1,1)/JS0(I)+
-     .             JS0(I)*FHOUR(I,2,2)/JR0(I))         
+     .             JS0(I)*FHOUR(I,2,2)/JR0(I))
          SXZ=ETA*(JR0(I)*FHOUR(I,1,1)/JT0(I)+
      .            JT0(I)*FHOUR(I,3,3)/JR0(I))
          SYZ=KSI*(JS0(I)*FHOUR(I,2,2)/JT0(I)+
      .            JT0(I)*FHOUR(I,3,3)/JS0(I))
-         SIG(I,4)=SIG0(I,4)+SXY*TWENTY4         
+         SIG(I,4)=SIG0(I,4)+SXY*TWENTY4
          SIG(I,5)=SIG0(I,5)+SYZ*TWENTY4
          SIG(I,6)=SIG0(I,6)+SXZ*TWENTY4
 c        ENDDO
@@ -946,9 +946,9 @@ Chd|====================================================================
      .   VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .   F11,F21,F31,F12,F22,F32,F13,F23,F33,F14,F24,F34,
      .   F15,F25,F35,F16,F26,F36,F17,F27,F37,F18,F28,F38,
-     .   PX1H1, PX1H2, PX1H3, PX1H4, 
+     .   PX1H1, PX1H2, PX1H3, PX1H4,
      .   PX2H1, PX2H2, PX2H3, PX2H4,
-     .   PX3H1, PX3H2, PX3H3, PX3H4, 
+     .   PX3H1, PX3H2, PX3H3, PX3H4,
      .   PX4H1, PX4H2, PX4H3, PX4H4,
      .   VOL,MAT,CXX,VIS,VD2,DELTAX,PID,GEO,PARTSAV,IPARTS,
      .   DXX, DYY, DZZ, D4, D5, D6 ,
@@ -991,12 +991,12 @@ C-----------------------------------------------
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
      .   F17(*),F27(*),F37(*),F18(*),F28(*),F38(*),
-     .   PX1H1(*), PX1H2(*), PX1H3(*), PX1H4(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*), PX2H4(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*), PX3H4(*),  
+     .   PX1H1(*), PX1H2(*), PX1H3(*), PX1H4(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*), PX2H4(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*), PX3H4(*),
      .   PX4H1(*), PX4H2(*), PX4H3(*), PX4H4(*),
      .   PARTSAV(NPSAV,*),
-     .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*), 
+     .   VOL(*),CXX(*),VIS(*),VD2(*),DELTAX(*),
      .   FHOUR(NEL,3,4),JR0(*),JS0(*),JT0(*) ,EINT(*),
      .   DXX(*), DYY(*), DZZ(*), D4(*), D5(*), D6(*) ,
      .   SIGY(*) ,SIG0(NEL,6),VOL0(*),SIGOLD(NEL,6),DEFP(*),ET(*),
@@ -1016,13 +1016,13 @@ C-----------------------------------------------
      .   HGX1(MVSIZ), HGX2(MVSIZ), HGX3(MVSIZ), HGX4(MVSIZ),
      .   HGY1(MVSIZ), HGY2(MVSIZ), HGY3(MVSIZ), HGY4(MVSIZ),
      .   HGZ1(MVSIZ), HGZ2(MVSIZ), HGZ3(MVSIZ), HGZ4(MVSIZ),
-     .   VX3478, VX2358, VX1467, VX1256, 
+     .   VX3478, VX2358, VX1467, VX1256,
      .   VY3478, VY2358, VY1467, VY1256,
      .   VZ3478, VZ2358, VZ1467, VZ1256,
      .   VX17, VY17, VZ17,
      .   VX28, VY28, VZ28,
      .   VX35, VY35, VZ35,
-     .   VX46, VY46, VZ46, 
+     .   VX46, VY46, VZ46,
      .   G_3DT(MVSIZ),NU,GG(MVSIZ),DE,DS,DSIG(6),
      .   SM1(MVSIZ),SM2(MVSIZ),SMO1(MVSIZ),SMO2(MVSIZ),SMO,
      .   JR_1(MVSIZ),JS_1(MVSIZ),JT_1(MVSIZ),NFHOUR(MVSIZ,3,4),
@@ -1034,7 +1034,7 @@ C-----------------------------------------------
      .   CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3),GM,GMIN,DAMA_G(MVSIZ,3)
 C-----------------------------------------------
        IET =IINT
-       COEFH = ZEP9999   
+       COEFH = ZEP9999
 C---- attention : r->eta; s->zeta; t->ksi------------
 
 C +++ MAT Visco-----
@@ -1056,8 +1056,8 @@ C +++ MAT Visco-----
        GG(I)=HALF*RHO0*CXX(I)*CXX(I)*(ONE -TWO*NU)/(ONE-NU)
 C----- sometimes GM is too small       
        GMIN = GG(I)*EM04
-       GG(I)=MIN(GG(I),GM)       
-       GG(I)=MAX(GG(I),GMIN)   
+       GG(I)=MIN(GG(I),GM)
+       GG(I)=MAX(GG(I),GMIN)
        E0(I)=TWO*(ONE+NU)*GG(I)
       ENDDO
 C  +++ MAT Hydro---
@@ -1067,7 +1067,7 @@ c       DO I=LFT,LLT
 c        GG(I)=PM(22,MX)
 c        GG(I)=MAX(GG(I),VIS(I))
 c       ENDDO
-c      ENDIF 
+c      ENDIF
 C
       IF (IET > 1 .AND. MATVIS>0 ) THEN
        CALL SZETFAC(LFT,LLT,IET,MTN,ET,GG )
@@ -1089,7 +1089,7 @@ C
          DSIG(2)=DSIG(2)-FF
          DSIG(3)=DSIG(3)-FF
          DS =DSIG(1)*DSIG(1)+DSIG(2)*DSIG(2)+DSIG(3)*DSIG(3)+
-     .       DSIG(4)*DSIG(4)+DSIG(5)*DSIG(5)+DSIG(6)*DSIG(6) 
+     .       DSIG(4)*DSIG(4)+DSIG(5)*DSIG(5)+DSIG(6)*DSIG(6)
          GG(I)=MAX(FIVEEM2*GG(I),SQRT(DS/MAX(DE,EM30)))
        ENDDO
       ENDIF
@@ -1190,17 +1190,17 @@ C
        HGX3(I)=(VX1467-VX2358)*ONE_OVER_8
        HGX1(I)=(VX1467+VX2358)*ONE_OVER_8
        HGX2(I)=(VX1256-VX3478)*ONE_OVER_8
-       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8       
+       HGX4(I)=-(VX1256+VX3478)*ONE_OVER_8
 C
        HGY3(I)=(VY1467-VY2358)*ONE_OVER_8
        HGY1(I)=(VY1467+VY2358)*ONE_OVER_8
        HGY2(I)=(VY1256-VY3478)*ONE_OVER_8
-       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8       
+       HGY4(I)=-(VY1256+VY3478)*ONE_OVER_8
 C
        HGZ3(I)=(VZ1467-VZ2358)*ONE_OVER_8
        HGZ1(I)=(VZ1467+VZ2358)*ONE_OVER_8
        HGZ2(I)=(VZ1256-VZ3478)*ONE_OVER_8
-       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8       
+       HGZ4(I)=-(VZ1256+VZ3478)*ONE_OVER_8
       ENDDO
       DO I=LFT,LLT
         VX17=VX1(I)-VX7(I)
@@ -1289,8 +1289,8 @@ C         SIGY(I) = 1.0E+30
         FHOUR(I,3,3) = FHOUR(I,3,3)*OFF(I)
         FHOUR(I,3,4) = FHOUR(I,3,4)*OFF(I)
        ENDDO
-      IF (MATVIS==0) 
-     .   CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIGOLD,NU,SMO1,SMO2,NEL) 
+      IF (MATVIS==0)
+     .   CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIGOLD,NU,SMO1,SMO2,NEL)
       !-----------For energy calculation------------
       IF(JLAG==1)THEN
        CALL GFHOUR_OR(LFT,LLT,
@@ -1298,19 +1298,19 @@ C         SIGY(I) = 1.0E+30
      .   HGX1, HGX2, HGX3, HGX4,
      .   HGY1, HGY2, HGY3, HGY4,
      .   HGZ1, HGZ2, HGZ3, HGZ4,
-     .   H11 , H22 , H33 , 
-     .   H12 , H13 , H23 , 
+     .   H11 , H22 , H33 ,
+     .   H12 , H13 , H23 ,
      .   JR_1,JS_1 , JT_1, NU4,NU2 ,
      .   CC  ,CG   ,G33  ,NFHOUR,NEL)
 C
        DO I=LFT,LLT
-        DEINT(I)= 
-     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) + 
-     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) + 
-     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) + 
-     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) + 
-     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) + 
-     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I) 
+        DEINT(I)=
+     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) +
+     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) +
+     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) +
+     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) +
+     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) +
+     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I)
         EINT(I)= EINT(I)+DT05*DEINT(I)/MAX(EM20,VOL0(I))
        ENDDO
       ENDIF
@@ -1355,8 +1355,8 @@ C
        FHOUR(I,3,3) = FHOUR(I,3,3) + DFHOUR(I,3,3)
        FHOUR(I,3,4) = FHOUR(I,3,4) + DFHOUR(I,3,4)
       ENDDO
-      IF (MATVIS==0) 
-     .    CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIG0,NU,SM1,SM2,NEL) 
+      IF (MATVIS==0)
+     .    CALL SZSVM_OR(JR0,JS0,JT0,CC,CG,G33,FHOUR,SIGY,SIG0,NU,SM1,SM2,NEL)
       !-----------ELASTIC-PLASTIC yield criterion------------
       IF (MATVIS==0) THEN
       DO I=LFT,LLT
@@ -1373,7 +1373,7 @@ C
            FAC1 =(SM1(I)-SIGY(I))/MAX((SM1(I)-SM2(I)),EM20)
            FAC1 =HALF + SQRT(FAC1)
            FAC = MIN(FAC1,ONE)*FAC
-         ENDIF  
+         ENDIF
          FHOUR(I,1,1) = FHOUR(I,1,1) - FAC*DFHOUR(I,1,1)
          FHOUR(I,1,2) = FHOUR(I,1,2) - FAC*DFHOUR(I,1,2)
          FHOUR(I,1,3) = FHOUR(I,1,3) - FAC*DFHOUR(I,1,3)
@@ -1394,8 +1394,8 @@ C
      .   HGX1, HGX2, HGX3, HGX4,
      .   HGY1, HGY2, HGY3, HGY4,
      .   HGZ1, HGZ2, HGZ3, HGZ4,
-     .   H11 , H22 , H33 , 
-     .   H12 , H13 , H23 , 
+     .   H11 , H22 , H33 ,
+     .   H12 , H13 , H23 ,
      .   JR_1,JS_1 , JT_1, NU4,NU2 ,
      .   CC  ,CG   ,G33  ,NFHOUR,NEL)
       DO I=LFT,LLT
@@ -1468,18 +1468,18 @@ C
       IF(JLAG==1)THEN
        DO I=LFT,LLT
         EINT(I)= EINT(I)+DT05*(
-     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) + 
-     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) + 
-     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) + 
-     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) + 
-     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) + 
-     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I) ) 
+     .   NFHOUR(I,3,1)*HGZ1(I) + NFHOUR(I,3,2)*HGZ2(I) +
+     .   NFHOUR(I,3,3)*HGZ3(I) + NFHOUR(I,3,4)*HGZ4(I) +
+     .   NFHOUR(I,1,1)*HGX1(I) + NFHOUR(I,1,2)*HGX2(I) +
+     .   NFHOUR(I,1,3)*HGX3(I) + NFHOUR(I,1,4)*HGX4(I) +
+     .   NFHOUR(I,2,1)*HGY1(I) + NFHOUR(I,2,2)*HGY2(I) +
+     .   NFHOUR(I,2,3)*HGY3(I) + NFHOUR(I,2,4)*HGY4(I) )
      .   /MAX(EM20,VOL0(I))
        ENDDO
       ENDIF
-      IF(ISTRAIN>0 .AND.  
-     .  ((ANIM_N(IAD_GPS+400+1) == 1) .OR. (ANIM_N(IAD_GPS+400+2) == 1) .OR. 
-     .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR. 
+      IF(ISTRAIN>0 .AND.
+     .  ((ANIM_N(IAD_GPS+400+1) == 1) .OR. (ANIM_N(IAD_GPS+400+2) == 1) .OR.
+     .   (ANIM_N(IAD_GPS+400+3) == 1) .OR. (ANIM_N(IAD_GPS+400+4) == 1) .OR.
      .   (ANIM_N(IAD_GPS+400+5) == 1) .OR. (ANIM_N(IAD_GPS+400+6) == 1)) )THEN
        CALL SZSTRAINHG(JR_1,JS_1,JT_1,STRHG,NEL  ,
      .                      HGX1, HGX2, HGX3, HGX4,
@@ -1551,14 +1551,14 @@ C-----------------------------------------------
          G3(I,3) =PM(48,MX)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==24) THEN
         MX  =MAT(1)
 C-------ET24 for the moment is elastic, could be set more precisely     
         ET24 = PM(50,MX)
-        ARM1 = PM(53,MX) 
-        ARM2 = PM(54,MX) 
-        ARM3 = PM(55,MX) 
+        ARM1 = PM(53,MX)
+        ARM2 = PM(54,MX)
+        ARM3 = PM(55,MX)
         ARMA = ARM1 + ARM2 + ARM3
         GG  = PM(22,MX)
         TT  = PM(24,MX)
@@ -1577,7 +1577,7 @@ C-----will apply the dommage to generalized stress
          CC(I,3,1) = TV
 c
          G3 (I,1:3)= GG
-        END DO 
+        END DO
         IF (ARMA>ZERO) THEN
 C--------assemble the two parts in reinforced system   
          DO I=JFT,JLT
@@ -1587,7 +1587,7 @@ C--------assemble the two parts in reinforced system
          ENDDO
 C--------translate C3 to elem sys--(CC24,G33   ,CG)
         CALL C33STIF2EL(JLT   ,QC   ,QCG   ,QGC    ,QG     ,
-     .                  C3    ,CC24 ,G33   ,CG     ) 
+     .                  C3    ,CC24 ,G33   ,CG     )
 C--------final assemblage ---- 
          DO J = 1,3
           DO I=JFT,JLT
@@ -1599,9 +1599,9 @@ C--------final assemblage ----
            CC(I,1,2) = CC(I,1,2) + CC24(I,1,2)
            CC(I,1,3) = CC(I,1,3) + CC24(I,1,3)
            CC(I,2,3) = CC(I,2,3) + CC24(I,2,3)
-           CC(I,2,1) = CC(I,1,2) 
-           CC(I,3,1) = CC(I,1,3) 
-           CC(I,3,2) = CC(I,2,3) 
+           CC(I,2,1) = CC(I,1,2)
+           CC(I,3,1) = CC(I,1,3)
+           CC(I,3,2) = CC(I,2,3)
           ENDDO
         ELSE
 C----- w/o armature :--> isotropic      
@@ -1635,7 +1635,7 @@ C----- w/o armature :--> isotropic
          G3(I,3) =PM(39,MX)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==28.OR.MTN==50.OR.MTN==68) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -1650,7 +1650,7 @@ C----- w/o armature :--> isotropic
          G3(I,3) = UPARAM(6)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==53) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
@@ -1665,8 +1665,8 @@ C----- w/o armature :--> isotropic
          G3(I,3) = G3(I,1)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
-       ELSEIF (MTN == 93) THEN     
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )
+       ELSEIF (MTN == 93) THEN
         DO I=JFT,JLT
          MX  =MAT(I)
          CC(I,1,1) = UPARAM(4)
@@ -1680,7 +1680,7 @@ C----- w/o armature :--> isotropic
          G3(I,3)   = UPARAM(12)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     )        
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )
        ELSEIF (MTN==107) THEN
         DO I=JFT,JLT
           MX = MAT(I)
@@ -1695,7 +1695,7 @@ C----- w/o armature :--> isotropic
           CC(I,1,3) =ZERO
           G3(I,1)   = UPARAM(10)
           G3(I,2)   = UPARAM(11)
-          G3(I,3)   = UPARAM(12) 
+          G3(I,3)   = UPARAM(12)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
      .                  QG     ,CC    ,G3  ,G33  ,CG     )
@@ -1713,10 +1713,10 @@ C----- w/o armature :--> isotropic
           CC(I,1,3) =ZERO
           G3(I,1)   = UPARAM(10)
           G3(I,2)   = UPARAM(11)
-          G3(I,3)   = UPARAM(12) 
+          G3(I,3)   = UPARAM(12)
         ENDDO
         CALL MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                  QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                  QG     ,CC    ,G3  ,G33  ,CG     )
        ELSE
 C----------warring out isotrope effective       
         DO I=JFT,JLT
@@ -1749,7 +1749,7 @@ C
          CG(I,1:3,1:3)=ZERO
         ENDDO
        ENDIF
- 
+
 C
       RETURN
       END
@@ -1762,7 +1762,7 @@ Chd|        MMODUL                        source/elements/solid/solidez/szhour3.
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE GETTRANSV(JFT    ,JLT   ,GAMA ,QC  ,QCG  ,
-     .                     QGC    ,QG   ) 
+     .                     QGC    ,QG   )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1777,7 +1777,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  
+      INTEGER JFT, JLT
 C     REAL
       my_real
      .   GAMA(MVSIZ,6),QC(MVSIZ,3,3),QCG(MVSIZ,3,3),
@@ -1838,7 +1838,7 @@ Chd|-- calls ---------------
 Chd|        CBATRAN3V                     source/elements/solid/solidez/szhour3.F
 Chd|====================================================================
       SUBROUTINE MSTIFORTHV(JFT    ,JLT   ,QC  ,QCG  ,QGC    ,
-     .                      QG     ,CC    ,G3  ,G33  ,CG     ) 
+     .                      QG     ,CC    ,G3  ,G33  ,CG     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1853,7 +1853,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  
+      INTEGER JFT, JLT
 C     REAL
       my_real
      .   QC(MVSIZ,3,3),QCG(MVSIZ,3,3),QGC(MVSIZ,3,3),QG(MVSIZ,3,3),
@@ -1890,8 +1890,8 @@ C
           B(I,J,J)=G3(I,J)
         ENDDO
        ENDDO
-      CALL CBATRAN3V(JFT   ,JLT    ,QC   ,A ,QCG,ISYM) 
-      CALL CBATRAN3V(JFT   ,JLT    ,QGC  ,B ,QG ,ISYM) 
+      CALL CBATRAN3V(JFT   ,JLT    ,QC   ,A ,QCG,ISYM)
+      CALL CBATRAN3V(JFT   ,JLT    ,QGC  ,B ,QG ,ISYM)
 C      
        DO J= 1,3
        DO K= 1,3
@@ -1916,8 +1916,8 @@ C
           B(I,J,J)=G3(I,J)
         ENDDO
        ENDDO
-      CALL CBATRAN3V(JFT   ,JLT    ,QCG  ,A ,QCG,ISYM) 
-      CALL CBATRAN3V(JFT   ,JLT    ,QG   ,B ,QG ,ISYM) 
+      CALL CBATRAN3V(JFT   ,JLT    ,QCG  ,A ,QCG,ISYM)
+      CALL CBATRAN3V(JFT   ,JLT    ,QG   ,B ,QG ,ISYM)
 C      
        DO J= 1,3
        DO K= J,3
@@ -1941,8 +1941,8 @@ C
           B(I,J,J)=G3(I,J)
         ENDDO
        ENDDO
-      CALL CBATRAN3V(JFT   ,JLT    ,QC   ,A ,QC ,ISYM) 
-      CALL CBATRAN3V(JFT   ,JLT    ,QGC  ,B ,QGC,ISYM) 
+      CALL CBATRAN3V(JFT   ,JLT    ,QC   ,A ,QC ,ISYM)
+      CALL CBATRAN3V(JFT   ,JLT    ,QGC  ,B ,QGC,ISYM)
 C      
        DO J= 1,3
        DO K= J,3
@@ -1971,7 +1971,7 @@ Chd|        MDAMA24                       source/elements/solid/solidez/mdama24.
 Chd|        MSTIFORTHV                    source/elements/solid/solidez/szhour3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CBATRAN3V(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM) 
+      SUBROUTINE CBATRAN3V(JFT   ,JLT    ,VQI   ,KK,VQJ,ISYM)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
 #include      "mvsiz_p.inc"
@@ -1979,7 +1979,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,ISYM
-      my_real 
+      my_real
      .   VQI(MVSIZ,3,3), VQJ(MVSIZ,3,3),KK(MVSIZ,3,3)
 C-----------------------------------------------
 C   LOCAL  A R G U M E N T S
@@ -1989,9 +1989,9 @@ C-----------------------------------------------
      .    K(MVSIZ,3,3)
 C-----------------------------------------------
        IF (ISYM==1) THEN
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           K(EP,I,J)=VQI(EP,1,I)*(KK(EP,1,1)*VQJ(EP,1,J)+
      1                  KK(EP,1,2)*VQJ(EP,2,J)+KK(EP,1,3)*VQJ(EP,3,J))+
      2              VQI(EP,2,I)*(KK(EP,1,2)*VQJ(EP,1,J)+
@@ -2002,17 +2002,17 @@ C-----------------------------------------------
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=I,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=I,3
+         DO EP=JFT,JLT
           KK(EP,I,J)= K(EP,I,J)
          ENDDO
         ENDDO
         ENDDO
        ELSE
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           K(EP,I,J)=VQI(EP,1,I)*(KK(EP,1,1)*VQJ(EP,1,J)+
      1                  KK(EP,1,2)*VQJ(EP,2,J)+KK(EP,1,3)*VQJ(EP,3,J))+
      2              VQI(EP,2,I)*(KK(EP,2,1)*VQJ(EP,1,J)+
@@ -2023,9 +2023,9 @@ C
         ENDDO
         ENDDO
 C
-        DO I=1,3 
-        DO J=1,3 
-         DO EP=JFT,JLT 
+        DO I=1,3
+        DO J=1,3
+         DO EP=JFT,JLT
           KK(EP,I,J)= K(EP,I,J)
          ENDDO
         ENDDO
@@ -2057,7 +2057,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  
+      INTEGER JFT, JLT
 C     REAL
       my_real
      .   GG(*),CC(MVSIZ,3,3),CG(MVSIZ,3,3),G33(MVSIZ,3,3)
@@ -2130,7 +2130,7 @@ C-----------------------------------------------
      .   S1,S2,S3,SVM0,SR1,SR2,SR3,SR4,
      .   SS1,SS2,SS3,SS4,ST1,ST2,ST3,ST4,SVMR,SVMS,SVMT,
      .   SVM,SVMRST,COEF,COEF1, JR_1,JS_1,JT_1,NU1,NU2,T1,T2,
-     .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0, 
+     .   RS,ST,RT,VT1(4),VT2(4),MAX1,MIN1,MAX2,MIN2,MAX0,MIN0,
      .   SR5,SR6,SS5,SS6, ST5,ST6
 C-----------------------------------------------
 C         coef= (3*8*0.75)^2 coef1 =1/0.75
@@ -2164,19 +2164,19 @@ C         coef= (3*8*0.75)^2 coef1 =1/0.75
         T2 = JR0(I)*JT_1*FHOUR(I,1,1)+JT0(I)*JR_1*FHOUR(I,3,3)
         SR1 =(CC(I,J,1)-CC(I,K,1)-T1)*FHOUR(I,1,3)+
      .       (CC(I,J,3)-CC(I,K,3)-T1)*FHOUR(I,3,1)+
-     .       (CG(I,J,2)-CG(I,K,2))*T2   
+     .       (CG(I,J,2)-CG(I,K,2))*T2
         J=3
         K=2
         T1 = NU2*(CC(I,J,2)-CC(I,K,2))
         SR2 =(CC(I,J,1)-CC(I,K,1)-T1)*FHOUR(I,1,3)+
      .       (CC(I,J,3)-CC(I,K,3)-T1)*FHOUR(I,3,1)+
-     .       (CG(I,J,2)-CG(I,K,2))*T2   
+     .       (CG(I,J,2)-CG(I,K,2))*T2
         J=3
         K=1
         T1 = NU2*(CC(I,J,2)-CC(I,K,2))
         SR3 =(CC(I,J,1)-CC(I,K,1)-T1)*FHOUR(I,1,3)+
      .       (CC(I,J,3)-CC(I,K,3)-T1)*FHOUR(I,3,1)+
-     .       (CG(I,J,2)-CG(I,K,2))*T2   
+     .       (CG(I,J,2)-CG(I,K,2))*T2
         J=1
         T1 = NU2*CG(I,2,J)
         SR4 =(CG(I,1,J)-T1)*FHOUR(I,1,3)+(CG(I,3,J)-T1)*FHOUR(I,3,1)+
@@ -2196,19 +2196,19 @@ C         coef= (3*8*0.75)^2 coef1 =1/0.75
         T2 = JR0(I)*JS_1*FHOUR(I,1,1)+JS0(I)*JR_1*FHOUR(I,2,2)
         SS1 =(CC(I,J,1)-CC(I,K,1)-T1)*FHOUR(I,1,2)+
      .       (CC(I,J,2)-CC(I,K,2)-T1)*FHOUR(I,2,1)+
-     .       (CG(I,J,1)-CG(I,K,1))*T2   
+     .       (CG(I,J,1)-CG(I,K,1))*T2
         J=3
         K=2
         T1 = NU2*(CC(I,J,3)-CC(I,K,3))
         SS2 =(CC(I,J,1)-CC(I,K,1)-T1)*FHOUR(I,1,2)+
      .       (CC(I,J,2)-CC(I,K,2)-T1)*FHOUR(I,2,1)+
-     .       (CG(I,J,1)-CG(I,K,1))*T2   
+     .       (CG(I,J,1)-CG(I,K,1))*T2
         J=3
         K=1
         T1 = NU2*(CC(I,J,3)-CC(I,K,3))
         SS3 =(CC(I,J,1)-CC(I,K,1)-T1)*FHOUR(I,1,2)+
      .       (CC(I,J,2)-CC(I,K,2)-T1)*FHOUR(I,2,1)+
-     .       (CG(I,J,1)-CG(I,K,1))*T2   
+     .       (CG(I,J,1)-CG(I,K,1))*T2
         J=1
         T1 = NU2*CG(I,3,J)
         SS4 =(CG(I,1,J)-T1)*FHOUR(I,1,2)+(CG(I,2,J)-T1)*FHOUR(I,2,1)+
@@ -2228,19 +2228,19 @@ C         coef= (3*8*0.75)^2 coef1 =1/0.75
         T2 = JS0(I)*JT_1*FHOUR(I,2,2)+JT0(I)*JS_1*FHOUR(I,3,3)
         ST1 =(CC(I,J,2)-CC(I,K,2)-T1)*FHOUR(I,2,3)+
      .       (CC(I,J,3)-CC(I,K,3)-T1)*FHOUR(I,3,2)+
-     .       (CG(I,J,3)-CG(I,K,3))*T2   
+     .       (CG(I,J,3)-CG(I,K,3))*T2
         J=3
         K=2
         T1 = NU2*(CC(I,J,1)-CC(I,K,1))
         ST2 =(CC(I,J,2)-CC(I,K,2)-T1)*FHOUR(I,2,3)+
      .       (CC(I,J,3)-CC(I,K,3)-T1)*FHOUR(I,3,2)+
-     .       (CG(I,J,3)-CG(I,K,3))*T2   
+     .       (CG(I,J,3)-CG(I,K,3))*T2
         J=3
         K=1
         T1 = NU2*(CC(I,J,1)-CC(I,K,1))
         ST3 =(CC(I,J,2)-CC(I,K,2)-T1)*FHOUR(I,2,3)+
      .       (CC(I,J,3)-CC(I,K,3)-T1)*FHOUR(I,3,2)+
-     .       (CG(I,J,3)-CG(I,K,3))*T2   
+     .       (CG(I,J,3)-CG(I,K,3))*T2
         J=1
         T1 = NU2*CG(I,1,J)
         ST4 =(CG(I,2,J)-T1)*FHOUR(I,2,3)+(CG(I,3,J)-T1)*FHOUR(I,3,2)+
@@ -2287,7 +2287,7 @@ C
         SVM2(I) = SQRT(MAX(SVMRST+COEF*MIN0,ZERO))
         SVM2(I) = MIN(SVM2(I),SVM0)
        ENDIF
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -2302,8 +2302,8 @@ Chd|====================================================================
      .   HGX1, HGX2, HGX3, HGX4,
      .   HGY1, HGY2, HGY3, HGY4,
      .   HGZ1, HGZ2, HGZ3, HGZ4,
-     .   H11 , H22 , H33 , 
-     .   H12 , H13 , H23 , 
+     .   H11 , H22 , H33 ,
+     .   H12 , H13 , H23 ,
      .   JR_1,JS_1 , JT_1, NU ,NU2 ,
      .   CC  ,CG   ,G33  ,NFHOUR,NEL)
 C-----------------------------------------------
@@ -2394,7 +2394,7 @@ C-------verify w/ Radioss convention
      .                  H23(I)*(SYZ+T2322)+H33(I)*(SZY+T2333)
         NFHOUR(I,3,3) = H11(I)*(SXZ+T1311)+H13(I)*(SZX+T1333)+
      .                  H22(I)*(SYZ+T2322)+H23(I)*(SZY+T2333)
-c       
+c
         NFHOUR(I,1,2) = H11(I)*FHOURT(1,2)*(
      .   (CC(I,1,1)-NUCC(I,1,3)-NU2(I)*(CC(I,3,1)-NUCC(I,3,3))))+
      .                  H12(I)*FHOURT(2,1)*(
@@ -2471,7 +2471,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,  J,K
       my_real
-     .   NU1,NU2,T1,T2,RS,ST,RT, 
+     .   NU1,NU2,T1,T2,RS,ST,RT,
      .   RXX,RYY,RZZ,RXY,RYZ,RXZ,SXX,SYY,SZZ,SXY,SYZ,SXZ,
      .   TXX,TYY,TZZ,TXY,TYZ,TXZ,QXX,QYY,QZZ,QXY,QYZ,QXZ,
      .   RS1,ST1,RT1,JR_1,JS_1,JT_1
@@ -2488,15 +2488,15 @@ C----------RXX,SXX,TXX:ETA,ZETA,KSI-------------------------------------
         K=1
         T1 = NU2*CC(I,K,2)
         T2 = JR0(I)*JT_1*FHOUR(I,1,1)+JT0(I)*JR_1*FHOUR(I,3,3)
-        RXX = (CC(I,K,1)-T1)*FHOUR(I,1,3)+     
+        RXX = (CC(I,K,1)-T1)*FHOUR(I,1,3)+
      .        (CC(I,K,3)-T1)*FHOUR(I,3,1)+ CG(I,K,3)*T2
         K=2
         T1 = NU2*CC(I,K,2)
-        RYY = (CC(I,K,1)-T1)*FHOUR(I,1,3)+     
+        RYY = (CC(I,K,1)-T1)*FHOUR(I,1,3)+
      .        (CC(I,K,3)-T1)*FHOUR(I,3,1)+ CG(I,K,3)*T2
         K=3
         T1 = NU2*CC(I,K,2)
-        RZZ = (CC(I,K,1)-T1)*FHOUR(I,1,3)+     
+        RZZ = (CC(I,K,1)-T1)*FHOUR(I,1,3)+
      .        (CC(I,K,3)-T1)*FHOUR(I,3,1)+ CG(I,K,3)*T2
         J=1
         T1 = NU2*CG(I,2,J)
@@ -2514,15 +2514,15 @@ C----------RXX,SXX,TXX:ETA,ZETA,KSI-------------------------------------
         T1 = NU2*CC(I,K,3)
         T2 = JR0(I)*JS_1*FHOUR(I,1,1)+JS0(I)*JR_1*FHOUR(I,2,2)
         SXX =(CC(I,K,1)-T1)*FHOUR(I,1,2)+
-     .       (CC(I,K,2)-T1)*FHOUR(I,2,1)+ CG(I,K,1)*T2   
+     .       (CC(I,K,2)-T1)*FHOUR(I,2,1)+ CG(I,K,1)*T2
         K=2
         T1 = NU2*CC(I,K,3)
         SYY =(CC(I,K,1)-T1)*FHOUR(I,1,2)+
-     .       (CC(I,K,2)-T1)*FHOUR(I,2,1)+ CG(I,K,1)*T2   
+     .       (CC(I,K,2)-T1)*FHOUR(I,2,1)+ CG(I,K,1)*T2
         K=3
         T1 = NU2*CC(I,K,3)
         SZZ =(CC(I,K,1)-T1)*FHOUR(I,1,2)+
-     .       (CC(I,K,2)-T1)*FHOUR(I,2,1)+ CG(I,K,1)*T2   
+     .       (CC(I,K,2)-T1)*FHOUR(I,2,1)+ CG(I,K,1)*T2
         J=1
         T1 = NU2*CG(I,3,J)
         SXY =(CG(I,1,J)-T1)*FHOUR(I,1,2)+(CG(I,2,J)-T1)*FHOUR(I,2,1)+
@@ -2539,15 +2539,15 @@ C----------RXX,SXX,TXX:ETA,ZETA,KSI-------------------------------------
         T1 = NU2*CC(I,K,1)
         T2 = JS0(I)*JT_1*FHOUR(I,2,2)+JT0(I)*JS_1*FHOUR(I,3,3)
         TXX =(CC(I,K,2)-T1)*FHOUR(I,2,3)+
-     .       (CC(I,K,3)-T1)*FHOUR(I,3,2)+ CG(I,K,2)*T2   
+     .       (CC(I,K,3)-T1)*FHOUR(I,3,2)+ CG(I,K,2)*T2
         K=2
         T1 = NU2*CC(I,K,1)
         TYY =(CC(I,K,2)-T1)*FHOUR(I,2,3)+
-     .       (CC(I,K,3)-T1)*FHOUR(I,3,2)+ CG(I,K,2)*T2   
+     .       (CC(I,K,3)-T1)*FHOUR(I,3,2)+ CG(I,K,2)*T2
         K=3
         T1 = NU2*CC(I,K,1)
         TZZ =(CC(I,K,2)-T1)*FHOUR(I,2,3)+
-     .       (CC(I,K,3)-T1)*FHOUR(I,3,2)+ CG(I,K,2)*T2   
+     .       (CC(I,K,3)-T1)*FHOUR(I,3,2)+ CG(I,K,2)*T2
         J=1
         T1 = NU2*CG(I,1,J)
         TXY =(CG(I,2,J)-T1)*FHOUR(I,2,3)+(CG(I,3,J)-T1)*FHOUR(I,3,2)+
@@ -2566,27 +2566,27 @@ C----------RXX,SXX,TXX:ETA,ZETA,KSI-------------------------------------
         K = 1
         QXX =(CC(I,K,1)-NU*(CC(I,K,2)+CC(I,K,3)))*RS1+
      .       (CC(I,K,2)-NU*(CC(I,K,3)+CC(I,K,1)))*ST1+
-     .       (CC(I,K,3)-NU*(CC(I,K,1)+CC(I,K,2)))*RT1     
+     .       (CC(I,K,3)-NU*(CC(I,K,1)+CC(I,K,2)))*RT1
         K = 2
         QYY =(CC(I,K,1)-NU*(CC(I,K,2)+CC(I,K,3)))*RS1+
      .       (CC(I,K,2)-NU*(CC(I,K,3)+CC(I,K,1)))*ST1+
-     .       (CC(I,K,3)-NU*(CC(I,K,1)+CC(I,K,2)))*RT1     
+     .       (CC(I,K,3)-NU*(CC(I,K,1)+CC(I,K,2)))*RT1
         K = 3
         QZZ =(CC(I,K,1)-NU*(CC(I,K,2)+CC(I,K,3)))*RS1+
      .       (CC(I,K,2)-NU*(CC(I,K,3)+CC(I,K,1)))*ST1+
-     .       (CC(I,K,3)-NU*(CC(I,K,1)+CC(I,K,2)))*RT1     
+     .       (CC(I,K,3)-NU*(CC(I,K,1)+CC(I,K,2)))*RT1
         J = 1
         QXY =(CG(I,1,J)-NU*(CG(I,1,J)+CG(I,1,J)))*RS1+
      .       (CG(I,2,J)-NU*(CG(I,2,J)+CG(I,2,J)))*ST1+
-     .       (CG(I,3,J)-NU*(CG(I,3,J)+CG(I,3,J)))*RT1     
+     .       (CG(I,3,J)-NU*(CG(I,3,J)+CG(I,3,J)))*RT1
         J = 2
         QYZ =(CG(I,1,J)-NU*(CG(I,1,J)+CG(I,1,J)))*RS1+
      .       (CG(I,2,J)-NU*(CG(I,2,J)+CG(I,2,J)))*ST1+
-     .       (CG(I,3,J)-NU*(CG(I,3,J)+CG(I,3,J)))*RT1     
+     .       (CG(I,3,J)-NU*(CG(I,3,J)+CG(I,3,J)))*RT1
         J = 3
         QXZ =(CG(I,1,J)-NU*(CG(I,1,J)+CG(I,1,J)))*RS1+
      .       (CG(I,2,J)-NU*(CG(I,2,J)+CG(I,2,J)))*ST1+
-     .       (CG(I,3,J)-NU*(CG(I,3,J)+CG(I,3,J)))*RT1     
+     .       (CG(I,3,J)-NU*(CG(I,3,J)+CG(I,3,J)))*RT1
 C     
         SIG(I,1) = RXX*ETA+SXX*ZETA+TXX*KSI+QXX
         SIG(I,2) = RYY*ETA+SYY*ZETA+TYY*KSI+QYY
@@ -2594,7 +2594,7 @@ C
         SIG(I,4) = RXY*ETA+SXY*ZETA+TXY*KSI+QXY
         SIG(I,5) = RYZ*ETA+SYZ*ZETA+TYZ*KSI+QYZ
         SIG(I,6) = RXZ*ETA+SXZ*ZETA+TXZ*KSI+QXZ
-      ENDDO 
+      ENDDO
 C
       RETURN
       END
@@ -2706,7 +2706,7 @@ c
            DAMAI(NBDAMA)=I
            D_MAX =MAX(D_MAX,DAM(I,1),DAM(I,2),DAM(I,3))
          ELSE
-           NBDAMA0 = NBDAMA0 + 1 
+           NBDAMA0 = NBDAMA0 + 1
            DAMA0I(NBDAMA0)=I
          ENDIF
       ENDDO
@@ -2721,7 +2721,7 @@ c
         DE3  = ONE - MAX( ZERO , SIGN(DAM(I,3),CRAK(I,3)) )
         SCAL1= HALF + SIGN(HALF,DE1-ONE)
         SCAL2= HALF + SIGN(HALF,DE2-ONE)
-        SCAL3= HALF + SIGN(HALF,DE3-ONE)    
+        SCAL3= HALF + SIGN(HALF,DE3-ONE)
         DE4  = SCAL1*SCAL2
         DE5  = SCAL2*SCAL3
         DE6  = SCAL3*SCAL1
@@ -2835,18 +2835,18 @@ C=======================================================================
           QCA(I,4)=R12*G11+R22*G21+R32*G31
           QCA(I,5)=R12*G12+R22*G22+R32*G32
           QCA(I,6)=R12*G13+R22*G23+R32*G33
-        END DO 
+        END DO
        CALL GETTRANSV(1,NEL,QCA,QC,QCG,QGC,QG)
        DO I = 1,NEL
         CCA(I,1:3,1:3)= CC(I,1:3,1:3)
-       END DO 
+       END DO
        CALL MSTIFORTHV(1  ,NEL   ,QC  ,QCG  ,QGC    ,
-     .                 QG ,CCA   ,G3  ,GG33  ,CG     ) 
+     .                 QG ,CCA   ,G3  ,GG33  ,CG     )
        DO J = 1,3
        DO I = 1,NEL
         C3(I,J)= CC(I,J,J)
-       END DO 
-       END DO 
+       END DO
+       END DO
 c-----------
       RETURN
       END
@@ -2858,7 +2858,7 @@ Chd|-- calls ---------------
 Chd|        CBATRAN3V                     source/elements/solid/solidez/szhour3.F
 Chd|====================================================================
       SUBROUTINE C33STIF2EL(NEL   ,QC   ,QCG   ,QGC    ,QG     ,
-     .                      C33   ,CC   ,G33   ,CG     ) 
+     .                      C33   ,CC   ,G33   ,CG     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2873,7 +2873,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NEL  
+      INTEGER NEL
 C     REAL
       my_real
      .   QC(MVSIZ,3,3),QCG(MVSIZ,3,3),QGC(MVSIZ,3,3),QG(MVSIZ,3,3),
@@ -2896,7 +2896,7 @@ C
           B(I,J,J)=C33(I,J)
         ENDDO
        ENDDO
-      CALL CBATRAN3V(1,NEL    ,QC   ,B ,QCG,ISYM) 
+      CALL CBATRAN3V(1,NEL    ,QC   ,B ,QCG,ISYM)
 C      
        DO J= 1,3
        DO K= 1,3
@@ -2915,7 +2915,7 @@ C---------------[G']->[G33]----
           B(I,J,J)=C33(I,J)
         ENDDO
        ENDDO
-       CALL CBATRAN3V(1,NEL    ,QCG   ,B ,QCG,ISYM) 
+       CALL CBATRAN3V(1,NEL    ,QCG   ,B ,QCG,ISYM)
 C      
        DO J= 1,3
        DO K= J,3
@@ -2933,7 +2933,7 @@ C---------------[C']->[CC]----
           B(I,J,J)=C33(I,J)
         ENDDO
        ENDDO
-       CALL CBATRAN3V(1,NEL   ,QC   ,B ,QC,ISYM) 
+       CALL CBATRAN3V(1,NEL   ,QC   ,B ,QC,ISYM)
 C      
        DO J= 1,3
        DO K= J,3
@@ -3084,7 +3084,7 @@ C-----------------------------------------------
      .   KSI,ETA,ZETA,COEF,F1,F2,F3,F1X,F2Y,F3Z
       my_real
      .  A_GAUSS(9,9)
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
      1 0.               ,0.               ,0.               ,
@@ -3112,7 +3112,7 @@ C-----------------------------------------------
      9 -.968160239507626,-.836031107326636,-.613371432700590,
      9 -.324253423403809,0.               ,0.324253423403809,
      9 0.613371432700590,0.836031107326636,0.968160239507626/
-      
+
 C-----------------------------------------------
       DO IR=1,2
        DO IS=1,2
@@ -3139,8 +3139,8 @@ C
           STR_PI(I,6,IP)=STRAIN(I,5)+STRHG(I,2,4)*ETA
           STR_PI(I,5,IP)=STRAIN(I,6)+STRHG(I,3,4)*KSI
          END DO
-        ENDDO 
-       ENDDO 
+        ENDDO
+       ENDDO
       ENDDO
 C      
       RETURN

@@ -43,7 +43,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,7 +53,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
 #include       "vect01_c.inc"
-#include       "com01_c.inc" 
+#include       "com01_c.inc"
 #include       "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -77,51 +77,51 @@ C-----------------------------------------------
 C-----------------------------------------------
       IF (ISIGI /= 0) THEN
 C                     
-        DO I=LFT,LLT 
+        DO I=LFT,LLT
 c
          II=NFT+I
          JJ=PT(II)
          IF(JJ==0)CYCLE
-c         
-         DO IL=1,NLAY 
+c
+         DO IL=1,NLAY
            NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
            DO IUS=1,NFAIL
-            JPS = NVSOLID1  + NVSOLID2 + 4 + NUSOLID + NVSOLID3 
+            JPS = NVSOLID1  + NVSOLID2 + 4 + NUSOLID + NVSOLID3
             NVMAX = NVSOLID4 /(NPTR*NPTS*NPTT*NLAY*5)
             DO IR = 1,NPTR
              DO IS = 1,NPTS
               DO IT = 1,NPTT
-                FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT) 
-                UVARF => FBUF%FLOC(IUS)%VAR     
-                DFMAX => FBUF%FLOC(IUS)%DAMMX   
+                FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)
+                UVARF => FBUF%FLOC(IUS)%VAR
+                DFMAX => FBUF%FLOC(IUS)%DAMMX
                 NVAR_RUPT = FBUF%FLOC(IUS)%NVAR
                 DFMAX(I)= SIGSP(JPS+1+(IUS-1)*NLAY*NPTR*NPTS*NPTT*NVMAX+
      .          	      (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ)
            	JPS = JPS + 1
-                DO NV=1,NVAR_RUPT 
+                DO NV=1,NVAR_RUPT
                   UVARF((NV-1)*LLT+I)=
      .               SIGSP(JPS+1+(IUS-1)*NLAY*NPTR*NPTS*NPTT*NVMAX+
-     .                          (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ) 
+     .                          (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ)
                   JPS = JPS + 1
                ENDDO
               ENDDO
              ENDDO
-            ENDDO 
+            ENDDO
            ENDDO
          ENDDO
         ENDDO
-      ENDIF 
+      ENDIF
 c-----------------------------
-      IF( NPERTURB /= 0 ) THEN 
+      IF( NPERTURB /= 0 ) THEN
        DO J=1,NPERTURB
          IF(PERTURB(J) == 2)THEN
-           DO I=LFT,LLT 
+           DO I=LFT,LLT
              IF (RNOISE(J,I+NFT) /= ZERO) THEN
-               DO IL=1,NLAY   
+               DO IL=1,NLAY
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT
-                 DO IUS=1,NFAIL                                  
-                   IP	= (IUS - 1)*15  
+                 DO IUS=1,NFAIL
+                   IP	= (IUS - 1)*15
                    IADBUFR = IPM(114+IP, IMAT)
                    IRUP = IPM(111+IP, IMAT)
                    BUFMAT(IADBUFR+7) = 1
@@ -138,9 +138,9 @@ c
                      CALL BIQUAD_COEFFICIENTS(c1 ,c2 ,c3  ,c4  ,c5  ,d1  ,L  ,
      .                                        X_1,X_2,ZERO,ZERO,ZERO,ZERO)
 c
-                     DO IT = 1,NPTT 
+                     DO IT = 1,NPTT
                        DO IS = 1,NPTS
-                         DO IR = 1,NPTR 
+                         DO IR = 1,NPTR
                   	        FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)
                   	        UVARF => FBUF%FLOC(IUS)%VAR
                   	        UVARF((3-1)*LLT+I) = C2

@@ -37,7 +37,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -104,9 +104,9 @@ C--         Check of incompatibility with other spt27 or spt28 t2 interfaces - m
 C
 C    Tag des noeuds de section (section = IMPDISP dans certains cas)
 C
-     
+
       IF(NSECT > 0) THEN
-        K0 = NSTRF(25)    
+        K0 = NSTRF(25)
         DO N=1,NSECT
           TYP = NSTRF(K0)
           NNOD = NSTRF(K0+6)
@@ -129,12 +129,12 @@ C
           NMN   = IPARI(6,N)
           ILEV  = IPARI(20,N)
 c
-          DO I=1,NMN                   
-            J = INTBUF_TAB(N)%MSR(I)   
+          DO I=1,NMN
+            J = INTBUF_TAB(N)%MSR(I)
             IF ((ILEV == 0 .OR. ILEV == 1 .OR. ILEV == 27 .OR. ILEV == 28) .AND. PENTAG(J) == 0) THEN
               PENTAG(J) = ONE
-            ENDIF  
-          ENDDO    
+            ENDIF
+          ENDDO
         ENDIF
       ENDDO
 C-------if only middle node (Itet=2 of tetra10) is the salve ILEV == 27 .or. ILEV == 28 change to penality, 
@@ -169,21 +169,21 @@ C----         <0 tag n1,n2 S w/o penality of int2
        DO N=1,NINTER
         NTY  = IPARI(7,N)
         IF (NTY == 2 ) THEN
-         NMN =IPARI(6,N)                                 
+         NMN =IPARI(6,N)
          NSN   = IPARI(5,N)
          ILEV = IPARI(20,N)
          IF (ILEV == 27 .or. ILEV == 28) THEN
           DO I=1,NSN
            ISL = INTBUF_TAB(N)%NSV(I)
            IF (PENTAG(ISL) /= 1.AND.ITAGMD(ISL)==0) ITAGMD(ISL)=-1
-          END DO 
+          END DO
           DO I=1,NMN
            IML = INTBUF_TAB(N)%MSR(I)
            IF (ITAGMD(IML)>0) ITAGMD(IML) = ITAGMD(IML) + NS10E
           ENDDO
          END IF
         END IF
-       END DO 
+       END DO
        DO I = 1, NS10E
         N = IABS(ICNDS10(1,I))
         N1 = ICNDS10(2,I)
@@ -202,7 +202,7 @@ C
           NSN   = IPARI(5,N)
           NOINT = IPARI(15,N)
           NINT  = N
-       
+
 c          ID=NOM_OPT(1,NINT)
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,NINT),LTITR)
           DO I=1,NSN

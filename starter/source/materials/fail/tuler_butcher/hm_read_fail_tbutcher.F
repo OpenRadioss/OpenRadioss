@@ -55,9 +55,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)             ::ID,FAIL_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -143,7 +143,7 @@ C
 C
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE 
+      ELSE
 C---
 C for shell      
 C---
@@ -168,7 +168,7 @@ C---
             WRITE(IOUT, 2200)
           ENDIF
         END IF
-      ENDIF      
+      ENDIF
 C
  1000 FORMAT(
      & 5X,40H    TULER BUTCHER DAMAGE PARAMETER            /,
@@ -178,15 +178,15 @@ C
      & 5X,40HFRACTURE STRESS . . . . . . . . . . . .=,E12.4/,
      & 5X,40HXFEM FAILURE FLAG . . . . . . . . . . .=,I10//)
  1100 FORMAT(
-     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SHELL ELEMENT DELETION AFTER FAILURE')
  2100 FORMAT(
-     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE') 
+     & 5X,'   SOLID ELEMENT DELETION AFTER FAILURE')
  1200 FORMAT(
-     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')   
+     & 5X,'   STRESS TENSOR IN SHELL LAYER SET TO ZERO AFTER FAILURE')
  1400 FORMAT(
-     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')   
+     & 5X,'   SHELL ELEMENT CRACKING AFTER FAILURE')
  2200 FORMAT(
-     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')    
+     & 5X,'   DEVIATORIC STRESS IN SOLID WILL VANISH AFTER FAILURE')
  1010 FORMAT(
      & 5X,40H    XFEM TULER BUTCHER DAMAGE PARAMETER       /,
      & 5X,40H    -----------------------------             /,

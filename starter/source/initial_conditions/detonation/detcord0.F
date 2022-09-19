@@ -54,7 +54,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: J,I,II,NDETCORD,NPE,NPE2
       my_real :: XLP1,XLP2,YLP1,YLP2,ZLP1,ZLP2,D,XL0,YL0,ZL0
-      
+
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
@@ -73,23 +73,23 @@ C-----------------------------------------------
         DETONATORS%DCORD(I)= ALT
 
        IF(IOPT == 1)THEN
-        DO J=1,NPE2-1 
+        DO J=1,NPE2-1
           !first point
-          I        = N2+J-1   
-          II       = DETONATORS%ICORD(I) 
-          XLP1     = X(1,II)  
-          YLP1     = X(2,II)  
-          ZLP1     = X(3,II)  
+          I        = N2+J-1
+          II       = DETONATORS%ICORD(I)
+          XLP1     = X(1,II)
+          YLP1     = X(2,II)
+          ZLP1     = X(3,II)
           !second point
           I        = I+1
           II       = DETONATORS%ICORD(I)
-          XLP2     = X(1,II)       
+          XLP2     = X(1,II)
           YLP2     = X(2,II)
           ZLP2     = X(3,II)
           !distance P1-P2
-          XL0      = (XLP1-XLP2)                                       
-          YL0      = (YLP1-YLP2)                                       
-          ZL0      = (ZLP1-ZLP2)        
+          XL0      = (XLP1-XLP2)
+          YL0      = (YLP1-YLP2)
+          ZL0      = (ZLP1-ZLP2)
           D        = XL0**2 + YL0**2 + ZL0**2
           D        = SQRT(D)
           DETONATORS%DCORD(I) = DETONATORS%DCORD(I-1) + D/VDET2

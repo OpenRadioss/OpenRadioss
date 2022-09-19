@@ -119,11 +119,11 @@ c--------------------------------------------------
      .                          UNIT_ID     = UID,
      .                          OPTION_TITR = TITR,
      .                          KEYWORD2    = KEY)
-c        
+c
         IOPT = IOPT + 1
         NOM_OPT(1,IOPT) = OPTID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,IOPT),LTITR)
-c        
+c
 c--------------------------------------------------
         ICOOR    = 0
         FGEO     = 2
@@ -134,12 +134,12 @@ c--------------------------------------------------
 c       READ STRING VALUES from /IMPVEL
 c--------------------------------------------------
 c        CALL HM_GET_INTV  ('distribution'  ,DISTRIBUTION ,IS_AVAILABLE,LSUBMODEL)
-c        
+c
         CALL HM_GET_INTV  ('curveid'        ,FCT1_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_spring_part',PART_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_fct_l_id'   ,FCT2_ID ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('rad_sensor_id'  ,SENS_ID ,IS_AVAILABLE,LSUBMODEL)
-c        
+c
         CALL HM_GET_FLOATV('xscale'         ,XSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('rad_t0'         ,T0      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('rad_tstart'     ,TSTART  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -148,8 +148,8 @@ c
 c
         CALL HM_GET_INTV('distribution_table_count' ,NNOD ,IS_AVAILABLE,LSUBMODEL)
         DO I = 1,NNOD
-          CALL HM_GET_INT_ARRAY_INDEX('location_unit_node' ,NOD1(I) ,I ,IS_AVAILABLE, LSUBMODEL)                             
-          CALL HM_GET_INT_ARRAY_INDEX('rad_node_id'        ,NOD2(I) ,I ,IS_AVAILABLE, LSUBMODEL)                             
+          CALL HM_GET_INT_ARRAY_INDEX('location_unit_node' ,NOD1(I) ,I ,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INT_ARRAY_INDEX('rad_node_id'        ,NOD2(I) ,I ,IS_AVAILABLE, LSUBMODEL)
         ENDDO
 c
 c--------------------------------------------------
@@ -159,7 +159,7 @@ c--------------------------------------------------
           CALL ANCMSG(MSGID=1074, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                I1=OPTID, C1=TITR, R1=T0)
           CALL HM_GET_FLOATV_DIM('rad_t0'   ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          T0 = ONE * FSCAL_T 
+          T0 = ONE * FSCAL_T
         ENDIF
         IF (XSCALE == ZERO) THEN
           CALL HM_GET_FLOATV_DIM('xscale'    ,FSCAL_T ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -175,13 +175,13 @@ c--------------------------------------------------
 c       Treatment of explicitely defined nodes
 c--------------------------------------------------
         DO J=1,NNOD
-              
+
           N2 = USR2SYS(NOD2(J),ITABM1,MESS,OPTID)
-          XF = X0(1,N2)   
-          YF = X0(2,N2)   
+          XF = X0(1,N2)
+          YF = X0(2,N2)
           ZF = X0(3,N2)
 c
-          IF (NOD1(J) > 0) THEN  
+          IF (NOD1(J) > 0) THEN
             INUM = INUM + 1
             N1 = USR2SYS(NOD1(J),ITABM1,MESS,OPTID)
             XI = X0(1,N1)
@@ -194,7 +194,7 @@ c
             IBFVEL(3 ,INUM) = FCT1_ID
             IBFVEL(4 ,INUM) = SENS_ID
             IBFVEL(5 ,INUM) = 0
-            IBFVEL(6 ,INUM) = 0 
+            IBFVEL(6 ,INUM) = 0
             IBFVEL(7 ,INUM) = IDIS
             IBFVEL(8 ,INUM) = ILAGM
             IBFVEL(9 ,INUM) = NOFRAME
@@ -226,7 +226,7 @@ c--------------------------------------------------
           DO N=1,NPART
             IF (IPART(4,N) == PART_ID) JPART = N
           ENDDO
-c            
+c
           DO N=1,NUMELR
             IF (IPARTR(N) == JPART) THEN
               INUM = INUM + 1
@@ -270,7 +270,7 @@ c
             END IF
           END DO
         END IF  ! PART_ID > 0
-c----------------------------------------------------------------------	  
+c----------------------------------------------------------------------	
 c       /IMPVEL/FGEO CALCULE LE NOMBRE D'OCCURENCES D'ONE NOEUD DE DESTINATION
 c--------------------------------------------------
         DO N = 1,INUM
@@ -286,7 +286,7 @@ c--------------------------------------------------
         END DO
 c-----------
       END DO  ! IFGEO = 1,NFGEO
-c----------------------------------------------------------------------	  
+c----------------------------------------------------------------------	
  1000 FORMAT(//
      .'     IMPOSED VELOCITIES  PRESCRIBED FINAL GEOMETRY '/
      .'     ----------------------------------------------'/
@@ -294,6 +294,6 @@ c----------------------------------------------------------------------
      .'      FSCALE           ASCALE       START_TIME           ',
      .'      DMIN   LOAD_SCALE')
  2000 FORMAT(5(1X,I10),5(1X,1PG16.9))
-c----------------------------------------------------------------------	  
+c----------------------------------------------------------------------	
       RETURN
       END

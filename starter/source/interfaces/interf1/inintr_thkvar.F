@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -218,13 +218,13 @@ C
       ID=NOM_OPT(1,PTR_NOPT_INTER+NINTI)
       CALL FRETITL2(TITR,
      .              NOM_OPT(LNOPT1-LTITR+1,PTR_NOPT_INTER+NINTI),LTITR)
-   
+
       IF(ISTAMP > 0)THEN
         pINTSTAMP => INTSTAMP(ISTAMP)
       ELSE
         NULLIFY(pINTSTAMP)
       ENDIF
-      
+
       CALL ININT3_THKVAR(
      1  INTBUF_TAB(N),INSCR(NINTI)%WA           ,X        ,IXS   ,
      2  IXC          ,IXTG         ,PM        ,GEO      ,IPARI(1,N),

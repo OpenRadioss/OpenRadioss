@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   ROUTINE GENERIQUE 4NOEUDS-3NOEUDS 
 C-----------------------------------------------
@@ -65,8 +65,8 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,JJ,KK,N,NPTI,NU,NIP,NUVAR,NVARS,NPG,IPT,
      .        IPT_ALL,IT,ILAY,NPTT,L_SIGB
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
       my_real, DIMENSION(:), POINTER :: UVAR,SIGA,SIGB,SIGC
 C=======================================================================
       DO I=JFT,JLT
@@ -92,10 +92,10 @@ C=======================================================================
           II=PTSH(JJ)
           IF(II == 0)GOTO 200
         END IF
-        NIP  = NINT(SIGSH(NVSHELL + 2,II))       
+        NIP  = NINT(SIGSH(NVSHELL + 2,II))
         NPG  = NINT(SIGSH(NVSHELL + 3,II))
         NVARS= NINT(SIGSH(NVSHELL + 4,II))
-        NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT 
+        NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT
 c
         IF (ELBUF_STR%BUFLY(1)%ILAW == 36) THEN  ! backstress is no more stored in uvar
           L_SIGB = ELBUF_STR%BUFLY(1)%L_SIGB
@@ -179,13 +179,13 @@ c
             IPT_ALL = IPT_ALL + NPTT
           ENDDO  !  DO ILAY=1,NPT
 c
-        ELSE IF (NPG <= 1) THEN                                      
+        ELSE IF (NPG <= 1) THEN
           IF (NIP == 0) THEN
-            UVAR => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR                         
-            DO NU = 1,MIN(NVARS,NUVAR) 
+            UVAR => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR
+            DO NU = 1,MIN(NVARS,NUVAR)
               UVAR((NU -1)*NEL + I) = SIGSH(NVSHELL + 4 + NU, II)
-            ENDDO                                                
-          ELSE                                                  
+            ENDDO
+          ELSE
             IPT_ALL = 0
             DO ILAY=1,NLAY
               NPTT  = ELBUF_STR%BUFLY(ILAY)%NPTT
@@ -193,16 +193,16 @@ c
               DO IT=1,NPTT
                 IPT = IPT_ALL + IT
                 UVAR => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IT)%VAR
-                DO NU = 1,MIN(NVARS,NUVAR) 
-                  UVAR((NU -1)*NEL + I) = 
+                DO NU = 1,MIN(NVARS,NUVAR)
+                  UVAR((NU -1)*NEL + I) =
      .            SIGSH(NVSHELL + 4  + NU + (IPT -1)*NVARS , II)
                 ENDDO
               ENDDO
               IPT_ALL = IPT_ALL + NPTT
             ENDDO  !  DO ILAY=1,NPT
 c
-          ENDIF                                                 
-        ENDIF                                                   
+          ENDIF
+        ENDIF
  200    CONTINUE
       ENDDO
 C-----------

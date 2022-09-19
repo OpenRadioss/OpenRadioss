@@ -88,7 +88,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)   :: UNITAB
       INTEGER,INTENT(IN)             :: MAXUPARAM,MAXFUNC,FAIL_ID,MAT_ID
       TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -100,7 +100,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NANGLE,I,J,K,INFO,REG_FUNC,MFLAG,SFLAG,RATE_FUNC,IPIV2(2),IPIV3(3)
-      my_real 
+      my_real
      .    PTHK,REF_SIZ,REF_SIZ_UNIT,EPSD0,CJC,RATE_SCALE,REF_RATE_UNIT,
      .    R1,R2,R4,R5,C5,C5_MIN
       my_real, DIMENSION(:), ALLOCATABLE :: C1,C2,C3,C4,INST
@@ -115,22 +115,22 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: IPIV
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
       DATA TRIAX_1_LIN, TRIAX_2_LIN, TRIAX_3_LIN, TRIAX_4_LIN,
-     .     TRIAX_5_LIN 
+     .     TRIAX_5_LIN
      .      / -0.33333333, 0.0, 0.33333333, 0.577350269, 0.66666667 /
-      DATA TRIAX_1_QUAD, TRIAX_2_QUAD, TRIAX_3_QUAD, 
-     .     TRIAX_4_QUAD, TRIAX_5_QUAD 
+      DATA TRIAX_1_QUAD, TRIAX_2_QUAD, TRIAX_3_QUAD,
+     .     TRIAX_4_QUAD, TRIAX_5_QUAD
      .      / 0.11111111, 0.0, 0.11111111, 0.33333333, 0.44444444 /
 C
       DATA  COS2/
-     1 1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,   
-     2 0.   ,1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     3 -1.  ,0.   ,2.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     4 0.   ,-3.  ,0.   ,4.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     5 1.   ,0.   ,-8.  ,0.   ,8.   ,0.   ,0.   ,0.   ,0.   ,0.   ,     
-     6 0.   ,5.   ,0.   ,-20. ,0.   ,16.  ,0.   ,0.   ,0.   ,0.   ,     
-     7 -1.  ,0.   ,18.  ,0.   ,-48. ,0.   ,32.  ,0.   ,0.   ,0.   ,     
-     8 0.   ,-7.  ,0.   ,56.  ,0.   ,-112.,0.   ,64.  ,0.   ,0.   ,     
-     9 1.   ,0.   ,-32. ,0.   ,160. ,0.   ,-256.,0.   ,128. ,0.   ,     
+     1 1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     2 0.   ,1.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     3 -1.  ,0.   ,2.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     4 0.   ,-3.  ,0.   ,4.   ,0.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     5 1.   ,0.   ,-8.  ,0.   ,8.   ,0.   ,0.   ,0.   ,0.   ,0.   ,
+     6 0.   ,5.   ,0.   ,-20. ,0.   ,16.  ,0.   ,0.   ,0.   ,0.   ,
+     7 -1.  ,0.   ,18.  ,0.   ,-48. ,0.   ,32.  ,0.   ,0.   ,0.   ,
+     8 0.   ,-7.  ,0.   ,56.  ,0.   ,-112.,0.   ,64.  ,0.   ,0.   ,
+     9 1.   ,0.   ,-32. ,0.   ,160. ,0.   ,-256.,0.   ,128. ,0.   ,
      A 0.   ,9.   ,0.   ,-120.,0.   ,432. ,0.   ,-576 ,0.   ,256. /
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
@@ -151,13 +151,13 @@ C===============================================================================
       CALL HM_GET_INTV   ('MAT_SFLAG'      ,SFLAG  ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV   ('MAT_refanglemax',NANGLE ,IS_AVAILABLE,LSUBMODEL)
       ! Error message
-      IF (NANGLE > 10) THEN 
+      IF (NANGLE > 10) THEN
         CALL ANCMSG(MSGID=2015,MSGTYPE=MSGERROR,
-     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)      
-      ENDIF 
+     .              ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
+      ENDIF
       CALL HM_GET_INTV   ('fct_IDel' ,REG_FUNC    ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('EI_ref'   ,REF_SIZ     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-! Default values      
+! Default values
       IF (PTHK  == ZERO) PTHK  = ONE
       PTHK = MIN(PTHK,ONE)
       PTHK = MAX(ZERO,PTHK)
@@ -173,21 +173,21 @@ C===============================================================================
 ! Size regularization and percentage of integration failure
       CALL HM_GET_FLOATV ('MAT_C5'    ,C5          ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('MAT_EPSD0' ,EPSD0       ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV ('MAT_CJC'   ,CJC         ,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV ('MAT_CJC'   ,CJC         ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV   ('fct_IDrate',RATE_FUNC   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV ('RATE_scale',RATE_SCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 ! Units and default values
-      IF ((RATE_SCALE == ZERO).AND.(RATE_FUNC > 0)) THEN 
+      IF ((RATE_SCALE == ZERO).AND.(RATE_FUNC > 0)) THEN
         CALL HM_GET_FLOATV_DIM('RATE_scale' ,REF_RATE_UNIT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         RATE_SCALE = REF_RATE_UNIT*ONE
       ENDIF
-      IF (RATE_FUNC > 0) THEN 
+      IF (RATE_FUNC > 0) THEN
         CJC   = ZERO
         EPSD0 = ZERO
       ELSE
         RATE_SCALE = ZERO
       ENDIF
-      IF (CJC == ZERO .OR. EPSD0 == ZERO) THEN 
+      IF (CJC == ZERO .OR. EPSD0 == ZERO) THEN
         CJC   = ZERO
         EPSD0 = ZERO
       ENDIF
@@ -197,15 +197,15 @@ C===============================================================================
 ! Biquad parameter by angle
       IF (.NOT.ALLOCATED(C1))   ALLOCATE(C1(NANGLE))
       IF (.NOT.ALLOCATED(C2))   ALLOCATE(C2(NANGLE))
-      IF (.NOT.ALLOCATED(C3))   ALLOCATE(C3(NANGLE)) 
+      IF (.NOT.ALLOCATED(C3))   ALLOCATE(C3(NANGLE))
       IF (.NOT.ALLOCATED(C4))   ALLOCATE(C4(NANGLE))
-      IF (SFLAG == 3) THEN 
+      IF (SFLAG == 3) THEN
         IF (.NOT.ALLOCATED(INST)) ALLOCATE(INST(NANGLE))
         INST = ZERO
       ENDIF
       C5_MIN = INFINITY
       ! Material selector
-      IF (MFLAG == 0) THEN 
+      IF (MFLAG == 0) THEN
         ! Loop over angles (must be equally distributed between 0 and pi/2)
         DO J = 1, NANGLE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_C1',C1(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -225,40 +225,40 @@ C===============================================================================
             CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_INST',INST(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF (INST(J) <= ZERO)   THEN
               CALL ANCMSG(MSGID=2016,MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)    
+     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
               SFLAG = 2
             ELSEIF (INST(J) >= C4(J)) THEN
               CALL ANCMSG(MSGID=2017,MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
               SFLAG = 2
-            ENDIF           
+            ENDIF
           ENDIF
         ENDDO
       ELSE
         ! RX parameters
         IF (MFLAG == 1) THEN ! Mild Seel (c3 = 0.6)
-          R1 = 3.5D0 
-          R2 = 1.6D0 
-          R4 = 0.6D0 
+          R1 = 3.5D0
+          R2 = 1.6D0
+          R4 = 0.6D0
           R5 = 1.5D0
         ELSEIF (MFLAG == 2) THEN ! DP600 (c3 = 0.5)
-          R1 = 4.3D0 
+          R1 = 4.3D0
           R2 = 1.4D0
           R4 = 0.6D0
           R5 = 1.6D0
         ELSEIF (MFLAG == 3) THEN ! Boron (c3 = 0.12)
-          R1 = 5.2D0 
-          R2 = 3.1D0 
-          R4 = 0.8D0 
-          R5 = 3.5D0 
+          R1 = 5.2D0
+          R2 = 3.1D0
+          R4 = 0.8D0
+          R5 = 3.5D0
         ELSEIF (MFLAG == 4) THEN ! Aluminium AA5182 (c3 = 0.3)
           R1 = 5.0D0
-          R2 = 1.0D0 
+          R2 = 1.0D0
           R4 = 0.4D0
           R5 = 0.8D0
         ELSEIF (MFLAG == 5) THEN ! Aluminium AA6082-T6 (c3 = 0.17)
           R1 = 7.8D0
-          R2 = 3.5D0   
+          R2 = 3.5D0
           R4 = 0.6D0
           R5 = 2.8D0
         ELSEIF (MFLAG == 6) THEN ! Plastic light_eBody PA6GF30 (c3 = 0.1)
@@ -281,15 +281,15 @@ C===============================================================================
           R2 = 1.6D0
           R4 = 0.6D0
           R5 = 1.5D0
-        ENDIF   
+        ENDIF
         ! Loop over angles (must be equally distributed between 0 and pi/2)
         DO J = 1, NANGLE
           CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_C3'  ,C3(J)  ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
-          ! Default values 
-          IF (C3(J) == ZERO) THEN 
-            IF (MFLAG == 1) THEN 
+          ! Default values
+          IF (C3(J) == ZERO) THEN
+            IF (MFLAG == 1) THEN
               C3(J) = 0.6D0
-            ELSEIF (MFLAG == 2) THEN 
+            ELSEIF (MFLAG == 2) THEN
               C3(J) = 0.5D0
             ELSEIF (MFLAG == 3) THEN
               C3(J) = 0.12D0
@@ -313,13 +313,13 @@ C===============================================================================
             CALL HM_GET_FLOAT_ARRAY_INDEX('MAT_INST',INST(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
             IF (INST(J) <= ZERO)   THEN
               CALL ANCMSG(MSGID=2016,MSGTYPE=MSGWARNING,
-     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)    
+     .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
               SFLAG = 2
             ELSEIF (INST(J) >= C4(J)) THEN
               CALL ANCMSG(MSGID=2017,MSGTYPE=MSGWARNING,
      .                    ANMODE=ANINFO_BLIND_1,I1=MAT_ID,C1=TITR)
               SFLAG = 2
-            ENDIF           
+            ENDIF
           ENDIF
         ENDDO
       ENDIF
@@ -346,7 +346,7 @@ C
 C
         ! Fitting the first quadratic function
 #ifndef WITHOUT_LINALG
-        CALL DGESV(2, 1, A_1, 2, IPIV2, B_1, 2, INFO)  
+        CALL DGESV(2, 1, A_1, 2, IPIV2, B_1, 2, INFO)
 #else
         WRITE(6,*) "Error: Blas/Lapack required"
 #endif
@@ -379,13 +379,13 @@ C
 C======================================================================================
 C    COMPUTING COSINE INTERPOLATION
 C======================================================================================
-c      
+c
       IF (.NOT.ALLOCATED(THETA))     ALLOCATE(THETA(NANGLE))
       IF (.NOT.ALLOCATED(THETA_RAD)) ALLOCATE(THETA_RAD(NANGLE))
 c
       ! Computation of angles
       DO J = 1, NANGLE
-        IF (NANGLE > 1) THEN 
+        IF (NANGLE > 1) THEN
           THETA(J)     = (J-1)*(90.0D0/(NANGLE-1))
           THETA_RAD(J) = THETA(J)*(PI/180.0D0)
         ELSE
@@ -418,13 +418,13 @@ c
       Q_X21(1:NANGLE) = ZERO
       Q_X22(1:NANGLE) = ZERO
       Q_X23(1:NANGLE) = ZERO
-      IF (SFLAG == 3) THEN 
+      IF (SFLAG == 3) THEN
         ALLOCATE(Q_INST(NANGLE))
         Q_INST(1:NANGLE) = ZERO
       ENDIF
 c
       ! Filling the B vector with experimental points
-      IF (SFLAG == 3) THEN 
+      IF (SFLAG == 3) THEN
         ALLOCATE (BVEC(NANGLE,7))
       ELSE
         ALLOCATE (BVEC(NANGLE,6))
@@ -436,13 +436,13 @@ c
       BVEC(1:NANGLE,5) = X_2(1:NANGLE,2)
       BVEC(1:NANGLE,6) = X_2(1:NANGLE,3)
       IF (SFLAG == 3) BVEC(1:NANGLE,7) = INST(1:NANGLE)
-c        
+c
       ! Initialization of the Pivot vector
       IPIV(1:NANGLE) = 0
 c
       ! Solving the A-MATRIX * x = B vector system
 #ifndef WITHOUT_LINALG
-      IF (SFLAG == 3) THEN 
+      IF (SFLAG == 3) THEN
         CALL DGESV(NANGLE, 7, AMAT, NANGLE, IPIV, BVEC, NANGLE, INFO)
       ELSE
         CALL DGESV(NANGLE, 6, AMAT, NANGLE, IPIV, BVEC, NANGLE, INFO)
@@ -450,7 +450,7 @@ c
 #else
       WRITE(6,*) "Error: Blas/Lapack required"
 #endif
-c        
+c
       ! Recovering the solution
       Q_X11(1:NANGLE)  = BVEC(1:NANGLE,1)
       Q_X12(1:NANGLE)  = BVEC(1:NANGLE,2)
@@ -465,24 +465,24 @@ c     Filling buffer tables
 C======================================================================================
       ! -> Number of parameters
       NUPARAM = 7
-      IF (SFLAG == 3) THEN 
+      IF (SFLAG == 3) THEN
         NUPARAM = NUPARAM + 7*NANGLE
       ELSE
         NUPARAM = NUPARAM + 6*NANGLE
       ENDIF
       ! -> Number of functions
       NFUNC   = 0
-      IF (RATE_FUNC /= 0) THEN 
+      IF (RATE_FUNC /= 0) THEN
         NFUNC = NFUNC + 1
         IFUNC(NFUNC) = RATE_FUNC
       ENDIF
-      IF (REG_FUNC /= 0) THEN 
-        NFUNC = NFUNC + 1 
+      IF (REG_FUNC /= 0) THEN
+        NFUNC = NFUNC + 1
         IFUNC(NFUNC) = REG_FUNC
       ENDIF
       ! -> Number of user variables
-      NUVAR = 3   
-c-----------------------------------------------------    
+      NUVAR = 3
+c-----------------------------------------------------
       UPARAM(1) = PTHK
       UPARAM(2) = SFLAG
       UPARAM(3) = REF_SIZ
@@ -490,7 +490,7 @@ c-----------------------------------------------------
       UPARAM(5) = CJC
       UPARAM(6) = RATE_SCALE
       UPARAM(7) = NANGLE
-      IF (SFLAG == 3) THEN 
+      IF (SFLAG == 3) THEN
         DO J = 1,NANGLE
           UPARAM(8  + 7*(J-1)) = Q_X11(J)
           UPARAM(9  + 7*(J-1)) = Q_X12(J)
@@ -499,7 +499,7 @@ c-----------------------------------------------------
           UPARAM(12 + 7*(J-1)) = Q_X22(J)
           UPARAM(13 + 7*(J-1)) = Q_X23(J)
           UPARAM(14 + 7*(J-1)) = Q_INST(J)
-        ENDDO    
+        ENDDO
       ELSE
         DO J = 1,NANGLE
           UPARAM(8  + 6*(J-1)) = Q_X11(J)
@@ -508,12 +508,12 @@ c-----------------------------------------------------
           UPARAM(11 + 6*(J-1)) = Q_X21(J)
           UPARAM(12 + 6*(J-1)) = Q_X22(J)
           UPARAM(13 + 6*(J-1)) = Q_X23(J)
-        ENDDO          
+        ENDDO
       ENDIF
 c-----------------------------------------------------
 c--------------------------
 c     Printout data
-c-------------------------- 
+c--------------------------
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -525,16 +525,16 @@ c--------------------------
         ENDDO
         WRITE(IOUT,1300) ABS(PTHK),SFLAG
         IF (REG_FUNC > 0) WRITE(IOUT,1400) REG_FUNC,REF_SIZ
-        IF (EPSD0 > ZERO) THEN 
+        IF (EPSD0 > ZERO) THEN
           WRITE(IOUT,1500) EPSD0,CJC
-        ELSEIF (RATE_FUNC > 0) THEN 
+        ELSEIF (RATE_FUNC > 0) THEN
           WRITE(IOUT,1600) RATE_FUNC,RATE_SCALE
         ENDIF
         WRITE(IOUT,2000)
       ENDIF
 c--------------------------
 c     Deallocation
-c--------------------------  
+c--------------------------
       IF (ALLOCATED(C1))        DEALLOCATE(C1)
       IF (ALLOCATED(C2))        DEALLOCATE(C2)
       IF (ALLOCATED(C3))        DEALLOCATE(C3)
@@ -560,7 +560,7 @@ c-----------------------------------------------------
      & 5X,'  ------------------------------------------   ',/)
  1100 FORMAT(
      & 5X,'MATERIAL PARAMETER SELECTOR  . . . . . . . . . . .=',I10)
- 1200 FORMAT(     
+ 1200 FORMAT(
      & 5X,'|| FAILURE STRAINS FOR ANGLE',F5.1,' DEG',/,
      & 5X,'  -------------------------------------------------',/,
      & 5X,'  Simple Compression C1  . . . . . . . . . . . . .=',1PG20.13/
@@ -588,5 +588,5 @@ c-----------------------------------------------------
      & 5X,'  Instability strain . . . . . . . . . . . . . . .=',1PG20.13,//)
  2000 FORMAT(
      & 5X,' --------------------------------------------------',//)
-c----------- 
+c-----------
       END

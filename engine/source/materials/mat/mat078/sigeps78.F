@@ -53,7 +53,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       my_real ,DIMENSION(6,NEL), INTENT(INOUT) :: SIGA,SIGB,SIGC
       INTEGER NEL, NUPARAM, NUVAR
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),
      .   DEPSXX(NEL),DEPSYY(NEL),DEPSZZ(NEL),
@@ -71,13 +71,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
+      my_real
      .    UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION
 C-----------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
+      my_real
      .       FINTER ,TF(*)
       EXTERNAL FINTER
 C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
@@ -135,7 +135,7 @@ c
       NITER = 3
       CUN = THIRD/(ONE-TWO*NU)
       CDEUX = HALF/(ONE+NU)
-      CTROIS = NU/(ONE+NU)/(ONE-TWO*NU)     
+      CTROIS = NU/(ONE+NU)/(ONE-TWO*NU)
       IF (ISIGI == 0) THEN
         IF(TIME == ZERO) THEN
          DO I=1,NEL
@@ -143,7 +143,7 @@ c
           UVAR(I,4) = YIELD
          ENDDO
         ENDIF
-      ENDIF      
+      ENDIF
 C       EINI = initial young modulus
 C       EINF = saturated young modulus
 C       PLA=equivalent plastic strain (eps bar)
@@ -166,7 +166,7 @@ C     READING STORED STATE_VARIABLES
         DO I=1,NEL
           YOUNG(I)=EINI
           IF(PLA(I) > ZERO)THEN
-           YOUNG(I)=EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I)))          
+           YOUNG(I)=EINI-(EINI-EINF)*(ONE-EXP(-COE*PLA(I)))
           ENDIF
         ENDDO
       ENDIF
@@ -251,10 +251,10 @@ C=======================================================================
           CYU = C1_KH
         ELSE
           CYU = C2_KH
-        ENDIF        
+        ENDIF
         PRDEN=THREE*SHEAR(I)+CYU*AYU(I)+MYU*BYU
         CASTA=CYU*SQRT(AYU(I)/ASTA(I))
-        DO K=1,NITER     
+        DO K=1,NITER
 c       THA et THB pour semi implicite---------------------------------
         THA=ONE-CASTA*DEP(I)
         THB=ONE-MYU*DEP(I)
@@ -275,10 +275,10 @@ C       sum of Tetaa alpha* + Tetab Beta=STHAB
         SEFF=MAX(EM20,SEFF)
         FCT=SEFF-YIELD-PRDEN*DEP(I)
         SEFFP=THREE*((STRIALXX(I)-STHABXX)
-     .              *(CASTA*AST(1,I)+MYU*BETA(1,I))   
+     .              *(CASTA*AST(1,I)+MYU*BETA(1,I))
      .           +(STRIALYY(I)-STHABYY)
      .              *(CASTA*AST(2,I)+MYU*BETA(2,I))
-     .           +(STRIALZZ(I)-STHABZZ)   
+     .           +(STRIALZZ(I)-STHABZZ)
      .              *(CASTA*AST(3,I)+MYU*BETA(3,I))
      .     +TWO*((STRIALXY(I)-STHABXY)
      .              *(CASTA*AST(4,I)+MYU*BETA(4,I))
@@ -286,7 +286,7 @@ C       sum of Tetaa alpha* + Tetab Beta=STHAB
      .              *(CASTA*AST(5,I)+MYU*BETA(5,I))
      .           +(STRIALZX(I)-STHABZX)
      .             *(CASTA*AST(6,I)+MYU*BETA(6,I))))
-c        
+c
         FCTP=HALF*SEFFP/SEFF-PRDEN
         DEP(I)=MAX(ZERO,DEP(I)-FCT/FCTP)
         ENDDO
@@ -302,7 +302,7 @@ C       somme de Tetaa alpha* + Tetab Beta=STHAB
         STHABXY=THA*AST(4,I)+THB*BETA(4,I)
         STHABYZ=THA*AST(5,I)+THB*BETA(5,I)
         STHABZX=THA*AST(6,I)+THB*BETA(6,I)
-c       
+c
 c        SEFF=SQRT(THREE*HALF*(
 c     .           (STRIALXX(I)-STHABXX)*(STRIALXX(I)-STHABXX)
 c     .          +(STRIALYY(I)-STHABYY)*(STRIALYY(I)-STHABYY)
@@ -313,12 +313,12 @@ c     .          +(STRIALZX(I)-STHABZX)*(STRIALZX(I)-STHABZX))))
 c        SEFF=MAX(EM20,SEFF)
 c ========================================================================
 C        Calcul de s_n+1 - alpha_n+1 
-          SAXX=YIELD*(STRIALXX(I)-STHABXX)/(YIELD+DEP(I)*PRDEN)  
+          SAXX=YIELD*(STRIALXX(I)-STHABXX)/(YIELD+DEP(I)*PRDEN)
           SAYY=YIELD*(STRIALYY(I)-STHABYY)/(YIELD+DEP(I)*PRDEN)
           SAZZ=YIELD*(STRIALZZ(I)-STHABZZ)/(YIELD+DEP(I)*PRDEN)
           SAXY=YIELD*(STRIALXY(I)-STHABXY)/(YIELD+DEP(I)*PRDEN)
-          SAYZ=YIELD*(STRIALYZ(I)-STHABYZ)/(YIELD+DEP(I)*PRDEN)  
-          SAZX=YIELD*(STRIALZX(I)-STHABZX)/(YIELD+DEP(I)*PRDEN)   
+          SAYZ=YIELD*(STRIALYZ(I)-STHABYZ)/(YIELD+DEP(I)*PRDEN)
+          SAZX=YIELD*(STRIALZX(I)-STHABZX)/(YIELD+DEP(I)*PRDEN)
 C============= EP= delta epsilon_n+1^p=======================
           EP(1,I)=THREE_HALF*DEP(I)*SAXX/YIELD
           EP(2,I)=THREE_HALF*DEP(I)*SAYY/YIELD
@@ -390,10 +390,10 @@ C         Compute g_sigma the non-IH surface
                     RNIH(I)=THREE*BQDB*HYU
                 ELSE
                 GAMA=BQDB*THREE_HALF/RNIH(I)
-                RNIH(I)= UVAR(I,2)+ HYU*GAMA 
+                RNIH(I)= UVAR(I,2)+ HYU*GAMA
                ENDIF
           ENDIF
-       ENDIF         
+       ENDIF
        UVAR(I,1)=R(I)
        UVAR(I,2)=RNIH(I)
        AYU(I)=BSAT+R(I)-YIELD
@@ -418,12 +418,12 @@ C============================================================
         SIGNYZ(I)=SIGOYZ(I)+G2(I)*(DEPSYZ(I)-EP(5,I))
         SIGNZX(I)=SIGOZX(I)+G2(I)*(DEPSZX(I)-EP(6,I))
 c==========Module tangent=====================================
-         
+
         IF( DEP(I) > ZERO)THEN
          SIGM(I)=-(SIGNXX(I)+SIGNYY(I)+SIGNZZ(I))*THIRD
          SIGY=SQRT(THREE_HALF*(
      .    (SIGNXX(I)+SIGM(I))*(SIGNXX(I)+SIGM(I))
-     .   +(SIGNYY(I)+SIGM(I))*(SIGNYY(I)+SIGM(I))  
+     .   +(SIGNYY(I)+SIGM(I))*(SIGNYY(I)+SIGM(I))
      .   +(SIGNZZ(I)+SIGM(I))*(SIGNZZ(I)+SIGM(I))
      .   +TWO*(SIGNXY(I)*SIGNXY(I)+SIGNYZ(I)*SIGNYZ(I)
      .   +SIGNZX(I)*SIGNZX(I))))

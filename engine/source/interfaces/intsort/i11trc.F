@@ -32,7 +32,7 @@ Chd|====================================================================
      2      CAND_FZ ,MFROT  ,ADDCM ,CHAINE ,NSN4    ,
      3      ITAB    , JLT   , NFT  ,IFPEN,STFS ,NIN ,NRTS)
 C============================================================================
-      USE TRI7BOX      
+      USE TRI7BOX
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,12 +80,12 @@ C
           SLVE = CAND_N(II)
           IF(SLVE<=NRTS)THEN
              IF(STFS(SLVE)==ZERO)THEN
-                IFPEN(II) = 0 
+                IFPEN(II) = 0
              ENDIF
           ELSE
              NN = SLVE - NRTS
              IF(STIFI(NIN)%P(NN)==ZERO)THEN
-                IFPEN(II) = 0  
+                IFPEN(II) = 0
              ENDIF
           ENDIF
         ENDIF
@@ -112,7 +112,7 @@ C
               IADFIN=I_STOK
               IF(IADFIN>NSN4) THEN
                 RETURN
-              ENDIF   
+              ENDIF
             CHAINE(1,IADFIN)=CAND_N(II)
             CHAINE(2,IADFIN)=0
             IF(ADDCM(CAND_E(II))==0)THEN

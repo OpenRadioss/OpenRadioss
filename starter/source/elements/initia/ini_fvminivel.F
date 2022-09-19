@@ -37,7 +37,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc" 
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IGRS, NOSYS, J
-      
+
       DO I = 1, NINVEL
          IF (FVM_INIVEL(I)%FLAG) THEN
 C     Bric groups
@@ -79,7 +79,7 @@ C     Quad groups
                   MULTI_FVM%VEL(1, NOSYS) = FVM_INIVEL(I)%VX
                   MULTI_FVM%VEL(2, NOSYS) = FVM_INIVEL(I)%VY
                   MULTI_FVM%VEL(3, NOSYS) = FVM_INIVEL(I)%VZ
-               ENDDO                 
+               ENDDO
             ENDIF
 C     SH3N groups
             IF (FVM_INIVEL(I)%GRSH3NID /= -1) THEN
@@ -89,7 +89,7 @@ C     SH3N groups
                   MULTI_FVM%VEL(1, NOSYS) = FVM_INIVEL(I)%VX
                   MULTI_FVM%VEL(2, NOSYS) = FVM_INIVEL(I)%VY
                   MULTI_FVM%VEL(3, NOSYS) = FVM_INIVEL(I)%VZ
-               ENDDO                 
+               ENDDO
             ENDIF
          ENDIF
       ENDDO

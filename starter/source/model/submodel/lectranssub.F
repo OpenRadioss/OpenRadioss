@@ -75,7 +75,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITAB(*),ITABM1(*)
       my_real
      .   X(3,*),RTRANS(NTRANSF,*)
@@ -98,7 +98,7 @@ C-----------------------------------------------
      .   LX,LY,LZ,TX,TY,TZ,R,S,RX,RY,RZ,SX,SY,SZ,ANGLE,AT,FAC_L
       my_real
      .   VR(3),X0(3),X1(3),X2(3),X3(3),X4(3),X5(3),X6(3),
-     .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1, 
+     .   ROT(9),PP(3,3),QQ(3,3),P(3),NORM1, NORM2, NORM3, SCAL1,
      .   SCAL2, SCAL3, EPS,XC(3)
       CHARACTER KEY*10,CART*ncharline,TITR*nchartitle,
      .   VERS_IN*ncharfield,STRING*ncharfield,SOLVERKEYWORD*ncharline
@@ -132,7 +132,7 @@ C=======================================================================
         ALLOCATE( IDNODSUB(NUMNUSR) )
         DO I=1,NUMNUSR
          IDNODSUB(I)=I
-        ENDDO 
+        ENDDO
       ENDIF
 
       FAC_L = ONE
@@ -160,11 +160,11 @@ C      COUNT NUMBER TRANSFORM OPTIONS
 C-------------------------------------------------- 
        CALL HM_OPTION_COUNT('TRANSFORM',NTRANS)
 C-------------------------------------------------- 
-      IF (NTRANS > 0) WRITE (IOUT,100)  
+      IF (NTRANS > 0) WRITE (IOUT,100)
 C--------------------------------------------------
 C      START READING TRANSFORM OPTIONS
 C-------------------------------------------------- 
-      CALL HM_OPTION_START('TRANSFORM')  
+      CALL HM_OPTION_START('TRANSFORM')
 C--------------------------------------------------
 C BROWSING MODEL TRANSFORM 1->NTRANS
 C--------------------------------------------------
@@ -186,10 +186,10 @@ c---------------------
         IF(ID_TRANSSUB/=0)THEN
           DO J=1,NSUBMOD
             IF (LSUBMODEL(J)%NOSUBMOD == ID_TRANSSUB) THEN
-              ITRANSSUB = J  
+              ITRANSSUB = J
               EXIT
             ENDIF
-          ENDDO 
+          ENDDO
           IF(ITRANSSUB==0)THEN
           CALL ANCMSG(MSGID=1824,
      .                MSGTYPE=MSGERROR,
@@ -258,8 +258,8 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
             TZ = X1(3) - X0(3)
           ELSE
             TX = TX * FAC_L
-            TY = TY * FAC_L 
-            TZ = TZ * FAC_L 
+            TY = TY * FAC_L
+            TZ = TZ * FAC_L
           ENDIF
           RTRANS(I,15) = TX
           RTRANS(I,16) = TY
@@ -271,7 +271,7 @@ C
           ROT(5) = ONE
           ROT(9) = ONE
 C
-          WRITE(IOUT,500) ID,ID_TRANSSUB   
+          WRITE(IOUT,500) ID,ID_TRANSSUB
           IF (N0 > 0 .AND. N1 > 0) WRITE(IOUT,200) N0,N1
           WRITE(IOUT,510) S,TX,TY,TZ
 C----
@@ -310,10 +310,10 @@ c---------------------
      .                    I2=N1)
             END IF
             X0(1) = X(1,I0)
-            X0(2) = X(2,I0) 
+            X0(2) = X(2,I0)
             X0(3) = X(3,I0)
             X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
+            X1(2) = X(2,I1)
             X1(3) = X(3,I1)
 C
 C TRANSFORMATION OF COORDS OF NODES N0 & N1
@@ -329,12 +329,12 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
             END IF
 c
           ELSE
-            X0(1) = X0(1) * FAC_L 
-            X0(2) = X0(2) * FAC_L  
-            X0(3) = X0(3) * FAC_L 
-            X1(1) = X1(1) * FAC_L 
-            X1(2) = X1(2) * FAC_L  
-            X1(3) = X1(3) * FAC_L 
+            X0(1) = X0(1) * FAC_L
+            X0(2) = X0(2) * FAC_L
+            X0(3) = X0(3) * FAC_L
+            X1(1) = X1(1) * FAC_L
+            X1(2) = X1(2) * FAC_L
+            X1(3) = X1(3) * FAC_L
           ENDIF
           TX = X1(1) - X0(1)
           TY = X1(2) - X0(2)
@@ -391,7 +391,7 @@ C
           SCAL3 = RTRANS(I,4)*RTRANS(I,5)+RTRANS(I,7)*RTRANS(I,8)+
      .            RTRANS(I,10)*RTRANS(I,11)
           IF(ABS(ONE-NORM1) > EPS .OR. ABS(ONE-NORM2) > EPS .OR.
-     .       ABS(ONE-NORM3) > EPS .OR. 
+     .       ABS(ONE-NORM3) > EPS .OR.
      .      SCAL1 > (EPS * NORM1*NORM2) .OR. SCAL2 > (EPS * NORM1*NORM3)
      .      .OR. SCAL3 > (EPS * NORM2*NORM3))THEN
             CALL ANCMSG(MSGID=986,
@@ -401,7 +401,7 @@ C
 c
           WRITE(IOUT,700) ID,ID_TRANSSUB
 c
-          WRITE(IOUT,710) 
+          WRITE(IOUT,710)
      .         RTRANS(I,3),RTRANS(I,6),RTRANS(I,9),RTRANS(I,15),
      .         RTRANS(I,4),RTRANS(I,7),RTRANS(I,10),RTRANS(I,16),
      .         RTRANS(I,5),RTRANS(I,8),RTRANS(I,11),RTRANS(I,17)
@@ -436,7 +436,7 @@ C
           CALL HM_GET_FLOATV('Y_Point_6',X6(2),IS_AVAILABLE,LSUBMODEL,UNITAB)
           CALL HM_GET_FLOATV('Z_Point_6',X6(3),IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-          IF (N1 > 0 .OR. N2 > 0 .OR. N3 > 0 .OR. 
+          IF (N1 > 0 .OR. N2 > 0 .OR. N3 > 0 .OR.
      .        N4 > 0 .OR. N5 > 0 .OR. N6 > 0) THEN
             I1 = USRTOS(N1,ITABM1)
             I2 = USRTOS(N2,ITABM1)
@@ -453,7 +453,7 @@ C
      .                    I2=N1)
             END IF
             X1(1) = X(1,I1)
-            X1(2) = X(2,I1) 
+            X1(2) = X(2,I1)
             X1(3) = X(3,I1)
             IF (I2 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -464,7 +464,7 @@ C
      .                    I2=N2)
             END IF
             X2(1) = X(1,I2)
-            X2(2) = X(2,I2) 
+            X2(2) = X(2,I2)
             X2(3) = X(3,I2)
             IF (I3 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -475,7 +475,7 @@ C
      .                    I2=N3)
             END IF
             X3(1) = X(1,I3)
-            X3(2) = X(2,I3) 
+            X3(2) = X(2,I3)
             X3(3) = X(3,I3)
             IF (I4 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -486,7 +486,7 @@ C
      .                    I2=N4)
             END IF
             X4(1) = X(1,I4)
-            X4(2) = X(2,I4) 
+            X4(2) = X(2,I4)
             X4(3) = X(3,I4)
             IF (I5 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -497,7 +497,7 @@ C
      .                    I2=N5)
             END IF
             X5(1) = X(1,I5)
-            X5(2) = X(2,I5) 
+            X5(2) = X(2,I5)
             X5(3) = X(3,I5)
             IF (I6 == 0) THEN
               CALL ANCMSG(MSGID=694,
@@ -508,7 +508,7 @@ C
      .                    I2=N6)
             END IF
             X6(1) = X(1,I6)
-            X6(2) = X(2,I6) 
+            X6(2) = X(2,I6)
             X6(3) = X(3,I6)
 C
 C TRANSFORMATION OF COORDS OF NODES N0 & N1
@@ -543,28 +543,28 @@ C TRANSFORMATION OF COORDS OF NODES N0 & N1
               END DO
             END IF
           ELSE
-            X1(1) = X1(1) * FAC_L 
-            X1(2) = X1(2) * FAC_L  
-            X1(3) = X1(3) * FAC_L 
-            X2(1) = X2(1) * FAC_L 
-            X2(2) = X2(2) * FAC_L  
-            X2(3) = X2(3) * FAC_L 
-            X3(1) = X3(1) * FAC_L 
-            X3(2) = X3(2) * FAC_L  
-            X3(3) = X3(3) * FAC_L 
-            X4(1) = X4(1) * FAC_L 
-            X4(2) = X4(2) * FAC_L  
-            X4(3) = X4(3) * FAC_L 
-            X5(1) = X5(1) * FAC_L 
-            X5(2) = X5(2) * FAC_L  
-            X5(3) = X5(3) * FAC_L 
-            X6(1) = X6(1) * FAC_L 
-            X6(2) = X6(2) * FAC_L  
-            X6(3) = X6(3) * FAC_L 
+            X1(1) = X1(1) * FAC_L
+            X1(2) = X1(2) * FAC_L
+            X1(3) = X1(3) * FAC_L
+            X2(1) = X2(1) * FAC_L
+            X2(2) = X2(2) * FAC_L
+            X2(3) = X2(3) * FAC_L
+            X3(1) = X3(1) * FAC_L
+            X3(2) = X3(2) * FAC_L
+            X3(3) = X3(3) * FAC_L
+            X4(1) = X4(1) * FAC_L
+            X4(2) = X4(2) * FAC_L
+            X4(3) = X4(3) * FAC_L
+            X5(1) = X5(1) * FAC_L
+            X5(2) = X5(2) * FAC_L
+            X5(3) = X5(3) * FAC_L
+            X6(1) = X6(1) * FAC_L
+            X6(2) = X6(2) * FAC_L
+            X6(3) = X6(3) * FAC_L
           ENDIF
 C
           CALL POINTS_TO_FRAME(X1,X2,X3,PP,IERROR)
-          IF(IERROR==1.OR.IERROR==3)THEN 
+          IF(IERROR==1.OR.IERROR==3)THEN
             CALL ANCMSG(MSGID=1866,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -577,7 +577,7 @@ C
      .                  I1=ID,C1=TITR)
           END IF
           CALL POINTS_TO_FRAME(X4,X5,X6,QQ,IERROR)
-          IF(IERROR == 1)THEN 
+          IF(IERROR == 1)THEN
             CALL ANCMSG(MSGID=1868,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO_BLIND_1,
@@ -652,7 +652,7 @@ C-----------------------
      .       10X,'                   N1   . . . . .= ',I10)
  300  FORMAT(10X,'   CENTER NODE     N0   . . . . .= ',I10)
  500  FORMAT(/
-     . '    SUBMODEL TRANSLATION, TRANSFORMATION ID   = ',I10/,                        
+     . '    SUBMODEL TRANSLATION, TRANSFORMATION ID   = ',I10/,
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/,
      . '       TRANSLATION VECTOR :')
  510  FORMAT(10X,'   VALUE. . . . . . . . . . . . .= ',E20.13/,
@@ -660,7 +660,7 @@ C-----------------------
      . '                             Y. . . . . . .= ',E20.13/,
      . '                             Z. . . . . . .= ',E20.13)
  600  FORMAT(/
-     . '    SUBMODEL ROTATION, TRANSFORMATION ID.     = ',I10/,                       
+     . '    SUBMODEL ROTATION, TRANSFORMATION ID.     = ',I10/,
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/,
      . '       ROTATION VECTOR: ')
  610  FORMAT(10X,'   CENTER          X. . . . . . .= ',E20.13/,
@@ -671,7 +671,7 @@ C-----------------------
      . '                             Z. . . . . . .= ',E20.13/,
      . '             ANGLE            . . . . . . .= ',E20.13)
  700  FORMAT(/
-     . '   SUBMODEL MATRIX TRANSFORMATION, TRANSFORMATION ID.=   ',I10/,                       
+     . '   SUBMODEL MATRIX TRANSFORMATION, TRANSFORMATION ID.=   ',I10/,
      . '       SUBMODEL ID. . . . . . . . . . . .= ',I10/)
  710  FORMAT(4X,'MATRIX '/,
      .'  '/,
@@ -682,8 +682,8 @@ C-----------------------
      . 17X,'M31',17X,'M32',17X,'M33',18X,'TZ' /,
      .         4E20.13/)
  800  FORMAT(/
-     . '   SUBMODEL TRANSFORMATION WRT 6 POSITIONS',/, 
-     . '       TRANSFORMATION ID. . . . . . . . . . . = ',I10/,                       
+     . '   SUBMODEL TRANSFORMATION WRT 6 POSITIONS',/,
+     . '       TRANSFORMATION ID. . . . . . . . . . . = ',I10/,
      . '       SUBMODEL ID. . . . . . . . . . . . . . = ',I10/)
  810  FORMAT(
      . '             CENTER N1       X1 . . . . . .= ',E20.13/,

@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE RESTMOD
       USE R2R_MOD
-      USE INTBUFDEF_MOD       
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER USR2SYS
-      INTEGER NLOCAL          
+      INTEGER NLOCAL
 C----------------------------------------------- 
 
       DO NI=1,NINTER
@@ -81,10 +81,10 @@ C-----------------------------------------------
      	  NRTS  =IPARI2(3,NI)
      	  NRTM  =IPARI2(4,NI)
 C------------------------>   check of secondary nodes  <----------C
-          DO J=1,NSN   
+          DO J=1,NSN
 	    CUR_ID = INTBUF_TAB(NI)%NSV(J)
             IF ((TAGNO(CUR_ID+NPART)==2).AND.(TAGNO(CUR_ID+NPART+NUMNOD)==-1)) THEN
-              INTBUF_TAB(NI)%STFNS(J) = ZERO      
+              INTBUF_TAB(NI)%STFNS(J) = ZERO
             ENDIF 		   		       	
           ENDDO
 
@@ -94,15 +94,15 @@ C------------------------>   check of main elements <--------------C
             FACE(2) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+2)
             FACE(3) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+3)
             FACE(4) = INTBUF_TAB(NI)%IRECTM(4*(J-1)+4)
-            IF (FACE(4)==0) FACE(4)=FACE(3)         
+            IF (FACE(4)==0) FACE(4)=FACE(3)
             CALL R2R_CHECK_SEG(ELTAG,FACE,IPARTC,IPARTG,IPARTS,ISOLNOD)
             IF (ELTAG==0) INTBUF_TAB(NI)%STFM(J) = ZERO
           ENDDO
 
         ENDIF
       END DO
-                    
+
 C-----------
-  
+
       RETURN
-      END                             
+      END

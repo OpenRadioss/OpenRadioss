@@ -43,7 +43,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
 C-----------------------------------------------
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ,INTENT(IN) :: MAXUPARAM,FAIL_ID,MAT_ID
       TYPE(SUBMODEL_DATA)       ,INTENT(IN) :: LSUBMODEL(*)
 C MODIFIED ARGUMENT
@@ -77,13 +77,13 @@ C-----------------------------------------------
      .   ITGLASS,PFLAG
       my_real :: EXP_N,CR_FOIL,CR_AIR,CR_CORE,CR_EDGE,K_IC,K_TH,V0,VC,
      .   ALPHA,GEORED,RLEN,FAC_L,TDELAY,KRES1,KRES2,
-     .   ETA1,BETA1,TAU1,ETA2,BETA2,TAU2,A_REF,SIG_INI,PSCALE 
+     .   ETA1,BETA1,TAU1,ETA2,BETA2,TAU2,A_REF,SIG_INI,PSCALE
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 c------------------------------------------------
 c  IMOD - choice of failure propagation model between neighbor elements
 c  IMOD = 0 => no failure information propagation
 c  IMOD = 1 => XFEM FAILURE PROPAGATION
-c  IMOD = 2 => ISOTROPIC FRONTWAVE PROPAGATION 
+c  IMOD = 2 => ISOTROPIC FRONTWAVE PROPAGATION
 c  IMOD = 3 => DIRECTIONAL FRONTWAVE PROPAGATION - edges only
 c  IMOD = 4 => DIRECTIONAL FRONTWAVE PROPAGATION - edges and diagonals
 C=======================================================================
@@ -139,7 +139,7 @@ card7
       CALL HM_GET_FLOATV         ('Sig_0'        ,SIG_INI   ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV         ('Pscale'       ,PSCALE    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_INTV           ('Pflag'        ,PFLAG     ,IS_AVAILABLE,LSUBMODEL)
-c----------------------------------------------------------------------------------- 
+c-----------------------------------------------------------------------------------
 c     DEFAULT VALUES
 c--------------------------------------------------
 c     GEORED should be initialized in fail_windshield_init depending of element type
@@ -183,20 +183,20 @@ c
       ENDIF
       ALPHA = TWO / (NEMA + 1)
 c
-      NFUNC   = 0    
+      NFUNC   = 0
       NUPARAM = 35
 c----------------------
-      UPARAM(1) = EXP_N   
-      UPARAM(2) = CR_FOIL 
-      UPARAM(3) = CR_AIR  
-      UPARAM(4) = CR_CORE 
-      UPARAM(5) = CR_EDGE 
-      UPARAM(6) = K_IC    
-      UPARAM(7) = K_TH    
+      UPARAM(1) = EXP_N
+      UPARAM(2) = CR_FOIL
+      UPARAM(3) = CR_AIR
+      UPARAM(4) = CR_CORE
+      UPARAM(5) = CR_EDGE
+      UPARAM(6) = K_IC
+      UPARAM(7) = K_TH
       UPARAM(8) = V0
       UPARAM(9) = VC
       UPARAM(10)= ALPHA
-      UPARAM(11)= GEORED 
+      UPARAM(11)= GEORED
       UPARAM(12)= ELGR4N
       UPARAM(13)= ELGR3N
       UPARAM(14)= RLEN
@@ -209,14 +209,14 @@ c----------------------
       UPARAM(21)= KRES2
       UPARAM(22)= ITGLASS
 c
-      UPARAM(23)= A_REF  
-      UPARAM(24)= ETA1 
-      UPARAM(25)= BETA1  
-      UPARAM(26)= TAU1   
-      UPARAM(27)= ETA2   
+      UPARAM(23)= A_REF
+      UPARAM(24)= ETA1
+      UPARAM(25)= BETA1
+      UPARAM(26)= TAU1
+      UPARAM(27)= ETA2
       UPARAM(28)= BETA2
-      UPARAM(29)= TAU2  
-      UPARAM(30)= SIG_INI 
+      UPARAM(29)= TAU2
+      UPARAM(30)= SIG_INI
       UPARAM(31)= PSCALE
       UPARAM(32)= PFLAG
       UPARAM(33)= FAC_M_WORK
@@ -226,7 +226,7 @@ c---------------------------
       FAIL_TAG%LF_DIR = 2
       FAIL_TAG%LF_DAM = 1
 c--------------------------------------------------
-      WRITE(IOUT,1000)  
+      WRITE(IOUT,1000)
       IF (IS_ENCRYPTED) THEN
         WRITE(IOUT, 2000)
       ELSE
@@ -239,26 +239,26 @@ c--------------------------------------------------
         END IF
       ENDIF
 C-------------------------------------------------- 
- 1000 FORMAT( 
+ 1000 FORMAT(
      & 5X,'   WINDSHIELD FAILURE MODEL (Christian Alter)       ',/,
-     & 5X,'  --------------------------------------------      ',/) 
- 2000 FORMAT( 
+     & 5X,'  --------------------------------------------      ',/)
+ 2000 FORMAT(
      & 5X,'    CONFIDENTIAL DATA                          '/,
      & 5X,'    -----------------                          '/)
- 3000 FORMAT( 
-     & 5X,'CRACK GROW EXPONENT . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'FOIL SIDE CRACK DEPTH . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'AIR SIDE CRACK DEPTH. . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'CORE CRACK DEPTH. . . . . . . . . . . . . . . . . .=',E12.4/ 
+ 3000 FORMAT(
+     & 5X,'CRACK GROW EXPONENT . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'FOIL SIDE CRACK DEPTH . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'AIR SIDE CRACK DEPTH. . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'CORE CRACK DEPTH. . . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'EDGE ELEMENT CRACK DEPTH. . . . . . . . . . . . . .=',E12.4/
      & 5X,'REFERENCE ELEMENT LENGTH. . . . . . . . . . . . . .=',E12.4/
-     & 5X,'K_IC. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'K_TH. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'V_0 . . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'V_C . . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'RESIDUAL STRESS FACTOR IN DIR1. . . . . . . . . . .=',E12.4/ 
-     & 5X,'RESIDUAL STRESS FACTOR IN DIR2. . . . . . . . . . .=',E12.4/ 
-     & 5X,'TIME DELAY BEFORE ELEMENT SUPPRESSION . . . . . . .=',E12.4/ 
+     & 5X,'K_IC. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'K_TH. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'V_0 . . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'V_C . . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'RESIDUAL STRESS FACTOR IN DIR1. . . . . . . . . . .=',E12.4/
+     & 5X,'RESIDUAL STRESS FACTOR IN DIR2. . . . . . . . . . .=',E12.4/
+     & 5X,'TIME DELAY BEFORE ELEMENT SUPPRESSION . . . . . . .=',E12.4/
      & 5X,'EDGE 4N SHELL ELEMENT GROUP . . . . . . . . . . . .=',I10/
      & 5X,'EDGE 3N SHELL ELEMENT GROUP . . . . . . . . . . . .=',I10/
      & 5X,'STRESS RATE FILTERING OPTION. . . . . . . . . . . .=',I3/
@@ -275,17 +275,17 @@ C--------------------------------------------------
      & 5X,'     = 3 => DIRECTIONAL FRONTWAVE THROUGH EDGES     ',/
      & 5X,'     = 4 => DIRECTIONAL FRONTWAVE THROUGH DIAGONALS ',/
      & 5X,'EXTENDED OUTPUT INFORMATION . . . . . . . . . . . .=',I3/)
- 4000 FORMAT( 
+ 4000 FORMAT(
      & 5X,'   STOCHASTIC FAILURE MODEL (Christopher Brokmann)  ',/,
-     & 5X,'ETA1. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'BETA1 . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'TAU1. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'ETA2. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'BETA2 . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'TAU2. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
+     & 5X,'ETA1. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'BETA1 . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'TAU1. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'ETA2. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'BETA2 . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
+     & 5X,'TAU2. . . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'INITIAL SURFACE STRESS. . . . . . . . . . . . . . .=',E12.4/
-     & 5X,'REFERENCE ELEMENT SURFACE . . . . . . . . . . . . .=',E12.4/ 
-     & 5X,'P_SCALE . . . . . . . . . . . . . . . . . . . . . .=',E12.4/ 
+     & 5X,'REFERENCE ELEMENT SURFACE . . . . . . . . . . . . .=',E12.4/
+     & 5X,'P_SCALE . . . . . . . . . . . . . . . . . . . . . .=',E12.4/
      & 5X,'PFLAG . . . . . . . . . . . . . . . . . . . . . . .=',I3//)
 C--------------------------------------------------------------------- 
       RETURN

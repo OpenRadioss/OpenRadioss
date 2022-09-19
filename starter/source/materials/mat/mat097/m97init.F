@@ -49,7 +49,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPM(NPROPMI,*),NGL(*),MAT(*), IPARG(NPARG),IFORM,NIX,IX(NIX,*)
-      my_real  
+      my_real
      .   PM(NPROPM,*),UVAR(*),
      .   UPARAM(*), X(3,*), BUFMAT(*), RHO0, TB(*)
       TYPE(DETONATOR_STRUCT_) :: DETONATORS

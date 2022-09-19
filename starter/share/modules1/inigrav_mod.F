@@ -37,29 +37,29 @@ Chd|====================================================================
 #include "my_real.inc"
 
         INTEGER , DIMENSION(:,:), ALLOCATABLE :: INIGRV
-	my_real , DIMENSION(:,:), ALLOCATABLE :: LINIGRAV 
-        
+	my_real , DIMENSION(:,:), ALLOCATABLE :: LINIGRAV
+
         type t_inigrav_parts
           logical :: IS_ALLOCATED = .false.
           integer,dimension(:),allocatable :: TAGPART     ! 1:part is targeted with INIGRAV, 0:otherwise ; SIZE=1:NPART
           my_real,dimension(:,:),allocatable :: NG        ! gravity orientation
           my_real,dimension(:),allocatable :: GRAV0       ! gravity value
-          
+
           contains
           procedure :: destroy => inigrav_part_list_destroy
-                
-        end type t_inigrav_parts 
-       
+
+        end type t_inigrav_parts
+
         TYPE(t_inigrav_parts) :: INIGRAV_PARTS
 
       CONTAINS
-      
+
         subroutine inigrav_part_list_destroy(this)
            implicit none
            class(t_inigrav_parts), intent(inout) :: this
            if(allocated(this%TAGPART)) deallocate(this%TAGPART)
            if(allocated(this%NG)) deallocate(this%NG)
            if(allocated(this%GRAV0)) deallocate(this%GRAV0)
-         end subroutine inigrav_part_list_destroy      
-     
+         end subroutine inigrav_part_list_destroy
+
       END MODULE

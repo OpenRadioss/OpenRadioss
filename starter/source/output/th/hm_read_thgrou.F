@@ -138,10 +138,10 @@ C
       INTEGER NVARF1,NVARFR,NVARGAU,NVARCLUS,NVARCLUSG,NVARFLOW,NVARSURF
       INTEGER NVARRIV,NVARRIVG,NVARSLIP,NVARRET,NSELRT,INOUT
       INTEGER HM_NTHGRP,NTHACCEL,NTHINTER,NTHRWALL,NTHSECTIO,NTHCLUS
-      INTEGER NTHBEAM,NTHTRUS,NTHBRIC,NTHNODE,NTHSHEL,NTHSH3N,NTHSPRING,NTHRBODY  
+      INTEGER NTHBEAM,NTHTRUS,NTHBRIC,NTHNODE,NTHSHEL,NTHSH3N,NTHSPRING,NTHRBODY
       INTEGER NTHMONVOL,HM_NTHPART ,NUMTHPART, HM_NTHSUBS, HM_NTHSURF
       INTEGER HM_NTHSPHCEL, HM_NTHQUAD, HM_NTHSPHFLOW
-      INTEGER HM_NTHGAUGE, HM_NTHFXBODY, HM_NTHFRAME, HM_NTHCYLJO, HM_NTHNSTRAND   
+      INTEGER HM_NTHGAUGE, HM_NTHFXBODY, HM_NTHFRAME, HM_NTHCYLJO, HM_NTHNSTRAND
       INTEGER HM_NTHTRIA,HM_NTHSLIPRING,HM_NTHRETRACTOR
       PARAMETER (NVARRIV = 10,NVARRIVG = 1)
       INTEGER IVARRIV(18,NVARRIVG)
@@ -221,8 +221,8 @@ C-----------------------------------------------
       INTEGER NSMA
       INTEGER IUN,INODACC,INODFRA
       INTEGER NNOD, NSHEL, NTRUS, NBEAM, NSPRG, NCHTG, NCHINT, NCHJNT,
-     .     CHNOD, CHELT, CNT1, CNT2, IVSG, IREC_0, OUT_VENT, NG, NEL, 
-     .     NFT, NUMPART, I15ATH, I15A, I15B, I15C, I15D, I15E, I15F, 
+     .     CHNOD, CHELT, CNT1, CNT2, IVSG, IREC_0, OUT_VENT, NG, NEL,
+     .     NFT, NUMPART, I15ATH, I15A, I15B, I15C, I15D, I15E, I15F,
      .     I15G, I15H, I15I, I15J, I15K, I15L, ITY
       my_real
      .   BID
@@ -1788,7 +1788,7 @@ C viscous stress for shell 5*100
 CC  USII_jKK (II=01, 60, j=1,4, KK=01,99)
        DO I = 1,500
           VARC(30382 + I ) = VARC3(I)
-       ENDDO 
+       ENDDO
 C   NVC_old = 30882
 C  stress, strain, damage for interply      
 C  SZILYjKK (j=1,4, KK=001,200)
@@ -1824,13 +1824,13 @@ C
               IF (L==5) VAR ='EYZILY'//CHJKK
               IF (L==6) VAR ='EXZILY'//CHJKK
               VARC(II + L ) = VAR
-           ENDDO   
+           ENDDO
            II = II + 6
-          ENDDO 
+          ENDDO
             WRITE(CHJJ,'(I3.3)')KK
-            DO L = 1,6              
+            DO L = 1,6
               IF (L==1) VAR = 'SZILY'//'_'//CHJJ
-              IF (L==2) VAR = 'SYZILY'//'_'//CHJJ     
+              IF (L==2) VAR = 'SYZILY'//'_'//CHJJ
               IF (L==3) VAR = 'SXZILY'//'_'//CHJJ
               IF (L==4) VAR = 'EZILY'//'_'//CHJJ
               IF (L==5) VAR = 'EYZILY'//'_'//CHJJ
@@ -1838,9 +1838,9 @@ C
               VARC(II + L ) = VAR
             ENDDO
             II =II +6
-            DO L = 1,4              
+            DO L = 1,4
               IF (L==1) VAR = 'DAMILY'//CHJJ
-              IF (L==2) VAR = 'DAM2ILY'//CHJJ     
+              IF (L==2) VAR = 'DAM2ILY'//CHJJ
               IF (L==3) VAR = 'DAM3ILY'//CHJJ
               IF (L==4) VAR = 'DAM4ILY'//CHJJ
               VARC(II + L ) = VAR
@@ -1872,11 +1872,11 @@ C-----------------------------------------------------
        ENDDO
        DO I = 1,407
         VARCG(167 + I) = VARCG2(I)
-       ENDDO 
+       ENDDO
        DO I = 1,100
         VARCG(574 + I) = VARCG3(I)
        ENDDO
-       VARCG(675) =   VARCGPINCH(1)     
+       VARCG(675) =   VARCGPINCH(1)
 C
        DO I=1,18
         DO J = 1, NVARCG
@@ -1970,7 +1970,7 @@ C keyword de 575 -----> 674
           IVCG = IVCG + 5
         ENDDO
 C pinching
-        DO I = 1,7 
+        DO I = 1,7
           IVARCG(I,675)=  37847 + I
         ENDDO
 C  
@@ -1995,7 +1995,7 @@ C  ---- node + displacement by ply for shell
       DO I=1,9
        VARN(619+I) = VARN2(I)
       ENDDO
-      DO I=1,9 
+      DO I=1,9
        VARN(628+I) = VARNPINCH(I)
       ENDDO
       NNOD = 0
@@ -2035,10 +2035,10 @@ C
       IREAC=0
       HM_NTHGRP=0
 c
-      ! Choose TH file type 
-      IF (IFLAG == 0) THEN 
+      ! Choose TH file type
+      IF (IFLAG == 0) THEN
         THFILE = '/TH'
-      ELSEIF (IFLAG == 1) THEN 
+      ELSEIF (IFLAG == 1) THEN
         THFILE = '/ATH'
       ELSEIF (IFLAG == 2) THEN
         THFILE = '/BTH'
@@ -2068,14 +2068,14 @@ C-----------------------------------------------
       ! /TH/ACCEL
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/ACCEL' ,NTHACCEL  )
-      IF (NTHACCEL > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/ACCEL') 
+      IF (NTHACCEL > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/ACCEL')
         HM_NTHGRP = HM_NTHGRP + NTHACCEL
         DO I = 1, NTHACCEL
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID      = ID, 
-     .                            OPTION_TITR    = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID      = ID,
+     .                            OPTION_TITR    = TITR)
 C
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
@@ -2094,15 +2094,15 @@ C
       !-------------------------------------------
       ! /TH/INTER
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/INTER' ,NTHINTER  ) 
-      IF (NTHINTER > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/INTER' ,NTHINTER  )
+      IF (NTHINTER > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/INTER')
         HM_NTHGRP = HM_NTHGRP + NTHINTER
         DO I = 1, NTHINTER
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID      = ID, 
-     .                            OPTION_TITR    = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID      = ID,
+     .                            OPTION_TITR    = TITR)
 C
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
@@ -2124,14 +2124,14 @@ C
       ! /TH/RWALL
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RWALL' ,NTHRWALL  )
-      IF (NTHRWALL > 0) THEN 
+      IF (NTHRWALL > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/RWALL')
         HM_NTHGRP = HM_NTHGRP + NTHRWALL
         DO I = 1, NTHRWALL
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID      = ID, 
-     .                            OPTION_TITR    = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID      = ID,
+     .                            OPTION_TITR    = TITR)
 C
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
@@ -2151,14 +2151,14 @@ C
       ! /TH/SECTIO
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SECTIO' ,NTHSECTIO)
-      IF (NTHSECTIO > 0) THEN 
+      IF (NTHSECTIO > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SECTIO')
         HM_NTHGRP = HM_NTHGRP + NTHSECTIO
         DO I = 1, NTHSECTIO
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID      = ID, 
-     .                            OPTION_TITR    = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID      = ID,
+     .                            OPTION_TITR    = TITR)
 C
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
@@ -2171,21 +2171,21 @@ C
      3      NVARSE   ,VARSE    ,NSECT ,VARSEG ,NVARSEG ,
      4      IVARSEG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
       ! /TH/CLUSTER
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/CLUSTER' ,NTHCLUS)
-      IF (NTHCLUS > 0) THEN 
+      IF (NTHCLUS > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/CLUSTER')
         HM_NTHGRP = HM_NTHGRP + NTHCLUS
         DO I = 1, NTHCLUS
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                            OPTION_ID      = ID, 
-     .                            OPTION_TITR    = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                            OPTION_ID      = ID,
+     .                            OPTION_TITR    = TITR)
 C
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
@@ -2198,45 +2198,45 @@ C
      3      IAD      ,IFI     ,ITHGRP(1,IGS),ITHBUF   ,
      4      NVARCLUS ,VARCLUS ,NCLUSTER     ,VARCLUSG ,NVARCLUSG  ,
      5      IVARCLUSG,NSNE    ,NVALL ,ITHVAR,FLAGABF  ,NVARABF    ,
-     6      NOM_OPT  ,IGS     ,LSUBMODEL, LITHBUFMX    )    
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     6      NOM_OPT  ,IGS     ,LSUBMODEL, LITHBUFMX    )
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
       ! /TH/BEAM
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BEAM' ,NTHBEAM) 
-      IF (NTHBEAM > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BEAM' ,NTHBEAM)
+      IF (NTHBEAM > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/BEAM')
         HM_NTHGRP = HM_NTHGRP + NTHBEAM
         DO I = 1, NTHBEAM
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 8
           ITYP  = 5
-          KEY   = 'BEAM      ' 
+          KEY   = 'BEAM      '
           CALL HM_READ_THGRNE(
      1      ITYP  ,KEY   ,ITAB  ,ITABM1,IXP    ,
      3      NIXP  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
      4      NVARP ,VARP  ,NUMELP,VARPG ,NVARPG   ,
      5      IVARPG,NSELP,NVALL,IMERGE,ITHVAR   ,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%IBEAMM, NUMELP)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF  
+      ENDIF
       !-------------------------------------------
       ! /TH/TRUS
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/TRUSS' ,NTHTRUS)    
-      IF (NTHTRUS > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/TRUSS' ,NTHTRUS)
+      IF (NTHTRUS > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/TRUSS')
         HM_NTHGRP = HM_NTHGRP + NTHTRUS
         DO I = 1, NTHTRUS
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2245,73 +2245,73 @@ C
           KEY   = 'TRUSS     '
           CALL HM_READ_THGRNE(
      1      ITYP  ,KEY   ,ITAB  ,ITABM1,IXT    ,
-     3      NIXT  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,    
-     4      NVART ,VART  ,NUMELT,VARTG ,NVARTG   ,         
-     5      IVARTG,NSELT,NVALL,IMERGE,ITHVAR   ,           
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ITRUSSM, NUMELT)                          
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     3      NIXT  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
+     4      NVART ,VART  ,NUMELT,VARTG ,NVARTG   ,
+     5      IVARTG,NSELT,NVALL,IMERGE,ITHVAR   ,
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ITRUSSM, NUMELT)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/SPRI
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPRING' ,NTHSPRING)
       IF (NTHSPRING > 0) THEN
-        CALL HM_OPTION_START(TRIM(THFILE)//'/SPRING') 
+        CALL HM_OPTION_START(TRIM(THFILE)//'/SPRING')
         HM_NTHGRP = HM_NTHGRP + NTHSPRING
         DO I = 1, NTHSPRING
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 16
           ITYP  = 6
-          KEY   = 'SPRING    ' 
+          KEY   = 'SPRING    '
           CALL HM_READ_THGRNE(
      1      ITYP  ,KEY   ,ITAB  ,ITABM1,IXR    ,
-     3      NIXR  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,    
-     4      NVARR ,VARR  ,NUMELR,VARRG ,NVARRG   ,         
-     5      IVARRG,NSELR,NVALL,IMERGE,ITHVAR   ,           
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISPRINGM, NUMELR)                           
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     3      NIXR  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
+     4      NVARR ,VARR  ,NUMELR,VARRG ,NVARRG   ,
+     5      IVARRG,NSELR,NVALL,IMERGE,ITHVAR   ,
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISPRINGM, NUMELR)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/BRIC
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BRIC' ,NTHBRIC)      
-      IF (NTHBRIC > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/BRIC' ,NTHBRIC)
+      IF (NTHBRIC > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/BRIC')
         HM_NTHGRP = HM_NTHGRP + NTHBRIC
         DO I = 1, NTHBRIC
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 40
           ITYP  = 1
-          KEY   = 'BRICK     ' 
+          KEY   = 'BRICK     '
           CALL HM_READ_THGRNE(
      1      ITYP  ,KEY   ,ITAB  ,ITABM1,IXS    ,
      3      NIXS  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
      4      NVARS ,VARS  ,NUMELS,VARSG ,NVARSG   ,
      5      IVARSG,NSELS,NVALL,IMERGE,ITHVAR   ,
      6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISOLM, NUMELS)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/NODE
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/NODE' ,NTHNODE)  
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/NODE' ,NTHNODE)
       IF (NTHNODE > 0) THEN
-        CALL HM_OPTION_START(TRIM(THFILE)//'/NODE') 
+        CALL HM_OPTION_START(TRIM(THFILE)//'/NODE')
         HM_NTHGRP = HM_NTHGRP + NTHNODE
         DO I = 1, NTHNODE
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2319,53 +2319,53 @@ C
           ITYP  = 0
           KEY   = 'NODE      '
           CALL HM_READ_THGRNE(
-     1      ITYP  ,KEY   ,ITAB  ,ITABM1  ,IXS    ,         
-     3      NIXS  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,    
-     4      NVARN ,VARN  ,0     ,VARNG   ,NVARNG   ,       
-     5      IVARNG,NSNOD ,NVALL ,IMERGE  ,ITHVAR   ,       
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,IBID,IBID)                          
+     1      ITYP  ,KEY   ,ITAB  ,ITABM1  ,IXS    ,
+     3      NIXS  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
+     4      NVARN ,VARN  ,0     ,VARNG   ,NVARNG   ,
+     5      IVARNG,NSNOD ,NVALL ,IMERGE  ,ITHVAR   ,
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,IBID,IBID)
 C         decode les numeros de skews.                               
-          NNE =ITHGRP(4,IGS)                                         
-          IAD2=ITHGRP(5,IGS)+NNE                                     
-          DO K=1,NNE                                                 
-           ISK=ITHBUF(IAD2)                                          
-           DO 100 J=1,(NUMSKW+1)+NSUBMOD                             
-            IF(ISK == ISKWN(4,J)) THEN                               
-             ITHBUF(IAD2)=J-1                                        
-             GO TO 110                                               
-            ENDIF                                                    
- 100       CONTINUE                                                  
+          NNE =ITHGRP(4,IGS)
+          IAD2=ITHGRP(5,IGS)+NNE
+          DO K=1,NNE
+           ISK=ITHBUF(IAD2)
+           DO 100 J=1,(NUMSKW+1)+NSUBMOD
+            IF(ISK == ISKWN(4,J)) THEN
+             ITHBUF(IAD2)=J-1
+             GO TO 110
+            ENDIF
+ 100       CONTINUE
 C          decode les numeros de frames.                             
-           DO 101 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,    
-     .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+      
-     .               (NUMFRAM+1)                                     
-            IF(ISK == ISKWN(4,J)) THEN                               
-             ITHBUF(IAD2)=J-1                                        
-             GO TO 110                                               
-            ENDIF                                                    
- 101       CONTINUE                                                  
-           CALL ANCMSG(MSGID=434,                                    
-     .                 MSGTYPE=MSGERROR,                             
-     .                 ANMODE=ANINFO_BLIND_1,                        
-     .                 I1=ID,                                        
-     .                 C1=TITR,                                      
-     .                 I2=ISK)                                       
- 110       CONTINUE                                                  
-           IAD2=IAD2+1                                               
-          ENDDO                                                      
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+           DO 101 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,
+     .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+
+     .               (NUMFRAM+1)
+            IF(ISK == ISKWN(4,J)) THEN
+             ITHBUF(IAD2)=J-1
+             GO TO 110
+            ENDIF
+ 101       CONTINUE
+           CALL ANCMSG(MSGID=434,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=ISK)
+ 110       CONTINUE
+           IAD2=IAD2+1
+          ENDDO
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/SHEL
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SHEL' ,NTHSHEL)      
-      IF (NTHSHEL > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SHEL' ,NTHSHEL)
+      IF (NTHSHEL > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SHEL')
         HM_NTHGRP = HM_NTHGRP + NTHSHEL
         DO I = 1, NTHSHEL
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2377,103 +2377,103 @@ C          decode les numeros de frames.
      3      NIXC  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
      4      NVARC ,VARC  ,NUMELC,VARCG ,NVARCG   ,
      5      IVARCG,NSELC,NVALL,IMERGE,ITHVAR   ,
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH4NM, NUMELC)                           
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH4NM, NUMELC)
 C         decode les numeros de skews.                                  
-          NNE =ITHGRP(4,IGS)                                            
-          IAD2=ITHGRP(5,IGS)+3*NNE                                      
-          DO K=1,NNE                                                    
-           ISK=ITHBUF(IAD2)                                             
-           DO 200 J=1,(NUMSKW+1)+NSUBMOD                                
-            IF(ISK == ISKWN(4,J)) THEN                                  
-             ITHBUF(IAD2)=J-1                                           
-             GO TO 210                                                  
-            ENDIF                                                       
- 200       CONTINUE                                                     
+          NNE =ITHGRP(4,IGS)
+          IAD2=ITHGRP(5,IGS)+3*NNE
+          DO K=1,NNE
+           ISK=ITHBUF(IAD2)
+           DO 200 J=1,(NUMSKW+1)+NSUBMOD
+            IF(ISK == ISKWN(4,J)) THEN
+             ITHBUF(IAD2)=J-1
+             GO TO 210
+            ENDIF
+ 200       CONTINUE
 C          frame numbers user -> internal                               
-           DO 201 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,       
-     .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+         
-     .               (NUMFRAM+1)                                        
-            IF(ISK == ISKWN(4,J)) THEN                                  
-             ITHBUF(IAD2)=J-1                                           
-             GO TO 210                                                  
-            ENDIF                                                       
- 201       CONTINUE                                                     
-           CALL ANCMSG(MSGID=434,                                       
-     .                 MSGTYPE=MSGERROR,                                
-     .                 ANMODE=ANINFO_BLIND_1,                           
-     .                 I1=ID,                                           
-     .                 C1=TITR,                                         
-     .                 I2=ISK)                                          
- 210       CONTINUE                                                     
-           IAD2=IAD2+1                                                  
-          ENDDO                                                         
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+           DO 201 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,
+     .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+
+     .               (NUMFRAM+1)
+            IF(ISK == ISKWN(4,J)) THEN
+             ITHBUF(IAD2)=J-1
+             GO TO 210
+            ENDIF
+ 201       CONTINUE
+           CALL ANCMSG(MSGID=434,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=ISK)
+ 210       CONTINUE
+           IAD2=IAD2+1
+          ENDDO
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/SH3N
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SH3N' ,NTHSH3N)  
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SH3N' ,NTHSH3N)
       IF (NTHSH3N > 0) THEN
-        CALL HM_OPTION_START(TRIM(THFILE)//'/SH3N') 
+        CALL HM_OPTION_START(TRIM(THFILE)//'/SH3N')
         HM_NTHGRP = HM_NTHGRP + NTHSH3N
         DO I = 1, NTHSH3N
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 22
           ITYP  = 7
-          KEY   = 'SH3N      '  
+          KEY   = 'SH3N      '
           CALL HM_READ_THGRNE(
      1      ITYP  ,KEY   ,ITAB  ,ITABM1,IXTG   ,
-     3      NIXTG ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,    
-     4      NVARC ,VARC  ,NUMELTG,VARCG ,NVARCG ,          
-     5      IVARCG,NSELTG,NVALL,IMERGE,ITHVAR   ,          
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH3NM, NUMELTG)                              
+     3      NIXTG ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
+     4      NVARC ,VARC  ,NUMELTG,VARCG ,NVARCG ,
+     5      IVARCG,NSELTG,NVALL,IMERGE,ITHVAR   ,
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISH3NM, NUMELTG)
 C          skew numbers user -> internal          
-          NNE =ITHGRP(4,IGS)                                                   
-          IAD2=ITHGRP(5,IGS)+3*NNE                                             
-          DO K=1,NNE                                                           
-           ISK=ITHBUF(IAD2)                                                    
-           DO 300 J=1,(NUMSKW+1)+NSUBMOD                                       
-            IF(ISK == ISKWN(4,J)) THEN                                         
-             ITHBUF(IAD2)=J-1                                                  
-             GO TO 310                                                         
-            ENDIF                                                              
- 300       CONTINUE                                                    
+          NNE =ITHGRP(4,IGS)
+          IAD2=ITHGRP(5,IGS)+3*NNE
+          DO K=1,NNE
+           ISK=ITHBUF(IAD2)
+           DO 300 J=1,(NUMSKW+1)+NSUBMOD
+            IF(ISK == ISKWN(4,J)) THEN
+             ITHBUF(IAD2)=J-1
+             GO TO 310
+            ENDIF
+ 300       CONTINUE
 C          frame numbers user -> internal                                       
-           DO 301 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,              
-     .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+                
-     .               (NUMFRAM+1)                                               
-            IF(ISK == ISKWN(4,J)) THEN                                         
-             ITHBUF(IAD2)=J-1                                                  
-             GO TO 310                                                         
-            ENDIF                                                              
- 301       CONTINUE                                                            
-           CALL ANCMSG(MSGID=434,                                              
-     .                 MSGTYPE=MSGERROR,                                       
-     .                 ANMODE=ANINFO_BLIND_1,                                  
-     .                 I1=ID,                                                  
-     .                 C1=TITR,                                                
-     .                 I2=ISK)                                                 
- 310       CONTINUE                                                            
-           IAD2=IAD2+1                                                         
-          ENDDO                                                                
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+           DO 301 J=(NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+1+NSUBMOD,
+     .              (NUMSKW+1)+MIN(IUN,NSPCOND)*NUMSPH+NSUBMOD+
+     .               (NUMFRAM+1)
+            IF(ISK == ISKWN(4,J)) THEN
+             ITHBUF(IAD2)=J-1
+             GO TO 310
+            ENDIF
+ 301       CONTINUE
+           CALL ANCMSG(MSGID=434,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ID,
+     .                 C1=TITR,
+     .                 I2=ISK)
+ 310       CONTINUE
+           IAD2=IAD2+1
+          ENDDO
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF  
+      ENDIF
       !-------------------------------------------
       ! /TH/RBODY
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RBODY' ,NTHRBODY)         
-      IF (NTHRBODY > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RBODY' ,NTHRBODY)
+      IF (NTHRBODY > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/RBODY')
         HM_NTHGRP = HM_NTHGRP + NTHRBODY
         DO I = 1, NTHRBODY
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2485,20 +2485,20 @@ C          frame numbers user -> internal
      3          IAD    ,IFI    ,ITHGRP(1,IGS),ITHBUF   ,
      4          NVARRB ,VARRB  ,NRBODY       ,VARRBG   ,NVARRBG,
      5          IVARRBG,NSRBY  ,NVALL        ,ITHVAR   ,FLAGABF,NVARABF,
-     6          NOM_OPT,IGS    ,NPBY         ,LSUBMODEL    )    
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     6          NOM_OPT,IGS    ,NPBY         ,LSUBMODEL    )
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF      
+      ENDIF
       !-------------------------------------------
       ! /TH/MONVOL
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/MONV' ,NTHMONVOL)    
-      IF (NTHMONVOL > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/MONV') 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/MONV' ,NTHMONVOL)
+      IF (NTHMONVOL > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/MONV')
         HM_NTHGRP = HM_NTHGRP + NTHMONVOL
         DO I = 1, NTHMONVOL
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2510,31 +2510,31 @@ C          frame numbers user -> internal
      3          IAD    ,IFI    ,ITHGRP(1,IGS),ITHBUF ,
      4          NVARMV ,VARMV  ,NVOLU ,VARMVG,NVARMVG,
      5          IVARMVG,NSNE,NVALL,ITHVAR,FLAGABF,NVARABF,
-     6          NOM_OPT,IGS    ,LSUBMODEL,LITHBUFMX    )    
-          NVALL = 9                                               
-          IGS=IGS+1                                               
-          TITR1(1:5)='VENT '                                      
-   	      DO J=1,nchartitle-5                                 
-   	        TITR1(J+5:J+5) = TITR(J:J)                        
-   	      ENDDO                                               
-          CALL FRETITL(TITR1,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)    
-          ITHGRP(1,IGS)=ID_TH_AUTO                                
-          ID_TH_AUTO = ID_TH_AUTO + 1                             
-          CALL HM_THGRKI_VENT(                                       
-     1      ITYP      ,KEY       ,PTR_NOPT_MONV,                        
-     3      IAD       ,IFI       ,ITHGRP(1,IGS),ITHBUF ,                
-     4      NVARMVENT ,VARMVENT  ,NVOLU        ,VARMVENTG, NVARMVENTG,    
-     5      IVARMVENTG,NSNE      ,NVALL        ,ITHVAR   , FLAGABF   ,NVARABF,         
-     6      NOM_OPT   ,IGS       ,T_MONVOL     ,NVARMVENT, LSUBMODEL)                       
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     6          NOM_OPT,IGS    ,LSUBMODEL,LITHBUFMX    )
+          NVALL = 9
+          IGS=IGS+1
+          TITR1(1:5)='VENT '
+   	      DO J=1,nchartitle-5
+   	        TITR1(J+5:J+5) = TITR(J:J)
+   	      ENDDO
+          CALL FRETITL(TITR1,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
+          ITHGRP(1,IGS)=ID_TH_AUTO
+          ID_TH_AUTO = ID_TH_AUTO + 1
+          CALL HM_THGRKI_VENT(
+     1      ITYP      ,KEY       ,PTR_NOPT_MONV,
+     3      IAD       ,IFI       ,ITHGRP(1,IGS),ITHBUF ,
+     4      NVARMVENT ,VARMVENT  ,NVOLU        ,VARMVENTG, NVARMVENTG,
+     5      IVARMVENTG,NSNE      ,NVALL        ,ITHVAR   , FLAGABF   ,NVARABF,
+     6      NOM_OPT   ,IGS       ,T_MONVOL     ,NVARMVENT, LSUBMODEL)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF    
+      ENDIF
       !-------------------------------------------
       ! /TH/PART
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)  
-      IF (HM_NTHPART > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/PART') 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/PART' ,HM_NTHPART)
+      IF (HM_NTHPART > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/PART')
         HM_NTHGRP = HM_NTHGRP + HM_NTHPART
         NUMTHPART = NPART + NTHPART
         DO I = 1, HM_NTHPART
@@ -2544,181 +2544,181 @@ C          frame numbers user -> internal
      .         IVARPAG  ,PATHID   ,TAGP    ,IPARTH   ,NPARTH    ,
      .         NVPARTH  ,LSUBMODEL)
         ENDDO
-      ENDIF     
+      ENDIF
       !-------------------------------------------
       ! /TH/SUBS
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SUBS' ,HM_NTHSUBS)
-      IF (HM_NTHSUBS > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/SUBS') 
+      IF (HM_NTHSUBS > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/SUBS')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSUBS
         DO I = 1, HM_NTHSUBS
           CALL HM_READ_THGRPA_SUB(
      .         IAD      ,IFI      ,ITHBUF   ,NVARPA   ,VARPA    ,
      .         VARPAG   ,NVARPAG  ,IVARPAG  ,PATHID   ,
-     .         SUTHID   ,TAGS     ,SUBSET   ,ITHFLAG  ,LSUBMODEL)         
-        ENDDO 
-      ENDIF 
+     .         SUTHID   ,TAGS     ,SUBSET   ,ITHFLAG  ,LSUBMODEL)
+        ENDDO
+      ENDIF
       !-------------------------------------------
       ! /TH/QUAD
       !-------------------------------------------
       TH_STRAIN = 0 ! Time history strain flag for QUADS -> TH output STRAIN TENSOR
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/QUAD' ,HM_NTHQUAD  )     
-      IF (HM_NTHQUAD > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/QUAD' ,HM_NTHQUAD  )
+      IF (HM_NTHQUAD > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/QUAD')
         HM_NTHGRP = HM_NTHGRP + HM_NTHQUAD
         DO I = 1, HM_NTHQUAD
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 40
-          KEY   = 'QUAD      '          
+          KEY   = 'QUAD      '
           CALL HM_READ_THGRNE(
      1        2     ,KEY   ,ITAB  ,ITABM1,IXQ    ,
      3        NIXQ  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
      4        NVARS ,VARS  ,NUMELQ,VARSG ,NVARSG   ,
      5        IVARSG,NSELQ,NVALL,IMERGE,ITHVAR   ,
-     6        FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%IQUADM, NUMELQ) 
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+     6        FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%IQUADM, NUMELQ)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF 
+      ENDIF
       !-------------------------------------------
       ! /TH/SPHCEL
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPHCEL' ,HM_NTHSPHCEL  )  
-      IF (HM_NTHSPHCEL > 0) THEN 
-        CALL HM_OPTION_START(TRIM(THFILE)//'/SPHCEL') 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPHCEL' ,HM_NTHSPHCEL  )
+      IF (HM_NTHSPHCEL > 0) THEN
+        CALL HM_OPTION_START(TRIM(THFILE)//'/SPHCEL')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSPHCEL
         DO I = 1, HM_NTHSPHCEL
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 41
-          KEY   = 'SPHCEL    '          
+          KEY   = 'SPHCEL    '
           CALL HM_READ_THGRNE(
      1       51   ,KEY   ,ITAB  ,ITABM1,KXSP    ,
      2       NISP  ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
      4       NVARSPH,VARSPH,NUMSPH,VARSPG,NVARSPG ,
      5       IVARSPG,NSELSP,NVALL,IMERGE,ITHVAR   ,
-     6       FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISPHM,NUMSPH) 
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+     6       FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ISPHM,NUMSPH)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF    
+      ENDIF
       !-------------------------------------------
       ! /TH/CYL_JO
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/CYL_JO' ,HM_NTHCYLJO)
-      IF (HM_NTHCYLJO > 0) THEN 
+      IF (HM_NTHCYLJO > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/CYL_JO')
         HM_NTHGRP = HM_NTHGRP + HM_NTHCYLJO
         DO I = 1, HM_NTHCYLJO
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 6
-          KEY   = 'CYL_JO    '          
+          KEY   = 'CYL_JO    '
           CALL HM_READ_THGRKI(
      1      105      ,KEY      ,PTR_NOPT_JOINT,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARJO   ,VARJO    ,NJOINT,VARJOG,NVARJOG,
      4      IVARJOG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF    
+      ENDIF
       !-------------------------------------------
       ! /TH/FXBODY
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/FXBODY' ,HM_NTHFXBODY)
-      IF (HM_NTHFXBODY > 0) THEN 
+      IF (HM_NTHFXBODY > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/FXBODY')
         HM_NTHGRP = HM_NTHGRP + HM_NTHFXBODY
         DO I = 1, HM_NTHFXBODY
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 0
-          KEY   = 'FXBODY    '          
+          KEY   = 'FXBODY    '
           CALL HM_READ_THGRKI(
      1      111      ,KEY      ,PTR_NOPT_FXBY,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARFX   ,VARFX    ,NFXBODY       ,VARFXG  ,NVARFXG,
      4      IVARFXG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX )
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF   
+      ENDIF
       !-------------------------------------------
       ! /TH/FRAME
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/FRAME' ,HM_NTHFRAME) 
-      IF (HM_NTHFRAME > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/FRAME' ,HM_NTHFRAME)
+      IF (HM_NTHFRAME > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/FRAME')
         HM_NTHGRP = HM_NTHGRP + HM_NTHFRAME
         DO I = 1, HM_NTHFRAME
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 24
-          KEY   = 'FRAME     '          
+          KEY   = 'FRAME     '
           CALL HM_READ_THGRKI(
      1      110      ,KEY      ,PTR_NOPT_SKW+NUMSKW+1,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARFR   ,VARFR    ,NUMFRAM+1     ,VARFRG, NVARFRG  ,
      4      IVARFRG  ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF   
+      ENDIF
       !-------------------------------------------
       ! /TH/GAUGE
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/GAUGE' ,HM_NTHGAUGE)
-      IF (HM_NTHGAUGE > 0) THEN 
+      IF (HM_NTHGAUGE > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/GAUGE')
         HM_NTHGRP = HM_NTHGRP + HM_NTHGAUGE
         DO I = 1, HM_NTHGAUGE
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 3
-          KEY   = 'GAUGE     '          
+          KEY   = 'GAUGE     '
           CALL HM_READ_THGRKI(
      1      113      ,KEY      ,PTR_NOPT_GAU,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARGAU  ,VARGAU   ,NBGAUGE       ,VARGAUG,NVARGAUG  ,
      4      IVARGAUG ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF                           
+      ENDIF
       !-------------------------------------------
       ! /TH/SPH_FLOW
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPH_FLOW' ,HM_NTHSPHFLOW)   
-      IF (HM_NTHSPHFLOW > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SPH_FLOW' ,HM_NTHSPHFLOW)
+      IF (HM_NTHSPHFLOW > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SPH_FLOW')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSPHFLOW
         DO I = 1, HM_NTHSPHFLOW
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 1
-          KEY   = 'SPH_FLOW  '          
+          KEY   = 'SPH_FLOW  '
           CALL HM_READ_THGRKI(
      1      115      ,KEY      ,PTR_NOPT_SPHIO,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
@@ -2738,20 +2738,20 @@ C             error message if type of inout is not correct
      .                     I2=NOM_OPT(1,PTR_NOPT_SPHIO+INOUT))
                   ENDIF
                 ENDIF
-              END DO     
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+              END DO
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF       
+      ENDIF
       !-------------------------------------------
       ! /TH/NSTRAND
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/NSTRAND' ,HM_NTHNSTRAND  )         
-      IF (HM_NTHNSTRAND > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/NSTRAND' ,HM_NTHNSTRAND  )
+      IF (HM_NTHNSTRAND > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/NSTRAND')
         HM_NTHGRP = HM_NTHGRP + HM_NTHNSTRAND
         DO I = 1, HM_NTHNSTRAND
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2763,20 +2763,20 @@ C             error message if type of inout is not correct
      3          IXX    ,IAD   ,IFI    ,ITHGRP(1,IGS),ITHBUF ,
      4          NVARNS ,VARNS ,VARNSG ,NVARNSG ,IVARNSG,
      5          NSELR  ,IVNS2R,NVALL  ,ID,TITR,
-     6          ITHVAR,FLAGABF,NVARABF,LSUBMODEL)           
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     6          ITHVAR,FLAGABF,NVARABF,LSUBMODEL)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF          
+      ENDIF
       !-------------------------------------------
       ! /TH/SURF
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SURF' ,HM_NTHSURF  )          
-      IF (HM_NTHSURF> 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SURF' ,HM_NTHSURF  )
+      IF (HM_NTHSURF> 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SURF')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSURF
         DO I = 1, HM_NTHSURF
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
@@ -2788,83 +2788,83 @@ C             error message if type of inout is not correct
      3          IAD    ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
      4          NVARSURF,VARSURF,NSURF,VARSURFG,NVARSURFG ,
      5          IVARSURFG,NSNE,NVALL,ITHVAR,FLAGABF,NVARABF,
-     6          IGRSURF,IGS,LSUBMODEL)          
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     6          IGRSURF,IGS,LSUBMODEL)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
-      ENDIF  
+      ENDIF
       !-------------------------------------------
       ! /TH/TRIA
       !-------------------------------------------
-      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/TRIA' ,HM_NTHTRIA  )  
-      IF (HM_NTHTRIA > 0) THEN 
+      CALL HM_OPTION_COUNT(TRIM(THFILE)//'/TRIA' ,HM_NTHTRIA  )
+      IF (HM_NTHTRIA > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/TRIA')
         HM_NTHGRP = HM_NTHGRP + HM_NTHTRIA
         DO I = 1, HM_NTHTRIA
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 40
           ITYP  = 117
-          KEY   = 'TRIA      ' 
+          KEY   = 'TRIA      '
           CALL HM_READ_THGRNE(
      1      ITYP  ,KEY   ,ITAB  ,ITABM1,IXTG   ,
-     3      NIXTG ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,    
-     4      NVARS ,VARS  ,NUMELTG,VARSG ,NVARSG ,          
-     5      IVARSG,NSELTG,NVALL,IMERGE,ITHVAR   ,          
-     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ITRIAM, NUMELTG)        
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS)) 
+     3      NIXTG ,IAD   ,IFI   ,ITHGRP(1,IGS),ITHBUF ,
+     4      NVARS ,VARS  ,NUMELTG,VARSG ,NVARSG ,
+     5      IVARSG,NSELTG,NVALL,IMERGE,ITHVAR   ,
+     6      FLAGABF,NVARABF,RFI,LSUBMODEL,MAP_TABLES%ITRIAM, NUMELTG)
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
       ! /TH/SLIPRING
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/SLIPRING' ,HM_NTHSLIPRING)
-      IF (HM_NTHSLIPRING > 0) THEN 
+      IF (HM_NTHSLIPRING > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/SLIPRING')
         HM_NTHGRP = HM_NTHGRP + HM_NTHSLIPRING
         DO I = 1, HM_NTHSLIPRING
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 6
           ITYP  = 118
-          KEY   = 'SLIPRING  '     
+          KEY   = 'SLIPRING  '
           CALL HM_READ_THGRKI(
      1      ITYP     ,KEY      ,PTR_NOPT_SLIPRING,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARSLIP ,VARSLIP  ,NSLIPRING  ,VARSLIPG,NVARSLIPG  ,
      4      IVARSLIPG,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
       !-------------------------------------------
       ! /TH/RETRACTOR
       !-------------------------------------------
       CALL HM_OPTION_COUNT(TRIM(THFILE)//'/RETRACTOR' ,HM_NTHRETRACTOR)
-      IF (HM_NTHRETRACTOR > 0) THEN 
+      IF (HM_NTHRETRACTOR > 0) THEN
         CALL HM_OPTION_START(TRIM(THFILE)//'/RETRACTOR')
         HM_NTHGRP = HM_NTHGRP + HM_NTHRETRACTOR
         DO I = 1, HM_NTHRETRACTOR
-          TITR = ''   
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)   
+          TITR = ''
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, OPTION_TITR = TITR)
           IGS = IGS+1
           CALL FRETITL(TITR,ITHGRP(NITHGR-LTITR+1,IGS),LTITR)
           ITHGRP(1,IGS) = ID
           NVALL = 3
           ITYP  = 119
-          KEY   = 'RETRACTOR '    
+          KEY   = 'RETRACTOR '
           CALL HM_READ_THGRKI(
      1      ITYP     ,KEY      ,PTR_NOPT_RETRACTOR,
      2      IAD      ,IFI      ,ITHGRP(1,IGS) ,ITHBUF  ,
      3      NVARRET  ,VARRET   ,NRETRACTOR  ,VARRETG,NVARRETG  ,
      4      IVARRETG ,NSNE     ,NVALL ,ITHVAR ,FLAGABF ,NVARABF ,
      5      NOM_OPT  ,IGS      ,LSUBMODEL, LITHBUFMX)
-          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))    
+          IF(IGS/=0) NTHWA=MAX(NTHWA,ITHGRP(4,IGS)*ITHGRP(6,IGS))
         ENDDO
       ENDIF
 C
@@ -2932,7 +2932,7 @@ C=======================================================================
           IPARTEL_P => IPARTQ ! Quads
         ELSEIF (ITY == 3) THEN
           IPARTEL_P => IPARTC ! Shells
-        ELSEIF (ITY == 4) THEN 
+        ELSEIF (ITY == 4) THEN
           IPARTEL_P => IPARTT ! Truss
         ELSEIF (ITY == 5) THEN
           IPARTEL_P => IPARTP ! Beams
@@ -2951,8 +2951,8 @@ C=======================================================================
           IF(IPARG(80,NG) == 1) EXIT
           NUMPART = IPARTEL_P(J)
           IF(IPARTH(NVPARTH,NUMPART)>0) THEN
-            NVAR =IPARTH(NVPARTH,NUMPART)       
-            IAD  =IPARTH(NVPARTH+1,NUMPART)       
+            NVAR =IPARTH(NVPARTH,NUMPART)
+            IAD  =IPARTH(NVPARTH+1,NUMPART)
             DO N=IAD,IAD+NVAR-1
               K=ITHBUF(N)
               IF(K>7.AND.K/=28) THEN

@@ -46,7 +46,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE4(T_MONVOLN, IPM, IGEO, ITABM1,
      .     LSENSOR, SENSOR, NPT, PLD,
-     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
+     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .     LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -95,15 +95,15 @@ C-----------------------------------------------
       my_real :: FAC_M, FAC_L, FAC_T, FAC_C
       my_real :: SCAL_T, SCAL_P, SCAL_S, SCAL_A, SCAL_D
       LOGICAL :: FOUND, DECREASE
-      my_real :: SA, ROT, VOL, VMIN, VEPS, AMU, SV, 
+      my_real :: SA, ROT, VOL, VMIN, VEPS, AMU, SV,
      .     PEXT, TI, PINI, FAC_GEN
       INTEGER :: IEQUI, ITTF, NP, IP, IS, NJET, NVENT
       my_real :: GAMAI, CPAI, CPBI, CPCI, CPI, CVI, RMWI, CPG, RMWG, RHOI, ESPECI, TI2, MI,
      .     TTFIRE, SHOL
       my_real, DIMENSION(:), ALLOCATABLE :: GAMA, CPA, CPB, CPC, FMASS, FTEMP, FPT, FPA, FPZ,
-     .     TVENT, DPDEF, DTPDEF, FVDP, AVENT, BVENT, TSTOPE, FPORT, FPORP, FPORA, 
+     .     TVENT, DPDEF, DTPDEF, FVDP, AVENT, BVENT, TSTOPE, FPORT, FPORP, FPORA,
      .     FPORT1, FPORP1,FPORA1
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IMASS, IFLU, ITEMP, ISENS, IJET, NJ1, NJ2, NJ3, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IMASS, IFLU, ITEMP, ISENS, IJET, NJ1, NJ2, NJ3,
      .     IPT, IPA, IPZ, IVDP, IDTPDEF, IPVENT, IFVENT, IPORT, IPORP, IPORA, IPORT1, IPORP1, IPORA1
       CHARACTER(LEN = 40) :: MESS
       LOGICAL :: IS_AVAILABLE
@@ -140,7 +140,7 @@ C     Line 3
       CALL HM_GET_FLOATV('cpci', CPCI, IS_AVAILABLE, LSUBMODEL, UNITAB)
 C     Injectors
       CALL HM_GET_INTV('Njet', NJET, IS_AVAILABLE, LSUBMODEL)
-      
+
       T_MONVOLN%NJET = NJET
       T_MONVOLN%IVOLU(8) = NJET
       IF (NJET > 0) THEN
@@ -159,14 +159,14 @@ C     Injectors
             CALL HM_GET_FLOAT_ARRAY_INDEX('cpa', CPA(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('cpb', CPB(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('cpc', CPC(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
-            
+
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDmas', IMASS(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('Iflow', IFLU(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalemas', FMASS(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDT', ITEMP(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOAT_ARRAY_INDEX('FscaleT', FTEMP(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('sens_ID', ISENS(II), II,IS_AVAILABLE, LSUBMODEL)
-           
+
             CALL HM_GET_INT_ARRAY_INDEX('Ijet', IJET(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('ABG_N1', NJ1(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('ABG_N2', NJ2(II), II,IS_AVAILABLE, LSUBMODEL)
@@ -188,7 +188,7 @@ C     Injectors
 
 C     Ventholes
       CALL HM_GET_INTV('Nvent', NVENT, IS_AVAILABLE, LSUBMODEL)
-      
+
       T_MONVOLN%IVOLU(11) = NVENT
       T_MONVOLN%NVENT = NVENT
       IF (NVENT > 0) THEN
@@ -198,12 +198,12 @@ C     Ventholes
          T_MONVOLN%RBAGHOL(1:NRBHOL, 1:NVENT) = ZERO
       ENDIF
       IF (NVENT > 0) THEN
-         ALLOCATE(TVENT(NVENT), DPDEF(NVENT), DTPDEF(NVENT), FVDP(NVENT), AVENT(NVENT), 
+         ALLOCATE(TVENT(NVENT), DPDEF(NVENT), DTPDEF(NVENT), FVDP(NVENT), AVENT(NVENT),
      .        BVENT(NVENT), TSTOPE(NVENT))
          ALLOCATE(IPVENT(NVENT), IVDP(NVENT), IDTPDEF(NVENT), IFVENT(NVENT))
-         ALLOCATE(IPORT(NVENT), IPORP(NVENT), IPORA(NVENT), IPORT1(NVENT), 
+         ALLOCATE(IPORT(NVENT), IPORP(NVENT), IPORA(NVENT), IPORT1(NVENT),
      .        IPORP1(NVENT), IPORA1(NVENT))
-         ALLOCATE(FPORT(NVENT), FPORP(NVENT), FPORA(NVENT), FPORT1(NVENT), 
+         ALLOCATE(FPORT(NVENT), FPORP(NVENT), FPORA(NVENT), FPORT1(NVENT),
      .        FPORP1(NVENT), FPORA1(NVENT))
          DO II = 1, NVENT
             IFVENT(II) = 0
@@ -211,14 +211,14 @@ C     Ventholes
             CALL HM_GET_FLOAT_ARRAY_INDEX('Avent', AVENT(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Bvent', BVENT(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Tstop', TSTOPE(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
- 
+
             CALL HM_GET_FLOAT_ARRAY_INDEX('Tvent', TVENT(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('dPdef', DPDEF(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('dtPdef', DTPDEF(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDv', IVDP(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalev', FVDP(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('IdtPdef', IDTPDEF(II), II,IS_AVAILABLE, LSUBMODEL)
-           
+
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDt', IPORT(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDP', IPORP(II), II,IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDA', IPORA(II), II,IS_AVAILABLE, LSUBMODEL)
@@ -259,14 +259,14 @@ C     External surface check
 C     Check surface closure
       CALL MONVOL_CHECK_SURFCLOSE(T_MONVOLN, ITAB, IGRSURF(T_MONVOLN%EXT_SURFID), X)
 C     Set all normal on same side
-      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC, IXTG, X, 2)
 C     Compute Monvon volume
-      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID), 
-     .     ITAB, X, PM, GEO, IXC, IXTG, 
+      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID),
+     .     ITAB, X, PM, GEO, IXC, IXTG,
      .     SA, ROT, VOL, VMIN, VEPS, SV)
 C     Reverse all normals to ensure positive volume
-      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC,IXTG,VOL, X, 2)
 
       IF (ITTF < 0 .OR. ITTF > 3) THEN
@@ -292,19 +292,19 @@ C     ==============
          CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_P = ONE * FAC_GEN
       ENDIF
-      IF (SCAL_S == ZERO) THEN 
+      IF (SCAL_S == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_S = ONE * FAC_GEN
       ENDIF
-      IF (SCAL_A == ZERO) THEN 
+      IF (SCAL_A == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_A = ONE * FAC_GEN
       ENDIF
-      IF (SCAL_D == ZERO) THEN 
+      IF (SCAL_D == ZERO) THEN
          CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_D = ONE * FAC_GEN
       ENDIF
-    
+
       IF (AMU == ZERO) AMU = EM02
       IF(PEXT == ZERO) THEN
          PEXT = 101325.D0 * (FAC_L_WORK * FAC_T_WORK * FAC_T_WORK) / FAC_M_WORK
@@ -323,15 +323,15 @@ C     ==============
          IF (IFLU(II) /= 0) THEN
             FMASS(II) = FMASS(II) / FAC_T
          ENDIF
-         IF (FPT(II) == ZERO) THEN 
+         IF (FPT(II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fpt', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             FPT(II) = ONE * FAC_GEN
          ENDIF
-         IF (FPA(II) == ZERO) THEN 
+         IF (FPA(II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fptheta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             FPA(II) = ONE * FAC_GEN
          ENDIF
-         IF (FPZ(II) == ZERO) THEN 
+         IF (FPZ(II) == ZERO) THEN
             CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fpdelta', FAC_GEN, II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             FPZ(II) = ONE * FAC_GEN
          ENDIF
@@ -418,13 +418,13 @@ C
       T_MONVOLN%RVOLU(62) = RHOI
       TI2 = TI * TI
       ESPECI = TI * (CPAI + HALF * CPBI * TI + THIRD * CPCI * TI2 - RMWI)
-     
+
       T_MONVOLN%RVOLU(63) = ESPECI + RMWI * TI
       T_MONVOLN%RVOLU(64) = ZERO
       T_MONVOLN%RVOLU(65) = ZERO
       T_MONVOLN%RVOLU(66) = ESPECI
       DO II = 1, NJET
-         T_MONVOLN%IBAGJET(13, II) = 0            
+         T_MONVOLN%IBAGJET(13, II) = 0
          T_MONVOLN%RBAGJET(1, II) = GAMA(II)
          T_MONVOLN%RBAGJET(2, II) = CPA(II)
          T_MONVOLN%RBAGJET(3, II) = CPB(II)
@@ -679,7 +679,7 @@ C     =========
          WRITE(IOUT, 1450) IJET(II)
          IF (IJET(II) > 0) THEN
             IF (NJ3(II) == 0) THEN
-               WRITE(IOUT, 1460) NJ1(II), NJ2(II), IPT(II), IPA(II), IPZ(II), 
+               WRITE(IOUT, 1460) NJ1(II), NJ2(II), IPT(II), IPA(II), IPZ(II),
      .              FPT(II), FPA(II), FPZ(II)
             ELSE
                WRITE(IOUT, 1461) NJ1(II), NJ2(II), NJ3(II), IPT(II), IPA(II), IPZ(II),
@@ -706,7 +706,7 @@ C     =========
          IF (IPVENT(II) /= 0) THEN
             CALL MONVOL_CHECK_VENTHOLE_SURF(IPRI, T_MONVOLN, IGRSURF, II, SHOL, X, IXC, IXTG)
             T_MONVOLN%RBAGHOL(15, II) = SHOL
-            WRITE(IOUT,1479) 
+            WRITE(IOUT,1479)
      .           SHOL,AVENT(II),BVENT(II),
      .           IPORT(II),IPORP(II),IPORA(II),FPORT(II),FPORP(II),FPORA(II),
      .           IPORT1(II),IPORP1(II),IPORA1(II),FPORT1(II),FPORP1(II),FPORA1(II)
@@ -737,12 +737,12 @@ C     ===========
 C-----------------------------------------------
 C     E n d   o f   s o u r c e
 C-----------------------------------------------
-      
-      RETURN 
+
+      RETURN
  1002 FORMAT(
      .     /5X,'INITIAL SURFACE OF MONITORED VOLUME . .=',1PG20.13,
      .     /5X,'SURFACE ERROR(NE.0 FOR NON CLOSED SURF)=',1PG20.13,
-     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)     
+     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)
  1003 FORMAT(
      .     5X,'UNIT SCALE FOR TIME FUNCTIONS          =',1PG20.13,
      .     /5X,'UNIT SCALE FOR PRESSURE FUNCTIONS      =',1PG20.13,

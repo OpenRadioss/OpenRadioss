@@ -145,7 +145,7 @@ C
          ELSEIF(KEY3(1:5)=='STRES')THEN
 C             IF(KEY4(1:1)=='')THEN              
 C              OUTP_ST(1) = 1          
-              IF(KEY4(1:4)=='FULL')THEN 
+              IF(KEY4(1:4)=='FULL')THEN
               OUTP_ST(2) = 1
               ELSE
                OUTP_ST(1) = 1
@@ -172,7 +172,7 @@ C              OUTP_ST(1) = 1
             OUTP_ST(3) = 1
            ELSE
             OUTP_ST(3) = 1
-           ENDIF 
+           ENDIF
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
@@ -185,16 +185,16 @@ C-----------------------------------------------
          IF    (KEY3(1:3)=='OFF')THEN
            OUTP_CS(1) = 1
          ELSEIF(KEY3(1:4)=='EPSP')THEN
-           OUTP_CS(2) = 1           
+           OUTP_CS(2) = 1
          ELSEIF(KEY3(1:5)=='USER1')THEN
            OUTP_CS(20) = 1
          ELSEIF(KEY3(1:5)=='USER2')THEN
-           OUTP_CS(21) = 1 
-         ELSEIF(KEY3(1:5)=='USER3')THEN                            
+           OUTP_CS(21) = 1
+         ELSEIF(KEY3(1:5)=='USER3')THEN
            OUTP_CS(22) = 1
-         ELSEIF(KEY3(1:5)=='USER4')THEN                      
+         ELSEIF(KEY3(1:5)=='USER4')THEN
            OUTP_CS(23) = 1
-         ELSEIF(KEY3(1:5)=='USER5')THEN         
+         ELSEIF(KEY3(1:5)=='USER5')THEN
            OUTP_CS(24) = 1
          ELSEIF(KEY3(1:5)=='USR01' .OR.KEY3(1:4)=='USR1')THEN
            IF    (KEY4(1:4)=='FULL') OUTP_CS(27) = 1
@@ -315,7 +315,7 @@ C-----------------------------------------------
          ELSEIF(KEY3(1:5)=='USR59')THEN
            IF    (KEY4(1:4)=='FULL') OUTP_CS(85) = 1
          ELSEIF(KEY3(1:5)=='USR60')THEN
-           IF    (KEY4(1:4)=='FULL') OUTP_CS(86) = 1          
+           IF    (KEY4(1:4)=='FULL') OUTP_CS(86) = 1
          ELSEIF(KEY3(1:4)=='HOUR')THEN
            OUTP_CS(25) = 1
          ELSEIF(KEY3(1:4)=='ENER')THEN
@@ -523,7 +523,7 @@ C-----------------------------------------------
             READ(IUSC2,*,ERR=9990,END=9990)
      .          (LOUTPSENS(N),N=1,NVAR(CART))
               NOUTPSENS=NOUTPSENS+NVAR(CART)
-           ENDDO 
+           ENDDO
        ELSE
          GOTO 9990
        ENDIF
@@ -565,7 +565,7 @@ C
      .            C1=KEY0(IKEY),C2=LINE(1:35))
       CALL ARRET(0)
       END
-      
+
 C             FREOUTP                         /freef/freoutp.F
 Chd|====================================================================
 Chd|  GET_KEYS_ID                   source/input/freoutp.F        
@@ -601,16 +601,16 @@ C-----------------------------------------------
        I2=I1
       DO WHILE(CART(I2:I2)/='/')
         I2=I2+1
-      ENDDO 
+      ENDDO
        KEY3 = CART(I1:I2-1)
        I2=I2+1
        I3=I2
       DO WHILE(CART(I3:I3)/='/')
         I3=I3+1
       ENDDO
-      KEY4 = CART(I2:I3-1) 
+      KEY4 = CART(I2:I3-1)
       I3=I3+1
-      I4=I3      
+      I4=I3
       MOT1 = CART(I4+25:I4+34)
       READ(MOT1,'(I10)')ID
 C---

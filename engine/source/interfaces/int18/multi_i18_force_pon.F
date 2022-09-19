@@ -37,11 +37,11 @@ Chd|====================================================================
      3                  FX1   ,FY1   ,FZ1  ,FX2  ,FY2   ,FZ2    ,
      4                  FX3   ,FY3   ,FZ3  ,FX4  ,FY4   ,FZ4    ,
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
-     6                  NIN   ,NOINT ,MULTI_FVM,DT,JTASK)     
+     6                  NIN   ,NOINT ,MULTI_FVM,DT,JTASK)
 !$COMMENT
 !       MULTI_I18_FORCE_PON description
 !       accumulation of force for local and remote nodes
-!       
+!
 !       MULTI_I18_FORCE_PON organization :
 !       - secondary nodes:
 !            * if NSV > 0 --> local node (phantom node id = NSV - NUMNOD)
@@ -187,7 +187,7 @@ C
          ! local node
          IF(IG>0) THEN
             IG = IG - NUMNOD
-            NINDEX_LOCAL = NINDEX_LOCAL + 1 
+            NINDEX_LOCAL = NINDEX_LOCAL + 1
             INDEX_LOCAL(NINDEX_LOCAL) = IG
             F_LOCAL( 3*(NINDEX_LOCAL-1)+ 1 ) = -DT * FXI(I)
             F_LOCAL( 3*(NINDEX_LOCAL-1)+ 2 ) = -DT * FYI(I)
@@ -196,12 +196,12 @@ C
          ! remote node
          ELSE
             IG = -IG
-            NINDEX_REMOTE = NINDEX_REMOTE + 1 
+            NINDEX_REMOTE = NINDEX_REMOTE + 1
             INDEX_REMOTE(NINDEX_REMOTE) = IG
             F_REMOTE( 3*(NINDEX_REMOTE-1)+ 1 ) = -DT * FXI(I)
             F_REMOTE( 3*(NINDEX_REMOTE-1)+ 2 ) = -DT * FYI(I)
             F_REMOTE( 3*(NINDEX_REMOTE-1)+ 3 ) = -DT * FZI(I)
-         ENDIF  
+         ENDIF
          ! --------------------
       ENDDO
 
@@ -211,11 +211,11 @@ C
       SHIFT_FORCE_INT = (JTASK-1)*NUMELS
       DO I=1,NINDEX_LOCAL
         IG=INDEX_LOCAL(I)
-        MULTI_FVM%FORCE_INT_PON(1,1:6,IG+SHIFT_FORCE_INT) = 
+        MULTI_FVM%FORCE_INT_PON(1,1:6,IG+SHIFT_FORCE_INT) =
      .  MULTI_FVM%FORCE_INT_PON(1,1:6,IG+SHIFT_FORCE_INT) + LOCAL_DP(1:6,3*(I-1)+1)
-        MULTI_FVM%FORCE_INT_PON(2,1:6,IG+SHIFT_FORCE_INT) = 
+        MULTI_FVM%FORCE_INT_PON(2,1:6,IG+SHIFT_FORCE_INT) =
      .  MULTI_FVM%FORCE_INT_PON(2,1:6,IG+SHIFT_FORCE_INT) + LOCAL_DP(1:6,3*(I-1)+2)
-        MULTI_FVM%FORCE_INT_PON(3,1:6,IG+SHIFT_FORCE_INT) = 
+        MULTI_FVM%FORCE_INT_PON(3,1:6,IG+SHIFT_FORCE_INT) =
      .  MULTI_FVM%FORCE_INT_PON(3,1:6,IG+SHIFT_FORCE_INT) + LOCAL_DP(1:6,3*(I-1)+3)
       ENDDO
       ! --------------------
@@ -226,16 +226,16 @@ C
       SHIFT_FORCE_INT = (JTASK-1)*NODFI
       DO I=1,NINDEX_REMOTE
         IG=INDEX_REMOTE(I)
-        MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1,1:6,IG+SHIFT_FORCE_INT) = 
-     .    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1,1:6,IG+SHIFT_FORCE_INT) + 
+        MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1,1:6,IG+SHIFT_FORCE_INT) =
+     .    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(1,1:6,IG+SHIFT_FORCE_INT) +
      .    REMOTE_DP(1:6,3*(I-1)+1)
-        MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,1:6,IG+SHIFT_FORCE_INT) = 
-     .    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,1:6,IG+SHIFT_FORCE_INT) + 
+        MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,1:6,IG+SHIFT_FORCE_INT) =
+     .    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(2,1:6,IG+SHIFT_FORCE_INT) +
      .    REMOTE_DP(1:6,3*(I-1)+2)
-        MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,1:6,IG+SHIFT_FORCE_INT) = 
-     .    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,1:6,IG+SHIFT_FORCE_INT) + 
+        MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,1:6,IG+SHIFT_FORCE_INT) =
+     .    MULTI_FVM%R_AFI(NIN)%R_FORCE_INT(3,1:6,IG+SHIFT_FORCE_INT) +
      .    REMOTE_DP(1:6,3*(I-1)+3)
       ENDDO
       ! --------------------
-      RETURN  
+      RETURN
       END SUBROUTINE MULTI_I18_FORCE_PON

@@ -72,7 +72,7 @@ C-----------------------------------------------
       TYPE (SENSOR_STR_) :: SENSOR_PTR
       TYPE (SUBMODEL_DATA) ,DIMENSION(NSUBMOD) :: LSUBMODEL
       TYPE (SUBSET_)       ,DIMENSION(NSUBS)   :: SUBSET
-      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_)    ,INTENT(IN) :: UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -117,8 +117,8 @@ c--------------------------------------------------
 c--------------------------------------------------
 c     Check Part_ID, Sub_ID
 c--------------------------------------------------
-      PARTN = 0 
-      SUBN  = 0 
+      PARTN = 0
+      SUBN  = 0
       IS_AVAILABLE = .FALSE.
       DO J=1,NPART
         IF (IPART(4,J) == PART_ID) THEN
@@ -137,7 +137,7 @@ c
         DO J=1,NSUBS-1
           IF (SUBSET(J)%ID == SUB_ID) THEN
             IS_AVAILABLE = .TRUE.
-            SUBN  = J 
+            SUBN  = J
             EXIT
           ENDIF
         ENDDO
@@ -147,7 +147,7 @@ c
       IF (.NOT. IS_AVAILABLE) THEN
         ! we take global subset including all parts
         SUB_ID = SUBSET(NSUBS)%ID
-        SUBN  = NSUBS 
+        SUBN  = NSUBS
       ENDIF ! IF (.NOT. IS_AVAILABLE)
 c------------------------------------------------------------
       WRITE (IOUT, 1000) SENS_ID,TDEL
@@ -197,12 +197,12 @@ c
       SENSOR_PTR%IPARAM(2) = SUBN    ! SUBSET number
       SENSOR_PTR%IPARAM(3) = IFLAG   ! const energy option
 c
-      SENSOR_PTR%RPARAM(1) = IEMIN 
-      SENSOR_PTR%RPARAM(2) = IEMAX 
-      SENSOR_PTR%RPARAM(3) = KEMIN 
-      SENSOR_PTR%RPARAM(4) = KEMAX 
-      SENSOR_PTR%RPARAM(5) = IETOL 
-      SENSOR_PTR%RPARAM(6) = KETOL 
+      SENSOR_PTR%RPARAM(1) = IEMIN
+      SENSOR_PTR%RPARAM(2) = IEMAX
+      SENSOR_PTR%RPARAM(3) = KEMIN
+      SENSOR_PTR%RPARAM(4) = KEMAX
+      SENSOR_PTR%RPARAM(5) = IETOL
+      SENSOR_PTR%RPARAM(6) = KETOL
       SENSOR_PTR%RPARAM(7) = IETIME
       SENSOR_PTR%RPARAM(8) = KETIME
 c---------------------------

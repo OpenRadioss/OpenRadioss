@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER FXBELM(*), NELS, NELC, NELTG, IPARG(NPARG,*), NML, 
+      INTEGER FXBELM(*), NELS, NELC, NELTG, IPARG(NPARG,*), NML,
      .        NSN, IXS(NIXS,*), IXC(NIXC,*), IXTG(NIXTG,*), NFX, IFILE,
      .        LVSIG, NSNI, NME, IRCS, IRCM0, NELT, NELP, IXT(NIXT,*),
      .        IXP(NIXP,*)
@@ -99,13 +99,13 @@ C   1. Solid elements
         IADEL=1
         IADS=1
         IF (NELS>0) CALL FSIGSINI(
-     .     FXBELM(IADEL), IPARG, X,          PM,   IXS, 
+     .     FXBELM(IADEL), IPARG, X,          PM,   IXS,
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELS)
 C   2. 4-nodes shell elements
         IADEL=IADEL+NELS*13
-        IADS=IADS+NELS*7             
+        IADS=IADS+NELS*7
         IF (NELC>0) CALL FSIGCINI(
-     .     FXBELM(IADEL), IPARG, X,          PM,   IXC, 
+     .     FXBELM(IADEL), IPARG, X,          PM,   IXC,
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELC)
 C   3. Truss elements
         IADEL=IADEL+NELC*10
@@ -117,13 +117,13 @@ C   4. Beam elements
         IADEL=IADEL+NELT*7
         IADS=IADS+NELT*2
         IF (NELP>0) CALL FSIGPINI(
-     .     FXBELM(IADEL), IPARG, X,          PM,   IXP, 
+     .     FXBELM(IADEL), IPARG, X,          PM,   IXP,
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELP)
 C   5. 3-nodes shell elements
         IADEL=IADEL+NELP*9
-        IADS=IADS+NELP*8             
+        IADS=IADS+NELP*8
         IF (NELTG>0) CALL FSIGTINI(
-     .     FXBELM(IADEL), IPARG, X,          PM,   IXTG, 
+     .     FXBELM(IADEL), IPARG, X,          PM,   IXTG,
      .     GEO,           VMOD,  VSIG(IADS), RINI, NELTG)
         IF (IFILE==0) THEN
            DO I=1,LVSIG
@@ -146,7 +146,7 @@ C   5. 3-nodes shell elements
       ENDDO
 C-----------
       RETURN
-      END SUBROUTINE FXBSINI 
-      
-      
-            
+      END SUBROUTINE FXBSINI
+
+
+

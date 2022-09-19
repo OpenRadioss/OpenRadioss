@@ -85,7 +85,7 @@ C     REAL
       DATA MESS/' FUNCTION & TABLE DEFINITION            '/
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C======================================================================|
-      IF(NTABLE  == 0) RETURN 
+      IF(NTABLE  == 0) RETURN
 !     Initialization
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
@@ -104,17 +104,17 @@ C----------------------------
 C /FUNCT/TABLE/0/id, NDIM=1
 C----------------------------
       IF (NTABLE0> 0) THEN
-       CALL HM_READ_TABLE1_0(NTABLE0,NTABLE, TABLE ,NFUNCT ,NPC ,PLD,L,NOM_OPT, UNITAB, LSUBMODEL)      
+       CALL HM_READ_TABLE1_0(NTABLE0,NTABLE, TABLE ,NFUNCT ,NPC ,PLD,L,NOM_OPT, UNITAB, LSUBMODEL)
       ENDIF
 C----------------------------
 C /FUNCT/TABLE/1/id, NDIM=1
 C----------------------------
       IF(NTABLE1> 0) THEN
-       CALL HM_READ_TABLE1_1(NTABLE1,NTABLE, TABLE ,NFUNCT ,NPC ,PLD,L,NOM_OPT, UNITAB, LSUBMODEL)      
+       CALL HM_READ_TABLE1_1(NTABLE1,NTABLE, TABLE ,NFUNCT ,NPC ,PLD,L,NOM_OPT, UNITAB, LSUBMODEL)
       ENDIF
 C
       RETURN
- 999  CALL FREERR(1)   
+ 999  CALL FREERR(1)
       RETURN
 C-----------------------------------------------------------------
 2000  FORMAT(//
@@ -185,7 +185,7 @@ C-----------------------------------------------
      .        JREC, NPTS, STAT, IDS, LL, LX(2), NOK(4)
       INTEGER,DIMENSION(:),ALLOCATABLE :: JPERM1,JPERM2
       INTEGER,DIMENSION(:,:),ALLOCATABLE :: ITAG
-      INTEGER IERROR, NF, IDFUNC, NP, 
+      INTEGER IERROR, NF, IDFUNC, NP,
      .        KK, IDEB, IFIN, IOK, NN, N1, N2, N11, N12, N13, KK1
 C     REAL
       my_real
@@ -216,13 +216,13 @@ C----------------------------
 C /FUNCT/TABLE/0/id, NDIM>1
 C----------------------------
       IF (NTABLE0> 0) THEN
-       CALL HM_READ_TABLE2_0(NTABLE0,TABLE,L ,NFUNCT , UNITAB, LSUBMODEL)      
+       CALL HM_READ_TABLE2_0(NTABLE0,TABLE,L ,NFUNCT , UNITAB, LSUBMODEL)
       ENDIF
 C----------------------------
 C /FUNCT/TABLE/1/id, NDIM>1
 C----------------------------
       IF(NTABLE1> 0) THEN
-       CALL HM_READ_TABLE2_1(NTABLE,NTABLE1, TABLE,L ,NFUNCT , UNITAB, LSUBMODEL)      
+       CALL HM_READ_TABLE2_1(NTABLE,NTABLE1, TABLE,L ,NFUNCT , UNITAB, LSUBMODEL)
       ENDIF
 C-------------------------------------
 C Recherche des ID doubles (functions & tables)

@@ -36,10 +36,10 @@ Chd|        RAD2R_MOD                     share/modules/rad2r.F
 Chd|====================================================================
       SUBROUTINE R2R_GETDATA(
      .               IEXLNK  ,IGRNOD  ,X       ,V       ,
-     .               VR      ,A       ,AR      ,MS      ,IN      ,        
+     .               VR      ,A       ,AR      ,MS      ,IN      ,
      .               XDP     ,DX      ,R2R_ON  ,DD_R2R  ,WEIGHT  ,
      .               IAD_ELEM,FR_ELEM ,STIFN   , STIFR  , DD_R2R_ELEM,
-     .               SDD_R2R_ELEM)                                           
+     .               SDD_R2R_ELEM)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -72,11 +72,11 @@ C-----------------------------------------------
      .        WEIGHT(*), DD_R2R(NSPMD+1,*), IAD_ELEM(2,*), FR_ELEM(*),
      .        DD_R2R_ELEM(*),SDD_R2R_ELEM
 C     REAL
-      my_real 
+      my_real
      .   X(3,*),V(3,*),VR(3,*),A(3,*),AR(3,*),MS(*),IN(*),
      .   STIFN(*),STIFR(*),DX(3,*)
 C
-      DOUBLE PRECISION XDP(3,*) 
+      DOUBLE PRECISION XDP(3,*)
 !
       TYPE (GROUP_)  , TARGET, DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -85,9 +85,9 @@ C-----------------------------------------------
       INTEGER I, IEX, IDP, IDG, NNG, NB,NGLOB,LENR,SIZE,BID
       INTEGER NBD
       my_real
-     .        WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B  
+     .        WF, WM, WF2, WM2, WFB, WMB, WF2B, WM2B
 C
-      INTEGER, DIMENSION(:), POINTER :: GRNOD  
+      INTEGER, DIMENSION(:), POINTER :: GRNOD
 C=======================================================================
       WF = ZERO
       WM = ZERO
@@ -111,12 +111,12 @@ C-----------------------------------------------------------------------
           CALL GET_DISPL_C(IDP,NNG,GRNOD,X)
         ENDIF
        END DO
-      
+
 C----------New rad2rad HMPP - synchro SPMD-----------------------------                 
        IF (NSPMD>1) THEN
-         IF (SDD_R2R_ELEM>0) THEN        
-           SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)         
-           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)         
+         IF (SDD_R2R_ELEM>0) THEN
+           SIZE =  3+FLAG_KINE + IRODDL*(3+FLAG_KINE)
+           LENR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
            CALL SPMD_EXCH_R2R_2(
      1       A ,AR,V , VR  ,MS   ,IN,
      2       IAD_ELEM,FR_ELEM,SIZE , WF, WF2,
@@ -144,7 +144,7 @@ C-
 	  NB = DBNO(IEX)	
 	ELSE
 	  NGLOB=NNG
-	  NB = 0	  
+	  NB = 0	
 	ENDIF
 C-        
 	NB = DBNO(IEX)
@@ -234,41 +234,41 @@ C-----------------------------------------------
      .        BUFR3(3,NGLOB),BUFR4(3,NGLOB),WTMP(4)
       INTEGER POP0,POP1,RATE
       my_real
-     .   POP2,POP3,SECS     
+     .   POP2,POP3,SECS
 C
 C******************************************************************************C
 
-      IF(ISPMD==0) THEN      
-       CALL GET_FORCE_SPMD_C(IDP,NBD,BUFR1,BUFR2,BUFR3,BUFR4,TYP,IEX,NGLOB)                
+      IF(ISPMD==0) THEN
+       CALL GET_FORCE_SPMD_C(IDP,NBD,BUFR1,BUFR2,BUFR3,BUFR4,TYP,IEX,NGLOB)
       ENDIF
       LRBUF = 2*4*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))+2*NSPMD
-      
-      IF (TYP/=7) THEN                    
+
+      IF (TYP/=7) THEN
       IF(FLAG_ROT /= 0)THEN
-      IF(TYP<4)THEN     
+      IF(TYP<4)THEN
       CALL SPMD_R2R_RSET3(VR  ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                      BUFR4,IAD_ELEM,FR_ELEM,LRBUF,IEX)
       ENDIF
       CALL SPMD_R2R_RSET3B(AR  ,NNG     ,GRNOD,DD_R2R,WEIGHT,
-     .                BUFR2,IAD_ELEM,FR_ELEM,LRBUF, IN, VR, WM, WM2,IEX)     
+     .                BUFR2,IAD_ELEM,FR_ELEM,LRBUF, IN, VR, WM, WM2,IEX)
       END IF
-             
+
       CALL SPMD_R2R_RSET3B(A   ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                BUFR1,IAD_ELEM,FR_ELEM,LRBUF, MS, V,  WF, WF2,IEX)
-      IF(TYP<4)THEN                    
+      IF(TYP<4)THEN
       CALL SPMD_R2R_RSET3(V    ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                    BUFR3,IAD_ELEM,FR_ELEM,LRBUF,IEX)
       ENDIF
-        
+
       WTMP(1) = WF
       WTMP(2) = WF2
       WTMP(3) = WM
-      WTMP(4) = WM2       
+      WTMP(4) = WM2
       WF  = WTMP(1)
       WF2 = WTMP(2)
       WM  = WTMP(3)
       WM2 = WTMP(4)
-      ENDIF       
+      ENDIF
 C-----------------------------------------------------------------
       RETURN
       END
@@ -324,7 +324,7 @@ C******************************************************************************C
       LRBUF = 2*4*IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)+2*NSPMD
       CALL SPMD_R2R_RSET3(X    ,NNG     ,GRNOD,DD_R2R,WEIGHT,
      .                   BUFR1,IAD_ELEM,FR_ELEM,LRBUF,IEX)
-           
+
 C-----------------------------------------------------------------
       RETURN
       END
@@ -339,7 +339,7 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        RAD2R_MOD                     share/modules/rad2r.F         
 Chd|====================================================================
       SUBROUTINE R2R_SENDKINE(
-     .               IEXLNK  ,IGRNOD ,MS      ,IN)                                           
+     .               IEXLNK  ,IGRNOD ,MS      ,IN)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -381,8 +381,8 @@ C=======================================================================
 
        FLAG_KINE = 0
        OFF = 0
-             
-       IF (R2R_SIU==1) THEN      
+
+       IF (R2R_SIU==1) THEN
 C----------Send of new mass---------------------------------------      
        DO IEX = 1, NR2RLNK
          IDP  = IEXLNK(2,IEX)
@@ -390,13 +390,13 @@ C----------Send of new mass---------------------------------------
          NNG  = IGRNOD(IDG)%NENTITY
          GRNOD => IGRNOD(IDG)%ENTITY
          IF ((TYPLNK(IEX)==5).AND.(KINLNK(IEX)==1)) THEN
-           FLAG_KINE = 1       
+           FLAG_KINE = 1
            CALL SEND_MASS_KINE_C(IDP,NNG,GRNOD,MS,IN,IEX,OFF)
          ENDIF
          OFF = OFF + NNG
        END DO
        ENDIF
-           
+
 C-----------------------------------------------------------------
       RETURN
       END

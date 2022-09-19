@@ -47,7 +47,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C     C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -68,8 +68,8 @@ C     L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NG, MTN, NEL, ITY, ISOLNOD, NFT, JALE
       LOGICAL :: COMPUTE_CENTROID
-      
-      COMPUTE_CENTROID = (MULTI_FVM%MUSCL > 0) .OR. MULTI_FVM%NS_DIFF 
+
+      COMPUTE_CENTROID = (MULTI_FVM%MUSCL > 0) .OR. MULTI_FVM%NS_DIFF
 
       DO NG = ITASK + 1, NGROUP, NTHREAD
          MTN = IPARG(1, NG)
@@ -83,51 +83,51 @@ C-----------------------------------------------
 C     Solid
                IF (ISOLNOD == 4) THEN
 C     TETRA
-                  CALL SNORM3T(NEL, NFT, JALE, IXS, XGRID, WGRID, 
-     .                 MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:6, 1 + NFT : NEL + NFT), 
-     .                 MULTI_FVM%FACE_DATA%WFAC(1:3, 1:6, 1 + NFT : NEL + NFT), 
+                  CALL SNORM3T(NEL, NFT, JALE, IXS, XGRID, WGRID,
+     .                 MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:6, 1 + NFT : NEL + NFT),
+     .                 MULTI_FVM%FACE_DATA%WFAC(1:3, 1:6, 1 + NFT : NEL + NFT),
      .                 MULTI_FVM%FACE_DATA%SURF(1:6, 1 + NFT : NEL + NFT))
                   IF (COMPUTE_CENTROID) THEN
-                     CALL CENTROID3T(NEL, MULTI_FVM%NELEM, NFT, IXS, XGRID, 
-     .                    MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT), 
+                     CALL CENTROID3T(NEL, MULTI_FVM%NELEM, NFT, IXS, XGRID,
+     .                    MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT),
      .                    MULTI_FVM%FACE_DATA%CENTROID(:, :, 1 + NFT : NEL + NFT))
                   ENDIF
-               ELSE 
+               ELSE
 C     OTHER SOLIDS
-                  CALL SNORM3(NEL, NFT, JALE, IXS, XGRID, WGRID, 
-     .                 MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:6, 1 + NFT : NEL + NFT), 
-     .                 MULTI_FVM%FACE_DATA%WFAC(1:3, 1:6, 1 + NFT : NEL + NFT), 
+                  CALL SNORM3(NEL, NFT, JALE, IXS, XGRID, WGRID,
+     .                 MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:6, 1 + NFT : NEL + NFT),
+     .                 MULTI_FVM%FACE_DATA%WFAC(1:3, 1:6, 1 + NFT : NEL + NFT),
      .                 MULTI_FVM%FACE_DATA%SURF(1:6, 1 + NFT : NEL + NFT))
 C     
                   IF (COMPUTE_CENTROID) THEN
-                     CALL CENTROID3(NEL, MULTI_FVM%NELEM, NFT, IXS, XGRID, 
-     .                    MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT), 
+                     CALL CENTROID3(NEL, MULTI_FVM%NELEM, NFT, IXS, XGRID,
+     .                    MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT),
      .                    MULTI_FVM%FACE_DATA%CENTROID(:, :, 1 + NFT : NEL + NFT))
                   ENDIF
                ENDIF
             ELSE IF (ITY == 2) THEN
 C     QUAD
-               CALL QNORM2(NEL, NFT, JALE, MULTI_FVM%SYM, IXQ, XGRID, WGRID, 
-     .              MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:4, 1 + NFT : NEL + NFT), 
-     .              MULTI_FVM%FACE_DATA%WFAC(1:3, 1:4, 1 + NFT : NEL + NFT), 
+               CALL QNORM2(NEL, NFT, JALE, MULTI_FVM%SYM, IXQ, XGRID, WGRID,
+     .              MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:4, 1 + NFT : NEL + NFT),
+     .              MULTI_FVM%FACE_DATA%WFAC(1:3, 1:4, 1 + NFT : NEL + NFT),
      .              MULTI_FVM%FACE_DATA%SURF(1:4, 1 + NFT : NEL + NFT))
                IF (COMPUTE_CENTROID) THEN
-                  CALL CENTROID2(NEL, MULTI_FVM%NELEM, NFT, IXQ, XGRID, 
-     .                 MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT), 
+                  CALL CENTROID2(NEL, MULTI_FVM%NELEM, NFT, IXQ, XGRID,
+     .                 MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT),
      .                 MULTI_FVM%FACE_DATA%CENTROID(:, :, 1 + NFT : NEL + NFT))
                ENDIF
             ELSE IF (ITY == 7) THEN
 C     TRIANGLE
-               CALL QNORM2T(NEL, NFT, JALE, MULTI_FVM%SYM, IXTG, XGRID, WGRID, 
-     .              MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:3, 1 + NFT : NEL + NFT), 
-     .              MULTI_FVM%FACE_DATA%WFAC(1:3, 1:3, 1 + NFT : NEL + NFT), 
+               CALL QNORM2T(NEL, NFT, JALE, MULTI_FVM%SYM, IXTG, XGRID, WGRID,
+     .              MULTI_FVM%FACE_DATA%NORMAL(1:3, 1:3, 1 + NFT : NEL + NFT),
+     .              MULTI_FVM%FACE_DATA%WFAC(1:3, 1:3, 1 + NFT : NEL + NFT),
      .              MULTI_FVM%FACE_DATA%SURF(1:3, 1 + NFT : NEL + NFT))
                IF (COMPUTE_CENTROID) THEN
-                  CALL CENTROID2T(NEL, MULTI_FVM%NELEM, NFT, IXTG, XGRID, 
-     .                 MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT), 
+                  CALL CENTROID2T(NEL, MULTI_FVM%NELEM, NFT, IXTG, XGRID,
+     .                 MULTI_FVM%ELEM_DATA%CENTROID(:, 1 + NFT : NEL + NFT),
      .                 MULTI_FVM%FACE_DATA%CENTROID(:, :, 1 + NFT : NEL + NFT))
                ENDIF
             ENDIF
          ENDIF
-      ENDDO      
+      ENDDO
       END SUBROUTINE MULTI_FACE_ELEM_DATA

@@ -73,10 +73,10 @@ C      SPMD Non Local nodes boundaries
 C     ---------------------------------
 
 
-      ! If already allocated, deallocate non-local IAD_ELEM, IAD_SIZE and FR_ELEM tables      
-      IF (ALLOCATED(NLOC_DMG%IAD_ELEM)) DEALLOCATE (NLOC_DMG%IAD_ELEM) 
-      IF (ALLOCATED(NLOC_DMG%IAD_SIZE)) DEALLOCATE (NLOC_DMG%IAD_SIZE) 
-      IF (ALLOCATED(NLOC_DMG%FR_ELEM )) DEALLOCATE (NLOC_DMG%FR_ELEM) 
+      ! If already allocated, deallocate non-local IAD_ELEM, IAD_SIZE and FR_ELEM tables
+      IF (ALLOCATED(NLOC_DMG%IAD_ELEM)) DEALLOCATE (NLOC_DMG%IAD_ELEM)
+      IF (ALLOCATED(NLOC_DMG%IAD_SIZE)) DEALLOCATE (NLOC_DMG%IAD_SIZE)
+      IF (ALLOCATED(NLOC_DMG%FR_ELEM )) DEALLOCATE (NLOC_DMG%FR_ELEM)
 C
       ! Allocation of the counter tables
       ALLOCATE(COUNT(NSPMD))  ! For nodes
@@ -133,11 +133,11 @@ c
             ENDIF
          ENDDO
       ENDDO
-      
+
       !WRITE(*,*) 'IAD_ELEM = ', NLOC_DMG%IAD_ELEM
       !WRITE(*,*) 'IAD_SIZE = ', NLOC_DMG%IAD_SIZE
       !WRITE(*,*) 'FR_ELEM  = ', NLOC_DMG%FR_ELEM
-      
+
       IF (ALLOCATED(COUNT))   DEALLOCATE(COUNT)
       IF (ALLOCATED(COUNT2)) DEALLOCATE(COUNT2)
 
@@ -155,37 +155,37 @@ C     -----------------------------
                 NN = NLOC_DMG%FR_ELEM(J)
                 NDDL = NLOC_DMG%POSI(NN+1) - NLOC_DMG%POSI(NN)
                 DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
-                  IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN                          
+                  IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN
                     LSD=LSD+1
                   ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
                     LRD=LRD+1
                   ENDIF
- 
+
                ENDDO
            ENDDO
         ENDDO
 !   ------------------------
 !   allocation of ISENDSP and IRECSP
         ALLOCATE( NLOC_DMG%ISENDSP(LSD) )
-        ALLOCATE( NLOC_DMG%IRECSP(LRD) ) 
+        ALLOCATE( NLOC_DMG%IRECSP(LRD) )
         NLOC_DMG%ISENDSP(1:LSD) = 0
         NLOC_DMG%IRECSP(1:LRD) = 0
-                                
+
 !   ------------------------
-!   fill ISENDSP and IRECSP    
+!   fill ISENDSP and IRECSP
         IF( .NOT.ALLOCATED( NLOC_DMG%IADSDP ) ) ALLOCATE( NLOC_DMG%IADSDP(NSPMD+1) )
-        IF( .NOT.ALLOCATED( NLOC_DMG%IADRCP ) ) ALLOCATE( NLOC_DMG%IADRCP(NSPMD+1) ) 
+        IF( .NOT.ALLOCATED( NLOC_DMG%IADRCP ) ) ALLOCATE( NLOC_DMG%IADRCP(NSPMD+1) )
         IF( .NOT.ALLOCATED( NLOC_DMG%FR_NBCC ) ) ALLOCATE( NLOC_DMG%FR_NBCC(2,NSPMD+1) )
 
         IF( .NOT.ALLOCATED( NLOC_DMG%FR_ELEM_S ) ) ALLOCATE( NLOC_DMG%FR_ELEM_S(LSD) )
-        IF( .NOT.ALLOCATED( NLOC_DMG%FR_ELEM_R ) ) ALLOCATE( NLOC_DMG%FR_ELEM_R(LRD) ) 
+        IF( .NOT.ALLOCATED( NLOC_DMG%FR_ELEM_R ) ) ALLOCATE( NLOC_DMG%FR_ELEM_R(LRD) )
         NLOC_DMG%FR_ELEM_S(1:LSD) = 0
         NLOC_DMG%FR_ELEM_R(1:LRD) = 0
 
         NLOC_DMG%IADSDP(1:NSPMD+1) = 0
-        NLOC_DMG%IADRCP(1:NSPMD+1) = 0  
+        NLOC_DMG%IADRCP(1:NSPMD+1) = 0
         NLOC_DMG%FR_NBCC(1:2,1:NSPMD+1) = 0
- 
+
         LSD = 1
         LRD = 1
         LOC_PROC = ISPMD + 1
@@ -199,17 +199,17 @@ C     -----------------------------
 
                 DO CC = NLOC_DMG%ADDCNE(NN),NLOC_DMG%ADDCNE(NN+1)-1
                   IF( NLOC_DMG%PROCNE(CC)==LOC_PROC)THEN
-                    NLOC_DMG%FR_NBCC(1,P) = NLOC_DMG%FR_NBCC(1,P)+KK*NDDL      
-                    NLOC_DMG%ISENDSP(LSD)=CC                    
-                    NLOC_DMG%FR_ELEM_S(LSD)=NN             
+                    NLOC_DMG%FR_NBCC(1,P) = NLOC_DMG%FR_NBCC(1,P)+KK*NDDL
+                    NLOC_DMG%ISENDSP(LSD)=CC
+                    NLOC_DMG%FR_ELEM_S(LSD)=NN
                     LSD=LSD+1
                   ELSEIF(NLOC_DMG%PROCNE(CC)==P) THEN
-                    NLOC_DMG%FR_NBCC(2,P) = NLOC_DMG%FR_NBCC(2,P)+KK*NDDL      
-                    NLOC_DMG%IRECSP(LRD)=CC 
-                    NLOC_DMG%FR_ELEM_R(LRD)=NN                                    
+                    NLOC_DMG%FR_NBCC(2,P) = NLOC_DMG%FR_NBCC(2,P)+KK*NDDL
+                    NLOC_DMG%IRECSP(LRD)=CC
+                    NLOC_DMG%FR_ELEM_R(LRD)=NN
                     LRD=LRD+1
                   ENDIF
- 
+
                ENDDO
            ENDDO
         ENDDO
@@ -282,7 +282,7 @@ C MPI  VARIABLES
 
       INTEGER REQ_S(NSPMD)
       INTEGER REQ_R(NSPMD)
-      
+
       my_real, DIMENSION(:), ALLOCATABLE :: SEND_BUF,RECV_BUF
 
       DATA MSGOFF1/1282/
@@ -324,10 +324,10 @@ C --------------------------------------------------------------------
            DO L=1,NDDL
               SEND_BUF(K) = NLOC_DMG%FNL(NPOS+L-1,1)
               K = K + 1
-              IF (NODADT > 0) THEN    
+              IF (NODADT > 0) THEN
                 SEND_BUF(K) = NLOC_DMG%STIFNL(NPOS+L-1,1)
                 K = K + 1
-              ENDIF 
+              ENDIF
            ENDDO
          ENDDO
          IAD_SEND(I+1)=K
@@ -403,9 +403,9 @@ Chd|====================================================================
       SUBROUTINE SPMD_EXCH_SUB_PON(NLOC_DMG)
 !$COMMENT
 !       SPMD_EXCH_SUB_PON
-!       communication of neighbouring values for 
+!       communication of neighbouring values for
 !       NLOCAL option and parith/ON
-!       
+!
 !       SPMD_EXCH_SUB_PON organization :
 !       - prepare the non-blocking received
 !       - fill the sending buffer
@@ -460,7 +460,7 @@ C MPI  VARIABLES
       INTEGER :: SIZ_S,SIZ_R
       INTEGER REQ_S(NSPMD)
       INTEGER REQ_R(NSPMD)
-      
+
       my_real, DIMENSION(:), ALLOCATABLE :: SEND_BUF,RECV_BUF
 
       DATA MSGOFF1/1283/
@@ -509,7 +509,7 @@ C --------------------------------------------------------------------
               K = K + 1
               IF (NODADT > 0) THEN
                 SEND_BUF(K) = NLOC_DMG%STSKY(IJK,L)
-                K = K + 1              
+                K = K + 1
               ENDIF
            ENDDO
 
@@ -549,8 +549,8 @@ c-------------------------------------------------------------------
                 NLOC_DMG%FSKY(IJK,L) = RECV_BUF(K)
                 K = K + 1
                 IF (NODADT > 0) THEN
-                  NLOC_DMG%STSKY(IJK,L) = RECV_BUF(K) 
-                  K = K + 1              
+                  NLOC_DMG%STSKY(IJK,L) = RECV_BUF(K)
+                  K = K + 1
                 ENDIF
              ENDDO
           END DO

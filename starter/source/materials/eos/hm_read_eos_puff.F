@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
@@ -104,9 +104,9 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM( 23) = E0
@@ -130,7 +130,7 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
@@ -138,49 +138,49 @@ C-----------------------------------------------
       ENDIF
 
       MU2 = MU0*MU0
-            
-      XX =MU0/(ONE+MU0)  
-      IF(MU0 >= ZERO) THEN                                              
-        AA=(C1+C3*MU2)*MU0+C2*MU2                      
-        GX=ONE-G0*HALF*XX                                           
-        BB=G0                                                        
-        PRES=MAX(AA*GX+BB*E0,PM(37))                                                                              
-      ELSEIF(E0<ES)THEN                                      
-        AA=(T1+T2*MU0)*MU0                                    
-        GX=ONE-G0*HALF*XX                                           
-        BB=G0                                                        
-        PRES=MAX(AA*GX+BB*E0,PM(37))                                                                          
-      ELSE                                                              
-        ETA=ONE+MU0                                                    
-        EE=SQRT(ETA)                                                    
-        BB=(HH+(G0-HH)*EE)*ETA                                 
-        CC= C1/(G0*ES)                                      
-        EXPA=EXP(CC*XX)                                                 
-        AA= BB*ES*(EXPA-ONE)                                       
-        PRES=MAX(AA+BB*E0,PM(37))                                                                           
+
+      XX =MU0/(ONE+MU0)
+      IF(MU0 >= ZERO) THEN
+        AA=(C1+C3*MU2)*MU0+C2*MU2
+        GX=ONE-G0*HALF*XX
+        BB=G0
+        PRES=MAX(AA*GX+BB*E0,PM(37))
+      ELSEIF(E0<ES)THEN
+        AA=(T1+T2*MU0)*MU0
+        GX=ONE-G0*HALF*XX
+        BB=G0
+        PRES=MAX(AA*GX+BB*E0,PM(37))
+      ELSE
+        ETA=ONE+MU0
+        EE=SQRT(ETA)
+        BB=(HH+(G0-HH)*EE)*ETA
+        CC= C1/(G0*ES)
+        EXPA=EXP(CC*XX)
+        AA= BB*ES*(EXPA-ONE)
+        PRES=MAX(AA+BB*E0,PM(37))
       ENDIF
-      PM(31) = PRES 
-      PC = PM(37)   
-      
+      PM(31) = PRES
+      PC = PM(37)
+
       !SSP0
       PP = PM(31)
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
 
-      XX =MU0/(ONE+MU0)                                              
-      IF(MU0>=ZERO) THEN                                                              
-        DPDMU=(C1+TWO*C2*MU0+THREE*C3*MU2)*GX + G0*DF*DF*(PRES-HALF*AA)                     
-      ELSEIF(E0<ES)THEN                                                         
-        DPDMU=(T1+TWO*T2*MU0)*GX + G0*DF*DF*(PRES-HALF*AA)                                                                          
-      ELSE                                                                                   
-        DPDMU=BB*DF*DF*(PRES+ES*EXPA*CC) + (E0+ES*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))                                                     
-      ENDIF                                                             
-        
+      XX =MU0/(ONE+MU0)
+      IF(MU0>=ZERO) THEN
+        DPDMU=(C1+TWO*C2*MU0+THREE*C3*MU2)*GX + G0*DF*DF*(PRES-HALF*AA)
+      ELSEIF(E0<ES)THEN
+        DPDMU=(T1+TWO*T2*MU0)*GX + G0*DF*DF*(PRES-HALF*AA)
+      ELSE
+        DPDMU=BB*DF*DF*(PRES+ES*EXPA*CC) + (E0+ES*(EXPA-ONE))*(HH+THREE_HALF*EE*(G0-HH))
+      ENDIF
+
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0      
-      
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
+
 
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
@@ -190,7 +190,7 @@ C-----------------------------------------------
       ENDIF
 
       RETURN
-      
+
  1000 FORMAT(
      & 5X,'  PUFF EOS     ',/,
      & 5X,'  --------     ',/)

@@ -29,13 +29,13 @@ Chd|        S8CSIGP3                      source/elements/thickshell/solide8c/s8
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE S16SIGP3(LFT,LLT,NEL,NPTR,NLAY,NPTT,ICP,MTN,
-     .                    NPE,NIPMAX, PX, PY, PZ, VX, VY, VZ, 
+     .                    NPE,NIPMAX, PX, PY, PZ, VX, VY, VZ,
      .                    W_GAUSS,DEFP,PM,MXT,SIG,DT1,
      .                    ELBUF_STR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C     REAL
       my_real
      .  DVM(MVSIZ), DV(MVSIZ,NIPMAX),FAC(MVSIZ),DT3,DVP,F,E0(MVSIZ)
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IS = 1
@@ -116,7 +116,7 @@ C
             ENDIF
             LBUF%VOL(I)  = LBUF%VOL(I) *(ONE- DVP)
             LBUF%EINT(I) = LBUF%EINT(I)*(ONE- DVP)
-          ENDDO 
+          ENDDO
         ENDDO
        ENDDO
       ENDDO

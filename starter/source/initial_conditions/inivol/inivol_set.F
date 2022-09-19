@@ -34,9 +34,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -69,14 +69,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       INTEGER                 :: I, IMAT, KK
-      TYPE(G_BUFEL_) ,POINTER :: GBUF   
-      TYPE(L_BUFEL_) ,POINTER :: LBUF   
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       my_real                 :: P, P1,P2,P3,P4,SUMVF,RATIO
       LOGICAL                 :: PASSED
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
- 
+
       !---CHECK UNOCCUPIPED SUBVOLUME AND FILL WITH PHASE 1. IF SUM(vfrac>1) display an error message.
 
       PASSED = .TRUE.
@@ -93,7 +93,7 @@ C-----------------------------------------------
           ELSE
             SUMVF = SUM(KVOL(1:NBSUBMAT,I))
             RATIO=ONE/SUMVF
-            KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)          
+            KVOL(1:NBSUBMAT,I)=RATIO*KVOL(1:NBSUBMAT,I)
             PASSED=.TRUE.
           ENDIF
         ELSEIF(SUMVF<ONE-EM06)THEN
@@ -114,21 +114,21 @@ C-----------------------------------------------
      .                   R1=SUMVF,
      .                   I1=IXS(11,I+NFT)
      .                   )
-       ELSE 
-        !---set initial volumetric fraction using KVOL array    
+       ELSE
+        !---set initial volumetric fraction using KVOL array
         IF(MLW==51)THEN
           DO IMAT=1,4
-            KK = N0PHAS + (IMAT-1)*NVPHAS        
+            KK = N0PHAS + (IMAT-1)*NVPHAS
             DO I=1,NEL
-              IF(IPART(I+NFT) /= IDP)CYCLE                          
-              UVAR(I,1+KK)   = KVOL(IMAT,I)  
-              UVAR(I,23+KK)  = KVOL(IMAT,I)  
+              IF(IPART(I+NFT) /= IDP)CYCLE
+              UVAR(I,1+KK)   = KVOL(IMAT,I)
+              UVAR(I,23+KK)  = KVOL(IMAT,I)
             ENDDO
           ENDDO
           DO I=1,NEL
             IF(IPART(I+NFT) /= IDP)CYCLE
             KK  = N0PHAS + (1-1)*NVPHAS
-            P1  = UVAR(I,18+KK) 
+            P1  = UVAR(I,18+KK)
             KK  = N0PHAS + (2-1)*NVPHAS
             P2  = UVAR(I,18+KK)
             KK  = N0PHAS + (3-1)*NVPHAS
@@ -139,19 +139,19 @@ C-----------------------------------------------
             P   = KVOL(1,I)*P1 + KVOL(2,I)*P2 + KVOL(3,I)*P3 + KVOL(4,I)*P4
             UVAR(I,4) = P
           ENDDO
-        ELSEIF(MLW==37)THEN    
-          DO I=1,NEL 
-            IF(IPART(I+NFT) /= IDP)CYCLE                         
-            UVAR(I,4)  = KVOL(1,I)  
-            UVAR(I,5)  = KVOL(2,I)  
+        ELSEIF(MLW==37)THEN
+          DO I=1,NEL
+            IF(IPART(I+NFT) /= IDP)CYCLE
+            UVAR(I,4)  = KVOL(1,I)
+            UVAR(I,5)  = KVOL(2,I)
           ENDDO
-        ELSEIF(MLW==151)THEN 
+        ELSEIF(MLW==151)THEN
           GBUF => ELBUF_TAB(NG)%GBUF
-          DO IMAT=1,MULTI_FVM%NBMAT   
-            LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)   
-            DO I=1,NEL   
+          DO IMAT=1,MULTI_FVM%NBMAT
+            LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1,1,1)
+            DO I=1,NEL
               IF(IPART(I+NFT) /= IDP)CYCLE
-              LBUF%VOL(I) = KVOL(IMAT,I) * GBUF%VOL(I)                     
+              LBUF%VOL(I) = KVOL(IMAT,I) * GBUF%VOL(I)
             ENDDO
           ENDDO
         ENDIF

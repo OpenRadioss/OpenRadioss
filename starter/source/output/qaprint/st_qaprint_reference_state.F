@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        MY_ORDERS                     ../common_source/tools/sort/my_orders.c
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE ST_QAPRINT_REFERENCE_STATE(XREFC     ,XREFTG    ,XREFS     ,TAGXREF,   
+      SUBROUTINE ST_QAPRINT_REFERENCE_STATE(XREFC     ,XREFTG    ,XREFS     ,TAGXREF,
      .                                      IXS       ,IXC       ,IXTG      )
 C-----------------------------------------------
 C   M o d u l e s
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C      
         WRITE(VARNAME,'(A)') 'NXREF'
         TEMP_INT = NXREF
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)  
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C        
         IF (NXREF > 0) THEN
 C  
@@ -87,15 +87,15 @@ C
                 ! Number of the node
                 WRITE(VARNAME,'(A)') 'XREFC_NODE'
                 TEMP_INT = NN
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8) 
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                 ! Coordinate X of the node
                 WRITE(VARNAME,'(A)') 'XREFC_X'
                 TEMP_DOUBLE =  XREFC(IN,1,IE)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)    
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ! Coordinate Y of the node
                 WRITE(VARNAME,'(A)') 'XREFC_Y'
                 TEMP_DOUBLE =  XREFC(IN,2,IE)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)   
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ! Coordinate Z of the node
                 WRITE(VARNAME,'(A)') 'XREFC_Z'
                 TEMP_DOUBLE =  XREFC(IN,3,IE)
@@ -111,15 +111,15 @@ C
                 ! Number of the node
                 WRITE(VARNAME,'(A)') 'XREFTG_NODE'
                 TEMP_INT = NN
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8) 
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                 ! Coordinate X of the node
                 WRITE(VARNAME,'(A)') 'XREFTG_X'
                 TEMP_DOUBLE =  XREFTG(IN,1,IE)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)    
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ! Coordinate Y of the node
                 WRITE(VARNAME,'(A)') 'XREFTG_Y'
                 TEMP_DOUBLE =  XREFTG(IN,2,IE)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)   
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ! Coordinate Z of the node
                 WRITE(VARNAME,'(A)') 'XREFTG_Z'
                 TEMP_DOUBLE =  XREFTG(IN,3,IE)
@@ -135,15 +135,15 @@ C
                 ! Number of the node
                 WRITE(VARNAME,'(A)') 'XREFS_NODE'
                 TEMP_INT = NN
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8) 
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
                 ! Coordinate X of the node
                 WRITE(VARNAME,'(A)') 'XREFS_X'
                 TEMP_DOUBLE =  XREFS(IN,1,IE)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)    
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ! Coordinate Y of the node
                 WRITE(VARNAME,'(A)') 'XREFS_Y'
                 TEMP_DOUBLE =  XREFS(IN,2,IE)
-                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)   
+                CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ! Coordinate Z of the node
                 WRITE(VARNAME,'(A)') 'XREFS_Z'
                 TEMP_DOUBLE =  XREFS(IN,3,IE)
@@ -163,7 +163,7 @@ C-----------------------------------------------
 C      
         WRITE(VARNAME,'(A)') 'NEREF'
         TEMP_INT = NEREF
-        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)  
+        CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
 C        
         IF (NEREF > 0) THEN
 C
@@ -172,7 +172,7 @@ C
 C
           DO IE=1,NUMELC
             ITR1(IE)=IXC(NIXC,IE)
-          ENDDO 
+          ENDDO
           CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELC,1)
 C  
           DO IE = 1,NUMELC
@@ -192,13 +192,13 @@ C
                   TEMP_DOUBLE =  XREFC(IN,1,NC)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
-                IF (XREFC(IN,2,NC) > 0) THEN    
+                IF (XREFC(IN,2,NC) > 0) THEN
                   ! Coordinate Y of the node
                   WRITE(VARNAME,'(A)') 'EREFC_Y'
                   TEMP_DOUBLE =  XREFC(IN,2,NC)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
-                IF (XREFC(IN,3,NC) > 0) THEN    
+                IF (XREFC(IN,3,NC) > 0) THEN
                   ! Coordinate Z of the node
                   WRITE(VARNAME,'(A)') 'EREFC_Z'
                   TEMP_DOUBLE =  XREFC(IN,3,NC)
@@ -216,7 +216,7 @@ C
           DO IE=1,NUMELTG
             ITR1(IE)=IXTG(NIXTG,IE)
           ENDDO
-          CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELTG,1) 
+          CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELTG,1)
 C  
           DO IE = 1,NUMELTG
             NC=INDEX(IE)
@@ -235,13 +235,13 @@ C
                   TEMP_DOUBLE =  XREFTG(IN,1,NC)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
-                IF (XREFTG(IN,2,NC) > 0) THEN    
+                IF (XREFTG(IN,2,NC) > 0) THEN
                   ! Coordinate Y of the node
                   WRITE(VARNAME,'(A)') 'EREFTG_Y'
                   TEMP_DOUBLE =  XREFTG(IN,2,NC)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
-                IF (XREFTG(IN,3,NC) > 0) THEN    
+                IF (XREFTG(IN,3,NC) > 0) THEN
                   ! Coordinate Z of the node
                   WRITE(VARNAME,'(A)') 'EREFTG_Z'
                   TEMP_DOUBLE =  XREFTG(IN,3,NC)
@@ -259,7 +259,7 @@ C
           DO IE=1,NUMELS8
             ITR1(IE)=IXS(NIXS,IE)
           ENDDO
-          CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELS8,1) 
+          CALL MY_ORDERS(0,WORK,ITR1,INDEX,NUMELS8,1)
 C  
           DO IE = 1,NUMELS8
             NC=INDEX(IE)
@@ -278,13 +278,13 @@ C
                   TEMP_DOUBLE =  XREFS(IN,1,NC)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
-                IF (XREFS(IN,2,NC) > 0) THEN    
+                IF (XREFS(IN,2,NC) > 0) THEN
                   ! Coordinate Y of the node
                   WRITE(VARNAME,'(A)') 'EREFS_Y'
                   TEMP_DOUBLE =  XREFS(IN,2,NC)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                 ENDIF
-                IF (XREFS(IN,3,NC) > 0) THEN    
+                IF (XREFS(IN,3,NC) > 0) THEN
                   ! Coordinate Z of the node
                   WRITE(VARNAME,'(A)') 'EREFS_Z'
                   TEMP_DOUBLE =  XREFS(IN,3,NC)
@@ -300,5 +300,5 @@ C
 
       ENDIF
 
-      
+
       END SUBROUTINE

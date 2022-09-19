@@ -57,14 +57,14 @@ C-----------------------------------------------
 C-----------------------------------------------
       DO I=LFT,LLT
         STI(I)=FILL(I)*STI(I)
-      END DO              
+      END DO
       DO J=1,NPE
         DO I=LFT,LLT
           FX(I,J)=FILL(I)*FX(I,J)
           FY(I,J)=FILL(I)*FY(I,J)
           FZ(I,J)=FILL(I)*FZ(I,J)
-        END DO              
-      END DO              
+        END DO
+      END DO
 
       RETURN
       END

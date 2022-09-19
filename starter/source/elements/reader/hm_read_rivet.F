@@ -109,7 +109,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -118,7 +118,7 @@ C-----------------------------------------------
      .        OFF_PART(NSUBMOD)
       CHARACTER MESS*40, MESS2*40
       my_real
-     .   BID 
+     .   BID
       INTEGER, DIMENSION(:), ALLOCATABLE :: SUB_RIVET,IPART_RIVET
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
@@ -141,12 +141,12 @@ C--------------------------------------------------
       ALLOCATE (SUB_RIVET(NRIVET),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='SUB_RIVET') 
+     .                             C1='SUB_RIVET')
       SUB_RIVET(1:NRIVET) = 0
       ALLOCATE (IPART_RIVET(NRIVET),STAT=stat)
       IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                             MSGTYPE=MSGERROR,
-     .                             C1='IPART_RIVET') 
+     .                             C1='IPART_RIVET')
       IPART_RIVET(1:NRIVET) = 0
       INDEX_PART = 1
 C--------------------------------------------------
@@ -156,12 +156,12 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      FILL OTHER STRUCTURES + CHECKS
 C--------------------------------------------------
-      DO I=1,NRIVET  
+      DO I=1,NRIVET
 C--------------------------------------------------
 C      SUBMODEL OFFSET
 C--------------------------------------------------
         IF(SUB_RIVET(I) /= 0)THEN
-          IF(IPART_RIVET(I) /= 0) IPART_RIVET(I) = IPART_RIVET(I) + OFF_PART(SUB_RIVET(I)) 
+          IF(IPART_RIVET(I) /= 0) IPART_RIVET(I) = IPART_RIVET(I) + OFF_PART(SUB_RIVET(I))
           IF(IXRI(4,I) /= 0) IXRI(4,I) = IXRI(4,I) + OFF_EL(SUB_RIVET(I))
           DO J=2,3
             IF(IXRI(J,I) /= 0) IXRI(J,I) = IXRI(J,I) + OFF_NOD(SUB_RIVET(I))
@@ -170,10 +170,10 @@ C--------------------------------------------------
 C--------------------------------------------------
 C      INTERNAL PART ID
 C--------------------------------------------------
-        IF( IPART(4,INDEX_PART) /= IPART_RIVET(I) )THEN  
-          DO J=1,NPART                            
-            IF(IPART(4,J)== IPART_RIVET(I) ) INDEX_PART = J            
-          ENDDO  
+        IF( IPART(4,INDEX_PART) /= IPART_RIVET(I) )THEN
+          DO J=1,NPART
+            IF(IPART(4,J)== IPART_RIVET(I) ) INDEX_PART = J
+          ENDDO
         ENDIF
         IF(IPART(4,INDEX_PART) /= IPART_RIVET(I)) THEN
           CALL ANCMSG(MSGID=402,
@@ -183,28 +183,28 @@ C--------------------------------------------------
      .                I1=IPART_RIVET(I),
      .                I2=IPART_RIVET(I),
      .                PRMOD=MSG_CUMU)
-        ENDIF             
+        ENDIF
         IPART_RIVET(I) = INDEX_PART
-        MT=IPART(1,INDEX_PART)                         
-        IPID=IPART(2,INDEX_PART)  
-        IXRI(1,I)=IPID   
-        IF (IXRI(4,I)>ID_LIMIT) THEN               
+        MT=IPART(1,INDEX_PART)
+        IPID=IPART(2,INDEX_PART)
+        IXRI(1,I)=IPID
+        IF (IXRI(4,I)>ID_LIMIT) THEN
           CALL ANCMSG(MSGID=509,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1=IXRI(4,I),C1=LINE,C2='/RIVET')
         ENDIF
       ENDDO
 C--------------------------------------------------
-      CALL ANCMSG(MSGID=402,                 
-     .            MSGTYPE=MSGERROR,         
-     .            ANMODE=ANINFO_BLIND_1,    
+      CALL ANCMSG(MSGID=402,
+     .            MSGTYPE=MSGERROR,
+     .            ANMODE=ANINFO_BLIND_1,
      .            PRMOD=MSG_PRINT)
 C-------------------------------------------------- 
 
       DO J=1,NRIVET
         IXRI(2,J)=USR2SYS(IXRI(2,J),ITABM1,MESS,IXRI(4,NRIVET))
         IXRI(3,J)=USR2SYS(IXRI(3,J),ITABM1,MESS,IXRI(4,NRIVET))
-        CALL ANODSET(IXRI(2,J), CHECK_2N)  
-        CALL ANODSET(IXRI(3,J), CHECK_2N)  
+        CALL ANODSET(IXRI(2,J), CHECK_2N)
+        CALL ANODSET(IXRI(3,J), CHECK_2N)
       ENDDO
       DO P = 1, NSPMD
         DO J=1,NRIVET
@@ -228,8 +228,8 @@ C-------------------------------------
         ENDDO
         IF (IF1==0) THEN
           CALL IFRONTPLUS(IXRI(2,J),1)
-          CALL IFRONTPLUS(IXRI(3,J),1)	  
-        ENDIF      
+          CALL IFRONTPLUS(IXRI(3,J),1)	
+        ENDIF
       ENDDO
       CALL RIVET0(V,VR,MS,IN,IXRI,RIVET,GEO,ITAB,IKINE)
 C

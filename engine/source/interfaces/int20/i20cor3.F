@@ -68,7 +68,7 @@ C-----------------------------------------------
      .        JLT,IDT, NOINT,IGAP ,NSN, ITY, NIN, IGSTI,
      .        IADM,INTTH, NLN, NLG(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ), 
+     .        NSVG(MVSIZ),IELEC(*),IELECI(MVSIZ),  NSMS(MVSIZ),
      .        NODNX_SMS(*)
 C     REAL
       my_real
@@ -120,9 +120,9 @@ C
            NSVG(I) = IG
            KINI(I) = KINET(IG)
 
-           XI(I)  = XA(1,IL) 
-           YI(I)  = XA(2,IL) 
-           ZI(I)  = XA(3,IL) 
+           XI(I)  = XA(1,IL)
+           YI(I)  = XA(2,IL)
+           ZI(I)  = XA(3,IL)
            VXI(I) = VA(1,IL)
            VYI(I) = VA(2,IL)
            VZI(I) = VA(3,IL)
@@ -142,25 +142,25 @@ C
          END IF
 C
          IX=IRECT(1,L)
-         IX1(I)=IX    
+         IX1(I)=IX
          X1(I)=XA(1,IX)
          Y1(I)=XA(2,IX)
          Z1(I)=XA(3,IX)
 C
          IX=IRECT(2,L)
-         IX2(I)=IX    
+         IX2(I)=IX
          X2(I)=XA(1,IX)
          Y2(I)=XA(2,IX)
          Z2(I)=XA(3,IX)
 C
          IX=IRECT(3,L)
-         IX3(I)=IX    
+         IX3(I)=IX
          X3(I)=XA(1,IX)
          Y3(I)=XA(2,IX)
          Z3(I)=XA(3,IX)
 C
          IX=IRECT(4,L)
-         IX4(I)=IX    
+         IX4(I)=IX
          X4(I)=XA(1,IX)
          Y4(I)=XA(2,IX)
          Z4(I)=XA(3,IX)
@@ -176,9 +176,9 @@ C
            NSVG(I) = IG
            KINI(I) = KINET(IG)
 
-           XI(I) = XA(1,IL) 
-           YI(I) = XA(2,IL) 
-           ZI(I) = XA(3,IL) 
+           XI(I) = XA(1,IL)
+           YI(I) = XA(2,IL)
+           ZI(I) = XA(3,IL)
            VXI(I) = VA(1,IL)
            VYI(I) = VA(2,IL)
            VZI(I) = VA(3,IL)
@@ -204,32 +204,32 @@ C
            IELECI(I)= MATSFI(NIN)%P(NN)
          END IF
 
-         IX=IRECT(1,L) 
-         IX1(I)=IX     
-         X1(I)=XA(1,IX) 
-         Y1(I)=XA(2,IX) 
-         Z1(I)=XA(3,IX) 
+         IX=IRECT(1,L)
+         IX1(I)=IX
+         X1(I)=XA(1,IX)
+         Y1(I)=XA(2,IX)
+         Z1(I)=XA(3,IX)
 C
-         IX=IRECT(2,L) 
-         IX2(I)=IX     
-         X2(I)=XA(1,IX) 
-         Y2(I)=XA(2,IX) 
-         Z2(I)=XA(3,IX) 
+         IX=IRECT(2,L)
+         IX2(I)=IX
+         X2(I)=XA(1,IX)
+         Y2(I)=XA(2,IX)
+         Z2(I)=XA(3,IX)
 C
-         IX=IRECT(3,L) 
-         IX3(I)=IX     
-         X3(I)=XA(1,IX) 
-         Y3(I)=XA(2,IX) 
-         Z3(I)=XA(3,IX) 
+         IX=IRECT(3,L)
+         IX3(I)=IX
+         X3(I)=XA(1,IX)
+         Y3(I)=XA(2,IX)
+         Z3(I)=XA(3,IX)
 C
-         IX=IRECT(4,L) 
-         IX4(I)=IX     
-         X4(I)=XA(1,IX) 
-         Y4(I)=XA(2,IX) 
-         Z4(I)=XA(3,IX) 
+         IX=IRECT(4,L)
+         IX4(I)=IX
+         X4(I)=XA(1,IX)
+         Y4(I)=XA(2,IX)
+         Z4(I)=XA(3,IX)
 
         END DO
-      ENDIF 
+      ENDIF
 C
       IF(IGSTI<=1)THEN
          DO I=1,JLT
@@ -515,7 +515,7 @@ C
             MM1(I) = MS(M1(I))
             MM2(I) = MS(M2(I))
           ELSE
-            NN = CAND_S(I) - NRTS            
+            NN = CAND_S(I) - NRTS
             N1(I)=2*(NN-1)+1
             N2(I)=2*NN
             ML1(I)=IXLINM(1,CAND_M(I))
@@ -722,7 +722,7 @@ C noeuds remote en SPMD
          XXS1(I) = XXS1(I) - SX1
          XYS1(I) = XYS1(I) - SY1
          XZS1(I) = XZS1(I) - SZ1
-         XXS2(I) = XXS2(I) - SX2 
+         XXS2(I) = XXS2(I) - SX2
          XYS2(I) = XYS2(I) - SY2
          XZS2(I) = XZS2(I) - SZ2
          XXM1(I) = XXM1(I) - SX3
@@ -746,7 +746,7 @@ C noeuds remote en SPMD
        ZS2M2 = XZM2(I)-XZS2(I)
 
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C
@@ -773,7 +773,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
      .       - H1M(I)*XZM1(I) - H2M(I)*XZM2(I)
        GAP2 = GAPV(I)*GAPV(I)
        PENE2(I) = GAP2 - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
-       PENE2(I) = MAX(ZERO,PENE2(I)) 
+       PENE2(I) = MAX(ZERO,PENE2(I))
 
       ENDDO
       IF(IDTMINS/=2)THEN

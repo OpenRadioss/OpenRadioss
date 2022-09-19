@@ -38,9 +38,9 @@ Chd|====================================================================
       SUBROUTINE SCOOR3(
      .         X    ,XREFS,IXS  ,GEO  ,MXT  ,NGEO ,NGL  ,
      .         IX1  ,IX2  ,IX3  ,IX4  ,IX5  ,IX6  ,IX7  ,IX8 ,
-     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8  ,   
-     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,   
-     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,   
+     .         X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8  ,
+     .         Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8  ,
+     .         Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8  ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,TEMP0, TEMP,
@@ -70,24 +70,24 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*), MXT(*), NGL(*), NGEO(*),
-     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)        
-      my_real 
+     .   IX1(*),IX2(*),IX3(*),IX4(*),IX5(*),IX6(*),IX7(*),IX8(*)
+      my_real
      .   X(3,*),GEO(*),TEMP0(MVSIZ),
      .   TEMP(*),XREFS(8,3,*)
       my_real, DIMENSION(MVSIZ), INTENT(OUT) ::
      .   X1, X2, X3, X4, X5, X6, X7, X8,
-     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8, 
+     .   Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
      .   Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
      .   RX ,RY ,RZ ,SX ,SY ,SZ ,TX ,TY ,TZ,
      .   E1X,E1Y,E1Z,E2X,E2Y,E2Z,E3X,E3Y,E3Z,
-     .   F1X,F1Y,F1Z,F2X,F2Y,F2Z 
-      DOUBLE PRECISION 
+     .   F1X,F1Y,F1Z,F2X,F2Y,F2Z
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -172,15 +172,15 @@ C----------------------------
             Y1(I)=XREFS(5,2,I)
             Z1(I)=XREFS(5,3,I)
             X2(I)=XREFS(6,1,I)
-            Y2(I)=XREFS(6,2,I)                    
-            Z2(I)=XREFS(6,3,I)                    
-            X3(I)=XREFS(7,1,I)                    
-            Y3(I)=XREFS(7,2,I)                    
-            Z3(I)=XREFS(7,3,I)                    
-            X4(I)=XREFS(8,1,I)                    
-            Y4(I)=XREFS(8,2,I)                    
-            Z4(I)=XREFS(8,3,I)                    
-            X5(I)=XREFS(1,1,I)                                
+            Y2(I)=XREFS(6,2,I)
+            Z2(I)=XREFS(6,3,I)
+            X3(I)=XREFS(7,1,I)
+            Y3(I)=XREFS(7,2,I)
+            Z3(I)=XREFS(7,3,I)
+            X4(I)=XREFS(8,1,I)
+            Y4(I)=XREFS(8,2,I)
+            Z4(I)=XREFS(8,3,I)
+            X5(I)=XREFS(1,1,I)
             Y5(I)=XREFS(1,2,I)
             Z5(I)=XREFS(1,3,I)
             X6(I)=XREFS(2,1,I)
@@ -216,7 +216,7 @@ C----------------------------
             XREFS(8,1,I)=X8(I)
             XREFS(8,2,I)=Y8(I)
             XREFS(8,3,I)=Z8(I)
-          ELSE         
+          ELSE
             X1(I)=XREFS(1,1,I)
             Y1(I)=XREFS(1,2,I)
             Z1(I)=XREFS(1,3,I)
@@ -280,60 +280,60 @@ c
 C     Repere isoparametrique
 C
       DO I=LFT,LLT
-        F1X(I) = X2(I)+X3(I)-X1(I)-X4(I)                                     
-        F1Y(I) = Y2(I)+Y3(I)-Y1(I)-Y4(I)                                     
-        F1Z(I) = Z2(I)+Z3(I)-Z1(I)-Z4(I)                                     
-        F2X(I) = X3(I)+X4(I)-X1(I)-X2(I)                                     
-        F2Y(I) = Y3(I)+Y4(I)-Y1(I)-Y2(I)                                     
-        F2Z(I) = Z3(I)+Z4(I)-Z1(I)-Z2(I)                                     
-        RX(I)  = F2X(I)+X7(I)+X8(I)-X5(I)-X6(I)                  
-        RY(I)  = F2Y(I)+Y7(I)+Y8(I)-Y5(I)-Y6(I)                  
-        RZ(I)  = F2Z(I)+Z7(I)+Z8(I)-Z5(I)-Z6(I)                  
-        TX(I)  = F1X(I)+X6(I)+X7(I)-X5(I)-X8(I)                  
-        TY(I)  = F1Y(I)+Y6(I)+Y7(I)-Y5(I)-Y8(I)                  
-        TZ(I)  = F1Z(I)+Z6(I)+Z7(I)-Z5(I)-Z8(I)                  
-        SX(I)  = X5(I)+X6(I)+X7(I)+X8(I)-X1(I)-X2(I)-X3(I)-X4(I) 
-        SY(I)  = Y5(I)+Y6(I)+Y7(I)+Y8(I)-Y1(I)-Y2(I)-Y3(I)-Y4(I) 
-        SZ(I)  = Z5(I)+Z6(I)+Z7(I)+Z8(I)-Z1(I)-Z2(I)-Z3(I)-Z4(I) 
+        F1X(I) = X2(I)+X3(I)-X1(I)-X4(I)
+        F1Y(I) = Y2(I)+Y3(I)-Y1(I)-Y4(I)
+        F1Z(I) = Z2(I)+Z3(I)-Z1(I)-Z4(I)
+        F2X(I) = X3(I)+X4(I)-X1(I)-X2(I)
+        F2Y(I) = Y3(I)+Y4(I)-Y1(I)-Y2(I)
+        F2Z(I) = Z3(I)+Z4(I)-Z1(I)-Z2(I)
+        RX(I)  = F2X(I)+X7(I)+X8(I)-X5(I)-X6(I)
+        RY(I)  = F2Y(I)+Y7(I)+Y8(I)-Y5(I)-Y6(I)
+        RZ(I)  = F2Z(I)+Z7(I)+Z8(I)-Z5(I)-Z6(I)
+        TX(I)  = F1X(I)+X6(I)+X7(I)-X5(I)-X8(I)
+        TY(I)  = F1Y(I)+Y6(I)+Y7(I)-Y5(I)-Y8(I)
+        TZ(I)  = F1Z(I)+Z6(I)+Z7(I)-Z5(I)-Z8(I)
+        SX(I)  = X5(I)+X6(I)+X7(I)+X8(I)-X1(I)-X2(I)-X3(I)-X4(I)
+        SY(I)  = Y5(I)+Y6(I)+Y7(I)+Y8(I)-Y1(I)-Y2(I)-Y3(I)-Y4(I)
+        SZ(I)  = Z5(I)+Z6(I)+Z7(I)+Z8(I)-Z1(I)-Z2(I)-Z3(I)-Z4(I)
       ENDDO
 C     Orthogonalisation du repere
 C       E1=R, E3=R^S, E2=E3^E1                            
 C
-      DO I=LFT,LLT                                      
-        SUMA = SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)          
-        IF (SUMA > ZERO) SUMA=ONE/SUMA                      
-        E1X(I) = RX(I)*SUMA                              
-        E1Y(I) = RY(I)*SUMA                              
-        E1Z(I) = RZ(I)*SUMA                              
-        E3X(I) = E1Y(I)*SZ(I) - E1Z(I)*SY(I)              
-        E3Y(I) = E1Z(I)*SX(I) - E1X(I)*SZ(I)              
-        E3Z(I) = E1X(I)*SY(I) - E1Y(I)*SX(I)              
-        SUMA = SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)       
-        IF (SUMA > ZERO) SUMA=ONE/SUMA                      
-        E3X(I) = E3X(I)*SUMA                             
-        E3Y(I) = E3Y(I)*SUMA                             
-        E3Z(I) = E3Z(I)*SUMA                             
-        E2X(I) = E3Y(I)*E1Z(I) - E3Z(I)*E1Y(I)                 
-        E2Y(I) = E3Z(I)*E1X(I) - E3X(I)*E1Z(I)                 
-        E2Z(I) = E3X(I)*E1Y(I) - E3Y(I)*E1X(I)                 
-        SUMA = SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)         
-        IF (SUMA > ZERO) SUMA=ONE/SUMA                      
-        E2X(I) = E2X(I)*SUMA                             
-        E2Y(I) = E2Y(I)*SUMA                             
-        E2Z(I) = E2Z(I)*SUMA                             
+      DO I=LFT,LLT
+        SUMA = SQRT(RX(I)**2+RY(I)**2+RZ(I)**2)
+        IF (SUMA > ZERO) SUMA=ONE/SUMA
+        E1X(I) = RX(I)*SUMA
+        E1Y(I) = RY(I)*SUMA
+        E1Z(I) = RZ(I)*SUMA
+        E3X(I) = E1Y(I)*SZ(I) - E1Z(I)*SY(I)
+        E3Y(I) = E1Z(I)*SX(I) - E1X(I)*SZ(I)
+        E3Z(I) = E1X(I)*SY(I) - E1Y(I)*SX(I)
+        SUMA = SQRT(E3X(I)**2+E3Y(I)**2+E3Z(I)**2)
+        IF (SUMA > ZERO) SUMA=ONE/SUMA
+        E3X(I) = E3X(I)*SUMA
+        E3Y(I) = E3Y(I)*SUMA
+        E3Z(I) = E3Z(I)*SUMA
+        E2X(I) = E3Y(I)*E1Z(I) - E3Z(I)*E1Y(I)
+        E2Y(I) = E3Z(I)*E1X(I) - E3X(I)*E1Z(I)
+        E2Z(I) = E3X(I)*E1Y(I) - E3Y(I)*E1X(I)
+        SUMA = SQRT(E2X(I)**2+E2Y(I)**2+E2Z(I)**2)
+        IF (SUMA > ZERO) SUMA=ONE/SUMA
+        E2X(I) = E2X(I)*SUMA
+        E2Y(I) = E2Y(I)*SUMA
+        E2Z(I) = E2Z(I)*SUMA
       ENDDO
-        IF(JTHE < 0 ) THEN             
-           IF(NINTEMP > 0 ) THEN  
+        IF(JTHE < 0 ) THEN
+           IF(NINTEMP > 0 ) THEN
             DO I= LFT,LLT
               IF(TEMP(IX1(I))== ZERO) TEMP(IX1(I)) = TEMP0(I)
-              IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I) 
+              IF(TEMP(IX2(I))== ZERO) TEMP(IX2(I)) = TEMP0(I)
               IF(TEMP(IX3(I))== ZERO) TEMP(IX3(I)) = TEMP0(I)
-              IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I) 
+              IF(TEMP(IX4(I))== ZERO) TEMP(IX4(I)) = TEMP0(I)
               IF(TEMP(IX5(I))== ZERO) TEMP(IX5(I)) = TEMP0(I)
-              IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I) 
+              IF(TEMP(IX6(I))== ZERO) TEMP(IX6(I)) = TEMP0(I)
               IF(TEMP(IX7(I))== ZERO) TEMP(IX7(I)) = TEMP0(I)
               IF(TEMP(IX8(I))== ZERO) TEMP(IX8(I)) = TEMP0(I)
-            ENDDO        
+            ENDDO
            ELSE
             DO I=LFT,LLT
               TEMP(IX1(I))=TEMP0(I)
@@ -344,9 +344,9 @@ C
               TEMP(IX6(I))=TEMP0(I)
               TEMP(IX7(I))=TEMP0(I)
               TEMP(IX8(I))=TEMP0(I)
-            ENDDO              
+            ENDDO
            ENDIF
-         ENDIF        
+         ENDIF
 C-----------
       RETURN
       END
@@ -404,20 +404,20 @@ C
          NC(I,N)=IXS(N+1,I)
         ENDDO
        ENDDO
-      ENDIF 
+      ENDIF
 C
        DO I=LFT,LLT
         XL(I)=X(1,NC(I,NPE))
         YL(I)=X(2,NC(I,NPE))
         ZL(I)=X(3,NC(I,NPE))
-       ENDDO 
+       ENDDO
        DO N=1,NPE1
         DO I=LFT,LLT
          SAV(I,N)       = X(1,NC(I,N))-XL(I)
          SAV(I,N+NPE1)  = X(2,NC(I,N))-YL(I)
          SAV(I,N+2*NPE1)= X(3,NC(I,N))-ZL(I)
         ENDDO
-       ENDDO 
+       ENDDO
 C
       RETURN
       END

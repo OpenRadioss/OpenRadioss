@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -68,7 +68,7 @@ C-----------------------------------------------
       my_real
      .   FAC,FAC2,SIGL(MVSIZ,6),SIG(MVSIZ,6),
      .   EIELC(NPART),EIELP(NPART), VSIG(LVSIG)
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       NML=FXBIPM(4)
       NME=FXBIPM(17)
@@ -160,7 +160,7 @@ C
             GBUF%EINT(IEL)=ZERO
             NFT=NFT+7
          ENDDO
-      ENDDO      
+      ENDDO
       DO IG=1,NELP,NVSIZ
          OFFSET=IG-1
          LAST=MIN(NVSIZ,NELP-OFFSET)
@@ -190,7 +190,7 @@ C
             GBUF%EINT(IEL+NEL)=ZERO
             NFT=NFT+9
          ENDDO
-      ENDDO      
+      ENDDO
       DO IG=1,NELTG,NVSIZ
          OFFSET=IG-1
          LAST=MIN(NVSIZ,NELTG-OFFSET)
@@ -403,18 +403,18 @@ C
               JJ(J) = NEL*(J-1)
             ENDDO
 !
-            SIGL(I,1)=ELBUF_TAB(NG)%GBUF%SIG(JJ(1)+IEL) 
-            SIGL(I,2)=ELBUF_TAB(NG)%GBUF%SIG(JJ(2)+IEL) 
-            SIGL(I,3)=ELBUF_TAB(NG)%GBUF%SIG(JJ(3)+IEL) 
-            SIGL(I,4)=ELBUF_TAB(NG)%GBUF%SIG(JJ(4)+IEL) 
-            SIGL(I,5)=ELBUF_TAB(NG)%GBUF%SIG(JJ(5)+IEL) 
+            SIGL(I,1)=ELBUF_TAB(NG)%GBUF%SIG(JJ(1)+IEL)
+            SIGL(I,2)=ELBUF_TAB(NG)%GBUF%SIG(JJ(2)+IEL)
+            SIGL(I,3)=ELBUF_TAB(NG)%GBUF%SIG(JJ(3)+IEL)
+            SIGL(I,4)=ELBUF_TAB(NG)%GBUF%SIG(JJ(4)+IEL)
+            SIGL(I,5)=ELBUF_TAB(NG)%GBUF%SIG(JJ(5)+IEL)
             SIGL(I,6)=ELBUF_TAB(NG)%GBUF%SIG(JJ(6)+IEL)
             NFT=NFT+13
          ENDDO
          CALL SCHREP(LAST,SIGL,SIG,RT)
          NFT=NFT1
          DO I=1,LAST
-            NG=FXBELM(NFT+1)   
+            NG=FXBELM(NFT+1)
             IEL=FXBELM(NFT+2)
             NEL = IPARG(2,NG)
 !
@@ -423,14 +423,14 @@ C
             ENDDO
 !
             ELBUF_TAB(NG)%GBUF%SIG(JJ(1)+IEL)=SIG(I,1)
-            ELBUF_TAB(NG)%GBUF%SIG(JJ(2)+IEL)=SIG(I,2) 
-            ELBUF_TAB(NG)%GBUF%SIG(JJ(3)+IEL)=SIG(I,3) 
-            ELBUF_TAB(NG)%GBUF%SIG(JJ(4)+IEL)=SIG(I,4) 
-            ELBUF_TAB(NG)%GBUF%SIG(JJ(5)+IEL)=SIG(I,5) 
+            ELBUF_TAB(NG)%GBUF%SIG(JJ(2)+IEL)=SIG(I,2)
+            ELBUF_TAB(NG)%GBUF%SIG(JJ(3)+IEL)=SIG(I,3)
+            ELBUF_TAB(NG)%GBUF%SIG(JJ(4)+IEL)=SIG(I,4)
+            ELBUF_TAB(NG)%GBUF%SIG(JJ(5)+IEL)=SIG(I,5)
             ELBUF_TAB(NG)%GBUF%SIG(JJ(6)+IEL)=SIG(I,6)
             NFT=NFT+13
          ENDDO
-      ENDDO   
+      ENDDO
 C
   100 CONTINUE
       DO I=1,NPART
@@ -498,5 +498,5 @@ C
 C
       RETURN
       END SUBROUTINE SCHREP
-      
-               
+
+

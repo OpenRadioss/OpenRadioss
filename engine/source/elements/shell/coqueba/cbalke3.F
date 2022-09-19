@@ -35,7 +35,7 @@ Chd|====================================================================
      2                      IKGEO,FOR  ,MOM  ,
      3                      K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      4                      M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     5                      MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
+     5                      MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
      6                      MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
      7                      IORTH,HMOR,HFOR ,IDRIL,HMFOR,
      8                      X13  ,X24  ,Y13  ,Y24,NEL)
@@ -51,8 +51,8 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,NPLAT,IPLAT(*),IKGEO,IORTH,IDRIL,NEL
-      MY_REAL 
-     .   CDET(*),VOL(*), 
+      MY_REAL
+     .   CDET(*),VOL(*),
      .   BM(MVSIZ,3,3,4),BMF(MVSIZ,3,3,4),BF(MVSIZ,3,2,4),BC(MVSIZ,2,5,4),
      .   THK0(*),THK2(*),BZZ(MVSIZ,8),TC(MVSIZ,2,2),
      .    HM(MVSIZ,4),HF(MVSIZ,4),HC(MVSIZ,2),HZ(*),
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,L,K,M,I1,J1,IN(2),NF
-      MY_REAL 
+      MY_REAL
      .    DM(2,2,MVSIZ),DF(2,2,MVSIZ),DC(2,2,MVSIZ),
      .    T11(2,2,MVSIZ),T12(2,2,MVSIZ),T13(2,2,MVSIZ),T14(2,2,MVSIZ),
      .    T22(2,2,MVSIZ),T23(2,2,MVSIZ),T24(2,2,MVSIZ),T33(2,2,MVSIZ),
@@ -89,7 +89,7 @@ C-----------------------------------------------
        DATA IN/2,1/
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 #include "vectorize.inc"
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         C1=THK2(EP)*C2
@@ -106,7 +106,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
         DHZ(M)=HZ(EP)*C1
        ENDDO
 #include "vectorize.inc"
-       DO M=JFT,NPLAT 
+       DO M=JFT,NPLAT
         EP=IPLAT(M)
         C2=VOL(EP)
         DC(1,1,M)=HC(EP,1)*C2
@@ -115,7 +115,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
 C
        NF =NPLAT+1
 C
-       DO EP=JFT,NPLAT 
+       DO EP=JFT,NPLAT
          BB(1,1,EP)=BM(EP,1,1,1)
          BB(1,2,EP)=BM(EP,2,1,1)
          BB(1,3,EP)=BM(EP,3,1,1)
@@ -128,7 +128,7 @@ C
 C
        DO I=1,2
        DO J=I,2
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T11(I,J,EP)=BB(I,1,EP)*BB(J,1,EP)
          T11(J,I,EP)=T11(I,J,EP)
          T22(I,J,EP)=BB(I,2,EP)*BB(J,2,EP)
@@ -147,7 +147,7 @@ C
 C
        DO I=1,2
        DO J=1,2
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T12(I,J,EP)=BB(I,1,EP)*BB(J,2,EP)
          T13(I,J,EP)=BB(I,1,EP)*BB(J,3,EP)
          T14(I,J,EP)=BB(I,1,EP)*BB(J,4,EP)
@@ -163,7 +163,7 @@ C
         ENDDO
        ENDDO
        ENDDO
-       DO EP=JFT,NPLAT 
+       DO EP=JFT,NPLAT
          S11(2,1,EP)=-S11(2,1,EP)
          S11(1,2,EP)= S11(2,1,EP)
          S22(2,1,EP)=-S22(2,1,EP)
@@ -188,7 +188,7 @@ C
 C
        DO I=1,2
        DO J=I,2
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          K11(I,J,EP)=K11(I,J,EP)+T11(I,J,EP)*DM(I,J,EP)
          K22(I,J,EP)=K22(I,J,EP)+T22(I,J,EP)*DM(I,J,EP)
          K33(I,J,EP)=K33(I,J,EP)+T33(I,J,EP)*DM(I,J,EP)
@@ -201,7 +201,7 @@ C
        DO J=I,2
         J1 = IN(J)
 #include "vectorize.inc"
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          M11(I,J,EP)=M11(I,J,EP)+S11(I,J,EP)*DF(I1,J1,EP)+
      1               S11(I1,J1,EP)*GF(EP)
          M22(I,J,EP)=M22(I,J,EP)+S22(I,J,EP)*DF(I1,J1,EP)+
@@ -216,7 +216,7 @@ C
 C
        DO I=1,2
        DO J=1,2
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          K12(I,J,EP)=K12(I,J,EP)+T12(I,J,EP)*DM(I,J,EP)
          K13(I,J,EP)=K13(I,J,EP)+T13(I,J,EP)*DM(I,J,EP)
          K14(I,J,EP)=K14(I,J,EP)+T14(I,J,EP)*DM(I,J,EP)
@@ -231,7 +231,7 @@ C
        DO J=1,2
         J1 = IN(J)
 #include "vectorize.inc"
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          M12(I,J,EP)=M12(I,J,EP)+S12(I,J,EP)*DF(I1,J1,EP)+
      1               S12(I1,J1,EP)*GF(EP)
          M13(I,J,EP)=M13(I,J,EP)+S13(I,J,EP)*DF(I1,J1,EP)+
@@ -307,7 +307,7 @@ C ----ajoute termes sup. due au orthotrope-----
        IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	 C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
@@ -342,7 +342,7 @@ C
        ELSE
 C-----------due to constant in-plane shear --------------      
 #include "vectorize.inc"
-        DO M=JFT,NPLAT 
+        DO M=JFT,NPLAT
          EP=IPLAT(M)
          BB0(1,1,M)=Y24(EP)
          BB0(1,2,M)=-Y13(EP)
@@ -350,7 +350,7 @@ C-----------due to constant in-plane shear --------------
          BB0(2,2,M)=X13(EP)
         ENDDO
 C
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,1,EP)*BB(1,1,EP)
          T0IJ(1,2,EP)=BB0(1,1,EP)*BB(2,1,EP)
          T0IJ(2,1,EP)=BB0(2,1,EP)*BB(1,1,EP)
@@ -362,7 +362,7 @@ C
         ENDDO
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF11  ,DMF  ,T11  ,T0IJ )
         CALL CBALKEORFM1(JFT  ,NPLAT  ,FM13  ,DMF  ,T13  ,T1IJ )
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,1,EP)*BB(1,2,EP)
          T0IJ(1,2,EP)=BB0(1,1,EP)*BB(2,2,EP)
          T0IJ(2,1,EP)=BB0(2,1,EP)*BB(1,2,EP)
@@ -374,7 +374,7 @@ C
         ENDDO
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF12  ,DMF  ,T12  ,T0IJ )
         CALL CBALKEORFM1(JFT  ,NPLAT  ,FM23  ,DMF  ,T23  ,T1IJ )
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,1,EP)*BB(1,3,EP)
          T0IJ(1,2,EP)=BB0(1,1,EP)*BB(2,3,EP)
          T0IJ(2,1,EP)=BB0(2,1,EP)*BB(1,3,EP)
@@ -386,7 +386,7 @@ C
         ENDDO
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF13  ,DMF  ,T13  ,T0IJ )
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF33  ,DMF  ,T33  ,T1IJ )
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,1,EP)*BB(1,4,EP)
          T0IJ(1,2,EP)=BB0(1,1,EP)*BB(2,4,EP)
          T0IJ(2,1,EP)=BB0(2,1,EP)*BB(1,4,EP)
@@ -398,7 +398,7 @@ C
         ENDDO
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF14  ,DMF  ,T14  ,T0IJ )
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF34  ,DMF  ,T34  ,T1IJ )
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,2,EP)*BB(1,2,EP)
          T0IJ(1,2,EP)=BB0(1,2,EP)*BB(2,2,EP)
          T0IJ(2,1,EP)=BB0(2,2,EP)*BB(1,2,EP)
@@ -410,7 +410,7 @@ C
         ENDDO
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF22  ,DMF  ,T22  ,T0IJ )
         CALL CBALKEORFM1(JFT  ,NPLAT  ,FM24  ,DMF  ,T24  ,T1IJ )
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,2,EP)*BB(1,3,EP)
          T0IJ(1,2,EP)=BB0(1,2,EP)*BB(2,3,EP)
          T0IJ(2,1,EP)=BB0(2,2,EP)*BB(1,3,EP)
@@ -422,7 +422,7 @@ C
         ENDDO
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF23  ,DMF  ,T23  ,T0IJ )
         CALL CBALKEORFM1(JFT  ,NPLAT  ,FM34  ,DMF  ,T34  ,T1IJ )
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB0(1,2,EP)*BB(1,4,EP)
          T0IJ(1,2,EP)=BB0(1,2,EP)*BB(2,4,EP)
          T0IJ(2,1,EP)=BB0(2,2,EP)*BB(1,4,EP)
@@ -435,7 +435,7 @@ C
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF24  ,DMF  ,T24  ,T0IJ )
         CALL CBALKEORMF1(JFT  ,NPLAT  ,MF44  ,DMF  ,T44  ,T1IJ )
 C        
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB(1,1,EP)*BB0(1,2,EP)
          T0IJ(1,2,EP)=BB(1,1,EP)*BB0(2,2,EP)
          T0IJ(2,1,EP)=BB(2,1,EP)*BB0(1,2,EP)
@@ -450,7 +450,7 @@ C
        END IF !(IDRIL >0 ) THEN
 C        
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
          C2=VOL(EP)
          C1=THK2(EP)*C2
@@ -459,13 +459,13 @@ C
          DF5(M)=HFOR(EP,1)*C1
          DF6(M)=HFOR(EP,2)*C1
         ENDDO
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          DM5_2(M)=TWO*DM5(M)
          DM6_2(M)=TWO*DM6(M)
          DF5_2(M)=TWO*DF5(M)
          DF6_2(M)=TWO*DF6(M)
         ENDDO
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T12(1,2,EP)=HALF*(T12(1,2,EP)+T12(2,1,EP))
          T13(1,2,EP)=HALF*(T13(1,2,EP)+T13(2,1,EP))
          T14(1,2,EP)=HALF*(T14(1,2,EP)+T14(2,1,EP))
@@ -474,7 +474,7 @@ C
          T34(1,2,EP)=HALF*(T34(1,2,EP)+T34(2,1,EP))
         ENDDO
        IF (IDRIL >0 ) THEN
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          K11(1,1,EP)=K11(1,1,EP)+T11(1,2,EP)*DM5_2(EP)
          KM12       =T11(1,1,EP)*DM5(EP)+T11(2,2,EP)*DM6(EP)
          K11(1,2,EP)=K11(1,2,EP)+KM12
@@ -510,7 +510,7 @@ C
          K24(2,2,EP)=K24(2,2,EP)+T24(1,2,EP)*DM6_2(EP)
          K33(1,1,EP)=K33(1,1,EP)+T33(1,2,EP)*DM5_2(EP)
          KM12       =T33(1,1,EP)*DM5(EP)+T33(2,2,EP)*DM6(EP)
-         K33(1,2,EP)=K33(1,2,EP)+KM12 
+         K33(1,2,EP)=K33(1,2,EP)+KM12
          K33(2,2,EP)=K33(2,2,EP)+T33(1,2,EP)*DM6_2(EP)
          K34(1,1,EP)=K34(1,1,EP)+T34(1,2,EP)*DM5_2(EP)
          KM12       =T34(1,1,EP)*DM5(EP)+T34(2,2,EP)*DM6(EP)
@@ -524,7 +524,7 @@ C
         ENDDO
        ELSE
 C K11 ,K13  ,K33  
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB(1,1,EP)*BB0(1,1,EP)
          T0IJ(1,2,EP)=BB(1,1,EP)*BB0(2,1,EP)
          T0IJ(2,1,EP)=BB(2,1,EP)*BB0(1,1,EP)
@@ -559,7 +559,7 @@ C-----K33, T1IJ(33)=-T1IJ(13),T0IJ(i,j)=T1IJ(33)(j,i)=-T0IJ(13)
          K33(2,2,EP)=K33(2,2,EP)-(T0IJ(2,1,EP)+T1IJ(1,2,EP))*DM6(EP)
         ENDDO
 C K12,K14,K34 ,K23   
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T0IJ(1,1,EP)=BB(1,1,EP)*BB0(1,2,EP)
          T0IJ(1,2,EP)=BB(1,1,EP)*BB0(2,2,EP)
          T0IJ(2,1,EP)=BB(2,1,EP)*BB0(1,2,EP)
@@ -613,7 +613,7 @@ C-----K23, T1IJ(i,j)=-T0IJ(34)(j,i)=T0IJ(32)(j,i),
          K23(2,2,EP)=K23(2,2,EP)+(T0IJ(2,1,EP)+T1IJ(1,2,EP))*DM6(EP)
         ENDDO
 C K22 ,K24 ,K44   
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          T1IJ(1,1,EP)=BB0(1,2,EP)*BB(1,2,EP)
          T1IJ(1,2,EP)=BB0(1,2,EP)*BB(2,2,EP)
          T1IJ(2,1,EP)=BB0(2,2,EP)*BB(1,2,EP)
@@ -649,66 +649,66 @@ C---K44, T1IJ(44)=-T1IJ(24) ; T0IJ(44)=-T0IJ(42)
         ENDDO
        END IF !(IDRIL >0 ) THEN
 C        
-        DO EP=JFT,NPLAT 
+        DO EP=JFT,NPLAT
          M11(1,1,EP)=M11(1,1,EP)+T11(1,2,EP)*DF6_2(EP)
          KM12       =T11(1,1,EP)*DF5(EP)+T11(2,2,EP)*DF6(EP)
          M11(1,2,EP)=M11(1,2,EP)-KM12
          M11(2,2,EP)=M11(2,2,EP)+T11(1,2,EP)*DF5_2(EP)
-	 
-         M12(1,1,EP)=M12(1,1,EP)+T12(1,2,EP)*DF6_2(EP)	 
+	
+         M12(1,1,EP)=M12(1,1,EP)+T12(1,2,EP)*DF6_2(EP)	
          KM12       =T12(1,1,EP)*DF5(EP)+T12(2,2,EP)*DF6(EP)
          M12(1,2,EP)=M12(1,2,EP)-KM12
          M12(2,1,EP)=M12(2,1,EP)-KM12
          M12(2,2,EP)=M12(2,2,EP)+T12(1,2,EP)*DF5_2(EP)
-	 
-         M13(1,1,EP)=M13(1,1,EP)+T13(1,2,EP)*DF6_2(EP)	 
+	
+         M13(1,1,EP)=M13(1,1,EP)+T13(1,2,EP)*DF6_2(EP)	
          KM12       =T13(1,1,EP)*DF5(EP)+T13(2,2,EP)*DF6(EP)
          M13(1,2,EP)=M13(1,2,EP)-KM12
          M13(2,1,EP)=M13(2,1,EP)-KM12
          M13(2,2,EP)=M13(2,2,EP)+T13(1,2,EP)*DF5_2(EP)
-	 
+	
          M14(1,1,EP)=M14(1,1,EP)+T14(1,2,EP)*DF6_2(EP)
          KM12       =T14(1,1,EP)*DF5(EP)+T14(2,2,EP)*DF6(EP)
          M14(1,2,EP)=M14(1,2,EP)-KM12
          M14(2,1,EP)=M14(2,1,EP)-KM12
          M14(2,2,EP)=M14(2,2,EP)+T14(1,2,EP)*DF5_2(EP)
-	 
-         M22(1,1,EP)=M22(1,1,EP)+T22(1,2,EP)*DF6_2(EP)	 
+	
+         M22(1,1,EP)=M22(1,1,EP)+T22(1,2,EP)*DF6_2(EP)	
          KM12       =T22(1,1,EP)*DF5(EP)+T22(2,2,EP)*DF6(EP)
          M22(1,2,EP)=M22(1,2,EP)-KM12
          M22(2,2,EP)=M22(2,2,EP)+T22(1,2,EP)*DF5_2(EP)
-	 
+	
          M23(1,1,EP)=M23(1,1,EP)+T23(1,2,EP)*DF6_2(EP)
          KM12       =T23(1,1,EP)*DF5(EP)+T23(2,2,EP)*DF6(EP)
          M23(1,2,EP)=M23(1,2,EP)-KM12
          M23(2,1,EP)=M23(2,1,EP)-KM12
          M23(2,2,EP)=M23(2,2,EP)+T23(1,2,EP)*DF5_2(EP)
-	 
+	
          M24(1,1,EP)=M24(1,1,EP)+T24(1,2,EP)*DF6_2(EP)
          KM12       =T24(1,1,EP)*DF5(EP)+T24(2,2,EP)*DF6(EP)
          M24(1,2,EP)=M24(1,2,EP)-KM12
          M24(2,1,EP)=M24(2,1,EP)-KM12
          M24(2,2,EP)=M24(2,2,EP)+T24(1,2,EP)*DF5_2(EP)
-	 
+	
          M33(1,1,EP)=M33(1,1,EP)+T33(1,2,EP)*DF6_2(EP)
          KM12       =T33(1,1,EP)*DF5(EP)+T33(2,2,EP)*DF6(EP)
          M33(1,2,EP)=M33(1,2,EP)-KM12
          M33(2,2,EP)=M33(2,2,EP)+T33(1,2,EP)*DF5_2(EP)
-	 
+	
          M34(1,1,EP)=M34(1,1,EP)+T34(1,2,EP)*DF6_2(EP)
          KM12       =T34(1,1,EP)*DF5(EP)+T34(2,2,EP)*DF6(EP)
          M34(1,2,EP)=M34(1,2,EP)-KM12
          M34(2,1,EP)=M34(2,1,EP)-KM12
          M34(2,2,EP)=M34(2,2,EP)+T34(1,2,EP)*DF5_2(EP)
-	 
+	
          M44(1,1,EP)=M44(1,1,EP)+T44(1,2,EP)*DF6_2(EP)
          KM12       =T44(1,1,EP)*DF5(EP)+T44(2,2,EP)*DF6(EP)
          M44(1,2,EP)=M44(1,2,EP)-KM12
          M44(2,2,EP)=M44(2,2,EP)+T44(1,2,EP)*DF5_2(EP)
         ENDDO
-       ENDIF 
+       ENDIF
 C
-       DO EP=JFT,NPLAT 
+       DO EP=JFT,NPLAT
          BBC(1,1,1,EP)=BC(EP,1,1,1)
          BBC(2,1,1,EP)=BC(EP,2,1,1)
          BBC(1,2,1,EP)=BC(EP,1,2,1)
@@ -905,7 +905,7 @@ C------ renforce positive  ----------
         M33(3,3,EP)=M33(3,3,EP)+C3
         M44(3,3,EP)=M44(3,3,EP)+C4
        ENDDO
-       ENDIF 
+       ENDIF
       END IF !(IDRIL==0) THEN
 C---+----1----+----2----+warped elements----+----5----+----6----+----7----+----8
 #include "vectorize.inc"
@@ -1497,7 +1497,7 @@ C
 C
        IF (IKGEO==1) THEN
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
          C2=VOL(EP)
          FXX(M)=FOR(EP,1)*C2
@@ -1520,7 +1520,7 @@ C
         ENDDO
 C
         DO I=1,2
-         DO EP=NF,JLT 
+         DO EP=NF,JLT
           T11(I,I,EP)=BM(EP,I,I,1)*BM(EP,I,I,1)
           T22(I,I,EP)=BM(EP,I,I,2)*BM(EP,I,I,2)
           T33(I,I,EP)=BM(EP,I,I,3)*BM(EP,I,I,3)
@@ -1533,7 +1533,7 @@ C
           T34(I,I,EP)=BM(EP,I,I,3)*BM(EP,I,I,4)
          ENDDO
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
           T11(1,2,EP)=FXX(EP)*T11(1,1,EP)+FYY(EP)*T11(2,2,EP)
           T22(1,2,EP)=FXX(EP)*T22(1,1,EP)+FYY(EP)*T22(2,2,EP)
           T33(1,2,EP)=FXX(EP)*T33(1,1,EP)+FYY(EP)*T33(2,2,EP)
@@ -1594,17 +1594,17 @@ C
         ENDIF
 C
         DO I=1,3
-         DO EP=JFT,JLT 
+         DO EP=JFT,JLT
           K11(I,I,EP)=K11(I,I,EP)+T11(1,2,EP)
           K22(I,I,EP)=K22(I,I,EP)+T22(1,2,EP)
           K33(I,I,EP)=K33(I,I,EP)+T33(1,2,EP)
-          K44(I,I,EP)=K44(I,I,EP)+T44(1,2,EP) 
-          K12(I,I,EP)=K12(I,I,EP)+T12(1,2,EP) 
-          K13(I,I,EP)=K13(I,I,EP)+T13(1,2,EP) 
-          K14(I,I,EP)=K14(I,I,EP)+T14(1,2,EP) 
-          K23(I,I,EP)=K23(I,I,EP)+T23(1,2,EP) 
-          K24(I,I,EP)=K24(I,I,EP)+T24(1,2,EP) 
-          K34(I,I,EP)=K34(I,I,EP)+T34(1,2,EP) 
+          K44(I,I,EP)=K44(I,I,EP)+T44(1,2,EP)
+          K12(I,I,EP)=K12(I,I,EP)+T12(1,2,EP)
+          K13(I,I,EP)=K13(I,I,EP)+T13(1,2,EP)
+          K14(I,I,EP)=K14(I,I,EP)+T14(1,2,EP)
+          K23(I,I,EP)=K23(I,I,EP)+T23(1,2,EP)
+          K24(I,I,EP)=K24(I,I,EP)+T24(1,2,EP)
+          K34(I,I,EP)=K34(I,I,EP)+T34(1,2,EP)
          ENDDO
         ENDDO
 C------ renforce positive  ----------
@@ -1648,7 +1648,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NPLAT,IPLAT(*),IKGEO,IORTH,NEL
-       my_real 
+       my_real
      .     VOL(*), X13(*)   ,X24(*)    ,Y13(*) ,Y24(*)    ,
      .    K11(3,3,*),K12(3,3,*),K13(3,3,*),K14(3,3,*),
      .    K22(3,3,*),K23(3,3,*),K24(3,3,*),K33(3,3,*),
@@ -1658,12 +1658,12 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J,EP,M
-       my_real 
+       my_real
      .     BB(2,2,MVSIZ),GVOL(MVSIZ),FXY(MVSIZ),FXY2(MVSIZ),
      .     T11(2,2,MVSIZ),T22(2,2,MVSIZ),T12(2,2,MVSIZ),C1,C2
 C
 #include "vectorize.inc"
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
          EP=IPLAT(M)
          GVOL(M)=HM(EP,4)*VOL(EP)
          BB(2,1,M)=Y24(EP)
@@ -1674,7 +1674,7 @@ C
 C
        DO I=1,2
        DO J=1,2
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          T11(I,J,EP)=GVOL(EP)*BB(I,1,EP)*BB(J,1,EP)
          T22(I,J,EP)=GVOL(EP)*BB(I,2,EP)*BB(J,2,EP)
          T12(I,J,EP)=GVOL(EP)*BB(I,1,EP)*BB(J,2,EP)
@@ -1684,7 +1684,7 @@ C
 C
        DO I=1,2
        DO J=I,2
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          K11(I,J,EP)=K11(I,J,EP)+T11(I,J,EP)
          K22(I,J,EP)=K22(I,J,EP)+T22(I,J,EP)
          K33(I,J,EP)=K33(I,J,EP)+T11(I,J,EP)
@@ -1694,7 +1694,7 @@ C
        ENDDO
        DO I=1,2
        DO J=1,2
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          K12(I,J,EP)=K12(I,J,EP)+T12(I,J,EP)
          K13(I,J,EP)=K13(I,J,EP)-T11(I,J,EP)
          K14(I,J,EP)=K14(I,J,EP)-T12(I,J,EP)
@@ -1706,13 +1706,13 @@ C
        ENDDO
        IF (IKGEO==1) THEN
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
          FXY(M)=FOR(EP,3)*VOL(EP)
          FXY2(M)=TWO*FXY(M)
         ENDDO
 C
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          T11(1,2,EP)=FXY2(EP)*BB(1,1,EP)*BB(2,1,EP)
          T22(1,2,EP)=FXY2(EP)*BB(1,2,EP)*BB(2,2,EP)
          T12(1,2,EP)=FXY(EP)*(BB(1,1,EP)*BB(2,2,EP)+
@@ -1746,7 +1746,7 @@ C------ renforce positive  ----------
           END IF
          ENDDO
         ENDIF
-       ENDIF 
+       ENDIF
 C
        RETURN
        END
@@ -1830,7 +1830,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
          DM(1,3,M)=HMOR(EP,1)*C2
          DM(2,3,M)=HMOR(EP,2)*C2
         ENDDO
-       ENDIF 
+       ENDIF
 C
        DO M=JFT,JLT
         DM(2,1,M)=DM(1,2,M)
@@ -1966,7 +1966,7 @@ C
        IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
  	 C2=VOL(EP)*THK0(EP)
          DMF(1,1,M)=HMFOR(EP,1)*C2
@@ -2014,7 +2014,7 @@ C
           M44(2,3,EP)=M44(2,3,EP)
      .                +PX(4,EP)*CBR1(4,EP)+PY(4,EP)*CBR3(4,EP)
          ENDDO
-         DO EP=JFT,NPLAT 
+         DO EP=JFT,NPLAT
           M12(1,3,EP)=M12(1,3,EP)
      .                -PY(1,EP)*CBR2(2,EP)-PX(1,EP)*CBR3(2,EP)
           M12(2,3,EP)=M12(2,3,EP)
@@ -2040,7 +2040,7 @@ C
           M34(2,3,EP)=M34(2,3,EP)
      .                +PX(3,EP)*CBR1(4,EP)+PY(3,EP)*CBR3(4,EP)
          ENDDO
-         DO EP=JFT,NPLAT 
+         DO EP=JFT,NPLAT
           M12(3,1,EP)=M12(3,1,EP)
      .                -PY(2,EP)*CBR2(1,EP)-PX(2,EP)*CBR3(1,EP)
           M12(3,2,EP)=M12(3,2,EP)
@@ -2136,15 +2136,15 @@ C------FMIJ(3,1)=BB(1,J)*BRZ(I)=BMRZ1(J,I); FMIJ(3,2)=BB(2,J)*BRZ(I)=BMRZ2(J,I);
         MF11(1,3,EP)=MF11(1,3,EP)+ BMRZ1(EP,1,1)
         MF11(2,3,EP)=MF11(2,3,EP)+ BMRZ2(EP,1,1)
         MF11(3,3,EP)=MF11(3,3,EP)+ BMRZ3(EP,1,1)
-        
+
         MF22(1,3,EP)=MF22(1,3,EP)+ BMRZ1(EP,2,2)
         MF22(2,3,EP)=MF22(2,3,EP)+ BMRZ2(EP,2,2)
         MF22(3,3,EP)=MF22(3,3,EP)+ BMRZ3(EP,2,2)
-        
+
         MF33(1,3,EP)=MF33(1,3,EP)+ BMRZ1(EP,3,3)
         MF33(2,3,EP)=MF33(2,3,EP)+ BMRZ2(EP,3,3)
         MF33(3,3,EP)=MF33(3,3,EP)+ BMRZ3(EP,3,3)
-        
+
         MF44(1,3,EP)=MF44(1,3,EP)+ BMRZ1(EP,4,4)
         MF44(2,3,EP)=MF44(2,3,EP)+ BMRZ2(EP,4,4)
         MF44(3,3,EP)=MF44(3,3,EP)+ BMRZ3(EP,4,4)
@@ -2152,47 +2152,47 @@ C
         MF12(1,3,EP)=MF12(1,3,EP)+ BMRZ1(EP,1,2)
         MF12(2,3,EP)=MF12(2,3,EP)+ BMRZ2(EP,1,2)
         MF12(3,3,EP)=MF12(3,3,EP)+ BMRZ3(EP,1,2)
-        
+
         FM12(3,1,EP)=FM12(3,1,EP)+ BMRZ1(EP,2,1)
         FM12(3,2,EP)=FM12(3,2,EP)+ BMRZ2(EP,2,1)
         FM12(3,3,EP)=FM12(3,3,EP)+ BMRZ3(EP,2,1)
-        
+
         MF13(1,3,EP)=MF13(1,3,EP)+ BMRZ1(EP,1,3)
         MF13(2,3,EP)=MF13(2,3,EP)+ BMRZ2(EP,1,3)
         MF13(3,3,EP)=MF13(3,3,EP)+ BMRZ3(EP,1,3)
-        
+
         FM13(3,1,EP)=FM13(3,1,EP)+ BMRZ1(EP,3,1)
         FM13(3,2,EP)=FM13(3,2,EP)+ BMRZ2(EP,3,1)
         FM13(3,3,EP)=FM13(3,3,EP)+ BMRZ3(EP,3,1)
-        
+
         MF14(1,3,EP)=MF14(1,3,EP)+ BMRZ1(EP,1,4)
         MF14(2,3,EP)=MF14(2,3,EP)+ BMRZ2(EP,1,4)
         MF14(3,3,EP)=MF14(3,3,EP)+ BMRZ3(EP,1,4)
-        
+
         FM14(3,1,EP)=FM14(3,1,EP)+ BMRZ1(EP,4,1)
         FM14(3,2,EP)=FM14(3,2,EP)+ BMRZ2(EP,4,1)
         FM14(3,3,EP)=FM14(3,3,EP)+ BMRZ3(EP,4,1)
-        
+
         MF23(1,3,EP)=MF23(1,3,EP)+ BMRZ1(EP,2,3)
         MF23(2,3,EP)=MF23(2,3,EP)+ BMRZ2(EP,2,3)
         MF23(3,3,EP)=MF23(3,3,EP)+ BMRZ3(EP,2,3)
-        
+
         FM23(3,1,EP)=FM23(3,1,EP)+ BMRZ1(EP,3,2)
         FM23(3,2,EP)=FM23(3,2,EP)+ BMRZ2(EP,3,2)
         FM23(3,3,EP)=FM23(3,3,EP)+ BMRZ3(EP,3,2)
-        
+
         MF24(1,3,EP)=MF24(1,3,EP)+ BMRZ1(EP,2,4)
         MF24(2,3,EP)=MF24(2,3,EP)+ BMRZ2(EP,2,4)
         MF24(3,3,EP)=MF24(3,3,EP)+ BMRZ3(EP,2,4)
-        
+
         FM24(3,1,EP)=FM24(3,1,EP)+ BMRZ1(EP,4,2)
         FM24(3,2,EP)=FM24(3,2,EP)+ BMRZ2(EP,4,2)
         FM24(3,3,EP)=FM24(3,3,EP)+ BMRZ3(EP,4,2)
-        
+
         MF34(1,3,EP)=MF34(1,3,EP)+ BMRZ1(EP,3,4)
         MF34(2,3,EP)=MF34(2,3,EP)+ BMRZ2(EP,3,4)
         MF34(3,3,EP)=MF34(3,3,EP)+ BMRZ3(EP,3,4)
-        
+
         FM34(3,1,EP)=FM34(3,1,EP)+ BMRZ1(EP,4,3)
         FM34(3,2,EP)=FM34(3,2,EP)+ BMRZ2(EP,4,3)
         FM34(3,3,EP)=FM34(3,3,EP)+ BMRZ3(EP,4,3)
@@ -2404,53 +2404,53 @@ C
          ENDDO
         DO I=1,3
          DO EP=NF,JLT
-          MF11(I,3,EP)=MF11(I,3,EP) 
+          MF11(I,3,EP)=MF11(I,3,EP)
      .               +BMF(EP,1,I,1)*CBR1(1,EP)+BMF(EP,2,I,1)*CBR2(1,EP)
      .               +BMF(EP,3,I,1)*CBR3(1,EP)
           MF12(I,3,EP)=MF12(I,3,EP)
      .               +BMF(EP,1,I,1)*CBR1(2,EP)+BMF(EP,2,I,1)*CBR2(2,EP)
      .               +BMF(EP,3,I,1)*CBR3(2,EP)
-          MF13(I,3,EP)=MF13(I,3,EP) 
+          MF13(I,3,EP)=MF13(I,3,EP)
      .               +BMF(EP,1,I,1)*CBR1(3,EP)+BMF(EP,2,I,1)*CBR2(3,EP)
      .               +BMF(EP,3,I,1)*CBR3(3,EP)
-          MF14(I,3,EP)=MF14(I,3,EP) 
+          MF14(I,3,EP)=MF14(I,3,EP)
      .               +BMF(EP,1,I,1)*CBR1(4,EP)+BMF(EP,2,I,1)*CBR2(4,EP)
      .               +BMF(EP,3,I,1)*CBR3(4,EP)
-          MF22(I,3,EP)=MF22(I,3,EP) 
+          MF22(I,3,EP)=MF22(I,3,EP)
      .               +BMF(EP,1,I,2)*CBR1(2,EP)+BMF(EP,2,I,2)*CBR2(2,EP)
      .               +BMF(EP,3,I,2)*CBR3(2,EP)
-          MF23(I,3,EP)=MF23(I,3,EP) 
+          MF23(I,3,EP)=MF23(I,3,EP)
      .               +BMF(EP,1,I,2)*CBR1(3,EP)+BMF(EP,2,I,2)*CBR2(3,EP)
      .               +BMF(EP,3,I,2)*CBR3(3,EP)
-          MF24(I,3,EP)=MF24(I,3,EP) 
+          MF24(I,3,EP)=MF24(I,3,EP)
      .               +BMF(EP,1,I,2)*CBR1(4,EP)+BMF(EP,2,I,2)*CBR2(4,EP)
      .               +BMF(EP,3,I,2)*CBR3(4,EP)
-          MF33(I,3,EP)=MF33(I,3,EP) 
+          MF33(I,3,EP)=MF33(I,3,EP)
      .               +BMF(EP,1,I,3)*CBR1(3,EP)+BMF(EP,2,I,3)*CBR2(3,EP)
      .               +BMF(EP,3,I,3)*CBR3(3,EP)
-          MF34(I,3,EP)=MF34(I,3,EP) 
+          MF34(I,3,EP)=MF34(I,3,EP)
      .               +BMF(EP,1,I,3)*CBR1(4,EP)+BMF(EP,2,I,3)*CBR2(4,EP)
      .               +BMF(EP,3,I,3)*CBR3(4,EP)
-          MF44(I,3,EP)=MF44(I,3,EP) 
+          MF44(I,3,EP)=MF44(I,3,EP)
      .               +BMF(EP,1,I,4)*CBR1(4,EP)+BMF(EP,2,I,4)*CBR2(4,EP)
      .               +BMF(EP,3,I,4)*CBR3(4,EP)
 C        
-          FM12(3,I,EP)=FM12(3,I,EP) 
+          FM12(3,I,EP)=FM12(3,I,EP)
      .               +BMF(EP,1,I,2)*CBR1(1,EP)+BMF(EP,2,I,2)*CBR2(1,EP)
      .               +BMF(EP,3,I,2)*CBR3(1,EP)
-          FM13(3,I,EP)=FM13(3,I,EP) 
+          FM13(3,I,EP)=FM13(3,I,EP)
      .               +BMF(EP,1,I,3)*CBR1(1,EP)+BMF(EP,2,I,3)*CBR2(1,EP)
      .               +BMF(EP,3,I,3)*CBR3(1,EP)
-          FM14(3,I,EP)=FM14(3,I,EP) 
+          FM14(3,I,EP)=FM14(3,I,EP)
      .               +BMF(EP,1,I,4)*CBR1(1,EP)+BMF(EP,2,I,4)*CBR2(1,EP)
      .               +BMF(EP,3,I,4)*CBR3(1,EP)
-          FM23(3,I,EP)=FM23(3,I,EP) 
+          FM23(3,I,EP)=FM23(3,I,EP)
      .               +BMF(EP,1,I,3)*CBR1(2,EP)+BMF(EP,2,I,3)*CBR2(2,EP)
      .               +BMF(EP,3,I,3)*CBR3(2,EP)
-          FM24(3,I,EP)=FM24(3,I,EP) 
+          FM24(3,I,EP)=FM24(3,I,EP)
      .               +BMF(EP,1,I,4)*CBR1(2,EP)+BMF(EP,2,I,4)*CBR2(2,EP)
      .               +BMF(EP,3,I,4)*CBR3(2,EP)
-          FM34(3,I,EP)=FM34(3,I,EP) 
+          FM34(3,I,EP)=FM34(3,I,EP)
      .               +BMF(EP,1,I,4)*CBR1(3,EP)+BMF(EP,2,I,4)*CBR2(3,EP)
      .               +BMF(EP,3,I,4)*CBR3(3,EP)
          ENDDO
@@ -2459,11 +2459,11 @@ C
 C------ Geometrical stiffness associated w/ Rz  ----------
        IF (IKGEO==1) THEN
 #include "vectorize.inc"
-        DO M=JFT,JLT 
+        DO M=JFT,JLT
          EP=IPLAT(M)
          FRZV(M)=FRZ(EP,NG)*VOL(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
           T11(1,2,EP)=FRZV(EP)*(PRX(1,EP)*PRX(1,EP)+PRY(1,EP)*PRY(1,EP)+
      .                          PRXY(1,EP)*PRXY(1,EP))
           T22(1,2,EP)=FRZV(EP)*(PRX(2,EP)*PRX(2,EP)+PRY(2,EP)*PRY(2,EP)+
@@ -2487,20 +2487,20 @@ C------ Geometrical stiffness associated w/ Rz  ----------
         ENDDO
 C
         DO I=1,3
-         DO EP=JFT,JLT 
+         DO EP=JFT,JLT
           K11(I,I,EP)=K11(I,I,EP)+T11(1,2,EP)
           K22(I,I,EP)=K22(I,I,EP)+T22(1,2,EP)
           K33(I,I,EP)=K33(I,I,EP)+T33(1,2,EP)
-          K44(I,I,EP)=K44(I,I,EP)+T44(1,2,EP) 
-          K12(I,I,EP)=K12(I,I,EP)+T12(1,2,EP) 
-          K13(I,I,EP)=K13(I,I,EP)+T13(1,2,EP) 
-          K14(I,I,EP)=K14(I,I,EP)+T14(1,2,EP) 
-          K23(I,I,EP)=K23(I,I,EP)+T23(1,2,EP) 
-          K24(I,I,EP)=K24(I,I,EP)+T24(1,2,EP) 
-          K34(I,I,EP)=K34(I,I,EP)+T34(1,2,EP) 
+          K44(I,I,EP)=K44(I,I,EP)+T44(1,2,EP)
+          K12(I,I,EP)=K12(I,I,EP)+T12(1,2,EP)
+          K13(I,I,EP)=K13(I,I,EP)+T13(1,2,EP)
+          K14(I,I,EP)=K14(I,I,EP)+T14(1,2,EP)
+          K23(I,I,EP)=K23(I,I,EP)+T23(1,2,EP)
+          K24(I,I,EP)=K24(I,I,EP)+T24(1,2,EP)
+          K34(I,I,EP)=K34(I,I,EP)+T34(1,2,EP)
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
 C
        RETURN
        END
@@ -2530,7 +2530,7 @@ C-----------------------------------------------
       my_real
      .    MFIJ(2,2,MVSIZ)
 C-------MFIJ=[BmI]^t[DMF][BbJ] ;TIJ(i,j)=B(i,I)*B(j,J)----i,j->1:x;2:y    
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MFIJ(1,1,EP)=
      1               -DMF(1,2,EP)*TIJ(1,2,EP)-DMF(1,3,EP)*TIJ(1,1,EP)
      2               -DMF(3,2,EP)*TIJ(2,2,EP)-DMF(3,3,EP)*TIJ(2,1,EP)
@@ -2582,7 +2582,7 @@ C-----------------------------------------------
      .    FMIJ(2,2,MVSIZ)
 C-------FMIJ=[BbI]^t[DMF][BmJ]=MFJI^t;TIJ(i,j)=B(i,I)*B(j,J)--TJI(i,j)=B(i,J)*B(j,I) 
 C-------I<J->TJI(i,j)=TIJ(j,i)
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          FMIJ(1,1,EP)=
      1               -DMF(1,2,EP)*TIJ(2,1,EP)-DMF(1,3,EP)*TIJ(1,1,EP)
      2               -DMF(3,2,EP)*TIJ(2,2,EP)-DMF(3,3,EP)*TIJ(1,2,EP)
@@ -2633,7 +2633,7 @@ C-----------------------------------------------
       my_real
      .    MFIJ(2,2,MVSIZ)
 C----cas Idril=0:MFIJ=[BmI]^t[DMF][BbJ] ;TIJ(i,j)=B(i,I)*B(j,J)----i,j->1:x;2:y    
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MFIJ(1,1,EP)=
      1               -DMF(1,2,EP)*TIJ(1,2,EP)-DMF(1,3,EP)*TIJ(1,1,EP)
      2               -DMF(3,2,EP)*T0IJ(2,2,EP)-DMF(3,3,EP)*T0IJ(2,1,EP)
@@ -2685,7 +2685,7 @@ C-----------------------------------------------
      .    FMIJ(2,2,MVSIZ)
 C-------FMIJ=[BbI]^t[DMF][BmJ]=MFJI^t;TIJ(i,j)=B(i,I)*B(j,J)--TJI(i,j)=B(i,J)*B(j,I) 
 C-------I<J->TJI(i,j)=TIJ(j,i)
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          FMIJ(1,1,EP)=
      1               -DMF(1,2,EP)*TIJ(2,1,EP)-DMF(1,3,EP)*TIJ(1,1,EP)
      2               -DMF(3,2,EP)*T0IJ(2,2,EP)-DMF(3,3,EP)*T0IJ(1,2,EP)
@@ -2710,4 +2710,4 @@ C
 C
        RETURN
        END
-       
+

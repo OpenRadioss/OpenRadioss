@@ -42,7 +42,7 @@ Chd|        SCOOR431                      source/elements/solid/sconnect/scoor43
 Chd|        SCORTHO31                     source/elements/thickshell/solidec/scortho31.F
 Chd|        SORTHO31                      source/elements/solid/solide/sortho31.F
 Chd|====================================================================
-      SUBROUTINE SROTA6(X     ,IXS   ,KCVT  ,TENS  ,GAMA  , 
+      SUBROUTINE SROTA6(X     ,IXS   ,KCVT  ,TENS  ,GAMA  ,
      .                  KHBE  ,ITYP  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -82,7 +82,7 @@ C     REAL
      .   G11,G22,G33,G12,G21,G23,G32,G13,G31,
      .   T11,T22,T33,T12,T21,T23,T32,T13,T31,
      .   S11,S12,S21,S13,S31,S22,S23,S32,S33
-      INTEGER NC1, NC2, NC3, NC4, 
+      INTEGER NC1, NC2, NC3, NC4,
      .        NC5, NC6, NC7, NC8
 C-----------------------------------------------
 C---- should not rotate w/ global iso system
@@ -125,19 +125,19 @@ C----------------------------
 C-----------
        IF (ITYP == 43) THEN
 C        Corotational frame - hexa spotwelds
-         CALL SCOOR431(                                          
-     .     X1, X2, X3, X4, X5, X6, X7, X8,                       
-     .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,                       
-     .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,                       
-     .     R11, R12, R13, R21, R22, R23, R31, R32, R33)          
+         CALL SCOOR431(
+     .     X1, X2, X3, X4, X5, X6, X7, X8,
+     .     Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .     Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
+     .     R11, R12, R13, R21, R22, R23, R31, R32, R33)
        ELSEIF(KHBE/=15)THEN
 C        REPERE CONVECTE
          IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
-     .          X1, X2, X3, X4, X5, X6, X7, X8,               
-     .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,               
-     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,               
-     .          R12, R13, R11, R22, R23, R21, R32, R33, R31)  
+     .          X1, X2, X3, X4, X5, X6, X7, X8,
+     .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
+     .          R12, R13, R11, R22, R23, R21, R32, R33, R31)
          ELSE
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,
@@ -206,12 +206,12 @@ C-----------
         L12    =TENS(4)
         L23    =TENS(5)
         L13    =TENS(6)
-        S11    =L11*R11+L12*R12+L13*R13 
-        S12    =L11*R21+L12*R22+L13*R23 
+        S11    =L11*R11+L12*R12+L13*R13
+        S12    =L11*R21+L12*R22+L13*R23
         S13    =L11*R31+L12*R32+L13*R33
         S21    =L12*R11+L22*R12+L23*R13
         S22    =L12*R21+L22*R22+L23*R23
-        S23    =L12*R31+L22*R32+L23*R33 
+        S23    =L12*R31+L22*R32+L23*R33
         S31    =L13*R11+L23*R12+L33*R13
         S32    =L13*R21+L23*R22+L33*R23
         S33    =L13*R31+L23*R32+L33*R33

@@ -92,13 +92,13 @@ C-----------------------------------------------
       INTEGER I,J,K,N,N1,N2,NOD,NUM0,ILAGMUL,IUN,JPART,NNOD,NOFRAME,INOD,NOSKEW,
      .   SENS_ID,PART_ID,OPTID,UID,FCT1_ID,FCT2_ID,ILAGM,GRNOD_ID,IGS,LEN,
      .   LAGMUL,IDIS,ICOOR,DISTRIBUTION,SKEW_ID
-      INTEGER ,DIMENSION(NUMNOD)   :: NOD1,NOD2,NWORK 
+      INTEGER ,DIMENSION(NUMNOD)   :: NOD1,NOD2,NWORK
       INTEGER ,DIMENSION(3*NUMNOD) :: IKINE1
       my_real :: XSCALE,YSCALE,FSCAL_T,FSCAL_V,T0,DMIN,DIST,
      .   XI,YI,ZI,XF,YF,ZF,TSTART,TSTOP
       CHARACTER(ncharkey)    :: KEY
       CHARACTER(ncharfield)  :: XYZ
-      CHARACTER(nchartitle)  :: TITR,MESS 
+      CHARACTER(nchartitle)  :: TITR,MESS
       CHARACTER(2)           :: X,Y,Z,XX,YY,ZZ
       LOGICAL IS_AVAILABLE
 C-----------------------------------------------
@@ -136,11 +136,11 @@ c--------------------------------------------------
      .                          UNIT_ID     = UID,
      .                          OPTION_TITR = TITR,
      .                          KEYWORD2    = KEY)
-c        
+c
         IOPT = IOPT + 1
         NOM_OPT(1,IOPT) = OPTID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,IOPT),LTITR)
-c        
+c
 c--------------------------------------------------
         ICOOR    = 0
         IDIS     = 1
@@ -152,22 +152,22 @@ c--------------------------------------------------
         TSTOP    = INFINITY
 c--------------------------------------------------
 c       READ STRING VALUES from /IMPVEL/LAGMUL
-c--------------------------------------------------        
+c--------------------------------------------------
         CALL HM_GET_INTV  ('curveid'   ,FCT1_ID,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_STRING('rad_dir'   ,XYZ      ,ncharfield,IS_AVAILABLE)
         CALL HM_GET_INTV  ('inputsystem'    ,SKEW_ID,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('entityid'       ,GRNOD_ID    ,IS_AVAILABLE,LSUBMODEL)
-c        
+c
         CALL HM_GET_FLOATV('xscale'         ,XSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV('magnitude'      ,YSCALE  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c--------------------------------------------------
-c       
+c
 c--------------------------------------------------
          DO J=0,NUMSKW+MIN(1,NSPCOND)*NUMSPH+NSUBMOD
-            IF (SKEW_ID == ISKN(4,J+1)) THEN               
-              NOSKEW = J+1                         
-              EXIT                           
-           ENDIF                                   
+            IF (SKEW_ID == ISKN(4,J+1)) THEN
+              NOSKEW = J+1
+              EXIT
+           ENDIF
          ENDDO
          IF (SKEW_ID > 0 .and. NOSKEW == 0)
      .      CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
@@ -194,7 +194,7 @@ c
         WRITE (IOUT,1000)
 c       Read NODE numbers from the group
         NNOD = NODGRNR5(GRNOD_ID    ,IGS    ,NWORK,IGRNOD   ,ITABM1 ,MESS   )
-               
+
 
         NFVLAG = NFVLAG+NNOD
         LAG_NCF = LAG_NCF + NNOD
@@ -208,8 +208,8 @@ c--------------------------------------------------
 c       Treatment of explicitely defined nodes
 c--------------------------------------------------
         DO J=1,NNOD
-            INUM = INUM + 1   
-            INOD = IABS(NWORK(J))          
+            INUM = INUM + 1
+            INOD = IABS(NWORK(J))
             NOD  = ITAB(INOD)
 c
             IBFVEL(1 ,INUM) = NWORK(J)
@@ -217,7 +217,7 @@ c
             IBFVEL(3 ,INUM) = FCT1_ID
             IBFVEL(4 ,INUM) = SENS_ID
             IBFVEL(5 ,INUM) = 0
-            IBFVEL(6 ,INUM) = 0 
+            IBFVEL(6 ,INUM) = 0
             IBFVEL(7 ,INUM) = IDIS
             IBFVEL(8 ,INUM) = ILAGM
             IBFVEL(9 ,INUM) = NOFRAME
@@ -266,8 +266,8 @@ c
      .         YSCALE,XSCALE,TSTART,TSTOP,0
         END DO
 c-----------
-      END DO  ! 
-c----------------------------------------------------------------------	  
+      END DO  !
+c----------------------------------------------------------------------	
  1000 FORMAT(//
      .'     IMPOSED VELOCITIES BY LAGRANGE MULTIPLIERS'/
      .'     ------------------------------------------'/
@@ -276,6 +276,6 @@ c----------------------------------------------------------------------
 
  4000 FORMAT(3X,I10,3X,I10,3X,I10,9X,A2,3X,I10,3X,I10,
      .       2X,1PG20.13,2X,1PG20.13,2X,G20.13,2X,G20.13,16X,I10)
-c----------------------------------------------------------------------	  
+c----------------------------------------------------------------------	
       RETURN
       END

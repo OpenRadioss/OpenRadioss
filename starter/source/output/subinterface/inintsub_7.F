@@ -35,12 +35,12 @@ Chd|====================================================================
       SUBROUTINE ININTSUB_7(ITAB      ,IGRNOD ,IGRSURF ,NOM_OPT ,INTBUF_TAB,
      .                       NRTM      ,NRTM0  ,NSN     ,NISUBS  ,NISUBM    ,
      .                       NOINT     ,NI     ,NOD2NSV ,NOD2RTM ,KAD       ,
-     .                       TAGNOD    ,TAGRTM ,IADD    ,NT19   )   
+     .                       TAGNOD    ,TAGRTM ,IADD    ,NT19   )
 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER ITAB(*), NOD2NSV(*), NOD2RTM(*), KAD(*), TAGNOD(*), TAGRTM(*), 
-     .        IADD(*) 
+      INTEGER ITAB(*), NOD2NSV(*), NOD2RTM(*), KAD(*), TAGNOD(*), TAGRTM(*),
+     .        IADD(*)
       INTEGER NRTM, NRTM0, NSN, NISUBS, NISUBM, NOINT, NI, NT19
       INTEGER NOM_OPT(LNOPT1,*)
 
@@ -96,7 +96,7 @@ C
 C----------------------------------------
 C  TAG nodes secondary calculate addresses
 C---------------------------------------------
-        
+
         NOD2NSV(1:NUMNOD) = 0
         DO IS=1,NSN
            ISV         = INTBUF_TAB(NI)%NSV(IS)
@@ -137,7 +137,7 @@ C
      .                          I2=ITAB(ISV),
      .                          I3=NOINT)
                     ELSE
-                      INTBUF_TAB(NI)%ADDSUBS(IS) = 
+                      INTBUF_TAB(NI)%ADDSUBS(IS) =
      .                         INTBUF_TAB(NI)%ADDSUBS(IS)+1
                     END IF
                   END DO
@@ -165,7 +165,7 @@ C
                         IF (TAGNOD(IN)==0) THEN
                           INTBUF_TAB(NI)%ADDSUBS(IS) = INTBUF_TAB(NI)%ADDSUBS(IS)+1
                           TAGNOD(IN) = 1
-                        ENDIF                       
+                        ENDIF
                       ENDIF
                     END DO
 C
@@ -187,7 +187,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+           ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -208,13 +208,13 @@ C
                    DO K=1,4
                      IN=IGRSURF(ISU2)%NODES(I,K)
                      IS =NOD2NSV(IN)
-                     IF(IS/=0.AND.TAGNOD(IN)==0) THEN 
-                      INTBUF_TAB(NI)%ADDSUBS(IS) = 
+                     IF(IS/=0.AND.TAGNOD(IN)==0) THEN
+                      INTBUF_TAB(NI)%ADDSUBS(IS) =
      .                         INTBUF_TAB(NI)%ADDSUBS(IS)+1
                       TAGNOD(IN) = 1
                      END IF
                    ENDDO
-                  ENDDO 
+                  ENDDO
                ENDIF
 
                ISU1 =NOM_OPT(3,NINTER+JSUB)  ! SURFACE ID 1
@@ -225,13 +225,13 @@ C
                    DO K=1,4
                      IN=IGRSURF(ISU1)%NODES(I,K)
                      IS =NOD2NSV(IN)
-                     IF(IS/=0.AND.TAGNOD(IN)==0) THEN 
-                      INTBUF_TAB(NI)%ADDSUBS(IS) = 
+                     IF(IS/=0.AND.TAGNOD(IN)==0) THEN
+                      INTBUF_TAB(NI)%ADDSUBS(IS) =
      .                         INTBUF_TAB(NI)%ADDSUBS(IS)+1
                       TAGNOD(IN) = 1
                      END IF
                    ENDDO
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
 C
@@ -298,7 +298,7 @@ C
                       IF ((IS/=0).AND.(TAGNOD(IN)==0)) THEN
                         INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                         KAD(IS)=KAD(IS)+1
-                        TAGNOD(IN) = 1                     
+                        TAGNOD(IN) = 1
                       ENDIF
                     END DO
                   ENDDO
@@ -307,7 +307,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-            ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+            ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .      .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                KSUB=KSUB+1
@@ -330,14 +330,14 @@ C
      .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),0)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                           KAD(IS)=KAD(IS)+1
-                          TAGNOD(IN) = 1                     
-                        ELSE                   
+                          TAGNOD(IN) = 1
+                        ELSE
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
      .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),0)
                         ENDIF
                      ENDIF
                    ENDDO
-                  ENDDO 
+                  ENDDO
                ENDIF
 
 
@@ -354,14 +354,14 @@ C
      .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)),1)
                           INTBUF_TAB(NI)%LISUBS(KAD(IS))=KSUB
                           KAD(IS)=KAD(IS)+1
-                          TAGNOD(IN) = 1                     
-                       ELSE                   
+                          TAGNOD(IN) = 1
+                       ELSE
                           INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1)=
      .                      BITSET(INTBUF_TAB(NI)%INFLG_SUBS(KAD(IS)-1),1)
                        ENDIF
                      ENDIF
                    ENDDO
-                  ENDDO 
+                  ENDDO
                ENDIF
 C
             END IF
@@ -490,7 +490,7 @@ C
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-             ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+             ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .        .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                 KSUB=KSUB+1
@@ -520,7 +520,7 @@ C
                        ENDDO
 
                        IF(IFNRT >= 3) THEN
-                          KM=IM 
+                          KM=IM
                           EXIT
                        ENDIF
 
@@ -557,7 +557,7 @@ C
                        ENDDO
 
                        IF(IFNRT >= 3) THEN
-                          KM=IM 
+                          KM=IM
                           EXIT
                        ENDIF
 
@@ -641,7 +641,7 @@ C                 sym type7 of type19
 C
 C---------Case of subinter defined with inter 0 -------------
 C
-             ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0 
+             ELSEIF(NOM_OPT(2,NINTER+JSUB) == 0
      .         .AND. NOM_OPT(5,NINTER+JSUB) == 1) THEN
 
                 KSUB=KSUB+1
@@ -668,7 +668,7 @@ C
                         ENDIF
                       ENDDO
                       IF(IFNRT >= 3) THEN
-                         KM=IM 
+                         KM=IM
                          EXIT
                       ENDIF
                     ENDDO
@@ -707,7 +707,7 @@ C
                         ENDIF
                       ENDDO
                       IF(IFNRT >= 3) THEN
-                         KM=IM 
+                         KM=IM
                          EXIT
                       ENDIF
                     ENDDO

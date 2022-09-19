@@ -34,7 +34,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,8 +85,8 @@ C-----------------------------------------------
       ! FOR CUT CELL TNOD(1:8,I) ENABLE TO DISTRIBUTE MASS TO RELATED NODES ONLY !
       !--------------------------------------------------------------------------!
       IF(IFLAG/=1)THEN
-        IF(INT22==0)THEN  
-        !DEFAULT FORMULATION    
+        IF(INT22==0)THEN
+        !DEFAULT FORMULATION
          TNOD(LFT:LLT,1:8) = ONE
          DO  I=LFT,LLT
           DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
@@ -104,25 +104,25 @@ C-----------------------------------------------
             ENDIF
             TNOD(I,1:8) = ZERO
             MCELL = BRICK_LIST(NIN,IB)%mainID
-            IF(MCELL==0)CYCLE ! next Main Cell            
+            IF(MCELL==0)CYCLE ! next Main Cell
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
             IF(FAC>0)THEN
               FAC=ONE/FAC
-              DO J=1,8                                                                                        
-                ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell                                                    
-                IF(ICELL/=MCELL)CYCLE                                                                         
-                TNOD(I,J) = ONE                                              !this node is used by polyhedron  
-              ENDDO               
+              DO J=1,8
+                ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell
+                IF(ICELL/=MCELL)CYCLE
+                TNOD(I,J) = ONE                                              !this node is used by polyhedron
+              ENDDO
             ELSE
               FAC = ZERO
-            ENDIF                                                                                          
+            ENDIF
           ELSE
-            FAC = ONE_OVER_8 
+            FAC = ONE_OVER_8
             TNOD(I,1:8) = ONE                                                !uncut cell distributes centroid mass to all 8 nodes
           ENDIF
           DMASS(I)=FAC*RHO(I)*VOLU(I)*OFF(I)
          ENDDO
-        ENDIF      
+        ENDIF
       ENDIF!IFLAG=1
 C
 #include "lockon.inc"
@@ -291,7 +291,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -317,7 +317,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IFLAG,II, K, NIN, NCELL, ICELL, IB, J,MCELL
-      my_real TNOD(MVSIZ,8)      
+      my_real TNOD(MVSIZ,8)
       my_real DMASS(MVSIZ),FAC
 C-----------------------------------------------
       IFLAG=INTEG8*JEUL
@@ -329,8 +329,8 @@ C-----------------------------------------------
       ! FOR CUT CELL TNOD(1:8,I) ENABLE TO DISTRIBUTE MASS TO RELATED NODES ONLY !
       !--------------------------------------------------------------------------!
       IF(IFLAG/=1)THEN
-        IF(INT22==0)THEN  
-        !DEFAULT FORMULATION    
+        IF(INT22==0)THEN
+        !DEFAULT FORMULATION
          TNOD(LFT:LLT,1:8) = ONE
          DO  I=LFT,LLT
           DMASS(I)=ONE_OVER_8*RHO(I)*VOLU(I)*OFF(I)
@@ -348,38 +348,38 @@ C-----------------------------------------------
             ENDIF
             TNOD(I,1:8) = ZERO
             MCELL = BRICK_LIST(NIN,IB)%mainID
-            IF(MCELL==0)CYCLE ! next Main Cell            
+            IF(MCELL==0)CYCLE ! next Main Cell
             FAC = BRICK_LIST(NIN,IB)%POLY(MCELL)%NumNOD
             IF(FAC>0)THEN
               FAC=ONE/FAC
-              DO J=1,8                                                                                        
-                ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell                                                    
-                IF(ICELL/=MCELL)CYCLE                                                                         
-                TNOD(I,J) = ONE                                              !this node is used by polyhedron  
-              ENDDO               
+              DO J=1,8
+                ICELL=BRICK_LIST(NIN,IB)%NODE(J)%WhichCell
+                IF(ICELL/=MCELL)CYCLE
+                TNOD(I,J) = ONE                                              !this node is used by polyhedron
+              ENDDO
             ELSE
               FAC = ZERO
-            ENDIF                                                                                          
+            ENDIF
           ELSE
-            FAC = ONE_OVER_8 
+            FAC = ONE_OVER_8
             TNOD(I,1:8) = ONE                                                !uncut cell distributes centroid mass to all 8 nodes
           ENDIF
           DMASS(I)=FAC*RHO(I)*VOLU(I)*OFF(I)
          ENDDO
-        ENDIF      
+        ENDIF
       ENDIF!IFLAG=1
 
 
-      
+
       !---------------------------------------------!
       ! NODAL MASS : ELEMENTARY MASS IS DISTRIBUTED !
-      !---------------------------------------------!      
+      !---------------------------------------------!
       IF(IFLAG==1)THEN
-       TNOD(LFT:LLT,1:8) = ONE       
+       TNOD(LFT:LLT,1:8) = ONE
        DO  I=LFT,LLT
         DMASS(I)=RHO(I)*VOLGP(1,I)*OFF(I)
        ENDDO
-      ENDIF      
+      ENDIF
       DO I=LFT,LLT
         II = I +NFT
         K = IADS(1,II)
@@ -391,7 +391,7 @@ C
         DMASS(I)=RHO(I)*VOLGP(2,I)*OFF(I)
        ENDDO
       ENDIF
-      DO I=LFT,LLT 
+      DO I=LFT,LLT
         II = I +NFT
         K = IADS(2,II)
         FSKYM(K)= TNOD(I,2)*DMASS(I)

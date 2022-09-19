@@ -60,8 +60,8 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),JFT,JLT,IREP,NPT,ISMSTR,PID(*),MAT(*),NGL(*),NEL
       INTEGER NPLAT,NLAY,IPLAT(*)
-      my_real 
-     .   PM(NPROPM,*),GEO(NPROPG,*), X(3,*), 
+      my_real
+     .   PM(NPROPM,*),GEO(NPROPG,*), X(3,*),
      .   MX23(*),MY13(*),MY23(*),MY34(*),
      .   X13(*),X24(*),Y13(*),Y24(*),MX13(*),
      .   VQ(MVSIZ,3,3),AREA(*),Z1(*),MX34(*),VQN(MVSIZ,3,4),AREA_I(*)
@@ -77,7 +77,7 @@ C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER NNOD,I,J,K,L,M,II(6),SPLAT,JPLAT(MVSIZ),MAT_1
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   LXYZ0(3),DETA,DETA1(MVSIZ),RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ),SY(MVSIZ),R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),R31(MVSIZ),R32(MVSIZ),
@@ -86,9 +86,9 @@ C-----------------------------------------------
      .   VCORE(3,NNOD),L13(MVSIZ),L24(MVSIZ),LL(MVSIZ),
      .   TOL,X13_2(MVSIZ),Y13_2(MVSIZ),X24_2(MVSIZ),Y24_2(MVSIZ),
      .   Z2(MVSIZ),A_4,SZ,SZ1,SZ2,SL,C1,C2,S1,
-     .   AR(3),AD(NNOD),BTB(3),XX,YY,ZZ,XY,D(6), 
+     .   AR(3),AD(NNOD),BTB(3),XX,YY,ZZ,XY,D(6),
      .   ALR(3),ALD(NNOD),DBAD(3),BTB_C,J0,J1,J2
-      MY_REAL 
+      MY_REAL
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
 C-----------------------------------------------
       DO I=1,6
@@ -112,11 +112,11 @@ C----------------------------
         SY(I)=X(2,IXC(4,I))+X(2,IXC(5,I))-X(2,IXC(2,I))-X(2,IXC(3,I))
         RZ(I)=X(3,IXC(3,I))+X(3,IXC(4,I))-X(3,IXC(2,I))-X(3,IXC(5,I))
        SSZ(I)=X(3,IXC(4,I))+X(3,IXC(5,I))-X(3,IXC(2,I))-X(3,IXC(3,I))
-      ENDDO 
+      ENDDO
       K = 0
       CALL CLSKEW3(JFT,JLT,K,
-     .   RX, RY, RZ, 
-     .   SX, SY, SSZ, 
+     .   RX, RY, RZ,
+     .   SX, SY, SSZ,
      .   R11,R12,R13,R21,R22,R23,R31,R32,R33,DETA1,OFFG )
       DO I=JFT,JLT
         AREA(I)=FOURTH*DETA1(I)
@@ -130,7 +130,7 @@ C----------------------------
         VQ(I,1,3)=R13(I)
         VQ(I,2,3)=R23(I)
         VQ(I,3,3)=R33(I)
-      ENDDO 
+      ENDDO
 C--------------------------
 C     TRANSMET GLOBAL-->LOCAL
 C--------------------------
@@ -203,7 +203,7 @@ C     ORTHOTROPY (plus tard)
 C----------------------------
       IF (IREP > 0) THEN
        CALL CORTDIR3(ELBUF_STR,DIR_A,DIR_B ,JFT    ,JLT    ,
-     .               NLAY   ,IREP   ,RX    ,RY     ,RZ     , 
+     .               NLAY   ,IREP   ,RX    ,RY     ,RZ     ,
      .               SX     ,SY     ,SSZ   ,R11    ,R21    ,
      .               R31    ,R12    ,R22   ,R32    ,NEL    )
       ENDIF
@@ -259,10 +259,10 @@ C
 #include "lockoff.inc"
             IDEL7NOK = 1
             IMP_IR = IMP_IR + 1
-         ENDIF 
-        ENDIF 
+         ENDIF
+        ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
 C--------------------------
       DO I=JFT,JLT
        Z2(I)=Z1(I)*Z1(I)
@@ -327,10 +327,10 @@ C
         SPLAT=SPLAT+1
         JPLAT(SPLAT)=I
        ENDIF
-      ENDDO 
+      ENDDO
       DO I=NPLAT+1,JLT
        IPLAT(I)=JPLAT(I-NPLAT)
-      ENDDO 
+      ENDDO
 C
       DO I=JFT,JLT
        OFF(I)=OFFG(I)

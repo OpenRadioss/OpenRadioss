@@ -76,7 +76,7 @@ C
             SUMK_OLD = SUMK
             SUMM_OLD = SUMM
           ENDIF
-        ENDIF       
+        ENDIF
         N=NINT(TMP(I))
         PER_ADM = (DT(I)*SUMK_OLD - SUMM_OLD)/(MAX(EM20,TOTMAS))
         IF (I>1) THEN
@@ -85,8 +85,8 @@ C
             COMPT = COMPT+1
             IF(COMPT<=NVAL) SEUIL = PER_ADM_TAB(COMPT)
           ENDDO
-          IF (COMPT > NVAL) EXIT 
-        ENDIF 
+          IF (COMPT > NVAL) EXIT
+        ENDIF
         SUMK = SUMK + STIFN(N)
         SUMM = SUMM + MS(N)
 C-- If thresold are not crossed target dt values must be computed for the last node

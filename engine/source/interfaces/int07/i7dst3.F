@@ -64,7 +64,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, JLT_NEW, INACTI, INTFRIC, ITIED, JLT_TIED,IORTHFRIC,
-     .        CAND_N(*), CN_LOC(MVSIZ), CAND_E(*), CE_LOC(MVSIZ), 
+     .        CAND_N(*), CN_LOC(MVSIZ), CAND_E(*), CE_LOC(MVSIZ),
      .        NSVG(MVSIZ), KINI(*)
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        INDEX(MVSIZ),INTTH,IELECI(MVSIZ),
@@ -82,7 +82,7 @@ C-----------------------------------------------
      .     Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .     Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .     XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
-     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ), 
+     .     P1(MVSIZ), P2(MVSIZ), P3(MVSIZ), P4(MVSIZ),
      .     GAPV(MVSIZ), CAND_P(*),
      .     VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), MSI(MVSIZ),
      .     TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),DIR_FRICMI(MVSIZ,2)
@@ -137,7 +137,7 @@ C--------------------------------------------------------
         IF(IX3(I)/=IX4(I))THEN
          X0(I) = FOURTH*(X1(I)+X2(I)+X3(I)+X4(I))
          Y0(I) = FOURTH*(Y1(I)+Y2(I)+Y3(I)+Y4(I))
-         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I)) 
+         Z0(I) = FOURTH*(Z1(I)+Z2(I)+Z3(I)+Z4(I))
         ELSE
          X0(I) = X3(I)
          Y0(I) = Y3(I)
@@ -543,7 +543,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -683,7 +683,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -755,7 +755,7 @@ C
            ENDIF
           ENDDO
          ENDIF
-        ENDIF 
+        ENDIF
        ELSE ! INTFRIC
 
         IF(INTTH == 0 ) THEN
@@ -832,7 +832,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -985,7 +985,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -1062,10 +1062,10 @@ C
            ENDIF
           ENDDO
          ENDIF
-        ENDIF 
+        ENDIF
        ENDIF
 
- 
+
 C
 C IDTMINS=2
 C ---------
@@ -1141,7 +1141,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -1285,7 +1285,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -1436,7 +1436,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -1592,7 +1592,7 @@ C
 C
            ENDIF
           ENDDO
-         ELSE    ! 
+         ELSE    !
 #include   "vectorize.inc"
           DO I=1,JLT
            IF(KEEP(I)/=0)THEN
@@ -1673,7 +1673,7 @@ C
           ENDDO
          ENDIF
         ENDIF
-       ENDIF  
+       ENDIF
       END IF
 C          
       IF(ITIED/=0.AND.JLT_TIED/=0)THEN
@@ -1681,7 +1681,7 @@ C---------------------------------------------
 C       Tri a bulle
 C---------------------------------------------
         ITERATE=.TRUE.
-        DO WHILE (ITERATE .EQV. .TRUE.)     
+        DO WHILE (ITERATE .EQV. .TRUE.)
            ITERATE=.FALSE.
            DO J=1,JLT_NEW-1
              IF(KEEP(J) > KEEP(J+1) )THEN
@@ -1797,7 +1797,7 @@ C---------------------------------------------
                IPERM	  =KINI(J)
                KINI(J)    =KINI(J+1)
                KINI(J+1)  =IPERM
-               
+
                RPERM	  =VXI(J)
                VXI(J)	  =VXI(J+1)
                VXI(J+1)   =RPERM
@@ -1854,7 +1854,7 @@ C---------------------------------------------
                Y4(J+1)    =RPERM
                RPERM	  =Z4(J)
                Z4(J)	  =Z4(J+1)
-               Z4(J+1)    =RPERM 
+               Z4(J+1)    =RPERM
 C
 C
                IF(ICURV/=0.OR.IADM/=0)THEN

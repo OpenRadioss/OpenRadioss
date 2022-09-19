@@ -81,7 +81,7 @@ C-----------------------------------------------
 #include      "timeri_c.inc"
       COMMON /I11MAINC/BMINMA,RESULT,NRTSR,I_MEMG,NSNROLD
       INTEGER RESULT,NRTSR,I_MEMG,NSNROLD
-      my_real 
+      my_real
      .        BMINMA(6)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -89,10 +89,10 @@ C-----------------------------------------------
       INTEGER NIN ,ITASK, RETRI, NRTM_T, ESHIFT
       INTEGER IPARI(NPARI,NINTER),  ITAB(*),
      .        WEIGHT(*), IAD_ELEM(2,*) ,FR_ELEM(*),
-     .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),NODNX_SMS(*), 
+     .        ISENDTO(NINTER+1,*),IRCVFROM(NINTER+1,*),NODNX_SMS(*),
      .        RENUM(*),NSNFIOLD(NSPMD)
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(3,*), MS(*),TEMP(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -100,7 +100,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER KD(50), JD(50), JFI, KFI, MULTIMP,
-     .        I, ILD, I_SK_OLD, I_STOK1, 
+     .        I, ILD, I_SK_OLD, I_STOK1,
      .        ADD1, NB_N_B, NOINT,
      .        NCONT, NCONTACT,I_MEM,CAND_N_OLD,
      .        LOC_PROC, KD11_T,I_SK_NEW,NFT,JLT,J,I_STOK,IADFIN,IFORM
@@ -253,7 +253,7 @@ C
      1      X        ,BMINMA  ,IPARI(21,NIN),NRTM_T  , INTBUF_TAB%STFM(1+ESHIFT),
      2      TZINF    ,INTBUF_TAB%IRECTM(1+2*ESHIFT),GAP,INTBUF_TAB%GAP_M(1+ESHIFT),
      3      INTBUF_TAB%VARIABLES(13) ,INTBUF_TAB%VARIABLES(7),DRAD,DGAPLOAD)
- 
+
         CALL MY_BARRIER
         IF (IMONM > 0 .AND. ITASK == 0) CALL STOPTIME(26,1)
         IF(ITASK==0)THEN
@@ -278,7 +278,7 @@ C
      1        INTBUF_TAB%CAND_N,RENUM   ,INTBUF_TAB%I_STOK(1), NIN, NRTS,
      2        NSNFIOLD         ,NSNROLD ,INTBUF_TAB%ADCCM,INTBUF_TAB%CHAIN,
      3        INTBUF_TAB%CAND_E,NCONTACT,NRTM)
-              
+
           ENDIF
         END IF
       END IF
@@ -399,7 +399,7 @@ C--------------------------------------------------------------
           RESULT = 0
         ENDIF
         CALL MY_BARRIER
-        ILD    = 0         
+        ILD    = 0
         MAXBOX = INTBUF_TAB%VARIABLES(9)
         MINBOX = INTBUF_TAB%VARIABLES(12)
         TZINF  = INTBUF_TAB%VARIABLES(8)

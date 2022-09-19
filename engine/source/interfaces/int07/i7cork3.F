@@ -463,7 +463,7 @@ Chd|-- calls ---------------
 Chd|        IMP_INTM                      share/modules/imp_intm.F      
 Chd|====================================================================
       SUBROUTINE I7CORKP3(
-     1                    JLT   ,XI      ,YI     ,ZI     ,D      ,   
+     1                    JLT   ,XI      ,YI     ,ZI     ,D      ,
      2                    DXI   ,DYI     ,DZI    ,NSVG   ,NIN    ,
      3                    IUPD    )
 C-----------------------------------------------
@@ -484,12 +484,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .         JLT,NIN,IUPD,NSVG(MVSIZ)
 C     REAL
 C     REAL
       my_real
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ),
      .   DXI(MVSIZ),DYI(MVSIZ),DZI(MVSIZ),D(3,*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

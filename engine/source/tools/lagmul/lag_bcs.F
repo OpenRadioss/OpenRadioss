@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NC, ISKIP,NCF_S,NGRNOD, 
+      INTEGER NC, ISKIP,NCF_S,NGRNOD,
      .        IBCSLAG(5,*),IADLL(*),
      .        SLL(*),LLL(*),JLL(*),COMNTAG(*),ICFTAG(*),JCFTAG(*)
       my_real

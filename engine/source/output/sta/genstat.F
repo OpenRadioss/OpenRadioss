@@ -88,7 +88,7 @@ Chd|====================================================================
      5                  IPARTS   ,IPARTQ  ,IPARTC   ,IPARTT  ,IPARTP  ,
      6                  IPARTR   ,IPARTUR ,IPARTTG  ,IPARTX  ,IPARTSP ,
      7                  DD_IAD   ,WEIGHT  ,NODGLOB  ,LENG,IPART_STATE ,
-     8                  LENGC    ,LENGTG  ,SH4TREE  ,SH3TREE ,LENGS   , 
+     8                  LENGC    ,LENGTG  ,SH4TREE  ,SH3TREE ,LENGS   ,
      9                  SH4TRIM  ,SH3TRIM ,TEMP     ,IXS10   ,THKE    ,
      A                  IXS16    ,IXS20   ,ICODE    ,LENGR   ,LENGP   ,
      B                  LENGT    ,ISKEW   ,V        ,VR      ,LENGQ   ,
@@ -98,8 +98,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      USE MESSAGE_MOD    
-      USE INOUTFILE_MOD 
+      USE MESSAGE_MOD
+      USE INOUTFILE_MOD
       USE MULTI_FVM_MOD
       USE STATE_INIMAP_MOD
       USE STACK_MOD
@@ -233,7 +233,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   CONNECTIVITIES + NODAL COORDINATES
 C-----------------------------------------------
-c     
+c
       IF (NSPMD > 1)CALL SPMD_OUTPITAB(ITAB,WEIGHT,NODGLOB,ITABG)
 
       NODTAG=0
@@ -249,19 +249,19 @@ c
       IF(NSPMD == 1)THEN
         !  - shells -
         CALL STAT_SHEL_MP(
-     .                         ITAB,ITABG,LENG,IPART,IGEO,                    
-     .                         IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,           
-     .                         NODTAG,STAT_INDXC,STAT_INDXTG,SH4TREE,SH3TREE, 
-     .                         IPARG ,SH4TRIM   ,SH3TRIM    ,ELBUF_TAB,THKE,  
-     .                         STAT_C(9))                                     
-        STAT_NUMELC_G =STAT_NUMELC 
-        STAT_NUMELTG_G =STAT_NUMELTG 
+     .                         ITAB,ITABG,LENG,IPART,IGEO,
+     .                         IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,
+     .                         NODTAG,STAT_INDXC,STAT_INDXTG,SH4TREE,SH3TREE,
+     .                         IPARG ,SH4TRIM   ,SH3TRIM    ,ELBUF_TAB,THKE,
+     .                         STAT_C(9))
+        STAT_NUMELC_G =STAT_NUMELC
+        STAT_NUMELTG_G =STAT_NUMELTG
         !  - quads - (only taging nodes, quads are currently not exported in state files : 3d only)
         CALL STAT_QUAD_MP(
      .                         ITAB,IPART,IGEO,IXQ,IPARTQ,
      .                         IPART_STATE,NODTAG,STAT_INDXQ,
      .                         IPARG ,ELBUF_TAB)
-        STAT_NUMELQ_G =STAT_NUMELQ       
+        STAT_NUMELQ_G =STAT_NUMELQ
         !  - solids -
         CALL STAT_BRICK_MP(
      .                         ITAB,IPART,IGEO,IXS,IPARTS,
@@ -287,10 +287,10 @@ c
       ELSE
         !  - shells -
         CALL STAT_SHEL_SPMD(
-     .                         ITAB,ITABG,LENG,IPART,IGEO,                  
-     .                         IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,         
-     .                         NODTAG,STAT_INDXC,STAT_INDXTG,LENGC,LENGTG,  
-     .                         IPARG ,ELBUF_TAB,THKE,SIZP0,STAT_C(9))       
+     .                         ITAB,ITABG,LENG,IPART,IGEO,
+     .                         IXC,IXTG,IPARTC,IPARTTG,IPART_STATE,
+     .                         NODTAG,STAT_INDXC,STAT_INDXTG,LENGC,LENGTG,
+     .                         IPARG ,ELBUF_TAB,THKE,SIZP0,STAT_C(9))
         !  - solids -
         CALL STAT_BRICK_SPMD(
      .                         ITAB,IPART,IGEO,IXS,IPARTS,
@@ -302,7 +302,7 @@ c
      .                         ITAB,IPART,IGEO,IXQ,IPARTQ,
      .                         IPART_STATE,NODTAG,STAT_INDXQ,
      .                         IPARG, LENGQ, ELBUF_TAB)
-     
+
         !  - springs -
         CALL STAT_SPRING_SPMD(
      .                          ITAB   ,IPART     ,IXR   ,IPARTR,IPART_STATE,
@@ -326,31 +326,31 @@ c
           CALL STAT_INIMAP1D_FILE_SPMD(
      .                          X        , V        , ITAB  , IPART_STATE, NODTAG,
      .                          IPART    , IPARTS   , IPARTQ, IPARTTG    ,
-     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  , 
-     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM) 
+     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  ,
+     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)
         ELSE
           CALL STAT_INIMAP1D_SPMD(
      .                          X        , V        , ITAB  , IPART_STATE, NODTAG,
      .                          IPART    , IPARTS   , IPARTQ, IPARTTG    ,
-     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  , 
-     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM) 
-        ENDIF 
+     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  ,
+     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)
+        ENDIF
       !  - inimap2d -  (generic subroutine : SMP or SPMD)
       ELSEIF(IS_STAT_INIMAP2D)THEN
         IF(IS_STAT_INIMAP_FILE)THEN
           CALL STAT_INIMAP2D_FILE_SPMD(
      .                          X        , V        , ITAB  , IPART_STATE, NODTAG,
      .                          IPART    , IPARTS   , IPARTQ, IPARTTG    ,
-     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  , 
-     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM) 
+     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  ,
+     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)
         ELSE
           CALL STAT_INIMAP2D_SPMD(
      .                          X        , V        , ITAB  , IPART_STATE, NODTAG,
      .                          IPART    , IPARTS   , IPARTQ, IPARTTG    ,
-     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  , 
-     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)        
-        ENDIF 
-      ENDIF                     
+     .                          IGEO     , IPARG    , IXS   , IXQ        , IXTG  ,
+     .                          ELBUF_TAB, MULTI_FVM, BUFMAT, IPM)
+        ENDIF
+      ENDIF
 
 C-----------------------------------------------
 C   IF OPTION IS STATE/NODE/ALL 
@@ -369,13 +369,13 @@ C-----------------------------------------------
             IF (NODTAG(N)/=0) THEN
               NODTAG(NPBY(1,I)) = 1
               EXIT
-            END IF 
+            END IF
           ENDDO
         ENDDO
       ENDIF
 C-----------------------------------------------
       CALL STAT_NODE(X,NUMNOD,ITAB,ITABG,LENG,NODGLOB,WEIGHT,NODTAG)
-      
+
       IF(IZIPSTRS /= 0 .AND. IS_FILE_TO_BE_WRITTEN)THEN
         WRITE(IUGEO,'(A)')'/STATE/STR_FILE'
         WRITE(IUGEO,'(A)')'# gzip (no:0: yes:1)'
@@ -387,11 +387,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   NODE SCALAR
 C-----------------------------------------------
-      IF(STAT_N(1)==1) 
+      IF(STAT_N(1)==1)
      .   CALL STAT_N_TEMP(X,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,WEIGHT,NODTAG,TEMP)
 
-      IF(STAT_N(2)==1) 
+      IF(STAT_N(2)==1)
      .  CALL STAT_N_BCS(ICODE,NUMNOD,ITAB,ITABG,LENG,
      .   NODGLOB,ISKEW,NODTAG)
 ! translation/rotation velocity
@@ -415,7 +415,7 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
-       END IF 
+       END IF
 
       IERR = 0
       SIZP0 = MAX(1,SIZP0)
@@ -424,7 +424,7 @@ C-----------------------------------------------
          CALL ANCMSG(MSGID=252,ANMODE=ANINFO,
      .        I1=IERR)
               CALL ARRET(2)
-       END IF 
+       END IF
 C-----------------------------------------------
 C   SHELL SCALAR
 C-----------------------------------------------
@@ -474,7 +474,7 @@ C     option non documentee (not a public option) ::
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC  ,
      .   IXTG ,WA,WAP0 ,IPARTC,IPARTTG,
      .   IPART_STATE,STAT_INDXC,STAT_INDXTG,SIZP0)
-     
+
 C     
       IF(STAT_C(7)==1) CALL STAT_C_ORTH_LOC(
      .   ELBUF_TAB,IPARG ,IPM ,IGEO,IXC,
@@ -507,35 +507,35 @@ C   BRICK TENSOR
 C-----------------------------------------------
       IF(STAT_S(4)==1) CALL STAT_S_STRSF(                     ! /INIBRI/STRESS/FULL
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,X,0,IPART,SIZP0)
-     
+
       IF(STAT_S(5)==1) CALL STAT_S_STRAF(                     ! /INIBRI/STRAIN/FULL
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,X,0,IPART,SIZP0)
-     
+
       IF(STAT_S(6)==1) CALL STAT_S_AUXF(                      ! /INIBRI/AUX
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,IPART,SIZP0)
       IF(STAT_S(7)==1) CALL STAT_S_ORTHO(                     ! /INIBRI/ORTHO
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
-     3                        STAT_INDXS,X,0,IPART,STAT_S(12),SIZP0)  
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
+     3                        STAT_INDXS,X,0,IPART,STAT_S(12),SIZP0)
       IF(STAT_S(8)==1) CALL STAT_S_STRSF(                     ! /INIBRI/STRESS/GLOBF
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,X,1,IPART,SIZP0)
-     
+
       IF(STAT_S(9)==1) CALL STAT_S_STRAF(                     ! /INIBRI/STRAIN/GLOBF
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
      3                        STAT_INDXS,X,1,IPART,SIZP0)
       IF(STAT_S(10)==1) CALL STAT_S_ORTHO(                    ! /INIBRI/ORTHO/GLOBF
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
-     2                        WA,WAP0 ,IPARTS, IPART_STATE,     
-     3                        STAT_INDXS,X,1,IPART,STAT_S(12),SIZP0)  
+     2                        WA,WAP0 ,IPARTS, IPART_STATE,
+     3                        STAT_INDXS,X,1,IPART,STAT_S(12),SIZP0)
       IF(STAT_S(11)==1) CALL STAT_S_FAIL(
      1                        ELBUF_TAB ,IPARG ,IPM ,IGEO ,IXS ,
      2                        WA,WAP0 ,IPARTS, IPART_STATE,
@@ -591,8 +591,8 @@ C-----------------------------------------------
         WRITE (IOUT,1000)  FILNAM(1:FILEN)
         WRITE (ISTDO,1000) FILNAM(1:FILEN)
       ENDIF
-      
-      
+
+
  1000 FORMAT (4X,' STATE FILE:',1X,A,' WRITTEN')
 C
       RETURN

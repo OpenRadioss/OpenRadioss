@@ -34,7 +34,7 @@ Chd|====================================================================
      2      IRECT  ,X       ,STF     ,STFN    ,XYZM     ,
      3      NSV    ,II_STOK ,CAND_N  ,ESHIFT  ,CAND_E   ,
      4      MULNSN ,NOINT   ,V       ,BGAPSMX  ,
-     5      VOXEL  ,NBX     ,NBY     ,NBZ     ,PMAX_GAP ,  
+     5      VOXEL  ,NBX     ,NBY     ,NBZ     ,PMAX_GAP ,
      6      NRTM   ,GAP_S   ,GAP_M   ,MARGE   ,CURV_MAX ,
      7      NIN    ,ITASK   ,PENE_OLD,ITAB    ,NBINFLG  ,
      8      MBINFLG,ILEV    ,MSEGTYP ,
@@ -54,7 +54,7 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 c     parameter setting the size for the vector (orig version is 128)
-      INTEGER NVECSZ 
+      INTEGER NVECSZ
       PARAMETER (NVECSZ = MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -115,7 +115,7 @@ C     REAL
       my_real
      .   X(3,*),V(3,*),XYZM(6),STF(*),STFN(*),GAP_S(*),GAP_M(*),
      .   CURV_MAX(*),PENE_OLD(5,NSN),GAP_S_L(*),GAP_M_L(*),
-     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT 
+     .   MARGE,BGAPSMX,PMAX_GAP,VMAXDT
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -152,7 +152,7 @@ C Barrier to wait init voxel and allocation NEX_NOD
       CALL MY_BARRIER
 C Phase initiale de construction de BPE et BPN deplacee de I7BUCE => I7TRI
 C
-      XMIN = XYZM(1)  
+      XMIN = XYZM(1)
       YMIN = XYZM(2)
       ZMIN = XYZM(3)
       XMAX = XYZM(4)
@@ -185,7 +185,7 @@ C elements du processeur
         IF(X(2,J) > YMAX)  CYCLE
         IF(X(3,J) < ZMIN)  CYCLE
         IF(X(3,J) > ZMAX)  CYCLE
-         
+
         IIX(I)=INT(NBX*(X(1,J)-XMINB)/(XMAXB-XMINB))
         IIY(I)=INT(NBY*(X(2,J)-YMINB)/(YMAXB-YMINB))
         IIZ(I)=INT(NBZ*(X(3,J)-ZMINB)/(ZMAXB-ZMINB))
@@ -272,11 +272,11 @@ C on ne retient pas les facettes detruites
          ENDDO
 c
          AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
-     +       
+     +
 
 
-c     il est possible d'ameliorer l'algo en decoupant la facette 
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+c     il est possible d'ameliorer l'algo en decoupant la facette
+c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -348,7 +348,7 @@ cc             nbpelem = nbpelem + 1
 cc             nnpelem = nnpelem + 1
 
                IF(JJ<=NSN)THEN
-                 NN=NSV(JJ)                 
+                 NN=NSV(JJ)
                  IF(NN == M1)GOTO 200
                  IF(NN == M2)GOTO 200
                  IF(NN == M3)GOTO 200
@@ -362,9 +362,9 @@ c NEED to communicate in SPMD
 c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
-                 AAA = MARGE + CURV_MAX(NE) 
+                 AAA = MARGE + CURV_MAX(NE)
      +               + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +                    +VMAXDT 
+     +                    +VMAXDT
                ELSE
                  J=JJ-NSN
 
@@ -388,7 +388,7 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +        + VMAXDT 
+     +        + VMAXDT
                ENDIF
 
                IF(XS<=XMINE-AAA)GOTO 200
@@ -411,7 +411,7 @@ cc             nnr0pelem = nnr0pelem + 1
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 200
                ENDIF
@@ -460,11 +460,11 @@ cc             nnr0pelg = nnr0pelg + nnr0pelem
        DO NE=1,NRTM
 c
          AAA = MARGE+CURV_MAX(NE)+MAX(MAX(BGAPSMX+GAP_M(NE),PMAX_GAP)+DGAPLOAD,DRAD)+VMAXDT
-     +       
+     +
 
 
-c     il est possible d'ameliorer l'algo en decoupant la facette 
-c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee 
+c     il est possible d'ameliorer l'algo en decoupant la facette
+c     en 2(4,3,6,9...) si la facette est grande devant AAA et inclinee
 
          M1 = IRECT(1,NE)
          M2 = IRECT(2,NE)
@@ -536,7 +536,7 @@ cc             nbpelem = nbpelem + 1
 cc             nnpelem = nnpelem + 1
 
                IF(JJ<=NSN)THEN
-                 NN=NSV(JJ)                 
+                 NN=NSV(JJ)
                  IF(NN == M1)GOTO 300
                  IF(NN == M2)GOTO 300
                  IF(NN == M3)GOTO 300
@@ -549,9 +549,9 @@ c NEED to communicate in SPMD
 c VMAXDT is a local overestimate of relative incremental displacement
 c NO need to communicate in SPMD
 
-                 AAA = MARGE + CURV_MAX(NE) 
+                 AAA = MARGE + CURV_MAX(NE)
      +               + MAX(GAP_S(JJ)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +                    +VMAXDT 
+     +                    +VMAXDT
                ELSE
                  J=JJ-NSN
 
@@ -563,7 +563,7 @@ c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 c                                      +EDGE_L2(JJ) remote
 c!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
      +        + MAX(XREM(IGAPXREMP,J)+GAP_M(NE)+DGAPLOAD,DRAD)
-     +        + VMAXDT 
+     +        + VMAXDT
                ENDIF
 
                IF(XS<=XMINE-AAA)GOTO 300
@@ -586,7 +586,7 @@ cc             nnr0pelem = nnr0pelem + 1
                DD1 = D1X*SX+D1Y*SY+D1Z*SZ
                DD2 = D2X*SX+D2Y*SY+D2Z*SZ
                IF(DD1*DD2 > ZERO)THEN
-                 D2 = MIN(DD1*DD1,DD2*DD2)                 
+                 D2 = MIN(DD1*DD1,DD2*DD2)
                  A2 = AAA*AAA*S2
                  IF(D2 > A2)GOTO 300
                ENDIF

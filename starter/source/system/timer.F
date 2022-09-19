@@ -69,10 +69,10 @@ C-----------------------------------------------
       INTEGER I, J
 C-----------------------------------------------
       DO I =1, NTHMAX
-        DO J = 1, NTIMAX 
+        DO J = 1, NTIMAX
           CPUTIME(J,I) = ZERO
           REALTIME(J,I) = ZERO
-        ENDDO 
+        ENDDO
       ENDDO
       CALL SYSTEM_CLOCK(CLOCK0)   ! recuperation du temps de debut dans clock0
       ELAPSED = ZERO  ! initialisation a zero de l'elapsed time
@@ -220,17 +220,17 @@ C-----------------------------------------------
         CHARACTER(len=10) ::  TIME
         INTEGER :: IH,IM,IS
 C-----------------------------------------------
-        
+
         CALL ELAPSTIME(SECS)
         IH=SECS/3600
         IM=(SECS-IH*3600)/60
         IS=SECS-IH*3600-IM*60
 
-        CALL DATE_AND_TIME(DATE,TIME) 
+        CALL DATE_AND_TIME(DATE,TIME)
 
         WRITE(IOUT,*)  ' '
         WRITE(ISTDO,*) ' '
-        WRITE(IOUT,6100) 
+        WRITE(IOUT,6100)
         WRITE(ISTDO,6100)
         IF(GOT_TIMER>0) THEN
                 WRITE(IOUT,*)' '
@@ -266,7 +266,7 @@ c---output file
                 WRITE(IOUT,*)'------------'
 
                 WRITE(IOUT,1000)
-                WRITE(IOUT,1100)                                        
+                WRITE(IOUT,1100)
      .                  REALTIME(1,1),REALTIME(4,1),REALTIME(2,1)-
      .                  REALTIME(3,1),REALTIME(3,1),
      .                  REALTIME(5,1),REALTIME(6,1),REALTIME(7,1),
@@ -278,30 +278,30 @@ c---Standard output
                 WRITE(ISTDO,*)' '
                 WRITE(ISTDO,*)'ELAPSED TIME'
                 WRITE(ISTDO,*)'------------'
-  
+
                 WRITE(ISTDO,1000)
-                WRITE(ISTDO,1100)                                        
+                WRITE(ISTDO,1100)
      .                  REALTIME(1,1),REALTIME(4,1),REALTIME(2,1)-
      .                  REALTIME(3,1),REALTIME(3,1),
      .                  REALTIME(5,1),REALTIME(6,1),REALTIME(7,1),
      .                  REALTIME(8,1)
 
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') '                  CONVERTER : ', REALTIME(15,1)
                 WRITE(ISTDO,'(A,E9.4)') '            RD INTPUT BUILD : ', REALTIME(16,1)
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') '       RD GROUPS & SURFACES : ', REALTIME(19,1)
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') '                       SETS : ', REALTIME(17,1)
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') 'IDDLEVEL=0 - INTERFACE READ : ', REALTIME(10,1)
                 WRITE(ISTDO,'(A,E9.4)') 'IDDLEVEL=1 - INTERFACE READ : ', REALTIME(11,1)
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') 'IDDLEVEL=0 - INTERFACE INIT : ', REALTIME(12,1)
                 WRITE(ISTDO,'(A,E9.4)') 'IDDLEVEL=1 - INTERFACE INIT : ', REALTIME(13,1)
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') 'IDDLEVEL=1 - I7REMNODE      : ', REALTIME(18,1)
-                WRITE(ISTDO,'(A)') ' ' 
+                WRITE(ISTDO,'(A)') ' '
                 WRITE(ISTDO,'(A,E9.4)') '                 ELBUF INIT : ', REALTIME(14,1)
 
         ENDIF
@@ -336,7 +336,7 @@ c---Standard output
       WRITE(IOUT,6050)IH,IM,IS
       WRITE(IOUT,*)' '
 
-        WRITE(IOUT,6100) 
+        WRITE(IOUT,6100)
         WRITE(ISTDO,6100)
 
 
@@ -398,14 +398,14 @@ C-----------------------------------------------
 #endif
 C-----------------------------------------------
         CALL SYSTEM_CLOCK(COUNT=CLOCK1, COUNT_RATE=CLOCKRATE,
-     +                  COUNT_MAX=NBMAX                   )   
+     +                  COUNT_MAX=NBMAX                   )
 
 
 #if  _OPENMP
         OMP_ENDING_TIME = OMP_GET_WTIME( )
         SECS = OMP_ENDING_TIME-OMP_STARTING_TIME
         ELAPSED = SECS
-#else    
+#else
         SECS = CLOCK1-CLOCK0         ! diff temps courant - temps initial (qui peut ne pas etre 0 !)
         IF(SECS<ZERO) SECS = SECS + NBMAX   ! cas depassement nb de periode maximum
         SECS = SECS/CLOCKRATE
@@ -425,7 +425,7 @@ Chd|        DDSPLIT                       source/restart/ddsplit/ddsplit.F
 Chd|-- calls ---------------
 Chd|====================================================================
         SUBROUTINE ELAPSTIME_OMP(ETIME)
-!       compute the current elapsed time 
+!       compute the current elapsed time
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------

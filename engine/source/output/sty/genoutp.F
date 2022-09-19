@@ -79,7 +79,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE STACK_MOD
       USE INOUTFILE_MOD
       USE DRAPE_MOD
@@ -120,7 +120,7 @@ C-----------------------------------------------
      .   LENG,NODGLOB(*), NOM_OPT(*), NPBY(*)
 C     REAL
       my_real
-     .   X(*), D(*), V(*), VR(*), A(*), 
+     .   X(*), D(*), V(*), VR(*), A(*),
      .   PM(NPROPM,*), MS(*),ANIN(*),
      .   CONT(*), PARTSAV(*),FINT(*),FEXT(*),TANI(6,*),EANI(*),
      .   SPBUF(*), FOPT(*), FNCONT(3,*), FTCONT(3,*),GEO(*),THKE(*)
@@ -166,15 +166,15 @@ C-----------------------------------------------
         IF(IOUTP>=1000)IOUTP=1
         WRITE(CHOUTP,'(I3.3)')IOUTP
         FILNAM=ROOTNAM(1:ROOTLEN)//'Y'//CHOUTP
-        FILEN = ROOTLEN + 4 
-       ELSE       
+        FILEN = ROOTLEN + 4
+       ELSE
         IF(IOUTP>=10000)IOUTP=1
         WRITE(CHOUTP,'(I4.4)')IOUTP
         FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHOUTP//'.sty'
         FILEN = ROOTLEN + 9
         ENDIF
         LEN_TMP_NAME = OUTFILE_NAME_LEN + FILEN
-        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:FILEN)   
+        TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:FILEN)
        OPEN(UNIT=IUGEO,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
      .     FORM='FORMATTED',STATUS='UNKNOWN')
@@ -239,7 +239,7 @@ C-----------------------------------------------
 
       IF(OUTP_V(9) == 1 .AND. (IDROT==1 .OR. ISECUT>0 .OR. ISUB>0 .OR.
      .                 MSHSUB>0 .OR. IISROT>0 .OR. IMPOSE_DR>0 ) .AND.
-     .                 IRODDL/=0) 
+     .                 IRODDL/=0)
      .                   CALL OUTP_N_V('VELO_ROT  ',
      .   ' Rotational Velocity                               ',
      .   20,VR,NUMNOD,ITAB,
@@ -304,7 +304,7 @@ C-----------------------------------------------
         DEALLOCATE(SIZLOC_WRITE)
       ENDIF
       IF(OUTP_SS(1) == 1) CALL OUTP_S_S( 1,'OFF       ',
-     .   ' Delete flag (1.0:On 0.0:Off)           ' 
+     .   ' Delete flag (1.0:On 0.0:Off)           '
      .   ,ELBUF_TAB,IPARG,EANI,IXS, IPM,DD_IAD,SIZLOC_SS(1),SIZP0_SS(1),SIZWR_SS(1))
 
       IF(OUTP_SS(2) == 1) CALL OUTP_S_S(10,'EPSP      ',
@@ -320,11 +320,11 @@ C-----------------------------------------------
      .   ,ELBUF_TAB,IPARG,EANI,IXS, IPM,DD_IAD,SIZLOC_SS(1),SIZP0_SS(1),SIZWR_SS(1))
 
       IF(OUTP_SS(5) == 1) CALL OUTP_S_S(11,'TEMP      ',
-     .   ' Temperature                            ' 
+     .   ' Temperature                            '
      .   ,ELBUF_TAB,IPARG,EANI,IXS, IPM,DD_IAD,SIZLOC_SS(1),SIZP0_SS(1),SIZWR_SS(1))
 
       IF(OUTP_SS(6) == 1) CALL OUTP_S_S( 2,'PRES      ',
-     .   ' Pressure                               ' 
+     .   ' Pressure                               '
      .   ,ELBUF_TAB,IPARG,EANI,IXS, IPM,DD_IAD,SIZLOC_SS(1),SIZP0_SS(1),SIZWR_SS(1))
 
       IF(OUTP_SS(7) == 1) CALL OUTP_S_S(-2,'VONM      ',
@@ -332,7 +332,7 @@ C-----------------------------------------------
      .   ,ELBUF_TAB,IPARG,EANI,IXS, IPM,DD_IAD,SIZLOC_SS(1),SIZP0_SS(1),SIZWR_SS(1))
 
       IF(OUTP_SS(25) == 1) CALL OUTP_S_S(25,'HOUR      ',
-     .   ' Hourglass Specific Energy              ' 
+     .   ' Hourglass Specific Energy              '
      .   ,ELBUF_TAB,IPARG,EANI,IXS, IPM,DD_IAD,SIZLOC_SS(1),SIZP0_SS(1),SIZWR_SS(1))
 
       IF(OUTP_SS(20) == 1) CALL OUTP_S_S(20,'USER1     ',
@@ -393,7 +393,7 @@ C-----------------------------------------------
 
       IF (OUTP_CS(2) == 1) THEN
         CALL OUTP_C_S(15,'EPSP       ',
-     .   ' Plastic Strain                         ' 
+     .   ' Plastic Strain                         '
      .   ,ELBUF_TAB,IPARG,EANI  ,IPM ,IGEO,IXC  ,IXTG ,DD_IAD,SIZLOC_CS(1),
      .    SIZP0_CS(1),THKE,SIZWR_CS(1) )
 
@@ -415,12 +415,12 @@ C-----------------------------------------------
      .    IXC  ,IXTG ,DD_IAD,SIZLOC_CS(1),SIZP0_CS(1),THKE,SIZWR_CS(1) )
 
       IF (OUTP_CS(7) == 1) CALL OUTP_C_S( 1,'VONM       ',
-     .   ' Membrane Von Mises Stress              ' 
+     .   ' Membrane Von Mises Stress              '
      .   ,ELBUF_TAB,IPARG,EANI  ,IPM ,IGEO,
      .    IXC  ,IXTG ,DD_IAD,SIZLOC_CS(1),SIZP0_CS(1),THKE,SIZWR_CS(1))
 
       IF (OUTP_CS(25) == 1) CALL OUTP_C_S(25,'HOUR       ',
-     .   ' Hourglass Energy                       ' 
+     .   ' Hourglass Energy                       '
      .   ,ELBUF_TAB,IPARG,EANI  ,IPM ,IGEO,
      .    IXC  ,IXTG ,DD_IAD,SIZLOC_CS(1),SIZP0_CS(1),THKE,SIZWR_CS(1))
 
@@ -488,11 +488,11 @@ C-----------------------------------------------
      .    SIZLOC_CS(1),SIZP0_CS(1),THKE,SIZWR_CS(1) )
 
       ENDIF
-      
+
       IF (OUTP_CS(26) == 1)CALL OUTP_C_S(26,'USERS      ',
      .   ' All User Variables                         '
      .   ,ELBUF_TAB,IPARG,EANI  ,IPM ,IGEO,IXC  ,IXTG ,DD_IAD,
-     .    SIZLOC_CS(2),SIZP0_CS(2),THKE,SIZWR_CS(2) ) 
+     .    SIZLOC_CS(2),SIZP0_CS(2),THKE,SIZWR_CS(2) )
        DO J = 27, 86
          JJ = J - 26
         write(CHAR_JJ,'(I2.2)')JJ
@@ -501,8 +501,8 @@ C-----------------------------------------------
         IF(OUTP_CS(J) == 1)CALL OUTP_C_S(J,VAR_CHAR,
      .    TITRE ,
      .    ELBUF_TAB,IPARG,EANI  ,IPM ,IGEO,IXC  ,IXTG ,DD_IAD,
-     .    SIZLOC_CS(2),SIZP0_CS(2),THKE,SIZWR_CS(2) ) 
-       ENDDO 
+     .    SIZLOC_CS(2),SIZP0_CS(2),THKE,SIZWR_CS(2) )
+       ENDDO
 C-----------------------------------------------
 C   element equivalent stress criteria
 C-----------------------------------------------
@@ -523,12 +523,12 @@ C-----------------------------------------------
          DO I=1,NSPGROUP
           SIZW_P0 = MAX(SIZW_P0,SIZLOC_WRITE(I))
          ENDDO
-         SIZW_P0 = SIZW_P0 + 6    
+         SIZW_P0 = SIZW_P0 + 6
          DEALLOCATE(SIZLOC_WRITE)
        ENDIF
 
       IF(OUTP_SPS(1) == 1) CALL OUTP_SP_S( 1,'OFF       ',
-     .   ' Delete flag (1.0:On 0.0:Off)           ' 
+     .   ' Delete flag (1.0:On 0.0:Off)           '
      .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0)
 
       IF(OUTP_SPS(2) == 1) CALL OUTP_SP_S(10,'EPSP      ',
@@ -541,14 +541,14 @@ C-----------------------------------------------
 
       IF(OUTP_SPS(4) == 1) CALL OUTP_SP_S( 4,'DENS      ',
      .   ' Density                                '
-     .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0) 
+     .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0)
 
       IF(OUTP_SPS(5) == 1) CALL OUTP_SP_S(11,'TEMP      ',
-     .   ' Temperature                            ' 
+     .   ' Temperature                            '
      .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0)
 
       IF(OUTP_SPS(6) == 1) CALL OUTP_SP_S( 2,'PRES      ',
-     .   ' Pressure                               ' 
+     .   ' Pressure                               '
      .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0)
 
       IF(OUTP_SPS(7) == 1) CALL OUTP_SP_S(-2,'VONM      ',
@@ -556,7 +556,7 @@ C-----------------------------------------------
      .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0)
 
       IF(OUTP_SPS(25) == 1) CALL OUTP_SP_S(25,'SLEN      ',
-     .   ' Smoothing length                       ' 
+     .   ' Smoothing length                       '
      .   ,ELBUF_TAB,IPARG,EANI,DD_IAD,KXSP,IPM,SPBUF,SIZLOC,SIZP0,SIZW_P0)
 
       IF(OUTP_SPS(20) == 1) CALL OUTP_SP_S(20,'USER1     ',
@@ -597,8 +597,8 @@ C-----------------------------------------------
          SIZP0_ST(1:3) = SIZLOC_WRITE(3*NSPGROUP+1:3*NSPGROUP+3)+8
          SIZWR_ST(1:3) = -1
          DO I=1,NSPGROUP
-          SIZWR_ST(1) = MAX(SIZWR_ST(1),SIZLOC_WRITE(I)) 
-          SIZWR_ST(2) = MAX(SIZWR_ST(2),SIZLOC_WRITE(NSPGROUP+I)) 
+          SIZWR_ST(1) = MAX(SIZWR_ST(1),SIZLOC_WRITE(I))
+          SIZWR_ST(2) = MAX(SIZWR_ST(2),SIZLOC_WRITE(NSPGROUP+I))
           SIZWR_ST(3) = MAX(SIZWR_ST(3),SIZLOC_WRITE(2*NSPGROUP+I))
          ENDDO
          SIZWR_ST(1:3)= SIZWR_ST(1:3)+8
@@ -689,23 +689,23 @@ C-----------------------------------------------
       DO I=1,30
        IF(OUTP_CT(10+I) == 1)THEN
           WRITE(MES,'(A,I2,A)')
-     .   ' Stress (layer',I,')                       ' 
+     .   ' Stress (layer',I,')                       '
           WRITE(T10,'(A,I2)')'STRESS_L',I
           CALL OUTP_C_T( 10+I,T10   ,MES,
      .         ELBUF_TAB,IPARG,TANI,DD_IAD,SIZLOC_CT(1),SIZP0_CT(1),SIZWR_CT(1)  )
        ENDIF
 
        IF(OUTP_CT(50+I) == 1)THEN
-          WRITE(MES,'(A,I2,A)') 
-     .   ' Strain (layer',I,')                       ' 
+          WRITE(MES,'(A,I2,A)')
+     .   ' Strain (layer',I,')                       '
           WRITE(T10,'(A,I2)')'STRAIN_L',I
           CALL OUTP_C_T( 50+I,T10   ,MES,
      .         ELBUF_TAB,IPARG,TANI,DD_IAD,SIZLOC_CT(1),SIZP0_CT(1),SIZWR_CT(1)  )
        ENDIF
 
        IF(OUTP_CT(100+I) == 1)THEN
-          WRITE(MES,'(A,I2,A)') 
-     .   ' Epsdot (layer',I,')                       ' 
+          WRITE(MES,'(A,I2,A)')
+     .   ' Epsdot (layer',I,')                       '
           WRITE(T10,'(A,I2)')'EPSDOT_L',I
           CALL OUTP_C_T( 100+I,T10   ,MES,
      .         ELBUF_TAB,IPARG,TANI,DD_IAD,SIZLOC_CT(1),SIZP0_CT(1),SIZWR_CT(1)  )
@@ -735,7 +735,7 @@ C-----------------------------------------------
          SIZW_P0 = -1
          DO I=1,NSPGROUP
           SIZW_P0 = MAX(SIZW_P0,SIZLOC_WRITE(I))
-         ENDDO 
+         ENDDO
          SIZW_P0 = SIZW_P0 + 6
          DEALLOCATE(SIZLOC_WRITE)
        ENDIF
@@ -753,7 +753,7 @@ C-----------------------------------------------
          SIZW_P0 = -1
          DO I=1,NSPGROUP
           SIZW_P0 = MAX(SIZW_P0,SIZLOC_WRITE(I))
-         ENDDO  
+         ENDDO
          DEALLOCATE(SIZLOC_WRITE)
        ENDIF
 
@@ -772,14 +772,14 @@ C-----------------------------------------------
         SIZW_P0 = -1
         DO I=1,NSPGROUP
          SIZW_P0 = MAX(SIZW_P0,SIZLOC_WRITE(I))
-        ENDDO  
+        ENDDO
         SIZW_P0 = SIZW_P0 + 6
         DEALLOCATE(SIZLOC_WRITE)
       ENDIF
 
-      IF(OUTP_RS(1) == 1)CALL OUTP_R_S(1,'OFF       ', 
-     .   ' Delete flag (1.0:On 0.0:Off)           ' 
-     .   ,ELBUF_TAB,IPARG,DD_IAD,SIZLOC,SIZP0,SIZW_P0)  
+      IF(OUTP_RS(1) == 1)CALL OUTP_R_S(1,'OFF       ',
+     .   ' Delete flag (1.0:On 0.0:Off)           '
+     .   ,ELBUF_TAB,IPARG,DD_IAD,SIZLOC,SIZP0,SIZW_P0)
 
 C-----------------------------------------------
 C   springs forces and moments
@@ -795,19 +795,19 @@ C-----------------------------------------------
         SIZW_P0 = -1
         DO I=1,NSPGROUP
          SIZW_P0 = MAX(SIZW_P0,SIZLOC_WRITE(I))
-        ENDDO   
-        SIZW_P0 = SIZW_P0 + 6 
+        ENDDO
+        SIZW_P0 = SIZW_P0 + 6
         DEALLOCATE(SIZLOC_WRITE)
       ENDIF
 C
       IF(OUTP_RS(2) == 1)CALL OUTP_R_T('FULL    ',
      .   ' forces and moments                     ',
-     .   ELBUF_TAB,IPARG,DD_IAD,IXR,IGEO,GEO,SIZLOC,SIZP0,SIZW_P0)     
+     .   ELBUF_TAB,IPARG,DD_IAD,IXR,IGEO,GEO,SIZLOC,SIZP0,SIZW_P0)
 
 C-----------------------------------------------
 C   RBODIES+SECTIONS+RWALLS FORCES (FOPT)
 C-----------------------------------------------
-      IF(OUTP_V(8) == 1) 
+      IF(OUTP_V(8) == 1)
      .  CALL OUTP_N_V2(FOPT ,NPBY ,NOM_OPT(I16G),NOM_OPT(I16D))
 C-----------------------------------------------
 C   END

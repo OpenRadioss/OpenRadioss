@@ -83,7 +83,7 @@ C=======================================================================
         DZY(I)=ZERO
         WXX(I)=ZERO
         WYY(I)=ZERO
-        WZZ(I)=ZERO     
+        WZZ(I)=ZERO
       ENDDO
 C                   NEL
 C   [B] = [dNi/dx  dNk/dx  ..  ] \  3
@@ -95,11 +95,11 @@ C         [dNj/dz  dNl/dz  ..  ] |  R
 C         [  ..      ..    ..  ] /  L
 
       DO I=LFT,LLT
-        DO J=1,NCTRL 
+        DO J=1,NCTRL
           INCTRL = (J-1)*3
-          DXX(I)=DXX(I)+MATB(INCTRL+1,I)*VX(J,I) 
-          DYY(I)=DYY(I)+MATB(INCTRL+2,I)*VY(J,I)  
-          DZZ(I)=DZZ(I)+MATB(INCTRL+3,I)*VZ(J,I)  
+          DXX(I)=DXX(I)+MATB(INCTRL+1,I)*VX(J,I)
+          DYY(I)=DYY(I)+MATB(INCTRL+2,I)*VY(J,I)
+          DZZ(I)=DZZ(I)+MATB(INCTRL+3,I)*VZ(J,I)
           DXY(I)=DXY(I)+MATB(INCTRL+2,I)*VX(J,I)
           DYX(I)=DYX(I)+MATB(INCTRL+1,I)*VY(J,I)
           DYZ(I)=DYZ(I)+MATB(INCTRL+3,I)*VY(J,I)
@@ -109,7 +109,7 @@ C         [  ..      ..    ..  ] /  L
         ENDDO
       ENDDO
 
-          DT1D2=HALF*DT1 
+          DT1D2=HALF*DT1
 
       DO I=LFT,LLT
           DXX(I)  = DXX(I)
@@ -132,7 +132,7 @@ C         [  ..      ..    ..  ] /  L
           D6(I)   = DXZ(I)+DZX(I)
 
           WXX(I)=DT1D2*(DZY(I)-DYZ(I))
-          WYY(I)=DT1D2*(DXZ(I)-DZX(I))   
+          WYY(I)=DT1D2*(DXZ(I)-DZX(I))
           WZZ(I)=DT1D2*(DYX(I)-DXY(I))
       ENDDO
 

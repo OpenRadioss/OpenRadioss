@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -63,19 +63,19 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       INTEGER IPARG(NPARG,*),IXS(NIXS,*),IPARTS(*),IXSKIN(NIXQ,*),
-     .        IXS10(6,*) ,TAG_SKINS6(*) ,NSKIN  
+     .        IXS10(6,*) ,TAG_SKINS6(*) ,NSKIN
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C----------------------------------------------- 
       INTEGER I,ISOLNOD,ICS,NG,N,J,K
-      INTEGER 
-     .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    , 
+      INTEGER
+     .        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     .        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     .        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     .        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     .        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     .        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ,
      .        NN,NN1,N1,IDB
       INTEGER NC(10,MVSIZ),NMIN,PWR(7),LL
       INTEGER FACES(4,6),NS(4),JJ,II,K1,K2,NF,N2,T3(3),T6(6),TIA4S(3,4)
@@ -101,19 +101,19 @@ c              N2=N1
 c              N1=N1
 C       
        DO NG=1,NGROUP
-        CALL INITBUF (IPARG    ,NG      ,                      
-     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,    
-     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,    
-     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,    
-     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,    
-     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,    
-     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    ) 
+        CALL INITBUF (IPARG    ,NG      ,
+     2        MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3        NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4        JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5        NVAUX   ,JPOR    ,KCVT    ,JCLOSE  ,JPLASOL ,
+     6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
 !
-        IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE   
+        IF(MLW == 13 .OR. MLW == 0.OR.ITY /= 1) CYCLE
 C------     
         IF (IGTYP==6 .OR. IGTYP==14 ) THEN
            ISOLNOD = IPARG(28,NG)
-           ICS     = IPARG(17,NG)                                        
+           ICS     = IPARG(17,NG)
            IF(ISOLNOD == 4)THEN
              DO I=1,NEL
                N = I + NFT
@@ -123,7 +123,7 @@ C------
                NC(4,I)=IXS(6,N)
              ENDDO
 C---------each face             
-             DO I=1,NEL 
+             DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
                JJ = 5
@@ -187,7 +187,7 @@ C---------1,2,4
              NC(5:10,I) = IXS10(1:6,NN1)
              ENDDO
 C---------each face    4x4         
-             DO I=1,NEL 
+             DO I=1,NEL
                N = I + NFT
                LL=TAG_SKINS6(N)
 C---------1,2,3             
@@ -203,7 +203,7 @@ C---------1,2,3
                      IXSKIN(5,NSKIN) = IXSKIN(4,NSKIN)
                      IXSKIN(6,NSKIN) = IXS(NIXS-1,N)
                      IXSKIN(7,NSKIN) = NSKIN
-                  END DO 
+                  END DO
                END IF
 C---------2,3 ,4            
                JJ = 4
@@ -220,7 +220,7 @@ C---------2,3 ,4
                      IXSKIN(5,NSKIN) = IXSKIN(4,NSKIN)
                      IXSKIN(6,NSKIN) = IXS(NIXS-1,N)
                      IXSKIN(7,NSKIN) = NSKIN
-                  END DO 
+                  END DO
                END IF
 C---------1,4,3           
                JJ = 3
@@ -239,7 +239,7 @@ C---------1,4,3
                      IXSKIN(5,NSKIN) = IXSKIN(4,NSKIN)
                      IXSKIN(6,NSKIN) = IXS(NIXS-1,N)
                      IXSKIN(7,NSKIN) = NSKIN
-                  END DO 
+                  END DO
                END IF
 C---------1,2,4            
                JJ = 6
@@ -257,12 +257,12 @@ C---------1,2,4
                      IXSKIN(5,NSKIN) = IXSKIN(4,NSKIN)
                      IXSKIN(6,NSKIN) = IXS(NIXS-1,N)
                      IXSKIN(7,NSKIN) = NSKIN
-                  END DO 
+                  END DO
                END IF
              ENDDO
 C-----------S8 (&degenerated),S20           
            ELSE
-             DO I=1,NEL 
+             DO I=1,NEL
                 N = I + NFT
                 NC(1:8,I) = IXS(2:9,N)
                 LL=TAG_SKINS6(N)
@@ -301,7 +301,7 @@ C---------for degenerated cases
                ENDDO
              ENDDO
            ENDIF
-        ENDIF !IF (IGTYP== 
+        ENDIF !IF (IGTYP==
        END DO ! NG=1,NGROUP
 C-----------
       RETURN

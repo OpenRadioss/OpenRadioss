@@ -79,15 +79,15 @@ Chd|====================================================================
 
       TYPE(real4_pointer3), DIMENSION(:), ALLOCATABLE :: EDG_BISECTOR_FIE
       TYPE(real4_pointer3), DIMENSION(:), ALLOCATABLE :: VTX_BISECTOR_FIE
-      TYPE(real_pointer3),  DIMENSION(:), ALLOCATABLE :: X_SEG_FIE 
-      TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: GAPE_L_FIE 
+      TYPE(real_pointer3),  DIMENSION(:), ALLOCATABLE :: X_SEG_FIE
+      TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: GAPE_L_FIE
 C     TYPE(real_pointer),   DIMENSION(:), ALLOCATABLE :: MAIN_FIE 
-      TYPE(int_pointer2),   DIMENSION(:), ALLOCATABLE :: LEDGE_FIE 
+      TYPE(int_pointer2),   DIMENSION(:), ALLOCATABLE :: LEDGE_FIE
 
 
-! Inacti-like data 
-      INTEGER, DIMENSION(:), ALLOCATABLE :: RENUM_EDGE ! index of old edges  
-      INTEGER, DIMENSION(:), ALLOCATABLE :: OLDNUM_EDGE ! revesed index  
+! Inacti-like data
+      INTEGER, DIMENSION(:), ALLOCATABLE :: RENUM_EDGE ! index of old edges
+      INTEGER, DIMENSION(:), ALLOCATABLE :: OLDNUM_EDGE ! revesed index
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: NSNFIEOLD ! old number of edges per SPMD
       INTEGER :: NEDGE_REMOTE_OLD ! total number of old edges

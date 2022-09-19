@@ -58,9 +58,9 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD         
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,12 +83,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IG,IGTYP
       INTEGER,INTENT(IN)::IPART(LIPART1,*)
       CHARACTER*nchartitle,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
-      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
 C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI)
       my_real,INTENT(INOUT)::GEO(NPROPG)
@@ -98,7 +98,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID
       INTEGER I8PT,ITET4,NSPHDIR,ID_SENS,ID_PARTSPH,IPARTSPH,J,ITET10,I_ALE_FLAG
-      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
+      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED, lFOUND
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -140,12 +140,12 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('dn',CVIS,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('deltaT_min',DTMIN,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
-      ICSTR = 0                              
+      ICSTR = 0
       ID_SENS = 0
-      ISTRAIN=1 
+      ISTRAIN=1
       IPLAS = 2
       IET = 0
-      
+
 C--------------------------------------------------
 C DEFAULT VALUES & CHECKS
 C--------------------------------------------------
@@ -163,7 +163,7 @@ C--------------------------------------------------
         ITET4 = 0
       ENDIF
       ID = IG
-              
+
       ! --default SPHPART_ID  ---
       IPARTSPH=0
       lFOUND=.FALSE.
@@ -179,36 +179,36 @@ C--------------------------------------------------
           CALL ARRET(2)
         ENDIF
       END IF
-      
-      ! --default IHBE  ---      
-      IF (IHBE == 0) IHBE = IHBE_DS      
+
+      ! --default IHBE  ---
+      IF (IHBE == 0) IHBE = IHBE_DS
       !  iint : Lobato/GAuss (cache)
       ! used for elasto-platic critia parameter: IET---
       IF (IHBE == 16 ) THEN  ! not allowed
         IF (IINT == 0) IINT = 1    ! gauss integration
-      ELSEIF (N2D ==1.AND.IHBE == 17 ) THEN 
-        IF (IINT == 0) IINT = 1    
+      ELSEIF (N2D ==1.AND.IHBE == 17 ) THEN
+        IF (IINT == 0) IINT = 1
       ELSE
         IF (IHBE /= 24 ) IINT = 1
       ENDIF
-      ! solid17, IHBE will be changed to 17 in sgrtails.F    
-      IF (IHBE == 18 ) IINT = 2 
-      ! solid17 IINT=3  
+      ! solid17, IHBE will be changed to 17 in sgrtails.F
+      IF (IHBE == 18 ) IINT = 2
+      ! solid17 IINT=3
       IF (IHBE == 19 ) THEN
-       IHBE = 17                                     
-       IINT = 3 
+       IHBE = 17
+       IINT = 3
       END IF
-      
-      ! --check IHBE  ---     
-      IF (N2D > 0 .AND. IHBE/=0 .AND. IHBE/=2 .AND. IHBE/=17) THEN  
+
+      ! --check IHBE  ---
+      IF (N2D > 0 .AND. IHBE/=0 .AND. IHBE/=2 .AND. IHBE/=17) THEN
         IHBE_OLD=IHBE
-        IHBE=IHBE_DS                                     
+        IHBE=IHBE_DS
         CALL ANCMSG(MSGID=321,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_2,I1=ID,C1=TITR,I2=IHBE_OLD,I3=IHBE)
-      ELSEIF (IHBE  / =1 .AND. IHBE/=2 .AND. IHBE/=12 .AND. IHBE / =13 .AND. IHBE /= 14 .AND. IHBE /= 16 .AND. 
-     .        IHBE /= 24 .AND. IHBE /= 222.AND. IHBE /= 17.AND. IHBE /= 18) THEN    
+      ELSEIF (IHBE  / =1 .AND. IHBE/=2 .AND. IHBE/=12 .AND. IHBE / =13 .AND. IHBE /= 14 .AND. IHBE /= 16 .AND.
+     .        IHBE /= 24 .AND. IHBE /= 222.AND. IHBE /= 17.AND. IHBE /= 18) THEN
         CALL ANCMSG(MSGID=549, MSGTYPE=MSGWARNING, ANMODE=ANINFO_BLIND_1,I1=ID,C1=TITR,I2=IHBE,I3=14)
-      ENDIF  
-      
+      ENDIF
+
       ! --default I_ALE_FLAG  ---
       ! I_ALEF_LAG : 0 (Lagrange)
       !              1 (ale)
@@ -218,31 +218,31 @@ C--------------------------------------------------
       ENDIF
       IF(I_ALE_FLAG /= 0)THEN
         IF(IHBE /= 0 .AND. IHBE /= 1 .AND. IHBE /= 2 )THEN
-           CALL ANCMSG(MSGID=131,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=IHBE)          
+           CALL ANCMSG(MSGID=131,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR, I2=IHBE)
         ENDIF
-      ENDIF          
-      
-      ! --check QH  ---           
-      IF(QH < ZERO .OR. QH >= FIFTEEN/HUNDRED)THEN                                                                       
+      ENDIF
+
+      ! --check QH  ---
+      IF(QH < ZERO .OR. QH >= FIFTEEN/HUNDRED)THEN
          CALL ANCMSG(MSGID=311,MSGTYPE=MSGWARNING,ANMODE=ANINFO_BLIND_1, I1=ID,C1=TITR,R1=QH)
-      ENDIF 
-            
-      ! --default JCVT  --- 
+      ENDIF
+
+      ! --default JCVT  ---
       IF (JCVT == 0)  JCVT = IFRAME_DS
-      IF (IHBE == 14.OR.IHBE == 18) JCVT = 2        
-      IF (IHBE == 15) JCVT = 2        
-      IF (IHBE == 16) JCVT = 1        
-      IF (IHBE == 24) JCVT = 2   
-      IF (IFRAME_DS == -2.OR.JCVT<0) JCVT = -1      
+      IF (IHBE == 14.OR.IHBE == 18) JCVT = 2
+      IF (IHBE == 15) JCVT = 2
+      IF (IHBE == 16) JCVT = 1
+      IF (IHBE == 24) JCVT = 2
+      IF (IFRAME_DS == -2.OR.JCVT<0) JCVT = -1
       ! JCVT = 2 for lagrangian IHBE=1,2
 
-      ! --default ISMSTR --- 
-      IF (ISMSTR == 0) ISMSTR=ISST_DS                            
+      ! --default ISMSTR ---
+      IF (ISMSTR == 0) ISMSTR=ISST_DS
       IF (ISMSTR == 0.AND.IHBE /= 18) ISMSTR=4
-      IF (ISST_DS == -2) ISMSTR = -1      
+      IF (ISST_DS == -2) ISMSTR = -1
 
-      ! --default icpre/icstr  --- 
-      IF (ICPRE == 0) ICPRE = ICPRE_D      
+      ! --default icpre/icstr  ---
+      IF (ICPRE == 0) ICPRE = ICPRE_D
       IF((N2D > 0 .AND. IHBE == 17) ) THEN
         IF(ICPRE/=1 .AND. ICPRE/=2) ICPRE=0
         ! no effet for Axi Isolid17 for the moment	
@@ -251,74 +251,74 @@ C--------------------------------------------------
         IF (IHBE /= 14 .AND. IHBE /= 24 .AND. IHBE /= 17 .AND. IHBE /= 18) ICPRE = 0
         IF (IHBE == 17 ) THEN
           IF (ICPRE == 0 ) THEN
-            ICPRE = 1 
+            ICPRE = 1
           ELSEIF(ICPRE == 3 ) THEN
             ICPRE = 0
-          ENDIF 
-        ENDIF 
+          ENDIF
+        ENDIF
         IF (ICPRE == 3 .AND. IHBE /= 18) ICPRE =0
-        ICSTR = 0 
+        ICSTR = 0
       ENDIF
       IF (ICPRE_D == -2) ICPRE = -1
-            
-      ! --default NPT  --- 
-      NPT = NPTR*100 + NPTS*10 + NPTT     
+
+      ! --default NPT  ---
+      NPT = NPTR*100 + NPTS*10 + NPTT
       SELECT CASE (IHBE)
-      CASE(14,16,222) 
-        IF (NPT== 0) THEN                              
-         NPTR= 2                                        
-         NPTS= 2                                 
+      CASE(14,16,222)
+        IF (NPT== 0) THEN
+         NPTR= 2
+         NPTS= 2
          NPTT= 2
-         NPT = 222     
+         NPT = 222
         END IF
-        NPG = NPTR*NPTS*NPTT                                    
-        IF (IHBE == 14 .AND.(NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN     
+        NPG = NPTR*NPTS*NPTT
+        IF (IHBE == 14 .AND.(NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR.NPTR > 9 .OR. NPTS > 9 .OR. NPTT > 9)) THEN
           CALL ANCMSG(MSGID=563,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1,I1=ID, C1=TITR,I2=NPT, I3=IHBE)
-        ELSEIF (IHBE == 16 .AND.(NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR. NPTR > 3 .OR. NPTS > 9 .OR. NPTT > 3)) THEN     
+        ELSEIF (IHBE == 16 .AND.(NPTR < 1 .OR. NPTS < 1 .OR. NPTT < 1 .OR. NPTR > 3 .OR. NPTS > 9 .OR. NPTT > 3)) THEN
           CALL ANCMSG(MSGID=563,MSGTYPE=MSGERROR,ANMODE=ANINFO_BLIND_1, I1=ID, C1=TITR,I2=NPT, I3=IHBE)
-        ENDIF                                                
-      CASE(1,2,101,102,24)                                   
+        ENDIF
+      CASE(1,2,101,102,24)
         NPT = 1
         NPG = NPT
-      CASE(12,112,13,18)                                        
-        NPT = 8                                              
+      CASE(12,112,13,18)
+        NPT = 8
         NPG = NPT
-      END SELECT      
+      END SELECT
 
       IF (IHBE == 12 .OR. IHBE == 13 .OR. IHBE == 17 .OR.(N2D == 1 .AND. IHBE == 22)) THEN
-        IF (N2D == 0) THEN 
+        IF (N2D == 0) THEN
           NPT = 8
           NPG = NPT
-        ELSE                        
-          NPT = 4                                                 
+        ELSE
+          NPT = 4
           NPG = NPT
-        ENDIF                                                          
-      ENDIF                                                      
+        ENDIF
+      ENDIF
 
       IF(N2D > 0 .AND. IHBE/=0 .AND. IHBE/=2 .AND. IHBE/=17 .AND. (.NOT.(N2D==1.AND.IHBE==22))) THEN
          IHBE_OLD=IHBE
-         IHBE=0                                                        
+         IHBE=0
          CALL ANCMSG(MSGID=324, MSGTYPE=MSGWARNING,  ANMODE=ANINFO_BLIND_2, I1=ID,  C1=TITR, I2=IHBE_OLD, I3=IHBE)
-      ENDIF                                                            
+      ENDIF
 
-      ! --default QA,QB (PSEUDO VISCOSITY)  ---  
+      ! --default QA,QB (PSEUDO VISCOSITY)  ---
       ! igeo(31)  flag for default qa qb for law 70  can be used for other law
       IF (QA == ZERO .AND. QB == ZERO) IGEO(31) = 1
-      IF (QA == ZERO) QA = ONEP1         
-      IF (QB == ZERO) QB = FIVEEM2      
+      IF (QA == ZERO) QA = ONEP1
+      IF (QB == ZERO) QB = FIVEEM2
 
-      ! --default CVIS (hourglass)  --- 
+      ! --default CVIS (hourglass)  ---
       IF (IHBE == 24) THEN
         IF (CVIS == ZERO) CVIS = EM01
-        GEO(13) = CVIS        
+        GEO(13) = CVIS
         QH   = ZERO
-        ! default : auto        
+        ! default : auto
         IINT = IET
       ELSEIF (IHBE==1.OR.IHBE==2) THEN
         IF (QH == ZERO) QH = EM01
         CVIS = ZERO
         GEO(13) = QH
-      ELSE        
+      ELSE
         QH   = ZERO
         CVIS = ZERO
         GEO(13) = ZERO
@@ -328,14 +328,14 @@ C--------------------------------------------------
 C BUFFER STORAGE
 C--------------------------------------------------
 
-      IGEO(4)  = NPT                                  
-      IGEO(5)  = ISMSTR               
-      IGEO(9)  = IPLAS-1                                       
-      IGEO(10) = IHBE                                        
+      IGEO(4)  = NPT
+      IGEO(5)  = ISMSTR
+      IGEO(9)  = IPLAS-1
+      IGEO(10) = IHBE
       IGEO(12) = ISTRAIN
-      IGEO(13) = ICPRE                                 
-      IGEO(14) = ICSTR                                 
-      IGEO(15) = IINT                                 
+      IGEO(13) = ICPRE
+      IGEO(14) = ICSTR
+      IGEO(15) = IINT
       IGEO(16) = JCVT-1
       IGEO(37) = NSPHDIR
       IGEO(38) = IPARTSPH
@@ -354,7 +354,7 @@ C LISTING OUTPUTS
 C--------------------------------------------------
 
       IF(.NOT.IS_ENCRYPTED)THEN
-        IF(IGEO(31) == 1) THEN   
+        IF(IGEO(31) == 1) THEN
           WRITE(IOUT,1100)IG,IHBE,ISMSTR,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
         ELSE
           WRITE(IOUT,1000)IG,IHBE,ISMSTR,IPLAS,JCVT,ITET4,ITET10,ICPRE,ICSTR,CVIS,QA,QB,QH,VNS1,VNS2,DTMIN, ISTRAIN
@@ -364,7 +364,7 @@ C--------------------------------------------------
            WRITE(IOUT,1001) NPG,NPT
           ELSE
            WRITE(IOUT,1002) NPG
-          ENDIF  
+          ENDIF
           IF(NSPHDIR/=0)WRITE(IOUT,2020)NSPHDIR, ID_PARTSPH, ID_SENS
       ELSE
        WRITE(IOUT,1099) IG
@@ -389,11 +389,11 @@ C--------------------------------------------------
        PROP_TAG(IGTYP)%L_QVIS = 1
        IF (MULTI_FVM%IS_USED)  PROP_TAG(IGTYP)%G_MOM = 3
        PROP_TAG(IGTYP)%G_FILL = 1
-       PROP_TAG(IGTYP)%L_STRA = 6 
+       PROP_TAG(IGTYP)%L_STRA = 6
        IF (N2D  /=  0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1
        IF (GEO(16) /= ZERO .OR. GEO(17) /= ZERO) THEN
          IGEO(33) = 1   ! ISVIS flag
-       ENDIF         
+       ENDIF
         IGEO(1) =IG
         IGEO(11)=IGTYP
         IGEO(17)=0
@@ -460,7 +460,7 @@ C---
      & 5X,'BRICK MINIMUM TIME STEP................=',1PG20.13/,
      & 5X,'POST PROCESSING STRAIN FLAG . . . . . .=',I10/)
  2010 FORMAT(
-     & 5X,'HOURGLASS MODULUS FLAG. . . . . . . . .=',I10/)   
+     & 5X,'HOURGLASS MODULUS FLAG. . . . . . . . .=',I10/)
  2020 FORMAT(
      & 5X,'NUMBER OF SPH PARTICLES PER DIRECTION .=',I10/,
      & 5X,'CORRESPONDING PART FOR SPH PARTICLES. .=',I10/,
@@ -508,9 +508,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD         
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -533,11 +533,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C INPUT ARGUMENTS
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER,INTENT(IN)::IG,IGTYP
       CHARACTER*nchartitle,INTENT(IN)::TITR
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(NSUBMOD)
-      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
 C MODIFIED ARGUMENT
       INTEGER,INTENT(INOUT)::IGEO(NPROPGI)
       my_real,INTENT(INOUT)::GEO(NPROPG)
@@ -546,7 +546,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IHBE,ISMSTR,IPLAS,ICPRE,ICSTR,IINT,JCVT,NPG,NPT,NPTR,NPTS,NPTT, ISTRAIN,IET,IHBE_OLD,ID,I8PT,J
-      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN 
+      my_real CVIS,QA,QB,QH,VNS1,VNS2,DTMIN
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -567,9 +567,9 @@ C--------------------------------------------------
       CALL HM_GET_FLOATV('qb',QB,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('h',QH,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C-----hide and removed flags:
-      ICSTR = 0                              
+      ICSTR = 0
       IHBE=1
-      ISMSTR=ISST_DS                            
+      ISMSTR=ISST_DS
       IF (ISMSTR == 0) ISMSTR=4
       IPLAS=0
       ICPRE = 0
@@ -577,7 +577,7 @@ C-----hide and removed flags:
       NPG = NPT
       IINT=1 !Lobato/GAuss (cache)
       JCVT = IFRAME_DS
-      CVIS=ZERO  
+      CVIS=ZERO
       ID = IG
       VNS1=ZERO
       VNS2=ZERO
@@ -590,9 +590,9 @@ C  hide flag IHGFLU lost
       IF(N2D > 0) IHBE = 0
 c      IF(N2D > 0)IHBE = IHGFLU
 C      
-      IF (N2D > 0 .AND. IHBE/=0 .AND. IHBE/=2) THEN  
+      IF (N2D > 0 .AND. IHBE/=0 .AND. IHBE/=2) THEN
         IHBE_OLD=IHBE
-        IHBE=IHBE_DS                                     
+        IHBE=IHBE_DS
         CALL ANCMSG(MSGID=321,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO_BLIND_2,
@@ -600,11 +600,11 @@ C
      .              C1=TITR,
      .              I2=IHBE_OLD,
      .              I3=IHBE)
-      ENDIF                                                
+      ENDIF
 
-      IF(N2D > 0 .AND. IHBE /=0 .AND. IHBE /= 2)THEN                   
+      IF(N2D > 0 .AND. IHBE /=0 .AND. IHBE /= 2)THEN
          IHBE_OLD=IHBE
-         IHBE=0                                                        
+         IHBE=0
          CALL ANCMSG(MSGID=324,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_2,
@@ -612,37 +612,37 @@ C
      .               C1=TITR,
      .               I2=IHBE_OLD,
      .               I3=IHBE)
-      ENDIF                                                            
+      ENDIF
 
-      IF(QH  < ZERO .OR. QH >= FIFTEEN/HUNDRED)THEN                                                                       
+      IF(QH  < ZERO .OR. QH >= FIFTEEN/HUNDRED)THEN
          CALL ANCMSG(MSGID=311,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=ID,
      .               C1=TITR,
      .               R1=QH)
-      ENDIF  
+      ENDIF
 C      
         IF (QH == ZERO) QH = EM01
         GEO(13) = QH
 C    
-      !PSEUDO-VISCOSITY IS REQUIRED FOR STABILITY AND FOR SHOCK MODELING (STAGGERED SCHEME) 
+      !PSEUDO-VISCOSITY IS REQUIRED FOR STABILITY AND FOR SHOCK MODELING (STAGGERED SCHEME)
       IF(ICAA == 0)THEN
         !CAA is an obsolete option. Unless it is defined, program will set default values
-        IF (QA == ZERO) QA = ONEP1         
-        IF (QB == ZERO) QB = FIVEEM2     
-      ENDIF  
- 
+        IF (QA == ZERO) QA = ONEP1
+        IF (QB == ZERO) QB = FIVEEM2
+      ENDIF
+
 !     /ALE/CLOSE
 !     ----------
       CALL HM_READ_ALE_CLOSE(UNITAB, LSUBMODEL, GEO)
 
-      IGEO(4)  = NPT                                  
-      IGEO(5)  = ISMSTR               
-      IGEO(10) = IHBE                                        
-      IGEO(13) = ICPRE                                 
-      IGEO(14) = ICSTR                                 
-      IGEO(15) = IINT                                 
+      IGEO(4)  = NPT
+      IGEO(5)  = ISMSTR
+      IGEO(10) = IHBE
+      IGEO(13) = ICPRE
+      IGEO(14) = ICSTR
+      IGEO(15) = IINT
       IGEO(16) = JCVT-1
       IGEO(36) = 1 !IGFLU
 C
@@ -662,8 +662,8 @@ c       IF(GEO( 3)/=ZERO.AND.IGEO( 5)== 0)IGEO( 5)=NINT(GEO( 3))
        PROP_TAG(IGTYP)%L_QVIS = 1
        IF (MULTI_FVM%IS_USED)  PROP_TAG(IGTYP)%G_MOM = 3
        PROP_TAG(IGTYP)%G_FILL = 1
-       PROP_TAG(IGTYP)%L_STRA = 6 
-       IF (N2D  /=  0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1     
+       PROP_TAG(IGTYP)%L_STRA = 6
+       IF (N2D  /=  0 .AND. MULTI_FVM%IS_USED) PROP_TAG(IGTYP)%G_AREA = 1
         IGEO(1) =IG
         IGEO(11)=IGTYP
         IGEO(17)=0

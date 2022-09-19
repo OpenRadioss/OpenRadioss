@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,NEWFRONT ,NELTST,ITYPTST
       INTEGER IPARI(NPARI,NINTER)
 C     REAL
-      my_real 
+      my_real
      .    X(3,*), V(3,*), DT2T,
      .    XSLV_L(*), XMSR_L(*), VSLV_L(*) , VMSR_L(*)
 
@@ -88,8 +88,8 @@ C
       IF(TT>STOPT)  RETURN
 C
        CALL I11BUCE_CRIT(
-     1   X    ,INTBUF_TAB%NSV ,INTBUF_TAB%MSR  ,NSN             ,NMN          ,  
-     2   ITASK,INTBUF_TAB%XSAV,INTBUF_TAB%PENIS,INTBUF_TAB%PENIM,IPARI(22,NIN), 
+     1   X    ,INTBUF_TAB%NSV ,INTBUF_TAB%MSR  ,NSN             ,NMN          ,
+     2   ITASK,INTBUF_TAB%XSAV,INTBUF_TAB%PENIS,INTBUF_TAB%PENIM,IPARI(22,NIN),
      3   NRTS ,NRTM           ,INTBUF_TAB%STFS ,INTBUF_TAB%CAND_N, V          ,
      4   XSLV_L,XMSR_L    ,VSLV_L       ,VMSR_L       ,NIN  )
 C-----------

@@ -24,7 +24,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
       implicit none
 #include      "my_real.inc"
       my_real
-     .       , DIMENSION(:,:), ALLOCATABLE :: CJWORK, FREA, 
+     .       , DIMENSION(:,:), ALLOCATABLE :: CJWORK, FREA,
      .         ARWORK,PR,ZR,YR
       INTEGER, DIMENSION(:), ALLOCATABLE :: IRWL_WORK
 C-----
@@ -162,7 +162,7 @@ C-----------------------------------------------
      .    RES_SMS(3,*), AGRV(*),LGRAV(*),
      .    FSAV(NTHVKI,*), AM(3,*), VR(3,*), IN(*), FRL(*), FNL(*),
      .    RWBUF(*), RWSAV(*), FOPT(*),FTHREAC(6,*),
-     .    DAMPR(NRDAMP,*), DAMP(DIM,*), DR(3,*), RBY(NRBY,*), 
+     .    DAMPR(NRDAMP,*), DAMP(DIM,*), DR(3,*), RBY(NRBY,*),
      .    FRBE3(*), RRBE3(*), PREC_SMS3(3,*), DIAG_SMS3(3,*),BETATE
       DOUBLE PRECISION FRL6(*), FNL6(*), FRWL6(*), RRBE3_PON(*)
       DOUBLE PRECISION RBY6(8,6,NRBYKIN)
@@ -605,7 +605,7 @@ C-----------------------------------
              DO I=1,NUMNOD
                IF(TAGSLV_RBY(I)/=0) CYCLE
                DA = A(J,I)
-               A(J,I)  = UOMEGA*A(J,I) -DOMEGA*Z_SMS(J,I)  
+               A(J,I)  = UOMEGA*A(J,I) -DOMEGA*Z_SMS(J,I)
                DA = A(J,I) -DA
                DW =DW+DA*V(J,I)*DT12*WEIGHT(I)
              END DO
@@ -620,7 +620,7 @@ C-----------------------------------
                I=IGRNOD(ISTATG)%ENTITY(N)
                IF(TAGSLV_RBY(I)/=0) CYCLE
                DA = A(J,I)
-               A(J,I)  = UOMEGA*A(J,I) -DOMEGA*Z_SMS(J,I)  
+               A(J,I)  = UOMEGA*A(J,I) -DOMEGA*Z_SMS(J,I)
                DA = A(J,I) -DA
                DW =DW+DA*V(J,I)*DT12*WEIGHT(I)
              END DO
@@ -639,7 +639,7 @@ C
 C-----------------------------------
 C RBE2
 C-----------------------------------
-      IF (NRBE2>0.OR.R2SIZE>0) THEN      
+      IF (NRBE2>0.OR.R2SIZE>0) THEN
         IF(ITASK==0)THEN
           CALL SMS_RBE_CNDS(
      1     IRBE2 ,LRBE2 ,X      ,A      ,AM     ,
@@ -861,7 +861,7 @@ C
 C
       CALL MY_BARRIER
 C
-      IF(ITASK==0) DEALLOCATE(CJWORK, FREA, IRWL_WORK, 
+      IF(ITASK==0) DEALLOCATE(CJWORK, FREA, IRWL_WORK,
      .    	LIST_SMS,LIST_RMS,MSKYI_FI_SMS,VFI)
       IF(IPARIT/=0)THEN
         DEALLOCATE(IMV, MV, MV6)

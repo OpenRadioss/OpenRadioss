@@ -45,7 +45,7 @@ Chd|====================================================================
      9                    NUM_IMP,NS_IMP ,NE_IMP ,IND_IMP,FNCONT ,
      A                    FTCONT ,MSKYI_SMS ,ISKYI_SMS ,NODNX_SMS,
      B                    ICONTACT,INTBUF_TAB,FBSAV6,ISENSINT,DIMFB,
-     C                    H3D_DATA )  
+     C                    H3D_DATA )
 C============================================================================
 C  cette routine est appelee par : INTFOP2(/interf/intfop2.F)
 C----------------------------------------------------------------------------
@@ -108,7 +108,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IDUM,
-     .        I, J, H, NOINT, ISECIN, I_STOK, NSEG, 
+     .        I, J, H, NOINT, ISECIN, I_STOK, NSEG,
      .        IGAP, JLT_NEW, JLT , NFT, ITIED, IGSTI, NISUB, IADM,
      .        NB_LOC,I_STOK_LOC,DEBUT, IERROR
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
@@ -133,8 +133,8 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
-     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
+     .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   GAPV(MVSIZ),
      .   VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(MVSIZ)
@@ -198,7 +198,7 @@ C inbuf == cand_n
 Cel remise a 0 de cand_f de 1, 2, 3    
             INTBUF_TAB%CAND_F(6*(I-1)+1) = ZERO
             INTBUF_TAB%CAND_F(6*(I-1)+2) = ZERO
-            INTBUF_TAB%CAND_F(6*(I-1)+3) = ZERO    
+            INTBUF_TAB%CAND_F(6*(I-1)+3) = ZERO
           ENDIF
         ENDDO
         IF (DEBUG(3)>=1) THEN
@@ -296,7 +296,7 @@ C           WRITE(6,*) 'IMPACT ==> CALL I10FOR3'
      F  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,CN_LOC,CE_LOC,
      G  FSAVSUB      ,FNCONT    ,FTCONT  ,MSKYI_SMS    ,ISKYI_SMS ,
      H       NSMS      ,XI      ,YI      ,ZI     ,ICONTACT,
-     I       DT2T      ,NELTST  ,ITYPTST ,JTASK  ,ISENSINT, 
+     I       DT2T      ,NELTST  ,ITYPTST ,JTASK  ,ISENSINT,
      J       FSAVPARIT ,NFT     ,H3D_DATA)
           ENDIF
           IF(IMPL_S==1) THEN

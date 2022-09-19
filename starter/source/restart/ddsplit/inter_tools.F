@@ -36,7 +36,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -220,11 +220,11 @@ C=======================================================================
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_MSEGTYP24
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEADD    
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEADD
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEDGE      
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEDGE
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_CAND_T 
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_CAND_T
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEG_PXFEM
       N = N+1
@@ -232,15 +232,15 @@ C=======================================================================
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_ICONT_I
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IRTSE   
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IRTSE
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IS2SE  
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IS2SE
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IS2PT 
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_IS2PT
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISPT2 
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISPT2
       N = N+1
-      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEGPT 
+      INTBUF_SIZE(N) = INTBUF_TAB_L%S_ISEGPT
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_IS2ID
 !type25
@@ -575,7 +575,7 @@ C=======================================================================
 !type2
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_CSTS_BIS
-!type7 24 25 
+!type7 24 25
       N = N+1
       INTBUF_SIZE(N) = INTBUF_TAB_L%S_DIR_FRICM
 !type25
@@ -589,7 +589,7 @@ C write all INTBUF_TAB arrays sizes on disk
 C=======================================================================
       L_INTBUF_SIZE = N
       IF(L_INTBUF_SIZE > L_INTBUF_SIZE_MAX)THEN
-        WRITE(ISTDO,'(A,/,A)') 
+        WRITE(ISTDO,'(A,/,A)')
      .          ' ** Internal error in routine W_INTBUF_SIZE:',
      .          '    Hard coded value for L_INTBUF_SIZE_MAX needs to be updated'
         CALL ARRET(2)
@@ -623,7 +623,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -670,14 +670,14 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE FILTER_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL) 
+      SUBROUTINE FILTER_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL)
 c
 c Filter & write node array (type INTEGER) with local value
 c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -707,7 +707,7 @@ C ----------------------------------------
         IF(K > 0) THEN
           IBUF(I) = NODLOCAL(TAB(I))
         ELSE
-          IBUF(I) = -1 
+          IBUF(I) = -1
         ENDIF
       ENDDO
 c     WRITE(6,*) __FILE__,__LINE__,IBUF(1:DIM1)
@@ -724,7 +724,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE COPY_NODE_NODLOC(TAB,DIM1,NODLOCAL) 
+      SUBROUTINE COPY_NODE_NODLOC(TAB,DIM1,NODLOCAL)
 c
 c Copy & write node array (type INTEGER) with local value
 c (see SPLIT_NODE_IVAL for global values)
@@ -732,7 +732,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -761,7 +761,7 @@ C ----------------------------------------
         IBUF(I) = NODLOCAL(TAB(I))
       ENDDO
 
-c                                              
+c
       CALL WRITE_I_C(IBUF,DIM1)
       DEALLOCATE(IBUF)
 
@@ -776,7 +776,7 @@ Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE SPLIT_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL) 
+      SUBROUTINE SPLIT_NODE_NODLOC(TAB,DIM1,TAG,NODLOCAL)
 c
 c split & write node array (type INTEGER) with local value
 c (see SPLIT_NODE_IVAL for global values)
@@ -784,7 +784,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -834,7 +834,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -889,7 +889,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -941,7 +941,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -997,13 +997,13 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_IVAL(TAB,DIM1,DIM2)
-c 
+c
 c copy and write array value (type INTEGER)
 c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1049,13 +1049,13 @@ Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_IVAL_IGEO(TAB,DIM1,DIM2,OFFSET)
-c 
+c
 c copy and write array value (type INTEGER)
 c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1101,13 +1101,13 @@ Chd|        WRITE_DB                      source/restart/ddsplit/wrrest.F
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE COPY_RVAL(TAB,DIM1,DIM2)
-c 
+c
 c copy and write array value (type REAL)
 c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1126,7 +1126,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER DIM1,DIM2
 
-      my_real 
+      my_real
      .        TAB(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1157,13 +1157,13 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE SPLIT_NODE_NODLOC_P0(TAB,DIM1,DIM2,NODLOCAL)
 c
-c same routine as SPLIT_NODE_NODLOC for interfaces splited 
+c same routine as SPLIT_NODE_NODLOC for interfaces splited
 c only on proc 1 (no TAG array used)
 c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1210,7 +1210,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1233,7 +1233,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        K,E,C_II
 C ----------------------------------------
 
@@ -1265,7 +1265,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1317,7 +1317,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1379,7 +1379,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1397,7 +1397,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN
       INTEGER, INTENT(IN) :: NUMNOD_L
 
@@ -1421,17 +1421,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        I,K,L,M,N,JJ,
      .        CNRTM_L,CNSN_L,CNMN_L,MY_NODE
 C ----------------------------------------
       DO K=1,NSN
         MY_NODE = INTBUF_TAB%NSV(K)
-        IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL( MY_NODE )<=NUMNOD_L ) THEN 
+        IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL( MY_NODE )<=NUMNOD_L ) THEN
           L = INTBUF_TAB%IRTLM(K)
           TAG(L) = 1
         ENDIF
-      ENDDO 
+      ENDDO
 
       CNRTM_L = 0
       DO K=1,NRTM
@@ -1441,12 +1441,12 @@ C ----------------------------------------
             TAG_SEGM2(K) = CNRTM_L
 
         END IF
-      ENDDO   
+      ENDDO
 
       CNSN_L = 0
       DO K=1, NSN
         MY_NODE = INTBUF_TAB%NSV(K)
-        IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL( MY_NODE )<=NUMNOD_L ) THEN 
+        IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL( MY_NODE )<=NUMNOD_L ) THEN
           CNSN_L = CNSN_L+1
           TAG_NODE_2RY(CNSN_L) = K
         ENDIF
@@ -1477,7 +1477,7 @@ c specific type2, need use of 2 TAG arrays (one for main segment, one for secnd 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1530,7 +1530,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1593,7 +1593,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
       USE I7I10SPLITMOD
       USE MULTI_FVM_MOD
@@ -1627,13 +1627,13 @@ C-----------------------------------------------
       INTEGER I710XSAV(*)
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_XXX : size = NUMNOD
-!                 index of non-zero TAG_XXX value 
+!                 index of non-zero TAG_XXX value
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
 !       NINDX_XXX : number of non-zero TAG_XXX valuee
 !       TAG_XXX : size = NUMNOD
-!                array used to tag an element for 
+!                array used to tag an element for
 !                a given interface ; allocated in lectur
 !                allocated array in lectur and threadprivate array
 !       NODLOCAL  : integer, dimension=NUMNOD
@@ -1642,7 +1642,7 @@ C-----------------------------------------------
 !                       NODLOCAL /= 0 if the element is on the current domain/processor
 !                       and =0 if the element is not on the current domain
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-     .  
+     .
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
@@ -1651,7 +1651,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,
      .        I,J,K,N,N1,N2,N3,N4,E,
      .        CNSN_L,CNRTM_L,CNMN_L,NSN0,
@@ -1709,7 +1709,7 @@ C     Interface type 18 law 151
       ENDIF
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -1725,7 +1725,7 @@ C     Interface type 18 law 151
           N3 = INTBUF_TAB%IRECTM(4*(K-1)+3)
           N4 = INTBUF_TAB%IRECTM(4*(K-1)+4)
 
-          CNRTM_L = CNRTM_L + 1 
+          CNRTM_L = CNRTM_L + 1
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L
           IF(TAG_NM(N1)==0)THEN
@@ -1733,34 +1733,34 @@ C     Interface type 18 law 151
             CNMN_L = CNMN_L +1
             ! modif specific
             I710XSAV(CNMN_L) = N1
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N1
           ENDIF
           IF(TAG_NM(N2)==0)THEN
             TAG_NM(N2)=1
             CNMN_L = CNMN_L +1
             I710XSAV(CNMN_L) = N2
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N2
           ENDIF
           IF(TAG_NM(N3)==0)THEN
             TAG_NM(N3)=1
             CNMN_L = CNMN_L +1
             I710XSAV(CNMN_L) = N3
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N3
           ENDIF
           IF(TAG_NM(N4)==0)THEN
             TAG_NM(N4)=1
             CNMN_L = CNMN_L +1
             I710XSAV(CNMN_L) = N4
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N4
           ENDIF
         ENDIF
-      ENDDO 
+      ENDDO
 
-      CNMN_L = 0 
+      CNMN_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
         IF(TAG_NM(N)==1)THEN
@@ -1792,7 +1792,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1812,7 +1812,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,
-     .        TAG_SCRATCH(*) , II_STOK_L, ITYP   
+     .        TAG_SCRATCH(*) , II_STOK_L, ITYP
       INTEGER, INTENT(IN) :: NUMNOD_L
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
@@ -1821,13 +1821,13 @@ C-----------------------------------------------
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_SCRT : size = NUMNOD + NUMELS + I24MAXNSNE2
-!                 index of non-zero TAG_XXX value 
+!                 index of non-zero TAG_XXX value
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
 !       NINDX_SCRT : number of non-zero TAG_XXX valuee
 !       TAG_SCRATCH : size = NUMNOD + NUMELS + I24MAXNSNE2
-!                array used to tag an element for 
+!                array used to tag an element for
 !                a given interface ; allocated in lectur
 !                allocated array in lectur and threadprivate array
 !       NODLOCAL  : integer, dimension=NUMNOD
@@ -1840,7 +1840,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1848,7 +1848,7 @@ C-----------------------------------------------
      .        SPLIST,C_NSNR,MY_NODE
       INTEGER NUMP(NSPMD),WORK(70000)
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF_E,IBUF_N,NSNLOCAL,CPULOCAL,CANDR,PLIST,
      .  INDEX
 
@@ -1857,9 +1857,9 @@ C ----------------------------------------
       ALLOCATE(IBUF_E(MULTIMP*NCONT),IBUF_N(MULTIMP*NCONT))
       IBUF_E(1:MULTIMP*NCONT) = 0
       IBUF_N(1:MULTIMP*NCONT) = 0
-      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
+      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7
 
-      IF(ITYP==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+      IF(ITYP==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
         IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
           ALLOCATE(CPULOCAL(NSN))
@@ -1868,15 +1868,15 @@ C ----------------------------------------
 
         NUMP(1:NSPMD) = 0
 
-        ALLOCATE(PLIST(NSPMD)) 
+        ALLOCATE(PLIST(NSPMD))
         PLIST(1:NSPMD) = -1
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
 c          IF(N>NUMNOD) CYCLE
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N)==0) THEN 
-            SPLIST=0 
-            CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+          IF(TAG_SCRATCH(N)==0) THEN
+            SPLIST=0
+            CALL PLIST_IFRONT(PLIST,N,SPLIST)
             DO I=1,SPLIST
               P=PLIST(I)
               NUMP(P) = NUMP(P)+1
@@ -1894,11 +1894,11 @@ c          IF(N>NUMNOD) CYCLE
             INDX_SCRT(NINDX_SCRT) = N
           ENDIF
         ENDDO
-        DEALLOCATE(PLIST) 
+        DEALLOCATE(PLIST)
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -1927,7 +1927,7 @@ c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
         ENDDO
 
         !reflush TAG_SCRATCH to zero only when value has changes
-!        DO K=1, II_STOK  
+!        DO K=1, II_STOK
 !         E = INTBUF_TAB%CAND_E(K)
 !          IF (TAG_SEGM2(E)/=0) THEN
 !            N = INTBUF_TAB%CAND_N(K)
@@ -1935,7 +1935,7 @@ c              IF(INTBUF_TAB%NSV(N)>NUMNOD) CYCLE
 !          ENDIF
 !        ENDDO
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -2009,7 +2009,7 @@ c                IF(TAG(N)==0) THEN
         END IF !II_STOK_L>MULTIMP*NCONT
 
         !reflush TAG_SCRATCH to zero only when value has changes
-!        DO K=1, II_STOK  
+!        DO K=1, II_STOK
 !         E = INTBUF_TAB%CAND_E(K)
 !          IF (TAG_SEGM2(E)/=0) THEN
 !            N = INTBUF_TAB%CAND_N(K)
@@ -2017,19 +2017,19 @@ c                IF(TAG(N)==0) THEN
 !          ENDIF
 !        ENDDO
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
         NINDX_SCRT = 0
-  
+
         IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
         IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
 c        IF(ITYP==23.OR.INACTI==5.OR.INACTI==6.OR.INACTI==7.
 c     .          OR.IFQ>0)IPARI_L(24,NI)= C_NRTSR
-         
-      ENDIF !END INACTI=5,6,7 
+
+      ENDIF !END INACTI=5,6,7
 
       CALL WRITE_I_C(IBUF_E,MULTIMP*NCONT)
       CALL WRITE_I_C(IBUF_N,MULTIMP*NCONT)
@@ -2053,7 +2053,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2074,7 +2074,7 @@ C-----------------------------------------------
       INTEGER PROC,NRTM,NRTM_L,
      .        TAG_SEGM2(*),NREMNODE,NODLOCAL(*),
      .        ITAB(*)
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        SIZ_TMP
       INTEGER, INTENT(IN) :: NUMNOD_L
 
@@ -2090,14 +2090,14 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
 !      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL      
+!      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,SIZ,
      .        L,SIZ1,SIZ2,M,N
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF1,IBUF2,NODDEL,NODDELREMOTE
 C ----------------------------------------
       ALLOCATE(SIZ_TMP(NRTM),NODDEL(NUMNOD),
@@ -2182,14 +2182,14 @@ Chd|====================================================================
             SUBROUTINE PREPARE_SPLIT_CAND_I25_EDGE(INTBUF_TAB,SEGLOC,
      .                             TAG_EDGE, NEDGE_L, TAG_EDGE2, NEDGE,
      .                             II_STOK_E, II_STOK_E_L, TAG_II_E2E,
-     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S, 
+     .                             II_STOK_S, II_STOK_S_L, TAG_II_E2S,
      .                             PROC     , FLAGREMNODE, IREMI2    ,
      .                             NRTM     , TAG_JJ_E2E , TAG_JJ_E2S)
 
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2213,7 +2213,7 @@ C-----------------------------------------------
       INTEGER :: SEGLOC(*) ! global to local id of segment
       INTEGER :: TAG_II_E2E(*) !local id of global E2E cand (OUT)
       INTEGER :: TAG_II_E2S(*) !local id of global E2S cand (OUT)
-      INTEGER :: II_STOK_E, II_STOK_E_L 
+      INTEGER :: II_STOK_E, II_STOK_E_L
       INTEGER :: II_STOK_S, II_STOK_S_L
       INTEGER :: PROC, IREMI2, FLAGREMNODE, NRTM
       INTEGER :: TAG_JJ_E2E(*) !Gobal id of global E2E cand (OUT)
@@ -2227,10 +2227,10 @@ C-----------------------------------------------
       INTEGER :: ID,E1,E2,K1,K2
       INTEGER :: NB_FREE_EDGES            ! number of free edges
       INTEGER :: NB_INTERNAL_EDGES        ! number of edges internal to the domain
-      INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain 
-      INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
+      INTEGER :: NB_BOUNDARY_EDGES_LOCAL  ! boundary edges treated by current domain
+      INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain
       INTEGER, DIMENSION(:),ALLOCATABLE :: KCANDMS,ICANDMS,CANDMS
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGREMCAND_E2E, TAGREMCAND_E2S ! tabs to tag edges to be desactivated 
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGREMCAND_E2E, TAGREMCAND_E2S ! tabs to tag edges to be desactivated
 C ----------------------------------------
 
 ! prepare split candidates
@@ -2255,7 +2255,7 @@ C FREE EDGES
         END IF
         IF( K1 > 0 .AND. K2 ==  -1) THEN
           NB_FREE_EDGES = NB_FREE_EDGES + 1
-! Internal edge 
+! Internal edge
           TAG_EDGE(ID) = I
           ID = ID + 1
         ENDIF
@@ -2276,7 +2276,7 @@ C INTERNAL EDGES
         END IF
         IF( K1 > 0 .AND. K2 > 0) THEN
           NB_INTERNAL_EDGES = NB_INTERNAL_EDGES + 1
-! Internal edge 
+! Internal edge
           TAG_EDGE(ID) = I
           ID = ID + 1
         ENDIF
@@ -2321,7 +2321,7 @@ C INTERNAL EDGES
       ENDDO
 
 
-      I = NB_FREE_EDGES + NB_INTERNAL_EDGES + NB_BOUNDARY_EDGES_REMOTE+NB_BOUNDARY_EDGES_LOCAL 
+      I = NB_FREE_EDGES + NB_INTERNAL_EDGES + NB_BOUNDARY_EDGES_REMOTE+NB_BOUNDARY_EDGES_LOCAL
       ASSERT(I == NEDGE_L)
       ID = 1
       TAG_EDGE2(1:NEDGE) = 0
@@ -2331,12 +2331,12 @@ C       TAG_EDGE2(global id ) = local id
       ENDDO
 
 C------IREMI2 OPTION : deleting couples already defined in tied contact-------
-      
+
       ALLOCATE(TAGREMCAND_E2E(II_STOK_E))
 
       TAGREMCAND_E2E(1:II_STOK_E) = 0
       IF(IREMI2==1.AND.FLAGREMNODE==2) THEN
-         !  connectivity edge > contact pairs  
+         !  connectivity edge > contact pairs
 
          ALLOCATE(KCANDMS(NEDGE+1))
          ALLOCATE(ICANDMS(NEDGE+1))
@@ -2347,14 +2347,14 @@ C------IREMI2 OPTION : deleting couples already defined in tied contact-------
 
          DO I = 1, II_STOK_E
             E1 = INTBUF_TAB%CANDM_E2E(I)
-            KCANDMS(E1) =KCANDMS(E1)+1               
+            KCANDMS(E1) =KCANDMS(E1)+1
          ENDDO
          ICANDMS(1) = 1
          DO I=1,NEDGE
             ICANDMS(I+1) =  ICANDMS(I) +KCANDMS(I)
          ENDDO
          KCANDMS(1:NEDGE+1) = ICANDMS(1:NEDGE+1)
- 
+
          DO I=1,II_STOK_E
             E1 = INTBUF_TAB%CANDM_E2E(I)
             CANDMS(KCANDMS(E1)) = I
@@ -2364,34 +2364,34 @@ C------IREMI2 OPTION : deleting couples already defined in tied contact-------
          DO I=1,NEDGE
             K = INTBUF_TAB%KREMNODE_EDG(I)
             L = INTBUF_TAB%KREMNODE_EDG(I+1)-1
-            DO J=ICANDMS(I),ICANDMS(I+1)-1                     
+            DO J=ICANDMS(I),ICANDMS(I+1)-1
                DO M=K,L
-                  IF(INTBUF_TAB%CANDS_E2E(CANDMS(J))== INTBUF_TAB%REMNODE_EDG(M)) 
-     .                TAGREMCAND_E2E(CANDMS(J)) = 1 
+                  IF(INTBUF_TAB%CANDS_E2E(CANDMS(J))== INTBUF_TAB%REMNODE_EDG(M))
+     .                TAGREMCAND_E2E(CANDMS(J)) = 1
                ENDDO
             ENDDO
          ENDDO
          DEALLOCATE(KCANDMS,ICANDMS,CANDMS)
       ENDIF
-     
+
       II_STOK_E_L = 0
       JJ= 0
 C local numbering of E2E candidates
       DO I = 1, II_STOK_E
          E1 =INTBUF_TAB%CANDM_E2E(I)
          E2 =INTBUF_TAB%CANDS_E2E(I)
-        IF(TAG_EDGE2( INTBUF_TAB%CANDM_E2E(I)) > 0) THEN                 
+        IF(TAG_EDGE2( INTBUF_TAB%CANDM_E2E(I)) > 0) THEN
          ! master edge is on this processor
           ID = INTBUF_TAB%CANDM_E2E(I)
           IF( INTBUF_TAB%LEDGE(9+(ID-1)*NLEDGE) == PROC ) THEN
              JJ= JJ + 1
-             TAG_JJ_E2E(I) = JJ 
+             TAG_JJ_E2E(I) = JJ
              IF(TAGREMCAND_E2E(I)==0) THEN  ! cand deleted IremI2
 C        master edge is owned by this processor
 C         master edge is local
 C         Slave is local
                 II_STOK_E_L = II_STOK_E_L + 1
-                TAG_II_E2E(II_STOK_E_L) = I 
+                TAG_II_E2E(II_STOK_E_L) = I
              ENDIF
           ENDIF
         ENDIF
@@ -2399,13 +2399,13 @@ C         Slave is local
 
 
 C------IREMI2 OPTION : deleting couples already defined in tied contact-------
-     
+
       ALLOCATE(TAGREMCAND_E2S(II_STOK_S))
 
       TAGREMCAND_E2S(1:II_STOK_S) = 0
       IF(IREMI2==1.AND.FLAGREMNODE==2.AND.II_STOK_S > 0) THEN
 
-         !  connectivity NRTM > contact pairs  
+         !  connectivity NRTM > contact pairs
 
          ALLOCATE(KCANDMS(NRTM+1))
          ALLOCATE(ICANDMS(NRTM+1))
@@ -2416,14 +2416,14 @@ C------IREMI2 OPTION : deleting couples already defined in tied contact-------
 
          DO I = 1, II_STOK_S
             E1 = INTBUF_TAB%CANDM_E2S(I)
-            KCANDMS(E1) =KCANDMS(E1)+1               
+            KCANDMS(E1) =KCANDMS(E1)+1
          ENDDO
          ICANDMS(1) = 1
          DO I=1,NRTM
             ICANDMS(I+1) =  ICANDMS(I) +KCANDMS(I)
         ENDDO
         KCANDMS(1:NRTM+1) = ICANDMS(1:NRTM+1)
- 
+
         DO I=1,II_STOK_S
            E1 = INTBUF_TAB%CANDM_E2S(I)
            CANDMS(KCANDMS(E1)) = I
@@ -2433,10 +2433,10 @@ C------IREMI2 OPTION : deleting couples already defined in tied contact-------
         DO I=1,NRTM
             K = INTBUF_TAB%KREMNODE_E2S(I)
             L = INTBUF_TAB%KREMNODE_E2S(I+1)-1
-            DO J=ICANDMS(I),ICANDMS(I+1)-1                     
+            DO J=ICANDMS(I),ICANDMS(I+1)-1
                DO M=K,L
-                  IF(INTBUF_TAB%CANDS_E2S(CANDMS(J))== INTBUF_TAB%REMNODE_E2S(M)) 
-     .                TAGREMCAND_E2S(CANDMS(J)) = 1 
+                  IF(INTBUF_TAB%CANDS_E2S(CANDMS(J))== INTBUF_TAB%REMNODE_E2S(M))
+     .                TAGREMCAND_E2S(CANDMS(J)) = 1
                ENDDO
             ENDDO
          ENDDO
@@ -2450,11 +2450,11 @@ C------IREMI2 OPTION : deleting couples already defined in tied contact-------
       DO I = 1, II_STOK_S
         IF(SEGLOC( INTBUF_TAB%CANDM_E2S(I)) > 0) THEN
           JJ= JJ + 1
-          TAG_JJ_E2S(I) = JJ      
+          TAG_JJ_E2S(I) = JJ
           IF(TAGREMCAND_E2S(I)==0) THEN ! cand deleted IremI2
 C            master sgmt is local
              II_STOK_S_L = II_STOK_S_L + 1
-             TAG_II_E2S(II_STOK_S_L) = I 
+             TAG_II_E2S(II_STOK_S_L) = I
           ENDIF
         ENDIF
       ENDDO
@@ -2480,8 +2480,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
-      USE I25_FIE_MOD 
+      USE INTBUFDEF_MOD
+      USE I25_FIE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2505,7 +2505,7 @@ C-----------------------------------------------
       INTEGER :: SEGLOC(*) ! global to local id of segment
       INTEGER :: TAG_II_E2E(*) !local id of global E2E cand (OUT)
       INTEGER :: TAG_II_E2S(*) !local id of global E2S cand (OUT)
-      INTEGER :: II_STOK_E, II_STOK_E_L 
+      INTEGER :: II_STOK_E, II_STOK_E_L
       INTEGER :: II_STOK_S, II_STOK_S_L
       INTEGER :: TAG_JJ_E2E(II_STOK_E) !Gobal id of global E2E cand (OUT)
       INTEGER :: TAG_JJ_E2S(II_STOK_S) !Globa id of global E2S cand (OUT)
@@ -2515,7 +2515,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: I,J,K,JJ 
+      INTEGER :: I,J,K,JJ
       INTEGER :: ID,E1,E2,K1,K2
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDM_E2E,CANDS_E2E
       INTEGER, DIMENSION(:), ALLOCATABLE :: CANDM_E2S,CANDS_E2S
@@ -2523,8 +2523,8 @@ C-----------------------------------------------
 C ----------------------------------------
 
 ! prepare split candidates
-      ALLOCATE(CANDM_E2E(II_STOK_E_L)) 
-      ALLOCATE(CANDS_E2E(II_STOK_E_L)) 
+      ALLOCATE(CANDM_E2E(II_STOK_E_L))
+      ALLOCATE(CANDS_E2E(II_STOK_E_L))
       ASSERT(II_STOK_E_L==I25_SPLIT_CAND(NIN,PROC+1)%NB_CAND_E2E)
       ASSERT(II_STOK_S_L==I25_SPLIT_CAND(NIN,PROC+1)%NB_CAND_E2S)
 
@@ -2533,10 +2533,10 @@ C local numbering of E2E candidates
       DO J = 1, II_STOK_E_L
         I = TAG_II_E2E(J)
         JJ = TAG_JJ_E2E(I)
-        ASSERT(I > 0) 
+        ASSERT(I > 0)
 C       main edge is local
-        ID = ID + 1 
-        CANDM_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDM_E2E(I)) 
+        ID = ID + 1
+        CANDM_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDM_E2E(I))
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2E(I)-1)*NLEDGE) == PROC ) THEN
 C       Secnd is also local
           CANDS_E2E(ID) = TAG_EDGE2(INTBUF_TAB%CANDS_E2E(I))
@@ -2560,9 +2560,9 @@ C     WRITE(6,*) PROC,"NBCAND=",II_STOK_S_L,I25_SPLIT_CAND(NIN,PROC+1)%NB_CAND_E
         I = TAG_II_E2S(J)
         JJ = TAG_JJ_E2S(I)
 C       main edge is local
-        ASSERT(I > 0) 
-        ID = ID + 1 
-        CANDM_E2S(ID) = SEGLOC(INTBUF_TAB%CANDM_E2S(I)) 
+        ASSERT(I > 0)
+        ID = ID + 1
+        CANDM_E2S(ID) = SEGLOC(INTBUF_TAB%CANDM_E2S(I))
 C       IF(TAG_EDGE2(INTBUF_TAB%CANDS_E2S(I)) > 0) THEN
         IF(INTBUF_TAB%LEDGE(9+(INTBUF_TAB%CANDS_E2S(I)-1)*NLEDGE) == PROC ) THEN
 C       Secnd is also local
@@ -2606,7 +2606,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -2642,16 +2642,16 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
 !      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL      
+!      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,SIZ,LL,
      .        L,SIZ1 ,SIZ2 ,M ,N ,NS
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF1,IBUF2,NODDEL,NODDELREMOTE
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        SIZ_TMP
 C ----------------------------------------
       ALLOCATE(SIZ_TMP(NRTM),NODDEL(NUMNOD),
@@ -2768,7 +2768,7 @@ c
 
          CALL WRITE_I_C(IBUF1,NSN_L+1)
          CALL WRITE_I_C(IBUF2,NREMNOR)
- 
+
          DEALLOCATE(IBUF1, IBUF2)
 
 
@@ -2789,7 +2789,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2820,8 +2820,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF2 !KD(30)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF3 !KD(31)
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF4 !KD(32)
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF5 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF6 
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF5
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF6
 C ----------------------------------------
       ALLOCATE(IBUF1(NSN_L+1))
       ALLOCATE(IBUF2(NRTM_L+1))
@@ -2841,7 +2841,7 @@ C ----------------------------------------
       NISUBS_L = 0
 
       DO K=1,NSN_L
-        IBUF1(K) = NISUBS_L + 1       
+        IBUF1(K) = NISUBS_L + 1
         J=TAG_NODE_2RY(K)
         DO I = INTBUF_TAB%ADDSUBS(J),INTBUF_TAB%ADDSUBS(J+1)-1
           IBUF3(1+NISUBS_L) =  INTBUF_TAB%LISUBS(I)
@@ -2856,7 +2856,7 @@ C
       DO K=1,NRTM_L
         IBUF2(K) = NISUBM_L + 1
         J=TAG_SEGM(K)
-        DO I = INTBUF_TAB%ADDSUBM(J), 
+        DO I = INTBUF_TAB%ADDSUBM(J),
      .                 INTBUF_TAB%ADDSUBM(J+1)-1
           IBUF4(1+NISUBM_L) = INTBUF_TAB%LISUBM(I)
           IF(INTBUF_TAB%S_INFLG_SUBM > 0) IBUF6(1+NISUBM_L) = INTBUF_TAB%INFLG_SUBM(I)
@@ -2900,7 +2900,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2925,8 +2925,8 @@ C-----------------------------------------------
       INTEGER, INTENT(IN) :: NEDGE_L
       INTEGER, INTENT(IN) :: TAG_EDGE(NEDGE_L) ! Local To global
       INTEGER, INTENT(IN) :: TAG_EDGE2(NEDGE) ! Global to local
-      INTEGER, INTENT(IN) :: NISUBE !local number  
-      INTEGER, INTENT(IN) :: PROC !local number  
+      INTEGER, INTENT(IN) :: NISUBE !local number
+      INTEGER, INTENT(IN) :: PROC !local number
 
 
 
@@ -2937,12 +2937,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,NISUBS_L,NISUBM_L,NISUBE_L
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF1 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF2 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF3 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF4 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF5 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF6 
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF1
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF2
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF3
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF4
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF5
+      INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF6
 C ----------------------------------------
       ALLOCATE(IBUF1(NSN_L+1))
       ALLOCATE(IBUF2(NRTM_L+1))
@@ -2961,7 +2961,7 @@ C ----------------------------------------
       NISUBS_L = 0
 
       DO K=1,NSN_L
-        IBUF1(K) = NISUBS_L + 1       
+        IBUF1(K) = NISUBS_L + 1
         J=TAG_NODE_2RY(K)
         DO I = INTBUF_TAB%ADDSUBS(J),INTBUF_TAB%ADDSUBS(J+1)-1
           IBUF3(1+NISUBS_L) =  INTBUF_TAB%LISUBS(I)
@@ -2976,7 +2976,7 @@ C
       DO K=1,NRTM_L
         IBUF2(K) = NISUBM_L + 1
         J=TAG_SEGM(K)
-        DO I = INTBUF_TAB%ADDSUBM(J), 
+        DO I = INTBUF_TAB%ADDSUBM(J),
      .                 INTBUF_TAB%ADDSUBM(J+1)-1
           IBUF4(1+NISUBM_L) = INTBUF_TAB%LISUBM(I)
           IBUF6(1+NISUBM_L) = INTBUF_TAB%INFLG_SUBM(I)
@@ -3003,15 +3003,15 @@ C       CALL COPY_IVAL(INTBUF_TAB(NI)%INFLG_SUBE,NISUBE_L,1)
         ALLOCATE(IBUF1(NEDGE_L+1))
         ALLOCATE(IBUF3(NISUBE))
         ALLOCATE(IBUF5(NISUBE))
-       
+
         IBUF1(1: NEDGE_L+1) = 0
         IBUF3(1: NISUBE) = 0
         IBUF5(1: NISUBE) = 0
-       
+
         NISUBE_L = 0
-       
+
         DO K=1,NEDGE_L
-          IBUF1(K) = NISUBE_L + 1       
+          IBUF1(K) = NISUBE_L + 1
           J=TAG_EDGE(K)
           IF(INTBUF_TAB%LEDGE(NLEDGE*(J-1)+9) == PROC ) THEN ! IF current proc own the edge
             DO I = INTBUF_TAB%ADDSUBE(J),INTBUF_TAB%ADDSUBE(J+1)-1
@@ -3021,7 +3021,7 @@ C       CALL COPY_IVAL(INTBUF_TAB(NI)%INFLG_SUBE,NISUBE_L,1)
             END DO
           ENDIF
         END DO
-       
+
         IBUF1(NEDGE_L+1) = NISUBE_L + 1
         CALL WRITE_I_C(IBUF1,NEDGE_L+1) !ADDSUBE
         CALL WRITE_I_C(IBUF3,NISUBE) !LISUBES
@@ -3053,7 +3053,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3101,7 +3101,7 @@ C ----------------------------------------
 C XSAVE
 C NSN+NMN < NUMNOD
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -3296,7 +3296,7 @@ Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I8(PROC     ,   INTBUF_TAB  , IPARI       ,
      .                            INTERCEP ,   TAG_NODE_2RY, TAG_SEGM    ,
      .                            TAG_SEGM2,   TAG_NM      , TAG_NODE_MSR,
-     .                            TAG_NODE_MSR2,TAG_LMSR,TAG_LMSR2, 
+     .                            TAG_NODE_MSR2,TAG_LMSR,TAG_LMSR2,
      .                            TAG_NSEG,TAG_NSEG2,
      .                            NI,T8,ITAB,NINDX_NM,INDX_NM)
 C Computes the TAGS used to split the data
@@ -3304,7 +3304,7 @@ C Local renumbering of T8%BUFFER ID
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
       USE INT8_MOD
 C-----------------------------------------------
@@ -3342,7 +3342,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,NMN_L,
      .        I,J,K,N,N1,N2,N3,N4,P2,
      .        CNSN_L,CNRTM_L,CNMN_L,CLMSR_L,
@@ -3365,49 +3365,49 @@ C ----------------------------------------
 ! prepare SPLIT_NRTM_R
       CNRTM_L = 0
       CNMN_L = 0
-!      already done in split_interface 
-!      TAG_NM(1:NUMNOD) = 0 
+!      already done in split_interface
+!      TAG_NM(1:NUMNOD) = 0
       DO K=1,NRTM
         N1 = INTBUF_TAB%IRECTM(4*(K-1)+1)
         N2 = INTBUF_TAB%IRECTM(4*(K-1)+2)
         N3 = INTBUF_TAB%IRECTM(4*(K-1)+3)
-        N4 = INTBUF_TAB%IRECTM(4*(K-1)+4) 
+        N4 = INTBUF_TAB%IRECTM(4*(K-1)+4)
 
         N1 = INTBUF_TAB%MSR(N1)
         N2 = INTBUF_TAB%MSR(N2)
         N3 = INTBUF_TAB%MSR(N3)
-        N4 = INTBUF_TAB%MSR(N4) 
+        N4 = INTBUF_TAB%MSR(N4)
 
         IF(INTERCEP%P(K)==PROC+1)THEN
-          CNRTM_L = CNRTM_L + 1 
+          CNRTM_L = CNRTM_L + 1
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L
           IF(TAG_NM(N1)==0)THEN
             TAG_NM(N1)=1
             CNMN_L = CNMN_L +1
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N1
           ENDIF
           IF(TAG_NM(N2)==0)THEN
             TAG_NM(N2)=1
             CNMN_L = CNMN_L +1
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N2
           ENDIF
           IF(TAG_NM(N3)==0)THEN
             TAG_NM(N3)=1
             CNMN_L = CNMN_L +1
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N3
           ENDIF
           IF(TAG_NM(N4)==0)THEN
             TAG_NM(N4)=1
             CNMN_L = CNMN_L +1
-            NINDX_NM = NINDX_NM + 1 
+            NINDX_NM = NINDX_NM + 1
             INDX_NM(NINDX_NM) = N4
           ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 
 C     WRITE(6,*) __FILE__,__LINE__,CNMN_L,CNRTM_L,NRTM
 c     IF(NI == 1) THEN
@@ -3429,7 +3429,7 @@ c     ENDIF
 C Compute TAG_LMSR,TAG_LMSR2,TAG_NSEG 
       NMN_L = CNMN_L
       IF(NMN_L > 0) TAG_NSEG(1) = 1
-      CNMN_L = 0 
+      CNMN_L = 0
       CLMSR_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
@@ -3439,13 +3439,13 @@ C Compute TAG_LMSR,TAG_LMSR2,TAG_NSEG
           TAG_NODE_MSR(CNMN_L) = I
           TAG_NODE_MSR2(I) = CNMN_L
           IBEGIN = INTBUF_TAB%NSEGM(I)
-          IEND = INTBUF_TAB%NSEGM(I+1)-1 
+          IEND = INTBUF_TAB%NSEGM(I+1)-1
           DO J=IBEGIN,IEND
            K = INTBUF_TAB%LMSR(J)
            IF(INTERCEP%P(K)==PROC+1)THEN
               ! TAG filled with local number of seg
               TAG_NSEG(CNMN_L + 1) =  TAG_NSEG(CNMN_L + 1) + 1
-              CLMSR_L = CLMSR_L + 1 
+              CLMSR_L = CLMSR_L + 1
               TAG_LMSR(CLMSR_L) = J
               TAG_LMSR2(J) = CLMSR_L
            ENDIF
@@ -3453,28 +3453,28 @@ C Compute TAG_LMSR,TAG_LMSR2,TAG_NSEG
         ENDIF
       ENDDO
 
-      !Cumulate sum of TAG_SEGM 
-      !It becomes the local version of NSEGM 
+      !Cumulate sum of TAG_SEGM
+      !It becomes the local version of NSEGM
       DO J=2,CNMN_L+1
-       TAG_NSEG(J) = TAG_NSEG(J) + TAG_NSEG(J-1) 
+       TAG_NSEG(J) = TAG_NSEG(J) + TAG_NSEG(J-1)
       ENDDO
 
       IF(NSPMD > 1) THEN
-      ! renumber MAIN_ID locally 
+      ! renumber MAIN_ID locally
        DO P2=1,NSPMD
           IF(P2/=PROC + 1) THEN
           DO I = 1,T8%BUFFER(P2)%NBMAIN
              T8%BUFFER(P2)%MAIN_ID(I) =
-     .       TAG_NODE_MSR2(T8%BUFFER(P2)%MAIN_ID(I)) 
+     .       TAG_NODE_MSR2(T8%BUFFER(P2)%MAIN_ID(I))
           ENDDO
           ENDIF
        ENDDO
 
        DO I = 1,T8%S_COMM
             T8%SPMD_COMM_PATTERN(I)%UID = ITAB(
-     .      INTBUF_TAB%MSR(T8%SPMD_COMM_PATTERN(I)%NUMLOC)) 
-            T8%SPMD_COMM_PATTERN(I)%NUMLOC = 
-     .      TAG_NODE_MSR2(T8%SPMD_COMM_PATTERN(I)%NUMLOC) 
+     .      INTBUF_TAB%MSR(T8%SPMD_COMM_PATTERN(I)%NUMLOC))
+            T8%SPMD_COMM_PATTERN(I)%NUMLOC =
+     .      TAG_NODE_MSR2(T8%SPMD_COMM_PATTERN(I)%NUMLOC)
        ENDDO
       ENDIF
 
@@ -3502,12 +3502,12 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I9(PROC        , INTBUF_TAB  , IPARI       ,
      .                            TAG_NODE_2RY, TAG_NODE_MSR, TAG_SCRATCH ,
-     .                            TAG_IELES   , TAG_IELEM    , 
+     .                            TAG_IELES   , TAG_IELEM    ,
      .                            CEP         , CEL ,NINDX_SCRT,INDX_SCRT)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3541,7 +3541,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NRTS,NMN,
      .        I,J,K,N,IE,IE_LOC,PROC2,
      .        CNSN_L,CNMN_L,CNRTS_L,CNRTM_L
@@ -3569,13 +3569,13 @@ C ----------------------------------------
 !        TAG_SCRATCH(N) = 0
 !      ENDDO
 #include "vectorize.inc"
-      DO K=1,NINDX_SCRT  
+      DO K=1,NINDX_SCRT
                 N = INDX_SCRT(K)
                 TAG_SCRATCH(N) = 0
       ENDDO
       NINDX_SCRT = 0
 
-      CNMN_L = 0 
+      CNMN_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0)THEN
@@ -3591,7 +3591,7 @@ C ----------------------------------------
       ENDDO
 
       !IELES
-      CNRTS_L = 0 
+      CNRTS_L = 0
       DO K = 1, NRTS
         IE = INTBUF_TAB%IELES(K)
         PROC2  = CEP(IE)
@@ -3605,7 +3605,7 @@ C ----------------------------------------
       ENDDO
 
       !IELEM
-      CNRTM_L = 0 
+      CNRTM_L = 0
       DO K = 1, NRTM
         IE = INTBUF_TAB%IELEM(K)
         PROC2  = CEP(IE)
@@ -3644,7 +3644,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -3662,7 +3662,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        IPARI(*),NI
 
       INTEGER PROC,TAG_NODE_2RY(*),TAG_SEGM(*),TAG_SEGM2(*),
@@ -3680,10 +3680,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,NRTS
 
-      INTEGER 
+      INTEGER
      .        I,J,K,L,M,N,N1,N2,JJ,
      .        CNRTM_L,CNRTS_L,CNSN_L,CNMN_L
 C ----------------------------------------
@@ -3727,7 +3727,7 @@ C IRECTS
         N1 = INTBUF_TAB%IRECTM(2*(K-1)+1)
         N2 = INTBUF_TAB%IRECTM(2*(K-1)+2)
         IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
-          CNRTM_L = CNRTM_L + 1 
+          CNRTM_L = CNRTM_L + 1
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L
           IF(TAG_NM(N1)==0)THEN
@@ -3741,9 +3741,9 @@ C IRECTS
             INDX_NM(NINDX_NM) = N2
           ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 
-      CNMN_L = 0 
+      CNMN_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
         IF(TAG_NM(N)==1)THEN
@@ -3777,7 +3777,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
       USE FRONT_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -3797,7 +3797,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NRTS,NRTS_L,II_STOK,MULTIMP,NCONT,
      .        NOINT,INACTI,NI,IPARI_L(NPARI,NINTER),
-     .        TAG_SEGM2(*),TAG_SEGS(*),TAG_SCRATCH(*),II_STOK_L 
+     .        TAG_SEGM2(*),TAG_SEGS(*),TAG_SCRATCH(*),II_STOK_L
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
 
@@ -3807,7 +3807,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -3815,7 +3815,7 @@ C-----------------------------------------------
      .        SPLIST,C_NRTSR
       INTEGER NUMP(NSPMD),WORK(70000)
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF_E,IBUF_N,NRTSLOCAL,CPULOCAL,CANDR,PLIST,
      .  INDEX,CANDS
 
@@ -3828,7 +3828,7 @@ C ----------------------------------------
 
       II_STOK_L = 0
 
-      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
         IF(NRTS>0) THEN
           ALLOCATE(NRTSLOCAL(NRTS))
           ALLOCATE(CPULOCAL(NRTS))
@@ -3838,20 +3838,20 @@ C ----------------------------------------
         NUMP(1:NSPMD) = 0
 
 ! optimize loop with PLIST tool
-        ALLOCATE(PLIST(NSPMD)) 
+        ALLOCATE(PLIST(NSPMD))
         PLIST(1:NSPMD) = -1
 
         DO K=1,NRTS
           N1 = INTBUF_TAB%IRECTS(2*(K-1)+1)
           N2 = INTBUF_TAB%IRECTS(2*(K-1)+2)
           NRTSLOCAL(K) = 0
-          IF(INTERCEP(2,NI)%P(K)==PROC+1)THEN      
+          IF(INTERCEP(2,NI)%P(K)==PROC+1)THEN
             NUMP(PROC+1) = NUMP(PROC+1) + 1
             NRTSLOCAL(K) = NUMP(PROC+1)
             CPULOCAL(K) = PROC+1
           ENDIF
         ENDDO
-        DEALLOCATE(PLIST) 
+        DEALLOCATE(PLIST)
 C
 C Reperage des candidats se trouvant sur des procs distants
 C
@@ -3932,7 +3932,7 @@ C noeud remote : numerotation pre calculee ci-dessus
           ENDIF
         ENDDO
 
-     
+
         IF(NRTS>0) DEALLOCATE(NRTSLOCAL,CPULOCAL,CANDR)
         IF(C_NRTSR>0) DEALLOCATE(INDEX,ITRI)
 
@@ -3964,13 +3964,13 @@ Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.
 Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod.F
 Chd|====================================================================
       SUBROUTINE PREPARE_SPLIT_I17(PROC        , INTBUF_TAB   , IPARI  ,
-     .                            TAG_NODE_2RY , TAG_NODE_MSR , 
+     .                            TAG_NODE_2RY , TAG_NODE_MSR ,
      .                            CEP          , CEL          , IGRBRIC ,
      .                            NSN_L        , NME_L)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
       USE GROUPDEF_MOD
 C-----------------------------------------------
@@ -4007,7 +4007,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NRTS,NME,
      .        J,K,IE,
      .        IGE,IGN,NAD,EAD,NAS,
@@ -4028,7 +4028,7 @@ C       IF(CEP(IE)==PROC) THEN
           TAG_NODE_2RY(CNSN_L) = K
 C       ENDIF
       ENDDO
-      CNME_L = 0 
+      CNME_L = 0
       DO K=1,NME
         IE = IGRBRIC(IGE)%ENTITY(K)
 C       IF(CEP(IE)==PROC)THEN
@@ -4066,7 +4066,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -4103,7 +4103,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,NLN,
      .        NLINS,NLINM,NLINSA,NLINMA,NSNE,NMNE,
      .        I,J,K,L,N,N1,N2,N3,N4,E,
@@ -4138,12 +4138,12 @@ C ----------------------------------------
           N1L = INTBUF_TAB%IRECTM(4*(K-1)+1)
           N2L = INTBUF_TAB%IRECTM(4*(K-1)+2)
           N3L = INTBUF_TAB%IRECTM(4*(K-1)+3)
-          N4L = INTBUF_TAB%IRECTM(4*(K-1)+4) 
+          N4L = INTBUF_TAB%IRECTM(4*(K-1)+4)
           N1 = INTBUF_TAB%NLG(N1L)
           N2 = INTBUF_TAB%NLG(N2L)
           N3 = INTBUF_TAB%NLG(N3L)
           N4 = INTBUF_TAB%NLG(N4L)
-          CNRTM_L = CNRTM_L + 1 
+          CNRTM_L = CNRTM_L + 1
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L
           IF(TAG_NM(N1)==0)THEN
@@ -4167,7 +4167,7 @@ C ----------------------------------------
             INDX_NM(NINDX_NM) = N4
           ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 
       CNMN_L = 0
       DO I=1,NMN
@@ -4201,7 +4201,7 @@ C ----------------------------------------
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -4261,7 +4261,7 @@ C comptage ligne active
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -4311,7 +4311,7 @@ C comptage ligne active
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -4372,7 +4372,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4424,7 +4424,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4451,7 +4451,7 @@ C ----------------------------------------
       ALLOCATE(IBUF(DIM1*DIM2))
       DO I=1, DIM1
         K=TAG(I)
-        DO J=1,DIM2   
+        DO J=1,DIM2
           N = TAB_NLG(TAB(DIM2*(K-1)+J))
           IBUF(DIM2*(I-1)+J) = TAG_NLG(N)
         ENDDO
@@ -4475,7 +4475,7 @@ c specific inter 20 + redirection local to global
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4521,7 +4521,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4544,7 +4544,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        K,E,C_II
 C ----------------------------------------
 
@@ -4581,7 +4581,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4601,16 +4601,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,NI,
-     .        TAG_SCRATCH(*) , II_STOK_L, IPARI_L(NPARI,NINTER) 
+     .        TAG_SCRATCH(*) , II_STOK_L, IPARI_L(NPARI,NINTER)
       INTEGER, INTENT(INOUT) ::NINDX_SCRT
-      INTEGER, DIMENSION(*), INTENT(INOUT) ::INDX_SCRT 
+      INTEGER, DIMENSION(*), INTENT(INOUT) ::INDX_SCRT
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -4618,7 +4618,7 @@ C-----------------------------------------------
      .        SPLIST,C_NSNR
       INTEGER NUMP(NSPMD),WORK(70000)
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF_E,IBUF_N,NSNLOCAL,CPULOCAL,CANDR,PLIST,
      .  INDEX
 
@@ -4628,9 +4628,9 @@ C ----------------------------------------
 
       IBUF_E(1:MULTIMP*NCONT) = 0
       IBUF_N(1:MULTIMP*NCONT) = 0
-      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
+      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7
 
-      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
         IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
           ALLOCATE(CPULOCAL(NSN))
@@ -4639,14 +4639,14 @@ C ----------------------------------------
 
         NUMP(1:NSPMD) = 0
 
-        ALLOCATE(PLIST(NSPMD)) 
+        ALLOCATE(PLIST(NSPMD))
         PLIST(1:NSPMD) = -1
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N)==0) THEN 
-            SPLIST=0 
-            CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+          IF(TAG_SCRATCH(N)==0) THEN
+            SPLIST=0
+            CALL PLIST_IFRONT(PLIST,N,SPLIST)
             DO I=1,SPLIST
               P=PLIST(I)
               NUMP(P) = NUMP(P)+1
@@ -4664,11 +4664,11 @@ C ----------------------------------------
             INDX_SCRT(NINDX_SCRT) = N
           ENDIF
         ENDDO
-        DEALLOCATE(PLIST) 
+        DEALLOCATE(PLIST)
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -4696,7 +4696,7 @@ C
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -4770,17 +4770,17 @@ c                IF(TAG(N)==0) THEN
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
         NINDX_SCRT = 0
-  
+
         IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
         IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
         IF(INACTI==5.OR.INACTI==6.OR.INACTI==7)IPARI_L(24,NI)= C_NSNR
-         
+
       ENDIF !END INACTI=5,6,7
 
       CALL WRITE_I_C(IBUF_E,MULTIMP*NCONT)
@@ -4810,7 +4810,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -4830,16 +4830,16 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NLINS,NLINS_L,II_STOKE,MULTIMP,NCONTE,
      .        TAG_NLINS2(*),NOINT,INACTI,NI,
-     .        TAG_SCRATCH(*) , II_STOKE_L , IPARI_L(NPARI,NINTER)  
+     .        TAG_SCRATCH(*) , II_STOKE_L , IPARI_L(NPARI,NINTER)
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
-      INTEGER, DIMENSION(*), INTENT(INOUT) ::INDX_SCRT 
+      INTEGER, DIMENSION(*), INTENT(INOUT) ::INDX_SCRT
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
 C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -4847,7 +4847,7 @@ C-----------------------------------------------
      .        SPLIST,C_NLINSR
       INTEGER NUMP(NSPMD),WORK(70000)
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF_E,IBUF_N,NRTSLOCAL,CPULOCAL,CANDR,PLIST,
      .  INDEX
 
@@ -4856,9 +4856,9 @@ C ----------------------------------------
       ALLOCATE(IBUF_E(MULTIMP*NCONTE),IBUF_N(MULTIMP*NCONTE))
       IBUF_E(1:MULTIMP*NCONTE) = 0
       IBUF_N(1:MULTIMP*NCONTE) = 0
-      II_STOKE_L = 0 !mandatory in case of inacti ne 5,6,7 
+      II_STOKE_L = 0 !mandatory in case of inacti ne 5,6,7
 
-      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN 
+      IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) THEN
         IF(NLINS>0) THEN
           ALLOCATE(NRTSLOCAL(NLINS))
           ALLOCATE(CPULOCAL(NLINS))
@@ -4871,7 +4871,7 @@ C ----------------------------------------
           N1L = INTBUF_TAB%IXLINS(2*(K-1)+1)
           N2L = INTBUF_TAB%IXLINS(2*(K-1)+2)
           N1  = INTBUF_TAB%NLG(N1L)
-          N2  = INTBUF_TAB%NLG(N2L)          
+          N2  = INTBUF_TAB%NLG(N2L)
           NRTSLOCAL(K) = 0
           IF(NLOCAL(N1,PROC+1)==1.AND.
      .       NLOCAL(N2,PROC+1)==1) THEN
@@ -4917,7 +4917,7 @@ C
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -4976,17 +4976,17 @@ C noeud remote : numerotation pre calculee ci-dessus
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
         NINDX_SCRT = 0
-  
+
         IF(NLINS>0) DEALLOCATE(NRTSLOCAL,CPULOCAL,CANDR)
         IF(C_NLINSR>0) DEALLOCATE(INDEX,ITRI)
 
         IF(INACTI==5.OR.INACTI==6.OR.INACTI==7) IPARI_L(57,NI)= C_NLINSR
-         
+
       ENDIF !END INACTI=5,6,7
 
       CALL WRITE_I_C(IBUF_E,MULTIMP*NCONTE)
@@ -5022,7 +5022,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -5041,7 +5041,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        IPARI(*),NI
 
       INTEGER PROC,TAG_NODE_2RY(*),TAG_SEGM(*),TAG_NODE_2RY2(*),
@@ -5062,10 +5062,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 
       INTEGER, DIMENSION(:),ALLOCATABLE :: PLIST
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,NRTS,INTTH, NMNG,FLAGLOADP
 
-      INTEGER 
+      INTEGER
      .        I,J,K,L,M,N,N1,N2,N3,N4,JJ,SPLIST,
      .        CNRTM_L,CNRTS_L,CNSN_L,CNMN_L
 C ----------------------------------------
@@ -5099,7 +5099,7 @@ C ----------------------------------------
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -5107,11 +5107,11 @@ C ----------------------------------------
 
       CNRTM_L = 0
       DO K=1,NRTM
-        CNRTM_L = CNRTM_L + 1 
+        CNRTM_L = CNRTM_L + 1
         TAG_SEGM(CNRTM_L) = K
-      ENDDO  
+      ENDDO
 
-      CNMN_L = 0 
+      CNMN_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
         IF(NLOCAL(N,PROC+1)==1.AND.TAG_SCRATCH(N)==0) THEN
@@ -5125,14 +5125,14 @@ C ----------------------------------------
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
         NINDX_SCRT = 0
 
       !PREPARE MNDD TAB FOR main TEMPERATURE COMMUNICATION
-      ALLOCATE(PLIST(NSPMD)) 
+      ALLOCATE(PLIST(NSPMD))
       PLIST(1:NSPMD) = -1
       IF (INTTH == 2.OR.FLAGLOADP > 0) THEN
         DO K=1,NMNG
@@ -5144,11 +5144,11 @@ C ----------------------------------------
             ! node is not on domain, set value to first domain of node
             CALL PLIST_IFRONT(PLIST,N,SPLIST)
             MNDD_I21(K) = PLIST(1)
-          ENDIF                      
-        END DO  
-      ENDIF 
+          ENDIF
+        END DO
+      ENDIF
       DEALLOCATE(PLIST)
-      ! PREPARE MSRL TAB FOR LOCAL NODES NUMBERING==> main TEMPERATURE COMMUNICATION     
+      ! PREPARE MSRL TAB FOR LOCAL NODES NUMBERING==> main TEMPERATURE COMMUNICATION
       IF (INTTH == 2.OR.FLAGLOADP > 0) THEN
         MSR_L_I21(1:NMNG)=0
         DO I=1,NMNG
@@ -5156,8 +5156,8 @@ C ----------------------------------------
           IF(NLOCAL(N,PROC+1)==1) THEN
             MSR_L_I21(I) = NODLOCAL(N)
           ENDIF
-        END DO  
-      ENDIF 
+        END DO
+      ENDIF
 
       RETURN
       END
@@ -5175,7 +5175,7 @@ C introduce a second dimension
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5229,7 +5229,7 @@ C introduce a second dimension
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5280,7 +5280,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5308,7 +5308,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        K,M,N,C_II
 C ----------------------------------------
 
@@ -5354,7 +5354,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -5398,12 +5398,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,NRTS,
      .        I,J,K,N,N1,N2,N3,N4,E,IE,IE_LOC,PROC2,
      .        CNSN_L,CNRTM_L,CNMN_L,NRTSE,NSNE,NSN0,NSNE_COUNT,SE1,
      .        CNRTS_L
-      INTEGER 
+      INTEGER
      .   SECND_SURFACE_ON_DOMAIN,NRTSE_COUNT
        EXTERNAL SECND_SURFACE_ON_DOMAIN
 C ----------------------------------------
@@ -5429,7 +5429,7 @@ C ----------------------------------------
           INDX_SCRT(NINDX_SCRT) = N
         ENDIF
       ENDDO
-      
+
       DO K=1+NSN0, NSNE+NSN0
         N=INTBUF_TAB%NSV(K)-NUMNOD
         SE1 = INTBUF_TAB%IS2SE(2*(N-1)+1)
@@ -5442,7 +5442,7 @@ C ----------------------------------------
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -5456,20 +5456,20 @@ C ----------------------------------------
         N1 = INTBUF_TAB%IRECTM(4*(K-1)+1)
         N2 = INTBUF_TAB%IRECTM(4*(K-1)+2)
         N3 = INTBUF_TAB%IRECTM(4*(K-1)+3)
-        N4 = INTBUF_TAB%IRECTM(4*(K-1)+4) 
+        N4 = INTBUF_TAB%IRECTM(4*(K-1)+4)
         IF(INTERCEP%P(K)==PROC+1)THEN
-          CNRTM_L = CNRTM_L + 1 
+          CNRTM_L = CNRTM_L + 1
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L
           IF(TAG_NM(N1)==0)THEN
             TAG_NM(N1)=1
             NINDX_NM = NINDX_NM + 1
-            INDX_NM(NINDX_NM) = N1 
+            INDX_NM(NINDX_NM) = N1
           ENDIF
           IF(TAG_NM(N2)==0)THEN
             TAG_NM(N2)=1
             NINDX_NM = NINDX_NM + 1
-            INDX_NM(NINDX_NM) = N2 
+            INDX_NM(NINDX_NM) = N2
           ENDIF
           IF(TAG_NM(N3)==0)THEN
             TAG_NM(N3)=1
@@ -5482,9 +5482,9 @@ C ----------------------------------------
             INDX_NM(NINDX_NM) = N4
           ENDIF
         ENDIF
-      ENDDO  
- 
-      CNMN_L = 0 
+      ENDDO
+
+      CNMN_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
         IF(TAG_NM(N)==1)THEN
@@ -5508,7 +5508,7 @@ C Prepare Node ID with virtual Type 24 E2E Nodes
 
 
          DO I = 1,NSNE
-           
+
 C Get First IS2SE surface 
 C If Surface is on P, than speudo node is on pocessor.
 C Give him NODLOCAL ID (+NUMNOD_L).
@@ -5542,15 +5542,15 @@ C Nitsche Method
        CNRTS_L = 0
        DO K=1,NRTS
          IF(INTERCEP3%P(K)==PROC+1)THEN
-           CNRTS_L = CNRTS_L + 1 
+           CNRTS_L = CNRTS_L + 1
            TAG_SEGSS(CNRTS_L) = K
          ENDIF
-       ENDDO  
+       ENDDO
 
       !TAG_IELEM for IELNRTS tab writting
 
         DO I = 1, CNRTS_L ! NRTS = NRTM only if NRT_SH = 0
-          K = TAG_SEGSS(I) 
+          K = TAG_SEGSS(I)
           IE = INTBUF_TAB%IELNRTS(K)
 c          PROC2  = CEP(IE)
 c          IF(PROC2==PROC) THEN
@@ -5558,9 +5558,9 @@ c          IF(PROC2==PROC) THEN
             TAG_IELEM(I) = IE_LOC
 c          ENDIF
         ENDDO
-       ENDIF  
-   
- 
+       ENDIF
+
+
       RETURN
       END
 Chd|====================================================================
@@ -5579,7 +5579,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5634,7 +5634,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5690,7 +5690,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -5759,7 +5759,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -5780,7 +5780,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,
-     .        TAG_SCRATCH(*) , II_STOK_L, ITYP 
+     .        TAG_SCRATCH(*) , II_STOK_L, ITYP
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, INTENT(IN) :: NUMNOD_L
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
@@ -5790,13 +5790,13 @@ C-----------------------------------------------
       TYPE(INTERSURFP)     :: INTERCEP2
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       INDX_XXX : size = NUMNOD
-!                 index of non-zero TAG_XXX value 
+!                 index of non-zero TAG_XXX value
 !                 used for optimize the initialization
 !                 of TAG_XXX array (XXX = NM or SCRT for SCRATCH)
 !                 allocated array in lectur and threadprivate array
 !       NINDX_XXX : number of non-zero TAG_XXX valuee
 !       TAG_XXX : size = NUMNOD + NUMELS + I24MAXNSNE2
-!                array used to tag an element for 
+!                array used to tag an element for
 !                a given interface ; allocated in lectur
 !                allocated array in lectur and threadprivate array
 !       NODLOCAL  : integer, dimension=NUMNOD
@@ -5809,7 +5809,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
 !      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL      
+!      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -5817,7 +5817,7 @@ C-----------------------------------------------
      .        SPLIST,C_NSNR,NN,SE1,MY_NODE
       INTEGER NUMP(NSPMD),WORK(70000)
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF_E,IBUF_N,NSNLOCAL,CPULOCAL,CANDR,PLIST,
      .  INDEX
 
@@ -5829,7 +5829,7 @@ C ----------------------------------------
       ALLOCATE(IBUF_E(MULTIMP*NCONT),IBUF_N(MULTIMP*NCONT))
       IBUF_E(1:MULTIMP*NCONT) = 0
       IBUF_N(1:MULTIMP*NCONT) = 0
-      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
+      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7
 
         IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
@@ -5839,15 +5839,15 @@ C ----------------------------------------
 
         NUMP(1:NSPMD) = 0
 
-        ALLOCATE(PLIST(NSPMD)) 
+        ALLOCATE(PLIST(NSPMD))
         PLIST(1:NSPMD) = -1
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N)==0) THEN 
-            SPLIST=0 
+          IF(TAG_SCRATCH(N)==0) THEN
+            SPLIST=0
             IF(N<=NUMNOD)THEN
-              CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+              CALL PLIST_IFRONT(PLIST,N,SPLIST)
               DO I=1,SPLIST
                 P=PLIST(I)
                 NUMP(P) = NUMP(P)+1
@@ -5875,11 +5875,11 @@ C T24 E2E Nodes can be on 1 SPMD domain only
             INDX_SCRT(NINDX_SCRT) = N
           ENDIF
         ENDDO
-        DEALLOCATE(PLIST) 
+        DEALLOCATE(PLIST)
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -5919,7 +5919,7 @@ C            IF (INTBUF_TAB%NSV(N)> NUMNOD) CYCLE
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -5980,7 +5980,7 @@ C
                   P = 0
                   MY_NODE = INTBUF_TAB%NSV(N)
                   IF( NODLOCAL( MY_NODE )/=0.AND.NODLOCAL( MY_NODE )<=NUMNOD_L )  P=1
-              ENDIF    
+              ENDIF
 
               IF(P==1 ) THEN
                 IBUF_N(II_STOK_L)=NSNLOCAL(N)
@@ -6003,16 +6003,16 @@ c                IF(TAG(N)==0) THEN
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
         NINDX_SCRT = 0
-  
+
         IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
         IF(C_NSNR>0) DEALLOCATE(INDEX,ITRI)
 
-         
+
       CALL WRITE_I_C(IBUF_E,MULTIMP*NCONT)
       CALL WRITE_I_C(IBUF_N,MULTIMP*NCONT)
 
@@ -6052,7 +6052,7 @@ C-----------------------------------------------
          SE1 = IS2SE(1,SEG)
          SE2 = IS2SE(2,SEG)
          IBUF(1,I)=TAG_SEG2(SE1)
-        
+
          IF(SE2 /=0)THEN
             IBUF(2,I)=TAG_SEG2(SE2)
          ELSE
@@ -6087,7 +6087,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -6157,7 +6157,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -6192,7 +6192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        NSN,NRTM,NMN,
      .        I,J,K,L,N,N1,N2,N3,N4,E,
      .        CNSN_L,CNRTM_L,CNMN_L,NADMSR_L
@@ -6216,7 +6216,7 @@ C ----------------------------------------
 
       !reflush to zero only part of TAG_SCRATCH that has been used
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -6228,9 +6228,9 @@ C ----------------------------------------
         N1 = INTBUF_TAB%IRECTM(4*(K-1)+1)
         N2 = INTBUF_TAB%IRECTM(4*(K-1)+2)
         N3 = INTBUF_TAB%IRECTM(4*(K-1)+3)
-        N4 = INTBUF_TAB%IRECTM(4*(K-1)+4) 
+        N4 = INTBUF_TAB%IRECTM(4*(K-1)+4)
         IF(INTERCEP%P(K)==PROC+1)THEN
-          CNRTM_L = CNRTM_L + 1 
+          CNRTM_L = CNRTM_L + 1
           TAG_SEGM(CNRTM_L) = K
           TAG_SEGM2(K) = CNRTM_L
           IF(TAG_NM(N1)==0)THEN
@@ -6254,15 +6254,15 @@ C ----------------------------------------
             INDX_NM(NINDX_NM) = N4
           ENDIF
         ENDIF
-      ENDDO  
+      ENDDO
 
-! prepare SPLIT Normals <=> Vertices 
+! prepare SPLIT Normals <=> Vertices
       NADMSR_L=0
       DO K=1,NRTM
         N1 = INTBUF_TAB%ADMSR(4*(K-1)+1)
         N2 = INTBUF_TAB%ADMSR(4*(K-1)+2)
         N3 = INTBUF_TAB%ADMSR(4*(K-1)+3)
-        N4 = INTBUF_TAB%ADMSR(4*(K-1)+4) 
+        N4 = INTBUF_TAB%ADMSR(4*(K-1)+4)
         IF(INTERCEP%P(K)==PROC+1)THEN
           IF(TAG_SM(N1)==0)THEN
             NADMSR_L=NADMSR_L+1
@@ -6281,9 +6281,9 @@ C ----------------------------------------
             TAG_SM(N4)=NADMSR_L
           END IF
         ENDIF
-      ENDDO 
+      ENDDO
 
-      CNMN_L = 0 
+      CNMN_L = 0
       DO I=1,NMN
         N = INTBUF_TAB%MSR(I)
         IF(TAG_NM(N)==1)THEN
@@ -6366,7 +6366,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -6388,7 +6388,7 @@ C-----------------------------------------------
       INTEGER :: PROC
       INTEGER :: TAG_EDGE(NEDGE_L)
       INTEGER, INTENT(IN) :: ITAB(*)
-      INTEGER, INTENT(IN) :: IRECTM(4,*) 
+      INTEGER, INTENT(IN) :: IRECTM(4,*)
       INTEGER, INTENT(IN) :: ADMSR(4,*)
       INTEGER, INTENT(IN) :: TAG_SM(*)
 
@@ -6400,8 +6400,8 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:),ALLOCATABLE :: IBUF
       INTEGER :: NB_FREE_EDGES
       INTEGER :: NB_INTERNAL_EDGES
-      INTEGER :: NB_BOUNDARY_EDGES_LOCAL ! boundary edges treated by current domain 
-      INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain 
+      INTEGER :: NB_BOUNDARY_EDGES_LOCAL ! boundary edges treated by current domain
+      INTEGER :: NB_BOUNDARY_EDGES_REMOTE ! boundary edges treated by the other domain
       INTEGER :: IAS,JAS,IS,N1,N2,I1,I2
 C ----------------------------------------
       ALLOCATE(IBUF(NLEDGE*NEDGE_L))
@@ -6423,12 +6423,12 @@ C FREE EDGES
         END IF
         IF( K1 > 0 .AND. K2 ==  -1) THEN
           NB_FREE_EDGES = NB_FREE_EDGES + 1
-! Internal edge 
+! Internal edge
           TAG_EDGE(ID) = I
 C at starter phase 9 and 10 are used to save PROC and local ID
-          ASSERT(LEDGE(9,I) == PROC) 
+          ASSERT(LEDGE(9,I) == PROC)
           ASSERT(LEDGE(10,I) == ID)
-          LEDGE(9,I) = PROC 
+          LEDGE(9,I) = PROC
           LEDGE(10,I) = ID
 
           ID = ID + 1
@@ -6439,7 +6439,7 @@ C at starter phase 9 and 10 are used to save PROC and local ID
           CMPT=CMPT+1
           IBUF(CMPT) = 0
           CMPT=CMPT+1
-          IBUF(CMPT) = 0          
+          IBUF(CMPT) = 0
           CMPT=CMPT+1
           IBUF(CMPT) = NODLOCAL(LEDGE(5,I))
           CMPT=CMPT+1
@@ -6449,7 +6449,7 @@ C at starter phase 9 and 10 are used to save PROC and local ID
           CMPT=CMPT+1
           IBUF(CMPT) = I !  + 10000* ITAB(LEDGE(6,I))
           CMPT=CMPT+1
-          IBUF(CMPT) = 1 !  Weight                         
+          IBUF(CMPT) = 1 !  Weight
 C orientation  segment 1
               CMPT=CMPT+1
           IAS=LEDGE(1,I)
@@ -6463,7 +6463,7 @@ C orientation  segment 1
           ELSE
             ASSERT(.FALSE.)
           END IF
-          IBUF(CMPT) = IS 
+          IBUF(CMPT) = IS
           IF(IS==1)THEN
             I1=ADMSR(JAS,IAS)
             I2=ADMSR(MOD(JAS,4)+1,IAS)
@@ -6472,9 +6472,9 @@ C orientation  segment 1
             I1=ADMSR(MOD(JAS,4)+1,IAS)
           END IF
           CMPT=CMPT+1
-          IBUF(CMPT) = TAG_SM(I1) 
+          IBUF(CMPT) = TAG_SM(I1)
           CMPT=CMPT+1
-          IBUF(CMPT) = TAG_SM(I2) 
+          IBUF(CMPT) = TAG_SM(I2)
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
 C orientation segment 2
@@ -6483,7 +6483,7 @@ C orientation segment 2
           CMPT=CMPT+1
           IBUF(CMPT) = 0
           CMPT=CMPT+1
-          IBUF(CMPT) = 0 
+          IBUF(CMPT) = 0
         END IF
       ENDDO
 
@@ -6503,12 +6503,12 @@ C INTERNAL EDGES
         IF( K1 > 0 .AND. K2 > 0) THEN
           NB_INTERNAL_EDGES = NB_INTERNAL_EDGES + 1
 
-! Internal edge 
+! Internal edge
           TAG_EDGE(ID) = I
 C at starter phase 9 and 10 are used to save PROC and local ID
-          ASSERT(LEDGE(9,I) == PROC) 
+          ASSERT(LEDGE(9,I) == PROC)
           ASSERT(LEDGE(10,I) == ID)
-          LEDGE(9,I) = PROC 
+          LEDGE(9,I) = PROC
           LEDGE(10,I) = ID
 
           ID = ID + 1
@@ -6529,7 +6529,7 @@ C at starter phase 9 and 10 are used to save PROC and local ID
           CMPT=CMPT+1
           IBUF(CMPT) = I !  + 10000* ITAB(LEDGE(6,I))
           CMPT=CMPT+1
-          IBUF(CMPT) = 1 !  Weight                         
+          IBUF(CMPT) = 1 !  Weight
 C orientation  segment 1
           CMPT=CMPT+1
           IAS=LEDGE(1,I)
@@ -6543,7 +6543,7 @@ C orientation  segment 1
           ELSE
             ASSERT(.FALSE.)
           END IF
-          IBUF(CMPT) = IS 
+          IBUF(CMPT) = IS
           IF(IS==1)THEN
             I1=ADMSR(JAS,IAS)
             I2=ADMSR(MOD(JAS,4)+1,IAS)
@@ -6551,10 +6551,10 @@ C orientation  segment 1
             I2=ADMSR(JAS,IAS)
             I1=ADMSR(MOD(JAS,4)+1,IAS)
           END IF
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I1) 
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I1)
           CMPT=CMPT+1
-          IBUF(CMPT) = TAG_SM(I2) 
+          IBUF(CMPT) = TAG_SM(I2)
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
 
@@ -6578,10 +6578,10 @@ C orientation segment 2
             I2=ADMSR(JAS,IAS)
             I1=ADMSR(MOD(JAS,4)+1,IAS)
           END IF
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I1) 
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I1)
           CMPT=CMPT+1
-          IBUF(CMPT) = TAG_SM(I2) 
+          IBUF(CMPT) = TAG_SM(I2)
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
 
@@ -6606,9 +6606,9 @@ C orientation segment 2
           NB_BOUNDARY_EDGES_LOCAL = NB_BOUNDARY_EDGES_LOCAL + 1
           TAG_EDGE(ID) = I
 C at starter phase 9 and 10 are used to save PROC and local ID
-          ASSERT(LEDGE(9,I) == PROC) 
+          ASSERT(LEDGE(9,I) == PROC)
 c         ASSERT(LEDGE(10,I) == ID)
-          LEDGE(9,I) = PROC 
+          LEDGE(9,I) = PROC
           LEDGE(10,I) = ID
 
           ID = ID + 1
@@ -6632,7 +6632,7 @@ C         IBUF(CMPT) = LEDGE(2,I)
           CMPT=CMPT+1
           IBUF(CMPT) = I !  + 10000* ITAB(LEDGE(6,I))
           CMPT=CMPT+1
-          IBUF(CMPT) = 1 !  Weight                         
+          IBUF(CMPT) = 1 !  Weight
 C orientation  segment 1
           CMPT=CMPT+1
           IAS=LEDGE(1,I)
@@ -6646,7 +6646,7 @@ C orientation  segment 1
           ELSE
             ASSERT(.FALSE.)
           END IF
-          IBUF(CMPT) = IS 
+          IBUF(CMPT) = IS
           IF(IS==1)THEN
             I1=ADMSR(JAS,IAS)
             I2=ADMSR(MOD(JAS,4)+1,IAS)
@@ -6654,10 +6654,10 @@ C orientation  segment 1
             I2=ADMSR(JAS,IAS)
             I1=ADMSR(MOD(JAS,4)+1,IAS)
           END IF
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I1) 
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I2) 
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I1)
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I2)
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
 
@@ -6680,10 +6680,10 @@ C orientation segment 2
             I2=ADMSR(JAS,IAS)
             I1=ADMSR(MOD(JAS,4)+1,IAS)
         ENDIF
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I1) 
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I2) 
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I1)
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I2)
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
 
@@ -6727,11 +6727,11 @@ C         IBUF(CMPT) = LEDGE(4,I)
           CMPT=CMPT+1
           IBUF(CMPT) = I !8
           CMPT=CMPT+1
-          IBUF(CMPT) = 0 !9 
+          IBUF(CMPT) = 0 !9
 C orientation  segment 1
           CMPT=CMPT+1
           IAS=LEDGE(3,I) ! segments have been switched
-          JAS=LEDGE(4,I) ! The first one is 3-4 
+          JAS=LEDGE(4,I) ! The first one is 3-4
           N1=LEDGE(5,I)
           N2=LEDGE(6,I)
           IF(IRECTM(JAS,IAS)==N1.AND.IRECTM(MOD(JAS,4)+1,IAS)==N2)THEN
@@ -6741,7 +6741,7 @@ C orientation  segment 1
           ELSE
             ASSERT(.FALSE.)
         ENDIF
-          IBUF(CMPT) = IS !10 
+          IBUF(CMPT) = IS !10
           IF(IS==1)THEN
             I1=ADMSR(JAS,IAS)
             I2=ADMSR(MOD(JAS,4)+1,IAS)
@@ -6749,9 +6749,9 @@ C orientation  segment 1
             I2=ADMSR(JAS,IAS)
             I1=ADMSR(MOD(JAS,4)+1,IAS)
           END IF
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I1)!11 
-          CMPT = CMPT +1 
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I1)!11
+          CMPT = CMPT +1
           IBUF(CMPT) = TAG_SM(I2) !12
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
@@ -6775,9 +6775,9 @@ C orientation segment 2
             I2=ADMSR(JAS,IAS)
             I1=ADMSR(MOD(JAS,4)+1,IAS)
           END IF
-          CMPT = CMPT +1 
-          IBUF(CMPT) = TAG_SM(I1) !14 
-          CMPT = CMPT +1 
+          CMPT = CMPT +1
+          IBUF(CMPT) = TAG_SM(I1) !14
+          CMPT = CMPT +1
           IBUF(CMPT) = TAG_SM(I2) !15
           ASSERT(TAG_SM(I1) > 0)
           ASSERT(TAG_SM(I2) > 0)
@@ -6824,7 +6824,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -6844,7 +6844,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PROC,NSN,NSN_L,II_STOK,MULTIMP,NCONT,
      .        TAG_SEGM2(*),NOINT,INACTI,
-     .        TAG_SCRATCH(*) , II_STOK_L, ITYP   
+     .        TAG_SCRATCH(*) , II_STOK_L, ITYP
       INTEGER, INTENT(INOUT) :: NINDX_SCRT
       INTEGER, DIMENSION(*), INTENT(INOUT) :: INDX_SCRT
 
@@ -6853,7 +6853,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -6861,7 +6861,7 @@ C-----------------------------------------------
      .        SPLIST,C_NSNR
       INTEGER NUMP(NSPMD),WORK(70000)
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF_E,IBUF_N,NSNLOCAL,CPULOCAL,CANDR,PLIST,
      .  INDEX
 
@@ -6872,7 +6872,7 @@ C ----------------------------------------
       ALLOCATE(IBUF_E(MULTIMP*NCONT),IBUF_N(MULTIMP*NCONT))
       IBUF_E(1:MULTIMP*NCONT) = 0
       IBUF_N(1:MULTIMP*NCONT) = 0
-      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7 
+      II_STOK_L = 0 !mandatory in case of inacti ne 5,6,7
 
         IF(NSN>0) THEN
           ALLOCATE(NSNLOCAL(NSN))
@@ -6882,14 +6882,14 @@ C ----------------------------------------
 
         NUMP(1:NSPMD) = 0
 
-        ALLOCATE(PLIST(NSPMD)) 
+        ALLOCATE(PLIST(NSPMD))
         PLIST(1:NSPMD) = -1
         DO K=1,NSN
           N = INTBUF_TAB%NSV(K)
           NSNLOCAL(K) = 0
-          IF(TAG_SCRATCH(N)==0) THEN 
-            SPLIST=0 
-            CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+          IF(TAG_SCRATCH(N)==0) THEN
+            SPLIST=0
+            CALL PLIST_IFRONT(PLIST,N,SPLIST)
             DO I=1,SPLIST
               P=PLIST(I)
               NUMP(P) = NUMP(P)+1
@@ -6907,11 +6907,11 @@ C ----------------------------------------
             INDX_SCRT(NINDX_SCRT) = N
           ENDIF
         ENDDO
-        DEALLOCATE(PLIST) 
+        DEALLOCATE(PLIST)
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -6940,7 +6940,7 @@ C
 
         !reflush TAG_SCRATCH to zero only when value has changes
 #include "vectorize.inc"
-        DO K=1,NINDX_SCRT  
+        DO K=1,NINDX_SCRT
           N = INDX_SCRT(K)
           TAG_SCRATCH(N) = 0
         ENDDO
@@ -7014,18 +7014,18 @@ c                IF(TAG(N)==0) THEN
         END IF !II_STOK_L>MULTIMP*NCONT
 
         !reflush TAG_SCRATCH to zero only when value has changes
-        DO K=1, II_STOK  
+        DO K=1, II_STOK
               E = INTBUF_TAB%CAND_E(K)
           IF (TAG_SEGM2(E)/=0) THEN
             N = INTBUF_TAB%CAND_N(K)
             IF (INTBUF_TAB%NSV(N)<= NUMNOD) TAG_SCRATCH(N) = 0
           ENDIF
         ENDDO
-  
+
         IF(NSN>0) DEALLOCATE(NSNLOCAL,CPULOCAL,CANDR)
         DEALLOCATE(INDEX,ITRI)
 
-         
+
       CALL WRITE_I_C(IBUF_E,MULTIMP*NCONT)
       CALL WRITE_I_C(IBUF_N,MULTIMP*NCONT)
 
@@ -7051,7 +7051,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -7084,13 +7084,13 @@ C ----------------------------------------
       DO I=1, NADMSR
         K=TAG_SM(I)
         IF(K /= 0) TAG_MS(K) = I
-      END DO 
+      END DO
 
       ADSKYN_L(1)=1
       DO K=1, NADMSR_L
         I=TAG_MS(K)
         ADSKYN_L(K+1)=ADSKYN_L(K)+ADSKYN(I+1)-ADSKYN(I)
-      END DO 
+      END DO
 
       DO I=1, NRTM_L
         K=TAG_SEGM(I)
@@ -7121,7 +7121,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7151,7 +7151,7 @@ C ----------------------------------------
       DO I=1, NADMSR
         K=TAG_SM(I)
         IF(K /= 0) TAG_MS(K) = I
-      END DO 
+      END DO
 C ----------------------------------------
       ALLOCATE(IBUF(NADMSR_L))
 
@@ -7186,7 +7186,7 @@ c
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7230,7 +7230,7 @@ C ----------------------------------------
              IBUF(I) = FICT_SN
             ENDIF
           ENDIF
-          
+
         ENDDO
       ENDDO
 
@@ -7258,7 +7258,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE FRONT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -7280,7 +7280,7 @@ C-----------------------------------------------
       INTEGER PROC,NRTM,NRTM_L,
      .        TAG_SEGM2(*),NREMNODE,NODLOCAL(*),
      .        ITAB(*),IS2ID(*),NSNE,NODLOCAL24(*)
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        SIZ_TMP
 
       TYPE(INTBUF_STRUCT_) :: INTBUF_TAB
@@ -7289,13 +7289,13 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL      
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,SIZ,L,SIZ1,SIZ2,M,N,SE1,NS,NUMNODT
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .  IBUF1,IBUF2,NODDEL,NODDELREMOTE
 C ----------------------------------------
       ALLOCATE(SIZ_TMP(NRTM),NODDEL(NUMNOD+NSNE),
@@ -7409,7 +7409,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7437,14 +7437,14 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
 !      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL      
+!      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,K,SIZ,
      .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        IBUF1,IBUF2
 C ----------------------------------------
 C
@@ -7533,7 +7533,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7561,7 +7561,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
 !      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL      
+!      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7569,7 +7569,7 @@ C-----------------------------------------------
      .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1,IK,
      .        KM1,EM1,KM2,EM2,KS1,ES1,KS2,ES2
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        IBUF1,IBUF2
 C ----------------------------------------
 C
@@ -7579,7 +7579,7 @@ C
       IBUF2(1:NREMNODE_EDG_L) = 0
 C
 C---  Split of KERMNODE -> IBUF1
- 
+
       INDEX1 = 1
       CPT_L = 0
       DO IK=1,NEDGE_L
@@ -7686,7 +7686,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -7714,7 +7714,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
 !      INTEGER  NLOCAL
-!      EXTERNAL NLOCAL      
+!      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -7722,7 +7722,7 @@ C-----------------------------------------------
      .        L,SIZ1,SIZ2,M,N,CPT_L,INDEX1,IK,
      .        KM1,EM1,KM2,EM2,KS1,ES1,KS2,ES2
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: 
+      INTEGER, DIMENSION(:),ALLOCATABLE ::
      .        IBUF1,IBUF2
 C ----------------------------------------
 C
@@ -7732,11 +7732,11 @@ C
       IBUF2(1:NREMNODE_E2S_L) = 0
 C
 C---  Split of KERMNODE -> IBUF1
- 
+
       INDEX1 = 1
       CPT_L = 0
       DO K=1,NRTM
-        IF(SEGLOC(K) >  0) THEN  
+        IF(SEGLOC(K) >  0) THEN
           SIZ = INTBUF_TAB%KREMNODE_E2S(K+1)-INTBUF_TAB%KREMNODE_E2S(K)
           L=INTBUF_TAB%KREMNODE_E2S(K)
           SIZ1 = 0
@@ -7744,7 +7744,7 @@ C---  Split of KERMNODE -> IBUF1
           DO M=1,SIZ
             N = INTBUF_TAB%REMNODE_E2S(L+M-1)
             ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
-            IF(SEGLOC(ES1) >  0) THEN  
+            IF(SEGLOC(ES1) >  0) THEN
 C--           Local segment - local id is stored
               SIZ1 = SIZ1 + 1
             ELSE
@@ -7765,7 +7765,7 @@ C
 C---  Split of REMNODE -> IBUF2
       CPT_L = 0
       DO K=1,NRTM
-        IF(SEGLOC(K) >  0) THEN  
+        IF(SEGLOC(K) >  0) THEN
 C
           CPT_L = CPT_L + 1
           L=INTBUF_TAB%KREMNODE_E2S(K)
@@ -7776,7 +7776,7 @@ C
           DO M=1,SIZ
             N = INTBUF_TAB%REMNODE_E2S(L+M-1)
             ES1=INTBUF_TAB%LEDGE(1+(N-1)*NLEDGE)
-            IF(SEGLOC(ES1) >  0) THEN  
+            IF(SEGLOC(ES1) >  0) THEN
 C-- Local segment - local id is stored
               IBUF2(SIZ1) = TAG_EDGE2(N)
               SIZ1 = SIZ1+1

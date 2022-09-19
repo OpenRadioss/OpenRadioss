@@ -40,7 +40,7 @@ Chd|        MINTP1_RT                     eos/mintp1_rt.F
 Chd|        MINTP_RE                      eos/mintp_re.F                
 Chd|        MINTP_RT                      eos/mintp_rt.F                
 Chd|====================================================================
-      SUBROUTINE SESAME(IFLAG,NEL, PM   ,OFF  ,EINT ,RHO  ,RHO0  , 
+      SUBROUTINE SESAME(IFLAG,NEL, PM   ,OFF  ,EINT ,RHO  ,RHO0  ,
      2                  ESPE ,DVOL ,MAT  ,PNEW ,DPDM ,DPDE  ,THETA ,
      3                  BUFMAT)
 C-----------------------------------------------
@@ -57,9 +57,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(MVSIZ), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), BUFMAT(*), 
+     .   PM(NPROPM,*), BUFMAT(*),
      .   OFF(MVSIZ) , EINT(MVSIZ), RHO(MVSIZ) , RHO0(MVSIZ),
-     .   ESPE(MVSIZ), DVOL(MVSIZ), PNEW(MVSIZ), 
+     .   ESPE(MVSIZ), DVOL(MVSIZ), PNEW(MVSIZ),
      .   DPDM(MVSIZ), DPDE(MVSIZ), THETA(MVSIZ)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s

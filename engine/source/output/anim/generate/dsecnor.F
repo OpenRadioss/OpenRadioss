@@ -69,7 +69,7 @@ C
          IF(IABS(ITYP)==1.OR.ITYP==4)THEN
            NXX = THREE1000*RWBUF(1,N)
            NYY = THREE1000*RWBUF(2,N)
-           NZZ = THREE1000*RWBUF(3,N)   
+           NZZ = THREE1000*RWBUF(3,N)
            DO J=1,4
             CALL WRITE_S_C(NXX,1)
             CALL WRITE_S_C(NYY,1)

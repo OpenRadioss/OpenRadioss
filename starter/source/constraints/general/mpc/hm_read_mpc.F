@@ -80,7 +80,7 @@ C-----------------------------------------------
       my_real
      .        RBUF(*)
       INTEGER NOM_OPT(LNOPT1,*)
-      TYPE(UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE(UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -218,13 +218,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, ID, NUMC 
+      INTEGER I, ID, NUMC
       CHARACTER TITR*nchartitle
       LOGICAL IS_AVAILABLE
 C======================================================================|
       IS_AVAILABLE = .FALSE.
 C
-      ! Start reading /MPC card 
+      ! Start reading /MPC card
       CALL HM_OPTION_START('/MPC')
 
       LEN = 0

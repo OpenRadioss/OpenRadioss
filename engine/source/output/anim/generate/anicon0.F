@@ -53,7 +53,7 @@ C
          DO I = 1 , N
           CONT(1,I) = ZERO
           CONT(2,I) = ZERO
-          CONT(3,I) = ZERO  
+          CONT(3,I) = ZERO
          ENDDO
 C
 #include "lockoff.inc"
@@ -93,7 +93,7 @@ C
 
           CONT(1,INDEXC(I)) = ZERO
           CONT(2,INDEXC(I)) = ZERO
-          CONT(3,INDEXC(I)) = ZERO  
+          CONT(3,INDEXC(I)) = ZERO
          ENDDO
 C
 #include "lockoff.inc"

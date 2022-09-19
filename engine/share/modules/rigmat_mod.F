@@ -35,8 +35,8 @@ C------------------------
 C tableau de travail 
 C------------------------
          my_real
-     .          , DIMENSION(:), ALLOCATABLE :: 
+     .          , DIMENSION(:), ALLOCATABLE ::
      .                              VRBYM, VRRBYM,ARBYM,ARRBYM
-     .                                          
+     .
 C
       END MODULE RIGMAT_MOD

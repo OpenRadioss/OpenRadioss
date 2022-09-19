@@ -48,7 +48,7 @@ C-----------------------------------------------
       TYPE (H3D_DATABASE) :: H3D_DATA
       INTEGER IKAD(0:*),IKEY,IREC
       INTEGER NBC
-      CHARACTER KEY0(*)*5 
+      CHARACTER KEY0(*)*5
       CHARACTER(LEN=ncharkey) :: KEY2, KEY3, KEY4, KEY5,KEY6,KEY7,KEY8
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -131,7 +131,7 @@ C--------------------------------------------------
       CPT = 0
       IF ( IS_CHAR_KEY3 == 1 .AND. IS_EMPTY_KEY3 == 0) THEN
         DO I=1,ncharkey
-          IF ( KEY3(I:I) /= ' ' ) THEN 
+          IF ( KEY3(I:I) /= ' ' ) THEN
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY3(I:I)
           ENDIF
@@ -141,7 +141,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY4(I:I) /= ' ' ) THEN 
+          IF ( KEY4(I:I) /= ' ' ) THEN
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY4(I:I)
           ENDIF
@@ -151,7 +151,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY5(I:I) /= ' ' ) THEN 
+          IF ( KEY5(I:I) /= ' ' ) THEN
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY5(I:I)
           ENDIF
@@ -161,7 +161,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY6(I:I) /= ' ' ) THEN 
+          IF ( KEY6(I:I) /= ' ' ) THEN
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY6(I:I)
           ENDIF
@@ -171,7 +171,7 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY7(I:I) /= ' ' ) THEN 
+          IF ( KEY7(I:I) /= ' ' ) THEN
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY7(I:I)
           ENDIF
@@ -181,14 +181,14 @@ C--------------------------------------------------
         CPT = CPT + 1
         KEY3_GLOB(CPT:CPT) = '/'
         DO I=1,ncharkey
-          IF ( KEY8(I:I) /= ' ' ) THEN 
+          IF ( KEY8(I:I) /= ' ' ) THEN
             CPT = CPT + 1
             KEY3_GLOB(CPT:CPT) = KEY8(I:I)
           ENDIF
         ENDDO
       ENDIF
 C-------------------------------------------------- 
-      IF(KEY2 == 'NODA') THEN   
+      IF(KEY2 == 'NODA') THEN
 c scalar
         IF (KEY3_GLOB == 'DT') H3D_DATA%N_SCAL_DT  = 1
         IF (KEY3_GLOB == 'DMASS') H3D_DATA%N_SCAL_DMAS  = 1
@@ -205,16 +205,16 @@ c vector
         IF (KEY3_GLOB == 'PCONT') H3D_DATA%N_VECT_PCONT   = 1
         IF (KEY3_GLOB == 'CONT2') H3D_DATA%N_VECT_CONT2   = 1
         IF (KEY3_GLOB == 'PCONT2') H3D_DATA%N_VECT_PCONT2   = 1
-        IF (KEY3_GLOB == 'DROT') H3D_DATA%N_VECT_DROT   = 1 
+        IF (KEY3_GLOB == 'DROT') H3D_DATA%N_VECT_DROT   = 1
         IF (KEY3_GLOB == 'DXANC') H3D_DATA%N_VECT_DXANC  = 1
         IF (KEY3_GLOB == 'FREAC') H3D_DATA%N_VECT_FREAC  = 1
         IF (KEY3_GLOB == 'MREAC') H3D_DATA%N_VECT_MREAC  = 1
-        IF (KEY3_GLOB == 'CLUST/FORCE') H3D_DATA%N_VECT_CLUST_FORCE  = 1 
-        IF (KEY3_GLOB == 'CLUST/MOM') H3D_DATA%N_VECT_CLUST_MOM   = 1    
+        IF (KEY3_GLOB == 'CLUST/FORCE') H3D_DATA%N_VECT_CLUST_FORCE  = 1
+        IF (KEY3_GLOB == 'CLUST/MOM') H3D_DATA%N_VECT_CLUST_MOM   = 1
       ENDIF
-      
+
       IF(KEY2 == "ELEM" .OR. KEY2 == 'SOLID' .OR. KEY2 == 'QUAD')THEN
-        IF (KEY3_GLOB == 'VECT/CONT') H3D_DATA%N_VECT_CONT  = 1      
+        IF (KEY3_GLOB == 'VECT/CONT') H3D_DATA%N_VECT_CONT  = 1
       ENDIF
 c
       ! Just for EPSDOT

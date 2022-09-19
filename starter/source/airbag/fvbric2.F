@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE FVBRIC2(IBUF  , ELEM, IXS   , NEL , NBRIC,
      .                   TBRIC , TFAC, TAGELS, NELA,
-     .                   IBUFA , NNA , ELEMA , 
+     .                   IBUFA , NNA , ELEMA ,
      .                   TAGELA, BRNA, NB_NODE)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IBUF(*), ELEM(3,*), IXS(NIXS,*), NEL, NBRIC,
-     .        NELA, 
+     .        NELA,
      .        NNA, ELEMA(3,*), TAGELA(*), BRNA(8,*), NB_NODE
       INTEGER, DIMENSION(NNA), INTENT(IN) :: IBUFA
       INTEGER, DIMENSION(NEL), INTENT(IN) :: TAGELS
@@ -89,7 +89,7 @@ C
             ELEMA(2,NELA)=ELEM(2,I)
             ELEMA(3,NELA)=ELEM(3,I)
          ENDIF
-      ENDDO 
+      ENDDO
       DO I=1,NNA
          II=IBUFA(I)
          ITABINV(II)=I

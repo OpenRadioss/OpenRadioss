@@ -197,7 +197,7 @@ C=======================================================================
          CALL HM_GET_INT_ARRAY_2INDEXES('ids',IDS,JCLAUSE,I,IS_AVAILABLE,LSUBMODEL)
 
          NODSYS = SET_USRTOS(IDS,ITABM1,NUMNOD)
-         IF(NODSYS == 0)THEN        
+         IF(NODSYS == 0)THEN
            ! Node was not found. Issue a Warning & Skip.
            CALL ANCMSG(MSGID=1902,ANMODE=ANINFO,
      .                             MSGTYPE=MSGWARNING,
@@ -220,7 +220,7 @@ C=======================================================================
 
 
       ! Sort the Readed NODEs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       DO I=1,NINDX
         INDEX(I) = I
@@ -236,7 +236,7 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      CLAUSE%NB_NODE = LIST_SIZE  
+      CLAUSE%NB_NODE = LIST_SIZE
       ALLOCATE( CLAUSE%NODE( LIST_SIZE ) )
 
       DO I=1,LIST_SIZE

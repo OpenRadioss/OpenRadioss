@@ -116,15 +116,15 @@ C
         NM = 0
         DO J=1,NSLT
          CALL HM_GET_INT_ARRAY_INDEX('independentnodesets',INGU,J,IS_AVAILABLE,LSUBMODEL)
-         IF(INGU == 0) THEN 
+         IF(INGU == 0) THEN
            NN = 0
            IGS = 0
          ELSE
            CALL C_HASH_FIND(GRNOD_UID,INGU,IGS)
-           IF(IGS == 0) THEN 
-             NN = 0 
+           IF(IGS == 0) THEN
+             NN = 0
            ELSE
-             NN = IGRNOD(IGS)%NENTITY 
+             NN = IGRNOD(IGS)%NENTITY
            ENDIF
          ENDIF
          NM = NM + NN

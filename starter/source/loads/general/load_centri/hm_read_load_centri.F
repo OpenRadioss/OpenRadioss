@@ -75,8 +75,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER ICFIELD(SIZFIELD,*), LCFIELD(*), ITAB(*), ITABM1(*), 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER ICFIELD(SIZFIELD,*), LCFIELD(*), ITAB(*), ITABM1(*),
      .  NPC(*),LSENSOR(NSENSI,*),IFRAME(LISKN,*)
       my_real CFIELD(LFACLOAD,*)
 C-----------------------------------------------
@@ -91,7 +91,7 @@ C-----------------------------------------------
      .        UID,IAD,ID,IFLAGUNIT,NCURS,TSENS,IFRAS, IVAR, ISU, IDIR,
      .        SUB_INDEX, SUB_ID
       INTEGER FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP
-      CHARACTER MESS*40, XYZ*ncharfield, 
+      CHARACTER MESS*40, XYZ*ncharfield,
      .          char_X*1, char_Y*1, char_Z*1, char_XX*2, char_YY*2, char_ZZ*2
       CHARACTER TITR*nchartitle
       LOGICAL IS_AVAILABLE
@@ -140,8 +140,8 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
 
       IAD          = 1
-      NN           = 0 
-      
+      NN           = 0
+
 C--------------------------------------------------
 C START BROWSING MODEL CLOAD
 C--------------------------------------------------
@@ -175,7 +175,7 @@ C--------------------------------------------------
      .                MSGTYPE = MSGWARNING,
      .                I1      = ID,
      .                I2      = SUB_ID,
-     .                C1      = TITR)  
+     .                C1      = TITR)
         END IF
         CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
@@ -203,10 +203,10 @@ C--------------------------------------------------
      .                I1      = ID,
      .                C1      = 'CENTRIFUGAL LOAD',
      .                C2      = 'CENTRIFUGAL LOAD',
-     .                C3      = TITR)  
+     .                C3      = TITR)
         ENDIF
 C----------- 
-        IDIR=0       
+        IDIR=0
         IF(XYZ(1:1)==char_X) IDIR=1
         IF(XYZ(1:1)==char_Y) IDIR=2
         IF(XYZ(1:1)==char_Z) IDIR=3
@@ -300,7 +300,7 @@ C-----------
      .     NCUR,ISENS,FCX,FCY
 C---------
         IAD = IAD + NN  !  NUMCENTRI
-     
+
       ENDDO ! next K (next /LOAD/CENTRI)
 C--------------------------------------------------------------------------------
       RETURN
@@ -319,5 +319,5 @@ C-------------------------------------------------------------------------------
      .'NODE GROUP       FRAME   DIR  LOAD_CURVE      SENSOR',
      .'           SCALE_X               SCALE_Y')
 C-----------------------------------------------
-     
+
       END

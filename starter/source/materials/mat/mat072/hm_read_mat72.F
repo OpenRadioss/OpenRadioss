@@ -36,7 +36,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT72(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,MATPARAM )
 C-----------------------------------------------
@@ -59,10 +59,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)          :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)          :: UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR,IMATVIS
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -93,7 +93,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .     RHO0,RHOR,
      .     E,NU,G,G2,C11,A1,A2,LAMHOOK,
      .     CP,EPS0,SIGY,EXP,
@@ -123,20 +123,20 @@ card3 - Hardening parameter + Hill yield criterion parameters
       CALL HM_GET_FLOATV('Epsilon_0'  ,EPS0        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_n1_t'   ,EXP         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_F'      ,FF          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_G0'     ,GG          ,IS_AVAILABLE, LSUBMODEL, UNITAB)    
+      CALL HM_GET_FLOATV('MAT_G0'     ,GG          ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card4 - Hill yield criterion parameters
       CALL HM_GET_FLOATV('MAT_HARD'   ,HH         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_N'      ,NN         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_Lamda'  ,LL         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_M'      ,MM         ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('MAT_M'      ,MM         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card5 - Modified Mohr Coulomb failure criterion parameter
       CALL HM_GET_FLOATV('MAT_C1'    ,C1         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_C2'    ,C2         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_C3'    ,C3         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_MUE1'  ,MEXP       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_Dc'    ,DC         ,IS_AVAILABLE, LSUBMODEL, UNITAB)         
+      CALL HM_GET_FLOATV('MAT_Dc'    ,DC         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C 
-      !========== DEFAULT VALUES=============!              
+      !========== DEFAULT VALUES=============!
 C           
       ! Poisson's ratio
       IF (NU < ZERO .OR. NU >= HALF) THEN
@@ -147,16 +147,16 @@ C
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-      ! Critical damage 
+      ! Critical damage
       IF (DC == ZERO)  DC = ONE
       ! Error message, DC < 1
-      IF (DC < ONE) THEN 
+      IF (DC < ONE) THEN
          CALL ANCMSG(MSGID=1894,
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               R1=DC,
      .               I1=MAT_ID,
-     .               C1=TITR)      
+     .               C1=TITR)
       ENDIF
       ! Test for HILL coefficient
       IF ((FF<ZERO).OR.(GG<ZERO).OR.(HH<ZERO).OR.
@@ -165,9 +165,9 @@ C
      .               MSGTYPE=MSGERROR,
      .               ANMODE=ANINFO_BLIND_2,
      .               I1=MAT_ID,
-     .               C1=TITR)         
+     .               C1=TITR)
       ENDIF
-      ! Hardening exponent 
+      ! Hardening exponent
       IF (EXP == ZERO)  EXP  = ONE
       ! Failure criterion exponent
       IF (MEXP == ZERO) MEXP = ONE
@@ -175,12 +175,12 @@ C
       IF (SIGY == ZERO) SIGY = INFINITY
       IF (C2 == ZERO)   C2   = SIGY
       ! Make sure initial plastic strain is strictly positive
-      IF (EPS0 < ZERO) THEN 
+      IF (EPS0 < ZERO) THEN
          CALL ANCMSG(MSGID=2080,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
      .               I1=MAT_ID,
-     .               C1=TITR)          
+     .               C1=TITR)
       ENDIF
       EPS0 = MAX(EPS0,EM20)
 C
@@ -194,7 +194,7 @@ C
       G       = HALF*E/( ONE + NU)
       G2      = TWO*G
       !  -> Hooke's lambda parameter
-      LAMHOOK = G2 * NU /(ONE - TWO*NU) 
+      LAMHOOK = G2 * NU /(ONE - TWO*NU)
 C      
       ! PM table
       RHOR   = RHO0
@@ -229,17 +229,17 @@ C
 C
 c--------------------------
 c     Filling buffer tables
-c-------------------------- 
+c--------------------------
       ! Number of material parameter
       NUPARAM = 24
-      ! Number of user variable      
+      ! Number of user variable
       NUVAR   = 1
-c          
+c
       ! Filling the parameter table
       ! -> Elastic parameters
       UPARAM(1)  = E
       UPARAM(2)  = NU
-      UPARAM(3)  = G  
+      UPARAM(3)  = G
       UPARAM(4)  = G2
       ! -> Plane stress isotropic elastic matrix components (for shells)
       UPARAM(5)  = E/(ONE - NU*NU)
@@ -254,7 +254,7 @@ c
       ! -> Hardening parameters
       UPARAM(11) = SIGY
       UPARAM(12) = EPS0
-      UPARAM(13) = EXP 
+      UPARAM(13) = EXP
       ! -> Yield criterion parameters
       UPARAM(14) = FF
       UPARAM(15) = GG
@@ -267,11 +267,11 @@ c
       UPARAM(21) = C2
       UPARAM(22) = C3
       UPARAM(23) = MEXP
-      UPARAM(24) = DC   
+      UPARAM(24) = DC
 C
 c--------------------------
 c     Parameters printout
-c-------------------------- 
+c--------------------------
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,ILAW
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED )THEN

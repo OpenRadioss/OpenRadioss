@@ -48,7 +48,7 @@ C-----------------------------------------------
         TYPE(TH_WA_REAL), INTENT(in) ::WA_ELTYPE_P0
         TYPE(TH_PROC_TYPE), INTENT(in) :: ELTYPE_STRUCT
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       N : integer ; current TH group 
+!       N : integer ; current TH group
 !       NSPMD : integer ; number of MPI domains
 !       NN : integer, number of element group
 !       NVAR : integer ; number of value per element group
@@ -67,14 +67,14 @@ C-----------------------------------------------
 !       WRITE_TH_COQ description
 !       write all the values for shell element
 !       and for a given group N by the PROC0
-!       
+!
 !       WRITE_TH_COQ organization :
 !        * loop over the NSPMD processor and:
 !           - check if a processor must write its values (SIZE_N>0)
 !           - compute the number of group for a given processor (REST)
 !           - compute the position in the TH file (CURRENT_J)
 !           - initialization of the writen values WA_LOCAL with the position CURRENT_J + J
-!        * write the WA_LOCAL values 
+!        * write the WA_LOCAL values
 !$ENDCOMMENT
 
 !       allocation + initialization of local array
@@ -102,10 +102,10 @@ C-----------------------------------------------
                 REST = SIZE_N / (NVAR+1)    ! nbr of th group for the current proc
                 II = 0
                 DO K=1,REST
-                    CURRENT_J = NINT(WA_ELTYPE_P0%WA_REAL( CURRENT+K*(NVAR+1) ) ) ! the position in WA_LOCAL for the current TH 
-                    DO J=1,NVAR   
-                        II = II + 1   
-                        WA_LOCAL(CURRENT_J+J) = WA_ELTYPE_P0%WA_REAL(CURRENT+II)                
+                    CURRENT_J = NINT(WA_ELTYPE_P0%WA_REAL( CURRENT+K*(NVAR+1) ) ) ! the position in WA_LOCAL for the current TH
+                    DO J=1,NVAR
+                        II = II + 1
+                        WA_LOCAL(CURRENT_J+J) = WA_ELTYPE_P0%WA_REAL(CURRENT+II)
                     ENDDO
                     II = II + 1  ! skip the NVAR+1 value = the position in WA_LOCAL
                 ENDDO

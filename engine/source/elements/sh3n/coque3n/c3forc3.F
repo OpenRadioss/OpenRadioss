@@ -88,7 +88,7 @@ Chd|====================================================================
      B           NEL      ,ISTRAIN  ,ISH3N   ,XEDGE3N  ,
      C           ITHK     ,IOFC     ,IPLA    ,NFT      ,ISMSTR   ,
      D           NPT      ,KFTS     ,
-     E           FZERO    ,IGEO     ,IPM     ,IFAILURE ,ITASK    ,  
+     E           FZERO    ,IGEO     ,IPM     ,IFAILURE ,ITASK    ,
      F           JTHE     ,TEMP     ,FTHE    ,FTHESKY  ,IEXPAN   ,
      G           GRESAV   ,GRTH     ,IGRTH   ,
      H           MSTG     ,DMELTG   ,JSMS    ,TABLE    ,IPARG    ,
@@ -105,9 +105,9 @@ C-----------------------------------------------
       USE CRACKXFEM_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD       
-      USE NLOCAL_REG_MOD          
-      USE DRAPE_MOD      
+      USE MATPARAM_DEF_MOD
+      USE NLOCAL_REG_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -145,7 +145,7 @@ C-----------------------------------------------
      .   IXFEM,LSENSOR(NSENSI,*),IBORDNODE(*),
      .   ELCUTC(2,*),INOD_CRK(*),NODENR(*),IEL_CRK(*),IADTG_CRK(3,*),
      .   NODEDGE(2,*),CRKNODIAD(*),KNOD2ELC(*),XEDGE3N(3,*)
-      my_real 
+      my_real
      .   PM(*), F(*), M(*), V(*), R(*),X(*),
      .   GEO(NPROPG,*), TF(*), BUFMAT(*), PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
@@ -157,7 +157,7 @@ C-----------------------------------------------
      .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ),
      .   FZERO(3,3,*),TEMP(*),FTHE(*),FTHESKY(*),GRESAV(*),MSTG(*),
      .   DMELTG(*),SENSOR(NSENSR,*), PTG(3,*),CONDN(*),CONDNSKY(*)
- 
+
 
 !       SP issue :
       REAL(kind=8), DIMENSION(*), INTENT(in), TARGET :: XDP
@@ -167,20 +167,20 @@ C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), DIMENSION(NXEL), TARGET :: XFEM_STR  ! take xfem_str
       TYPE (XFEM_EDGE_)   , DIMENSION(*) :: CRKEDGE
       TYPE (STACK_PLY) :: STACK
-      TYPE (NLOCAL_STR_)   ,TARGET :: NLOC_DMG 
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (NLOCAL_STR_)   ,TARGET :: NLOC_DMG
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE (DRAPE_) :: DRAPE_T3
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  indx utilise localement contrairement aux coques 4n
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE_EL(NEL)
       INTEGER I,J,IFLAG,NPG,IBID,IDRIL,NG,IR,IS,N1,N2,N3,
      .   IXEL,IXLAY,ILAY,NXLAY,NLAY,L_DIRA,L_DIRB,J1,J2,IGMAT,IGTYP,
      .   IMAT,NPTTOT,IREP,ipr,IFRAM_OLD,IPRI,IFAILWAVE
-      my_real 
+      my_real
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),BID,
      .   VISCMX(MVSIZ),AREA(MVSIZ),
      .   X2L(MVSIZ), X3L(MVSIZ), Y2L(MVSIZ),Y3L(MVSIZ),
@@ -206,7 +206,7 @@ c  indx utilise localement contrairement aux coques 4n
      .   RLZ(MVSIZ,3),WXY(MVSIZ),MLZ(MVSIZ,3),KRZ(MVSIZ),
      .   B0RZ(MVSIZ,3),BKRZ(MVSIZ,2),BERZ(MVSIZ,2),BM0RZ(MVSIZ,3,2),
      .   CONDE(MVSIZ),A11R(MVSIZ),FAC1,ALDT(MVSIZ),SSP(MVSIZ)
-      my_real 
+      my_real
      .   AREAT(MVSIZ),X2T(MVSIZ) ,Y2T(MVSIZ), X3T(MVSIZ),Y3T(MVSIZ),
      .   F_DEF(MVSIZ,8), U21X(MVSIZ),U31X(MVSIZ),U21Y(MVSIZ),U31Y(MVSIZ),
      .   RZ13(MVSIZ),RZ23(MVSIZ),BMRZT(MVSIZ,8),WKXY(MVSIZ),
@@ -271,12 +271,12 @@ c
         MAT(I) = IXTG(1,I)
         PID(I) = IXTG(5,I)
         NGL(I) = IXTG(6,I)
-        THK0(I) = THKE(I)   
+        THK0(I) = THKE(I)
       ENDDO
       IMAT  = IXTG(1,JFT)
       ICSEN = IGEO(3,PID(1))
       IGTYP = IGEO(11,PID(1))
-      IGMAT = IGEO(98,PID(1))  
+      IGMAT = IGEO(98,PID(1))
 c--------------------------------------------
 c     Front wave
 c--------------------------------------------
@@ -288,7 +288,7 @@ c--------------------------------------------
           DO J=1,NEL
             OFFLY(J) = MAX(OFFLY(J), ELBUF_STR%BUFLY(I)%OFF(J))
           ENDDO
-        ENDDO        
+        ENDDO
         DADV   => GBUF%DMG
         CALL SET_FAILWAVE_SH3N(FAILWAVE ,FWAVE_EL ,DADV     ,
      .      NEL      ,IXTG    ,ITAB     ,NGL      ,OFFLY    )
@@ -335,7 +335,7 @@ C--------------------
 C
       CALL C3COOR3(JFT      ,JLT      ,X        ,IXTG     ,
      .             GBUF%OFF ,OFF      ,DT1C     ,
-     .             V        ,R        ,VL1      ,VL2      ,VL3      , 
+     .             V        ,R        ,VL1      ,VL2      ,VL3      ,
      .             VRL1     ,VRL2     ,VRL3     ,SIGY     ,
      .             X1G      ,X2G      ,X3G      ,Y1G      ,Y2G      ,
      .             Y3G      ,Z1G      ,Z2G      ,Z3G      ,XDP      )
@@ -343,26 +343,26 @@ C
 C------Change local system (objective) but only for strain,stress computes 
 C------to avoid many modifs especially complicated treatements like free shear locking   
 c
-      CALL C3EVEC3(ELBUF_STR,DIR_A    ,DIR_B   ,JFT      ,JLT      , 
-     .             IREP     ,E1X0     ,E1Y0    ,E1Z0     ,E2X0     , 
-     .             E2Y0     ,E2Z0     ,E3X0    ,E3Y0     ,E3Z0     , 
-     .             E1X      ,E1Y      ,E1Z     ,E2X      ,               
-     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      ,      
+      CALL C3EVEC3(ELBUF_STR,DIR_A    ,DIR_B   ,JFT      ,JLT      ,
+     .             IREP     ,E1X0     ,E1Y0    ,E1Z0     ,E2X0     ,
+     .             E2Y0     ,E2Z0     ,E3X0    ,E3Y0     ,E3Z0     ,
+     .             E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      ,
      .             NLAY     ,GBUF%OFF ,ECOS    ,ESIN     ,IFRAM_OLD,
      .             NEL      ,AREA     ,X21G    ,Y21G     ,Z21G     ,
-     .             X31G     ,Y31G     ,Z31G    ,  
+     .             X31G     ,Y31G     ,Z31G    ,
      .             X1G      ,X2G      ,X3G     ,Y1G      ,Y2G      ,
-     .             Y3G      ,Z1G      ,Z2G     ,Z3G      ) 
+     .             Y3G      ,Z1G      ,Z2G     ,Z3G      )
 c
       IF (ISMSTR /= 3)THEN
         CALL C3DERI3(JFT       ,JLT     ,PX1     ,PY1     ,PY2      ,
-     .               GBUF%SMSTR,GBUF%OFF,ISMSTR  ,ALPE    ,ALDT     ,   
+     .               GBUF%SMSTR,GBUF%OFF,ISMSTR  ,ALPE    ,ALDT     ,
      .               UX1       ,UX2     ,UX3     ,UY1     ,UY2      ,
      .               UY3       ,NEL     ,AREA    ,X21G    ,Y21G     ,
      .               Z21G      ,X31G    ,Y31G    ,Z31G    ,X2L      ,
-     .               Y2L       ,X3L     ,Y3L     , 
-     .               E1X       ,E1Y     ,E1Z     ,E2X     ,                 
-     .               E2Y       ,E2Z     ,E3X     ,E3Y     ,E3Z      )       
+     .               Y2L       ,X3L     ,Y3L     ,
+     .               E1X       ,E1Y     ,E1Z     ,E2X     ,
+     .               E2Y       ,E2Z     ,E3X     ,E3Y     ,E3Z      )
       ELSE
 C       bug ismstr=3 non supporte pour coques 3N
         CALL C3PXPY3(JFT       ,JLT   ,PM    ,STI    ,STIR,
@@ -385,8 +385,8 @@ c
      .             IXTG  ,ISH3N ,PX1   ,PY1   ,PY2   ,
      .             EXX   ,EYY   ,EXY   ,EYZ   ,EZX   ,
      .             VX13  ,VX23  ,VY12  ,
-     .             E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
+     .             E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
 c
       IF (IDRIL > 0) THEN
          CALL C3DEFRZ(JFT   ,JLT  ,RLZ    ,BM0RZ ,B0RZ,
@@ -400,9 +400,9 @@ c
       CALL C3CURV3(JFT,JLT,VRL1,VRL2,VRL3,
      .             IXTG,WKXY,ISMSTR,KXX,KYY,KXY,
      .             PX1 ,PY1 ,PY2 ,EYZ  ,EZX  ,
-     .             E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
-	  
+     .             E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
+	
       IF (ISMSTR == 10) THEN
         CALL C3COORT3(JFT    ,JLT    ,X          ,IXTG   ,GBUF%OFF,
      1                R      ,X2L    ,X3L        ,Y2L    ,Y3L     ,
@@ -436,7 +436,7 @@ C-----------F_DEF to new system
       END IF
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
-c-------------------------------------------     
+c-------------------------------------------
       IF (INLOC > 0) THEN
         L_NLOC = NLOC_DMG%L_NLOC
         DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
@@ -446,7 +446,7 @@ c-------------------------------------------
           NC3(I) = IXTG(4,I)
         ENDDO
         DO K = 1,NDDL
-#include "vectorize.inc"        
+#include "vectorize.inc"
           DO I=JFT,JLT
             INOD(1) = NLOC_DMG%IDXI(NC1(I))
             INOD(2) = NLOC_DMG%IDXI(NC2(I))
@@ -454,14 +454,14 @@ c-------------------------------------------
             IPOS(1) = NLOC_DMG%POSI(INOD(1))
             IPOS(2) = NLOC_DMG%POSI(INOD(2))
             IPOS(3) = NLOC_DMG%POSI(INOD(3))
-            VAR_REG(I,K) = THIRD*(DNL(IPOS(1)+K-1) 
-     .                          + DNL(IPOS(2)+K-1) 
+            VAR_REG(I,K) = THIRD*(DNL(IPOS(1)+K-1)
+     .                          + DNL(IPOS(2)+K-1)
      .                          + DNL(IPOS(3)+K-1))
           ENDDO
         ENDDO
-      ENDIF           
+      ENDIF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-      IF(JTHE > 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,   
+      IF(JTHE > 0 ) CALL TEMP3CG(JFT   ,JLT   ,PM     ,MAT   ,IXTG,
      .                           TEMP ,TEMPEL )
 C--------------------------
       IF ((IMON_MAT==1).AND.ITASK == 0)CALL STARTIME(35,1)
@@ -536,23 +536,23 @@ C----------------------------
      6                OFF  ,VOL0 ,NEL)
       END IF
 c-------------------------
-c     Virtual internal forces of regularized non local ddl 
+c     Virtual internal forces of regularized non local ddl
 c--------------------------
       IF (INLOC > 0) THEN
         CALL C3FINT_REG(NLOC_DMG,VAR_REG ,GBUF%THK,NEL     ,
-     .                  OFF     ,AREA    ,NC1     ,NC2     , 
+     .                  OFF     ,AREA    ,NC1     ,NC2     ,
      .                  NC3     ,PX1     ,PY1     ,PY2     ,
      .                  ELBUF_STR%NLOC(1,1),IMAT  ,NDDL    ,
      .                  ITASK   ,DT2T    ,ALDT    )
-      ENDIF 
+      ENDIF
 c-------------------------------
 C-------------------------
-c     Thermique des coques 
+c     Thermique des coques
 C--------------------------
        IF (JTHE > 0) THEN
          CALL THERM3C(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXTG    ,
      .                PX1   ,PY1   ,PY2    ,AREA    ,DT1C    ,
-     .                TEMP  ,TEMPEL,DIE    ,THEM    ) 
+     .                TEMP  ,TEMPEL,DIE    ,THEM    )
        ENDIF
 C--------------------------
 C     THERMAL TIME STEP
@@ -560,20 +560,20 @@ C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
            CALL DTTHERM(JFT     ,JLT     ,PM   ,TEMPEL,GBUF%RE,
      2                  RHO     ,GBUF%RK ,VOL0 ,ALDT  ,MAT    ,
-     3                  DT_THERM,OFF     ,CONDE) 
-         ENDIF 
+     3                  DT_THERM,OFF     ,CONDE)
+         ENDIF
 C-------------------------
 C     ASSEMBLE
 C-------------------------
       CALL C3FCUM3(JFT,JLT,F,
      .             F11,F12,F13,F21,F22,F23,
      .             F31,F32,F33,FZERO,
-     .             E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
+     .             E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
       CALL C3MCUM3(JFT,JLT,M,
      .             M11,M12,M13,M21,M22,M23,M31,M32,M33,
-     .             E1X      ,E1Y      ,E1Z     ,E2X      ,                 
-     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )       
+     .             E1X      ,E1Y      ,E1Z     ,E2X      ,
+     .             E2Y      ,E2Z      ,E3X     ,E3Y      ,E3Z      )
 c
       IF (IDRIL > 0) THEN
        CALL C3MZCUM3(JFT    ,JLT    ,MLZ    ,E3X0    ,E3Y0    ,
@@ -605,55 +605,55 @@ C
 C
       IF (ICSEN > 0) CALL CSENS3(JFT  ,JLT  ,PID  ,IGEO  ,GBUF%EPSD)
 C-------------------------
-c     Fissure des coques 
+c     Fissure des coques
 C--------------------------
       IF (ICRACK3D > 0 .AND. IXFEM > 0) THEN
-        DO ILAY=1,NXLAY                                        
-          ! crack length calculation for advancing crack                                            
+        DO ILAY=1,NXLAY
+          ! crack length calculation for advancing crack
           CRKLEN => ELBUF_STR%BUFLY(ILAY)%DMG(1:NEL)
           CALL  CRKLEN3N_ADV(
      .           NEL       ,NFT       ,ILAY      ,NLAY      ,IXTG      ,
-     .           CRKLEN    ,ELCRKINI  ,IEL_CRK   ,DIR1_CRK  ,DIR2_CRK  ,     
+     .           CRKLEN    ,ELCRKINI  ,IEL_CRK   ,DIR1_CRK  ,DIR2_CRK  ,
      .           NODEDGE   ,CRKEDGE   ,XEDGE3N   ,NGL       ,X2L       ,
      .           X3L       ,Y2L       ,Y3L       ,ALDT      )
 c
-          CALL CRKLAYER3N_ADV(                                          
-     .         NEL       ,NFT       ,ILAY      ,NXLAY     ,IXTG      ,   
-     .         ELCUTC    ,ELCRKINI  ,IEL_CRK   ,INOD_CRK  ,IADTG_CRK ,                  
-     .         NODENR    ,DIR1_CRK  ,DIR2_CRK  ,NODEDGE   ,CRKNODIAD ,         
+          CALL CRKLAYER3N_ADV(
+     .         NEL       ,NFT       ,ILAY      ,NXLAY     ,IXTG      ,
+     .         ELCUTC    ,ELCRKINI  ,IEL_CRK   ,INOD_CRK  ,IADTG_CRK ,
+     .         NODENR    ,DIR1_CRK  ,DIR2_CRK  ,NODEDGE   ,CRKNODIAD ,
      .         KNOD2ELC  ,CRKEDGE   ,XEDGE3N   ,NGL       ,AREA      ,
      .         X2L       ,X3L       ,Y2L       ,Y3L       )
 c
-          CALL CRKLAYER3N_INI(                                            
-     .         NEL       ,NFT       ,ILAY      ,NXLAY     ,IXTG      ,  
-     .         ELCUTC    ,ELCRKINI  ,IEL_CRK   ,INOD_CRK  ,IADTG_CRK ,            
-     .         NODENR    ,DIR1_CRK  ,DIR2_CRK  ,NODEDGE   ,CRKNODIAD ,           
+          CALL CRKLAYER3N_INI(
+     .         NEL       ,NFT       ,ILAY      ,NXLAY     ,IXTG      ,
+     .         ELCUTC    ,ELCRKINI  ,IEL_CRK   ,INOD_CRK  ,IADTG_CRK ,
+     .         NODENR    ,DIR1_CRK  ,DIR2_CRK  ,NODEDGE   ,CRKNODIAD ,
      .         KNOD2ELC  ,CRKEDGE   ,XEDGE3N   ,NGL       ,AREA      ,
      .         X2L       ,X3L       ,Y2L       ,Y3L       )
-        ENDDO                                    
+        ENDDO
 C
         CALL CRKOFFTG(ELBUF_STR,XFEM_STR  ,
      .                JFT      ,JLT       ,NFT    ,IR      ,IS        ,
      .                NXLAY    ,IEL_CRK   ,CRKEDGE,XEDGE3N )
-      END IF                                                           
+      END IF
 
 c--------------------------------------------
 c     Front wave
 c--------------------------------------------
       IF (IFAILWAVE > 0) THEN
         CRKDIR => ELBUF_STR%BUFLY(1)%CRKDIR
-c        
+c
         CALL SET_FAILWAVE_NOD3(FAILWAVE   ,FWAVE_EL ,NGL      ,
      .       NEL      ,IXTG     ,ITAB     ,CRKDIR   ,DIR_A    ,
      .       L_DIRA   ,X2L      ,X3L      ,Y2L      ,Y3L      )
       ENDIF
 C-----------
-      IF (ALLOCATED(DIR2_CRK)) DEALLOCATE(DIR2_CRK)                                                          
-      IF (ALLOCATED(DIR1_CRK)) DEALLOCATE(DIR1_CRK)                                                          
-      IF (ALLOCATED(ELCRKINI)) DEALLOCATE(ELCRKINI)                                                          
-      IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)                                                          
-      IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)    
-      IF (ALLOCATED(VAR_REG))  DEALLOCATE(VAR_REG)                                                      
+      IF (ALLOCATED(DIR2_CRK)) DEALLOCATE(DIR2_CRK)
+      IF (ALLOCATED(DIR1_CRK)) DEALLOCATE(DIR1_CRK)
+      IF (ALLOCATED(ELCRKINI)) DEALLOCATE(ELCRKINI)
+      IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)
+      IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)
+      IF (ALLOCATED(VAR_REG))  DEALLOCATE(VAR_REG)
 C-----------
       RETURN
       END

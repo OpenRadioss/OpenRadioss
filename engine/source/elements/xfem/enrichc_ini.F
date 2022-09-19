@@ -194,8 +194,8 @@ C
               IF (IED > 0) THEN
                 IEDGE = XEDGE4N(K,ELCRK)
                 BETA  = CRKEDGE(ILAY)%RATIO(IEDGE)
-                NOD1  = NODEDGE(1,IEDGE)   
-                NOD2  = NODEDGE(2,IEDGE)              
+                NOD1  = NODEDGE(1,IEDGE)
+                NOD2  = NODEDGE(2,IEDGE)
                 IF (NOD1 == IXC(K+1,I+NFT) .and. NOD2 == IXC(dd(K)+1,I+NFT)) THEN
                   p1 = K
                   p2 = dd(K)
@@ -204,7 +204,7 @@ C
                   p2 = K
                 ENDIF
                 XIN(IED,I) = XN(P1) + BETA*(XN(P2) - XN(P1))
-                YIN(IED,I) = YN(P1) + BETA*(YN(P2) - YN(P1)) 
+                YIN(IED,I) = YN(P1) + BETA*(YN(P2) - YN(P1))
                 XM(IED) = HALF*(XN(p1)+XN(p2))
                 YM(IED) = HALF*(YN(p1)+YN(p2))
               ENDIF
@@ -319,7 +319,7 @@ C
             ISIGN0(J,3) = ISIGN3
             ISIGN0(J,4) = ISIGN4
           ENDDO
-c---------------------------------------------------          
+c---------------------------------------------------
           DO K=1,4
             IED = CRKEDGE(ILAY)%IEDGEC(K,ELCRK)
             IF (IED > 0) THEN
@@ -341,10 +341,10 @@ c---------------------------------------------------
               ENDIF
             ENDIF
           ENDDO
-c---------------------------------------------------          
+c---------------------------------------------------
           ITRI = 0
-          NM   = 0    
-          NP   = 0    
+          NM   = 0
+          NP   = 0
           DO K=1,4
             IF (ISIGN0(1,K) > 0) THEN
               ITRI = ITRI + 1
@@ -353,7 +353,7 @@ c---------------------------------------------------
               NM     = K
             ENDIF
           ENDDO
-c---   
+c---
           IF (ITRI == 1) THEN
             ITRI = -1
             NX1  = NP
@@ -362,108 +362,108 @@ c---
             NX1  = NM
           ELSEIF (ITRI == 2) THEN
             ITRI = 0
-            NX1  = NP  
-            IF (NP > 0 .and. ISIGN0(1,NP-1) > 0)  THEN  
+            NX1  = NP
+            IF (NP > 0 .and. ISIGN0(1,NP-1) > 0)  THEN
               NX1 = NP-1
             ELSE
               NX1 = NP
             ENDIF
           ENDIF
-c--- 
-          NX2  = DX(NX1+1)    
-          NX3  = DX(NX1+2)    
-          NX4  = DX(NX1+3)    
-          IAD1 = IADC(NX1)    
-          IAD2 = IADC(NX2)    
-          IAD3 = IADC(NX3)    
-          IAD4 = IADC(NX4)    
+c---
+          NX2  = DX(NX1+1)
+          NX3  = DX(NX1+2)
+          NX4  = DX(NX1+3)
+          IAD1 = IADC(NX1)
+          IAD2 = IADC(NX2)
+          IAD3 = IADC(NX3)
+          IAD4 = IADC(NX4)
           XFEM_PHANTOM(ILAY)%ITRI(1,ELCRK) = ITRI
-          XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) = NX1  
-c--------------------------          
+          XFEM_PHANTOM(ILAY)%ITRI(2,ELCRK) = NX1
+c--------------------------
 c       phantom area factors
-c--------------------------          
-        IF (ITRI < 0) THEN                                     
-c--       IXEL=2                                      
-          IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)                        
-          X1  = XIN(IED,I)                                           
-          Y1  = YIN(IED,I)                                           
+c--------------------------
+        IF (ITRI < 0) THEN
+c--       IXEL=2
+          IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)
+          X1  = XIN(IED,I)
+          Y1  = YIN(IED,I)
 c
-          X2  = XXL(NX3,I)                                           
-          Y2  = YYL(NX3,I)                                           
-          X3  = XXL(NX4,I)                                           
-          Y3  = YYL(NX4,I)                                           
-          AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))  
-c--       IXEL=1 AREA factor                                           
-          IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                        
-          X2  = XIN(IED,I)                                             
-          Y2  = YIN(IED,I)                                             
-          X3  = XXL(NX1,I)                                             
-          Y3  = YYL(NX1,I)                                             
-          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))        
-          AREA1 = AREA1 / AREA(I)                                    
-          AREA2 = AREA2 / AREA(I)                                    
-          AREA3 = ONE - AREA1 - AREA2                                 
-        ELSEIF (ITRI > 0) THEN                                     
-c--       IXEL=1                                     
-          IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)                        
-          X1  = XIN(IED,I)                                           
-          Y1  = YIN(IED,I)                                           
+          X2  = XXL(NX3,I)
+          Y2  = YYL(NX3,I)
+          X3  = XXL(NX4,I)
+          Y3  = YYL(NX4,I)
+          AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+c--       IXEL=1 AREA factor
+          IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)
+          X2  = XIN(IED,I)
+          Y2  = YIN(IED,I)
+          X3  = XXL(NX1,I)
+          Y3  = YYL(NX1,I)
+          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+          AREA1 = AREA1 / AREA(I)
+          AREA2 = AREA2 / AREA(I)
+          AREA3 = ONE - AREA1 - AREA2
+        ELSEIF (ITRI > 0) THEN
+c--       IXEL=1
+          IED = CRKEDGE(ILAY)%IEDGEC(NX1,ELCRK)
+          X1  = XIN(IED,I)
+          Y1  = YIN(IED,I)
 c
-          X2  = XXL(NX2,I)                                           
-          Y2  = YYL(NX2,I)                                           
-          X3  = XXL(NX3,I)                                           
-          Y3  = YYL(NX3,I)                                           
-          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))      
-c--       IXEL=2                                       
-          IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)                        
-          X2  = XIN(IED,I)                                           
-          Y2  = YIN(IED,I)                                           
-          X3  = XXL(NX1,I)                                           
-          Y3  = YYL(NX1,I)                                           
-          AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))      
+          X2  = XXL(NX2,I)
+          Y2  = YYL(NX2,I)
+          X3  = XXL(NX3,I)
+          Y3  = YYL(NX3,I)
+          AREA1 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
+c--       IXEL=2
+          IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)
+          X2  = XIN(IED,I)
+          Y2  = YIN(IED,I)
+          X3  = XXL(NX1,I)
+          Y3  = YYL(NX1,I)
+          AREA2 = HALF*ABS((X1-X3)*(Y2-Y1) - (X1-X2)*(Y3-Y1))
 c
-          AREA1 = AREA1 / AREA(I)                                    
-          AREA2 = AREA2 / AREA(I)                                    
-          AREA3 = ONE - AREA1 - AREA2                                 
-          CRKLVSET(PP1)%AREA(ELCRK) = AREA1                          
-          CRKLVSET(PP2)%AREA(ELCRK) = AREA2                          
-          CRKLVSET(PP3)%AREA(ELCRK) = AREA3                          
-        ELSE   ! ITRI == 0         
-          X1  = XXL(NX1,I)        
-          Y1  = YYL(NX1,I)                       
-          X2  = XXL(NX2,I)        
+          AREA1 = AREA1 / AREA(I)
+          AREA2 = AREA2 / AREA(I)
+          AREA3 = ONE - AREA1 - AREA2
+          CRKLVSET(PP1)%AREA(ELCRK) = AREA1
+          CRKLVSET(PP2)%AREA(ELCRK) = AREA2
+          CRKLVSET(PP3)%AREA(ELCRK) = AREA3
+        ELSE   ! ITRI == 0
+          X1  = XXL(NX1,I)
+          Y1  = YYL(NX1,I)
+          X2  = XXL(NX2,I)
           Y2  = YYL(NX2,I)
           IED = CRKEDGE(ILAY)%IEDGEC(NX2,ELCRK)
-          IF (IED > 0) THEN     
-            X3 = XIN(IED,I)     
+          IF (IED > 0) THEN
+            X3 = XIN(IED,I)
             Y3 = YIN(IED,I)
           ELSE
             ! print*,' ERROR: K,IED=',NX2,IED
           ENDIF
           IED = CRKEDGE(ILAY)%IEDGEC(NX4,ELCRK)
-          IF (IED > 0) THEN     
-            X4 = XIN(IED,I)     
+          IF (IED > 0) THEN
+            X4 = XIN(IED,I)
             Y4 = YIN(IED,I)
           ELSE
             ! print*,' ERROR: K,IED=',NX4,IED
           ENDIF
-          AREA1 = HALF*ABS(X1*Y2 - X2*Y1 + X2*Y3 - X3*Y2 +  
-     .                       X3*Y4 - X4*Y3 + X4*Y1 - X1*Y4)     
+          AREA1 = HALF*ABS(X1*Y2 - X2*Y1 + X2*Y3 - X3*Y2 +
+     .                       X3*Y4 - X4*Y3 + X4*Y1 - X1*Y4)
           AREA1 = AREA1 / AREA(I)
           AREA2 = ONE - AREA1
           AREA3 = ZERO
         ENDIF
 c
-        CRKLVSET(PP1)%AREA(ELCRK) = AREA1    
-        CRKLVSET(PP2)%AREA(ELCRK) = AREA2    
-        CRKLVSET(PP3)%AREA(ELCRK) = AREA3    
-c---------------------------------------------------          
+        CRKLVSET(PP1)%AREA(ELCRK) = AREA1
+        CRKLVSET(PP2)%AREA(ELCRK) = AREA2
+        CRKLVSET(PP3)%AREA(ELCRK) = AREA3
+c---------------------------------------------------
 c         First phantom element within ILAY (positif)
           ILEV = pp1
 C------------------
 C
           IF (ITRI == 0) THEN
-            CRKLVSET(ILEV)%ENR0(1,IADC(1)) = ABS(ENR(1)) 
+            CRKLVSET(ILEV)%ENR0(1,IADC(1)) = ABS(ENR(1))
             CRKLVSET(ILEV)%ENR0(1,IADC(2)) = ENR(2)
             CRKLVSET(ILEV)%ENR0(1,IADC(3)) = ENR(3)
             CRKLVSET(ILEV)%ENR0(1,IADC(4)) = ENR(4)
@@ -520,7 +520,7 @@ C------------------
                 CRKLVSET(pp3)%ENR0(1,IAD3) = CRKLVSET(pp2)%ENR0(1,IAD3)
                 CRKLVSET(pp3)%ENR0(1,IAD4) = CRKLVSET(pp2)%ENR0(1,IAD4)
 c
-              ELSEIF (CRKEDGE(ILAY)%ICUTEDGE(IE1) == 2) THEN  
+              ELSEIF (CRKEDGE(ILAY)%ICUTEDGE(IE1) == 2) THEN
                  !  print*,' IMPOSSIBLE CASE'
               ENDIF
 c-------
@@ -539,13 +539,13 @@ c
                 !  print*,' IMPOSSIBLE CASE'
               ENDIF
             ELSEIF (ITRI == 0) THEN      ! element cut in 2
-              XFEM_STR(NXEL)%GBUF%OFF(I) = ZERO                       
+              XFEM_STR(NXEL)%GBUF%OFF(I) = ZERO
               XFEM_STR(NXEL)%BUFLY(ILAY)%LBUF(1,1,1)%OFF(I) = 0  ! 3rd phantom not actif
-            ENDIF 
-            CRKLVSET(ILEV)%ENR0(2,IADC(1)) = CRKLVSET(ILEV)%ENR0(1,IADC(1))    
-            CRKLVSET(ILEV)%ENR0(2,IADC(2)) = CRKLVSET(ILEV)%ENR0(1,IADC(2))    
-            CRKLVSET(ILEV)%ENR0(2,IADC(3)) = CRKLVSET(ILEV)%ENR0(1,IADC(3))    
-            CRKLVSET(ILEV)%ENR0(2,IADC(4)) = CRKLVSET(ILEV)%ENR0(1,IADC(4))             
+            ENDIF
+            CRKLVSET(ILEV)%ENR0(2,IADC(1)) = CRKLVSET(ILEV)%ENR0(1,IADC(1))
+            CRKLVSET(ILEV)%ENR0(2,IADC(2)) = CRKLVSET(ILEV)%ENR0(1,IADC(2))
+            CRKLVSET(ILEV)%ENR0(2,IADC(3)) = CRKLVSET(ILEV)%ENR0(1,IADC(3))
+            CRKLVSET(ILEV)%ENR0(2,IADC(4)) = CRKLVSET(ILEV)%ENR0(1,IADC(4))
 C--------------
           ENDIF ! IF(LAYCUT /= 0)
         ENDDO   ! DO I=JFT,JLT

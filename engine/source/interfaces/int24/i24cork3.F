@@ -34,7 +34,7 @@ Chd|====================================================================
      7               VYI     ,VZI    ,IXX   ,NSVG  ,NVOISIN,
      9               MS      ,MSI    ,NSN   ,V     ,
      A               KINI    ,ITY    ,NIN   ,IGSTI ,KMIN   ,
-     B               KMAX    ,GAP_S  ,GAPS  ,ITRIV   ) 
+     B               KMAX    ,GAP_S  ,GAPS  ,ITRIV   )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -109,92 +109,92 @@ c             KINI(I) = KINFI(NIN)%P(NN)
              GAPS(I) = GAPFI(NIN)%P(NN)
            END IF
 C
-           IX=IRECT(1,L)  
-           IXX(I,1)=IX      
-           XX0(I,1)=X(1,IX)  
-           YY0(I,1)=X(2,IX)  
-           ZZ0(I,1)=X(3,IX)  
-           VX(I,1)=V(1,IX)  
-           VY(I,1)=V(2,IX)  
-           VZ(I,1)=V(3,IX)  
+           IX=IRECT(1,L)
+           IXX(I,1)=IX
+           XX0(I,1)=X(1,IX)
+           YY0(I,1)=X(2,IX)
+           ZZ0(I,1)=X(3,IX)
+           VX(I,1)=V(1,IX)
+           VY(I,1)=V(2,IX)
+           VZ(I,1)=V(3,IX)
 C
-           IX=IRECT(2,L)  
-           IXX(I,2)=IX      
-           XX0(I,2)=X(1,IX)  
-           YY0(I,2)=X(2,IX)  
-           ZZ0(I,2)=X(3,IX)  
-           VX(I,2)=V(1,IX)  
-           VY(I,2)=V(2,IX)  
-           VZ(I,2)=V(3,IX)  
+           IX=IRECT(2,L)
+           IXX(I,2)=IX
+           XX0(I,2)=X(1,IX)
+           YY0(I,2)=X(2,IX)
+           ZZ0(I,2)=X(3,IX)
+           VX(I,2)=V(1,IX)
+           VY(I,2)=V(2,IX)
+           VZ(I,2)=V(3,IX)
 C
-           IX=IRECT(3,L)  
-           IXX(I,3)=IX      
-           XX0(I,3)=X(1,IX)  
-           YY0(I,3)=X(2,IX)  
-           ZZ0(I,3)=X(3,IX)  
-           VX(I,3)=V(1,IX)  
-           VY(I,3)=V(2,IX)  
-           VZ(I,3)=V(3,IX)  
+           IX=IRECT(3,L)
+           IXX(I,3)=IX
+           XX0(I,3)=X(1,IX)
+           YY0(I,3)=X(2,IX)
+           ZZ0(I,3)=X(3,IX)
+           VX(I,3)=V(1,IX)
+           VY(I,3)=V(2,IX)
+           VZ(I,3)=V(3,IX)
 C
-           IX=IRECT(4,L)  
-           IXX(I,4)=IX      
-           XX0(I,4)=X(1,IX)  
-           YY0(I,4)=X(2,IX)  
-           ZZ0(I,4)=X(3,IX)  
-           VX(I,4)=V(1,IX)  
-           VY(I,4)=V(2,IX)  
-           VZ(I,4)=V(3,IX)  
+           IX=IRECT(4,L)
+           IXX(I,4)=IX
+           XX0(I,4)=X(1,IX)
+           YY0(I,4)=X(2,IX)
+           ZZ0(I,4)=X(3,IX)
+           VX(I,4)=V(1,IX)
+           VY(I,4)=V(2,IX)
+           VZ(I,4)=V(3,IX)
 C
            IF(IXX(I,3) /= IXX(I,4))THEN
             XX0(I,5) = FOURTH*(XX0(I,1)+XX0(I,2)+XX0(I,3)+XX0(I,4))
             YY0(I,5) = FOURTH*(YY0(I,1)+YY0(I,2)+YY0(I,3)+YY0(I,4))
-            ZZ0(I,5) = FOURTH*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4)) 
+            ZZ0(I,5) = FOURTH*(ZZ0(I,1)+ZZ0(I,2)+ZZ0(I,3)+ZZ0(I,4))
             VX(I,5) = FOURTH*(VX(I,1)+VX(I,2)+VX(I,3)+VX(I,4))
             VY(I,5) = FOURTH*(VY(I,1)+VY(I,2)+VY(I,3)+VY(I,4))
-            VZ(I,5) = FOURTH*(VZ(I,1)+VZ(I,2)+VZ(I,3)+VZ(I,4)) 
+            VZ(I,5) = FOURTH*(VZ(I,1)+VZ(I,2)+VZ(I,3)+VZ(I,4))
            ELSE
             XX0(I,5) = XX0(I,3)
             YY0(I,5) = YY0(I,3)
-            ZZ0(I,5) = ZZ0(I,3) 
+            ZZ0(I,5) = ZZ0(I,3)
             VX(I,5) = VX(I,3)
             VY(I,5) = VY(I,3)
-            VZ(I,5) = VZ(I,3) 
+            VZ(I,5) = VZ(I,3)
            ENDIF
 
-           IX=IABS(NVOISIN(1,L))  
-           IXX(I,6)=IX 
-           IF(IX /= 0)THEN 
-            XX0(I,6)=X(1,IX) 
-            YY0(I,6)=X(2,IX) 
-            ZZ0(I,6)=X(3,IX) 
-            VX(I,6) =V(1,IX) 
-            VY(I,6) =V(2,IX) 
+           IX=IABS(NVOISIN(1,L))
+           IXX(I,6)=IX
+           IF(IX /= 0)THEN
+            XX0(I,6)=X(1,IX)
+            YY0(I,6)=X(2,IX)
+            ZZ0(I,6)=X(3,IX)
+            VX(I,6) =V(1,IX)
+            VY(I,6) =V(2,IX)
             VZ(I,6) =V(3,IX)
            ELSE
-            XX0(I,6)=XX0(I,1) 
-            YY0(I,6)=YY0(I,1) 
-            ZZ0(I,6)=ZZ0(I,1) 
-            VX(I,6) =VX(I,1)  
-            VY(I,6) =VY(I,1)  
-            VZ(I,6) =VZ(I,1) 
+            XX0(I,6)=XX0(I,1)
+            YY0(I,6)=YY0(I,1)
+            ZZ0(I,6)=ZZ0(I,1)
+            VX(I,6) =VX(I,1)
+            VY(I,6) =VY(I,1)
+            VZ(I,6) =VZ(I,1)
            ENDIF
- 
-           IF(NVOISIN(2,L)/=0)IX=IABS(NVOISIN(2,L)) 
-           IXX(I,7)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,7)=X(1,IX) 
-            YY0(I,7)=X(2,IX) 
-            ZZ0(I,7)=X(3,IX) 
-            VX(I,7)=V(1,IX) 
-            VY(I,7)=V(2,IX) 
+
+           IF(NVOISIN(2,L)/=0)IX=IABS(NVOISIN(2,L))
+           IXX(I,7)=IX
+           IF(IX /= 0)THEN
+            XX0(I,7)=X(1,IX)
+            YY0(I,7)=X(2,IX)
+            ZZ0(I,7)=X(3,IX)
+            VX(I,7)=V(1,IX)
+            VY(I,7)=V(2,IX)
             VZ(I,7)=V(3,IX)
            ELSE
-            XX0(I,7)=XX0(I,2) 
-            YY0(I,7)=YY0(I,2) 
-            ZZ0(I,7)=ZZ0(I,2) 
-            VX(I,7) =VX(I,2)  
-            VY(I,7) =VY(I,2)  
-            VZ(I,7) =VZ(I,2) 
+            XX0(I,7)=XX0(I,2)
+            YY0(I,7)=YY0(I,2)
+            ZZ0(I,7)=ZZ0(I,2)
+            VX(I,7) =VX(I,2)
+            VY(I,7) =VY(I,2)
+            VZ(I,7) =VZ(I,2)
            ENDIF
 
            IF(NVOISIN(1,L)<0)THEN
@@ -209,40 +209,40 @@ C
                ITRIV(1,I)=1
            ENDIF
 
-           IX=IABS(NVOISIN(3,L))  
-           IXX(I,8)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,8)=X(1,IX) 
-            YY0(I,8)=X(2,IX) 
-            ZZ0(I,8)=X(3,IX) 
-            VX(I,8)=V(1,IX) 
-            VY(I,8)=V(2,IX) 
-            VZ(I,8)=V(3,IX) 
+           IX=IABS(NVOISIN(3,L))
+           IXX(I,8)=IX
+           IF(IX /= 0)THEN
+            XX0(I,8)=X(1,IX)
+            YY0(I,8)=X(2,IX)
+            ZZ0(I,8)=X(3,IX)
+            VX(I,8)=V(1,IX)
+            VY(I,8)=V(2,IX)
+            VZ(I,8)=V(3,IX)
            ELSE
-            XX0(I,8)=XX0(I,2) 
-            YY0(I,8)=YY0(I,2) 
-            ZZ0(I,8)=ZZ0(I,2) 
-            VX(I,8) =VX(I,2)  
-            VY(I,8) =VY(I,2)  
-            VZ(I,8) =VZ(I,2) 
+            XX0(I,8)=XX0(I,2)
+            YY0(I,8)=YY0(I,2)
+            ZZ0(I,8)=ZZ0(I,2)
+            VX(I,8) =VX(I,2)
+            VY(I,8) =VY(I,2)
+            VZ(I,8) =VZ(I,2)
            ENDIF
- 
-           IF(NVOISIN(4,L)/=0)IX=IABS(NVOISIN(4,L)) 
-           IXX(I,9)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,9)=X(1,IX) 
-            YY0(I,9)=X(2,IX) 
-            ZZ0(I,9)=X(3,IX) 
-            VX(I,9)=V(1,IX) 
-            VY(I,9)=V(2,IX) 
+
+           IF(NVOISIN(4,L)/=0)IX=IABS(NVOISIN(4,L))
+           IXX(I,9)=IX
+           IF(IX /= 0)THEN
+            XX0(I,9)=X(1,IX)
+            YY0(I,9)=X(2,IX)
+            ZZ0(I,9)=X(3,IX)
+            VX(I,9)=V(1,IX)
+            VY(I,9)=V(2,IX)
             VZ(I,9)=V(3,IX)
            ELSE
-            XX0(I,9)=XX0(I,3) 
-            YY0(I,9)=YY0(I,3) 
-            ZZ0(I,9)=ZZ0(I,3) 
-            VX(I,9) =VX(I,3)  
-            VY(I,9) =VY(I,3)  
-            VZ(I,9) =VZ(I,3) 
+            XX0(I,9)=XX0(I,3)
+            YY0(I,9)=YY0(I,3)
+            ZZ0(I,9)=ZZ0(I,3)
+            VX(I,9) =VX(I,3)
+            VY(I,9) =VY(I,3)
+            VZ(I,9) =VZ(I,3)
            ENDIF
 
            IF(NVOISIN(3,L)<0)THEN
@@ -257,44 +257,44 @@ C
                ITRIV(2,I)=1
            ENDIF
 
- 
-           IX=IABS(NVOISIN(5,L))  
-           IXX(I,10)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,10)=X(1,IX) 
-            YY0(I,10)=X(2,IX) 
-            ZZ0(I,10)=X(3,IX) 
-            VX(I,10)=V(1,IX) 
-            VY(I,10)=V(2,IX) 
-            VZ(I,10)=V(3,IX) 
+
+           IX=IABS(NVOISIN(5,L))
+           IXX(I,10)=IX
+           IF(IX /= 0)THEN
+            XX0(I,10)=X(1,IX)
+            YY0(I,10)=X(2,IX)
+            ZZ0(I,10)=X(3,IX)
+            VX(I,10)=V(1,IX)
+            VY(I,10)=V(2,IX)
+            VZ(I,10)=V(3,IX)
            ELSE
-            XX0(I,10)=XX0(I,3) 
-            YY0(I,10)=YY0(I,3) 
-            ZZ0(I,10)=ZZ0(I,3) 
-            VX(I,10) =VX(I,3)  
-            VY(I,10) =VY(I,3)  
-            VZ(I,10) =VZ(I,3) 
-           ENDIF
- 
-           IF(NVOISIN(6,L)/=0)IX=IABS(NVOISIN(6,L))
-           IXX(I,11)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,11)=X(1,IX) 
-            YY0(I,11)=X(2,IX) 
-            ZZ0(I,11)=X(3,IX) 
-            VX(I,11)=V(1,IX) 
-            VY(I,11)=V(2,IX) 
-            VZ(I,11)=V(3,IX)
-           ELSE
-            XX0(I,11)=XX0(I,4) 
-            YY0(I,11)=YY0(I,4) 
-            ZZ0(I,11)=ZZ0(I,4) 
-            VX(I,11) =VX(I,4)  
-            VY(I,11) =VY(I,4)  
-            VZ(I,11) =VZ(I,4) 
+            XX0(I,10)=XX0(I,3)
+            YY0(I,10)=YY0(I,3)
+            ZZ0(I,10)=ZZ0(I,3)
+            VX(I,10) =VX(I,3)
+            VY(I,10) =VY(I,3)
+            VZ(I,10) =VZ(I,3)
            ENDIF
 
- 
+           IF(NVOISIN(6,L)/=0)IX=IABS(NVOISIN(6,L))
+           IXX(I,11)=IX
+           IF(IX /= 0)THEN
+            XX0(I,11)=X(1,IX)
+            YY0(I,11)=X(2,IX)
+            ZZ0(I,11)=X(3,IX)
+            VX(I,11)=V(1,IX)
+            VY(I,11)=V(2,IX)
+            VZ(I,11)=V(3,IX)
+           ELSE
+            XX0(I,11)=XX0(I,4)
+            YY0(I,11)=YY0(I,4)
+            ZZ0(I,11)=ZZ0(I,4)
+            VX(I,11) =VX(I,4)
+            VY(I,11) =VY(I,4)
+            VZ(I,11) =VZ(I,4)
+           ENDIF
+
+
            IF(NVOISIN(5,L)<0)THEN
              IF(NVOISIN(6,L)<0)THEN
                ITRIV(3,I)=4
@@ -307,27 +307,27 @@ C
                ITRIV(3,I)=1
            ENDIF
 
-           IX=IABS(NVOISIN(7,L))  
-           IXX(I,12)=IX  
-           IF(IX /= 0)THEN 
-            XX0(I,12)=X(1,IX) 
-            YY0(I,12)=X(2,IX) 
-            ZZ0(I,12)=X(3,IX) 
-            VX(I,12)=V(1,IX) 
-            VY(I,12)=V(2,IX) 
+           IX=IABS(NVOISIN(7,L))
+           IXX(I,12)=IX
+           IF(IX /= 0)THEN
+            XX0(I,12)=X(1,IX)
+            YY0(I,12)=X(2,IX)
+            ZZ0(I,12)=X(3,IX)
+            VX(I,12)=V(1,IX)
+            VY(I,12)=V(2,IX)
             VZ(I,12)=V(3,IX)
            ELSE
-            XX0(I,12)=XX0(I,4) 
-            YY0(I,12)=YY0(I,4) 
-            ZZ0(I,12)=ZZ0(I,4) 
-            VX(I,12) =VX(I,4)  
-            VY(I,12) =VY(I,4)  
-            VZ(I,12) =VZ(I,4) 
+            XX0(I,12)=XX0(I,4)
+            YY0(I,12)=YY0(I,4)
+            ZZ0(I,12)=ZZ0(I,4)
+            VX(I,12) =VX(I,4)
+            VY(I,12) =VY(I,4)
+            VZ(I,12) =VZ(I,4)
            ENDIF
- 
+
            IF(NVOISIN(8,L)/=0)IX=IABS(NVOISIN(8,L))
-           IXX(I,13)=IX  
-           IF(IX /= 0)THEN 
+           IXX(I,13)=IX
+           IF(IX /= 0)THEN
             XX0(I,13)=X(1,IX)
             YY0(I,13)=X(2,IX)
             ZZ0(I,13)=X(3,IX)
@@ -335,12 +335,12 @@ C
             VY(I,13)=V(2,IX)
             VZ(I,13)=V(3,IX)
            ELSE
-            XX0(I,13)=XX0(I,1) 
-            YY0(I,13)=YY0(I,1) 
-            ZZ0(I,13)=ZZ0(I,1) 
-            VX(I,13) =VX(I,1)  
-            VY(I,13) =VY(I,1)  
-            VZ(I,13) =VZ(I,1) 
+            XX0(I,13)=XX0(I,1)
+            YY0(I,13)=YY0(I,1)
+            ZZ0(I,13)=ZZ0(I,1)
+            VX(I,13) =VX(I,1)
+            VY(I,13) =VY(I,1)
+            VZ(I,13) =VZ(I,1)
            ENDIF
 
            IF(NVOISIN(7,L)<0)THEN
@@ -538,8 +538,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I ,J  ,NI, L, NN, NS ,NE,IC(4,4),ITQ
-      DATA IC / 
-     1    3, 4, 1, 2, 
+      DATA IC /
+     1    3, 4, 1, 2,
      2    4, 1, 2, 3,
      3    1, 2, 3, 4,
      4    2, 3, 4, 1/
@@ -599,7 +599,7 @@ Chd|====================================================================
      2               CAND_N  ,STIF   ,STIF_IMP,XI     ,YI    ,
      3               ZI      ,VXI    ,VYI     ,VZI    ,IX1   ,
      4               IX2     ,IX3    ,IX4     ,NSVG  ,NVOISIN,
-     5               MS      ,MSI    ,NSN     ,V     ,NIN   , 
+     5               MS      ,MSI    ,NSN     ,V     ,NIN   ,
      6               N1      ,N2     ,N3     ,H1    ,H2      ,
      7               H3      ,H4     ,NJ_IMP ,HJ_IMP ,SUBTRIA)
 C-----------------------------------------------
@@ -684,13 +684,13 @@ C
          IX4(I) = IRECT(4,L)
         END IF
         STIF(I) = STIF_IMP(I)
-        N1(I) = NJ_IMP(1,I)  
-        N2(I) = NJ_IMP(2,I)  
-        N3(I) = NJ_IMP(3,I)  
-        H1(I) = HJ_IMP(1,I)  
-        H2(I) = HJ_IMP(2,I)  
-        H3(I) = HJ_IMP(3,I)  
-        H4(I) = HJ_IMP(4,I)  
+        N1(I) = NJ_IMP(1,I)
+        N2(I) = NJ_IMP(2,I)
+        N3(I) = NJ_IMP(3,I)
+        H1(I) = HJ_IMP(1,I)
+        H2(I) = HJ_IMP(2,I)
+        H3(I) = HJ_IMP(3,I)
+        H4(I) = HJ_IMP(4,I)
       END DO
 C      
       RETURN
@@ -749,8 +749,8 @@ C         | /   \ |
 C         |/ 17  \| 
 C         6-------7
 C-----------------------------------------
-      DATA IC / 
-     1   3, 4, 1, 2, 
+      DATA IC /
+     1   3, 4, 1, 2,
      2   4, 1, 2, 3,
      3   1, 2, 3, 4,
      4   2, 3, 4, 1,
@@ -771,23 +771,23 @@ C-----------------------------------------
      9   4, 3,10,11,
      .   1, 4,12,13/
 C---------different than I24MSEGV(ind_glob_k.F), consisting order of IXJ w/ Hj    
-           IXX(1:4)=IRTLM(1:4)  
-           IX=IABS(NVOISIN(1))  
-           IXX(6)=IX 
-           IF(NVOISIN(2)/=0)IX=IABS(NVOISIN(2)) 
-           IXX(7)=IX  
-           IX=IABS(NVOISIN(3))  
-           IXX(8)=IX  
-           IF(NVOISIN(4)/=0)IX=IABS(NVOISIN(4)) 
-           IXX(9)=IX  
-           IX=IABS(NVOISIN(5))  
-           IXX(10)=IX  
+           IXX(1:4)=IRTLM(1:4)
+           IX=IABS(NVOISIN(1))
+           IXX(6)=IX
+           IF(NVOISIN(2)/=0)IX=IABS(NVOISIN(2))
+           IXX(7)=IX
+           IX=IABS(NVOISIN(3))
+           IXX(8)=IX
+           IF(NVOISIN(4)/=0)IX=IABS(NVOISIN(4))
+           IXX(9)=IX
+           IX=IABS(NVOISIN(5))
+           IXX(10)=IX
            IF(NVOISIN(6)/=0)IX=IABS(NVOISIN(6))
-           IXX(11)=IX  
-           IX=IABS(NVOISIN(7))  
-           IXX(12)=IX   
+           IXX(11)=IX
+           IX=IABS(NVOISIN(7))
+           IXX(12)=IX
            IF(NVOISIN(8)/=0)IX=IABS(NVOISIN(8))
-           IXX(13)=IX 
+           IXX(13)=IX
 C
         IRTLMV(1) = IXX(IC(1,SUBTRIA))
         IRTLMV(2) = IXX(IC(2,SUBTRIA))

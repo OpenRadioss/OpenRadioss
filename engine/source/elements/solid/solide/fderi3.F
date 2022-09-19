@@ -59,14 +59,14 @@ C     REAL
       my_real
      .   OFF(*),DET(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),  
-     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),  
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX1H1(*), PX1H2(*), PX1H3(*),  
-     .   PX2H1(*), PX2H2(*), PX2H3(*),  
-     .   PX3H1(*), PX3H2(*), PX3H3(*),  
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
+     .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX1H1(*), PX1H2(*), PX1H3(*),
+     .   PX2H1(*), PX2H2(*), PX2H3(*),
+     .   PX3H1(*), PX3H2(*), PX3H3(*),
      .   PX4H1(*), PX4H2(*), PX4H3(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -92,7 +92,7 @@ C                                                                     12
      .   C17(MVSIZ) , C28(MVSIZ) , AJ4(MVSIZ),
      .   AJ5(MVSIZ) , AJ6(MVSIZ) , AJ1(MVSIZ),
      .   AJ2(MVSIZ) , AJ3(MVSIZ) ,
-     .   HX,HY,HZ,    
+     .   HX,HY,HZ,
      .   ICOR
 C-----------------------------------------------
 C
@@ -111,7 +111,7 @@ C
         Z46(I)=Z6(I)-Z4(I)
       ENDDO
 C 
-      DO  I=LFT,LLT               
+      DO  I=LFT,LLT
          AJ1(I)=X17(I)+X28(I)-X35(I)-X46(I)
          AJ2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
          AJ3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
@@ -122,7 +122,7 @@ C
          C17(I)=Z17(I)+Z46(I)
          C28(I)=Z28(I)+Z35(I)
       ENDDO
-         
+
       DO I=LFT,LLT
         AJ4(I)=A17(I)+A28(I)
         AJ5(I)=B17(I)+B28(I)
@@ -134,22 +134,22 @@ C
 C                  
 C     JACOBIAN
 C
-      DO  I=LFT,LLT      
+      DO  I=LFT,LLT
         JAC_59_68(I)=AJ5(I)*AJ9(I)-AJ6(I)*AJ8(I)
         JAC_67_49(I)=AJ6(I)*AJ7(I)-AJ4(I)*AJ9(I)
         JAC_48_57(I)=AJ4(I)*AJ8(I)-AJ5(I)*AJ7(I)
       ENDDO
 C
-      DO  I=LFT,LLT    
+      DO  I=LFT,LLT
        DET(I)=ONE_OVER_64*(AJ1(I)*JAC_59_68(I)+AJ2(I)*JAC_67_49(I)+AJ3(I)*JAC_48_57(I))
-      ENDDO 
+      ENDDO
 C        
       CALL SCHKJAB3(OFF,DET,NGL)
 C
       DO  I=LFT,LLT
         DETT(I)=ONE_OVER_64/DET(I)
-      ENDDO  
-        
+      ENDDO
+
 
 C
 C     INVERSE DE LA MATRICE JACOBIENNE
@@ -188,7 +188,7 @@ C
         PX2(I)=-AJ12(I)+AJI3(I)
         PY2(I)=-AJ45(I)+AJI6(I)
         PZ2(I)=-AJ78(I)+AJI9(I)
-      ENDDO  
+      ENDDO
 C
       IF(JHBE/=0)THEN
         DO I=LFT,LLT

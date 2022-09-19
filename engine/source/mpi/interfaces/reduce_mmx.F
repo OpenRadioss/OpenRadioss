@@ -118,13 +118,13 @@ C NEWFRONT / SIZE
         RINOUT(L) = RINOUT(L)+RIN(L)
         L = L + 1
 C TZINF
-        RINOUT(L) = MIN(RINOUT(L),RIN(L))              
+        RINOUT(L) = MIN(RINOUT(L),RIN(L))
         L = L + 1
 C TZINF
-        RINOUT(L) = MAX(RINOUT(L),RIN(L))              
+        RINOUT(L) = MAX(RINOUT(L),RIN(L))
         L = L + 1
 C T25 main gap changes with thickness change
-        RINOUT(L) = MAX(RINOUT(L),RIN(L))              
+        RINOUT(L) = MAX(RINOUT(L),RIN(L))
         L = L + 1
       END DO
 C

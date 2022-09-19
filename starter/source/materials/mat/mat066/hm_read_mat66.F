@@ -39,9 +39,9 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT66(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR  ,IFUNC    , 
-     .                         MAXFUNC  ,MFUNC    , PARMAT   ,UNITAB ,ID       , 
-     .                         MTAG     ,TITR     , LSUBMODEL,PM     )                     
+      SUBROUTINE HM_READ_MAT66(UPARAM   ,MAXUPARAM,NUPARAM   ,NUVAR  ,IFUNC    ,
+     .                         MAXFUNC  ,MFUNC    , PARMAT   ,UNITAB ,ID       ,
+     .                         MTAG     ,TITR     , LSUBMODEL,PM     )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -62,11 +62,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -86,8 +86,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(OUT)     :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
@@ -101,7 +101,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: NBMAT, MAT_ID  ! Number of declared materials
       INTEGER :: I,J,IU,NC,NT,VP,ILAW,ISRATE,IRATE
-      my_real 
+      my_real
      .     E,NU,G,CP,EPSP0,YFAC(MAXFUNC+1),
      .     RATE(MAXFUNC+1),PC,PT,C1,
      .     SIGY,RHO0,RHOR,FISOKIN,YFAC_UNIT,FCUT
@@ -132,7 +132,7 @@ Card1
       CALL HM_GET_FLOATV('MAT_E'    ,E        ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_NU'   ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_HARD'  ,FISOKIN  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_asrate',FCUT     ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
+      CALL HM_GET_FLOATV('MAT_asrate',FCUT     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV  ('Fsmooth'    ,ISRATE   ,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV  ('ISRATE'    ,IRATE    ,IS_AVAILABLE,LSUBMODEL)
 C-----------------------------------------------
@@ -140,7 +140,7 @@ Card2
       CALL HM_GET_FLOATV('MAT_PC'     ,PC    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Ptole'      ,PT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C!!
-      IF(IRATE == 0) IRATE = 1      
+      IF(IRATE == 0) IRATE = 1
 Card3 
       IF(IRATE < = 3) THEN
          CALL HM_GET_INTV  ('FUN_A1'       ,IFUNC(1)   ,IS_AVAILABLE,LSUBMODEL)
@@ -154,10 +154,10 @@ C unit
          IF(YFAC(1) == ZERO) YFAC(1)= YFAC_UNIT
          CALL HM_GET_FLOATV_DIM('FScale22'     ,YFAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          IF(YFAC(2) == ZERO) YFAC(2)= YFAC_UNIT
-         RATE(2) = ZERO          
-       ENDIF  
+         RATE(2) = ZERO
+       ENDIF
 C        
-       IF(IRATE < = 2) THEN   
+       IF(IRATE < = 2) THEN
          CALL HM_GET_FLOATV('Epsilon_0'    ,EPSP0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C0'       ,CP         ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('SIGMA_r'      ,SIGY       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -165,23 +165,23 @@ C
 C
          IF(EPSP0 == ZERO .AND. CP == ZERO)EPSP0 = EP20
          IF(EPSP0 == ZERO) EPSP0 = ONE !!!
-         
+
 C
        ELSEIF(IRATE == 3) THEN
          CALL HM_GET_INTV  ('FUN_B1'       ,IFUNC(3)   ,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_INTV  ('FUN_B2'       ,IFUNC(4)   ,IS_AVAILABLE,LSUBMODEL)
          CALL HM_GET_FLOATV('FScale33'     ,YFAC(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CALL HM_GET_FLOATV('FScale12'     ,YFAC(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)           
+         CALL HM_GET_FLOATV('FScale12'     ,YFAC(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          MFUNC = 4
          DO I=1,MFUNC
             RATE(I) = ZERO
-         ENDDO 
+         ENDDO
 C unit         
          CALL HM_GET_FLOATV_DIM('FScale33'     ,YFAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          IF(YFAC(3) == ZERO) YFAC(3)= YFAC_UNIT
          CALL HM_GET_FLOATV_DIM('FScale12'     ,YFAC_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          IF(YFAC(4) == ZERO) YFAC(4)= YFAC_UNIT
-               
+
       ELSEIF(IRATE == 4) THEN
         CALL HM_GET_INTV  ('NFUNC'       ,NC   ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV  ('TFUNC'       ,NT   ,IS_AVAILABLE,LSUBMODEL)
@@ -191,7 +191,7 @@ C unit
          CALL HM_GET_FLOAT_ARRAY_INDEX('K_A1'            ,RATE(I)     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C unity         
          CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp1'     ,YFAC_UNIT     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         IF(YFAC(I) == ZERO) YFAC(I) = YFAC_UNIT   
+         IF(YFAC(I) == ZERO) YFAC(I) = YFAC_UNIT
         ENDDO
 C        
         IF(NC == 1) THEN
@@ -215,8 +215,8 @@ C
               CALL HM_GET_FLOAT_ARRAY_INDEX('K_B1'          ,RATE(NC  + I)    ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
 C unity          
               CALL HM_GET_FLOAT_ARRAY_INDEX_DIM('Fp2'     ,YFAC_UNIT     ,I,IS_AVAILABLE, LSUBMODEL, UNITAB)
-              IF(YFAC(NC + I) == ZERO) YFAC(NC + I) = YFAC_UNIT 
-            ENDDO  
+              IF(YFAC(NC + I) == ZERO) YFAC(NC + I) = YFAC_UNIT
+            ENDDO
             IF(NT == 1) THEN
              NT = NT +1
              IFUNC(NC + 2) = IFUNC(NC + 1)
@@ -230,41 +230,41 @@ C unity
                RATE(NC  + J + 1) = RATE(NC + J)
                YFAC(NC  + J + 1) = YFAC(NC + J)
              ENDDO
-               RATE(NC + 1)=ZERO             
-           ENDIF      
-           MFUNC = NC + NT          
+               RATE(NC + 1)=ZERO
+           ENDIF
+           MFUNC = NC + NT
 C----------------
 C verification
 C----------------
-           DO I=1,NC-1                        
-	      IF(RATE(I) > RATE(I+1))THEN        
+           DO I=1,NC-1
+	      IF(RATE(I) > RATE(I+1))THEN
                CALL ANCMSG(MSGID=478,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=ID,
      .                     C1=TITR)
-             GOTO 100                          
-            ENDIF                               
-          ENDDO                                 
+             GOTO 100
+            ENDIF
+          ENDDO
  100      CONTINUE
- 
-          DO I=1,NT-1                        
-	      IF(RATE(NC+I) >= RATE(NC+I+1))THEN        
+
+          DO I=1,NT-1
+	      IF(RATE(NC+I) >= RATE(NC+I+1))THEN
                CALL ANCMSG(MSGID=478,
      .                     MSGTYPE=MSGERROR,
      .                     ANMODE=ANINFO_BLIND_1,
      .                     I1=ID,
      .                     C1=TITR)
-             GOTO 200                          
-            ENDIF                               
-         ENDDO                                 
- 200     CONTINUE      
-      ENDIF   ! IRATE        
+             GOTO 200
+            ENDIF
+         ENDDO
+ 200     CONTINUE
+      ENDIF   ! IRATE
 C
       RHOR=RHO0
       IF(RHOR==ZERO)RHOR=RHO0
       PM(1) =RHOR
-      PM(89)=RHO0      
+      PM(89)=RHO0
 C
       DO I=1,MFUNC
         IF(IFUNC(I) == 0)THEN
@@ -275,7 +275,7 @@ C
      .                  C1=TITR,
      .                  I2=IFUNC(I))
           ENDIF
-      ENDDO     
+      ENDDO
 C
       IF(NU == HALF)NU=ZEP499
       IF(CP == ZERO .AND. IRATE == 1) CP = ONE
@@ -300,11 +300,11 @@ C
          UPARAM(13+MFUNC+I)=RATE(I)
       ENDDO
 C    
-      NUPARAM = 13 + 2*MFUNC  
-      UPARAM(NUPARAM + 1) = SIGY 
+      NUPARAM = 13 + 2*MFUNC
+      UPARAM(NUPARAM + 1) = SIGY
       UPARAM(NUPARAM + 2) = VP
-      NUPARAM = NUPARAM + 2      
-c     
+      NUPARAM = NUPARAM + 2
+c
       C1=E/THREE/(ONE - TWO*NU)
 C                      
       PARMAT(1) = C1
@@ -313,7 +313,7 @@ C
       PARMAT(4) = ISRATE
       PARMAT(5) = FCUT
 C
-      NUVAR = 7 + MFUNC 
+      NUVAR = 7 + MFUNC
 C-----------------------      
       MTAG%G_EPSD = 1
       MTAG%L_EPSD = 1
@@ -321,7 +321,7 @@ C-----------------------
       MTAG%L_PLA  = 1
 C ----------------      
 C
-      WRITE(IOUT,1001) TRIM(TITR),ID,ILAW 
+      WRITE(IOUT,1001) TRIM(TITR),ID,ILAW
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
@@ -334,23 +334,23 @@ C
            WRITE(IOUT,1300) IFUNC(1),YFAC(1)
            write(IOUT,1400) IFUNC(2),YFAC(2)
            write(IOUT,1500) EPSP0
-           IF (IRATE == 1) THEN 
+           IF (IRATE == 1) THEN
               WRITE(IOUT,1510) CP
             ELSE
               WRITE(IOUT,1520) CP
            ENDIF
            write(IOUT,1530) VP,SIGY
-         ELSEIF(IRATE == 3) THEN 
+         ELSEIF(IRATE == 3) THEN
            WRITE(IOUT,1300) IFUNC(1),YFAC(1)
            write(IOUT,1400) IFUNC(2),YFAC(2)
            write(IOUT,1600) IFUNC(3),YFAC(3)
            WRITE(IOUT,1700) IFUNC(4),YFAC(4)
          ELSE
             DO I=1,NC
-              WRITE(IOUT,2000) IFUNC(I),YFAC(I),RATE(I)        
-            ENDDO 
+              WRITE(IOUT,2000) IFUNC(I),YFAC(I),RATE(I)
+            ENDDO
             DO I=1,NT
-              WRITE(IOUT,3000) IFUNC(I+NC),YFAC(I+NC),RATE(I+NC)        
+              WRITE(IOUT,3000) IFUNC(I+NC),YFAC(I+NC),RATE(I+NC)
             ENDDO
          ENDIF
       ENDIF
@@ -364,24 +364,24 @@ C
      & 5X,'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1002 FORMAT(
-     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/) 
+     & 5X,'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)
  1100 FORMAT(
      & 5X,'YOUNG''S MODULUS. . . . . . . . . . . . .=',1PG20.13/
      & 5X,'POISSON''S RATIO. . . . . . . . . . . . .=',1PG20.13/
      & 5X,'COMPRESSION MEAN STRESS.  . . . . . . . .=',1PG20.13/
      & 5X,'TRACTION MEAN STRESS  . . . . . . . . . .=',1PG20.13/
-     & 5X,'ISO-KINEMATIC HARDENNING FACTOR . . . . .=',1PG20.13/   
+     & 5X,'ISO-KINEMATIC HARDENNING FACTOR . . . . .=',1PG20.13/
      & 5X,'SMOOTH STRAIN RATE OPTION . . . . . . . .=',I10/
      & 5X,'STRAIN RATE CUTTING FREQUENCY . . . . . .=',1PG20.13/)
- 1200 FORMAT(    
+ 1200 FORMAT(
      & 5X,'STRAIN RATE FORMALATION OPTION  . . . . .=', I10/)
  1300 FORMAT(
      & 5X,'COMPRESSION YIELD STRESS FUNCTION NUMBER.=',I10/
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . .=',1PG20.13)
  1400 FORMAT(
      & 5X,'TRACTION YIELD STRESS FUNCTION NUMBER . .=',I10/
-     & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . .=',1PG20.13)     
- 1500 FORMAT(              
+     & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . .=',1PG20.13)
+ 1500 FORMAT(
      & 5X,'REFERENCE STRAIN RATE . . . . . . . . . .=',1PG20.13)
  1510 FORMAT(
      & 5X,'STRAIN RATE PARAMETER 1/C . . . . . . . .=',1PG20.13)
@@ -391,16 +391,16 @@ C
      & 5X,'OPTIONAL STRAIN RATE EFFECT : . . . . . .=',I10/,
      & 5X,'          0 : STRAIN RATE EFFECT IS ACTIVED ',/,
      & 5X,'          1 : VISCPLASTIC OPTION IS ACTIVED ',/,
-     & 5X,'OPTIONAL INITIAL YIELD STRESS . . . . . .=',1PG20.13/)      
+     & 5X,'OPTIONAL INITIAL YIELD STRESS . . . . . .=',1PG20.13/)
  1600 FORMAT(
      & 5X,
      . 'COMPRESSION STRAIN RATE SCALING EFFECT FUNCTION NUMBER .=',I10/
-     & 5X,'SCALE FACTOR. . . . . . . . . . . . . . .=',1PG20.13) 
-   
+     & 5X,'SCALE FACTOR. . . . . . . . . . . . . . .=',1PG20.13)
+
  1700 FORMAT(
      & 5X,
      . 'TRACTION STRAIN RATE SCALING EFFECT FUNCTION NUMBER . . .=',I10/
-     & 5X,'SCALE FACTOR. . . . . . . . . . . . . . .=',1PG20.13) 
+     & 5X,'SCALE FACTOR. . . . . . . . . . . . . . .=',1PG20.13)
  2000 FORMAT(
      & 5X,'COMPRESSION YIELD STRESS FUNCTION NUMBER.=',I10/
      & 5X,' YIELD SCALE FACTOR. . . . . .=',1PG20.13/
@@ -408,8 +408,8 @@ C
  3000 FORMAT(
      & 5X,'TRACTION YIELD STRESS FUNCTION NUMBER . .=',I10/
      & 5X,'YIELD SCALE FACTOR. . . . . . . . . . . .=',1PG20.13/
-     & 5X,'STRAIN RATE . . . . . . . . . . . . . . .=',1PG20.13)  
+     & 5X,'STRAIN RATE . . . . . . . . . . . . . . .=',1PG20.13)
  4000 FORMAT(
      & 5X,' VISCO-ELASTIC MODEL'         ,/,
-     & 5X,'  -------------------'         ,//)       
+     & 5X,'  -------------------'         ,//)
       END

@@ -27,7 +27,7 @@ Chd|        EOSMAIN                       common_source/eos/eosmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE POWDER_BURN    (
-     1                            IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 , 
+     1                            IFLAG,NEL  ,PM   ,OFF  ,EINT ,MU   ,MU2 ,
      2                            ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH  ,
      3                            PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -51,9 +51,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C     COMPUTE BULK MODULUS FOR SOUND SPEED
 C     COMPUTE COLD COMPRESSION ENERGY
 C-----------------------------------------
        MX           = MAT(LFT)
-       E0           = PM(23,MX)         
+       E0           = PM(23,MX)
        GAMMA        = PM(34,MX)
        P0           = PM(32,MX)
        PSH(LFT:LLT) = PM(88,MX)
@@ -102,7 +102,7 @@ C     UPDATE PRESSURE AND INTERNAL ENERGY
 C----------------------------------------
        TFEXTT       = ZERO
        MX           = MAT(LFT)
-       E0           = PM(23,MX)         
+       E0           = PM(23,MX)
        GAMMA        = PM(34,MX)
        P0           = PM(32,MX)
        PSH(LFT:LLT) = PM(88,MX)
@@ -114,13 +114,13 @@ C----------------------------------------
          AA         = (GAMMA-ONE)*(ONE+MU(I))
          BB         = AR0B*EXP(B*LOG(1+MU(I)))
          DVV        = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-         PNEW(I)    = (BB + AA*(ESPE(I)-PSH(I)*DVV) ) / (ONE+AA*DVV)         
+         PNEW(I)    = (BB + AA*(ESPE(I)-PSH(I)*DVV) ) / (ONE+AA*DVV)
          PNEW(I)    = MAX(PNEW(I),ZERO)*OFF(I)
          EINT(I)    = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
          PNEW(I)    = PNEW(I) + PSH(I)
          TFEXTT     = TFEXTT-DVOL(I)*PSH(I)
        ENDDO
-       
+
 #include "atomic.inc"
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
@@ -139,14 +139,14 @@ C------------------------
        ENDDO
       ELSEIF (IFLAG == 2) THEN
          MX           = MAT(LFT)
-         E0           = PM(23,MX)         
+         E0           = PM(23,MX)
          GAMMA        = PM(34,MX)
          P0           = PM(32,MX)
          PSH(1:NEL) = PM(88,MX)
          AR0B         = PM(35,MX)
          B            = PM(36,MX)
          SPH          = PM(69,MX)
-         
+
          DO I=1, NEL
             IF (VNEW(I) > ZERO) THEN
                PNEW(I) = (GAMMA-ONE)*(ONE+MU(I))*ESPE(I) + AR0B*EXP(B*LOG(1+MU(I)))

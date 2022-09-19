@@ -76,8 +76,8 @@ C     REAL
      .   CA(MVSIZ),CB(MVSIZ),CN(MVSIZ),YMAX(MVSIZ),
      .   YOUNG(MVSIZ),CC(MVSIZ),EPDR(MVSIZ),NU(MVSIZ),
      .   EPSL(MVSIZ),HL(MVSIZ),YM(MVSIZ),YLDL(MVSIZ),EZZ(MVSIZ),
-     .   YM_1, A1_1, CA_1, CB_1, CN_1, 
-     .   EPMX, YMAX_1, CC_1, EPSL_1, 
+     .   YM_1, A1_1, CA_1, CB_1, CN_1,
+     .   EPMX, YMAX_1, CC_1, EPSL_1,
      .   HL_1, YLDL_1,NU_1
 C-----------------------------------------------
 !

@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER  IPLY
 C     REAL
       my_real
-     .   XNORM(3,*) 
+     .   XNORM(3,*)
 C     REAL
       my_real
      .   S3000,S

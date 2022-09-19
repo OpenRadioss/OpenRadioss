@@ -68,7 +68,7 @@ C-----------------------------------------------
      .            1, 2, 3, 4, 5, 6, 7, 8, 9,10/
 
       DOUBLE PRECISION
-     .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10), 
+     .   XX(MVSIZ,10), YY(MVSIZ,10), ZZ(MVSIZ,10),
      .   XA(MVSIZ,10),YA(MVSIZ,10),ZA(MVSIZ,10),
      .   XB(MVSIZ,10),YB(MVSIZ,10),ZB(MVSIZ,10),
      .   A4,B4,A4M1,B4M1,AA,DET6(6,MVSIZ),VOLDP(MVSIZ)
@@ -80,12 +80,12 @@ C----------------------------
       IF (ISMSTR==1.OR.ISMSTR==11) RETURN
 C----------------------------
       DO N=1,10
-        DO I=LFT,LLT               
-          NN = MAX(1,NC(I,N))    
-          XX(I,N)=X(1,NN)          
-          YY(I,N)=X(2,NN)          
-          ZZ(I,N)=X(3,NN)          
-        ENDDO                      
+        DO I=LFT,LLT
+          NN = MAX(1,NC(I,N))
+          XX(I,N)=X(1,NN)
+          YY(I,N)=X(2,NN)
+          ZZ(I,N)=X(3,NN)
+        ENDDO
       ENDDO
 C
       DO N=5,10
@@ -155,7 +155,7 @@ C
      .   ZB(1,K6),ZB(1,K7),ZB(1,K8),ZB(1,K9),ZB(1,K10),
      .   ZA(1,K8),ZA(1,K9),ZA(1,K10),
      .   VOLDP,LLT)
-c     
+c
          VOLG(LFT:LLT) =VOLG(LFT:LLT) + VOLDP(LFT:LLT)
       ENDDO
       DO I=LFT,LLT

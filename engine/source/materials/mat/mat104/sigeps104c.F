@@ -42,7 +42,7 @@ Chd|====================================================================
      6     SIGOZX  ,THK     ,SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      7     VISCMAX ,SIGY    ,ET      ,VARNL   ,DMG     ,TEMP    ,SEQ     ,
      8     NPTR    ,NPTS    ,NPTT    ,BUFLY   ,INLOC   )
-     
+
       USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -51,7 +51,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -67,23 +67,23 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,JTHE,IPG,ILAY,IPT,INLOC
       INTEGER NPF(*),NGL(NEL),IFUNC(NFUNC),NPTR,NPTS,NPTT
-      my_real 
+      my_real
      .   TIMESTEP,TIME,TF(*),UPARAM(NUPARAM)
-      my_real,DIMENSION(NEL), INTENT(IN) :: 
-     .   RHO, 
+      my_real,DIMENSION(NEL), INTENT(IN) ::
+     .   RHO,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX,
      .   TEMPEL, THKLY,GS
 c
-      my_real ,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real ,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,
      .   SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
 c
-      my_real ,DIMENSION(NEL) :: 
+      my_real ,DIMENSION(NEL) ::
      .   SIGY,ET,VISCMAX
-      my_real ,DIMENSION(NEL), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL), INTENT(INOUT) ::
      .   PLA,EPSD,OFFL,THK,OFF,VARNL,DMG,TEMP,SEQ,DPLA
-      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real ,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
       TYPE(BUF_LAY_) :: BUFLY
 C-----------------------------------------------
@@ -92,31 +92,31 @@ C-----------------------------------------------
       INTEGER I,J,K,II,IGURSON,NSP,ITER,NITER,NINDX,NICE,INDEX(NEL),INDX(NEL),
      .        IR,IS,IT
 C=======================================================================
-c      UVAR(1)     
-c      UVAR(2)     
+c      UVAR(1)
+c      UVAR(2)
 C      DEPIJ = PLASTIC STRAIN TENSOR COMPONENT
 C      DEPSIJ = TOTAL STRAIN  TENSOR COMPONENT (EL+PL)
 C=======================================================================
-c  
+c
        NICE    = NINT(UPARAM(11))! Plastic projection method
                                  !  = 1 => Nice method
                                  !  = 2 => Newton-iteration method
                                  !  = 3 => Nice method with elastic update
-       IGURSON = NINT(UPARAM(30)) ! Gurson switch flag: 
+       IGURSON = NINT(UPARAM(30)) ! Gurson switch flag:
                                  !  = 0 => Drucker material law with no damage model
                                  !  = 1 => local Gurson damage model
                                  !  = 2 => non local (Forest - micromorphic) damage model
                                  !  = 3 => non local (Peerlings) damage model
-c--------------------------                        
+c--------------------------
       SELECT CASE (IGURSON)
-c      
+c
         CASE(0)
-c     
 c
 c
-          IF ((NICE == 1).OR.(NICE == 3)) THEN 
+c
+          IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104C_NODAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
      3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -126,7 +126,7 @@ c
      8         SEQ     ,INLOC   )
           ELSE  ! Newton
             CALL MAT104C_NODAM_NEWTON(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFF     ,
      3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -135,12 +135,12 @@ c
      7         THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,TEMP    ,
      8         SEQ     ,INLOC   )
           ENDIF
-c      
+c
         CASE(1,2)
 c
-          IF ((NICE == 1).OR.(NICE == 3)) THEN 
+          IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104C_LDAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
      3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -150,7 +150,7 @@ c
      8         TEMP    ,SEQ     )
           ELSE  ! Newton
             CALL MAT104C_LDAM_NEWTON(
-     1           NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1           NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2           TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
      3           GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4           DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -158,12 +158,12 @@ c
      6           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7           THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
      8           TEMP    ,SEQ     )
-          ENDIF      
+          ENDIF
         CASE(3)
 c
-          IF ((NICE == 1).OR.(NICE == 3)) THEN 
+          IF ((NICE == 1).OR.(NICE == 3)) THEN
             CALL MAT104C_NLDAM_NICE(
-     1         NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1         NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2         TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
      3         GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4         DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -173,7 +173,7 @@ c
      8         TEMP    ,SEQ     )
           ELSE  ! Newton
             CALL MAT104C_NLDAM_NEWTON(
-     1           NEL     ,NGL     ,NUPARAM ,NUVAR   , 
+     1           NEL     ,NGL     ,NUPARAM ,NUVAR   ,
      2           TIME    ,TIMESTEP,UPARAM  ,UVAR    ,JTHE    ,OFFL    ,
      3           GS      ,RHO     ,PLA     ,DPLA    ,EPSD    ,SOUNDSP ,
      4           DEPSXX  ,DEPSYY  ,DEPSXY  ,DEPSYZ  ,DEPSZX  ,
@@ -181,11 +181,11 @@ c
      6           SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,THKLY   ,
      7           THK     ,SIGY    ,ET      ,TEMPEL  ,VARNL   ,DMG     ,
      8           TEMP    ,SEQ     )
-          ENDIF      
-      END SELECT        
+          ENDIF
+      END SELECT
 c--------------------------
       ! Integration point failure
-      IF (IGURSON>0) THEN 
+      IF (IGURSON>0) THEN
         NINDX = 0
         DO I=1,NEL
           ! Case of under-integrated shells
@@ -198,7 +198,7 @@ c--------------------------
             IF (OFFL(I)>ZERO) OFF(I) = ONE
           ! Case of fully integrated shells
           ELSE
-            IF ((IPG == 1).AND.(IPT == 1)) THEN 
+            IF ((IPG == 1).AND.(IPT == 1)) THEN
               !Initialization for checking complete failure of the shell (all integration points)
               OFF(I) = ZERO
               ! Loop over all Gauss points (thickness + surface)
@@ -231,7 +231,7 @@ c
  2000 FORMAT(1X,'FAILURE (GURSON) IN SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',THICKNESS INTG. PT',I3)
  2100 FORMAT(1X,'FAILURE (GURSON) IN SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',THICKNESS INTG. PT',I3,
      .       1X,'AT TIME :',1PE12.4)
-c  
+c
 c-----------
       RETURN
       END

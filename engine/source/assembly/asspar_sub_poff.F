@@ -27,7 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE ASSPAR_SUB_POFF(A       ,NODFT   ,NODLT   ,
-     .                           POSI    ,SIZEA   ,NTHREAD ) 
+     .                           POSI    ,SIZEA   ,NTHREAD )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -37,7 +37,7 @@ C   D u m m y   A r g u m e n t s
 C----------------------------------------------
       INTEGER NODFT,NODLT,POSI(*),NTHREAD
       INTEGER SIZEA
-      my_real 
+      my_real
      .   A(SIZEA,NTHREAD)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

@@ -19,7 +19,7 @@ Copyright>        Commercial Alternative: Altair Radioss Software
 Copyright>    
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
-Copyright>        commercial version may interest you: https://www.altair.com/radioss/.  
+Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
 Chd|====================================================================
 Chd|  INTER_BOX_CREATION            source/interfaces/generic/inter_box_creation.F
 Chd|-- called by -----------
@@ -83,26 +83,26 @@ C-----------------------------------------------
 !   ----------------------------------------
 
         !   ------------------
-        !   Create the box : 
+        !   Create the box :
         !   number of cell = [ tota_number_of_node / ( dx*dy + dx*dz+dy*dz ) ]**(1/2) * dx or dy or dz
-        !   1 < number of cell < 128 
-        
+        !   1 < number of cell < 128
+
         !   find the leading direction
         DX_BOX = ABS(BOX_LIMIT(1) - BOX_LIMIT(4))
         DY_BOX = ABS(BOX_LIMIT(2) - BOX_LIMIT(5))
         DZ_BOX = ABS(BOX_LIMIT(3) - BOX_LIMIT(6))
-        
+
         DIST_MAX = MAX(DX_BOX,DY_BOX,DZ_BOX)
         IF(DIST_MAX==DX_BOX) LEADING_DIMENSION = 1
         IF(DIST_MAX==DY_BOX) LEADING_DIMENSION = 2
         IF(DIST_MAX==DZ_BOX) LEADING_DIMENSION = 3
-        
+
         !   compute the number of cell in the leading direction, then compute the number of cell in the other direction
         RATIO = SQRT( NUMNODG / (DX_BOX*DY_BOX+DX_BOX*DZ_BOX+DY_BOX*DZ_BOX))
         IF(LEADING_DIMENSION==1) THEN
             NB_CELL_X = NINT( RATIO * DX_BOX )
-            NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)     
-            NB_CELL_X = NB_CELL_X - modulo(NB_CELL_X,4)           
+            NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)
+            NB_CELL_X = NB_CELL_X - modulo(NB_CELL_X,4)
             NB_CELL_X = MIN(NB_CELL_X,NB_BOX_LIMIT)
             NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)
 
@@ -110,7 +110,7 @@ C-----------------------------------------------
 
             NB_CELL_Y = NINT( DY_BOX / SIZE_CELL )
             NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)
-            NB_CELL_Y = NB_CELL_Y - modulo(NB_CELL_Y,4)                 
+            NB_CELL_Y = NB_CELL_Y - modulo(NB_CELL_Y,4)
             NB_CELL_Y = MIN(NB_CELL_Y,NB_BOX_LIMIT)
             NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)
 
@@ -121,8 +121,8 @@ C-----------------------------------------------
             NB_CELL_Z = MAX(NB_CELL_Z,NB_BOX_COARSE_GRID)
         ELSEIF(LEADING_DIMENSION==2) THEN
             NB_CELL_Y = NINT( RATIO * DY_BOX )
-            NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)         
-            NB_CELL_Y = NB_CELL_Y - modulo(NB_CELL_Y,4)   
+            NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)
+            NB_CELL_Y = NB_CELL_Y - modulo(NB_CELL_Y,4)
             NB_CELL_Y = MIN(NB_CELL_Y,NB_BOX_LIMIT)
             NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)
 
@@ -130,7 +130,7 @@ C-----------------------------------------------
 
             NB_CELL_X = NINT( DX_BOX / SIZE_CELL )
             NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)
-            NB_CELL_X = NB_CELL_X - modulo(NB_CELL_X,4)    
+            NB_CELL_X = NB_CELL_X - modulo(NB_CELL_X,4)
             NB_CELL_X = MIN(NB_CELL_X,NB_BOX_LIMIT)
             NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)
 
@@ -142,7 +142,7 @@ C-----------------------------------------------
         ELSEIF(LEADING_DIMENSION==3) THEN
             NB_CELL_Z = NINT( RATIO * DZ_BOX )
             NB_CELL_Z = MAX(NB_CELL_Z,NB_BOX_COARSE_GRID)
-            NB_CELL_Z = NB_CELL_Z - modulo(NB_CELL_Z,4)  
+            NB_CELL_Z = NB_CELL_Z - modulo(NB_CELL_Z,4)
             NB_CELL_Z = MIN(NB_CELL_Z,NB_BOX_LIMIT)
             NB_CELL_Z = MAX(NB_CELL_Z,NB_BOX_COARSE_GRID)
 
@@ -150,13 +150,13 @@ C-----------------------------------------------
 
             NB_CELL_Y = NINT( DY_BOX / SIZE_CELL )
             NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)
-            NB_CELL_Y = NB_CELL_Y - modulo(NB_CELL_Y,4)  
+            NB_CELL_Y = NB_CELL_Y - modulo(NB_CELL_Y,4)
             NB_CELL_Y = MIN(NB_CELL_Y,NB_BOX_LIMIT)
             NB_CELL_Y = MAX(NB_CELL_Y,NB_BOX_COARSE_GRID)
 
             NB_CELL_X = NINT( DX_BOX / SIZE_CELL )
             NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)
-            NB_CELL_X = NB_CELL_X - modulo(NB_CELL_X,4)  
+            NB_CELL_X = NB_CELL_X - modulo(NB_CELL_X,4)
             NB_CELL_X = MIN(NB_CELL_X,NB_BOX_LIMIT)
             NB_CELL_X = MAX(NB_CELL_X,NB_BOX_COARSE_GRID)
         ENDIF

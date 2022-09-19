@@ -70,7 +70,7 @@ C . . . . . . . . . . . .
       S11=ONE
       S21=ZERO
       S31=ZERO
-      S12=ZERO    
+      S12=ZERO
       S22=DIR(1)
       S32=DIR(2)
       S13=ZERO
@@ -95,7 +95,7 @@ C      SIG3D(3)=S13*A13+S23*A23+S33*A33
 C
       EPS(4)=HALF*EPS(4)
       EPS(5)=HALF*EPS(5)
-      EPS(6)=HALF*EPS(6)      
+      EPS(6)=HALF*EPS(6)
       A11=EPS(1)*S11+EPS(4)*S21+EPS(6)*S31
       A12=EPS(1)*S12+EPS(4)*S22+EPS(6)*S32
       A13=EPS(1)*S13+EPS(4)*S23+EPS(6)*S33
@@ -117,7 +117,7 @@ C      EPS(6)=2.*EPS(6)
 C
       EPSTOT(4)=HALF*EPSTOT(4)
       EPSTOT(5)=HALF*EPSTOT(5)
-      EPSTOT(6)=HALF*EPSTOT(6)      
+      EPSTOT(6)=HALF*EPSTOT(6)
       A11=EPSTOT(1)*S11+EPSTOT(4)*S21+EPSTOT(6)*S31
       A12=EPSTOT(1)*S12+EPSTOT(4)*S22+EPSTOT(6)*S32
       A13=EPSTOT(1)*S13+EPSTOT(4)*S23+EPSTOT(6)*S33

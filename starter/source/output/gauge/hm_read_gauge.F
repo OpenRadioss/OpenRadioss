@@ -48,7 +48,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE R2R_MOD
-      USE HM_OPTION_READ_MOD    
+      USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ITABM1(*), LGAUGE(3,*),
      .   IXC(NIXC,*),ISKN(LISKN,*)
       INTEGER NOM_OPT(LNOPT1,*)
@@ -130,7 +130,7 @@ c 19:   				   ! Butterworth !
 c 20:   			           ! Butterworth !
 c 21: 				           ! Butterworth !
 c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
+c 23: 				           ! Butterworth !
 c 24:   				   ! Butterworth !
 c 25:   				   ! Butterworth !
 c 26:   				   ! Butterworth !
@@ -140,7 +140,7 @@ c 29:   				   ! Butterworth !
 c 30:  Pressure      		  	   filtered Pressure
 c 31:  PA            			   filtered PA
 c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
+c 33:  E             			   filtered E	
 c 34:   				   ! Butterworth !
 c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
@@ -152,24 +152,24 @@ C=======================================================================
 C----------------------------------------------------------------- 
       IF ( NBGAUGE_SPH > 0)THEN
 C----------------------------------------------------------------- 
-       CALL HM_OPTION_START('/GAUGE/SPH')       
+       CALL HM_OPTION_START('/GAUGE/SPH')
        DO I=1,NBGAUGE_SPH
         NG=NG+1
         !---Multidomaines --> on ignore les sections non tagees----
         IF(NSUBDOM > 0) THEN
            IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
         ENDIF
-        !---------------------------------------------------------- 
+        !----------------------------------------------------------
         KEY=''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                           OPTION_ID   = NGAU, 
+     .                           OPTION_ID   = NGAU,
      .                           KEYWORD2    = KEY   ,
-     .                           OPTION_TITR = TITR)    
+     .                           OPTION_TITR = TITR)
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 
 
         NOM_OPT(1,I)=NGAU
-   
+
         LGAUGE(1,I)=-(NUMELS+1)
         DIST = ZERO
         !READ(IIN,REC=IREC,ERR=999,FMT=FMT_3I_F_I_F)NOD,ISK,IG,FF,NS,DIST
@@ -217,25 +217,25 @@ C-------------------------------------
 C-----------------------------------------------
 c--------/GAUGE
 C-----------------------------------------------
-      CALL HM_OPTION_START('/GAUGE')       
+      CALL HM_OPTION_START('/GAUGE')
 C-----------------------------------------------
-       DO I=1,NBGAUGE 
+       DO I=1,NBGAUGE
 
         KEY=''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
-     .                           OPTION_ID   = NGAU, 
+     .                           OPTION_ID   = NGAU,
      .                           KEYWORD2    = KEY   ,
-     .                          OPTION_TITR  = TITR)    
+     .                          OPTION_TITR  = TITR)
         NOM_OPT(1,I)=NGAU
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 
-        IF (KEY == 'SPH') CYCLE  
+        IF (KEY == 'SPH') CYCLE
         NG=NG+1
         !Multidomaines --> on ignore les sections non tagees----
         IF(NSUBDOM > 0) THEN
           IF(TAGGAU(NG) == 0) CALL SZ_R2R(TAGGAU,NG)
         ENDIF
-        !----------------------------------------------------------------- 
+        !-----------------------------------------------------------------
         LGAUGE(1,NG)=0
 
         DIST = ZERO

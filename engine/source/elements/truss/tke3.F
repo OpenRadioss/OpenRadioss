@@ -58,9 +58,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NCT(NIXT,*),OFFSET,JFT,JLT,NEL  ,IKGEO, 
-     .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)    
-      my_real 
+      INTEGER NCT(NIXT,*),OFFSET,JFT,JLT,NEL  ,IKGEO,
+     .        ETAG(*),IDDL(*)  ,NDOF(*)  ,IADK(*) ,JDIK(*)
+      my_real
      .   PM(*), GEO(*), X(*),
      .   KE11(9,MVSIZ),KE12(9,MVSIZ),KE22(9,MVSIZ),OFF(MVSIZ),
      .   K_DIAG(*) ,K_LT(*)
@@ -71,7 +71,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NB1, NB2, NB3, NB4, NB5, NB6, NB10, NB11, LCO
       INTEGER MAT(MVSIZ),NGL(MVSIZ)
-      my_real 
+      my_real
      .  AL(MVSIZ),KX(MVSIZ),EX(MVSIZ),EY(MVSIZ),EZ(MVSIZ)
 C
       TYPE(G_BUFEL_)  ,POINTER :: GBUF
@@ -116,9 +116,9 @@ C-------------------------
       IF (NEIG>0) CALL PEOFF(
      1                   NIXT, JFT, JLT, NCT , ETAG,
      2                   OFF )
-     
+
       RETURN
       END
-      
-      
-     
+
+
+

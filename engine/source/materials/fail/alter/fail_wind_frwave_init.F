@@ -31,7 +31,7 @@ Chd|====================================================================
         USE RUPTURE_MOD
 !$COMMENT
 !       FAIL_WIND_FRWAVE_INIT description :
-!              FAIL_WIND_FRWAVE_INIT allocates and initializes the 
+!              FAIL_WIND_FRWAVE_INIT allocates and initializes the
 !              INDEX_OVER_50_CYCLES array
 !       FAIL_WIND_FRWAVE_INIT organization :
 !               - INDEX_OVER_50_CYCLES is allocated & initiliazed
@@ -55,6 +55,6 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         ALLOCATE( INDEX_OVER_50_CYCLES(NGROUP) )
-        INDEX_OVER_50_CYCLES(1:NGROUP) = 50      
+        INDEX_OVER_50_CYCLES(1:NGROUP) = 50
         RETURN
         END SUBROUTINE FAIL_WIND_FRWAVE_INIT

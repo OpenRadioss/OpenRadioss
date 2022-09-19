@@ -78,7 +78,7 @@ C-----------------------------------------------
       my_real, INTENT(IN) ::  ALEA(NRAND)
       my_real, INTENT(INOUT) ::  X(3,NUMNOD)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -142,7 +142,7 @@ C
 C
         CALL HM_OPTION_START('/RETRACTOR')
 
-        DO I = 1,NRETRACTOR 
+        DO I = 1,NRETRACTOR
           CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_TITR = TITR, OPTION_ID = ID, UNIT_ID = UID)
 C
           NOM_OPT(1,I)=ID
@@ -176,14 +176,14 @@ C
 C
           IF (IFUNC(1) > 0) THEN
             IF (XSCALE1== ZERO) XSCALE1 = ONE*XSCALE1_UNIT
-            IF (YSCALE1== ZERO) YSCALE1 = ONE*YSCALE1_UNIT    
+            IF (YSCALE1== ZERO) YSCALE1 = ONE*YSCALE1_UNIT
           ENDIF
 C
           IF (IFUNC(2) == 0) IFUNC(2) = IFUNC(1)
 C
           IF (IFUNC(3) > 0) THEN
             IF (XSCALE2== ZERO) XSCALE2 = ONE*XSCALE2_UNIT
-            IF (YSCALE2== ZERO) YSCALE2 = ONE*YSCALE2_UNIT    
+            IF (YSCALE2== ZERO) YSCALE2 = ONE*YSCALE2_UNIT
           ENDIF
 C
           WRITE(IOUT,1100) ID,TRIM(TITR),EL_ID,NODE_ID,ELEM_SIZE,ISENS(1),PULL,IFUNC(1),IFUNC(2),
@@ -208,7 +208,7 @@ C
             IF (MTYP /= 114) CALL ANCMSG(MSGID=2033,
      .                                   MSGTYPE=MSGERROR,
      .                                   ANMODE=ANINFO,
-     .                                   I1=ID,I2=EL_ID) 
+     .                                   I1=ID,I2=EL_ID)
           ENDIF
 C
 C---------CHeck of sensors is done in creat_seatblet as sensors are not yet avaialble
@@ -217,11 +217,11 @@ C---------CHeck of functions
 C
           IFUNC_LOC(1:3) = 0
 C              
-          DO J=1,3       
+          DO J=1,3
             IF (IFUNC(J) > 0) THEN
-              DO K=1,NFUNCT               
-                IF (FUNC_ID(K) == IFUNC(J)) IFUNC_LOC(J) = K                                        
-              ENDDO         
+              DO K=1,NFUNCT
+                IF (FUNC_ID(K) == IFUNC(J)) IFUNC_LOC(J) = K
+              ENDDO
               IF(IFUNC_LOC(J) == 0) CALL ANCMSG(MSGID=2028,
      .                                   MSGTYPE=MSGERROR,
      .                                   ANMODE=ANINFO_BLIND_1,
@@ -284,7 +284,7 @@ C--       compatibility with random noise
             ALEA_MAX = ZERO
             DO J=1,NRAND
               ALEA_MAX = MAX(ALEA_MAX,ALEA(J))
-            ENDDO 
+            ENDDO
             TOLE_2 = MAX(TOLE_2,TEN*ALEA_MAX*ALEA_MAX)
           ENDIF
 C
@@ -304,23 +304,23 @@ C
           DIST3 = (X(1,NODE2)-X(1,NODE1))**2+(X(2,NODE2)-X(2,NODE1))**2+(X(3,NODE2)-X(3,NODE1))**2
 C
           IF (DIST1 < EM30) THEN
-            RETRACTOR(I)%NODE(1) = NODE2 
+            RETRACTOR(I)%NODE(1) = NODE2
             RETRACTOR(I)%NODE(2) = NODE1
             IF (RETRACTOR(I)%ELEMENT_SIZE == ZERO) RETRACTOR(I)%ELEMENT_SIZE = DIST2
             RETRACTOR(I)%VECTOR(1) = (X(1,NODE2)-X(1,NODE1))/SQRT(MAX(EM30,DIST3))
             RETRACTOR(I)%VECTOR(2) = (X(2,NODE2)-X(2,NODE1))/SQRT(MAX(EM30,DIST3))
             RETRACTOR(I)%VECTOR(3) = (X(3,NODE2)-X(3,NODE1))/SQRT(MAX(EM30,DIST3))
 C--         retractor direction 2->1
-            RETRACTOR(I)%STRAND_DIRECTION = -1          
+            RETRACTOR(I)%STRAND_DIRECTION = -1
           ELSEIF (DIST2 < EM30) THEN
-            RETRACTOR(I)%NODE(1) = NODE1 
+            RETRACTOR(I)%NODE(1) = NODE1
             RETRACTOR(I)%NODE(2) = NODE2
             IF (RETRACTOR(I)%ELEMENT_SIZE == ZERO) RETRACTOR(I)%ELEMENT_SIZE = DIST1
             RETRACTOR(I)%VECTOR(1) = (X(1,NODE1)-X(1,NODE2))/SQRT(MAX(EM30,DIST3))
             RETRACTOR(I)%VECTOR(2) = (X(2,NODE1)-X(2,NODE2))/SQRT(MAX(EM30,DIST3))
             RETRACTOR(I)%VECTOR(3) = (X(3,NODE1)-X(3,NODE2))/SQRT(MAX(EM30,DIST3))
 C--         retractor direction 1->2
-            RETRACTOR(I)%STRAND_DIRECTION = 1        
+            RETRACTOR(I)%STRAND_DIRECTION = 1
           ELSE
             CALL ANCMSG(MSGID=2009,
      .                  MSGTYPE=MSGERROR,
@@ -350,7 +350,7 @@ C
          WRITE(IOUT,*)' ** ERROR IN MEMORY ALLOCATION'
          WRITE(ISTDO,*)' ** ERROR IN MEMORY ALLOCATION'
          CALL ARRET(2)
-      ENDIF                       
+      ENDIF
 C                         
 C-------------------------------------
 C     Recherche des ID doubles

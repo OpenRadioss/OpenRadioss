@@ -37,7 +37,7 @@ Chd|====================================================================
      1   X     ,IRECT ,NSV   ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
      3   CAND_N,GAP  ,XYZM   ,NOINT ,I_STOK  ,
-     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,   
+     4   DIST  ,TZINF,MAXBOX ,MINBOX,MSR     ,
      5   STF   ,MULTIMP,ITAB  ,GAP_S  ,IGAP  ,
      6   GAPMIN  ,GAPMAX,INACTI,NRTS  ,IRECTS,
      7   XM0   ,DEPTH  ,MARGEREF ,DRAD,ID,TITR,
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   STF(*),X(3,*),XYZM(6,*),GAP_S(*), XM0(3,*),
-     .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX, DEPTH, 
+     .   DIST,BUMULT,GAP,TZINF,MAXBOX,MINBOX,GAPMIN,GAPMAX, DEPTH,
      .   MARGEREF
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       INTEGER ID
@@ -125,7 +125,7 @@ C     REAL
      .   XMAX,YMAX,ZMAX,TZINF0,MINBOX_ST,MAXBOX_ST,GAPSMAX,
      .   BID,TZINF_ST,MARGE_ST,GAPV(MVSIZ)
 C
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
+!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C-----------------------------------------------
 C
 C     1-CALCUL TAILLE DES ZONES INFLUENCES
@@ -182,7 +182,7 @@ C DD + 2*TZINF : taille element augmentee de zone influence
       MAXBOX_ST= HALF*(DD + 2*TZINF_ST)
       MINBOX_ST= HALF*MAXBOX_ST
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
-      DIST = ZERO     
+      DIST = ZERO
 C--------------------------------
 C     CALCUL DES BORNES DU DOMAINE
 C--------------------------------
@@ -191,10 +191,10 @@ C--------------------------------
       YMIN=EP30
       YMAX=-EP30
       ZMIN=EP30
-      ZMAX=-EP30 
+      ZMAX=-EP30
 C
       DO 20 I=1,NMN
-         J=MSR(I) 
+         J=MSR(I)
          XMIN= MIN(XMIN,X(1,J))
          YMIN= MIN(YMIN,X(2,J))
          ZMIN= MIN(ZMIN,X(3,J))
@@ -301,7 +301,7 @@ C       SEPARER B ET N EN TWO
      1   MWA(IP1),MWA(IP2),MWA(IP21),MWA(IP22),MWA(IP31+2*(I_ADD-2)),
      2   IRECT   ,X       ,NB_NC    ,NB_EC    ,XYZM,
      3   I_ADD   ,NSV     ,I_AMAX   ,XMAX     ,YMAX,
-     4   ZMAX    ,3*MAXSIZ,I_STOK   ,I_MEM    ,NB_N_B, 
+     4   ZMAX    ,3*MAXSIZ,I_STOK   ,I_MEM    ,NB_N_B,
      5   CAND_N  ,CAND_E  ,NSN      ,NOINT    ,TZINF_ST,
      6   MAXBOX_ST,MINBOX_ST,J_STOK   ,MSR      ,XM0    ,
      7   MULTIMP ,ITAB    ,GAP      ,GAP_S    ,IGAP   ,
@@ -324,7 +324,7 @@ C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
         IF (I_MEM == 2)THEN
           RETURN
         ENDIF
-     
+
       IF(I_MEM==1)THEN
         NB_N_B = NB_N_B + 1
         I_MEM = 0

@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER IDMAXL, I, ITAG, MSGOFF, IDMAXP(NSPMD-1), 
+      INTEGER IDMAXL, I, ITAG, MSGOFF, IDMAXP(NSPMD-1),
      .        REQ(NSPMD-1), IERR, STAT(MPI_STATUS_SIZE,NSPMD-1)
 C-----------------------------------------------
       DATA MSGOFF/7063/

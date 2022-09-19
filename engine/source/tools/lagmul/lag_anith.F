@@ -176,8 +176,8 @@ C              I = LLL(IK)
             FANI(1,N)  = FANIG(1,I)
             FANI(2,N)  = FANIG(2,I)
             FANI(3,N)  = FANIG(3,I)
-          END DO            
-        END IF  
+          END DO
+        END IF
       ENDIF
 C----
 C     SAUVEGARDE DE L'IMPULSION NORMALE - TH
@@ -242,12 +242,12 @@ c          FS(N2+3)=FS(N2+3)+AF(3,NN)*DT1
 c          FS(N2+4)=FS(N2+4)+AM(1,NN)*DT1
 c          FS(N2+5)=FS(N2+5)+AM(2,NN)*DT1
 c          FS(N2+6)=FS(N2+6)+AM(3,NN)*DT1
-c          FANI(1) =FANI(1) +AF(1,NN) 
-c          FANI(2) =FANI(2) +AF(2,NN) 
-c          FANI(3) =FANI(3) +AF(3,NN) 
-c          FANI(4) =FANI(4) +AM(1,NN) 
-c          FANI(5) =FANI(5) +AM(2,NN) 
-c          FANI(6) =FANI(6) +AM(3,NN) 
+c          FANI(1) =FANI(1) +AF(1,NN)
+c          FANI(2) =FANI(2) +AF(2,NN)
+c          FANI(3) =FANI(3) +AF(3,NN)
+c          FANI(4) =FANI(4) +AM(1,NN)
+c          FANI(5) =FANI(5) +AM(2,NN)
+c          FANI(6) =FANI(6) +AM(3,NN)
         ENDDO
         TNSL = TNSL + 3*NSL
       ENDDO

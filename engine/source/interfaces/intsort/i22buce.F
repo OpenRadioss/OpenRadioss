@@ -45,7 +45,7 @@ Chd|====================================================================
      4   TZINF    ,MAXBOX  ,MINBOX       ,MWAG     ,CURV_MAX  ,
      5   NB_N_B   ,ESHIFT  ,ILD          ,IFQ      ,IFPEN     ,
      8   STFN     ,NIN     ,STF          ,IGAP     ,
-     A   NSHELR_L ,NCONT   ,RENUM        ,NSNROLD  ,   
+     A   NSHELR_L ,NCONT   ,RENUM        ,NSNROLD  ,
      B   GAPMIN   ,GAPMAX  ,CURV_MAX_MAX ,NUM_IMP  ,
      C   INTTH    ,ITASK   ,BGAPSMX      ,I_MEM    ,
      D   IXS      ,BUFBRIC ,NBRIC        ,ITAB     ,NSHEL_L   ,
@@ -62,7 +62,7 @@ C-----------------------------------------------
       USE I22TRI_MOD
       USE MESSAGE_MOD
       USE I22EDGE_MOD
-      USE I22BUFBRIC_MOD       
+      USE I22BUFBRIC_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -108,14 +108,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(BRICK_ENTITY),  DIMENSION(:),ALLOCATABLE :: BRICK_GRID
       TYPE(EDGE_ENTITY),   DIMENSION(:),ALLOCATABLE ::  EDGE_GRID
-            
+
       INTEGER I_ADD_MAX,ICUR
       PARAMETER (I_ADD_MAX = 1001)
 
       INTEGER I, J,  I_ADD, IP0, IP1, MAXSIZ,
      .        ADD(2,I_ADD_MAX), LOC_PROC, N, ISZNSNR,
      .        NSNFIOLD(NSPMD)
-     
+
       my_real MARGE, AAA, BID
 
       CHARACTER*8 KEY
@@ -123,10 +123,10 @@ C-----------------------------------------------
       INTEGER                            :: NCAND, NBF, NBL, SOMB, SOME, IPA
       INTEGER                            :: TMP1, TMP2, IPOS
       INTEGER, ALLOCATABLE, DIMENSION(:) :: IFIRST, ILAST
-      CHARACTER*12 ::filename    
-      
+      CHARACTER*12 ::filename
+
       INTEGER, ALLOCATABLE, DIMENSION(:) :: order, VALUE
-      
+
       INTEGER R2,MIN2
 
 C-----------------------------------------------
@@ -140,7 +140,7 @@ C-----------------------------------------------
       IP0     = 1
       ISZNSNR = 0
       I_MEM   = 0
-      MARGE   = 1.1 * TZINF-GAP  
+      MARGE   = 1.1 * TZINF-GAP
 
       AAA = SQRT(NMN /
      .           ((BMINMA(1)-BMINMA(4))*(BMINMA(2)-BMINMA(5))
@@ -160,8 +160,8 @@ C-----------------------------------------------
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL  
-      
+      LVOXEL8 = LVOXEL
+
       IF(RES8 > LVOXEL8) THEN
         if(itask==0.and.ibug22_tri==1)print *, "redim Voxel"
         AAA = LVOXEL
@@ -179,7 +179,7 @@ C-----------------------------------------------
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-            
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))
@@ -193,7 +193,7 @@ c       stop 678
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0 !---reset voxel brick---!
       ENDDO
-      
+
       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
 
       if(itask==0.and.ibug22_tri==1)print *, "call i22trivox"
@@ -208,7 +208,7 @@ c       stop 678
      7   NSHEL_T ,
      8   MARGE    ,
      9   NIN     ,ITASK    ,IXS      ,BUFBRIC ,
-     A   NBRIC   ,ITAB     ,NSHEL_L ) 
+     A   NBRIC   ,ITAB     ,NSHEL_L )
 
 C     I_MEM = 1 ==> PAS ASSEZ DE MEMOIRE PILE
 C     I_MEM = 2 ==> PAS ASSEZ DE MEMOIRE CANDIDATS
@@ -218,7 +218,7 @@ C     I_MEM = 3 ==> TROP NIVEAUX PILE
         IF ( NB_N_B > NCONT) THEN
           CALL ANCMSG(MSGID=85,ANMODE=ANINFO,
      .            I1=NOINT)
-          CALL ARRET(2)          
+          CALL ARRET(2)
         ENDIF
         ILD = 1
         ISKIP=1
@@ -275,15 +275,15 @@ C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
 !-----------------debug
 
 !exemple de liste de candidats
-!    II_STOK    IXS(11,bufbric(CAND_B(I))) )  CAND_B(I)                  NINT(IRECT_L(1:4,IABS(CAND_E(I)))   CAND_E(I)    OCCURENCE BRIQUE      
-!          01                            39         (3)          avec-  1176806  1176814  1176859  1176876        (12)      <- IFIRST = 01              
-!          02                            39         (3)          avec-  1176941  1176789  1176791  1176934        (11)      <- ILAST  = 02              
-!          03                            40         (5)          avec-      211      210  1176779  1176777        (02)      <- IFIRST = 01              
-!          04                            40         (5)          avec+  1176874  1176777  1176779  1176841        (06)            .                     
-!          05                            40         (5)          avec+  1176874  1176841  1176814  1176806        (14)            .                     
-!          06                            40         (5)          avec+  1176806  1176814  1176859  1176876        (12)            .                     
-!          07                            40         (5)          avec+  1176876  1176859      207      206        (03)            .                     
-!          08                            40         (5)          avec-      209  1176772  1176774      208        (01)       <- ILAST  = 08               
+!    II_STOK    IXS(11,bufbric(CAND_B(I))) )  CAND_B(I)                  NINT(IRECT_L(1:4,IABS(CAND_E(I)))   CAND_E(I)    OCCURENCE BRIQUE
+!          01                            39         (3)          avec-  1176806  1176814  1176859  1176876        (12)      <- IFIRST = 01
+!          02                            39         (3)          avec-  1176941  1176789  1176791  1176934        (11)      <- ILAST  = 02
+!          03                            40         (5)          avec-      211      210  1176779  1176777        (02)      <- IFIRST = 01
+!          04                            40         (5)          avec+  1176874  1176777  1176779  1176841        (06)            .
+!          05                            40         (5)          avec+  1176874  1176841  1176814  1176806        (14)            .
+!          06                            40         (5)          avec+  1176806  1176814  1176859  1176876        (12)            .
+!          07                            40         (5)          avec+  1176876  1176859      207      206        (03)            .
+!          08                            40         (5)          avec-      209  1176772  1176774      208        (01)       <- ILAST  = 08
  !
 !                                NCAND  = 8 (II_STOK)
 !  LIST_B = {3,5}              , NCANDB = 2
@@ -295,13 +295,13 @@ C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
        IF(ISKIP==1)THEN
         NB=NCANDB
         RETURN
-      ENDIF     
+      ENDIF
 
       ! ##########################################
       ! #       CREATING BRICK LIST IDs          #
       ! # fill LIST_B                            #
       ! # fill IADF,IADL                         #
-      ! ##########################################    
+      ! ##########################################
       ! II_STOK est le nombre de couple candidats, y compris les facettes non intersectante dans le voisinage
       ! Ces derniers sont necessaires pour pouvoir y charger les forces de contact appropriees.
       IF(ITASK==0)THEN
@@ -313,34 +313,34 @@ C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
         ILAST(:)  = 0
         !boucle sur la liste des candidats et tag des briques presentes
         DO I=1,II_STOK
-          !pas encore marque             
-          IF(ITAGB(CAND_B(I)) == 0)THEN  
-            IFIRST(CAND_B(I)) = I  
-            ILAST(CAND_B(I))  = I !premier et dernier si aucune autre occurence     
-            ITAGB(CAND_B(I))  = 1  
-          !deja marque                   
-          ELSE                           
-            ILAST(CAND_B(I)) = I         
-          ENDIF                          
+          !pas encore marque
+          IF(ITAGB(CAND_B(I)) == 0)THEN
+            IFIRST(CAND_B(I)) = I
+            ILAST(CAND_B(I))  = I !premier et dernier si aucune autre occurence
+            ITAGB(CAND_B(I))  = 1
+          !deja marque
+          ELSE
+            ILAST(CAND_B(I)) = I
+          ENDIF
         ENDDO!next I
         NCANDB = SUM(ITAGB(:))    !toutes les briques intersectees ou non sans occurence multiple
         ALLOCATE(LIST_B(NCANDB))
         ALLOCATE(IADF(NCANDB))   !adresse debut dans CAND_B
-        ALLOCATE(IADL(NCANDB))   !adresse fin dans CAND_B          
+        ALLOCATE(IADL(NCANDB))   !adresse fin dans CAND_B
         IPOS = 0
         DO I=1,NBRIC
-          IF(ITAGB(I) == 0)CYCLE                       
-          IPOS = IPOS + 1                              
-          LIST_B(IPOS) = I                     
-          IADF(IPOS)   = IFIRST(I)             
-          IADL(IPOS)   = ILAST(I)              
-        ENDDO        
+          IF(ITAGB(I) == 0)CYCLE
+          IPOS = IPOS + 1
+          LIST_B(IPOS) = I
+          IADF(IPOS)   = IFIRST(I)
+          IADL(IPOS)   = ILAST(I)
+        ENDDO
       ENDIF!(ITASK==0)THEN
 
       ! ##########################################
       ! #       CREATING FACE LIST IDs           #
       ! # fill LIST_E                            #
-      ! ##########################################    
+      ! ##########################################
       ! II_STOK est le nombre de couple candidats, y compris les facettes non intersectante dans le voisinage
       ! Ces derniers sont necessaires pour pouvoir y charger les forces de contact appropriees.
       ! Les ids de facettes negatives designe des facette non intersectante pour la brique concernee
@@ -355,63 +355,63 @@ C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
         ALLOCATE(LIST_E(NCANDE))
         IPOS = 0
         DO I=1,NIRECT_L
-          IF(ITAGE(I) == 0)CYCLE                                           
-          IPOS         = IPOS + 1                                                  
-          LIST_E(IPOS) = I                                   
-          ITAGE(I)     = IPOS  !le tag traite devient la position dans LIST_E  
-        ENDDO        
+          IF(ITAGE(I) == 0)CYCLE
+          IPOS         = IPOS + 1
+          LIST_E(IPOS) = I
+          ITAGE(I)     = IPOS  !le tag traite devient la position dans LIST_E
+        ENDDO
       ENDIF!(ITASK==0)THEN
 
-    
+
 ! La liste des candidats (CAND_B,CAND_E) contient des occurences multiples et desordonnees de CAND_E.
 ! La liste LIST_E est la liste ordonne sans repetition.
 ! pour un couple de candidat donne (input index IDX1) , on associe la position dans LIST_E correspondante ( resultat index IDX2)
-!      
-!    II_STOK                                              GET_LIST_E_POS_FROM_CAND_E_POS                     CAND_E(I)  
-!          01                                                                   pos   6   DANS LIST_E(:)    <---  (12)    
-!          02                                                                   pos   5   DANS LIST_E(:)    <---  (11)    
-!          03                                                                   pos   2   DANS LIST_E(:)    <---  (02)    
-!          04                                                                   pos   4   DANS LIST_E(:)    <---  (06)    
-!          05                                                                   pos   7   DANS LIST_E(:)    <---  (14)    
-!          06                                                                   pos   6   DANS LIST_E(:)    <---  (12)    
-!          07                                                                   pos   3   DANS LIST_E(:)    <---  (03)    
-!          08                                                                   pos   1   DANS LIST_E(:)    <---  (01)   
+!
+!    II_STOK                                              GET_LIST_E_POS_FROM_CAND_E_POS                     CAND_E(I)
+!          01                                                                   pos   6   DANS LIST_E(:)    <---  (12)
+!          02                                                                   pos   5   DANS LIST_E(:)    <---  (11)
+!          03                                                                   pos   2   DANS LIST_E(:)    <---  (02)
+!          04                                                                   pos   4   DANS LIST_E(:)    <---  (06)
+!          05                                                                   pos   7   DANS LIST_E(:)    <---  (14)
+!          06                                                                   pos   6   DANS LIST_E(:)    <---  (12)
+!          07                                                                   pos   3   DANS LIST_E(:)    <---  (03)
+!          08                                                                   pos   1   DANS LIST_E(:)    <---  (01)
 
 !                        CAND_E   12 11 02 06 12 14 03 01
 !                        ITAG_E   01 02 03 04 05 06 07 08 09 10 11 12 13 14
 !                                  x  x  x        x              x  x     x
 !                        LIST_E   01 02 03 06 11 12 14
 !
-!GET_LIST_E_POS_FROM_CAND_E_POS   06 05 02 04 07 06 03 01 
+!GET_LIST_E_POS_FROM_CAND_E_POS   06 05 02 04 07 06 03 01
 
-   
+
       ! ##########################################
       ! #  SURJECTIVE APP     IDX1 |-> IDX2      #
       ! #  LINK CAND_E(IDX1) TO LIST_E(IDX2)     #
-      ! ########################################## 
+      ! ##########################################
       IF(ITASK==0)THEN
         ALLOCATE(GET_LIST_E_POS_FROM_CAND_E_POS(II_STOK))
         DO I=1,II_STOK
           GET_LIST_E_POS_FROM_CAND_E_POS(I) = ITAGE(IABS(CAND_E(I)))
         ENDDO
       ENDIF!(ITASK==0)THEN
-     
-      CALL MY_BARRIER     
-     
+
+      CALL MY_BARRIER
+
       NCAND = II_STOK
-   
+
       if(itask==0.AND.ibug22_tri==1)then
-      
+
         allocate(order(NCANDB) ,VALUE(NCANDB))
         order = 0
         !CALL QUICKSORT_I2 !(ORDER,NCANDB,list_b)
-      
+
         print *, ""
         print *, "  |------------i22buce.F----------|"
         print *, "  |     SYNTHESE DES CANDIDATS    |"
         print *, "  |-------------------------------|"
-        print *, NCAND , "couples candidats avec :" 
-        print *, NCANDB , "briques differentes, et" 
+        print *, NCAND , "couples candidats avec :"
+        print *, NCANDB , "briques differentes, et"
         print *, NCANDE , "facettes differentes."
         print *, ""
         print *, "  |------------i22buce.F----------|"
@@ -427,15 +427,15 @@ C        TZINF = THREE_OVER_4*TZINF   !non sinon on perd les candidates voisines
         !print *, "  IADL=", IADL
         !print *, ""
         deallocate(order,VALUE)
-        
+
       end if
 
       !NCANDB is now the number of bricks in CAND_B(1:NCAND)
-      !LIST_B is now the list of these bricks   
+      !LIST_B is now the list of these bricks
       !IADF(I)- IADL(I) is index spectra of a given brick from list_b inside candidate list 1:II_STOK
       !   from IADF(J) to IADL(J) CAND_B(:) is the same one (see lock on/off in i22sto)
- 
-      
+
+
 C -------------------------------------------------------------
 C     RECUPERATION DES DONNEES DE LA CUT CELL DU CYCLE PRECEDENT
 C     Indispensable d'avoir un historique pour le calcul de
@@ -445,24 +445,24 @@ C -------------------------------------------------------------
       CALL I22GET_PREV_DATA(
      1   X       ,II_STOK  ,CAND_B   ,CAND_E   ,ITASK   ,
      2   NBRIC   ,ITAB     ,BUFBRIC  ,NCAND   ,
-     3   IXS     ,NIN)       
-      
+     3   IXS     ,NIN)
+
       !This block must be after I22GET_PREV_DATA OTHERWISE OLD BUFFER IS ERASED
-      
+
       !s'assurer que cela soit fait dans i22intersect
 !      IF(ITASK==0)THEN
 !        DO I=1,NCANDB_ADD
 !          BRICK_LIST(NIN,NCANDB+I)%ID               = BUFBRIC(LIST_B_ADD(I))
-!          BRICK_LIST(NIN,NCANDB+I)%ICODE            = 0          
-!          BRICK_LIST(NIN,NCANDB+I)%IDBLE            = 0          
-!          BRICK_LIST(NIN,NCANDB+I)%NBCUT            = 0 
+!          BRICK_LIST(NIN,NCANDB+I)%ICODE            = 0
+!          BRICK_LIST(NIN,NCANDB+I)%IDBLE            = 0
+!          BRICK_LIST(NIN,NCANDB+I)%NBCUT            = 0
 !          DO J=1,12
-!            BRICK_LIST(NIN,NCANDB+I)%EDGE(J)%NBCUT  = 0           
+!            BRICK_LIST(NIN,NCANDB+I)%EDGE(J)%NBCUT  = 0
 !          ENDDO
 !        ENDDO
-!      ENDIF        
-      
-      CALL MY_BARRIER      
+!      ENDIF
+
+      CALL MY_BARRIER
 
 
 C -------------------------------------------------------------
@@ -472,42 +472,42 @@ C et la traiter en multi-threading.s
 C -------------------------------------------------------------
       ! ##########################################
       ! #       POINTS INTERSECTIONS             #
-      ! ##########################################  
+      ! ##########################################
       CALL I22INTERSECT(
      1   X       ,II_STOK  ,CAND_B   ,CAND_E   ,ITASK   ,
      2   NBRIC   ,ITAB     ,BUFBRIC  ,NCAND   ,
-     3   IXS     ,NIN) 
+     3   IXS     ,NIN)
 
       CALL MY_BARRIER
-      
+
       ! ##########################################
       ! #  INTERPRETATIONS DU PARTITIONNEMENT    #
-      ! ########################################## 
+      ! ##########################################
       CALL I22IDENT(
      1   IXS     ,X        ,ITASK,   NIN, BUFBRIC)
 
       NB = NCANDB
       CALL MY_BARRIER
 
-      
+
       ! ##########################################
       ! #       DECHARGEMENT MEMOIRE             #
-      ! ##########################################      
+      ! ##########################################
       IF(ITASK==0)THEN
         DEALLOCATE(ITAGB)
-        DEALLOCATE(ITAGE) 
+        DEALLOCATE(ITAGE)
         DEALLOCATE(IFIRST)
         DEALLOCATE(ILAST)
         DEALLOCATE(IADF)
-        DEALLOCATE(IADL)                
-        DEALLOCATE(LIST_B)      
+        DEALLOCATE(IADL)
+        DEALLOCATE(LIST_B)
         DEALLOCATE(LIST_E)
-        DEALLOCATE(GET_LIST_E_POS_FROM_CAND_E_POS)                              
-      ENDIF      
+        DEALLOCATE(GET_LIST_E_POS_FROM_CAND_E_POS)
+      ENDIF
 
 
 
-  999 CONTINUE   
+  999 CONTINUE
 
 
       RETURN

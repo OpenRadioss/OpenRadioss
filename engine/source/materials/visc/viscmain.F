@@ -31,8 +31,8 @@ Chd|        VISC_PRONY                    source/materials/visc/visc_prony.F
 Chd|====================================================================
       SUBROUTINE VISCMAIN(
      .           NEL     ,IMAT    ,IVISC   ,IPM     ,UPARAM  ,
-     .           UVAR    ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP, 
-     .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
+     .           UVAR    ,RHO     ,VISCMAX ,SOUNDSP ,TIMESTEP,
+     .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -49,7 +49,7 @@ C-----------------------------------------------
       INTEGER IPM(NPROPMI,*)
       my_real
      .   UPARAM(*),UVAR(*),RHO(NEL),VISCMAX(NEL),
-     .   SOUNDSP(NEL),EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL), 
+     .   SOUNDSP(NEL),EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
      .   EPSPXY(NEL),EPSPYZ(NEL),EPSPZX(NEL),
      .   SV1(NEL),SV2(NEL),SV3(NEL),SV4(NEL),SV5(NEL),SV6(NEL)
       my_real
@@ -67,17 +67,17 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J IADBUF, NUVAR, NPRONY
 C=======================================================================        
-       IADBUF = IPM(223,IMAT)  
-       NUVAR  = IPM(225,IMAT)  
+       IADBUF = IPM(223,IMAT)
+       NUVAR  = IPM(225,IMAT)
 c
        IF (IVISC == 1) THEN
          NPRONY  = NINT(UPARAM(IADBUF + 1))
          CALL VISC_PRONY(
      .           NEL     ,NUVAR   ,NPRONY  ,IADBUF  ,UPARAM  ,UVAR    ,
-     .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  , 
+     .           EPSPXX  ,EPSPYY  ,EPSPZZ  ,EPSPXY  ,EPSPYZ  ,EPSPZX  ,
      .           SV1     ,SV2     ,SV3     ,SV4     ,SV5     ,SV6     ,
      .           TIMESTEP,RHO     ,VISCMAX ,SOUNDSP )
-       ENDIF       
+       ENDIF
 c------------
        RETURN
        END

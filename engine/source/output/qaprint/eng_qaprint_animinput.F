@@ -184,7 +184,7 @@ C-----------------------------------------------
 
         WRITE(VARNAME,'(A)') 'NFE_ANI'
         CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NFE_ANI,0.0_8)
- 
+
         DO I = 1,MAXLAY
           IF(ANIM_STRESS(I)/=0)THEN
             WRITE(VARNAME,'(A,I0)') 'ANIM_STRESS_',I

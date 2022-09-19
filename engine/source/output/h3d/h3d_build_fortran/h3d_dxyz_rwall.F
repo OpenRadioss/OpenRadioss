@@ -30,8 +30,8 @@ Chd|====================================================================
       SUBROUTINE H3D_DXYZ_RWALL (NSTRF,RWBUF,NPRW  ,X     ,XMIN ,
      2                     YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX,
      3                      FR_SEC,FR_WALL,WEIGHT,ITAB,
-     4                      XWL ,YWL , ZWL, 
-     5  RWALL_V1, RWALL_V2, RWALL_V3, RWALL_V4, RWALL_V5, RWALL_V6 , RWALL_V7, 
+     4                      XWL ,YWL , ZWL,
+     5  RWALL_V1, RWALL_V2, RWALL_V3, RWALL_V4, RWALL_V5, RWALL_V6 , RWALL_V7,
      6  RWALL_V8, RWALL_V9, RWALL_V10)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -132,12 +132,12 @@ C
               IF (XN == ZERO .AND. YN == ZERO .AND. ZN /= ZERO ) THEN
                 V1 = -ZEP707
                 V2 = ZEP707
-                V3 = ZERO        
-              ELSE 
+                V3 = ZERO
+              ELSE
                 V1 = ZERO
                 V2 = -ZEP707
-                V3 = ZEP707 
-              ENDIF      
+                V3 = ZEP707
+              ENDIF
               VV1 = V2 * ZN - V3 * YN
               VV2 = V3 * XN - V1 * ZN
               VV3 = V1 * YN - V2 * XN

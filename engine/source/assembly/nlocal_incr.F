@@ -44,12 +44,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT, NODLT
-      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG 
+      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  N,NDDL,NPOS
-      my_real, POINTER, DIMENSION(:) :: 
+      my_real, POINTER, DIMENSION(:) ::
      .   DNL,UNL,VNL
 C-----------------------------------------------
 c     calcul increment et nouvelle valeur de la variable non locale
@@ -72,4 +72,4 @@ C=======================================================================
 c-----------
       RETURN
       END
-      
+

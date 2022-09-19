@@ -193,30 +193,30 @@ c     add here new variables used by material laws preceded by L_ or G_prefix
 c-----------------------------------------------------------------------
 c
       TYPE MLAW_TAG_    ! define element variables used by each material law
-        INTEGER ::  G_GAMA         !    
-        INTEGER ::  G_EINT         !  
-        INTEGER ::  G_EINS         !     
-        INTEGER ::  G_RHO          !         
-        INTEGER ::  G_DELTAX       !  
-        INTEGER ::  G_TEMP         !  
-        INTEGER ::  G_PLA          !     
-        INTEGER ::  G_EPSD         !  
-        INTEGER ::  G_TB           !  Time Burn   
+        INTEGER ::  G_GAMA         !
+        INTEGER ::  G_EINT         !
+        INTEGER ::  G_EINS         !
+        INTEGER ::  G_RHO          !
+        INTEGER ::  G_DELTAX       !
+        INTEGER ::  G_TEMP         !
+        INTEGER ::  G_PLA          !
+        INTEGER ::  G_EPSD         !
+        INTEGER ::  G_TB           !  Time Burn
         INTEGER ::  G_RK           !  Turbulent Energy   (K - kinetic)
         INTEGER ::  G_RE           !  Turbulent Dissipation (epsilon)
-        INTEGER ::  G_BFRAC        !  Burn fraction   law 5, 51, 41 
+        INTEGER ::  G_BFRAC        !  Burn fraction   law 5, 51, 41
         INTEGER ::  G_SIGI
         INTEGER ::  G_EPSQ         !  lo10 -51 Drucker-Prager
         INTEGER ::  G_IERR
         INTEGER ::  G_DAMDL
         INTEGER ::  G_SEQ          ! equivalent stress (/= VON MISES)
-        INTEGER ::  G_ABURN        !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL 
-        INTEGER ::  G_MU           !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL 
+        INTEGER ::  G_ABURN        !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL
+        INTEGER ::  G_MU           !  Additionnal Burn Rate for (post)combustion : exemple : Miller's extension of JWL
         INTEGER ::  G_MAXFRAC
         INTEGER ::  G_MAXEPS
-        INTEGER ::  G_DMG          ! 
+        INTEGER ::  G_DMG          !
         INTEGER ::  G_PLANL
-        INTEGER ::  G_EPSDNL 
+        INTEGER ::  G_EPSDNL
 c for spring with mat
         INTEGER ::  G_TOTDEPL
         INTEGER ::  G_TOTROT
@@ -247,49 +247,49 @@ c for seatbelt elements
         INTEGER ::  G_INTVAR
         INTEGER ::  G_DFS
 
-c       layer variables 
+c       layer variables
 c
         INTEGER ::  LY_DIRA
 c
 c       local variables (per integration point)
 c
         INTEGER ::  L_GAMA
-        INTEGER ::  L_EINT  
-        INTEGER ::  L_EINS  
-        INTEGER ::  L_RHO   
-        INTEGER ::  L_DP_DRHO            
-        INTEGER ::  L_STRA     
+        INTEGER ::  L_EINT
+        INTEGER ::  L_EINS
+        INTEGER ::  L_RHO
+        INTEGER ::  L_DP_DRHO
+        INTEGER ::  L_STRA
         INTEGER ::  L_DELTAX
-        INTEGER ::  L_PLA   
-        INTEGER ::  L_TB    
-        INTEGER ::  L_RK    
-        INTEGER ::  L_TEMP  
-        INTEGER ::  L_EPSA  
-        INTEGER ::  L_EPSD  
-        INTEGER ::  L_EPSQ  
-        INTEGER ::  L_EPSF  
-        INTEGER ::  L_VK    
-        INTEGER ::  L_SF       
-        INTEGER ::  L_DAM      
-        INTEGER ::  L_SIGL     
-        INTEGER ::  L_SIGV     
-        INTEGER ::  L_SIGA     
-        INTEGER ::  L_SIGB     
-        INTEGER ::  L_SIGC     
-        INTEGER ::  L_SIGD     
-        INTEGER ::  L_SIGF     
-        INTEGER ::  L_RE    
-        INTEGER ::  L_DSUM     
-        INTEGER ::  L_ROB   
-        INTEGER ::  L_DGLO     
-        INTEGER ::  L_CRAK    
-        INTEGER ::  L_ANG      
-        INTEGER ::  L_EPE      
-        INTEGER ::  L_EPC      
-        INTEGER ::  L_XST      
-        INTEGER ::  L_SSP      
+        INTEGER ::  L_PLA
+        INTEGER ::  L_TB
+        INTEGER ::  L_RK
+        INTEGER ::  L_TEMP
+        INTEGER ::  L_EPSA
+        INTEGER ::  L_EPSD
+        INTEGER ::  L_EPSQ
+        INTEGER ::  L_EPSF
+        INTEGER ::  L_VK
+        INTEGER ::  L_SF
+        INTEGER ::  L_DAM
+        INTEGER ::  L_SIGL
+        INTEGER ::  L_SIGV
+        INTEGER ::  L_SIGA
+        INTEGER ::  L_SIGB
+        INTEGER ::  L_SIGC
+        INTEGER ::  L_SIGD
+        INTEGER ::  L_SIGF
+        INTEGER ::  L_RE
+        INTEGER ::  L_DSUM
+        INTEGER ::  L_ROB
+        INTEGER ::  L_DGLO
+        INTEGER ::  L_CRAK
+        INTEGER ::  L_ANG
+        INTEGER ::  L_EPE
+        INTEGER ::  L_EPC
+        INTEGER ::  L_XST
+        INTEGER ::  L_SSP
         INTEGER ::  L_Z
-        INTEGER ::  L_FRAC        !    pourcentage de phase (multimat) 
+        INTEGER ::  L_FRAC        !    pourcentage de phase (multimat)
         INTEGER ::  L_BFRAC
         INTEGER ::  L_DMG
         INTEGER ::  L_ABURN
@@ -297,33 +297,33 @@ c
         INTEGER ::  L_PLANL
         INTEGER ::  L_EPSDNL
 
-c---    uvar            
-        INTEGER ::  NUVAR           
-        INTEGER ::  NVARTMP      
+c---    uvar
+        INTEGER ::  NUVAR
+        INTEGER ::  NVARTMP
         INTEGER ::  L_SEQ       ! equivalent stress (/= VON MISES)
-        INTEGER ::  L_FAC_YLD       
-      END TYPE MLAW_TAG_     
+        INTEGER ::  L_FAC_YLD
+      END TYPE MLAW_TAG_
 
       TYPE EOS_TAG_    ! define element variables used by each eos
-        INTEGER ::  G_MU        !  old mu (old rho) for reloading (compaction eos)   
+        INTEGER ::  G_MU        !  old mu (old rho) for reloading (compaction eos)
         INTEGER ::  G_TB        !  explosive eos
-        INTEGER ::  G_ABURN     !  afterburning   
-        INTEGER ::  G_BFRAC     !  burn fraction   
+        INTEGER ::  G_ABURN     !  afterburning
+        INTEGER ::  G_BFRAC     !  burn fraction
 
-        INTEGER ::  L_MU        !  old mu (old rho) for reloading (compaction eos)   
+        INTEGER ::  L_MU        !  old mu (old rho) for reloading (compaction eos)
         INTEGER ::  L_TB        !  explosive eos
-        INTEGER ::  L_ABURN     !  afterburning   
-        INTEGER ::  L_BFRAC     !  burn fraction      
-      END TYPE EOS_TAG_              
+        INTEGER ::  L_ABURN     !  afterburning
+        INTEGER ::  L_BFRAC     !  burn fraction
+      END TYPE EOS_TAG_
 
 C 
       TYPE PROP_TAG_    ! element buffer variables depending on property
-c       global variables 
-        INTEGER ::  G_GAMA 
-        INTEGER ::  G_EINT  
-        INTEGER ::  G_EINS  
+c       global variables
+        INTEGER ::  G_GAMA
+        INTEGER ::  G_EINT
+        INTEGER ::  G_EINS
         INTEGER ::  G_OFF
-        INTEGER ::  G_NOFF 
+        INTEGER ::  G_NOFF
         INTEGER ::  G_HOURG
         INTEGER ::  G_SMSTR
         INTEGER ::  G_SIG
@@ -331,7 +331,7 @@ c       global variables
         INTEGER ::  G_FOR
         INTEGER ::  G_MOM
         INTEGER ::  G_THK
-        INTEGER ::  G_VOL 
+        INTEGER ::  G_VOL
         INTEGER ::  G_QVIS
         INTEGER ::  G_FORPG
         INTEGER ::  G_MOMPG
@@ -386,20 +386,20 @@ C    - 1D - elem buffer (TRUSS, BEAM, SPRING, NSTRAND)
         INTEGER ::  G_FORINI
         INTEGER ::  G_SKEW_ID
 C---
-c       layer variables 
+c       layer variables
         INTEGER ::  LY_DMG
-        INTEGER ::  LY_GAMA 
+        INTEGER ::  LY_GAMA
         INTEGER ::  LY_DIRA
         INTEGER ::  LY_DIRB
         INTEGER ::  LY_PLAPT
         INTEGER ::  LY_SIGPT
         INTEGER ::  LY_HOURG
 c       local variables (per integration point)
-        INTEGER ::  L_GAMA 
-        INTEGER ::  L_EINT  
-        INTEGER ::  L_EINS  
+        INTEGER ::  L_GAMA
+        INTEGER ::  L_EINT
+        INTEGER ::  L_EINS
         INTEGER ::  L_OFF
-        INTEGER ::  L_STRA     
+        INTEGER ::  L_STRA
         INTEGER ::  L_SIG
         INTEGER ::  L_SIGPLY
         INTEGER ::  L_SIGL
@@ -408,27 +408,27 @@ c       local variables (per integration point)
         INTEGER ::  L_FOR
         INTEGER ::  L_MOM
         INTEGER ::  L_THK
-        INTEGER ::  L_VOL 
+        INTEGER ::  L_VOL
         INTEGER ::  L_QVIS
         INTEGER ::  L_FORTH
-        INTEGER ::  L_EINTTH    
-c---    uvar            
-        INTEGER ::   NUVAR      
-      END TYPE PROP_TAG_               
+        INTEGER ::  L_EINTTH
+c---    uvar
+        INTEGER ::   NUVAR
+      END TYPE PROP_TAG_
 C
-      TYPE FAIL_TAG_   
-        INTEGER ::   NUVAR 
+      TYPE FAIL_TAG_
+        INTEGER ::   NUVAR
         INTEGER ::   LF_DAM
-        INTEGER ::   LF_DAMMX  
-        INTEGER ::   LF_TDEL  
-        INTEGER ::   LF_INDX 
+        INTEGER ::   LF_DAMMX
+        INTEGER ::   LF_TDEL
+        INTEGER ::   LF_INDX
         INTEGER ::   LF_OFF
         INTEGER ::   LF_DIR
-      END TYPE FAIL_TAG_               
- 
+      END TYPE FAIL_TAG_
+
 C
-      TYPE VISC_TAG_   
+      TYPE VISC_TAG_
         INTEGER ::   NUVAR
-      END TYPE VISC_TAG_               
+      END TYPE VISC_TAG_
 c---------------
       END MODULE ELBUFTAG_MOD

@@ -35,7 +35,7 @@ Chd|====================================================================
      3                  IXX    ,STIF   ,
      4                  JLT_NEW,INACTI ,XI     ,YI     ,ZI     ,
      5                  XX     ,YY     ,ZZ     ,PMAX_GAP,
-     6                  FSKYI  ,ISKY   ,CAND_T ,FCONT   ,H3D_DATA) 
+     6                  FSKYI  ,ISKY   ,CAND_T ,FCONT   ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -117,9 +117,9 @@ c      write(iout,*)'t=',tt,'i24dst3e 1'
         M=CAND_E(I)
         IF(BITGET(MBINFLG(M),8)==0)CYCLE !flag activ edge MAIN
 
-        DO J = 1,4 
+        DO J = 1,4
          FSI(J) = ZERO
-         DO K = 1,4 
+         DO K = 1,4
           FM(J,K) = ZERO
          ENDDO
         ENDDO
@@ -132,7 +132,7 @@ c afaire !!!!!!!!!!!!!!!!!!!!!!!!!
         ENDIF
         IAD = ISEADD(CAND_N(I))
         NES = ISEDGE(IAD)
-        
+
         IX1(I) = IXX(I,1)
         IX2(I) = IXX(I,2)
         IX3(I) = IXX(I,3)
@@ -147,7 +147,7 @@ c afaire !!!!!!!!!!!!!!!!!!!!!!!!!
           K2=IK2(K)
           K14=IK14(K)
           IF(IX3(I) == IX4(I)) K5=IK5(K)
-           
+
           X1 = XX(I,K1)
           Y1 = YY(I,K1)
           Z1 = ZZ(I,K1)
@@ -159,15 +159,15 @@ c afaire !!!!!!!!!!!!!!!!!!!!!!!!!
           X15 = XX(I,K5) - X1
           Y15 = YY(I,K5) - Y1
           Z15 = ZZ(I,K5) - Z1
- 
+
           X12 = X2 - X1
           Y12 = Y2 - Y1
           Z12 = Z2 - Z1
- 
+
           X14 = XX(I,K14) - X1
           Y14 = YY(I,K14) - Y1
           Z14 = ZZ(I,K14) - Z1
- 
+
 c         deux vecteurs surfaces du diedre MAIN
           SXM1 = Y12*Z15 - Z12*Y15
           SYM1 = Z12*X15 - X12*Z15
@@ -180,10 +180,10 @@ c         deux vecteurs surfaces du diedre MAIN
 c check if convex
 
           AAA = (SYM1*SZM2 - SZM1*SYM2)*X12
-     .        + (SZM1*SXM2 - SXM1*SZM2)*Y12             
-     .        + (SXM1*SYM2 - SYM1*SXM2)*Z12 
+     .        + (SZM1*SXM2 - SXM1*SZM2)*Y12
+     .        + (SXM1*SYM2 - SYM1*SXM2)*Z12
 
-          IF(AAA<=ZERO)CYCLE            
+          IF(AAA<=ZERO)CYCLE
 
           SXM = SXM1 + SXM2
           SYM = SYM1 + SYM2
@@ -191,9 +191,9 @@ c check if convex
 
           XM2 = X12*X12+Y12*Y12+Z12*Z12
           AAA = ONE/SQRT(XM2)
-          TX12 = X12*AAA             
-          TY12 = Y12*AAA             
-          TZ12 = Z12*AAA             
+          TX12 = X12*AAA
+          TY12 = Y12*AAA
+          TZ12 = Z12*AAA
 
 
           JM=NES
@@ -206,15 +206,15 @@ c check if convex
             XJ=X(1,JG)
             YJ=X(2,JG)
             ZJ=X(3,JG)
-            
+
             XJM=X(1,JMG)
             YJM=X(2,JMG)
             ZJM=X(3,JMG)
-            
+
             XJP=X(1,JPG)
             YJP=X(2,JPG)
             ZJP=X(3,JPG)
-            
+
             XIJ = XJ - XI(I)
             YIJ = YJ - YI(I)
             ZIJ = ZJ - ZI(I)
@@ -239,11 +239,11 @@ c           two area vectors on SECONDARY dihedral
 c check if convex
 
             AAA = (SYS1*SZS2 - SZS1*SYS2)*XIJ
-     .          + (SZS1*SXS2 - SXS1*SZS2)*YIJ             
-     .          + (SXS1*SYS2 - SYS1*SXS2)*ZIJ 
+     .          + (SZS1*SXS2 - SXS1*SZS2)*YIJ
+     .          + (SXS1*SYS2 - SYS1*SXS2)*ZIJ
 
-            IF(AAA<=ZERO)CYCLE 
-           
+            IF(AAA<=ZERO)CYCLE
+
             SXS = SXS1 + SXS2
             SYS = SYS1 + SYS2
             SZS = SZS1 + SZS2
@@ -251,7 +251,7 @@ c check if convex
             AAA = SXS*SXM+SYS*SYM+SZS*SZM
             IF(AAA > ZERO) CYCLE ! MAIN and SECONDARY dihedral are not loocking each other
 
-c           vecteur SECONDARY MAIN 
+c           vecteur SECONDARY MAIN
             SXSM = Y12*ZIJ - Z12*YIJ
             SYSM = Z12*XIJ - X12*ZIJ
             SZSM = X12*YIJ - Y12*XIJ
@@ -260,7 +260,7 @@ c           vecteur SECONDARY MAIN
             IF(AAA < ZERO) THEN
               SXSM = - SXSM
               SYSM = - SYSM
-              SZSM = - SZSM              
+              SZSM = - SZSM
             ENDIF
             AAA = SXM*SXSM+SYM*SYSM+SZM*SZSM
             IF(AAA > ZERO) CYCLE ! inconsistent
@@ -279,7 +279,7 @@ c           vecteur SECONDARY MAIN
 
             NXSM = SXSM*BBB
             NYSM = SYSM*BBB
-            NZSM = SZSM*BBB 
+            NZSM = SZSM*BBB
 
             XS2 = XIJ*XIJ+YIJ*YIJ+ZIJ*ZIJ
 
@@ -301,11 +301,11 @@ c check if normal is inside MAIN dihedra
             NXSM = NXSM - NX12 ! 12 component is removed
             NYSM = NYSM - NY12 ! and resored
             NZSM = NZSM - NZ12 ! later
-            
-            
+
+
             AAA = (SYM1*NZSM - SZM1*NYSM)*TX12
-     .          + (SZM1*NXSM - SXM1*NZSM)*TY12             
-     .          + (SXM1*NYSM - SYM1*NXSM)*TZ12 
+     .          + (SZM1*NXSM - SXM1*NZSM)*TY12
+     .          + (SXM1*NYSM - SYM1*NXSM)*TZ12
 
             IF(AAA<=ZERO)THEN
 c project on SM1
@@ -315,10 +315,10 @@ c project on SM1
               NYSM = SYM1*AAA
               NZSM = SZM1*AAA
             ENDIF
-            
+
             AAA = (NYSM*SZM2 - NZSM*SYM2)*TX12
-     .          + (NZSM*SXM2 - NXSM*SZM2)*TY12             
-     .          + (NXSM*SYM2 - NYSM*SXM2)*TZ12 
+     .          + (NZSM*SXM2 - NXSM*SZM2)*TY12
+     .          + (NXSM*SYM2 - NYSM*SXM2)*TZ12
 
             IF(AAA<=ZERO)THEN
 c project on SM2
@@ -327,7 +327,7 @@ c project on SM2
               NXSM = SXM2*AAA
               NYSM = SYM2*AAA
               NZSM = SZM2*AAA
-            ENDIF            
+            ENDIF
 
             NXSM = -(NXSM + NX12) ! restore
             NYSM = -(NYSM + NY12) ! and
@@ -336,9 +336,9 @@ c project on SM2
 c check if normal is inside SECONDARY dihedra
 
             AAA = ONE/SQRT(XS2)
-            TXIJ = XIJ*AAA             
-            TYIJ = YIJ*AAA             
-            TZIJ = ZIJ*AAA             
+            TXIJ = XIJ*AAA
+            TYIJ = YIJ*AAA
+            TZIJ = ZIJ*AAA
 
             AAA = TXIJ*NXSM + TYIJ*NYSM + TZIJ*NZSM
             NXIJ = NXSM*AAA
@@ -348,11 +348,11 @@ c check if normal is inside SECONDARY dihedra
             NXSM = NXSM - NXIJ ! IJ component is removed
             NYSM = NYSM - NYIJ ! and resored
             NZSM = NZSM - NZIJ ! later
-            
-            
+
+
             AAA = (SYS1*NZSM - SZS1*NYSM)*TXIJ
-     .          + (SZS1*NXSM - SXS1*NZSM)*TYIJ             
-     .          + (SXS1*NYSM - SYS1*NXSM)*TZIJ 
+     .          + (SZS1*NXSM - SXS1*NZSM)*TYIJ
+     .          + (SXS1*NYSM - SYS1*NXSM)*TZIJ
 
             IF(AAA<=ZERO)THEN
 c project on SM1
@@ -362,10 +362,10 @@ c project on SM1
               NYSM = SYS1*AAA
               NZSM = SZS1*AAA
             ENDIF
-            
+
             AAA = (NYSM*SZS2 - NZSM*SYS2)*TXIJ
-     .          + (NZSM*SXS2 - NXSM*SZS2)*TYIJ             
-     .          + (NXSM*SYS2 - NYSM*SXS2)*TZIJ 
+     .          + (NZSM*SXS2 - NXSM*SZS2)*TYIJ
+     .          + (NXSM*SYS2 - NYSM*SXS2)*TZIJ
 
             IF(AAA<=ZERO)THEN
 c project on SM2
@@ -374,7 +374,7 @@ c project on SM2
               NXSM = SXS2*AAA
               NYSM = SYS2*AAA
               NZSM = SZS2*AAA
-            ENDIF            
+            ENDIF
 
             NXSM = -(NXSM + NXIJ) ! restore
             NYSM = -(NYSM + NYIJ) ! and
@@ -390,11 +390,11 @@ c same as int 11 (i11dst3.F)
             XSM  = XIJ*X12 + YIJ*Y12 + ZIJ*Z12
 
             XS2M2 = X2-XJ
-            YS2M2 = Y2-YJ 
+            YS2M2 = Y2-YJ
             ZS2M2 = Z2-ZJ
 
             XA =  XIJ*XS2M2 + YIJ*YS2M2 + ZIJ*ZS2M2
-            XB = -X12*XS2M2 - Y12*YS2M2 - Z12*ZS2M2 
+            XB = -X12*XS2M2 - Y12*YS2M2 - Z12*ZS2M2
             DET = XM2*XS2 - XSM*XSM
             DET = MAX(EM20,DET)
 C
@@ -416,8 +416,8 @@ C
             H1M = -(XB + H1S *XSM) / XM2
             H1M = MIN(ONE,MAX(ZERO,H1M ))
 C
-            H2S  = ONE -H1S 
-            H2M  = ONE -H1M 
+            H2S  = ONE -H1S
+            H2M  = ONE -H1M
 
             ICONT=1
 c compute forces
@@ -453,7 +453,7 @@ c compute forces
             FSI(2)   = FSI(2)   + FI*NYSM
             FSI(3)   = FSI(3)   + FI*NZSM
             FSI(4)   = FSI(4)   + STIF(I)*ABS(H1S)
-c save FJ      
+c save FJ
             IF(FJ/=ZERO)THEN
 #include "lockon.inc"
               NISKY = NISKY + 1
@@ -474,7 +474,7 @@ c save FJ
               ENDIF
             ENDIF
 
-          ENDDO ! J=1,NES ! loop on SECONDARY edge     
+          ENDDO ! J=1,NES ! loop on SECONDARY edge
         ENDDO ! K = 1,4 ! edge loop on segment
 c save F(Ki) and FSI
         IF(ICONT==0)CYCLE

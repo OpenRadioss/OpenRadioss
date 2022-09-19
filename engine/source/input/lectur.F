@@ -359,7 +359,7 @@ C
         IF(VOLM /= ZERO)VOLMIN=VOLM
         IF(INT22>0)THEN
           DTFAC22 = ONE
-          IF(DTFAC>HALF)DTFAC22 = HALF / DTFAC      
+          IF(DTFAC>HALF)DTFAC22 = HALF / DTFAC
         ENDIF
       ENDIF
 C
@@ -470,7 +470,7 @@ C     Min timestep pour le FVMBAG
           IF(DTFAC1(I) == ZERO)DTFAC1(I) = DTFAC
         ELSE
           IF(DTMIN1(I) == ZERO)DTMIN1(I) = ZERO
-          IF(DTFAC1(I) == ZERO)DTFAC1(I) = HALF         
+          IF(DTFAC1(I) == ZERO)DTFAC1(I) = HALF
         ENDIF
 C
       IF(NODADT == 0)THEN

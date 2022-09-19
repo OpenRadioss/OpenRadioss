@@ -56,7 +56,7 @@ C-----------------------------------------------
 C
 ! ----------------------------
 !     allocate 1d array
-      ALLOCATE( IXX_L(ISUMNX_L) ) 
+      ALLOCATE( IXX_L(ISUMNX_L) )
 !     allocate 2d array
       ALLOCATE( KXX_L(NIXX,NUMELX_L) )
 ! ----------------------------
@@ -88,7 +88,7 @@ C
 C
 ! ----------------------------
 !     deallocate 1d array
-      DEALLOCATE( IXX_L ) 
+      DEALLOCATE( IXX_L )
 !     deallocate 2d array
       DEALLOCATE( KXX_L )
 ! ----------------------------

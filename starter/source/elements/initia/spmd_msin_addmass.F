@@ -628,14 +628,14 @@ C
        IP = IPARTQ(I)
        PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ FOUR * MSQ(I)
       ENDDO
-      
+
 C NUMELC
       DO I = 1, NUMELC
         ITRI(I) = IXC(7,I)
       ENDDO
       CALL MY_ORDERS(0,WORK,ITRI,INDEX,NUMELC,1)
 C
-      DO J=1,NUMELC 
+      DO J=1,NUMELC
        I=INDEX(J)
        IP=IPARTC(I)
        PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ FOUR * MSC(I)
@@ -652,7 +652,7 @@ C
        IP=IPARTT(I)
        PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ TWO * MST(I)
       ENDDO
-      
+
 C NUMELP
       DO I = 1, NUMELP
         ITRI(I) = IXP(6,I)
@@ -664,7 +664,7 @@ C
        IP=IPARTP(I)
        PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+ TWO * MSP(I)
       ENDDO
-      
+
 C NUMELR
       DO I = 1, NUMELR
         ITRI(I) = IXR(6,I)
@@ -675,7 +675,7 @@ C
        I=INDEX(J)
        IP=IPARTR(I)
        IGTYP = NINT(GEO(12,IXR(1,I)))
-       IF(IGTYP==12) THEN 
+       IF(IGTYP==12) THEN
         K=3
        ELSE
         K=2
@@ -684,7 +684,7 @@ C
         PARTSAV1_PON(IP)=PARTSAV1_PON(IP)+MSR(II,I)
        ENDDO
       ENDDO
-      
+
 C NUMELTG
       DO I = 1, NUMELTG
         ITRI(I) = IXTG(6,I)

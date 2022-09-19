@@ -122,7 +122,7 @@ C-----------------------------------------------
      .        NSTRF(*),
      .        NRTMDIM, IAD17, IPARSENS
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
-     .        ITAB(*), ISKY(*), KINET(*), 
+     .        ITAB(*), ISKY(*), KINET(*),
      .        IPARG(NPARG,*),INOD_PXFEM(*),TAGNCONT(NLOADP_HYD_INTER,NUMNOD)
       INTEGER NB_IMPCT,JTASK,
      .        NISKYFI, LINDMAX, NISKYFIE
@@ -134,7 +134,7 @@ C-----------------------------------------------
       INTEGER  , INTENT(IN) :: KLOADPINTER(NINTER+1),LOADPINTER(S_LOADPINTER),
      .         LOADP_HYD_INTER(NLOADP_HYD)
       my_real  , INTENT(IN) :: DGAPLOADINT(S_LOADPINTER)
-      my_real 
+      my_real
      .        EMINX(*)
 C     REAL
       my_real DT2T,
@@ -154,7 +154,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER JD(50),KD(50), JFI, KFI, IEDGE, ISHARP, NEDGE, 
+      INTEGER JD(50),KD(50), JFI, KFI, IEDGE, ISHARP, NEDGE,
      .        I, J, L, H, I_STOK, JLT_NEW, JLT , NFT, IVIS2,
      .        IBC, NOINT, NSEG, ISECIN, IBAG, IADM,
      .        IGAP, INACTI, IFQ, MFROT, IGSTI, NISUB, IGAP0,
@@ -175,13 +175,13 @@ C-----------------------------------------------
      .        IREP_FRICMI(MVSIZ),IPARTFRIC_ES(4*MVSIZ),IPARTFRIC_EM(4*MVSIZ),
      .        IELEMI(MVSIZ)
       INTEGER ::  EDGE_ID(2,4*MVSIZ)
-      INTEGER 
-     .        NE1(MVSIZ), NE2(MVSIZ), ME1(MVSIZ), ME2(MVSIZ), 
-     .        CS_LOC(MVSIZ), CM_LOC(MVSIZ), 
+      INTEGER
+     .        NE1(MVSIZ), NE2(MVSIZ), ME1(MVSIZ), ME2(MVSIZ),
+     .        CS_LOC(MVSIZ), CM_LOC(MVSIZ),
      .        NS1(4*MVSIZ), NS2(4*MVSIZ), M1(4*MVSIZ), M2(4*MVSIZ), INDX1(4*MVSIZ), INDX2(4*MVSIZ),
      .        NSMSE(4*MVSIZ), CS_LOC4(4*MVSIZ), CM_LOC4(4*MVSIZ),
      .        TYPEDGS(MVSIZ),
-     .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),     
+     .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),
      .        IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ)
 
       INTEGER, ALLOCATABLE, DIMENSION(:) :: INDEX2
@@ -198,19 +198,19 @@ C
 C-----------------------------------------------
 C     REAL
       my_real
-     .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5), 
+     .   XX(MVSIZ,5), YY(MVSIZ,5), ZZ(MVSIZ,5),
      .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5),
-     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ), 
-     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), 
-     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ), 
-     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ), 
+     .   VX1(MVSIZ), VX2(MVSIZ), VX3(MVSIZ), VX4(MVSIZ),
+     .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ),
+     .   VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
+     .   VXI(MVSIZ), VYI(MVSIZ), VZI(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   MSI(MVSIZ),
-     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ), 
+     .   NM1(MVSIZ), NM2(MVSIZ), NM3(MVSIZ),
      .   TEMPI(MVSIZ),PHI(MVSIZ),AREASI(MVSIZ),
-     .   LB(MVSIZ), LC(MVSIZ), 
+     .   LB(MVSIZ), LC(MVSIZ),
      .   GAP_NM(4,MVSIZ), GAPS(MVSIZ), GAPMXL(MVSIZ),
      .   GAPV(MVSIZ), BASE_ADH(MVSIZ),
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
@@ -232,7 +232,7 @@ C     REAL
      .   VZS1(4*MVSIZ), VZS2(4*MVSIZ), VXM1(4*MVSIZ), VXM2(4*MVSIZ),
      .   VYM1(4*MVSIZ), VYM2(4*MVSIZ), VZM1(4*MVSIZ), VZM2(4*MVSIZ),
      .   MS1(4*MVSIZ),  MS2(4*MVSIZ),  MM1(4*MVSIZ),  MM2(4*MVSIZ),
-     .   EX(4*MVSIZ),  EY(4*MVSIZ), EZ(4*MVSIZ), FX(MVSIZ), FY(MVSIZ), 
+     .   EX(4*MVSIZ),  EY(4*MVSIZ), EZ(4*MVSIZ), FX(MVSIZ), FY(MVSIZ),
      .   FZ(MVSIZ)  , DIST(MVSIZ)
 
       my_real
@@ -248,11 +248,11 @@ C     REAL
      .    VISCFFRIC_E(4*MVSIZ),TNCY,T_PFIT,FINC,DGAPLOADPMAX
 
       INTEGER, DIMENSION(:) ,POINTER  :: TABCOUPLEPARTS_FRIC
-      INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC 
+      INTEGER, DIMENSION(:) ,POINTER  :: TABPARTS_FRIC
       INTEGER, DIMENSION(:) ,POINTER  :: ADPARTS_FRIC
-      INTEGER, DIMENSION(:) ,POINTER  :: IFRICORTH  
+      INTEGER, DIMENSION(:) ,POINTER  :: IFRICORTH
       my_real, DIMENSION(:) ,POINTER  :: TABCOEF_FRIC
- 
+
       INTEGER,TARGET, DIMENSION(1):: TABCOUPLEPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: TABPARTS_FRIC_BID
       INTEGER,TARGET, DIMENSION(1):: ADPARTS_FRIC_BID
@@ -274,8 +274,8 @@ C
       INACTI=IPARI(22,NIN)
       ISECIN=IPARI(28,NIN)
       MFROT =IPARI(30,NIN)
-      IFQ =IPARI(31,NIN) 
-      IBAG =IPARI(32,NIN) 
+      IFQ =IPARI(31,NIN)
+      IBAG =IPARI(32,NIN)
       IGSTI=IPARI(34,NIN)
       NISUB =IPARI(36,NIN)
       ICURV =IPARI(39,NIN)
@@ -287,8 +287,8 @@ C
       NEDGE_REM = IPARI(69,NIN)
 C     WRITE(6,*) "NEDGE REMOTE=", IPARI(69,NIN)
 C adaptive meshing
-      IADM =IPARI(44,NIN) 
-      NRADM=IPARI(49,NIN) 
+      IADM =IPARI(44,NIN)
+      NRADM=IPARI(49,NIN)
       PADM =INTBUF_TAB%VARIABLES(24)
       ANGLT=INTBUF_TAB%VARIABLES(25)
       MARGE=INTBUF_TAB%VARIABLES(25)
@@ -316,8 +316,8 @@ C
       KMIN  =INTBUF_TAB%VARIABLES(17)
       KMAX  =INTBUF_TAB%VARIABLES(18)
 C
-      KTHE    = INTBUF_TAB%VARIABLES(20) 
-      FHEATS  = INTBUF_TAB%VARIABLES(21) 
+      KTHE    = INTBUF_TAB%VARIABLES(20)
+      FHEATS  = INTBUF_TAB%VARIABLES(21)
       TINT    = INTBUF_TAB%VARIABLES(22)
       FHEATM  = INTBUF_TAB%VARIABLES(41)
       XTHE  =INTBUF_TAB%VARIABLES(33)
@@ -343,11 +343,11 @@ C
 C--- Corresponding Friction model  
       INTFRIC=IPARI(72,NIN)
       IORTHFRIC = 0
-      IF(INTFRIC /= 0) THEN 
+      IF(INTFRIC /= 0) THEN
          TABCOUPLEPARTS_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABCOUPLEPARTS_FRIC
          TABCOEF_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABCOEF_FRIC
          TABPARTS_FRIC  => INTBUF_FRIC_TAB(INTFRIC)%TABPARTS_FRIC
-         ADPARTS_FRIC   => INTBUF_FRIC_TAB(INTFRIC)%ADPARTS_FRIC 
+         ADPARTS_FRIC   => INTBUF_FRIC_TAB(INTFRIC)%ADPARTS_FRIC
          XFILTR_FRIC   = INTBUF_FRIC_TAB(INTFRIC)%XFILTR_FRIC
          NSETPRTS =   INTBUF_FRIC_TAB(INTFRIC)%NSETPRTS
          NPARTFRIC =   INTBUF_FRIC_TAB(INTFRIC)%S_TABPARTS_FRIC
@@ -358,7 +358,7 @@ c         IFQ      =   INTBUF_FRIC_TAB(INTFRIC)%IFFILTER
       ELSE
          TABCOUPLEPARTS_FRIC  => TABCOUPLEPARTS_FRIC_BID
          TABPARTS_FRIC  => TABPARTS_FRIC_BID
-         TABCOEF_FRIC  => TABCOEF_FRIC_BID 
+         TABCOEF_FRIC  => TABCOEF_FRIC_BID
          ADPARTS_FRIC   => ADPARTS_FRIC_BID
          IFRICORTH   => IFRICORTH_BID
          IF (IFQ/=0) XFILTR_FRIC = INTBUF_TAB%XFILTR(1)
@@ -380,7 +380,7 @@ C-----Press-fit
         INTBUF_TAB%VARIABLES(15) = T_PFIT
        END IF
        IF (T_PFIT>ZERO) THEN
-        IF (TT <=(STARTT+T_PFIT)) THEN 
+        IF (TT <=(STARTT+T_PFIT)) THEN
          TNCY = (TT+EM05-STARTT)/T_PFIT
         ELSE
          IPARI(40,NIN)= 0
@@ -393,7 +393,7 @@ C-----Press-fit
           TNCY = (NCYCLE+1)*FINC
 		END IF
        END IF
-	   IF (INACTI/=-1) IPARI(40,NIN) = 0 
+	   IF (INACTI/=-1) IPARI(40,NIN) = 0
 C----------------------------------------------------------------------
 C     Secnd node previously impacted & Secnd node is leaving the contact
 C----------------------------------------------------------------------
@@ -421,7 +421,7 @@ C
             INTBUF_TAB%STIF_OLD(2*(N-1)+1:2*N)= ZERO
             INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C       
-          END IF    
+          END IF
         END DO
 
         DO N=NSNRFT, NSNRLT
@@ -440,7 +440,7 @@ C
             PENE_OLDFI(NIN)%P(1:5,N)=ZERO
             STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C     
-          END IF    
+          END IF
         END DO
       ELSE ! IVIS2 == -1
         DO N=NSNFT, NSNLT
@@ -460,7 +460,7 @@ C
             INTBUF_TAB%PENE_OLD(5*(N-1)+1:5*N)= ZERO
 C       
             INTBUF_TAB%IF_ADH(N) = 0
-          END IF    
+          END IF
         END DO
 
         DO N=NSNRFT, NSNRLT
@@ -479,10 +479,10 @@ C
             PENE_OLDFI(NIN)%P(1:5,N)=ZERO
             STIF_OLDFI(NIN)%P(1:2,N)=ZERO
 C
-            IF_ADHFI(NIN)%P(N) = 0               
-          END IF    
+            IF_ADHFI(NIN)%P(N) = 0
+          END IF
         END DO
-      ENDIF       
+      ENDIF
 
 C-----------------------------------------------------------------------
       CALL MY_BARRIER
@@ -513,7 +513,7 @@ C     filtrer => ne garder que les contacts vrais
      2  NSN      ,NSNR   ,INACTI ,INTBUF_TAB%MSEGLO ,INTBUF_TAB%IRTLM ,
      3  INTBUF_TAB%PENM ,INTBUF_TAB%PENE_OLD ,JTASK ,ITAB,
      4  INTBUF_TAB%NSV  ,INTBUF_TAB%SECND_FR,INTBUF_TAB%TIME_S,
-     .  INTBUF_TAB%STIF_OLD) 
+     .  INTBUF_TAB%STIF_OLD)
 C
       CALL MY_BARRIER
 C
@@ -589,13 +589,13 @@ C         Extraction of global data to local arrays
      9  VX1       ,VX2        ,VX3       ,VX4          ,
      A  VY1       ,VY2        ,VY3       ,VY4          ,
      B  VZ1       ,VZ2        ,VZ3       ,VZ4          ,
-     C  NODNX_SMS ,NSMS       ,INDEX2(NFT+1),INTBUF_TAB%PENM,INTBUF_TAB%LBM, 
+     C  NODNX_SMS ,NSMS       ,INDEX2(NFT+1),INTBUF_TAB%PENM,INTBUF_TAB%LBM,
      D  INTBUF_TAB%LCM,PENE   ,LB        , LC          ,
      E  INTBUF_TAB%GAP_NM     ,GAP_NM     ,INTBUF_TAB%GAP_S,GAPS,IGAP ,
      F  INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,GAPMXL,INTFRIC,INTBUF_TAB%IPARTFRICS,
      G  IPARTFRICSI,INTBUF_TAB%IPARTFRICM,IPARTFRICMI,INTBUF_TAB%AREAS,AREASI,
      H  IVIS2      ,INTBUF_TAB%MVOISIN,MVOISN,IORTHFRIC,INTBUF_TAB%IREP_FRICM,
-     I  INTBUF_TAB%DIR_FRICM ,IREP_FRICMI ,DIR_FRICMI  ,X1      ,Y1          , 
+     I  INTBUF_TAB%DIR_FRICM ,IREP_FRICMI ,DIR_FRICMI  ,X1      ,Y1          ,
      J  Z1         ,X2       ,Y2          ,Z2          ,X3                   ,
      K  Y3         ,Z3       ,X4          ,Y4          ,Z4      ,
      L  INTTH      ,TEMP     ,TEMPI       ,INTBUF_TAB%IELES     ,IELESI      ,
@@ -603,7 +603,7 @@ C         Extraction of global data to local arrays
           CALL I_CORPFIT3(
      1               JLT      ,INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS,STIF      ,NSN    ,
      2               CAND_E_N ,CAND_N_N,NIN     ,IGSTI   ,KMIN     ,
-     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY ) 
+     3               KMAX     ,INACTI  ,IPARI(40,NIN),TNCY )
 C
           JLT_NEW = 0
 C
@@ -642,7 +642,7 @@ C
           IPARI(29,NIN) = 1
 C
           IF (DEBUG(3)>=1) NB_IMPCT = NB_IMPCT + JLT_NEW
-          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1) 
+          IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
 
 C-------------------------------------------------------------------------------
 C Friction model : computation of friction coefficients based on Material of connected Parts
@@ -657,7 +657,7 @@ C-------------------------------------------------------------------------------
      4       VISCFFRIC      ,NTY          ,MFROT            ,IORTHFRIC    , FRIC_COEFS2,
      5       FRICC2         ,VISCFFRIC2   ,IFRICORTH        ,NFORTH       , NFISOT    ,
      6       INDEXORTH      ,INDEXISOT    ,JJ               ,IREP_FRICMI  ,DIR_FRICMI ,
-     7       IX3            ,IX4          ,X1               ,Y1           , Z1        , 
+     7       IX3            ,IX4          ,X1               ,Y1           , Z1        ,
      8       X2             ,Y2           ,Z2               ,X3           , Y3        ,
      9       Z3             ,X4           ,Y4               ,Z4           ,CE_LOC     ,
      A       DIR1           ,DIR2         )
@@ -671,7 +671,7 @@ C-------------------------------------------------------------------------------
      4       VISCFFRIC      ,NTY          ,MFROT            ,IORTHFRIC    ,IFRIC       ,
      5       JJ             , TINT        ,TEMPI            ,NPC          ,TF          ,
      6       TEMP           , H1          ,H2               ,H3           ,H4          ,
-     7       IX1            , IX2         ,IX3              ,IX4          ,IFORM       ) 
+     7       IX1            , IX2         ,IX3              ,IX4          ,IFORM       )
           ENDIF
         IF(JTASK==1) CALL STOPTIME(MACRO_TIMER_FRIC,1)
 
@@ -686,7 +686,7 @@ C-------------------------------------------------------------------------------
      8  IVIS2        ,NELTST    ,ITYPTST      ,DT2T        ,
      A  KINET        ,NEWFRONT  ,ISECIN       ,NSTRF       ,SECFCUM  ,
      B  X            ,INTBUF_TAB%IRECTM,CE_LOC    ,MFROT       ,IFQ  ,
-     B  INTBUF_TAB%SECND_FR,XFILTR_FRIC,IBAG   ,ICONTACT ,INTBUF_TAB%IRTLM,       
+     B  INTBUF_TAB%SECND_FR,XFILTR_FRIC,IBAG   ,ICONTACT ,INTBUF_TAB%IRTLM,
      E  VISCN        ,VXI       ,VYI          ,VZI         ,MSI      ,
      F  KINI         ,NIN       ,NISUB        ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBS,
      G  INTBUF_TAB%ADDSUBM,INTBUF_TAB%LISUBS,INTBUF_TAB%LISUBM,
@@ -727,7 +727,7 @@ C
      9     Y4     ,Z4     ,IX1    ,IX2    ,IX3    ,
      A     IX4    ,PHI    ,PHI1   ,PHI2   ,PHI3   ,
      B     PHI4   ,PM     ,NSVG   ,ITAB   )
-         
+
          ENDIF
 
 
@@ -740,7 +740,7 @@ C
      6    IX4         ,INTTH     ,FTHE      ,FTHESKYI  ,
      7    PHI         ,PHI1      ,PHI2      ,PHI3      ,PHI4      ,
      8    FNI         , INTBUF_TAB%MSEGTYP24 ,APINCH    ,
-     .                                                  STIFPINCH , 
+     .                                                  STIFPINCH ,
      9    FX1         ,FY1      ,FZ1        ,FX2       ,FY2       ,
      A    FZ2         ,FX3      ,FY3        ,FZ3       ,FX4       ,
      B    FY4         ,FZ4      ,FXI        ,FYI       ,FZI       ,
@@ -757,7 +757,7 @@ C-----------------------------------------------------------------------
       CALL MY_BARRIER
 C-----------------------------------------------------------------------
       DO N=NSNFT, NSNLT
-        IF(INTBUF_TAB%IRTLM(4*(N-1)+1) < 0) 
+        IF(INTBUF_TAB%IRTLM(4*(N-1)+1) < 0)
      .    INTBUF_TAB%IRTLM(4*(N-1)+1)  = -INTBUF_TAB%IRTLM(4*(N-1)+1)
       END DO
 C
@@ -791,7 +791,7 @@ C     WRITE(6,*) "NEDGE=",NEDGE
 C  =========== DEBUG
 #ifdef D_EM
        eidm = intbuf_tab%ledge(NLEDGE*(intbuf_tab%candm_e2e(i)-1) + 8)
-       eids = ABS(intbuf_tab%cands_e2e(i)) 
+       eids = ABS(intbuf_tab%cands_e2e(i))
        if(eids > nedge) then
          eids = ledge_fie(NIN)%P(E_GLOBAL_ID,eids-nedge)
        else
@@ -863,7 +863,7 @@ C         preparation candidats retenus
      I IGAP         ,INTBUF_TAB%GAP_E_L)
           CALL I_COR_EPFIT3(
      1               JLT      ,INTBUF_TAB%STFE,STIF    ,CS_LOC ,CM_LOC ,
-     2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY) 
+     2               NEDGE    ,NIN     ,INACTI  ,IPARI(40,NIN),TNCY)
 
           CALL I25DST3E(
      1      JLT    ,CS_LOC,CM_LOC ,HS1   ,HS2   ,
@@ -907,11 +907,11 @@ C-------------------------------------------------------------------------------
      4 VISCFFRIC      ,NTY          ,MFROT            ,IORTHFRIC     ,IFRIC       ,
      5 JJ             , TINT        ,TEMPI            ,NPC          ,TF          ,
      6 TEMP           , H1          ,H2               ,H3           ,H4          ,
-     7 IX1            , IX2         ,IX3              ,IX4          ,IFORM       ) 
+     7 IX1            , IX2         ,IX3              ,IX4          ,IFORM       )
            ELSE
              DO I=1,JLT
                FRICC(I) = ZERO
-             ENDDO 
+             ENDDO
            ENDIF
 
             CALL I25FOR3E(
@@ -944,7 +944,7 @@ C-------------------------------------------------------------------------------
 
           ENDIF
         ENDDO
- 
+
         IF (SFSAVPARIT /= 0)THEN
             CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
      .                            FBSAV6, 12, 6, DIMFB, ISENSINT )
@@ -972,7 +972,7 @@ C recalcul du istok
 C  =========== DEBUG
 #ifdef D_EM
 C      eidm = intbuf_tab%ledge(NLEDGE*(intbuf_tab%candm_e2e(i)-1) + 8)
-       eids = ABS(intbuf_tab%cands_e2S(i)) 
+       eids = ABS(intbuf_tab%cands_e2S(i))
        if(eids > nedge) then
          eids = ledge_fie(NIN)%P(E_GLOBAL_ID,eids-nedge)
        else
@@ -1082,11 +1082,11 @@ C-------------------------------------------------------------------------------
      4 VISCFFRIC_E    ,NTY          ,MFROT            ,IORTHFRIC   ,IFRIC       ,
      5 JJ             , TINT        ,TEMPI            ,NPC          ,TF          ,
      6 TEMP           , H1          ,H2               ,H3           ,H4          ,
-     7 IX1            , IX2         ,IX3              ,IX4          ,IFORM       ) 
+     7 IX1            , IX2         ,IX3              ,IX4          ,IFORM       )
            ELSE
              DO I=1,JLT
                FRICC_E(I) = ZERO
-             ENDDO 
+             ENDDO
            ENDIF
 
             ASSERT(JLT < 4*MVSIZ)
@@ -1106,7 +1106,7 @@ C-------------------------------------------------------------------------------
      D VYM1         ,VZM1         ,VXM2         ,VYM2       ,VZM2     ,
      E NIN          ,NISUB        ,INTBUF_TAB%LISUB,INTBUF_TAB%ADDSUBE,INTBUF_TAB%ADDSUBM,
      F INTBUF_TAB%LISUBE ,INTBUF_TAB%LISUBM ,INTBUF_TAB%INFLG_SUBE ,INTBUF_TAB%INFLG_SUBM ,
-     .                                                                            FSAVSUB ,  
+     .                                                                            FSAVSUB ,
      G MSKYI_SMS    ,ISKYI_SMS    ,NSMSE        ,JTASK        ,ISENSINT   ,
      H FSAVPARIT(1,1,NFT+1),NFT   ,H3D_DATA     ,INDX1        ,INDX2      ,
      I ILEV         ,INTBUF_TAB%MBINFLG, EDGE_ID,NEDGE_REM    ,FRICC_E    ,
@@ -1118,7 +1118,7 @@ C-------------------------------------------------------------------------------
             IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
           ENDIF
         ENDDO
- 
+
         IF (SFSAVPARIT /= 0)THEN
             CALL SUM_6_FLOAT_SENS(FSAVPARIT, NISUB+1, 11, I_STOK,1,I_STOK,
      .                            FBSAV6, 12, 6, DIMFB, ISENSINT )
@@ -1140,7 +1140,7 @@ Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I25CDCOR3(JLT,INDEX,CAND_E,CAND_N,
-     .                    CAND_E_N,CAND_N_N)      
+     .                    CAND_E_N,CAND_N_N)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1152,8 +1152,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, 
-     .        INDEX(*), CAND_E(*), CAND_N(*), 
+      INTEGER JLT,
+     .        INDEX(*), CAND_E(*), CAND_N(*),
      .        CAND_E_N(*), CAND_N_N(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1161,7 +1161,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
 C-----------------------------------------------
 C
       DO I=1,JLT
@@ -1178,7 +1178,7 @@ Chd|        I25MAINF                      source/interfaces/int25/i25mainf.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I25CDCOR3_E2S(JLT,INDEX,CAND_E,CAND_N,
-     .                    CAND_E_N,CAND_N_N)      
+     .                    CAND_E_N,CAND_N_N)
 C============================================================================
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1190,8 +1190,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, 
-     .        INDEX(*), CAND_E(*), CAND_N(*), 
+      INTEGER JLT,
+     .        INDEX(*), CAND_E(*), CAND_N(*),
      .        CAND_E_N(*), CAND_N_N(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -1199,7 +1199,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
 C-----------------------------------------------
 C
       DO I=1,JLT

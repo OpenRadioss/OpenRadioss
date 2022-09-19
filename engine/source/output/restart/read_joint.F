@@ -32,8 +32,8 @@ Chd|====================================================================
         SUBROUTINE READ_JOINT()
 !$COMMENT
 !       READ_JOINT description
-!       read the joint structure 
-!       
+!       read the joint structure
+!
 !       READ_JOINT organization :
 !$ENDCOMMENT
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
             !   number of node per proc (all proc --> size=nspmd)
             CALL READ_I_C(NUMBER_NODE,NJOINT)
             !   ------------------------------
-            DO N=1,NJOINT     
+            DO N=1,NJOINT
                 !   number of node and node with weight=1
                 CYL_JOIN(N)%NUMBER_NODE = 0
                 CYL_JOIN(N)%NUMBER_NODE_WEIGHT = 0
@@ -99,7 +99,7 @@ C-----------------------------------------------
                     ALLOCATE( CYL_JOIN(N)%WEIGHT(CYL_JOIN(N)%NUMBER_NODE) )
                     CALL READ_I_C(CYL_JOIN(N)%WEIGHT,CYL_JOIN(N)%NUMBER_NODE)
                     !   -----------
-                    !   weight array index for the current joint                 
+                    !   weight array index for the current joint
                     ALLOCATE( NODE_WEIGHT( CYL_JOIN(N)%NUMBER_NODE ) )
                     DO  I=1,CYL_JOIN(N)%NUMBER_NODE
                         IF(CYL_JOIN(N)%WEIGHT(I)==1) THEN
@@ -110,7 +110,7 @@ C-----------------------------------------------
                     ALLOCATE( CYL_JOIN(N)%NODE_WEIGHT( CYL_JOIN(N)%NUMBER_NODE_WEIGHT ) )
                     DO I=1,CYL_JOIN(N)%NUMBER_NODE_WEIGHT
                         CYL_JOIN(N)%NODE_WEIGHT(I) = NODE_WEIGHT(I)
-                    ENDDO                 
+                    ENDDO
                     DEALLOCATE( NODE_WEIGHT )
                     !   -----------
                 ENDIF
@@ -126,7 +126,7 @@ C-----------------------------------------------
                 DO I=1,2
                     IF(CYL_JOIN(N)%MAIN_NODE(I)>0) NUMBER_MAIN_NODE = NUMBER_MAIN_NODE + 1
                 ENDDO
-                !   number of main node 
+                !   number of main node
                 CYL_JOIN(N)%NUMBER_MAIN_NODE = NUMBER_MAIN_NODE
             ENDDO
             !   ------------------------------

@@ -97,17 +97,17 @@ c-------------------------------
 !$OMP DO SCHEDULE(DYNAMIC,1)
 c
       DO IG = 1, NGROUC
-        NG  = IGROUC(IG)                    
-        OFF   = IPARG(8,NG)                 
-        IXFEM = IPARG(54,NG)                
-        IF (IXFEM > 0 .and. OFF < 1) THEN  
+        NG  = IGROUC(IG)
+        OFF   = IPARG(8,NG)
+        IXFEM = IPARG(54,NG)
+        IF (IXFEM > 0 .and. OFF < 1) THEN
           IF (IDDW > 0) CALL STARTIMEG(NG)
 C---
           NEL   = IPARG(2,NG)
           NFT   = IPARG(3,NG)
           ITY   = IPARG(5,NG)
           NXLAY = IPARG(59,NG)
-          LFT   = 1 
+          LFT   = 1
           LLT   = MIN(NVSIZ,NEL)
           JFT=LFT
           JLT=LLT
@@ -132,10 +132,10 @@ C
 !$OMP DO SCHEDULE(DYNAMIC,1)
       DO IG = 1, NGROUC
         NG = IGROUC(IG)
-        OFF       = IPARG(8,NG)             
+        OFF       = IPARG(8,NG)
         IXFEM     = IPARG(54,NG)
         ACTIFXFEM = IPARG(70,NG)
-        IF (IXFEM > 0 .and. OFF < 1 .and. ACTIFXFEM > 0) THEN  
+        IF (IXFEM > 0 .and. OFF < 1 .and. ACTIFXFEM > 0) THEN
           IF (IDDW > 0) CALL STARTIMEG(NG)
 C---
           NEL   = IPARG(2,NG)
@@ -143,7 +143,7 @@ C---
           ITY   = IPARG(5,NG)
           NPT   = IPARG(6,NG)
           NXLAY = IPARG(59,NG)
-          LFT   = 1 
+          LFT   = 1
           LLT   = MIN(NVSIZ,NEL)
           JFT=LFT
           JLT=LLT

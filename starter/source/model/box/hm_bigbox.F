@@ -97,7 +97,7 @@ C get box de box ID'S dans grnod:
 C-------
       ISU = 0
       DO I=1,NBBOX
-        IF(IDB == IBOX(I)%ID) THEN 
+        IF(IDB == IBOX(I)%ID) THEN
           ISU=I
           EXIT
         ENDIF

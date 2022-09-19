@@ -59,7 +59,7 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include      "scr05_c.inc"
 Ctmp+1
-#include      "units_c.inc" 
+#include      "units_c.inc"
 #include      "com01_c.inc"
 #include      "impl1_c.inc"
 C-----------------------------------------------
@@ -95,7 +95,7 @@ C-----------------------------------------------
       my_real
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   S2,FAC,FACF, H0, LA1, LA2, LA3, LA4,FACT(MVSIZ),
      .   D1,D2,D3,D4,A1,A2,A3,A4,KN(4,MVSIZ),Q(3,3,MVSIZ)
       my_real
@@ -119,7 +119,7 @@ C--------------------------------------------------------
       IF (IMP_INT7==3) THEN
        DO I=1,JLT
         D1 = SQRT(P1(I))
-        P1(I) = FOURTH*GAPV(I) 
+        P1(I) = FOURTH*GAPV(I)
         D2 = SQRT(P2(I))
         P2(I) = FOURTH*GAPV(I)
         D3 = SQRT(P3(I))
@@ -130,9 +130,9 @@ C--------------------------------------------------------
         A2 = P2(I)/MAX(EM20,D2)
         A3 = P3(I)/MAX(EM20,D3)
         A4 = P4(I)/MAX(EM20,D4)
-        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I) 
-        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I) 
-        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I) 
+        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
+        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
+        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
        ENDDO
       ELSE
        DO I=1,JLT
@@ -153,11 +153,11 @@ C
         A2 = P2(I)/MAX(EM20,D2)
         A3 = P3(I)/MAX(EM20,D3)
         A4 = P4(I)/MAX(EM20,D4)
-        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I) 
-        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I) 
-        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I) 
+        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
+        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
+        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
        ENDDO
-      ENDIF !(IMP_INT7==3) 
+      ENDIF !(IMP_INT7==3)
 C
        DO I=1,JLT
         IF(IX3(I)/=IX4(I))THEN
@@ -166,9 +166,9 @@ C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I) 
+         LA4 = ONE - LB4(I) - LC4(I)
 C
-         H0    = FOURTH * 
+         H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
@@ -232,9 +232,9 @@ C
           ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
           ENDIF
-          N1(I) = -RX 
-          N2(I) = -RY 
-          N3(I) = -RZ 
+          N1(I) = -RX
+          N2(I) = -RY
+          N3(I) = -RZ
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
 C       cylindrique (que concave pour le moment)
@@ -248,49 +248,49 @@ C       cylindrique (que concave pour le moment)
           ANX = X(1,NA2)-A0X
           ANY = X(2,NA2)-A0Y
           ANZ = X(3,NA2)-A0Z
-          AAN = 1. / (ANX*ANX + ANY*ANY + ANZ*ANZ) 
+          AAN = 1. / (ANX*ANX + ANY*ANY + ANZ*ANZ)
 C
           AAX = X1(I)-A0X
           AAY = Y1(I)-A0Y
           AAZ = Z1(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           AAX = X2(I)-A0X
           AAY = Y2(I)-A0Y
           AAZ = Z2(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           AAX = X3(I)-A0X
           AAY = Y3(I)-A0Y
           AAZ = Z3(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           IF(IX3(I)/=IX4(I))THEN
             AAX = X4(I)-A0X
             AAY = Y4(I)-A0Y
             AAZ = Z4(I)-A0Z
             AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-            RX = AAX - AAA * ANX 
-            RY = AAY - AAA * ANY 
-            RZ = AAZ - AAA * ANZ 
+            RX = AAX - AAA * ANX
+            RY = AAY - AAA * ANY
+            RZ = AAZ - AAA * ANZ
             RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           ENDIF
           AAX = XI(I)-A0X
           AAY = YI(I)-A0Y
           AAZ = ZI(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RS = SQRT(RX*RX + RY*RY + RZ*RZ)
           RR = SQRT(RR)
           IF(RS-RR+GAPV(I)<0.)THEN
@@ -298,9 +298,9 @@ C
             PENE(I) = 0.
           ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
-            N1(I) = -RX 
-            N2(I) = -RY 
-            N3(I) = -RZ 
+            N1(I) = -RX
+            N2(I) = -RY
+            N3(I) = -RZ
           ENDIF
         ENDDO
       ELSEIF(ICURV(1) == 3)THEN
@@ -356,15 +356,15 @@ c      print *,'IMP_INT7=',IMP_INT7,jlt
       IF(IMP_INT7>=2)THEN
       DO I=1,JLT
        IF(STIGLO<=ZERO)THEN
-        STIF(I) = HALF*STIF(I) 
+        STIF(I) = HALF*STIF(I)
        ELSEIF(STIF(I)/=ZERO)THEN
-        STIF(I) = STIGLO 
+        STIF(I) = STIGLO
        ENDIF
       ENDDO
       ELSEIF(IMP_INT7==1)THEN
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND.
      .     STIF(I)>0. ) STIF(I) = 0.
        IF(STIGLO<=ZERO)THEN
         STIF(I) = HALF*STIF(I) * FAC
@@ -376,7 +376,7 @@ c      print *,'IMP_INT7=',IMP_INT7,jlt
 C
       DO I=1,JLT
        FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-       IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+       IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND.
      .     STIF(I)>0. ) STIF(I) = 0.
        IF(STIGLO<=ZERO)THEN
         STIF(I) = HALF*STIF(I) * FAC
@@ -385,8 +385,8 @@ C
        ENDIF
       ENDDO
       DO I=1,JLT
-          STIF(I) = STIF(I) * GAPV(I) / 
-     .            MAX((GAPV(I) - PENE(I)),EM10) 
+          STIF(I) = STIF(I) * GAPV(I) /
+     .            MAX((GAPV(I) - PENE(I)),EM10)
       ENDDO
       ENDIF
 C---------------------------------
@@ -476,8 +476,8 @@ C    ----sans frottement d'abord---
        KL11(3,3,I)=KN(4,I)*Q33
       ENDDO
 C    ----avec frottement --- 
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           IF (FACT(I)>ZERO) THEN
            Q1 =Q(1,J,I)*Q(1,K,I)
@@ -491,13 +491,13 @@ C    ----avec frottement ---
            KK11(J,K,I)=KK11(J,K,I)+KT3
            KT4=FAC*H4(I)
            KL11(J,K,I)=KL11(J,K,I)+KT4
-          ENDIF 
+          ENDIF
          ENDDO
         ENDDO
        ENDDO
 C
-       DO J=1,3 
-        DO K=J,3 
+       DO J=1,3
+        DO K=J,3
          DO I=1,JLT
           KI12(J,K,I)=-KI11(J,K,I)
           KJ12(J,K,I)=-KJ11(J,K,I)
@@ -506,8 +506,8 @@ C
          ENDDO
         ENDDO
        ENDDO
-       DO J=1,3 
-        DO K=J+1,3 
+       DO J=1,3
+        DO K=J+1,3
          DO I=1,JLT
           KI12(K,J,I)=-KI11(J,K,I)
           KJ12(K,J,I)=-KJ11(J,K,I)
@@ -539,7 +539,7 @@ C
 	  N_E(3,NE)=N3(I)
 	 ENDIF
         ENDDO
-       ENDIF 
+       ENDIF
 C
        RETURN
       END
@@ -553,7 +553,7 @@ Chd|====================================================================
       SUBROUTINE I7FRF3(JLT    ,A      ,V      ,MS     ,FRIC   ,
      1                  N1     ,N2     ,N3     ,H1     ,H2     ,
      2                  H3     ,H4     ,IX1    ,IX2    ,IX3    ,
-     2                  IX4    ,INDEX  ,VXI    ,VYI    ,VZI    ,   
+     2                  IX4    ,INDEX  ,VXI    ,VYI    ,VZI    ,
      3                  MSI    ,DXI    ,DYI    ,DZI    ,STIF   ,
      4                  NIN    ,D      ,SCALK  )
 C-----------------------------------------------
@@ -589,9 +589,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J1, J, K,IG,ISF,NN,NS,NI
       my_real
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
-     .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ), 
-     .   DNI(MVSIZ),DT(MVSIZ), DTI(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
+     .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN(MVSIZ),
+     .   DNI(MVSIZ),DT(MVSIZ), DTI(MVSIZ),
      .   S2,FACN(MVSIZ),FACF, FACT(MVSIZ)
       my_real
      .   FX,FY,FZ,FN,FT,FNI,FTI,VTX,VTY,VTZ,VT,
@@ -758,7 +758,7 @@ C-----------------------------------------------
       INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        CE_LOC(MVSIZ),INDEX(MVSIZ),NSVG(MVSIZ)
       my_real
-     .   STIGLO,CAND_P(*),FROT_P(*), X(3,*),A(3,*), MS(*), V(3,*), 
+     .   STIGLO,CAND_P(*),FROT_P(*), X(3,*),A(3,*), MS(*), V(3,*),
      .   CAND_FX(*),CAND_FY(*),CAND_FZ(*),ALPHA0,FRIC,SCALK,ICURV(3)
       my_real
      .     NX1(MVSIZ), NX2(MVSIZ), NX3(MVSIZ), NX4(MVSIZ),
@@ -784,16 +784,16 @@ C-----------------------------------------------
      .   FXT(MVSIZ),FYT(MVSIZ),FZT(MVSIZ),STIF0(MVSIZ),
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),XMU(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),XMU(MVSIZ),
      .   DX(MVSIZ), DY(MVSIZ), DZ(MVSIZ), DN0(MVSIZ),
-     .    
+     .
      .   VNX, VNY, VNZ, AA, CRIT,S2,DIST,RDIST,
      .   V2, FM2, FAC,FF,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTI,FT,FN,FMAX,FTN,
      .   H0, LA1, LA2, LA3, LA4,D1,D2,D3,D4,A1,A2,A3,A4, FF0,
      .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,T1,T2,T3,DXT,
      .   AREA,P,VV1,VV2,V21,DMU, DTI2,H00 ,A0X,A0Y,A0Z,RX,RY,RZ,
-     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,GAP2 ,PENE2,PREC 
+     .   ANX,ANY,ANZ,AAN,AAX,AAY,AAZ ,RR,RS,AAA ,GAP2 ,PENE2,PREC
       INTEGER NA1,NA2
 C-----------------------------------------------
 #include "sync_dir.inc"
@@ -845,9 +845,9 @@ C
         A2 = P2(I)/MAX(EM20,D2)
         A3 = P3(I)/MAX(EM20,D3)
         A4 = P4(I)/MAX(EM20,D4)
-        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I) 
-        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I) 
-        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I) 
+        N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
+        N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
+        N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
        ENDDO
 C
        DO I=1,JLT
@@ -857,9 +857,9 @@ C
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I) 
+         LA4 = ONE - LB4(I) - LC4(I)
 C
-         H0    = FOURTH * 
+         H0    = FOURTH *
      .         (P1(I)*LA1 + P2(I)*LA2 + P3(I)*LA3 + P4(I)*LA4)
          H1(I) = H0 + P1(I) * LB1(I) + P4(I) * LC4(I)
          H2(I) = H0 + P2(I) * LB2(I) + P1(I) * LC1(I)
@@ -923,9 +923,9 @@ C
           ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
           ENDIF
-          N1(I) = -RX 
-          N2(I) = -RY 
-          N3(I) = -RZ 
+          N1(I) = -RX
+          N2(I) = -RY
+          N3(I) = -RZ
         ENDDO
       ELSEIF(ICURV(1)==2)THEN
 C       cylindrique (que concave pour le moment)
@@ -939,49 +939,49 @@ C       cylindrique (que concave pour le moment)
           ANX = X(1,NA2)-A0X
           ANY = X(2,NA2)-A0Y
           ANZ = X(3,NA2)-A0Z
-          AAN = 1. / (ANX*ANX + ANY*ANY + ANZ*ANZ) 
+          AAN = 1. / (ANX*ANX + ANY*ANY + ANZ*ANZ)
 C
           AAX = X1(I)-A0X
           AAY = Y1(I)-A0Y
           AAZ = Z1(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           AAX = X2(I)-A0X
           AAY = Y2(I)-A0Y
           AAZ = Z2(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           AAX = X3(I)-A0X
           AAY = Y3(I)-A0Y
           AAZ = Z3(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           IF(IX3(I)/=IX4(I))THEN
             AAX = X4(I)-A0X
             AAY = Y4(I)-A0Y
             AAZ = Z4(I)-A0Z
             AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-            RX = AAX - AAA * ANX 
-            RY = AAY - AAA * ANY 
-            RZ = AAZ - AAA * ANZ 
+            RX = AAX - AAA * ANX
+            RY = AAY - AAA * ANY
+            RZ = AAZ - AAA * ANZ
             RR = MIN(RR , RX*RX + RY*RY + RZ*RZ)
           ENDIF
           AAX = XI(I)-A0X
           AAY = YI(I)-A0Y
           AAZ = ZI(I)-A0Z
           AAA = (AAX*ANX + AAY*ANY + AAZ*ANZ) * AAN
-          RX = AAX - AAA * ANX 
-          RY = AAY - AAA * ANY 
-          RZ = AAZ - AAA * ANZ 
+          RX = AAX - AAA * ANX
+          RY = AAY - AAA * ANY
+          RZ = AAZ - AAA * ANZ
           RS = SQRT(RX*RX + RY*RY + RZ*RZ)
           RR = SQRT(RR)
           IF(RS-RR+GAPV(I)<0.)THEN
@@ -989,9 +989,9 @@ C
             PENE(I) = 0.
           ELSEIF(RS-RR+GAPV(I)<PENE(I))THEN
             PENE(I) = RS-RR+GAPV(I)
-            N1(I) = -RX 
-            N2(I) = -RY 
-            N3(I) = -RZ 
+            N1(I) = -RX
+            N2(I) = -RY
+            N3(I) = -RZ
           ENDIF
         ENDDO
       ELSEIF(ICURV(1) == 3)THEN
@@ -1067,15 +1067,15 @@ C-------------------------------------------
       IF(IMP_INT7>=2)THEN
        DO I=1,JLT
         IF(STIGLO<=ZERO)THEN
-         STIF(I) = HALF*STIF(I) 
+         STIF(I) = HALF*STIF(I)
         ELSEIF(STIF(I)/=ZERO)THEN
-         STIF(I) = STIGLO 
+         STIF(I) = STIGLO
         ENDIF
        ENDDO
       ELSEIF(IMP_INT7==1)THEN
        DO I=1,JLT
         FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-        IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+        IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND.
      .     STIF(I)>0. ) STIF(I) = 0.
         IF(STIGLO<=ZERO)THEN
          STIF(I) = HALF*STIF(I) * FAC
@@ -1086,7 +1086,7 @@ C-------------------------------------------
       ELSE
        DO I=1,JLT
         FAC = GAPV(I)/MAX( EM10,( GAPV(I)-PENE(I) ) )
-        IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND. 
+        IF( (GAPV(I)-PENE(I))/GAPV(I) <PREC .AND.
      .     STIF(I)>0. ) STIF(I) = 0.
         IF(STIGLO<=ZERO)THEN
          STIF(I) = HALF*STIF(I) * FAC
@@ -1095,15 +1095,15 @@ C-------------------------------------------
         ENDIF
        ENDDO
        DO I=1,JLT
-          STIF(I) = STIF(I) * GAPV(I) / 
-     .            MAX((GAPV(I) - PENE(I)),EM10) 
+          STIF(I) = STIF(I) * GAPV(I) /
+     .            MAX((GAPV(I) - PENE(I)),EM10)
        ENDDO
       ENDIF ! (IMP_INT7>=2)
 C 
-       FAC =   ABS(SCALK)   
+       FAC =   ABS(SCALK)
        DO I=1,JLT
         STIF(I)=STIF(I)*FAC
-        FNI(I)= -STIF(I) * DN0(I) 
+        FNI(I)= -STIF(I) * DN0(I)
         FXI(I)=N1(I)*FNI(I)
         FYI(I)=N2(I)*FNI(I)
         FZI(I)=N3(I)*FNI(I)
@@ -1124,8 +1124,8 @@ C---      Viscous friction
           DO I=1,JLT
             IE=CE_LOC(I)
             AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-            V2 = (VX(I) - N1(I)*AA)**2 
-     .         + (VY(I) - N2(I)*AA)**2 
+            V2 = (VX(I) - N1(I)*AA)**2
+     .         + (VY(I) - N2(I)*AA)**2
      .         + (VZ(I) - N3(I)*AA)**2
             VV  = SQRT(MAX(EM30,V2))
             AX1 = X(1,IRECT(3,IE)) - X(1,IRECT(1,IE))
@@ -1139,7 +1139,7 @@ C---      Viscous friction
             AZ  = AX1*AY2 - AY1*AX2
             AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
             P = -FNI(I)/AREA
-            XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
+            XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P
      .             +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
           ENDDO
         ELSEIF(MFROT==2)THEN
@@ -1147,8 +1147,8 @@ C---        Loi Darmstad
           DO I=1,JLT
             IE=CE_LOC(I)
             AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-            V2 = (VX(I) - N1(I)*AA)**2 
-     .         + (VY(I) - N2(I)*AA)**2 
+            V2 = (VX(I) - N1(I)*AA)**2
+     .         + (VY(I) - N2(I)*AA)**2
      .         + (VZ(I) - N3(I)*AA)**2
             VV = SQRT(MAX(EM30,V2))
             AX1 = X(1,IRECT(3,IE)) - X(1,IRECT(1,IE))
@@ -1170,8 +1170,8 @@ C---        Loi Darmstad
 C---        Loi Renard
           DO I=1,JLT
             AA = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
-            V2 = (VX(I) - N1(I)*AA)**2 
-     .         + (VY(I) - N2(I)*AA)**2 
+            V2 = (VX(I) - N1(I)*AA)**2
+     .         + (VY(I) - N2(I)*AA)**2
      .         + (VZ(I) - N3(I)*AA)**2
             VV = SQRT(MAX(EM30,V2))
             IF(VV>=0.AND.VV<=FROT_P(5)) THEN
@@ -1179,7 +1179,7 @@ C---        Loi Renard
               VV1 = VV / FROT_P(5)
               XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
             ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
-              DMU = FROT_P(4)-FROT_P(3) 
+              DMU = FROT_P(4)-FROT_P(3)
               VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
               XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
             ELSE
@@ -1222,7 +1222,7 @@ C-------      total force
             FYI(I)=FYI(I) + FYT(I)
             FZI(I)=FZI(I) + FZT(I)
           ENDDO
-        ELSE 
+        ELSE
 C---------------------------------
 C       TOTAL (VISCOUS) FORMULATION / NO FRICTION FILTERING 
 C---------------------------------
@@ -1250,7 +1250,7 @@ C-------      total force
             FZI(I)=FZI(I) + FZT(I)
           ENDDO
          ENDIF
-        ENDIF 
+        ENDIF
 C      
 C--------main part-------
 c
@@ -1279,7 +1279,7 @@ C--------secnd part-------
           A(2,IG)=A(2,IG)-FYI(I)
           A(3,IG)=A(3,IG)-FZI(I)
         ENDDO
-       ELSE 
+       ELSE
         DO I=1,JLT
           IG=NSVG(I)
           IF(IG>0)THEN

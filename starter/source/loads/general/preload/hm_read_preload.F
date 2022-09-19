@@ -45,7 +45,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE SENSOR_MOD
-      USE HM_OPTION_READ_MOD    
+      USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -65,8 +65,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      INTEGER IXS(NIXS,*), IXS10(6,*), IPRELOAD(3,*), IFLAG_BPRELOAD(*)  
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      INTEGER IXS(NIXS,*), IXS10(6,*), IPRELOAD(3,*), IFLAG_BPRELOAD(*)
       INTEGER NSTRF(*),LSENSOR(NSENSI,*) ,ITAB(*),ISOLNOD(*)
       my_real PRELOAD(6,*),X(3,*)
       TYPE (SENSOR_STR_) ,DIMENSION(NSENSOR), TARGET :: SENSOR_TAB
@@ -98,61 +98,61 @@ C-----------------------------------------------
 C=======================================================================
       IS_AVAILABLE = .FALSE.
 C-----------------------------------------------
-      CALL HM_OPTION_START('/PRELOAD')       
+      CALL HM_OPTION_START('/PRELOAD')
 C-----------------------------------------------
-      NPR0=NPRELOAD                                                
+      NPR0=NPRELOAD
       K=0
-      AREA(1:NPRELOAD)=ZERO                                  
+      AREA(1:NPRELOAD)=ZERO
 
-      DO I=1,NPR0                                             
+      DO I=1,NPR0
         ! Read title, ID and Unit ID
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = ID, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = ID,
      .                          UNIT_ID        = UID,
-     .                          OPTION_TITR    = TITR)           
+     .                          OPTION_TITR    = TITR)
 C
         ! Checking unit ID
-        IFLAGUNIT = 0 
+        IFLAGUNIT = 0
 C
-        DO J=1,NUNITS                           
+        DO J=1,NUNITS
           IF (UNITAB%UNIT_ID(J) == UID) THEN
             IFLAGUNIT = 1
             EXIT
           ENDIF
-        ENDDO                                  
+        ENDDO
         IF (UID/=0.AND.IFLAGUNIT==0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='BOLT PRELOAD',
      .                 C2='BOLT PRELOAD',
-     .                 C3=TITR)                              
-        ENDIF                                    
- 
+     .                 C3=TITR)
+        ENDIF
 
-        !read card line                                           
-        CALL HM_GET_INTV('sect_ID'  ,ISEC  ,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('sens_ID'  ,ISENS ,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('Itype'    ,ITYPE ,IS_AVAILABLE,LSUBMODEL) 
- 
+
+        !read card line
+        CALL HM_GET_INTV('sect_ID'  ,ISEC  ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('sens_ID'  ,ISENS ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('Itype'    ,ITYPE ,IS_AVAILABLE,LSUBMODEL)
+
         CALL HM_GET_FLOATV('Preload',LOADVAL,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Tstart' ,TDEB   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Tstop'  ,TFIN   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-     
+
         IF (ITYPE == 0) ITYPE = 1 ! Default to effort preloading
 
-      
+
         IF(LOADVAL <= ZERO) THEN
           CALL ANCMSG(MSGID=1255,MSGTYPE=MSGWARNING,
      .                ANMODE=ANINFO_BLIND_1,
      .                C1='BOLT PRELOAD',
      .                I1=ID,
      .                C2=TITR)
-          LOADVAL = ZERO 
+          LOADVAL = ZERO
         ENDIF
 
         IF (TFIN == ZERO) TFIN=EP30
-c        
+c
         SENSNUM = 0
         IF (ISENS > 0) THEN
           DO JS=1,NSENSOR
@@ -168,12 +168,12 @@ c
      .               C2='BOLT PRELOAD',
      .               I2=ISENS,I1=ID,C3=TITR)
            END IF
-        ENDIF !(ISENS > 0) 
+        ENDIF !(ISENS > 0)
 c
 	   NN = 0
         IF (ISEC > 0) THEN !ISEC=sect_ID input is mandatory
           K0=31
-          DO IS=1,NSECT 
+          DO IS=1,NSECT
             IF (ISEC==NSTRF(K0+23)) THEN
               IUGRP(I) = ISEC
               LVAL(I) = LOADVAL
@@ -222,20 +222,20 @@ c
               ELSE
                 ! Calcul de l'aire de la section
                 CALL SECTAREA(IXS,IXS10,X,NSTRF(K3),NS,ISOLNOD,AREA(I),ITAB)    !
-                IF (ITYPE == 1) THEN  
+                IF (ITYPE == 1) THEN
                   IF (AREA(I) > 1.E-30) LOADVAL = LOADVAL/AREA(I)
                 ENDIF
                 DO IE=1,NS
                   K=K+1
                   II=(K3-1)+2*IE-1
-                  IPRELOAD(1,K)  = NSTRF(II)             ! Num. interne avant tri 
+                  IPRELOAD(1,K)  = NSTRF(II)             ! Num. interne avant tri
                   IPRELOAD(2,K)  = ISENS                 ! Sensor
                   IPRELOAD(3,K)  = IXS(11,NSTRF(II))     ! User Id.
                   !IFLAG_BPRELOAD(NSTRF(II)) = 1          ! Flag sur element precontraint
                   IFLAG_BPRELOAD(NSTRF(II)) = I          ! Flag sur element precontraint
 
- 
-                  PRELOAD(1,K) = TDEB                    ! Temps debut de pretension                       
+
+                  PRELOAD(1,K) = TDEB                    ! Temps debut de pretension
                   PRELOAD(2,K) = TFIN                    ! Temps fin de pretension
                   PRELOAD(3,K) = LOADVAL                 ! Contrainte de pretension
                   PRELOAD(4,K) = X3                      ! Direction de pretension
@@ -267,7 +267,7 @@ c-----------------------------output------------------------------------------
        I1=I1+50
        I2=MIN0(I2+50,NPRELOAD)
        GOTO 90
-       
+
 c-------------------------
  200  RETURN
 c-------------------------

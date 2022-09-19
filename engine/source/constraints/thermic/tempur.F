@@ -41,7 +41,7 @@ C-----------------------------------------------
       INTEGER NODFT,NODLT, WEIGHT(*)
 C     REAL
       my_real
-     .   TEMP(*) ,FTHE(*) ,MCP(*),MCP_OFF(*) 
+     .   TEMP(*) ,FTHE(*) ,MCP(*),MCP_OFF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -51,13 +51,13 @@ C-----------------------------------------------
 C-----------------------------------------------
         HEAT_STORED_LOCAL = 0
 
-#include      "vectorize.inc"           
+#include      "vectorize.inc"
         DO N=NODFT,NODLT
           MCP(N) = MCP(N) * MCP_OFF(N)
           IF(MCP(N) > ZERO ) THEN
             TEMP(N) =  TEMP(N)  + FTHE(N) / MCP(N)
             IF(WEIGHT(N) == 1) HEAT_STORED_LOCAL = HEAT_STORED_LOCAL + FTHE(N)
-          ENDIF  
+          ENDIF
           FTHE(N) = ZERO
         ENDDO
 

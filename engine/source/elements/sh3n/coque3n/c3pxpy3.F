@@ -48,9 +48,9 @@ C-----------------------------------------------
       INTEGER MAT(*),JFT,JLT,MX,NEL
 C     REAL
       my_real
-     .   SSP(MVSIZ),PM(NPROPM,*), STI(*), STIR(*), 
+     .   SSP(MVSIZ),PM(NPROPM,*), STI(*), STIR(*),
      .   PX1(*), PY1(*), PY2(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   SMSTR(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

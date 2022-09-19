@@ -30,7 +30,7 @@ Chd|        WRITE_C_C                     source/output/tools/sortie_c.c
 Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F 
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ANIOFFC_CRK( 
+      SUBROUTINE ANIOFFC_CRK(
      .                  XFEM_TAB ,IPARG  ,IPART,IPARTC,IPARTTG ,
      .                  IOFF     ,EL2FA  ,NBF  ,NBF_L ,IAD_CRKG,
      .                  IEL_CRK  ,INDX_CRK)

@@ -51,7 +51,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECTS(2,*),IRECTM(2,*), CAND_M(*), CAND_S(*),
-     .        I_STOK, NIN,IGAP ,ITASK, NRTS,COUNT_REMSLV(*), 
+     .        I_STOK, NIN,IGAP ,ITASK, NRTS,COUNT_REMSLV(*),
      .        IFPEN(*),IFORM
       my_real
      .        X(3,*),GAP,GAP_S(*),GAP_M(*),V(3,*),STFS(*), STFM(*),

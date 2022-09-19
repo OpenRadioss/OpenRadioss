@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN)   :: NALELK
-      INTEGER,INTENT(IN)   :: LINALE(*), WEIGHT(*),ITAB(NUMNOD) 
+      INTEGER,INTENT(IN)   :: LINALE(*), WEIGHT(*),ITAB(NUMNOD)
       my_real, INTENT(INOUT) :: W(3,NUMNOD)
       TYPE (GROUP_)  , DIMENSION(NGRNOD)  :: IGRNOD
 C-----------------------------------------------
@@ -102,20 +102,20 @@ C-----------------------------------------------
         K=0
         N=0
         DO JJ=1,NALELK
-        
+
           WM1M2(1) = ZERO
-          WM1M2(2) = ZERO 
-          WM1M2(3) = ZERO	    
-          WM1M2(4) = ZERO 
-          WM1M2(5) = ZERO 
+          WM1M2(2) = ZERO
+          WM1M2(3) = ZERO	
+          WM1M2(4) = ZERO
+          WM1M2(5) = ZERO
           WM1M2(6) = ZERO
           K        = K+IABS(N)+6
           uID      = LINALE(K-5)
           M1       = LINALE(K-4)
           M2       = LINALE(K-3)
-          N        = LINALE(K-2)     
-          
-          IF(uID<0)CYCLE !OFF          
+          N        = LINALE(K-2)
+
+          IF(uID<0)CYCLE !OFF
           IF(M1 > 0)THEN                ! test if node is on current domain
             IF(WEIGHT(M1) ==  1)THEN
               WM1M2(1) = W(1,M1)
@@ -123,7 +123,7 @@ C-----------------------------------------------
               WM1M2(3) = W(3,M1)
             END IF
           END IF
-          
+
           IF(M2 > 0)THEN                ! test if node is on current domain
             IF(WEIGHT(M2) ==  1)THEN
               WM1M2(4) = W(1,M2)
@@ -148,11 +148,11 @@ C-----------------------------------------------
           IF(N>0)THEN
             N1=N+1
           ELSE
-            GR_ID=LINALE(K+1)          
+            GR_ID=LINALE(K+1)
             N1=IGRNOD(GR_ID)%NENTITY+1
             N=1!IABS(N)
-          ENDIF   
-          
+          ENDIF
+
           DO J=1,3
            IF(ID(J) /=  0) THEN
              IF(IM ==  0) THEN
@@ -164,22 +164,22 @@ C-----------------------------------------------
                    ENDIF
                  ENDDO
                ELSE !---GRNOD IF NUMNOD =-1
-                 II=0          
+                 II=0
                  DO I=1,IGRNOD(GR_ID)%NENTITY
                    NI=IGRNOD(GR_ID)%ENTITY(I)
                    II=II+1
                    W(J,NI)=WM1M2(J)+(WM1M2(3+J)-WM1M2(J))*II/N1
                  ENDDO
                ENDIF!(LINALE(K-2)>0)
-               
+
              ELSE
-             
+
                IF(IM*ABS(WM1M2(J)) > IM*ABS(WM1M2(3+J)))THEN
                  WW=WM1M2(J)
                ELSE
                  WW=WM1M2(3+J)
                ENDIF
-                              
+
                IF(LINALE(K-2)>0)THEN !---NODE LIST IF NUMNOD>0
                  DO I=1,N
                    NI=LINALE(K+I)
@@ -188,13 +188,13 @@ C-----------------------------------------------
                    ENDIF
                  ENDDO
                ELSE !---GRNOD IF NUMNOD =-1
-                 GR_ID=LINALE(K+1)                 
+                 GR_ID=LINALE(K+1)
                  DO I=1,IGRNOD(GR_ID)%NENTITY
                    NI=IGRNOD(GR_ID)%ENTITY(I)
-                   W(J,NI)=WW   
+                   W(J,NI)=WW
                  ENDDO
-               ENDIF!(LINALE(K-2)>0) 
-                               
+               ENDIF!(LINALE(K-2)>0)
+
              ENDIF!(IM ==  0)
            ENDIF!(ID(J) /=  0)
           ENDDO !next J

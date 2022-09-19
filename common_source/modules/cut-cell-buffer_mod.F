@@ -28,29 +28,29 @@ Chd|        RESOL                         engine/source/engine/resol.F
 Chd|-- calls ---------------
 Chd|====================================================================
       MODULE i22EDGE_MOD
-      
+
 #include "my_real.inc"
 
-      INTEGER,ALLOCATABLE,DIMENSION(:)       :: NBOLD     
+      INTEGER,ALLOCATABLE,DIMENSION(:)       :: NBOLD
       INTEGER, ALLOCATABLE, DIMENSION(:,:)   :: LIST_B_OLD
       INTEGER,DIMENSION(:,:),ALLOCATABLE             :: IIAD22
-      INTEGER,DIMENSION(:)  ,ALLOCATABLE             :: NGB, IDB, NELB, IDLOCB      
-      my_real,DIMENSION(:)  ,ALLOCATABLE             :: v22max_L, dx22min_L    !cinematic time step      
+      INTEGER,DIMENSION(:)  ,ALLOCATABLE             :: NGB, IDB, NELB, IDLOCB
+      my_real,DIMENSION(:)  ,ALLOCATABLE             :: v22max_L, dx22min_L    !cinematic time step
 
       !pour le merge openmp a origines multiples et potentiellement fragmentees cf W09_2mars2015
-      my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: UVARL           ! multi-material merging          
+      my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: UVARL           ! multi-material merging
       my_real,ALLOCATABLE,DIMENSION(:,:)     :: EINT_L          ! mono material only
       my_real,ALLOCATABLE,DIMENSION(:,:)     :: RHO_L           ! mono material only
-      my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: MOM_L           ! mono material only      
+      my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: MOM_L           ! mono material only
       my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: SIG_L           ! mono material only
-      my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: VOLD_L          ! mono material only      
+      my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: VOLD_L          ! mono material only
       my_real,ALLOCATABLE,DIMENSION(:,:,:)   :: SuperCellVOL_L  ! geometrical (both multi and mono material)
       INTEGER,ALLOCATABLE,DIMENSION(:,:,:)   :: UNLINKED_CELLS_L
-      INTEGER,ALLOCATABLE,DIMENSION(:)       :: N_UNLINKED_L            
+      INTEGER,ALLOCATABLE,DIMENSION(:)       :: N_UNLINKED_L
       INTEGER,ALLOCATABLE,DIMENSION(:)       :: IMERGEL
 
       TYPE EDGE_ENTITY
-        INTEGER          ,DIMENSION(2)       :: NODE        
+        INTEGER          ,DIMENSION(2)       :: NODE
         INTEGER                              :: NBCUT                   !nombre de point d'intersection sur  l arrete
         INTEGER                              :: CUTSHELL(2)             !! l'un ou l'autre
         my_real,          DIMENSION(2)       :: CUTCOOR                 !coordonee local 1D sur N1->N2
@@ -58,7 +58,7 @@ Chd|====================================================================
         my_real,          DIMENSION(3,2)     :: CUTVEL                  !vitessse lagrangienne du point d intersection
         my_real,          DIMENSION(3)       :: VECTOR
         my_real                              :: LEN
-      END TYPE EDGE_ENTITY      
+      END TYPE EDGE_ENTITY
 
       TYPE CUT_PLANE
         my_real                              :: N(3)                    !normal vector
@@ -68,7 +68,7 @@ Chd|====================================================================
         my_real                              :: P(3,8)                  !Cut Surface Polygon (coordinates)
         my_real                              :: Vel(3)
         INTEGER                              :: NP                      !Cut Surface Polygon (number of points) ! NP<=6 | NP<=8 for additional Scut (closed surface hypothesis)
-      END TYPE 
+      END TYPE
 
       TYPE LIST_ADJ
         INTEGER                              :: Num                     !number of adjacent elments (level2)
@@ -77,14 +77,14 @@ Chd|====================================================================
         INTEGER                              :: IB(48)                  !cut cell id
         INTEGER                              :: ICELL(48)               !secnd cell id
         INTEGER                              :: SecndFACE(48)           !secnd face ID to pickup correct flux
-      END TYPE LIST_ADJ 
+      END TYPE LIST_ADJ
 
       TYPE LIST_SECND
         my_real                              :: VOL_Unmerged
-        INTEGER                              :: Num      
-        INTEGER                              :: NumSecndNodes        
+        INTEGER                              :: Num
+        INTEGER                              :: NumSecndNodes
         INTEGER                              :: FM(24)                  !Main face common face
-        INTEGER                              :: FV(24)                  !Secnd corresponding face        
+        INTEGER                              :: FV(24)                  !Secnd corresponding face
         INTEGER                              :: IV(24)                  !brick id which contains secnd cell
         INTEGER                              :: IBV(24)                 !cut cell address in cut cell buffer
         INTEGER                              :: ICELLv(24)              !secnd cell id
@@ -92,10 +92,10 @@ Chd|====================================================================
         my_real                              :: SURF_v(24)              !Area of linking face
         INTEGER                              :: NumNOD_Cell(24)         !noeuds sommets
         INTEGER                              :: ListNodID(24,8)         !Global nodes ID (max8) describing the cell, for each of 9 cells
-      END TYPE LIST_SECND 
- 
+      END TYPE LIST_SECND
+
       TYPE POLYFACE_ENTITY
-        INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))  
+        INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))
         INTEGER                              :: NAdjCell                !Number of adjacent cell for a given cell 1:9 and a given face 1:6  (%NAdjCell(9,6) )
         INTEGER                              :: Adjacent_Cell(5)        !index3: IADJ (adjacent cell id 1:%NAdjCell)
         my_real                              :: Adjacent_FLUX(5)        !1 adjacent cell = 1 flux (plus pratique pour maillage non conforme)
@@ -109,7 +109,7 @@ Chd|====================================================================
       END TYPE POLYFACE_ENTITY
 
       TYPE POLYFACE_ENTITY_2
-        INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))  
+        INTEGER                              :: NumPOINT                !gives number of points (node+intersec.pts) on a given cell face   (%NumPOINT_Face(6,9))
         INTEGER                              :: NAdjCell                !Number of adjacent cell for a given cell 1:9 and a given face 1:6  (%NAdjCell(9,6) )
         !INTEGER                              :: Adjacent_Cell(5)        !index3: IADJ (adjacent cell id 1:%NAdjCell)
         !my_real                              :: Adjacent_FLUX(5)        !1 adjacent cell = 1 flux (plus pratique pour maillage non conforme)
@@ -122,35 +122,35 @@ Chd|====================================================================
         my_real                              :: W(3)
 
       END TYPE POLYFACE_ENTITY_2
- 
+
       TYPE MAT_ENTITY
         my_real                              :: rho
         my_real                              :: rhoE
-        my_real                              :: rhoU(3)  
-        my_real                              :: sig(6) 
+        my_real                              :: rhoU(3)
+        my_real                              :: sig(6)
         my_real                              :: ssp
-        my_real, ALLOCATABLE,DIMENSION(:)    :: UVAR  !law37:size=5   !law51:size=N0PHAS+4*NVPHAS   !0:otherwise      
+        my_real, ALLOCATABLE,DIMENSION(:)    :: UVAR  !law37:size=5   !law51:size=N0PHAS+4*NVPHAS   !0:otherwise
       END TYPE MAT_ENTITY
 
       TYPE POLY_ENTITY
         INTEGER                              :: NumNOD                  !noeuds sommets (%NumNOD_Cell(9))
-        INTEGER                              :: NumPOINT                !nombre total de point decrivant le volume (%NumPOINT_Cell(9))              
+        INTEGER                              :: NumPOINT                !nombre total de point decrivant le volume (%NumPOINT_Cell(9))
         INTEGER                              :: ListNodID(8)            !Global nodes ID (max8) describing the cell, for each of 9 cells  (%ListNodID(8,9))
         INTEGER                              :: IsMain                !=1 main =0:secnd  (index is icell)   (%IsMain(9))
         INTEGER                              :: WhereIsMain(4)        !locate main cell to link with index1 : ICELL,  index2: (1)face, (2):icellm, (3):IDm, (4):IBm !(%WhereIsMain(9,4))
         INTEGER                              :: ID_FREE_NODE            !post-treatment  (!ID_FREE_NODE(9) )
-        my_real                              :: Adjacent_FLU1           ! Adjacent_FLU1(9) 
+        my_real                              :: Adjacent_FLU1           ! Adjacent_FLU1(9)
         my_real                              :: DDVOL                   !d/dT (DELTA V)
-        my_real                              :: DDVOL_upw             
+        my_real                              :: DDVOL_upw
         my_real                              :: PHI                     !masse ou energie des cellules pour convection indirecte en 2 temps directs (plus simple pour spmd)
-        my_real                              :: DPHI                    !delate masse ou energie : quantite transportee       
+        my_real                              :: DPHI                    !delate masse ou energie : quantite transportee
         my_real                              :: VFRACm(4)               !main cell VFRAC
         my_real                              :: Vnew                    !volume des sous volumes elementaires (if exists)
-        my_real                              :: Vold            
-        my_real                              :: OLD_Vnew       
+        my_real                              :: Vold
+        my_real                              :: OLD_Vnew
         my_real                              :: CellCenter(3)           !Centroides des volumes de control
         my_real                              :: DVOL(0:2)               !index1:0:previous,1=real,2=prediction   index2 :0-9=icell (0=supercell)
-        my_real                              :: cutFace              
+        my_real                              :: cutFace
         my_real                              :: DM
         TYPE(POLYFACE_ENTITY_2)              :: FACE0
         TYPE(POLYFACE_ENTITY)                :: FACE(1:6)
@@ -158,39 +158,39 @@ Chd|====================================================================
       END TYPE POLY_ENTITY
 
       TYPE NODE_ENTITY
-        INTEGER                              :: OLD_WhichCell           ! [1,8] -> [1,9]             
+        INTEGER                              :: OLD_WhichCell           ! [1,8] -> [1,9]
         INTEGER                              :: WhichCell               !node local id in[1,8] -> [1,9] = local cut cell id.
         INTEGER                              :: NodWasMain            !=1 belonged to the main cell, 0 otherwise. (index is brick node)
-        INTEGER                              :: WhereWasMain          !index=node : result=face              
+        INTEGER                              :: WhereWasMain          !index=node : result=face
       END TYPE NODE_ENTITY
 
-      TYPE BRICK_ENTITY 
+      TYPE BRICK_ENTITY
         INTEGER                              :: ID
         INTEGER                              :: NG
-        INTEGER                              :: IDLOC                
+        INTEGER                              :: IDLOC
         INTEGER                              :: ICODE
-        INTEGER                              :: OLD_ICODE        
+        INTEGER                              :: OLD_ICODE
         INTEGER                              :: IDBLE
         INTEGER                              :: NBITS
         INTEGER                              :: NPQTS
         INTEGER                              :: NBCUT                   !nombre de plans de coupe
         INTEGER                              :: MainID
         INTEGER                              :: WasCut
-        INTEGER                              :: NewInBuffer        
+        INTEGER                              :: NewInBuffer
         INTEGER                              :: OldMainStrongNode
         INTEGER                              :: MLW
         INTEGER                              :: ITASK
         INTEGER                              :: SECID_Cell(8)           !cut local id in [1,8] -> [1,52] = sec type. Each possible cut is numbered from 1 to 52 ; 8 nodes => 8 possible cut cells
         INTEGER                              :: Seg_add_LFT             !EL FIRST : first lagrangian face in CAND_E
-        INTEGER                              :: Seg_add_LLT             !EL LAST  : last lagrangian face in CAND_E        
+        INTEGER                              :: Seg_add_LLT             !EL LAST  : last lagrangian face in CAND_E
         INTEGER                              :: Adjacent_Brick(6,5)     !index2: 1:IV, 2:NGV, 3:IDLOCV, 4:IBV, 5:IFV
         INTEGER                              :: MergeTarget(3,5)        !index1 (1)=Face (2)=MCELL, (3)=IB
         INTEGER                              :: NTarget                 !number of merged location
         INTEGER                              :: ClosedSurf(6)           !tells if brick face has a double cut (only for multiple cut, in this case cell 9 has no adjacent celle, only for contact forces to get pressure differential)
         INTEGER                              :: IsMergeTarget
-        my_real                              :: N(6,3)                  !unitary normal vector on each 6 faces        
+        my_real                              :: N(6,3)                  !unitary normal vector on each 6 faces
         my_real                              :: Vnew_SCell              !volume des sous volumes elementaires (if exists)
-        my_real                              :: Vold_SCell              !volume main (if exists)    : need for epsdot in sigeps51, merge/demerge, link switching , srho3   
+        my_real                              :: Vold_SCell              !volume main (if exists)    : need for epsdot in sigeps51, merge/demerge, link switching , srho3
         my_real                              :: SCellCenter(3)          !Centroides de la supercellule
         my_real                              :: Face_Brick(6)
         my_real                              :: UncutVol                !brick volume. the one in gbuf can up extended if secnd is merged.
@@ -200,7 +200,7 @@ Chd|====================================================================
         my_real                              :: RHOC
         my_real                              :: MACH
         my_real                              :: DVOL
-        my_real                              :: Poly9woNodes(6,2)       !Poly9woNodes(1:6,1) : tells if polygona has no nodes  
+        my_real                              :: Poly9woNodes(6,2)       !Poly9woNodes(1:6,1) : tells if polygona has no nodes
                                                                         !Poly9woNodes(1:6,2) : tells about adjacent cell  0=closed surface  1=communication with adjacent cell
         TYPE(POLY_ENTITY)                    :: POLY(9)
         TYPE(NODE_ENTITY)                    :: NODE(8)
@@ -215,5 +215,5 @@ Chd|====================================================================
 
       TYPE(LIST_SECND),DIMENSION(:,:),ALLOCATABLE    :: OLD_SecndList
 
-      
+
       END MODULE

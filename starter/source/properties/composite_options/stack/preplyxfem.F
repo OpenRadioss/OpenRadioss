@@ -55,10 +55,10 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  IXC(NIXC,*), ADDCNE(0:*),IEL(*),INOD(*)
-      my_real 
+      my_real
      .        MS_PLY0(NUMNOD,*),  ZI_PLY0(NUMNOD,*),
      .        MS_PLY(NPLYXFE,*),  ZI_PLY(NPLYXFE,*),
-     .        MSZ20(*),MSZ2(*) 
+     .        MSZ20(*),MSZ2(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -83,14 +83,14 @@ C-----------------------------------------------
                  MS_PLY(II,J) = MS_PLY0(I,J)
                  ZI_PLY(II,J) = ZI_PLY0(I,J)
 Celementary compute
-cc                 MSZ2(II) = MSZ20(I)  
-c nodale compute                 
-                 MSZ2(II) = MSZ2(II) + 
+cc                 MSZ2(II) = MSZ20(I)
+c nodale compute
+                 MSZ2(II) = MSZ2(II) +
      .                      MS_PLY(II,J)*ZI_PLY(II,J)*ZI_PLY(II,J)
               ENDDO
                IF(MSZ2(II) == ZERO) MSZ2(II) = EP30
             ENDIF
-         ENDDO    
+         ENDDO
 C
          DO  I=1,NUMELC
             IF(IEL(I) > 0 ) THEN
@@ -99,11 +99,11 @@ C
                 ADDCNE(N) = ADDCNE(N) + 1
               ENDDO
             ENDIF
-          ENDDO 
+          ENDDO
           ADDCNE(1) = 1
           DO I=2,NPLYXFE + 1
              ADDCNE(I) = ADDCNE(I) + ADDCNE(I-1)
-          END DO        
+          END DO
 C          
           RETURN
           END
@@ -138,7 +138,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXC(NIXC,*),ADDCNE(0:*), CNE(*),IEL(*),INOD(*),
      .        CEP(*),CEL(*)
-c      my_real 
+c      my_real
 c     .        GEO(NPROPG,*)
 C-----------------------------------------------
 C   F u n c t i o n
@@ -166,7 +166,7 @@ C
         ITRI(I) = IXC(7,I)
       ENDDO
       CALL MY_ORDERS(0,WORK,ITRI,INDEXC,NUMELC,1)
-      
+
       INDX = 0
       DO J=1,NUMELC
         I = INDEXC(J)
@@ -180,25 +180,25 @@ C
            ADSKY(N1) = ADSKY(N1) + 1
          ENDDO
          INDEX(INDX) = I
-       ENDIF 
+       ENDIF
       ENDDO
 C     
       DO PROC = 1, NSPMD
-        NIN = 0  
+        NIN = 0
 !!        DO I=1,INDX
           DO II=1,NUMELC
 !!           II = INDEX(I)
            NG = II +  NUMELS + NUMELQ
-           P = CEP(NG) + 1 
+           P = CEP(NG) + 1
            IF (P == PROC) THEN
-            J = IEL(II) 
-            IF(J > 0) THEN 
+            J = IEL(II)
+            IF(J > 0) THEN
               NIN = NIN + 1
               CEL(J) = NIN
-            ENDIF  
+            ENDIF
            ENDIF
-        ENDDO 
-      ENDDO  
+        ENDDO
+      ENDDO
 C      
       RETURN
       END

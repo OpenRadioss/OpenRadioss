@@ -1119,7 +1119,7 @@ C======================================================================|
 c   BEGINNING
 !     domain decomposition statistic
       DDSTAT(1:50,1:PARASIZ)=0
-      I22LEN_L = 0 
+      I22LEN_L = 0
       FVMAIN(1:NVOLU + NMONVOL) = 0
       M51_IFLG6 = 0
       NVARTOTMAX = 0
@@ -2296,7 +2296,7 @@ C
      .             UNITAB,LSUBMODEL,MULTI_FVM)
 
       CALL TRACE_OUT1()
-      
+
 C--------------------------------------------
 C     MULTIDOMAINS
 C--------------------------------------------
@@ -6676,7 +6676,7 @@ C        PFLUID & PBLAST & LOAD PRESSURE
 
          S_LOADPINTER = 0
          IF(NINTLOADP > 0) THEN
-            S_LOADPINTER = NINTER*NLOADP_HYD            
+            S_LOADPINTER = NINTER*NLOADP_HYD
             ALLOCATE(KLOADPINTER(NINTER + 1)    ,STAT=stat)
             IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,MSGTYPE=MSGERROR,C1='KLOADPINTER')
             ALLOCATE(LOADPINTER(S_LOADPINTER)    ,STAT=stat)
@@ -7135,19 +7135,19 @@ C--------------------------------------------------------------
      6           INTBUF_FRIC_TAB    ,IDDLEVEL ,LSUBMODEL  ,TF                          ,
      7           KLOADPINTER        ,DGAPINT  )
 C
-       CALL LECINT (IPARI       ,NINTER    ,IPM       ,BUFMAT   ,                                                 
-     .              NMNT        ,ITAB      ,ITABM1    ,GEO      ,                                                 
-     .              PM          ,X         ,IGRNOD    ,IGRSURF  ,IGRSLIN  ,                                       
-     .              NPC         ,PROBINT   ,LAG_NCF   ,                                                           
-     .              LAG_NKF     ,LAG_NCL   ,LAG_NKL   ,LAG_NHF  ,MAXRTM   ,                                       
-     .              ISKWN       ,MAXRTMS   ,IGEO      ,                                                           
-     .              XFILTR      ,STFAC     ,FRIC_P    ,FRIGAP   ,                                                 
-     .              I2RUPT      ,AREASL    ,UNITAB    ,IXS      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),                   
-     .              ITAG        ,IXC       ,IXTG      ,KNOD2ELC ,KNOD2ELTG,                                       
-     .              NOD2ELC     ,NOD2ELTG  ,KNOD2ELS  ,NOD2ELS  ,IXS10   ,                                        
-     .              IXS16       ,IXS20     ,DEF_INTER ,MAXNSNE  ,                                                 
-     .              NPC1        ,LSENSOR   ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,            
-     .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS  ,MAXRTM_T2,NSN_MULTI_CONNEC,           
+       CALL LECINT (IPARI       ,NINTER    ,IPM       ,BUFMAT   ,
+     .              NMNT        ,ITAB      ,ITABM1    ,GEO      ,
+     .              PM          ,X         ,IGRNOD    ,IGRSURF  ,IGRSLIN  ,
+     .              NPC         ,PROBINT   ,LAG_NCF   ,
+     .              LAG_NKF     ,LAG_NCL   ,LAG_NKL   ,LAG_NHF  ,MAXRTM   ,
+     .              ISKWN       ,MAXRTMS   ,IGEO      ,
+     .              XFILTR      ,STFAC     ,FRIC_P    ,FRIGAP   ,
+     .              I2RUPT      ,AREASL    ,UNITAB    ,IXS      ,NOM_OPT(LNOPT1*INOM_OPT(3)+1),
+     .              ITAG        ,IXC       ,IXTG      ,KNOD2ELC ,KNOD2ELTG,
+     .              NOD2ELC     ,NOD2ELTG  ,KNOD2ELS  ,NOD2ELS  ,IXS10   ,
+     .              IXS16       ,IXS20     ,DEF_INTER ,MAXNSNE  ,
+     .              NPC1        ,LSENSOR   ,MULTI_FVM ,NOM_OPT(LNOPT1*INOM_OPT(29)+1),INTBUF_FRIC_TAB,
+     .              IGRBRIC     ,IGRSH3N   ,IGRTRUSS  ,MAXRTM_T2,NSN_MULTI_CONNEC,
      .              T2_NB_CONNEC,IDDLEVEL ,ALE_CONNECTIVITY%NALE)
 C
        !need to allocate only once at first passage in lectur
@@ -9008,7 +9008,7 @@ c
               SEATBELT_SHELL_TO_SPRING(L0,1) = L1
               SEATBELT_SHELL_TO_SPRING(L0,2) = L2
             ENDIF
-            
+
           ENDDO
         ELSE
           MY_ALLOCATE2D(SEATBELT_SHELL_TO_SPRING,1,2)
@@ -10609,60 +10609,60 @@ c          DO P = 1, NSPMD
      8         ITAB         ,ITABM1      ,GJBUFI         ,ALE_CONNECTIVITY%NALE   ,
      9         ALE_CONNECTIVITY,
      A         KXX          ,IXX         ,IBCL           ,IBFV        ,
-     B         ILAS         ,LACCELM     ,LSENSOR        ,NNLINK      ,LNLINK     ,    
-     C         IPARG        ,IGRV        ,LGRAV          ,IBVEL       ,LBVEL      ,    
-     D         IACTIV       ,FACTIV      ,KINET          ,IPARI       ,NPRW       ,              
-     E         LPRW         ,ICONX       ,NPBY           ,    
-     F         LPBY         ,LRIVET      ,NSTRF          ,LJOINT      ,NODPOR     ,    
-     G         MONVOL       ,ICONTACT    ,LAGBUF         ,ITHGRP      ,ITHBUF     ,    
-     H         FR_IAD       ,X           ,D              ,V           ,VR         ,    
-     I         DR           ,THKE        ,DAMPR          ,DAMP        ,MS         ,    
-     J         IN           ,TF          ,PM             ,SKEW        ,XFRAME     ,    
-     K         GEO          ,EANI        ,BUFMAT         ,BUFGEO      ,BUFSF      ,    
-     L         RBMPC        ,GJBUFR      ,W              ,VEUL        ,FILL       ,    
-     M         DFILL        ,WB          ,DSAVE          ,ASAVE       ,MSNF       ,    
-     N         SPBUF        ,FORC        ,VEL            ,FSAV        ,FZERO      ,    
-     O         XLAS         ,ACCELM      ,SENSOR         ,FBVEL       ,GRAV       ,    
-     P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,USER        ,ELBUF      ,                
-     Q         RWBUF        ,RWSAV       ,RBY            ,RIVET       ,    
-     R         SECBUF       ,VOLMON      ,RCONX          ,NLOC_DMG    ,                             
+     B         ILAS         ,LACCELM     ,LSENSOR        ,NNLINK      ,LNLINK     ,
+     C         IPARG        ,IGRV        ,LGRAV          ,IBVEL       ,LBVEL      ,
+     D         IACTIV       ,FACTIV      ,KINET          ,IPARI       ,NPRW       ,
+     E         LPRW         ,ICONX       ,NPBY           ,
+     F         LPBY         ,LRIVET      ,NSTRF          ,LJOINT      ,NODPOR     ,
+     G         MONVOL       ,ICONTACT    ,LAGBUF         ,ITHGRP      ,ITHBUF     ,
+     H         FR_IAD       ,X           ,D              ,V           ,VR         ,
+     I         DR           ,THKE        ,DAMPR          ,DAMP        ,MS         ,
+     J         IN           ,TF          ,PM             ,SKEW        ,XFRAME     ,
+     K         GEO          ,EANI        ,BUFMAT         ,BUFGEO      ,BUFSF      ,
+     L         RBMPC        ,GJBUFR      ,W              ,VEUL        ,FILL       ,
+     M         DFILL        ,WB          ,DSAVE          ,ASAVE       ,MSNF       ,
+     N         SPBUF        ,FORC        ,VEL            ,FSAV        ,FZERO      ,
+     O         XLAS         ,ACCELM      ,SENSOR         ,FBVEL       ,GRAV       ,
+     P         FR_WAVE      ,FAILWAVE    ,PARTS0         ,USER        ,ELBUF      ,
+     Q         RWBUF        ,RWSAV       ,RBY            ,RIVET       ,
+     R         SECBUF       ,VOLMON      ,RCONX          ,NLOC_DMG    ,
      S         FVMAIN     ,LIBAGALE    ,LENTHG         ,LBUFMAT     ,LBUFGEO    ,
-     T         LBUFSF       ,SXLAS                       ,LNOM_OPT    ,SILAS      ,    
-     U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,    
-     V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,    
-     W         CELI2        ,I2NSNT      ,PROBINT        ,DDSTAT(1,P) ,PM1SHF,         
-     X         DD_IAD       ,LSHSUB      ,DRSAVE         ,ARSAVE      ,STSAVE     ,    
-     Y         STRSAVE      ,FSAVSAV     ,                                             
-     Z                       KXSP        ,IXSP           ,NOD2SP      ,CEPSP      ,    
-     a         NTHWA        ,NAIRWA      ,NMNT           ,L_MUL_LAG1  ,L_MUL_LAG  ,    
-     b         LWASPIO      ,IPARTSP     ,ISPCOND        ,PM1SPH      ,                
-     c         WMA          ,    
-     d         EIGIPM       ,EIGIBUF     ,EIGRPM         ,pGRAPHE     ,pDSMEMORY  ,    
-     e         IFLOW        ,RFLOW       ,pMEMFLOW       ,IEXLNK      ,FASOLFR    ,    
-     f         ITHGRPA      ,ITHGRPB     ,ITHGRPC        ,ITHGRPD     ,ITHGRPE    ,    
-     g         ITHGRPF      ,ITHGRPG     ,ITHGRPH        ,ITHGRPI     ,ITHBUFA    ,    
-     h         ITHBUFB      ,ITHBUFC     ,ITHBUFD        ,ITHBUFE     ,ITHBUFF    ,    
-     i         ITHBUFG      ,ITHBUFH     ,ITHBUFI        ,IPARTTH     ,    
-     j         FXBIPM       ,FXBRPM      ,FXBNOD         ,FXBMOD      ,FXBGLM     ,    
-     k         FXBCPM       ,FXBCPS      ,FXBLM          ,FXBFLS      ,FXBDLS     ,    
-     l         FXBDEP       ,FXBVIT      ,FXBACC         ,FXBELM      ,FXBSIG     ,    
-     m         FXBGRVI      ,FXBGRVR     ,IADLL          ,LLL         ,IBMPC      ,    
-     n         LAMBDA       ,LRBAGALE    ,ISKWP          ,NSKWP       ,ISENSP     ,    
-     o         NSENSP       ,IACCP       ,NACCP          ,IPART_STATE ,MCP        ,    
-     p         TEMP         ,UNITAB      ,INTSTAMP       ,IFRAME      ,CLUSTERS   ,    
-     q                       PARTSAV     ,IBFTEMP        ,FBFTEMP     ,IBCV       ,       
-     r         FCONV        ,IRBE3       ,LRBE3          ,FRBE3       ,FRONT_RM   ,    
-     s         RBYM         ,IRBYM       ,LNRBYM         ,INOISE      ,FNOISE     ,    
-     t         MS0          ,ADMSMS      ,NOM_SECT       ,ISPSYM      ,                
-     u         SH4TREE      ,SH3TREE     ,IPADMESH       ,IBFFLUX     ,FBFFLUX    ,                             
-     v         SH4TRIM      ,SH3TRIM     ,PADMESH        ,MSC         ,MSTG       ,    
-     w         INC          ,INTG        ,PTG            ,MCPC        ,MCPTG      ,    
-     x         RCONTACT     ,ACONTACT    ,PCONTACT       ,MSCND       ,INCND      ,    
-     y         MSSA         ,MSTR        ,MSP            ,MSRT        ,IBCR       ,    
-     z         FRADIA       ,DMELC       ,DMELTG         ,DMELS       ,DMELTR     ,    
-     1         DMELP        ,DMELRT      ,RES_SMS                     ,ISPHIO     ,    
-     2         LPRTSPH      ,LONFSPH     ,VSPHIO         ,SPHVELN     ,ALPH       ,    
-     3         IFILL        ,IMS         ,IRBE2          ,LRBE2       ,    
+     T         LBUFSF       ,SXLAS                       ,LNOM_OPT    ,SILAS      ,
+     U         LENVOLU                   ,NPTS           ,CNE         ,LCNE       ,
+     V         ADDCNE       ,CNI2        ,LCNI2G         ,ADDCNI2     ,CEPI2      ,
+     W         CELI2        ,I2NSNT      ,PROBINT        ,DDSTAT(1,P) ,PM1SHF,
+     X         DD_IAD       ,LSHSUB      ,DRSAVE         ,ARSAVE      ,STSAVE     ,
+     Y         STRSAVE      ,FSAVSAV     ,
+     Z                       KXSP        ,IXSP           ,NOD2SP      ,CEPSP      ,
+     a         NTHWA        ,NAIRWA      ,NMNT           ,L_MUL_LAG1  ,L_MUL_LAG  ,
+     b         LWASPIO      ,IPARTSP     ,ISPCOND        ,PM1SPH      ,
+     c         WMA          ,
+     d         EIGIPM       ,EIGIBUF     ,EIGRPM         ,pGRAPHE     ,pDSMEMORY  ,
+     e         IFLOW        ,RFLOW       ,pMEMFLOW       ,IEXLNK      ,FASOLFR    ,
+     f         ITHGRPA      ,ITHGRPB     ,ITHGRPC        ,ITHGRPD     ,ITHGRPE    ,
+     g         ITHGRPF      ,ITHGRPG     ,ITHGRPH        ,ITHGRPI     ,ITHBUFA    ,
+     h         ITHBUFB      ,ITHBUFC     ,ITHBUFD        ,ITHBUFE     ,ITHBUFF    ,
+     i         ITHBUFG      ,ITHBUFH     ,ITHBUFI        ,IPARTTH     ,
+     j         FXBIPM       ,FXBRPM      ,FXBNOD         ,FXBMOD      ,FXBGLM     ,
+     k         FXBCPM       ,FXBCPS      ,FXBLM          ,FXBFLS      ,FXBDLS     ,
+     l         FXBDEP       ,FXBVIT      ,FXBACC         ,FXBELM      ,FXBSIG     ,
+     m         FXBGRVI      ,FXBGRVR     ,IADLL          ,LLL         ,IBMPC      ,
+     n         LAMBDA       ,LRBAGALE    ,ISKWP          ,NSKWP       ,ISENSP     ,
+     o         NSENSP       ,IACCP       ,NACCP          ,IPART_STATE ,MCP        ,
+     p         TEMP         ,UNITAB      ,INTSTAMP       ,IFRAME      ,CLUSTERS   ,
+     q                       PARTSAV     ,IBFTEMP        ,FBFTEMP     ,IBCV       ,
+     r         FCONV        ,IRBE3       ,LRBE3          ,FRBE3       ,FRONT_RM   ,
+     s         RBYM         ,IRBYM       ,LNRBYM         ,INOISE      ,FNOISE     ,
+     t         MS0          ,ADMSMS      ,NOM_SECT       ,ISPSYM      ,
+     u         SH4TREE      ,SH3TREE     ,IPADMESH       ,IBFFLUX     ,FBFFLUX    ,
+     v         SH4TRIM      ,SH3TRIM     ,PADMESH        ,MSC         ,MSTG       ,
+     w         INC          ,INTG        ,PTG            ,MCPC        ,MCPTG      ,
+     x         RCONTACT     ,ACONTACT    ,PCONTACT       ,MSCND       ,INCND      ,
+     y         MSSA         ,MSTR        ,MSP            ,MSRT        ,IBCR       ,
+     z         FRADIA       ,DMELC       ,DMELTG         ,DMELS       ,DMELTR     ,
+     1         DMELP        ,DMELRT      ,RES_SMS                     ,ISPHIO     ,
+     2         LPRTSPH      ,LONFSPH     ,VSPHIO         ,SPHVELN     ,ALPH       ,
+     3         IFILL        ,IMS         ,IRBE2          ,LRBE2       ,
      8         MS_PLY,
      9         ZI_PLY       ,INOD_PXFEM  ,IEL_PXFEM      ,ICODEP      ,ISKEWP     ,
      A         ADDCNE_PXFEM ,CNE_PXFEM   ,CEL_PXFEM      ,ITHVAR      ,XDP,TABLE  ,
@@ -10962,7 +10962,7 @@ C
 
       IF (NFXBODY>0) THEN
          CLOSE(IFXM)
-         CLOSE(IFXS) 
+         CLOSE(IFXS)
       ENDIF
 
       IF(ALLOCATED( DGAPINT ))  DEALLOCATE(DGAPINT)

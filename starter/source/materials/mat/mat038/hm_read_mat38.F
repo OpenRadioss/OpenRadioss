@@ -39,10 +39,10 @@ Chd|        MATPARAM_DEF_MOD              ../common_source/modules/matparam_def_
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT38(UPARAM   ,MAXUPARAM, NUPARAM   ,NUVAR  ,IFUNC    , 
-     .                         MAXFUNC  ,NFUNC    , PARMAT   ,UNITAB ,MAT_ID    , 
+      SUBROUTINE HM_READ_MAT38(UPARAM   ,MAXUPARAM, NUPARAM   ,NUVAR  ,IFUNC    ,
+     .                         MAXFUNC  ,NFUNC    , PARMAT   ,UNITAB ,MAT_ID    ,
      .                         MTAG     ,TITR     , LSUBMODEL,PM     ,IMATVIS   ,
-     .                         MATPARAM )                     
+     .                         MATPARAM )
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -63,11 +63,11 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
-      USE HM_OPTION_READ_MOD 
+      USE MATPARAM_DEF_MOD
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -87,8 +87,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM     
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)   :: PM
       my_real, DIMENSION(100)    ,INTENT(INOUT)   :: PARMAT
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)  :: UPARAM
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT)  :: IFUNC
@@ -114,7 +114,7 @@ C-----------------------------------------------
       my_real :: EFINAL,EPSFIN,LAMDA,VISCOSITY,TOLERANCE,PSCALE
       my_real :: GAMA0,FAC,FAC_P,RHO0,RHOR, FSCAL_TAB(5), EPS_TAB(5)
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
-      
+
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -161,7 +161,7 @@ C-----------------------------------------------
       !* HYSTER   = HYSTERESIS COEFFICIENT FOR UNLOADING
       !* RATEDAMP = DAMPING FACTOR ON STRAIN RATE
       !* KRECOVER = RECOVERY FLAG ON UNLOADING FOR HYSTERESIS
-      !* KDECAY   = HYSTRESIS TYPE 
+      !* KDECAY   = HYSTRESIS TYPE
       !* THETA    = INTEGRATION COEFFICIENT FOR INSTANTANEOUS MODULE
 
 !LINE-4
@@ -183,7 +183,7 @@ C-----------------------------------------------
       !* MAXPRES  = MAXIMUM AIR PRESSURE
       !* PHI      = POROSITY
       !* PSCALE   = PRESSURE FUNCTION SCALE FACTOR
-      
+
 !LINE-6
       !* UNLOADING AND INTERPOLATION DATA
       CALL HM_GET_INTV  ('FUN_B4'     ,IUNLOAD    ,IS_AVAILABLE,LSUBMODEL)
@@ -224,7 +224,7 @@ C-----------------------------------------------
 C----------------
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
-      PM(89)= RHO0    
+      PM(89)= RHO0
 C----------------
 
       IF (PSCALE == ZERO) PSCALE = ONE
@@ -232,28 +232,28 @@ C----------------
       IF( VT       <= ZERO) VT =EM20
       IF( VT       >=HALF ) VT =ZEP499
       IF( VC       >=HALF ) VC =ZEP499
-      IF( ITOTAL   > 3 ) ITOTAL = 0      
-      IF( BETA     <= ZERO) BETA =EM20         
-      IF( HYSTER   <= ZERO) HYSTER =ONE         
-      IF( RATEDAMP <= ZERO) RATEDAMP = HALF  
-      IF( KRECOVER <= 0 ) KRECOVER =0          
-      IF( KRECOVER > 2 ) KRECOVER =0          
-      IF( KDECAY   <= 0 ) KDECAY =0            
-      IF( KDECAY   > 2 ) KDECAY =0            
+      IF( ITOTAL   > 3 ) ITOTAL = 0
+      IF( BETA     <= ZERO) BETA =EM20
+      IF( HYSTER   <= ZERO) HYSTER =ONE
+      IF( RATEDAMP <= ZERO) RATEDAMP = HALF
+      IF( KRECOVER <= 0 ) KRECOVER =0
+      IF( KRECOVER > 2 ) KRECOVER =0
+      IF( KDECAY   <= 0 ) KDECAY =0
+      IF( KDECAY   > 2 ) KDECAY =0
       IF( THETA    <= ZERO) THETA =ZEP67
-      IF( RELAXP   <= ZERO) THEN      
-         RELAXP= EM20                        
-      ENDIF                             
-      IF( MAXPRES  <= ZERO) THEN      
-         MAXPRES= INFINITY                    
-      ENDIF                             
-      IF( FUNLOAD<=ZERO) FUNLOAD = ONE 
-      IF( EXPONAS==ZERO) EXPONAS = ONE 
-      IF( EXPONBS==ZERO) EXPONBS = ONE 
+      IF( RELAXP   <= ZERO) THEN
+         RELAXP= EM20
+      ENDIF
+      IF( MAXPRES  <= ZERO) THEN
+         MAXPRES= INFINITY
+      ENDIF
+      IF( FUNLOAD<=ZERO) FUNLOAD = ONE
+      IF( EXPONAS==ZERO) EXPONAS = ONE
+      IF( EXPONBS==ZERO) EXPONBS = ONE
       IF( MFUNC>5  ) MFUNC=5
       IF( TENSIONCUT<=ZERO) THEN
          TENSIONCUT =INFINITY
-      ENDIF   
+      ENDIF
       IF(EPSFIN<=ZERO.OR.EPSFIN>ZERO) EPSFIN=ONE
       IF( LAMDA<=ZERO) LAMDA =ONE
       IF( TOLERANCE <=ZERO) TOLERANCE = ONE
@@ -267,7 +267,7 @@ C----------------
      .              I1=MAT_ID,
      .              C1=TITR)
       ENDIF
-      
+
       IF (EFINAL<=E) EFINAL = E
       !PSCALE = PSCALE * FAC_C
       !FUNLOAD = FUNLOAD * FAC_C
@@ -311,14 +311,14 @@ C----------------
 
 
 
-!LAST-LINES   
-      DO I=1,MFUNC 
+!LAST-LINES
+      DO I=1,MFUNC
         CALL HM_GET_INT_ARRAY_INDEX  ('Funct_Id_Load'  ,IFLOAD(I)     ,I ,IS_AVAILABLE, LSUBMODEL)
-        CALL HM_GET_INT_ARRAY_INDEX  ('Funct_Id_UnLoad',IFUNLOAD(I)   ,I ,IS_AVAILABLE, LSUBMODEL)        
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Fscale_i'       ,FSCAL_TAB(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Epsilon_i'      ,EPS_TAB(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)         
+        CALL HM_GET_INT_ARRAY_INDEX  ('Funct_Id_UnLoad',IFUNLOAD(I)   ,I ,IS_AVAILABLE, LSUBMODEL)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Fscale_i'       ,FSCAL_TAB(I)  ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Epsilon_i'      ,EPS_TAB(I)    ,I ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDDO
-      
+
       DO I=1,MFUNC
         UPARAM(NUPARAM+  I)     = FSCAL_TAB(I)
         UPARAM(NUPARAM+MFUNC+I) = EPS_TAB(I)
@@ -332,7 +332,7 @@ C----------------
       RUNLOAD = MIN(RUNLOAD,UPARAM(NUPARAM+MFUNC+MFUNC))
       UPARAM(22)=RUNLOAD
       NUPARAM=NUPARAM+MFUNC*2
-      
+
       DO J=1,MFUNC
         IFUNC(J)=IFLOAD(J)
         IF (IFLOAD(J) == 0)THEN
@@ -403,7 +403,7 @@ c-----------------
  7000 FORMAT
      & (5X,55H  STRAIN RATE DEPENDENT INTERPOLATION FOR FOAM MATERIAL,/
      & ,5X,55H  -----------------------------------------------------,//
-     & ,5X,  'CONFIDENTIAL DATA'//) 
+     & ,5X,  'CONFIDENTIAL DATA'//)
  1000 FORMAT
      & (5X,55H  STRAIN RATE DEPENDENT INTERPOLATION FOR FOAM MATERIAL,/
      & ,5X,55H  -----------------------------------------------------,//)
@@ -412,10 +412,10 @@ c-----------------
      & 5X,   'MATERIAL NUMBER. . . . . . . . . . . . =',I10/,
      & 5X,   'MATERIAL LAW . . . . . . . . . . . . . =',I10/)
  1002 FORMAT(
-     &  5X,  'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)  
+     &  5X,  'INITIAL DENSITY. . . . . . . . . . . . =',1PG20.13/)
  1003 FORMAT
-     & (5X,  'INITIAL ELASTIC MODULUS . . . . . . . .=',1PG20.13/ 
-     & ,5X,  'POISSON''S RATIO IN TENSION. . . . . . =',1PG20.13/ 
+     & (5X,  'INITIAL ELASTIC MODULUS . . . . . . . .=',1PG20.13/
+     & ,5X,  'POISSON''S RATIO IN TENSION. . . . . . =',1PG20.13/
      & ,5X,  'POISSON''S RATIO IN COMPRESSION. . . . =',1PG20.13/
      & ,5X,  'EXPONENT FOR POISSON''S RATIO UPDATE. .=',1PG20.13/
      & ,5X,  'ANALYSIS FLAG . . . . . . . . . . . . .=',I10/
@@ -441,7 +441,7 @@ c-----------------
      & ,5X,  'FACTOR FOR UNLOADING FUNCTION . . . . .=',1PG20.13/
      & ,5X,  'UNLOADING RATE. . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'EXPONENT FOR STRESS INTERPOLATION A . .=',1PG20.13/
-     & ,5X,  'EXPONENT FOR STRESS INTERPOLATION B . .=',1PG20.13//) 
+     & ,5X,  'EXPONENT FOR STRESS INTERPOLATION B . .=',1PG20.13//)
 
  1400 FORMAT
      & (5X,  'NUMBER OF FUNCTIONS DEFINING RATE DEPENDENCY =',I10/

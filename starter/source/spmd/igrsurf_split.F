@@ -32,18 +32,18 @@ Chd|====================================================================
         SUBROUTINE IGRSURF_SPLIT(CEP,T_MONVOL,IGRSURF,IGRSURF_PROC)
 !$COMMENT
 !       IGSURF_SPLIT description
-!       IGSURF_SPLIT splits the global IGSURF array into local 
-!                    IGSURF_PROC arraies in order to save 
-!                    CPU time in ddsplit routine (avoid NSPMD 
+!       IGSURF_SPLIT splits the global IGSURF array into local
+!                    IGSURF_PROC arraies in order to save
+!                    CPU time in ddsplit routine (avoid NSPMD
 !                    treatments)
-!       
+!
 !       IGSURF_SPLIT organization :
-!       - 1rst step : count the number of element per surface 
-!                     on a given processor and allocate the 
+!       - 1rst step : count the number of element per surface
+!                     on a given processor and allocate the
 !                     IGRSURF_PROC structure
 !       - 2nd step : fill the structure
 !$ENDCOMMENT
-        
+
         USE GROUPDEF_MOD
         USE MONVOL_STRUCT_MOD
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
         INTEGER :: NV,IS,NN,J
         INTEGER :: ITY,II,PROC,K1
-        INTEGER :: OFFC,OFFTG   
+        INTEGER :: OFFC,OFFTG
         INTEGER, DIMENSION(NSPMD) :: JJ
         INTEGER :: NJ,NJ1,NJ2,NJ3
         INTEGER :: NSN,NODE_ID,NJET
@@ -95,19 +95,19 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------------
         !       --------------------------------------
         !       offset for the CEP array
-        OFFC = NUMELS+NUMELQ    
+        OFFC = NUMELS+NUMELQ
         OFFTG = NUMELS+NUMELQ+ NUMELC+NUMELT+NUMELP+NUMELR
 
         !       1st step : count the number of element per proc and allocate the structur
         K1 = 1
 
         DO NV=1,NVOLU                   !       NVOLU = number of volume
-                IS = T_MONVOL(NV)%EXT_SURFID       !       id of the surface 
+                IS = T_MONVOL(NV)%EXT_SURFID       !       id of the surface
                 NN = IGRSURF(IS)%NSEG   !       number of element per surface
                 JJ(1:NSPMD) = 0         !       proc index
                 IGRSURF_PROC(IS,1:NSPMD)%NSEG = 0
                 DO J=1,NN
-                        ITY = IGRSURF(IS)%ELTYP(J)      !       type of the element 
+                        ITY = IGRSURF(IS)%ELTYP(J)      !       type of the element
                         II  = IGRSURF(IS)%ELEM(J)       !       id of the element
                         PROC = 0                        !       id of the proc /= 0 if ITY = 3 or 7
                         IF(ITY==3) THEN
@@ -159,7 +159,7 @@ C-----------------------------------------------------
                                         I_AM_HERE = I_AM_HERE + 1
                                     ENDIF
                                     IF( I_AM_HERE==3 ) THEN
-                                        T_MONVOL(NV)%NUMBER_TRI_PER_PROC(PROC) = 
+                                        T_MONVOL(NV)%NUMBER_TRI_PER_PROC(PROC) =
      .                                      T_MONVOL(NV)%NUMBER_TRI_PER_PROC(PROC) + 1
                                     ENDIF
                                 ENDDO
@@ -174,11 +174,11 @@ C-----------------------------------------------------
         !       2nd step : fill the structure
         K1 = 1
         DO NV=1,NVOLU                   !       NVOLU = number of volume
-                IS = T_MONVOL(NV)%EXT_SURFID      !       id of the surface 
+                IS = T_MONVOL(NV)%EXT_SURFID      !       id of the surface
                 NN = IGRSURF(IS)%NSEG   !       number of element per surface
                 JJ(1:NSPMD) = 0                 !       proc index
                 DO J=1,NN
-                        ITY = IGRSURF(IS)%ELTYP(J)      !       type of the element 
+                        ITY = IGRSURF(IS)%ELTYP(J)      !       type of the element
                         II  = IGRSURF(IS)%ELEM(J)       !       id of the element
                         PROC = 0                        !       id of the proc /= 0 if ITY = 3 or 7
                         IF(ITY==3) THEN

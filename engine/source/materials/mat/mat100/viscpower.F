@@ -48,9 +48,9 @@ C-----------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      INTEGER, INTENT(IN) ::  NEL  
+      INTEGER, INTENT(IN) ::  NEL
 C
-      my_real,  INTENT(IN) :: A1, EXPN ,EXPM  
+      my_real,  INTENT(IN) :: A1, EXPN ,EXPM
 C
       my_real, DIMENSION(NEL), INTENT(IN) ::  TBNORM,GAMMAOLD
 C----------------------------------------------------------------
@@ -65,15 +65,15 @@ C  L O C A L  V A R I B L E S
 C----------------------------------------------------------------
       INTEGER    I
 
-      my_real     
-     .   TEMP1 ,TEMP2 , TEMP3  
+      my_real
+     .   TEMP1 ,TEMP2 , TEMP3
 C----------------------------------------------------------------
-        DO I=1,NEL 
-          
+        DO I=1,NEL
+
           TEMP1 = (EXPM +ONE ) * GAMMAOLD(I)
-          TEMP2 =  EXP(EXPN*LOG(TBNORM(I))) 
-          TEMP3 =  EXP( EXPM*LOG(TEMP1) )     
-          DGAMMA(I) = A1* EXP(  (ONE/(ONE +EXPM)) *LOG(TEMP2 * TEMP3 )) 
+          TEMP2 =  EXP(EXPN*LOG(TBNORM(I)))
+          TEMP3 =  EXP( EXPM*LOG(TEMP1) )
+          DGAMMA(I) = A1* EXP(  (ONE/(ONE +EXPM)) *LOG(TEMP2 * TEMP3 ))
 
         ENDDO
       RETURN

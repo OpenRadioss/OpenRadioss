@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE GROUPDEF_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -100,17 +100,17 @@ c--------------------------------------------------------
 c     Read input fields
 c--------------------------------------------------------
 card1
-      CALL HM_GET_INTV  ('secondaryentityids'  ,ISU1   ,IS_AVAILABLE, LSUBMODEL)      
-      CALL HM_GET_INTV  ('mainentityids' ,ISU2   ,IS_AVAILABLE, LSUBMODEL)      
-      CALL HM_GET_INTV  ('NodDel10'        ,IDEL10 ,IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV  ('secondaryentityids'  ,ISU1   ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('mainentityids' ,ISU2   ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('NodDel10'        ,IDEL10 ,IS_AVAILABLE, LSUBMODEL)
 card2
       CALL HM_GET_FLOATV('TYPE10_SCALE'    ,STFAC  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('GAP'             ,GAP    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('TSTART'          ,STARTT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('TSTOP'           ,STOPT  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 card2
-      CALL HM_GET_INTV  ('Itied'           ,ITIED  ,IS_AVAILABLE, LSUBMODEL)      
-      CALL HM_GET_INTV  ('INACTIV'         ,INACTI ,IS_AVAILABLE, LSUBMODEL)      
+      CALL HM_GET_INTV  ('Itied'           ,ITIED  ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV  ('INACTIV'         ,INACTI ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('STIFF_DC'        ,VISC   ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SORT_FACT'       ,BUMULT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c--------------------------------------------------------
@@ -146,12 +146,12 @@ c--------------------------------------------------------
       FRIGAP(2)  = GAP
       FRIGAP(3)  = STARTT
       FRIGAP(4)  = BUMULT
-      FRIGAP(10) = ZERO     ! only in engine for storing number of couples candidates 
+      FRIGAP(10) = ZERO     ! only in engine for storing number of couples candidates
       FRIGAP(11) = STOPT
       FRIGAP(14) = VISC
       FRIGAP(16) = GAPMAX
       FRIGAP(27) = FPENMAX
-      FRIGAP(15) = ZERO 
+      FRIGAP(15) = ZERO
 c
       IPARI(7)  = NTYP
       IPARI(11) = 0
@@ -180,7 +180,7 @@ c
          IF (IDELKEEP == 1) THEN
            WRITE(IOUT,'(A)')
      .'    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-         ENDIF         
+         ENDIF
        ENDIF
        WRITE(IOUT,'(6X,A)')'SECONDARY SURFACE INPUT BY NODES'
        WRITE(IOUT,'(6X,A)')'MAIN SURFACE INPUT BY SEGMENTS'

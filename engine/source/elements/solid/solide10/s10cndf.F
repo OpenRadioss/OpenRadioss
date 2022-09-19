@@ -89,10 +89,10 @@ C----pass1 : only N1,N2 are secnd nodes of Int2
 #include "vectorize.inc"
          DO I=1,IAD_CNDM(NSPMD+1)-1
           J = FR_CNDM(I)
-           A(1,J) = A(1,J) * WEIGHT(J) 
-           A(2,J) = A(2,J) * WEIGHT(J) 
+           A(1,J) = A(1,J) * WEIGHT(J)
+           A(2,J) = A(2,J) * WEIGHT(J)
            A(3,J) = A(3,J) * WEIGHT(J)
-           STIFN(J)=STIFN(J)* WEIGHT(J)        
+           STIFN(J)=STIFN(J)* WEIGHT(J)
          END DO
 !$OMP END SINGLE
        ENDIF
@@ -124,18 +124,18 @@ C------------------------
            STIF = MAX(ZERO,FAC*(STIFN(ND)-STIFND(I)))
            IF (ITAGND(N1)>0) THEN
             N1 = N1 + IK
-            A(1,N1) = A(1,N1) + FX 
-            A(2,N1) = A(2,N1) + FY 
-            A(3,N1) = A(3,N1) + FZ 
-            STIFN(N1) = STIFN(N1) + STIF 
-           END IF 
+            A(1,N1) = A(1,N1) + FX
+            A(2,N1) = A(2,N1) + FY
+            A(3,N1) = A(3,N1) + FZ
+            STIFN(N1) = STIFN(N1) + STIF
+           END IF
            IF (ITAGND(N2)>0) THEN
             N2 = N2 + IK
-            A(1,N2) = A(1,N2) + FX 
-            A(2,N2) = A(2,N2) + FY 
-            A(3,N2) = A(3,N2) + FZ 
-            STIFN(N2) = STIFN(N2) + STIF 
-           END IF 
+            A(1,N2) = A(1,N2) + FX
+            A(2,N2) = A(2,N2) + FY
+            A(3,N2) = A(3,N2) + FZ
+            STIFN(N2) = STIFN(N2) + STIF
+           END IF
          END DO
 C------------------------      
        CALL MY_BARRIER()
@@ -144,15 +144,15 @@ C------------------------
 	  IK = K*NUMNOD
           DO I=NODFTSK,NODLTSK
 	   IF (ITAGND(I)>0) THEN
-            A(1,I) = A(1,I) + A(1,I+IK) 
-            A(2,I) = A(2,I) + A(2,I+IK) 
-            A(3,I) = A(3,I) + A(3,I+IK) 
+            A(1,I) = A(1,I) + A(1,I+IK)
+            A(2,I) = A(2,I) + A(2,I+IK)
+            A(3,I) = A(3,I) + A(3,I+IK)
             STIFN(I) = STIFN(I) + STIFN(I+IK)
-            A(1,I+IK) = ZERO 
-            A(2,I+IK) = ZERO 
-            A(3,I+IK) = ZERO 
+            A(1,I+IK) = ZERO
+            A(2,I+IK) = ZERO
+            A(3,I+IK) = ZERO
             STIFN(I+IK) = ZERO
-	   END IF 
+	   END IF
 	  END DO
          END DO
 C------------------------      
@@ -285,10 +285,10 @@ C----pass2 : all excepting N1,N2 are secnd nodes of Int2
 #include "vectorize.inc"
          DO I=1,IAD_CNDM(NSPMD+1)-1
           J = FR_CNDM(I) ! noeud sommet sur la frontiere SPMD (CoNDensation Main node)
-           A(1,J) = A(1,J) * WEIGHT(J) 
-           A(2,J) = A(2,J) * WEIGHT(J) 
+           A(1,J) = A(1,J) * WEIGHT(J)
+           A(2,J) = A(2,J) * WEIGHT(J)
            A(3,J) = A(3,J) * WEIGHT(J)
-           STIFN(J)=STIFN(J)* WEIGHT(J)        
+           STIFN(J)=STIFN(J)* WEIGHT(J)
          END DO
 !$OMP END SINGLE
        ENDIF
@@ -310,18 +310,18 @@ C------------------------
            STIF = MAX(ZERO,FAC*(STIFN(ND)-STIFND(I)))
 	  IF (ITAGND(N1)==0) THEN
 	   N1 = N1 + IK
-           A(1,N1) = A(1,N1) + FX 
-           A(2,N1) = A(2,N1) + FY 
-           A(3,N1) = A(3,N1) + FZ 
-           STIFN(N1) = STIFN(N1) + STIF 
-	  END IF 
+           A(1,N1) = A(1,N1) + FX
+           A(2,N1) = A(2,N1) + FY
+           A(3,N1) = A(3,N1) + FZ
+           STIFN(N1) = STIFN(N1) + STIF
+	  END IF
 	  IF (ITAGND(N2)==0) THEN
 	   N2 = N2 + IK
-           A(1,N2) = A(1,N2) + FX 
-           A(2,N2) = A(2,N2) + FY 
-           A(3,N2) = A(3,N2) + FZ 
-           STIFN(N2) = STIFN(N2) + STIF 
-	  END IF 
+           A(1,N2) = A(1,N2) + FX
+           A(2,N2) = A(2,N2) + FY
+           A(3,N2) = A(3,N2) + FZ
+           STIFN(N2) = STIFN(N2) + STIF
+	  END IF
          END DO
 C------------------------      
        CALL MY_BARRIER()
@@ -330,15 +330,15 @@ C------------------------
 	  IK = K*NUMNOD
           DO I=NODFTSK,NODLTSK
 	   IF (ITAGND(I)==0) THEN
-            A(1,I) = A(1,I) + A(1,I+IK) 
-            A(2,I) = A(2,I) + A(2,I+IK) 
-            A(3,I) = A(3,I) + A(3,I+IK) 
+            A(1,I) = A(1,I) + A(1,I+IK)
+            A(2,I) = A(2,I) + A(2,I+IK)
+            A(3,I) = A(3,I) + A(3,I+IK)
             STIFN(I) = STIFN(I) + STIFN(I+IK)
-            A(1,I+IK) = ZERO 
-            A(2,I+IK) = ZERO 
-            A(3,I+IK) = ZERO 
+            A(1,I+IK) = ZERO
+            A(2,I+IK) = ZERO
+            A(3,I+IK) = ZERO
             STIFN(I+IK) = ZERO
-	   END IF 
+	   END IF
 	  END DO
          END DO
 C------------------------      
@@ -538,7 +538,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -554,7 +554,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITAGND(*),ICNDS10(3,*),WEIGHT(*),
-     1             FR_CNDS(*),IAD_CNDS(*),itab(*)  
+     1             FR_CNDS(*),IAD_CNDS(*),itab(*)
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -566,7 +566,7 @@ C=======================================================================
         N = ICNDS10(1,I)
         IF (N > 0) THEN
          ITAGND(N) = I
-        ELSEIF(N < 0) THEN 
+        ELSEIF(N < 0) THEN
          ITAGND(-N) = -I
         END IF
        END DO
@@ -575,7 +575,7 @@ C -------add RBE3  after
       DO N=1,NINTER
         NTY  = IPARI(7,N)
         IF (NTY == 2 ) THEN
-         NMN =IPARI(6,N)                                 
+         NMN =IPARI(6,N)
          NSN   = IPARI(5,N)
          ILEV = IPARI(20,N)
          NUS   = IPARI(15,N)
@@ -595,7 +595,7 @@ C -------add RBE3  after
              END IF
             END DO
            END IF !(INTBUF_TAB(N)%IRUPT(I) /= 1) THEN
-          END DO 
+          END DO
          ELSEIF (ILEV <= 5 .or. ILEV == 30) THEN
           DO I=1,NSN
            NS = INTBUF_TAB(N)%NSV(I)
@@ -609,11 +609,11 @@ C -------add RBE3  after
             ELSEIF(ITAGND(IM)<0) THEN
              ITAGND(IM) = ITAGND(IM) - NS10E
             END IF
-           END DO 
-          END DO 
+           END DO
+          END DO
          END IF
         END IF
-      END DO 
+      END DO
 C--------comm to synchro the case iabs(ITAGND(Nd))>NS10E main of int2
        IF (NSPMD>1) THEN
         SIZ = IAD_CNDS(NSPMD+1)-IAD_CNDS(1)
@@ -697,8 +697,8 @@ C
 #include "vectorize.inc"
           DO I=1,IAD_CNDM(NSPMD+1)-1
            J = FR_CNDM(I)
-           A(1,J) = A(1,J) * WEIGHT(J) 
-           A(2,J) = A(2,J) * WEIGHT(J) 
+           A(1,J) = A(1,J) * WEIGHT(J)
+           A(2,J) = A(2,J) * WEIGHT(J)
            A(3,J) = A(3,J) * WEIGHT(J)
           END DO
          END IF
@@ -718,12 +718,12 @@ C
            FX2 = FAC2*VX
            FY2 = FAC2*VY
            FZ2 = FAC2*VZ
-           A(1,N1) = A(1,N1) - FX1 
-           A(2,N1) = A(2,N1) - FY1 
-           A(3,N1) = A(3,N1) - FZ1 
-           A(1,N2) = A(1,N2) - FX2 
-           A(2,N2) = A(2,N2) - FY2 
-           A(3,N2) = A(3,N2) - FZ2 
+           A(1,N1) = A(1,N1) - FX1
+           A(2,N1) = A(2,N1) - FY1
+           A(3,N1) = A(3,N1) - FZ1
+           A(1,N2) = A(1,N2) - FX2
+           A(2,N2) = A(2,N2) - FY2
+           A(3,N2) = A(3,N2) - FZ2
          END DO
         IF (NSPMD>1) THEN
           LCOMM =IAD_CNDM(NSPMD+1)-IAD_CNDM(1)
@@ -1004,7 +1004,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1020,7 +1020,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITAGND(*),ICNDS10(3,*),WEIGHT(*),
-     1             NKEND 
+     1             NKEND
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER) :: INTBUF_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -1031,7 +1031,7 @@ C=======================================================================
         N = ICNDS10(1,I)
         IF (N > 0) THEN
          ITAGND(N) = I
-        ELSEIF(N < 0) THEN 
+        ELSEIF(N < 0) THEN
          ITAGND(-N) = I
         END IF
        END DO
@@ -1040,7 +1040,7 @@ C -------only cinematic--> mass condensation
       DO N=1,NINTER
         NTY  = IPARI(7,N)
         IF (NTY == 2 ) THEN
-         NMN =IPARI(6,N)                                 
+         NMN =IPARI(6,N)
          NSN   = IPARI(5,N)
          ILEV = IPARI(20,N)
          IF (ILEV == 27 .or. ILEV == 28) THEN
@@ -1056,8 +1056,8 @@ C -------only cinematic--> mass condensation
               ITAGND(IM) =ITAGND(IM) + NS10E
              END IF
             END DO
-           END IF 
-          END DO 
+           END IF
+          END DO
          ELSEIF (ILEV <= 5 .or. ILEV == 30) THEN
           DO I=1,NSN
            L = INTBUF_TAB(N)%IRTLM(I)
@@ -1069,11 +1069,11 @@ C -------only cinematic--> mass condensation
               NKEND = NKEND + 1
               ITAGND(IM) =ITAGND(IM) + NS10E
              END IF
-           END DO 
-          END DO 
+           END DO
+          END DO
          END IF
         END IF
-      END DO 
+      END DO
 C
       RETURN
       END
@@ -1089,7 +1089,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C----------------------------------------------- 
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1105,7 +1105,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITAGND(*),ICNDS10(3,*),
-     1             NKEND,IMAP2ND(*),WEIGHT(*),itab(*)  
+     1             NKEND,IMAP2ND(*),WEIGHT(*),itab(*)
       TYPE(INTBUF_STRUCT_), DIMENSION(NINTER) :: INTBUF_TAB
       my_real
      .   MASI2ND0(*),MS(*)
@@ -1120,7 +1120,7 @@ C-----MASI2ND0 can be done here because DTNODA is called after INTTI1
         N = ICNDS10(1,I)
         IF (N > 0) THEN
          ITAGND(N) = I
-        ELSEIF(N < 0) THEN 
+        ELSEIF(N < 0) THEN
          ITAGND(-N) = I
         END IF
        END DO
@@ -1128,7 +1128,7 @@ C-----MASI2ND0 can be done here because DTNODA is called after INTTI1
       DO N=1,NINTER
         NTY  = IPARI(7,N)
         IF (NTY == 2 ) THEN
-         NMN =IPARI(6,N)                                 
+         NMN =IPARI(6,N)
          NSN   = IPARI(5,N)
          ILEV = IPARI(20,N)
          IF (ILEV == 27 .or. ILEV == 28) THEN
@@ -1146,8 +1146,8 @@ C-----MASI2ND0 can be done here because DTNODA is called after INTTI1
               ITAGND(IM) =ITAGND(IM) + NS10E
              END IF
             END DO
-           END IF 
-          END DO 
+           END IF
+          END DO
          ELSEIF (ILEV <= 5 .or. ILEV == 30) THEN
           DO I=1,NSN
            L = INTBUF_TAB(N)%IRTLM(I)
@@ -1161,11 +1161,11 @@ C-----MASI2ND0 can be done here because DTNODA is called after INTTI1
               MASI2ND0(NK) = MS(IM)
               ITAGND(IM) =ITAGND(IM) + NS10E
              END IF
-           END DO 
-          END DO 
+           END DO
+          END DO
          END IF
         END IF
-      END DO 
+      END DO
 C
       RETURN
       END
@@ -1225,11 +1225,11 @@ C
            IF (WEIGHT(NS)/=0) MASND = MASND + MS(NS)
          ENDDO
 C---due to the part w/ weigth(ns)=0; DMSI2 in itet2_c.inc for restart
-        IF (TT==ZERO) THEN      
+        IF (TT==ZERO) THEN
          DMSI2 = MASND-MS_ND-DMAS2
          DMSI2 = MAX(ZERO,DMSI2)
          MSI20 = DMAS2
-        END IF      
+        END IF
        END IF !(MCHECK>0.AND.NKEND>0) THEN
 C
       RETURN
@@ -1361,8 +1361,8 @@ C=======================================================================
 #include "vectorize.inc"
           DO I=1,IAD_CNDM(NSPMD+1)-1
            J = FR_CNDM(I)
-           A(1,J) = A(1,J) * WEIGHT(J) 
-           A(2,J) = A(2,J) * WEIGHT(J) 
+           A(1,J) = A(1,J) * WEIGHT(J)
+           A(2,J) = A(2,J) * WEIGHT(J)
            A(3,J) = A(3,J) * WEIGHT(J)
           END DO
         END IF
@@ -1409,12 +1409,12 @@ C-------------------------------------------------
            FX2 = FAC2*DAMP_A(1)*VX
            FY2 = FAC2*DAMP_A(2)*VY
            FZ2 = FAC2*DAMP_A(3)*VZ
-           A(1,N1) = A(1,N1) - FX1 
-           A(2,N1) = A(2,N1) - FY1 
-           A(3,N1) = A(3,N1) - FZ1 
-           A(1,N2) = A(1,N2) - FX2 
-           A(2,N2) = A(2,N2) - FY2 
-           A(3,N2) = A(3,N2) - FZ2 
+           A(1,N1) = A(1,N1) - FX1
+           A(2,N1) = A(2,N1) - FY1
+           A(3,N1) = A(3,N1) - FZ1
+           A(1,N2) = A(1,N2) - FX2
+           A(2,N2) = A(2,N2) - FY2
+           A(3,N2) = A(3,N2) - FZ2
           ENDDO
         ELSE
 C-------------------------------------------------
@@ -1464,12 +1464,12 @@ C-------------------------------------------------
            FX2 = FAC2*DA_G(1)
            FY2 = FAC2*DA_G(2)
            FZ2 = FAC2*DA_G(3)
-           A(1,N1) = A(1,N1) - FX1 
-           A(2,N1) = A(2,N1) - FY1 
-           A(3,N1) = A(3,N1) - FZ1 
-           A(1,N2) = A(1,N2) - FX2 
-           A(2,N2) = A(2,N2) - FY2 
-           A(3,N2) = A(3,N2) - FZ2 
+           A(1,N1) = A(1,N1) - FX1
+           A(2,N1) = A(2,N1) - FY1
+           A(3,N1) = A(3,N1) - FZ1
+           A(1,N2) = A(1,N2) - FX2
+           A(2,N2) = A(2,N2) - FY2
+           A(3,N2) = A(3,N2) - FZ2
           END DO
         END IF
        ENDIF
@@ -1694,9 +1694,9 @@ C======================================================================|
        IF (ISTAT/=1.AND.ISTAT/=3) RETURN
 C-------0.5*alpha	   
        DAMPC=BETATE/(ONE + BETATE * DT12)
-c       DT05 = HALF*DT1	 
+c       DT05 = HALF*DT1	
        IF (IPARIT/=0) FSKYCND(1:3,1:LCNCND)=ZERO
-       IF (ISTATG/=0) THEN      
+       IF (ISTATG/=0) THEN
         IF(ISTATG<0) ISTATG=NGR2USR(-ISTATG,IGRNOD,NGRNOD)
         ITAG(1:NUMNOD)=0
         DO N=1,IGRNOD(ISTATG)%NENTITY
@@ -1733,8 +1733,8 @@ C
 #include "vectorize.inc"
           DO I=1,IAD_CNDM(NSPMD+1)-1
            J = FR_CNDM(I)
-           A(1,J) = A(1,J) * WEIGHT(J) 
-           A(2,J) = A(2,J) * WEIGHT(J) 
+           A(1,J) = A(1,J) * WEIGHT(J)
+           A(2,J) = A(2,J) * WEIGHT(J)
            A(3,J) = A(3,J) * WEIGHT(J)
           END DO
          END IF
@@ -1764,12 +1764,12 @@ C
            FX2 = FAC2*VX
            FY2 = FAC2*VY
            FZ2 = FAC2*VZ
-           A(1,N1) = A(1,N1) - FX1 
-           A(2,N1) = A(2,N1) - FY1 
-           A(3,N1) = A(3,N1) - FZ1 
-           A(1,N2) = A(1,N2) - FX2 
-           A(2,N2) = A(2,N2) - FY2 
-           A(3,N2) = A(3,N2) - FZ2 
+           A(1,N1) = A(1,N1) - FX1
+           A(2,N1) = A(2,N1) - FY1
+           A(3,N1) = A(3,N1) - FZ1
+           A(1,N2) = A(1,N2) - FX2
+           A(2,N2) = A(2,N2) - FY2
+           A(3,N2) = A(3,N2) - FZ2
          END DO
          IF (NSPMD>1) THEN
           LCOMM =IAD_CNDM(NSPMD+1)-IAD_CNDM(1)

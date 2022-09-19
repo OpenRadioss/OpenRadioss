@@ -62,7 +62,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,IDPRT,K_STAT,J,IP
-      INTEGER N ,NELC , NELTG , NELCG , NELTGG , 
+      INTEGER N ,NELC , NELTG , NELCG , NELTGG ,
      .   FLG_CHK , IS_CHECK , JWARN, NELMIN , NELMAX,
      .   MY_SIZEC ,MY_SIZETG ,IERR ,
      .   SIZEC_P0(NSPMD), SIZETG_P0(NSPMD) ,ADRC(NSPMD) ,
@@ -71,7 +71,7 @@ C
       INTEGER WORK(70000)
       INTEGER ,  DIMENSION(:),ALLOCATABLE :: NELIDC ,NELIDTG,
      .        CLEFC ,CLEFTG ,INDXC ,INDXTG ,IDWARN ,NELIDCG ,
-     .        NELIDTGG 
+     .        NELIDTGG
       my_real
      .   T0,DT0
 C-----------------------------------------------
@@ -99,11 +99,11 @@ C     CHECK FOR DYNAIN FILE OUTPUT : 3node shell and 4node shell have same ID
 C-------------------------------------------------------------------------------  
 
       IF(DYNAIN_CHECK == 0.AND.(NDYNAINPRT /=0 .OR.NDYNAINALL /= 0) ) THEN
-   
+
         NELC = 0
-        NELTG = 0 
+        NELTG = 0
         NELCG = 0
-        NELTGG = 0 
+        NELTGG = 0
 
         IF(NUMELC/=0) ALLOCATE(NELIDC(NUMELC),STAT=IERR)
         IF(NUMELTG/=0) ALLOCATE(NELIDTG(NUMELTG),STAT=IERR)
@@ -114,17 +114,17 @@ C-------------------------------------------------------------------------------
             DO I=1,NUMELC
                NELIDC(I) = IXC(NIXC,I)
             ENDDO
-            NELC = NUMELC 
+            NELC = NUMELC
           ENDIF
           IF(NUMELTG/=0)THEN
             DO I=1,NUMELTG
                NELIDTG(NELTG) = IXTG(NIXTG,I)
             ENDDO
-            NELTG = NUMELTG 
+            NELTG = NUMELTG
           ENDIF
 
         ELSE
-          NELC = 0 
+          NELC = 0
           DO I=1,NUMELC
               IP = IPARTC(I)
               IF(IPART_DYNAIN(IP)==1) THEN
@@ -132,7 +132,7 @@ C-------------------------------------------------------------------------------
                  NELIDC(NELC) = IXC(NIXC,I)
               ENDIF
            ENDDO
-           NELTG = 0 
+           NELTG = 0
            DO I=1,NUMELTG
               IP = IPARTTG(I)
               IF(IPART_DYNAIN(IP)==1) THEN
@@ -146,7 +146,7 @@ C-------------------------------------------------------------------------------
 
         IF (NSPMD > 1) THEN
 
-      
+
           SIZEC_P0(1:NSPMD) = 0
           ADRC(1:NSPMD) = 0
 
@@ -200,10 +200,10 @@ C-------------------------------------------------------------------------------
             ALLOCATE(NELIDCG(NELCG),STAT=IERR)
             NELIDCG(1:NELCG) = NELIDC(1:NELC)
           ENDIF
-          IF(NELTGG/=0) THEN     
-            ALLOCATE(NELIDTGG(NELTGG),STAT=IERR)     
-            NELIDTGG(1:NELTGG) = NELIDTG(1:NELTG)  
-          ENDIF  
+          IF(NELTGG/=0) THEN
+            ALLOCATE(NELIDTGG(NELTGG),STAT=IERR)
+            NELIDTGG(1:NELTGG) = NELIDTG(1:NELTG)
+          ENDIF
 
         ENDIF
 
@@ -213,11 +213,11 @@ C-------------------------------------------------------------------------------
           FLG_CHK = 0
 
           IF(NELCG/=0.AND.NELTGG/=0) FLG_CHK = 1
-      
+
           IF(FLG_CHK > 0 ) THEN ! IF checK is needed
 
               IS_CHECK = 0
-   
+
               ALLOCATE(CLEFC(NELCG),STAT=IERR)
               ALLOCATE(INDXC(2*NELCG),STAT=IERR)
 
@@ -225,7 +225,7 @@ C-------------------------------------------------------------------------------
                 INDXC(N)=N
                 CLEFC(N)= NELIDCG(N)
               END DO
-              CALL MY_ORDERS(0,WORK,CLEFC,INDXC,NELCG,1)     
+              CALL MY_ORDERS(0,WORK,CLEFC,INDXC,NELCG,1)
 
               ALLOCATE(CLEFTG(NELTGG),STAT=IERR)
               ALLOCATE(INDXTG(2*NELTGG),STAT=IERR)
@@ -235,7 +235,7 @@ C-------------------------------------------------------------------------------
                 CLEFTG(N)= NELIDTGG(N)
               END DO
 
-              CALL MY_ORDERS(0,WORK,CLEFTG,INDXTG,NELTGG,1)         
+              CALL MY_ORDERS(0,WORK,CLEFTG,INDXTG,NELTGG,1)
 
               IF(NELIDTGG(INDXTG(1))>=NELIDCG(INDXC(1)).AND.NELIDTGG(INDXTG(1))<=NELIDCG(INDXC(NELCG)))THEN
                  IS_CHECK = 1
@@ -252,7 +252,7 @@ C-------------------------------------------------------------------------------
               IF(NELIDCG(INDXC(NELCG))>=NELIDTGG(INDXTG(1)).AND.NELIDCG(INDXC(NELCG))<=NELIDTGG(INDXTG(NELTGG)))THEN
                  IS_CHECK = 1
               ENDIF
-       
+
               IF(IS_CHECK == 1) THEN
                  NELMIN = MAX(NELIDCG(INDXC(1)),NELIDTGG(INDXTG(1)))
                  NELMAX = MIN(NELIDCG(INDXC(NELCG)),NELIDTGG(INDXTG(NELTGG)))
@@ -266,7 +266,7 @@ C-------------------------------------------------------------------------------
                        IF(NELIDTGG(INDXTG(J))>=NELMIN.AND.NELIDTGG(INDXTG(J))<=NELMAX) THEN
                          IF(NELIDCG(INDXC(I))==NELIDTGG(INDXTG(J))) THEN
                            JWARN = JWARN + 1
-                           IDWARN(JWARN) = NELIDCG(INDXC(I)) 
+                           IDWARN(JWARN) = NELIDCG(INDXC(I))
                          ENDIF
                        ENDIF
                      ENDDO

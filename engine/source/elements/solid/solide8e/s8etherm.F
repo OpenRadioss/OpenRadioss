@@ -28,9 +28,9 @@ Chd|        S8EFORC3                      source/elements/solid/solide8e/s8eforc
 Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE S8ETHERM(PM   ,MAT   , VOL,NI, 
+      SUBROUTINE S8ETHERM(PM   ,MAT   , VOL,NI,
      .                     NC1, NC2, NC3, NC4,
-     .                     NC5, NC6, NC7, NC8,      
+     .                     NC5, NC6, NC7, NC8,
      .                     PX1, PX2, PX3, PX4,
      .                     PY1, PY2, PY3, PY4,
      .                     PZ1, PZ2, PZ3, PZ4,
@@ -66,7 +66,7 @@ C     REAL
      .            PX5(MVSIZ), PY5(MVSIZ),PZ5(MVSIZ),
      .            PX6(MVSIZ), PY6(MVSIZ),PZ6(MVSIZ),
      .            PX7(MVSIZ), PY7(MVSIZ),PZ7(MVSIZ),
-     .            PX8(MVSIZ), PY8(MVSIZ),PZ8(MVSIZ),        
+     .            PX8(MVSIZ), PY8(MVSIZ),PZ8(MVSIZ),
      .    NI(8),TEMPNC(*), FPHI(MVSIZ,8), PM(NPROPM,*), DIE(*),
      .    DT1, TEL(*), OFF(*), OFFG(*)
       my_real PARTSAV(NPSAV,*),VOL0(*)
@@ -88,19 +88,19 @@ C - flux
           PHIX =  TEMPNC(NC1(I))*PX1(I) + TEMPNC(NC2(I))*PX2(I)  +
      .            TEMPNC(NC3(I))*PX3(I) + TEMPNC(NC4(I))*PX4(I)  +
      .            TEMPNC(NC5(I))*PX5(I) + TEMPNC(NC6(I))*PX6(I)  +
-     .            TEMPNC(NC7(I))*PX7(I) + TEMPNC(NC8(I))*PX8(I)       
-          
+     .            TEMPNC(NC7(I))*PX7(I) + TEMPNC(NC8(I))*PX8(I)
+
           PHIY =  TEMPNC(NC1(I))*PY1(I) + TEMPNC(NC2(I))*PY2(I)  +
      .            TEMPNC(NC3(I))*PY3(I) + TEMPNC(NC4(I))*PY4(I)  +
      .            TEMPNC(NC5(I))*PY5(I) + TEMPNC(NC6(I))*PY6(I)  +
      .            TEMPNC(NC7(I))*PY7(I) + TEMPNC(NC8(I))*PY8(I)
-      
+
           PHIZ =  TEMPNC(NC1(I))*PZ1(I) + TEMPNC(NC2(I))*PZ2(I)  +
      .            TEMPNC(NC3(I))*PZ3(I) + TEMPNC(NC4(I))*PZ4(I)  +
      .            TEMPNC(NC5(I))*PZ5(I) + TEMPNC(NC6(I))*PZ6(I)  +
-     .            TEMPNC(NC7(I))*PZ7(I) + TEMPNC(NC8(I))*PZ8(I) 
+     .            TEMPNC(NC7(I))*PZ7(I) + TEMPNC(NC8(I))*PZ8(I)
 C
-        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT          
+        KC = (CA + CB*TEL(I))*DT1*VOL(I)*THEACCFACT
         PHIX = KC*PHIX
         PHIY = KC*PHIY
         PHIZ = KC*PHIZ

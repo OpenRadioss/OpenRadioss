@@ -93,31 +93,31 @@ C-----------------------------------------------
 C=======================================================================
       SELECT CASE(KEYWORD)
 c---
-        CASE ("COMPRESSIBLE")      
+        CASE ("COMPRESSIBLE")
           MATPARAM%COMPRESSIBILITY = 1
 c
-        CASE ("INCOMPRESSIBLE")      
+        CASE ("INCOMPRESSIBLE")
           MATPARAM%COMPRESSIBILITY = 2
 c
-        CASE ("ELASTO_PLASTIC")      
+        CASE ("ELASTO_PLASTIC")
           MATPARAM%COMPRESSIBILITY = 3
 c
-        CASE ("INCREMENTAL")      
+        CASE ("INCREMENTAL")
           MATPARAM%STRAIN_FORMULATION = 1
 c
-        CASE ("TOTAL")      
+        CASE ("TOTAL")
           MATPARAM%STRAIN_FORMULATION = 2
 c
-        CASE ("LARGE_STRAIN")      
+        CASE ("LARGE_STRAIN")
           MATPARAM%SMSTR = 2
 c
-        CASE ("SMALL_STRAIN")      
+        CASE ("SMALL_STRAIN")
           MATPARAM%SMSTR = 1
 c
-        CASE DEFAULT      
+        CASE DEFAULT
           ! write error : keyword not recognized"
 c---
       END SELECT
 c-----------
       RETURN
-      END 
+      END

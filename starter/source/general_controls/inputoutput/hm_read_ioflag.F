@@ -81,7 +81,7 @@ C----------------------------------------------
       IPRI=0
       IOUTP0=0
       OUTYY_FMT=0
-      IROOTYY = 0             
+      IROOTYY = 0
       IDROT = 0
 C
       CALL HM_OPTION_COUNT('/IOFLAG', NB_IOFLAG)
@@ -97,7 +97,7 @@ C
           CALL HM_GET_INTV('Irot',IDROT,IS_AVAILABLE,LSUBMODEL)
           IF (INVERS < 90 .AND. IROOTYY == 0) IROOTYY = 2
           EXIT
-        END IF        
+        END IF
       ENDDO
 C
       IF(IOUTP0>=1)THEN
@@ -107,4 +107,4 @@ C
       ENDIF
 C--------------------------------------------------------------
       RETURN
-      END 
+      END

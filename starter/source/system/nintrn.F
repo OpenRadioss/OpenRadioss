@@ -63,7 +63,7 @@ C-----------------------------------------------
           RETURN
         ENDIF
       ENDDO
-      NINTRN=0                       
+      NINTRN=0
       CALL ANCMSG(MSGID=69,
      .            MSGTYPE=MSGERROR,
      .            ANMODE=ANINFO,

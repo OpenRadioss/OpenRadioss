@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -65,7 +65,7 @@ C---------------------------------------------
 C     MISE A JOUR DES RIGIDITES NODALES EQUIVALENTES (COTE SECOND)
 C---------------------------------------------
       NSN   =IPARI(5)
-      ITY   = IPARI(7) 
+      ITY   = IPARI(7)
       NSNE  = IPARI(55)
       NSN0 = NSN - NSNE
       IF (SFAC >ZERO) THEN
@@ -81,7 +81,7 @@ C---------------------------------------------
       IF (NSNE > 0 ) THEN
           CALL I24FICS_INI(INTBUF_TAB%IRTSE   ,NSNE    ,INTBUF_TAB%IS2SE   ,INTBUF_TAB%NSV    ,
      1                     INTBUF_TAB%IS2PT   ,NSN     ,INTBUF_TAB%STFNS   )
-      END IF 
+      END IF
 C
       RETURN
       END

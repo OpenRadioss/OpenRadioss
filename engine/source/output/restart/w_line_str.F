@@ -66,7 +66,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (ISLINI(LENISLIN), STAT=ERR)
-      ISLINI(1:LENISLIN) = 0  
+      ISLINI(1:LENISLIN) = 0
       L_SLIN = 0
 !
       DO ISU=1,NSLIN

@@ -65,22 +65,22 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IWA(10), I, J, FILEN
-      CHARACTER CARD*nchartitle, FILNAM*100   
+      CHARACTER CARD*nchartitle, FILNAM*100
       INTEGER :: LEN_TMP_NAME
-      CHARACTER(len=2148) :: TMP_NAME   
+      CHARACTER(len=2148) :: TMP_NAME
 C-----------------------------------------
       WRITE(CARD,'(20A4)')TEXT
 C
       FILNAM=ROOTNAM(1:ROOTLEN)//'Y000'
       FILEN = ROOTLEN + 4
-      IF(IROOTYY/=2)THEN       
+      IF(IROOTYY/=2)THEN
        FILEN = ROOTLEN + 9
        FILNAM=ROOTNAM(1:ROOTLEN)//'_0000.sty'
-      ENDIF  
+      ENDIF
       LEN_TMP_NAME = FILEN
-      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TMP_NAME)      
+      TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TMP_NAME)
 
-      LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_TMP_NAME   
+      LEN_TMP_NAME = OUTFILE_NAME_LEN+LEN_TMP_NAME
 C
       OPEN(UNIT=IUGEO,FILE=TMP_NAME(1:LEN_TMP_NAME),
      .     ACCESS='SEQUENTIAL',
@@ -223,7 +223,7 @@ C=======================================================================
         IF (OUTYY_FMT==2) THEN
           WRITE(IUGEO,'(4I8/8X,10I8)')
      .     (NUMELS8+I,IXS(NIXS,NUMELS8+I),
-     .     IXS(1,NUMELS8+I),IXS(NIXS-1,NUMELS8+I),        
+     .     IXS(1,NUMELS8+I),IXS(NIXS-1,NUMELS8+I),
      .     IXS(2,NUMELS8+I),IXS(4,NUMELS8+I),
      .     IXS(7,NUMELS8+I),IXS(6,NUMELS8+I),
      .     IXS10(1,I),IXS10(2,I),IXS10(3,I),IXS10(4,I),
@@ -231,7 +231,7 @@ C=======================================================================
         ELSE
           WRITE(IUGEO,'(4I10/8X,10I10)')
      .     (NUMELS8+I,IXS(NIXS,NUMELS8+I),
-     .     IXS(1,NUMELS8+I),IXS(NIXS-1,NUMELS8+I),        
+     .     IXS(1,NUMELS8+I),IXS(NIXS-1,NUMELS8+I),
      .     IXS(2,NUMELS8+I),IXS(4,NUMELS8+I),
      .     IXS(7,NUMELS8+I),IXS(6,NUMELS8+I),
      .     IXS10(1,I),IXS10(2,I),IXS10(3,I),IXS10(4,I),
@@ -273,11 +273,11 @@ C=======================================================================
       WRITE(IUGEO,'(2A)')'#SYSQUAD USRQUAD  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4'
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(8I8)') 
+        WRITE(IUGEO,'(8I8)')
      .   (I,IXQ(NIXQ,I),IXQ(1,I),IXQ(NIXQ-1,I),
      .   IXQ(2,I),IXQ(3,I),IXQ(4,I),IXQ(5,I),I=1,NUMELQ)
       ELSE
-        WRITE(IUGEO,'(8I10)') 
+        WRITE(IUGEO,'(8I10)')
      .   (I,IXQ(NIXQ,I),IXQ(1,I),IXQ(NIXQ-1,I),
      .   IXQ(2,I),IXQ(3,I),IXQ(4,I),IXQ(5,I),I=1,NUMELQ)
       ENDIF
@@ -294,11 +294,11 @@ C=======================================================================
       WRITE(IUGEO,'(2A)')'#SYSSHEL USRSHEL  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3 SYSNOD4'
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(8I8)') 
+        WRITE(IUGEO,'(8I8)')
      .   (I,IXC(NIXC,I),IXC(1,I),IXC(NIXC-1,I),
      .   IXC(2,I),IXC(3,I),IXC(4,I),IXC(5,I),I=1,NUMELC)
       ELSE
-        WRITE(IUGEO,'(8I10)') 
+        WRITE(IUGEO,'(8I10)')
      .   (I,IXC(NIXC,I),IXC(1,I),IXC(NIXC-1,I),
      .   IXC(2,I),IXC(3,I),IXC(4,I),IXC(5,I),I=1,NUMELC)
       ENDIF
@@ -315,11 +315,11 @@ C=======================================================================
       WRITE(IUGEO,'(2A)') '#SYSTRUS USRTRUS  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2'
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(6I8)') 
+        WRITE(IUGEO,'(6I8)')
      .   (I,IXT(NIXT,I),IXT(1,I),IXT(NIXT-1,I),
      .   IXT(2,I),IXT(3,I),I=1,NUMELT)
       ELSE
-        WRITE(IUGEO,'(6I10)') 
+        WRITE(IUGEO,'(6I10)')
      .   (I,IXT(NIXT,I),IXT(1,I),IXT(NIXT-1,I),
      .   IXT(2,I),IXT(3,I),I=1,NUMELT)
       ENDIF
@@ -336,11 +336,11 @@ C=======================================================================
       WRITE(IUGEO,'(2A)')'#SYSBEAM USRBEAM  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3'
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(7I8)') 
+        WRITE(IUGEO,'(7I8)')
      .   (I,IXP(NIXP,I),IXP(1,I),IXP(NIXP-1,I),
      .   IXP(2,I),IXP(3,I),IXP(4,I),I=1,NUMELP)
       ELSE
-        WRITE(IUGEO,'(7I10)') 
+        WRITE(IUGEO,'(7I10)')
      .   (I,IXP(NIXP,I),IXP(1,I),IXP(NIXP-1,I),
      .   IXP(2,I),IXP(3,I),IXP(4,I),I=1,NUMELP)
       ENDIF
@@ -357,11 +357,11 @@ C=======================================================================
       WRITE(IUGEO,'(2A)')'#SYSSPRI USRSPRI  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2'
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(6I8)') 
+        WRITE(IUGEO,'(6I8)')
      .   (I,IXR(NIXR,I),0,IXR(1,I),
      .   IXR(2,I),IXR(3,I),I=1,NUMELR)
       ELSE
-        WRITE(IUGEO,'(6I10)') 
+        WRITE(IUGEO,'(6I10)')
      .   (I,IXR(NIXR,I),0,IXR(1,I),
      .   IXR(2,I),IXR(3,I),I=1,NUMELR)
       ENDIF
@@ -378,11 +378,11 @@ C=======================================================================
       WRITE(IUGEO,'(2A)')'#SYSSH3N USRSH3N  SYSMID  SYSPID',
      .                   ' SYSNOD1 SYSNOD2 SYSNOD3'
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(7I8)') 
+        WRITE(IUGEO,'(7I8)')
      .   (I,IXTG(NIXTG,I),IXTG(1,I),IXTG(NIXTG-1,I),
      .   IXTG(2,I),IXTG(3,I),IXTG(4,I),I=1,NUMELTG)
       ELSE
-        WRITE(IUGEO,'(7I10)') 
+        WRITE(IUGEO,'(7I10)')
      .   (I,IXTG(NIXTG,I),IXTG(1,I),IXTG(NIXTG-1,I),
      .   IXTG(2,I),IXTG(3,I),IXTG(4,I),I=1,NUMELTG)
       ENDIF
@@ -402,11 +402,11 @@ C=======================================================================
         WRITE(IUGEO,'(A)') '#   SYSNOD'
       ENDIF
       IF (OUTYY_FMT==2) THEN
-        WRITE(IUGEO,'(4I8/8X,I8)') 
+        WRITE(IUGEO,'(4I8/8X,I8)')
      .   (I,KXSP(NISP,I),IPART(1,IPARTSP(I)),
      .   IPART(2,IPARTSP(I)),KXSP(3,I),I=1,NUMSPH)
       ELSE
-        WRITE(IUGEO,'(4I10/10X,I10)') 
+        WRITE(IUGEO,'(4I10/10X,I10)')
      .   (I,KXSP(NISP,I),IPART(1,IPARTSP(I)),
      .   IPART(2,IPARTSP(I)),KXSP(3,I),I=1,NUMSPH)
       ENDIF

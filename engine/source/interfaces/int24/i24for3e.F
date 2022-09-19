@@ -25,7 +25,7 @@ Chd|  I24FOR3E                      source/interfaces/int24/i24for3e.F
 Chd|-- called by -----------
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE I24FOR3E() 
+      SUBROUTINE I24FOR3E()
       RETURN
       END
 C
@@ -97,25 +97,25 @@ C=======================================================================
         print *,'probleme EDGES,IE1,IE2=',NS,IE1,IE2
        END IF
        IXSS(1:4) = IRTSE(1:4,IE)
-        DO K = 1,NFIC    
+        DO K = 1,NFIC
          FICT(K) = FICI(K)
 c         FICT(K) = FICI(K)/NPT
-        END DO    
+        END DO
        IF (IP==NPT) THEN
 C---equi_balance to NS1,NS2 and element center   
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
          DO J =1,4
-          DO K = 1,NFIC    
+          DO K = 1,NFIC
            FICS(J,K) = FOURTH*FICT(K)
-          END DO    
-         END DO        
+          END DO
+         END DO
         ELSE
          DO J =1,3
-          DO K = 1,NFIC    
+          DO K = 1,NFIC
            FICS(J,K) = THIRD*FICT(K)
-          END DO    
-         END DO        
+          END DO
+         END DO
         END IF
 C-------NPT should be unpair: 3,5,7....        
        ELSEIF (IP > 0 ) THEN
@@ -123,23 +123,23 @@ C-------NPT should be unpair: 3,5,7....
         IF (IP > NP0) THEN
 C---------right side        
          S = (IP+1)*ONE/(NPT+1)
-         DO K = 1,NFIC    
+         DO K = 1,NFIC
           FICS(NS2,K) = FICS(NS2,K) + S*FICT(K)
-         END DO    
+         END DO
          S = (NPT-IP)*ONE/(NPT+1)
-         DO K = 1,NFIC    
+         DO K = 1,NFIC
           FICS(NS1,K) = FICS(NS1,K) + S*FICT(K)
-         END DO    
+         END DO
         ELSE
 C---------left side        
          S = (NPT-IP+1)*ONE/(NPT+1)
-         DO K = 1,NFIC    
+         DO K = 1,NFIC
           FICS(NS1,K) = FICS(NS1,K) + S*FICT(K)
-         END DO    
+         END DO
          S = IP*ONE/(NPT+1)
-         DO K = 1,NFIC    
+         DO K = 1,NFIC
           FICS(NS2,K) = FICS(NS2,K) + S*FICT(K)
-         END DO    
+         END DO
         END IF
        END IF
 C-----------
@@ -221,10 +221,10 @@ C=======================================================================
 C---equi_balance to NS1,NS2 and element center       
          FX = FXI
          FY = FYI
-         FZ = FZI         
+         FZ = FZI
 c         FX = THIRD*FXI
 c         FY = THIRD*FYI
-c         FZ = THIRD*FZI         
+c         FZ = THIRD*FZI
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
           FXS(1) = FOURTH*FX
@@ -234,7 +234,7 @@ C-------seg center-------
           FXS(J) = FXS(1)
           FYS(J) = FYS(1)
           FZS(J) = FZS(1)
-         END DO        
+         END DO
         ELSE
           FXS(1) = THIRD*FX
           FYS(1) = THIRD*FY
@@ -243,7 +243,7 @@ C-------seg center-------
           FXS(J) = FXS(1)
           FYS(J) = FYS(1)
           FZS(J) = FZS(1)
-         END DO        
+         END DO
         END IF
 C-------NPT should be unpair: 3,5,7....        
        ELSEIF (IP > 0 ) THEN
@@ -366,10 +366,10 @@ C=======================================================================
 C---equi_balance to NS1,NS2 and element center       
          FX = FXI
          FY = FYI
-         FZ = FZI         
+         FZ = FZI
 c         FX = THIRD*FXI
 c         FY = THIRD*FYI
-c         FZ = THIRD*FZI         
+c         FZ = THIRD*FZI
 C-------seg center------- 
         IF (IRTSE(3,IE)/=IRTSE(4,IE)) THEN
           FXS(1) = FOURTH*FX
@@ -379,7 +379,7 @@ C-------seg center-------
           FXS(J) = FXS(1)
           FYS(J) = FYS(1)
           FZS(J) = FZS(1)
-         END DO        
+         END DO
         ELSE
           FXS(1) = THIRD*FX
           FYS(1) = THIRD*FY
@@ -388,7 +388,7 @@ C-------seg center-------
           FXS(J) = FXS(1)
           FYS(J) = FYS(1)
           FZS(J) = FZS(1)
-         END DO        
+         END DO
         END IF
 C-------NPT should be unpair: 3,5,7....        
        ELSEIF (IP > 0 ) THEN
@@ -447,7 +447,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
 C============================================================================
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -513,7 +513,7 @@ C-----------------------------------------------
       INTEGER IRTSE(5,*) ,NSV(*),NRTSE,NSNE,IS2SE(2,*),IS2PT(*),NSN,NPT,
      .        ITAB(*),FLG
       my_real
-     .   X(3,*),XFIC(3,*) 
+     .   X(3,*),XFIC(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -588,13 +588,13 @@ C---------right side
          S = (IP-NP0)*ONE/(NPT-1)
          XFIC(1,NS) = XE0 +S*(X(1,NS2)-XE0)
          XFIC(2,NS) = YE0 +S*(X(2,NS2)-YE0)
-         XFIC(3,NS) = ZE0 +S*(X(3,NS2)-ZE0)         
+         XFIC(3,NS) = ZE0 +S*(X(3,NS2)-ZE0)
         ELSE
 C---------left side        
          S = IP*ONE/(NPT-1)
          XFIC(1,NS) = X(1,NS1) +S*(XE0 -X(1,NS1))
          XFIC(2,NS) = X(2,NS1) +S*(YE0 -X(2,NS1))
-         XFIC(3,NS) = X(3,NS1) +S*(ZE0 -X(3,NS1))         
+         XFIC(3,NS) = X(3,NS1) +S*(ZE0 -X(3,NS1))
         END IF
        END IF
       END DO
@@ -793,7 +793,7 @@ C-----------------------------------------------
          IF(NTY == 24.AND.IEDGE4>0.AND.TT>=TS)THEN
 
 C Move XFIC & VFIC to another place for SPMD coherency
-            NFIC = 3   
+            NFIC = 3
             CALL I24XVFIC_UPD(IPARI(1,N),INTBUF_TAB(N),X   ,V ,NFIC  ,ITAB)
 
 C Move fictive Mass node computation to another place for SPMD coherency
@@ -802,7 +802,7 @@ C Move fictive Mass node computation to another place for SPMD coherency
             CALL I24FICS_INI(INTBUF_TAB(N)%IRTSE   ,NSNE    ,INTBUF_TAB(N)%IS2SE   ,
      1                       INTBUF_TAB(N)%IS2PT   ,NSN     ,INTBUF_TAB(N)%NSV     ,
      2                       MS                 ,INTBUF_TAB(N)%MSFIC   ,NPT  ,ITAB      )
-         ENDIF 
-      ENDDO 
+         ENDIF
+      ENDDO
 
       END

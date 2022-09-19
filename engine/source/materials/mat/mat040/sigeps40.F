@@ -96,7 +96,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
       INTEGER NEL, NUPARAM, NUVAR
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL),RHO0(NEL),VOLUME(NEL),EINT(NEL),
      .   EPSPXX(NEL),EPSPYY(NEL),EPSPZZ(NEL),
@@ -119,13 +119,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .       UVAR(NEL,NUVAR), OFF(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
 C-----------------------------------------------
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
-      my_real 
+      my_real
      .       FINTER ,TF(*)
       EXTERNAL FINTER
 C        Y = FINTER(IFUNC(J),X,NPF,TF,DYDX)
@@ -141,13 +141,13 @@ C-----------------------------------------------
       INTEGER I,J,K,M
       my_real
      .  AK,G0,G(5),BETA(5),
-     .  EV,EDXX,EDYY,EDZZ,EDXY,EDYZ,EDZX,      
-     .  SXX,SYY,SZZ,SXY,SYZ,SZX, 
+     .  EV,EDXX,EDYY,EDZZ,EDXY,EDYZ,EDZX,
+     .  SXX,SYY,SZZ,SXY,SYZ,SZX,
      .  DT,SIGV,SDV(30),
      .  EPXX,EPYY,EPZZ,EPXY,EPYZ,EPZX,GT,
 c jbm037
      .  ASTAS,BSTAS,VMISK,
-     .  SSIG1,SSIG2 
+     .  SSIG1,SSIG2
       my_real
      .  EPRNXX,EPRNYY,EPRNZZ,EPRNXY,EPRNYZ,EPRNZX,
      .  EVR,EDRNXX,EDRNYY,EDRNZZ,EDRNXY,EDRNYZ,EDRNZX,
@@ -172,14 +172,14 @@ C=======================================================================
         G(4) =  TWO*UPARAM(6)
         G(5) =  TWO*UPARAM(7)	
 	
-        BETA(1) =  UPARAM(8) 
-        BETA(2) =  UPARAM(9) 
-        BETA(3) =  UPARAM(10) 
-        BETA(4) =  UPARAM(11) 
+        BETA(1) =  UPARAM(8)
+        BETA(2) =  UPARAM(9)
+        BETA(3) =  UPARAM(10)
+        BETA(4) =  UPARAM(11)
         BETA(5) =  UPARAM(12)
         ASTAS   =  UPARAM(13)
         BSTAS   =  UPARAM(14)
-        VMISK   =  UPARAM(15) 
+        VMISK   =  UPARAM(15)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -192,7 +192,7 @@ C-----------------------------------------------
 C-----------------------------------------------
         GT = G0 +  G(1) + G(2) + G(3) + G(4) +  G(5)
 C
-        DT = TIMESTEP 
+        DT = TIMESTEP
 C
       DO I=1,NEL
 C
@@ -227,20 +227,20 @@ C
        SDV(29) = UVAR(I,39)
        SDV(30) = UVAR(I,40)
 C
-       EPXX =  EPSXX(I) 
-       EPYY =  EPSYY(I) 
-       EPZZ =  EPSZZ(I) 
-       EPXY =  EPSXY(I) 
-       EPYZ =  EPSYZ(I) 
-       EPZX =  EPSZX(I) 
+       EPXX =  EPSXX(I)
+       EPYY =  EPSYY(I)
+       EPZZ =  EPSZZ(I)
+       EPXY =  EPSXY(I)
+       EPYZ =  EPSYZ(I)
+       EPZX =  EPSZX(I)
 C
        EV = (EPXX + EPYY + EPZZ) * THIRD
-       EDXX = EPXX - EV 
-       EDYY = EPYY - EV 
-       EDZZ = EPZZ - EV 
-       EDXY = EPXY * HALF  
-       EDYZ = EPYZ * HALF   
-       EDZX = EPZX * HALF        
+       EDXX = EPXX - EV
+       EDYY = EPYY - EV
+       EDZZ = EPZZ - EV
+       EDXY = EPXY * HALF
+       EDYZ = EPYZ * HALF
+       EDZX = EPZX * HALF
 C
        EPRNXX = EPSPXX(I)
        EPRNYY = EPSPYY(I)
@@ -255,14 +255,14 @@ C
        EDRNZZ = EPRNZZ - EVR
        EDRNXY = EPRNXY * HALF
        EDRNYZ = EPRNYZ * HALF
-       EDRNZX = EPRNZX * HALF       
+       EDRNZX = EPRNZX * HALF
 C
-       EDRVXX = UVAR(I,5) 
-       EDRVYY = UVAR(I,6) 
-       EDRVZZ = UVAR(I,7) 
-       EDRVXY = UVAR(I,8) 
-       EDRVYZ = UVAR(I,9) 
-       EDRVZX = UVAR(I,10) 
+       EDRVXX = UVAR(I,5)
+       EDRVYY = UVAR(I,6)
+       EDRVZZ = UVAR(I,7)
+       EDRVXY = UVAR(I,8)
+       EDRVYZ = UVAR(I,9)
+       EDRVZX = UVAR(I,10)
 C
        AXX = EDRVXX
 c jbm037
@@ -280,32 +280,32 @@ c jbm037
 c jbm037 (fin)
 C       WRITE (11,*)AXX,EDRNXX,EDRVXX,DT,BXX
 C
-        J = 1 
-        K = (J -1)*6    
+        J = 1
+        K = (J -1)*6
         AAXX = G(J)/BETA(J) * (AXX - BXX/BETA(J))
         BBXX = G(J)/BETA(J) * BXX
         CCXX = SDV(K+1) - AAXX
-        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT) 
+        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT)
         AAYY = G(J)/BETA(J) * (AYY - BYY/BETA(J))
         BBYY = G(J)/BETA(J) * BYY
         CCYY = SDV(K+2) - AAYY
-        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT) 
+        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT)
         AAZZ = G(J)/BETA(J) * (AZZ - BZZ/BETA(J))
         BBZZ = G(J)/BETA(J) * BZZ
         CCZZ = SDV(K+3) - AAZZ
-        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT) 
+        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT)
         AAXY = G(J)/BETA(J) * (AXY - BXY/BETA(J))
         BBXY = G(J)/BETA(J) * BXY
         CCXY = SDV(K+4) - AAXY
-        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT) 
+        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT)
         AAYZ = G(J)/BETA(J) * (AYZ - BYZ/BETA(J))
         BBYZ = G(J)/BETA(J) * BYZ
         CCYZ = SDV(K+5) - AAYZ
-        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT) 
+        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT)
         AAZX = G(J)/BETA(J) * (AZX - BZX/BETA(J))
         BBZX = G(J)/BETA(J) * BZX
         CCZX = SDV(K+6) - AAZX
-        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT) 
+        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT)
         UVAR(I,(K + 11)) = EVSDXX
         UVAR(I,(K + 12)) = EVSDYY
         UVAR(I,(K + 13)) = EVSDZZ
@@ -313,32 +313,32 @@ C
         UVAR(I,(K + 15)) = EVSDYZ
         UVAR(I,(K + 16)) = EVSDZX
 C
-        J = 2 
-        K = (J -1)*6    
+        J = 2
+        K = (J -1)*6
         AAXX = G(J)/BETA(J) * (AXX - BXX/BETA(J))
         BBXX = G(J)/BETA(J) * BXX
         CCXX = SDV(K+1) - AAXX
-        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT) 
+        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT)
         AAYY = G(J)/BETA(J) * (AYY - BYY/BETA(J))
         BBYY = G(J)/BETA(J) * BYY
         CCYY = SDV(K+2) - AAYY
-        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT) 
+        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT)
         AAZZ = G(J)/BETA(J) * (AZZ - BZZ/BETA(J))
         BBZZ = G(J)/BETA(J) * BZZ
         CCZZ = SDV(K+3) - AAZZ
-        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT) 
+        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT)
         AAXY = G(J)/BETA(J) * (AXY - BXY/BETA(J))
         BBXY = G(J)/BETA(J) * BXY
         CCXY = SDV(K+4) - AAXY
-        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT) 
+        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT)
         AAYZ = G(J)/BETA(J) * (AYZ - BYZ/BETA(J))
         BBYZ = G(J)/BETA(J) * BYZ
         CCYZ = SDV(K+5) - AAYZ
-        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT) 
+        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT)
         AAZX = G(J)/BETA(J) * (AZX - BZX/BETA(J))
         BBZX = G(J)/BETA(J) * BZX
         CCZX = SDV(K+6) - AAZX
-        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT) 
+        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT)
         UVAR(I,(K + 11)) = EVSDXX
         UVAR(I,(K + 12)) = EVSDYY
         UVAR(I,(K + 13)) = EVSDZZ
@@ -346,32 +346,32 @@ C
         UVAR(I,(K + 15)) = EVSDYZ
         UVAR(I,(K + 16)) = EVSDZX
 C
-        J = 3 
-        K = (J -1)*6    
+        J = 3
+        K = (J -1)*6
         AAXX = G(J)/BETA(J) * (AXX - BXX/BETA(J))
         BBXX = G(J)/BETA(J) * BXX
         CCXX = SDV(K+1) - AAXX
-        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT) 
+        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT)
         AAYY = G(J)/BETA(J) * (AYY - BYY/BETA(J))
         BBYY = G(J)/BETA(J) * BYY
         CCYY = SDV(K+2) - AAYY
-        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT) 
+        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT)
         AAZZ = G(J)/BETA(J) * (AZZ - BZZ/BETA(J))
         BBZZ = G(J)/BETA(J) * BZZ
         CCZZ = SDV(K+3) - AAZZ
-        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT) 
+        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT)
         AAXY = G(J)/BETA(J) * (AXY - BXY/BETA(J))
         BBXY = G(J)/BETA(J) * BXY
         CCXY = SDV(K+4) - AAXY
-        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT) 
+        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT)
         AAYZ = G(J)/BETA(J) * (AYZ - BYZ/BETA(J))
         BBYZ = G(J)/BETA(J) * BYZ
         CCYZ = SDV(K+5) - AAYZ
-        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT) 
+        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT)
         AAZX = G(J)/BETA(J) * (AZX - BZX/BETA(J))
         BBZX = G(J)/BETA(J) * BZX
         CCZX = SDV(K+6) - AAZX
-        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT) 
+        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT)
         UVAR(I,(K + 11)) = EVSDXX
         UVAR(I,(K + 12)) = EVSDYY
         UVAR(I,(K + 13)) = EVSDZZ
@@ -379,32 +379,32 @@ C
         UVAR(I,(K + 15)) = EVSDYZ
         UVAR(I,(K + 16)) = EVSDZX
 C
-        J = 4 
-        K = (J -1)*6    
+        J = 4
+        K = (J -1)*6
         AAXX = G(J)/BETA(J) * (AXX - BXX/BETA(J))
         BBXX = G(J)/BETA(J) * BXX
         CCXX = SDV(K+1) - AAXX
-        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT) 
+        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT)
         AAYY = G(J)/BETA(J) * (AYY - BYY/BETA(J))
         BBYY = G(J)/BETA(J) * BYY
         CCYY = SDV(K+2) - AAYY
-        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT) 
+        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT)
         AAZZ = G(J)/BETA(J) * (AZZ - BZZ/BETA(J))
         BBZZ = G(J)/BETA(J) * BZZ
         CCZZ = SDV(K+3) - AAZZ
-        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT) 
+        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT)
         AAXY = G(J)/BETA(J) * (AXY - BXY/BETA(J))
         BBXY = G(J)/BETA(J) * BXY
         CCXY = SDV(K+4) - AAXY
-        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT) 
+        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT)
         AAYZ = G(J)/BETA(J) * (AYZ - BYZ/BETA(J))
         BBYZ = G(J)/BETA(J) * BYZ
         CCYZ = SDV(K+5) - AAYZ
-        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT) 
+        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT)
         AAZX = G(J)/BETA(J) * (AZX - BZX/BETA(J))
         BBZX = G(J)/BETA(J) * BZX
         CCZX = SDV(K+6) - AAZX
-        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT) 
+        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT)
         UVAR(I,(K + 11)) = EVSDXX
         UVAR(I,(K + 12)) = EVSDYY
         UVAR(I,(K + 13)) = EVSDZZ
@@ -412,32 +412,32 @@ C
         UVAR(I,(K + 15)) = EVSDYZ
         UVAR(I,(K + 16)) = EVSDZX
 C       
-        J = 5 
-        K = (J -1)*6    
+        J = 5
+        K = (J -1)*6
         AAXX = G(J)/BETA(J) * (AXX - BXX/BETA(J))
         BBXX = G(J)/BETA(J) * BXX
         CCXX = SDV(K+1) - AAXX
-        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT) 
+        EVSDXX = AAXX + BBXX*DT + CCXX*EXP(-BETA(J)*DT)
         AAYY = G(J)/BETA(J) * (AYY - BYY/BETA(J))
         BBYY = G(J)/BETA(J) * BYY
         CCYY = SDV(K+2) - AAYY
-        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT) 
+        EVSDYY = AAYY + BBYY*DT + CCYY*EXP(-BETA(J)*DT)
         AAZZ = G(J)/BETA(J) * (AZZ - BZZ/BETA(J))
         BBZZ = G(J)/BETA(J) * BZZ
         CCZZ = SDV(K+3) - AAZZ
-        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT) 
+        EVSDZZ = AAZZ + BBZZ*DT + CCZZ*EXP(-BETA(J)*DT)
         AAXY = G(J)/BETA(J) * (AXY - BXY/BETA(J))
         BBXY = G(J)/BETA(J) * BXY
         CCXY = SDV(K+4) - AAXY
-        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT) 
+        EVSDXY = AAXY + BBXY*DT + CCXY*EXP(-BETA(J)*DT)
         AAYZ = G(J)/BETA(J) * (AYZ - BYZ/BETA(J))
         BBYZ = G(J)/BETA(J) * BYZ
         CCYZ = SDV(K+5) - AAYZ
-        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT) 
+        EVSDYZ = AAYZ + BBYZ*DT + CCYZ*EXP(-BETA(J)*DT)
         AAZX = G(J)/BETA(J) * (AZX - BZX/BETA(J))
         BBZX = G(J)/BETA(J) * BZX
         CCZX = SDV(K+6) - AAZX
-        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT) 
+        EVSDZX = AAZX + BBZX*DT + CCZX*EXP(-BETA(J)*DT)
         UVAR(I,(K + 11)) = EVSDXX
         UVAR(I,(K + 12)) = EVSDYY
         UVAR(I,(K + 13)) = EVSDZZ
@@ -446,8 +446,8 @@ C
         UVAR(I,(K + 16)) = EVSDZX
 C
        SIGV = (SIGOXX(I) + SIGOYY(I) + SIGOZZ(I))* THIRD
-       SIGV = SIGV + (3. * AK) * 
-     .        (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * THIRD 
+       SIGV = SIGV + (3. * AK) *
+     .        (DEPSXX(I) + DEPSYY(I) + DEPSZZ(I)) * THIRD
 C       SIGV = (3. * AK) * EV 
 C
        SXX = G0 * EDXX
@@ -457,35 +457,35 @@ C
        SYZ = G0 * EDYZ
        SZX = G0 * EDZX
 C
-       SXX = SXX + UVAR(I,11)  
+       SXX = SXX + UVAR(I,11)
        SYY = SYY + UVAR(I,12)
        SZZ = SZZ + UVAR(I,13)
        SXY = SXY + UVAR(I,14)
        SYZ = SYZ + UVAR(I,15)
        SZX = SZX + UVAR(I,16)
 C
-       SXX = SXX + UVAR(I,17)  
+       SXX = SXX + UVAR(I,17)
        SYY = SYY + UVAR(I,18)
        SZZ = SZZ + UVAR(I,19)
        SXY = SXY + UVAR(I,20)
        SYZ = SYZ + UVAR(I,21)
        SZX = SZX + UVAR(I,22)
 C
-       SXX = SXX + UVAR(I,23)  
+       SXX = SXX + UVAR(I,23)
        SYY = SYY + UVAR(I,24)
        SZZ = SZZ + UVAR(I,25)
        SXY = SXY + UVAR(I,26)
        SYZ = SYZ + UVAR(I,27)
        SZX = SZX + UVAR(I,28)
 C
-       SXX = SXX + UVAR(I,29)  
+       SXX = SXX + UVAR(I,29)
        SYY = SYY + UVAR(I,30)
        SZZ = SZZ + UVAR(I,31)
        SXY = SXY + UVAR(I,32)
        SYZ = SYZ + UVAR(I,33)
        SZX = SZX + UVAR(I,34)
 C
-       SXX = SXX + UVAR(I,35)  
+       SXX = SXX + UVAR(I,35)
        SYY = SYY + UVAR(I,36)
        SZZ = SZZ + UVAR(I,37)
        SXY = SXY + UVAR(I,38)
@@ -497,16 +497,16 @@ C
        UVAR(I,7)  = TWO * EDRNZZ - EDRVZZ
        UVAR(I,8)  = TWO * EDRNXY - EDRVXY
        UVAR(I,9)  = TWO * EDRNYZ - EDRVYZ
-       UVAR(I,10) = TWO * EDRNZX - EDRVZX       
+       UVAR(I,10) = TWO * EDRNZX - EDRVZX
 C
-       SIGNXX(I) = SXX + SIGV  
+       SIGNXX(I) = SXX + SIGV
        SIGNYY(I) = SYY + SIGV
-       SIGNZZ(I) = SZZ + SIGV 
-       SIGNXY(I) = SXY 
-       SIGNYZ(I) = SYZ 
-       SIGNZX(I) = SZX 
+       SIGNZZ(I) = SZZ + SIGV
+       SIGNXY(I) = SXY
+       SIGNYZ(I) = SYZ
+       SIGNZX(I) = SZX
 C   
-        SOUNDSP(I) = SQRT((AK/RHO(I)) + 
+        SOUNDSP(I) = SQRT((AK/RHO(I)) +
      .                ((TWO*TWO*GT)/(RHO(I)*THREE)))
         VISCMAX(I) = ZERO
 C

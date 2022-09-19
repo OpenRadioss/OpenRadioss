@@ -93,7 +93,7 @@ C UVAR(2) = initial characteristic el. length
 C UVAR(3) = IPOS variable for element length scale function interpolation
 C=======================================================================
       IF (TIME == ZERO) THEN
-        UVAR(1:NEL,2) = ALDT(1:NEL) 
+        UVAR(1:NEL,2) = ALDT(1:NEL)
       ENDIF
 c---------------------------
       IFAIL_SH  = INT(UPARAM(2))
@@ -110,8 +110,8 @@ c---------------------------
       RATE(1:NRATE) = UPARAM(11+NRATE:11+NRATE*2)
 c-------------------------------------------------------------------
 c---- Failure strain functions
-      IFUN_STR(1:NRATE) = IFUNC(1:NRATE) 
-c---- Scale functions       
+      IFUN_STR(1:NRATE) = IFUNC(1:NRATE)
+c---- Scale functions
       IFUN_EL   = IFUNC(NRATE+1)
       IFUN_TEMP = IFUNC(NRATE+2)
 c---------------------------
@@ -123,43 +123,43 @@ c---------------------------
         PTHKF = ONE - EM06
       ENDIF
 C---------
-      NINDXF = 0  
-      NINDX  = 0  
+      NINDXF = 0
+      NINDX  = 0
       DO I=1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
-          NINDX = NINDX+1                                                 
+          NINDX = NINDX+1
           INDX(NINDX) = I
         ENDIF
-      ENDDO                                                                                   
+      ENDDO
 c-------------------------------------------------------------------
 c     Failure strain value - function interpolation
 c-------------------------------------------------------------------
-      DO J=1,NINDX                           
-        I = INDX(J)  
-        J1 = 1                                                             
-        DO K=2, NRATE-1                                                     
-          IF (EPSP(I) > RATE(I)) J1 = K                                   
-        ENDDO                                                              
-        P    = THIRD*(SIGNXX(I) + SIGNYY(I))     
-        SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)          
-     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))        
+      DO J=1,NINDX
+        I = INDX(J)
+        J1 = 1
+        DO K=2, NRATE-1
+          IF (EPSP(I) > RATE(I)) J1 = K
+        ENDDO
+        P    = THIRD*(SIGNXX(I) + SIGNYY(I))
+        SVM  = SQRT(SIGNXX(I)*SIGNXX(I) + SIGNYY(I)*SIGNYY(I)
+     .       - SIGNXX(I)*SIGNYY(I) + THREE*SIGNXY(I)*SIGNXY(I))
         SIGM = P / MAX(EM20,SVM)
 c----
-        IF (NRATE > 1) THEN                                                 
-          J2  = J1+1                                                        
-          EF1 = YFAC(J1)*FINTER(IFUNC(J1),SIGM,NPF,TF,DF)            
-          EF2 = YFAC(J2)*FINTER(IFUNC(J2),SIGM,NPF,TF,DF)            
-          FAC = (EPSP(I) - RATE(J1)) / (RATE(J2) - RATE(J1))              
-          EPSF(I) = MAX(EF1 + FAC*(EF2 - EF1), EM20)                       
-        ELSE                                                               
-          EPSF(I) = YFAC(J1)*FINTER(IFUNC(J1),SIGM,NPF,TF,DF)        
-        ENDIF  
+        IF (NRATE > 1) THEN
+          J2  = J1+1
+          EF1 = YFAC(J1)*FINTER(IFUNC(J1),SIGM,NPF,TF,DF)
+          EF2 = YFAC(J2)*FINTER(IFUNC(J2),SIGM,NPF,TF,DF)
+          FAC = (EPSP(I) - RATE(J1)) / (RATE(J2) - RATE(J1))
+          EPSF(I) = MAX(EF1 + FAC*(EF2 - EF1), EM20)
+        ELSE
+          EPSF(I) = YFAC(J1)*FINTER(IFUNC(J1),SIGM,NPF,TF,DF)
+        ENDIF
       ENDDO
 c----
       IF (IFUN_EL > 0) THEN
 #include "vectorize.inc"
-        DO J=1,NINDX                           
-          I = INDX(J)  
+        DO J=1,NINDX
+          I = INDX(J)
 c----   element length scale function
           LAMBDAV(J) = UVAR(I,2) / EL_REF
           IPOSV(J) = NINT(UVAR(I,3))
@@ -170,70 +170,70 @@ c
         CALL VINTER(TF,IADP,IPOSV,ILENP,NINDX,LAMBDAV,DXDYV,YYV)
 c
 #include "vectorize.inc"
-        DO J=1,NINDX                           
-          I = INDX(J)  
-          FAC = SC_EL*YYV(J) 
-          EPSF(I)   = EPSF(I)* FAC 
+        DO J=1,NINDX
+          I = INDX(J)
+          FAC = SC_EL*YYV(J)
+          EPSF(I)   = EPSF(I)* FAC
           UVAR(I,3) = IPOSV(J)
-        ENDDO                                                            
-      ENDIF  
-c----  
+        ENDDO
+      ENDIF
+c----
 #include "vectorize.inc"
-      DO J=1,NINDX                           
-        I = INDX(J)  
+      DO J=1,NINDX
+        I = INDX(J)
         EPSF_N(I) = ZERO
       ENDDO
 c----   temperature scale function
       IF (IFUN_TEMP > 0) THEN
-        DO J=1,NINDX                           
-          I = INDX(J)  
-          FAC = SC_TEMP*FINTER(IFUN_TEMP,TEMP(I),NPF,TF,DF) 
-          EPSF(I) = EPSF(I)* FAC 
+        DO J=1,NINDX
+          I = INDX(J)
+          FAC = SC_TEMP*FINTER(IFUN_TEMP,TEMP(I),NPF,TF,DF)
+          EPSF(I) = EPSF(I)* FAC
         ENDDO
-      ENDIF    
+      ENDIF
 c-----------------------------------------------------------------------------
-      DO J=1,NINDX                           
-        I = INDX(J)  
+      DO J=1,NINDX
+        I = INDX(J)
           IF (UVAR(I,1) < DCRIT) THEN
-            IF (UVAR(I,1) == ZERO) THEN 
+            IF (UVAR(I,1) == ZERO) THEN
               DP = ONE
             ELSE
               DP = DN*UVAR(I,1)**(ONE-ONE/DN)
             ENDIF
             IF (EPSF(I) > ZERO) UVAR(I,1) = UVAR(I,1)+DP*DPLA(I)/EPSF(I)
-c-----            
+c-----
             IF (UVAR(I,1) >= DCRIT) THEN
-              NINDXF = NINDXF+1                                                 
-              INDXF(NINDXF) = I                                                                                     
-              TDEL(I)= TIME  
+              NINDXF = NINDXF+1
+              INDXF(NINDXF) = I
+              TDEL(I)= TIME
               IF (IFAIL_SH == 3) THEN
                 FOFF(I) = -1
               ELSE
                 FOFF(I) = 0
               ENDIF
-            ENDIF                                                 
-          ENDIF  
+            ENDIF
+          ENDIF
       ENDDO ! IEL
 c
-c--------------------------------------------      
+c--------------------------------------------
 c     Maximum Damage storing for output : 0 < DFMAX < 1
 c
-      DO J=1,NINDX                           
-        I = INDX(J)  
+      DO J=1,NINDX
+        I = INDX(J)
         DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DCRIT))
       ENDDO
-c--------------------------------------------      
+c--------------------------------------------
 c     print
-c--------------------------------------------      
-      IF (NINDXF > 0) THEN  
-        DO J=1,NINDXF                           
-          I = INDXF(J)  
+c--------------------------------------------
+      IF (NINDXF > 0) THEN
+        DO J=1,NINDXF
+          I = INDXF(J)
 #include  "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
-#include  "lockoff.inc" 
+#include  "lockoff.inc"
         ENDDO
-      ENDIF  
+      ENDIF
 c------------------------
  2000 FORMAT(1X,'FAILURE (FTAB) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

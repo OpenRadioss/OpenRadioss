@@ -63,11 +63,11 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MAT(mvsiz), NC1(mvsiz), NC2(mvsiz), NC3(mvsiz), NC4(mvsiz), I,II,J,M,IAD2
       my_real
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ), 
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
      .   N1Y(MVSIZ), N2Y(MVSIZ), N3Y(MVSIZ), N4Y(MVSIZ), N1Z(MVSIZ), N2Z(MVSIZ), N3Z(MVSIZ), N4Z(MVSIZ),
      .   FLUX1(MVSIZ), FLUX2(MVSIZ), FLUX3(MVSIZ), FLUX4(MVSIZ),
      .   VY1(MVSIZ), VY2(MVSIZ), VY3(MVSIZ), VY4(MVSIZ), VZ1(MVSIZ), VZ2(MVSIZ), VZ3(MVSIZ), VZ4(MVSIZ),
-     .   VDY1(MVSIZ), VDY2(MVSIZ),VDY3(MVSIZ), VDY4(MVSIZ), 
+     .   VDY1(MVSIZ), VDY2(MVSIZ),VDY3(MVSIZ), VDY4(MVSIZ),
      .   VDZ1(MVSIZ), VDZ2(MVSIZ),VDZ3(MVSIZ), VDZ4(MVSIZ), UPW(mvsiz),
      .   REDUC,UPWL(4,MVSIZ)
 C-----------------------------------------------
@@ -145,7 +145,7 @@ C------------------------------------------
          N3Y(I)= N3Y(I)*(Y3(I)+Y4(I))*HALF
          N3Z(I)= N3Z(I)*(Y3(I)+Y4(I))*HALF
          N4Y(I)= N4Y(I)*(Y1(I)+Y4(I))*HALF
-         N4Z(I)= N4Z(I)*(Y1(I)+Y4(I))*HALF   
+         N4Z(I)= N4Z(I)*(Y1(I)+Y4(I))*HALF
        ENDDO
       ENDIF
 C--------------------
@@ -184,7 +184,7 @@ C-----------------------------------------------
       DO I=LFT,LLT
        IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        REDUC=PM(92,MAT(I))
-       
+
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
        IF(II == 0)THEN
         FLUX1(I)=FLUX1(I)*REDUC
@@ -214,7 +214,7 @@ C-----------------------------------------------
           UPW(I) =PM(16,MAT(I))
         ENDDO
         CALL AMULF2(FILL,DFILL,FLUX,FLU1,VOL,ALE_CONNECT,ALPH,
-     .              FLUX1, FLUX2, FLUX3, FLUX4, UPW, 
+     .              FLUX1, FLUX2, FLUX3, FLUX4, UPW,
      .              NC1, NC2, NC3, NC4)
       ELSE
 C

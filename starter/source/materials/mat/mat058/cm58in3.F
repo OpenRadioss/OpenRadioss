@@ -63,60 +63,60 @@ C-----------------------------------------------
       my_real , DIMENSION(NEL) :: E11,E12,E13,E21,E22,E23
 C======================================================================|
 C---  isoparametric (material) axes        
-      IF (ITY == 3) THEN                   
+      IF (ITY == 3) THEN
 C---    shell 4N                           
-        DO I=1,NEL                       
-          E11(I)= X2(I)+X3(I)-X1(I)-X4(I)  
-          E12(I)= Y2(I)+Y3(I)-Y1(I)-Y4(I)  
-          E13(I)= Z2(I)+Z3(I)-Z1(I)-Z4(I)  
-          E21(I)= X3(I)+X4(I)-X1(I)-X2(I)  
-          E22(I)= Y3(I)+Y4(I)-Y1(I)-Y2(I)  
-          E23(I)= Z3(I)+Z4(I)-Z1(I)-Z2(I)  
-        ENDDO                              
-      ELSEIF (ITY == 7) THEN                              
+        DO I=1,NEL
+          E11(I)= X2(I)+X3(I)-X1(I)-X4(I)
+          E12(I)= Y2(I)+Y3(I)-Y1(I)-Y4(I)
+          E13(I)= Z2(I)+Z3(I)-Z1(I)-Z4(I)
+          E21(I)= X3(I)+X4(I)-X1(I)-X2(I)
+          E22(I)= Y3(I)+Y4(I)-Y1(I)-Y2(I)
+          E23(I)= Z3(I)+Z4(I)-Z1(I)-Z2(I)
+        ENDDO
+      ELSEIF (ITY == 7) THEN
 C---    shell 3N                           
-        DO I=1,NEL                       
-          E11(I)= X2(I)-X1(I)              
-          E12(I)= Y2(I)-Y1(I)              
-          E13(I)= Z2(I)-Z1(I)              
-          E21(I)= X3(I)-X1(I)              
-          E22(I)= Y3(I)-Y1(I)              
-          E23(I)= Z3(I)-Z1(I)              
-        ENDDO                              
-      ENDIF                                
+        DO I=1,NEL
+          E11(I)= X2(I)-X1(I)
+          E12(I)= Y2(I)-Y1(I)
+          E13(I)= Z2(I)-Z1(I)
+          E21(I)= X3(I)-X1(I)
+          E22(I)= Y3(I)-Y1(I)
+          E23(I)= Z3(I)-Z1(I)
+        ENDDO
+      ENDIF
 C------  Initialise UVAR 
-      IADB  = IPM(7,IMAT)-1                                        
-      G0    = UPARAM(IADB+13)                                               
+      IADB  = IPM(7,IMAT)-1
+      G0    = UPARAM(IADB+13)
       DO I=1,NEL
-        AA = DIR1(I,1)                                                     
-        BB = DIR1(I,2)                                                     
-        V1 = AA*E11(I) + BB*E21(I)                                         
-        V2 = AA*E12(I) + BB*E22(I)                                         
-        V3 = AA*E13(I) + BB*E23(I)                                         
-        WR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)                              
-        WS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)                              
-        SUMA = MAX( SQRT(WR*WR + WS*WS), EM20)                             
-        R1 = WR/SUMA                                                       
-        S1 = WS/SUMA                                                       
-        AA = DIR2(I,1)                                                     
-        BB = DIR2(I,2)                                                     
-        V1 = AA*E11(I) + BB*E21(I)                                         
-        V2 = AA*E12(I) + BB*E22(I)                                         
-        V3 = AA*E13(I) + BB*E23(I)                                         
-        WR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)                              
-        WS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)                              
-        SUMA = MAX( SQRT(WR*WR + WS*WS), EM20)                             
+        AA = DIR1(I,1)
+        BB = DIR1(I,2)
+        V1 = AA*E11(I) + BB*E21(I)
+        V2 = AA*E12(I) + BB*E22(I)
+        V3 = AA*E13(I) + BB*E23(I)
+        WR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+        WS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+        SUMA = MAX( SQRT(WR*WR + WS*WS), EM20)
+        R1 = WR/SUMA
+        S1 = WS/SUMA
+        AA = DIR2(I,1)
+        BB = DIR2(I,2)
+        V1 = AA*E11(I) + BB*E21(I)
+        V2 = AA*E12(I) + BB*E22(I)
+        V3 = AA*E13(I) + BB*E23(I)
+        WR = V1*E1X(I)+ V2*E1Y(I) + V3*E1Z(I)
+        WS = V1*E2X(I)+ V2*E2Y(I) + V3*E2Z(I)
+        SUMA = MAX( SQRT(WR*WR + WS*WS), EM20)
         R2   = WR/SUMA
         S2   = WS/SUMA
-        TANA = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)     
+        TANA = (R1*R2 + S1*S2) / (R1*S2 - R2*S1)   ! Tan(alpha_totale)
 c
-        UVAR(I,1:NUVAR) = ZERO                                                 
-        UVAR(I,6)  = TANA                                                  
-        TAN_PHI(I) = TANA                                                  
-        UVAR(I,10) = TANA*G0                                               
-        UVAR(I,14) = ALDT(I)                                               
-        UVAR(I,40) = ONE                                               
-      ENDDO                                                                
+        UVAR(I,1:NUVAR) = ZERO
+        UVAR(I,6)  = TANA
+        TAN_PHI(I) = TANA
+        UVAR(I,10) = TANA*G0
+        UVAR(I,14) = ALDT(I)
+        UVAR(I,40) = ONE
+      ENDDO
 C----
       RETURN
       END

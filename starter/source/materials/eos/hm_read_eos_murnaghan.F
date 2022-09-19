@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -93,13 +93,13 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-      
+
       E0=ZERO
-      
+
       IF(K0 <= ZERO)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -117,7 +117,7 @@ C-----------------------------------------------
 !     .               C1='/EOS/MURNAGHAN',
 !     .               C2='K1 MUST BE POSITIVE')
 !      ENDIF
-      
+
       PM(32)=P0
       PM(36)=K0
       PM(88)=PSH
@@ -134,24 +134,24 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-      
+
       !P0
       PM(31) =  K0/K1 * (EXP(K1*LOG(1+MU0)) - ONE )  + P0 - PSH
-      PM(104)=  K0/K1 * (EXP(K1*LOG(1+MU0)) - ONE )  + P0 - PSH      
-         
+      PM(104)=  K0/K1 * (EXP(K1*LOG(1+MU0)) - ONE )  + P0 - PSH
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
-      RHOI = PM(89)      
-        DPDMU = K0*EXP( K1*LOG(1+MU0) )/(ONE+MU0)  
+      RHOI = PM(89)
+        DPDMU = K0*EXP( K1*LOG(1+MU0) )/(ONE+MU0)
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
       PM(27)=SSP0
       WRITE(IOUT,1000)
 

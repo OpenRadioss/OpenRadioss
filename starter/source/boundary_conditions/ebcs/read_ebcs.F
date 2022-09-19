@@ -103,7 +103,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: IFI, KK, I, KAD
       INTEGER STAT, II, SURF_ID, JJ
-      CHARACTER*nchartitle :: TITR    
+      CHARACTER*nchartitle :: TITR
       CHARACTER*ncharkey :: KEY, KEY2
       LOGICAL :: IS_AVAILABLE
       INTEGER ::  INOD, NTAG, INODE, INDEX
@@ -113,20 +113,20 @@ C-----------------------------------------------
 
       IF (NEBCS > 0) THEN
          WRITE(IOUT,1000)
-       
+
          WRITE(ISTDO,'(A)')TITRE(69)
-         
+
 !     Create structure for collecting ebcs
          CALL EBCS_TAB%CREATE(NEBCS)
 !     Prepare data structures
          CALL HM_OPTION_START('/EBCS')
          DO II = 1, NEBCS
             LOCAL_ID = II
-            CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR, 
+            CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID = ID, UNIT_ID = UID, OPTION_TITR = TITR,
      .           KEYWORD2 = KEY, KEYWORD3 = KEY2)
 !     Allocate type
        SELECT CASE(KEY)
-         CASE ('GRADP0')  
+         CASE ('GRADP0')
             TYP = 0
 
             allocate (t_ebcs_gradp0 :: EBCS_TAB%tab(ii)%poly)
@@ -137,7 +137,7 @@ C-----------------------------------------------
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
             end select
 
-         CASE ('PRES')  
+         CASE ('PRES')
             TYP = 1
 
             allocate (t_ebcs_pres :: EBCS_TAB%tab(ii)%poly)
@@ -147,8 +147,8 @@ C-----------------------------------------------
               CALL HM_READ_EBCS_PRES(LOCAL_ID, IGRSURF,
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
             end select
-    
-         CASE ('VALVIN')  
+
+         CASE ('VALVIN')
             TYP = 2
 
             allocate (t_ebcs_valvin :: EBCS_TAB%tab(ii)%poly)
@@ -158,8 +158,8 @@ C-----------------------------------------------
               CALL HM_READ_EBCS_VALVIN(LOCAL_ID, IGRSURF,
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
             end select
-    
-         CASE ('VALVOUT')  
+
+         CASE ('VALVOUT')
             TYP = 3
 
             allocate (t_ebcs_valvout :: EBCS_TAB%tab(ii)%poly)
@@ -170,7 +170,7 @@ C-----------------------------------------------
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
            end select
 
-          CASE ('VEL')  
+          CASE ('VEL')
             TYP = 4
 
             allocate (t_ebcs_vel :: EBCS_TAB%tab(ii)%poly)
@@ -180,7 +180,7 @@ C-----------------------------------------------
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
            end select
 
-         CASE ('NORMV') 
+         CASE ('NORMV')
             TYP = 5
             allocate (t_ebcs_normv :: EBCS_TAB%tab(ii)%poly)
             select type (twf => EBCS_TAB%tab(ii)%poly)
@@ -190,7 +190,7 @@ C-----------------------------------------------
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
            end select
 
-         CASE ('INIP')  
+         CASE ('INIP')
 
             TYP = 6
             allocate (t_ebcs_inip :: EBCS_TAB%tab(ii)%poly)
@@ -200,7 +200,7 @@ C-----------------------------------------------
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
             end select
 
-         CASE ('INIV')  
+         CASE ('INIV')
 
             TYP = 7
             allocate (t_ebcs_iniv :: EBCS_TAB%tab(ii)%poly)
@@ -221,7 +221,7 @@ C-----------------------------------------------
      .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, KEY2, twf)
            end select
 
-         CASE ('FLUXOUT') 
+         CASE ('FLUXOUT')
 
             TYP = 9
             allocate (t_ebcs_fluxout :: EBCS_TAB%tab(ii)%poly)
@@ -238,7 +238,7 @@ C-----------------------------------------------
             select type (twf => EBCS_TAB%tab(ii)%poly)
             type is (t_ebcs_nrf)
               CALL HM_READ_EBCS_NRF(LOCAL_ID, IGRSURF,
-     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)     
+     .             NPC1, NOM_OPT, MULTI_FVM,UNITAB, ID, TITR, TYP, UID, LSUBMODEL, twf)
             end select
 
          CASE ('MONVOL')
@@ -254,7 +254,7 @@ C-----------------------------------------------
          CASE DEFAULT
            CALL ANCMSG(MSGID = 1602, MSGTYPE = MSGERROR, ANMODE = ANINFO,
      .          I1 = ID, C1 = TRIM(TITR), C2 = "\'"//TRIM(KEY)//"\'"//" IS NOT A VALID KEYWORD FOR EBCS OPTIONS")
-         END SELECT  
+         END SELECT
          EBCS_TAB%tab(II)%poly%type = TYP
          EBCS_TAB%tab(II)%poly%ebcs_id = ID
 !     Get surface id
@@ -268,19 +268,19 @@ C-----------------------------------------------
                ENDIF
             ENDDO
          ENDIF
-         
+
          IF (EBCS_TAB%tab(II)%poly%surf_id > 0) THEN
-            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)           
+            CALL EBCS_TAB%tab(II)%poly%set_nodes_elems(IGRSURF(JJ)%NSEG, NUMNOD, IGRSURF(JJ)%NODES)
             IF (IMACH == 3) THEN
-             DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node                    
-                CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)  
-                FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1         
-             ENDDO                                                                    
+             DO JJ = 1, EBCS_TAB%tab(II)%poly%nb_node
+                CALL IFRONTPLUS(EBCS_TAB%tab(II)%poly%node_list(jj), 1)
+                FLAGKIN(EBCS_TAB%tab(II)%poly%node_list(jj)) = 1
+             ENDDO
             ENDIF
          ELSE
 !     error
          ENDIF
-         
+
       ENDDO
       ENDIF
 

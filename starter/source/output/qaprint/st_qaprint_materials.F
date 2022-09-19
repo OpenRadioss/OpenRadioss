@@ -104,7 +104,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
             END IF
           END DO
 c-----------------------------
-c         UPARAM of /FAIL 
+c         UPARAM of /FAIL
 c-----------------------------
           NRUPT = IPM(220,MY_MAT)
           DO I=1,NRUPT

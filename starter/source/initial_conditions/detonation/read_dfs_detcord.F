@@ -68,11 +68,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN)      :: UNITAB
       INTEGER,INTENT(IN)                :: ITABM1(SITABM1),ITAB(NUMNOD)
       INTEGER,INTENT(IN)                :: IPM(NPROPMI,NUMMAT)
       my_real                           :: X(3,NUMNOD)
-      CHARACTER*ncharkey                :: KEY, KEY2      
+      CHARACTER*ncharkey                :: KEY, KEY2
       TYPE(SUBMODEL_DATA),INTENT(IN)    :: LSUBMODEL(NSUBMOD)
       INTEGER            ,INTENT(INOUT) :: I1,I2,I3,I4,I5
       INTEGER,INTENT(IN)                :: DET_ID
@@ -98,7 +98,7 @@ C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER,EXTERNAL     :: NODGRNR5, USR2SYS, NINTRI
       INTEGER              :: UNUSED_MAT_DETONATOR
-      DATA MESS/'DETONATORS DEFINITION                   '/      
+      DATA MESS/'DETONATORS DEFINITION                   '/
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------      
@@ -110,123 +110,123 @@ C-----------------------------------------------
       NDETCORD = DETONATORS%NDETCORD
 
       IS_ENCRYPTED= .FALSE.
-      IS_AVAILABLE = .FALSE.     
-      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)   
-      !---------------------------------!                                                     
-      !             READING             !                                                     
-      !---------------------------------!                                                     
-      CALL HM_GET_FLOATV('magnitude', VCJ, IS_AVAILABLE, LSUBMODEL, UNITAB)        
-      CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL, UNITAB)        
-      CALL HM_GET_INTV('rad_det_iopt', IOPT, IS_AVAILABLE, LSUBMODEL)        
-      CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)        
-      CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)        
-                                                                                              
-      !---------------------------------!                                                             
-      !      CHECKING USER FLAGS        !                                                             
-      !      +INTERNAL ID               !                                                             
-      !---------------------------------!                                                             
-      MDET=MAT !bak                                                                                   
-      IF (ALT > INFINITY) ALT=INFINITY                                                               
-      NPE2 = NODGRNR5(IGU ,IGS,DETONATORS%ICORD(N2),IGRNOD ,ITABM1 ,MESS)   
-      DETONATORS%NPE2 = NPE2                                     
-      IF(IGRNOD(IGS)%SORTED /= 1)THEN                                                                 
-          CALL ANCMSG(MSGID   = 104,                                                                  
-     .                MSGTYPE = MSGERROR,                                                             
-     .                ANMODE  = ANINFO,                                                               
-     .                C1      = '/DFS/DETCORD',                                                       
-     .                I1      = DET_ID,                                                                   
-     .                C2      = 'ORDERED GROUP OF NODES IS REQUIRED')                                 
-      ENDIF   
-      UNUSED = 0                                                                                        
-      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)                                         
-      IF (MAT < 0) THEN                                                                              
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)               
-        CALL ANCMSG(MSGID=102,                                                                        
-     .              MSGTYPE=MSGERROR,                                                                 
-     .              ANMODE=ANINFO,                                                                    
-     .              I1=DET_ID,                                                                            
-     .              C1='DETONATOR IS REFERRING TO A NEGATIVE MATERIAL ID',                            
-     .              C2='/DFS/DETCORD',                                                                
-     .              I2=MDET)                                                                          
-      ELSEIF (UNUSED==1) THEN                                                                         
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)               
-        CALL ANCMSG(MSGID=102,                                                                        
-     .              MSGTYPE=MSGERROR,                                                                 
-     .              ANMODE=ANINFO,                                                                    
-     .              I1=DET_ID,                                                                            
-     .              C1='DETONATOR IS REFERRING TO AN UNKNOWN MATERIAL ID',                            
-     .              C2='/DFS/DETCORD',                                                                
-     .              I2=MDET)                                                                          
-      ELSEIF (UNUSED==2) THEN                                                                         
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)               
-        CALL ANCMSG(MSGID=102,                                                                        
-     .              MSGTYPE=MSGERROR,                                                                 
-     .              ANMODE=ANINFO,                                                                    
-     .              I1=DET_ID,                                                                            
-     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',                   
-     .              C2='/DFS/DETCORD',                                                                
-     .              I2=MDET)                                                                          
-      ELSEIF (NPE2 == 0) THEN                                                                         
-        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)               
-      ELSE                                                                                            
-        !---------------------------------!                                                           
-        !        LISTING PRINTOUT         !                                                           
-        !---------------------------------!                                                           
-        !prevoir le cas NNOD=0 ou NNOD =1                                                             
-        I5   = I5+1                                                                                   
-        !IOPT=0  : def=3                                                                              
-        !IOPT=1  : Vdet  - multiple segments (experimental / osbslete)                                
-        !IOPT=2  : instantaneous - multiple segments (experimental / obsolete)                        
+      IS_AVAILABLE = .FALSE.
+      CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
+      !---------------------------------!
+      !             READING             !
+      !---------------------------------!
+      CALL HM_GET_FLOATV('magnitude', VCJ, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('rad_det_time', ALT, IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV('rad_det_iopt', IOPT, IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('rad_det_materialid', MAT, IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('entityid', IGU, IS_AVAILABLE, LSUBMODEL)
+
+      !---------------------------------!
+      !      CHECKING USER FLAGS        !
+      !      +INTERNAL ID               !
+      !---------------------------------!
+      MDET=MAT !bak
+      IF (ALT > INFINITY) ALT=INFINITY
+      NPE2 = NODGRNR5(IGU ,IGS,DETONATORS%ICORD(N2),IGRNOD ,ITABM1 ,MESS)
+      DETONATORS%NPE2 = NPE2
+      IF(IGRNOD(IGS)%SORTED /= 1)THEN
+          CALL ANCMSG(MSGID   = 104,
+     .                MSGTYPE = MSGERROR,
+     .                ANMODE  = ANINFO,
+     .                C1      = '/DFS/DETCORD',
+     .                I1      = DET_ID,
+     .                C2      = 'ORDERED GROUP OF NODES IS REQUIRED')
+      ENDIF
+      UNUSED = 0
+      IF(MAT > 0)UNUSED=UNUSED_MAT_DETONATOR(MAT,NUMMAT,IPM)
+      IF (MAT < 0) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR IS REFERRING TO A NEGATIVE MATERIAL ID',
+     .              C2='/DFS/DETCORD',
+     .              I2=MDET)
+      ELSEIF (UNUSED==1) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR IS REFERRING TO AN UNKNOWN MATERIAL ID',
+     .              C2='/DFS/DETCORD',
+     .              I2=MDET)
+      ELSEIF (UNUSED==2) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+        CALL ANCMSG(MSGID=102,
+     .              MSGTYPE=MSGERROR,
+     .              ANMODE=ANINFO,
+     .              I1=DET_ID,
+     .              C1='DETONATOR MUST REFER TO A JWL MATERIAL LAW (LAWS 5, 51, 97, 151)',
+     .              C2='/DFS/DETCORD',
+     .              I2=MDET)
+      ELSEIF (NPE2 == 0) THEN
+        CALL REMOVE_DET(KEY(1:7),I1,I2,I3,I4,I5,DETONATORS)
+      ELSE
+        !---------------------------------!
+        !        LISTING PRINTOUT         !
+        !---------------------------------!
+        !prevoir le cas NNOD=0 ou NNOD =1
+        I5   = I5+1
+        !IOPT=0  : def=3
+        !IOPT=1  : Vdet  - multiple segments (experimental / osbslete)
+        !IOPT=2  : instantaneous - multiple segments (experimental / obsolete)
         !IOPT=3  : Centripetal-Catmull-Rom SPLINE interpolation + projection along neutral fiber
         IF(IS_ENCRYPTED) WRITE(IOUT,1001)
-        IF(IOPT==0)IOPT=3                                                                             
-        IF(IOPT==2)THEN                                                                               
-          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1700) DET_ID,IGU,NPE2,ALT,MDET                                                       
-        ELSEIF(IOPT==1)THEN                                                                           
-          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1701) DET_ID,IGU,NPE2,ALT,VCJ,MDET                                                   
-        ELSEIF(IOPT==3)THEN                                                                           
-          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1700) DET_ID,IGU,NPE2,ALT,MDET                                                       
-        ENDIF                                                                                         
-        NPCM=MAX0(NPE2,NPCM)                                                                          
-        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,FMT=FMW_10I) (ITAB(DETONATORS%ICORD(I)),I=N2,N2+NPE2-1)   
-        DO I=N2,N2+NPE2-1                                                                             
-          CALL IFRONTPLUS(DETONATORS%ICORD(I),1)                                                                 
-        END DO                                                                                        
-        IF(IOPT==1 .AND. VCJ <= ZERO)IOPT=2                                                           
-        CALL DETCORD0(DETONATORS,ITAB,N2,ALT,X,VCJ,IOPT)                                                         
-        if(IOPT/=3 .AND. .NOT.IS_ENCRYPTED)WRITE(IOUT,FMT='(100F30.16)') ((DETONATORS%DCORD(I)),I=N2,N2+NPE2-1)                          
-        !---------------------------------!                                                           
-        DETONATORS%BURN(1,I5) = ALT                                                                                 
-        DETONATORS%BURN(2,I5) = MAT                                                                                 
-        DETONATORS%BURN(3,I5) = VCJ                                                                                 
-        DETONATORS%BURN(4,I5) = IOPT                                                                                
-        DETONATORS%BURN(5,I5) = ZERO                                                                                
-        DETONATORS%BURN(6,I5) = NPE2                                                                                
-        N2      = N2+NPE2                                                                             
-        DETONATORS%BURN(7,I5) = N2                                                                                  
-        DETONATORS%BURN(8,I5) = 0 !unused                                                                           
-      END IF                                                                                          
+        IF(IOPT==0)IOPT=3
+        IF(IOPT==2)THEN
+          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1700) DET_ID,IGU,NPE2,ALT,MDET
+        ELSEIF(IOPT==1)THEN
+          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1701) DET_ID,IGU,NPE2,ALT,VCJ,MDET
+        ELSEIF(IOPT==3)THEN
+          IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,1700) DET_ID,IGU,NPE2,ALT,MDET
+        ENDIF
+        NPCM=MAX0(NPE2,NPCM)
+        IF(.NOT.IS_ENCRYPTED)WRITE(IOUT,FMT=FMW_10I) (ITAB(DETONATORS%ICORD(I)),I=N2,N2+NPE2-1)
+        DO I=N2,N2+NPE2-1
+          CALL IFRONTPLUS(DETONATORS%ICORD(I),1)
+        END DO
+        IF(IOPT==1 .AND. VCJ <= ZERO)IOPT=2
+        CALL DETCORD0(DETONATORS,ITAB,N2,ALT,X,VCJ,IOPT)
+        if(IOPT/=3 .AND. .NOT.IS_ENCRYPTED)WRITE(IOUT,FMT='(100F30.16)') ((DETONATORS%DCORD(I)),I=N2,N2+NPE2-1)
+        !---------------------------------!
+        DETONATORS%BURN(1,I5) = ALT
+        DETONATORS%BURN(2,I5) = MAT
+        DETONATORS%BURN(3,I5) = VCJ
+        DETONATORS%BURN(4,I5) = IOPT
+        DETONATORS%BURN(5,I5) = ZERO
+        DETONATORS%BURN(6,I5) = NPE2
+        N2      = N2+NPE2
+        DETONATORS%BURN(7,I5) = N2
+        DETONATORS%BURN(8,I5) = 0 !unused
+      END IF
 C-----------------------------------------------
 C   O u t p u t   F o r m a t
 C-----------------------------------------------      
  1001 FORMAT(///'DETONATING CORD           ',I10,/5X,
      &          '---------------           ',/5X,
-     &          'CONFIDENTIAL DATA')    
+     &          'CONFIDENTIAL DATA')
  1700 FORMAT(///'DETONATING CORD            ',I10,/5X,
      &          '----------------           ',/5X,
      &          'NODE GROUP IDENTIFIER     =',I10     ,/5X,
-     &          'NUMBER OF POINTS(CORD)    =',I10     ,/5X,         
+     &          'NUMBER OF POINTS(CORD)    =',I10     ,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10     ,/5X,
-     &          'CORD DEFINITION :          ')     
+     &          'CORD DEFINITION :          ')
  1701 FORMAT(///'DETONATING CORD            ',I10,/5X,
      &          '----------------           ',/5X,
      &          'NODE GROUP IDENTIFIER     =',I10     ,/5X,
-     &          'NUMBER OF POINTS(CORD)    =',I10     ,/5X,         
+     &          'NUMBER OF POINTS(CORD)    =',I10     ,/5X,
      &          'LIGHTING TIME             =',1PG20.13,/5X,
-     &          'DETONATION VELOCITY       =',1PG20.13,/5X,     
+     &          'DETONATION VELOCITY       =',1PG20.13,/5X,
      &          'EXPLOSIVE MATERIAL NUMBER =',I10     ,/5X,
-     &          'CORD DEFINITION :          ')     
+     &          'CORD DEFINITION :          ')
 C-----------------------------------------------      
-                 
+
       END SUBROUTINE

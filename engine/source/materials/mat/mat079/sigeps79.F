@@ -36,10 +36,10 @@ Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
        SUBROUTINE SIGEPS79(
-     1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,                                                                                                               
+     1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VNEW   , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -132,7 +132,7 @@ C
      .      SIGOXX(NEL), SIGOYY(NEL), SIGOZZ(NEL),
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
      .      DVOL(NEL)  , VOL0(NEL)  , EPSD(NEL)  ,
-     .      AMU(NEL)      
+     .      AMU(NEL)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -147,7 +147,7 @@ C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     .      UVAR(NEL,NUVAR), OFF(NEL) 
+     .      UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -165,7 +165,7 @@ C----------------------------------------------------------------
      .   D1    , D2   , K1   , K2     , K3
       my_real
      .   MU(MVSIZ),MU2(MVSIZ), POLD(MVSIZ), DAMAGE(MVSIZ), VM(MVSIZ),
-     .   DELTAP(MVSIZ), PNEW(MVSIZ), PSTAR(MVSIZ), SCALE(MVSIZ), 
+     .   DELTAP(MVSIZ), PNEW(MVSIZ), PSTAR(MVSIZ), SCALE(MVSIZ),
      .   SIGYI(MVSIZ),  SIGYF(MVSIZ), SIGYOLD(MVSIZ)
       my_real
      .   DAV, CE, SIGSTAR, EPFAIL, P1, YIELD, DELTAU, DPDMU,
@@ -299,12 +299,12 @@ C-----------------------------
 C
          IF(EPFAIL > ZERO) THEN
            DPLA(I) = (ONE -SCALE(I))*VM(I)/(THREE*SQRT(THREE)*G)
-           DEFP(I) = DEFP(I)+DPLA(I)   
+           DEFP(I) = DEFP(I)+DPLA(I)
            DAMAGE(I) = MIN(ONE,DAMAGE(I)+DPLA(I)/EPFAIL)
          ELSEIF(SCALE(I) < ONE) THEN
            DAMAGE(I) = ONE
          ENDIF
-      ENDDO      
+      ENDDO
 C------------
 C NEW DELTAP
 C------------

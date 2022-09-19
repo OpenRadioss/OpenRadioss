@@ -48,7 +48,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT,NODLT,NDDIM, NPLYMAX,INOD(*)
 C     REAL
-cc        TYPE(LAYER_DATA), DIMENSION(:), ALLOCATABLE :: PLY 
+cc        TYPE(LAYER_DATA), DIMENSION(:), ALLOCATABLE :: PLY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -56,10 +56,10 @@ C-----------------------------------------------
       my_real
      .   VDT
 C
-       DO J=1,NPLYMAX                                                 
+       DO J=1,NPLYMAX
           CALL PLYV(NODFT,NODLT, INOD, PLY(J)%A(1,1),
-     .                                 PLY(J)%V(1,1),PLY(J)%U(1,1))  
-       ENDDO                                                          
+     .                                 PLY(J)%V(1,1),PLY(J)%U(1,1))
+       ENDDO
 C
       RETURN
       END
@@ -103,7 +103,7 @@ C
               IF(N > 0) THEN
                V(1,N)= V(1,N) + DT12*A(1,N)
                V(2,N)= V(2,N) + DT12*A(2,N)
-               V(3,N)= V(3,N) + DT12*A(3,N)  
+               V(3,N)= V(3,N) + DT12*A(3,N)
 C  displacement
                U(1,N)= U(1,N) + DT2*V(1,N)
                U(2,N)= U(2,N) + DT2*V(2,N)
@@ -113,7 +113,7 @@ C  displacement
                A(3,N)=ZERO
                A(4,N)=ZERO
               ENDIF
-            ENDDO                    
+            ENDDO
 C
       RETURN
       END

@@ -44,7 +44,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
@@ -73,9 +73,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID,MAXUPARAM
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
       INTEGER, INTENT(OUT)   :: NUPARAM,NUVAR,NFUNC,IMATVIS
       my_real, DIMENSION(MAXUPARAM) ,INTENT(OUT)   :: UPARAM
@@ -113,10 +113,10 @@ c
       CALL HM_GET_INTV  ('Vflag'     ,FLAG_VISC ,IS_AVAILABLE,LSUBMODEL)
 c
       IF (NORDER > 0) THEN
-        DO J=1,NORDER    
+        DO J=1,NORDER
           CALL HM_GET_FLOAT_ARRAY_INDEX('Mu_arr'   ,MU(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
-        DO J=1,NORDER     
+        DO J=1,NORDER
           CALL HM_GET_FLOAT_ARRAY_INDEX('Alpha_arr',AL(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
       ELSE
@@ -128,21 +128,21 @@ c
       ENDIF
 c
       IF (NVISC > 0) THEN
-        DO J=1,NVISC    
+        DO J=1,NVISC
           CALL HM_GET_FLOAT_ARRAY_INDEX('Gamma_arr',GAMA(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
-        DO J=1,NVISC     
+        DO J=1,NVISC
           CALL HM_GET_FLOAT_ARRAY_INDEX('Tau_arr'  ,TAUX(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
       ENDIF
       ITAG = 0
       IF (NORDER > 0) THEN
-           DO J=1,NORDER                                                                            
-               CALL HM_GET_FLOAT_ARRAY_INDEX('Nu_arr'   ,NU(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)  
-               IF(NU(J) /= ZERO) ITAG = 1   
+           DO J=1,NORDER
+               CALL HM_GET_FLOAT_ARRAY_INDEX('Nu_arr'   ,NU(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
+               IF(NU(J) /= ZERO) ITAG = 1
                IF (NU(J) >= HALF) NU(J) = ZEP499
-           ENDDO                                                                                    
-      ENDIF                                                                                               
+           ENDDO
+      ENDIF
 c--------------------------------------------------
 c     CHECK VALUES
 c--------------------------------------------------
@@ -150,11 +150,11 @@ c--------------------------------------------------
 c
       DO J=1,NORDER
         IF (AL(J) == ZERO) AL(J) = ONE
-      ENDDO  
+      ENDDO
 c
       GAMMAINF = ONE
       SUM      = ZERO
-      IF (NVISC > 0) THEN 
+      IF (NVISC > 0) THEN
         DO J=1,NVISC
           IF (TAUX(J) <= ZERO) TAUX(J) = EP20
           IF (GAMA(J) > ONE .OR. GAMA(J) < ZERO) THEN
@@ -164,7 +164,7 @@ c
      .                  I1=MAT_ID,
      .                  C1=TITR,
      .                  R1=GAMA(J))
-          ENDIF  
+          ENDIF
           SUM = SUM + GAMA(J)
         ENDDO
         GAMMAINF = ONE - SUM
@@ -173,7 +173,7 @@ c
       IF (VISCMAX == ZERO) VISCMAX=EP20
 c
       GS = ZERO
-      DO J=1,NORDER 
+      DO J=1,NORDER
         GS = GS + MU(J)
       ENDDO
       IF (GS < ZERO) THEN
@@ -191,16 +191,16 @@ c
          ENDDO
          NUG = HALF*(THREE*BULK - TWO*GS)/(THREE*BULK+ GS)
       ELSE
-          BETA(1:NORDER) = NUG/(ONE - TWO*NUG)  
-          BULK = TWO_THIRD*GS*(ONE + NUG)/MAX(EM20,(ONE - TWO*NUG))  
-      ENDIF    
+          BETA(1:NORDER) = NUG/(ONE - TWO*NUG)
+          BULK = TWO_THIRD*GS*(ONE + NUG)/MAX(EM20,(ONE - TWO*NUG))
+      ENDIF
 C          
        IF (NVISC > 0) THEN
          IVISC = 1
          IF (FLAG_VISC == 1) IVISC = 2
        ELSE
          IVISC = 0
-       ENDIF  
+       ENDIF
        FLAG_VISC = MIN(FLAG_VISC, 2)
 c---------------------
        UPARAM(1) = NUG
@@ -214,11 +214,11 @@ c---------------------
          UPARAM(6 + NORDER +   J) = AL(J)
        ENDDO
        IF (NVISC > 0) THEN
-         DO J= 1,NVISC 
+         DO J= 1,NVISC
            UPARAM(6 + NORDER*2 + J)         = GAMA(J)
            UPARAM(6 + NORDER*2 + NVISC + J) = TAUX(J)
-        ENDDO 
-       ENDIF 
+        ENDDO
+       ENDIF
        NUPARAM = 6 + 2*NORDER + 2*NVISC + 1
        UPARAM(NUPARAM) = IVISC
        !! adding beta_i
@@ -238,15 +238,15 @@ c-----------------
       PM(89) = RHO0
 c---------------------
       NFUNC = 0
-      NUVAR = 6 + 6*NVISC  
+      NUVAR = 6 + 6*NVISC
 c
-c     NUVAR   : pour savegarder H et S (integration convolutive)        
-c              + pressure viscosity NUVAR  = 9 + 3*NVISC*2 (a developpe en cas de besoin), 
+c     NUVAR   : pour savegarder H et S (integration convolutive)
+c              + pressure viscosity NUVAR  = 9 + 3*NVISC*2 (a developpe en cas de besoin),
 c---------------------
       IF (NVISC > 0) THEN
         IMATVIS = 3
       ELSE
-        IMATVIS = 1         
+        IMATVIS = 1
       ENDIF
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
@@ -269,8 +269,8 @@ c-----------------
           WRITE(IOUT,1500) NVISC
           IF (NVISC /= ZERO) WRITE(IOUT,1600)(GAMA(J),TAUX(J),J=1,NVISC)
           WRITE(IOUT,1700) FLAG_VISC
-        ENDIF  
-      ENDIF     
+        ENDIF
+      ENDIF
 C-----------------
       RETURN
  999  CALL FREERR(3)
@@ -283,21 +283,21 @@ C-----------------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT
      &(5X,'EQUIVALENT POISSON RATIO . . . .  . . .=',E12.4/
      &,5X,'INITIAL SHEAR MODULUS . . . . . . . . .=',E12.4/
-     & 5X,'MAXIMUM VISCOSITY. . . . .. . . . . . .=',E12.4// 
+     & 5X,'MAXIMUM VISCOSITY. . . . .. . . . . . .=',E12.4//
      &,5X,'ORDER OF STRAIN ENERGY. . . . . . . . .=',I8)
  1400 FORMAT(
      & 7X,'MATERIAL PARAMETER (MU). . . . . . . . =',E12.4/
      & 7X,'MATERIAL PARAMETER (ALPHA) . . . . . . =',E12.4/
-     & 7X,'MATERIAL PARAMETER (NU) . . . . . . .  =',E12.4/)    
+     & 7X,'MATERIAL PARAMETER (NU) . . . . . . .  =',E12.4/)
  1500 FORMAT(//
      & 5X,'ORDER OF MAXWELL MODEL . . . . . . . . =',I8 )
  1600 FORMAT(
      & 7X,'STIFFNESS RATIO. . . . . . . . . . .. .=',E12.4/
-     & 7X,'RELAXATION TIME . . . . . . . . . . .  =',E12.4)     
+     & 7X,'RELAXATION TIME . . . . . . . . . . .  =',E12.4)
  1700 FORMAT(/
      & 5X,'VISCOUS STRESS FORMULATION . . . . . . =',I8 /
      &10X,' 0 : VISCOUS STRESS IS DEVIATORIC ' , /

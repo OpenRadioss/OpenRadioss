@@ -56,7 +56,7 @@ C-----------------------------------------------
      .       XH,YH,ZH,X1H,Y1H,Z1H,NXH,NYH,NZH,
      .       NN,NX1,NY1,NZ1,NX2,NY2,NZ2,NX3,NY3,NZ3,NX4,NY4,NZ4,
      .       D1,D2,D3,D4,D12,D23,D34,D41,PS,N12,
-     .       NX,NY,NZ   
+     .       NX,NY,NZ
 C-----------------------------------------------
            IF (FLAG==1) DPS(NP) = 1.E+20
            NORMSEG=0
@@ -81,7 +81,7 @@ C----------
              XC=X3
              YC=Y3
              ZC=Z3
-           ENDIF	   
+           ENDIF	
 C----------
 C          triangle 1,2,C
            K  =0
@@ -469,7 +469,7 @@ C             normale sortante au segment.
               Z12=HALF*(Z2+Z3-Z1-Z4)
               X23=HALF*(X3+X4-X1-X2)
               Y23=HALF*(Y3+Y4-Y1-Y2)
-              Z23=HALF*(Z3+Z4-Z1-Z2)	      
+              Z23=HALF*(Z3+Z4-Z1-Z2)	
               NX = Y12*Z23-Z12*Y23
               NY =-X12*Z23+Z12*X23
               NZ = X12*Y23-Y12*X23
@@ -484,7 +484,7 @@ C             cumule normale sortante au segment.
               Z12=HALF*(Z2+Z3-Z1-Z4)
               X23=HALF*(X3+X4-X1-X2)
               Y23=HALF*(Y3+Y4-Y1-Y2)
-              Z23=HALF*(Z3+Z4-Z1-Z2)	      
+              Z23=HALF*(Z3+Z4-Z1-Z2)	
               NX = Y12*Z23-Z12*Y23
               NY =-X12*Z23+Z12*X23
               NZ = X12*Y23-Y12*X23

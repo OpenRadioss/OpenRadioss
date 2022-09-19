@@ -65,11 +65,11 @@ C-----------------------------------------------
       INTEGER I, IG, IRX, IR1Y, IR1Z,
      .   IR2Y, IR2Z, IRY, IRZ, J
       my_real
-     .   RXAV(MVSIZ), RYAV(MVSIZ), RZAV(MVSIZ),EXX00(MVSIZ), EXY00(MVSIZ), 
+     .   RXAV(MVSIZ), RYAV(MVSIZ), RZAV(MVSIZ),EXX00(MVSIZ), EXY00(MVSIZ),
      .   EXZ00(MVSIZ), EXY0(MVSIZ), EXZ0(MVSIZ),RZ10(MVSIZ),
-     .   RY10(MVSIZ), RZ20(MVSIZ), RY20(MVSIZ), EXX00PHI,EXY00PHI, 
-     .   EXZ00PHI, EXY0PHI, EXZ0PHI, RX10PHI, RY10PHI, RZ10PHI, 
-     .   RX20PHI, RY20PHI, RZ20PHI,OFF_L,DT05   
+     .   RY10(MVSIZ), RZ20(MVSIZ), RY20(MVSIZ), EXX00PHI,EXY00PHI,
+     .   EXZ00PHI, EXY0PHI, EXZ0PHI, RX10PHI, RY10PHI, RZ10PHI,
+     .   RX20PHI, RY20PHI, RZ20PHI,OFF_L,DT05
 C-----------------------------------------------
       DO I=LFT,LLT
         RX1(I)=E1X(I)*RX1G(I)+E1Y(I)*RY1G(I)+E1Z(I)*RZ1G(I)
@@ -172,7 +172,7 @@ C----------------------------
             EXY(I)=ZERO
             KXX(I)=ZERO
             KYY(I)=ZERO
-            KZZ(I)=ZERO   
+            KZZ(I)=ZERO
           ENDIF
         ENDDO
       ENDIF

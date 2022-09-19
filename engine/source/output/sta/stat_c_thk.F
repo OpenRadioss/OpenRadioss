@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,10 +73,10 @@ C-----------------------------------------------
       INTEGER NG, NEL, NFT, IAD, ITY, LFT,
      .        LLT, MLW, ISTRAIN, IHBE, ISH3N, IPRT
       INTEGER ID,IEXPAN,ISROT,ITHK
-      double precision   
+      double precision
      .   THK
       CHARACTER*100 LINE
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C     4-NODE SHELLS
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF(ITY==3) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
@@ -102,7 +102,7 @@ C-----------------------------------------------
 
           JJ = JJ + 1
           IF (MLW /= 0 .AND. MLW /= 13) THEN
-            WA(JJ) = GBUF%OFF(I) 
+            WA(JJ) = GBUF%OFF(I)
           ELSE
             WA(JJ) = ZERO
           ENDIF
@@ -119,7 +119,7 @@ C-----------------------------------------------
             WA(JJ) = ZERO
           ENDIF
          ENDDO
-       ENDIF        
+       ENDIF
       ENDDO
 
  200  CONTINUE
@@ -138,27 +138,27 @@ C-----------------------------------------------
          IF (IZIPSTRS == 0) THEN
            WRITE(IUGEO,'(A)')'/INISHE/THICK'
            WRITE(IUGEO,'(A)')
-     .      '#  SHELLID                                     THK' 
+     .      '#  SHELLID                                     THK'
          ELSE
            WRITE(LINE,'(A)')'/INISHE/THICK'
-           CALL STRS_TXT50(LINE,100) 
+           CALL STRS_TXT50(LINE,100)
            WRITE(LINE,'(A)')
-     .      '#  SHELLID                                     THK' 
-           CALL STRS_TXT50(LINE,100) 
+     .      '#  SHELLID                                     THK'
+           CALL STRS_TXT50(LINE,100)
          END IF
 
         DO N=1,STAT_NUMELC_G
           K=STAT_INDXC(N)
           J=3*(K-1)
-          IOFF  = NINT(WAP0(J + 1)) 
+          IOFF  = NINT(WAP0(J + 1))
           IF(IOFF >= 1)THEN
             ID  =NINT(WAP0(J+2))
             THK =WAP0(J+3)
             IF (IZIPSTRS == 0) THEN
                 WRITE(IUGEO,'(I10,20X,1PE20.13)')ID,THK
             ELSE
-                WRITE(LINE,'(I10,20X,1PE20.13)')ID,THK 
-               CALL STRS_TXT50(LINE,100) 
+                WRITE(LINE,'(I10,20X,1PE20.13)')ID,THK
+               CALL STRS_TXT50(LINE,100)
             END IF
           END IF
         END DO
@@ -174,7 +174,7 @@ C-----------------------------------------------
       DO NG=1,NGROUP
        ITY   =IPARG(5,NG)
        IF(ITY==7) THEN
-         GBUF => ELBUF_TAB(NG)%GBUF   
+         GBUF => ELBUF_TAB(NG)%GBUF
          MLW   =IPARG(1,NG)
          NEL   =IPARG(2,NG)
          NFT   =IPARG(3,NG)
@@ -207,7 +207,7 @@ C-----------------------------------------------
             WA(JJ) = ZERO
           ENDIF
          ENDDO
-       ENDIF        
+       ENDIF
       ENDDO
 
  300  CONTINUE
@@ -226,27 +226,27 @@ C-----------------------------------------------
         IF (IZIPSTRS == 0) THEN
           WRITE(IUGEO,'(A)')'/INISH3/THICK'
           WRITE(IUGEO,'(A)')
-     .      '#   SH3NID                                     THK' 
+     .      '#   SH3NID                                     THK'
          ELSE
            WRITE(LINE,'(A)')'/INISH3/THICK'
-           CALL STRS_TXT50(LINE,100) 
+           CALL STRS_TXT50(LINE,100)
            WRITE(LINE,'(A)')
-     .      '#   SH3NID                                     THK' 
-           CALL STRS_TXT50(LINE,100) 
+     .      '#   SH3NID                                     THK'
+           CALL STRS_TXT50(LINE,100)
          END IF
 
         DO N=1,STAT_NUMELTG_G
           K=STAT_INDXTG(N)
           J=3*(K-1)
-          IOFF  = NINT(WAP0(J + 1)) 
+          IOFF  = NINT(WAP0(J + 1))
           IF(IOFF >= 1)THEN
             ID  =NINT(WAP0(J+2))
             THK =WAP0(J+3)
             IF (IZIPSTRS == 0) THEN
                WRITE(IUGEO,'(I10,20X,1PE20.13)')ID,THK
             ELSE
-               WRITE(LINE,'(I10,20X,1PE20.13)')ID,THK 
-               CALL STRS_TXT50(LINE,100) 
+               WRITE(LINE,'(I10,20X,1PE20.13)')ID,THK
+               CALL STRS_TXT50(LINE,100)
             END IF
           END IF
         END DO

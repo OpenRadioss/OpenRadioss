@@ -62,7 +62,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NS  ! Number of the node in the subset
       INTEGER NG  ! Number of the node in the global set
-      INTEGER NEL ! Number of element attached to the node 
+      INTEGER NEL ! Number of element attached to the node
       INTEGER NUMG
       INTEGER I,K
 C-----------------------------------------------
@@ -70,7 +70,7 @@ C
 C Building the ADDCNEL table for a subset of nodes
 C    
       ! The first node is in first position in FSKY
-      ADDCNEL_SUB(2) = 1     
+      ADDCNEL_SUB(2) = 1
       ! Boucle ici pour indexer les elements non-locaux
       ! Loop over the nodes of the subset
       DO NS=1,SUBSIZE
@@ -81,11 +81,11 @@ C
         ! Initialization of the subsize element counter
         K = 0
         ! Loop over attached element
-        DO I = 1,NEL          
+        DO I = 1,NEL
           ! Number of the element
           NUMG = CNEL(ADDCNEL(NG+1)+I-1)
           ! Treatment according to element type
-          IF (NUMG<=NUMELS) THEN  
+          IF (NUMG<=NUMELS) THEN
             K = K + 1
           ELSEIF (NUMG<=NUMELS+NUMELQ) THEN
             CONTINUE
@@ -103,7 +103,7 @@ C
             K = K + 1
           ELSE
             CONTINUE
-          ENDIF   
+          ENDIF
         ENDDO
         ! Computing the position of the current subset node in FSKY
         ADDCNEL_SUB(NS+2) = ADDCNEL_SUB(NS+1) + K

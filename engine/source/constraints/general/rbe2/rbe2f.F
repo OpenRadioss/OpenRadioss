@@ -445,7 +445,7 @@ C---  reset of secnd nodes forces is necessary w/AMS
            AR(1,NS)=AR(1,NS)-AA*CDR(JJ+1)
            AR(2,NS)=AR(2,NS)-AA*CDR(JJ+2)
            AR(3,NS)=AR(3,NS)-AA*CDR(JJ+3)
-         END IF      
+         END IF
         ENDDO
         IF ((JR(1)+JR(2)+JR(3))==3) STIFR(NS)=EM20
        ENDDO

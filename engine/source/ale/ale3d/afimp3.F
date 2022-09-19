@@ -55,7 +55,7 @@ C-----------------------------------------------
 ! SPMD CASE : SX >= 3*NUMNOD    (SX = 3*(NUMNOD_L+NRCVVOIS_L))
 ! X(1:3,1:NUMNOD) : local nodes
 !  (1:3, NUMNOD+1:) additional nodes (also on adjacent domains but connected to the boundary of the current domain)
-!      
+!
       INTEGER IXS(NIXS,SIXS/NIXS)
       my_real PM(NPROPM,NUMMAT), X(3,SX/3), T(*), GRAD(6,*), COEF(*), FV(*)
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT

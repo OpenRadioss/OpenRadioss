@@ -81,7 +81,7 @@ c
             S03(I) = S03(I)+HS*DE3(I)
             SIGA(I,1) = (ONE-SCLE1(I))*S1(I)+SCLE1(I)*S01(I)
             SIGA(I,2) = (ONE-SCLE2(I))*S2(I)+SCLE2(I)*S02(I)
-            SIGA(I,3) = (ONE-SCLE3(I))*S3(I)+SCLE3(I)*S03(I) 
+            SIGA(I,3) = (ONE-SCLE3(I))*S3(I)+SCLE3(I)*S03(I)
          ENDDO
 c--------------
          RETURN

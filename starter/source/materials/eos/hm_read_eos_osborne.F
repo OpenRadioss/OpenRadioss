@@ -37,7 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -74,7 +74,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real  GAMMA, P0,T0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C, FAC_E
       my_real A1,A2,B0,B1,B2,C0,C1,D0,RHOI,RHOR,dPdmu_partial,dPdE,DF,MU0,DPDMU,A2_,G0,SSP0, DENOM
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -101,11 +101,11 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-            
+
       IF(
      .   A1 <= ZERO .OR.
      .   A2 <= ZERO .OR.
@@ -115,7 +115,7 @@ C-----------------------------------------------
      .   C0 <= ZERO .OR.
      .   C1 <= ZERO .OR.
      .   D0 <= ZERO .OR.
-     .   RHO0 <= ZERO 
+     .   RHO0 <= ZERO
      .   )THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -128,8 +128,8 @@ C-----------------------------------------------
       !solve P(0,E0)=P0  :  2 roots
       !E0 =-HALF*(B0-P0+SQRT(FOUR*C0*D0*P0+B0**TWO-TWO*B0*P0+P0**TWO))/C0  !root-1
       E0 =-HALF*(B0-P0-SQRT(FOUR*C0*D0*P0+B0**TWO-TWO*B0*P0+P0**TWO))/C0   !root-2
-      
-      
+
+
       PM(23) = E0
       PM(164) = A1
       PM(32) = A2
@@ -142,8 +142,8 @@ C-----------------------------------------------
       PM(163) = P0
       !PM(88) = PSH
       PM(31)  = P0
-      IF(PM(79)==ZERO)PM(79)=THREE100     
-      
+      IF(PM(79)==ZERO)PM(79)=THREE100
+
       !P0
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -154,28 +154,28 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-      
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
-      
-      A2_=A2                                                                              
-      IF(MU0 < ZERO)A2_=-A2                                                               
-      DENOM   = (E0+D0)                                                                   
-      dPdmu_partial   = (A1+2*A2_*MU0+(TWO*B2*MU0+B1)*E0+C1*E0*E0)/DENOM                 
-      dPdE = (((B2*MU0+B1)*MU0+B0)+(TWO*(C1*MU0+C0))*E0 - P0/DENOM)/DENOM                                         
-      DPDMU = dPdmu_partial + dPdE*DF*DF*(P0)   !total derivative                         
-      
+
+      A2_=A2
+      IF(MU0 < ZERO)A2_=-A2
+      DENOM   = (E0+D0)
+      dPdmu_partial   = (A1+2*A2_*MU0+(TWO*B2*MU0+B1)*E0+C1*E0*E0)/DENOM
+      dPdE = (((B2*MU0+B1)*MU0+B0)+(TWO*(C1*MU0+C0))*E0 - P0/DENOM)/DENOM
+      DPDMU = dPdmu_partial + dPdE*DF*DF*(P0)   !total derivative
+
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0            
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
 
       WRITE(IOUT,1000)
 

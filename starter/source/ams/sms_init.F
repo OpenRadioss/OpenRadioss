@@ -65,11 +65,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        IXS(NIXS,*),IXS10(6,*) ,IXS16(6,*) ,IXS20(12,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .        IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
-     .        IPARG(NPARG,*), 
+     .        IPARG(NPARG,*),
      .   NODNX_SMS(*), ICODT(*), ICODR(*), KINET(*),
      .   IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
      .   IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),IPARTX(*),
@@ -84,7 +84,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD, 
+      INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD,
      .        IAD, IP, NAD_SMS(NUMNOD),ILOC4(4),IWORK(NUMNOD),
      .        TAG8(8), IG, IGTYP, ILW, IRIGID
       INTEGER SIZE, LENR, KSMS1, NM, NS, IMOV, NSN, ILAGM,
@@ -130,13 +130,13 @@ C pulleys
 
         IF(IGTYP==12)THEN
           K=2
-          I = IXR(1+K,J) 
+          I = IXR(1+K,J)
           NATIV_SMS(I)=NATIV_SMS(I)+1
           K=3
-          I = IXR(1+K,J) 
+          I = IXR(1+K,J)
           NATIV_SMS(I)=NATIV_SMS(I)+1
-        END IF                                    
-      ENDDO                                      
+        END IF
+      ENDDO
       CALL NODNX_SMS_INI(NUMNOD  ,NUMELTG,NIXTG,1 ,3 ,
      1IXTG,IPARTTG,TAGPRT_SMS,NATIV_SMS)
       CALL NODNX_SMS_INI(NUMNOD  ,NUMELC ,NIXC ,1 ,4 ,
@@ -174,7 +174,7 @@ C
             ENDIF
           ENDDO
           IF(NG/=0)THEN
-            WRITE(ISTDO,'(A)') 
+            WRITE(ISTDO,'(A)')
      .      ' ** WARNING IN ADVANCED MASS SCALING DEFINITION'
             WRITE(IOUT,'(A)')
      .      ' ** WARNING IN ADVANCED MASS SCALING DEFINITION :'
@@ -193,7 +193,7 @@ C
             ENDIF
           ENDDO
           IF(NG/=0)THEN
-            WRITE(ISTDO,'(A)') 
+            WRITE(ISTDO,'(A)')
      .      ' ** WARNING IN ADVANCED MASS SCALING DEFINITION'
             WRITE(IOUT,'(A)')
      .      ' ** WARNING IN ADVANCED MASS SCALING DEFINITION :'
@@ -231,7 +231,7 @@ C-----
         END DO
       END IF
       IF(KSMS1/=0)THEN
-        WRITE(ISTDO,'(A)') 
+        WRITE(ISTDO,'(A)')
      .  ' ** WARNING IN ADVANCED MASS SCALING DEFINITION'
         WRITE(IOUT,'(A)')
      .  ' ** WARNING IN ADVANCED MASS SCALING DEFINITION :'
@@ -277,11 +277,11 @@ C if msr secnd of moving or lagrange wall => no ams
             K  =K+NSN
           END DO
  100      CONTINUE
-          IF(IWSMS==0.AND.NPBY(7,M)>0 .AND. 
-     .       (KINET(MSR) <=1 
+          IF(IWSMS==0.AND.NPBY(7,M)>0 .AND.
+     .       (KINET(MSR) <=1
      .        .OR. IVF(KINET(MSR)) ==1
-     .        .OR. IRLK(KINET(MSR))==1 
-     .        .OR. IJO(KINET(MSR)) ==1 
+     .        .OR. IRLK(KINET(MSR))==1
+     .        .OR. IJO(KINET(MSR)) ==1
      .        .OR. IWL(KINET(MSR)) ==1 )) THEN
 C
             TAGMSR_RBY_SMS(MSR)=M
@@ -296,7 +296,7 @@ C
       END DO
 
       IF(IWSMS/=0)THEN
-        WRITE(ISTDO,'(A)') 
+        WRITE(ISTDO,'(A)')
      .  ' ** WARNING IN ADVANCED MASS SCALING DEFINITION'
         WRITE(IOUT,'(A)')
      .  ' ** WARNING IN ADVANCED MASS SCALING DEFINITION :'
@@ -411,17 +411,17 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .        IXS(NIXS,*),IXS10(6,*) ,IXS16(6,*) ,IXS20(12,*),
      .        IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .        IXR(NIXR,*), IXTG(NIXTG,*), IXTG1(4,*),
-     .        IPARG(NPARG,*), 
-     .   NODNX_SMS(*), ICODT(*), ICODR(*), KINET(*), 
+     .        IPARG(NPARG,*),
+     .   NODNX_SMS(*), ICODT(*), ICODR(*), KINET(*),
      .   KAD_SMS(*),
      .   IPARTS(*),IPARTQ(*),IPARTC(*),IPARTT(*),
      .   IPARTP(*),IPARTR(*),IPARTUR(*),IPARTTG(*),IPARTX(*),
      .   TAGPRT_SMS(*), TAGREL_SMS(*),
-     .   ITAB(*), 
+     .   ITAB(*),
      .   IRBE2(NRBE2L,*), IRBE3(NRBE3L,*), LRBE2(*), LRBE3(*),
      .   NPRW(*), LPRW(*),
      .   IPART(LIPART1,*), IGEO(NPROPGI,*), NATIV_SMS(*)
@@ -431,7 +431,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD, 
+      INTEGER I, J, K, NG, N, JJ, KK, ITY, NEL, NFT, ISOLNOD,
      .        IAD, IP, NAD_SMS(NUMNOD),ILOC4(4),IWORK(NUMNOD),
      .        TAG8(8), IG, IGTYP
       INTEGER J1, IPERM1(6), IPERM2(6),IPENTA6(6)
@@ -754,20 +754,20 @@ C
       DO J=1,NUMEL
         IF(TAGPRT_SMS(IPARTX(J))==0) CYCLE
 
-        DO K=1,LIX                               
-          I = IX(MIX+K,J) 
+        DO K=1,LIX
+          I = IX(MIX+K,J)
           IF(I/=0) TAG(I)=0
-        ENDDO                                    
-        DO K=1,LIX                               
-          I = IX(MIX+K,J) 
+        ENDDO
+        DO K=1,LIX
+          I = IX(MIX+K,J)
           IF(I/=0)THEN
             IF(TAG(I)==0)THEN
               NODNX_SMS(I)=NODNX_SMS(I)+1
               TAG(I)=1
-            END IF		    
-          END IF                  
-        ENDDO                                    
-      ENDDO                                      
+            END IF		
+          END IF
+        ENDDO
+      ENDDO
 
       RETURN
       END
@@ -791,7 +791,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -811,22 +811,22 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
-     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*), 
+      INTEGER
+     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*), IXS10(6,*),
      .        NODNX_SMS(*), KAD_SMS(*), IAD_SMS(*),
      .        JADC_SMS(4,*),
-     .        JADS_SMS(8,*), JADS10_SMS(6,*), 
-     .        JADT_SMS(2,*), 
+     .        JADS_SMS(8,*), JADS10_SMS(6,*),
+     .        JADT_SMS(2,*),
      .        JADP_SMS(2,*),
-     .        JADR_SMS(3,*), 
+     .        JADR_SMS(3,*),
      .        JADTG_SMS(3,*), NATIV_SMS(*),
-     .        TAGPRT_SMS(*), TAGREL_SMS(*), 
+     .        TAGPRT_SMS(*), TAGREL_SMS(*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
      .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*), IPARTX(*),
      .        NPBY(NNPBY,*), LPBY(*), KINET(*), TAGSLV_RBY_SMS(*),
-     .        IPARI(NPARI,*), 
-     .        LAD_SMS(*), KDI_SMS(*), 
+     .        IPARI(NPARI,*),
+     .        LAD_SMS(*), KDI_SMS(*),
      .        IPART(LIPART1,*), IGEO(NPROPGI,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -835,7 +835,7 @@ C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
       INTEGER NG, ITY, NEL, NFT, ISOLNOD,ILOC4(4),TAGA(NUMNOD),
      .        TAG8(8), IG, IGTYP
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), 
+      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD),
      .        NSR
       INTEGER SIZE, LENR, IAD, L, LLT
       INTEGER NTY, ILAGM,JI, N1, N2, N3, N4, LNEW, ILEV
@@ -1200,7 +1200,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1220,23 +1220,23 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
-     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*), 
+      INTEGER
+     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*), IXS10(6,*),
      .        NODNX_SMS(*), KAD_SMS(*), KDI_SMS(*), PK_SMS(*),
      .        IAD_SMS(*), IDI_SMS(*), JAD_SMS(*), JDI_SMS(*),
      .        JADC_SMS(4,*),
-     .        JADS_SMS(8,*), JADS10_SMS(6,*), 
-     .        JADT_SMS(2,*), 
+     .        JADS_SMS(8,*), JADS10_SMS(6,*),
+     .        JADT_SMS(2,*),
      .        JADP_SMS(2,*),
-     .        JADR_SMS(3,*), 
+     .        JADR_SMS(3,*),
      .        JADTG_SMS(3,*),NATIV_SMS(*),
-     .        TAGPRT_SMS(*), TAGREL_SMS(*), 
+     .        TAGPRT_SMS(*), TAGREL_SMS(*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
      .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*), IPARTX(*),
      .        NPBY(NNPBY,*), LPBY(*), KINET(*), TAGSLV_RBY_SMS(*),
-     .        IPARI(NPARI,*), 
-     .        LAD_SMS(*), 
+     .        IPARI(NPARI,*),
+     .        LAD_SMS(*),
      .        IPART(LIPART1,*), IGEO(NPROPGI,*),T2MAIN_SMS(4,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
 C-----------------------------------------------
@@ -1244,10 +1244,10 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
       INTEGER NMN, IUN
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), 
+      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD),
      .        NSR
       INTEGER SIZE, LENR, IAD, L, LLT
-      INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
+      INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI,
      .         N1, N2, N3, N4, LNEW, ILEV
       INTEGER TAGK(NUMNOD), IK, NK, IKK,PERM,
      .        ITRI(NUMNOD),INDEX(2*NUMNOD),INDEX2(NUMNOD),WORK(70000)
@@ -1276,16 +1276,16 @@ C       reordonne IDI_SMS(KJ), KJ=IAD_SMS(I),IAD_SMS(I)+LAD_SMS(I)-1
           KJ=IAD_SMS(I)+IK-1
           ITRI(IK) =IDI_SMS(KJ)
           INDEX(IK)=IK
-        END DO  
+        END DO
 
-        IF(NK/=0)THEN 
+        IF(NK/=0)THEN
 
           IF(NK<16)THEN
 C When #of connectivities are small
 C Bubble sort is more efficient
 
            ITERATE=.TRUE.
-           DO WHILE (ITERATE .EQV. .TRUE.)     
+           DO WHILE (ITERATE .EQV. .TRUE.)
               ITERATE=.FALSE.
               DO J=1,NK-1
                 IF(ITRI(J)> ITRI(J+1) )THEN
@@ -1305,7 +1305,7 @@ C Bubble sort is more efficient
              KJ=IAD_SMS(I)+IK-1
              IDI_SMS(KJ)=ITRI(IK)
            END DO
-                
+
 
           ELSE
            CALL MY_ORDERS(0,WORK,ITRI,INDEX,NK,1)
@@ -1348,7 +1348,7 @@ C-------------------------------------------------------------------------
 C-------------------------------------------------------------------------
 C inter/type2 : numbering
 C------------
-      KINET(1:NUMNOD) = 0 
+      KINET(1:NUMNOD) = 0
 C
 C     Tag des mains pour TYPE2 symetrisees
 C
@@ -1358,12 +1358,12 @@ C
           NMN   = IPARI(6,N)
           ILEV  = IPARI(20,N)
 c
-          DO I=1,NMN                   
-            J = INTBUF_TAB(N)%MSR(I)   
+          DO I=1,NMN
+            J = INTBUF_TAB(N)%MSR(I)
             IF (ILEV == 0 .OR. ILEV == 1 .OR. ILEV == 27 .OR. ILEV == 28) THEN
               KINET(J) = KINET(J)+1
-            ENDIF  
-          ENDDO    
+            ENDIF
+          ENDDO
         ENDIF
       ENDDO
 C
@@ -1373,12 +1373,12 @@ C
           NMN   = IPARI(6,N)
           ILEV  = IPARI(20,N)
 c
-          DO I=1,NMN                   
-            J = INTBUF_TAB(N)%MSR(I)   
+          DO I=1,NMN
+            J = INTBUF_TAB(N)%MSR(I)
             IF (ILEV == 0 .OR. ILEV == 1 .OR. ILEV == 27 .OR. ILEV == 28) THEN
               KINET(J) = KINET(J)+1
-            ENDIF  
-          ENDDO    
+            ENDIF
+          ENDDO
         ENDIF
       ENDDO
 C
@@ -1412,7 +1412,7 @@ C
             T2MAIN_SMS(3,I)  = N3
             T2MAIN_SMS(4,I)  = N4
 
-          ENDDO  
+          ENDDO
         ELSEIF(NTY==2 .AND. ILAGM==0 .AND.(ILEV==27.or.ILEV==28))THEN
            DO II=1,NSN
             I=ABS(INTBUF_TAB(N)%NSV(II))
@@ -1434,7 +1434,7 @@ C
               T2MAIN_SMS(4,I)  = N4
 
             ENDIF
-          ENDDO        
+          ENDDO
         ENDIF
       ENDDO
 C
@@ -1451,7 +1451,7 @@ C
             N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
             N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
             N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
             IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -1488,7 +1488,7 @@ C-- Type2 crossed connection between main nodes
             N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
             N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
             N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
             IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -1512,7 +1512,7 @@ C           Kinematic node
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                          .AND.NATIV_SMS(N2)==0
      .                          .AND.NATIV_SMS(N3)==0
@@ -1546,7 +1546,7 @@ C           Penalty node
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -1596,7 +1596,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -1618,24 +1618,24 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
-     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*), 
+      INTEGER
+     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*), IXS10(6,*),
-     .        NODNX_SMS(*), KAD_SMS(*), KDI_SMS(*), 
+     .        NODNX_SMS(*), KAD_SMS(*), KDI_SMS(*),
      .        IAD_SMS(*), IDI_SMS(*), JAD_SMS(*), JDI_SMS(*),
      .        JADC_SMS(4,*),
-     .        JADS_SMS(8,*), JADS10_SMS(6,*), 
-     .        JADT_SMS(2,*), 
+     .        JADS_SMS(8,*), JADS10_SMS(6,*),
+     .        JADT_SMS(2,*),
      .        JADP_SMS(2,*),
-     .        JADR_SMS(3,*), 
+     .        JADR_SMS(3,*),
      .        JADTG_SMS(3,*),
-     .        TAGPRT_SMS(*), TAGREL_SMS(*), 
+     .        TAGPRT_SMS(*), TAGREL_SMS(*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
      .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*), IPARTX(*),
      .        NPBY(NNPBY,*), LPBY(*), KINET(*), TAGSLV_RBY_SMS(*),
-     .        IPARI(NPARI,*), 
-     .        LAD_SMS(*), 
-     .        NPRW(*), LPRW(*), TAGMSR_RBY_SMS(*),  
+     .        IPARI(NPARI,*),
+     .        LAD_SMS(*),
+     .        NPRW(*), LPRW(*), TAGMSR_RBY_SMS(*),
      .        IPART(LIPART1,*), IGEO(NPROPGI,*), NATIV_SMS(*),
      .        IRBE2(NRBE2L,*), LRBE2(*), T2MAIN_SMS(4,*)
 
@@ -1646,12 +1646,12 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL,
      .        NHI, NS
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD),  NAD_SMS_0(NUMNOD), 
+      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD),  NAD_SMS_0(NUMNOD),
      .        NSR, NSMS(2)
       INTEGER NSNW, IMOV
       INTEGER SIZE, LENR, IAD, L, LLT
-      INTEGER NTY, ILAGM, JI, 
-     .         N1, N2, N3, N4, N5, N6, 
+      INTEGER NTY, ILAGM, JI,
+     .         N1, N2, N3, N4, N5, N6,
      .         NMN, ILEV
       INTEGER IK
 C-------------------------------------------------------------------------
@@ -1688,7 +1688,7 @@ C
             N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
             N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
             N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
             IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -1742,7 +1742,7 @@ C
             N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
             N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
             N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
             IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -1781,12 +1781,12 @@ C             Kinematic node
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
      .                        .AND.NATIV_SMS(N4)==0) CYCLE
-  
+
               DO KJ=JAD_SMS(I),JAD_SMS(I)+LAD_SMS(I)-1
                 J =JDI_SMS(KJ)
 C
@@ -1833,7 +1833,7 @@ C             Penalty node
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -1899,7 +1899,7 @@ Chd|====================================================================
      7             IPARTP    ,IPARTR ,IPARTUR  ,IPARTTG  ,IPARTX   ,
      8             NPBY     ,LPBY     ,KINET    ,
      9             TAGSLV_RBY_SMS,IPARI,INTBUF_TAB,
-     A             LAD_SMS   ,JSM_SMS  ,INTSTAMP  ,IPART     , 
+     A             LAD_SMS   ,JSM_SMS  ,INTSTAMP  ,IPART     ,
      B             IGEO     ,TAGMSR_RBY_SMS,NATIV_SMS,
      C             IAD_SMS   ,IDI_SMS,JAD_SMS  ,JDI_SMS  ,T2MAIN_SMS)
 C-----------------------------------------------
@@ -1907,7 +1907,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE INTSTAMP_MOD
       USE INTBUFDEF_MOD
-      USE MESSAGE_MOD  
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1928,23 +1928,23 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
-     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*), 
+      INTEGER
+     .        IPARG(NPARG,*), IXC(NIXC,*), IXS(NIXS,*), IXT(NIXT,*),
      .        IXP(NIXP,*), IXR(NIXR,*), IXTG(NIXTG,*), IXS10(6,*),
      .        NODNX_SMS(*), KAD_SMS(*), KDI_SMS(*),
      .        IAD_SMS(*), IDI_SMS(*), JAD_SMS(*), JDI_SMS(*),
      .        JADC_SMS(4,*),
-     .        JADS_SMS(8,*), JADS10_SMS(6,*), 
-     .        JADT_SMS(2,*), 
+     .        JADS_SMS(8,*), JADS10_SMS(6,*),
+     .        JADT_SMS(2,*),
      .        JADP_SMS(2,*),
-     .        JADR_SMS(3,*), 
+     .        JADR_SMS(3,*),
      .        JADTG_SMS(3,*),NATIV_SMS(*),
-     .        TAGPRT_SMS(*), TAGREL_SMS(*), 
+     .        TAGPRT_SMS(*), TAGREL_SMS(*),
      .        IPARTS(*), IPARTQ(*), IPARTC(*), IPARTT(*),
      .        IPARTP(*), IPARTR(*), IPARTUR(*), IPARTTG(*), IPARTX(*),
      .        NPBY(NNPBY,*), LPBY(*), KINET(*), TAGSLV_RBY_SMS(*),
-     .        IPARI(NPARI,*), 
-     .        LAD_SMS(*), JSM_SMS(*), 
+     .        IPARI(NPARI,*),
+     .        LAD_SMS(*), JSM_SMS(*),
      .        IPART(LIPART1,*), IGEO(NPROPGI,*), TAGMSR_RBY_SMS(*), T2MAIN_SMS(4,*)
       TYPE(INTSTAMP_DATA) INTSTAMP(*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -1952,10 +1952,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, JJ, KK, II, IJ, M, N, IERROR, KL
-      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), NAD_SMS_0(NUMNOD), 
+      INTEGER MSR, NSN, KI, KJ, NAD_SMS(NUMNOD), NAD_SMS_0(NUMNOD),
      .        NSR
       INTEGER SIZE, LENR, IAD, L, LLT
-      INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI, 
+      INTEGER NTY, ILAGM, K10, K11, K12, K13, K14, JI,
      .         N1, N2, N3, N4,
      .         NMN, ILEV, ERROR
       INTEGER IK, NK, K1, K2, KM
@@ -2030,7 +2030,7 @@ C
             N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
             N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
             N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
             IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -2099,7 +2099,7 @@ C
             N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
             N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
             N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
             IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -2140,13 +2140,13 @@ C
             I=ABS(INTBUF_TAB(N)%NSV(II))
             IF (KINET(I)==0) THEN
 C           Kinematic node
- 
+
               L=INTBUF_TAB(N)%IRTLM(II)
               N1 = INTBUF_TAB(N)%IRECTM(4*(L-1)+1)
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-      
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0
@@ -2207,7 +2207,7 @@ C           Penalty node
               N2 = INTBUF_TAB(N)%IRECTM(4*(L-1)+2)
               N3 = INTBUF_TAB(N)%IRECTM(4*(L-1)+3)
               N4 = INTBUF_TAB(N)%IRECTM(4*(L-1)+4)
-    
+
               IF(NATIV_SMS(I)==0.AND.NATIV_SMS(N1)==0
      .                        .AND.NATIV_SMS(N2)==0
      .                        .AND.NATIV_SMS(N3)==0

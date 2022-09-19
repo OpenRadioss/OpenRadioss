@@ -36,8 +36,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE R2R_MOD   
-      USE HM_OPTION_READ_MOD    
+      USE R2R_MOD
+      USE HM_OPTION_READ_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -75,21 +75,21 @@ C=======================================================================
 C     
       IS_AVAILABLE = .FALSE.
 C-----------------------------------------------
-      CALL HM_OPTION_START('/PRELOAD')       
+      CALL HM_OPTION_START('/PRELOAD')
 C-----------------------------------------------
       NLD  = NUMPRELOAD
       NUMPRELOAD = 0
-                                        
+
       DO I=1,NLD
         ! Read title, ID and Unit ID
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = ID, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = ID,
      .                          UNIT_ID        = UID,
-     .                          OPTION_TITR    = TITR)           
+     .                          OPTION_TITR    = TITR)
 C
 
-        CALL HM_GET_INTV('sect_ID'  ,ISEC  ,IS_AVAILABLE,LSUBMODEL)                                             
+        CALL HM_GET_INTV('sect_ID'  ,ISEC  ,IS_AVAILABLE,LSUBMODEL)
 
 	   NN = 0
         IF (ISEC > 0) THEN
@@ -100,11 +100,11 @@ C
                 EXIT
               ENDIF
               K0=NSTRF(K0+24)
-           ENDDO 
+           ENDDO
         ENDIF
-        NUMPRELOAD = NUMPRELOAD + NN	 
+        NUMPRELOAD = NUMPRELOAD + NN	
 
-      ENDDO                                            
+      ENDDO
 C---
       RETURN
 

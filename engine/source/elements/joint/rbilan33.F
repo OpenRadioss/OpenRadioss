@@ -57,7 +57,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,MX, FLAG
       my_real
-     .   VXA, VYA, VZA, XMAS2, VA2, REINTT, 
+     .   VXA, VYA, VZA, XMAS2, VA2, REINTT,
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ),
      .   RBIDON(1),OFF(MVSIZ)
 C-----------------------------------------------

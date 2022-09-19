@@ -40,10 +40,10 @@ Chd|        OPEN_INTERF_TIME              engine/source/system/timer_interf.F
 Chd|        PRINTIME_INTERF               engine/source/system/timer_interf.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      MODULE METRIC_MOD 
+      MODULE METRIC_MOD
 C----------------------------------------
 
-#include "my_real.inc"      
+#include "my_real.inc"
 C  Flag 2 names
       INTEGER, PARAMETER :: ALGO_VOXEL        = 1
       INTEGER, PARAMETER :: ALGO_BUCKET       = 2
@@ -57,8 +57,8 @@ C Indexes
       INTEGER, PARAMETER ::  I_MAIN_FORCES    = 4
       INTEGER, PARAMETER ::  I_NOINT          = 5
       INTEGER, PARAMETER ::  I_MULTIMP        = 6
-      INTEGER, PARAMETER ::  I_NSN            = 7 
-      INTEGER, PARAMETER ::  I_NSNR           = 8 
+      INTEGER, PARAMETER ::  I_NSN            = 7
+      INTEGER, PARAMETER ::  I_NSNR           = 8
       INTEGER, PARAMETER ::  I_NCONT          = 9
 C Sizes
       INTEGER, PARAMETER ::  SIZE_TIMER       = 4
@@ -66,15 +66,15 @@ C Sizes
 
 C Debug
       INTEGER, PARAMETER ::  FILE_ID= 4999
- 
-      INTEGER :: GLOBAL_INTERFACE_SORTING_ALGO 
 
-      TYPE METRIC_STRUCT_ 
+      INTEGER :: GLOBAL_INTERFACE_SORTING_ALGO
+
+      TYPE METRIC_STRUCT_
         INTEGER :: NOINT
         INTEGER :: MULTIMP
         INTEGER :: NSN
         INTEGER :: NSNR
-        INTEGER :: IMPACT 
+        INTEGER :: IMPACT
         INTEGER :: NCONT
         INTEGER :: CYCLE0
         INTEGER :: ALGO ! 1: definitive voxel, 2:definitive bucket , -1:test voxel, 0: test bucket
@@ -100,7 +100,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-       WRITE(4999,'(6I10,4F12.5)') 
+       WRITE(4999,'(6I10,4F12.5)')
      . THIS%NOINT,
      . THIS%CYCLE0,
      . THIS%NCONT,

@@ -57,6 +57,6 @@ C
       TENSOR(3,OFFSET+NFT+I) = VALUE(3)
       IF(IOK_PART(I) == 1 .AND. ISELECT == 1) IS_WRITTEN(OFFSET+NFT+I)= 1
       VALUE(1:5) = ZERO
- 
+
       RETURN
       END

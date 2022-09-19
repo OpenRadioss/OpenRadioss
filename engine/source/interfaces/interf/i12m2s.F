@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NIR,KVAR, II,I, ADS,J,NN
-      my_real, DIMENSION(:), POINTER :: ptr      
+      my_real, DIMENSION(:), POINTER :: ptr
 C-----------------------------------------------
       NIR=2
       IF(N2D==0)NIR=4
@@ -60,7 +60,7 @@ C-----------------------------------------------
       !   main SEGMENT -> SECND NODES     !
       !-------------------------------------!
       DO KVAR=1,NVCONV
-      
+
        SELECT CASE(KVAR)
          CASE(1)
            ptr(1:) => SEGVAR%RHO(1:)
@@ -73,20 +73,20 @@ C-----------------------------------------------
          CASE(5)
            ptr(1:) => SEGVAR%UVAR(1:)
        END SELECT
-        
+
         DO II=1,NSN
           I=IRTL(II)
           ADS=NVCONV*(II-1)+KVAR
           NODVAR(ADS)=ptr(ISEGM(I))
         ENDDO
-        
+
         DO I=1,NRTM
           ptr(ISEGM(I))=ZERO
-        ENDDO        
-        
+        ENDDO
+
       ENDDO
-      
-      !-------------------------------------!      
+
+      !-------------------------------------!
       !   SECND NODE -> SECND SEGMENT       !
       !-------------------------------------!
       DO KVAR=1,NVCONV
@@ -103,7 +103,7 @@ C-----------------------------------------------
          CASE(5)
            ptr(1:) => SEGVAR%UVAR(1:)
        END SELECT
-             
+
         DO I=1,NRTS
           ptr(ISEGS(I))=ZERO
           DO J=1,NIR

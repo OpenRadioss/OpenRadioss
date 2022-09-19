@@ -89,7 +89,7 @@ C-------------------------
                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
                     IH = IH + 1
                 ENDDO
-                IF (IH >= IAD+NN) GOTO 666 
+                IF (IH >= IAD+NN) GOTO 666
 
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)
@@ -107,7 +107,7 @@ C       multi-purpose elements are nstrands elements only (to be modified).
                                 IPROP =KXX(2,N)
                                 NUVAR =NINT(GEO(25,IPROP))
                                 NUVARN=NINT(GEO(35,IPROP))
-    
+
                                 KVAR  = NUVAR*(I-1)+1
                                 KVARN = NUVARN*NX*(I-1)+1
 C
@@ -132,7 +132,7 @@ C                               strands internal energy UVARN(MB5:MB5+NX-1)
 
 C                                   loop over strands into the ONE NSTRAND TH group.
 C                                   strand to save:
-                                    IST=ITHBUF(IH+3*NN)               
+                                    IST=ITHBUF(IH+3*NN)
                                     WWA(1) = GBUF%OFF(I)
 C                                   force into strand :
                                     CALL XTH(NUVAR,GBUF%VAR(KVAR),NUVARN,GBUF%VARN(KVARN),WWA,
@@ -145,12 +145,12 @@ C                                   force into strand :
 C                                   strand elongation :
                                     CALL XTH(NUVAR,GBUF%VAR(KVAR),NUVARN,GBUF%VARN(KVARN),WWA,
      .                                       NX   ,8             ,IST   )
-    
+
                                     WWA(9) =ZERO
                                     WWA(10)=ZERO
                                     WWA(11)=ZERO
                                     WWA(12)=ZERO
-                                    WWA(13)=ZERO       
+                                    WWA(13)=ZERO
 C                                   strand internal energy :
                                     CALL XTH(NUVAR,GBUF%VAR(KVAR),NUVARN,GBUF%VARN(KVARN),WWA,
      .                                       NX   ,14            ,IST   )

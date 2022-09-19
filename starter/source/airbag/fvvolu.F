@@ -38,8 +38,8 @@ Chd|====================================================================
       SUBROUTINE FVVOLU(IFV    ,ITYP   ,NNS    ,NNTR    ,NPOLH,
      1                  IBUF   ,IBUFA  ,ELEMA  ,TAGELA ,
      2                  X      ,IVOLU  ,RVOLU  ,
-     3                  IFVNOD ,RFVNOD ,IFVTRI , 
-     4                  IFVPOLY,IFVTADR,IFVPOLH, 
+     3                  IFVNOD ,RFVNOD ,IFVTRI ,
+     4                  IFVPOLY,IFVTADR,IFVPOLH,
      5                  IFVPADR,IDPOLH ,MPOLH  ,
      6                  EPOLH  ,VPOLH_INI)
 C-----------------------------------------------
@@ -58,11 +58,11 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IFV, ITYP, NNS, NNTR, NPOLH
-      INTEGER IBUF(*),   IBUFA(*),  ELEMA(3,*), TAGELA(*), 
+      INTEGER IBUF(*),   IBUFA(*),  ELEMA(3,*), TAGELA(*),
      .        IVOLU(*),  IDPOLH(*), IFVNOD(3,*),IFVTRI(6,*),
      .        IFVPOLY(*),IFVTADR(*),IFVPOLH(*), IFVPADR(*)
       my_real
-     .        X(3,*), RVOLU(*), RFVNOD(2,*), 
+     .        X(3,*), RVOLU(*), RFVNOD(2,*),
      .        MPOLH(*), EPOLH(*),VPOLH_INI(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -71,13 +71,13 @@ C-----------------------------------------------
      .        N1, N2, N3, NN1, NN2, NN3,
      .        NSTR, NCTR, NPOLH_N
       my_real
-     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, 
-     .        NX, NY, NZ, AREA2, KSI, ETA, AREA, FAC, 
+     .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3,
+     .        NX, NY, NZ, AREA2, KSI, ETA, AREA, FAC,
      .        PNOD(3,NNS),  PVOLU(NPOLH),  VOLPH,
      .        PAREA(NNTR),  PNORM(3,NNTR), AREAP
       my_real
      .        CPAI, CPBI, CPCI, CPDI, CPEI, CPFI,
-     .        RMWI, PINI, TI,   TI2,  RHOI, EFAC 
+     .        RMWI, PINI, TI,   TI2,  RHOI, EFAC
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C---------------------------------------------------
 C Noeuds des volumes finis
@@ -187,8 +187,8 @@ C Boucle sur les triangles du polygone
                      NX=-PNORM(1,KK)
                      NY=-PNORM(2,KK)
                      NZ=-PNORM(3,KK)
-                  ENDIF   
-               ENDIF      
+                  ENDIF
+               ENDIF
                N1=IFVTRI(1,KK)
                X1=PNOD(1,N1)
                Y1=PNOD(2,N1)
@@ -237,7 +237,7 @@ C---------------------------------------------------
       CPEI=RVOLU(57)
       CPFI=RVOLU(58)
       IF(ITYP==8) THEN
-         EFAC=EFAC+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI          
+         EFAC=EFAC+FOURTH*CPDI*TI2*TI2-CPEI/TI+ONE_FIFTH*CPFI*TI2*TI2*TI
       ENDIF
       DO I=1,NPOLH
          MPOLH(I)=RHOI*PVOLU(I)

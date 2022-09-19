@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        EOSMAIN                       common_source/eos/eosmain.F   
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE IDEALGAS(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 , 
+      SUBROUTINE IDEALGAS(IFLAG,NEL, PM   ,OFF  ,EINT ,MU   ,MU2 ,
      2                     ESPE ,DVOL ,DF   ,VNEW ,MAT  ,PSH ,
      3                     PNEW ,DPDM ,DPDE ,THETA,ECOLD)
 C-----------------------------------------------
@@ -49,9 +49,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER MAT(*), IFLAG, NEL
       my_real
-     .   PM(NPROPM,*), 
-     .   OFF(*)  ,EINT(*) ,MU(*)   , 
-     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  , 
+     .   PM(NPROPM,*),
+     .   OFF(*)  ,EINT(*) ,MU(*)   ,
+     .   MU2(*)  ,ESPE(*) ,DVOL(*) ,DF(*)  ,
      .   VNEW(*) ,PNEW(*) ,DPDM(*),
      .   DPDE(*) ,THETA(*),ECOLD(*)
       my_real, INTENT(INOUT) :: PSH(*)
@@ -72,7 +72,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
       IF(IFLAG == 0) THEN
          MX           = MAT(1)
-         E0           = PM(23,MX)         
+         E0           = PM(23,MX)
          GAMMA        = PM(32,MX)
          P0           = PM(31,MX)
          PSH(LFT:LLT) = PM(88,MX)
@@ -97,16 +97,16 @@ C-----------------------------------------------
          PSH(LFT:LLT) = PM(88,MX)
          T0           = PM(35,MX)
          SPH          = PM(69,MX)
-         ! p1 = p(mu,E+dE) = (g-1)*(1+mu)*(E-dvv*(p0+p1))    where p1,p0 are total pressure (no pshift), dvv = DVOL/2/V0                                               
+         ! p1 = p(mu,E+dE) = (g-1)*(1+mu)*(E-dvv*(p0+p1))    where p1,p0 are total pressure (no pshift), dvv = DVOL/2/V0
          DO I=LFT,LLT
            BB          = (GAMMA-ONE)*(ONE+MU(I))
            DVV         = HALF*DVOL(I)*DF(I) / MAX(EM15,VNEW(I))
-           PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV)         
+           PNEW(I)     = BB*ESPE(I) / (ONE+BB*DVV)
            PNEW(I)     = MAX(PNEW(I),ZERO)*OFF(I)
            EINT(I)     = EINT(I) - HALF*DVOL(I)*PNEW(I)
            TFEXTT      = TFEXTT-DVOL(I)*PSH(I)
            PNEW(I)     = PNEW(I)-PSH(I)
-         ENDDO       
+         ENDDO
 #include "atomic.inc"
        TFEXT = TFEXT + TFEXTT
 #include "atomend.inc"
@@ -123,7 +123,7 @@ C-----------------------------------------------
 C-----------------------------------------------
        ELSEIF (IFLAG == 2) THEN
           MX           = MAT(1)
-          E0           = PM(23,MX)         
+          E0           = PM(23,MX)
           GAMMA        = PM(32,MX)
           P0           = PM(31,MX)
           PSH(1:NEL) = PM(88,MX)

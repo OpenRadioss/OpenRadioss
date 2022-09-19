@@ -82,7 +82,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NIX1  ,NIX    ,NUMEL ,NGRELE,IELT,FLAG
       INTEGER IPARTE(*),IPART(LIPART1,*),IX(NIX,*),ISUBMOD(*),
      .        KELTREE, ELTREE(KELTREE,*),
@@ -128,8 +128,8 @@ C-----------------------------------------------
         INTEGER,DIMENSION(:),ALLOCATABLE       :: arg1
         INTEGER,INTENT(INOUT)                  :: arg2
         TYPE(SUBMODEL_DATA)                    :: arg3(NSUBMOD)
-       END SUBROUTINE  
-      END INTERFACE     
+       END SUBROUTINE
+      END INTERFACE
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -175,7 +175,7 @@ C-------------------------
 C groupes d' elements + init IGRN(1,IGS)
 C-------------------------
       IGS=0
-      CALL HM_OPTION_START(TRIM(STARTKEY))      
+      CALL HM_OPTION_START(TRIM(STARTKEY))
       DO I=1,NGRELE  !NGRBRIC, NGRQUAD, etc...
 
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
@@ -303,7 +303,7 @@ C-------------------------------------
                   MY_ALLOCATE(IGRELEM(IGS)%ENTITY,NEL)
                   IGRELEM(IGS)%ENTITY = 0
                 ELSEIF (FLAG == 1) THEN
-                  
+
                   CALL GROUPS_GET_ELEM_LIST(LIST_ENTITY, NENTITY, LSUBMODEL)
                   DO KK=1,NENTITY
                       JJ=LIST_ENTITY(KK)
@@ -313,7 +313,7 @@ C-------------------------------------
                       ENDIF
                   ENDDO! NEXT KK
                   IF(ALLOCATED(LIST_ENTITY))DEALLOCATE (LIST_ENTITY)
-                  
+
                   IF ( NUMEL == 0 ) IGRELEM(IGS)%NENTITY = 0
                   NEL = IGRELEM(IGS)%NENTITY
                   IF (NEL > 0) THEN
@@ -330,7 +330,7 @@ C-------------------------------------
               ENDIF
           ENDDO!next I
         ELSE
-          CALL HM_OPTION_START(TRIM(STARTKEY))        
+          CALL HM_OPTION_START(TRIM(STARTKEY))
           DO I=1,NGRELE !NGRBRIC, NGRQUAD, etc ...
               NEL=0
               IGS=IGS+1
@@ -398,18 +398,18 @@ C-------------------------
             ELSEIF(KEY(1:4) == 'GENE')THEN
               IADC = 0
               BUFTMP = 0
-              CALL HM_GET_INTV  ('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                           
-              DO KK=1,NENTITY                                                                        
-                  CALL HM_GET_INT_ARRAY_INDEX        ('Ifirst'    ,N1    ,KK,IS_AVAILABLE,LSUBMODEL)    
-                  CALL HM_GET_INT_ARRAY_INDEX        ('Ilast'     ,N2    ,KK,IS_AVAILABLE,LSUBMODEL)    
-                  IF(N2>N1)THEN                                         
-                   !tag des elements                                                                 
-                   DO K=1,NUMEL                                                                      
-                     IF (IX(NIX,K) >= N1 .AND. IX(NIX,K) <= N2) BUFTMP(K)=1                            
-                   ENDDO!next K                                                                           
-                 ENDIF                                                                               
-              ENDDO! NEXT KK                                                                         
-              
+              CALL HM_GET_INTV  ('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+              DO KK=1,NENTITY
+                  CALL HM_GET_INT_ARRAY_INDEX        ('Ifirst'    ,N1    ,KK,IS_AVAILABLE,LSUBMODEL)
+                  CALL HM_GET_INT_ARRAY_INDEX        ('Ilast'     ,N2    ,KK,IS_AVAILABLE,LSUBMODEL)
+                  IF(N2>N1)THEN
+                   !tag des elements
+                   DO K=1,NUMEL
+                     IF (IX(NIX,K) >= N1 .AND. IX(NIX,K) <= N2) BUFTMP(K)=1
+                   ENDDO!next K
+                 ENDIF
+              ENDDO! NEXT KK
+
               IF(NADMESH==0)THEN
                 NEL=0
                 IF (FLAG == 0) THEN
@@ -467,9 +467,9 @@ C-------------------------
       IGS=0
       IF (IT5 /= 0) THEN
          !obsolete
-         
+
          !ERROR MESSAGE
- 
+
       ENDIF
 C-------------------------
 C NEW BOX OPTION (MULTI BOX COMBINATION)
@@ -516,7 +516,7 @@ C
      .                      C3=TITR)
               ENDIF
 C---
-              CALL HM_GET_INT_ARRAY_INDEX        ('ids'   ,IDB    ,1,IS_AVAILABLE,LSUBMODEL)                
+              CALL HM_GET_INT_ARRAY_INDEX        ('ids'   ,IDB    ,1,IS_AVAILABLE,LSUBMODEL)
               CALL HM_BIGBOX2(X ,FLAG   ,NEL     ,
      .                SKEW   ,IGS    ,ISKN    ,ITABM1,IBOX   ,
      .                ID     ,NADMESH,NIX     ,IX    ,NIX1   ,NUMEL ,
@@ -660,11 +660,11 @@ C-------------------------
             IF(KEY(1:8) == 'GEN_INCR')THEN
               IADC = 0
               BUFTMP = 0
-              CALL HM_GET_INTV  ('grnodGenArrCnt' ,NLINES,IS_AVAILABLE,LSUBMODEL)  
-              DO KK=1,NLINES              
+              CALL HM_GET_INTV  ('grnodGenArrCnt' ,NLINES,IS_AVAILABLE,LSUBMODEL)
+              DO KK=1,NLINES
                 CALL HM_GET_INT_ARRAY_INDEX        ('Ifirst'   ,IDMIN    ,KK,IS_AVAILABLE,LSUBMODEL)
                 CALL HM_GET_INT_ARRAY_INDEX        ('Ilast'    ,IDMAX    ,KK,IS_AVAILABLE,LSUBMODEL)
-                CALL HM_GET_INT_ARRAY_INDEX        ('Iincr'    ,OFFSET   ,KK,IS_AVAILABLE,LSUBMODEL)                                
+                CALL HM_GET_INT_ARRAY_INDEX        ('Iincr'    ,OFFSET   ,KK,IS_AVAILABLE,LSUBMODEL)
                 !optimized loop
                 DO K=1,NUMEL
                   ID=IX(NIX,K)
@@ -672,7 +672,7 @@ C-------------------------
                   IF(MOD(ID-IDMIN,OFFSET)==0)BUFTMP(K)=1
                 ENDDO
               ENDDO
-              
+
               IF(NADMESH==0)THEN
                 NEL=0
                 IF (FLAG == 0) THEN

@@ -1342,7 +1342,7 @@ C + la thermique
             END IF
            END IF
 C
-           MSGTYP = MSGOFF3 
+           MSGTYP = MSGOFF3
            CALL MPI_ISEND(
      1        BUF(P)%P(1),L,MPI_DOUBLE_PRECISION,IT_SPMD(P),MSGTYP,
      2        MPI_COMM_WORLD,REQ_SD2(P),ierror)
@@ -1390,7 +1390,7 @@ C
           DO L = 1, NBIRECV
             P = ISINDEXI(L)
             LEN = NSNFI(NIN)%P(P)*SIZ
-            MSGTYP = MSGOFF3 
+            MSGTYP = MSGOFF3
             IAD = IDEB
 C correction adresse pour passage tableau XREM SP utilise en DP ds la routine de comm
             IF(IR4R8 == 1) IAD = 2*IDEB-1

@@ -47,7 +47,7 @@ Chd|====================================================================
      G                  MYI     ,MZI    ,STRI   ,WXM    ,WYM    ,
      H                  WZM     ,XP     ,YP     ,ZP     ,KT     ,
      I                  C       ,ILEV   ,FNI    ,INTTH  ,FHEAT  ,
-     J                  EFRICT  ,QFRIC  ,IFRIC  ,XFRIC  ,TEMPI  , 
+     J                  EFRICT  ,QFRIC  ,IFRIC  ,XFRIC  ,TEMPI  ,
      k                  TEMPM   ,NPC    ,TF     ,IX1    ,IX2    ,
      L                  IX3     ,IX4    ,DT2T   ,NELTST ,ITYPTST,
      M                  KINET   ,NISUB  ,ISENSINT,FSAVPARIT,NFT ,
@@ -88,14 +88,14 @@ C-----------------------------------------------
      .        NELTST,ITYPTST,IFTLIM,
      .        ICODT(*), ITAB(*),IFPEN(*) ,ICONTACT(*), NPC(*),KINET(*)
       INTEGER NSVG(MVSIZ),CAND_N_N(MVSIZ), WEIGHT(*),
-     .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), NISUB, 
+     .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), NISUB,
      .        ISENSINT(*),NFT,PSKIDFLAG
 
       my_real
      .   STIGLO, PENI(*), FROT_P(*), FSAV(*), TF(*),
      .   ALPHA0, GAP, FRIC, VISC,DT2T,PMAXSKID ,
      .   FNI(MVSIZ),
-     .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ), 
+     .   FXN(MVSIZ), FYN(MVSIZ), FZN(MVSIZ),
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
       my_real
      .   STIF(MVSIZ), GAPV(MVSIZ),
@@ -124,12 +124,12 @@ C-----------------------------------------------
       my_real
      .   FXI(MVSIZ), FYI(MVSIZ), FZI(MVSIZ),
      .   XMU(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), DTMI(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), DTMI(MVSIZ),
      .   VNX, VNY, VNZ, AA, S2,
      .   V2, FF, ALPHA, BETA,
      .   FX, FY, FZ, FT, FN, FMAX, FTN,
      .   ECONTT, ECONVT, FS2,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,FSAV25,
      .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,AREA,P,VV1,VV2,DMU,
      .   DT1INV, VIS, PA, PLIN, FS, QFRICT, DTI,DTI2,DTMI0, MAS2,BETA1
@@ -140,8 +140,8 @@ C-----------------------------------------------
      .   PENX(MVSIZ),STIF0(MVSIZ),FRICT(MVSIZ)
       my_real
      .   IMPX,IMPY,IMPZ,XX,YY,ZZ,TH
-      my_real 
-     .   FINTER 
+      my_real
+     .   FINTER
       EXTERNAL FINTER
 C
 C-----------------------------------------------
@@ -239,7 +239,7 @@ C REDUCTION DE LA PENE INITIALE
      .         +FIVEEM2*(PENE(I)+FIVEEM2*ABS(GAPV(I)-PENE(I))))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-          IF( PENE(I)==ZERO .AND. 
+          IF( PENE(I)==ZERO .AND.
      .        ( IFPEN(CAND_N_N(I))/=1 .OR.TT==ZERO ) )  STIF(I) = ZERO
         ENDDO
        ELSE
@@ -249,7 +249,7 @@ C REDUCTION DE LA PENE INITIALE
      .           ((ONE-FIVEEM2)*PENI(CAND_N_N(I))+FIVEEM2*PENE(I))  )
 C SOUSTRACTION DE LA PENE INITIALE A LA PENE ET AU GAP
           PENE(I)=MAX(ZERO,PENE(I)-PENI(CAND_N_N(I)))
-          IF( PENE(I)==ZERO .AND. 
+          IF( PENE(I)==ZERO .AND.
      .        (IFPEN(CAND_N_N(I))/=1 .OR.
      .          (INACTI==5.AND.TT==ZERO) ) ) STIF(I) = ZERO
         ENDDO
@@ -272,7 +272,7 @@ C---------------------------------
         DO I=1,JLT
          IG=NSVG(I)
          IF(STIGLO<=ZERO)THEN
-           ECONTT  = ECONTT - HALF*STIGLO*STIF(I)*PENE(I)**2 
+           ECONTT  = ECONTT - HALF*STIGLO*STIF(I)*PENE(I)**2
      .                              * WEIGHT(IG)
            STIF(I) = -STIGLO*STIF(I)
 
@@ -280,7 +280,7 @@ C---------------------------------
            ECONTT = ECONTT + STIGLO**PENE(I)**2 * WEIGHT(IG)
            STIF(I) = STIGLO
          ENDIF
-         FNI(I)= - STIF(I) * PENE(I) 
+         FNI(I)= - STIF(I) * PENE(I)
         END DO
        ELSE
         DO I=1,JLT
@@ -392,12 +392,12 @@ C---------------------------------
       IF (IFRIC/=0) THEN ! Friction coef = f(Temp)
         DO I=1,JLT
           TH = XFRIC *(TEMPI(I)+TEMPM(I))/2
-          FRICT(I)  = FRIC*FINTER(IFRIC,TH,NPC,TF,DYDX)     
+          FRICT(I)  = FRIC*FINTER(IFRIC,TH,NPC,TF,DYDX)
         ENDDO
       ELSE
         DO I=1,JLT
-          FRICT(I)  = FRIC 
-        ENDDO    
+          FRICT(I)  = FRIC
+        ENDDO
 
       ENDIF
       IF (MFROT==0) THEN
@@ -410,15 +410,15 @@ C---    Viscous friction
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
-          V2 = (VX(I) - NX(I)*AA)**2 
-     .       + (VY(I) - NY(I)*AA)**2 
+          V2 = (VX(I) - NX(I)*AA)**2
+     .       + (VY(I) - NY(I)*AA)**2
      .       + (VZ(I) - NZ(I)*AA)**2
           VV  = SQRT(MAX(EM30,V2))
 C
 C should be the current nodal surface instead of the initial one.
           AREA = AREA0(I)
           P = -FNI(I)/AREA
-          XMU(I) = FRICT(I) + (FROT_P(1) + FROT_P(4)*P ) * P 
+          XMU(I) = FRICT(I) + (FROT_P(1) + FROT_P(4)*P ) * P
      .           +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
@@ -427,8 +427,8 @@ C---    Loi Darmstad
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
-          V2 = (VX(I) - NX(I)*AA)**2 
-     .       + (VY(I) - NY(I)*AA)**2 
+          V2 = (VX(I) - NX(I)*AA)**2
+     .       + (VY(I) - NY(I)*AA)**2
      .       + (VZ(I) - NZ(I)*AA)**2
           VV  = SQRT(MAX(EM30,V2))
 C
@@ -446,8 +446,8 @@ C---    Loi Renard
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
-          V2 = (VX(I) - NX(I)*AA)**2 
-     .       + (VY(I) - NY(I)*AA)**2 
+          V2 = (VX(I) - NX(I)*AA)**2
+     .       + (VY(I) - NY(I)*AA)**2
      .       + (VZ(I) - NZ(I)*AA)**2
           VV = SQRT(MAX(EM30,V2))
           IF(VV>=0.AND.VV<=FROT_P(5)) THEN
@@ -455,7 +455,7 @@ C attention : normale <> normale a l'elt
             VV1 = VV / FROT_P(5)
             XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
           ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
-            DMU = FROT_P(4)-FROT_P(3) 
+            DMU = FROT_P(4)-FROT_P(3)
             VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
             XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
           ELSE
@@ -488,7 +488,7 @@ C---------------------------------
       IF(IFTLIM == 0 ) THEN ! if flag to limit tangential force is ON : FT<= YIELD/(S*sqrt(3))
          FTMAX = PMAX
       ELSE
-         FTMAX = EP30         
+         FTMAX = EP30
       ENDIF
       DO I=1,JLT
         FX = STIF0(I)*VX(I)*DT12
@@ -541,18 +541,18 @@ C       CONTACT ENERGY CALCULATION
 C---------------------------------
         EFRICT(I) = ZERO
         IF( INTTH > 0 .AND.BETA/=ZERO) THEN
-          EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) + 
+          EFRICT(I) = (FX-FXT(I))*FXT(I) + (FY-FYT(I))*FYT(I) +
      .                (FZ-FZT(I))*FZT(I) ! FRICTIONAL ENERGY
           EFRICT(I) = EFRICT(I)/STIF0(I)
           QFRICT   =  QFRICT + EFRICT(I)
         ENDIF
 
-        ECONVT = ECONVT 
-     .         + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I)) 
+        ECONVT = ECONVT
+     .         + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
      .              * WEIGHT(IG)
-        
+
       ENDDO
-       
+
 C---------------------------------
       DO I=1,JLT
        IG=NSVG(I)
@@ -642,24 +642,24 @@ c     .   IDTMIN(10)==5.OR.IDTMIN(10)==6)THEN
              WRITE(IOUT,'(A,E12.4,A,I10,A,E12.4,A)')
      .       ' **WARNING MINIMUM TIME STEP ',DTMI(I),
      .       ' IN INTERFACE ',NOINT,'(DTMIN =',DTMIN1(10),')'
-             WRITE(IOUT,'(A,I10)') '   SECONDARY NODE   : ',NI                
+             WRITE(IOUT,'(A,I10)') '   SECONDARY NODE   : ',NI
 c             WRITE(IOUT,'(A,4I10)')'   MAIN NODES : ',
-c     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I)) 
+c     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
 #include "lockoff.inc"
              TSTOP = TT
              IF ( ISTAMPING == 1) THEN
                WRITE(ISTDO,'(A)')'The run encountered a problem in an in
      .terface Type 21.'
                WRITE(ISTDO,'(A)')'Maximum penetration may be reached'
-               WRITE(ISTDO,'(A)')'You may need to check if contact normals 
+               WRITE(ISTDO,'(A)')'You may need to check if contact normals
      .of tools are oriented toward the blank,'
                WRITE(IOUT, '(A)')'The run encountered a problem in an in
      .terface Type 21.'
                WRITE(IOUT, '(A)')'Maximum penetration may be reached'
-               WRITE(IOUT, '(A)')'You may need to check if contact normals 
+               WRITE(IOUT, '(A)')'You may need to check if contact normals
      .of tools are oriented toward the blank,'
              ENDIF
-           ENDIF                
+           ENDIF
          ENDIF
         ENDDO
        ENDIF

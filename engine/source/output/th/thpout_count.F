@@ -75,11 +75,11 @@ C-------------------------
             II=0
             IF(ITYP==5)THEN
                 II=0
-                IH=IAD                        
+                IH=IAD
                 DO WHILE (ITHBUF(IH+NN) /= ISPMD .AND. IH < IAD+NN)
-                    IH = IH + 1                           
-                ENDDO                                   
-                IF (IH >= IAD+NN) GOTO 666                
+                    IH = IH + 1
+                ENDDO
+                IF (IH >= IAD+NN) GOTO 666
 
                 DO NG=1,NGROUP
                     ITY=IPARG(5,NG)

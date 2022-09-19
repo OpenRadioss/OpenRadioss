@@ -56,9 +56,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, MX, NR, NT, IDR, IDT, IDP, IDE, IDQ
       my_real
-     .   DPDM(MVSIZ), 
-     .   ESPE(MVSIZ), E01(MVSIZ), 
-     .   DTDE, DPDR, SPH, RL, TL, ZL, DXDR, ZZ, DELTAT, XLAMB, 
+     .   DPDM(MVSIZ),
+     .   ESPE(MVSIZ), E01(MVSIZ),
+     .   DTDE, DPDR, SPH, RL, TL, ZL, DXDR, ZZ, DELTAT, XLAMB,
      .   STEFAN, OPAC, ROSSEL, XKR
       REAL*8 NE, NA, ATOM
 C-----------------------------------------------
@@ -104,7 +104,7 @@ C---------------------------------
           Z(I)=EP20
         ELSE
           Z(I)=EXP(ZL*LOG(TEN)) !TEN**ZL
-        ENDIF  
+        ENDIF
 
         !(CONDUNCTIVITE MAX POUR CALCUL DE DT)
         ZZ = MAX(EM10,Z(I))
@@ -137,7 +137,7 @@ C---------------------------------
         ENDIF
         XK(I) = MIN(XK(I),PM(51,MX))
       ENDDO
-      
+
       !------------------------------------
       !     VITESSE DU SON
       !------------------------------------

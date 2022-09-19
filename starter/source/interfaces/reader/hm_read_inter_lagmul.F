@@ -74,7 +74,7 @@ C-----------------------------------------------
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRNOD)  :: IGRNOD
       TYPE (GROUP_)  ,TARGET, DIMENSION(NGRBRIC) :: IGRBRIC
       TYPE (SURF_)   ,TARGET , DIMENSION(NSURF)   :: IGRSURF
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA) LSUBMODEL(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -116,7 +116,7 @@ c------------------------------
 c------------------------------
            NTYP = 2
            CALL HM_READ_INTER_LAGMUL_TYPE02(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2        IGRNOD     ,IGRSURF    ,DEF_INTER  ,TITR      ,UNITAB     ,
      3        LSUBMODEL  )
 c------------------------------
@@ -124,12 +124,12 @@ c------------------------------
 c------------------------------
            NTYP = 7
            CALL HM_READ_INTER_LAGMUL_TYPE07(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2        IGRNOD     ,IGRSURF    , TITR       ,UNITAB     ,LSUBMODEL  )
 c------------------------------
          CASE ('TYPE16')
 c------------------------------
-           NTYP = 16 
+           NTYP = 16
            CALL HM_READ_INTER_LAGMUL_TYPE16(
      .          IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI       ,
      .          IGRNOD     ,IGRBRIC    ,UNITAB     ,LSUBMODEL )

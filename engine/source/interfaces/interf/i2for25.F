@@ -121,56 +121,56 @@ C
           T = CRST(2,II)
           L = IRTL(II)
 C
-          IX1(K) = IRECT(1,L)                                       
-          IX2(K) = IRECT(2,L)                                       
-          IX3(K) = IRECT(3,L)                                       
-          IX4(K) = IRECT(4,L)  
+          IX1(K) = IRECT(1,L)
+          IX2(K) = IRECT(2,L)
+          IX3(K) = IRECT(3,L)
+          IX4(K) = IRECT(4,L)
           NIR= 4
           SP = ONE + S
           SM = ONE - S
           TP = FOURTH*(ONE + T)
           TM = FOURTH*(ONE - T)
-          H(1,K)=TM*SM           
-          H(2,K)=TM*SP           
-          H(3,K)=TP*SP           
-          H(4,K)=TP*SM           
+          H(1,K)=TM*SM
+          H(2,K)=TM*SP
+          H(3,K)=TP*SP
+          H(4,K)=TP*SM
           IF (IX3(K) == IX4(K)) THEN
             NIR = 3
-            H(3,K) = H(3,K) + H(4,K) 
-            H(4,K) = ZERO 
+            H(3,K) = H(3,K) + H(4,K)
+            H(4,K) = ZERO
           ENDIF
 C------------------------------------------------
 C         rep local facette main
 C------------------------------------------------
-          X1  = X(1,IX1(K))                                       
-          Y1  = X(2,IX1(K))                                          
-          Z1  = X(3,IX1(K))                                          
-          X2  = X(1,IX2(K))					     
-          Y2  = X(2,IX2(K))					     
-          Z2  = X(3,IX2(K))					     
-          X3  = X(1,IX3(K))					     
-          Y3  = X(2,IX3(K))					     
-          Z3  = X(3,IX3(K))					     
-          X4  = X(1,IX4(K))					     
-          Y4  = X(2,IX4(K))					     
-          Z4  = X(3,IX4(K))					     
+          X1  = X(1,IX1(K))
+          Y1  = X(2,IX1(K))
+          Z1  = X(3,IX1(K))
+          X2  = X(1,IX2(K))					
+          Y2  = X(2,IX2(K))					
+          Z2  = X(3,IX2(K))					
+          X3  = X(1,IX3(K))					
+          Y3  = X(2,IX3(K))					
+          Z3  = X(3,IX3(K))					
+          X4  = X(1,IX4(K))					
+          Y4  = X(2,IX4(K))					
+          Z4  = X(3,IX4(K))					
           XS  = X(1,I)
           YS  = X(2,I)
           ZS  = X(3,I)
           VSX = V(1,I)
           VSY = V(2,I)
           VSZ = V(3,I)
-          VX1 = V(1,IX1(K))						      
-          VY1 = V(2,IX1(K))						      
-          VZ1 = V(3,IX1(K))						      
-          VX2 = V(1,IX2(K))						      
-          VY2 = V(2,IX2(K))						      
-          VZ2 = V(3,IX2(K))						      
-          VX3 = V(1,IX3(K))						      
-          VY3 = V(2,IX3(K))						      
-          VZ3 = V(3,IX3(K))						      
-          VX4 = V(1,IX4(K))						      
-          VY4 = V(2,IX4(K))						      
+          VX1 = V(1,IX1(K))						
+          VY1 = V(2,IX1(K))						
+          VZ1 = V(3,IX1(K))						
+          VX2 = V(1,IX2(K))						
+          VY2 = V(2,IX2(K))						
+          VZ2 = V(3,IX2(K))						
+          VX3 = V(1,IX3(K))						
+          VY3 = V(2,IX3(K))						
+          VZ3 = V(3,IX3(K))						
+          VX4 = V(1,IX4(K))						
+          VY4 = V(2,IX4(K))						
           VZ4 = V(3,IX4(K))
 C---------------------
           CALL I2REP(X1     ,X2     ,X3     ,X4     ,
@@ -201,9 +201,9 @@ c
           VX0 = (VX1 + VX2 + VX3 + VX4)/NIR
           VY0 = (VY1 + VY2 + VY3 + VY4)/NIR
           VZ0 = (VZ1 + VZ2 + VZ3 + VZ4)/NIR
-          VMX = VX1*H(1,K) + VX2*H(2,K) + VX3*H(3,K) + VX4*H(4,K) - VX0 
-          VMY = VY1*H(1,K) + VY2*H(2,K) + VY3*H(3,K) + VY4*H(4,K) - VY0 
-          VMZ = VZ1*H(1,K) + VZ2*H(2,K) + VZ3*H(3,K) + VZ4*H(4,K) - VZ0 
+          VMX = VX1*H(1,K) + VX2*H(2,K) + VX3*H(3,K) + VX4*H(4,K) - VX0
+          VMY = VY1*H(1,K) + VY2*H(2,K) + VY3*H(3,K) + VY4*H(4,K) - VY0
+          VMZ = VZ1*H(1,K) + VZ2*H(2,K) + VZ3*H(3,K) + VZ4*H(4,K) - VZ0
         ELSE
           X0  = (X1 + X2 + X3)/NIR
           Y0  = (Y1 + Y2 + Y3)/NIR
@@ -284,15 +284,15 @@ C
         VA(1) = VX1*E1X + VY1*E1Y + VZ1*E1Z
         VA(2) = VX1*E2X + VY1*E2Y + VZ1*E2Z
         VA(3) = VX1*E3X + VY1*E3Y + VZ1*E3Z
- 
+
         VB(1) = VX2*E1X + VY2*E1Y + VZ2*E1Z
         VB(2) = VX2*E2X + VY2*E2Y + VZ2*E2Z
         VB(3) = VX2*E3X + VY2*E3Y + VZ2*E3Z
- 
+
         VC(1) = VX3*E1X + VY3*E1Y + VZ3*E1Z
         VC(2) = VX3*E2X + VY3*E2Y + VZ3*E2Z
         VC(3) = VX3*E3X + VY3*E3Y + VZ3*E3Z
- 
+
         VD(1) = VX4*E1X + VY4*E1Y + VZ4*E1Z
         VD(2) = VX4*E2X + VY4*E2Y + VZ4*E2Z
         VD(3) = VX4*E3X + VY4*E3Y + VZ4*E3Z
@@ -312,9 +312,9 @@ C---------   Local displacement
           ENDIF
 C---------  Vi = Vi -VR ^ MS
         CALL I2PEN_ROT(SKEW(1,II) ,TT   ,DT1  ,STBRK,
-     .    RS   ,RM   ,V1   ,V2   ,V3   ,                        
+     .    RS   ,RM   ,V1   ,V2   ,V3   ,
      .    RX   ,RY   ,RZ   ,VA   ,VB   ,
-     .    VC   ,VD)  
+     .    VC   ,VD)
 C-------------  vers increm en vitesses
           DLX = V1*DT1
           DLY = V2*DT1
@@ -333,7 +333,7 @@ C------------------------------------------------
 C
           IF (IVISC==1) THEN
 C--  Old visc formulation from Radioss V14 --
-           MHARM = MS_PENA(I)          
+           MHARM = MS_PENA(I)
           ELSEIF(MS_PENA(I)==ZERO.OR.MS_PENA(IX1(K))==ZERO.OR.
      .                      MS_PENA(IX2(K))==ZERO.OR.
      .                      MS_PENA(IX3(K))==ZERO.OR.
@@ -341,11 +341,11 @@ C--  Old visc formulation from Radioss V14 --
             MHARM = ZERO
             VISCL = ZERO
           ELSEIF(NIR==4)THEN
-            MHARM = ONE/MS_PENA(I) + 
+            MHARM = ONE/MS_PENA(I) +
      .              ONE/MS_PENA(IX1(K)) + ONE/MS_PENA(IX2(K)) + ONE/MS_PENA(IX3(K)) + ONE/MS_PENA(IX4(K))
             MHARM = ONE/MHARM
           ELSE
-            MHARM = ONE/MS_PENA(I) + 
+            MHARM = ONE/MS_PENA(I) +
      .              ONE/MS_PENA(IX1(K)) + ONE/MS_PENA(IX2(K)) + ONE/MS_PENA(IX3(K))
             MHARM = ONE/MHARM
           END IF
@@ -402,7 +402,7 @@ C--  Old visc formulation from Radioss V14 --
           DTINV = ZERO
           IF (DT1 > ZERO) DTINV=ONE/DT1
           STF = (ONE+STBRK)*STFN(II) + TWO*VIS(K)*DTINV
-          ELSE 
+          ELSE
             STF     = STFN(II)*(VISCL + SQRT(VISCL**2 + (ONE+STBRK)))**2
           ENDIF
 C
@@ -521,10 +521,10 @@ C----------
           NSVG(K)= -I
           L = IRTL(II)
 C
-          IX1(K) = IRECT(1,L)                                       
-          IX2(K) = IRECT(2,L)                                       
-          IX3(K) = IRECT(3,L)                                       
-          IX4(K) = IRECT(4,L)  
+          IX1(K) = IRECT(1,L)
+          IX2(K) = IRECT(2,L)
+          IX3(K) = IRECT(3,L)
+          IX4(K) = IRECT(4,L)
           STIF(K)= ZERO
           VIS(K) = ZERO
         ENDIF
@@ -539,12 +539,12 @@ C
            NELTST  = NOINT
            ITYPTST = 10
          ENDIF
-       END IF  
+       END IF
       ENDDO
 C----------
 #include "lockon.inc"
-      ECONT  = ECONT  + ECONTT ! Elastic energy 
-      ECONTD = ECONTD + ECONVT ! Damping Elastic energy 
+      ECONT  = ECONT  + ECONTT ! Elastic energy
+      ECONTD = ECONTD + ECONVT ! Damping Elastic energy
       FSAV(26) = FSAV(26) + ECONTT
       FSAV(28) = FSAV(28) + ECONVT
 #include "lockoff.inc"

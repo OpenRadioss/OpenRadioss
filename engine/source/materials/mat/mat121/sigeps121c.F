@@ -50,7 +50,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C O M M O N
 C-----------------------------------------------
-#include      "param_c.inc" 
+#include      "param_c.inc"
 #include      "com01_c.inc"
 #include      "scr17_c.inc"
 #include      "mvsiz_p.inc"
@@ -67,20 +67,20 @@ C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,INLOC,
      .        IPG,IPT,NPF(*),NGL(NEL),
      .        IFUNC(NFUNC),NPTR,NPTS,NPTT
-      my_real 
+      my_real
      .   TIMESTEP,TIME,TF(*),UPARAM(NUPARAM)
-      my_real,DIMENSION(NEL), INTENT(IN) :: 
+      my_real,DIMENSION(NEL), INTENT(IN) ::
      .   RHO,THKLY,GS,DT,
      .   DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
      .   EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,
      .   SIGOXX,SIGOYY,SIGOXY,SIGOYZ,SIGOZX
-      my_real,DIMENSION(NEL), INTENT(OUT)   :: 
+      my_real,DIMENSION(NEL), INTENT(OUT)   ::
      .   SOUNDSP,SIGNXX,SIGNYY,SIGNXY,SIGNYZ,SIGNZX
-      my_real,DIMENSION(NEL) :: 
+      my_real,DIMENSION(NEL) ::
      .   SIGY,ET,EPSP,EPSPL
-      my_real,DIMENSION(NEL), INTENT(INOUT) :: 
+      my_real,DIMENSION(NEL), INTENT(INOUT) ::
      .   PLA,EPSD,THK,OFF,VARNL,DPLA,OFFL
-      my_real,DIMENSION(NEL,NUVAR), INTENT(INOUT) :: 
+      my_real,DIMENSION(NEL,NUVAR), INTENT(INOUT) ::
      .   UVAR
       TYPE(BUF_LAY_) :: BUFLY
 C-----------------------------------------------
@@ -91,23 +91,23 @@ C-----------------------------------------------
       my_real DTMIN,Xscale_FAIL,Yscale_FAIL,S1,S2,Q,S11(NEL),
      .        S22(NEL),R_INTER,DFDEPSD(NEL),FAIL(NEL),SEQ(NEL)
 C=======================================================================
-c  
+c
       IRES        = NINT(UPARAM(11)) ! Plastic projection method
                                      !  = 1 => Nice method
                                      !  = 2 => Newton-iteration method
       Ifail       = NINT(UPARAM(13)) ! Failure criterion flag
                                      !  = 0 => Von Mises stress
                                      !  = 1 => Plastic strain
-                                     !  = 2 => Maximum princ. stress + 
+                                     !  = 2 => Maximum princ. stress +
                                      !         abs(Minimum princ. stress)
                                      !  = 3 => Maximum princ. stress
       DTMIN       = UPARAM(15)       ! Minimal timestep for element deletion
       Xscale_FAIL = UPARAM(22)       ! Strain-rate scale factor for failure criterion function
       Yscale_FAIL = UPARAM(23)       ! Ordinate scale factor for failure criterion function
-     
-c--------------------------                        
+
+c--------------------------
       SELECT CASE (IRES)
-c      
+c
         CASE(1)
 c
           CALL MAT121C_NICE(
@@ -119,7 +119,7 @@ c
      6         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      8         SIGY    ,ET      ,VARNL   ,SEQ     ,INLOC   )
-c        
+c
         CASE(2)
 c
           CALL MAT121C_NEWTON(
@@ -131,11 +131,11 @@ c
      6         SIGOXX  ,SIGOYY  ,SIGOXY  ,SIGOYZ  ,SIGOZX  ,
      7         SIGNXX  ,SIGNYY  ,SIGNXY  ,SIGNYZ  ,SIGNZX  ,
      8         SIGY    ,ET      ,VARNL   ,SEQ     ,INLOC   )
-c      
-      END SELECT    
+c
+      END SELECT
 c
       ! Store strain-rate for output
-      EPSP(1:NEL)  = EPSD(1:NEL)    
+      EPSP(1:NEL)  = EPSD(1:NEL)
       ! Store strain-rate for failure criteria
       EPSPL(1:NEL) = EPSD(1:NEL)
 c
@@ -144,7 +144,7 @@ c
       !--------------------------------------------------------------------
 c
       ! Compute failure criterion value
-      IF (IFUNC(4) > 0) THEN 
+      IF (IFUNC(4) > 0) THEN
         IPOS(1:NEL) = 1
         IAD (1:NEL) = NPF(IFUNC(4)) / 2 + 1
         ILEN(1:NEL) = NPF(IFUNC(4)+1) / 2 - IAD(1:NEL) - IPOS(1:NEL)
@@ -156,15 +156,15 @@ c
       NINDX  = 0
       NINDX2 = 0
       IF (DTMIN > ZERO .OR. IFUNC(4) > 0) THEN
-        DO I = 1,NEL  
+        DO I = 1,NEL
 c
           ! Minimum timestep
-          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == ONE)) THEN 
+          IF ((DT(I) > EM20).AND.(DT(I) < DTMIN).AND.(OFF(I) == ONE)) THEN
             OFF(I)      = ZERO
             NINDX       = NINDX+1
             INDX(NINDX) = I
-          ENDIF   
-c     
+          ENDIF
+c
           ! Failure criterion
           IF ((IFUNC(4) > 0).AND.(OFF(I) == ONE)) THEN
             ! Failure indicator evolution
@@ -180,7 +180,7 @@ c
               IF (OFFL(I)>ZERO) OFF(I) = ONE
             ! Case of fully integrated shells
             ELSE
-              IF ((IPG == 1).AND.(IPT == 1)) THEN 
+              IF ((IPG == 1).AND.(IPT == 1)) THEN
                 !Initialization for checking complete failure of the shell (all integration points)
                 OFF(I) = ZERO
                 ! Loop over all Gauss points (thickness + surface)
@@ -195,7 +195,7 @@ c
               ENDIF
             ENDIF
             ! Check integration point failure
-            IF (OFFL(I) == ONE) THEN 
+            IF (OFFL(I) == ONE) THEN
               ! -> Von Mises stress
               IF (Ifail == 0) THEN
                 IF (SEQ(I) >= FAIL(I)) OFFL(I) = FOUR_OVER_5
@@ -208,7 +208,7 @@ c
                 S2 = HALF*(SIGNXX(I) - SIGNYY(I))
                 Q  = SQRT(S2**2 + SIGNXY(I)**2)
                 S11(I) = S1 + Q
-                S22(I) = S1 - Q 
+                S22(I) = S1 - Q
                 IF (S22(I) >= S11(I)) THEN
                   R_INTER = S22(I)
                   S22(I)  = S11(I)
@@ -216,19 +216,19 @@ c
                 ENDIF
                 IF ((S11(I)>=FAIL(I)).OR.(ABS(S22(I))>=FAIL(I))) OFFL(I) = FOUR_OVER_5
               ! -> Maximum principal stress
-              ELSEIF (Ifail == 3) THEN 
+              ELSEIF (Ifail == 3) THEN
                 S1 = HALF*(SIGNXX(I) + SIGNYY(I))
                 S2 = HALF*(SIGNXX(I) - SIGNYY(I))
                 Q  = SQRT(S2**2 + SIGNXY(I)**2)
                 S11(I) = S1 + Q
-                S22(I) = S1 - Q 
+                S22(I) = S1 - Q
                 IF (S22(I) >= S11(I)) THEN
                   R_INTER = S22(I)
                   S22(I)  = S11(I)
                   S11(I)  = R_INTER
                 ENDIF
                 IF (S11(I)>=FAIL(I)) OFFL(I) = FOUR_OVER_5
-              ENDIF                
+              ENDIF
               !Integration point failure
               IF (OFFL(I) == FOUR_OVER_5) THEN
                 NINDX2      = NINDX2+1
@@ -264,6 +264,6 @@ c
  2000 FORMAT(1X,'FAILURE (PLAS_RATE) IN SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',THICKNESS INTG. PT',I3)
  2100 FORMAT(1X,'FAILURE (PLAS_RATE) IN SHELL ELEMENT ',I10,1X,',GAUSS PT',I2,1X,',THICKNESS INTG. PT',I3,
      .       1X,'AT TIME :',1PE12.4)
-c  
+c
 c-----------
       END

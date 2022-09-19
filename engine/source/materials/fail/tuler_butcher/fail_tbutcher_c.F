@@ -94,34 +94,34 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NEL) ::  INDX
       my_real :: TBA,TBK,KK,SIGMAX,SIGR_INI,SIG1,SIG2,S1,S2
 C=======================================================================
-      TBA      = UPARAM(1)                           
-      TBK      = UPARAM(2)                           
-      SIGR_INI = UPARAM(3)                        
-      IFAIL_SH   = INT(UPARAM(4))                     
+      TBA      = UPARAM(1)
+      TBK      = UPARAM(2)
+      SIGR_INI = UPARAM(3)
+      IFAIL_SH   = INT(UPARAM(4))
       IF (IFAIL_SH == 1) THEN
         PTHKF = EM06
       ELSEIF (IFAIL_SH == 2) THEN
         PTHKF = ONE
       ENDIF
-      NINDX  = 0  
+      NINDX  = 0
 C-----------------------------------------------
-      DO I=1,NEL                                             
-        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN                               
-          S1 = HALF*(SIGNXX(I) + SIGNYY(I))                
-          S2 = HALF*(SIGNXX(I) - SIGNYY(I))                
-          SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)            
-          SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)            
-          SIGMAX = MAX(SIG1,SIG2)                            
-          IF (SIGMAX > SIGR_INI) UVAR(I,1) = UVAR(I,1)            	 
-     .        + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA         
-          IF (UVAR(I,1) >= TBK) THEN                         
+      DO I=1,NEL
+        IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
+          S1 = HALF*(SIGNXX(I) + SIGNYY(I))
+          S2 = HALF*(SIGNXX(I) - SIGNYY(I))
+          SIG1 = S1 + SQRT(S2**2 + SIGNXY(I)**2)
+          SIG2 = S1 - SQRT(S2**2 + SIGNXY(I)**2)
+          SIGMAX = MAX(SIG1,SIG2)
+          IF (SIGMAX > SIGR_INI) UVAR(I,1) = UVAR(I,1)            	
+     .        + TIMESTEP(I)*(SIGMAX - SIGR_INI)**TBA
+          IF (UVAR(I,1) >= TBK) THEN
             NINDX = NINDX + 1
             INDX(NINDX) = I
             FOFF(I) = 0
             TDEL(I) = TIME
-          ENDIF                                              
-        ENDIF                                                
-      ENDDO                                                  
+          ENDIF
+        ENDIF
+      ENDDO
 c
 c---  Maximum Damage storing for output : 0 < DFMAX < 1
       DO I=1,NEL
@@ -136,7 +136,7 @@ c------------------------
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c------------------------
  2000 FORMAT(1X,'FAILURE (TB) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

@@ -45,7 +45,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(*)
       INTEGER ,INTENT(IN) :: IGTYP,PROP_ID,IPM(NPROPMI,*),NPC(*)
       my_real, INTENT(IN) :: PLD(*),PM(NPROPM,*)
@@ -165,82 +165,82 @@ C Lecture carte 2
       CALL HM_GET_FLOATV_DIM('A_SCALE_X',FAC_T,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
 
-      IF(FSMASS(1) == ZERO)FSMASS(1)=ONE*FAC_M                                                     
-      IF(FSTEMP(1) == ZERO)FSTEMP(1)=ONE*FAC_T                                                     
-      IF(F_IDMASS(1,1) == 0) THEN                                                                 
-          CALL ANCMSG(MSGID=1115,                                                                 
-     .                MSGTYPE=MSGERROR,                                                           
-     .                ANMODE=ANINFO_BLIND_1,                                                      
-     .                 I1=PROP_ID,                                                                
-     .                 C1=IDTITL )                                                                
-      ELSE                                                                                        
-        DO J=1,NFUNCT                                                                             
-          IF(NPC(NFUNCT+1+J) == F_IDMASS(1,1)) F_IDMASS(2,1)=J                                    
-          IF(NPC(NFUNCT+1+J) == F_IDTEMP(1,1)) F_IDTEMP(2,1)=J                                    
-        ENDDO                                                                                     
-        IF(F_IDMASS(2,1) == 0)THEN                                                                
-          CALL ANCMSG(MSGID=708,                                                                  
-     .                MSGTYPE=MSGERROR,                                                           
-     .                ANMODE=ANINFO_BLIND_1,                                                      
-     .                I1=PROP_ID,                                                                 
-     .                C1=IDTITL,                                                                  
-     .                I2=F_IDMASS(1,1))                                                           
-        ENDIF                                                                                     
-        IF(F_IDTEMP(1,1)/=0.AND.F_IDTEMP(2,1) == 0)THEN                                         
-           CALL ANCMSG(MSGID=708,                                                                 
-     .                 MSGTYPE=MSGERROR,                                                          
-     .                 ANMODE=ANINFO_BLIND_1,                                                     
-     .                 I1=PROP_ID,                                                                
-     .                 C1=IDTITL,                                                                 
-     .                 I2=F_IDTEMP(1,1))                                                          
-        ENDIF                                                                                     
-        DO I=1,NGASES                                                                             
+      IF(FSMASS(1) == ZERO)FSMASS(1)=ONE*FAC_M
+      IF(FSTEMP(1) == ZERO)FSTEMP(1)=ONE*FAC_T
+      IF(F_IDMASS(1,1) == 0) THEN
+          CALL ANCMSG(MSGID=1115,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                 I1=PROP_ID,
+     .                 C1=IDTITL )
+      ELSE
+        DO J=1,NFUNCT
+          IF(NPC(NFUNCT+1+J) == F_IDMASS(1,1)) F_IDMASS(2,1)=J
+          IF(NPC(NFUNCT+1+J) == F_IDTEMP(1,1)) F_IDTEMP(2,1)=J
+        ENDDO
+        IF(F_IDMASS(2,1) == 0)THEN
+          CALL ANCMSG(MSGID=708,
+     .                MSGTYPE=MSGERROR,
+     .                ANMODE=ANINFO_BLIND_1,
+     .                I1=PROP_ID,
+     .                C1=IDTITL,
+     .                I2=F_IDMASS(1,1))
+        ENDIF
+        IF(F_IDTEMP(1,1)/=0.AND.F_IDTEMP(2,1) == 0)THEN
+           CALL ANCMSG(MSGID=708,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=PROP_ID,
+     .                 C1=IDTITL,
+     .                 I2=F_IDTEMP(1,1))
+        ENDIF
+        DO I=1,NGASES
 
-          CALL HM_GET_INT_ARRAY_INDEX('materialIds',MAT_ID(1,I),I,IS_AVAILABLE,LSUBMODEL)         
-          CALL HM_GET_FLOAT_ARRAY_INDEX('CM1',MOLFR(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)           
-          CALL HM_GET_INT_ARRAY_INDEX('ABG_Imass',F_IDMF(1,I),I,IS_AVAILABLE,LSUBMODEL)           
+          CALL HM_GET_INT_ARRAY_INDEX('materialIds',MAT_ID(1,I),I,IS_AVAILABLE,LSUBMODEL)
+          CALL HM_GET_FLOAT_ARRAY_INDEX('CM1',MOLFR(I),I,IS_AVAILABLE,LSUBMODEL,UNITAB)
+          CALL HM_GET_INT_ARRAY_INDEX('ABG_Imass',F_IDMF(1,I),I,IS_AVAILABLE,LSUBMODEL)
 
-          IF (MOLFR(I) < ZERO) THEN                                                               
-            CALL ANCMSG(MSGID=729,                                                                
-     .                  MSGTYPE=MSGERROR,                                                         
-     .                  ANMODE=ANINFO_BLIND_1,                                                    
-     .                  I1=PROP_ID,                                                               
-     .                  C1=IDTITL)                                                                
-          END IF                                                                                  
-          IF (F_IDMF(1,I)/=0) MOLFR(I)=ONE                                                       
+          IF (MOLFR(I) < ZERO) THEN
+            CALL ANCMSG(MSGID=729,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=PROP_ID,
+     .                  C1=IDTITL)
+          END IF
+          IF (F_IDMF(1,I)/=0) MOLFR(I)=ONE
 C         Verification existence materiau et functions                                            
 C ---
 C ---     Materiaux                                                                               
-          MAT_ID(2,I) = NINTRI(MAT_ID(1,I),IPM,NPROPMI,NUMMAT,1)                                  
-          IF(MAT_ID(2,I) == 0) THEN                                                               
-            CALL ANCMSG(MSGID=698,                                                                
-     .                  MSGTYPE=MSGERROR,                                                         
-     .                  ANMODE=ANINFO,                                                            
-     .                  I1=PROP_ID,                                                               
-     .                  C1=IDTITL,                                                                
-     .                  I2=MAT_ID(1,I))                                                           
-          ELSEIF(IPM(2,MAT_ID(2,I))/=999) THEN                                                  
-            CALL ANCMSG(MSGID=857,                                                                
-     .                  MSGTYPE=MSGERROR,                                                         
-     .                  ANMODE=ANINFO_BLIND_1,                                                    
-     .                  I1=PROP_ID,                                                               
-     .                  C1=IDTITL,                                                                
-     .                  I2=MAT_ID(1,I))                                                           
-          END IF                                                                                  
+          MAT_ID(2,I) = NINTRI(MAT_ID(1,I),IPM,NPROPMI,NUMMAT,1)
+          IF(MAT_ID(2,I) == 0) THEN
+            CALL ANCMSG(MSGID=698,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=PROP_ID,
+     .                  C1=IDTITL,
+     .                  I2=MAT_ID(1,I))
+          ELSEIF(IPM(2,MAT_ID(2,I))/=999) THEN
+            CALL ANCMSG(MSGID=857,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=PROP_ID,
+     .                  C1=IDTITL,
+     .                  I2=MAT_ID(1,I))
+          END IF
 C ---     Fonctions                                                                               
-          DO J=1,NFUNCT                                                                           
-            IF(NPC(NFUNCT+1+J) == F_IDMF(1,I)) F_IDMF(2,I)=J                                      
-          ENDDO                                                                                   
-          IF(F_IDMF(1,I)/=0.AND.F_IDMF(2,I) == 0)THEN                                           
-            CALL ANCMSG(MSGID=708,                                                                
-     .                  MSGTYPE=MSGERROR,                                                         
-     .                  ANMODE=ANINFO_BLIND_1,                                                    
-     .                  I1=PROP_ID,                                                               
-     .                  C1=IDTITL,                                                                
-     .                  I2=F_IDMF(1,I))                                                           
-          ENDIF                                                                                   
-        ENDDO ! I=1,NGASES                                                                        
-      ENDIF                                                                                       
+          DO J=1,NFUNCT
+            IF(NPC(NFUNCT+1+J) == F_IDMF(1,I)) F_IDMF(2,I)=J
+          ENDDO
+          IF(F_IDMF(1,I)/=0.AND.F_IDMF(2,I) == 0)THEN
+            CALL ANCMSG(MSGID=708,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=PROP_ID,
+     .                  C1=IDTITL,
+     .                  I2=F_IDMF(1,I))
+          ENDIF
+        ENDDO ! I=1,NGASES
+      ENDIF
 
 C Conversion d unites ----------------------
       IF(ASTIME == ZERO)ASTIME=ONE*FAC_T
@@ -285,85 +285,85 @@ C     Verification de la croissance des fonctions de masse
                 END IF
               END DO
             END IF
-          END IF 
+          END IF
         END IF
       END DO
 
-      MW_MIXTURE=ZERO                                                     
-      MW_MIXTURE_OK=0                                                     
+      MW_MIXTURE=ZERO
+      MW_MIXTURE_OK=0
 C     Verification du nombre de points des fonctions de fraction molaire  
-      NB_POINTS_1=-1                                                      
-      DO I=1,NGASES                                                       
-        IF (F_IDMF(2,I)/=0) THEN                                        
-          IF (NB_POINTS_1==-1)                                          
-     .        NB_POINTS_1=NPC(F_IDMF(2,I))-NPC(F_IDMF(2,I)+1)             
-          NB_POINTS=NPC(F_IDMF(2,I))-NPC(F_IDMF(2,I)+1)                   
-          IF (NB_POINTS/=NB_POINTS_1) THEN                              
-            CALL ANCMSG(MSGID=713,                                        
-     .                  MSGTYPE=MSGERROR,                                 
-     .                  ANMODE=ANINFO,                                    
-     .                  I1=PROP_ID,                                            
-     .                  C1=IDTITL)                                          
-          END IF                                                          
-        END IF                                                            
-      END DO                                                              
+      NB_POINTS_1=-1
+      DO I=1,NGASES
+        IF (F_IDMF(2,I)/=0) THEN
+          IF (NB_POINTS_1==-1)
+     .        NB_POINTS_1=NPC(F_IDMF(2,I))-NPC(F_IDMF(2,I)+1)
+          NB_POINTS=NPC(F_IDMF(2,I))-NPC(F_IDMF(2,I)+1)
+          IF (NB_POINTS/=NB_POINTS_1) THEN
+            CALL ANCMSG(MSGID=713,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO,
+     .                  I1=PROP_ID,
+     .                  C1=IDTITL)
+          END IF
+        END IF
+      END DO
 C     Verification des abscisses des fonctions de fraction molaire        
-      IFUN_REF=-1                                                         
-      DO I=1,NGASES                                                       
-        IF (F_IDMF(2,I)/=0) THEN                                        
-          IF (IFUN_REF==-1)                                             
-     .        IFUN_REF=F_IDMF(2,I)                                        
-          DO J=NPC(F_IDMF(2,I)),NPC(F_IDMF(2,I)+1)-1,2                    
-            ICURPT=J-NPC(F_IDMF(2,I))                                     
-            IF (PLD(J)/=PLD(NPC(IFUN_REF)+ICURPT)) THEN                 
-              CALL ANCMSG(MSGID=715,                                      
-     .                    MSGTYPE=MSGERROR,                               
-     .                    ANMODE=ANINFO,                                  
-     .                    I1=PROP_ID,                                          
-     .                    C1=IDTITL)                                        
-            END IF                                                        
-          END DO                                                          
-        END IF                                                            
-      END DO                                                              
+      IFUN_REF=-1
+      DO I=1,NGASES
+        IF (F_IDMF(2,I)/=0) THEN
+          IF (IFUN_REF==-1)
+     .        IFUN_REF=F_IDMF(2,I)
+          DO J=NPC(F_IDMF(2,I)),NPC(F_IDMF(2,I)+1)-1,2
+            ICURPT=J-NPC(F_IDMF(2,I))
+            IF (PLD(J)/=PLD(NPC(IFUN_REF)+ICURPT)) THEN
+              CALL ANCMSG(MSGID=715,
+     .                    MSGTYPE=MSGERROR,
+     .                    ANMODE=ANINFO,
+     .                    I1=PROP_ID,
+     .                    C1=IDTITL)
+            END IF
+          END DO
+        END IF
+      END DO
 C     Verification somme des fractions molaires egale a 1                 
-      IF (IFUN_REF/=-1) THEN                                            
+      IF (IFUN_REF/=-1) THEN
 C     Dans le cas ou il y a au moins une fonction                         
-        DO J=NPC(IFUN_REF),NPC(IFUN_REF+1)-1,2                            
-          ICURPT=J-NPC(IFUN_REF)                                          
-          MF_TOT=ZERO                                                     
-          DO I=1,NGASES                                                   
-            IF (F_IDMF(2,I)==0) THEN                                    
-              MF_TOT=MF_TOT+MOLFR(I)                                      
-              IF (MOLFR(I)<ZERO) THEN                                  
-                CALL ANCMSG(MSGID=728,                                    
-     .                      MSGTYPE=MSGERROR,                             
-     .                      ANMODE=ANINFO_BLIND_1,                        
-     .                      I1=PROP_ID,                                        
-     .                      C1=IDTITL,                                      
-     .                      I2=ICURPT/2+1,I3=I)                           
-              END IF                                                      
-            ELSE                                                          
-              IF (PLD(NPC(F_IDMF(2,I))+ICURPT+1)<ZERO) THEN            
-                CALL ANCMSG(MSGID=728,                                    
-     .                      MSGTYPE=MSGERROR,                             
-     .                      ANMODE=ANINFO_BLIND_1,                        
-     .                      I1=PROP_ID,                                        
-     .                      C1=IDTITL,                                      
-     .                      I2=ICURPT/2+1,I3=I)                           
-              END IF                                                      
-              MF_TOT=MF_TOT+PLD(NPC(F_IDMF(2,I))+ICURPT+1)                
-     .                     *MOLFR(I)                                      
-            END IF                                                        
-          END DO                                                          
-          IF (ABS(MF_TOT-ONE)>EM03) THEN                                
-            CALL ANCMSG(MSGID=716,                                        
-     .                  MSGTYPE=MSGERROR,                                 
-     .                  ANMODE=ANINFO_BLIND_1,                            
-     .                  I1=PROP_ID,                                            
-     .                  C1=IDTITL,                                          
-     .                  I2=ICURPT/2+1)                                    
-          END IF                                                          
-        END DO  
+        DO J=NPC(IFUN_REF),NPC(IFUN_REF+1)-1,2
+          ICURPT=J-NPC(IFUN_REF)
+          MF_TOT=ZERO
+          DO I=1,NGASES
+            IF (F_IDMF(2,I)==0) THEN
+              MF_TOT=MF_TOT+MOLFR(I)
+              IF (MOLFR(I)<ZERO) THEN
+                CALL ANCMSG(MSGID=728,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=PROP_ID,
+     .                      C1=IDTITL,
+     .                      I2=ICURPT/2+1,I3=I)
+              END IF
+            ELSE
+              IF (PLD(NPC(F_IDMF(2,I))+ICURPT+1)<ZERO) THEN
+                CALL ANCMSG(MSGID=728,
+     .                      MSGTYPE=MSGERROR,
+     .                      ANMODE=ANINFO_BLIND_1,
+     .                      I1=PROP_ID,
+     .                      C1=IDTITL,
+     .                      I2=ICURPT/2+1,I3=I)
+              END IF
+              MF_TOT=MF_TOT+PLD(NPC(F_IDMF(2,I))+ICURPT+1)
+     .                     *MOLFR(I)
+            END IF
+          END DO
+          IF (ABS(MF_TOT-ONE)>EM03) THEN
+            CALL ANCMSG(MSGID=716,
+     .                  MSGTYPE=MSGERROR,
+     .                  ANMODE=ANINFO_BLIND_1,
+     .                  I1=PROP_ID,
+     .                  C1=IDTITL,
+     .                  I2=ICURPT/2+1)
+          END IF
+        END DO
       ELSE
       !Dans le cas ou il n y a que des fractions molaires
         MF_TOT=ZERO
@@ -387,9 +387,9 @@ C     Dans le cas ou il y a au moins une fonction
      .               ANMODE=ANINFO_BLIND_1,
      .                I1=PROP_ID,
      .                C1=IDTITL)
-        END IF    
-      END IF                                                          
-          
+        END IF
+      END IF
+
 C Calcul des caracteristiques initiales du melange
       MWI_MIXTURE=ZERO
       CPAI_MIX=ZERO
@@ -404,50 +404,50 @@ C Calcul des caracteristiques initiales du melange
       MOL_TOT=ZERO
       INIT_MASS=ZERO
 
-      DO I=1,NGASES                                        
-       IF (F_IDMF(2,I) == 0) THEN                          
-         MOL_INI=MOLFR(I)                                  
-       ELSE                                                
-         MOL_INI=MOLFR(I)*PLD(NPC(F_IDMF(2,I))+3)          
-       END IF                                              
-       MOL_TOT=MOL_TOT+MOL_INI                             
-      END DO                                               
-      DO I=1,NGASES                                        
-       IF (MOL_TOT == ZERO) THEN                           
-         INIT_MASS    = EM09 / FAC_M_WORK                  
-       ELSE                                                
-         IF (F_IDMF(2,I) == 0) THEN                        
-           MOL_INI=MOLFR(I)                                
-         ELSE                                              
-           MOL_INI=MOLFR(I)*PLD(NPC(F_IDMF(2,I))+3)        
-         END IF                                            
-         INIT_MASS    = MOL_INI*PM(20,MAT_ID(2,I))         
-       END IF                                              
-       MASS_TOT = MASS_TOT + INIT_MASS                     
-       CPAI_MIX = CPAI_MIX + INIT_MASS*PM(21,MAT_ID(2,I))  
-       CPBI_MIX = CPBI_MIX + INIT_MASS*PM(22,MAT_ID(2,I))  
-       CPCI_MIX = CPCI_MIX + INIT_MASS*PM(23,MAT_ID(2,I))  
-       CPDI_MIX = CPDI_MIX + INIT_MASS*PM(24,MAT_ID(2,I))  
-       CPEI_MIX = CPEI_MIX + INIT_MASS*PM(25,MAT_ID(2,I))  
-       CPFI_MIX = CPFI_MIX + INIT_MASS*PM(26,MAT_ID(2,I))  
-      END DO                                               
-      MWI_MIXTURE=MASS_TOT/MOL_TOT                         
-      CPAI_MIX = CPAI_MIX / MASS_TOT                       
-      CPBI_MIX = CPBI_MIX / MASS_TOT                       
-      CPCI_MIX = CPCI_MIX / MASS_TOT                       
-      CPDI_MIX = CPDI_MIX / MASS_TOT                       
-      CPEI_MIX = CPEI_MIX / MASS_TOT                       
-      CPFI_MIX = CPFI_MIX / MASS_TOT                       
+      DO I=1,NGASES
+       IF (F_IDMF(2,I) == 0) THEN
+         MOL_INI=MOLFR(I)
+       ELSE
+         MOL_INI=MOLFR(I)*PLD(NPC(F_IDMF(2,I))+3)
+       END IF
+       MOL_TOT=MOL_TOT+MOL_INI
+      END DO
+      DO I=1,NGASES
+       IF (MOL_TOT == ZERO) THEN
+         INIT_MASS    = EM09 / FAC_M_WORK
+       ELSE
+         IF (F_IDMF(2,I) == 0) THEN
+           MOL_INI=MOLFR(I)
+         ELSE
+           MOL_INI=MOLFR(I)*PLD(NPC(F_IDMF(2,I))+3)
+         END IF
+         INIT_MASS    = MOL_INI*PM(20,MAT_ID(2,I))
+       END IF
+       MASS_TOT = MASS_TOT + INIT_MASS
+       CPAI_MIX = CPAI_MIX + INIT_MASS*PM(21,MAT_ID(2,I))
+       CPBI_MIX = CPBI_MIX + INIT_MASS*PM(22,MAT_ID(2,I))
+       CPCI_MIX = CPCI_MIX + INIT_MASS*PM(23,MAT_ID(2,I))
+       CPDI_MIX = CPDI_MIX + INIT_MASS*PM(24,MAT_ID(2,I))
+       CPEI_MIX = CPEI_MIX + INIT_MASS*PM(25,MAT_ID(2,I))
+       CPFI_MIX = CPFI_MIX + INIT_MASS*PM(26,MAT_ID(2,I))
+      END DO
+      MWI_MIXTURE=MASS_TOT/MOL_TOT
+      CPAI_MIX = CPAI_MIX / MASS_TOT
+      CPBI_MIX = CPBI_MIX / MASS_TOT
+      CPCI_MIX = CPCI_MIX / MASS_TOT
+      CPDI_MIX = CPDI_MIX / MASS_TOT
+      CPEI_MIX = CPEI_MIX / MASS_TOT
+      CPFI_MIX = CPFI_MIX / MASS_TOT
 
 C ------------------------------------------
       IGEO(23)=NGASES
       IGEO(24)=IFLOW
-      IGEO(25)=F_IDMASS(2,1)             
-      IGEO(26)=F_IDTEMP(2,1)             
-      DO I=1,NGASES                      
-        IGEO(100+(I-1)*2+1)=MAT_ID(2,I)  
-        IGEO(100+(I-1)*2+2)=F_IDMF(2,I)  
-      END DO                             
+      IGEO(25)=F_IDMASS(2,1)
+      IGEO(26)=F_IDTEMP(2,1)
+      DO I=1,NGASES
+        IGEO(100+(I-1)*2+1)=MAT_ID(2,I)
+        IGEO(100+(I-1)*2+2)=F_IDMF(2,I)
+      END DO
 C ------------------------------------------
       GEO(201)=ASTIME
       GEO(202)=MWI_MIXTURE
@@ -465,26 +465,26 @@ C ------------------------------------------
      .         +CPFI_MIX*STP_TEMP*STP_TEMP*STP_TEMP*STP_TEMP
       STP_GAMA_MIX=CPI_MIX/(CPI_MIX-R_IGC1/MWI_MIXTURE)
 
-      GEO(209)=FSMASS(1)           
-      GEO(210)=FSTEMP(1)           
-      GEO(211)=MW_MIXTURE          
-      DO I=1,NGASES                
-        GEO(211+(I-1)+1)=MOLFR(I)  
-      END DO                       
+      GEO(209)=FSMASS(1)
+      GEO(210)=FSTEMP(1)
+      GEO(211)=MW_MIXTURE
+      DO I=1,NGASES
+        GEO(211+(I-1)+1)=MOLFR(I)
+      END DO
 C ------------------------------------------
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,1000)PROP_ID
       ELSE
-        WRITE(IOUT,1130)IG,IFLOW,F_IDMASS(1,1),F_IDTEMP(1,1),  
-     .     FSMASS(1),FSTEMP(1),ASTIME                          
-        WRITE(IOUT,1110)NGASES                                 
-        WRITE(IOUT,1115)MWI_MIXTURE,STP_GAMA_MIX,              
-     .                  CPAI_MIX,CPBI_MIX,CPCI_MIX,            
-     .                  CPDI_MIX,CPEI_MIX,CPFI_MIX             
-        DO I=1,NGASES                                          
-        WRITE(IOUT,1140)MAT_ID(1,I),MOLFR(I),F_IDMF(1,I)       
-        END DO                                                 
-        WRITE(IOUT,'(//)')                                     
+        WRITE(IOUT,1130)IG,IFLOW,F_IDMASS(1,1),F_IDTEMP(1,1),
+     .     FSMASS(1),FSTEMP(1),ASTIME
+        WRITE(IOUT,1110)NGASES
+        WRITE(IOUT,1115)MWI_MIXTURE,STP_GAMA_MIX,
+     .                  CPAI_MIX,CPBI_MIX,CPCI_MIX,
+     .                  CPDI_MIX,CPEI_MIX,CPFI_MIX
+        DO I=1,NGASES
+        WRITE(IOUT,1140)MAT_ID(1,I),MOLFR(I),F_IDMF(1,I)
+        END DO
+        WRITE(IOUT,'(//)')
       ENDIF
 C
 C----------------------

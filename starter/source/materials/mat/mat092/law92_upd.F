@@ -61,8 +61,8 @@ C-----------------------------------------------
       INTEGER N,K,ITEST,II,JJ,NSTART,IC1,IC2,NOGD,NDATA,NMULA,IFC
       my_real E,NU,GS,RBULK,D,YOUNG,ERRTOL,AVE_SLOPE,MU,MU_MAX,MU_MIN,DX,
      .   LAM,BETA,LAM_MAX,LAM_MIN,SCALEFAC,AMULA(2)
-      my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH!      
-      LOGICAL  IS_ENCRYPTED         
+      my_real , DIMENSION(:), ALLOCATABLE :: STRESS,STRETCH!
+      LOGICAL  IS_ENCRYPTED
 C==================================================================== 
 !       IDENTIFICATION
 !====================================================================
@@ -70,7 +70,7 @@ C====================================================================
        CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
   !!
        NSTART = 2
-       ERRTOL = FIVEEM3   
+       ERRTOL = FIVEEM3
        IFC = IFUNC(1)
        IC1 = NPC(IFC)
        IC2 = NPC(IFC+1)
@@ -78,90 +78,90 @@ C====================================================================
        NOGD=(IC2-IC1)/2
        NDATA=NOGD
 c
-       ALLOCATE (STRETCH(NOGD))                              
-       ALLOCATE (STRESS(NOGD))                               
+       ALLOCATE (STRETCH(NOGD))
+       ALLOCATE (STRESS(NOGD))
 c
        AVE_SLOPE = ZERO
-       JJ=0                                                  
-       STRETCH=ZERO                                          
-       STRESS=ZERO                                           
-       MU=ZERO                                               
-       RBULK=ZERO                                            
-       GS=ZERO                                               
-       LAM_MAX= ZERO                                         
-       LAM_MIN= ZERO                                         
+       JJ=0
+       STRETCH=ZERO
+       STRESS=ZERO
+       MU=ZERO
+       RBULK=ZERO
+       GS=ZERO
+       LAM_MAX= ZERO
+       LAM_MIN= ZERO
 c
-       DO II = IC1,IC2-2,2                                   
-            JJ=JJ+1                                          
-            STRETCH(JJ) = PLD(II) + ONE                       
-            STRESS(JJ)  = SCALEFAC *  PLD(II+1)                          
-            LAM_MAX = MAX(LAM_MAX, ABS(STRETCH(JJ)))         
-       ENDDO                                                 
+       DO II = IC1,IC2-2,2
+            JJ=JJ+1
+            STRETCH(JJ) = PLD(II) + ONE
+            STRESS(JJ)  = SCALEFAC *  PLD(II+1)
+            LAM_MAX = MAX(LAM_MAX, ABS(STRETCH(JJ)))
+       ENDDO
 c
-       NOGD = JJ                                             
-       MU_MAX = ZERO                                          
-       MU_MIN = 1E20                                          
-       DO K = 1, NDATA                                        
-        DX = STRETCH(K) - ONE                                  
-c       avolid dx to be too small                             
-        IF (DX >= ZERO) THEN                                  
-          DX = MAX(DX, EM6)                                   
-        ELSE                                                  
-            DX = ABS(DX)                                      
-        ENDIF                                                 
-        MU_MAX = MAX (MU_MAX, STRESS(K)  / DX)                
-        AVE_SLOPE = AVE_SLOPE + ABS(STRESS(K))  / DX          
-       ENDDO                                                   
+       NOGD = JJ
+       MU_MAX = ZERO
+       MU_MIN = 1E20
+       DO K = 1, NDATA
+        DX = STRETCH(K) - ONE
+c       avolid dx to be too small
+        IF (DX >= ZERO) THEN
+          DX = MAX(DX, EM6)
+        ELSE
+            DX = ABS(DX)
+        ENDIF
+        MU_MAX = MAX (MU_MAX, STRESS(K)  / DX)
+        AVE_SLOPE = AVE_SLOPE + ABS(STRESS(K))  / DX
+       ENDDO
 c
-       AVE_SLOPE = AVE_SLOPE / (ONE * NDATA)                  
-       MU= AVE_SLOPE                                           
-c      initial value  
-       LAM = MAX(SEVEN,THREE*LAM_MAX)         
+       AVE_SLOPE = AVE_SLOPE / (ONE * NDATA)
+       MU= AVE_SLOPE
+c      initial value
+       LAM = MAX(SEVEN,THREE*LAM_MAX)
 C                                            
-       NMULA  = 2                            
-       AMULA(1) = MAX(MU,MU_MAX)             
-       AMULA(2) = LAM                        
-       ITEST  =  UPARAM(12) 
-      !----------------       
+       NMULA  = 2
+       AMULA(1) = MAX(MU,MU_MAX)
+       AMULA(2) = LAM
+       ITEST  =  UPARAM(12)
+      !----------------
         IF(IS_ENCRYPTED)THEN
           WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-       ELSE 
-         WRITE(IOUT,1000)    
+       ELSE
+         WRITE(IOUT,1000)
          WRITE(IOUT,1001)TRIM(TITR),MAT_ID
-       ENDIF  
-      !----        
+       ENDIF
+      !----
 c------------------------------------------------------
        CALL LAW92_NLSQF(STRETCH,STRESS,NMULA,NOGD,AMULA,
      .                   NSTART, ERRTOL,MAT_ID,TITR,ITEST)
 c------------------------------------------------------
-        DEALLOCATE (STRETCH)                                                 
-        DEALLOCATE (STRESS)                                                  
-        NU  = UPARAM(11)                                             
-        MU  = AMULA(1)                                                       
-        LAM = AMULA(2)                                                       
+        DEALLOCATE (STRETCH)
+        DEALLOCATE (STRESS)
+        NU  = UPARAM(11)
+        MU  = AMULA(1)
+        LAM = AMULA(2)
         BETA = ONE/LAM/LAM
-        GS = MU*(ONE +  THREE*BETA /FIVE + EIGHTY19*BETA*BETA/175. 
-     .         + 513.*BETA**3/875. + 42039.*BETA**4/67375.) 
-        RBULK=TWO*GS*(ONE+NU)                                               
-     .        /MAX(EM30,THREE*(ONE-TWO*NU))                                  
-        D= TWO/RBULK                                                        
-        UPARAM(1)=MU                                                  
-        UPARAM(2)=D                                                   
-        UPARAM(3)=LAM 
-        UPARAM(4)=GS                                                  
-        UPARAM(5)=RBULK       
-c       parameters    
-        YOUNG  = TWO*GS*(ONE + NU)               
-        PM(20) = YOUNG                      
-        PM(21) = NU                         
-        PM(22) = GS                         
-        PM(24) = YOUNG/(ONE - NU**2)         
-        PM(32) = RBULK                      
-        PM(100) = RBULK  !PARMAT(1) 
+        GS = MU*(ONE +  THREE*BETA /FIVE + EIGHTY19*BETA*BETA/175.
+     .         + 513.*BETA**3/875. + 42039.*BETA**4/67375.)
+        RBULK=TWO*GS*(ONE+NU)
+     .        /MAX(EM30,THREE*(ONE-TWO*NU))
+        D= TWO/RBULK
+        UPARAM(1)=MU
+        UPARAM(2)=D
+        UPARAM(3)=LAM
+        UPARAM(4)=GS
+        UPARAM(5)=RBULK
+c       parameters
+        YOUNG  = TWO*GS*(ONE + NU)
+        PM(20) = YOUNG
+        PM(21) = NU
+        PM(22) = GS
+        PM(24) = YOUNG/(ONE - NU**2)
+        PM(32) = RBULK
+        PM(100) = RBULK  !PARMAT(1)
 C-----------
 C     Formulation for solid elements time step computation.
         IPM(252)= 2
-        PM(105) = TWO*GS/(RBULK + FOUR_OVER_3*GS)        
+        PM(105) = TWO*GS/(RBULK + FOUR_OVER_3*GS)
 C                          
       IF(.NOT.IS_ENCRYPTED) WRITE(IOUT,1100)MU,D,LAM,GS,RBULK
 c----------------

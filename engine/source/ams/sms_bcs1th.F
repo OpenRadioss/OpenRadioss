@@ -140,11 +140,11 @@ C-------------------
 C
         ENDIF
 C
-        FTHREAC(N+1,NODREAC(L)) = FTHREAC(N+1,NODREAC(L)) 
+        FTHREAC(N+1,NODREAC(L)) = FTHREAC(N+1,NODREAC(L))
      .                          + FTHREAC0(N+1)*DT12
-        FTHREAC(N+2,NODREAC(L)) = FTHREAC(N+2,NODREAC(L)) 
+        FTHREAC(N+2,NODREAC(L)) = FTHREAC(N+2,NODREAC(L))
      .                          + FTHREAC0(N+2)*DT12
-        FTHREAC(N+3,NODREAC(L)) = FTHREAC(N+3,NODREAC(L)) 
+        FTHREAC(N+3,NODREAC(L)) = FTHREAC(N+3,NODREAC(L))
      .                          + FTHREAC0(N+3)*DT12
 C
       ENDDO

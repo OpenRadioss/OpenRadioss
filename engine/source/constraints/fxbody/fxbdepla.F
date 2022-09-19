@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        FXBODFP1                      source/constraints/fxbody/fxbodfp.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE FXBDEPLA(FXBDEP, FXBRPM, X  , D   , DN    , 
+      SUBROUTINE FXBDEPLA(FXBDEP, FXBRPM, X  , D   , DN    ,
      .                    NSN   , FXBNOD, NME, NMOD, FXBMOD,
      .                    ISH   , IFILE , NFX, IRCM)
 C-----------------------------------------------
@@ -142,4 +142,4 @@ C
 C
       RETURN
       END
-                
+

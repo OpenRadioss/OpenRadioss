@@ -80,13 +80,13 @@ C
             IR6=IR5+NEL*FREESURF
             IR7=IR6+NEL*FREESURF
             IR8=IR7+NEL*NEL
-            CALL DAAACC(NDIM, NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II4), IFLOW(II6), 
+            CALL DAAACC(NDIM, NNO, NEL, IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II4), IFLOW(II6),
      .                  A,  RFLOW(IR2), RFLOW(IR8))
          ENDIF
-         IADI=IADI+IFLOW(IADI+14)  
+         IADI=IADI+IFLOW(IADI+14)
          IADR=IADR+IFLOW(IADI+15)
       ENDDO
 C	  
       RETURN
       END
-      
+

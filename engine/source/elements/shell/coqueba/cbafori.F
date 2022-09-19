@@ -23,7 +23,7 @@ Copyright>        commercial version may interest you: https://www.altair.com/ra
 	SUBROUTINE CBAFORI(JFT  ,JLT   ,NG    ,CDET ,THK0,
      2                     TH12 ,FF0   ,MM0   ,NEL  ,BM  ,
      3                     BMF  ,BF    ,BC    ,TC   ,VF  ,
-     4                     VM   ,NPLAT ,IPLAT ,VOL  ) 
+     4                     VM   ,NPLAT ,IPLAT ,VOL  )
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C	CALCUL DES FORCES INTERNES AUX NOEUDS 
@@ -39,9 +39,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
-      INTEGER JFT,JLT,NG,NPLAT,IPLAT(*),NEL 
-      MY_REAL 
-     .   FF0(NEL,5),MM0(NEL,3),CDET(*),VOL(*), 
+      INTEGER JFT,JLT,NG,NPLAT,IPLAT(*),NEL
+      MY_REAL
+     .   FF0(NEL,5),MM0(NEL,3),CDET(*),VOL(*),
      .   BM(MVSIZ,36),BMF(MVSIZ,36),BF(MVSIZ,24),BC(MVSIZ,40),
      .   THK0(*),VF(MVSIZ,3,4),VM(MVSIZ,2,4),TH12(*),
      .    C1,C2,CM1,CM2,CC1,CC2,BC1,BC3,BC5,
@@ -50,11 +50,11 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J
-      MY_REAL 
-     .   FF(MVSIZ,5),MM(MVSIZ,3) 
+      MY_REAL
+     .   FF(MVSIZ,5),MM(MVSIZ,3)
 C--------------------------------------------------------------------------------------------------
 C---due to bug of convention-----
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         FF(EP,1) = FF0(EP,1)
         FF(EP,2) = FF0(EP,2)
         FF(EP,3) = FF0(EP,3)
@@ -64,9 +64,9 @@ C---due to bug of convention-----
         MM(EP,1) = MM0(EP,1)
         MM(EP,2) = MM0(EP,2)
         MM(EP,3) = MM0(EP,3)
-       END DO !  
+       END DO !
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
             C2=VOL(EP)
           C1=TH12(EP)*CDET(EP)
@@ -111,7 +111,7 @@ C
         VM(EP,1,4)=VM(EP,1,4)+CC1+CM1
         VM(EP,2,4)=VM(EP,2,4)+CC2-CM2
 C
-       ENDDO  
+       ENDDO
 #include "vectorize.inc"
        DO I=NPLAT+1,JLT
         EP=IPLAT(I)
@@ -129,7 +129,7 @@ C           J=1 K0=0 K1=0 K2=0
      7                               BMF(EP,3)*MM(EP,3))
 C          I1=1 I2=4
            VM(EP,1,1)=VM(EP,1,1)+C2*(BC(EP,7)*BCX+
-     1                              BC(EP,8)*BCY) 
+     1                              BC(EP,8)*BCY)
      2                         +C1*(BF(EP,1)*MM(EP,1)+
      3                              BF(EP,2)*MM(EP,2)+
      4                              BF(EP,3)*MM(EP,3) )
@@ -143,7 +143,7 @@ C          I1=2  I2=2
      8                              BMF(EP,6)*MM(EP,3))
 C          I1=2 I2=5
            VM(EP,2,1)=VM(EP,2,1)+C2*(BC(EP,9)*BCX+
-     1                              BC(EP,10)*BCY) 
+     1                              BC(EP,10)*BCY)
      2                         +C1*(BF(EP,4)*MM(EP,1)+
      3                              BF(EP,5)*MM(EP,2)+
      4                              BF(EP,6)*MM(EP,3) )
@@ -165,7 +165,7 @@ C          J=2 K0=2 K1=3 K2=5 I1=4 I2=6
      8                              BMF(EP,12)*MM(EP,3))
 C          I1=3  I2=9
            VM(EP,1,2)=VM(EP,1,2)+C2*(BC(EP,17)*BCX+
-     1                              BC(EP,18)*BCY) 
+     1                              BC(EP,18)*BCY)
      2                         +C1*(BF(EP,7)*MM(EP,1)+
      3                              BF(EP,8)*MM(EP,2)+
      4                              BF(EP,9)*MM(EP,3) )
@@ -179,7 +179,7 @@ C          I1=5 I2=7
      8                              BMF(EP,15)*MM(EP,3))
 C          I1=4   I2=10
            VM(EP,2,2)=VM(EP,2,2)+C2*(BC(EP,19)*BCX+
-     1                              BC(EP,20)*BCY) 
+     1                              BC(EP,20)*BCY)
      2                         +C1*(BF(EP,10)*MM(EP,1)+
      3                              BF(EP,11)*MM(EP,2)+
      4                              BF(EP,12)*MM(EP,3) )
@@ -201,7 +201,7 @@ C          J=3 K0=4  K1=6 K2=10 I1=7 I2=11
      8                              BMF(EP,21)*MM(EP,3))
 C          I1=5  I2=14
            VM(EP,1,3)=VM(EP,1,3)+C2*(BC(EP,27)*BCX+
-     1                              BC(EP,28)*BCY) 
+     1                              BC(EP,28)*BCY)
      2                         +C1*(BF(EP,13)*MM(EP,1)+
      3                              BF(EP,14)*MM(EP,2)+
      4                              BF(EP,15)*MM(EP,3) )
@@ -215,7 +215,7 @@ C          I1=8  I2=12
      8                              BMF(EP,24)*MM(EP,3))
 C          I1=6   I2=15
            VM(EP,2,3)=VM(EP,2,3)+C2*(BC(EP,29)*BCX+
-     1                              BC(EP,30)*BCY) 
+     1                              BC(EP,30)*BCY)
      2                         +C1*(BF(EP,16)*MM(EP,1)+
      3                              BF(EP,17)*MM(EP,2)+
      4                              BF(EP,18)*MM(EP,3) )
@@ -237,7 +237,7 @@ C          J=4  K0=6 K1=9 K2=15 I=1 I1=10 I2=16
      8                              BMF(EP,30)*MM(EP,3))
 C          I1=7  I2=19
            VM(EP,1,4)=VM(EP,1,4)+C2*(BC(EP,37)*BCX+
-     1                              BC(EP,38)*BCY) 
+     1                              BC(EP,38)*BCY)
      2                         +C1*(BF(EP,19)*MM(EP,1)+
      3                              BF(EP,20)*MM(EP,2)+
      4                              BF(EP,21)*MM(EP,3) )
@@ -251,7 +251,7 @@ C          I1=11  I2=17
      8                              BMF(EP,33)*MM(EP,3))
 C          I1=8 I2=20
            VM(EP,2,4)=VM(EP,2,4)+C2*(BC(EP,39)*BCX +
-     1                              BC(EP,40)*BCY ) 
+     1                              BC(EP,40)*BCY )
      2                         +C1*(BF(EP,22)*MM(EP,1) +
      3                              BF(EP,23)*MM(EP,2) +
      4                              BF(EP,24)*MM(EP,3) )
@@ -264,7 +264,7 @@ C          I1=12 I2=18
      7                              BMF(EP,35)*MM(EP,2)+
      8                              BMF(EP,36)*MM(EP,3))
 C
-      ENDDO     
+      ENDDO
 C    
       RETURN
       END
@@ -294,17 +294,17 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
        INTEGER JFT ,JLT,NPLAT,IPLAT(*),NEL
-       my_real 
+       my_real
      .     VOL(*),   OFF(*), X13(*)   ,X24(*)    ,Y13(*)     ,
      .     VSTRE(NEL,5),VF(MVSIZ,3,4) ,Y24(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
         INTEGER I ,J,EP
-        my_real SX1, SX2, SY1, SY2, THOFF 
+        my_real SX1, SX2, SY1, SY2, THOFF
 C
 #include "vectorize.inc"
-       DO EP=JFT,NPLAT 
+       DO EP=JFT,NPLAT
          I=IPLAT(EP)
          THOFF =VOL(I)*VSTRE(I,3)*OFF(I)
          SX1=-THOFF*X24(I)
@@ -321,7 +321,7 @@ C-------------------------------------------------
 C
          VF(I,1,2)=VF(I,1,2)+SX2
          VF(I,2,2)=VF(I,2,2)+SY2
-       ENDDO  
+       ENDDO
 #include "vectorize.inc"
        DO EP=NPLAT+1, JLT
          I=IPLAT(EP)
@@ -364,7 +364,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
         INTEGER JFT ,JLT,NPLAT,IPLAT(*),NG,NEL
-        my_real 
+        my_real
      .     VOL(*)  ,FF(NEL,5),VSRZ(NEL,5) ,VF(MVSIZ,3,4) ,VMZ(MVSIZ,4),
      .     BM(MVSIZ,36),BRZ(MVSIZ,4,4),BMRZ(MVSIZ,3,4),KRZ(*),VRLZ(*),
      .     EINT(NEL,2),OFF(*),DT1C
@@ -399,7 +399,7 @@ C
          ENDDO
         ENDDO
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
          EP=IPLAT(I)
          C2=VOL(EP)
          C3=C2*FF(EP,3)
@@ -422,7 +422,7 @@ C----------NOEUD 2 ------------
 C
         VF(EP,1,4)=VF(EP,1,4)-FX3
         VF(EP,2,4)=VF(EP,2,4)-FY3
-       ENDDO  
+       ENDDO
 #include "vectorize.inc"
        DO I=NPLAT+1,JLT
         EP=IPLAT(I)
@@ -446,7 +446,7 @@ C
        RETURN
        END
 	SUBROUTINE CBAFORI1(JFT  ,JLT  ,FF  ,BM  ,VF,
-     .                      NPLAT,IPLAT,VOL ,NEL ) 
+     .                      NPLAT,IPLAT,VOL ,NEL )
 C--------------------------------------------------------------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 C	CALCUL DES FORCES INTERNES AUX NOEUDS (MEMBRANE ONLY)
@@ -463,17 +463,17 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT,NPLAT,IPLAT(*),NEL
-      MY_REAL 
+      MY_REAL
      .   FF(NEL,5),VOL(*),BM(MVSIZ,36),VF(MVSIZ,3,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J
-      MY_REAL 
+      MY_REAL
      .    C1,C2
 C--------------------------------------------------------------------------------------------------
 #include "vectorize.inc"
-       DO I=JFT,NPLAT 
+       DO I=JFT,NPLAT
         EP=IPLAT(I)
         C2=VOL(EP)
 C----------NOEUD 1 ------------
@@ -489,6 +489,6 @@ C
         VF(EP,1,4)=-VF(EP,1,3)
         VF(EP,2,4)=-VF(EP,2,3)
 C
-       ENDDO  
+       ENDDO
       RETURN
       END

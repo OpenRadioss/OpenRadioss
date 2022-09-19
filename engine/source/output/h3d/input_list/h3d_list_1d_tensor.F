@@ -76,13 +76,13 @@ c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_TENSOR(I)%KEY3  = 'TENS/STRAIN/MAX'
       H3D_KEYWORD_ONED_TENSOR(I)%TEXT1  = 'Maximum strain'
-      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  =
      .'Maximum strain over the integration points'
 c-----------------------------------------------
       I = I + 1
       H3D_KEYWORD_ONED_TENSOR(I)%KEY3  = 'TENS/STRAIN/TMAX'
       H3D_KEYWORD_ONED_TENSOR(I)%TEXT1  = 'Maximum strain over time'
-      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_ONED_TENSOR(I)%COMMENT  =
      .'Maximum strain reached over time over the integration points'
 c-----------------------------------------------
 

@@ -40,8 +40,8 @@ Chd|====================================================================
 !      MID_PID_SHELL(m1)%PID1D ( -p1, -p3, -p1, -p1 ...)
 !      MID_PID_SHELL(m2)%PID1D ( -p1, ... )
 !      MID_PID_SHELL(m56)%PID1D( -p7 ... )
-!       
-!      add the index of Group NG for each (mi;pj) pairs 
+!
+!      add the index of Group NG for each (mi;pj) pairs
 !      MID_PID_SHELL(m1)%GROUP1D( NG4, NG6, NG7 , ...) for m1 mid
 !
 !      get the number of same pi PID for each mj MID in TAB_LOC(3)
@@ -51,7 +51,7 @@ Chd|====================================================================
 !
 !      MID_SHELL(:) : number of pid per mid EQV to PID_INDEX array
 !      PID_INDEX(:) : index of pid per mid
-!      COMPTEUR_MAT_PROP_SHELL : number of different (mi,pj) pairs 
+!      COMPTEUR_MAT_PROP_SHELL : number of different (mi,pj) pairs
 !
 !       MID_PID_SHELL(MID)%PID1D( : ) --> (mid ; pid) pair
 !       MID_PID_SHELL(MID)%GROUP1D --> number of Group for (mid,pid)
@@ -111,17 +111,17 @@ C-----------------------------------------------
                 MID_PID_SHELL(MID)%PID1D( 1:MID_SHELL(MID) ) = 0
                 MID_PID_SHELL(MID)%GROUP1D( 1:MID_SHELL(MID) )  = 0
 
-!                MID_PID_SHELL(MID)%PID1D( 1:MID_SHELL(MID) ) = 0   
-                !       first group of (mid;pid)    
-                PID_INDEX(MID) = PID_INDEX(MID) + 1 
-                MID_PID_SHELL(MID)%PID1D( PID_INDEX(MID) ) = -PID 
+!                MID_PID_SHELL(MID)%PID1D( 1:MID_SHELL(MID) ) = 0
+                !       first group of (mid;pid)
+                PID_INDEX(MID) = PID_INDEX(MID) + 1
+                MID_PID_SHELL(MID)%PID1D( PID_INDEX(MID) ) = -PID
                 MID_PID_SHELL(MID)%GROUP1D( PID_INDEX(MID) ) = NGG
                 COMPTEUR = COMPTEUR + 1
                 POIN_MID_SHELL(COMPTEUR) = MID
          ELSE
                 !       other group of (mid;pid)
-                PID_INDEX(MID) = PID_INDEX(MID) + 1 
-                MID_PID_SHELL(MID)%PID1D( PID_INDEX(MID) ) = -PID 
+                PID_INDEX(MID) = PID_INDEX(MID) + 1
+                MID_PID_SHELL(MID)%PID1D( PID_INDEX(MID) ) = -PID
                 MID_PID_SHELL(MID)%GROUP1D( PID_INDEX(MID) ) = NGG
          ENDIF
        ENDDO
@@ -164,17 +164,17 @@ C-----------------------------------------------
                                 JJ = JJ + 1
                                 NGG_LOC = MID_PID_SHELL(MID)%GROUP1D( INDEX(J) )
                                 TAB_LOC(JJ,1) = NGG_LOC
-                                TAB_LOC(JJ,2) = TAB_SHELL_LOC(NGG_LOC,1)  
+                                TAB_LOC(JJ,2) = TAB_SHELL_LOC(NGG_LOC,1)
                                 TAB_LOC(JJ,3) = COMPTEUR
                         ENDDO
                         COMPTEUR_MAT_PROP_SHELL = COMPTEUR_MAT_PROP_SHELL + 1
                 ENDIF
          ENDDO
-       ENDDO     
+       ENDDO
 
-       DEALLOCATE( INDEX ) 
-       DEALLOCATE( PID_INDEX )  
-                                
+       DEALLOCATE( INDEX )
+       DEALLOCATE( PID_INDEX )
+
        ! tri poids mat/prop
 
        I=N_SHELL
@@ -216,12 +216,12 @@ C-----------------------------------------------
         MID = TAB_SHELL_LOC(J,3)
         PID = TAB_SHELL_LOC(J,4)
         NBR_MID_PID_GRP = TAB_LOC(SHIFT,3)
-        FIRST = J 
+        FIRST = J
         LAST = FIRST + NBR_MID_PID_GRP - 1
         MARQUEUR = 0
         II = LAST-FIRST
         DO WHILE(MARQUEUR==0.and.II>0)
-         MARQUEUR = 1 
+         MARQUEUR = 1
          do JJ = FIRST,II-1
           if(TAB_LOC(JJ,2)<TAB_LOC(JJ+1,2)) then
            MARQUEUR = TAB_LOC(JJ,1)
@@ -243,7 +243,7 @@ C-----------------------------------------------
        DO I=1,MAX_MID
          MID = POIN_MID_SHELL(I)
          DEALLOCATE( MID_PID_SHELL(MID)%GROUP1D )
-         DEALLOCATE( MID_PID_SHELL(MID)%PID1D )      
+         DEALLOCATE( MID_PID_SHELL(MID)%PID1D )
        ENDDO
 
 

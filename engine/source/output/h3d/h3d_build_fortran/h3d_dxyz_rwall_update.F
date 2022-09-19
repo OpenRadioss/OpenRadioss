@@ -30,7 +30,7 @@ Chd|====================================================================
       SUBROUTINE H3D_DXYZ_RWALL_UPDATE (NSTRF,RWBUF,NPRW  ,DISP     ,XMIN ,
      2                     YMIN ,ZMIN  ,XMAX ,YMAX  , ZMAX,
      3                      FR_SEC,FR_WALL,WEIGHT,ITAB,
-     4                      XWL ,YWL , ZWL, 
+     4                      XWL ,YWL , ZWL,
      .  RWALL_V1, RWALL_V2, RWALL_V3, RWALL_V4, RWALL_V5, RWALL_V6 )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s

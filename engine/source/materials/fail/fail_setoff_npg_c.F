@@ -68,13 +68,13 @@ C-----------------------------------------------
       my_real, DIMENSION(NEL   )   :: OFF
       my_real, DIMENSION(NEL,*)    :: THK_LY
       TYPE(ELBUF_STRUCT_), TARGET  :: ELBUF_STR
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,IEL,IPOS,IL,IFL,IP,IPT,IG,IPG,JPG,NPTR,NPTS,NPTT,
      .   IDMG,COUNTPG,NINDXPG,NINDXLY,IPT_ALL,NFAIL,IPWEIGHT,IPTHKLY
-      INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY  
+      INTEGER, DIMENSION(NEL) :: NPTF,INDXPG,INDXLY
       INTEGER, DIMENSION(NEL,NLAY) :: OFFLY
       INTEGER, DIMENSION(10) :: ISTRESS
       INTEGER, DIMENSION(:), POINTER :: OFFPG
@@ -82,13 +82,13 @@ C-----------------------------------------------
       my_real, DIMENSION(:), POINTER :: OFFL
       my_real, DIMENSION(NLAY) :: WEIGHT,P_THKLY
       my_real :: DMG,RESID_DMG,THK_LAY,P_THICKG,FAIL_EXP,THFACT,NORM,DFAIL
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
-      TYPE (STACK_PLY) :: STACK    
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE (STACK_PLY) :: STACK
 c-----------------------------------------------------------------------
 c     NPTT       NUMBER OF INTEGRATION POINTS IN CURRENT LAYER
 c     NPTTF      NUMBER OF FAILED INTEGRATION POINTS IN THE LAYER
 c     NPTTOT     NUMBER OF INTEGRATION POINTS IN ALL LAYERS (TOTAL)
-c     OFFPG(NEL,NPG)  failure flag of PG in each layer  1=alive ,0=dead 
+c     OFFPG(NEL,NPG)  failure flag of PG in each layer  1=alive ,0=dead
 c     THK_LY     Ratio of layer thickness / element thickness
 c     THK        Total element thickness
 C=======================================================================
@@ -103,7 +103,7 @@ c
       NPG  = NPTR*NPTS            ! number of in-plane Gauss points
       IPG  = (IS-1)*NPTR + IR     ! current Gauss point
       JPG  = (IPG-1)*NEL
-c                                                       
+c
 c------------------------------------
       IF (NLAY == 1) THEN   ! PID 1,9
 c------------------------------------
@@ -136,8 +136,8 @@ c              IF (OFFL(IEL) == ONE .and. FOFF(IEL) < 1) OFFL(IEL) = FOFF(IEL)
               ENDIF
               IF (THFACT >= PTHKF(IL,IFL)) THEN  ! delete current PG in the layer
                 OFFPG(IEL) = 0
-              ENDIF 
-            ENDDO     ! IPT=1,NPTT        
+              ENDIF
+            ENDDO     ! IPT=1,NPTT
           ENDDO       ! IFL = 1,NFAIL
         ENDDO         ! IEL=1,NEL
 c------------------
@@ -158,8 +158,8 @@ c------------------
                 COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
               ENDDO
               IF (COUNTPG == 0) THEN  ! all Gauss pts are failed
-                OFF(IEL) = FOUR_OVER_5          
-                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                
+                OFF(IEL) = FOUR_OVER_5
+                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag
               ENDIF
             ENDIF
           ENDDO  ! IEL=1,NEL
@@ -184,166 +184,166 @@ c       check old Ishell settings
           P_THICKG = MAX(P_THICKG, EM06)
         ENDIF
 c-------
-        IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP ==52) THEN 
-          IPTHKLY  = 1 + 4*NLAY                                                   
-          IPWEIGHT = IPTHKLY + NLAY                                               
-          DO IL=1,NLAY                                                            
-            NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL                                     
-            OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)                      
-            WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)                        
-            NINDXPG = 0                                                           
-            DO IEL=1,NEL                                                          
-              IF (OFF(IEL) == ONE .and. OFFPG(IEL) == 1 .and.                      
-     .            ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                         
-                DO IFL = 1,NFAIL                                                  
-                  FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF       
-                  OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF                 
-                  IF (FOFF(IEL) < ONE)  THEN                                       
-                    OFFPG(IEL) = 0            ! PG per layer                      
-                    NINDXPG = NINDXPG + 1                                         
-                    INDXPG(NINDXPG) = IEL                                         
-                  ENDIF                                                           
-                ENDDO    ! IFL = 1,NFAIL                                          
-              ENDIF                                                               
-            ENDDO     ! IEL=1,NEL                                                 
-            IF (IPG == NPG) THEN                                                  
-              NINDXLY  = 0                                                       
-              DO IEL=1,NEL                                                       
-                IF (OFF(IEL) == ONE) THEN                                          
-                  IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                     
-                    COUNTPG = 0                                                   
-                    DO IG=1,NPG                                                   
-                      JPG  = (IG-1)*NEL                                           
-                      COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)      
-                    ENDDO                                                         
-                    IF (COUNTPG == 0) THEN          ! all Gauss pts failed        
-                      NINDXLY = NINDXLY + 1                                       
-                      INDXLY(NINDXLY) = IEL                                       
-                      ELBUF_STR%BUFLY(IL)%OFF(IEL) = 0  ! layer is off            
-                    ENDIF                                                         
-                  ENDIF                                                           
-                ENDIF                                                             
-              ENDDO  ! IEL=1,NEL                                                    
+        IF(IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP ==52) THEN
+          IPTHKLY  = 1 + 4*NLAY
+          IPWEIGHT = IPTHKLY + NLAY
+          DO IL=1,NLAY
+            NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+            OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)
+            WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)
+            NINDXPG = 0
+            DO IEL=1,NEL
+              IF (OFF(IEL) == ONE .and. OFFPG(IEL) == 1 .and.
+     .            ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN
+                DO IFL = 1,NFAIL
+                  FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF
+                  OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF
+                  IF (FOFF(IEL) < ONE)  THEN
+                    OFFPG(IEL) = 0            ! PG per layer
+                    NINDXPG = NINDXPG + 1
+                    INDXPG(NINDXPG) = IEL
+                  ENDIF
+                ENDDO    ! IFL = 1,NFAIL
+              ENDIF
+            ENDDO     ! IEL=1,NEL
+            IF (IPG == NPG) THEN
+              NINDXLY  = 0
+              DO IEL=1,NEL
+                IF (OFF(IEL) == ONE) THEN
+                  IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN
+                    COUNTPG = 0
+                    DO IG=1,NPG
+                      JPG  = (IG-1)*NEL
+                      COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
+                    ENDDO
+                    IF (COUNTPG == 0) THEN          ! all Gauss pts failed
+                      NINDXLY = NINDXLY + 1
+                      INDXLY(NINDXLY) = IEL
+                      ELBUF_STR%BUFLY(IL)%OFF(IEL) = 0  ! layer is off
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ENDDO  ! IEL=1,NEL
 c
-              IF (NINDXLY > 0) THEN                        
-                DO I = 1,NINDXLY                           
-#include       "lockon.inc"                                
-                  WRITE(IOUT, 2000) IL,NGL(INDXLY(I))      
-                  WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT   
-#include       "lockoff.inc"                               
-                ENDDO                                      
-              ENDIF                                        
+              IF (NINDXLY > 0) THEN
+                DO I = 1,NINDXLY
+#include       "lockon.inc"
+                  WRITE(IOUT, 2000) IL,NGL(INDXLY(I))
+                  WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT
+#include       "lockoff.inc"
+                ENDDO
+              ENDIF
             ENDIF ! IPG == NPG
-          ENDDO      ! IL=1,NLAY  
+          ENDDO      ! IL=1,NLAY
 C
-          DO IEL=1,NEL                                                                    
-            IF (OFF(IEL) == ONE) THEN                                                      
-              THFACT = ZERO                                                               
-              NORM   = ZERO                                                               
-              DO IL=1,NLAY                                                                
-                IPOS = (IL-1)*NEL + IEL                                                   
-                WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)                            
-                DFAIL = THKLY(IPOS)*WEIGHT(IL)                                            
-                NORM  = NORM  + DFAIL                                                     
-                IF (OFF(IEL) == ONE .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN          
-                  THFACT = THFACT + THKLY(IPOS)*WEIGHT(IL)                                
-                ENDIF                                                                     
-              ENDDO                                                                       
-              IF (THFACT >= P_THICKG*NORM) THEN      ! delete element                     
-                OFF(IEL) = FOUR_OVER_5                                                           
-                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                  
-              ENDIF                                                                       
-            ENDIF                                                                         
-          ENDDO     ! IEL=1,NEL                                                           
+          DO IEL=1,NEL
+            IF (OFF(IEL) == ONE) THEN
+              THFACT = ZERO
+              NORM   = ZERO
+              DO IL=1,NLAY
+                IPOS = (IL-1)*NEL + IEL
+                WEIGHT(IL) = STACK%GEO(IPWEIGHT+ IL,ISUBSTACK)
+                DFAIL = THKLY(IPOS)*WEIGHT(IL)
+                NORM  = NORM  + DFAIL
+                IF (OFF(IEL) == ONE .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN
+                  THFACT = THFACT + THKLY(IPOS)*WEIGHT(IL)
+                ENDIF
+              ENDDO
+              IF (THFACT >= P_THICKG*NORM) THEN      ! delete element
+                OFF(IEL) = FOUR_OVER_5
+                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag
+              ENDIF
+            ENDIF
+          ENDDO     ! IEL=1,NEL
 C                         
         ELSE ! IGTP=10, 11
-          DO IL=1,NLAY                                                        
-            NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL                                 
-            OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)                  
-            WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)                               
-            NINDXPG = 0                                                       
-            DO IEL=1,NEL                                                      
-              IF (OFF(IEL) == ONE .and. OFFPG(IEL) == 1 .and.                  
-     .            ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                     
-                DO IFL = 1,NFAIL                                              
-                  FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF   
-                  OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF             
-                  IF (FOFF(IEL) < ONE)  THEN                                   
-                    OFFPG(IEL) = 0            ! PG per layer                  
-                    NINDXPG = NINDXPG + 1                                     
-                    INDXPG(NINDXPG) = IEL                                     
-                  ENDIF                                                       
-                ENDDO    ! IFL = 1,NFAIL                                      
-              ENDIF                                                           
-            ENDDO     ! IEL=1,NEL                                             
+          DO IL=1,NLAY
+            NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+            OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)
+            WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)
+            NINDXPG = 0
+            DO IEL=1,NEL
+              IF (OFF(IEL) == ONE .and. OFFPG(IEL) == 1 .and.
+     .            ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN
+                DO IFL = 1,NFAIL
+                  FOFF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IPT)%FLOC(IFL)%OFF
+                  OFFL => ELBUF_STR%BUFLY(IL)%LBUF(IR,IS,IPT)%OFF
+                  IF (FOFF(IEL) < ONE)  THEN
+                    OFFPG(IEL) = 0            ! PG per layer
+                    NINDXPG = NINDXPG + 1
+                    INDXPG(NINDXPG) = IEL
+                  ENDIF
+                ENDDO    ! IFL = 1,NFAIL
+              ENDIF
+            ENDDO     ! IEL=1,NEL
 c
-            IF (IPG == NPG) THEN                                               
-              NINDXLY  = 0                                                     
-              DO IEL=1,NEL                                                     
-                IF (OFF(IEL) == ONE) THEN                                       
-                  IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN                  
-                    COUNTPG = 0                                                
-                    DO IG=1,NPG                                                
-                      JPG  = (IG-1)*NEL                                        
-                      COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)   
-                    ENDDO                                                      
-                    IF (COUNTPG == 0) THEN          ! all Gauss pts failed     
-                      NINDXLY = NINDXLY + 1                                    
-                      INDXLY(NINDXLY) = IEL                                    
-                      ELBUF_STR%BUFLY(IL)%OFF(IEL) = 0  ! layer is off         
-                    ENDIF                                                      
-                  ENDIF                                                        
-                ENDIF                                                          
-              ENDDO  ! IEL=1,NEL                                               
+            IF (IPG == NPG) THEN
+              NINDXLY  = 0
+              DO IEL=1,NEL
+                IF (OFF(IEL) == ONE) THEN
+                  IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 1) THEN
+                    COUNTPG = 0
+                    DO IG=1,NPG
+                      JPG  = (IG-1)*NEL
+                      COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
+                    ENDDO
+                    IF (COUNTPG == 0) THEN          ! all Gauss pts failed
+                      NINDXLY = NINDXLY + 1
+                      INDXLY(NINDXLY) = IEL
+                      ELBUF_STR%BUFLY(IL)%OFF(IEL) = 0  ! layer is off
+                    ENDIF
+                  ENDIF
+                ENDIF
+              ENDDO  ! IEL=1,NEL
 c
-              IF (NINDXLY > 0) THEN                                           
-                DO I = 1,NINDXLY                                              
-#include      "lockon.inc"                                                    
-                 WRITE(IOUT, 2000) IL,NGL(INDXLY(I))                          
-                 WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT                       
-#include      "lockoff.inc"                                                   
-                ENDDO                                                         
-              ENDIF                                                           
-            ENDIF ! IPG == NPG                                               
-          ENDDO      ! IL=1,NLAY                                             
+              IF (NINDXLY > 0) THEN
+                DO I = 1,NINDXLY
+#include      "lockon.inc"
+                 WRITE(IOUT, 2000) IL,NGL(INDXLY(I))
+                 WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT
+#include      "lockoff.inc"
+                ENDDO
+              ENDIF
+            ENDIF ! IPG == NPG
+          ENDDO      ! IL=1,NLAY
 C
-          DO IEL=1,NEL                                                               
-            IF (OFF(IEL) == ONE) THEN                                                 
-              THFACT = ZERO                                                          
-              NORM   = ZERO                                                          
-              DO IL=1,NLAY                                                           
-                IPOS = (IL-1)*NEL + IEL                                              
-                WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)                                  
-                DFAIL = THKLY(IPOS)*WEIGHT(IL)                                       
-                NORM  = NORM  + DFAIL                                                
-                IF (OFF(IEL) == ONE .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN     
-                  THFACT = THFACT + THKLY(IPOS)*WEIGHT(IL)                           
-                ENDIF                                                                
-              ENDDO                                                                  
-              IF (THFACT >= P_THICKG*NORM) THEN      ! delete element                
-                OFF(IEL) = FOUR_OVER_5                                                      
-                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag                                
-              ENDIF                                                                  
-            ENDIF                                                                    
-          ENDDO     ! IEL=1,NEL                                                      
+          DO IEL=1,NEL
+            IF (OFF(IEL) == ONE) THEN
+              THFACT = ZERO
+              NORM   = ZERO
+              DO IL=1,NLAY
+                IPOS = (IL-1)*NEL + IEL
+                WEIGHT(IL) = GEO(IPWEIGHT + IL,PID)
+                DFAIL = THKLY(IPOS)*WEIGHT(IL)
+                NORM  = NORM  + DFAIL
+                IF (OFF(IEL) == ONE .and. ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN
+                  THFACT = THFACT + THKLY(IPOS)*WEIGHT(IL)
+                ENDIF
+              ENDDO
+              IF (THFACT >= P_THICKG*NORM) THEN      ! delete element
+                OFF(IEL) = FOUR_OVER_5
+                IF (FAILWAVE%WAVE_MOD > 0) FWAVE_EL(IEL) = -1   ! set frontwave propagation flag
+              ENDIF
+            ENDIF
+          ENDDO     ! IEL=1,NEL
 C        
-        ENDIF ! igtyp  
+        ENDIF ! igtyp
 c------------------------------------------
       ELSE  ! NPTT per layer > 1 <=> PROP51...
 c------------------------------------------
       IPT_ALL = 0
-      IPTHKLY  = 1 + 4*NLAY 
+      IPTHKLY  = 1 + 4*NLAY
       IPWEIGHT = IPTHKLY + NLAY
       DO IL=1,NLAY
-        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL                 
-        OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)  
-        NPTT  = ELBUF_STR%BUFLY(IL)%NPTT                 
-        P_THKLY(IL) = STACK%GEO(IPTHKLY  + IL,ISUBSTACK)            
-        WEIGHT(IL)  = STACK%GEO(IPWEIGHT + IL,ISUBSTACK)            
-        NINDXPG = 0 
+        NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
+        OFFPG =>ELBUF_STR%BUFLY(IL)%OFFPG(JPG+1:JPG+NEL)
+        NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
+        P_THKLY(IL) = STACK%GEO(IPTHKLY  + IL,ISUBSTACK)
+        WEIGHT(IL)  = STACK%GEO(IPWEIGHT + IL,ISUBSTACK)
+        NINDXPG = 0
 c
         DO IEL=1,NEL
-          IF (OFF(IEL) == ZERO .or. OFFPG(IEL) == 0 .or. 
+          IF (OFF(IEL) == ZERO .or. OFFPG(IEL) == 0 .or.
      .        ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) CYCLE
           DO IFL = 1,NFAIL
             THFACT = ZERO
@@ -360,8 +360,8 @@ c
                 NINDXPG = NINDXPG + 1
                 INDXPG(NINDXPG) = IEL
                 OFFPG(IEL) = 0
-              ENDIF 
-            ENDDO     ! IPT=1,NPTT        
+              ENDIF
+            ENDDO     ! IPT=1,NPTT
           ENDDO      ! IEL=1,NEL
         ENDDO       ! IFL = 1,NFAIL
         IPT_ALL = IPT_ALL + NPTT
@@ -373,22 +373,22 @@ C
           DO IEL=1,NEL
             IF (OFF(IEL) == ONE) THEN
               DO IL=1,NLAY
-                NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL                 
+                NFAIL = ELBUF_STR%BUFLY(IL)%NFAIL
                 LAY_OFF => ELBUF_STR%BUFLY(IL)%OFF
                 NINDXLY  = 0
-                IF (LAY_OFF(IEL) == 1) THEN                 
-                  COUNTPG = 0                                               
-                  DO IG=1,NPG                                               
-                    JPG  = (IG-1)*NEL                                       
-                    COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)  
-                  ENDDO                                                     
-                  IF (COUNTPG == 0) THEN          ! all Gauss pts failed    
-                    NINDXLY = NINDXLY + 1                                   
-                    INDXLY(NINDXLY) = IEL                                   
-                    LAY_OFF(IEL) = 0  ! layer is off        
-                    NPTR  = ELBUF_STR%NPTR             
-                    NPTS  = ELBUF_STR%NPTS             
-                    NPTT  = ELBUF_STR%BUFLY(IL)%NPTT             
+                IF (LAY_OFF(IEL) == 1) THEN
+                  COUNTPG = 0
+                  DO IG=1,NPG
+                    JPG  = (IG-1)*NEL
+                    COUNTPG = COUNTPG + ELBUF_STR%BUFLY(IL)%OFFPG(JPG+IEL)
+                  ENDDO
+                  IF (COUNTPG == 0) THEN          ! all Gauss pts failed
+                    NINDXLY = NINDXLY + 1
+                    INDXLY(NINDXLY) = IEL
+                    LAY_OFF(IEL) = 0  ! layer is off
+                    NPTR  = ELBUF_STR%NPTR
+                    NPTS  = ELBUF_STR%NPTS
+                    NPTT  = ELBUF_STR%BUFLY(IL)%NPTT
                     DO IFL = 1,NFAIL
                       DO IR=1,NPTR
                       DO IS=1,NPTS
@@ -399,15 +399,15 @@ C
                       ENDDO
                       ENDDO
                     ENDDO
-                  ENDIF                                                     
-                ENDIF                                                       
+                  ENDIF
+                ENDIF
 c-----------
-                IF (NINDXLY > 0) THEN                   
-                  DO I = 1,NINDXLY                      
-#include         "lockon.inc"                           
-                    WRITE(IOUT, 2000) IL,NGL(INDXLY(I))    
-                    WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT 
-#include         "lockoff.inc"                          
+                IF (NINDXLY > 0) THEN
+                  DO I = 1,NINDXLY
+#include         "lockon.inc"
+                    WRITE(IOUT, 2000) IL,NGL(INDXLY(I))
+                    WRITE(ISTDO,2100) IL,NGL(INDXLY(I)),TT
+#include         "lockoff.inc"
                   ENDDO
                 ENDIF
 c-----------
@@ -418,8 +418,8 @@ c
 c-------------------
          P_THICKG = MAX(P_THICKG, EM06)
          P_THICKG = MIN(P_THICKG, ONE-EM06)
-c      
-         IPTHKLY  = 1 + 4*NLAY 
+c
+         IPTHKLY  = 1 + 4*NLAY
          IPWEIGHT = IPTHKLY + NLAY
          DO IEL=1,NEL
             IF (OFF(IEL) == ONE) THEN
@@ -431,7 +431,7 @@ c
                 NORM  = NORM + DFAIL
                 IF (ELBUF_STR%BUFLY(IL)%OFF(IEL) == 0) THEN
                   THFACT = THFACT + DFAIL
-                ENDIF 
+                ENDIF
               ENDDO      ! IL=1,NLAY
               THFACT = THFACT**(ONE/FAIL_EXP)
               NORM   = NORM**(ONE/FAIL_EXP)

@@ -136,7 +136,7 @@ C
        ZS2M2 = XZM2(I)-XZS2(I)
 C
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C
@@ -221,7 +221,7 @@ Ctmp       FAC = (ONE +HALF)*(ONE +HALF)
       DO I=1,JLT
        GAP2 = FAC*GAPV(I)*GAPV(I)
        PENE2(I) = GAP2 - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
-       PENE2(I) = MAX(ZERO,PENE2(I)) 
+       PENE2(I) = MAX(ZERO,PENE2(I))
       ENDDO
 #include  "vectorize.inc"
       DO I=1,JLT

@@ -77,9 +77,9 @@ C-----------------------------------------------
       my_real
      .   QPG(2,4),S2WAKE(4),SK(2),ST(2),MK(2),MT(2),
      .   SHK(2),SHT(2),Z01(11,11)
-      TYPE(G_BUFEL_) ,POINTER :: GBUFS,GBUFT     
-      TYPE(L_BUFEL_) ,POINTER :: LBUFS,LBUFT    
-      TYPE(BUF_LAY_) ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_) ,POINTER :: GBUFS,GBUFT
+      TYPE(L_BUFEL_) ,POINTER :: LBUFS,LBUFT
+      TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C---------------------------
       DATA QPG/-0.5,-0.5,
      .          0.5,-0.5,
@@ -177,84 +177,84 @@ c----------------------------------------------
 c----
         IF (JHBE == 11) THEN    ! Batoz
 c----
-          GBUFT%THK(I1) = GBUFS%THK(I) !thk  
+          GBUFT%THK(I1) = GBUFS%THK(I) !thk
 c         ener totale approximation
-          GBUFT%EINT(I1)      = GBUFS%EINT(I)*S2WAKE(IB)/STOT  
-          GBUFT%EINT(I1+NEL1) = GBUFS%EINT(I+NEL)*S2WAKE(IB)/STOT  
+          GBUFT%EINT(I1)      = GBUFS%EINT(I)*S2WAKE(IB)/STOT
+          GBUFT%EINT(I1+NEL1) = GBUFS%EINT(I+NEL)*S2WAKE(IB)/STOT
 c
-          GBUFT%OFF(I1) = GBUFS%OFF(I)                 
+          GBUFT%OFF(I1) = GBUFS%OFF(I)
 c
-          IF (GBUFT%G_EPSD > 0) THEN    
-            GBUFT%EPSD(I1) = GBUFS%EPSD(I) ! eps_dot           
-          ENDIF                                                
+          IF (GBUFT%G_EPSD > 0) THEN
+            GBUFT%EPSD(I1) = GBUFS%EPSD(I) ! eps_dot
+          ENDIF
 c
-          IF (ISTRA > 0) THEN                                 
-            DO K=1,8 ! deformations                            
-              GBUFT%STRA(KK1(K)+I1)=GBUFS%STRA(KK(K)+I)     
-            END DO                                             
-          END IF                                               
+          IF (ISTRA > 0) THEN
+            DO K=1,8 ! deformations
+              GBUFT%STRA(KK1(K)+I1)=GBUFS%STRA(KK(K)+I)
+            END DO
+          END IF
 c
           IF (IEXPAN /= 0) THEN
             GBUFT%TEMP(I1)=GBUFS%TEMP(I)
           END IF
 c
-c         pla                                                    
+c         pla
 c
-          IF (GBUFT%G_PLA > 0) THEN                               
-            DO IL=1,NLAY                                          
-            DO IR=1,NPTR                                          
-            DO IS=1,NPTS                                          
-            DO IT=1,NPTT                                          
-              ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I1) =    
-     .        ELBUF_TAB(NG) %BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I)      
-            END DO  	                                             
-            END DO  	                                             
-            END DO  	                                             
-            END DO  	                                             
-          ENDIF                                                   
+          IF (GBUFT%G_PLA > 0) THEN
+            DO IL=1,NLAY
+            DO IR=1,NPTR
+            DO IS=1,NPTS
+            DO IT=1,NPTT
+              ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I1) =
+     .        ELBUF_TAB(NG) %BUFLY(IL)%LBUF(IR,IS,IT)%PLA(I)
+            END DO  	
+            END DO  	
+            END DO  	
+            END DO  	
+          ENDIF
 c
 c         Stress
 c
-          DO IL=1,NLAY                                         
-           DO IR=1,NPTR                                         
-            DO IS=1,NPTS                                         
+          DO IL=1,NLAY
+           DO IR=1,NPTR
+            DO IS=1,NPTS
              DO IT=1,NPTT
-               LBUFT => ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(IR,IS,IT) 
-               LBUFS => ELBUF_TAB(NG )%BUFLY(IL)%LBUF(IR,IS,IT) 
-               LBUFT%SIG(KK1(1)+I1) = LBUFS%SIG(KK(1)+I) 
-               LBUFT%SIG(KK1(2)+I1) = LBUFS%SIG(KK(2)+I) 
-               LBUFT%SIG(KK1(3)+I1) = LBUFS%SIG(KK(3)+I) 
-               LBUFT%SIG(KK1(4)+I1) = LBUFS%SIG(KK(4)+I) 
-               LBUFT%SIG(KK1(5)+I1) = LBUFS%SIG(KK(5)+I) 
-             END DO  	                                            
-            END DO  	                                            
-           END DO  	                                            
-          END DO  	                                            
+               LBUFT => ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(IR,IS,IT)
+               LBUFS => ELBUF_TAB(NG )%BUFLY(IL)%LBUF(IR,IS,IT)
+               LBUFT%SIG(KK1(1)+I1) = LBUFS%SIG(KK(1)+I)
+               LBUFT%SIG(KK1(2)+I1) = LBUFS%SIG(KK(2)+I)
+               LBUFT%SIG(KK1(3)+I1) = LBUFS%SIG(KK(3)+I)
+               LBUFT%SIG(KK1(4)+I1) = LBUFS%SIG(KK(4)+I)
+               LBUFT%SIG(KK1(5)+I1) = LBUFS%SIG(KK(5)+I)
+             END DO  	
+            END DO  	
+           END DO  	
+          END DO  	
 c
-c         Uvar                                               
+c         Uvar
 c
-          IF (MLW>=28 .AND. MLW/=32) THEN                             
-            DO IL=1,NLAY                                                  
-            DO IR=1,NPTR                                                  
-            DO IS=1,NPTS                                                  
-            DO IT=1,NPTT                                                  
-             DO K=1,ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT                     
+          IF (MLW>=28 .AND. MLW/=32) THEN
+            DO IL=1,NLAY
+            DO IR=1,NPTR
+            DO IS=1,NPTS
+            DO IT=1,NPTT
+             DO K=1,ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
                ELBUF_TAB(NG1)%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL1*(K-1)+I1)=
-     .         ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL*(K-1)+I)   
-             END DO                                                      
-            END DO  	                                                     
-            END DO  	                                                     
-            END DO  	                                                     
-            END DO  	                                                     
-          END IF                                                          
+     .         ELBUF_TAB(NG)%BUFLY(IL)%MAT(IR,IS,IT)%VAR(NEL*(K-1)+I)
+             END DO
+            END DO  	
+            END DO  	
+            END DO  	
+            END DO  	
+          END IF
 c
           LENF = NEL*5
           LENM = NEL*3
           LENS = NEL*8
           PTF  = 5*NEL*(IB-1)
           PTM  = 3*NEL*(IB-1)
-          DO IR=1,NPTR  
-            DO IS=1,NPTS  
+          DO IR=1,NPTR
+            DO IS=1,NPTS
               IG  = NPTR*(IS-1) + IR
               QTF = 5*NEL1*(IG-1)
               QTM = 3*NEL1*(IG-1)
@@ -273,42 +273,42 @@ c         end Batoz
 c----
         ELSE   !Q4 & QEPH
 c----
-          GBUFT%FOR(KK1(1)+I1) = GBUFS%FOR(KK(1)+I)  
-          GBUFT%FOR(KK1(2)+I1) = GBUFS%FOR(KK(2)+I)  
-          GBUFT%FOR(KK1(3)+I1) = GBUFS%FOR(KK(3)+I)  
-          GBUFT%FOR(KK1(4)+I1) = GBUFS%FOR(KK(4)+I)  
-          GBUFT%FOR(KK1(5)+I1) = GBUFS%FOR(KK(5)+I)  
+          GBUFT%FOR(KK1(1)+I1) = GBUFS%FOR(KK(1)+I)
+          GBUFT%FOR(KK1(2)+I1) = GBUFS%FOR(KK(2)+I)
+          GBUFT%FOR(KK1(3)+I1) = GBUFS%FOR(KK(3)+I)
+          GBUFT%FOR(KK1(4)+I1) = GBUFS%FOR(KK(4)+I)
+          GBUFT%FOR(KK1(5)+I1) = GBUFS%FOR(KK(5)+I)
 !
-          GBUFT%MOM(KK1(1)+I1) = GBUFS%MOM(KK(1)+I)  
-          GBUFT%MOM(KK1(2)+I1) = GBUFS%MOM(KK(2)+I)  
-          GBUFT%MOM(KK1(3)+I1) = GBUFS%MOM(KK(3)+I)  
+          GBUFT%MOM(KK1(1)+I1) = GBUFS%MOM(KK(1)+I)
+          GBUFT%MOM(KK1(2)+I1) = GBUFS%MOM(KK(2)+I)
+          GBUFT%MOM(KK1(3)+I1) = GBUFS%MOM(KK(3)+I)
 c
-          GBUFT%THK(I1) = GBUFS%THK(I) !thk  
+          GBUFT%THK(I1) = GBUFS%THK(I) !thk
 c
           IF (JHBE == 22 .OR. JHBE == 23) THEN
             IH = (I-1)*12
             ST(1) =  GBUFS%HOURG(KK(1)+I)
-            ST(2) = -GBUFS%HOURG(KK(2)+I) 
-            MT(1) =  GBUFS%HOURG(KK(3)+I) 
-            MT(2) = -GBUFS%HOURG(KK(4)+I) 
-            SK(1) = -GBUFS%HOURG(KK(7)+I) 
-            SK(2) =  GBUFS%HOURG(KK(8)+I) 
-            MK(1) = -GBUFS%HOURG(KK(9)+I) 
-            MK(2) =  GBUFS%HOURG(KK(10)+I) 
-            SHT(1)=  GBUFS%HOURG(KK(5)+I) 
-            SHT(2)= -GBUFS%HOURG(KK(6)+I) 
+            ST(2) = -GBUFS%HOURG(KK(2)+I)
+            MT(1) =  GBUFS%HOURG(KK(3)+I)
+            MT(2) = -GBUFS%HOURG(KK(4)+I)
+            SK(1) = -GBUFS%HOURG(KK(7)+I)
+            SK(2) =  GBUFS%HOURG(KK(8)+I)
+            MK(1) = -GBUFS%HOURG(KK(9)+I)
+            MK(2) =  GBUFS%HOURG(KK(10)+I)
+            SHT(1)=  GBUFS%HOURG(KK(5)+I)
+            SHT(2)= -GBUFS%HOURG(KK(6)+I)
             SHK(1)= -GBUFS%HOURG(KK(11)+I)
             SHK(2)=  GBUFS%HOURG(KK(12)+I)
 
             IF (NPT==0) THEN
-              GBUFT%FOR(KK1(1)+I1) = GBUFT%FOR(KK1(1)+I1)  
+              GBUFT%FOR(KK1(1)+I1) = GBUFT%FOR(KK1(1)+I1)
      .	  		      + ST(1)*QPG(2,IB)+SK(1)*QPG(1,IB)
-              GBUFT%FOR(KK1(2)+I1) = GBUFT%FOR(KK1(2)+I1)  
+              GBUFT%FOR(KK1(2)+I1) = GBUFT%FOR(KK1(2)+I1)
      .	  		      + ST(2)*QPG(2,IB)+SK(2)*QPG(1,IB)
-c             GBUFT%FOR(KK1(3)+I1) = GBUFT%FOR(KK1(3)+I1)  
-              GBUFT%FOR(KK1(4)+I1) = GBUFT%FOR(KK1(4)+I1)  
+c             GBUFT%FOR(KK1(3)+I1) = GBUFT%FOR(KK1(3)+I1)
+              GBUFT%FOR(KK1(4)+I1) = GBUFT%FOR(KK1(4)+I1)
      .	  		      + SHT(2)*QPG(2,IB)+SHK(2)*QPG(1,IB)
-              GBUFT%FOR(KK1(5)+I1) = GBUFT%FOR(KK1(5)+I1)  
+              GBUFT%FOR(KK1(5)+I1) = GBUFT%FOR(KK1(5)+I1)
      .	  		      + SHT(1)*QPG(2,IB)+SHK(1)*QPG(1,IB)
 !
               GBUFT%MOM(KK1(1)+I1) = GBUFT%MOM(KK1(1)+I1)
@@ -324,32 +324,32 @@ c---
               GBUFT%HOURG(KK1(K)+I1) = ZERO
             END DO
 c
-          ELSE  !  JHBE 
+          ELSE  !  JHBE
             DO K=1,5 ! hour
               GBUFT%HOURG(KK1(K)+I1) = GBUFS%HOURG(KK(K)+I)
             END DO
           END IF
 c         ener totale approximation
-          GBUFT%EINT(I1)     = GBUFS%EINT(I)*S2WAKE(IB)/STOT  
-          GBUFT%EINT(I1+NEL1) = GBUFS%EINT(I+NEL)*S2WAKE(IB)/STOT  
+          GBUFT%EINT(I1)     = GBUFS%EINT(I)*S2WAKE(IB)/STOT
+          GBUFT%EINT(I1+NEL1) = GBUFS%EINT(I+NEL)*S2WAKE(IB)/STOT
 c
-          GBUFT%OFF(I1) = GBUFS%OFF(I)                  
-          IF (GBUFT%G_EPSD > 0) THEN    
-            GBUFT%EPSD(I1) = GBUFS%EPSD(I) ! eps_dot           
-          ENDIF                                                
+          GBUFT%OFF(I1) = GBUFS%OFF(I)
+          IF (GBUFT%G_EPSD > 0) THEN
+            GBUFT%EPSD(I1) = GBUFS%EPSD(I) ! eps_dot
+          ENDIF
           IF (IEXPAN/=0) THEN
             GBUFT%TEMP(I1) = GBUFS%TEMP(I)
           END IF
 c
-          IF (ISTRA > 0) THEN                                 
-            DO K=1,8 ! deformations                            
+          IF (ISTRA > 0) THEN
+            DO K=1,8 ! deformations
               GBUFT%STRA(KK1(K)+I1)=GBUFS%STRA(KK(K)+I)
-            END DO                                             
-          END IF                                               
+            END DO
+          END IF
 c
 c         Stress
 c
-          DO IL=1,NLAY                                              
+          DO IL=1,NLAY
             DO IT=1,NPTT
               LBUFT => ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(1,1,IT)
               LBUFS => ELBUF_TAB(NG )%BUFLY(IL)%LBUF(1,1,IT)
@@ -358,53 +358,53 @@ c
               LBUFT%SIG(KK1(3)+I1) = LBUFS%SIG(KK(3)+I)
               LBUFT%SIG(KK1(4)+I1) = LBUFS%SIG(KK(4)+I)
               LBUFT%SIG(KK1(5)+I1) = LBUFS%SIG(KK(5)+I)
-            END DO  	                                               
-          END DO  	                                                 
+            END DO  	
+          END DO  	
 c
           IF (JHBE == 22 .OR. JHBE == 23) THEN
-            DO IL=1,NLAY                                          
-              DO IT=1,NPTT                                          
+            DO IL=1,NLAY
+              DO IT=1,NPTT
                 LBUFT => ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(1,1,IT)
-                IPT = IL*IT                                         
+                IPT = IL*IT
                 ZZ = GBUFT%THK(I1)*Z01(IPT,NPT)
                 LBUFT%SIG(KK1(1)+I1) = LBUFT%SIG(KK1(1)+I1)
      .                          + (ST(1)+ZZ*MT(1))*QPG(2,IB)
-     .                          + (SK(1)+ZZ*MK(1))*QPG(1,IB)  
+     .                          + (SK(1)+ZZ*MK(1))*QPG(1,IB)
                 LBUFT%SIG(KK1(2)+I1) = LBUFT%SIG(KK1(2)+I1)
-     .                          + (ST(2)+ZZ*MT(2))*QPG(2,IB)  
-     .      	                   + (SK(2)+ZZ*MK(2))*QPG(1,IB)   
+     .                          + (ST(2)+ZZ*MT(2))*QPG(2,IB)
+     .      	                   + (SK(2)+ZZ*MK(2))*QPG(1,IB)
 C               LBUFT%SIG(KK1(3)+I1) = LBUFT%SIG(KK1(3)+I1)
                 LBUFT%SIG(KK1(4)+I1) = LBUFT%SIG(KK1(4)+I1)
      .                          + SHT(2)*QPG(2,IB) + SHK(2)*QPG(1,IB)
                 LBUFT%SIG(KK1(5)+I1) = LBUFT%SIG(KK1(5)+I1)
-     .                          + SHT(1)*QPG(2,IB) + SHK(1)*QPG(1,IB)   
-              END DO	       
-            END DO	       
+     .                          + SHT(1)*QPG(2,IB) + SHK(1)*QPG(1,IB)
+              END DO	
+            END DO	
           END IF
 c
-c         pla                                                    
+c         pla
 c
-          IF (GBUFT%G_PLA > 0) THEN                               
-            DO IL=1,NLAY                                          
-             DO IT=1,NPTT                                          
-              ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(1,1,IT)%PLA(I1) =    
-     .        ELBUF_TAB(NG )%BUFLY(IL)%LBUF(1,1,IT)%PLA(I)      
-             END DO  	                                             
-            END DO  	                                             
-          ENDIF                                                   
+          IF (GBUFT%G_PLA > 0) THEN
+            DO IL=1,NLAY
+             DO IT=1,NPTT
+              ELBUF_TAB(NG1)%BUFLY(IL)%LBUF(1,1,IT)%PLA(I1) =
+     .        ELBUF_TAB(NG )%BUFLY(IL)%LBUF(1,1,IT)%PLA(I)
+             END DO  	
+            END DO  	
+          ENDIF
 c
 C         uvar                                               
 c
-          IF (MLW>=28 .AND. MLW/=32) THEN                             
-            DO IL=1,NLAY                                                  
-             DO IT=1,NPTT                                                  
-             DO K=1,ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT                     
+          IF (MLW>=28 .AND. MLW/=32) THEN
+            DO IL=1,NLAY
+             DO IT=1,NPTT
+             DO K=1,ELBUF_TAB(NG)%BUFLY(IL)%NVAR_MAT
                ELBUF_TAB(NG1)%BUFLY(IL)%MAT(1,1,IT)%VAR(NEL1*(K-1)+I1)=
-     .         ELBUF_TAB(NG )%BUFLY(IL)%MAT(1,1,IT)%VAR(NEL*(K-1)+I)   
-             END DO                                                      
-             END DO  	                                                     
-            END DO  	                                                     
-          END IF                                                          
+     .         ELBUF_TAB(NG )%BUFLY(IL)%MAT(1,1,IT)%VAR(NEL*(K-1)+I)
+             END DO
+             END DO  	
+            END DO  	
+          END IF
 c
 C----    end Q4 & QEPH
 C
@@ -433,17 +433,17 @@ c---------------------------------------------
         END DO
       END IF
 c
-      DO IR=1,NPTR                                                    
-        DO IS=1,NPTS                                                  
-          DO IL=1,NLAY                                                
-            DO IT=1,NPTT                                              
-              DO K=1,5                                                
-               ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%SIG(KK(K)+I)=ZERO  
-              ENDDO                                                   
-            END DO  	                                                 
-          END DO  	                                                   
-        END DO                                                        
-      END DO                                                          
+      DO IR=1,NPTR
+        DO IS=1,NPTS
+          DO IL=1,NLAY
+            DO IT=1,NPTT
+              DO K=1,5
+               ELBUF_TAB(NG)%BUFLY(IL)%LBUF(IR,IS,IT)%SIG(KK(K)+I)=ZERO
+              ENDDO
+            END DO  	
+          END DO  	
+        END DO
+      END DO
 c
 c     sig moyen
 !      IF (NLAY > 1) THEN
@@ -456,7 +456,7 @@ c     sig moyen
 !      ELSE
 !        BUFLY => ELBUF_TAB(NG)%BUFLY(1)
 !        DO IPT=1,NPT
-!          II = (IPT-1)*NEL*5                                  
+!          II = (IPT-1)*NEL*5
 !          DO K=1,5
 !            BUFLY%SIGPT(II+K)=ZERO
 !          END DO
@@ -464,8 +464,8 @@ c     sig moyen
 !      ENDIF
 !c
 !      IF (JHBE==11) THEN
-!        DO IR=1,NPTR                                         
-!          DO IS=1,NPTS                                         
+!        DO IR=1,NPTR
+!          DO IS=1,NPTS
 !            IG = NPTR*(IS-1) + IR
 !            PTF = (IG-1)*NEL*5
 !            JJ  = 5*(I-1)
@@ -491,7 +491,7 @@ c     sig moyen
 c
 C-----------
       RETURN
-      END     
+      END
 
 
 

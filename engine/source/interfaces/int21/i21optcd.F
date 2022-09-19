@@ -141,7 +141,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
            IG(IS) = CAND_N(I)
            XI = XLOC(1,IG(IS))
            YI = XLOC(2,IG(IS))
@@ -280,7 +280,7 @@ C
 C
            IF (XMIN <= XI.AND.XMAX >= XI.AND.   ! If a node is in the box limited by GAP and DEPTH
      .         YMIN <= YI.AND.YMAX >= YI.AND.   ! it is selected
-     .         ZMIN <= ZI.AND.ZMAX >= ZI) THEN  
+     .         ZMIN <= ZI.AND.ZMAX >= ZI) THEN
              NLS=NLS+1
              LIST(NLS)=IS
 C
@@ -331,9 +331,9 @@ C
         NLS=0
         CALL I21DST3(
      .       NLT     ,LIST    ,CAND_N(JS+1) ,CAND_E(JS+1) , IX1_L ,
-     .       IX2_L   ,IX3_L   ,IX4_L        ,GAPV         ,XI_L   , 
+     .       IX2_L   ,IX3_L   ,IX4_L        ,GAPV         ,XI_L   ,
      .       YI_L    ,ZI_L    ,IRTLM        ,CSTS         ,DEPTH2 ,
-     .       NNX1    ,NNY1    ,NNZ1         ,NNX2         ,NNY2   , 
+     .       NNX1    ,NNY1    ,NNZ1         ,NNX2         ,NNY2   ,
      .       NNZ2    ,NNX3    ,NNY3         ,NNZ3         ,NNX4   ,
      .       NNY4    ,NNZ4    ,X1_L         ,Y1_L         ,Z1_L   ,
      .       X2_L    ,Y2_L    ,Z2_L         ,X3_L         ,Y3_L   ,
@@ -342,7 +342,7 @@ C
        ENDIF
        JS = JS + NSEG
       ENDDO
-      
+
 C-----------------------------------------------
 C
       call my_barrier

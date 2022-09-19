@@ -30,7 +30,7 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
@@ -81,7 +81,7 @@ C----------------------------------------------------------------
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
-      my_real UVAR(NEL,NUVAR), OFF(NEL) 
+      my_real UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -104,18 +104,18 @@ C----------------------------------------------------------------
         P0           =  UPARAM(9)
         RHO10        =  UPARAM(11)
         RHO20        =  UPARAM(12)
-        A1           =  UPARAM(10)         
-        P            = -P0  
-        RHO(I)       =  RHO10 * A1 + (ONE-A1)*RHO20     
+        A1           =  UPARAM(10)
+        P            = -P0
+        RHO(I)       =  RHO10 * A1 + (ONE-A1)*RHO20
         IF(GAM*C1>=EM30)THEN !if Liquid and gas correctly defined
           MU1P1      = ONE  !(P/C1+ONE)
           MU2P1      = ONE  !( ONE+P/P0)**(ONE/GAM)
           RHO1       = RHO10*MU1P1
           RHO2       = RHO20*MU2P1
           A          = (RHO(I)-RHO2)/(RHO1-RHO2)
-          SOUNDSP(I) = A*SQRT(C1/RHO1) + (ONE-A) * SQRT(GAM*P0/RHO2) 
-        ENDIF 
-         
+          SOUNDSP(I) = A*SQRT(C1/RHO1) + (ONE-A) * SQRT(GAM*P0/RHO2)
+        ENDIF
+
       ENDDO
 
 

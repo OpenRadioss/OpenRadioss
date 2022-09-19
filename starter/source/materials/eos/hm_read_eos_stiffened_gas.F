@@ -37,7 +37,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -58,7 +58,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real  GAMMA, P0, E0, PSH, RHO0,FAC_L,FAC_T,FAC_M,FAC_C,PSTAR,RHOI,RHOR,MU0,PP,DF,SSP0,G0,DPDMU
-      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE     
+      LOGICAL :: IS_ENCRYPTED, IS_AVAILABLE
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -93,20 +93,20 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
-      
+
       IF(GAMMA /= ONE)THEN
         E0=(P0+GAMMA*PSTAR)/(GAMMA-ONE)
       ELSE
         E0 = ZERO ! error managed below
       ENDIf
-      
+
       !ERREURS :
       ! GAMMA <=0
-      
+
       IF(GAMMA <= ONE)THEN
          CALL ANCMSG(MSGID=67,
      .               MSGTYPE=MSGERROR,
@@ -116,13 +116,13 @@ C-----------------------------------------------
      .               C2='GAMMA MUST BE GREATER THAN 1.0')
       ENDIF
 
-      
+
       PM(34)=GAMMA
       PM(32)=P0
       PM(88)=PSH
       PM(23)=E0
       PM(35)=PSTAR
-      
+
       !P0
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -133,7 +133,7 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
@@ -144,16 +144,16 @@ C-----------------------------------------------
       PM(31)=P0-PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
       PM(104)=P0-PSH
-      
+
       !SSP0
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
       DPDMU =  (GAMMA-ONE) *E0+(GAMMA-ONE)*(ONE+MU0)*DF*DF*(PP+PSH)
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
       PM(27)=SSP0
-      
+
       WRITE(IOUT,1000)
 
       IF(IS_ENCRYPTED)THEN

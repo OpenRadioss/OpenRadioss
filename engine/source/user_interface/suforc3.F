@@ -38,11 +38,11 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
       SUBROUTINE SUFORC3(ELBUF_STR,
-     1           LFT      ,LLT      ,NFT     ,NEL     ,IXS     ,       
-     2           PM       ,GEO      ,IPM     ,IGEO    ,X       ,       
-     3           A        ,AR       ,V       ,VR      ,W       ,       
-     4           D        ,MS       ,IN      ,TF      ,NPF     ,       
-     5           BUFMAT   ,IPARG    ,IPARTS  ,PARTSAV ,         
+     1           LFT      ,LLT      ,NFT     ,NEL     ,IXS     ,
+     2           PM       ,GEO      ,IPM     ,IGEO    ,X       ,
+     3           A        ,AR       ,V       ,VR      ,W       ,
+     4           D        ,MS       ,IN      ,TF      ,NPF     ,
+     5           BUFMAT   ,IPARG    ,IPARTS  ,PARTSAV ,
      6           FSKY     ,FR_WAVE  ,IADS    ,EANI    ,STIFN   ,
      7           STIFR    ,FX       ,FY      ,FZ      ,IFAILURE,
      8           MTN      ,IGTYP    ,NPT     ,JSMS    ,MSSA    ,
@@ -106,12 +106,12 @@ C-----
      .   STI(MVSIZ),STIR(MVSIZ), VISCM(MVSIZ) ,VISCR(MVSIZ)
       my_real
      .   OFF(MVSIZ) , RHOO(MVSIZ),FR_W_E(MVSIZ),
-     .   XX(MVSIZ,8), YY(MVSIZ,8),  ZZ(MVSIZ,8), 
+     .   XX(MVSIZ,8), YY(MVSIZ,8),  ZZ(MVSIZ,8),
      .   UX(MVSIZ,8), UY(MVSIZ,8),  UZ(MVSIZ,8),
      .   VX(MVSIZ,8), VY(MVSIZ,8),  VZ(MVSIZ,8),
      .   VRX(MVSIZ,8),VRY(MVSIZ,8),VRZ(MVSIZ,8),SIG_LOC(6,NEL),
      .   EINT_LOC(MVSIZ),VOL_LOC(MVSIZ),OFF_LOC(MVSIZ),RHO_LOC(MVSIZ)
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       my_real,
      .   DIMENSION(:),POINTER :: UVAR
 !
@@ -131,8 +131,8 @@ C=======================================================================
 C-----------
 C GATHER NODAL VARIABLES
       CALL SUCOOR3(IXS(1,NF1),X  ,V,VR,W,D,FR_WAVE ,FR_W_E  ,
-     .             XX ,YY ,ZZ, UX  ,UY  ,UZ , 
-     .             VX ,VY ,VZ, VRX ,VRY ,VRZ, 
+     .             XX ,YY ,ZZ, UX  ,UY  ,UZ ,
+     .             VX ,VY ,VZ, VRX ,VRY ,VRZ,
      .             GBUF%OFF,OFF, NC,SID,IMAT,IPROP)
       NUVAR   = IPM(8,IMAT(1))
       NUPARAM = IPM(9,IMAT(1))
@@ -189,14 +189,14 @@ C----------------------------
      L STI    ,STIR   ,VISCM  ,VISCR)
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
+     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),
+     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),
+     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))
         CALL SFILLOPT(GBUF%FILL,STIR,
-     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),     
-     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),     
-     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8)) 
-        END IF    
+     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),
+     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),
+     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8))
+        END IF
        ELSE
         ! ----------------
         ! ERROR to be printed & exit
@@ -260,14 +260,14 @@ C----------------------------
      L STI    ,STIR   ,VISCM  ,VISCR)
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
+     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),
+     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),
+     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))
         CALL SFILLOPT(GBUF%FILL,STIR,
-     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),     
-     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),     
-     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8)) 
-        END IF    
+     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),
+     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),
+     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8))
+        END IF
        ELSE
         ! ----------------
         ! ERROR to be printed & exit
@@ -331,14 +331,14 @@ C----------------------------
      L STI    ,STIR   ,VISCM  ,VISCR)
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
+     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),
+     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),
+     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))
         CALL SFILLOPT(GBUF%FILL,STIR,
-     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),     
-     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),     
-     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8)) 
-        END IF    
+     B    MX(1,1),MX(1,2),MX(1,3),MX(1,4),MX(1,5),MX(1,6),MX(1,7),MX(1,8),
+     F    MY(1,1),MY(1,2),MY(1,3),MY(1,4),MY(1,5),MY(1,6),MY(1,7),MY(1,8),
+     G    MZ(1,1),MZ(1,2),MZ(1,3),MZ(1,4),MZ(1,5),MZ(1,6),MZ(1,7),MZ(1,8))
+        END IF
        ELSE
         ! ----------------
         ! ERROR to be printed & exit
@@ -371,28 +371,28 @@ C-----------
         MY = ZERO
         MZ = ZERO
         CALL SUSER43(
-     1  ELBUF_STR ,IOUT   ,IPROP(1),IMAT(1),SID  ,TT     ,DT1  ,FR_W_E,       
-     2  XX(1,1),XX(1,2),XX(1,3),XX(1,4),XX(1,5),XX(1,6),XX(1,7),XX(1,8), 
-     3  YY(1,1),YY(1,2),YY(1,3),YY(1,4),YY(1,5),YY(1,6),YY(1,7),YY(1,8),     
-     4  ZZ(1,1),ZZ(1,2),ZZ(1,3),ZZ(1,4),ZZ(1,5),ZZ(1,6),ZZ(1,7),ZZ(1,8),     
-     5  UX(1,1),UX(1,2),UX(1,3),UX(1,4),UX(1,5),UX(1,6),UX(1,7),UX(1,8),     
-     6  UY(1,1),UY(1,2),UY(1,3),UY(1,4),UY(1,5),UY(1,6),UY(1,7),UY(1,8),     
-     7  UZ(1,1),UZ(1,2),UZ(1,3),UZ(1,4),UZ(1,5),UZ(1,6),UZ(1,7),UZ(1,8),     
-     8  VX(1,1),VX(1,2),VX(1,3),VX(1,4),VX(1,5),VX(1,6),VX(1,7),VX(1,8),     
-     9  VY(1,1),VY(1,2),VY(1,3),VY(1,4),VY(1,5),VY(1,6),VY(1,7),VY(1,8),     
-     A  VZ(1,1),VZ(1,2),VZ(1,3),VZ(1,4),VZ(1,5),VZ(1,6),VZ(1,7),VZ(1,8),     
-     B  FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F  FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G  FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8),     
-     H  STI    ,STIR   ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,     
-     L  IFAILURE,NPF   ,TF     ,IPM    ,IGEO   ,NPT    ,NEL    ,JSMS   ,     
-     M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE )   
+     1  ELBUF_STR ,IOUT   ,IPROP(1),IMAT(1),SID  ,TT     ,DT1  ,FR_W_E,
+     2  XX(1,1),XX(1,2),XX(1,3),XX(1,4),XX(1,5),XX(1,6),XX(1,7),XX(1,8),
+     3  YY(1,1),YY(1,2),YY(1,3),YY(1,4),YY(1,5),YY(1,6),YY(1,7),YY(1,8),
+     4  ZZ(1,1),ZZ(1,2),ZZ(1,3),ZZ(1,4),ZZ(1,5),ZZ(1,6),ZZ(1,7),ZZ(1,8),
+     5  UX(1,1),UX(1,2),UX(1,3),UX(1,4),UX(1,5),UX(1,6),UX(1,7),UX(1,8),
+     6  UY(1,1),UY(1,2),UY(1,3),UY(1,4),UY(1,5),UY(1,6),UY(1,7),UY(1,8),
+     7  UZ(1,1),UZ(1,2),UZ(1,3),UZ(1,4),UZ(1,5),UZ(1,6),UZ(1,7),UZ(1,8),
+     8  VX(1,1),VX(1,2),VX(1,3),VX(1,4),VX(1,5),VX(1,6),VX(1,7),VX(1,8),
+     9  VY(1,1),VY(1,2),VY(1,3),VY(1,4),VY(1,5),VY(1,6),VY(1,7),VY(1,8),
+     A  VZ(1,1),VZ(1,2),VZ(1,3),VZ(1,4),VZ(1,5),VZ(1,6),VZ(1,7),VZ(1,8),
+     B  FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),
+     F  FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),
+     G  FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8),
+     H  STI    ,STIR   ,VISCM  ,VISCR  ,PARTSAV,IPARTS ,BUFMAT ,IOUTPRT,
+     L  IFAILURE,NPF   ,TF     ,IPM    ,IGEO   ,NPT    ,NEL    ,JSMS   ,
+     M  DMELS  ,PM     ,GEO    ,ITASK  ,JTHE   ,TABLE )
        IF(NFILSOL/=0) THEN
         CALL SFILLOPT(GBUF%FILL,STI,
-     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),     
-     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),     
-     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))     
-        END IF    
+     B    FX(1,1),FX(1,2),FX(1,3),FX(1,4),FX(1,5),FX(1,6),FX(1,7),FX(1,8),
+     F    FY(1,1),FY(1,2),FY(1,3),FY(1,4),FY(1,5),FY(1,6),FY(1,7),FY(1,8),
+     G    FZ(1,1),FZ(1,2),FZ(1,3),FZ(1,4),FZ(1,5),FZ(1,6),FZ(1,7),FZ(1,8))
+        END IF
 C
       ENDIF
 C--------------------------------------------
@@ -410,7 +410,7 @@ C--------------------------------------------
 C----------------------------
       IF (IPARIT == 0) THEN
           CALL SUCUMU3(
-     .         A    ,AR   ,NC    ,STIFN ,STIFR ,STI   ,STIR  , 
+     .         A    ,AR   ,NC    ,STIFN ,STIFR ,STI   ,STIR  ,
      .         FX   ,FY   ,FZ    ,MX    ,MY    ,MZ    )
       ELSE
           CALL SUCUMU3P(FSKY,FSKY,IADS(1,NF1),STI,STIR,
@@ -576,7 +576,7 @@ Chd|        SUFORC3                       source/user_interface/suforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SUCOOR3(IXS,X  ,V,VR,W,D,FR_WAVE ,FR_W_E  ,
-     .                   XX , YY, ZZ, UX, UY, UZ, 
+     .                   XX , YY, ZZ, UX, UY, UZ,
      .                   VX , VY, VZ, VRX, VRY, VRZ,
      .                   OFFG,OFF,NC ,SID,IMAT,IPROP)
 C-----------------------------------------------
@@ -601,9 +601,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   X(3,*),V(3,*),VR(3,*),W(3,*), D(3,*),FR_WAVE(*) ,FR_W_E(*),
-     .   XX(MVSIZ,*), YY(MVSIZ,*), ZZ(MVSIZ,*), 
-     .  UX(MVSIZ,*), UY(MVSIZ,*), UZ(MVSIZ,*), 
-     .  VX(MVSIZ,*), VY(MVSIZ,*), VZ(MVSIZ,*), 
+     .   XX(MVSIZ,*), YY(MVSIZ,*), ZZ(MVSIZ,*),
+     .  UX(MVSIZ,*), UY(MVSIZ,*), UZ(MVSIZ,*),
+     .  VX(MVSIZ,*), VY(MVSIZ,*), VZ(MVSIZ,*),
      .  VRX(MVSIZ,8),VRY(MVSIZ,8),VRZ(MVSIZ,8),
      .  OFFG(*),OFF(*)
       INTEGER NC(MVSIZ,8), IMAT(*), SID(*),IPROP(*)

@@ -52,7 +52,7 @@ C-----------------------------------------------
 C   F u n c t i o n
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL 
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: TAGI
 C-----------------------------------------------
 C------ COMPUTE MS_ND per PROC
-        MS_ND = ZERO     
+        MS_ND = ZERO
       DO N = 1, NS10E
        NN = ICNDS10(1,N)
         DO P = 1, PROC
@@ -76,18 +76,18 @@ C
        NN = ICNDS10(1,N)
        IF(NLOCAL(NN,PROC+1)==1.AND.ITAGND(NN)<=NS10E)THEN
 c        DO P = 1, PROC
-c         IF(NLOCAL(NN,P)==1) GO TO 100           
+c         IF(NLOCAL(NN,P)==1) GO TO 100
 c        ENDDO
         N1 = ICNDS10(2,N)
         N2 = ICNDS10(3,N)
         NS10E_L = NS10E_L + 1
- 100    CONTINUE         
+ 100    CONTINUE
        ENDIF
       ENDDO
       IF (NS10E_L==0) RETURN
 !     allocate 1d array
       ALLOCATE( TAGI(NUMNOD) )
-      TAGI(1:NUMNOD) = 0 
+      TAGI(1:NUMNOD) = 0
 C-------------pour main nodes---------
       DO N = 1, NS10E
         NN = ICNDS10(1,N)
@@ -97,7 +97,7 @@ C-------------pour main nodes---------
 C----- normally N1,N2 are local as  NN-----     
          NF = 0
          DO P = 1, NSPMD
-          NF = NF +NLOCAL(NN,P)           
+          NF = NF +NLOCAL(NN,P)
          ENDDO
             IF(NLOCAL(N1,PROC+1)==1) THEN
               IF(TAGI(N1)==0.AND.NF > 1) THEN

@@ -39,8 +39,8 @@ Chd|        DT6LAW                        source/materials/time_step/dt6law.F
 Chd|        DT70LAW                       source/materials/time_step/dt70law.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DTSPH(SSP,PM,GEO,PID,MAT, 
-     .     RHO0, VIS, 
+      SUBROUTINE DTSPH(SSP,PM,GEO,PID,MAT,
+     .     RHO0, VIS,
      .     DELTAX, VOL, DTX)
 C------------------------
 C     CALCUL DT ELEMENT
@@ -63,7 +63,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .     SSP(*), PM(NPROPM,*),GEO(NPROPG,*), RHO0(*), VIS(*), 
+     .     SSP(*), PM(NPROPM,*),GEO(NPROPG,*), RHO0(*), VIS(*),
      .     DELTAX(*), VOL(*), DTX(*)
       INTEGER PID(*),MAT(*)
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER I
 C     REAL
       my_real
-     .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ), 
+     .   CX(MVSIZ), QX(MVSIZ), AL(MVSIZ),
      .    QA, QB, CNS1, CNS2
 C=======================================================================
       DO I=LFT,LLT

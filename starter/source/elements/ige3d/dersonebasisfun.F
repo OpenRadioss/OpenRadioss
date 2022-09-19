@@ -51,22 +51,22 @@ C-------------------------------------------------------------------------------
 C Dummy Arguments 
 C--------------------------------------------------------------------------------------------------------
       INTEGER PXI, IDXI
-      my_real, 
+      my_real,
      .  INTENT(IN) :: XI
-      my_real, 
+      my_real,
      .  DIMENSION(*), INTENT(IN) :: KXI
       my_real DERS1, DERS2
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
       INTEGER J, JJ, K, L, NDERS
-      my_real 
+      my_real
      .  SAVED, TEMP, ALEFT, RIGHT
-      my_real, 
+      my_real,
      .  DIMENSION(2) :: DERS, A
-      my_real, 
+      my_real,
      .  DIMENSION(PXI+1,PXI+1) :: ANDU
-      my_real, 
+      my_real,
      .  DIMENSION(PXI+1) :: ND
 
       NDERS=1
@@ -83,7 +83,7 @@ C-------------------------------------------------------------------------------
       DO K=1,PXI
         IF (ANDU(1,K) == 0) THEN
           SAVED = ZERO
-        ELSE 
+        ELSE
           SAVED = ((XI-KXI(IDXI))*ANDU(1,K))/(KXI(IDXI+K)-KXI(IDXI))
         ENDIF
         DO J=0,PXI-K
@@ -96,11 +96,11 @@ C-------------------------------------------------------------------------------
             TEMP = ANDU(J+2,K)/(RIGHT-ALEFT)
             ANDU(J+1,K+1) = SAVED+(RIGHT-XI)*TEMP
             SAVED = (XI-ALEFT)*TEMP
-          ENDIF  
+          ENDIF
         ENDDO
       ENDDO
-      
-      DERS(1) = ANDU(1,PXI+1) 
+
+      DERS(1) = ANDU(1,PXI+1)
 
 CCC ERREUR A PARTIR DE LA
 
@@ -111,7 +111,7 @@ CCC ERREUR A PARTIR DE LA
         DO JJ=1,K
           IF (ND(1) == 0) THEN
             SAVED = ZERO
-          ELSE 
+          ELSE
             SAVED = ND(1)/(KXI(IDXI+PXI-K+JJ)-KXI(IDXI))
           ENDIF
           DO J=1,K-JJ+1

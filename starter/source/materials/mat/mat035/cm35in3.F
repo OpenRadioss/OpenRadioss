@@ -70,11 +70,11 @@ C---  Initialise Volume dans UVAR
               DO IT=1,NPTT
                 UVAR => ELBUF_STR%BUFLY(IL)%MAT(IR,IS,IT)%VAR
                 UVAR(II+I) = AREA(I)*THK(I)
-              ENDDO                                                         
-            ENDDO                                                         
-          ENDDO                                                            
-        ENDDO                                                              
-      ENDDO                                                                
+              ENDDO
+            ENDDO
+          ENDDO
+        ENDDO
+      ENDDO
 C-----------
       RETURN
       END

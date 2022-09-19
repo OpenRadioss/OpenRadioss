@@ -75,14 +75,14 @@ C-----------------------------------------------
       NF1=NFT+1
       NPAR   = IPM(9,IMAT)
       IADBUF = MAX(1,IPM(7,IMAT))
-      
+
       NULLIFY(pIXS)
       NULLIFY(pIXQ)
       NULLIFY(pIXTG)
-      IF(NUMELS>0)  pIXS  => IXS(1,NF1)            
-      IF(NUMELQ>0)  pIXQ  => IXQ(1,NF1)    
+      IF(NUMELS>0)  pIXS  => IXS(1,NF1)
+      IF(NUMELQ>0)  pIXQ  => IXQ(1,NF1)
       IF(N2D>0 .AND. NUMELTG>0) pIXTG => IXTG(1,NF1)
-                   
+
 C-----------
       CALL INIPHASE(pIXS          ,IPART_(NF1),IPHASE(1,NF1) ,IDP      ,
      .              KVOL(1,NF1)   ,NPAR       ,BUFMAT(IADBUF),NTRACE   ,

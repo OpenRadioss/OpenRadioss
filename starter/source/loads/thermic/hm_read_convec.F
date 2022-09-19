@@ -66,7 +66,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IB(NICONV,*), ITAB(*), IXS(NIXS,*)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
@@ -88,8 +88,8 @@ C-----------------------------------------------
       INTEGER USR2SYS
       DATA MESS/'CONVECTION  FLUX  DEFINITION            '/
 C=======================================================================
-      IS_AVAILABLE = .FALSE.                                            
-      K=0                                
+      IS_AVAILABLE = .FALSE.
+      K=0
 C-------------------------------------------------- 
 C START BROWSING MODEL RADIATION
 C--------------------------------------------------
@@ -103,61 +103,61 @@ C--------------------------------------------------
      .                       UNIT_ID = UID,
      .                       OPTION_ID = ID,
      .                       OPTION_TITR = TITR)
-        IFLAGUNIT = 0                                           
-        DO J=1,NUNITS                           
-          IF (UNITAB%UNIT_ID(J) == UID) THEN    
-            IFLAGUNIT = 1                       
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                  
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID /= 0.AND.IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='CONVECTION HEAT',
      .                 C2='CONVECTION HEAT',
-     .                 C3=TITR)                              
-        ENDIF  
+     .                 C3=TITR)
+        ENDIF
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('entityid',ISU,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('curveid',IFU,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)     
+        CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
         CALL HM_GET_FLOATV('xscale',FCX,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOATV_DIM('xscale',FCX_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOATV('magnitude',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)       
-        CALL HM_GET_FLOATV_DIM('magnitude',FCY_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)         
-        CALL HM_GET_FLOATV('rad_tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)        
-        CALL HM_GET_FLOATV('rad_tstop',TSTOP,IS_AVAILABLE,LSUBMODEL,UNITAB)          
-        CALL HM_GET_FLOATV_DIM('rad_tstop',TSTOP_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)       
-        CALL HM_GET_FLOATV('flux',H,IS_AVAILABLE,LSUBMODEL,UNITAB)    
+        CALL HM_GET_FLOATV('magnitude',FCY,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('magnitude',FCY_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('rad_tstart',TSTART,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('rad_tstop',TSTOP,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV_DIM('rad_tstop',TSTOP_DIM,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOATV('flux',H,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------  
         IF (FCX == ZERO) FCX = FCX_DIM
         IF (FCY == ZERO) FCY = FCY_DIM
-        IF(TSTOP == ZERO) TSTOP= EP30 * TSTOP_DIM    
+        IF(TSTOP == ZERO) TSTOP= EP30 * TSTOP_DIM
 C
-        IS=0                                                     
+        IS=0
         DO J=1,NSURF
           IF (ISU == IGRSURF(J)%ID) IS=J
-        ENDDO                                                    
-        IF(IS > 0)THEN                                          
+        ENDDO
+        IF(IS > 0)THEN
           NN=IGRSURF(IS)%NSEG
-          DO J=1,NN                                              
-            K=K+1                                                
-            IB(1,K)=IGRSURF(IS)%NODES(J,1)				   
+          DO J=1,NN
+            K=K+1
+            IB(1,K)=IGRSURF(IS)%NODES(J,1)				
             IB(2,K)=IGRSURF(IS)%NODES(J,2)
             IB(3,K)=IGRSURF(IS)%NODES(J,3)
             ITY    =IGRSURF(IS)%ELTYP(J)
-            IF(ITY==7)THEN                          
+            IF(ITY==7)THEN
 C          true triangles (not segments built from 3 nodes).   
-             IB(4,K)=0                                           
-            ELSE                                                 
+             IB(4,K)=0
+            ELSE
              IB(4,K)=IGRSURF(IS)%NODES(J,4)
-            ENDIF                                                
-            IB(5,K)  = IFU                                           
-            IB(6,K)  = ISENS 
+            ENDIF
+            IB(5,K)  = IFU
+            IB(6,K)  = ISENS
             IB(7,K)  = IGRSURF(IS)%ELTYP(J)
             IB(8,K)  = IGRSURF(IS)%ELEM(J)
             IF(ITY == 1) THEN
@@ -166,14 +166,14 @@ C          true triangles (not segments built from 3 nodes).
               IB(9,K)  = 0
             ENDIF
 C                                                  
-            FAC(1,K) = FCY                                          
-            FAC(2,K) = ONE/FCX 
+            FAC(1,K) = FCY
+            FAC(2,K) = ONE/FCX
             FAC(3,K) = H
             FAC(4,K) = TSTART
-            FAC(5,K) = TSTOP                                       
-            FAC(6,K) = ONE                                      
-          ENDDO                                                  
-        ENDIF                                                 
+            FAC(5,K) = TSTOP
+            FAC(6,K) = ONE
+          ENDDO
+        ENDIF
       ENDDO
 C
       I1=1

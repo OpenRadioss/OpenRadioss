@@ -38,7 +38,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE GROUPDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -118,7 +118,7 @@ C
 C-----------------------------------------------------
       IF(NODADT/=0)THEN
         IF(IDTGR(11)==0)THEN
-          TAGN(1:NUMNOD)=1                                          
+          TAGN(1:NUMNOD)=1
         ELSE
           TAGN(1:NUMNOD)=0
           IOK = 0
@@ -132,10 +132,10 @@ C-----------------------------------------------------
             CALL ANCMSG(MSGID=237,ANMODE=ANINFO,
      .                  I1=IABS(IDTGR(11)))
             CALL ARRET(2)
-          ENDIF        
+          ENDIF
           DO N=1,IGRNOD(IDTGRX)%NENTITY
             TAGN(IGRNOD(IDTGRX)%ENTITY(N)) = 1
-          ENDDO                                                        
+          ENDDO
         ENDIF
       ELSE
         TAGN(1:NUMNOD)=0
@@ -193,8 +193,8 @@ C-- AMS auto - defined by elements
             IF(ITY==6)THEN
               NFT   =IPARG(3,NG)
               LFT   =1
-              LLT   =IPARG(2,NG)    
-              GBUF => ELBUF_TAB(NG)%GBUF 
+              LLT   =IPARG(2,NG)
+              GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
                 IF(GBUF%ISMS(I)==0)THEN
                   TAGR(NFT+I)=0
@@ -211,8 +211,8 @@ C-- AMS auto + parts
             IF(ITY==6)THEN
               NFT   =IPARG(3,NG)
               LFT   =1
-              LLT   =IPARG(2,NG)    
-              GBUF => ELBUF_TAB(NG)%GBUF 
+              LLT   =IPARG(2,NG)
+              GBUF => ELBUF_TAB(NG)%GBUF
               DO I=LFT,LLT
                 IF(GBUF%ISMS(I)==0.AND.TAGPRT_SMS(IPARTR(NFT+I))==0)THEN
                   TAGR(NFT+I)=0
@@ -231,8 +231,8 @@ C-----------------------------------------------------
         IF(ITY==6)THEN
           NFT   =IPARG(3,NG)
           LFT   =1
-          LLT   =IPARG(2,NG)    
-          GBUF => ELBUF_TAB(NG)%GBUF 
+          LLT   =IPARG(2,NG)
+          GBUF => ELBUF_TAB(NG)%GBUF
 C
           IPID = IXR(1,NFT+1)
           IGTYP= IGEO(11,IPID)
@@ -285,8 +285,8 @@ C
                 END IF
               END DO
             END IF
-          END IF 
-        END IF        
+          END IF
+        END IF
       END DO
 C------------------------------------------
       IF(NSPMD > 0)THEN
@@ -303,4 +303,4 @@ C------------------------------------------
       END IF
 C------------------------------------------
       RETURN
-      END      
+      END

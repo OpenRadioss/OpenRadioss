@@ -33,7 +33,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,K,NG,IWA(NNOISE),NEL,IEL
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C
       DO I=1,NNOISE
@@ -70,7 +70,7 @@ C
         NEL = IPARG(2,NG)
         IEL = ELNOI(K)
         WA(I)=WA(I)+ GBUF%SIG(IEL) + GBUF%SIG(IEL+NEL) + GBUF%SIG(IEL+2*NEL)
-       ENDDO       
+       ENDDO
       ENDDO
       IF(IMACH/=3.OR.NSPMD==1) THEN
         DO I=1,NNOISE

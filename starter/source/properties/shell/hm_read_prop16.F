@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),IPM(NPROPMI,*),SUB_ID,IGTYP,IG
 C     REAL
       my_real
@@ -128,7 +128,7 @@ C ISHEAR NEVER USED
       ISHEAR = 0
 C CVIS USED in coquez routines
 C
-      ISROT = 0  
+      ISROT = 0
 C
 C----------------------
 C     Double stockage (to be cleaned one day ...)
@@ -154,8 +154,8 @@ c
       CALL HM_GET_INTV('Ipos',IPOS,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_INTV('Ip',IRP,IS_AVAILABLE,LSUBMODEL)
 c
-      DO K=1,NLY 
-        CALL HM_GET_INT_ARRAY_INDEX('Prop_mi',NUML(K),K,IS_AVAILABLE,LSUBMODEL) 
+      DO K=1,NLY
+        CALL HM_GET_INT_ARRAY_INDEX('Prop_mi',NUML(K),K,IS_AVAILABLE,LSUBMODEL)
       ENDDO
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
@@ -175,18 +175,18 @@ c
       CALL HM_GET_FLOATV('VECTOR_Y',VY,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('VECTOR_Z',VZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c
-      DO K=1,NLY    
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',GEO(IPANG+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      DO K=1,NLY
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_phi',GEO(IPANG+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB)
         CALL HM_GET_FLOAT_ARRAY_INDEX('Alpha_arr',GEO(IPPHI+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB)
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Thick',GEO(IPTHK+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi',GEO(IPPOS+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB) 
-        IF (GEO(IPPHI+K) == ZERO) GEO(IPPHI+K) = NINTY         
-      ENDDO  
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Thick',GEO(IPTHK+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        CALL HM_GET_FLOAT_ARRAY_INDEX('Prop_Zi',GEO(IPPOS+K),K,IS_AVAILABLE,LSUBMODEL,UNITAB)
+        IF (GEO(IPPHI+K) == ZERO) GEO(IPPHI+K) = NINTY
+      ENDDO
 C--------------------------------------------------
 C SUBMODEL TRANSFORMATION
 C--------------------------------------------------
       IF (SUB_ID /= 0)
-     .       CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)   
+     .       CALL SUBROTVECT(VX,VY,VZ,RTRANS,SUB_ID,LSUBMODEL)
 C----------------------
       PTHK = MIN(PTHK, ONE-EM06)
       GEO(42) = PTHK
@@ -210,17 +210,17 @@ C----------------------
      .              I1=IG,
      .              C1=IDTITL)
         IHBE=24
-      ENDIF         
+      ENDIF
       IF(ISH3N==0) ISH3N = ISH3N_D
       IGEO(18) = ISH3N
       IF (GEO(16) == ZERO) IGEO(31) = 1
-      
+
       IF (IHBE==24) THEN
         IF (GEO(17)==ZERO) GEO(17)=ZEP015
       ENDIF
 C---
       IF(ISMSTR==0)ISMSTR=ISST_D
-      IF (ISST_D == -2) ISMSTR = -1      
+      IF (ISST_D == -2) ISMSTR = -1
       IF(IHBE==3)THEN
         IF(GEO(13)==ZERO)GEO(13)=EM01
         IF(GEO(14)==ZERO)GEO(14)=EM01
@@ -369,7 +369,7 @@ C---
      .               I2=NLYMAX)
       ENDIF
       NLY = MIN(NLY,NLYMAX)
-      IGEO(4) = NLY                                                          
+      IGEO(4) = NLY
 C---  calcul epaIGEO(5)eur & position des couches
       IF (IPOS > 0)THEN
         TMIN = EP20
@@ -443,7 +443,7 @@ C-------LAYER 1
      .            MSGTYPE=MSGERROR,
      .            I1=IG,
      .            C1=TITR,
-     .            I2=NUML(1))         
+     .            I2=NUML(1))
       IGEO(IPMAT+1) = 1
   250 CONTINUE
 C-----OTHER LAYERS
@@ -473,7 +473,7 @@ C-----OTHER LAYERS
      .             MSGTYPE=MSGERROR,
      .             I1=IG,
      .             C1=TITR,
-     .             I2=NUML(1))         
+     .             I2=NUML(1))
        IGEO(IPMAT+N) = 1
   350 CONTINUE
 C
@@ -561,7 +561,7 @@ C
       PROP_TAG(IGTYP)%LY_GAMA = 6
       PROP_TAG(IGTYP)%LY_DIRA = 2
       PROP_TAG(IGTYP)%LY_DIRB = 2
-      PROP_TAG(IGTYP)%LY_PLAPT = 1      
+      PROP_TAG(IGTYP)%LY_PLAPT = 1
       PROP_TAG(IGTYP)%LY_SIGPT = 5
       PROP_TAG(IGTYP)%G_FORPG  = 5
       PROP_TAG(IGTYP)%G_MOMPG  = 3

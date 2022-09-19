@@ -116,7 +116,7 @@ C     REAL
      .   BID,DX,DY,DZ,DSUP,SEUIL,XMX,XMN,GAPSMAX,
      .   GAPV(MVSIZ)
 C-----------------------------------------------
-!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7)) 
+!      EQUIVALENCE (PROV_N,IV(1,6)) ,(PROV_E,IV(1,7))
 C-----------------------------------------------
 C   ROLE DE LA ROUTINE:
 C   ===================
@@ -223,7 +223,7 @@ C          CALL ARRET(2)
         RETURN
       ENDIF
       IF(DSUP<MINBOX.OR.
-     .   NB_NC<=NB_N_B.AND.DSUP<MAXBOX.OR.   
+     .   NB_NC<=NB_N_B.AND.DSUP<MAXBOX.OR.
      .   NB_NC<=NB_N_B.AND.NB_EC==1) THEN
 C
 C       write(6,*)" NOUVELLE BOITE "
@@ -232,9 +232,9 @@ C       VIRER LES INUTILES
         DO 20 I=1,NB_EC
             NE = BPE(I)
             N1=IRECT(1,NE)
-            N2=IRECT(2,NE) 
-            N3=IRECT(3,NE) 
-            N4=IRECT(4,NE) 
+            N2=IRECT(2,NE)
+            N3=IRECT(3,NE)
+            N4=IRECT(4,NE)
             DO 20 J=1,NB_NC
               NN=NSV(BPN(J))
               IF(NN/=N1.AND.NN/=N2.AND.NN/=N3.AND.NN/=N4) THEN
@@ -294,8 +294,8 @@ C                      WRITE(IOUT,*)'       MULTIPLIED BY 0.75'
                 ENDIF
 C               write(6,*)"Noeud candidat",BPN(J)
 C               write(6,*)"Element  candidat",NE
-              ENDIF  
-   20   CONTINUE 
+              ENDIF
+   20   CONTINUE
 C       IL FAUT COPIER LES BAS DES PILES DANS BAS_DE_PILE CORRESPONDANTS
 C       AVANT DE REDESCENDRE DANS LA BRANCHE MITOYENNE
         CALL I7DSTK(I_ADD,NB_NC,NB_EC,ADD,BPN,PN,BPE,PE)
@@ -422,7 +422,7 @@ C         ON STOCKE EN ECRASANT PROGRESSIVEMENT BPE
           BPE(NB_ECN) = BPE(I)
         ENDIF
        ENDDO
-      ELSE       
+      ELSE
        DO I=1,NB_EC
         XMN=MIN(X(DIR,IRECT(1,BPE(I))),X(DIR,IRECT(2,BPE(I))),
      .          X(DIR,IRECT(3,BPE(I))),X(DIR,IRECT(4,BPE(I))))
@@ -455,7 +455,7 @@ C     on va redescendre et donc on definit une nouvelle boite
 C     on remplit les max de la nouvelle boite
 C     initialises dans i7buc1 a 1.E30 comme ca on recupere
 C     soit XMAX soit le max de la boite
-      XYZM(1,I_ADD+1) = XYZM(1,I_ADD) 
+      XYZM(1,I_ADD+1) = XYZM(1,I_ADD)
       XYZM(2,I_ADD+1) = XYZM(2,I_ADD)
       XYZM(3,I_ADD+1) = XYZM(3,I_ADD)
       XYZM(4,I_ADD+1) = XYZM(4,I_ADD)

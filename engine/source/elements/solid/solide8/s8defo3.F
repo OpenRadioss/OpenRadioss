@@ -45,16 +45,16 @@ C-----------------------------------------------
 C     REAL
       my_real
      .    VX(MVSIZ,8), VY(MVSIZ,8), VZ(MVSIZ,8),
-     .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),      
-     .   PX5(MVSIZ,8),PX6(MVSIZ,8),PX7(MVSIZ,8),PX8(MVSIZ,8),      
-     .   PY1(MVSIZ,8),PY2(MVSIZ,8),PY3(MVSIZ,8),PY4(MVSIZ,8),      
-     .   PY5(MVSIZ,8),PY6(MVSIZ,8),PY7(MVSIZ,8),PY8(MVSIZ,8),      
-     .   PZ1(MVSIZ,8),PZ2(MVSIZ,8),PZ3(MVSIZ,8),PZ4(MVSIZ,8),      
+     .   PX1(MVSIZ,8),PX2(MVSIZ,8),PX3(MVSIZ,8),PX4(MVSIZ,8),
+     .   PX5(MVSIZ,8),PX6(MVSIZ,8),PX7(MVSIZ,8),PX8(MVSIZ,8),
+     .   PY1(MVSIZ,8),PY2(MVSIZ,8),PY3(MVSIZ,8),PY4(MVSIZ,8),
+     .   PY5(MVSIZ,8),PY6(MVSIZ,8),PY7(MVSIZ,8),PY8(MVSIZ,8),
+     .   PZ1(MVSIZ,8),PZ2(MVSIZ,8),PZ3(MVSIZ,8),PZ4(MVSIZ,8),
      .   PZ5(MVSIZ,8),PZ6(MVSIZ,8),PZ7(MVSIZ,8),PZ8(MVSIZ,8),
      .    D1(MVSIZ,8), D2(MVSIZ,8), D3(MVSIZ,8), D4(MVSIZ,8),
      .    D5(MVSIZ,8), D6(MVSIZ,8),
-     .   WXX(MVSIZ),WYY(MVSIZ),WZZ(MVSIZ)  
-      INTEGER IPT    
+     .   WXX(MVSIZ),WYY(MVSIZ),WZZ(MVSIZ)
+      INTEGER IPT
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -120,7 +120,7 @@ C
      .           -DT1*(DYY(I)*DYZ(I)+DZY(I)*DZZ(I)+DXY(I)*DXZ(I))
          D6(I,IPT)= DXZ(I)+DZX(I)
      .           -DT1*(DZZ(I)*DZX(I)+DXZ(I)*DXX(I)+DYZ(I)*DYX(I))
-         D1(I,IPT)= DXX(I)  
+         D1(I,IPT)= DXX(I)
      .           -DT1D2*(DXX(I)*DXX(I)+DYX(I)*DYX(I)+DZX(I)*DZX(I))
          D2(I,IPT)= DYY(I)
      .           -DT1D2*(DYY(I)*DYY(I)+DZY(I)*DZY(I)+DXY(I)*DXY(I))

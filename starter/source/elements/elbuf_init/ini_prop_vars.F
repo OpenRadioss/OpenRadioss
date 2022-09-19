@@ -31,7 +31,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,62 +54,62 @@ C-----------------------------------------------
 C=======================================================================
 C     Set default variables used in all property types
 C=======================================================================
-c-----  Void property 
+c-----  Void property
       PTAG => PROP_TAG(0)
 c-----
-      PTAG%G_OFF    = 1             
-      PTAG%G_NOFF   = 0             
-      PTAG%G_GAMA   = 0             
-      PTAG%G_HOURG  = 0             
-      PTAG%G_SIG    = 0   
-      PTAG%G_STRA   = 0   
-      PTAG%G_FOR    = 0             
-      PTAG%G_MOM    = 0             
-      PTAG%G_EINT   = 0             
-      PTAG%G_EINS   = 0             
-      PTAG%G_THK    = 0             
-      PTAG%G_VOL    = 0             
-      PTAG%G_QVIS   = 0             
-      PTAG%G_FORPG  = 0           
+      PTAG%G_OFF    = 1
+      PTAG%G_NOFF   = 0
+      PTAG%G_GAMA   = 0
+      PTAG%G_HOURG  = 0
+      PTAG%G_SIG    = 0
+      PTAG%G_STRA   = 0
+      PTAG%G_FOR    = 0
+      PTAG%G_MOM    = 0
+      PTAG%G_EINT   = 0
+      PTAG%G_EINS   = 0
+      PTAG%G_THK    = 0
+      PTAG%G_VOL    = 0
+      PTAG%G_QVIS   = 0
+      PTAG%G_FORPG  = 0
       PTAG%G_MOMPG  = 0
 C
       PTAG%G_FORPGPINCH = 0
       PTAG%G_MOMPGPINCH = 0
       PTAG%G_EPGPINCHXZ = 0
-      PTAG%G_EPGPINCHYZ = 0  
+      PTAG%G_EPGPINCHYZ = 0
       PTAG%G_EPGPINCHZZ = 0
 C            
       PTAG%G_STRPG  = 0
-      PTAG%G_FORTH  = 0             
-      PTAG%G_EINTTH = 0             
-      PTAG%G_FILL   = 0             
+      PTAG%G_FORTH  = 0
+      PTAG%G_EINTTH = 0
+      PTAG%G_FILL   = 0
 c     layer variables
-      PTAG%LY_DMG   = 0             
-      PTAG%LY_GAMA  = 0             
-      PTAG%LY_DIRA  = 0             
-      PTAG%LY_DIRB  = 0             
-      PTAG%LY_PLAPT = 0             
+      PTAG%LY_DMG   = 0
+      PTAG%LY_GAMA  = 0
+      PTAG%LY_DIRA  = 0
+      PTAG%LY_DIRB  = 0
+      PTAG%LY_PLAPT = 0
       PTAG%LY_SIGPT = 0
       PTAG%LY_HOURG = 0
 c
-      PTAG%L_OFF    = 1                     
-      PTAG%L_GAMA   = 0  
-      PTAG%L_STRA   = 0             
-      PTAG%L_SIG    = 0                     
-      PTAG%L_SIGPLY = 0                     
-      PTAG%L_SIGL   = 0                     
-      PTAG%L_SIGD   = 0                     
-      PTAG%L_SIGV   = 0                     
-      PTAG%L_FOR    = 0             
+      PTAG%L_OFF    = 1
+      PTAG%L_GAMA   = 0
+      PTAG%L_STRA   = 0
+      PTAG%L_SIG    = 0
+      PTAG%L_SIGPLY = 0
+      PTAG%L_SIGL   = 0
+      PTAG%L_SIGD   = 0
+      PTAG%L_SIGV   = 0
+      PTAG%L_FOR    = 0
       PTAG%L_MOM    = 0
-      PTAG%L_EINT   = 0      
-      PTAG%L_EINS   = 0                     
-      PTAG%L_THK    = 0             
-      PTAG%L_VOL    = 0             
-      PTAG%L_QVIS   = 0                       
+      PTAG%L_EINT   = 0
+      PTAG%L_EINS   = 0
+      PTAG%L_THK    = 0
+      PTAG%L_VOL    = 0
+      PTAG%L_QVIS   = 0
       PTAG%NUVAR    = 0
       PTAG%L_FORTH  = 0
-      PTAG%L_EINTTH = 0     
+      PTAG%L_EINTTH = 0
 C
       PTAG%G_AREA   = 0
       PTAG%G_SKEW   = 0
@@ -148,35 +148,35 @@ c
       DO IPROP = 1,MAXPROP
         PTAG => PROP_TAG(IPROP)
 c       global variables - scalars
-        PTAG%G_OFF    = 1           
-        PTAG%G_NOFF   = 0           
-        PTAG%G_GAMA   = 0           
-        PTAG%G_HOURG  = 0           
-        PTAG%G_SMSTR  = 0           
-        PTAG%G_SIG    = 0           
-        PTAG%G_FOR    = 0           
-        PTAG%G_MOM    = 0           
-        PTAG%G_EINT   = 1           
-        PTAG%G_EINS   = 0           
-        PTAG%G_THK    = 0           
-        PTAG%G_VOL    = 0           
-        PTAG%G_QVIS   = 0           
-        PTAG%G_FORPG  = 0           
+        PTAG%G_OFF    = 1
+        PTAG%G_NOFF   = 0
+        PTAG%G_GAMA   = 0
+        PTAG%G_HOURG  = 0
+        PTAG%G_SMSTR  = 0
+        PTAG%G_SIG    = 0
+        PTAG%G_FOR    = 0
+        PTAG%G_MOM    = 0
+        PTAG%G_EINT   = 1
+        PTAG%G_EINS   = 0
+        PTAG%G_THK    = 0
+        PTAG%G_VOL    = 0
+        PTAG%G_QVIS   = 0
+        PTAG%G_FORPG  = 0
         PTAG%G_MOMPG  = 0
         PTAG%G_STRA   = 0
 C
         PTAG%G_FORPGPINCH = 0
         PTAG%G_MOMPGPINCH = 0
-        PTAG%G_EPGPINCHXZ = 0       
-        PTAG%G_EPGPINCHYZ = 0  
-        PTAG%G_EPGPINCHZZ = 0  
+        PTAG%G_EPGPINCHXZ = 0
+        PTAG%G_EPGPINCHYZ = 0
+        PTAG%G_EPGPINCHZZ = 0
 C            
         PTAG%G_STRPG  = 0
-        PTAG%G_FORTH  = 0           
-        PTAG%G_EINTTH = 0           
-        PTAG%G_COR_NF = 0           
-        PTAG%G_COR_FR = 0           
-        PTAG%G_COR_XR = 0           
+        PTAG%G_FORTH  = 0
+        PTAG%G_EINTTH = 0
+        PTAG%G_COR_NF = 0
+        PTAG%G_COR_FR = 0
+        PTAG%G_COR_XR = 0
 C    - 1D - elem (TRUSS, BEAM, SPRING, NSTRAND)
         PTAG%G_AREA   = 0
         PTAG%G_SKEW   = 0
@@ -214,35 +214,35 @@ C    - 1D - elem (TRUSS, BEAM, SPRING, NSTRAND)
 c
 C---
 c       layer variables
-        PTAG%LY_DMG   = 0             
-        PTAG%LY_GAMA  = 0             
-        PTAG%LY_DIRA  = 0             
-        PTAG%LY_DIRB  = 0             
-        PTAG%LY_PLAPT = 0             
+        PTAG%LY_DMG   = 0
+        PTAG%LY_GAMA  = 0
+        PTAG%LY_DIRA  = 0
+        PTAG%LY_DIRB  = 0
+        PTAG%LY_PLAPT = 0
         PTAG%LY_SIGPT = 0
         PTAG%LY_HOURG = 0
 c
 c---    local variables (per integration point)
 c
-        PTAG%L_OFF    = 1                   
-        PTAG%L_GAMA   = 0  
-        PTAG%L_STRA   = 0           
-        PTAG%L_SIG    = 0                   
-        PTAG%L_SIGPLY = 0                   
-        PTAG%L_SIGL   = 0                   
-        PTAG%L_SIGV   = 0                   
-        PTAG%L_SIGV   = 0                   
-        PTAG%L_FOR    = 0           
+        PTAG%L_OFF    = 1
+        PTAG%L_GAMA   = 0
+        PTAG%L_STRA   = 0
+        PTAG%L_SIG    = 0
+        PTAG%L_SIGPLY = 0
+        PTAG%L_SIGL   = 0
+        PTAG%L_SIGV   = 0
+        PTAG%L_SIGV   = 0
+        PTAG%L_FOR    = 0
         PTAG%L_MOM    = 0
-        PTAG%L_EINT   = 1    !      
-        PTAG%L_EINS   = 0                   
-        PTAG%L_THK    = 0           
-        PTAG%L_VOL    = 0           
-        PTAG%L_QVIS   = 0                     
-        PTAG%NUVAR    = 0 
-        PTAG%L_FORTH  = 0           
-        PTAG%L_EINTTH = 0              
-        PTAG%G_FILL   = 0             
+        PTAG%L_EINT   = 1    !
+        PTAG%L_EINS   = 0
+        PTAG%L_THK    = 0
+        PTAG%L_VOL    = 0
+        PTAG%L_QVIS   = 0
+        PTAG%NUVAR    = 0
+        PTAG%L_FORTH  = 0
+        PTAG%L_EINTTH = 0
+        PTAG%G_FILL   = 0
       ENDDO
 C-----------------------------------------------
       RETURN

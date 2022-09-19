@@ -48,7 +48,7 @@ C--------------------------------------------------------------
       INTEGER ILVOUT, NEL, IWAVE, FREESURF
       INTEGER N1, N2, N3, N4, N5, NN1, NN2, NN3, NN4, IEL, JEL
       my_real X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4,
-     .        XP, YP, ZP, X13, Y13, Z13, X24, Y24, Z24,	  
+     .        XP, YP, ZP, X13, Y13, Z13, X24, Y24, Z24,	
      .        NRX, NRY, NRZ, AREA2, DCS, SSP, WI(4,2),
      .        XC, YC, ZC, DIRX, DIRY, DIRZ
 C
@@ -67,10 +67,10 @@ C-------------------------------------------------------------------
       WI(2,2)=THIRD
       WI(3,2)=ONE_OVER_6
       WI(4,2)=ONE_OVER_6
-      SSP=RFLOW(2)	  
+      SSP=RFLOW(2)	
       IF(IWAVE==1) THEN
-        XC =RFLOW(9)	  
-        YC =RFLOW(10)	  
+        XC =RFLOW(9)	
+        YC =RFLOW(10)	
         ZC =RFLOW(11)
         DCS=RFLOW(12)
       ELSEIF(IWAVE==2) THEN
@@ -78,7 +78,7 @@ C-------------------------------------------------------------------
         DIRY=RFLOW(10)
         DIRZ=RFLOW(11)
       ENDIF
-	  
+	
       DO IEL=1,NEL
          N1=ELEM(1,IEL)
          N2=ELEM(2,IEL)
@@ -136,7 +136,7 @@ C  Arrival time
             TA(IEL)  = DCP(IEL)/SSP
             COSG(IEL)= (NRX*DIRX+NRY*DIRY+NRZ*DIRZ)/AREA2
          ENDIF
-      ENDDO 
+      ENDDO
 
       IF(ILVOUT>=2) THEN
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8----+----9----+----1----+----2----+----3--
@@ -153,6 +153,6 @@ C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
             ENDDO
          ENDIF
       ENDIF
-	  
+	
       RETURN
       END

@@ -101,11 +101,11 @@ C----------------------------------------------
 c
           IPLA_DS=IPLA_DDS
           ISTRA_D = 1
-          IF(ITET4_D == 0) ITET4_D = 1000               
+          IF(ITET4_D == 0) ITET4_D = 1000
           IF(ITET10_D == 0) ITET10_D = 1000
           EXIT
-        ENDIF            
+        ENDIF
       ENDDO
 C--------------------------------------------------------------
       RETURN
-      END 
+      END

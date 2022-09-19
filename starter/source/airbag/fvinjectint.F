@@ -27,7 +27,7 @@ Chd|        FVMESH0                       source/airbag/fvmesh0.F
 Chd|-- calls ---------------
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|====================================================================
-      SUBROUTINE FVINJECTINT(IBUF  , ELEM   , IBAGJET, 
+      SUBROUTINE FVINJECTINT(IBUF  , ELEM   , IBAGJET,
      .                       NJET  , IGRSURF,
      .                       ITAGEL, NN     , NEL, NB_NODE, MINUS_SIGN_REVERSE)
 C-----------------------------------------------
@@ -50,8 +50,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBUF(*), ELEM(3,*), IBAGJET(NIBJET,*), 
-     .        NJET, 
+      INTEGER IBUF(*), ELEM(3,*), IBAGJET(NIBJET,*),
+     .        NJET,
      .        ITAGEL(*), NN, NEL, NB_NODE, MINUS_SIGN_REVERSE(NEL)
       TYPE (SURF_)   , DIMENSION(NSURF)   :: IGRSURF
 C-----------------------------------------------
@@ -108,7 +108,7 @@ C
          IF (NALL/=0) THEN
             NN1=ITAGINJ(N2)-ITAGINJ(N1)
             NN2=ITAGINJ(N3)-ITAGINJ(N1)
-            IF (NN1==0.AND.NN2==0) THEN 
+            IF (NN1==0.AND.NN2==0) THEN
                ITAGEL(IEL)=ITAGINJ(N1)
                IF(IREVERSED(N1) + IREVERSED(N2) + IREVERSED(N3) == 3) THEN
                   ELEM(1,IEL) = N3

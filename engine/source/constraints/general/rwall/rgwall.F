@@ -77,11 +77,11 @@ C------------
 
         ICONT=0
         CALL MY_BARRIER
-!       We need an OMP barrier here because each thread initializes 
-!       the variables : without barrier ICONT can be set to 1 by a 
-!       thread in the !$OMP DO loop whereas another (late) thread initializes 
+!       We need an OMP barrier here because each thread initializes
+!       the variables : without barrier ICONT can be set to 1 by a
+!       thread in the !$OMP DO loop whereas another (late) thread initializes
 !       ICONT to 0
-!       ICONT is a shared variable 
+!       ICONT is a shared variable
 C
         IF(MSR == 0)THEN
          XWL=RWL(4)
@@ -102,10 +102,10 @@ Cel changement formulation : plus d'impasse sur contribution force
          YWL=X(M2)+VYW*DT2
          ZWL=X(M3)+VZW*DT2
         ENDIF
-        TFXT =ZERO     
+        TFXT =ZERO
         TFXTN=ZERO
-        TFXT2 =ZERO     
-        TFXTN2=ZERO     
+        TFXT2 =ZERO
+        TFXTN2=ZERO
         NINDEX=0
 C    
         IFQ = NINT(RWL(15))
@@ -131,7 +131,7 @@ C
               RWSAV(K+1) = ZERO
               RWSAV(K+2) = ZERO
               RWSAV(K+3) = ZERO
-              CYCLE              
+              CYCLE
             END IF
             ICONT=1
 C---        test for penetrated nodes
@@ -176,11 +176,11 @@ C     AMS
 C-----------------     
         ICONT=0
         CALL MY_BARRIER
-!       We need an OMP barrier here because each thread initializes 
-!       the variables : without barrier ICONT can be set to 1 by a 
-!       thread in the !$OMP DO loop whereas a (late) thread initialize 
+!       We need an OMP barrier here because each thread initializes
+!       the variables : without barrier ICONT can be set to 1 by a
+!       thread in the !$OMP DO loop whereas a (late) thread initialize
 !       ICONT to 0
-!       ICONT is a shared variable 
+!       ICONT is a shared variable
 C
         IF(MSR == 0)THEN
          XWL=RWL(4)
@@ -201,10 +201,10 @@ Cel changement formulation : plus d'impasse sur contribution force
          YWL=X(M2)+VYW*DT2
          ZWL=X(M3)+VZW*DT2
         ENDIF
-        TFXT =ZERO     
+        TFXT =ZERO
         TFXTN=ZERO
-        TFXT2 =ZERO     
-        TFXTN2=ZERO      
+        TFXT2 =ZERO
+        TFXTN2=ZERO
         NINDEX=0
 C     
         IFQ = NINT(RWL(15))
@@ -231,7 +231,7 @@ C
               K = 3*(I-1)
               RWSAV(K+1) = ZERO
               RWSAV(K+2) = ZERO
-              RWSAV(K+3) = ZERO    
+              RWSAV(K+3) = ZERO
               CYCLE
             ENDIF
             ICONT=1
@@ -280,7 +280,7 @@ C-----------------
       ELSE
         FACT = ZERO
       ENDIF
-      
+
       IF(ITIED == 0)THEN
 C
        DO J = 1,NINDEX
@@ -299,12 +299,12 @@ C
         FNYN=DVT*RWL(2)
         FNZN=DVT*RWL(3)
         TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
-        WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)     
-        TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)        
+        WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
+        TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
         F1(J) = FNXN*WEIGHT_MD(N)
         F2(J) = FNYN*WEIGHT_MD(N)
         F3(J) = FNZN*WEIGHT_MD(N)
-        F4(J) = MSW*WEIGHT_MD(N) 
+        F4(J) = MSW*WEIGHT_MD(N)
         F5(J) = ZERO
         F6(J) = ZERO
         F7(J) = ZERO
@@ -336,7 +336,7 @@ C
         FNZN=DVT*RWL(3)
         TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
         WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-        TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)        
+        TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
            F1(J) = FNXN*WEIGHT_MD(N)
            F2(J) = FNYN*WEIGHT_MD(N)
            F3(J) = FNZN*WEIGHT_MD(N)
@@ -380,14 +380,14 @@ C---     friction filtering
            FNZN=DVT*RWL(3)
            TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-           TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)           
+           TFXTN2 = TFXTN2 - WEWE2*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
            F1(J) = FNXN*WEIGHT_MD(N)
            F2(J) = FNYN*WEIGHT_MD(N)
            F3(J) = FNZN*WEIGHT_MD(N)
-           F4(J) = MS(N)*WEIGHT_MD(N) 
+           F4(J) = MS(N)*WEIGHT_MD(N)
            FNXT=((V(N1)-VXW)+A(N1)*DT12)*MS(N)-FNXN
            FNYT=((V(N2)-VYW)+A(N2)*DT12)*MS(N)-FNYN
-           FNZT=((V(N3)-VZW)+A(N3)*DT12)*MS(N)-FNZN 
+           FNZT=((V(N3)-VZW)+A(N3)*DT12)*MS(N)-FNZN
 C---       filter
            K = 3*(I-1)+1
            FNXT = FNXT * ALPHA + RWSAV(K)   * ALPHI
@@ -421,7 +421,7 @@ C---
            V(N3)=V(N3)-DV*RWL(3)
            TFXT = TFXT - WEIGHT_MD(N)*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
            WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
-           TFXT2 = TFXT2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)           
+           TFXT2 = TFXT2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
            F5(J) = FNXT*WEIGHT_MD(N)
            F6(J) = FNYT*WEIGHT_MD(N)
            F7(J) = FNZT*WEIGHT_MD(N)
@@ -445,15 +445,15 @@ C---     no friction filtering
            FNYN=DVT*RWL(2)
            FNZN=DVT*RWL(3)
            TFXTN = TFXTN - WEIGHT_MD(N)*FACT*((V(N1)-VXW)*FNXN+(V(N2)-VYW)*FNYN+(V(N3)-VZW)*FNZN)
-           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N) 
+           WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
            FNXT=((V(N1)-VXW)+A(N1)*DT12)*MS(N)-FNXN
            FNYT=((V(N2)-VYW)+A(N2)*DT12)*MS(N)-FNYN
-           FNZT=((V(N3)-VZW)+A(N3)*DT12)*MS(N)-FNZN  
+           FNZT=((V(N3)-VZW)+A(N3)*DT12)*MS(N)-FNZN
            TFXTN2 = TFXTN2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
            F1(J) = FNXN*WEIGHT_MD(N)
            F2(J) = FNYN*WEIGHT_MD(N)
            F3(J) = FNZN*WEIGHT_MD(N)
-           F4(J) = MS(N)*WEIGHT_MD(N) 
+           F4(J) = MS(N)*WEIGHT_MD(N)
            FNDFN=FNXN**2+FNYN**2+FNZN**2
            FTDFT=FNXT**2+FNYT**2+FNZT**2
 C
@@ -461,7 +461,7 @@ C
 C---         tied secnd point
              A(N1)=ZERO
              A(N2)=ZERO
-             A(N3)=ZERO     
+             A(N3)=ZERO
              V(N1)=VXW
              V(N2)=VYW
              V(N3)=VZW
@@ -472,7 +472,7 @@ C---         tied secnd point
                  IF (IKC(JJ+1) == 0)IKC(JJ+1)=3
                  IF (IKC(JJ+2) == 0)IKC(JJ+2)=3
                ENDIF
-            ENDIF 
+            ENDIF
            ELSE
 C---         sliding secnd point     
              FCOE=FRIC*SQRT(FNDFN/FTDFT)
@@ -480,7 +480,7 @@ C---         sliding secnd point
              FNYT=FCOE*FNYT
              FNZT=FCOE*FNZT
              FAC=ONE/(DT12*MS(N))
-             
+
              A(N1)=A(N1)-(DA*RWL(1)+FNXT*FAC)
              A(N2)=A(N2)-(DA*RWL(2)+FNYT*FAC)
              A(N3)=A(N3)-(DA*RWL(3)+FNZT*FAC)
@@ -492,11 +492,11 @@ C---         sliding secnd point
                 V(N1)=-DV
                 A(N1)=RWL(1)
                 A(N2)=RWL(2)
-                A(N3)=RWL(3)    
+                A(N3)=RWL(3)
                 JJ=IDDL(N)+1
                 IF (IKC(JJ) == 0)IKC(JJ)=10
               ENDIF
-             ENDIF 
+             ENDIF
              TFXT = TFXT - WEIGHT_MD(N)*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
              WEWE2 = (1-WEIGHT_MD(N))*WEIGHT(N)
              TFXT2 = TFXT2 - WEWE2*((V(N1)-VXW)*FNXT+(V(N2)-VYW)*FNYT+(V(N3)-VZW)*FNZT)
@@ -555,7 +555,7 @@ C
            IF (IKC(JJ) == 0)IKC(JJ)=3
            IF (IKC(JJ+1) == 0)IKC(JJ+1)=3
            IF (IKC(JJ+2) == 0)IKC(JJ+2)=3
-           ENDIF 
+           ENDIF
           ENDDO
         ELSEIF(ITIED == 0.OR.IFQ > 0)THEN
           DO J=1,NINDEX
@@ -567,10 +567,10 @@ C
            N1=N2-1
            A(N1)=RWL(1)
            A(N2)=RWL(2)
-           A(N3)=RWL(3)    
+           A(N3)=RWL(3)
            JJ=IDDL(N)+1
            IF (IKC(JJ) == 0)IKC(JJ)=10
-           ENDIF 
+           ENDIF
           ENDDO
         ELSE
 C--------c'est fait avant-------

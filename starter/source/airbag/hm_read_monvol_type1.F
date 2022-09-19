@@ -39,7 +39,7 @@ Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F
 Chd|====================================================================
       SUBROUTINE HM_READ_MONVOL_TYPE1(T_MONVOLN, IPM, IGEO, ITABM1,
      .     LSENSOR, SENSOR, NPT, PLD,
-     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
+     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .     LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -52,7 +52,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -119,20 +119,20 @@ C     External surface check
      .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, I2 = SURFID)
          CALL FREERR(3)
       ENDIF
-      
+
 C     Check surface closure
       CALL MONVOL_CHECK_SURFCLOSE(T_MONVOLN, ITAB, IGRSURF(T_MONVOLN%EXT_SURFID), X)
 C     Set all normal on same side
-      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC, IXTG, X, 1)
 C     Compute Monvon volume
-      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID), 
-     .     ITAB, X, PM, GEO, IXC, IXTG, 
+      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID),
+     .     ITAB, X, PM, GEO, IXC, IXTG,
      .     SA, ROT, VOL, VMIN, VEPS, SV)
 C     Reverse all normals to ensure positive volume
-      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC,IXTG,VOL, X, 1)
-     
+
 C     =====
 C     Units
 C     =====
@@ -145,7 +145,7 @@ C     Default values
       SCAL_T = ONE * FAC_T
       SCAL_P = ONE * FAC_C
       SCAL_S = ONE * FAC_L * FAC_L
-      SCAL_A = ONE 
+      SCAL_A = ONE
       SCAL_D = ONE * FAC_L
 
 C     =====
@@ -173,12 +173,12 @@ C     =========
 C-----------------------------------------------
 C     E n d   o f   s o u r c e
 C-----------------------------------------------
-      
+
       RETURN
  1002 FORMAT(
      .     /5X,'INITIAL SURFACE OF MONITORED VOLUME . .=',1PG20.13,
      .     /5X,'SURFACE ERROR(NE.0 FOR NON CLOSED SURF)=',1PG20.13,
-     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)     
+     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)
  1003 FORMAT(
      .     5X,'UNIT SCALE FOR TIME FUNCTIONS          =',1PG20.13,
      .     /5X,'UNIT SCALE FOR PRESSURE FUNCTIONS      =',1PG20.13,

@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,7 +92,7 @@ C     if index is larger than this maximum
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR,IGTYP
       my_real PARGEO(*)
       INTEGER SET_U_PNU,SET_U_GEO,KFUNC
@@ -108,7 +108,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IFUNC1,IFUNC2,ISENS,IERROR,ITYP,ILOCK
-      my_real 
+      my_real
      .  AMAS,AA,STIF00,STIF0,STIF1,E1,F1,D1,TSCAL,DSCAL,FSCAL,
      .  T_UNIT,L_UNIT,F_UNIT
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -198,7 +198,7 @@ C
             STIF1=-F1/D1
           ELSEIF(E1/=ZERO)THEN
             STIF1=HALF*F1*F1/E1
-          ELSEIF(STIF1==ZERO)THEN  
+          ELSEIF(STIF1==ZERO)THEN
             STIF1=STIF00
           ENDIF
           D1=-F1/STIF1
@@ -223,7 +223,7 @@ C
           ENDIF
           F1=ZERO
           E1=ZERO
-          D1=ZERO 
+          D1=ZERO
         ENDIF
       ENDIF
       IF(STIF1==ZERO)STIF1=STIF0
@@ -434,10 +434,10 @@ C-----------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      INTEGER IOUT,NUVAR,NEL,IPROP,   
+      INTEGER IOUT,NUVAR,NEL,IPROP,
      .        IX(4,NEL),NPF(*),KFUNC,
      .        GET_U_PNU,GET_U_PID,GET_U_MID,GET_U_MNU
-      my_real 
+      my_real
      .        XL(NEL) ,MASS(NEL) ,XINER(NEL) ,STIFM(NEL) ,
      .        STIFR(NEL),VISCM(NEL) ,VISCR(NEL),UVAR(NUVAR,*),
      .        GET_U_MAT,GET_U_GEO,EINT(*),TF(*)
@@ -451,7 +451,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .        AMAS,STIF0,STIF1,F1,TSCAL,DSCAL,FSCAL,
      .        D1,X,Y,X2,Y2,X3,Y3,F0
       INTEGER I , J, ITYP, IFUNC1, IFUNC2, NPOINT
@@ -461,9 +461,9 @@ C=======================================================================
         STIF1  = GET_U_GEO(3,IPROP)
         F1     = GET_U_GEO(4,IPROP)
         ITYP   = GET_U_GEO(6,IPROP)
-        TSCAL  = GET_U_GEO(7,IPROP)    
-        DSCAL  = GET_U_GEO(8,IPROP)    
-        FSCAL  = GET_U_GEO(9,IPROP)    
+        TSCAL  = GET_U_GEO(7,IPROP)
+        DSCAL  = GET_U_GEO(8,IPROP)
+        FSCAL  = GET_U_GEO(9,IPROP)
         D1     = GET_U_GEO(11,IPROP)
 C
 C       MEAN VALUES
@@ -521,7 +521,7 @@ C           Warning: initial internal energy computed with STIF0 when no stiffne
             IFUNC2   = GET_U_PNU(2,IPROP,KFUNC)
             F0=FSCAL*TF(NPF(IFUNC2)+1)
             EINT(I) = EINT(I) + (F0/STIF0)*F0/2
-          ELSEIF (ITYP == 4) THEN 
+          ELSEIF (ITYP == 4) THEN
 C           Non linear case with both space IFUNC1 and time IFUNC2 defined          
             IFUNC1   = GET_U_PNU(1,IPROP,KFUNC)
             IFUNC2   = GET_U_PNU(2,IPROP,KFUNC)
@@ -539,7 +539,7 @@ C           Non linear case with both space IFUNC1 and time IFUNC2 defined
               X2=DSCAL*TF(NPF(IFUNC1)+2*J+2)
               Y2=F0*TF(NPF(IFUNC1)+2*J+3)
               IF (X<0) CALL AREA(D1,X,X2,Y,Y2,EINT(I),STIF0)
-            ENDDO           
+            ENDDO
           ENDIF
           MASS(I)   = AMAS
           XINER(I)  = 0.
@@ -571,12 +571,12 @@ C-------------------------------------------------------------------------
 C----------------------------------------------------------
 C   D u m m y   A r g u m e n t s   a n d   F u n c t i o n
 C----------------------------------------------------------
-      my_real 
+      my_real
      .        D1,X,X2,Y,Y2,EINT,STIF0
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .        X0,FD1
 C=======================================================================
 C     Only positive area computed and if X <= D1 (spring length)

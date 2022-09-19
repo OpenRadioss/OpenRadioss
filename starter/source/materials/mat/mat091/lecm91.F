@@ -27,13 +27,13 @@ Chd|-- calls ---------------
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE LECM91 (IIN  ,IOUT ,UPARAM ,MAXUPARAM ,NUPARAM,
-     .                   NUVAR,IFUNC,MAXFUNC,NFUNC     ,PARMAT , 
+     .                   NUVAR,IFUNC,MAXFUNC,NFUNC     ,PARMAT ,
      .                   UNITAB,IUNIT,ID,TITR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD                 
+      USE MESSAGE_MOD
 C----------------------------------------------------------------
 C  I M P L I C I T   T Y P E S 
 C----------------------------------------------------------------
@@ -72,9 +72,9 @@ C
       FAC_T = UNITAB%FAC_T(IUNIT)
       FAC_C = FAC_M/ (FAC_L*FAC_T*FAC_T)
 
-      READ(IIN,FMT='(A)')LINE           
+      READ(IIN,FMT='(A)')LINE
       READ(LINE,FMT=FMT_2F)YOUNG, ANU
-      READ(IIN,FMT='(A)')LINE  
+      READ(IIN,FMT='(A)')LINE
       READ(LINE,FMT=FMT_2F)SIGY, HH
 
       NUPARAM = 4
@@ -89,7 +89,7 @@ C
       PARMAT(3) = ANU
 
       NUVAR = 2
-      NFUNC = 0 
+      NFUNC = 0
 
 
       WRITE(IOUT,1000)

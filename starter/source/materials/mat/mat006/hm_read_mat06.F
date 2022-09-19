@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(INOUT)                       :: MAT_ID
       INTEGER, INTENT(IN)                          :: MAXEOS
       INTEGER, INTENT(INOUT)                       :: ISRATE
@@ -82,8 +82,8 @@ C-----------------------------------------------
       my_real, DIMENSION(NPROPM)  ,INTENT(INOUT)   :: PM
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
       TYPE(MLAW_TAG_), INTENT(INOUT)               :: MTAG6,MTAG17
-      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG  
-      INTEGER,INTENT(IN)                           :: ITYP    
+      TYPE(EOS_TAG_) , TARGET, DIMENSION(0:MAXEOS) ,INTENT(OUT) :: EOS_TAG
+      INTEGER,INTENT(IN)                           :: ITYP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -108,24 +108,24 @@ C-----------------------------------------------
       CALL HM_GET_INTV  ('Line_count'     ,COUNT    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_RHO'        ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'      ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_BOOLV ('EOS_DATA_EXIST' ,IS_EOS   ,IS_AVAILABLE)  
+      CALL HM_GET_BOOLV ('EOS_DATA_EXIST' ,IS_EOS   ,IS_AVAILABLE)
       CALL HM_GET_INTV  ('Law6_opt'       ,LAW6_OPT ,IS_AVAILABLE, LSUBMODEL)              !1:HYD_VISC,2:HYDRO,3:K-EPS
       CALL HM_GET_FLOATV('DAMP1'          ,VIS      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_PC'         ,PMIN     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
       IF(COUNT==3)IS_EOS=.TRUE.             !EoS no longer embedded since format 2018, but still compatible
       IF(INVERS_INIT<2018)IS_EOS=.TRUE.  !no embedded EoS before up to format 2017
-      
+
       IF (IS_EOS) THEN
          IEOS = 1 !polynomial EOS
          CALL HM_GET_FLOATV('MAT_C0'      ,C0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C1'      ,C1     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C2'      ,C2     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CALL HM_GET_FLOATV('MAT_C3'      ,C3     ,IS_AVAILABLE, LSUBMODEL, UNITAB)                           
+         CALL HM_GET_FLOATV('MAT_C3'      ,C3     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C4'      ,C4     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
          CALL HM_GET_FLOATV('MAT_C5'      ,C5     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-         CALL HM_GET_FLOATV('MAT_EA'      ,E0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)  
-         CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)                                             
+         CALL HM_GET_FLOATV('MAT_EA'      ,E0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+         CALL HM_GET_FLOATV('MAT_PSH'     ,PSH    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       ELSE
          E0 = ZERO
          C0 = ZERO
@@ -136,7 +136,7 @@ C-----------------------------------------------
          C5 = ZERO
          PSH =ZERO
       ENDIF
-      
+
       IF (PMIN == ZERO) PMIN=-INFINITY
       IF (RHOR == ZERO) RHOR=RHO0
       PM(1) = RHOR
@@ -146,7 +146,7 @@ C-----------------------------------------------
       PM(24)=VIS
 
       IF(RHOR /= ZERO) THEN
-        MU = RHO0/RHOR-ONE  
+        MU = RHO0/RHOR-ONE
       ELSE
         MU = ZERO  ! RHOR=0.0 => error 683 will be displayed in hm_read_mat.F
       ENDIf
@@ -163,24 +163,24 @@ C-----------------------------------------------
       PM(36)=C5
       PM(37)=PMIN
       PM(80)=INFINITY
-      PM(88)=PSH      
+      PM(88)=PSH
       PM(104)=C0 - PSH
-      
+
       IPM(04)=IEOS
 C-----
 
-      WRITE(IOUT,2001) TRIM(TITR),MAT_ID,6   
+      WRITE(IOUT,2001) TRIM(TITR),MAT_ID,6
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSEIF (IS_EOS) THEN
-        WRITE(IOUT,2002) RHO0,RHOR     
+        WRITE(IOUT,2002) RHO0,RHOR
         WRITE(IOUT,1300)VIS
         WRITE(IOUT,1400)PSH
-        WRITE(IOUT,1500)C0,C1,C2,C3,C4,C5,PMIN,PM(31),E0  
+        WRITE(IOUT,1500)C0,C1,C2,C3,C4,C5,PMIN,PM(31),E0
       ELSE
          WRITE(IOUT,1300)VIS
-         WRITE(IOUT,1501)PMIN 
+         WRITE(IOUT,1501)PMIN
       ENDIF
 
 
@@ -189,19 +189,19 @@ C---- Definition des variables internes (stockage elementaire)
 c
       MTAG6%G_RK    = 1
       MTAG6%G_RE    = 1
-      MTAG6%L_RK    = 1 
-      MTAG6%L_RE    = 1 
-      MTAG6%L_VK    = 1 
+      MTAG6%L_RK    = 1
+      MTAG6%L_RE    = 1
+      MTAG6%L_VK    = 1
       MTAG6%G_TEMP  = 1
       MTAG6%L_TEMP  = 1
 c
       MTAG17%G_RK   = 1
       MTAG17%G_RE   = 1
-      MTAG17%L_RK   = 1 
-      MTAG17%L_RE   = 1 
+      MTAG17%L_RK   = 1
+      MTAG17%L_RE   = 1
       MTAG17%L_VK   = 1
       MTAG17%G_TEMP = 1
-      MTAG17%L_TEMP = 1 
+      MTAG17%L_TEMP = 1
 C--------------------------------
  1000 FORMAT(
      & 5X,'  VISCOUS FLUID   ',/,

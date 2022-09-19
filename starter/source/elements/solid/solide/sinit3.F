@@ -75,7 +75,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
       USE BPRELOAD_MOD
       USE DETONATORS_MOD
@@ -112,12 +112,12 @@ C-----------------------------------------------
      .        IPARG_GR(NPARG),IPARTS(*),IGEO(NPROPGI,NUMGEO),
      .        IPM(NPROPMI,NUMMAT),IPART(LIPART1,*),PTSOL(*),
      .        NG,NSIGI ,NVC,NEL,IUSER, NSIGS, NPF(*),
-     .        STRSGLOB(*),STRAGLOB(*),FAIL_INI(*), 
+     .        STRSGLOB(*),STRAGLOB(*),FAIL_INI(*),
      .        KXSP(NISP,*), IPARTSP(*), NOD2SP(*), SOL2SPH(2,*), IRST(3,*),
      .        PERTURB(NPERTURB)
       my_real MAS(*), PM(NPROPM,NUMMAT), X(3,NUMNOD),GEO(NPROPG,NUMGEO),
      .        VEUL(LVEUL,*), DTELEM(*),SIGI(NSIGS,*),SKEW(LSKEW,*),STIFN(*),
-     .        PARTSAV(20,*), V(*), MSS(8,*), 
+     .        PARTSAV(20,*), V(*), MSS(8,*),
      .        SIGSP(NSIGI,*),MSNF(*), MSSF(8,*), WMA(*),
      .        VOLNOD(*), BVOLNOD(*), VNS(8,*), BNS(8,*),
      .        IN(*),VR(*), INS(8,*),BUFMAT(*),
@@ -133,7 +133,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J, NF1, NCC, IBID, JHBE, IREP,IGTYP, NUVAR,NUVARR,IDEF,
-     .        IR,IS,IT,IPT,LVLOC,IPID1,NPTR,NPTS,NPTT,NLAY,NDDIM, 
+     .        IR,IS,IT,IPT,LVLOC,IPID1,NPTR,NPTS,NPTT,NLAY,NDDIM,
      .        NSPHDIR, NCELF, NCELL,L_PLA,L_SIGB,IBOLTP
       INTEGER MAT(MVSIZ), PID(MVSIZ), NGL(MVSIZ),
      .   IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),
@@ -157,24 +157,24 @@ C-----------------------------------------------
      .   RHOF(MVSIZ),ALPHA(MVSIZ), AIRE(1),RHO0(MVSIZ)
       my_real :: BID, FV, STI
       my_real :: DELTAX(MVSIZ)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   XD1(MVSIZ), XD2(MVSIZ), XD3(MVSIZ), XD4(MVSIZ),
      .   XD5(MVSIZ), XD6(MVSIZ), XD7(MVSIZ), XD8(MVSIZ),
      .   YD1(MVSIZ), YD2(MVSIZ), YD3(MVSIZ), YD4(MVSIZ),
      .   YD5(MVSIZ), YD6(MVSIZ), YD7(MVSIZ), YD8(MVSIZ),
      .   ZD1(MVSIZ), ZD2(MVSIZ), ZD3(MVSIZ), ZD4(MVSIZ),
-     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)     
+     .   ZD5(MVSIZ), ZD6(MVSIZ), ZD7(MVSIZ), ZD8(MVSIZ)
 C-----------------------------------------------
       CHARACTER*nchartitle, TITR1
 C
       PARAMETER (LVLOC = 51)
 C-----------------------------------------------
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(BUF_MAT_) ,POINTER :: MBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_) ,POINTER:: FBUF
-      my_real, DIMENSION(:), POINTER  :: UVARF    
+      my_real, DIMENSION(:), POINTER  :: UVARF
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -263,7 +263,7 @@ C Orthotropy wrt reference geometry
 C
 C Orthotropy
       IF (ISORTH == 1)
-     .  CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  , 
+     .  CALL SMORTH3(PID  ,GEO  ,IGEO ,SKEW ,IREP ,GBUF%GAMA  ,
      .         RX   ,RY   ,RZ   ,SX   ,SY   ,SZ   ,TX   ,TY   ,TZ   ,
      .         E1X  ,E1Y  ,E1Z  ,E2X  ,E2Y  ,E2Z  ,E3X  ,E3Y  ,E3Z  ,
      .         F1X  ,F1Y  ,F1Z  ,F2X  ,F2Y  ,F2Z  ,NSIGI,SIGSP,NSIGS,
@@ -344,8 +344,8 @@ c
       FBUF  => ELBUF_STR%BUFLY(1)%FAIL(1,1,1)
 C 
 C Density perturbation for /MAT/LAW115
-      IF (MTN == 115) THEN 
-        CALL M115_PERTURB(PM       ,MAT      ,GBUF%RHO ,PERTURB  ,RNOISE   ) 
+      IF (MTN == 115) THEN
+        CALL M115_PERTURB(PM       ,MAT      ,GBUF%RHO ,PERTURB  ,RNOISE   )
       ENDIF
 C
       IF (IBOLTP /=0) THEN
@@ -367,7 +367,7 @@ C----------------------------------------
      1          GBUF%RHO,MAS,VEUL(44,NF1),LVEUL      ,MSS(1,NF1),
      2          PARTSAV,X  ,V           ,IPARTS(NF1),MSNF      ,
      3          MSSF(1,NF1),WMA         , RHOCP     ,MCP       ,
-     4          MCPS(1,NF1),MSSA, VOLU, 
+     4          MCPS(1,NF1),MSSA, VOLU,
      5          IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
         ELSEIF (NPT == 8) THEN
           IF (MTN >= 28) IDEF = 1
@@ -383,7 +383,7 @@ C----------------------------------------
      1         GBUF%RHO   ,MAS      ,V8LOC(44,1),LVLOC      ,MSS(1,NF1) ,
      2         PARTSAV,X  ,V          ,IPARTS(NF1),MSNF      ,
      3         MSSF(1,NF1),WMA        , RHOCP     ,MCP       ,
-     4         MCPS(1,NF1),MSSA, VOLU, 
+     4         MCPS(1,NF1),MSSA, VOLU,
      5         IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
         ELSE
 C Case /INIBRIS/STRS_FGLO missed         
@@ -393,8 +393,8 @@ C Case /INIBRIS/STRS_FGLO missed
      .                                                 GBUF%GAMA,PTSOL   ,LBUF%VOL0DP,RHO0,GBUF%RHO )
           ENDIF
           IF (((MTN>=28 .AND. MTN/=49) .OR. MTN==14 .OR. MTN==12) .OR.
-     .         (ISTRAIN == 1 .AND. 
-     .         (MTN==1  .OR. MTN==2  .OR. MTN==3    .OR. MTN==4  .OR. 
+     .         (ISTRAIN == 1 .AND.
+     .         (MTN==1  .OR. MTN==2  .OR. MTN==3    .OR. MTN==4  .OR.
      .          MTN==6  .OR. MTN==10 .OR. MTN==21   .OR. MTN==22 .OR.
      .          MTN==23))) THEN
               IDEF = 1
@@ -420,7 +420,7 @@ C
 C------------------------------------------------------------------
 c Initialization of stress tensor in case of Orthotropic properties
 C------------------------------------------------------------------
-        IF (ISIGI /= 0 .AND. ISORTH/=0) THEN 
+        IF (ISIGI /= 0 .AND. ISORTH/=0) THEN
           LBUF%SIGL = LBUF%SIG
         ENDIF
 C----------------------------------------
@@ -439,11 +439,11 @@ C--------------------------------------------------------------------
      2                VOLNOD,BVOLNOD,VNS(1,NF1),BNS(1,NF1),BID,
      3                BID   ,GBUF%FILL)
         ENDIF
-      ENDIF   ! End masses initialization      
+      ENDIF   ! End masses initialization
 C----------------------------------------
 C Cell momentum for FVM
 C----------------------------------------      
-      IF(IALEFVM /= 0) THEN      
+      IF(IALEFVM /= 0) THEN
         CALL INIMOM_FVM(V   ,  GBUF%RHO,  GBUF%VOL,  GBUF%MOM,  IXS,
      .                  IPM ,  MAT     ,  IPARG_GR,  NPF     ,  TF ,
      .                  PM  ,  LBUF%SSP,  GBUF%SIG,  NEL
@@ -455,7 +455,7 @@ C------------------------------------------
       AIRE(:) = ZERO
       DTX(:) = ZERO
       CALL DTMAIN(GEO      , PM       , IPM        , PID    , MAT    , FV    ,
-     .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE, 
+     .     GBUF%EINT, GBUF%TEMP, GBUF%DELTAX, GBUF%RK, GBUF%RE, BUFMAT, DELTAX, AIRE,
      .     VOLU, DTX, IGEO )
 C
       DO I=1,NEL

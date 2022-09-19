@@ -72,22 +72,22 @@ C---------------------------------------------
 C PLY  Nodes structures for animations
       TYPE STACK_PLY
          INTEGER , DIMENSION (:,:), ALLOCATABLE :: IGEO        ! IGEO TABLE
-         my_real , DIMENSION (:,:), ALLOCATABLE :: GEO  , PM       ! GEO, PM 
-      END TYPE STACK_PLY        
+         my_real , DIMENSION (:,:), ALLOCATABLE :: GEO  , PM       ! GEO, PM
+      END TYPE STACK_PLY
 C      
-      TYPE STACK_INFO_ 
+      TYPE STACK_INFO_
          INTEGER, DIMENSION (:), POINTER :: PID
          INTEGER, DIMENSION (:), POINTER :: MID
-         INTEGER, DIMENSION (:), POINTER :: MID_IP  
-         INTEGER, DIMENSION (:), POINTER :: SUB    
+         INTEGER, DIMENSION (:), POINTER :: MID_IP
+         INTEGER, DIMENSION (:), POINTER :: SUB
          INTEGER, DIMENSION (:), POINTER :: ISUB
          my_real, DIMENSION (:), POINTER :: ANG
          my_real, DIMENSION (:), POINTER :: THK  !
          my_real, DIMENSION (:), POINTER :: POS  !
          my_real, DIMENSION (:), POINTER :: THKLY
-         my_real, DIMENSION (:), POINTER :: WEIGHT 
-         my_real, DIMENSION (:), POINTER :: DIR     !           
-      END TYPE STACK_INFO_   
+         my_real, DIMENSION (:), POINTER :: WEIGHT
+         my_real, DIMENSION (:), POINTER :: DIR     !
+      END TYPE STACK_INFO_
 C      
       END MODULE STACK_MOD
 

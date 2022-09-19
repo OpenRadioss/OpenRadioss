@@ -48,8 +48,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
 #include       "scr17_c.inc"
-#include       "com01_c.inc" 
-#include       "com04_c.inc" 
+#include       "com01_c.inc"
+#include       "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C-----------------------------------------------
 c
 c     Initialization of failure UVAR table => edge element flag for /FAIL/ALTER
 C=======================================================================
-      DO IL=1, ELBUF_STR%NLAY  
+      DO IL=1, ELBUF_STR%NLAY
         BUFLY => ELBUF_STR%BUFLY(IL)
         NFAIL = BUFLY%NFAIL
         NPTR  = ELBUF_STR%NPTR
@@ -84,13 +84,13 @@ C=======================================================================
         DO IR=1,NPTR
         DO IS=1,NPTS
         DO IT=1,NPTT
-          FBUF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)  
+          FBUF => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)
           DO IFL = 1,NFAIL
             IRUPT = FBUF%FLOC(IFL)%ILAWF
 c---
             IF (IRUPT == 28) THEN   ! windshield failure model
               IVAR = NEL*(10-1)     ! edge element flag = UVAR(10)
-              IP   = (IFL - 1)*15                                             
+              IP   = (IFL - 1)*15
               NUPAR  = IPM(112 + IP, IMAT)
               IADBUF = IPM(114 + IP ,IMAT)
               UPARAM => BUFMAT(IADBUF:IADBUF+NUPAR)
@@ -131,17 +131,17 @@ c                  IEL = NGL(I)
                   ENDIF
                 ENDDO
                 DO II = 1,NINDX
-                  I = INDX(II)            
+                  I = INDX(II)
                   FBUF%FLOC(IFL)%VAR(IVAR + I) = 1
                 ENDDO
-              ENDIF                
+              ENDIF
             ENDIF  !  IRUPT == 28
 c---
-          ENDDO    !  IFL = 1,NFAIL              
+          ENDDO    !  IFL = 1,NFAIL
         ENDDO      !  IT=1,NPTT
         ENDDO      !  IT=1,NPTS
         ENDDO      !  IT=1,NPTR
-      ENDDO        !  IL=1,NLAY   
+      ENDDO        !  IL=1,NLAY
 c-----------
       RETURN
       END

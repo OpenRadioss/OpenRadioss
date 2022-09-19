@@ -76,14 +76,14 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  J, I, II,IDT
       my_real
-     .   DT(MVSIZ)     
-      my_real DIVM,MAS 
+     .   DT(MVSIZ)
+      my_real DIVM,MAS
 C=======================================================================
       IF(IDTMINS == 2 .AND. JSMS /= 0)THEN
         DO I=JFT,JLT
           IF(OFFG(I) < ZERO .OR. OFF(I) == ZERO) CYCLE
 c
-c dmelc = 2*dmelc !!   
+c dmelc = 2*dmelc !!
 c w^2 < 2k / (m+dmelc+dmelc/3) < 2k / (m+dmelc)
 c dt = 2/w = sqrt( 2*(m+dmelc)/k)
           DMELC(I)=MAX(DMELC(I),
@@ -95,7 +95,7 @@ c dt = 2/w = sqrt( 2*(m+dmelc)/k)
             NELTST  = NGL(I)
             ITYPTST = 3
           END  IF
-        END DO        
+        END DO
 C
         IF(IDTMIN(3)/=0)THEN
           DO I=JFT,JLT
@@ -116,7 +116,7 @@ C
            DT(I)=DTFAC1(3)*ALDT(I)/SSP(I)
          ENDDO
       ENDIF
-      
+
 C------------------------------
       IF(NODADT==0)THEN
         IF(ISUB==1)THEN
@@ -183,7 +183,7 @@ C
         DO 125 J=IOFC+1,NINDX
          I = INDXOF(J)
          OFF(I)=0.
-         IDEL7NOK = 1         
+         IDEL7NOK = 1
 #include "lockon.inc"
          WRITE(IOUT,1200)  NGL(I)
          WRITE(ISTDO,1300) NGL(I),TT

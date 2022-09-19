@@ -71,9 +71,9 @@ C-----------------------------------------------
       INTEGER NRTS, NRTM, NINT, NTY, NOINT,NSN, NMN, IGAP,
      .        INACTI, INTTH
       INTEGER IRECTS(4,*), IRECTM(4,*), IXS(NIXS,*), IXC(NIXC,*),
-     .   NSV(*), IXTG(NIXTG,*), 
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
-     .   NOD2ELTG(*),IELES(*), 
+     .   NSV(*), IXTG(NIXTG,*),
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
+     .   NOD2ELTG(*),IELES(*),
      .   MSR(*), ITAB(*), IKINE(*), IPARTS(*), IPARTC(*), IPARTG(*)
 C     REAL
       my_real  , INTENT(IN) :: DGAPLOAD
@@ -81,7 +81,7 @@ C     REAL
      .   GAP,GAPMIN,CRITER, GAPMAX, GAPSCALE, DEPTH, DRAD, LXM, LYM, LZM
       my_real
      .   X(3,*), PM(NPROPM,*), GEO(NPROPG,*),
-     .   GAP_S(*), THKNOD(*), STF(*), STFN(*), 
+     .   GAP_S(*), THKNOD(*), STF(*), STFN(*),
      .   GAP_S0(*), AREA_S0(*), XM0(3,*),THK_PART(*),THKNOD0(*)
       INTEGER ID
       CHARACTER*nchartitle,
@@ -94,7 +94,7 @@ C-----------------------------------------------
       INTEGER ITMP(NUMNOD)
 C     REAL
       my_real
-     .   DXM, GAPMX, GAPMN, AREA, DX,GAPS1,GAPS2, GAPM, DDX, 
+     .   DXM, GAPMX, GAPMN, AREA, DX,GAPS1,GAPS2, GAPM, DDX,
      .   GAPTMP, XXX, YYY, ZZZ, X0, X1, Y0, Y1, Z0, Z1
       my_real
      .        X12(MVSIZ),Y12(MVSIZ),Z12(MVSIZ),
@@ -125,7 +125,7 @@ C-------------------------------------------------------
          IF (STAT /= 0) CALL ANCMSG(MSGID=268,ANMODE=ANINFO,
      .                                     MSGTYPE=MSGERROR,
      .                                   C1='THK_PART_NODS')
-         THK_PART_NODS(1:NUMNOD) = ZERO        
+         THK_PART_NODS(1:NUMNOD) = ZERO
          DO I=1,NRTS
             NEL = IELES(I)
             IF(NEL<=NUMELS) THEN ! SOLID ELEMENT
@@ -145,9 +145,9 @@ C-------------------------------------------------------
                DO N =1,4
                   NN = IRECTS(N,I)
                   THK_PART_NODS(NN) = MAX(THK_PART_NODS(N),THK_PART(IP))
-               ENDDO      
-           ENDIF    
-         ENDDO    
+               ENDDO
+           ENDIF
+         ENDDO
       ENDIF
 
 C------------------------------------
@@ -172,7 +172,7 @@ C                                =====
 
         THKNOD0(I)    = THKNOD(NSV(I)) ! Initial THICK NODE STORED
        ENDDO
-       IF (ALLOCATED(THK_PART_NODS)) DEALLOCATE(THK_PART_NODS)  
+       IF (ALLOCATED(THK_PART_NODS)) DEALLOCATE(THK_PART_NODS)
       ENDIF
 
 C------------------------------------
@@ -208,13 +208,13 @@ C        GAP n'est pas utilise pour Igap > 0 ; Gapmin peut etre egal a 0.
 C---------------------------------------------
 C---------------------------------------------
 C SUP DES GAPS VARIABLES
-       GAP = MIN(GAPMAX,MAX(GAPS2,GAPMIN))    
+       GAP = MIN(GAPMAX,MAX(GAPS2,GAPMIN))
 C---------------------------------------------
 C
 C Calcul du gap reel a utiliser lors du critere de retri
 C
       IF (IGAP==0) THEN
-        CRITER=GAP 
+        CRITER=GAP
       ELSE
         CRITER=EP30
         DO I = 1, NSN
@@ -292,7 +292,7 @@ C------------------------------------
           GAP_S0(I) = MIN(GAP_S(I),GAPMAX)
           GAP_S0(I) = MAX(GAPMIN  ,GAP_S0(I))
         END DO
-        
+
         IF(INTTH == 0) THEN
           ITMP=0
           DO I=1,NSN
@@ -395,7 +395,7 @@ C
            END DO
           END DO
         ENDIF
-      ENDIF  
+      ENDIF
 C------------------------------------
       LXM=ZERO
       LYM=ZERO

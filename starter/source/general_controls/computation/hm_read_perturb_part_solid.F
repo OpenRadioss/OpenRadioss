@@ -127,13 +127,13 @@ C-----------------------------------------------
       DO I=1+OFFS,NPART_SOLID+OFFS
 C      
         ! Reading the option
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID   = IDPERTURB(I), 
-     .                          OPTION_TITR = TITR)         
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID   = IDPERTURB(I),
+     .                          OPTION_TITR = TITR)
 C
         ! Checking perturbation type
-        ITYP = 3     
+        ITYP = 3
 c
         I_PERTURB_VAR = 0
         CPT_PART = 0
@@ -141,7 +141,7 @@ c
         IOK      = 0
 C
         ! Reading the number of the Group of Part + the perturbed variable
-        CALL HM_GET_INTV('grpart_ID'    ,IGRPRTS ,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('grpart_ID'    ,IGRPRTS ,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_STRING('chvar',CHVAR   ,2*ncharfield,IS_AVAILABLE)
         IF (CHVAR(1:4) == 'dens' .OR. CHVAR(1:4) == 'DENS') I_PERTURB_VAR = 1
 c
@@ -196,20 +196,20 @@ C
         INDEX_ITYP(1:NUMELC+NUMELTG+NUMELS+NUMSPH) = 0
 C      
         ! Reading the option
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = IDPERTURB(I), 
-     .                          OPTION_TITR    = TITR)         
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = IDPERTURB(I),
+     .                          OPTION_TITR    = TITR)
 C
         ! Perturbation type
-        ITYP = 3   
+        ITYP = 3
 C
         ! Reading the card
         CALL HM_GET_FLOATV('F_Mean'    ,MEAN    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Deviation' ,SD      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Min_cut'   ,MINVAL  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('Max_cut'   ,MAXVAL  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_INTV('Seed'        ,SEED    ,IS_AVAILABLE, LSUBMODEL)  
+        CALL HM_GET_INTV('Seed'        ,SEED    ,IS_AVAILABLE, LSUBMODEL)
         CALL HM_GET_INTV('Idistri'     ,I_METHOD,IS_AVAILABLE, LSUBMODEL)
 c
         ! Default value
@@ -264,7 +264,7 @@ c
             CPT_PART = CPT_PART + 1
             NUMA = IGRPART(IGRPRTS)%ENTITY(J)
             TAB_PART(I,CPT_PART) = NUMA
-          END DO              
+          END DO
         ENDIF
 c
         ! Printing out the information
@@ -281,7 +281,7 @@ c
           WRITE(IOUT,*) ' '
           WRITE(IOUT,*) ' '
         ENDIF
-c        
+c
         ! Filling the index table
         NB_RANDOM = 0
         DO II=1,NUMELS
@@ -291,8 +291,8 @@ c
               INDEX(NB_RANDOM) = II
               INDEX_ITYP(NB_RANDOM) = 1
             ENDIF
-          ENDDO 
-        ENDDO   
+          ENDDO
+        ENDDO
 C
         ! Set up random seed
         IF( SEED == 0 )THEN
@@ -311,7 +311,7 @@ C
           A_SEED=SEED
           CALL RANDOM_SEED(PUT=A_SEED)
           SEED_RANDOM = 0
-          DEALLOCATE(A_SEED) 
+          DEALLOCATE(A_SEED)
         ENDIF
 C
         ! Build uniform distribution
@@ -329,7 +329,7 @@ C
           DO II = 1, NB_RANDOM+1, 2
             TEMP = SD * SQRT(-2.0*LOG(ARRAY(II))) * COS(2*pi*array(II+1)) +
      .             MEAN
-            ARRAY(II+1) = 
+            ARRAY(II+1) =
      .        SD * SQRT(-2.0*LOG(ARRAY(II))) * SIN(2*pi*ARRAY(II+1)) + MEAN
             ARRAY(II) = TEMP
           END DO
@@ -373,17 +373,17 @@ c
         ENDIF
         CALL PLOT_DISTRIB( ARRAY,NB_RANDOM, NB_INTERV,SIZEY,MIN_VALUE,
      .  MAX_VALUE,MAX_DISTRIB,'#')
-        IF(I_METHOD == 2) THEN 
+        IF(I_METHOD == 2) THEN
           WRITE (IOUT,2000) MEAN,SD
-        ELSEIF(I_METHOD == 1) THEN 
+        ELSEIF(I_METHOD == 1) THEN
           WRITE (IOUT,2050) MEAN
         ENDIF
         IF(SEED_RANDOM == 1) WRITE (IOUT,2100) SEED
         WRITE(IOUT,*) ' '
         WRITE(IOUT,*) ' '
-        IF (ALLOCATED(ARRAY)) DEALLOCATE(ARRAY)        
+        IF (ALLOCATED(ARRAY)) DEALLOCATE(ARRAY)
       ENDDO
-      DEALLOCATE(TAB_PART)      
+      DEALLOCATE(TAB_PART)
 C-------------------------------------------------------------
  6000 FORMAT(/' PERTURBATION  ID',I10/
      +        ' ---------------'/

@@ -67,7 +67,7 @@ C-----------------------------------------------
           ENDIF
         ENDDO
         LEN_TMP = J
-         
+
         CALL MPI_GATHER(
      S    LEN_TMP       ,1     ,MPI_INTEGER,
      R    LENP          ,1     ,MPI_INTEGER,IT_SPMD(1),
@@ -121,7 +121,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER J,K 
+       INTEGER J,K
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
 
@@ -186,7 +186,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-       INTEGER J,K 
+       INTEGER J,K
 #ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR,I
 

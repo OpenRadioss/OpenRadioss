@@ -139,24 +139,24 @@ C-----------------------------------------------
      9 0.312347077040003,0.330239355001260,0.312347077040003,
      9 0.260610696402935,0.180648160694857,0.081274388361574/
 C=======================================================================
-      IPTHK = 300                               
-      IPPOS = 400                               
+      IPTHK = 300
+      IPPOS = 400
       IPMAT = 100
 c
 c---------------------------------------------------------
         SELECT CASE (IGTYP)
 c----
         CASE (1,9,10,11,16)
-          DO N=1,NPT                                
+          DO N=1,NPT
             IADR  = (N-1)*JLT
             POS_0 = GEO(IPPOS+N,PID(1))
-            DO I = JFT,JLT                            
-              J = IADR+I         
+            DO I = JFT,JLT
+              J = IADR+I
 c              THKLY(J)   = WF(N,NPT)
               POSLY(I,N) = POS_0
               MATLY(J)   = MAT(1)
-            ENDDO                                   
-          ENDDO     
+            ENDDO
+          ENDDO
 c----
         CASE (17)
 c----
@@ -164,28 +164,28 @@ c----
           IPMAT   = IPPID + NPT
           IPANG  =  1
           IPTHK  =  IPANG + NPT
-          IPPOS  =  IPTHK + NPT 
-          
-          DO N=1,NPT                                
-            IADR = (N-1)*JLT                        
-            DO I=JFT,JLT    
+          IPPOS  =  IPTHK + NPT
+
+          DO N=1,NPT
+            IADR = (N-1)*JLT
+            DO I=JFT,JLT
               J = IADR+I
               MATLY(J)   = STACK%IGEO(IPMAT + N ,ISUBSTACK)
               IF (NDRAPE == 0) THEN
-c                THKLY(J)   = STACK%GEO (IPTHK + N ,ISUBSTACK)    
+c                THKLY(J)   = STACK%GEO (IPTHK + N ,ISUBSTACK)
                 POSLY(I,N) = STACK%GEO (IPPOS + N ,ISUBSTACK)
               ELSE
                 IDX = 0
                 IF (DRAPE(NFT + I)%IDRAPE(N) == 0) THEN
                   THICKT   = STACK%GEO(1,ISUBSTACK)
-                  THKLY   = STACK%GEO (IPTHK + N ,ISUBSTACK)*THICKT  
-                  RATIO_THKLY(I,N) = THKLY/THK(I)   
+                  THKLY   = STACK%GEO (IPTHK + N ,ISUBSTACK)*THICKT
+                  RATIO_THKLY(I,N) = THKLY/THK(I)
                   IF (N == 1) THEN
                     POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
                   ELSE
-                    POSLY(I,N) = POSLY(I,N-1)            
+                    POSLY(I,N) = POSLY(I,N-1)
      .                + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
-                  ENDIF ! IF (N == 1) 
+                  ENDIF ! IF (N == 1)
                   POS_LY(I)  = POSLY(I,ILAY)
                 ELSEIF (DRAPE(NFT + I)%IDRAPE(N) > 0) THEN
                   THINNING = DRAPE(NFT + I)%RDRAPE(IDX + N,1)
@@ -197,13 +197,13 @@ c                THKLY(J)   = STACK%GEO (IPTHK + N ,ISUBSTACK)
                   IF (N == 1) THEN
                     POSLY(I,N) = -HALF + HALF*RATIO_THKLY(I,N)
                   ELSE
-                    POSLY(I,N) = POSLY(I,N-1)            
+                    POSLY(I,N) = POSLY(I,N-1)
      .                + HALF*(RATIO_THKLY(I,N)+RATIO_THKLY(I,N-1))
                   ENDIF ! IF (N == 1)
                 ENDIF ! IF (IDRAPE(N,I) == 0)
               ENDIF ! IF (NDRAPE == 0)
-            ENDDO                                 
-          ENDDO  
+            ENDDO
+          ENDDO
 c----
         CASE (51, 52)
 c----
@@ -243,7 +243,7 @@ c
                    IF (ILAY == 1) THEN
                     POSLY(I,ILAY) = -HALF + HALF*RATIO_THKLY(I,ILAY)
                   ELSE
-                    POSLY(I,ILAY) = POSLY(I,ILAY-1)            
+                    POSLY(I,ILAY) = POSLY(I,ILAY-1)
      .                + HALF*(RATIO_THKLY(I,ILAY)+RATIO_THKLY(I,ILAY-1))
                   ENDIF ! IF (ILAY == 1)
                   POS_LY(I)  = POSLY(I,ILAY)
@@ -257,7 +257,7 @@ c
                   IF (ILAY == 1) THEN
                     POSLY(I,ILAY) = -HALF + HALF*RATIO_THKLY(I,ILAY)
                   ELSE
-                    POSLY(I,ILAY) = POSLY(I,ILAY-1)            
+                    POSLY(I,ILAY) = POSLY(I,ILAY-1)
      .                + HALF*(RATIO_THKLY(I,ILAY)+RATIO_THKLY(I,ILAY-1))
                   ENDIF ! IF (ILAY == 1)
                   POS_LY(I)  = POSLY(I,ILAY)
@@ -265,18 +265,18 @@ c
               ENDDO ! DO I=JFT,JLT
             ENDIF ! IF (NDRAPE == 0)
 c
-c           calcul automatique de position des NPTT dans les couches --- 
+c           calcul automatique de position des NPTT dans les couches ---
 c
             IF (IINT == 1) THEN  !  uniform distribution - by default
              DO I=JFT,JLT
               DO IT=1,NPTT
                 THK_IT(IT,I) = THK_LY(I)/NPTT  ! uniform distribution of NPTT through layer
-              ENDDO 
+              ENDDO
 C
               POS_0 = POS_LY(I) - HALF*THK_LY(I)
               POS_IT(1,I) = POS_0 + HALF*THK_IT(1,I)
               DO IT=2,NPTT
-                POS_IT(IT,I) = POS_IT(IT-1,I) + 
+                POS_IT(IT,I) = POS_IT(IT-1,I) +
      .                         HALF*(THK_IT(IT,I) + THK_IT(IT-1,I))
               ENDDO
              ENDDO
@@ -293,7 +293,7 @@ c           remplissage
 c
             DO IT=1,NPTT
               IPT = IPT_ALL + IT
-              DO I=JFT,JLT    
+              DO I=JFT,JLT
                 J = (IPT-1)*JLT + I
                 JMLY = (ILAY-1)*JLT + I
 C
@@ -314,17 +314,17 @@ c                THKLY(J)    = THK_NPTT  ! integr. point "IT" thickness ratio
 c----
         CASE DEFAULT
 c----
-          DO N=1,NPT                                
-            IADR = (N-1)*JLT                        
+          DO N=1,NPT
+            IADR = (N-1)*JLT
             POS_0 = GEO(IPPOS+N,PID(1))
-            THK_NPTT = GEO(IPTHK+N,PID(1))                   
-            DO I = JFT,JLT                            
-              J = IADR+I         
-c              THKLY(J)   = THK_NPTT     
-              POSLY(I,N) = POS_0 
+            THK_NPTT = GEO(IPTHK+N,PID(1))
+            DO I = JFT,JLT
+              J = IADR+I
+c              THKLY(J)   = THK_NPTT
+              POSLY(I,N) = POS_0
               MATLY(J)   = MAT(1)
-            ENDDO                                   
-          ENDDO                                   
+            ENDDO
+          ENDDO
 c----
         END SELECT
 c-----------

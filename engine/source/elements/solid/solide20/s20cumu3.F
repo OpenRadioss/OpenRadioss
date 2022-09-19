@@ -98,11 +98,11 @@ Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
           ENDDO
          ENDDO
         ENDIF
-       ENDIF  
+       ENDIF
       ENDIF
 C
       IF(JTHE < 0 ) THEN
-       IF(NODADT_THERM == 1 ) THEN  
+       IF(NODADT_THERM == 1 ) THEN
          DO N=1,8
           DO I=LFT,LLT
             NN = NC(I,N)
@@ -210,11 +210,11 @@ C
                A(1,N2)=A(1,N2)+HALF*FX(I,N)
                A(2,N2)=A(2,N2)+HALF*FY(I,N)
                A(3,N2)=A(3,N2)+HALF*FZ(I,N)
-               STIFN(N2)=STIFN(N2)+HALF*STIG(I,N)   
+               STIFN(N2)=STIFN(N2)+HALF*STIG(I,N)
              ENDIF
            ENDDO
-          ENDDO 
-      ENDIF 
+          ENDDO
+      ENDIF
       IF(NSECT>0)THEN
        DO N=9,NPE
         DO I=LFT,LLT
@@ -320,7 +320,7 @@ Cf small3b        IF(OFF(I)<1.)OFFG(I) = OFF(I)
           ENDDO
          ENDDO
         ENDIF
-       ENDIF  
+       ENDIF
       ENDIF
 
       IF(IVECTOR==1) THEN
@@ -352,12 +352,12 @@ C         II=I+NFT-NUMELS+NUMELS20
             FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+8)
             FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+8)
             FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+8)
-            FSKYV(K,7)=FSKYV(K,7)+HALF*STIG(I,N+8)    
+            FSKYV(K,7)=FSKYV(K,7)+HALF*STIG(I,N+8)
             K = IADS(N2,I)
             FSKYV(K,1)=FSKYV(K,1)+HALF*FX(I,N+8)
             FSKYV(K,2)=FSKYV(K,2)+HALF*FY(I,N+8)
             FSKYV(K,3)=FSKYV(K,3)+HALF*FZ(I,N+8)
-            FSKYV(K,7)=FSKYV(K,7)+HALF*STIG(I,N+8)    
+            FSKYV(K,7)=FSKYV(K,7)+HALF*STIG(I,N+8)
           ENDIF
          ENDDO
         ENDDO
@@ -388,12 +388,12 @@ C         II=I+NFT-NUMELS+NUMELS20
             FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+8)
             FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+8)
             FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+8)
-            FSKY(7,K)=FSKY(7,K)+HALF*STIG(I,N+8)    
+            FSKY(7,K)=FSKY(7,K)+HALF*STIG(I,N+8)
             K = IADS(N2,I)
             FSKY(1,K)=FSKY(1,K)+HALF*FX(I,N+8)
             FSKY(2,K)=FSKY(2,K)+HALF*FY(I,N+8)
             FSKY(3,K)=FSKY(3,K)+HALF*FZ(I,N+8)
-            FSKY(7,K)=FSKY(7,K)+HALF*STIG(I,N+8)    
+            FSKY(7,K)=FSKY(7,K)+HALF*STIG(I,N+8)
           ENDIF
          ENDDO
         ENDDO
@@ -417,9 +417,9 @@ C         II=I+NFT-NUMELS+NUMELS20
             FTHESKY(K)=THEM(I,N+8)
           ELSE
             K = IADS(N1,I)
-            FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+8)   
+            FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+8)
             K = IADS(N2,I)
-            FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+8)    
+            FTHESKY(K)=FTHESKY(K) + HALF*THEM(I,N+8)
           ENDIF
          ENDDO
         ENDDO
@@ -442,9 +442,9 @@ C         II=I+NFT-NUMELS+NUMELS20
             CONDNSKY(K)=CONDEG(I,N+8)
           ELSE
             K = IADS(N1,I)
-            CONDNSKY(K)=CONDNSKY(K) + HALF*CONDEG(I,N+8)   
+            CONDNSKY(K)=CONDNSKY(K) + HALF*CONDEG(I,N+8)
             K = IADS(N2,I)
-            CONDNSKY(K)=CONDNSKY(K) + HALF*CONDEG(I,N+8)    
+            CONDNSKY(K)=CONDNSKY(K) + HALF*CONDEG(I,N+8)
           ENDIF
          ENDDO
         ENDDO

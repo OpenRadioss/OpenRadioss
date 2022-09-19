@@ -37,7 +37,7 @@ Chd|====================================================================
      5    H3          ,H4        ,IX1       ,IX2       ,IX3       ,
      6    IX4         ,INTTH     ,FTHE      ,FTHESKYI  ,
      7    PHI         ,PHI1      ,PHI2      ,PHI3      ,PHI4      ,
-     8    FNI         ,MSEGTYP   ,APINCH    ,STIFPINCH , 
+     8    FNI         ,MSEGTYP   ,APINCH    ,STIFPINCH ,
      9    FX1         ,FY1      ,FZ1        ,FX2       ,FY2       ,
      A    FZ2         ,FX3      ,FY3        ,FZ3       ,FX4       ,
      B    FY4         ,FZ4      ,FXI        ,FYI       ,FZI       ,
@@ -66,11 +66,11 @@ C-----------------------------------------------
       INTEGER JLT, NIN, NOINT, JTASK, NISKYFI, INTTH, INTPLY,
      .        IFORM,
      .        ITAB(*), ISKY(*), MSEGTYP(*)
-      INTEGER 
+      INTEGER
      .        CE_LOC(MVSIZ),NSVG(MVSIZ),
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
       my_real
-     .   A(3,*), STIFN(*), FSKYI(LSKYI,NFSKYI), 
+     .   A(3,*), STIFN(*), FSKYI(LSKYI,NFSKYI),
      .   APINCH(3,*),STIFPINCH(*)
       my_real
      .     STIF(MVSIZ), N1(MVSIZ), N2(MVSIZ), N3(MVSIZ),
@@ -96,7 +96,7 @@ C
      4               FX3   ,FY3    ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5               FXI   ,FYI    ,FZI  ,A    ,STIFN  ,NIN  ,
      6               INTTH ,PHI    ,FTHE ,PHI1 , PHI2  ,PHI3 ,
-     7               PHI4  ,JTASK  ,APINCH     ,STIFPINCH, MSEGTYP, CE_LOC,     
+     7               PHI4  ,JTASK  ,APINCH     ,STIFPINCH, MSEGTYP, CE_LOC,
      8               FNI   ,N1     ,N2         ,N3     ,IFORM,
      9               CONDINT,CONDN )
       ELSE
@@ -107,7 +107,7 @@ C
      5               FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
      6               NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI ,INTPLY,
      7               PHI1  ,PHI2  ,PHI3 , PHI4 ,ITAB ,IFORM,
-     C               CONDINT,CONDNSKYI )     
+     C               CONDINT,CONDNSKYI )
       ENDIF
 C
 C
@@ -131,7 +131,7 @@ Chd|====================================================================
      5                  FXI   ,FYI   ,FZI  ,FSKYI,ISKY  ,NISKYFI,
      6                  NIN   ,NOINT ,INTTH,PHI  ,FTHESKYI,INTPLY,
      7                  PHI1  ,PHI2  ,PHI3 , PHI4 ,ITAB,IFORM,
-     C                  CONDINT,CONDNSKYI )       
+     C                  CONDINT,CONDNSKYI )
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -191,7 +191,7 @@ C
         IF (H2(I)/=ZERO) NISKYL1 = NISKYL1 + 1
         IF (H3(I)/=ZERO) NISKYL1 = NISKYL1 + 1
         IF (H4(I)/=ZERO) NISKYL1 = NISKYL1 + 1
-        
+
       ENDDO
 C
 C Precalcul impact locaux / remote
@@ -242,7 +242,7 @@ C
             FSKYI(NISKYL,2)=FY2(I)
             FSKYI(NISKYL,3)=FZ2(I)
             FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
-            ISKY(NISKYL) = IX2(I)    
+            ISKY(NISKYL) = IX2(I)
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -275,7 +275,7 @@ C
             FSKYI(NISKYL,2)=-FYI(I)
             FSKYI(NISKYL,3)=-FZI(I)
             FSKYI(NISKYL,4)= STIF(I)
-            ISKY(NISKYL) = IG 
+            ISKY(NISKYL) = IG
           ELSE
             IG = -IG
             NISKYFIL = NISKYFIL + 1
@@ -284,7 +284,7 @@ C
             FSKYFI(NIN)%P(3,NISKYFIL)=-FZI(I)
             FSKYFI(NIN)%P(4,NISKYFIL)= STIF(I)
             ISKYFI(NIN)%P(NISKYFIL) = IG
-          ENDIF  
+          ENDIF
         ENDDO
 C Thermique
       ELSE
@@ -308,8 +308,8 @@ C Thermique
             FSKYI(NISKYL,3)=FZ2(I)
             FSKYI(NISKYL,4)=STIF(I)*ABS(H2(I))
             ISKY(NISKYL) = IX2(I)
-            FTHESKYI(NISKYL) = PHI2(I) 
-            IF(NODADT_THERM == 1.AND.IFORM > 0 ) CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H2(I))         
+            FTHESKYI(NISKYL) = PHI2(I)
+            IF(NODADT_THERM == 1.AND.IFORM > 0 ) CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H2(I))
           ENDIF
         ENDDO
         DO I=1,JLT
@@ -335,7 +335,7 @@ C Thermique
             FTHESKYI(NISKYL) = PHI4(I)
             IF(NODADT_THERM == 1.AND.IFORM > 0 ) CONDNSKYI(NISKYL) = CONDINT(I)*ABS(H4(I))
           ENDIF
-        ENDDO       
+        ENDDO
 C
         DO I=1,JLT
          IF(HH(I)==ZERO)CYCLE
@@ -359,7 +359,7 @@ C
             ISKYFI(NIN)%P(NISKYFIL) = IG
             FTHESKYFI(NIN)%P(NISKYFIL)=PHI(I)
             IF(NODADT_THERM == 1) CONDNSKYFI(NIN)%P(NISKYFIL) = CONDINT(I)
-          ENDIF  
+          ENDIF
         ENDDO
       ENDIF
 C      
@@ -409,7 +409,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, NIN,INTTH,IFORM,
      .        IX1(MVSIZ),IX2(MVSIZ),IX3(MVSIZ),IX4(MVSIZ),NSVG(MVSIZ),JTASK,
-     .        MSEGTYP(*),CE_LOC(MVSIZ) 
+     .        MSEGTYP(*),CE_LOC(MVSIZ)
       my_real
      .    H1(MVSIZ),H2(MVSIZ),H3(MVSIZ),H4(MVSIZ),STIF(MVSIZ),
      .    FX1(MVSIZ),FY1(MVSIZ),FZ1(MVSIZ),
@@ -479,8 +479,8 @@ C
            APINCH(1,J1)=APINCH(1,J1)+FACT*FNI(I)*H4(I)*N1(I)
            APINCH(2,J1)=APINCH(2,J1)+FACT*FNI(I)*H4(I)*N2(I)
            APINCH(3,J1)=APINCH(3,J1)+FACT*FNI(I)*H4(I)*N3(I)
-           STIFPINCH(J1) = STIFPINCH(J1) + STIF(I)*ABS(H4(I))      
-         ENDDO  
+           STIFPINCH(J1) = STIFPINCH(J1) + STIF(I)*ABS(H4(I))
+         ENDDO
         ELSE ! NPINCH > 0
          DO I=1,JLT
            HH(I)=H1(I)+H2(I)+H3(I)+H4(I)
@@ -546,7 +546,7 @@ C
            FTHE(J1) = FTHE(J1) + PHI4(I)
            IF(NODADT_THERM == 1.AND.IFORM > 0 ) CONDN(J1) =  CONDN(J1) + CONDINT(I)*ABS(H4(I))
          ENDDO
-      ENDIF 
+      ENDIF
 C
       NODFI = NLSKYFI(NIN)
       ISHIFT = NODFI*(JTASK-1)
@@ -568,7 +568,7 @@ C
            ENDIF
          ENDDO
 C       
-      ELSE 
+      ELSE
          DO I=1,JLT
            IF(HH(I)==ZERO)CYCLE
            IG=NSVG(I)
@@ -588,7 +588,7 @@ C
              FTHEFI(NIN)%P(IG+ISHIFT)= FTHEFI(NIN)%P(IG+ISHIFT) + PHI(I)
              IF(NODADT_THERM == 1) CONDNFI(NIN)%P(IG+ISHIFT)=CONDNFI(NIN)%P(IG+ISHIFT) + CONDINT(I)
            ENDIF
-         ENDDO 
+         ENDDO
       ENDIF
 C
       RETURN

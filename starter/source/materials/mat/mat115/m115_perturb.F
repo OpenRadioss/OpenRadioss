@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER PERTURB(NPERTURB),MAT(*)
-      my_real  
+      my_real
      .   RHO(2*LLT),RNOISE(NPERTURB,*),PM(NPROPM,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

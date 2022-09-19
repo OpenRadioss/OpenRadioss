@@ -44,9 +44,9 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
       USE I22BUFBRIC_MOD
-      USE I22TRI_MOD           
+      USE I22TRI_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -67,9 +67,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
+      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       my_real PM(NPROPM,NUMMAT), V(3,NUMNOD), W(3,NUMNOD),X(3,NUMNOD),
-     .        EV(*), FLUX(NV46,*), FLU2(*), MS(*), VEUL(*), 
+     .        EV(*), FLUX(NV46,*), FLU2(*), MS(*), VEUL(*),
      .        ALPHA(*), FLUX_SAV(NV46,*), QMV(*)
       INTEGER IPARG(NPARG,NGROUP), IXS(NIXS,NUMELS), IXQ(7,NUMELQ),ITASK,NV46, J
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
@@ -78,7 +78,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real :: BID
       INTEGER :: NG, I, K, II, NF1
-      INTEGER :: NIN, IB, NBF, NBL, IE, MLW      
+      INTEGER :: NIN, IB, NBF, NBL, IE, MLW
 C-----------------------------------------------
 
 C-----------------------------------------------
@@ -93,12 +93,12 @@ C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !------------------------------!
         ! CONDITIONS DE DEBRANCHEMENT  !
@@ -108,10 +108,10 @@ C     ALE ON / OFF
         IF(IPARG(1,NG) /= 51) CYCLE
         !------------------------------!
         LFT=1
-        DO I=LFT,LLT 
-          II = I+NFT      
-          ALPHA(II) = ONE  
-        ENDDO                      
+        DO I=LFT,LLT
+          II = I+NFT
+          ALPHA(II) = ONE
+        ENDDO
         DO K=1,NV46
           DO II=NFT+LFT,NFT+LLT
             FLUX(K,II)=FLUX_SAV(K,II)
@@ -129,12 +129,12 @@ C-----------------------------------------------
       DO NG=ITASK+1,NGROUP,NTHREAD
 C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         !------------------------------!
         ! CONDITIONS DE DEBRANCHEMENT  !
@@ -169,21 +169,21 @@ C--------------------
         NBL = (ITASK+1)*NB/NTHREAD
         NBL = MIN(NBL,NB)
         DO IB=NBF,NBL
-          IE  = BRICK_LIST(NIN,IB)%ID 
-          MLW = BRICK_LIST(NIN,IB)%MLW 
+          IE  = BRICK_LIST(NIN,IB)%ID
+          MLW = BRICK_LIST(NIN,IB)%MLW
           IF(MLW /= 51)CYCLE
           DO J=1,6
             BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(1) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(1)
             BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(2) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(2)
-            BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(3) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(3)          
+            BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(3) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(3)
             BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(4) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(4)
             BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_UpwFLUX(5) = BRICK_LIST(NIN,IB)%POLY(1:9)%FACE(J)%Adjacent_FLUX(5)
           ENDDO !next J
-        ENDDO   
-        
+        ENDDO
+
         !Computing Upwind fluxes (inter22 - obsolete)
         CALL ALE51_UPWIND3_INT22
-     +                      (PM  , IXS  ,   0     ,  0, 
+     +                      (PM  , IXS  ,   0     ,  0,
      +                       NV46, IPARG,   ELBUF_TAB  ,ITASK     )
 
       ENDIF

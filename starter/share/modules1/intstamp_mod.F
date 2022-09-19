@@ -77,7 +77,7 @@ C---------
 C         vitesse, deplacement, force
 C---------
           my_real
-     .           V(3), FC(3),STF, 
+     .           V(3), FC(3),STF,
      .           VR(3), MC(3), STR
           DOUBLE PRECISION D(3), DR(3)
 	  DOUBLE PRECISION FC6(6,3),ST6(6),MC6(6,3),STR6(6)

@@ -29,10 +29,10 @@ Chd|-- calls ---------------
 Chd|        TRI7BOX                       share/modules/tri7box.F       
 Chd|====================================================================
       SUBROUTINE SPMD_TRI22VOX0(
-     1   X      ,BMINMA_FLU_L ,NBRIC  , IXS   , BUFBRIC, 
+     1   X      ,BMINMA_FLU_L ,NBRIC  , IXS   , BUFBRIC,
      2   ITASK  ,ITAB         ,XMINS  , YMINS , ZMINS  ,
      3   XMAXS  ,YMAXS        ,ZMAXS  , BMINMA_LAG_R ,IS_CONTACT,
-     4   BMINMA_AND ) 
+     4   BMINMA_AND )
 C-----------------------------------------------
 C   D e s  c r i p t i o n
 C-----------------------------------------------
@@ -67,7 +67,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, intent(in) ::   NBRIC, IXS(NIXS,*), ITAB(*)
       my_real, intent(in) ::
-     .                         X(3,*), 
+     .                         X(3,*),
      .                         BMINMA_FLU_L(6), BMINMA_LAG_R(6)
       my_real, intent(inout) ::
      .                         BMINMA_AND(6)
@@ -117,8 +117,8 @@ C=======================================================================
       DX = XMAXB-XMINB
       DY = YMAXB-YMINB
       DZ = ZMAXB-ZMINB
- 
-      !test interection entre domaines (FLUIDE LOCAL / LAG DISTANTS)    
+
+      !test interection entre domaines (FLUIDE LOCAL / LAG DISTANTS)
       IF ( (DX<=ZERO).OR.(DY<=ZERO).OR.(DZ<=ZERO) ) THEN
         IS_CONTACT = .FALSE.
         RETURN
@@ -165,7 +165,7 @@ C=======================================================================
              END DO
            END DO
          END DO
-#include "lockoff.inc"     
+#include "lockoff.inc"
       ENDDO !IB=NBF,NBL
 
 C

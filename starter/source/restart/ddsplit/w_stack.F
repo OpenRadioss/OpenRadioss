@@ -54,10 +54,10 @@ C
         LEN_IA = LEN_IA + LEN_IG
 C      
         CALL WRITE_DB(GEO,LEN_G)
-        LEN_AM = LEN_AM + LEN_G  
+        LEN_AM = LEN_AM + LEN_G
 C            
         CALL WRITE_DB(PM,LEN_PM)
-        LEN_AM = LEN_AM + LEN_PM  
+        LEN_AM = LEN_AM + LEN_PM
 C
       RETURN
       END

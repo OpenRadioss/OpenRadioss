@@ -30,7 +30,7 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        INITBUF_MOD                   share/resol/initbuf.F         
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|====================================================================
-      SUBROUTINE MULTI_GLOBALIZE(ELBUF_TAB, IPARG, ITASK, MULTI_FVM, 
+      SUBROUTINE MULTI_GLOBALIZE(ELBUF_TAB, IPARG, ITASK, MULTI_FVM,
      .     PARTSAV, IPARTS, GRESAV, IGRTH, GRTH)
 C-----------------------------------------------
 C     D e s c r i p t i o n
@@ -43,7 +43,7 @@ C     each submaterial
 C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
-      USE INITBUF_MOD      
+      USE INITBUF_MOD
       USE ELBUFDEF_MOD
       USE MULTI_FVM_MOD
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C     Save velocities in GBUF
                   GBUF%SIG(II + 3 * NEL) = ZERO
                   GBUF%SIG(II + 4 * NEL) = ZERO
                   GBUF%SIG(II + 5 * NEL) = ZERO
-                  
+
                ENDDO
 C     Loop over the fluid layers
                DO IMAT = 1, NBMAT
@@ -127,11 +127,11 @@ C     Loop over the fluid layers
                      MULTI_FVM%PHASE_RHO(IMAT, I) = LBUF%RHO(II)
                      MULTI_FVM%PHASE_EINT(IMAT, I) = LBUF%EINT(II)
                      MULTI_FVM%PHASE_PRES(IMAT, I) = -THIRD * (
-     .                    LBUF%SIG(II + 0 * NEL) + 
-     .                    LBUF%SIG(II + 1 * NEL) + 
+     .                    LBUF%SIG(II + 0 * NEL) +
+     .                    LBUF%SIG(II + 1 * NEL) +
      .                    LBUF%SIG(II + 2 * NEL))
                   ENDDO
-               ENDDO            ! IMAT = 1, NBMAT 
+               ENDDO            ! IMAT = 1, NBMAT
 C     Global temperature
                DO IMAT = 1, NBMAT
                   LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
@@ -141,7 +141,7 @@ C     Global temperature
                      RHO_FRAC = LBUF%RHO(II) / GBUF%RHO(II)
                      GBUF%TEMP(II) = GBUF%TEMP(II) + RHO_FRAC*VOL_FRAC * LBUF%TEMP(II)
                   ENDDO
-               ENDDO            ! IMAT = 1, NBMAT 
+               ENDDO            ! IMAT = 1, NBMAT
 C               
                DO II = 1, NEL
                   I = II + NFT
@@ -150,7 +150,7 @@ C
                   MULTI_FVM%PRES(I) = -THIRD * (GBUF%SIG(II + 0 * NEL) + GBUF%SIG(II + 1 * NEL) + GBUF%SIG(II + 2 * NEL))
                ENDDO
             ENDIF               ! NBMAT > 1
-            CALL MULTI_BILAN(PARTSAV, GBUF%VOL, MULTI_FVM, 
+            CALL MULTI_BILAN(PARTSAV, GBUF%VOL, MULTI_FVM,
      .           NEL, NFT, IPARTS(1 + NFT), GRESAV, IGRTH, GRTH)
          ENDIF
       ENDDO                     ! NG = ITASK + 1, NGROUP, NTHREAD

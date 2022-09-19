@@ -38,7 +38,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C-----------------------------------------------
      .       TXX,TXY,TXZ,TYY,TYZ,TZZ,
      .       UXX,UXY,UXZ,UYX,UYY,UYZ,UZX,UZY,UZZ,
      .       VXX,VXY,VXZ,VYY,VYZ,VZZ
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
       DO NC=1,NSPCOND
       ILEV=ISPCOND(1,NC)
@@ -148,7 +148,7 @@ C          Echange les positions et les vitesses
             VN=VXI*UX+VYI*UY+VZI*UZ
             VXS=VXI-TWO*VN*UX
             VYS=VYI-TWO*VN*UY
-            VZS=VZI-TWO*VN*UZ	    
+            VZS=VZI-TWO*VN*UZ	
            ENDIF
            X(1,INOD)=XS
            X(2,INOD)=YS

@@ -36,7 +36,7 @@ Chd|====================================================================
      2                        NIN   ,V     ,GAP_M,IGAP  ,ITASK ,
      3                        STF   ,GAP_M_L,COUNT_REMSLVE,DRAD  ,
      4                        IEDGE ,NEDGE  ,LEDGE  ,MVOISIN,NSV,
-     5                        NRTM  ,GAPE   ,GAP_E_L,IGAP0, 
+     5                        NRTM  ,GAPE   ,GAP_E_L,IGAP0,
      6                        STFE, S_STFE  ,IFQ    ,IFPEN,
      7                        CAND_FX,CAND_FY,CAND_FZ,DGAPLOAD)
 C============================================================================
@@ -57,19 +57,19 @@ C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
 #include      "mvsiz_p.inc"
 #include      "assert.inc"
-#include      "i25edge_c.inc" 
+#include      "i25edge_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: S_STFE
       INTEGER IRECT(4,*),CAND_M(*), CAND_S(*), IFPEN(*),
-     .        I_STOK, NIN,IGAP ,ITASK, COUNT_REMSLVE(*), 
+     .        I_STOK, NIN,IGAP ,ITASK, COUNT_REMSLVE(*),
      .        IEDGE, NEDGE, LEDGE(NLEDGE,*), MVOISIN(4,*), NSV(*), NRTM, IGAP0,IFQ
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
       my_real
      .        X(3,*),GAP_M(*),V(3,*),STF(*),GAP_M_L(*), GAPE(*), GAP_E_L(*),
-     .        STFE(S_STFE), CAND_FX(4,*),CAND_FY(4,*),CAND_FZ(4,*) 
-     
+     .        STFE(S_STFE), CAND_FX(4,*),CAND_FY(4,*),CAND_FZ(4,*)
+
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I , L, M, E, IE, JE, NN1, NN2, IL, JL, I1, I2, SOL_EDGE, SH_EDGE, 
+      INTEGER I , L, M, E, IE, JE, NN1, NN2, IL, JL, I1, I2, SOL_EDGE, SH_EDGE,
      .        NRTMFT, NRTMLT
       my_real
      .        XI,YI,ZI,X1S,X2S,Y1S,Y2S,Z1S,Z2S,
@@ -109,7 +109,7 @@ C-----------------------------------------------
       INTEGER N1(MVSIZ),N2(MVSIZ),M1(MVSIZ),M2(MVSIZ)
       INTEGER SG, FIRST, LAST,COUNT_CAND
       INTEGER, DIMENSION(:),ALLOCATABLE :: TAGM
-      my_real, 
+      my_real,
      .         DIMENSION(:,:),ALLOCATABLE :: BOXM
       SAVE TAGM,BOXM
       INTEGER :: IDS(4)
@@ -235,7 +235,7 @@ C Debug only
      .          LEDGE_FIE(NIN)%P(E_TYPE,CAND_S(I)-NEDGE)/=1.AND.
      .          LEDGE_FIE(NIN)%P(E_RIGHT_SEG,CAND_S(I)-NEDGE)/=0) CYCLE ! Shell edge is not a free edge
              NLS2=NLS2-1
-             ASSERT(IS <= MVSIZ) 
+             ASSERT(IS <= MVSIZ)
              ASSERT(IS > 0)
              LISTI(NLS2) = IS
 #ifdef WITH_ASSERT
@@ -244,7 +244,7 @@ C Debug only
              IDS(2) =  ITAB_DEBUG(IRECT(2,CAND_M(I)))
              IDS(3) =  ITAB_DEBUG(IRECT(3,CAND_M(I)))
              IDS(4) =  ITAB_DEBUG(IRECT(4,CAND_M(I)))
-             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE_FIE(NIN)%P(E_GLOBAL_ID,CAND_S(I)-NEDGE),I)                           
+             DEBUG_E2E(INT_CHECKSUM(IDS,4,1)==D_EM .AND. LEDGE_FIE(NIN)%P(E_GLOBAL_ID,CAND_S(I)-NEDGE),I)
 #endif
            ENDIF
          ENDDO
@@ -592,7 +592,7 @@ C ================ REMOTE TRIM 3
       ENDIF
 C
 #include "lockon.inc"
-      LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5 
+      LSKYI_COUNT=LSKYI_COUNT+COUNT_CAND*5
       COUNT_REMSLVE(NIN)=COUNT_REMSLVE(NIN)+CT
 #include "lockoff.inc"
 

@@ -92,7 +92,7 @@ C--------case /INIV/ * /2
        IF (N1 < 0) THEN
          IGN=NGR2USR(-N1,IGRNOD,NGRNOD)
 C-----   
-         IF (IGN==0) THEN         
+         IF (IGN==0) THEN
             CALL ANCMSG(MSGID=292,ANMODE=ANINFO,I1=-N1)
             CALL ARRET(2)
          END IF

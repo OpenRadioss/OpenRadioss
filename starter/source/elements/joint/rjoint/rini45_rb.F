@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        IDSK(2),ISK,NSK,ISK2,JTYP,M(2),NOD(2),NODF(3),
      .        RESET_U_GEO,GET_U_SKEW,SRB(6),NO(3),IDSKRB(2),
      .        IDRB(2),ERR_FLG,N1,N2,N3,N4,ID_KJ,NUMEL_KJ,IELUSR,
-     .        RB1,RB2,IPID,IDSK2   
+     .        RB1,RB2,IPID,IDSK2
 C
       my_real
      .   MASS,INER,RM,RI,KNN,KR,L2,U(LSKEW),Q(LSKEW),GET_U_GEO,V(LSKEW),
@@ -85,7 +85,7 @@ C-----------------------------------------------
 C=======================================================================
 
       ID=IGEO(1)
-      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)  
+      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 C
       DO IEL=1,NEL
         L2 = 0.
@@ -101,10 +101,10 @@ C-->
 C-->        Search of connected rbody ---
             DO N=1,NRBODY
               NSL=NPBY(2,N)
-              IF (NPBY(1,N)==NOD(I)) THEN 
+              IF (NPBY(1,N)==NOD(I)) THEN
 C--             Tag for error message - Can't be attached to main node of rbody-              
 		IDRB(I)=-N
-                UVAR(37+I,IEL)= N                
+                UVAR(37+I,IEL)= N
                 EXIT
               ENDIF
 C
@@ -129,7 +129,7 @@ C
 C-->        Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
-            IF (IDRB(I)==0) THEN	    
+            IF (IDRB(I)==0) THEN	
 C-->          no rbodies found - kjoint connected to structural node  ---
               UVAR(33+I,IEL)= MS(NOD(I))
               UVAR(35+I,IEL)= IN(NOD(I))
@@ -182,13 +182,13 @@ C---> Print de l'output pour kjoint2--------------------
 	NUMEL_KJ = IXR_KJ(1,NUMELR+1)
         DO J=1,NUMEL_KJ
           IF (IXR_KJ(4,J)==IELUSR) ID_KJ = J
-        END DO 
-        IF (ID_KJ>0) THEN 	     
+        END DO
+        IF (ID_KJ>0) THEN 	
           IF (IXR_KJ(1,ID_KJ)/=0) N4 = ITAB(IXR_KJ(1,ID_KJ))
         ENDIF
         IDSK2 = NINT(GET_U_GEO(54,IPROP))
         IF (IDSK2==0) THEN
-          WRITE(IOUT,2000)      	  
+          WRITE(IOUT,2000)      	
           WRITE(IOUT,'(1X,5I10,4X,2I10,2X,F16.7,2X,3F16.7)') IELUSR,N1,
      .    N2,N3,N4,RB1,RB2,LEN,(UVAR(21+K,IEL),K=1,3)
           WRITE(IOUT,'(2(95X,3F16.7/))') (UVAR(21+K,IEL),K=4,9)
@@ -200,9 +200,9 @@ C---> Print de l'output pour kjoint2--------------------
           WRITE(IOUT,'(2(95X,F16.7,2X,3F16.7/))') UVAR(9,IEL) ,(UVAR(21+K,IEL),K=7,9)
         ENDIF
       ENDDO
-      	   
+      	
 C-------------------------------------------------------
- 
+
       RETURN
  2000 FORMAT(5X,'NUMBER',8X,'N1',8X,'N2',8X,'N3',8X,'N4',
      .       8X,'RBODY1',4X,'RBODY2',12X,'LENGTH',13X,

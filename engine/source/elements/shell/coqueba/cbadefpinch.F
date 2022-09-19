@@ -43,7 +43,7 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NG,JFT,JLT,NPLAT,IPLAT(*)
-      MY_REAL 
+      MY_REAL
      .   VKSI(4,4),VETA(4,4),
      .   BCP(MVSIZ,8),BP(MVSIZ,4),
      .   VPINCHXYZ(MVSIZ,4),VDEF(MVSIZ,8),VDEFPINCH(MVSIZ,3),
@@ -63,7 +63,7 @@ C----------------------------------
 C     MATRIX [B] DUE TO PINCHING
 C----------------------------------
 #include "vectorize.inc"
-       DO I=JFT,JLT 
+       DO I=JFT,JLT
          EP=IPLAT(I)
 C----------------------------------
 C     MATRIX [BCP] FOR TRNASVERSE SHEAR DUE TO PINCHING
@@ -107,24 +107,24 @@ C        dN4/dx, dN4/dy
          BCP(EP,8) = VQG(EP,1,2,NG)*D2
 
 C--------Node 1 contribution to BCX/BCY due to pinching
-         BCX=      BCP(EP,1)*VPINCHXYZ(EP,1)       
+         BCX=      BCP(EP,1)*VPINCHXYZ(EP,1)
          BCY=      BCP(EP,2)*VPINCHXYZ(EP,1)
 
 C--------Node 2 contribution to BCX/BCY due to pinching
-         BCX=BCX + BCP(EP,3)*VPINCHXYZ(EP,2)       
+         BCX=BCX + BCP(EP,3)*VPINCHXYZ(EP,2)
          BCY=BCY + BCP(EP,4)*VPINCHXYZ(EP,2)
 
 C--------Node 3 contribution to BCX/BCY due to pinching
-         BCX=BCX + BCP(EP,5)*VPINCHXYZ(EP,3)       
+         BCX=BCX + BCP(EP,5)*VPINCHXYZ(EP,3)
          BCY=BCY + BCP(EP,6)*VPINCHXYZ(EP,3)
 
 C--------Node 4 contribution to BCX/BCY due to pinching
-         BCX=BCX + BCP(EP,7)*VPINCHXYZ(EP,4)       
+         BCX=BCX + BCP(EP,7)*VPINCHXYZ(EP,4)
          BCY=BCY + BCP(EP,8)*VPINCHXYZ(EP,4)
 
 C        calculate CT rate because of updates in BCX and BCY     
 
-         VDEFPINCH(EP,1)= TC(EP,1,1)*BCX+TC(EP,2,1)*BCX 
+         VDEFPINCH(EP,1)= TC(EP,1,1)*BCX+TC(EP,2,1)*BCX
          VDEFPINCH(EP,2)= TC(EP,1,2)*BCX+TC(EP,2,2)*BCY
 
 C----------------------------------
@@ -139,7 +139,7 @@ C        like MITC4 calculation of CT at the edge centre.
          BP(EP,3) = TNPG(EP,3,NG)
          BP(EP,4) = TNPG(EP,4,NG)
 
-         VDEFPINCH(EP,3) = BP(EP,1)*VPINCHXYZ(EP,1) 
+         VDEFPINCH(EP,3) = BP(EP,1)*VPINCHXYZ(EP,1)
      .                   + BP(EP,2)*VPINCHXYZ(EP,2)
      .                   + BP(EP,3)*VPINCHXYZ(EP,3)
      .                   + BP(EP,4)*VPINCHXYZ(EP,4)

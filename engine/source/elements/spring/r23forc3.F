@@ -113,8 +113,8 @@ C=======================================================================
      9                  FX1      ,FX2      ,FY1     ,FY2     ,FZ1     ,
      A                  FZ2      ,MX1      ,MX2     ,MY1     ,MY2     ,
      B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
-     C                  MSRT     ,DMELRT   , H3D_DATA)     
-       
+     C                  MSRT     ,DMELRT   , H3D_DATA)
+
        ELSEIF(MTN == 113) THEN
          ! Like type13 spring
          CALL R23LAW113(ELBUF_STR,
@@ -147,8 +147,8 @@ C=======================================================================
      B                  MZ1      ,MZ2      ,GRESAV  ,GRTH    ,IGRTH   ,
      C                  MSRT     ,DMELRT   ,
      D                  FLAG_SLIPRING_UPDATE,FLAG_RETRACTOR_UPDATE,
-     E                  H3D_DATA ) 
- 
+     E                  H3D_DATA )
+
        ENDIF
 C-----------------------------------------------       
       RETURN

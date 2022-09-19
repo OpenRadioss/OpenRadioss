@@ -235,11 +235,11 @@ C
             RBUF(2,I)=SBUF(2,I)
          ELSE
             ITAG=MSGOFF + NSPMD*ISPMD + I
-            CALL MPI_ISEND(SBUF(1,I), SIZE, MPI_INTEGER, IT_SPMD(I), 
+            CALL MPI_ISEND(SBUF(1,I), SIZE, MPI_INTEGER, IT_SPMD(I),
      .                     ITAG, MPI_COMM_WORLD, REQ(1), IERR)
 C
             ITAG=MSGOFF + NSPMD*(I-1) + ISPMD+1
-            CALL MPI_IRECV(RBUF(1,I), SIZE, MPI_INTEGER, IT_SPMD(I), 
+            CALL MPI_IRECV(RBUF(1,I), SIZE, MPI_INTEGER, IT_SPMD(I),
      .                     ITAG, MPI_COMM_WORLD, REQ(2), IERR)
 C
             CALL MPI_WAITALL(2, REQ, TSTAT, IERR)
@@ -482,7 +482,7 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
-      INTEGER ITAG, LEN, IERR, I, NPLOC, IPROV, 
+      INTEGER ITAG, LEN, IERR, I, NPLOC, IPROV,
      .        ISTAT(MPI_STATUS_SIZE), J, KK, IAD1, K
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: VP
@@ -511,7 +511,7 @@ C
             ELSE
                IPROV=(I-1)*DSNCOL+1
                ITAG=MSGOFF + IPROV-1
-               CALL MPI_RECV(NPLOC, 1, MPI_INTEGER, IT_SPMD(IPROV), 
+               CALL MPI_RECV(NPLOC, 1, MPI_INTEGER, IT_SPMD(IPROV),
      .                       ITAG, MPI_COMM_WORLD, ISTAT, IERR)
 C
                ITAG=MSGOFF + NSPMD + IPROV-1
@@ -542,17 +542,17 @@ C
             LEN=NDDLC*NDEPL
             CALL MPI_SEND(VV, LEN, REAL, IT_SPMD(I), ITAG,
      .                    MPI_COMM_WORLD, IERR)
-         ENDDO  
+         ENDDO
       ELSE
          ITAG=MSGOFF + 2*NSPMD + ISPMD
          LEN=NDDLC*NDEPL
          CALL MPI_RECV(VV, LEN, REAL, IT_SPMD(1), ITAG,
      .                 MPI_COMM_WORLD, ISTAT, IERR)
-      ENDIF                 
+      ENDIF
 C
 #endif
       RETURN
-      END      
+      END
 Chd|====================================================================
 Chd|  SPMD_IWLG                     source/mpi/implicit/spmd_dsreso.F
 Chd|-- called by -----------
@@ -603,7 +603,7 @@ C
             IRQTAG=MSGOFF + I
             CALL MPI_RECV(NDDLP(I), 1, MPI_INTEGER, IT_SPMD(I+1),
      .                    IRQTAG, MPI_COMM_WORLD, ISTAT, IERR)
-            NDDLPM=MAX(NDDLPM,NDDLP(I))            
+            NDDLPM=MAX(NDDLPM,NDDLP(I))
          ENDDO
          ALLOCATE(LDDLP(NDDLPM,NSPMD-1))
          DO I=1,NSPMD-1

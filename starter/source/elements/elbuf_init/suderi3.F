@@ -46,7 +46,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
       my_real
-     .   VOL(*), 
+     .   VOL(*),
      .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*),
      .   X7(*), X8(*), Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*),
      .   Y8(*), Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*)
@@ -117,7 +117,7 @@ C
       ENDDO	
 C
 C Jacobian Matrix
-      DO I=1,NEL               
+      DO I=1,NEL
         JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
         JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
         JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
@@ -139,7 +139,7 @@ C
 C
       DO I=1,NEL
         VOL(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
-      ENDDO     
+      ENDDO
 C-----------
       RETURN
       END

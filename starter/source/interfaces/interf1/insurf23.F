@@ -75,7 +75,7 @@ C-----------------------------------------------
 C=======================================================================
       NRTNEW=0
 
-      I=1                                                   
+      I=1
       DO J=1,NRT
         N1=SURF_NODES(J,1)
         N2=SURF_NODES(J,2)
@@ -83,10 +83,10 @@ C=======================================================================
         N4=SURF_NODES(J,4)
 C       IF(N4==0.OR.N4==N3)THEN 
          NRTNEW=NRTNEW+1
-         IRECT(1,NRTNEW)=N1			     
-         IRECT(2,NRTNEW)=N2			     
-         IRECT(3,NRTNEW)=N3			     
-         IRECT(4,NRTNEW)=N4			     
+         IRECT(1,NRTNEW)=N1			
+         IRECT(2,NRTNEW)=N2			
+         IRECT(3,NRTNEW)=N3			
+         IRECT(4,NRTNEW)=N4			
 C       ELSE
 C         X13=X(1,N1)-X(1,N3)
 C         Y13=X(2,N1)-X(2,N3)
@@ -119,19 +119,19 @@ C           IRECT(2,NRTNEW)=N3
 C           IRECT(3,NRTNEW)=N4  			
 C           IRECT(4,NRTNEW)=N4  			
 C         END IF
-c       END IF                                          
-      ENDDO                                                 
+c       END IF
+      ENDDO
 C-------          
-      IF(IPRI>=1) THEN                                              
-        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'  
-        K=1                                                           
-        K4=4                                                          
-        IF(N2D/=0)K4=2                                              
-        DO I=1,NRTNEW                                                    
-          WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)             
-        ENDDO                                                         
-      ENDIF                                                           
-      IF (NRTNEW/=0) CALL COUNT3(IRECT,MSV,MSN,NRTNEW,NTAG)                         
+      IF(IPRI>=1) THEN
+        WRITE(IOUT,'(/,A,/)')' SEGMENTS USED FOR SURFACE DEFINITION'
+        K=1
+        K4=4
+        IF(N2D/=0)K4=2
+        DO I=1,NRTNEW
+          WRITE(IOUT,FMT=FMW_4I)(ITAB(IRECT(K,I)),K=1,K4)
+        ENDDO
+      ENDIF
+      IF (NRTNEW/=0) CALL COUNT3(IRECT,MSV,MSN,NRTNEW,NTAG)
 C------------------------------------------------------------
       RETURN
       END

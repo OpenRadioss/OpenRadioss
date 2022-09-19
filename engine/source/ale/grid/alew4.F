@@ -79,13 +79,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   ICT(2,12), J1(MVSIZ), J2(MVSIZ), I   , NG, NEL, NFT, ITY      , MQE        , ITR     ,
      .   NTR      , N        , NNC      , NCT , K , II , ICT4(2,6), ICT8(2,12) ,ICT2(2,4),
      .   ISOLNOD  , KK       , SIZE     , LENS, LENR
       my_real
-     .   DX(MVSIZ) , DY(MVSIZ) , DZ(MVSIZ)  , XX(MVSIZ) , XY(MVSIZ) , XZ(MVSIZ) , 
-     .   DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ) , DL(MVSIZ) , DDL(MVSIZ), 
+     .   DX(MVSIZ) , DY(MVSIZ) , DZ(MVSIZ)  , XX(MVSIZ) , XY(MVSIZ) , XZ(MVSIZ) ,
+     .   DDX(MVSIZ), DDY(MVSIZ), DDZ(MVSIZ) , DL(MVSIZ) , DDL(MVSIZ),
      .   GAM1      , DLF       , DDLF       , XM(12)      ,
      .   YM(12)    , ZM(12)    , VX(MVSIZ,3),VY(MVSIZ,3),VZ(MVSIZ,3),VV         ,
      .   X13       , Y13       , Z13        ,X24        ,Y24        ,Z24        ,DT0X       ,
@@ -193,8 +193,8 @@ C
 C
        IF ((ITY == 1 .OR. ITY == 2) .AND. MQE == 1) THEN
         ISOLNOD=IPARG(28,NG)
-         
-c nombre de ressort/noeud=3 
+
+c nombre de ressort/noeud=3
         IF(ITY == 2)THEN
           NTR=4
           DO ITR=1,NTR
@@ -260,10 +260,10 @@ C middle
                VZ(I,K)=VZ(I,K)/VV
              ENDDO
           ENDDO
-        ENDIF          
+        ENDIF
         DO ITR=1,NTR
          IF(ITY == 1)KK=(ITR+3)/4
-         IF(ITY == 2)KK=(ITR+1)/2 
+         IF(ITY == 2)KK=(ITR+1)/2
          DO  I=1,NEL
 C
  	  J1(I)=NC(ICT(1,ITR)+1,NFT+I)
@@ -411,7 +411,7 @@ C-----------------------------------------------
      3           LENS  )
         END IF
 C SPMD treatment  parith/on
-        IF(IVECTOR == 1) THEN 
+        IF(IVECTOR == 1) THEN
           DO N=1,NUMNOD
             IF(NALE(N) /= 0) THEN
               NCT = ADDCNE(N)-1

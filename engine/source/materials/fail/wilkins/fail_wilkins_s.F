@@ -97,12 +97,12 @@ C
       my_real TIME,TIMESTEP,UPARAM(*),
      .   SIGNXX(NEL),SIGNYY(NEL),SIGNZZ(NEL),
      .   SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),
-     .   DPLA(NEL)    
+     .   DPLA(NEL)
 C-----------------------------------------------
 C   O U T P U T   A r g u m e n t s
 C-----------------------------------------------
 cc      my_real
- 
+
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
@@ -117,16 +117,16 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,IDEL,IDEV,IFLAG,INDX(MVSIZ),IADBUF,NINDX,
      .        NINDEX,INDEX(MVSIZ),JJ,IFAIL
-      my_real 
+      my_real
      .  AL,BE,PC,DC,
      .  P,SCALE,S1,S2,S3,SS,E1,E2,E3,E4,E5,E6,
-     .  EPST2, A, CC1, B, Y ,YP, D, E42, E52, C, E62,W1,W2 
+     .  EPST2, A, CC1, B, Y ,YP, D, E42, E52, C, E62,W1,W2
 C-----------------------------------------------
       AL = UPARAM(1)
       BE = UPARAM(2)
       PC = UPARAM(3)
       DC = UPARAM(4)
-      IFLAG = INT(UPARAM(6))  
+      IFLAG = INT(UPARAM(6))
 C-----------------------------------------------
       IDEL=0
       IDEV=0
@@ -145,7 +145,7 @@ C...
       END IF
 C      
       IF(IDEL==1)THEN
-       NINDX=0 
+       NINDX=0
 C-------------------------------
 C     RUPTURE DUCTILE
 C-------------------------------
@@ -173,7 +173,7 @@ c         yp= 3 x^2 + c
          E62 = E6*E6
          C = - HALF * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
          D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &       - TWO*E4*E5*E6 
+     &       - TWO*E4*E5*E6
          CC1 = C*THIRD
          S1 = SQRT(-CC1)
          EPST2 = S1 * S1
@@ -198,29 +198,29 @@ c         yp= 3 x^2 + c
           IF(YP/=ZERO)S1 = S1 - Y/YP
          ENDIF
           B = S1
-          C = C + S1**2 
+          C = C + S1**2
           S2 = HALF*(-S1 + SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           SS = HALF*(-S1 - SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           S3 = SS
           IF(SS>S2)THEN
            S3 = S2
            S2 = SS
-          ENDIF 
+          ENDIF
           A=ONE
           IF(S1/=ZERO.AND.S3==ZERO) A =  S2/S1
           IF(S1==ZERO.AND.S3/=ZERO) A =  S2/S3
           IF(S1/=ZERO.AND.S3/=ZERO)
-     .      A = MAX(S2/S3, S2/S1) 
+     .      A = MAX(S2/S3, S2/S1)
           W2 = MAX(EM20,(TWO - A))**BE
           W1 =  ONE - P/PC
           W1 = (MAX(EM20,ONE/W1))**AL
           UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
-          IF(UVAR(I,1)>=DC) THEN	  
+          IF(UVAR(I,1)>=DC) THEN	
            OFF(I) = FOUR_OVER_5
            IDEL7NOK = 1
            NINDX=NINDX+1
            INDX(NINDX)=I
-           TDELE(I) = TIME  
+           TDELE(I) = TIME
           ENDIF
 	 ENDIF
         ENDDO
@@ -229,7 +229,7 @@ c         yp= 3 x^2 + c
           I=INDX(J)
 #include "lockon.inc"
          WRITE(ISTDO,1000)NGL(I)
-         WRITE(IOUT,1100)NGL(I),TIME          
+         WRITE(IOUT,1100)NGL(I),TIME
 #include "lockoff.inc"
         END DO
        END IF
@@ -238,8 +238,8 @@ C      end Tuler Butcher
 
 Cc deviatoric will be vanished      
       IF(IDEV==1)THEN
-       NINDX=0 
-       NINDEX = 0 
+       NINDX=0
+       NINDEX = 0
        DO I=1,NEL
         IF(IFLAG==2.AND.OFF(I)==ONE)THEN
          IF(UVAR(I,1)<DC)THEN
@@ -261,7 +261,7 @@ c         yp= 3 x^2 + c
          E62 = E6*E6
          C = - HALF * (E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
          D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &       - TWO*E4*E5*E6 
+     &       - TWO*E4*E5*E6
          CC1 = C*THIRD
          S1 = SQRT(-CC1)
          EPST2 = S1 * S1
@@ -284,26 +284,26 @@ c         yp= 3 x^2 + c
           Y = (EPST2 + C)* S1 + D
           YP = THREE*EPST2 + C
           IF(YP/=ZERO)S1 = S1 - Y/YP
-         ENDIF 
+         ENDIF
           B = S1
-          C = C + S1**2 
+          C = C + S1**2
           S2 = HALF*(-S1 + SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           SS = HALF*(-S1 - SQRT(MAX(ZERO,(S1**2 - FOUR*C))))
           S3 = SS
           IF(SS>S2)THEN
            S3 = S2
            S2 = SS
-          ENDIF 
+          ENDIF
           A = ONE
           IF(S1/=ZERO.AND.S3==ZERO) A =  S2/S1
           IF(S1==ZERO.AND.S3/=ZERO) A =  S2/S3
           IF(S1/=ZERO.AND.S3/=ZERO)
-     .      A = MAX(S2/S3, S2/S1) 
+     .      A = MAX(S2/S3, S2/S1)
           W2 = MAX(EM20,(TWO - A))**BE
           W1 = ONE - ONE*P/PC
           W1 = (MAX(EM20,ONE/W1))**AL
-          UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)      
-          IF(UVAR(I,1)>=DC) THEN	   
+          UVAR(I,1) = UVAR(I,1) + W1*W2*DPLA(I)
+          IF(UVAR(I,1)>=DC) THEN	
            NINDX=NINDX+1
            INDX(NINDX)=I
            SIGNXX(I) =  P
@@ -311,19 +311,19 @@ c         yp= 3 x^2 + c
            SIGNZZ(I) =  P
            SIGNXY(I) = ZERO
            SIGNYZ(I) = ZERO
-           SIGNZX(I) = ZERO                 
+           SIGNZX(I) = ZERO
           ENDIF
 C uvar> DC          
-         ELSE 
+         ELSE
            P = THIRD*(SIGNXX(I) + SIGNYY(I) + SIGNZZ(I))
            SIGNXX(I) =  P
            SIGNYY(I) =  P
            SIGNZZ(I) =  P
            SIGNXY(I) = ZERO
            SIGNYZ(I) = ZERO
-           SIGNZX(I) = ZERO       
+           SIGNZX(I) = ZERO
          ENDIF
-        ENDIF  
+        ENDIF
        ENDDO
        IF(NINDX>0.AND.IMCONV==1)THEN
         DO J=1,NINDX
@@ -333,12 +333,12 @@ C uvar> DC
          WRITE(ISTDO,2100) NGL(I),TIME
 #include "lockoff.inc"
         END DO
-       END IF           
-      ENDIF       
+       END IF
+      ENDIF
 C-------------Maximum Damage storing for output : 0 < DFMAX < 1--------------
        DO I=1,NEL
           DFMAX(I)= MIN(ONE,MAX(DFMAX(I),UVAR(I,1)/DC))
-       ENDDO      
+       ENDDO
 C-----------------------------------------------
  1000 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10)
  1100 FORMAT(1X,'DELETE SOLID ELEMENT NUMBER ',I10,

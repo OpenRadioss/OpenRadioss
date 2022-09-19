@@ -90,7 +90,7 @@ C
 #include "lockoff.inc"
 C
       IF (NISKYL+NISKYL1 > LSKYI_SMS) THEN
-        CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)         
+        CALL ANCMSG(MSGID=26,ANMODE=ANINFO_BLIND)
         CALL ARRET(2)
       ENDIF
 C
@@ -168,7 +168,7 @@ C
          ISKYI_SMS(NISKYL,3)=PROCAMSFI(NIN)%P(NN)
         END IF
        END IF
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

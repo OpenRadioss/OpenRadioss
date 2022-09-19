@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE GROUPDEF_MOD  
+      USE GROUPDEF_MOD
       USE SUBMODEL_MOD
       USE HM_OPTION_READ_MOD
       USE UNITAB_MOD
@@ -64,7 +64,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN)::LSUBMODEL(*)
       INTEGER ISKN(LISKN,*)
       my_real
@@ -147,7 +147,7 @@ C--------------------------------------------------
           IDAMP_RDOF = IDAMP_RDOF+1
           KCONTACT = 1
           DAMPR(19,I) = NB_PAS
-          DAMPR(20,I) = RANGE     
+          DAMPR(20,I) = RANGE
         ELSE
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
@@ -175,7 +175,7 @@ C--------------------------------------------------
           CALL HM_GET_FLOATV('Beta_zz',BETA_ZZ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C--------------------------------------------------     
           DAMPR(19,I) = 0
-          DAMPR(20,I) = 0       
+          DAMPR(20,I) = 0
 C--------------------------------------------------
         ENDIF !   IF(KEY(1:5)=='INTER')THEN
 C
@@ -189,7 +189,7 @@ C
      .                C1='DAMP',
      .                C2='DAMP',
      .                I1=ID,I2=ISK,C3=TITR)
- 100   CONTINUE 
+ 100   CONTINUE
 
 C
         IF (TSTOP == ZERO) TSTOP=EP30
@@ -229,7 +229,7 @@ C
           DAMPR(16,I) = FACTB
           IF (FLINT==1) THEN
             DAMPR(3,I)  = ZERO
-            DAMPR(4,I)  = ZERO    
+            DAMPR(4,I)  = ZERO
             DAMPR(5,I)  = ZERO
             DAMPR(6,I)  = ZERO
             DAMPR(7,I)  = ZERO
@@ -260,7 +260,7 @@ C
           ELSEIF (FLINT==1) THEN
             FACTB = ONE
             DAMPR(3,I)  = ZERO
-            DAMPR(4,I)  = ZERO      
+            DAMPR(4,I)  = ZERO
             DAMPR(5,I)  = ZERO
             DAMPR(6,I)  = ZERO
             DAMPR(7,I)  = ZERO
@@ -322,7 +322,7 @@ C---
      .       /10X,'START TIME . . . . . . . . . . .',1PG20.13
      .       /10X,'STOP TIME  . . . . . . . . . . .',1PG20.13)
  1600 FORMAT( 10X,'EXTENSION OF NODES SELECTION . ',I10,/)
-          
+
 C---
       RETURN
       END

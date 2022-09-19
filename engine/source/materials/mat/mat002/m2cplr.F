@@ -59,7 +59,7 @@ C     REAL
      .   EZZ(*), OFF(*), EPSEQ(*),T(*),Z3,Z4,
      .   EPIF, ETSE(*),GS(*),EPSP(*)
       my_real
-     .   A1, A2, G, YMAX0, 
+     .   A1, A2, G, YMAX0,
      .   CA0, CB0, CN, YOUNG, YLD(MVSIZ),
      .   CC, EPDR(MVSIZ), NU, EPCHK(MVSIZ),TSTAR(MVSIZ),
      .   DPLA(MVSIZ),FISOKIN,GAMA_IMP(*),SIGNOR(MVSIZ,5),
@@ -76,7 +76,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   A(MVSIZ), B(MVSIZ), DPLA_I(MVSIZ), DPLA_J(MVSIZ), DR(MVSIZ),
-     .   H(MVSIZ), NU1(MVSIZ), NU2(MVSIZ), P(MVSIZ), Q(MVSIZ), 
+     .   H(MVSIZ), NU1(MVSIZ), NU2(MVSIZ), P(MVSIZ), Q(MVSIZ),
      .   SVM(MVSIZ),CA(MVSIZ), CB(MVSIZ), YMAX(MVSIZ),
      .   SVM2(MVSIZ),YLD2(MVSIZ),
      .   ERR,F,DF,PLA_I,P2,Q2,R,S1,S2,S3,YLD_I,NNU1,NNU2,
@@ -91,8 +91,8 @@ C------------------------------------------------------------------
         ETSE(I) = ONE
 c remise aux val. initiales
         CA(I)   = CA0
-        CB(I)   = CB0 
-        YMAX(I) = YMAX0 
+        CB(I)   = CB0
+        YMAX(I) = YMAX0
         H(I)    = ZERO
 !
         SIGNXX(I)=SIGOXX(I)
@@ -128,9 +128,9 @@ C     STRAIN RATE (JOHNSON-COOK, ZERILLI-ARMSTRONG)
 C-------------
       IF (EPIF /= ZERO) THEN
         IF (NPIF == ZERO) THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO I=JFT,JLT
-            IF (ISRATE == 0) EPSP(I) = 
+            IF (ISRATE == 0) EPSP(I) =
      .         MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
             EPSP(I) = MAX(EPSP(I),EPDR(I))
             MT=MAX(EM20,Z3)
@@ -138,7 +138,7 @@ C-------------
               Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
             ELSE
               Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))*
-     .                             (ONE-EXP(MT*LOG(TSTAR(I))))             
+     .                             (ONE-EXP(MT*LOG(TSTAR(I))))
             ENDIF
             Q(I) = MAX(Q(I),EM20)
             CA(I) = CA(I) * Q(I)
@@ -158,7 +158,7 @@ C-------------
         ELSE
           DO I=JFT,JLT
             IF (IRTY == 0) THEN
-              IF (ISRATE == 0) EPSP(I) = 
+              IF (ISRATE == 0) EPSP(I) =
      .          MAX( ABS(DEPSXX(I)), ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
               EPSP(I) = MAX(EPSP(I),EPDR(I))
               MT=MAX(EM20,Z3)
@@ -166,14 +166,14 @@ C-------------
                 Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
               ELSE
                 Q(I) = (ONE + CC * LOG(EPSP(I)/EPDR(I)))
-     .                            *(ONE-EXP(MT*LOG(TSTAR(I))))                
+     .                            *(ONE-EXP(MT*LOG(TSTAR(I))))
               ENDIF
               Q(I) = MAX(Q(I),EM20)
               CA(I) = CA(I) * Q(I)
               CB(I) = CB(I) * Q(I)
               IF (ICC == 1) YMAX(I) = YMAX(I) * Q(I)
             ELSE
-              IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)), 
+              IF (ISRATE == 0) EPSP(I) = MAX( ABS(DEPSXX(I)),
      .                    ABS(DEPSYY(I)), HALF*ABS(DEPSXY(I)))
               EPSP(I) = MAX(EPSP(I),EM20)
               Q(I) = LOG(EPSP(I)/EPDR(I))
@@ -211,10 +211,10 @@ C-------------------
      .         +THREE*SIGNXY(I)*SIGNXY(I))
         ENDDO
 C projection radiale 
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO I=JFT,JLT
           R = MIN(ONE,YLD(I)/(SVM(I)+EM15))
-          IF (R < ONE) THEN 
+          IF (R < ONE) THEN
             SIGNXX(I)=SIGNXX(I)*R
             SIGNYY(I)=SIGNYY(I)*R
             SIGNXY(I)=SIGNXY(I)*R
@@ -222,7 +222,7 @@ C projection radiale
             S1=HALF*(SIGNXX(I)+SIGNYY(I))
             EZZ(I) = DPLA(I) * S1 /YLD(I)
             EPSEQ(I) = EPSEQ(I) + DPLA(I)
-            EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))     
+            EPCHK(I) = MAX(EPSEQ(I),EPCHK(I))
             IF (YLD(I) >=YMAX(I)) THEN
               H(I)=ZERO
             ELSE
@@ -242,7 +242,7 @@ C-------------------------
           S3=SIGNXY(I)
           A(I)=FOURTH*S1*S1
           B(I)=THREE_OVER_4*S2*S2+THREE*S3*S3
-          SVM(I)=SQRT(A(I)+B(I))  
+          SVM(I)=SQRT(A(I)+B(I))
         ENDDO
 C-------------------------
 C     GATHER PLASTIC FLOW
@@ -272,7 +272,7 @@ C-------------------------
 C---------------------------
 C    DEP EN CONTRAINTE PLANE
 C---------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO  J=1,NINDX
           I=INDEX(J)
           NU1(I)=ONE/(ONE-NU)
@@ -291,7 +291,7 @@ C---------------------------
 C-----just keep at least old performance--to update H(I) inside iteration for implicit+ETSE---------
         IF (IKFLG == 0) THEN
           DO N=1,NMAX
-#include "vectorize.inc" 
+#include "vectorize.inc"
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
@@ -315,27 +315,27 @@ C-----just keep at least old performance--to update H(I) inside iteration for im
                 DPLA_J(I)=MAX(ZERO,DPLA_I(I)-F/DF)
               ELSE
                 DPLA_J(I)=ZERO
-              ENDIF        
+              ENDIF
             ENDDO ! DO J=1,NINDX
           ENDDO ! DO N=1,NMAX
 C----------kinematic&mix hardening      
-        ELSE   ! IF (IKFLG /= 0) 
-#include "vectorize.inc" 
+        ELSE   ! IF (IKFLG /= 0)
+#include "vectorize.inc"
           DO  J=1,NINDX
             I=INDEX(J)
             BETA = H(I)*FISOKIN
             HI(I) = H(I)-BETA
             HK(I) = TWO_THIRD*BETA
             AAA = THREE*HK(I)/YOUNG
-            NU11(I) = NU1(I) + AAA 
-            NU21(I) = THREE*NU2(I) + AAA 
+            NU11(I) = NU1(I) + AAA
+            NU21(I) = THREE*NU2(I) + AAA
             ANU1(I) = A(I)*NU11(I)
             BNU2(I) = B(I)*NU21(I)
             H2(I)= TWO*HI(I)
           ENDDO
 !
           DO N=1,NMAX
-#include "vectorize.inc" 
+#include "vectorize.inc"
             DO J=1,NINDX
               I=INDEX(J)
               DPLA_I(I)=DPLA_J(I)
@@ -363,11 +363,11 @@ C----------kinematic&mix hardening
               ENDIF
             ENDDO ! DO J=1,NINDX
           ENDDO ! DO N=1,NMAX
-        ENDIF !(IKFLG == 0) 
+        ENDIF !(IKFLG == 0)
 C------------------------------------------
 C     CONTRAINTES PLASTIQUEMENT ADMISSIBLES
 C------------------------------------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
         DO J=1,NINDX
           I=INDEX(J)
           EPSEQ(I) = EPSEQ(I) + DPLA_I(I)
@@ -389,7 +389,7 @@ C-------------------------
      .  	  +SIGNYY(I)*SIGNYY(I)
      .  	  -SIGNXX(I)*SIGNYY(I)
      .  	  +THREE*SIGNXY(I)*SIGNXY(I)
-          SVM(I)=SQRT(SVM2(I))  
+          SVM(I)=SQRT(SVM2(I))
         END DO
 C-------------------------
 C     GATHER PLASTIC FLOW
@@ -407,7 +407,7 @@ C-------------------------
 C-------------
 C   PROJ NORMALE AU CRITERE AVEC CALCUL APPROCHE DE LA NORMALE + RETOUR RADIAL
 C-------------
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO J=1,NINDX
             I=INDEX(J)
             IF (YLD(I) >= YMAX(I)) THEN
@@ -476,7 +476,7 @@ C     ECROUISSAGE CINE
 C------------------------------------------
       IF (IKFLG > 0) THEN
         IF (IPLA == 1 )THEN
-#include "vectorize.inc" 
+#include "vectorize.inc"
           DO J=1,NINDX
             I=INDEX(J)
             PLA_I =EPSEQ(I)
@@ -493,8 +493,8 @@ C------YLD, H(I) should not be updated----
           HKIN = FISOKIN*H(I)
           ALPHA = HKIN*DPLA(I)/YLD(I)
           SIGBAKXX(I) = SIGBAKXX(I) + ALPHA*SIGNXX(I)
-          SIGBAKYY(I) = SIGBAKYY(I) + ALPHA*SIGNYY(I) 
-          SIGBAKXY(I) = SIGBAKXY(I) + ALPHA*SIGNXY(I) 
+          SIGBAKYY(I) = SIGBAKYY(I) + ALPHA*SIGNYY(I)
+          SIGBAKXY(I) = SIGBAKXY(I) + ALPHA*SIGNXY(I)
 C
           SIGNXX(I)=SIGNXX(I) + SIGBAKXX(I)
           SIGNYY(I)=SIGNYY(I) + SIGBAKYY(I)

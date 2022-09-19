@@ -101,7 +101,7 @@ C-----------------------------------------------
       FACE_TO_NODE_LOCAL_ID(5, 3) = 7 ; FACE_TO_NODE_LOCAL_ID(5, 4) = 6
 !!! Face 6
       FACE_TO_NODE_LOCAL_ID(6, 1) = 1 ; FACE_TO_NODE_LOCAL_ID(6, 2) = 5
-      FACE_TO_NODE_LOCAL_ID(6, 3) = 8 ; FACE_TO_NODE_LOCAL_ID(6, 4) = 4  
+      FACE_TO_NODE_LOCAL_ID(6, 3) = 8 ; FACE_TO_NODE_LOCAL_ID(6, 4) = 4
 
       DO I = LFT, LLT
          II = I + NFT
@@ -155,8 +155,8 @@ C-----------------------------------------------
                SURF2 = HALF * ABS(SQRT(NORM(1) * NORM(1) + NORM(2) * NORM(2) + NORM(3) * NORM(3)))
                XF = XF + SURF2 * THIRD * (A(1) + B(1) + C(1))
                YF = YF + SURF2 * THIRD * (A(2) + B(2) + C(2))
-               ZF = ZF + SURF2 * THIRD * (A(3) + B(3) + C(3)) 
-               
+               ZF = ZF + SURF2 * THIRD * (A(3) + B(3) + C(3))
+
                SURF = SURF1 + SURF2
                XF = XF / SURF
                YF = YF / SURF

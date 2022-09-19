@@ -119,7 +119,7 @@ C
       END IF
 C
       RETURN
-      END 
+      END
 C
 Chd|====================================================================
 Chd|  SPMD_SAVESPH                  source/mpi/sph/spmd_sptool.F  
@@ -162,7 +162,7 @@ C-----------------------------------------------
           CALL WRITE_I_C(PSPHS,NSPMD)
           IF(NSPHS/=0)
      .      CALL WRITE_I_C(LSPHS,NSPHS)
-          IF(NSPCOND/=0.AND.NSPHR/=0)   
+          IF(NSPCOND/=0.AND.NSPHR/=0)
      .      CALL WRITE_I_C(ISPSYMR,NSPCOND*NSPHR)
         ELSEIF(IFLG==2)THEN
           IF(NSPHR/=0)
@@ -171,5 +171,5 @@ C-----------------------------------------------
       END IF
 C
       RETURN
-      END 
+      END
 C

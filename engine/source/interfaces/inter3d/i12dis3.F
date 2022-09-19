@@ -54,7 +54,7 @@ C-----------------------------------------------
       INTEGER I,ISGN,II
 C-----------------------------------------------
 !      EQUIVALENCE (SSC,BV(1,23)),(TTC,BV(1,24)),(XFACE,BV(1,29))
-      
+
       DO I=LFT,LLT
         II=I+NFT
         IF(ABS(SSC(I))>ONE+GAP .OR. ABS(TTC(I))>ONE+GAP)THEN

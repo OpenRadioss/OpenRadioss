@@ -55,15 +55,15 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
       my_real
-     .   VX1(*), VX2(*), VX3(*), VX4(*), 
+     .   VX1(*), VX2(*), VX3(*), VX4(*),
      .   VX5(*), VX6(*), VX7(*), VX8(*),
-     .   VY1(*), VY2(*), VY3(*), VY4(*), 
+     .   VY1(*), VY2(*), VY3(*), VY4(*),
      .   VY5(*), VY6(*), VY7(*), VY8(*),
-     .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), 
+     .   VZ1(*), VZ2(*), VZ3(*), VZ4(*),
      .   VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*), D4(*), D5(*), D6(*),
@@ -83,9 +83,9 @@ C     REAL
      .   VX17(MVSIZ), VY17(MVSIZ), VZ17(MVSIZ),
      .   VX28(MVSIZ), VY28(MVSIZ), VZ28(MVSIZ),
      .   VX35(MVSIZ), VY35(MVSIZ), VZ35(MVSIZ),
-     .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ), 
+     .   VX46(MVSIZ), VY46(MVSIZ), VZ46(MVSIZ),
      .    DT1D2, DT1D
-      my_real 
+      my_real
      .   PXX2,PYY2,PZZ2,PXX2P,PYY2P,PZZ2P
       my_real
      .   AAA,BBB
@@ -103,7 +103,7 @@ C-----------------------------------------------
         VZ28(I)=VZ2(I)-VZ8(I)
         VZ35(I)=VZ3(I)-VZ5(I)
         VZ46(I)=VZ4(I)-VZ6(I)
-       ENDDO  
+       ENDDO
 C                                                                     
        DO I=LFT,LLT
          DXX(I)=PX1(I)*VX17(I)+PX2(I)*VX28(I)+
@@ -229,9 +229,9 @@ C
         WYY(I)=DT1D2*(DXZ(I)-DZX(I))
         WXX(I)=DT1D2*(DZY(I)-DYZ(I))
        ENDDO
-      ENDIF  
+      ENDIF
 C
-       
+
       IF(ISROT > 0)THEN
        DO I=LFT,LLT
         DXY(I)=DXY(I) + VZR(I)
@@ -251,8 +251,8 @@ C
       ENDIF
 C pour le calcul du pas du temps      
       DO I=LFT, LLT
-        DD(I) = - DXX(I)- DYY(I) - DZZ(I) 
-      ENDDO  
+        DD(I) = - DXX(I)- DYY(I) - DZZ(I)
+      ENDDO
 C 
       RETURN
       END SUBROUTINE FDEFO3

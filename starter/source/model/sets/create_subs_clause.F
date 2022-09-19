@@ -195,7 +195,7 @@ C=======================================================================
          CALL HM_GET_INT_ARRAY_2INDEXES('ids',IDS,JCLAUSE,I,IS_AVAILABLE,LSUBMODEL)
 !
          SUBSM = SET_USRTOS(IDS,ISUBSM,NSUBS)
-         IF(SUBSM == 0)THEN        
+         IF(SUBSM == 0)THEN
            ! Subset was not found. Issue a Warning & Skip.
            CALL ANCMSG(MSGID=1902,ANMODE=ANINFO,
      .                             MSGTYPE=MSGWARNING,
@@ -215,14 +215,14 @@ C=======================================================================
 
 
       ! Sort the Readed SUBSETs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       IWORK(:) = 0
       DO I=1,NINDX
         INDEXS(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,SUBS_READ_TMP,INDEXS,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_SUBS(I) = SUBS_READ_TMP(INDEXS(I))
       ENDDO
@@ -231,7 +231,7 @@ C=======================================================================
 
 
       ! TAG Parts from Readed SUBSETs
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       NINDX = 0
       DO I=1,LIST_SIZE
@@ -247,14 +247,14 @@ C=======================================================================
 
 
       ! Sort of TAG Parts from Readed SUBSETs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       IWORK(:) = 0
       DO I=1,NINDX
         INDEXP(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,PART_READ_TMP,INDEXP,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_PARTS(I) = PART_READ_TMP(INDEXP(I))
       ENDDO
@@ -265,7 +265,7 @@ C=======================================================================
 
       ! Copy in final SET
       ! ------------------
-      CLAUSE%NB_PART = LIST_SIZE  
+      CLAUSE%NB_PART = LIST_SIZE
       ALLOCATE( CLAUSE%PART( LIST_SIZE ) )
 
       DO I=1,LIST_SIZE
@@ -386,7 +386,7 @@ C=======================================================================
 
           SSTART = SET_USRTOS_NEAREST(START_GENE,ISUBSM,NSUBS,1)
           SSTOP  = SET_USRTOS_NEAREST(END_GENE,ISUBSM,NSUBS,2)
-     
+
           STACK_ONE=0
 
           DO S=SSTART, SSTOP
@@ -413,7 +413,7 @@ C=======================================================================
 
 
       ! TAG Parts from Readed SUBSETs
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
       NINDX = 0
       DO I=1,STACK
@@ -429,14 +429,14 @@ C=======================================================================
 
 
       ! Sort of TAG Parts from Readed SUBSETs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
 
 
       DO I=1,NINDX
         INDEX(I) = I
       ENDDO
       CALL MY_ORDERS(0,IWORK,PART_READ_TMP,INDEX,NINDX,1)
-                
+
       DO I=1,NINDX
          SORTED_PARTS(I) = PART_READ_TMP(INDEX(I))
       ENDDO

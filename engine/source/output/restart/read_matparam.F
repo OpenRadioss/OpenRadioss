@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NUMMAT
-      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT), TARGET :: MATPARAM_TAB 
+      TYPE (MATPARAM_STRUCT_), DIMENSION(NUMMAT), TARGET :: MATPARAM_TAB
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -60,7 +60,7 @@ c
       LEN = NINT(HEAD)
       ALLOCATE (RBUF(LEN) )
       CALL READ_DB(RBUF, LEN)
-c      
+c
       IAD = 0
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
@@ -81,17 +81,17 @@ c
       DEALLOCATE( RBUF )
 c
 c     read material law tables if necessary
-      
+
       DO IMAT=1,NUMMAT
         MATPARAM => MATPARAM_TAB(IMAT)
         NUMTABL  = MATPARAM%NTABLE
-        
+
         IF (NUMTABL > 0) THEN
           ALLOCATE (MATPARAM%TABLE(NUMTABL))
           CALL TABLE_RRESTI_MAT(MATPARAM%TABLE, NUMTABL)
           CALL TABLE_RRESTR_MAT(MATPARAM%TABLE, NUMTABL)
         END IF
-      END DO      
+      END DO
 c-----------
       RETURN
       END

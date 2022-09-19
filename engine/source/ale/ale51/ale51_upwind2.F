@@ -91,7 +91,7 @@ C
       !    slip wall bc                                      !
       !======================================================!
       DO I=LFT,LLT
-       IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT) 
+       IAD2 = ALE_CONNECT%ee_connect%iad_connect(I + NFT)
        REDUC=PM(92,MAT(I))
        II=ALE_CONNECT%ee_connect%connected(IAD2 + 1 - 1)
        IF(II == 0)THEN
@@ -137,7 +137,7 @@ C
                R2 = HALF * (X(2, IXQ(3, II)) + X(2, IXQ(4, II)))
                R3 = HALF * (X(2, IXQ(4, II)) + X(2, IXQ(5, II)))
                R4 = HALF * (X(2, IXQ(5, II)) + X(2, IXQ(2, II)))
-               
+
                !!! Beware of r=0 axis
                IF (R1 /= ZERO) QMV(5,I) = QMV(5,I) / R1
                IF (R2 /= ZERO) QMV(6,I) = QMV(6,I) / R2
@@ -150,12 +150,12 @@ C
                FLUX(2,I) = FLUX2(I)-UPWL(2,I)*ABS(FLUX2(I))
                FLUX(3,I) = FLUX3(I)-UPWL(3,I)*ABS(FLUX3(I))
                FLUX(4,I) = FLUX4(I)-UPWL(4,I)*ABS(FLUX4(I))
-               
+
                QMV(5,I)  = FLUX1(I)+UPWL(1,I)*ABS(FLUX1(I))
                QMV(6,I)  = FLUX2(I)+UPWL(2,I)*ABS(FLUX2(I))
                QMV(7,I)  = FLUX3(I)+UPWL(3,I)*ABS(FLUX3(I))
                QMV(8,I)  = FLUX4(I)+UPWL(4,I)*ABS(FLUX4(I))
-                 
+
                FLU1(I) = QMV(5,I)  +  QMV(6,I)  +  QMV(7,I)  +  QMV(8,I)
             ENDDO
          ENDIF

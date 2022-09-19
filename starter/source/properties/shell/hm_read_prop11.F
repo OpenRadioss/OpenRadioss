@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD  
+      USE ELBUFTAG_MOD
       USE SUBMODEL_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGEO(NPROPGI),IPM(NPROPMI,*),SUB_ID,IG,IGTYP
       my_real
      .   GEO(NPROPG), PM(NPROPM,*),RTRANS(NTRANSF,*)
@@ -211,18 +211,18 @@ C
      .              I1=IG,
      .              C1=IDTITL)
         IHBE=24
-      ENDIF         
+      ENDIF
       IF(ISH3N==0) ISH3N = ISH3N_D
       IGEO(18) = ISH3N
       IF (GEO(16) == ZERO) IGEO(31) = 1
-      
+
       IF (IHBE==24) THEN
         IF (CVIS==ZERO) CVIS=ONE
         IF (GEO(17)==ZERO) GEO(17)=ZEP015
       ENDIF
 C---
       IF(ISMSTR==0)ISMSTR=ISST_D
-      IF (ISST_D == -2) ISMSTR = -1      
+      IF (ISST_D == -2) ISMSTR = -1
       IF(IHBE==3)THEN
         IF(GEO(13)==ZERO)GEO(13)=EM01
         IF(GEO(14)==ZERO)GEO(14)=EM01
@@ -380,7 +380,7 @@ C-----------------------------------------------------------------
        ENDIF
       ENDIF
 C---
-      IF (NLY == 0) THEN         
+      IF (NLY == 0) THEN
          CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
          CALL ANCMSG(MSGID=27,
      .               MSGTYPE=MSGERROR,
@@ -416,7 +416,7 @@ C----------------------
 
 C----------------------
            GEO(IPANG+K) = PHI_I
-           GEO(IPTHK+K) = THK_I 
+           GEO(IPTHK+K) = THK_I
            GEO(IPPOS+K) = Z_I
            IF (WEIGHT == ZERO) WEIGHT = ONE
            GEO(IPWEIGHT+K)= WEIGHT
@@ -496,7 +496,7 @@ C-------LAYER 1
      .              MSGTYPE=MSGERROR,
      .              I1=IG,
      .              C1=TITR1,
-     .              I2=NUML(1)) 
+     .              I2=NUML(1))
         IGEO(IPMAT+1) = 1
   250 CONTINUE
 C-----OTHER LAYERS
@@ -526,7 +526,7 @@ C-----OTHER LAYERS
      .             MSGTYPE=MSGERROR,
      .             I1=IG,
      .             C1=TITR,
-     .             I2=NUML(N)) 
+     .             I2=NUML(N))
        IGEO(IPMAT+N) = 1
   350 CONTINUE
 C
@@ -590,12 +590,12 @@ c----   Shells
           PROP_TAG(IGTYP)%LY_GAMA = 6
           PROP_TAG(IGTYP)%LY_DIRA = 2
 
-          PROP_TAG(IGTYP)%LY_PLAPT = 1      
+          PROP_TAG(IGTYP)%LY_PLAPT = 1
           PROP_TAG(IGTYP)%LY_SIGPT = 5
           PROP_TAG(IGTYP)%G_FORPG  = 5
           PROP_TAG(IGTYP)%G_MOMPG  = 3
           PROP_TAG(IGTYP)%G_STRPG  = 8
-          IF(IGMAT > 1) 
+          IF(IGMAT > 1)
      .                                      PROP_TAG(IGTYP)%LY_DMG = 2
 
 

@@ -60,7 +60,7 @@ C-----------------------------------------------
       INTEGER KSURF ,KSI(4,*) ,
      .        NOINT ,NDEB  ,NTC, IACTIV(4,*), KTC(*), ITAB(*)
 C     REAL
-      my_real 
+      my_real
      .  X(3,*)    ,BUFSF(*) ,NOLD(3,*) ,
      .  XTK(*) ,YTK(*) ,ZTK(*) ,NTX(*) ,NTY(*) ,NTZ(*) ,
      .  PENET(*) ,DEPTH(*) ,XI(*) ,YI(*)  ,ZI(*)  ,
@@ -91,8 +91,8 @@ C-----------------------------------------------
      .   X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ),
      .   X13(MVSIZ), Y13(MVSIZ), Z13(MVSIZ),
      .   X23(MVSIZ), Y23(MVSIZ), Z23(MVSIZ),
-     .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ) , 
-     .   XTK2(MVSIZ) , YTK2(MVSIZ) , ZTK2(MVSIZ) , 
+     .   XM(MVSIZ) , YM(MVSIZ) , ZM(MVSIZ) ,
+     .   XTK2(MVSIZ) , YTK2(MVSIZ) , ZTK2(MVSIZ) ,
      .   D(MVSIZ)
 C-----------------------------------------------
 C-----------------------------------------------
@@ -110,7 +110,7 @@ C-----------------------------------------------
       CN=C**DGR
       AN=ONE/MAX(EM20,AN)
       BN=ONE/MAX(EM20,BN)
-      CN=ONE/MAX(EM20,CN)      
+      CN=ONE/MAX(EM20,CN)
       DO I=1,9
        ROT(I)=BUFSF(ADRBUF+7+I-1)
       END DO
@@ -237,7 +237,7 @@ C       PROJECTION SUR 1,2
         XTK(I)=ALP*X1(I)+BET*X2(I)
         YTK(I)=ALP*Y1(I)+BET*Y2(I)
         ZTK(I)=ALP*Z1(I)+BET*Z2(I)
-      ENDIF 
+      ENDIF
       DX3=XTK(I)-X3(I)
       DY3=YTK(I)-Y3(I)
       DZ3=ZTK(I)-Z3(I)
@@ -255,7 +255,7 @@ C       PROJECTION SUR 2,3
         XTK(I)=ALP*X2(I)+BET*X3(I)
         YTK(I)=ALP*Y2(I)+BET*Y3(I)
         ZTK(I)=ALP*Z2(I)+BET*Z3(I)
-      ENDIF 
+      ENDIF
       OUT = (DY3*DZ1-DY1*DZ3)*NTX(I)
      .     +(DZ3*DX1-DZ1*DX3)*NTY(I)
      .     +(DX3*DY1-DY3*DX1)*NTZ(I)
@@ -270,7 +270,7 @@ C       PROJECTION SUR 3,1
         XTK(I)=ALP*X3(I)+BET*X1(I)
         YTK(I)=ALP*Y3(I)+BET*Y1(I)
         ZTK(I)=ALP*Z3(I)+BET*Z1(I)
-      ENDIF 
+      ENDIF
 C-----
       DX1=XTK2(I)-X1(I)
       DY1=YTK2(I)-Y1(I)
@@ -292,7 +292,7 @@ C       PROJECTION SUR 1,2
         XTK2(I)=ALP*X1(I)+BET*X2(I)
         YTK2(I)=ALP*Y1(I)+BET*Y2(I)
         ZTK2(I)=ALP*Z1(I)+BET*Z2(I)
-      ENDIF 
+      ENDIF
       DX3=XTK2(I)-X3(I)
       DY3=YTK2(I)-Y3(I)
       DZ3=ZTK2(I)-Z3(I)
@@ -310,7 +310,7 @@ C       PROJECTION SUR 2,3
         XTK2(I)=ALP*X2(I)+BET*X3(I)
         YTK2(I)=ALP*Y2(I)+BET*Y3(I)
         ZTK2(I)=ALP*Z2(I)+BET*Z3(I)
-      ENDIF 
+      ENDIF
       OUT = (DY3*DZ1-DY1*DZ3)*NTX(I)
      .      +(DZ3*DX1-DZ1*DX3)*NTY(I)
      .      +(DX3*DY1-DY3*DX1)*NTZ(I)
@@ -325,7 +325,7 @@ C       PROJECTION SUR 3,1
         XTK2(I)=ALP*X3(I)+BET*X1(I)
         YTK2(I)=ALP*Y3(I)+BET*Y1(I)
         ZTK2(I)=ALP*Z3(I)+BET*Z1(I)
-      ENDIF 
+      ENDIF
 C-------------------------------
  150  CONTINUE
 C-------------------------------
@@ -344,7 +344,7 @@ C-----
       IF (XKN1*XH>=ZERO) SGNXKN=ONE
       YKN1 =YH**(IDG-1)
       SGNYKN=-ONE
-      IF (YKN1*YH>=ZERO) SGNYKN=ONE      
+      IF (YKN1*YH>=ZERO) SGNYKN=ONE
       ZKN1 =ZH**(IDG-1)
       SGNZKN=-ONE
       IF (ZKN1*ZH>=ZERO) SGNZKN=ONE
@@ -466,7 +466,7 @@ C       one more iteration.
         IF (YKN1*YM(I)>=ZERO) SGNYKN=ONE
         ZKN1 =ZM(I)**(IDG-1)
         SGNZKN=-ONE
-        IF (ZKN1*ZM(I)>=ZERO) SGNZKN=ONE        
+        IF (ZKN1*ZM(I)>=ZERO) SGNZKN=ONE
         N1 =SGNXKN*XKN1*AN
         N2 =SGNYKN*YKN1*BN
         N3 =SGNZKN*ZKN1*CN
@@ -497,7 +497,7 @@ C       one more iteration.
         XM(I)=XTK(I)+LAMBDA1*N1
         YM(I)=YTK(I)+LAMBDA1*N2
         ZM(I)=ZTK(I)+LAMBDA1*N3
-      ENDIF 
+      ENDIF
       IACTIV(1,IL)=IACTIV(1,IL)+1
       ENDIF
  175  CONTINUE
@@ -526,15 +526,15 @@ C      projection radiale de M.
 C------
         XM(I)=XM(I)/MAX(EM20,EM**(ONE/DGR))
         YM(I)=YM(I)/MAX(EM20,EM**(ONE/DGR))
-        ZM(I)=ZM(I)/MAX(EM20,EM**(ONE/DGR))        
+        ZM(I)=ZM(I)/MAX(EM20,EM**(ONE/DGR))
 C-----
 C      normale a l'ellipsoide en M.
         XKN1 =XM(I)**(IDG-1)
         SGNXKN=-ONE
-        IF (XKN1*XM(I)>=ZERO) SGNXKN=ONE        
+        IF (XKN1*XM(I)>=ZERO) SGNXKN=ONE
         YKN1 =YM(I)**(IDG-1)
         SGNYKN=-ONE
-        IF (YKN1*YM(I)>=ZERO) SGNYKN=ONE        
+        IF (YKN1*YM(I)>=ZERO) SGNYKN=ONE
         ZKN1 =ZM(I)**(IDG-1)
         SGNZKN=-ONE
         IF (ZKN1*ZM(I)>=ZERO) SGNZKN=ONE
@@ -577,12 +577,12 @@ C-----
 #include "lockon.inc"
          WRITE(ISTDO,'(A,I8)')' WARNING INTERFACE ',NOINT
          WRITE(ISTDO,'(A,A,A,3I8)')' ELEMENT/SEGMENT',
-     .                   ' DE-ACTIVATED FROM INTERFACE;',                 
+     .                   ' DE-ACTIVATED FROM INTERFACE;',
      .                   ' ELEMENT/SEGMENT NODES:',
      .                   IN1,IN2,IN3
          WRITE(IOUT ,'(A,I8)')' WARNING INTERFACE ',NOINT
          WRITE(IOUT,'(A,A,A,3I8)')' ELEMENT/SEGMENT',
-     .                   ' DE-ACTIVATED FROM INTERFACE;',                 
+     .                   ' DE-ACTIVATED FROM INTERFACE;',
      .                   ' ELEMENT/SEGMENT NODES:',
      .                   IN1,IN2,IN3
 #include "lockoff.inc"

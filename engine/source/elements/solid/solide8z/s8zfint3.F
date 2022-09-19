@@ -77,12 +77,12 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SIG(NEL,6),SIGOR(NEL,6),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
-     .   PX5(*), PX6(*), PX7(*), PX8(*),  
-     .   PY5(*), PY6(*), PY7(*), PY8(*),  
-     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
+     .   PX5(*), PX6(*), PX7(*), PX8(*),
+     .   PY5(*), PY6(*), PY7(*), PY8(*),
+     .   PZ5(*), PZ6(*), PZ7(*), PZ8(*),
      .   PXY1(*),PXY2(*),PXY3(*),PXY4(*),
      .   PXY5(*),PXY6(*),PXY7(*),PXY8(*),
      .   PYX1(*),PYX2(*),PYX3(*),PYX4(*),
@@ -304,9 +304,9 @@ C-----------------------------------------------
       INTEGER IDEGE(*)
 C     REAL
       my_real
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
@@ -376,10 +376,10 @@ Chd|        S8ZFORC3                      source/elements/solid/solide8z/s8zforc
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE S8ZZERO3(
-     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4, 
+     .   FX1, FY1, FZ1, FX2, FY2, FZ2, FX3, FY3, FZ3, FX4, FY4, FZ4,
      .   FX5, FY5, FZ5, FX6, FY6, FZ6, FX7, FY7, FZ7, FX8, FY8, FZ8,
      .   SIGM,   EINTM,  RHOM, QM,     DEFPM,
-     .   EPSDM,  STIN,   PP,   G_PLA,  G_EPSD, 
+     .   EPSDM,  STIN,   PP,   G_PLA,  G_EPSD,
      .   IEXPAN, EINTTHM ,NEL,CONDEN)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -423,7 +423,7 @@ C=======================================================================
          QM(I)     = ZERO
          STIN(I)   = ZERO
          PP(I)     = ZERO	
-         CONDEN(I)   = ZERO 
+         CONDEN(I)   = ZERO
       ENDDO
 C
       IF (IEXPAN > 0) THEN
@@ -468,7 +468,7 @@ C
        FZ7(I)=ZERO
        FX8(I)=ZERO
        FY8(I)=ZERO
-       FZ8(I)=ZERO       
+       FZ8(I)=ZERO
       ENDDO
 C-----------
       RETURN

@@ -64,81 +64,81 @@ C======================================================================|
       T2 = T*T
       T3 = T*T2
 c
-      SLM  = (ONE - S)*HALF                                            
-      SLP  = (ONE + S)*HALF                                            
-      TLM  = (ONE - T)*HALF                                            
-      TLP  = (ONE + T)*HALF                                            
+      SLM  = (ONE - S)*HALF
+      SLP  = (ONE + S)*HALF
+      TLM  = (ONE - T)*HALF
+      TLP  = (ONE + T)*HALF
 C
-      LS   = TLM*LS1 + TLP*LS2                                             
-      LT   = SLM*LT1 + SLP*LT2                              
+      LS   = TLM*LS1 + TLP*LS2
+      LT   = SLM*LT1 + SLP*LT2
 C
-      SM2 = SLM*SLM                                                    
-      SP2 = SLP*SLP                                                    
-      TM2 = TLM*TLM                                                    
-      TP2 = TLP*TLP                                                    
+      SM2 = SLM*SLM
+      SP2 = SLP*SLP
+      TM2 = TLM*TLM
+      TP2 = TLP*TLP
 C---- fonctions de forme lineaires
-      H(1)  = SLM*TLM                                                    
-      H(2)  = SLP*TLM                                                    
-      H(3)  = SLP*TLP                                                    
-      H(4)  = SLM*TLP                                                    
+      H(1)  = SLM*TLM
+      H(2)  = SLP*TLM
+      H(3)  = SLP*TLP
+      H(4)  = SLM*TLP
 C---- fonctions de forme bicubiques (Adini, Clough)
-c     u       = sum( HH(i)*u(i) + HRS(i) *theta_s(i)  + HRT(i) *theta_t(i))     
-c     theta_s = sum(HPS(i)*u(i) + HPRS(i)*theta_s(i)) + HXS(i) *theta_t(i))    
-c     theta_t = sum(HPT(i)*u(i) + HXT(i) *theta_s(i)) + HPRT(i)*theta_t(i))    
+c     u       = sum( HH(i)*u(i) + HRS(i) *theta_s(i)  + HRT(i) *theta_t(i))
+c     theta_s = sum(HPS(i)*u(i) + HPRS(i)*theta_s(i)) + HXS(i) *theta_t(i))
+c     theta_t = sum(HPT(i)*u(i) + HXT(i) *theta_s(i)) + HPRT(i)*theta_t(i))
 c
 c     F(i)    =  HH(i)*Fz +  HPS(i)*Ms +  HPT(i)*Mt
 c     Ms(i)   = HRS(i)*Fz + HPRS(i)*Ms +  HXT(i)*Mt
 c     Mt(i)   = HRT(i)*Fz +  HXS(i)*Ms + HPRT(i)*Mt
 C-------------------------
-      HH(1)  = SLM*TLM*(ONE - S*SLP - T*TLP)                                               
-      HH(2)  = SLP*TLM*(ONE + S*SLM - T*TLP)                                                 
-      HH(3)  = SLP*TLP*(ONE + S*SLM + T*TLM)                                                  
-      HH(4)  = SLM*TLP*(ONE - S*SLP + T*TLM)                                                 
+      HH(1)  = SLM*TLM*(ONE - S*SLP - T*TLP)
+      HH(2)  = SLP*TLM*(ONE + S*SLM - T*TLP)
+      HH(3)  = SLP*TLP*(ONE + S*SLM + T*TLM)
+      HH(4)  = SLM*TLP*(ONE - S*SLP + T*TLM)
 
-      HRS(1) = SLM*TLP*TM2*LT                                             
-      HRS(2) = SLP*TLP*TM2*LT                                            
-      HRS(3) =-SLP*TLM*TP2*LT                                                 
-      HRS(4) =-SLM*TLM*TP2*LT                                                 
+      HRS(1) = SLM*TLP*TM2*LT
+      HRS(2) = SLP*TLP*TM2*LT
+      HRS(3) =-SLP*TLM*TP2*LT
+      HRS(4) =-SLM*TLM*TP2*LT
 c
-      HRT(1) =-TLM*SLP*SM2*LS                    
-      HRT(2) = TLM*SLM*SP2*LS                    
-      HRT(3) = TLP*SLM*SP2*LS                    
-      HRT(4) =-TLP*SLP*SM2*LS                    
+      HRT(1) =-TLM*SLP*SM2*LS
+      HRT(2) = TLM*SLM*SP2*LS
+      HRT(3) = TLP*SLM*SP2*LS
+      HRT(4) =-TLP*SLP*SM2*LS
 C-----
-      HPS(1) = (-THREE + FOUR*S + SIX*T2*SLM - S3) * FOURTH / LT                                         
-      HPS(2) = (-THREE - FOUR*S + SIX*T2*SLP + S3) * FOURTH / LT                                          
-      HPS(3) = ( THREE + FOUR*S - SIX*T2*SLP - S3) * FOURTH / LT                                         
-      HPS(4) = ( THREE - FOUR*S - SIX*T2*SLM + S3) * FOURTH / LT          
+      HPS(1) = (-THREE + FOUR*S + SIX*T2*SLM - S3) * FOURTH / LT
+      HPS(2) = (-THREE - FOUR*S + SIX*T2*SLP + S3) * FOURTH / LT
+      HPS(3) = ( THREE + FOUR*S - SIX*T2*SLP - S3) * FOURTH / LT
+      HPS(4) = ( THREE - FOUR*S - SIX*T2*SLM + S3) * FOURTH / LT
 
-      HPT(1) =-(-THREE + FOUR*T + SIX*S2*TLM - T3) * FOURTH / LS                                          
-      HPT(2) =-( THREE - FOUR*T - SIX*S2*TLM + T3) * FOURTH / LS                                           
-      HPT(3) =-( THREE + FOUR*T - SIX*S2*TLP - T3) * FOURTH / LS                                                
+      HPT(1) =-(-THREE + FOUR*T + SIX*S2*TLM - T3) * FOURTH / LS
+      HPT(2) =-( THREE - FOUR*T - SIX*S2*TLM + T3) * FOURTH / LS
+      HPT(3) =-( THREE + FOUR*T - SIX*S2*TLP - T3) * FOURTH / LS
       HPT(4) =-(-THREE - FOUR*T + SIX*S2*TLP + T3) * FOURTH / LS
 C-----
-      SRPM = THREE_HALF*S2 - S - HALF                                          
-      SRPP = THREE_HALF*S2 + S - HALF                                           
-      TRPM = THREE_HALF*T2 - T - HALF                                           
-      TRPP = THREE_HALF*T2 + T - HALF                                          
+      SRPM = THREE_HALF*S2 - S - HALF
+      SRPP = THREE_HALF*S2 + S - HALF
+      TRPM = THREE_HALF*T2 - T - HALF
+      TRPP = THREE_HALF*T2 + T - HALF
 
-      HPRS(1) = SLM * TRPM                                               
-      HPRS(2) = SLP * TRPM                                               
-      HPRS(3) = SLP * TRPP                                               
-      HPRS(4) = SLM * TRPP    
+      HPRS(1) = SLM * TRPM
+      HPRS(2) = SLP * TRPM
+      HPRS(3) = SLP * TRPP
+      HPRS(4) = SLM * TRPP
 
-      HPRT(1) = TLM * SRPM                                              
-      HPRT(2) = TLM * SRPP                                              
-      HPRT(3) = TLP * SRPP                                              
-      HPRT(4) = TLP * SRPM    
+      HPRT(1) = TLM * SRPM
+      HPRT(2) = TLM * SRPP
+      HPRT(3) = TLP * SRPP
+      HPRT(4) = TLP * SRPM
 C-----
-      HXS(1) =-SLP*SM2 * LS/LT                                                
-      HXS(2) = SLM*SP2 * LS/LT                                                
-      HXS(3) =-HXS(2)                                                
-      HXS(4) =-HXS(1)                 
+      HXS(1) =-SLP*SM2 * LS/LT
+      HXS(2) = SLM*SP2 * LS/LT
+      HXS(3) =-HXS(2)
+      HXS(4) =-HXS(1)
 
-      HXT(1) =-TLP*TM2 * LT/LS                                                
-      HXT(2) =-HXT(1)                                                
-      HXT(3) =-TLM*TP2 * LT/LS                                               
-      HXT(4) =-HXT(3)                   
+      HXT(1) =-TLP*TM2 * LT/LS
+      HXT(2) =-HXT(1)
+      HXT(3) =-TLM*TP2 * LT/LS
+      HXT(4) =-HXT(3)
 C-----------
       RETURN
       END

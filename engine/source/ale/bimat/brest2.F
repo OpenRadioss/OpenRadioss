@@ -27,8 +27,8 @@ Chd|        BFORC2                        source/ale/bimat/bforc2.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE BREST2(ALPH,VOLT,PM,OFF,VOL0,SOFF,IC,VOLN,
-     .     AIRE, AIRES, 
-     .     D1, D2, D3, D4, D5, D6, 
+     .     AIRE, AIRES,
+     .     D1, D2, D3, D4, D5, D6,
      .     D1S, D2S, D3S, D4S, D5S, D6S,
      .     VD2, DVOL,
      .     MAT)
@@ -55,8 +55,8 @@ C-----------------------------------------------
       INTEGER IC(7,*), MAT(*)
       my_real
      .   ALPH(*), VOLT(*), PM(NPROPM,*), OFF(*), VOL0(*),VOLN(MVSIZ),
-     .   AIRE(*), AIRES(*), 
-     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*), 
+     .   AIRE(*), AIRES(*),
+     .   D1(*), D2(*), D3(*), D4(*), D5(*), D6(*),
      .   D1S(*), D2S(*), D3S(*), D4S(*), D5S(*), D6S(*),
      .   VD2(*), DVOL(*)
 C-----------------------------------------------

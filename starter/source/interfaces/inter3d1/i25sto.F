@@ -69,7 +69,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .        X(3,*), GAP_S(*), GAP_M(*),
-     .        MARGE, 
+     .        MARGE,
      .        GAP_S_L(*), GAP_M_L(*), EDGE_L2(*)
       my_real , INTENT(IN) :: DGAPLOAD ,DRAD
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ)
       DATA ITYPE/25/
 C-----------------------------------------------
@@ -105,14 +105,14 @@ C-----------------------------------------------
      .                IX3   ,IX4   ,GAPV  ,NRTM   ,ETYP ,
      .                IBC   )
 C-----------------------------------------------
-      IF (ILEV==2) 
+      IF (ILEV==2)
      .  CALL I25S1S2(J_STOK,PROV_N,PROV_E,NBINFLG,MBINFLG,PENE)
 C-----------------------------------------------
       K_STOK = 0
       DO I=1,J_STOK
           IF(PENE(I)/=ZERO) THEN
             K_STOK = K_STOK + 1
-          END IF 
+          END IF
       ENDDO
       IF(K_STOK==0)RETURN
 C

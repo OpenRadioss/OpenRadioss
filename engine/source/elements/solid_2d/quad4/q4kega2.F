@@ -50,7 +50,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL
       my_real
-     .    PY1(*), PY2(*), PZ1(*), PZ2(*), AY(*), 
+     .    PY1(*), PY2(*), PZ1(*), PZ2(*), AY(*),
      .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*),
      .    K23(2,2,*), K24(2,2,*), K33(2,2,*), K34(2,2,*), K44(2,2,*),
      .    SIG(NEL,6), AIR(*), OFF(*)
@@ -76,8 +76,8 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----K11,K13,K33
-      CALL Q4KEGAIJ2(LFT, LLT, 
-     .               PY1, PZ1, PY1, PZ1, AYS, GIJ, HIJ,  
+      CALL Q4KEGAIJ2(LFT, LLT,
+     .               PY1, PZ1, PY1, PZ1, AYS, GIJ, HIJ,
      .               FYY, FZZ, FXX, FYZ)
       DO I=LFT,LLT
         DO J=1,2
@@ -94,8 +94,8 @@ C-----K11,K13,K33
         ENDDO
       ENDDO
 C-----K22,K24,K44
-      CALL Q4KEGAIJ2(LFT, LLT, 
-     .               PY2, PZ2, PY2, PZ2, AYS, GIJ, HIJ,  
+      CALL Q4KEGAIJ2(LFT, LLT,
+     .               PY2, PZ2, PY2, PZ2, AYS, GIJ, HIJ,
      .               FYY, FZZ, FXX, FYZ)
       DO I=LFT,LLT
         DO J=1,2
@@ -112,8 +112,8 @@ C-----K22,K24,K44
         ENDDO
       ENDDO
 C-----K12,K14,K34,K23
-      CALL Q4KEGAIJ2(LFT, LLT, 
-     .               PY1, PZ1, PY2, PZ2, AYS, GIJ, HIJ,  
+      CALL Q4KEGAIJ2(LFT, LLT,
+     .               PY1, PZ1, PY2, PZ2, AYS, GIJ, HIJ,
      .               FYY, FZZ, FXX, FYZ)
       DO I=LFT,LLT
         DO J=1,2
@@ -143,7 +143,7 @@ Chd|-- called by -----------
 Chd|        Q4KEGA2                       source/elements/solid_2d/quad4/q4kega2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4KEGAIJ2 (LFT, LLT, 
+      SUBROUTINE Q4KEGAIJ2 (LFT, LLT,
      .                      PYI, PZI, PYJ, PZJ, AYS, GIJ, HIJ,
      .                      FYY, FZZ, FXX, FYZ)
 C-----------------------------------------------
@@ -163,7 +163,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LFT,LLT
       my_real
-     .   PYI(*), PZI(*), PYJ(*), PZJ(*), AYS(*), 
+     .   PYI(*), PZI(*), PYJ(*), PZJ(*), AYS(*),
      .   FYY(*), FZZ(*), FXX(*), FYZ(*), GIJ(*), HIJ(2,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -179,7 +179,7 @@ C-----------------------------------------------
       AH = 0. !0;0;2
 C-----PART 1
       DO I=LFT,LLT
-        GIJ(I) = FYY(I)*PYI(I)*PYJ(I) + FZZ(I)*PZI(I)*PZJ(I) + 
+        GIJ(I) = FYY(I)*PYI(I)*PYJ(I) + FZZ(I)*PZI(I)*PZJ(I) +
      .           FYZ(I)*(PYI(I)*PZJ(I)+PZI(I)*PYJ(I))
       ENDDO
       IF (N2D==1) THEN
@@ -196,11 +196,11 @@ C-----PART 2
         BZIZJ = PZI(I)*PZJ(I)
         BYIZJ = PYI(I)*PZJ(I)
         BZIYJ = PZI(I)*PYJ(I)
-        HIJ(1,1,I) = FYY(I)*(BYIYJ+BZIZJ) + FZZ(I)*BZIZJ + 
+        HIJ(1,1,I) = FYY(I)*(BYIYJ+BZIZJ) + FZZ(I)*BZIZJ +
      .               FYZ(I)*(BYIZJ+BZIYJ)
         HIJ(1,2,I) = (FYY(I)+FZZ(I))*BZIYJ + FYZ(I)*(BYIYJ+BZIZJ)
         HIJ(2,1,I) = (FYY(I)+FZZ(I))*BYIZJ + FYZ(I)*(BYIYJ+BZIZJ)
-        HIJ(2,2,I) = FYY(I)*BYIYJ + FZZ(I)*(BYIYJ+BZIZJ) + 
+        HIJ(2,2,I) = FYY(I)*BYIYJ + FZZ(I)*(BYIYJ+BZIZJ) +
      .               FYZ(I)*(BYIZJ+BZIYJ)
       ENDDO
       IF (N2D==1) THEN

@@ -139,8 +139,8 @@ C--------------------------------------------------
 C
 C--       read of type19 flag
           ID_TYPE19=0
-          CALL HM_GET_INTV('ID_TYPE19',ID_TYPE19,IS_AVAILABLE,LSUBMODEL)        
-            
+          CALL HM_GET_INTV('ID_TYPE19',ID_TYPE19,IS_AVAILABLE,LSUBMODEL)
+
           SELECT CASE(KEY(1:LEN_TRIM(KEY)))
 
            CASE ('TYPE25')
@@ -210,7 +210,7 @@ C--------------------------------------------------
           CALL HM_GET_INTV('InterfaceId',IDINT,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('mainentityids',ID1,IS_AVAILABLE,LSUBMODEL)
           CALL HM_GET_INTV('secondaryentityids',ID2,IS_AVAILABLE,LSUBMODEL)
-          CALL HM_GET_INTV('Main_ID2',ID3,IS_AVAILABLE,LSUBMODEL)   
+          CALL HM_GET_INTV('Main_ID2',ID3,IS_AVAILABLE,LSUBMODEL)
 
           NOM_OPT(2,NINTER+NISUB)=IDINT
           NOM_OPT(3,NINTER+NISUB)=ID1
@@ -427,8 +427,8 @@ C    ------   If one of the 2 surface is empty then type7 is symetric ------
           IF ((ISU1==0).AND.(ISU2/=0)) THEN
             ISU1 = ISU2
           ELSEIF ((ISU1/=0).AND.(ISU2==0)) THEN
-            ISU2 = ISU1                 
-          ENDIF 
+            ISU2 = ISU1
+          ENDIF
 C
           INGR2USR => IGRSURF(1:NSURF)%ID
           ISURF1=NGR2USR(ISU1,INGR2USR,NSURF)
@@ -463,14 +463,14 @@ C
           ID=NOM_OPT(1,NINTER+I)
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,
      .                          NINTER+I),LTITR)
-          OKSURF = 0 
+          OKSURF = 0
           DO J=1,NSURF
             IF(IGRSURF(J)%ID==IDSURF)THEN
               NOM_OPT(6,NINTER+I)=J
               OKSURF = 1
             END IF
           END DO
-          IF(OKSURF == 0 ) THEN 
+          IF(OKSURF == 0 ) THEN
              CALL ANCMSG(MSGID=576,
      .                  MSGTYPE=MSGERROR,
      .                  ANMODE=ANINFO,
@@ -481,14 +481,14 @@ C
 C
           IDSURF=NOM_OPT(3,NINTER+I)
           IF(IDSURF/=0)THEN
-            OKSURF = 0 
+            OKSURF = 0
             DO J=1,NSURF
               IF(IGRSURF(J)%ID==IDSURF)THEN
                 NOM_OPT(3,NINTER+I)=J
                 OKSURF = 1
               END IF
             END DO
-            IF(OKSURF == 0 ) THEN 
+            IF(OKSURF == 0 ) THEN
               CALL ANCMSG(MSGID=576,
      .                    MSGTYPE=MSGERROR,
      .                    ANMODE=ANINFO,
@@ -496,7 +496,7 @@ C
      .                    C1=TITR,
      .                    I2=IDSURF)
             ENDIF
-          
+
           END IF
 C
         ENDIF
@@ -511,20 +511,20 @@ C     (sinon la ss-interface est inutile)
 C-------------------------------------
 
       CALL HM_OPTION_COUNT('/TH/INTER' ,NTHINTER  )
-      CALL HM_OPTION_START('/TH/INTER')   
-      IF (NTHINTER > 0) THEN 
+      CALL HM_OPTION_START('/TH/INTER')
+      IF (NTHINTER > 0) THEN
         DO II=1,NTHINTER
-          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)  
-          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL) 
+          CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=ID, OPTION_TITR=TITR)
+          CALL HM_GET_INTV('idsmax',IDSMAX,IS_AVAILABLE,LSUBMODEL)
           DO IVAR=1,IDSMAX
-            CALL HM_GET_INT_ARRAY_INDEX('ids',N,IVAR,IS_AVAILABLE,LSUBMODEL) 
+            CALL HM_GET_INT_ARRAY_INDEX('ids',N,IVAR,IS_AVAILABLE,LSUBMODEL)
             DO K=1,NINTSUB
               IF(N==NOM_OPT(1,NINTER+K))THEN
                 NOM_OPT(5,NINTER+K)=1
                 EXIT
               END IF
-            END DO !next K   
-          ENDDO!NEXT IVAR    
+            END DO !next K
+          ENDDO!NEXT IVAR
         ENDDO !next II
       ENDIF
 C-------------------------------------

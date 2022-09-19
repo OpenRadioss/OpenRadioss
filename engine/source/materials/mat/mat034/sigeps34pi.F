@@ -29,9 +29,9 @@ Chd|====================================================================
       SUBROUTINE SIGEPS34PI(
      1               NEL     ,NUPARAM ,UPARAM  ,IPM     ,MAT     ,
      2               NUVAR   ,UVAR    ,DEPSXX  ,DEPSXY  ,DEPSXZ  ,
-     3               EPSXX   ,SIGOXX  ,SIGOXY  ,SIGOXZ  , 
+     3               EPSXX   ,SIGOXX  ,SIGOXY  ,SIGOXZ  ,
      5               SIGNXX  ,SIGNXY  ,SIGNXZ  ,TIMESTEP,
-     6               EPSXY   ,EPSXZ    )      
+     6               EPSXY   ,EPSXZ    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -52,7 +52,7 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPROPMI,NUMMAT) ,INTENT(IN) :: IPM
       INTEGER ,DIMENSION(NEL) ,INTENT(IN) :: MAT
       my_real :: TIMESTEP
-      my_real ,DIMENSION(NEL) ,INTENT(IN) :: 
+      my_real ,DIMENSION(NEL) ,INTENT(IN) ::
      .   EPSXX,DEPSXX,DEPSXY,DEPSXZ,SIGOXX,SIGOXY,SIGOXZ,
      .   EPSXY,EPSXZ
       my_real ,DIMENSION(*) ,INTENT(IN) :: UPARAM
@@ -67,7 +67,7 @@ C-----------------------------------------------
       INTEGER :: I,IADBUF
       my_real :: DDEXX,DDEXY,DDEXZ,DEPSDXX,DEXX,DEPSVXX,DEPSVXY,DEPSVXZ,DP
       my_real, DIMENSION(NEL) :: BULK,G_INS,G_INF,GE,GE2,GV,GV2,BETA,C1,C2,
-     .      EPSPXX,EPSPXY,EPSPXZ            
+     .      EPSPXX,EPSPXY,EPSPXZ
 C=======================================================================
 !!      SHFACT = FIVE_OVER_6
 c
@@ -78,7 +78,7 @@ c
         G_INF(I) = UPARAM(IADBUF+3)
         BETA(I)  = UPARAM(IADBUF+4)
       ENDDO
-c        
+c
       GE(1:NEL)  = G_INF(1:NEL)                ! elastic part of shear modulus
       GV(1:NEL)  = G_INS(1:NEL) - G_INF(1:NEL)   ! viscous part of shear modulus
       GE2(1:NEL) = GE(1:NEL) * TWO
@@ -88,12 +88,12 @@ c
       EPSPXX(1:NEL) = DEPSXX(1:NEL)/MAX(EM20,TIMESTEP)
       EPSPXY(1:NEL) = DEPSXY(1:NEL)/MAX(EM20,TIMESTEP)
       EPSPXZ(1:NEL) = DEPSXZ(1:NEL)/MAX(EM20,TIMESTEP)
-c      
+c
       DO I=1,NEL
         DDEXX = TWO_THIRD*DEPSXX(I)
         DDEXY = DEPSXY(I)
         DDEXZ = DEPSXZ(I)
-        
+
         DEPSDXX = TWO_THIRD*EPSPXX(I)
         DEXX = TWO_THIRD*EPSXX(I)
         !
@@ -101,11 +101,11 @@ c
         DEPSVXY = C1(I)*(EPSXY(I) - UVAR(I,2)) + C2(I)*EPSPXY(I)
         DEPSVXZ = C1(I)*(EPSXZ(I) - UVAR(I,3)) + C2(I)*EPSPXZ(I)
         DP  = BULK(I)*DEPSXX(I)
-        !!        
+        !!
         SIGNXX(I) = SIGOXX(I) + GE2(I)*DDEXX - GV2(I)*DEPSVXX + DP
         SIGNXY(I) = SIGOXY(I) + GE(I) *DDEXY - GV(I) *DEPSVXY
         SIGNXZ(I) = SIGOXZ(I) + GE(I) *DDEXZ - GV(I) *DEPSVXZ
-        
+
         UVAR(I,1) = UVAR(I,1) + DEPSVXX + DDEXX
         UVAR(I,2) = UVAR(I,2) + DEPSVXY + DDEXY
         UVAR(I,3) = UVAR(I,3) + DEPSVXZ + DDEXZ

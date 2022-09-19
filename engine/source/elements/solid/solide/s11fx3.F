@@ -80,7 +80,7 @@ C-----------------------------------------------
                     FLUX(K,I) = MAX(FLUX(K,I),ZERO)
                   ENDIF
                 ENDIF!LAW TEST
-              ENDIF!ISOLNOD==8             
+              ENDIF!ISOLNOD==8
             ENDIF!JJ>0
           ENDDO
         ENDDO

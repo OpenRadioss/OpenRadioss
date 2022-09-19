@@ -48,11 +48,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER NOD(*), NBY(*), WEIGHT(*), ICOD(2,*), 
+      INTEGER NOD(*), NBY(*), WEIGHT(*), ICOD(2,*),
      .        NSL,  IFLAG
 C     REAL
       my_real
-     .   AF(3,*), AM(3,*), X(3,*),  RBY(*), 
+     .   AF(3,*), AM(3,*), X(3,*),  RBY(*),
      .   STIFN(*),STIFR(*),
      .   VRRBY(3,*),ARBY(3,*),ARRBY(3,*),VRBY(3,*)
       DOUBLE PRECISION RBF6(6,6)
@@ -76,7 +76,7 @@ C
 c       NSL   = NBY(2)
        XG    = RBY(2)
        YG    = RBY(3)
-       ZG    = RBY(4)        
+       ZG    = RBY(4)
        DO I=1,NSL
          N = NOD(I)
          IF (WEIGHT(N) == 1) THEN
@@ -138,10 +138,10 @@ C
         LCOD=ICOD(1,M)
         RB(1)= RBY(5)
         RB(2)= RBY(6)
-        RB(3)= RBY(7)  
+        RB(3)= RBY(7)
         RB(4)= RBY(8)
         RB(5)= RBY(9)
-        RB(6)= RBY(10)   
+        RB(6)= RBY(10)
         RB(7)= RBY(11)
         RB(8)= RBY(12)
         RB(9)= RBY(13)
@@ -151,43 +151,43 @@ C
         IN    = RBY(17)
         IF(LCOD > 0)THEN
 C       rotation de la matrice d'orientation (directions principales)
-          VI(1)=RB(1)*VRRBY(1,M) + RB(2)*VRRBY(2,M)    
-     .                           + RB(3)*VRRBY(3,M)   
-          VI(2)=RB(4)*VRRBY(1,M) + RB(5)*VRRBY(2,M)   
-     .                           + RB(6)*VRRBY(3,M)   
-          VI(3)=RB(7)*VRRBY(1,M) + RB(8)*VRRBY(2,M)   
-     .                           + RB(9)*VRRBY(3,M)   
-          CALL ROTBMR(VI,RB,DT1)                       
+          VI(1)=RB(1)*VRRBY(1,M) + RB(2)*VRRBY(2,M)
+     .                           + RB(3)*VRRBY(3,M)
+          VI(2)=RB(4)*VRRBY(1,M) + RB(5)*VRRBY(2,M)
+     .                           + RB(6)*VRRBY(3,M)
+          VI(3)=RB(7)*VRRBY(1,M) + RB(8)*VRRBY(2,M)
+     .                           + RB(9)*VRRBY(3,M)
+          CALL ROTBMR(VI,RB,DT1)
 C
 C           matrice d'inertie en repere global
-          II1=RB(10)*RB(1)  
-          II2=RB(10)*RB(2)  
-          II3=RB(10)*RB(3)  
-          II4=RB(11)*RB(4)  
-          II5=RB(11)*RB(5)  
-          II6=RB(11)*RB(6)  
-          II7=RB(12)*RB(7)  
-          II8=RB(12)*RB(8)  
-          II9=RB(12)*RB(9)  
+          II1=RB(10)*RB(1)
+          II2=RB(10)*RB(2)
+          II3=RB(10)*RB(3)
+          II4=RB(11)*RB(4)
+          II5=RB(11)*RB(5)
+          II6=RB(11)*RB(6)
+          II7=RB(12)*RB(7)
+          II8=RB(12)*RB(8)
+          II9=RB(12)*RB(9)
 C
-          RBY(18)=RB(1)*II1 + RB(4)*II4 + RB(7)*II7  
-          RBY(19)=RB(1)*II2 + RB(4)*II5 + RB(7)*II8  
-          RBY(20)=RB(1)*II3 + RB(4)*II6 + RB(7)*II9  
-          RBY(21)=RB(2)*II1 + RB(5)*II4 + RB(8)*II7  
-          RBY(22)=RB(2)*II2 + RB(5)*II5 + RB(8)*II8  
-          RBY(23)=RB(2)*II3 + RB(5)*II6 + RB(8)*II9  
-          RBY(24)=RB(3)*II1 + RB(6)*II4 + RB(9)*II7  
-          RBY(25)=RB(3)*II2 + RB(6)*II5 + RB(9)*II8  
-          RBY(26)=RB(3)*II3 + RB(6)*II6 + RB(9)*II9  
+          RBY(18)=RB(1)*II1 + RB(4)*II4 + RB(7)*II7
+          RBY(19)=RB(1)*II2 + RB(4)*II5 + RB(7)*II8
+          RBY(20)=RB(1)*II3 + RB(4)*II6 + RB(7)*II9
+          RBY(21)=RB(2)*II1 + RB(5)*II4 + RB(8)*II7
+          RBY(22)=RB(2)*II2 + RB(5)*II5 + RB(8)*II8
+          RBY(23)=RB(2)*II3 + RB(5)*II6 + RB(8)*II9
+          RBY(24)=RB(3)*II1 + RB(6)*II4 + RB(9)*II7
+          RBY(25)=RB(3)*II2 + RB(6)*II5 + RB(9)*II8
+          RBY(26)=RB(3)*II3 + RB(6)*II6 + RB(9)*II9
 C
 C           ajout des termes [Iglobal] vr ^ vr
-          WA1=RBY(18)*VRRBY(1,M)+RBY(19)*VRRBY(2,M)+RBY(20)*VRRBY(3,M)  
-          WA2=RBY(21)*VRRBY(1,M)+RBY(22)*VRRBY(2,M)+RBY(23)*VRRBY(3,M)  
-          WA3=RBY(24)*VRRBY(1,M)+RBY(25)*VRRBY(2,M)+RBY(26)*VRRBY(3,M)  
+          WA1=RBY(18)*VRRBY(1,M)+RBY(19)*VRRBY(2,M)+RBY(20)*VRRBY(3,M)
+          WA2=RBY(21)*VRRBY(1,M)+RBY(22)*VRRBY(2,M)+RBY(23)*VRRBY(3,M)
+          WA3=RBY(24)*VRRBY(1,M)+RBY(25)*VRRBY(2,M)+RBY(26)*VRRBY(3,M)
 C
-          ARRBY(1,M)=ARRBY(1,M) + (WA2*VRRBY(3,M)-WA3*VRRBY(2,M))  
-          ARRBY(2,M)=ARRBY(2,M) + (WA3*VRRBY(1,M)-WA1*VRRBY(3,M))  
-          ARRBY(3,M)=ARRBY(3,M) + (WA1*VRRBY(2,M)-WA2*VRRBY(1,M))  
+          ARRBY(1,M)=ARRBY(1,M) + (WA2*VRRBY(3,M)-WA3*VRRBY(2,M))
+          ARRBY(2,M)=ARRBY(2,M) + (WA3*VRRBY(1,M)-WA1*VRRBY(3,M))
+          ARRBY(3,M)=ARRBY(3,M) + (WA1*VRRBY(2,M)-WA2*VRRBY(1,M))
 C------------------
 C       REPERE GLOBAL : 
 C       Resolution [Iglobal] gama = M, compte-tenu des conditions aux limites
@@ -200,56 +200,56 @@ C           | Ixx Ixy | { gamax }   { Mx }
 C           | Iyx Iyy | { gamay } = { My }
 C           et gamaz=0
 C------------------
-          IF(LCOD == 1)THEN                                  
-            DET=ONE/(RBY(18)*RBY(22) - RBY(19)*RBY(21))         
-            WA1=ARRBY(1,M)                                      
-            WA2=ARRBY(2,M)                                      
-            ARRBY(1,M)=( RBY(22)*WA1 - RBY(21)*WA2)*DET           
-            ARRBY(2,M)=(-RBY(19)*WA1 + RBY(18)*WA2)*DET           
-            ARRBY(3,M)=  ZERO                               
-            VRRBY(3,M) = ZERO                                    
-          ELSEIF(LCOD == 2)THEN                              
-            DET=ONE/(RBY(18)*RBY(26) - RBY(20)*RBY(24))         
-            WA1=ARRBY(1,M)                                      
-            WA2=ARRBY(3,M)                                      
-            ARRBY(1,M)=( RBY(26)*WA1 - RBY(24)*WA2)*DET           
-            ARRBY(2,M)= ZERO                                     
-            ARRBY(3,M)=(-RBY(20)*WA1 + RBY(18)*WA2)*DET     
-            VRRBY(2,M) = ZERO                               
-          ELSEIF(LCOD == 3)THEN                              
-            ARRBY(1,M)=ARRBY(1,M)/RBY(18)                          
-            ARRBY(2,M)=ZERO                                     
-            ARRBY(3,M)=ZERO                                 
-            VRRBY(2,M) = ZERO                               
-            VRRBY(3,M) = ZERO                                     
-          ELSEIF(LCOD == 4)THEN                              
-            DET=ONE/(RBY(22)*RBY(26) - RBY(23)*RBY(25))         
-            WA1=ARRBY(2,M)                                      
-            WA2=ARRBY(3,M)                                      
-            ARRBY(1,M)=ZERO                                     
-            ARRBY(2,M)=( RBY(26)*WA1 - RBY(25)*WA2)*DET           
-            ARRBY(3,M)=(-RBY(23)*WA1 + RBY(22)*WA2)*DET     
-            VRRBY(1,M) = ZERO                               
-          ELSEIF(LCOD == 5)THEN                              
-            ARRBY(1,M) =ZERO                                     
-            ARRBY(2,M) =ARRBY(2,M)/RBY(22)                          
-            ARRBY(3,M) = ZERO                               
-            VRRBY(1,M) = ZERO                               
-            VRRBY(3,M) = ZERO                                     
-          ELSEIF(LCOD == 6)THEN                              
-            ARRBY(1,M)=ZERO                                     
-            ARRBY(2,M)=ZERO                                     
-            ARRBY(3,M)=ARRBY(3,M)/RBY(26)                   
-            VRRBY(1,M) = ZERO                               
-            VRRBY(2,M) = ZERO                               
-          ELSEIF(LCOD == 7)THEN                              
-            ARRBY(1,M) = ZERO                                     
-            ARRBY(2,M) = ZERO                                     
-            ARRBY(3,M) = ZERO                               
-            VRRBY(1,M) = ZERO                               
-            VRRBY(2,M) = ZERO                               
-            VRRBY(3,M) = ZERO                                            
-          ENDIF                                             
+          IF(LCOD == 1)THEN
+            DET=ONE/(RBY(18)*RBY(22) - RBY(19)*RBY(21))
+            WA1=ARRBY(1,M)
+            WA2=ARRBY(2,M)
+            ARRBY(1,M)=( RBY(22)*WA1 - RBY(21)*WA2)*DET
+            ARRBY(2,M)=(-RBY(19)*WA1 + RBY(18)*WA2)*DET
+            ARRBY(3,M)=  ZERO
+            VRRBY(3,M) = ZERO
+          ELSEIF(LCOD == 2)THEN
+            DET=ONE/(RBY(18)*RBY(26) - RBY(20)*RBY(24))
+            WA1=ARRBY(1,M)
+            WA2=ARRBY(3,M)
+            ARRBY(1,M)=( RBY(26)*WA1 - RBY(24)*WA2)*DET
+            ARRBY(2,M)= ZERO
+            ARRBY(3,M)=(-RBY(20)*WA1 + RBY(18)*WA2)*DET
+            VRRBY(2,M) = ZERO
+          ELSEIF(LCOD == 3)THEN
+            ARRBY(1,M)=ARRBY(1,M)/RBY(18)
+            ARRBY(2,M)=ZERO
+            ARRBY(3,M)=ZERO
+            VRRBY(2,M) = ZERO
+            VRRBY(3,M) = ZERO
+          ELSEIF(LCOD == 4)THEN
+            DET=ONE/(RBY(22)*RBY(26) - RBY(23)*RBY(25))
+            WA1=ARRBY(2,M)
+            WA2=ARRBY(3,M)
+            ARRBY(1,M)=ZERO
+            ARRBY(2,M)=( RBY(26)*WA1 - RBY(25)*WA2)*DET
+            ARRBY(3,M)=(-RBY(23)*WA1 + RBY(22)*WA2)*DET
+            VRRBY(1,M) = ZERO
+          ELSEIF(LCOD == 5)THEN
+            ARRBY(1,M) =ZERO
+            ARRBY(2,M) =ARRBY(2,M)/RBY(22)
+            ARRBY(3,M) = ZERO
+            VRRBY(1,M) = ZERO
+            VRRBY(3,M) = ZERO
+          ELSEIF(LCOD == 6)THEN
+            ARRBY(1,M)=ZERO
+            ARRBY(2,M)=ZERO
+            ARRBY(3,M)=ARRBY(3,M)/RBY(26)
+            VRRBY(1,M) = ZERO
+            VRRBY(2,M) = ZERO
+          ELSEIF(LCOD == 7)THEN
+            ARRBY(1,M) = ZERO
+            ARRBY(2,M) = ZERO
+            ARRBY(3,M) = ZERO
+            VRRBY(1,M) = ZERO
+            VRRBY(2,M) = ZERO
+            VRRBY(3,M) = ZERO
+          ENDIF
 C
          ELSE
 C------------------------
@@ -270,11 +270,11 @@ C les contributions des VRRBY ne sont ajoutees que sur le processeur main
           VI(3) = RB(7)*VRRBY(1,M)+RB(8)*VRRBY(2,M)+RB(9)*VRRBY(3,M)
 C
           CALL ROTBMR(VI,RB,DT1)
-          ARRBY(1,M) = ARRBY(1,M) 
+          ARRBY(1,M) = ARRBY(1,M)
      .                   + ((RB(11)-RB(12))*VI(2)*VI(3))
-          ARRBY(2,M) = ARRBY(2,M)  
+          ARRBY(2,M) = ARRBY(2,M)
      .                   + ((RB(12)-RB(10))*VI(3)*VI(1))
-          ARRBY(3,M) = ARRBY(3,M)  
+          ARRBY(3,M) = ARRBY(3,M)
      .                   + ((RB(10)-RB(11))*VI(1)*VI(2))
 C CALCUL D'ONE PSEUDO MOMENT: 
 C EN FAIT L'ACCELERATION DE ROTATION * INERTIE DU NOEUD MAIN (IMIN DU RB)
@@ -312,59 +312,59 @@ C
 c        NSL =NBY(2)
         MSRBY = RBY(1)
         IN = RBY(17)
-        IF(MSRBY > 0) THEN                
-          ARBY(1,M)  = ARBY(1,M) / MSRBY  
-          ARBY(2,M)  = ARBY(2,M) / MSRBY  
-          ARBY(3,M)  = ARBY(3,M) / MSRBY  
-        ELSE                              
-          ARBY(1,M)  = ZERO               
-          ARBY(2,M)  = ZERO               
-          ARBY(3,M)  = ZERO               
-        ENDIF                             
-                                          
-        IF(IN > 0) THEN                   
-          ARRBY(1,M)  = ARRBY(1,M) / IN   
-          ARRBY(2,M)  = ARRBY(2,M) / IN   
-          ARRBY(3,M)  = ARRBY(3,M) / IN   
-        ELSE                              
-          ARRBY(1,M)  = ZERO              
-          ARRBY(2,M)  = ZERO              
-          ARRBY(3,M)  = ZERO              
-        ENDIF                             
+        IF(MSRBY > 0) THEN
+          ARBY(1,M)  = ARBY(1,M) / MSRBY
+          ARBY(2,M)  = ARBY(2,M) / MSRBY
+          ARBY(3,M)  = ARBY(3,M) / MSRBY
+        ELSE
+          ARBY(1,M)  = ZERO
+          ARBY(2,M)  = ZERO
+          ARBY(3,M)  = ZERO
+        ENDIF
+
+        IF(IN > 0) THEN
+          ARRBY(1,M)  = ARRBY(1,M) / IN
+          ARRBY(2,M)  = ARRBY(2,M) / IN
+          ARRBY(3,M)  = ARRBY(3,M) / IN
+        ELSE
+          ARRBY(1,M)  = ZERO
+          ARRBY(2,M)  = ZERO
+          ARRBY(3,M)  = ZERO
+        ENDIF
 C           
-        LCOD   = ICOD(2,M)       
-        IF(LCOD == 1) THEN       
-           ARBY(3,M)  = ZERO     
-           VRBY(3,M)  = ZERO     
-        ELSEIF(LCOD == 2) THEN   
-          ARBY(2,M)  = ZERO      
-          VRBY(2,M)  = ZERO      
-        ELSEIF(LCOD == 3) THEN   
-           ARBY(2,M)  = ZERO     
-           ARBY(3,M)  = ZERO     
-           VRBY(2,M)  = ZERO     
-           VRBY(3,M)  = ZERO     
-        ELSEIF(LCOD == 4) THEN   
-           ARBY(1,M)  = ZERO     
-           VRBY(1,M)  = ZERO     
-        ELSEIF(LCOD == 5) THEN   
-           ARBY(1,M)  = ZERO     
-           ARBY(3,M)  = ZERO     
-           VRBY(1,M)  = ZERO     
-           VRBY(3,M)  = ZERO     
-        ELSEIF(LCOD == 6) THEN   
-           ARBY(1,M)  = ZERO     
-           ARBY(2,M)  = ZERO     
-           VRBY(1,M)  = ZERO     
-           VRBY(2,M)  = ZERO     
-        ELSEIF(LCOD == 7) THEN   
-           ARBY(1,M)  = ZERO     
-           ARBY(2,M)  = ZERO     
-           ARBY(3,M)  = ZERO     
-           VRBY(1,M)  = ZERO     
-           VRBY(2,M)  = ZERO     
-           VRBY(3,M)  = ZERO            
-        ENDIF                    
+        LCOD   = ICOD(2,M)
+        IF(LCOD == 1) THEN
+           ARBY(3,M)  = ZERO
+           VRBY(3,M)  = ZERO
+        ELSEIF(LCOD == 2) THEN
+          ARBY(2,M)  = ZERO
+          VRBY(2,M)  = ZERO
+        ELSEIF(LCOD == 3) THEN
+           ARBY(2,M)  = ZERO
+           ARBY(3,M)  = ZERO
+           VRBY(2,M)  = ZERO
+           VRBY(3,M)  = ZERO
+        ELSEIF(LCOD == 4) THEN
+           ARBY(1,M)  = ZERO
+           VRBY(1,M)  = ZERO
+        ELSEIF(LCOD == 5) THEN
+           ARBY(1,M)  = ZERO
+           ARBY(3,M)  = ZERO
+           VRBY(1,M)  = ZERO
+           VRBY(3,M)  = ZERO
+        ELSEIF(LCOD == 6) THEN
+           ARBY(1,M)  = ZERO
+           ARBY(2,M)  = ZERO
+           VRBY(1,M)  = ZERO
+           VRBY(2,M)  = ZERO
+        ELSEIF(LCOD == 7) THEN
+           ARBY(1,M)  = ZERO
+           ARBY(2,M)  = ZERO
+           ARBY(3,M)  = ZERO
+           VRBY(1,M)  = ZERO
+           VRBY(2,M)  = ZERO
+           VRBY(3,M)  = ZERO
+        ENDIF
 C          
         DO I=1,NSL
           N = NOD(I)

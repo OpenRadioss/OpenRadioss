@@ -59,9 +59,9 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   SIG(MVSIZ,6),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   F11(*),F21(*),F31(*),F12(*),F22(*),F32(*),
      .   F13(*),F23(*),F33(*),F14(*),F24(*),F34(*),
      .   F15(*),F25(*),F35(*),F16(*),F26(*),F36(*),
@@ -78,7 +78,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   S1(MVSIZ), S2(MVSIZ), S3(MVSIZ),
-     .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),    
+     .   S4(MVSIZ), S5(MVSIZ), S6(MVSIZ),
      .   FINT,FINTD,P(MVSIZ)
 C-----------------------------------------------
       IF(ICAA == 0)THEN
@@ -115,7 +115,7 @@ c         S6(I)=(SIG(6,I)+SVIS(I,6))*VOL(I)
          S5(I)=SIG(I,5)*VOL(I)
          S6(I)=SIG(I,6)*VOL(I)
          P(I)=P(I)*0.125
-         
+
         ENDDO
         DO I=LFT,LLT
           F11(I)=F11(I)-P(I)*(N1X(I)              +N4X(I)       +N6X(I))
@@ -141,42 +141,42 @@ c         S6(I)=(SIG(6,I)+SVIS(I,6))*VOL(I)
           F37(I)=F37(I)-P(I)*(      +N2Z(I)+N3Z(I)       +N5Z(I)       )
           F18(I)=F18(I)-P(I)*(      +N2X(I)+N3X(I)              +N6X(I))
           F28(I)=F28(I)-P(I)*(      +N2Y(I)+N3Y(I)              +N6Y(I))
-          F38(I)=F38(I)-P(I)*(      +N2Z(I)+N3Z(I)              +N6Z(I)) 
+          F38(I)=F38(I)-P(I)*(      +N2Z(I)+N3Z(I)              +N6Z(I))
         ENDDO
       ENDIF
 C      
        DO I=LFT,LLT
         FINT=S1(I)*PX1(I)+S4(I)*PY1(I)+S6(I)*PZ1(I)
-        F11(I)=F11(I) - FINT  - DFE(I,1)     
-        F17(I)=F17(I) + FINT - DFE(I,1)  
+        F11(I)=F11(I) - FINT  - DFE(I,1)
+        F17(I)=F17(I) + FINT - DFE(I,1)
 C              
         FINT=S2(I)*PY1(I)+S4(I)*PX1(I)+S5(I)*PZ1(I)
         F21(I)=F21(I)-FINT - DFE(I,2)
         F27(I)=F27(I)+FINT - DFE(I,2)
 C       
         FINT=S3(I)*PZ1(I)+S6(I)*PX1(I)+S5(I)*PY1(I)
-        F31(I)=F31(I) - FINT  - DFE(I,3) 
-        F37(I)=F37(I) + FINT  - DFE(I,3)       
-      
+        F31(I)=F31(I) - FINT  - DFE(I,3)
+        F37(I)=F37(I) + FINT  - DFE(I,3)
+
 C
-         FINT=S1(I)*PX2(I)+S4(I)*PY2(I)+S6(I)*PZ2(I) 
+         FINT=S1(I)*PX2(I)+S4(I)*PY2(I)+S6(I)*PZ2(I)
          F12(I)=F12(I) - FINT - DFE(I,1)
-         F18(I)=F18(I) + FINT - DFE(I,1)                  
+         F18(I)=F18(I) + FINT - DFE(I,1)
 C
         FINT=S2(I)*PY2(I)+S4(I)*PX2(I)+S5(I)*PZ2(I)
         F22(I)=F22(I)-FINT - DFE(I,2)
-        F28(I)=F28(I)+FINT - DFE(I,2)                   
+        F28(I)=F28(I)+FINT - DFE(I,2)
 C
         FINT=S3(I)*PZ2(I)+S6(I)*PX2(I)+S5(I)*PY2(I)
         F32(I)=F32(I) - FINT - DFE(I,3)
-        F38(I)=F38(I) + FINT - DFE(I,3)    
+        F38(I)=F38(I) + FINT - DFE(I,3)
 C
         FINT=S1(I)*PX3(I)+S4(I)*PY3(I)+S6(I)*PZ3(I)
          F13(I)=F13(I)-FINT - DFE(I,1)
          F15(I)=F15(I)+FINT - DFE(I,1)
 C 
         FINT=S2(I)*PY3(I)+S4(I)*PX3(I)+S5(I)*PZ3(I)
-        F23(I)=F23(I)-FINT - DFE(I,2) 
+        F23(I)=F23(I)-FINT - DFE(I,2)
         F25(I)=F25(I)+FINT - DFE(I,2)
 cc
         FINT=S3(I)*PZ3(I)+S6(I)*PX3(I)+S5(I)*PY3(I)
@@ -194,8 +194,8 @@ c
          FINT=S3(I)*PZ4(I)+S6(I)*PX4(I)+S5(I)*PY4(I)
          F34(I)=F34(I)-FINT  - DFE(I,3)
          F36(I)=F36(I)+FINT  - DFE(I,3)
-       ENDDO     
+       ENDDO
 C
       RETURN
       END SUBROUTINE FFINT3
-     
+

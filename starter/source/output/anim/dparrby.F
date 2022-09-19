@@ -27,46 +27,46 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE DPARRBY(LPBY ,NPBY)                                    
+      SUBROUTINE DPARRBY(LPBY ,NPBY)
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com04_c.inc"                                             
-#include      "scr05_c.inc"                                             
-#include      "param_c.inc"                                             
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER NPBY(NNPBY,*),LPBY(*)                                     
+      INTEGER NPBY(NNPBY,*),LPBY(*)
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER I, K, N,                                                  
-     .   NSN, II(2)                                                     
+      INTEGER I, K, N,
+     .   NSN, II(2)
 C-----------------------------------------------                        
-      K=0                                                               
-      DO I=1,NRBYKIN                                                    
-        NSN = NPBY(2,I)                                                 
-        II(1) = NPBY(1,I) - 1                                           
-        DO N=1,NSN                                                      
-           II(2) = LPBY(N+K)-1                                          
-           CALL WRITE_I_C(II,2)                                         
-        ENDDO                                                           
-        K  = K  + NSN                                                   
-      ENDDO                                                             
-      DO I=NRBYKIN+1,NRBODY                                             
-        NSN = NPBY(2,I)                                                 
-        II(1) = NPBY(1,I) - 1                                           
-        DO N=1,NSN                                                      
-           II(2) = LPBY(N+K)-1                                          
-           CALL WRITE_I_C(II,2)                                         
-        ENDDO                                                           
-        K  = K  + NSN*3                                                 
-      ENDDO                                                             
+      K=0
+      DO I=1,NRBYKIN
+        NSN = NPBY(2,I)
+        II(1) = NPBY(1,I) - 1
+        DO N=1,NSN
+           II(2) = LPBY(N+K)-1
+           CALL WRITE_I_C(II,2)
+        ENDDO
+        K  = K  + NSN
+      ENDDO
+      DO I=NRBYKIN+1,NRBODY
+        NSN = NPBY(2,I)
+        II(1) = NPBY(1,I) - 1
+        DO N=1,NSN
+           II(2) = LPBY(N+K)-1
+           CALL WRITE_I_C(II,2)
+        ENDDO
+        K  = K  + NSN*3
+      ENDDO
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

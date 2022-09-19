@@ -89,8 +89,8 @@ C-----------------------------------------------
       USE GROUPDEF_MOD
       USE TH_MOD
       USE PINCHTYPE_MOD
-      USE MULTI_FVM_MOD    
-      USE SEATBELT_MOD 
+      USE MULTI_FVM_MOD
+      USE SEATBELT_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -154,7 +154,7 @@ C     REAL
       TYPE (SUBSET_) , DIMENSION(NSUBS) :: SUBSET
       TYPE (SURF_)   , DIMENSION(NSURF) :: IGRSURF
       TYPE (PINCH) :: PINCH_DATA
-      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM      
+      TYPE(MULTI_FVM_STRUCT), INTENT(IN) :: MULTI_FVM
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -638,7 +638,7 @@ C------------------------------
 !   TH optimization for solid elements
         !   initialization of local array
         WA_NOD(ID_HIST)%WA_REAL( 1:WA_NOD_SIZE(ID_HIST) ) = ZERO
-        CALL THSOL(ELBUF_TAB,NTHGRP2 ,ITHGRP , 
+        CALL THSOL(ELBUF_TAB,NTHGRP2 ,ITHGRP ,
      .                 IPARG   ,ITHBUF   ,WA_SOL(ID_HIST)%WA_REAL ,
      .                 IXS     ,X        ,IPM    ,PM     ,IGEO    ,
      .                 MULTI_FVM,V       ,W      )
@@ -660,7 +660,7 @@ C------------------------------
         !   initialization of local array
 
         WA_QUAD(ID_HIST)%WA_REAL( 1:WA_QUAD_SIZE(ID_HIST) ) = ZERO
-        CALL THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP , 
+        CALL THQUAD(ELBUF_TAB,NTHGRP2 , ITHGRP ,
      1              IPARG    ,ITHBUF   ,WA_QUAD(ID_HIST)%WA_REAL      ,
      2              IPM      ,IXQ      ,IXTG   ,X       ,MULTI_FVM    ,
      3              V        ,W        )
@@ -816,7 +816,7 @@ C    SMOOTH PARTICLES.
 C-----------------------------
             !   all the stuff already done, PROC0 writes its data
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,NN,NVAR,3,
-     1                      SPH_STRUCT(ID_HIST),WA_SPH_P0(ID_HIST))            
+     1                      SPH_STRUCT(ID_HIST),WA_SPH_P0(ID_HIST))
 
           ELSEIF(ITYP==100)THEN
 C-----------------------------
@@ -824,7 +824,7 @@ C    NSTRAND ELEMENTS.
 C-----------------------------
             !   all the stuff already done, PROC0 writes its data
             IF(ISPMD==0) CALL WRITE_TH(N,NSPMD,1,NN*NVAR,3,
-     1                      NST_STRUCT(ID_HIST),WA_NST_P0(ID_HIST)) 
+     1                      NST_STRUCT(ID_HIST),WA_NST_P0(ID_HIST))
 
           ELSEIF(ITYP==101)THEN
 C-----------------------------

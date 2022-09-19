@@ -27,7 +27,7 @@ Chd|        EOSMAIN                       common_source/eos/eosmain.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE COMPACTION(
-     1                      IFLAG, NEL  , PM   , OFF  , EINT , MU   , MU2 , 
+     1                      IFLAG, NEL  , PM   , OFF  , EINT , MU   , MU2 ,
      2                      ESPE , DVOL , DF   , VNEW , MAT  , PSH  , POLD,
      3                      PNEW , DPDM , DPDE , THETA, ECOLD, SIG  , MU_OLD)
 C-----------------------------------------------
@@ -60,12 +60,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER,INTENT(IN) :: MAT(NEL), IFLAG, NEL
-      my_real,INTENT(INOUT) :: PM(NPROPM,NUMMAT), 
-     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL), 
+      my_real,INTENT(INOUT) :: PM(NPROPM,NUMMAT),
+     .        OFF(NEL)  ,EINT(NEL) ,MU(NEL),
      .        MU2(NEL)  ,ESPE(NEL) ,DVOL(NEL),
      .        VNEW(NEL) ,PNEW(NEL) ,DPDM(NEL),
      .        DPDE(NEL) ,THETA(NEL),ECOLD(NEL),
-     .        SIG(NEL,6),POLD(NEL) ,DF(NEL)   
+     .        SIG(NEL,6),POLD(NEL) ,DF(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C   S o u r c e  L i n e s
 C-----------------------------------------------
 
        MX           = MAT(1)
-       E0           = PM(23,MX)         
+       E0           = PM(23,MX)
        C0           = PM(49,MX)
        C1           = PM(32,MX)
        C2           = PM(33,MX)
@@ -98,24 +98,24 @@ C-----------------------------------------------
        PFRAC        = PM(37,MX)
        MUMIN        = PM(47,MX)
        IFORM        = NINT(PM(48,MX))
-       
+
        TFEXTT       = ZERO
        BULK(1:NEL)  = BUNL
        BULK2(1:NEL) = BUNL
-       
+
       !----------------------------------------------------------------!
       !  COMPACTION EOS                                                !
-      !----------------------------------------------------------------!  
-      !--- constant unload slope ---!       
+      !----------------------------------------------------------------!
+      !--- constant unload slope ---!
       IF(IFORM == 1)THEN
         DO I=1,NEL
           P(I) = C0+C1*MU(I)+(C2+C3*MU(I))*MU2(I)
           P_   = C0+C1*MU_OLD(I)+(C2+C3*MU_OLD(I))*MU_OLD(I)*MU_OLD(I)
-          B(I) = BUNL 
+          B(I) = BUNL
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
           IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)*OFF(I)
-        ENDDO !next I   
+        ENDDO !next I
       !--- continuous unload slope (increases with compaction) ---!
       ELSEIF(IFORM == 2)THEN
         DO I=1,NEL
@@ -130,56 +130,56 @@ C-----------------------------------------------
           PNE1 = P_-(MU_OLD(I)-MU(I))*B(I)
           IF(MU_OLD(I) > MUMIN) P(I) = MIN(PNE1, P(I))
           P(I) = MAX(P(I),PFRAC)  *OFF(I)
-        ENDDO !next I  
-      !--- legacy behavior ---! 
-      ELSEIF(IFORM == 10)THEN    
+        ENDDO !next I
+      !--- legacy behavior ---!
+      ELSEIF(IFORM == 10)THEN
         DO I=1,NEL
-          IF(MU_OLD(I) < ZERO)BULK(I)  = C1 
+          IF(MU_OLD(I) < ZERO)BULK(I)  = C1
           IF(MU(I) < ZERO)    BULK2(I) = C1
           PNE1 = POLD(I)+PSH(I)+MU(I)*BULK2(I)-MU_OLD(I)*BULK(I)
           P(I)    = C0+C1*MU(I)+C2*MU2(I)+C3*MU2(I)*MU(I)
-          IF(MU(I) < MU_MAX) P(I) = MIN(P(I),PNE1) 
-          P(I) = MAX(P(I),PFRAC)  *OFF(I) 
+          IF(MU(I) < MU_MAX) P(I) = MIN(P(I),PNE1)
+          P(I) = MAX(P(I),PFRAC)  *OFF(I)
           !B(I) = MAX(BULK(I),BULK2(I))
           B(I) = BULK(I)
-        ENDDO !next I            
+        ENDDO !next I
       ENDIF
       !----------------------------------------------------------------!
       !  SOUND SPEED                                                   !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=1,NEL
-        DPDM(I) = C1 + MAX(ZERO,MU(I)) *( TWO*C2+THREE*C3*MU(I) ) 
+        DPDM(I) = C1 + MAX(ZERO,MU(I)) *( TWO*C2+THREE*C3*MU(I) )
         DPDM(I) = MAX(B(I),DPDM(I))
         DPDE(I) = ZERO
-      ENDDO !next I   
+      ENDDO !next I
       !----------------------------------------------------------------!
       !  OUTPUT                                                        !
-      !----------------------------------------------------------------!      
+      !----------------------------------------------------------------!
       DO I=1,NEL
         P(I)=MAX(PFRAC,P(I))*OFF(I)
         PNEW(I) = P(I)-PSH(I)
-      ENDDO !next I     
+      ENDDO !next I
       DO I=1,NEL
         ECOLD(I)=-THREE100*SPH
         !IF(MU(I) > ZERO) ECOLD(I)=
       ENDDO
 
-      
+
 
       IF(IFLAG == 1) THEN
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
-        !----------------------------------------------------------------!      
+        !----------------------------------------------------------------!
         DO I=1,NEL
           EINT(I) = EINT(I) - HALF*DVOL(I)*(PNEW(I)+PSH(I) )
-        ENDDO !next I 
+        ENDDO !next I
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
-        !----------------------------------------------------------------!      
+        !----------------------------------------------------------------!
         IF(IFORM == 10)THEN
           DO I=1,NEL
             IF(P(I) <= PFRAC)THEN
-              MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)  
+              MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)
             ELSE
               MU_OLD(I)= MU(I)
             ENDIF
@@ -187,22 +187,22 @@ C-----------------------------------------------
         ELSEIF(IFORM <= 2)THEN   !iform=1,2
           DO I=1,NEL
             IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
-          ENDDO !next I 
+          ENDDO !next I
         ENDIF
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
-        !----------------------------------------------------------------!      
+        !----------------------------------------------------------------!
         DO I=1,NEL
           P(I)=MAX(PFRAC,P(I))*OFF(I)
           PNEW(I) = P(I)-PSH(I)
-        ENDDO !next I     
+        ENDDO !next I
          DO I=1,NEL
            ECOLD(I)=-THREE100*SPH
            !IF(MU(I) > ZERO) ECOLD(I)=
          ENDDO
         !----------------------------------------------------------------!
         !  PRESSURE WORK                                                 !
-        !----------------------------------------------------------------!      
+        !----------------------------------------------------------------!
          DO I=1,NEL
            TFEXTT     = TFEXTT-DVOL(I)*PSH(I)
          ENDDO
@@ -214,11 +214,11 @@ C-----------------------------------------------
       ELSEIF(IFLAG == 2) THEN
         !----------------------------------------------------------------!
         !  FRACTURE  - MU_OLD                                            !
-        !----------------------------------------------------------------!      
+        !----------------------------------------------------------------!
         IF(IFORM == 10)THEN
           DO I=1,NEL
             IF(P(I) <= PFRAC)THEN
-              MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)  
+              MU_OLD(I) =MU_OLD(I)+(PFRAC-POLD(I)-PSH(I))/BULK2(I)
             ELSE
               MU_OLD(I)= MU(I)
             ENDIF
@@ -226,15 +226,15 @@ C-----------------------------------------------
         ELSEIF(IFORM <= 2)THEN  !iform=1,2
           DO I=1,NEL
             IF(MU(I) > MU_OLD(I)) MU_OLD(I) = MIN(MU_MAX,MU(I))
-          ENDDO !next I 
+          ENDDO !next I
         ENDIF
         !----------------------------------------------------------------!
         !  OUTPUT                                                        !
-        !----------------------------------------------------------------!      
+        !----------------------------------------------------------------!
         DO I=1,NEL
           P(I)=MAX(PFRAC,P(I))*OFF(I)
           PNEW(I) = P(I)-PSH(I)
-        ENDDO !next I     
+        ENDDO !next I
       ENDIF
 
 C------------------------      

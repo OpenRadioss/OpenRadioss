@@ -72,7 +72,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-            
+
       ALLOCATE(MSVTMP(1:NUMNOD))
       MSVTMP(1:NUMNOD)=0
 
@@ -82,7 +82,7 @@ C-----------------------------------------------
         DO J=2,9
           INOD = IXS(J,IELEM)
           IF(NALE(INOD)/=0 .AND. INOD>0)MSVTMP(INOD)=1   !NALE(node_i)==0 <=> lagrangian node_i
-        ENDDO      
+        ENDDO
       ENDDO
       !TAG NODES - remove nodes from boundary materials (law11, & law51 iform=2,3,4,5,6)
       ! (do not loop unnecessarily otherwise)
@@ -94,15 +94,15 @@ C-----------------------------------------------
           ILAW = IPM(2,IMAT)
           IFORM = 0
           IF(ILAW==51)THEN
-            NPAR   = IPM(9,IMAT)                
-            IADBUF = IPM(7,IMAT)                
-            IADBUF = MAX(1,IADBUF)                
-            UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)  
+            NPAR   = IPM(9,IMAT)
+            IADBUF = IPM(7,IMAT)
+            IADBUF = MAX(1,IADBUF)
+            UPARAM => BUFMAT(IADBUF:IADBUF+NPAR)
             IFORM  = NINT(UPARAM(31))
             IF(IFORM>=2 .AND. IFORM<=6)IS_ELEM_A_BOUNDARY_MAT=.TRUE.
-          ELSEIF(IFORM==11)THEN   
+          ELSEIF(IFORM==11)THEN
             IS_ELEM_A_BOUNDARY_MAT=.TRUE.
-          ENDIF  
+          ENDIF
           IF(IS_ELEM_A_BOUNDARY_MAT)THEN
             DO J=2,9
               INOD = IXS(J,IELEM)
@@ -118,13 +118,13 @@ C-----------------------------------------------
         IF(MSVTMP(I)==1)THEN
           MSVTMP(TMP+1)=I
           TMP=TMP+1
-        ENDIF     
-      END DO      
+        ENDIF
+      END DO
       MSN = TMP ! size of ordered list
-      
+
       DO I=1,S_MSV
         MSV(I)=MSVTMP(I)
-      ENDDO   
+      ENDDO
       DEALLOCATE(MSVTMP)
 
       !PRINTOUT

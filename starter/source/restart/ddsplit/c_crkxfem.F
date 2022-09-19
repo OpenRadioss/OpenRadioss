@@ -48,7 +48,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,NEL_L,NEL1_L,IED_GL,K
 C
-      IEL_L(1:NUMEL_L) = 0 
+      IEL_L(1:NUMEL_L) = 0
       NEL_L = 0
       NEL1_L = 1
 C            
@@ -70,7 +70,7 @@ CC              IED_GL = IEDGESH(K,NEL_L)
             END DO
           ENDIF
           NEL1_L = NEL1_L + 1
-        ENDIF  
+        ENDIF
       ENDDO
 C
       NELCRKXFE_L = NEL_L

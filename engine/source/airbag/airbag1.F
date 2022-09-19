@@ -75,10 +75,10 @@ C     REAL
      .   RNM_OLD, RNM, RNMG,
      .   GMTOT, GMTOT_OLD, GMASS, GMASS_OLD, DGMASS, DGMOUT,
      .   GMI, GMI_OLD,
-     .   EFAC, DGEOUT, RIGHT, LEFT, 
+     .   EFAC, DGEOUT, RIGHT, LEFT,
      .   VOLD, VEPS, VMIN, AMTOT_OLD, TBAG_OLD, TBAG,SCALT,
      .   QOLD,Q,CX,QX,TEMP
-      my_real FINTER 
+      my_real FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
       PEXT     =RVOLU(3)
@@ -104,7 +104,7 @@ C
             DTPDEFC = DTPDEFC+DT1
           END IF
         END IF
-        IBAGHOL(12,IV) = IDPDEF 
+        IBAGHOL(12,IV) = IDPDEF
         RBAGHOL(5,IV)  = DTPDEFC
       ENDDO
       IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
@@ -135,7 +135,7 @@ C---------------------
 C
       IEQUI=IVOLU(15)
 C       changement d'etat ?
-        IS = 0 
+        IS = 0
       ITTF=IVOLU(17)
         DO IJ=1,NJET
           ISENS=IBAGJET(4,IJ)
@@ -189,7 +189,7 @@ C           equilibre initial.
             IF(IMACH/=3.OR.ISPMD+1==PMAIN) THEN
          WRITE(IOUT,*)
      .   ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
-         WRITE(IOUT,'(A,I10,A,G20.13,A)') 
+         WRITE(IOUT,'(A,I10,A,G20.13,A)')
      .   ' *** MONITORED VOLUME ',IVOLU(1),' VOLUME ',VOL,' ***'
          WRITE(ISTDO,*)
      .   ' *** MONITORED VOLUME : INITIAL EQUILIBRIUM IS SET ***'
@@ -254,7 +254,7 @@ C
            TEMP=FTEMP
          ENDIF
          EFAC= TEMP*(CPA+HALF*CPB*TEMP+THIRD*CPC*TEMP*TEMP)
-        ELSE         
+        ELSE
         ENDIF
 C
         GMTOT_OLD=RBAGJET(8,IJ)

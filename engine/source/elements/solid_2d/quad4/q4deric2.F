@@ -27,7 +27,7 @@ Chd|        Q4FORC2                       source/elements/solid_2d/quad4/q4forc2
 Chd|        Q4KE2                         source/elements/solid_2d/quad4/q4ke2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE Q4DERIC2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,  
+      SUBROUTINE Q4DERIC2(Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      2                    Y12,Y34,Y13,Y24,Y14,Y23,
      3                    Z12,Z34,Z13,Z24,Z14,Z23,
      4                    PYC1,PYC2,PZC1,PZC2,AIRE,
@@ -59,7 +59,7 @@ C     REAL
      .   RX(MVSIZ) , RY(MVSIZ) , RZ(MVSIZ) ,
      .   SX(MVSIZ) , SY(MVSIZ) , SZ(MVSIZ) ,YAVG(*)
 C-----------------------------------------------
-c FUNCTION: 
+c FUNCTION:
 c ARGUMENTS:  (I: input, O: output, IO: input & output, W: workspace)
 c TYPE NAME                FUNCTION
 c  I   Y1(*)~Z4(*)        - NODAL COORDINATES
@@ -116,4 +116,4 @@ C     COMPUTE VOLUME/(2*PI) FOR AXISYMMETRIC CASE
 C
       RETURN
       END
-	  
+	

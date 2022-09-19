@@ -76,12 +76,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NGL(*), MAT(*), IS_MAT_BCS, IB,NIN,MCELL
-      
+
       my_real
      .  PM(NPROPM,*),VOLO(*), RHON(*),EINT(*),FLUX(6,*), FLU1(*),
      .  VOLN(*), DVOL(*),DIVDE(*),OFF(*),TAG22(*),
      .  AMU(*) ,OFFG(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   VOLDP(*),VOL0DP(*),DVDP
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -123,7 +123,7 @@ C--- due to /INIBRI/EREF
               EINT(I) = EINT(I)*VOLN(I)
             ENDDO
           ELSE
-            IF (MTN /= 115) THEN 
+            IF (MTN /= 115) THEN
               DO I=LFT,LLT
                 DVOL(I) = VOLN(I)-(RHO0/RHON(I))*VOLO(I)
                 RHON(I) = RHO0*(VOLO(I)/VOLN(I))
@@ -134,27 +134,27 @@ C--- due to /INIBRI/EREF
                 DVOL(I) = VOLN(I)-(RHON(I+LLT)/RHON(I))*VOLO(I)
                 RHON(I) = RHON(I+LLT)*(VOLO(I)/VOLN(I))
                 EINT(I) = EINT(I)*VOLO(I)
-              ENDDO            
+              ENDDO
             ENDIF
           ENDIF
-        ELSEIF(JALE/=0)THEN                                                                                              
-          DO I=LFT,LLT                                                                                                     
-           RHON(I)    = RHON(I)/VOLN(I)                                                                                    
-           DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))   
-           VOLO(I)    = VOLN(I)                                                                                            
-         ENDDO                                                                                                             
-        ELSEIF(JEUL/=0)THEN                                                                                              
-         DO I=LFT,LLT                                                                                                      
-          RHON(I)     = RHON(I)/VOLN(I)                                                                                    
-          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))                   
-         ENDDO                                                                                                             
-        ENDIF!(JLAG/=0) 
-        
+        ELSEIF(JALE/=0)THEN
+          DO I=LFT,LLT
+           RHON(I)    = RHON(I)/VOLN(I)
+           DVOL(I)    = VOLN(I)-VOLO(I)+HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
+           VOLO(I)    = VOLN(I)
+         ENDDO
+        ELSEIF(JEUL/=0)THEN
+         DO I=LFT,LLT
+          RHON(I)     = RHON(I)/VOLN(I)
+          DVOL(I)     = HALF*DT1*(FLU1(I)+FLUX(1,I)+FLUX(2,I)+FLUX(3,I)+FLUX(4,I)+FLUX(5,I)+FLUX(6,I))
+         ENDDO
+        ENDIF!(JLAG/=0)
+
         !---interface22---!
         IF(INT22/=0)THEN
-          IF(JEUL+JALE/=0)THEN      
+          IF(JEUL+JALE/=0)THEN
            NIN        = 1
-           DO I=LFT,LLT         
+           DO I=LFT,LLT
              IB       = NINT(TAG22(I))
              IF(IB==0)CYCLE
              MCELL    = BRICK_LIST(NIN,IB)%mainID
@@ -163,18 +163,18 @@ C--- due to /INIBRI/EREF
              IF(JEUL/=0)THEN
                RHON(I) = RHON(I) * VOLN(I) / brick_list(nin,ib)%vnew_scell
              ENDIF
-             VOLN(I)  = brick_list(nin,ib)%vnew_scell   
-             VOLO(I)  = brick_list(nin,ib)%vold_scell  
-             DVOL(I)  = DVOL(I) + VOLN(I)-VOLO(I)           !USE ALE FORMULATION FOR POLYHEDRA EVEN  WITH EULERIAN MATERIAL             
-             VOLO(I)  = VOLN(I) 
-                           
-             brick_list(nin,ib)%vold_scell  = VOLN(I) !for convection during next cycle : aconve() 
+             VOLN(I)  = brick_list(nin,ib)%vnew_scell
+             VOLO(I)  = brick_list(nin,ib)%vold_scell
+             DVOL(I)  = DVOL(I) + VOLN(I)-VOLO(I)           !USE ALE FORMULATION FOR POLYHEDRA EVEN  WITH EULERIAN MATERIAL
+             VOLO(I)  = VOLN(I)
+
+             brick_list(nin,ib)%vold_scell  = VOLN(I) !for convection during next cycle : aconve()
 C             write(*,FMT='(A,I10,A,F30.16)') "brick id =", NGL(I), "   mass= ", RHON(I)*VOLN(I)
            ENDDO!next I
-          ENDIF!(JEUL+JALE/=0)        
-        ENDIF!INT22 
-        !-----------------!        
-                                                                                                                     
+          ENDIF!(JEUL+JALE/=0)
+        ENDIF!INT22
+        !-----------------!
+
       ENDIF!IF(INCOMP==1 .AND. JEUL+JALE==1)THEN
 
       IF(JALE+JEUL/=0)THEN
@@ -186,7 +186,7 @@ C             write(*,FMT='(A,I10,A,F30.16)') "brick id =", NGL(I), "   mass= ",
            COUNT       = COUNT + 1
            LIST(COUNT) = I
        ENDDO
-       
+
        DO II = 1,COUNT
          I = LIST(II)
          CALL ANCMSG(MSGID=167,ANMODE=ANINFO,I1=NGL(I),R1=RHON(I))
@@ -237,7 +237,7 @@ C------VOLDP doesn't change after switching to small strain,modifying VOL0DP to
        END IF
       ENDIF
 C-----AMU compute for DP in MMAIN: AMU() = RHON()/RHO0 - 1, because RHON*VOLDP=RHO0*VOL0DP     
-      
+
 C-----------------------------------------------
       RETURN
       END SUBROUTINE SRHO3

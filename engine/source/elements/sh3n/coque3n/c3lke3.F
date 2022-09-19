@@ -33,7 +33,7 @@ Chd|====================================================================
      4                      MF11,MF12,MF13,MF22,MF23,MF33,
      5                      FM12,FM13,FM23,IKGEO,FOR  ,MOM  ,
      6                      IORTH,HMOR,HFOR,HMFOR,IDRIL,
-     7                      NEL) 
+     7                      NEL)
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -46,7 +46,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,IKGEO,IORTH,IDRIL,NEL
-      MY_REAL 
+      MY_REAL
      .    AREA(*),VOL(*), PX1(*),PY1(*),PY2(*),THK0(*),THK2(*),
      .    HM(MVSIZ,4),HF(MVSIZ,4),HC(MVSIZ,2),HZ(*),HMOR(MVSIZ,2),HFOR(MVSIZ,2),
      .    K11(3,3,*),K12(3,3,*),K13(3,3,*),
@@ -61,7 +61,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,L,K,I1,J1,IN(2),NF
-      MY_REAL 
+      MY_REAL
      .    DM(2,2,MVSIZ),DF(2,2,MVSIZ),DCX(MVSIZ),DCY(MVSIZ),
      .    PX1PX1(MVSIZ),PX1PY1(MVSIZ),PX1PY2(MVSIZ),PX1PY3(MVSIZ),
      .    PY1PY1(MVSIZ),PY1PY2(MVSIZ),PY1PY3(MVSIZ),PY3(MVSIZ),
@@ -75,7 +75,7 @@ C-----------------------------------------------
      .    DM6_2(MVSIZ),DF5_2(MVSIZ),DF6_2(MVSIZ),
      .    DMF(3,3,MVSIZ),MFIJ(2,2,MVSIZ)
 C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         C2=VOL(EP)
         C1=THK2(EP)*C2
         DM(1,1,EP)=HM(EP,1)*C2
@@ -107,7 +107,7 @@ C-------PX2=-PX1 ,PX3=0---------------
         PY3PY3(EP)=PY3(EP)*PY3(EP)
        ENDDO
 C------Membrainaires-----------
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         K11(1,1,EP)=PX1PX1(EP)*DM(1,1,EP)
         K11(1,2,EP)=PX1PY1(EP)*DM(1,2,EP)
         K11(2,2,EP)=PY1PY1(EP)*DM(2,2,EP)
@@ -126,7 +126,7 @@ C
         K23(2,2,EP)=PY2PY3(EP)*DM(2,2,EP)
        ENDDO
 C------Flexion-----------
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         M11(2,2,EP)=PX1PX1(EP)*DF(1,1,EP)
         M11(1,2,EP)=-PX1PY1(EP)*DF(1,2,EP)
         M11(1,1,EP)=PY1PY1(EP)*DF(2,2,EP)
@@ -145,7 +145,7 @@ C
         M23(1,1,EP)=PY2PY3(EP)*DF(2,2,EP)
        ENDDO
 C------G terms-----------
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         GPX1PX1=PX1PX1(EP)*GM(EP)
         GPX1PY1=PX1PY1(EP)*GM(EP)
         GPX1PY2=PX1PY2(EP)*GM(EP)
@@ -168,7 +168,7 @@ C
         K23(2,1,EP)=K23(2,1,EP)-GPX1PY3
        ENDDO
 C
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         GPX1PX1=PX1PX1(EP)*GF(EP)
         GPX1PY1=PX1PY1(EP)*GF(EP)
         GPX1PY2=PX1PY2(EP)*GF(EP)
@@ -192,7 +192,7 @@ C
        ENDDO
        IF (IORTH==1) THEN
 #include "vectorize.inc"
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          C2=VOL(EP)
          C1=THK2(EP)*C2
          DM5(EP)=HMOR(EP,1)*C2
@@ -200,7 +200,7 @@ C
          DF5(EP)=HFOR(EP,1)*C1
          DF6(EP)=HFOR(EP,2)*C1
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          DM5_2(EP)=TWO*DM5(EP)
          DM6_2(EP)=TWO*DM6(EP)
          DF5_2(EP)=TWO*DF5(EP)
@@ -259,7 +259,7 @@ C
          M23(2,2,EP)=M23(2,2,EP)-PX1PY3(EP)*DF5(EP)
          M33(1,2,EP)=M33(1,2,EP)-PY3PY3(EP)*DF6(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
  	     C2=VOL(EP)*THK0(EP)
          DMF(1,1,EP)=HMFOR(EP,1)*C2
          DMF(2,2,EP)=HMFOR(EP,2)*C2
@@ -272,7 +272,7 @@ C
          DMF(3,3,EP)=HMFOR(EP,4)*C2
         ENDDO
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MF11(1,1,EP)=
      1               -DMF(1,2,EP)*PX1PY1(EP)-DMF(1,3,EP)*PX1PX1(EP)
      2               -DMF(2,3,EP)*PY1PY1(EP)-DMF(3,3,EP)*PX1PY1(EP)
@@ -286,7 +286,7 @@ C ----add mem-bending coupling terms of orthotrope--coplanar first---
      1                DMF(1,2,EP)*PX1PY1(EP)+DMF(2,3,EP)*PY1PY1(EP)
      2               +DMF(1,3,EP)*PX1PX1(EP)+DMF(3,3,EP)*PX1PY1(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MF12(1,1,EP)=
      1               -DMF(1,2,EP)*PX1PY2(EP)+DMF(1,3,EP)*PX1PX1(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -304,7 +304,7 @@ C---------------------------------YIXJ-----
      1               -DMF(1,2,EP)*PX1PY1(EP)+DMF(2,3,EP)*PY1PY2(EP)
      2               -DMF(1,3,EP)*PX1PX1(EP)+DMF(3,3,EP)*PX1PY2(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MF22(1,1,EP)=
      1                DMF(1,2,EP)*PX1PY2(EP)-DMF(1,3,EP)*PX1PX1(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -322,7 +322,7 @@ C---------------------------------YIXJ-----
      1               -DMF(1,2,EP)*PX1PY2(EP)+DMF(2,3,EP)*PY2PY2(EP)
      2               +DMF(1,3,EP)*PX1PX1(EP)-DMF(3,3,EP)*PX1PY2(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MF23(1,1,EP)=
      1                DMF(1,2,EP)*PX1PY3(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -340,7 +340,7 @@ C---------------------------------YIXJ-----
      1                                       DMF(2,3,EP)*PY2PY3(EP)
      2                                      -DMF(3,3,EP)*PX1PY3(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MF13(1,1,EP)=
      1               -DMF(1,2,EP)*PX1PY3(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -358,7 +358,7 @@ C---------------------------------YIXJ-----
      1                                       DMF(2,3,EP)*PY1PY3(EP)
      2                                      +DMF(3,3,EP)*PX1PY3(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          MF33(1,1,EP)=
      2               -DMF(2,3,EP)*PY3PY3(EP)
          MF33(1,2,EP)=
@@ -369,7 +369,7 @@ C---------------------------------YIXJ-----
      1                                       DMF(2,3,EP)*PY3PY3(EP)
         ENDDO
 C---------FMIJ(i,j)=MFJI(j,i)-----------        
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          FM12(1,1,EP)=
      1                DMF(1,2,EP)*PX1PY1(EP)+DMF(1,3,EP)*PX1PX1(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -388,7 +388,7 @@ C---------------------------------YIXJ-----
      1                DMF(1,2,EP)*PX1PY2(EP)+DMF(2,3,EP)*PY1PY2(EP)
      2               -DMF(1,3,EP)*PX1PX1(EP)-DMF(3,3,EP)*PX1PY1(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          FM13(1,1,EP)=
 c     1               -DMF(1,2,EP)*PX3PY1(EP)-DMF(1,3,EP)*PX3PX1(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -406,7 +406,7 @@ C---------------------------------YIXJ-----
      1                DMF(1,2,EP)*PX1PY3(EP)+DMF(2,3,EP)*PY1PY3(EP)
 c     2               +DMF(1,3,EP)*PX3PX1(EP)+DMF(3,3,EP)*PX3PY1(EP)
         ENDDO
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
          FM23(1,1,EP)=
 c     1               -DMF(1,2,EP)*PX3PY2(EP)-DMF(1,3,EP)*PX2PX3(EP)
 C--------------------------------------------------------YIXJ-----     
@@ -424,9 +424,9 @@ C---------------------------------YIXJ-----
      1               -DMF(1,2,EP)*PX1PY3(EP)+DMF(2,3,EP)*PY2PY3(EP)
 c     2               +DMF(1,3,EP)*PX2PX3(EP)+DMF(3,3,EP)*PX3PY2(EP)
         ENDDO
-       ENDIF 
+       ENDIF
 C-------------C.T.---------------
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         GPX1PX1=PX1PX1(EP)*DCX(EP)
         K11(3,3,EP)=GPX1PX1+PY1PY1(EP)*DCY(EP)
         K22(3,3,EP)=GPX1PX1+PY2PY2(EP)*DCY(EP)
@@ -435,7 +435,7 @@ C-------------C.T.---------------
         K13(3,3,EP)=PY1PY3(EP)*DCY(EP)
         K23(3,3,EP)=PY2PY3(EP)*DCY(EP)
        ENDDO
-       DO EP=JFT,JLT 
+       DO EP=JFT,JLT
         FAC = THIRD*AREA(EP)
         BCXX1=-FAC*PX1PX1(EP)
         BCXX2= -BCXX1
@@ -513,7 +513,7 @@ C------ renforce positive  ----------
         M22(3,3,EP)=M22(3,3,EP)+C2
         M33(3,3,EP)=M33(3,3,EP)+C3
        ENDDO
-      ENDIF 
+      ENDIF
 C
         IF (IKGEO == 1 ) THEN
 C---------membrane--only-----
@@ -537,7 +537,7 @@ C---------membrane--only-----
          K12(I,I,EP) = K12(I,I,EP)+H12(EP)
          K22(I,I,EP) = K22(I,I,EP)+H22(EP)
          K13(I,I,EP) = K13(I,I,EP)+H13(EP)
-         K23(I,I,EP) = K23(I,I,EP)+H23(EP) 
+         K23(I,I,EP) = K23(I,I,EP)+H23(EP)
          K33(I,I,EP) = K33(I,I,EP)+H33(EP)
         ENDDO
        ENDDO
@@ -554,7 +554,7 @@ C------ renforce positive  ----------
           END IF
          ENDDO
         ENDIF
-       END IF !IF (IKGEO ==1) 
+       END IF !IF (IKGEO ==1)
 C
        RETURN
        END
@@ -888,7 +888,7 @@ C------ Mzz  ----------
        IF (IORTH>0) THEN
 C ----add mem-bending coupling terms of orthotrope--coplanar first---
 #include "vectorize.inc"
-        DO EP=JFT,JLT 
+        DO EP=JFT,JLT
  	 C2=VOL(EP)*THK0(EP)
          DMF(1,1,EP)=HMFOR(EP,1)*C2
          DMF(2,2,EP)=HMFOR(EP,2)*C2

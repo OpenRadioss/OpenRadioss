@@ -77,7 +77,7 @@ C
           KSEG=ABS(ISEG(IS))
           RO0(IS) = SEGVAR%RHO(KSEG)
           EN0(IS) = SEGVAR%EINT(KSEG)
-        ENDDO            
+        ENDDO
         DO I=1,NOD
           N=LISTE(I)
           V0(1,I)=V(1,N)
@@ -129,7 +129,7 @@ c
         LA(3,N2)=LA(3,N2)+NZ
         LA(1,N3)=LA(1,N3)+NX
         LA(2,N3)=LA(2,N3)+NY
-        LA(3,N3)=LA(3,N3)+NZ 
+        LA(3,N3)=LA(3,N3)+NZ
 C
 cow46e16+++
         VMX=V(1,NG1)+V(1,NG2)+V(1,NG3)

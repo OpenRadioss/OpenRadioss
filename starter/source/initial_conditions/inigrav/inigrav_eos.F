@@ -45,9 +45,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "param_c.inc"  
-#include      "com01_c.inc"  
-#include      "tabsiz_c.inc"  
+#include      "param_c.inc"
+#include      "com01_c.inc"
+#include      "tabsiz_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -55,18 +55,18 @@ C-----------------------------------------------
       my_real, INTENT(IN)    :: GRAV0, DEPTH(*), PM(NPROPM, *), BUFMAT(*),PSURF
       my_real, INTENT(INOUT) :: PRES(NEL)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET, INTENT(IN) :: ELBUF_TAB
-      my_real, INTENT(IN) :: RHO0     
+      my_real, INTENT(IN) :: RHO0
       INTEGER,INTENT(IN)::NPF(SNPC)
-      my_real,INTENT(IN)::TF(STF)       
+      my_real,INTENT(IN)::TF(STF)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,K
       INTEGER :: EOSTYPE, ITER, MAX_ITER, MAT(NEL), REMAINING_ELTS, NBMAT
       my_real :: TOL, INCR
-      my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL), 
-     .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL), 
-     .           DPDRHO(NEL), DPDM(NEL), DPDE(NEL), THETA(NEL), ECOLD(NEL), P0(NEL), 
+      my_real :: FUNC(NEL), DFUNC(NEL), ERROR(NEL), RHOZERO(NEL), RHO(NEL),
+     .           MU(NEL), MU2(NEL), ESPE(NEL), DVOL(NEL), DF(NEL), VOL(NEL), PSH(NEL),
+     .           DPDRHO(NEL), DPDM(NEL), DPDE(NEL), THETA(NEL), ECOLD(NEL), P0(NEL),
      .           GRUN(NEL),PREF(NEL), OFF(NEL), EINT(NEL), SIG(NEL,6), POLD(NEL),RHO_OLD,V0(NEL)
 
       LOGICAL :: CONT, CONVERGED(NEL)
@@ -80,13 +80,13 @@ C LIST IS SUBGROUP TO TREAT : ONLY ELEM WITH RELEVANT PARTS ARE KEPT
 C NEL IS ISEZ OF LIST
 C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VAR
 C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
-      
+
       GBUF => ELBUF_TAB(NG)%GBUF
       NULLIFY(LBUF)
       IF(IMAT>0)THEN
         LBUF => ELBUF_TAB(NG)%BUFLY(IMAT)%LBUF(1, 1, 1)
       ENDIF
-      
+
       EOSTYPE          = IPM(4, MATID)
       ITER             = 0
       MAX_ITER         = 30
@@ -97,10 +97,10 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
 
       !===================================================================!
       !                     BUFFER INITIALIZATION                         !
-      !===================================================================! 
-      ! local array instead of pointers since they may be reshaped with a 
+      !===================================================================!
+      ! local array instead of pointers since they may be reshaped with a
       ! subgroup (1:NEL) c (1:NELG) depending on element PART (possibly several PARTS in a given group)
-      DO K = 1, NEL           
+      DO K = 1, NEL
            RHOZERO(K) = PM(1,MATID)
            PSH(K)     = PM(88, MATID)
            MAT(K)     = MATID
@@ -129,15 +129,15 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
            RHO(K)     = PM(1,MATID) !submaterial
            OFF(K)     = LBUF%OFF(I)
            EINT(K)    = LBUF%EINT(I)
-           V0(K)      = LBUF%VOL(I)           
-        ENDDO        
+           V0(K)      = LBUF%VOL(I)
+        ENDDO
       ENDIF
       !EINT=Eint/V in this context with law 151
       !===================================================================!
       !                     ITERATIONS                                    !
-      !===================================================================! 
-      POLD(1:NEL)=PRES(1:NEL)   
-      REMAINING_ELTS = NEL                      !Number of elements for which convergence is not achieved 
+      !===================================================================!
+      POLD(1:NEL)=PRES(1:NEL)
+      REMAINING_ELTS = NEL                      !Number of elements for which convergence is not achieved
       DO WHILE(CONT .AND. ITER < MAX_ITER)   !Start nonlinear solver loop
          ITER = ITER + 1
          DO K = 1, NEL
@@ -145,10 +145,10 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
             DF(K) = RHOZERO(I) / RHO(K)
             EINT(K) = EINT(K) / DF(K) !with IFLAG==2 we need ESPE=Df*EINT
          ENDDO
-         CALL EOSMAIN(2     , NEL    , EOSTYPE, PM   , OFF  , EINT, 
-     .                RHO   , RHOZERO, MU     , MU2  , ESPE , 
-     .                DVOL  , DF     , VOL    , MAT  , PSH  , 
-     .                PRES  , DPDM   , DPDE   , THETA, ECOLD, 
+         CALL EOSMAIN(2     , NEL    , EOSTYPE, PM   , OFF  , EINT,
+     .                RHO   , RHOZERO, MU     , MU2  , ESPE ,
+     .                DVOL  , DF     , VOL    , MAT  , PSH  ,
+     .                PRES  , DPDM   , DPDE   , THETA, ECOLD,
      .                BUFMAT, SIG    , MU     , MLW  , POLD ,
      .                NPF   , TF)
           DO K=1,NEL
@@ -156,45 +156,45 @@ C IMAT : relevant for multifluid eos. imat=0 => monomaterial law
           ENDDO
          !===================================================================!
          !                     CHECK CONVERGENCY                             !
-         !===================================================================!    
+         !===================================================================!
          !loop over retained element in the current group I \in LIST(1:NEL)
-         DO K = 1, NEL                                                                                                     
-            IF (.NOT. CONVERGED(K)) THEN   ! No need to take the square root, only the squared sound speed is needed here  
-               DPDRHO(K) = DPDM(K) / RHOZERO(K)  !DPDM is total derivative (variation along isentropic path)                        
-               !GRUN(K) = DPDE(K) / (ONE + MU(K))                                                                            
+         DO K = 1, NEL
+            IF (.NOT. CONVERGED(K)) THEN   ! No need to take the square root, only the squared sound speed is needed here
+               DPDRHO(K) = DPDM(K) / RHOZERO(K)  !DPDM is total derivative (variation along isentropic path)
+               !GRUN(K) = DPDE(K) / (ONE + MU(K))
                FUNC(K) = PRES(K)-PREF(K)
-               DFUNC(K) = DPDRHO(K) !- GRUN(K) * PRES(K) / RHO(K)                                                              
-               INCR = - FUNC(K) / DFUNC(K)  
+               DFUNC(K) = DPDRHO(K) !- GRUN(K) * PRES(K) / RHO(K)
+               INCR = - FUNC(K) / DFUNC(K)
                RHO_OLD = RHO(K)
-               RHO(K) = RHO(K) + INCR  
+               RHO(K) = RHO(K) + INCR
                ERROR(K)= MAX( ABS(INCR)/RHOZERO(K) , ABS(FUNC(K)) )
-               
+
                INCR =   - (PRES(K)+PSH(K)+HALF*DPDRHO(K)*INCR)*(RHOZERO(K)/RHO(K)-RHOZERO(K)/RHO_OLD)
-               EINT(K) = EINT(K) + INCR   !EINT is in fact Eint/V with law 151 here 
+               EINT(K) = EINT(K) + INCR   !EINT is in fact Eint/V with law 151 here
                IF(DPDE(K)==ZERO)EINT(K)=ZERO
-               
-               IF (ERROR(K) < TOL .OR. ITER == MAX_ITER) THEN 
-                  CONVERGED(K) = .TRUE.                                                                                    
-                  REMAINING_ELTS = REMAINING_ELTS - 1                                                                      
-                  VOL(K) = ZERO                                                                                            
-                  I = LIST(K) 
-                  DF(K) = RHOZERO(I) / RHO(K)                                                                                       
-                  IF(IMAT==0)THEN                                                                                          
-                    GBUF%RHO(I) = RHO(K)                                                                                   
+
+               IF (ERROR(K) < TOL .OR. ITER == MAX_ITER) THEN
+                  CONVERGED(K) = .TRUE.
+                  REMAINING_ELTS = REMAINING_ELTS - 1
+                  VOL(K) = ZERO
+                  I = LIST(K)
+                  DF(K) = RHOZERO(I) / RHO(K)
+                  IF(IMAT==0)THEN
+                    GBUF%RHO(I) = RHO(K)
                     GBUF%SIG(I           ) = - PRES(K)
-                    GBUF%SIG(I +     NELG) = - PRES(K)                                                                         
-                    GBUF%SIG(I + 2 * NELG) = - PRES(K)                                                                     
-                    GBUF%EINT(I) = EINT(K)/DF(K)     !Eint/V with law 151 here     => EINT*DF == Eint/V0 
-                  ELSE                                                                                                     
-                    LBUF%RHO(I) = RHO(K)                                                                                   
+                    GBUF%SIG(I +     NELG) = - PRES(K)
+                    GBUF%SIG(I + 2 * NELG) = - PRES(K)
+                    GBUF%EINT(I) = EINT(K)/DF(K)     !Eint/V with law 151 here     => EINT*DF == Eint/V0
+                  ELSE
+                    LBUF%RHO(I) = RHO(K)
                     LBUF%SIG(I           ) = - PRES(K)
-                    LBUF%SIG(I +     NELG) = - PRES(K)                                                                         
-                    LBUF%SIG(I + 2 * NELG) = - PRES(K)                                                                     
-                    LBUF%EINT(I) = EINT(K)/DF(K)     !Eint/V with law 151 here 
-                  ENDIF                                                                                                    
+                    LBUF%SIG(I +     NELG) = - PRES(K)
+                    LBUF%SIG(I + 2 * NELG) = - PRES(K)
+                    LBUF%EINT(I) = EINT(K)/DF(K)     !Eint/V with law 151 here
+                  ENDIF
                ENDIF
-            ENDIF    
-         ENDDO   
+            ENDIF
+         ENDDO
          CONT = (REMAINING_ELTS /= 0)
       ENDDO                     ! WHILE
 

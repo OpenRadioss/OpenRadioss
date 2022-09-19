@@ -30,7 +30,7 @@ Chd|====================================================================
      1  RHO    ,MS    ,PARTSAV,X     ,Y      ,
      2  Z      ,VX    ,VY     ,VZ    ,IPART  ,
      3  MSIG3D ,VOLU  ,MSNF   ,MSSF  ,IN     ,
-     4  VR     ,INS   ,WMA    ,RHOCP ,MCP    ,  
+     4  VR     ,INS   ,WMA    ,RHOCP ,MCP    ,
      5  MCPS   ,MSSA  ,RHOF   ,FRAC  ,NCTRL  ,
      6  KXIG3D ,IXIG3D,R      ,DETJAC,PGAUSS ,
      7  I )
@@ -86,18 +86,18 @@ C
       ZX=ZERO
 C
       DO ITNCTRL=1,NCTRL
-        MASS(I)= RHO(I)*R(ITNCTRL)*DETJAC*PGAUSS 
+        MASS(I)= RHO(I)*R(ITNCTRL)*DETJAC*PGAUSS
         MASSF(I)= FRAC(I)*RHOF(I)*R(ITNCTRL)*DETJAC*PGAUSS
         MSIG3D(I+NFT,ITNCTRL)=MSIG3D(I+NFT,ITNCTRL) + MASS(I)
 C
         IP=IPART(I)
         PARTSAV(1,IP)=PARTSAV(1,IP) + MASS(I)
 c
-        PARTSAV(2,IP)=PARTSAV(2,IP) + MASS(I)*X(ITNCTRL,I) 
+        PARTSAV(2,IP)=PARTSAV(2,IP) + MASS(I)*X(ITNCTRL,I)
         PARTSAV(3,IP)=PARTSAV(3,IP) + MASS(I)*Y(ITNCTRL,I)
         PARTSAV(4,IP)=PARTSAV(4,IP) + MASS(I)*Z(ITNCTRL,I)
 c
-        XX = XX + MASS(I) * X(ITNCTRL,I)*X(ITNCTRL,I)  
+        XX = XX + MASS(I) * X(ITNCTRL,I)*X(ITNCTRL,I)
         XY = XY + MASS(I) * X(ITNCTRL,I)*Y(ITNCTRL,I)
         YY = YY + MASS(I) * Y(ITNCTRL,I)*Y(ITNCTRL,I)
         YZ = YZ + MASS(I) * Y(ITNCTRL,I)*Z(ITNCTRL,I)
@@ -139,11 +139,11 @@ C
         ENDDO
       ENDIF
 C
-c       IF(JTHE < 0 ) THEN      
+c       IF(JTHE < 0 ) THEN
 c           RCP=RHOCP(I)*VOLU(I)/NCTRL
 c           DO ITNCTRL=1,NCTRL
 c             MCPS(ITNCTRL,I) =RCP
-c           ENDDO 
+c           ENDDO
 c       ENDIF
 c       IF(ISROT==1)THEN
 c        IF(IRODDL==0)THEN
@@ -158,7 +158,7 @@ c       ENDIF
 C
       IF(JALE > 0 .AND. NWALE == 4)THEN
          DO ITNCTRL=1,NCTRL
-          INCTRL = IXIG3D(KXIG3D(4,I+NFT)+ITNCTRL-1)         
+          INCTRL = IXIG3D(KXIG3D(4,I+NFT)+ITNCTRL-1)
           WMA(INCTRL)=WMA(INCTRL)+THREE_HALF
          ENDDO
       ENDIF

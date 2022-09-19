@@ -31,7 +31,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE DSEIG(N     , NEV   , NCV   , WHICH , INFO  ,
      .                 MAXN  , MAXNEV, MAXNCV, LDV   , ISHFTS,
-     .                 MAXITR, MODE  , TOL   , KLS   , ML    , 
+     .                 MAXITR, MODE  , TOL   , KLS   , ML    ,
      .                 D     , V     , IPRI  , IMDIAG, SIGMA ,
      .                 LDM   )
 C-----------------------------------------------
@@ -64,4 +64,4 @@ C-----------------------------------------------
         CALL FLUSH(6)
         CALL ARRET(5)
       RETURN
-      END      
+      END

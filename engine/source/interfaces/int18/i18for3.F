@@ -74,8 +74,8 @@ C-----------------------------------------------
       USE TRI7BOX
       USE MULTI_FVM_MOD
       USE H3D_MOD
-      USE ALEANIM_MOD !FANI_CELL   
-      USE ELBUFDEF_MOD       
+      USE ALEANIM_MOD !FANI_CELL
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -141,7 +141,7 @@ C-----------------------------------------------
      .     SECFCUM(7,NUMNOD,NSECT), TMP(MVSIZ),
      .     STIFSAV(MVSIZ), VISCN(*),
      .     VXI(MVSIZ),VYI(MVSIZ),VZI(MVSIZ),MSI(2*MVSIZ),
-     .     PRES(*), RSTIF  
+     .     PRES(*), RSTIF
       TYPE(MULTI_FVM_STRUCT), INTENT(INOUT) :: MULTI_FVM
       TYPE(H3D_DATABASE) :: H3D_DATA
 C-----------------------------------------------
@@ -158,13 +158,13 @@ C-----------------------------------------------
      .   N1(MVSIZ), N2(MVSIZ), N3(MVSIZ), PENE(MVSIZ),
      .   VIS2(MVSIZ), DTMI(MVSIZ), XMU(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),DIST(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),DIST(MVSIZ),
      .   VNX, VNY, VNZ, AA, CRIT,S2,RDIST,
      .   V2, FM2, DT1INV, VISCA, FAC,FF,ALPHI,ALPHA,BETA,
      .   FX, FY, FZ, F2, MAS2, M2SK, DTMI0,FT,FN,FMAX,FTN,
      .   FACM1, ECONTT, ECONVT, H0, LA1, LA2, LA3, LA4,
      .   D1,D2,D3,D4,A1,A2,A3,A4,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15, FFO,
      .   E10, H0D, S2D, SUM,
      .   LA1D,LA2D,LA3D,LA4D,T1,T1D,T2,T2D,FFD,VISD,FACD,D1D,
@@ -191,15 +191,15 @@ C-----------------------------------------------
 #include "sync_dir.inc"
 
       IBID   = 0
-      BID    = ZERO      
+      BID    = ZERO
       ECONTT = ZERO
-      ECONTDT = ZERO     
-      
+      ECONTDT = ZERO
+
       DT1INV =ZERO
       IF(DT1 > ZERO)DT1INV = ONE/DT1
 
       ITASK = JTASK-1
-      
+
       !---------------------
       !   PENETRATION CALCULATION (PENE)
       !   & LOCAL COORDINATES (H1,H2,H3,H4) ON FACE FOR VELOCITY INTERPOLATION ON FACE
@@ -226,11 +226,11 @@ C-----------------------------------------------
          !sum(ratio[k]*2Sn[k],k=1..4)
          N1(I) = A1*NX1(I) + A2*NX2(I) + A3*NX3(I) + A4*NX4(I)
          N2(I) = A1*NY1(I) + A2*NY2(I) + A3*NY3(I) + A4*NY4(I)
-         N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)      
+         N3(I) = A1*NZ1(I) + A2*NZ2(I) + A3*NZ3(I) + A4*NZ4(I)
          LA1 = ONE - LB1(I) - LC1(I)
          LA2 = ONE - LB2(I) - LC2(I)
          LA3 = ONE - LB3(I) - LC3(I)
-         LA4 = ONE - LB4(I) - LC4(I) 
+         LA4 = ONE - LB4(I) - LC4(I)
          H0    = FOURTH * (PP1*LA1 + PP2*LA2 + PP3*LA3 + PP4*LA4)
          H1(I) = H0 + PP1 * LB1(I) + PP4 * LC4(I)
          H2(I) = H0 + PP2 * LB2(I) + PP1 * LC1(I)
@@ -273,23 +273,23 @@ C-----------------------------------------------
         VZ(I) = VZI(I) - H1(I)*V(3,IX1(I)) - H2(I)*V(3,IX2(I)) - H3(I)*V(3,IX3(I)) - H4(I)*V(3,IX4(I))
         VN(I) = N1(I)*VX(I) + N2(I)*VY(I) + N3(I)*VZ(I)
         !hourglass correction
-        H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))       
-        H0 = MIN(H0,H2(I),H4(I))                        
-        H0 = MAX(H0,-H1(I),-H3(I))                      
-        IF(IX3(I) == IX4(I))H0 = ZERO                   
-        H1(I) = H1(I) + H0                              
-        H2(I) = H2(I) - H0                              
-        H3(I) = H3(I) + H0                              
-        H4(I) = H4(I) - H0 
+        H0 = -FOURTH*(H1(I) - H2(I) + H3(I) - H4(I))
+        H0 = MIN(H0,H2(I),H4(I))
+        H0 = MAX(H0,-H1(I),-H3(I))
+        IF(IX3(I) == IX4(I))H0 = ZERO
+        H1(I) = H1(I) + H0
+        H2(I) = H2(I) - H0
+        H3(I) = H3(I) + H0
+        H4(I) = H4(I) - H0
       ENDDO
-      
+
       !----------------------------------------------!
       !            CONSTANT STIFFNESS                !
       !----------------------------------------------!
       DO I=1,JLT
         IF(PENE(I) > ZERO )THEN
           DIST(I)=GAP-PENE(I)
-          CAND_P(INDEX(I)) = CAND_P(INDEX(I)) + VN(I)*DT1 
+          CAND_P(INDEX(I)) = CAND_P(INDEX(I)) + VN(I)*DT1
          ! IF(CAND_P(INDEX(I)) > ZERO)CAND_P(INDEX(I))=ZERO  !contact lost
           STIF(I) = STFVAL * PENE(I)/GAP !STVAL:constant user param
         ELSE
@@ -297,21 +297,21 @@ C-----------------------------------------------
           CAND_P(INDEX(I)) = ZERO
           STIF(I) = ZERO
         ENDIF
-      ENDDO    
-          
+      ENDDO
+
       !----------------------------------------------!
       !               REACTION FORCE                 !
       !----------------------------------------------!
       DO I=1,JLT
-        IF(PENE(I) > ZERO )THEN    
-          FNI(I)  = STIF(I) * CAND_P(INDEX(I))                   
-        ELSE                                                     
-          FNI(I)=ZERO                                            
-        ENDIF 
-      ENDDO    
-      
+        IF(PENE(I) > ZERO )THEN
+          FNI(I)  = STIF(I) * CAND_P(INDEX(I))
+        ELSE
+          FNI(I)=ZERO
+        ENDIF
+      ENDDO
+
       !!KINEMATIC TIME STEP
-      !DTI = EP20      
+      !DTI = EP20
       !IF(INTER18_AUTOPARAM == 1)THEN
       !  DO I=1,JLT
       !      DX =GAP/TEN
@@ -319,11 +319,11 @@ C-----------------------------------------------
       !      DTI = MIN(RDIST,DTI)
       !  ENDDO
       !ENDIF
-      !IF(DTI<DT2T)THEN  
-      !  DT2T    = DTI      
-      !  NELTST  = NOINT    
-      !  ITYPTST = 10       
-      !ENDIF                
+      !IF(DTI<DT2T)THEN
+      !  DT2T    = DTI
+      !  NELTST  = NOINT
+      !  ITYPTST = 10
+      !ENDIF
 
       !---------------------------------
       ! EXPERIMENTAL SURFACE ORIENTATION
@@ -337,7 +337,7 @@ C-----------------------------------------------
           FNI(I) = MAX(FNI(I),ZERO)
         ENDDO
       ENDIF
-      
+
       !---------------------------------
       !     DAMPING
       !---------------------------------
@@ -347,13 +347,13 @@ C-----------------------------------------------
             FAC = STIF(I) / MAX(EM30,STIF(I))
             FF  = FAC * VISC * PENE(I)/GAP
             STIF(I) = STIF(I) + TWO * FF * DT1INV
-            FF = FF * VN(I)  
+            FF = FF * VN(I)
             ECONTDT = ECONTDT + FF * VN(I) * DT1   ! Damping Energy
             FNI(I)  = FNI(I) + FF
            ENDIF
          ENDDO
       ENDIF
-  
+
       !---------------------------------
       !     NORMAL IMPULSE OUTPUT
       !---------------------------------
@@ -420,7 +420,7 @@ C-----------------------------------------------
            DO WHILE(JJ<ADDSUBS(IN+1))
              JSUB=LISUBS(JJ)
              DO WHILE(KK<ADDSUBM(IE+1))
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                IF(KSUB == JSUB)THEN
                  IMPX=FXI(I)*DT12
                  IMPY=FYI(I)*DT12
@@ -437,7 +437,7 @@ C-----------------------------------------------
                  FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
                  FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
                  KK=KK+1
-                 EXIT             
+                 EXIT
                ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
@@ -454,7 +454,7 @@ C-----------------------------------------------
            DO WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
              JSUB=LISUBSFI(NIN)%P(JJ)
              DO WHILE(KK<ADDSUBM(IE+1))
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                IF(KSUB == JSUB)THEN
                  IMPX=FXI(I)*DT12
                  IMPY=FYI(I)*DT12
@@ -468,7 +468,7 @@ C-----------------------------------------------
                  FSAVSUB1(10,JSUB)=FSAVSUB1(10,JSUB)+ABS(IMPZ)
                  FSAVSUB1(11,JSUB)=FSAVSUB1(11,JSUB)+FNI(I)*DT12
                  KK=KK+1
-                 EXIT            
+                 EXIT
                ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
@@ -494,7 +494,7 @@ C-----------------------------------------------
            DO WHILE(JJ<ADDSUBS(IN+1))
              JSUB=LISUBS(JJ)
              DO WHILE(KK<ADDSUBM(IE+1))
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                IF(KSUB == JSUB)THEN
                  !CURRENTLY NO TANGENTIAL FORCE IN INTER18
                  !IMPX=FXT(I)*DT12
@@ -511,7 +511,7 @@ C-----------------------------------------------
                  FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
                  FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB) + SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
                  KK=KK+1
-                 EXIT             
+                 EXIT
                ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
@@ -528,7 +528,7 @@ C-----------------------------------------------
            DO WHILE(JJ<ADDSUBSFI(NIN)%P(NN+1))
              JSUB=LISUBSFI(NIN)%P(JJ)
              DO WHILE(KK<ADDSUBM(IE+1))
-               KSUB=LISUBM(KK)   
+               KSUB=LISUBM(KK)
                IF(KSUB == JSUB)THEN
                  !CURRENTLY NO TANGENTIAL FORCE IN INTER18
                  !IMPX=FXT(I)*DT12
@@ -546,7 +546,7 @@ C-----------------------------------------------
                  FSAVSUB1(14,JSUB)=FSAVSUB1(14,JSUB)+ABS(IMPZ)
                  FSAVSUB1(15,JSUB)= FSAVSUB1(15,JSUB)+SQRT(IMPX*IMPX+IMPY*IMPY+IMPZ*IMPZ)
                  KK=KK+1
-                 EXIT             
+                 EXIT
                ELSE IF(KSUB<JSUB)THEN
                  KK=KK+1
                ELSE
@@ -568,7 +568,7 @@ C-----------------------------------------------
       END IF
 C---------------------------------
 #include "lockon.inc"
-        ECONTD = ECONTD + ECONTDT ! Damping Energy 
+        ECONTD = ECONTD + ECONTDT ! Damping Energy
         ECONT_CUMU  = ECONT_CUMU + ECONTT ! ELASTIC ENERGY
         FSAV(26) = FSAV(26) + ECONTT
         FSAV(28) = FSAV(28) + ECONTDT
@@ -576,31 +576,31 @@ C---------------------------------
 C---------------------------------
 
       IF(IDTMIN(10) == 1.OR.IDTMIN(10) == 2.OR.IDTMIN(10) == 5.OR.IDTMIN(10) == 6)THEN
-       DTMI0 = EP20  
-       DO I=1,JLT                                 
-         DTMI(I) = EP20                   
-         MAS2  = TWO * MSI(I)   
+       DTMI0 = EP20
+       DO I=1,JLT
+         DTMI(I) = EP20
+         MAS2  = TWO * MSI(I)
          IF(MAS2>ZERO.AND.STIF(I)>ZERO .AND. IRB(KINI(I))==0.AND.IRB2(KINI(I))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/STIF(I)))
-         ENDIF                                
-         MAS2  = TWO* MS(IX1(I))       
+         ENDIF
+         MAS2  = TWO* MS(IX1(I))
          IF(MAS2>ZERO.AND.H1(I)*STIF(I)>ZERO .AND. IRB(KINET(IX1(I)))==0.AND.IRB2(KINET(IX1(I)))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H1(I)*STIF(I))))
-         ENDIF                                                       
-         MAS2  = TWO * MS(IX2(I))                            
+         ENDIF
+         MAS2  = TWO * MS(IX2(I))
          IF(MAS2>ZERO.AND.H2(I)*STIF(I)>ZERO .AND. IRB(KINET(IX2(I)))==0.AND.IRB2(KINET(IX2(I)))==0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H2(I)*STIF(I))))
-         ENDIF                     
-         MAS2  = TWO* MS(IX3(I))                  
-         IF(MAS2 > ZERO.AND.H3(I)*STIF(I) > ZERO .AND. IRB(KINET(IX3(I))) == 0.AND.IRB2(KINET(IX3(I))) == 0)THEN 
+         ENDIF
+         MAS2  = TWO* MS(IX3(I))
+         IF(MAS2 > ZERO.AND.H3(I)*STIF(I) > ZERO .AND. IRB(KINET(IX3(I))) == 0.AND.IRB2(KINET(IX3(I))) == 0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H3(I)*STIF(I))))
-         ENDIF                                
-         MAS2  = TWO * MS(IX4(I))                     
-         IF(MAS2 > ZERO.AND.H4(I)*STIF(I) > ZERO .AND. IRB(KINET(IX4(I))) == 0.AND.IRB2(KINET(IX4(I))) == 0)THEN 
+         ENDIF
+         MAS2  = TWO * MS(IX4(I))
+         IF(MAS2 > ZERO.AND.H4(I)*STIF(I) > ZERO .AND. IRB(KINET(IX4(I))) == 0.AND.IRB2(KINET(IX4(I))) == 0)THEN
            DTMI(I) = MIN(DTMI(I),DTFAC1(10)*SQRT(MAS2/(H4(I)*STIF(I))))
-         ENDIF                                
+         ENDIF
          DTMI0 = MIN(DTMI0,DTMI(I))
-       ENDDO          
+       ENDDO
        IF(DTMI0<=DTMIN1(10))THEN
         DO I=1,JLT
          IF(DTMI(I)<=DTMIN1(10))THEN
@@ -615,9 +615,9 @@ C---------------------------------
              WRITE(IOUT,'(A,E12.4,A,I10,A,E12.4,A)')
      .       ' **WARNING MINIMUM TIME STEP ',DTMI(I),
      .       ' IN INTERFACE ',NOINT
-             WRITE(IOUT,'(A,I10)') '   SECONDARY NODE   : ',NI                
+             WRITE(IOUT,'(A,I10)') '   SECONDARY NODE   : ',NI
              WRITE(IOUT,'(A,4I10)')'   MAIN NODES : ',
-     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I)) 
+     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
 #include "lockoff.inc"
              TSTOP = TT
              IF ( ISTAMPING == 1) THEN
@@ -631,8 +631,8 @@ C---------------------------------
            ELSEIF(IDTMIN(10) == 2)THEN
 #include "lockon.inc"
              WRITE(IOUT,'(A,E12.4,A,I10,A,E12.4,A)')' **WARNING MINIMUM TIME STEP ',DTMI(I),' IN INTERFACE ',NOINT
-             WRITE(IOUT,'(A,I10,A,I10)')'   DELETE SECONDARY NODE ',NI,' FROM INTERFACE ',NOINT                 
-             WRITE(IOUT,'(A,4I10)')'   MAIN NODES : ',ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I)) 
+             WRITE(IOUT,'(A,I10,A,I10)')'   DELETE SECONDARY NODE ',NI,' FROM INTERFACE ',NOINT
+             WRITE(IOUT,'(A,4I10)')'   MAIN NODES : ',ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
              IF(JG > 0) THEN
                STFN(CN_LOC(I)) = -ABS(STFN(CN_LOC(I)))
              ELSE
@@ -651,9 +651,9 @@ C---------------------------------
            ELSEIF(IDTMIN(10) == 5)THEN
 #include "lockon.inc"
              WRITE(IOUT,'(A,E12.4,A,I10,A,E12.4,A)')' **WARNING MINIMUM TIME STEP ',DTMI(I),' IN INTERFACE ',NOINT
-             WRITE(IOUT,'(A,I10)') '   SECONDARY NODE   : ',NI                 
+             WRITE(IOUT,'(A,I10)') '   SECONDARY NODE   : ',NI
              WRITE(IOUT,'(A,4I10)')'   MAIN NODES : ',
-     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I)) 
+     .         ITAB(IX1(I)),ITAB(IX2(I)),ITAB(IX3(I)),ITAB(IX4(I))
 #include "lockoff.inc"
              MSTOP = 2
              IF ( ISTAMPING == 1) THEN
@@ -671,35 +671,35 @@ C---------------------------------
                FXI(I)  = ZERO
                FYI(I)  = ZERO
                FZI(I)  = ZERO
-             ENDIF                
-           ENDIF                
+             ENDIF
+           ENDIF
          ENDIF
         ENDDO
        ENDIF
       ENDIF
 C---------------------------------
-      DO I=1,JLT            
-       FX1(I)=FXI(I)*H1(I)  
-       FY1(I)=FYI(I)*H1(I)  
-       FZ1(I)=FZI(I)*H1(I)  
+      DO I=1,JLT
+       FX1(I)=FXI(I)*H1(I)
+       FY1(I)=FYI(I)*H1(I)
+       FZ1(I)=FZI(I)*H1(I)
        !
-       FX2(I)=FXI(I)*H2(I)  
-       FY2(I)=FYI(I)*H2(I)  
-       FZ2(I)=FZI(I)*H2(I)  
+       FX2(I)=FXI(I)*H2(I)
+       FY2(I)=FYI(I)*H2(I)
+       FZ2(I)=FZI(I)*H2(I)
        !
-       FX3(I)=FXI(I)*H3(I)  
-       FY3(I)=FYI(I)*H3(I)  
-       FZ3(I)=FZI(I)*H3(I)  
+       FX3(I)=FXI(I)*H3(I)
+       FY3(I)=FYI(I)*H3(I)
+       FZ3(I)=FZI(I)*H3(I)
        !
-       FX4(I)=FXI(I)*H4(I)  
-       FY4(I)=FYI(I)*H4(I)  
+       FX4(I)=FXI(I)*H4(I)
+       FY4(I)=FYI(I)*H4(I)
        FZ4(I)=FZI(I)*H4(I)
        !case law151 with single lagrangian fluid brick and constant velocity
        !FXI(I)=ZERO
        !FYI(I)=ZERO
        !FZI(I)=ZERO
-      ENDDO    
-                   
+      ENDDO
+
       !SPMD : identification des noeuds interf. utiles a envoyer
       IF (NSPMD > 1) THEN
         DO I = 1,JLT
@@ -718,8 +718,8 @@ C---------------------------------
      3           FX1      ,FY1        ,FZ1  ,FX2  ,FY2    ,FZ2  ,
      4           FX3      ,FY3        ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5           FXI      ,FYI        ,FZI  ,A    ,STIFN  ,NIN  ,
-     7           JTASK    ,MULTI_FVM  ,X    ,IXS  ,V      , 
-     8           ELBUF_TAB,IGROUPS    ,IPARG,MSI) 
+     7           JTASK    ,MULTI_FVM  ,X    ,IXS  ,V      ,
+     8           ELBUF_TAB,IGROUPS    ,IPARG,MSI)
          ELSE
             CALL MULTI_I18_FORCE_PON(
      1           JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
@@ -727,7 +727,7 @@ C---------------------------------
      3           FX1   ,FY1   ,FZ1  ,FX2  ,FY2  ,FZ2    ,
      4           FX3   ,FY3   ,FZ3  ,FX4  ,FY4  ,FZ4    ,
      5           FXI   ,FYI   ,FZI  ,FSKYI,ISKY ,NISKYFI,
-     6           NIN   ,NOINT ,MULTI_FVM,DT1,JTASK)     
+     6           NIN   ,NOINT ,MULTI_FVM,DT1,JTASK)
          ENDIF
       ELSE
          IF(IPARIT == 3)THEN
@@ -736,7 +736,7 @@ C---------------------------------
      3           FX1   ,FY1  ,FZ1  ,FX2  ,FY2  ,FZ2  ,
      4           FX3   ,FY3  ,FZ3  ,FX4  ,FY4  ,FZ4  ,
      5           FXI   ,FYI  ,FZI  ,A    ,STIFN)
-            
+
          ELSEIF(IPARIT == 0)THEN
             CALL I7ASS0(JLT   ,IX1  ,IX2  ,IX3  ,IX4    ,
      2           NSVG  ,H1   ,H2   ,H3   ,H4     ,STIF ,
@@ -744,7 +744,7 @@ C---------------------------------
      4           FX3   ,FY3  ,FZ3  ,FX4  ,FY4    ,FZ4  ,
      5          FXI   ,FYI  ,FZI  ,A    ,STIFN  ,NIN  ,
      6           IBID  ,BID  ,BID  ,BID  ,BID    ,BID  ,
-     7           BID   ,BID  ,BID  ,JTASK,IBID   ) 
+     7           BID   ,BID  ,BID  ,JTASK,IBID   )
          ELSE
             CALL I7ASS2(JLT   ,IX1   ,IX2  ,IX3  ,IX4  ,
      2           NSVG  ,H1    ,H2   ,H3   ,H4   ,STIF   ,
@@ -758,51 +758,51 @@ C---------------------------------
       ENDIF
       IF(ANIM_V(4)+OUTP_V(4)+H3D_DATA%N_VECT_CONT  > 0)THEN
 #include "lockon.inc"
-            !---REACTION FORCE ON THE SOLID SURFACE            
-            !   /H3D/NODA/CONT  (STAGGERED SCHEME) 
+            !---REACTION FORCE ON THE SOLID SURFACE
+            !   /H3D/NODA/CONT  (STAGGERED SCHEME)
            DO I=1,JLT
-             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)  
-             FCONT(2,IX1(I)) =FCONT(2,IX1(I)) + FY1(I)  
-             FCONT(3,IX1(I)) =FCONT(3,IX1(I)) + FZ1(I)  
-             FCONT(1,IX2(I)) =FCONT(1,IX2(I)) + FX2(I)  
-             FCONT(2,IX2(I)) =FCONT(2,IX2(I)) + FY2(I)  
-             FCONT(3,IX2(I)) =FCONT(3,IX2(I)) + FZ2(I)  
-             FCONT(1,IX3(I)) =FCONT(1,IX3(I)) + FX3(I)  
-             FCONT(2,IX3(I)) =FCONT(2,IX3(I)) + FY3(I)  
-             FCONT(3,IX3(I)) =FCONT(3,IX3(I)) + FZ3(I)  
-             FCONT(1,IX4(I)) =FCONT(1,IX4(I)) + FX4(I)  
-             FCONT(2,IX4(I)) =FCONT(2,IX4(I)) + FY4(I)  
-             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)  
+             FCONT(1,IX1(I)) =FCONT(1,IX1(I)) + FX1(I)
+             FCONT(2,IX1(I)) =FCONT(2,IX1(I)) + FY1(I)
+             FCONT(3,IX1(I)) =FCONT(3,IX1(I)) + FZ1(I)
+             FCONT(1,IX2(I)) =FCONT(1,IX2(I)) + FX2(I)
+             FCONT(2,IX2(I)) =FCONT(2,IX2(I)) + FY2(I)
+             FCONT(3,IX2(I)) =FCONT(3,IX2(I)) + FZ2(I)
+             FCONT(1,IX3(I)) =FCONT(1,IX3(I)) + FX3(I)
+             FCONT(2,IX3(I)) =FCONT(2,IX3(I)) + FY3(I)
+             FCONT(3,IX3(I)) =FCONT(3,IX3(I)) + FZ3(I)
+             FCONT(1,IX4(I)) =FCONT(1,IX4(I)) + FX4(I)
+             FCONT(2,IX4(I)) =FCONT(2,IX4(I)) + FY4(I)
+             FCONT(3,IX4(I)) =FCONT(3,IX4(I)) + FZ4(I)
            ENDDO
-           !---REACTION FORCE ON THE FLUID SIDE                                         
-           !   /H3D/ELEM/VECT/CONT WITH LAW151 (COLOCATED SCHEME)                       
-           IF (MULTI_FVM%IS_USED) THEN 
-             IF(H3D_DATA%N_VECT_CONT  > 0)THEN                                                 
-               IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data  
-               ILEN=NUMELS+NUMELQ                                                         
-               DO I=1,JLT                                                                 
+           !---REACTION FORCE ON THE FLUID SIDE
+           !   /H3D/ELEM/VECT/CONT WITH LAW151 (COLOCATED SCHEME)
+           IF (MULTI_FVM%IS_USED) THEN
+             IF(H3D_DATA%N_VECT_CONT  > 0)THEN
+               IDX=NUMELS*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !skip vorticity data
+               ILEN=NUMELS+NUMELQ
+               DO I=1,JLT
                  IPOS=NSVG(I)
                  IF(IPOS>0) THEN ! local cell
-                      IPOS=IPOS-NUMNOD                                                         
-                      IPOS = IDX+3*(IPOS-1)                                                    
-                      FANI_CELL(IPOS+1)=FANI_CELL(IPOS+1)-FXI(I)                               
-                      FANI_CELL(IPOS+2)=FANI_CELL(IPOS+2)-FYI(I)                               
-                      FANI_CELL(IPOS+3)=FANI_CELL(IPOS+3)-FZI(I)                               
+                      IPOS=IPOS-NUMNOD
+                      IPOS = IDX+3*(IPOS-1)
+                      FANI_CELL(IPOS+1)=FANI_CELL(IPOS+1)-FXI(I)
+                      FANI_CELL(IPOS+2)=FANI_CELL(IPOS+2)-FYI(I)
+                      FANI_CELL(IPOS+3)=FANI_CELL(IPOS+3)-FZI(I)
                   ENDIF
-               ENDDO     
-             ENDIF                                                                 
-           ELSE                                                                         
-           !/H3D/NODA/CONT  (STAGGERED SCHEME)                                          
-             DO I=1,JLT                                                               
-              JG = NSVG(I)                                                              
-              IF(JG > 0) THEN                                                          
-                ! en SPMD : traitement a refaire apres reception noeud remote si JG < 0 
-                FCONT(1,JG)=FCONT(1,JG)- FXI(I)                                         
-                FCONT(2,JG)=FCONT(2,JG)- FYI(I)                                         
+               ENDDO
+             ENDIF
+           ELSE
+           !/H3D/NODA/CONT  (STAGGERED SCHEME)
+             DO I=1,JLT
+              JG = NSVG(I)
+              IF(JG > 0) THEN
+                ! en SPMD : traitement a refaire apres reception noeud remote si JG < 0
+                FCONT(1,JG)=FCONT(1,JG)- FXI(I)
+                FCONT(2,JG)=FCONT(2,JG)- FYI(I)
                 FCONT(3,JG)=FCONT(3,JG)- FZI(I)
-              ENDIF                                                                     
-             ENDDO                                                                      
-           ENDIF                                                                        
+              ENDIF
+             ENDDO
+           ENDIF
 #include "lockoff.inc"
       ENDIF
       IF(ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT > 0 .AND.

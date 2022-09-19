@@ -57,15 +57,15 @@ C-----------------------------------------------
       INTEGER :: IGEO(NPROPGI,*),NGL(*),NGEO(*),LVLOC,NEL,JEUL
       my_real
      .   VOL(*),DET(*), VEUL(LVLOC,*),GEO(NPROPG,*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   DELTAX(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, JPT, IPT
-      my_real 
+      my_real
      .   AJ11(MVSIZ), AJ12(MVSIZ), AJ13(MVSIZ), AJ21(MVSIZ),
      .   AJ22(MVSIZ), AJ23(MVSIZ), AJ31(MVSIZ), AJ32(MVSIZ),
      .   AJ33(MVSIZ), AI11(MVSIZ), AI12(MVSIZ), AI13(MVSIZ),
@@ -75,7 +75,7 @@ C-----------------------------------------------
      .   A2115(MVSIZ), A2117(MVSIZ), A3111(MVSIZ), A3113(MVSIZ),
      .   A3115(MVSIZ), A3117(MVSIZ), A1221(MVSIZ), A1222(MVSIZ),
      .   A1225(MVSIZ), A1226(MVSIZ), A2221(MVSIZ), A2222(MVSIZ),
-     .   A2225(MVSIZ), A2226(MVSIZ), A3221(MVSIZ), A3222(MVSIZ), 
+     .   A2225(MVSIZ), A2226(MVSIZ), A3221(MVSIZ), A3222(MVSIZ),
      .   A3225(MVSIZ), A3226(MVSIZ), A1331(MVSIZ), A1332(MVSIZ),
      .   A1333(MVSIZ), A1334(MVSIZ), A2331(MVSIZ), A2332(MVSIZ),
      .   A2333(MVSIZ), A2334(MVSIZ), A3331(MVSIZ), A3332(MVSIZ),
@@ -86,16 +86,16 @@ C-----------------------------------------------
      .   Y58(MVSIZ), Y67(MVSIZ), Z14(MVSIZ), Z23(MVSIZ), Z58(MVSIZ),
      .   Z67(MVSIZ), X15(MVSIZ), X26(MVSIZ), X37(MVSIZ), X48(MVSIZ),
      .   Y15(MVSIZ), Y26(MVSIZ), Y37(MVSIZ), Y48(MVSIZ), Z15(MVSIZ),
-     .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ), 
-     .   VLINV(MVSIZ),VLINC(MVSIZ,8), H(8), 
-     .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ), 
-     .   PX5(MVSIZ), PX6(MVSIZ), PX7(MVSIZ), PX8(MVSIZ), 
-     .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ), 
-     .   PY5(MVSIZ), PY6(MVSIZ), PY7(MVSIZ), PY8(MVSIZ), 
-     .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ), 
+     .   Z26(MVSIZ), Z37(MVSIZ), Z48(MVSIZ),
+     .   VLINV(MVSIZ),VLINC(MVSIZ,8), H(8),
+     .   PX1(MVSIZ), PX2(MVSIZ), PX3(MVSIZ), PX4(MVSIZ),
+     .   PX5(MVSIZ), PX6(MVSIZ), PX7(MVSIZ), PX8(MVSIZ),
+     .   PY1(MVSIZ), PY2(MVSIZ), PY3(MVSIZ), PY4(MVSIZ),
+     .   PY5(MVSIZ), PY6(MVSIZ), PY7(MVSIZ), PY8(MVSIZ),
+     .   PZ1(MVSIZ), PZ2(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ),
      .   PZ5(MVSIZ), PZ6(MVSIZ), PZ7(MVSIZ), PZ8(MVSIZ)
       my_real
-     .   PORO, SMAX, VMIN, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3       
+     .   PORO, SMAX, VMIN, XX1, YY1, ZZ1, XX2, YY2, ZZ2, XX3, YY3, ZZ3
 C=======================================================================
       DO I=1,NEL
         X12(I)=X1(I)-X2(I)
@@ -295,7 +295,7 @@ C
           VEUL(48,I)=VEUL(48,I)+VLINC(I,JPT)*H(5)
           VEUL(49,I)=VEUL(49,I)+VLINC(I,JPT)*H(6)
           VEUL(50,I)=VEUL(50,I)+VLINC(I,JPT)*H(7)
-          VEUL(51,I)=VEUL(51,I)+VLINC(I,JPT)*H(8)      
+          VEUL(51,I)=VEUL(51,I)+VLINC(I,JPT)*H(8)
         ENDDO
 C
       ENDDO !JPT=1,8
@@ -351,14 +351,14 @@ C
       ENDDO
 C      
       IF(JEUL /= 0)THEN
-        DO I=1,NEL      
+        DO I=1,NEL
           VEUL(52,I) = VOL(I)
         ENDDO
-      ENDIF          
+      ENDIF
 C
       IF (NINT(GEO(12,NGEO(1))) == 15) THEN
         DO I=1,NEL
-          PORO=GEO(1,NGEO(I))      
+          PORO=GEO(1,NGEO(I))
           VEUL(44,I)=VEUL(44,I)*PORO
           VEUL(45,I)=VEUL(45,I)*PORO
           VEUL(46,I)=VEUL(46,I)*PORO

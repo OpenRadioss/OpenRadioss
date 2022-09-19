@@ -27,7 +27,7 @@ Chd|        PKE3                          source/elements/beam/pke3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE PCOORK3(JFT    ,JLT    ,X      ,NCC   ,OFFG  ,
-     2                   PID    ,MAT    ,NGL    ,AL    ,ALI   , 
+     2                   PID    ,MAT    ,NGL    ,AL    ,ALI   ,
      3                   ALS    ,ISMSTR ,R11    ,R12   ,R13   ,
      4                   R21    ,R22    ,R23    ,R31   ,R32   ,
      5                   R33    ,RLOC   ,OFF    )
@@ -59,8 +59,8 @@ C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ),NC3(MVSIZ)
 C     REAL
       my_real
-     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), 
-     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), 
+     .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ),
+     .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ),NORM
 C-----------------------------------------------
 C
@@ -71,7 +71,7 @@ C
        NC1(I)=NCC(2,I)
        NC2(I)=NCC(3,I)
        NC3(I)=NCC(4,I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     COORDONNEES
 C----------------------------
@@ -85,7 +85,7 @@ C----------------------------
        X3(I)=X(1,NC3(I))
        Y3(I)=X(2,NC3(I))
        Z3(I)=X(3,NC3(I))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
@@ -96,44 +96,44 @@ C----------------------------
        R11(I)=X2(I)-X1(I)
        R21(I)=Y2(I)-Y1(I)
        R31(I)=Z2(I)-Z1(I)
-      ENDDO 
+      ENDDO
 C
       IF (ISMSTR/=0) THEN
        DO  I=JFT, JLT
         AL(I)=ALS(I)
        ENDDO
-      ELSE 
+      ELSE
        DO  I=JFT, JLT
         AL(I)=SQRT(R11(I)*R11(I)+R21(I)*R21(I)+R31(I)*R31(I))
        ENDDO
-      ENDIF 
+      ENDIF
       DO  I=JFT, JLT
        IF (AL(I)<EM20) OFFG(I)=ZERO
        ALI(I)=ONE/MAX(EM20,AL(I))
-      ENDDO 
+      ENDDO
 C
       DO I=JFT, JLT
        R11(I)=R11(I)*ALI(I)
        R21(I)=R21(I)*ALI(I)
        R31(I)=R31(I)*ALI(I)
-      ENDDO 
+      ENDDO
       DO I=JFT, JLT
        R13(I)=R21(I)*R32(I)-R31(I)*R22(I)
        R23(I)=R31(I)*R12(I)-R11(I)*R32(I)
        R33(I)=R11(I)*R22(I)-R21(I)*R12(I)
-      ENDDO 
+      ENDDO
 C
       DO I=JFT, JLT
        NORM=SQRT(R13(I)*R13(I)+R23(I)*R23(I)+R33(I)*R33(I))
        R13(I)=R13(I)/NORM
        R23(I)=R23(I)/NORM
        R33(I)=R33(I)/NORM
-      ENDDO 
+      ENDDO
       DO I=JFT, JLT
        R12(I)=R23(I)*R31(I)-R33(I)*R21(I)
        R22(I)=R33(I)*R11(I)-R13(I)*R31(I)
        R32(I)=R13(I)*R21(I)-R23(I)*R11(I)
-      ENDDO 
+      ENDDO
 C
       DO I=JFT,JLT
        OFF(I)=OFFG(I)

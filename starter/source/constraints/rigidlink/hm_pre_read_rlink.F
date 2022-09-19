@@ -42,7 +42,7 @@ C-----------------------------------------------
       USE R2R_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD    
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -81,9 +81,9 @@ C=======================================================================
       IS_AVAILABLE = .FALSE.
 C=======================================================================
 C-----------------------------------------------
-      CALL HM_OPTION_START('/RLINK')       
+      CALL HM_OPTION_START('/RLINK')
       NUM  = 0
-      NLK = 0      
+      NLK = 0
 C-----------------------------------------------
       DO I=1,NLINK
        NLK=NLK+1
@@ -92,11 +92,11 @@ C----------Multidomaines --> on ignore les rlink non tages--------
          IF(TAGLNK(NLK) == 0)CALL SZ_R2R(TAGLNK,NLK)
        END IF
 C-----------------------------------------------------------------                                                     
-       CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = NUSER, 
-     .                          OPTION_TITR    = TITR)           
+       CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = NUSER,
+     .                          OPTION_TITR    = TITR)
 C-----------------------------------------------------------------                                                     
-       CALL HM_GET_INTV('dependentnodeset'  ,IGU ,IS_AVAILABLE,LSUBMODEL) 
+       CALL HM_GET_INTV('dependentnodeset'  ,IGU ,IS_AVAILABLE,LSUBMODEL)
        IGS = NGR2USRN(IGU,IGRNOD,NGRNOD,NN)
        NUM = NUM + NN
       ENDDO

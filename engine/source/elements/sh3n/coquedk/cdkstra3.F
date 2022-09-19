@@ -26,7 +26,7 @@ Chd|-- called by -----------
 Chd|        CDKFORC3                      source/elements/sh3n/coquedk/cdkforc3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE CDKSTRA3(JFT,JLT,GSTR,EXX, EYY, EXY,KXX, KYY, KXY, 
+      SUBROUTINE CDKSTRA3(JFT,JLT,GSTR,EXX, EYY, EXY,KXX, KYY, KXY,
      .                    EPSDOT,NFT,ISTRAIN,DT1,GSTRPG,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -76,7 +76,7 @@ C
         DO I=JFT,JLT
          GSTR(I,6)=GSTR(I,6)+KXX(I)*THIRD
          GSTR(I,7)=GSTR(I,7)+KYY(I)*THIRD
-         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD	 
+         GSTR(I,8)=GSTR(I,8)+KXY(I)*THIRD	
 C
          GSTRPG(I,1)=GSTRPG(I,1)+EXX(I)
          GSTRPG(I,2)=GSTRPG(I,2)+EYY(I)

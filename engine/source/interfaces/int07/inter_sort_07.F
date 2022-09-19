@@ -50,7 +50,7 @@ Chd|====================================================================
 !       INTER_SORT_07 description
 !       sort computation for interface TYP07
 !       INTER_SORT_07 organization :
-!       
+!
 !$ENDCOMMENT
 C============================================================================
 C   M o d u l e s
@@ -62,7 +62,7 @@ C-----------------------------------------------
         USE MULTI_FVM_MOD
         USE INTER_STRUCT_MOD
         USE INTER_SORTING_MOD
-        USE INTBUFDEF_MOD 
+        USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -115,11 +115,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-        INTEGER 
+        INTEGER
      .        LOC_PROC,
-     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1, 
+     .        I, IP0, IP1, IP2, IP21, I_SK_OLD, I_STOK1,
      .        ADD1, NB_N_B, NOINT, INACTI, MULTIMP, IGAP, IFQ, ITIED
-        INTEGER 
+        INTEGER
      .        ILD, NCONT, NCONTACT, INACTII, INACIMP, INTTH,
      .        I_MEM,CAND_N_OLD,IDUM1(1),NMN_L, IVIS2,NUM_IMP
         my_real
@@ -153,10 +153,10 @@ C
         IFQ     =IPARI(31,NIN)
         INTTH   =IPARI(47,NIN)
         ITIED   =IPARI(85,NIN)
-      
-        LOC_PROC=ISPMD+1      
+
+        LOC_PROC=ISPMD+1
         NCONTACT=MULTIMP*NCONT
-      
+
         TYPE18=.FALSE.
         IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
 
@@ -228,22 +228,22 @@ C
         ILD = 0
         NB_N_B = 1
 
- 50     CALL MY_BARRIER    
+ 50     CALL MY_BARRIER
         IF(ITASK==0) THEN
             IF(ALLOCATED( LIST_REMOTE_S_NODE ) ) DEALLOCATE( LIST_REMOTE_S_NODE )
             ALLOCATE( LIST_REMOTE_S_NODE(NSNR) )
             REMOTE_S_NODE = 0
         ENDIF
-        CALL MY_BARRIER                          
+        CALL MY_BARRIER
 
-        IF(IPARI(63,NIN) ==2 ) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL 
- 
+        IF(IPARI(63,NIN) ==2 ) INTBUF_TAB%METRIC%ALGO = ALGO_VOXEL
+
 #ifdef MPI
         IF(ITASK == 0) INTBUF_TAB%METRIC%TIC = MPI_WTIME()
 #else
         IF(ITASK == 0) THEN
             CALL CPU_TIME(T1)
-            INTBUF_TAB%METRIC%TIC = NINT(100.0 * T1) 
+            INTBUF_TAB%METRIC%TIC = NINT(100.0 * T1)
         ENDIF
 #endif
         IF (IMONM > 0 .AND. ITASK == 0) CALL STARTIME(30,1)
@@ -258,7 +258,7 @@ C
      8      INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A      NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      B      GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
-     C      INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     C      INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,
      D      INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
      E      ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP,REMOTE_S_NODE,LIST_REMOTE_S_NODE)
 
@@ -272,12 +272,12 @@ C
      8 INTBUF_TAB%STFNS,NIN ,INTBUF_TAB%STFM(1+ESHIFT),IPARI(21,NIN),INTBUF_TAB%GAP_S,
      A NSNR   ,NCONT  ,RENUM  ,NSNROLD  ,INTBUF_TAB%GAP_M(1+ESHIFT),
      B GAPMIN ,GAPMAX      ,CURV_MAX_MAX   ,NUM_IMP   ,INTBUF_TAB%GAP_SL,
-     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,  
+     C INTBUF_TAB%GAP_ML(1+ESHIFT),INTTH ,ITASK  , INTBUF_TAB%VARIABLES(7),I_MEM     ,
      D INTBUF_TAB%KREMNODE(1+2*ESHIFT),INTBUF_TAB%REMNODE,ITAB , IPARI(63,NIN),DRAD         ,
      E ITIED ,INTBUF_TAB%CAND_F,DGAPLOADP)
 
         ENDIF
-      
+
         IF (I_MEM >= 1 )THEN
 #include "lockon.inc"
             I_MEMG = I_MEM
@@ -292,7 +292,7 @@ C New barrier needed for Dynamic MultiMP
 #else
         IF(ITASK == 0) THEN
             CALL CPU_TIME(T1)
-            INTBUF_TAB%METRIC%TOC = NINT(100.0 * T1) 
+            INTBUF_TAB%METRIC%TOC = NINT(100.0 * T1)
         ENDIF
 #endif
 
@@ -366,7 +366,7 @@ C mono tache
 C
             CALL SPMD_TRI7GAT(
      1          RESULT       ,NSN     ,INTBUF_TAB%CAND_N,INTBUF_TAB%I_STOK(1),NIN,
-     2          IPARI(21,NIN),NSNR    ,MULTIMP        ,NTY         ,IPARI(47,NIN),  
+     2          IPARI(21,NIN),NSNR    ,MULTIMP        ,NTY         ,IPARI(47,NIN),
      3          IDUM1        ,NSNFIOLD, IPARI        , H3D_DATA    ,IPARI(72,NIN),
      4          MULTI_FVM)
             IPARI(24,NIN) = NSNR

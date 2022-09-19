@@ -42,7 +42,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,8 +71,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER NG, I, J, MT, ITASK
-      my_real RK, RE, R, XMT      
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      my_real RK, RE, R, XMT
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -81,13 +81,13 @@ C-----------------------------------------------
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
 c
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
-     7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )                     
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF(JALE+JEUL == 0)   CYCLE
         IF(IPARG(8,NG) == 1) CYCLE
         LFT=1
@@ -122,7 +122,7 @@ c
          ENDDO!next I
         ENDIF
         IF(JPOR == 2)THEN
-         ! POROSITY, IMPOSED TURBULENCY & NO DIFFUSIVE FLUX 
+         ! POROSITY, IMPOSED TURBULENCY & NO DIFFUSIVE FLUX
          DO I=LFT,LLT
            J=I+NFT
            VAL2(J)=ZERO
@@ -153,12 +153,12 @@ C     ALE ON / OFF
         IF (IPARG(76, NG)  ==  1) CYCLE ! --> OFF
         GBUF => ELBUF_TAB(NG)%GBUF
 c
-        CALL INITBUF (IPARG    ,NG      ,                  
-     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,   
-     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,   
-     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,   
-     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,   
-     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,   
+        CALL INITBUF (IPARG    ,NG      ,
+     2     MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3     NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4     JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5     NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6     IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7     ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF (JALE+JEUL == 0)   CYCLE
         IF (JTUR /= 1)        CYCLE

@@ -41,8 +41,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
-      USE CLUSTER_MOD        
+      USE ELBUFDEF_MOD
+      USE CLUSTER_MOD
       USE STACK_MOD
       USE GROUPDEF_MOD
       USE TH_MOD
@@ -96,7 +96,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: BOOL
-      INTEGER :: ID,LOCAL_ID      
+      INTEGER :: ID,LOCAL_ID
       INTEGER, POINTER :: ITHGR,ITHB
       INTEGER, DIMENSION(10) :: ALREADY_DONE
 
@@ -120,7 +120,7 @@ C-------------------------------------------------------
             IF(NTHGRP01(ID)/=0) THEN
                 IF(ID==1) THEN
                     ITHGR => ITHGRPA(1,1)
-                    ITHB=> ITHBUFA(1)                    
+                    ITHB=> ITHBUFA(1)
                 ENDIF
                 IF(ID==2) THEN
                     ITHGR => ITHGRPB(1,1)
@@ -172,15 +172,15 @@ C-------------------------------------------------------
                     LOCAL_ID = 1
                     IF(ALREADY_DONE(LOCAL_ID)==0) THEN
                         ITHGR => ITHGRPA(1,1)
-                        ITHB=> ITHBUFA(1)  
+                        ITHB=> ITHBUFA(1)
                         BOOL=.TRUE.
                     ENDIF
-                
+
                 ELSEIF(ID==3) THEN
                     LOCAL_ID = 2
                     IF(ALREADY_DONE(LOCAL_ID)==0) THEN
                         ITHGR => ITHGRPB(1,1)
-                        ITHB=> ITHBUFB(1)  
+                        ITHB=> ITHBUFB(1)
                         BOOL=.TRUE.
                     ENDIF
                 ENDIF
@@ -191,7 +191,7 @@ C-------------------------------------------------------
      .                       ITHGR,NTHGRP1(ID),ID,WEIGHT)
             ENDIF
         ENDDO
-                        
+
 
         RETURN
         END SUBROUTINE INIT_TH0

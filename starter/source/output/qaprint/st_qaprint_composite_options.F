@@ -74,7 +74,7 @@ C-----------------------------------------------
             DO II = 1, DRAPE(I)%NPT
               WRITE(VARNAME,'(A,I10)') 'IDRAPE',II
               TEMP_INT = DRAPE(I)%IDRAPE(II)
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8) 
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TEMP_INT,0.0_8)
               DO J = 1,2
                 WRITE(VARNAME,'(A,I10,I10)') 'RDRAPE',II,J
                 TEMP_DOUBLE = DRAPE(I)%RDRAPE(II,J)

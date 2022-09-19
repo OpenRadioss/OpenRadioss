@@ -27,7 +27,7 @@ Chd|        RESOL                         source/engine/resol.F
 Chd|-- calls ---------------
 Chd|        MY_BARRIER                    source/system/machine.F       
 Chd|====================================================================
-      SUBROUTINE ASSPART( 
+      SUBROUTINE ASSPART(
      2   PARTFT,PARTLT,PARTSAV,GREFT,GRELT,GRESAV)
 C----6---------------------------------------------------------------7---------8
 C-----------------------------------------------
@@ -45,7 +45,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      my_real 
+      my_real
      .   PARTSAV(*),GRESAV(*)
       INTEGER PARTFT,PARTLT,GREFT,GRELT
 C-----------------------------------------------

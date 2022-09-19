@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -47,8 +47,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
 #include       "vect01_c.inc"
-#include       "com01_c.inc" 
-#include       "com04_c.inc" 
+#include       "com01_c.inc"
+#include       "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -68,39 +68,39 @@ C-----------------------------------------------
       TYPE(BUF_FAIL_),POINTER :: FBUF
       my_real :: c1,c2,c3,c4,c5,d1,X_1(2),X_2(3)
 C=======================================================================
-c     UVAR INITIALIZATION 
+c     UVAR INITIALIZATION
 c------------------------
-      DO IL=1,NLAY                                                      
+      DO IL=1,NLAY
         BUFLY => ELBUF_STR%BUFLY(IL)
-        NFAIL = BUFLY%NFAIL                               
+        NFAIL = BUFLY%NFAIL
         DO IFL=1,NFAIL
           IRUP = BUFLY%FAIL(1,1,1)%FLOC(IFL)%ILAWF
 c
           IF (IRUP == 23) THEN     ! /fail/tab
-            DO IT = 1,NPTT                                             
-              FBUF  => BUFLY%FAIL(1,1,IT)                   
-         	    UVARF => FBUF%FLOC(IFL)%VAR                   
-              DO I = LFT,LLT                                
-                UVARF(LLT  +I) = THK(I)     ! UVAR(2)       
-                UVARF(LLT*4+I) = ALDT(I)    ! UVAR(5)       
-                UVARF(LLT*5+I) = ONE         ! UVAR(6) = IPOS   
-                UVARF(LLT*6+I) = ONE         ! UVAR(7) = IPOS          
-                UVARF(LLT*7+I) = ONE         ! UVAR(8) = IPOS          
-              ENDDO                                                            
-            ENDDO                                                          
+            DO IT = 1,NPTT
+              FBUF  => BUFLY%FAIL(1,1,IT)
+         	    UVARF => FBUF%FLOC(IFL)%VAR
+              DO I = LFT,LLT
+                UVARF(LLT  +I) = THK(I)     ! UVAR(2)
+                UVARF(LLT*4+I) = ALDT(I)    ! UVAR(5)
+                UVARF(LLT*5+I) = ONE         ! UVAR(6) = IPOS
+                UVARF(LLT*6+I) = ONE         ! UVAR(7) = IPOS
+                UVARF(LLT*7+I) = ONE         ! UVAR(8) = IPOS
+              ENDDO
+            ENDDO
           END IF
-c          
+c
         END DO
-      END DO   ! NLAY                                                   
+      END DO   ! NLAY
 c------------------------
       IF( NVSHELL1 /= 0 ) THEN
        IF (ISIGI /= 0) THEN
 C                     
-        DO I=LFT,LLT 
+        DO I=LFT,LLT
           II = I+NFT
           JJ=PTSH(II)
           IF(JJ == 0)CYCLE
-          DO IL=1,NLAY   
+          DO IL=1,NLAY
             NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
             DO IUS=1,NFAIL
               JPS = NVSHELL + NUSHELL + 3  + NORTSHEL
@@ -108,7 +108,7 @@ C
               DO IT = 1,NPTT
                 FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IT)
                 UVARF => FBUF%FLOC(IUS)%VAR
-                DFMAX => FBUF%FLOC(IUS)%DAMMX  
+                DFMAX => FBUF%FLOC(IUS)%DAMMX
                 NVAR_RUPT = FBUF%FLOC(IUS)%NVAR
                 DFMAX(I)= SIGSH(JPS+1+(IUS-1)*NLAY*NPTT*NVMAX+
      .          	      (IL-1)*NVMAX*NPTT,JJ)
@@ -122,19 +122,19 @@ C
             ENDDO
           ENDDO
         ENDDO
-       ENDIF 
-      ENDIF 
+       ENDIF
+      ENDIF
 c
-      IF( NPERTURB /= 0 ) THEN 
+      IF( NPERTURB /= 0 ) THEN
        DO J=1,NPERTURB
          IF(PERTURB(J) == 2)THEN
-           DO I=LFT,LLT 
+           DO I=LFT,LLT
              IF (RNOISE(J,I+NFT) /= ZERO) THEN
-               DO IL=1,NLAY   
+               DO IL=1,NLAY
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT
-                 DO IUS=1,NFAIL                                  
-                   IP	= (IUS - 1)*15  
+                 DO IUS=1,NFAIL
+                   IP	= (IUS - 1)*15
                    IADBUFR = IPM(114+IP, IMAT)
                    IRUP = IPM(111+IP, IMAT)
                    BUFMAT(IADBUFR+7) = 1
@@ -150,7 +150,7 @@ c
 c
                      CALL BIQUAD_COEFFICIENTS(c1,c2,c3,c4,c5,d1,L,X_1,X_2,ZERO,ZERO,ZERO,ZERO)
 c
-                     DO IT = 1,NPTT  
+                     DO IT = 1,NPTT
                        FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(1,1,IT)
                        UVARF => FBUF%FLOC(IUS)%VAR
                        UVARF((3-1)*LLT+I) = C2
@@ -188,7 +188,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -198,8 +198,8 @@ C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
 #include       "vect01_c.inc"
-#include       "com01_c.inc" 
-#include       "com04_c.inc" 
+#include       "com01_c.inc"
+#include       "com04_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -219,38 +219,38 @@ C-----------------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(BUF_FAIL_),POINTER :: FBUF
 C=======================================================================
-c     UVAR INITIALIZATION 
+c     UVAR INITIALIZATION
 c------------------------
-      DO IL=1,NLAY                                                      
+      DO IL=1,NLAY
         BUFLY => ELBUF_STR%BUFLY(IL)
-        NFAIL = BUFLY%NFAIL                               
+        NFAIL = BUFLY%NFAIL
         DO IFL=1,NFAIL
           IRUP = BUFLY%FAIL(1,1,1)%FLOC(IFL)%ILAWF
 c
           IF (IRUP == 23) THEN     ! /fail/tab
-            DO IT = 1,NPTT                                             
-              DO IS = 1,NPTS                                            
-                DO IR = 1,NPTR                                           
+            DO IT = 1,NPTT
+              DO IS = 1,NPTS
+                DO IR = 1,NPTR
                   FBUF  => BUFLY%FAIL(IR,IS,IT)
          	        UVARF => FBUF%FLOC(IFL)%VAR
                   DO I = LFT,LLT
                     UVARF(LLT  +I) = THK(I)     ! UVAR(2)
-                    UVARF(LLT*4+I) = ALDT(I)    ! UVAR(5) 
-                    UVARF(LLT*5+I) = ONE         ! UVAR(6) = IPOS   
-                    UVARF(LLT*6+I) = ONE         ! UVAR(7) = IPOS      
-                    UVARF(LLT*7+I) = ONE         ! UVAR(8) = IPOS      
-                  ENDDO                                                        
-                ENDDO                                                        
-              ENDDO                                                         
-            ENDDO                                                          
+                    UVARF(LLT*4+I) = ALDT(I)    ! UVAR(5)
+                    UVARF(LLT*5+I) = ONE         ! UVAR(6) = IPOS
+                    UVARF(LLT*6+I) = ONE         ! UVAR(7) = IPOS
+                    UVARF(LLT*7+I) = ONE         ! UVAR(8) = IPOS
+                  ENDDO
+                ENDDO
+              ENDDO
+            ENDDO
           END IF
-c          
+c
         END DO
-      END DO   ! NLAY                                                   
+      END DO   ! NLAY
 c------------------------
       IF( NVSHELL1 /= 0 ) THEN
         IF (ISIGI /= 0) THEN
-          DO I=LFT,LLT 
+          DO I=LFT,LLT
             II = I+NFT
             JJ = PTSH(II)
             IF(JJ == 0)CYCLE
@@ -263,14 +263,14 @@ c------------------------
                DO IT = 1,NPTT
                 DO IS = 1,NPTS
                  DO IR = 1,NPTR
-             	 FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT) 
+             	 FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)
              	 UVARF => FBUF%FLOC(IUS)%VAR	
-                   DFMAX => FBUF%FLOC(IUS)%DAMMX   
+                   DFMAX => FBUF%FLOC(IUS)%DAMMX
              	 NVAR_RUPT = FBUF%FLOC(IUS)%NVAR
                    DFMAX(I)=SIGSH(JPS+1+(IUS-1)*NLAY*NPTR*NPTS*NPTT*NVMAX+
      .            	       (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ)
              	 JPS = JPS + 1
-             	 DO NV=1,NVAR_RUPT 
+             	 DO NV=1,NVAR_RUPT
              	   UVARF((NV-1)*LLT+I)=
      .                  SIGSH(JPS+1+(IUS-1)*NLAY*NPTR*NPTS*NPTT*NVMAX+
      .            	       (IL-1)*NVMAX*NPTR*NPTS*NPTT,JJ)
@@ -282,19 +282,19 @@ c------------------------
              ENDDO
             ENDDO
           ENDDO
-        ENDIF 
-      ENDIF 
+        ENDIF
+      ENDIF
 c------------------------
-      IF( NPERTURB /= 0 ) THEN 
+      IF( NPERTURB /= 0 ) THEN
        DO J=1,NPERTURB
          IF(PERTURB(J) == 2)THEN
-           DO I=LFT,LLT 
+           DO I=LFT,LLT
              IF (RNOISE(J,I+NFT) /= ZERO) THEN
-               DO IL=1,NLAY   
+               DO IL=1,NLAY
                  NFAIL =  ELBUF_STR%BUFLY(IL)%NFAIL
                  IMAT  =  ELBUF_STR%BUFLY(IL)%IMAT
-                 DO IUS=1,NFAIL                                  
-                   IP	= (IUS - 1)*15  
+                 DO IUS=1,NFAIL
+                   IP	= (IUS - 1)*15
                    IADBUFR = IPM(114+IP, IMAT)
                    IRUP = IPM(111+IP, IMAT)
                    BUFMAT(IADBUFR+7) = 1
@@ -309,9 +309,9 @@ c------------------------
                      L = INT(BUFMAT(IADBUFR+9))
 c
                      CALL BIQUAD_COEFFICIENTS(c1,c2,c3,c4,c5,d1,L,X_1,X_2,ZERO,ZERO,ZERO,ZERO)
-                     DO IT = 1,NPTT 
+                     DO IT = 1,NPTT
                        DO IS = 1,NPTS
-                         DO IR = 1,NPTR 
+                         DO IR = 1,NPTR
                   	   FBUF  => ELBUF_STR%BUFLY(IL)%FAIL(IR,IS,IT)
                   	   UVARF => FBUF%FLOC(IUS)%VAR
                   	   UVARF((3-1)*LLT+I) = C2

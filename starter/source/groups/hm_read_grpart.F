@@ -130,17 +130,17 @@ C-------------------------
       CALL HM_OPTION_START('/GRPART')
 
       IGS=0
-      
-      
+
+
       DO IGS=1,NGRPART
-      
+
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                          OPTION_ID   = ID,
      .                          OPTION_TITR = TITR  ,
      .                          UNIT_ID     = UID,
      .                          KEYWORD2    = KEY   ,
      .                          KEYWORD3    = KEY2)
-      
+
  !
 ! initialized variables:
             IF (FLAG == 0) THEN
@@ -215,192 +215,192 @@ C-------------------------
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)      
-          IF (KEY(1:6)=='SUBSET'.OR.KEY(1:4)=='PART'.OR. KEY(1:3)=='MAT'   .OR.KEY(1:4)=='PROP') THEN            
-            NN = 0                                                                                                 
-            NEL = 0                 
-            BUFTMP = 0                                                                                           
-            CALL HM_TAGPART(BUFTMP     ,IPART  ,KEY   ,IGRPART(IGS)%ID,TITR   ,TITR1 ,FLAG   ,SUBSET ,LSUBMODEL)               
-            IF (FLAG == 0) THEN                                                                                  
-              DO J=1,NPART                                                                                       
-                IF (BUFTMP(J) == 1) NEL=NEL+1                                                                    
-              ENDDO                                                                                              
-              IGRPART(IGS)%NENTITY=NEL                                                                           
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                               
-              IGRPART(IGS)%ENTITY = 0                                                                            
-            ELSEIF (FLAG == 1) THEN                                                                              
-              DO J=1,NPART                                                                                       
-                IF (BUFTMP(J) == 1) THEN                                                                         
-                  NN = NN + 1                                                                                    
-                  IGRPART(IGS)%ENTITY(NN)=J                                                                      
-                ENDIF                                                                                            
-              ENDDO                                                                                              
-              IGRPART(IGS)%LEVEL=1                                                                               
-            ENDIF                                                                                                
-          ENDIF    
-        ENDDO                                                                                              
-      ENDIF                                                           
+     .                            KEYWORD3    = KEY2)
+          IF (KEY(1:6)=='SUBSET'.OR.KEY(1:4)=='PART'.OR. KEY(1:3)=='MAT'   .OR.KEY(1:4)=='PROP') THEN
+            NN = 0
+            NEL = 0
+            BUFTMP = 0
+            CALL HM_TAGPART(BUFTMP     ,IPART  ,KEY   ,IGRPART(IGS)%ID,TITR   ,TITR1 ,FLAG   ,SUBSET ,LSUBMODEL)
+            IF (FLAG == 0) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) NEL=NEL+1
+              ENDDO
+              IGRPART(IGS)%NENTITY=NEL
+              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)
+              IGRPART(IGS)%ENTITY = 0
+            ELSEIF (FLAG == 1) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) THEN
+                  NN = NN + 1
+                  IGRPART(IGS)%ENTITY(NN)=J
+                ENDIF
+              ENDDO
+              IGRPART(IGS)%LEVEL=1
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
 
 
 C-------------------------
 C GENERATION
 C-------------------------
       IF (IT3 /= 0) THEN
-        CALL HM_OPTION_START('/GRPART')      
+        CALL HM_OPTION_START('/GRPART')
         DO IGS=1,NGRPART
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                            OPTION_ID   = ID,
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)      
-          IF(KEY(1:4) == 'GENE')THEN                                                               
-            NN = 0                                                                                   
-            NEL=0                                                                                    
-            BUFTMP = 0                                                                             
-            CALL HM_GET_INTV  ('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                   
-            DO KK=1,NENTITY                                                                        
-              CALL HM_GET_INT_ARRAY_INDEX ('Ifirst'    ,N1    ,KK,IS_AVAILABLE,LSUBMODEL)          
-              CALL HM_GET_INT_ARRAY_INDEX ('Ilast'     ,N2    ,KK,IS_AVAILABLE,LSUBMODEL)          
-              DO K=1,NPART                                                                         
-                IF (IPART(4,K) >= N1.AND.IPART(4,K) <= N2)BUFTMP(K)=1                              
-              ENDDO                                                                                
-            ENDDO                                                                                  
-            NEL=0                                                                                  
-            IF (FLAG == 0) THEN                                                                    
-              DO J=1,NPART                                                                         
-                IF (BUFTMP(J) == 1) NEL=NEL+1                                                      
-              ENDDO                                                                                
-              IGRPART(IGS)%NENTITY=NEL                                                             
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                 
-              IGRPART(IGS)%ENTITY = 0                                                              
-            ELSEIF (FLAG == 1) THEN                                                                
-              DO J=1,NPART                                                                         
-                IF (BUFTMP(J) == 1) THEN                                                           
-                  NN = NN + 1                                                                      
-                  IGRPART(IGS)%ENTITY(NN)=J                                                        
-                ENDIF                                                                              
-              ENDDO                                                                                
-            ENDIF                                                                                  
-          ENDIF                                                                                    
+     .                            KEYWORD3    = KEY2)
+          IF(KEY(1:4) == 'GENE')THEN
+            NN = 0
+            NEL=0
+            BUFTMP = 0
+            CALL HM_GET_INTV  ('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+            DO KK=1,NENTITY
+              CALL HM_GET_INT_ARRAY_INDEX ('Ifirst'    ,N1    ,KK,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX ('Ilast'     ,N2    ,KK,IS_AVAILABLE,LSUBMODEL)
+              DO K=1,NPART
+                IF (IPART(4,K) >= N1.AND.IPART(4,K) <= N2)BUFTMP(K)=1
+              ENDDO
+            ENDDO
+            NEL=0
+            IF (FLAG == 0) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) NEL=NEL+1
+              ENDDO
+              IGRPART(IGS)%NENTITY=NEL
+              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)
+              IGRPART(IGS)%ENTITY = 0
+            ELSEIF (FLAG == 1) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) THEN
+                  NN = NN + 1
+                  IGRPART(IGS)%ENTITY(NN)=J
+                ENDIF
+              ENDDO
+            ENDIF
+          ENDIF
         ENDDO
       ENDIF
-      
+
 C-------------------------
 C groupes de SUBMODELS
 C-------------------------
-      IF (IT4 > 0) THEN   
-        CALL HM_OPTION_START('/GRPART')                                               
+      IF (IT4 > 0) THEN
+        CALL HM_OPTION_START('/GRPART')
         DO IGS=1,NGRPART
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                            OPTION_ID   = ID,
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)      
-          IF (KEY(1:6) == 'SUBMOD') THEN                                                                          
-            NN=0                                                                                                  
-            NEL=0                                                                                                 
-            BUFTMP = 0                                                                                            
-            NINDX = 0                                                                                             
-            CALL HM_SUBMODPART(ISUBMOD,BUFTMP ,IPART  ,ID     ,FLAG     ,                                            
-     .                      MES    ,TITR,TITR1,INDX,NINDX ,                                                       
-     .                      LSUBMODEL)                                                                            
-            IF (FLAG == 0) THEN                                                                                   
-              DO J=1,NPART                                                                                        
-                IF (BUFTMP(J) == 1) NEL=NEL+1                                                                     
-              ENDDO                                                                                               
-              IGRPART(IGS)%NENTITY=NEL                                                                            
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                                
-              IGRPART(IGS)%ENTITY = 0                                                                             
-            ELSEIF (FLAG == 1) THEN                                                                               
-              DO J=1,NPART                                                                                        
-                IF (BUFTMP(J) == 1) THEN                                                                          
-                  NN = NN + 1                                                                                     
-                  IGRPART(IGS)%ENTITY(NN)=J                                                                       
-                ENDIF                                                                                             
-              ENDDO                                                                                               
-              IGRPART(IGS)%LEVEL=1                                                                                
-            ENDIF                                                                                                 
-          ENDIF                                                                                                   
-        ENDDO                                                      
-      ENDIF        
+     .                            KEYWORD3    = KEY2)
+          IF (KEY(1:6) == 'SUBMOD') THEN
+            NN=0
+            NEL=0
+            BUFTMP = 0
+            NINDX = 0
+            CALL HM_SUBMODPART(ISUBMOD,BUFTMP ,IPART  ,ID     ,FLAG     ,
+     .                      MES    ,TITR,TITR1,INDX,NINDX ,
+     .                      LSUBMODEL)
+            IF (FLAG == 0) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) NEL=NEL+1
+              ENDDO
+              IGRPART(IGS)%NENTITY=NEL
+              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)
+              IGRPART(IGS)%ENTITY = 0
+            ELSEIF (FLAG == 1) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) THEN
+                  NN = NN + 1
+                  IGRPART(IGS)%ENTITY(NN)=J
+                ENDIF
+              ENDDO
+              IGRPART(IGS)%LEVEL=1
+            ENDIF
+          ENDIF
+        ENDDO
+      ENDIF
 
 C-------------------------
 C GENERATION MIN MAX OFFSET
 C-------------------------
       IF (IT5 /= 0) THEN
-        CALL HM_OPTION_START('/GRPART')      
+        CALL HM_OPTION_START('/GRPART')
         DO IGS=1,NGRPART
           CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                            OPTION_ID   = ID,
      .                            OPTION_TITR = TITR  ,
      .                            UNIT_ID     = UID,
      .                            KEYWORD2    = KEY   ,
-     .                            KEYWORD3    = KEY2)      
+     .                            KEYWORD3    = KEY2)
 
 
-          IF(KEY(1:8) == 'GEN_INCR')THEN                                                                
-            NN = 0                                                                                      
-            NEL=0                                                                                       
-            BUFTMP = 0                                                                                  
-            CALL HM_GET_INTV  ('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                        
-            DO KK=1,NENTITY                                                                             
-              CALL HM_GET_INT_ARRAY_INDEX ('Ifirst'    ,IDMIN    ,KK,IS_AVAILABLE,LSUBMODEL)            
-              CALL HM_GET_INT_ARRAY_INDEX ('Ilast'     ,IDMAX    ,KK,IS_AVAILABLE,LSUBMODEL)            
-              CALL HM_GET_INT_ARRAY_INDEX ('Iincr'     ,OFFSET   ,KK,IS_AVAILABLE,LSUBMODEL)               
+          IF(KEY(1:8) == 'GEN_INCR')THEN
+            NN = 0
+            NEL=0
+            BUFTMP = 0
+            CALL HM_GET_INTV  ('grnodGenArrCnt' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+            DO KK=1,NENTITY
+              CALL HM_GET_INT_ARRAY_INDEX ('Ifirst'    ,IDMIN    ,KK,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX ('Ilast'     ,IDMAX    ,KK,IS_AVAILABLE,LSUBMODEL)
+              CALL HM_GET_INT_ARRAY_INDEX ('Iincr'     ,OFFSET   ,KK,IS_AVAILABLE,LSUBMODEL)
               !optimized loop
               DO K=1,NPART
                 ID=IPART(4,K)
                 IF(ID<IDMIN .OR. ID>IDMAX)CYCLE
                 IF(MOD(ID-IDMIN,OFFSET)==0)BUFTMP(K)=1
               ENDDO
-              !previous loop                  
-              !DO J=MAX(1,IDMIN),IDMAX,OFFSET                                                                   
-              !  DO K=1,NPART                                                                          
+              !previous loop
+              !DO J=MAX(1,IDMIN),IDMAX,OFFSET
+              !  DO K=1,NPART
               !    IF (IPART(4,K) == J) THEN
-              !      BUFTMP(K)=1    !tag des parts 
+              !      BUFTMP(K)=1    !tag des parts
               !      EXIT
-              !    ENDIF                 
-              !  ENDDO                                                                                          
-              !ENDDO                                                                                                   
-            ENDDO                                                                                       
-            NEL=0                                                                                       
-            IF (FLAG == 0) THEN                                                                         
-              DO J=1,NPART                                                                              
-                IF (BUFTMP(J) == 1) NEL=NEL+1                                                           
-              ENDDO                                                                                     
-              IGRPART(IGS)%NENTITY=NEL                                                                  
-              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)                                                      
-              IGRPART(IGS)%ENTITY = 0                                                                   
-            ELSEIF (FLAG == 1) THEN                                                                     
-              DO J=1,NPART                                                                              
-                IF (BUFTMP(J) == 1) THEN                                                                
-                  NN = NN + 1                                                                           
-                  IGRPART(IGS)%ENTITY(NN)=J                                                             
-                ENDIF                                                                                   
-              ENDDO                                                                                     
-            ENDIF                                                                                       
-          ENDIF                                                                                         
+              !    ENDIF
+              !  ENDDO
+              !ENDDO
+            ENDDO
+            NEL=0
+            IF (FLAG == 0) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) NEL=NEL+1
+              ENDDO
+              IGRPART(IGS)%NENTITY=NEL
+              MY_ALLOCATE(IGRPART(IGS)%ENTITY,NEL)
+              IGRPART(IGS)%ENTITY = 0
+            ELSEIF (FLAG == 1) THEN
+              DO J=1,NPART
+                IF (BUFTMP(J) == 1) THEN
+                  NN = NN + 1
+                  IGRPART(IGS)%ENTITY(NN)=J
+                ENDIF
+              ENDDO
+            ENDIF
+          ENDIF
         ENDDO
-      ENDIF   
+      ENDIF
 C------------------------------ 
       RETURN
       END
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -31,7 +31,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
       SUBROUTINE CRKLEN4N_ADV(
      .           NEL       ,NFT       ,ILAY      ,NLAY      ,IXC       ,
-     .           CRKLEN    ,ELCRKINI  ,IEL_CRK   ,DIR1      ,DIR2      ,     
+     .           CRKLEN    ,ELCRKINI  ,IEL_CRK   ,DIR1      ,DIR2      ,
      .           NODEDGE   ,CRKEDGE   ,XEDGE4N   ,NGL       ,XL2       ,
      .           XL3       ,XL4       ,YL2       ,YL3       ,YL4       ,
      .           ALDT      )
@@ -101,8 +101,8 @@ C=======================================================================
       ENDDO
       IF (NEWCRK == 0) RETURN
 C---
-      DO IR=1,NEWCRK 
-        I = JCT(IR)              
+      DO IR=1,NEWCRK
+        I = JCT(IR)
         TIP(I)   = 0
         ECUT(1:2,I)  = 0
         EDGEL(1:4,I) = 0
@@ -132,14 +132,14 @@ C------------------------------------------------
 c     First intersection (already cut edge)
 C------------------------------------------------
       DO IR=1,NEWCRK ! loop over elems (layers) with advancing cracks
-        I = JCT(IR)    
-        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem 
+        I = JCT(IR)
+        ELCRK = IEL_CRK(I+NFT)   ! N  element sys xfem
         OK    = 0
         ICUT  = 0
         IED   = 0
         DO K=1,4  ! edges
           IEDGE = XEDGE4N(K,ELCRK)
-          IF (IEDGE > 0) THEN                                                     
+          IF (IEDGE > 0) THEN
             ICUT  = CRKEDGE(ILAY)%ICUTEDGE(IEDGE)
             IF (ICUT == 1) THEN
               NOD1  = NODEDGE(1,IEDGE)  ! noeud std
@@ -151,25 +151,25 @@ C------------------------------------------------
                 p1 = dd(K)
                 p2 = K
               ENDIF
-              OK     = 1    
-              IED    = K                                                                             
-              ECUT(1,I)= K                                                                             
-              EXIT          
+              OK     = 1
+              IED    = K
+              ECUT(1,I)= K
+              EXIT
             ENDIF    !  IF (ICUT == 1) THEN
-          ENDIF                                                                   
+          ENDIF
         ENDDO      !  DO K=1,4
 C---
-        IF (OK == 1) THEN    ! edge found                                                              
-          BETA = CRKEDGE(ILAY)%RATIO(IEDGE)                                                 
-          XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))                                      
+        IF (OK == 1) THEN    ! edge found
+          BETA = CRKEDGE(ILAY)%RATIO(IEDGE)
+          XIN(1,I) = XXL(p1,I) + BETA*(XXL(p2,I) - XXL(p1,I))
           YIN(1,I) = YYL(p1,I) + BETA*(YYL(p2,I) - YYL(p1,I))
-c                                                                                    
+c
           EDGEL(IED,I) = 1              ! local : premier edge coupe
           IEDGE  = XEDGE4N(IED,ELCRK)    ! N  edge element sys xfem
           TIP(I) = CRKEDGE(ILAY)%EDGETIP(1,IEDGE)      ! 1 ou 2 , debut ou fin de fissure
         ELSE
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK --- CHECK CRACK TIP'
-          CALL ARRET(2)           
+          CALL ARRET(2)
         ENDIF
 C---
       END DO !  DO IR=1,NEWCRK
@@ -204,15 +204,15 @@ C---
               M12 = DLY / DLX
               XINT = XINT0
               YINT = YYL(p1,I) + M12*(XINT-XXL(p1,I))
-              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.   
-     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN  
+              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.
+     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN
                 CROSS = (XXL(p1,I) - XINT)**2 + (YYL(p1,I) - YINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
-                  YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))   
-                ENDIF                                             
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
+                  YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))
+                ENDIF
 C
                 ECUT(2,I) = R
                 XIN(2,I)  = XINT
@@ -243,15 +243,15 @@ c
               M12 = DLX / DLY
               YINT = YINT0
               XINT = XXL(p1,I) + M12*(YINT-YYL(p1,I))
-              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.   
-     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN  
+              IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO .and.
+     .            (YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN
                 CROSS = (XXL(p1,I) - XINT)**2 + (YYL(p1,I) - YINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
-                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))           
-                ENDIF                                              
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
+                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))
+                ENDIF
 C
                 ECUT(2,I)  = R
                 XIN(2,I)   = XINT
@@ -286,9 +286,9 @@ C
               IF ((YINT-YYL(p1,I))*(YINT-YYL(p2,I)) <= ZERO) THEN
                 CROSS = (YYL(p1,I) - YINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
                   YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))
                 ENDIF
                 ECUT(2,I)  = R
@@ -304,10 +304,10 @@ C
               IF ((XINT-XXL(p1,I))*(XINT-XXL(p2,I)) <= ZERO) THEN
                 CROSS = (XXL(p1,I) - XINT)**2
                 BETA  = SQRT(CROSS / LEN(r,I))
-                IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                  BETA = MAX(BETA, BMIN)                                
-                  BETA = MIN(BETA, BMAX)                                
-                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))           
+                IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                  BETA = MAX(BETA, BMIN)
+                  BETA = MIN(BETA, BMAX)
+                  XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))
                 ENDIF
                 ECUT(2,I)  = R
                 XIN(2,I)   = XINT
@@ -321,17 +321,17 @@ C
               IF (MM /= M12) THEN
                 XINT = (YINT0-YYL(p1,I) + M12*XXL(p1,I) - MM*XINT0)/(M12-MM)
                 YINT = YINT0 + MM*(XINT-XINT0)
-                ACD = (YINT-YYL(p1,I))*(XINT0 - XXL(p1,I)) 
-     .              - (XINT-XXL(p1,I))*(YINT0 - YYL(p1,I))  
-                BCD = (YINT-YYL(p2,I))*(XINT0 - XXL(p2,I)) 
-     .              - (XINT-XXL(p2,I))*(YINT0 - YYL(p2,I))  
+                ACD = (YINT-YYL(p1,I))*(XINT0 - XXL(p1,I))
+     .              - (XINT-XXL(p1,I))*(YINT0 - YYL(p1,I))
+                BCD = (YINT-YYL(p2,I))*(XINT0 - XXL(p2,I))
+     .              - (XINT-XXL(p2,I))*(YINT0 - YYL(p2,I))
                 IF (ACD*BCD <= ZERO) THEN
                   CROSS = (XXL(p1,I) - XINT)**2 + (YYL(p1,I) - YINT)**2
                   BETA  = SQRT(CROSS / LEN(r,I))
-                  IF (BETA > BMAX .OR. BETA < BMIN) THEN                  
-                    BETA = MAX(BETA, BMIN)                                
-                    BETA = MIN(BETA, BMAX)                                
-                    XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))         
+                  IF (BETA > BMAX .OR. BETA < BMIN) THEN
+                    BETA = MAX(BETA, BMIN)
+                    BETA = MIN(BETA, BMAX)
+                    XINT = XXL(p1,I) + BETA*(XXL(p2,I)-XXL(p1,I))
                     YINT = YYL(p1,I) + BETA*(YYL(p2,I)-YYL(p1,I))
                   ENDIF
                   ECUT(2,I)  = R
@@ -355,9 +355,9 @@ C-----------------------------------------------------------------------
         DO r=1,4
            IF (EDGEL(r,I)==1 .or. EDGEL(r,I)==2) FAC=FAC+1
         ENDDO
-        IF (FAC /= 2) THEN 
+        IF (FAC /= 2) THEN
           WRITE(IOUT,*) 'ERROR IN ADVANCING CRACK. NO CUT EDGES'
-          CALL ARRET(2)           
+          CALL ARRET(2)
         ENDIF
         CRKLEN(I) = SQRT((XIN(2,I) - XIN(1,I))**2 + (YIN(2,I) - YIN(1,I))**2)
       ENDDO

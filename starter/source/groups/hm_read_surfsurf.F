@@ -160,12 +160,12 @@ C     boucle sur les surfaces
      .        UNIT_ID     = UID,
      .        KEYWORD2    = KEY   ,
      .        KEYWORD3    = KEY2)
-             
-         SKIPFLAG = 0                    
-         NSEG=0                                        
-         KLINE=LINE                                    
-         
-         IGS=IGS+1  
+
+         SKIPFLAG = 0
+         NSEG=0
+         KLINE=LINE
+
+         IGS=IGS+1
          IF (KEY(1:4) == 'SURF') THEN
             NB_IDS = 0
             NB_NEG_IDS = 0
@@ -187,11 +187,11 @@ C-----------
                   IGRS = 0
                   DO K = 1, NSURF
                      IF (IABS(IDS(II)) == IGRSURF(K)%ID) THEN
-                        IGRS = K                     
+                        IGRS = K
                         EXIT
-                     ENDIF              
+                     ENDIF
                   ENDDO
-                  IF (IGRS == 0)THEN                                   
+                  IF (IGRS == 0)THEN
                      CALL ANCMSG(MSGID=188, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .                    I1=ID, C1=TITR, I2=IDS(II))
                   ELSE IF (IGRSURF(IGRS)%TYPE==100 .OR. IGRSURF(IGRS)%TYPE==101) THEN
@@ -209,18 +209,18 @@ C-----------
                      ENDIF
                      IGRSURF(IGS)%NSEG=-1
                      IGRSURF(IGS)%LEVEL=0
-                     ICOUNT=1                                    
-                     NSEG = 0                                    
+                     ICOUNT=1
+                     NSEG = 0
                      SKIPFLAG = 1
                      EXIT
-                  ELSE                         
+                  ELSE
                      NSEGV=IGRSURF(IGRS)%NSEG
-                     NSEG =NSEG+NSEGV                    
-                  ENDIF   
-               ENDDO     
+                     NSEG =NSEG+NSEGV
+                  ENDIF
+               ENDDO
 C-----
-               IF (SKIPFLAG == 0) THEN             
-                  INSEG=INSEG+NISX*NSEG    
+               IF (SKIPFLAG == 0) THEN
+                  INSEG=INSEG+NISX*NSEG
                   IGRSURF(IGS)%NSEG=NSEG
                   MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG,4)
                   IGRSURF(IGS)%NODES(1:NSEG,1:4) = 0
@@ -228,7 +228,7 @@ C-----
                   IGRSURF(IGS)%ELTYP(1:NSEG) = 0
                   MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG)
                   IGRSURF(IGS)%ELEM(1:NSEG) = 0
-               ENDIF                                 
+               ENDIF
 C-----------
             ELSEIF (FLAG == 1 .AND. IGRSURF(IGS)%LEVEL == 0 .AND.
      .              IGRSURF(IGS)%NSEG > -1) THEN
@@ -238,18 +238,18 @@ C-----------
                   IGRS = 0
                   DO K = 1, NSURF
                      IF (IABS(IDS(II)) == IGRSURF(K)%ID) THEN
-                        IGRS = K                     
+                        IGRS = K
                         EXIT
-                     ENDIF              
+                     ENDIF
                   ENDDO
                   IF (IGRS == 0) CYCLE
-                  IF (IGRSURF(IGRS)%NSEG == -1) THEN 
+                  IF (IGRSURF(IGRS)%NSEG == -1) THEN
                      EXIT
                   ELSE
                      NSEGV=IGRSURF(IGRS)%NSEG
-                     IF(IDS(II) > 0)THEN                                
+                     IF(IDS(II) > 0)THEN
                         DO L=1,NSEGV
-                           NSEG_TOT = NSEG_TOT + 1 
+                           NSEG_TOT = NSEG_TOT + 1
                            IGRSURF(IGS)%NODES(NSEG_TOT,1) = IGRSURF(IGRS)%NODES(L,1)
                            IGRSURF(IGS)%NODES(NSEG_TOT,2) = IGRSURF(IGRS)%NODES(L,2)
                            IGRSURF(IGS)%NODES(NSEG_TOT,3) = IGRSURF(IGRS)%NODES(L,3)
@@ -257,9 +257,9 @@ C-----------
                            IGRSURF(IGS)%ELTYP(NSEG_TOT)   = IGRSURF(IGRS)%ELTYP(L)
                            IGRSURF(IGS)%ELEM(NSEG_TOT)	 = IGRSURF(IGRS)%ELEM(L)
                         ENDDO
-                     ELSE   
+                     ELSE
                         IF(N2D==0)THEN
-                          DO L=1,NSEGV                               
+                          DO L=1,NSEGV
                              NSEG_TOT = NSEG_TOT + 1
                              IGRSURF(IGS)%NODES(NSEG_TOT,1) = IGRSURF(IGRS)%NODES(L,4)
                              IGRSURF(IGS)%NODES(NSEG_TOT,2) = IGRSURF(IGRS)%NODES(L,3)
@@ -269,7 +269,7 @@ C-----------
                              IGRSURF(IGS)%ELEM(NSEG_TOT)   = IGRSURF(IGRS)%ELEM(L)
                           ENDDO
                         ELSE
-                           DO L=1,NSEGV                               
+                           DO L=1,NSEGV
                               NSEG_TOT = NSEG_TOT + 1
                               IGRSURF(IGS)%NODES(NSEG_TOT,1) = IGRSURF(IGRS)%NODES(L,2)
                               IGRSURF(IGS)%NODES(NSEG_TOT,2) = IGRSURF(IGRS)%NODES(L,1)
@@ -279,13 +279,13 @@ C-----------
                               IGRSURF(IGS)%ELEM(NSEG_TOT)   = IGRSURF(IGRS)%ELEM(L)
                            ENDDO
                         ENDIF
-                     ENDIF    
-                  ENDIF        
+                     ENDIF
+                  ENDIF
                ENDDO
                IGRSURF(IGS)%LEVEL=1
-            ENDIF    
+            ENDIF
             DEALLOCATE(IDS)
-         ELSEIF (KEY(1:5) == 'DSURF') THEN                  
+         ELSEIF (KEY(1:5) == 'DSURF') THEN
             NB_IDS = 0
             NB_NEG_IDS = 0
             CALL HM_GET_INTV('idsmax', NB_IDS, IS_AVAILABLE, LSUBMODEL)
@@ -306,11 +306,11 @@ C-----------
                   IGRS = 0
                   DO K = 1, NSURF
                      IF (IABS(IDS(II)) == IGRSURF(K)%ID) THEN
-                        IGRS = K                     
+                        IGRS = K
                         EXIT
-                     ENDIF              
+                     ENDIF
                   ENDDO
-                  IF (IGRS == 0)THEN                                   
+                  IF (IGRS == 0)THEN
                      CALL ANCMSG(MSGID=188, MSGTYPE=MSGWARNING, ANMODE=ANINFO,
      .                    I1=ID, C1=TITR, I2=IDS(II))
                   ELSE IF (IGRSURF(IGRS)%TYPE==100 .OR. IGRSURF(IGRS)%TYPE==101) THEN
@@ -328,18 +328,18 @@ C-----------
                      ENDIF
                      IGRSURF(IGS)%NSEG=-1
                      IGRSURF(IGS)%LEVEL=0
-                     ICOUNT=1                                    
-                     NSEG = 0                                    
+                     ICOUNT=1
+                     NSEG = 0
                      SKIPFLAG = 1
                      EXIT
-                  ELSE                         
+                  ELSE
                      NSEGV=IGRSURF(IGRS)%NSEG
-                     NSEG =NSEG+NSEGV                    
-                  ENDIF   
-               ENDDO 
-               
-               IF (SKIPFLAG == 0) THEN               
-                  INSEG=INSEG+NISX*NSEG    
+                     NSEG =NSEG+NSEGV
+                  ENDIF
+               ENDDO
+
+               IF (SKIPFLAG == 0) THEN
+                  INSEG=INSEG+NISX*NSEG
                   IGRSURF(IGS)%NSEG=NSEG
                   MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEG,4)
                   IGRSURF(IGS)%NODES(1:NSEG,1:4) = 0
@@ -347,9 +347,9 @@ C-----------
                   IGRSURF(IGS)%ELTYP(1:NSEG) = 0
                   MY_ALLOCATE(IGRSURF(IGS)%ELEM,NSEG)
                   IGRSURF(IGS)%ELEM(1:NSEG) = 0
-               ENDIF  
+               ENDIF
 C-----------
-            ELSEIF (FLAG == 1 .AND. IGRSURF(IGS)%LEVEL == 0 .AND. 
+            ELSEIF (FLAG == 1 .AND. IGRSURF(IGS)%LEVEL == 0 .AND.
      .                              IGRSURF(IGS)%NSEG > -1) THEN
               NSEG = 0
               NSEG_TOT = 0
@@ -359,16 +359,16 @@ C-----------
                  IGRS = 0
                  DO K = 1, NSURF
                     IF (IABS(IDS(II)) == IGRSURF(K)%ID) THEN
-                       IGRS = K                     
+                       IGRS = K
                        EXIT
-                    ENDIF              
+                    ENDIF
                  ENDDO
                  IF (IGRS == 0) CYCLE
                  IF (IGRSURF(IGRS)%NSEG == -1) THEN
                     EXIT
-                 ELSE                                             
+                 ELSE
                     NSEGV=IGRSURF(IGRS)%NSEG
-                    IF (IDS(II) > 0)THEN                                        
+                    IF (IDS(II) > 0)THEN
                        DO L=1,NSEGV
                           BUFTMP(IAD_TMP)=IGRSURF(IGRS)%NODES(L,1)
                           IAD_TMP=IAD_TMP+1
@@ -383,7 +383,7 @@ C-----------
                           BUFTMP(IAD_TMP)=IGRSURF(IGRS)%ELEM(L)
                           IAD_TMP=IAD_TMP+1
                        ENDDO
-                    ELSE                                      
+                    ELSE
                        DO L=1,NSEGV
                           BUFTMP(IAD_TMP)= -IGRSURF(IGRS)%NODES(L,1)
                           IAD_TMP=IAD_TMP+1
@@ -398,7 +398,7 @@ C-----------
                           BUFTMP(IAD_TMP)= -IGRSURF(IGRS)%ELEM(L)
                           IAD_TMP=IAD_TMP+1
                        ENDDO
-                    ENDIF 
+                    ENDIF
                     NSEG=NSEG+NSEGV
                  ENDIF
               ENDDO
@@ -496,7 +496,7 @@ C------------------------------
                   ITRI(5,L) = BUFTMP((L-1)*NISX+1) / IABS(BUFTMP((L-1)*NISX+1))
                 ENDIF
               ENDDO
-              CALL MY_ORDERS(0,IWORK,ITRI,INDEX,NSEG,5)  
+              CALL MY_ORDERS(0,IWORK,ITRI,INDEX,NSEG,5)
 C------------------------------  
 C Segment deletion
 C------------------------------  
@@ -510,45 +510,45 @@ C------------------------------
                     DO J=1,NISX
                       BUFTMP((INDEX(L)-1) *NISX+J) = 0
                       BUFTMP((INDEX(L+1)-1)*NISX+J) = -IABS(BUFTMP((INDEX(L+1)-1)*NISX+J))
-                    ENDDO 
+                    ENDDO
                   ELSEIF( ITRI(5,INDEX(L)) +  ITRI(5,INDEX(L+1)) /= 0)THEN
                     DO J=1,NISX
                       BUFTMP((INDEX(L)-1) *NISX+J) = 0
                       BUFTMP((INDEX(L+1)-1)*NISX+J) = BUFTMP((INDEX(L+1)-1)*NISX+J)
-                    ENDDO 
+                    ENDDO
                   ENDIF
                 END IF
                 L = L + 1
-              ENDDO 
+              ENDDO
 C------ for re-allocation %NODES 
-              NSEGV = 0             
+              NSEGV = 0
               DO L=1,NSEG
-                IF((BUFTMP( (INDEX(L)-1) *NISX+1) > 0) .OR. 
+                IF((BUFTMP( (INDEX(L)-1) *NISX+1) > 0) .OR.
      .             (BUFTMP( (INDEX(L)-1) *NISX+2) > 0) .OR.
      .             (BUFTMP( (INDEX(L)-1) *NISX+3) > 0) .OR.
-     .             (BUFTMP( (INDEX(L)-1) *NISX+4) > 0)  )THEN 
-                  NSEGV=NSEGV+1 
-                ENDIF 
-              ENDDO             
-              IF (NSEGV /= NSEG) THEN               
+     .             (BUFTMP( (INDEX(L)-1) *NISX+4) > 0)  )THEN
+                  NSEGV=NSEGV+1
+                ENDIF
+              ENDDO
+              IF (NSEGV /= NSEG) THEN
                 DEALLOCATE(IGRSURF(IGS)%NODES)
                 MY_ALLOCATE2D(IGRSURF(IGS)%NODES,NSEGV,4)
                 IGRSURF(IGS)%NODES(1:NSEGV,1:4) = 0
-              ENDIF  
+              ENDIF
               DO L=1,NSEG
-                IF((BUFTMP( (INDEX(L)-1) *NISX+1) > 0) .OR. 
+                IF((BUFTMP( (INDEX(L)-1) *NISX+1) > 0) .OR.
      .             (BUFTMP( (INDEX(L)-1) *NISX+2) > 0) .OR.
      .             (BUFTMP( (INDEX(L)-1) *NISX+3) > 0) .OR.
-     .             (BUFTMP( (INDEX(L)-1) *NISX+4) > 0)  )THEN 
-                  NSEG_TOT=NSEG_TOT+1 
+     .             (BUFTMP( (INDEX(L)-1) *NISX+4) > 0)  )THEN
+                  NSEG_TOT=NSEG_TOT+1
                   IGRSURF(IGS)%NODES(NSEG_TOT,1) = BUFTMP((INDEX(L)-1) *NISX+1)
                   IGRSURF(IGS)%NODES(NSEG_TOT,2) = BUFTMP((INDEX(L)-1) *NISX+2)
                   IGRSURF(IGS)%NODES(NSEG_TOT,3) = BUFTMP((INDEX(L)-1) *NISX+3)
                   IGRSURF(IGS)%NODES(NSEG_TOT,4) = BUFTMP((INDEX(L)-1) *NISX+4)
                   IGRSURF(IGS)%ELTYP(NSEG_TOT)   = BUFTMP((INDEX(L)-1) *NISX+5)
                   IGRSURF(IGS)%ELEM(NSEG_TOT)	 = BUFTMP((INDEX(L)-1) *NISX+6)
-                ENDIF 
-              ENDDO             
+                ENDIF
+              ENDDO
               IGRSURF(IGS)%NSEG=NSEG_TOT
               IGRSURF(IGS)%LEVEL=1
 C-----------                                        

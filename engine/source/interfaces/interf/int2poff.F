@@ -35,7 +35,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD      
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -46,7 +46,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*)
 C     REAL
       my_real
-     .   X(*), V(*), A(*), 
+     .   X(*), V(*), A(*),
      .   MS(*),IN(*),AR(*),VR(*),STIFN(*),STIFR(*),
      .   CONDN(*), MCP(*),FTHE(*)
 
@@ -106,7 +106,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD      
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -117,7 +117,7 @@ C-----------------------------------------------
       INTEGER IPARI(*), WEIGHT(*), TAGNOD(*)
 C     REAL
       my_real
-     .   X(*), V(*), A(*), 
+     .   X(*), V(*), A(*),
      .   MS(*),IN(*),AR(*),VR(*),STIFN(*),STIFR(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
@@ -168,7 +168,7 @@ C-----------------------------------------------
      .        MSR(*), WEIGHT(*)
 C     REAL
       my_real
-     .   A(3,*) ,AR(3,*) ,MMASS(*) , 
+     .   A(3,*) ,AR(3,*) ,MMASS(*) ,
      .   MS(*)  ,IN(*)   ,STIFN(*) ,STIFR(*),
      .   MCP(*) ,CONDN(*),FTHE(*)
 C-----------------------------------------------
@@ -225,7 +225,7 @@ C-----------------------------------------------
           AR(3,I)=AR(3,I)*WEIGHT(I)
           IN(I)=MAX(EM20,IN(I))
           IN(I)=IN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
       ELSEIF((ILEV == 0.OR.ILEV == 2.OR.ILEV == 4).AND.IRODDL == 0) THEN
 #include "vectorize.inc"
@@ -239,7 +239,7 @@ C-----------------------------------------------
           STIFN(I)=STIFN(I)*WEIGHT(I)
         ENDDO
       ELSEIF ((ILEV == 10.OR.ILEV == 11.OR.ILEV == 12 .OR.
-     .         ILEV == 20.OR.ILEV == 21.OR.ILEV == 22).AND.  
+     .         ILEV == 20.OR.ILEV == 21.OR.ILEV == 22).AND.
      .         IRODDL /= 0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
@@ -254,7 +254,7 @@ C-----------------------------------------------
           AR(2,I)=AR(2,I)*WEIGHT(I)
           AR(3,I)=AR(3,I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
       ELSEIF ((ILEV == 25  .or. ILEV == 26) .AND. IRODDL /= 0) THEN
 #include "vectorize.inc"
@@ -269,39 +269,39 @@ C-----------------------------------------------
           AR(2,I)=AR(2,I)*WEIGHT(I)
           AR(3,I)=AR(3,I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
       ELSEIF ((ILEV == 27) .AND. IRODDL /= 0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
-          I=MSR(II)                   
-          A(1,I)=A(1,I)*WEIGHT(I)     
-          A(2,I)=A(2,I)*WEIGHT(I)     
+          I=MSR(II)
+          A(1,I)=A(1,I)*WEIGHT(I)
+          A(2,I)=A(2,I)*WEIGHT(I)
           A(3,I)=A(3,I)*WEIGHT(I)
-          MMASS(II)=MS(I)             
-          MS(I)=MS(I)*WEIGHT(I)       
-          IN(I)=IN(I)*WEIGHT(I)       
-          AR(1,I)=AR(1,I)*WEIGHT(I)   
-          AR(2,I)=AR(2,I)*WEIGHT(I)   
-          AR(3,I)=AR(3,I)*WEIGHT(I)   
-          STIFN(I)=STIFN(I)*WEIGHT(I) 
-          STIFR(I)=STIFR(I)*WEIGHT(I) 
+          MMASS(II)=MS(I)
+          MS(I)=MS(I)*WEIGHT(I)
+          IN(I)=IN(I)*WEIGHT(I)
+          AR(1,I)=AR(1,I)*WEIGHT(I)
+          AR(2,I)=AR(2,I)*WEIGHT(I)
+          AR(3,I)=AR(3,I)*WEIGHT(I)
+          STIFN(I)=STIFN(I)*WEIGHT(I)
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
       ELSEIF ((ILEV == 28) .AND. IRODDL /= 0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
-          I=MSR(II)                   
-          A(1,I)=A(1,I)*WEIGHT(I)     
-          A(2,I)=A(2,I)*WEIGHT(I)     
+          I=MSR(II)
+          A(1,I)=A(1,I)*WEIGHT(I)
+          A(2,I)=A(2,I)*WEIGHT(I)
           A(3,I)=A(3,I)*WEIGHT(I)
-          MMASS(II)=MS(I)             
-          MS(I)=MS(I)*WEIGHT(I)       
-          IN(I)=IN(I)*WEIGHT(I)       
-          AR(1,I)=AR(1,I)*WEIGHT(I)   
-          AR(2,I)=AR(2,I)*WEIGHT(I)   
-          AR(3,I)=AR(3,I)*WEIGHT(I)   
-          STIFN(I)=STIFN(I)*WEIGHT(I) 
-          STIFR(I)=STIFR(I)*WEIGHT(I) 
+          MMASS(II)=MS(I)
+          MS(I)=MS(I)*WEIGHT(I)
+          IN(I)=IN(I)*WEIGHT(I)
+          AR(1,I)=AR(1,I)*WEIGHT(I)
+          AR(2,I)=AR(2,I)*WEIGHT(I)
+          AR(3,I)=AR(3,I)*WEIGHT(I)
+          STIFN(I)=STIFN(I)*WEIGHT(I)
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
       ELSEIF ((ILEV == 10 .OR. ILEV == 11 .OR. ILEV == 12 .OR.
      .         ILEV == 20 .OR. ILEV == 21 .OR. ILEV == 22 .OR.
@@ -331,7 +331,7 @@ C-----------------------------------------------
           IN(I)=MAX(EM20,IN(I))
           IN(I)=IN(I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
 C---
       ENDIF
@@ -374,7 +374,7 @@ C-----------------------------------------------
      .        MSR(*), WEIGHT(*), TAGNOD(*)
 C     REAL
       my_real
-     .   A(3,*),AR(3,*), MMASS(*), 
+     .   A(3,*),AR(3,*), MMASS(*),
      .   MS(*), IN(*),STIFN(*),STIFR(*)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -430,7 +430,7 @@ C-----------------------------------------------
           IN(I)=MAX(EM20,IN(I))
           IN(I)=IN(I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
           TAGNOD(I)=1
         ENDDO
       ELSEIF((ILEV == 0.OR.ILEV == 2.OR.ILEV == 4).AND.IRODDL == 0) THEN
@@ -446,7 +446,7 @@ C-----------------------------------------------
           TAGNOD(I)=1
         ENDDO
       ELSEIF ((ILEV == 10.OR.ILEV == 11.OR.ILEV == 12  .OR.
-     .         ILEV == 20.OR.ILEV == 21.OR.ILEV == 22) .AND. 
+     .         ILEV == 20.OR.ILEV == 21.OR.ILEV == 22) .AND.
      .         IRODDL /= 0) THEN
 #include "vectorize.inc"
         DO II=1,NMN
@@ -461,7 +461,7 @@ C-----------------------------------------------
           AR(2,I)=AR(2,I)*WEIGHT(I)
           AR(3,I)=AR(3,I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
           TAGNOD(I)=1
         ENDDO
       ELSEIF ((ILEV == 25  .or. ILEV == 26) .AND. IRODDL /= 0)THEN
@@ -477,7 +477,7 @@ C-----------------------------------------------
           AR(2,I)=AR(2,I)*WEIGHT(I)
           AR(3,I)=AR(3,I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
           TAGNOD(I)=1
         ENDDO
       ELSEIF (ILEV == 27 .AND. IRODDL /= 0)THEN
@@ -494,7 +494,7 @@ C-----------------------------------------------
           AR(2,I)=AR(2,I)*WEIGHT(I)
           AR(3,I)=AR(3,I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
           TAGNOD(I)=1
         ENDDO
       ELSEIF (ILEV == 28 .AND. IRODDL /= 0)THEN
@@ -511,12 +511,12 @@ C-----------------------------------------------
           AR(2,I)=AR(2,I)*WEIGHT(I)
           AR(3,I)=AR(3,I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
           TAGNOD(I)=1
         ENDDO
       ELSEIF ((ILEV == 10.OR.ILEV == 11.OR.ILEV == 12 .OR.
      .         ILEV == 20.OR.ILEV == 21.OR.ILEV == 22 .OR.
-     .         ILEV == 25.or.ILEV == 26.or.ILEV == 28) 
+     .         ILEV == 25.or.ILEV == 26.or.ILEV == 28)
      .        .AND. IRODDL == 0)THEN
 #include "vectorize.inc"
         DO II=1,NMN
@@ -543,7 +543,7 @@ C-----------------------------------------------
           IN(I)=MAX(EM20,IN(I))
           IN(I)=IN(I)*WEIGHT(I)
           STIFN(I)=STIFN(I)*WEIGHT(I)
-          STIFR(I)=STIFR(I)*WEIGHT(I)       
+          STIFR(I)=STIFR(I)*WEIGHT(I)
         ENDDO
 C---
       ENDIF

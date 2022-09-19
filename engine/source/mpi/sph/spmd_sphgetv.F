@@ -200,8 +200,8 @@ ctmp+1
             BUFS(3,IDEB+NN) = V(1,INOD)
             BUFS(4,IDEB+NN) = V(2,INOD)
             BUFS(5,IDEB+NN) = V(3,INOD)
-            BUFS(6,IDEB+NN) = KXSP(2,ICELL)	    
-            BUFS(7,IDEB+NN) = IPARTSP(ICELL)	    
+            BUFS(6,IDEB+NN) = KXSP(2,ICELL)	
+            BUFS(7,IDEB+NN) = IPARTSP(ICELL)	
           END IF
         END DO
         IDEB = IDEB + PSPHS(P)
@@ -246,7 +246,7 @@ C
               XSPHR(8,IDEB+N) = BUFR(2,IDEB+NN)
               XSPHR(9,IDEB+N) = BUFR(3,IDEB+NN)
               XSPHR(10,IDEB+N)= BUFR(4,IDEB+NN)
-              XSPHR(11,IDEB+N)= BUFR(5,IDEB+NN) 
+              XSPHR(11,IDEB+N)= BUFR(5,IDEB+NN)
 	          XSPHR(13,IDEB+N)= BUFR(6,IDEB+NN)
 	          XSPHR(14,IDEB+N)= BUFR(7,IDEB+NN)
             ELSEIF(ISPHR(IDEB+N)==1) THEN
@@ -256,13 +256,13 @@ C
               XSPHR(9,IDEB+N) = BUFR(3,IDEB+NN)
               XSPHR(10,IDEB+N)= BUFR(4,IDEB+NN)
               XSPHR(11,IDEB+N)= BUFR(5,IDEB+NN)
-	          XSPHR(13,IDEB+N)= BUFR(6,IDEB+NN)      
-	          XSPHR(14,IDEB+N)= BUFR(7,IDEB+NN)   
+	          XSPHR(13,IDEB+N)= BUFR(6,IDEB+NN)
+	          XSPHR(14,IDEB+N)= BUFR(7,IDEB+NN)
             END IF
           END DO
           IDEB = IDEB + PSPHR(P)
         END IF
-      END DO 
+      END DO
 
       DEALLOCATE( BUFS )
       DEALLOCATE( BUFR )
@@ -384,8 +384,8 @@ ctmp+1
             BUFS(3,NN+IDEB) = V(1,INOD)
             BUFS(4,NN+IDEB) = V(2,INOD)
             BUFS(5,NN+IDEB) = V(3,INOD)
-            BUFS(6,NN+IDEB) = KXSP(2,ICELL)	    
-            BUFS(7,NN+IDEB) = IPARTSP(ICELL)	    
+            BUFS(6,NN+IDEB) = KXSP(2,ICELL)	
+            BUFS(7,NN+IDEB) = IPARTSP(ICELL)	
           END IF
         END DO
         MSGTYP = MSGOFF2
@@ -414,9 +414,9 @@ C
               XSPHR(8,IDEB+N) = BUFR(2,NN)
               XSPHR(9,IDEB+N) = BUFR(3,NN)
               XSPHR(10,IDEB+N)= BUFR(4,NN)
-              XSPHR(11,IDEB+N)= BUFR(5,NN)     
-	      XSPHR(13,IDEB+N)= BUFR(6,NN) 
-	      XSPHR(14,IDEB+N)= BUFR(7,NN) 
+              XSPHR(11,IDEB+N)= BUFR(5,NN)
+	      XSPHR(13,IDEB+N)= BUFR(6,NN)
+	      XSPHR(14,IDEB+N)= BUFR(7,NN)
             ELSEIF(ISPHR(IDEB+N)==1) THEN
               NN = NN + 1
               XSPHR(7,IDEB+N) = BUFR(1,NN)
@@ -424,8 +424,8 @@ C
               XSPHR(9,IDEB+N) = BUFR(3,NN)
               XSPHR(10,IDEB+N)= BUFR(4,NN)
               XSPHR(11,IDEB+N)= BUFR(5,NN)
-	      XSPHR(13,IDEB+N)= BUFR(6,NN)      
-	      XSPHR(14,IDEB+N)= BUFR(7,NN)      
+	      XSPHR(13,IDEB+N)= BUFR(6,NN)
+	      XSPHR(14,IDEB+N)= BUFR(7,NN)
             END IF
           END DO
           IDEB = IDEB + PSPHR(P)

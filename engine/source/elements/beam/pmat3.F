@@ -46,11 +46,11 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT  ,MTN  
+      INTEGER JFT, JLT  ,MTN
       INTEGER MAT(*), PID(*)
 C     REAL
       my_real
-     .   GEO(NPROPG,*), PM(NPROPM,*), 
+     .   GEO(NPROPG,*), PM(NPROPM,*),
      .    YM(*),G(*),AL(*),ALI(*),SH1(*),SH2(*),
      .    A1(*),B1(*),B2(*),B3(*)
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C
 C
       DO I=JFT,JLT
        SH=FIVE_OVER_6*G(I)*A1(I)
-       ALI2 =ALI(I)*ALI(I) 
+       ALI2 =ALI(I)*ALI(I)
        YMA2=TWELVE*YM(I)*ALI2
        SH10=YMA2*B1(I)
        SH20=YMA2*B2(I)

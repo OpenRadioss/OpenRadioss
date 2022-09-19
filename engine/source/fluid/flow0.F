@@ -61,8 +61,8 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IADI, IADR, I, ITYP, NINOUT, NNO, NEL, NNN, NEL_LOC,
-     .        II1, II2, II3, II4, II5, II6, II7, IR1, IR2, IR3, IR4, 
-     .        IR5, IR6, IR7, IR8, IR9, IR10, IR11, II8, II9, II10, II11, IADIP, IADH, IADG, 
+     .        II1, II2, II3, II4, II5, II6, II7, IR1, IR2, IR3, IR4,
+     .        IR5, IR6, IR7, IR8, IR9, IR10, IR11, II8, II9, II10, II11, IADIP, IADH, IADG,
      .        II12, II13, II14, IPINT, NDIM, JFORM, FREESURF
 C-----------------------------------------------------------------------------------
 C Description des tableaux ITYP=1
@@ -116,7 +116,7 @@ C-------------------------------------------------------------------------------
       IPINT=0
       IF (TT>=TANIM.OR.
      .   MANIM==4 .OR.MANIM==5 .OR.MANIM==6 .OR.MANIM==7.OR.
-     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15) 
+     .   MANIM==12.OR.MANIM==13.OR.MANIM==14.OR.MANIM==15)
      .   IPINT=1
 C
       IADI=0
@@ -138,14 +138,14 @@ C
             II5=II4+NINOUT*NIIOFLOW
             II6=II5+NNN
             IF (NSPMD > 1) THEN
-               II7=II6+NEL   
-               II8=II7+NNO   
+               II7=II6+NEL
+               II8=II7+NNO
                II9=II8+NNO
-               II10=II9+NNO  
+               II10=II9+NNO
                II11=II10+NNO
                II12=II11+NNN
-               II13=II12+NNN 
-               II14=II13+NEL 
+               II13=II12+NNN
+               II14=II13+NEL
             ELSE
                II7=II6+NEL
                II8=II7
@@ -168,10 +168,10 @@ C
      .      NNO,         NEL,         NINOUT,      NNN,         IFLOW(II1),
      .      IFLOW(II2),  IFLOW(II3),  IFLOW(II4),  IFLOW(II5),  IFLOW(II7),
      .      IFLOW(II8),  IFLOW(II9),  RFLOW(IR1),  RFLOW(IR2),  RFLOW(IR3),
-     .      RFLOW(IR4),  RFLOW(IR5),  X,           V,           A,        
+     .      RFLOW(IR4),  RFLOW(IR5),  X,           V,           A,
      .      NPC,         TF,          SENSOR,
-     .      IFLOW(II10), IFLOW(II6),  IFLOW(II13), IFLOW(II14), WIFLOW(IADIP), 
-     .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT        ) 
+     .      IFLOW(II10), IFLOW(II6),  IFLOW(II13), IFLOW(II14), WIFLOW(IADIP),
+     .      WRFLOW(IADH),WRFLOW(IADG),IFLOW(II11), IFLOW(II12), IPINT        )
 C
          ELSEIF(ITYP == 3) THEN
             JFORM    = IFLOW(IADI+4)
@@ -201,9 +201,9 @@ C
             IF(NSPMD == 1) THEN
               II7=II6
               CALL DAASOLV(NDIM, NNO, NEL,
-     .                     IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II5), 
-     .                     RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6), 
-     .                     RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
+     .                     IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II5),
+     .                     RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6),
+     .                     RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,
      .                     NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR, LSENSOR, IGRV, AGRV,
      .                     RFLOW(IR11),IFLOW(II7), NFUNCT)
             ELSE
@@ -214,9 +214,9 @@ C
               IADIP =IFLOW(IADI+10)
               IADH  =IFLOW(IADI+11)
               CALL DAASOLVP(NDIM, NNO, NEL, NEL_LOC,
-     .                      IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II4), IFLOW(II5), IFLOW(II6), 
-     .                      RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6), 
-     .                      RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,  
+     .                      IFLOW(II1), IFLOW(II2), IFLOW(II3), IFLOW(II4), IFLOW(II5), IFLOW(II6),
+     .                      RFLOW(IR1), RFLOW(IR2), RFLOW(IR3), RFLOW(IR4), RFLOW(IR5), RFLOW(IR6),
+     .                      RFLOW(IR7), RFLOW(IR8), RFLOW(IR9), RFLOW(IR10),X, V, A, NPC, TF,
      .                      NBGAUGE, LGAUGE, GAUGE, NSENSOR, SENSOR, LSENSOR, IGRV, AGRV,
      .                      RFLOW(IR11),WIFLOW(IADIP), WRFLOW(IADH), IFLOW(II8), IFLOW(II9),
      .                      NFUNCT)
@@ -228,4 +228,4 @@ C
 C
       RETURN
       END
-      
+

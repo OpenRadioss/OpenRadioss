@@ -66,19 +66,19 @@ C   Tableau utilise par proc 0
 C=======================================================================
        ALLOCATE(BUFSR(NUMNODM), IBUF(NUMNODM))
        ALLOCATE(XGLOB(NUM))
-  
+
           XGLOB = 1000000
-          bufsr = 100000      
-  
-       IF (ISPMD/=0) THEN     
+          bufsr = 100000
+
+       IF (ISPMD/=0) THEN
          SIZ = 0
          DO I=1,NUMNOD
            IF (WEIGHT(I)==1) THEN
              SIZ = SIZ + 1
              IBUF(SIZ) = NODGLOB(I)
-             BUFSR(SIZ) = V(I) 
+             BUFSR(SIZ) = V(I)
            END IF
-         END DO 
+         END DO
 
 C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
@@ -88,14 +88,14 @@ C   de noeuds au max
          CALL MPI_SEND(IBUF,SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
-         MSGTYP = MSGOFF 
+         MSGTYP = MSGOFF
          CALL MPI_SEND(BUFSR,SIZ,MPI_REAL,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
        ELSE
           siz = 0
           DO I=1,NUMNOD
-            IF (WEIGHT(I)==1) THEN 
+            IF (WEIGHT(I)==1) THEN
               siz = siz +1
               NG = NODGLOB(I)
               XGLOB(NG) = V(I)
@@ -105,7 +105,7 @@ C   de noeuds au max
           DO I=2,NSPMD
 
 C   Reception du buffer entier des adresses NODGLOB
-            MSGTYP = MSGOFF2 
+            MSGTYP = MSGOFF2
 
             CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,ierror)
@@ -116,12 +116,12 @@ C   Reception du buffer entier des adresses NODGLOB
 
 C   Reception du buffer flottant des adresses NODGLOB
 
-            MSGTYP = MSGOFF 
+            MSGTYP = MSGOFF
             CALL MPI_RECV(BUFSR,SIZ,MPI_REAL,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
-         
+
             NREC = SIZ
- 
+
             DO K = 1, NREC
               NG = IBUF(K)
               XGLOB(NG) = BUFSR(K)

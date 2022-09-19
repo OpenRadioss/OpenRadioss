@@ -129,7 +129,7 @@ C-----------------------------------------------
        CONDITION1(1:NEL)   = 0
        CONDITION2(1:NEL)   = 0
        CONDITION3(1:NEL)   = 0
-       NINDX        = 0  
+       NINDX        = 0
 c---------------------------
        IF (P_THICKFAIL > ZERO .and. IFAIL_SH > 1 .and. IGTYP <= 10) THEN
          PTHKF = P_THICKFAIL
@@ -142,30 +142,30 @@ c-----------------------------
 C USER VARIABLES INITIALIZATION
 C-----------------------------------------------
        DO I =1,NEL
-       
+
          DAM1 = DFMAX(I)
          DAM2 = UVAR(I,2)
-         
+
          IF (DPLA(I) > ZERO .and. OFF(I) == ONE .and. DAM1 < ONE) THEN
            SIGM   = (SIGNXX(I)+ SIGNYY(I))*THIRD
            SIGVM  = sqrt((SIGNXX(I)**2)+(SIGNYY(I)**2)-(SIGNXX(I)*SIGNYY(I))+(3*SIGNXY(I)**2))
            ETA    = SIGM / MAX(EM10,SIGVM)
-           
+
            XI = -27.0*0.5*ETA*(ETA**2 - THIRD)
            IF (XI < -ONE) XI =-ONE
            IF (XI >  ONE) XI = ONE
-           
+
            LODE = ONE - TWO*ACOS(XI)/PI
-           
+
            F1 = TWO/THREE*COS((ONE   -LODE)*PI/SIX)
            F2 = TWO/THREE*COS((THREE+LODE)*PI/SIX)
            F3 =-TWO/THREE*COS((ONE   +LODE)*PI/SIX)
-           
+
            GHC= (HALF*((F1-F2)**AFRAC
      .                  +(F2-F3)**AFRAC
      .                  +(F1-F3)**AFRAC))**(ONE/AFRAC)
      .                  +CFRAC*(TWO*ETA+F1+F3)
-     
+
            IF (ETA < -THIRD) THEN
              EPSF = 100.00
              GHC  = -ONE
@@ -174,9 +174,9 @@ C-----------------------------------------------
      .                  +MAX(F2-F3,ZERO)**AFRAC
      .                  +MAX(F1-F3,ZERO)**AFRAC))**(ONE/AFRAC)
      .                  +CFRAC*(TWO*ETA+F1+F3)
-             EPSF = BFRAC*((ONE+CFRAC)/GHC)**(1.0/NFRAC)             
+             EPSF = BFRAC*((ONE+CFRAC)/GHC)**(1.0/NFRAC)
              IF (ETA > THIRD .and. DAM2 < ONE) THEN
-               G1   = THREE/TWO*ETA+SQRT(THIRD+EM20-0.75*(ETA**2)) 
+               G1   = THREE/TWO*ETA+SQRT(THIRD+EM20-0.75*(ETA**2))
                G2   = THREE/TWO*ETA-SQRT(THIRD+EM20-0.75*(ETA**2))
                G3   = (HALF*((MAX(ZERO,(G1-G2)))**INST+G1**INST+
      .                (MAX(ZERO,G2))**INST))**(ONE/INST)
@@ -189,68 +189,68 @@ C-----------------------------------------------
              F1   = ONE/THREE
              F2   = ONE/THREE
              F3   = -TWO/THREE
-             
+
              GHC= (HALF*(MAX(F1-F2,ZERO)**AFRAC
      .                  +MAX(F2-F3,ZERO)**AFRAC
      .                  +MAX(F1-F3,ZERO)**AFRAC))**(ONE/AFRAC)
      .                  +CFRAC*(TWO*ETA+F1+F3)
-             
+
              EPSF = BFRAC*(ONE+CFRAC)**(ONE/NFRAC)
-     .            * ((HALF*(MAX(F1-F2,ZERO)**AFRAC  
+     .            * ((HALF*(MAX(F1-F2,ZERO)**AFRAC
      .                       +MAX(F2-F3,ZERO)**AFRAC
      .                       +MAX(F1-F3,ZERO)**AFRAC))**(ONE/AFRAC)
      .            +   CFRAC*(TWO*ETA+F1+F3))**(-ONE/NFRAC)
-             
-               
+
+
              ENDIF
-             
+
            DAM1     = DAM1 + DPLA(I)/MAX(EM6,EPSF)
            DFMAX(I) = MIN(ONE,DAM1)
            IF (DAM1 >= ONE) THEN                    ! failure of integrateion points
              NINDX = NINDX + 1
-             INDX(NINDX) = I  
+             INDX(NINDX) = I
              FOFF(I) = 0
              UEL(I)  = ZERO
              TDEL(I) = TIME
              CONDITION1(NINDX) = IPT
            ENDIF
-           
-           IF (DAM2 >= ONE .AND. UVAR(I,1) == ZERO .AND. FOFF(I) == 1)THEN  
-             UVAR(I,1) = ONE           
+
+           IF (DAM2 >= ONE .AND. UVAR(I,1) == ZERO .AND. FOFF(I) == 1)THEN
+             UVAR(I,1) = ONE
              UEL(I) = UEL(I) + ONE
              IF (INT(UEL(I)+1e-6) == NPTOT) THEN   ! rupture due localized necking !!!
                NINDX = NINDX + 1
-               INDX(NINDX) = I  
+               INDX(NINDX) = I
                TDEL(I)= TIME
                OFF(I) = ZERO
                CONDITION2(NINDX) = 1
                CONDITION3(NINDX) = 1
              ENDIF
            ENDIF
-           
+
          ENDIF
        ENDDO
 C!     
 c------------------------
-      IF (NINDX > 0) THEN        
-        DO J=1,NINDX             
-          I = INDX(J)     
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
+          I = INDX(J)
 #include "lockon.inc"
-         IF(CONDITION1(J) >= 1)  THEN         
+         IF(CONDITION1(J) >= 1)  THEN
            WRITE(IOUT, 2000) NGL(I),CONDITION1(J),TIME
            WRITE(ISTDO,2000) NGL(I),CONDITION1(J),TIME
          ENDIF
          IF(CONDITION3(J)==1) THEN
            WRITE(ISTDO,3000) NGL(I)
            WRITE(IOUT, 3000) NGL(I)
-         ENDIF          
+         ENDIF
          IF(CONDITION2(J)==1) THEN
            WRITE(ISTDO,2200) NGL(I), TIME
            WRITE(IOUT, 2200) NGL(I), TIME
-         ENDIF          
-#include "lockoff.inc" 
-        END DO                   
-      END IF   ! NINDX             
+         ENDIF
+#include "lockoff.inc"
+        END DO
+      END IF   ! NINDX
 c------------------------
 C---------Damage for output  0 < DFMAX < 1 --------------------
  2000 FORMAT(1X,'FOR SHELL ELEMENT (HC-DSSE)',I10,1X,'LAYER',I3,':',/,

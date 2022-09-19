@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER   I
       INTEGER   LMXHEAD,LMXVINT
       PARAMETER (LMXHEAD=100)
-      PARAMETER (LMXVINT=4000)     
+      PARAMETER (LMXVINT=4000)
       INTEGER   TABHEAD(LMXHEAD),TABVINT(LMXVINT)
       my_real
      .        PROBINT
@@ -169,12 +169,12 @@ C-----
 C
       IF(ANIM_PLY > 0 .AND.IPLYXFEM == 0) THEN
           WRITE(ISTDO,*) '**WARNING** /ANIM/SHELL/PLY '
-          WRITE(ISTDO,*) 
+          WRITE(ISTDO,*)
      .  'IS AVAILABLE JUST WITH NEW DELAMINATION SHELL  FORMULATION'
           WRITE(IOUT,*) '**WARNING** /ANIM/SHELL/PLY '
-          WRITE(IOUT,*) 
-     .  'IS AVAILABLE JUST WITH NEW DELAMINATION SHELL  FORMULATION'     
-         ANIM_PLY = 0  
+          WRITE(IOUT,*)
+     .  'IS AVAILABLE JUST WITH NEW DELAMINATION SHELL  FORMULATION'
+         ANIM_PLY = 0
       ENDIF
 C
       RETURN
@@ -232,7 +232,7 @@ C-----------------------------------------------
 #include      "scrnoi_c.inc"
 #include      "scrfs_c.inc"
 #include      "scrcut_c.inc"
-#include      "scr_fac_c.inc"    
+#include      "scr_fac_c.inc"
 #include      "warn_c.inc"
 #include      "couple_c.inc"
 #include      "sphcom.inc"
@@ -244,7 +244,7 @@ C-----------------------------------------------
 #include      "tabsiz_c.inc"
 #include      "scr17_c.inc"
 #include      "sms_c.inc"
-#include      "thermal_c.inc" 
+#include      "thermal_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -369,7 +369,7 @@ C LCNE0 = NISKY0+voisins (pre calcule dans starter)
         LSKY = LCNE0
         SFSKY = 8*LCNE0
 C pxfem
-        LSKYPXFEM = LCNEPXFEM          
+        LSKYPXFEM = LCNEPXFEM
 C xfem for layered shell (cracks)
         LSKYCRKXFEM = LCNECRKXFEM
 C FSKY MASSE
@@ -443,12 +443,12 @@ C pinching
         ENDIF
 C 
         IF(SOL2SPH_FLAG/=0) THEN
-          SDMSPH = NUMNOD*NTHREAD 
+          SDMSPH = NUMNOD*NTHREAD
         ELSE
           SDMSPH = 0
         END IF
 C   j ai un doute sur SVISCN - et du flag KDTINT
-        SVISCN = NUMNOD*NTHREAD 
+        SVISCN = NUMNOD*NTHREAD
         SSTIFR = NUMNOD*IRODDL*NTHREAD
         SPARTSAV = NPSAV*(NPART+NTHPART)*NTHREAD
         SFSKY = 0
@@ -542,20 +542,20 @@ C---------------------------------------------------------
      .              + MIN(1,ANIM_V(5)+OUTP_V(5)+H3D_DATA%N_VECT_FINT)
      .              + MIN(1,ANIM_V(6)+OUTP_V(6)+H3D_DATA%N_VECT_FEXT) )
      .          + 6*(NSECT+NRBODY+NRWALL+NUMELUR)
-     .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)  
+     .          + 6*NUMNOD*MIN(1,ANIM_V(12)+OUTP_V(12)+H3D_DATA%N_VECT_PCONT)
      .          + 3*NUMNOD*MIN(1,ANIM_V(13)+H3D_DATA%N_VECT_CONT2)
-     .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)  
-      SFANI_CELL = (NUMELS)*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !ALE : 3D-Vorticity        
+     .          + 6*NUMNOD*MIN(1,ANIM_V(27)+H3D_DATA%N_VECT_PCONT2)
+      SFANI_CELL = (NUMELS)*(ANIM_SE(10)+ANIM_SE(4960)+ANIM_SE(4961)) !ALE : 3D-Vorticity
       SFANI_CELL = SFANI_CELL+(NUMELS+NUMELQ)*3*(H3D_DATA%N_VECT_CONT) !ALE : FSI reaction force  /H3D/ELEM/VECT/CONT
 
       SXCUT = 7*NCUTS
-      SANIN = NUMNOD*( 
+      SANIN = NUMNOD*(
      .                MIN(1,ANIM_N(1)+OUTP_N(1)+H3D_DATA%N_SCAL_DT)
      .              + MIN(1,ANIM_N(2)+OUTP_N(2)+H3D_DATA%N_SCAL_DMAS)
      .              + MIN(1,ANIM_N(12)+OUTP_N(3)+H3D_DATA%N_SCAL_DINER))
      .          + NUMELR*(ANIM_FE(11)+ANIM_FE(12)+ANIM_FE(13))
      .              + 2 * NUMNOD * MIN(1,ANIM_N(15)*ANIM_N(16)+H3D_DATA%N_SCAL_DAMA2)
-      STANI = 6*(NUMELC+NUMELTG)*IEPSDOT 
+      STANI = 6*(NUMELC+NUMELTG)*IEPSDOT
      .          + 15*(NUMELT+NUMELP+NUMELR)*(MAX(ANIM_FT(1),H3D_DATA%UND_FORC))
 C
       SSECFCUM = 7*NUMNOD*NSECT*ISECUT
@@ -580,7 +580,7 @@ C     NPSAV remis a la bonne valeur dans rdresb
         M16STAK = MAX(M16STAK,12*NIPMAX*MVSIZ)
       ENDIF
       SW16 = M16STAK * NTHREAD
-      SICUT= 44*NCUTS     
+      SICUT= 44*NCUTS
 C---------------------------------------------------------
 C     tableaux spmd additionnels alloues dans ma en v40
 C---------------------------------------------------------

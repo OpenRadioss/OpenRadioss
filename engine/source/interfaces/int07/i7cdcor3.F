@@ -35,7 +35,7 @@ Chd|        IMP_I7MAINF                   source/interfaces/int07/i7ke3.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I7CDCOR3(JLT,INDEX,CAND_E,CAND_N,CAND_E_N,
-     .                    CAND_N_N)      
+     .                    CAND_N_N)
 C============================================================================
 C  cette routine est appelee par : I10MAINF(/int10/i10mainf.F)
 C                                  I7MAINF(/int7/i7mainf.F)
@@ -60,7 +60,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I 
+      INTEGER I
 C-----------------------------------------------
 C
       !intialization of local buffer (1:MVSIZ)

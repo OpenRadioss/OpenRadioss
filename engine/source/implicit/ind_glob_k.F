@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*)
@@ -127,17 +127,17 @@ C-----------------------
           NNOD=8
          DO J=1,NNOD
           NC(J)=IXS(J+1,EP)
-         ENDDO 
+         ENDDO
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
           NC(J)=IXS(J+1,EP)
-         ENDDO 
+         ENDDO
          EP1=EP-(NUMELS8+NUMELS10)
          DO J=9,20
           NC(J)=IXS20(J-8,EP1)
          ENDDO
-                  
+
          ELSE
           NNOD=0
          ENDIF
@@ -150,7 +150,7 @@ C-----------------------
           ENDDO
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
 C-----------------------
 C     2. ELEMENTS 2D
 C-----------------------
@@ -192,7 +192,7 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXC(J+1,EP)
-         ENDDO 
+         ENDDO
          CALL REORDER_I(NNOD,NC)
          DO J=1,NNOD
           N=NC(J)
@@ -264,7 +264,7 @@ C-----------------------
          IF (IGTYP==12) THEN
           NNOD=3
           NC(3)=IXR(4,EP)
-         ENDIF 
+         ENDIF
          CALL REORDER_I(NNOD,NC)
          DO J=1,NNOD
           N=NC(J)
@@ -279,8 +279,8 @@ C-----------------------
          ELSEIF (IGTYP==4.OR.IGTYP==12.OR.IGTYP==32) THEN
           DO J=1,NNOD
            NDOF(NC(J))=MAX(3,NDOF(NC(J)))
-          ENDDO 
-         ENDIF 
+          ENDDO
+         ENDIF
         ENDIF
         ENDDO
 C-----------------------
@@ -294,7 +294,7 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXTG(J+1,EP)
-         ENDDO 
+         ENDDO
          CALL REORDER_I(NNOD,NC)
          DO J=1,NNOD
           N=NC(J)
@@ -308,7 +308,7 @@ C-----------------------
           ENDDO
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
        ENDIF
 C
        END IF !(IPARG(1,NG) == 0 .OR. IPARG(1,NG) == 13) THEN
@@ -335,7 +335,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -354,7 +354,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NKMAX,IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NROW(*),ICOK(NKMAX,*),INLOC(*)
@@ -422,19 +422,19 @@ C-----------------------
           NNOD=8
          DO J=1,NNOD
           NC(J)=IXS(J+1,EP)
-         ENDDO 
-         
+         ENDDO
+
 Czg add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
           NC(J)=IXS(J+1,EP)
-         ENDDO 
+         ENDDO
          EP1=EP-(NUMELS8+NUMELS10)
          DO J=9,20
           NC(J)=IXS20(J-8,EP1)
          ENDDO
-                  
+
          ELSE
           NNOD=0
          ENDIF
@@ -444,13 +444,13 @@ Czg add solid element 20
           IF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
 C-----------------------
 C     2. ELEMENTS 2D
 C-----------------------
@@ -495,17 +495,17 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXC(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
           IF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -526,10 +526,10 @@ C-----------------------
           IF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -550,10 +550,10 @@ C-----------------------
           IF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -572,17 +572,17 @@ C-----------------------
          IF (IGTYP==12) THEN
           NNOD=3
           NC(3)=IXR(4,EP)
-         ENDIF 
+         ENDIF
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
           IF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -597,20 +597,20 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXTG(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
           IF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
        ENDIF
 C
        ENDIF
@@ -634,7 +634,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -653,7 +653,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NNMAX,NKMAX,IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),
@@ -721,19 +721,19 @@ C-----------------------
           NNOD=8
          DO J=1,NNOD
           NC(J)=IXS(J+1,EP)
-         ENDDO 
-         
+         ENDDO
+
 Czg add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
           NC(J)=IXS(J+1,EP)
-         ENDDO 
+         ENDDO
          EP1=EP-(NUMELS8+NUMELS10)
          DO J=9,20
           NC(J)=IXS20(J-8,EP1)
          ENDDO
-                  
+
          ENDIF
          DO J=1,NNOD
           N=NC(J)
@@ -741,19 +741,19 @@ Czg add solid element 20
           IF (NK>INK) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
 C-----------------------
 C     2. ELEMENTS 2D
 C-----------------------
@@ -804,23 +804,23 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXC(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
           IF (NK>INK) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -841,16 +841,16 @@ C-----------------------
           IF (NK>INK) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -871,16 +871,16 @@ C-----------------------
           IF (NK>INK) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -899,23 +899,23 @@ C-----------------------
          IF (IGTYP==12) THEN
           NNOD=3
           NC(3)=IXR(4,EP)
-         ENDIF 
+         ENDIF
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
           IF (NK>INK) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -930,26 +930,26 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXTG(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
           IF (NK>INK) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
        ENDIF
 C
        ENDIF
@@ -974,7 +974,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -993,7 +993,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NNMAX,NKMAX,IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),
@@ -1062,19 +1062,19 @@ C-----------------------
           NNOD=8
          DO J=1,NNOD
           NC(J)=IXS(J+1,EP)
-         ENDDO 
-         
+         ENDDO
+
 Czg add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
           NC(J)=IXS(J+1,EP)
-         ENDDO 
+         ENDDO
          EP1=EP-(NUMELS8+NUMELS10)
          DO J=9,20
           NC(J)=IXS20(J-8,EP1)
          ENDDO
-                  
+
          ELSE
           NNOD=0
          ENDIF
@@ -1085,19 +1085,19 @@ Czg add solid element 20
             NK1=NK-INK
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
 C-----------------------
 C     2. ELEMENTS 2D
 C-----------------------
@@ -1149,7 +1149,7 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXC(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
@@ -1157,16 +1157,16 @@ C-----------------------
             NK1=NK-INK
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1188,16 +1188,16 @@ C-----------------------
             NK1=NK-INK
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1219,16 +1219,16 @@ C-----------------------
             NK1=NK-INK
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1247,7 +1247,7 @@ C-----------------------
          IF (IGTYP==12) THEN
           NNOD=3
           NC(3)=IXR(4,EP)
-         ENDIF 
+         ENDIF
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
@@ -1255,16 +1255,16 @@ C-----------------------
             NK1=NK-INK
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1279,7 +1279,7 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXTG(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
@@ -1287,19 +1287,19 @@ C-----------------------
             NK1=NK-INK
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOKM(1,NK1),NC(L))
             ENDIF
            ENDDO
           ELSEIF (NK>0) THEN
            DO L=1,NNOD
             IF (N/=NC(L)) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),NC(L))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
        ENDIF
 C
        ENDIF
@@ -1325,7 +1325,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1344,7 +1344,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),NKMAX,IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NROW(*),ICOK(NKMAX,*),INLOC(*)
@@ -1412,19 +1412,19 @@ C-----------------------
           NNOD=8
          DO J=1,NNOD
           NC(J)=IXS(J+1,EP)
-         ENDDO 
-         
+         ENDDO
+
 Czg add solid element 20
          ELSEIF (ISNOD==20) THEN
           NNOD=20
          DO J=1,8
           NC(J)=IXS(J+1,EP)
-         ENDDO 
+         ENDDO
          EP1=EP-(NUMELS8+NUMELS10)
          DO J=9,20
           NC(J)=IXS20(J-8,EP1)
          ENDDO
-                  
+
          ELSE
           NNOD=0
          ENDIF
@@ -1435,13 +1435,13 @@ Czg add solid element 20
            DO L=1,NNOD
             NJ=NC(L)
             IF (N/=NJ.AND.INLOC(NJ)>0) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
 C-----------------------
 C     2. ELEMENTS 2D
 C-----------------------
@@ -1487,7 +1487,7 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXC(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
@@ -1495,10 +1495,10 @@ C-----------------------
            DO L=1,NNOD
             NJ=NC(L)
             IF (N/=NJ.AND.INLOC(NJ)>0) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1520,10 +1520,10 @@ C-----------------------
            DO L=1,NNOD
             NJ=NC(L)
             IF (N/=NJ.AND.INLOC(NJ)>0) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1545,10 +1545,10 @@ C-----------------------
            DO L=1,NNOD
             NJ=NC(L)
             IF (N/=NJ.AND.INLOC(NJ)>0) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1567,7 +1567,7 @@ C-----------------------
          IF (IGTYP==12) THEN
           NNOD=3
           NC(3)=IXR(4,EP)
-         ENDIF 
+         ENDIF
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
@@ -1575,10 +1575,10 @@ C-----------------------
            DO L=1,NNOD
             NJ=NC(L)
             IF (N/=NJ.AND.INLOC(NJ)>0) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
         ENDDO
@@ -1593,7 +1593,7 @@ C-----------------------
          EP=I+NFT
          DO J=1,NNOD
           NC(J)=IXTG(J+1,EP)
-         ENDDO 
+         ENDDO
          DO J=1,NNOD
           N=NC(J)
           NK=INLOC(N)
@@ -1601,13 +1601,13 @@ C-----------------------
            DO L=1,NNOD
             NJ=NC(L)
             IF (N/=NJ.AND.INLOC(NJ)>0) THEN
-             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ)) 
+             CALL REORDER_A(NROW(NK),ICOK(1,NK),INLOC(NJ))
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
-        ENDDO 
+        ENDDO
        ENDIF
 C
        ENDIF
@@ -1631,7 +1631,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1650,7 +1650,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*),INLOC(*),
@@ -1669,7 +1669,7 @@ C-----------------------------------------------
        NROW(N)=0
        INLOC(N)=0
       ENDDO
-      DO NFT = 0 , NUMNOD-1 ,C_MAX 
+      DO NFT = 0 , NUMNOD-1 ,C_MAX
        JLT = MIN( C_MAX, NUMNOD - NFT )
        DO NK=1,JLT
         N=NK+NFT
@@ -1685,7 +1685,7 @@ C-----------------------------------------------
         INLOC(N)=0
         NNMAX=MAX(NNMAX,NROW(N))
        ENDDO
-      ENDDO	   
+      ENDDO	
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -1705,7 +1705,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -1795,7 +1795,7 @@ C----- rbe2 ------
          NKINE=NKINE+1
          INLOC(NS)=NKINE
         ENDIF
-       ENDDO 
+       ENDDO
       ENDDO
 C----- rigid body ------
       DO I=1,NRBYAC
@@ -1808,7 +1808,7 @@ C----- rigid body ------
          NKINE=NKINE+1
          INLOC(NS)=NKINE
         ENDIF
-       ENDDO 
+       ENDDO
       ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -1876,7 +1876,7 @@ C-----------------------------------------------
       NINT2=0
       DO K=0,NHIN2
        CALL I2_PREM(IPARI,K,NINT2,IINT2,NSI2)
-      ENDDO 
+      ENDDO
 C------rigid body main------------- 
       CALL RBYAC_IMP(NPBY,ITAB,SENSOR,NRBYAC,IRBYAC,NSRB)
       DO I=1,NRBYAC
@@ -1896,7 +1896,7 @@ C--------temporaly to avoid issue w/ contact +spmd
       IF (NSPMD > 1 .AND.NINTER > 0) THEN
        DO I=1,NRBE3
         N=IRBE3(3,I)
-        INS(I)=0 
+        INS(I)=0
          DO NIN=1,NINTER
            NSN   =IPARI(5,NIN)
            NTY   =IPARI(7,NIN)
@@ -1988,7 +1988,7 @@ C------IRTL(NSN)--main el number---
        NDOFM=3
        IF (ILEV == 0) NDOFM=6
        DO J=1,NSN
-        NS=INTBUF_TAB(N)%NSV(J)  
+        NS=INTBUF_TAB(N)%NSV(J)
         IF (NDOF(NS)>0) THEN
          L=INTBUF_TAB(N)%IRTLM(J)
          ID=4*(L-1)
@@ -1996,7 +1996,7 @@ C------IRTL(NSN)--main el number---
           NM=INTBUF_TAB(N)%IRECTM(ID+M)
           IF (NDOF(NM)<=0) NDOF(NM)=MIN(NDOF(NM),-NDOFM)
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
       ENDDO
 C
@@ -2006,15 +2006,15 @@ C
        NMN = IPARI(6,N)
 C------IRTL(NSN)--main el number---
        DO J=1,NSN
-        NS=INTBUF_TAB(N)%NSV(J) 
+        NS=INTBUF_TAB(N)%NSV(J)
         IF (NDOF(NS)>0) THEN
-         L=INTBUF_TAB(N)%IRTLM(J) 
+         L=INTBUF_TAB(N)%IRTLM(J)
          ID=4*(L-1)
          DO M=1,4
           NM=INTBUF_TAB(N)%IRECTM(ID+M)
           IF (NDOF(NM)<0) NDOF(NM)=-NDOF(NM)
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
       ENDDO
 C      
@@ -2103,15 +2103,15 @@ C-----------------------------------------------
        DO J=1,NSN
         NS=LPBY(K+J)
         IF (NDOF(NS)>0) IE = 1
-       ENDDO 
+       ENDDO
        IF (IE==0) THEN
         NDOF(M) = 0
-       ENDIF 
+       ENDIF
       ENDDO
       IF (IMACH==3.AND.NSPMD>1) THEN
        NN=IAD_RBY(NSPMD+1)-IAD_RBY(1)
        IF (NN>0) CALL SPMD_I2D(NDOF,FR_RBY,IAD_RBY,NN)
-      ENDIF 
+      ENDIF
 C-------actualise NRBYAC,IRBYAC-------
       IE = 0
       DO I=1,NRBYAC
@@ -2121,7 +2121,7 @@ C-------actualise NRBYAC,IRBYAC-------
         IE = IE + 1
         IRBYAC(IE) = IRBYAC(I)
         IRBYAC(IE+NRBYKIN) = IRBYAC(I+NRBYKIN)
-       ENDIF 
+       ENDIF
       ENDDO
       NRBYAC = IE
 C----6---------------------------------------------------------------7---------8
@@ -2138,7 +2138,7 @@ Chd|====================================================================
       SUBROUTINE DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
-     3    NNMAX     ,NROW      ,NROWI     ,NKINE     ,INLOC     , 
+     3    NNMAX     ,NROW      ,NROWI     ,NKINE     ,INLOC     ,
      4    ICOK      ,IRBE3     ,LRBE3     ,IRBE2     ,LRBE2     )
 C-----------------------------------------------
 C   M o d u l e s
@@ -2195,13 +2195,13 @@ C------interface 2--------------
        DO 20 J=1,NSN
         NS=INTBUF_TAB(N)%NSV(J)
         IF (NDOF(NS)>0) THEN
-         L=INTBUF_TAB(N)%IRTLM(J) 
+         L=INTBUF_TAB(N)%IRTLM(J)
          ID=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(ID+3)==INTBUF_TAB(N)%IRECTM(ID+4)) THEN 
+         IF (INTBUF_TAB(N)%IRECTM(ID+3)==INTBUF_TAB(N)%IRECTM(ID+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
-         ENDIF 
+         ENDIF
          DO M=1,NNOD
           NM=INTBUF_TAB(N)%IRECTM(ID+M)
           IF (NDOF(NM)>0)NROW(NM)=NROW(NM)+NNOD-1
@@ -2223,8 +2223,8 @@ C------interface 2--------------
          ENDDO
 C-----with Kij block-(i,j have the same M)-----
          DO N1=J+1,NSN
-          NJ=INTBUF_TAB(N)%NSV(N1)  
-          L1=INTBUF_TAB(N)%IRTLM(N1)  
+          NJ=INTBUF_TAB(N)%NSV(N1)
+          L1=INTBUF_TAB(N)%IRTLM(N1)
           IF (NDOF(NJ)>0.AND.L/=L1) THEN
            IF (INTAB(NROWI(NKS),ICOK(1,NKS),NJ)) THEN
             NL1=4*(L1-1)
@@ -2241,15 +2241,15 @@ C-----with Kij block-(i,j have the same M)-----
            ENDIF
           ENDIF
          ENDDO
-        ENDIF 
- 20    CONTINUE 
+        ENDIF
+ 20    CONTINUE
        DO J=1,NMN
         NM=INTBUF_TAB(N)%MSR(J)
         IF (INLOC(NM)==0.AND.NDOF(NM)>0) THEN
          NKINE=NKINE+1
          INLOC(NM)=NKINE
         ENDIF
-       ENDDO 
+       ENDDO
       ENDDO
 C+++couplage entre int2----
       IF (NINT2>1) THEN
@@ -2268,7 +2268,7 @@ C+++couplage entre int2----
          DO I=1,NSN
           NI=INTBUF_TAB(N)%NSV(I)
           IF (NDOF(NI)>0) THEN
-           NKE=INLOC(NI) 
+           NKE=INLOC(NI)
 C------cherche-secnd pairs-entre int2---
            DO I1=1,NSN1
             NJ=INTBUF_TAB(N1)%NSV(I1)
@@ -2276,14 +2276,14 @@ C------cherche-secnd pairs-entre int2---
      .          INTAB(NROWI(NKE),ICOK(1,NKE),NJ)) THEN
              L=INTBUF_TAB(N)%IRTLM(I)
              NL=4*(L-1)
-             IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN 
+             IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
               NNOD=3
              ELSE
               NNOD=4
              ENDIF
              L1=INTBUF_TAB(N1)%IRTLM(I1)
              NL1=4*(L1-1)
-             IF (INTBUF_TAB(N1)%IRECTM(NL1+3)==INTBUF_TAB(N1)%IRECTM(NL1+4)) THEN 
+             IF (INTBUF_TAB(N1)%IRECTM(NL1+3)==INTBUF_TAB(N1)%IRECTM(NL1+4)) THEN
               NNOD1=3
              ELSE
               NNOD1=4
@@ -2295,21 +2295,21 @@ C------cherche-secnd pairs-entre int2---
                IF (NDOF(NM)>0.AND.NDOF(NM1)>0) THEN
                 NROW(NM)=NROW(NM)+1
                 NROW(NM1)=NROW(NM1)+1
-               ENDIF 
-              ENDDO 
-             ENDDO 
+               ENDIF
+              ENDDO
+             ENDDO
 C----------endif NDOF(NJ)>0---- 
-            ENDIF 
+            ENDIF
 C----------enddo DO I1=1,NSN1---- 
            ENDDO
 C----------endif NDOF(NI)>0---- 
-          ENDIF 
+          ENDIF
 C----------enddo DO I=1,NSN---- 
-         ENDDO 
+         ENDDO
 C----------enddo DO J1=---- 
-        ENDDO 
-       ENDDO 
-      ENDIF 
+        ENDDO
+       ENDDO
+      ENDIF
 C----- Rbe2 ------
       DO I=1,NRBE2
        K=IRBE2(1,I)
@@ -2330,16 +2330,16 @@ C----- Rbe2 ------
             INLOC(NJ)=NKINE
            ENDIF
           ENDIF
-         ENDDO 
+         ENDDO
 C-----Due to hierarchy----         
          IF (NROW(NS)>NROWI(NKS)) NROW(M)=NROW(M)+ NROW(NS)-NROWI(NKS)
 C+++++++Knsns -> Kmns      
           IF (IC>0) THEN
 	       NROW(M)=NROW(M)+1
 	       NROW(NS)=NROW(NS)+1
-          ENDIF 
-         ENDIF 
-       ENDDO 
+          ENDIF
+         ENDIF
+       ENDDO
 C+++estimation de couplage ----
        NROW(M)=NROW(M)+1
       ENDDO
@@ -2406,7 +2406,7 @@ C
           NKINE=NKINE+1
           INLOC(NM)=NKINE
          ENDIF
-        ENDDO 
+        ENDDO
       ENDDO
 C----- rigid body ------
       DO I=1,NRBYAC
@@ -2432,11 +2432,11 @@ C----- rigid body ------
            ENDIF
           ENDIF
           ENDIF
-         ENDDO 
+         ENDDO
          IF (NROW(NS)>NROWI(NKS)) NROW(M)=NROW(M)+ NROW(NS)-NROWI(NKS)
          END IF !IF (NDOF(NS)>0)
-       ENDDO 
-       ENDIF 
+       ENDDO
+       ENDIF
 C+++estimation de couplage ----
        NROW(M)=NROW(M)+NSN
       ENDDO
@@ -2527,24 +2527,24 @@ C------MSR(NMN)-----
 C------IRTL(NSN)--main el number---
        KFI=K14+NSN
        DO 20 J=1,NSN
-        NS=INTBUF_TAB(N)%NSV(J)  
+        NS=INTBUF_TAB(N)%NSV(J)
         IF (NDOF(NS)>0) THEN
          L=INTBUF_TAB(N)%IRTLM(J)
          ID=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(ID+3)==INTBUF_TAB(N)%IRECTM(ID+4)) THEN 
+         IF (INTBUF_TAB(N)%IRECTM(ID+3)==INTBUF_TAB(N)%IRECTM(ID+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
-         ENDIF 
+         ENDIF
          DO M=1,NNOD
           NM=INTBUF_TAB(N)%IRECTM(ID+M)
           IF (NDOF(NM)>0) THEN
-           NKE1=INLOC(NM) 
+           NKE1=INLOC(NM)
            DO J1=1,NNOD
             NM1=INTBUF_TAB(N)%IRECTM(ID+J1)
-            IF (NM/=NM1) CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1) 
+            IF (NM/=NM1) CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1)
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
          NKS=INLOC(NS)
          DO NK=1,NROWI(NKS)
@@ -2552,14 +2552,14 @@ C------IRTL(NSN)--main el number---
           IF (NDOF(NJ)>0.AND.
      .        (.NOT.INTAB(NSN,INTBUF_TAB(N)%NSV(1),NJ))) THEN
            NSS2=NSS2+1
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
              NM=INTBUF_TAB(N)%IRECTM(ID+M)
              IF (NDOF(NM)>0) THEN
-              NKE1=INLOC(NM) 
-              CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NJ) 
-              CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM) 
-             ENDIF 
+              NKE1=INLOC(NM)
+              CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NJ)
+              CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM)
+             ENDIF
            ENDDO
           ENDIF
          ENDDO
@@ -2575,22 +2575,22 @@ C-----with Kij block-(i,j have the same M)-----
              DO M=1,NNOD
               NM=INTBUF_TAB(N)%IRECTM(ID+M)
               IF (NDOF(NM)>0) THEN
-              NKE1=INLOC(NM) 
+              NKE1=INLOC(NM)
               DO J1=1,4
                NM1=INTBUF_TAB(N)%IRECTM(NL1+J1)
                 IF (NM/=NM1.AND.NDOF(NM1)>0) THEN
-                 NKE2=INLOC(NM1) 
-                 CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1) 
-                 CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM) 
+                 NKE2=INLOC(NM1)
+                 CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1)
+                 CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM)
                 ENDIF
               ENDDO
-              ENDIF 
+              ENDIF
              ENDDO
             ENDIF
            ENDIF
          ENDDO
-        ENDIF 
- 20    CONTINUE 
+        ENDIF
+ 20    CONTINUE
       ENDDO
 C------Rbe2------
       NSB2=0
@@ -2598,7 +2598,7 @@ C------Rbe2------
        K=IRBE2(1,N)
        M=IRBE2(3,N)
        NSN =IRBE2(5,N)
-       NKE1=INLOC(M) 
+       NKE1=INLOC(M)
        IC = 7*512+7*64-IRBE2(4,N)
        DO J=1,NSN
         NS=LRBE2(K+J)
@@ -2610,27 +2610,27 @@ C------Rbe2------
           ELSE
            NJ=ICOKM(NK,NKS)
           END IF
-          NKE2=INLOC(NJ) 
+          NKE2=INLOC(NJ)
           IF (NDOF(NJ)>0.AND.NJ/=NS) THEN
             NSB2=NSB2+1
-            CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ) 
+            CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ)
             IF (NKE2>INK) THEN
-               CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),M) 
+               CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),M)
             ELSEIF (NKE2>0) THEN
-               CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),M) 
-            ENDIF         
+               CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),M)
+            ENDIF
           ENDIF
-         ENDDO 
+         ENDDO
          IF (IC>0) THEN
 	      CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NS)
           IF (NKS > INK) THEN
            CALL REORDER_A(NROWI(NKS),ICOK(1,NKS),M)
-          ELSEIF (NKS > 0) THEN		   
+          ELSEIF (NKS > 0) THEN		
            CALL REORDER_A(NROWI(NKS),ICOKM(1,NKS),M)
           END IF
 	     ENDIF
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
       ENDDO
 C------RBE3-------------- 
       NSS3=0
@@ -2644,56 +2644,56 @@ C
          DO M=1,NNOD
           NM=LRBE3(IAD+M)
           IF (NDOF(NM)>0) THEN
-           NKE1=INLOC(NM) 
+           NKE1=INLOC(NM)
            DO J1=M+1,NNOD
             NM1=LRBE3(IAD+J1)
             IF (NKE1>INK.AND.NM/=NM1) THEN
-             CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1) 
+             CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NM1)
 	        ELSEIF (NKE1>0.AND.NM/=NM1) THEN
-             CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NM1) 
+             CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NM1)
 	        ENDIF
-            NKE2=INLOC(NM1) 
+            NKE2=INLOC(NM1)
             IF (NKE2>INK) THEN
-             CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM) 
+             CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM)
 	        ELSEIF (NKE2>0) THEN
-             CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),NM)              
+             CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),NM)
 	        ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
          NKS=INLOC(NS)
          DO NK=1,NROWI(NKS)
 C-----due to change of RBE2- (M used ICOKM now) --
-          IF (NKS > INK) THEN         
+          IF (NKS > INK) THEN
            NJ=ICOK(NK,NKS)
           ELSE
            NJ=ICOKM(NK,NKS)
           END IF
           IF (NDOF(NJ)>0 ) THEN
            NSS3=NSS3+1
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=LRBE3(IAD+M)
              IF (NDOF(NM)>0) THEN
               NKE1=INLOC(NM)
-	       
+	
               IF (NKE1>INK) THEN
-               CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NJ) 
+               CALL REORDER_A(NROWI(NKE1),ICOK(1,NKE1),NJ)
 	          ELSEIF (NKE1>0) THEN
-               CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ) 
+               CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ)
 	          ENDIF
-	      
+	
               IF (NKE2>INK) THEN
-               CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM) 
+               CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),NM)
               ELSEIF (NKE2>0) THEN
-               CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),NM) 
-              ENDIF 
-	              
-             ENDIF 
+               CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),NM)
+              ENDIF
+	
+             ENDIF
            ENDDO
           ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
 C+++couplage entre int2----
       NMIJ2=0
@@ -2706,33 +2706,33 @@ C
        M=NPBY(1,N)
        NSN  =NPBY(2,N)
        IF (NDOF(M)>0) THEN
-        NKE1=INLOC(M) 
+        NKE1=INLOC(M)
        DO J=1,NSN
         NS=LPBY(K+J)
         IF (NDOF(NS)>0) THEN
          NKS=INLOC(NS)
          DO NK=1,NROWI(NKS)
-          IF (NKS > INK) THEN         
+          IF (NKS > INK) THEN
            NJ=ICOK(NK,NKS)
           ELSE
            NJ=ICOKM(NK,NKS)
           END IF
-          NKE2=INLOC(NJ) 
+          NKE2=INLOC(NJ)
           IF (NDOF(NJ)>0.AND.
      .         (.NOT.INTAB(NSN,LPBY(K+1),NJ))) THEN
             NSS=NSS+1
-           CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ) 
+           CALL REORDER_A(NROWI(NKE1),ICOKM(1,NKE1),NJ)
            IF (NKE2>INK) THEN
-            CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),M) 
+            CALL REORDER_A(NROWI(NKE2),ICOK(1,NKE2),M)
            ELSEIF (NKE2>0) THEN
-            CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),M) 
-           ENDIF         
+            CALL REORDER_A(NROWI(NKE2),ICOKM(1,NKE2),M)
+           ENDIF
           ENDIF
-         ENDDO 
+         ENDDO
 C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
          DO N1=J+1,NSN
            NJ=LPBY(K+N1)
-          IF (NKS > INK) THEN         
+          IF (NKS > INK) THEN
            IF (NDOF(NJ)>0.AND.
      .         (INTAB(NROWI(NKS),ICOK(1,NKS),NJ))) THEN
              NSIJ=NSIJ+2
@@ -2744,9 +2744,9 @@ C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
            ENDIF
           END IF
          ENDDO
-        ENDIF 
-       ENDDO 
-       ENDIF 
+        ENDIF
+       ENDDO
+       ENDIF
       ENDDO
 C+++couplage entre rigid bodies----
       NMIJ=0
@@ -2757,7 +2757,7 @@ C+++couplage entre rigid bodies----
         M  =NPBY(1,N)
         NS=NPBY(2,N)
         IF (NDOF(M)>0) THEN
-         NKE1=INLOC(M) 
+         NKE1=INLOC(M)
         DO J1=J+1,NRBYAC
          N1=IRBYAC(J1)
          L1=IRBYAC(J1+NRBYKIN)
@@ -2768,8 +2768,8 @@ C+++couplage entre rigid bodies----
             ID = I+L1
             NI=LPBY(ID)
             IF (NDOF(NI)>0) THEN
-             NKS=INLOC(NI) 
-             IF (NKS > INK) THEN         
+             NKS=INLOC(NI)
+             IF (NKS > INK) THEN
               IF (INTAB(NROWI(NKS),ICOK(1,NKS),M)) THEN
 C------cherche-secnd pairs----
               DO N1=1,NS
@@ -2777,8 +2777,8 @@ C------cherche-secnd pairs----
                IF (NDOF(N2)>0.AND.
      .             INTAB(NROWI(NKS),ICOK(1,NKS),N2)) THEN
                 NMIJ=NMIJ+2
-               ENDIF 
-              ENDDO 
+               ENDIF
+              ENDDO
               ENDIF
              ELSE
               IF (INTAB(NROWI(NKS),ICOKM(1,NKS),M)) THEN
@@ -2788,8 +2788,8 @@ C------cherche-secnd pairs----
                IF (NDOF(N2)>0.AND.
      .             INTAB(NROWI(NKS),ICOKM(1,NKS),N2)) THEN
                 NMIJ=NMIJ+2
-               ENDIF 
-              ENDDO 
+               ENDIF
+              ENDDO
               ENDIF
              END IF
             ENDIF
@@ -2851,7 +2851,7 @@ C-----------------------------------------------
      .        NSC2(*),ISIJ2(*),NSS2(*),ISS2(*),IPARI(NPARI,*),
      .        NMC,IMIJ(*),ICOK(NNMAX,*),ICOKM(NKMAX,*),NROWK(*),
      .        NMC2,IMIJ2(*),IRBE2(NRBE2L,*),LRBE2(*),ISB2(*),NSRB2(*)
-      INTEGER 
+      INTEGER
      .   NDOF(*),NKINE,INLOC(*),INK,IRBE3(NRBE3L,*),LRBE3(*),ISS3(*)
 
       TYPE(INTBUF_STRUCT_) INTBUF_TAB(*)
@@ -2866,7 +2866,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C------ICOK,ICOKM use the same NROWK------
       INTEGER NKE,NKE1,NKE2,IK,NKM1,IAD
-      INTEGER 
+      INTEGER
      .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,
      .        JI,K10,K11,K12,K13,K14,KFI,NS,NNOD,NM,L1,NL1,NM1,
      .        JI1,L10,L11,L12,L13,L14,NNOD1,I1,NSN1,M1,K1,IC
@@ -2904,14 +2904,14 @@ C------IRTL(NSN)--main el number---
          DO M=1,NNOD
           NM=INTBUF_TAB(N)%IRECTM(NL+M)
           IF (NDOF(NM)>0) THEN
-           NKE1=INLOC(NM) 
+           NKE1=INLOC(NM)
            DO J1=1,NNOD
             NM1=INTBUF_TAB(N)%IRECTM(NL+J1)
-           IF (NM/=NM1) CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1) 
+           IF (NM/=NM1) CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1)
            ENDDO
-          ENDIF  
+          ENDIF
          ENDDO
-         NKE=INLOC(NI) 
+         NKE=INLOC(NI)
          DO N1=1,NROWK(NKE)
           NJ=ICOK(N1,NKE)
           IF (NDOF(NJ)>0.AND.
@@ -2919,16 +2919,16 @@ C------IRTL(NSN)--main el number---
            J1=NS+NSS2(ID)+1
            ISS2(J1)=NJ
            NSS2(ID)=NSS2(ID)+1
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=INTBUF_TAB(N)%IRECTM(NL+M)
             IF (NDOF(NM)>0) THEN
-             NKE1=INLOC(NM) 
-             CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
-             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
-            ENDIF 
+             NKE1=INLOC(NM)
+             CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ)
+             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM)
+            ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
          NS=NS+NSS2(ID)
 C-----with Kij block-(i,j secnd)-----
@@ -2946,16 +2946,16 @@ C-----with Kij block-(i,j secnd)-----
              DO M=1,NNOD
               NM=INTBUF_TAB(N)%IRECTM(NL+M)
               IF (NDOF(NM)>0) THEN
-               NKE1=INLOC(NM) 
+               NKE1=INLOC(NM)
                DO J1=1,4
                 NM1=INTBUF_TAB(N)%IRECTM(NL1+J1)
                 IF (NM/=NM1.AND.NDOF(NM1)>0) THEN
-                 NKE2=INLOC(NM1) 
-                 CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1) 
-                 CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
+                 NKE2=INLOC(NM1)
+                 CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1)
+                 CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM)
                 ENDIF
                ENDDO
-              ENDIF 
+              ENDIF
              ENDDO
             ENDIF
            ENDIF
@@ -2973,39 +2973,39 @@ C-----RBE2------
        K1=IRBE2(1,N)
        M =IRBE2(3,N)
        NSN=IRBE2(5,N)
-        NKE1=INLOC(M) 
+        NKE1=INLOC(M)
         NS = 0
        IC = 7*512+7*64-IRBE2(4,N)
         DO I=1,NSN
          NI=LRBE2(I+K1)
          NSRB2(I+K1)=0
          IF (NDOF(NI)>0) THEN
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROWK(NKE)
            IF (NKE <= INK) THEN
             NJ=ICOK(N1,NKE)
            ELSE
             NJ=ICOKM(N1,NKE-INK)
            END IF
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            IF (NDOF(NJ)>0.AND.NJ/=NI) THEN
-            CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ) 
+            CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ)
             IF (NKE2<=INK) THEN
-             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M)
             ELSEIF (NKE2>0) THEN
-             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M)
             ENDIF
             K=K+1
              NSRB2(I+K1)=NSRB2(I+K1)+1
              ISB2(K)=NJ
              NS=NS+1
-           ENDIF 
-          ENDDO 
+           ENDIF
+          ENDDO
           IF (IC>0) THEN
 	       CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NI)
            IF (NKE <= INK) THEN
             CALL REORDER_A(NROWK(NKE),ICOK(1,NKE),M)
-           ELSEIF (NKE > 0) THEN		   
+           ELSEIF (NKE > 0) THEN		
             CALL REORDER_A(NROWK(NKE),ICOKM(1,NKE-INK),M)
            END IF
 	      ENDIF
@@ -3025,51 +3025,51 @@ C------------RBE3-----
          DO M=1,NNOD
           NM=LRBE3(IAD+M)
           IF (NDOF(NM)>0) THEN
-           NKE1=INLOC(NM) 
+           NKE1=INLOC(NM)
            DO J1=1,NNOD
             NM1=LRBE3(IAD+J1)
             IF (NKE1<=INK.AND.NM/=NM1) THEN
-             CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1) 
+             CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1)
             ELSEIF (NM/=NM1) THEN
-             CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NM1) 
+             CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NM1)
             ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-         NKE=INLOC(NI) 
+         NKE=INLOC(NI)
          DO N1=1,NROWK(NKE)
-          IF (NKE <= INK) THEN         
+          IF (NKE <= INK) THEN
            NJ=ICOK(N1,NKE)
           ELSE
            NJ=ICOKM(N1,NKE-INK)
           END IF
           IF (NDOF(NJ)>0.AND.NI/=NJ) THEN
            NS=NS+1
-           K = K + 1   
+           K = K + 1
            ISS3(K)=NJ
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=LRBE3(IAD+M)
             IF (NDOF(NM)>0) THEN
              NKE1=INLOC(NM)
-	      
+	
              IF (NKE1<=INK) THEN
-              CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
+              CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ)
 	         ELSE
-              CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ) 
+              CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ)
 	         ENDIF
-	     
+	
              IF (NKE2<=INK) THEN
-              CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
+              CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM)
 	         ELSE
-              CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),NM) 
+              CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),NM)
 	         ENDIF
-	     
-            ENDIF 
+	
+            ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
         IRBE3(8,I) = NS
       ENDDO
 C-----active rigid body main nodes------
@@ -3083,39 +3083,39 @@ C-----active rigid body main nodes------
        NSN  =NPBY(2,N)
        NSC(J)=0
        IF (NDOF(M)>0) THEN
-        NKE1=INLOC(M) 
-        NKM1=NKE1-INK 
+        NKE1=INLOC(M)
+        NKM1=NKE1-INK
         DO I=1,NSN
          ID = I+K
          NI=LPBY(I+K1)
          NSS(ID)=0
          IF (NDOF(NI)>0) THEN
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROWK(NKE)
-           IF (NKE <= INK) THEN         
+           IF (NKE <= INK) THEN
             NJ=ICOK(N1,NKE)
            ELSE
             NJ=ICOKM(N1,NKE-INK)
            END IF
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            IF (NDOF(NJ)>0.AND.
      .         (.NOT.INTAB(NSN,LPBY(K1+1),NJ))) THEN
-            CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKM1),NJ) 
+            CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKM1),NJ)
            IF (NKE2<=INK) THEN
-             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M)
              J1=NS+NSS(ID)+1
              ISS(J1)=NJ
              NSS(ID)=NSS(ID)+1
             ELSE
-             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M)
             ENDIF
-           ENDIF 
-          ENDDO 
+           ENDIF
+          ENDDO
           NS=NS+NSS(ID)
 C-----create rigid body secnd nodes with Kij block-(i,j have the same M)-----
           DO N1=I+1,NSN
            NJ=LPBY(K1+N1)
-           IF (NKE <= INK) THEN         
+           IF (NKE <= INK) THEN
             IF (NDOF(NJ)>0.AND.
      .         (INTAB(NROWK(NKE),ICOK(1,NKE),NJ))) THEN
              NSC(J)=NSC(J)+1
@@ -3149,8 +3149,8 @@ C+++couplage entre rigid bodies----
         NS=NPBY(2,N)
 C
         IF (NDOF(M)>0) THEN
-         NKE1=INLOC(M) 
-         NKM1=NKE1-INK 
+         NKE1=INLOC(M)
+         NKM1=NKE1-INK
         DO J1=J+1,NRBYAC
          N1=IRBYAC(J1)
          L1=IRBYAC(J1+NRBYKIN)
@@ -3162,8 +3162,8 @@ C
             ID = I+L1
             NI=LPBY(ID)
             IF (NDOF(NI)>0) THEN
-             NKE=INLOC(NI) 
-             IF (NKE <= INK) THEN         
+             NKE=INLOC(NI)
+             IF (NKE <= INK) THEN
               IF (INTAB(NROWK(NKE),ICOK(1,NKE),M)) THEN
               NJ=0
 C------cherche-secnd pairs----
@@ -3178,8 +3178,8 @@ C------cherche-secnd pairs----
                 IMIJ(ID+1)=NM
                 ISIJ(NK+ID)=NI
                 ISIJ(NK+ID-1)=NJ
-               ENDIF 
-              ENDDO 
+               ENDIF
+              ENDDO
               ENDIF
              ELSE
               IF (INTAB(NROWK(NKE),ICOKM(1,NKE-INK),M)) THEN
@@ -3196,10 +3196,10 @@ C------cherche-secnd pairs----
                 IMIJ(ID+1)=NM
                 ISIJ(NK+ID)=NI
                 ISIJ(NK+ID-1)=NJ
-               ENDIF 
-              ENDDO 
+               ENDIF
+              ENDDO
               ENDIF
-             END IF !(NKE <= INK) THEN         
+             END IF !(NKE <= INK) THEN
             ENDIF
            ENDDO
            END IF !IF (INTAB(NROWK(NKE1)
@@ -3237,7 +3237,7 @@ Chd|====================================================================
      2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    INTBUF_TAB,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
+     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,
      6    NSI2      ,NSRB      ,ELBUF     ,NKINE     ,INLOC     ,
      7    NROW      ,NNMAX     ,NKMAX     ,NSS       ,NSIJ      ,
      8    NMIJ      ,NSS2      ,NSIJ2     ,NMIJ2     ,FR_ELEM   ,
@@ -3246,7 +3246,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD    
+      USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -3272,7 +3272,7 @@ C-----------------------------------------------
       INTEGER NPBY(NNPBY,*),LPBY(*),ITAB(*),NRBYAC,IRBYAC(*)
       INTEGER NINT2,IINT2(*),IPARI(NPARI,*),NSI2,NSRB
       INTEGER FR_ELEM(*),IAD_ELEM(2,*),SH4TREE(*),SH3TREE(*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),NDOF(*),NROW(*),NNMAX,NKINE,
@@ -3318,7 +3318,7 @@ C----- pass for IND_GLOB_K, including RBE2 main
          CALL KIN_NRMAX(
      1    NNMAX     ,NNMAX     ,NROWI     ,ICOK      ,ICOK      ,
      2    INLOC     ,NUMNOD    ,FR_ELEM   ,IAD_ELEM  )
-      ENDIF 
+      ENDIF
       DO N =1,NUMNOD
        NK=INLOC(N)
        IF (NK > 0) NROW(N) = MAX(NROW(N),NROWI(NK))
@@ -3327,7 +3327,7 @@ c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
       CALL DIM_KINE_S(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NINT2     ,IINT2     ,IPARI     ,INTBUF_TAB,NDOF      ,
-     3    NNMAX     ,NROW      ,NROWI     ,NKINE     ,INLOC     , 
+     3    NNMAX     ,NROW      ,NROWI     ,NKINE     ,INLOC     ,
      4    ICOK      ,IRBE3     ,LRBE3     ,IRBE2     ,LRBE2     )
       IF (NKINE0>0) THEN
        DEALLOCATE(ICOK)
@@ -3342,7 +3342,7 @@ C
         NNMAX=MAX(NNMAX,NROW(N))
        ELSEIF (NK>0) THEN
         NKMAX=MAX(NKMAX,NROW(N))
-       ENDIF 
+       ENDIF
       ENDDO
 C----for some special case (hierarchy kinematic RBE2/RBE3),NKMAX is underestimated 
         IF (NSPMD>1)CALL SPMD_MAX_I(NNMAX)
@@ -3371,7 +3371,7 @@ c
          CALL KIN_NRMAX0(
      1    NNMAX     ,NKMAX     ,NROWI     ,ICOK(L2)  ,ICOK(L1)  ,
      2    INLOC     ,LNK       ,FR_ELEM   ,IAD_ELEM  )
-      ENDIF 
+      ENDIF
 c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
       CALL DIM_KINE_T(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
@@ -3388,7 +3388,7 @@ c-----3. calcul NNMAX,NKMAX and creating INLOC,NKINE;
         NNMAX=MAX(NNMAX,NROWI(NK))
        ELSEIF (NK>0) THEN
         NKMAX=MAX(NKMAX,NROWI(NK))
-       ENDIF 
+       ENDIF
       ENDDO
       DO N =1,NUMNOD
        NK=INLOC(N)
@@ -3430,7 +3430,7 @@ Chd|====================================================================
      2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
+     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,
      6    IDDL      ,NDDL      ,NNZK      ,ELBUF     ,INLOC     ,
      7    LSIZE     ,FR_ELEM   ,IAD_ELEM  ,FR_I2M    ,IAD_I2M   ,
      8    NPRW      ,NMONV     ,IMONV     ,MONVOL    ,IGRSURF   ,
@@ -3441,7 +3441,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
       USE GROUPDEF_MOD
 C----6---------------------------------------------------------------7---------8
@@ -3461,7 +3461,7 @@ C-----------------------------------------------
 #include      "scr05_c.inc"
 #include      "impl1_c.inc"
 #include      "scr17_c.inc"
-#include      "task_c.inc" 
+#include      "task_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -3472,7 +3472,7 @@ C-----------------------------------------------
       INTEGER NMONV,IMONV(*),MONVOL(*),
      .        FR_MV(NSPMD+2,NVOLU),NPRW(*),FR_RBE3M(*),IAD_RBE3M(*)
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*),IFRAME(LISKN,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),IDDL(*),NDOF(*),IRBE3(*),LRBE3(*),
@@ -3529,7 +3529,7 @@ C+++ not allowing imposed rotations on solid element..---
       IF (IMACH==3.AND.NSPMD>1) THEN
        NNMAX=IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
        IF (NNMAX>0) CALL SPMD_NDOF(NDOF,FR_ELEM,IAD_ELEM,NNMAX)
-      ENDIF 
+      ENDIF
       CALL MONV_PREM(
      1    NMONV     ,IMONV     ,MONVOL    ,IGRSURF   ,
      2    FR_MV     ,INLOC     ,NPBY      ,LPBY      ,NRBYAC    ,
@@ -3550,7 +3550,7 @@ c-----raffine NNMAX;
        IAD_M(1)=1
        DO IP =1,NSPMD
         IAD_M(IP+1)=M+1
-       ENDDO 
+       ENDDO
 C
        CALL DIM_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -3559,23 +3559,23 @@ C
      4    NKINE0    ,INLOC     ,FR_ELEM   ,IAD_ELEM  ,NPP       ,
      5    IGEO      ,FR_M      ,IAD_M     ,ELBUF_TAB )
        DEALLOCATE(FR_M)
-      ENDIF 
+      ENDIF
       CALL DIM_ELEMAX(
      1    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      2    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
      3    IXS16     ,IXUR      ,IPARG     ,ELBUF     ,NDOF      ,
      4    IDDL      ,INLOC     ,NNMAX     ,NKINE0    ,NNSIZ     ,
      5    IGEO      ,ELBUF_TAB )
-      IF (IMACH==3.AND.NSPMD>1) THEN 
+      IF (IMACH==3.AND.NSPMD>1) THEN
          CALL DIM_NRMAX(IDDL    ,FR_ELEM   ,IAD_ELEM ,NNMAX  )
-      ENDIF 
+      ENDIF
 C
       CALL DIM_KINMAX(
      1    IGEO      ,NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,
      2    SENSOR    ,IRBYAC    ,NINT2     ,IINT2     ,IPARI     ,
      3    INTBUF_TAB,IXS       ,IXQ       ,IXC       ,IXT       ,
      4    IXP       ,IXR       ,IXTG      ,IXTG1     ,IXS10     ,
-     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,     
+     5    IXS20     ,IXS16     ,IXUR      ,IPARG     ,NDOF      ,
      6    NSI2      ,NSRB      ,ELBUF     ,NKINE     ,INLOC     ,
      7    IDDL      ,NNMAX     ,NKMAX     ,NSS       ,NSIJ      ,
      8    NMIJ      ,NSS2      ,NSIJ2     ,NMIJ2     ,FR_ELEM   ,
@@ -3603,8 +3603,8 @@ C-------termes kn,nj-------
 c           NNZK = NNZK+NDOFJ*IDDL(N)
           ENDDO
          ENDDO
-        ENDDO 
-      ENDDO 
+        ENDDO
+      ENDDO
       NNZK = NNZK/2+1
        NPN=0
        NPP=0
@@ -3674,16 +3674,16 @@ C---------set INLOC; pour kine. nodes---
           INLOC(K)=N
          ENDIF
         ENDDO
-       ENDIF 
-      ENDIF 
+       ENDIF
+      ENDIF
 c-----4. calcul IDDL,;
       NDDL =0
       DO J=1,NUMNOD
        N=INLOC(J)
        IDDL(N)=NDDL
-       NDOFI = NDOF(N) 
+       NDOFI = NDOF(N)
        IF (NDOFI>0) NDDL = NDDL + NDOFI
-      ENDDO 
+      ENDDO
 c-----dimensions divers;
       LSIZE(1)=NSRB
       LSIZE(2)=NSI2
@@ -3713,7 +3713,7 @@ Chd|        IND_INT_K                     source/implicit/ind_glob_k.F
 Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE SET_IND_K(
-     1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NDDL      ,     
+     1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NDDL      ,
      2    NNZK      ,NROW      ,ICOL      ,N         ,IKPAT     )
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -3728,7 +3728,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IDDL(*),NDOF(*),IADK(*),JDIK(*),
      .   NDDL ,NNZK,NROW ,ICOL(*),N,IKPAT
 C-----------------------------------------------
@@ -3768,7 +3768,7 @@ C-------termes knj,n-------
            ENDIF
            NDDL = NDDL +1
            IADK(NDDL) = NNZK+1
-          ENDDO 
+          ENDDO
 C
       RETURN
       END
@@ -3804,7 +3804,7 @@ Chd|====================================================================
      4    NSS2      ,ISS2      ,IPARG     ,ELBUF     ,ELBUF_TAB ,
      5    IXS       ,IXQ       ,IXC       ,IXT       ,IXP       ,
      6    IXR       ,IXTG      ,IXTG1     ,IXS10     ,IXS20     ,
-     7    IXS16     ,IXUR      ,IDDL      ,NDOF      ,IADK      ,     
+     7    IXS16     ,IXUR      ,IDDL      ,NDOF      ,IADK      ,
      8    JDIK      ,NDDL      ,NNZK      ,NNMAX     ,NKINE     ,
      9    INLOC     ,NKMAX     ,NROWK     ,ICOK      ,ICOKM     ,
      A    NMC2      ,IMIJ2     ,IRK       ,NPN       ,NPP       ,
@@ -3814,7 +3814,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD   
+      USE ELBUFDEF_MOD
       USE INTBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -3841,7 +3841,7 @@ C-----------------------------------------------
      .        NSC2(*),ISIJ2(*),NSS2(*),ISS2(*),IPARI(NPARI,*),
      .        NMC,IMIJ(*),ICOK(NNMAX,*),ICOKM(NKMAX,*),NROWK(*)
       INTEGER IPM(NPROPMI,*),IGEO(NPROPGI,*)
-      INTEGER 
+      INTEGER
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),IXUR(*),IXS10(6,*),IXS20(12,*),
      .   IXS16(8,*),IXTG1(4,*),IDDL(*),NDOF(*),IADK(*),JDIK(*),
@@ -3881,7 +3881,7 @@ C-----IRK=0, calcul des tableux kinematiques est dispense-----
       IF (NSPMD>1) THEN
        DO N = 1 , NUMNOD
          ILOC(N)=0
-       ENDDO 
+       ENDDO
        N_FR = IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1)
         M = IAD_I2M(NSPMD+1)-IAD_I2M(1)+
      .      IAD_RBE3M(NSPMD+1)-IAD_RBE3M(1)
@@ -3890,7 +3890,7 @@ C-----IRK=0, calcul des tableux kinematiques est dispense-----
        IAD_M(1)=1
        DO IP =1,NSPMD
         IAD_M(IP+1)=M+1
-       ENDDO 
+       ENDDO
        IF (NKINE>0) THEN
 C-------cree ILOC()------
         INK=NKINE-LCOKM
@@ -3899,7 +3899,7 @@ c        INK=NKINE-NRBYAC
         IF (IRK == 1) THEN
          DO NK =1,NKINE
           NROWK(NK)=0
-         ENDDO 
+         ENDDO
          CALL DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -3922,9 +3922,9 @@ C
      1    NROWK     ,ICOK      ,ICOKM     ,NNMAX     ,NKMAX     ,
      2    NKINE     ,INK       ,IKPAT     ,IDDL      )
 C 
-        ENDIF 
+        ENDIF
         CALL ZERO_IKIN2G(NKINE,ILOC)
-       ENDIF 
+       ENDIF
        CALL INI_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -3952,7 +3952,7 @@ C
      3    IXS10     ,IXS20     ,IXS16     ,IXUR      ,NROW      ,
      4    ILOC      ,NNMAX     ,ICOL      ,IGEO      ,ELBUF_TAB )
         CALL IND_NRFR(
-     1    NFT       ,JLT       ,NPN       ,NPP       ,NNMAX     ,     
+     1    NFT       ,JLT       ,NPN       ,NPP       ,NNMAX     ,
      2    NROW      ,ICOL      ,FR_ELEM   ,IAD_ELEM  ,N_FR      ,
      3    ICOKFR    )
         DO NK=1,JLT
@@ -3970,23 +3970,23 @@ C
             IF (K>INK) THEN
              NJ=K-INK
              CALL SET_IND_K(
-     1       IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1       IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2       LENK      ,NROWK(K)  ,ICOKM(1,NJ),J        ,IKPAT     )
             ELSEIF (K>0) THEN
              CALL SET_IND_K(
-     1       IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1       IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2       LENK      ,NROWK(K)  ,ICOK(1,K) ,J        ,IKPAT     )
             ELSE
              IF (IKPAT==0) THEN
               CALL REORDER_J(NROW(NK),ICOL(1,NK),J,IDDL)
              ELSE
               CALL REORDER_L(NROW(NK),ICOL(1,NK),J,IDDL)
-             ENDIF 
+             ENDIF
              CALL SET_IND_K(
-     1       IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1       IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2       LENK      ,NROW(NK)  ,ICOL(1,NK),J         ,IKPAT     )
-            ENDIF 
-           ENDIF 
+            ENDIF
+           ENDIF
           ENDDO
          CALL ZERO_IKIN2G(NKINE,ILOC)
         ELSE
@@ -3997,9 +3997,9 @@ C
            CALL REORDER_J(NROW(NK),ICOL(1,NK),J,IDDL)
            IF (NDOF(J)>0) THEN
             CALL SET_IND_K(
-     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2     LENK      ,NROW(NK)  ,ICOL(1,NK),J         ,IKPAT     )
-           ENDIF 
+           ENDIF
           ENDDO
          ELSE
           DO NK=1,JLT
@@ -4008,13 +4008,13 @@ C
            CALL REORDER_L(NROW(NK),ICOL(1,NK),J,IDDL)
            IF (NDOF(J)>0) THEN
             CALL SET_IND_K(
-     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2     LENK      ,NROW(NK)  ,ICOL(1,NK),J         ,IKPAT     )
-           ENDIF 
+           ENDIF
           ENDDO
          ENDIF
-        ENDIF 
-       ENDDO 
+        ENDIF
+       ENDDO
 C   
        CALL IND_FR_K(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
@@ -4030,11 +4030,11 @@ C
        DEALLOCATE(ICOKFR)
 C   
        GOTO 100
-      ENDIF 
+      ENDIF
 C----------mono-domaine-------------
       DO N = 1 , NUMNOD
        ILOC(N)=0
-      ENDDO 
+      ENDDO
       LENK = 0
       NL = 1
       IADK(NL) = 1
@@ -4061,9 +4061,9 @@ C
          IF (NDOF(J)>0) THEN
           CALL REORDER_J(NROW(NK),ICOL(1,NK),J,IDDL)
           CALL SET_IND_K(
-     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2     LENK      ,NROW(NK)  ,ICOL(1,NK),J         ,IKPAT     )
-         ENDIF 
+         ENDIF
         ENDDO
        ELSE
         DO NK=1,JLT
@@ -4072,9 +4072,9 @@ C
          IF (NDOF(J)>0) THEN
           CALL REORDER_L(NROW(NK),ICOL(1,NK),J,IDDL)
           CALL SET_IND_K(
-     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2     LENK      ,NROW(NK)  ,ICOL(1,NK),J         ,IKPAT     )
-         ENDIF 
+         ENDIF
         ENDDO
        ENDIF
        DO NK=1,JLT
@@ -4082,9 +4082,9 @@ C
         K=INLOC(N)
         ILOC(K)=0
        ENDDO
-      ENDDO 
+      ENDDO
 c-----2. if irk=1 create nrow,icol for all kine. nodes using INLOC()=-INLOC()
-c        modifies nrow,icol . 
+c        modifies nrow,icol .
       IF (NKINE==0) GOTO 100
       NFT=NUMNOD-NKINE
       JLT=NKINE
@@ -4094,11 +4094,11 @@ C      INK=NKINE-NRBYAC
        N=NK+NFT
        K=INLOC(N)
        ILOC(K)=NK
-      ENDDO 
+      ENDDO
       IF (IRK == 1) THEN
        DO NK =1,JLT
         NROWK(NK)=0
-       ENDDO 
+       ENDDO
        CALL DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -4125,7 +4125,7 @@ C
          ELSE
           CALL REORDER_J(NROWK(NK),ICOK(1,NK),J,IDDL)
          ENDIF
-        ENDDO 
+        ENDDO
        ELSE
         DO NK =1,JLT
          N=NK+NFT
@@ -4136,18 +4136,18 @@ C
          ELSEIF (NNMAX>0) THEN
           CALL REORDER_L(NROWK(NK),ICOK(1,NK),J,IDDL)
          ENDIF
-        ENDDO 
-       ENDIF 
-      ENDIF 
+        ENDDO
+       ENDIF
+      ENDIF
 C---main nodes of rbodies at last----
       DO NK=1,INK
         N=NK+NFT
         J=INLOC(N)
         IF (NDOF(J)>0) THEN
           CALL SET_IND_K(
-     1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2    LENK      ,NROWK(NK) ,ICOK(1,NK),J         ,IKPAT     )
-        ENDIF 
+        ENDIF
       ENDDO
       DO NK=1+INK,JLT
         N=NK+NFT
@@ -4155,12 +4155,12 @@ C---main nodes of rbodies at last----
         IF (NDOF(J)>0) THEN
          NJ=NK-INK
          CALL SET_IND_K(
-     1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1    IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2    LENK      ,NROWK(NK),ICOKM(1,NJ),J         ,IKPAT     )
-        ENDIF 
+        ENDIF
       ENDDO
 C--------IKPAT=2, rigid body main first----------
-      ELSE 
+      ELSE
        IF (NKINE>0) THEN
         NFT=0
         JLT=NKINE
@@ -4170,16 +4170,16 @@ C        INK=NKINE-NRBYAC
          N=NK+NFT
          K=INLOC(N)
          ILOC(K)=NK+INK
-        ENDDO 
+        ENDDO
         DO NK =1+LCOKM,JLT
          N=NK+NFT
          K=INLOC(N)
          ILOC(K)=NK-LCOKM
-        ENDDO 
+        ENDDO
         IF (IRK == 1) THEN
          DO NK =1,JLT
           NROWK(NK)=0
-         ENDDO 
+         ENDDO
         CALL DIM_ELEMS4(
      1    ELBUF     ,IPARG     ,IXS       ,IXQ       ,IXC       ,
      2    IXT       ,IXP       ,IXR       ,IXTG      ,IXTG1     ,
@@ -4205,8 +4205,8 @@ C
           ELSEIF( NKMAX>0) THEN
            CALL REORDER_L(NROWK(NK+INK),ICOKM(1,NK),J,IDDL)
           ENDIF
-         ENDDO 
-        ENDIF 
+         ENDDO
+        ENDIF
 C---main nodes of rbodies first----
         DO NK=1,LCOKM
           N=NK+NFT
@@ -4214,9 +4214,9 @@ C---main nodes of rbodies first----
           ILOC(J)=0
           IF (NDOF(J)>0) THEN
            CALL SET_IND_K(
-     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2     LENK      ,NROWK(NK+INK) ,ICOKM(1,NK),J    ,IKPAT     )
-          ENDIF 
+          ENDIF
         ENDDO
         DO NK=LCOKM+1,JLT
           N=NK+NFT
@@ -4225,9 +4225,9 @@ C---main nodes of rbodies first----
           IF (NDOF(J)>0) THEN
            NJ=NK-LCOKM
            CALL SET_IND_K(
-     1      IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1      IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2      LENK      ,NROWK(NJ) ,ICOK(1,NJ),J         ,IKPAT     )
-          ENDIF 
+          ENDIF
         ENDDO
        ENDIF
        DO NFT = NKINE , NUMNOD-1 , NNSIZ
@@ -4249,19 +4249,19 @@ C---main nodes of rbodies first----
          CALL REORDER_L(NROW(NK),ICOL(1,NK),J,IDDL)
          IF (NDOF(J)>0) THEN
           CALL SET_IND_K(
-     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,     
+     1     IDDL      ,NDOF      ,IADK      ,JDIK      ,NL        ,
      2     LENK      ,NROW(NK)  ,ICOL(1,NK),J         ,IKPAT     )
-         ENDIF 
+         ENDIF
         ENDDO
         DO NK=1,JLT
          N=NK+NFT
          K=INLOC(N)
          ILOC(K)=0
         ENDDO
-       ENDDO 
-      ENDIF 
+       ENDDO
+      ENDIF
  100  IADK(NDDL+1) = LENK+1
-        IF (LENK>NNZK.OR.NL/=(NDDL+1)) 
+        IF (LENK>NNZK.OR.NL/=(NDDL+1))
      .    WRITE(*,*)'--MEMERY PROBLEM 2--:',LENK,NL,NNZK,NDDL+1
 C---remet positive----
       NNZK = LENK
@@ -4609,7 +4609,7 @@ C----6---------------------------------------------------------------7---------8
          INTAB=.TRUE.
          RETURN
         ENDIF
-       ENDDO 
+       ENDDO
 C
       RETURN
       END
@@ -4664,7 +4664,7 @@ C-----------------------------------------------
       INTEGER NIN,NTY,NUM_IMP,NSN,NMN,NRTS,ILEV,NOINT
       INTEGER I,J,K,L,NDOFI,N,IAD,IERR,STAT,NIMP(NINTER)
       my_real
-     .  STARTT,STOPT 
+     .  STARTT,STOPT
 C-----------------------------------------------
 C------interface -------------- 
       NNMAX=0
@@ -4686,7 +4686,7 @@ C----------deleted int NTY->0
      .         .AND. NTY/=11 .AND. NTY/=24) THEN
        STARTT=INTBUF_TAB(NIN)%VARIABLES(3)
        STOPT =INTBUF_TAB(NIN)%VARIABLES(11)
-       IF(STARTT<TSTOP) 
+       IF(STARTT<TSTOP)
      .   CALL ANCMSG(MSGID=232,ANMODE=ANINFO,I1=NTY )
 	   END IF
 C-----as int5 uses only ISPMD=0	; some values are not initialized w/ ISPMD/=0   
@@ -4719,10 +4719,10 @@ C
        ENDIF
       ENDDO
 C-----------Allocate INTBUF_TAB_CP for implicit
-      ALLOCATE (INTBUF_TAB_CP(NINTER), STAT=Stat) 
+      ALLOCATE (INTBUF_TAB_CP(NINTER), STAT=Stat)
       CALL INTBUF_TAB_C_INI(INTBUF_TAB, INTBUF_TAB_CP)
 C-----------Allocate IMP_INTBUF_TAB for implicit
-      ALLOCATE (INTBUF_TAB_IMP(NINTER), STAT=Stat) 
+      ALLOCATE (INTBUF_TAB_IMP(NINTER), STAT=Stat)
       CALL IMP_INTBUF_INI(INTBUF_TAB_IMP, NIMP)
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -4753,7 +4753,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE IMP_INTBUF
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -4776,7 +4776,7 @@ C-----------------------------------------------
      .        NS_IMP(*),NE_IMP(*),ILOCI(*),NDOF(*)
       INTEGER NPBY(NNPBY,*),LPBY(*),ITAB(*),NRBYAC,IRBYAC(*),
      .        LNSS,NINT2,IINT2(*),IAINT2(*),LNSS2,NSREM
-      INTEGER 
+      INTEGER
      .   NDDL,IDDL(*) ,NNZK,N_IMPN,N_IMPM,NNMAX  ,NKMAX
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),LNSS3,IRBE2(NRBE2L,*),LRBE2(*),
      .        LNSB2,LNSRB2,IND_SUBT(*)
@@ -4894,8 +4894,8 @@ C-------termes kn,nj-------
            NNZK = NNZK+1
           ENDDO
          ENDDO
-        ENDDO 
-       ENDIF 
+        ENDDO
+       ENDIF
       ENDDO
       NNZK = NNZK/2+1
 c      write(*,*)'int NNMAX,NKMAX,N_IMP=',NNMAX,NKMAX,N_IMP
@@ -4962,7 +4962,7 @@ C-----------------------------------------------
      .        NS_IMP(*),NE_IMP(*) ,NDOF(*),IAINT2(*),LRB,LI2
       INTEGER NPBY(NNPBY,*),LPBY(*),ITAB(*),NRBYAC,IRBYAC(*),
      .        NSS(*),ISS(*),NINT2,IINT2(*),NSS2(*),ISS2(*)
-      INTEGER 
+      INTEGER
      .   IDDL(*),IADI(*),JDII(*),IDDLI(*),ITOK(*),
      .   ILOCI(*),NDDLI ,NNZI,NNMAX,N_IMPN,N_IMPM,NKMAX
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),NSS3(*),ISS3(*),
@@ -5019,7 +5019,7 @@ C
      .                NKMAX ,NSN     )
         IAD=IAD+NUM_IMP(NIN)
        ENDIF
-      ENDDO 
+      ENDDO
 C      IAD=1
       DO NIN=1,NINTER
        NTY   =IPARI(7,NIN)
@@ -5058,7 +5058,7 @@ C
      .                 NRTS    )
         IAD=IAD+NUM_IMP(NIN)
        ENDIF
-      ENDDO 
+      ENDDO
        CALL IND_KINE_I(
      1    NPBY      ,LPBY      ,ITAB      ,NRBYAC    ,IRBYAC    ,
      2    NSS       ,ISS       ,NINT2     ,IINT2     ,IPARI     ,
@@ -5070,24 +5070,24 @@ C
       IF (IKP==0) THEN
        DO I =1,N_IMPN
         N=ILOC(I)
-        CALL REORDER_J(NROW(I),ICOL(1,I),N,IDDLI) 
+        CALL REORDER_J(NROW(I),ICOL(1,I),N,IDDLI)
        ENDDO
        DO I =N_IMPN+1,N_IMPT
         N=ILOC(I)
         NJ=I-N_IMPN
-        CALL REORDER_J(NROW(I),ICOK(1,NJ),N,IDDLI) 
+        CALL REORDER_J(NROW(I),ICOK(1,NJ),N,IDDLI)
        ENDDO
       ELSE
        DO I =1,N_IMPN
         N=ILOC(I)
-        CALL REORDER_L(NROW(I),ICOL(1,I),N,IDDLI) 
+        CALL REORDER_L(NROW(I),ICOL(1,I),N,IDDLI)
        ENDDO
        DO I =N_IMPN+1,N_IMPT
         N=ILOC(I)
         NJ=I-N_IMPN
-        CALL REORDER_L(NROW(I),ICOK(1,NJ),N,IDDLI) 
+        CALL REORDER_L(NROW(I),ICOK(1,NJ),N,IDDLI)
        ENDDO
-      ENDIF 
+      ENDIF
 C-----revinir ndof---
       DO I =1,N_IMPN
        NDOF1(I)=MAX(3,NDOF1(I))
@@ -5105,23 +5105,23 @@ C-----revinir ndof---
         DO K=1,NDOF1(I)
          ND = ND + 1
          ITOK(ND)=IDDL(N)+K
-        ENDDO 
+        ENDDO
         CALL SET_IND_K(
-     1     IDDLI     ,ILOCI     ,IADI      ,JDII      ,NL        ,     
+     1     IDDLI     ,ILOCI     ,IADI      ,JDII      ,NL        ,
      2     LENK      ,NROW(I)  ,ICOL(1,I)  ,N         ,IKP       )
-      ENDDO 
+      ENDDO
       DO I =N_IMPN+1,N_IMPT
         N=ILOC(I)
         NJ=I-N_IMPN
         DO K=1,NDOF1(I)
          ND = ND + 1
          ITOK(ND)=IDDL(N)+K
-        ENDDO 
+        ENDDO
         CALL SET_IND_K(
-     1     IDDLI     ,ILOCI     ,IADI      ,JDII      ,NL        ,     
+     1     IDDLI     ,ILOCI     ,IADI      ,JDII      ,NL        ,
      2     LENK      ,NROW(I)  ,ICOK(1,NJ) ,N         ,IKP       )
-      ENDDO 
-        IF (LENK>NNZI.OR.NL/=(NDDLI+1)) 
+      ENDDO
+        IF (LENK>NNZI.OR.NL/=(NDDLI+1))
      .        WRITE(*,*)'--MEMERY PROBLEM 5-- :',LENK,NNZI,NL,NDDLI+1
       NNZI = LENK
 C----6---------------------------------------------------------------7---------8
@@ -5169,7 +5169,7 @@ C-----------------------------------------------
        N=LOCI(I)
        IDDL(N)=NDDL
        NDDL = NDDL + NDOF(N)
-      ENDDO 
+      ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
       END
@@ -5217,7 +5217,7 @@ C--------secnd node-----
         NROW(N1)=NROW(N1)+3
        ELSE
         NSREM=NSREM+1
-       ENDIF 
+       ENDIF
         NE=NE_IMP(I)
         DO J=1,3
          N=IRECT(J,NE)
@@ -5286,16 +5286,16 @@ C--------secnd node-----
          DO J=1,3
           N=IRECT(J,NE)
           N2=ILOC(N)
-          CALL REORDER_A(NROW(N1),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(N1),ICOL(1,NI),N)
           CALL REORDER_A(NROW(N),ICOL(1,N2),N1)
          ENDDO
          IF (IRECT(3,NE)/=IRECT(4,NE)) THEN
           N=IRECT(4,NE)
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(N1),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(N1),ICOL(1,NI),N)
           CALL REORDER_A(NROW(N),ICOL(1,N2),N1)
          ENDIF
-       ENDIF 
+       ENDIF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -5347,7 +5347,7 @@ C--------secnd node-----
          DO J=1,3
           N=IRECT(J,NE)
           N2=ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(NI),ICOL(1,NI),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5358,7 +5358,7 @@ C--------secnd node-----
          IF (IRECT(3,NE)/=IRECT(4,NE)) THEN
           N=IRECT(4,NE)
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(NI),ICOL(1,NI),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5371,7 +5371,7 @@ C--------secnd node-----
          DO J=1,3
           N=IRECT(J,NE)
           N2=ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N) 
+          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5382,7 +5382,7 @@ C--------secnd node-----
          IF (IRECT(3,NE)/=IRECT(4,NE)) THEN
           N=IRECT(4,NE)
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N) 
+          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5390,8 +5390,8 @@ C--------secnd node-----
            CALL REORDER_A(NROW(N2),ICOK(1,NM),N1)
           ENDIF
          ENDIF
-        ENDIF 
-       END IF 
+        ENDIF
+       END IF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -5504,13 +5504,13 @@ C--------secnd node-----
          DO J=1,3
           N=MSR(IRECT(J,NE))
           N2=ILOC(N)
-          CALL REORDER_A(NROW(N1),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(N1),ICOL(1,NI),N)
           CALL REORDER_A(NROW(N),ICOL(1,N2),N1)
          ENDDO
          IF (IRECT(3,NE)/=IRECT(4,NE)) THEN
           N=MSR(IRECT(4,NE))
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(N1),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(N1),ICOL(1,NI),N)
           CALL REORDER_A(NROW(N),ICOL(1,N2),N1)
          ENDIF
        ENDDO
@@ -5563,7 +5563,7 @@ C--------secnd node-----
          DO J=1,3
           N=MSR(IRECT(J,NE))
           N2=ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(NI),ICOL(1,NI),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5574,7 +5574,7 @@ C--------secnd node-----
          IF (IRECT(3,NE)/=IRECT(4,NE)) THEN
           N=MSR(IRECT(4,NE))
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(NI),ICOL(1,NI),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5587,7 +5587,7 @@ C--------secnd node-----
          DO J=1,3
           N=MSR(IRECT(J,NE))
           N2=ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N) 
+          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5598,7 +5598,7 @@ C--------secnd node-----
          IF (IRECT(3,NE)/=IRECT(4,NE)) THEN
           N=MSR(IRECT(4,NE))
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N) 
+          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5606,7 +5606,7 @@ C--------secnd node-----
            CALL REORDER_A(NROW(N2),ICOK(1,NM),N1)
           ENDIF
          ENDIF
-        ENDIF 
+        ENDIF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -5637,7 +5637,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT,NS_IMP(*),NE_IMP(*),IRECT(4,*),NSV(*),NROW(*),
-     .        ILOC(*),NDOFI,N_IMPN,NSN,NSREM,SUBTRIA(*),NVOISIN(8,*)     
+     .        ILOC(*),NDOFI,N_IMPN,NSN,NSREM,SUBTRIA(*),NVOISIN(8,*)
 C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -5657,7 +5657,7 @@ C--------secnd node-----
 C
        ELSE
         NSREM=NSREM+1
-       ENDIF 
+       ENDIF
         NE=NE_IMP(I)
         IF (NE<0) THEN
          NEI=-NE
@@ -5680,7 +5680,7 @@ C
           ILOC(N)=N_IMPN
          ENDIF
          NROW(N)=NROW(N)+1
- 
+
          IF (IG<=NSN) NROW(N1)=NROW(N1)+1
         ENDIF
        ENDDO
@@ -5740,16 +5740,16 @@ C--------secnd node-----
          DO J=1,3
           N=IRTLM(J)
           N2=ILOC(N)
-          CALL REORDER_A(NROW(N1),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(N1),ICOL(1,NI),N)
           CALL REORDER_A(NROW(N),ICOL(1,N2),N1)
          ENDDO
          IF (IRTLM(3)/=IRTLM(4)) THEN
           N=IRTLM(4)
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(N1),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(N1),ICOL(1,NI),N)
           CALL REORDER_A(NROW(N),ICOL(1,N2),N1)
          ENDIF
-       ENDIF 
+       ENDIF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -5809,7 +5809,7 @@ C--------secnd node-----
          DO J=1,3
           N=IRTLM(J)
           N2=ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(NI),ICOL(1,NI),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5820,7 +5820,7 @@ C--------secnd node-----
          IF (IRTLM(3)/=IRTLM(4)) THEN
           N=IRTLM(4)
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOL(1,NI),N) 
+          CALL REORDER_A(NROW(NI),ICOL(1,NI),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5833,7 +5833,7 @@ C--------secnd node-----
          DO J=1,3
           N=IRTLM(J)
           N2=ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N) 
+          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5844,7 +5844,7 @@ C--------secnd node-----
          IF (IRTLM(3)/=IRTLM(4)) THEN
           N=IRTLM(4)
           N2 =ILOC(N)
-          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N) 
+          CALL REORDER_A(NROW(NI),ICOK(1,NIM),N)
           IF (N2<=N_IMPN) THEN
            CALL REORDER_A(NROW(N2),ICOL(1,N2),N1)
           ELSE
@@ -5852,8 +5852,8 @@ C--------secnd node-----
            CALL REORDER_A(NROW(N2),ICOK(1,NM),N1)
           ENDIF
          ENDIF
-        ENDIF 
-       END IF 
+        ENDIF
+       END IF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -5923,7 +5923,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER IAD,NTY,NIN,KD(50),NKE,NKE2
       INTEGER IA(NRBYAC),NROW1(NUMNOD)
-      INTEGER 
+      INTEGER
      .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,
      .        JI,K10,K11,K12,K13,K14,KFI,NS,NNOD,NM,L1,NL1,NM1,
      .        NRTS,NKINE0,NMAX,NKE1,M1,IC
@@ -5934,7 +5934,7 @@ C-----------------------------------------------
 C
       DO I=1,NUMNOD
        NROW1(I) = 0
-      ENDDO 
+      ENDDO
 C
       IAD=1
       DO NIN=1,NINTER
@@ -5949,7 +5949,7 @@ C
      .                NKINE ,INLOC   ,ICOK     ,NNMAX   ,NSN     )
         IAD=IAD+NUM_IMP(NIN)
        ENDIF
-      ENDDO 
+      ENDDO
       DO NIN=1,NINTER
        NTY   =IPARI(7,NIN)
        NSN   =IPARI(5,NIN)
@@ -5984,7 +5984,7 @@ C
      .                 INLOC   ,ICOK     ,NNMAX   ,NRTS    )
         IAD=IAD+NUM_IMP(NIN)
        ENDIF
-      ENDDO 
+      ENDDO
       K=0
       LNSS2=0
       DO J=1,NINT2
@@ -6009,7 +6009,7 @@ C------IRTL(NSN)--main el number---
          IAINT2(J)=1
          L=INTBUF_TAB(N)%IRTLM(I)
          NL=4*(L-1)
-         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN 
+         IF (INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4)) THEN
           NNOD=3
          ELSE
           NNOD=4
@@ -6020,29 +6020,29 @@ C------IRTL(NSN)--main el number---
           IF (INLOC(NM)==0) THEN
             NKINE=NKINE+1
             INLOC(NM)=NKINE
-            NROW1(NM)=NROW1(NM)+ NNOD + NNOD 
-          ENDIF 
+            NROW1(NM)=NROW1(NM)+ NNOD + NNOD
+          ENDIF
          ENDDO
          NKE=INLOC(NI)
          DO N1=1,NROW(NI)
           NJ=ICOK(N1,NKE)
           IF (INLOC(NJ)>0 ) THEN
            LNSS2=LNSS2+1
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=INTBUF_TAB(N)%IRECTM(NL+M)
             IF (INLOC(NM)>0) THEN
-             NROW1(NM)=NROW1(NM)+1 
-             IF (NKE2>0) NROW1(NJ)=NROW1(NJ)+1 
+             NROW1(NM)=NROW1(NM)+1
+             IF (NKE2>0) NROW1(NJ)=NROW1(NJ)+1
             ELSE
              NKINE=NKINE+1
              INLOC(NM)=NKINE
-             NROW1(NM)=1 
-            ENDIF 
+             NROW1(NM)=1
+            ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
        ENDDO
        K=K+NSN
       ENDDO
@@ -6058,10 +6058,10 @@ C-----RBE2------
         DO I=1,NSN
          NI=LRBE2(I+K)
          IF (INLOC(NI)>0) THEN
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROW(NI)
            NJ=ICOK(N1,NKE)
-           IF (INLOC(NJ)>0.AND.NJ/=NI) NROW1(NJ)=NROW1(NJ)+1+NHRBE2 
+           IF (INLOC(NJ)>0.AND.NJ/=NI) NROW1(NJ)=NROW1(NJ)+1+NHRBE2
            LNSB2= LNSB2+1
           ENDDO
 	      IF (INLOC(M)==0) THEN
@@ -6092,7 +6092,7 @@ C------------RBE3-------------
           IF (INLOC(NM)==0) THEN
             NKINE=NKINE+1
             INLOC(NM)=NKINE
-            NROW1(NM)=NROW1(NM)+ NNOD  
+            NROW1(NM)=NROW1(NM)+ NNOD
           ENDIF
          ENDDO
          NKE=INLOC(NI)
@@ -6100,15 +6100,15 @@ C------------RBE3-------------
           NJ=ICOK(N1,NKE)
           IF (INLOC(NJ)>0.AND.
      .         (.NOT.INTAB(NNOD,LRBE3(IAD+1),NJ))) THEN
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=LRBE3(IAD+M)
-            NROW1(NM)=NROW1(NM)+1 
-            IF (NKE2>0) NROW1(NJ)=NROW1(NJ)+1 
+            NROW1(NM)=NROW1(NM)+1
+            IF (NKE2>0) NROW1(NJ)=NROW1(NJ)+1
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
 C--------------------
       IF (NKINE>NKINE0) THEN
@@ -6123,7 +6123,7 @@ C--------------------
          ENDDO
         ENDIF
         NROW1(I) = 0
-       ENDDO 
+       ENDDO
        DEALLOCATE(ICOK)
        ALLOCATE(ICOK(NMAX,NKINE))
        DO I=1,NUMNOD
@@ -6133,7 +6133,7 @@ C--------------------
           ICOK(J,NKE) = ICOK1(J,NKE)
          ENDDO
         ENDIF
-       ENDDO 
+       ENDDO
        DEALLOCATE(ICOK1)
        LNSS2=0
        DO J=1,NINT2
@@ -6156,42 +6156,42 @@ C------IRTL(NSN)--main el number---
           IF (INLOC(NI)>0) THEN
            L=INTBUF_TAB(N)%IRTLM(I)
            NL=4*(L-1)
-           IF(INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4))THEN 
+           IF(INTBUF_TAB(N)%IRECTM(NL+3)==INTBUF_TAB(N)%IRECTM(NL+4))THEN
             NNOD=3
            ELSE
             NNOD=4
            ENDIF
            DO M=1,NNOD
             NM=INTBUF_TAB(N)%IRECTM(NL+M)
-            NKE1=INLOC(NM) 
+            NKE1=INLOC(NM)
              DO M1=M+1,NNOD
                NM1=INTBUF_TAB(N)%IRECTM(NL+M1)
-               NKE2=INLOC(NM1) 
-               CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NM1) 
+               NKE2=INLOC(NM1)
+               CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NM1)
                CALL REORDER_A(NROW(NM1),ICOK(1,NKE2),NM)
              ENDDO
-           ENDDO 
-           NKE=INLOC(NI) 
+           ENDDO
+           NKE=INLOC(NI)
            DO N1=1,NROW(NI)
             NJ=ICOK(N1,NKE)
             IF (INLOC(NJ)>0) THEN
              LNSS2=LNSS2+1
-             NKE2=INLOC(NJ) 
+             NKE2=INLOC(NJ)
              DO M=1,NNOD
               NM=INTBUF_TAB(N)%IRECTM(NL+M)
               IF (INLOC(NM)>0) THEN
-               NKE1=INLOC(NM) 
-               CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NJ) 
-               CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),NM) 
-              ENDIF 
+               NKE1=INLOC(NM)
+               CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NJ)
+               CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),NM)
+              ENDIF
              ENDDO
-            ENDIF 
+            ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
         ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
 C-----RBE2------
       DO J=1,NRBE2
        K=IRBE2(1,J)
@@ -6199,23 +6199,23 @@ C-----RBE2------
        IF (INLOC(M)==0) CYCLE
        NSN =IRBE2(5,J)
        IC = 7*512+7*64-IRBE2(4,J)
-       NKE1=INLOC(M) 
+       NKE1=INLOC(M)
         DO I=1,NSN
          NI=LRBE2(I+K)
          IF (INLOC(NI)>0) THEN
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROW(NI)
            NJ=ICOK(N1,NKE)
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
 C------------case hierarchy w/ RBE3----           
            IF (NKE2>0.AND.NJ/=NI) THEN
-            CALL REORDER_A(NROW(M),ICOK(1,NKE1),NJ) 
-            CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),M) 
+            CALL REORDER_A(NROW(M),ICOK(1,NKE1),NJ)
+            CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),M)
            END IF
           ENDDO
 	      IF (IC>0) THEN
 	       CALL REORDER_A(NROW(M),ICOK(1,NKE1),NI)
-           CALL REORDER_A(NROW(NI),ICOK(1,NKE),M) 
+           CALL REORDER_A(NROW(NI),ICOK(1,NKE),M)
 	      END IF
          ENDIF
         ENDDO
@@ -6228,32 +6228,32 @@ C------------RBE3-------------
         IF (NI==0.OR.NDOFI(NI)==0) CYCLE
         NNOD = IRBE3(5,N)
         IF (INLOC(NI)>0) THEN
-           NKE1=INLOC(NM) 
+           NKE1=INLOC(NM)
            DO M=1,NNOD
              NM=LRBE3(IAD+M)
              DO M1=M+1,NNOD
               NM1=LRBE3(IAD+M1)
-               NKE2=INLOC(NM1) 
-               CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NM1) 
+               NKE2=INLOC(NM1)
+               CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NM1)
                CALL REORDER_A(NROW(NM1),ICOK(1,NKE2),NM)
              ENDDO
-           ENDDO 
+           ENDDO
          NKE=INLOC(NI)
          DO N1=1,NROW(NI)
           NJ=ICOK(N1,NKE)
           IF (INLOC(NJ)>0.AND.
      .         (.NOT.INTAB(NNOD,LRBE3(IAD+1),NJ))) THEN
            LNSS3=LNSS3+1
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=LRBE3(IAD+M)
-            NKE1=INLOC(NM) 
-            CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NJ) 
-            CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),NM) 
+            NKE1=INLOC(NM)
+            CALL REORDER_A(NROW(NM),ICOK(1,NKE1),NJ)
+            CALL REORDER_A(NROW(NJ),ICOK(1,NKE2),NM)
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
-        ENDIF 
+        ENDIF
       ENDDO
 C-----active rigid body main nodes------
       LNSS= 0
@@ -6270,12 +6270,12 @@ C
          NI=LPBY(ID)
          IF (INLOC(NI)>0) THEN
           IA(J)=1
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROW(NI)
            NJ=ICOK(N1,NKE)
-           IF (INLOC(NJ)>0) NROW1(NJ)=NROW1(NJ)+1 
+           IF (INLOC(NJ)>0) NROW1(NJ)=NROW1(NJ)+1
            LNSS= LNSS+1
-          ENDDO 
+          ENDDO
          ENDIF
         ENDDO
       ENDDO
@@ -6288,7 +6288,7 @@ C-----main nodes traitement spec.------
          NKINE=NKINE-1
          DO I=1,NUMNOD
           IF (INLOC(I)>INLOC(M)) INLOC(I)=INLOC(I)-1
-         ENDDO         
+         ENDDO
         ENDIF
        ENDIF
       ENDDO
@@ -6311,7 +6311,7 @@ C
          ID = I+K
          NI=LPBY(ID)
          IF (INLOC(NI)>0) THEN
-          NROW(M)=NROW(M)+NROW(NI) 
+          NROW(M)=NROW(M)+NROW(NI)
          ENDIF
         ENDDO
        ENDIF
@@ -6365,7 +6365,7 @@ C-----------------------------------------------
      .        NSS(*),ISS(*),NINT2,IINT2(*),
      .        NSS2(*),ISS2(*),IPARI(NPARI,*),NDOF(*),NDOF1(*),
      .        ICOK(NNMAX,*),ICOKM(NKMAX,*),NROWK(*)
-      INTEGER 
+      INTEGER
      .   INLOC(*),INK,IAINT2(*)
       INTEGER IRBE3(NRBE3L,*),LRBE3(*),NSS3(*),ISS3(*),
      .        IRBE2(NRBE2L,*),LRBE2(*),NSB2(*),ISB2(*)
@@ -6382,7 +6382,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
 C------ICOK,ICOKM use the same NROWK------
       INTEGER NKE,NKE1,NKE2,IK,NKM1,IAD
-      INTEGER 
+      INTEGER
      .        I,J,K,N,L,NL,NJ,NI,J1,M,NSN,N1,N2,NK,ID,K1,M1,
      .        JI,K10,K11,K12,K13,K14,KFI,NS,NNOD,NM,L1,NL1,NM1,IC
 c----------------------
@@ -6417,16 +6417,16 @@ C------IRTL(NSN)--main el number---
          ENDIF
          DO M=1,NNOD
           NM=INTBUF_TAB(N)%IRECTM(NL+M)
-          NKE1=INLOC(NM) 
+          NKE1=INLOC(NM)
           NDOF1(NKE1)=NDOF(NM)
              DO M1=M+1,NNOD
                NM1=INTBUF_TAB(N)%IRECTM(NL+M1)
-               NKM1=INLOC(NM1) 
-               CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1) 
-               CALL REORDER_A(NROWK(NKM1),ICOK(1,NKM1),NM) 
+               NKM1=INLOC(NM1)
+               CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1)
+               CALL REORDER_A(NROWK(NKM1),ICOK(1,NKM1),NM)
              ENDDO
-         ENDDO 
-         NKE=INLOC(NI) 
+         ENDDO
+         NKE=INLOC(NI)
          DO N1=1,NROWK(NKE)
           NJ=ICOK(N1,NKE)
           IF (INLOC(NJ)>0.AND.
@@ -6435,16 +6435,16 @@ C------IRTL(NSN)--main el number---
            J1=NS+NSS2(ID)+1
            ISS2(J1)=NJ
            NSS2(ID)=NSS2(ID)+1
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=INTBUF_TAB(N)%IRECTM(NL+M)
             IF (INLOC(NM)>0) THEN
-             NKE1=INLOC(NM) 
-             CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
-             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
-            ENDIF 
+             NKE1=INLOC(NM)
+             CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ)
+             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM)
+            ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
          NS=NS+NSS2(ID)
        ENDIF
@@ -6460,24 +6460,24 @@ C-----RBE2------
        NSN  =IRBE2(5,N)
        IC = 7*512+7*64-IRBE2(4,N)
        IF (INLOC(M)>0) THEN
-        NKE1=INLOC(M) 
+        NKE1=INLOC(M)
         NDOF1(NKE1)=NDOF(M)
-        NKM1=NKE1 
+        NKM1=NKE1
         DO I=1,NSN
          ID = I+K1
          NI=LRBE2(ID)
          NSB2(ID)=0
          IF (INLOC(NI)>0) THEN
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROWK(NKE)
            NJ=ICOK(N1,NKE)
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            IF (INLOC(NJ)>0.AND.NJ/=NI) THEN
-            CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
+            CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ)
             IF (NKE2<=INK) THEN
-             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M)
             ELSE
-             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M)
             END IF
              K=K+1
              ISB2(K)=NJ
@@ -6486,7 +6486,7 @@ C-----RBE2------
           END DO
 	      IF (IC>0) THEN
 	       CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NI)
-           CALL REORDER_A(NROWK(NKE),ICOK(1,NKE),M) 
+           CALL REORDER_A(NROWK(NKE),ICOK(1,NKE),M)
 	      END IF
          END IF
         END DO
@@ -6503,24 +6503,24 @@ c---------RBE3-------------
         IF (INLOC(NI)>0) THEN
          DO M=1,NNOD
           NM=LRBE3(IAD+M)
-          NKE1=INLOC(NM) 
+          NKE1=INLOC(NM)
           NDOF1(NKE1)=NDOF(NM)
              DO M1=M+1,NNOD
               NM1=LRBE3(IAD+M1)
-               NKM1=INLOC(NM1) 
+               NKM1=INLOC(NM1)
                IF (NKE1<=INK) THEN
-                CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1) 
+                CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NM1)
                ELSE
-                CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NM1) 
+                CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NM1)
                ENDIF
-               
+
                IF (NKM1<=INK) THEN
-                CALL REORDER_A(NROWK(NKM1),ICOK(1,NKM1),NM) 
+                CALL REORDER_A(NROWK(NKM1),ICOK(1,NKM1),NM)
                ELSE
-                CALL REORDER_A(NROWK(NKM1),ICOKM(1,NKM1-INK),NM) 
+                CALL REORDER_A(NROWK(NKM1),ICOKM(1,NKM1-INK),NM)
                ENDIF
              ENDDO
-         ENDDO 
+         ENDDO
          NKE=INLOC(NI)
          DO N1=1,NROWK(NKE)
           IF (NKE<=INK) THEN
@@ -6533,25 +6533,25 @@ c---------RBE3-------------
            NSS3(N)= NSS3(N)+1
            K= K+1
            ISS3(K)=NJ
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            DO M=1,NNOD
             NM=LRBE3(IAD+M)
             IF (INLOC(NM)>0) THEN
-             NKE1=INLOC(NM) 
+             NKE1=INLOC(NM)
              IF (NKE1<=INK) THEN
-              CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ) 
+              CALL REORDER_A(NROWK(NKE1),ICOK(1,NKE1),NJ)
 	         ELSE
-              CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ) 
+              CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKE1-INK),NJ)
 	         ENDIF
-	     
+	
              IF (NKE2<=INK) THEN
-              CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM) 
+              CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),NM)
 	         ELSE
-              CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),NM) 
+              CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),NM)
 	         ENDIF
-            ENDIF 
+            ENDIF
            ENDDO
-          ENDIF 
+          ENDIF
          ENDDO
        ENDIF
       ENDDO
@@ -6564,31 +6564,31 @@ C-----active rigid body main nodes------
        M  =NPBY(1,N)
        NSN  =NPBY(2,N)
        IF (INLOC(M)>0) THEN
-        NKE1=INLOC(M) 
+        NKE1=INLOC(M)
         NDOF1(NKE1)=NDOF(M)
-        NKM1=NKE1-INK 
+        NKM1=NKE1-INK
         DO I=1,NSN
          ID = I+K
          NI=LPBY(I+K1)
          NSS(ID)=0
          IF (INLOC(NI)>0) THEN
-          NKE=INLOC(NI) 
+          NKE=INLOC(NI)
           DO N1=1,NROWK(NKE)
            NJ=ICOK(N1,NKE)
-           NKE2=INLOC(NJ) 
+           NKE2=INLOC(NJ)
            IF (INLOC(NJ)>0.AND.
      .         (.NOT.INTAB(NSN,LPBY(K1+1),NJ))) THEN
-            CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKM1),NJ) 
+            CALL REORDER_A(NROWK(NKE1),ICOKM(1,NKM1),NJ)
             IF (NKE2<=INK) THEN
-             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOK(1,NKE2),M)
              J1=NS+NSS(ID)+1
              ISS(J1)=NJ
              NSS(ID)=NSS(ID)+1
             ELSE
-             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M) 
+             CALL REORDER_A(NROWK(NKE2),ICOKM(1,NKE2-INK),M)
             ENDIF
-           ENDIF 
-          ENDDO 
+           ENDIF
+          ENDDO
           NS=NS+NSS(ID)
          ENDIF
         ENDDO
@@ -6712,16 +6712,16 @@ C--------secnd node-----
         NI=ILOC(N1)
         MI=ILOC(M1)
         MJ=ILOC(M2)
-         CALL REORDER_A(NROW(N1),ICOL(1,NI),M1) 
+         CALL REORDER_A(NROW(N1),ICOL(1,NI),M1)
          CALL REORDER_A(NROW(M1),ICOL(1,MI),N1)
-         CALL REORDER_A(NROW(N1),ICOL(1,NI),M2) 
+         CALL REORDER_A(NROW(N1),ICOL(1,NI),M2)
          CALL REORDER_A(NROW(M2),ICOL(1,MJ),N1)
         NJ=ILOC(N2)
-         CALL REORDER_A(NROW(N2),ICOL(1,NJ),M1) 
+         CALL REORDER_A(NROW(N2),ICOL(1,NJ),M1)
          CALL REORDER_A(NROW(M1),ICOL(1,MI),N2)
-         CALL REORDER_A(NROW(N2),ICOL(1,NJ),M2) 
+         CALL REORDER_A(NROW(N2),ICOL(1,NJ),M2)
          CALL REORDER_A(NROW(M2),ICOL(1,MJ),N2)
-       ENDIF 
+       ENDIF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -6778,7 +6778,7 @@ C--------secnd node-----
      1                ICOK ,NROW  ,NNMAX ,NKMAX )
         CALL ROW_ADDS(N2   ,M2    ,ILOC  ,N_IMPN  ,ICOL   ,
      1                ICOK ,NROW  ,NNMAX ,NKMAX )
-       END IF 
+       END IF
        ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -6855,7 +6855,7 @@ C-----------------------------------------------
 #include      "com01_c.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "scr05_c.inc" 
+#include      "scr05_c.inc"
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -6872,7 +6872,7 @@ C-----------------------------------------------
      .        NRTS,IDEL(NT_IMP),NEW_IAD
 C--------ramener NDOF des secnds remotes-----------------------------------
       IF (IMACH==3.AND.NSPMD>1) THEN
-      ENDIF 
+      ENDIF
 C
       IAD=1
 C      MULTIMP=1
@@ -6908,7 +6908,7 @@ C
 C
         NRTS   =IPARI(3,NIN)
         CALL NDOF_INT11(NUM_IMP(NIN),NS_IMP(IAD),NE_IMP(IAD),
-     .                 INTBUF_TAB(NIN)%IRECTS,INTBUF_TAB(NIN)%IRECTM,NRTS       , 
+     .                 INTBUF_TAB(NIN)%IRECTS,INTBUF_TAB(NIN)%IRECTM,NRTS       ,
      .                 NDOF       ,IDEL(IAD)    )
         IAD=IAD+NUM_IMP(NIN)
        ENDIF
@@ -6928,11 +6928,11 @@ C-------int5 first------
           NE_IMP(NEW_IAD)=NE_IMP(IAD+I)
           IND_IMP(NEW_IAD)=IND_IMP(IAD+I)
           N_IMP = N_IMP + 1
-         ENDIF 
+         ENDIF
         ENDDO
         IAD=IAD+NUM_IMP(NIN)
         NUM_IMP(NIN) = N_IMP
-       END IF 
+       END IF
       ENDDO
       DO NIN=1,NINTER
        N_IMP=0
@@ -6944,11 +6944,11 @@ C-------int5 first------
          NE_IMP(NEW_IAD)=NE_IMP(IAD+I)
          IND_IMP(NEW_IAD)=IND_IMP(IAD+I)
          N_IMP = N_IMP + 1
-        ENDIF 
+        ENDIF
         ENDDO
         IAD=IAD+NUM_IMP(NIN)
         NUM_IMP(NIN) = N_IMP
-       END IF 
+       END IF
       ENDDO
 C----6---------------------------------------------------------------7---------8
       RETURN
@@ -6990,7 +6990,7 @@ C--------secnd node-----
         N1 = NSV(IG)
         IDEL_INT(I) = NDOF(N1)
        ELSE
-       ENDIF 
+       ENDIF
         NE=NE_IMP(I)
         DO J=1,3
          N=IRECT(J,NE)
@@ -7138,7 +7138,7 @@ C----6---------------------------------------------------------------7---------8
         ENDDO
        ENDDO
        L_NZ = L_NZ + NRI
-      ENDDO 
+      ENDDO
 C--------------------------------------------
       RETURN
       END
@@ -7186,9 +7186,9 @@ C----6--------opt. envisager-creer a partir de tableux nodales--,iadm,jdim+upd_(
        DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
-       ENDDO 
+       ENDDO
        IADM(I+1) = L_NZ+1
-      ENDDO 
+      ENDDO
       CALL K_BAND(NDDL,IADM,JDIM,L_MAX)
 C--------------------------------------------
       RETURN
@@ -7295,7 +7295,7 @@ C----6---d'abord---K0:matrice complete(non triang)
          K = IADK0(JD) + ICOL(JD)
          JDIK0(K) = I
          ICOL(JD) = ICOL(JD) + 1
-        ENDDO 
+        ENDDO
       ENDDO
 C
       L_NZ = 0
@@ -7309,7 +7309,7 @@ C
           IF (JDIK0(K)<I) CALL REORDER_A(NRI,ICOL,JDIK0(K))
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
        L_NZ = L_NZ + NRI
       ENDDO
 C
@@ -7333,11 +7333,11 @@ C-----------L->K^2----------
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-        ENDIF 
+        ENDIF
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIL(L_NZ) = ICOL(J)
-        ENDDO 
+        ENDDO
         IADL(I+1) = L_NZ+1
        ENDDO
 c       print *,'nddl,L_NZ,NDMAX=',nddl,L_NZ,NDMAX
@@ -7353,9 +7353,9 @@ C---- ---------*K0------------
            IF (JDIK0(K)<I) CALL REORDER_A(NRI,ICOL,JDIK0(K))
           ENDDO
          ENDDO
-        ENDIF 
+        ENDIF
         L_NZ = L_NZ + NRI
-       ENDDO 
+       ENDDO
        DEALLOCATE(IADL,JDIL)
 C
        CASE (4)
@@ -7375,11 +7375,11 @@ C-----------L->K^2----------
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-        ENDIF 
+        ENDIF
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIL(L_NZ) = ICOL(J)
-        ENDDO 
+        ENDDO
         IADL(I+1) = L_NZ+1
        ENDDO
 C-----------K0-> K^2-complet---------
@@ -7405,7 +7405,7 @@ C-----------K0-> K^2-complet---------
          K = IADK0(JD) + ICOL(JD)
          JDIK0(K) = I
          ICOL(JD) = ICOL(JD) + 1
-        ENDDO 
+        ENDDO
        ENDDO
 C-----------* K^2----------
        L_NZ = 0
@@ -7419,11 +7419,11 @@ C-----------* K^2----------
            IF (JDIK0(K)<I) CALL REORDER_A(NRI,ICOL,JDIK0(K))
           ENDDO
          ENDDO
-        ENDIF 
+        ENDIF
         L_NZ = L_NZ + NRI
-       ENDDO 
+       ENDDO
        DEALLOCATE(IADL,JDIL)
-      END SELECT 
+      END SELECT
       DEALLOCATE(IADK0,JDIK0)
 c      print *,'DIM_NZ,nddl=',L_NZ,nddl
 C--------------------------------------------
@@ -7491,7 +7491,7 @@ C
          K = IADK0(JD) + ICOL(JD)
          JDIK0(K) = I
          ICOL(JD) = ICOL(JD) + 1
-        ENDDO 
+        ENDDO
       ENDDO
 C
       SELECT CASE(NN)
@@ -7503,7 +7503,7 @@ C
        ENDDO
        DO J=IADK(1),IADK(NDF+1)-1
         JDIM(J) = JDIK(J)
-       ENDDO 
+       ENDDO
        L_NZ = IADK(NDF+1)-IADK(1)
 C
        DO I = NDF+1,NDDL
@@ -7518,11 +7518,11 @@ C
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	ENDIF 
+	ENDIF
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
-        ENDDO 
+        ENDDO
         IADM(I+1) = L_NZ+1
        ENDDO
 C
@@ -7534,7 +7534,7 @@ C
        ENDDO
        DO J=IADK(1),IADK(NDF+1)-1
         JDIM(J) = JDIK(J)
-       ENDDO 
+       ENDDO
        L_NZ = IADK(NDF+1)-IADK(1)
 C
        DO I = NDF+1,NDDL
@@ -7549,11 +7549,11 @@ C
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	ENDIF 
+	ENDIF
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
-        ENDDO 
+        ENDDO
         IADM(I+1) = L_NZ+1
        ENDDO
 C
@@ -7573,13 +7573,13 @@ C
            ENDDO
           ENDDO
           IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	 ENDIF 
+	 ENDIF
          DO J=1,NRI
            L_NZ = L_NZ + 1
            JDIM(L_NZ) = ICOL(J)
-         ENDDO 
+         ENDDO
          IADM(I+1) = L_NZ+1
-        ENDDO 
+        ENDDO
         DEALLOCATE(IADL,JDIL)
        CASE (4)
 C
@@ -7597,11 +7597,11 @@ C
           ENDDO
          ENDDO
          IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	ENDIF 
+	ENDIF
         DO J=1,NRI
          L_NZ = L_NZ + 1
          JDIM(L_NZ) = ICOL(J)
-        ENDDO 
+        ENDDO
         IADM(I+1) = L_NZ+1
        ENDDO
         ALLOCATE(IADL(NDDL+1),JDIL(L_NZ))
@@ -7630,7 +7630,7 @@ C-----------K0-> K^2-complet---------
           K = IADK0(JD) + ICOL(JD)
           JDIK0(K) = I
           ICOL(JD) = ICOL(JD) + 1
-         ENDDO 
+         ENDDO
         ENDDO
 C
         IADM(1) = IADK(1)
@@ -7639,7 +7639,7 @@ C
         ENDDO
         DO J=IADK(1),IADK(NDF+1)-1
          JDIM(J) = JDIK(J)
-        ENDDO 
+        ENDDO
         L_NZ = IADK(NDF+1)-IADK(1)
         DO I = NDF+1,NDDL
          NRI = IADL(I+1)-IADL(I)
@@ -7653,15 +7653,15 @@ C
            ENDDO
           ENDDO
           IF (NRI>NR0) CALL REORDER_M(NRI,ICOL)
-	 ENDIF 
+	 ENDIF
          DO J=1,NRI
            L_NZ = L_NZ + 1
            JDIM(L_NZ) = ICOL(J)
-         ENDDO 
+         ENDDO
          IADM(I+1) = L_NZ+1
-        ENDDO 
+        ENDDO
         DEALLOCATE(IADL,JDIL)
-      END SELECT 
+      END SELECT
       DEALLOCATE(IADK0,JDIK0)
       CALL K_BAND(NDDL,IADM,JDIM,L_MAX)
 C--------------------------------------------
@@ -7771,7 +7771,7 @@ C
         IF (IKC(ID+J)==0) THEN
 	 IFIX=IFIX+1
          PRE_FPAT(IDM+IFIX) = 0
-        ENDIF 
+        ENDIF
        ENDDO
       ENDDO
 C--------------------------------------------
@@ -7812,11 +7812,11 @@ C----6---------------------------------------------------------------7---------8
 C
       DO I = 1,NDDL
        K2I(I) = 0
-      ENDDO 
+      ENDDO
       DO I = 1,NDDLI
        J = ITOK(I)
        K2I(J) = I
-      ENDDO 
+      ENDDO
       L_NZ = 0
       DO I = 1,NDDL
        NRI = IADK(I+1)-IADK(I)
@@ -7830,7 +7830,7 @@ C
         ENDDO
        ENDIF
        L_NZ = L_NZ + NRI
-      ENDDO 
+      ENDDO
 C--------------------------------------------
       RETURN
       END
@@ -7863,7 +7863,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER  NDDL,NDDLI,IADK(*),JDIK(*),IADI(*),JDII(*),
-     .         ITOK(*),IADT(*)  ,JDIT(*),NZL 
+     .         ITOK(*),IADT(*)  ,JDIT(*),NZL
       my_real
      .         LT_K(*), LT_I(*), LT_T(*)
 C-----------------------------------------------
@@ -7874,12 +7874,12 @@ C----6---------------------------------------------------------------7---------8
 C
       DO I = 1,NDDL
        K2I(I) = 0
-      ENDDO 
+      ENDDO
       DO I = 1,NDDLI
        J = ITOK(I)
        K2I(J) = I
        IF (IADI(I)==IADI(I+1)) K2I(J) = 0
-      ENDDO 
+      ENDDO
 C
       NZ = 0
       IADT(1) = NZ + 1
@@ -7937,7 +7937,7 @@ C---- end of insert-----
         ENDDO
        ENDIF
        IADT(I+1) = NZ + 1
-      ENDDO 
+      ENDDO
       IF (NZ/=NZL) THEN
          CALL ANCMSG(MSGID=80,ANMODE=ANINFO,
      .               C1='ASSEMBLY')
@@ -7977,7 +7977,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER  NDDLI,IADI(*),JDII(*),ITOK(*),NZI 
+      INTEGER  NDDLI,IADI(*),JDII(*),ITOK(*),NZI
       my_real
      .         LT_I(*)
 C-----------------------------------------------
@@ -7985,7 +7985,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I,J,K,ICOL(NDDLI),L_NZ,NRI,NZ,JD,GI,GJ,IFT
       INTEGER, DIMENSION(:),ALLOCATABLE :: IADK0,JDIK0
-      my_real, 
+      my_real,
      .         DIMENSION(:),ALLOCATABLE ::  LT_K0
 C----6---------------
       L_NZ = 2*(IADI(NDDLI+1)-IADI(1))
@@ -8019,42 +8019,42 @@ C -------------[K0]-locale complete----------
          JDIK0(K) = I
          LT_K0(K) = LT_I(J)
          ICOL(JD) = ICOL(JD) + 1
-        ENDDO 
+        ENDDO
        ENDDO
 C
        NZ = 0
        IADI(1) = NZ + 1
-      IF (IKPAT==0 )THEN      
+      IF (IKPAT==0 )THEN
 C -------------trang_sup----------    
        DO I = 1, NDDLI
         GI = ITOK(I)
         DO J = IADK0(I),IADK0(I+1)-1
          JD = JDIK0(J)
          GJ = ITOK(JD)
-         IF (GJ>GI)THEN      
+         IF (GJ>GI)THEN
           NZ = NZ + 1
           JDII(NZ) = JD
           LT_I(NZ) = LT_K0(J)
-         ENDIF      
+         ENDIF
         ENDDO
         IADI(I+1) = NZ + 1
        ENDDO
-      ELSE      
+      ELSE
 C -------------trang_inf----------    
        DO I = 1, NDDLI
         GI = ITOK(I)
         DO J = IADK0(I),IADK0(I+1)-1
          JD = JDIK0(J)
          GJ = ITOK(JD)
-         IF (GJ<GI)THEN      
+         IF (GJ<GI)THEN
           NZ = NZ + 1
           JDII(NZ) = JD
           LT_I(NZ) = LT_K0(J)
-         ENDIF      
+         ENDIF
         ENDDO
         IADI(I+1) = NZ + 1
        ENDDO
-      ENDIF      
+      ENDIF
       DEALLOCATE(IADK0,JDIK0,LT_K0)
       IF (NZ>L_NZ/2) THEN
         CALL ANCMSG(MSGID=80,ANMODE=ANINFO,
@@ -8066,7 +8066,7 @@ C -------------in order----------
        NZ = IADI(I+1)-IADI(I)
        IFT = IADI(I)
        CALL REORDER_KIJ(NZ,JDII(IFT),LT_I(IFT),ITOK)
-      ENDDO 
+      ENDDO
 C--------------------------------------------
       RETURN
       END

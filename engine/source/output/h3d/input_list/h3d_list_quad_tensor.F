@@ -77,7 +77,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IS  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IT  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%TEXT1  = 'Strain'
-      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  =
      .'Strain tensor is output only if Istrain =1; except laws 14, 15, 19, 24 > 28'
 c-----------------------------------------------
       I = I + 1
@@ -86,7 +86,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IS  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IT  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%TEXT1  = 'Damage'
-      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  =
      .'Cracks (LAW24 only)'
 c-----------------------------------------------
       I = I + 1
@@ -95,7 +95,7 @@ c-----------------------------------------------
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IS  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%IS_IT  = 1
       H3D_KEYWORD_QUAD_TENSOR(I)%TEXT1  = 'Plastic Strain Tensor'
-      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  = 
+      H3D_KEYWORD_QUAD_TENSOR(I)%COMMENT  =
      .'Plastic Strain tensor is output only for law 24'
 c-----------------------------------------------
 

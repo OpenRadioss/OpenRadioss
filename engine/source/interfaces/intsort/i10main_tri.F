@@ -84,7 +84,7 @@ C-----------------------------------------------
 #include      "timeri_c.inc"
       COMMON /I10MAINC/BMINMA,RESULT,NSNR,NSNROLD,I_MEMG
       INTEGER RESULT,NSNR,NSNROLD,I_MEMG
-      my_real 
+      my_real
      .        BMINMA(6)
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -283,7 +283,7 @@ C
       INTBUF_TAB%VARIABLES(8)  = MIN(TZINF,INTBUF_TAB%VARIABLES(8))
 C     TZINF mis a jour a ce niveau
       INTBUF_TAB%VARIABLES(5)  = INTBUF_TAB%VARIABLES(8)-GAP
-      RESULT        = RESULT + ILD           
+      RESULT        = RESULT + ILD
 #include "lockoff.inc"
 C--------------------------------------------------------------
 C--------------------------------------------------------------
@@ -298,7 +298,7 @@ C--------------------------------------------------------------
         ILD  = 0
         MAXBOX = INTBUF_TAB%VARIABLES(9)
         MINBOX = INTBUF_TAB%VARIABLES(12)
-        TZINF  = INTBUF_TAB%VARIABLES(8)         
+        TZINF  = INTBUF_TAB%VARIABLES(8)
         GOTO 50
       ENDIF
 C mise a - de dist temporairement pour reperage dans partie frontiere
@@ -319,7 +319,7 @@ c     2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID)
      2    IPARI(21),NSNR,MULTIMP      ,NTY,IBID,H3D_DATA)
 C sauvegarde des candidats additionnels dans IPARI(24)
         IPARI(24) = NSNR
-        IF (NUM_IMP>0) 
+        IF (NUM_IMP>0)
      .    CALL IMP_RNUMCD(INTBUF_TAB%CAND_N,NIN,NSN,NUM_IMP,IND_IMP )
 
         IF (IMONM > 0) CALL STOPTIME(26,1)

@@ -37,7 +37,7 @@ Chd|====================================================================
      2           TEMPER  ,SSP     ,D1      ,D2      ,D3      ,
      3           D4      ,D5      ,D6      ,RHO0    ,DPDM    ,
      4           EPD     ,IPLA    ,SIGY    ,DEFP    ,DPLA    ,
-     5           EPSP    ,TSTAR   ,TEMPEL  ,NEL     )     
+     5           EPSP    ,TSTAR   ,TEMPEL  ,NEL     )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   PM(NPROPM,*), OFF(MVSIZ), SIG(NEL,6), EPXE(MVSIZ),
-     .   TEMPER(MVSIZ),SSP(MVSIZ), D1(MVSIZ),    D2(MVSIZ), 
-     .   D3(MVSIZ),    D4(MVSIZ),  D5(MVSIZ),    D6(MVSIZ), 
+     .   TEMPER(MVSIZ),SSP(MVSIZ), D1(MVSIZ),    D2(MVSIZ),
+     .   D3(MVSIZ),    D4(MVSIZ),  D5(MVSIZ),    D6(MVSIZ),
      .   RHO0(MVSIZ),  DPDM(MVSIZ),EPD(MVSIZ),   SIGY(MVSIZ),
      .   DEFP(MVSIZ),  DPLA(MVSIZ),TSTAR(MVSIZ), EPSP(MVSIZ),
      .   TEMPEL(MVSIZ)
@@ -73,16 +73,16 @@ C-----------------------------------------------
       INTEGER I, MX
 C     REAL
       my_real
-     .   G(MVSIZ)    ,G1(MVSIZ)   ,G2(MVSIZ)  ,QS(MVSIZ) ,AK(MVSIZ), 
+     .   G(MVSIZ)    ,G1(MVSIZ)   ,G2(MVSIZ)  ,QS(MVSIZ) ,AK(MVSIZ),
      .   QH(MVSIZ)   ,TMELT(MVSIZ),AJ2(MVSIZ) ,DAV(MVSIZ),P(MVSIZ) ,
-     .   EPMX(MVSIZ) ,THETL(MVSIZ),CA(MVSIZ)  ,CB(MVSIZ) ,CC(MVSIZ), 
+     .   EPMX(MVSIZ) ,THETL(MVSIZ),CA(MVSIZ)  ,CB(MVSIZ) ,CC(MVSIZ),
      .   CN(MVSIZ)   ,EPXO(MVSIZ) ,EPDR(MVSIZ),CMX(MVSIZ),SIGMX(MVSIZ),
      .   SCALE(MVSIZ),THETA(MVSIZ), T0(MVSIZ),
      .   CT, CE, CH
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 C--------------------------------------------------------------
 C
-        
+
       DO I=LFT,LLT
         MX =MAT(I)
         G(I)    =PM(22,MX)
@@ -128,7 +128,7 @@ C
         EPD(I)=OFF(I)*MAX(   ABS(D1(I)),   ABS(D2(I)),   ABS(D3(I)),
      .         HALF*ABS(D4(I)),HALF*ABS(D5(I)),HALF*ABS(D6(I)))
 C
-        EPSP(I) = EPD(I)     
+        EPSP(I) = EPD(I)
         AJ2(I)=HALF*(SIG(I,1)**2+SIG(I,2)**2+SIG(I,3)**2)
      .                +SIG(I,4)**2+SIG(I,5)**2+SIG(I,6)**2
         AJ2(I)=SQRT(THREE*AJ2(I))
@@ -209,7 +209,7 @@ C
        SIG(I,4)=SCALE(I)*SIG(I,4)
        SIG(I,5)=SCALE(I)*SIG(I,5)
        SIG(I,6)=SCALE(I)*SIG(I,6)
-       DPLA(I) =(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))      
+       DPLA(I) =(ONE -SCALE(I))*AJ2(I)/(THREE*G(I)+QH(I))
        EPXE(I)=EPXE(I)+ DPLA(I)
        EPXE(I)=EPXE(I)*OFF(I)
       ENDDO
@@ -222,7 +222,7 @@ C
        SIG(I,4)=SCALE(I)*SIG(I,4)
        SIG(I,5)=SCALE(I)*SIG(I,5)
        SIG(I,6)=SCALE(I)*SIG(I,6)
-       DPLA(I) =(ONE -SCALE(I))*AJ2(I)/(THREE*G(I))      
+       DPLA(I) =(ONE -SCALE(I))*AJ2(I)/(THREE*G(I))
        EPXE(I)=EPXE(I)+DPLA(I)
        EPXE(I)=EPXE(I)*OFF(I)
        ENDDO
@@ -248,7 +248,7 @@ C
       DO I=LFT,LLT
        SIGY(I)=AK(I)
        DEFP(I)=EPXE(I)
-      ENDDO 
+      ENDDO
 C
       RETURN
       END

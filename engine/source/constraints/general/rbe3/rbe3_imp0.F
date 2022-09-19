@@ -567,9 +567,9 @@ C
          ENDDO
         ENDIF
         DO K=1,3
-         BD(K)=BD(K)*JT(K) 
-         BD(K+3)=BD(K+3)*JR(K) 
-        ENDDO 
+         BD(K)=BD(K)*JT(K)
+         BD(K+3)=BD(K+3)*JR(K)
+        ENDDO
 C-------Update K(main node)---
         DO J=1,NML
           NJ=IML(J)
@@ -577,16 +577,16 @@ C-------Update K(main node)---
           CALL UPDB_CDI(FDSTNB(1,J),MDSTNB(1,J),BD,BI,IROT)
             DO K=1,3
              ID = IDDL(NJ)+K
-             B(ID)=BI(K) 
-            ENDDO 
+             B(ID)=BI(K)
+            ENDDO
            IF (IROT>0) THEN
             DO K=4,6
              ID = IDDL(NJ)+K
-             B(ID)=BI(K) 
-            ENDDO 
+             B(ID)=BI(K)
+            ENDDO
            ENDIF
-         END IF 
-        ENDDO 
+         END IF
+        ENDDO
 C	
        ELSE
         DO K=1,NDOF(I)

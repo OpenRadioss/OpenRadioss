@@ -108,7 +108,7 @@ C-------------------------------------------------------------------
       KEY0(K)='ARCH'
       LKEY0(K)=4
       KARCH=K
-      K=K+1 
+      K=K+1
 
       KEY0(K)='SPMD'
       LKEY0(K)=4
@@ -154,7 +154,7 @@ C
       LKEY0(K)=6
       KDEFSH=K
       K=K+1
-      
+
       KEY0(K)='ALE'
       LKEY0(K)=3
       KALE=K
@@ -255,7 +255,7 @@ C
       KEY0(K)='SHEL16'
       LKEY0(K)=6
       KSHELL16=K
-      K=K+1  
+      K=K+1
 
       KEY0(K)='QUAD'
       LKEY0(K)=4
@@ -360,7 +360,7 @@ C--------------------------
       KEY0(K)='SUBDOMAIN'
       LKEY0(K)=9
       KSUBDOM=K
-      K=K+1      
+      K=K+1
 
       KEY0(K)='INIVEL'
       LKEY0(K)=6
@@ -425,7 +425,7 @@ C--------------------------
       KEY0(K)='FXBODY'
       LKEY0(K)=6
       KFXBOD=K
-      K=K+1  
+      K=K+1
 
       KEY0(K)='RLINK'
       LKEY0(K)=5
@@ -580,52 +580,52 @@ C--------------------------
       KEY0(K)='ATH'
       LKEY0(K)=3
       KTH1(1)=K
-      K=K+1 
-     
+      K=K+1
+
       KEY0(K)='BTH'
       LKEY0(K)=3
       KTH1(2)=K
-      K=K+1 
-      
+      K=K+1
+
       KEY0(K)='CTH'
       LKEY0(K)=3
       KTH1(3)=K
-      K=K+1 
-      
+      K=K+1
+
       KEY0(K)='DTH'
       LKEY0(K)=3
       KTH1(4)=K
-      K=K+1 
-      
+      K=K+1
+
       KEY0(K)='ETH'
       LKEY0(K)=3
       KTH1(5)=K
-      K=K+1 
-      
+      K=K+1
+
       KEY0(K)='FTH'
       LKEY0(K)=3
       KTH1(6)=K
-      K=K+1 
-      
+      K=K+1
+
       KEY0(K)='GTH'
       LKEY0(K)=3
       KTH1(7)=K
-      K=K+1 
-      
+      K=K+1
+
       KEY0(K)='HTH'
       LKEY0(K)=3
       KTH1(8)=K
-      K=K+1 
-               
+      K=K+1
+
       KEY0(K)='ITH'
       LKEY0(K)=3
       KTH1(9)=K
-      K=K+1 
+      K=K+1
 
       KEY0(K)='PENTA6'
       LKEY0(K)=6
       KPENTA6=K
-      K=K+1  
+      K=K+1
 
       KEY0(K)='EIG'
       LKEY0(K)=3
@@ -640,17 +640,17 @@ C--------------------------
       KEY0(K)='FAIL'
       LKEY0(K)=4
       KFAIL=K
-      K=K+1  
- 
+      K=K+1
+
       KEY0(K)='KEY'
       LKEY0(K)=3
       KKEY = K
-      K=K+1 
+      K=K+1
 
       KEY0(K)='ENCRYPT'
       LKEY0(K)=7
       KKEY_ENCRYPT = K
-      K=K+1 
+      K=K+1
 
       KEY0(K)='IMPLICIT'
       LKEY0(K)=8
@@ -686,7 +686,7 @@ cpas besoin !     KPREPRO= K
       KEY0(K)='CNODE'
       LKEY0(K)=5
       KCNODE=K
-      K=K+1  
+      K=K+1
 C-------------------------------------------------------------------
       KEY0(K)='TRANSF'
       LKEY0(K)=6
@@ -753,7 +753,7 @@ C
       KEY0(K)='PLYXFEM'
       LKEY0(K)=7
       KPLYXFEM=K
-      K=K+1         
+      K=K+1
 C---------------------
       KEY0(K)='AMS'
       LKEY0(K)=3
@@ -763,7 +763,7 @@ C
       KEY0(K)='VISC'
       LKEY0(K)=4
       KVISC=K
-      K=K+1      
+      K=K+1
 C---------------------
       KEY0(K)='RADIATION'
       LKEY0(K)=9
@@ -849,7 +849,7 @@ C---------------------
       KEY0(K)='STACK'
       LKEY0(K)=5
       KSTACK=K
-      K=K+1 
+      K=K+1
 C---------------------  
       KEY0(K)='PLY'
       LKEY0(K)=3
@@ -1046,8 +1046,8 @@ C
      .              I1=ID,C1=KLINE)
       ENDIF
 
-      IREC=IREC+1                                
-      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR  
+      IREC=IREC+1
+      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR
 C
       RETURN
  999  CALL FREERR(0)
@@ -1221,7 +1221,7 @@ C
       DO WHILE(KLINE(I:I)/='/'.AND.I<ncharline)
         I=I+1
       ENDDO
-    
+
       IF(I>ncharline)RETURN
       J2=I-1
       COPT2=KLINE(J1:J2)
@@ -1374,7 +1374,7 @@ C
             IBUF(I-MFLAG)=IGRNOD(IGS)%ENTITY(I)
           ENDIF
         ENDDO
-        IF(MFLAG==1) THEN 
+        IF(MFLAG==1) THEN
           NODGRNR6=NODGRNR6-1
           CALL ANCMSG(MSGID=1624,
      .                MSGTYPE=MSGWARNING,
@@ -1433,7 +1433,7 @@ C
      .              ANMODE=ANINFO,
      .              I1=IGU,
      .              C1='IN NODE GROUP SEARCH')
-        RETURN                  
+        RETURN
       ENDIF
       GRFIND = IG
 C----
@@ -2200,8 +2200,8 @@ C---  read UID
      .              I1=UID,C1=KLINE)
       ENDIF
 C
-      IREC=IREC+1                                        
-      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITLE          
+      IREC=IREC+1
+      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITLE
 C
       RETURN
  999  CALL FREERR(0)
@@ -2361,8 +2361,8 @@ C---  read UID
      .              I1=UID,C1=KLINE)
       ENDIF
 C---  read TITR
-      IREC=IREC+1                                
-      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR  
+      IREC=IREC+1
+      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR
 C---
       RETURN
  999  CALL FREERR(0)
@@ -2457,8 +2457,8 @@ C---  read UID
      .              I1=UID,C1=KLINE)
       ENDIF
 C---  read TITR
-      IREC=IREC+1                                                     
-      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR                       
+      IREC=IREC+1
+      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR
 C
       RETURN
  999  CALL FREERR(0)
@@ -2525,9 +2525,9 @@ C     Read KEY2
      .        KLINE(J1:MIN(JMAX,J1+5))/='STRS_F'  .AND.
      .        KLINE(J1:MIN(JMAX,J1+4))/='THICK'   .AND.
      .        KLINE(J1:MIN(JMAX,J1+7))/='ORTH_LOC'.AND.
-     .        KLINE(J1:MIN(JMAX,J1+5))/='STRESS'  .AND.  
+     .        KLINE(J1:MIN(JMAX,J1+5))/='STRESS'  .AND.
      .        KLINE(J1:MIN(JMAX,J1+9))/='SCALE_YLD'.AND.
-     .        KLINE(J1:MIN(JMAX,J1+4))/='FAIL'    .AND.  
+     .        KLINE(J1:MIN(JMAX,J1+4))/='FAIL'    .AND.
      .        KLINE(J1:MIN(JMAX,J1+4))/='FILL'    .AND.
      .        KLINE(J1:MIN(JMAX,J1+4))/='FULL'    .AND.
      .        KLINE(J1:MIN(JMAX,J1+3))/='DENS'    .AND.
@@ -2540,7 +2540,7 @@ C     Read KEY2
              RETURN
            ENDIF
            RETURN
-          ENDIF  
+          ENDIF
       ENDIF
       IF (KLINE(J1:MIN(JMAX,J1+2))=='AUX') THEN
         J2=J1+3
@@ -2550,10 +2550,10 @@ C     Read KEY2
       ENDIF
       IF (KLINE(J1:MIN(JMAX,J1+5))=='EPSP_F') THEN
         J2=J1+6
-      ENDIF 
+      ENDIF
       IF (KLINE(J1:MIN(JMAX,J1+4))=='ORTHO') THEN
         J2=J1+5
-      ENDIF   
+      ENDIF
       IF (KLINE(J1:MIN(JMAX,J1+8))=='STRA_FGLO') THEN
         J2=J1+6
       ELSEIF (KLINE(J1:MIN(JMAX,J1+5))=='STRA_F') THEN
@@ -2676,7 +2676,7 @@ C---
       RETURN
  999  CALL FREERR(0)
       CALL MY_EXIT(2)
-      END   
+      END
 Chd|====================================================================
 Chd|  FREDEC_2KEY_3ID_T             source/starter/freform.F      
 Chd|-- called by -----------
@@ -2761,13 +2761,13 @@ C---  read VERS
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)VERS
 C---  read TITR  
-      IREC=IREC+1                              
+      IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR
 C---
       RETURN
  999  CALL FREERR(0)
       CALL MY_EXIT(2)
-      END  
+      END
 Chd|====================================================================
 Chd|  FREDEC_2KEY_4ID_T             source/starter/freform.F      
 Chd|-- called by -----------
@@ -2862,8 +2862,8 @@ C---  read SUB_ID
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)SUB_ID
 C---  read TITR
-      IREC=IREC+1                                
-      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR  
+      IREC=IREC+1
+      READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR
 C---
       RETURN
  999  CALL FREERR(0)
@@ -2941,7 +2941,7 @@ C---  read VERS
       MOT1=KLINE(J1:J2)
       READ(MOT1,ERR=999,FMT=FMT_I)VERS
 C---  read TITR
-      IREC=IREC+1                                
+      IREC=IREC+1
       READ(IIN,REC=IREC,ERR=999,FMT='(A)') TITR
 C---
       RETURN

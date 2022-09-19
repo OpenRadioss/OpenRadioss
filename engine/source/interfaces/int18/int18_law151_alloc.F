@@ -31,9 +31,9 @@ Chd|====================================================================
         SUBROUTINE INT18_LAW151_ALLOC(MULTI_FVM,IPARI)
 !$COMMENT
 !       INT18_LAW151_ALLOC description
-!       allocation of array for interface 18 combined 
+!       allocation of array for interface 18 combined
 !       with law151
-!       
+!
 !       INT18_LAW151_ALLOC organization :
 !       - check if /INT18 + /LAW151 is used
 !       - allocate the arrays
@@ -50,7 +50,7 @@ C-----------------------------------------------
 #include      "comlock.inc"
 #include      "com04_c.inc"
 #include      "param_c.inc"
-#include      "task_c.inc" 
+#include      "task_c.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
@@ -80,8 +80,8 @@ C-----------------------------------------------
         IF(MULTI_FVM%IS_USED) THEN
             DO N=1,NINTER
                 NTY   =IPARI(7,N)
-                INACTI = IPARI(22,N)           
-                !   int18 = int7 + inacti=7 (7+7=18) 
+                INACTI = IPARI(22,N)
+                !   int18 = int7 + inacti=7 (7+7=18)
                 IF( (NTY==7).AND.(INACTI ==7)) THEN
                     MULTI_FVM%IS_INT18_LAW151 = .TRUE.
                     MY_SIZE = NUMNOD + NUMELS
@@ -90,13 +90,13 @@ C-----------------------------------------------
                     INT18_LIST(II) = N  !   list of interface int18
                 ENDIF
             ENDDO
-        ENDIF       
-        !   number & list of interface 18 
+        ENDIF
+        !   number & list of interface 18
         MULTI_FVM%NUMBER_INT18 = II
         ALLOCATE( MULTI_FVM%INT18_LIST(MULTI_FVM%NUMBER_INT18) )
         !   allocation of X/V/MASS extended to NUMNOD+NUMELS
         !   1:NUMNOD --> classical x/v/mass
-        !   NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of 
+        !   NUMNOD+1:NUMNOD+NUMELS --> x/v/mass of phantom nodes (located to the center of
         !                              the ALE elements)
         ALLOCATE( MULTI_FVM%X_APPEND(3*MY_SIZE) )
         ALLOCATE( MULTI_FVM%V_APPEND(3*MY_SIZE) )
@@ -104,9 +104,9 @@ C-----------------------------------------------
         ALLOCATE( MULTI_FVM%KINET_APPEND(MY_SIZE) )
         !   allocation of force array : size = NUMELS
         MY_SIZE_2 = MY_SIZE_2 * NTHREAD
-        
+
         IF(IPARIT/=0) THEN
-            MY_SIZE_3 = 0 
+            MY_SIZE_3 = 0
         ELSE
             MY_SIZE_3 = MY_SIZE_2
         ENDIF
@@ -120,10 +120,10 @@ C-----------------------------------------------
         ! --------------------------
         ! allocation of remote array for parith/on
         IF(MULTI_FVM%IS_USED) THEN
-            ALLOCATE( MULTI_FVM%R_AFI(NINTER) )   
+            ALLOCATE( MULTI_FVM%R_AFI(NINTER) )
         ELSE
             ALLOCATE( MULTI_FVM%R_AFI(0) )
-        ENDIF 
+        ENDIF
         ! allocation of local array for parith/on
         IF(IPARIT/=0) THEN
             ALLOCATE( MULTI_FVM%FORCE_INT_PON(3,6,MY_SIZE_2) )

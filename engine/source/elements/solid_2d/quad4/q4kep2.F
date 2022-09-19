@@ -50,15 +50,15 @@ C-----------------------------------------------
       INTEGER ICP
       my_real
      .    PY1(*), PY2(*), PZ1(*), PZ2(*), AY(*), R22(*), R23(*),
-     .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*), 
-     .    K23(2,2,*), K24(2,2,*), K33(2,2,*), K34(2,2,*), K44(2,2,*), 
+     .    K11(2,2,*), K12(2,2,*), K13(2,2,*), K14(2,2,*), K22(2,2,*),
+     .    K23(2,2,*), K24(2,2,*), K33(2,2,*), K34(2,2,*), K44(2,2,*),
      .    HH(2,*), AIR(*), FAC(*), OFF(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, IS
       my_real
-     .    BH(MVSIZ), 
+     .    BH(MVSIZ),
      .    PY3(MVSIZ), PY4(MVSIZ), PZ3(MVSIZ), PZ4(MVSIZ)
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -119,7 +119,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .    PYI(*), PZI(*), PYJ(*), PZJ(*), AY(*), R22(*), R23(*), 
+     .    PYI(*), PZI(*), PYJ(*), PZJ(*), AY(*), R22(*), R23(*),
      .    BH(*), KIJ(2,2,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -143,7 +143,7 @@ C
         ENDDO
         IF (JCVT==0) THEN
           DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + BH(EP)*( 
+            KIJ(1,1,EP) = KIJ(1,1,EP) + BH(EP)*(
      .                  AY(EP)*(PYI(EP)+PYJ(EP)) + AYS(EP) )
             KIJ(1,2,EP) = KIJ(1,2,EP) + BH(EP)*( AY(EP)*PZJ(EP) )
             KIJ(2,1,EP) = KIJ(2,1,EP) + BH(EP)*( PZI(EP)*AY(EP) )
@@ -154,16 +154,16 @@ C          IF (IASY/=0) THEN
 C          ENDIF
         ELSE
           DO EP=LFT,LLT
-            KIJ(1,1,EP) = KIJ(1,1,EP) + BH(EP)*( 
+            KIJ(1,1,EP) = KIJ(1,1,EP) + BH(EP)*(
      .                  AY(EP)*R22(EP)*(PYI(EP)+PYJ(EP)) +
      .                  R22(EP)*R22(EP)*AYS(EP) )
-            KIJ(1,2,EP) = KIJ(1,2,EP) + BH(EP)*( 
+            KIJ(1,2,EP) = KIJ(1,2,EP) + BH(EP)*(
      .                  AY(EP)*(R23(EP)*PYI(EP)+R22(EP)*PZJ(EP)) +
      .                  R22(EP)*R23(EP)*AYS(EP) )
-            KIJ(2,1,EP) = KIJ(2,1,EP) + BH(EP)*( 
+            KIJ(2,1,EP) = KIJ(2,1,EP) + BH(EP)*(
      .                  AY(EP)*(R23(EP)*PYJ(EP)+R22(EP)*PZI(EP)) +
      .                  R23(EP)*R22(EP)*AYS(EP) )
-            KIJ(2,2,EP) = KIJ(2,2,EP) + BH(EP)*( 
+            KIJ(2,2,EP) = KIJ(2,2,EP) + BH(EP)*(
      .                  AY(EP)*R23(EP)*(PZI(EP)+PZJ(EP)) +
      .                  R23(EP)*R23(EP)*AYS(EP) )
           ENDDO

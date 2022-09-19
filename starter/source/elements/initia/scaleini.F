@@ -37,7 +37,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD      
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -47,7 +47,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
 #include       "param_c.inc"
-#include       "com01_c.inc" 
+#include       "com01_c.inc"
 #include       "scr17_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -70,21 +70,21 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER MA
       my_real,
-     .   DIMENSION(:), POINTER :: FACYLD 
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
+     .   DIMENSION(:), POINTER :: FACYLD
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
 C-----------------------------------------------
-      DO I=LFT,LLT                               
+      DO I=LFT,LLT
 C    
         II=NFT+I
         N =IXS(NIXS,II)
         JJ=PT(II)
         IFLAGINI = 1
-        IF(JJ == 0)IFLAGINI = 0   
-c                                                        
-        IF (IFLAGINI == 1)THEN                            
-            IIS =NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4 
+        IF(JJ == 0)IFLAGINI = 0
+c
+        IF (IFLAGINI == 1)THEN
+            IIS =NVSOLID1 + NVSOLID2 + NVSOLID3 + NUSOLID + 4 + NVSOLID4
 
- 
+
             NPT  =  NINT(SIGSP(IIS +3 , JJ))
             NPS  =  NINT(SIGSP(IIS +2 , JJ) )
             NPR  =  NINT(SIGSP(IIS +1 , JJ) )
@@ -112,23 +112,23 @@ c
 
             ENDIF
 
-            IIS = IIS + 7 
+            IIS = IIS + 7
 
 
             DO ILAY = 1,NLAY
-             DO IT=1,NPTT             
+             DO IT=1,NPTT
               DO IS=1,NPTS
                DO IR=1,NPTR
                 KK = NPTR*NPTS*NPTT*(ILAY-1)+ NPTR*NPTS*(IT-1)+NPTR*(IS-1)+IR
-                LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)                         
-                LBUF%FAC_YLD(I) =   SIGSP(IIS+ KK ,JJ)  
+                LBUF => ELBUF_STR%BUFLY(ILAY)%LBUF(IR,IS,IT)
+                LBUF%FAC_YLD(I) =   SIGSP(IIS+ KK ,JJ)
                ENDDO !R
               ENDDO !S
              ENDDO !T
 
             ENDDO
-        ENDIF                                                              
-      ENDDO !  I=LFT,LLT                                                           
+        ENDIF
+      ENDDO !  I=LFT,LLT
 c-----------
       RETURN
       END

@@ -88,33 +88,33 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J, K, L, N, IT, N4N, MGLOB, ETYP(MVSIZ),
-     .        NINDX, INDX(MVSIZ), I4N(MVSIZ), 
+     .        NINDX, INDX(MVSIZ), I4N(MVSIZ),
      .        FAR(MVSIZ,4), SUBTRIA(MVSIZ), I1, I2, ITRIA(2,4), JJ
       INTEGER IB1, IB2, IB3, IBX, IX, IY, IZ, NBORD, KBORD(MVSIZ)
 C     REAL
       my_real
      .   UNP,ZEROM,EPS,UNPT,ZEROMT,AAA,BB(MVSIZ,4)
       my_real
-     .     XIJ(MVSIZ,4),  XI0V(MVSIZ), 
-     .     YIJ(MVSIZ,4),  YI0V(MVSIZ), 
-     .     ZIJ(MVSIZ,4),  ZI0V(MVSIZ), 
-     .     LBH(MVSIZ,4), LCH(MVSIZ,4), LAH(MVSIZ,4), 
-     .     DX, DY, DZ, DD(MVSIZ,4), 
+     .     XIJ(MVSIZ,4),  XI0V(MVSIZ),
+     .     YIJ(MVSIZ,4),  YI0V(MVSIZ),
+     .     ZIJ(MVSIZ,4),  ZI0V(MVSIZ),
+     .     LBH(MVSIZ,4), LCH(MVSIZ,4), LAH(MVSIZ,4),
+     .     DX, DY, DZ, DD(MVSIZ,4),
      .     XP, YP, ZP,
      .     GAP_MM(MVSIZ), GAPV(MVSIZ,4), GAP2
       my_real
-     .     PENE, 
+     .     PENE,
      .     SX1,SX2,SX3,SX4,
      .     SY1,SY2,SY3,SY4,
      .     SZ1,SZ2,SZ3,SZ4,
-     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4), 
+     .     X0N(MVSIZ,4), Y0N(MVSIZ,4), Z0N(MVSIZ,4),
      .     XN(MVSIZ,4),YN(MVSIZ,4),ZN(MVSIZ,4),HH(MVSIZ),
-     .     SIDE(MVSIZ,4), 
-     .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ), 
+     .     SIDE(MVSIZ,4),
+     .     X12(MVSIZ), Y12(MVSIZ), Z12(MVSIZ),
      .     PX, PY, PZ, PP, LL, NN, PN, VX, VY, VZ,
      .     NY1, NY2, NY3, NY4,
      .     NZ1, NZ2, NZ3, NZ4,
-     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5), 
+     .     XX(MVSIZ,5),YY(MVSIZ,5),ZZ(MVSIZ,5),
      .     PENT(MVSIZ,4), DIST(MVSIZ), LB(MVSIZ,4), LC(MVSIZ,4),
      .     LAP, LBP(MVSIZ,4), LCP(MVSIZ,4), HLA, HLB(MVSIZ,4), HLC(MVSIZ,4),
      .     AL(MVSIZ,4),
@@ -124,7 +124,7 @@ C     REAL
       REAL*4 VTX_BISECTOR(3,2,*)
       DATA ITRIA/1,2,2,3,3,4,4,1/
 C-----------------------------------------------
-      NINDX=0       
+      NINDX=0
       DO I=1,JLT
         L       = CAND_E(I)
         ETYP(I) =MSEGTYP(L)
@@ -379,7 +379,7 @@ C
 C           penetration approximee (cf zone limite interpolation des normales)
             PENT(I,IT)=ZERO
           ELSE
-            PENT(I,IT)=MAX(ZERO,GAPV(I,IT)-SQRT(DD(I,IT)))          
+            PENT(I,IT)=MAX(ZERO,GAPV(I,IT)-SQRT(DD(I,IT)))
           END IF
         END IF
 C
@@ -464,7 +464,7 @@ C
 C             penetration approximee (cf zone limite interpolation des normales)
               PENT(I,IT)=ZERO
             ELSE
-              PENT(I,IT)=MAX(ZERO,GAPV(I,IT)-SQRT(DD(I,IT)))          
+              PENT(I,IT)=MAX(ZERO,GAPV(I,IT)-SQRT(DD(I,IT)))
             END IF
           END IF
 C
@@ -537,7 +537,7 @@ C
 C
           IB1=IBOUND(I1,I)
           IB2=IBOUND(I2,I)
-          IF(MVOISN(I,IT)==0)THEN     
+          IF(MVOISN(I,IT)==0)THEN
 C
             IF( (XH(I)-XX(I,I1))* NNX(I,IT)+
      .          (YH(I)-YY(I,I1))* NNY(I,IT)+
@@ -577,16 +577,16 @@ C
 C
           END IF
 C
-          IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO)THEN     
+          IF(FAR(I,IT)==1 .OR. BB(I,IT) <= ZERO)THEN
 C          
             X12(I)=XX(I,I2)-XX(I,I1)
             Y12(I)=YY(I,I2)-YY(I,I1)
             Z12(I)=ZZ(I,I2)-ZZ(I,I1)
 C
 C           normal to the bisecting plane (pointing toward the inside)
-            PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)  
-            PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)  
-            PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)  
+            PX = Z12(I)*NNY(I,IT)-Y12(I)*NNZ(I,IT)
+            PY = X12(I)*NNZ(I,IT)-Z12(I)*NNX(I,IT)
+            PZ = Y12(I)*NNX(I,IT)-X12(I)*NNY(I,IT)
             PP = PX*PX+PY*PY+PZ*PZ
 C
             LL  = XIJ(I,I1)*XIJ(I,I1)+YIJ(I,I1)*YIJ(I,I1)+ZIJ(I,I1)*ZIJ(I,I1)
@@ -677,14 +677,14 @@ C
               Z12(I)=ZZ(I,2)-ZZ(I,1)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,1)-Y12(I)*NNZ(I,1)  
-              PY = X12(I)*NNZ(I,1)-Z12(I)*NNX(I,1)  
-              PZ = Y12(I)*NNX(I,1)-X12(I)*NNY(I,1)  
+              PX = Z12(I)*NNY(I,1)-Y12(I)*NNZ(I,1)
+              PY = X12(I)*NNZ(I,1)-Z12(I)*NNX(I,1)
+              PZ = Y12(I)*NNX(I,1)-X12(I)*NNY(I,1)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,1)*XIJ(I,1)+YIJ(I,1)*YIJ(I,1)+ZIJ(I,1)*ZIJ(I,1)
 C
-              SIDE(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDE(I,1)=-(XIJ(I,1)*PX+YIJ(I,1)*PY+ZIJ(I,1)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,1) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -701,14 +701,14 @@ C
               Z12(I)=ZZ(I,3)-ZZ(I,2)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,2)-Y12(I)*NNZ(I,2)  
-              PY = X12(I)*NNZ(I,2)-Z12(I)*NNX(I,2)  
-              PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)  
+              PX = Z12(I)*NNY(I,2)-Y12(I)*NNZ(I,2)
+              PY = X12(I)*NNZ(I,2)-Z12(I)*NNX(I,2)
+              PZ = Y12(I)*NNX(I,2)-X12(I)*NNY(I,2)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  = XIJ(I,2)*XIJ(I,2)+YIJ(I,2)*YIJ(I,2)+ZIJ(I,2)*ZIJ(I,2)
 C
-              SIDE(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDE(I,2)=-(XIJ(I,2)*PX+YIJ(I,2)*PY+ZIJ(I,2)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,2) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -725,14 +725,14 @@ C
               Z12(I)=ZZ(I,1)-ZZ(I,3)
 C
 C             normal to the bisecting plane (pointing toward the inside)
-              PX = Z12(I)*NNY(I,4)-Y12(I)*NNZ(I,4)  
-              PY = X12(I)*NNZ(I,4)-Z12(I)*NNX(I,4)  
-              PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)  
+              PX = Z12(I)*NNY(I,4)-Y12(I)*NNZ(I,4)
+              PY = X12(I)*NNZ(I,4)-Z12(I)*NNX(I,4)
+              PZ = Y12(I)*NNX(I,4)-X12(I)*NNY(I,4)
               PP = PX*PX+PY*PY+PZ*PZ
 C
               LL  =  XIJ(I,3)*XIJ(I,3)+YIJ(I,3)*YIJ(I,3)+ZIJ(I,3)*ZIJ(I,3)
 C
-              SIDE(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))             
+              SIDE(I,4)=-(XIJ(I,3)*PX+YIJ(I,3)*PY+ZIJ(I,3)*PZ)*SQRT(ONE/MAX(EM30,LL*PP))
               IF(SIDE(I,4) < -ZEP01) FAR(I,IT) =2
 C
             END IF
@@ -767,7 +767,7 @@ C
           IB1=IBOUND(I1,I)
           IB2=IBOUND(I2,I)
 C
-          IF(MVOISN(I,IT)==0)THEN     
+          IF(MVOISN(I,IT)==0)THEN
 C
 C           Distance signee a l'arete
 C
@@ -825,7 +825,7 @@ C
               KBORD(NBORD)=I
 C
             ELSEIF(P1 < GAPS(I))THEN
-              
+
               NN1(I)= VTX_BISECTOR(1,1,IBX)
               NN2(I)= VTX_BISECTOR(2,1,IBX)
               NN3(I)= VTX_BISECTOR(3,1,IBX)
@@ -834,8 +834,8 @@ C
               NBORD=NBORD+1
               KBORD(NBORD)=I
 
-            ELSEIF(P2 < GAPS(I))THEN 
-              
+            ELSEIF(P2 < GAPS(I))THEN
+
               NN1(I)= VTX_BISECTOR(1,2,IBX)
               NN2(I)= VTX_BISECTOR(2,2,IBX)
               NN3(I)= VTX_BISECTOR(3,2,IBX)
@@ -877,7 +877,7 @@ C
                 NNE(I)=NN
                 NN1(I)=NNX(I,I1)
                 NN2(I)=NNY(I,I1)
-                NN3(I)=NNZ(I,I1)                
+                NN3(I)=NNZ(I,I1)
 C
                 NBORD=NBORD+1
                 KBORD(NBORD)=I
@@ -895,7 +895,7 @@ C             Distance signee a l'arete
                 NNE(I)=NN
                 NN1(I)=NNX(I,I2)
                 NN2(I)=NNY(I,I2)
-                NN3(I)=NNZ(I,I2)                
+                NN3(I)=NNZ(I,I2)
 C
                 NBORD=NBORD+1
                 KBORD(NBORD)=I
@@ -913,7 +913,7 @@ C             Distance signee a l'arete
                 NNE(I)=NN
                 NN1(I)=NNX(I,5)
                 NN2(I)=NNY(I,5)
-                NN3(I)=NNZ(I,5)                
+                NN3(I)=NNZ(I,5)
 C
                 NBORD=NBORD+1
                 KBORD(NBORD)=I
@@ -960,7 +960,7 @@ C
               KBORD(NBORD)=I
 C
             ELSEIF(P1 < GAPS(I))THEN
-              
+
               NN1(I)= VTX_BISECTOR(1,1,IBX)
               NN2(I)= VTX_BISECTOR(2,1,IBX)
               NN3(I)= VTX_BISECTOR(3,1,IBX)
@@ -969,8 +969,8 @@ C
               NBORD=NBORD+1
               KBORD(NBORD)=I
 
-            ELSEIF(P2 < GAPS(I))THEN 
-              
+            ELSEIF(P2 < GAPS(I))THEN
+
               NN1(I)= VTX_BISECTOR(1,2,IBX)
               NN2(I)= VTX_BISECTOR(2,2,IBX)
               NN3(I)= VTX_BISECTOR(3,2,IBX)
@@ -988,7 +988,7 @@ c     .        itab(nsvg(i)),itab(ix1(i)),itab(ix2(i)),itab(ix3(i)),itab(ix4(i))
           END IF
 
         END IF ! IF(IX3(I) /= IX4(I))THEN
-      END DO 
+      END DO
 C-------------------------------------------
       IF(ISHARP==1)THEN
 
@@ -1202,9 +1202,9 @@ C         Looking for penetration vs closest segment (cf initial penetrations vs
               TIME_S(N)    =DIST(I)
               PENE_OLD(5,N)=PENE
             END IF
-          END IF  
+          END IF
         END DO
-      ELSE ! adhesion case, pene(5,n) datum is at 0.5*gapv, if pene < 0.5*gapv then pene_old(5,n) = 0 
+      ELSE ! adhesion case, pene(5,n) datum is at 0.5*gapv, if pene < 0.5*gapv then pene_old(5,n) = 0
 
         DO K=1,NINDX
           I=INDX(K)
@@ -1216,12 +1216,12 @@ C         Looking for penetration vs closest segment (cf initial penetrations vs
             SUBTRIA(I) = IT
           END IF
           IF(IT == 0)CYCLE
- 
+
           N=CAND_N(I)
           L=CAND_E(I)
- 
+
           MGLOB = MSEGLO(L)
- 
+
           IF(.NOT.(ETYP(I)==0.OR.MSEGTYP(L) > NRTM))THEN
             IF(PENT(I,IT)==ZERO) CYCLE
           END IF
@@ -1244,7 +1244,7 @@ C         Looking for penetration vs closest segment (cf initial penetrations vs
               TIME_S(N)    =PENE
               PENE_OLD(5,N)=PENE
             END IF
-          END IF     
+          END IF
         END DO
       ENDIF ! ivis2 if
 C

@@ -33,7 +33,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,14 +82,14 @@ C
          NALL = ITAG(IXS(2,II)) * ITAG(IXS(3,II)) *
      +          ITAG(IXS(4,II)) * ITAG(IXS(5,II)) *
      +          ITAG(IXS(6,II)) * ITAG(IXS(7,II)) *
-     +          ITAG(IXS(8,II)) * ITAG(IXS(9,II)) 
+     +          ITAG(IXS(8,II)) * ITAG(IXS(9,II))
            IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
         ENDDO
        ELSEIF (ITY==3) THEN
         DO I=1,NEL
          II=I+NFT
          NALL = ITAG(IXC(2,II)) * ITAG(IXC(3,II)) *
-     +          ITAG(IXC(4,II)) * ITAG(IXC(5,II)) 
+     +          ITAG(IXC(4,II)) * ITAG(IXC(5,II))
            IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
         ENDDO
        ELSEIF (ITY==7) THEN
@@ -106,26 +106,26 @@ C
        ELSEIF (ITY==4) THEN
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II)) 
+         NALL = ITAG(IXT(2,II)) * ITAG(IXT(3,II))
          IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
-cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO  
+cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO
         ENDDO
        ELSEIF (ITY==5) THEN
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II)) 
+         NALL = ITAG(IXP(2,II)) * ITAG(IXP(3,II))
          IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
-cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO  
+cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO
         ENDDO
-       ELSEIF (ITY==6) THEN             
+       ELSEIF (ITY==6) THEN
         DO I=1,NEL
          II=I+NFT
-         NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II)) 
+         NALL = ITAG(IXR(2,II)) * ITAG(IXR(3,II))
          IF (NALL == 0) ELBUF_TAB(NG)%GBUF%OFF(I) = ZERO
-cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO 
+cc         IF (NALL==0) BUFEL0(NBX+I)=ZERO
         ENDDO
        ENDIF
       ENDDO
 C
       RETURN
-      END     
+      END

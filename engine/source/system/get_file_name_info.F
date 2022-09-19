@@ -51,11 +51,11 @@ C-----------------------------------------------
         LENR = 0
         RUNN = 0
         RETURN
-      ENDIF  
+      ENDIF
 
       IF (LENI < 4) GOTO 1000
 
-      
+
       WRITE(EXT,'(A)') INPUT(LENI-3:LENI)
       IF ( LLE(EXT,'.rad') .AND. LGE(EXT,'.rad')) THEN
          IF (LENI < 10 ) GOTO 1000
@@ -70,7 +70,7 @@ C Dataset letter
            FVERS = 5
          ELSE
            GOTO 1000
-         ENDIF   
+         ENDIF
       ELSE
 C Run number
          READ(INPUT(LENI-1:LENI),FMT='(I2)',ERR=1000) RUNN

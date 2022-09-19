@@ -38,40 +38,40 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MULTI_FVM_MOD                 ../common_source/modules/multi_fvm_mod.F
 Chd|        STACK_MOD                     share/modules/stack_mod.F     
 Chd|====================================================================
-      SUBROUTINE EIG1(K_DIAG   , K_LT      , IADK        ,JDIK        , MS        , 
-     2                IN       , NDDL      , NDOF        ,NNZL        , X         , 
-     3                D        , V         , A           ,BUFEL       , IXS       , 
-     4                IXQ      , IXC       , IXT         ,IXP         , IXR       , 
-     5                IXTG     , PM        , GEO         ,CONT        , ICUT      , 
-     6                SKEW     , XCUT      , FINT        ,ITAB        , FEXT      , 
-     7                FOPT     , ANIN      , LPBY        ,NPBY        , NSTRF     , 
-     8                RWBUF    , NPRW      , IXUR        ,TANI        , ELBUF_TAB , 
-     9                DD_IAD   , FR_IAD    , DD_FRONT    ,CLUSTER     ,             
-     A                WEIGHT   , EANI      , IPART       , 
-     B                RBY      , NOM_OPT   , IGRSURF     ,BUFSF       , IDATA     , 
-     C                RDATA    , BUFMAT    , BUFGEO      ,KXX         , IXX       , 
-     D                KXSP     , IXSP      , NOD2SP      ,SPBUF       , IXS10     , 
-     E                IXS20    , IXS16     , VR          ,MONVOL      , VOLMON    , 
-     F                IPM      , IGEO      , IPARG       ,              EIGIPM    , 
-     G                EIGIBUF  , EIGRPM    , LDIAG       ,LJDIK       , LJDIK2    , 
-     H                IKC      , MAXNCV    , THKE        ,NMS         , NINT2     , 
-     I                IINT2    , IPARI     , INTBUF_TAB  ,NODGLOB     ,             
-     J                IAD_ELEM , FR_ELEM   , FR_SEC      ,FR_RBY2     , IAD_RBY2  , 
-     K                FR_WALL  , INLOC     , IDDL        ,PARTSAV     , FNCONT    , 
-     L                FTCONT   , TEMP      , ERR_THK_SH4 ,ERR_THK_SH3 ,             
-     M                IRBE2    , IRBE3     , LRBE2       ,LRBE3       , FR_RBE2   , 
-     N                FR_RBE3M , IAD_RBE2  , WEIGHT_MD   ,FCLUSTER    , MCLUSTER  , 
-     O                XFEM_TAB , W           ,NV46        , NERCVOIS  , 
+      SUBROUTINE EIG1(K_DIAG   , K_LT      , IADK        ,JDIK        , MS        ,
+     2                IN       , NDDL      , NDOF        ,NNZL        , X         ,
+     3                D        , V         , A           ,BUFEL       , IXS       ,
+     4                IXQ      , IXC       , IXT         ,IXP         , IXR       ,
+     5                IXTG     , PM        , GEO         ,CONT        , ICUT      ,
+     6                SKEW     , XCUT      , FINT        ,ITAB        , FEXT      ,
+     7                FOPT     , ANIN      , LPBY        ,NPBY        , NSTRF     ,
+     8                RWBUF    , NPRW      , IXUR        ,TANI        , ELBUF_TAB ,
+     9                DD_IAD   , FR_IAD    , DD_FRONT    ,CLUSTER     ,
+     A                WEIGHT   , EANI      , IPART       ,
+     B                RBY      , NOM_OPT   , IGRSURF     ,BUFSF       , IDATA     ,
+     C                RDATA    , BUFMAT    , BUFGEO      ,KXX         , IXX       ,
+     D                KXSP     , IXSP      , NOD2SP      ,SPBUF       , IXS10     ,
+     E                IXS20    , IXS16     , VR          ,MONVOL      , VOLMON    ,
+     F                IPM      , IGEO      , IPARG       ,              EIGIPM    ,
+     G                EIGIBUF  , EIGRPM    , LDIAG       ,LJDIK       , LJDIK2    ,
+     H                IKC      , MAXNCV    , THKE        ,NMS         , NINT2     ,
+     I                IINT2    , IPARI     , INTBUF_TAB  ,NODGLOB     ,
+     J                IAD_ELEM , FR_ELEM   , FR_SEC      ,FR_RBY2     , IAD_RBY2  ,
+     K                FR_WALL  , INLOC     , IDDL        ,PARTSAV     , FNCONT    ,
+     L                FTCONT   , TEMP      , ERR_THK_SH4 ,ERR_THK_SH3 ,
+     M                IRBE2    , IRBE3     , LRBE2       ,LRBE3       , FR_RBE2   ,
+     N                FR_RBE3M , IAD_RBE2  , WEIGHT_MD   ,FCLUSTER    , MCLUSTER  ,
+     O                XFEM_TAB , W           ,NV46        , NERCVOIS  ,
      P                NESDVOIS , LERCVOIS  ,LESDVOIS     ,CRKEDGE     ,INDX_CRK   ,
-     Q                XEDGE4N  ,XEDGE3N    ,STACK        ,SPH2SOL     ,STIFN      , 
+     Q                XEDGE4N  ,XEDGE3N    ,STACK        ,SPH2SOL     ,STIFN      ,
      R                STIFR    ,DRAPE_Q4, DRAPE_T3      ,H3D_DATA    ,SUBSET     ,
-     S                IGRNOD   ,FCONT_MAX ,FNCONTP2     ,FTCONTP2, ALE_CONNECTIVITY)                  
+     S                IGRNOD   ,FCONT_MAX ,FNCONTP2     ,FTCONTP2, ALE_CONNECTIVITY)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE GENANI_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
       USE CLUSTER_MOD
       USE INTBUFDEF_MOD
       USE CRACKXFEM_MOD

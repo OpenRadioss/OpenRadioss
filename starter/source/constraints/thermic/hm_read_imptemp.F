@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER NUM
       INTEGER IBFT(NIFT,*), ITAB(*), ITABM1(*), NWORK(*)
       my_real
@@ -95,8 +95,8 @@ C-----------------------------------------------
 C
       DATA MESS/'IMPOSED TEMPERATURE DEFINITION  '/
 C======================================================================|
-      IS_AVAILABLE = .FALSE. 
-      NUM = 0    
+      IS_AVAILABLE = .FALSE.
+      NUM = 0
       I = 0
 C--------------------------------------------------
 C START BROWSING MODEL IMPTEMP
@@ -110,26 +110,26 @@ C--------------------------------------------------
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       UNIT_ID = UID,
      .                       OPTION_ID = ID,
-     .                       OPTION_TITR = TITR) 
-        IFLAGUNIT = 0                                           
-        DO J=1,NUNITS                           
-          IF (UNITAB%UNIT_ID(J) == UID) THEN                     
-            IFLAGUNIT = 1                       
-            EXIT                                
-          ENDIF                                 
-        ENDDO                                  
+     .                       OPTION_TITR = TITR)
+        IFLAGUNIT = 0
+        DO J=1,NUNITS
+          IF (UNITAB%UNIT_ID(J) == UID) THEN
+            IFLAGUNIT = 1
+            EXIT
+          ENDIF
+        ENDDO
         IF (UID /= 0.AND.IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,C1='IMPOSED TEMPERATURE',
      .                C2='IMPOSED TEMPERATURE',
-     .                C3=TITR)                              
-        ENDIF 
+     .                C3=TITR)
+        ENDIF
 C--------------------------------------------------
 C EXTRACT DATAS (INTEGER VALUES)
 C--------------------------------------------------
         CALL HM_GET_INTV('curveid',NCUR,IS_AVAILABLE,LSUBMODEL)
         CALL HM_GET_INTV('rad_sensor_id',ISENS,IS_AVAILABLE,LSUBMODEL)
-        CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)    
+        CALL HM_GET_INTV('entityid',IGU,IS_AVAILABLE,LSUBMODEL)
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
@@ -177,7 +177,7 @@ C
      .       IBFT(2,I),ISENS,FAC(4,I),1/FACX,FAC(1,I),FAC(2,I)
 C
         ENDDO
-      ENDDO  
+      ENDDO
 C
       RETURN
 C          

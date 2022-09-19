@@ -30,7 +30,7 @@ Chd|        CRACKXFEM_MOD                 share/modules/crackxfem_mod.F
 Chd|====================================================================
        SUBROUTINE SPMD_GATHERITAB_CRK(ICRK,NUM,IDMAXNOD,NODGLOBXFE)
 C-----------------------------------------------
-      USE CRACKXFEM_MOD        
+      USE CRACKXFEM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ cc          CALL WRITE_I_C(XGLOB(NG),1)
 C all the rest procs
         DO I=2,NSPMD
 C   Reception du buffer entier des adresses NODGLOB
-          MSGTYP = MSGOFF 
+          MSGTYP = MSGOFF
           CALL MPI_PROBE(IT_SPMD(I),MSGTYP,
      .                   MPI_COMM_WORLD,STATUS,ierror)
 	  CALL MPI_GET_COUNT(STATUS,MPI_INTEGER,SIZ,ierror)

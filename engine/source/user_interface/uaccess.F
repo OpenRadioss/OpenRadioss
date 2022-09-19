@@ -783,7 +783,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ND1,ND2,ND3,ND4,ND5,ND6,ND7,ND8,ELEM,I
-      
+
       DO I=1,LLT
          ELEM=NFT+I
          ND1=IXS(NIXS*(ELEM-1)+2)
@@ -795,7 +795,7 @@ C-----------------------------------------------
          ND7=IXS(NIXS*(ELEM-1)+8)
          ND8=IXS(NIXS*(ELEM-1)+9)
 C         
-         IF(ND1 > 0)THEN 
+         IF(ND1 > 0)THEN
             USER_X(I,1,1)=X(3*(ND1-1)+1)
             USER_X(I,1,2)=X(3*(ND1-1)+2)
             USER_X(I,1,3)=X(3*(ND1-1)+3)
@@ -803,9 +803,9 @@ C
             USER_X(I,1,1)=ZERO
             USER_X(I,1,2)=ZERO
             USER_X(I,1,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND2 > 0)THEN 
+         IF(ND2 > 0)THEN
             USER_X(I,2,1)=X(3*(ND2-1)+1)
             USER_X(I,2,2)=X(3*(ND2-1)+2)
             USER_X(I,2,3)=X(3*(ND2-1)+3)
@@ -813,9 +813,9 @@ C
             USER_X(I,2,1)=ZERO
             USER_X(I,2,2)=ZERO
             USER_X(I,2,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND3 > 0)THEN 
+         IF(ND3 > 0)THEN
             USER_X(I,3,1)=X(3*(ND3-1)+1)
             USER_X(I,3,2)=X(3*(ND3-1)+2)
             USER_X(I,3,3)=X(3*(ND3-1)+3)
@@ -823,9 +823,9 @@ C
             USER_X(I,3,1)=ZERO
             USER_X(I,3,2)=ZERO
             USER_X(I,3,3)=ZERO
-         ENDIF   
+         ENDIF
 C
-         IF(ND4 > 0)THEN 
+         IF(ND4 > 0)THEN
             USER_X(I,4,1)=X(3*(ND4-1)+1)
             USER_X(I,4,2)=X(3*(ND4-1)+2)
             USER_X(I,4,3)=X(3*(ND4-1)+3)
@@ -833,9 +833,9 @@ C
             USER_X(I,4,1)=ZERO
             USER_X(I,4,2)=ZERO
             USER_X(I,4,3)=ZERO
-         ENDIF   
+         ENDIF
 C
-         IF(ND5 > 0)THEN 
+         IF(ND5 > 0)THEN
             USER_X(I,5,1)=X(3*(ND5-1)+1)
             USER_X(I,5,2)=X(3*(ND5-1)+2)
             USER_X(I,5,3)=X(3*(ND5-1)+3)
@@ -843,9 +843,9 @@ C
             USER_X(I,5,1)=ZERO
             USER_X(I,5,2)=ZERO
             USER_X(I,5,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND6 > 0)THEN 
+         IF(ND6 > 0)THEN
             USER_X(I,6,1)=X(3*(ND6-1)+1)
             USER_X(I,6,2)=X(3*(ND6-1)+2)
             USER_X(I,6,3)=X(3*(ND6-1)+3)
@@ -853,9 +853,9 @@ C
             USER_X(I,6,1)=ZERO
             USER_X(I,6,2)=ZERO
             USER_X(I,6,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND7 > 0)THEN 
+         IF(ND7 > 0)THEN
             USER_X(I,7,1)=X(3*(ND7-1)+1)
             USER_X(I,7,2)=X(3*(ND7-1)+2)
             USER_X(I,7,3)=X(3*(ND7-1)+3)
@@ -863,9 +863,9 @@ C
             USER_X(I,7,1)=ZERO
             USER_X(I,7,2)=ZERO
             USER_X(I,7,3)=ZERO
-         ENDIF   
+         ENDIF
 C
-         IF(ND8 > 0)THEN 
+         IF(ND8 > 0)THEN
             USER_X(I,8,1)=X(3*(ND8-1)+1)
             USER_X(I,8,2)=X(3*(ND8-1)+2)
             USER_X(I,8,3)=X(3*(ND8-1)+3)
@@ -873,7 +873,7 @@ C
             USER_X(I,8,1)=ZERO
             USER_X(I,8,2)=ZERO
             USER_X(I,8,3)=ZERO
-         ENDIF 
+         ENDIF
 
       ENDDO
 C     
@@ -911,7 +911,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ND1,ND2,ND3,ND4,ND5,ND6,ND7,ND8,ELEM,I
-      
+
       DO I=1,LLT
          ELEM=NFT+I
          ND1=IXS(NIXS*(ELEM-1)+2)
@@ -923,7 +923,7 @@ C-----------------------------------------------
          ND7=IXS(NIXS*(ELEM-1)+8)
          ND8=IXS(NIXS*(ELEM-1)+9)
 C         
-         IF(ND1 > 0)THEN 
+         IF(ND1 > 0)THEN
             USER_V(I,1,1)=V(3*(ND1-1)+1)
             USER_V(I,1,2)=V(3*(ND1-1)+2)
             USER_V(I,1,3)=V(3*(ND1-1)+3)
@@ -931,9 +931,9 @@ C
             USER_V(I,1,1)=ZERO
             USER_V(I,1,2)=ZERO
             USER_V(I,1,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND2 > 0)THEN 
+         IF(ND2 > 0)THEN
             USER_V(I,2,1)=V(3*(ND2-1)+1)
             USER_V(I,2,2)=V(3*(ND2-1)+2)
             USER_V(I,2,3)=V(3*(ND2-1)+3)
@@ -941,9 +941,9 @@ C
             USER_V(I,2,1)=ZERO
             USER_V(I,2,2)=ZERO
             USER_V(I,2,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND3 > 0)THEN 
+         IF(ND3 > 0)THEN
             USER_V(I,3,1)=V(3*(ND3-1)+1)
             USER_V(I,3,2)=V(3*(ND3-1)+2)
             USER_V(I,3,3)=V(3*(ND3-1)+3)
@@ -951,9 +951,9 @@ C
             USER_V(I,3,1)=ZERO
             USER_V(I,3,2)=ZERO
             USER_V(I,3,3)=ZERO
-         ENDIF   
+         ENDIF
 C
-         IF(ND4 > 0)THEN 
+         IF(ND4 > 0)THEN
             USER_V(I,4,1)=V(3*(ND4-1)+1)
             USER_V(I,4,2)=V(3*(ND4-1)+2)
             USER_V(I,4,3)=V(3*(ND4-1)+3)
@@ -961,9 +961,9 @@ C
             USER_V(I,4,1)=ZERO
             USER_V(I,4,2)=ZERO
             USER_V(I,4,3)=ZERO
-         ENDIF   
+         ENDIF
 C
-         IF(ND5 > 0)THEN 
+         IF(ND5 > 0)THEN
             USER_V(I,5,1)=V(3*(ND5-1)+1)
             USER_V(I,5,2)=V(3*(ND5-1)+2)
             USER_V(I,5,3)=V(3*(ND5-1)+3)
@@ -971,9 +971,9 @@ C
             USER_V(I,5,1)=ZERO
             USER_V(I,5,2)=ZERO
             USER_V(I,5,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND6 > 0)THEN 
+         IF(ND6 > 0)THEN
             USER_V(I,6,1)=V(3*(ND6-1)+1)
             USER_V(I,6,2)=V(3*(ND6-1)+2)
             USER_V(I,6,3)=V(3*(ND6-1)+3)
@@ -981,9 +981,9 @@ C
             USER_V(I,6,1)=ZERO
             USER_V(I,6,2)=ZERO
             USER_V(I,6,3)=ZERO
-         ENDIF  
+         ENDIF
 C
-         IF(ND7 > 0)THEN 
+         IF(ND7 > 0)THEN
             USER_V(I,7,1)=V(3*(ND7-1)+1)
             USER_V(I,7,2)=V(3*(ND7-1)+2)
             USER_V(I,7,3)=V(3*(ND7-1)+3)
@@ -991,9 +991,9 @@ C
             USER_V(I,7,1)=ZERO
             USER_V(I,7,2)=ZERO
             USER_V(I,7,3)=ZERO
-         ENDIF   
+         ENDIF
 C
-         IF(ND8 > 0)THEN 
+         IF(ND8 > 0)THEN
             USER_V(I,8,1)=V(3*(ND8-1)+1)
             USER_V(I,8,2)=V(3*(ND8-1)+2)
             USER_V(I,8,3)=V(3*(ND8-1)+3)
@@ -1001,7 +1001,7 @@ C
             USER_V(I,8,1)=ZERO
             USER_V(I,8,2)=ZERO
             USER_V(I,8,3)=ZERO
-         ENDIF 
+         ENDIF
 
       ENDDO
 C     

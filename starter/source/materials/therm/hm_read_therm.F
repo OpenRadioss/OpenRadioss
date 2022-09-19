@@ -66,12 +66,12 @@ C-----------------------------------------------
       INTEGER ,DIMENSION(NPROPMI,NUMMAT), INTENT(OUT)   :: IPM
       my_real ,DIMENSION(NPROPM ,NUMMAT), INTENT(OUT)   :: PM
       my_real ,DIMENSION(BUFLEN)        , INTENT(INOUT) :: BUFMAT
-      TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB 
+      TYPE (UNIT_TYPE_) ,INTENT(IN) :: UNITAB
       TYPE(SUBMODEL_DATA) ,DIMENSION(*) , INTENT(IN)    :: LSUBMODEL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER :: ITH,IFORM,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW, 
+      INTEGER :: ITH,IFORM,FLAGMAT,FLAGUNIT,IUNIT,UID,MAT_ID,IMAT,ILAW,
      .   ALE,LAG,EUL,JALE,JTHE,JTUR,IAD_THERM,NTHERM
       INTEGER ,DIMENSION(NUMMAT) :: ITHERM_FOR
       my_real ::  UPWM,UPWO,T0,T1,RHO_CP,AS,BS,AL,BL,RHO_CPM1,EFRAC
@@ -84,7 +84,7 @@ C=======================================================================
 c--------------------------------------------------
 c     COUNT EOS MODELS USING CFG FILES
 c--------------------------------------------------
-c      
+c
       CALL HM_OPTION_COUNT('/HEAT',NTHERM)
 c
 c--------------------------------------------------
@@ -115,7 +115,7 @@ c--------------------------------------------------
         IF (MAT_ID > 0 .AND. FLAGMAT == 0) THEN
           CALL ANCMSG(MSGID=1663,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I1= MAT_ID, C1='HEAT/MAT', C2='HEAT/MAT', C3='')
-          CYCLE                           
+          CYCLE
         ENDIF
 c--------------------------------------------------
 c       Check Unit_ID
@@ -133,7 +133,7 @@ c--------------------------------------------------
      .                I2= UID,
      .                C1='HEAT/MAT',
      .                C2='HEAT/MAT',
-     .                C3= '')                             
+     .                C3= '')
         ENDIF
 c--------------------------------------------------
 c
@@ -153,14 +153,14 @@ c        CALL HM_GET_FLOATV_DIM('HEAT_RHocp' ,RCP_UNIT ,IS_AVAILABLE, LSUBMODEL,
 c        CALL HM_GET_FLOATV_DIM('HEAT_AS' ,AS_UNIT ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 c        print*,'RCP_UNIT,AS_UNIT=', RCP_UNIT,AS_UNIT
 c--------------------------------------------------
-        ILAW = IPM(2,IMAT)                                    
+        ILAW = IPM(2,IMAT)
         PM(71,IMAT) = ONEP1
-        PM(69,IMAT) = RHO_CP                                            
-        PM(75,IMAT) = AS                                             
-        PM(76,IMAT) = BS                                             
-        PM(77,IMAT) = AL                                             
-        PM(78,IMAT) = BL                                             
-        PM(79,IMAT) = T0                                             
+        PM(69,IMAT) = RHO_CP
+        PM(75,IMAT) = AS
+        PM(76,IMAT) = BS
+        PM(77,IMAT) = AL
+        PM(78,IMAT) = BL
+        PM(79,IMAT) = T0
 c
 c--------------------------------------------------
         IF (ILAW == 2)THEN
@@ -199,20 +199,20 @@ c       Check at least if the corresponding material is indeed lagrangian !!
         LAG = 0
         EUL = 0
         ALE = 0
-        JALE = NINT(PM(72,IMAT)) 
-        IF (JALE == 0 .AND. ILAW/=18 .AND. ILAW/=11) THEN  
-           ILAG= 1  
-           LAG = 1                                          
-        ELSEIF(JALE == 1)THEN                            
-           IALE= 1                                          
+        JALE = NINT(PM(72,IMAT))
+        IF (JALE == 0 .AND. ILAW/=18 .AND. ILAW/=11) THEN
+           ILAG= 1
+           LAG = 1
+        ELSEIF(JALE == 1)THEN
+           IALE= 1
            ALE = 1
-        ELSEIF(JALE == 2)THEN                            
-           IEULER= 1  
+        ELSEIF(JALE == 2)THEN
+           IEULER= 1
            EUL   = 1
         ELSEIF(JALE == 3) THEN
-           ILAG= 1  
-           LAG = 1                                       
-        ENDIF    
+           ILAG= 1
+           LAG = 1
+        ENDIF
 c
         IF (IFORM /= 0 .AND. LAG == 1) THEN
            PM(71,IMAT) = -ONEP1
@@ -229,59 +229,59 @@ c
      .          I1=MAT_ID, C1="ERROR", C2=TITR,
      .          C3="RHO_0 Cp PARAMETER MUST BE GREATER THAN ZERO")
         ENDIF
-        
+
 c
-        IF (T0 == ZERO)    T0 = PM(23,IMAT) / RHO_CP             
-        IF (T1 == ZERO)    T1 = EP20                              
-        IF (EFRAC < ZERO)  EFRAC = ZERO			  
+        IF (T0 == ZERO)    T0 = PM(23,IMAT) / RHO_CP
+        IF (T1 == ZERO)    T1 = EP20
+        IF (EFRAC < ZERO)  EFRAC = ZERO			
         IF (EFRAC > ONE )   EFRAC = ONE
         IF (EFRAC == ZERO) EFRAC = ONE
         PM (80,IMAT) = T1
-        PM (90,IMAT) = EFRAC			  
+        PM (90,IMAT) = EFRAC			
 c
         WRITE(IOUT,2000) MAT_ID,T0,RHO_CP,AS,BS,T1,AL,BL,IFORM,EFRAC
 c
       ENDDO   ! I = 1,NTHERM
-c-----------------------------------------      
+c-----------------------------------------
 c
-      DO IMAT=1,NUMMAT-1                                    
-        ILAW = IPM(2,IMAT)                           
-        JTUR = NINT(PM(70,IMAT))                            
+      DO IMAT=1,NUMMAT-1
+        ILAW = IPM(2,IMAT)
+        JTUR = NINT(PM(70,IMAT))
         JTHE = ABS(NINT(PM(71,IMAT)))
-        JALE = NINT(PM(72,IMAT))                            
-        IF (JALE == 0 .AND. ILAW/=18 .AND. ILAW/=11) THEN  
-          ILAG=1                                          
-        ELSEIF(JALE == 1)THEN                            
-          IALE=1                                          
-        ELSEIF(JALE == 2)THEN                            
-          IEULER=1  
+        JALE = NINT(PM(72,IMAT))
+        IF (JALE == 0 .AND. ILAW/=18 .AND. ILAW/=11) THEN
+          ILAG=1
+        ELSEIF(JALE == 1)THEN
+          IALE=1
+        ELSEIF(JALE == 2)THEN
+          IEULER=1
         ELSEIF(JALE == 3) THEN
-          ILAG=1                                       
-        ENDIF                                            
-        IF (JALE /= 0) THEN                                
-          PM(15,IMAT) = UPWMG                                 
-          PM(16,IMAT) = UPWOG                                 
+          ILAG=1
+        ENDIF
+        IF (JALE /= 0) THEN
+          PM(15,IMAT) = UPWMG
+          PM(16,IMAT) = UPWOG
         ENDIF
         IF (ITHERM_FOR(IMAT) == 0) ITHERM    = MAX(ITHERM,JTHE)
         IF (ITHERM_FOR(IMAT) /= 0) ITHERM_FE = MAX(ITHERM_FE,JTHE)
         IF (ILAW /= 50)         ITURB = MAX(ITURB ,JTUR)
       ENDDO
-c-----------------------------------------      
-c     ERROR IF MULTIMATERIAL IS LAGRANGIAN.      
-c-----------------------------------------      
-      DO IMAT=1,NUMMAT-1       
+c-----------------------------------------
+c     ERROR IF MULTIMATERIAL IS LAGRANGIAN.
+c-----------------------------------------
+      DO IMAT=1,NUMMAT-1
         ILAW = IPM(2,IMAT)
        	JALE = NINT(PM(72,IMAT))   	
 	       IF (JALE == 0) THEN
           IF (ILAW == 20 .OR. ILAW == 37 .OR. ILAW == 51 .OR. ILAW == 151) THEN
             CALL FRETITL2(TITR,IPM(NPROPMI-LTITR+1,IMAT),LTITR)
             MAT_ID = IPM(1,IMAT)
-            CALL ANCMSG(MSGID=101, MSGTYPE=MSGERROR, ANMODE=ANINFO, 
+            CALL ANCMSG(MSGID=101, MSGTYPE=MSGERROR, ANMODE=ANINFO,
      .                  I1=MAT_ID, C1=TITR, I2=ILAW)
           ENDIF
-        ENDIF  
+        ENDIF
       ENDDO
-c-----------------------------------------      
+c-----------------------------------------
  2000 FORMAT(/
      & 5X,'    THERMAL MATERIAL  ',/,
      & 5X,'    ----------------  ',/,
@@ -294,9 +294,9 @@ c-----------------------------------------
      & 5X,'AL. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'BL. . . . . . . . . . . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'HEAT TRANSFER FORMULATION . . . . . . . . . . = ',I10/,
-     & 10X,'    0: it is based on Finite Volume  Method',/        
+     & 10X,'    0: it is based on Finite Volume  Method',/
      & 10X,'    1: it is based on Finite Element Method '/
      & 5X,'FRACTION OF STRAIN ENERGY CONVERTED INTO HEAT =',1PG20.13/)
-c-----------------------------------------      
+c-----------------------------------------
       RETURN
       END

@@ -56,153 +56,153 @@ C     REAL
 C=======================================================================
 #include "vectorize.inc"
       DO II=1,NSN
-        I=NSV(II)                      
-        IF (I > 0) THEN                                           
+        I=NSV(II)
+        IF (I > 0) THEN
 C
-          SS=CRST(1,II)                           
+          SS=CRST(1,II)
           TT=CRST(2,II)
-          SP=ONE + SS                              
-          SM=ONE - SS                              
-          TP=FOURTH*(ONE + TT)                      
-          TM=FOURTH*(ONE - TT)                      
-          H1=TM*SM                                
-          H2=TM*SP                                
-          H3=TP*SP                                
+          SP=ONE + SS
+          SM=ONE - SS
+          TP=FOURTH*(ONE + TT)
+          TM=FOURTH*(ONE - TT)
+          H1=TM*SM
+          H2=TM*SP
+          H3=TP*SP
           H4=TP*SM
 
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-          SS=CSTS_BIS(1,II)                           
+          SS=CSTS_BIS(1,II)
           TT=CSTS_BIS(2,II)
-          SP=ONE + SS                              
-          SM=ONE - SS                              
-          TP=FOURTH*(ONE + TT)                      
-          TM=FOURTH*(ONE - TT)                      
-          H21=TM*SM                                
-          H22=TM*SP                                
-          H23=TP*SP                                
-          H24=TP*SM                                  
+          SP=ONE + SS
+          SM=ONE - SS
+          TP=FOURTH*(ONE + TT)
+          TM=FOURTH*(ONE - TT)
+          H21=TM*SM
+          H22=TM*SP
+          H23=TP*SP
+          H24=TP*SM
 C
-          FXI=A(1,I)                              
-          FYI=A(2,I)                              
-          FZI=A(3,I)                              
+          FXI=A(1,I)
+          FYI=A(2,I)
+          FZI=A(3,I)
 C
-          IF (IRUPT(II) == 0) THEN                
+          IF (IRUPT(II) == 0) THEN
 C---------  pas de rupture                      - 
 C
-            IF (WEIGHT(I) == 1) THEN              
-              XMSI = MS(I)                        
-              STFN = STIFN(I)                     
+            IF (WEIGHT(I) == 1) THEN
+              XMSI = MS(I)
+              STFN = STIFN(I)
 C
-              I0 = I0 + 1                         
-              NN = IADI2(1,I0)                    
-              FSKYI2(1,NN) = FXI*H1               
-              FSKYI2(2,NN) = FYI*H1               
-              FSKYI2(3,NN) = FZI*H1               
-              FSKYI2(4,NN) = XMSI*H21              
-              FSKYI2(5,NN) = STFN*H1              
+              I0 = I0 + 1
+              NN = IADI2(1,I0)
+              FSKYI2(1,NN) = FXI*H1
+              FSKYI2(2,NN) = FYI*H1
+              FSKYI2(3,NN) = FZI*H1
+              FSKYI2(4,NN) = XMSI*H21
+              FSKYI2(5,NN) = STFN*H1
 C
-              NN = IADI2(2,I0)                    
-              FSKYI2(1,NN) = FXI*H2               
-              FSKYI2(2,NN) = FYI*H2               
-              FSKYI2(3,NN) = FZI*H2               
-              FSKYI2(4,NN) = XMSI*H22              
-              FSKYI2(5,NN) = STFN*H2              
+              NN = IADI2(2,I0)
+              FSKYI2(1,NN) = FXI*H2
+              FSKYI2(2,NN) = FYI*H2
+              FSKYI2(3,NN) = FZI*H2
+              FSKYI2(4,NN) = XMSI*H22
+              FSKYI2(5,NN) = STFN*H2
 C
-              NN = IADI2(3,I0)                    
-              FSKYI2(1,NN) = FXI*H3               
-              FSKYI2(2,NN) = FYI*H3               
-              FSKYI2(3,NN) = FZI*H3               
-              FSKYI2(4,NN) = XMSI*H23              
-              FSKYI2(5,NN) = STFN*H3              
+              NN = IADI2(3,I0)
+              FSKYI2(1,NN) = FXI*H3
+              FSKYI2(2,NN) = FYI*H3
+              FSKYI2(3,NN) = FZI*H3
+              FSKYI2(4,NN) = XMSI*H23
+              FSKYI2(5,NN) = STFN*H3
 C
-              NN = IADI2(4,I0)                    
-              FSKYI2(1,NN) = FXI*H4               
-              FSKYI2(2,NN) = FYI*H4               
-              FSKYI2(3,NN) = FZI*H4               
-              FSKYI2(4,NN) = XMSI*H24              
-              FSKYI2(5,NN) = STFN*H4              
-            ENDIF                                 
+              NN = IADI2(4,I0)
+              FSKYI2(1,NN) = FXI*H4
+              FSKYI2(2,NN) = FYI*H4
+              FSKYI2(3,NN) = FZI*H4
+              FSKYI2(4,NN) = XMSI*H24
+              FSKYI2(5,NN) = STFN*H4
+            ENDIF
 C
-            IF (IRODDL == 0)THEN                  
-              STIFN(I)=EM20                       
-              MS(I) =ZERO                         
-              A(1,I)=ZERO                         
-              A(2,I)=ZERO                         
-              A(3,I)=ZERO                         
-            ENDIF                                 
-          ELSEIF (IRUPT(II) == -1) THEN           
+            IF (IRODDL == 0)THEN
+              STIFN(I)=EM20
+              MS(I) =ZERO
+              A(1,I)=ZERO
+              A(2,I)=ZERO
+              A(3,I)=ZERO
+            ENDIF
+          ELSEIF (IRUPT(II) == -1) THEN
 C---------  rupture partielle                     - 
 C
-            FXI = FSM(1,II)                       
-            FYI = FSM(2,II)                       
-            FZI = FSM(3,II)                       
+            FXI = FSM(1,II)
+            FYI = FSM(2,II)
+            FZI = FSM(3,II)
 C
-            A(1,I) = A(1,I) - FXI                 
-            A(2,I) = A(2,I) - FYI                 
-            A(3,I) = A(3,I) - FZI                 
+            A(1,I) = A(1,I) - FXI
+            A(2,I) = A(2,I) - FYI
+            A(3,I) = A(3,I) - FZI
 C
-            IF (WEIGHT(I) == 1) THEN              
-              I0 = I0 + 1                         
-              NN = IADI2(1,I0)                    
-              FSKYI2(1,NN) = FXI*H1               
-              FSKYI2(2,NN) = FYI*H1               
-              FSKYI2(3,NN) = FZI*H1               
-              FSKYI2(4,NN) = ZERO                 
-              FSKYI2(5,NN) = ZERO                 
+            IF (WEIGHT(I) == 1) THEN
+              I0 = I0 + 1
+              NN = IADI2(1,I0)
+              FSKYI2(1,NN) = FXI*H1
+              FSKYI2(2,NN) = FYI*H1
+              FSKYI2(3,NN) = FZI*H1
+              FSKYI2(4,NN) = ZERO
+              FSKYI2(5,NN) = ZERO
 C
-              NN = IADI2(2,I0)                    
-              FSKYI2(1,NN) = FXI*H2               
-              FSKYI2(2,NN) = FYI*H2               
-              FSKYI2(3,NN) = FZI*H2               
-              FSKYI2(4,NN) = ZERO                 
-              FSKYI2(5,NN) = ZERO                 
+              NN = IADI2(2,I0)
+              FSKYI2(1,NN) = FXI*H2
+              FSKYI2(2,NN) = FYI*H2
+              FSKYI2(3,NN) = FZI*H2
+              FSKYI2(4,NN) = ZERO
+              FSKYI2(5,NN) = ZERO
 C
-              NN = IADI2(3,I0)                    
-              FSKYI2(1,NN) = FXI*H3               
-              FSKYI2(2,NN) = FYI*H3               
-              FSKYI2(3,NN) = FZI*H3               
-              FSKYI2(4,NN) = ZERO                 
-              FSKYI2(5,NN) = ZERO                 
+              NN = IADI2(3,I0)
+              FSKYI2(1,NN) = FXI*H3
+              FSKYI2(2,NN) = FYI*H3
+              FSKYI2(3,NN) = FZI*H3
+              FSKYI2(4,NN) = ZERO
+              FSKYI2(5,NN) = ZERO
 C
-              NN = IADI2(4,I0)                    
-              FSKYI2(1,NN) = FXI*H4               
-              FSKYI2(2,NN) = FYI*H4               
-              FSKYI2(3,NN) = FZI*H4               
-              FSKYI2(4,NN) = ZERO                 
-              FSKYI2(5,NN) = ZERO                 
-            ENDIF                                 
-          ELSEIF (IRUPT(II) == 1 .AND. WEIGHT(I) == 1) THEN           
+              NN = IADI2(4,I0)
+              FSKYI2(1,NN) = FXI*H4
+              FSKYI2(2,NN) = FYI*H4
+              FSKYI2(3,NN) = FZI*H4
+              FSKYI2(4,NN) = ZERO
+              FSKYI2(5,NN) = ZERO
+            ENDIF
+          ELSEIF (IRUPT(II) == 1 .AND. WEIGHT(I) == 1) THEN
 C---------  rupture totale                     - 
 C
-            I0 = I0 + 1                           
-            NN = IADI2(1,I0)                      
-            FSKYI2(1,NN) = ZERO                 
-            FSKYI2(2,NN) = ZERO                 
-            FSKYI2(3,NN) = ZERO                 
-            FSKYI2(4,NN) = ZERO                   
-            FSKYI2(5,NN) = ZERO                   
+            I0 = I0 + 1
+            NN = IADI2(1,I0)
+            FSKYI2(1,NN) = ZERO
+            FSKYI2(2,NN) = ZERO
+            FSKYI2(3,NN) = ZERO
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ZERO
 C
-            NN = IADI2(2,I0)                      
-            FSKYI2(1,NN) = ZERO                 
-            FSKYI2(2,NN) = ZERO                 
-            FSKYI2(3,NN) = ZERO                 
-            FSKYI2(4,NN) = ZERO                   
-            FSKYI2(5,NN) = ZERO                   
+            NN = IADI2(2,I0)
+            FSKYI2(1,NN) = ZERO
+            FSKYI2(2,NN) = ZERO
+            FSKYI2(3,NN) = ZERO
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ZERO
 C
-            NN = IADI2(3,I0)                      
-            FSKYI2(1,NN) = ZERO                 
-            FSKYI2(2,NN) = ZERO                 
-            FSKYI2(3,NN) = ZERO                 
-            FSKYI2(4,NN) = ZERO                   
-            FSKYI2(5,NN) = ZERO                   
+            NN = IADI2(3,I0)
+            FSKYI2(1,NN) = ZERO
+            FSKYI2(2,NN) = ZERO
+            FSKYI2(3,NN) = ZERO
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ZERO
 C
-            NN = IADI2(4,I0)                      
-            FSKYI2(1,NN) = ZERO                 
-            FSKYI2(2,NN) = ZERO                 
-            FSKYI2(3,NN) = ZERO                 
-            FSKYI2(4,NN) = ZERO                   
-            FSKYI2(5,NN) = ZERO                   
-          ENDIF                                   
+            NN = IADI2(4,I0)
+            FSKYI2(1,NN) = ZERO
+            FSKYI2(2,NN) = ZERO
+            FSKYI2(3,NN) = ZERO
+            FSKYI2(4,NN) = ZERO
+            FSKYI2(5,NN) = ZERO
+          ENDIF
 C
         ENDIF
       ENDDO
@@ -218,10 +218,10 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE I2MOM10P(
      1           X         ,A         ,AR        ,MS        ,IN        ,
-     2           STIFN     ,STIFR     ,WEIGHT    ,IRECT     ,NSV       ,        
+     2           STIFN     ,STIFR     ,WEIGHT    ,IRECT     ,NSV       ,
      3           MSR       ,IRTL      ,IRUPT     ,CRST      ,IADI2     ,
-     4           FSKYI2    ,NSN       ,NMN       ,NIR       ,I0        ,         
-     5           I2SIZE    ,IDEL2     ,CSTS_BIS)                                             
+     4           FSKYI2    ,NSN       ,NMN       ,NIR       ,I0        ,
+     5           I2SIZE    ,IDEL2     ,CSTS_BIS)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -284,16 +284,16 @@ C
               H4=TP*SM
 
 C        Additional shape functions for distribution of mass / inertia - to avoid negative masses for projection outside of the element
-              SS=CSTS_BIS(1,II)                           
+              SS=CSTS_BIS(1,II)
               TT=CSTS_BIS(2,II)
-              SP=ONE + SS                              
-              SM=ONE - SS                              
-              TP=FOURTH*(ONE + TT)                      
-              TM=FOURTH*(ONE - TT)                      
-              H21=TM*SM                                
-              H22=TM*SP                                
-              H23=TP*SP                                
-              H24=TP*SM 
+              SP=ONE + SS
+              SM=ONE - SS
+              TP=FOURTH*(ONE + TT)
+              TM=FOURTH*(ONE - TT)
+              H21=TM*SM
+              H22=TM*SP
+              H23=TP*SP
+              H24=TP*SM
 C
               X0 = X(1,I)
               Y0 = X(2,I)
@@ -312,8 +312,8 @@ C
               Y4 = X(2,IRECT(4,L))
               Z4 = X(3,IRECT(4,L))
 C
-              XC = X1 * H1 + X2 * H2 + X3 * H3 + X4 * H4  
-              YC = Y1 * H1 + Y2 * H2 + Y3 * H3 + Y4 * H4  
+              XC = X1 * H1 + X2 * H2 + X3 * H3 + X4 * H4
+              YC = Y1 * H1 + Y2 * H2 + Y3 * H3 + Y4 * H4
               ZC = Z1 * H1 + Z2 * H2 + Z3 * H3 + Z4 * H4
 C
               XC0=X0-XC
@@ -373,34 +373,34 @@ C
           ELSEIF (WEIGHT(I) == 1) THEN
 C---------  rupture partielle ou totale                      - 
 C
-            I0 = I0 + 1          
-            NN = IADI2(1,I0)     
-            FSKYI2(6,NN) = ZERO  
-            FSKYI2(7,NN) = ZERO  
-            FSKYI2(8,NN) = ZERO  
-            FSKYI2(9,NN) = ZERO  
-            FSKYI2(10,NN)= ZERO  
+            I0 = I0 + 1
+            NN = IADI2(1,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN)= ZERO
 C
-            NN = IADI2(2,I0)     
-            FSKYI2(6,NN) = ZERO  
-            FSKYI2(7,NN) = ZERO  
-            FSKYI2(8,NN) = ZERO  
-            FSKYI2(9,NN) = ZERO  
-            FSKYI2(10,NN)= ZERO  
+            NN = IADI2(2,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN)= ZERO
 C
-            NN = IADI2(3,I0)     
-            FSKYI2(6,NN) = ZERO  
-            FSKYI2(7,NN) = ZERO  
-            FSKYI2(8,NN) = ZERO  
-            FSKYI2(9,NN) = ZERO  
-            FSKYI2(10,NN)= ZERO  
+            NN = IADI2(3,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN)= ZERO
 C
-            NN = IADI2(4,I0)     
-            FSKYI2(6,NN) = ZERO  
-            FSKYI2(7,NN) = ZERO  
-            FSKYI2(8,NN) = ZERO  
-            FSKYI2(9,NN) = ZERO  
-            FSKYI2(10,NN)= ZERO  
+            NN = IADI2(4,I0)
+            FSKYI2(6,NN) = ZERO
+            FSKYI2(7,NN) = ZERO
+            FSKYI2(8,NN) = ZERO
+            FSKYI2(9,NN) = ZERO
+            FSKYI2(10,NN)= ZERO
           ENDIF
 C
         ENDIF

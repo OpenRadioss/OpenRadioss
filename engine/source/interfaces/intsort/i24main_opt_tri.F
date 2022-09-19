@@ -34,12 +34,12 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD   
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
 #include      "implicit_f.inc"
-#include      "comlock.inc" 
+#include      "comlock.inc"
 C-----------------------------------------------
 C   G l o b a l   P a r a m e t e r s
 C-----------------------------------------------
@@ -64,7 +64,7 @@ C-----------------------------------------------
       INTEGER IPARI(NPARI,NINTER),ITASK, NIN,
      .        COUNT_REMSLV(*),NSNR,T2MAIN_SMS(6,*),LSKYI_SMS_NEW
 C     REAL
-      my_real 
+      my_real
      .   X(*), V(3,*)
       TYPE(INTBUF_STRUCT_) INTBUF_TAB
 C-----------------------------------------------
@@ -80,7 +80,7 @@ C     ALLOCATABLE
 C=======================================================================
 C-----------------------------------------------
 
-      IFQ =IPARI(31,NIN) 
+      IFQ =IPARI(31,NIN)
       NSNR=IPARI(24,NIN)
       IEDGE=IPARI(58,NIN)
       IEDG4=IPARI(59,NIN)

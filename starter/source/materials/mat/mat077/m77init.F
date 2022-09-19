@@ -29,7 +29,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE M77INIT(
      1      NEL    , NUPARAM, NUVAR   , NFUNC  , IFUNC  , NPF   ,
-     2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   ) 
+     2      TF     , UPARAM , RHO0    , VOLUME , EINT   ,UVAR   )
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
 C-----------------------------------------------
@@ -86,7 +86,7 @@ C     REAL
       my_real
      .        E0,RHO_AIR0,ALPHA,EINT0,KK,MU,DF
 C=======================================================================
-      E0 = UPARAM(2) 
+      E0 = UPARAM(2)
       RHO_AIR0 =  UPARAM(14 + 2*NFUNC)
       ALPHA   =  UPARAM(17 + 2*NFUNC)
       EINT0    =  UPARAM(20 + 2*NFUNC)
@@ -100,7 +100,7 @@ C
       IF(IFUNCR > 0) ALPHA= ALPHA*FINTER(IFUNCR,MU,NPF,TF,DF)
       IF(IFUNCK > 0) KK= KK*FINTER(IFUNCK,MU,NPF,TF,DF)
 C      
-      DO I=1,NEL                    
+      DO I=1,NEL
         DO J=1,NUVAR
           UVAR(I,J)=ZERO
         ENDDO

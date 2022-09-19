@@ -73,7 +73,7 @@ C
            A(1,N) = ZERO
            A(2,N) = ZERO
            A(3,N) = ZERO
-        ENDIF  
+        ENDIF
       ENDDO
 C--------------------------------------------
       RETURN

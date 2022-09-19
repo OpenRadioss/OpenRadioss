@@ -32,7 +32,7 @@ Chd|        VOLINT                        source/interfaces/inter3d1/volint.F
 Chd|====================================================================
       SUBROUTINE I2COR3(X     ,IRECT ,NSV   ,CAND_E  ,CAND_N,
      2                  STF   ,STFN  ,GAPV  ,IGAP    ,GAP   ,
-     3                  GAP_S ,GAP_M ,ISTF  ,NINT    ,IXC   , 
+     3                  GAP_S ,GAP_M ,ISTF  ,NINT    ,IXC   ,
      4                  IXTG  ,THK_PART,IPARTC,GEO   , NOINT,
      5                  IXS   ,IXS10 ,PM    ,THK     ,KNOD2ELS,
      6                  KNOD2ELC,KNOD2ELTG,NOD2ELS,NOD2ELC,NOD2ELTG,
@@ -64,8 +64,8 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IGAP, IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),ISTF,
      .        IXC(NIXC,*),IXTG(NIXTG,*),IPARTC(*),NOINT,
-     .        IXS(NIXS,*), IXS10(*),KNOD2ELS(*), 
-     .        KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*), 
+     .        IXS(NIXS,*), IXS10(*),KNOD2ELS(*),
+     .        KNOD2ELC(*),KNOD2ELTG(*), NOD2ELS(*), NOD2ELC(*),
      .        NOD2ELTG(*),NINT,IGNORE,
      .        IXS16(*), IXS20(*),IPARTTG(*),IGEO(NPROPGI,*),
      .        IWORKSH(*)
@@ -117,7 +117,7 @@ C
       IF(IGAP==0 .AND. IGNORE <= 1)THEN
         DO I=LFT,LLT
          GAPV(I) = GAP
-        ENDDO 
+        ENDDO
       ELSEIF((IGNORE == 2 .OR. IGNORE == 3) .AND. DSEARCH /= ZERO)THEN
         DO I=LFT,LLT
           GAPV(I) = GAP
@@ -131,20 +131,20 @@ C
             IEL  = NOD2ELC(IAD)
             MG=IXC(6,IEL)
 	    IP = IPARTC(IEL)
-            IF ( THK_PART(IP) /= ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKSECND = THK_PART(IP)
 	    ELSEIF ( THK(IEL) /= ZERO) THEN
 	      THKSECND = THK(IEL)
 	    ELSE
               THKSECND = GEO(1,MG)
 	    ENDIF
-          ENDDO 
+          ENDDO
 C--         Cooques 3n
           DO IAD = KNOD2ELTG(NSVG(I))+1,KNOD2ELTG(NSVG(I)+1)
-            IEL  = NOD2ELTG(IAD) 
+            IEL  = NOD2ELTG(IAD)
             MG=IXTG(5,IEL)
 	    IP = IPARTTG(IEL)
-            IF ( THK_PART(IP) /= ZERO) THEN  
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKSECND = THK_PART(IP)
 	    ELSEIF ( THK(NUMELC+IEL) /= ZERO) THEN
 	      THKSECND = THK(NUMELC+IEL)
@@ -164,8 +164,8 @@ C--         Cooques 3n
      .            PM_STACK , IWORKSH )
           IF(NELTG/=0) THEN
             MG=IXTG(5,NELTG)
-	    IP = IPARTTG(NELTG) 
-            IF ( THK_PART(IP) /= ZERO) THEN  
+	    IP = IPARTTG(NELTG)
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKMAIN = THK_PART(IP)
 	    ELSEIF ( THK(NUMELC+NELTG) /= ZERO) THEN
               THKMAIN = THK(NUMELC+NELTG)
@@ -174,8 +174,8 @@ C--         Cooques 3n
 	    ENDIF
           ELSEIF(NELC/=0) THEN
             MG=IXC(6,NELC)
-	    IP = IPARTC(NELC) 
-            IF ( THK_PART(IP) /= ZERO) THEN  
+	    IP = IPARTC(NELC)
+            IF ( THK_PART(IP) /= ZERO) THEN
               THKMAIN = THK_PART(IP)
 	    ELSEIF ( THK(NELC) /= ZERO) THEN
               THKMAIN = THK(NELC)

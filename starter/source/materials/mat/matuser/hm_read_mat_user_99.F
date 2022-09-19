@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER ILAW,IUSER_LAW
       INTEGER USERL_AVAIL
       INTEGER MAXUPARAM
-      INTEGER NUPARAM 
+      INTEGER NUPARAM
       INTEGER NUVAR
       INTEGER NFUNC,MAXFUNC
       TYPE(SUBMODEL_DATA),INTENT(IN)  :: LSUBMODEL(*)
@@ -118,7 +118,7 @@ C-----------------------------------------------
         CALL ARRET(2)
       ENDIF
 
-     
+
       CALL HM_GET_INTV ('Number_of_datalines' ,NLINES ,IS_AVAILABLE, LSUBMODEL)
 
       IF(NLINES > 1)THEN
@@ -131,20 +131,20 @@ C-----------------------------------------------
         PM(1)=RHOR
         PM(89)=RHO0
 
-        ! Create tempo file  
+        ! Create tempo file
         WRITE(CLAW,'(I4.4)')ILAW
         SCR_FILE_NAME='SI'//ROOTNAM(1:ROOTLEN)//'_'//CLAW//'.scr'
         SCR_FILE_NAME_LEN=LEN_TRIM(SCR_FILE_NAME)
         OPEN(UNIT=30,FILE=TRIM(SCR_FILE_NAME),FORM='FORMATTED',RECL=ncharline)
 
         ! Read & Dump in scratch file
-        DO J=2,NLINES   
+        DO J=2,NLINES
          CALL HM_GET_STRING_INDEX('arraydatalines', RLINE, J, ncharline, IS_AVAILABLE)
          WRITE(30,FMT='(A)')TRIM(RLINE)
         ENDDO
         CLOSE(UNIT=30)
 
-        CALL ST_USERLIB_LECM99(ILAW,ROOTNAM,ROOTLEN,IUSER_LAW , 
+        CALL ST_USERLIB_LECM99(ILAW,ROOTNAM,ROOTLEN,IUSER_LAW ,
      .                         UPARAM,MAXUPARAM,
      .                         NUPARAM,NUVAR ,IFUNC      ,MAXFUNC,NFUNC   ,
      .                         PARMAT ,USERBUF)

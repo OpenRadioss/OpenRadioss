@@ -41,7 +41,7 @@ C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
       USE H3D_MOD
-      USE PINCHTYPE_MOD 
+      USE PINCHTYPE_MOD
       USE PBLAST_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER NL, N1, ISK, N2, N3, N4, N5,NSKIN, 
+      INTEGER NL, N1, ISK, N2, N3, N4, N5,NSKIN,
      .        IAD ,NP ,IFUNC ,NPRES,NSKIN0,NSKIN1,N1FRAM,DIR_HSP,I,N
       INTEGER K1, K2, K3, ISENS,K,LL,IERR,
      .        N_OLD, ISMOOTH,IDEL,NINTERP ,NPL,TAGN1,TAGN2,TAGN3,TAGN4,
@@ -101,7 +101,7 @@ C-----------------------------------------------
       my_real COORMEAN,YMEAN,ZMEAN,PVEL,NSIGN,DNORM,
      .        Xdet,Ydet,Zdet,Tdet,Wtnt,PMIN,Dx,Dy,Dz,NORMD, P,
      .        T0INF_LOC, TA_SHIFT, TT_STAR
-      
+
       EXTERNAL FINTER,FINTER_SMOOTH
 C=======================================================================
       IF (KEYWORD /= 'VECT/PEXT') RETURN
@@ -182,14 +182,14 @@ C--------default zero
 		 SKIN_VECTOR(1,NSKIN)=FX
 		 SKIN_VECTOR(2,NSKIN)=FY
 		 SKIN_VECTOR(3,NSKIN)=FZ
-       END DO 
+       END DO
 C----------load_pressure	   
        DO NP=1,NLOADP_HYD
-         ISIZ_SEG = ILOADP(1,NP)/4 
+         ISIZ_SEG = ILOADP(1,NP)/4
          IFUNC = ILOADP(3,NP)
          IAD = ILOADP(4,NP)
          NINTERP = ILOADP(5,NP)
-         ISENS =  ILOADP(7,NP) 
+         ISENS =  ILOADP(7,NP)
          FCY = FAC(1,NP)
          FCX = FAC(2,NP)
 C--------default zero        
@@ -210,7 +210,7 @@ C
            ELSE
               TS = TT-SENSOR(2,ISENS)
               IF(TS<ZERO) CYCLE
-           ENDIF    
+           ENDIF
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
            N2 = LLOADP(IAD+4*(N-1)+1)
@@ -219,7 +219,7 @@ C
 		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
 
            F1 = FINTER(IFUNC,TS*FCX,NPC,TF,DYDX)
-           AA = FCY*F1  
+           AA = FCY*F1
 C----------------
 C       Check if segment is in contact 
 C----------------
@@ -230,7 +230,7 @@ C----------------
              TAGN3 = 0
              TAGN4 = 0
              FP = ONE
-             IF(NINTERP > 0 ) THEN           
+             IF(NINTERP > 0 ) THEN
                 NPL = LOADP_HYD_INTER(NP)
                 IF(N4/=0) THEN
                    IF(TAGNCONT(NPL,N1)==1.AND.TAGNCONT(NPL,N2)==1.AND.
@@ -253,7 +253,7 @@ C----------------
                       TAGN3 = TAGNCONT(NPL,N3)
 					  FP = (TAGN1+TAGN2+TAGN3)/3
                    ENDIF
-                ENDIF    
+                ENDIF
                 IF (FP==ZERO) FP = ONE
              ENDIF
 			 IF (SEGCONT==1) AA = ZERO
@@ -291,7 +291,7 @@ C----------------
 C---------pfluid	   
        DO NL=1,NLOADP_F
 C--------default zero        
-         ISIZ_SEG = ILOADP(1,NP)/4 
+         ISIZ_SEG = ILOADP(1,NP)/4
          IAD = ILOADP(4,NP)
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
@@ -315,7 +315,7 @@ C--------default zero
          FUN_VEL=ILOADP(11,NL)
          FCY2 = FAC(5,NL)
          FCX2 = FAC(6,NL)
-         ! To avoid a check bound issue when the velocity options are not set in the input, 
+         ! To avoid a check bound issue when the velocity options are not set in the input,
          ! the DIR_VEL variable is bounded to a minimal value of 1
          DIR_VEL=MAX(ILOADP(12,NL),1)
          IFRA2=ILOADP(13,NL)
@@ -327,11 +327,11 @@ C--------default zero
          IF(ISENS==0)THEN
             TS=TT
          ELSEIF (LSENSOR(4,ISENS)==753096514 .AND. TT /= ZERO) THEN
-           IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)         
-           IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)  
-         ELSE                        
-            TS = TT-SENSOR(2,ISENS)  
-            IF(TS < ZERO) CYCLE     
+           IERR = SET_U_SENS_VALUE(ISENS,1,ZERO)
+           IERR = GET_U_SENS_VALUE(ISENS,2,XSENS)
+         ELSE
+            TS = TT-SENSOR(2,ISENS)
+            IF(TS < ZERO) CYCLE
          ENDIF
          DO I = 1,ISIZ_SEG
            N1=LLOADP(ILOADP(4,NL)+4*(I-1))
@@ -367,10 +367,10 @@ C vel pressure
              K1=3*DIR_VEL-2
              K2=3*DIR_VEL-1
              K3=3*DIR_VEL
-c         
-             NSIGN = (NX * XFRAME(K1,IFRA2) + 
-     .                NY * XFRAME(K2,IFRA2) + 
-     .                NZ * XFRAME(K3,IFRA2)) 
+c
+             NSIGN = (NX * XFRAME(K1,IFRA2) +
+     .                NY * XFRAME(K2,IFRA2) +
+     .                NZ * XFRAME(K3,IFRA2))
              IF(NSIGN/=ZERO) NSIGN = SIGN(ONE,NSIGN)
 C         
              VSEG= (XFRAME(K1,IFRA2)*
@@ -379,13 +379,13 @@ C
      .               (V(2,N1) + V(2,N2) + V(2,N3) + V(2,N4)) /FOUR)+
      .              (XFRAME(K3,IFRA2)*
      .               (V(3,N1) + V(3,N2) + V(3,N3) + V(3,N4)) /FOUR)
-             
+
              IF(FUN_VEL /=0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
              ELSE
                 VEL =  - VSEG
              ENDIF
-             IF(FUN_CX /=0)   
+             IF(FUN_CX /=0)
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
@@ -431,10 +431,10 @@ C vel pressure
              K1=3*DIR_VEL-2
              K2=3*DIR_VEL-1
              K3=3*DIR_VEL
-c           
-             NSIGN = (NX * XFRAME(K1,IFRA2) + 
-     .                NY * XFRAME(K2,IFRA2) + 
-     .                NZ * XFRAME(K3,IFRA2)) 
+c
+             NSIGN = (NX * XFRAME(K1,IFRA2) +
+     .                NY * XFRAME(K2,IFRA2) +
+     .                NZ * XFRAME(K3,IFRA2))
              IF(NSIGN/=ZERO) NSIGN = SIGN(ONE,NSIGN)
 C           
              VSEG= (XFRAME(K1,IFRA2)*
@@ -443,13 +443,13 @@ C
      .               (V(2,N1) + V(2,N2) + V(2,N3)) /THREE)+
      .              (XFRAME(K3,IFRA2)*
      .               (V(3,N1) + V(3,N2) + V(3,N3)) /THREE)
-             
+
              IF(FUN_VEL /=0)THEN
                 VEL =  FCY2*FINTER(FUN_VEL,TT*FCX2,NPC,TF,DYDX)- VSEG
              ELSE
                 VEL =  - VSEG
              ENDIF
-             IF(FUN_CX /=0)   
+             IF(FUN_CX /=0)
      .         PVEL = (  (-(NX/NORM)*VEL*XFRAME(K1,IFRA2)-
      .                 (NY/NORM)*VEL*XFRAME(K2,IFRA2)-
      .                 (NZ/NORM)*VEL*XFRAME(K3,IFRA2))**2  )* FCY1*
@@ -484,12 +484,12 @@ C
 		    SKIN_VECTOR(1,NSKIN)=FX
 		    SKIN_VECTOR(2,NSKIN)=FY
 		    SKIN_VECTOR(3,NSKIN)=FZ
-         END DO 
-       END DO 
+         END DO
+       END DO
 C---------pblast	   
        DO NL=1+NLOADP_F,NLOADP_F+NLOADP_B
 C--------default zero        
-         ISIZ_SEG  = ILOADP(1,NL)/4 
+         ISIZ_SEG  = ILOADP(1,NL)/4
          IAD = ILOADP(4,NL)
          DO N=1, ISIZ_SEG
            N1 = LLOADP(IAD+4*(N-1))
@@ -508,16 +508,16 @@ C--------default zero
          IF(TT<TDET)CYCLE
          !---------------------------------------------
          !   LOOP ON SEGMENTS (4N or 3N)
-         !---------------------------------------------      
+         !---------------------------------------------
          DO I = 1,ISIZ_SEG
            N1=LLOADP(ILOADP(4,NL)+4*(I-1))
            N2=LLOADP(ILOADP(4,NL)+4*(I-1)+1)
            N3=LLOADP(ILOADP(4,NL)+4*(I-1)+2)
-           N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3) 
-		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE           
-           !Dist                                                                                                          
-           
-           P = PBLAST_TAB(IL)%PRES(I)                                                           
+           N4=LLOADP(ILOADP(4,NL)+4*(I-1)+3)
+		   IF (N1==0.OR.N2==0.OR.N3==0) CYCLE
+           !Dist
+
+           P = PBLAST_TAB(IL)%PRES(I)
 		   AA= -P
             IF(N4/=0)THEN
               RXI = X(1,N2)+X(1,N3)-X(1,N1)-X(1,N4)
@@ -548,7 +548,7 @@ C--------default zero
 		    SKIN_VECTOR(2,NSKIN)=FY
 		    SKIN_VECTOR(3,NSKIN)=FZ
          ENDDO!next I
-       END DO 
+       END DO
 C
       RETURN
       END

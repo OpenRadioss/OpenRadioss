@@ -49,9 +49,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
-#include      "com01_c.inc"     
-#include      "com04_c.inc"     
-#include      "task_c.inc"      
+#include      "com01_c.inc"
+#include      "com04_c.inc"
+#include      "task_c.inc"
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
@@ -67,9 +67,9 @@ C-----------------------------------------------
        INTEGER IERROR
        INTEGER P,J,NOD,SIZ,L,IAD
 C-----------------------------------------------
-       DATA MSGOFF/400/    
+       DATA MSGOFF/400/
        MSGTYP=MSGOFF
-       
+
        LENCOM = ( IAD_ELEM(1,NSPMD+1) - IAD_ELEM(1,1) )
 
 C Allocation des Buffers           
@@ -78,32 +78,32 @@ C Allocation des Buffers
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
        ENDIF
-       
+
        ALLOCATE(REC_BUF(2 * LENCOM),STAT=IERROR)
        IF(IERROR/=0) THEN
           CALL ANCMSG(MSGID=20,ANMODE=ANINFO)
           CALL ARRET(2)
-       ENDIF   
+       ENDIF
 C 
 C ----------
 C Set IRECV
 C ----------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
               SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
-          IF(SIZ > 0) THEN 
+          IF(SIZ > 0) THEN
            CALL MPI_IRECV(
      S      REC_BUF(L),2*SIZ,REAL,IT_SPMD(P),MSGTYP,
      G      MPI_COMM_WORLD,REQ_R(P),IERROR)
             L=L+2*SIZ
           ENDIF
        ENDDO
-       
+
 C -----------------
 C PREPARE SEND_BUF       
 C -----------------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
          SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
          IF(SIZ > 0)THEN
            IAD = L
@@ -112,12 +112,12 @@ C -----------------
               SEND_BUF(L)=MIN_ARRAY(NOD)
               SEND_BUF(L + 1)=MAX_ARRAY(NOD)
               L=L+2
-           ENDDO         
-         
+           ENDDO
+
            CALL MPI_ISEND(
      S       SEND_BUF(IAD),2*SIZ,REAL,IT_SPMD(P),MSGTYP,
      G       MPI_COMM_WORLD,REQ_S(P),IERROR)
-     
+
          ENDIF
        ENDDO
 
@@ -125,11 +125,11 @@ C ------------
 C END RECIEVE
 C ------------
        L=1
-       DO P=1,NSPMD 
+       DO P=1,NSPMD
          SIZ = IAD_ELEM(1,P+1)-IAD_ELEM(1,P)
          IF(SIZ > 0)THEN
            CALL MPI_WAIT(REQ_R(P),STATUS,IERROR)
-            
+
            DO J=IAD_ELEM(1,P),IAD_ELEM(1,P+1)-1
              NOD = FR_ELEM(J)
              MIN_ARRAY(NOD) = MIN(MIN_ARRAY(NOD), REC_BUF(L))
@@ -149,8 +149,8 @@ C ------------
       ENDDO
       IF (ALLOCATED(SEND_BUF)) DEALLOCATE(SEND_BUF)
       IF (ALLOCATED(REC_BUF)) DEALLOCATE(REC_BUF)
-       
+
 #endif
-       
+
        END
-       
+

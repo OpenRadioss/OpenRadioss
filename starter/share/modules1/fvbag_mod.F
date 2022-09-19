@@ -57,7 +57,7 @@ C-------------------------------
       my_real CFL_COEF, DTMIN
       my_real LAMBDA       ! /DT/FVMBAG param 3
       my_real DTOLD        ! FVMBAG time step from previous cycle
-      INTEGER L_TYPE       ! FVMBAG characteristic length option      
+      INTEGER L_TYPE       ! FVMBAG characteristic length option
       INTEGER ID_DT_OPTION ! /DT/FVMBAG/[ID_DT_OPTION]
 C------------------------------------------------
 C     Dispersion of pressure around mean pressure
@@ -66,7 +66,7 @@ C------------------------------------------------
 C-------------------------------
 C Donnees briques intersectantes
 C-------------------------------
-         INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC 
+         INTEGER, DIMENSION(:,:), POINTER :: BRIC, TBRIC
          my_real,
      .            DIMENSION(:,:), POINTER :: XB
          my_real,
@@ -100,7 +100,7 @@ C------------------------
          my_real
      .          , DIMENSION(:), POINTER :: MPOLH,   EPOLH,   PPOLH,
      .                                     RPOLH,   GPOLH,   TPOLH,
-     .                                     CPAPOLH, CPBPOLH, CPCPOLH, 
+     .                                     CPAPOLH, CPBPOLH, CPCPOLH,
      .                                     CPDPOLH, CPEPOLH, CPFPOLH,
      .                                     RMWPOLH, VPOLH_INI
          my_real
@@ -132,7 +132,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:), ALLOCATABLE :: FVID
 
 c after bug detected on fvmbags qa after starter paralellization
-!$OMP THREADPRIVATE(FVSPMD) 
+!$OMP THREADPRIVATE(FVSPMD)
 
 C
       END MODULE FVBAG_MOD

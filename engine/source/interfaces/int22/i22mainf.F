@@ -43,16 +43,16 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE I22MAINF(
      1                   IPARI     ,INTBUF_TAB ,X          ,A      ,
-     2                   ICODT     ,FSAV       ,V          ,MS        ,DT2T     ,  
-     3                   NELTST    ,ITYPTST    ,ITAB       ,STIFN     ,FSKYI    ,  
-     4                   ISKY      ,FCONT      ,NIN        ,LINDMAX   ,KINET    ,  
-     5                   JTASK     ,NB_JLT     ,NB_JLT_NEW ,NB_STOK_N ,          
+     2                   ICODT     ,FSAV       ,V          ,MS        ,DT2T     ,
+     3                   NELTST    ,ITYPTST    ,ITAB       ,STIFN     ,FSKYI    ,
+     4                   ISKY      ,FCONT      ,NIN        ,LINDMAX   ,KINET    ,
+     5                   JTASK     ,NB_JLT     ,NB_JLT_NEW ,NB_STOK_N ,
      6                   NISKYFI   ,NEWFRONT   ,NSTRF      ,SECFCUM   ,ICONTACT ,
      7                   VISCN     ,NUM_IMP,
-     9                   NS_IMP    ,NE_IMP     ,IND_IMP    ,FSAVSUB   ,NRTMDIM  ,  
+     9                   NS_IMP    ,NE_IMP     ,IND_IMP    ,FSAVSUB   ,NRTMDIM  ,
      A                   FSAVBAG   ,IGRBRIC    ,
-     B                   EMINX     ,IXS        ,IXS16      ,IXS20     ,FNCONT   ,  
-     C                   FTCONT    ,IAD_ELEM   ,FR_ELEM    ,RCONTACT  ,ACONTACT , 
+     B                   EMINX     ,IXS        ,IXS16      ,IXS20     ,FNCONT   ,
+     C                   FTCONT    ,IAD_ELEM   ,FR_ELEM    ,RCONTACT  ,ACONTACT ,
      D                   PCONTACT  ,TEMP       ,FTHE       ,FTHESKYI,
      E                   PM        ,IPARG      ,IAD17      ,MSKYI_SMS ,ISKYI_SMS,
      F                   NODNX_SMS ,MS0        ,ELBUF_TAB  ,NV46      ,FBSAV6   ,
@@ -67,7 +67,7 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD 
+      USE ELBUFDEF_MOD
       USE MOD_NODNORM
       USE I22TRI_MOD
       USE INTBUFDEF_MOD
@@ -104,19 +104,19 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      
+
       INTEGER NELTST,ITYPTST,NIN,NEWFRONT,NSTRF(*),
      .        NRTMDIM, IAD17,NV46, ISENSINT(*), DIMFB
       INTEGER IPARI(NPARI,NINTER), ICODT(*),ICONTACT(*),
-     .        ITAB(*), ISKY(*), KINET(*), 
+     .        ITAB(*), ISKY(*), KINET(*),
      .        IPARG(NPARG,*)
       INTEGER NB_JLT,NB_JLT_NEW,NB_STOK_N,JTASK,
      .        NISKYFI, LINDMAX
       INTEGER NUM_IMP,NS_IMP(*),NE_IMP(*),IND_IMP(*)
       INTEGER IXS(*)  ,IXS16(*) ,IXS20(*)
-      INTEGER IAD_ELEM(2,*),FR_ELEM(*), 
+      INTEGER IAD_ELEM(2,*),FR_ELEM(*),
      .        ISKYI_SMS(*), NODNX_SMS(*)
-      my_real 
+      my_real
      .        EMINX(*)
       my_real DT2T,
      .   X(*), A(3,*), FSAV(*), V(3,*),FSAVBAG(*),
@@ -188,14 +188,14 @@ C-----------------------------------------------
       my_real, POINTER                               :: pFSAVparit
 
       IADM      = 0
-      
+
       NRTM      = IPARI(4,NIN)
       NSN       = IPARI(5,NIN)
       NTY       = IPARI(7,NIN)
       NOINT     = IPARI(15,NIN)
       INACTI    = IPARI(22,NIN)    ! unused
-      IBAG      = IPARI(32,NIN)     ! Pressure correction 
-      NISUB     = IPARI(36,NIN)    
+      IBAG      = IPARI(32,NIN)     ! Pressure correction
+      NISUB     = IPARI(36,NIN)
       ISU1      = IPARI(45,NIN)
       INTTH     = IPARI(47,NIN)
 
@@ -222,7 +222,7 @@ C
 
       !-------------------------------!
       !UNPLUG CONDITIONS              !
-      !-------------------------------!      
+      !-------------------------------!
       IF(STARTT>TT) RETURN
       IF(TT>STOPT)  RETURN
 
@@ -237,7 +237,7 @@ C
           ENDIF
           DEBUT = (JTASK-1)*NB_LOC
         I_STOK = 0
-      
+
       !-------------------------------!
       !RECALCULATE DU I_STOK          !
       !-------------------------------!
@@ -247,15 +247,15 @@ C
               INDEX2(I_STOK) = I
             ENDIF
           ENDDO
-          
+
       !-------------------------------!
       !/DEBUG/CAND/NN                 !
-      !-------------------------------!          
+      !-------------------------------!
         IF (DEBUG(3)>=1) THEN
           NB_JLT    = NB_JLT + I_STOK_LOC
           NB_STOK_N = NB_STOK_N + I_STOK
         ENDIF
-        
+
 c------------------------------------------------
       CALL MY_BARRIER()
       IF(JTASK==1)THEN
@@ -313,17 +313,17 @@ C
         ENDIF
 C
       DO NFT = 0 , I_STOK - 1 , NVSIZ
-      
+
         JLT = MIN( NVSIZ, I_STOK - NFT )
-        
+
 !        if(ibug22_trivox==1)then
 !          print *, "================================================"
 !          print *, "  I22MAINF : "
 !          print *, "    NFT = ", NFT
-!          print *, "    JLT = ", JLT        
-!          print *, "================================================"        
+!          print *, "    JLT = ", JLT
+!          print *, "================================================"
 !        endif
-	       
+	
         ! cand_b & cand_e replaced with cand_b_n & cand_e_n
         CALL I22COR3(
      1  JLT              ,X                 , INTBUF_TAB%IRECTM         ,INTBUF_TAB%NSV            ,CAND_E_N         ,
@@ -335,7 +335,7 @@ C
      7  GAP              ,INTBUF_TAB%GAP_S  , INTBUF_TAB%GAP_M          ,GAPV                      ,MS               ,
      8  VXI              ,VYI      ,
      A  VZI              ,MSI               , NSN                       ,V                         ,KINET            ,
-     B  KINI             ,NTY               , NIN                       ,IGSTI                     ,KMIN             ,  
+     B  KINI             ,NTY               , NIN                       ,IGSTI                     ,KMIN             ,
      C  KMAX             ,GAPMAX            , GAPMIN                    ,IADM                      ,INDEX2(NFT+1)    ,
      D  INTTH            ,TEMP              , INTBUF_TAB%CAND_E(1)      ,INTBUF_TAB%CAND_N(1)      ,
      E  TEMPI            ,PHI               , INTBUF_TAB%AREAS          ,INTBUF_TAB%IELEC          ,AREASI           ,
@@ -343,29 +343,29 @@ C
      G  IGRBRIC(ISU1)%ENTITY,JTASK)
 
         CALL I22WETSURF(
-     1  JLT              ,CAND_B_N          ,CAND_E_N                   ,CB_LOC                    ,CE_LOC           , 
-     2  X1               ,X2                ,X3                         ,X4                        ,Y1               , 
-     3  Y2               ,Y3                ,Y4                         ,Z1                        ,Z2               , 
-     4  Z3               ,Z4                ,XI                         ,YI                        ,ZI               , 
-     5  NX1              ,NX2               ,NX3                        ,NX4                       ,NY1              , 
-     6  NY2              ,NY3               ,NY4                        ,NZ1                       ,NZ2              , 
-     7  NZ3              ,NZ4               ,LB1                        ,LB2                       ,LB3              , 
-     8  LB4              ,LC1               ,LC2                        ,LC3                       ,LC4              , 
-     9  P1               ,P2                ,P3                         ,P4                        ,IX1              , 
-     A  IX2              ,IX3               ,IX4                        ,NSVG                      ,STIF             , 
-     B  JLT_NEW          ,GAPV              ,INACTI                     ,INTBUF_TAB%CAND_P         ,N_SCUT           , 
-     C  INDEX2(NFT+1)    ,VXI               ,VYI                        , 
-     D  VZI              ,MSI               ,KINI                       ,SURF                      ,IBAG             , 
-     E  ITAB             ,INTBUF_TAB%IRECTM ,INTBUF_TAB%I_STOK(1)       ,IXS                       ,NFT              , 
-     F  CoG              ,Seff              ,Delta                      ,X)                                        
+     1  JLT              ,CAND_B_N          ,CAND_E_N                   ,CB_LOC                    ,CE_LOC           ,
+     2  X1               ,X2                ,X3                         ,X4                        ,Y1               ,
+     3  Y2               ,Y3                ,Y4                         ,Z1                        ,Z2               ,
+     4  Z3               ,Z4                ,XI                         ,YI                        ,ZI               ,
+     5  NX1              ,NX2               ,NX3                        ,NX4                       ,NY1              ,
+     6  NY2              ,NY3               ,NY4                        ,NZ1                       ,NZ2              ,
+     7  NZ3              ,NZ4               ,LB1                        ,LB2                       ,LB3              ,
+     8  LB4              ,LC1               ,LC2                        ,LC3                       ,LC4              ,
+     9  P1               ,P2                ,P3                         ,P4                        ,IX1              ,
+     A  IX2              ,IX3               ,IX4                        ,NSVG                      ,STIF             ,
+     B  JLT_NEW          ,GAPV              ,INACTI                     ,INTBUF_TAB%CAND_P         ,N_SCUT           ,
+     C  INDEX2(NFT+1)    ,VXI               ,VYI                        ,
+     D  VZI              ,MSI               ,KINI                       ,SURF                      ,IBAG             ,
+     E  ITAB             ,INTBUF_TAB%IRECTM ,INTBUF_TAB%I_STOK(1)       ,IXS                       ,NFT              ,
+     F  CoG              ,Seff              ,Delta                      ,X)
 
         !JLT = JLT_NEW
-        
-        
+
+
         !tmp
         JLT_NEW =1
         !-------!
-        
+
         IF (IMONM > 0 .AND. JTASK == 1) CALL STARTIME(20,1)
         IF(JLT_NEW/=0) THEN
           IPARI(29,NIN) = 1
@@ -381,24 +381,24 @@ C
      7    NZ3                ,NZ4               ,LB1               ,LB2               ,LB3                ,
      8    LB4                ,LC1               ,LC2               ,LC3               ,LC4                ,
      9    P1                 ,P2                ,P3                ,P4                ,FCONT              ,
-     B    IX1                ,IX2               ,IX3               ,IX4               ,NSVG               ,      
-     C    IVIS2              ,NELTST            ,ITYPTST           ,DT2T              ,INTTH              ,              
-     D    GAPV               ,INACTI            ,INTBUF_TAB%CAND_P ,INDEX2(NFT+1)     ,NISKYFI            ,      
-     E    KINET              ,NEWFRONT          ,ISECIN            ,NSTRF             ,SECFCUM            ,      
+     B    IX1                ,IX2               ,IX3               ,IX4               ,NSVG               ,
+     C    IVIS2              ,NELTST            ,ITYPTST           ,DT2T              ,INTTH              ,
+     D    GAPV               ,INACTI            ,INTBUF_TAB%CAND_P ,INDEX2(NFT+1)     ,NISKYFI            ,
+     E    KINET              ,NEWFRONT          ,ISECIN            ,NSTRF             ,SECFCUM            ,
      F    X                  ,INTBUF_TAB%IRECTM ,CE_LOC            ,MFROT             ,IFQ                ,
      G    INTBUF_TAB%FRIC_P  ,INTBUF_TAB%FTSAVX ,INTBUF_TAB%FTSAVY ,INTBUF_TAB%FTSAVZ ,
      +    INTBUF_TAB%XFILTR  ,
-     H    INTBUF_TAB%IFPEN   ,IBAG              ,ICONTACT          ,       
-     J    VISCN              ,VXI               ,VYI               ,VZI               ,MSI                ,      
+     H    INTBUF_TAB%IFPEN   ,IBAG              ,ICONTACT          ,
+     J    VISCN              ,VXI               ,VYI               ,VZI               ,MSI                ,
      K    KINI               ,NIN               ,NISUB             ,INTBUF_TAB%LISUB  ,INTBUF_TAB%ADDSUBS ,
      L    INTBUF_TAB%ADDSUBM ,INTBUF_TAB%LISUBS ,INTBUF_TAB%LISUBM ,FSAVSUB           ,
      .    INTBUF_TAB%CAND_N  ,
-     M    IPARI(33,NIN)      ,IPARI(39,NIN)     ,PRES              ,FNCONT            ,MS0                , 
-     N    N_SCUT             ,SURF              ,CoG               ,CAND_E_N          ,SEFF               , 
-     O    ELBUF_TAB          ,X1                ,X2                ,X3                ,X4                 , 
-     3    Y1                 ,Y2                ,Y3                ,Y4                ,Z1                 , 
+     M    IPARI(33,NIN)      ,IPARI(39,NIN)     ,PRES              ,FNCONT            ,MS0                ,
+     N    N_SCUT             ,SURF              ,CoG               ,CAND_E_N          ,SEFF               ,
+     O    ELBUF_TAB          ,X1                ,X2                ,X3                ,X4                 ,
+     3    Y1                 ,Y2                ,Y3                ,Y4                ,Z1                 ,
      4    Z2                 ,Z3                ,Z4                ,IXS               ,NV46               ,
-     5    Delta              ,ISENSINT          ,pFSAVparit        ,IPARG             ,H3D_DATA           )                 
+     5    Delta              ,ISENSINT          ,pFSAVparit        ,IPARG             ,H3D_DATA           )
         ENDIF
         IF (IMONM > 0 .AND. JTASK == 1) CALL STOPTIME(20,1)
       ENDDO
@@ -410,23 +410,23 @@ c
       ENDIF
       IF (ALLOCATED(FSAVPARIT)) DEALLOCATE (FSAVPARIT)
 C
-      IF(INACTI==7.AND.IBAG/=0)THEN                         
-        CALL MY_BARRIER()                                     
-        IF(JTASK==1) THEN                                   
+      IF(INACTI==7.AND.IBAG/=0)THEN
+        CALL MY_BARRIER()
+        IF(JTASK==1) THEN
 !            CALL ASS18(NRTM  ,INTBUF_TAB%IRECTM,A   ,X   ,SURF   ,
 !     2                 PRES  ,FCONT        ,IBAG,FSAV,FSAVBAG,
-!     3                 FR_I18,ISKY         ,FSKYI    )      
-        END IF                                                
-        CALL MY_BARRIER()                                     
-       IF(JTASK == 1) DEALLOCATE(SURF,PRES)                   
-      ENDIF                                                   
+!     3                 FR_I18,ISKY         ,FSKYI    )
+        END IF
+        CALL MY_BARRIER()
+       IF(JTASK == 1) DEALLOCATE(SURF,PRES)
+      ENDIF
 
 
-      CALL MY_BARRIER()  
-	      
+      CALL MY_BARRIER()
+	
       IF(JTASK == 1) THEN
         IF(ALLOCATED(SURF))DEALLOCATE(SURF)
-        IF(ALLOCATED(PRES))DEALLOCATE(PRES)        
+        IF(ALLOCATED(PRES))DEALLOCATE(PRES)
       ENDIF
 
 C

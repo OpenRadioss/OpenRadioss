@@ -45,7 +45,7 @@ C-----------------------------------------------------
       F_INT = FRONT / 100
       F_KIN = ( FRONT - F_INT*100 ) / 10
       F_ACC = FRONT - F_INT*100 - F_KIN*10
- 
+
       IF(INDEX==1) THEN
         IF(F_ACC==0) FRONT = FRONT + 1
       ELSE IF(INDEX==10) THEN
@@ -53,7 +53,7 @@ C-----------------------------------------------------
       ELSE IF(INDEX==100) THEN
         IF(F_INT==0) FRONT = FRONT + 100
       ENDIF
-  
+
       RETURN
       END
 Chd|====================================================================
@@ -119,9 +119,9 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------       
-     
+
 c no SPMD domain already attributed for this node
-      IF(IFRONT%IENTRY(N)==-1)THEN    
+      IF(IFRONT%IENTRY(N)==-1)THEN
         ! create new entry in IFRONT
 	! plug IENTRY(N) to this new entry
         IFRONT%IENTRY(N) = N
@@ -129,7 +129,7 @@ c no SPMD domain already attributed for this node
 	IFRONT%P(2,N) =  0	
         RETURN
       ENDIF
-      
+
 c one or more SPMD domain(s) already attributed for this node	
 
       ! set current index to IENTRY(N)
@@ -138,13 +138,13 @@ c one or more SPMD domain(s) already attributed for this node
       ! if domain to insert is equal than current domain -> quit
       IF(IFRONT%P(1,CURR)==P) RETURN
 	
-      ! test if domain to insert is lower than current domain 
+      ! test if domain to insert is lower than current domain
       ! test assure that P is different from IFRONT%P(1,CURR)
       IF(IFRONT%P(1,CURR)>P)THEN
 	! insert P at begining of the list
         IF(IFRONT_END+1>SIFRONT)THEN
 	  ! realloc if needed
-	  CALL REALLOC_IFRONT() 
+	  CALL REALLOC_IFRONT()
 	ENDIF
 	! create a new entry
 	! plug IENTRY(N) to this new entry
@@ -153,23 +153,23 @@ c one or more SPMD domain(s) already attributed for this node
 	! set new entry to P
         IFRONT%P(1,IFRONT_END) =  P
 	! following is CURR index
-	IFRONT%P(2,IFRONT_END) =  CURR  
+	IFRONT%P(2,IFRONT_END) =  CURR
 	RETURN
       ENDIF
-      
-      NEXT = IFRONT%P(2,CURR)     
+
+      NEXT = IFRONT%P(2,CURR)
       ! insertion must be done between CURR and NEXT
       ! when CURR < P < NEXT
       SEARCH = .TRUE.
       ! move forward in the list while IFRONT%P(1,CURR) < P
-      ! and while P not found 
+      ! and while P not found
       DO WHILE((SEARCH .EQV. .TRUE.).AND.(IFRONT%P(1,CURR)/=P))
         IF(NEXT==0)THEN
 	  ! insert at end of list
 	  IF(IFRONT_END+1>SIFRONT)THEN
-	    CALL REALLOC_IFRONT() 
-	  ENDIF      
-	  IFRONT_END = IFRONT_END+1		     
+	    CALL REALLOC_IFRONT()
+	  ENDIF
+	  IFRONT_END = IFRONT_END+1		
 	  IFRONT%P(2,CURR) =  IFRONT_END
           IFRONT%P(1,IFRONT_END) =  P
 	  IFRONT%P(2,IFRONT_END) =  0
@@ -178,21 +178,21 @@ c one or more SPMD domain(s) already attributed for this node
 	ELSEIF(IFRONT%P(1,NEXT)>P)THEN
 	  !insert between current and next
 	  IF(IFRONT_END+1>SIFRONT)THEN
-	    CALL REALLOC_IFRONT() 
-	  ENDIF     
-	  IFRONT_END = IFRONT_END+1		     
+	    CALL REALLOC_IFRONT()
+	  ENDIF
+	  IFRONT_END = IFRONT_END+1		
 	  IFRONT%P(2,CURR) =  IFRONT_END
           IFRONT%P(1,IFRONT_END) =  P
 	  IFRONT%P(2,IFRONT_END) =  NEXT
 	  SEARCH = .FALSE.
-	  RETURN	   
+	  RETURN	
 	ELSE
 	  !move forward in list
 	   CURR = NEXT
-	   NEXT = IFRONT%P(2,NEXT)   
-	ENDIF      
+	   NEXT = IFRONT%P(2,NEXT)
+	ENDIF
       ENDDO	      	
-  
+
       RETURN
       END
 Chd|====================================================================
@@ -224,9 +224,9 @@ C-----------------------------------------------
 C-----------------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------------       
-     
+
       !    New entry for this node
-      IF(IDDCONNECT%IENTRYDOM(1,N)==-1)THEN    
+      IF(IDDCONNECT%IENTRYDOM(1,N)==-1)THEN
         ! create new entry in IFRONT
 	! plug IENTRY(N) to this new entry
         IDDCONNECT%IENTRYDOM(1,N) = N
@@ -235,7 +235,7 @@ C-----------------------------------------------------
 	IDDCONNECT%PDOM(2,N) =  0	
         RETURN
       ENDIF
-      !    One or more entries for this node 
+      !    One or more entries for this node
 
       !    Set current index to IENTRY(N)
       CURR = IDDCONNECT%IENTRYDOM(1,N)
@@ -243,13 +243,13 @@ C-----------------------------------------------------
       !    If node N to insert is equal than current node --> quit
       IF(IDDCONNECT%PDOM(1,CURR)==P) RETURN
 
-      !    Test if node to insert is lower than current node 
+      !    Test if node to insert is lower than current node
       !    Test assure that P is different from IFRONT%P(1,CURR)
       IF(IDDCONNECT%PDOM(1,CURR)>P)THEN
 	!    Insert P at begining of the list
         IF(IDDCONNECT_END+1>SIDDCONNECT)THEN
 	  !    Realloc if needed
-	  CALL REALLOC_IDDCONNECT(NUMEL) 
+	  CALL REALLOC_IDDCONNECT(NUMEL)
 	ENDIF
 	!    create a new entry
 	!    plug IENTRY(N) to this new entry
@@ -262,20 +262,20 @@ C-----------------------------------------------------
         IDDCONNECT%IENTRYDOM(2,N) = IDDCONNECT%IENTRYDOM(2,N) + 1
 	RETURN
       ENDIF
-      
-      NEXT = IDDCONNECT%PDOM(2,CURR)     
+
+      NEXT = IDDCONNECT%PDOM(2,CURR)
       !    insertion must be done between CURR and NEXT
       !    when CURR < P < NEXT
       SEARCH = .TRUE.
       !    move forward in the list while IFRONT%P(1,CURR) < P
-      !    and while P not found 
+      !    and while P not found
       DO WHILE((SEARCH .EQV. .TRUE.).AND.(IDDCONNECT%PDOM(1,CURR)/=P))
         IF(NEXT==0)THEN
 	  ! insert at end of list
 	  IF(IDDCONNECT_END+1>SIDDCONNECT)THEN
-	    CALL REALLOC_IDDCONNECT(NUMEL) 
-	  ENDIF      
-	  IDDCONNECT_END = IDDCONNECT_END+1		     
+	    CALL REALLOC_IDDCONNECT(NUMEL)
+	  ENDIF
+	  IDDCONNECT_END = IDDCONNECT_END+1		
 	  IDDCONNECT%PDOM(2,CURR) =  IDDCONNECT_END
           IDDCONNECT%PDOM(1,IDDCONNECT_END) =  P
 	  IDDCONNECT%PDOM(2,IDDCONNECT_END) =  0
@@ -285,21 +285,21 @@ C-----------------------------------------------------
 	ELSEIF(IDDCONNECT%PDOM(1,NEXT)>P)THEN
 	  !   insert between current and next
 	  IF(IDDCONNECT_END+1>SIDDCONNECT)THEN
-	    CALL REALLOC_IDDCONNECT(NUMEL) 
-	  ENDIF     
-	  IDDCONNECT_END = IDDCONNECT_END+1		     
+	    CALL REALLOC_IDDCONNECT(NUMEL)
+	  ENDIF
+	  IDDCONNECT_END = IDDCONNECT_END+1		
 	  IDDCONNECT%PDOM(2,CURR) =  IDDCONNECT_END
           IDDCONNECT%PDOM(1,IDDCONNECT_END) =  P
 	  IDDCONNECT%PDOM(2,IDDCONNECT_END) =  NEXT
 	  SEARCH = .FALSE.
           IDDCONNECT%IENTRYDOM(2,N) = IDDCONNECT%IENTRYDOM(2,N) + 1
-	  RETURN	   
+	  RETURN	
 	ELSE
 	   !   move forward in list
 	   CURR = NEXT
-	   NEXT = IDDCONNECT%PDOM(2,NEXT)  
-	ENDIF      
+	   NEXT = IDDCONNECT%PDOM(2,NEXT)
+	ENDIF
       ENDDO	      	
-  
+
       RETURN
-      END      
+      END

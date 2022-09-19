@@ -62,18 +62,18 @@ C-----------------------------------------------
       my_real
      .      DVV, E0(NEL),VAVG,RV,RVP
       INTEGER I, J,COUNT,LIST(NEL),II
-      my_real,       
+      my_real,
      .   DIMENSION(:), POINTER :: VOLO,RHON,EINT,DVOL
 C-----------------------------------------------
-      RHON => UVAR(1:NEL,1)   
-      EINT => UVAR(1:NEL,2)   
-      VOLO => UVAR(1:NEL,3)   
-      DVOL => UVAR(1:NEL,4)   
+      RHON => UVAR(1:NEL,1)
+      EINT => UVAR(1:NEL,2)
+      VOLO => UVAR(1:NEL,3)
+      DVOL => UVAR(1:NEL,4)
 C
 C  incompressible flow avoir plus en cas de besoin
 C      INCOMP = 1 not tested
       IF(INCOMP == 1)THEN
-         E0 = ZERO ! 
+         E0 = ZERO !
          DO I=LFT,LLT
           DVV=DT1*(DXX(I)+DYY(I)+DZZ(I))
           RHON(I)=RHON(I)-DVV*RHO0(I)
@@ -85,15 +85,15 @@ C compresssible flow
       ELSE
          DO I=LFT,LLT
            RHON(I) = RHON(I)/VOLN(I)
-          
-           DVOL(I) = VOLN(I) 
+
+           DVOL(I) = VOLN(I)
      .             - VOLO(I)+0.5*DT1*(FLU1(I)+FLUX(I,1)+FLUX(I,2)
      .             +  FLUX(I,3)+FLUX(I,4)+FLUX(I,5)+FLUX(I,6) )
 cc            DVOL(I) = VOLN(I) - VOLO(I)
             VOLO(I)=VOLN(I)
            RHON(I) = MAX(RHON(I) , EM30)
-       
-        ENDDO 
+
+        ENDDO
       ENDIF
 C
         COUNT=0
@@ -101,7 +101,7 @@ C
           IF(RHON(I) <= ZERO .AND. OFF(I)/= ZERO)THEN
              COUNT = COUNT + 1
               LIST(COUNT)=I
-           ENDIF  
+           ENDIF
         ENDDO
         DO II=1,COUNT
          I=LIST(II)
@@ -120,4 +120,4 @@ C il faut change le message 17 en ERROR : ne pas oublier les antislash n
 C
       RETURN
       END SUBROUTINE FRHO3
-      
+

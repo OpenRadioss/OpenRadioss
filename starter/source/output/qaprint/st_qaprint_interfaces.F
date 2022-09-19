@@ -204,7 +204,7 @@ C
             CALL QAPRINT(TITR(1:LEN_TRIM(TITR)),MY_ID,0.0_8)
           ELSE
             CALL QAPRINT('A_SUB_INTER_FAKE_NAME', MY_ID,0.0_8)
-          END IF  
+          END IF
 C
           DO I=2,6
             IF(NOM_OPT(I,INOM_OPT(4)+MY_INTER)/=0)THEN

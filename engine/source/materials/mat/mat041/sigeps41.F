@@ -130,7 +130,7 @@ C   V a r i a b l e s   "FOR FUNCTION INTERPOLATION" (???)
       INTEGER NPF(*), NFUNC, IFUNC(NFUNC)
       my_real TF(*)
 C
-      my_real 
+      my_real
      .   ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .   tmp,
      .   ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
@@ -139,11 +139,11 @@ C
      .   zg2,yg2,ex1,ex2,fmxig,fmxgr,fmngr,
      .   cappa,chi,ccrit,tol,cv,dedv,
      .   artvisc,dt,pres,fc,cburn,enq,shr,vol,dvol
-      my_real 
+      my_real
      .   oldfc,tem1,tem2,chydro,chydro2,dpdmu,dpde,heat
       my_real
      .   mt,pold,er,tfextt,wr,wp
-      integer  itrmax,i_reac,i 
+      integer  itrmax,i_reac,i
       my_real :: beta !volumic fraction of unreacted explosif
 c
 c
@@ -162,7 +162,7 @@ C   I n i t i a l i s a t i o n s
         enddo
 ccc        return
       endif
-      
+
 C   C a l c u l s
 cc     provisoire...
       i_reac = int(uparam(1))
@@ -204,7 +204,7 @@ cc     provisoire...
       fmxgr = uparam(36)
       fmngr = uparam(37)
       shr = uparam(38)
-c      
+c
       do i=1,nel
         vol = RHO0(i) / RHO(i)
         pres = -(SIGOXX(I)+SIGOYY(I)+SIGOZZ(I)) * THIRD
@@ -218,7 +218,7 @@ c
         fc   = uvar(i,1)
         cv   = uvar(i,3)
         tmp  = uparam(39)
-        if(TIME>0. .and. mt>em30) 
+        if(TIME>0. .and. mt>em30)
      .     tmp  = EINT(I)/(mt*cv)
         dvol = vol - uvar(i,4)
         dedv = uvar(i,5)
@@ -243,7 +243,7 @@ c  premier calcul hydro
 c
 c  deuxieme calcul hydro
       tem2 = (pres+dedv+artvisc) / cv
-c gw bug possible: tmp = tmp_old - .5*(tem2-tem1)*dvol      
+c gw bug possible: tmp = tmp_old - .5*(tem2-tem1)*dvol
       tmp = tmp - HALF*(tem2-tem1)*dvol
       call mix(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .         ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
@@ -280,7 +280,7 @@ c        contraintes
         sigvzz(i) = ZERO
         sigvxy(i) = ZERO
         sigvyz(i) = ZERO
-        sigvzx(i) = ZERO        
+        sigvzx(i) = ZERO
 c        mise   jour
         uvar(i,1) = fc
         uvar(i,2) = tmp
@@ -297,11 +297,11 @@ C       energie degagee par la reaction = D(energie totale) - (-P.DV)
         EINT(I)=mt*cv*tmp + HALF*(pres+pold)*DELTVOL(I)
 C       EINT(I)=EINT(I)-0.5*(pres+pold)*DELTVOL(I) dans mulaw.
       enddo
-c      
+c
 #include "atomic.inc"
            TFEXT=TFEXT+TFEXTT
 #include "atomend.inc"
-c      
+c
       RETURN
       END
 c
@@ -332,12 +332,12 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .   rki,ex,ri,rkg,yg,zg,cappa,
-     .   artvisc,dt,pres,etar,fc,cburn,oldfc 
+     .   artvisc,dt,pres,etar,fc,cburn,oldfc
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
-     .  ratei,rateg,dfci,dfcg      
+     .  ratei,rateg,dfci,dfcg
 c
 c   controle du pas de temps (  faire)
       cburn = ZERO
@@ -455,7 +455,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
+      my_real
      .   ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .   tmp ,
      .   ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
@@ -466,7 +466,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       integer iter,i1
-      my_real 
+      my_real
      .   delta,fc1,etac,p999,guess,pmax,
      .   trans,transr,transp,trans1,trans2,dbdeta,detar,detap,
      .   dedr,dedp,bth,dbdt,detrdt,detpdt,dpdt,dbdf,detrdf,
@@ -542,7 +542,7 @@ C=======================================================================
       call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp, 
+     .           dedvp,pprod,bthp,dpdtp,enp,
      .           beta,delta,fc1,etac,fc,epsil)
       b=sign(ONE,delta)
       beta=beta+ ONE_FIFTH
@@ -551,7 +551,7 @@ C=======================================================================
       call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp, 
+     .           dedvp,pprod,bthp,dpdtp,enp,
      .           beta,delta,fc1,etac,fc,epsil)
       a=sign(ONE,delta)
       if(a/=b) go to 300
@@ -560,7 +560,7 @@ C=======================================================================
       call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp, 
+     .           dedvp,pprod,bthp,dpdtp,enp,
      .           beta,delta,fc1,etac,fc,epsil)
       a=sign(ONE,delta)
       if (delta>ZERO) then
@@ -576,7 +576,7 @@ C=======================================================================
        call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .           tmp,dedvr,preac,bthr,dpdtr,enr,
      .           ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
-     .           dedvp,pprod,bthp,dpdtp,enp, 
+     .           dedvp,pprod,bthp,dpdtp,enp,
      .           beta,delta,fc1,etac,fc,epsil)
        b=sign(ONE,delta)
        if(a/=b) goto 300
@@ -584,7 +584,7 @@ C=======================================================================
       enddo
       goto 900
 C=======================================================================
- 300  i1 = iter+1 
+ 300  i1 = iter+1
       do iter=i1,itrmax+1
        beta=HALF*(tl+tu)
        call ftnch(ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
@@ -670,7 +670,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
+      my_real
      .   ar ,br   ,r1r  ,r2r   ,r3r ,cvr  ,etar,
      .   tmp,dedvr,preac,bthr,dpdtr,enr ,
      .   ap ,bp   ,r1p  ,r2p   ,r3p ,cvp  ,etap,
@@ -679,7 +679,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      my_real 
+      my_real
      .   pmax
 c
         etar = fc1 * etac/beta
@@ -714,9 +714,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real 
+      my_real
      .   a ,b   ,r1  ,r2 ,r3 ,cv ,eta,
-     .   tmp,dedv,p,bth,dpdt,en 
+     .   tmp,dedv,p,bth,dpdt,en
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

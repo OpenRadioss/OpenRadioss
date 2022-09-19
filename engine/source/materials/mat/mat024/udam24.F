@@ -42,8 +42,8 @@ C-----------------------------------------------
       INTEGER I
       my_real ANGA,
      .   S11(NEL), S12(NEL), S13(NEL), S21(NEL), S22(NEL), S23(NEL), S31(NEL),
-     .   S32(NEL), S33(NEL), A11(NEL), A12(NEL), A13(NEL), A21(NEL), A22(NEL), 
-     .   A23(NEL),A31(NEL), A32(NEL), A33(NEL) 
+     .   S32(NEL), S33(NEL), A11(NEL), A12(NEL), A13(NEL), A21(NEL), A22(NEL),
+     .   A23(NEL),A31(NEL), A32(NEL), A33(NEL)
 C=======================================================================
       ANGA = ZERO
       DO I = 1,NEL
@@ -112,7 +112,7 @@ C-----------------------------------------------
       INTEGER I,K
       my_real ANGA,
      .   S11(NEL), S12(NEL), S13(NEL), S21(NEL), S22(NEL), S23(NEL), S31(NEL),
-     .   S32(NEL), S33(NEL), A11(NEL), A12(NEL), A13(NEL), A21(NEL), A22(NEL), 
+     .   S32(NEL), S33(NEL), A11(NEL), A12(NEL), A13(NEL), A21(NEL), A22(NEL),
      .   A23(NEL), A31(NEL), A32(NEL), A33(NEL)
 C=======================================================================
       DO 5 K=1,NBDAMA

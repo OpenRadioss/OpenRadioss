@@ -102,7 +102,7 @@ C tableau cell remote pour sph
       my_real       ,DIMENSION(:,:), ALLOCATABLE :: XSPHR
 C DVOIS(KVOISPH) des particules remote, dans le cas ou elles ont subit
 C une reduction 
-      my_real       ,DIMENSION(:), ALLOCATABLE :: DKR, DKS 
+      my_real       ,DIMENSION(:), ALLOCATABLE :: DKR, DKS
 C XSPHR(1) :  no local N sur proc remote
 C XSPHR(2) :  h
 C XSPHR(3) :  X(1)
@@ -137,7 +137,7 @@ c DSPHR(12) : VZ
 C dim1 WACOMPR = dim1 WACOMP = SIZSPW
 
       TYPE SPSYM_STRUCT
-        my_real, DIMENSION(:)  , ALLOCATABLE :: BUF 
+        my_real, DIMENSION(:)  , ALLOCATABLE :: BUF
       END TYPE SPSYM_STRUCT
 
       END MODULE SPHBOX

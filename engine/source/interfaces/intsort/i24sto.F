@@ -83,7 +83,7 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ),
-     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ), 
+     .   XI(MVSIZ), YI(MVSIZ), ZI(MVSIZ), STIF(MVSIZ),
      .   PENE(MVSIZ), GAPV(MVSIZ), GAPVE(MVSIZ), PENE_E(MVSIZ)
       DATA ITYPE/24/
 C-----------------------------------------------
@@ -105,7 +105,7 @@ C-----------------------------------------------
      .               YI    ,ZI    ,PENE  ,IX1    ,IX2  ,
      .               IX3   ,IX4   ,GAPV  ,GAPVE  ,PENE_E)
 C-----------------------------------------------
-      IF (ILEV==2) 
+      IF (ILEV==2)
      .  CALL I24S1S2(J_STOK,NSN,ESHIFT,PROV_N,PROV_E,
      .               NBINFLG,MBINFLG,PENE)
       CALL I24EDGT(J_STOK ,NSN    ,ESHIFT ,PROV_N,PROV_E,
@@ -140,7 +140,7 @@ C numerotation tris precedent pour les noeuds non locaux (SPMD)
           IF(PENE(I)+PENE_E(I)/=ZERO) THEN
            K_STOK = K_STOK + 1
            IF( MSEGTYP(PROV_E(I)+ESHIFT)>0) K_STOK = K_STOK + 1
-          END IF 
+          END IF
       ENDDO
       IF(K_STOK==0)RETURN
 C
@@ -250,8 +250,8 @@ C=======================================================================
              ISS1 = BITGET(NBINFLG(N),0)
              ISS2 = BITGET(NBINFLG(N),1)
            ELSE
-             ISS1 = BITGET(IREM(I24IREMP+3,N-NSN),0) 
-             ISS2 = BITGET(IREM(I24IREMP+3,N-NSN),1) 
+             ISS1 = BITGET(IREM(I24IREMP+3,N-NSN),0)
+             ISS2 = BITGET(IREM(I24IREMP+3,N-NSN),1)
            ENDIF
            IF((IMS1 == 1 .and. ISS1==1).or.
      .        (IMS2 == 1 .and. ISS2==1))THEN

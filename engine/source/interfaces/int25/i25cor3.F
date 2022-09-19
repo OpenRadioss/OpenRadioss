@@ -66,13 +66,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JLT, NSN, NIN, IGAP,
      .        IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*), IRTLM(4,NSN)
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ADMSR(4,*), SUBTRIA(MVSIZ),
      .        MVOISIN(4,*), MVOISN(MVSIZ,4), LBOUND(*), IBOUND(4,MVSIZ)
 C     REAL
       my_real
-     .   X(3,*), STF(*), STFN(*), GAP_S(*), 
-     .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*), 
+     .   X(3,*), STF(*), STFN(*), GAP_S(*),
+     .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*),
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*)
 C     REAL
       my_real
@@ -110,29 +110,29 @@ C
 C
         L  = CAND_E(I)
 C
-        IX=IRECT(1,L)  
-        IX1(I)=IX      
-        XX(I,1)=X(1,IX)  
-        YY(I,1)=X(2,IX)  
-        ZZ(I,1)=X(3,IX)  
+        IX=IRECT(1,L)
+        IX1(I)=IX
+        XX(I,1)=X(1,IX)
+        YY(I,1)=X(2,IX)
+        ZZ(I,1)=X(3,IX)
 C
-        IX=IRECT(2,L)  
-        IX2(I)=IX      
-        XX(I,2)=X(1,IX)  
-        YY(I,2)=X(2,IX)  
-        ZZ(I,2)=X(3,IX)  
+        IX=IRECT(2,L)
+        IX2(I)=IX
+        XX(I,2)=X(1,IX)
+        YY(I,2)=X(2,IX)
+        ZZ(I,2)=X(3,IX)
 C
-        IX=IRECT(3,L)  
-        IX3(I)=IX      
-        XX(I,3)=X(1,IX)  
-        YY(I,3)=X(2,IX)  
-        ZZ(I,3)=X(3,IX)  
+        IX=IRECT(3,L)
+        IX3(I)=IX
+        XX(I,3)=X(1,IX)
+        YY(I,3)=X(2,IX)
+        ZZ(I,3)=X(3,IX)
 C
-        IX=IRECT(4,L)  
-        IX4(I)=IX      
-        XX(I,4)=X(1,IX)  
-        YY(I,4)=X(2,IX)  
-        ZZ(I,4)=X(3,IX)  
+        IX=IRECT(4,L)
+        IX4(I)=IX
+        XX(I,4)=X(1,IX)
+        YY(I,4)=X(2,IX)
+        ZZ(I,4)=X(3,IX)
 C
         GAPM(I)     =GAP_M(L)
         GAPNM(1:4,I)=GAPN_M(1:4,L)
@@ -162,7 +162,7 @@ C
         ELSE
          XX(I,5)= XX(I,3)
          YY(I,5)= YY(I,3)
-         ZZ(I,5)= ZZ(I,3) 
+         ZZ(I,5)= ZZ(I,3)
         ENDIF
 C
       END DO
@@ -202,7 +202,7 @@ C
         XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
-        NNZ(I,5)=XN*NNZ(I,5)       
+        NNZ(I,5)=XN*NNZ(I,5)
       END DO
 C
       DO I=1,JLT
@@ -278,13 +278,13 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*), MSEGTYP(*),
      .        JLT, NSN, NIN, IGAP
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), ADMSR(4,*), ISLIDE(4,*), KSLIDE(MVSIZ,4),
      .        MVOISIN(4,*), MVOISN(MVSIZ,4), LBOUND(*), IBOUND(4,MVSIZ), ETYP(MVSIZ)
 C     REAL
       my_real
-     .   X(3,*), STF(*), STFN(*), GAP_S(*), 
-     .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*), 
+     .   X(3,*), STF(*), STFN(*), GAP_S(*),
+     .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*),
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*)
 C     REAL
       my_real
@@ -323,29 +323,29 @@ C
         L       = CAND_E(I)
         ETYP(I) =MSEGTYP(L)
 C
-        IX=IRECT(1,L)  
-        IX1(I)=IX      
-        XX(I,1)=X(1,IX)  
-        YY(I,1)=X(2,IX)  
-        ZZ(I,1)=X(3,IX)  
+        IX=IRECT(1,L)
+        IX1(I)=IX
+        XX(I,1)=X(1,IX)
+        YY(I,1)=X(2,IX)
+        ZZ(I,1)=X(3,IX)
 C
-        IX=IRECT(2,L)  
-        IX2(I)=IX      
-        XX(I,2)=X(1,IX)  
-        YY(I,2)=X(2,IX)  
-        ZZ(I,2)=X(3,IX)  
+        IX=IRECT(2,L)
+        IX2(I)=IX
+        XX(I,2)=X(1,IX)
+        YY(I,2)=X(2,IX)
+        ZZ(I,2)=X(3,IX)
 C
-        IX=IRECT(3,L)  
-        IX3(I)=IX      
-        XX(I,3)=X(1,IX)  
-        YY(I,3)=X(2,IX)  
-        ZZ(I,3)=X(3,IX)  
+        IX=IRECT(3,L)
+        IX3(I)=IX
+        XX(I,3)=X(1,IX)
+        YY(I,3)=X(2,IX)
+        ZZ(I,3)=X(3,IX)
 C
-        IX=IRECT(4,L)  
-        IX4(I)=IX      
-        XX(I,4)=X(1,IX)  
-        YY(I,4)=X(2,IX)  
-        ZZ(I,4)=X(3,IX)  
+        IX=IRECT(4,L)
+        IX4(I)=IX
+        XX(I,4)=X(1,IX)
+        YY(I,4)=X(2,IX)
+        ZZ(I,4)=X(3,IX)
 C
         GAPM(I)     =GAP_M(L)
         GAPNM(1:4,I)=GAPN_M(1:4,L)
@@ -375,7 +375,7 @@ C
         ELSE
          XX(I,5)= XX(I,3)
          YY(I,5)= YY(I,3)
-         ZZ(I,5)= ZZ(I,3) 
+         ZZ(I,5)= ZZ(I,3)
         ENDIF
 C
       END DO
@@ -415,7 +415,7 @@ C
         XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
-        NNZ(I,5)=XN*NNZ(I,5)       
+        NNZ(I,5)=XN*NNZ(I,5)
       END DO
 C
       DO I=1,JLT
@@ -517,14 +517,14 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IRECT(4,*), NSV(*), CAND_E(*), CAND_N(*),
      .        JLT, NSN, NIN, NRTM, IGAP, MSEGTYP(*), ISHEL(MVSIZ)
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
-     .        NSVG(MVSIZ), ADMSR(4,*), 
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
+     .        NSVG(MVSIZ), ADMSR(4,*),
      .        MVOISIN(4,*), MVOISA(MVSIZ,4), MVOISB(MVSIZ,4),
      .        LBOUND(*),IBOUNDA(4,MVSIZ),IBOUNDB(4,MVSIZ)
 C     REAL
       my_real
-     .   X(3,*), STF(*), STFN(*), V(3,*), GAP_S(*), 
-     .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*), 
+     .   X(3,*), STF(*), STFN(*), V(3,*), GAP_S(*),
+     .   GAPS(MVSIZ), GAP_M(*), GAPM(*), GAPN_M(4,*), GAPNM(4,*),
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*)
 C     REAL
       my_real
@@ -575,41 +575,41 @@ C
 C
         L  = CAND_E(I)
 C
-        IX=IRECT(1,L)  
-        IX1(I)=IX      
-        XX(I,1)=X(1,IX)  
-        YY(I,1)=X(2,IX)  
-        ZZ(I,1)=X(3,IX)  
-        VX1(I)=V(1,IX)  
-        VY1(I)=V(2,IX)  
-        VZ1(I)=V(3,IX)  
+        IX=IRECT(1,L)
+        IX1(I)=IX
+        XX(I,1)=X(1,IX)
+        YY(I,1)=X(2,IX)
+        ZZ(I,1)=X(3,IX)
+        VX1(I)=V(1,IX)
+        VY1(I)=V(2,IX)
+        VZ1(I)=V(3,IX)
 C
-        IX=IRECT(2,L)  
-        IX2(I)=IX      
-        XX(I,2)=X(1,IX)  
-        YY(I,2)=X(2,IX)  
-        ZZ(I,2)=X(3,IX)  
-        VX2(I)=V(1,IX)  
-        VY2(I)=V(2,IX)  
-        VZ2(I)=V(3,IX)  
+        IX=IRECT(2,L)
+        IX2(I)=IX
+        XX(I,2)=X(1,IX)
+        YY(I,2)=X(2,IX)
+        ZZ(I,2)=X(3,IX)
+        VX2(I)=V(1,IX)
+        VY2(I)=V(2,IX)
+        VZ2(I)=V(3,IX)
 C
-        IX=IRECT(3,L)  
-        IX3(I)=IX      
-        XX(I,3)=X(1,IX)  
-        YY(I,3)=X(2,IX)  
-        ZZ(I,3)=X(3,IX)  
-        VX3(I)=V(1,IX)  
-        VY3(I)=V(2,IX)  
-        VZ3(I)=V(3,IX)  
+        IX=IRECT(3,L)
+        IX3(I)=IX
+        XX(I,3)=X(1,IX)
+        YY(I,3)=X(2,IX)
+        ZZ(I,3)=X(3,IX)
+        VX3(I)=V(1,IX)
+        VY3(I)=V(2,IX)
+        VZ3(I)=V(3,IX)
 C
-        IX=IRECT(4,L)  
-        IX4(I)=IX      
-        XX(I,4)=X(1,IX)  
-        YY(I,4)=X(2,IX)  
-        ZZ(I,4)=X(3,IX)  
-        VX4(I)=V(1,IX)  
-        VY4(I)=V(2,IX)  
-        VZ4(I)=V(3,IX)  
+        IX=IRECT(4,L)
+        IX4(I)=IX
+        XX(I,4)=X(1,IX)
+        YY(I,4)=X(2,IX)
+        ZZ(I,4)=X(3,IX)
+        VX4(I)=V(1,IX)
+        VY4(I)=V(2,IX)
+        VZ4(I)=V(3,IX)
 C
         GAPM(I)     =GAP_M(L)
         GAPNM(1:4,I)=GAPN_M(1:4,L)
@@ -645,7 +645,7 @@ C
         ELSE
          XX(I,5)= XX(I,3)
          YY(I,5)= YY(I,3)
-         ZZ(I,5)= ZZ(I,3) 
+         ZZ(I,5)= ZZ(I,3)
         ENDIF
 C
       END DO
@@ -685,7 +685,7 @@ C
         XN=ONE/MAX(EM20,SQRT(NAX(I,5)*NAX(I,5)+NAY(I,5)*NAY(I,5)+NAZ(I,5)*NAZ(I,5)))
         NAX(I,5)=XN*NAX(I,5)
         NAY(I,5)=XN*NAY(I,5)
-        NAZ(I,5)=XN*NAZ(I,5)       
+        NAZ(I,5)=XN*NAZ(I,5)
       END DO
 C
       DO I=1,JLT
@@ -746,7 +746,7 @@ C
         XN=ONE/MAX(EM20,SQRT(NBX(I,5)*NBX(I,5)+NBY(I,5)*NBY(I,5)+NBZ(I,5)*NBZ(I,5)))
         NBX(I,5)=XN*NBX(I,5)
         NBY(I,5)=XN*NBY(I,5)
-        NBZ(I,5)=XN*NBZ(I,5)       
+        NBZ(I,5)=XN*NBZ(I,5)
       END DO
 C
       DO I=1,JLT
@@ -773,7 +773,7 @@ C
       DO I=1,JLT
         L  = ISHEL(I)
         IF(L==0) CYCLE
-  
+
         MVOISB(I,1)=MVOISIN(1,L)
         MVOISB(I,2)=MVOISIN(4,L)
         MVOISB(I,3)=MVOISIN(3,L)
@@ -801,23 +801,23 @@ Chd|====================================================================
      3               XI     ,YI       ,ZI     ,VXI    ,VYI        ,
      4               VZI    ,IX1      ,IX2    ,IX3    ,IX4        ,
      5               NSVG   ,NSN      ,V      ,KINET  ,KINI       ,
-     6               NIN    ,ADMSR    ,IRTLM  ,SUBTRIA,    
+     6               NIN    ,ADMSR    ,IRTLM  ,SUBTRIA,
      7               XX      ,YY      ,ZZ     ,LBOUND ,IBOUND     ,
      8               NNX     ,NNY     ,NNZ    ,
      9               VX1     ,VX2     ,VX3    ,VX4    ,
      A               VY1     ,VY2     ,VY3    ,VY4    ,
      B               VZ1     ,VZ2     ,VZ3    ,VZ4    ,
      C               NODNX_SMS,NSMS   ,INDEX  ,PENM   ,LBM         ,
-     D               LCM      ,PENE   ,LB     ,LC     , 
+     D               LCM      ,PENE   ,LB     ,LC     ,
      E               GAPN_M   ,GAPNM  ,GAP_S  ,GAPS    ,IGAP       ,
      F               GAP_S_L  ,GAP_M_L,GAPMXL ,INTFRIC ,IPARTFRICS ,
      G               IPARTFRICSI,IPARTFRICM,IPARTFRICMI,AREAS,AREASI,
      H               IVIS2    ,MVOISIN,MVOISN ,IORTHFRIC,IREP_FRICM ,
-     I               DIR_FRICM ,IREP_FRICMI,DIR_FRICMI,X1 ,Y1       , 
-     J               Z1        ,X2    ,Y2      ,Z2     ,X3          , 
+     I               DIR_FRICM ,IREP_FRICMI,DIR_FRICMI,X1 ,Y1       ,
+     J               Z1        ,X2    ,Y2      ,Z2     ,X3          ,
      K               Y3        ,Z3    ,X4      ,Y4     ,Z4          ,
      L               INTTH     ,TEMP  ,TEMPI   ,IELES  ,IELESI      ,
-     M               IELEM     ,IELEMI) 
+     M               IELEM     ,IELEMI)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -848,15 +848,15 @@ C-----------------------------------------------
      .        NODNX_SMS(*), INDEX(*), ADMSR(4,*),
      .        LBOUND(*), IBOUND(4,*), MVOISIN(4,*), MVOISN(MVSIZ,4),IELES(*),
      .        IELEM(*)
-      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ), 
+      INTEGER IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
      .        NSVG(MVSIZ), NSMS(MVSIZ), IRTLM(4,*), SUBTRIA(MVSIZ),
      .        IPARTFRICS(*),IPARTFRICSI(MVSIZ),IPARTFRICM(*),IPARTFRICMI(MVSIZ),
      .        IREP_FRICM(*),IREP_FRICMI(MVSIZ),IELESI(MVSIZ),IELEMI(MVSIZ)
 C     REAL
       my_real
-     .   X(3,*), STF(*), STFN(*), MS(*), V(3,*), 
-     .   PENM(4,*), LBM(4,*), LCM(4,*), 
-     .   GAPN_M(4,*), GAP_S(*), 
+     .   X(3,*), STF(*), STFN(*), MS(*), V(3,*),
+     .   PENM(4,*), LBM(4,*), LCM(4,*),
+     .   GAPN_M(4,*), GAP_S(*),
      .   GAP_S_L(*), GAP_M_L(*), GAPMXL(*), AREAS(*),TEMP(*)
 C     REAL
       my_real
@@ -921,41 +921,41 @@ C
 C
            L  = CAND_E(I)
 C
-           IX=IRECT(1,L)  
-           IX1(I)=IX	  
-           XX(I,1)=X(1,IX)  
-           YY(I,1)=X(2,IX)  
-           ZZ(I,1)=X(3,IX)  
-           VX1(I)=V(1,IX)  
-           VY1(I)=V(2,IX)  
-           VZ1(I)=V(3,IX)  
+           IX=IRECT(1,L)
+           IX1(I)=IX	
+           XX(I,1)=X(1,IX)
+           YY(I,1)=X(2,IX)
+           ZZ(I,1)=X(3,IX)
+           VX1(I)=V(1,IX)
+           VY1(I)=V(2,IX)
+           VZ1(I)=V(3,IX)
 C
-           IX=IRECT(2,L)  
-           IX2(I)=IX	  
-           XX(I,2)=X(1,IX)  
-           YY(I,2)=X(2,IX)  
-           ZZ(I,2)=X(3,IX)  
-           VX2(I)=V(1,IX)  
-           VY2(I)=V(2,IX)  
-           VZ2(I)=V(3,IX)  
+           IX=IRECT(2,L)
+           IX2(I)=IX	
+           XX(I,2)=X(1,IX)
+           YY(I,2)=X(2,IX)
+           ZZ(I,2)=X(3,IX)
+           VX2(I)=V(1,IX)
+           VY2(I)=V(2,IX)
+           VZ2(I)=V(3,IX)
 C
-           IX=IRECT(3,L)  
-           IX3(I)=IX	  
-           XX(I,3)=X(1,IX)  
-           YY(I,3)=X(2,IX)  
-           ZZ(I,3)=X(3,IX)  
-           VX3(I)=V(1,IX)  
-           VY3(I)=V(2,IX)  
-           VZ3(I)=V(3,IX)  
+           IX=IRECT(3,L)
+           IX3(I)=IX	
+           XX(I,3)=X(1,IX)
+           YY(I,3)=X(2,IX)
+           ZZ(I,3)=X(3,IX)
+           VX3(I)=V(1,IX)
+           VY3(I)=V(2,IX)
+           VZ3(I)=V(3,IX)
 C
-           IX=IRECT(4,L)  
-           IX4(I)=IX	  
-           XX(I,4)=X(1,IX)  
-           YY(I,4)=X(2,IX)  
-           ZZ(I,4)=X(3,IX)  
-           VX4(I)=V(1,IX)  
-           VY4(I)=V(2,IX)  
-           VZ4(I)=V(3,IX)  
+           IX=IRECT(4,L)
+           IX4(I)=IX	
+           XX(I,4)=X(1,IX)
+           YY(I,4)=X(2,IX)
+           ZZ(I,4)=X(3,IX)
+           VX4(I)=V(1,IX)
+           VY4(I)=V(2,IX)
+           VZ4(I)=V(3,IX)
 C
            IF(IX3(I) /= IX4(I))THEN
             XX(I,5)= FOURTH*(XX(I,1)+XX(I,2)+XX(I,3)+XX(I,4))
@@ -964,7 +964,7 @@ C
            ELSE
             XX(I,5)= XX(I,3)
             YY(I,5)= YY(I,3)
-            ZZ(I,5)= ZZ(I,3) 
+            ZZ(I,5)= ZZ(I,3)
            ENDIF
 C
            GAPNM(1:4,I)=GAPN_M(1:4,L)
@@ -1025,7 +1025,7 @@ C
         XN=ONE/MAX(EM20,SQRT(NNX(I,5)*NNX(I,5)+NNY(I,5)*NNY(I,5)+NNZ(I,5)*NNZ(I,5)))
         NNX(I,5)=XN*NNX(I,5)
         NNY(I,5)=XN*NNY(I,5)
-        NNZ(I,5)=XN*NNZ(I,5)       
+        NNZ(I,5)=XN*NNZ(I,5)
       END DO
 C
       IF(IGSTI<=1)THEN
@@ -1141,8 +1141,8 @@ C
            IPARTFRICMI(I) = IPARTFRICM(L)
 C
            IF(IORTHFRIC > 0) THEN
-              IREP_FRICMI(I) =IREP_FRICM(L) 
-              DIR_FRICMI(I,1:2)=DIR_FRICM(1:2,L) 
+              IREP_FRICMI(I) =IREP_FRICM(L)
+              DIR_FRICMI(I,1:2)=DIR_FRICM(1:2,L)
            ENDIF
          ENDDO
        ENDIF
@@ -1163,14 +1163,14 @@ C
         ENDDO
 
 C----Adhesion case - mvsize division of if_adh done in dst3_3
-        
+
       IF(INTTH>0.OR.IVIS2==-1) THEN
         DO I=1,JLT
-           NI = CAND_N(I)           
+           NI = CAND_N(I)
            L  = CAND_E(I)
            IF(NI<=NSN)THEN
              AREASI(I)= AREAS(NI)
-           ELSE                
+           ELSE
              NN = NI - NSN
              AREASI(I)= AREASFI(NIN)%P(NN)
            END IF
@@ -1180,7 +1180,7 @@ C----Adhesion case - mvsize division of if_adh done in dst3_3
 C----Thermal case - 
       IF(INTTH>0) THEN
         DO I=1,JLT
-           NI = CAND_N(I)           
+           NI = CAND_N(I)
            L  = CAND_E(I)
            IF(NI<=NSN)THEN
              IG = NSV(NI)
@@ -1193,7 +1193,7 @@ C----Thermal case -
            END IF
            IELEMI(I) = IELEM(L)
          ENDDO
-      ENDIF    
+      ENDIF
 C
       RETURN
       END

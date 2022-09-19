@@ -47,21 +47,21 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
-     .   PM(NPROPM,*), EINT(*), RHO(*), TEMP(*), XIST(*), QOLD(*), VOLN(*), 
-     .   DVOL(*), POLD(*), DF(*), 
-     .   RHO0(*), P1(*),   P01(*), P02(*), E01(*), E02(*), SSP(*), DPDM(*) 
+     .   PM(NPROPM,*), EINT(*), RHO(*), TEMP(*), XIST(*), QOLD(*), VOLN(*),
+     .   DVOL(*), POLD(*), DF(*),
+     .   RHO0(*), P1(*),   P01(*), P02(*), E01(*), E02(*), SSP(*), DPDM(*)
       INTEGER MAT(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER  I, MX
       my_real
-     .   EM0(MVSIZ),  EM1(MVSIZ),  EM2(MVSIZ), 
+     .   EM0(MVSIZ),  EM1(MVSIZ),  EM2(MVSIZ),
      .   ESPE(MVSIZ), ALP(MVSIZ),  PCR(MVSIZ), C(MVSIZ),
-     .   GEAX(MVSIZ), G0AX(MVSIZ), TM(MVSIZ),  DELT(MVSIZ), RP3(MVSIZ), X(MVSIZ),   GP(MVSIZ), 
+     .   GEAX(MVSIZ), G0AX(MVSIZ), TM(MVSIZ),  DELT(MVSIZ), RP3(MVSIZ), X(MVSIZ),   GP(MVSIZ),
      .   DSP(MVSIZ),  XLAM(MVSIZ), S(MVSIZ),   PCC(MVSIZ),
      .   E0H(MVSIZ),  TM0(MVSIZ),  EGG(MVSIZ), XP(MVSIZ),   A(MVSIZ),   AM(MVSIZ),  GAM0(MVSIZ),
-     .   GAME(MVSIZ), GAM0M(MVSIZ),E0(MVSIZ),  E00(MVSIZ),  TG(MVSIZ),  PMIN(MVSIZ),XIST0(MVSIZ), 
+     .   GAME(MVSIZ), GAM0M(MVSIZ),E0(MVSIZ),  E00(MVSIZ),  TG(MVSIZ),  PMIN(MVSIZ),XIST0(MVSIZ),
      .   P1A(MVSIZ),  DMU(MVSIZ),  XM, UNPM2
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -103,7 +103,7 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        E0(I)     = C(I)**2*X(I)**2*HALF/(ONE-S(I)*X(I))*(ONE+S(I)*X(I)/THREE+(S(I)-GAM0(I))*S(I)*X(I)**2*ONE_OVER_6) 
+        E0(I)     = C(I)**2*X(I)**2*HALF/(ONE-S(I)*X(I))*(ONE+S(I)*X(I)/THREE+(S(I)-GAM0(I))*S(I)*X(I)**2*ONE_OVER_6)
      .            + E00(I)*(ONE+GAM0(I)*X(I)) + E0H(I)
       ENDDO
 

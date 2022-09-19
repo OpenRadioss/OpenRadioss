@@ -46,8 +46,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE TRI7BOX 
-      USE TRI11   
+      USE TRI7BOX
+      USE TRI11
       USE FRONT_MOD
 
 C============================================================================
@@ -80,7 +80,7 @@ C     REAL
      .   BUMULT,MAXGAP,GAPMIN,TZINF,MAXBOX,MINBOX,DRAD
       my_real , INTENT(IN) :: DGAPLOAD
       my_real
-     .   X(3,*), 
+     .   X(3,*),
      .   GAP_S(*), GAP_M(*), GAP_S_L(*), GAP_M_L(*)
       INTEGER ID
       CHARACTER*nchartitle,
@@ -103,7 +103,7 @@ C
      .        XYZM(6,I_ADD_MAX-1), MARGE, AAA
       INTEGER NB_OLD(2,I_ADD_MAX+1)
       INTEGER NBX,NBY,NBZ
-      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8 
+      INTEGER (KIND=8) :: NBX8,NBY8,NBZ8,RES8,LVOXEL8
       INTEGER NB_N_B
       INTEGER IADFIN,II,L
       my_real :: XMAX,YMAX,ZMAX
@@ -165,15 +165,15 @@ C
 
       I_MEM = 0
       II_STOK = 0
-     
+
 C
 c     IF (IFORM /= 2) THEN
         DO I=1,NRTM
           ADDCM(I)=0
-        ENDDO 
+        ENDDO
 c     ELSE
-c     ENDIF    
- 
+c     ENDIF
+
 C-----DEBUT DE LA PHASE DE TRI 
 
       DD=ZERO
@@ -223,7 +223,7 @@ c     WRITE(6,*) __FILE__,__LINE__,MARGE
 C
       DO I=1,NMN
          J=MSR(I)
-        IF(J>0) THEN 
+        IF(J>0) THEN
           XMIN= MIN(XMIN,X(1,J))
           YMIN= MIN(YMIN,X(2,J))
           ZMIN= MIN(ZMIN,X(3,J))
@@ -264,7 +264,7 @@ C      ZMAX=ZMAX+TZINF_ST
 
 c      WRITE(6,*) "X",XMIN,XMAX
 c      WRITE(6,*) "Y",YMIN,YMAX
-c      WRITE(6,*) "Z",ZMIN,ZMAX 
+c      WRITE(6,*) "Z",ZMIN,ZMAX
 
 
       XYZM(1,I_ADD) = BMINMA(4)
@@ -274,7 +274,7 @@ c      WRITE(6,*) "Z",ZMIN,ZMAX
       XYZM(5,I_ADD) = BMINMA(2)
       XYZM(6,I_ADD) = BMINMA(3)
 C 
-   
+
 c     MARGE = TZINF - MAX(MAXGAP,DRAD)
 
       AAA = SQRT(1.0D0* NMN /
@@ -295,7 +295,7 @@ c     MARGE = TZINF - MAX(MAXGAP,DRAD)
       NBY8=NBY
       NBZ8=NBZ
       RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
-      LVOXEL8 = LVOXEL      
+      LVOXEL8 = LVOXEL
 
       IF(RES8 > LVOXEL8)THEN
         AAA = LVOXEL
@@ -312,20 +312,20 @@ c     MARGE = TZINF - MAX(MAXGAP,DRAD)
         NBZ8 = NBZ
         RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
       END IF
-          
+
       IF(RES8 > LVOXEL8) THEN
         NBX = MIN(100,MAX(NBX8,1))
         NBY = MIN(100,MAX(NBY8,1))
         NBZ = MIN(100,MAX(NBZ8,1))
       END IF
-      
+
       DO I=INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)
         VOXEL1(I)=0
       ENDDO
       INIVOXEL = MAX(INIVOXEL,(NBX+2)*(NBY+2)*(NBZ+2)+1)
-      
+
       !print *, "voxel search"
-      
+
         CALL I11TRIVOX1(
      1   IRECTS  ,IRECTM  ,X       ,NRTM    ,
      2   XYZM    ,II_STOK ,CAND_S  ,CAND_M  , NSN,
@@ -392,7 +392,7 @@ Chd|====================================================================
      1   X     ,IRECTM,IRECTS,BUMULT,NRTS,
      2   NMN   ,NRTM ,MWA   ,NSN   ,CAND_M,
      3   CAND_S,GAP  ,XYZM  ,NOINT ,I_STOK,
-     4   DIST  ,TZINF,MAXBOX,MINBOX,MSR   ,   
+     4   DIST  ,TZINF,MAXBOX,MINBOX,MSR   ,
      5   NSV   ,MULTIMP,ADDCM,CHAINE,I_MEM,
      6   ID,TITR,IDDLEVEL,DRAD,IT19)
       USE MESSAGE_MOD
@@ -445,7 +445,7 @@ C-----------------------------------------------
 C
       INTEGER PROV_S(2*MVSIZ),PROV_M(2*MVSIZ)
       INTEGER I, J, L, N1, N2, N3, N4, I_AMAX,IADFIN
-      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,ISTOP, IBID 
+      INTEGER I_ADD, ADESTK, NB_NC, NB_EC, ADNSTK,ISTOP, IBID
       INTEGER IP1, IP2, IP21, IP22, IP31,J_STOK,I_BID,NB_N_B,
      .        ADD(2,0:I_ADD_MAX)
 C     REAL
@@ -524,7 +524,7 @@ C--------------------------------
       ZMAX=-EP30
 C
       DO 20 I=1,NMN
-         J=MSR(I) 
+         J=MSR(I)
          XMIN= MIN(XMIN,X(1,J))
          YMIN= MIN(YMIN,X(2,J))
          ZMIN= MIN(ZMIN,X(3,J))
@@ -631,7 +631,7 @@ C       SEPARER B ET N EN TWO
      1   MWA(IP1),MWA(IP2),MWA(IP21),MWA(IP22),ADD,
      2   IRECTS  ,X       ,NB_NC    ,NB_EC    ,XYZM,
      3   I_ADD   ,IRECTM  ,I_AMAX   ,ISTOP    ,
-     4   MAXSIZ  ,I_STOK  ,I_MEM    ,NB_N_B   ,IADFIN, 
+     4   MAXSIZ  ,I_STOK  ,I_MEM    ,NB_N_B   ,IADFIN,
      5   CAND_S  ,CAND_M  ,NSN      ,NOINT    ,TZINF_ST,
      6   MAXBOX  ,MINBOX  ,J_STOK   ,ADDCM    ,CHAINE,
      7   PROV_S  ,PROV_M  ,II_STOK  ,MULTIMP,ID,TITR)

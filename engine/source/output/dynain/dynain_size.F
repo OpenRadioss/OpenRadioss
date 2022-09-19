@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
       INTEGER JJ,NN,ITY,IAD,NFT,LFT,LLT,NPT,IHBE,
      .        MLW,NG,NEL,I,NPG,MPT,NLAY,NPTR,NPTS,
      .        NPTT,IGTYP,IL,NPT_ALL,
-     .        RWASZ,WASZ2,P0ARSZ2,RWASZ2      
+     .        RWASZ,WASZ2,P0ARSZ2,RWASZ2
 C======================================================================|
       P0ARS = 0
       WASZ = 0
@@ -79,9 +79,9 @@ C------------------------------
             MLW =IPARG(1,NG)
             IHBE  = IPARG(23,NG)
             NLAY  = ELBUF_TAB(NG)%NLAY
-            NPTR  = ELBUF_TAB(NG)%NPTR    
-            NPTS  = ELBUF_TAB(NG)%NPTS    
-c            NPTT  = ELBUF_TAB(NG)%NPTT    
+            NPTR  = ELBUF_TAB(NG)%NPTR
+            NPTS  = ELBUF_TAB(NG)%NPTS
+c            NPTT  = ELBUF_TAB(NG)%NPTT
             NPG   = NPTR*NPTS
             IF (ITY==3.AND.IHBE==23) NPG=4
 C
@@ -130,9 +130,9 @@ C------------------------------
             MLW =IPARG(1,NG)
             IHBE  = IPARG(23,NG)
             NLAY  = ELBUF_TAB(NG)%NLAY
-            NPTR  = ELBUF_TAB(NG)%NPTR    
-            NPTS  = ELBUF_TAB(NG)%NPTS    
-c            NPTT  = ELBUF_TAB(NG)%NPTT    
+            NPTR  = ELBUF_TAB(NG)%NPTR
+            NPTS  = ELBUF_TAB(NG)%NPTS
+c            NPTT  = ELBUF_TAB(NG)%NPTT
             NPG   = NPTR*NPTS
             IF (ITY==3.AND.IHBE==23) NPG=4
 C

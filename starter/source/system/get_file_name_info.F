@@ -48,7 +48,7 @@ C-----------------------------------------------
       CHARACTER ARUN*4,EXT*4,EXT3*3,V4LETTER,V5LETTER
 C-----------------------------------------------      
       IF (LENI < 4) GOTO 1000
-      
+
       WRITE(EXT,'(A)') INPUT(LENI-3:LENI)
       IF ( LLE(EXT,'.rad') .AND. LGE(EXT,'.rad')) THEN
          IF (LENI < 10 ) GOTO 1000
@@ -63,18 +63,18 @@ C Dataset letter
            FVERS = 5
          ELSE
            GOTO 1000
-         ENDIF   
+         ENDIF
       ELSEIF ( INPUT(LENI-1:LENI) == '.k' ) THEN
 C Rootname
          WRITE(ROOTNAME,FMT='(A)',ERR=1000) INPUT(1:LENI-2)
          LENR=LEN_TRIM(ROOTNAME)
-         IS_DYNA = 1 
-         RUNN = 0  
+         IS_DYNA = 1
+         RUNN = 0
       ELSEIF ( INPUT(LENI-3:LENI) == '.key' ) THEN
 C Rootname
          WRITE(ROOTNAME,FMT='(A)',ERR=1000) INPUT(1:LENI-4)
          LENR=LEN_TRIM(ROOTNAME)
-         IS_DYNA = 1 
+         IS_DYNA = 1
          RUNN = 0
       ELSE
 C Run number
@@ -96,7 +96,7 @@ C Dataset letter
       RETURN
 
  1000  CONTINUE
-       WRITE(6,'(A)') ' ' 
+       WRITE(6,'(A)') ' '
        WRITE(6,'(A,A)') '*** ERROR : WRONG RADIOSS INPUT FILE NAME: ',
      *                   INPUT(1:LENI)
        WRITE(6,'(A)') ' '

@@ -65,12 +65,12 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER, INTENT(IN) :: EDGE_ID(2,4*MVSIZ)
-      INTEGER JLT, NIN, NOINT, CS_LOC(*), 
+      INTEGER JLT, NIN, NOINT, CS_LOC(*),
      .        N1(*), N2(*), M1(*), M2(*),
      .        NSMS(4*MVSIZ), ISKYI_SMS(LSKYI_SMS,*), NEDGE
       my_real
-     .    HS1(*),HS2(*),HM1(*),HM2(*),STIF(*), MSKYI_SMS(*), 
-     .    K1(*), K2(*), K3(*), K4(*), 
+     .    HS1(*),HS2(*),HM1(*),HM2(*),STIF(*), MSKYI_SMS(*),
+     .    K1(*), K2(*), K3(*), K4(*),
      .    C1(*), C2(*), C3(*), C4(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -102,7 +102,7 @@ C
        IF(NSMS(I)==0.OR.STIF(I)==ZERO) CYCLE
 C
        IF(NSMS(I)>0)THEN
-         ASSERT(DTFACS > 0) 
+         ASSERT(DTFACS > 0)
          DTS = DTMINS/DTFACS
        ELSE
          DTS = DTMINS_INT/DTFACS_INT
@@ -164,7 +164,7 @@ C
          ISKYI_SMS(NISKYL,3)=PROCAMSFIE(NIN)%P(N2(I))
         END IF
        END IF
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

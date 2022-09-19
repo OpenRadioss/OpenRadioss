@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,NEDGE)
       INTEGER LEDGE_FIE(E_LEDGE_SIZE,*)
       my_real
-     .        CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*) ,CAND_FZ(4,*) 
+     .        CAND_P(4,*),CAND_FX(4,*) ,CAND_FY(4,*) ,CAND_FZ(4,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -107,7 +107,7 @@ C       IF(NN<=NEDGE_L)THEN
      .       CAND_P(3,I)==ZERO.AND.
      .       CAND_P(4,I)==ZERO)THEN
             CAND_S(I) = NEDGE+1
-          ENDIF 
+          ENDIF
         ENDIF
 C       ELSE ! remote
 C       ENDIF
@@ -121,7 +121,7 @@ C=======================================================================
         NN = CAND_S(I) + 2
         CAND_A(NN) = CAND_A(NN) + 1
       ENDDO
-      
+
 C=======================================================================
 C     CAND_A : ADRESSE DE CHAQUE NOEUD 
 C     APRES 400 CAND_A[2:NEDGE+2] : ADRESSE DES NOEUDS [1:NEDGE+1] 
@@ -231,7 +231,7 @@ C
           IFPEN(I)  = CAND_X
 C 
           IPUT(I) = IPUT(K)
-        
+
           ASSERT(IPUT(I) > 0)
           ASSERT(IPUT(I) <= I_STOK)
 

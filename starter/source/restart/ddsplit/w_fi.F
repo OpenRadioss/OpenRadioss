@@ -42,9 +42,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I7I10SPLITMOD 
+      USE I7I10SPLITMOD
       USE FRONT_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE MULTI_FVM_MOD
       USE I25_FIE_MOD
 C-----------------------------------------------
@@ -72,13 +72,13 @@ C-----------------------------------------------
       INTEGER, DIMENSION(*), INTENT(IN) :: NODLOCAL
       INTEGER, DIMENSION(*), INTENT(INOUT) :: TAG,INDX_TAG
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
-!       NINDX_TAG : integer, 
+!       NINDX_TAG : integer,
 !                   number of non-zero value of TAG
 !       TAG       : integer, dimension=NUMNOD + I24MAXNSNE + SIZE_FVM
 !                                                  |            |
 !                       max NSNE for TYP24     ____|            |
 !          SIZE_FVM=NUMELS for INACTI=7 and FVM, otherwise 0 ___|
-!                   tagged array, TAG is TAG_SCRATCH array, allocated in lectur.F 
+!                   tagged array, TAG is TAG_SCRATCH array, allocated in lectur.F
 !       INDX_TAG  : integer, dimension = dimension(TAG)
 !                   index array, used to flush TAG to 0
 !       NODLOCAL  : integer, dimension=NUMNOD
@@ -111,7 +111,7 @@ C-----------------------------------------------
       INTEGER, PARAMETER :: E_IBUF_SIZE = 13
       LOGICAL INACTI_CASE
 
-      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGE, NSNLOCAL, NSNP, NSVFI,  
+      INTEGER, DIMENSION(:),ALLOCATABLE :: TAGE, NSNLOCAL, NSNP, NSVFI,
      .                                     NRTSLOCAL, NRTSP, INDEX, PFI,
      .                                     ITAFI, ITAFI2
       INTEGER, DIMENSION(:,:),ALLOCATABLE :: CLEF,IRTLMFI2,IRTLMFI
@@ -154,7 +154,7 @@ Cel ecriture nsnfi : 0 si inacti # 5, 6 et 7
            FLAGREMN =IPARI(63,NI)
            LREMNORMAX =IPARI(82,NI)
            INTNITSCHE = IPARI(86,NI)
-  
+
            NSNE  = 0
            IEDGE4 = 0
 ! +++++++++++++++++++++++++++++++++++++++++++++++
@@ -192,15 +192,15 @@ C
 C
 C
 ! optimize loop with PLIST tool
-            ALLOCATE(PLIST(NSPMD)) 
+            ALLOCATE(PLIST(NSPMD))
             PLIST(1:NSPMD) = -1
                DO K=1,NSN
                   N = INTBUF_TAB(NI)%NSV(K)
                   NSNLOCAL(K) = 0
-                  IF(TAG(N)==0) THEN 
-                     SPLIST=0 
+                  IF(TAG(N)==0) THEN
+                     SPLIST=0
                      IF(N<=NUMNOD) THEN
-                        CALL PLIST_IFRONT(PLIST,N,SPLIST) 
+                        CALL PLIST_IFRONT(PLIST,N,SPLIST)
                         PLOC = 0
                         IF(NODLOCAL(N)/=0.AND.NODLOCAL(N)<=NUMNOD_L) PLOC = 1
                      ELSE
@@ -230,7 +230,7 @@ C     T24 E2E Fictive nodes are only on 1 domain (But they are not nodes
                   ENDIF
                ENDDO
 
-            DEALLOCATE(PLIST) 
+            DEALLOCATE(PLIST)
 
             NRTM_L = 0
             DO K=1,NRTM
@@ -239,7 +239,7 @@ C TAGE flag servant pour inacti
               IF(INTERCEP(1,NI)%P(K)==PROC+1)THEN
                 NRTM_L = NRTM_L + 1
                 TAGE(K) = NRTM_L
-              ENDIF              
+              ENDIF
             ENDDO
 C
             NODFI = 0
@@ -260,9 +260,9 @@ C Add boolean in order to treat INACTI=5 Candidates
                 ELSE
                   SE1 = INTBUF_TAB(NI)%IS2SE(2*(ND-NUMNOD-1)+1)
                   IF (INTERCEP(2,NI)%P(SE1)/=(PROC+1) ) INACTI_CASE=.TRUE.
-                ENDIF 
+                ENDIF
 c                IF (INTBUF_TAB(NI)%NSV(N) > NUMNOD) CYCLE
-                 
+
                 IF(INACTI_CASE .EQV. .TRUE.) THEN
 C ne traiter qu une seule fois les noeuds
                   IF(NSNP(N)>0) THEN
@@ -322,7 +322,7 @@ C
                 PFI(K) = CLEF(1,INDEX(K))
                 IF(ITYP==24)THEN
                   IRTLMFI(1,K)=IRTLMFI2(1,INDEX(K))
-                  IRTLMFI(2,K)=IRTLMFI2(2,INDEX(K))  
+                  IRTLMFI(2,K)=IRTLMFI2(2,INDEX(K))
                 ENDIF
                 IF(ITYP==25)THEN
                   IRTLMFI(1,K)=IRTLMFI2(1,INDEX(K))
@@ -376,7 +376,7 @@ C Write dummy IRTSE_FI : 5*NODFI
                 CALL WRITE_I_C(NSVFI,NODFI)
                 CALL WRITE_I_C(NSVFI,NODFI)
               LEN_IA = LEN_IA + 5*NODFI
-            
+
 C Write dummy IS2PT_FI
                 CALL WRITE_I_C(NSVFI,NODFI)
                 LEN_IA = LEN_IA + NODFI
@@ -390,7 +390,7 @@ C Write dummy IS2SE_FI : 2*NODFI
                 CALL WRITE_I_C(NSVFI,NODFI)
                 CALL WRITE_I_C(NSVFI,NODFI)
                 LEN_IA = LEN_IA + 2* NODFI
-                 
+
               ENDIF
              IF(INTNITSCHE>0) CALL WRITE_I_C(NSVFI,3*NODFI)
             ENDIF
@@ -407,7 +407,7 @@ C   Write dummy ICONT_I_FI
               LEN_IA = LEN_IA + NODFI
 C   Write dummy KREMNORF REMNORFI
               IF(FLAGREMN == 2.AND.NODFI>0) THEN
-                 ALLOCATE(TABZERO(NODFI+1))  
+                 ALLOCATE(TABZERO(NODFI+1))
                  TABZERO(1:NODFI+1) = 0
                  CALL WRITE_I_C(TABZERO,NODFI+1)
                  LEN_IA = LEN_IA + NODFI + 1
@@ -448,7 +448,7 @@ C fin type 7
               NRTSLOCAL(K) = 0
               IF(CPT1>0.AND.CPT2>0) THEN
                DO P1 = 1,CPT1
-                PROC1 = TAB1(P1) 
+                PROC1 = TAB1(P1)
                 DO P2 = 1,CPT2
                  PROC2 = TAB1(P2)
                  IF((PROC1==PROC+1).AND.(PROC2==PROC+1)) THEN
@@ -462,7 +462,7 @@ C fin type 7
                  ENDIF
                 ENDDO
                ENDDO
-              ENDIF                 
+              ENDIF
 C
             END DO
             DEALLOCATE(TAB1,TAB2)
@@ -511,7 +511,7 @@ C
               CALL MY_ORDERS(0,WORK,CLEF,INDEX,NODFI,2)
               DO K = 1, NODFI
                 NSVFI(K) = CLEF(2,INDEX(K))
-                PFI(K) = CLEF(1,INDEX(K)) 
+                PFI(K) = CLEF(1,INDEX(K))
               END DO
               DEALLOCATE(INDEX)
               DEALLOCATE(CLEF)
@@ -803,13 +803,13 @@ C
 
           IF( ITYP == 25 .AND. IEDGE /= 0) THEN
             NEDGE = IPARI(68,NI)
-            NRTM = IPARI(4,NI) 
+            NRTM = IPARI(4,NI)
             NSNFI(1:NSPMD) = 0
             CALL WRITE_I_C(NSNFI,NSPMD) ! NSNSIE = 0
-            CALL WRITE_I_C(I25_FIE(NI,PROC+1)%NEDGE(1:NSPMD),NSPMD) ! NSNFIE 
+            CALL WRITE_I_C(I25_FIE(NI,PROC+1)%NEDGE(1:NSPMD),NSPMD) ! NSNFIE
             NEDGE_KEPT = I25_FIE(NI,PROC+1)%NEDGE_TOT
             NODFI = 2 * NEDGE_KEPT
-            ALLOCATE(LEDGE_FIE(NODFI*E_IBUF_SIZE)) !working array, max size 
+            ALLOCATE(LEDGE_FIE(NODFI*E_IBUF_SIZE)) !working array, max size
             LEDGE_FIE(1:NODFI*E_IBUF_SIZE) = 0
             IF(NEDGE_KEPT > 0) THEN
               CALL WRITE_I_C(I25_FIE(NI,PROC+1)%ID(1:NEDGE_KEPT),NEDGE_KEPT) ! NSVFIE
@@ -818,24 +818,24 @@ C             CALL WRITE_I_C(MAIN_FIE(1:NEDGE_KEPT),NEDGE_KEPT)!MAIN_FIE
 
 C LEDGE_FIE
               DO K = 1, NEDGE_KEPT
-                J = I25_FIE(NI,PROC+1)%ID(K) 
+                J = I25_FIE(NI,PROC+1)%ID(K)
                 ASSERT(J > 0)
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 1) = INTBUF_TAB(NI)%LEDGE(8 + (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 2) = INTBUF_TAB(NI)%LEDGE(1 + (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 3) = INTBUF_TAB(NI)%LEDGE(2 + (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 4) = INTBUF_TAB(NI)%LEDGE(3+ (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 5) = INTBUF_TAB(NI)%LEDGE(4+ (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 6) = INTBUF_TAB(NI)%LEDGE(5+ (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 7) = INTBUF_TAB(NI)%LEDGE(6+ (J-1)*NLEDGE) 
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 8) = INTBUF_TAB(NI)%LEDGE(7+ (J-1)*NLEDGE) 
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 1) = INTBUF_TAB(NI)%LEDGE(8 + (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 2) = INTBUF_TAB(NI)%LEDGE(1 + (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 3) = INTBUF_TAB(NI)%LEDGE(2 + (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 4) = INTBUF_TAB(NI)%LEDGE(3+ (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 5) = INTBUF_TAB(NI)%LEDGE(4+ (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 6) = INTBUF_TAB(NI)%LEDGE(5+ (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 7) = INTBUF_TAB(NI)%LEDGE(6+ (J-1)*NLEDGE)
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) + 8) = INTBUF_TAB(NI)%LEDGE(7+ (J-1)*NLEDGE)
                 ! global id node 1
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) + 9) = ITAB(LEDGE_FIE(E_IBUF_SIZE*(K-1) + 7))
                 !global id node 2
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) +10) = ITAB(LEDGE_FIE(E_IBUF_SIZE*(K-1) + 8))
                 ! IM
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) +11) = INTBUF_TAB(NI)%LEDGE(10 + (J-1)*NLEDGE) 
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) +11) = INTBUF_TAB(NI)%LEDGE(10 + (J-1)*NLEDGE)
                 ! LocalID
-                LEDGE_FIE(E_IBUF_SIZE*(K-1) +12) = 0         
+                LEDGE_FIE(E_IBUF_SIZE*(K-1) +12) = 0
                 ! BINFLG
                 LEDGE_FIE(E_IBUF_SIZE*(K-1) +13) = INTBUF_TAB(NI)%EBINFLG(J)
               ENDDO
@@ -847,7 +847,7 @@ Cel Void writing for IPARTFRIC_FIE
                ENDIF
             ENDIF
             DEALLOCATE(LEDGE_FIE)
-           
+
           ENDIF ! TYPE25+EDGE
 C
           IF(IPARI(36,NI)>0.AND.ITYP/=17) THEN

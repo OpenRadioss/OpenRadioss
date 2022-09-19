@@ -104,7 +104,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -117,8 +117,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -163,7 +163,7 @@ C-----------------------------------------------
       DATA R8TWOP8  /'4070000000000000'x/
       DATA R8DEUXPM19/'3EC0000000000000'x/
       DATA R8DEUXPM46/'3D10000000000000'x/
-    
+
       DO I=JFT,JLT
 
        RESTE  = F(I)
@@ -190,7 +190,7 @@ C-----------------------------------------------
 
        TEMP6  = RESTE + R8DEUXPM46
        TEMP16 = TEMP6 - R8DEUXPM46
-       
+
        F6(1,1)  = F6(1,1) + TEMP11
        F6(1,2)  = F6(1,2) + TEMP12
        F6(1,3)  = F6(1,3) + TEMP13
@@ -273,7 +273,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -286,8 +286,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -332,7 +332,7 @@ C-----------------------------------------------
       DATA R8TWOP8  /'4070000000000000'x/
       DATA R8DEUXPM19/'3EC0000000000000'x/
       DATA R8DEUXPM46/'3D10000000000000'x/
-    
+
       DO I=JFT,JLT
 
        RESTE   = F(I)
@@ -412,8 +412,8 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
-c          calcul 
+c--------- calcul de fmax, fmin
+c          calcul
 c      fmax avec 0 bits  zero = 2^m1
 c      fmax avec r bits  zero = 2^(m1-r)
 c
@@ -498,8 +498,8 @@ C-----------------------------------------------
        RETURN
        END
 
-       
-       
+
+
 c      SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
 c      SUBROUTINE DOUBLE_FLOT_IEEE(JFT  ,JLT  ,I8 ,R8, I8F)
 C-----------------------------------------------
@@ -525,25 +525,25 @@ c     .   R8(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c___________________________________________________          
+c___________________________________________________
 c      integer i,iexpo,i4mask11
 c      integer*8 i8_mant
-c      integer*8 i8_deuxp52,i8mask43,i8mask52,i8mask63,i8mask1 
+c      integer*8 i8_deuxp52,i8mask43,i8mask52,i8mask63,i8mask1
 c      data i8_deuxp52 /  '10000000000000'x/
 c      data i8mask1    /               '1'x/
 c      data i8mask43   /     '7ffffffffff'x/
 c      data i8mask52   /   'fffffffffffff'x/
 c      data i8mask63   /'7fffffffffffffff'x/
 c      data i4mask11   /             '7ff'x/
-c___________________________________________________          
+c___________________________________________________
 C-----------------------------------------------
 C
 c      DO I=JFT,JLT
-c___________________________________________________          
+c___________________________________________________
 c          i8_mant    = ior(iand(i8mask52,I8(I)),i8_deuxp52)
 cc          iexpo      = exponent(R8(I))-53
-cc          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1022 - 53  
-c          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1075  
+cc          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1022 - 53
+c          iexpo  = iand(ishft(I4(2,i),-20),i4mask11) - 1075
 c          if(R8(I)<0.)then
 c           I8F(1,I) = -iand(i8mask63,ishft(i8_mant,iexpo))
 c           I8F(2,I) = -iand(i8mask43,ishft(i8_mant,iexpo+43))
@@ -560,7 +560,7 @@ c           I8F(2,I) =  0
 c           I8F(3,I) =  0
 c          endif
 c      ENDDO
-c___________________________________________________          
+c___________________________________________________
 c      RETURN
 c      END
 Chd|====================================================================
@@ -595,18 +595,18 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c___________________________________________________          
+c___________________________________________________
       double precision
      .    R8_LOCAL,R8_DEUXP43,AA
       INTEGER*8 I8_DEUXP43
       DATA I8_DEUXP43 /'80000000000'x/
       DATA R8_DEUXP43 /'42A0000000000000'x/
       INTEGER I
-c___________________________________________________          
+c___________________________________________________
 C-----------------------------------------------
 C
       DO I=JFT,JLT
-c___________________________________________________          
+c___________________________________________________
           I8F(1,I)   = R8(I)
           AA         = I8F(1,I)
           R8_LOCAL   = (R8(I)    - AA) * R8_DEUXP43
@@ -615,7 +615,7 @@ c___________________________________________________
           R8_LOCAL   = (R8_LOCAL - AA) * R8_DEUXP43
           I8F(3,I)   = R8_LOCAL + 0.5
       ENDDO
-c___________________________________________________          
+c___________________________________________________
       RETURN
       END
 Chd|====================================================================
@@ -678,7 +678,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -691,8 +691,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -774,7 +774,7 @@ C-----------------------------------------------
    	     F6(J,3,ISENSINT(I))  = F6(J,3,ISENSINT(I)) + TEMP13
    	     F6(J,4,ISENSINT(I))  = F6(J,4,ISENSINT(I)) + TEMP14
    	     F6(J,5,ISENSINT(I))  = F6(J,5,ISENSINT(I)) + TEMP15
-   	     F6(J,6,ISENSINT(I))  = F6(J,6,ISENSINT(I)) + TEMP16 
+   	     F6(J,6,ISENSINT(I))  = F6(J,6,ISENSINT(I)) + TEMP16
 #include "lockoff.inc"
 
    	    ENDDO
@@ -843,7 +843,7 @@ c       d = b - f2
 c      f3 = (d + 2^m3) - 2^m3
 c      f4 = ((d - f3) + 2^m4) - 2^m4
 c      ...
-c--------- calcul de fmax, fmin 
+c--------- calcul de fmax, fmin
 c      fmax avec r bits  zero = 2^(m1-r)
 c
 c      fmin avec 53 bits significatif = 2^m6
@@ -856,8 +856,8 @@ c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c
 c 6 float r=26 m1=89 m6=-46
-c 
-c      fmax avec r bits  zero ~= 2^37 = 
+c
+c      fmax avec r bits  zero ~= 2^37 =
 c      fmin avec 53 bits significatif ~= 2^(m6-r)
 c      fmin avec 1 bits significatif  ~= 2^(m6-53-r)
 c-------------------------------------------------------
@@ -930,7 +930,7 @@ C-----------------------------------------------
    	 TEMP6  = RESTE + R8DEUXPM46
    	 TEMP16 = TEMP6 - R8DEUXPM46
 
-#include "lockon.inc"   	 
+#include "lockon.inc"   	
    	 F6(I,1)  = F6(I,1) + TEMP11
    	 F6(I,2)  = F6(I,2) + TEMP12
    	 F6(I,3)  = F6(I,3) + TEMP13

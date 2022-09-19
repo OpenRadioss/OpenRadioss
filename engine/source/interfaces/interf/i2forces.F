@@ -46,7 +46,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE H3D_MOD 
+      USE H3D_MOD
 C-----------------------------------------------
 #include      "implicit_f.inc"
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C     REAL
      .   Z0,Z1,Z2,Z3,Z4,SX,SY,SZ,TX,TY,TZ,XCDG,YCDG,ZCDG,MCDG,
      .   SUM,FX,FY,FZ,FNORM,VNX,VNY,VNZ,VX,VY,VZ,DT12M,FN(3),FT(3)
 C=======================================================================
-      IF (TT == ZERO) THEN   
+      IF (TT == ZERO) THEN
         DT12M = ONE/DT2
       ELSE
         DT12M = ONE/DT12
@@ -153,7 +153,7 @@ C
           FNCONT(2,J) = FNCONT(2,J) - FNCONT(2,NSL)*H(JJ)
           FNCONT(3,J) = FNCONT(3,J) - FNCONT(3,NSL)*H(JJ)
         ENDDO
-      ENDIF  
+      ENDIF
 C
       IF(ANIM_V(27)+H3D_DATA%N_VECT_PCONT2>0) THEN ! Normal/Tangential forces output
         FNCONTP(1,NSL) = -FN(1) * WEIGHT(NSL)

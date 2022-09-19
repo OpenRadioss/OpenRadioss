@@ -57,13 +57,13 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXS(NIXS,*), IPRELOAD(3,*), IFLAG_BPRELOAD(*) 
+      INTEGER IXS(NIXS,*), IPRELOAD(3,*), IFLAG_BPRELOAD(*)
       my_real
      .   PRELOAD(6,*), VPRELOAD(7,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER IE, STAT, IPL, NE, J 
+      INTEGER IE, STAT, IPL, NE, J
       INTEGER WORKS(70000)
       INTEGER, DIMENSION(:), ALLOCATABLE ::ITRIS
       INTEGER, DIMENSION(:), ALLOCATABLE ::INDEXS
@@ -112,7 +112,7 @@ c
       END DO
 c
       DO IPL = 1,NUMPRELOAD
-        NE = IPRELOAD(3,IPL)  
+        NE = IPRELOAD(3,IPL)
 C       No systeme dans le D00, de l'elt:
         IE=UEL2SYS(NE,KSYSUSRS,NUMELS)
         IF(IE/=0)THEN
@@ -124,7 +124,7 @@ C       No systeme dans le D00, de l'elt:
           VPRELOAD(6,IE) = PRELOAD(6,IPL)
           VPRELOAD(7,IE) = IPRELOAD(2,IPL)
         ENDIF
-      ENDDO 
+      ENDDO
 !::: Creer l'equivalent de ptsol pour le BPREL
       DO IE=1,NUMELS
         NE = IXS(NIXS,IE)

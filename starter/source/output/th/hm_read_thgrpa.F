@@ -38,7 +38,7 @@ Chd|====================================================================
       SUBROUTINE HM_READ_THGRPA(
      .           IPASU    ,NPASU    ,ITHBUF   ,IAD      ,IFI      ,
      .           VARPA    ,NVARPA   ,VARG     ,NVARG    ,NUMTHPART,
-     .           IVARPAG  ,PATHID   ,TAGP     ,IPARTH   ,NPARTH   , 
+     .           IVARPAG  ,PATHID   ,TAGP     ,IPARTH   ,NPARTH   ,
      .           NVPARTH  ,LSUBMODEL)
 C-----------------------------------------------
         USE MESSAGE_MOD
@@ -86,10 +86,10 @@ C=======================================================================
       ITYP = 1001     ! type /th/part
 
       ! read option header
-      CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=TH_ID, OPTION_TITR=TITR, KEYWORD2=KEY)   
+      CALL HM_OPTION_READ_KEY(LSUBMODEL, OPTION_ID=TH_ID, OPTION_TITR=TITR, KEYWORD2=KEY)
 c
       ! Number of variables counted in input line
-      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
 c
       ! Total number of stored variables
       IF (NVAR > 0) THEN
@@ -101,13 +101,13 @@ c
      .         I1=TH_ID,
      .         C1=TITR )
       ELSE IF (KEY(1:4) == 'PART') THEN
-      
+
         ! Number of Object (Part) IDs
         CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
-        
+
         DO K = 1,NUMOBJ
-          CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL) 
-          IF (NSUBDOM > 0) THEN 
+          CALL HM_GET_INT_ARRAY_INDEX('ids',PART_ID,K,IS_AVAILABLE,LSUBMODEL)
+          IF (NSUBDOM > 0) THEN
             IF (R2R_EXIST(ITYP,PART_ID) == 0) CYCLE
           ENDIF
           N = 0
@@ -117,7 +117,7 @@ c
               TAGP = TAGP+1
               PATHID(TAGP) = PART_ID
               EXIT
-            ENDIF  
+            ENDIF
           ENDDO
 C
           IF (N == 0) THEN
@@ -130,8 +130,8 @@ C
           ELSE
             IPARTH(NVPARTH,N)  = NVAR
             IPARTH(NVPARTH+1,N)= IAD
-          ENDIF           
-        ENDDO  ! NUMOBJ 
+          ENDIF
+        ENDDO  ! NUMOBJ
       END IF   ! NVAR > 0
 c
       IAD = IAD + NVAR
@@ -226,11 +226,11 @@ c
       ELSE IF (KEY(1:4) == 'SUBS') THEN
 c
         ! Number of Object (Part) IDs
-        CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('idsmax',NUMOBJ,IS_AVAILABLE,LSUBMODEL)
 c
         DO K = 1,NUMOBJ
-          CALL HM_GET_INT_ARRAY_INDEX('ids',SUBS_ID,K,IS_AVAILABLE,LSUBMODEL) 
-          IF (NSUBDOM > 0) THEN 
+          CALL HM_GET_INT_ARRAY_INDEX('ids',SUBS_ID,K,IS_AVAILABLE,LSUBMODEL)
+          IF (NSUBDOM > 0) THEN
             IF (R2R_EXIST(ITYP,SUBS_ID) == 0) CYCLE
           ENDIF
           N = 0
@@ -240,8 +240,8 @@ c
               TAGS = TAGS+1
               SUTHID(TAGS)= SUBS_ID
               EXIT
-            ENDIF  
-          ENDDO  
+            ENDIF
+          ENDDO
 C
           IF (N == 0) THEN
             CALL ANCMSG(MSGID=257, MSGTYPE=MSGERROR, ANMODE=ANINFO_BLIND_1,
@@ -253,8 +253,8 @@ C
           ELSE
             SUBSET(N)%NVARTH(ITHFLAG) = NVAR
             SUBSET(N)%THIAD = IAD
-          ENDIF      
-        ENDDO  ! NUMOBJ 
+          ENDIF
+        ENDDO  ! NUMOBJ
       END IF   ! NVAR > 0
 c
       IAD = IAD + NVAR

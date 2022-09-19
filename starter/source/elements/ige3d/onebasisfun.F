@@ -51,18 +51,18 @@ C-------------------------------------------------------------------------------
 C Dummy Arguments 
 C--------------------------------------------------------------------------------------------------------
       INTEGER PXI, IDXI, IDXII
-      my_real, 
+      my_real,
      .  INTENT(IN) :: XI
-      my_real, 
+      my_real,
      .  DIMENSION(*), INTENT(IN) :: KXI
       my_real DERS1
 C--------------------------------------------------------------------------------------------------------
 C Local variables 
 C--------------------------------------------------------------------------------------------------------
       INTEGER J, JJ, K, L, NDERS
-      my_real 
+      my_real
      .  SAVED, TEMP, ALEFT, RIGHT
-      my_real, 
+      my_real,
      .  DIMENSION(PXI+1,PXI+1) :: ANDU
 
       ANDU(:,:)=ZERO
@@ -79,7 +79,7 @@ c      ENDDO
       DO K=1,PXI
         IF (ANDU(1,K) == 0) THEN
           SAVED = ZERO
-        ELSE 
+        ELSE
           SAVED = ((XI-KXI(IDXI))*ANDU(1,K))/(KXI(IDXI+K)-KXI(IDXI))
         ENDIF
         DO J=0,PXI-K
@@ -92,11 +92,11 @@ c      ENDDO
             TEMP = ANDU(J+2,K)/(RIGHT-ALEFT)
             ANDU(J+1,K+1) = SAVED+(RIGHT-XI)*TEMP
             SAVED = (XI-ALEFT)*TEMP
-          ENDIF  
+          ENDIF
         ENDDO
       ENDDO
-      
-      DERS1 = ANDU(1,PXI+1) 
+
+      DERS1 = ANDU(1,PXI+1)
 
       RETURN
       END

@@ -75,18 +75,18 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER LEDGE(NLEDGE,*), IRECT(4,*), CAND_M(*), CAND_S(*), ADMSR(4,*),
      .        LBOUND(*), JLT, NRTS, NIN, IEDGE, IGAP0,INTFRIC,IGAP,
-     .        N1(MVSIZ), N2(MVSIZ), 
-     .        M1(MVSIZ), M2(MVSIZ), 
-     .        NODNX_SMS(*), NSMS(MVSIZ), 
-     .        ITAB(*),              
-     .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),     
+     .        N1(MVSIZ), N2(MVSIZ),
+     .        M1(MVSIZ), M2(MVSIZ),
+     .        NODNX_SMS(*), NSMS(MVSIZ),
+     .        ITAB(*),
+     .        IAM(MVSIZ),JAM(MVSIZ),IBM(MVSIZ),JBM(MVSIZ),
      .        IAS(MVSIZ),JAS(MVSIZ),IBS(MVSIZ),JBS(MVSIZ),
      .        IPARTFRIC_E(*),IPARTFRICSI(MVSIZ),IPARTFRICMI(MVSIZ)
       INTEGER :: EDGE_ID(2,MVSIZ)
       INTEGER NEDGE
 C     REAL
       my_real
-     .        X(3,*), STFE(*), MS(*), V(3,*), GAPE(*), 
+     .        X(3,*), STFE(*), MS(*), V(3,*), GAPE(*),
      .        XXS1(*), XXS2(*), XYS1(*), XYS2(*),
      .        XZS1(*), XZS2(*), XXM1(*), XXM2(*),
      .        XYM1(*), XYM2(*), XZM1(*), XZM2(*),
@@ -101,8 +101,8 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2, 
-     .        EM, IE, ES, JE, SOL_EDGE, SH_EDGE, 
+      INTEGER I ,NN, J, JRM, K, KRM, I1, J1, I2, J2,
+     .        EM, IE, ES, JE, SOL_EDGE, SH_EDGE,
      .        TYPEDGS(MVSIZ), IM(MVSIZ), IS(MVSIZ)
       INTEGER ::  NOD1S(MVSIZ),NOD2S(MVSIZ)
       INTEGER ::  NOD1M(MVSIZ),NOD2M(MVSIZ)
@@ -218,10 +218,10 @@ C
           ! IBUF_EDGE(P)%p(E_RIGHT_ID     + L) = LEDGE(4,I)
           ! IBUF_EDGE(P)%p(E_NODE1_ID     + L) = LEDGE(5,I)
           ! IBUF_EDGE(P)%p(E_NODE2_ID     + L) = LEDGE(6,I)
-          ! IBUF_EDGE(P)%p(E_TYPE         + L) = LEDGE(7,I) 
+          ! IBUF_EDGE(P)%p(E_TYPE         + L) = LEDGE(7,I)
 
-          NN = CAND_S(I) - NEDGE            
-          IS(i) = LEDGE_FIE(NIN)%P(E_IM,NN) 
+          NN = CAND_S(I) - NEDGE
+          IS(i) = LEDGE_FIE(NIN)%P(E_IM,NN)
 C         IF(IS(i)  == 1) THEN
           N1(I)=2*(NN-1)+1
           N2(I)=2*NN
@@ -304,7 +304,7 @@ C
         GAPE_M(I)=GAPE(CAND_M(I))
         IF(CAND_S(I)<=NEDGE) THEN
           GAPE_S(I)=GAPE(CAND_S(I))
-        ELSE 
+        ELSE
           GAPE_S(I)= GAPFIE(NIN)%P(CAND_S(I) - NEDGE)
         END IF
         DEBUG_E2E(EDGE_ID(1,I) ==  D_EM .AND. EDGE_ID(2,I) == D_ES,GAPE_S(I))
@@ -315,10 +315,10 @@ C
            GAPE_M(I)=MIN(GAPE_M(I),GAP_E_L(CAND_M(I)))
           IF(CAND_S(I)<=NEDGE) THEN
               GAPE_S(I)=MIN(GAPE_S(I),GAP_E_L(CAND_S(I)))
-             GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I)) 
+             GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAP_E_L(CAND_S(I)),GAPVE(I))
           ELSE
               GAPE_S(I)=MIN(GAPE_S(I),GAPE_L_FIE(NIN)%P(CAND_S(I) - NEDGE))
-             GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAPE_L_FIE(NIN)%P(CAND_S(I) - NEDGE),GAPVE(I)) 
+             GAPVE(I)=MIN(GAP_E_L(CAND_M(I))+GAPE_L_FIE(NIN)%P(CAND_S(I) - NEDGE),GAPVE(I))
           ENDIF
         ENDDO
       ENDIF
@@ -330,7 +330,7 @@ C     Always shift MAIN edge toward inner side
 
         IE=IAM(I)
         JE=JAM(I)
- 
+
         I1 = NOD1M(I)
         I2 = NOD2M(I)
         EX(I) = EDG_BISECTOR(1,JE,IE)
@@ -454,7 +454,7 @@ C           DX, DY, DZ Direction for shifting
             DX = VTX_BISECTOR_FIE(NIN)%P(1,1,CAND_S(I)-NEDGE)+VTX_BISECTOR_FIE(NIN)%P(1,2,CAND_S(I)-NEDGE)
             DY = VTX_BISECTOR_FIE(NIN)%P(2,1,CAND_S(I)-NEDGE)+VTX_BISECTOR_FIE(NIN)%P(2,2,CAND_S(I)-NEDGE)
             DZ = VTX_BISECTOR_FIE(NIN)%P(3,1,CAND_S(I)-NEDGE)+VTX_BISECTOR_FIE(NIN)%P(3,2,CAND_S(I)-NEDGE)
-            ASSERT(DX == DX)                         
+            ASSERT(DX == DX)
             ASSERT(DY == DY)
             ASSERT(DZ == DZ)
           ENDIF
@@ -567,7 +567,7 @@ C----Friction model : secnd part IDs---------
            IF(CAND_S(I)<=NEDGE)THEN
              IPARTFRICSI(I) = IPARTFRIC_E(CAND_S(I))
            ELSE
-             NN = CAND_S(I) - NEDGE            
+             NN = CAND_S(I) - NEDGE
              IPARTFRICSI(I)= IPARTFRIC_FIE(NIN)%P(NN)
            ENDIF
 

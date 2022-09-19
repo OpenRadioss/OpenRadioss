@@ -29,7 +29,7 @@ Chd|        CZFORC3                       source/elements/shell/coquez/czforc3.F
 Chd|        CZFORC3_CRK                   source/elements/xfem/czforc3_crk.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE THERMC(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC , 
+      SUBROUTINE THERMC(JFT  ,JLT   ,PM   ,MAT   ,THK   ,IXC ,
      2                  PX1  ,PX2   ,PY1  ,PY2   ,AREA   ,DT1C ,
      3                  TEMPNC ,TEL   ,DIE  ,FPHI)
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C
           KC = (CA + CB*TEL(I))*DT1C(I)/MAX(EM20,AREA(I))
           PHIX =  TEMPNC(IXC(2,I))*PX1(I) + TEMPNC(IXC(3,I))*PX2(I)  -
      .            TEMPNC(IXC(4,I))*PX1(I) - TEMPNC(IXC(5,I))*PX2(I)
-          
+
           PHIY =  TEMPNC(IXC(2,I))*PY1(I) + TEMPNC(IXC(3,I))*PY2(I)  -
      .            TEMPNC(IXC(4,I))*PY1(I) - TEMPNC(IXC(5,I))*PY2(I)
 C     

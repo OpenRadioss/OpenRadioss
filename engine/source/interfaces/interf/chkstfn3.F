@@ -304,7 +304,7 @@ C-----------------------------------------------
      .        IXT(NIXT,*),IXP(NIXP,*),IXR(NIXR,*), IXUR(NIXUR,*),
      .        IXS10(6,*),IXS20(12,*),IXS16(8,*),IXTG1(4,*),
      .        ADDCNEL(0:*), CNEL(0:*), ADSKY(0:*), IPARG(NPARG,*)
-      my_real 
+      my_real
      .        GEO(NPROPG,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -449,7 +449,7 @@ C#include "vectorize.inc"
               ENDDO
             ENDDO
 C
-            IF(ISOLNOD == 10) THEN   
+            IF(ISOLNOD == 10) THEN
 C#include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
@@ -459,7 +459,7 @@ C#include "vectorize.inc"
                   ADSKY(N) = ADSKY(N)+1
                 ENDDO
               ENDDO
-            ELSEIF(ISOLNOD == 20) THEN            
+            ELSEIF(ISOLNOD == 20) THEN
 C#include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
@@ -469,7 +469,7 @@ C#include "vectorize.inc"
                   ADSKY(N) = ADSKY(N)+1
                 ENDDO
               ENDDO
-            ELSEIF(ISOLNOD == 16) THEN       
+            ELSEIF(ISOLNOD == 16) THEN
 C#include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
@@ -551,7 +551,7 @@ C#include "vectorize.inc"
                 ADSKY(N) = ADSKY(N)+1
               ENDDO
             ENDDO
-            IF(ICNOD == 6) THEN   
+            IF(ICNOD == 6) THEN
 C#include "vectorize.inc"
               DO I = LFT,LLT
                 IE = NFT+I
@@ -614,7 +614,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      USE RAD2R_MOD     
+      USE RAD2R_MOD
       USE REMESH_MOD
       USE GROUPDEF_MOD
 C----6---------------------------------------------------------------7---------8
@@ -644,7 +644,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   LINDIDEL, LBUFIDEL,
      .   IXS(NIXS,*),IXS10(6,*),IXS20(12,*),IXS16(8,*),
      .   IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
@@ -653,7 +653,7 @@ C-----------------------------------------------
      .   IAD_ELEM(2,*),FR_ELEM(*),ITAB(*),ITABM1(*),
      .   ADDCNEL(0:*),CNEL(0:*),KXSP(NISP,*),
      .   TAGEL(*),
-     .   IEXLNK(NR2R,NR2RLNK),DD_R2R(NSPMD+1,*), 
+     .   IEXLNK(NR2R,NR2RLNK),DD_R2R(NSPMD+1,*),
      .   TAGTRIMC(*),TAGTRIMTG(*),
      .   DD_R2R_ELEM(*),SDD_R2R_ELEM,IDEL7NOK_SAV,IDEL7NOK_R2R
        my_real
@@ -678,7 +678,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER SYSFUS2      
+      INTEGER SYSFUS2
 C-----------------------------------------------
       LFT = NODFT
       LLT = NODLT
@@ -745,7 +745,7 @@ C
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                   CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXS(11,NFT+I),ITAB(IXS(2,NFT+I)),ITY,
-     .                           OFUR,TAGEL_SIZE) 
+     .                           OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
                 DO K=2,9
@@ -754,7 +754,7 @@ C
                 ENDDO
               ENDIF
             ENDDO
-           ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN         
+           ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
 C Void elements never break and doesn't have ELBUF
 #include "vectorize.inc"
             DO I = LFT,LLT
@@ -767,7 +767,7 @@ C Void elements never break and doesn't have ELBUF
             ENDDO
            ENDIF
 C
-            IF(ISOLNOD == 10) THEN   
+            IF(ISOLNOD == 10) THEN
              IF(MLW/=0)THEN
 #include "vectorize.inc"
               DO I = LFT,LLT
@@ -796,7 +796,7 @@ C Void elements never break and doesn't have ELBUF
                   ENDDO
                 ENDDO
              ENDIF
-            ELSEIF(ISOLNOD == 20) THEN            
+            ELSEIF(ISOLNOD == 20) THEN
              IF(MLW/=0)THEN
 #include "vectorize.inc"
               DO I = LFT,LLT
@@ -814,7 +814,7 @@ C Void elements never break and doesn't have ELBUF
                   ENDDO
                 ENDIF
               ENDDO
-             ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN 
+             ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
 C Void elements never break and doesn't have ELBUF
 #include "vectorize.inc"
               DO I = LFT,LLT
@@ -825,7 +825,7 @@ C Void elements never break and doesn't have ELBUF
                 ENDDO
               ENDDO
              ENDIF
-            ELSEIF(ISOLNOD == 16) THEN       
+            ELSEIF(ISOLNOD == 16) THEN
              IF(MLW/=0)THEN
 #include "vectorize.inc"
               DO I = LFT,LLT
@@ -843,7 +843,7 @@ C Void elements never break and doesn't have ELBUF
                   ENDDO
                 ENDIF
               ENDDO
-             ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN 
+             ELSEIF ((R2R_SIU == 0).OR.(IPARTR2R > 0)) THEN
 C Void elements never break and doesn't have ELBUF
 #include "vectorize.inc"
               DO I = LFT,LLT
@@ -882,16 +882,16 @@ C
           ELSEIF(ITY == 3)THEN
            IF(MLW/=0)THEN
 #include "vectorize.inc"
-            DO I = LFT,LLT 
+            DO I = LFT,LLT
               IE = NFT+I+OFC
               IF(NADMESH/=0) THEN
-                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMC(IE)==0)THEN  
+                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMC(IE)==0)THEN
                   TAGEL(IE)=1
                   DO K=2,5
                      N = IXC(K,NFT+I)
-                     ITAG(N) = 1   
-                 ENDDO   
-                ENDIF               
+                     ITAG(N) = 1
+                 ENDDO
+                ENDIF
               ELSEIF(ABS(GBUF%OFF(I))>=ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,5
@@ -901,8 +901,8 @@ C
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                   CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXC(7,NFT+I),ITAB(IXC(2,NFT+I)),ITY,
-     .                           OFUR,TAGEL_SIZE)                                     
-                ENDIF 
+     .                           OFUR,TAGEL_SIZE)
+                ENDIF
                 TAGEL(IE)=-1
                 DO K=2,5
                   N = IXC(K,NFT+I)
@@ -938,7 +938,7 @@ C
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                   CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXT(5,NFT+I),ITAB(IXT(2,NFT+I)),ITY,
-     .                           OFUR,TAGEL_SIZE)                                      
+     .                           OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
                 DO K=2,3
@@ -964,7 +964,7 @@ C
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                   CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXP(6,NFT+I),ITAB(IXP(2,NFT+I)),ITY,
-     .                           OFUR,TAGEL_SIZE)                                      
+     .                           OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
                 DO K=2,3
@@ -994,7 +994,7 @@ C
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                  CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXR(NIXR,NFT+I),ITAB(IXR(2,NFT+I)),ITY,
-     .                          OFUR,TAGEL_SIZE)                                       
+     .                          OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
                 DO K=2,3
@@ -1016,13 +1016,13 @@ C
               IE = NFT+I+OFTG
 
               IF(NADMESH/=0) THEN
-                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMTG(IE)==0)THEN            
+                IF(ABS(GBUF%OFF(I))>=ONE.AND.TAGTRIMTG(IE)==0)THEN
                   TAGEL(IE)=1
                   DO K=2,4
                      N = IXTG(K,NFT+I)
-                     ITAG(N) = 1   
+                     ITAG(N) = 1
                   ENDDO
-                ENDIF                  
+                ENDIF
               ELSEIF(ABS(GBUF%OFF(I))>=ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,4
@@ -1032,7 +1032,7 @@ C
               ELSE
                 IF ((R2R_SIU == 1).AND.(TAGEL(IE) > -1)) THEN
                 CALL R2R_TAGEL(NTAGEL_R2R_SEND,IXTG(6,NFT+I),ITAB(IXTG(2,NFT+I)),ITY,
-     .                         OFUR,TAGEL_SIZE)                                      
+     .                         OFUR,TAGEL_SIZE)
                 ENDIF
                 TAGEL(IE)=-1
                 DO K=2,4
@@ -1054,7 +1054,7 @@ C Void elements never break and doesn't have ELBUF
             ENDDO
            ENDIF
 C
-            IF(ICNOD == 6) THEN   
+            IF(ICNOD == 6) THEN
              IF(MLW/=0)THEN
 #include "vectorize.inc"
               DO I = LFT,LLT
@@ -1089,7 +1089,7 @@ C
 #include "vectorize.inc"
             DO I = LFT,LLT
               IE = NFT+I+OFUR
-              IF(ABS(EV(NB1+I-1))>=ONE) THEN 
+              IF(ABS(EV(NB1+I-1))>=ONE) THEN
                 TAGEL(IE)=1
                 DO K=2,5
                   N = IXUR(K,NFT+I)
@@ -1163,7 +1163,7 @@ C       communication partie elementaire TAGEL
           IF (NTAGEL_R2R_SENDG > 0) THEN
             IF (NSPMD > 1) THEN
               TAGEL_R2R_ISPMD(:)=0
-              TAGEL_R2R_ISPMD(ISPMD+1) = 3*NTAGEL_R2R_SEND 
+              TAGEL_R2R_ISPMD(ISPMD+1) = 3*NTAGEL_R2R_SEND
               CALL SPMD_ALLGLOB_ISUM9(TAGEL_R2R_ISPMD,NSPMD)
               ALLOCATE(TAGEL_R2R_SENDG(3*NTAGEL_R2R_SENDG))
               CALL SPMD_R2R_TAGEL(TAGEL_R2R_SENDG,TAGEL_R2R_SEND,TAGEL_R2R_ISPMD)
@@ -1196,30 +1196,30 @@ C       Reception TAGEL pour multidomaines
 C-----------------------------------------------------------------
         IF (IDEL7NOK_R2R > 0) THEN
           CALL GET_SHMBUF_C(NTAGEL_R2R_RECV,4)
-          NTAGEL_R2R_RECV = NTAGEL_R2R_RECV / 3     
+          NTAGEL_R2R_RECV = NTAGEL_R2R_RECV / 3
           IF (NTAGEL_R2R_RECV > 0) THEN
             ALLOCATE(TAGEL_R2R_RECV(3*NTAGEL_R2R_RECV))
             CALL EXCH_TAGEL_C(NTAGEL_R2R_RECV,TAGEL_R2R_RECV,1)
           ENDIF
           DO I=1,NTAGEL_R2R_RECV
-            N1 = SYSFUS2(TAGEL_R2R_RECV((I-1)*3+2),ITABM1,NUMNOD)          
+            N1 = SYSFUS2(TAGEL_R2R_RECV((I-1)*3+2),ITABM1,NUMNOD)
             IF (N1 > 0) THEN
               ITY = TAGEL_R2R_RECV((I-1)*3+3)
-              DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1            
+              DO J = ADDCNEL(N1),ADDCNEL(N1+1)-1
                 IE = CNEL(J)
 C
                 IF ((ITY == 1).AND.(IE<=OFQ)) THEN
                   R2R_NUMEL = IXS(11,IE)
-                ELSEIF ((ITY == 2).AND.((IE > OFQ).AND.(IE<=OFC))) THEN                
-                  R2R_NUMEL = IXQ(7,IE-OFQ)            
+                ELSEIF ((ITY == 2).AND.((IE > OFQ).AND.(IE<=OFC))) THEN
+                  R2R_NUMEL = IXQ(7,IE-OFQ)
                 ELSEIF ((ITY == 3).AND.((IE > OFC).AND.(IE<=OFT))) THEN
                   R2R_NUMEL = IXC(7,IE-OFC)
-                ELSEIF ((ITY == 4).AND.((IE > OFT).AND.(IE<=OFP))) THEN               
+                ELSEIF ((ITY == 4).AND.((IE > OFT).AND.(IE<=OFP))) THEN
                   R2R_NUMEL = IXT(5,IE-OFT)
                 ELSEIF ((ITY == 5).AND.((IE > OFP).AND.(IE<=OFR))) THEN
-                  R2R_NUMEL = IXP(6,IE-OFP)              
+                  R2R_NUMEL = IXP(6,IE-OFP)
                 ELSEIF ((ITY == 6).AND.((IE > OFR).AND.(IE<=OFTG))) THEN
-                  R2R_NUMEL = IXR(NIXR,IE-OFR)              
+                  R2R_NUMEL = IXR(NIXR,IE-OFR)
                 ELSEIF ((ITY == 7).AND.((IE > OFTG).AND.(IE<=OFUR))) THEN
                   R2R_NUMEL = IXTG(6,IE-OFTG)
                 ELSEIF ((ITY == 8).AND.((IE > OFUR).AND.(IE<=OFUR+NUMELUR))) THEN
@@ -1231,7 +1231,7 @@ C
                   EXIT
                 ENDIF
               ENDDO
-            ENDIF   
+            ENDIF
           ENDDO
 C       RAZ de IDEL7NOK_R2R et NTAGEL_R2R_RECV
           IDEL7NOK_R2R = 0
@@ -1291,7 +1291,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE ELBUFDEF_MOD
-      USE INTBUFDEF_MOD    
+      USE INTBUFDEF_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -1319,7 +1319,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .   IPARI(NPARI,*), LINDIDEL, LBUFIDEL,
      .   IXS(NIXS,*),IXQ(NIXQ,*),IXC(NIXC,*), IXT(NIXT,*), IXP(NIXP,*),
      .   IXR(NIXR,*), IXTG(NIXTG,*),ITAG(*),
@@ -1349,7 +1349,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      INTEGER SYSFUS2      
+      INTEGER SYSFUS2
 C-----------------------------------------------
 C
       OFQ=NUMELS
@@ -1402,7 +1402,7 @@ C E2E have fictive nodes with NSV  > NUMNOD
      6   IBUFS(IDBS+4),IND(IDB)     ,TAGEL         ,NG   ,INTBUF_TAB(NG)%MSEGLO,
      7   INTBUF_TAB(NG)%MVOISIN,INDSEGLO     ,IBUFSEGLO)
          ELSEIF(IDEL == 2)THEN
-           CALL CHKMSR3N( 
+           CALL CHKMSR3N(
      1   NMN          ,INTBUF_TAB(NG)%MSR ,ITAG           ,ITASK,INTBUF_TAB(NG)%IRECTM,
      2   NRTM         ,INTBUF_TAB(NG)%STFM,ITAG(NUMNOD+1),IXS  ,IXC          ,
      3   IXTG         ,IXQ          ,IPARG         ,ITAGL        ,
@@ -1639,7 +1639,7 @@ C------
        ELSEIF(NTY == 3.AND.IDEL>=1) THEN
          IF(ISPMD == 0) THEN
            NSN = IPARI(5,NG)
-           IF(IDELKEEP /= 1) 
+           IF(IDELKEEP /= 1)
      .       CALL CHKSLV3B(NSN,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK)
            NMN   =IPARI(6,NG)
            IF(IDELKEEP /= 1)
@@ -1707,7 +1707,7 @@ C Fin Partie non parallele
        ELSEIF(NTY == 5.AND.IDEL>=1) THEN
          IF(ISPMD == 0) THEN
            NSN = IPARI(5,NG)
-           IF(IDELKEEP /= 1) 
+           IF(IDELKEEP /= 1)
      .       CALL CHKSLV3B(NSN,INTBUF_TAB(NG)%NSV,INTBUF_TAB(NG)%STFNS,ITAG,ITASK)
            NMN   =IPARI(6,NG)
            NRTM  =IPARI(4,NG)
@@ -1753,7 +1753,7 @@ C Fin Partie non parallele
          ILEV = IPARI(20,NG)
 C
          INC=4
-         IF (IDEL == 2) THEN 
+         IF (IDEL == 2) THEN
            CALL CHK2MSR3N(
      1	    NSN  	,INTBUF_TAB(NG)%NSV ,ITAG,ITASK,INTBUF_TAB(NG)%IRECTM,
      2	    INTBUF_TAB(NG)%IRTLM,ITAG(NUMNOD+1),IXS	,IXC  ,IXTG	    ,
@@ -1761,7 +1761,7 @@ C
      4	    IN		,INTBUF_TAB(NG)%SMAS ,INTBUF_TAB(NG)%SINER,ADM,CNEL      ,
      5	    ADDCNEL	,OFC	       ,OFT	,OFTG ,OFUR	    ,
      6     TAGEL   ,ILEV     )
-         ELSEIF (IDEL == 1) THEN 
+         ELSEIF (IDEL == 1) THEN
            CALL CHK2MSR3NB(
      1	    NSN  	,INTBUF_TAB(NG)%NSV ,ITAG	,ITASK,INTBUF_TAB(NG)%IRECTM,
      2	    INTBUF_TAB(NG)%IRTLM,ITAG(NUMNOD+1),IXS	,IXC  ,IXTG	    ,
@@ -1815,7 +1815,7 @@ C Partie non parallele
 
        CALL SPMD_INIT_IDEL(IDBS-1, IRSIZE, IRECV)
        CALL SPMD_EXCHMSR_IDEL(
-     1         IBUFS  ,IDBS-1 ,IXS    ,IXC    ,IXTG   , 
+     1         IBUFS  ,IDBS-1 ,IXS    ,IXC    ,IXTG   ,
      2         IXQ    ,IPARG  ,ITAGL  ,ITABM1 ,
      3         IRSIZE ,IRECV  ,CNEL   ,ADDCNEL,OFC    ,
      4         OFT    ,OFTG   ,OFUR   ,OFR    ,OFP    ,
@@ -1923,13 +1923,13 @@ Cote secnd
 C Fin Partie non parallele
 !$OMP END SINGLE
 
-      END IF  ! specifique NSPMD > 1    
+      END IF  ! specifique NSPMD > 1
 C
 C barrier et remise a 0 de idel7nok effectuees dans resol
 C
       RETURN
       END
- 
+
 Chd|====================================================================
 Chd|  CHKMSR3N                      source/interfaces/interf/chkstfn3.F
 Chd|-- called by -----------
@@ -1983,7 +1983,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM*2),MA_SURF,IND_SEGLO(NRTM*2),NIND_SEGLO
 C     REAL
 C-----------------------------------------------
@@ -2175,7 +2175,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM),IND_SEGLO(NRTM*2),NIND_SEGLO
 C     REAL
 C-----------------------------------------------
@@ -2359,7 +2359,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, N, NIND2, N1L, N2L, N3L, N4L,
      .        NINDL(NRTM)
 C     REAL
@@ -2523,7 +2523,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, NIND2, N, N1L, N2L, N3L, N4L,
      .        NINDL(NRTM)
 C     REAL
@@ -2692,7 +2692,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -2700,7 +2700,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-      DO I = NMNF, NMNL           
+      DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(MSR(I))) == 0) THEN
           MSR(I) = -ABS(MSR(I))
@@ -2724,7 +2724,7 @@ C suivant facette main ou second
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
-            END IF 
+            END IF
 C attention >= 1 car cumul noeud frontiere des tags a 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
@@ -2790,7 +2790,7 @@ C suivant facette main ou second
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
-            END IF 
+            END IF
             GOTO 400
            END IF
          END IF
@@ -2871,7 +2871,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -2904,7 +2904,7 @@ C suivant facette main ou second
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
-            END IF 
+            END IF
 C attention >= 1 car cumul noeud frontiere des tags a 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
@@ -2978,7 +2978,7 @@ C suivant facette main ou second
           ELSE
             STF(I) =-ABS(STF(I))
             NEWFRONT = -1
-          END IF 
+          END IF
         ELSE
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -3053,7 +3053,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L,
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -3061,7 +3061,7 @@ C-----------------------------------------------
       NMNL = (ITASK+1)*NMN / NTHREAD
       ICOMP = 0
 C
-      DO I = NMNF, NMNL           
+      DO I = NMNF, NMNL
 C si tag nul sur noeuds main alors msr(i) = -msr(i)
         IF (ITAG(ABS(NLG(ABS(MSR(I))))) == 0) THEN
           MSR(I) = -ABS(MSR(I))
@@ -3087,7 +3087,7 @@ C suivant facette main ou second
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
-            END IF 
+            END IF
 C attention >= 1 car cumul noeud frontiere des tags a 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
@@ -3156,7 +3156,7 @@ C suivant facette main ou second
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
-            END IF 
+            END IF
             GOTO 400
            END IF
          END IF
@@ -3180,7 +3180,7 @@ C
       NINDG = ICOMP
 C
       CALL MY_BARRIER()
-c      NINDG = NIND2      
+c      NINDG = NIND2
 
 C
       RETURN
@@ -3239,7 +3239,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N1L, N2L,
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -3274,7 +3274,7 @@ C suivant facette main ou second
             ELSE
               STF(I) =-ABS(STF(I))
               NEWFRONT = -1
-            END IF 
+            END IF
 C attention >= 1 car cumul noeud frontiere des tags a 1
           ELSEIF(ITAG2(N1)>=1.AND.ITAG2(N2)>=1) THEN
             NIND = NIND + 1
@@ -3350,7 +3350,7 @@ C suivant facette main ou second
           ELSE
             STF(I) =-ABS(STF(I))
             NEWFRONT = -1
-          END IF 
+          END IF
         ELSE
 #include "lockon.inc"
           ICOMP = ICOMP + 1
@@ -3411,7 +3411,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
+      INTEGER I, J, NSNF, NSNL, IS, L, N1, N2, N3, N4,
      .        II, IX, K, NIND, N, NINDEX(NSN)
 C     REAL
 C-----------------------------------------------
@@ -3541,7 +3541,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
+      INTEGER I, J, NSNF, NSNL, IS, L, N1, N2, N3, N4,
      .        II, IX, K, NIND, N, NINDEX0(NSN),NIND2
 C     REAL
 C-----------------------------------------------
@@ -3692,7 +3692,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, NSNF, NSNL, IS, L, N1, N2, N3, N4, 
+      INTEGER I, NSNF, NSNL, IS, L, N1, N2, N3, N4,
      .        NN, II, NINDEX, J
 C     REAL
 C-----------------------------------------------
@@ -3799,7 +3799,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, N, NIND2, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -3953,7 +3953,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4, 
+      INTEGER I, J, NMNF, NMNL, NRTF, NRTL, N1, N2, N3, N4,
      .        NN, II, IX, K, NIND, NIND2, N, NINDL(NRTM)
 C     REAL
 C-----------------------------------------------
@@ -4142,7 +4142,7 @@ C suivant facette main ou second
               ELSE
                 STF(I) =-ABS(STF(I))
                 NEWFRONT = -1
-              END IF 
+              END IF
             END IF
           END DO
         ELSEIF(IDEL == 1)THEN
@@ -4157,7 +4157,7 @@ C suivant facette main ou second
               ELSE
                 STF(I) =-ABS(STF(I))
                 NEWFRONT = -1
-              END IF 
+              END IF
             END IF
           END DO
         END IF

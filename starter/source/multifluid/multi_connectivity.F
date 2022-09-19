@@ -36,12 +36,12 @@ Chd|====================================================================
 !$COMMENT
 !       MULTI_CONNECTIVITY description :
 !           creation of reverse connectivity
-!           element / element 
+!           element / element
 !       MULTI_CONNECTIVITY organization :
 !           for each IE element, find the connected element
 !           loop over the surfaces of the connected element
 !           and save the ID of the surface of the
-!           connected element  
+!           connected element
 !$ENDCOMMENT
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -59,9 +59,9 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 !       BOOL_ALE_TG : logical, true only if 2d model + MULTI_FVM used
-!       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface 
+!       INDX_xxx : integer ; dimension=NUMELxxx ; index for the surface
 !                  of the remote connecte element
-!       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface 
+!       FACE_ELM_xxx : integer ; dimension=(6/4/3*NUMELxxx,2) ; surface
 !                  of the remote connecte element
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
         LOGICAL, INTENT(in) :: BOOL_ALE_TG
@@ -98,7 +98,7 @@ C-----------------------------------------------
             ! loop over the surface of the IE element
             DO J = 1, LGTH
                 IV = ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1) ! id of the connected element IV
-            
+
                 IF(IV>0) THEN
                     PROC = CEP(IV)
                     J_SAVE = -1
@@ -106,7 +106,7 @@ C-----------------------------------------------
                     LGTH2 =  ALE_CONNECTIVITY%ee_connect%iad_connect(IV+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IV)
                     ! save the connected surface if IE & IV are on 2 different proc
                     IF(CURRENT_PROC/=PROC) THEN
-                        ! loop over the surface of the IV connected element 
+                        ! loop over the surface of the IV connected element
                         DO JJ=1,LGTH2
                             IF(ALE_CONNECTIVITY%ee_connect%connected(IAD2 + JJ - 1)==IE) THEN
                                 J_SAVE = JJ !   find the connected surface
@@ -118,7 +118,7 @@ C-----------------------------------------------
                         FACE_ELM_S( 6*(IE-1)+INDX_S(IE),2 ) = IXS(NIXS,IV)
                     ENDIF
                 ENDIF
-            ENDDO              
+            ENDDO
         ENDDO
 ! --------------------------------------
 !   quad
@@ -138,7 +138,7 @@ C-----------------------------------------------
                     LGTH2 =  ALE_CONNECTIVITY%ee_connect%iad_connect(IV+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IV)
                     ! save the connected surface if IE & IV are on 2 different proc
                     IF(CURRENT_PROC/=PROC) THEN
-                        ! loop over the surface of the IV connected element 
+                        ! loop over the surface of the IV connected element
                         DO JJ=1,LGTH2
                             IF(ALE_CONNECTIVITY%ee_connect%connected(IAD2 + JJ - 1)==IE) THEN
                                 J_SAVE = JJ !   find the connected surface
@@ -151,13 +151,13 @@ C-----------------------------------------------
                         FACE_ELM_Q( 4*(IE-1)+INDX_Q(IE),2 ) = IXQ(NIXQ,IV)
                     ENDIF
                 ENDIF
-            ENDDO              
+            ENDDO
         ENDDO
 ! --------------------------------------
 !   triangle
         IF(BOOL_ALE_TG) THEN
             SHIFT = NUMELS + NUMELQ + NUMELC + NUMELT + NUMELP + NUMELR
-            DO IE=1,NUMELTG           
+            DO IE=1,NUMELTG
                 I = IE + SHIFT
                 IAD1 = ALE_CONNECTIVITY%ee_connect%iad_connect(I)
                 LGTH = ALE_CONNECTIVITY%ee_connect%iad_connect(I+1) - ALE_CONNECTIVITY%ee_connect%iad_connect(I)
@@ -167,12 +167,12 @@ C-----------------------------------------------
                     IV =  ALE_CONNECTIVITY%ee_connect%connected(IAD1 + J - 1)! id of the connected element IV
                     IF(IV>0) THEN
                         PROC = CEP(IV)
-                        J_SAVE = -1 
+                        J_SAVE = -1
                         IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(IV)
                         LGTH2 =  ALE_CONNECTIVITY%ee_connect%iad_connect(IV+1)-ALE_CONNECTIVITY%ee_connect%iad_connect(IV)
                         ! save the connected surface if IE & IV are on 2 different proc
                         IF(CURRENT_PROC/=PROC) THEN
-                            ! loop over the surface of the IV connected element 
+                            ! loop over the surface of the IV connected element
                             DO JJ=1,LGTH2
                                 IF(ALE_CONNECTIVITY%ee_connect%connected(IAD2 + JJ - 1)==IE) THEN
                                     J_SAVE = JJ !   find the connected surface
@@ -184,7 +184,7 @@ C-----------------------------------------------
                             FACE_ELM_TG( 3*(IE-1)+INDX_TG(IE),2 ) = IXTG(NIXTG,IV)
                         ENDIF
                     ENDIF
-                ENDDO              
+                ENDDO
             ENDDO
         ENDIF
 ! --------------------------------------

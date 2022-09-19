@@ -97,7 +97,7 @@ C-----------------------------------------------
       ENDDO
 
       DO I=LFT,LLT
-        XMAS(I)=RHO(I)*VNEW(I)*OFF(I)  
+        XMAS(I)=RHO(I)*VNEW(I)*OFF(I)
       ENDDO
 
       FLAG = 0
@@ -147,7 +147,7 @@ C-----------------------------------------------
         EI(I) = EINT(I)*VOL(I)*OFF(I)
         EK(I) = XMAS(I)*VA2(I)*ONE_OVER_8
       ENDDO
-      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTQ,ITASK)  
+      CALL SENSOR_ENERGY_BILAN(LFT,LLT,EI,EK,OFF,IPARTQ,ITASK)
 
       RETURN
       END

@@ -56,7 +56,7 @@ C-----------------------------------------------
 #include      "task_c.inc"
 #include      "param_c.inc"
       COMMON /I16TMP/SIZE
-      my_real 
+      my_real
      .        SIZE
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
@@ -65,7 +65,7 @@ C-----------------------------------------------
      .        NSV(*),NELEM(*),IXS(NIXS,*),IXS16(8,*),IXS20(12,*),
      .        IXS10(6,*)
       my_real
-     .   X(3,*),V(3,*),A(3,*),XSAV(3,*),EMINX(6,*) 
+     .   X(3,*),V(3,*),A(3,*),XSAV(3,*),EMINX(6,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .      LFT20,LLT20,LFT8,LLT8,LFT10,LLT10,I8,I10,
      .      INDEX16(MVSIZ),INDEX20(MVSIZ),INDEX8(MVSIZ),INDEX10(MVSIZ)
       my_real
-     .   XMSR(6),XSLV(6),SIZE_T ,XX,YY,ZZ      
+     .   XMSR(6),XSLV(6),SIZE_T ,XX,YY,ZZ
 C-----------------------------------------------
 C   S o u r c e  L i n e s
 C-----------------------------------------------
@@ -98,7 +98,7 @@ C--------------------------------------------------------------
       XMSR(3) = -EP30
       XMSR(4) =  EP30
       XMSR(5) =  EP30
-      XMSR(6) =  EP30      
+      XMSR(6) =  EP30
 C
       SIZE_T = ZERO
 C
@@ -123,7 +123,7 @@ C------------------------------------
             EMINX(3,I) = EP30
             EMINX(4,I) = -EP30
             EMINX(5,I) = -EP30
-            EMINX(6,I) = -EP30    
+            EMINX(6,I) = -EP30
       ENDDO
 C
       LFT16=1
@@ -247,7 +247,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXS16(8,*),NELEM(*),INDEX(*)
 C     REAL
       my_real
-     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
+     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -558,7 +558,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXS20(12,*),NELEM(*),INDEX(*)
 C     REAL
       my_real
-     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
+     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -654,7 +654,7 @@ C
              XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X13-XSAV(IDIR,J))
 	    ELSE
 	      X13=0.5*(X(IDIR,IXS(2,NE))+X(IDIR,IXS(6,NE)))
-	    ENDIF  	   
+	    ENDIF  	
             J = IXS20(6,N20)
             IF(J/=0)THEN	
              X14 = X(IDIR,J)+DT2*(V(IDIR,J)+DT12*A(IDIR,J))
@@ -891,7 +891,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),IXS10(6,*),NELEM(*),INDEX(*)
 C     REAL
       my_real
-     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
+     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1018,7 +1018,7 @@ C-----------------------------------------------
      .        IXS(NIXS,*),NELEM(*),INDEX(*)
 C     REAL
       my_real
-     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*) 
+     .   X(3,*),V(3,*),A(3,*),EMINX(6,*),SIZE,XMSR(*),XSAV(3,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -1073,7 +1073,7 @@ C-----------------------------------------------------------------------
             XMSR(IDIR)  =MAX(XMSR(IDIR)  ,X8-XSAV(IDIR,J))
             XMSR(IDIR+3)=MIN(XMSR(IDIR+3),X8-XSAV(IDIR,J))
 C
-           
+
             DX=MAX(X1,X2 ,X3 ,X4 ,X5 ,X6 ,X7 ,X8 )
             DN=MIN(X1,X2 ,X3 ,X4 ,X5 ,X6 ,X7 ,X8 )
 C

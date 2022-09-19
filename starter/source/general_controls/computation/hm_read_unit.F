@@ -103,19 +103,19 @@ C
 C
       FAC_M_INPUT = ZERO
       FAC_L_INPUT = ZERO
-      FAC_T_INPUT = ZERO  
+      FAC_T_INPUT = ZERO
       FAC_M_WORK = ZERO
       FAC_L_WORK = ZERO
-      FAC_T_WORK = ZERO 
+      FAC_T_WORK = ZERO
       FAC_M_SUB = ZERO
       FAC_L_SUB = ZERO
-      FAC_T_SUB = ZERO  
+      FAC_T_SUB = ZERO
       FIELD1 = ''
       FIELD2 = ''
       FIELD3 = ''
       M_UNIT = ZERO
       L_UNIT = ZERO
-      T_UNIT = ZERO    
+      T_UNIT = ZERO
       IERR1 = 1
       LEN = ncharfield*2
       ID_OPT(1:NUNIT0) = 0
@@ -161,7 +161,7 @@ C
 C
       IF (FAC_M_INPUT /= FAC_M_WORK .OR.
      .    FAC_L_INPUT /= FAC_L_WORK .OR.
-     .    FAC_T_INPUT /= FAC_T_WORK) THEN                       
+     .    FAC_T_INPUT /= FAC_T_WORK) THEN
         CALL ANCMSG(MSGID=754,
      .              MSGTYPE=MSGWARNING,
      .              ANMODE=ANINFO)
@@ -180,7 +180,7 @@ c
            IERR0  = 1
            NUNITS = NUNITS + 1
            ID_OPT(NUNITS)=ID
-          
+
            CALL HM_GET_INTV('IS_M_STRING',IS_M_STRING,IS_AVAILABLE,LSUBMODEL)
            IF(IS_M_STRING == 1) THEN
              CALL HM_GET_STRING('MUNIT_S',FIELD1,2*ncharfield,IS_AVAILABLE)
@@ -199,7 +199,7 @@ c
            ELSE
              CALL HM_GET_FLOATV_WITHOUT_UID('TUNIT',T_UNIT,IS_AVAILABLE)
            ENDIF
-           
+
            IF(IS_M_STRING == 1) THEN
              CALL UNIT_CODE(LEN,FIELD1,'MASS',UNITAB%FAC_M(NUNITS),IERR0,ID)
              IWRITE = MIN(IERR0,IWRITE)
@@ -210,7 +210,7 @@ c
              UNITAB%FAC_M(NUNITS) = M_UNIT
              FIELD11(NUNITS-1) = 'N.A'
            ENDIF
-           IF(IS_L_STRING == 1) THEN  
+           IF(IS_L_STRING == 1) THEN
              CALL UNIT_CODE(LEN,FIELD2,'LENGTH',UNITAB%FAC_L(NUNITS),IERR0,ID)
              IWRITE = MIN(IERR0,IWRITE)
              DO K=1,20
@@ -258,9 +258,9 @@ C---
       ENDIF
 C
       UNITAB%UNIT_ID(1) = 0
-      UNITAB%FAC_M(1)   = FAC_MASS  
-      UNITAB%FAC_L(1)   = FAC_LENGTH  
-      UNITAB%FAC_T(1)   = FAC_TIME 
+      UNITAB%FAC_M(1)   = FAC_MASS
+      UNITAB%FAC_L(1)   = FAC_LENGTH
+      UNITAB%FAC_T(1)   = FAC_TIME
 C
       MESS = 'UNITS                                   '
       CALL UDOUBLE_WO_TITLE(ID_OPT,1,NUNITS,MESS,0,BID)
@@ -300,9 +300,9 @@ C
               CALL UNIT_CODE(LEN,KEYTISUB,'TIME'  ,FAC_T_SUB, IERR1, 0)
 C
               UNITAB%UNIT_ID(NUNITS) = ID_UNIT_AUTO + NBUNIT_SUB
-              UNITAB%FAC_M(NUNITS)   = FAC_M_SUB  
-              UNITAB%FAC_L(NUNITS)   = FAC_L_SUB  
-              UNITAB%FAC_T(NUNITS)   = FAC_T_SUB 
+              UNITAB%FAC_M(NUNITS)   = FAC_M_SUB
+              UNITAB%FAC_L(NUNITS)   = FAC_L_SUB
+              UNITAB%FAC_T(NUNITS)   = FAC_T_SUB
 
             ENDIF
           ENDDO
@@ -317,8 +317,8 @@ C---
         IREELM = 0
         READ(KEYM,ERR=100,FMT=FMT_F) UNITE
         IREELM = 1
-100     CONTINUE 
-        I   = 1                                   
+100     CONTINUE
+        I   = 1
         J   = 0
 C       Skip leading spaces
         DO WHILE (I <= 2*ncharfield)
@@ -329,7 +329,7 @@ C       Read, skip trailing spaces
         DO WHILE (I <= 2*ncharfield)
           IF (KEYM(I:I) == ' ') EXIT
           J=J+1
-          I=I+1                                           
+          I=I+1
         ENDDO
         IF ( IREELM /= 1) THEN
           DO K=1,J
@@ -342,8 +342,8 @@ C---
         IREELL = 0
         READ(KEYL,ERR=200,FMT=FMT_F) UNITE
         IREELL = 1
-200     CONTINUE 
-        I   = 1                                   
+200     CONTINUE
+        I   = 1
         J   = 0
 C       Skip leading spaces
         DO WHILE (I <= 2*ncharfield)
@@ -354,7 +354,7 @@ C       Read, skip trailing spaces
         DO WHILE (I <= 2*ncharfield)
           IF (KEYL(I:I) == ' ') EXIT
           J=J+1
-          I=I+1                                           
+          I=I+1
         ENDDO
         IF ( IREELL /= 1) THEN
           DO K=1,J
@@ -367,8 +367,8 @@ C---
         IREELT = 0
         READ(KEYT,ERR=300,FMT=FMT_F) UNITE
         IREELT = 1
-300     CONTINUE   
-        I   = 1                                   
+300     CONTINUE
+        I   = 1
         J   = 0
 C       Skip leading spaces
         DO WHILE (I <= 2*ncharfield)
@@ -379,7 +379,7 @@ C       Read, skip trailing spaces
         DO WHILE (I <= 2*ncharfield)
           IF (KEYT(I:I) == ' ') EXIT
           J=J+1
-          I=I+1                                           
+          I=I+1
         ENDDO
         IF ( IREELT /= 1) THEN
           DO K=1,J
@@ -390,11 +390,11 @@ C---
         IF ( IREELM == 1) THEN
             KEYM(1:3) = 'N.A'
         ENDIF
-        
+
         IF ( IREELL == 1) THEN
             KEYL(1:3) = 'N.A'
         ENDIF
-        
+
         IF ( IREELT == 1) THEN
             KEYT(1:3) = 'N.A'
         ENDIF
@@ -406,8 +406,8 @@ C---
         IREELM = 0
         READ(KEYMI,ERR=700,FMT=FMT_F) UNITE
         IREELM = 1
-700     CONTINUE 
-        I   = 1                                   
+700     CONTINUE
+        I   = 1
         J   = 0
 C       Skip leading spaces
         DO WHILE (I <= 2*ncharfield)
@@ -418,7 +418,7 @@ C       Read, skip trailing spaces
         DO WHILE (I <= 2*ncharfield)
           IF (KEYMI(I:I) == ' ') EXIT
           J=J+1
-          I=I+1                                           
+          I=I+1
         ENDDO
         IF ( IREELM /= 1) THEN
           DO K=1,J
@@ -431,8 +431,8 @@ C---
         IREELL = 0
         READ(KEYLI,ERR=800,FMT=FMT_F) UNITE
         IREELL = 1
-800     CONTINUE 
-        I   = 1                                   
+800     CONTINUE
+        I   = 1
         J   = 0
 C       Skip leading spaces
         DO WHILE (I <= 2*ncharfield)
@@ -443,7 +443,7 @@ C       Read, skip trailing spaces
         DO WHILE (I <= 2*ncharfield)
           IF (KEYLI(I:I) == ' ') EXIT
           J=J+1
-          I=I+1                                           
+          I=I+1
         ENDDO
         IF ( IREELL /= 1) THEN
           DO K=1,J
@@ -456,8 +456,8 @@ C---
         IREELT = 0
         READ(KEYTI,ERR=900,FMT=FMT_F) UNITE
         IREELT = 1
-900     CONTINUE   
-        I   = 1                                   
+900     CONTINUE
+        I   = 1
         J   = 0
 C       Skip leading spaces
         DO WHILE (I <= 2*ncharfield)
@@ -468,7 +468,7 @@ C       Read, skip trailing spaces
         DO WHILE (I <= 2*ncharfield)
           IF (KEYTI(I:I) == ' ') EXIT
           J=J+1
-          I=I+1                                           
+          I=I+1
         ENDDO
         IF ( IREELT /= 1) THEN
           DO K=1,J
@@ -479,11 +479,11 @@ C---
         IF ( IREELM == 1) THEN
             KEYMI(1:3) = 'N.A'
         ENDIF
-        
+
         IF ( IREELL == 1) THEN
             KEYLI(1:3) = 'N.A'
         ENDIF
-        
+
         IF ( IREELT == 1) THEN
             KEYTI(1:3) = 'N.A'
         ENDIF
@@ -491,7 +491,7 @@ C---
         WRITE(IOUT,1003) KEYMI,KEYLI,KEYTI,
      .                   FAC_M_INPUT,FAC_L_INPUT,FAC_T_INPUT
         DO I=2,NUNITS
-c------------------------------------------------------------    
+c------------------------------------------------------------
           DO K=1,20
             FIELD1(K:K) = FIELD11(I-1)(K:K)
             FIELD2(K:K) = FIELD22(I-1)(K:K)
@@ -503,8 +503,8 @@ C---
           IREELM = 0
           READ(FIELD1,ERR=400,FMT=FMT_F) UNITE
           IREELM = 1
-400       CONTINUE 
-          I1   = 1                                   
+400       CONTINUE
+          I1   = 1
           J   = 0
 C         Skip leading spaces
           DO WHILE (I1 <= 20)
@@ -515,7 +515,7 @@ C         Read, skip trailing spaces
           DO WHILE (I1 <= 20)
             IF (FIELD1(I1:I1) == ' ') EXIT
             J=J+1
-            I1=I1+1                                           
+            I1=I1+1
           ENDDO
           IF ( IREELM /= 1) THEN
             DO K=1,J
@@ -528,8 +528,8 @@ C---
           IREELL = 0
           READ(FIELD2,ERR=500,FMT=FMT_F) UNITE
           IREELL = 1
-500       CONTINUE   
-          I1   = 1                                   
+500       CONTINUE
+          I1   = 1
           J   = 0
 C         Skip leading spaces
           DO WHILE (I1 <= 20)
@@ -540,7 +540,7 @@ C         Read, skip trailing spaces
           DO WHILE (I1 <= 20)
             IF (FIELD2(I1:I1) == ' ') EXIT
             J=J+1
-            I1=I1+1                                           
+            I1=I1+1
           ENDDO
           IF ( IREELL /= 1) THEN
             DO K=1,J
@@ -553,8 +553,8 @@ C---
           IREELT = 0
           READ(FIELD3,ERR=600,FMT=FMT_F) UNITE
           IREELT = 1
-600       CONTINUE 
-          I1   = 1                                   
+600       CONTINUE
+          I1   = 1
           J   = 0
 C         Skip leading spaces
           DO WHILE (I1 <= 20)
@@ -565,7 +565,7 @@ C         Read, skip trailing spaces
           DO WHILE (I1 <= 20)
             IF (FIELD3(I1:I1) == ' ') EXIT
             J=J+1
-            I1=I1+1                                           
+            I1=I1+1
           ENDDO
           IF ( IREELT /= 1) THEN
             DO K=1,J
@@ -576,11 +576,11 @@ C---
           IF ( IREELM == 1) THEN
               FIELD1(1:3) = 'N.A'
           ENDIF
-          
+
           IF ( IREELL == 1) THEN
               FIELD2(1:3) = 'N.A'
           ENDIF
-          
+
           IF ( IREELT == 1) THEN
               FIELD3(1:3) = 'N.A'
           ENDIF
@@ -616,10 +616,10 @@ C
 
         ENDIF
       ENDDO
-      UNITAB%UNIT_ID(1) = ZERO        
-      UNITAB%FAC_M(1)   = FAC_M_INPUT / FAC_MASS  
-      UNITAB%FAC_L(1)   = FAC_L_INPUT / FAC_LENGTH  
-      UNITAB%FAC_T(1)   = FAC_T_INPUT / FAC_TIME 
+      UNITAB%UNIT_ID(1) = ZERO
+      UNITAB%FAC_M(1)   = FAC_M_INPUT / FAC_MASS
+      UNITAB%FAC_L(1)   = FAC_L_INPUT / FAC_LENGTH
+      UNITAB%FAC_T(1)   = FAC_T_INPUT / FAC_TIME
 C-----
       RETURN
  999  CALL FREERR(0)
@@ -639,4 +639,4 @@ C-----
      .(4X, 'INPUT UNIT SYSTEM  . . . . . ','( ',A3,', ',A3,', ',A3,' )',
      . 1PE20.13,1PE20.13,1PE20.13)
       END
-      
+

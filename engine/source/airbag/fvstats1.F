@@ -67,7 +67,7 @@ C
              WRITE(IOUT,'(/1X,A,I10,A)')'** FINITE VOLUME',ID,' MERGE STATISTICS **'
              WRITE(IOUT,'(4X,A,I10)')
      .         'NUMBER OF REMAINING FINITE VOLUMES .....:',MONVOL(K1-1+49)
-             WRITE(IOUT,'(4X,A,I10)') 
+             WRITE(IOUT,'(4X,A,I10)')
      .         'GLOBAL MERGE ...........................:',MONVOL(K1-1+70)
              WRITE(IOUT,'(4X,A,I10)')
      .         'NEIGHBORHOOD MERGE .....................:',MONVOL(K1-1+71)

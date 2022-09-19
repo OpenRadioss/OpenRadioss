@@ -125,8 +125,8 @@ C
             PRES=(GAMA-ONE)*ENERGY/(VOL-VINC)
          ELSE IF (IEQUI == 1) THEN
             IF (TT <= TRELAX) THEN
-               PRES = PEXT + TT * (PINI - PEXT) / TRELAX 
-               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE) 
+               PRES = PEXT + TT * (PINI - PEXT) / TRELAX
+               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE)
                AMTOT = M0 * PRES * VOL / (PEXT * VOL0)
             ELSE
                PRES = PEXT * AMTOT / M0 * VOL0 / VOL
@@ -134,8 +134,8 @@ C
             ENDIF
          ELSE IF (IEQUI == 2) THEN
             IF (TT <= TRELAX) THEN
-               PRES = PEXT + TT * (PINI - PEXT) / TRELAX 
-               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE) 
+               PRES = PEXT + TT * (PINI - PEXT) / TRELAX
+               ENERGY = PRES * (VOL - VINC) / (GAMA - ONE)
                AMTOT = M0 * (PRES / PEXT)**(ONE / GAMA) * VOL / VOL0
             ELSE
                PRES = PEXT * (AMTOT / M0 * VOL0 / VOL)**GAMA
@@ -148,7 +148,7 @@ C
                IVOLU(15) = 0
             ENDIF
          ENDIF
-         
+
          IF(DT1==ZERO.OR.DV>ZERO)THEN
             Q=ZERO
          ELSE
@@ -256,10 +256,10 @@ C-----------------------------------------------
      .   U, DEOUT, DMOUT, TVENT,AREA, PCRIT, AOUTOT,
      .   APVENT,AOUT,FLOUT,DE,DERI,DTPDEFI,DTPDEFC,
      .   F1(NN),SCALT,SCALP,SCALS
-      my_real 
+      my_real
      .   GET_U_FUNC
       EXTERNAL GET_U_FUNC
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   FRMV6(6)
       my_real,
      .  DIMENSION(:), POINTER :: OFFG
@@ -274,8 +274,8 @@ C--------------------------------
        VOL    =RVOLU(16)
        ENERGY =RVOLU(13)
        AMTOT  =RVOLU(20)
-       SCALT  =RVOLU(26)    
-       SCALP  =RVOLU(27)    
+       SCALT  =RVOLU(26)
+       SCALP  =RVOLU(27)
        SCALS  =RVOLU(28)
 C
        P      =RVOLU(12)
@@ -312,7 +312,7 @@ C
         IF(IDEF<=0 .AND. TT>TVENT) THEN
          IDEF=ABS(IDEF)
          IF(ISPMD+1==PMAIN) THEN
-         WRITE(IOUT,*) 
+         WRITE(IOUT,*)
      .         ' *** MONITORED VOLUME VENTING STARTS ***'
          WRITE(IOUT,*) ' *** MONITORED VOLUME ',IVOLU(1),
      .                ' VENT HOLES MEMBRANE NUMBER ',II,' ***'
@@ -408,13 +408,13 @@ c     .                 SQRT( N(1,K)**2+N(2,K)**2+N(3,K)**2 )
 c            AOUT=APVENT
           ENDIF
 C
-          
+
           IF (IDEF==1.OR.IDEF>=2) THEN
             DO KK = 1, 6
                 FRMV6(KK) = ZERO
             END DO
             CALL SUM_6_FLOAT(1, NNC, F1, FRMV6, 1)
-            IF (NSPMD>1) THEN          
+            IF (NSPMD>1) THEN
                 IF(FR_MV(ISPMD+1)/=0) THEN
                 CALL SPMD_EXCH_FR6(FR_MV,FRMV6,6)
                 END IF
@@ -464,7 +464,7 @@ C-------
            U=ZERO
            DEOUT=ZERO
            DMOUT=ZERO
-           FLOUT= ZERO   
+           FLOUT= ZERO
        ENDIF
 C-------
        IF(ISPMD+1==PMAIN) THEN

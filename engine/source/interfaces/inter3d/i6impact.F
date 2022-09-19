@@ -68,14 +68,14 @@ C-----------------------------------------------
 !      EQUIVALENCE (SSC,BV(1,23)),(TTC,BV(1,24)),(XFACE,BV(1,29))
 !      EQUIVALENCE (N1,BV(1,19)) ,(N2,BV(1,20)) ,(N3,BV(1,21))
 !      EQUIVALENCE (H1,BV(1,25)) ,(H2,BV(1,26)) ,(H3,BV(1,27))
-!      EQUIVALENCE (H4,BV(1,28)) 
+!      EQUIVALENCE (H4,BV(1,28))
 C=======================================================================
       DO I=LFT,LLT
         IL = I+NFT
 c
-        IF (XFACE(I) == ZERO) THEN            ! no impact     
+        IF (XFACE(I) == ZERO) THEN            ! no impact
           IRTLO(IL) = 0
-          LOLD(I)   = 0                  
+          LOLD(I)   = 0
         ELSE
           LOLD(I) = IABS(IRTLO(IL))
           IF (LOLD(I) == 0) THEN              ! first time impact
@@ -92,29 +92,29 @@ c-----------------------------
           VNI(I) = ZERO
           VNT(I) = ZERO
         ELSE
-          IG = NSV(IL)     
+          IG = NSV(IL)
           L  = IRTL(IL)
 c
-          VIX(I) = V(1,IG) 
-          VIY(I) = V(2,IG) 
-          VIZ(I) = V(2,IG) 
+          VIX(I) = V(1,IG)
+          VIY(I) = V(2,IG)
+          VIZ(I) = V(2,IG)
 c
-          NN = MSR(IRECT(1,LOLD(I)))   
-          VX1(I) = V(1,NN) 
-          VY1(I) = V(2,NN) 
-          VZ1(I) = V(2,NN) 
-          NN = MSR(IRECT(2,LOLD(I))) 
-          VX2(I) = V(1,NN) 
-          VY2(I) = V(2,NN) 
-          VZ2(I) = V(2,NN) 
-          NN = MSR(IRECT(3,LOLD(I))) 
-          VX3(I) = V(1,NN) 
-          VY3(I) = V(2,NN) 
-          VZ3(I) = V(2,NN) 
-          NN = MSR(IRECT(4,LOLD(I))) 
-          VX4(I) = V(1,NN) 
-          VY4(I) = V(2,NN) 
-          VZ4(I) = V(2,NN) 
+          NN = MSR(IRECT(1,LOLD(I)))
+          VX1(I) = V(1,NN)
+          VY1(I) = V(2,NN)
+          VZ1(I) = V(2,NN)
+          NN = MSR(IRECT(2,LOLD(I)))
+          VX2(I) = V(1,NN)
+          VY2(I) = V(2,NN)
+          VZ2(I) = V(2,NN)
+          NN = MSR(IRECT(3,LOLD(I)))
+          VX3(I) = V(1,NN)
+          VY3(I) = V(2,NN)
+          VZ3(I) = V(2,NN)
+          NN = MSR(IRECT(4,LOLD(I)))
+          VX4(I) = V(1,NN)
+          VY4(I) = V(2,NN)
+          VZ4(I) = V(2,NN)
 c
           VPX(I) = H1(I)*VX1(I)+H2(I)*VX2(I)+H3(I)*VX3(I)+H4(I)*VX4(I)
           VPY(I) = H1(I)*VY1(I)+H2(I)*VY2(I)+H3(I)*VY3(I)+H4(I)*VY4(I)
@@ -124,11 +124,11 @@ c
           DVZ = VIZ(I)-VPZ(I)
 c
           VNI(I) = N1(I) * DVX + N2(I) * DVY + N3(I) * DVZ
-          
+
           VTX = DVX - VNI(I)*N1(I)
           VTY = DVY - VNI(I)*N2(I)
           VTZ = DVZ - VNI(I)*N3(I)
-          VNT(I) = SQRT(VTX**2 +  VTY**2 +  VTZ**2)        
+          VNT(I) = SQRT(VTX**2 +  VTY**2 +  VTZ**2)
         ENDIF
       ENDDO
 C-----------

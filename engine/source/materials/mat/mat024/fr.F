@@ -51,49 +51,49 @@ C=======================================================================
       DO N = 1,NINDEX
         I = INDEX(N)
         IF (I > 0) THEN
-          IF (SM(I) >= RT-TOL ) THEN                                        
-            VK = ONE                                                               
-          ELSEIF( SM(I) > RC ) THEN                                            
-            VK = ONE+(ONE-VK0(I))*(RCT1-TWO*RC*SM(I)+SM(I)**2)/RCT2       
-          ELSEIF(SM(I) > ROK(I))THEN                                              
-            VK = VK0(I)                                                           
-          ELSE                                                                    
-            VK = VK0(I)*(ONE - ((SM(I)-ROK(I))/(ROB(I)-ROK(I)))**2)                
-          ENDIF                                                                   
+          IF (SM(I) >= RT-TOL ) THEN
+            VK = ONE
+          ELSEIF( SM(I) > RC ) THEN
+            VK = ONE+(ONE-VK0(I))*(RCT1-TWO*RC*SM(I)+SM(I)**2)/RCT2
+          ELSEIF(SM(I) > ROK(I))THEN
+            VK = VK0(I)
+          ELSE
+            VK = VK0(I)*(ONE - ((SM(I)-ROK(I))/(ROB(I)-ROK(I)))**2)
+          ENDIF
 C
-          IF (SM(I) > AC/AA) THEN                                           
-            FA(I) = HALF*(SM(I)-AC/AA) / MIN(BC,BT)/FC           
-          ELSEIF (SM(I) <= ROB(I)) THEN                                           
-            BB = MAX(BC,BT)                                                  
-            DF = SQRT(BB*BB-AA*ROB(I)+AC)                                   
-            RF = (-BB+DF)/AA                                                   
-            FA(I) = TWO*RF*(SM(I)-ROB(I))/(ROB(I)-ROK(I))/FC                 
-          ELSE                                                                    
-            R2 = (S1(I)**2+S2(I)**2+S3(I)**2)+ TWO*S4(I)**2+TWO*S5(I)**2       
-     .         + TWO*S6(I)**2                                                   
-            IF (IBUG == 0) THEN                                                   
-              AJ3 = S1(I)*S2(I)*S3(I)-S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)         
-     .            - S3(I)*S4(I)*S4(I) + TWO*S4(I)*S5(I)*S6(I)                                       
-            ELSE   ! old version                               
-              AJ3 = S1(I)*S2(I)*S3(I)-S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)         
-     .            - S3(I)*S4(I)*S4(I)                                             
-            ENDIF                                                                 
+          IF (SM(I) > AC/AA) THEN
+            FA(I) = HALF*(SM(I)-AC/AA) / MIN(BC,BT)/FC
+          ELSEIF (SM(I) <= ROB(I)) THEN
+            BB = MAX(BC,BT)
+            DF = SQRT(BB*BB-AA*ROB(I)+AC)
+            RF = (-BB+DF)/AA
+            FA(I) = TWO*RF*(SM(I)-ROB(I))/(ROB(I)-ROK(I))/FC
+          ELSE
+            R2 = (S1(I)**2+S2(I)**2+S3(I)**2)+ TWO*S4(I)**2+TWO*S5(I)**2
+     .         + TWO*S6(I)**2
+            IF (IBUG == 0) THEN
+              AJ3 = S1(I)*S2(I)*S3(I)-S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)
+     .            - S3(I)*S4(I)*S4(I) + TWO*S4(I)*S5(I)*S6(I)
+            ELSE   ! old version
+              AJ3 = S1(I)*S2(I)*S3(I)-S1(I)*S5(I)*S5(I)-S2(I)*S6(I)*S6(I)
+     .            - S3(I)*S4(I)*S4(I)
+            ENDIF
 c
-            CS3T = HALF * AJ3*(THREE/(HALF*MAX(R2,EM20)))**THREE_HALF                  
-            CS3T = MIN(ONE,CS3T)                                                   
-            CS3T = MAX(-ONE,CS3T)                                                  
-            BB = HALF*((ONE -CS3T)*BC+(ONE +CS3T)*BT)                       
-            DF = SQRT(MAX(ZERO,BB*BB-AA*SM(I)+AC,ZERO))                     
-            RF = (-BB+DF)/AA                                                   
-            FA(I)=(SQRT(R2)-VK*RF)/FC                                          
+            CS3T = HALF * AJ3*(THREE/(HALF*MAX(R2,EM20)))**THREE_HALF
+            CS3T = MIN(ONE,CS3T)
+            CS3T = MAX(-ONE,CS3T)
+            BB = HALF*((ONE -CS3T)*BC+(ONE +CS3T)*BT)
+            DF = SQRT(MAX(ZERO,BB*BB-AA*SM(I)+AC,ZERO))
+            RF = (-BB+DF)/AA
+            FA(I)=(SQRT(R2)-VK*RF)/FC
 c
-!!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CTITERION FOR OUTPUT  
-!!              SEQ(I) = FA(I)                                               
-!!              ICRIT_OUTP = 1                                                      
-!!            ENDIF ! IF (ICRIT_OUTP == 0)                                          
-          ENDIF                                                                   
+!!            IF (ICRIT_OUTP == 0) THEN ! (EQUIVALENT STRESS)/CTITERION FOR OUTPUT
+!!              SEQ(I) = FA(I)
+!!              ICRIT_OUTP = 1
+!!            ENDIF ! IF (ICRIT_OUTP == 0)
+          ENDIF
 c
-        ENDIF                                                                   
+        ENDIF
       ENDDO
 c-----------
       RETURN

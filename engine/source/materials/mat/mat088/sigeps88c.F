@@ -29,7 +29,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
        SUBROUTINE SIGEPS88C(
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
-     2      NPT0   , ILAYER , NGL   , OFF   , ISMSTR, GS   , 
+     2      NPT0   , ILAYER , NGL   , OFF   , ISMSTR, GS   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  ,
      3      AREA   , EINT   , THKLYL,
      4      EPSPXX , EPSPYY , EPSPXY, EPSPYZ, EPSPZX,
@@ -54,12 +54,12 @@ C  I N P U T   A R G U M E N T S
 C----------------------------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,ISMSTR,NPT0,ILAYER
       INTEGER, DIMENSION(NEL) :: NGL
-      my_real 
+      my_real
      .     UPARAM(NUPARAM)
       my_real , DIMENSION(NEL,2) :: EINT
-      my_real 
+      my_real
      .   TIME,TIMESTEP
-      my_real, DIMENSION(NEL) :: 
+      my_real, DIMENSION(NEL) ::
      .  THKN,THKLYL, RHO0,AREA,GS,
      .  EPSPXX,EPSPYY,EPSPXY,EPSPYZ,EPSPZX,
      .  DEPSXX,DEPSYY,DEPSXY,DEPSYZ,DEPSZX,
@@ -92,7 +92,7 @@ C----------------------------------------------------------------
      .   SCALE,G_INI,DAM
       my_real, DIMENSION(NEL) :: T1,T2,T3,EPSZ,TRAV,ROOTV,F1,F2,F3,GMAX,
      .                           RV,DEZZ,EPSZZ,ECURENT,DEINT,EPS_EQ,DEPS_EQ
-     .            
+     .
       my_real :: EE(NEL,3),EVV(NEL,3),EV(NEl,3), EIGV(NEL,3,3)
 C=======================================================================
 C material parameters
@@ -101,19 +101,19 @@ C material parameters
       GS        = UPARAM(3)
       NLOAD     = INT(UPARAM(4))
       IUNL_FOR  = INT(UPARAM(5))
-      HYS       = UPARAM(6) 
+      HYS       = UPARAM(6)
       SHAPE     = UPARAM(7)
       ICASE      = NINT(UPARAM(9))
       DO J=1,NLOAD
-         RATE(J) = UPARAM(9 + 2*J - 1 )  
+         RATE(J) = UPARAM(9 + 2*J - 1 )
          YFAC(J) = UPARAM(9 + 2*J )
       ENDDO
       YFAC_UNL = UPARAM(9 + 2*NLOAD + 2 )
 C initialization 
       IF(TIME == ZERO)THEN
-         UVAR(1:NEL,1:NUVAR) = ZERO 
-         UVAR(1:NEL,1) = ONE 
-      ENDIF      
+         UVAR(1:NEL,1:NUVAR) = ZERO
+         UVAR(1:NEL,1) = ONE
+      ENDIF
       G_INI = THREE_HALF*RBULK*(ONE - TWO*NU)/(ONE + NU)
 C
 C     principal stretch (def gradient eigenvalues)
@@ -169,83 +169,83 @@ C     Strain definition
       EPS_EQ(1:NEL) = SQRT(EE(1:NEL,1)**2 + EE(1:NEL,2)**2 + EE(1:NEL,3)**2 )
       DEPS_EQ(1:NEL)= EPS_EQ(1:NEL) - UVAR(1:NEL,2)
       UVAR(1:NEL,2)= EPS_EQ(1:NEL)
-      GMAX(1:NEL) = G_INI      
-      DO I=1,NEL                                                         
-        F1(I) = EV(I,1)*YFAC(1)*FINTER(IFUNC(1),EE(I,1),NPF,TF,DF1)      
-        F2(I) = EV(I,2)*YFAC(1)*FINTER(IFUNC(1),EE(I,2),NPF,TF,DF2)      
-        !!                                                               
-        Gmax(I) = MAX(Gmax(I),    YFAC(1)*DF1, YFAC(1)*DF2 )             
-        FAC = -HALF   
-        DD1 = EV(I,1)**FAC - ONE 
-        NN = 1                                                
-        DO WHILE (ABS(DD1) >= EM03 .AND. NN <= 20)                                       
-         F1(I) = F1(I) +  
+      GMAX(1:NEL) = G_INI
+      DO I=1,NEL
+        F1(I) = EV(I,1)*YFAC(1)*FINTER(IFUNC(1),EE(I,1),NPF,TF,DF1)
+        F2(I) = EV(I,2)*YFAC(1)*FINTER(IFUNC(1),EE(I,2),NPF,TF,DF2)
+        !!
+        Gmax(I) = MAX(Gmax(I),    YFAC(1)*DF1, YFAC(1)*DF2 )
+        FAC = -HALF
+        DD1 = EV(I,1)**FAC - ONE
+        NN = 1
+        DO WHILE (ABS(DD1) >= EM03 .AND. NN <= 20)
+         F1(I) = F1(I) +
      .         (DD1 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD1,NPF,TF,DF)
-         FAC = FAC*(-HALF)                                               
-         DD1 = EV(I,1)**FAC - ONE  
+         FAC = FAC*(-HALF)
+         DD1 = EV(I,1)**FAC - ONE
          NN  = NN  + 1
         ENDDO
-        FAC = -HALF   
+        FAC = -HALF
         DD2 = EV(I,2)**FAC - ONE
-        NN = 1                                                     
-        DO WHILE (ABS(DD2) >= EM03 .AND. NN <= 20 )                                     
-         F2(I) = F2(I) +  
+        NN = 1
+        DO WHILE (ABS(DD2) >= EM03 .AND. NN <= 20 )
+         F2(I) = F2(I) +
      .         (DD2 + ONE)*YFAC(1)*FINTER(IFUNC(1),DD2,NPF,TF,DF)
-         FAC = FAC*(-HALF)                                               
-         DD2 = EV(I,2)**FAC - ONE  
+         FAC = FAC*(-HALF)
+         DD2 = EV(I,2)**FAC - ONE
          NN = NN + 1
-        ENDDO     
-      ENDDO                                                              
-! 
+        ENDDO
+      ENDDO
+!
 C--------------------------------------
 C     Newton method =>  Find EV(3) : T3(EV(3)) = 0
 C--------------------------------------            
-      DO ITER = 1,5  
+      DO ITER = 1,5
            DO I=1,NEL
                 RV(I) = EV(I,1)*EV(I,2)*EV(I,3)
                 EE(I,3) = EV(I,3) - ONE
                 Y3  = YFAC(1)*FINTER(IFUNC(1),EE(I,3),NPF,TF,DF3)
                 F3(I) = EV(I,3)*Y3
-                Gmax(I) = MAX(Gmax(I),    YFAC(1)*DF3 ) 
+                Gmax(I) = MAX(Gmax(I),    YFAC(1)*DF3 )
                 DFLAM3 = ZERO
-                FAC = -HALF   
-                SCALE = EV(I,3)**FAC 
-                DD3 = SCALE - ONE 
-                NN = 1                             
-                DO WHILE (ABS(DD3) >= EM03 .AND. NN <= 20 ) 
+                FAC = -HALF
+                SCALE = EV(I,3)**FAC
+                DD3 = SCALE - ONE
+                NN = 1
+                DO WHILE (ABS(DD3) >= EM03 .AND. NN <= 20 )
                  Y33 = YFAC(1)*FINTER(IFUNC(1),DD3,NPF,TF,DF)
                  F3(I) = F3(I) +  SCALE*Y33
                  DFLAM3 = DFLAM3 + Y33*FAC * SCALE/EV(I,3) + YFAC(1)*FAC*SCALE**2*DF/EV(I,3)
-                 FAC = FAC*(-HALF) 
+                 FAC = FAC*(-HALF)
                  SCALE = EV(I,3)**FAC
                  DD3 = SCALE - ONE
                  NN = NN + 1
                 END DO
-              
+
                 INVR = ONE/MAX(EM20,RV(I))
                 P = INVR*RBULK*(RV(I) - ONE)
-                T1(I) = INVR*(TWO_THIRD*F1(I) - THIRD*(F2(I) + F3(I))) + P 
-                T2(I) = INVR*(TWO_THIRD*F2(I) - THIRD*(F1(I) + F3(I))) + P 
-                T3(I) = INVR*(TWO_THIRD*F3(I) - THIRD*(F1(I) + F2(I))) + P 
+                T1(I) = INVR*(TWO_THIRD*F1(I) - THIRD*(F2(I) + F3(I))) + P
+                T2(I) = INVR*(TWO_THIRD*F2(I) - THIRD*(F1(I) + F3(I))) + P
+                T3(I) = INVR*(TWO_THIRD*F3(I) - THIRD*(F1(I) + F2(I))) + P
 C
-                KT = Y3 + EV(I,3)*YFAC(1)*DF3 + DFLAM3 
+                KT = Y3 + EV(I,3)*YFAC(1)*DF3 + DFLAM3
                 KT = TWO_THIRD*KT*INVR + RBULK*INVR/EV(I,3) -
      .            INVR*(TWO_THIRD*F3(I) - THIRD*(F1(I)+F2(I)))/EV(I,3)
-                IF(KT /= ZERO) EV(I,3) = EV(I,3) - T3(I)/KT  
+                IF(KT /= ZERO) EV(I,3) = EV(I,3) - T3(I)/KT
            ENDDO ! NEL
-      ENDDO !  ITER 
+      ENDDO !  ITER
       NE_L = 0
       NE_UNL = 0
       DO I=1,NEL
            ECURENT(I)= HALF*(EE(I,1)*T1(I) + EE(I,2)*T2(I))
-           UVAR(I,17)= MAX(UVAR(I,17), ECURENT(I)) 
+           UVAR(I,17)= MAX(UVAR(I,17), ECURENT(I))
            DEINT(I) = ECURENT(I) - UVAR(I,16)
            UVAR(I,16) = ECURENT(I)
            IF(DEINT(I) >= ZERO) THEN
-              NE_L = NE_L + 1 
+              NE_L = NE_L + 1
               INDX_L(NE_L) = I
            ELSE
-              NE_UNL = NE_UNL + 1 
+              NE_UNL = NE_UNL + 1
               INDX_UNL(NE_UNL) = I
            ENDIF
       ENDDO
@@ -277,7 +277,7 @@ C-------------------------------------------------------------
         ENDDO
       ENDIF
       DO I=1,NEL
-        RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)  
+        RV(I)   = EV(I,1)*EV(I,2)*EV(I,3)
         DEZZ(I) =-NU/(ONE-NU)*(DEPSXX(I)+DEPSYY(I))
         SIGNXX(I) =EIGV(I,1,1)*T1(I)+EIGV(I,1,2)*T2(I)
         SIGNYY(I) =EIGV(I,2,1)*T1(I)+EIGV(I,2,2)*T2(I)

@@ -42,7 +42,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4,
-     .        XP, YP, ZP, D2, JAC, NRX, NRY, NRZ, 
+     .        XP, YP, ZP, D2, JAC, NRX, NRY, NRZ,
      .        XS, YS, ZS, RVAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -138,7 +138,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       my_real
      .        X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3, X4, Y4, Z4,
-     .        XP, YP, ZP, D2, JAC, 
+     .        XP, YP, ZP, D2, JAC,
      .        XS, YS, ZS, RVAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s

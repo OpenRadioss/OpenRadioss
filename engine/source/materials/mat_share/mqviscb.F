@@ -40,17 +40,17 @@ Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-sear
 Chd|====================================================================
       SUBROUTINE MQVISCB(PM,OFF     ,RHO   ,RK     ,T       ,SSP     ,
      2             RE      ,STI     ,DT2T  ,NELTST ,ITYPTST ,AIRE    ,
-     3             OFFG    ,GEO     ,PID   ,VOL    ,VD2     ,DELTAX  , 
+     3             OFFG    ,GEO     ,PID   ,VOL    ,VD2     ,DELTAX  ,
      4             VIS     ,D1      ,D2    ,D3     ,PNEW    ,PSH     ,
      5             MAT     ,NGL     ,QVIS  ,SSP_EQ ,VOL0    ,MSSA    ,
      6             DMELS   ,IGEO    ,FACQ0 ,CONDE  ,DTEL    ,G_DT    ,
-     7             IPM     ,RHOREF  ,RHOSP   ) 
+     7             IPM     ,RHOREF  ,RHOSP   )
 C============================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE I22TRI_MOD
-      USE I22BUFBRIC_MOD 
+      USE I22BUFBRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -92,8 +92,8 @@ C
       my_real
      .   PM(NPROPM,*), OFF(*), RHO(*), RK(*), T(*), RE(*),STI(*),
      .   OFFG(*),GEO(NPROPG,*),
-     .   VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*), 
-     .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*), 
+     .   VOL(*), VD2(*), DELTAX(*), SSP(*), AIRE(*), VIS(*),
+     .   PSH(*), PNEW(*),QVIS(*) ,SSP_EQ(*),CONDE(*),
      .   D1(*), D2(*), D3(*), VOL0(*), MSSA(*), DMELS(*),FACQ0
       my_real, INTENT(IN) :: RHOREF(MVSIZ), RHOSP(MVSIZ)
       my_real, INTENT(INOUT) :: DTEL(MVSIZ)
@@ -107,9 +107,9 @@ C-----------------------------------------------
      .   DTY(MVSIZ), QA, QB, VISI, FACQ,QAA,
      .   CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
      .   ATU, QAD, QBD, QAAP, DT, NUI
-      my_real 
+      my_real
      .   TIDT,TVOL,TRHO,TAIRE,  DTMIN(MVSIZ), RHOS(MVSIZ)
-#ifdef MYREAL8 
+#ifdef MYREAL8
       my_real, PARAMETER :: REAL_THREE = 3.0D0
       my_real, PARAMETER :: REAL_ONE = 1.0D0
 #else
@@ -118,14 +118,14 @@ C-----------------------------------------------
 #endif
 
 
-      
+
 C=======================================================================
 
        ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
        MT           = MAT(LFT)
-       ALE_OR_EULER = 0 
+       ALE_OR_EULER = 0
        IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
-       IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0   
+       IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0
 
       IF(IMPL==ZERO)THEN
           DO I=LFT,LLT
@@ -201,7 +201,7 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
      .     + VISI*TWO*VIS(I)   / MAX(EM20,RHO(I)*DELTAX(I))
      .     + (CNS1+VISI*CNS2) / MAX(EM20,RHOREF(I)*DELTAX(I))
           QVIS(I)=RHO(I)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
-          DTMIN(I) = GEO(172,PID(LFT))      
+          DTMIN(I) = GEO(172,PID(LFT))
         ENDDO
        ELSE
         MT = MAT(LFT)
@@ -221,7 +221,7 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
             NUI    =RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
             QVIS(I)=NUI*AD(I)
             QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
-            DTMIN(I) = GEO(172,PID(LFT))      
+            DTMIN(I) = GEO(172,PID(LFT))
           ENDDO
        ELSE
           DO I=LFT,LLT
@@ -235,7 +235,7 @@ C           Same for VIS(I) since SOUNDSPEED is generally computed wrt RHO0, not
             NUI    =RHO(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
             QVIS(I)=NUI*AD(I)
             QX(I)  =(NUI + CNS1+VISI*(TWO*VIS(I)+CNS2))/MAX(EM20,RHOREF(I)*DELTAX(I))
-            DTMIN(I) = GEO(172,PID(LFT))      
+            DTMIN(I) = GEO(172,PID(LFT))
           ENDDO
        END IF
       ENDIF
@@ -249,16 +249,16 @@ C
       !IF (G_DT>0)THEN
       !  DO I=LFT,LLT
       !    DTEL(I)   = DTX(I)
-      !  ENDDO      
-      !ENDIF      
+      !  ENDDO
+      !ENDIF
 C
       IF(INT22 > 0)THEN
         !check if at least one brick has time step smaller than cinematic one => elementary time step.
-        DO I=LFT,LLT 
+        DO I=LFT,LLT
           IF(DTX(I)<dt22_min)THEN
             IDT_INT22 = 0
-            !NELTST    = NGL(I)       
-            !ITYPTST   = ITY 
+            !NELTST    = NGL(I)
+            !ITYPTST   = ITY
             EXIT ! just set IDT_INT22
           ENDIF
         ENDDO
@@ -272,7 +272,7 @@ C
         AK2 = PM(77,MT)
         BK2 = PM(78,MT)
         TLI = PM(80,MT)
-       DO I=LFT,LLT       
+       DO I=LFT,LLT
         IF(T(I)<TLI)THEN
          AKK=AK1+BK1*T(I)
         ELSE
@@ -286,7 +286,7 @@ C
          AKK=AKK*(1.+ATU)
         ENDIF
         DTX(I) = MIN(DTX(I),HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20))
-       ENDDO     
+       ENDDO
       ENDIF
 C
       IF(.NOT.(IDTMINS==2.AND.JSMS/=0))THEN
@@ -301,7 +301,7 @@ C
           STI(I) = ZERO
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
 	  IF(IPM(251,MT)/=0) GO TO 50
-          IF(N2D==0) THEN 
+          IF(N2D==0) THEN
             TIDT = ONE/DTX(I)
             IF(OFFG(I)>ONE)THEN
               TRHO = RHO0(I) * TIDT
@@ -310,7 +310,7 @@ C
               TRHO = RHO(I) * TIDT
               TVOL = VOL(I) * TIDT
             END IF
-            ! STI will be changed to 2*STI/NNE in SxCUMU  
+            ! STI will be changed to 2*STI/NNE in SxCUMU
             ! [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
             STI(I) = TRHO * TVOL
           ELSE
@@ -329,16 +329,16 @@ C         dt2 remplace par dt2t
         ELSE
           DO I=LFT,LLT
             DTX(I)= DTFAC1(102)*DTX(I)
-          ENDDO        
-        ENDIF  
+          ENDDO
+        ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
         IF(ALE_OR_EULER==1 .OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(VOL(I)>ZERO .AND. (OFF(I)/=ZERO.AND.OFFG(I)>=ZERO))DT2T= MIN(DTX(I),DT2T)    
-          ENDDO     
+            IF(VOL(I)>ZERO .AND. (OFF(I)/=ZERO.AND.OFFG(I)>=ZERO))DT2T= MIN(DTX(I),DT2T)
+          ENDDO
         ENDIF
-        
-       ELSE 
+
+       ELSE
         IF(ISMSTR == 11) THEN
           IF(N2D == 0) THEN
             DO I=LFT,LLT
@@ -349,7 +349,7 @@ C         dt2 remplace par dt2t
                 TRHO = RHO0(I) * TIDT
                 TVOL = VOL0(I) * TIDT
                 STI(I) = TRHO * TVOL
-            ENDDO 
+            ENDDO
           ELSE
             DO I=LFT,LLT
               STI(I) = ZERO
@@ -359,7 +359,7 @@ C         dt2 remplace par dt2t
               TRHO = RHO(I) * TIDT
               TAIRE = AIRE(I) * TIDT
               STI(I) = HALF * TRHO * TAIRE
-            ENDDO 
+            ENDDO
           ENDIF  ! N2D
         ELSE
            DO 60 I=LFT,LLT
@@ -389,13 +389,13 @@ C            dt2 remplace par dt2t
         ELSE
           DO I=LFT,LLT
             DTX(I)= DTFAC1(102)*DTX(I)
-          ENDDO        
+          ENDDO
         ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
         IF(ALE_OR_EULER==1 .OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(VOL(I)>ZERO .AND. (OFF(I)/=ZERO.AND.OFFG(I)>=ZERO))DT2T= MIN(DTX(I),DT2T)      
-          ENDDO      
+            IF(VOL(I)>ZERO .AND. (OFF(I)/=ZERO.AND.OFFG(I)>=ZERO))DT2T= MIN(DTX(I),DT2T)
+          ENDDO
         ENDIF
        END IF
 C
@@ -410,7 +410,7 @@ C----
        IF(IDTMIN(ITY)==1)THEN
         ERROR=0
         DO 70 I=LFT,LLT
-        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+        IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
      .        OR.OFFG(I)<ZERO) GO TO 70
           ERROR=1
    70   CONTINUE
@@ -418,7 +418,7 @@ C----
         IF (ERROR==1) THEN
           TSTOP = TT
           DO I=LFT,LLT
-            IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+            IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
      .         OR.OFFG(I)<ZERO) CYCLE
 #include "lockon.inc"
             WRITE(IOUT,*)
@@ -490,7 +490,7 @@ C----
         IF (ERROR==1) THEN
           MSTOP = 2
           DO I=LFT,LLT
-            IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO. 
+            IF(DTX(I)>DTMIN1(ITY).OR.OFF(I)==ZERO.
      .         OR.OFFG(I)<ZERO) CYCLE
 #include "lockon.inc"
             WRITE(IOUT,*)
@@ -537,7 +537,7 @@ C           [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
             STI(I) = HALF * TRHO * TAIRE
           ENDIF
 c
-c dmels = 2*dmels !!   
+c dmels = 2*dmels !!
 c w^2 < 2k / (m+dmels+dmels/...) < 2k / (m+dmels)
 c dt = 2/w = sqrt( 2*(m+dmels)/k), k=2m/dty^2
           DMELS(I)=MAX(DMELS(I),
@@ -565,7 +565,7 @@ C           [ STI(I) = FOURTH * TRHO * TVOL for 8node bricks ]
             STI(I) = HALF * TRHO * TAIRE
           ENDIF
 c
-c dmels = 2*dmels !!   
+c dmels = 2*dmels !!
 c w^2 < 2k / (m+dmels+dmels/...) < 2k / (m+dmels)
 c dt = 2/w = sqrt( 2*(m+dmels)/k), k=2m/dty^2
           DMELS(I)=MAX(DMELS(I),
@@ -610,8 +610,8 @@ C
           IF(VOL(I)<=ZERO)CYCLE
           DT2T     = DTX(I)
           NELTST   = NGL(I)
-          ITYPTST  = ITY 
-          ID_MIN   = I        
+          ITYPTST  = ITY
+          ID_MIN   = I
         ENDDO
         IF(DT2T<DTMIN1(102).AND.ID_MIN>0)THEN
           TSTOP = TT
@@ -619,8 +619,8 @@ C
 #include "lockon.inc"
           WRITE(IOUT,*) ' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR ALE/EULER CELL',NGL(ID_MIN)
           WRITE(ISTDO,*)' **ERROR : TIME STEP LESS OR EQUAL DTMIN FOR ALE/EULER CELL',NGL(ID_MIN)
-#include "lockoff.inc"          
-        ENDIF      
+#include "lockoff.inc"
+        ENDIF
       ENDIF
 C
 C--------------------------
@@ -651,18 +651,18 @@ C--------------------------
         DT  = DTFACTHERM*HALF*DELTAX(I)*DELTAX(I)*SPH/MAX(AKK,EM20)
         IF(DT<DT_THERM.AND.OFF(I)>ZERO.AND.OFFG(I)>ZERO) DT_THERM = DT
         CONDE(I) = FOUR*VOL(I)*AKK/(DELTAX(I)*DELTAX(I))
-        CONDE(I) = CONDE(I)*OFF(I) 
+        CONDE(I) = CONDE(I)*OFF(I)
        ENDDO
-      ENDIF  
+      ENDIF
 C
 C--------------------------
 C     ELEMENT TIME STEP
 C--------------------------  
-      !here scale factor already applied   
+      !here scale factor already applied
       IF (G_DT>0)THEN
         DO I=LFT,LLT
           DTEL(I)   = DTX(I)
-        ENDDO      
+        ENDDO
       ENDIF
 C--------------------------
 
@@ -675,7 +675,7 @@ Chd|-- called by -----------
 Chd|        MULAW                         source/materials/mat_share/mulaw.F
 Chd|-- calls ---------------
 Chd|====================================================================
-         SUBROUTINE FMQVISCB(NEL,PM,GEO, PID,  MAT , NGL , 
+         SUBROUTINE FMQVISCB(NEL,PM,GEO, PID,  MAT , NGL ,
      .                     NELTST,ITYPTST, DT2T  ,UVAR  ,
      .                     SSP  ,OFF,OFFG, AIRE ,DELTAX ,VIS  ,
      .                     VD2  ,QVIS   )
@@ -714,7 +714,7 @@ C
      .   DT2T
 C
       my_real
-     .   PM(NPROPM,*),GEO(NPROPG,*), DELTAX(*), SSP(*), AIRE(*), 
+     .   PM(NPROPM,*),GEO(NPROPG,*), DELTAX(*), SSP(*), AIRE(*),
      .    QVIS(*) ,VIS(*), UVAR(NEL,*),OFF(*), VD2(*),OFFG(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -726,16 +726,16 @@ C-----------------------------------------------
      .   RHO0(MVSIZ),DTMIN(MVSIZ),QA, QB, VISI, FACQ,QAA,
      .   CNS1, CNS2, SPH, AK1, BK1, AK2, BK2, TLI, AKK, XMU, TMU, RPR,
      .   ATU, QAD, QBD, QAAP,DD
-      my_real 
+      my_real
      .   TIDT,TVOL,TRHO,TAIRE, DTINV
 C-----------------------------------------------
 C=======================================================================
 
       ! by default don't apply /DT/NODA/* to ALE/EULER cells ; unless if /DT/NODA/ALEON is enabled (hidden card introduced for backward compatibility)
       MT           = MAT(LFT)
-      ALE_OR_EULER = 0 
+      ALE_OR_EULER = 0
       IF(NINT(PM(72,MT))==1 .OR. NINT(PM(72,MT))==2)ALE_OR_EULER = 1
-      IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0   
+      IF(I_DT_NODA_ALE_ON==1)                         ALE_OR_EULER = 0
 
       DTINV = DT1 / MAX(EM20 , DT1**2)
       IF(IMPL==ZERO)THEN
@@ -748,7 +748,7 @@ C=======================================================================
 
        VISI=ONE
        FACQ=ONE
-      
+
       IF(N2D>0) THEN
         MT = MAT(LFT)
         DO I=LFT,LLT
@@ -780,14 +780,14 @@ C
           QAA = QA*QA*AD(I)
           QX(I)=(QB+CNS1)*SSP(I)+DELTAX(I) * QAA
      .     + VISI*(TWO*VIS(I)+CNS2) / MAX(EM20,UVAR(I,1)*DELTAX(I))
-          QVIS(I)=UVAR(I,1)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))  
-           DTMIN(I) = GEO(172,PID(I)) 
+          QVIS(I)=UVAR(I,1)*AD(I)*AL(I)*(QAA*AL(I)+QB*SSP(I))
+           DTMIN(I) = GEO(172,PID(I))
       ENDDO
 C
       DO I=LFT,LLT
         SSP_EQ(I) = MAX(EM20,QX(I)+SQRT(QX(I)*QX(I)+CX(I)*CX(I)))
         DTX(I) = DELTAX(I) / SSP_EQ(I)
-       
+
       ENDDO
 C
       ! KDTSMSTR==1 en version 5, par defaut.
@@ -795,7 +795,7 @@ C
      .   ISMSTR==1.OR.(ISMSTR==2.AND.IDTMIN(1)==3))THEN
         DO 50 I=LFT,LLT
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 50
-          IF(N2D==0) THEN 
+          IF(N2D==0) THEN
             TIDT = ONE/DTX(I)
             IF(OFFG(I)>ONE)THEN
               TRHO = RHO0(I) * TIDT
@@ -804,7 +804,7 @@ c              TVOL = VOL0(I) * TIDT
               TRHO = UVAR(I,1) * TIDT
               TVOL = UVAR(I,3) * TIDT
             END IF
-            !STI will be changed to 2*STI/NNE in SxCUMU  
+            !STI will be changed to 2*STI/NNE in SxCUMU
           ELSE
             !small strain is not available in 2D analysis
             TIDT = ONE/DTX(I)
@@ -821,22 +821,22 @@ C         dt2 remplace par dt2t
         ELSE
           DO I=LFT,LLT
             DTX(I)= DTFAC1(102)*DTX(I)
-          ENDDO        
+          ENDDO
         ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
         IF(ALE_OR_EULER==1 .OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(OFF(I)/=ZERO.AND.OFFG(I)>=ZERO)DT2T = MIN(DTX(I),DT2T)        
+            IF(OFF(I)/=ZERO.AND.OFFG(I)>=ZERO)DT2T = MIN(DTX(I),DT2T)
           ENDDO
-        ENDIF            
-      ELSE 
+        ENDIF
+      ELSE
         DO 60 I=LFT,LLT
           IF(OFF(I)==ZERO.OR.OFFG(I)<ZERO) GO TO 60
           IF(N2D==0) THEN
             TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
             TVOL = UVAR(I,3) * TIDT
-            !STI will be changed to 2*STI/NNE in SxCUMU  
+            !STI will be changed to 2*STI/NNE in SxCUMU
           ELSE
             TIDT = ONE/DTX(I)
             TRHO = UVAR(I,1) * TIDT
@@ -851,14 +851,14 @@ C         dt2 remplace par dt2t
         ELSE
           DO I=LFT,LLT
             DTX(I)= DTFAC1(102)*DTX(I)
-          ENDDO        
+          ENDDO
         ENDIF
         !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
         IF(ALE_OR_EULER.EQ .1.OR. NODADT==0)THEN
           DO I=LFT,LLT
-            IF(OFF(I)/=ZERO.AND.OFFG(I)>=ZERO)DT2T = MIN(DTX(I),DT2T)        
+            IF(OFF(I)/=ZERO.AND.OFFG(I)>=ZERO)DT2T = MIN(DTX(I),DT2T)
           ENDDO
-        ENDIF  
+        ENDIF
       END IF
 C
       IF(IMCONV==1)THEN
@@ -941,11 +941,11 @@ C
       ENDIF
       END IF ! IF(IMCONV==1)
 C
-      !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER    
+      !/DT/NODA & /DT/NODA/CST HAS NO EFFECT WITH ALE/EULER
       IF(NODADT==0 .OR. ALE_OR_EULER==1)THEN
        DO 80 I=LFT,LLT
         IF(DTX(I)>DT2T.OR.OFF(I)<=ZERO.OR.
-     .    OFFG(I)<=ZERO) GO TO 80 
+     .    OFFG(I)<=ZERO) GO TO 80
 C nelts et itypts remplaces par neltst et itypst
         DT2T    = DTX(I)
         NELTST =NGL(I)
@@ -954,4 +954,4 @@ C nelts et itypts remplaces par neltst et itypst
       ENDIF
 
       RETURN
-      END      
+      END

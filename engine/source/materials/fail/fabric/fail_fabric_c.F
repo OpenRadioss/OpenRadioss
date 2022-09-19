@@ -156,7 +156,7 @@ c
         IF (UVAR(I,2)>ZERO .and. SIG2(I)>ZERO) SIG2(I) = SIG2(I)*(ONE-UVAR(I,2))
         IF (UVAR(I,1) == ONE .and. UVAR(I,2) == ONE) THEN
           FOFF(I) = 0
-          TDEL(I) = TIME                      
+          TDEL(I) = TIME
         ENDIF
       ENDDO
 c
@@ -164,26 +164,26 @@ c---  Output of Maximum Damage : 0 < DFMAX < 1
       DO I=1,NEL
         DFMAX(I) = MAX(DFMAX(I), UVAR(I,1))
         DFMAX(I) = MAX(DFMAX(I), UVAR(I,2))
-      ENDDO           
+      ENDDO
 c----------------------------------------------
 c     Output
 c----------------------------------------------
       DO J=1,NINDX1
         I = INDX1(J)
         IF (UVAR(I,1) > ZERO) THEN
-#include  "lockon.inc"                       
+#include  "lockon.inc"
           WRITE(IOUT, 1100) NGL(I),IPG,ILAY,IPT,TIME
           WRITE(ISTDO,1100) NGL(I),IPG,ILAY,IPT,TIME
-#include  "lockoff.inc"                      
+#include  "lockoff.inc"
         ENDIF
       ENDDO
       DO J=1,NINDX2
         I = INDX2(J)
         IF (UVAR(I,2) > ZERO) THEN
-#include  "lockon.inc"                       
+#include  "lockon.inc"
           WRITE(IOUT, 2100) NGL(I),IPG,ILAY,IPT,TIME
           WRITE(ISTDO,2200) NGL(I),IPG,ILAY,IPT,TIME
-#include  "lockoff.inc"                      
+#include  "lockoff.inc"
         ENDIF
       ENDDO
 C-----------------------------------------------

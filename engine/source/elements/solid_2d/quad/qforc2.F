@@ -75,7 +75,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE MMAIN_MOD
       USE TABLE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE NLOCAL_REG_MOD
       USE ALE_CONNECTIVITY_MOD
       USE MATPARAM_DEF_MOD
@@ -104,7 +104,7 @@ C-----------------------------------------------
      .   MS_2D(*),FSKYM(*)
       TYPE(TTABLE) TABLE(*)
       TYPE (ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
-      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_)  , TARGET :: NLOC_DMG
       TYPE(t_ale_connectivity), INTENT(IN) :: ALE_CONNECT
       TYPE(MATPARAM_STRUCT_)  , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
@@ -129,13 +129,13 @@ c
 c TYPE NAME                FUNCTION
 c  I   PM ,GEO             Material and geometrical property data
 c  I   IC(7,NUM_QUAD)      connectivity and mid,pid interger data
-c  I   X(3,NUMNOD)         co-ordinate 
+c  I   X(3,NUMNOD)         co-ordinate
 c  IO  A(3,NUMNOD)         nodal internal force
 c  I   V(3,NUMNOD)         nodal velocity
 c  IO  MS(NUMNOD)          nodal masse
 c  I   EV()                internal element(material) data
 c  I   FLUX(4,NEL)         flux at each side used w/ ALE or EULER
-c  I   FLU1  ,VEUL  ,IELVS used w/ ALE or EULER 
+c  I   FLU1  ,VEUL  ,IELVS used w/ ALE or EULER
 c  I   IPARG(NG)           element group data
 c  I   ELBUF()             internal element(material) data used w/ ALE or EULER
 c  I   TF() ,NPF()         Radioss function (x=Time) data
@@ -147,10 +147,10 @@ c  IO  STIFN(NUMNOD)       nodal stiffness to calcul nodal time step
 c  IO  EANI()              anim outpout vector
 c  I   IPARTQ()            quad element group data (output)
 c  I   NEL                 nb of quad element in this group
-c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemlage   
+c  I   IADQ() ,FSKY()      work arrays for special option of internal force assemlage
 c  IO  XPHI,FPHI,VPHI,MSPHI,PV ,
 c      X0PHI ,EVD : variables for sensibility(opt) no more used
-c  I   BUFVOIS()           work table for fluide w/ SPMD 
+c  I   BUFVOIS()           work table for fluide w/ SPMD
 c  I   QMV(8,)             work table used w/ ALE or EULER
 c  I   GRESAV,GRTH,IGRTH   work table used for TH (time history) output
 c  I   TABLE               new alternative Radioss function(table) data
@@ -196,7 +196,7 @@ C  Variables void MMAIN
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
      .   Y234(MVSIZ),Y124(MVSIZ),BIDM(MVSIZ)
       my_real VARNL(NEL)
-      my_real, 
+      my_real,
      .  DIMENSION(:), POINTER :: EINT
 C-----
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -213,24 +213,24 @@ C il faut supprimer les equivalences sur les variables qui ne servent pas
 C=======================================================================
       GBUF => ELBUF_TAB(NG)%GBUF
 c
-      IBIDON=0 
-      IBID = 0    
+      IBIDON=0
+      IBID = 0
       BIDM(1:MVSIZ) = ZERO
       DO I=1,NEL
         WYY(I)=ZERO
         WZZ(I)=ZERO
-        VDX(I)=ZERO  
+        VDX(I)=ZERO
       ENDDO
 C
-      IF (ISORTH == 0) THEN 
+      IF (ISORTH == 0) THEN
 C       propriete isotrope
-        DO I=LFT,LLT                                            
-          GAMA(I,1) = ONE                                
-          GAMA(I,2) = ZERO                                  
+        DO I=LFT,LLT
+          GAMA(I,1) = ONE
+          GAMA(I,2) = ZERO
           GAMA(I,3) = ZERO
-          GAMA(I,4) = ZERO                                  
-          GAMA(I,5) = ONE                                  
-          GAMA(I,6) = ZERO 
+          GAMA(I,4) = ZERO
+          GAMA(I,5) = ONE
+          GAMA(I,6) = ZERO
         ENDDO
       ELSE
         DO I=LFT,LLT
@@ -239,10 +239,10 @@ C       propriete isotrope
           GAMA(I,3) = GBUF%GAMA(I + 2*NEL)
           GAMA(I,4) = GBUF%GAMA(I + 3*NEL)
           GAMA(I,5) = GBUF%GAMA(I + 4*NEL)
-          GAMA(I,6) = GBUF%GAMA(I + 5*NEL) 
-        ENDDO                                   
+          GAMA(I,6) = GBUF%GAMA(I + 5*NEL)
+        ENDDO
       ENDIF
-      ISTRAIN = IPARG(44,NG)                                 
+      ISTRAIN = IPARG(44,NG)
 C
       LCO=1+7*NFT
       NF1=NFT+1
@@ -338,10 +338,10 @@ C     CALCUL DES CONTRAINTES SUIVANT LOIS CONTITUTIVES(Constitutive relation com
 C-----------------------------------------------------
 C pour le fluide en SPMD : BUFVOIS LOI11
 c
-      ILAY = 1                                                
-      IPTR = 1                                                
-      IPTS = 1                                                
-      IPTT = 1                                                
+      ILAY = 1
+      IPTR = 1
+      IPTS = 1
+      IPTT = 1
 c
       CALL MMAIN(
      1   ELBUF_TAB,NG     ,PM     ,GEO       ,FV      ,ALE_CONNECT   ,
@@ -409,7 +409,7 @@ C------------------------
      .                  Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .                  VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
      .                  PY1,PY2,PZ1,PZ2,
-     .                  T11,T12,T13,T14,T21,T22,T23,T24, 
+     .                  T11,T12,T13,T14,T21,T22,T23,T24,
      .                  AIRE,SSP,MAT,VD2,VIS,EANI,NGEO,GEO,
      .                  PARTSAV,IPARTQ,EHOU,IPARG(63,NG))
 C--------------------------
@@ -418,11 +418,11 @@ C--------------------------
       IFLAG=MOD(NCYCLE,NCPRI)
       IF(IOUTPRT>0)THEN
 c
-        IF (MTN == 11) THEN                                      
-          EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)                     
-        ELSE                                                     
-          EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)                     
-        ENDIF                                                    
+        IF (MTN == 11) THEN
+          EINT => ELBUF_TAB(NG)%GBUF%EINS(1:NEL)
+        ELSE
+          EINT => ELBUF_TAB(NG)%GBUF%EINT(1:NEL)
+        ENDIF
         CALL QBILAN(PARTSAV,GBUF%OFF,EINT,GBUF%RHO,GBUF%RK,
      2              GBUF%VOL,VY1,VY2,VY3,VY4,VZ1,
      3              VZ2,VZ3,VZ4,VOLN,IPARTQ, EHOU,R22  ,
@@ -436,7 +436,7 @@ C------------------------
        IF(JALE>0.AND.MTN/=11)
      .   CALL AMOMT2(PM,V,W,GBUF%RHO,
      .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
-     .   T11, T12, T13, T14, T21, T22, T23 , T24, 
+     .   T11, T12, T13, T14, T21, T22, T23 , T24,
      .   PY1, PY2, PZ1, PZ2, AIREM,
      .   VY1, VY2, VY3, VY4, VZ1, VZ2, VZ3, VZ4,
      .   EYY, EZZ, DYZ, DZY,
@@ -445,7 +445,7 @@ C------------------------
      .   CALL EMOMT2(PM,GBUF%RHO,
      .   Y1,Y2,Y3,Y4,Z1,Z2,Z3,Z4,
      .   VY1,VY2,VY3,VY4,VZ1,VZ2,VZ3,VZ4,
-     .   T11, T12, T13, T14, T21, T22, T23 , T24, 
+     .   T11, T12, T13, T14, T21, T22, T23 , T24,
      .   PY1, PY2, PZ1, PZ2, AIRE,
      .   EYY, EZZ, DYZ, DZY, VDY, VDZ,
      .   DELTAX,VIS,VD2,
@@ -476,12 +476,12 @@ C--------------
       IF(IPARIT == 0)THEN
         CALL QCUMU2(A,
      .   F11, F12, F21, F22, AX1, AX2,
-     .   T11, T12, T13, T14, T21, T22, T23, T24, 
+     .   T11, T12, T13, T14, T21, T22, T23, T24,
      .   NC1, NC2, NC3, NC4, STI, STIFN)
       ELSE
         CALL QCUMU2P(
      .   F11, F12, F21, F22, AX1, AX2,
-     .   T11, T12, T13, T14, T21, T22, T23, T24, 
+     .   T11, T12, T13, T14, T21, T22, T23, T24,
      .   FSKY,FSKY,IADQ,STI)
       ENDIF
 c-----------

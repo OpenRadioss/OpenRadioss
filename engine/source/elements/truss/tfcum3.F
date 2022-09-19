@@ -100,7 +100,7 @@ c
 c
         STIFN(NC1(I)) = STIFN(NC1(I))+STI(I)
         STIFN(NC2(I)) = STIFN(NC2(I))+STI(I)
-      ENDDO 
+      ENDDO
 C-----------------------------------------------
       RETURN
       END

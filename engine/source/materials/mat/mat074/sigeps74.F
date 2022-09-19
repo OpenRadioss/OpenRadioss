@@ -137,7 +137,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .        UVAR(NEL,NUVAR), OFF(NEL),  YLD(NEL), PLA(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -170,9 +170,9 @@ C-----------------------------------------------
      .       SIGEXY(MVSIZ),SIGEYZ(MVSIZ),SIGEZX(MVSIZ),
      .       DEXX,DEYY,DEXY,DEZZ,DEYZ,DEZX,DSXX,DSYY,DSZZ,DSXY,DSYZ,
      .       DSZX,SIGPXX,SIGPYY,SIGPXY,SIGPYZ,SIGPZX,SIGPZZ,ALPHA,
-     .       XFAC, YFAC,E0(MVSIZ), G1(MVSIZ), G21(MVSIZ), G31(MVSIZ), 
+     .       XFAC, YFAC,E0(MVSIZ), G1(MVSIZ), G21(MVSIZ), G31(MVSIZ),
      .       C11(MVSIZ),ESCALE(MVSIZ),EINF,DYDXE(MVSIZ),CE
-      my_real 
+      my_real
      .        YK(MVSIZ), DYDX(MVSIZ),
      .        COEF(MVSIZ), TEMP(MVSIZ), VOL0, RHOCP
       my_real,
@@ -197,7 +197,7 @@ C
       EINF  = UPARAM(IADBUF+26)
 
       IF (OPTE==1.OR. CE > ZERO)THEN
-       DO I=1,NEL     
+       DO I=1,NEL
          E0(I)   = UPARAM(IADBUF+2)
          G1(I)   = UPARAM(IADBUF+5)
          G21(I)  = UPARAM(IADBUF+18)
@@ -215,30 +215,30 @@ c      ELSE
 c      ENDIF
        ENDIF
 C 
-       IF (OPTE == 1)THEN  
+       IF (OPTE == 1)THEN
         DO I=1,NEL
-          PLA(I) = UVAR(I,1)     
-          IF(PLA(I) > ZERO)THEN 
-             IFUNCE  =  UPARAM(IADBUF+24)                                                    
-             ESCALE(I) = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))     
-             E0(I) =  ESCALE(I)* E0(I)   
-             G1(I) =  HALF*E0(I)/(ONE+NU) 
-             G21(I) = TWO*G1(I)                                  
-             G31(I) = THREE*G1(I) 
-             C11(I) =E0(I)/THREE/(ONE - TWO*NU)                          
-           ENDIF 
-         ENDDO                                               
-       ELSEIF ( CE /= ZERO) THEN   
-         DO I=1,NEL       
-           PLA(I) = UVAR(I,1)                                   
-           IF(PLA(I) > ZERO)THEN                                                        
-             E0(I) = E0(I)-(E0(I)-EINF)*(ONE-EXP(-CE*PLA(I)))              
-             G1(I) =  HALF*E0(I)/(ONE+NU)   
-             G21(I) = TWO*G1(I)                                  
-             G31(I) = THREE*G1(I)                                               
-             C11(I) = E0(I)/THREE/(ONE - TWO*NU)               
-           ENDIF 
-          ENDDO                                                                   
+          PLA(I) = UVAR(I,1)
+          IF(PLA(I) > ZERO)THEN
+             IFUNCE  =  UPARAM(IADBUF+24)
+             ESCALE(I) = FINTER(KFUNC(IFUNCE),PLA(I),NPF,TF,DYDXE(I))
+             E0(I) =  ESCALE(I)* E0(I)
+             G1(I) =  HALF*E0(I)/(ONE+NU)
+             G21(I) = TWO*G1(I)
+             G31(I) = THREE*G1(I)
+             C11(I) =E0(I)/THREE/(ONE - TWO*NU)
+           ENDIF
+         ENDDO
+       ELSEIF ( CE /= ZERO) THEN
+         DO I=1,NEL
+           PLA(I) = UVAR(I,1)
+           IF(PLA(I) > ZERO)THEN
+             E0(I) = E0(I)-(E0(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
+             G1(I) =  HALF*E0(I)/(ONE+NU)
+             G21(I) = TWO*G1(I)
+             G31(I) = THREE*G1(I)
+             C11(I) = E0(I)/THREE/(ONE - TWO*NU)
+           ENDIF
+          ENDDO
        ENDIF
        XFAC  =UPARAM(IADBUF+13)
        YFAC  =UPARAM(IADBUF+14)
@@ -280,7 +280,7 @@ C------------------------------------------
           SIGOYZ(I) = SIGOYZ(I) - UVAR(I,9)
           SIGOZX(I) = SIGOZX(I) - UVAR(I,10)
         ENDDO
-      ENDIF           
+      ENDIF
 C------------------------------------------
       DO I=1,NEL
 C
@@ -296,14 +296,14 @@ C
 C
         SIGEXX(I) = SIGNXX(I)
         SIGEYY(I) = SIGNYY(I)
-        SIGEZZ(I) = SIGNZZ(I)               
+        SIGEZZ(I) = SIGNZZ(I)
         SIGEXY(I) = SIGNXY(I)
         SIGEYZ(I) = SIGNYZ(I)
         SIGEZX(I) = SIGNZX(I)
         SOUNDSP(I) = SQRT((C11(I)+FOUR*G1(I)/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA(I) =ZERO
-                
+
       ENDDO
 C-------------------
 C     STRAIN RATE
@@ -330,7 +330,7 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - TWO*E4*E5*E6 
+     &      - TWO*E4*E5*E6
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
@@ -371,7 +371,7 @@ C-------------------
 C
           XX2(I,1)=PLA (I)
           XX2(I,2)=EPSP(I)*XFAC
-        END DO      
+        END DO
 C
         CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS2,XX2,YLD,DYDX)
 C
@@ -389,12 +389,12 @@ C-----
 C
            XX2(I,1)=ZERO
            XX2(I,2)=EPSP(I)*XFAC
-         END DO      
+         END DO
          CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS2,XX2,YK,DYDX)
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .         FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -403,19 +403,19 @@ C          ECROUISSAGE CINEMATIQUE
 C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
-        DO I=1,NEL    
+        DO I=1,NEL
           COEF(I) = ONE
         END DO
 C
         IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
+         DO I=1,NEL
            TEMP(I) = TEMPEL(I)
          ENDDO
         ELSE
          RHOCP=UPARAM(IADBUF+23)
          DO I=1,NEL
            TEMP(I) = UPARAM(IADBUF + 22)
-           TEMP(I) = TEMP(I) 
+           TEMP(I) = TEMP(I)
      .             + COEF(I)*RHOCP*EINT(I)/MAX(EM15,VOLUME(I))
          ENDDO
         ENDIF
@@ -428,7 +428,7 @@ C
           XX3(I,1)=PLA (I)
           XX3(I,2)=EPSP(I)*XFAC
           XX3(I,3)=TEMP(I)
-        END DO      
+        END DO
 C
         CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS3,XX3,YLD,DYDX)
 C
@@ -448,12 +448,12 @@ C
            XX3(I,1)=ZERO
            XX3(I,2)=EPSP(I)*XFAC
            XX3(I,3)=TEMP(I)
-         END DO      
+         END DO
          CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS3,XX3,YK,DYDX)
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .        FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -464,9 +464,9 @@ C     PROJECTION
 C-------------------
       IF(IPLA==0)THEN
        DO I=1,NEL
-        CRI(I) = 
+        CRI(I) =
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
      .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
@@ -480,13 +480,13 @@ c        P = C11(I) * (RHO(I)/RHO0(I)- ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)         
+        DPLA(I) = (ONE - R)*CRI(I)/MAX(G31(I)+H(I),EM20)
        ENDDO
       ELSEIF(IPLA==2)THEN
        DO I=1,NEL
-        CRI(I) = 
+        CRI(I) =
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
      .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
@@ -500,13 +500,13 @@ c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE-R)*CRI(I)/MAX(G31(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) =  (ONE-R)*CRI(I)/MAX(G31(I),EM20)       
+        DPLA(I) =  (ONE-R)*CRI(I)/MAX(G31(I),EM20)
        ENDDO
       ELSEIF(IPLA==1)THEN
        DO I=1,NEL
-        CRI(I) = 
+        CRI(I) =
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
      .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
@@ -524,7 +524,7 @@ c        P = C11(I) * (RHO(I)/RHO0(I)-ONE)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + DPLA(I)     
+        PLA(I)=PLA(I) + DPLA(I)
         UVAR(I,1)=PLA(I)
        ENDDO
       ENDIF
@@ -535,7 +535,7 @@ C------------------------------------------
         DO I=1,NEL
 c         P = C11(I) * (RHO(I)/RHO0(I)-ONE)
          P = C11(I) * AMU(I)
-         DSXX = SIGEXX(I) - SIGNXX(I) - P 
+         DSXX = SIGEXX(I) - SIGNXX(I) - P
          DSYY = SIGEYY(I) - SIGNYY(I) - P
          DSZZ = SIGEZZ(I) - SIGNZZ(I) - P
          DSXY = SIGEXY(I) - SIGNXY(I)
@@ -543,20 +543,20 @@ c         P = C11(I) * (RHO(I)/RHO0(I)-ONE)
          DSZX = SIGEZX(I) - SIGNZX(I)
 C        
          HKIN = TWO_THIRD*FISOKIN*H(I)
-         ALPHA = HKIN/(G21(I)+HKIN)  
-         SIGPXX = ALPHA*DSXX 
+         ALPHA = HKIN/(G21(I)+HKIN)
+         SIGPXX = ALPHA*DSXX
          SIGPYY = ALPHA*DSYY
-         SIGPZZ = ALPHA*DSZZ 
+         SIGPZZ = ALPHA*DSZZ
          SIGPXY = ALPHA*DSXY
          SIGPYZ = ALPHA*DSYZ
          SIGPZX = ALPHA*DSZX
 C        
-         UVAR(I, 5) = UVAR(I, 5) + SIGPXX 
+         UVAR(I, 5) = UVAR(I, 5) + SIGPXX
          UVAR(I, 6) = UVAR(I, 6) + SIGPYY
          UVAR(I, 7) = UVAR(I, 7) + SIGPZZ
          UVAR(I, 8) = UVAR(I, 8) + SIGPXY
          UVAR(I, 9) = UVAR(I, 9) + SIGPYZ
-         UVAR(I,10) = UVAR(I,10) + SIGPZX         
+         UVAR(I,10) = UVAR(I,10) + SIGPZX
 C         
          SIGNXX(I) = SIGNXX(I) + UVAR(I, 5)
          SIGNYY(I) = SIGNYY(I) + UVAR(I, 6)
@@ -579,7 +579,7 @@ c     .                   SIGEYZ,SIGEZX,DPLA,G   ,H     )
       ITABLE = IPM(227,MAT(1))
       IADBUF = IPM(7,MAT(1))-1
       FISOKIN=UPARAM(IADBUF+1)
-      
+
       E   = UPARAM(IADBUF+2)
       G   = UPARAM(IADBUF+5)
       G2  = UPARAM(IADBUF+18)
@@ -636,7 +636,7 @@ C------------------------------------------
           SIGOYZ(I) = SIGOYZ(I) - UVAR(I,9)
           SIGOZX(I) = SIGOZX(I) - UVAR(I,10)
         ENDDO
-      ENDIF           
+      ENDIF
 C------------------------------------------
       DO I=1,NEL
 C
@@ -652,14 +652,14 @@ C
 C
         SIGEXX(I) = SIGNXX(I)
         SIGEYY(I) = SIGNYY(I)
-        SIGEZZ(I) = SIGNZZ(I)               
+        SIGEZZ(I) = SIGNZZ(I)
         SIGEXY(I) = SIGNXY(I)
         SIGEYZ(I) = SIGNYZ(I)
         SIGEZX(I) = SIGNZX(I)
         SOUNDSP(I) = SQRT((C1+FOUR*G/THREE)/RHO0(I))
         VISCMAX(I) = ZERO
         DPLA(I) =ZERO
-                
+
       ENDDO
 C-------------------
 C     STRAIN RATE
@@ -686,7 +686,7 @@ c         yp= 3 x^2 + c
         E62 = E6*E6
         C = - HALF *(E1*E1 + E2*E2 + E3*E3) - E42 - E52 - E62
         D = - E1*E2*E3 + E1*E52 + E2*E62 + E3*E42
-     &      - TWO*E4*E5*E6 
+     &      - TWO*E4*E5*E6
         CC = C*THIRD
         EPST = SQRT(-CC)
         EPST2 = EPST * EPST
@@ -727,7 +727,7 @@ C-------------------
 C
           XX2(I,1)=PLA (I)
           XX2(I,2)=EPSP(I)*XFAC
-        END DO      
+        END DO
 C
         CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS2,XX2,YLD,DYDX)
 C
@@ -745,12 +745,12 @@ C-----
 C
            XX2(I,1)=ZERO
            XX2(I,2)=EPSP(I)*XFAC
-         END DO      
+         END DO
          CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS2,XX2,YK,DYDX)
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .         FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -759,19 +759,19 @@ C          ECROUISSAGE CINEMATIQUE
 C-----------------------------------------------
 C  Calcul de la tempurature. (conduction ou adiabatique)
 C--------------------    
-        DO I=1,NEL    
+        DO I=1,NEL
           COEF(I) = ONE
         END DO
 C
         IF(JTHE < 0 ) THEN
-         DO I=1,NEL     
+         DO I=1,NEL
            TEMP(I) = TEMPEL(I)
          ENDDO
         ELSE
          RHOCP=UPARAM(IADBUF+23)
          DO I=1,NEL
            TEMP(I) = UPARAM(IADBUF + 22)
-           TEMP(I) = TEMP(I) 
+           TEMP(I) = TEMP(I)
      .             + COEF(I)*RHOCP*EINT(I)/MAX(EM15,VOLUME(I))
          ENDDO
         ENDIF
@@ -784,7 +784,7 @@ C
           XX3(I,1)=PLA (I)
           XX3(I,2)=EPSP(I)*XFAC
           XX3(I,3)=TEMP(I)
-        END DO      
+        END DO
 C
         CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS3,XX3,YLD,DYDX)
 C
@@ -804,12 +804,12 @@ C
            XX3(I,1)=ZERO
            XX3(I,2)=EPSP(I)*XFAC
            XX3(I,3)=TEMP(I)
-         END DO      
+         END DO
          CALL TABLE_VINTERP(TABLE(ITABLE),NEL,IPOS3,XX3,YK,DYDX)
 
          DO I=1,NEL
 C          ECROUISSAGE CINEMATIQUE
-           YLD(I) = (ONE-FISOKIN) * YLD(I) + 
+           YLD(I) = (ONE-FISOKIN) * YLD(I) +
      .        FISOKIN * FAIL(I) * YFAC * YK(I)
            YLD(I) = MAX(YLD(I),EM20)
          ENDDO
@@ -820,9 +820,9 @@ C     PROJECTION
 C-------------------
       IF(IPLA==0)THEN
        DO I=1,NEL
-        CRI(I) = 
+        CRI(I) =
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
      .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
@@ -836,13 +836,13 @@ c        P = C1 * (RHO(I)/RHO0(I)- ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE - R)*CRI(I)/MAX(G3+H(I),EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) = (ONE - R)*CRI(I)/MAX(G3+H(I),EM20)         
+        DPLA(I) = (ONE - R)*CRI(I)/MAX(G3+H(I),EM20)
        ENDDO
       ELSEIF(IPLA==2)THEN
        DO I=1,NEL
-        CRI(I) = 
+        CRI(I) =
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
      .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
@@ -856,13 +856,13 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         SIGNZX(I)=SIGNZX(I)*R
         PLA(I)=PLA(I) + (ONE-R)*CRI(I)/MAX(G3,EM20)
         UVAR(I,1)=PLA(I)
-        DPLA(I) =  (ONE-R)*CRI(I)/MAX(G3,EM20)       
+        DPLA(I) =  (ONE-R)*CRI(I)/MAX(G3,EM20)
        ENDDO
       ELSEIF(IPLA==1)THEN
        DO I=1,NEL
-        CRI(I) = 
+        CRI(I) =
      .    FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+     .  + HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
      .  + TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
         CRI(I) = SQRT(CRI(I))
         R = MIN(ONE,YLD(I)/ MAX(CRI(I),EM20))
@@ -880,7 +880,7 @@ c        P = C1 * (RHO(I)/RHO0(I)-ONE)
         SIGNXY(I)=SIGNXY(I)*R
         SIGNYZ(I)=SIGNYZ(I)*R
         SIGNZX(I)=SIGNZX(I)*R
-        PLA(I)=PLA(I) + DPLA(I)     
+        PLA(I)=PLA(I) + DPLA(I)
         UVAR(I,1)=PLA(I)
        ENDDO
       ENDIF
@@ -890,7 +890,7 @@ C------------------------------------------
       IF (FISOKIN/=ZERO) THEN
         DO I=1,NEL
          P = C1 * (RHO(I)/RHO0(I)-ONE)
-         DSXX = SIGEXX(I) - SIGNXX(I) - P 
+         DSXX = SIGEXX(I) - SIGNXX(I) - P
          DSYY = SIGEYY(I) - SIGNYY(I) - P
          DSZZ = SIGEZZ(I) - SIGNZZ(I) - P
          DSXY = SIGEXY(I) - SIGNXY(I)
@@ -898,20 +898,20 @@ C------------------------------------------
          DSZX = SIGEZX(I) - SIGNZX(I)
 C        
          HKIN = TWO_THIRD*FISOKIN*H(I)
-         ALPHA = HKIN/(G2+HKIN)  
-         SIGPXX = ALPHA*DSXX 
+         ALPHA = HKIN/(G2+HKIN)
+         SIGPXX = ALPHA*DSXX
          SIGPYY = ALPHA*DSYY
-         SIGPZZ = ALPHA*DSZZ 
+         SIGPZZ = ALPHA*DSZZ
          SIGPXY = ALPHA*DSXY
          SIGPYZ = ALPHA*DSYZ
          SIGPZX = ALPHA*DSZX
 C        
-         UVAR(I, 5) = UVAR(I, 5) + SIGPXX 
+         UVAR(I, 5) = UVAR(I, 5) + SIGPXX
          UVAR(I, 6) = UVAR(I, 6) + SIGPYY
          UVAR(I, 7) = UVAR(I, 7) + SIGPZZ
          UVAR(I, 8) = UVAR(I, 8) + SIGPXY
          UVAR(I, 9) = UVAR(I, 9) + SIGPYZ
-         UVAR(I,10) = UVAR(I,10) + SIGPZX         
+         UVAR(I,10) = UVAR(I,10) + SIGPZX
 C         
          SIGNXX(I) = SIGNXX(I) + UVAR(I, 5)
          SIGNYY(I) = SIGNYY(I) + UVAR(I, 6)
@@ -965,9 +965,9 @@ C
 !!-------------------------
 !!      IF (ISEQ > 0) THEN
 !!        DO I=1,NEL
-!!          CRI(I) = 
+!!          CRI(I) =
 !!     .       FF*(SIGNYY(I) - SIGNZZ(I))**2 + GG*(SIGNZZ(I) - SIGNXX(I))**2
-!!     .    +  HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2 
+!!     .    +  HH*(SIGNXX(I) - SIGNYY(I))**2 + TWO*LL*SIGNYZ(I)**2
 !!     .    +  TWO*MM*SIGNZX(I)**2 + TWO*NN*SIGNXY(I)**2
 !!          SEQ_OUTPUT(I) = SQRT(CRI(I))
 !!        ENDDO

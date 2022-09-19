@@ -46,7 +46,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
       USE INTERFACE_MODIFICATION_MOD
 C----6---------------------------------------------------------------7---------8
 C   I m p l i c i t   T y p e s
@@ -78,7 +78,7 @@ C-----------------------------------------------
      .        ISENDTO(NINTER+1,*) ,IRCVFROM(NINTER+1,*),DELTA_PMAX_GAP_NODE(*),IDEL7NOK_SAV
 C     REAL
       my_real
-     .        DT2T, 
+     .        DT2T,
      .        XSLV(18,*), XMSR(12,*), VSLV(6,*), VMSR(6,*),
      .        SIZE_T(*), SENSOR(NSENSR,*),DELTA_PMAX_GAP(*),MAXDGAP(NINTER)
 
@@ -115,8 +115,8 @@ C
         INTERACT = 0
         ISENS = 0
         IF(NTY == 7.OR.NTY == 11.OR.NTY == 24.OR.NTY == 21.OR.
-     .     NTY == 5.OR.NTY == 19.OR.NTY == 25) ISENS = IPARI(64,I)      
-        IF(ISENS/=0) THEN             
+     .     NTY == 5.OR.NTY == 19.OR.NTY == 25) ISENS = IPARI(64,I)
+        IF(ISENS/=0) THEN
            TS = SENSOR(2,ISENS)
            IF (TT>=TS) INTERACT = 1
         ELSE
@@ -172,7 +172,7 @@ C
      4          ITAB)
             ELSEIF(NTY==11) THEN
               CALL SPMD_GET_STIF11(
-     1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1), 
+     1          NEWFRONT(I)  ,INTBUF_TAB(I)%I_STOK(1),
      2          INTBUF_TAB(I)%CAND_N,   INTBUF_TAB(I)%STFS,
      3          IPARI(3,I),I,ISENDTO,IRCVFROM,INTBUF_TAB(I)%IRECTS,
      4          ITAB)
@@ -239,7 +239,7 @@ C           DIST = -1
 C=======================================================================
         ELSEIF(NTY == 24)THEN
 C=======================================================================
-c  deplacement relatif 
+c  deplacement relatif
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
@@ -254,8 +254,8 @@ c         XZP = MAX(XSLV(15,I)-XMSR(6,I),XMSR(3,I)-XSLV(18,I),ZERO)
 c
 c        DEPLA_MAX = SQRT(XX**2+XY*2+XZ*2) + MAX(gap,pene-gap)
 c
-c        D0 = SQRT(XX**2+XY**2+XZ**2) 
-c        D1 = SQRT(XXG**2+XYG**2+XZG**2) 
+c        D0 = SQRT(XX**2+XY**2+XZ**2)
+c        D1 = SQRT(XXG**2+XYG**2+XZG**2)
 c        D2 = SQRT(XXP**2+XYP**2+XZP**2)
 c        D3 = XXG+XY+XZ
 c        D4 = XX+XYG+XZ
@@ -264,7 +264,7 @@ c        D6 = XXP+XY+XZ
 c        D7 = XX+XYP+XZ
 c        D8 = XX+XY+XZP
 c
-c        DEPLA_MAX + MAX(gap,pene-gap) < 
+c        DEPLA_MAX + MAX(gap,pene-gap) <
 c             min(D0+max(gapmax,penmax), max(D1,D2) , max(D3:D8))
 
          D0 = SQRT(XX**2+XY**2+XZ**2)
@@ -287,7 +287,7 @@ c         D8 = XX+XY+XZP
 
 C--------
 C
-c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
+c VMAXDT can be optimize : VMAXDT is a local overestimate of relative
 c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = ONEP01*VV*DT1
@@ -308,7 +308,7 @@ c
            IF(DEBUG(3)>=1) THEN
 
             IF(DELTA_PMAX_GAP_SAV(I) == DELTA_PMAX_GAP(I)) DELTA_PMAX_GAP_NOD=DELTA_PMAX_GAP_NODE(I)
-           
+
             WRITE(ISTDO,'(A,I10,A,I8,A,F20.10,A,F20.10,A,F20.10,A,
      .       F20.10,A,F14.7,A,F20.10,A,I10,A,I4)')
      .        '** NEW SORT INTERFACE ',IPARI(15,I),' CYCLE ',
@@ -328,7 +328,7 @@ c     .       F20.10,A,F14.7,A,F20.10,A,I4)')
 C=======================================================================
         ELSEIF(NTY == 25)THEN
 C=======================================================================
-c  deplacement relatif 
+c  deplacement relatif
          XX = MAX(XSLV(1,I)-XMSR(4,I),XMSR(1,I)-XSLV(4,I),ZERO)
          XY = MAX(XSLV(2,I)-XMSR(5,I),XMSR(2,I)-XSLV(5,I),ZERO)
          XZ = MAX(XSLV(3,I)-XMSR(6,I),XMSR(3,I)-XSLV(6,I),ZERO)
@@ -343,8 +343,8 @@ c        XZP = MAX(XSLV(15,I)-XMSR(6,I),XMSR(3,I)-XSLV(18,I),ZERO)
 c
 c        DEPLA_MAX = SQRT(XX**2+XY*2+XZ*2) + MAX(gap,pene-gap)
 c
-c        D0 = SQRT(XX**2+XY**2+XZ**2) 
-c        D1 = SQRT(XXG**2+XYG**2+XZG**2) 
+c        D0 = SQRT(XX**2+XY**2+XZ**2)
+c        D1 = SQRT(XXG**2+XYG**2+XZG**2)
 c        D2 = SQRT(XXP**2+XYP**2+XZP**2)
 c        D3 = XXG+XY+XZ
 c        D4 = XX+XYG+XZ
@@ -353,7 +353,7 @@ c        D6 = XXP+XY+XZ
 c        D7 = XX+XYP+XZ
 c        D8 = XX+XY+XZP
 c
-c        DEPLA_MAX + MAX(gap,pene-gap) < 
+c        DEPLA_MAX + MAX(gap,pene-gap) <
 c             min(D0+max(gapmax,penmax), max(D1,D2) , max(D3:D8))
 
          D0 = SQRT(XX**2+XY**2+XZ**2)
@@ -376,7 +376,7 @@ c         D8 = XX+XY+XZP
 
 C--------
 C
-c VMAXDT can be optimize : VMAXDT is a local overestimate of relative 
+c VMAXDT can be optimize : VMAXDT is a local overestimate of relative
 c velocity between local main nodes and ALL secnd nodes
 c (no need to communicate VMAXDT in SPMD)
          VMAXDT = ONEP01*VV*DT1
@@ -454,16 +454,16 @@ C--------
 C DIST = -1
            INTBUF_TAB(I)%VARIABLES(5) = -ONE
             IF(DEBUG(3)>=1.AND.NCYCLE/=0) THEN
-              WRITE(ISTDO,'(A,I10,A,I4,A,I8,A,I4,A,I4,A,F20.10,A,F20.10,A,F20.10)') 
+              WRITE(ISTDO,'(A,I10,A,I4,A,I8,A,I4,A,I4,A,F20.10,A,F20.10,A,F20.10)')
      .          '** NEW SORT FOR INTERFACE NUMBER ',
-     .          IPARI(15,I),' TYPE ',NTY, 
+     .          IPARI(15,I),' TYPE ',NTY,
      .          ' AT CYCLE ',NCYCLE,' ON PROC',ISPMD+1,' I19FLAG ',IPARI(7,I),
      .          ' DIST0 ',DIST0,' TZINF ',INTBUF_TAB(I)%VARIABLES(8),' GAP ',
      .          INTBUF_TAB(I)%VARIABLES(2)
-     
-              WRITE(IOUT,'(A,I10,A,I4,A,I8,A,I4,A,I4,A,F20.10,A,F20.10,A,F20.10)') 
+
+              WRITE(IOUT,'(A,I10,A,I4,A,I8,A,I4,A,I4,A,F20.10,A,F20.10,A,F20.10)')
      .          '** NEW SORT FOR INTERFACE NUMBER ',
-     .          IPARI(15,I),' TYPE ',NTY, 
+     .          IPARI(15,I),' TYPE ',NTY,
      .          ' AT CYCLE ',NCYCLE,' ON PROC',ISPMD+1,' I19FLAG ',IPARI(7,I),
      .          ' DIST0 ',DIST0,' TZINF ',INTBUF_TAB(I)%VARIABLES(8),' GAP ',
      .          INTBUF_TAB(I)%VARIABLES(2)

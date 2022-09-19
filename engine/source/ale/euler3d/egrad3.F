@@ -119,7 +119,7 @@ C     NORMAL VECTORS
 C------------------------------------------
       DO I=LFT,LLT
         II=I+NFT
-        
+
         N1X(I)=VEUL(14,II)
         N2X(I)=VEUL(15,II)
         N3X(I)=VEUL(16,II)

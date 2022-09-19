@@ -104,7 +104,7 @@ C---------------------------------------------
             SZ(I)= ZERO
             TX(I)= ZERO
             TY(I)= ZERO
-            TZ(I)= ONE    
+            TZ(I)= ONE
             ENDDO
           ENDIF
 C

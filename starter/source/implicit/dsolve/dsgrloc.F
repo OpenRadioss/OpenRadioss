@@ -53,7 +53,7 @@ C-----------------------------------------------
       INTEGER I, J, NDDL, NDDL_NEW, INO, NDF, NDI, JJ, NSLEVEL, NSDEC,
      .        DSLEN, NSDMAX, FAC, FAC2, NBSD, OFFSD, ISD, NMIN, NMAX,
      .        K, KK
-      INTEGER, ALLOCATABLE :: LSDDL_NEW(:,:), LSDDL_GLOB(:), 
+      INTEGER, ALLOCATABLE :: LSDDL_NEW(:,:), LSDDL_GLOB(:),
      .                        LSDDL_LOC(:), IFAC2(:)
 C
 C Nouvelle liste de ddls (locale au processeur)
@@ -128,4 +128,4 @@ C Memoire pour stockage des champs de deplacements
 C
       RETURN
       END
-            
+

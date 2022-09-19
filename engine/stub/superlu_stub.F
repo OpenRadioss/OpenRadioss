@@ -39,7 +39,7 @@ C-----------------------------------------------
 
             INTEGER :: IOPT,   N,      NNZ, NRHS, VALUE_OP(*),
      .                     ROWIND(*), COLPTR(*) , B,   LDB,
-     .                     PRSP,   INFLU 
+     .                     PRSP,   INFLU
             INTEGER(KIND=8) FACTORS(8)
 C-----------------------------------------------
             WRITE(6,*) "ERROR: SuperLU is no longer supported"

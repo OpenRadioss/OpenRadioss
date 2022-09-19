@@ -71,7 +71,7 @@ C     REAL
      .   T11,T22,T33,T12,T21,T23,T32,T13,T31,
      .   S11,S12,S21,S13,S31,S22,S23,S32,S33,
      .   CP ,SP
-      INTEGER NC1, NC2, NC3, NC4, 
+      INTEGER NC1, NC2, NC3, NC4,
      .        NC5, NC6, NC7, NC8
 C-----------------------------------------------
         NC1=IXS(2)
@@ -114,10 +114,10 @@ C-----------
 C        REPERE CONVECTE
          IF (KHBE==24.OR.KHBE==14) THEN
            CALL SORTHO31(
-     .          X1, X2, X3, X4, X5, X6, X7, X8,               
-     .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,               
-     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,               
-     .          R12, R13, R11, R22, R23, R21, R32, R33, R31)  
+     .          X1, X2, X3, X4, X5, X6, X7, X8,
+     .          Y1, Y2, Y3, Y4, Y5, Y6, Y7, Y8,
+     .          Z1, Z2, Z3, Z4, Z5, Z6, Z7, Z8,
+     .          R12, R13, R11, R22, R23, R21, R32, R33, R31)
          ELSE
            CALL SORTHO31(
      .          X1, X2, X3, X4, X5, X6, X7, X8,
@@ -159,14 +159,14 @@ C-----------
              T21=R13*CP-R12*SP
              T22=R23*CP-R22*SP
              T23=R33*CP-R32*SP
-          ENDIF         
+          ENDIF
           GAMA(1)=T11
           GAMA(2)=T12
           GAMA(3)=T13
           GAMA(4)=T21
           GAMA(5)=T22
           GAMA(6)=T23
-       ELSE 
+       ELSE
           G11=GAMA(1)
           G21=GAMA(2)
           G31=GAMA(3)

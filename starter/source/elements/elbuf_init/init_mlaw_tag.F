@@ -31,7 +31,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------        
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
         INTEGER I
 !   -----------------------------------------------
         DO I=1,MY_SIZE
-            MLAW_TAG(I)%G_GAMA = 0 
+            MLAW_TAG(I)%G_GAMA = 0
             MLAW_TAG(I)%G_EINT = 0
             MLAW_TAG(I)%G_EINS = 0
             MLAW_TAG(I)%G_RHO = 0
@@ -96,61 +96,61 @@ C-----------------------------------------------
             MLAW_TAG(I)%G_NUVAR = 0
             MLAW_TAG(I)%G_MASS = 0
             MLAW_TAG(I)%G_SKEW_ID = 0
-c           layer variables 
-c   
+c           layer variables
+c
             MLAW_TAG(I)%LY_DIRA = 0
 c
 c           local variables (per integration point)
-c   
+c
             MLAW_TAG(I)%L_GAMA = 0
-            MLAW_TAG(I)%L_EINT = 0  
-            MLAW_TAG(I)%L_EINS = 0  
-            MLAW_TAG(I)%L_RHO = 0   
-            MLAW_TAG(I)%L_DP_DRHO = 0            
-            MLAW_TAG(I)%L_STRA = 0     
+            MLAW_TAG(I)%L_EINT = 0
+            MLAW_TAG(I)%L_EINS = 0
+            MLAW_TAG(I)%L_RHO = 0
+            MLAW_TAG(I)%L_DP_DRHO = 0
+            MLAW_TAG(I)%L_STRA = 0
             MLAW_TAG(I)%L_DELTAX = 0
-            MLAW_TAG(I)%L_PLA = 0   
-            MLAW_TAG(I)%L_TB = 0    
-            MLAW_TAG(I)%L_RK = 0    
-            MLAW_TAG(I)%L_TEMP = 0  
-            MLAW_TAG(I)%L_EPSA = 0  
-            MLAW_TAG(I)%L_EPSD = 0  
-            MLAW_TAG(I)%L_EPSQ = 0  
-            MLAW_TAG(I)%L_EPSF = 0  
-            MLAW_TAG(I)%L_VK = 0    
-            MLAW_TAG(I)%L_SF = 0       
-            MLAW_TAG(I)%L_DAM = 0      
-            MLAW_TAG(I)%L_SIGL = 0     
-            MLAW_TAG(I)%L_SIGV = 0     
-            MLAW_TAG(I)%L_SIGA = 0     
-            MLAW_TAG(I)%L_SIGB = 0     
-            MLAW_TAG(I)%L_SIGC = 0     
-            MLAW_TAG(I)%L_SIGD = 0     
-            MLAW_TAG(I)%L_SIGF = 0     
-            MLAW_TAG(I)%L_RE = 0    
-            MLAW_TAG(I)%L_DSUM = 0     
-            MLAW_TAG(I)%L_ROB = 0   
-            MLAW_TAG(I)%L_DGLO = 0     
-            MLAW_TAG(I)%L_CRAK = 0    
-            MLAW_TAG(I)%L_ANG  = 0     
-            MLAW_TAG(I)%L_EPE  = 0     
-            MLAW_TAG(I)%L_EPC = 0      
-            MLAW_TAG(I)%L_XST = 0      
-            MLAW_TAG(I)%L_SSP = 0      
+            MLAW_TAG(I)%L_PLA = 0
+            MLAW_TAG(I)%L_TB = 0
+            MLAW_TAG(I)%L_RK = 0
+            MLAW_TAG(I)%L_TEMP = 0
+            MLAW_TAG(I)%L_EPSA = 0
+            MLAW_TAG(I)%L_EPSD = 0
+            MLAW_TAG(I)%L_EPSQ = 0
+            MLAW_TAG(I)%L_EPSF = 0
+            MLAW_TAG(I)%L_VK = 0
+            MLAW_TAG(I)%L_SF = 0
+            MLAW_TAG(I)%L_DAM = 0
+            MLAW_TAG(I)%L_SIGL = 0
+            MLAW_TAG(I)%L_SIGV = 0
+            MLAW_TAG(I)%L_SIGA = 0
+            MLAW_TAG(I)%L_SIGB = 0
+            MLAW_TAG(I)%L_SIGC = 0
+            MLAW_TAG(I)%L_SIGD = 0
+            MLAW_TAG(I)%L_SIGF = 0
+            MLAW_TAG(I)%L_RE = 0
+            MLAW_TAG(I)%L_DSUM = 0
+            MLAW_TAG(I)%L_ROB = 0
+            MLAW_TAG(I)%L_DGLO = 0
+            MLAW_TAG(I)%L_CRAK = 0
+            MLAW_TAG(I)%L_ANG  = 0
+            MLAW_TAG(I)%L_EPE  = 0
+            MLAW_TAG(I)%L_EPC = 0
+            MLAW_TAG(I)%L_XST = 0
+            MLAW_TAG(I)%L_SSP = 0
             MLAW_TAG(I)%L_Z = 0
-            MLAW_TAG(I)%L_FRAC  = 0       !    pourcentage de phase (multimat) 
+            MLAW_TAG(I)%L_FRAC  = 0       !    pourcentage de phase (multimat)
             MLAW_TAG(I)%L_BFRAC = 0
             MLAW_TAG(I)%L_DMG = 0
             MLAW_TAG(I)%L_ABURN = 0
             MLAW_TAG(I)%L_MU = 0
             MLAW_TAG(I)%L_PLANL  = 0
             MLAW_TAG(I)%L_EPSDNL = 0
-    
-c---    uvar            
-            MLAW_TAG(I)%NUVAR = 0           
-            MLAW_TAG(I)%NVARTMP = 0      
+
+c---    uvar
+            MLAW_TAG(I)%NUVAR = 0
+            MLAW_TAG(I)%NVARTMP = 0
             MLAW_TAG(I)%L_SEQ = 0      ! equivalent stress (/= VON MISES)
-            MLAW_TAG(I)%L_FAC_YLD = 0    
+            MLAW_TAG(I)%L_FAC_YLD = 0
         ENDDO
 !   -----------------------------------------------
         RETURN

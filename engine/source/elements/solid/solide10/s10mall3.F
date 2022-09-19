@@ -106,15 +106,15 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   OFFG(*),WXX(*),WYY(*),WZZ(*)
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .   SAV(NEL,30)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, N
 C     REAL
-      DOUBLE PRECISION 
-     .   X , Y, Z 
+      DOUBLE PRECISION
+     .   X , Y, Z
 C-----------------------------------------------
 C-----------------------------
 C     ROTATION RBY DES COORDONNEES POUR SMALL STRAIN
@@ -131,7 +131,7 @@ C-----------------------------------------------
             Z=SAV(I,N+20)
             SAV(I,N)	= X - Y*WZZ(I) + Z*WYY(I)
             SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
-            SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I) 
+            SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I)
           END DO
          ENDIF
         END DO
@@ -144,7 +144,7 @@ C-----------------------------------------------
             Z=SAV(I,N+20)
             SAV(I,N)	= X - Y*WZZ(I) + Z*WYY(I)
             SAV(I,N+10) = Y - Z*WXX(I) + X*WZZ(I)
-            SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I) 
+            SAV(I,N+20) = Z - X*WYY(I) + Y*WXX(I)
           END DO
          END IF!(OFFG(I)>ZERO) THEN
         END DO
@@ -160,7 +160,7 @@ Chd|-- calls ---------------
 Chd|        SMALLGEO3                     source/elements/solid/solide/small3.F
 Chd|====================================================================
       SUBROUTINE S10MALLGEO3(NGL, OFFG ,VOLN ,DELTAX, VOLG0 ,
-     .                       RX , RY , RZ , 
+     .                       RX , RY , RZ ,
      .                       SX , SY , SZ ,
      .                       TX , TY , TZ )
 C-----------------------------------------------
@@ -203,22 +203,22 @@ C
           A1Y = RZ(I)*SX(I)-RX(I)*SZ(I)
           A1Z = RX(I)*SY(I)-RY(I)*SX(I)
           A1 = A1X*A1X+A1Y*A1Y+A1Z*A1Z
-      
+
           A2X = SY(I)*TZ(I)-SZ(I)*TY(I)
           A2Y = SZ(I)*TX(I)-SX(I)*TZ(I)
           A2Z = SX(I)*TY(I)-SY(I)*TX(I)
           A2 = A2X*A2X+A2Y*A2Y+A2Z*A2Z
-      
+
           A3X = TY(I)*RZ(I)-TZ(I)*RY(I)
           A3Y = TZ(I)*RX(I)-TX(I)*RZ(I)
           A3Z = TX(I)*RY(I)-TY(I)*RX(I)
           A3 = A3X*A3X+A3Y*A3Y+A3Z*A3Z
-      
+
           A4X = A1X+A2X+A3X
           A4Y = A1Y+A2Y+A3Y
           A4Z = A1Z+A2Z+A3Z
           A4 = A4X*A4X+A4Y*A4Y+A4Z*A4Z
-      
+
           LC(I) = SIX*VOLG(I)/SQRT(MAX(A1,A2,A3,A4))
         END DO
       ELSE

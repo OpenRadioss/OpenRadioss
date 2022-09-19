@@ -157,10 +157,10 @@ C
       SCALEF = GET_U_GEO(11,IPROP)
 
       EPSI   = INT(GET_U_GEO(7,IPROP))
-      IFUNC1= GET_U_PNU(1,IPROP,KFUNC) 
-      IFUNC2= GET_U_PNU(2,IPROP,KFUNC) 
-      IFUNC3= GET_U_PNU(3,IPROP,KFUNC) 
-      IFUNC4= GET_U_PNU(4,IPROP,KFUNC) 
+      IFUNC1= GET_U_PNU(1,IPROP,KFUNC)
+      IFUNC2= GET_U_PNU(2,IPROP,KFUNC)
+      IFUNC3= GET_U_PNU(3,IPROP,KFUNC)
+      IFUNC4= GET_U_PNU(4,IPROP,KFUNC)
       IFUNC5= GET_U_PNU(5,IPROP,KFUNC)
 C 
       TT= GET_U_TIME()
@@ -173,7 +173,7 @@ C Loop over elements
       DO I=1,NEL
           DX = DT * VX(I)
           X = UVAR(1,I) + DX
-          UVAR(1,I) = X 
+          UVAR(1,I) = X
           NEWLEN = UVAR(3,I) + UVAR(1,I)!UVAR(3,I)=initial length of the spring at time=0
 C
           IF (EPSI == 0) THEN
@@ -191,11 +191,11 @@ C
 C Active force vs. time
           FUX1 = GET_U_FUNC(IFUNC1,TT,DXDY)
 C Active force vs. elongation
-          IF(EPSI/= 0)DELTALEN = DELTALEN / SCALEX 
+          IF(EPSI/= 0)DELTALEN = DELTALEN / SCALEX
           FUX2 = GET_U_FUNC(IFUNC2,DELTALEN,DXDY)
 C Active force vs. velocity
 C          FUX3 = GET_U_FUNC(IFUNC3,VX(I),DXDY)
-          DELTALENDOT = DELTALENDOT / SCALEV 
+          DELTALENDOT = DELTALENDOT / SCALEV
           FUX3 = GET_U_FUNC(IFUNC3,DELTALENDOT,DXDY)
 C Passive force vs. elongation
           FUX4 = GET_U_FUNC(IFUNC4,DELTALEN,DXDY)
@@ -222,7 +222,7 @@ C            WRITE(IOUT,*) 'Slope: FR_WAVE = ZERO'
             SLOPE = ELASTIF
           ENDIF
 C
-          
+
 C
           STIFM(I) = SLOPE
           STIFR(I) = ZERO

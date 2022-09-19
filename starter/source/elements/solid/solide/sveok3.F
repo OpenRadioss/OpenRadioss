@@ -28,7 +28,7 @@ Chd|        SINIT3                        source/elements/solid/solide/sinit3.F
 Chd|-- calls ---------------
 Chd|        CCOLI3                        source/elements/shell/coque/ccoli3.F
 Chd|====================================================================
-      SUBROUTINE SVEOK3(NVC,NOD, 
+      SUBROUTINE SVEOK3(NVC,NOD,
      .     IX1, IX2, IX3, IX4, IX5, IX6, IX7, IX8)
 C
 C-----------------------------------------------

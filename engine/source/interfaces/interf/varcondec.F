@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I,PDIX,CODVR 
+      INTEGER I,PDIX,CODVR
 C
       CODTOT=0
       PDIX=10**(LCONV-1)
@@ -57,6 +57,6 @@ C
       ENDDO
       RETURN
       END
-      
-              
-      
+
+
+

@@ -34,7 +34,7 @@ Chd|        PROGCOND_C                    source/system/progcond_c.c
 Chd|        DSGRAPH_MOD                   share/modules/dsgraph_mod.F   
 Chd|====================================================================
       SUBROUTINE DSCDKG(GRAPHE, K_DIAG, K_LT, IADK, JDIK,
-     .                  NDDL  ) 
+     .                  NDDL  )
 C-----------------------------------------------
 C   M o d u l e s 
 C-----------------------------------------------
@@ -95,16 +95,16 @@ C
                ISUPEL=ISUPEL+1
                ISTEP=1
                IF (IMACH/=3.AND.IPRIB==1) THEN
-                  CALL PROGCOND_C(ISUPEL, DSLEN, I, 
+                  CALL PROGCOND_C(ISUPEL, DSLEN, I,
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
                ELSEIF (IPRIB==1) THEN
 C On fait un affichage interactif de l'avancement des procs si NSPMD
 C est inferieur a 16 
 C On affiche rien sinon
-                  IF (NSPMD<=16) 
+                  IF (NSPMD<=16)
      .               CALL PROGCONDP_C(ISUPEL, DSLEN, ISPMD+1, ISD)
                ENDIF
-               IF (ILVL==1) THEN         
+               IF (ILVL==1) THEN
 C Condensation au niveau le plus bas : extraction de la rigidite geometrique
                   LEN1=NDDL_I+NDDL_F
                   ALLOCATE(KL(LEN1,LEN1))
@@ -133,13 +133,13 @@ C
 C
                ALLOCATE(KLB(NDDL_F,NDDL_F), KLC(NDDL_F,NDDL_I2),
      .                  KLI(NDDL_I2, NDDL_I2))
-               CALL DSEXTR3(KL,     KLB, KLC, KLI, NDDL_F, 
+               CALL DSEXTR3(KL,     KLB, KLC, KLI, NDDL_F,
      .                      NDDL_I2)
                DEALLOCATE(KL)
 C
                ISTEP=3
-               IF (IMACH/=3.AND.IPRIB==1) 
-     .            CALL PROGCOND_C(ISUPEL, DSLEN, I, 
+               IF (IMACH/=3.AND.IPRIB==1)
+     .            CALL PROGCOND_C(ISUPEL, DSLEN, I,
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
 C Chargement des modes
                NMDYN=GRAPHE(I)%DGRAPH(ISD)%NMDYN
@@ -176,7 +176,7 @@ C ecriture sur fichier acces direct a la place de la matrice de masse
                LEN1=(NDDL_F+NMDYN)*(NDDL_F+NMDYN+1)/2
                IREC=GRAPHE(I)%DGRAPH(ISD)%MREC
                CALL DSKGCOND(KLB,   KLC, KLI, NDDL_I2, NDDL_F,
-     .                       NMDYN, VS,  VD,  IFILE,   IREC, 
+     .                       NMDYN, VS,  VD,  IFILE,   IREC,
      .                       LEN1 )
 C
                DEALLOCATE(KLB, KLC, KLI, VS, VD)
@@ -259,7 +259,7 @@ C
      .   CALL DGEMM('T', 'N', NDF, NVD,  NDI,
      .              ONE,  VS,  NDI, KTMP, NRT,
      .              ONE,  KPC, NDF)
-         IF (NVD>0) 
+         IF (NVD>0)
      .   CALL DGEMM('T',  'N', NVD, NVD,  NDI,
      .              ONE,   VD,  NDI, KTMP, NRT,
      .              ZERO, KPI, NVD)
@@ -298,4 +298,4 @@ C
       DEALLOCATE(KTMP)
 C
       RETURN
-      END      
+      END

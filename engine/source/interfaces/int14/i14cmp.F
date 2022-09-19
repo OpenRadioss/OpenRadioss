@@ -35,7 +35,7 @@ Chd|        INTBUFDEF_MOD                 ../common_source/modules/intbufdef_mod
 Chd|====================================================================
       SUBROUTINE I14CMP(IPARI ,INTBUF_TAB ,IGRSURF ,BUFSF ,
      2            A ,X ,V ,WA ,FSAV ,
-     3            IN ,STIFN ,FCONT , MS ,FSKYI , 
+     3            IN ,STIFN ,FCONT , MS ,FSKYI ,
      4            ISKY ,NPC ,PLD   ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s

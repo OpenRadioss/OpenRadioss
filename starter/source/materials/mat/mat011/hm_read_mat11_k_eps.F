@@ -36,13 +36,13 @@ Chd|        ELBUFTAG_MOD                  share/modules1/elbuftag_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MAT11_K_EPS(LSUBMODEL, MTAG, UNITAB, IPM, PM, 
+      SUBROUTINE HM_READ_MAT11_K_EPS(LSUBMODEL, MTAG, UNITAB, IPM, PM,
      .     MAT_ID, TITR)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
+      USE ELBUFTAG_MOD
       USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)                          :: MAT_ID
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       TYPE(SUBMODEL_DATA), DIMENSION(*),INTENT(IN) :: LSUBMODEL
@@ -88,7 +88,7 @@ C-----------------------------------------------
       INTEGER ID,JTUR,IFK,IFS
       my_real
      .   GAM, VCRT2, GAMRP, GAM1, P0, C1, SSP2, EF,
-     .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP, 
+     .   RHO0, PSH, CARL, GAM2, E0, VCRT, RCRT, PCRT, SSP,
      .   T0, DC, ALP0, RHOC,
      .   TSCAL, TREF,GAMA,RHOR,
      .   FAC_LENGTH_, FAC_TIME_,
@@ -97,7 +97,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      
+
       IS_ENCRYPTED = .FALSE.
       IS_AVAILABLE = .FALSE.
       FAC_LENGTH_ = ONE
@@ -112,7 +112,7 @@ C     Initial and reference density
          RHOR = RHO0
       ENDIF
       PM(1) = RHOR
-      PM(89) = RHO0 
+      PM(89) = RHO0
       IS_BOUNDARY_MATERIAL = .TRUE.
 C    
       CARL     = ZERO
@@ -125,7 +125,7 @@ C
       C1       = ZERO
       SSP      = ZERO
       SSP2     = ZERO
-      EF       = ZERO 
+      EF       = ZERO
       E0       = ZERO
       DC       = ZERO
       RHOC     = ZERO
@@ -167,7 +167,7 @@ C     Switch according to input type
 
          CALL HM_GET_INTV('FUN_A2', IFP, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_PScale', P0, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          CALL HM_GET_INTV('FUN_A6', IFE, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_E0', E0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CASE (2)
@@ -175,7 +175,7 @@ C     Switch according to input type
 
          CALL HM_GET_INTV('FUN_A2', IFP, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_PScale', P0, IS_AVAILABLE, LSUBMODEL, UNITAB)
-         
+
          CALL HM_GET_INTV('FUN_A6', IFE, IS_AVAILABLE, LSUBMODEL)
          CALL HM_GET_FLOATV('MAT_E0', E0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CASE (3)
@@ -196,19 +196,19 @@ C     Switch according to input type
       END SELECT
 
       CALL HM_GET_INTV('Xt_fun', IFT, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV('Yt_fun', IFQ, IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV('Yt_fun', IFQ, IS_AVAILABLE, LSUBMODEL)
 
       !turbulency
       CALL HM_GET_FLOATV('RHO0_k0', RK0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('RHO0_EPS0', RE0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('funct_IDk', IFK, IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_INTV('fun_IDeps', IFS, IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV('fun_IDeps', IFS, IS_AVAILABLE, LSUBMODEL)
 
       CALL HM_GET_FLOATV('C_mu', CTM, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SIGMA_k', SK, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('SIGMA_EPS', SE, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Pr/Prt', RPR, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       JTUR=PM(70)
       !JTHE=PM(71)
 
@@ -243,12 +243,12 @@ C----------------------
       CASE DEFAULT
 C     Already exited at input reading
       END SELECT
-      IF(JTUR /= 0)THEN                                
-        IF(CTM==ZERO)CTM=NINEEM2                     
-        IF(SK==ZERO)SK=ONE                            
-        IF(SE==ZERO)SE=ONEP3                          
-        IF(RPR==ZERO)RPR=SEVEN_OVER_9                                                          
-      ENDIF  
+      IF(JTUR /= 0)THEN
+        IF(CTM==ZERO)CTM=NINEEM2
+        IF(SK==ZERO)SK=ONE
+        IF(SE==ZERO)SE=ONEP3
+        IF(RPR==ZERO)RPR=SEVEN_OVER_9
+      ENDIF
 C----------------------
 C     PRINTOUT
 C----------------------
@@ -277,12 +277,12 @@ C----------------------
 C     Already exited at input reading
          END SELECT
          IF(ITYP/=3)WRITE(IOUT,2001) IFT,IFQ
-         IF(JTUR /= 0)THEN                                
-           WRITE(IOUT,1500)RK0,RE0,IFK,IFS              
-           WRITE(IOUT,1600)CTM,SK,SE,RPR                
-         ENDIF            
+         IF(JTUR /= 0)THEN
+           WRITE(IOUT,1500)RK0,RE0,IFK,IFS
+           WRITE(IOUT,1600)CTM,SK,SE,RPR
+         ENDIF
       ENDIF
-     
+
 C----------------------
 C     STORAGE
 C----------------------
@@ -293,7 +293,7 @@ C----------------------
       IPM(15) = IFK
       IPM(16) = IFS
       IPM(17) = IFQ
-            
+
       PM(23)  = E0
       PM(25)  = GAM
       PM(27)  = VCRT2
@@ -309,12 +309,12 @@ C----------------------
       PM(51)  = INOD ! USR2SYS APRES FSDCOD, IF(IFORM8==2) INOD=USR2SYS(INOD,ITABM1,MESS)
       PM(79)  = T0
       PM(80)  = EP30
-      PM(81)  = CTM                                     
-      PM(85)  = SK                                      
-      PM(86)  = SE                                      
+      PM(81)  = CTM
+      PM(85)  = SK
+      PM(86)  = SE
       PM(87)  = RK0/RHO0
       PM(88)  = PSH
-      PM(95) = RPR 
+      PM(95) = RPR
       PM(97)  = RHOC
       PM(98)  = ALP0
       PM(99)  = DC+ONE
@@ -322,16 +322,16 @@ C----------------------
 C----------------------
 C     MATERIAL BUFFER
 C----------------------
-      MTAG%G_RK    = 1   
-      MTAG%G_RE    = 1   
-      MTAG%L_RK    = 1   ! NB10    
-      MTAG%L_TEMP  = 1   ! NB11 
-      MTAG%L_RE    = 1   ! NB12   
-      MTAG%L_VK    = 1   ! NB13   
-      MTAG%L_EINS  = 1   ! NB14   
+      MTAG%G_RK    = 1
+      MTAG%G_RE    = 1
+      MTAG%L_RK    = 1   ! NB10
+      MTAG%L_TEMP  = 1   ! NB11
+      MTAG%L_RE    = 1   ! NB12
+      MTAG%L_VK    = 1   ! NB13
+      MTAG%L_EINS  = 1   ! NB14
 C--------------------------------
       RETURN
-      
+
 C----------------------
 C     FORMAT
 C----------------------

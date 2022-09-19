@@ -34,7 +34,7 @@ C============================================================================
 C   M o d u l e s
 C-----------------------------------------------
       USE QA_OUT_MOD
-      USE INTBUF_FRIC_MOD                     
+      USE INTBUF_FRIC_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C
 
           CALL FRETITL2(TITR,NOM_OPT(LNOPT1-LTITR+1,MY_FRIC),LTITR)
 
-          MY_ID = NOM_OPT(1,INOM_OPT(29)+ MY_FRIC) 
+          MY_ID = NOM_OPT(1,INOM_OPT(29)+ MY_FRIC)
 
 
           IF(LEN_TRIM(TITR)/=0)THEN
@@ -90,24 +90,24 @@ C
           NSET = INTBUF_FRIC_TAB(MY_FRIC)%NSETPRTS
 
           WRITE(VARNAME,'(A)') 'NSETPRTS'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%NSETPRTS,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%NSETPRTS,0.0_8)
 
           WRITE(VARNAME,'(A)') 'FRICMOD'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD,0.0_8)
 
           WRITE(VARNAME,'(A)') 'FRICFORM'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%FRICFORM,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%FRICFORM,0.0_8)
 
           WRITE(VARNAME,'(A)') 'IFFILTER'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%IFFILTER,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%IFFILTER,0.0_8)
 
           WRITE(VARNAME,'(A)') 'S_TABPARTS_FRIC'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%S_TABPARTS_FRIC,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%S_TABPARTS_FRIC,0.0_8)
 
           IORTH = INTBUF_FRIC_TAB(MY_FRIC)%IORTHFRIC
 
           WRITE(VARNAME,'(A)') 'IORTHFRIC'
-          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%IORTHFRIC,0.0_8) 
+          CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%IORTHFRIC,0.0_8)
 
           WRITE(VARNAME,'(A)') 'XFILTR_FRIC'
           TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%XFILTR_FRIC
@@ -116,32 +116,32 @@ C
           IF(NSET > 0) THEN
             DO I=1,NSET
                WRITE(VARNAME,'(A,I0)') 'PART_COUPLE',I
-               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%TABCOUPLEPARTS_FRIC(I),0.0_8) 
+               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%TABCOUPLEPARTS_FRIC(I),0.0_8)
             ENDDO
 
             DO I=1,INTBUF_FRIC_TAB(MY_FRIC)%S_TABPARTS_FRIC
                WRITE(VARNAME,'(A,I0)') 'PART_FRIC',I
-               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%TABPARTS_FRIC(I),0.0_8) 
+               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%TABPARTS_FRIC(I),0.0_8)
             ENDDO
 
             DO I=1,INTBUF_FRIC_TAB(MY_FRIC)%S_TABPARTS_FRIC
                WRITE(VARNAME,'(A,I0)') 'AD_PART_FRIC',I
-               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%ADPARTS_FRIC(I),0.0_8) 
+               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%ADPARTS_FRIC(I),0.0_8)
             ENDDO
 
             DO I=1,NSET
                WRITE(VARNAME,'(A,I0)') 'IFRICORTH',I
-               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%IFRICORTH(I),0.0_8) 
+               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),INTBUF_FRIC_TAB(MY_FRIC)%IFRICORTH(I),0.0_8)
             ENDDO
-    
+
           ENDIF
 
-          IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD ==0 ) THEN   
-             LENC =2  
+          IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD ==0 ) THEN
+             LENC =2
           ELSE
              LENC = 8
           ENDIF
-          
+
           IF (IORTH == 0 ) THEN
              LENI    = 1
           ELSE
@@ -152,20 +152,20 @@ C
 C default values 
             WRITE(VARNAME,'(A,I0)') 'mu_def'
             TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(1)
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)   
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
             WRITE(VARNAME,'(A,I0)') 'Viscf_def'
             TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(2)
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE) 
-    
-            IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD > 0 ) THEN 
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
+
+            IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD > 0 ) THEN
                DO J=1,6
                   WRITE(VARNAME,'(A,I0,I0)') 'FRIC_COEF_def_',J,I
                   TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(2+J)
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                ENDDO
-             ENDIF  
-      
+             ENDIF
+
             DO I=1,NSET
 C             VARNAME: variable name in ref.extract (without blanks)
               IORTH = INTBUF_FRIC_TAB(MY_FRIC)%IFRICORTH(I)
@@ -178,13 +178,13 @@ C             VARNAME: variable name in ref.extract (without blanks)
                  TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(LENI*LENC*(I-1)+LENC+2)
                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
-                 IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD > 0 ) THEN 
+                 IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD > 0 ) THEN
                    DO J=1,6
                       WRITE(VARNAME,'(A,I0,I0)') 'FRIC_COEF_',J,I
                       TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(LENI*LENC*(I-1)+LENC+2+J)
                       CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                    ENDDO
-                 ENDIF  
+                 ENDIF
                ELSE
                  WRITE(VARNAME,'(A,I0)') 'mu_orth_1_',I
                  TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(LENI*LENC*(I-1)+LENC+1)
@@ -202,7 +202,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
                  TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(LENI*LENC*(I-1)+2*LENC+2)
                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
 
-                 IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD > 0 ) THEN 
+                 IF(INTBUF_FRIC_TAB(MY_FRIC)%FRICMOD > 0 ) THEN
                    DO J=1,6
                       WRITE(VARNAME,'(A,I0,I0)') 'FRIC_COEF_orth_1_',J,I
                       TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(LENI*LENC*(I-1)+LENC+2+J)
@@ -212,7 +212,7 @@ C             VARNAME: variable name in ref.extract (without blanks)
                       TEMP_DOUBLE = INTBUF_FRIC_TAB(MY_FRIC)%TABCOEF_FRIC(LENI*LENC*(I-1)+2*LENC+2+J)
                       CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,TEMP_DOUBLE)
                    ENDDO
-                 ENDIF  
+                 ENDIF
                ENDIF
 
             END DO
@@ -223,16 +223,16 @@ C
         IF(NPFRICORTH /=0) THEN
 
            WRITE(VARNAME,'(A)') 'NPFRICORTH'
-           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPFRICORTH,0.0_8) 
+           CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),NPFRICORTH,0.0_8)
 
            DO I=1,NPART
              WRITE(VARNAME,'(A,I0)') 'PFRICORTH',I
-             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PFRICORTH(I),0.0_8) 
+             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PFRICORTH(I),0.0_8)
            ENDDO
 
            DO I=1,NPFRICORTH
              WRITE(VARNAME,'(A,I0)') 'IREPFORTH',I
-             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IREPFORTH(I),0.0_8) 
+             CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),IREPFORTH(I),0.0_8)
            ENDDO
            DO I=1,3*NPFRICORTH
              WRITE(VARNAME,'(A,I0)') 'VFORTH',I

@@ -672,7 +672,7 @@ C-----------------------------------------------
       INTEGER IPOS(NEL0)
       my_real
      .   Y1(NEL0),Y2(NEL0),DYDX,X(NEL0),Y(NEL0),
-     .   V(NEL0) 
+     .   V(NEL0)
       INTEGER I,J1,J,J2,ICONT,J0,L,JJ
 C------postion pour x1-----
       IF (NEL0==0) RETURN
@@ -739,7 +739,7 @@ C
           ELSE
           END IF
         ENDDO
-      ENDDO        
+      ENDDO
 C------postion pour x2-----
       ICONT = 1
 C
@@ -766,11 +766,11 @@ C
          ENDIF
        ENDDO
 C
-      ENDDO    
+      ENDDO
 C------interpelation pour (d,v,a)--------
       DO I=1,NEL0
         J1   =IPOS(I)+IAD(I)
-        J2   = J1+1      
+        J2   = J1+1
         DYDX=(TF(2,J2)-TF(2,J1))/(TF(1,J2)-TF(1,J1))
         Y2(I)   = TF(2,J1) + DYDX*(X2(I)-TF(1,J1))
           IF (ITY(I)==2) THEN
@@ -2621,7 +2621,7 @@ C--------calculate Ud in global system (only SKEW is available w/ BCS
 C--------check compatibility--
             CALL FVBC_COMPA1(J1  ,K ,IFIX(IDDL(I)+1))
 C----------update ud first
-            IF (J>3) THEN 
+            IF (J>3) THEN
              DO K1=1,3
               RD(K1,I)=UDG(K1)
              END DO
@@ -3084,7 +3084,7 @@ C       change JBC,J1 to -->
 		 IF (JBC>3) J02 = J02 +3
          IFIX(J02)=8
          IFIX(JBC)=0
-         JBC = J02		 
+         JBC = J02		
 C		 
          J01=K+2
 		 IF (J01>3) J01 = J01 -3
@@ -3098,7 +3098,7 @@ C       change JBC to -->
 		 IF (JBC>3) J02 = J02 +3
          IFIX(J02)=8
          IFIX(JBC)=0
-         JBC = J02		 
+         JBC = J02		
         END IF
        ELSEIF (J01==K) THEN
 C       change J1 to -->
@@ -3246,7 +3246,7 @@ C
         DET = EI(2)*EJ(3)-EI(3)*EJ(2)
         UDG(2)=(EJ(3)*UDI-EI(3)*UDJ)/DET
         UDG(3)=(-EJ(2)*UDI+EI(2)*UDJ)/DET
-       ELSEIF (K == 2) THEN        
+       ELSEIF (K == 2) THEN
         DET = EI(1)*EJ(3)-EI(3)*EJ(1)
         UDG(1)=(EJ(3)*UDI-EI(3)*UDJ)/DET
         UDG(3)=(-EJ(1)*UDI+EI(1)*UDJ)/DET
@@ -3424,7 +3424,7 @@ C  Tag coulping FV-BCS
            ELSE
             IF (ICODT(I)>0) LJ(N)=-J1
            END IF !IF (J>3) THEN
-        
+
           END IF
         ENDIF
       ENDDO
@@ -3772,7 +3772,7 @@ C  Tag coulping FV-BCS
             IF (ICODR(I)>0) LJ(N)=-J1
            ELSE
             IF (ICODT(I)>0) LJ(N)=-J1
-           END IF !IF (J>3) THEN        
+           END IF !IF (J>3) THEN
           END IF
         ENDIF
       ENDDO
@@ -3853,7 +3853,7 @@ C--------calculate Ud in global system (only SKEW is available w/ BCS
 C--------check compatibility--
              CALL FVBC_COMPA1(J1  ,K ,IFIX)
 C----------update ud
-             IF (J>3) THEN 
+             IF (J>3) THEN
               DO K1=1,3
                RD(K1,I)=UDG(K1)
               END DO
@@ -3863,11 +3863,11 @@ C----------update ud
               END DO
              END IF
             END IF
-            IF (J>3) THEN 
+            IF (J>3) THEN
              ICODR1(I) = 0
             ELSE
              ICODT1(I) = 0
-            END IF 
+            END IF
 C-----case 1 Ud	 ---search first ICT 1,2,4  -> 2d ud, change for BCS--
            ELSEIF (ICTR==1 .OR.ICTR==2.OR.ICTR==4) THEN
 C--------termine independent dof K w/ fixing j1
@@ -3876,7 +3876,7 @@ C--------termine independent dof K w/ fixing j1
              CALL FVBC_COMPA0(J1  ,J1_1   ,IFIX ,K )
 C--------calculate Ud() free of K in global system update ud_i
             IF (IDONE == 1) THEN
-             CALL UDL2_UG2(J,ICTR,SKEW(1,ISK),UDL,UDG,K)			 
+             CALL UDL2_UG2(J,ICTR,SKEW(1,ISK),UDL,UDG,K)			
 C----------update ud
              IF (J>3) THEN
               RD(J1-1,I)=UDG(J1-1)
@@ -3885,13 +3885,13 @@ C----------update ud
               UD(J1,I)=UDG(J1)
               UD(J1_1,I)=UDG(J1_1)
              END IF
-            END IF 
+            END IF
 C-----------different than real BCS _local			
-            IF (J>3) THEN 
+            IF (J>3) THEN
              ICODR1(I) = -ICTR1
             ELSE
              ICODT1(I) = -ICTR1
-            END IF 
+            END IF
            END IF !(ICTR==3 .OR.ICTR==5.OR.ICTR==6)
          END IF !IF (NUD > 1) THEN
         ENDIF

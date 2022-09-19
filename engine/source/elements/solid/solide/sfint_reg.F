@@ -59,27 +59,27 @@ C-----------------------------------------------
       INTEGER, DIMENSION(NEL) :: NC1,NC2,NC3,NC4,NC5,NC6,NC7,NC8
       my_real, INTENT(INOUT)                     ::
      .  DT2T
-      my_real, DIMENSION(NEL), INTENT(IN) :: 
+      my_real, DIMENSION(NEL), INTENT(IN) ::
      .   VOL,OFF,VAR_REG,
      .   PX1,PX2,PX3,PX4,PY1,PY2,PY3,PY4,PZ1,PZ2,PZ3,PZ4
-      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG 
+      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,K,NNOD,N1,N2,N3,N4,N5,N6,N7,N8,L_NLOC
-      my_real 
+      my_real
      . DX, DY, DZ, L2,NTN,NTN_UNL,NTN_VNL,XI,NTVAR,A,
      . B1,B2,B3,B4,B5,B6,B7,B8,ZETA,SSPNL,DTNL,LE_MAX,
      . MAXSTIF
-      my_real, DIMENSION(NEL) :: 
+      my_real, DIMENSION(NEL) ::
      . F1,F2,F3,F4,F5,F6,F7,F8
-      my_real, DIMENSION(:) ,ALLOCATABLE   :: 
+      my_real, DIMENSION(:) ,ALLOCATABLE   ::
      . BTB11,BTB12,BTB13,BTB14,BTB22,BTB23,BTB24,
      . BTB33,BTB34,BTB44,STI1,STI2,STI3,STI4,STI5,
      . STI6,STI7,STI8
       INTEGER, DIMENSION(:), ALLOCATABLE   ::
      . POS1,POS2,POS3,POS4,POS5,POS6,POS7,POS8
-      my_real, POINTER, DIMENSION(:) :: 
+      my_real, POINTER, DIMENSION(:) ::
      . VNL,FNL,UNL,STIFNL,MASS,MASS0,VNL0
       ! Coefficient for non-local stability to take into account damping
       my_real, PARAMETER :: CDAMP = 0.7D0
@@ -133,13 +133,13 @@ c
         POS1(I) = NLOC_DMG%POSI(N1)
         POS2(I) = NLOC_DMG%POSI(N2)
         POS3(I) = NLOC_DMG%POSI(N3)
-        POS4(I) = NLOC_DMG%POSI(N4) 
+        POS4(I) = NLOC_DMG%POSI(N4)
         POS5(I) = NLOC_DMG%POSI(N5)
         POS6(I) = NLOC_DMG%POSI(N6)
         POS7(I) = NLOC_DMG%POSI(N7)
         POS8(I) = NLOC_DMG%POSI(N8)
-c 
-        ! Computation of the product BtxB 
+c
+        ! Computation of the product BtxB
         BTB11(I) = PX1(I)**2 + PY1(I)**2 + PZ1(I)**2
         BTB12(I) = PX1(I)*PX2(I) + PY1(I)*PY2(I) + PZ1(I)*PZ2(I)
         BTB13(I) = PX1(I)*PX3(I) + PY1(I)*PY3(I) + PZ1(I)*PZ3(I)
@@ -150,71 +150,71 @@ c
         BTB33(I) = PX3(I)**2 + PY3(I)**2 + PZ3(I)**2
         BTB34(I) = PX3(I)*PX4(I) + PY3(I)*PY4(I) + PZ3(I)*PZ4(I)
         BTB44(I) = PX4(I)**2 + PY4(I)**2 + PZ4(I)**2
-c        
+c
       ENDDO
-c      
+c
       !-----------------------------------------------------------------------
       ! Computation of non-local forces
       !-----------------------------------------------------------------------
       ! Loop over elements
 # include "vectorize.inc"
       DO I = 1, NEL
-c     
+c
         ! If the element is not broken, normal computation
-        IF (OFF(I) /= ZERO) THEN 
+        IF (OFF(I) /= ZERO) THEN
 c
           ! Computing the product NtN*UNL
           NTN_UNL = (UNL(POS1(I)) + UNL(POS2(I)) + UNL(POS3(I)) + UNL(POS4(I))
      .        +  UNL(POS5(I)) + UNL(POS6(I)) + UNL(POS7(I)) + UNL(POS8(I))) / NTN
-c        
+c
           ! Computing the product XDAMP*NtN*VNL
           NTN_VNL = (VNL(POS1(I)) + VNL(POS2(I)) + VNL(POS3(I)) + VNL(POS4(I))
      .        +  VNL(POS5(I)) + VNL(POS6(I)) + VNL(POS7(I)) + VNL(POS8(I))) / NTN
-          IF (NODADT > 0) THEN 
-            NTN_VNL = (SQRT(MASS(POS1(I))/MASS0(POS1(I)))*VNL(POS1(I)) + 
-     .                 SQRT(MASS(POS2(I))/MASS0(POS2(I)))*VNL(POS2(I)) + 
-     .                 SQRT(MASS(POS3(I))/MASS0(POS3(I)))*VNL(POS3(I)) + 
+          IF (NODADT > 0) THEN
+            NTN_VNL = (SQRT(MASS(POS1(I))/MASS0(POS1(I)))*VNL(POS1(I)) +
+     .                 SQRT(MASS(POS2(I))/MASS0(POS2(I)))*VNL(POS2(I)) +
+     .                 SQRT(MASS(POS3(I))/MASS0(POS3(I)))*VNL(POS3(I)) +
      .                 SQRT(MASS(POS4(I))/MASS0(POS4(I)))*VNL(POS4(I)) +
-     .                 SQRT(MASS(POS5(I))/MASS0(POS5(I)))*VNL(POS5(I)) + 
-     .                 SQRT(MASS(POS6(I))/MASS0(POS6(I)))*VNL(POS6(I)) + 
-     .                 SQRT(MASS(POS7(I))/MASS0(POS7(I)))*VNL(POS7(I)) + 
+     .                 SQRT(MASS(POS5(I))/MASS0(POS5(I)))*VNL(POS5(I)) +
+     .                 SQRT(MASS(POS6(I))/MASS0(POS6(I)))*VNL(POS6(I)) +
+     .                 SQRT(MASS(POS7(I))/MASS0(POS7(I)))*VNL(POS7(I)) +
      .                 SQRT(MASS(POS8(I))/MASS0(POS8(I)))*VNL(POS8(I))) / NTN
           ENDIF
-c        
+c
           ! Computation of the product LEN**2 * BtxB
-          B1 = L2 * VOL(I) * ( BTB11(I)*UNL(POS1(I)) + BTB12(I)*UNL(POS2(I)) 
+          B1 = L2 * VOL(I) * ( BTB11(I)*UNL(POS1(I)) + BTB12(I)*UNL(POS2(I))
      .     + BTB13(I)*UNL(POS3(I)) + BTB14(I)*UNL(POS4(I)) - BTB13(I)*UNL(POS5(I))
      .     - BTB14(I)*UNL(POS6(I)) - BTB11(I)*UNL(POS7(I)) - BTB12(I)*UNL(POS8(I)))
-c        
-          B2 = L2 * VOL(I) * ( BTB12(I)*UNL(POS1(I)) + BTB22(I)*UNL(POS2(I)) 
+c
+          B2 = L2 * VOL(I) * ( BTB12(I)*UNL(POS1(I)) + BTB22(I)*UNL(POS2(I))
      .     + BTB23(I)*UNL(POS3(I)) + BTB24(I)*UNL(POS4(I)) - BTB23(I)*UNL(POS5(I))
      .     - BTB24(I)*UNL(POS6(I)) - BTB12(I)*UNL(POS7(I)) - BTB22(I)*UNL(POS8(I)))
-c        
-          B3 = L2 * VOL(I) * ( BTB13(I)*UNL(POS1(I)) + BTB23(I)*UNL(POS2(I)) 
+c
+          B3 = L2 * VOL(I) * ( BTB13(I)*UNL(POS1(I)) + BTB23(I)*UNL(POS2(I))
      .     + BTB33(I)*UNL(POS3(I)) + BTB34(I)*UNL(POS4(I)) - BTB33(I)*UNL(POS5(I))
      .     - BTB34(I)*UNL(POS6(I)) - BTB13(I)*UNL(POS7(I)) - BTB23(I)*UNL(POS8(I)))
-c        
-          B4 = L2 * VOL(I) * ( BTB14(I)*UNL(POS1(I)) + BTB24(I)*UNL(POS2(I)) 
+c
+          B4 = L2 * VOL(I) * ( BTB14(I)*UNL(POS1(I)) + BTB24(I)*UNL(POS2(I))
      .     + BTB34(I)*UNL(POS3(I)) + BTB44(I)*UNL(POS4(I)) - BTB34(I)*UNL(POS5(I))
      .     - BTB44(I)*UNL(POS6(I)) - BTB14(I)*UNL(POS7(I)) - BTB24(I)*UNL(POS8(I)))
-c       
-          B5 = L2 * VOL(I) * ( -BTB13(I)*UNL(POS1(I)) - BTB23(I)*UNL(POS2(I)) 
+c
+          B5 = L2 * VOL(I) * ( -BTB13(I)*UNL(POS1(I)) - BTB23(I)*UNL(POS2(I))
      .     - BTB33(I)*UNL(POS3(I)) - BTB34(I)*UNL(POS4(I)) + BTB33(I)*UNL(POS5(I))
      .     + BTB34(I)*UNL(POS6(I)) + BTB13(I)*UNL(POS7(I)) + BTB23(I)*UNL(POS8(I)))
-c        
-          B6 = L2 * VOL(I) * ( -BTB14(I)*UNL(POS1(I)) - BTB24(I)*UNL(POS2(I)) 
+c
+          B6 = L2 * VOL(I) * ( -BTB14(I)*UNL(POS1(I)) - BTB24(I)*UNL(POS2(I))
      .     - BTB34(I)*UNL(POS3(I)) - BTB44(I)*UNL(POS4(I)) + BTB34(I)*UNL(POS5(I))
      .     + BTB44(I)*UNL(POS6(I)) + BTB14(I)*UNL(POS7(I)) + BTB24(I)*UNL(POS8(I)))
-c        
-          B7 = L2 * VOL(I) * ( -BTB11(I)*UNL(POS1(I)) - BTB12(I)*UNL(POS2(I)) 
+c
+          B7 = L2 * VOL(I) * ( -BTB11(I)*UNL(POS1(I)) - BTB12(I)*UNL(POS2(I))
      .     - BTB13(I)*UNL(POS3(I)) - BTB14(I)*UNL(POS4(I)) + BTB13(I)*UNL(POS5(I))
      .     + BTB14(I)*UNL(POS6(I)) + BTB11(I)*UNL(POS7(I)) + BTB12(I)*UNL(POS8(I)))
-c        
-          B8 = L2 * VOL(I) * ( -BTB12(I)*UNL(POS1(I)) - BTB22(I)*UNL(POS2(I)) 
-     .     - BTB23(I)*UNL(POS3(I)) - BTB24(I)*UNL(POS4(I)) + BTB23(I)*UNL(POS5(I))
-     .     + BTB24(I)*UNL(POS6(I)) + BTB12(I)*UNL(POS7(I)) + BTB22(I)*UNL(POS8(I)))       
 c
-          ! Multiplication by the volume of the element    
+          B8 = L2 * VOL(I) * ( -BTB12(I)*UNL(POS1(I)) - BTB22(I)*UNL(POS2(I))
+     .     - BTB23(I)*UNL(POS3(I)) - BTB24(I)*UNL(POS4(I)) + BTB23(I)*UNL(POS5(I))
+     .     + BTB24(I)*UNL(POS6(I)) + BTB12(I)*UNL(POS7(I)) + BTB22(I)*UNL(POS8(I)))
+c
+          ! Multiplication by the volume of the element
           NTN_UNL = NTN_UNL * VOL(I)
           NTN_VNL = NTN_VNL * XI * VOL(I)
 c
@@ -233,7 +233,7 @@ c
           F8(I) = A + B8
 c
           ! Computing nodal equivalent stiffness
-          IF (NODADT > 0) THEN 
+          IF (NODADT > 0) THEN
             STI1(I) = (ABS(L2*BTB11(I)  + ONE/NTN) + ABS(L2*BTB12(I)  + ONE/NTN) + ABS(L2*BTB13(I)  + ONE/NTN) +
      .                 ABS(L2*BTB14(I)  + ONE/NTN) + ABS(-L2*BTB13(I) + ONE/NTN) + ABS(-L2*BTB14(I) + ONE/NTN) +
      .                 ABS(-L2*BTB11(I) + ONE/NTN) + ABS(-L2*BTB12(I) + ONE/NTN))*VOL(I)
@@ -254,16 +254,16 @@ c
      .                 ABS(L2*BTB14(I)  + ONE/NTN) + ABS(L2*BTB24(I)  + ONE/NTN))*VOL(I)
             STI7(I) = (ABS(-L2*BTB11(I) + ONE/NTN) + ABS(-L2*BTB12(I) + ONE/NTN) + ABS(-L2*BTB13(I) + ONE/NTN) +
      .                 ABS(-L2*BTB14(I) + ONE/NTN) + ABS(L2*BTB13(I)  + ONE/NTN) + ABS(L2*BTB14(I) + ONE/NTN)  +
-     .                 ABS(L2*BTB11(I)  + ONE/NTN) + ABS(L2*BTB12(I)  + ONE/NTN))*VOL(I)     
+     .                 ABS(L2*BTB11(I)  + ONE/NTN) + ABS(L2*BTB12(I)  + ONE/NTN))*VOL(I)
             STI8(I) = (ABS(-L2*BTB12(I) + ONE/NTN) + ABS(-L2*BTB22(I) + ONE/NTN) + ABS(-L2*BTB23(I) + ONE/NTN) +
      .                 ABS(-L2*BTB24(I) + ONE/NTN) + ABS(L2*BTB23(I)  + ONE/NTN) + ABS(L2*BTB24(I) + ONE/NTN)  +
      .                 ABS(L2*BTB12(I)  + ONE/NTN) + ABS(L2*BTB22(I)  + ONE/NTN))*VOL(I)
           ENDIF
-c            
-        ! If the element is broken, the non-local wave is absorbed  
+c
+        ! If the element is broken, the non-local wave is absorbed
         ELSE
           IF (NODADT > 0) THEN
-     
+
             ! Non-local absorbing forces
             F1(I) = SQRT(MASS(POS1(I))/MASS0(POS1(I)))*ZETA*SSPNL*HALF*
      .                                (VNL(POS1(I))+VNL0(POS1(I)))*(THREE/FOUR)*(LE_MAX**2)
@@ -299,19 +299,19 @@ c
             F5(I) = ZETA*SSPNL*HALF*(VNL(POS5(I))+VNL0(POS5(I)))*(THREE/FOUR)*(LE_MAX**2)
             F6(I) = ZETA*SSPNL*HALF*(VNL(POS6(I))+VNL0(POS6(I)))*(THREE/FOUR)*(LE_MAX**2)
             F7(I) = ZETA*SSPNL*HALF*(VNL(POS7(I))+VNL0(POS7(I)))*(THREE/FOUR)*(LE_MAX**2)
-            F8(I) = ZETA*SSPNL*HALF*(VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LE_MAX**2)          
+            F8(I) = ZETA*SSPNL*HALF*(VNL(POS8(I))+VNL0(POS8(I)))*(THREE/FOUR)*(LE_MAX**2)
           ENDIF
         ENDIF
       ENDDO
 c-----------------------------------------------------------------------
-c     Assemblage       
+c     Assemblage
 c-----------------------------------------------------------------------
       ! If PARITH/OFF
-      IF (IPARIT == 0) THEN 
+      IF (IPARIT == 0) THEN
         FNL => NLOC_DMG%FNL(1:L_NLOC,ITASK+1)
         IF (NODADT > 0) STIFNL => NLOC_DMG%STIFNL(1:L_NLOC,ITASK+1) ! Non-local equivalent nodal stiffness
         DO I=1,NEL
-          ! Assembling the forces in the classic way 
+          ! Assembling the forces in the classic way
           FNL(POS1(I)) = FNL(POS1(I)) - F1(I)
           FNL(POS2(I)) = FNL(POS2(I)) - F2(I)
           FNL(POS3(I)) = FNL(POS3(I)) - F3(I)
@@ -319,7 +319,7 @@ c-----------------------------------------------------------------------
           FNL(POS5(I)) = FNL(POS5(I)) - F5(I)
           FNL(POS6(I)) = FNL(POS6(I)) - F6(I)
           FNL(POS7(I)) = FNL(POS7(I)) - F7(I)
-          FNL(POS8(I)) = FNL(POS8(I)) - F8(I)     
+          FNL(POS8(I)) = FNL(POS8(I)) - F8(I)
           IF (NODADT > 0) THEN
             ! Spectral radius of stiffness matrix
             MAXSTIF = MAX(STI1(I),STI2(I),STI3(I),STI4(I),STI5(I),STI6(I),STI7(I),STI8(I))
@@ -345,7 +345,7 @@ c
           IF (NODADT > 0) THEN
             MAXSTIF = MAX(STI1(I),STI2(I),STI3(I),STI4(I),STI5(I),STI6(I),STI7(I),STI8(I))
           ENDIF
-c            
+c
           K = NLOC_DMG%IADS(1,II)
           NLOC_DMG%FSKY(K,1) = -F1(I)
           IF (NODADT > 0) NLOC_DMG%STSKY(K,1) = MAXSTIF
@@ -380,7 +380,7 @@ c
 c
         ENDDO
       ENDIF
-c      
+c
       !-----------------------------------------------------------------------
       ! Computing non-local timestep
       !-----------------------------------------------------------------------
@@ -403,25 +403,25 @@ c
       IF (ALLOCATED(BTB13)) DEALLOCATE(BTB13)
       IF (ALLOCATED(BTB14)) DEALLOCATE(BTB14)
       IF (ALLOCATED(BTB22)) DEALLOCATE(BTB22)
-      IF (ALLOCATED(BTB23)) DEALLOCATE(BTB23)      
+      IF (ALLOCATED(BTB23)) DEALLOCATE(BTB23)
       IF (ALLOCATED(BTB24)) DEALLOCATE(BTB24)
       IF (ALLOCATED(BTB33)) DEALLOCATE(BTB33)
       IF (ALLOCATED(BTB34)) DEALLOCATE(BTB34)
       IF (ALLOCATED(BTB44)) DEALLOCATE(BTB44)
       IF (ALLOCATED(POS1))  DEALLOCATE(POS1)
-      IF (ALLOCATED(POS2))  DEALLOCATE(POS2) 
+      IF (ALLOCATED(POS2))  DEALLOCATE(POS2)
       IF (ALLOCATED(POS3))  DEALLOCATE(POS3)
-      IF (ALLOCATED(POS4))  DEALLOCATE(POS4) 
+      IF (ALLOCATED(POS4))  DEALLOCATE(POS4)
       IF (ALLOCATED(POS5))  DEALLOCATE(POS5)
-      IF (ALLOCATED(POS6))  DEALLOCATE(POS6) 
+      IF (ALLOCATED(POS6))  DEALLOCATE(POS6)
       IF (ALLOCATED(POS7))  DEALLOCATE(POS7)
       IF (ALLOCATED(POS8))  DEALLOCATE(POS8)
       IF (ALLOCATED(STI1))  DEALLOCATE(STI1)
-      IF (ALLOCATED(STI2))  DEALLOCATE(STI2) 
+      IF (ALLOCATED(STI2))  DEALLOCATE(STI2)
       IF (ALLOCATED(STI3))  DEALLOCATE(STI3)
-      IF (ALLOCATED(STI4))  DEALLOCATE(STI4) 
+      IF (ALLOCATED(STI4))  DEALLOCATE(STI4)
       IF (ALLOCATED(STI5))  DEALLOCATE(STI5)
-      IF (ALLOCATED(STI6))  DEALLOCATE(STI6) 
+      IF (ALLOCATED(STI6))  DEALLOCATE(STI6)
       IF (ALLOCATED(STI7))  DEALLOCATE(STI7)
       IF (ALLOCATED(STI8))  DEALLOCATE(STI8)
 c-----------

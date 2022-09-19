@@ -113,7 +113,7 @@ Chd|====================================================================
      K            DMELC   ,JSMS    ,TABLE  ,IPARG   ,LSENSOR ,
      L            SENSOR  ,MSZ2    ,CONDN  ,CONDNSKY,ISUBSTACK,
      M            STACK ,
-     O            DRAPE_Q4   ,NEL    ,NLOC_DMG,VPINCH, 
+     O            DRAPE_Q4   ,NEL    ,NLOC_DMG,VPINCH,
      P            FPINCH  ,STIFPINCH)
 C-----------------------------------------------
 C   M o d u l e s
@@ -122,8 +122,8 @@ C-----------------------------------------------
       USE ELBUFDEF_MOD
       USE STACK_MOD
       USE FAILWAVE_MOD
-      USE MATPARAM_DEF_MOD        
-      USE NLOCAL_REG_MOD    
+      USE MATPARAM_DEF_MOD
+      USE NLOCAL_REG_MOD
       USE PINCH_LOCAL_MOD
       USE DRAPE_MOD
 C-----------------------------------------------
@@ -168,28 +168,28 @@ C     REAL OU REAL*8
      .   M21(MVSIZ), M22(MVSIZ), M23(MVSIZ), M24(MVSIZ),
      .   M31(MVSIZ), M32(MVSIZ), M33(MVSIZ), M34(MVSIZ),
      .   TF(*),   PM(NPROPM,*),GEO(NPROPG,*),PARTSAV(*),
-     .   BUFMAT(*),   X(3,*),       D(*),     DR(*),  
+     .   BUFMAT(*),   X(3,*),       D(*),     DR(*),
      .   V(3,*),VR(3,*),F(3,*),M(3,*),STIFN(*),
      .   STIFR(*),FSKY(*),TANI(6,*),EANI(*),THKE(*),TEMP(*),
      .   FTHE(*),FTHESKY(*),IN(*),MS(*),MS_PLY(*), ZI_PLY(*),
      .   GRESAV(*), MSC(*), DMELC(*),SENSOR(NSENSR,*),MSZ2(*),
      .   CONDN(*),CONDNSKY(*),
      .   FPINCH(3,*),STIFPINCH(*),VPINCH(3,*)
-      my_real    
-     .   TT, DT1, DT2T 
+      my_real
+     .   TT, DT1, DT2T
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
-      TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG 
+      TYPE (NLOCAL_STR_), TARGET :: NLOC_DMG
       TYPE (DRAPE_) :: DRAPE_Q4
       TYPE (MATPARAM_STRUCT_) , DIMENSION(NUMMAT) :: MATPARAM_TAB
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
-      INTEGER 
-     .   I,II,J,JJ,JG,IR,IS,IT,IPT,NPTR,NPTS,NPTT,NLAY,MX, 
+      INTEGER
+     .   I,II,J,JJ,JG,IR,IS,IT,IPT,NPTR,NPTS,NPTT,NLAY,MX,
      .   NPLAT,IDRIL,LENE,LENF,LENM,LENS,NNOD,N1,N2,N3,N4,
      .   NG,NPG,PT1,PT2,PT3,PT4,PTF,PTM,PTE,PTS,L_DIRA,L_DIRB,
      .   IPPID,JPID,IPTHK,IPPOS,IPMAT,IPMAT_IPLY,MATLY,IFAILWAVE,
@@ -200,7 +200,7 @@ C-----------------------------------------------
      .   IPLAT(MVSIZ),ISTACK(MVSIZ,NPT),FWAVE_EL(NEL)
       PARAMETER (NPG = 4)
       PARAMETER (NNOD = 4)
-      my_real 
+      my_real
      .   RXYZ(MVSIZ,2*NNOD),
      .   VCORE(MVSIZ,3*NNOD),VXYZ(MVSIZ,3*NNOD),OFF(MVSIZ),
      .   VQN(MVSIZ,9*NNOD),VQG(MVSIZ,9*NNOD),VNRM(MVSIZ,3*NNOD),
@@ -208,10 +208,10 @@ C-----------------------------------------------
      .   BC(MVSIZ,10*NNOD),VQ(MVSIZ,9),VJFI(MVSIZ,6,4),
      .   TC(MVSIZ,4),JAC(MVSIZ,NPG),HX(MVSIZ,NPG),HY(MVSIZ,NPG),
      .   VETA(4,NPG),VKSI(4,NPG),VF(MVSIZ,12),VM(MVSIZ,8),
-     .   VASTN(MVSIZ,4*NNOD),AREA(MVSIZ),                   
-     .   LC(MVSIZ),VDEF(MVSIZ,8),CDET(MVSIZ),THK2(MVSIZ),   
+     .   VASTN(MVSIZ,4*NNOD),AREA(MVSIZ),
+     .   LC(MVSIZ),VDEF(MVSIZ,8),CDET(MVSIZ),THK2(MVSIZ),
      .   EXX(MVSIZ) ,EYY(MVSIZ) ,EXY(MVSIZ)   ,EXZ(MVSIZ) ,EYZ(MVSIZ),
-     .   KXX(MVSIZ) ,KYY(MVSIZ) ,KXY(MVSIZ)   ,SIGY(MVSIZ), 
+     .   KXX(MVSIZ) ,KYY(MVSIZ) ,KXY(MVSIZ)   ,SIGY(MVSIZ),
      .   DT1C(MVSIZ),SSP(MVSIZ) ,VISCMX(MVSIZ),RHO(MVSIZ) ,
      .   NU(MVSIZ)  ,G(MVSIZ)   ,A11(MVSIZ)   ,A12(MVSIZ) ,VOL0(MVSIZ),
      .   THK0(MVSIZ),STI(MVSIZ) ,STIR(MVSIZ)  ,SHF(MVSIZ) ,
@@ -224,7 +224,7 @@ C-----------------------------------------------
      .   FLY12(MVSIZ, NPT), FLY22(MVSIZ, NPT), FLY32(MVSIZ, NPT),
      .   FLY13(MVSIZ, NPT), FLY23(MVSIZ, NPT), FLY33(MVSIZ, NPT),
      .   FLY14(MVSIZ, NPT), FLY24(MVSIZ, NPT), FLY34(MVSIZ, NPT),
-     .   PLY_EXX(MVSIZ,NPT), PLY_EYY(MVSIZ,NPT), PLY_EXY(MVSIZ,NPT), 
+     .   PLY_EXX(MVSIZ,NPT), PLY_EYY(MVSIZ,NPT), PLY_EXY(MVSIZ,NPT),
      .   PLY_EZX(MVSIZ,NPT), PLY_EYZ(MVSIZ,NPT), PLY_FN(MVSIZ,12,NPT),
      .   THKLY(MVSIZ,NPT),VOL0_LY(MVSIZ,NPT),POSLY(MVSIZ,NPT),
      .   DEL_PLY(MVSIZ,12,NPT),TH_IPLY(MVSIZ,NPT),
@@ -242,16 +242,16 @@ C-----------------------------------------------
      .   CONDE(MVSIZ),A11R(MVSIZ),
      .   VL1(MVSIZ,3),VL2(MVSIZ,3),VL3(MVSIZ,3),VL4(MVSIZ,3),
      .   XL2(MVSIZ),XL3(MVSIZ),XL4(MVSIZ),YL2(MVSIZ),YL3(MVSIZ),YL4(MVSIZ),
-     .   VDEFPINCH(MVSIZ,3), VPINCHXYZ(MVSIZ,NNOD), BCP(MVSIZ,2*NNOD), 
+     .   VDEFPINCH(MVSIZ,3), VPINCHXYZ(MVSIZ,NNOD), BCP(MVSIZ,2*NNOD),
      .   BP(MVSIZ,NNOD), TNPG(MVSIZ,NNOD,NPG), VFPINCH(MVSIZ,4), FACP(MVSIZ),
      .   E, ANU, A11PINCH, FP(MVSIZ,3,4),
      .   VPINCHT1(MVSIZ,NNOD),VPINCHT2(MVSIZ,NNOD),DBETADXY(MVSIZ,3),
      .   BPINCHDAMP(MVSIZ,8),VFPINCHDAMPX(MVSIZ,4),VFPINCHDAMPY(MVSIZ,4),
      .   EZZAVG(MVSIZ),AREAPINCH(MVSIZ),ZLA(MVSIZ)
-      INTEGER 
+      INTEGER
      .   NPLATT,PTW ,LENW,PTT,IPOUT
       INTEGER  IPLATT(MVSIZ)
-      my_real 
+      my_real
      .   VCORET(MVSIZ,3*NNOD),BMT(MVSIZ,9*NNOD),VQGT(MVSIZ,9*NNOD),
      .   VJFIT(MVSIZ,6,4),JACT(MVSIZ,NPG),HXT(MVSIZ,NPG),HYT(MVSIZ,NPG),
      .   AREAT(MVSIZ),X13T(MVSIZ) ,Y13T(MVSIZ), X24T(MVSIZ),Y24T(MVSIZ),
@@ -272,13 +272,13 @@ C-----------------------------------------------
       TARGET :: DIRA,DIRB
       INTEGER :: NDDL, NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), NC4(MVSIZ),
      .           INLOC
-      my_real, 
+      my_real,
      .   DIMENSION(:,:), ALLOCATABLE :: VAR_REG
 C-------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3,LBUF4     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF 
-      TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL    
+      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3,LBUF4
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
+      TYPE(PINCH_LOCAL_STRUCT_) :: PINCH_LOCAL
 C=======================================================================
 C     INITIALISATION
 C--------------------------
@@ -313,10 +313,10 @@ C
       ENDDO
       IF (NPT == 0) NPTTOT = NPT  !  compatibility with global integration
 C
-!-------------------------------------------      
+!-------------------------------------------
 ! Tableau pour la variable non-locale
       NDDL = NPTTOT
-      ALLOCATE(VAR_REG(NEL,NDDL)) 
+      ALLOCATE(VAR_REG(NEL,NDDL))
 !-------------------------------------------
 C
 c--------------------------------------------
@@ -330,7 +330,7 @@ c--------------------------------------------
           DO J=1,NEL
             OFFLY(J) = MAX(OFFLY(J), ELBUF_STR%BUFLY(I)%OFF(J))
           ENDDO
-        ENDDO        
+        ENDDO
         DADV => GBUF%DMG
         CALL SET_FAILWAVE_SH4N(FAILWAVE    ,FWAVE_EL ,DADV     ,
      .       NEL      ,IXC      ,ITAB      ,NGL      ,OFFLY    )
@@ -387,8 +387,8 @@ C initiallisation pour la thermique ---
           THEM(I,3) = ZERO
           THEM(I,4) = ZERO
           TEMPEL(I) = ZERO
-         ENDDO 
-       ENDIF  
+         ENDDO
+       ENDIF
 C
        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
          ALLOCATE(PLAPT_LAY(MVSIZ,NLAY,NPG))
@@ -413,7 +413,7 @@ C--------------------------
      .              VR,IXC,PM,GBUF%OFF,LC,
      1              AREA,VXYZ, RXYZ,VCORE,JAC,HX,HY,VKSI,VETA,
      2              VQN,VQG,VQ,VJFI,VNRM,VASTN,NPLAT,IPLAT,
-     3              X13  ,X24  ,Y13,Y24,OFF, DD,NLAY, 
+     3              X13  ,X24  ,Y13,Y24,OFF, DD,NLAY,
      4              IREP,NPTTOT,ISMSTR,NEL     ,IDRIL ,
      5              GBUF%SMSTR,DIR_A,DIR_B,FACN,ZL,
      6              R11   ,R12   ,R13   ,R21   ,R22   ,R23   ,
@@ -433,53 +433,53 @@ C
 C
        IF(NPINCH > 0) THEN
          CALL CBACOORPINCH(
-     1                     TNPG    ,VPINCHXYZ ,VPINCH , 
+     1                     TNPG    ,VPINCHXYZ ,VPINCH ,
      2                     VQ      ,VQN       ,IXC  ,JFT  ,JLT   ,
      3                     NPLAT   ,IPLAT     ,GBUF%THK   ,DT1C  ,
      4                     FACP    ,LC        ,
-     5                     VPINCHT1,VPINCHT2)  
+     5                     VPINCHT1,VPINCHT2)
 
          DO I=JFT,JLT
            EZZAVG(I) = FOURTH*(VPINCHXYZ(I,1)+VPINCHXYZ(I,2)+VPINCHXYZ(I,3)+VPINCHXYZ(I,4))*DT1C(I)
            AREAPINCH(I) = AREA(I)
-         ENDDO     
-       ENDIF 
+         ENDDO
+       ENDIF
 C
         IF(ISHPLYXFEM > 0)  THEN
            DO J=1,NPT
              DO I=JFT,JLT
-               PLY_FN(I,1:12,J) = ZERO 
+               PLY_FN(I,1:12,J) = ZERO
                VFI(I,1:12,J) = ZERO
                OFFI(I,J) = ONE
              ENDDO
-           ENDDO 
-           IPPID   = 2                      
+           ENDDO
+           IPPID   = 2
            IPMAT   = IPPID + NPT
-           IPMAT_IPLY = IPMAT  + NPT           
-           IPANG  =  1                      
-           IPTHK  =  IPANG + NPT               
-           IPPOS  =  IPTHK + NPT               
-           DO J=1,NPT                       
-              DO I=JFT,JLT  
+           IPMAT_IPLY = IPMAT  + NPT
+           IPANG  =  1
+           IPTHK  =  IPANG + NPT
+           IPPOS  =  IPTHK + NPT
+           DO J=1,NPT
+              DO I=JFT,JLT
                 THKLY(I,J) = STACK%GEO(IPTHK + J ,ISUBSTACK)*THK0(I)
                 MATLY = STACK%IGEO(IPMAT + J ,ISUBSTACK)
                 JPID =  STACK%IGEO(IPPID + J, ISUBSTACK)
                 ISTACK(I,J) =  IGEO(102  ,JPID)
-                POSLY(I,J) = STACK%GEO(IPPOS + J ,ISUBSTACK)*THK0(I) 
+                POSLY(I,J) = STACK%GEO(IPPOS + J ,ISUBSTACK)*THK0(I)
                 A11_PLY(I,J) = PM(24,MATLY)
-              ENDDO  
-           ENDDO  
-           DO J=1,NPT -1  
-               DO I=JFT,JLT  
+              ENDDO
+           ENDDO
+           DO J=1,NPT -1
+               DO I=JFT,JLT
                  TH_IPLY(I,J) = HALF*(THKLY(I,J) + THKLY(I,J +1 ))
                  MAT_IPLY(I,J) = STACK%IGEO(IPMAT_IPLY + J ,ISUBSTACK)
-               ENDDO                                 
-           ENDDO 
+               ENDDO
+           ENDDO
 C    
           CALL CBAVIT_PLY(JFT,JLT,IXC,GBUF%OFF,OFF,NPLAT,IPLAT,NPT,
      1                 VCORE,DD,ZL,VQ , PLY_VXYZ,X13  ,X24  ,
      2                 Y13,Y24,AREA  ,INOD_PXFEM ,DEL_PLY,VNI,ISTACK,VR)
-     
+
         ENDIF
 C  
        IF (IDRIL > 0) THEN
@@ -498,16 +498,16 @@ C-------------assumed membrane shear strain-----------------
      .                VDEF  ,GBUF%FOR ,GBUF%EINT ,DT1   ,NEL )
        END IF !(IDRIL > 0) THEN
 C            
-       IF(ISHPLYXFEM > 0) 
+       IF(ISHPLYXFEM > 0)
      .   CALL CBADEFSH_PLY(JFT,JLT,NPT,NPLAT,IPLAT,X13,X24,Y13,Y24,
-     .                   PLY_VXYZ,DT1C ,PLY_EXY)        
+     .                   PLY_VXYZ,DT1C ,PLY_EXY)
 C-----------------------------------------------
 C     BOUCLE SUR POINTS D'INTEGRATION DE GAUSS
 C-----------------------------------------------
       LENF = NEL*GBUF%G_FORPG/NPG
       LENM = NEL*GBUF%G_MOMPG/NPG
 C
-      IF (NPINCH > 0) THEN      
+      IF (NPINCH > 0) THEN
         LENFPINCH = NEL*GBUF%G_FORPGPINCH/NPG
         LENMPINCH = NEL*GBUF%G_MOMPGPINCH/NPG
         LENEPINCHXZ = NEL*GBUF%G_EPGPINCHXZ/NPG
@@ -584,12 +584,12 @@ c-------- can extent the off later
           CDET(I) = JAC(I,NG)
           VOL0(I) = THK0(I)*CDET(I)
         ENDDO
-         IF(ISHPLYXFEM > 0)  THEN        
+         IF(ISHPLYXFEM > 0)  THEN
            DO J=1,NPT
              DO I=JFT,JLT
                OFFI(I,J) = ONE
              ENDDO
-           ENDDO 
+           ENDDO
          ENDIF
 C-----------------------------------------------
 C       DEFORMATIONS, MATRICE [B]
@@ -603,7 +603,7 @@ C----
      1                    VXYZ,RXYZ,VDEF,VNRM,VASTN,
      2                    HX,HY,VETA,VKSI,BM,BMF,BF,BC,TC,NPLAT,IPLAT,
      3                    IDRIL,BRZ )
-         IF (ISMSTR == 10 ) 
+         IF (ISMSTR == 10 )
      1    CALL CBADEFTW(JFT,JLT,VXYZ,RXYZ,
      2                   BM,BMF,BF,NPLAT,IPLAT,
      3                   WXY )
@@ -627,8 +627,8 @@ C----------------------------------
 C       CALCUL DES DEFORMATIONS 
 C----------------------------------
         CALL CBASTRA3(GBUF%STRA,GBUF%STRPG(PTS),
-     1             JFT, JLT, NFT, NPG,VDEF, 
-     2             EXX, EYY, EXY, EXZ,  EYZ,  
+     1             JFT, JLT, NFT, NPG,VDEF,
+     2             EXX, EYY, EXY, EXZ,  EYZ,
      3             KXX, KYY, KXY, DT1C, TANI,
      4             IEPSDOT, ISTRAIN,UX1 ,UX2 ,UX3 ,
      6             UX4    ,UY1    ,UY2 ,UY3 ,UY4 ,
@@ -639,26 +639,26 @@ C
         IF (IDRIL == 0) THEN
           CALL CBAENER(GBUF%FORPG(PTF),GBUF%EINT,JFT  ,JLT    ,OFF   ,
      .                 VOL0           ,EXY      ,NEL  )
-        ENDIF 
-        IF (ISHPLYXFEM > 0 ) THEN 
-          DO J=1,NPT                                          
-            JG = (NG - 1)*3                                  
-            DO I=JFT,JLT                                      
-               DELG_PLY(I,1,J) = DEL_PLY(I,1 + JG ,J)         
-               DELG_PLY(I,2,J) = DEL_PLY(I,2 + JG ,J)         
-               DELG_PLY(I,3,J) = DEL_PLY(I,3 + JG ,J)         
-            ENDDO                                             
-          ENDDO                                               
+        ENDIF
+        IF (ISHPLYXFEM > 0 ) THEN
+          DO J=1,NPT
+            JG = (NG - 1)*3
+            DO I=JFT,JLT
+               DELG_PLY(I,1,J) = DEL_PLY(I,1 + JG ,J)
+               DELG_PLY(I,2,J) = DEL_PLY(I,2 + JG ,J)
+               DELG_PLY(I,3,J) = DEL_PLY(I,3 + JG ,J)
+            ENDDO
+          ENDDO
 C        
-          CALL CBADEF_PLY(JFT,JLT,NG,NPT,NPLAT,IPLAT, VQG,    
-     .                   PLY_VXYZ,VETA,VKSI,BM,BC,TC,DT1C,    
-     .                   PLY_EXX, PLY_EYY, PLY_EYZ, PLY_EZX ) 
-        ENDIF   
+          CALL CBADEF_PLY(JFT,JLT,NG,NPT,NPLAT,IPLAT, VQG,
+     .                   PLY_VXYZ,VETA,VKSI,BM,BC,TC,DT1C,
+     .                   PLY_EXX, PLY_EYY, PLY_EYZ, PLY_EZX )
+        ENDIF
 C
         IF(NPINCH > 0) THEN
 C
           NG = NPTR*(IS-1) + IR
-          PTFP = (NG-1)*LENFPINCH + 1 
+          PTFP = (NG-1)*LENFPINCH + 1
           PTMP = (NG-1)*LENMPINCH + 1
           PTEPXZ = (NG-1)*LENEPINCHXZ + 1
           PTEPYZ = (NG-1)*LENEPINCHYZ + 1
@@ -673,7 +673,7 @@ C
      6                       GBUF%EPGPINCHYZ(PTEPYZ),
      7                       GBUF%EPGPINCHZZ(PTEPZZ)  )
 C
-        ENDIF 
+        ENDIF
 C
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         IF (JTHE > 0 ) THEN
@@ -746,7 +746,7 @@ C-----------------
      M    DIR1_CRK  ,DIR2_CRK  ,LC        ,
      N    ISMSTR    ,IR        ,IS        ,NLAY      ,NPT       ,
      O    IBID      ,IBID      ,ISUBSTACK ,STACK     ,
-     P    F_DEF(1,1,NG),ITASK  ,DRAPE_Q4     ,VAR_REG(1,1),NLOC_DMG)        
+     P    F_DEF(1,1,NG),ITASK  ,DRAPE_Q4     ,VAR_REG(1,1),NLOC_DMG)
         ENDIF
 
 C-----------------
@@ -779,7 +779,7 @@ C       FORCES INTERNES
 C----------------------------
         IF (NPTTOT == 1) THEN
           CALL CBAFORI1(JFT   ,JLT   ,GBUF%FORPG(PTF),BM  ,VF  ,
-     .                  NPLAT ,IPLAT ,VOL0           ,NEL ) 
+     .                  NPLAT ,IPLAT ,VOL0           ,NEL )
         ELSE
           CALL CBAFORI(JFT  ,JLT            ,NG             ,CDET ,THK0,
      2                 THK2 ,GBUF%FORPG(PTF),GBUF%MOMPG(PTM),NEL  ,BM  ,
@@ -787,10 +787,10 @@ C----------------------------
      4                 VM   ,NPLAT          ,IPLAT          ,VOL0 )
         END IF !(NPT == 1) THEN
 C
-        IF (IDRIL > 0) THEN                                           
+        IF (IDRIL > 0) THEN
           CALL CBAFORRZ(JFT  ,JLT  ,VOL0     ,GBUF%FORPG(PTF),GBUF%HOURG,
-     2                  VF   ,VMZ  ,BM       ,BMRZ           ,BRZ       ,                
-     3                  KRZ  ,VRLZ ,GBUF%EINT,OFF            ,DT1C      ,              
+     2                  VF   ,VMZ  ,BM       ,BMRZ           ,BRZ       ,
+     3                  KRZ  ,VRLZ ,GBUF%EINT,OFF            ,DT1C      ,
      4                  NPLAT,IPLAT,NG       ,NEL)
         END IF
 C
@@ -800,10 +800,10 @@ C
      2                        PLY_FN ,VFI,IXC)
 
         IF (NPINCH > 0) THEN
-          CALL CBAFORIPINCH( 
-     1                      JFT   ,JLT   ,NG   ,NEL   ,NPLAT ,IPLAT ,  
+          CALL CBAFORIPINCH(
+     1                      JFT   ,JLT   ,NG   ,NEL   ,NPLAT ,IPLAT ,
      2                      CDET  ,THK0  ,THK2 ,VOL0  ,
-     3                      GBUF%FORPGPINCH(PTFP) , GBUF%MOMPGPINCH(PTMP), 
+     3                      GBUF%FORPGPINCH(PTFP) , GBUF%MOMPGPINCH(PTMP),
      4                      BCP   ,BP    ,VFPINCH ,DBETADXY,
      5                      RHO   ,LC    ,SSP     ,BPINCHDAMP,
      6                      VFPINCHDAMPX ,VFPINCHDAMPY)
@@ -814,25 +814,25 @@ C--------------------------
 C
          IF (JTHE > 0) THEN
           CALL CBATHERM(JFT   ,JLT   ,PM     ,MAT     ,THK0  ,IXC     ,
-     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,DIE   , 
-     .                  NPLAT  ,IPLAT,THEM    ) 
+     .                  BM    ,AREA  ,DT1C   ,TEMP    ,TEMPEL,DIE   ,
+     .                  NPLAT  ,IPLAT,THEM    )
          ENDIF
 c-------------------------
-c     Virtual internal forces of regularized non local ddl 
+c     Virtual internal forces of regularized non local ddl
 c--------------------------
          IF (INLOC > 0) THEN
            CALL CBAFINT_REG(NLOC_DMG,VAR_REG(1,1)     ,THK0    ,
      .                      NEL     ,GBUF%OFF,AREA    ,NC1     ,
      .                      NC2     ,NC3     ,NC4     ,
-     .                      ELBUF_STR%NLOC(IR,IS), 
+     .                      ELBUF_STR%NLOC(IR,IS),
      .                      IXC(1,JFT),NDDL  ,ITASK   ,
      .                      NG      ,JFT     ,JLT     ,X13     ,
      .                      Y13     ,X24     ,Y24     ,DT2T    )
-         ENDIF 
+         ENDIF
        ENDDO  ! NPTR
       ENDDO  ! NPTS
-    
-c      IF( ISHPLYXFEM > 0 )  
+
+c      IF( ISHPLYXFEM > 0 )
 c     .    CALL CBAFREL_PLY(JFT,JLT,NPT,THKLY,PLY_FN,IXC,
 c     .                       INOD_PXFEM,ISTACK,ZI_PLY,MS_PLY,VFI)
 C---------------------------------------
@@ -851,7 +851,7 @@ C----
                 NG = NPTR*(IS-1) + IR
                 DO I=JFT,JLT
                   IF (BUFLY%L_PLA > 0) THEN
-                    PLAPT_LAY(I,ILAY,NG) = PLAPT_LAY(I,ILAY,NG) + 
+                    PLAPT_LAY(I,ILAY,NG) = PLAPT_LAY(I,ILAY,NG) +
      .                                     BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
                   ELSE
                     PLAPT_LAY(I,ILAY,NG) = ZERO
@@ -859,7 +859,7 @@ C----
                   II = (I-1)*5
                   DO J=1,5
                     JJ = II+J
-                    SIGPT_LAY(JJ,ILAY,NG) = SIGPT_LAY(JJ,ILAY,NG) + 
+                    SIGPT_LAY(JJ,ILAY,NG) = SIGPT_LAY(JJ,ILAY,NG) +
      .                                      BUFLY%LBUF(IR,IS,IT)%SIG(KK(J)+I)/NPTT
                   ENDDO
                 ENDDO
@@ -872,7 +872,7 @@ C
       IF (NPINCH > 0) THEN
         CALL CBAPINCHTHK(
      1                   JFT   ,JLT   ,NPLAT  ,IPLAT  ,
-     2                   DT1C  ,GBUF%THK      ,THK0   ,EZZPG)          
+     2                   DT1C  ,GBUF%THK      ,THK0   ,EZZPG)
       ENDIF
 C
 C----
@@ -914,7 +914,7 @@ C---
           DO IPT = 1,NLAY
             BUFLY => ELBUF_STR%BUFLY(IPT)
             IF (BUFLY%L_PLA > 0) THEN
-              DO I=JFT,JLT  
+              DO I=JFT,JLT
                 BUFLY%PLAPT(I) = FOURTH*(PLAPT_LAY(I,IPT,1) + PLAPT_LAY(I,IPT,2) +
      .                                  PLAPT_LAY(I,IPT,3) + PLAPT_LAY(I,IPT,4))
               ENDDO
@@ -928,7 +928,7 @@ C---
               LBUF2 => ELBUF_STR%BUFLY(IPT)%LBUF(2,1,1)
               LBUF3 => ELBUF_STR%BUFLY(IPT)%LBUF(1,2,1)
               LBUF4 => ELBUF_STR%BUFLY(IPT)%LBUF(2,2,1)
-              DO I=JFT,JLT  
+              DO I=JFT,JLT
                 BUFLY%PLAPT(I) = FOURTH*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                  LBUF3%PLA(I) + LBUF4%PLA(I))
               ENDDO
@@ -944,7 +944,7 @@ C---
             LBUF3 => ELBUF_STR%BUFLY(1)%LBUF(1,2,IPT)
             LBUF4 => ELBUF_STR%BUFLY(1)%LBUF(2,2,IPT)
             II = (IPT-1)*NEL
-            DO I=JFT,JLT                                                 
+            DO I=JFT,JLT
               BUFLY%PLAPT(II+I) = FOURTH*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                   LBUF3%PLA(I) + LBUF4%PLA(I))
             ENDDO
@@ -998,7 +998,7 @@ C---
           ENDDO
         ENDDO
       ENDIF !  IF (NLAY > 1) THEN
-c------------------------------      
+c------------------------------
 C     membrane shear traitement
       IF (IDRIL == 0) THEN
         CALL CBAFORCT(JFT     ,JLT  ,VOLG    ,X13  ,X24  ,
@@ -1027,7 +1027,7 @@ C----------------------------
      6            M14    ,M21    ,M22    ,M23    ,M24   ,
      7            M31    ,M32    ,M33    ,M34    ,VCORE ,
      8            DD     ,VMZ    ,IDRIL  ,OFF    )
-      IF( ISHPLYXFEM > 0 ) CALL CBAPROJ_PLY(  
+      IF( ISHPLYXFEM > 0 ) CALL CBAPROJ_PLY(
      1            JFT   ,JLT   ,NPT     ,NPLAT  ,IPLAT ,VQN,
      2            VQ    ,PLY_FN ,VFI     ,VCORE  ,DD    ,
      6            FLY11  ,FLY12  ,FLY13 ,FLY14  ,FLY21  ,
@@ -1069,26 +1069,26 @@ C
           E = PM(20,MX)
           ANU = PM(21,MX)
           A11PINCH = E / (ONE-TWO*ANU)
-        ENDIF                
+        ENDIF
 C          
         CALL CNDT3PINCH(
-     1        JFT    ,JLT    ,OFF      , DT2T   ,AMU     ,            
-     2        NELTST ,ITYPTST,STI      , STIR   ,GBUF%OFF,   
-     3        SSP    ,VISCMX  ,RHO     , VOLG   ,THK0,THK2,  
-     4        A11    ,LC   ,ALPE       , NGL    ,ISMSTR,     
-     5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,     
-     6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,     
+     1        JFT    ,JLT    ,OFF      , DT2T   ,AMU     ,
+     2        NELTST ,ITYPTST,STI      , STIR   ,GBUF%OFF,
+     3        SSP    ,VISCMX  ,RHO     , VOLG   ,THK0,THK2,
+     4        A11    ,LC   ,ALPE       , NGL    ,ISMSTR,
+     5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,
+     6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT, A11PINCH)
 C
       ELSE
 C
         CALL CNDT3(
-     1        JFT    ,JLT    ,OFF      , DT2T   ,AMU     ,            
-     2        NELTST ,ITYPTST,STI      , STIR   ,GBUF%OFF,   
-     3        SSP    ,VISCMX  ,RHO     , VOLG   ,THK0,THK2,  
-     4        A11    ,LC   ,ALPE       , NGL    ,ISMSTR,     
-     5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,     
-     6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,     
+     1        JFT    ,JLT    ,OFF      , DT2T   ,AMU     ,
+     2        NELTST ,ITYPTST,STI      , STIR   ,GBUF%OFF,
+     3        SSP    ,VISCMX  ,RHO     , VOLG   ,THK0,THK2,
+     4        A11    ,LC   ,ALPE       , NGL    ,ISMSTR,
+     5        IOFC   ,NNOD   ,AREA     , G      ,SHF   ,
+     6        MSC    ,DMELC  ,JSMS     , BID    ,IGTYP ,
      7        IGMAT  ,A11R   ,GBUF%G_DT, GBUF%DT)
 C
       ENDIF
@@ -1098,26 +1098,26 @@ C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
            CALL DTTHERM(JFT     ,JLT    ,PM    ,TEMPEL,GBUF%RE,
      2                  RHO     ,GBUF%RK,VOL0  ,LC    ,MAT    ,
-     3                  DT_THERM,OFF,CONDE) 
-         ENDIF 
+     3                  DT_THERM,OFF,CONDE)
+         ENDIF
 C 
-      IF(ISHPLYXFEM > 0) THEN                                     
-        CALL CNDT_PLY(                                            
-     .     JFT  ,JLT   ,NPT,OFF  , LC  ,AREA ,THKLY,              
-     .     TH_IPLY    ,A11_PLY ,A11_IPLY,STI_PLY , OFFI,VISCMX)   
-      ENDIF   
+      IF(ISHPLYXFEM > 0) THEN
+        CALL CNDT_PLY(
+     .     JFT  ,JLT   ,NPT,OFF  , LC  ,AREA ,THKLY,
+     .     TH_IPLY    ,A11_PLY ,A11_IPLY,STI_PLY , OFFI,VISCMX)
+      ENDIF
 C--------------------------
 C     NON-LOCAL TIME STEP
 C--------------------------
       IF (INLOC > 0) THEN
         CALL DTCBA_REG(NLOC_DMG,THK0       ,NEL     ,GBUF%OFF,
      .                 LC      ,IXC(1,JFT) ,NDDL    ,DT2T    )
-      ENDIF 
+      ENDIF
 C--------------------------
 C     ASSEMBLE
 C--------------------------
       IF(IPARIT == 3)THEN
-        CALL CUPDT3F(JFT    ,JLT  ,F   ,M   ,NVC  , 
+        CALL CUPDT3F(JFT    ,JLT  ,F   ,M   ,NVC  ,
      2            GBUF%OFF,OFF  ,STI ,STIR,STIFN,
      3            STIFR  ,IXC  ,PM  ,AREA ,GBUF%THK,
      4            F11    ,F12  ,F13 ,F14 ,F21  ,
@@ -1127,7 +1127,7 @@ C--------------------------
      8            M31    ,M32  ,M33 ,M34 ,GBUF%EINT,
      9            PARTSAV,MAT ,IPARTC)
       ELSEIF(IPARIT == 0)THEN
-        CALL CUPDTN3(JFT   ,JLT  ,F   ,M   ,NVC  , 
+        CALL CUPDTN3(JFT   ,JLT  ,F   ,M   ,NVC  ,
      2            GBUF%OFF,OFF  ,STI ,STIR,STIFN,
      3            STIFR  ,IXC   ,PM  ,AREA ,GBUF%THK,
      4            F11    ,F12   ,F13 ,F14 ,F21  ,
@@ -1164,10 +1164,10 @@ C
      4            FLY11 ,FLY12 ,FLY13  ,FLY14 , FLY21 , FLY22 ,
      5            FLY23 ,FLY24 ,FLY31 ,FLY32 , FLY33  ,FLY34 ,
      6            FACN  ,STI_PLY,MSZ2)
-      ENDIF  
+      ENDIF
 C------------
-      IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
+      IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)
+      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
       IF (ALLOCATED(PLAPT_LAY)) DEALLOCATE(PLAPT_LAY)
       IF (ALLOCATED(SIGPT_LAY)) DEALLOCATE(SIGPT_LAY)
       IF (ALLOCATED(VAR_REG))   DEALLOCATE(VAR_REG)

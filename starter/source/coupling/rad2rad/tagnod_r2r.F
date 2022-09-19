@@ -126,19 +126,19 @@ C----------> TAG_EL is transfered to IPARTE-------------
       ELSEIF (FLAG==3) THEN
 
 C-----FLAG = 3 : tag of additional nodes of springs---------
-      
+
         DO J=1,NUMEL
           IF (TAGBUF(IPARTE(J))==1) THEN
-            DO L=NIX1,NIX2    
-              IF (IX(L,J)>0) THEN	    
-                IF (TAGBUF(IX(L,J)+NPART)<1) THEN 
+            DO L=NIX1,NIX2
+              IF (IX(L,J)>0) THEN	
+                IF (TAGBUF(IX(L,J)+NPART)<1) THEN
 	          TAGBUF(IX(L,J)+NPART)=1
                 ENDIF
-	      ENDIF	    	   
+	      ENDIF	    	
             ENDDO
 	  ENDIF
         ENDDO
- 
+
          DO J=1,NUMEL
           IF (TAGBUF(IPARTE(J))==0) THEN
             DO L=NIX1,NIX2
@@ -146,39 +146,39 @@ C-----FLAG = 3 : tag of additional nodes of springs---------
                 IF (TAGBUF(IX(L,J)+NPART)==0) THEN
 	          TAGBUF(IX(L,J)+NPART)=-1			        				
                 ENDIF
-	      ENDIF	    	   
+	      ENDIF	    	
             ENDDO
 	  ENDIF
         ENDDO
 
       ELSEIF ((FLAG==4).AND.(NUMEL>0)) THEN
-      
+
 C-----FLAG = 4 : tag of additional nodes of kjoints----------
-      
+
         NUM_KJ = IX(1,NUMEL+1)
-        
+
         DO J=1,NUM_KJ
-          RES = IX(5,J)                   
+          RES = IX(5,J)
           IF (TAGBUF(IPARTE(RES))==1) THEN
-            DO L=NIX1,NIX2    
-              IF (IX(L,J)>0) THEN	    
-                IF (TAGBUF(IX(L,J)+NPART)<1) THEN 
+            DO L=NIX1,NIX2
+              IF (IX(L,J)>0) THEN	
+                IF (TAGBUF(IX(L,J)+NPART)<1) THEN
 	          TAGBUF(IX(L,J)+NPART)=1
                 ENDIF
-	      ENDIF	    	   
+	      ENDIF	    	
             ENDDO
 	  ENDIF
         ENDDO
- 
+
         DO J=1,NUM_KJ
-          RES = IX(5,J)         
+          RES = IX(5,J)
           IF (TAGBUF(IPARTE(RES))==0) THEN
             DO L=NIX1,NIX2
               IF (IX(L,J)>0) THEN	          	    	
                 IF (TAGBUF(IX(L,J)+NPART)==0) THEN
 	          TAGBUF(IX(L,J)+NPART)= -1			        				
                 ENDIF
-	      ENDIF	    	   
+	      ENDIF	    	
             ENDDO
 	  ENDIF
         ENDDO

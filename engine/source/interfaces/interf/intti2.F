@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE INTBUFDEF_MOD  
+      USE INTBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,18 +69,18 @@ C-----------------------------------------------
 C LES WA NE SONT PLUS UTILISES !!! 
 C=======================================================================
       DO N=NINTER,1,-1
-        NTY   = IPARI(7,N)                                             
-        ILAGM = 0                                                     
-        ILAGM = IPARI(33,N)                                           
-        IF (ILAGM/=0) CYCLE                                   
-        IF (NPARI>=26)THEN                                          
-          IF(IPARI(26,N)/=KHIE) CYCLE                           
-        ENDIF                                                         
-        JI  =IPARI(1,N)                                                 
-        JB  =IPARI(2,N)                                                 
-        NMN =IPARI(6,N)                                             
-        NINT=N                                                        
-        IF (NTY == 2) THEN                                            
+        NTY   = IPARI(7,N)
+        ILAGM = 0
+        ILAGM = IPARI(33,N)
+        IF (ILAGM/=0) CYCLE
+        IF (NPARI>=26)THEN
+          IF(IPARI(26,N)/=KHIE) CYCLE
+        ENDIF
+        JI  =IPARI(1,N)
+        JB  =IPARI(2,N)
+        NMN =IPARI(6,N)
+        NINT=N
+        IF (NTY == 2) THEN
           IF(IPARI(5,N)>0) THEN !       check if NSN=IPARI(5,N)>0
         !       Optimization :
         !       If IPARI(5,N)=NSN=0, somes variables are loaded in INTTI2V
@@ -88,12 +88,12 @@ C=======================================================================
         !       spmd domain is quite important (NSPMD>50), the initialisation time is important :
         !       for_array_copy_in and other initialisations represent up to 5% of total CPUTIME
         !       and break the scalability of the code
-           CALL INTTI2V(                                               
-     .          IPARI(1,N),X         ,V        , 
-     .          A         ,VR        ,AR        ,MS        ,IN       , 
+           CALL INTTI2V(
+     .          IPARI(1,N),X         ,V        ,
+     .          A         ,VR        ,AR        ,MS        ,IN       ,
      .          WEIGHT    ,INTBUF_TAB(N) )
           ELSE
-        !       WARNING : if NSN==0 and ILEV==2 or 4, ones needs to scale the mass 
+        !       WARNING : if NSN==0 and ILEV==2 or 4, ones needs to scale the mass
                 ILEV = IPARI(20,N)
                 IF(ILEV==2.OR.ILEV==4) THEN
                         DO II=1,NMN
@@ -102,13 +102,13 @@ C=======================================================================
                         ENDDO
                 ENDIF
           ENDIF
-        ELSEIF (NTY == 12) THEN                                       
-          IF(IMACH/=3 .OR. ISPMD==0)THEN                            
-            CALL INTTI12V(                                            
-     .           IPARI(1,N),INTBUF_TAB(N)      ,X         ,V        , 
-     .            A        ,MS       ,WEIGHT   ,WA        ,SKEW     ) 
-          ENDIF                                                       
-        ENDIF                                                         
+        ELSEIF (NTY == 12) THEN
+          IF(IMACH/=3 .OR. ISPMD==0)THEN
+            CALL INTTI12V(
+     .           IPARI(1,N),INTBUF_TAB(N)      ,X         ,V        ,
+     .            A        ,MS       ,WEIGHT   ,WA        ,SKEW     )
+          ENDIF
+        ENDIF
       ENDDO
 C-----------
       RETURN

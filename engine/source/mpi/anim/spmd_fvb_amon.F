@@ -111,7 +111,7 @@ C
                CALL MPI_SEND(RBUF, LEN, REAL, IT_SPMD(1),
      .                       MSGTAG, MPI_COMM_WORLD,  IERR)
             ENDIF
-            DEALLOCATE(RBUF)             
+            DEALLOCATE(RBUF)
            ENDIF
          ENDIF
          K1=K1+NIMV

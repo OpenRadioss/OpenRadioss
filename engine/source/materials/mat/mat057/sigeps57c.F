@@ -136,7 +136,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .    UVAR(NEL,NUVAR), OFF(NEL),THK(NEL)
 C-----------------------------------------------
 C   VARIABLES FOR FUNCTION INTERPOLATION 
@@ -161,7 +161,7 @@ C-----------------------------------------------
       PARAMETER (NPARAM=5)
       my_real A,FAC, DEZZ, EPST,NU31,DR0
       my_real DG(NEL),SIGY_O(NEL),SIGY_K(NEL),
-     .        E(NEL), A1(NEL),A2(NEL),G(NEL), G3(NEL), 
+     .        E(NEL), A1(NEL),A2(NEL),G(NEL), G3(NEL),
      .        MC(NEL,4),MD(NEL),A_XY(NEL),PARAM(NEL,NPARAM),
      .        A01, A02, A03, A12,
      .        DYDX1(NEL),DYDX2(NEL),RATE(NEL,2),SVM(NEL),
@@ -217,36 +217,36 @@ c------------------------------------------------------
        EINF = UPARAM(NS+2*NRATE+11)
        CE   = UPARAM(NS+2*NRATE+12)
 
-       IF (OPTE == 1)THEN   
+       IF (OPTE == 1)THEN
          IDFUNCE = UPARAM(NS+2*NRATE+9)
-         DO I=1,NEL    
-          IF(PLA(I) > ZERO)THEN                                                        
-             ESCALE(I) = FINTER(IFUNC(IDFUNCE),PLA(I),NPF,TF,DYDXE(I))   
+         DO I=1,NEL
+          IF(PLA(I) > ZERO)THEN
+             ESCALE(I) = FINTER(IFUNC(IDFUNCE),PLA(I),NPF,TF,DYDXE(I))
           ENDIF
-         ENDDO  
+         ENDDO
 
-         DO I=1,NEL    
-          IF(PLA(I) > ZERO)THEN 
-             E(I) =  ESCALE(I)* E(I)   
+         DO I=1,NEL
+          IF(PLA(I) > ZERO)THEN
+             E(I) =  ESCALE(I)* E(I)
              A1(I) = E(I)/(ONE - NU(I)*NU(I))
-             A2(I) = NU(I)*A1(I) 
-             G(I) =  HALF*E(I)/(ONE+NU(I)) 
-             GS(I)   =  G(I)*SHF(I)                                 
-             G3(I) = THREE*G(I)                   
-           ENDIF  
-         ENDDO                                                                                      
-        ELSEIF ( CE /= ZERO) THEN      
+             A2(I) = NU(I)*A1(I)
+             G(I) =  HALF*E(I)/(ONE+NU(I))
+             GS(I)   =  G(I)*SHF(I)
+             G3(I) = THREE*G(I)
+           ENDIF
+         ENDDO
+        ELSEIF ( CE /= ZERO) THEN
 
-         DO I=1,NEL                                   
-           IF(PLA(I) > ZERO)THEN                                                        
-             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I))) 
+         DO I=1,NEL
+           IF(PLA(I) > ZERO)THEN
+             E(I) = E(I)-(E(I)-EINF)*(ONE-EXP(-CE*PLA(I)))
              A1(I) = E(I)/(ONE - NU(I)*NU(I))
-             A2(I) = NU(I)*A1(I)                                             
-             G(I) =  HALF*E(I)/(ONE+NU(I))   
-             GS(I)   =  G(I)*SHF(I)                                 
-             G3(I) = THREE*G(I)                                               
-           ENDIF     
-         ENDDO                                                                
+             A2(I) = NU(I)*A1(I)
+             G(I) =  HALF*E(I)/(ONE+NU(I))
+             GS(I)   =  G(I)*SHF(I)
+             G3(I) = THREE*G(I)
+           ENDIF
+         ENDDO
 c--------------------------------------------------------------
       ENDIF
 C
@@ -288,7 +288,7 @@ C
 C-------------------
 C     STRAIN RATE
 C-------------------
-        IF (ISRATE == 0) THEN 
+        IF (ISRATE == 0) THEN
           EPSP(I) = HALF*( ABS(EPSPXX(I)+EPSPYY(I))
      .     + SQRT( (EPSPXX(I)-EPSPYY(I))*(EPSPXX(I)-EPSPYY(I))
      .                   + EPSPXY(I)*EPSPXY(I) ) )
@@ -355,7 +355,7 @@ C
 C       ECROUISSAGE CINEMATIQUE
          Y1(I)=TF(NPF(IFUNC(J1))+1)
          Y2(I)=TF(NPF(IFUNC(J2))+1)
-         YLD(I) = (1.-FISOKIN) * YLD(I) + 
+         YLD(I) = (1.-FISOKIN) * YLD(I) +
      .        FISOKIN * (FAIL(I)*(Y1(I)    + FAC*(Y2(I)-Y1(I))))
       ENDDO
 C-------------------------
@@ -461,7 +461,7 @@ C------NBMAX=3----
      3     SXX    ,SYY    ,SXY    ,SIGY_K   ,
      4     S11    ,S22    ,A_XY   ,SIGY_O  ,
      5     MC     ,MD     ,DG     ,NINC    )
-      ENDDO 
+      ENDDO
 C------------------------------------------
 C     PLASTIC RETURN MAPPING
 C------------------------------------------
@@ -474,9 +474,9 @@ C----to optimize with HK=0--
          SIGNYY(I) =SYY(J)*NORM1
          SIGNXY(I) =SXY(J)*NORM1
          PLA(I) = PLA(I) + ALPHA(J)
-c       X_ij are inverse signes        
-         NU31=ONE-NU(I)/(ONE-NU(I))    
-         IF (INLOC == 0) THEN     
+c       X_ij are inverse signes
+         NU31=ONE-NU(I)/(ONE-NU(I))
+         IF (INLOC == 0) THEN
            DEZZ = NU31*(XXX(J)+XYY(J))
            THK(I) = THK(I) + DEZZ*THKLY(I)*OFF(I)
          ENDIF
@@ -510,11 +510,11 @@ C
           SEFF    = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
           SEFF    = (HALF*MAX(SEFF,EM20))**(ONE/M)
           DF_DK1  = (SEFF**(1-M))*(A01/TWO)*(
-     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
+     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1))
      .              +  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1)))
           DF_DK2  = (SEFF**(1-M))*((A01/TWO)*(
-     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1)) 
-     .              -  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1))) 
+     .              +  SIGN(ONE,K1+K2)*(ABS(K1+K2)**(M-1))
+     .              -  SIGN(ONE,K1-K2)*(ABS(K1-K2)**(M-1)))
      .              +  A02*(ABS(TWO*K2)**(M-1)))
           DK1_DSIGXX = HALF
           DK1_DSIGYY = A03/TWO
@@ -530,8 +530,8 @@ C
           IF (SIG_DFDSIG /= ZERO) THEN
             DEZZ     = DEZZ - MAX(DPLANL(I),ZERO)*(SEFF/SIG_DFDSIG)*(NORMXX + NORMYY)
           ENDIF
-          THK(I)     = THK(I) + DEZZ*THKLY(I)*OFF(I)   
-        ENDDO  
+          THK(I)     = THK(I) + DEZZ*THKLY(I)*OFF(I)
+        ENDDO
       ENDIF
 !-------------------------
 !     EQUIVALENT STRESS FOR OUTPUT - BARLAT -
@@ -540,7 +540,7 @@ C
         K1 = (SIGNXX(I) + A03*SIGNYY(I))/TWO
         K2 = SQRT(((SIGNXX(I) - A03*SIGNYY(I))/TWO)**TWO + (A12*SIGNXY(I))**TWO)
         SEQ_OUTPUT(I) = A01*ABS(K1+K2)**M + A01*ABS(K1-K2)**M + A02*ABS(TWO*K2)**M
-        IF (SEQ_OUTPUT(I) > ZERO) THEN 
+        IF (SEQ_OUTPUT(I) > ZERO) THEN
           SEQ_OUTPUT(I) = (HALF*SEQ_OUTPUT(I))**(ONE/M)
         ELSE
           SEQ_OUTPUT(I) = ZERO
@@ -569,14 +569,14 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 	INTEGER NEL, NEL0, NPARAM
-	my_real 
+	my_real
      .   F(NEL)   ,PARAM(NEL0,NPARAM),
      .   B_1(NEL), B_2(NEL), B_3(NEL)  ,SIGYM(NEL)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,K,NINC
-      my_real 
+      my_real
      .  A01, A02, M, A, SVM
 C
 C----PARAM:1:A01,2:A02,3:A03,4:A12,5:M      
@@ -603,7 +603,7 @@ Chd|-- calls ---------------
 Chd|====================================================================
       SUBROUTINE DERIVE_F(
      1     NEL    ,NPARAM ,PARAM , SIGXX  ,SIGYY  ,
-     2    SIGXY   ,SIGY   ,B_1   ,B_2     ,B_3    ,  
+     2    SIGXY   ,SIGY   ,B_1   ,B_2     ,B_3    ,
      3       MF   ,GM     ,GM44  ,NEL0)
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -612,10 +612,10 @@ C-----------------------------------------------
 C-------------------------------------------------------------------------------------------
 C               INPUT ARGUMENT
 C-------------------------------------------------------------------------------------------
-      INTEGER NEL, NEL0, NPARAM 
+      INTEGER NEL, NEL0, NPARAM
       my_real
-     .   PARAM(NEL0,NPARAM), SIGXX(NEL), SIGYY(NEL), SIGXY(NEL), 
-     .   SIGY(NEL) 
+     .   PARAM(NEL0,NPARAM), SIGXX(NEL), SIGYY(NEL), SIGXY(NEL),
+     .   SIGY(NEL)
 C-------------------------------------------------------------------------------------------
 C               OUTPUT ARGUMENT MF:derivee premiere,GM:derivee seconde
 C-------------------------------------------------------------------------------------------
@@ -633,7 +633,7 @@ C-------------------------------------------------------------------------------
 C        
 #include "vectorize.inc"
         DO  I=1,NEL
-         M = PARAM(I,5) 
+         M = PARAM(I,5)
          A01 = M*PARAM(I,1)
          A02 = M*PARAM(I,2)
          A03 = PARAM(I,3)
@@ -674,8 +674,8 @@ C-------------------------------------------------------------------------------
          Q12 = C_2*C_2
          H2 = A03*A03
          P2 = A12*A12
-         DB_32 =DB_3*DB_3 
-         DB_3_3 =Q12*B3_1*B3_1 
+         DB_32 =DB_3*DB_3
+         DB_3_3 =Q12*B3_1*B3_1
 C-------------------------------------------------------------------------------------------
 C                D2r/D2s11 
 C-------------------------------------------------------------------------------------------
@@ -697,7 +697,7 @@ C-------------------------------------------------------------------------------
 C                    d2f/dS11S22
 C---------------------------------------------------------------------------------------------
          A = A03*DB_3_2
-         D_12(I)=A*((M-ONE)*B_3(I)*(B_1M2+B_2M2)+(B_1M1-B_2M1-B_3M1)) 
+         D_12(I)=A*((M-ONE)*B_3(I)*(B_1M2+B_2M2)+(B_1M1-B_2M1-B_3M1))
      .           -A03*(M-ONE)*DB_32*B_3M2
 C--------------------------------------------------------------------------------------------
 C                    d2f/dS11S12
@@ -736,14 +736,14 @@ C-----------------------------------------------
 C   DUMMY   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NPARAM, NEL0
-      my_real 
-     .   G(NEL0,4)  ,G44(NEL), DG(NEL), 
+      my_real
+     .   G(NEL0,4)  ,G44(NEL), DG(NEL),
      .   GM(NEL,6) ,GM44(NEL), R(NEL,4),D(NEL,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, K, N
-      my_real 
+      my_real
      .   B(NEL,3,3) ,B44(NEL) ,DETA_1(NEL) ,DETA_2(NEL) ,
      .   DETA_3(NEL) ,DETA(NEL) ,INVA(NEL,3,3)
 C----------------------------------------------------------------------------
@@ -761,7 +761,7 @@ C
 	     B(I,3,3) = ONE+DG(I)*GM(I,3)*G(I,3)
         ENDDO
 C
-        DO I=1,NEL  
+        DO I=1,NEL
          B44(I) =  ONE+DG(I)*GM44(I)*G44(I)
         ENDDO
 C                   |B11 B12 B13  0 |   |          0 |
@@ -798,7 +798,7 @@ C-----------------------------------------------------------------------------
 C                        D = -J^(-1)*R
 C----------------------------------------------------------------------------
 C
-      DO I=1,NEL  
+      DO I=1,NEL
        D(I,1) = -(INVA(I,1,1)*R(I,1)+INVA(I,1,2)*R(I,2)+
      .              INVA(I,1,3)*R(I,3))
        D(I,2) = -(INVA(I,1,2)*R(I,1)+INVA(I,2,2)*R(I,2)+
@@ -832,21 +832,21 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NEL0, NPARAM
-      my_real 
+      my_real
      .   SIGTXX(NEL) ,SIGTYY(NEL) ,SIGTXY(NEL) ,SIGY_OLD(NEL) ,
-     .   G(NEL0,4)  ,G44(NEL), 
+     .   G(NEL0,4)  ,G44(NEL),
      .   DG(NEL), PARAM(NEL0,NPARAM)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .   XXX(NEL)   ,XYY(NEL)   ,XXY(NEL)   ,ALPHA(NEL),
      .   SIGXX(NEL) ,SIGYY(NEL) ,SIGXY(NEL) ,SIGY(NEL)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .   GM(NEL,6) ,GM44(NEL), MF(NEL,4)   ,
      .   R(NEL,4) ,D(NEL,4)  ,
      .   B_1(NEL) ,B_2(NEL) ,B_3(NEL)
@@ -856,7 +856,7 @@ C------------------------------------------------------------------------------
 C	
          CALL DERIVE_F(
      1     NEL    ,NPARAM ,PARAM , SIGXX  ,SIGYY  ,
-     2    SIGXY   ,SIGY_OLD,B_1   ,B_2     ,B_3    ,  
+     2    SIGXY   ,SIGY_OLD,B_1   ,B_2     ,B_3    ,
      3       MF   ,GM     ,GM44   ,NEL0)
 C-----------------------------------------------------------------------------
 C                                   VECTEUR R 
@@ -908,21 +908,21 @@ C-----------------------------------------------
 C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL, NEL0, NPARAM, NINC
-      my_real 
+      my_real
      .   PARAM(NEL0,NPARAM)
 C-----------------------------------------------
 C   I N P U T   O U T P U T   A r g u m e n t s 
 C-----------------------------------------------
-      my_real 
+      my_real
      .   G(NEL0,4)    ,G44(NEL), DG(NEL),
      .   XXX(NEL)   ,XYY(NEL)   ,XXY(NEL)   ,ALPHA(NEL),
      .   SIGXX(NEL) ,SIGYY(NEL) ,SIGXY(NEL) ,SIGY(NEL) ,
-     .   SIGTXX(NEL) ,SIGTYY(NEL) ,SIGTXY(NEL) ,SIGY_OLD(NEL) 
+     .   SIGTXX(NEL) ,SIGTYY(NEL) ,SIGTXY(NEL) ,SIGY_OLD(NEL)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I, J, N
-      my_real 
+      my_real
      .   JJ(NEL,3),JJ4(NEL),P(NEL),GM(NEL,6) ,
      .   B_1(NEL) ,B_2(NEL) ,B_3(NEL),SIGYM(NEL),
      .   GM44(NEL)   ,F(NEL), MF(NEL,4),D(NEL,4),dDG
@@ -934,7 +934,7 @@ C-----------normalize F By SIGY**M----------------------------------------------
 C
          CALL DERIVE_F(
      1     NEL    ,NPARAM ,PARAM , SIGXX  ,SIGYY  ,
-     2    SIGXY   ,SIGY   ,B_1   ,B_2     ,B_3    ,  
+     2    SIGXY   ,SIGY   ,B_1   ,B_2     ,B_3    ,
      3       MF   ,GM     ,GM44  ,NEL0)
 C                        D = -J^(-1)*MF
          CALL INCREAM(NEL ,G  , G44, GM, GM44, DG, MF, D ,NEL0)
@@ -977,7 +977,7 @@ C-------------------------------------------------------------------------------
      7     SIGXX  ,SIGYY  ,SIGXY  ,SIGY   ,
      8     SIGTXX ,SIGTYY ,SIGTXY ,SIGY_OLD,
      9     G      ,G44    ,NEL0)
-      ENDDO 
+      ENDDO
 C
       RETURN
       END

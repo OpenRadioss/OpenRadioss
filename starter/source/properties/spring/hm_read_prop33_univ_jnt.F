@@ -61,7 +61,7 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,ITYP,IUNIT
       my_real PARGEO(*)
       INTEGER ID
@@ -167,8 +167,8 @@ C
 C-----------------------
       IF (IFUN_RY  /= 0) KRY = KRY * FAC_MM
       IF (IFUN_RZ  /= 0) KRZ = KRZ * FAC_MM
-      IF (IFUN_CRY /= 0) CRY = CRY * FAC_MM 
-      IF (IFUN_CRZ /= 0) CRZ = CRZ * FAC_MM 
+      IF (IFUN_CRY /= 0) CRY = CRY * FAC_MM
+      IF (IFUN_CRZ /= 0) CRZ = CRZ * FAC_MM
 C-----------------------
       PARGEO(1) = 0
       PARGEO(2) = XK

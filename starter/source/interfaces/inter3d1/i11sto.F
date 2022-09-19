@@ -72,7 +72,7 @@ C     REAL
       my_real
      .   PENE(MVSIZ)
 C-----------------------------------------------
-        CALL I11PEN3_VOX1(J_STOK ,PROV_N ,PROV_E ,GAPMIN ,DRAD    , 
+        CALL I11PEN3_VOX1(J_STOK ,PROV_N ,PROV_E ,GAPMIN ,DRAD    ,
      .                    MARGE  ,GAP_S ,GAP_M   ,GAP_S_L,GAP_M_L ,
      .                    IGAP   ,X     ,IRECTS ,IRECTM  ,PENE    ,
      .                    DGAPLOAD)

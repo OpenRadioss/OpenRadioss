@@ -106,17 +106,17 @@ C--------------------------------------------------
               ISS = J
 	      NN = IGRSURF(ISS)%NSEG
               EXIT
-            ENDIF                             
-          ENDDO 
+            ENDIF
+          ENDDO
         ENDIF
 C-----------Multidomaines -> on decompte les seg communs, on ne les compte qu'une foi---
         IF (NSUBDOM>0) THEN
-	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,ISS) 
-	  NNCL(NCONLD+I)=NN 
+	  IF (IDDOM>0) NN = NN-ISURF_R2R(1,ISS)
+	  NNCL(NCONLD+I)=NN
 	ENDIF
 C-----------
-        NUMPRES = NUMPRES + NN	 
-      ENDDO                                            
+        NUMPRES = NUMPRES + NN	
+      ENDDO
 C---
       RETURN
  999  CALL FREERR(3)

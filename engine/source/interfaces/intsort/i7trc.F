@@ -103,22 +103,22 @@ C
         END IF
 C
         DO I=1,I_STOK
-          IF(IFPEN(I) == 0.AND.IPUT(I)==0) THEN  
-            CAND_N(I) = NSN+1     
+          IF(IFPEN(I) == 0.AND.IPUT(I)==0) THEN
+            CAND_N(I) = NSN+1
           ELSEIF(TT>ZERO)THEN
-            !case IDEL>0 + IFQ if element is deleted 
-            !at previous cycle IFEN should be updated 
+            !case IDEL>0 + IFQ if element is deleted
+            !at previous cycle IFEN should be updated
             NI = CAND_N(I)
             IF(NI>NSNL) THEN
               !remote node
-              NI = NI-NSNL 
+              NI = NI-NSNL
               IF((STIFI(NIN)%P(NI) == 0.0).AND.IPUT(I)==0)THEN
                 IFPEN(I)  = 0
                 CAND_N(I) = NSN+1
               ENDIF
             ELSE
               !local node
-              IF((STFNS(NI) == 0.0).AND.IPUT(I)==0)THEN 
+              IF((STFNS(NI) == 0.0).AND.IPUT(I)==0)THEN
                 IFPEN(I)  = 0
                 CAND_N(I) = NSN+1
               ENDIF
@@ -150,11 +150,11 @@ C
         IF(ITIED==0)THEN
           DO I=1,I_STOK
 
-            IF(IFPEN(I) == 0) THEN  
-              CAND_N(I) = NSN+1     
+            IF(IFPEN(I) == 0) THEN
+              CAND_N(I) = NSN+1
             ELSEIF(TT>ZERO)THEN
-              !case IDEL>0 + IFQ if element is deleted   
-              !at previous cycle IFEN should be updated 
+              !case IDEL>0 + IFQ if element is deleted
+              !at previous cycle IFEN should be updated
               NI = CAND_N(I)
               IF(NI>NSNL) THEN
 	  	    !remote node
@@ -165,7 +165,7 @@ C
           	ENDIF
               ELSE
 	  	    !local node
-          	IF(STFNS(NI) == ZERO)THEN 
+          	IF(STFNS(NI) == ZERO)THEN
           	  IFPEN(I)    = 0
           	  CAND_N(I)   = NSN+1
           	ENDIF
@@ -175,11 +175,11 @@ C
         ELSE
           DO I=1,I_STOK
 
-            IF(IFPEN(I) == 0 .AND. CAND_F(1,I) == ZERO) THEN  
-              CAND_N(I) = NSN+1     
+            IF(IFPEN(I) == 0 .AND. CAND_F(1,I) == ZERO) THEN
+              CAND_N(I) = NSN+1
             ELSEIF(TT>ZERO)THEN
-              !case IDEL>0 + IFQ if element is deleted   
-              !at previous cycle IFEN should be updated 
+              !case IDEL>0 + IFQ if element is deleted
+              !at previous cycle IFEN should be updated
               NI = CAND_N(I)
               IF(NI>NSNL) THEN
 	  	    !remote node
@@ -191,7 +191,7 @@ C
           	ENDIF
               ELSE
 	  	    !local node
-          	IF(STFNS(NI) == ZERO)THEN 
+          	IF(STFNS(NI) == ZERO)THEN
           	  IFPEN(I)  = 0
                   CAND_F(1,I) = ZERO
           	  CAND_N(I) = NSN+1
@@ -213,8 +213,8 @@ C
             IF(CAND_P(I)==ZERO .AND. CAND_F(1,I) == ZERO)THEN
               CAND_N(I) = NSN+1
             ELSEIF(TT>ZERO)THEN
-              !case IDEL>0 + ITIED if element is deleted   
-              !at previous cycle CAND_F should be updated 
+              !case IDEL>0 + ITIED if element is deleted
+              !at previous cycle CAND_F should be updated
               NI = CAND_N(I)
               IF(NI>NSNL) THEN
 	  	    !remote node
@@ -225,7 +225,7 @@ C
           	ENDIF
               ELSE
 	  	    !local node
-          	IF(STFNS(NI) == ZERO)THEN 
+          	IF(STFNS(NI) == ZERO)THEN
                   CAND_F(1,I) = ZERO
           	  CAND_N(I) = NSN+1
           	ENDIF
@@ -238,8 +238,8 @@ C
           IF(CAND_F(1,I)==ZERO)THEN
             CAND_N(I) = NSN+1
           ELSEIF(TT>ZERO)THEN
-            !case IDEL>0 + ITIED if element is deleted   
-            !at previous cycle CAND_F should be updated 
+            !case IDEL>0 + ITIED if element is deleted
+            !at previous cycle CAND_F should be updated
             NI = CAND_N(I)
             IF(NI>NSNL) THEN
 	          !remote node
@@ -250,7 +250,7 @@ C
               ENDIF
             ELSE
 	          !local node
-              IF(STFNS(NI) == ZERO)THEN 
+              IF(STFNS(NI) == ZERO)THEN
           	CAND_F(1,I) = ZERO
                 CAND_N(I) = NSN+1
               ENDIF
@@ -364,7 +364,7 @@ C
 C
           CAND_T   = IFPEN(K)
           IFPEN(K) = IFPEN(I)
-          IFPEN(I) = CAND_T 
+          IFPEN(I) = CAND_T
 C 
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
@@ -399,7 +399,7 @@ C
 C
           CAND_T   = IFPEN(K)
           IFPEN(K) = IFPEN(I)
-          IFPEN(I) = CAND_T 
+          IFPEN(I) = CAND_T
 C 
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
@@ -462,7 +462,7 @@ C------   Fz
 C
           CAND_T   = IFPEN(K)
           IFPEN(K) = IFPEN(I)
-          IFPEN(I) = CAND_T 
+          IFPEN(I) = CAND_T
 C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
@@ -492,7 +492,7 @@ C------   Fz
           CAND_FZ(I) = CAND_TF
           CAND_T   = IFPEN(K)
           IFPEN(K) = IFPEN(I)
-          IFPEN(I) = CAND_T 
+          IFPEN(I) = CAND_T
 C
           IPUT(I) = IPUT(K)
           IGET(IPUT(I)) = I
@@ -735,7 +735,7 @@ C On solids, the symmetric is the same
             count=count+1
           ENDIF
         ELSE
-         IF(IABS(IRTLM_FI(NIN)%P(1,NN-NSNL)) /= MSEGLO(E) .AND. 
+         IF(IABS(IRTLM_FI(NIN)%P(1,NN-NSNL)) /= MSEGLO(E) .AND.
      *      IABS(IRTLM_FI(NIN)%P(1,NN-NSNL)) /= SYM_SURF )THEN
             CAND_N(I) = NSN+1
           ELSE
@@ -752,7 +752,7 @@ C=======================================================================
         NN = CAND_N(I) + 2
         CAND_A(NN) = CAND_A(NN) + 1
       ENDDO
-      
+
 C=======================================================================
 C     CAND_A : ADRESSE DE CHAQUE NOEUD 
 C     APRES 400 CAND_A[2:NSN+2] : ADRESSE DES NOEUDS [1:NSN+1] 

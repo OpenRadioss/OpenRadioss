@@ -87,7 +87,7 @@ c
         ELSE
           EX(I) = ZERO
           EY(I) = ZERO
-          EZ(I) = ZERO                    
+          EZ(I) = ZERO
         ENDIF
       ENDDO
 c
@@ -98,7 +98,7 @@ c
 c
       DO I=LFT,LLT
         IF (AL(I) /= ZERO) THEN
-          EPS(I)= (V2(I)-V1(I))/AL(I)     
+          EPS(I)= (V2(I)-V1(I))/AL(I)
           RATIO(I) = ( (VX2(I)-VX1(I))*(VX2(I)-VX1(I))
      .                +(VY2(I)-VY1(I))*(VY2(I)-VY1(I))
      .                +(VZ2(I)-VZ1(I))*(VZ2(I)-VZ1(I)) )

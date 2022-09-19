@@ -40,9 +40,9 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: EIGIPM
 
       INTEGER, DIMENSION(:), ALLOCATABLE :: EIGIBUF
-       
+
       my_real
      .       , DIMENSION(:,:), ALLOCATABLE :: EIGRPM
-     
+
 C-----------------------------------------------
       END MODULE EIG_MOD

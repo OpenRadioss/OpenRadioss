@@ -67,7 +67,7 @@ C-----------------------------------------------
 !
       ERR = 0
       ALLOCATE (ISUBSET(LENSUBS), STAT=ERR)
-      ISUBSET(1:LENSUBS) = 0  
+      ISUBSET(1:LENSUBS) = 0
 !
       L_SUB = 0
 !

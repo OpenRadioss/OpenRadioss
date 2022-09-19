@@ -53,10 +53,10 @@ Chd|====================================================================
         integer  LMAX_NSIG  ! noda p1&p3 for 3D
         integer  LMAX_NSTRA ! noda p1&p3 for 3D
 C------ used to initilize LMAX_* (for elementary only)        
-        integer :: NKEYMAX = 6  
+        integer :: NKEYMAX = 6
 C        /VONM;/SIGEQ; /ENER ; /DAMA, /TENS/STRESS ;/TENS/STRAIN
-        integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX 
-        integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK 
+        integer, DIMENSION(:) ,  ALLOCATABLE :: IKEYMAX
+        integer, DIMENSION(:,:) ,ALLOCATABLE :: IPART_OK
         my_real, DIMENSION(:) , ALLOCATABLE ::  TM_DIS,TM_VEL  ! 3*NUMNOD
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_NSIG1 ,TM_NSIG3 ! 6*NUMNOD
         my_real, DIMENSION(:) , ALLOCATABLE ::   TM_NSTRA1,TM_NSTRA3

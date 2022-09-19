@@ -49,7 +49,7 @@ C-----------------------------------------------
       USE CLUSTER_MOD
       USE GROUPDEF_MOD
       USE SUBMODEL_MOD
-      USE HM_OPTION_READ_MOD 
+      USE HM_OPTION_READ_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -71,7 +71,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER ISKN(LISKN,*),
      .   IXS(NIXS,NUMELS),IXR(NIXR,NUMELR),NOM_OPT(LNOPT1,*)
       TYPE (CLUSTER_) ,DIMENSION(NCLUSTER) :: CLUSTERS
@@ -93,7 +93,7 @@ C-----------------------------------------------
       LOGICAL :: IS_AVAILABLE,FOUND
 C=======================================================================
       IS_AVAILABLE = .FALSE.
-      
+
 C--------------------------------------------------
 C START BROWSING MODEL CLUSTER
 C--------------------------------------------------
@@ -104,7 +104,7 @@ C--------------------------------------------------
 C EXTRACT DATAS
 C--------------------------------------------------
       DO I=1,NCLUSTER
-        TITR = ''   
+        TITR = ''
         CALL HM_OPTION_READ_KEY(LSUBMODEL,
      .                       OPTION_ID = CLID,
      .                       UNIT_ID = UID,
@@ -115,21 +115,21 @@ c
         NOM_OPT(1,I)=CLID
         CALL FRETITL(TITR,NOM_OPT(LNOPT1-LTITR+1,I),LTITR)
 c
-        IFLAGUNIT = 0                             
-        IF (UID > 0) THEN                         
-          DO J=1,NUNITS                           
-            IF (UNITAB%UNIT_ID(J) == UID) THEN    
-              IFLAGUNIT = 1                       
-              EXIT                                
-            ENDIF                                 
-          ENDDO                                   
+        IFLAGUNIT = 0
+        IF (UID > 0) THEN
+          DO J=1,NUNITS
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
+              IFLAGUNIT = 1
+              EXIT
+            ENDIF
+          ENDDO
         ENDIF
-        IF (UID / = 0 .and. IFLAGUNIT == 0) THEN                        
-          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,      
-     .                I1=CLID,I2=UID,C1='CLUSTER',                  
-     .                C2='CLUSTER',                               
-     .                C3=TITR)                                       
-        ENDIF                                                        
+        IF (UID / = 0 .and. IFLAGUNIT == 0) THEN
+          CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
+     .                I1=CLID,I2=UID,C1='CLUSTER',
+     .                C2='CLUSTER',
+     .                C3=TITR)
+        ENDIF
 c----------------------------
 Card1
         CALL HM_GET_INTV  ('group_ID' ,IGR      ,IS_AVAILABLE, LSUBMODEL)
@@ -137,29 +137,29 @@ Card1
         CALL HM_GET_INTV  ('ifail'    ,IFAIL    ,IS_AVAILABLE, LSUBMODEL)
 
 Card2   Failure normal traction force
-        
+
         CALL HM_GET_FLOATV('fn_fail1'      ,FMAX(1)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_a1',AX(1)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_b1',NX(1)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
 Card3   Failure tangent shear force
-        
+
         CALL HM_GET_FLOATV('fs_fail'       ,FMAX(2)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_a2',AX(2)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_b2',NX(2)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
 Card4   Failure torsion moment
-        
+
         CALL HM_GET_FLOATV('mt_fail'       ,MMAX(1)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_a3',AX(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_b3',NX(3)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
 Card5   Failure bending moment
-        
+
         CALL HM_GET_FLOATV('mb_fail'       ,MMAX(2)  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_a4',AX(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('scalefactor_b4',NX(4)    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        
+
 c----------------------------
         ISK_L = ISK
         IF (ISK > 0) THEN
@@ -172,130 +172,130 @@ c----------------------------
             ENDIF
           ENDDO
           IF (.NOT.FOUND) THEN
-            CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,     
+            CALL ANCMSG(MSGID=137,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .              C1='CLUSTER',
      .              C2='CLUSTER',
      .              I2=ISK,
      .              I1=CLID,
-     .              C3=TITR)       
+     .              C3=TITR)
           ENDIF
         ENDIF
         NOD1 = 0
         NOD2 = 0
         NNOD = 0
-        NEL  = 0                                         
+        NEL  = 0
 c----------------------------
 c       BRICK CLUSTER
 c----------------------------
         KK = NGRNOD+1
-        IF (KEY(1:5) == 'BRICK') THEN     
-          DO IG = 1,NGRBRIC                                         
+        IF (KEY(1:5) == 'BRICK') THEN
+          DO IG = 1,NGRBRIC
             II = IG
             IF (IGR == IGRBRIC(IG)%ID .and. IGRBRIC(IG)%GRTYPE == 1) THEN
               NEL = IGRBRIC(IG)%NENTITY
               IF (NEL > NELMAX) THEN
-                CALL ANCMSG(MSGID=1055,       
-     .                      ANMODE=ANINFO,    
-     .                      MSGTYPE=MSGERROR, 
-     .                      I1=CLID,          
-     .                      I2=NEL)  
+                CALL ANCMSG(MSGID=1055,
+     .                      ANMODE=ANINFO,
+     .                      MSGTYPE=MSGERROR,
+     .                      I1=CLID,
+     .                      I2=NEL)
                 EXIT
               ENDIF
-              CLUSTERS(I)%ID = CLID                                          
-              CLUSTERS(I)%IGR = II                                           
-              CLUSTERS(I)%TYPE = 1                                           
-              CLUSTERS(I)%SKEW = ISK                                         
-              CLUSTERS(I)%NEL  = NEL                                         
-              CLUSTERS(I)%IFAIL= IFAIL                                       
-              CLUSTERS(I)%OFF  = 1                                       
-              CLUSTERS(I)%FAIL = ONE                                         
+              CLUSTERS(I)%ID = CLID
+              CLUSTERS(I)%IGR = II
+              CLUSTERS(I)%TYPE = 1
+              CLUSTERS(I)%SKEW = ISK
+              CLUSTERS(I)%NEL  = NEL
+              CLUSTERS(I)%IFAIL= IFAIL
+              CLUSTERS(I)%OFF  = 1
+              CLUSTERS(I)%FAIL = ONE
 c
               ALLOCATE (CLUSTERS(I)%NG(NEL) )
-              ALLOCATE (CLUSTERS(I)%ELEM(NEL) )                              
+              ALLOCATE (CLUSTERS(I)%ELEM(NEL) )
               DO IEL = 1,NEL
                 JJ = IGRBRIC(IG)%ENTITY(IEL)
                 CLUSTERS(I)%ELEM(IEL) = JJ            ! Sys number
 c               CLUSTERS(I)%ELEM(IEL-IAD+1) = IXS(11,JJ)     ! Elem ID
-                DO K=2,5                                                     
-                  NNOD = NNOD+1                                              
-                  NOD1(NNOD) = IXS(K  ,JJ)                                   
-                  NOD2(NNOD) = IXS(K+4,JJ)                                   
-                ENDDO                                                        
-              ENDDO                                                          
+                DO K=2,5
+                  NNOD = NNOD+1
+                  NOD1(NNOD) = IXS(K  ,JJ)
+                  NOD2(NNOD) = IXS(K+4,JJ)
+                ENDDO
+              ENDDO
 c
-              NNOD0=NNOD                                                     
-              CALL ITRIMHPSORT(NOD1,NNOD)                                    
-              NNOD = NNOD0                                                   
-              CALL ITRIMHPSORT(NOD2,NNOD)                                    
-              CLUSTERS(I)%NNOD = NNOD                                        
+              NNOD0=NNOD
+              CALL ITRIMHPSORT(NOD1,NNOD)
+              NNOD = NNOD0
+              CALL ITRIMHPSORT(NOD2,NNOD)
+              CLUSTERS(I)%NNOD = NNOD
 c
-              ALLOCATE (CLUSTERS(I)%NOD1(NNOD))       
-              ALLOCATE (CLUSTERS(I)%NOD2(NNOD))  
-              DO K=1,NNOD                                                    
-                CLUSTERS(I)%NOD1(K) = NOD1(K)                                
-                CLUSTERS(I)%NOD2(K) = NOD2(K)                                
-              END DO                                                         
+              ALLOCATE (CLUSTERS(I)%NOD1(NNOD))
+              ALLOCATE (CLUSTERS(I)%NOD2(NNOD))
+              DO K=1,NNOD
+                CLUSTERS(I)%NOD1(K) = NOD1(K)
+                CLUSTERS(I)%NOD2(K) = NOD2(K)
+              END DO
 c
-              WRITE(IOUT,1001) CLID                                          
+              WRITE(IOUT,1001) CLID
 c
-              EXIT  !  group found => exit loop                              
-            ENDIF                                                            
-          ENDDO     !  IG = 1,NGRBRIC                                        
+              EXIT  !  group found => exit loop
+            ENDIF
+          ENDDO     !  IG = 1,NGRBRIC
 c
-        ELSEIF (KEY(1:6) == 'SPRING') THEN                                                 
+        ELSEIF (KEY(1:6) == 'SPRING') THEN
 c----------------------------
 c         SPRING CLUSTER
 c----------------------------
           KK = NGRNOD+NGRBRIC+NGRQUAD+NGRSHEL+NGRTRUS+NGRBEAM + 1
-          DO IG = 1,NGRSPRI                                                 
-            II = KK+IG-1                                                     
+          DO IG = 1,NGRSPRI
+            II = KK+IG-1
             IF (IGR == IGRSPRING(IG)%ID .and. IGRSPRING(IG)%GRTYPE == 6) THEN
               NEL = IGRSPRING(IG)%NENTITY
               IF (NEL > NELMAX) THEN
-                CALL ANCMSG(MSGID=1055,       
-     .                      ANMODE=ANINFO,    
-     .                      MSGTYPE=MSGERROR, 
-     .                      I1=CLID,          
-     .                      I2=NEL)  
+                CALL ANCMSG(MSGID=1055,
+     .                      ANMODE=ANINFO,
+     .                      MSGTYPE=MSGERROR,
+     .                      I1=CLID,
+     .                      I2=NEL)
                 EXIT
               ENDIF
-              CLUSTERS(I)%ID = CLID                                          
+              CLUSTERS(I)%ID = CLID
               CLUSTERS(I)%IGR = II
-              CLUSTERS(I)%TYPE = 2                                      
-              CLUSTERS(I)%SKEW = ISK                                         
-              CLUSTERS(I)%NEL  = NEL                                         
-              CLUSTERS(I)%IFAIL= IFAIL                                         
-              CLUSTERS(I)%OFF  = 1                                       
-              CLUSTERS(I)%FAIL = ONE                                         
+              CLUSTERS(I)%TYPE = 2
+              CLUSTERS(I)%SKEW = ISK
+              CLUSTERS(I)%NEL  = NEL
+              CLUSTERS(I)%IFAIL= IFAIL
+              CLUSTERS(I)%OFF  = 1
+              CLUSTERS(I)%FAIL = ONE
 c
-              ALLOCATE (CLUSTERS(I)%NG(NEL) )                                
-              ALLOCATE (CLUSTERS(I)%ELEM(NEL) )                              
+              ALLOCATE (CLUSTERS(I)%NG(NEL) )
+              ALLOCATE (CLUSTERS(I)%ELEM(NEL) )
               DO IEL = 1,NEL
                 JJ = IGRSPRING(IG)%ENTITY(IEL)
                 CLUSTERS(I)%ELEM(IEL) = JJ !IXR(6,JJ)  ! Elem ID
-                NNOD = NNOD+1                                                
-                NOD1(NNOD) = IXR(2,JJ)                                       
-                NOD2(NNOD) = IXR(3,JJ)                                       
-              ENDDO                                                          
+                NNOD = NNOD+1
+                NOD1(NNOD) = IXR(2,JJ)
+                NOD2(NNOD) = IXR(3,JJ)
+              ENDDO
 c
-              NNOD0=NNOD                                                     
-              CALL ITRIMHPSORT(NOD1,NNOD)                                    
-              NNOD = NNOD0                                                   
-              CALL ITRIMHPSORT(NOD2,NNOD)                                    
-              CLUSTERS(I)%NNOD = NNOD                                        
+              NNOD0=NNOD
+              CALL ITRIMHPSORT(NOD1,NNOD)
+              NNOD = NNOD0
+              CALL ITRIMHPSORT(NOD2,NNOD)
+              CLUSTERS(I)%NNOD = NNOD
 c
-              ALLOCATE (CLUSTERS(I)%NOD1(NNOD) )                             
-              ALLOCATE (CLUSTERS(I)%NOD2(NNOD) )                             
-              DO K=1,NNOD                                                    
-                CLUSTERS(I)%NOD1(K) = NOD1(K)                                
-                CLUSTERS(I)%NOD2(K) = NOD2(K)                                
-              END DO                                                         
+              ALLOCATE (CLUSTERS(I)%NOD1(NNOD) )
+              ALLOCATE (CLUSTERS(I)%NOD2(NNOD) )
+              DO K=1,NNOD
+                CLUSTERS(I)%NOD1(K) = NOD1(K)
+                CLUSTERS(I)%NOD2(K) = NOD2(K)
+              END DO
 c
-              WRITE(IOUT,1002) CLID                                          
+              WRITE(IOUT,1002) CLID
 c
-              EXIT  !  group found => exit loop                              
-            ENDIF                                                           
-          ENDDO     !  IG = 1,NGRSPRI                                       
+              EXIT  !  group found => exit loop
+            ENDIF
+          ENDDO     !  IG = 1,NGRSPRI
         ENDIF
 c--------------------------
         IF (NEL == 0)  THEN
@@ -307,51 +307,51 @@ c--------------------------
           CYCLE
         ENDIF
 c--------------------------
-        IF (IFAIL > 0) THEN                                               
+        IF (IFAIL > 0) THEN
           IF (FMAX(1) == ZERO) FMAX(1) = INFINITY
           IF (FMAX(2) == ZERO) FMAX(2) = INFINITY
           IF (MMAX(1) == ZERO) MMAX(1) = INFINITY
           IF (MMAX(2) == ZERO) MMAX(2) = INFINITY
-          ALLOCATE (CLUSTERS(I)%FMAX(2) )                                  
-          ALLOCATE (CLUSTERS(I)%MMAX(2) )                                  
-          CLUSTERS(I)%FMAX(1) = FMAX(1)                                         
-          CLUSTERS(I)%FMAX(2) = FMAX(2)                                         
-          CLUSTERS(I)%MMAX(1) = MMAX(1)                                         
-          CLUSTERS(I)%MMAX(2) = MMAX(2)                                         
-        ELSE                                      
-          ALLOCATE (CLUSTERS(I)%FMAX(0) )                                  
-          ALLOCATE (CLUSTERS(I)%MMAX(0) )                                  
-        ENDIF                                                              
-        IF (IFAIL == 3) THEN                                                  
-          ALLOCATE (CLUSTERS(I)%AX(4) )                                    
-          ALLOCATE (CLUSTERS(I)%NX(4) )             
-          IF (AX(1) == ZERO) AX(1) = ONE           
-          IF (AX(2) == ZERO) AX(2) = ONE           
-          IF (AX(3) == ZERO) AX(3) = ONE           
-          IF (AX(4) == ZERO) AX(4) = ONE           
-          IF (NX(1) == ZERO) NX(1) = ONE           
-          IF (NX(2) == ZERO) NX(2) = ONE           
-          IF (NX(3) == ZERO) NX(3) = ONE           
-          IF (NX(4) == ZERO) NX(4) = ONE           
-          CLUSTERS(I)%AX(1) = AX(1)                                         
-          CLUSTERS(I)%AX(2) = AX(2)                                         
-          CLUSTERS(I)%AX(3) = AX(3)                                         
-          CLUSTERS(I)%AX(4) = AX(4)                                         
-          CLUSTERS(I)%NX(1) = NX(1)                                         
-          CLUSTERS(I)%NX(2) = NX(2)                                         
-          CLUSTERS(I)%NX(3) = NX(3)                                         
-          CLUSTERS(I)%NX(4) = NX(4)                                         
-        ELSE                                        
-          ALLOCATE (CLUSTERS(I)%AX(0) )                                    
-          ALLOCATE (CLUSTERS(I)%NX(0) )             
-        ENDIF                                                                
+          ALLOCATE (CLUSTERS(I)%FMAX(2) )
+          ALLOCATE (CLUSTERS(I)%MMAX(2) )
+          CLUSTERS(I)%FMAX(1) = FMAX(1)
+          CLUSTERS(I)%FMAX(2) = FMAX(2)
+          CLUSTERS(I)%MMAX(1) = MMAX(1)
+          CLUSTERS(I)%MMAX(2) = MMAX(2)
+        ELSE
+          ALLOCATE (CLUSTERS(I)%FMAX(0) )
+          ALLOCATE (CLUSTERS(I)%MMAX(0) )
+        ENDIF
+        IF (IFAIL == 3) THEN
+          ALLOCATE (CLUSTERS(I)%AX(4) )
+          ALLOCATE (CLUSTERS(I)%NX(4) )
+          IF (AX(1) == ZERO) AX(1) = ONE
+          IF (AX(2) == ZERO) AX(2) = ONE
+          IF (AX(3) == ZERO) AX(3) = ONE
+          IF (AX(4) == ZERO) AX(4) = ONE
+          IF (NX(1) == ZERO) NX(1) = ONE
+          IF (NX(2) == ZERO) NX(2) = ONE
+          IF (NX(3) == ZERO) NX(3) = ONE
+          IF (NX(4) == ZERO) NX(4) = ONE
+          CLUSTERS(I)%AX(1) = AX(1)
+          CLUSTERS(I)%AX(2) = AX(2)
+          CLUSTERS(I)%AX(3) = AX(3)
+          CLUSTERS(I)%AX(4) = AX(4)
+          CLUSTERS(I)%NX(1) = NX(1)
+          CLUSTERS(I)%NX(2) = NX(2)
+          CLUSTERS(I)%NX(3) = NX(3)
+          CLUSTERS(I)%NX(4) = NX(4)
+        ELSE
+          ALLOCATE (CLUSTERS(I)%AX(0) )
+          ALLOCATE (CLUSTERS(I)%NX(0) )
+        ENDIF
 c-----
-        WRITE(IOUT,2000) IGR, ISK_L, NEL, NNOD*2, IFAIL            
+        WRITE(IOUT,2000) IGR, ISK_L, NEL, NNOD*2, IFAIL
         IF (IFAIL > 0)  WRITE(IOUT,2001) FMAX(1),FMAX(2),MMAX(1),MMAX(2)
         IF (IFAIL == 3) WRITE(IOUT,2002) AX(1),AX(2),AX(3),AX(4),
-     .                                   NX(1),NX(2),NX(3),NX(4) 
-       
-        WRITE(IOUT,9000)        
+     .                                   NX(1),NX(2),NX(3),NX(4)
+
+        WRITE(IOUT,9000)
 c-----
       ENDDO  !  I=1,NCLUSTER
 C-------------------------------------

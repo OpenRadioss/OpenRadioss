@@ -83,7 +83,7 @@ C-----------------------------------------------
      .        IFITMP,IADFIN,NVAR,M,N,IAD1,IAD2,ISK,IPROC,
      .        IDNS, INS, IUN, IST, NST, IDST
       CHARACTER TITLE*nchartitle,MESS*40,CSTRAND1*9,CSTRAND2*13
-      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)      
+      TYPE(SUBMODEL_DATA),INTENT(IN) :: LSUBMODEL(NSUBMOD)
       LOGICAL IS_AVAILABLE
       INTEGER LENTRIM
 C-----------------------------------------------
@@ -97,100 +97,100 @@ C-----------------------------------------------
       ID=ITHGRP(1)
       CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
       ITHGRP(2)=ITYP
-      ITHGRP(3)=0                                                                                                   
-      IFITMP=IFI+1000                                                                                               
-      ! Number of variables indicated by the user                                                                   
-      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)                                           
+      ITHGRP(3)=0
+      IFITMP=IFI+1000
+      ! Number of variables indicated by the user
+      CALL HM_GET_INTV('Number_Of_Variables',NVAR,IS_AVAILABLE,LSUBMODEL)
 
-      ! Number of stored variables and reading the variables                                                        
-      IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR ,LSUBMODEL)                       
-      IF(NVAR == 0) CALL ANCMSG(MSGID=1109,                                                                         
-     .   MSGTYPE=MSGERROR,                                                                                          
-     .   ANMODE=ANINFO_BLIND_1,                                                                                     
-     .   I1=ID,                                                                                                     
-     .   C1=TITR )                                                                                                  
+      ! Number of stored variables and reading the variables
+      IF (NVAR>0) NVAR = HM_THVARC(VARE,NV,ITHBUF(IAD),VARG,NVG,IVARG,NV0,ID,TITR ,LSUBMODEL)
+      IF(NVAR == 0) CALL ANCMSG(MSGID=1109,
+     .   MSGTYPE=MSGERROR,
+     .   ANMODE=ANINFO_BLIND_1,
+     .   I1=ID,
+     .   C1=TITR )
 c
-      ITHGRP(6)=NVAR                                                                                                
-      ITHGRP(7)=IAD                                                                                                 
-      IAD=IAD+NVAR                                                                                                  
-      IFI=IFI+NVAR                                                                                                  
+      ITHGRP(6)=NVAR
+      ITHGRP(7)=IAD
+      IAD=IAD+NVAR
+      IFI=IFI+NVAR
 C
-       !JREC=IREC+1                                                                                                 
-       !READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE                                                                    
-       !READ(LINE,ERR=999,FMT=FMT_I)IDNS                                                                            
-       !CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)                                                            
-       !INS =NINTRN(IDNS,KXX,NIXX,NUMELX,ITHGRP(1),TITR)                                                            
-       !NNE =KXX(3,INS)-1                                                                                           
-       CALL HM_GET_INTV('ids',IDNS,IS_AVAILABLE,LSUBMODEL)                                                          
-       INS =NINTRN(IDNS,KXX,NIXX,NUMELX,ITHGRP(1),TITR)                                                             
-       NNE =KXX(3,INS)-1                                                                                            
+       !JREC=IREC+1
+       !READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE
+       !READ(LINE,ERR=999,FMT=FMT_I)IDNS
+       !CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+       !INS =NINTRN(IDNS,KXX,NIXX,NUMELX,ITHGRP(1),TITR)
+       !NNE =KXX(3,INS)-1
+       CALL HM_GET_INTV('ids',IDNS,IS_AVAILABLE,LSUBMODEL)
+       INS =NINTRN(IDNS,KXX,NIXX,NUMELX,ITHGRP(1),TITR)
+       NNE =KXX(3,INS)-1
 C
 C
-       !NST=0                                                                                                       
-       !DOWHILE(LINE(1:1)/='/')                                                                                   
-       ! READ(LINE,ERR=999,FMT=FMT_THGR)IST,IDST,TITR                                                               
-       ! IF (IST>NNE) THEN                                                                                       
-       !    CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)                                                        
-       !    CALL ANCMSG(MSGID=361,                                                                                  
-     . !                MSGTYPE=MSGERROR,                                                                           
-     . !                ANMODE=ANINFO_BLIND_1,                                                                      
-     . !                I1=ITHGRP(1),                                                                               
-     . !                C1=TITR,                                                                                    
-     . !                I2=IST)                                                                                     
-       !    GOTO 999                                                                                                
-       ! ENDIF                                                                                                      
-       ! NST=NST+1                                                                                                  
-       ! JREC=JREC+1                                                                                                
-       ! READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE                                                                   
-       !ENDDO                                                                                                       
+       !NST=0
+       !DOWHILE(LINE(1:1)/='/')
+       ! READ(LINE,ERR=999,FMT=FMT_THGR)IST,IDST,TITR
+       ! IF (IST>NNE) THEN
+       !    CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+       !    CALL ANCMSG(MSGID=361,
+     . !                MSGTYPE=MSGERROR,
+     . !                ANMODE=ANINFO_BLIND_1,
+     . !                I1=ITHGRP(1),
+     . !                C1=TITR,
+     . !                I2=IST)
+       !    GOTO 999
+       ! ENDIF
+       ! NST=NST+1
+       ! JREC=JREC+1
+       ! READ(IIN,REC=JREC,ERR=999,FMT='(A)')LINE
+       !ENDDO
 
-       CALL HM_GET_INTV('Num_Cards',NST,IS_AVAILABLE,LSUBMODEL)                                                     
+       CALL HM_GET_INTV('Num_Cards',NST,IS_AVAILABLE,LSUBMODEL)
 
 C
-      ITHGRP(4)=NST                                                                                                 
-      ITHGRP(5)=IAD                                                                                                 
-      IAD2=IAD+4*NST                                                                                                
-      ITHGRP(8)=IAD2                                                                                                
-      IFI=IFI+4*NST+40*NST                                                                                          
-      CALL ZEROIN(IAD,IAD+44*NST-1,ITHBUF)                                                                          
+      ITHGRP(4)=NST
+      ITHGRP(5)=IAD
+      IAD2=IAD+4*NST
+      ITHGRP(8)=IAD2
+      IFI=IFI+4*NST+40*NST
+      CALL ZEROIN(IAD,IAD+44*NST-1,ITHBUF)
 C
-      DO K=1,NST                                                                                                    
-        !IREC=IREC+1                                                                                                
-        ITHBUF(IAD)=INS                                                                                             
-        !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE                                                                   
-        CALL HM_GET_INT_ARRAY_INDEX('XELEM_NUM',IST,K,IS_AVAILABLE,LSUBMODEL)                                       
-        CALL HM_GET_INT_ARRAY_INDEX('XELEM_USER',IDST,K,IS_AVAILABLE,LSUBMODEL)                                     
-        CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITLE,K,80,IS_AVAILABLE)  
+      DO K=1,NST
+        !IREC=IREC+1
+        ITHBUF(IAD)=INS
+        !READ(IIN,REC=IREC,ERR=999,FMT='(A)')LINE
+        CALL HM_GET_INT_ARRAY_INDEX('XELEM_NUM',IST,K,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INT_ARRAY_INDEX('XELEM_USER',IDST,K,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_STRING_INDEX('NAME_ARRAY',TITLE,K,80,IS_AVAILABLE)
         LENTRIM = LEN_TRIM(TITLE)
-        TITLE = TITLE(1:LENTRIM)                                 
+        TITLE = TITLE(1:LENTRIM)
 
-        IF (IST > NNE) THEN                                                                                         
-           CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)                                                         
-           CALL ANCMSG(MSGID=361,                                                                                   
-     .                 MSGTYPE=MSGERROR,                                                                            
-     .                 ANMODE=ANINFO_BLIND_1,                                                                       
-     .                 I1=ITHGRP(1),                                                                                
-     .                 C1=TITR,                                                                                     
-     .                 I2=IST)                                                                                      
-           GOTO 999                                                                                                 
-        ENDIF                                                                                                       
-                                                                                                                    
-        !READ(LINE,ERR=999,FMT=FMT_THGR)IST,IDST,TITLE                                                              
-        ITHBUF(IAD+2*NST)=IDST                                                                                      
-        ITHBUF(IAD+3*NST)=IST                                                                                       
-        IPROC=0                                                                                                     
-        ITHBUF(IAD+NST)=IPROC                                                                                       
-        CALL FRETITL(TITLE,ITHBUF(IAD2),40)                                                                         
-        IAD=IAD+1                                                                                                   
-        IAD2=IAD2+40                                                                                                
-      ENDDO                                                                                                         
+        IF (IST > NNE) THEN
+           CALL FRETITL2(TITR,ITHGRP(NITHGR-LTITR+1),LTITR)
+           CALL ANCMSG(MSGID=361,
+     .                 MSGTYPE=MSGERROR,
+     .                 ANMODE=ANINFO_BLIND_1,
+     .                 I1=ITHGRP(1),
+     .                 C1=TITR,
+     .                 I2=IST)
+           GOTO 999
+        ENDIF
+
+        !READ(LINE,ERR=999,FMT=FMT_THGR)IST,IDST,TITLE
+        ITHBUF(IAD+2*NST)=IDST
+        ITHBUF(IAD+3*NST)=IST
+        IPROC=0
+        ITHBUF(IAD+NST)=IPROC
+        CALL FRETITL(TITLE,ITHBUF(IAD2),40)
+        IAD=IAD+1
+        IAD2=IAD2+40
+      ENDDO
 C
-      IAD = ITHGRP(5)                                                                                               
-      IAD2= ITHGRP(8)                                                                                               
-      IAD=IAD2+40*NST                                                                                               
+      IAD = ITHGRP(5)
+      IAD2= ITHGRP(8)
+      IAD=IAD2+40*NST
 C
       NSNE=NSNE+NST
-      
+
 C=======================================================================
 C ABF FILES
 C=======================================================================
@@ -203,7 +203,7 @@ C=======================================================================
         ENDDO
       ENDDO
       NVARABF = NVARABF + NVAR
-                                                                                                             
+
 C=======================================================================
 C PRINTOUT
 C=======================================================================
@@ -230,7 +230,7 @@ C=======================================================================
       DO I=1,NVAR
        ITHBUF(IAD1+I-1)=IVNS2R(ITHBUF(IAD1+I-1),1)
       ENDDO
-      
+
       RETURN
  999  CALL FREERR(1)
       RETURN

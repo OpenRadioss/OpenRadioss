@@ -36,7 +36,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
       USE SUBMODEL_MOD
-      USE MESSAGE_MOD      
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IIN,IOUT,IUNIT
       my_real PM(NPROPM)
       TYPE(SUBMODEL_DATA), DIMENSION(NSUBMOD), INTENT(IN) :: LSUBMODEL
@@ -86,7 +86,7 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('b_Covolume',BB, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Gamma_Constant', GAMMA, IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('E0', E0, IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV('LAW5_PSH', PSH ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
+      CALL HM_GET_FLOATV('LAW5_PSH', PSH ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho', RHO0 ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 
       RHOR = PM(1)
@@ -94,15 +94,15 @@ C-----------------------------------------------
 
       IF(RHO0 > ZERO) THEN
         RHOR = RHO0
-        PM(1)= RHO0 
+        PM(1)= RHO0
       ELSE
-        RHO0=RHOR                   
+        RHO0=RHOR
       ENDIF
 
       PM( 23) =  E0
       PM( 32) =  BB
-      PM( 33) =  GAMMA-ONE     
-      PM( 34) =  RHO0         
+      PM( 33) =  GAMMA-ONE
+      PM( 34) =  RHO0
       PM( 88) =  PSH
       IF(PM(79)==ZERO)PM(79)=THREE100
 
@@ -112,8 +112,8 @@ C-----------------------------------------------
       BB      = (GAMMA-ONE)*(ONE+MU)/DENOM
       PP      = BB*E0
       PM(31)  = PP - PSH
-      PM(104)  = PP - PSH      
-      
+      PM(104)  = PP - PSH
+
       !SSP0
       IF(RHOI == ZERO)THEN
         MU0 = ZERO ! error 683 already displayed
@@ -124,24 +124,24 @@ C-----------------------------------------------
           MU0 = ZERO ! error 683 already displayed
         ENDIF
       ENDIF
-      
+
       IF(RHOI /= ZERO)THEN
         DF = RHOR/RHOI
       ELSE
         DF = ZERO
       ENDIF
-      
+
       MU2 = MU0*MU0
       PP = PM(31)+PSH
-      SSP0 = ZERO 
+      SSP0 = ZERO
       G0 = PM(22)
       RHOI = PM(89)
-      DPDE = (GAMMA-ONE)*(ONE+MU0)/DENOM                                               
+      DPDE = (GAMMA-ONE)*(ONE+MU0)/DENOM
       DPDMU = (GAMMA-ONE)*E0/DENOM + PP/DENOM*BB*RHOI + PP*DF*DF*DPDE
-        
+
       DPDMU=MAX(ZERO,DPDMU)
-      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR) 
-      PM(27)=SSP0       
+      IF(RHOR > ZERO) SSP0 = SQRT((DPDMU + TWO_THIRD*G0)/RHOR)
+      PM(27)=SSP0
 
       WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN

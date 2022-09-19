@@ -40,7 +40,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -78,7 +78,7 @@ C-----------------------------------------------
      .   VOL0(MVSIZ),VOLG(MVSIZ)
 
       DOUBLE PRECISION
-     .   VOL06(6,MVSIZ), VARNOD6(6,2*NUMNOD)      
+     .   VOL06(6,MVSIZ), VARNOD6(6,2*NUMNOD)
 C
       TYPE(G_BUFEL_) ,POINTER :: GBUF
 C
@@ -133,7 +133,7 @@ C-----for small strain elements
      2                     GBUF%SMSTR,NEL)
           !Parith-On treatment
           CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
-          DO I=LFT,LLT      
+          DO I=LFT,LLT
             I1=NC1(I)+NUMNOD
             I2=NC2(I)+NUMNOD
             I3=NC3(I)+NUMNOD
@@ -173,7 +173,7 @@ c          CALL S4VOLNOD_SM(VARNOD6,V,NC1,NC2,NC3,NC4,VOL0,GBUF%AMU,GBUF%OFF,
 c     2                     GBUF%SMSTR,NEL)
           !Parith-On treatment
           CALL FOAT_TO_6_FLOAT(LFT  ,LLT  ,VOL0 ,VOL06 )
-          DO I=LFT,LLT      
+          DO I=LFT,LLT
             I1=NC1(I)+NUMNOD
             I2=NC2(I)+NUMNOD
             I3=NC3(I)+NUMNOD
@@ -194,7 +194,7 @@ c EXCHANGE
       IF(NSPMD>1)THEN
         LENR = 2*(IAD_ELEM(1,NSPMD+1)-IAD_ELEM(1,1))
         CALL SPMD_EXCH_VOL(VARNOD6(1,1),VARNOD6(1,NUMNOD+1),IAD_ELEM,
-     .                     FR_ELEM, LENR )  
+     .                     FR_ELEM, LENR )
       ENDIF
 
 C Routine assembly PARITH/ON
@@ -203,12 +203,12 @@ C Routine assembly PARITH/ON
         J=I+NUMNOD
         DO K=1,6
           !VOLNOD
-          VARNOD(I) = VARNOD(I) + VARNOD6(K,I)  
+          VARNOD(I) = VARNOD(I) + VARNOD6(K,I)
           !VARNOD
-          VARNOD(J) = VARNOD(J) + VARNOD6(K,J)          
+          VARNOD(J) = VARNOD(J) + VARNOD6(K,J)
         ENDDO
 
-        !MODIFY RELATIVE VOLUME 
+        !MODIFY RELATIVE VOLUME
         IF(VARNOD(J)/=0)THEN
           VARNOD(I)=VARNOD(I)/VARNOD(J)
         ENDIF

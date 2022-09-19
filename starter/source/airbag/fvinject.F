@@ -29,9 +29,9 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        GROUPDEF_MOD                  ../common_source/modules/groupdef_mod.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE FVINJECT(IBUF  , ELEM   , IBAGJET, 
-     .                    NJET  , IGRSURF, 
-     .                    ITAGEL, NN     , NEL    , 
+      SUBROUTINE FVINJECT(IBUF  , ELEM   , IBAGJET,
+     .                    NJET  , IGRSURF,
+     .                    ITAGEL, NN     , NEL    ,
      .                    ID    , TAGVENT, TITR   ,
      .                    ITAB  )
 C-----------------------------------------------
@@ -55,8 +55,8 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IBUF(*), ELEM(3,NEL), IBAGJET(NIBJET,*), 
-     .        NJET, 
+      INTEGER IBUF(*), ELEM(3,NEL), IBAGJET(NIBJET,*),
+     .        NJET,
      .        NN, NEL, ID, TAGVENT(NUMNOD),ITAB(NUMNOD)
       INTEGER, DIMENSION(NEL), INTENT(INOUT) :: ITAGEL
       CHARACTER*nchartitle,
@@ -148,7 +148,7 @@ C
             IF(IERROR==1)THEN
               CALL ANCMSG(MSGID=632,MSGTYPE=MSGERROR,ANMODE=ANINFO,
      .                    I1=ID,I2=IINJ,C1=TITR,C2='INFLATOR')
-            ENDIF                
+            ENDIF
          ENDDO
          IF(INOD > 0) THEN
            CALL ANCMSG(MSGID=1047,MSGTYPE=MSGWARNING,ANMODE=ANINFO,

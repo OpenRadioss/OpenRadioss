@@ -63,7 +63,7 @@ C-----------------------------------------------
       INTEGER MAT(MVSIZ),PID(MVSIZ)
 C     REAL
       my_real
-     .   EXX(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), 
+     .   EXX(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ),
      .   KXX(MVSIZ), KYY(MVSIZ), KZZ(MVSIZ),
      .   PM(NPROPM,*), GEO(NPROPG,*),FOR(NEL,3), MOM(NEL,3), EINT(NEL,2),
      .   OFF(*),EPSP(*), AL(*)
@@ -87,12 +87,12 @@ C     REAL
       my_real
      .   EPIF,SVM1,GS,MT,TM,TSTAR,UMR,R,DFXX,DFXY,DFXZ,SHFACT
 C
-      TYPE(L_BUFEL_),POINTER :: LBUF  
+      TYPE(L_BUFEL_),POINTER :: LBUF
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
 C=======================================================================
-      IPY  = 200        
-      IPZ  = 300        
-      IPA  = 400        
+      IPY  = 200
+      IPZ  = 300
+      IPA  = 400
       EPIF = ZERO
       NPIF = 0
       SHFACT = FIVE_OVER_6
@@ -102,32 +102,32 @@ C=======================================================================
       ENDDO
 !
 C---
-      DO I=JFT,JLT                             
-        MX = MAT(I)                            
-        E(I)    = PM(20,MX)                    
-        G(I)    = PM(22,MX)                    
-        CA(I)   = PM(38,MX)                    
-        CB(I)   = PM(39,MX)                    
-        CN(I)   = PM(40,MX)                    
-        EPMX(I) = PM(41,MX)                    
-        YMAX(I) = PM(42,MX)                    
-        CC(I)   = PM(43,MX)                    
-        EPDR(I) = MAX(EM20,PM(44,MX)*DT1)  
-        EPIF    = MAX(EPIF,CC(I))              
-        ICC(I)  = NINT(PM(49,MX))              
-        IRTY(I) = NINT(PM(50,MX))              
-        NPIF    = NPIF + IRTY(I)               
-        Z3(I)   = PM(51,MX)                    
-        Z4(I)   = PM(52,MX)                    
-        CP(I)   = PM(53,MX)                    
-        T(I)    = PM(54,MX)                    
+      DO I=JFT,JLT
+        MX = MAT(I)
+        E(I)    = PM(20,MX)
+        G(I)    = PM(22,MX)
+        CA(I)   = PM(38,MX)
+        CB(I)   = PM(39,MX)
+        CN(I)   = PM(40,MX)
+        EPMX(I) = PM(41,MX)
+        YMAX(I) = PM(42,MX)
+        CC(I)   = PM(43,MX)
+        EPDR(I) = MAX(EM20,PM(44,MX)*DT1)
+        EPIF    = MAX(EPIF,CC(I))
+        ICC(I)  = NINT(PM(49,MX))
+        IRTY(I) = NINT(PM(50,MX))
+        NPIF    = NPIF + IRTY(I)
+        Z3(I)   = PM(51,MX)
+        Z4(I)   = PM(52,MX)
+        CP(I)   = PM(53,MX)
+        T(I)    = PM(54,MX)
         EPSP(I) = MAX(EPSP(I),EPDR(I))
-        VOL(I)  = AL(I)*GEO(1,PID(I))              
-      ENDDO                                    
+        VOL(I)  = AL(I)*GEO(1,PID(I))
+      ENDDO
 C
       DO I=JFT,JLT
         T(I) = T(I) + CP(I)*(EINT(I,1)+EINT(I,2))/VOL(I)
-      ENDDO   
+      ENDDO
 C-------------------------------------
 C     DEBUT DE BOUCLE SUR POINTS INTEGRATION
 C--------------------------------------
@@ -139,23 +139,23 @@ C
         LBUF => ELBUF_STR%BUFLY(ILAYER)%LBUF(IR,IS,IPT)
         BUFLY => ELBUF_STR%BUFLY(ILAYER)
 C---    Coordonnees du point d'integration
-        DO I=JFT,JLT                                 
-          YPT(I) = GEO(IPY+IPT,PID(I))              
-          ZPT(I) = GEO(IPZ+IPT,PID(I))           
-          APT(I) = GEO(IPA+IPT,PID(I))           
-        ENDDO                                        
+        DO I=JFT,JLT
+          YPT(I) = GEO(IPY+IPT,PID(I))
+          ZPT(I) = GEO(IPZ+IPT,PID(I))
+          APT(I) = GEO(IPA+IPT,PID(I))
+        ENDDO
         DO I=JFT,JLT
           SIGNXX(I) = LBUF%SIG(II(1)+I)
           SIGNXY(I) = LBUF%SIG(II(2)+I)
           SIGNXZ(I) = LBUF%SIG(II(3)+I)
-        ENDDO        
+        ENDDO
 C---    Deformations Incrementales
         DO I= JFT,JLT
           DEPSXX(I) = EXX(I) - YPT(I)*KZZ(I) + ZPT(I)*KYY(I)
-          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I) 
+          DEPSXY(I) = EXY(I) + ZPT(I)*KXX(I)
           DEPSXZ(I) = EXZ(I) - YPT(I)*KXX(I)
           DEPSXY(I) = DEPSXY(I) / SHFACT
-          DEPSXZ(I) = DEPSXZ(I) / SHFACT 
+          DEPSXZ(I) = DEPSXZ(I) / SHFACT
         ENDDO
 C
 c---    Total strain
@@ -166,22 +166,22 @@ C
             LBUF%STRA(II(2)+I) = LBUF%STRA(II(2)+I) + DEPSXY(I)
             LBUF%STRA(II(3)+I) = LBUF%STRA(II(3)+I) + DEPSXZ(I)
           ENDDO
-        ENDIF        
+        ENDIF
 C
 C---    Contraintes elastiques
 C
         DO I = JFT,JLT
-          GS = SHFACT*G(I)                         
+          GS = SHFACT*G(I)
           SIGNXX(I) = SIGNXX(I) + E(I)*DEPSXX(I)
           SIGNXY(I) = SIGNXY(I) + GS*DEPSXY(I)
           SIGNXZ(I) = SIGNXZ(I) + GS*DEPSXZ(I)
-          ETSE(I)   = ONE                        
-        ENDDO                                    
+          ETSE(I)   = ONE
+        ENDDO
         DO I=JFT,JLT
           ETSE(I) = ONE
-          CA(I)   = PM(38,MAT(I))                  
-          CB(I)   = PM(39,MAT(I))                  
-          YMAX(I) = PM(42,MAT(I))                  
+          CA(I)   = PM(38,MAT(I))
+          CB(I)   = PM(39,MAT(I))
+          YMAX(I) = PM(42,MAT(I))
         ENDDO
 C--     Yield 
         IF (EPIF /= ZERO) THEN
@@ -238,11 +238,11 @@ C               Zerilli-Armstrong
 C---
         DO I=JFT,JLT
           IF(LBUF%PLA(I) == ZERO) THEN
-            YLD(I)= CA(I)                                
-          ELSE                                           
+            YLD(I)= CA(I)
+          ELSE
             YLD(I)= CA(I) + CB(I)*EXP(CN(I)*LOG(LBUF%PLA(I)))
-          ENDIF                                          
-          YLD(I)  = MIN(YLD(I),YMAX(I))                  
+          ENDIF
+          YLD(I)  = MIN(YLD(I),YMAX(I))
         ENDDO
 C-------------------
 C       PROJECTION   -   radial return
@@ -250,17 +250,17 @@ C-------------------
         DO I=JFT,JLT
           SVM1 = SIGNXX(I)**2 + THREE*(SIGNXY(I)**2 + SIGNXZ(I)**2)
           IF (SVM1 > YLD(I)**2) THEN
-            SVM1 = SQRT(SVM1)                                        
-            R    = MIN( ONE, YLD(I)/MAX(EM20,SVM1) )                  
-            SIGNXX(I) = SIGNXX(I)*R                                  
-            SIGNXY(I) = SIGNXY(I)*R                                  
-            SIGNXZ(I) = SIGNXZ(I)*R                                  
-            UMR = ONE - R                                             
+            SVM1 = SQRT(SVM1)
+            R    = MIN( ONE, YLD(I)/MAX(EM20,SVM1) )
+            SIGNXX(I) = SIGNXX(I)*R
+            SIGNXY(I) = SIGNXY(I)*R
+            SIGNXZ(I) = SIGNXZ(I)*R
+            UMR = ONE - R
             LBUF%PLA(I) = LBUF%PLA(I) + OFF(I)*SVM1*UMR/(THREE*G(I))
-c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I)) 
-          ENDIF                                   
-        ENDDO     
-        
+c            IF (R < ONE) ETSE(I)= H(I)/(H(I)+E(I))
+          ENDIF
+        ENDDO
+
 C  failure criteria 
 C--------------------------------
 C     TEST DE RUPTURE DUCTILE
@@ -271,30 +271,30 @@ C
             OFF(I)=FOUR_OVER_5
             IDEL7NOK = 1
           ENDIF
-        ENDDO                                          
+        ENDDO
 C-----------
 C       FORCES ET MOMENTS
         DO I=JFT,JLT
           DFXX = APT(I)*SIGNXX(I)
           DFXY = APT(I)*SIGNXY(I)
           DFXZ = APT(I)*SIGNXZ(I)
-          FOR(I,1) = FOR(I,1) + DFXX			   
-          FOR(I,2) = FOR(I,2) + DFXY			   
-          FOR(I,3) = FOR(I,3) + DFXZ			     
+          FOR(I,1) = FOR(I,1) + DFXX			
+          FOR(I,2) = FOR(I,2) + DFXY			
+          FOR(I,3) = FOR(I,3) + DFXZ			
           MOM(I,1) = MOM(I,1) + DFXY*ZPT(I) - DFXZ*YPT(I)
-          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)		      
-          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)		 
+          MOM(I,2) = MOM(I,2) + DFXX*ZPT(I)		
+          MOM(I,3) = MOM(I,3) - DFXX*YPT(I)		
         ENDDO
 C
-        DO I=JFT,JLT                                                    
+        DO I=JFT,JLT
           LBUF%SIG(II(1)+I) = SIGNXX(I)
           LBUF%SIG(II(2)+I) = SIGNXY(I)
           LBUF%SIG(II(3)+I) = SIGNXZ(I)
-        ENDDO                                                       
+        ENDDO
 C-------------------------------------
 C       FIN DE BOUCLE SUR POINT INTEGRATION
 C-------------------------------------
-       ENDDO   
+       ENDDO
 C-----------
       RETURN
       END

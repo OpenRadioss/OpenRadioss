@@ -49,8 +49,8 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE MESSAGE_MOD             
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -135,7 +135,7 @@ C-----------------------------------------------
       my_real
      .   FAC, XT, YT, ZT
 C-----
-      TYPE(G_BUFEL_) ,POINTER :: GBUF 
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
       CHARACTER*nchartitle , TITR
 C-----------------------------------------------
 C   S o u r c e  L i n e s
@@ -429,9 +429,9 @@ C
      .     PX1, PX2, PX3, PX4,
      .     PY1, PY2, PY3, PY4,
      .     PZ1, PZ2, PZ3, PZ4,
-     .     VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8, 
-     .     VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8, 
-     .     VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8, 
+     .     VX1, VX2, VX3, VX4, VX5, VX6, VX7, VX8,
+     .     VY1, VY2, VY3, VY4, VY5, VY6, VY7, VY8,
+     .     VZ1, VZ2, VZ3, VZ4, VZ5, VZ6, VZ7, VZ8,
      .     MFXX, MFXY, MFXZ, MFYX, MFYY, MFYZ, MFZX, MFZY, MFZZ)
 C
           DO I=1,NEL
@@ -687,7 +687,7 @@ C-----------------------------------------------
      .   VZ1(*), VZ2(*), VZ3(*), VZ4(*), VZ5(*), VZ6(*), VZ7(*), VZ8(*),
      .   PX1(*), PX2(*), PX3(*), PX4(*),
      .   PY1(*), PY2(*), PY3(*), PY4(*),
-     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), 
+     .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),
      .   DXX(*), DXY(*), DXZ(*),
      .   DYX(*), DYY(*), DYZ(*),
      .   DZX(*), DZY(*), DZZ(*)
@@ -749,7 +749,7 @@ Chd|-- called by -----------
 Chd|        SREFSTA3                      source/elements/solid/solide/srefsta3.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE SORDEFT3( NEL, MXX, MXY, MXZ,  
+      SUBROUTINE SORDEFT3( NEL, MXX, MXY, MXZ,
      .                     MYX, MYY, MYZ, MZX, MZY, MZZ,
      .                     G1X,G1Y,G1Z,G2X,G2Y,G2Z,G3X,G3Y,G3Z)
 C-----------------------------------------------
@@ -765,7 +765,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER :: NEL
       my_real
-     .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),  
+     .   MXX(*), MXY(*), MXZ(*),MYX(*), MYY(*), MYZ(*),
      .   MZX(*), MZY(*), MZZ(*),G1X(*),G1Y(*),G1Z(*),
      .   G2X(*),G2Y(*),G2Z(*),G3X(*),G3Y(*),G3Z(*)
 C-----------------------------------------------
@@ -819,7 +819,7 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SREFDERI3(NEL ,JEUL ,
-     .              VOL  ,VEUL ,GEO  ,IGEO , 
+     .              VOL  ,VEUL ,GEO  ,IGEO ,
      .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
      .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
@@ -855,14 +855,14 @@ C
      .   X7(*), X8(*), Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*),
      .   Y8(*), Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
      .   JAC1(*), JAC2(*), JAC3(*), JAC4(*), JAC5(*), JAC6(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PZ1(*), PZ2(*), PZ3(*), PZ4(*), DET(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J
-      
+
       DOUBLE PRECISION
      .   X1_COPY(MVSIZ), X2_COPY(MVSIZ), X3_COPY(MVSIZ), X4_COPY(MVSIZ),
      .   X5_COPY(MVSIZ), X6_COPY(MVSIZ), X7_COPY(MVSIZ), X8_COPY(MVSIZ),
@@ -875,10 +875,10 @@ C
      .   JAC7(MVSIZ), JAC8(MVSIZ), JAC9(MVSIZ),
      .   X_17_46(MVSIZ) , X_28_35(MVSIZ) ,
      .   Y_17_46(MVSIZ) , Y_28_35(MVSIZ) ,
-     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ) 
+     .   Z_17_46(MVSIZ) , Z_28_35(MVSIZ)
       my_real
-     .   DETT(MVSIZ), 
-     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), 
+     .   DETT(MVSIZ),
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ),
      .   JACI4(MVSIZ), JACI5(MVSIZ), JACI6(MVSIZ),
      .   JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
      .   X17(MVSIZ), X28(MVSIZ), X35(MVSIZ), X46(MVSIZ),
@@ -914,7 +914,7 @@ C
         Z6_COPY(I)=Z6(I)
         Z7_COPY(I)=Z7(I)
         Z8_COPY(I)=Z8(I)
-      ENDDO     
+      ENDDO
 
       DO I=1,NEL
         X17(I)=X7_COPY(I)-X1_COPY(I)
@@ -932,7 +932,7 @@ C
       ENDDO
 C
 C  Jacobian matrix JAC()
-      DO I=1,NEL               
+      DO I=1,NEL
         JAC1(I)=X17(I)+X28(I)-X35(I)-X46(I)
         JAC2(I)=Y17(I)+Y28(I)-Y35(I)-Y46(I)
         JAC3(I)=Z17(I)+Z28(I)-Z35(I)-Z46(I)
@@ -962,13 +962,13 @@ C
       DO I=1,NEL
        DET(I)=ONE_OVER_64*(JAC1(I)*JAC_59_68(I)+JAC2(I)*JAC_67_49(I)+JAC3(I)*JAC_48_57(I))
        VOL(I)=DET(I)
-      ENDDO     
+      ENDDO
 C
       IF(JEUL /= 0)THEN
         DO I=1,NEL
           VEUL(32,I) = VOL(I)
         ENDDO
-      ENDIF             
+      ENDIF
 C
       DO I=1,NEL
         IF (DET(I) > ZERO) CYCLE
@@ -1051,8 +1051,8 @@ C---
         END DO
         IF (IGEO(11,NGEO(1)) == 15) THEN
           DO I=1,NEL
-            VOL(I)=VOL(I)*GEO(1,NGEO(I))      
-          END DO              
+            VOL(I)=VOL(I)*GEO(1,NGEO(I))
+          END DO
         END IF
       END IF
 C-----------
@@ -1067,13 +1067,13 @@ Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE SZREFDERI3(NEL,JEUL ,
-     .              VOL  ,VEUL ,GEO  ,IGEO , 
-     .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   , 
-     .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   , 
+     .              VOL  ,VEUL ,GEO  ,IGEO ,
+     .              X1   ,X2   ,X3   ,X4   ,X5   ,X6   ,X7   ,X8   ,
+     .              Y1   ,Y2   ,Y3   ,Y4   ,Y5   ,Y6   ,Y7   ,Y8   ,
      .              Z1   ,Z2   ,Z3   ,Z4   ,Z5   ,Z6   ,Z7   ,Z8   ,
      .              PX1  ,PX2  ,PX3  ,PX4  ,
      .              PY1  ,PY2  ,PY3  ,PY4  ,
-     .              PZ1  ,PZ2  ,PZ3  ,PZ4  , 
+     .              PZ1  ,PZ2  ,PZ3  ,PZ4  ,
      .              JAC1 ,JAC2 ,JAC3 ,JAC4 ,JAC5 ,JAC6 ,JAC9 ,
      .              NGL  ,NGEO ,DET  )
 C-----------------------------------------------
@@ -1100,17 +1100,17 @@ C-----------------------------------------------
       my_real
      .   VOL(*), VEUL(LVEUL,*),GEO(NPROPG,*),
      .   JAC1(*), JAC2(*), JAC3(*), JAC4(*), JAC5(*), JAC6(*), JAC9(*),
-     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*), 
-     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*), 
+     .   X1(*), X2(*), X3(*), X4(*), X5(*), X6(*), X7(*), X8(*),
+     .   Y1(*), Y2(*), Y3(*), Y4(*), Y5(*), Y6(*), Y7(*), Y8(*),
      .   Z1(*), Z2(*), Z3(*), Z4(*), Z5(*), Z6(*), Z7(*), Z8(*),
-     .   PX1(*), PX2(*), PX3(*), PX4(*),  
-     .   PY1(*), PY2(*), PY3(*), PY4(*),  
+     .   PX1(*), PX2(*), PX3(*), PX4(*),
+     .   PY1(*), PY2(*), PY3(*), PY4(*),
      .   PZ1(*), PZ2(*), PZ3(*), PZ4(*),DET(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      
+
       DOUBLE PRECISION
      .   X1_COPY(MVSIZ), X2_COPY(MVSIZ), X3_COPY(MVSIZ), X4_COPY(MVSIZ),
      .   X5_COPY(MVSIZ), X6_COPY(MVSIZ), X7_COPY(MVSIZ), X8_COPY(MVSIZ),
@@ -1118,15 +1118,15 @@ C-----------------------------------------------
      .   Y5_COPY(MVSIZ), Y6_COPY(MVSIZ), Y7_COPY(MVSIZ), Y8_COPY(MVSIZ),
      .   Z1_COPY(MVSIZ), Z2_COPY(MVSIZ), Z3_COPY(MVSIZ), Z4_COPY(MVSIZ),
      .   Z5_COPY(MVSIZ), Z6_COPY(MVSIZ), Z7_COPY(MVSIZ), Z8_COPY(MVSIZ)
-           
+
       my_real
-     .   DETT(MVSIZ) , JAC7(MVSIZ) , JAC8(MVSIZ) , 
-     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ), 
-     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ), 
-     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ), 
+     .   DETT(MVSIZ) , JAC7(MVSIZ) , JAC8(MVSIZ) ,
+     .   JACI1(MVSIZ), JACI2(MVSIZ), JACI3(MVSIZ), JACI4(MVSIZ),
+     .   JACI5(MVSIZ), JACI6(MVSIZ), JACI7(MVSIZ), JACI8(MVSIZ), JACI9(MVSIZ),
+     .   JAC_59_68(MVSIZ), JAC_67_49(MVSIZ), JAC_48_57(MVSIZ),
      .   JACI12(MVSIZ), JACI45(MVSIZ), JACI78(MVSIZ),
      .   X_17_46(MVSIZ),X_28_35(MVSIZ),Y_17_46(MVSIZ),
-     .   Y_28_35(MVSIZ),Z_17_46(MVSIZ),Z_28_35(MVSIZ), 
+     .   Y_28_35(MVSIZ),Z_17_46(MVSIZ),Z_28_35(MVSIZ),
      .   X17(MVSIZ) , X28(MVSIZ) , X35(MVSIZ) , X46(MVSIZ),
      .   Y17(MVSIZ) , Y28(MVSIZ) , Y35(MVSIZ) , Y46(MVSIZ),
      .   Z17(MVSIZ) , Z28(MVSIZ) , Z35(MVSIZ) , Z46(MVSIZ)
@@ -1158,8 +1158,8 @@ C
         Z6_COPY(I)=Z6(I)
         Z7_COPY(I)=Z7(I)
         Z8_COPY(I)=Z8(I)
-      ENDDO     
-      
+      ENDDO
+
       DO I=1,NEL
         X17(I)=X7_COPY(I)-X1_COPY(I)
         X28(I)=X8_COPY(I)-X2_COPY(I)
@@ -1284,8 +1284,8 @@ C
         END DO
         IF (IGEO(11,NGEO(1)) == 15) THEN
           DO I=1,NEL
-            VOL(I)=VOL(I)*GEO(1,NGEO(I))      
-          ENDDO              
+            VOL(I)=VOL(I)*GEO(1,NGEO(I))
+          ENDDO
         ENDIF
       ENDIF
 C-----------

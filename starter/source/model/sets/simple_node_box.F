@@ -119,7 +119,7 @@ C------------
             CALL CHECKPARA(XP1,YP1,ZP1,XP2,YP2,ZP2,
      .                     ISK,NODINB,SKEW,INSIDE)
 
-            IF (INSIDE == 1) THEN 
+            IF (INSIDE == 1) THEN
               ND_SIZE = ND_SIZE + 1
               ND_ARRAY(ND_SIZE) = J ! add node
             ENDIF
@@ -136,7 +136,7 @@ C------------
             CALL CHECKCYL(XP1, YP1, ZP1 , XP2, YP2, ZP2,
      .                    NODINB  , DIAM, INSIDE )
 
-            IF (INSIDE == 1) THEN 
+            IF (INSIDE == 1) THEN
               ND_SIZE = ND_SIZE + 1
               ND_ARRAY(ND_SIZE) = J ! add node
             ENDIF
@@ -152,7 +152,7 @@ C------------
             NODINB(3) = X(3,J)
             CALL CHECKSPHERE(XP1, YP1, ZP1, NODINB, DIAM, INSIDE)
 
-            IF (INSIDE == 1) THEN 
+            IF (INSIDE == 1) THEN
               ND_SIZE = ND_SIZE + 1
               ND_ARRAY(ND_SIZE) = J ! add node
             ENDIF

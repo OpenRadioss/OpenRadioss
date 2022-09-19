@@ -39,7 +39,7 @@ Chd|====================================================================
       SUBROUTINE I23FOR3(JLT    ,NIN    ,NOINT  ,IBC    ,ICODT  ,
      2                  FSAV    ,GAP    ,STIGLO ,FRIC   ,VISC   ,
      3                  INACTI  ,MFROT  ,IFQ    ,IBAG   ,
-     4                  ICURV   ,STIF    ,GAPV  ,ITAB   ,A      ,    
+     4                  ICURV   ,STIF    ,GAPV  ,ITAB   ,A      ,
      5                  CAND_P  ,FROT_P ,ALPHA0 ,V     ,ICONTACT,
      6                  NISKYFI,NSVG    ,X1     ,Y1     ,Z1     ,
      7                  X2     ,Y2      ,Z2     ,X3     ,Y3     ,
@@ -54,7 +54,7 @@ Chd|====================================================================
      I                  ISKY     ,INTTH  ,MS     ,IX1    ,IX2   ,
      J                  IX3      ,IX4    ,CAND_FX,CAND_FY,CAND_FZ ,
      K                  KMIN     ,KMAX   ,CN_LOC ,CE_LOC  ,MSKYI_SMS ,
-     L                  ISKYI_SMS,NSMS   ,JTASK,ISENSINT  ,  FSAVPARIT, 
+     L                  ISKYI_SMS,NSMS   ,JTASK,ISENSINT  ,  FSAVPARIT,
      M                  NISUB    ,NFT    ,H3D_DATA )
 C-----------------------------------------------
 C   M o d u l e s
@@ -96,7 +96,7 @@ C-----------------------------------------------
      .        NISKYFI, ISECIN, NSTRF(*),NEWFRONT, ISKY(*), ISKYI_SMS(*)
       INTEGER NSVG(MVSIZ),CAND_N_N(MVSIZ), WEIGHT(*),
      .        IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ),
-     .        CN_LOC(MVSIZ), CE_LOC(MVSIZ), INDEX(*), NSMS(MVSIZ), 
+     .        CN_LOC(MVSIZ), CE_LOC(MVSIZ), INDEX(*), NSMS(MVSIZ),
      .        ISENSINT(*),NISUB,NFT
       my_real
      .   STIGLO, CAND_P(*), FROT_P(*), FSAV(*), FSKYI(LSKYI,4),
@@ -111,7 +111,7 @@ C-----------------------------------------------
      .   XI(MVSIZ),YI(MVSIZ),ZI(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
      .   NX(MVSIZ),NY(MVSIZ),NZ(MVSIZ),PENE(MVSIZ),
-     .   VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ), 
+     .   VXM(MVSIZ), VYM(MVSIZ), VZM(MVSIZ),
      .   FXT(MVSIZ), FYT(MVSIZ), FZT(MVSIZ)
       my_real
      .   A(3,*), V(3,*), MS(*),
@@ -131,12 +131,12 @@ C-----------------------------------------------
      .   FY1(MVSIZ), FY2(MVSIZ), FY3(MVSIZ), FY4(MVSIZ),
      .   FZ1(MVSIZ), FZ2(MVSIZ), FZ3(MVSIZ), FZ4(MVSIZ),
      .   XMU(MVSIZ),
-     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ), 
+     .   VX(MVSIZ), VY(MVSIZ), VZ(MVSIZ), VN(MVSIZ),
      .   VNX, VNY, VNZ, AA, S2, DIST, RDIST, DTI,
      .   V2, FF, ALPHA, BETA,
      .   FX, FY, FZ, FT, FN, FMAX, FTN,
      .   ECONTT, ECONVT,ECONTDT,
-     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8, 
+     .   FSAV1, FSAV2, FSAV3, FSAV4, FSAV5, FSAV6, FSAV7, FSAV8,
      .   FSAV9, FSAV10, FSAV11, FSAV12, FSAV13, FSAV14, FSAV15,
      .   VV,AX1,AX2,AY1,AY2,AZ1,AZ2,AX,AY,AZ,AREA,P,VV1,VV2,DMU,
      .   DT1INV, VIS, RBID,
@@ -201,7 +201,7 @@ C---------------------------------
        ENDIF
        IF(STIF(I)/=ZERO)STIF(I)=MIN(KMAX,MAX(KMIN,STIF(I)))
        ECONTT = ECONTT + STIF(I)*PENE(I)**2
-       FNI(I) = - STIF(I) * PENE(I) 
+       FNI(I) = - STIF(I) * PENE(I)
       END DO
 C
       DO I=1,JLT
@@ -335,8 +335,8 @@ C---    Viscous friction
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
-          V2 = (VX(I) - NX(I)*AA)**2 
-     .       + (VY(I) - NY(I)*AA)**2 
+          V2 = (VX(I) - NX(I)*AA)**2
+     .       + (VY(I) - NY(I)*AA)**2
      .       + (VZ(I) - NZ(I)*AA)**2
           VV  = SQRT(MAX(EM30,V2))
           AX1 = X3(I) - X1(I)
@@ -350,7 +350,7 @@ C attention : normale <> normale a l'elt
           AZ  = AX1*AY2 - AY1*AX2
           AREA = HALF*SQRT(AX*AX+AY*AY+AZ*AZ)
           P =  FNI(I)/AREA
-          XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P 
+          XMU(I) = FRIC + (FROT_P(1) + FROT_P(4)*P ) * P
      .           +(FROT_P(2) + FROT_P(3)*P) * VV + FROT_P(5)*V2
           XMU(I) = MAX(XMU(I),EM30)
         ENDDO
@@ -359,8 +359,8 @@ C---    Loi Darmstad
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
-          V2 = (VX(I) - NX(I)*AA)**2 
-     .       + (VY(I) - NY(I)*AA)**2 
+          V2 = (VX(I) - NX(I)*AA)**2
+     .       + (VY(I) - NY(I)*AA)**2
      .       + (VZ(I) - NZ(I)*AA)**2
           VV  = SQRT(MAX(EM30,V2))
           AX1 = X3(I) - X1(I)
@@ -385,8 +385,8 @@ C---    Loi Renard
         DO I=1,JLT
 C attention : normale <> normale a l'elt
           AA = NX(I)*VX(I) + NY(I)*VY(I) + NZ(I)*VZ(I)
-          V2 = (VX(I) - NX(I)*AA)**2 
-     .       + (VY(I) - NY(I)*AA)**2 
+          V2 = (VX(I) - NX(I)*AA)**2
+     .       + (VY(I) - NY(I)*AA)**2
      .       + (VZ(I) - NZ(I)*AA)**2
           VV = SQRT(MAX(EM30,V2))
           IF(VV>=0.AND.VV<=FROT_P(5)) THEN
@@ -394,7 +394,7 @@ C attention : normale <> normale a l'elt
             VV1 = VV / FROT_P(5)
             XMU(I) = FROT_P(1)+ DMU*VV1*(TWO-VV1)
           ELSEIF(VV>FROT_P(5).AND.VV<FROT_P(6)) THEN
-            DMU = FROT_P(4)-FROT_P(3) 
+            DMU = FROT_P(4)-FROT_P(3)
             VV1 = (VV - FROT_P(5))/(FROT_P(6)-FROT_P(5))
             XMU(I) = FROT_P(3)+ DMU * (THREE-TWO*VV1)*VV1**2
           ELSE
@@ -449,8 +449,8 @@ C-------    total force
         FYI(I)=FYN(I) + FYT(I)
         FZI(I)=FZN(I) + FZT(I)
 
-        ECONVT = ECONVT 
-     .         + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I)) 
+        ECONVT = ECONVT
+     .         + DT1*(VX(I)*FXT(I)+VY(I)*FYT(I)+VZ(I)*FZT(I))
       ENDDO
 C---------------------------------
 C
@@ -549,7 +549,7 @@ C
           STV(I)= KT(I)*AUX*AUX/MAX(CY,EM30)
           KS(I)= KT(I)
           CS(I) =C(I)
-         ENDIF      
+         ENDIF
 C
          J1=IX1(I)
          IF(MS(J1)==ZERO)THEN
@@ -563,7 +563,7 @@ C
           CY   =EIGHT*MS(J1)*K1(I)
           AUX   = SQRT(CX+CY)+TWO*C1(I)
           ST1(I)= K1(I)*AUX*AUX/MAX(CY,EM30)
-         ENDIF      
+         ENDIF
 C
          J1=IX2(I)
          IF(MS(J1)==ZERO)THEN
@@ -577,7 +577,7 @@ C
           CY   =EIGHT*MS(J1)*K2(I)
           AUX   = SQRT(CX+CY)+TWO*C2(I)
           ST2(I)= K2(I)*AUX*AUX/MAX(CY,EM30)
-         ENDIF      
+         ENDIF
 C
          J1=IX3(I)
          IF(MS(J1)==ZERO)THEN
@@ -591,7 +591,7 @@ C
           CY   =EIGHT*MS(J1)*K3(I)
           AUX   = SQRT(CX+CY)+TWO*C3(I)
           ST3(I)= K3(I)*AUX*AUX/MAX(CY,EM30)
-         ENDIF      
+         ENDIF
 C
          J1=IX4(I)
          IF(MS(J1)==ZERO)THEN
@@ -605,7 +605,7 @@ C
           CY   =EIGHT*MS(J1)*K4(I)
           AUX   = SQRT(CX+CY)+TWO*C4(I)
           ST4(I)= K4(I)*AUX*AUX/MAX(CY,EM30)
-         ENDIF      
+         ENDIF
         ENDDO
 C
        ELSE
@@ -758,24 +758,24 @@ C       ENDIF
 C      ENDIF
 C-----------------------------------------------------
       IF(INTTH==0)THEN
-        DO I=1,JLT            
-         FX1(I)=FXI(I)*H1(I)  
-         FY1(I)=FYI(I)*H1(I)  
-         FZ1(I)=FZI(I)*H1(I)  
+        DO I=1,JLT
+         FX1(I)=FXI(I)*H1(I)
+         FY1(I)=FYI(I)*H1(I)
+         FZ1(I)=FZI(I)*H1(I)
 C
-         FX2(I)=FXI(I)*H2(I)  
-         FY2(I)=FYI(I)*H2(I)  
-         FZ2(I)=FZI(I)*H2(I)  
+         FX2(I)=FXI(I)*H2(I)
+         FY2(I)=FYI(I)*H2(I)
+         FZ2(I)=FZI(I)*H2(I)
 C
-         FX3(I)=FXI(I)*H3(I)  
-         FY3(I)=FYI(I)*H3(I)  
-         FZ3(I)=FZI(I)*H3(I)  
+         FX3(I)=FXI(I)*H3(I)
+         FY3(I)=FYI(I)*H3(I)
+         FZ3(I)=FZI(I)*H3(I)
 C
-         FX4(I)=FXI(I)*H4(I)  
-         FY4(I)=FYI(I)*H4(I)  
+         FX4(I)=FXI(I)*H4(I)
+         FY4(I)=FYI(I)*H4(I)
          FZ4(I)=FZI(I)*H4(I)
 C          
-        ENDDO                
+        ENDDO
       END IF
 C spmd : identification des noeuds interf. utiles a envoyer
       IF (NSPMD>1) THEN

@@ -65,7 +65,7 @@ C   Tableau utilise par proc 0
        REAL, DIMENSION(:),ALLOCATABLE :: XGLOB
 C-----------------------------------------------
        ALLOCATE(XGLOB(NUM))
-         
+
        IF (ISPMD/=0) THEN
          MSGTYP = MSGOFF
          CALL MPI_SEND(V,3*TV,MPI_REAL,IT_SPMD(1),MSGTYP,
@@ -88,7 +88,7 @@ C   Reception du buffer entier des adresses NODGLOB
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
 C  
-           
+
             CALL WRITE_R_C(XGLOB,SIZ)
           ENDDO
 

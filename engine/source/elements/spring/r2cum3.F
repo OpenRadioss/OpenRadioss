@@ -114,14 +114,14 @@ C
         IF (IEQUIL(I) == 1) THEN
           MMX = HALF*((Y2(I)-Y1(I))*FZ2(I) - (Z2(I)-Z1(I))*FY2(I))
           MMY = HALF*((Z2(I)-Z1(I))*FX2(I) - (X2(I)-X1(I))*FZ2(I))
-          MMZ = HALF*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I)) 
+          MMZ = HALF*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I))
           MX1(I) = MX1(I) - MMX
           MY1(I) = MY1(I) - MMY
           MZ1(I) = MZ1(I) - MMZ
           MX2(I) = MX2(I) - MMX
           MY2(I) = MY2(I) - MMY
           MZ2(I) = MZ2(I) - MMZ
-          XX = (X2(I)-X1(I))*(X2(I)-X1(I)) 
+          XX = (X2(I)-X1(I))*(X2(I)-X1(I))
      .       + (Y2(I)-Y1(I))*(Y2(I)-Y1(I))
      .       + (Z2(I)-Z1(I))*(Z2(I)-Z1(I))
           STIR(1,I) = STIR(1,I) + STI(2,I)*XX
@@ -187,7 +187,7 @@ C     REAL
      .   MX1(MVSIZ),MY1(MVSIZ),MZ1(MVSIZ),
      .   MX2(MVSIZ),MY2(MVSIZ),MZ2(MVSIZ),
      .   GEO(NPROPG,*),X1(*),X2(*),Y1(*),Y2(*),
-     .   Z1(*),Z2(*), 
+     .   Z1(*),Z2(*),
      .   EXX(MVSIZ), EYX(MVSIZ), EZX(MVSIZ), EXY(MVSIZ),
      .   EYY(MVSIZ), EZY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ), EZZ(MVSIZ)
       INTEGER IADR(3,*),IEQUIL(*)
@@ -259,14 +259,14 @@ C
         IF (IEQUIL(I) == 1) THEN
           MMX = HALF*((Y2(I)-Y1(I))*FZ2(I) - (Z2(I)-Z1(I))*FY2(I))
           MMY = HALF*((Z2(I)-Z1(I))*FX2(I) - (X2(I)-X1(I))*FZ2(I))
-          MMZ = HALF*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I)) 
+          MMZ = HALF*((X2(I)-X1(I))*FY2(I) - (Y2(I)-Y1(I))*FX2(I))
           MX1(I) = MX1(I) - MMX
           MY1(I) = MY1(I) - MMY
           MZ1(I) = MZ1(I) - MMZ
           MX2(I) = MX2(I) - MMX
           MY2(I) = MY2(I) - MMY
           MZ2(I) = MZ2(I) - MMZ
-          XX = (X2(I)-X1(I))*(X2(I)-X1(I)) 
+          XX = (X2(I)-X1(I))*(X2(I)-X1(I))
      .       + (Y2(I)-Y1(I))*(Y2(I)-Y1(I))
      .       + (Z2(I)-Z1(I))*(Z2(I)-Z1(I))
           STIR(1,I) = STIR(1,I) + STI(2,I)*XX

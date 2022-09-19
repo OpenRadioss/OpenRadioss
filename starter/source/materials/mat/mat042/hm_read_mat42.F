@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE MESSAGE_MOD 
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
       USE MATPARAM_DEF_MOD
 C-----------------------------------------------
@@ -74,9 +74,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: ID,MAXUPARAM,MAXFUNC
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT) :: PM
       CHARACTER*nchartitle ,INTENT(IN) :: TITR
       INTEGER, INTENT(OUT)   :: IMATVIS,NUPARAM,NUVAR,NFUNC
       INTEGER, DIMENSION(MAXFUNC)   ,INTENT(OUT) :: IFUNC
@@ -91,7 +91,7 @@ C-----------------------------------------------
       INTEGER :: I,J,K,IFORM,IFLAG,IFUNC_BLK,NPRONY,IVISC,ILAW
       my_real :: RHO0,RHOR,BULK,SMAX,GS,MU,NU,GVMAX,C1,ZEP495,FSCAL,FSCAL_UNIT,
      .           AL1,AL2,AL3,AL4,AL5,AL6,AL7,AL8,AL9,AL10,
-     .           MU1,MU2,MU3,MU4,MU5,MU6,MU7,MU8,MU9,MU10       
+     .           MU1,MU2,MU3,MU4,MU5,MU6,MU7,MU8,MU9,MU10
       my_real, DIMENSION(100) ::  GI,TAUX
 C=======================================================================
       IS_ENCRYPTED   = .FALSE.
@@ -99,7 +99,7 @@ C=======================================================================
       NPRONY  = 0
       IFORM   = 0
       IFLAG   = 0
-      IVISC   = 0  
+      IVISC   = 0
       IMATVIS = 1
       ILAW    = 42
       ZEP495  = ZEP4 + NINE*EM02 + FIVE*EM03
@@ -108,31 +108,31 @@ C=======================================================================
 
       CALL HM_GET_FLOATV('MAT_RHO'   ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho' ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_FLOATV('MAT_NU'    ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_SIGCUT',SMAX     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('FUN_BULK'    ,IFUNC_BLK,IS_AVAILABLE,LSUBMODEL)
       CALL HM_GET_FLOATV('MAT_FScale',FSCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('ORDER'       ,NPRONY   ,IS_AVAILABLE,LSUBMODEL)
-      CALL HM_GET_INTV('IFORM'       ,IFORM    ,IS_AVAILABLE,LSUBMODEL)      
+      CALL HM_GET_INTV('IFORM'       ,IFORM    ,IS_AVAILABLE,LSUBMODEL)
 
       CALL HM_GET_FLOATV('MAT_MUE1',MU1 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_MUE2',MU2 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_MUE3',MU3 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_MUE4',MU4 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      CALL HM_GET_FLOATV('MAT_MUE5',MU5 ,IS_AVAILABLE, LSUBMODEL, UNITAB)   
-      
+      CALL HM_GET_FLOATV('MAT_MUE5',MU5 ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+
       CALL HM_GET_FLOATV('MAT_ALPHA11',AL1,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ALPHA22',AL2,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ALPHA33',AL3,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ALPHA44',AL4,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('MAT_ALPHA55',AL5,IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       IF (NPRONY > 0) THEN
-        DO J=1,NPRONY    
+        DO J=1,NPRONY
           CALL HM_GET_FLOAT_ARRAY_INDEX('Gamma_arr',GI(J)  ,J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
-        DO J=1,NPRONY     
+        DO J=1,NPRONY
           CALL HM_GET_FLOAT_ARRAY_INDEX('Tau_arr'  ,TAUX(J),J,IS_AVAILABLE,LSUBMODEL,UNITAB)
         ENDDO
       ENDIF
@@ -147,7 +147,7 @@ c
       GVMAX = ZERO
       DO K=1,NPRONY
         GVMAX = GVMAX + GI(K)
-      ENDDO      
+      ENDDO
       GS = MU1*AL1+MU2*AL2+MU3*AL3+MU4*AL4+MU5*AL5
       IF (GS <= ZERO) THEN
         CALL ANCMSG(MSGID=828,
@@ -180,7 +180,7 @@ c---------------------
       UPARAM(14) = NU
       UPARAM(15) = FSCAL
       UPARAM(16) = NPRONY
-      UPARAM(17) = IFORM  
+      UPARAM(17) = IFORM
 c---------------------
 C     Iform is only for solid to active old formulation 
 C     the flag ivisc for shell is activated in engine
@@ -194,10 +194,10 @@ c-----------------
 c-----------------
       IF (NPRONY > 0) THEN
         DO K=1,NPRONY
-          UPARAM(17 + K) = GI(K) 
+          UPARAM(17 + K) = GI(K)
           UPARAM(17 + NPRONY + K) = TAUX(K)
-        ENDDO       
-        NUVAR   = NUVAR   + 6*NPRONY 
+        ENDDO
+        NUVAR   = NUVAR   + 6*NPRONY
         NUPARAM = NUPARAM + 2*NPRONY
       ENDIF
 C
@@ -215,7 +215,7 @@ c-----------------
       PM(1)  = RHOR
       PM(2)  = GS
       PM(89) = RHO0
-      PM(100)= BULK      
+      PM(100)= BULK
 c-----------------
       CALL INIT_MAT_KEYWORD(MATPARAM,"INCOMPRESSIBLE")
       CALL INIT_MAT_KEYWORD(MATPARAM,"TOTAL")
@@ -230,9 +230,9 @@ c-----------------
      .                   AL1,AL2,AL3,AL4,AL5,MU,BULK
         WRITE(IOUT,1400) NPRONY
         DO K =1, NPRONY
-          WRITE(IOUT,1500) GI(K),TAUX(K) 
-        ENDDO 
-      ENDIF     
+          WRITE(IOUT,1500) GI(K),TAUX(K)
+        ENDDO
+      ENDIF
 C-----------------
       RETURN
  999  CALL FREERR(3)
@@ -245,13 +245,13 @@ C-----------------
      & 5X,   'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,   'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1200 FORMAT(
-     &  5X,  'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     &  5X,  'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT
-     & (5X,  'POISSON RATIO. . . . . . . . . .  . . .=',1PG20.13/ 
+     & (5X,  'POISSON RATIO. . . . . . . . . .  . . .=',1PG20.13/
      & ,5X,  'CUT-OFF STRESS IN TENSION . . . . . . .=',1PG20.13/
      & ,5X,  'BULK FUNCTION NUMBER. . . . . . . . . .=',I10/
-     & ,5X,  'SCALE FACTOR FOR BULK FUNCTION. . . . .=',1PG20.13/ 
-     & ,5X,  'MU1 . . . . . . . . . . . . . . . . . .=',1PG20.13/ 
+     & ,5X,  'SCALE FACTOR FOR BULK FUNCTION. . . . .=',1PG20.13/
+     & ,5X,  'MU1 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'MU2 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'MU3 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'MU4 . . . . . . . . . . . . . . . . . .=',1PG20.13/
@@ -262,12 +262,12 @@ C-----------------
      & ,5X,  'AL4 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'AL5 . . . . . . . . . . . . . . . . . .=',1PG20.13/
      & ,5X,  'INITIAL SHEAR MODULUS . . . . . . . . .=',1PG20.13/
-     & ,5X,  'BULK MODULUS. . . . . . . . . . . . . .=',1PG20.13//) 
+     & ,5X,  'BULK MODULUS. . . . . . . . . . . . . .=',1PG20.13//)
  1400 FORMAT(//
      & 5X,  'NUMBER OF TERMS IN PRONY SERIES . . . . =',I8 )
  1500 FORMAT(//
      & 5X,'SHEAR STIFFNESS. . . . . . . . . . .. . . =',E12.4/
-     & 5X,'RELAXATION TIME . . . . . . . . . . .  . .=',E12.4)  
+     & 5X,'RELAXATION TIME . . . . . . . . . . .  . .=',E12.4)
 C-----------------
       RETURN
       END

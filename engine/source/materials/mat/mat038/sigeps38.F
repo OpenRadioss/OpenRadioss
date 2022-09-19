@@ -37,14 +37,14 @@ Chd|====================================================================
      1      NEL    , NUPARAM, NUVAR   , NFUNC , IFUNC , NPF   ,
      2      TF     , TIME   , TIMESTEP, UPARAM, RHO0  , RHO   ,
      3      VOLUME , EINT   ,
-     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX, 
+     4      EPSPXX , EPSPYY , EPSPZZ  , EPSPXY, EPSPYZ, EPSPZX,
      5      DEPSXX , DEPSYY , DEPSZZ  , DEPSXY, DEPSYZ, DEPSZX,
      6      EPSXX  , EPSYY  , EPSZZ   , EPSXY , EPSYZ , EPSZX ,
      7      SIGOXX , SIGOYY , SIGOZZ  , SIGOXY, SIGOYZ, SIGOZX,
      8      SIGNXX , SIGNYY , SIGNZZ  , SIGNXY, SIGNYZ, SIGNZX,
      9      SIGVXX , SIGVYY , SIGVZZ  , SIGVXY, SIGVYZ, SIGVZX,
      A      SOUNDSP, VISCMAX, UVAR    , OFF   ,
-     B      ISMSTR , MFXX   , MFXY    , MFXZ  , MFYX ,    
+     B      ISMSTR , MFXX   , MFXY    , MFXZ  , MFYX ,
      C      MFYY   , MFYZ   , MFZX    , MFZY  , MFZZ  , ET   ,
      D      IHET   ,OFFG    ,EPSD     )
 C-----------------------------------------------
@@ -77,7 +77,7 @@ C----------------------------------------------------------------
      .      SIGOXY(NEL), SIGOYZ(NEL), SIGOZX(NEL),
      .      MFXX(NEL)  ,   MFXY(NEL),   MFXZ(NEL),
      .      MFYX(NEL)  ,   MFYY(NEL),   MFYZ(NEL),
-     .      MFZX(NEL)  ,   MFZY(NEL),   MFZZ(NEL),OFFG(NEL)    
+     .      MFZX(NEL)  ,   MFZY(NEL),   MFZZ(NEL),OFFG(NEL)
 C----------------------------------------------------------------
 C  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
@@ -86,14 +86,14 @@ C----------------------------------------------------------------
      .      SIGNXY (NEL), SIGNYZ (NEL), SIGNZX(NEL),
      .      SIGVXX (NEL), SIGVYY (NEL), SIGVZZ(NEL),
      .      SIGVXY (NEL), SIGVYZ (NEL), SIGVZX(NEL),
-     .      SOUNDSP(NEL), VISCMAX(NEL), 
+     .      SOUNDSP(NEL), VISCMAX(NEL),
      .      DEN1,DEN2,DEN3,DEN1D,DEN2D,
      .      DEN3D,OLD1,OLD2,OLD3,OLD4,OLD5,OLD6,ET(*),EPSD(NEL)
 C----------------------------------------------------------------
 C  I N P U T  O U T P U T   A R G U M E N T S
 C----------------------------------------------------------------
       my_real
-     . UVAR(NEL,NUVAR), OFF(NEL) 
+     . UVAR(NEL,NUVAR), OFF(NEL)
 C----------------------------------------------------------------
 C  VARIABLES FOR FUNCTION INTERPOLATION 
 C----------------------------------------------------------------
@@ -148,8 +148,8 @@ c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
      .   V12(MVSIZ),V23(MVSIZ),V31(MVSIZ),
      .   D11(MVSIZ),D12(MVSIZ),D44(MVSIZ),
      .   EMAX(MVSIZ),EYN(MVSIZ,3),
-     .   HUGE,SMALL,TINY,SHIFT,PSCALE   
-      my_real 
+     .   HUGE,SMALL,TINY,SHIFT,PSCALE
+      my_real
      .   AR1(6),DAR1(6),AR2(6),DAR2(6),DAR3(3),EARJD(3),
      .   TMP0,TMP1,TMP2,TMP3,TMP4,TMP5,TMP6,AD(3,3),
      .   AA(MVSIZ),SIGMAX(MVSIZ),ESECANT(MVSIZ,3),
@@ -158,7 +158,7 @@ c     .  ESECANT(MVSIZ,3),ETANGENT(MVSIZ,3),EELASTIC(MVSIZ,3),
 C=======================================================================
       HUGE = EP30
       SMALL= EM3
-      TINY = EM30   
+      TINY = EM30
 C......................................................................
 C SET INITIAL MATERIAL CONSTANTS
 
@@ -257,7 +257,7 @@ C         ENDDO
 C       END IF
 C      TOTAL=.TRUE.
 C      ENDIF
-       
+
 C......................................................................
 C INITIALIZE
       DO I=1,NEL
@@ -314,11 +314,11 @@ C        ENDIF
          ! EFAC(I) =(ONE-HYSTER)*(ONE-PUI)
          ! if eint = uvar --> Pui = 1 and efac = 0
          ! if eint /= 0   --> Pui = exp(beta * ln(eint/uvar) )
-         ! if eint = 0    --> Pui = 0 
+         ! if eint = 0    --> Pui = 0
          IF(EINT(I)/=UVAR(I,32)) THEN
-          IF( (EINT(I)/UVAR(I,32))>ZERO ) THEN 
+          IF( (EINT(I)/UVAR(I,32))>ZERO ) THEN
            PUI = EXP( BETA*LOG( EINT(I)/UVAR(I,32) ) )
-          ELSE 
+          ELSE
            PUI = ZERO
           ENDIF
          ELSE
@@ -343,14 +343,14 @@ C PRINCIPAL STRAINS FORMULATION
             AV(I,3)=EPSZZ(I)
             AV(I,4)=EPSXY(I)*HALF
             AV(I,5)=EPSYZ(I)*HALF
-            AV(I,6)=EPSZX(I)*HALF    
+            AV(I,6)=EPSZX(I)*HALF
           ELSE
             AV(I,1)=DEPSXX(I)
             AV(I,2)=DEPSYY(I)
             AV(I,3)=DEPSZZ(I)
             AV(I,4)=DEPSXY(I)*HALF
             AV(I,5)=DEPSYZ(I)*HALF
-            AV(I,6)=DEPSZX(I)*HALF          
+            AV(I,6)=DEPSZX(I)*HALF
           ENDIF
         ENDDO
         IF(JACOBI) THEN
@@ -448,7 +448,7 @@ C           pour la partie decay et hysteresis
                 UVAR(I,N+3*(M-1)+25) = SN(N,N)
               ENDDO
             ENDDO
-            ENDIF 
+            ENDIF
             UVAR(I,17)=DPRA(1,1)
             UVAR(I,18)=DPRA(2,1)
             UVAR(I,19)=DPRA(3,1)
@@ -482,13 +482,13 @@ C AVERAGE STRAIN FORMULATION
      &      (EPSYY(I)-EPSZZ(I))**2+
      &      (EPSZZ(I)-EPSXX(I))**2+
      &      TWO*(EPSXY(I)**2+EPSYZ(I)**2+EPSZX(I)**2))/SQRT(TWO)
-          ELSE 
+          ELSE
             ECR(I,1)= SIGN(ONE,DEPSXX(I)+DEPSYY(I)+DEPSZZ(I))*SQRT(
      &      (DEPSXX(I)-DEPSYY(I))**2+
      &      (DEPSYY(I)-DEPSZZ(I))**2+
      &      (DEPSZZ(I)-DEPSXX(I))**2+
      &      ((DEPSXY(I))**2+(DEPSYZ(I))**2+(DEPSZX(I))**2))
-     &      /SQRT(TWO)     
+     &      /SQRT(TWO)
           ENDIF
         ENDDO
 
@@ -600,7 +600,7 @@ C COMPRESSION IS POSITIVE!
           SHIFT=ZERO
           UNLOADING=.FALSE.
           IF((EAN(I,J)<ZERO.AND.EBN(I,J)>ZERO).OR.
-     &    (EAN(I,J)>ZERO.AND.EBN(I,J)<ZERO))UNLOADING=.TRUE.                        
+     &    (EAN(I,J)>ZERO.AND.EBN(I,J)<ZERO))UNLOADING=.TRUE.
 C COMPUTE ELASTIC MODULE FROM STATIC CURVE
             PSN1(I,J)=-ALPHA(1)*FINTER(IFUNC(1),STRAIN(I,J),NPF,TF,DF)
 C CURVE INTERPOLATION
@@ -646,7 +646,7 @@ C AND THE FIRST CURVE (LOWER LIMIT)- STATIC- )
              ELSE
               PSN(I,J)=PSN2(I,J)
              ENDIF
-    
+
 !             PSN(I,J)=PSN2(I,J)+(PSN1(I,J)-PSN2(I,J))*
 !     &      EXP( EXPONBS*LOG( ONE-EXP( EXPONAS*LOG(RATIO) ) ) )
 
@@ -666,7 +666,7 @@ C AND THE FIRST CURVE (LOWER LIMIT)- STATIC- )
 
             VISC(I,J)=MIN(VISC(I,J),VISCOSITY)
             PSN(I,J)=PSN1(I,J)-VISC(I,J)*(EDOTU(I,J)-EDOTS(I,J))
-           ENDIF 
+           ENDIF
 
           ELSE
             KUN(I,J)=0
@@ -727,7 +727,7 @@ C FIRST LOADING (STATIC) CURVE
 !     &        (ONE-(RATIO)**EXPONAS) ** EXPONBS
 
 
-      
+
               IF(ABS(EDOT0(I,J)-EDOTS(I,J))>TINY.AND.
      &        ABS(PSN(I,J)-PSN1(I,J))>TINY)VISC(I,J)=
      &        ABS((PSN(I,J)-PSN1(I,J))/(EDOT0(I,J)-EDOTS(I,J)))
@@ -738,7 +738,7 @@ C FIRST LOADING (STATIC) CURVE
           ENDIF
 
         ENDDO
-        
+
 C......................................................................
 
 C UNLOADING
@@ -754,9 +754,9 @@ C NO RECOVERY ON UNLOADING - ACCUMULATE STRAIN
 C RECOVERY ON UNLOADING - DOWN INCREMENT STRAIN
             IF(KRECOVER==1)UVAR(I,J+25)=UVAR(I,J+25)-ECN(I,J)
             IF(EBN(I,J)<ZERO) THEN
-              DECAY = MIN(ONE,HYSTER*(ONE-EXP(-BETA*UVAR(I,J+25))))    
-            ENDIF          
-          ENDIF  
+              DECAY = MIN(ONE,HYSTER*(ONE-EXP(-BETA*UVAR(I,J+25))))
+            ENDIF
+          ENDIF
 C----loi70 Iflag=4 :      
          IF (KRECOVER==2) DECAY = EFAC(I)
 C DECAY ON LOADING AND UNLOADING
@@ -785,7 +785,7 @@ C SECANT MODULE
 
         IF(.NOT.TOTAL) THEN
         DO I=1,NEL
-          IF(SIGN(ONE,(EBN(I,J)/(UVAR(I,J+6)+TINY)))/=ONE) 
+          IF(SIGN(ONE,(EBN(I,J)/(UVAR(I,J+6)+TINY)))/=ONE)
      &    EYN(I,J)=UVAR(I,J+9)
         ENDDO
 
@@ -826,7 +826,7 @@ C DECAY ON UNLOADING ONLY
             IF(KDECAY==2.AND.ECN(I,J)>ZERO)
      &                PSN(I,J)=PSN(I,J)*(ONE-DECAY)
            END IF!(EAN(I,J)>=ZERO) THEN
-          END DO 
+          END DO
          END IF !(KRECOVER==2) THEN
         ELSEIF(ITOTAL==-1) THEN
 C MODULE MAXMAL IN TENSION ONE CYCLE LATER (TOTAL)
@@ -868,7 +868,7 @@ C BEGIN OF LOOP ON MDIR
 C calcul de PSN pose pb en P/ON sous Solaris => compilation en 03
           PSN(I,J)=PSN(I,J)+TMP1*EAN(I,J)
           EYN(I,J)=MAX(EYN(I,J),(ONE+TMP1)*ESECANT(I,J))
-         ENDIF 
+         ENDIF
         ENDDO
        ENDDO
       ENDIF
@@ -956,7 +956,7 @@ C OCTAHEDRAL STRAIN (AVERAGE) FORMULATION
         ELSE
           E12(I)=(EAN(I,1)+EAN(I,2))/TWO
           E23(I)=(EAN(I,2)+EAN(I,3))/TWO
-          E31(I)=(EAN(I,3)+EAN(I,1))/TWO    
+          E31(I)=(EAN(I,3)+EAN(I,1))/TWO
           V12(I)=VC+(VT-VC)*(ONE-EXP(-RV*ABS(E12(I))))*
      &    (SIGN(ONE,E12(I))+ONE)/TWO
           V23(I)=VC+(VT-VC)*(ONE-EXP(-RV*ABS(E23(I))))*
@@ -1052,12 +1052,12 @@ C------------directly to Chauchy-------
             AA(I)=MIN(ONE,TMP4)
           ELSE
             AA(I)=ZERO
-          ENDIF 
+          ENDIF
         ENDDO
         DO J=1,3
          DO I=1,NEL
           SIGPRV(I,J)=PSC(I,J)+AA(I)*(PAIR(I)-PSC(I,J))
-         ENDDO 
+         ENDDO
         ENDDO
        ELSE
         DO J=1,3
@@ -1065,7 +1065,7 @@ C------------directly to Chauchy-------
           SIGPRV(I,J)=PSC(I,J)+PAIR(I)
          ENDDO
         ENDDO
-       ENDIF 
+       ENDIF
 C TRANSFORM FROM PRINCIPAL TO GLOBAL DIRECTIONS
       DO I=1,NEL
         SIGNXX(I) = DIRPRV(I,1,1)*DIRPRV(I,1,1)*SIGPRV(I,1)
@@ -1126,17 +1126,17 @@ C SOUNDSPEED
          IF (ESECANT(I,1)<=SIGMAX(I)) THEN
           TMP1=0.1*(SIGMAX(I)-ESECANT(I,1))
           SIGNXY(I)=SIGNXY(I)+TMP1*EPSXY(I)
-         ENDIF 
+         ENDIF
          IF (ESECANT(I,2)<=SIGMAX(I)) THEN
           TMP1=0.1*(SIGMAX(I)-ESECANT(I,2))
           SIGNYZ(I)=SIGNYZ(I)+TMP1*EPSYZ(I)
-         ENDIF 
+         ENDIF
          IF (ESECANT(I,3)<=SIGMAX(I)) THEN
           TMP1=0.1*(SIGMAX(I)-ESECANT(I,3))
           SIGNZX(I)=SIGNZX(I)+TMP1*EPSZX(I)
-         ENDIF 
+         ENDIF
        ENDDO
-      ENDIF 
+      ENDIF
       DO I=1,NEL
         KKK=EMAX(I)/(THREE*(ONE-TWO*MAX(VC,VT)))
         GGG=EMAX(I)/(TWO*(ONE+MAX(VC,VT)))
@@ -1163,14 +1163,14 @@ C---overestimated ET but stable for not very high E0
         IF (TMP2>0.05) THEN
          UVAR(1:NEL,33) = -ONE
         ELSE
-         UVAR(1:NEL,33) =ET(1:NEL) 
+         UVAR(1:NEL,33) =ET(1:NEL)
         END IF
        ELSEIF (NEL>0.AND.UVAR(1,33)<ZERO) THEN
         ET(1:NEL) = ONE
        ELSE
          TMP1 = 0.75
          ET(1:NEL)=TMP1*ET(1:NEL)+(ONE-TMP1)*UVAR(1:NEL,33)
-         UVAR(1:NEL,33) =ET(1:NEL) 
+         UVAR(1:NEL,33) =ET(1:NEL)
        END IF !(TIME==ZERO) THEN
       END IF !(IMPL_S > 0 .OR. IHET > 1) THEN
 C
@@ -1187,7 +1187,7 @@ Chd|====================================================================
       SUBROUTINE CHECKAXES(TRAN1,TRAN2,AMIN,AMAX,UNCHANGED,TOL)
 C----------------------------------------------------------------
       IMPLICIT NONE
-#include      "constant.inc"   
+#include      "constant.inc"
 
       my_real
      . TRAN1(3,3),TRAN2(3,3),ANG(3),AMAX,TOL,AMIN

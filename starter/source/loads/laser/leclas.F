@@ -74,16 +74,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   P r e - C o n d i t i o n
 C-----------------------------------------------
-      CALL PRELECLAS(SILAS,SXLAS,LSUBMODEL)  
+      CALL PRELECLAS(SILAS,SXLAS,LSUBMODEL)
       IF(NLASER == 0)RETURN
-      WRITE(ISTDO,'(A)')TITRE(49)      
+      WRITE(ISTDO,'(A)')TITRE(49)
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-      IF(.NOT.ALLOCATED(ILAS))ALLOCATE (ILAS(SILAS)    ,STAT=stat)  
-      IF(.NOT.ALLOCATED(XLAS))ALLOCATE (XLAS(SXLAS)    ,STAT=stat)       
-      IF (SILAS > 0) ILAS = 0              
-      IF (SXLAS > 0) XLAS = ZERO            
+      IF(.NOT.ALLOCATED(ILAS))ALLOCATE (ILAS(SILAS)    ,STAT=stat)
+      IF(.NOT.ALLOCATED(XLAS))ALLOCATE (XLAS(SXLAS)    ,STAT=stat)
+      IF (SILAS > 0) ILAS = 0
+      IF (SXLAS > 0) XLAS = ZERO
 C-----------------------------------------------
       I=0
       TIMESCAL=ZERO
@@ -96,9 +96,9 @@ C-----------------------------------------------
 
       CALL HM_OPTION_START('/DFS/LASER')
 
-      
+
       DO K=1,NLASER
-      
+
         TITR = ''
         KEY  = ''
 
@@ -112,36 +112,36 @@ C-----------------------------------------------
           !             UNITS               !
           !---------------------------------!	
           DO J=1,NUNITS
-            IF (UNITAB%UNIT_ID(J) == UID) THEN    
+            IF (UNITAB%UNIT_ID(J) == UID) THEN
               FAC_M = UNITAB%FAC_M(J)
               FAC_L = UNITAB%FAC_L(J)
               FAC_T = UNITAB%FAC_T(J)
               IFLAGUNIT = 1
               EXIT
             ENDIF
-          ENDDO   
+          ENDDO
 
           !---------------------------------!
           !             READING             !
           !---------------------------------!	
           I=I+1
 
-          CALL HM_GET_FLOATV('SLAS'  ,FI       ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_INTV  ('fct_IDLAS'  ,IFUNC    ,IS_AVAILABLE, LSUBMODEL)                
-          CALL HM_GET_FLOATV('STAR' ,ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_INTV  ('fct_IDTAR' ,IAFUNC   ,IS_AVAILABLE, LSUBMODEL)                
-          !CALL HM_GET_INTV  ('N/A'    ,ITYP     ,IS_AVAILABLE, LSUBMODEL)                
-          !CALL HM_GET_FLOATV('N/A'    ,TIMESCAL ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+          CALL HM_GET_FLOATV('SLAS'  ,FI       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_INTV  ('fct_IDLAS'  ,IFUNC    ,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_FLOATV('STAR' ,ALPHA    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_INTV  ('fct_IDTAR' ,IAFUNC   ,IS_AVAILABLE, LSUBMODEL)
+          !CALL HM_GET_INTV  ('N/A'    ,ITYP     ,IS_AVAILABLE, LSUBMODEL)
+          !CALL HM_GET_FLOATV('N/A'    ,TIMESCAL ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-          CALL HM_GET_FLOATV('Hn'     ,HNUK     ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_FLOATV('VCp'     ,CHALEUR  ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_FLOATV('K0'      ,XK0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_FLOATV('Rd'      ,RDK      ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
-          CALL HM_GET_FLOATV('Ks'      ,DAR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)        
+          CALL HM_GET_FLOATV('Hn'     ,HNUK     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('VCp'     ,CHALEUR  ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('K0'      ,XK0      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('Rd'      ,RDK      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+          CALL HM_GET_FLOATV('Ks'      ,DAR      ,IS_AVAILABLE, LSUBMODEL, UNITAB)
 
-          CALL HM_GET_INTV  ('Np'      ,NL       ,IS_AVAILABLE, LSUBMODEL)                
-          CALL HM_GET_INTV  ('Nc'      ,NC       ,IS_AVAILABLE, LSUBMODEL)                
- 
+          CALL HM_GET_INTV  ('Np'      ,NL       ,IS_AVAILABLE, LSUBMODEL)
+          CALL HM_GET_INTV  ('Nc'      ,NC       ,IS_AVAILABLE, LSUBMODEL)
+
           IF (TIMESCAL == ZERO) TIMESCAL = ONE
           !---------------------------------!
           !        LISTING PRINTOUT         !
@@ -151,11 +151,11 @@ C-----------------------------------------------
      .                    ' LASER COLUMN TYPE 0',I
           WRITE(IOUT,'(A,1PG20.13)')
      .                    ' LASER INTENSITY FACTOR. . . . . =',FI
-          WRITE(IOUT,FMT=FMW_A_I)   
+          WRITE(IOUT,FMT=FMW_A_I)
      .                    ' LASER INTENSITY FUNCTION. . . . =',IFUNC
           WRITE(IOUT,'(A,1PG20.13)')
      .                    ' TARGET REFLEXION FACTOR . . . . =',ALPHA
-          WRITE(IOUT,FMT=FMW_A_I)   
+          WRITE(IOUT,FMT=FMW_A_I)
      .                    ' TARGET REFLEXION FUNCTION . . . =',IAFUNC
           WRITE(IOUT,'(A,1PG20.13)')
      .                    ' LASER FREQUENCY H*NU/K. . . . . =',HNUK
@@ -167,26 +167,26 @@ C-----------------------------------------------
      .                    ' INVERSE BREMSSTRAHLUNG RD/K . . =',RDK
           WRITE(IOUT,'(A,1PG20.13)')
      .                    ' COMPLEMENT ABSORPTION IN VAPOUR =',DAR
-          WRITE(IOUT,FMT=FMW_A_I)   
+          WRITE(IOUT,FMT=FMW_A_I)
      .                    ' TARGET ELEMENT. . . . . . . . . =',NC
           WRITE(IOUT,'(A,1PG20.13)')
      .                    ' TIME SCALE FACTOR . . . . . . . =',TIMESCAL
-          WRITE(IOUT,FMT=FMW_A_I)   
+          WRITE(IOUT,FMT=FMW_A_I)
      .                    ' NUMBER OF PLASMA ELEMENT. . . . =',NL
-          WRITE(IOUT,'(A)')      
+          WRITE(IOUT,'(A)')
      .           ' LIST OF PLASMA ELEMENT(FROM LASER TO TARGET) :'
           ELSE
             WRITE(IOUT,'(/,A,I10,/)')
      .                    ' LASER COLUMN TYPE 1',I
             WRITE(IOUT,'(A,1PG20.13)')
      .                    ' LASER INTENSITY FACTOR. . . . . =',FI
-            WRITE(IOUT,'(A,I10)')   
+            WRITE(IOUT,'(A,I10)')
      .                    ' LASER INTENSITY FUNCTION. . . . =',IFUNC
             WRITE(IOUT,'(A,1PG20.13)')
      .                    ' FULL VAPO. ENERGY(/unit Volume) =',CHALEUR
-            WRITE(IOUT,'(A,I10)')   
+            WRITE(IOUT,'(A,I10)')
      .                    ' NUMBER OF ELEMENT. . . . . . . .=',NL
-            WRITE(IOUT,'(A)')      
+            WRITE(IOUT,'(A)')
      .           ' LIST OF PLASMA ELEMENT(FROM LASER TO TARGET) :'
           ENDIF
 
@@ -216,12 +216,12 @@ C-----------------------------------------------
           XLAS(K2+5)=DAR/(HNUK**2)
           XLAS(K2+6) = ONE / TIMESCAL
 
-          CALL LECLAS1(NL,ILAS(K1+6),NC ,LSUBMODEL)         
+          CALL LECLAS1(NL,ILAS(K1+6),NC ,LSUBMODEL)
           IFK = 6 + 2*(NL+1)
-          MFK = 7          
+          MFK = 7
           K1 = K1 + IFK
           K2 = K2 + MFK
-        
+
       ENDDO
 
 C-----------------------------------------------

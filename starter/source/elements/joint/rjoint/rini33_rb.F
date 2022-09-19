@@ -72,7 +72,7 @@ C-----------------------------------------------
      .        IDSK(2),ISK,NSK,ISK2,JTYP,M(2),NOD(2),NODF(3),
      .        RESET_U_GEO,GET_U_SKEW,SRB(6),NO(3),IDSKRB(2),
      .        IDRB(2),ERR_FLG,N1,N2,N3,N4,ID_KJ,NUMEL_KJ,IELUSR,
-     .        RB1,RB2,IPID,IDSK2   
+     .        RB1,RB2,IPID,IDSK2
 C
       my_real
      .   MASS,INER,RM,RI,KNN,KR,L2,U(LSKEW),Q(LSKEW),GET_U_GEO,V(LSKEW),
@@ -88,7 +88,7 @@ C-----------------------------------------------
 C=======================================================================
 
       ID=IGEO(1)
-      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)  
+      CALL FRETITL2(TITR,IGEO(NPROPGI-LTITR+1),LTITR)
 C      
       JTYP = NINT(GET_U_GEO(1,IPROP))
       ISK2 = NINT(GET_U_GEO(3,IPROP))
@@ -96,7 +96,7 @@ C
       NSK = 2
       IF (ISK2==0) NSK = 1
       ERR_FLG = 0
-      IPID=IXR(1,1+NFT)       
+      IPID=IXR(1,1+NFT)
 C------------------check sur les skews-----------------
       DO I=1,NSK
         IDSK(I) = NINT(GET_U_GEO(1+I,IPROP))
@@ -143,7 +143,7 @@ C------------------check sur les skews-----------------
       IF (ISK2==0) THEN
 	  IDSKRB(2) = IDSKRB(1)
       ENDIF
-      
+
 C------------------Boucle sur les neuds-----------------
 
       IF(NRBODY==0) THEN
@@ -166,10 +166,10 @@ C-->
             NOD(I)=IXR(1+I,NFT+IEL)
             DO N=1,NRBODY
               NSL=NPBY(2,N)
-              IF (NPBY(1,N)==NOD(I)) THEN 
+              IF (NPBY(1,N)==NOD(I)) THEN
 C-- Tag for error message - Can't be attached to main node-              
 		IDRB(I)=-N
-                UVAR(37+I,IEL)= N                
+                UVAR(37+I,IEL)= N
                 EXIT
               ENDIF
 C
@@ -211,7 +211,7 @@ C
 C-->  Stockage d'une masse elementaire (masse hormonique) pour calcul d'energie specifique
             GMASS(IEL) = (UVAR(34,IEL)*UVAR(35,IEL))/MAX(EM20,UVAR(34,IEL)+UVAR(35,IEL))
 C-->
-            IF (IDRB(I)==0) THEN	    
+            IF (IDRB(I)==0) THEN	
 	      USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=391,
      .                    MSGTYPE=MSGWARNING,
@@ -219,7 +219,7 @@ C-->
      .                    I1=ID,
      .                    C1=TITR,
      .                    I2=USR)
-            ELSEIF (IDRB(I) < 0) THEN	    
+            ELSEIF (IDRB(I) < 0) THEN	
 	      USR = ITAB(NOD(I))
               CALL ANCMSG(MSGID=1768,
      .                    MSGTYPE=MSGERROR,
@@ -264,10 +264,10 @@ C-->        permutation skews
 C-->
         ENDDO
       ENDIF
-      	   
+      	
 C-------------------------------------------------------
  1000 CONTINUE
- 
+
       RETURN
 
       RETURN

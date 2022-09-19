@@ -44,9 +44,9 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MONVOL_TYPE8(T_MONVOLN, IPM, IGEO, ITABM1, 
+      SUBROUTINE HM_READ_MONVOL_TYPE8(T_MONVOLN, IPM, IGEO, ITABM1,
      .     LSENSOR, SENSOR, NPT, PLD, IFRAME, XFRAME, IGRBRIC,
-     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG, 
+     .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .     LSUBMODEL)
 C-----------------------------------------------
 C   M o d u l e s
@@ -59,7 +59,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -74,7 +74,7 @@ C     IIN
 C     LUNIT
 #include      "sysunit.inc"
 C     IPRI
-#include      "scr03_c.inc"  
+#include      "scr03_c.inc"
 C     NSUBMOD
 #include      "submod_c.inc"
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
       TYPE(UNIT_TYPE_), INTENT(IN) :: UNITAB
       INTEGER, INTENT(IN) :: LUID, IPM(NPROPMI, *), IGEO(NPROPGI, *), ITABM1(*), IFRAME(LISKN,*), NPT(*)
       INTEGER, INTENT(IN) :: NPC(*), ITAB(*), IXC(NIXC, *), IXTG(NIXTG, *), LSENSOR(NSENSI, *)
-      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), SENSOR(NSENSR, *), 
+      my_real, INTENT(IN) :: X(3, *), GEO(NPROPG, *), PM(NPROPM, *), SENSOR(NSENSR, *),
      .     XFRAME(NXFRAME, *), PLD(2, *)
       TYPE (SURF_), INTENT(INOUT), DIMENSION(NSURF) :: IGRSURF
       TYPE(MONVOL_STRUCT_), INTENT(INOUT) :: T_MONVOLN
@@ -102,20 +102,20 @@ C-----------------------------------------------
       my_real :: HCONV, PEXT, TI, PINI
       my_real :: MWI, CPAI, CPBI, CPCI, CPDI, CPEI, CPFI, R_IGC1, CPI, RMWI, CVI, GAMAI
       INTEGER :: NJET
-      INTEGER, DIMENSION(:), ALLOCATABLE :: I_INJ, ISENS, IJET, NJ1, NJ2, NJ3, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: I_INJ, ISENS, IJET, NJ1, NJ2, NJ3,
      .     IPT, IPA, IPZ, I_INJSYS,IVEL
       my_real, DIMENSION(:), ALLOCATABLE :: FPT, FPA, FPZ,FVEL
       INTEGER :: NVENTHOLES, NPORSURF, NVENT
       CHARACTER(LEN = 40) :: MESS
       CHARACTER(LEN = 20) :: VENTTITLE
       INTEGER :: TITREVENT(20)
-      INTEGER, DIMENSION(:), ALLOCATABLE :: IPVENT, IFVENT, IDTPDEF, IPORT, IPORP, IPORA, 
+      INTEGER, DIMENSION(:), ALLOCATABLE :: IPVENT, IFVENT, IDTPDEF, IPORT, IPORP, IPORA,
      .     IPORT1, IPORP1, IPORA1, IVDP, IBLOCKAGE
       my_real, DIMENSION(:), ALLOCATABLE :: AVENT, BVENT, TVENT, TSTOPE, DPDEF, DTPDEF,
      .     FPORT, FPORP, FPORA, FPORT1, FPORP1, FPORA1, FVDP, CLEAK
       my_real :: TTFIRE
       CHARACTER(LEN = nchartitle) :: TITR1
-      my_real :: MI, RHOI, TI2, ESPECI, CPA, CPB, CPC, CPD, CPE, CPF, MW_TMP, RMWG, 
+      my_real :: MI, RHOI, TI2, ESPECI, CPA, CPB, CPC, CPD, CPE, CPF, MW_TMP, RMWG,
      .     CPG, CVG, GAMA, SHOL
       LOGICAL lFOUND
       INTEGER KFRAME, IMESH_ALL, AUTO_UP_SWITCH, NBX, NBY, NBZ, IBRIC
@@ -134,7 +134,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     B e g i n n i n g   o f   s o u r c e
 C-----------------------------------------------
-      MESS = 'MONITORED VOLUME DEFINITION             '        
+      MESS = 'MONITORED VOLUME DEFINITION             '
       lFOUND=.FALSE.
 C     =======
 C     Reading
@@ -173,16 +173,16 @@ C     =======
          IPZ(:)=0
          FPT(:)=ZERO
          FPA(:)=ZERO
-         FPZ(:)=ZERO 
+         FPZ(:)=ZERO
          IVEL(:)=0
-         FVEL(:)=ZERO                
+         FVEL(:)=ZERO
          DO II = 1, NJET
             CALL HM_GET_INT_ARRAY_INDEX('inject_ID', I_INJ(II), II, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('sens_ID', ISENS(II), II, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('surf_IDinj', IJET(II), II, IS_AVAILABLE, LSUBMODEL)
             CALL HM_GET_INT_ARRAY_INDEX('fct_IDvel', IVEL(II), II, IS_AVAILABLE, LSUBMODEL)
-            CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalevel', FVEL(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)               
-         ENDDO                                                          
+            CALL HM_GET_FLOAT_ARRAY_INDEX('Fscalevel', FVEL(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         ENDDO
       ENDIF
 !     Ventholes and porous surfaces
       CALL HM_GET_INTV('Nvent', NVENTHOLES, IS_AVAILABLE, LSUBMODEL)
@@ -209,7 +209,7 @@ C     =======
          ALLOCATE(IBLOCKAGE(NVENT), CLEAK(NVENT))
          ALLOCATE(IVDP(NVENT), FVDP(NVENT))
       ENDIF
-     
+
       IF (NVENTHOLES > 0) THEN
          DO II = 1, NVENTHOLES
             VENTTITLE = ''
@@ -224,7 +224,7 @@ C     =======
             CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_dPdef', DPDEF(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_dtPdef', DTPDEF(II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('I_dtPdef_arr', IDTPDEF(II), II, IS_AVAILABLE, LSUBMODEL)
-            
+
             VENTTITLE = VENTTITLE(1:LEN_TRIM(VENTTITLE))
             DO JJ = 1, 20
                TITREVENT(JJ) = IACHAR(VENTTITLE(JJ:JJ))
@@ -266,14 +266,14 @@ C     =======
                TITREVENT(JJ) = IACHAR(VENTTITLE(JJ:JJ))
                T_MONVOLN%IBAGHOL(JJ + 14, NVENTHOLES + II) = TITREVENT(JJ)
             ENDDO
-            
+
             CALL HM_GET_FLOAT_ARRAY_INDEX('Tstart_arr_Y', TVENT(NVENTHOLES + II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('Tstop_arr_Y', TSTOPE(NVENTHOLES + II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_dPdef_ps', DPDEF(NVENTHOLES + II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_FLOAT_ARRAY_INDEX('ABG_dtPdef_ps', DTPDEF(NVENTHOLES + II), II, IS_AVAILABLE, LSUBMODEL, UNITAB)
             CALL HM_GET_INT_ARRAY_INDEX('I_dtPdef_arr_ps', IDTPDEF(NVENTHOLES + II), II, IS_AVAILABLE, LSUBMODEL)
 
-           
+
             CLEAK(NVENTHOLES + II) = ZERO
             AVENT(NVENTHOLES + II) = ZERO
             IPORT(NVENTHOLES + II) = 0
@@ -298,11 +298,11 @@ C     =======
       CALL HM_GET_FLOATV('Tswitch', TSWITCH, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_INTV('Iswitch', AUTO_UP_SWITCH, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_FLOATV('Pswitch', PARAM, IS_AVAILABLE, LSUBMODEL, UNITAB)
-     
+
       CALL HM_GET_FLOATV('L1', LX, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('L2', LY, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('L3', LZ, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       CALL HM_GET_INTV('Nb1', NBX, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Nb2', NBY, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Nb3', NBZ, IS_AVAILABLE, LSUBMODEL)
@@ -314,13 +314,13 @@ C     =======
       CALL HM_GET_FLOATV('Cgmerg', CGMERG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Cnmerg', CNMERG, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Ptole', PTOLE, IS_AVAILABLE, LSUBMODEL, UNITAB)
-     
+
       CALL HM_GET_FLOATV('qa', QA, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('qb', QB, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Hmin', HMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Dtsca', CFL_COEF, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Dtmin', DTMIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
-     
+
       CALL HM_GET_INTV('Ilvout', ILVOUT, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Nlayer', NLAYER, IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('Nfacmax', NFACMAX, IS_AVAILABLE, LSUBMODEL)
@@ -341,7 +341,7 @@ C     =======
            CALL ANCMSG(MSGID = 853, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .          I2 = KFRAME, I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
         ENDIF
-      ENDIF      
+      ENDIF
       DIRX = XFRAME(7, JJ)
       DIRY = XFRAME(8, JJ)
       DIRZ = XFRAME(9, JJ)
@@ -350,8 +350,8 @@ C     =======
       DIR2Z = XFRAME(3, JJ)
       ORIGX = XFRAME(10, JJ)
       ORIGY = XFRAME(11, JJ)
-      ORIGZ = XFRAME(12, JJ)                                                                      
- 
+      ORIGZ = XFRAME(12, JJ)
+
 C     =====
 C     Units
 C     =====
@@ -386,24 +386,24 @@ C     External surface check
 C     Check surface closure
       CALL MONVOL_CHECK_SURFCLOSE(T_MONVOLN, ITAB, IGRSURF(T_MONVOLN%EXT_SURFID), X)
 C     Set all normal on same side
-      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC, IXTG, X, 8)
 C     Compute Monvon volume
-      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID), 
-     .     ITAB, X, PM, GEO, IXC, IXTG, 
+      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID),
+     .     ITAB, X, PM, GEO, IXC, IXTG,
      .     SA, ROT, VOL, VMIN, VEPS, SV)
 C     Reverse all normals to ensure positive volume
-      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC,IXTG,VOL, X, 8)
-     
+
       IF (ITTF < 0 .OR. ITTF > 3) THEN
          CALL ANCMSG(MSGID = 773, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
       ENDIF
       IF (TI == ZERO) THEN
          TI = TWOHUNDRED95
-      ENDIF  
-!     Find material 
+      ENDIF
+!     Find material
       T_MONVOLN%IVOLU(66) = 0
       FOUND = .FALSE.
       DO II = 1, NUMMAT
@@ -428,7 +428,7 @@ C     Reverse all normals to ensure positive volume
             ELSE
                GAMAI = CPI / CVI
             END IF
-            FOUND = .TRUE. 
+            FOUND = .TRUE.
             EXIT
          ENDIF
       ENDDO
@@ -456,8 +456,8 @@ C     Reverse all normals to ensure positive volume
             ENDIF
          ENDDO
       ENDIF
-      
-           
+
+
       T_MONVOLN%IVOLU(61)=0
       IF(IBRIC>0) THEN
          DO II=1,NGRBRIC
@@ -466,7 +466,7 @@ C     Reverse all normals to ensure positive volume
                EXIT
             ENDIF
          ENDDO
-      ENDIF   
+      ENDIF
 
 C     internal surface check      
       T_MONVOLN%IVOLU(67)=0
@@ -479,50 +479,50 @@ C     internal surface check
                EXIT
             ENDIF
          ENDDO
-      ENDIF                                                              
+      ENDIF
 
       NBRIC=0
       IF(T_MONVOLN%IVOLU(61)/=0) NBRIC=IGRBRIC(T_MONVOLN%IVOLU(61))%ID
       SURFID_INT=0
       IF(T_MONVOLN%INT_SURFID/=0) SURFID_INT=IGRSURF(T_MONVOLN%INT_SURFID)%ID
-                      
-   !-----------------------------------------------   
- 
+
+   !-----------------------------------------------
+
 
 C     ==============
 C     Default values
 C     ==============
       IF (SCAL_T == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+         CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_T = ONE
       ENDIF
       IF (SCAL_P == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+         CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_P = ONE
       ENDIF
       IF (SCAL_S == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+         CALL HM_GET_FLOATV_DIM('AscaleS', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_S = ONE
       ENDIF
       IF (SCAL_A == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+         CALL HM_GET_FLOATV_DIM('AscaleA', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_A = ONE
       ENDIF
       IF (SCAL_D == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+         CALL HM_GET_FLOATV_DIM('AscaleD', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          SCAL_D = ONE
       ENDIF
 
       AMU = EM02
-      
+
       IF (PEXT == ZERO) THEN
          PEXT = 101325.D0 * (FAC_L_WORK * FAC_T_WORK * FAC_T_WORK) / FAC_M_WORK
       ELSE
-         CALL HM_GET_FLOATV_DIM('Pext', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)    
+         CALL HM_GET_FLOATV_DIM('Pext', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
          PEXT = PEXT * FAC_GEN
       ENDIF
 
-      CALL HM_GET_FLOATV_DIM('', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+      CALL HM_GET_FLOATV_DIM('', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
       PINI = PEXT
 !     Injectors
       IF (NJET > 0) THEN
@@ -546,8 +546,8 @@ C     ==============
             IF (FPORA1(II) == ZERO) FPORA1(II) = ONE
          ENDDO
       ENDIF
-!     
-     
+!
+
       DO II=1,NJET
         T_MONVOLN%IBAGJET(14,II) = 0
         lFOUND=.FALSE.
@@ -563,8 +563,8 @@ C     ==============
         DO JJ=1,NFUNCT
            IF (IVEL(II)==NPC(JJ)) T_MONVOLN%IBAGJET(11, II)=JJ
         ENDDO
-        IF (FVEL(II) == ZERO)  FVEL(II) = ONE 
-      ENDDO 
+        IF (FVEL(II) == ZERO)  FVEL(II) = ONE
+      ENDDO
 
       IF(TSWITCH == ZERO) TSWITCH=EP30
       IF (KMESH == 0) KMESH=1
@@ -574,16 +574,16 @@ C     ==============
       IF (NBX==0) NBX=1
       IF (NBY==0) NBY=1
       IF (NBZ==0) NBZ=1
-                   
-       
-      IF (IGMERG==0) IGMERG=1                            
-      IF (CGMERG==ZERO) CGMERG=ZEP02         
-      IF (PTOLE==ZERO) PTOLE=EM5 
+
+
+      IF (IGMERG==0) IGMERG=1
+      IF (CGMERG==ZERO) CGMERG=ZEP02
+      IF (PTOLE==ZERO) PTOLE=EM5
       IF (NLAYER ==0) NLAYER =10
       IF (NFACMAX==0) NFACMAX=20
-      IF (NPPMAX ==0) NPPMAX =20            
+      IF (NPPMAX ==0) NPPMAX =20
 
-         !------------------------------------------------------!  
+         !------------------------------------------------------!
 C     =====
 C     Store
 C     ===== 
@@ -602,7 +602,7 @@ C     =====
       T_MONVOLN%IVOLU(54)=NBX
       T_MONVOLN%IVOLU(55)=NBY
       T_MONVOLN%IVOLU(59)=IREF
-      T_MONVOLN%IVOLU(60)=IGMERG 
+      T_MONVOLN%IVOLU(60)=IGMERG
       T_MONVOLN%IVOLU(65)=NBZ
       T_MONVOLN%IVOLU(74) = AUTO_UP_SWITCH !Parameter for autoswitching to uniform pressure airbag
 
@@ -612,30 +612,30 @@ C     =====
       T_MONVOLN%RVOLU(28) = ONE / SCAL_S
       T_MONVOLN%RVOLU(29) = ONE / SCAL_A
       T_MONVOLN%RVOLU(30) = ONE / SCAL_D
-      T_MONVOLN%RVOLU(31)=CGMERG             
-      T_MONVOLN%RVOLU(34)=CNMERG             
-      T_MONVOLN%RVOLU(35)=DIRX          
-      T_MONVOLN%RVOLU(36)=DIRY          
-      T_MONVOLN%RVOLU(37)=DIRZ          
-      T_MONVOLN%RVOLU(38)=DIR2X         
-      T_MONVOLN%RVOLU(39)=DIR2Y         
-      T_MONVOLN%RVOLU(40)=DIR2Z         
-      T_MONVOLN%RVOLU(41)=ORIGX         
-      T_MONVOLN%RVOLU(42)=ORIGY         
-      T_MONVOLN%RVOLU(43)=ORIGZ         
-      T_MONVOLN%RVOLU(44)=LX            
-      T_MONVOLN%RVOLU(45)=LY            
+      T_MONVOLN%RVOLU(31)=CGMERG
+      T_MONVOLN%RVOLU(34)=CNMERG
+      T_MONVOLN%RVOLU(35)=DIRX
+      T_MONVOLN%RVOLU(36)=DIRY
+      T_MONVOLN%RVOLU(37)=DIRZ
+      T_MONVOLN%RVOLU(38)=DIR2X
+      T_MONVOLN%RVOLU(39)=DIR2Y
+      T_MONVOLN%RVOLU(40)=DIR2Z
+      T_MONVOLN%RVOLU(41)=ORIGX
+      T_MONVOLN%RVOLU(42)=ORIGY
+      T_MONVOLN%RVOLU(43)=ORIGZ
+      T_MONVOLN%RVOLU(44)=LX
+      T_MONVOLN%RVOLU(45)=LY
       T_MONVOLN%RVOLU(46)=QA
       T_MONVOLN%RVOLU(47)=QB
-      T_MONVOLN%RVOLU(50)=PTOLE   
+      T_MONVOLN%RVOLU(50)=PTOLE
       T_MONVOLN%RVOLU(51)=HMIN
-      T_MONVOLN%RVOLU(53)=LZ          
+      T_MONVOLN%RVOLU(53)=LZ
       T_MONVOLN%RVOLU(70) = TSWITCH
       T_MONVOLN%RVOLU(71) = CFL_COEF
       T_MONVOLN%RVOLU(72) = DTMIN
-      T_MONVOLN%RVOLU(73) = PARAM 
+      T_MONVOLN%RVOLU(73) = PARAM
 
-                     
+
       MID_INISYS = T_MONVOLN%IVOLU(66)
       IF (MID_INISYS /= 0) THEN
          MWI = PM(20, MID_INISYS)
@@ -695,7 +695,7 @@ C     =====
       T_MONVOLN%RVOLU(63)= ESPECI+RMWI*TI
       T_MONVOLN%RVOLU(64)= ZERO
       T_MONVOLN%RVOLU(65)= ZERO
-      T_MONVOLN%RVOLU(66)= ESPECI     
+      T_MONVOLN%RVOLU(66)= ESPECI
 !     Injectors
       TTFIRE = INFINITY
       DO II = 1, NJET
@@ -802,7 +802,7 @@ C     =====
          T_MONVOLN%RBAGHOL(10, II) = FPORT1(II)
          T_MONVOLN%RBAGHOL(11, II) = FPORP1(II)
          T_MONVOLN%RBAGHOL(12, II) = FPORA1(II)
-     
+
          T_MONVOLN%IBAGHOL(1, II) = 0
          IF (IFVENT(II) == 1) T_MONVOLN%IBAGHOL(10, II) = 2
          IF (IFVENT(II) == 2) T_MONVOLN%IBAGHOL(10, II) = 3
@@ -811,7 +811,7 @@ C     =====
          T_MONVOLN%IBAGHOL(11, II) = IDTPDEF(II)
 
          T_MONVOLN%IBAGHOL(12, II) = 0
-     
+
          IF (IPVENT(II) == 0) THEN
             T_MONVOLN%IBAGHOL(2, II) = 0
          ELSE
@@ -907,7 +907,7 @@ C
      .           I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, I2 = IVDP(II))
          ENDIF
       ENDDO
-      
+
       DO II = 1, NPORSURF
          T_MONVOLN%IBAGHOL(13, NVENTHOLES + II) = 1
          IF (IFVENT(NVENTHOLES + II) == 1) T_MONVOLN%IBAGHOL(10, NVENTHOLES + II) = 2
@@ -930,7 +930,7 @@ C
                IF (IPVENT(NVENTHOLES + II) == IGRSURF(JJ)%ID) THEN
                   T_MONVOLN%IBAGHOL(2, NVENTHOLES + II) = JJ
                ENDIF
-            ENDDO    
+            ENDDO
             IF (T_MONVOLN%IBAGHOL(2, NVENTHOLES + II) == 0) THEN
                CALL ANCMSG(MSGID = 532, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, I2 = IPVENT(NVENTHOLES + II))
@@ -940,7 +940,7 @@ C
             ENDIF
          ENDIF
 C     
-         IF (DPDEF(NVENTHOLES + II) == ZERO .AND. DTPDEF(NVENTHOLES + II) == ZERO .AND. 
+         IF (DPDEF(NVENTHOLES + II) == ZERO .AND. DTPDEF(NVENTHOLES + II) == ZERO .AND.
      .        TVENT(NVENTHOLES + II) == ZERO) THEN
             T_MONVOLN%IBAGHOL(1, NVENTHOLES + II) = 1
          ENDIF
@@ -974,7 +974,7 @@ C
          IF (IVDP(NVENTHOLES + II) == 0 .AND. IFVENT(NVENTHOLES + II) /= 2) THEN
             T_MONVOLN%IBAGHOL(9, NVENTHOLES + II) = 0
          ENDIF
-        
+
          IF (T_MONVOLN%IBAGHOL(3, NVENTHOLES + II) == -1) THEN
             T_MONVOLN%IBAGHOL(3, NVENTHOLES + II) =0
             CALL ANCMSG(MSGID = 331, ANMODE = ANINFO, MSGTYPE = MSGERROR,
@@ -1017,7 +1017,7 @@ C     =========
          WRITE(IOUT,1401)
       ELSEIF(IEQUI == 1) THEN
         WRITE(IOUT,1404)
-      ELSE 
+      ELSE
         WRITE(IOUT,1405) IEQUI
       ENDIF
       WRITE(IOUT,1415) MWI, GAMAI, CPAI, CPBI, CPCI, CPDI, CPEI, CPFI
@@ -1066,39 +1066,39 @@ C     =========
          WRITE(IOUT,1442) GAMA, MW_TMP, CPA, CPB, CPC,
      .        CPD, CPE, CPF
          SURFID_INJ = T_MONVOLN%IBAGJET(14, II)
-         SJET = ZERO                                                                                                         
+         SJET = ZERO
          IF (SURFID_INJ/=0) THEN
-            IF (IGRSURF(SURFID_INJ)%ISH4N3N == 0) THEN 
+            IF (IGRSURF(SURFID_INJ)%ISH4N3N == 0) THEN
                CALL ANCMSG(MSGID = 18, ANMODE = ANINFO, MSGTYPE = MSGERROR,
      .              I2 = IGRSURF(SURFID_INJ)%ID, I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE)
-            ELSE 
-               NN = IGRSURF(SURFID_INJ)%NSEG  
-               DO JJ = 1, NN    
-                  DIR = HALF   
-                  I1 = IGRSURF(SURFID_INJ)%NODES(JJ,1)   
-                  I2 = IGRSURF(SURFID_INJ)%NODES(JJ,2)   
-                  I3 = IGRSURF(SURFID_INJ)%NODES(JJ,3)  
-                  I4 = IGRSURF(SURFID_INJ)%NODES(JJ,4)  
-                  ISH34 = IGRSURF(SURFID_INJ)%ELTYP(JJ) 
-                  IF (ISH34 == 7)I4 = I3    
-                  XX = HALF * (X(1, I1) + X(1, I2))   
-                  YY = HALF * (X(2, I1) + X(2, I2))   
-                  ZZ = HALF * (X(3, I1) + X(3, I2))   
-                  X13 = X(1, I3) - X(1, I1)  
-                  Y13 = X(2, I3) - X(2, I1)  
-                  Z13 = X(3, I3) - X(3, I1)  
-                  X24 = X(1, I4) - X(1, I2)  
-                  Y24 = X(2, I4) - X(2, I2)  
-                  Z24 = X(3, I4) - X(3, I2)  
-                  NX = DIR * (Y13 * Z24 - Y24 * Z13)   
-                  NY = DIR * (Z13 * X24 - Z24 * X13)  
-                  NZ = DIR * (X13 * Y24 - X24 * Y13)  
-                  DS = SQRT(NX * NX + NY * NY + NZ * NZ)  
-                  SJET = SJET + DS     
-               ENDDO     
-            ENDIF  
+            ELSE
+               NN = IGRSURF(SURFID_INJ)%NSEG
+               DO JJ = 1, NN
+                  DIR = HALF
+                  I1 = IGRSURF(SURFID_INJ)%NODES(JJ,1)
+                  I2 = IGRSURF(SURFID_INJ)%NODES(JJ,2)
+                  I3 = IGRSURF(SURFID_INJ)%NODES(JJ,3)
+                  I4 = IGRSURF(SURFID_INJ)%NODES(JJ,4)
+                  ISH34 = IGRSURF(SURFID_INJ)%ELTYP(JJ)
+                  IF (ISH34 == 7)I4 = I3
+                  XX = HALF * (X(1, I1) + X(1, I2))
+                  YY = HALF * (X(2, I1) + X(2, I2))
+                  ZZ = HALF * (X(3, I1) + X(3, I2))
+                  X13 = X(1, I3) - X(1, I1)
+                  Y13 = X(2, I3) - X(2, I1)
+                  Z13 = X(3, I3) - X(3, I1)
+                  X24 = X(1, I4) - X(1, I2)
+                  Y24 = X(2, I4) - X(2, I2)
+                  Z24 = X(3, I4) - X(3, I2)
+                  NX = DIR * (Y13 * Z24 - Y24 * Z13)
+                  NY = DIR * (Z13 * X24 - Z24 * X13)
+                  NZ = DIR * (X13 * Y24 - X24 * Y13)
+                  DS = SQRT(NX * NX + NY * NY + NZ * NZ)
+                  SJET = SJET + DS
+               ENDDO
+            ENDIF
             WRITE(IOUT,1445) IGRSURF(SURFID_INJ)%ID, SJET
-         ENDIF    
+         ENDIF
       ENDDO
       WRITE(IOUT,1470) NVENT, TTFIRE
       WRITE(IOUT,1475)ITTF
@@ -1114,22 +1114,22 @@ C     =========
             TITREVENT(JJ) = T_MONVOLN%IBAGHOL(JJ + 14, II)
          ENDDO
          WRITE(IOUT,1476) VENTTITLE
-         IF (IPVENT(II)==0) THEN                      
-            CALL ANCMSG(MSGID = 1050, MSGTYPE = MSGERROR, ANMODE = ANINFO,                       
-     .           I1 = T_MONVOLN%ID, I2 = II, C1 = T_MONVOLN%TITLE, C2 = TITR1)         
-         ENDIF  
+         IF (IPVENT(II)==0) THEN
+            CALL ANCMSG(MSGID = 1050, MSGTYPE = MSGERROR, ANMODE = ANINFO,
+     .           I1 = T_MONVOLN%ID, I2 = II, C1 = T_MONVOLN%TITLE, C2 = TITR1)
+         ENDIF
          IFVENT(II) = T_MONVOLN%IBAGHOL(10, II)
-         IF (IFVENT(II) == 1) WRITE(IOUT, 1483)            
-         IF (IFVENT(II) == 2) WRITE(IOUT, 1481)            
-         IF (IFVENT(II) == 3) WRITE(IOUT, 1482) IVDP(II), FVDP(II)                 
-         IF (IFVENT(II) == 5) WRITE(IOUT, 1484)                
+         IF (IFVENT(II) == 1) WRITE(IOUT, 1483)
+         IF (IFVENT(II) == 2) WRITE(IOUT, 1481)
+         IF (IFVENT(II) == 3) WRITE(IOUT, 1482) IVDP(II), FVDP(II)
+         IF (IFVENT(II) == 5) WRITE(IOUT, 1484)
          IF (IFVENT(II) == 4) WRITE(IOUT, 1485)
          SHOL = ZERO
          IF (IPVENT(II) /= 0) THEN
             CALL MONVOL_CHECK_VENTHOLE_SURF(IPRI, T_MONVOLN, IGRSURF, II, SHOL, X, IXC, IXTG)
             T_MONVOLN%RBAGHOL(15, II) = SHOL
             IF (T_MONVOLN%IBAGHOL(13, II) == 0) THEN
-               WRITE(IOUT,1479) 
+               WRITE(IOUT,1479)
      .              SHOL,AVENT(II),BVENT(II),
      .              IPORT(II),IPORP(II),IPORA(II),FPORT(II),FPORP(II),FPORA(II),
      .              IPORT1(II),IPORP1(II),IPORA1(II),FPORT1(II),FPORP1(II),FPORA1(II)
@@ -1162,12 +1162,12 @@ C     ===================
       IF (ALLOCATED(NJ2)) DEALLOCATE(NJ2)
       IF (ALLOCATED(NJ3)) DEALLOCATE(NJ3)
       IF (ALLOCATED(IPT)) DEALLOCATE(IPT)
-      IF (ALLOCATED(IPA)) DEALLOCATE(IPA)     
-      IF (ALLOCATED(IPZ)) DEALLOCATE(IPZ)     
-      IF (ALLOCATED(FPT)) DEALLOCATE(FPT)     
-      IF (ALLOCATED(FPA)) DEALLOCATE(FPA)     
-      IF (ALLOCATED(FPZ)) DEALLOCATE(FPZ)     
-      IF (ALLOCATED(I_INJSYS)) DEALLOCATE(I_INJSYS)  
+      IF (ALLOCATED(IPA)) DEALLOCATE(IPA)
+      IF (ALLOCATED(IPZ)) DEALLOCATE(IPZ)
+      IF (ALLOCATED(FPT)) DEALLOCATE(FPT)
+      IF (ALLOCATED(FPA)) DEALLOCATE(FPA)
+      IF (ALLOCATED(FPZ)) DEALLOCATE(FPZ)
+      IF (ALLOCATED(I_INJSYS)) DEALLOCATE(I_INJSYS)
       IF (NVENT > 0) THEN
          DEALLOCATE(IPVENT, IFVENT, AVENT, BVENT)
          DEALLOCATE(TVENT, TSTOPE, DPDEF, DTPDEF,
@@ -1182,12 +1182,12 @@ C     ===================
 C-----------------------------------------------
 C     E n d   o f   s o u r c e
 C-----------------------------------------------
-      
-      RETURN 
+
+      RETURN
  1002 FORMAT(
      .     /5X,'INITIAL SURFACE OF MONITORED VOLUME . .=',1PG20.13,
      .     /5X,'SURFACE ERROR(NE.0 FOR NON CLOSED SURF)=',1PG20.13,
-     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)     
+     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)
  1003 FORMAT(
      .      5X,'UNIT SCALE FOR TIME FUNCTIONS          =',1PG20.13,
      .     /5X,'UNIT SCALE FOR PRESSURE FUNCTIONS      =',1PG20.13,
@@ -1272,7 +1272,7 @@ C-----------------------------------------------
      .     /15X,'JETTING PRESSURE TIME CURVE NUMBER. . .=',I10,
      .     /15X,'JETTING PRESSURE THETA CURVE NUMBER . .=',I10,
      .     /15X,'JETTING PRESSURE DIST. CURVE NUMBER . .=',I10,
-     .     /15X,'TIME FUNCTION SCALE FACTOR          . .=',1PG20.13 
+     .     /15X,'TIME FUNCTION SCALE FACTOR          . .=',1PG20.13
      .     /15X,'THETA FUNCTION SCALE FACTOR         . .=',1PG20.13,
      .     /15X,'DIST FUNCTION SCALE FACTOR          . .=',1PG20.13)
  1470 FORMAT(

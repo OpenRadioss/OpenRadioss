@@ -36,7 +36,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER SIZLOC,SIZP0
       INTEGER IXP(NIXP,*),IPARG(NPARG,*),IGEO(NPROPGI,*),
      .        IPARTP(*),IPART_STATE(*),STAT_INDXP(*)
-      my_real   
+      my_real
      .   GEO(NPROPG,*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       double precision WA(*),WAP0(*)
@@ -199,7 +199,7 @@ c------- end loop over beam elements
 !
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            IPRT  = NINT(WAP0(J + 2)) 
+            IPRT  = NINT(WAP0(J + 2))
             ID    = NINT(WAP0(J + 3))
             IGTYP = NINT(WAP0(J + 4))
             NPT   = NINT(WAP0(J + 5))
@@ -242,12 +242,12 @@ c------- end loop over beam elements
                 WRITE(IUGEO,'(A)')'#FORMAT:(1P3E20.13) #(FX(I),FXY(I),FXZ(I),I=BEAM_ID)'
                 WRITE(IUGEO,'(A)')'#FORMAT:(1P3E20.13) #(MX(I),MY(I) ,MZ(I) ,I=BEAM_ID)'
                 WRITE(IUGEO,'(A)')
-     .          '#------------------------ REPEAT --------------------------' 
+     .          '#------------------------ REPEAT --------------------------'
                 WRITE(IUGEO,'(A/A)')
      .'# FORMAT:(1P3E20.13) ; REPEAT K=1,NPT : ',
      .'#(S1(I),S12(I),S13(I),EPSP(I) ,I=BEAM_ID)'
                 WRITE(IUGEO,'(A)')
-     .          '#---------------------- END REPEAT ------------------------' 
+     .          '#---------------------- END REPEAT ------------------------'
                 WRITE(IUGEO,'(A)')
      .          '#----------------------------------------------------------'
 !

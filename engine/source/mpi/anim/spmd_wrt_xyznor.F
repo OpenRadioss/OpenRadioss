@@ -61,7 +61,7 @@ C-----------------------------------------------
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IBUF,RNGLOB
       DATA MSGOFF/7030/
       DATA MSGOFF2/7031/
-       
+
 C   Tableau utilise par proc 0
        my_real
      . S3000,S,XN1,XN2,XN3,IXNN
@@ -69,7 +69,7 @@ C-----------------------------------------------
        ALLOCATE(IBUF(4,NUMNODM))
        ALLOCATE(RNGLOB(3,NUM))
 
-       S3000 = THREE1000         
+       S3000 = THREE1000
 
 
        IXNN = S3000
@@ -103,7 +103,7 @@ C   a cause de la version simple precision, on ne peux pas metre l'entier
 C   dans le buffer flottant car on n a que 2puiss 24 bits dispo ~ 16 Million
 C   de noeuds au max
 
-        MSGTYP = MSGOFF2 
+        MSGTYP = MSGOFF2
         CALL MPI_SEND(IBUF,4*SIZ,MPI_INTEGER,IT_SPMD(1),MSGTYP,
      .     MPI_COMM_WORLD,ierror)
 
@@ -124,7 +124,7 @@ C   de noeuds au max
                RNGLOB(1,NG) = 0
                RNGLOB(2,NG) = 0
                RNGLOB(3,NG) = IXNN
-              END IF 
+              END IF
             END IF
           ENDDO
 
@@ -139,7 +139,7 @@ C   de noeuds au max
             CALL MPI_RECV(IBUF,SIZ,MPI_INTEGER,IT_SPMD(I),MSGTYP,
      .                  MPI_COMM_WORLD,STATUS,ierror)
 
-         
+
             NREC = SIZ/4
 
             DO K = 1, NREC

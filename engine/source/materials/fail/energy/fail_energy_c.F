@@ -30,7 +30,7 @@ Chd|        FINTER                        source/tools/curve/finter.F
 Chd|====================================================================
       SUBROUTINE FAIL_ENERGY_C(
      1     NEL      ,NUPARAM  ,NUVAR    ,NFUNC    ,IFUNC    ,
-     2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     , 
+     2     UPARAM   ,UVAR     ,NPF      ,TF       ,TIME     ,
      3     NGL      ,IPG      ,ILAY     ,IPT      ,EPSP     ,
      4     EINT     ,AREA     ,THK      ,PTHKF    ,DMG_FLAG ,
      5     DMG_SCALE,OFF      ,FOFF     ,DFMAX    ,TDEL     )
@@ -109,12 +109,12 @@ C-----------------------------------------------
       my_real RFAC,R1,R2,IE_SP,DYDX,RIEF1,RIEF2,XFAC
       my_real DAMAGE(NEL)
 C=======================================================================
-      RIEF1    = UPARAM(1)             
-      RIEF2    = UPARAM(2)           
+      RIEF1    = UPARAM(1)
+      RIEF2    = UPARAM(2)
       PTHKF    = UPARAM(3)
-      XFAC     = UPARAM(4)           
+      XFAC     = UPARAM(4)
       DMG_FLAG = INT(UPARAM(5))
-      NINDX    = 0  
+      NINDX    = 0
 C-----------------------------------------------
       DO I = 1,NEL
         IF (OFF(I) == ONE .and. FOFF(I) == 1) THEN
@@ -123,7 +123,7 @@ C-----------------------------------------------
             RFAC = MAX(RFAC,EM20)
           ELSE
             RFAC = ONE
-          ENDIF  
+          ENDIF
           R1 = RIEF1*RFAC
           R2 = RIEF2*RFAC
 
@@ -139,25 +139,25 @@ C-----------------------------------------------
             INDX(NINDX) = I
             FOFF(I) = 0
             TDEL(I) = TIME
-          ENDIF                    
-        ENDIF                    
+          ENDIF
+        ENDIF
       ENDDO
 c
       IF (DMG_FLAG == 1) THEN
         DO I = 1,NEL
           DMG_SCALE(I) = ONE - DFMAX(I)
-        ENDDO          
+        ENDDO
       ENDIF
 c------------------------
-      IF (NINDX > 0) THEN  
-        DO J=1,NINDX       
-          I = INDX(J)      
+      IF (NINDX > 0) THEN
+        DO J=1,NINDX
+          I = INDX(J)
 #include  "lockon.inc"
           WRITE(IOUT, 2000) NGL(I),IPG,ILAY,IPT
           WRITE(ISTDO,2100) NGL(I),IPG,ILAY,IPT,TIME
 #include  "lockoff.inc"
         END DO
-      END IF              
+      END IF
 c------------------------
  2000 FORMAT(1X,'FAILURE (ENERGY) OF SHELL ELEMENT ',I10,1X,',GAUSS PT',
      .       I2,1X,',LAYER',I3,1X,',INTEGRATION PT',I3)

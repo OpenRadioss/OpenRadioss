@@ -30,21 +30,21 @@ Chd|====================================================================
         SUBROUTINE CZDEF(JFT ,JLT  ,AREA ,AA  ,V13   ,V24 ,
      2                   VHI ,RLXYZ,VDEF ,VHG ,X13   ,
      3                   X24 ,Y13  ,Y24  ,MX13,MX23  ,MX34,
-     4                   MY13,MY23 ,MY34 ,Z1  ,DT1   , OFF, 
+     4                   MY13,MY23 ,MY34 ,Z1  ,DT1   , OFF,
      5                   OFFG,RLXYZV )
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
 #include      "implicit_f.inc"
-#include      "mvsiz_p.inc" 
+#include      "mvsiz_p.inc"
 #include      "parit_c.inc"
 C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   RLXYZ(MVSIZ,2,4),V13(MVSIZ,3),V24(MVSIZ,3),
      .   X13(*),X24(*),Y13(*),Y24(*),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*)
-      my_real 
+      my_real
      .   AREA(*),Z1(*),VDEF(MVSIZ,8),
      .   AA(*),VHG(MVSIZ,6),VHI(MVSIZ,3),DT1,OFF(*),OFFG(*),OFF_L
       my_real
@@ -53,7 +53,7 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
      .   RSOM(2),RHI(2),
      .   BXV2,BYV1,BXR1,BYR2
@@ -99,9 +99,9 @@ C--------
 C----------------------------------
 C  VITESSE DE DEFORMATION HOURGLASS
 C----------------------------------
-        VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1     
+        VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1
         VHG(I,2)=VHI(I,2)-MX13(I)*BXV2     -MY13(I)*VDEF(I,2)
-        VHG(I,3)= RHI(2)-MX13(I)*VDEF(I,6)-MY13(I)*BYR2     
+        VHG(I,3)= RHI(2)-MX13(I)*VDEF(I,6)-MY13(I)*BYR2
         VHG(I,4)=-RHI(1)-MX13(I)*BXR1     -MY13(I)*VDEF(I,7)
         VHG(I,5)=(VHI(I,3)*4.-(MY13(I)*RSOM(1)-MY23(I)*(R13(1)+R24(1))
      1         +MX23(I)*(R13(2)+R24(2))-MX13(I)*RSOM(2))*AREA(I))*FOUR
@@ -152,9 +152,9 @@ C--------
 C----------------------------------
 C  VITESSE DE DEFORMATION HOURGLASS
 C----------------------------------
-        VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1     
+        VHG(I,1)=VHI(I,1)-MX13(I)*VDEF(I,1)-MY13(I)*BYV1
         VHG(I,2)=VHI(I,2)-MX13(I)*BXV2     -MY13(I)*VDEF(I,2)
-        VHG(I,3)= RHI(2)-MX13(I)*VDEF(I,6)-MY13(I)*BYR2     
+        VHG(I,3)= RHI(2)-MX13(I)*VDEF(I,6)-MY13(I)*BYR2
         VHG(I,4)=-RHI(1)-MX13(I)*BXR1     -MY13(I)*VDEF(I,7)
         VHG(I,5)=(VHI(I,3)*4.-(MY13(I)*RSOM(1)-MY23(I)*(R13(1)+R24(1))
      1         +MX23(I)*(R13(2)+R24(2))-MX13(I)*RSOM(2))*AREA(I))*FOUR
@@ -189,12 +189,12 @@ C
           VDEF(I,7)=ZERO
           VDEF(I,8)=ZERO
 C
-          VHG(I,1)=ZERO    
+          VHG(I,1)=ZERO
           VHG(I,2)=ZERO
-          VHG(I,3)=ZERO     
+          VHG(I,3)=ZERO
           VHG(I,4)=ZERO
           VHG(I,5)=ZERO
-          VHG(I,6)=ZERO  
+          VHG(I,6)=ZERO
          ENDIF
         ENDDO
       ENDIF
@@ -222,18 +222,18 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   RLZ(MVSIZ,4),V13(MVSIZ,3),V24(MVSIZ,3),
      .   X13(*),X24(*),Y13(*),Y24(*),Z1(*),VHG(MVSIZ,6),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*)
-      my_real 
+      my_real
      .   AREA(*),VDEF(MVSIZ,8),AA(*),VHGZK(MVSIZ,5),VHGZE(MVSIZ,5),VRLZ(*),
      .   BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   AA4,BXV2,BYV1,A05,BXRZ,BYRZ,DHX,DHY,C3,HXX,HYY,HXX_K,HYY_K
 C-----------------------------------------------
         CALL CZDERIRZ(JFT ,JLT  ,AREA ,X13 ,X24   ,
@@ -307,17 +307,17 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   X13(*),X24(*),Y13(*),Y24(*),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*)
-      my_real 
+      my_real
      .   AREA(*),
      .   BM0RZ(MVSIZ,4,4),BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   AA4,BXV2,BYV1,A05,NXY,NYX,A05K(4),A05E(4),
      .   XIJ(MVSIZ,4),YIJ(MVSIZ,4),XIL(MVSIZ,4),YIL(MVSIZ,4)
 C--------(14,23,32,41)/4---------------------------------------
@@ -463,16 +463,16 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   RLXYZ(MVSIZ,4),V13(MVSIZ,2),V24(MVSIZ,2),
      .   X13(*),X24(*),Y13(*),Y24(*),AA(*)
-      my_real 
+      my_real
      .   Z1(*),VDEF(MVSIZ,8)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
      .   BXV2,BYV1,BXR1,BYR2
 C-----------------------------------------------
@@ -505,17 +505,17 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   RLXYZ(MVSIZ,4),
      .   X13(*),X24(*),Y13(*),Y24(*),Z1(*),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*)
-      my_real 
+      my_real
      .   AREA(*),VDEF(MVSIZ,8),AA(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   AA4,BXV2,BYV1,A05,BXRZ,BYRZ,DHX,DHY,C3,HXX,HYY,HXX_K,HYY_K,
      .   BM0RZ(MVSIZ,4,4)
 C-----------------------------------------------
@@ -557,17 +557,17 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   X13(*),X24(*),Y13(*),Y24(*),
      .   MX13(*),MX23(*),MX34(*),MY13(*),MY23(*),MY34(*)
-      my_real 
+      my_real
      .   AREA(*),
      .   BM0RZ(MVSIZ,4,4)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   AA4,BXV2,BYV1,A05,NXY,NYX,A05K(4),A05E(4),
      .   XIJ(MVSIZ,4),YIJ(MVSIZ,4),XIL(MVSIZ,4),YIL(MVSIZ,4),
      .  BMKRZ(MVSIZ,4,4),BMERZ(MVSIZ,4,4)
@@ -687,16 +687,16 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER JFT,JLT
-      my_real 
+      my_real
      .   RLXYZ(MVSIZ,2,4),V13(MVSIZ,2),V24(MVSIZ,2),
      .   X13(*),X24(*),Y13(*),Y24(*)
-      my_real 
+      my_real
      .   Z1(*),AA(*),WXY(*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J
-      my_real 
+      my_real
      .   BCX,BCY,BCXY,R13(2),R24(2),DETA1,
      .   BXV2,BYV1,BXR1,BYR2,KXY,KYX
 C-----------------------------------------------

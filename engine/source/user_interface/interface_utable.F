@@ -36,7 +36,7 @@ C
 C
         SUBROUTINE GET_U_TABLE(I,XX,YY)
         INTEGER I
-        my_real, 
+        my_real,
      .         DIMENSION(:) :: XX
         my_real
      .         YY
@@ -44,8 +44,8 @@ C
 C
         SUBROUTINE GET_U_VTABLE(I,NEL,IPOS,XX,YY,DYDX)
         INTEGER I,NEL
-        INTEGER, DIMENSION(:,:) :: IPOS 
-        my_real, 
+        INTEGER, DIMENSION(:,:) :: IPOS
+        my_real,
      .         DIMENSION(:,:) :: XX
         my_real
      .         YY(*), DYDX(*)

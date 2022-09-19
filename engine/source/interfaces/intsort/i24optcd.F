@@ -37,7 +37,7 @@ Chd|====================================================================
      4       IRTLM  ,TIME_S ,MSEGLO  ,COUNT_REMSLV,
      5       SECND_FR,NSNR   ,PENE_OLD,STIF_OLD  ,
      6       PMAX_GAP,EDGE_L2,IEDGE  ,IGSTI  ,MVOISIN ,
-     7       ICONT_I ,IS2SE,IRTSE, 
+     7       ICONT_I ,IS2SE,IRTSE,
      8       NSNE,NRTSE,IS2PT,ISPT2,ISEGPT,IEDG4,T2MAIN_SMS,
      9       LSKYI_SMS_NEW,DGAPLOAD)
 C========================================================================
@@ -109,7 +109,7 @@ C-----------------------------------------------
 c      write(iout,*)'i24optcd 1'
       NSNF = 1 + ITASK*NSN / NTHREAD
       NSNL = (ITASK+1)*NSN / NTHREAD
-      DO I = NSNF,NSNL 
+      DO I = NSNF,NSNL
 c copy old friction forces
         SECND_FR(4,I)=SECND_FR(1,I)
         SECND_FR(5,I)=SECND_FR(2,I)
@@ -120,9 +120,9 @@ c set new friction forces at 0
         SECND_FR(3,I)=ZERO
 
         TIME_S(I)=ZERO
-        
+
         PENE_OLD(2,I) = PENE_OLD(1,I)
-        STIF_OLD(2,I) = STIF_OLD(1,I) 
+        STIF_OLD(2,I) = STIF_OLD(1,I)
         PENE_OLD(1,I) = ZERO
         PENE_OLD(3,I) = ZERO
 C        STIF_OLD(1,I) = ZERO
@@ -131,7 +131,7 @@ C CONT_I contains Starter infos, it must be flushed when IRTLM(1,xxx) is no more
       ENDDO
 C----------------      
       IF (IGSTI/=6) THEN
-       DO I = NSNF,NSNL 
+       DO I = NSNF,NSNL
         STIF_OLD(1,I) = ZERO
        ENDDO
       END IF
@@ -147,7 +147,7 @@ C CONT_I contains Starter infos, it must be flushed when IRTLM(1,xxx) is no more
       ENDDO
 C initialize PMAX_GAP to Zero for future treatments in force computation.
       PMAX_GAP = ZERO
- 
+
       COUNT_CAND = 0
       COUNT_CONNEC_SMS = 0
       CT = 0
@@ -220,7 +220,7 @@ C
           IS = LISTI(LS)
           I=JS+IS
           L  = CAND_E(I)
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
            IG(IS) = NSV(CAND_N(I))
            XI = X(1,IG(IS))
            YI = X(2,IG(IS))
@@ -304,7 +304,7 @@ CC--         Count of contact connections for AMS (+ addtional connections relat
      .           (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                ENDIF
 C
-             ENDIF  
+             ENDIF
            ENDIF
           ENDIF
         ENDDO
@@ -317,8 +317,8 @@ Cel conserver LISTI et LIST pour optimiser le code genere (IA64)
           L  = CAND_E(I)
           IRTLM(1,CAND_N(I)) = IABS(IRTLM(1,CAND_N(I)))
           MG = IRTLM(1,CAND_N(I))
-          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN 
-            IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
+          IF(STF(L)/=ZERO.AND.STFN(CAND_N(I))/=ZERO) THEN
+            IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN
 c secnd in contact on an other main don't keep candidate
                TIME_S(CAND_N(I))=ZERO
             ELSEIF(MG == MSEGLO(CAND_E(I)))THEN
@@ -449,7 +449,7 @@ C
                   COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IG(IS))*
      .            (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                 ENDIF
-              ENDIF  
+              ENDIF
           ELSE
 c secnd not in contact
             XI=X(1,IG(IS))
@@ -492,7 +492,7 @@ CC--         Count of contact connections for AMS (+ addtional connections relat
                   COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS(1,IG(IS))*
      .            (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                 ENDIF
-              ENDIF 
+              ENDIF
             ELSE
               TIME_S(CAND_N(I))=ZERO
             ENDIF
@@ -526,7 +526,7 @@ c a faire     EDGE_L(IS)=EDGE_L2FI(NIN)%P(CAND_N(I)-NSN)
             I=JS+IS
             II = CAND_N(I)-NSN
             L  = CAND_E(I)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
              XI = XFI(NIN)%P(1,II)
              YI = XFI(NIN)%P(2,II)
              ZI = XFI(NIN)%P(3,II)
@@ -607,7 +607,7 @@ CC--             Count of contact connections for AMS (+ addtional connections r
                      COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,II)*
      .               (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                    ENDIF
-                ENDIF         
+                ENDIF
              ELSE
                  TIME_SFI(NIN)%P(II)=ZERO
              END IF
@@ -623,43 +623,43 @@ CC--             Count of contact connections for AMS (+ addtional connections r
             L  = CAND_E(I)
             IRTLM_FI(NIN)%P(1,II)=IABS(IRTLM_FI(NIN)%P(1,II))
             MG = IRTLM_FI(NIN)%P(1,II)
-            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN 
-              IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN 
+            IF(STF(L)/=ZERO.AND.STIFI(NIN)%P(II)/=ZERO) THEN
+              IF(MG /= 0 .and. MG /= MSEGLO(CAND_E(I))) THEN
 c secnd in contact on a remote main don't keep candidate
-                 TIME_SFI(NIN)%P(II)=ZERO 
+                 TIME_SFI(NIN)%P(II)=ZERO
               ELSEIF(MG == MSEGLO(CAND_E(I)))THEN
 c secnd in contact on this main keep candidate
                NLS=NLS+1
                LIST(NLS)=IS
               ELSE
 c secnd not in contact
-               ZI = XFI(NIN)%P(3,II)                                     
-               IX1(IS)=IRECT(1,L)                                        
-               Z1=X(3,IX1(IS))                                           
-               IX2(IS)=IRECT(2,L)                                        
-               Z2=X(3,IX2(IS))                                           
-               IX3(IS)=IRECT(3,L)                                        
-               Z3=X(3,IX3(IS))                                           
-               IX4(IS)=IRECT(4,L)                                        
-               Z4=X(3,IX4(IS))                                           
-               VZI = VFI(NIN)%P(3,II)                                    
-               VZ1=V(3,IX1(IS))                                          
-               VZ2=V(3,IX2(IS))                                          
-               VZ3=V(3,IX3(IS))                                          
-               VZ4=V(3,IX4(IS))                                          
-               VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4)) 
+               ZI = XFI(NIN)%P(3,II)
+               IX1(IS)=IRECT(1,L)
+               Z1=X(3,IX1(IS))
+               IX2(IS)=IRECT(2,L)
+               Z2=X(3,IX2(IS))
+               IX3(IS)=IRECT(3,L)
+               Z3=X(3,IX3(IS))
+               IX4(IS)=IRECT(4,L)
+               Z4=X(3,IX4(IS))
+               VZI = VFI(NIN)%P(3,II)
+               VZ1=V(3,IX1(IS))
+               VZ2=V(3,IX2(IS))
+               VZ3=V(3,IX3(IS))
+               VZ4=V(3,IX4(IS))
+               VZ=MAX(MAX(VZ1,VZ2,VZ3,VZ4)-VZI,VZI-MIN(VZ1,VZ2,VZ3,VZ4))
 c PMAX_GAP is not used here (node not in contact)
-               TZINF = MAX(GAPV(IS)+DGAPLOAD,ONEP01*VZ*DT1,EDGE_L(IS))                         
+               TZINF = MAX(GAPV(IS)+DGAPLOAD,ONEP01*VZ*DT1,EDGE_L(IS))
                TZINF = MAX(PREC,TZINF)
-               ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF                             
-               ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF                             
-               IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN                       
-                 NLS=NLS+1                                               
-                 LIST(NLS)=IS                                            
+               ZMIN = MIN(Z1,Z2,Z3,Z4)-TZINF
+               ZMAX = MAX(Z1,Z2,Z3,Z4)+TZINF
+               IF (ZMIN<=ZI.AND.ZMAX>=ZI) THEN
+                 NLS=NLS+1
+                 LIST(NLS)=IS
                ELSE
-                 TIME_SFI(NIN)%P(II)=ZERO     
-               ENDIF    
-              ENDIF                                                 
+                 TIME_SFI(NIN)%P(II)=ZERO
+               ENDIF
+              ENDIF
             ELSE
               IF(STF(L)==ZERO)THEN
                 MG = IRTLM_FI(NIN)%P(1,II)
@@ -711,7 +711,7 @@ c PMAX_GAP is not used here (node not in contact)
                NLS=NLS+1
                LIST(NLS)=IS
              ELSE
-               TIME_SFI(NIN)%P(II)=ZERO                                    
+               TIME_SFI(NIN)%P(II)=ZERO
              ENDIF
             ENDIF
            ENDDO
@@ -753,7 +753,7 @@ CC--           Count of contact connections for AMS (+ addtional connections rel
                  COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,II)*
      .           (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                ENDIF
-              ENDIF  
+              ENDIF
             ELSE
 c secnd not in contact
              XI = XFI(NIN)%P(1,II)
@@ -796,9 +796,9 @@ CC--             Count of contact connections for AMS (+ addtional connections r
                      COUNT_CONNEC_SMS = COUNT_CONNEC_SMS + T2MAIN_SMS_FI(NIN)%P(1,II)*
      .               (T2MAIN_SMS(1,IX1(IS))+T2MAIN_SMS(1,IX2(IS))+T2MAIN_SMS(1,IX3(IS))+T2MAIN_SMS(1,IX4(IS)))
                    ENDIF
-               ENDIF  
+               ENDIF
              ELSE
-               TIME_SFI(NIN)%P(II)=ZERO   
+               TIME_SFI(NIN)%P(II)=ZERO
              ENDIF
             ENDIF
            ENDDO
@@ -823,13 +823,13 @@ C ---------------------------------------------------------------------------
 C Care - SPMD Treatments are made in SPMD_EXCH_I24 due to communication
 C ---------------------------------------------------------------------------
       IF (IEDG4 > 0 .AND.NSPMD == 1)THEN
-      DO I = NSNF,NSNL 
+      DO I = NSNF,NSNL
          ISPT2(I)=0
       ENDDO
          CALL I24ISPT2_INI_OPTTRI(
      1               NSNF ,NSNL  ,NSV    ,CAND_N ,NSN   ,IRTSE  ,
      2               IS2SE ,ISPT2 ,ISEGPT ,IRTLM  ,NSNE  ,
-     3               NRTSE ,IEDG4 ,NIN) 
+     3               NRTSE ,IEDG4 ,NIN)
       ENDIF
 
       RETURN

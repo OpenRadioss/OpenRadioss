@@ -33,7 +33,7 @@ Chd|        NLOCAL                        source/spmd/node/ddtools.F
 Chd|        SEATBELT_MOD                  ../common_source/modules/seatbelt_mod.F
 Chd|====================================================================
       SUBROUTINE W_SEATBELTS(LEN_IA,LEN_AM,P,NODLOCAL,N_ANCHOR_REMOTE_L,
-     .                       N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L)     
+     .                       N_ANCHOR_REMOTE_SEND_L,ANCHOR_REMOTE_L,ANCHOR_REMOTE_SEND_L)
 C---------------------------------------------     
       USE SEATBELT_MOD
 C---------------------------------------------
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
       INTEGER  NLOCAL
-      EXTERNAL NLOCAL 
+      EXTERNAL NLOCAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -85,7 +85,7 @@ C
           DO J=1,SLIPRING(I)%NFRAM
 C
             CALL WRITE_I_C(SLIPRING(I)%FRAM(J)%UPDATE, 1)
-            CALL WRITE_I_C(NODLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE), 1)          
+            CALL WRITE_I_C(NODLOCAL(SLIPRING(I)%FRAM(J)%ANCHOR_NODE), 1)
             CALL WRITE_I_C(NODLOCAL(SLIPRING(I)%FRAM(J)%NODE(1)), 1)
             CALL WRITE_I_C(NODLOCAL(SLIPRING(I)%FRAM(J)%NODE(2)), 1)
             CALL WRITE_I_C(NODLOCAL(SLIPRING(I)%FRAM(J)%NODE(3)), 1)
@@ -170,13 +170,13 @@ C
       IF (N_ANCHOR_REMOTE_L > 0) THEN
         CALL WRITE_I_C(ANCHOR_REMOTE_L%ADD_PROC, NSPMD+1)
         CALL WRITE_I_C(ANCHOR_REMOTE_L%NODE, N_ANCHOR_REMOTE_L)
-        LEN_IA = LEN_IA + NSPMD + 1 + N_ANCHOR_REMOTE_L     
+        LEN_IA = LEN_IA + NSPMD + 1 + N_ANCHOR_REMOTE_L
       ENDIF
 C
       IF (N_ANCHOR_REMOTE_SEND_L > 0) THEN
         CALL WRITE_I_C(ANCHOR_REMOTE_SEND_L%ADD_PROC, NSPMD+1)
         CALL WRITE_I_C(ANCHOR_REMOTE_SEND_L%NODE, N_ANCHOR_REMOTE_SEND_L)
-        LEN_IA = LEN_IA + NSPMD + 1 + N_ANCHOR_REMOTE_SEND_L     
+        LEN_IA = LEN_IA + NSPMD + 1 + N_ANCHOR_REMOTE_SEND_L
       ENDIF
 C
       IF (P ==1) THEN

@@ -152,15 +152,15 @@ c-----------------------------------------------
 c-----------------------------------------------
       ELSEIF (KEY2_READ == 'QUAD') THEN
          IF (KEY3_READ == 'VFRAC') THEN
-c     
+c
 c     create specific keywords for LAW151, number of present materials is not
 c     known a priori
-c     
+c
            IF (MULTI_FVM%IS_USED) THEN
               NB_KEY = MULTI_FVM%NBMAT
               DO II = 1, NB_KEY
                  IF (CPT_KEY == II) THEN
-                    WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II 
+                    WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II
                  ENDIF
               ENDDO
            ELSE
@@ -177,12 +177,12 @@ c-----------------------------------------------
 c
 c     create specific keywords for LAW151, number of present materials is not
 c     known a priori
-c           
+c
            IF (MULTI_FVM%IS_USED) THEN
               NB_KEY = MULTI_FVM%NBMAT
               DO II = 1, NB_KEY
                  IF (CPT_KEY == II) THEN
-                    WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II 
+                    WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II
                  ENDIF
               ENDDO
            ELSE
@@ -197,7 +197,7 @@ c
               NB_KEY = MULTI_FVM%NBMAT
               DO II = 1, NB_KEY
                  IF (CPT_KEY == II) THEN
-                    WRITE(KEY3_GLOB, '(A,I0)') 'M151DENS', II 
+                    WRITE(KEY3_GLOB, '(A,I0)') 'M151DENS', II
                  ENDIF
               ENDDO
            ENDIF
@@ -206,19 +206,19 @@ c
               NB_KEY = MULTI_FVM%NBMAT
               DO II = 1, NB_KEY
                  IF (CPT_KEY == II) THEN
-                    WRITE(KEY3_GLOB, '(A,I0)') 'M151ENER', II 
+                    WRITE(KEY3_GLOB, '(A,I0)') 'M151ENER', II
                  ENDIF
               ENDDO
-           ENDIF 
+           ENDIF
         ELSEIF (KEY3_READ == 'PHASE_PRES') THEN
            IF (MULTI_FVM%IS_USED) THEN
               NB_KEY = MULTI_FVM%NBMAT
               DO II = 1, NB_KEY
                  IF (CPT_KEY == II) THEN
-                    WRITE(KEY3_GLOB, '(A,I0)') 'M151PRES', II 
+                    WRITE(KEY3_GLOB, '(A,I0)') 'M151PRES', II
                  ENDIF
               ENDDO
-           ENDIF 
+           ENDIF
         ELSEIF (KEY3_READ == 'ORTHD') THEN
           NB_KEY = 3
           IF (CPT_KEY == 1) KEY3_GLOB = 'ORTHD/PSI'
@@ -292,15 +292,15 @@ c-----------------------------------------------
       ELSEIF (KEY2_READ == 'SHELL') THEN
 c-----------------------------------------------
          IF (KEY3_READ == 'VFRAC') THEN
-c     
+c
 c     create specific keywords for LAW151, number of present materials is not
 c     known a priori
-c           
+c
             IF (MULTI_FVM%IS_USED) THEN
                NB_KEY = MULTI_FVM%NBMAT
                DO II = 1, NB_KEY
                   IF (CPT_KEY == II) THEN
-                     WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II 
+                     WRITE(KEY3_GLOB, '(A,I0)') 'M151VFRAC', II
                   ENDIF
                ENDDO
             ELSE
@@ -327,7 +327,7 @@ c-----------------------------------------------
             NB_KEY = MULTI_FVM%NBMAT
             DO II = 1, NB_KEY
                IF (CPT_KEY == II) THEN
-                  WRITE(KEY3_GLOB, '(A,I0)') 'M151DENS', II 
+                  WRITE(KEY3_GLOB, '(A,I0)') 'M151DENS', II
                ENDIF
             ENDDO
          ENDIF
@@ -338,10 +338,10 @@ c-----------------------------------------------
             NB_KEY = MULTI_FVM%NBMAT
             DO II = 1, NB_KEY
                IF (CPT_KEY == II) THEN
-                  WRITE(KEY3_GLOB, '(A,I0)') 'M151ENER', II 
+                  WRITE(KEY3_GLOB, '(A,I0)') 'M151ENER', II
                ENDIF
             ENDDO
-         ENDIF 
+         ENDIF
 c-----------------------------------------------
       ELSEIF (KEY3_READ == 'PHASE_PRES') THEN
 c-----------------------------------------------
@@ -349,10 +349,10 @@ c-----------------------------------------------
             NB_KEY = MULTI_FVM%NBMAT
             DO II = 1, NB_KEY
                IF (CPT_KEY == II) THEN
-                  WRITE(KEY3_GLOB, '(A,I0)') 'M151PRES', II 
+                  WRITE(KEY3_GLOB, '(A,I0)') 'M151PRES', II
                ENDIF
             ENDDO
-         ENDIF 
+         ENDIF
 c-----------------------------------------------
       ELSEIF (KEY2_READ == 'BEAM' .OR. KEY2_READ == 'SPRING' .OR. KEY2_READ == 'TRUSS') THEN
 c-----------------------------------------------

@@ -32,7 +32,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -53,12 +53,12 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER                                         
-     .  N1,N2,N3,N4,I,N,IS,                                       
+      INTEGER
+     .  N1,N2,N3,N4,I,N,IS,
      .  KSEG,NG1,NG2,NG3,NG4,ESEG,EAD,KTY,KLT,MFT,II(6)
-      my_real                                         
-     .  ORIENT, FAC, X13,Y13,Z13,X24,Y24,Z24, NX,NY,NZ,S,VN,P,DPDV                             
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
+      my_real
+     .  ORIENT, FAC, X13,Y13,Z13,X24,Y24,Z24, NX,NY,NZ,S,VN,P,DPDV
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
 C   Initialisation de la surface nodale
@@ -69,7 +69,7 @@ C   Initialisation de la surface nodale
           ENDDO
 C
           DO IS=1,NSEG
-            
+
             KSEG = ABS(ISEG(IS))
             ORIENT = ZERO
             IF(KSEG /= 0)ORIENT=FLOAT(ISEG(IS)/KSEG)
@@ -96,11 +96,11 @@ C
             X24=X(1,NG4)-X(1,NG2)
             Y24=X(2,NG4)-X(2,NG2)
             Z24=X(3,NG4)-X(3,NG2)
-c 
+c
             NX=(Y13*Z24-Z13*Y24)*FAC
             NY=(Z13*X24-X13*Z24)*FAC
             NZ=(X13*Y24-Y13*X24)*FAC
-c 
+c
             LA(1,N1)=LA(1,N1)+NX
             LA(2,N1)=LA(2,N1)+NY
             LA(3,N1)=LA(3,N1)+NZ
@@ -109,7 +109,7 @@ c
             LA(3,N2)=LA(3,N2)+NZ
             LA(1,N3)=LA(1,N3)+NX
             LA(2,N3)=LA(2,N3)+NY
-            LA(3,N3)=LA(3,N3)+NZ 
+            LA(3,N3)=LA(3,N3)+NZ
 C 
             IF(N4/=N3) THEN
               LA(1,N4)=LA(1,N4)+NX

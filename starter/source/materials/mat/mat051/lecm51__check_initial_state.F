@@ -28,7 +28,7 @@ Chd|-- calls ---------------
 Chd|        ANCMSG                        source/output/message/message.F
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
-      SUBROUTINE LECM51__CHECK_INITIAL_STATE(   
+      SUBROUTINE LECM51__CHECK_INITIAL_STATE(
      .   AV,  R0,     C0,   C1,   C2, C3, C4,   C5,
      .   E0,  PM,   RHO0, RHOR, IEXP, JTHE,PEXT,IFLG,
      .   A0,  A1,     A2,  PLA,
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      my_real   
+      my_real
      . AV(4),R0(4), C0(4), C1(4),C2(4), C3(4),
      . A0(4), A1(4),A2(4),
      . C4(4),C5(4), E0(4), PM(4), PEXT,  RHO0, RHOR,
@@ -75,9 +75,9 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER i,j, TEST1,TEST2,TEST3,TEST4,TEST5,
      .        TEST6,TEST7,TEST8,TEST9, IMAX,IPLA(4)
-     
+
       my_real SUM, P0b, err
-      
+
       character*8 chain
       character*47 chain3
       character*63 chain1
@@ -85,20 +85,20 @@ C===============================================|
       IPLA(1)=PLA(1)
       IPLA(2)=PLA(2)
       IPLA(3)=PLA(3)
-      IPLA(4)=PLA(4) 
+      IPLA(4)=PLA(4)
 
       IMAX=IEXP+3
       !IMAX number of phases to be checked 3 or 4
-      
+
       SSP(1:4) = (/SSP1,SSP2,SSP3,SSP4/)
-      LC (1:4) = (/ LC1, LC2, LC3, LC4/)      
-      
+      LC (1:4) = (/ LC1, LC2, LC3, LC4/)
+
       !0: warning or error not detected
       !1: test failed, message in listing file.
       TEST1=0    !AV in [0,1]
       TEST2=0    !Sum(AV(i))=1
       TEST3=0    !Rho not defined
-      TEST4=0    !Unbalanced Pressure  t=0              
+      TEST4=0    !Unbalanced Pressure  t=0
       TEST5=0    !Global density = mean(rho_i)
       TEST6=0    !C1,C4,C5 >=0,  C1>0 phase 4
       TEST8=0    !Perfect Gas cavitation pressure
@@ -116,7 +116,7 @@ C===============================================|
         ELSE
           RHO0=ONE !will be computed in engine, not need for sound speed. This formulation has SSP=EM20
           RHOR=ONE
-        ENDIF        
+        ENDIF
         RETURN
       ENDIF
       !TEST1 (quel que soit iflg)
@@ -149,7 +149,7 @@ C===============================================|
           SUM=SUM+AV(I)  ! AV(I) in [0,1], SUM=0 <=> AV(I)=0 , i=1..4
         END DO
         IF(SUM==ZERO)THEN
-         AV(1)=1 
+         AV(1)=1
          CALL ANCMSG(MSGID=98,
      .               MSGTYPE=MSGWARNING,
      .               ANMODE=ANINFO_BLIND_1,
@@ -190,8 +190,8 @@ C===============================================|
          !exit
         END IF
       END DO
-   
-      
+
+
       !TEST4 (quel que soit iflg)
       !Unbalanced Pressure, material are checked two by two (Cnp couples)
       !IF (TEST1+TEST2+TEST3==0) THEN !If no error
@@ -235,8 +235,8 @@ C===============================================|
           IF(TEST4==1)EXIT
         END DO !next I
       !END IF
-      
-      
+
+
       !TEST5 (quel que soit iflg)
       !Check the consistency between global density and materials densities.
       !IF(TEST1+TEST2+TEST3==0)THEN !If no error
@@ -283,7 +283,7 @@ C===============================================|
          TEST6=1
          !exit
         END IF
-        
+
         IF ((C3(I)<ZERO)) THEN
          chain='SUBMAT-0'
          write(chain(8:8),'(i1.1)')I
@@ -297,7 +297,7 @@ C===============================================|
      .               C2=chain1)
          TEST6=1
          !exit
-        END IF        
+        END IF
 
         IF ((C4(I)<ZERO)) THEN
          chain='SUBMAT-0'
@@ -312,7 +312,7 @@ C===============================================|
      .               C2=chain1)
          TEST6=1
          !exit
-        END IF        
+        END IF
 
         IF ((C5(I)<ZERO)) THEN
          chain='SUBMAT-0'
@@ -327,10 +327,10 @@ C===============================================|
      .               C2=chain1)
          TEST6=1
          !exit
-        END IF                        
+        END IF
       END DO !next I
-      
-          
+
+
       !check pressure cut-off pressure for perfect gas
       IF(IFLG<=1)THEN
         DO I=1,3
@@ -342,9 +342,9 @@ C===============================================|
            !we have a perfect gas
            IF(PM(I)/=ZERO .AND. PEXT/=ZERO)THEN
              IF(abs(PM(I)+PEXT)>EM06)THEN
-               !PM(I)=-PEXT 
+               !PM(I)=-PEXT
                chain='SUBMAT-0'
-               write(chain(8:8),'(i1.1)')I           
+               write(chain(8:8),'(i1.1)')I
                chain1=
      .   chain//' IS A PERFECT GAS:MINIMUM PRESSURE SHOULD BE -PEXT       '
                CALL ANCMSG(MSGID=98,
@@ -358,39 +358,39 @@ C===============================================|
          END IF
         END DO !next I
       END IF !(IFLG<=1)
-      
+
       !check Drucker Prager Yield Surface
       IF(IFLG<=1)THEN
         DO I=1,3
           chain='SUBMAT-0'
-          write(chain(8:8),'(i1.1)')I           
+          write(chain(8:8),'(i1.1)')I
           !
-          IF(A1(I) < ZERO .AND. A2(I) == ZERO)THEN                               
+          IF(A1(I) < ZERO .AND. A2(I) == ZERO)THEN
             chain1 = chain//': INVERTED YIELD SURFACE. CHECK A1 SIGN.                '
-            CALL ANCMSG(MSGID=829,                                               
-     .                  MSGTYPE=MSGWARNING,                                    
-     .                  ANMODE=ANINFO,                                         
-     .                  I1=51,                                                 
-     .                  I2=ID,                                                 
-     .                  C1='WARNING',                                          
-     .                  C2=TITR,                                               
-     .                  C3=chain)                                              
-          ENDIF                                                                  
-          IF(A2(I) < ZERO)THEN                                                   
-            chain1 = chain//': UNTIPYCAL YIELD SURFACE. CHECK A2 SIGN.               '        
-            CALL ANCMSG(MSGID=829,                                               
-     .                  MSGTYPE=MSGWARNING,                                    
-     .                  ANMODE=ANINFO,                                         
-     .                  I1=51,                                                 
-     .                  I2=ID,                                                 
-     .                  C1='WARNING',                                          
-     .                  C2=TITR,                                               
-     .                  C3=chain)                                              
-          ENDIF                                                                  
+            CALL ANCMSG(MSGID=829,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO,
+     .                  I1=51,
+     .                  I2=ID,
+     .                  C1='WARNING',
+     .                  C2=TITR,
+     .                  C3=chain)
+          ENDIF
+          IF(A2(I) < ZERO)THEN
+            chain1 = chain//': UNTIPYCAL YIELD SURFACE. CHECK A2 SIGN.               '
+            CALL ANCMSG(MSGID=829,
+     .                  MSGTYPE=MSGWARNING,
+     .                  ANMODE=ANINFO,
+     .                  I1=51,
+     .                  I2=ID,
+     .                  C1='WARNING',
+     .                  C2=TITR,
+     .                  C3=chain)
+          ENDIF
           !
         END DO !next I
-      END IF !(IFLG<=1)      
-      
+      END IF !(IFLG<=1)
+
       RETURN
       END
 C======================================================================|

@@ -67,12 +67,12 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD            
-      USE MESSAGE_MOD            
+      USE ELBUFDEF_MOD
+      USE MESSAGE_MOD
       USE STACK_MOD
       USE MATPARAM_DEF_MOD
-      USE NLOCAL_REG_MOD   
-      USE DRAPE_MOD           
+      USE NLOCAL_REG_MOD
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -143,8 +143,8 @@ C-----------------------------------------------
      .   POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX)
 C-----------------------------------------------
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
-      TYPE(L_BUFEL_) ,POINTER :: LBUF     
-      TYPE(G_BUFEL_) ,POINTER :: GBUF     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
+      TYPE(G_BUFEL_) ,POINTER :: GBUF
 C=======================================================================
       GBUF => ELBUF_STR%GBUF
       IORTHLOC = 0
@@ -232,8 +232,8 @@ C         PART_AREA(J) = PART_AREA(J) + AREA(I)
 C------------
       CALL CDKDERII(LFT,LLT,PM,GEO,PX2,PY2,PX3,PY3,
      .             STIFN   ,STIFR   ,IXTG(1,NFT+1),THK, SH3TREE,
-     .             ALDT    ,BUFMAT  ,IPM ,IGEO,STACK%PM, 
-     .             ISUBSTACK,STRTG(NFT+1),GROUP_PARAM, 
+     .             ALDT    ,BUFMAT  ,IPM ,IGEO,STACK%PM,
+     .             ISUBSTACK,STRTG(NFT+1),GROUP_PARAM,
      .             IMAT ,IPROP,AREA,   DT  ,
      .             X1   ,X2  ,X3  ,Y1  ,Y2  ,Y3  ,
      .             Z1   ,Z2  ,Z3  ,E1X ,E2X ,E3X ,
@@ -276,7 +276,7 @@ C-----------------------------------------------------------------------
 C       CALCUL DES CONTRAINTES INITIALES
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
         IF ((ISIGSH /= 0 .OR. ITHKSHEL == 2).AND. ISH3N == 30 ) THEN
-           IF (MPT>0) 
+           IF (MPT>0)
      .       CALL CORTH3(ELBUF_STR,DIR_A   ,DIR_B   ,LFT    ,LLT    ,
      .             NLAY     ,IREP    ,NEL     ,
      .             X1  ,X2  ,X3  ,X4  ,Y1  ,Y2  ,
@@ -328,7 +328,7 @@ C-----------------------------------------------------------------------
 C     CALCUL DES DEFORMATIONS INITIALES (MEMBRANE)
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
       IF (ISTRAIN == 1 .AND. NXREF > 0) THEN
-        UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  ! 
+        UVAR => ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR  !
         CALL CDKEPSINI(ELBUF_STR,
      .       LFT     ,LLT     ,ISMSTR    ,MTN      ,ITHK     ,
      .       PM      ,GEO     ,IXTG(1,NFT+1),X ,XREFTG(1,1,NFT+1),
@@ -367,11 +367,11 @@ C
             GBUF%MOMPG(PTM+JJ(3)+I) = GBUF%MOM(JJ(3)+I)
           ENDDO
          IF (MTN == 58 .and. IR > 1) THEN
-           UVAR => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR ! law58 => NLAY=1     
-           NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT                               
-           DO I=1,NEL*NUVAR                                                  
-             UVAR(I) = ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR(I)                  
-           ENDDO                                                             
+           UVAR => ELBUF_STR%BUFLY(1)%MAT(IR,IS,1)%VAR ! law58 => NLAY=1
+           NUVAR = ELBUF_STR%BUFLY(1)%NVAR_MAT
+           DO I=1,NEL*NUVAR
+             UVAR(I) = ELBUF_STR%BUFLY(1)%MAT(1,1,1)%VAR(I)
+           ENDDO
          END IF
         ENDDO
       ENDIF
@@ -381,7 +381,7 @@ C-------------------------------------------
 c        IGTYP=GEO(12,IXTG(5,I+NFT))
          IF (IGTYP /= 0  .AND. IGTYP /= 1  .AND.
      .       IGTYP /= 9  .AND. IGTYP /= 10 .AND.
-     .       IGTYP /= 11 .AND. IGTYP /= 16 .AND. 
+     .       IGTYP /= 11 .AND. IGTYP /= 16 .AND.
      .       IGTYP /= 17 .AND. IGTYP /= 51 .AND.
      .       IGTYP /= 52 ) THEN
           CALL ANCMSG(MSGID=25,
@@ -516,7 +516,7 @@ C     REAL
      .    EZX(MVSIZ) , EYZ(MVSIZ) ,
      .    E1X(MVSIZ) , E1Y(MVSIZ) , E1Z(MVSIZ) ,
      .    E2X(MVSIZ) , E2Y(MVSIZ) , E2Z(MVSIZ) ,
-     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ) 
+     .    E3X(MVSIZ) , E3Y(MVSIZ) , E3Z(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

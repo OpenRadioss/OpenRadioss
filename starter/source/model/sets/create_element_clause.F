@@ -132,7 +132,7 @@ C-----------------------------------------------
 
         ENDIF
 C-----------------------------------------------
-      END     
+      END
 Chd|====================================================================
 Chd|  CREATE_ELT_LIST_G             source/model/sets/create_element_clause.F
 Chd|-- called by -----------
@@ -355,7 +355,7 @@ C=======================================================================
          CALL HM_GET_INT_ARRAY_2INDEXES('ids',IDS,JCLAUSE,I,IS_AVAILABLE,LSUBMODEL)
 
          ELTP = SET_USRTOS(IDS,MAP,MAPSIZE)
-         IF(ELTP == 0)THEN        
+         IF(ELTP == 0)THEN
                              ! Element was not found. Issue a Warning & Skip.
            CALL GET_ELT_NAME(ELTYP, ELEMENT_NAME)
            CALL ANCMSG(MSGID=1902,ANMODE=ANINFO,
@@ -376,7 +376,7 @@ C=======================================================================
       ENDDO ! DO K=1,IDS_MAX
 
       ! Sort the Readed PARTs and remove eventual duplicates
-      ! ---------------------------------------------------- 
+      ! ----------------------------------------------------
       DO I=1,NINDX
         IDX(I) = I
       ENDDO
@@ -386,7 +386,7 @@ C=======================================================================
          SORTED_LIST(I) = ELT_READ_TMP(IDX(I))
       ENDDO
 
-                
+
       CALL REMOVE_DUPLICATES(SORTED_LIST,NINDX,LIST_SIZE)
 
       ! Copy in final SET
@@ -462,7 +462,7 @@ C-----------------------------------------------
 
             ! SOLID ELEM
             !-----------------------
-            CLAUSE%NB_SOLID = LIST_SIZE  
+            CLAUSE%NB_SOLID = LIST_SIZE
             ALLOCATE( CLAUSE%SOLID( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -473,7 +473,7 @@ c
 
             ! QUAD ELEM
             !-----------------------
-            CLAUSE%NB_QUAD = LIST_SIZE  
+            CLAUSE%NB_QUAD = LIST_SIZE
             ALLOCATE( CLAUSE%QUAD( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -484,7 +484,7 @@ c
 
             ! SHELL ELEM
             !-----------------------
-            CLAUSE%NB_SH4N = LIST_SIZE  
+            CLAUSE%NB_SH4N = LIST_SIZE
             ALLOCATE( CLAUSE%SH4N( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -495,7 +495,7 @@ c
 
             ! SH3N ELEM
             !-----------------------
-            CLAUSE%NB_SH3N = LIST_SIZE  
+            CLAUSE%NB_SH3N = LIST_SIZE
             ALLOCATE( CLAUSE%SH3N( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -506,7 +506,7 @@ c
 
             ! TRIA ELEM
             !-----------------------
-            CLAUSE%NB_TRIA = LIST_SIZE  
+            CLAUSE%NB_TRIA = LIST_SIZE
             ALLOCATE( CLAUSE%TRIA( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -517,7 +517,7 @@ c
 
             ! TRUSS ELEM
             !-----------------------
-            CLAUSE%NB_TRUSS = LIST_SIZE  
+            CLAUSE%NB_TRUSS = LIST_SIZE
             ALLOCATE( CLAUSE%TRUSS( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -528,7 +528,7 @@ c
 
             ! BEAM ELEM
             !-----------------------
-            CLAUSE%NB_BEAM = LIST_SIZE  
+            CLAUSE%NB_BEAM = LIST_SIZE
             ALLOCATE( CLAUSE%BEAM( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE
@@ -539,7 +539,7 @@ c
 
             ! SPRING ELEM
             !-----------------------
-            CLAUSE%NB_SPRING = LIST_SIZE  
+            CLAUSE%NB_SPRING = LIST_SIZE
             ALLOCATE( CLAUSE%SPRING( LIST_SIZE ) )
 c
             DO I=1,LIST_SIZE

@@ -35,7 +35,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT05(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS  ,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   , 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT   ,
      .                         UNITAB ,MAT_ID   ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,IPM      ,UID)
 C-----------------------------------------------
@@ -57,10 +57,10 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -93,7 +93,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       my_real
      .     A, B, R1, R2, W, D, PCJ, E0, C0, C1, VCJ,
-     .     EADD, TBEGIN, TEND, 
+     .     EADD, TBEGIN, TEND,
      .     PSH,REACTION_RATE,REACTION_RATE2,A_MIL,M_MIL,N_MIL,ALPHA_UNIT,
      .     BID, VAL(5), BULK
       INTEGER :: IBID, IBFRAC, QOPT, I_ERROR, IFLAGUNIT, J
@@ -124,15 +124,15 @@ C-----------------------------------------------
       IS_AVAILABLE = .FALSE.
       ISRATE = 0
       IMATVIS = 0
-      
+
       !unit needed for millers extension
-      IFLAGUNIT = 0                            
-      DO J=1,NUNITS                            
-        IF (NINT(UNITAB(1,J)) == UID) THEN     
-          IFLAGUNIT = 1                        
-          EXIT                                 
-        ENDIF                                  
-      ENDDO                                    
+      IFLAGUNIT = 0
+      DO J=1,NUNITS
+        IF (NINT(UNITAB(1,J)) == UID) THEN
+          IFLAGUNIT = 1
+          EXIT
+        ENDIF
+      ENDDO
 
       !======== READING INPUT FILE ===========!
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
@@ -161,55 +161,55 @@ C-----------------------------------------------
       CALL HM_GET_FLOATV('LAW5_P0', C0, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('LAW5_PSH', PSH, IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('BUNREACTED', BULK, IS_AVAILABLE, LSUBMODEL, UNITAB)
-      
+
       !-----AFTERBURNING
       IF((QOPT == 0 .OR. QOPT == 1 .OR. QOPT == 2) .AND. EADD > 0)THEN
       !line-4
         CALL HM_GET_FLOATV('TSTART', TBEGIN, IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('TSTOP', TEND, IS_AVAILABLE, LSUBMODEL, UNITAB)
-        IF(TEND==ZERO) TEND=INFINITY 
-        IF(EADD>ZERO)THEN                                   
-          IF(TBEGIN==TEND)THEN                                 
-            !Dirac function release : this means instantaneous 
-            QOPT = 0                                           
-          ENDIF                                                
-        ENDIF                                                  
+        IF(TEND==ZERO) TEND=INFINITY
+        IF(EADD>ZERO)THEN
+          IF(TBEGIN==TEND)THEN
+            !Dirac function release : this means instantaneous
+            QOPT = 0
+          ENDIF
+        ENDIF
       ELSEIF(QOPT == 3 .AND. EADD > 0)THEN
         CALL HM_GET_FLOATV('LAW5_A', A_MIL, IS_AVAILABLE, LSUBMODEL, UNITAB)
         CALL HM_GET_FLOATV('LAW5_M', M_MIL, IS_AVAILABLE, LSUBMODEL, UNITAB)
-        CALL HM_GET_FLOATV('LAW5_N', N_MIL, IS_AVAILABLE, LSUBMODEL, UNITAB)      
+        CALL HM_GET_FLOATV('LAW5_N', N_MIL, IS_AVAILABLE, LSUBMODEL, UNITAB)
       ENDIF
-      
+
       !========AFTERBURNING REACTION RATE===========!
       REACTION_RATE  = ZERO
       REACTION_RATE2 = ZERO
-      SELECT CASE(QOPT)      
+      SELECT CASE(QOPT)
         CASE(0)
           !---INSTANTANEOUS
           REACTION_RATE  = ZERO
-          REACTION_RATE2 = ZERO 
+          REACTION_RATE2 = ZERO
         CASE(1)
           !---CONSTANT AFTERBURNING RATE
-          REACTION_RATE  = ONE/(TEND-TBEGIN) 
-          REACTION_RATE2 = ZERO       
+          REACTION_RATE  = ONE/(TEND-TBEGIN)
+          REACTION_RATE2 = ZERO
         CASE(2)
           !---LINEAR AFTERBURNING RATE
-          REACTION_RATE  = TWO/(TEND-TBEGIN)**2 
+          REACTION_RATE  = TWO/(TEND-TBEGIN)**2
           REACTION_RATE2 = TBEGIN**2/(TEND-TBEGIN)**2
         CASE(3)
           !---MILLER S EXTENSION
           REACTION_RATE  = ZERO
-          REACTION_RATE2 = ZERO 
-          IF(ALPHA_UNIT == ZERO)ALPHA_UNIT=ONE        
+          REACTION_RATE2 = ZERO
+          IF(ALPHA_UNIT == ZERO)ALPHA_UNIT=ONE
         CASE DEFAULT
           !CLASSICAL MODEL
           EADD          = ZERO
-          REACTION_RATE = ZERO   
-      END SELECT     
-      
+          REACTION_RATE = ZERO
+      END SELECT
+
       !========C1: MODULE EQUIVALENT POUR LES RIGIDITES D'INTERFACES
       IF(BULK>ZERO)THEN
-        C1 = BULK      
+        C1 = BULK
       ELSE
         C1 = W*(PCJ+E0)
       ENDIF
@@ -217,8 +217,8 @@ C-----------------------------------------------
       !---DEFAULT VALUES
       IF(RHOR == ZERO)RHOR=RHO0
       PM(01) = RHOR
-      PM(89) = RHO0           
-      !========STORAGE 
+      PM(89) = RHO0
+      !========STORAGE
       PM(23)  = E0
       PM(31)  = C0-PSH
       PM(32)  = C1
@@ -249,20 +249,20 @@ C-----------------------------------------------
       PM(88)  = PSH
       !ssp0
       PM(27)  = D
-          
+
       !======== BUFFER ALLOCATION SIZES
-      MTAG%G_TB     = 1  
-      MTAG%G_TEMP   = 1  
+      MTAG%G_TB     = 1
+      MTAG%G_TEMP   = 1
       MTAG%G_BFRAC  = 1
       MTAG%G_ABURN  = 1
       MTAG%L_TB     = 1
       MTAG%L_TEMP   = 1
-      MTAG%L_BFRAC  = 1 
-      MTAG%L_ABURN  = 1       
-      
+      MTAG%L_BFRAC  = 1
+      MTAG%L_ABURN  = 1
+
       !======== LISTING OUTPUT
       WRITE(IOUT,1001) TRIM(TITR),MAT_ID,5
-      WRITE(IOUT,1000)     
+      WRITE(IOUT,1000)
       IF(IS_ENCRYPTED)THEN
          WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
       ELSE
@@ -284,7 +284,7 @@ C-----------------------------------------------
            ENDIF
          ENDIF
       ENDIF
-      
+
       RETURN
  1000 FORMAT(
      &     5X,'  J.W.L. EXPLOSIVE                      ',/,
@@ -306,9 +306,9 @@ C-----------------------------------------------
      &     5X,'DETONATION VELOCITY . . . . . . . . . .=',E12.4/,
      &     5X,'CHAPMAN JOUGUET PRESSURE. . . . . . . .=',E12.4/,
      &     5X,'CHAPMAN JOUGUET VOLUME. . . . . . . . .=',E12.4/,
-     &     5X,'INITIAL ENERGY PER UNIT VOLUME. . . . .=',E12.4/,  
+     &     5X,'INITIAL ENERGY PER UNIT VOLUME. . . . .=',E12.4/,
      &     5X,'INITIAL PRESSURE OF UNREACTED EXPLO.. .=',E12.4/,
-     &     5X,'PRESSURE SHIFT. . . . . . . . . . . . .=',E12.4/,  
+     &     5X,'PRESSURE SHIFT. . . . . . . . . . . . .=',E12.4/,
      &     5X,'UNREACTED EXPLOSIVE BULK MODULUS. . . .=',E12.4/,
      &     5X,'BURN FRACTION METHOD. . . . . . . . . .=',I12/)
  1500 FORMAT(

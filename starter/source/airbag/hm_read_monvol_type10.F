@@ -40,7 +40,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        MONVOL_STRUCT_MOD             share/modules1/monvol_struct_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_MONVOL_TYPE10(T_MONVOLN, IPM, IGEO, ITABM1, 
+      SUBROUTINE HM_READ_MONVOL_TYPE10(T_MONVOLN, IPM, IGEO, ITABM1,
      .     LSENSOR, SENSOR, NPT, PLD,
      .     UNITAB, LUID, NPC, IGRSURF, ITAB, X, PM, GEO, IXC, IXTG,
      .     LSUBMODEL)
@@ -55,7 +55,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
-#include      "implicit_f.inc"      
+#include      "implicit_f.inc"
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: II
-      INTEGER :: SURFID, IFUNC, ITYPFUN, IFUNCT_ID(6), IFBULK, IFMIN, 
+      INTEGER :: SURFID, IFUNC, ITYPFUN, IFUNCT_ID(6), IFBULK, IFMIN,
      .     IFMOUTT, IFMOUTP, IFP0, IFPMAX
       my_real :: FFUNC, FAC_GEN
       my_real :: SCAL_T, SCAL_P
@@ -124,7 +124,7 @@ C     Check operations
 C     ================
 C     External surface check
       T_MONVOLN%IVOLU(4) = 0
-      FOUND = .FALSE. 
+      FOUND = .FALSE.
       DO II = 1, NSURF
          IF (SURFID == IGRSURF(II)%ID) THEN
             T_MONVOLN%IVOLU(4) = II
@@ -140,20 +140,20 @@ C     External surface check
      .        I1 = T_MONVOLN%ID, C1 = T_MONVOLN%TITLE, I2 = SURFID)
          CALL FREERR(3)
       ENDIF
-      
+
 C     Check surface closure
       CALL MONVOL_CHECK_SURFCLOSE(T_MONVOLN, ITAB, IGRSURF(T_MONVOLN%EXT_SURFID), X)
 C     Set all normal on same side
-      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_ORIENT_SURF(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC, IXTG, X, 10)
 C     Compute Monvon volume
-      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID), 
-     .     ITAB, X, PM, GEO, IXC, IXTG, 
+      CALL MONVOL_COMPUTE_VOLUME(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, IGRSURF(T_MONVOLN%EXT_SURFID),
+     .     ITAB, X, PM, GEO, IXC, IXTG,
      .     SA, ROT, VOL, VMIN, VEPS, SV)
 C     Reverse all normals to ensure positive volume
-      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB, 
+      CALL MONVOL_REVERSE_NORMALS(T_MONVOLN, T_MONVOLN%TITLE, T_MONVOLN%IVOLU, ITAB,
      .     IGRSURF(T_MONVOLN%EXT_SURFID),IXC,IXTG,VOL, X, 10)
-     
+
 
       IFUNCT_ID(1:6) = 0
       IF (IFBULK > 0) THEN
@@ -202,45 +202,45 @@ C     Reverse all normals to ensure positive volume
 
 C     Default value for time scale factor
       IF (SCAL_T == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-         SCAL_T = ONE * FAC_GEN 
+         CALL HM_GET_FLOATV_DIM('Ascalet', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         SCAL_T = ONE * FAC_GEN
       ENDIF
       IF (SCAL_P == ZERO) THEN
-         CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)     
-         SCAL_P = ONE * FAC_GEN 
+         CALL HM_GET_FLOATV_DIM('AscaleP', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
+         SCAL_P = ONE * FAC_GEN
       ENDIF
 C     Default value
       IF (IFBULK > 0) THEN
          IF (SFBULK == ZERO) THEN
-            CALL HM_GET_FLOATV_DIM('Fscale_K', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
+            CALL HM_GET_FLOATV_DIM('Fscale_K', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             SFBULK = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFMIN > 0) THEN
          IF (SFMIN == ZERO) THEN
-            CALL HM_GET_FLOATV_DIM('Fscale_Mtin', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
+            CALL HM_GET_FLOATV_DIM('Fscale_Mtin', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             SFMIN = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFMOUTT > 0) THEN
          IF (SFMOUTT == ZERO) THEN
-            CALL HM_GET_FLOATV_DIM('Fscale_Mtout', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
+            CALL HM_GET_FLOATV_DIM('Fscale_Mtout', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             SFMOUTT = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFMOUTP > 0) THEN
          IF (SFMOUTP == ZERO) THEN
-            CALL HM_GET_FLOATV_DIM('Fscale_Mpout', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
+            CALL HM_GET_FLOATV_DIM('Fscale_Mpout', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             SFMOUTP = ONE * FAC_GEN
          ENDIF
       ENDIF
       IF (IFP0 > 0) THEN
          IF (SFP0 == ZERO) THEN
-            CALL HM_GET_FLOATV_DIM('Fscale_Padd', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
+            CALL HM_GET_FLOATV_DIM('Fscale_Padd', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
             SFP0 = ONE * FAC_GEN
          ENDIF
       ENDIF
-      CALL HM_GET_FLOATV_DIM('Fscale_Pmax', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)   
+      CALL HM_GET_FLOATV_DIM('Fscale_Pmax', FAC_GEN, IS_AVAILABLE, LSUBMODEL, UNITAB)
       IF (IFPMAX > 0) THEN
          IF (SFPMAX == ZERO) THEN
             SFPMAX = ONE * FAC_GEN
@@ -274,8 +274,8 @@ C     Store in data structure
       T_MONVOLN%RVOLU(34) = RHOI
 C     
       VEPS = MAX(ZERO, VMIN - VOL)
-      T_MONVOLN%RVOLU(4) = VOL + VEPS 
-      T_MONVOLN%RVOLU(17) = VEPS 
+      T_MONVOLN%RVOLU(4) = VOL + VEPS
+      T_MONVOLN%RVOLU(17) = VEPS
       T_MONVOLN%RVOLU(20)= RHOI*VOL
 C     
       AMU = ZERO
@@ -291,17 +291,17 @@ C     =========
       WRITE(IOUT, 1005) SURFID
       WRITE(IOUT, 1003) SCAL_T, SCAL_P
       WRITE(IOUT, 1002) SA, SV, VOL
-      WRITE(IOUT,1800) RHOI, IFBULK, SFBULK, IFMIN, SFMIN, IFMOUTT, SFMOUTT, 
+      WRITE(IOUT,1800) RHOI, IFBULK, SFBULK, IFMIN, SFMIN, IFMOUTT, SFMOUTT,
      .     IFMOUTP, SFMOUTP, IFP0, SFP0, IFPMAX, SFPMAX
 C-----------------------------------------------
 C     E n d   o f   s o u r c e
 C-----------------------------------------------
-      
+
       RETURN
  1002 FORMAT(
      .     /5X,'INITIAL SURFACE OF MONITORED VOLUME . .=',1PG20.13,
      .     /5X,'SURFACE ERROR(NE.0 FOR NON CLOSED SURF)=',1PG20.13,
-     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)    
+     .     /5X,'INITIAL VOLUME OF MONITORED VOLUME. . .=',1PG20.13)
  1003 FORMAT(
      .     5X,'UNIT SCALE FOR TIME FUNCTIONS          =',1PG20.13,
      .     /5X,'UNIT SCALE FOR PRESSURE FUNCTIONS      =',1PG20.13)

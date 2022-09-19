@@ -77,7 +77,7 @@ C---
           CALL I2CURV_REP(INOD    , X      ,V       ,LS1     ,LS2     ,
      .                    LT1     ,LT2     ,ROT(1)  ,ROT(4)  ,ROT(7)  ,
      .                    ROT(2)  ,ROT(5)  ,ROT(8)  ,ROT(3)  ,ROT(6)  ,
-     .                    ROT(9)  )                                    
+     .                    ROT(9)  )
           CALL INV3(ROT,ROTI)
 C---
           S=CRST(1,II)
@@ -94,51 +94,51 @@ C---
             AM(1,JJ) = ROT(1)*A(1,J) + ROT(4)*A(2,J) + ROT(7)*A(3,J)
             AM(2,JJ) = ROT(2)*A(1,J) + ROT(5)*A(2,J) + ROT(8)*A(3,J)
             AM(3,JJ) = ROT(3)*A(1,J) + ROT(6)*A(2,J) + ROT(9)*A(3,J)
-            VM(4,JJ) = ROT(1)*VR(1,J)+ROT(4)*VR(2,J)+ROT(7)*VR(3,J)  
-            VM(5,JJ) = ROT(2)*VR(1,J)+ROT(5)*VR(2,J)+ROT(8)*VR(3,J)  
-            VM(6,JJ) = ROT(3)*VR(1,J)+ROT(6)*VR(2,J)+ROT(9)*VR(3,J)  
-            AM(4,JJ) = ROT(1)*AR(1,J)+ROT(4)*AR(2,J)+ROT(7)*AR(3,J)  
-            AM(5,JJ) = ROT(2)*AR(1,J)+ROT(5)*AR(2,J)+ROT(8)*AR(3,J)  
-            AM(6,JJ) = ROT(3)*AR(1,J)+ROT(6)*AR(2,J)+ROT(9)*AR(3,J)  
+            VM(4,JJ) = ROT(1)*VR(1,J)+ROT(4)*VR(2,J)+ROT(7)*VR(3,J)
+            VM(5,JJ) = ROT(2)*VR(1,J)+ROT(5)*VR(2,J)+ROT(8)*VR(3,J)
+            VM(6,JJ) = ROT(3)*VR(1,J)+ROT(6)*VR(2,J)+ROT(9)*VR(3,J)
+            AM(4,JJ) = ROT(1)*AR(1,J)+ROT(4)*AR(2,J)+ROT(7)*AR(3,J)
+            AM(5,JJ) = ROT(2)*AR(1,J)+ROT(5)*AR(2,J)+ROT(8)*AR(3,J)
+            AM(6,JJ) = ROT(3)*AR(1,J)+ROT(6)*AR(2,J)+ROT(9)*AR(3,J)
           ENDDO
 C---
-          VS = ZERO                  
-          AS = ZERO                  
-          DO JJ=1,NIR                                    
-            VS(1) = VS(1) + H(JJ) * VM(1,JJ)                 
-            VS(2) = VS(2) + H(JJ) * VM(2,JJ)                 
+          VS = ZERO
+          AS = ZERO
+          DO JJ=1,NIR
+            VS(1) = VS(1) + H(JJ) * VM(1,JJ)
+            VS(2) = VS(2) + H(JJ) * VM(2,JJ)
             VS(3) = VS(3) + HH(JJ) *VM(3,JJ)
      .                    + HRS(JJ)*VM(4,JJ) + HRT(JJ) *VM(5,JJ)
             VS(4) = VS(4) + HPS(JJ)*VM(3,JJ) + HPRS(JJ)*VM(4,JJ)
-     .                                       + HXS(JJ) *VM(5,JJ)     
-            VS(5) = VS(5) + HPT(JJ)*VM(3,JJ) + HPRT(JJ)*VM(5,JJ)     
-     .                                       + HXT(JJ) *VM(4,JJ)     
-            VS(6) = VS(6) + H(JJ) * VM(6,JJ)                      
+     .                                       + HXS(JJ) *VM(5,JJ)
+            VS(5) = VS(5) + HPT(JJ)*VM(3,JJ) + HPRT(JJ)*VM(5,JJ)
+     .                                       + HXT(JJ) *VM(4,JJ)
+            VS(6) = VS(6) + H(JJ) * VM(6,JJ)
 C
-            AS(1) = AS(1) + H(JJ) * AM(1,JJ)                 
-            AS(2) = AS(2) + H(JJ) * AM(2,JJ)                 
+            AS(1) = AS(1) + H(JJ) * AM(1,JJ)
+            AS(2) = AS(2) + H(JJ) * AM(2,JJ)
             AS(3) = AS(3) + HH(JJ) *AM(3,JJ)
-     .                    + HRS(JJ)*AM(4,JJ)               
+     .                    + HRS(JJ)*AM(4,JJ)
      .                    + HRT(JJ)*AM(5,JJ)
-            AS(4) = AS(4) + HPS(JJ)*AM(3,JJ) + HPRS(JJ)*AM(4,JJ)     
-     .                                       + HXS(JJ) *AM(5,JJ)     
-            AS(5) = AS(5) + HPT(JJ)*AM(3,JJ) + HPRT(JJ)*AM(5,JJ)     
-     .                                       + HXT(JJ) *AM(4,JJ)     
-            AS(6) = AS(6) + H(JJ) * AM(6,JJ)                      
-          ENDDO    
+            AS(4) = AS(4) + HPS(JJ)*AM(3,JJ) + HPRS(JJ)*AM(4,JJ)
+     .                                       + HXS(JJ) *AM(5,JJ)
+            AS(5) = AS(5) + HPT(JJ)*AM(3,JJ) + HPRT(JJ)*AM(5,JJ)
+     .                                       + HXT(JJ) *AM(4,JJ)
+            AS(6) = AS(6) + H(JJ) * AM(6,JJ)
+          ENDDO
 C---
-          A(1,IS) = ROTI(1)*AS(1)+ROTI(4)*AS(2)+ROTI(7)*AS(3) 
-          A(2,IS) = ROTI(2)*AS(1)+ROTI(5)*AS(2)+ROTI(8)*AS(3)  
-          A(3,IS) = ROTI(3)*AS(1)+ROTI(6)*AS(2)+ROTI(9)*AS(3) 
+          A(1,IS) = ROTI(1)*AS(1)+ROTI(4)*AS(2)+ROTI(7)*AS(3)
+          A(2,IS) = ROTI(2)*AS(1)+ROTI(5)*AS(2)+ROTI(8)*AS(3)
+          A(3,IS) = ROTI(3)*AS(1)+ROTI(6)*AS(2)+ROTI(9)*AS(3)
           V(1,IS) = ROTI(1)*VS(1)+ROTI(4)*VS(2)+ROTI(7)*VS(3)
           V(2,IS) = ROTI(2)*VS(1)+ROTI(5)*VS(2)+ROTI(8)*VS(3)
           V(3,IS) = ROTI(3)*VS(1)+ROTI(6)*VS(2)+ROTI(9)*VS(3)
-          AR(1,IS)=ROTI(1)*AS(4)+ROTI(4)*AS(5)+ROTI(7)*AS(6)   
-          AR(2,IS)=ROTI(2)*AS(4)+ROTI(5)*AS(5)+ROTI(8)*AS(6)   
-          AR(3,IS)=ROTI(3)*AS(4)+ROTI(6)*AS(5)+ROTI(9)*AS(6)   
-          VR(1,IS)=ROTI(1)*VS(4)+ROTI(4)*VS(5)+ROTI(7)*VS(6)   
-          VR(2,IS)=ROTI(2)*VS(4)+ROTI(5)*VS(5)+ROTI(8)*VS(6)   
-          VR(3,IS)=ROTI(3)*VS(4)+ROTI(6)*VS(5)+ROTI(9)*VS(6)   
+          AR(1,IS)=ROTI(1)*AS(4)+ROTI(4)*AS(5)+ROTI(7)*AS(6)
+          AR(2,IS)=ROTI(2)*AS(4)+ROTI(5)*AS(5)+ROTI(8)*AS(6)
+          AR(3,IS)=ROTI(3)*AS(4)+ROTI(6)*AS(5)+ROTI(9)*AS(6)
+          VR(1,IS)=ROTI(1)*VS(4)+ROTI(4)*VS(5)+ROTI(7)*VS(6)
+          VR(2,IS)=ROTI(2)*VS(4)+ROTI(5)*VS(5)+ROTI(8)*VS(6)
+          VR(3,IS)=ROTI(3)*VS(4)+ROTI(6)*VS(5)+ROTI(9)*VS(6)
 C
         ENDIF
       ENDDO

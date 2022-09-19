@@ -126,7 +126,7 @@ C-----------------------------------------------------------------------
 !
             IF (NPT /= NPTI  .AND. NPTI /= 0) THEN
               IPID=IXP(5,I)
-              PID=IGEO(1,IXP(5,I))            
+              PID=IGEO(1,IXP(5,I))
               CALL FRETITL2(TITR1,IGEO(NPROPGI-LTITR+1,IPID),LTITR)
               CALL ANCMSG(MSGID=1233,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                    I1=PID,

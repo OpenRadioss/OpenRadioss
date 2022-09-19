@@ -35,7 +35,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE MESSAGE_MOD
-      USE STACK_MOD    
+      USE STACK_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -330,7 +330,7 @@ C
              PLY_ANIM( 3 * (CPTPLY - 1) + 2) = 1
              IF(CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CE(11925 + CPTPLY) = 1
-               NCE_ANI = NCE_ANI + 1 
+               NCE_ANI = NCE_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -343,7 +343,7 @@ c
            PLY_ANIM( 3 * (CPTPLY - 1) + 2) = 1
            IF(CPTPLY < MX_PLY_ANIM) THEN
              ANIM_CE(11925 + CPTPLY) = 1
-             NCE_ANI = NCE_ANI + 1 
+             NCE_ANI = NCE_ANI + 1
            ELSE
              CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
            ENDIF
@@ -361,7 +361,7 @@ C
                PLY_ANIM_STRESS( 3 * (CPTPLY - 1) + 3) = IPT
                IF( CPTPLY < MX_PLY_ANIM) THEN
                  ANIM_CT(1610 + CPTPLY) = 1
-                 NCT_ANI = NCT_ANI + 1 
+                 NCT_ANI = NCT_ANI + 1
                ELSE
                  CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
                ENDIF
@@ -377,7 +377,7 @@ c
              PLY_ANIM_STRESS( 3 * (CPTPLY - 1) + 3) = IPT
              IF(CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CT(1610 + CPTPLY) = 1
-               NCT_ANI = NCT_ANI + 1 
+               NCT_ANI = NCT_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -396,7 +396,7 @@ C
                PLY_ANIM_STRAIN( 3 * (CPTPLY - 1) + 3) = IPT
                IF(CPTPLY < MX_PLY_ANIM) THEN
                  ANIM_CT( (1610+MX_PLY_ANIM) + CPTPLY) = 1
-                 NCT_ANI = NCT_ANI + 1 
+                 NCT_ANI = NCT_ANI + 1
                ELSE
                  CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
                ENDIF
@@ -412,7 +412,7 @@ c
              PLY_ANIM_STRAIN( 3 * (CPTPLY - 1) + 3) = IPT
              IF(CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CT( (1610 + MX_PLY_ANIM) + CPTPLY) = 1
-               NCT_ANI = NCT_ANI + 1 
+               NCT_ANI = NCT_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -431,7 +431,7 @@ C
                PLY_ANIM_EPSDOT( 3 * (CPTPLY - 1) + 3) = IPT
                IF(CPTPLY < MX_PLY_ANIM) THEN
                  ANIM_CT( (1610+ 2*MX_PLY_ANIM) + CPTPLY) = 1
-                 NCT_ANI = NCT_ANI + 1 
+                 NCT_ANI = NCT_ANI + 1
                ELSE
                  CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
                ENDIF
@@ -447,7 +447,7 @@ c
              PLY_ANIM_EPSDOT( 3 * (CPTPLY - 1) + 3) = IPT
              IF(CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CT( (1610 + 2*MX_PLY_ANIM) + CPTPLY) = 1
-               NCT_ANI = NCT_ANI + 1 
+               NCT_ANI = NCT_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -525,7 +525,7 @@ c
              PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 2) = 4
              IF( CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CE( (11925 + MX_PLY_ANIM) + CPTPLY) = 1
-               NCE_ANI = NCE_ANI + 1 
+               NCE_ANI = NCE_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -538,7 +538,7 @@ c
            PLY_ANIM_PHI( 3 * (CPTPLY - 1) + 2) = 4
            IF( CPTPLY < 11925) THEN
              ANIM_CE( (11925 + MX_PLY_ANIM) + CPTPLY) = 1
-             NCE_ANI = NCE_ANI + 1 
+             NCE_ANI = NCE_ANI + 1
            ELSE
              CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
            ENDIF
@@ -556,7 +556,7 @@ C
                PLY_ANIM_EPSP( 3 * (CPTPLY - 1) + 3) = IPT
                IF( CPTPLY < MX_PLY_ANIM) THEN
                  ANIM_CE( (11925 + ( 2*MX_PLY_ANIM ) ) + CPTPLY) = 1
-                 NCE_ANI = NCE_ANI + 1 
+                 NCE_ANI = NCE_ANI + 1
                ELSE
                  CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
                ENDIF
@@ -572,7 +572,7 @@ c
              PLY_ANIM_EPSP( 3 * (CPTPLY - 1) + 3) = IPT
              IF( CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CE( (11925 + (2*MX_PLY_ANIM)) + CPTPLY) = 1
-               NCE_ANI = NCE_ANI + 1 
+               NCE_ANI = NCE_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -591,7 +591,7 @@ C
                PLY_ANIM_DAMA( 3 * (CPTPLY - 1) + 3) = IPT
                IF( CPTPLY < MX_PLY_ANIM) THEN
                  ANIM_CE( (11925 + ( 3*MX_PLY_ANIM ) ) + CPTPLY) = 1
-                 NCE_ANI = NCE_ANI + 1 
+                 NCE_ANI = NCE_ANI + 1
                ELSE
                  CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
                ENDIF
@@ -607,7 +607,7 @@ c
              PLY_ANIM_DAMA( 3 * (CPTPLY - 1) + 3) = IPT
              IF( CPTPLY < MX_PLY_ANIM) THEN
                ANIM_CE( (11925 + (3*MX_PLY_ANIM)) + CPTPLY) = 1
-               NCE_ANI = NCE_ANI + 1 
+               NCE_ANI = NCE_ANI + 1
              ELSE
                CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
              ENDIF
@@ -646,7 +646,7 @@ c
        ENDIF ! IF (IDAMAFULL == 1)
 !---
       IF (IBRICK_STRESSALL == 1 .OR. IBRICK_STRAINALL == 1 . OR.
-     .      IBRICK_EPSPALL == 1) THEN 
+     .      IBRICK_EPSPALL == 1) THEN
         NPTR= 1
         NPTS= 1
         NPTT= 1
@@ -658,24 +658,24 @@ c
           ICSTR= IGEO(14,I)
           IF(IGTYP == 6 .OR. IGTYP == 14 ) THEN
             SELECT CASE (IHBE)
-            CASE(14,16,222)                                            
-              IF (NPT == 0) NPT = 222                              
+            CASE(14,16,222)
+              IF (NPT == 0) NPT = 222
               NPTR= MAX(NPTR,NPT/100)
               NPTS= MAX(NPTS,MOD(NPT/10,10))
               NPTT= MAX(NPTT,MOD(NPT,10))
-            CASE(1,2,101,102,24)                                   
+            CASE(1,2,101,102,24)
               NPTR= MAX(NPTR,1)
               NPTS= MAX(NPTS,1)
               NPTT= MAX(NPTT,1)
-            CASE(12,112,13,17,18)                                  
+            CASE(12,112,13,17,18)
               NPTR= MAX(NPTR,2)
               NPTS= MAX(NPTS,2)
-              NPTT= MAX(NPTT,2) 
+              NPTT= MAX(NPTT,2)
             END SELECT
-          ELSE IF(IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22) THEN            
+          ELSE IF(IGTYP == 20 .OR. IGTYP == 21 .OR. IGTYP == 22) THEN
             SELECT CASE (IHBE)
 C--------due to existing Anim designs: fix thickness dir to J and limite other dirs to 2            
-            CASE(14)                                            
+            CASE(14)
               N14R=NPT/100
               N14S=MOD(NPT/10,10)
               N14T=MOD(NPT,10)
@@ -699,8 +699,8 @@ C ---------- Isolid=15 will be treated as the same than Isolid=14:
 C----------- /1j1/ or /101/j instead of /0j0/ and consisting to H3d output           
 C              IGTYP15 = 1
               NPTS= MAX(NPTS,NPT)
-            CASE(16)                                            
-              IF (NPT == 0) NPT = 222                              
+            CASE(16)
+              IF (NPT == 0) NPT = 222
               NPTR= MAX(NPTR,NPT/100)
               NPTS= MAX(NPTS,MOD(NPT/10,10))
               NPTT= MAX(NPTT,MOD(NPT,10))
@@ -728,7 +728,7 @@ C
        ENDIF
        IF (IWPLAFULL == 1) THEN
 !   ...WPLA/N1/ALL
-          IDX =   13547 + 4*MX_PLY_ANIM 
+          IDX =   13547 + 4*MX_PLY_ANIM
            NMAX = MIN(100,NIPMAX)
            DO I=1,NMAX
              DO J=1,NPTT_PLY
@@ -752,7 +752,7 @@ C
                ENDIF
              ENDDO
            ENDDO
-       ENDIF ! IF (IWPLAFULL == 1)  
+       ENDIF ! IF (IWPLAFULL == 1)
 C to see case Isolid14, iint<=100
        IF( IBRICK_STRESSALL == 1 )THEN
          IF( NPTS < 10 )THEN
@@ -761,7 +761,7 @@ C------121:1009
              DO J=1,NPTS
                DO K=1,NPTT
                  ANIM_ST(10+ (I*100) + (J*10) + K)=1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
                ENDDO
              ENDDO
            ENDDO
@@ -771,7 +771,7 @@ C------(2010+2021):(2010+9*2010+)
              DO J=1,NPTS
                DO K=1,NPTT
                  ANIM_ST(2010+ K + (J*10) + (I*2010) ) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
                ENDDO
              ENDDO
            ENDDO
@@ -780,7 +780,7 @@ c--- 2020-4010
          IF( IGTYP15 == 1 )THEN
              DO J=1,NPTS
                  ANIM_ST(2010+ (J*10) ) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
              ENDDO
          ENDIF !
        ENDIF !
@@ -792,7 +792,7 @@ C------(1010+111):(1010+999)
              DO J=1,NPTS
                DO K=1,NPTT
                  ANIM_ST(1010+ (I*100) + (J*10) + K)=1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
                ENDDO
              ENDDO
            ENDDO
@@ -802,7 +802,7 @@ C------(22110+2021):(22110+9*2010+1009)
              DO J=1,NPTS
                DO K=1,NPTT
                  ANIM_ST(22110+ K + (J*10) + (I*2010) ) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
                ENDDO
              ENDDO
            ENDDO
@@ -811,7 +811,7 @@ c
          IF( IGTYP15 == 1 )THEN
              DO J=1,NPTS
                  ANIM_ST(22110+ (J*10) ) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
              ENDDO
          ENDIF !
        ENDIF !
@@ -822,7 +822,7 @@ c
              DO J=1,NPTS
                DO K=1,NPTT
                  ANIM_ST(42210 + (I*100) + (J*10) + K) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
                ENDDO
              ENDDO
            ENDDO
@@ -831,7 +831,7 @@ c
              DO J=1,NPTS
                DO K=1,NPTT
                  ANIM_ST(43210 + K + (J*10) + (I*2010)) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
                ENDDO
              ENDDO
            ENDDO
@@ -840,7 +840,7 @@ c
          IF (IGTYP15 == 1) THEN
              DO J=1,NPTS
                  ANIM_ST(43210 + (J*10)) = 1
-                 NST_ANI = NST_ANI + 1 
+                 NST_ANI = NST_ANI + 1
              ENDDO
          ENDIF ! IF (IGTYP15 == 1)
        ENDIF ! IF( IBRICK_EPSPALL == 1)

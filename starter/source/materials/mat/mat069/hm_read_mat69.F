@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_MAT69(UPARAM ,MAXUPARAM,NUPARAM  ,ISRATE   , IMATVIS,
-     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT, 
+     .                         NUVAR  ,IFUNC    ,MAXFUNC  ,NFUNC    , PARMAT,
      .                         UNITAB ,ID       ,TITR     ,MTAG     , LSUBMODEL,
      .                         PM     ,MATPARAM )
 C-----------------------------------------------
@@ -60,10 +60,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
-      USE MATPARAM_DEF_MOD          
+      USE MATPARAM_DEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -83,7 +83,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       my_real, INTENT(INOUT)                :: PM(NPROPM),PARMAT(100),UPARAM(MAXUPARAM)
       INTEGER, INTENT(INOUT)                :: ISRATE,IFUNC(MAXFUNC),NFUNC,MAXFUNC,MAXUPARAM,NUPARAM, NUVAR
       TYPE(MLAW_TAG_),INTENT(INOUT)         :: MTAG
@@ -115,23 +115,23 @@ C-----------------------------------------------
       IMATVIS = 1
 
       CALL HM_OPTION_IS_ENCRYPTED(IS_ENCRYPTED)
-      
+
       !line-1
       CALL HM_GET_FLOATV('MAT_RHO'    ,RHO0     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       CALL HM_GET_FLOATV('Refer_Rho'  ,RHOR     ,IS_AVAILABLE, LSUBMODEL, UNITAB)
       !line-2
       CALL HM_GET_INTV('MAT_Iflag'    ,LAWID    ,IS_AVAILABLE, LSUBMODEL)
       CALL HM_GET_INTV('FUN_A1'       ,BULK_FNCT      ,IS_AVAILABLE, LSUBMODEL)
-      CALL HM_GET_FLOATV('MAT_NU'     ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_FLOATV('MAT_FScale' ,FSCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB) 
-      CALL HM_GET_INTV('NIP'          ,NMUAL    ,IS_AVAILABLE, LSUBMODEL) 
-      CALL HM_GET_INTV('Gflag'        ,ICHECK   ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_FLOATV('MAT_NU'     ,NU       ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_FLOATV('MAT_FScale' ,FSCAL    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
+      CALL HM_GET_INTV('NIP'          ,NMUAL    ,IS_AVAILABLE, LSUBMODEL)
+      CALL HM_GET_INTV('Gflag'        ,ICHECK   ,IS_AVAILABLE, LSUBMODEL)
       !-line3
-      CALL HM_GET_INTV  ('FUN_B1'     ,NTABLE_  ,IS_AVAILABLE, LSUBMODEL) 
+      CALL HM_GET_INTV  ('FUN_B1'     ,NTABLE_  ,IS_AVAILABLE, LSUBMODEL)
 
       !units
       CALL HM_GET_FLOATV_DIM('MAT_FScale' ,FSCAL_UNIT    ,IS_AVAILABLE, LSUBMODEL, UNITAB)
-                        
+
 C-----------------------------------------------
       NUPARAM = 21
       NFUNC   = 2
@@ -184,7 +184,7 @@ C---
       PARMAT(1)= GS
       PARMAT(2)= GS*(ONE+NU)
       PARMAT(3)= NU
-      PARMAT(6)= BULK      
+      PARMAT(6)= BULK
       MU = GS/TWO
 C---
       IF (RHOR == ZERO) RHOR=RHO0
@@ -192,25 +192,25 @@ C---
       PM(2)  = GS
       PM(89) = RHO0
       PM(100)= BULK
-      
-      UPARAM(1) = MU(1)    
-      UPARAM(2) = MU(2)    
-      UPARAM(3) = MU(3)    
-      UPARAM(4) = MU(4)    
-      UPARAM(5) = MU(5)    
-      UPARAM(6) = AL(1)    
-      UPARAM(7) = AL(2)    
-      UPARAM(8) = AL(3)    
-      UPARAM(9) = AL(4)    
-      UPARAM(10)= AL(5)    
-      UPARAM(11)= BULK       
-      UPARAM(12)= TENSCUT     
-      UPARAM(13)= LAWID    
-      UPARAM(14)= NU       
-      UPARAM(15)= FSCAL    
-      UPARAM(17)= GS       
-      UPARAM(18)= NMUAL    
-      UPARAM(19)= ICHECK 
+
+      UPARAM(1) = MU(1)
+      UPARAM(2) = MU(2)
+      UPARAM(3) = MU(3)
+      UPARAM(4) = MU(4)
+      UPARAM(5) = MU(5)
+      UPARAM(6) = AL(1)
+      UPARAM(7) = AL(2)
+      UPARAM(8) = AL(3)
+      UPARAM(9) = AL(4)
+      UPARAM(10)= AL(5)
+      UPARAM(11)= BULK
+      UPARAM(12)= TENSCUT
+      UPARAM(13)= LAWID
+      UPARAM(14)= NU
+      UPARAM(15)= FSCAL
+      UPARAM(17)= GS
+      UPARAM(18)= NMUAL
+      UPARAM(19)= ICHECK
       UPARAM(20)= NSTART
       UPARAM(21)= ERRTOL
 c-----------------
@@ -225,7 +225,7 @@ c-----------------
         WRITE(IOUT,1200) RHO0
         IF (NTABLE_ /= 0) THEN
           WRITE(IOUT,'(5X,A,//)')'HYPERELASTIC MATERIAL CONSTANTS WILL BE DETERMINED BY NONLINEAR LEAST SQUARE FITTING '
-          WRITE(IOUT,1300) NU,LAWID,BULK_FNCT,FSCAL,NMUAL,ICHECK          
+          WRITE(IOUT,1300) NU,LAWID,BULK_FNCT,FSCAL,NMUAL,ICHECK
         ENDIF
       ENDIF
 C-----     
@@ -239,12 +239,12 @@ C---------------------------------------------------------------
      & 5X,'MATERIAL NUMBER . . . . . . . . . . . .=',I10/,
      & 5X,'MATERIAL LAW. . . . . . . . . . . . . .=',I10/)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT
-     &(5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/ 
+     &(5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/
      &,5X,'LAW TYPE. . . . . . . . . . . . . . . .=',I10/
      &,5X,'BULK FUNCTION ID. . . . . . . . . . . .=',I10/
-     &,5X,'SCALE FACTOR FOR BULK FUNCTION. . . . .=',1PG20.13/ 
+     &,5X,'SCALE FACTOR FOR BULK FUNCTION. . . . .=',1PG20.13/
      &,5X,'FIT ORDER . . . . . . . . . . . . . . .=',I10/
      &,5X,'ICHECK = ', I10//)
 C---------------------------------------------------------------       

@@ -33,7 +33,7 @@ Chd|====================================================================
      2                  BUFSF ,NSC   ,KSC   ,NSP    ,KSP    ,
      3                  KSI   ,IMPACT ,CIMP ,NIMP   ,FRIC   ,
      4                  NFRIC ,NPC    ,PLD  ,GAPMIN ,STF    ,
-     5                  WF     ,WST   ,DE   ,MS     ,STIFN  , 
+     5                  WF     ,WST   ,DE   ,MS     ,STIFN  ,
      6                  FS     ,FCONT  ,FSKYI ,ISKY ,H3D_DATA)
 C-----------------------------------------------
 C   M o d u l e s
@@ -363,7 +363,7 @@ C----------------------------------------------------------
 C------------------------------
       FXT=ZERO
       FYT=ZERO
-      FZT=ZERO      
+      FZT=ZERO
 C-------------------------------
         XI=CIMP(1,IL)
         YI=CIMP(2,IL)
@@ -432,7 +432,7 @@ C-------------------------------
       IF (YPVN1*XQ(2,I)>=ZERO) SGNYN=ONE
       ZPVN1 =XQ(3,I)**(DGR-1)
       SGNZN=-ONE
-      IF (ZPVN1*XQ(3,I)>=ZERO) SGNZN=ONE     
+      IF (ZPVN1*XQ(3,I)>=ZERO) SGNZN=ONE
       N1 =SGNXN*XPVN1*AN
       N2 =SGNYN*YPVN1*BN
       N3 =SGNZN*ZPVN1*CN

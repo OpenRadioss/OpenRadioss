@@ -39,7 +39,7 @@ Chd|-- calls ---------------
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|        TABLE_MOD                     share/modules/table_mod.F     
 Chd|====================================================================
-      INTEGER FUNCTION GET_U_NUMTABLE(TID) 
+      INTEGER FUNCTION GET_U_NUMTABLE(TID)
       USE TABLE_GLOB_MOD
       USE TABLE_MOD
       TYPE(TTABLE) CUR_TABLE
@@ -64,7 +64,7 @@ Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
-      SUBROUTINE GET_U_TABLE(ITABLE,XX,YY) 
+      SUBROUTINE GET_U_TABLE(ITABLE,XX,YY)
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
@@ -75,7 +75,7 @@ C-----------------------------------------------
 C   C o m m o n   B l o c k s
 C-----------------------------------------------
       INTEGER ITABLE
-      my_real, 
+      my_real,
      .       DIMENSION(:) :: XX
       my_real
      .       YY
@@ -91,7 +91,7 @@ Chd|        TABLE_INTERP                  source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
-      SUBROUTINE GET_TABLE_VALUE(ITABLE,XX,XXDIM,YY) 
+      SUBROUTINE GET_TABLE_VALUE(ITABLE,XX,XXDIM,YY)
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
@@ -112,7 +112,7 @@ C-----------------------------------------------
       XX2(1:XXDIM)=XX(1:XXDIM)
 C
       CALL TABLE_INTERP(TABLE(ITABLE),XX2,YY)
-      
+
       DEALLOCATE(XX2)
       RETURN
       END
@@ -124,7 +124,7 @@ Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
-      SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1) 
+      SUBROUTINE GET_U_VTABLE(ITABLE,NEL0,IPOS,XX,YY,DYDX1)
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
@@ -139,7 +139,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER ITABLE,NEL0
       INTEGER, DIMENSION(:,:) :: IPOS
-      my_real, 
+      my_real,
      .       DIMENSION(:,:) :: XX
       my_real
      .       YY(*), DYDX1(*)
@@ -159,7 +159,7 @@ Chd|        TABLE_VINTERP                 source/tools/curve/table_tools.F
 Chd|        INTERFACE_TABLE_MOD           share/modules/table_mod.F     
 Chd|        TABLE_GLOB_MOD                share/modules/table_glob_mod.F
 Chd|====================================================================
-      SUBROUTINE GET_VTABLE_VALUE(ITABLE,NEL0,IPOS,XX,XXDIM,YY,DYDX1) 
+      SUBROUTINE GET_VTABLE_VALUE(ITABLE,NEL0,IPOS,XX,XXDIM,YY,DYDX1)
       USE TABLE_GLOB_MOD
       USE INTERFACE_TABLE_MOD
 C-----------------------------------------------
@@ -177,8 +177,8 @@ C-----------------------------------------------
       my_real  XX(NEL0,XXDIM)
       my_real
      .       YY(*), DYDX1(*)
-     
-      my_real, DIMENSION(:,:), ALLOCATABLE :: XX2 
+
+      my_real, DIMENSION(:,:), ALLOCATABLE :: XX2
       INTEGER, DIMENSION(:,:), ALLOCATABLE :: IPOS2
 
 C-----------------------------------------------

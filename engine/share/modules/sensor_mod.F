@@ -71,11 +71,11 @@ C-----------------------------------------------
 C   D e r i v e d   T y p e   D e f i n i t i o n s
 C-----------------------------------------------
       TYPE SENSOR_STR_
-        INTEGER :: TYPE        !   sensor type 
+        INTEGER :: TYPE        !   sensor type
         INTEGER :: SENS_ID     !   sensor ID
         INTEGER :: STATUS      !   sensor status
                                !          = 0   : desactivated
-                               !          = 1   : criterium reached, testing duration time Tmin 
+                               !          = 1   : criterium reached, testing duration time Tmin
                                !          = 2   : criterium reached, waiting Tdelay before activation
                                !          = 3   : activated at TSTART
         my_real :: TCRIT       !   time when activation criterion is met
@@ -95,7 +95,7 @@ c
       TYPE SUB_SENSOR_TYPE
         INTEGER :: PART     !   id of the part
         INTEGER :: NUM_GROUP_PART   !   number of element group per part
-        REAL(KIND=8), DIMENSION(:,:,:), ALLOCATABLE :: FBSAV6_SENS      !   FBSAV6 double precision array (parith/on array)           
+        REAL(KIND=8), DIMENSION(:,:,:), ALLOCATABLE :: FBSAV6_SENS      !   FBSAV6 double precision array (parith/on array)
       END TYPE SUB_SENSOR_TYPE
       ! -----------------------------------
       TYPE SENSOR_TYPE
@@ -104,7 +104,7 @@ c
         INTEGER :: NB_SUB   !   number of subpart only useful for typ=2
         INTEGER :: NUM_GROUP_PART   !   number of element group per part
         type(sub_sensor_type), DIMENSION(:), ALLOCATABLE :: SUB
-        REAL(KIND=8), DIMENSION(:,:,:), ALLOCATABLE :: FBSAV6_SENS      !   FBSAV6 double precision array (parith/on array)           
+        REAL(KIND=8), DIMENSION(:,:,:), ALLOCATABLE :: FBSAV6_SENS      !   FBSAV6 double precision array (parith/on array)
       END TYPE SENSOR_TYPE
       ! -----------------------------------
       TYPE SENSOR_GROUP

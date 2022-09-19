@@ -69,19 +69,19 @@ C-----------------------------------------------
      .   X1(MVSIZ),  X2(MVSIZ),  X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ),  Y2(MVSIZ),  Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ),  Z2(MVSIZ),  Z3(MVSIZ), Z4(MVSIZ),
-     .   X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ), 
-     .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ), 
-     .   X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ), 
+     .   X21(MVSIZ), Y21(MVSIZ), Z21(MVSIZ),
+     .   X31(MVSIZ), Y31(MVSIZ), Z31(MVSIZ),
+     .   X32(MVSIZ), Y32(MVSIZ), Z32(MVSIZ),
      .   X42(MVSIZ), Y42(MVSIZ), Z42(MVSIZ),
-     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
-     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ), 
-     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ), 
+     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
+     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
+     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
      .   E11(MVSIZ),E12(MVSIZ),E13(MVSIZ),
      .   E21(MVSIZ),E22(MVSIZ),E23(MVSIZ), DIR(NEL,2),
      .   V1,V2,V3,VR,VS,AA,BB,SUMA
-      my_real, 
+      my_real,
      .   DIMENSION(:) ,POINTER :: DIR10,DIR1
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF   
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER :: LBUF
 c
       TYPE(L_BUFEL_)  ,POINTER :: XLBUF
@@ -326,9 +326,9 @@ C
           ILAYCRK = CRKEDGE(ILAY)%LAYCUT(ELCRK)
           IF (ILAYCRK == 0 .OR. ABS(ILAYCRK) == 1) THEN  !  uncracked layer or
 c                                                            just cracked
-            DO J = 1,5 
+            DO J = 1,5
               SIG(I,J) = SIG(I,J) + LBUF%VISC(JJ(J)+I)
-            ENDDO                                      
+            ENDDO
           ELSE  !  cracked layer
             DO J=1,5
               SIG(I,J) = SIG(I,J) + XLBUF%VISC(JJ(J)+I)

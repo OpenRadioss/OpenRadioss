@@ -86,9 +86,9 @@ C-----------
        W(3)=XFRAME(15)
 C-----------------
 C      Frame orientation at time 0.
-       DO K=1,9                
-         ROT0(K)=XFRAME(18+K)  
-       ENDDO                   
+       DO K=1,9
+         ROT0(K)=XFRAME(18+K)
+       ENDDO
 C-----------
 C      local coordinates.
 C-----------

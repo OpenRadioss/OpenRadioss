@@ -87,7 +87,7 @@ C-----------------------------------------------
       S2 = 0
       PREC = 2
 C  If A is in simple precision
-      IF(SIZEOF(A(1,1)) == 4) PREC = 1 
+      IF(SIZEOF(A(1,1)) == 4) PREC = 1
       SIZ = SIZ1*SIZ2 * PREC
       ALLOCATE(TMP(SIZ))
       TMP(1:SIZ) = 0
@@ -141,7 +141,7 @@ C-----------------------------------------------
       S2 = 0
       PREC = 2
 C  If A is in simple precision
-      IF(SIZEOF(A(1,1)) == 4) PREC = 1 
+      IF(SIZEOF(A(1,1)) == 4) PREC = 1
       SIZ = SIZ1*SIZ2 * PREC
       ALLOCATE(TMP(SIZ))
       TMP(1:SIZ) = 0
@@ -198,7 +198,7 @@ C-----------------------------------------------
       S2 = 0
       PREC = 2
 C  If A is in simple precision
-      IF(SIZEOF(A(1,1)) == 4) PREC = 1 
+      IF(SIZEOF(A(1,1)) == 4) PREC = 1
       SIZ = SIZ1*SIZ2 * PREC
       ALLOCATE(TMP(SIZ))
       TMP(1:SIZ) = 0
@@ -242,4 +242,4 @@ C-----------------------------------------------
        ITAB_DEBUG(1:NUMNOD)=ITAB(1:NUMNOD)
 
       END
-      
+

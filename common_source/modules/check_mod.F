@@ -38,7 +38,7 @@ Chd|====================================================================
         MODULE CHECK_MOD
 
 !--------------------------------------------------------------------
-!       RESTART_FILE : 
+!       RESTART_FILE :
 !       engine :
 !       ----------
 !       if /RFILE/OFF or if -norst cdl are used, then no restart files
@@ -47,10 +47,10 @@ Chd|====================================================================
 !       RESTART_FILE = 1 (default value) --> restart files are written
 !       starter :
 !       ----------
-!       if /CHECK/RFILE/OFF is used or if -check=norst cdl is used, then 
+!       if /CHECK/RFILE/OFF is used or if -check=norst cdl is used, then
 !       restart files are not written at the end of the starter
 !       KCHECK_STARTER :
-!       pointer in LKEY0 (starter) 
+!       pointer in LKEY0 (starter)
 !--------------------------------------------------------------------
         INTEGER :: KCHECK_STARTER
         INTEGER :: RESTART_FILE
@@ -66,10 +66,10 @@ Chd|        STARTER0                      starter/source/starter/starter0.F
 Chd|        RADIOSS2                      engine/source/engine/radioss2.F
 Chd|-- calls ---------------
 Chd|====================================================================
-            SUBROUTINE CHECK_MESSAGE_DEFINITION()            
+            SUBROUTINE CHECK_MESSAGE_DEFINITION()
 !$COMMENT
 !           CHECK_MESSAGE_DEFINITION description
-!           CHECK_MESSAGE_DEFINITION defines the output 
+!           CHECK_MESSAGE_DEFINITION defines the output
 !           messages of the /CHECK option
 !$ENDCOMMENT
 !       -----------------------------------------------

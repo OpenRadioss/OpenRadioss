@@ -38,7 +38,7 @@ Chd|====================================================================
      9                   X3     ,Y3    ,Z3    ,X4     ,Y4     ,
      A                   Z4     ,ITAB  ,NSV    ,MSR   ,IX1    ,
      B                   IX2    ,IX3   ,IX4    ,TEMP  ,FCOND  ,
-     C                   DCOND  )      
+     C                   DCOND  )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -57,7 +57,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, NOINT, IFUNCTK, FCOND, 
+      INTEGER JLT, NOINT, IFUNCTK, FCOND,
      . NPC(*),IFORM,ITAB(*),
      . NSV(*),MSR(*),IX1(MVSIZ), IX2(MVSIZ), IX3(MVSIZ), IX4(MVSIZ)
 C     REAL
@@ -66,7 +66,7 @@ C     REAL
      .   TEMPI(MVSIZ), XI(MVSIZ), YI(MVSIZ),TEMP(*),
      .   ZI(MVSIZ), PHI(MVSIZ), AREAS(MVSIZ),
      .   ASI(MVSIZ), BSI(MVSIZ), GAPV(MVSIZ), PENE(MVSIZ),
-     .   KTHE, XTHE, FNI(MVSIZ), TF(*), FRAD, DRAD, 
+     .   KTHE, XTHE, FNI(MVSIZ), TF(*), FRAD, DRAD,
      .   PENRAD(MVSIZ), TEMPM(MVSIZ),FHEAT,EFRICT(MVSIZ),
      .   CONDINT(MVSIZ),
      .   H1(MVSIZ), H2(MVSIZ), H3(MVSIZ), H4(MVSIZ),
@@ -75,8 +75,8 @@ C     REAL
      .   X1(MVSIZ), X2(MVSIZ), X3(MVSIZ), X4(MVSIZ),
      .   Y1(MVSIZ), Y2(MVSIZ), Y3(MVSIZ), Y4(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), Z3(MVSIZ), Z4(MVSIZ)
-      my_real 
-     .   FINTER 
+      my_real
+     .   FINTER
       EXTERNAL FINTER
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -90,25 +90,25 @@ C-----------------------------------------------
       IF(IFUNCTK==0)THEN
         RSTIF = ONE/MAX(EM30,KTHE)
         DO I=1,JLT
-          TS = TEMPI(I)   
+          TS = TEMPI(I)
           TM = TEMPM(I)
           CONDINT(I) = ZERO
           DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
-          IF(AREAS(I) == ZERO )THEN 
+          IF(AREAS(I) == ZERO )THEN
 C            
-            AX1 = X3(I) - X1(I) 
-            AY1 = Y3(I) - Y1(I)  
-            AZ1 = Z3(I) - Z1(I) 
-            AX2 = X4(I) - X2(I) 
-            AY2 = Y4(I) - Y2(I) 
-            AZ2 = Z4(I) - Z2(I)  
-            
+            AX1 = X3(I) - X1(I)
+            AY1 = Y3(I) - Y1(I)
+            AZ1 = Z3(I) - Z1(I)
+            AX2 = X4(I) - X2(I)
+            AY2 = Y4(I) - Y2(I)
+            AZ2 = Z4(I) - Z2(I)
+
             AX  = AY1*AZ2 - AZ1*AY2
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)
 C
             AREAC =AREA
 C
@@ -135,7 +135,7 @@ C---------------------------------
             TSTIFT = TSTIFM  + RSTIF
             CONDINT(I) = AREAC /TSTIFT
 C---------------------------------
-            PHI(I) =  AREAC*(TM - TS)*DT1 / TSTIFT   
+            PHI(I) =  AREAC*(TM - TS)*DT1 / TSTIFT
 C----------------------------------------------------------------------
 C         Conduction + Radiation : Heat exchange depending on distance
 C----------------------------------------------------------------------
@@ -146,24 +146,24 @@ C---------------------------------
             TSTIFM =   MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
             DD = PENRAD(I) /DDCOND
-            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
+            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT
             CONDINT(I) = AREAC*HCOND
 
-            PHI(I) = AREAC * (TM - TS)*DT1* HCOND     
+            PHI(I) = AREAC * (TM - TS)*DT1* HCOND
 
-            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1   
+            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS)
+     .                    * (TM + TS) * (TM - TS) * DT1
 C-------------------------------------
 C         Radiation :
 C-------------------------------------
           ELSEIF(PENRAD(I) <= DRAD)THEN
 C---------------------------------
-            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
+            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
      .                    * (TM + TS) * (TM - TS) * DT1
 
-          END IF  
+          END IF
 C
-         IF(IFORM == 1 )THEN 
+         IF(IFORM == 1 )THEN
 C
             PHI1(I) = -PHI(I) *H1(I)
             PHI2(I) = -PHI(I) *H2(I)
@@ -172,7 +172,7 @@ C
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            PHIM   = FHEAT * EFRICT(I) 
+            PHIM   = FHEAT * EFRICT(I)
             PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)
@@ -186,25 +186,25 @@ C---------------------------------
 C
       ELSE
         DO I=1,JLT
-          TS = TEMPI(I)  
+          TS = TEMPI(I)
           TM = TEMPM(I)
           CONDINT(I) = ZERO
           DDCOND = MAX(DCOND-GAPV(I),EM20)
 C
-          IF(AREAS(I) == ZERO )THEN 
+          IF(AREAS(I) == ZERO )THEN
 C            
-            AX1 = X3(I) - X1(I) 
-            AY1 = Y3(I) - Y1(I)  
-            AZ1 = Z3(I) - Z1(I) 
-            AX2 = X4(I) - X2(I) 
-            AY2 = Y4(I) - Y2(I) 
-            AZ2 = Z4(I) - Z2(I)  
-            
+            AX1 = X3(I) - X1(I)
+            AY1 = Y3(I) - Y1(I)
+            AZ1 = Z3(I) - Z1(I)
+            AX2 = X4(I) - X2(I)
+            AY2 = Y4(I) - Y2(I)
+            AZ2 = Z4(I) - Z2(I)
+
             AX  = AY1*AZ2 - AZ1*AY2
             AY  = AZ1*AX2 - AX1*AZ2
             AZ  = AX1*AY2 - AY1*AX2
 C                              
-            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ) 
+            AREA = ONE_OVER_8*SQRT(AX*AX+AY*AY+AZ*AZ)
 C
             AREAC =AREA
 C
@@ -247,24 +247,24 @@ C---------------------------------
             TSTIFM =   MAX(DIST,ZERO) / COND
             TSTIFT = TSTIFM  + RSTIF
             DD = PENRAD(I) /DDCOND
-            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT 
+            HCOND  =  FINTER(FCOND,DD,NPC,TF,DYDX) / TSTIFT
             CONDINT(I) = AREAC*HCOND
 
-            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND         
+            PHI(I) = AREAC * (TM - TS)*DT1 * HCOND
 
-            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS) 
-     .                    * (TM + TS) * (TM - TS) * DT1  
+            PHI(I) = PHI(I) + FRAD * AREAC * (TM*TM+TS*TS)
+     .                    * (TM + TS) * (TM - TS) * DT1
 C-------------------------------------
 C         Radiation :
 C-------------------------------------   
 C---------------------------------
           ELSEIF(PENRAD(I) <= DRAD)THEN
 C---------------------------------
-            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS) 
+            PHI(I) = FRAD * AREAC * (TM*TM+TS*TS)
      .                 * (TM + TS) * (TM - TS) * DT1
           END IF
 C
-         IF(IFORM == 1 )THEN 
+         IF(IFORM == 1 )THEN
 C
             PHI1(I) = -PHI(I) *H1(I)
             PHI2(I) = -PHI(I) *H2(I)
@@ -273,7 +273,7 @@ C
 C---------------------------------
 C        HEAT GENERATION DUE TO FRICTION
 C---------------------------------
-            PHIM   = FHEAT * EFRICT(I) 
+            PHIM   = FHEAT * EFRICT(I)
             PHI1(I) = PHI1(I) + PHIM*H1(I) ! main HEATING
             PHI2(I) = PHI2(I) + PHIM*H2(I)
             PHI3(I) = PHI3(I) + PHIM*H3(I)

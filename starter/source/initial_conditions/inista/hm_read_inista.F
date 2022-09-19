@@ -74,18 +74,18 @@ C
 C
       IF (NINISTA > 0) THEN
 C
-        ! Start reading /INIGRAV card 
+        ! Start reading /INIGRAV card
         CALL HM_OPTION_START('/INISTA')
 C
         ! Read title, ID and Unit ID
-        CALL HM_OPTION_READ_KEY(LSUBMODEL) 
+        CALL HM_OPTION_READ_KEY(LSUBMODEL)
 C
         ! Read card
         CALL HM_GET_STRING('ISRTY',S0FILE   ,ncharline   ,IS_AVAILABLE)
         SIZ = LEN_TRIM(S0FILE)
-        CALL HM_GET_INTV('IBAL'   ,IB       ,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('IOUTYY' ,IOUTP_FMT,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('IOUTYNN',IROOTYY_R,IS_AVAILABLE,LSUBMODEL) 
+        CALL HM_GET_INTV('IBAL'   ,IB       ,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('IOUTYY' ,IOUTP_FMT,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('IOUTYNN',IROOTYY_R,IS_AVAILABLE,LSUBMODEL)
 C
         IF (INVERS < 90 .AND. IROOTYY_R == 0) IROOTYY_R = 2
 C
@@ -98,7 +98,7 @@ C
         ! Default value
         ISIGI     = 0
         IOUTP_FMT = 0
-        IROOTYY_R = 0        
-      ENDIF       
+        IROOTYY_R = 0
+      ENDIF
 C-----------
       END

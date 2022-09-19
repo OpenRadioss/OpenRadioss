@@ -64,7 +64,7 @@ C-----------------------------------------------
       my_real V(3,NUMNOD),W(3,NUMNOD),X(3,NUMNOD),RO0(NSEG),EN0(NSEG),LA(3,NOD),STIFN(NUMNOD)
       TYPE(t_ebcs_nrf), INTENT(INOUT) :: EBCS
       INTEGER :: IPARG(NPARG,NGROUP)
-      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB      
+      TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_TAB
       TYPE(MULTI_FVM_STRUCT),INTENT(IN) :: MULTI_FVM
       TYPE(t_segvar),INTENT(INOUT) :: SEGVAR
 c      my_real,INTENT(INOUT) :: UVAR(NEL,NUVAR)
@@ -73,7 +73,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       TYPE(G_BUFEL_), POINTER :: GBUF
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
       INTEGER II,IS,KK,K1,LL,KSEG,NN(4),NNG(4),NUM,KTY,KLT,MFT,NGRP,ILOC,NPT,IVOI,IDX(6),IX(4)
       INTEGER ICF_2d(2,4), ICF_3d(4,6), JJ, ISUBMAT, IPOS, NBMAT, MTN
       my_real
@@ -86,7 +86,7 @@ C-----------------------------------------------
      .       DP0,MACH,PP,SSP,RHOC2,
      .       TCAR_P, TCAR_VF, SURF, TIME, EINT,PHASE_ALPHA(21),PHASE_RHO(21), PHASE_EINT(21)
       LOGICAL bFOUND
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF  
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
 C-----------------------------------------------
       DATA ICF_2d  /1,2,2,3,3,4,4,1/
       DATA ICF_3d  /1,4,3,2,3,4,8,7,5,6,7,8,1,2,6,5,2,3,7,6,1,5,8,4/
@@ -96,7 +96,7 @@ C-----------------------------------------------
       TCAR_P = EBCS%TCAR_P
       TCAR_VF = EBCS%TCAR_VF
       TIME = TT
-      
+
       ALPHA = DT1/TCAR_P
       BETA = DT1/MAX(DT1,TCAR_VF)
       IF(TCAR_VF>=EP20)BETA=ZERO
@@ -104,56 +104,56 @@ C-----------------------------------------------
         ALPHA = ONE !zero
         BETA = ONE
       ENDIF
-      
-      IF(IALE == 1)THEN 
+
+      IF(IALE == 1)THEN
         DO II=1,NOD
           NUM=LISTE(II)
           V0(1,II)=V(1,NUM)-W(1,NUM)
           V0(2,II)=V(2,NUM)-W(2,NUM)
           V0(3,II)=V(3,NUM)-W(3,NUM)
-        ENDDO 
+        ENDDO
        ELSEIF(IEULER == 1)THEN
          DO II=1,NOD
            NUM=LISTE(II)
            V0(1,II)=V(1,NUM)
            V0(2,II)=V(2,NUM)
            V0(3,II)=V(3,NUM)
-         ENDDO        
+         ENDDO
        ENDIF
-        
+
         DO II=1,NOD
           NUM=LISTE(II)
           LA(1,II)=ZERO
           LA(2,II)=ZERO
           LA(3,II)=ZERO
-        ENDDO     
+        ENDDO
 
         DO IS=1,NSEG
-        
+
           KSEG=ABS(ISEG(IS))
           ORIENT=FLOAT(ISEG(IS)/KSEG)
-                   
+
           !---OUTWARD NORMAL
           IF(N2D == 0)THEN
-            JJ = IFACE(IS)  
-            IX(1)=IXS(ICF_3d(1,JJ)+1,IELEM(IS))          
-            IX(2)=IXS(ICF_3d(2,JJ)+1,IELEM(IS))          
-            IX(3)=IXS(ICF_3d(3,JJ)+1,IELEM(IS))          
-            IX(4)=IXS(ICF_3d(4,JJ)+1,IELEM(IS)) 
-            X13=X(1,IX(3))-X(1,IX(1))           
-            Y13=X(2,IX(3))-X(2,IX(1))           
-            Z13=X(3,IX(3))-X(3,IX(1))           
-            X24=X(1,IX(4))-X(1,IX(2))           
-            Y24=X(2,IX(4))-X(2,IX(2))           
-            Z24=X(3,IX(4))-X(3,IX(2))           
-            XN=Y13*Z24-Z13*Y24             
-            YN=Z13*X24-X13*Z24             
-            ZN=X13*Y24-Y13*X24             
-            FAC2=ONE/SQRT(XN**2+YN**2+ZN**2)  
-            XN = XN*FAC2                     
-            YN = YN*FAC2                     
-            ZN = ZN*FAC2                               
-            SURF = HALF/FAC2 
+            JJ = IFACE(IS)
+            IX(1)=IXS(ICF_3d(1,JJ)+1,IELEM(IS))
+            IX(2)=IXS(ICF_3d(2,JJ)+1,IELEM(IS))
+            IX(3)=IXS(ICF_3d(3,JJ)+1,IELEM(IS))
+            IX(4)=IXS(ICF_3d(4,JJ)+1,IELEM(IS))
+            X13=X(1,IX(3))-X(1,IX(1))
+            Y13=X(2,IX(3))-X(2,IX(1))
+            Z13=X(3,IX(3))-X(3,IX(1))
+            X24=X(1,IX(4))-X(1,IX(2))
+            Y24=X(2,IX(4))-X(2,IX(2))
+            Z24=X(3,IX(4))-X(3,IX(2))
+            XN=Y13*Z24-Z13*Y24
+            YN=Z13*X24-X13*Z24
+            ZN=X13*Y24-Y13*X24
+            FAC2=ONE/SQRT(XN**2+YN**2+ZN**2)
+            XN = XN*FAC2
+            YN = YN*FAC2
+            ZN = ZN*FAC2
+            SURF = HALF/FAC2
             IF(IX(4) == IX(3))THEN ; NPT=3;FAC1=THIRD; ELSE; NPT=4;FAC1=FOURTH; ENDIF
           ELSE
             FAC1=HALF
@@ -165,14 +165,14 @@ C-----------------------------------------------
             ELSE
               IX(1)  = IXQ(ICF_2d(1,JJ)+1,IELEM(IS))
               IX(2)  = IXQ(ICF_2d(2,JJ)+1,IELEM(IS))
-            ENDIF 
+            ENDIF
             XN = ZERO
             YN = -(-X(3,IX(2))+X(3,IX(1)))
-            ZN =  (-X(2,IX(2))+X(2,IX(1)))                     
-            FAC2 = ONE/SQRT(YN*YN+ZN*ZN) 
+            ZN =  (-X(2,IX(2))+X(2,IX(1)))
+            FAC2 = ONE/SQRT(YN*YN+ZN*ZN)
             YN=YN*FAC2
-            ZN=ZN*FAC2                          
-            SURF = ONE/FAC2               
+            ZN=ZN*FAC2
+            SURF = ONE/FAC2
           ENDIF
 
           !-- VELOCITY
@@ -183,8 +183,8 @@ C-----------------------------------------------
           NNG(1)=LISTE(NN(1))
           NNG(2)=LISTE(NN(2))
           NNG(3)=LISTE(NN(3))
-          NNG(4)=LISTE(NN(4))         
-                    
+          NNG(4)=LISTE(NN(4))
+
           TMP(1:3) = ZERO
           DO KK=1,NPT
             TMP(1) = TMP(1) + V0(1,NN(KK))
@@ -195,141 +195,141 @@ C-----------------------------------------------
           Vnew = FAC1 * (TMP(1)*XN + TMP(2)*YN + TMP(3)*ZN)
           IF(TIME == ZERO) Vold=Vnew
           !-- storage for next cycle
-          EBCS%vold(IS) = Vnew  
+          EBCS%vold(IS) = Vnew
           !Static-PRessure (increment)
           DP0 = EBCS%DP0(IS)
-                    
+
           !-- ADJACENT STATE
           bFOUND = .FALSE.
-          IVOI = IELEM(IS)                                  
-          DO NGRP=1,NGROUP                                     
-            KTY = IPARG(5,NGRP)                                
-            KLT = IPARG(2,NGRP)                                
+          IVOI = IELEM(IS)
+          DO NGRP=1,NGROUP
+            KTY = IPARG(5,NGRP)
+            KLT = IPARG(2,NGRP)
             MFT = IPARG(3,NGRP)
             IF(N2D==0)THEN
               IF(KTY /= 1)CYCLE
             ELSE
               IF(KTY /= 2 .AND. KTY /= 7)CYCLE
-            ENDIF                                
-             IF (IVOI <= KLT+MFT)THEN        
-               bFOUND = .TRUE.                              
-               EXIT                                         
-             ENDIF                                          
-          ENDDO                                             
-          IF(.NOT.bFOUND)CYCLE !next I                      
-          GBUF    => ELBUF_TAB(NGRP)%GBUF        
-          LBUF    => ELBUF_TAB(NGRP)%BUFLY(1)%LBUF(1,1,1)   
-          MTN = IPARG(1,NGRP)                     
+            ENDIF
+             IF (IVOI <= KLT+MFT)THEN
+               bFOUND = .TRUE.
+               EXIT
+             ENDIF
+          ENDDO
+          IF(.NOT.bFOUND)CYCLE !next I
+          GBUF    => ELBUF_TAB(NGRP)%GBUF
+          LBUF    => ELBUF_TAB(NGRP)%BUFLY(1)%LBUF(1,1,1)
+          MTN = IPARG(1,NGRP)
 
-          !PRESSURE                                         
-          ILOC    =  IVOI-MFT-1                             
-          DO KK=1,6                                          
-            IDX(KK) = KLT*(KK-1)                               
-          ENDDO                                             
-          Pvois = -THIRD*(GBUF%SIG(IDX(1)+ILOC+1) + GBUF%SIG(IDX(2)+ILOC+1) + GBUF%SIG(IDX(3)+ILOC+1))           
+          !PRESSURE
+          ILOC    =  IVOI-MFT-1
+          DO KK=1,6
+            IDX(KK) = KLT*(KK-1)
+          ENDDO
+          Pvois = -THIRD*(GBUF%SIG(IDX(1)+ILOC+1) + GBUF%SIG(IDX(2)+ILOC+1) + GBUF%SIG(IDX(3)+ILOC+1))
           Pold = EBCS%pold(IS)
-          IF(TIME == ZERO)Pold=Pvois+DP0 
-          
-          !DENSITY                                          
+          IF(TIME == ZERO)Pold=Pvois+DP0
+
+          !DENSITY
           RHO = GBUF%RHO(ILOC+1)
 
           !VOLUME
           VOL=GBUF%VOL(ILOC+1)
           MASS = RHO*VOL
 
-          !SOUND SPEED 
+          !SOUND SPEED
           IF(MULTI_FVM%IS_USED)THEN
             SSP = MULTI_FVM%SOUND_SPEED(IVOI)
           ELSE
             SSP = LBUF%SSP(ILOC+1)
           ENDIF
 
-          !ENERGY                                          
+          !ENERGY
           EINT = GBUF%EINT(ILOC+1)
-          
-          !VOL FRAC          
+
+          !VOL FRAC
           IF(MTN == 51)THEN
-            !NUVAR = ELBUF_TAB(NGRP)%BUFLY(1)%NVAR_MAT 
+            !NUVAR = ELBUF_TAB(NGRP)%BUFLY(1)%NVAR_MAT
             MBUF => ELBUF_TAB(NGRP)%BUFLY(1)%MAT(1,1,1)
             DO ISUBMAT=1,4
-              IPOS = 1                                                                                                       
-              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
-              PHASE_ALPHA(ISUBMAT) = MBUF%VAR(KK)                                     
-              IPOS = 9                                                                                                       
-              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              IPOS = 1
+              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1
+              PHASE_ALPHA(ISUBMAT) = MBUF%VAR(KK)
+              IPOS = 9
+              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1
               PHASE_RHO(ISUBMAT) = MBUF%VAR(KK)
-              IPOS = 8                                                                                                       
-              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1                                                                                    
+              IPOS = 8
+              KK = (N0PHAS + (ISUBMAT-1)*NVPHAS +IPOS-1) * KLT  +  ILOC+1
               PHASE_EINT(ISUBMAT) = MBUF%VAR(KK)
-            ENDDO!next ITRIMAT                                      
+            ENDDO!next ITRIMAT
           ELSEIF(MTN == 151)THEN
             DO ISUBMAT=1,MULTI_FVM%NBMAT
               PHASE_ALPHA(ISUBMAT) = MULTI_FVM%PHASE_ALPHA(ISUBMAT,ILOC+1+KLT)
               PHASE_RHO(ISUBMAT) = MULTI_FVM%PHASE_RHO(ISUBMAT,ILOC+1+KLT)
-              PHASE_EINT(ISUBMAT) = MULTI_FVM%PHASE_EINT(ISUBMAT,ILOC+1+KLT)                            
+              PHASE_EINT(ISUBMAT) = MULTI_FVM%PHASE_EINT(ISUBMAT,ILOC+1+KLT)
             ENDDO
           ENDIF
           NBMAT=EBCS%NBMAT
           !IF(TIME == ZERO)EBCS%PHASE_ALPHA(1:NBMAT,IS)=PHASE_ALPHA(1:NBMAT)
-          
+
           !segment data for flux of volumes ( upwind/ACONVE() )
           SEGVAR%RHO(KSEG)=RHO
-          SEGVAR%EINT(KSEG)=EINT          
-          IF(SEGVAR%has_phase_alpha)SEGVAR%PHASE_ALPHA(1:4,KSEG)=PHASE_ALPHA(1:4)          
-          IF(SEGVAR%has_phase_rho)SEGVAR%PHASE_RHO(1:4,KSEG)=PHASE_RHO(1:4)          
-          IF(SEGVAR%has_phase_eint)SEGVAR%PHASE_EINT(1:4,KSEG)=PHASE_EINT(1:4)          
+          SEGVAR%EINT(KSEG)=EINT
+          IF(SEGVAR%has_phase_alpha)SEGVAR%PHASE_ALPHA(1:4,KSEG)=PHASE_ALPHA(1:4)
+          IF(SEGVAR%has_phase_rho)SEGVAR%PHASE_RHO(1:4,KSEG)=PHASE_RHO(1:4)
+          IF(SEGVAR%has_phase_eint)SEGVAR%PHASE_EINT(1:4,KSEG)=PHASE_EINT(1:4)
 
-          !-- FORMULATION  
+          !-- FORMULATION
             MACH = ONE
             IF(SSP /= ZERO)MACH = ABS(Vnew / SSP)
-          
+
             IF(MACH >= ONE .AND. Vnew > ZERO)THEN
               !vitesse sortante supersonique : etat = etat voisin
               PP          = Pvois
             ELSE
-              RHOC2 = RHO*SSP*SSP 
+              RHOC2 = RHO*SSP*SSP
               ROC   =SQRT(RHO*RHOC2)
               PP    = ONE/(ONE+ALPHA)*(Pold+ROC*(Vnew-Vold))+ALPHA*(Pvois+DP0)/(ALPHA + ONE)
             ENDIF
-            EBCS%pold(IS) = PP   
-            
+            EBCS%pold(IS) = PP
+
             IF(SEGVAR%nbmat > 0)THEN
               !Volume Fractions update
-              IF(Vnew < ZERO)THEN     !flux rentrant, relaxation du pourcentage volumique   
-                IF(MTN == 51)THEN            
-                  DO ISUBMAT=1,4 
+              IF(Vnew < ZERO)THEN     !flux rentrant, relaxation du pourcentage volumique
+                IF(MTN == 51)THEN
+                  DO ISUBMAT=1,4
                     ! (1-beta) VF_current + BETA VF_0
-                    PHASE_ALPHA(ISUBMAT)=(ONE-BETA)*PHASE_ALPHA(ISUBMAT) 
+                    PHASE_ALPHA(ISUBMAT)=(ONE-BETA)*PHASE_ALPHA(ISUBMAT)
      .                                  + BETA*MBUF%VAR((N0PHAS+(ISUBMAT-1)*NVPHAS +23-1)* KLT+ILOC+1)
                   ENDDO
                 ELSEIF(MTN == 151)THEN
-                
+
                 ENDIF
-              ENDIF 
+              ENDIF
               SEGVAR%PHASE_ALPHA(1:4,KSEG) = PHASE_ALPHA(1:4)
             ENDIF
-            
+
            !expand pressure loading to segement nodes
            DO KK=1,NPT
              LA(1,NN(KK)) = LA(1,NN(KK)) -  PP*SURF*XN*FAC1
              LA(2,NN(KK)) = LA(2,NN(KK)) -  PP*SURF*YN*FAC1
              LA(3,NN(KK)) = LA(3,NN(KK)) -  PP*SURF*ZN*FAC1
-           ENDDO         
-          
-        ENDDO      
-        
+           ENDDO
+
+        ENDDO
+
       DO II=1,NOD
         NUM=LISTE(II)
         A(1,NUM)=A(1,NUM)+LA(1,II)
         A(2,NUM)=A(2,NUM)+LA(2,II)
         A(3,NUM)=A(3,NUM)+LA(3,II)
       ENDDO
-      
+
          !DO II=1,NOD
          !  NUM=LISTE(II)
          !   FAC2 = SURF*ROC
-         !   STIFN(NUM)=STIFN(NUM)+(TWO*FAC2*FAC2)/MS(NUM) 
-         !ENDDO                           
+         !   STIFN(NUM)=STIFN(NUM)+(TWO*FAC2*FAC2)/MS(NUM)
+         !ENDDO
 
       RETURN
       END

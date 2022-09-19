@@ -58,9 +58,9 @@ c     END TYPE r8_pointer3
 
       TYPE I25_TMP_STRUCT
 C On utlise PANE_OLD
- 
+
       INTEGER I24XREMP,IGAPXREMP,I24IREMP,I24IREMPNSNE
-       
+
       INTEGER :: CURRENT_NODFI
       INTEGER :: CURRENT_FI_SIZE
 
@@ -76,7 +76,7 @@ C secnds nodes
 C tableau de pointeurs NSNFI de taille NINTER
 C indiquant pour chaque interface type7 le nb de noeuds secnd dans NSVFI
 C par processeur
-      TYPE(int_pointer) :: 
+      TYPE(int_pointer) ::
      .  NSNFI, NSNFI_SAV, ITAFI, KINFI, MATSFI,
 C tableau i20 specifique (flag nodal)
      .  NBINFLFI,
@@ -89,7 +89,7 @@ C type25 interface adhesion
      .  IF_ADHFI
 C tableaux frontieres interfaces pour MS, STFN, STIFN
       TYPE(int_pointer) :: ICODT_FI,ISKEW_FI
-      TYPE(real_pointer) :: 
+      TYPE(real_pointer) ::
      .  MSFI, STIFI, STNFI, GAPFI,VSCFI, FTHEFI, FTHESKYFI,
      .  AREASFI, TEMPFI, ALPHAKFI, DIAG_SMSFI,GAP_LFI,CONDNFI,
      .  CONDNSKYFI,
@@ -99,22 +99,22 @@ C tableau i20 partie edge
 C tableau I18 Kine
      .  MTFI_PENE,MTFI_PENEMIN
 C tableaux frontieres interfaces pour X, V A ou FSKY
-      TYPE(real_pointer2) :: 
+      TYPE(real_pointer2) ::
      .  XFI, VFI, AFI, FSKYFI, PENFI, PENFIA,MTFI_V,MTFI_A,
      .  I18KAFI,MTFI_N,DAANCFI
 C tableau i20 partie edge
      .  XFIE, VFIE, AFIE, FSKYFIE, PENFIE, PENFIAE, DAANCFIE
 C tableaux frontieres interfaces 17 pour
-      TYPE(real_pointer2) :: 
+      TYPE(real_pointer2) ::
      .  EMINXFI, KSFI, FROTSFI, STNFI17
 C tableaux frontieres interfaces 17 pour XFI17, VFI17, AFI17
-      TYPE(real_pointer3) :: 
+      TYPE(real_pointer3) ::
      .  XFI17, VFI17, AFI17
 C tableaux frontieres interfaces 20 pour DXANC,DVANC
-      TYPE(real_pointer2) :: 
+      TYPE(real_pointer2) ::
      .  DXANCFI, DVANCFI, DXANCFIE, DVANCFIE
 C tableaux frontieres interfaces 20 pour DAANC6
-      TYPE(r8_pointer3) :: 
+      TYPE(r8_pointer3) ::
      .  DAANC6FI, DAANC6FIE
 C tableau de pointeurs ISKYFI de taille NINTER indiquant pour chaque interface
 C la liste des noeuds remote associe a une force dans FSKYI

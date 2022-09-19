@@ -78,7 +78,7 @@ C
         ENDIF
       ELSE
          CALL SPMD_AGETMSR(FR_WALL,X,MSR,XWL,YWL,ZWL,RWL)
-      END IF 
+      END IF
       IF (ISPMD==0) THEN
 C
       R = HALF*RWL(7)

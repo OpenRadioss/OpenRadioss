@@ -199,7 +199,7 @@ c                 BBUFS(L+5)=MTFI_V(NIN)%P(6,NN+IDEB(NIN))
          ENDDO
          SIZ = L-IADS(P)
          IF(SIZ>0)THEN
-              MSGTYP = MSGOFF 
+              MSGTYP = MSGOFF
 C Send
               CALL MPI_ISEND(
      .          BBUFS(IADS(P)),SIZ,REAL     ,IT_SPMD(P),MSGTYP,

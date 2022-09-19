@@ -101,7 +101,7 @@ C
         LEN = IAD_I2M(I+1) - IAD_I2M(I)
         IAD = IAD_I2M(I)-1
         IF (INTTH2 == 1) THEN
-         IF(IDT_THERM == 1) THEN      
+         IF(IDT_THERM == 1) THEN
           IF (IRODDL==0) THEN
 #include      "vectorize.inc"
            DO J = 1, LEN
@@ -211,7 +211,7 @@ C
       ENDDO
 C
       IF (INTTH2 == 1) THEN
-       IF(IDT_THERM == 1) THEN      
+       IF(IDT_THERM == 1) THEN
         IF(IRODDL==0)THEN
          DO I=1,NB_FRI2M
           NOD = FR_LOCI2M(I)
@@ -363,7 +363,7 @@ C
           IAD = IAD_I2M(P)-1
           CALL MPI_WAIT(REQ_R(L),STATUS,IERROR)
           IF (INTTH2 == 1) THEN
-           IF(IDT_THERM == 1) THEN      
+           IF(IDT_THERM == 1) THEN
             IF(IRODDL==0)THEN
 #include      "vectorize.inc"
              DO J = 1, LEN
@@ -377,7 +377,7 @@ C
               CONDN(NOD) = CONDN(NOD)+RBUF(IDEB+6)
               IDEB = IDEB + ISIZE
              ENDDO
-            ELSE 
+            ELSE
 #include      "vectorize.inc"
              DO J = 1, LEN
               NOD = FR_I2M(IAD+J)
@@ -409,7 +409,7 @@ C
               FTHE(NOD)  = FTHE(NOD)+RBUF(IDEB+5)
               IDEB = IDEB + ISIZE
              ENDDO
-            ELSE 
+            ELSE
 #include      "vectorize.inc"
              DO J = 1, LEN
               NOD = FR_I2M(IAD+J)
@@ -440,7 +440,7 @@ C
               STIFN(NOD) = STIFN(NOD)+RBUF(IDEB+4)
               IDEB = IDEB + ISIZE
             ENDDO
-           ELSE 
+           ELSE
 #include      "vectorize.inc"
            DO J = 1, LEN
             NOD = FR_I2M(IAD+J)

@@ -309,7 +309,7 @@ C-------------------------------------------------
      .                +SKEW(6,ISK)*DAMPSKW(2,I)
      .                +SKEW(9,ISK)*DAMPSKW(3,I)
           END DO
-650       CONTINUE	  
+650       CONTINUE	
           IF(IRODDL/=0)THEN
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
@@ -352,18 +352,18 @@ C-------------------------------------------------
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
             IF (DAMPR(19,ND)/=0) THEN
-              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	      
-              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 750	 	      	       
+              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 750	 	      	
 	    ENDIF
 C--------------------------------------------------------	    
-            DA = ASKW(1,I) - DAMPA*VSKW(1,I) 
+            DA = ASKW(1,I) - DAMPA*VSKW(1,I)
      .                    - BETASDT *(ASKW(1,I) - DAMPSKW(1,I))
             DA = DA * OMEGA - ASKW(1,I)
             DAMPSKW(1,I) = ASKW(1,I)
             ASKW(1,I)    = ASKW(1,I) + DA
             DW =DW
      .        +IN(I)*DA*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
-750         CONTINUE     
+750         CONTINUE
            ENDDO
            DAMPA = DAMPR(11,ND)
            DAMPB = DAMPR(12,ND)
@@ -374,18 +374,18 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND)/=0) THEN	      
-              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 850	 	      	       
+            IF (DAMPR(19,ND)/=0) THEN	
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 850	 	      	
 	    ENDIF
 C--------------------------------------------------------	    
-            DA = ASKW(2,I) - DAMPA*VSKW(2,I) 
+            DA = ASKW(2,I) - DAMPA*VSKW(2,I)
      .                    - BETASDT *(ASKW(2,I) - DAMPSKW(2,I))
             DA = DA * OMEGA - ASKW(2,I)
             DAMPSKW(2,I) = ASKW(2,I)
             ASKW(2,I)    = ASKW(2,I) + DA
             DW =DW
      .        +IN(I)*DA*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
-850         CONTINUE     
+850         CONTINUE
            ENDDO
            DAMPA = DAMPR(13,ND)
            DAMPB = DAMPR(14,ND)
@@ -398,17 +398,17 @@ C--------------------------------------------------------
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 950
-	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1	      	       
+	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1	      	
 	    ENDIF
 C--------------------------------------------------------	    
-            DA = ASKW(3,I) - DAMPA*VSKW(3,I) 
+            DA = ASKW(3,I) - DAMPA*VSKW(3,I)
      .                    - BETASDT *(ASKW(3,I) - DAMPSKW(3,I))
             DA = DA * OMEGA - ASKW(3,I)
             DAMPSKW(3,I) = ASKW(3,I)
             ASKW(3,I)    = ASKW(3,I) + DA
             DW =DW
      .        +IN(I)*DA*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
-950         CONTINUE     
+950         CONTINUE
            ENDDO
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY
@@ -566,18 +566,18 @@ C--------------------------------------------------------
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
             IF (DAMPR(19,ND)/=0) THEN
-              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	      
-              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 751	 	      	       
+              IF (ICONTACT(I)/=0) I_DAMP_RDOF_TAB(I) = DAMPR(19,ND)	
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 751	 	      	
 	    ENDIF
 C--------------------------------------------------------	    
-            DA = ASKW(1,I) - DAMPA*VSKW(1,I) 
+            DA = ASKW(1,I) - DAMPA*VSKW(1,I)
      .                    - BETASDT *(ASKW(1,I) - DAMPSKW(1,I))
             DA = DA * OMEGA - ASKW(1,I)
             DAMPSKW(1,I) = ASKW(1,I)
             ASKW(1,I)    = ASKW(1,I) + DA
             DW =DW
      .        +IN(I)*DA*(VSKW(1,I)+HALF*ASKW(1,I)*DT1)*DT12*WEIGHT(I)
-751         CONTINUE     
+751         CONTINUE
            ENDDO
            DAMPA = DAMPR(11,ND)
            DAMPB = DAMPR(12,ND)
@@ -588,18 +588,18 @@ C--------------------------------------------------------
             I=IGRNOD(IGR)%ENTITY(N)
             IF(TAGSLV_RBY(I)/=0) CYCLE
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
-            IF (DAMPR(19,ND)/=0) THEN	      
-              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 851	 	      	       
+            IF (DAMPR(19,ND)/=0) THEN	
+              IF (I_DAMP_RDOF_TAB(I)==0) GOTO 851	 	      	
 	    ENDIF
 C--------------------------------------------------------	    
-            DA = ASKW(2,I) - DAMPA*VSKW(2,I) 
+            DA = ASKW(2,I) - DAMPA*VSKW(2,I)
      .                    - BETASDT *(ASKW(2,I) - DAMPSKW(2,I))
             DA = DA * OMEGA - ASKW(2,I)
             DAMPSKW(2,I) = ASKW(2,I)
             ASKW(2,I)    = ASKW(2,I) + DA
             DW =DW
      .        +IN(I)*DA*(VSKW(2,I)+HALF*ASKW(2,I)*DT1)*DT12*WEIGHT(I)
-851         CONTINUE     
+851         CONTINUE
            ENDDO
            DAMPA = DAMPR(13,ND)
            DAMPB = DAMPR(14,ND)
@@ -612,17 +612,17 @@ C--------------------------------------------------------
 C----- Damping seulement pour les noeuds en contact avec temporisation -----
             IF (DAMPR(19,ND)/=0) THEN
               IF (I_DAMP_RDOF_TAB(I)==0) GOTO 951
-	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1	      	       
+	      I_DAMP_RDOF_TAB(I)=I_DAMP_RDOF_TAB(I)-1	      	
 	    ENDIF
 C--------------------------------------------------------	    
-            DA = ASKW(3,I) - DAMPA*VSKW(3,I) 
+            DA = ASKW(3,I) - DAMPA*VSKW(3,I)
      .                    - BETASDT *(ASKW(3,I) - DAMPSKW(3,I))
             DA = DA * OMEGA - ASKW(3,I)
             DAMPSKW(3,I) = ASKW(3,I)
             ASKW(3,I)    = ASKW(3,I) + DA
             DW =DW
      .        +IN(I)*DA*(VSKW(3,I)+HALF*ASKW(3,I)*DT1)*DT12*WEIGHT(I)
-951         CONTINUE     
+951         CONTINUE
            ENDDO
 #include "vectorize.inc"
            DO N=1,IGRNOD(IGR)%NENTITY

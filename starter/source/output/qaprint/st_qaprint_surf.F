@@ -54,42 +54,42 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       TYPE (SURF_)   , INTENT(IN), TARGET, DIMENSION(NSURF)   :: IGRSURF
       TYPE (SURF_)   , INTENT(IN), TARGET, DIMENSION(NSLIN)   :: IGRSLIN
-      INTEGER,INTENT(IN) :: SBUFSF    
-      my_real :: BUFSF(SBUFSF)  
+      INTEGER,INTENT(IN) :: SBUFSF
+      my_real :: BUFSF(SBUFSF)
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       LOGICAL :: OK_QA
       CHARACTER (LEN=255) :: VARNAME
-      TYPE (SURF_)  , POINTER :: PTR_IGRSURF    
+      TYPE (SURF_)  , POINTER :: PTR_IGRSURF
       INTEGER KK ,NN, IAD_PREV
       CHARACTER :: GROUP_NAME*7
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
 
-      OK_QA = MYQAKEY('/SURF')  
+      OK_QA = MYQAKEY('/SURF')
       IAD_PREV=1
-      IF (OK_QA) THEN  
+      IF (OK_QA) THEN
         DO KK = 1, NSURF
           PTR_IGRSURF => IGRSURF(KK)
           IF(KK>1)IAD_PREV=IGRSURF(KK-1)%IAD_BUFR
           GROUP_NAME(1:7) = 'IGRSURF'
           CALL QA_PRINT_SURF(PTR_IGRSURF, GROUP_NAME, BUFSF,SBUFSF, IAD_PREV, 4)
-        ENDDO 
-      ENDIF  
+        ENDDO
+      ENDIF
 
-      OK_QA = MYQAKEY('/LINE') 
-      IAD_PREV=1 
-      IF (OK_QA) THEN  
+      OK_QA = MYQAKEY('/LINE')
+      IAD_PREV=1
+      IF (OK_QA) THEN
         DO KK = 1, NSLIN
           PTR_IGRSURF => IGRSLIN(KK)
           IF(KK>1)IAD_PREV=IGRSURF(KK-1)%IAD_BUFR
           GROUP_NAME(1:7) = 'IGRSLIN'
           CALL QA_PRINT_SURF(PTR_IGRSURF, GROUP_NAME, BUFSF,SBUFSF, IAD_PREV, 2)
-        ENDDO 
-      ENDIF       
-                                                                                 
+        ENDDO
+      ENDIF
+
 C-----------------------------------------------
       RETURN
       END
@@ -115,10 +115,10 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (SURF_),INTENT(IN)  :: PTR_IGRSURF  
-      CHARACTER,INTENT(IN) :: GROUP_NAME*7   
+      TYPE (SURF_),INTENT(IN)  :: PTR_IGRSURF
+      CHARACTER,INTENT(IN) :: GROUP_NAME*7
       INTEGER, INTENT(IN) :: SBUFSF, IAD_PREV,NNOD
-      my_real :: BUFSF(SBUFSF)          
+      my_real :: BUFSF(SBUFSF)
 C--------------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
@@ -131,109 +131,109 @@ C-----------------------------------------------
 
             ID = PTR_IGRSURF%ID
             LEN_=LEN_TRIM(PTR_IGRSURF%TITLE)
-            WRITE(VARNAME,'(A,I0,A,A)') GROUP_NAME//'(',ID,')%TITLE=',PTR_IGRSURF%TITLE(1:LEN_)             
-            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8) 
-            
+            WRITE(VARNAME,'(A,I0,A,A)') GROUP_NAME//'(',ID,')%TITLE=',PTR_IGRSURF%TITLE(1:LEN_)
+            CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),ID,0.0_8)
+
             TMP=PTR_IGRSURF%NSEG
             IF(TMP/=0)THEN
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG='              
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG='
               CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
-            ENDIF 
-            
+            ENDIF
+
             TMP=PTR_IGRSURF%NSEG_IGE
             IF(TMP/=0)THEN
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG_IGE='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG_IGE='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%IAD_IGE
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%IAD_IGE='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%IAD_IGE='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%SET_GROUP
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SET_GROUP='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SET_GROUP='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%TYPE
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%TYPE='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%TYPE='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%SET_GROUP
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SET_GROUP='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%SET_GROUP='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-                        
+
             TMP=PTR_IGRSURF%ID_MADYMO
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%ID_MADYMO='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%ID_MADYMO='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%IAD_BUFR
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%IAD_BUFR='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%IAD_BUFR='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%NB_MADYMO
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NB_MADYMO='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NB_MADYMO='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%TYPE_MADYMO
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%TYPE_MADYMO='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%TYPE_MADYMO='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%LEVEL
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%LEVEL='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%LEVEL='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%TH_SURF
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%TH_SURF='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%TH_SURF='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%ISH4N3N
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%ISH4N3N='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%ISH4N3N='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%NSEG_R2R_ALL
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG_R2R_ALL='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG_R2R_ALL='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
             TMP=PTR_IGRSURF%NSEG_R2R_SHARE
-            IF(TMP/=0)THEN              
-              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG_R2R_SHARE='              
-              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+            IF(TMP/=0)THEN
+              WRITE(VARNAME,'(A,I0,A)') GROUP_NAME//'(',ID,')%NSEG_R2R_SHARE='
+              CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
             ENDIF
-            
+
 
             NEL=PTR_IGRSURF%NSEG
             NEL_IGE=PTR_IGRSURF%NSEG_IGE
-            
+
             IF (ALLOCATED(PTR_IGRSURF%REVERSED)) THEN
                DO KK=1,MIN(3,NEL)
                  TMP=PTR_IGRSURF%REVERSED(KK)
-                 IF(TMP/=0)THEN        
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%REVERSED(',KK,')='              
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+                 IF(TMP/=0)THEN
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%REVERSED(',KK,')='
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
                  ENDIF
                ENDDO
             ENDIF
@@ -242,9 +242,9 @@ C-----------------------------------------------
                DO KK=1,MIN(3,NEL)
                  TMP=PTR_IGRSURF%ELTYP(KK)
                  IF(TMP/=0)THEN
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELTYP(',KK,')='              
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELTYP(',KK,')='
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
-                 ENDIF 
+                 ENDIF
                ENDDO
             ENDIF
 
@@ -252,33 +252,33 @@ C-----------------------------------------------
                DO KK=1,MIN(3,NEL)
                   TMP=PTR_IGRSURF%ELEM(KK)
                   IF(TMP/=0)THEN
-                    WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELEM(',KK,')='             
-                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+                    WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELEM(',KK,')='
+                    CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
                   ENDIF
                   WRITE(VARNAME,'(A,I0,A,I0,A,I0,A,I0,A,I0)') GROUP_NAME//'(',ID,')%ELEM(1:4)=',PTR_IGRSURF%NODES(KK,1),
-     .                 ',',PTR_IGRSURF%NODES(KK,2),',',PTR_IGRSURF%NODES(KK,3),',',PTR_IGRSURF%NODES(KK,4)              
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,1.D0) 
-               ENDDO               
+     .                 ',',PTR_IGRSURF%NODES(KK,2),',',PTR_IGRSURF%NODES(KK,3),',',PTR_IGRSURF%NODES(KK,4)
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),0,1.D0)
+               ENDDO
             ENDIF
 
             IF (ALLOCATED(PTR_IGRSURF%PROC)) THEN
                DO KK=1,MIN(3,NEL)
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%PROC(',KK,')='              
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRSURF%PROC(KK),0.0_8) 
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%PROC(',KK,')='
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRSURF%PROC(KK),0.0_8)
                ENDDO
             ENDIF
-            
+
             IF (ALLOCATED(PTR_IGRSURF%ELTYP_IGE)) THEN
                DO KK=1,MIN(3,NEL_IGE)
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELTYP_IGE(',KK,')='              
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRSURF%ELTYP_IGE(KK),0.0_8) 
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELTYP_IGE(',KK,')='
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRSURF%ELTYP_IGE(KK),0.0_8)
                ENDDO
             ENDIF
 
             IF (ALLOCATED(PTR_IGRSURF%ELEM_IGE)) THEN
                DO KK=1,MIN(3,NEL_IGE)
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELEM_IGE(',KK,')='             
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRSURF%ELEM_IGE(KK),0.0_8) 
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELEM_IGE(',KK,')='
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),PTR_IGRSURF%ELEM_IGE(KK),0.0_8)
                ENDDO
             ENDIF
 
@@ -286,20 +286,20 @@ C-----------------------------------------------
                DO KK=1,MIN(3,NEL_IGE)
                  TMP=PTR_IGRSURF%ELEM_IGE(KK)
                  IF(TMP/=0)THEN
-                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELEM_IGE(',KK,')='              
-                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8) 
+                  WRITE(VARNAME,'(A,I0,A,I0,A)') GROUP_NAME//'(',ID,')%ELEM_IGE(',KK,')='
+                  CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),TMP,0.0_8)
                   IF(NNOD==2)THEN
                     WRITE(VARNAME,'(A,I0,A,I0,A,I0)') GROUP_NAME//'(',ID,')%ELEM(1:4)=',PTR_IGRSURF%NODES_IGE(KK,1),
      .                 ',',PTR_IGRSURF%NODES_IGE(KK,2)
                   ELSEIF(NNOD==4)THEN
                     WRITE(VARNAME,'(A,I0,A,I0,A,I0,A,I0,A,I0)') GROUP_NAME//'(',ID,')%ELEM(1:4)=',PTR_IGRSURF%NODES_IGE(KK,1),
-     .                 ',',PTR_IGRSURF%NODES_IGE(KK,2),',',PTR_IGRSURF%NODES_IGE(KK,3),',',PTR_IGRSURF%NODES_IGE(KK,4) 
-                  ENDIF             
+     .                 ',',PTR_IGRSURF%NODES_IGE(KK,2),',',PTR_IGRSURF%NODES_IGE(KK,3),',',PTR_IGRSURF%NODES_IGE(KK,4)
+                  ENDIF
                   CALL QAPRINT(VARNAME(1:LEN_TRIM(VARNAME)),1,0.0_8)
-                 ENDIF 
+                 ENDIF
                ENDDO
             ENDIF
-            
+
             IAD_CUR=PTR_IGRSURF%IAD_BUFR
             DO KK=MAX(1,IAD_PREV),IAD_CUR
               RTMP = BUFSF(KK)
@@ -309,6 +309,6 @@ C-----------------------------------------------
               ENDIF
             ENDDO
 
-                  
+
       END
 

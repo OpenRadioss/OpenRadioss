@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER),DELTA_PMAX_GAP_NODE,ITAB(*)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*),DELTA_PMAX_GAP,PMAX_GAP,
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*),
      .   DELTA_PMAX_DGAP

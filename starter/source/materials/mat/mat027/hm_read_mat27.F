@@ -40,8 +40,8 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE UNITAB_MOD
-      USE ELBUFTAG_MOD            
-      USE MESSAGE_MOD      
+      USE ELBUFTAG_MOD
+      USE MESSAGE_MOD
       USE SUBMODEL_MOD
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -74,9 +74,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER, INTENT(IN)    :: MAT_ID
-      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM     
+      my_real, DIMENSION(NPROPM) ,INTENT(INOUT)    :: PM
       CHARACTER*nchartitle ,INTENT(IN)             :: TITR
       INTEGER, INTENT(INOUT)                       :: ISRATE
       my_real, DIMENSION(100),INTENT(OUT) :: PARMAT
@@ -159,7 +159,7 @@ c-----------------
 c-----------------
       PM(1)  = RHOR
       PM(89) = RHO0
-      PM(100)= C1      
+      PM(100)= C1
 c-----------------
       PM(9)  = FCUT*TWO*PI
       PM(17) = MU
@@ -196,22 +196,22 @@ c-----------------
 c-----------------
 c     Element buffer : internal variable allocation
 c-----------------
-      MTAG%G_GAMA  = 6  
-      MTAG%G_PLA   = 1    
+      MTAG%G_GAMA  = 6
+      MTAG%G_PLA   = 1
 c
-      MTAG%L_GAMA  = 6  
+      MTAG%L_GAMA  = 6
       MTAG%L_PLA   = 1
       MTAG%L_DAM   = 2
       MTAG%L_CRAK  = 2
       MTAG%L_STRA  = 6
-c-----------------------      
+c-----------------------
 c     Output
 c-----------------------
       WRITE(IOUT,1000) TRIM(TITR),MAT_ID,27
-      WRITE(IOUT,1100)     
-      IF (IS_ENCRYPTED) THEN                                     
+      WRITE(IOUT,1100)
+      IF (IS_ENCRYPTED) THEN
         WRITE(IOUT,'(5X,A,//)')'CONFIDENTIAL DATA'
-      ELSE     
+      ELSE
         WRITE(IOUT,1200) RHO0
         WRITE(IOUT,1300) YOUNG,NU,G
         WRITE(IOUT,1400) CA,CB,CN,SIGM
@@ -266,7 +266,7 @@ c-----------------
      .               I1=MAT_ID,
      .               C1=TITR)
       ENDIF
-c-----------        
+c-----------
       RETURN
 c-----------
  1000 FORMAT(/
@@ -277,7 +277,7 @@ c-----------
      & 5X,'  ELASTIC PLASTIC BRITTLE MATERIAL      '/,
      & 5X,'  --------------------------------      '//)
  1200 FORMAT(
-     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)  
+     & 5X,'INITIAL DENSITY . . . . . . . . . . . .=',1PG20.13/)
  1300 FORMAT(
      & 5X,'YOUNG   MODULUS . . . . . . . . . . . .=',1PG20.13/,
      & 5X,'POISSON RATIO . . . . . . . . . . . . .=',1PG20.13/,

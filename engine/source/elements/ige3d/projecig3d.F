@@ -33,14 +33,14 @@ Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.
 Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|====================================================================
       SUBROUTINE PROJECIG3D(ELBUF_TAB, IPARG  ,X , D, V, A, WIGE ,KXIG3D   ,IXIG3D   ,
-     .               IG3DSOLID,NANIM3D_L, X_TEMP, D_TEMP, V_TEMP, A_TEMP, TABSTRESL, 
+     .               IG3DSOLID,NANIM3D_L, X_TEMP, D_TEMP, V_TEMP, A_TEMP, TABSTRESL,
      .               IGEO,KNOT, NG, NBG, NISOELCUT, NCTRL, NEL_P, ITAB, CONT, CONT_TEMP,
-     .               FINT, FINT_TEMP, FEXT, FEXT_TEMP, FREAC, FREACT_TEMP, 
-     .               PX, PY, PZ,KNOTLOCPC,KNOTLOCEL)  
+     .               FINT, FINT_TEMP, FEXT, FEXT_TEMP, FREAC, FREACT_TEMP,
+     .               PX, PY, PZ,KNOTLOCPC,KNOTLOCEL)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD  
+      USE ELBUFDEF_MOD
       USE MESSAGE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -91,7 +91,7 @@ C-----------------------------------------------
      .        IDFRSTLOCKNT,IDPC
       my_real
      .   XX(NCTRL,MVSIZ),YY(NCTRL,MVSIZ),ZZ(NCTRL,MVSIZ),
-     .   DX(NCTRL,MVSIZ),DY(NCTRL,MVSIZ),DZ(NCTRL,MVSIZ), 
+     .   DX(NCTRL,MVSIZ),DY(NCTRL,MVSIZ),DZ(NCTRL,MVSIZ),
      .   UX(NCTRL,MVSIZ),UY(NCTRL,MVSIZ),UZ(NCTRL,MVSIZ),
      .   VX(NCTRL,MVSIZ),VY(NCTRL,MVSIZ),VZ(NCTRL,MVSIZ),
      .   AX(NCTRL,MVSIZ),AY(NCTRL,MVSIZ),AZ(NCTRL,MVSIZ),
@@ -106,9 +106,9 @@ C-----------------------------------------------
      .   KNOTLOCY(PY+1,NCTRL,MVSIZ),KNOTLOCZ(PZ+1,NCTRL,MVSIZ),
      .   KNOTLOCELX(2,MVSIZ),
      .   KNOTLOCELY(2,MVSIZ),KNOTLOCELZ(2,MVSIZ)
-      TYPE(L_BUFEL_) ,POINTER :: LBUF 
+      TYPE(L_BUFEL_) ,POINTER :: LBUF
       my_real,
-     .  ALLOCATABLE, DIMENSION(:) :: MAB 
+     .  ALLOCATABLE, DIMENSION(:) :: MAB
       my_real,
      .  ALLOCATABLE, DIMENSION(:,:) :: RI,FI
       my_real
@@ -116,7 +116,7 @@ C-----------------------------------------------
 C----------------------------------------------------------
       DOUBLE PRECISION
      .  W_GAUSS(9,9),A_GAUSS(9,9)
-      DATA W_GAUSS / 
+      DATA W_GAUSS /
      1 2.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -144,7 +144,7 @@ C----------------------------------------------------------
      9 0.081274388361574D0,0.180648160694857D0,0.260610696402935D0,
      9 0.312347077040003D0,0.330239355001260D0,0.312347077040003D0,
      9 0.260610696402935D0,0.180648160694857D0,0.081274388361574D0/
-      DATA A_GAUSS / 
+      DATA A_GAUSS /
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
      1 0.D0               ,0.D0               ,0.D0               ,
@@ -194,7 +194,7 @@ C-----------------------------------------------
 
       ALLOCATE(MAB(SIXIG3D),RI(6,SIXIG3D),
      .         FI(6,SIXIG3D), STAT=IERROR)
-      
+
       IF(IERROR/=0)THEN
        CALL ANCMSG(MSGID=249,ANMODE=ANINFO)
        CALL ARRET(2)
@@ -204,7 +204,7 @@ C-----------------------------------------------
       RI(:,:) = ZERO
       DECAL = NISOELCUT
 
-      COUNT3 = 0 
+      COUNT3 = 0
 
       DO ING=NG,NG+NBG-1
 
@@ -236,22 +236,22 @@ C-----------------------------------------------
             IF(ANIM_V(4)>0)THEN
             CONTX(J,I)=CONT(1,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             CONTY(J,I)=CONT(2,IXIG3D(KXIG3D(4,I+NFT)+J-1))
-            CONTZ(J,I)=CONT(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))            
+            CONTZ(J,I)=CONT(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             ENDIF
             IF(ANIM_V(5)==1) THEN
             FINTX(J,I)=FINT(1,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             FINTY(J,I)=FINT(2,IXIG3D(KXIG3D(4,I+NFT)+J-1))
-            FINTZ(J,I)=FINT(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))    
+            FINTZ(J,I)=FINT(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             ENDIF
             IF(ANIM_V(6)==1) THEN
             FEXTX(J,I)=FEXT(1,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             FEXTY(J,I)=FEXT(2,IXIG3D(KXIG3D(4,I+NFT)+J-1))
-            FEXTZ(J,I)=FEXT(3,IXIG3D(KXIG3D(4,I+NFT)+J-1)) 
+            FEXTZ(J,I)=FEXT(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             ENDIF
             IF(ANIM_V(17)==1) THEN
             FREACTX(J,I)=FREAC(1,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             FREACTY(J,I)=FREAC(2,IXIG3D(KXIG3D(4,I+NFT)+J-1))
-            FREACTZ(J,I)=FREAC(3,IXIG3D(KXIG3D(4,I+NFT)+J-1)) 
+            FREACTZ(J,I)=FREAC(3,IXIG3D(KXIG3D(4,I+NFT)+J-1))
             ENDIF
             WW(J,I)=1!WIGE(IXIG3D(KXIG3D(4,I+NFT)+J-1))
             DO K=1,PX+1
@@ -279,10 +279,10 @@ C-----------------------------------------------
          KNOTLOCELZ(2,I) = KNOTLOCEL(2,3,I+NFT)
        ENDDO
 
-       COUNT = 0 
+       COUNT = 0
 
        DO I=LFT,LLT
-  
+
         PASX = (KNOTLOCELX(2,I) - KNOTLOCELX(1,I)) / THREE
         PASY = (KNOTLOCELY(2,I) - KNOTLOCELY(1,I)) / THREE
         PASZ = (KNOTLOCELZ(2,I) - KNOTLOCELZ(1,I)) / THREE
@@ -292,14 +292,14 @@ c        PASZ = (KNOT(IAD_KNOT+NKNOT1+NKNOT2+IDZ2(I)) - KNOT(IAD_KNOT+NKNOT1+NKN
 c        PASX = (KNOT(IAD_KNOT+IDX(I)+1) - KNOT(IAD_KNOT+IDX(I))) / THREE
 c        PASY = (KNOT(IAD_KNOT+NKNOT1+1+IDY(I)) - KNOT(IAD_KNOT+NKNOT1+IDY(I))) / THREE
 c        PASZ = (KNOT(IAD_KNOT+NKNOT1+NKNOT2+1+IDZ(I)) - KNOT(IAD_KNOT+NKNOT1+NKNOT2+IDZ(I))) / THREE
- 
+
         DO N=1,4
          DO M=1,4
-          DO L=1,4  
+          DO L=1,4
 
            COUNT = COUNT+1
-           COUNT3 = COUNT3+1 
-      
+           COUNT3 = COUNT3+1
+
            DO ITENS=1,3
             XXI(ITENS) = ZERO
             IF(ANIM_V(1)==1) THEN
@@ -323,15 +323,15 @@ c        PASZ = (KNOT(IAD_KNOT+NKNOT1+NKNOT2+1+IDZ(I)) - KNOT(IAD_KNOT+NKNOT1+NK
             IF(ANIM_V(17)>0)THEN
              FREACTI(ITENS) = ZERO
             ENDIF
-           ENDDO 
+           ENDDO
 
            XI(1) = KNOTLOCELX(1,I) + (L-1)*PASX
            XI(2) = KNOTLOCELY(1,I) + (M-1)*PASY
-           XI(3) = KNOTLOCELZ(1,I) + (N-1)*PASZ  
+           XI(3) = KNOTLOCELZ(1,I) + (N-1)*PASZ
 c           XI(1) = KNOT(IAD_KNOT+IDX(I)) + (L-1)*PASX
 c           XI(2) = KNOT(IAD_KNOT+NKNOT1+IDY(I)) + (M-1)*PASY
-c           XI(3) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+IDZ(I)) + (N-1)*PASZ  
- 
+c           XI(3) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+IDZ(I)) + (N-1)*PASZ
+
 c           CALL IGE3DBASIS(
 c     .       I      ,BID    ,XX(:,I) ,YY(:,I) ,ZZ(:,I) ,WW(:,I) ,
 c     .       IDX(I) ,IDY(I) ,IDZ(I)  ,R       ,
@@ -344,7 +344,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)
      3      IDZ(I) ,KNOTLOCX(:,:,I) ,KNOTLOCY(:,:,I),KNOTLOCZ(:,:,I),
      4      R          ,NCTRL  ,
      5      XI(1)  ,XI(2)      ,XI(3)    ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1   ,PZ-1       ,0        ,
      8      IDX2(I),IDY2(I)    ,IDZ2(I)   ,
      9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
@@ -414,7 +414,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)
              FREACT_TEMP(ITENS,COUNT + DECAL*64) = FREACTI(ITENS)
              ENDIF
            ENDDO
- 
+
           ENDDO
          ENDDO
         ENDDO
@@ -438,15 +438,15 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)
 
        ENDDO
 
-c     METHODE DE PROJECTION PAR LES MOINDRES CARRES SUR LE PATCH 
+c     METHODE DE PROJECTION PAR LES MOINDRES CARRES SUR LE PATCH
 
        COUNT2 = 0
 
        DO IR=1,PX
         DO IS=1,PY
-         DO IT=1,PZ 
-         
-          COUNT2 = COUNT2+1 
+         DO IT=1,PZ
+
+          COUNT2 = COUNT2+1
           LBUF => ELBUF_TAB(ING)%BUFLY(1)%LBUF(IR,IS,IT)
 
           ZR = A_GAUSS(IR,PX)
@@ -458,8 +458,8 @@ c     METHODE DE PROJECTION PAR LES MOINDRES CARRES SUR LE PATCH
           JJ = 6*(I-1)
 
 c           CALL IGE3DDERIV(
-c     .       I    ,BID   ,XX(:,I),YY(:,I),ZZ(:,I),WW(:,I),  
-c     .       IDX(I), IDY(I), IDZ(I), TBID, R, DETJAC, 
+c     .       I    ,BID   ,XX(:,I),YY(:,I),ZZ(:,I),WW(:,I),
+c     .       IDX(I), IDY(I), IDZ(I), TBID, R, DETJAC,
 c     .       NCTRL, ZR, ZS, ZT, KNOT(IAD_KNOT+1), KNOT(IAD_KNOT+NKNOT1+1),
 c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
 
@@ -469,19 +469,19 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
      3      IDZ(I) ,KNOTLOCX(:,:,I) ,KNOTLOCY(:,:,I),KNOTLOCZ(:,:,I) ,
      4      TBID      ,R             ,DETJAC      ,NCTRL    ,
      5      ZR        ,ZS            ,ZT          ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1      ,PZ-1          ,1           ,
      8      IDX2(I),IDY2(I)    ,IDZ2(I)   ,
      9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
 
            DO J=1,NCTRL
-            INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1) 
+            INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1)
              MAB(INCTRL) = MAB(INCTRL) + R(J)*DETJAC*PGAUSS
              DO ITENS=1,6
               RI(ITENS,INCTRL) = RI(ITENS,INCTRL) + R(J)*LBUF%SIG((ITENS-1)*NEL+I)*DETJAC*PGAUSS
              ENDDO
-           ENDDO  
-          ENDDO 
+           ENDDO
+          ENDDO
 
          ENDDO
         ENDDO
@@ -489,7 +489,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
 
        DECAL = DECAL + NEL
 
-      ENDDO 
+      ENDDO
 
       DO ING=NG,NG+NBG-1
 
@@ -498,8 +498,8 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
        LLT=MIN(NVSIZ,NEL)
 
        DO I=LFT,LLT
-        DO J=1,NCTRL   
-         INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1) 
+        DO J=1,NCTRL
+         INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1)
          DO ITENS=1,6
           FI(ITENS,INCTRL) = RI(ITENS,INCTRL)/MAB(INCTRL)
          ENDDO
@@ -508,7 +508,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1), PX-1, PY-1, PZ-1, 1)
 
       ENDDO
 
-      COUNT3 = 0 
+      COUNT3 = 0
 
       DO ING=NG,NG+NBG-1
 
@@ -530,11 +530,11 @@ c        PASZ = (KNOT(IAD_KNOT+NKNOT1+NKNOT2+1+IDZ(I)) - KNOT(IAD_KNOT+NKNOT1+NK
 
         DO N=1,4
          DO M=1,4
-          DO L=1,4   
+          DO L=1,4
 
            XI(1) = KNOTLOCELX(1,I) + (L-1)*PASX
            XI(2) = KNOTLOCELY(1,I) + (M-1)*PASY
-           XI(3) = KNOTLOCELZ(1,I) + (N-1)*PASZ  
+           XI(3) = KNOTLOCELZ(1,I) + (N-1)*PASZ
 c           XI(1) = KNOT(IAD_KNOT+IDX(I)) + (L-1)*PASX
 c           XI(2) = KNOT(IAD_KNOT+NKNOT1+IDY(I)) + (M-1)*PASY
 c           XI(3) = KNOT(IAD_KNOT+NKNOT1+NKNOT2+IDZ(I)) + (N-1)*PASZ
@@ -551,23 +551,23 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)   ,PX-1    ,PY-1    ,PZ-1    ,0 )
      3      IDZ(I) ,KNOTLOCX(:,:,I) ,KNOTLOCY(:,:,I),KNOTLOCZ(:,:,I) ,
      4      R             ,NCTRL    ,
      5      XI(1)  ,XI(2)   ,XI(3)         ,KNOT(IAD_KNOT+1),
-     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1, 
+     6      KNOT(IAD_KNOT+NKNOT1+1),KNOT(IAD_KNOT+NKNOT1+NKNOT2+1),PX-1,
      7      PY-1      ,PZ-1        ,0           ,
      8      IDX2(I),IDY2(I)    ,IDZ2(I)   ,
-     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))   
-           COUNT3 = COUNT3+1 
+     9      KNOTLOCELX(:,I),KNOTLOCELY(:,I),KNOTLOCELZ(:,I))
+           COUNT3 = COUNT3+1
 
            DO ITENS=1,6
-            S(ITENS) = ZERO  
+            S(ITENS) = ZERO
            ENDDO
 
            DO J=1,NCTRL
-            INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1) 
+            INCTRL = IXIG3D(KXIG3D(4,I+NFT)+J-1)
              DO ITENS=1,6
               S(ITENS) = S(ITENS) + R(J)*FI(ITENS,INCTRL)
              ENDDO
            ENDDO
- 
+
            DO ITENS=1,6
             TABSTRESL(ITENS,COUNT3 + NISOELCUT*64) = S(ITENS)
            ENDDO
@@ -581,7 +581,7 @@ c     .       KNOT(IAD_KNOT+NKNOT1+NKNOT2+1)   ,PX-1    ,PY-1    ,PZ-1    ,0 )
 
       DEALLOCATE(MAB,RI,FI)
 
-      NISOELCUT = DECAL 
+      NISOELCUT = DECAL
 C-----------
       RETURN
       END

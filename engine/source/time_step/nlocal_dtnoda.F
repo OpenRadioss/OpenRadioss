@@ -63,7 +63,7 @@ C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NODFT, NODLT
-      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG 
+      TYPE(NLOCAL_STR_), TARGET :: NLOC_DMG
       my_real
      .    DT2T,DTNOD_NLOCAL
 C-----------------------------------------------
@@ -72,7 +72,7 @@ C-----------------------------------------------
       INTEGER N,I,NDDL,NPOS
       my_real, DIMENSION(:), ALLOCATABLE ::
      .  DTN
-      my_real, POINTER, DIMENSION(:) :: 
+      my_real, POINTER, DIMENSION(:) ::
      .  MASS,STIFN
       my_real
      .  DTNOD,DT2P
@@ -90,7 +90,7 @@ C
 C
         ! Allocating non-local nodal timestep table
         ALLOCATE(DTN(NLOC_DMG%L_NLOC))
-        DTN(1:NLOC_DMG%L_NLOC) = ZERO   
+        DTN(1:NLOC_DMG%L_NLOC) = ZERO
         DTNOD = EP20
 C
         ! Determining the minimum of non-local nodal timestep
@@ -103,7 +103,7 @@ C
           DO I = NPOS,NPOS+NDDL-1
             DTN(I) = DTFAC1(11)*CDAMP*SQRT(TWO*MASS(I)/MAX(STIFN(I),EM20))
             DTNOD  = MIN(DTNOD,DTN(I))
-          ENDDO    
+          ENDDO
         ENDDO
 #include "lockon.inc"
         DTNOD_NLOCAL = MIN(DTNOD_NLOCAL,DTNOD)
@@ -112,7 +112,7 @@ C
         CALL MY_BARRIER()
         DTNOD = DTNOD_NLOCAL
         ! /DT/NODA/CSTX - Constant timestep with added mass
-        IF ((IDTMIN(11)==3).OR.(IDTMIN(11)==4).OR.(IDTMIN(11)==8)) THEN 
+        IF ((IDTMIN(11)==3).OR.(IDTMIN(11)==4).OR.(IDTMIN(11)==8)) THEN
           ! Added mass computation if necessary
           IF (DTNOD < DTMIN1(11)*(SQRT(CSTA))) THEN
             DO N = NODFT,NODLT
@@ -130,7 +130,7 @@ C
             ENDDO
           ENDIF
           DTNOD = DTMIN1(11)*(SQRT(CSTA))
-        ENDIF 
+        ENDIF
 C
         ! Classical nodal timestep check
         IF (DTNOD < DT2T) THEN

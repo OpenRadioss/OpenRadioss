@@ -51,12 +51,12 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,NH3D,KCUR
-     
+
 C=========================================================================
       KCUR           = KH3D
       NH3D = NSLASH(KCUR)
 c
-      IF (NH3D /= 0) THEN 
+      IF (NH3D /= 0) THEN
         ALLOCATE(H3D_DATA%INPUT_LIST(10000))
         H3D_DATA%N_INPUT_H3D = 0
 c
@@ -79,33 +79,33 @@ c
       H3D_DATA%MH3D = 0
       H3D_DATA%N_OUTP_H3D = 0
 c
-      H3D_DATA%N_SCAL_DT = 0	 
-      H3D_DATA%N_SCAL_DMAS = 0	 
-      H3D_DATA%N_SCAL_DINER = 0	 
-      H3D_DATA%N_SCAL_DAMA2 = 0	 
+      H3D_DATA%N_SCAL_DT = 0	
+      H3D_DATA%N_SCAL_DMAS = 0	
+      H3D_DATA%N_SCAL_DINER = 0	
+      H3D_DATA%N_SCAL_DAMA2 = 0	
       H3D_DATA%N_SCAL_SKID = 0
       H3D_DATA%N_SCAL_STIFR = 0
       H3D_DATA%N_SCAL_STIFN = 0
 c
-      H3D_DATA%N_VECT_CONT = 0	 
-      H3D_DATA%N_VECT_FINT = 0	 
-      H3D_DATA%N_VECT_FEXT = 0	 
-      H3D_DATA%N_VECT_PCONT = 0	 
-      H3D_DATA%N_VECT_CONT2 = 0	 
-      H3D_DATA%N_VECT_PCONT2 = 0	 
-      H3D_DATA%N_VECT_DROT = 0	 
-      H3D_DATA%N_VECT_DXANC = 0	 
-      H3D_DATA%N_VECT_FREAC = 0	 
-      H3D_DATA%N_VECT_MREAC = 0	 
+      H3D_DATA%N_VECT_CONT = 0	
+      H3D_DATA%N_VECT_FINT = 0	
+      H3D_DATA%N_VECT_FEXT = 0	
+      H3D_DATA%N_VECT_PCONT = 0	
+      H3D_DATA%N_VECT_CONT2 = 0	
+      H3D_DATA%N_VECT_PCONT2 = 0	
+      H3D_DATA%N_VECT_DROT = 0	
+      H3D_DATA%N_VECT_DXANC = 0	
+      H3D_DATA%N_VECT_FREAC = 0	
+      H3D_DATA%N_VECT_MREAC = 0	
       H3D_DATA%N_VECT_CLUST_FORCE = 0
-      H3D_DATA%N_VECT_CLUST_MOM = 0  
+      H3D_DATA%N_VECT_CLUST_MOM = 0
       H3D_DATA%N_VECT_CONT_MAX = 0
       H3D_DATA%UND_FORC = 0
-c 
-      H3D_DATA%RBODY_SINGLE = 0  
-      H3D_DATA%RBE2_SINGLE = 0  
-      H3D_DATA%RBE3_SINGLE = 0  
-c 
+c
+      H3D_DATA%RBODY_SINGLE = 0
+      H3D_DATA%RBE2_SINGLE = 0
+      H3D_DATA%RBE3_SINGLE = 0
+c
       H3D_DATA%TH3D = EP30
       H3D_DATA%DTH3D = ZERO
       H3D_DATA%TH3D0 = ZERO

@@ -87,7 +87,7 @@ C
                IF (MONVOL(K1)==ID) THEN
                   ITYP=MONVOL(K1-1+2)
                   IF (ITYP/=6) THEN
-                     WRITE(IOUT,'(A33,I8,A38)') 
+                     WRITE(IOUT,'(A33,I8,A38)')
      . ' /FVMBAG/REMESH : MON. VOLUME ID ',ID,' IS NOT OF TYPE FVMBAG'//
      . ' - IT IS IGNORED'
                      GOTO 100
@@ -125,12 +125,12 @@ C Verifications
                   VVZ1=VZ1-SS*VVZ3
                   NORM=SQRT(VVX1**2+VVY1**2+VVZ1**2)
                   IF (NORM==ZERO) THEN
-                     WRITE(ISTDO,'(A)') 
+                     WRITE(ISTDO,'(A)')
      .                       ' ** ERROR IN FVMBAG MESHING DATA '
-                     WRITE(IOUT,'(A)') 
+                     WRITE(IOUT,'(A)')
      .                       ' ** ERROR IN FVMBAG MESHING DATA '
                      WRITE(IOUT,'(A14,I8)') '    MONVOL ID ',ID
-                     WRITE(IOUT,'(A)') 
+                     WRITE(IOUT,'(A)')
      .                    '    NEW CUT DIRECTIONS ARE COLINEAR'
                      CALL ARRET(2)
                   ENDIF
@@ -183,20 +183,20 @@ C
                   ENDIF
 C
                   IF (LXMAX>LX) THEN
-                     WRITE(IOUT,'(A14,I8,A9)') 
+                     WRITE(IOUT,'(A14,I8,A9)')
      .                        ' ** MONVOL ID ',ID,' (FVMBAG)'
                      WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 1'
-                     WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)') 
+                     WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)')
      .    '    GIVEN LENGTH ',LX,
      .    ' IS SMALLER THAN BOUNDING LENGTH ',LXMAX
                      LX=LXMAX*ONEP01
                      WRITE(IOUT,'(A20,G11.4)') '    IT IS RESET TO ',LX
                   ENDIF
                   IF (LYMAX>LY) THEN
-                     WRITE(IOUT,'(A14,I8,A9)') 
+                     WRITE(IOUT,'(A14,I8,A9)')
      .                        ' ** MONVOL ID ',ID,' (FVMBAG)'
                      WRITE(IOUT,'(A)') '    IN LOCAL FRAME DIRECTION 2'
-                     WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)') 
+                     WRITE(IOUT,'(A18,G11.4,A33,G11.4,G11.4)')
      .    '    GIVEN LENGTH ',LY,
      .    ' IS SMALLER THAN BOUNDING LENGTH ',LYMAX
                      LY=LYMAX*ONEP01
@@ -241,4 +241,4 @@ C
 C
       RETURN
       END
-      
+

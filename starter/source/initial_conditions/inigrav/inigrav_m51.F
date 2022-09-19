@@ -64,13 +64,13 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I, K1, K2, K3, K4, NUVAR,K,J,IFORM,IFORMv,NV46,IV,IADBUF,ML,NGv,KTY,KLT,N,MFT,IS,NELGv
-      my_real ::  PGRAV, RHO, GAM, RHO0, 
-     .     ALPHA1, ALPHA2, ALPHA3, ALPHA4, 
-     .     C01, C11, C21, C31, C41, C51, 
-     .     C02, C12, C22, C32, C42, C52, 
-     .     C03, C13, C23, C33, C43, C53, 
+      my_real ::  PGRAV, RHO, GAM, RHO0,
+     .     ALPHA1, ALPHA2, ALPHA3, ALPHA4,
+     .     C01, C11, C21, C31, C41, C51,
+     .     C02, C12, C22, C32, C42, C52,
+     .     C03, C13, C23, C33, C43, C53,
      .     C04, PEXT,
-     .     RHO10, RHO20, RHO30, RHO40, RHO1, RHO2, RHO3, RHO4, MU, 
+     .     RHO10, RHO20, RHO30, RHO40, RHO1, RHO2, RHO3, RHO4, MU,
      .     EINT1, EINT2, EINT3, EINT4, VOL, VOL1, VOL2, VOL3,
      .     EINT10, EINT20, EINT30, EINT40
       TYPE(G_BUFEL_), POINTER :: GBUF
@@ -125,14 +125,14 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
         C12 = BUFMAT(13)
         C22 = BUFMAT(16)
         C32 = BUFMAT(20)
-        C42 = BUFMAT(23)  
+        C42 = BUFMAT(23)
         C52 = BUFMAT(26)
         !Material 3
         C03 = BUFMAT(37)
         C13 = BUFMAT(14)
         C23 = BUFMAT(17)
         C33 = BUFMAT(21)
-        C43 = BUFMAT(24)  
+        C43 = BUFMAT(24)
         C53 = BUFMAT(27)
         !Material 4
         C04 = BUFMAT(49)
@@ -152,17 +152,17 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
              IV = ALE_CONNECTIVITY%ee_connect%connected(IAD + J - 1)
              IFORMv = 1000
              IF(IV/=0)            ML     = NINT(PM(19,IX(1,IV)))  !ix is here local I and not IV
-             IF(IV/=0)            IADBUF = IPM(7,IX(1,IV))      
-             IF(IV/=0.AND.ML==51) IFORMv  = BUFMATG(IADBUF+31-1)     
-             IF(ML==51.AND.IFORMv<=1)EXIT                             
+             IF(IV/=0)            IADBUF = IPM(7,IX(1,IV))
+             IF(IV/=0.AND.ML==51) IFORMv  = BUFMATG(IADBUF+31-1)
+             IF(ML==51.AND.IFORMv<=1)EXIT
            ENDDO
-           DO N=1,NGROUP                                    
-              KTY = IPARG(5,N)                              
-              KLT = IPARG(2,N)                              
-              MFT = IPARG(3,N)                              
-              IF (KTY==1 .AND. IV<=KLT+MFT) EXIT      
-           ENDDO                                            
-           IF (KTY/=1 .OR. IV>KLT+MFT) CYCLE 
+           DO N=1,NGROUP
+              KTY = IPARG(5,N)
+              KLT = IPARG(2,N)
+              MFT = IPARG(3,N)
+              IF (KTY==1 .AND. IV<=KLT+MFT) EXIT
+           ENDDO
+           IF (KTY/=1 .OR. IV>KLT+MFT) CYCLE
            NGv   = N
            MBUFv => ELBUF_TAB(NGv)%BUFLY(1)%MAT(1,1,1)
            NELGv = KLT
@@ -188,14 +188,14 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
            C12 = BUFMATG(IADBUF-1+13)
            C22 = BUFMATG(IADBUF-1+16)
            C32 = BUFMATG(IADBUF-1+20)
-           C42 = BUFMATG(IADBUF-1+23)  
+           C42 = BUFMATG(IADBUF-1+23)
            C52 = BUFMATG(IADBUF-1+26)
            !Material 3
            C03 = BUFMATG(IADBUF-1+37)
            C13 = BUFMATG(IADBUF-1+14)
            C23 = BUFMATG(IADBUF-1+17)
            C33 = BUFMATG(IADBUF-1+21)
-           C43 = BUFMATG(IADBUF-1+24)  
+           C43 = BUFMATG(IADBUF-1+24)
            C53 = BUFMATG(IADBUF-1+27)
            !Material 4
            C04 = BUFMATG(IADBUF-1+49)
@@ -213,7 +213,7 @@ C NELG IS SIZE OF ORIGINAL GROUP : needed to shift indexes in GBUF%SIG & MBUF%VA
          ENDIF
 
       !Mean initial density
-         RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20 + ALPHA3 * RHO30 + ALPHA4 * RHO40        
+         RHO0 = ALPHA1 * RHO10 + ALPHA2 * RHO20 + ALPHA3 * RHO30 + ALPHA4 * RHO40
       !Hydrostatic pressure
          PGRAV = PSURF - RHO0  * GRAV0 * DEPTH(K)
       !Solve for partial densities
@@ -255,7 +255,7 @@ C
             MBUF%VAR(I + (K2 + 08 - 1) * NELG) = EINT2 * RHO2 / RHO20 !rho.e(t)
             MBUF%VAR(I + (K2 + 21 - 1) * NELG) = EINT2 * RHO2 / RHO20 !rho0.e0
          ELSE
-            MBUF%VAR(I + (K2 + 08 - 1) * NELG) = ZERO 
+            MBUF%VAR(I + (K2 + 08 - 1) * NELG) = ZERO
             MBUF%VAR(I + (K2 + 21 - 1) * NELG) = ZERO
          ENDIF
          IF (RHO30 /= ZERO) THEN
@@ -268,15 +268,15 @@ C
 
          GBUF%RHO(I)            = ALPHA1 * RHO1 + ALPHA2 * RHO2 + ALPHA3 * RHO3 + ALPHA4 * RHO40
          GBUF%EINT(I)           = ALPHA1 * EINT1+ ALPHA2 * EINT2+ ALPHA3 * EINT3+ ALPHA4 * EINT4
-        
+
          GBUF%SIG(I)            = - PGRAV
          GBUF%SIG(I + NELG)     = - PGRAV
          GBUF%SIG(I + 2 * NELG) = - PGRAV
-         
+
          MBUF%VAR(I + 3 * NELG) = PGRAV
 
       ENDDO
-      
+
       END SUBROUTINE INIGRAV_M51
 
 Chd|====================================================================
@@ -319,7 +319,7 @@ C-----------------------------------------------
          !pressure difference
          FUNC     = (C0 + C1 * MU + C2 * MAX(ZERO, MU)*MU + C3 * MAX(ZERO, MU)*MU*MU + (C4 + C5 * MU) * EINT) - PRES
          !total derivative
-         DFUNC    = C1 + TWO * C2 * MAX(ZERO, MU) + THREE * C3 * MU*MAX(MU,ZERO) + C5 * EINT 
+         DFUNC    = C1 + TWO * C2 * MAX(ZERO, MU) + THREE * C3 * MU*MAX(MU,ZERO) + C5 * EINT
          DFUNC   = DFUNC + (PEXT+FUNC+PRES)/(ONE+MU)/(ONE+MU)*(C4+C5*MU)
          IF(DFUNC==ZERO)EXIT   !iform=6 cell with no adj elem (not automatically initialized)
          ! MU INCREMENT
@@ -330,14 +330,14 @@ C-----------------------------------------------
          MU       = MU + INCR
          !ENERGY INCREMENT
          VOL      = VOL0/(ONE+MU)
-         EINT     = EINT - (PEXT+FUNC+PRES)*(VOL-VOL_prev)/VOL0 
+         EINT     = EINT - (PEXT+FUNC+PRES)*(VOL-VOL_prev)/VOL0
          VOL_prev = VOL
          ITER     = ITER + 1
          IF (ERROR < TOL) THEN
            CONT   = .FALSE.
          ENDIF
       ENDDO
-      !IF(UID==16866)print *,"16866,  P=", (C0 + C1 * MU + C2 * MAX(ZERO, MU) ** 2 + C3 * MU ** 3 + (C4 + C5 * MU) * EINT) 
+      !IF(UID==16866)print *,"16866,  P=", (C0 + C1 * MU + C2 * MAX(ZERO, MU) ** 2 + C3 * MU ** 3 + (C4 + C5 * MU) * EINT)
       !IF(UID==16866)print *,"16866,  E=",  EINT
       !IF(UID==16866)print *,"16866, MU=", MU
       !IF(UID==16866)print *, "ITER=", ITER

@@ -50,7 +50,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL
       INTEGER IXC(NIXC,*)
-      my_real 
+      my_real
      .   X(3,*),E3X(*),E3Y(*),E3Z(*),OFFG(*),ZLLC2(*)
       TYPE(ELBUF_STRUCT_), TARGET :: ELBUF_STR
 C-----------------------------------------------
@@ -58,9 +58,9 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,NG,ILAY,J,K,L,M,IR,IS,IT,NPTR,NPTS,JJ,ie,ipr
-      MY_REAL 
+      MY_REAL
      .   XX(4),YY(4),ZZ(4),HIX(MVSIZ),HIY(MVSIZ),HIZ(MVSIZ)
-      my_real 
+      my_real
      .   R11(MVSIZ),R12(MVSIZ),R13(MVSIZ),
      .   R21(MVSIZ),R22(MVSIZ),R23(MVSIZ),
      .   R31(MVSIZ),R32(MVSIZ),R33(MVSIZ),
@@ -84,7 +84,7 @@ c------|       |
 c ---- 1 ------2
 C--- recalculate r,s at 4 ipt, 4*g1=ksi_i*xi+(hi*xi)*eta; 4*g2=eta_i*xi+(hi*xi)*ksi
       DO I=1,NEL
-        IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
+        IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE
         XX(1:4) = X(1,IXC(2:5,I))
         YY(1:4) = X(2,IXC(2:5,I))
         ZZ(1:4) = X(3,IXC(2:5,I))
@@ -97,7 +97,7 @@ C--- recalculate r,s at 4 ipt, 4*g1=ksi_i*xi+(hi*xi)*eta; 4*g2=eta_i*xi+(hi*xi)*
         SX0(I)=-XX(1)-XX(2)+XX(3)+XX(4)
         SY0(I)=-YY(1)-YY(2)+YY(3)+YY(4)
         SZ0(I)=-ZZ(1)-ZZ(2)+ZZ(3)+ZZ(4)
-      ENDDO 
+      ENDDO
       NPTR = ELBUF_STR%NPTR
       NPTS = ELBUF_STR%NPTS
 C----- only for npt=1      
@@ -107,25 +107,25 @@ C----- only for npt=1
          NG = NPTR*(IS-1) + IR
          PCOS(1:NEL,NG) =ONE
          DO I=1,NEL
-           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
+           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE
            RX(I)=RX0(I)+HIX(I)*VPG(2,NG)
            RY(I)=RY0(I)+HIY(I)*VPG(2,NG)
            RZ(I)=RZ0(I)+HIZ(I)*VPG(2,NG)
            SX(I)=SX0(I)+HIX(I)*VPG(1,NG)
            SY(I)=SY0(I)+HIY(I)*VPG(1,NG)
            SZ(I)=SZ0(I)+HIZ(I)*VPG(1,NG)
-         ENDDO 
+         ENDDO
 C----------------------------
          DO I=1,NEL
-           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
-           R13(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-           R23(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-           R33(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE
+           R13(I) = RY(I) * SZ(I) - RZ(I) * SY(I)
+           R23(I) = RZ(I) * SX(I) - RX(I) * SZ(I)
+           R33(I) = RX(I) * SY(I) - RY(I) * SX(I)
            DETA1(I) = SQRT(R13(I)*R13(I)+R23(I)*R23(I)+R33(I)*R33(I))
            CC = ONE/MAX(DETA1(I),EM20)
            PCOS(I,NG) = CC*(E3X(I)*R13(I)+E3Y(I)*R23(I)+E3Z(I)*R33(I))
            PMAX(I) = MAX(PMAX(I),PCOS(I,NG))
-         ENDDO 
+         ENDDO
        END DO !IR = 1,NPTR
       END DO !IR = 1,NPTR
       ILAY = 1
@@ -136,10 +136,10 @@ C----------------------------
          UVAR  => ELBUF_STR%BUFLY(ILAY)%MAT(IR,IS,IT)%VAR
 C----------------------------
          DO I=1,NEL
-           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE         
-           CC =ONE/(ONE+SQRT(ZLLC2(I)))           
+           IF (OFFG(I)<ONE .OR. ZLLC2(I)<EM02) CYCLE
+           CC =ONE/(ONE+SQRT(ZLLC2(I)))
            IF (PCOS(I,NG)/=PMAX(I)) PCOS(I,NG) = MIN(PCOS(I,NG),CC)
-         ENDDO 
+         ENDDO
          CALL SETUVARW(NEL,PCOS(1,NG),UVAR)
        END DO !IR = 1,NPTR
       END DO !IR = 1,NPTR
@@ -166,14 +166,14 @@ C-----------------------------------------------
 C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
       INTEGER NEL
-      my_real 
+      my_real
      .   PCOS(*),UVAR(NEL,*)
 C-----------------------------------------------
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .   U_MAX,EFAC
 C=======================================================================
 C-----put cc and recovering more rapide
@@ -197,7 +197,7 @@ c          UVAR(I,40) =EM01*(PCOS(I)-0.64)/(0.9-0.64)
           UVAR(I,40) = PCOS(I)
         END IF
         UVAR(I,40)=MIN(UVAR(I,40),U_MAX)
-      ENDDO 
+      ENDDO
 C----------------------------
       RETURN
       END

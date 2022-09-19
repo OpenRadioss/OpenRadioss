@@ -63,28 +63,28 @@ C-----------------------------------------------
       TYPE(PART_TYPE), DIMENSION(*) :: SURF_ELM
 !
       TYPE (SURF_) :: IGRSURF
-!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*       
+!       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 !       FLAG_GRBRIC : flag to initialize the INDX_SOL(10) arraies
 !                     and optimize an old and expensive treatment in SSURFTAG
 !                     = true for /SURF/GCBRIC
 !                     = false  if /SURF/XXX is different from  /SURF/GCBRIC
 !       ----------------
 !       FLAG_GRBRIC = false (/SURF/XXX/ /= /SURF/GCBRIC) :
-!       NINDX : number of tagged part 
-!       INDX  : tagged part     
+!       NINDX : number of tagged part
+!       INDX  : tagged part
 !       ----------------
 !       FLAG_GRBRIC = true (/SURF/XXX/ = SURF/GCBRIC) :
 !       NINDX_SOL(10) : number of the tagged solid(10) element
-!                      --> need to split solid and solid10 
+!                      --> need to split solid and solid10
 !                      for a treatment in the SSURFTAG routine
 !                      only usefull for /SURF/GRBRIC
 !       INDX_SOL(10) : ID of the tagged solid(10) element
-!                      --> need to split solid and solid10 
+!                      --> need to split solid and solid10
 !                      for a treatment in the SSURFTAG routine
 !                      only usefull for /SURF/GRBRIC
-!       SURF_ELM : PART_TYPE structur 
+!       SURF_ELM : PART_TYPE structur
 !                  %NSOL(10) : number of element per part
-!                  %SOL(10)_PART : ID of the element 
+!                  %SOL(10)_PART : ID of the element
 !       ----------------
 !       *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
@@ -95,8 +95,8 @@ C-----------------------------------------------
       INTEGER NODTAG(NUMNOD),FASTAG(NUMELS),FACES(4,6),PWR(7),
      .        FACES10(3,6),NNS,ISHEL,ISEG
 !     FLAG_PART : check for tagged part
-      LOGICAL :: FLAG_PART      
-!     NUM_PART : number of tagged part 
+      LOGICAL :: FLAG_PART
+!     NUM_PART : number of tagged part
 !     NUM_ELM : number of element in the tagged part
       INTEGER :: NUM_PART,NUM_ELM
       INTEGER :: ID_PART,JS_PART, JS_ELM        !       index
@@ -166,7 +166,7 @@ C           looks for an elt sharing the face.
               KS=NOD2ELS(K)
               IF(KS==JS .OR. KS > NUMELS8+NUMELS10)CYCLE
               IF (KEY(1:6)=='GRBRIC'.AND.TAGBUF(KS)==0.AND.IFRE==0)CYCLE ! if IFRE=0 on cherche la connectivite uniquement avec les elements du marques du groupe (cycle), sinon si IFRE=1 on cherche la connectivité avec tout le monde
-              IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTS(KS))==0)CYCLE     
+              IF (KEY(1:6)/='GRBRIC'.AND.TAGBUF(IPARTS(KS))==0)CYCLE
               DO II=1,NF
                 NODTAG(NI(II))=0
               END DO
@@ -230,7 +230,7 @@ C-----------
         FLAG_PART=.TRUE.
         NUM_PART = NINDX
       ELSE
-        FLAG_PART=.FALSE.        
+        FLAG_PART=.FALSE.
         NUM_PART = 1
         NUM_ELM = NINDX_SOL
       ENDIF
@@ -244,7 +244,7 @@ C-----------
                 JS = SURF_ELM(ID_PART)%SOL_PART( JS_ELM )
           ELSE
                 JS = INDX_SOL( JS_ELM )
-                
+
           ENDIF
 
 !      DO JS=1,NUMELS8
@@ -277,8 +277,8 @@ C           still needs to filter degenerated faces
               END IF
             END DO
 C---   find shells SURF/PART/EXT
-            IF(FLAG == 0 .and. NN == 3) THEN 
-              KS = 0 
+            IF(FLAG == 0 .and. NN == 3) THEN
+              KS = 0
               ISHEL = 0
               DO K=KNOD2ELTG(FACE(1))+1,KNOD2ELTG(FACE(1)+1)
                 KS=NOD2ELTG(K)
@@ -296,7 +296,7 @@ C---   find shells SURF/PART/EXT
               ELSEIF (IABS(TAGBUF(IPARTTG(KS))) /= 1) THEN
                 NSEG = NSEG + 1
               ENDIF
-            ELSEIF(FLAG == 0 .and. NN == 4) THEN 
+            ELSEIF(FLAG == 0 .and. NN == 4) THEN
               KS = 0
               ISHEL = 0
               DO K=KNOD2ELC(FACE(1))+1,KNOD2ELC(FACE(1)+1)
@@ -339,7 +339,7 @@ C---   find shells SURF/PART/EXT
                 ISEG = NSEG
                 CALL SSURF10(FACE(1),FACE(2),FACE(3),FACE(3),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-              ENDIF               
+              ENDIF
             ELSEIF(NN==4)THEN
               KS = 0
               ISHEL = 0
@@ -364,19 +364,19 @@ C---   find shells SURF/PART/EXT
                ISEG = NSEG
                CALL SSURF10(FACE(1),FACE(2),FACE(3),FACE(4),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-              ENDIF                
+              ENDIF
             END IF
 C---
           END DO
 !        ENDIF
         ENDDO   !       end of JS_ELM=1,NUM_ELM
       ENDDO     !       end JS_PART=1,NUM_PART
-!      
+!
       IF(KEY(1:6)/='GRBRIC') THEN
         FLAG_PART=.TRUE.
         NUM_PART = NINDX
       ELSE
-        FLAG_PART=.FALSE.        
+        FLAG_PART=.FALSE.
         NUM_PART = 1
         NUM_ELM = NINDX_SOL10
       ENDIF
@@ -422,13 +422,13 @@ C           still needs to filter degenerated faces
 C---
             IF(NN == 3)THEN
               NNS=1
-              FC10(1)=IXS10(FACES10(1,JJ),J)  
-              FC10(2)=IXS10(FACES10(2,JJ),J)  
-              FC10(3)=IXS10(FACES10(3,JJ),J)  
-              IF(FC10(1) /= 0)NNS=NNS+1  
-              IF(FC10(2) /= 0)NNS=NNS+1  
-              IF(FC10(3) /= 0)NNS=NNS+1  
-              IF(NNS == 3)NNS=2  
+              FC10(1)=IXS10(FACES10(1,JJ),J)
+              FC10(2)=IXS10(FACES10(2,JJ),J)
+              FC10(3)=IXS10(FACES10(3,JJ),J)
+              IF(FC10(1) /= 0)NNS=NNS+1
+              IF(FC10(2) /= 0)NNS=NNS+1
+              IF(FC10(3) /= 0)NNS=NNS+1
+              IF(NNS == 3)NNS=2
               NSEG=NSEG+NNS
               IF (FLAG == 1 .and. NNS == 4) THEN
 c               4 triangles
@@ -446,52 +446,52 @@ c               4 triangles
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
               ELSEIF (FLAG == 1 .and. NNS == 3) THEN
 c               1 quadrangle, 1 triangle
-                IF(FC10(1) == 0)THEN                    
+                IF(FC10(1) == 0)THEN
                   ISEG = NSEG-NNS+1
                   CALL SSURF10(FACE(1),FACE(2),FC10(2),FC10(3),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
                   ISEG = NSEG-NNS+2
                   CALL SSURF10(FACE(3),FC10(3),FC10(2),FC10(2),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-                ELSEIF(FC10(2) == 0)THEN                    
+                ELSEIF(FC10(2) == 0)THEN
                   ISEG = NSEG-NNS+1
                   CALL SSURF10(FACE(2),FACE(3),FC10(3),FC10(1),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
                   ISEG = NSEG-NNS+2
                   CALL SSURF10(FACE(1),FC10(1),FC10(3),FC10(3),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-                ELSEIF(FC10(3) == 0)THEN                    
+                ELSEIF(FC10(3) == 0)THEN
                   ISEG = NSEG-NNS+1
                   CALL SSURF10(FACE(3),FACE(1),FC10(1),FC10(2),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
                   ISEG = NSEG-NNS+2
                   CALL SSURF10(FACE(2),FC10(2),FC10(1),FC10(1),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-                ENDIF                  
+                ENDIF
               ELSEIF (FLAG == 1 .and. NNS == 2) THEN
 c               2 triangles
-                IF(FC10(1) /= 0)THEN                    
+                IF(FC10(1) /= 0)THEN
                   ISEG = NSEG-NNS+1
                   CALL SSURF10(FACE(3),FACE(1),FC10(1),FC10(1),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
                   ISEG = NSEG-NNS+2
                   CALL SSURF10(FACE(2),FACE(3),FC10(1),FC10(1),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-                ELSEIF(FC10(2) /= 0)THEN                    
+                ELSEIF(FC10(2) /= 0)THEN
                   ISEG = NSEG-NNS+1
                   CALL SSURF10(FACE(1),FACE(2),FC10(2),FC10(2),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
                   ISEG = NSEG-NNS+2
                   CALL SSURF10(FACE(3),FACE(1),FC10(2),FC10(2),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-                ELSEIF(FC10(3) /= 0)THEN                    
+                ELSEIF(FC10(3) /= 0)THEN
                   ISEG = NSEG-NNS+1
                   CALL SSURF10(FACE(2),FACE(3),FC10(3),FC10(3),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
                   ISEG = NSEG-NNS+2
                   CALL SSURF10(FACE(1),FACE(2),FC10(3),FC10(3),JS,
      .                   NSEG0 ,ISEG ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM)
-                ENDIF                  
+                ENDIF
               ELSEIF (FLAG == 1 .and. NNS == 1) THEN
 c                 1 triangle
                   ISEG = NSEG-NNS+1

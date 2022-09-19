@@ -122,49 +122,49 @@ C
 C--------------------------------------------------------
 C  SHIFT DU GAP POUR SOLIDES AVEC GAP NUL
 C--------------------------------------------------------
-c                                    
-c         --------------------------           
-c                                 ^                          
-c                                 |                          
-c                                 |                          
-c                                 |                          
-c                                 |                          
-c                                 |   gap_search(search algorithm)                        
-c                                 |                          
-c                                 |                          
-c                                 |                          
-c                   0 Secnd       |                          
-c                   |             |  ^                       
-c                   | gap_s       |  |                       
-c                   |             |  |                       
+c
+c         --------------------------
+c                                 ^
+c                                 |
+c                                 |
+c                                 |
+c                                 |
+c                                 |   gap_search(search algorithm)
+c                                 |
+c                                 |
+c                                 |
+c                   0 Secnd       |
+c                   |             |  ^
+c                   | gap_s       |  |
+c                   |             |  |
 c                   v             |  |
-c         --------------------    |  | gapv(penetration     
+c         --------------------    |  | gapv(penetration
 c            ^                    |  |      computation)
 c            | gap_m              |  |
 c            v                    v  | gapv = min(gapmax,
 c Main1 0------------------0 M2    |            gap_s+gap_m)
 c         |                       ^  |      + gap_sh
-c         | gap_sh                |  | 
+c         | gap_sh                |  |
 c         |                       |  |
 c         v                       |  v
 cM1-shift o------------------o    |
 c            ^                    | gap_search(search algorithm)
 c            |                    |
 c            |                    | gap_search_engine = gapv + gap_sh
-c            | gapv(penetration   |            = min(gapmax, 
-c            |      computation)  |                  gap_s+gap_m) 
-c            |                    |            + 2*gap_sh     
-c            | gapv = min(gapmax, | 
-c            |       gap_s+gap_m) | gap_search_starter = 
+c            | gapv(penetration   |            = min(gapmax,
+c            |      computation)  |                  gap_s+gap_m)
+c            |                    |            + 2*gap_sh
+c            | gapv = min(gapmax, |
+c            |       gap_s+gap_m) | gap_search_starter =
 c            |      + gap_sh      |         gap_s + gap_m + 2*gap_sh
-c            |                    |         (overestimate) 
+c            |                    |         (overestimate)
 c         ----------------------------
 c
 c
 C=======================================================================
       UNSSQR3 = ONE/SQR3
       IF(IGAP /= 0)THEN
-         DO I=LFT,LLT 
+         DO I=LFT,LLT
            IM = CAND_E(I)
            IS = CAND_N(I)
 c           IG = NLG(NSV(IS))
@@ -223,7 +223,7 @@ C
                SY1 = SY1 + AAA*SY0
                SZ1 = SZ1 + AAA*SZ0
                AAA = GAP_SH(IM)*SQR3
-             ENDIF               
+             ENDIF
              SX1 = SX1*AAA
              SY1 = SY1*AAA
              SZ1 = SZ1*AAA
@@ -243,7 +243,7 @@ C
                SY2 = SY2 + AAA*SY0
                SZ2 = SZ2 + AAA*SZ0
                AAA = GAP_SH(IM)*SQR3
-             ENDIF               
+             ENDIF
              SX2 = SX2*AAA
              SY2 = SY2*AAA
              SZ2 = SZ2*AAA
@@ -263,7 +263,7 @@ C
                SY3 = SY3 + AAA*SY0
                SZ3 = SZ3 + AAA*SZ0
                AAA = GAP_SH(IM)*SQR3
-             ENDIF               
+             ENDIF
              SX3 = SX3*AAA
              SY3 = SY3*AAA
              SZ3 = SZ3*AAA
@@ -283,7 +283,7 @@ C
                SY4 = SY4 + AAA*SY0
                SZ4 = SZ4 + AAA*SZ0
                AAA = GAP_SH(IM)*SQR3
-             ENDIF               
+             ENDIF
              SX4 = SX4*AAA
              SY4 = SY4*AAA
              SZ4 = SZ4*AAA
@@ -420,7 +420,7 @@ c            bord de coque
      .                       X3(I),Y3(I),Z3(I),GAP_M(IM))
              ENDIF
            ENDIF
-         ENDDO                           
+         ENDDO
       ENDIF
 
       DO I=LFT,LLT
@@ -639,7 +639,7 @@ C       HLA, HLB1, HLC1 necessaires pour triangle angle obtu
      +         HLC4(I)<=HLA.AND.HLC4(I)<=HLB4(I))THEN
          LC4(I) = ZERO
          LB4(I) = AL4(I)
-        ENDIF       
+        ENDIF
       ENDDO
 C
       DO I=LFT,LLT
@@ -854,7 +854,7 @@ C=======================================================================
         GAP_M(I) = GAP_M(I)-TWO*GAP_SH(I)
       ENDDO
 c mise a zero du gap secnd sur le bord des coques
-c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG 
+c ici NVS donne encore le noeud global, NSV sera modifie dans I20NLG
       DO I=1,NLN
         J = NLG(I)
         TAG(J)=I
@@ -913,7 +913,7 @@ c          N1 = NLG(MSR(I))
       END DO
 
       DO I=1,NRTM
-c test pour ne prendre en compte que les solides 
+c test pour ne prendre en compte que les solides
         IF(GAP_SH(I)/=ZERO)THEN
 c          N1 = NLG(IRECT(1,I))
 c          N2 = NLG(IRECT(2,I))
@@ -1125,7 +1125,7 @@ C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
        XXM2 = X(1,M2(I))
        YYM2 = X(2,M2(I))
        ZZM2 = X(3,M2(I))
-       
+
        IF(IGAP/=0)THEN
          AAA = GAP_S(CAND_S(I))
          SX1 = SOLIDN_NORMAL(1,N1(I))*AAA
@@ -1144,7 +1144,7 @@ C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
          XXS1 = XXS1 - SX1
          YYS1 = YYS1 - SY1
          ZZS1 = ZZS1 - SZ1
-         XXS2 = XXS2 - SX2 
+         XXS2 = XXS2 - SX2
          YYS2 = YYS2 - SY2
          ZZS2 = ZZS2 - SZ2
          XXM1 = XXM1 - SX3
@@ -1170,7 +1170,7 @@ C       A = (XB*XSM-XA*XM2) / (XM2*XS2 - XSM*XSM)
        ZS2M2 = ZZM2-ZZS2
 
        XA =  XS12*XS2M2 + YS12*YS2M2 + ZS12*ZS2M2
-       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2 
+       XB = -XM12*XS2M2 - YM12*YS2M2 - ZM12*ZS2M2
        DET = XM2*XS2 - XSM*XSM
        DET = MAX(EM20,DET)
 C
@@ -1196,7 +1196,7 @@ C!!!!!!!!!!!!!!!!!!!!!!!!
        NZ(I) =  H1S*ZZS1 + H2S*ZZS2
      .        - H1M*ZZM1 - H2M*ZZM2
        PENE2(I) = GAPV2(I) - NX(I)*NX(I) - NY(I)*NY(I) - NZ(I)*NZ(I)
-       PENE2(I) = MAX(ZERO,PENE2(I)) 
+       PENE2(I) = MAX(ZERO,PENE2(I))
 C
       ENDDO
       DO I=1,JLT

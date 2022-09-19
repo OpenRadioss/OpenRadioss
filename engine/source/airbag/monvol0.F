@@ -99,7 +99,7 @@ C     PORO(*) STOCKE DANS WA
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER 
+      INTEGER
      .     I,ITYP,NCA,IAD,NN,IS,
      .     K1,K2,K6,KK1,KK2,
      .     PMAIN,KIBJET,KRBJET,KIBHOL,KRBHOL,
@@ -122,7 +122,7 @@ C
 
       K1 = 1
       K6 = 1
-      KK1 = 1 
+      KK1 = 1
       K2  = 1 + NIMV*NVOLU
       KK2 = 1 + NRVOLU * NVOLU
       KIBJET = K2  + LICBAG
@@ -132,7 +132,7 @@ C
 C
       DO I=1,NVOLU
         ITYP = MONVOL(K1+1)
-        NCA  = MONVOL(K1+2) 
+        NCA  = MONVOL(K1+2)
         IS   = MONVOL(K1+3)
         NN = IGRSURF(IS)%NSEG
 C
@@ -151,8 +151,8 @@ C saut partie airbag si proc non concerne
         IF(ITYP == 6 .OR. ITYP == 8) GO TO 100
 C
 
-        IF(FLAG == 1 .AND. (ITYP == 6 .OR. ITYP == 8)) GOTO 100 
-        IF(FLAG == 2 .AND. .NOT.(ITYP == 6 .OR. ITYP == 8)) GOTO 100 
+        IF(FLAG == 1 .AND. (ITYP == 6 .OR. ITYP == 8)) GOTO 100
+        IF(FLAG == 2 .AND. .NOT.(ITYP == 6 .OR. ITYP == 8)) GOTO 100
 
 C        IF (IMACH/=3.OR.IPARIT==0) THEN
           CALL VOLUM0(
@@ -224,14 +224,14 @@ c        CALL SPMD_BARRIER()
       ENDDO
 C
 C=======================================================================
-      K1 = 1 
+      K1 = 1
       K2 = 1 + NIMV * NVOLU
-      KK1 = 1 
+      KK1 = 1
       KK2 = 1 + NRVOLU * NVOLU
       DO I=1,NVOLU
         ITYP = MONVOL(K1+1)
         IS   = MONVOL(K1+3)
-        NCA  = MONVOL(K1+2) 
+        NCA  = MONVOL(K1+2)
         NN  = IGRSURF(IS)%NSEG
         NJET = MONVOL(K1+7)
         IADJET=KIBJET+MONVOL(K1+ 8)
@@ -242,8 +242,8 @@ C=======================================================================
         IF(FR_MV(ISPMD+1,I)==0.AND.NCA==0) THEN
           GO TO 200
         ENDIF
-        IF(FLAG == 1 .AND.      (ITYP == 6 .OR. ITYP == 8)) GOTO 200 
-        IF(FLAG == 2 .AND. .NOT.(ITYP == 6 .OR. ITYP == 8)) GOTO 200 
+        IF(FLAG == 1 .AND.      (ITYP == 6 .OR. ITYP == 8)) GOTO 200
+        IF(FLAG == 2 .AND. .NOT.(ITYP == 6 .OR. ITYP == 8)) GOTO 200
 
 C=======================================================================
 C       PERFECT GAS

@@ -116,7 +116,7 @@ C
          DMINT2(3,I)=MAS
        ENDIF
 C
-      ENDDO                
+      ENDDO
 C      
       RETURN
       END

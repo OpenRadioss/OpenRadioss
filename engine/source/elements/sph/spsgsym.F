@@ -54,8 +54,8 @@ C-----------------------------------------------
       INTEGER ISPCOND(NISPCOND,*), ISPSYM(NSPCOND,*), WASPACT(*)
 C     REAL
       my_real
-     .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) ,VSPSYM(3,*), WA(KWASPH,*), 
-     .   WASIGSM(6,*), WAR(10,*) 
+     .   XFRAME(NXFRAME,*) ,XSPSYM(3,*) ,VSPSYM(3,*), WA(KWASPH,*),
+     .   WASIGSM(6,*), WAR(10,*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------

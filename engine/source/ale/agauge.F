@@ -45,7 +45,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -71,7 +71,7 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,NGROUP), ITASK, LENCOM,
      .        NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
-     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),LGAUGE(3,NBGAUGE),IGAUP(NBGAUGE),NGAUP(NSPMD)   
+     .        IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ),LGAUGE(3,NBGAUGE),IGAUP(NBGAUGE),NGAUP(NSPMD)
 C     REAL
       my_real PHI(*),GAUGE(LLGAUGE,NBGAUGE),X(3,NUMNOD),V(3,NUMNOD)
       TYPE(ELBUF_STRUCT_), TARGET, DIMENSION(NGROUP) :: ELBUF_STR
@@ -112,7 +112,7 @@ c 19:   				   ! Butterworth !
 c 20:   			           ! Butterworth !
 c 21: 				           ! Butterworth !
 c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
+c 23: 				           ! Butterworth !
 c 24:   				   ! Butterworth !
 c 25:   				   ! Butterworth !
 c 26:   				   ! Butterworth !
@@ -122,7 +122,7 @@ c 29:   				   ! Butterworth !
 c 30:  Pressure      		  	   filtered Pressure
 c 31:  PA            			   filtered PA
 c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
+c 33:  E             			   filtered E	
 c 34:   				   ! Butterworth !
 c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
@@ -139,7 +139,7 @@ C-----------------------------------------------
 C      
       CALL MY_BARRIER
 C      
-      IF(IGAUGE == 0)RETURN     
+      IF(IGAUGE == 0)RETURN
 C 
 C-----------------------------
 C       Recherche des elements T=0
@@ -158,7 +158,7 @@ C-----------------------------
         LFT=1
         CALL AGAUG30(LGAUGE,GAUGE,IXS ,X  )
        ENDDO
-       CALL MY_BARRIER 
+       CALL MY_BARRIER
       ENDIF
 C
       IF(ITASK==0)THEN
@@ -169,10 +169,10 @@ C
         DO IG=1,NBGAUGE
           IS = -LGAUGE(1,IG)
           IF(IS > 0 .AND. IS <= NUMELS)THEN
-               PHI(IS)= IG 
+               PHI(IS)= IG
 C
 Csm            PHI(IS)=I
-c taux de penetration dans l'element (initialisation)             
+c taux de penetration dans l'element (initialisation)
             GAUGE(5,IG)=ZERO
           ENDIF
         END DO
@@ -205,8 +205,8 @@ C-----------------------------
      6        IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7        ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
         IF(IPARG(8,NG) == 1)       CYCLE
-         
-        LFT=1    
+
+        LFT=1
         CALL AGAUG3(LGAUGE,GAUGE,PHI,IXS  ,X  ,ALE_CONNECT )
       END DO
 C      
@@ -229,9 +229,9 @@ C
             IF(IG0 > 0) THEN
               ITAG(IG) = IG0
             ELSE
-              PHI(IS) = IG  
+              PHI(IS) = IG
             ENDIF
-           ENDIF 
+           ENDIF
         END DO
       ENDIF
 C      
@@ -248,7 +248,7 @@ C
      2                     LESDVOIS,LENCOM  )
 C END part not parallel smt
 !$OMP END SINGLE
-      ENDIF  
+      ENDIF
 C-----------------------------
 C     CALCULATION OF GAUGE MEASURES
 C-----------------------------
@@ -275,7 +275,7 @@ C-----------------------------
           II=I+NFT
           IG = NINT(PHI(II))
           IF (IG <= 0) CYCLE
-c         
+c
           P = (GBUF%SIG(JJ(1)+I) + GBUF%SIG(JJ(2)+I) + GBUF%SIG(JJ(3)+I))/THREE
           RHO = GBUF%RHO(I) /GBUF%VOL(I)
           E   = GBUF%EINT(I)/GBUF%VOL(I)
@@ -293,7 +293,7 @@ c
           GAUGE(32,IG)= RHO
           GAUGE(33,IG)= E
 #include "lockoff.inc"
-          END DO ! I 
+          END DO ! I
       ENDDO ! NG=ITASK+1,NGROUP,NTASK
 
       IF(ITASK == 0) THEN
@@ -305,14 +305,14 @@ c
           GAUGE(31,IG)= GAUGE(31,IG0)
           GAUGE(32,IG)= GAUGE(32,IG0)
           GAUGE(33,IG)= GAUGE(33,IG0)
-#include "lockoff.inc" 
+#include "lockoff.inc"
         ENDIF
-       ENDDO 
+       ENDDO
       ENDIF
 C       
-      CALL MY_BARRIER 
+      CALL MY_BARRIER
 C-------------
-      IF(NSPMD > 1) THEN        
+      IF(NSPMD > 1) THEN
         IF(ITASK == 0) THEN
           DO IG=1,NBGAUGE
            ALPHA(IG) = GAUGE(5,IG)
@@ -321,10 +321,10 @@ C-------------
           CALL SPMD_RBCAST(GAUGE,GAUGE,LLGAUGE,NBGAUGE,0,2)
 C        
           DO IG=1,NBGAUGE
-           IF(GAUGE(5,IG) /= ALPHA(IG))LGAUGE(1,IG) = 0  
+           IF(GAUGE(5,IG) /= ALPHA(IG))LGAUGE(1,IG) = 0
           ENDDO
         ENDIF
-      ENDIF 
+      ENDIF
       RETURN
       END
 Chd|====================================================================
@@ -388,7 +388,7 @@ C-----------------------------------------------
             ZZ2 = MAX(ZZ2,X(3,IXS(J,II)))
           ENDDO
 C          
-          IGAUGE = 0 
+          IGAUGE = 0
           DO IG=1,NBGAUGE
            IF(LGAUGE(1,IG) > 0 .OR. LGAUGE(1,IG) < -NUMELS) CYCLE
            XG  = GAUGE(2,IG)
@@ -403,7 +403,7 @@ C
             IGAUGE=IG
           IF(IGAUGE == 0)CYCLE
 c element associated to the gauge
-c in case of multiple solutions do not need to choose the best one : AGAUG3 will update it.           
+c in case of multiple solutions do not need to choose the best one : AGAUG3 will update it.
 #include "lockon.inc"
             LGAUGE(1,IGAUGE)=-II
 #include "lockoff.inc"
@@ -465,7 +465,7 @@ c--------------------------------------------------------------
 c  Searching for the new element associated to the gauge
 c--------------------------------------------------------------
       DO I=1,LLT
-        II=I+NFT  
+        II=I+NFT
         IAD2 = ALE_CONNECT%ee_connect%iad_connect(II)
         DO J=1,6
           N= ALE_CONNECT%ee_connect%connected(IAD2 + J - 1)
@@ -492,21 +492,21 @@ C
             YY2 = X(2,N4)-X(2,N2)
             ZZ2 = X(3,N4)-X(3,N2)
 c incoming vector surface
-cc            A1 = YY1*YY2 - ZZ1*ZZ2            
-cc            A2 = ZZ1*ZZ2 - XX1*XX2            
+cc            A1 = YY1*YY2 - ZZ1*ZZ2
+cc            A2 = ZZ1*ZZ2 - XX1*XX2
 cc            A3 = XX1*XX2 - YY1*YY2
             A1  = YY1*ZZ2 - YY2*ZZ1
             A2  = XX2*ZZ1 - XX1*ZZ2
             A3  = XX1*YY2 - XX2*YY1
-            VOL = A1*(XG-XX0) + A2*(YG-YY0) + A3*(ZG-ZZ0) 
-            AREAP32 = (A1*A1+A2*A2+A3*A3)**THREE_OVER_4 
+            VOL = A1*(XG-XX0) + A2*(YG-YY0) + A3*(ZG-ZZ0)
+            AREAP32 = (A1*A1+A2*A2+A3*A3)**THREE_OVER_4
             ALPHA = VOL/MAX(AREAP32,EM20)
-#include "lockon.inc"            
+#include "lockon.inc"
             IF(ALPHA >= ZERO .AND. ALPHA >= GAUGE(5,IG))THEN
 c the gauge is changing of element
 c element associated to the gauge
               LGAUGE(1,IG)=-II
-              GAUGE(5,IG)=ALPHA 
+              GAUGE(5,IG)=ALPHA
             ENDIF
 #include "lockoff.inc"
           ENDDO
@@ -555,7 +555,7 @@ c 19:   				   ! Butterworth !
 c 20:   			           ! Butterworth !
 c 21: 				           ! Butterworth !
 c 22: 				           ! Butterworth !
-c 23: 				           ! Butterworth !  
+c 23: 				           ! Butterworth !
 c 24:   				   ! Butterworth !
 c 25:   				   ! Butterworth !
 c 26:   				   ! Butterworth !
@@ -565,7 +565,7 @@ c 29:   				   ! Butterworth !
 c 30:  Pressure      		  	   filtered Pressure
 c 31:  PA            			   filtered PA
 c 32:  Rho           			   filtered Rho
-c 33:  E             			   filtered E	     
+c 33:  E             			   filtered E	
 c 34:   				   ! Butterworth !
 c 35:   				   ! Butterworth !
 c 36:   				   ! Butterworth !
@@ -604,7 +604,7 @@ C-----------------------------------------------
       DO IG=1,NBGAUGE
         IF(LGAUGE(1,IG) <= 0) IGAUGE=1
       END DO
-      IF(IGAUGE == 0)RETURN      
+      IF(IGAUGE == 0)RETURN
 C      
       DO IG=1,NBGAUGE
         IS = -LGAUGE(1,IG)
@@ -633,12 +633,12 @@ C all gauges (ale, sph, ..)
             XX2 = X(1,N4)-X(1,N2)
             YY2 = X(2,N4)-X(2,N2)
             ZZ2 = X(3,N4)-X(3,N2)
-cc            A1 = YY1*YY2 - ZZ1*ZZ2            
-cc            A2 = ZZ1*ZZ2 - XX1*XX2            
+cc            A1 = YY1*YY2 - ZZ1*ZZ2
+cc            A2 = ZZ1*ZZ2 - XX1*XX2
 cc            A3 = XX1*XX2 - YY1*YY2
             A1  = YY1*ZZ2 - YY2*ZZ1
             A2  = XX2*ZZ1 - XX1*ZZ2
-            A3  = XX1*YY2 - XX2*YY1            
+            A3  = XX1*YY2 - XX2*YY1
             AA = DIST/SQRT(MAX(EM20,A1*A1+A2*A2+A3*A3))
             GAUGE(2,IG) = XX0 + AA*A1
             GAUGE(3,IG) = YY0 + AA*A2
@@ -648,11 +648,11 @@ cc            A3 = XX1*XX2 - YY1*YY2
         ENDIF
       END DO
 C
-       IF(NSPMD > 1 ) THEN 
+       IF(NSPMD > 1 ) THEN
           CALL SPMD_SD_GAU(GAUGE,IGAUP,NGAUP)
           CALL SPMD_RBCAST(GAUGE,GAUGE,LLGAUGE,NBGAUGE,0,2)
-       ENDIF 
+       ENDIF
 C
       RETURN
       END
-      
+

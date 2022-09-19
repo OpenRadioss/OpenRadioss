@@ -43,7 +43,7 @@ C-----------------------------------------------
       USE UNITAB_MOD
       USE MESSAGE_MOD
       USE ELBUFTAG_MOD
-      USE SUBMODEL_MOD 
+      USE SUBMODEL_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -69,9 +69,9 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+--------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,NUVAR,IGTYP,IUNIT
-      my_real PARGEO(*)     
+      my_real PARGEO(*)
 
       INTEGER ID
       TYPE(PROP_TAG_) , DIMENSION(0:MAXPROP) :: PROP_TAG
@@ -81,20 +81,20 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER SENSOR,ZEROI,IERROR,JTYP     
+      INTEGER SENSOR,ZEROI,IERROR,JTYP
       my_real KNN,CR,SCF,SENSR,SKEWR
       my_real XTYP,FAC_M,FAC_L,FAC_T,FAC_MM,FAC_FF,FAC_KT
       my_real KXX,KYY,KZZ,KRX,KRY,KRZ
       my_real CXX,CYY,CZZ,CRX,CRY,CRZ
-      my_real CRXX,CRYY,CRZZ,CRRX,CRRY,CRRZ            
+      my_real CRXX,CRYY,CRZZ,CRRX,CRRY,CRRZ
       my_real SDXMI,SDXMA,SDYMI,SDYMA,SDZMI,SDZMA
       my_real SAXMI,SAXMA,SAYMI,SAYMA,SAZMI,SAZMA
       my_real KFX,KFY,KFZ,KFRX,KFRY,KFRZ
       my_real FMX,FMY,FMZ,FMRX,FMRY,FMRZ,XIDSK1,XIDSK2
-      my_real FCOMBX,FCOMBY,FCOMBZ,FCOMBRX,FCOMBRY,FCOMBRZ,SUMT,SUMR,ALPHA_PLUS,ALPHA_MOIN      
+      my_real FCOMBX,FCOMBY,FCOMBZ,FCOMBRX,FCOMBRY,FCOMBRZ,SUMT,SUMR,ALPHA_PLUS,ALPHA_MOIN
       INTEGER IFUN_XX,IFUN_YY,IFUN_ZZ,IFUN_RX,IFUN_RY,IFUN_RZ
       INTEGER IFUN_CXX,IFUN_CYY,IFUN_CZZ,IFUN_CRX,IFUN_CRY,IFUN_CRZ
-      INTEGER IFUN_FMX,IFUN_FMY,IFUN_FMZ,IFUN_FMRX,IFUN_FMRY,IFUN_FMRZ      
+      INTEGER IFUN_FMX,IFUN_FMY,IFUN_FMZ,IFUN_FMRX,IFUN_FMRY,IFUN_FMRZ
       INTEGER RED,IDSK1,IDSK2,COMB_ERROR
       DATA ZEROI/0/
       LOGICAL IS_AVAILABLE, IS_ENCRYPTED
@@ -141,13 +141,13 @@ C     SKEWR - id of local joint - not used for joint type45
       FAC_L = UNITAB%FAC_L(IUNIT)
       FAC_T = UNITAB%FAC_T(IUNIT)
 C
-      FAC_FF = FAC_M * FAC_L / FAC_T**2      
+      FAC_FF = FAC_M * FAC_L / FAC_T**2
       FAC_MM = FAC_M * FAC_L**2 / FAC_T**2
       FAC_KT = FAC_M / FAC_T**2
 C     
       XTYP = JTYP
       XIDSK1 = IDSK1
-      XIDSK2 = IDSK2  
+      XIDSK2 = IDSK2
 C
       IF (CR<ZERO.OR.CR>1.) THEN
          CALL ANCMSG(MSGID=388,
@@ -164,16 +164,16 @@ C
      .               I1=ID,
      .               C1=TITR)
       ENDIF
-      IF (SCF==ZERO) THEN      
+      IF (SCF==ZERO) THEN
         IF (KNN==0) THEN
 	  SCF = ONE
         ELSE
 	  SCF = 10
-        ENDIF      
+        ENDIF
       ENDIF
 C      	
       KNN = KNN * FAC_KT
-      
+
 C  Mise a zero      
 	 KXX = ZERO
 	 KYY = ZERO
@@ -241,10 +241,10 @@ C
          IFUN_CRZ = ZEROI
          IFUN_FMX = ZEROI
          IFUN_FMY = ZEROI
-         IFUN_FMZ = ZEROI	 	 
+         IFUN_FMZ = ZEROI	 	
          IFUN_FMRX = ZEROI
          IFUN_FMRY = ZEROI
-         IFUN_FMRZ = ZEROI              
+         IFUN_FMRZ = ZEROI
 C     
       IF (JTYP==1) THEN
 C=======================================================================
@@ -256,18 +256,18 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0	 
+	 RED = 0	
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
@@ -289,7 +289,7 @@ C
      .                  C1=TITR,
      .                  I2=RED,
      .                  I3=3)
-	 ENDIF	 
+	 ENDIF	
 C     
          KXX = KNN
 	 KYY = KNN
@@ -313,23 +313,23 @@ C
          SDZMI = ZERO
          SDZMA = ZERO
 C
-         KFX = ZERO         
+         KFX = ZERO
          KFY = ZERO
          KFZ = ZERO
 C
          FMX = ZERO
          FMY = ZERO
-         FMZ = ZERO 	  
+         FMZ = ZERO 	
 C	 
          IFUN_XX = ZEROI
-         IFUN_YY = ZEROI 
+         IFUN_YY = ZEROI
          IFUN_ZZ = ZEROI
          IFUN_CXX = ZEROI
-         IFUN_CYY = ZEROI 
+         IFUN_CYY = ZEROI
          IFUN_CZZ = ZEROI
          IFUN_FMX = ZEROI
-         IFUN_FMY = ZEROI 
-         IFUN_FMZ = ZEROI	 
+         IFUN_FMY = ZEROI
+         IFUN_FMZ = ZEROI	
 C	 	  
       ELSEIF (JTYP==2) THEN
 C=======================================================================
@@ -347,7 +347,7 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -355,7 +355,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
-     .                     LSUBMODEL)        
+     .                     LSUBMODEL)
 C     
          KXX = KNN
 	 KYY = KNN
@@ -374,21 +374,21 @@ C
 	 CRZZ = CR
 	 CRRX = ZERO
 	 CRRY = CR
-	 CRRZ = CR	 
+	 CRRZ = CR	
 C
          SDXMI = ZERO
          SDXMA = ZERO
          SDYMI = ZERO
          SDYMA = ZERO
          SDZMI = ZERO
-         SDZMA = ZERO	 
+         SDZMA = ZERO	
 C
          SAYMI = ZERO
          SAYMA = ZERO
          SAZMI = ZERO
          SAZMA = ZERO
 C
-         KFX = ZERO         
+         KFX = ZERO
          KFY = ZERO
          KFZ = ZERO
          KFRY = ZERO
@@ -398,23 +398,23 @@ C
          FMY = ZERO
          FMZ = ZERO
          FMRY = ZERO
-         FMRZ = ZERO	 
+         FMRZ = ZERO	
 C	 
          IFUN_XX = ZEROI
-         IFUN_YY = ZEROI 
+         IFUN_YY = ZEROI
          IFUN_ZZ = ZEROI
          IFUN_CXX = ZEROI
-         IFUN_CYY = ZEROI 
+         IFUN_CYY = ZEROI
          IFUN_CZZ = ZEROI
          IFUN_RY = ZEROI
-         IFUN_RZ = ZEROI 
-         IFUN_CRY = ZEROI 
+         IFUN_RZ = ZEROI
+         IFUN_CRY = ZEROI
          IFUN_CRZ = ZEROI
          IFUN_FMX = ZEROI
-         IFUN_FMY = ZEROI 
+         IFUN_FMY = ZEROI
          IFUN_FMZ = ZEROI
-         IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI	 	 
+         IFUN_FMRY = ZEROI
+         IFUN_FMRZ = ZEROI	 	
 C	 
       ELSEIF (JTYP==3) THEN
 C=======================================================================
@@ -426,13 +426,13 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -441,7 +441,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
-     .                     LSUBMODEL)	 
+     .                     LSUBMODEL)	
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
@@ -455,7 +455,7 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=2)
-	 ENDIF 
+	 ENDIF
 C     
 	 KYY = KNN
 	 KZZ = KNN
@@ -472,7 +472,7 @@ C
 	 CRZZ = CR
 	 CRRX = ZERO
 	 CRRY = CR
-	 CRRZ = CR	 
+	 CRRZ = CR	
 C
          SDYMI = ZERO
          SDYMA = ZERO
@@ -492,20 +492,20 @@ C
          FMY = ZERO
          FMZ = ZERO
          FMRY = ZERO
-         FMRZ = ZERO	 
+         FMRZ = ZERO	
 C	 
-         IFUN_YY = ZEROI 
+         IFUN_YY = ZEROI
          IFUN_ZZ = ZEROI
-         IFUN_CYY = ZEROI 
+         IFUN_CYY = ZEROI
          IFUN_CZZ = ZEROI
          IFUN_RY = ZEROI
-         IFUN_RZ = ZEROI 
-         IFUN_CRY = ZEROI 
+         IFUN_RZ = ZEROI
+         IFUN_CRY = ZEROI
          IFUN_CRZ = ZEROI
-         IFUN_FMY = ZEROI 
+         IFUN_FMY = ZEROI
          IFUN_FMZ = ZEROI
-         IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI	 
+         IFUN_FMRY = ZEROI
+         IFUN_FMRZ = ZEROI	
 C		 
       ELSEIF (JTYP==4) THEN
 C=======================================================================
@@ -517,13 +517,13 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -540,7 +540,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
-     .                     LSUBMODEL)	 
+     .                     LSUBMODEL)	
 C
          IF ((RED/=0).AND.(RED/=3)) THEN
            CALL ANCMSG(MSGID=973,
@@ -550,7 +550,7 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=3)
-	 ENDIF   	 
+	 ENDIF   	
 C     
 	 KXX = KNN
 	 KRY = KNN
@@ -565,7 +565,7 @@ C
 	 CRZZ = ZERO
 	 CRRX = ZERO
 	 CRRY = CR
-	 CRRZ = CR	 
+	 CRRZ = CR	
 C
          SDXMI = ZERO
          SDXMA = ZERO
@@ -581,17 +581,17 @@ C
 C
          FMX = ZERO
          FMRY = ZERO
-         FMRZ = ZERO 	 	 	 	 	 	 	 
+         FMRZ = ZERO 	 	 	 	 	 	 	
 C
-         IFUN_XX = ZEROI 
-         IFUN_CXX = ZEROI 
+         IFUN_XX = ZEROI
+         IFUN_CXX = ZEROI
          IFUN_RY = ZEROI
          IFUN_RZ = ZEROI
-         IFUN_CRY = ZEROI 
+         IFUN_CRY = ZEROI
          IFUN_CRZ = ZEROI
-         IFUN_FMX = ZEROI 
-         IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI                                    	 
+         IFUN_FMX = ZEROI
+         IFUN_FMRY = ZEROI
+         IFUN_FMRZ = ZEROI                                    	
 C
       ELSEIF (JTYP==5) THEN
 C=======================================================================
@@ -603,18 +603,18 @@ C=================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
 C
-	 RED = 0	 
+	 RED = 0	
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRY,CRY,SAYMI,
      .                     SAYMA,FCOMBRY,KFRY,FMRY,IFUN_CRY,IFUN_RY,5,
      .                     FAC_MM,IFUN_FMRY,RED,ID,TITR,
@@ -632,17 +632,17 @@ C
      .                  C1=TITR,
      .                  I2=RED,
      .                  I3=3)
-	 ENDIF	 
+	 ENDIF	
 C     
          KXX = KNN
 	 KYY = KNN
 	 KZZ = KNN
-	 KRX = KNN  
+	 KRX = KNN
 C
          CXX = ZERO
 	 CYY = ZERO
 	 CZZ = ZERO
-	 CRX = ZERO	 
+	 CRX = ZERO	
 C
          CRXX = CR
 	 CRYY = CR
@@ -659,30 +659,30 @@ C
          SDZMA = ZERO
 C
          SAXMI = ZERO
-         SAXMA = ZERO		 
+         SAXMA = ZERO		
 C
-         KFX = ZERO         
+         KFX = ZERO
          KFY = ZERO
          KFZ = ZERO
-         KFRX = ZERO		 
+         KFRX = ZERO		
 C
          FMX = ZERO
          FMY = ZERO
          FMZ = ZERO
-         FMRX = ZERO  	 
+         FMRX = ZERO  	
 C	 
          IFUN_XX = ZEROI
-         IFUN_YY = ZEROI 
+         IFUN_YY = ZEROI
          IFUN_ZZ = ZEROI
          IFUN_RX = ZEROI
          IFUN_CXX = ZEROI
-         IFUN_CYY = ZEROI 
+         IFUN_CYY = ZEROI
          IFUN_CZZ = ZEROI
          IFUN_CRX = ZEROI
-         IFUN_FMX = ZEROI 
+         IFUN_FMX = ZEROI
          IFUN_FMY = ZEROI
-         IFUN_FMZ = ZEROI 
-         IFUN_FMRX = ZEROI	 
+         IFUN_FMZ = ZEROI
+         IFUN_FMRX = ZEROI	
 C	 	  
       ELSEIF (JTYP==6) THEN
 C=======================================================================
@@ -694,13 +694,13 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -708,7 +708,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KXX,CXX,SDXMI,
      .                     SDXMA,FCOMBX,KFX,FMX,IFUN_CXX,IFUN_XX,1,
      .                     FAC_FF,IFUN_FMX,RED,ID,TITR,
-     .                     LSUBMODEL)            
+     .                     LSUBMODEL)
 C     
 	 KYY = KNN
 	 KZZ = KNN
@@ -727,12 +727,12 @@ C
 	 CRZZ = CR
 	 CRRX = CR
 	 CRRY = CR
-	 CRRZ = CR	 
+	 CRRZ = CR	
 C
          SDYMI = ZERO
          SDYMA = ZERO
          SDZMI = ZERO
-         SDZMA = ZERO	 
+         SDZMA = ZERO	
 C
          SAXMI = ZERO
          SAXMA = ZERO
@@ -751,23 +751,23 @@ C
          FMZ = ZERO
          FMRX = ZERO
          FMRY = ZERO
-         FMRZ = ZERO	 	 	 	 	 	 	 	 
+         FMRZ = ZERO	 	 	 	 	 	 	 	
 C
-         IFUN_YY = ZEROI 
+         IFUN_YY = ZEROI
          IFUN_ZZ = ZEROI
-         IFUN_CYY = ZEROI 
+         IFUN_CYY = ZEROI
          IFUN_CZZ = ZEROI
-         IFUN_RX = ZEROI	 
+         IFUN_RX = ZEROI	
          IFUN_RY = ZEROI
          IFUN_RZ = ZEROI
-         IFUN_CRX = ZEROI	  
-         IFUN_CRY = ZEROI 
+         IFUN_CRX = ZEROI	
+         IFUN_CRY = ZEROI
          IFUN_CRZ = ZEROI
-         IFUN_FMY = ZEROI 
+         IFUN_FMY = ZEROI
          IFUN_FMZ = ZEROI
-         IFUN_FMRX = ZEROI	 
-         IFUN_FMRY = ZEROI 
-         IFUN_FMRZ = ZEROI	 
+         IFUN_FMRX = ZEROI	
+         IFUN_FMRY = ZEROI
+         IFUN_FMRZ = ZEROI	
 C		 
       ELSEIF (JTYP==7) THEN
 C=======================================================================
@@ -779,13 +779,13 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -798,7 +798,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
-     .                     LSUBMODEL) 
+     .                     LSUBMODEL)
 C
          IF ((RED/=0).AND.(RED/=2)) THEN
            CALL ANCMSG(MSGID=973,
@@ -808,7 +808,7 @@ C
      .                 C1=TITR,
      .                 I2=RED,
      .                 I3=2)
-	 ENDIF   	 
+	 ENDIF   	
 C     
 	 KXX = KNN
 	 KRX = KNN
@@ -845,9 +845,9 @@ C
          FMX = ZERO
          FMRX = ZERO
          FMRY = ZERO
-         FMRZ = ZERO		 
+         FMRZ = ZERO		
 C
-         IFUN_XX = ZEROI 
+         IFUN_XX = ZEROI
          IFUN_CXX = ZEROI
          IFUN_RX = ZEROI
          IFUN_RY = ZEROI
@@ -858,7 +858,7 @@ C
          IFUN_FMX = ZEROI
          IFUN_FMRX = ZEROI
          IFUN_FMRY = ZEROI
-         IFUN_FMRZ = ZEROI	 	 	 	 
+         IFUN_FMRZ = ZEROI	 	 	 	
 C		 
       ELSEIF (JTYP==8) THEN
 C=======================================================================
@@ -870,13 +870,13 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -945,10 +945,10 @@ C
          IFUN_CRZ = ZEROI
          IFUN_FMX = ZEROI
          IFUN_FMY = ZEROI
-         IFUN_FMZ = ZEROI	 	 
+         IFUN_FMZ = ZEROI	 	
          IFUN_FMRX = ZEROI
          IFUN_FMRY = ZEROI
-         IFUN_FMRZ = ZEROI	 
+         IFUN_FMRZ = ZEROI	
 C		 
       ELSEIF (JTYP==9) THEN
 C=======================================================================
@@ -960,13 +960,13 @@ C=======================================================================
 	     IF (KNN==0) THEN
                WRITE(IOUT,1100) SCF,CR,SENSOR
 	     ELSE
-               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	 
+               WRITE(IOUT,1000) KNN,SCF,CR,SENSOR	
 	     ENDIF
            ELSE
 	     IF (KNN==0) THEN
                WRITE(IOUT,1300) SCF,CR,SENSOR,IDSK1,IDSK2
 	     ELSE
-               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	 
+               WRITE(IOUT,1200) KNN,SCF,CR,SENSOR,IDSK1,IDSK2	
 	     ENDIF
            ENDIF
          ENDIF
@@ -983,7 +983,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KZZ,CZZ,SDZMI,
      .                     SDZMA,FCOMBZ,KFZ,FMZ,IFUN_CZZ,IFUN_ZZ,3,
      .                     FAC_FF,IFUN_FMZ,RED,ID,TITR,
-     .                     LSUBMODEL)		 
+     .                     LSUBMODEL)		
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRX,CRX,SAXMI,
      .                     SAXMA,FCOMBRX,KFRX,FMRX,IFUN_CRX,IFUN_RX,4,
      .                     FAC_MM,IFUN_FMRX,RED,ID,TITR,
@@ -995,7 +995,7 @@ C
 	 CALL LEC_DOF_JNT(IOUT,IS_ENCRYPTED,UNITAB,KRZ,CRZ,SAZMI,
      .                     SAZMA,FCOMBRZ,KFRZ,FMRZ,IFUN_CRZ,IFUN_RZ,6,
      .                     FAC_MM,IFUN_FMRZ,RED,ID,TITR,
-     .                     LSUBMODEL)	 
+     .                     LSUBMODEL)	
 C
          IF ((RED/=0).AND.(RED/=6)) THEN
            CALL ANCMSG(MSGID=973,
@@ -1070,13 +1070,13 @@ C
      .               I1=ID,
      .               C1=TITR)
         ENDIF
-      
+
 C=======================================================================
 C----   Stockage des donnees
 C=================================================================  
         PARGEO(1) = 0
         PARGEO(2) = 0
-        PARGEO(3) = 0     
+        PARGEO(3) = 0
 C-----------------------
 
         IERROR = SET_U_GEO(1,XTYP)
@@ -1108,7 +1108,7 @@ C
         IERROR = SET_U_GEO(26,CRZ)
 C        IERROR = SET_U_GEO(27,FAC_CTX)            
 C        IERROR = SET_U_GEO(28,FAC_CRX)
-        IERROR = SET_U_GEO(27,FAC_L)            
+        IERROR = SET_U_GEO(27,FAC_L)
         IERROR = SET_U_GEO(28,FAC_T)
 C------------Blocking Angles/displacements
         IERROR = SET_U_GEO(29,SDXMI)
@@ -1117,7 +1117,7 @@ C------------Blocking Angles/displacements
         IERROR = SET_U_GEO(32,SDYMA)
         IERROR = SET_U_GEO(33,SDZMI)
         IERROR = SET_U_GEO(34,SDZMA)
-        IERROR = SET_U_GEO(35,SAXMI)            
+        IERROR = SET_U_GEO(35,SAXMI)
         IERROR = SET_U_GEO(36,SAXMA)
         IERROR = SET_U_GEO(37,SAYMI)
         IERROR = SET_U_GEO(38,SAYMA)
@@ -1181,7 +1181,7 @@ C
 C		           
       RETURN
  100  FORMAT(
-     & 5X,'JOINT TYPE . . . . . . . . SPHERICAL JOINT'/)  	  
+     & 5X,'JOINT TYPE . . . . . . . . SPHERICAL JOINT'/)  	
  200  FORMAT(
      & 5X,'JOINT TYPE . . . . . . . . REVOLUTE JOINT'/)
  300  FORMAT(
@@ -1197,24 +1197,24 @@ C
  800  FORMAT(
      & 5X,'JOINT TYPE . . . . . . . . RIGID JOINT'/)
  900  FORMAT(
-     & 5X,'JOINT TYPE . . . . . . . . FREE JOINT'/)    	 
-     
+     & 5X,'JOINT TYPE . . . . . . . . FREE JOINT'/)    	
+
  1000 FORMAT(
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . .  . . =',1PG20.13/,
      & 5X,'SCAL. FACTOR FOR ROT. BLOCKING STIFFNESS . .=',1PG20.13/,
-     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . .  . . =',1PG20.13/,     
+     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . .  . . =',1PG20.13/,
      & 5X,'SENSOR ID . . . . . . . . . . . . . . . . . =',I10/)
-     
+
  1100 FORMAT(
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . . .  . =',' AUTO'/,
      & 5X,'SCALING FACTOR FOR AUTOMATIC STIFFNESS    . =',1PG20.13/,
-     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . . .  =',1PG20.13/,     
+     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . . .  =',1PG20.13/,
      & 5X,'SENSOR ID  . . . . . . . . . . . . . .  . . =',I10/)
 
  1200 FORMAT(
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . .  . . =',1PG20.13/,
      & 5X,'SCALING FACTOR FOR AUTOMATIC STIFFNESS    . =',1PG20.13/,
-     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . . .  =',1PG20.13/,     
+     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . . .  =',1PG20.13/,
      & 5X,'SENSOR ID  . . . . . . . . . . . . . .  . . =',I10/,
      & 5X,'SKEW ID 1  . . . . . . . . . . . . . .  . . =',I10/,
      & 5X,'SKEW ID 2  . . . . . . . . . . . . . .  . . =',I10/)
@@ -1222,7 +1222,7 @@ C
  1300 FORMAT(
      & 5X,'BLOCKING STIFFNESS KNN . . . . . . . . .  . =',' AUTO'/,
      & 5X,'SCALING FACTOR FOR AUTOMATIC STIFFNESS    . =',1PG20.13/,
-     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . . .  =',1PG20.13/,     
+     & 5X,'CRITICAL DAMPING COEFFICIENT . . . . . . .  =',1PG20.13/,
      & 5X,'SENSOR ID  . . . . . . . . . . . . . .  . . =',I10/,
      & 5X,'SKEW ID 1  . . . . . . . . . . . . . .  . . =',I10/,
      & 5X,'SKEW ID 2  . . . . . . . . . . . . . .  . . =',I10/)
@@ -1235,11 +1235,11 @@ C
      & 5X,'USER PROPERTY SET'/,
      & 5X,'PROPERTY SET NUMBER . . . . . . . . . .=',I10,
      & 5X,'CONFIDENTIAL DATA'//)
-                
+
  999  CALL FREERR(1)
       RETURN
       END
-      
+
 Chd|====================================================================
 Chd|  LEC_DOF_JNT                   source/properties/spring/hm_read_prop45.F
 Chd|-- called by -----------
@@ -1282,7 +1282,7 @@ C          |         |   |   | 4)... not yet used
 C----------+---------+---+---+------------------------------------------|
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IOUT,IFUN_CRX,IFUN_RX,IDOF,RED,IFUN_FM
       my_real KRX,CRX,SAMI,SAMA,KFR,FM,FAC3,FCOMB
 
@@ -1416,12 +1416,12 @@ C
         IF (IS_AVAILABLE(I)) READ_BLOCK = READ_BLOCK + 1
       ENDDO
 C
-      IF (READ_BLOCK > 0) THEN      
+      IF (READ_BLOCK > 0) THEN
         FCOMB = ICOMB
 	RED = RED +1
       ELSE
 	GOTO 350		
-      ENDIF          	              
+      ENDIF          	
 C
       IF(CRX==ZERO.AND.IFUN_CRX/=0) CRX = ONE * FAC3
       IF(KRX==ZERO.AND.IFUN_RX/=0) KRX = ONE * FAC3
@@ -1430,7 +1430,7 @@ C
 C-----------------------
       IF(.NOT. IS_ENCRYPTED)THEN
         IF (IDOF==1) THEN
-          WRITE(IOUT,100)       
+          WRITE(IOUT,100)
         ELSEIF (IDOF==2) THEN
           WRITE(IOUT,200)
         ELSEIF (IDOF==2) THEN
@@ -1438,9 +1438,9 @@ C-----------------------
         ELSEIF (IDOF==4) THEN
           WRITE(IOUT,400)
         ELSEIF (IDOF==5) THEN
-          WRITE(IOUT,500) 	 	 	  	        
+          WRITE(IOUT,500) 	 	 	  	
         ELSE
-          WRITE(IOUT,600)       
+          WRITE(IOUT,600)
         ENDIF
       ENDIF
 C      
@@ -1456,11 +1456,11 @@ C
      .                ANMODE=ANINFO_BLIND_2,
      .                   I1=ID,
      .                   C1=TITR)
-      ENDIF 
+      ENDIF
 C      
       IF(.NOT. IS_ENCRYPTED)THEN
         IF (IDOF<4) THEN
-          IF (IFUN_FM==0) THEN      
+          IF (IFUN_FM==0) THEN
             WRITE(IOUT,1000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,FM
 	  ELSE
             WRITE(IOUT,3000) KRX,IFUN_RX,CRX,IFUN_CRX,SAMI,SAMA,ICOMB,KFR,IFUN_FM	
@@ -1474,8 +1474,8 @@ C
         ENDIF
       ENDIF
 C
-350   CONTINUE      
-      	      
+350   CONTINUE
+      	
 C-----------------------
       RETURN
  100  FORMAT(
@@ -1483,7 +1483,7 @@ C-----------------------
  200  FORMAT(
      & 5X,'PARAMETERS FOR FREE TRANSLATION ALONG Y AXIS'/)
  300  FORMAT(
-     & 5X,'PARAMETERS FOR FREE TRANSLATION ALONG Z AXIS'/)      
+     & 5X,'PARAMETERS FOR FREE TRANSLATION ALONG Z AXIS'/)
  400  FORMAT(
      & 5X,'PARAMETERS FOR FREE ROTATION AROUND X AXIS'/)
  500  FORMAT(
@@ -1495,43 +1495,43 @@ C-----------------------
      & 5X,'TRANSLATIONAL FUNCTION ID . . . . . . .=',I10/,
      & 5X,'LINEAR DAMPING . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'USER DAMPING FUNCTION. . . . . . . . . =',I10/,
-     & 5X,'NEGATIVE STOP DISPLACEMENT . . . . . . =',1PG20.13/,   
+     & 5X,'NEGATIVE STOP DISPLACEMENT . . . . . . =',1PG20.13/,
      & 5X,'POSITIVE STOP DISPLACEMENT . . . . . . =',1PG20.13/,
-     & 5X,'COMBINED STOP DISPLACEMENT . . . . . . =',I10/,      
-     & 5X,'STIFF. FOR FRICTION AND STOP DISPL. . .=',1PG20.13/,   
-     & 5X,'FRICTIONAL FORCE. . . . . . . . . . . .=',1PG20.13//)                     
+     & 5X,'COMBINED STOP DISPLACEMENT . . . . . . =',I10/,
+     & 5X,'STIFF. FOR FRICTION AND STOP DISPL. . .=',1PG20.13/,
+     & 5X,'FRICTIONAL FORCE. . . . . . . . . . . .=',1PG20.13//)
  2000 FORMAT(
      & 5X,'LINEAR ROTATIONAL STIFFNESS . . . . . .=',1PG20.13/,
      & 5X,'ROTATIONAL FUNCTION ID   . . . . . . . =',I10/,
      & 5X,'LINEAR DAMPING . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'USER DAMPING FUNCTION. . . . . . . . . =',I10/,
-     & 5X,'NEGATIVE STOP ANGLE . . . . . .. . . . =',1PG20.13/,   
+     & 5X,'NEGATIVE STOP ANGLE . . . . . .. . . . =',1PG20.13/,
      & 5X,'POSITIVE STOP ANGLE . . . . . .. . . . =',1PG20.13/,
-     & 5X,'COMBINED STOP ANGLE . . . . . .. . . . =',I10/,     
-     & 5X,'STIFF. FOR FRICTION AND STOP ANGLES. . =',1PG20.13/,   
+     & 5X,'COMBINED STOP ANGLE . . . . . .. . . . =',I10/,
+     & 5X,'STIFF. FOR FRICTION AND STOP ANGLES. . =',1PG20.13/,
      & 5X,'FRICTIONAL MOMENT. . . . . . . . . . . =',1PG20.13//)
  3000 FORMAT(
      & 5X,'TRANSLATIONAL LINEAR STIFFNESS . . . . =',1PG20.13/,
      & 5X,'TRANSLATIONAL FUNCTION ID . . . . . . .=',I10/,
      & 5X,'LINEAR DAMPING . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'USER DAMPING FUNCTION. . . . . . . . . =',I10/,
-     & 5X,'NEGATIVE STOP DISPLACEMENT . . . . . . =',1PG20.13/,   
+     & 5X,'NEGATIVE STOP DISPLACEMENT . . . . . . =',1PG20.13/,
      & 5X,'POSITIVE STOP DISPLACEMENT . . . . . . =',1PG20.13/,
-     & 5X,'COMBINED STOP DISPLACEMENT . . . . . . =',I10/,      
-     & 5X,'STIFF. FOR FRICTION AND STOP DISPL. . .=',1PG20.13/,   
-     & 5X,'FRICTIONAL FORCE FUNCTION. . .. . . . .=',I10//)     
+     & 5X,'COMBINED STOP DISPLACEMENT . . . . . . =',I10/,
+     & 5X,'STIFF. FOR FRICTION AND STOP DISPL. . .=',1PG20.13/,
+     & 5X,'FRICTIONAL FORCE FUNCTION. . .. . . . .=',I10//)
  4000 FORMAT(
      & 5X,'LINEAR ROTATIONAL STIFFNESS . . . . . .=',1PG20.13/,
      & 5X,'ROTATIONAL FUNCTION ID   . . . . . . . =',I10/,
      & 5X,'LINEAR DAMPING . . . . . . . . . . . . =',1PG20.13/,
      & 5X,'USER DAMPING FUNCTION. . . . . . . . . =',I10/,
-     & 5X,'NEGATIVE STOP ANGLE . . . . . .. . . . =',1PG20.13/,   
+     & 5X,'NEGATIVE STOP ANGLE . . . . . .. . . . =',1PG20.13/,
      & 5X,'POSITIVE STOP ANGLE . . . . . .. . . . =',1PG20.13/,
-     & 5X,'COMBINED STOP ANGLE . . . . . .. . . . =',I10/,      
-     & 5X,'STIFF. FOR FRICTION AND STOP ANGLES. . =',1PG20.13/,   
+     & 5X,'COMBINED STOP ANGLE . . . . . .. . . . =',I10/,
+     & 5X,'STIFF. FOR FRICTION AND STOP ANGLES. . =',1PG20.13/,
      & 5X,'FRICTIONAL MOMENT FUNCTION. . .. . . . =',I10//)
-     
- 999  CALL FREERR(1)           
-      RETURN      
+
+ 999  CALL FREERR(1)
+      RETURN
       END
 

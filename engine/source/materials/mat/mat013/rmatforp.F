@@ -32,7 +32,7 @@ Chd|        STOPTIME                      source/system/timer.F
 Chd|====================================================================
       SUBROUTINE RMATFORP(
      1   A       ,AR       ,X        ,VR     ,IN     ,
-     2   STIFN   ,STIFR    ,IRBY     ,LNRBY  ,RBY    , 
+     2   STIFN   ,STIFR    ,IRBY     ,LNRBY  ,RBY    ,
      3   ICODRBY ,WEIGHT   ,MS       ,V      ,FR_RBM ,
      4   IAD_RBY ,ARBY    ,VRBY     ,ARRBY   ,VRRBY  ,
      5   KIND    ,RBYM6   )
@@ -62,7 +62,7 @@ C-----------------------------------------------
 C     REAL
       my_real
      .   RBY(NFRBYM,*) ,A(3,*) ,AR(3,*) ,X(3,*) ,VR(3,*),
-     .   IN(*) ,STIFN(*),STIFR(*),MS(*),V(3,*) , 
+     .   IN(*) ,STIFN(*),STIFR(*),MS(*),V(3,*) ,
      .   VRRBY(3,*),ARBY(3,*),ARRBY(3,*),
      .   VRBY(3,*)
       DOUBLE PRECISION RBYM6(6,6,NRBYM)

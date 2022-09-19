@@ -64,7 +64,7 @@ C=======================================================================
         IF(IELTYP==3) JJ = CLAUSE%SH4N(J)
         IF(IELTYP==7) JJ = CLAUSE%SH3N(J)
 !
-        NSEG=NSEG+1                           
+        NSEG=NSEG+1
 !
         IF ( OPT_O == 0 ) THEN ! no normal reversed
           DO K=NIX1,NIX2
@@ -76,7 +76,7 @@ C=======================================================================
           ENDDO
         ENDIF ! IF ( OPT_O == 0 )
 !
-        DO K=NIX1,NIX2                      
+        DO K=NIX1,NIX2
           BUFTMPSURF(IAD_SURF) = NODE(K-1)
           IAD_SURF=IAD_SURF+1
         ENDDO

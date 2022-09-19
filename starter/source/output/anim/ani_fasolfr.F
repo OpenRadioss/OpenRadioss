@@ -46,7 +46,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   IXS(NIXS,*),IXC(NIXC,*),IXTG(NIXTG,*),
      .   FASTAG(*),ISOLNOD(*)
 C-----------------------------------------------
@@ -252,7 +252,7 @@ C
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
+          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0)
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN == 4)THEN
@@ -270,7 +270,7 @@ C
             END DO
             KS=ELCNOD(K)
             DO II=1,4
-              IF(IXC(II+1,KS)/=0) 
+              IF(IXC(II+1,KS)/=0)
      .          NODTAG(IXC(II+1,KS))=NODTAG(IXC(II+1,KS))+1
             END DO
             NN=0
@@ -279,7 +279,7 @@ C
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
+          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0)
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
@@ -296,7 +296,7 @@ C
             END DO
             KS=ELTGNOD(K)
             DO II=1,4
-              IF(IXTG(II+1,KS)/=0) 
+              IF(IXTG(II+1,KS)/=0)
      .          NODTAG(IXTG(II+1,KS))=NODTAG(IXTG(II+1,KS))+1
             END DO
             NN=0
@@ -305,7 +305,7 @@ C
               IF(MOD(LL,PWR(JJ+1))/PWR(JJ)==0)THEN
                 NN=0
                 DO KK=1,4
-          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0) 
+          	  IF(IXS(FACES(KK,JJ)+1,JS)/=0)
      .              NN=NN+NODTAG(IXS(FACES(KK,JJ)+1,JS))
                 END DO
                 IF(NN==4)THEN
@@ -328,7 +328,7 @@ C            FASOLFR(1,NFASOLFR)=N
 C            FASOLFR(2,NFASOLFR)=JJ
           END IF
         END DO
-      END DO    
+      END DO
       DEALLOCATE(ELTGNOD, ELCNOD, ELSNOD, NELENOD,NODTAG,NODTAG_1)
 C     
       RETURN
@@ -358,7 +358,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   FASTAG(*), FASOLFR(2,*), ISOLNOD(*)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -379,6 +379,6 @@ C
             FASOLFR(2,NFASOLFR)=JJ
           END IF
         END DO
-      END DO    
+      END DO
       RETURN
       END

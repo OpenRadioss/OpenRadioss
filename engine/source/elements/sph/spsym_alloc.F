@@ -149,7 +149,7 @@ C          not symetrized at this time.
 C
       CALL MY_BARRIER
 C
-      IF (ITASK==0) THEN  
+      IF (ITASK==0) THEN
         IF(ALLOCATED(XSPSYM%BUF)) DEALLOCATE(XSPSYM%BUF)
         ALLOCATE(XSPSYM%BUF(3*NSPHSYM),STAT=IERROR)
         IF(IERROR==0) XSPSYM%BUF = 0
@@ -158,7 +158,7 @@ C
         IF(IERROR==0) VSPSYM%BUF = 0
         IF(ALLOCATED(WSMCOMP%BUF)) DEALLOCATE(WSMCOMP%BUF)
         ALLOCATE(WSMCOMP%BUF(6*NSPHSYM),STAT=IERROR)
-        IF(IERROR==0) WSMCOMP%BUF = 0     
+        IF(IERROR==0) WSMCOMP%BUF = 0
       ENDIF
 C-------------------------------------------
       RETURN

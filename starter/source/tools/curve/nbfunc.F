@@ -92,12 +92,12 @@ C======================================================================|
 
 
 
-      
+
       IF (NTABLE0 > 0) THEN
        CALL HM_OPTION_START('/TABLE/0')
        DO I = 1, NTABLE0
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                           OPTION_ID = ID, 
+         CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                           OPTION_ID = ID,
      .                           OPTION_TITR = TITR)
          CALL HM_GET_INTV('ORDER', NPARAM, IS_AVAILABLE, LSUBMODEL) !dimension of table
          IF (NPARAM == 1) THEN
@@ -112,8 +112,8 @@ C======================================================================|
       IF (NTABLE1 > 0) THEN
        CALL HM_OPTION_START('/TABLE/1')
        DO I = 1, NTABLE1
-         CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                           OPTION_ID = ID, 
+         CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                           OPTION_ID = ID,
      .                           OPTION_TITR = TITR)
          CALL HM_GET_INTV('ORDER', NPARAM, IS_AVAILABLE, LSUBMODEL) !dimension of table
          IF (NPARAM == 1) THEN
@@ -123,7 +123,7 @@ C======================================================================|
          ENDIF
        ENDDO
       ENDIF
-      NTABLE=NTABLE+NTABLE1 + NTABLE0 
+      NTABLE=NTABLE+NTABLE1 + NTABLE0
 
 
 C

@@ -102,7 +102,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
 C
       INTEGER NEL0, NUPARAM, NUVAR
-      my_real 
+      my_real
      .   TIME,TIMESTEP,UPARAM(NUPARAM),
      .   RHO(NEL0),RHO0(NEL0),VOLUME(NEL0),EINT(NEL0),
      .   EPSPXX(NEL0),EPSPYY(NEL0),EPSPZZ(NEL0),
@@ -144,7 +144,7 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
-      my_real 
+      my_real
      .        G,CA,CB,CN,EPSM,SIGM,CC,CD,CM,EPS0,
      .        CE,CK,C1,C14G3,G3,
      .        CH1,CH2,CH3,QH1,QH2,SVM,
@@ -169,17 +169,17 @@ C-----------------------------------------------
         CB = UPARAM(5)
         CN = UPARAM(6)
         EPSM = UPARAM(7)
-        SIGM = UPARAM(8) 
-        CC = UPARAM(9) 
+        SIGM = UPARAM(8)
+        CC = UPARAM(9)
         CD = UPARAM(10)
         CM = UPARAM(11)
         EPS0 = UPARAM(12)
         CE = UPARAM(13)
         CK = UPARAM(14)
-        C1 = UPARAM(15) 
+        C1 = UPARAM(15)
         C14G3 = UPARAM(16)
 c jbm035
-        CUTFRE = UPARAM(19) 
+        CUTFRE = UPARAM(19)
 C-----------------------------------------------
 C     USER VARIABLES INITIALIZATION
 C-----------------------------------------------
@@ -188,13 +188,13 @@ C-----------------------------------------------
            UVAR(I,1)=ZERO
            UVAR(I,2)=ZERO
            UVAR(I,3)=ZERO
-           UVAR(I,4)=ZERO   
+           UVAR(I,4)=ZERO
 c jbm035
            UVAR(I,5)=ZERO
         ENDDO
       ENDIF
 C-----------------------------------------------
-        DT = TIMESTEP 
+        DT = TIMESTEP
         DTG2 = TWO*DT*G
 c jbm035
         BETA = TIMESTEP*TWO*PI*CUTFRE

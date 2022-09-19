@@ -34,13 +34,13 @@ Chd|====================================================================
      .                   VNEW   ,VOLGP  ,DELTAX ,RHO0   ,DVOL    ,
      .                   VD2    ,VIS    ,MAT    ,NC     ,NGL     ,
      .                   GEO    ,PID    ,EPSEQ  ,DT2T   ,NELTST  ,
-     .                   ITYPTST,IPLA   ,OFFG   ,DPLA   ,EPSP    , 
+     .                   ITYPTST,IPLA   ,OFFG   ,DPLA   ,EPSP    ,
      .                   TSTAR  ,ETSE   ,MSSA   ,DMELS  ,BUFLY   ,
      .                   SSP)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -66,11 +66,11 @@ C     REAL
      .  PM(NPROPM,*),OFF(MVSIZ),SIG(NEL,6),EINT(NEL),DELTAX(MVSIZ),
      .  RHO(NEL),QOLD(NEL),VOL(NEL) ,STIFN(*),EPSEQ(*),
      .  D1(MVSIZ,*)          , D2(MVSIZ,*)           ,
-     .  D3(MVSIZ,*)          , D4(MVSIZ,*)           , 
+     .  D3(MVSIZ,*)          , D4(MVSIZ,*)           ,
      .  D5(MVSIZ,*)          , D6(MVSIZ,*)           ,
      .  VNEW(MVSIZ), RHO0(MVSIZ), DVOL(MVSIZ), VOLGP(MVSIZ,*),
      .  VD2(MVSIZ) ,  VIS(MVSIZ),GEO(NPROPG,*), DT2T, OFFG(*),
-     .  DPLA(*),EPSP(*),TSTAR(*),ETSE(*), MSSA(*), DMELS(*), SSP(MVSIZ)   
+     .  DPLA(*),EPSP(*),TSTAR(*),ETSE(*), MSSA(*), DMELS(*), SSP(MVSIZ)
       TYPE (BUF_LAY_), TARGET :: BUFLY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -149,7 +149,7 @@ C-----------------------
         SIG(I,5)=ZERO
         SIG(I,6)=ZERO
         EINC(I)=ZERO
-        EPSEQ(I)=ZERO    
+        EPSEQ(I)=ZERO
       ENDDO
 C------------------------------
 C     DP/DRHO ET VITESSE DU SON
@@ -215,11 +215,11 @@ C-------------
       IF(EPIF/=ZERO)THEN
         DO I=LFT,LLT
           II=I+JPT
-          EPD(I)=OFF(I)* 
+          EPD(I)=OFF(I)*
      .      MAX( ABS(D1(I,IPT)), ABS(D2(I,IPT)), ABS(D3(I,IPT)),
      .HALF*ABS(D4(I,IPT)),HALF*ABS(D5(I,IPT)),HALF*ABS(D6(I,IPT)))
            EPD(I)= MAX(EPD(I),EM15)
-           EPSP(II) = EPD(I)           
+           EPSP(II) = EPD(I)
            EPD(I)= LOG(EPD(I)/EPDR)
            T(I) = T(I) +CP_1*EINT(I)/MAX(EM15,VOL(I))
         ENDDO
@@ -298,7 +298,7 @@ C
          SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
          EPLA(I)=EPLA(I)+(ONE-SCALE)*AJ2(I)
      .                         / MAX(THREE*G(I)+QH(I),EM15)
-         DPLA(II) =(ONE-SCALE)*AJ2(I)/ MAX(THREE*G(I)+QH(I),EM15)     
+         DPLA(II) =(ONE-SCALE)*AJ2(I)/ MAX(THREE*G(I)+QH(I),EM15)
        ENDDO
       ELSEIF(IPLA==2)THEN
        DO I=LFT,LLT
@@ -312,7 +312,7 @@ C
          SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
          EPLA(I)=EPLA(I)+(ONE -SCALE)*AJ2(I)
      .                         / MAX(THREE*G(I),EM15)
-         DPLA(II) = (ONE -SCALE)*AJ2(I)/ MAX(THREE*G(I),EM15)     
+         DPLA(II) = (ONE -SCALE)*AJ2(I)/ MAX(THREE*G(I),EM15)
        ENDDO
       ELSEIF(IPLA==1)THEN
         DO I=LFT,LLT
@@ -329,7 +329,7 @@ C        actual yeld stress.
          SIGP(JJ(4)+I)=SCALE*SIGP(JJ(4)+I)
          SIGP(JJ(5)+I)=SCALE*SIGP(JJ(5)+I)
          SIGP(JJ(6)+I)=SCALE*SIGP(JJ(6)+I)
-         EPLA(I)=EPLA(I)+DPLA(II)       
+         EPLA(I)=EPLA(I)+DPLA(II)
         ENDDO
       ENDIF
 C--------------------------------------------------

@@ -113,7 +113,7 @@ C-----------------------------------------------
      .        IPM(NPROPMI,*),IPARTTG(*),GRTH(*),IGRTH(*),IPARG(*),
      .        LSENSOR(NSENSI,*)
 C     REAL
-      my_real 
+      my_real
      .   PM(*), X(*), F(*), M(*), V(*), R(*),
      .   GEO(NPROPG,*), TF(*), BUFMAT(*), PMSAV(*),STIFN(*),
      .   STIFR(*),FSKY(*),EPSDOT(6,*),THKE(*),DT2T,
@@ -128,7 +128,7 @@ C     REAL
       TYPE(TTABLE) TABLE(*)
       TYPE(ELBUF_STRUCT_), TARGET  :: ELBUF_STR
       TYPE (STACK_PLY) :: STACK
-      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE 
+      TYPE (FAILWAVE_STR_) ,TARGET :: FAILWAVE
       TYPE (GRP_PARAM_STRUCT_) :: GROUP_PARAM
       TYPE(NLOCAL_STR_),  TARGET :: NLOC_DMG
       TYPE (DRAPE_) :: DRAPE_T3
@@ -136,7 +136,7 @@ C     REAL
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-c  indx utilise localement contrairement aux coques 4n 
+c  indx utilise localement contrairement aux coques 4n
       INTEGER MAT(MVSIZ),PID(MVSIZ),NGL(MVSIZ),INDX(MVSIZ),FWAVE_EL(NEL),
      .   IFLAG,LENF,LENM,LENS,IR,IS,IT,IPT,NPTT,N1,N2,N3,
      .   I,II,J,JJ,NG,NPG,NNOD,NPTR,NPTS,NLAY,L_DIRA,L_DIRB,IFAILWAVE,
@@ -145,7 +145,7 @@ c  indx utilise localement contrairement aux coques 4n
       INTEGER, DIMENSION(NEL) :: OFFLY
       PARAMETER (NPG = 3)
       PARAMETER (NNOD = 3)
-      my_real 
+      my_real
      .   STI(MVSIZ),STIR(MVSIZ),RHO(MVSIZ),
      .   SSP(MVSIZ),VISCMX(MVSIZ),AREA(MVSIZ),AREA2(MVSIZ),
      .   EXX(MVSIZ), EYY(MVSIZ), EXY(MVSIZ), EXZ(MVSIZ), EYZ(MVSIZ),
@@ -162,21 +162,21 @@ c  indx utilise localement contrairement aux coques 4n
      .   PX(MVSIZ,3),PY(MVSIZ,3),PXY(MVSIZ,3), PYY(MVSIZ,3),
      .   BZ1(MVSIZ,2),BZ2(MVSIZ,2),BZ3(MVSIZ,2), BRX1(MVSIZ,3),
      .   BRX2(MVSIZ,3),BRX3(MVSIZ,3),BRY1(MVSIZ,3),BRY2(MVSIZ,3),
-     .   BRY3(MVSIZ,3),AMU(MVSIZ),CDET(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ), 
+     .   BRY3(MVSIZ,3),AMU(MVSIZ),CDET(MVSIZ),VDEF(MVSIZ,8),DIE(MVSIZ),
      .   TEMPEL(MVSIZ),KRZ(MVSIZ),DIR1_CRK(NPT,MVSIZ),
      .   DIR2_CRK(NPT,MVSIZ),CONDE(MVSIZ),A11R(MVSIZ)
-      my_real, 
+      my_real,
      .   DIMENSION(1),TARGET :: BID
       my_real
      .   X1G(MVSIZ), X2G(MVSIZ), X3G(MVSIZ),
      .   Y1G(MVSIZ), Y2G(MVSIZ), Y3G(MVSIZ),
      .   Z1G(MVSIZ), Z2G(MVSIZ), Z3G(MVSIZ),
      .   X2L(MVSIZ),Y2L(MVSIZ),X3L(MVSIZ),Y3L(MVSIZ)
-      my_real, 
+      my_real,
      :    ALLOCATABLE, DIMENSION(:), TARGET :: DIRA,DIRB
       my_real,
      .  DIMENSION(:) ,POINTER  :: DIR_A,DIR_B,CRKDIR,DADV
-      my_real, 
+      my_real,
      .    ALLOCATABLE, DIMENSION(:,:,:) :: PLAPT_LAY,SIGPT_LAY
 C--- Variables pour le non-local
       INTEGER :: NDDL, INOD(3),NC1(MVSIZ), NC2(MVSIZ), NC3(MVSIZ), L_NLOC, IPOS(3),INLOC
@@ -187,10 +187,10 @@ C--- Variables pour le non-local
 C-----
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
-      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3     
+      TYPE(L_BUFEL_) ,POINTER :: LBUF1,LBUF2,LBUF3
 C-----------------------------------------------
-      DATA A_HAMMER / 
-     1 0.166666666666667,0.666666666666667,0.166666666666667,             
+      DATA A_HAMMER /
+     1 0.166666666666667,0.666666666666667,0.166666666666667,
      2 0.166666666666667,0.166666666666667,0.666666666666667/
 C=======================================================================
 C GENERALIZED STRAINS ARE SAVED AT NB8 (GENERALIZED FOR ALL MATERIALS)
@@ -246,7 +246,7 @@ c--------------------------------------------
           DO J=1,NEL
             OFFLY(J) = MAX(OFFLY(J), ELBUF_STR%BUFLY(I)%OFF(J))
           ENDDO
-        ENDDO        
+        ENDDO
         DADV   => GBUF%DMG
         CALL SET_FAILWAVE_SH3N(FAILWAVE ,FWAVE_EL ,DADV     ,
      .      NEL      ,IXTG    ,ITAB     ,NGL      ,OFFLY    )
@@ -302,7 +302,7 @@ C---
      .              M11,M12,M13,M21,M22,M23,NEL)
       CALL CNCOEF3(JFT    ,JLT     ,PM     ,MAT     ,GEO     ,
      2             PID    ,OFF     ,AREA   ,SHF     ,THK0    ,
-     3             THK02  ,NU     ,G       ,YM      , 
+     3             THK02  ,NU     ,G       ,YM      ,
      4             A11    ,A12     ,GBUF%THK,THKE   ,SSP     ,
      5             RHO    ,VOL00   ,GS     ,MTN     ,ITHK    ,
      6             NPTTOT ,DT1C    ,DT1    ,IHBE    ,AMU     ,
@@ -328,16 +328,16 @@ c
         PTM = (NG-1)*LENM+1
         PTS = (NG-1)*LENS+1
 c
-       CALL CDKDERI3(JFT ,JLT,PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,  
+       CALL CDKDERI3(JFT ,JLT,PX2,PY2,PX3,PY3,PX,PY,PXY,PYY,
      1               BZ1,BZ2,BZ3,BRX1,BRX2,BRX3,BRY1,BRY2,BRY3,
      2               A_HAMMER(NG,1),A_HAMMER(NG,2))
        CALL CDKCURV3(JFT,JLT,BZ1,BZ2,BZ3,BRX1,BRX2,BRX3,BRY1,
      1               BRY2,BRY3,VLZ,RLX,RLY,KXX, KYY, KXY)
-       CALL CDKSTRA3(JFT,JLT,GBUF%STRA,EXX,EYY,EXY,KXX, KYY, KXY, 
+       CALL CDKSTRA3(JFT,JLT,GBUF%STRA,EXX,EYY,EXY,KXX, KYY, KXY,
      1               EPSDOT,NFT,ISTRAIN,DT1,GBUF%STRPG(PTS),NEL)
 c-------------------------------------------
 c    COMPUTE Regularized non local variable in Gauss point
-c-------------------------------------------     
+c-------------------------------------------
        IF (INLOC > 0) THEN
          L_NLOC = NLOC_DMG%L_NLOC
          DNL  => NLOC_DMG%DNL(1:L_NLOC) ! DNL = non local variable increment
@@ -397,8 +397,8 @@ C     THICKNESS CORRECTION
 C----------------------------
       IF (ITHK > 0) THEN
         DO I=JFT,JLT
-          GBUF%THK(I) = GBUF%THK(I) - TWO_THIRD*(GBUF%THK(I)-THK0(I))  
-          THK0(I)     = GBUF%THK(I)                                 
+          GBUF%THK(I) = GBUF%THK(I) - TWO_THIRD*(GBUF%THK(I)-THK0(I))
+          THK0(I)     = GBUF%THK(I)
         ENDDO
       ENDIF
 C----------------------------------------------------------------------------
@@ -413,23 +413,23 @@ C----------------------------
 C     FORCES INTERNES
 C----------------------------
         CALL CDKFINT3(JFT,JLT,VOL0,THK0,GBUF%FORPG(PTF),GBUF%MOMPG(PTM),
-     1                PX2,PY2,PX3,PY3,                      
-     2                BZ1,BZ2,BZ3,                          
-     3                BRX1,BRX2,BRX3,BRY1,BRY2,BRY3,        
-     4                F11,F12,F13,F21,F22,F23,F32,F33,      
+     1                PX2,PY2,PX3,PY3,
+     2                BZ1,BZ2,BZ3,
+     3                BRX1,BRX2,BRX3,BRY1,BRY2,BRY3,
+     4                F11,F12,F13,F21,F22,F23,F32,F33,
      5                M11,M12,M13,M21,M22,M23,
-     6                NEL)           
+     6                NEL)
 c-------------------------
-c     Virtual internal forces of regularized non local ddl 
+c     Virtual internal forces of regularized non local ddl
 c--------------------------
         IF (INLOC > 0) THEN
           CALL CDKFINT_REG(NLOC_DMG,VAR_REG ,THK0    ,NEL     ,
-     .                     GBUF%OFF,AREA    ,NC1     ,NC2     , 
+     .                     GBUF%OFF,AREA    ,NC1     ,NC2     ,
      .                     NC3     ,PX2     ,PY2     ,PX3     ,
      .                     PY3     ,KSI     ,ETA     ,
      .                     ELBUF_STR%NLOC(IR,IS)     ,IXTG(1,JFT),
      .                     NDDL    ,ITASK   ,NG      ,DT2T    )
-        ENDIF 
+        ENDIF
 c-------------------------------
       ENDDO  !  NG = 1,NPG
 C----
@@ -445,7 +445,7 @@ C----
               IS = 1
               DO I=JFT,JLT
                 IF (BUFLY%L_PLA > 0) THEN
-                  PLAPT_LAY(ILAY,NG,I) = PLAPT_LAY(ILAY,NG,I) + 
+                  PLAPT_LAY(ILAY,NG,I) = PLAPT_LAY(ILAY,NG,I) +
      .                                   BUFLY%LBUF(IR,IS,IT)%PLA(I)/NPTT
                 ELSE
                   PLAPT_LAY(ILAY,NG,I) = ZERO
@@ -453,7 +453,7 @@ C----
                 II = (I-1)*5
                 DO J=1,5
                   JJ = II+J
-                  SIGPT_LAY(ILAY,NG,JJ) = SIGPT_LAY(ILAY,NG,JJ) + 
+                  SIGPT_LAY(ILAY,NG,JJ) = SIGPT_LAY(ILAY,NG,JJ) +
      .                                    BUFLY%LBUF(IR,IS,IT)%SIG(KK(J)+I)/NPTT
                 ENDDO
               ENDDO ! DO I=JFT,JLT
@@ -478,7 +478,7 @@ C---
           GBUF%FOR(KK(J)+I) = THIRD*(GBUF%FORPG(PT1+KK(J)+I)
      .                             + GBUF%FORPG(PT2+KK(J)+I)
      .                             + GBUF%FORPG(PT3+KK(J)+I))
-        ENDDO 
+        ENDDO
       ENDDO
       PT2 = PT1 + LENM
       PT3 = PT2 + LENM
@@ -497,7 +497,7 @@ C---
           DO IPT = 1,NLAY
             BUFLY => ELBUF_STR%BUFLY(IPT)
             IF (BUFLY%L_PLA > 0) THEN
-              DO I=JFT,JLT  
+              DO I=JFT,JLT
                 BUFLY%PLAPT(I) = THIRD*(PLAPT_LAY(IPT,1,I) + PLAPT_LAY(IPT,2,I) +
      .                                  PLAPT_LAY(IPT,3,I))
               ENDDO
@@ -510,7 +510,7 @@ C---
               LBUF1 => ELBUF_STR%BUFLY(IPT)%LBUF(1,1,1)
               LBUF2 => ELBUF_STR%BUFLY(IPT)%LBUF(2,1,1)
               LBUF3 => ELBUF_STR%BUFLY(IPT)%LBUF(3,1,1)
-              DO I=JFT,JLT  
+              DO I=JFT,JLT
                 BUFLY%PLAPT(I) = THIRD*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                  LBUF3%PLA(I))
               ENDDO
@@ -525,7 +525,7 @@ C---
             LBUF2 => ELBUF_STR%BUFLY(1)%LBUF(2,1,IPT)
             LBUF3 => ELBUF_STR%BUFLY(1)%LBUF(3,1,IPT)
             II = (IPT-1)*NEL
-            DO I=JFT,JLT                                                 
+            DO I=JFT,JLT
               BUFLY%PLAPT(II+I) = THIRD*(LBUF1%PLA(I) + LBUF2%PLA(I) +
      .                                   LBUF3%PLA(I))
             ENDDO
@@ -539,7 +539,7 @@ C---
         IF (IGTYP == 51 .OR. IGTYP == 52) THEN
           DO IPT = 1,NLAY
             BUFLY => ELBUF_STR%BUFLY(IPT)
-            DO I=JFT,JLT*5  
+            DO I=JFT,JLT*5
               BUFLY%SIGPT(I) = THIRD*(SIGPT_LAY(IPT,1,I) + SIGPT_LAY(IPT,2,I) +
      .                                SIGPT_LAY(IPT,3,I))
             ENDDO
@@ -602,20 +602,20 @@ C--------------------------
         IF(JTHE > 0.AND.IDT_THERM == 1)THEN
            CALL DTTHERM(JFT  ,JLT  ,PM  ,TEMPEL,GBUF%RE ,
      2                  RHO  ,GBUF%RK ,VOL0 ,ALDT,MAT ,
-     3                  DT_THERM,OFF    ,CONDE) 
+     3                  DT_THERM,OFF    ,CONDE)
          ENDIF
 C--------------------------
 C     NON-LOCAL TIME STEP
       IF (INLOC > 0) THEN
         CALL DTCDK_REG(NLOC_DMG,THK0       ,NEL     ,GBUF%OFF,
      .                 ALDT    ,IXTG(1,JFT),NDDL    ,DT2T    )
-      ENDIF 
+      ENDIF
 C--------------------------
 C--------------------------
 C     BILANS PAR MATERIAU
 C--------------------------
 c      IFLAG=MOD(NCYCLE,NCPRI)
-      IF(IPRI>0) 
+      IF(IPRI>0)
      1   CALL C3BILAN(JFT  ,JLT    ,PM   ,V    ,GBUF%THK,GBUF%EINT,
      2                PMSAV,IPARTTG,RHO  ,VOL00,IXTG   ,X         ,
      3                R    ,THK02  ,AREA ,GRESAV ,GRTH      ,
@@ -648,14 +648,14 @@ c     Front wave
 c--------------------------------------------
       IF (IFAILWAVE > 0) THEN
         CRKDIR => ELBUF_STR%BUFLY(1)%CRKDIR
-c        
+c
         CALL SET_FAILWAVE_NOD3(FAILWAVE   ,FWAVE_EL ,NGL      ,
      .       NEL      ,IXTG     ,ITAB     ,CRKDIR   ,DIR_A    ,
      .       L_DIRA   ,X2L      ,X3L      ,Y2L      ,Y3L      )
       ENDIF
 C------------
-      IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)                                                          
-      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)                                                          
+      IF (ALLOCATED(DIRB)) DEALLOCATE(DIRB)
+      IF (ALLOCATED(DIRA)) DEALLOCATE(DIRA)
       IF (ALLOCATED(PLAPT_LAY)) DEALLOCATE(PLAPT_LAY)
       IF (ALLOCATED(SIGPT_LAY)) DEALLOCATE(SIGPT_LAY)
       IF (ALLOCATED(VAR_REG))    DEALLOCATE(VAR_REG)

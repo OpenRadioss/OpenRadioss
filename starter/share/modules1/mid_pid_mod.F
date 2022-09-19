@@ -52,8 +52,8 @@ C-----------------------------------------------
 !       MID_PID_SHELL(MID)%COST1D( : ) --> element cost for each (mid ; pid)
 !--------------------------------------------------------------------
         INTEGER, DIMENSION(:), ALLOCATABLE :: PID1D
-        my_real, DIMENSION(:), ALLOCATABLE :: COST1D      
-        INTEGER :: NBR_PID     
+        my_real, DIMENSION(:), ALLOCATABLE :: COST1D
+        INTEGER :: NBR_PID
       END TYPE MID_PID_TYPE
 C
       END MODULE MID_PID_MOD

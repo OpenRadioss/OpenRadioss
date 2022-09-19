@@ -80,11 +80,11 @@ C-------------------------------------------------------------------------
       ELEM8 = 0
 C-----------Search Element Tetra 10 containing the facet N1 N2 N3---------------
 
-      DO I=KNOD2ELS(N1)+1,KNOD2ELS(N1+1)     
-         IE = NOD2ELS(I)    
-         IF(NUMELS8 < IE .AND. IE <= NUMELS8+NUMELS10)THEN 
+      DO I=KNOD2ELS(N1)+1,KNOD2ELS(N1+1)
+         IE = NOD2ELS(I)
+         IF(NUMELS8 < IE .AND. IE <= NUMELS8+NUMELS10)THEN
            DO J=1,4
-             DO k=1,3 
+             DO k=1,3
                IF(IXS(FACES(K,J),IE)==N1.AND.IXS(FACES(K+1,J),IE)==N2.AND.
      .                IXS(FACES(K+2,J),IE)==N3) THEN
                   IORD = 1   ! same order as defined in Faces
@@ -105,13 +105,13 @@ C-----------Search Element Tetra 10 containing the facet N1 N2 N3---------------
 
 C----------Facet divided into 4 facets if not degenrated---------------
 c
-      IF (ELEM /= 0) THEN       
+      IF (ELEM /= 0) THEN
 C           still need to filter degenerated faces
         NNS=1
         DO J=1,3
-          FCMID10(J) = IXS10(MIDNOD(J,FACET),IE10) 
-          IF (FCMID10(J) /= 0) NNS=NNS+1 
-        ENDDO 
+          FCMID10(J) = IXS10(MIDNOD(J,FACET),IE10)
+          IF (FCMID10(J) /= 0) NNS=NNS+1
+        ENDDO
 C
         NSEG=NSEG+NNS
 !
@@ -120,9 +120,9 @@ C
             FACE(K)=IXS(FACES(K,FACET),ELEM)
           END DO
 C
-          IF (NNS==4) THEN  
-c           4 triangles 
-            IF (IORD == 1) THEN 
+          IF (NNS==4) THEN
+c           4 triangles
+            IF (IORD == 1) THEN
               ISEG = NSEG-NNS + 1
               CALL SEGSURF(FACE(1),FCMID10(1),FCMID10(3),FCMID10(3),NSEG0,
      .                     ISEG   ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM,ELEM,1)
@@ -149,9 +149,9 @@ c           4 triangles
               CALL SEGSURF(FCMID10(2),FCMID10(3),FACE(3),FACE(3),NSEG0,
      .                     ISEG   ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM,ELEM,1)
             ENDIF
-          ELSEIF (NNS==3) THEN 
-c               3 triangles 
-            IF (IORD == 1 ) THEN        
+          ELSEIF (NNS==3) THEN
+c               3 triangles
+            IF (IORD == 1 ) THEN
               IF (FCMID10(1) == 0) THEN
                 ISEG = NSEG-NNS + 1
                 CALL SEGSURF(FACE(1),FACE(2),FCMID10(2),FCMID10(2),NSEG0,
@@ -215,10 +215,10 @@ c               3 triangles
                 CALL SEGSURF(FACE(1),FACE(3),FCMID10(2),FCMID10(2),NSEG0,
      .                       ISEG   ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM,ELEM,1)
               ENDIF
-            ENDIF            
-          ELSEIF (NNS==2) THEN 
-c               2 triangles 
-            IF (IORD == 1 ) THEN        
+            ENDIF
+          ELSEIF (NNS==2) THEN
+c               2 triangles
+            IF (IORD == 1 ) THEN
               IF (FCMID10(1) /= 0) THEN
                 ISEG = NSEG-NNS + 1
                 CALL SEGSURF(FACE(1),FCMID10(1),FACE(3),FACE(3),NSEG0,
@@ -264,13 +264,13 @@ c               2 triangles
                 CALL SEGSURF(FCMID10(3),FACE(3),FACE(2),FACE(2),NSEG0,
      .                       ISEG   ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM,ELEM,1)
               ENDIF
-            ENDIF 
-          ELSEIF (NNS==1) THEN  
-c               1 triangle 
+            ENDIF
+          ELSEIF (NNS==1) THEN
+c               1 triangle
             ISEG = NSEG-NNS + 1
             CALL SEGSURF(N1  ,N2     ,N3     ,N3,NSEG0,
      .                   ISEG   ,IGRSURF%NODES,IGRSURF%ELTYP,IGRSURF%ELEM,ELEM,1)
-          ENDIF 
+          ENDIF
         ENDIF
       ELSE
         NNS = 1

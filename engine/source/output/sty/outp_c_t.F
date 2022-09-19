@@ -69,7 +69,7 @@ C-----------------------------------------------
      .        IR,IS,NPTR,NPTS,NLAY,MPT,NPT_ALL,IGTYP,NPTT,II(8)
       INTEGER RESP0,WRTLEN,RES,COMPTEUR,L,K
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
       my_real A1,A2,THK,FUNC(6)
@@ -117,7 +117,7 @@ C
               ENDDO
 
 !
-              IF (MLW == 0 .OR. MLW == 13) CYCLE   
+              IF (MLW == 0 .OR. MLW == 13) CYCLE
               IF (MLW == 27 .OR. MLW == 25 .OR.
      .            MLW == 32 .OR. MLW == 15) ISTRAIN=1
 C
@@ -302,16 +302,16 @@ C------------------------
                   THK = GBUF%THK(I)
                   N = I + NFT
                   JJ = JJ + 3
-                  WA(JJ-2)= A1 * EPSDOT(1,N+N0) + A2 * EPSDOT(4,N+N0)*THK 
-                  WA(JJ-1)= A1 * EPSDOT(2,N+N0) + A2 * EPSDOT(5,N+N0)*THK 
-                  WA(JJ)= HALF*(A1*EPSDOT(3,N+N0)+A2*EPSDOT(6,N+N0)*THK) 
+                  WA(JJ-2)= A1 * EPSDOT(1,N+N0) + A2 * EPSDOT(4,N+N0)*THK
+                  WA(JJ-1)= A1 * EPSDOT(2,N+N0) + A2 * EPSDOT(5,N+N0)*THK
+                  WA(JJ)= HALF*(A1*EPSDOT(3,N+N0)+A2*EPSDOT(6,N+N0)*THK)
                 ENDDO
               ENDIF  !  IF (ISTRE == 1)
             ENDIF  !  IF (ITY == 3 .OR. ITY == 7)
           ENDDO  !  DO NG = NGF,NGL
           NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
        ENDDO
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -426,7 +426,7 @@ C-----------------------------------------------
      .   JJ_OLD,NGF,NGL,NN,LEN,K,NPG,IPG,NLAY,NPTS,NPTR,IL,ITHK,NPTT,IT,
      .   IGTYP,IXFEM,ISUBSTACK,NPT_ALL,MPT,COMPTEUR,L,II(8)
       INTEGER, DIMENSION(NSPGROUP) :: JJ_LOC
-      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS 
+      INTEGER, DIMENSION(NSPGROUP+1,NSPMD) :: ADRESS
       my_real
      .   WA(SIZLOC),WAP0(SIZ_WR),WAP0_LOC(SIZP0)
 
@@ -494,7 +494,7 @@ C-----------------------------------------------
 C
         JJ_OLD = 1
         NGF = 1
-        NGL = 0 
+        NGL = 0
         JJ = 0
         COMPTEUR = 0
         DO NN=1,NSPGROUP
@@ -586,17 +586,17 @@ c                      WA(JJ+2) = GBUF%THK(I)
                       WA(JJ+10) = GBUF%FORPG(II(3)+I)
                       WA(JJ+11) = GBUF%FORPG(II(4)+I)
                       WA(JJ+12) = GBUF%FORPG(II(5)+I)
-                      IF (GBUF%G_PLA > 0) THEN       
+                      IF (GBUF%G_PLA > 0) THEN
                         WA(JJ+13) = GBUF%PLA(I)
-                      ELSE                           
-                        WA(JJ+13)=ZERO                 
-                      ENDIF                          
+                      ELSE
+                        WA(JJ+13)=ZERO
+                      ENDIF
                       WA(JJ+14) = GBUF%MOMPG(II(1)+I)
                       WA(JJ+15) = GBUF%MOMPG(II(2)+I)
                       WA(JJ+16) = GBUF%MOMPG(II(3)+I)
                       JJ = JJ + 16
                     ENDDO
-                  ELSE   ! MLW 
+                  ELSE   ! MLW
                     DO I=LFT,LLT
                       IF (GBUF%G_HOURG == 0) THEN
                         HOURG(1) = ZERO
@@ -629,17 +629,17 @@ C
                         WA(JJ+3) = GBUF%FORPG(II(3)+I)
                         WA(JJ+4) = GBUF%FORPG(II(4)+I)
                         WA(JJ+5) = GBUF%FORPG(II(5)+I)
-                        IF (GBUF%G_PLA > 0) THEN       
+                        IF (GBUF%G_PLA > 0) THEN
                           WA(JJ+6) = GBUF%PLA(I)
-                        ELSE                           
-                          WA(JJ+6)=ZERO                
-                        ENDIF                          
+                        ELSE
+                          WA(JJ+6)=ZERO
+                        ENDIF
                         WA(JJ+7) = GBUF%MOMPG(II(1)+I)
                         WA(JJ+8) = GBUF%MOMPG(II(2)+I)
                         WA(JJ+9) = GBUF%MOMPG(II(3)+I)
                         JJ = JJ+9
 C
-                      ELSE  ! NPT > 0     
+                      ELSE  ! NPT > 0
 C
                         IF (NLAY == 1) THEN
                           BUFLY => ELBUF_TAB(NG)%BUFLY(1)
@@ -680,7 +680,7 @@ C
                         ENDIF  !  IF (NLAY ==1) THEN
                       ENDIF  !  NPT > 0
                     ENDDO  !  DO I=LFT,LLT
-                  ENDIF  !  MLW 
+                  ENDIF  !  MLW
                 ENDIF  !  IF (IHBE == 0)
 C------------------------
 C        STRAIN
@@ -792,7 +792,7 @@ C
 C-----------------------------------------------------------------------
           NGF = NGL + 1
         JJ_LOC(NN) = JJ - COMPTEUR            ! size of each group
-        COMPTEUR = JJ                         
+        COMPTEUR = JJ
        ENDDO
 !     ++++++++++
        IF( NSPMD>1 ) THEN
@@ -816,7 +816,7 @@ C-----------------------------------------------------------------------
             ENDDO  ! l=... , ...
            ENDIF   !if(size_loc>0)
           ENDDO    ! k=1,nspmd
-           
+
 
           JJ_OLD = COMPTEUR
           IF(JJ_OLD>0) THEN
@@ -849,20 +849,20 @@ C-----------------------------------------------------------------------
      .                ZERO,ZERO,ZERO
                     WRITE(IUGEO,'(1P3E20.13)')
      .                ZERO,ZERO,ZERO
-                  ENDIF 
+                  ENDIF
                 ELSEIF (IHBE >= 11) THEN
                   IF (OUTYY_FMT == 2) THEN
                     NPT = NINT(WAP0(J))
                     NPG = NINT(WAP0(J+1))
                     WRITE(IUGEO,'(2I8/,1P3E12.5)')NPT,NPG,
      .                                           (WAP0(J+K),K=2,4)
-                    J = J + 5    
+                    J = J + 5
                     IF (NPT == 0) THEN
                       DO IPG=1,NPG
                         WRITE(IUGEO,'(1P6E12.5/1P3E12.5)')
      .                                   (WAP0(J+K),K=0,8)
                         J = J + 9
-                      ENDDO 
+                      ENDDO
                     ELSE
                       DO I=1,NPT
                         DO IPG=1,NPG
@@ -875,14 +875,14 @@ C-----------------------------------------------------------------------
                     NPT = NINT(WAP0(J))
                     NPG = NINT(WAP0(J+1))
                     WRITE(IUGEO,'(2I10/,1P3E20.13)')NPT,NPG,
-     .                                          (WAP0(J+K),K=2,4)          
-                    J = J + 5    
+     .                                          (WAP0(J+K),K=2,4)
+                    J = J + 5
                     IF (NPT == 0) THEN
                       DO IPG=1,NPG
                         WRITE(IUGEO,'(1P6E20.13/1P3E20.13)')
      .                                          (WAP0(J+K),K=0,8)
-                        J = J + 9    
-                      ENDDO 
+                        J = J + 9
+                      ENDDO
                     ELSE
                       DO I=1,NPT
                         DO IPG=1,NPG
@@ -891,7 +891,7 @@ C-----------------------------------------------------------------------
                         ENDDO
                       ENDDO
                     ENDIF
-                  ENDIF 
+                  ENDIF
                 ELSE
                   NPT = NINT(WAP0(J))
                   IF (NPT == 0) THEN
@@ -902,7 +902,7 @@ C-----------------------------------------------------------------------
                       WRITE(IUGEO,'(I10/,1P6E20.13)')NPT,(WAP0(J+K),K=1,6)
                       WRITE(IUGEO,'(1P6E20.13/1P3E20.13)')(WAP0(J+K),K=7,15)
                     ENDIF
-                    J = J + 16    
+                    J = J + 16
                   ELSE
                     IF (OUTYY_FMT == 2) THEN
                       WRITE(IUGEO,'(I8/,1P6E12.5)')NPT,(WAP0(J+K),K=1,6)
@@ -1031,12 +1031,12 @@ C--------
               MLW   = IPARG(1,NG)
               NEL   = IPARG(2,NG)
               NPT   = IPARG(6,NG)
-              IHBE  = IPARG(23,NG)            
+              IHBE  = IPARG(23,NG)
               IGTYP = IPARG(38,NG)
               JJ=JJ+NEL
               NLAY  = ELBUF_TAB(NG)%NLAY
-              NPTR  = ELBUF_TAB(NG)%NPTR    
-              NPTS  = ELBUF_TAB(NG)%NPTS 
+              NPTR  = ELBUF_TAB(NG)%NPTR
+              NPTS  = ELBUF_TAB(NG)%NPTS
               NPG   = NPTR*NPTS
               MPT=IABS(NPT)
               IF (IGTYP == 51 .OR. IGTYP == 52) THEN
@@ -1073,12 +1073,12 @@ C-------QBAT,DKT18-----
                 IF (MLW == 1.OR.MLW == 3.OR.MLW == 23) THEN
                   JJ = JJ + 16*NEL
                 ELSE
-                  IF (MPT == 0) THEN 
+                  IF (MPT == 0) THEN
                     JJ = JJ + 16*NEL
                   ELSE
                     JJ = JJ + (6*MPT+7)*NEL
                   ENDIF
-                ENDIF 
+                ENDIF
               ENDIF ! IF (IHBE >= 11)
             ELSE
 C----error message------
@@ -1140,7 +1140,7 @@ C--------
        SIZ_WRITE(2*NSPGROUP+NN) = SIZ_WRITE_LOC(3*NSPGROUP+NN)
       ENDDO
       DO NN=1,3
-        SIZ_WRITE(3*NSPGROUP+NN) = WASZ(NN)   
+        SIZ_WRITE(3*NSPGROUP+NN) = WASZ(NN)
       ENDDO
 c-----------
       RETURN

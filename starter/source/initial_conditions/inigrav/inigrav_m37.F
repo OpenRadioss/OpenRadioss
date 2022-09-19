@@ -58,10 +58,10 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER :: I,ISOLVER, K
-      my_real :: R1, C1, P0, PGRAV, RHO10, RHO20, RHO1, RHO2, GAM, RHO0, 
+      my_real :: R1, C1, P0, PGRAV, RHO10, RHO20, RHO1, RHO2, GAM, RHO0,
      .     ALPHA1, ALPHA2,PSH
       TYPE(G_BUFEL_), POINTER :: GBUF
-      TYPE(BUF_MAT_) ,POINTER :: MBUF  
+      TYPE(BUF_MAT_) ,POINTER :: MBUF
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -89,7 +89,7 @@ C     EOS parameters mat2:
       IF(PSURF==ZERO .AND. ISOLVER<=1)THEN
         PSURF=P0  !historical solver requires a total pressure formulation
         print *, "**WARNING : INIGRAV CARD, PREF PARAMETER MUST BE A TOTAL PRESSURE WITH LAW37, SETTING PREF=P0"
-      ENDIF      
+      ENDIF
 
       DO K = 1, NEL
          I = LIST(K)
@@ -109,5 +109,5 @@ C     EOS parameters mat2:
          GBUF%SIG(I + NELG)     = - (PGRAV-P0-PSH)
          GBUF%SIG(I + 2 * NELG) = - (PGRAV-P0-PSH)
       ENDDO
-      
+
       END SUBROUTINE INIGRAV_M37

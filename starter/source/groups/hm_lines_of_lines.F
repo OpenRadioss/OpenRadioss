@@ -104,23 +104,23 @@ C     boucle sur les lignes
      .                          UNIT_ID     = UID,
      .                          KEYWORD2    = KEY   ,
      .                          KEYWORD3    = KEY2)
-        SKIPFLAG = 0                    
-          NSEG=0                                            
-          IF (KEY(1:4) == 'LINE') THEN                       
+        SKIPFLAG = 0
+          NSEG=0
+          IF (KEY(1:4) == 'LINE') THEN
             IF (FLAG == 0 .AND. IGRSLIN(IGS)%NSEG == -1) THEN
-              CALL HM_GET_INTV  ('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                 
-              IF (SKIPFLAG == 0) THEN                                        
-                DO KK=1,NENTITY                                                              
-                  CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)       
-                    IF (JJ /= 0) THEN                        
-                      IGRS=0                                   
+              CALL HM_GET_INTV  ('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+              IF (SKIPFLAG == 0) THEN
+                DO KK=1,NENTITY
+                  CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
+                    IF (JJ /= 0) THEN
+                      IGRS=0
                       DO K=1,NSLIN
                         IF (JJ == IGRSLIN(K)%ID) THEN
                           IGRS=K
                           EXIT
-                        ENDIF      
-                      ENDDO                                    
-                      IF (IGRS == 0)THEN                                   
+                        ENDIF
+                      ENDDO
+                      IF (IGRS == 0)THEN
                         CALL ANCMSG(MSGID=180,
      .                              MSGTYPE=MSGERROR,
      .                              ANMODE=ANINFO,
@@ -130,23 +130,23 @@ C     boucle sur les lignes
                       !! comme les /surf/surf                      ELSEIF (IGRSLIN(IGRS)%NSEG == -1) THEN
                       ELSEIF (IGRSLIN(IGRS)%LEVEL == 0)THEN
 C                       reference a une ligne non initialise     
-                        IF (ITER > NSLIN) GOTO 900               
+                        IF (ITER > NSLIN) GOTO 900
                         IGRSLIN(IGS)%NSEG=-1
                         IGRSLIN(IGS)%LEVEL=0
-                        ICOUNT=1  
-                        NSEG = 0                               
+                        ICOUNT=1
+                        NSEG = 0
                         SKIPFLAG = 1
-                        CYCLE                                 
-                      ELSE                                       
+                        CYCLE
+                      ELSE
 C                       reference a une ligne initialise         
                         NSEGV=IGRSLIN(IGRS)%NSEG
-                        NSEG=NSEG+NSEGV                          
-                      ENDIF                                    
-                    ENDIF                                                                            
-                ENDDO 
-              ENDIF                                        
-              IF (SKIPFLAG == 0) THEN               
-                INSEG=INSEG+6*NSEG                                
+                        NSEG=NSEG+NSEGV
+                      ENDIF
+                    ENDIF
+                ENDDO
+              ENDIF
+              IF (SKIPFLAG == 0) THEN
+                INSEG=INSEG+6*NSEG
                 IGRSLIN(IGS)%NSEG= NSEG
                 MY_ALLOCATE2D(IGRSLIN(IGS)%NODES,NSEG,2)
                 IGRSLIN(IGS)%NODES(1:NSEG,1:2) = 0
@@ -156,38 +156,38 @@ C                       reference a une ligne initialise
                 IGRSLIN(IGS)%ELEM(1:NSEG) = 0
                 MY_ALLOCATE(IGRSLIN(IGS)%PROC,NSEG)
                 IGRSLIN(IGS)%PROC(1:NSEG) = 0
-              ENDIF                                 
+              ENDIF
 C-----------                                             
             ELSEIF (FLAG == 1 .AND. IGRSLIN(IGS)%LEVEL == 0 .AND. IGRSLIN(IGS)%NSEG > -1) THEN
               NSEG_TOT = 0
-              CALL HM_GET_INTV  ('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)                 
-                DO KK=1,NENTITY                                                              
-                  CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)       
-                  IF (JJ /= 0) THEN                        
-                    IGRS=0                                   
+              CALL HM_GET_INTV  ('idsmax' ,NENTITY,IS_AVAILABLE,LSUBMODEL)
+                DO KK=1,NENTITY
+                  CALL HM_GET_INT_ARRAY_INDEX ('ids' ,JJ ,KK,IS_AVAILABLE,LSUBMODEL)
+                  IF (JJ /= 0) THEN
+                    IGRS=0
                     DO K=1,NSLIN
                       IF (JJ == IGRSLIN(K)%ID) THEN
                         IGRS=K
                         EXIT
-                      ENDIF      
-                    ENDDO                                    
+                      ENDIF
+                    ENDDO
                     IF (IGRSLIN(IGRS)%NSEG == -1) THEN
-                      CYCLE                               
-                    ELSE                                     
+                      CYCLE
+                    ELSE
                       NSEGV=IGRSLIN(IGRS)%NSEG
-                      DO L=1,NSEGV                       
+                      DO L=1,NSEGV
                         NSEG_TOT = NSEG_TOT + 1
                         IGRSLIN(IGS)%NODES(NSEG_TOT,1) = IGRSLIN(IGRS)%NODES(L,1)
                         IGRSLIN(IGS)%NODES(NSEG_TOT,2) = IGRSLIN(IGRS)%NODES(L,2)
                         IGRSLIN(IGS)%ELTYP(NSEG_TOT)   = IGRSLIN(IGRS)%ELTYP(L)
                         IGRSLIN(IGS)%ELEM(NSEG_TOT)    = IGRSLIN(IGRS)%ELEM(L)
                       ENDDO
-                    ENDIF                                    
-                  ENDIF                                    
-                ENDDO                                        
-                IGRSLIN(IGS)%LEVEL=1                                         
-            ENDIF   
-        ENDIF                                           
+                    ENDIF
+                  ENDIF
+                ENDDO
+                IGRSLIN(IGS)%LEVEL=1
+            ENDIF
+        ENDIF
       ENDDO
 C-----------
       RETURN

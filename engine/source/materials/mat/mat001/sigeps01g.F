@@ -88,7 +88,7 @@ C     REAL
      .   B3(MVSIZ),DEGMB(MVSIZ),DEGFX(MVSIZ),
      .   THK08,EZZ(MVSIZ)
       my_real
-     .   EIGV(MVSIZ,3,2),TRAV(MVSIZ),ROOTV(MVSIZ),  
+     .   EIGV(MVSIZ,3,2),TRAV(MVSIZ),ROOTV(MVSIZ),
      .   EH1(MVSIZ),EH2(MVSIZ),EB1(MVSIZ),EB2(MVSIZ),DEZZ(MVSIZ),
      .   EPSXX (MVSIZ),EPSYY (MVSIZ),EPSXY (MVSIZ),
      .   FOR1(MVSIZ),FOR2(MVSIZ),MOM1(MVSIZ),MOM2(MVSIZ)
@@ -112,8 +112,8 @@ C     principal stretch (def gradient eigenvalues)
           TRAV(I)  = EPSXX(I)+EPSYY(I)
           ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .               + EPSXY(I)*EPSXY(I)*FOUR)
-          EB1(I) = HALF*(TRAV(I)+ROOTV(I)) 
-          EB2(I) = HALF*(TRAV(I)-ROOTV(I)) 
+          EB1(I) = HALF*(TRAV(I)+ROOTV(I))
+          EB2(I) = HALF*(TRAV(I)-ROOTV(I))
           EH1(I) = HALF*LOG(EB1(I))
           EH2(I) = HALF*LOG(EB2(I))
           FOR1(I)=A1(I)*EH1(I)+A2(I)*EH2(I)
@@ -128,14 +128,14 @@ C     rot matrix (eigenvectors), ROOTV= 2R
             EIGV(I,1,2)=ZERO
             EIGV(I,2,2)=ONE
             EIGV(I,3,2)=ZERO
-          ELSE                                             
+          ELSE
             EIGV(I,1,1) = (EPSXX(I)-EB2(I)) / ROOTV(I)
             EIGV(I,2,1) = (EPSYY(I)-EB2(I)) / ROOTV(I)
             EIGV(I,3,1) = (EPSXY(I)) / ROOTV(I)
             EIGV(I,1,2) = (EB1(I)-EPSXX(I)) / ROOTV(I)
             EIGV(I,2,2) = (EB1(I)-EPSYY(I)) / ROOTV(I)
-            EIGV(I,3,2) =-(EPSXY(I)) / ROOTV(I)            
-          ENDIF                          
+            EIGV(I,3,2) =-(EPSXY(I)) / ROOTV(I)
+          ENDIF
         ENDDO
       ENDIF ! IF (ISMSTR == 10) THEN
 !---
@@ -182,8 +182,8 @@ C     principal stretch (def gradient eigenvalues)
           TRAV(I)  = EPSXX(I)+EPSYY(I)
           ROOTV(I) = SQRT((EPSXX(I)-EPSYY(I))*(EPSXX(I)-EPSYY(I))
      .             + EPSXY(I)*EPSXY(I)*FOUR)
-          EB1(I) = HALF*(TRAV(I)+ROOTV(I)) 
-          EB2(I) = HALF*(TRAV(I)-ROOTV(I)) 
+          EB1(I) = HALF*(TRAV(I)+ROOTV(I))
+          EB2(I) = HALF*(TRAV(I)-ROOTV(I))
           EH1(I) = HALF*LOG(EB1(I))
           EH2(I) = HALF*LOG(EB2(I))
           MOM1(I)=B1(I)*EH1(I)+B2(I)*EH2(I)
@@ -198,14 +198,14 @@ C     rot matrix (eigenvectors)
             EIGV(I,1,2)=ZERO
             EIGV(I,2,2)=ONE
             EIGV(I,3,2)=ZERO
-          ELSE                                             
+          ELSE
             EIGV(I,1,1) = (EPSXX(I)-EB2(I)) / ROOTV(I)
             EIGV(I,2,1) = (EPSYY(I)-EB2(I)) / ROOTV(I)
             EIGV(I,3,1) = (EPSXY(I)) / ROOTV(I)
             EIGV(I,1,2) = (EB1(I)-EPSXX(I)) / ROOTV(I)
             EIGV(I,2,2) = (EB1(I)-EPSYY(I)) / ROOTV(I)
-            EIGV(I,3,2) =-(EPSXY(I)) / ROOTV(I)            
-          ENDIF                          
+            EIGV(I,3,2) =-(EPSXY(I)) / ROOTV(I)
+          ENDIF
         ENDDO
         DO I=JFT,JLT
           MOMNXX(I) = EIGV(I,1,1)*MOM1(I) + EIGV(I,1,2)*MOM2(I)

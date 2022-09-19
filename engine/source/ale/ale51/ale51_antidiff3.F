@@ -43,9 +43,9 @@ C
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE I22BUFBRIC_MOD 
-      USE I22TRI_MOD 
-      USE SEGVAR_MOD     
+      USE I22BUFBRIC_MOD
+      USE I22TRI_MOD
+      USE SEGVAR_MOD
       USE ALE_CONNECTIVITY_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -79,11 +79,11 @@ C-----------------------------------------------
       INTEGER I,J,II,K,JV(NV46),KV(NV46),IFV,NIN, ib, ie,ISKIP(MVSIZ),IEV,IAD2, IAD3
       my_real VOL0,AV0,UAV0,ALPHI,UALPHI,AAA,FF(NV46),UDT,PHI0,facev
       my_real :: debug_tmp
-      LOGICAL :: debug_outp     
+      LOGICAL :: debug_outp
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
-     
+
       !----------------------------------------------
       !     WET SURFACE
       !-----------------------------------------------
@@ -92,7 +92,7 @@ C-----------------------------------------------
       ELSE
         UDT = ZERO
       ENDIF
-      
+
       !INTER22
       NIN = 1
 
@@ -111,15 +111,15 @@ C-----------------------------------------------
            enddo
          elseif(ibug22_antidiff==-1)then
            debug_outp = .true.
-         endif         
+         endif
          if(((itrimat /= ibug22_itrimat).and.(ibug22_itrimat /= -1)))debug_outp=.false.
        endif
        if(debug_outp)then
          print *, "    |----ale51_antidiff3.F-----|"
          print *, "    |     THREAD INFORMATION   |"
-         print *, "    |--------------------------|" 
-         print *, "    NCYCLE  =", NCYCLE      
-         print *, "    ITRIMAT =", ITRIMAT         
+         print *, "    |--------------------------|"
+         print *, "    NCYCLE  =", NCYCLE
+         print *, "    ITRIMAT =", ITRIMAT
        endif
       endif
 
@@ -127,11 +127,11 @@ C-----------------------------------------------
       NIN = 1
       ISKIP(1:MVSIZ) = ZERO
       IF(INT22>0)THEN
-        DO I=LFT,LLT      
+        DO I=LFT,LLT
           IB=IIAD22(NIN,I+NFT)
           IF(IB /= 0)ISKIP(I)=1
         ENDDO
-      ENDIF  
+      ENDIF
 
       DO I=LFT,LLT
         IF(ISKIP(I)==1)CYCLE !unplug for cut cells.
@@ -141,10 +141,10 @@ C-----------------------------------------------
         AV0  = ALPH(II) * VOL0
         UAV0 = VOL0 - AV0
         ALPHI  = ZERO
-        UALPHI = ZERO 
-        PHI0 = ZERO  
+        UALPHI = ZERO
+        PHI0 = ZERO
         !-----------------------------------------------
-        !       face number from adjacent elem  
+        !       face number from adjacent elem
         !       & total volume flux (outgoing)
         !-----------------------------------------------
         DO K=1,NV46
@@ -170,11 +170,11 @@ C-----------------------------------------------
             !outgoing volume flux (estimation)
             ALPHI  = ALPHI  + FF(K)
             !outgoing volume flux (initial)
-            PHI0 = PHI0 + FLUX(K,II) 
+            PHI0 = PHI0 + FLUX(K,II)
           ENDIF
         ENDDO
         !outgoing rest (estimation)
-        UALPHI = PHI0 - ALPHI 
+        UALPHI = PHI0 - ALPHI
         !-----------------------------------------------
         !       outgoing volume flux (by face)
         !-----------------------------------------------
@@ -209,16 +209,16 @@ C-----------------------------------------------
             !INTERFACE 22 ONLY------------------------! (OBSOLETE)
             if(int22>0)then
             if(debug_outp)then
-            if(ibug22_antidiff == ixs(11,i+nft) .OR. ibug22_antidiff == -1)then          
-              print *,              "      brique       =", ixs(11,i+nft)             
+            if(ibug22_antidiff == ixs(11,i+nft) .OR. ibug22_antidiff == -1)then
+              print *,              "      brique       =", ixs(11,i+nft)
               print *,              "      FACE         =", K
         write (*,FMT='(A,6E26.14)')"       WAS  Flux(J) =", FLUX(K,II)
-        write (*,FMT='(A,6E26.14)')"       IS  Flux(J)  =", FF(K)             
-              print *, "      ------------------------"               
+        write (*,FMT='(A,6E26.14)')"       IS  Flux(J)  =", FF(K)
+              print *, "      ------------------------"
             endif
             endif
             endif
-            !-----------------------------------------!      
+            !-----------------------------------------!
 
 
             FLUX(K,II) = FF(K)
@@ -228,8 +228,8 @@ C-----------------------------------------------
             ELSEIF(JV(K) <= NUMELS)THEN
               IF(INT22 == 0)THEN
                 debug_tmp         = FLUX(KV(K),JV(K))
-                FLUX(KV(K),JV(K)) = -FLUX(K,II)              
-              ELSE              
+                FLUX(KV(K),JV(K)) = -FLUX(K,II)
+              ELSE
                 IF(IIAD22(NIN,JV(K))==0)THEN
                 !NOT IN CUT CELL BUFFER(INTER22)
                   debug_tmp         =  FLUX(KV(K),JV(K))
@@ -237,7 +237,7 @@ C-----------------------------------------------
                 ELSE
                 !IN CUT CELL BUFFER (INTER22)
                   NIN = 1
-                  iFV = KV(K)               
+                  iFV = KV(K)
                   !(icellv,iadjv) = (1,1) since it is supposed to be an uncut cell from cut cell buffer (TZINF ensures this)
                   debug_tmp = BRICK_LIST(NIN,IIAD22(NIN,JV(K)))%POLY(1)%FACE(IFv)%Adjacent_UpwFLUX(1)
                   BRICK_LIST(NIN,IIAD22(NIN,JV(K)))%POLY(1)%FACE(IFv)%Adjacent_UpwFLUX(1) = -FLUX(K,II)
@@ -254,26 +254,26 @@ C-----------------------------------------------
               N4_VOIS(II,7) = ITAB(IXS(8,II))
               N4_VOIS(II,8) = ITAB(IXS(9,II))
             ENDIF
-            
+
             !INTERFACE 22 ONLY------------------------!
             if(int22>0)then
-            if(debug_outp)then 
-            if(ibug22_antidiff == ixs(11,i+nft) .OR. ibug22_antidiff == -1)then                        
+            if(debug_outp)then
+            if(ibug22_antidiff == ixs(11,i+nft) .OR. ibug22_antidiff == -1)then
               iev = jv(k)
               facev=kv(k)
               print *, "        => Setting adjacent flux consequently :"
-              print *, "        brique.V=", ixs(11,iev)              
+              print *, "        brique.V=", ixs(11,iev)
               print *, "        FACE.V       =", IFv
-              write (*,FMT='(A,6E26.14)')      
+              write (*,FMT='(A,6E26.14)')
      .                "         WAS  Flux(J) =", debug_tmp
-              write (*,FMT='(A,6E26.14)')      
-     .                "         IS  Flux(J)  =", -FLUX(K,II)             
-              print *, "        ---"               
+              write (*,FMT='(A,6E26.14)')
+     .                "         IS  Flux(J)  =", -FLUX(K,II)
+              print *, "        ---"
             endif
             endif
             endif
-            !-----------------------------------------! 
-            
+            !-----------------------------------------!
+
           ENDIF
         ENDDO
 C-----------------------------------------------
@@ -285,9 +285,9 @@ C-----------------------------------------------
               IF(FLUX(K,II) < ZERO .AND. ALE_CONNECT%ee_connect%connected(IAD2 + K - 1) < 0)THEN
                 FLUX(K,II) = SEGVAR%PHASE_ALPHA(ITRIMAT,-ALE_CONNECT%ee_connect%connected(IAD2 + K - 1))*FLUX(K,II)
               ENDIF
-            ENDDO       
-          ENDIF   
-        
+            ENDDO
+          ENDIF
+
 C-------------
       ENDDO!next I
 C-----------------------------------------------

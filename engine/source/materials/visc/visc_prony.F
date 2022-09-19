@@ -86,9 +86,9 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,J,II,IFLAG,IMOD
-      my_real 
+      my_real
      .  KV0,P,G,DAV,EPXX,EPYY,EPZZ
-      my_real 
+      my_real
      .  AA(NPRONY),BB(NPRONY),GV(NPRONY),BETA(NPRONY),H0(6),H(6),
      .  AAK(NPRONY),BBK(NPRONY),BETAK(NPRONY),KV(NPRONY),HP0,
      .  TRACE,RBULK,HP
@@ -101,46 +101,46 @@ C=======================================================================
       IMOD = INT(UPARAM(IADBUF + 4*NPRONY + 3))
       IF(IFLAG < 0) THEN
 C old formulation      
-        DO J=1,NPRONY                                  
-          GV(J)   = UPARAM(IADBUF + 1 + J)            
+        DO J=1,NPRONY
+          GV(J)   = UPARAM(IADBUF + 1 + J)
           BETA(J) = UPARAM(IADBUF + 1 + NPRONY + J)
-          KV(J)   = UPARAM(IADBUF + 1 + 2*NPRONY + J)            
+          KV(J)   = UPARAM(IADBUF + 1 + 2*NPRONY + J)
           BETAK(J) = UPARAM(IADBUF + 1 + 3*NPRONY + J)
 C             
-          G = G + GV(J)     
+          G = G + GV(J)
           RBULK = RBULK + KV(J)
           AA(J) = EXP(-BETA(J)*TIMESTEP)
           BB(J) = TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP)
 C          
           AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)     
+          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)
         ENDDO
       ELSE
-        DO J=1,NPRONY                                  
-          GV(J)   = UPARAM(IADBUF + 1 + J)            
+        DO J=1,NPRONY
+          GV(J)   = UPARAM(IADBUF + 1 + J)
           BETA(J) = UPARAM(IADBUF + 1 + NPRONY + J)
-          KV(J)   = UPARAM(IADBUF + 1 + 2*NPRONY + J)            
+          KV(J)   = UPARAM(IADBUF + 1 + 2*NPRONY + J)
           BETAK(J) = UPARAM(IADBUF + 1 + 3*NPRONY + J)
-          G = G + GV(J)   
+          G = G + GV(J)
           RBULK = RBULK + KV(J)
           AA(J) = EXP(-BETA(J)*TIMESTEP)
-          BB(J) = TWO*TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP) 
+          BB(J) = TWO*TIMESTEP*GV(J)*EXP(-HALF*BETA(J)*TIMESTEP)
 C          
           AAK(J) = EXP(-BETAK(J)*TIMESTEP)
-          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)   
-        ENDDO 
-      ENDIF 
+          BBK(J) = TIMESTEP*KV(J)*EXP(-HALF*BETAK(J)*TIMESTEP)
+        ENDDO
+      ENDIF
 C     
-      IF(IMOD > 0) THEN        
-         DO I=1,NEL                                                     
-c       spheric part 
+      IF(IMOD > 0) THEN
+         DO I=1,NEL
+c       spheric part
            TRACE = -(EPSPXX(I) + EPSPYY(I) + EPSPZZ(I))
-           DAV = THIRD*TRACE          
-           P   = ZERO 
-                                             
-c          deviatoric part                                           
-           EPXX = EPSPXX(I) + DAV                                    
-           EPYY = EPSPYY(I) + DAV                                    
+           DAV = THIRD*TRACE
+           P   = ZERO
+
+c          deviatoric part
+           EPXX = EPSPXX(I) + DAV
+           EPYY = EPSPYY(I) + DAV
            EPZZ = EPSPZZ(I) + DAV
 C           
            SV1(I) = ZERO
@@ -150,59 +150,59 @@ C
            SV5(I) = ZERO
            SV6(I) = ZERO
 C            
-           DO J= 1,NPRONY  
+           DO J= 1,NPRONY
              II = NUVAR*(J-1)
 C                                                                    
-             H0(1) = UVAR(I,II + 1)                         
-             H0(2) = UVAR(I,II + 2)                         
-             H0(3) = UVAR(I,II + 3)                         
-             H0(4) = UVAR(I,II + 4)                         
-             H0(5) = UVAR(I,II + 5)                         
-             H0(6) = UVAR(I,II + 6)                          
-             HP0    = UVAR(I,II + 7)                         
+             H0(1) = UVAR(I,II + 1)
+             H0(2) = UVAR(I,II + 2)
+             H0(3) = UVAR(I,II + 3)
+             H0(4) = UVAR(I,II + 4)
+             H0(5) = UVAR(I,II + 5)
+             H0(6) = UVAR(I,II + 6)
+             HP0    = UVAR(I,II + 7)
 C
-             H(1) = AA(J)*H0(1) + BB(J)*EPXX                     
-             H(2) = AA(J)*H0(2) + BB(J)*EPYY                     
-             H(3) = AA(J)*H0(3) + BB(J)*EPZZ                     
-             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)         
-             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)         
-             H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)                    
-             HP = AAK(J)*HP0 + BBK(J)*TRACE           
+             H(1) = AA(J)*H0(1) + BB(J)*EPXX
+             H(2) = AA(J)*H0(2) + BB(J)*EPYY
+             H(3) = AA(J)*H0(3) + BB(J)*EPZZ
+             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)
+             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)
+             H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)
+             HP = AAK(J)*HP0 + BBK(J)*TRACE
 C
-             UVAR(I,II + 1) = H(1)                        
-             UVAR(I,II + 2) = H(2)                        
-             UVAR(I,II + 3) = H(3)                        
-             UVAR(I,II + 4) = H(4)                        
-             UVAR(I,II + 5) = H(5)                        
-             UVAR(I,II + 6) = H(6)                          
-             UVAR(I,II + 7) = HP                      
+             UVAR(I,II + 1) = H(1)
+             UVAR(I,II + 2) = H(2)
+             UVAR(I,II + 3) = H(3)
+             UVAR(I,II + 4) = H(4)
+             UVAR(I,II + 5) = H(5)
+             UVAR(I,II + 6) = H(6)
+             UVAR(I,II + 7) = HP
 c
-             SV1(I) = SV1(I) + H(1)                                    
-             SV2(I) = SV2(I) + H(2)                                    
-             SV3(I) = SV3(I) + H(3)                                    
-             SV4(I) = SV4(I) + H(4)                                    
-             SV5(I) = SV5(I) + H(5)                                    
+             SV1(I) = SV1(I) + H(1)
+             SV2(I) = SV2(I) + H(2)
+             SV3(I) = SV3(I) + H(3)
+             SV4(I) = SV4(I) + H(4)
+             SV5(I) = SV5(I) + H(5)
              SV6(I) = SV6(I) + H(6)
-             P  = P  + HP                                       
-           ENDDO                                                     
+             P  = P  + HP
+           ENDDO
 c
-           SV1(I) = SV1(I) - P                                       
-           SV2(I) = SV2(I) - P                                       
-           SV3(I) = SV3(I) - P                                       
+           SV1(I) = SV1(I) - P
+           SV2(I) = SV2(I) - P
+           SV3(I) = SV3(I) - P
 C                                                                       
-           VISCMAX(I) = ZERO                                            
-           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
+           VISCMAX(I) = ZERO
+           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I))
           ENDDO  !   I=1,NEL
        ELSE
-         DO I=1,NEL                                                     
-c       spheric part 
-           TRACE = EPSPXX(I) + EPSPYY(I) + EPSPZZ(I) 
-           DAV = THIRD*TRACE  
-           P  = -KV0*TRACE                  
-c          deviatoric part                                           
-           EPXX = EPSPXX(I) - DAV                                    
-           EPYY = EPSPYY(I) - DAV                                    
-           EPZZ = EPSPZZ(I) - DAV  
+         DO I=1,NEL
+c       spheric part
+           TRACE = EPSPXX(I) + EPSPYY(I) + EPSPZZ(I)
+           DAV = THIRD*TRACE
+           P  = -KV0*TRACE
+c          deviatoric part
+           EPXX = EPSPXX(I) - DAV
+           EPYY = EPSPYY(I) - DAV
+           EPZZ = EPSPZZ(I) - DAV
 C           
            SV1(I) = ZERO
            SV2(I) = ZERO
@@ -211,47 +211,47 @@ C
            SV5(I) = ZERO
            SV6(I) = ZERO
 C            
-           DO J= 1,NPRONY  
+           DO J= 1,NPRONY
              II = NUVAR*(J-1)
 C                                                                    
-             H0(1) = UVAR(I,II + 1)                         
-             H0(2) = UVAR(I,II + 2)                         
-             H0(3) = UVAR(I,II + 3)                         
-             H0(4) = UVAR(I,II + 4)                         
-             H0(5) = UVAR(I,II + 5)                         
-             H0(6) = UVAR(I,II + 6)                          
-             HP0    = UVAR(I,II + 7)                         
+             H0(1) = UVAR(I,II + 1)
+             H0(2) = UVAR(I,II + 2)
+             H0(3) = UVAR(I,II + 3)
+             H0(4) = UVAR(I,II + 4)
+             H0(5) = UVAR(I,II + 5)
+             H0(6) = UVAR(I,II + 6)
+             HP0    = UVAR(I,II + 7)
 C
-             H(1) = AA(J)*H0(1) + BB(J)*EPXX                     
-             H(2) = AA(J)*H0(2) + BB(J)*EPYY                     
-             H(3) = AA(J)*H0(3) + BB(J)*EPZZ                     
-             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)         
-             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)         
+             H(1) = AA(J)*H0(1) + BB(J)*EPXX
+             H(2) = AA(J)*H0(2) + BB(J)*EPYY
+             H(3) = AA(J)*H0(3) + BB(J)*EPZZ
+             H(4) = AA(J)*H0(4) + HALF*BB(J)*EPSPXY(I)
+             H(5) = AA(J)*H0(5) + HALF*BB(J)*EPSPYZ(I)
              H(6) = AA(J)*H0(6) + HALF*BB(J)*EPSPZX(I)
 C
-             UVAR(I,II + 1) = H(1)                        
-             UVAR(I,II + 2) = H(2)                        
-             UVAR(I,II + 3) = H(3)                        
-             UVAR(I,II + 4) = H(4)                        
-             UVAR(I,II + 5) = H(5)                        
-             UVAR(I,II + 6) = H(6)                   
+             UVAR(I,II + 1) = H(1)
+             UVAR(I,II + 2) = H(2)
+             UVAR(I,II + 3) = H(3)
+             UVAR(I,II + 4) = H(4)
+             UVAR(I,II + 5) = H(5)
+             UVAR(I,II + 6) = H(6)
 c
-             SV1(I) = SV1(I) + H(1)                                    
-             SV2(I) = SV2(I) + H(2)                                    
-             SV3(I) = SV3(I) + H(3)                                    
-             SV4(I) = SV4(I) + H(4)                                    
-             SV5(I) = SV5(I) + H(5)                                    
-             SV6(I) = SV6(I) + H(6)                            
-           ENDDO                                                     
+             SV1(I) = SV1(I) + H(1)
+             SV2(I) = SV2(I) + H(2)
+             SV3(I) = SV3(I) + H(3)
+             SV4(I) = SV4(I) + H(4)
+             SV5(I) = SV5(I) + H(5)
+             SV6(I) = SV6(I) + H(6)
+           ENDDO
 c
-           SV1(I) = SV1(I) - P                                       
-           SV2(I) = SV2(I) - P                                       
-           SV3(I) = SV3(I) - P                                       
+           SV1(I) = SV1(I) - P
+           SV2(I) = SV2(I) - P
+           SV3(I) = SV3(I) - P
 C                                                                       
-           VISCMAX(I) = ZERO                                            
-           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I)) 
-          ENDDO  !   I=1,NEL 
-       ENDIF                                                         
+           VISCMAX(I) = ZERO
+           SOUNDSP(I) = SQRT(SOUNDSP(I)**2 + (FOUR_OVER_3*G + RBULK)/RHO(I))
+          ENDDO  !   I=1,NEL
+       ENDIF
 c------------
       RETURN
       END

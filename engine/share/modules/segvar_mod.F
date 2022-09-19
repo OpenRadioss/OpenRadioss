@@ -69,46 +69,46 @@ C-----------------------------------------------
         INTEGER :: nseg
         INTEGER :: nbmat !number of phases
         logical :: has_rho = .false.
-        logical :: has_eint = .false.        
+        logical :: has_eint = .false.
         logical :: has_rk = .false.
-        logical :: has_re = .false.  
-        logical :: has_uvar = .false.                      
-        logical :: has_phase_alpha = .false.  
-        logical :: has_phase_rho = .false.    
-        logical :: has_phase_eint = .false.            
+        logical :: has_re = .false.
+        logical :: has_uvar = .false.
+        logical :: has_phase_alpha = .false.
+        logical :: has_phase_rho = .false.
+        logical :: has_phase_eint = .false.
         my_real,allocatable,dimension(:) :: rho
         my_real,allocatable,dimension(:) :: eint
         my_real,allocatable,dimension(:) :: rk
-        my_real,allocatable,dimension(:) :: re  
+        my_real,allocatable,dimension(:) :: re
         my_real,allocatable,dimension(:) :: uvar
-        my_real,allocatable,dimension(:,:) :: phase_alpha 
+        my_real,allocatable,dimension(:,:) :: phase_alpha
         my_real,allocatable,dimension(:,:) :: phase_rho
-        my_real,allocatable,dimension(:,:) :: phase_eint 
+        my_real,allocatable,dimension(:,:) :: phase_eint
       CONTAINS
-        procedure, pass :: destroy => segvar_destroy      
-        procedure, pass :: create => segvar_create  
+        procedure, pass :: destroy => segvar_destroy
+        procedure, pass :: create => segvar_create
       END TYPE t_segvar
-      
+
       CONTAINS
-      
+
       subroutine segvar_destroy(this)
       implicit none
       class(t_segvar), intent(inout) :: this
         if(allocated(this%rho)) deallocate(this%rho)
         if(allocated(this%eint)) deallocate(this%eint)
         if(allocated(this%rk)) deallocate(this%rk)
-        if(allocated(this%re)) deallocate(this%re)                
+        if(allocated(this%re)) deallocate(this%re)
         if(allocated(this%uvar)) deallocate(this%uvar)
-        if(allocated(this%phase_alpha)) deallocate(this%phase_alpha) 
-        if(allocated(this%phase_alpha)) deallocate(this%phase_rho) 
-        if(allocated(this%phase_alpha)) deallocate(this%phase_eint)                 
+        if(allocated(this%phase_alpha)) deallocate(this%phase_alpha)
+        if(allocated(this%phase_alpha)) deallocate(this%phase_rho)
+        if(allocated(this%phase_alpha)) deallocate(this%phase_eint)
       end subroutine segvar_destroy
-      
+
       subroutine segvar_create(this,nbmat)
       implicit none
-#include "constant.inc"      
-#include "../includes/conv_c.inc"   
-#include "../includes/com04_c.inc" 
+#include "constant.inc"
+#include "../includes/conv_c.inc"
+#include "../includes/com04_c.inc"
       class(t_segvar), intent(inout) :: this
        integer,intent(in) :: nbmat
         this%nseg=NSEGFLU
@@ -118,7 +118,7 @@ C-----------------------------------------------
           if(NVCONV >= 2)this%has_eint=.true.
           if(NVCONV >= 3)this%has_rk=.true.
           if(NVCONV >= 4)this%has_re=.true.
-          if(NVCONV >= 5)this%has_uvar=.true.                                
+          if(NVCONV >= 5)this%has_uvar=.true.
           if(this%has_rho)then
             allocate(this%rho(this%nseg))
             this%rho(1:this%nseg)=ZERO
@@ -129,7 +129,7 @@ C-----------------------------------------------
           endif
           if(this%has_rk)then
             allocate(this%rk(this%nseg))
-            this%rk(1:this%nseg)=ZERO            
+            this%rk(1:this%nseg)=ZERO
           endif
           if(this%has_re)then
             allocate(this%re(this%nseg))
@@ -137,7 +137,7 @@ C-----------------------------------------------
           endif
           if(this%has_uvar)then
             allocate(this%uvar(this%nseg))
-            this%uvar(1:this%nseg)=ZERO 
+            this%uvar(1:this%nseg)=ZERO
           endif
           if(nbmat > 0)then
             this%has_phase_alpha = .true.
@@ -148,9 +148,9 @@ C-----------------------------------------------
             this%phase_rho(1:this%nbmat,1:this%nseg) = ZERO
             this%has_phase_eint = .true.
             allocate(this%phase_eint(this%nbmat,this%nseg))
-            this%phase_eint(1:this%nbmat,1:this%nseg) = ZERO                        
+            this%phase_eint(1:this%nbmat,1:this%nseg) = ZERO
           endif
-        endif                               
-      end subroutine segvar_create      
+        endif
+      end subroutine segvar_create
 
       END MODULE SEGVAR_MOD

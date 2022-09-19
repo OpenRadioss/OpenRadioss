@@ -34,7 +34,7 @@ Chd|        SPMD_ENVOIS                   source/mpi/fluid/spmd_cfd.F
 Chd|        ALE_CONNECTIVITY_MOD          ../common_source/modules/ale_connectivity_mod.F
 Chd|        ELBUFDEF_MOD                  ../common_source/modules/elbufdef_mod.F
 Chd|====================================================================
-      SUBROUTINE ALEW6( 
+      SUBROUTINE ALEW6(
      1     X             ,D             , V       ,W       ,WA      ,
      .     XCELL         , XFACE        ,
      2     ALE_NN_CONNECT,ALE_NE_CONNECT, NALE    ,NODFT   ,NODLT   ,ITASK   ,
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C     M o d u l e s
 C-----------------------------------------------
       USE ALE_CONNECTIVITY_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C     I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -82,7 +82,7 @@ C-----------------------------------------------
       INTEGER NALE(NUMNOD), NODFT, NODLT, ITASK,
      .        NBRCVOIS(*),NBSDVOIS(*),
      .        LNRCVOIS(*),LNSDVOIS(*),ITAB(NUMNOD),IPARG(NPARG,NGROUP),IXS(NIXS,NUMELS),IXQ(NIXQ,NUMELQ)
-      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), XCELL(3, *), XFACE(3,6,*)  
+      my_real X(3,SX/3), D(3,SD/3), V(3,SV/3), W(3,SW/3), WA(3,*), XCELL(3, *), XFACE(3,6,*)
       TYPE(t_connectivity), INTENT(IN) :: ALE_NN_CONNECT, ALE_NE_CONNECT
       INTEGER, INTENT(IN) :: NERCVOIS(*), NESDVOIS(*), LERCVOIS(*), LESDVOIS(*)
       TYPE(ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -95,7 +95,7 @@ C-----------------------------------------------
 C     ---------------------------------------------
 C     B e g i n n i n g   o f   S u b r o u t i n e
 C     ---------------------------------------------
-      WA(1:3,NODFT:NODLT)=X(1:3,NODFT:NODLT)      
+      WA(1:3,NODFT:NODLT)=X(1:3,NODFT:NODLT)
       CALL MY_BARRIER
       DO NG = ITASK + 1, NGROUP, NTHREAD
          NEL = IPARG(2, NG)
@@ -103,16 +103,16 @@ C     ---------------------------------------------
          ITY = IPARG(5, NG)
          ISOLNOD = IPARG(28, NG)
          IF (ITY == 1 .AND. ISOLNOD /= 4) THEN
-            CALL CENTROID3(NEL, NEL, NFT, IXS, X, 
-     .           XCELL(:, 1 + NFT : NEL + NFT), 
+            CALL CENTROID3(NEL, NEL, NFT, IXS, X,
+     .           XCELL(:, 1 + NFT : NEL + NFT),
      .           XFACE(:, :, 1 + NFT : NEL + NFT))
          ELSEIF (ITY == 1 .AND. ISOLNOD == 4) THEN
-            CALL CENTROID3T(NEL, NEL, NFT, IXS, X, 
-     .           XCELL(:, 1 + NFT : NEL + NFT), 
+            CALL CENTROID3T(NEL, NEL, NFT, IXS, X,
+     .           XCELL(:, 1 + NFT : NEL + NFT),
      .           XFACE(:, :, 1 + NFT : NEL + NFT))
          ELSEIF (ITY == 2) THEN
-            CALL CENTROID2(NEL, NEL, NFT, IXQ, X, 
-     .           XCELL(:, 1 + NFT : NEL + NFT), 
+            CALL CENTROID2(NEL, NEL, NFT, IXQ, X,
+     .           XCELL(:, 1 + NFT : NEL + NFT),
      .           XFACE(:, :, 1 + NFT : NEL + NFT))
          ENDIF
          IF (ITY == 1 .OR. ITY == 2) THEN
@@ -144,9 +144,9 @@ C     Volume stored in XFACE for SMP reasons
          LENCOM = NERCVOIS(NSPMD + 1) + NESDVOIS(NSPMD + 1)
          CALL SPMD_E1VOIS(XFACE(2,1,1:NUMELS + NUMELQ + NE_NSVOIS + NE_NQVOIS),
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         CALL SPMD_ENVOIS(3, XCELL, 
+         CALL SPMD_ENVOIS(3, XCELL,
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
-         CALL SPMD_E1VOIS(XFACE(1,1,1:NUMELS + NUMELQ + NE_NSVOIS + NE_NQVOIS), 
+         CALL SPMD_E1VOIS(XFACE(1,1,1:NUMELS + NUMELQ + NE_NSVOIS + NE_NQVOIS),
      .        NERCVOIS, NESDVOIS, LERCVOIS, LESDVOIS, LENCOM)
 !$OMP END MASTER
       ENDIF
@@ -171,7 +171,7 @@ C     Volume stored in XFACE for SMP reasons
             W(1:3,I) = (X(1:3,I) - WA(1:3,I)) / DT2
          ELSE IF (NALE(I) == 0) THEN
             W(1:3,I) = V(1:3,I)
-         ELSE 
+         ELSE
             W(1:3, I) = ZERO
          ENDIF
          X(1:3,I) = WA(1:3,I)

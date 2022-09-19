@@ -194,7 +194,7 @@ C=======================================================================
 c     norme r s t
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 50 I=LFT,LLT
-       IF (OFF(I) <= ONE ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE
       aa = sqrt(rx(I)*rx(I) + ry(I)*ry(I) + rz(I)*rz(I))
       if ( aa/=ZERO) aa = ONE / aa
       Ux(I) = rx(I) * aa
@@ -219,7 +219,7 @@ c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       N=N+1
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 100 I=LFT,LLT
-       IF (OFF(I) <= ONE ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE
        e1x(I) = Vy(I) * Wz(I) - Vz(I) * Wy(I) + Ux(I)
        e1y(I) = Vz(I) * Wx(I) - Vx(I) * Wz(I) + Uy(I)
        e1z(I) = Vx(I) * Wy(I) - Vy(I) * Wx(I) + Uz(I)
@@ -255,7 +255,7 @@ c
 c     norme et orthogonalisation
 c~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO 200 I=LFT,LLT
-       IF (OFF(I) <= ONE ) CYCLE 
+       IF (OFF(I) <= ONE ) CYCLE
       e1x(I) = Ux(I)
       e1y(I) = Uy(I)
       e1z(I) = Uz(I)

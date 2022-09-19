@@ -44,9 +44,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD   
+      USE ELBUFDEF_MOD
       USE STACK_MOD
-      USE DRAPE_MOD      
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_DYNAIN(*),
      .        DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
-      my_real   
+      my_real
      .   GEO(NPROPG,*) , X(*) ,THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -97,25 +97,25 @@ C-----------------------------------------------
       CHARACTER*100 LINE
       my_real
      .   SIG(6) , MOM(3),A1 ,A2
-      my_real   
+      my_real
      .   PG,MPG,QPG(2,4),
      .   SK(2),ST(2),MK(2),MT(2),SHK(2),SHT(2),ZZ
       my_real
      .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
      .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
       my_real
-     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ), 
-     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ), 
-     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ), 
-     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ), 
+     .   E1X(MVSIZ), E1Y(MVSIZ), E1Z(MVSIZ),
+     .   E2X(MVSIZ), E2Y(MVSIZ), E2Z(MVSIZ),
+     .   E3X(MVSIZ), E3Y(MVSIZ), E3Z(MVSIZ),
+     .   RX(MVSIZ), RY(MVSIZ), RZ(MVSIZ),
      .   SX(MVSIZ), SY(MVSIZ), SZ(MVSIZ),
      .   THK0(MVSIZ)
       my_real, ALLOCATABLE, DIMENSION(:) :: DIRA,DIRB
       my_real, DIMENSION(:) ,POINTER     :: DIR_A, DIR_B
       TARGET :: DIRA,DIRB
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
 C-----------------------------------------------
       PARAMETER (PG = .577350269189626)
       PARAMETER (MPG=-.577350269189626)
@@ -141,7 +141,7 @@ C
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -154,12 +154,12 @@ C
           IXLAY = 0 ! standard element
           IPID = IXC(6,NFT+1)
           IREP = IGEO(6,IPID)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           IF (IHBE == 23) NPG=4
           LFT=1
           LLT=NEL
@@ -197,7 +197,7 @@ C------------------------------------------------
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      , 
+     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      ,
      .           NEL        ,THK_LY )
 
 C-------------------------------------------------------
@@ -206,8 +206,8 @@ C-------------------------------------------------------
            CALL SHELL_LOCAL_FRAME(
      1                     LFT    , LLT   ,ITY      ,IHBE     ,IGTYP   ,
      2                     IXC    ,IXTG   ,NFT      ,X        ,GBUF%OFF,
-     3                     RX     ,RY     ,RZ       ,SX       ,SY      ,  
-     4                     SZ     ,E1X    ,E2X      ,E3X      ,E1Y     , 
+     3                     RX     ,RY     ,RZ       ,SX       ,SY      ,
+     4                     SZ     ,E1X    ,E2X      ,E3X      ,E1Y     ,
      5                     E2Y    ,E3Y    ,E1Z      ,E2Z      ,E3Z     )
 
 C-------------------------------------------------------
@@ -238,7 +238,7 @@ C-------------------------------------------------------
      .                      E1Z      ,E2X    ,E2Y    ,E2Z    ,NEL    )
 
           IORTH = 0
-          IF (IGTYP /= 1) THEN                                                     
+          IF (IGTYP /= 1) THEN
              IORTH = 1
           ENDIF
 C-------------------------------------------------------
@@ -246,27 +246,27 @@ C     Viscosity stress add
 C-------------------------------------------------------
 
           IVISC = 0
-          IF (IGTYP == 11) THEN                                
-              IPMAT = 100                                     
-              DO N=1,MPT                                     
+          IF (IGTYP == 11) THEN
+              IPMAT = 100
+              DO N=1,MPT
                  DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1       
-                 ENDDO                                       
-              ENDDO                                          
-          ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN            
+                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1
+                 ENDDO
+              ENDDO
+          ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN
               DO N=1,MPT
                   DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
-                 ENDDO                                      
-              ENDDO                                         
-          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN                             
+                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1
+                 ENDDO
+              ENDDO
+          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN
                   IPMAT   = 2 + NLAY
-              DO N=1,NLAY                                      
+              DO N=1,NLAY
                   DO I=LFT,LLT
-                    IF(IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
-                 END DO                                      
-               ENDDO                                          
-          ENDIF   ! IGTYP    
+                    IF(IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1
+                 END DO
+               ENDDO
+          ENDIF   ! IGTYP
 
 C-------------------------------------------------------
 C-       Loop over 4 node shell elements
@@ -286,7 +286,7 @@ C-------------------------------------------------------
             JJ = JJ + 1
             IF (MPT == 0) THEN  ! global integration
                WA(JJ) = 3 ! Membrane - Lower - Upper
-            ELSE 
+            ELSE
                WA(JJ) = MPT  ! Integration points
             ENDIF
             JJ = JJ + 1
@@ -298,13 +298,13 @@ c---------
 
            IF (MPT == 0) THEN  ! global integration
                IF (MLW == 0 .or. MLW == 13) THEN
-                  DO IPG=1,NPG 
+                  DO IPG=1,NPG
                     JJ = JJ + 1
                     WA(JJ) = ZERO
                     DO J=1,8        ! forces            	
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                    ENDDO                                                               
+                    ENDDO
                   ENDDO
                ELSEIF (NPG == 1) THEN
 
@@ -315,10 +315,10 @@ c---------
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
                   SIG(2) = A1*GBUF%FOR(KK(2)+I) + A2* GBUF%MOM(KK(2)+I)
                   SIG(3) = A1*GBUF%FOR(KK(3)+I) + A2* GBUF%MOM(KK(3)+I)
-                  SIG(4) = GBUF%FOR(KK(4)+I) 
-                  SIG(5) = GBUF%FOR(KK(5)+I)  
-                  SIG(6) = ZERO    
-        
+                  SIG(4) = GBUF%FOR(KK(4)+I)
+                  SIG(5) = GBUF%FOR(KK(5)+I)
+                  SIG(6) = ZERO
+
                   IORTH = 0
                   ILAY = 0
                   JDIR = 0
@@ -326,32 +326,32 @@ c---------
                   CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
                   WA(JJ) = -ONE
-                  JJ = JJ + 1                                      
-                  WA(JJ) = SIG(1)         
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(2)          
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(3)              
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(4)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(5)    
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(6) 
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(1)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(2)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(3)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(4)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(5)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(6)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF    
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
 ! Membrane
                   A1 = ONE
                   A2  = ZERO
@@ -359,10 +359,10 @@ c
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
                   SIG(2) = A1*GBUF%FOR(KK(2)+I) + A2* GBUF%MOM(KK(2)+I)
                   SIG(3) = A1*GBUF%FOR(KK(3)+I) + A2* GBUF%MOM(KK(3)+I)
-                  SIG(4) = GBUF%FOR(KK(4)+I) 
-                  SIG(5) = GBUF%FOR(KK(5)+I)  
-                  SIG(6) = ZERO    
-        
+                  SIG(4) = GBUF%FOR(KK(4)+I)
+                  SIG(5) = GBUF%FOR(KK(5)+I)
+                  SIG(6) = ZERO
+
                   IORTH = 0
                   ILAY = 0
                   JDIR = 0
@@ -370,32 +370,32 @@ c
                   CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
                   WA(JJ) = ZERO
-                  JJ = JJ + 1                                      
-                  WA(JJ) = SIG(1)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(2)          
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(3)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(4)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(5)    
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(6)           
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(1)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(2)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(3)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(4)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(5)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(6)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF   
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
 ! Upper
 
                   A1 = ONE
@@ -404,10 +404,10 @@ c
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
                   SIG(2) = A1*GBUF%FOR(KK(2)+I) + A2* GBUF%MOM(KK(2)+I)
                   SIG(3) = A1*GBUF%FOR(KK(3)+I) + A2* GBUF%MOM(KK(3)+I)
-                  SIG(4) = GBUF%FOR(KK(4)+I) 
-                  SIG(5) = GBUF%FOR(KK(5)+I)  
-                  SIG(6) = ZERO    
-        
+                  SIG(4) = GBUF%FOR(KK(4)+I)
+                  SIG(5) = GBUF%FOR(KK(5)+I)
+                  SIG(6) = ZERO
+
                   IORTH = 0
                   ILAY = 0
                   JDIR = 0
@@ -415,47 +415,47 @@ c
                   CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
                   WA(JJ) = -ONE
-                  JJ = JJ + 1                                      
-                  WA(JJ) = SIG(1)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(2)          
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(3)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(4)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(5)    
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(6)           
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(1)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(2)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(3)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(4)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(5)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(6)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF                       
-            
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
+
               ELSE  ! NPG > 1
-       
+
                   IF(IHBE ==23) THEN !IHBE = 23   (QEPH)
 
-                    ST(1) = GBUF%HOURG(KK(1)+I) 
-                    ST(2) =-GBUF%HOURG(KK(2)+I) 
-                    MT(1) = GBUF%HOURG(KK(3)+I) 
-                    MT(2) =-GBUF%HOURG(KK(4)+I) 
-                    SK(1) =-GBUF%HOURG(KK(7)+I) 
-                    SK(2) = GBUF%HOURG(KK(8)+I) 
-                    MK(1) =-GBUF%HOURG(KK(9)+I) 
-                    MK(2) = GBUF%HOURG(KK(10)+I) 
-                    SHT(1)= GBUF%HOURG(KK(5)+I) 
-                    SHT(2)=-GBUF%HOURG(KK(6)+I) 
+                    ST(1) = GBUF%HOURG(KK(1)+I)
+                    ST(2) =-GBUF%HOURG(KK(2)+I)
+                    MT(1) = GBUF%HOURG(KK(3)+I)
+                    MT(2) =-GBUF%HOURG(KK(4)+I)
+                    SK(1) =-GBUF%HOURG(KK(7)+I)
+                    SK(2) = GBUF%HOURG(KK(8)+I)
+                    MK(1) =-GBUF%HOURG(KK(9)+I)
+                    MK(2) = GBUF%HOURG(KK(10)+I)
+                    SHT(1)= GBUF%HOURG(KK(5)+I)
+                    SHT(2)=-GBUF%HOURG(KK(6)+I)
                     SHK(1)=-GBUF%HOURG(KK(11)+I)
                     SHK(2)= GBUF%HOURG(KK(12)+I)
 
@@ -480,10 +480,10 @@ c
                       MOM(2) = GBUF%MOM(KK(2)+I)
      .	    	            + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
                       MOM(3) = GBUF%MOM(KK(3)+I)
-                      SIG(1) = A1*SIG(1) + A2*MOM(1) 
-                      SIG(2) = A1*SIG(2) + A2*MOM(2)    
-                      SIG(3) = A1*SIG(3) + A2*MOM(3)   
-                      SIG(6) = ZERO  
+                      SIG(1) = A1*SIG(1) + A2*MOM(1)
+                      SIG(2) = A1*SIG(2) + A2*MOM(2)
+                      SIG(3) = A1*SIG(3) + A2*MOM(3)
+                      SIG(6) = ZERO
 
                       IORTH = 0
                       ILAY = 0
@@ -492,32 +492,32 @@ c
                       CALL SHELL_ROTA(
      1                        I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                        IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                        E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                        DIR_A    ,DIR_B    )
 
                        JJ = JJ + 1
                        WA(JJ) = -ONE
-                       JJ = JJ + 1                                      
-                       WA(JJ) = SIG(1)            
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(2)           
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(3)            
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(4)             
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(5)   
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(6)   
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(1)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(2)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(3)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(4)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(5)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(6)
 c
                        JJ = JJ + 1
-                       IF (GBUF%G_PLA > 0) THEN    
+                       IF (GBUF%G_PLA > 0) THEN
             	          WA(JJ) = GBUF%PLA(I)
-                       ELSE                         
-                          WA(JJ) = ZERO              
-                       ENDIF 
+                       ELSE
+                          WA(JJ) = ZERO
+                       ENDIF
 
                    ENDDO
 
@@ -542,10 +542,10 @@ c
                       MOM(2) = GBUF%MOM(KK(2)+I)
      .	    	            + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
                       MOM(3) = GBUF%MOM(KK(3)+I)
-                      SIG(1) = A1*SIG(1) + A2*MOM(1) 
-                      SIG(2) = A1*SIG(2) + A2*MOM(2)    
-                      SIG(3) = A1*SIG(3) + A2*MOM(3)   
-                      SIG(6) = ZERO  
+                      SIG(1) = A1*SIG(1) + A2*MOM(1)
+                      SIG(2) = A1*SIG(2) + A2*MOM(2)
+                      SIG(3) = A1*SIG(3) + A2*MOM(3)
+                      SIG(6) = ZERO
 
                       IORTH = 0
                       ILAY = 0
@@ -554,34 +554,34 @@ c
                       CALL SHELL_ROTA(
      1                        I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                        IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                        E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                        DIR_A    ,DIR_B    )
 
                        JJ = JJ + 1
                        WA(JJ) = ZERO
-                       JJ = JJ + 1                                      
-                       WA(JJ) = SIG(1)            
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(2)           
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(3)            
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(4)             
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(5)   
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(6)   
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(1)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(2)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(3)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(4)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(5)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(6)
 c
                        JJ = JJ + 1
-                       IF (GBUF%G_PLA > 0) THEN    
+                       IF (GBUF%G_PLA > 0) THEN
             	          WA(JJ) = GBUF%PLA(I)
-                       ELSE                         
-                          WA(JJ) = ZERO              
-                       ENDIF 
+                       ELSE
+                          WA(JJ) = ZERO
+                       ENDIF
 
-                   ENDDO  
+                   ENDDO
 ! Upper
                    A1 = ONE
                    A2  = SIX
@@ -603,10 +603,10 @@ c
                       MOM(2) = GBUF%MOM(KK(2)+I)
      .	    	            + MT(2)*QPG(2,IPG)+MK(2)*QPG(1,IPG)
                       MOM(3) = GBUF%MOM(KK(3)+I)
-                      SIG(1) = A1*SIG(1) + A2*MOM(1) 
-                      SIG(2) = A1*SIG(2) + A2*MOM(2)    
-                      SIG(3) = A1*SIG(3) + A2*MOM(3)   
-                      SIG(6) = ZERO  
+                      SIG(1) = A1*SIG(1) + A2*MOM(1)
+                      SIG(2) = A1*SIG(2) + A2*MOM(2)
+                      SIG(3) = A1*SIG(3) + A2*MOM(3)
+                      SIG(6) = ZERO
 
                       IORTH = 0
                       ILAY = 0
@@ -615,52 +615,52 @@ c
                       CALL SHELL_ROTA(
      1                        I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                        IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                        E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                        DIR_A    ,DIR_B    )
 
                        JJ = JJ + 1
                        WA(JJ) = ONE
-                       JJ = JJ + 1                                      
-                       WA(JJ) = SIG(1)            
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(2)           
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(3)            
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(4)             
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(5)   
-                       JJ = JJ + 1                                
-                       WA(JJ) = SIG(6)   
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(1)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(2)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(3)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(4)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(5)
+                       JJ = JJ + 1
+                       WA(JJ) = SIG(6)
 c
                        JJ = JJ + 1
-                       IF (GBUF%G_PLA > 0) THEN    
+                       IF (GBUF%G_PLA > 0) THEN
             	          WA(JJ) = GBUF%PLA(I)
-                       ELSE                         
-                          WA(JJ) = ZERO              
-                       ENDIF 
+                       ELSE
+                          WA(JJ) = ZERO
+                       ENDIF
 
-                   ENDDO 
+                   ENDDO
 
                  ELSE ! IHBE = 23
 ! LOWER
                     A1 = ONE
                     A2  = -SIX
 
-                    DO IR=1,NPTR                                                         
-                       DO IS=1,NPTS 
+                    DO IR=1,NPTR
+                       DO IS=1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                           IPG = NPTR*(IS-1) + IR
                           K = (IPG-1)*NEL*5
 
-                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
-                         SIG(4) = GBUF%FORPG(K + KK(4) + I) 
-                         SIG(5) = GBUF%FORPG(K + KK(5) + I)   
-                         SIG(6) = ZERO  
+                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)
+                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)
+                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)
+                         SIG(4) = GBUF%FORPG(K + KK(4) + I)
+                         SIG(5) = GBUF%FORPG(K + KK(5) + I)
+                         SIG(6) = ZERO
 
                          IORTH = 0
                          ILAY = 0
@@ -669,51 +669,51 @@ c
                          CALL SHELL_ROTA(
      1                        I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                        IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                        E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                        DIR_A    ,DIR_B    )
 
                          JJ = JJ + 1
                          WA(JJ) = -ONE
-                         JJ = JJ + 1                                      
-                         WA(JJ) = SIG(1)            
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(2)           
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(3)            
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(4)             
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(5)   
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(6)   
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(1)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(2)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(3)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(4)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(5)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(6)
 c
                          JJ = JJ + 1
-                         IF (GBUF%G_PLA > 0) THEN    
+                         IF (GBUF%G_PLA > 0) THEN
             	           WA(JJ) = GBUF%PLA(I)
-                         ELSE                         
-                           WA(JJ) = ZERO              
-                         ENDIF 
+                         ELSE
+                           WA(JJ) = ZERO
+                         ENDIF
                        ENDDO
-                    ENDDO    
+                    ENDDO
 
 ! MEMBRANE
                     A1 = ONE
                     A2  = ZERO
 
-                    DO IR=1,NPTR                                                         
-                       DO IS=1,NPTS 
+                    DO IR=1,NPTR
+                       DO IS=1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                           IPG = NPTR*(IS-1) + IR
                           K = (IPG-1)*NEL*5
 
-                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
-                         SIG(4) = GBUF%FORPG(K + KK(4) + I) 
-                         SIG(5) = GBUF%FORPG(K + KK(5) + I)   
-                         SIG(6) = ZERO  
+                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)
+                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)
+                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)
+                         SIG(4) = GBUF%FORPG(K + KK(4) + I)
+                         SIG(5) = GBUF%FORPG(K + KK(5) + I)
+                         SIG(6) = ZERO
 
                          IORTH = 0
                          ILAY = 0
@@ -722,50 +722,50 @@ c
                          CALL SHELL_ROTA(
      1                        I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                        IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                        E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                        DIR_A    ,DIR_B    )
 
                          JJ = JJ + 1
                          WA(JJ) = ZERO
-                         JJ = JJ + 1                                      
-                         WA(JJ) = SIG(1)            
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(2)           
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(3)            
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(4)             
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(5)   
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(6)   
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(1)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(2)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(3)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(4)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(5)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(6)
 c
                          JJ = JJ + 1
-                         IF (GBUF%G_PLA > 0) THEN    
+                         IF (GBUF%G_PLA > 0) THEN
             	           WA(JJ) = GBUF%PLA(I)
-                         ELSE                         
-                           WA(JJ) = ZERO              
-                         ENDIF 
+                         ELSE
+                           WA(JJ) = ZERO
+                         ENDIF
                        ENDDO
-                    ENDDO    
+                    ENDDO
 ! Upper
                     A1 = ONE
                     A2  = SIX
 
-                    DO IR=1,NPTR                                                         
-                       DO IS=1,NPTS 
+                    DO IR=1,NPTR
+                       DO IS=1,NPTS
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                           IPG = NPTR*(IS-1) + IR
                           K = (IPG-1)*NEL*5
 
-                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
-                         SIG(4) = GBUF%FORPG(K + KK(4) + I) 
-                         SIG(5) = GBUF%FORPG(K + KK(5) + I)   
-                         SIG(6) = ZERO  
+                         SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)
+                         SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)
+                         SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)
+                         SIG(4) = GBUF%FORPG(K + KK(4) + I)
+                         SIG(5) = GBUF%FORPG(K + KK(5) + I)
+                         SIG(6) = ZERO
 
                          IORTH = 0
                          ILAY = 0
@@ -774,34 +774,34 @@ c
                          CALL SHELL_ROTA(
      1                        I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                        IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                        RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                        SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                        E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                        DIR_A    ,DIR_B    )
 
                          JJ = JJ + 1
                          WA(JJ) = ONE
-                         JJ = JJ + 1                                      
-                         WA(JJ) = SIG(1)            
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(2)           
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(3)            
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(4)             
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(5)   
-                         JJ = JJ + 1                                
-                         WA(JJ) = SIG(6)   
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(1)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(2)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(3)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(4)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(5)
+                         JJ = JJ + 1
+                         WA(JJ) = SIG(6)
 c
                          JJ = JJ + 1
-                         IF (GBUF%G_PLA > 0) THEN    
+                         IF (GBUF%G_PLA > 0) THEN
             	           WA(JJ) = GBUF%PLA(I)
-                         ELSE                         
-                           WA(JJ) = ZERO              
-                         ENDIF 
+                         ELSE
+                           WA(JJ) = ZERO
+                         ENDIF
                        ENDDO
-                    ENDDO    
+                    ENDDO
 
                  ENDIF ! IHBE = 23
 
@@ -816,22 +816,22 @@ C-------------------------
                     DO J=1,8     ! Stress + pos + plastic strain
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                    ENDDO                                                               
-                  ENDDO                                                                 
+                    ENDDO
+                  ENDDO
                ENDDO
 
            ELSEIF(IHBE == 23) THEN
 
-               ST(1) = GBUF%HOURG(KK(1)+I) 
-               ST(2) =-GBUF%HOURG(KK(2)+I) 
-               MT(1) = GBUF%HOURG(KK(3)+I) 
-               MT(2) =-GBUF%HOURG(KK(4)+I) 
-               SK(1) =-GBUF%HOURG(KK(7)+I) 
-               SK(2) = GBUF%HOURG(KK(8)+I) 
-               MK(1) =-GBUF%HOURG(KK(9)+I) 
-               MK(2) = GBUF%HOURG(KK(10)+I) 
-               SHT(1)= GBUF%HOURG(KK(5)+I) 
-               SHT(2)=-GBUF%HOURG(KK(6)+I) 
+               ST(1) = GBUF%HOURG(KK(1)+I)
+               ST(2) =-GBUF%HOURG(KK(2)+I)
+               MT(1) = GBUF%HOURG(KK(3)+I)
+               MT(2) =-GBUF%HOURG(KK(4)+I)
+               SK(1) =-GBUF%HOURG(KK(7)+I)
+               SK(2) = GBUF%HOURG(KK(8)+I)
+               MK(1) =-GBUF%HOURG(KK(9)+I)
+               MK(2) = GBUF%HOURG(KK(10)+I)
+               SHT(1)= GBUF%HOURG(KK(5)+I)
+               SHT(2)=-GBUF%HOURG(KK(6)+I)
                SHK(1)=-GBUF%HOURG(KK(11)+I)
                SHK(2)= GBUF%HOURG(KK(12)+I)
 
@@ -843,30 +843,30 @@ C-------------------------
                   JDIR = 1 + (IL-1)*NEL*2
 
                   DO IT=1,NPTT
-                    IPT = IPTT + IT        
+                    IPT = IPTT + IT
                     LBUF => BUFLY%LBUF(1,1,IT)
                     L_PLA = BUFLY%L_PLA
                     ZZ = POSLY(I,IPT)*THK0(I)
                     DO IPG=1,NPG
 
                       SIG(1) = LBUF%SIG(KK(1)+I)
-     .                       + (ST(1)+ZZ*MT(1))*QPG(2,IPG)              
+     .                       + (ST(1)+ZZ*MT(1))*QPG(2,IPG)
      .                       + (SK(1)+ZZ*MK(1))*QPG(1,IPG)  			
                       SIG(2) = LBUF%SIG(KK(2)+I)
-     .                       + (ST(2)+ZZ*MT(2))*QPG(2,IPG)              
+     .                       + (ST(2)+ZZ*MT(2))*QPG(2,IPG)
      .                       + (SK(2)+ZZ*MK(2))*QPG(1,IPG)  			
                       SIG(3) = LBUF%SIG(KK(3)+I)			
                       SIG(4) = LBUF%SIG(KK(4)+I)
      .	    	             + SHT(2)*QPG(2,IPG)+SHK(2)*QPG(1,IPG)			
                       SIG(5) = LBUF%SIG(KK(5)+I)
      .	    	             + SHT(1)*QPG(2,IPG)+SHK(1)*QPG(1,IPG)
-                      SIG(6) = ZERO 
- 
+                      SIG(6) = ZERO
+
                       CALL SHELL_ROTA(
      1                      I        ,IL      ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
@@ -892,11 +892,11 @@ C-------------------------
                         WA(JJ) = ZERO
                      ENDIF
 
-                    ENDDO  !  DO IPG=1,NPG      
+                    ENDDO  !  DO IPG=1,NPG
                   ENDDO  !  DO IT=1,NPTT
                   IPTT= IPTT + NPTT
 
-               ENDDO  !  DO IL=1,NLAY    
+               ENDDO  !  DO IL=1,NLAY
 
 
            ELSEIF (NLAY == 1) THEN    ! PID1
@@ -905,8 +905,8 @@ C-------------------------
                NPTT = BUFLY%NPTT
 
                DO IT=1,NPTT
-                  DO IS=1,NPTS 
-                    DO IR=1,NPTR                                                         
+                  DO IS=1,NPTS
+                    DO IR=1,NPTR
                       LBUF => BUFLY%LBUF(IR,IS,IT)
                       IPG = NPTR*(IS-1) + IR
                       SIG(1) = LBUF%SIG(KK(1)+I)			
@@ -914,7 +914,7 @@ C-------------------------
                       SIG(3) = LBUF%SIG(KK(3)+I)			
                       SIG(4) = LBUF%SIG(KK(4)+I)			
                       SIG(5) = LBUF%SIG(KK(5)+I)
-                      SIG(6) = ZERO    
+                      SIG(6) = ZERO
 C
 C                 viscous stress added 
 C 
@@ -934,8 +934,8 @@ C
                      CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )	
 
@@ -963,8 +963,8 @@ C
                         WA(JJ) = ZERO
                      ENDIF
 
-                    ENDDO      
-                  ENDDO	    
+                    ENDDO
+                  ENDDO	
                 ENDDO  !  DO IPT = 1,NPTT
 
 
@@ -979,8 +979,8 @@ C
 
                   DO IT=1,NPTT
                     IPT = IPTT + IT
-                    DO IS=1,NPTS 
-                      DO IR=1,NPTR                                                         
+                    DO IS=1,NPTS
+                      DO IR=1,NPTR
                         LBUF => BUFLY%LBUF(IR,IS,IT)
 
                         SIG(1) = LBUF%SIG(KK(1)+I)			
@@ -988,7 +988,7 @@ C
                         SIG(3) = LBUF%SIG(KK(3)+I)			
                         SIG(4) = LBUF%SIG(KK(4)+I)			
                         SIG(5) = LBUF%SIG(KK(5)+I)
-                        SIG(6) = ZERO   
+                        SIG(6) = ZERO
 C
 C                 viscous stress added 
 C 
@@ -998,13 +998,13 @@ C
                            SIG(3) = SIG(3) + LBUF%VISC(KK(3)+I)			
                            SIG(4) = SIG(4) + LBUF%VISC(KK(4)+I)			
                            SIG(5) = SIG(5) + LBUF%VISC(KK(5)+I)
-                        ENDIF  !  IF (IVISC > 0) 
+                        ENDIF  !  IF (IVISC > 0)
 
                         CALL SHELL_ROTA(
      1                      I        ,IL      ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )	
 		
@@ -1030,7 +1030,7 @@ C
                           WA(JJ) = ZERO
                         ENDIF
                       ENDDO
-                    ENDDO	    
+                    ENDDO	
                   ENDDO	
                   IPTT = IPTT + NPTT
                 ENDDO
@@ -1041,8 +1041,8 @@ C           Pointer last position of shell IE in WA
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
 
-          IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)                                                          
-          IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)   
+          IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)
+          IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)
 
 c------- end loop over 4 node shell elements
         ENDIF ! ITY == 3
@@ -1075,11 +1075,11 @@ c-------------------------------------
           WRITE(IUDYNAIN,'(A)') DELIMIT
           WRITE(IUDYNAIN,'(A)')'*INITIAL_STRESS_SHELL'
           WRITE(IUDYNAIN,'(A)')
-     .    '$  SHELLID       NPG     NBINT                         LARGE  ' 
+     .    '$  SHELLID       NPG     NBINT                         LARGE  '
           WRITE(IUDYNAIN,'(A)')
      .     '$ IF(NPT == 0), REPEAT I=1,NPG :'
           WRITE(IUDYNAIN,'(A)')
-     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
            WRITE(IUDYNAIN,'(A)')
      .     '$         T    SIGXX     SIGYY     SIGZZ     SIGXY     SIGYZ     SIGZX       EPSP '
             WRITE(IUDYNAIN,'(A)') DELIMIT
@@ -1093,10 +1093,10 @@ C         Adress in  WAP0
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
 c
-            ID  = NINT(WAP0(J + 2)) 
-            NPT = NINT(WAP0(J + 3)) 
-            NPG = NINT(WAP0(J + 4)) 
-            LARGE = NINT(WAP0(J + 5)) 
+            ID  = NINT(WAP0(J + 2))
+            NPT = NINT(WAP0(J + 3))
+            NPG = NINT(WAP0(J + 4))
+            LARGE = NINT(WAP0(J + 5))
 
             J = J + 5
 
@@ -1108,7 +1108,7 @@ c
                 J = J + 8
               ENDDO
             ELSE
-              DO IPT=1,NPT 
+              DO IPT=1,NPT
                 DO IPG=1,NPG
 
                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
@@ -1132,7 +1132,7 @@ C
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -1142,12 +1142,12 @@ C
           IGTYP= IPARG(38,NG)
           IPID = IXTG(5,NFT+1)
           IREP = IGEO(6,IPID)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
 !
@@ -1184,7 +1184,7 @@ C------------------------------------------------
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      , 
+     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      ,
      .           NEL        ,THK_LY )
 
 C-------------------------------------------------------
@@ -1193,8 +1193,8 @@ C-------------------------------------------------------
            CALL SHELL_LOCAL_FRAME(
      1                     LFT    , LLT   ,ITY      ,IHBE     ,IGTYP   ,
      2                     IXC    ,IXTG   ,NFT      ,X        ,GBUF%OFF,
-     3                     RX     ,RY     ,RZ       ,SX       ,SY      ,  
-     4                     SZ     ,E1X    ,E2X      ,E3X      ,E1Y     , 
+     3                     RX     ,RY     ,RZ       ,SX       ,SY      ,
+     4                     SZ     ,E1X    ,E2X      ,E3X      ,E1Y     ,
      5                     E2Y    ,E3Y    ,E1Z      ,E2Z      ,E3Z     )
 
 C-------------------------------------------------------
@@ -1230,27 +1230,27 @@ C     Viscosity stress add
 C-------------------------------------------------------
 
           IVISC = 0
-          IF (IGTYP == 11) THEN                                
-              IPMAT = 100                                     
-              DO N=1,MPT                                     
+          IF (IGTYP == 11) THEN
+              IPMAT = 100
+              DO N=1,MPT
                  DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1       
-                 ENDDO                                       
-              ENDDO                                          
-          ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN            
+                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1
+                 ENDDO
+              ENDDO
+          ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN
               DO N=1,MPT
                   DO I=LFT,LLT
-                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
-                 ENDDO                                      
-              ENDDO                                         
-          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN                             
+                    IF (IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1
+                 ENDDO
+              ENDDO
+          ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN
                   IPMAT   = 2 + NLAY
-              DO N=1,NLAY                                      
+              DO N=1,NLAY
                   DO I=LFT,LLT
-                    IF(IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1         
-                 END DO                                      
-               ENDDO                                          
-          ENDIF   ! IGTYP   
+                    IF(IPM(222,MATLY((N-1)*LLT + I)) > 0 ) IVISC = 1
+                 END DO
+               ENDDO
+          ENDIF   ! IGTYP
 
 C-------------------------------------------------------
 C-       Loop over 3 node shell elements
@@ -1271,22 +1271,22 @@ C-------------------------------------------------------
             JJ = JJ + 1
             IF (MPT == 0) THEN  ! global integration
                WA(JJ) = 3 ! Membrane - Lower - Upper
-            ELSE 
+            ELSE
                WA(JJ) = MPT  ! Integration points
             ENDIF
             JJ = JJ + 1
             WA(JJ) = NPG
             JJ = JJ + 1
             WA(JJ) = ONE  ! LARGE
-c----          
+c----
             IF (MPT == 0) THEN  ! global integration
               IF (MLW == 0 .or. MLW == 13) THEN
-                DO IPG=1,NPG 
-                  DO J=1,9                                     
-                    JJ = JJ + 1                                
-                    WA(JJ) = ZERO                              
-                  ENDDO                                        
-                ENDDO                                          
+                DO IPG=1,NPG
+                  DO J=1,9
+                    JJ = JJ + 1
+                    WA(JJ) = ZERO
+                  ENDDO
+                ENDDO
               ELSEIF (NPG == 1) THEN
 
 ! LOWER
@@ -1296,10 +1296,10 @@ c----
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
                   SIG(2) = A1*GBUF%FOR(KK(2)+I) + A2* GBUF%MOM(KK(2)+I)
                   SIG(3) = A1*GBUF%FOR(KK(3)+I) + A2* GBUF%MOM(KK(3)+I)
-                  SIG(4) = GBUF%FOR(KK(4)+I) 
-                  SIG(5) = GBUF%FOR(KK(5)+I)  
-                  SIG(6) = ZERO    
-        
+                  SIG(4) = GBUF%FOR(KK(4)+I)
+                  SIG(5) = GBUF%FOR(KK(5)+I)
+                  SIG(6) = ZERO
+
                   IORTH = 0
                   ILAY = 0
                   JDIR = 0
@@ -1307,32 +1307,32 @@ c----
                   CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
                   WA(JJ) = -ONE
-                  JJ = JJ + 1                                      
-                  WA(JJ) = SIG(1)         
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(2)          
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(3)              
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(4)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(5)    
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(6) 
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(1)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(2)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(3)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(4)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(5)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(6)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF    
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
 ! Membrane
                   A1 = ONE
                   A2  = ZERO
@@ -1340,10 +1340,10 @@ c
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
                   SIG(2) = A1*GBUF%FOR(KK(2)+I) + A2* GBUF%MOM(KK(2)+I)
                   SIG(3) = A1*GBUF%FOR(KK(3)+I) + A2* GBUF%MOM(KK(3)+I)
-                  SIG(4) = GBUF%FOR(KK(4)+I) 
-                  SIG(5) = GBUF%FOR(KK(5)+I)  
-                  SIG(6) = ZERO    
-        
+                  SIG(4) = GBUF%FOR(KK(4)+I)
+                  SIG(5) = GBUF%FOR(KK(5)+I)
+                  SIG(6) = ZERO
+
                   IORTH = 0
                   ILAY = 0
                   JDIR = 0
@@ -1351,32 +1351,32 @@ c
                   CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
                   WA(JJ) = ZERO
-                  JJ = JJ + 1                                      
-                  WA(JJ) = SIG(1)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(2)          
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(3)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(4)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(5)    
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(6)           
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(1)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(2)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(3)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(4)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(5)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(6)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF   
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
 ! Upper
 
                   A1 = ONE
@@ -1385,10 +1385,10 @@ c
                   SIG(1) = A1*GBUF%FOR(KK(1)+I) + A2* GBUF%MOM(KK(1)+I)
                   SIG(2) = A1*GBUF%FOR(KK(2)+I) + A2* GBUF%MOM(KK(2)+I)
                   SIG(3) = A1*GBUF%FOR(KK(3)+I) + A2* GBUF%MOM(KK(3)+I)
-                  SIG(4) = GBUF%FOR(KK(4)+I) 
-                  SIG(5) = GBUF%FOR(KK(5)+I)  
-                  SIG(6) = ZERO    
-        
+                  SIG(4) = GBUF%FOR(KK(4)+I)
+                  SIG(5) = GBUF%FOR(KK(5)+I)
+                  SIG(6) = ZERO
+
                   IORTH = 0
                   ILAY = 0
                   JDIR = 0
@@ -1396,49 +1396,49 @@ c
                   CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )
 
                   JJ = JJ + 1
                   WA(JJ) = ONE
-                  JJ = JJ + 1                                      
-                  WA(JJ) = SIG(1)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(2)          
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(3)            
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(4)             
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(5)    
-                  JJ = JJ + 1                                
-                  WA(JJ) = SIG(6)           
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(1)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(2)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(3)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(4)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(5)
+                  JJ = JJ + 1
+                  WA(JJ) = SIG(6)
 c
-                  JJ = JJ + 1                                      
-                  IF (GBUF%G_PLA > 0) THEN    
-            	    WA(JJ) = GBUF%PLA(I)       
-                  ELSE                         
-                    WA(JJ) = ZERO              
-                  ENDIF                 
-              ELSE                                              
+                  JJ = JJ + 1
+                  IF (GBUF%G_PLA > 0) THEN
+            	    WA(JJ) = GBUF%PLA(I)
+                  ELSE
+                    WA(JJ) = ZERO
+                  ENDIF
+              ELSE
 ! LOWER
                   A1 = ONE
                   A2  = -SIX
 
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
 
-                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
-                      SIG(4) = GBUF%FORPG(K + KK(4) + I) 
-                      SIG(5) = GBUF%FORPG(K + KK(5) + I)   
-                      SIG(6) = ZERO  
+                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)
+                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)
+                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)
+                      SIG(4) = GBUF%FORPG(K + KK(4) + I)
+                      SIG(5) = GBUF%FORPG(K + KK(5) + I)
+                      SIG(6) = ZERO
 
                       IORTH = 0
                       ILAY = 0
@@ -1447,50 +1447,50 @@ c
                       CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )		
 
                       JJ = JJ + 1
                       WA(JJ) = -ONE
-                      JJ = JJ + 1                                      
-                      WA(JJ) = SIG(1)            
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(2)           
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(3)            
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(4)             
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(5)   
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(6)   
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(1)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(2)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(3)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(4)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(5)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(6)
 c
                       JJ = JJ + 1
-                      IF (GBUF%G_PLA > 0) THEN    
+                      IF (GBUF%G_PLA > 0) THEN
             	        WA(JJ) = LBUF%PLA(I)
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF 
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
                     ENDDO
-                  ENDDO    
+                  ENDDO
 
 ! MEMBRANE
                   A1 = ONE
                   A2  = ZERO
 
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
-                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
-                      SIG(4) = GBUF%FORPG(K + KK(4) + I) 
-                      SIG(5) = GBUF%FORPG(K + KK(5) + I)   
-                      SIG(6) = ZERO  
+                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)
+                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)
+                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)
+                      SIG(4) = GBUF%FORPG(K + KK(4) + I)
+                      SIG(5) = GBUF%FORPG(K + KK(5) + I)
+                      SIG(6) = ZERO
 
                       IORTH = 0
                       ILAY = 0
@@ -1499,50 +1499,50 @@ c
                       CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )		
 
                       JJ = JJ + 1
                       WA(JJ) = ZERO
-                      JJ = JJ + 1                                      
-                      WA(JJ) = SIG(1)            
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(2)           
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(3)            
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(4)             
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(5)   
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(6)   
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(1)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(2)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(3)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(4)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(5)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(6)
 c
                       JJ = JJ + 1
-                      IF (GBUF%G_PLA > 0) THEN    
+                      IF (GBUF%G_PLA > 0) THEN
             	        WA(JJ) = LBUF%PLA(I)
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF    
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
                     ENDDO
-                  ENDDO  
+                  ENDDO
 
 ! Upper
                   A1 = ONE
                   A2  = SIX
-                  DO IR=1,NPTR                                                         
-                    DO IS=1,NPTS 
+                  DO IR=1,NPTR
+                    DO IS=1,NPTS
                       LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,1)
                       IPG = NPTR*(IS-1) + IR
                       K = (IPG-1)*NEL*5
 
-                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)   
-                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)     
-                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)    
-                      SIG(4) = GBUF%FORPG(K + KK(4) + I) 
-                      SIG(5) = GBUF%FORPG(K + KK(5) + I)   
-                      SIG(6) = ZERO  
+                      SIG(1) = A1*GBUF%FORPG(K + KK(1) + I) + A2*GBUF%MOMPG(K + KK(1) + I)
+                      SIG(2) = A1*GBUF%FORPG(K + KK(2) + I) + A2*GBUF%MOMPG(K + KK(2) + I)
+                      SIG(3) = A1*GBUF%FORPG(K + KK(3) + I)  + A2*GBUF%MOMPG(K + KK(3) + I)
+                      SIG(4) = GBUF%FORPG(K + KK(4) + I)
+                      SIG(5) = GBUF%FORPG(K + KK(5) + I)
+                      SIG(6) = ZERO
 
                       IORTH = 0
                       ILAY = 0
@@ -1551,35 +1551,35 @@ c
                       CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )		
 
                       JJ = JJ + 1
                       WA(JJ) = ONE
-                      JJ = JJ + 1                                      
-                      WA(JJ) = SIG(1)            
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(2)           
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(3)            
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(4)             
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(5)   
-                      JJ = JJ + 1                                
-                      WA(JJ) = SIG(6)   
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(1)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(2)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(3)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(4)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(5)
+                      JJ = JJ + 1
+                      WA(JJ) = SIG(6)
 c
                       JJ = JJ + 1
-                      IF (GBUF%G_PLA > 0) THEN    
+                      IF (GBUF%G_PLA > 0) THEN
             	        WA(JJ) = LBUF%PLA(I)
-                      ELSE                         
-                        WA(JJ) = ZERO              
-                      ENDIF                              
-                    ENDDO                                                               
-                  ENDDO     
-                                 
+                      ELSE
+                        WA(JJ) = ZERO
+                      ENDIF
+                    ENDDO
+                  ENDDO
+
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
             ELSE ! MPT > 0
               IF (MLW == 0 .or. MLW == 13) THEN
@@ -1595,8 +1595,8 @@ c
                NPTT = BUFLY%NPTT
 
                DO IT=1,NPTT
-                  DO IS=1,NPTS 
-                    DO IR=1,NPTR                                                         
+                  DO IS=1,NPTS
+                    DO IR=1,NPTR
                       LBUF => BUFLY%LBUF(IR,IS,IT)
                       IPG = NPTR*(IS-1) + IR
                       SIG(1) = LBUF%SIG(KK(1)+I)			
@@ -1604,7 +1604,7 @@ c
                       SIG(3) = LBUF%SIG(KK(3)+I)			
                       SIG(4) = LBUF%SIG(KK(4)+I)			
                       SIG(5) = LBUF%SIG(KK(5)+I)
-                      SIG(6) = ZERO    
+                      SIG(6) = ZERO
 C
 C                 viscous stress added for animation
 C 
@@ -1624,8 +1624,8 @@ C
                      CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )			
 
@@ -1649,8 +1649,8 @@ C
                       ELSE
                         WA(JJ) = ZERO
                       ENDIF
-                    ENDDO      
-                  ENDDO	    
+                    ENDDO
+                  ENDDO	
                 ENDDO  !  DO IPT = 1,NPTT
 
               ELSE
@@ -1668,7 +1668,7 @@ C
                       SIG(3) = LBUF%SIG(KK(3)+I)			
                       SIG(4) = LBUF%SIG(KK(4)+I)			
                       SIG(5) = LBUF%SIG(KK(5)+I)
-                      SIG(6) = ZERO    
+                      SIG(6) = ZERO
 C
 C                 viscous stress added for animation
 C 
@@ -1688,8 +1688,8 @@ C
                      CALL SHELL_ROTA(
      1                      I        ,ILAY    ,NEL     ,IORTH  ,ITY          ,
      2                      IGTYP    ,MLW     ,JDIR    ,SIG    ,ELBUF_TAB(NG),
-     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,  
-     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          , 
+     3                      RX       ,RY      ,RZ      ,SX     ,SY           ,
+     4                      SZ       ,E1X     ,E2X     ,E3X    ,E1Y          ,
      5                      E2Y      ,E3Y     ,E1Z     ,E2Z    ,E3Z          ,
      6                      DIR_A    ,DIR_B    )				
                       JJ = JJ + 1
@@ -1703,17 +1703,17 @@ C
                       JJ = JJ + 1
                       WA(JJ) = SIG(4)
                       JJ = JJ + 1
-                      WA(JJ) = SIG(5)  
+                      WA(JJ) = SIG(5)
                       JJ = JJ + 1
                       WA(JJ) = SIG(6)
                       JJ = JJ + 1
-                      IF (L_PLA > 0) THEN                                   
+                      IF (L_PLA > 0) THEN
                         WA(JJ) = LBUF%PLA(I)
                       ELSE
                         WA(JJ) = ZERO
                       ENDIF
                     ENDDO !  DO IPG=1,NPG
-                  ENDDO !  DO IT=1,NPTT   
+                  ENDDO !  DO IT=1,NPTT
                   IPTT = IPTT + NPTT
                 ENDDO  !  DO IL=1,NLAY
               ENDIF  !  IF (MLW == 0 .or. MLW == 13)
@@ -1724,8 +1724,8 @@ C        pointer for last position for element IE
             PTWA(IE)=JJ
           ENDDO  !  DO I=LFT,LLT
 
-          IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)                                                          
-          IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)   
+          IF (ALLOCATED(DIRB))     DEALLOCATE(DIRB)
+          IF (ALLOCATED(DIRA))     DEALLOCATE(DIRA)
 
         ENDIF  !  IF (ITY == 7)
        ENDDO  !  DO NG=1,NGROUP
@@ -1754,11 +1754,11 @@ C      Global pointers WAP0
           WRITE(IUDYNAIN,'(A)') DELIMIT
           WRITE(IUDYNAIN,'(A)')'*INITIAL_STRESS_SHELL'
           WRITE(IUDYNAIN,'(A)')
-     .    '$  SHELLID       NPG     NBINT                         LARGE  ' 
+     .    '$  SHELLID       NPG     NBINT                         LARGE  '
           WRITE(IUDYNAIN,'(A)')
      .     '$ IF(NPT == 0), REPEAT I=1,NPG :'
           WRITE(IUDYNAIN,'(A)')
-     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
           WRITE(IUDYNAIN,'(A)')
      .     '$         T    SIGXX     SIGYY     SIGZZ     SIGXY     SIGYZ     SIGZX       EPSP '
           WRITE(IUDYNAIN,'(A)') DELIMIT
@@ -1775,10 +1775,10 @@ C         Adress in  WAP0
 C
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            ID  = NINT(WAP0(J + 2)) 
-            NPT = NINT(WAP0(J + 3)) 
-            NPG = NINT(WAP0(J + 4)) 
-            LARGE = NINT(WAP0(J + 5)) 
+            ID  = NINT(WAP0(J + 2))
+            NPT = NINT(WAP0(J + 3))
+            NPG = NINT(WAP0(J + 4))
+            LARGE = NINT(WAP0(J + 5))
             J = J + 5
 
             WRITE(IUDYNAIN,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
@@ -1789,7 +1789,7 @@ C
                 J = J + 8
               ENDDO
             ELSE
-              DO IPT=1,NPT 
+              DO IPT=1,NPT
                 DO IPG=1,NPG
 
                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)

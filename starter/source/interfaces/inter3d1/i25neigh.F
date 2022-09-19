@@ -60,9 +60,9 @@ C-----------------------------------------------
       INTEGER NRTM,NSN,NMN,NSV(*),IRECT(4,NRTM),MVOISIN(4,NRTM),EVOISIN(4,NRTM),
      .        MSEGLO(NRTM),IRTLM(4,NSN),MSEGTYP(NRTM),ITAB(*),
      .        IGEO(NPROPGI,*), NADMSR, ADMSR(4,NRTM), ADSKYN(4*NRTM+1),
-     .        IADNOR(4,NRTM), NRTM_SH, IEDGE, NEDGE, LEDGE(NLEDGE,*), 
-     .        LBOUND(*), 
-     .        NISUB, LISUB(*), ADDSUBM(*), LISUBM(*), INFLG_SUBM(*), 
+     .        IADNOR(4,NRTM), NRTM_SH, IEDGE, NEDGE, LEDGE(NLEDGE,*),
+     .        LBOUND(*),
+     .        NISUB, LISUB(*), ADDSUBM(*), LISUBM(*), INFLG_SUBM(*),
      .        NISUBE, ADDSUBE(*), LISUBE(*), INFLG_SUBE(*), MSR(*),
      .        ILEV, MBINFLG(*), EBINFLG(*)
       INTEGER NOINT, NOM_OPT(LNOPT1,*)
@@ -79,9 +79,9 @@ C-----------------------------------------------
      2        J1,J2,J3,J4,K1,K2,L1,L2,KPERM1(4),KPERM2(4),IRR,
      3        NFT,JLT,MI,II(4),JJ(4),IEDG,JEDG,IOK,
      4        NVERTX, NTAG(4*NRTM), ROOT(4*NRTM), IVERTX, JVERTX,
-     5        IBASE, KBASE, KOLD, FIN, NE, EJ, NEDGE_TMP, 
+     5        IBASE, KBASE, KOLD, FIN, NE, EJ, NEDGE_TMP,
      6        SOL_EDGE, SH_EDGE, ISTORE,
-     7        LL, KK, CUR, NEXT, JSUB, KSUB, IMS1, IMS2, IMS3, IMS4, 
+     7        LL, KK, CUR, NEXT, JSUB, KSUB, IMS1, IMS2, IMS3, IMS4,
      8        NISUBN, INFLG, MAXADD, STAT
       INTEGER IX1, IX2, IX3, IX4,
      ,        JX1, JX2, JX3, JX4,
@@ -112,7 +112,7 @@ C-----------------------------------------------
       DATA KPERM2/2,4,6,8/
 C-----------------------------------------------
       DO I=1,NRTM
-        MSEGLO(I)=I      
+        MSEGLO(I)=I
       ENDDO
 C-----------shell segs have been duplicated w/ inverse order
 C-----------for the moment all antisymmetry surface will be stored at the end
@@ -202,7 +202,7 @@ C--------------------------------------------
             DO K=1,4
               IF(MVOISIN(K,L)==I) GOTO 120
             END DO
-            WRITE(ISTDO,'(A,/,10I10)') 
+            WRITE(ISTDO,'(A,/,10I10)')
      .                      'i25inisu_nei - internal error : a segment is not neighboring its neighbor segments...',
      .                      i,(itab(irect(m,i)),m=1,4),
      .                      l,(itab(irect(m,l)),m=1,4)
@@ -363,7 +363,7 @@ C
 C
       NRTM0=NRTM-NRTM_SH
 C
-      NEDGE =0 
+      NEDGE =0
       LBOUND(1:NADMSR)=0
 C-----------------------------------------------------------------------
 C     LEDGE(1:NLEDGE)
@@ -433,7 +433,7 @@ C
                 LEDGE_TMP1(6,NEDGE)=I1
               END IF
 C
-              IF(K/=0)THEN 
+              IF(K/=0)THEN
                 IF(MSEGTYP(I)==0.AND.MSEGTYP(K)==0)THEN ! Solid only
                   LEDGE_TMP1(7,NEDGE)=1 ! arete solide-solide
                 ELSE
@@ -452,7 +452,7 @@ C
                   END IF
                 END DO
                 IF(LEDGE_TMP1(4,NEDGE)==0)THEN
-                  WRITE(ISTDO,'(A)') 
+                  WRITE(ISTDO,'(A)')
      .                      'i25inisu_nei - internal error : could not find the edge on neighboring element'
                 END IF
               END IF
@@ -553,7 +553,7 @@ C
         LEDGE_TMP1(1:NLEDGE,NEDGE)=LEDGE_TMP2(1:NLEDGE,KOLD)
 
         FIN = 0
-        DO WHILE (FIN == 0 .AND. I < NEDGE_TMP) 
+        DO WHILE (FIN == 0 .AND. I < NEDGE_TMP)
           I = I+1
           K = INDEX(I)
           IF(CLEF(1,K)/=CLEF(1,KOLD).OR.
@@ -565,7 +565,7 @@ C
           KOLD=K
         END DO
 
-        IF(I==NEDGE_TMP .AND. FIN==0) I=I+1 ! Exit    
+        IF(I==NEDGE_TMP .AND. FIN==0) I=I+1 ! Exit
 
       END DO
 
@@ -675,7 +675,7 @@ C
             IF (ANG < EDG_COS) THEN
               ISTORE=1 ! arete vive
             ELSEIF(SOL_EDGE==1)THEN
-              LEDGE_TMP1(7,I)=-1 
+              LEDGE_TMP1(7,I)=-1
               ISTORE=1 ! all edges on main side
             END IF
           ELSEIF(SOL_EDGE==2)THEN
@@ -804,7 +804,7 @@ C
           DO LL=ADDSUBN_TMP(N),ADDSUBN_TMP(N+1)-1
             KK = ADDSUBN_TMP(N)-1+IXSUB(LL-ADDSUBN_TMP(N)+1)
 C
-            IF(LISUBN(KK)/=CUR)THEN  
+            IF(LISUBN(KK)/=CUR)THEN
 C
 C             Combines INFLG
               INFLG=INFLG_SUBN(KK)
@@ -831,7 +831,7 @@ C             Combines INFLG
             END IF
           END DO
 C
-          ADDSUBN(N)=KAD(N)-ADDSUBN_TMP(N) 
+          ADDSUBN(N)=KAD(N)-ADDSUBN_TMP(N)
         END DO
 C
         CUR=1
@@ -851,7 +851,7 @@ C
 C-----------------------------------------
 C       Calcul de ADDSUBE, LISUBE, INFLG_SUBE a partir de ADDSUBN, LISUBN, INFLG_SUBN
 C-----------------------------------------
-        ADDSUBE(1:NEDGE+1)  = 0 
+        ADDSUBE(1:NEDGE+1)  = 0
         INFLG_SUBE(1:NISUBE)=0
 C
         DO NE=1,NEDGE
@@ -863,7 +863,7 @@ C
           DO WHILE(LL<ADDSUBN(I1+1))
             JSUB=LISUBN(LL)
             DO WHILE(KK<ADDSUBN(I2+1))
-              KSUB=LISUBN(KK)   
+              KSUB=LISUBN(KK)
               IF(KSUB==JSUB)THEN
                 ADDSUBE(NE)=ADDSUBE(NE)+1
                 KK=KK+1
@@ -902,7 +902,7 @@ C       utilise KAD(1:NEDGE) pour remplir LISUBE, INFLG_SUBE
             IMS1 = BITGET(INFLG_SUBN(LL),0)
             IMS2 = BITGET(INFLG_SUBN(LL),1)
             DO WHILE(KK<ADDSUBN(I2+1))
-              KSUB=LISUBN(KK)   
+              KSUB=LISUBN(KK)
               IMS3 = BITGET(INFLG_SUBN(KK),0)
               IMS4 = BITGET(INFLG_SUBN(KK),1)
               IF(KSUB==JSUB)THEN
@@ -1124,7 +1124,7 @@ C-----------------------------------------------
 C-----------------------------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER N1,IED1(*),N2,IED2(*),NE,ICE(*),ISELF,IRR, 
+      INTEGER N1,IED1(*),N2,IED2(*),NE,ICE(*),ISELF,IRR,
      .        I1,I2,IRECT(4,*),IE(*), NRTM, MSEGTYP(*), MVOISIN(4,*)
       my_real
      .   X(3,*)
@@ -1175,7 +1175,7 @@ C-------------after convention--------------
 C       print *,'!!!error (report to developer)!!!',(NE-NE0)
         IRR=12
         NE=NE0+1
-       END IF 
+       END IF
 
        DO I=1+NE0,NE
         IE(I)=ICE(I)
@@ -1231,7 +1231,7 @@ C-----------------------------------------------
      .        I1,I2,IRECT(4,*),NRTM,MSEGTYP(*),MVOISIN(4,*)
 C-----------------------------------------------
 c FUNCTION: find neighbour segment and which share the same nodes I1,I2
-c        ---neighbour node array will be built after taking into account of treatment w/ IC 
+c        ---neighbour node array will be built after taking into account of treatment w/ IC
 c           (remains only one segment at the end)
 c
 c Note:
@@ -1296,7 +1296,7 @@ C            Does not consider NEW if NEW is already neighbor of another segment
 C
           end if
         END IF
-       END DO 
+       END DO
 C----add 0 for IC if find nothing -> consisting w/ ICN------------------------
        IF (NE==N) CALL ADD_ID(N,IC,LING)
       END IF !(I1==I2) THEN
@@ -1411,13 +1411,13 @@ C ------still no valid one-----------
         IF (J1==0) then
 c        print *,'***warning** No valid Neighbour Segs of',N,' candidats'
          IRR = 11
-         IC(1)=0         
+         IC(1)=0
         ELSE
          IC(1)=IC(J1)
         END IF
         DO I=2,N
          IC(I)=0
-        END DO 
+        END DO
 C----6---------------------------------------------------------------7---------8
       RETURN
       END

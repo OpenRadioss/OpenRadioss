@@ -107,10 +107,10 @@ C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IXS(NIXS,*),IXQ(NIXQ,*),
      .   NPC(*), IPARG(NPARG,*),
-     .   IADS(8,*),IADQ(4,*),NALE(*),ISKEW(*), 
+     .   IADS(8,*),IADQ(4,*),NALE(*),ISKEW(*),
      .   IGEO(NPROPGI,*),
      .   IPART(LIPART1,*) ,IPARTS(*) ,IPARTQ(*),IPM(NPROPMI,*),NODFT,
-     .   NELTST ,ITYPTST, ITASK, 
+     .   NELTST ,ITYPTST, ITASK,
      .   NBRCVOIS(*),NBSDVOIS(*), LNRCVOIS(*), LNSDVOIS(*),
      .   NERCVOIS(*),NESDVOIS(*),LERCVOIS(*),LESDVOIS(*),
      .   NPSEGCOM(*),LSEGCOM(*),
@@ -118,7 +118,7 @@ C-----------------------------------------------
      .   WEIGHT(*), ITABM1(*),
      .   ISIZXV, NV46,
      .   NODLT
-           
+
       my_real
      .   X(3,*)    ,V(3,*)   ,MS(*)   ,PM(NPROPM,*),SKEW(LSKEW,*),
      .   GEO(NPROPG,*),BUFMAT(*) ,W(3,*)    ,VEUL(*),
@@ -142,10 +142,10 @@ C-----------------------------------------------
       INTEGER IALEFVM_FLG, IMAT,NSG,NVC
       my_real
      .   BID
-      
+
       TYPE(G_BUFEL_) ,POINTER :: GBUF
       TYPE(L_BUFEL_)  ,POINTER  :: LBUF
-            
+
       INTEGER :: NIN,NBF,NBL,tNB
 C
 C-----------------------------------------------
@@ -170,89 +170,89 @@ C-----------------------------------------------
       tNB = NBL-NBF+1
 
       CALL MY_BARRIER
-      
+
       IF(INT22/=0)THEN
          CALL ALEFVM_SFINT3_INT22
-     .                     (                                                            
-     1                      IXS     , NV46    ,  IALEFVM_FLG, ITASK,          
-     2                      IPM     , IPARG   ,  NG      , NALE       , A    ,          
-     3                      X       , V       ,  BID     , BID        , MS   ,          
+     .                     (
+     1                      IXS     , NV46    ,  IALEFVM_FLG, ITASK,
+     2                      IPM     , IPARG   ,  NG      , NALE       , A    ,
+     3                      X       , V       ,  BID     , BID        , MS   ,
      4                      BID     , BID     ,  W       , NBF        , NBL  ,
-     5                      tNB     , NIN                                  
-     .                     )  
-  
+     5                      tNB     , NIN
+     .                     )
+
       ENDIF
 
 
-      !---------------------------------------------                                        
-      ! ALEFVM : FINITE VOLUME FOR MOMENTUM                                                 
-      !--------------------------------------------- 
+      !---------------------------------------------
+      ! ALEFVM : FINITE VOLUME FOR MOMENTUM
+      !---------------------------------------------
 
-       VERTEX(1:4,1:NUMNOD) = ZERO ! for alefvm_expand_momentum.F => vel on nodes           
+       VERTEX(1:4,1:NUMNOD) = ZERO ! for alefvm_expand_momentum.F => vel on nodes
 
-       IF(IALEFVM > 0) THEN                                                                 
-         CALL MY_BARRIER 
-                                                                                    
-         DO NG=ITASK+1,NGROUP,NTHREAD                                                       
-           CALL INITBUF (                                                                   
-     1                   IPARG    ,NG      ,                                                
-     2                   MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,                      
-     3                   NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,                      
-     4                   JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,                      
-     5                   NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,                      
-     6                   IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,                      
-     7                   ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS                           
-     .                  )                                                                   
-           GBUF => ELBUF_TAB(NG)%GBUF                                                      
-           IF (IPARG(8,NG) == 1) CYCLE                                                      
-           IF (JLAG == 1 .OR. ITY>2) CYCLE                                               
-           NSG           = IPARG(10,NG)                                                     
-           NVC           = IPARG(19,NG)                                                     
-           ISOLNOD       = IPARG(28,NG)                                                     
-           ISTRA         = IPARG(44,NG)                                                     
-           JSPH          = 0                                                                
-           ISPH2SOL      = 0                                                                
-           IPARTSPH      = IPARG(69,NG)                                                     
-           LFT           = 1                                                                
-           LLT           = NEL                                                              
-           NF1           = NFT+1                                                            
-           IF(ITY == 1 .AND. ISOLNOD == 4)THEN                                              
-             !CALL S4FORC3()                                                                
-                                                                                            
-           ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN                                                    
-             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)                                                      
-             IMAT        = IXS(1,NFT+LFT) !all elem in group does have same material id.    
-             IALEFVM_FLG = IPM(251,IMAT)                                                    
-             IF (IALEFVM_FLG <= 1) CYCLE                                                  
-             CALL ALEFVM_SFINT3(                                                            
-     1                          IXS     , NV46    ,  ALE_CONNECT   , IALEFVM_FLG, ITASK,          
-     2                          IPM     , IPARG   ,  NG      , NALE       , A    ,          
-     3                          X       , V       ,  GBUF%RHO, GBUF%VOL   , MS   ,          
+       IF(IALEFVM > 0) THEN
+         CALL MY_BARRIER
+
+         DO NG=ITASK+1,NGROUP,NTHREAD
+           CALL INITBUF (
+     1                   IPARG    ,NG      ,
+     2                   MTN     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3                   NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4                   JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5                   NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,IPLA    ,
+     6                   IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
+     7                   ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS
+     .                  )
+           GBUF => ELBUF_TAB(NG)%GBUF
+           IF (IPARG(8,NG) == 1) CYCLE
+           IF (JLAG == 1 .OR. ITY>2) CYCLE
+           NSG           = IPARG(10,NG)
+           NVC           = IPARG(19,NG)
+           ISOLNOD       = IPARG(28,NG)
+           ISTRA         = IPARG(44,NG)
+           JSPH          = 0
+           ISPH2SOL      = 0
+           IPARTSPH      = IPARG(69,NG)
+           LFT           = 1
+           LLT           = NEL
+           NF1           = NFT+1
+           IF(ITY == 1 .AND. ISOLNOD == 4)THEN
+             !CALL S4FORC3()
+
+           ELSEIF(ITY == 1 .AND. ISOLNOD /= 4)THEN
+             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,1)
+             IMAT        = IXS(1,NFT+LFT) !all elem in group does have same material id.
+             IALEFVM_FLG = IPM(251,IMAT)
+             IF (IALEFVM_FLG <= 1) CYCLE
+             CALL ALEFVM_SFINT3(
+     1                          IXS     , NV46    ,  ALE_CONNECT   , IALEFVM_FLG, ITASK,
+     2                          IPM     , IPARG   ,  NG      , NALE       , A    ,
+     3                          X       , V       ,  GBUF%RHO, GBUF%VOL   , MS   ,
      4                          GBUF%MOM, GBUF%SIG,  W       , GBUF%TAG22 ,NEL   )
-             CALL ALEFVM_SCHEME(                                                            
-     1                          IXS     , NV46    ,  IALEFVM_FLG, ITASK      ,          
-     2                          GBUF%MOM, GBUF%VOL,  GBUF%RHO, V          , VEUL       ,          
+             CALL ALEFVM_SCHEME(
+     1                          IXS     , NV46    ,  IALEFVM_FLG, ITASK      ,
+     2                          GBUF%MOM, GBUF%VOL,  GBUF%RHO, V          , VEUL       ,
      3                          IPM     , MSNF    ,  X       , NALE       , GBUF%TAG22 ,
      4                          LBUF%SSP,GBUF%SIG ,  NEL     )
-           ELSEIF (ITY == 2 .AND. JMULT == 0) THEN                                          
-             !CALL QFORC2()                                                                 
-           ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN                                            
-             !CALL BFORC2()                                                                 
-           ENDIF                                                                            
-         ENDDO!next NG                                                                      
-       ENDIF!IF (ILAW11 /= 0) THEN                                                          
+           ELSEIF (ITY == 2 .AND. JMULT == 0) THEN
+             !CALL QFORC2()
+           ELSEIF(ITY == 2 .AND. JMULT /= 0)THEN
+             !CALL BFORC2()
+           ENDIF
+         ENDDO!next NG
+       ENDIF!IF (ILAW11 /= 0) THEN
 
        CALL MY_BARRIER
-       
 
- 
+
+
        DO N=NODFT,NODLT
          IF(VERTEX(4,N) == ZERO .OR. NALE(N)==0)CYCLE
-         V(1,N)      = VERTEX(1,N) 
-         V(2,N)      = VERTEX(2,N) 
-         V(3,N)      = VERTEX(3,N)            
+         V(1,N)      = VERTEX(1,N)
+         V(2,N)      = VERTEX(2,N)
+         V(3,N)      = VERTEX(3,N)
        ENDDO
-            
+
 #include "vectorize.inc"
         !---TRANSLATIONS---!
        DO N=NODFT,NODLT
@@ -269,7 +269,7 @@ C-----------------------------------------------
            IF(NALE(N)==0)CYCLE
            VR(1,N) = ZERO
            VR(2,N) = ZERO
-           VR(3,N) = ZERO      
+           VR(3,N) = ZERO
          ENDDO
        ENDIF
 

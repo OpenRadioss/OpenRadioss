@@ -34,10 +34,10 @@ Chd|====================================================================
      2     NPF      ,TF       ,TIME     ,UPARAM   ,
      3     NGL      ,IPT      ,NPTOT    ,SSP      ,TENS     ,
      4     SIGNXX   ,SIGNYY   ,SIGNXY   ,SIGNYZ   ,SIGNZX   ,
-     5     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,  
+     5     EPSXX    ,EPSYY    ,EPSXY    ,EPSYZ    ,EPSZX    ,
      6     UVAR     ,NOFF     ,OFF      ,IP       ,
-     7     ELCRKINI ,IXFEM    ,IXEL     ,ILAY     ,IPTT     ,  
-     8     OFFL     ,NPTT     ,NPTTF    ,DFMAX    ,TDEL     ,   
+     7     ELCRKINI ,IXFEM    ,IXEL     ,ILAY     ,IPTT     ,
+     8     OFFL     ,NPTT     ,NPTTF    ,DFMAX    ,TDEL     ,
      9     DAM      ,FLD_IDX  )
 C-----------------------------------------------
 c    FLD failure model for XFEM
@@ -80,7 +80,7 @@ C   I N P U T   A r g u m e n t s
 C-----------------------------------------------
       INTEGER NEL,NUPARAM,NUVAR,NFUNC,IP,IPT,IPTT,NPTOT,IXFEM,IXEL,ILAY,NPTT
       INTEGER ELCRKINI(NXLAYMAX,NEL),NOFF(NEL),IFUNC(NFUNC),NGL(NEL),FLD_IDX(NEL)
-      my_real 
+      my_real
      .   TIME,UPARAM(NUPARAM),SIGNXX(NEL),SIGNYY(NEL),
      .   SIGNZZ(NEL),SIGNXY(NEL),SIGNYZ(NEL),SIGNZX(NEL),SSP(NEL),
      .   EPSXX(NEL),EPSYY(NEL),EPSXY(NEL),EPSYZ(NEL),EPSZX(NEL),
@@ -106,11 +106,11 @@ C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I,II,J,K,L,IENG,IAD,NINDX,NINDXP,ISHELL,LAYXFEM,LENF
-      INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL)  
-      my_real 
+      INTEGER INDX(NEL),INDXP(NEL),RFLAG(NEL),RFLAGP(NEL)
+      my_real
      .   RANI,R1,R2,DADV,SIGMAX,S1,S2,SS,Q,DYDX,E12
-      my_real, ALLOCATABLE, DIMENSION(:) :: XF  
-      my_real 
+      my_real, ALLOCATABLE, DIMENSION(:) :: XF
+      my_real
      .   TBA(NEL),TBK(NEL),SIGR(NEL),EMAJ(NEL),EMIN(NEL),
      .   EM(NEL),EM_DCRIT(NEL),EM_DADV(NEL)
       CHARACTER (LEN=3) :: XCHAR
@@ -122,9 +122,9 @@ C=======================================================================
         RFLAGP(I)= 0
         INDXP(I) = 0
         INDX(I)  = 0
-      ENDDO 
-      NINDX  = 0  
-      NINDXP = 0  
+      ENDDO
+      NINDX  = 0
+      NINDXP = 0
 c---
       ISHELL  = INT(UPARAM(1))
       LAYXFEM = INT(UPARAM(4))   ! Ixfem flag of layer material
@@ -157,7 +157,7 @@ C
         ENDIF
       ENDDO
 c-----
-c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1 
+c     failure major strain from input curve and damage ratio  : 0 < DFMAX < 1
 c-----
       IF (IENG == 1) THEN   ! transform input fld curve to true strain
         II   = NPF(IFUNC(1))
@@ -178,7 +178,7 @@ c
           DAM(I)   = EMAJ(I) / EM(I)
           DFMAX(I) = MIN(ONE, DAM(I))
         ENDDO
-      ENDIF 
+      ENDIF
 c--------------------------------------------------------------------
 c     FLD zone index calculation for ANIM output
 c
@@ -226,38 +226,38 @@ C
         XCHAR = 'standard'
       ENDIF
 c--------------------------
-      SELECT CASE (LAYXFEM)                           
+      SELECT CASE (LAYXFEM)
 c---------------
-        CASE (1)    ! multilayer XFEM                                    
+        CASE (1)    ! multilayer XFEM
 c---------------
-            DO I = 1,NEL                                                          
-              IF (OFF(I) == ONE) THEN                                              
-                IF (UVAR(I,1) == ZERO) THEN                                       
-                  IF (IXEL == 0) THEN                                             
-                    IF (ELCRKINI(ILAY,I)==0 .and. EMAJ(I)>=EM_DCRIT(I)) THEN                                
+            DO I = 1,NEL
+              IF (OFF(I) == ONE) THEN
+                IF (UVAR(I,1) == ZERO) THEN
+                  IF (IXEL == 0) THEN
+                    IF (ELCRKINI(ILAY,I)==0 .and. EMAJ(I)>=EM_DCRIT(I)) THEN
                       NINDXP = NINDXP+1
                       INDXP(NINDXP) = I
-                      UVAR(I,1) = ONE                                              
-                      OFFL(I)   = ZERO                                            
-                      NOFF(I)   = NOFF(I) + 1                                        
+                      UVAR(I,1) = ONE
+                      OFFL(I)   = ZERO
+                      NOFF(I)   = NOFF(I) + 1
                       NPTTF(I)  = NPTTF(I) + ONE
                       RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
                         NINDX = NINDX+1
                         INDX(NINDX) = I
                         ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)
-                        RFLAG(I) = 1                                               
+                        RFLAG(I) = 1
                       ENDIF
-                      IF (NOFF(I) == NPTOT) THEN   
-                        OFF(I) = FOUR_OVER_5                                           
-                        TDEL(I)= TIME                                             
-                      ENDIF                                                       
-                    ELSEIF (ELCRKINI(ILAY,I)==2 .and. EMAJ(I)>=EM_DADV(I)) THEN                             
+                      IF (NOFF(I) == NPTOT) THEN
+                        OFF(I) = FOUR_OVER_5
+                        TDEL(I)= TIME
+                      ENDIF
+                    ELSEIF (ELCRKINI(ILAY,I)==2 .and. EMAJ(I)>=EM_DADV(I)) THEN
                       NINDXP   = NINDXP + 1
                       INDXP(NINDXP) = I
-                      UVAR(I,1) = ONE                                              
-                      OFFL(I)   = ZERO                                            
-                      NOFF(I)   = NOFF(I) + 1                                        
+                      UVAR(I,1) = ONE
+                      OFFL(I)   = ZERO
+                      NOFF(I)   = NOFF(I) + 1
                       NPTTF(I)  = NPTTF(I)+ ONE
                       RFLAGP(I) = 1
                       IF (INT(NPTTF(I)) == NPTT) THEN
@@ -267,92 +267,92 @@ c---------------
                         RFLAG(I) = -1
                       ENDIF
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         TDEL(I)= TIME
                       ENDIF
-                    ENDIF                                                         
-                  ELSEIF (EMAJ(I) >= EM_DCRIT(I)) THEN  ! IXEL > 0                  
+                    ENDIF
+                  ELSEIF (EMAJ(I) >= EM_DCRIT(I)) THEN  ! IXEL > 0
                     NINDXP    = NINDXP + 1
                     INDXP(NINDXP) = I
-                    UVAR(I,1) = ONE                                                
-                    OFFL(I)   = ZERO                                            
+                    UVAR(I,1) = ONE
+                    OFFL(I)   = ZERO
                     NPTTF(I)  = NPTTF(I) + ONE
                     RFLAGP(I) = 1
                     IF (INT(NPTTF(I)) == NPTT) THEN
                       NINDX = NINDX+1
                       INDX(NINDX) = I
-                      OFF(I) = FOUR_OVER_5                                           
+                      OFF(I) = FOUR_OVER_5
                       TDEL(I)  = TIME
                       RFLAG(I) = 3
                     ENDIF
-                  ENDIF ! IXEL == 0                                                   
-                ELSEIF (UVAR(I,1) == ONE) THEN                                     
-                  SIGNXX(I) = ZERO                                                
-                  SIGNYY(I) = ZERO                                                
-                  SIGNXY(I) = ZERO                                                
-                  SIGNYZ(I) = ZERO                                                
-                  SIGNZX(I) = ZERO                                                
-                ENDIF ! UVAR                                                      
-              ENDIF   ! IF (OFF(I) == ONE)                                                                  
-            ENDDO     ! DO I=1,NEL                                                                        
-            IF (NINDXP > 0) THEN    
-              DO J=1,NINDXP        
-                I = INDXP(J)        
-                SIGNXX(I) = ZERO                                              
-                SIGNYY(I) = ZERO                                              
-                SIGNXY(I) = ZERO                                              
-                SIGNYZ(I) = ZERO                                              
-                SIGNZX(I) = ZERO                                              
+                  ENDIF ! IXEL == 0
+                ELSEIF (UVAR(I,1) == ONE) THEN
+                  SIGNXX(I) = ZERO
+                  SIGNYY(I) = ZERO
+                  SIGNXY(I) = ZERO
+                  SIGNYZ(I) = ZERO
+                  SIGNZX(I) = ZERO
+                ENDIF ! UVAR
+              ENDIF   ! IF (OFF(I) == ONE)
+            ENDDO     ! DO I=1,NEL
+            IF (NINDXP > 0) THEN
+              DO J=1,NINDXP
+                I = INDXP(J)
+                SIGNXX(I) = ZERO
+                SIGNYY(I) = ZERO
+                SIGNXY(I) = ZERO
+                SIGNYZ(I) = ZERO
+                SIGNZX(I) = ZERO
 #include "lockon.inc"
                 IF (RFLAGP(I) == 1) WRITE(IOUT, 3800)NGL(I),ILAY,IPTT
-                IF (RFLAGP(I) == 1) WRITE(ISTDO,3900)NGL(I),ILAY,IPTT,TIME      
+                IF (RFLAGP(I) == 1) WRITE(ISTDO,3900)NGL(I),ILAY,IPTT,TIME
 #include "lockoff.inc"
-              ENDDO               
-            ENDIF  !  NINDXP > 0   
-            IF (NINDX > 0) THEN    
-              DO J=1,NINDX         
-                I = INDX(J)        
+              ENDDO
+            ENDIF  !  NINDXP > 0
+            IF (NINDX > 0) THEN
+              DO J=1,NINDX
+                I = INDX(J)
 #include "lockon.inc"
-c               initialization std element                                                
-                IF (RFLAG(I) == 1) WRITE(IOUT ,3000)  NGL(I),ILAY    
-                IF (RFLAG(I) == 1) WRITE(ISTDO,3100)  NGL(I),ILAY,TIME            
-c               advancement std element                                                   
-                IF (RFLAG(I) == -1) WRITE(IOUT ,3200) NGL(I),ILAY                
-                IF (RFLAG(I) == -1) WRITE(ISTDO,3300) NGL(I),ILAY,TIME           
-c               delete phantom element                                                       
-                IF (RFLAG(I) == 3) WRITE(IOUT, 3400)  XCHAR,NGL(I),ILAY           
-                IF (RFLAG(I) == 3) WRITE(ISTDO,3500)  XCHAR,NGL(I),ILAY,TIME      
+c               initialization std element
+                IF (RFLAG(I) == 1) WRITE(IOUT ,3000)  NGL(I),ILAY
+                IF (RFLAG(I) == 1) WRITE(ISTDO,3100)  NGL(I),ILAY,TIME
+c               advancement std element
+                IF (RFLAG(I) == -1) WRITE(IOUT ,3200) NGL(I),ILAY
+                IF (RFLAG(I) == -1) WRITE(ISTDO,3300) NGL(I),ILAY,TIME
+c               delete phantom element
+                IF (RFLAG(I) == 3) WRITE(IOUT, 3400)  XCHAR,NGL(I),ILAY
+                IF (RFLAG(I) == 3) WRITE(ISTDO,3500)  XCHAR,NGL(I),ILAY,TIME
 #include "lockoff.inc"
-              ENDDO               
-            ENDIF  !  NINDX > 0   
+              ENDDO
+            ENDIF  !  NINDX > 0
 c---------------
-        CASE (2)    ! monolayer XFEM                                    
+        CASE (2)    ! monolayer XFEM
 c---------------
-            IF (ISHELL == 1) THEN   
+            IF (ISHELL == 1) THEN
 c
               IF (LAYXFEM > 0) THEN
                 DO I = 1,NEL
                   IF (OFF(I) == ONE) THEN
                     IF (IXEL == 0) THEN    ! not cut yet
-                      IF (ELCRKINI(ILAY,I) == 0 .and. 
+                      IF (ELCRKINI(ILAY,I) == 0 .and.
      .                    EMAJ(I) >= EM_DCRIT(I)) THEN
-                        ELCRKINI(ILAY,I) = -1 ! ready to start       
-                        OFF(I) = FOUR_OVER_5                                           
+                        ELCRKINI(ILAY,I) = -1 ! ready to start
+                        OFF(I) = FOUR_OVER_5
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = 1
                         TDEL(I)= TIME
-                      ELSEIF (ELCRKINI(ILAY,I) == 2 .and. 
-     .                        EMAJ(I) >= EM_DADV(I)) THEN  
+                      ELSEIF (ELCRKINI(ILAY,I) == 2 .and.
+     .                        EMAJ(I) >= EM_DADV(I)) THEN
                         ELCRKINI(ILAY,I) = 1  ! ready to advance
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         NINDX=NINDX+1
                         INDX(NINDX)=I
                         RFLAG(I) = -1
                         TDEL(I)= TIME
                       ENDIF
-                    ELSE IF (EMAJ(I) >= EM_DCRIT(I)) THEN! IXEL > 0 
-                      OFF(I) = FOUR_OVER_5                                           
+                    ELSE IF (EMAJ(I) >= EM_DCRIT(I)) THEN! IXEL > 0
+                      OFF(I) = FOUR_OVER_5
                       NINDX=NINDX+1
                       INDX(NINDX)=I
                       RFLAG(I) = 3
@@ -365,8 +365,8 @@ C
                 DO J=1,NINDX
                   I=INDX(J)
 #include "lockon.inc"
-                  WRITE(IOUT, 4800)NGL(I),IPTT        
-                  WRITE(ISTDO,4900)NGL(I),IPTT,TIME        
+                  WRITE(IOUT, 4800)NGL(I),IPTT
+                  WRITE(ISTDO,4900)NGL(I),IPTT,TIME
 c                 initialization std element
                   IF (RFLAG(I) == 1)  WRITE(IOUT ,4000) NGL(I)
                   IF (RFLAG(I) == 1)  WRITE(ISTDO,4100) NGL(I),TIME
@@ -390,26 +390,26 @@ c
                         UVAR(I,1) = ONE
                         NINDX=NINDX+1
                         INDX(NINDX)=I
-                        NINDXP = NINDXP + 1                                                 
-                        INDXP(NINDXP) = I                                                 
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
                         RFLAGP(I) = 1
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
                           ELCRKINI(ILAY,I) = -1 ! one layer failed (by initiation)
-                          OFF(I) = FOUR_OVER_5                                           
+                          OFF(I) = FOUR_OVER_5
                           RFLAG(I) = 1
-                          TDEL(I)= TIME 
+                          TDEL(I)= TIME
                         ENDIF
                       ELSEIF (ELCRKINI(ILAY,I) == 2 .and. EMAJ(I) >= EM_DADV(I)) THEN
                         UVAR(I,1) = ONE
                         NINDX=NINDX+1
                         INDX(NINDX)=I
-                        NINDXP = NINDXP + 1                                                 
-                        INDXP(NINDXP) = I                                                 
+                        NINDXP = NINDXP + 1
+                        INDXP(NINDXP) = I
                         RFLAGP(I) = 1
                         NOFF(I) = NOFF(I) + 1
                         IF (NOFF(I) == NPTOT) THEN
-                          OFF(I) = FOUR_OVER_5                                           
+                          OFF(I) = FOUR_OVER_5
                           ELCRKINI(ILAY,I) = 1 !  one layer failed (by advancing)
                           RFLAG(I) = -1
                           TDEL(I)= TIME
@@ -419,15 +419,15 @@ c
                       UVAR(I,1) = ONE
                       NINDX = NINDX+1
                       INDX(NINDX) = I
-                      NINDXP = NINDXP + 1                                                 
-                      INDXP(NINDXP) = I                                                 
+                      NINDXP = NINDXP + 1
+                      INDXP(NINDXP) = I
                       RFLAGP(I) = 1
                       NOFF(I) = NOFF(I) + 1
                       IF (NOFF(I) == NPTOT) THEN
-                        OFF(I) = FOUR_OVER_5                                           
+                        OFF(I) = FOUR_OVER_5
                         RFLAG(I) = 3
                       ENDIF
-                    ENDIF ! IXEL 
+                    ENDIF ! IXEL
                   ELSEIF (UVAR(I,1) == ONE) THEN
                     SIGNXX(I) = ZERO
                     SIGNYY(I) = ZERO
@@ -438,20 +438,20 @@ c
                 ENDIF
               ENDDO
 c
-            IF (NINDXP > 0) THEN                                             
-              DO J=1,NINDXP                                                  
-                I = INDXP(J)                                                 
-                SIGNXX(I) = ZERO                                                
-                SIGNYY(I) = ZERO                                                
-                SIGNXY(I) = ZERO                                                
-                SIGNYZ(I) = ZERO                                                
-                SIGNZX(I) = ZERO                                                
-#include        "lockon.inc"                                                
-                IF (RFLAGP(I) == 1) WRITE(IOUT, 4800)NGL(I),IPTT        
-                IF (RFLAGP(I) == 1) WRITE(ISTDO,4900)NGL(I),IPTT,TIME        
-#include       "lockoff.inc"                                                
-              ENDDO                                                          
-            ENDIF  !  NINDXP > 0                                              
+            IF (NINDXP > 0) THEN
+              DO J=1,NINDXP
+                I = INDXP(J)
+                SIGNXX(I) = ZERO
+                SIGNYY(I) = ZERO
+                SIGNXY(I) = ZERO
+                SIGNYZ(I) = ZERO
+                SIGNZX(I) = ZERO
+#include        "lockon.inc"
+                IF (RFLAGP(I) == 1) WRITE(IOUT, 4800)NGL(I),IPTT
+                IF (RFLAGP(I) == 1) WRITE(ISTDO,4900)NGL(I),IPTT,TIME
+#include       "lockoff.inc"
+              ENDDO
+            ENDIF  !  NINDXP > 0
             IF (NINDX > 0) THEN
               DO J=1,NINDX
                 I = INDX(J)

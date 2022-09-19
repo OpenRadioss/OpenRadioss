@@ -93,30 +93,30 @@ C-----------------------------------------------
 C-----------------------------------------------
 C     E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
-      my_real  FINTER 
+      my_real  FINTER
       EXTERNAL FINTER
 C=======================================================================
 c Internal VARIABLES :
 c-----------------
-c UVAR1  initial plastic elongation 
+c UVAR1  initial plastic elongation
 c UVAR2  final plastic elongation (at rupture)
 c-----------------
 c Damage output VARIABLES :
 c-----------------
 c DAMT1  damage factor d,   where (sig = sig *(1-d))
 c DAMT2  damage function at damage start
-c DAMT3  damage function at rupture 
+c DAMT3  damage function at rupture
 C=======================================================================
-      A2 = UPARAM(1)          
-      B2 = UPARAM(2)          
-      A3 = UPARAM(3)          
-      B3 = UPARAM(4)          
-      ISOLID    = NINT(UPARAM(5))          
-      XSCALE2   = UPARAM(6)          
-      XSCALE3   = UPARAM(7) 
+      A2 = UPARAM(1)
+      B2 = UPARAM(2)
+      A3 = UPARAM(3)
+      B3 = UPARAM(4)
+      ISOLID    = NINT(UPARAM(5))
+      XSCALE2   = UPARAM(6)
+      XSCALE3   = UPARAM(7)
       ISYM      = NINT(UPARAM(8))
-      AREASCALE = UPARAM(9)        
-      
+      AREASCALE = UPARAM(9)
+
       IFUN2N  = IFUNC(1)
       IFUN2T  = IFUNC(2)
       IFUN3N  = IFUNC(3)
@@ -125,13 +125,13 @@ C-----------------------------------------------
       IF (TIME == ZERO) THEN
         DO I=1,NEL
           UVAR(I,3)= AREA(I)    ! initial area at time = 0
-        ENDDO   
+        ENDDO
       ENDIF
-c      
+c
       DO I=1,NEL
         PLA1(I) = UVAR(I,1)
-        PLA2(I) = UVAR(I,2)    
-      END DO                                 
+        PLA2(I) = UVAR(I,2)
+      END DO
 C-----------------------------------------------
 C    RATE FUNCTIONS INERPOLATION
 C-----------------------------------------------
@@ -168,15 +168,15 @@ C-----------------------------------------------
         ENDDO
       ENDIF
 C-----------------------------------------------
-      NINDX  = 0  
-      NINDXD = 0  
-      NINDXA = 0  
+      NINDX  = 0
+      NINDXD = 0
+      NINDXA = 0
 c
       DO I=1,NEL
         IDEL  = 0
         DAMA  = ZERO
         SSYM  = SIN(SYM(I))
-        SVMN  = ABS(SIGNZZ(I))                                                   
+        SVMN  = ABS(SIGNZZ(I))
         SVMT  = SQRT(SIGNYZ(I)**2 + SIGNZX(I)**2)
         PHI(I)= ATAN(SVMN/MAX(EM20,SVMT))
         SPHI  = SIN(PHI(I))
@@ -193,7 +193,7 @@ c
           TTS = T2*PLA(I)
           FCT = (TTN**B2 + TTS**B2)**(ONE/B2)
           DAMT(I,2) = MIN(FCT, ONE)
-          IF (FCT > ONE ) THEN 
+          IF (FCT > ONE ) THEN
             PLA1(I) = (T1**B2 + T2**B2)**(-ONE/B2)
             IF (ISYM == 1 .AND. SIGNZZ(I) <= ZERO)THEN
               T1 = ZERO
@@ -212,17 +212,17 @@ c
             NINDXD = NINDXD+1
             INDXD(NINDXD) = I
           ENDIF
-c          
-        ELSE     ! (PLA1(I) > ZERO) 
+c
+        ELSE     ! (PLA1(I) > ZERO)
           IF (ISYM == 1 .AND. SIGNZZ(I) <= ZERO) THEN
             T1 = ZERO
           ELSE
             T1  = SPHI/(ONE-A3*SSYM)/FUN3N(I)
           ENDIF
           T2  = CPHI/FUN3T(I)
-          TTN = T1*PLA(I)                        
-          TTS = T2*PLA(I)      
-          FCT = (TTN**B3 + TTS**B3) **(ONE / B3)  
+          TTN = T1*PLA(I)
+          TTS = T2*PLA(I)
+          FCT = (TTN**B3 + TTS**B3) **(ONE / B3)
           PLA2(I)   = (T1**B3 + T2**B3)**(-ONE/B3)
           DAMT(I,1) = (PLA(I)-PLA1(I))/MAX(EM20,(PLA2(I) - PLA1(I)))
           DAMT(I,1) = MIN(DAMT(I,1), ONE)
@@ -235,20 +235,20 @@ c-----    check if rupture ...
           ENDIF
         ENDIF
         DMG(I) = MAX(DMG(I),DAMA)
-        DMG(I) = MIN(DMG(I),ONE)   
+        DMG(I) = MIN(DMG(I),ONE)
 c-----------------------------
         IF (IDEL == 1 .AND. OFFL(I) == ONE) THEN
-          OFFL(I) = ZERO       ! local integ point rupture    
+          OFFL(I) = ZERO       ! local integ point rupture
           NINDX = NINDX+1
           INDX(NINDX) = I
-          TDELE(I) = TIME  
-        ENDIF 
+          TDELE(I) = TIME
+        ENDIF
 C           
         UVAR(I,1) = PLA1(I)
         UVAR(I,2) = PLA2(I)
 C-------------  Maximum Damage storing for output : 0 < DFMAX < 1 
         DFMAX(I) = MIN(ONE,MAX(DFMAX(I),DAMT(I,1)))
-c        
+c
 c---    deformed elements check
         IF (AREASCALE > ZERO ) THEN
           DEFO = UVAR(I,3) * AREASCALE
@@ -256,12 +256,12 @@ c---    deformed elements check
             OFFL(I) = ZERO
             NINDXA = NINDXA+1
             INDXA(NINDXA) = I
-            TDELE(I) = TIME  
+            TDELE(I) = TIME
             ISOLID   = 1
           ENDIF
         ENDIF
-c-------------------------------        
-      ENDDO     ! I=1,NEL                           
+c-------------------------------
+      ENDDO     ! I=1,NEL
 C-----------------------------------------------
       IF (NINDXD > 0) THEN
         DO J=1,NINDXD
@@ -287,7 +287,7 @@ C-----------------------------------------------
           WRITE(ISTDO,1500) NGL(I),AREA(I),TIME
 #include "lockoff.inc"
         END DO
-      ENDIF         
+      ENDIF
 C-----------------------------------------------
  1000 FORMAT(5X,'START DAMAGE CONNECTION ELEMENT ',I10,
      .          ' INTEGRATION POINT',I2,', PLASTIC ELONGATION =',1PE16.9)

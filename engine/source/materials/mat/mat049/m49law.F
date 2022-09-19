@@ -37,7 +37,7 @@ Chd|====================================================================
      2                  THETA  ,EPD    ,CXX    ,DF     ,D1   ,
      3                  D2     ,D3     ,D4     ,D5     ,D6   ,
      4                  RHO0   ,DPDM   ,SIGY   ,DEFP   ,DPLA ,
-     5                  ESPE   ,ECOLD  ,NEL    )  
+     5                  ESPE   ,ECOLD  ,NEL    )
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -62,22 +62,22 @@ C     REAL
       my_real
      .   PM(NPROPM,*),OFF(MVSIZ) ,SIG(NEL,6),EPXE(MVSIZ),
      .   THETA(MVSIZ),EPD(MVSIZ) ,CXX(MVSIZ)  ,DF(MVSIZ)  , D1(MVSIZ)  ,
-     .   D2(MVSIZ)   ,D3(MVSIZ)  ,D4(MVSIZ)   ,D5(MVSIZ)  , D6(MVSIZ)  , 
+     .   D2(MVSIZ)   ,D3(MVSIZ)  ,D4(MVSIZ)   ,D5(MVSIZ)  , D6(MVSIZ)  ,
      .   RHO0(MVSIZ) ,DPDM(MVSIZ),SIGY(MVSIZ) ,DEFP(MVSIZ), DPLA(MVSIZ),
      .   ESPE(MVSIZ) ,ECOLD(MVSIZ)
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
-      INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ), 
+      INTEGER I, MX,ITB, K, J, IFRAC(MVSIZ),IQUAD(MVSIZ),
      .       IQUADI, IFLAGR(MVSIZ), NBE
 C     REAL
       my_real
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
-     .   G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,   
+     .   G(MVSIZ)  ,G0   ,G1(MVSIZ)    ,G2(MVSIZ)   ,SIG0,
      .   CB ,CN   ,CB1   ,CB2  ,CH  ,
      .   CF ,EPMX ,SIGMX ,SPH  ,T0  ,
-     .   P(MVSIZ)  ,DAV(MVSIZ)  ,TMELT ,EMELT(MVSIZ),QH(MVSIZ)  , 
-     .   QD(MVSIZ) ,AJ2(MVSIZ)  ,SCALE(MVSIZ) ,YLD(MVSIZ) 
+     .   P(MVSIZ)  ,DAV(MVSIZ)  ,TMELT ,EMELT(MVSIZ),QH(MVSIZ)  ,
+     .   QD(MVSIZ) ,AJ2(MVSIZ)  ,SCALE(MVSIZ) ,YLD(MVSIZ)
       my_real
      .    QA, QB, QC, QE
 C======================================================================|
@@ -122,8 +122,8 @@ C----------------------------
           QE = SIG0 * ((ONE + CB*EPMX)**CN)
         ELSE
           QE = SIG0 * ((ONE + CB*EPXE(I))**CN)
-        ENDIF       
-        YLD(I) = MIN(SIGMX, QE) * QD(I)       
+        ENDIF
+        YLD(I) = MIN(SIGMX, QE) * QD(I)
       ENDDO
 C--------------------------------      
 C     DEVIATORIC STRESS ESTIMATE
@@ -159,7 +159,7 @@ C---      Melting
           G(I)  =ZERO
           YLD(I)=ZERO
           AJ2(I)=ZERO
-          SCALE(I)=ZERO	  
+          SCALE(I)=ZERO	
         ELSE
 C---      Hardening rule
           IF(CN>=1) THEN

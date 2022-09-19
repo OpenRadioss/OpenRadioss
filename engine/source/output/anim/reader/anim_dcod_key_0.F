@@ -57,13 +57,13 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER JERR, IXITKEY
-      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey, 
+      CHARACTER KEY2*ncharkey, KEY3*ncharkey, KEY4*ncharkey,
      .          KEY5*ncharkey, KEY6*ncharkey
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, IDX, N1, N2, N3, ITYP,IADG, J,NTITLE,IUS,IPT
-      my_real 
+      my_real
      .        X0,Y0,Z0,VNX,VNY,VNZ,V0
       LOGICAL :: LAW51_PHASE1, LAW51_PHASE2, LAW51_PHASE3, LAW51_PHASE4
 C-----------------------------------------------
@@ -73,8 +73,8 @@ C     Activated in engine file with
 C     /ANIM/BRIC(ELEM)/LAW51/ALL
 C     /ANIM/BRIC(ELEM)/LAW51/1
 C     and so on 
-      LAW51_PHASE1 = .FALSE. 
-      LAW51_PHASE2 = .FALSE. 
+      LAW51_PHASE1 = .FALSE.
+      LAW51_PHASE2 = .FALSE.
       LAW51_PHASE3 = .FALSE.
       LAW51_PHASE4 = .FALSE.
 C-----------------------------------------------
@@ -99,7 +99,7 @@ C--------------------------
           ANIM_V(3) = 1
         ELSEIF(KEY3(1:4)=='CONT' .AND. KEY3(1:5)/='CONT2'.AND.KEY4(1:3)/='MAX')THEN
           ANIM_V(4) = 1
-          ANIMCONT = ANIM_V(4)  
+          ANIMCONT = ANIM_V(4)
         ELSEIF(KEY3(1:4)=='FINT')THEN
           ANIM_V(5) = 1
         ELSEIF(KEY3(1:4)=='FEXT')THEN
@@ -120,7 +120,7 @@ C         vitesses fluides pour alebag et /bem/flow
             JERR   =JERR+1
             IXITKEY=IXITKEY+1
           ENDIF
-          ANIM_V(11) = 1    
+          ANIM_V(11) = 1
         ELSEIF(KEY3(1:5)=='PCONT'.AND. KEY3(1:6)/='PCONT2')THEN
          ANIM_V(12) = 1
         ELSEIF(KEY3(1:5)=='CONT2')THEN
@@ -142,19 +142,19 @@ C         vitesses fluides pour alebag et /bem/flow
             ANIM_V(20) = 1
           ENDIF
         ELSEIF (KEY3(1:4)=='ZVEL')THEN  !inter22
-          ANIM_V(21) = 1    
+          ANIM_V(21) = 1
         ELSEIF (KEY3(1:5)=='ZFVEL')THEN !inter22
-          ANIM_V(22) = 1 
+          ANIM_V(22) = 1
         ELSEIF (KEY3(1:4)=='ZMOM')THEN  !inter22
-          ANIM_V(23) = 1   
+          ANIM_V(23) = 1
         ELSEIF (KEY3(1:3)=='ZFP')THEN   !inter22
-          ANIM_V(24) = 1    
+          ANIM_V(24) = 1
         ELSEIF (KEY3(1:5)=='ZFINT')THEN !inter22
-          ANIM_V(25) = 1    
-        ELSEIF (KEY3(1:4)=='CONT'.AND.KEY4(1:3)=='MAX')THEN 
-          ANIM_V(26) = 1    
-          ANIMCONT = ANIM_V(4)  
-          ANIM_V(4) = 1     
+          ANIM_V(25) = 1
+        ELSEIF (KEY3(1:4)=='CONT'.AND.KEY4(1:3)=='MAX')THEN
+          ANIM_V(26) = 1
+          ANIMCONT = ANIM_V(4)
+          ANIM_V(4) = 1
         ELSEIF(KEY3(1:6)=='PCONT2')THEN
          ANIM_V(27) = 1
         ELSE
@@ -280,8 +280,8 @@ C---------------------------------------
                   ANIM_CE(10247)= 1
              ELSEIF(KEY4(1:5)=='MAXDA') THEN
                   ANIM_CE(10669)= 1
-             ENDIF           
-      !fin        
+             ENDIF
+      !fin
       ! XFEM for layered shell (real crack path visualisation)
       ELSE IF(KEY3(1:3)=='CRK') THEN
 c          ANIM_CRK = 1
@@ -1132,18 +1132,18 @@ C------------
       ELSEIF(KEY3(1:5)=='TDEL')THEN
          ANIM_CE(10670) = 1
       ELSEIF(KEY3(1:3)=='SSP')THEN
-         ANIM_CE(10671) = 1     
+         ANIM_CE(10671) = 1
       ELSEIF(KEY3(1:5)=='SCHLI')THEN !.OR. 'SCHLIEREN'
-         ANIM_CE(10672) = 1        
-      ELSEIF(KEY3(1:5)=='DOMAI')THEN 
-         ANIM_CE(10676) = 1    
+         ANIM_CE(10672) = 1
+      ELSEIF(KEY3(1:5)=='DOMAI')THEN
+         ANIM_CE(10676) = 1
       !C   element equivalent stress criteria
       ELSEIF(KEY3(1:5)=='SIGEQ')THEN
          ANIM_CE(10677) = 1
       ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
-         ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)         
-      ELSEIF(KEY3(1:4)=='TDET')THEN 
-         ANIM_CE(11889) = 1            
+         ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)
+      ELSEIF(KEY3(1:4)=='TDET')THEN
+         ANIM_CE(11889) = 1
       ELSEIF(KEY3(1:5)=='LAW20')THEN
          ANIM_CE(11890) = 1 !dens
          ANIM_CE(11891) = 1
@@ -1164,25 +1164,25 @@ C------------
          ANIM_CE(11906) = 1 !plas
          ANIM_CE(11907) = 1
          ANIM_CE(11908) = 0
-         ANIM_CE(11909) = 0                                                                                                                                                                                                                 
-         ANIM_CE(11910) = 1 !ssp           
-         ANIM_CE(11911) = 1  
-         ANIM_CE(11912) = 0  
-         ANIM_CE(11913) = 0  
-         ANIM_CE(11914) = 1 !volume 
-         ANIM_CE(11915) = 1  
-         ANIM_CE(11916) = 0  
-         ANIM_CE(11917) = 0  
-         ANIM_CE(11918) = 1 !mass 
-         ANIM_CE(11919) = 1  
-         ANIM_CE(11920) = 0  
-         ANIM_CE(11921) = 0  
-         ANIM_CE(11922) = 1 !Qvis  
-         ANIM_CE(11923) = 1  
-         ANIM_CE(11924) = 0 
+         ANIM_CE(11909) = 0
+         ANIM_CE(11910) = 1 !ssp
+         ANIM_CE(11911) = 1
+         ANIM_CE(11912) = 0
+         ANIM_CE(11913) = 0
+         ANIM_CE(11914) = 1 !volume
+         ANIM_CE(11915) = 1
+         ANIM_CE(11916) = 0
+         ANIM_CE(11917) = 0
+         ANIM_CE(11918) = 1 !mass
+         ANIM_CE(11919) = 1
+         ANIM_CE(11920) = 0
+         ANIM_CE(11921) = 0
+         ANIM_CE(11922) = 1 !Qvis
+         ANIM_CE(11923) = 1
+         ANIM_CE(11924) = 0
          ANIM_CE(11925) = 0
 
-      ELSEIF(KEY3(1:5)=='IDPLY')THEN       
+      ELSEIF(KEY3(1:5)=='IDPLY')THEN
         !ANIM_CE(11925) ->  ANIM_CE(11925+3*MX_PLY_ANIM)
         !ANIM_CT(1610) ->  ANIM_CT(1610+2*MX_PLY_ANIM)
          ! === /ANIM/SHELL/IDPLY/STRESS ===
@@ -1197,9 +1197,9 @@ C------------
             PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+1) = N1
             PLY_ANIM_STRESS(3*(NBPLY_ANIM_STRESS-1)+3) = IPT
             ANIM_CT(1610 + NBPLY_ANIM_STRESS) = 1
-            IF(NBPLY_ANIM_STRESS > MX_PLY_ANIM) 
+            IF(NBPLY_ANIM_STRESS > MX_PLY_ANIM)
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
-          ENDIF  
+          ENDIF
         ! /ANIM/SHELL/IDPLY/STRAIN
         ELSEIF(KEY4(1:5)=='STRAI')THEN
           IF(KEY5(1:3) == 'ALL')THEN
@@ -1212,7 +1212,7 @@ C------------
             PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+2) = 3
             PLY_ANIM_STRAIN(3*(NBPLY_ANIM_STRAIN-1)+3) = IPT
             ANIM_CT( (1610+ MX_PLY_ANIM) + NBPLY_ANIM_STRAIN) = 1
-            IF(NBPLY_ANIM_STRAIN > MX_PLY_ANIM) 
+            IF(NBPLY_ANIM_STRAIN > MX_PLY_ANIM)
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
           ENDIF
         ! /ANIM/SHELL/IDPLY/EPSDOT
@@ -1228,7 +1228,7 @@ C------------
             PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+2) = 6
             PLY_ANIM_EPSDOT(3*(NBPLY_ANIM_EPSDOT-1)+3) = IPT
             ANIM_CT( (1610+ 2*MX_PLY_ANIM) + NBPLY_ANIM_EPSDOT) = 1
-            IF(NBPLY_ANIM_EPSDOT > MX_PLY_ANIM) 
+            IF(NBPLY_ANIM_EPSDOT > MX_PLY_ANIM)
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
           ENDIF
         ELSEIF(KEY4(1:3)=='PHI')THEN
@@ -1239,12 +1239,12 @@ C------------
             ! /ANIM/SHELL/IDPLY/PHI/Id
             READ(KEY5(1:5),'(I5)')N1
             NBPLY_ANIM_PHI = NBPLY_ANIM_PHI + 1
-            IF(NBPLY_ANIM_PHI > MX_PLY_ANIM) 
+            IF(NBPLY_ANIM_PHI > MX_PLY_ANIM)
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
             PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+1) = N1
             PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+2) = 4
             PLY_ANIM_PHI(3*(NBPLY_ANIM_PHI-1)+3) = 0
-            ANIM_CE( (11925 + MX_PLY_ANIM) + NBPLY_ANIM_PHI ) = 1  
+            ANIM_CE( (11925 + MX_PLY_ANIM) + NBPLY_ANIM_PHI ) = 1
           ENDIF
         ELSEIF(KEY4(1:4)=='EPSP')THEN
           IF(KEY5(1:3) == 'ALL')THEN
@@ -1255,12 +1255,12 @@ C------------
             READ(KEY5(1:5),'(I5)')N1
             READ(KEY6(1:5),'(I5)')IPT
             NBPLY_ANIM_EPSP = NBPLY_ANIM_EPSP + 1
-            IF(NBPLY_ANIM_EPSP > MX_PLY_ANIM) 
+            IF(NBPLY_ANIM_EPSP > MX_PLY_ANIM)
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
             PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+1) = N1
             PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+2) = 5
             PLY_ANIM_EPSP(3*(NBPLY_ANIM_EPSP-1)+3) = IPT
-            ANIM_CE( (11925 + 2 * MX_PLY_ANIM) + NBPLY_ANIM_EPSP ) = 1  
+            ANIM_CE( (11925 + 2 * MX_PLY_ANIM) + NBPLY_ANIM_EPSP ) = 1
           ENDIF
         ELSEIF(KEY4(1:4)=='DAMA')THEN
           IF(KEY5(1:3) == 'ALL')THEN
@@ -1271,12 +1271,12 @@ C------------
             READ(KEY5(1:5),'(I5)')N1
             READ(KEY6(1:5),'(I5)')IPT
             NBPLY_ANIM_DAMA = NBPLY_ANIM_DAMA + 1
-            IF(NBPLY_ANIM_DAMA > MX_PLY_ANIM) 
+            IF(NBPLY_ANIM_DAMA > MX_PLY_ANIM)
      .        CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
             PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+1) = N1
             PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+2) = 7
             PLY_ANIM_DAMA(3*(NBPLY_ANIM_DAMA-1)+3) = IPT
-            ANIM_CE( (11925 + 3 * MX_PLY_ANIM) + NBPLY_ANIM_DAMA ) = 1  
+            ANIM_CE( (11925 + 3 * MX_PLY_ANIM) + NBPLY_ANIM_DAMA ) = 1
           ENDIF
         ELSEIF(KEY4(1:3)=='ALL')THEN
           ! /ANIM/SHELL/IDPLY/ALL
@@ -1285,13 +1285,13 @@ C------------
           ! /ANIM/SHELL/IDPLY/Id
           READ(KEY4(1:5),'(I5)')N1
           NBPLY_ANIM = NBPLY_ANIM + 1
-          IF(NBPLY_ANIM > MX_PLY_ANIM) 
+          IF(NBPLY_ANIM > MX_PLY_ANIM)
      .      CALL ANCMSG(MSGID=268,MSGTYPE=MSGWARNING,I1=MX_PLY_ANIM,ANMODE=ANINFO)
           PLY_ANIM(3*(NBPLY_ANIM-1)+1) = N1
           PLY_ANIM(3*(NBPLY_ANIM-1)+2) = 1
           PLY_ANIM(3*(NBPLY_ANIM-1)+3) = 0
-          ANIM_CE(11925 + NBPLY_ANIM) = 1  
-        ENDIF  
+          ANIM_CE(11925 + NBPLY_ANIM) = 1
+        ENDIF
       ELSEIF(KEY3(1:4) == 'FLDF')THEN
          IDX = 11925+4*MX_PLY_ANIM
          IF (KEY4(1:5) == 'UPPER') THEN
@@ -1315,12 +1315,12 @@ C------------
         ANIM_CE(IDX) = 1
       ELSEIF(KEY3(1:3) == 'AMS')THEN
         IDX          = 13242 + 4*MX_PLY_ANIM + 1
-        ANIM_CE(IDX) = 1    
+        ANIM_CE(IDX) = 1
 !NIM/SHELL/WPLA/KEY4/KEY5
       ELSEIF(KEY3(1:4) == 'WPLA')THEN
          N1 = 0
          N2 = 0
-         IDX      = 13245 + 4*MX_PLY_ANIM 
+         IDX      = 13245 + 4*MX_PLY_ANIM
          IF(KEY4(1:5)=='UPPER')THEN
            ANIM_CE(IDX + 1)=1
          ELSEIF(KEY4(1:5)=='LOWER')THEN
@@ -1332,7 +1332,7 @@ C------------
            READ(KEY4(1:5),'(I5)')N1   !  layer
              IF (N1 > 0 .AND. N1 <= 100) THEN
              ! case of PID51  (read NPTT, or, UPPER or LOWER within NPTT)
-               IDX = 13347 + 4*MX_PLY_ANIM 
+               IDX = 13347 + 4*MX_PLY_ANIM
                IF(KEY5(1:5)=='UPPER')THEN
                   ANIM_CE(IDX  + N1) = 1
                ELSEIF(KEY5(1:5)=='LOWER')THEN
@@ -1341,7 +1341,7 @@ C------------
                   IWPLAFULL = 1
                   ANIM_WPLA(N1) = 1
                ELSE
-                  IDX =   13547 + 4*MX_PLY_ANIM 
+                  IDX =   13547 + 4*MX_PLY_ANIM
                   READ(KEY5(1:5),'(I5)')N2   !  NPTT (max=10) through layer N1 (max=100)
                   IF (N2 > 0 .AND. N2 <= 10) THEN
                     ANIM_CE(IDX + 10*(N1-1) + N2) = 1 ! NPTT through N1
@@ -1352,9 +1352,9 @@ C------------
                ENDIF
              ELSE
                IDX      = 13247 + 4*MX_PLY_ANIM
-                ANIM_CE(IDX) = 1 
-             ENDIF 
-           ENDIF   
+                ANIM_CE(IDX) = 1
+             ENDIF
+           ENDIF
 !  IDX =   13547 + 4*MX_PLY_ANIM + 10*100 limit
       ELSEIF(KEY3(1:3) == 'OFF')THEN
         IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 1
@@ -1365,11 +1365,11 @@ C------------
       ELSEIF(KEY3(1:5) == 'COLOR')THEN
         IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 3
         ANIM_CE(IDX) = 1
-      ELSEIF(KEY3(1:4) == 'DAMG') THEN 
+      ELSEIF(KEY3(1:4) == 'DAMG') THEN
         IDX = 13547 + 4*MX_PLY_ANIM + 1000 + 4
         N1 = 0
         IF(KEY4(1:4)=='MEAN')THEN
-          ANIM_CE(IDX) = 1  
+          ANIM_CE(IDX) = 1
         ELSEIF(KEY4(1:5)=='UPPER')THEN
           ANIM_CE(IDX+1)=1
         ELSEIF(KEY4(1:5)=='LOWER')THEN
@@ -1381,7 +1381,7 @@ C------------
           IF (N1 > 0 .AND. N1 <= 11) THEN
             ANIM_CE(IDX+3+N1)=1
           ELSE
-            ANIM_CE(IDX) = 1  
+            ANIM_CE(IDX) = 1
           ENDIF
         ENDIF
       ELSEIF(KEY3(1:7)=='NL_EPSP')THEN
@@ -1396,7 +1396,7 @@ C------------
         ELSE
           READ(KEY4(1:5),'(I5)') N1
           IF (N1 > 0 .AND. N1 <= 11) THEN
-            ANIM_CE(IDX+2+N1) = 1 
+            ANIM_CE(IDX+2+N1) = 1
           ELSE
             ANIM_CE(IDX) = 1
           ENDIF
@@ -1413,7 +1413,7 @@ C------------
         ELSE
           READ(KEY4(1:5),'(I5)') N1
           IF (N1 > 0 .AND. N1 <= 11) THEN
-            ANIM_CE(IDX+2+N1) = 1 
+            ANIM_CE(IDX+2+N1) = 1
           ELSE
             ANIM_CE(IDX) = 1
           ENDIF
@@ -1445,7 +1445,7 @@ C--------------------------
                 ANIM_ST(10+N1)=1
               ENDIF
             ELSE
-              ANIM_ST(1) = 1 
+              ANIM_ST(1) = 1
             ENDIF
           ENDIF
         ELSEIF(KEY4(1:5)=='STRAI')THEN
@@ -1513,21 +1513,21 @@ C--------------------------
          IF (LAW51_PHASE1) ANIM_SE(4913) = 1 !EPSP_law51-phase1
          IF (LAW51_PHASE2)   ANIM_SE(4914) = 1  !EPSP_law51-phase2
          IF (LAW51_PHASE3)  ANIM_SE(4915) = 1  !EPSP_law51-phase3
-         IF (LAW51_PHASE4)  ANIM_SE(4916) = 1  !EPSP_law51-phase4           
-      ELSEIF(KEY3(1:5)=='PLA51')THEN !obsolete      
+         IF (LAW51_PHASE4)  ANIM_SE(4916) = 1  !EPSP_law51-phase4
+      ELSEIF(KEY3(1:5)=='PLA51')THEN !obsolete
          ANIM_SE(1) = 1
       ELSEIF(KEY3(1:5)=='DENS3')THEN
-           !/ANIM/ELEM/DENS37          
-           ANIM_SE(4935) = 1  !law37 -rho_liquid 
-           ANIM_SE(4936) = 1  !law37 - rho_gas 
+           !/ANIM/ELEM/DENS37
+           ANIM_SE(4935) = 1  !law37 -rho_liquid
+           ANIM_SE(4936) = 1  !law37 - rho_gas
       ELSEIF(KEY3(1:4)=='DENS')THEN
          ANIM_SE(2)    = 1
          IF (LAW51_PHASE1) ANIM_SE(4897) = 1 !DENS_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4898) = 1 !DENS_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4899) = 1 !DENS_law51-phase3
-         IF (LAW51_PHASE4) ANIM_SE(4900) = 1 !DENS_law51-phase4             
+         IF (LAW51_PHASE4) ANIM_SE(4900) = 1 !DENS_law51-phase4
            !ANIM_SE(4935) = 1  !law37 -rho_liquid
-           !ANIM_SE(4936) = 1  !law37 - rho_gas             
+           !ANIM_SE(4936) = 1  !law37 - rho_gas
       ELSEIF(KEY3(1:4)=='ENER')THEN
          ANIM_SE(3) = 1
          IF (LAW51_PHASE1) ANIM_SE(4901) = 1 !ENER_law51-phase1
@@ -1547,7 +1547,7 @@ C--------------------------
          IF (LAW51_PHASE1) ANIM_SE(4909) = 1 !PRES_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4910) = 1 !PRES_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4911) = 1 !PRES_law51-phase3
-         IF (LAW51_PHASE4) ANIM_SE(4912) = 1 !PRES_law51-phase4           
+         IF (LAW51_PHASE4) ANIM_SE(4912) = 1 !PRES_law51-phase4
       ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_SE(7) = 1
       ELSEIF(KEY3(1:1)=='K')THEN
@@ -1697,14 +1697,14 @@ C--------------------------
       ELSEIF(KEY3(1:5)=='USR59')THEN
          ANIM_SE(80) = 1
       ELSEIF(KEY3(1:5)=='USR60')THEN
-         ANIM_SE(81) = 1                 
+         ANIM_SE(81) = 1
       ELSEIF(KEY3(1:4)=='WPLA')THEN
          READ(KEY4(1:5),'(I5)')N1
          IF (N1 /= 0 ) THEN
            ANIM_SE(81+N1) = 1
          ELSE
-           ANIM_SE(4964) = 1 
-         ENDIF  
+           ANIM_SE(4964) = 1
+         ENDIF
       ELSEIF(KEY3(1:4)=='FLAY')THEN
          ANIM_SE(282) = 1
       ELSEIF(KEY3(1:5)=='VFRAC')THEN
@@ -1716,7 +1716,7 @@ C--------------------------
         ANIM_SE(283) = 1 !vfrac phase1 USR4 (law51 & 37 & 20)
         ANIM_SE(284) = 1 !vfrac phase2 USR4 (law51 & 37 & 20)
         ANIM_SE(285) = 1 !vfrac phase3 USR22 (law51)
-        ANIM_SE(286) = 1 !vfrac phase4 USR48 (law51) 
+        ANIM_SE(286) = 1 !vfrac phase4 USR48 (law51)
       ELSEIF(KEY3(1:5)=='BFRAC' .OR. KEY3(1:4)=='BF51')THEN
          ANIM_SE(887) = 1
       ELSEIF(KEY3(1:5)=='ORTHD')THEN
@@ -1730,21 +1730,21 @@ C--------------------------
             ANIM_SE(286+3*(N1-1)+3)=1
            ENDIF
          ENDIF
-      ELSEIF(KEY3(1:5)=='VDAM1')THEN 
+      ELSEIF(KEY3(1:5)=='VDAM1')THEN
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
             ANIM_SE(890+N1)=1
          ELSE
            ANIM_SE(888) = 1
          ENDIF
-      ELSEIF(KEY3(1:5)=='VDAM2')THEN 
+      ELSEIF(KEY3(1:5)=='VDAM2')THEN
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
             ANIM_SE(1890+N1)=1
          ELSE
            ANIM_SE(889) = 1
          ENDIF
-      ELSEIF(KEY3(1:5)=='VDAM3')THEN 
+      ELSEIF(KEY3(1:5)=='VDAM3')THEN
          READ(KEY4(1:5),'(I5)')N1 !/ijk
          IF(N1 > 0)THEN
             ANIM_SE(2890+N1)=1
@@ -1766,25 +1766,25 @@ C--------------------------
       ELSEIF(KEY3(1:4)=='TDEL')THEN
          ANIM_SE(4890)=1
       ELSEIF(KEY3(1:3)=='SSP')THEN
-         ANIM_SE(4891)   = 1   
+         ANIM_SE(4891)   = 1
          IF (LAW51_PHASE1) ANIM_SE(4917) = 1 !SSP_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4918) = 1 !SSP_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4919) = 1 !SPP_law51-phase3
-         IF (LAW51_PHASE4) ANIM_SE(4920) = 1 !SSP_law51-phase4              
+         IF (LAW51_PHASE4) ANIM_SE(4920) = 1 !SSP_law51-phase4
       ELSEIF(KEY3(1:5)=='SCHLI')THEN
-         ANIM_SE(4892)   = 1          
+         ANIM_SE(4892)   = 1
       ELSEIF(KEY3(1:5)=='DOMAI')THEN
-         ANIM_SE(4893)   = 1                   
+         ANIM_SE(4893)   = 1
       ELSEIF(KEY3(1:4)=='FILL')THEN
          ANIM_SE(4894)   = 1
       ELSEIF(KEY3(1:5)=='SIGEQ')THEN  !   element equivalent stress criteria
          ANIM_SE(4895) = 1
       ELSEIF(KEY3(1:4)=='BULK' .OR. KEY3(1:4)=='QVIS')THEN
          ANIM_SE(4896) = 1
-         IF (LAW51_PHASE1) ANIM_SE(4931) = 1              
+         IF (LAW51_PHASE1) ANIM_SE(4931) = 1
          IF (LAW51_PHASE2) ANIM_SE(4932) = 1
          IF (LAW51_PHASE3) ANIM_SE(4933) = 1
-         IF (LAW51_PHASE4) ANIM_SE(4934) = 1                                 
+         IF (LAW51_PHASE4) ANIM_SE(4934) = 1
 
 CTTENTION : NUMEROS RESERVES ANIM_SE pour SOUS-MATERIAUX LOI51
 C         ANIM_SE(4897) ==> !DENS_law51-phase1
@@ -1817,7 +1817,7 @@ C         ANIM_SE(4920) ==> !           phase4
           ANIM_SE(4922) = 1
           ANIM_SE(4923) = 1
           ANIM_SE(4924) = 1
-          ANIM_SE(4925) = 1                                        
+          ANIM_SE(4925) = 1
 
 CTTENTION : NUMEROS RESERVES ANIM_SE pour SOUS-MATERIAUX LOI51
 C         ANIM_SE(4926) ==> !MASS_law51-phase1
@@ -1846,8 +1846,8 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
           ANIM_SE(4940)=1
           ANIM_SE(4941)=1
           ANIM_SE(4942)=1
-          ANIM_SE(4943)=1  
-          ANIM_SE(4944)=1           
+          ANIM_SE(4943)=1
+          ANIM_SE(4944)=1
         ELSEIF(KEY3(1:5) == 'MOMX ')THEN
           ANIM_SE(4938)=1
         ELSEIF(KEY3(1:5) == 'MOMY ')THEN
@@ -1886,7 +1886,7 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
           ANIM_SE(4950)=1
         ELSEIF(KEY3(1:5) == '|VEL|')THEN
           ANIM_SE(4951)=1
-        ENDIF 
+        ENDIF
       ELSEIF(KEY3(1:3) == 'FIN' .OR. KEY3(2:4) == 'FIN')THEN
         IF(KEY3(1:5) == 'FINT ')THEN
           ANIM_SE(4952)=1
@@ -1910,7 +1910,7 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
           ANIM_SE(4957)=1
         ELSEIF(KEY3(1:5) == '|FIN|')THEN
           ANIM_SE(4958)=1
-        ENDIF  
+        ENDIF
       ELSEIF(KEY3(1:3)=='AMS')THEN
         ANIM_SE(4959) = 1
       ELSEIF(KEY3(1:5)=='VORTY')THEN
@@ -1918,27 +1918,27 @@ C         ANIM_SE(4936) ==> !   law37 -    gas
         ANIM_SE(4960) = 1
       ELSEIF(KEY3(1:5)=='VORTZ')THEN
         ANIM_E(4961)  = 1
-        ANIM_SE(4961) = 1  
+        ANIM_SE(4961) = 1
       ELSEIF(KEY3(1:4)=='VORT')THEN
         ANIM_E(4962)  = 1
-        ANIM_SE(4962) = 1            
+        ANIM_SE(4962) = 1
       ELSEIF(KEY3(1:4)=='EINT')THEN
         ANIM_E(4963)  = 1
-        ANIM_SE(4963) = 1  
-      ELSEIF(KEY3(1:3) == 'OFF')THEN  
-        ANIM_SE(4965) = 1         
+        ANIM_SE(4963) = 1
+      ELSEIF(KEY3(1:3) == 'OFF')THEN
+        ANIM_SE(4965) = 1
       ELSEIF(KEY3(1:4)=='MACH')THEN
-        ANIM_SE(4966) = 1   
+        ANIM_SE(4966) = 1
       ELSEIF(KEY3(1:5)=='COLOR')THEN
-        ANIM_SE(4967) = 1   
+        ANIM_SE(4967) = 1
       ELSEIF(KEY3(1:4)=='DAMG')THEN
-        ANIM_SE(4968) = 1  
+        ANIM_SE(4968) = 1
       ELSEIF(KEY3(1:7)=='NL_EPSP')THEN
-        ANIM_SE(4969) = 1    
+        ANIM_SE(4969) = 1
       ELSEIF(KEY3(1:7)=='NL_EPSD')THEN
-        ANIM_SE(4970) = 1    
-        
-!D YOUR NEW ANIMATION CONTOUR HERE          
+        ANIM_SE(4970) = 1
+
+!D YOUR NEW ANIMATION CONTOUR HERE
       !ELSEIF(...)THEN
       !  ANIM_SE(4971) = 1
 
@@ -1984,9 +1984,9 @@ C--------------------------
       ELSEIF(KEY3(1:5)=='DT   ')THEN
          ANIM_FE(20) = 1
       ELSEIF(KEY3(1:3)=='AMS')THEN
-         ANIM_FE(21) = 1        
+         ANIM_FE(21) = 1
       ELSEIF(KEY3(1:3)=='OFF')THEN
-         ANIM_FE(22) = 1         
+         ANIM_FE(22) = 1
       ELSEIF(KEY3(1:4)=='EPSP')THEN
         ANIM_FE(1) = 1 ! global element plastic strain
         IF (KEY2(1:4)=='BEAM') THEN
@@ -2033,7 +2033,7 @@ C--------------------------
          IF (LAW51_PHASE1) ANIM_SE(4913) = 1 !EPSP_law51-phase1
          IF (LAW51_PHASE2) ANIM_SE(4914) = 1 !EPSP_law51-phase2
          IF (LAW51_PHASE3) ANIM_SE(4915) = 1 !EPSP_law51-phase3
-         IF (LAW51_PHASE4) ANIM_SE(4916) = 1 !EPSP_law51-phase4             
+         IF (LAW51_PHASE4) ANIM_SE(4916) = 1 !EPSP_law51-phase4
        ELSEIF(KEY3(1:5)=='DENS3')THEN
            !/ANIM/ELEM/DENS37
            ANIM_SE(4935) = 1  !law37 - rho_liquid
@@ -2042,7 +2042,7 @@ C--------------------------
          ANIM_E(2) = 1
          ANIM_SE(2) = 1
          ANIM_CE(2) = 1
-         IF (LAW51_PHASE1) THEN 
+         IF (LAW51_PHASE1) THEN
             ANIM_SE(4897) = 1 !DENS_law51-phase1
             ANIM_CE(11890) = 1
          ENDIF
@@ -2108,22 +2108,22 @@ C--------------------------
          ANIM_E(6) = 1
          ANIM_SE(6) = 1
          ANIM_CE(6) = 1
-         IF (LAW51_PHASE1) THEN 
+         IF (LAW51_PHASE1) THEN
             ANIM_SE(4909) = 1 !PRES_law51-phase1
             ANIM_CE(11902) = 1
          ENDIF
-         IF (LAW51_PHASE2) THEN 
+         IF (LAW51_PHASE2) THEN
             ANIM_SE(4910) = 1 !PRES_law51-phase2
             ANIM_CE(11903) = 1
          ENDIF
-         IF (LAW51_PHASE3) THEN 
+         IF (LAW51_PHASE3) THEN
             ANIM_SE(4911) = 1 !PRES_law51-phase3
             ANIM_CE(11904) = 1
          ENDIF
-         IF (LAW51_PHASE4) THEN 
-            ANIM_SE(4912) = 1 !PRES_law51-phase4 
+         IF (LAW51_PHASE4) THEN
+            ANIM_SE(4912) = 1 !PRES_law51-phase4
             ANIM_CE(11905) = 1
-         ENDIF          
+         ENDIF
        ELSEIF(KEY3(1:4)=='VONM')THEN
          ANIM_E(7) = 1
          ANIM_SE(7) = 1
@@ -2356,7 +2356,7 @@ C--------------------------
         !BIPHAS(law37)   : TRIMAT = -2
         !MULTIMAT(law51) : TRIMAT = 3|4
         ! law51 & law37  : TRIMAT = 3|4
-        !consistency with material law checked in radioss2.F since TRIMAT common var not yet read  
+        !consistency with material law checked in radioss2.F since TRIMAT common var not yet read
          ANIM_SE(283)   = 1 !vfrac phase1 USR4 (law51 & 37)
          ANIM_SE(284)   = 1 !vfrac phase2 USR4 (law51 & 37)
          ANIM_SE(285)   = 1 !vfrac phase3 USR22 (law51)
@@ -2364,56 +2364,56 @@ C--------------------------
          ANIM_CE(10248) = 1 !vfrac phase1 (law20/51)
          ANIM_CE(10249) = 1 !vfrac phase2 (law20/51)
          ANIM_CE(10250) = 1 !vfrac phase3 (law20/51)
-         ANIM_CE(10251) = 1 !vfrac phase4 (law20/51)           
+         ANIM_CE(10251) = 1 !vfrac phase4 (law20/51)
       ELSEIF(KEY3(1:5)=='BFRAC')THEN
-         ANIM_SE(887)   = 1                    
+         ANIM_SE(887)   = 1
       ELSEIF(KEY3(1:3)=='SSP')THEN
-         ANIM_SE(4891)   = 1              
-         ANIM_CE(10671)  = 1 
-         IF (LAW51_PHASE1) THEN 
+         ANIM_SE(4891)   = 1
+         ANIM_CE(10671)  = 1
+         IF (LAW51_PHASE1) THEN
             ANIM_SE(4917) = 1 ! SSP_law51-phase1
             ANIM_CE(11906) = 1
          ENDIF
-         IF (LAW51_PHASE2) THEN 
+         IF (LAW51_PHASE2) THEN
             ANIM_SE(4918) = 1 !           phase2
             ANIM_CE(11907) = 1
          ENDIF
-         IF (LAW51_PHASE3) THEN 
+         IF (LAW51_PHASE3) THEN
             ANIM_SE(4919) = 1 !           phase3
             ANIM_CE(11908) = 1
          ENDIF
-         IF (LAW51_PHASE4) THEN 
+         IF (LAW51_PHASE4) THEN
             ANIM_SE(4920) = 1 !           phase4
             ANIM_CE(11909) = 1
          ENDIF
        ELSEIF(KEY3(1:5)=='SCHLI')THEN
-         ANIM_SE(4892)   = 1              
-         ANIM_CE(10672)  = 1    
+         ANIM_SE(4892)   = 1
+         ANIM_CE(10672)  = 1
        ELSEIF(KEY3(1:5)=='DOMAI')THEN
-         ANIM_SE(4893)   = 1              
-         ANIM_CE(10676)  = 1    
+         ANIM_SE(4893)   = 1
+         ANIM_CE(10676)  = 1
        ELSEIF(KEY3(1:3)=='VOL' .OR. KEY3(1:4)=='VOLU')THEN
-         ANIM_SE(4921)   = 1 
-         ANIM_CE(4*MX_PLY_ANIM + 14566)  = 1                        
-         IF (LAW51_PHASE1) THEN 
+         ANIM_SE(4921)   = 1
+         ANIM_CE(4*MX_PLY_ANIM + 14566)  = 1
+         IF (LAW51_PHASE1) THEN
             ANIM_SE(4922) = 1 !VOLU_law51-phase1
             ANIM_CE(11914) = 1
          ENDIF
-         IF (LAW51_PHASE2) THEN 
+         IF (LAW51_PHASE2) THEN
             ANIM_SE(4923) = 1 !           phase2
             ANIM_CE(11915) = 1
          ENDIF
-         IF (LAW51_PHASE3) THEN 
+         IF (LAW51_PHASE3) THEN
             ANIM_SE(4924) = 1 !           phase3
             ANIM_CE(11916) = 1
          ENDIF
-         IF (LAW51_PHASE4) THEN 
+         IF (LAW51_PHASE4) THEN
             ANIM_SE(4925) = 1 !           phase4
             ANIM_CE(11917) = 1
          ENDIF
        ELSEIF(KEY3(1:4)=='TDET')THEN
-         ANIM_SE(4930)   = 1 
-         ANIM_CE(11889)  = 1     
+         ANIM_SE(4930)   = 1
+         ANIM_CE(11889)  = 1
       ELSEIF(KEY3(1:5)=='LAW20')THEN
          ANIM_CE(11890) = 1 !dens
          ANIM_CE(11891) = 1
@@ -2434,23 +2434,23 @@ C--------------------------
          ANIM_CE(11906) = 1 !plas
          ANIM_CE(11907) = 1
          ANIM_CE(11908) = 0
-         ANIM_CE(11909) = 0                                                                                                                                                                                                                 
-         ANIM_CE(11910) = 1 !ssp           
-         ANIM_CE(11911) = 1  
-         ANIM_CE(11912) = 0  
-         ANIM_CE(11913) = 0  
-         ANIM_CE(11914) = 1 !volume 
-         ANIM_CE(11915) = 1  
-         ANIM_CE(11916) = 0  
-         ANIM_CE(11917) = 0  
-         ANIM_CE(11918) = 1 !mass 
-         ANIM_CE(11919) = 1  
-         ANIM_CE(11920) = 0  
-         ANIM_CE(11921) = 0  
-         ANIM_CE(11922) = 1 !Qvis  
-         ANIM_CE(11923) = 1  
-         ANIM_CE(11924) = 0 
-         ANIM_CE(11925) = 0                                                              
+         ANIM_CE(11909) = 0
+         ANIM_CE(11910) = 1 !ssp
+         ANIM_CE(11911) = 1
+         ANIM_CE(11912) = 0
+         ANIM_CE(11913) = 0
+         ANIM_CE(11914) = 1 !volume
+         ANIM_CE(11915) = 1
+         ANIM_CE(11916) = 0
+         ANIM_CE(11917) = 0
+         ANIM_CE(11918) = 1 !mass
+         ANIM_CE(11919) = 1
+         ANIM_CE(11920) = 0
+         ANIM_CE(11921) = 0
+         ANIM_CE(11922) = 1 !Qvis
+         ANIM_CE(11923) = 1
+         ANIM_CE(11924) = 0
+         ANIM_CE(11925) = 0
        ELSEIF(KEY3(1:5)=='SIGEQ')THEN    !   element equivalent stress criteria
          ANIM_SE(4895)  = 1
          ANIM_CE(10677) = 1
@@ -2459,13 +2459,13 @@ C--------------------------
          IF (LAW51_PHASE1) ANIM_SE(4931)  = 1
          IF (LAW51_PHASE2) ANIM_SE(4932)  = 1
          IF (LAW51_PHASE3) ANIM_SE(4933)  = 1
-         IF (LAW51_PHASE4) ANIM_SE(4934)  = 1                                            
-         ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)  
+         IF (LAW51_PHASE4) ANIM_SE(4934)  = 1
+         ANIM_CE(11888) = 1   !PID15 uses ANIM_CE(10678:11887)
        ELSEIF(KEY3(1:5)=='DT   ')THEN
-         IDX            = 13242 + 4*MX_PLY_ANIM  
-         ANIM_SE(4937)  = 1 
-         ANIM_CE(IDX)   = 1 
-         ANIM_FE(20)    = 1 
+         IDX            = 13242 + 4*MX_PLY_ANIM
+         ANIM_SE(4937)  = 1
+         ANIM_CE(IDX)   = 1
+         ANIM_FE(20)    = 1
        ELSEIF(KEY3(1:3) == 'MOM' .OR. KEY3(2:4) == 'MOM' )THEN
          IF(KEY3(1:5) == 'MOM  ')THEN
            ANIM_SE(4938) =1
@@ -2473,8 +2473,8 @@ C--------------------------
            ANIM_SE(4940) =1
            ANIM_SE(4941) =1
            ANIM_SE(4942) =1
-           ANIM_SE(4943) =1 
-           ANIM_SE(4944) =1            
+           ANIM_SE(4943) =1
+           ANIM_SE(4944) =1
          ELSEIF(KEY3(1:5) == 'MOMX ')THEN
            ANIM_SE(4938) =1
          ELSEIF(KEY3(1:5) == 'MOMY ')THEN
@@ -2486,9 +2486,9 @@ C--------------------------
          ELSEIF(KEY3(1:5) == 'MOMYZ')THEN
            ANIM_SE(4942) =1
          ELSEIF(KEY3(1:5) == 'MOMXZ')THEN
-           ANIM_SE(4943) =1 
+           ANIM_SE(4943) =1
          ELSEIF(KEY3(1:5) == '|MOM|')THEN
-           ANIM_SE(4944) =1                          
+           ANIM_SE(4944) =1
          ENDIF
        ELSEIF(KEY3(1:3) == 'VEL' .OR. KEY3(2:4) == 'VEL' )THEN
          IF(KEY3(1:5) == 'VEL  ')THEN
@@ -2497,8 +2497,8 @@ C--------------------------
            ANIM_SE(4947) =1
            ANIM_SE(4948) =1
            ANIM_SE(4949) =1
-           ANIM_SE(4950) =1 
-           ANIM_SE(4951) =1                         
+           ANIM_SE(4950) =1
+           ANIM_SE(4951) =1
          ELSEIF(KEY3(1:5) == 'VELX ')THEN
            ANIM_SE(4945) =1
          ELSEIF(KEY3(1:5) == 'VELY ')THEN
@@ -2512,8 +2512,8 @@ C--------------------------
          ELSEIF(KEY3(1:5) == 'VELXZ')THEN
            ANIM_SE(4950) =1
          ELSEIF(KEY3(1:5) == '|VEL|')THEN
-           ANIM_SE(4951) =1             
-         ENDIF                                  
+           ANIM_SE(4951) =1
+         ENDIF
        ELSEIF(KEY3(1:3) == 'FIN' .OR. KEY3(2:4) == 'FIN' )THEN
          IF(KEY3(1:5) == 'FINT ')THEN
            ANIM_SE(4952)=1
@@ -2539,10 +2539,10 @@ C--------------------------
            ANIM_SE(4958)=1
          ENDIF
        ELSEIF(KEY3(1:3)=='AMS')THEN
-         IDX           = 13242 + 4*MX_PLY_ANIM + 1  
-         ANIM_SE(4959) = 1 
-         ANIM_CE(IDX)  = 1 
-         ANIM_FE(21)   = 1   
+         IDX           = 13242 + 4*MX_PLY_ANIM + 1
+         ANIM_SE(4959) = 1
+         ANIM_CE(IDX)  = 1
+         ANIM_FE(21)   = 1
        ELSEIF(KEY3(1:5)=='VORTY')THEN
          ANIM_E(4960)  = 1
          ANIM_SE(4960) = 1
@@ -2554,26 +2554,26 @@ C--------------------------
          ANIM_SE(4962) = 1
         ELSEIF(KEY3(1:4)=='EINT')THEN
          ANIM_E(4963)  = 1
-         ANIM_SE(4963) = 1 
-         IDX           = 13242 + 4*MX_PLY_ANIM + 2  
-         ANIM_CE(IDX)  = 1   
+         ANIM_SE(4963) = 1
+         IDX           = 13242 + 4*MX_PLY_ANIM + 2
+         ANIM_CE(IDX)  = 1
         ELSEIF(KEY3(1:4)=='WPLA')THEN
-         IDX           = 13242 + 4*MX_PLY_ANIM + 3 
-         ANIM_CE(IDX)  = 1  
-         ANIM_SE(4964) = 1 
+         IDX           = 13242 + 4*MX_PLY_ANIM + 3
+         ANIM_CE(IDX)  = 1
+         ANIM_SE(4964) = 1
         ELSEIF(KEY3(1:3)=='OFF')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 1
-         ANIM_CE(IDX)  = 1  
-         ANIM_SE(4965) = 1 
-         ANIM_FE(22) = 1     
+         ANIM_CE(IDX)  = 1
+         ANIM_SE(4965) = 1
+         ANIM_FE(22) = 1
         ELSEIF(KEY3(1:4)=='MACH')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 2
-         ANIM_CE(IDX)  = 1  
-         ANIM_SE(4966) = 1 
+         ANIM_CE(IDX)  = 1
+         ANIM_SE(4966) = 1
         ELSEIF(KEY3(1:5)=='COLOR')THEN
          IDX           = 13547 + 4*MX_PLY_ANIM + 1000 + 3
-         ANIM_CE(IDX)  = 1  
-         ANIM_SE(4967) = 1      
+         ANIM_CE(IDX)  = 1
+         ANIM_SE(4967) = 1
         ELSE IF(KEY3(1:7)=='NL_EPSP')THEN
          IDX           = 14567 + 4*MX_PLY_ANIM
          ANIM_CE(IDX)  = 1
@@ -2816,24 +2816,24 @@ C-----------------------------
        ELSEIF(KEY3(1:5)=='SCHLI')THEN
          ANIM_N(17) = 0 !currently unpluged
        ELSEIF(KEY3(1:5)=='STIFR')THEN
-         ANIM_N(18) = 1  
+         ANIM_N(18) = 1
        ELSEIF(KEY3(1:4)=='STIF')THEN
-         ANIM_N(19) = 1  
+         ANIM_N(19) = 1
        ELSEIF(KEY3(1:5)=='VFRAC')THEN
-         ANIM_N(20) = 1     
-         ANIM_N(21) = 1   
-         ANIM_N(22) = 1   
-         ANIM_N(23) = 1 
+         ANIM_N(20) = 1
+         ANIM_N(21) = 1
+         ANIM_N(22) = 1
+         ANIM_N(23) = 1
        ELSEIF(KEY3(1:5)=='ZVFRA')THEN !inter22
-         ANIM_N(24) = 1     
-         ANIM_N(25) = 1   
-         ANIM_N(26) = 1   
-         ANIM_N(27) = 1 
+         ANIM_N(24) = 1
+         ANIM_N(25) = 1
+         ANIM_N(26) = 1
+         ANIM_N(27) = 1
        ELSEIF(KEY3(1:4)=='ZVOL')THEN !inter22
-         ANIM_N(28) = 1     
-         ANIM_N(29) = 1  
+         ANIM_N(28) = 1
+         ANIM_N(29) = 1
        ELSEIF(KEY3(1:3)=='SSP')THEN
-         ANIM_N(30) = 1                                                                            
+         ANIM_N(30) = 1
        ELSE
          IXITKEY=IXITKEY+1
        ENDIF
@@ -2843,18 +2843,18 @@ C-----------------------------
             ANIM_SE(4926) = 1 !MASS_law51-phase1
             ANIM_CE(11918) = 1
          ENDIF
-         IF (LAW51_PHASE2) THEN 
+         IF (LAW51_PHASE2) THEN
             ANIM_SE(4927) = 1 !MASS_law51-phase2
             ANIM_CE(11919) = 1
          ENDIF
-         IF (LAW51_PHASE3) THEN  
+         IF (LAW51_PHASE3) THEN
             ANIM_SE(4928) = 1 !MASS_law51-phase3
             ANIM_CE(11920) = 1
          ENDIF
-         IF (LAW51_PHASE4) THEN 
-            ANIM_SE(4929) = 1 !MASS_law51-phase4 
+         IF (LAW51_PHASE4) THEN
+            ANIM_SE(4929) = 1 !MASS_law51-phase4
             ANIM_CE(11921) = 1
-         ENDIF      
+         ENDIF
       ELSEIF(KEY2(1:4)=='NUMB')THEN
          ANIM_U = 1
       ELSEIF(KEY2(1:4)=='KEEP')THEN

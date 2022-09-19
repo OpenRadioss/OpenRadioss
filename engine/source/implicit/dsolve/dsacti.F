@@ -87,7 +87,7 @@ C Elimination des ddls bloques dans tous les superelements
 *
 *            WRITE(10,*) 'I ',I,' J ',J
 *            WRITE(10,*) 'DDLS_INI - NDF0 ',NDF0,' NDI0 ',NDI0
-*            WRITE(10,'(10I8)') 
+*            WRITE(10,'(10I8)')
 *     .           (GRAPHE(I)%DGRAPH(J)%DDLS_INI(K),K=1,NDF0+NDI0)
 *
             NSDMAX=GRAPHE(I)%DGRAPH(J)%NSDMAX
@@ -119,7 +119,7 @@ C Elimination des ddls bloques dans tous les superelements
             GRAPHE(I)%DGRAPH(J)%NDDL_F=NDF
 *
 *            WRITE(10,*) 'DDLS - NDF ',NDF,' NDI ',NDI
-*            WRITE(10,'(10I8)') 
+*            WRITE(10,'(10I8)')
 *     .           (GRAPHE(I)%DGRAPH(J)%DDLS(K),K=1,NDF+NDI)
 *
          ENDDO
@@ -170,7 +170,7 @@ C
 *
 *            WRITE(10,*) 'I ',I,' J ',J
 *            WRITE(10,*) 'DDLS_INI DSACTI2- NDF0 ',NDF0,' NDI0 ',NDI0
-*            WRITE(10,'(10I8)') 
+*            WRITE(10,'(10I8)')
 *     .           (GRAPHE(I)%DGRAPH(J)%DDLS(K),K=1,NDF0+NDI0)
 *
             NSDMAX=GRAPHE(I)%DGRAPH(J)%NSDMAX
@@ -213,7 +213,7 @@ C
             DEALLOCATE(IFACT, IFACMT)
 *
 *            WRITE(10,*) 'DDLS DSACTI2- NDF ',NDF,' NDI ',NDI
-*            WRITE(10,'(10I8)') 
+*            WRITE(10,'(10I8)')
 *     .           (GRAPHE(I)%DGRAPH(J)%DDLS(K),K=1,NDF+NDI)
 *
          ENDDO
@@ -222,4 +222,4 @@ C
 C
       RETURN
       END
-            
+

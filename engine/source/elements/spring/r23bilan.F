@@ -72,7 +72,7 @@ C-----------------------------------------------
      .   EK(MVSIZ), XM(MVSIZ), YM(MVSIZ), ZM(MVSIZ),
      .   VA1,XM1PHI,XM2PHI,RBIDON(1),OFF(MVSIZ),
      .   IN2, EI(MVSIZ),REK(MVSIZ),
-     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ), 
+     .   XXM(MVSIZ), YYM(MVSIZ), ZZM(MVSIZ),
      .   XCG(MVSIZ), YCG(MVSIZ), ZCG(MVSIZ),
      .   IXX(MVSIZ), IYY(MVSIZ), IZZ(MVSIZ),
      .   IXY(MVSIZ), IYZ(MVSIZ), IZX(MVSIZ),

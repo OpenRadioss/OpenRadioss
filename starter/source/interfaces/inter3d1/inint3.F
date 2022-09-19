@@ -131,7 +131,7 @@ Chd|====================================================================
      7                  NOD2ELC    ,NOD2ELTG    ,IGRSURF    ,IKINE1    ,IELEM21 ,
      8                  SH4TREE    ,SH3TREE     ,IPART      ,IPARTC    ,IPARTTG ,
      9                  THK        ,THK_PART    ,NOD2EL1D   ,KNOD2EL1D ,IXS10   ,
-     A                  I_MEM      ,RESORT      ,SIXINT     ,IXS16     ,IXS20   ,   
+     A                  I_MEM      ,RESORT      ,SIXINT     ,IXS16     ,IXS20   ,
      B                  ID         ,TITR        ,IREMNODE   ,NREMNODE  ,IPARTS  ,
      C                  KXX        ,IXX         ,IGEO       ,INTERCEP  ,LELX    ,
      D                  INTBUF_TAB ,FILLSOL     ,PM_STACK   ,IWORKSH   ,KXIG3D  ,
@@ -145,7 +145,7 @@ C-----------------------------------------------
       USE MESSAGE_MOD
       USE IXINTMOD     !IXINT
       USE FRONT_MOD
-      USE INTBUFDEF_MOD 
+      USE INTBUFDEF_MOD
       USE INTBUF_FRIC_MOD
       USE GROUPDEF_MOD
       USE ALE_CONNECTIVITY_MOD
@@ -185,10 +185,10 @@ C-----------------------------------------------
      .   ITAB(*), MWA(*), IXTG(NIXTG,*), IKINE(*),
      .   NELEMINT,  IDDLEVEL,IFIEND,
      .   IWCONT(*), IWCIN2(*),
-     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*), 
+     .   KNOD2ELS(*), KNOD2ELC(*), KNOD2ELTG(*),
      .   NOD2ELS(*), NOD2ELC(*), NOD2ELTG(*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*), IPART(*),
-     .   IPARTC(*), IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*), 
+     .   IPARTC(*), IPARTTG(*),NOD2EL1D(*),KNOD2EL1D(*),
      .   IXS10(6,*), IXS16(8,*), IXS20(12,*), IPARTS(*),
      .   KXIG3D(NIXIG3D,*),IXIG3D(*),TAGPRT_FRIC(*),
      .   IPARTT(*)  ,IPARTP(*)  ,IPARTX(*) ,IPARTR(*),
@@ -220,7 +220,7 @@ C-----------------------------------------------
       INTEGER NRTS, NRTM, NSN, NMN, NMN0, NTY, NST, NMT, IBUC, NOINT,
      .   NSNE, NMNE,NLINS,NLINM,NLN,L16,L17,L20,L21,L22,L23,J31P,J36P,
      .   I, I_STOK,IRS,IRM,ILEV,IDEL2,IPROJ,
-     .   NSEG, NGROUS, NG, INACTI,IWPENE,ISTOK, 
+     .   NSEG, NGROUS, NG, INACTI,IWPENE,ISTOK,
      .   JLT_NEW,IGAP,MULTIMP,INPENE,ISEARCH,ITIED,
      .   IGN,IGE,NME,NMES,NAD,EAD,ISU1,ISU2,L30,
      .   INTTH, IBIDON,NLINSA,NLINMA,ISS2,IFS2,ISYM,IGNORE,NCONT,ICURV,
@@ -230,7 +230,7 @@ C-----------------------------------------------
       INTEGER
      .   N1(MVSIZ),N2(MVSIZ),M1(4,MVSIZ),M2(4,MVSIZ),NRTM0,NRTM_SH,IWPENE0,IAD,NBRIC,II,IBRIC,IAD_IXINT,
      .   NODEID, INOD, MVOISN(MVSIZ,4),IBOUND(4,MVSIZ)
-      INTEGER ITASK, NEDGE_T, ESHIFT, NRTM_T, SSHIFT, MULNSNE, MULNSNS, MULTIMPE, MULTIMPS, NCONTE, 
+      INTEGER ITASK, NEDGE_T, ESHIFT, NRTM_T, SSHIFT, MULNSNE, MULNSNS, MULTIMPE, MULTIMPS, NCONTE,
      .        CAND_E_OLD(2), I_MEME(2),
      .        I_START, I_MEM_REM, NEW_SIZE
       my_real
@@ -268,7 +268,7 @@ C-----------------------------------------------
       my_real
      .   NNX(MVSIZ,5), NNY(MVSIZ,5), NNZ(MVSIZ,5), PENE(4,MVSIZ), ! Dimension 4 is needed for i25dst3_e2s
      .   GAPS(MVSIZ), GAPM(MVSIZ), GAP_NM(4,MVSIZ), GAPMXL(MVSIZ),
-     .   XXS1(MVSIZ), XXS2(MVSIZ), XYS1(MVSIZ), XYS2(MVSIZ), XZS1(MVSIZ), XZS2(MVSIZ), 
+     .   XXS1(MVSIZ), XXS2(MVSIZ), XYS1(MVSIZ), XYS2(MVSIZ), XZS1(MVSIZ), XZS2(MVSIZ),
      .   XXM1(4,MVSIZ), XXM2(4,MVSIZ), XYM1(4,MVSIZ), XYM2(4,MVSIZ), XZM1(4,MVSIZ), XZM2(4,MVSIZ),
      .   GAPVE(MVSIZ),
      .   EX(4,MVSIZ), EY(4,MVSIZ), EZ(4,MVSIZ), FX(MVSIZ), FY(MVSIZ), FZ(MVSIZ)
@@ -282,7 +282,7 @@ C=======================================================================
       NRTM     = IPARI(4)
       NSN      = IPARI(5)
       NMN      = IPARI(6)
-      NMN0     = NMN 
+      NMN0     = NMN
       NTY      = IPARI(7)
       NST      = IPARI(8)
       NMT      = IPARI(9)
@@ -303,9 +303,9 @@ C=======================================================================
       NRTM_SH  = IPARI(42)
       NCONT    = IPARI(18)
       ICURV    = IPARI(39)
-      INTKG    = IPARI(65)   
+      INTKG    = IPARI(65)
       INTPLY   = IPARI(66)
-      IT19     = IPARI(71)                                 
+      IT19     = IPARI(71)
       DRAD     = ZERO
       RDUM(1)  = 0
       NRTM_IGE = IPARI(73)
@@ -320,9 +320,9 @@ C=======================================================================
       IEDGE    = IPARI(58)
       NCONTE   = IPARI(88)
       IS1 = IPARI(13) / 10
-      
+
       TYPE18=.FALSE.
-      IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.      
+      IF(NTY==7 .AND. INACTI==7)TYPE18=.TRUE.
 
       IF (IT19<=0) THEN
       INT_TYP = MAX(NTY,ABS(IT19)*19)
@@ -341,7 +341,7 @@ C-----------------------------------------------------------------------
        L20=L17+NMN
        L22=L20+1+NSN
 
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%NRT(1:NMT) = 0
 C
@@ -539,7 +539,7 @@ C
 C-----------------------------------------------------------------------
       ELSEIF(NTY==3) THEN
 C-----------------------------------------------------------------------
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST)  = 0
       INTBUF_TAB%LMSR(1:NMT)  = 0
@@ -570,7 +570,7 @@ C-----------------------------------------------------------------------
      5 KNOD2ELS  ,KNOD2ELC  ,KNOD2ELTG ,NOD2ELS      ,NOD2ELC   ,
      6 NOD2ELTG  ,IGRSURF(ISU2),THK          ,IXS10     ,
      7 IXS16     ,IXS20        ,ID,TITR,BIDON       ,BIDON     ,
-     8 BIDON     ,BIDON        ,IGEO   ,FILLSOL    ,PM_STACK, IWORKSH  ) 
+     8 BIDON     ,BIDON        ,IGEO   ,FILLSOL    ,PM_STACK, IWORKSH  )
 
        CALL INVOI3(
      1    X,INTBUF_TAB%IRECTM,INTBUF_TAB%LMSR,INTBUF_TAB%MSR,INTBUF_TAB%NSV,
@@ -599,7 +599,7 @@ C
 C-----------------------------------------------------------------------
       ELSEIF(NTY==5) THEN
 C-----------------------------------------------------------------------
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST) = 0
       INTBUF_TAB%LMSR(1:NMT) = 0
@@ -679,7 +679,7 @@ C----------------
      G    IT19             ,KXIG3D                  ,IXIG3D           ,IPARI(72)        , IPARTS          ,
      H    TAGPRT_FRIC      ,INTBUF_TAB%IPARTFRICS   ,INTBUF_TAB%IPARTFRICM ,INTBUF_FRIC_TAB,NRTM_IGE      ,
      I    IPARI(63)        ,GAPM_MX                 ,GAPS_MX          ,GAPM_L_MX        ,GAPS_L_MX)
-       IPARI(21) = IGAP 
+       IPARI(21) = IGAP
 C
 C----------------
 C      IREM GAP
@@ -687,12 +687,12 @@ C----------------
        IF (IREMNODE == 1) THEN ! IDDLEVEL == 1 !
 C
          CALL I7REMNODE(IREMNODE,NOINT,TITR,INTBUF_TAB,NUMNOD+NUMFAKENODIGEO ,
-     1   X,NRTM     ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,NSN, 
+     1   X,NRTM     ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,NSN,
      2 ITAB ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),
      3 INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,IGAP,INTBUF_TAB%VARIABLES(2),DRAD  ,
      4 IPARI(62) ,NTY       ,IPARI     ,I_MEM_REM ,GAPM_MX            ,
      5 GAPS_MX   ,GAPM_L_MX ,GAPS_L_MX ,ILEV      ,INTBUF_TAB%NBINFLG ,
-     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))  
+     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))
 C
        END IF
 C----------------
@@ -723,7 +723,7 @@ C     I_STOK=INTBUF_TAB%I_STOK(1)
      3 INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,INTBUF_TAB%VARIABLES(46))
 C I_STOK sauvegarde a sa place pour optimisation tri
          I_STOK=INTBUF_TAB%I_STOK(1)
-         
+
        IF (I_MEM == 2 ) RETURN
 C
 C----------------
@@ -850,7 +850,7 @@ C-----------------------------------------------------------------------
       ELSEIF(NTY==9) THEN
 C-----------------------------------------------------------------------
 
-      !must be flushed to 0 (in old code INBUF and BUFIN 
+      !must be flushed to 0 (in old code INBUF and BUFIN
       !flushed between 2 domain decomposition
       INTBUF_TAB%LNSV(1:NST) = 0
       INTBUF_TAB%LMSR(1:NMT) = 0
@@ -914,7 +914,7 @@ C
        CALL I7STI3(
      1             X         ,INTBUF_TAB%IRECTM       ,INTBUF_TAB%STFM  ,IXS     ,PM              ,
      2             GEO       ,NRTM                    ,IXC              ,-NUMINT ,INTBUF_TAB%STFAC,
-     3             NTY       ,INTBUF_TAB%VARIABLES(2) ,NOINT            ,INTBUF_TAB%STFNS, NSN    ,     
+     3             NTY       ,INTBUF_TAB%VARIABLES(2) ,NOINT            ,INTBUF_TAB%STFNS, NSN    ,
      4             MS        ,INTBUF_TAB%NSV          ,IXTG             ,IGAP            , RWA    ,
      5      INTBUF_TAB%GAP_S ,INTBUF_TAB%GAP_M        ,INTBUF_TAB%VARIABLES(13),IXT      ,IXP     ,
      6      INTBUF_TAB%VARIABLES(6),INTBUF_TAB%VARIABLES(16),INACTI     ,KNOD2ELS        ,KNOD2ELC,
@@ -1038,10 +1038,10 @@ C        => pour l'engine tout est sur deux emplacement
 
 C      INTBUF_TAB%VARIABLES(1) EST MODIFIE PAR I11STI3; GAP0 NON
 
-       CALL I11STI3(       
+       CALL I11STI3(
      1 X         ,INTBUF_TAB%IRECTM,INTBUF_TAB%STFM  ,IXS       ,PM        ,
      2 GEO       ,NRTM         ,IXC         ,NUMINT    ,INTBUF_TAB%STFAC,
-     3 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT        ,INTBUF_TAB%GAP_M,        
+     3 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT        ,INTBUF_TAB%GAP_M,
      4 MS        ,IXTG         ,IXT         ,IXP       ,IXR       ,
      5 IGAP      ,INTBUF_TAB%VARIABLES(13),GAP0     ,GAPINF    ,IPARTC       ,
      6 IPARTTG   ,THK      ,THK_PART  ,INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_ML,
@@ -1053,11 +1053,11 @@ C      INTBUF_TAB%VARIABLES(1) EST MODIFIE PAR I11STI3; GAP0 NON
      C IPARTS    ,TAGPRT_FRIC   ,INTBUF_TAB%IPARTFRICM,INTBUF_FRIC_TAB,
      D IPARTT    ,IPARTP        ,IPARTX     ,IPARTR, IPARI(63))
 C 
-      DRAD = INTBUF_TAB%VARIABLES(24)          
-       CALL I11STI3(     
+      DRAD = INTBUF_TAB%VARIABLES(24)
+       CALL I11STI3(
      1 X         ,INTBUF_TAB%IRECTS,INTBUF_TAB%STFS  ,IXS      ,PM        ,
      2 GEO       ,NRTS         ,IXC         ,-NUMINT,INTBUF_TAB%STFAC(1),
-     3 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT     ,INTBUF_TAB%GAP_S,       
+     3 NTY       ,INTBUF_TAB%VARIABLES(2),NOINT     ,INTBUF_TAB%GAP_S,
      4 MS        ,IXTG         ,IXT         ,IXP    ,IXR       ,
      5 IGAP      ,INTBUF_TAB%VARIABLES(13),GAP0     ,GAPINF    ,IPARTC        ,
      6 IPARTTG   ,THK      ,THK_PART  ,INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_SL,
@@ -1100,7 +1100,7 @@ C
           ENDDO
 C
           DEALLOCATE(INOD2LIN,TAGSECND,NOD2LIN)
-          IREMNODE = 0  
+          IREMNODE = 0
 C
         ENDIF
 
@@ -1117,9 +1117,9 @@ c    6   I_MEM     ,ID,TITR     ,IDDLEVEL  ,DRAD, IT19)
      2   NRTM      ,NSN                ,INTBUF_TAB%CAND_E       ,INTBUF_TAB%CAND_N  ,INTBUF_TAB%VARIABLES(2),
      3   NOINT    ,I_STOK              ,INTBUF_TAB%VARIABLES(8) ,MAXBOX             ,MINBOX,
      4   NCONT    ,MULTIMP,                 INTBUF_TAB%MSR,
-     5   INTBUF_TAB%ADCCM,INTBUF_TAB%CHAIN,ITAB,INTBUF_TAB%NSV, 
+     5   INTBUF_TAB%ADCCM,INTBUF_TAB%CHAIN,ITAB,INTBUF_TAB%NSV,
      6   0, I_MEM     ,ID,TITR     ,IDDLEVEL,INTBUF_TAB%VARIABLES(4),
-     7   DRAD, INTERCEP,IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M, 
+     7   DRAD, INTERCEP,IGAP,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,
      8   INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML ,INTBUF_TAB%VARIABLES(13),IPARI(63),INTBUF_TAB%KREMNODE,
      3   INTBUF_TAB%REMNODE,INTBUF_TAB%VARIABLES(46))
 C
@@ -1157,7 +1157,7 @@ C
 C
        IF(IPRI>=1) WRITE(IOUT,2011)
 C
-       
+
        PRINT_WARNING = .TRUE.
        DO NG=1,NGROUS
         NFT = (NG-1) * NVSIZ
@@ -1264,7 +1264,7 @@ C-----------------------------------------------------------------------
 C-----------------------------------------------------------------------
       ELSEIF(NTY==21) THEN
 C-----------------------------------------------------------------------
-       !must be flushed to 0 (in old code INBUF and BUFIN 
+       !must be flushed to 0 (in old code INBUF and BUFIN
        !flushed between 2 domain decomposition)
        INTBUF_TAB%AREAS(1:NSN) = 0
        IF(INTTH/=0)THEN
@@ -1338,7 +1338,7 @@ C
      D INTBUF_TAB%VARIABLES(28),INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,NOD2EL1D,KNOD2EL1D,
      E IXR       ,ITAB,INTBUF_TAB%VARIABLES(7),IXS10       ,IXS16   ,IXS20    ,
      F ID,TITR   ,IGEO ,PM_STACK, IWORKSH )
-       
+
        IPARI(21) = IGAP
        IAD       = IPARI(39)
        ISU1      = IPARI(45)
@@ -1347,9 +1347,9 @@ C
        ELSE
          NBRIC     = 0
        ENDIF
-       
+
        IAD=MAX(IAD,1) !in case of ISU1=0 (empty group => normal termination with error message)
-       
+
        CALL I22TZINF(
      1   X               ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%NSV,INTBUF_TAB%VARIABLES(4),NSEG,
      2   NMN             ,NRTM           ,MWA          ,NSN            ,INTBUF_TAB%IRTLM   ,
@@ -1358,7 +1358,7 @@ C
      5   INTBUF_TAB%STFM  ,INTBUF_TAB%STFNS  ,MULTIMP      ,1              ,IDDLEVEL        ,
      6   ITAB            ,INTBUF_TAB%GAP_S  ,INTBUF_TAB%GAP_M,IGAP           ,INTBUF_TAB%VARIABLES(13),
      7   INTBUF_TAB%VARIABLES(16),INACTI         ,INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML  ,I_MEM     ,
-     8   ID              ,TITR           ,IGRBRIC(ISU1)%ENTITY ,NBRIC          ,IXS              ) 
+     8   ID              ,TITR           ,IGRBRIC(ISU1)%ENTITY ,NBRIC          ,IXS              )
 C-----------------------------------------------------------------------
       ELSEIF(NTY==23) THEN
 C-----------------------------------------------------------
@@ -1384,7 +1384,7 @@ C
      6 NOD2ELTG   ,THK         ,IXS10      ,IXS16    ,IXS20      ,
      7 IPARTC      ,IPARTTG     ,INTBUF_TAB%VARIABLES(2),IGAP,INTBUF_TAB%GAP_S,
      8 INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(6),INTBUF_TAB%VARIABLES(16),
-     .       INTBUF_TAB%VARIABLES(19),INTBUF_TAB%VARIABLES(7),     
+     .       INTBUF_TAB%VARIABLES(19),INTBUF_TAB%VARIABLES(7),
      9 INTBUF_TAB%STFNS,INTBUF_TAB%STFM,ID,TITR,INTBUF_TAB%GAP_M, IGEO  ,
      A  PM_STACK , IWORKSH)
 C
@@ -1560,7 +1560,7 @@ C      IL FAUT ENCORE FAIRE ONE BUCKET SORT DANS LE STARTER
 C
        MAXBOX = INTBUF_TAB%VARIABLES(9)
        MINBOX = INTBUF_TAB%VARIABLES(12)
-       PENMAX = INTBUF_TAB%VARIABLES(37)     
+       PENMAX = INTBUF_TAB%VARIABLES(37)
 
 
 C ====================================================================
@@ -1734,18 +1734,18 @@ C------not to repeat the same mess
 
 C      The following commented code flushes input for the hypmersh library
 C      It is used to test the library
-c      FILNAM='output24.dat'   
+c      FILNAM='output24.dat'
 c      OPEN(UNIT=68,FILE=FILNAM,ACCESS='SEQUENTIAL',
 c    .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
 c     IF(IDDLEVEL==1)  CALL IO_TYPE24(0,68,
-c    .                     IGAP, 
-c    .                     IPEN0, 
-c    .                     I_STOK, 
+c    .                     IGAP,
+c    .                     IPEN0,
+c    .                     I_STOK,
 c    .                     INACTI,
-c    .                     MULTIMP, 
-c    .                     NMN, 
-c    .                     NRTM, 
+c    .                     MULTIMP,
+c    .                     NMN,
+c    .                     NRTM,
 c    .                     NRTM0,
 c    .                     NRTM_SH,
 c    .                     NRTSE,
@@ -1821,16 +1821,16 @@ C--------------------------------------------------------
      1  NRTM         ,NSN    ,INTBUF_TAB%IRECTM,INTBUF_TAB%IRTLM,INTBUF_TAB%MVOISIN,
      2  INTBUF_TAB%NVOISIN,INTBUF_TAB%MSEGLO,INTBUF_TAB%MSEGTYP24,ITAB ,X   ,
      3  ID,TITR,IGEO )
-      
+
        CALL I24INI_GAP_N(
      1 NRTM  ,INTBUF_TAB%IRECTM,IXS   ,GEO   ,IXC       ,IXTG  ,
      2 IXT   ,IXP   ,IPART  ,IPARTC   ,IPARTTG  ,
      3 THK   ,THK_PART,INTBUF_TAB%NVOISIN,INTBUF_TAB%GAP_NM,INTBUF_TAB%GAP_M,
      4 NMN   ,INTBUF_TAB%MSR,INTBUF_TAB%GAPN_M,INTBUF_TAB%GAP_N0,INTPLY,
      5 INTBUF_TAB%VARIABLES(36),IGEO,INTBUF_TAB%MSEGTYP24 )
-     
+
 C int24 :candidats initiaux pour inacti=5 -> tri a TT=0 engine
-       IF (INACTI==5.OR.INACTI==-1)THEN 
+       IF (INACTI==5.OR.INACTI==-1)THEN
          CALL I24CAND(INTBUF_TAB%CAND_E,INTBUF_TAB%CAND_N,NSN  ,
      +                INTBUF_TAB%IRTLM ,INTBUF_TAB%I_STOK(1),
      *                INTBUF_TAB%MSEGTYP24)
@@ -1872,10 +1872,10 @@ C      IPEN0 = IPARI(54)
 C-----------------------------------------------------------
 C        CALCUL DES RIGIDITES ELEMENTTAIRES ET NODALES 
 C-----------------------------------------------------------
-       GAPSCALE=INTBUF_TAB%VARIABLES(13) 
+       GAPSCALE=INTBUF_TAB%VARIABLES(13)
        ! Warning : VARIABLES(13) is modified after, to store GAPMIN
 
-       IF(IPARI(72) > 0) THEN ! friction model : saving parts id of main segments 
+       IF(IPARI(72) > 0) THEN ! friction model : saving parts id of main segments
           ALLOCATE(IPARTSM(NRTM0))
           IPARTSM(1:NRTM0)=0
        ELSE
@@ -1952,12 +1952,12 @@ C
          INTBUF_TAB%VARIABLES(16)=EP30 ! fake value
 C
          CALL I7REMNODE(IREMNODE,NOINT,TITR,INTBUF_TAB,NUMNOD+NUMFAKENODIGEO ,
-     1   X,NRTM     ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,NSN, 
+     1   X,NRTM     ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,NSN,
      2 ITAB ,INTBUF_TAB%GAP_S,INTBUF_TAB%GAP_M,INTBUF_TAB%VARIABLES(13),INTBUF_TAB%VARIABLES(16),
      3 INTBUF_TAB%GAP_SL,INTBUF_TAB%GAP_ML,IGAP,INTBUF_TAB%VARIABLES(2),DRAD  ,
      4 IPARI(62) ,NTY       ,IPARI     ,I_MEM_REM ,GAPM_MX            ,
      5 GAPS_MX   ,GAPM_L_MX ,GAPS_L_MX ,ILEV      ,INTBUF_TAB%NBINFLG ,
-     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))  
+     6 INTBUF_TAB%MBINFLG,INTBUF_TAB%VARIABLES(46))
 C
        END IF
 C-----------------------------------------------------------
@@ -1967,8 +1967,8 @@ C
        MAXBOX = INTBUF_TAB%VARIABLES(9)
        MINBOX = INTBUF_TAB%VARIABLES(12)
        PENMN  = INTBUF_TAB%VARIABLES(38)
-       PENMAX = INTBUF_TAB%VARIABLES(37) 
-    
+       PENMAX = INTBUF_TAB%VARIABLES(37)
+
        CALL I25BUC_VOX1(
      1 X        ,INTBUF_TAB%IRECTM  ,INTBUF_TAB%NSV,INTBUF_TAB%VARIABLES(4),NSEG  ,
      2 NMN      ,NRTM              ,MWA     ,NSN        ,INTBUF_TAB%CAND_E  ,
@@ -1981,7 +1981,7 @@ C
      9 ILEV ,INTBUF_TAB%MSEGTYP24,INTBUF_TAB%GAP_NM,INTBUF_TAB%VARIABLES(7),
      A IPARTS  ,KNOD2ELS ,NOD2ELS ,
      B IREMNODE,IPARI(63),INTBUF_TAB%KREMNODE,INTBUF_TAB%REMNODE,
-     C IXS, IXS10, IXS16, IXS20,ICODE,ISKEW, 
+     C IXS, IXS10, IXS16, IXS20,ICODE,ISKEW,
      D DRAD,INTBUF_TAB%PENE_OLD,INTBUF_TAB%VARIABLES(46))
 
        IF (I_MEM == 2) RETURN
@@ -2010,7 +2010,7 @@ C
 C
             CALL I25REMLINE(
      1      X      ,NEDGE  ,INTBUF_TAB%LEDGE,NUMNOD         ,INTBUF_TAB%GAPE     ,INTBUF_TAB%GAP_E_L    ,
-     2      IGAP0  ,IGAP   ,DRAD            ,INTBUF_TAB%VARIABLES(40),BGAPEMX_L  ,INTBUF_TAB%KREMNODE_EDG,      
+     2      IGAP0  ,IGAP   ,DRAD            ,INTBUF_TAB%VARIABLES(40),BGAPEMX_L  ,INTBUF_TAB%KREMNODE_EDG,
      3      INTBUF_TAB%REMNODE_EDG,IPARI(94),I_START        ,I_MEM_REM            ,INOD2LIN              ,
      4      TAGSECND ,NOD2LIN     ,INTBUF_TAB%VARIABLES(46) )
 C
@@ -2025,7 +2025,7 @@ C
           ENDDO
 C
           DEALLOCATE(INOD2LIN,TAGSECND,NOD2LIN)
-          IREMNODE_EDG = 0  
+          IREMNODE_EDG = 0
 C
         ENDIF
 
@@ -2066,15 +2066,15 @@ C
            NCONTE   = IPARI(88)
            IF(I_MEME(1)/=0)THEN ! Main shell edges
              MULTIMPE = MAX(IPARI(87)+8,NINT(IPARI(87)*1.75))
-             MULTIMPE = MAX(MULTIMPE,INTBUF_TAB%S_CANDL_MAX / MAX(1,NCONTE)) 
-             INTBUF_TAB%S_CANDL_MAX = 
+             MULTIMPE = MAX(MULTIMPE,INTBUF_TAB%S_CANDL_MAX / MAX(1,NCONTE))
+             INTBUF_TAB%S_CANDL_MAX =
      .               MAX(MULTIMPE*NCONTE,INTBUF_TAB%S_CANDL_MAX)
              CALL UPGRADE_LCAND_EDG(NUMINT,MULTIMPE,INTBUF_TAB)
            END IF
            IF(I_MEME(2)/=0)THEN ! Main Solid edges
              MULTIMPS = MAX(IPARI(89)+8,NINT(IPARI(89)*1.75))
-             MULTIMPS = MAX(MULTIMPS,INTBUF_TAB%S_CANDS_MAX / MAX(1,NCONTE)) 
-             INTBUF_TAB%S_CANDS_MAX = 
+             MULTIMPS = MAX(MULTIMPS,INTBUF_TAB%S_CANDS_MAX / MAX(1,NCONTE))
+             INTBUF_TAB%S_CANDS_MAX =
      .               MAX(MULTIMPS*NCONTE,INTBUF_TAB%S_CANDS_MAX)
              CALL UPGRADE_LCAND_E2S(NUMINT,MULTIMPS,INTBUF_TAB)
            END IF
@@ -2127,7 +2127,7 @@ C
 
             CALL I25COR3(
      1        LLT  ,IGAP ,X ,INTBUF_TAB%IRECTM,INTBUF_TAB%NSV,
-     2        INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT) ,XI, YI, ZI, 
+     2        INTBUF_TAB%CAND_E(1+NFT),INTBUF_TAB%CAND_N(1+NFT) ,XI, YI, ZI,
      4        IX1     ,IX2   ,IX3   ,IX4   ,NSVG   ,
      5        NSN     ,INTBUF_TAB%GAP_S   ,GAPS  ,INTBUF_TAB%ADMSR ,INTBUF_TAB%EDGE_BISECTOR  ,
      7        X1      ,X2     ,X3    ,X4    ,X0          ,
@@ -2216,7 +2216,7 @@ C          INT25 : candidats initiaux pour inacti=5 (garde symetriques) <=> tri 
 C------------------------------------------------------------
         IF (IEDGE /=0)THEN
           IWPENE=0
-          IF(INTBUF_TAB%I_STOK_E(1) > 0) THEN 
+          IF(INTBUF_TAB%I_STOK_E(1) > 0) THEN
 C 
             ISTOK=0
 C 
@@ -2259,7 +2259,7 @@ C
             INTBUF_TAB%I_STOK_E(1)=ISTOK
           END IF
 C------------------------------------------------------------
-          IF(INTBUF_TAB%I_STOK_E(2) > 0) THEN 
+          IF(INTBUF_TAB%I_STOK_E(2) > 0) THEN
 C 
             ISTOK=0
 C 

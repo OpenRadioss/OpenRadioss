@@ -39,7 +39,7 @@ Chd|====================================================================
      1   X     ,IRECT,NSV    ,BUMULT,NSEG    ,
      2   NMN   ,NRTM ,MWA    ,NSN   ,CAND_E  ,
      3   CAND_N,GAP  ,XYZM   ,NOINT ,I_STOK  ,
-     4   DIST  ,TZINF,MSR     ,   
+     4   DIST  ,TZINF,MSR     ,
      5   STF   ,STFN ,MULTIMP,ISTF  ,IDDLEVEL,
      6   ITAB  ,GAP_S,GAP_M  ,IGAP  ,GAPMIN  ,
      7   GAPMAX,INACTI,GAP_S_L,GAP_M_L,I_MEM ,
@@ -103,7 +103,7 @@ C-----------------------------------------------
       INTEGER ID
       CHARACTER*nchartitle,
      .   TITR
-      TYPE(INTERSURFP) :: INTERCEP(3,NINTER) 
+      TYPE(INTERSURFP) :: INTERCEP(3,NINTER)
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: PROV_N, PROV_E,NSVG
       INTEGER, DIMENSION(MVSIZ), INTENT(IN) :: IX11,IX12,IX13,IX14
       my_real, DIMENSION(MVSIZ), INTENT(IN) :: X1,X2,X3,X4
@@ -131,7 +131,7 @@ C-----------------------------------------------
      .        N1, N2, N3, N4, NCONTACT,I_BID,J_STOK,I_STOK_OLD,
      .        IX1,IY1,IZ1,IX2,IY2,IZ2,IX,IY,IZ
       my_real
-     .         MARGE, AAA,TZINF_ST,MARGE_ST 
+     .         MARGE, AAA,TZINF_ST,MARGE_ST
       my_real
      .   DX1,DY1,DZ1,
      .   DX3,DY3,DZ3,
@@ -148,7 +148,7 @@ C-----------------------------------------------
      .   XMINE,YMINE,ZMINE,XMAXE,YMAXE,ZMAXE,
      .   XX1,XX2,XX3,XX4,YY1,YY2,YY3,YY4,ZZ1,ZZ2,ZZ3,ZZ4
         my_real, DIMENSION(:), ALLOCATABLE :: CURV_MAX
-     
+
       LOGICAL :: TYPE18
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -230,17 +230,17 @@ C      IF(IDDLEVEL==0) MARGE_ST = 2*MARGE_ST
       IF(IDDLEVEL==0) MARGE_ST = MARGE
       TZINF_ST = MARGE_ST + MAX(GAP+DGAPLOAD,DRAD)
 C     MIS A ZERO POUR FAIRE SEARCH COMPLET CYCLE 0 ENGINE
-      DIST = ZERO     
+      DIST = ZERO
 C     TEST TO BY-PASS SECOND SEARCH
 C     IF(IDDLEVEL==1 .AND. MARGE >= MARGE_ST) GOTO 999 !
 C----- BORNES DU DOMAINE
       XMAX_M=-EP30
       YMAX_M=-EP30
-      ZMAX_M=-EP30 
+      ZMAX_M=-EP30
       XMIN_M=EP30
       YMIN_M=EP30
       ZMIN_M=EP30
- 100  CONTINUE     
+ 100  CONTINUE
       I_STOK = 0
       J_STOK = 0
       I_MEM = 0
@@ -262,7 +262,7 @@ c     .  LOC_PROC,NSPMD,NRTM,NRTM_L
         MEAN_Z=ZERO
         DO K=1,NRTM_L
           I = INDEX(K)
-          J=IRECT(1,I) 
+          J=IRECT(1,I)
           XMAX_M= MAX(XMAX_M,X(1,J))
           YMAX_M= MAX(YMAX_M,X(2,J))
           ZMAX_M= MAX(ZMAX_M,X(3,J))
@@ -272,7 +272,7 @@ c     .  LOC_PROC,NSPMD,NRTM,NRTM_L
           MEAN_X=MEAN_X+X(1,J)
           MEAN_Y=MEAN_Y+X(2,J)
           MEAN_Z=MEAN_Z+X(3,J)
-          J=IRECT(2,I) 
+          J=IRECT(2,I)
           XMAX_M= MAX(XMAX_M,X(1,J))
           YMAX_M= MAX(YMAX_M,X(2,J))
           ZMAX_M= MAX(ZMAX_M,X(3,J))
@@ -282,7 +282,7 @@ c     .  LOC_PROC,NSPMD,NRTM,NRTM_L
           MEAN_X=MEAN_X+X(1,J)
           MEAN_Y=MEAN_Y+X(2,J)
           MEAN_Z=MEAN_Z+X(3,J)
-          J=IRECT(3,I) 
+          J=IRECT(3,I)
           XMAX_M= MAX(XMAX_M,X(1,J))
           YMAX_M= MAX(YMAX_M,X(2,J))
           ZMAX_M= MAX(ZMAX_M,X(3,J))
@@ -292,7 +292,7 @@ c     .  LOC_PROC,NSPMD,NRTM,NRTM_L
           MEAN_X=MEAN_X+X(1,J)
           MEAN_Y=MEAN_Y+X(2,J)
           MEAN_Z=MEAN_Z+X(3,J)
-          J=IRECT(4,I) 
+          J=IRECT(4,I)
           XMAX_M= MAX(XMAX_M,X(1,J))
           YMAX_M= MAX(YMAX_M,X(2,J))
           ZMAX_M= MAX(ZMAX_M,X(3,J))
@@ -378,7 +378,7 @@ C        indice des voxels occupes par la facette
               END DO
             END DO
           END DO
-          
+
         END DO
         DEV_X=SQRT(DEV_X/MAX(4*NRTM_L,1))
         DEV_Y=SQRT(DEV_Y/MAX(4*NRTM_L,1))
@@ -386,7 +386,7 @@ C        indice des voxels occupes par la facette
 C we keep all in +/- 2 sigma => 95% of the population for normal law distribution
 c      print*,'STAT X, MEAN / DEV:',MEAN_X,DEV_X
 c      print*,'STAT Y, MEAN / DEV:',MEAN_Y,DEV_Y
-c      print*,'STAT Z, MEAN / DEV:',MEAN_Z,DEV_Z      
+c      print*,'STAT Z, MEAN / DEV:',MEAN_Z,DEV_Z
         XMINB=MAX(MEAN_X-2*DEV_X,XMIN)
         YMINB=MAX(MEAN_Y-2*DEV_Y,YMIN)
         ZMINB=MAX(MEAN_Z-2*DEV_Z,ZMIN)
@@ -405,7 +405,7 @@ C Test cas particulier 2D
         IF(ABS(ZMINB-ZMAXB) < EM10)THEN
           ZMINB=ZMIN
           ZMAXB=ZMAX
-        END IF        
+        END IF
 c        print*,'R bornes min:',XMINB,YMINB,ZMINB
 c        print*,'R bornes max:',XMAXB,YMAXB,ZMAXB
 
@@ -437,13 +437,13 @@ c        NBY = NINT(AAA*(YMAX-YMIN))
 c        NBZ = NINT(AAA*(ZMAX-ZMIN))
 c        NBX = MAX(NBX,1)
 c        NBY = MAX(NBY,1)
-c        NBZ = MAX(NBZ,1)     
-c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA    
+c        NBZ = MAX(NBZ,1)
+c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA
 c        NBX8=NBX
 c        NBY8=NBY
 c        NBZ8=NBZ
-c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)       
-c        LVOXEL8 = LVOXEL 
+c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
+c        LVOXEL8 = LVOXEL
 c
 c        IF(RES8 > LVOXEL8) THEN
 c          AAA = LVOXEL	
@@ -456,12 +456,12 @@ c          NBX = MAX(NBX,1)
 c          NBY = MAX(NBY,1)
 c          NBZ = MAX(NBZ,1)
 c        ENDIF
-c      
+c
 c        NBX8=NBX
 c        NBY8=NBY
 c        NBZ8=NBZ
-c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2) 
-c        print *,'original final NBx:',NBX,NBY,NBZ,RES8,AAA    
+c        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
+c        print *,'original final NBx:',NBX,NBY,NBZ,RES8,AAA
 
 C
         AAA = SQRT(NMN /
@@ -476,13 +476,13 @@ C
         NBX = MAX(NBX,1)
         NBY = MAX(NBY,1)
         NBZ = MAX(NBZ,1)
-c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA    
-    
+c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA
+
         NBX8=NBX
         NBY8=NBY
         NBZ8=NBZ
-        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)       
-        LVOXEL8 = LVOXEL 
+        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
+        LVOXEL8 = LVOXEL
 
         IF(RES8 > LVOXEL8) THEN
           AAA = LVOXEL
@@ -495,14 +495,14 @@ c        print *,'intermediate NBx:',NBX,NBY,NBZ,AAA
           NBY = MAX(NBY,1)
           NBZ = MAX(NBZ,1)
         ENDIF
-      
+
         NBX8=NBX
         NBY8=NBY
         NBZ8=NBZ
-        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2) 
-c        print *,'final NBx:',NBX,NBY,NBZ,RES8,AAA    
-        
-        
+        RES8=(NBX8+2)*(NBY8+2)*(NBZ8+2)
+c        print *,'final NBx:',NBX,NBY,NBZ,RES8,AAA
+
+
 c 100  CONTINUE
 
         IF(RES8 > LVOXEL8) THEN
@@ -624,7 +624,7 @@ C ne pas dimunuer la taille des boite
         ENDIF
 C
       END DO ! end loop over NSPMD domains
-      
+
       IF(.NOT.TYPE18)THEN
         IF(NSN/=0)THEN
          WRITE(IOUT,*)' POSSIBLE IMPACT NUMBER:',I_STOK,' (<=',

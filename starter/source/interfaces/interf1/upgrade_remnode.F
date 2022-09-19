@@ -72,7 +72,7 @@ C Set the new NREMNODE parameter for the given Interface
       !save values
       DO I=1,OLD_SIZE
         OLD_TAB(I)=INTBUF_TAB%REMNODE(I)
-      ENDDO      
+      ENDDO
       DEALLOCATE(INTBUF_TAB%REMNODE)
 
       !reallocate with new size and copy saved values
@@ -81,7 +81,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%REMNODE(1:INTBUF_TAB%S_REMNODE)=0
       DO I=1,OLD_SIZE
         INTBUF_TAB%REMNODE(I) = OLD_TAB(I)
-      ENDDO   
+      ENDDO
 C
       DEALLOCATE(OLD_TAB)
 C
@@ -94,17 +94,17 @@ C
         !save values
         DO I=1,OLD_SIZE
           OLD_TAB(I)=INTBUF_TAB%REMNOR(I)
-        ENDDO      
+        ENDDO
         DEALLOCATE(INTBUF_TAB%REMNOR)
         !reallocate with new size and copy saved values
         INTBUF_TAB%S_REMNOR = NREMNODE
         IPARI(81) = NREMNODE
-    
+
         ALLOCATE(INTBUF_TAB%REMNOR(INTBUF_TAB%S_REMNOR))
         INTBUF_TAB%REMNOR(1:INTBUF_TAB%S_REMNOR)=0
         DO I=1,OLD_SIZE
           INTBUF_TAB%REMNOR(I) = OLD_TAB(I)
-        ENDDO   
+        ENDDO
 
         DEALLOCATE(OLD_TAB)
       ENDIF
@@ -166,7 +166,7 @@ C Set the new NREMNODE parameter for the given Interface
       !save values
       DO I=1,OLD_SIZE
         OLD_TAB(I)=INTBUF_TAB%KREMNODE(I)
-      ENDDO      
+      ENDDO
       DEALLOCATE(INTBUF_TAB%KREMNODE)
 
       !reallocate with new size and copy saved values for KREMNODE array
@@ -175,7 +175,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%KREMNODE(1:INTBUF_TAB%S_KREMNODE)=0
       DO I=1,OLD_SIZE
         INTBUF_TAB%KREMNODE(I) = OLD_TAB(I)
-      ENDDO   
+      ENDDO
       DEALLOCATE(OLD_TAB)
 
       !save old size and values for REMNODE array
@@ -184,7 +184,7 @@ C Set the new NREMNODE parameter for the given Interface
       !save values
       DO I=1,OLD_SIZE
         OLD_TAB(I)=INTBUF_TAB%REMNODE(I)
-      ENDDO      
+      ENDDO
       DEALLOCATE(INTBUF_TAB%REMNODE)
 
       !reallocate with new size and copy saved values for REMNODE array
@@ -193,7 +193,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%REMNODE(1:INTBUF_TAB%S_REMNODE)=0
       DO I=1,OLD_SIZE
         INTBUF_TAB%REMNODE(I) = OLD_TAB(I)
-      ENDDO   
+      ENDDO
       DEALLOCATE(OLD_TAB)
 C
       IF(NTY == 25 ) THEN
@@ -215,7 +215,7 @@ C
       END IF
 C
       RETURN
-      END 
+      END
 Chd|====================================================================
 Chd|  UPGRADE_REMNODE_EDG           source/interfaces/interf1/upgrade_remnode.F
 Chd|-- called by -----------
@@ -265,7 +265,7 @@ C Set the new NREMNODE parameter for the given Interface
       !save values
       DO I=1,OLD_SIZE
         OLD_TAB(I)=INTBUF_TAB%REMNODE_EDG(I)
-      ENDDO      
+      ENDDO
       DEALLOCATE(INTBUF_TAB%REMNODE_EDG)
 
       !reallocate with new size and copy saved values
@@ -274,7 +274,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%REMNODE_EDG(1:INTBUF_TAB%S_REMNODE_EDG)=0
       DO I=1,OLD_SIZE
         INTBUF_TAB%REMNODE_EDG(I) = OLD_TAB(I)
-      ENDDO   
+      ENDDO
 C
       DEALLOCATE(OLD_TAB)
 C
@@ -325,7 +325,7 @@ C======================================================================|
 C Set Global parameters
 C Set the new NREMNODE parameter for the given Interface
       IPARI(94) = NREMNODE
-      NEDGE = IPARI(68) 
+      NEDGE = IPARI(68)
 
       DEALLOCATE(INTBUF_TAB%KREMNODE_EDG)
 
@@ -339,7 +339,7 @@ C Set the new NREMNODE parameter for the given Interface
       !save values
       DO I=1,OLD_SIZE
         OLD_TAB(I)=INTBUF_TAB%REMNODE_EDG(I)
-      ENDDO      
+      ENDDO
       DEALLOCATE(INTBUF_TAB%REMNODE_EDG)
 
       !reallocate with new size and copy saved values
@@ -348,7 +348,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%REMNODE_EDG(1:INTBUF_TAB%S_REMNODE_EDG)=0
       DO I=1,OLD_SIZE
         INTBUF_TAB%REMNODE_EDG(I) = OLD_TAB(I)
-      ENDDO   
+      ENDDO
 C
       DEALLOCATE(OLD_TAB)
 C
@@ -398,7 +398,7 @@ C======================================================================|
 C Set Global parameters
 C Set the new NREMNODE parameter for the given Interface
       IPARI(96) = NREMNODE
-      NRTM = IPARI(4) 
+      NRTM = IPARI(4)
 
       DEALLOCATE(INTBUF_TAB%KREMNODE_E2S)
 
@@ -412,7 +412,7 @@ C Set the new NREMNODE parameter for the given Interface
       !save values
       DO I=1,OLD_SIZE
         OLD_TAB(I)=INTBUF_TAB%REMNODE_E2S(I)
-      ENDDO      
+      ENDDO
       DEALLOCATE(INTBUF_TAB%REMNODE_E2S)
 
       !reallocate with new size and copy saved values
@@ -421,7 +421,7 @@ C Set the new NREMNODE parameter for the given Interface
       INTBUF_TAB%REMNODE_E2S(1:INTBUF_TAB%S_REMNODE_E2S)=0
       DO I=1,OLD_SIZE
         INTBUF_TAB%REMNODE_E2S(I) = OLD_TAB(I)
-      ENDDO   
+      ENDDO
 C
       DEALLOCATE(OLD_TAB)
 C

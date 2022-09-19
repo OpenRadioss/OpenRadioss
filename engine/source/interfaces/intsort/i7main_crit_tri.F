@@ -62,7 +62,7 @@ C-----------------------------------------------
       INTEGER NIN,ITASK,
      .        IPARI(NPARI,NINTER)
 C     REAL
-      my_real 
+      my_real
      .   X(3,*), V(3,*),
      .   XSLV_L(*), XMSR_L(*), VSLV_L(*), VMSR_L(*)
 

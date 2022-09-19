@@ -34,7 +34,7 @@ Chd|====================================================================
 !$COMMENT
 !       SPMD_COLLECT_MULTI_FVM description
 !       creation of a file with hexa values of MULTI_FVM%VEL
-!       
+!
 !       SPMD_COLLECT_MULTI_FVM organization :
 !        * gather of MULTI_FVM values on the main processor
 !        * sorting of the value according the global user ID of the
@@ -76,17 +76,17 @@ C-----------------------------------------------
 C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
       INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
-     .        EMPL,FILEN 
+     .        EMPL,FILEN
       CHARACTER FILNAM*100,CYCLENUM*7
       INTEGER :: LEN_TMP_NAME,SHIFT
       CHARACTER(len=2148) :: TMP_NAME
       INTEGER, DIMENSION(NSPMD) :: SIZE_NUMELS
       INTEGER, DIMENSION(:), ALLOCATABLE :: SDNODG
-      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: AGLOB,RECGLOB 
+      DOUBLE PRECISION, DIMENSION(:,:), ALLOCATABLE :: AGLOB,RECGLOB
       ! array for sorting
       INTEGER, DIMENSION(:), ALLOCATABLE :: ITRI,WORK,INDEX_TRI
 
-#ifdef MPI 
+#ifdef MPI
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
 
       DATA MSGOFF0/176/
@@ -105,9 +105,9 @@ C-----------------------------------------------
       ENDIF
 
       SIZE_NUMELS(1:NSPMD) = 0
-#ifdef MPI 
+#ifdef MPI
       IF (ISPMD/=0) THEN
- 
+
       DO I = 1,NUMELS
 !        SDNODG(I) = IXS(NIXS,I)
         AGLOB(1,I) = IXS(NIXS,I)
@@ -134,12 +134,12 @@ C-----------------------------------------------
      .                    MPI_COMM_WORLD,STATUS,IERROR)
 
             ALLOCATE( AGLOB(4,SIZE_NUMELS(K)) )
- 
+
             MSGTYP=MSGOFF
             CALL MPI_RECV(AGLOB,4*SIZE_NUMELS(K),MPI_DOUBLE_PRECISION,
      .                    IT_SPMD(K),MSGTYP,
      .                    MPI_COMM_WORLD,STATUS,IERROR)
-    
+
             SHIFT = 0
             DO I=1,K-1
                 SHIFT = SHIFT + SIZE_NUMELS(I)
@@ -161,8 +161,8 @@ C
             FILNAM=ROOTNAM(1:ROOTLEN)//'_FVM_'//CHRUN//'_'//CYCLENUM//'.adb'
 
             LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
-       
+            TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
+
             OPEN(UNIT=IDBG5,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 
@@ -177,7 +177,7 @@ C
             ENDDO
 
             ALLOCATE( ITRI(NUMELSG) )
-            ALLOCATE( INDEX_TRI(2*NUMELSG) )  
+            ALLOCATE( INDEX_TRI(2*NUMELSG) )
             ALLOCATE( WORK(70000) )
             DO I=1,NUMELSG
                 INDEX_TRI(I) = I
@@ -186,7 +186,7 @@ C
 
             CALL MY_ORDERS(0,WORK,ITRI,INDEX_TRI,NUMELSG,1)
 
-        
+
             DO I = 1, NUMELSG
                 N = INDEX_TRI(I)
                 WRITE(IDBG5,'(A,I10,I10,Z20,Z20,Z20)' ) '>',NCYCLE,NINT(RECGLOB(1,N)),RECGLOB(2,N),RECGLOB(3,N),RECGLOB(4,N)
@@ -196,7 +196,7 @@ C
             CLOSE(UNIT=IDBG5)
 
             DEALLOCATE( ITRI )
-            DEALLOCATE( INDEX_TRI )  
+            DEALLOCATE( INDEX_TRI )
             DEALLOCATE( WORK )
 
       END IF

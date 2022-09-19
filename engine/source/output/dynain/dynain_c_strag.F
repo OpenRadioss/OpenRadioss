@@ -44,9 +44,9 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD   
+      USE ELBUFDEF_MOD
       USE STACK_MOD
-      USE DRAPE_MOD      
+      USE DRAPE_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -73,7 +73,7 @@ C-----------------------------------------------
      .        IPARG(NPARG,*),IPM(NPROPMI,*),IGEO(NPROPGI,*),
      .        IPARTC(*), IPARTTG(*), IPART_DYNAIN(*),
      .        DYNAIN_INDXC(*), DYNAIN_INDXTG(*)
-      my_real   
+      my_real
      .   GEO(NPROPG,*) , X(*) , THKE(*)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP), TARGET :: ELBUF_TAB
       TYPE (STACK_PLY) :: STACK
@@ -100,13 +100,13 @@ C-----------------------------------------------
       my_real
      .   THKLY(MVSIZ*LAY_MAX*LAYNPT_MAX),POSLY(MVSIZ,LAY_MAX*LAYNPT_MAX),
      .   THK_LY(MVSIZ,LAY_MAX*LAYNPT_MAX)
-      my_real, 
-     .   DIMENSION(:),POINTER  :: STRAIN    
-      my_real 
-     .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)   
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
+      my_real,
+     .   DIMENSION(:),POINTER  :: STRAIN
+      my_real
+     .   QT(9,MVSIZ),STRAING(6),ZH,THKP ,THK0(MVSIZ)
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
 C-----------------------------------------------
 
       DATA DELIMIT(1:48)
@@ -130,7 +130,7 @@ C
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 3) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -143,12 +143,12 @@ C
           IXLAY = 0 ! standard element
           IPID = IXC(6,NFT+1)
           IREP = IGEO(6,IPID)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
 
@@ -190,7 +190,7 @@ C------------------------------------------------
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      , 
+     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      ,
      .           NEL        ,THK_LY )
 
 C-------------------------------------------------------
@@ -224,7 +224,7 @@ C-------------------------------------------------------
             JJ = JJ + 1
             IF (MPT == 0) THEN  ! global integration
                WA(JJ) = 3 ! Membrane - Lower - Upper
-            ELSE 
+            ELSE
                WA(JJ) = MPT  ! Integration points
             ENDIF
             JJ = JJ + 1
@@ -235,13 +235,13 @@ C-------------------------------------------------------
 c---------
 
             IF (MLW == 0 .or. MLW == 13) THEN
-              DO IPG=1,NPG 
+              DO IPG=1,NPG
                  JJ = JJ + 1
                  WA(JJ) = ZERO
                  DO J=1,7        ! STRAIN + POS           	
                     JJ = JJ + 1
                     WA(JJ) = ZERO
-                ENDDO                                                               
+                ENDDO
               ENDDO
             ELSEIF (MPT==0 .AND. G_STRA /= 0) THEN
 
@@ -253,55 +253,55 @@ c---------
 
 ! LOWER
               DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                 K = (IPG-1)*NEL*G_STRA
                  ZH = -HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                  STRAING(3)=HALF*STRAING(3)
                  STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
+                 CALL SHELL2G(STRAING,QT(1,I))
+
                  DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                 END DO  
+                 END DO
                  JJ = JJ + 1
                  WA(JJ) = -ONE
               ENDDO
 
 ! MEMBRANE
               DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                 K = (IPG-1)*NEL*G_STRA
 
                  STRAING(1:2)=STRAIN(KK(1:2)+I+K)
                  STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
+                 CALL SHELL2G(STRAING,QT(1,I))
+
                  DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                 END DO  
+                 END DO
                  JJ = JJ + 1
                  WA(JJ) = ZERO
               ENDDO
 
 ! Upper
               DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                 K = (IPG-1)*NEL*G_STRA
                  ZH = HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                  STRAING(3)=HALF*STRAING(3)
                  STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
+                 CALL SHELL2G(STRAING,QT(1,I))
+
                  DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                 END DO  
+                 END DO
                  JJ = JJ + 1
                  WA(JJ) = ONE
               ENDDO
@@ -325,28 +325,28 @@ c---------
               DO ILAY =1,NLAY
                  NPTT   = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
                  DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
+                    IPT = IPT_ALL + IT
 C--   
                     DO IPG=1,NPG
-                       K = (IPG-1)*NEL*G_STRA 
+                       K = (IPG-1)*NEL*G_STRA
                        ZH = POSLY(I,IPT)*THKP
                        STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                        STRAING(3)=HALF*STRAING(3)
                        STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                       CALL SHELL2G(STRAING,QT(1,I))             
+                       CALL SHELL2G(STRAING,QT(1,I))
 C               
                        DO J=1,6
                          JJ    = JJ + 1
                          WA(JJ) = STRAING(J)
-                       END DO      
+                       END DO
                        JJ    = JJ + 1
                        WA(JJ) = POSLY(I,IPT)*TWO
-                    END DO        
+                    END DO
                  END DO !IT=1,NPTT
                  IPT_ALL = IPT_ALL + NPTT
               END DO !ILAY =1,NLAY
-         
+
             ENDIF
 C
             IE=IE+1
@@ -384,11 +384,11 @@ c-------------------------------------
           WRITE(IUDYNAIN,'(A)') DELIMIT
           WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
           WRITE(IUDYNAIN,'(A)')
-     .    '$  SHELLID       NPG     NBINT     LARGE  ' 
+     .    '$  SHELLID       NPG     NBINT     LARGE  '
           WRITE(IUDYNAIN,'(A)')
      .     '$ IF(NPT == 0), REPEAT I=1,NPG :'
           WRITE(IUDYNAIN,'(A)')
-     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
            WRITE(IUDYNAIN,'(A)')
      .     '$    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX         T'
             WRITE(IUDYNAIN,'(A)') DELIMIT
@@ -402,10 +402,10 @@ C         Adress in  WAP0
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
 c
-            ID  = NINT(WAP0(J + 2)) 
-            NPT = NINT(WAP0(J + 3)) 
-            NPG = NINT(WAP0(J + 4)) 
-            LARGE = NINT(WAP0(J + 5)) 
+            ID  = NINT(WAP0(J + 2))
+            NPT = NINT(WAP0(J + 3))
+            NPG = NINT(WAP0(J + 4))
+            LARGE = NINT(WAP0(J + 5))
 
             J = J + 5
 
@@ -417,7 +417,7 @@ c
                 J = J + 7
               ENDDO
             ELSE
-              DO IPT=1,NPT 
+              DO IPT=1,NPT
                 DO IPG=1,NPG
 
                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
@@ -442,7 +442,7 @@ C
        DO NG=1,NGROUP
         ITY = IPARG(5,NG)
         IF (ITY == 7) THEN
-          GBUF => ELBUF_TAB(NG)%GBUF   
+          GBUF => ELBUF_TAB(NG)%GBUF
           MLW  = IPARG(1,NG)
           NEL  = IPARG(2,NG)
           NFT  = IPARG(3,NG)
@@ -452,12 +452,12 @@ C
           IGTYP= IPARG(38,NG)
           IPID = IXTG(5,NFT+1)
           IREP = IGEO(6,IPID)
-          NPTR = ELBUF_TAB(NG)%NPTR    
-          NPTS = ELBUF_TAB(NG)%NPTS    
-          NPTT = ELBUF_TAB(NG)%NPTT    
+          NPTR = ELBUF_TAB(NG)%NPTR
+          NPTS = ELBUF_TAB(NG)%NPTS
+          NPTT = ELBUF_TAB(NG)%NPTT
           NLAY = ELBUF_TAB(NG)%NLAY
           NPG  = NPTR*NPTS
-          NPT  = NLAY*NPTT 
+          NPT  = NLAY*NPTT
           LFT=1
           LLT=NEL
 
@@ -497,7 +497,7 @@ C------------------------------------------------
      .           ELBUF_TAB(NG),LFT      ,LLT        ,GEO        ,IGEO      ,
      .           MAT        ,PID        ,THKLY      ,MATLY      ,POSLY     ,
      .           IGTYP      ,IXFEM      ,IXLAY      ,NLAY       ,NPT       ,
-     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      , 
+     .           ISUBSTACK  ,STACK      ,DRAPE_Q4   ,NFT        ,THK0      ,
      .           NEL        ,THK_LY )
 
 C-------------------------------------------------------
@@ -510,7 +510,7 @@ C-------------------------------------------------------
           END IF
           CALL GET_T3L(LFT    ,LLT    ,IXTG(1,NFT+1),X    ,GBUF%OFF,
      .                IREL   ,QT     )
-  
+
 C
 c------- loop over 3 node shell elements
 C
@@ -529,7 +529,7 @@ C
             JJ = JJ + 1
             IF (MPT == 0) THEN  ! global integration
                WA(JJ) = 3 ! Membrane - Lower - Upper
-            ELSE 
+            ELSE
                WA(JJ) = MPT  ! Integration points
             ENDIF
             JJ = JJ + 1
@@ -545,13 +545,13 @@ C
 
 c---------
             IF (MLW == 0 .or. MLW == 13) THEN
-              DO IPG=1,NPG 
+              DO IPG=1,NPG
                  JJ = JJ + 1
                  WA(JJ) = ZERO
                  DO J=1,7        ! STRAIN + POS           	
                     JJ = JJ + 1
                     WA(JJ) = ZERO
-                ENDDO                                                               
+                ENDDO
               ENDDO
             ELSEIF (MPT==0 .AND. G_STRA /= 0) THEN
 
@@ -564,55 +564,55 @@ c---------
 
 ! LOWER
               DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                 K = (IPG-1)*NEL*G_STRA
                  ZH = -HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                  STRAING(3)=HALF*STRAING(3)
                  STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
+                 CALL SHELL2G(STRAING,QT(1,I))
+
                  DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                 END DO  
+                 END DO
                  JJ = JJ + 1
                  WA(JJ) = -ONE
               ENDDO
 
 ! MEMBRANE
               DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                 K = (IPG-1)*NEL*G_STRA
 
                  STRAING(1:2)=STRAIN(KK(1:2)+I+K)
                  STRAING(3:5)=HALF*STRAIN(KK(3:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
+                 CALL SHELL2G(STRAING,QT(1,I))
+
                  DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                 END DO  
+                 END DO
                  JJ = JJ + 1
                  WA(JJ) = ZERO
               ENDDO
 
 ! Upper
               DO IPG=1,NPG
-                 K = (IPG-1)*NEL*G_STRA 
+                 K = (IPG-1)*NEL*G_STRA
                  ZH = HALF*THKP
 
                  STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                  STRAING(3)=HALF*STRAING(3)
                  STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                 CALL SHELL2G(STRAING,QT(1,I))             
- 
+                 CALL SHELL2G(STRAING,QT(1,I))
+
                  DO J=1,6
                     JJ    = JJ + 1
                     WA(JJ) = STRAING(J)
-                 END DO  
+                 END DO
                  JJ = JJ + 1
                  WA(JJ) = ONE
               ENDDO
@@ -630,7 +630,7 @@ c---------
               DO ILAY =1,NLAY
                  NPTT   = ELBUF_TAB(NG)%BUFLY(ILAY)%NPTT
                  DO IT=1,NPTT
-                    IPT = IPT_ALL + IT        
+                    IPT = IPT_ALL + IT
 C--   
                     IF (ITHK >0 ) THEN
                        THKP = GBUF%THK(I)
@@ -639,31 +639,31 @@ C--
                     END IF
 
                     DO IPG=1,NPG
-                       K = (IPG-1)*NEL*G_STRA 
+                       K = (IPG-1)*NEL*G_STRA
                        ZH = POSLY(I,IPT)*THKP
                        STRAING(1:3)=STRAIN(KK(1:3)+I+K)+ZH*STRAIN(KK(6:8)+I+K)
                        STRAING(3)=HALF*STRAING(3)
                        STRAING(4:5)=HALF*STRAIN(KK(4:5)+I+K)
 
-                       CALL SHELL2G(STRAING,QT(1,I))             
+                       CALL SHELL2G(STRAING,QT(1,I))
 C               
                        DO J=1,6
                          JJ    = JJ + 1
                          WA(JJ) = STRAING(J)
-                       END DO      
+                       END DO
                        JJ    = JJ + 1
                        WA(JJ) = POSLY(I,IPT)*TWO
-                    END DO        
+                    END DO
                  END DO !IT=1,NPTT
                  IPT_ALL = IPT_ALL + NPTT
               END DO !ILAY =1,NLAY
-         
+
             ENDIF
 C
             IE=IE+1
 C        pointer for last position for element IE
             PTWA(IE)=JJ
-          ENDDO  !  DO I=LFT,LLT  
+          ENDDO  !  DO I=LFT,LLT
 
         ENDIF  !  IF (ITY == 7)
        ENDDO  !  DO NG=1,NGROUP
@@ -692,11 +692,11 @@ C      Global pointers WAP0
           WRITE(IUDYNAIN,'(A)') DELIMIT
           WRITE(IUDYNAIN,'(A)')'*INITIAL_STRAIN_SHELL'
           WRITE(IUDYNAIN,'(A)')
-     .    '$  SHELLID       NPG     NBINT     LARGE  ' 
+     .    '$  SHELLID       NPG     NBINT     LARGE  '
           WRITE(IUDYNAIN,'(A)')
      .     '$ IF(NPT == 0), REPEAT I=1,NPG :'
           WRITE(IUDYNAIN,'(A)')
-     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'      
+     .    '$ IF(NPT /= 0) REPEAT K=1,NPT : REPEAT I=1,NPG :'
           WRITE(IUDYNAIN,'(A)')
      .     '$         T    EPSXX     EPSYY     EPSZZ     EPSXY     EPSYZ     EPSZX'
           WRITE(IUDYNAIN,'(A)') DELIMIT
@@ -713,10 +713,10 @@ C         Adress in  WAP0
 C
           IOFF = NINT(WAP0(J + 1))
           IF (IOFF >= 1) THEN
-            ID  = NINT(WAP0(J + 2)) 
-            NPT = NINT(WAP0(J + 3)) 
-            NPG = NINT(WAP0(J + 4)) 
-            LARGE = NINT(WAP0(J + 5)) 
+            ID  = NINT(WAP0(J + 2))
+            NPT = NINT(WAP0(J + 3))
+            NPG = NINT(WAP0(J + 4))
+            LARGE = NINT(WAP0(J + 5))
             J = J + 5
 
             WRITE(IUDYNAIN,'(3I10,20X,I10)')ID,NPG,NPT,LARGE
@@ -728,7 +728,7 @@ C
                 J = J + 7
               ENDDO
             ELSE
-              DO IPT=1,NPT 
+              DO IPT=1,NPT
                 DO IPG=1,NPG
                    WRITE(IUDYNAIN,'(1P5G16.9)')(WAP0(J + K),K=1,5)
                    WRITE(IUDYNAIN,'(1P3G16.9)')(WAP0(J + K),K=6,7)

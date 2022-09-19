@@ -118,12 +118,12 @@ C Initializations
       IS1=0
       IS2=0
       IBUC=0
-      IMOD = 0         
-      IGSTI = 0        
+      IMOD = 0
+      IGSTI = 0
       INTTH = 0
       IDEL2 = 0
       INTKG = 0
-      ILEV = 0     
+      ILEV = 0
 
 C
       STOPT=EP30
@@ -229,11 +229,11 @@ C
       IPARI(13) = IS1*10+IS2
 C
 ! ILEV
-      IF (ILEV /= 0 .AND. ILEV /= 1 .AND. ILEV /= 2 .AND. 
-     .      ILEV /= 3 .AND .ILEV /= 4 .AND. ILEV /= 5 .AND. 
+      IF (ILEV /= 0 .AND. ILEV /= 1 .AND. ILEV /= 2 .AND.
+     .      ILEV /= 3 .AND .ILEV /= 4 .AND. ILEV /= 5 .AND.
      .      ILEV /= 10 .AND. ILEV /= 11 .AND. ILEV /= 12 .AND.
-     .      ILEV /= 20 .AND. ILEV /= 21 .AND. ILEV /= 22 .AND. 
-     .      ILEV /= 25 .AND. ILEV /= 26 .AND. ILEV /= 27 .AND. 
+     .      ILEV /= 20 .AND. ILEV /= 21 .AND. ILEV /= 22 .AND.
+     .      ILEV /= 25 .AND. ILEV /= 26 .AND. ILEV /= 27 .AND.
      .      ILEV /= 28 .AND. ILEV /= 30) THEN
 
             CALL ANCMSG(MSGID=1614,
@@ -249,7 +249,7 @@ C
       IF (ILEV == 5) ILEV=0
 
 ! IDEL2
-      IF ((ILEV/=0 .AND. ILEV/=1 .AND. ILEV/=5 .AND. ILEV/=25 .AND. ILEV/=26 .AND. ILEV/=27 .AND. ILEV/=28)) 
+      IF ((ILEV/=0 .AND. ILEV/=1 .AND. ILEV/=5 .AND. ILEV/=25 .AND. ILEV/=26 .AND. ILEV/=27 .AND. ILEV/=28))
      .      IDEL2 = 0
       IF (N2D == 1)  IDEL2 = 0
       IPARI(17) = IDEL2
@@ -299,7 +299,7 @@ C.....* Default values definition *........
 C
         KEY1='IGSTI'
         CALL DEFINTER(KEY1     ,IGSTI    ,IASSIGN   ,IPRINT   ,
-     .                NTYP     ,DEF_INTER) 
+     .                NTYP     ,DEF_INTER)
 
         IF (IGSTI  == 0) IGSTI=2
 
@@ -523,7 +523,7 @@ C........* PRINT INTERFACES INPUT *.....................
       IF (INTTH > 0) THEN
         WRITE(IOUT,1534) KTHE
       END IF
- 
+
 C--------------------------------------------------------------
       IF(IS1==0)THEN
         WRITE(IOUT,'(6X,A)')'NO SECONDARY SURFACE INPUT'
@@ -536,7 +536,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'

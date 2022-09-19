@@ -31,7 +31,7 @@ Chd|====================================================================
       SUBROUTINE I24IPLY_PXFEM(
      1                  JLT      ,CAND_E  ,MSEGTYP , IX1,IX2     ,
      2                  IX3     ,IX4    ,PENE,MS_PLY,INOD_PXFEM  ,
-     3                  IPLY    ,ITAB) 
+     3                  IPLY    ,ITAB)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -56,7 +56,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JLT, CAND_E(*),IX1(*), IX2(*), IX3(*), 
+      INTEGER JLT, CAND_E(*),IX1(*), IX2(*), IX3(*),
      .        IX4(*), INOD_PXFEM(*),
      .        IPLY(4,*),MSEGTYP(*),ITAB(*)
       my_real
@@ -73,8 +73,8 @@ C-----------------------------------------------
       INTEGER I,J1,J2,J3,J4,NN,ILY,ISEGTYP(MVSIZ),ITAG(MVSIZ),
      .        ISEG(MVSIZ),J5,J6,J7,J8,J9,J10,J11,J12
       my_real
-     .     XO16, XO17, XO15, XO14, X163, X153, X152, X142, X141, 
-     .     YO16, YO17, YO15, YO14, Y163, Y153, Y152, Y142, Y141, 
+     .     XO16, XO17, XO15, XO14, X163, X153, X152, X142, X141,
+     .     YO16, YO17, YO15, YO14, Y163, Y153, Y152, Y142, Y141,
      .     ZO16, ZO17, ZO15, ZO14, Z163, Z153, Z152, Z142, Z141,
      .     X51 , Y51,Z51,X52,Y52,Z52,X53,Y53,Z53,X54,Y54,Z54  ,
      .     X164,Y164,Z164,X174,Y174,Z174,X171,Y171,Z171,NX1,
@@ -94,11 +94,11 @@ C-----------------------------------------------
      .     SZ21140(MVSIZ),SZ32150(MVSIZ),SZ43160(MVSIZ),SZ14170(MVSIZ),
      .     NXX(MVSIZ,17),NYY(MVSIZ,17),NZZ(MVSIZ,17),BBB,
      .     IPLYV(8,MVSIZ)
-     
+
 C --------------------------------------------------------------------- 
         DO I=1,JLT
           ISEGTYP(I) = MSEGTYP(CAND_E(I))
-        ENDDO       
+        ENDDO
 C--------------------------------------------------------
 C
 C for computing contact ply forces.
@@ -109,22 +109,22 @@ C or by node segement if it needed
              IPLY(2,I) = 0
              IPLY(3,I) = 0
              IPLY(4,I) = 0
-             
-             IF(PENE(I) == ZERO) CYCLE 
-             IF(ISEGTYP(I) == ZERO) CYCLE 
-              
+
+             IF(PENE(I) == ZERO) CYCLE
+             IF(ISEGTYP(I) == ZERO) CYCLE
+
              IF(ISEGTYP(I) > 0) THEN
               J1 = IX1(I)
               IF(J1 > 0) THEN
-                NN = INOD_PXFEM(J1)                   
-                IF(NN > 0 ) THEN 
-                    ILY = NPLYMAX                     
-                    DO WHILE(MS_PLY(NN,ILY) == ZERO)  
-                     ILY = ILY - 1                    
-                    ENDDO                             
-                    IPLY(1,I) = ILY     
-                  ENDIF  
-               ENDIF    
+                NN = INOD_PXFEM(J1)
+                IF(NN > 0 ) THEN
+                    ILY = NPLYMAX
+                    DO WHILE(MS_PLY(NN,ILY) == ZERO)
+                     ILY = ILY - 1
+                    ENDDO
+                    IPLY(1,I) = ILY
+                  ENDIF
+               ENDIF
               J1 = IX2(I)
               IF(J1 > 0) THEN
               NN = INOD_PXFEM(J1)
@@ -141,9 +141,9 @@ C or by node segement if it needed
               NN = INOD_PXFEM(J1)
               IF( NN > 0) THEN
                   ILY = NPLYMAX
-                  DO WHILE(MS_PLY(NN,ILY) == ZERO) 
+                  DO WHILE(MS_PLY(NN,ILY) == ZERO)
                     ILY = ILY - 1
-                  ENDDO    
+                  ENDDO
                   IPLY(3,I) = ILY
               ENDIF
               ENDIF
@@ -154,11 +154,11 @@ C or by node segement if it needed
                  ILY = NPLYMAX
                  DO WHILE(MS_PLY(NN,ILY) == ZERO)
                   ILY = ILY - 1
-                 ENDDO  
+                 ENDDO
                  IPLY(4,I) = ILY
-              ENDIF  
               ENDIF
-             ELSE ! 
+              ENDIF
+             ELSE !
                J1= IX1(I)
                IF(J1 > 0) THEN
                NN = INOD_PXFEM(J1)
@@ -173,25 +173,25 @@ C or by node segement if it needed
               J1= IX2(I)
               IF(J1 > 0)THEN
               NN = INOD_PXFEM(J1)
-              IF(NN > 0) THEN 
-               ILY = 1                           
-               DO WHILE(MS_PLY(NN,ILY) == ZERO)  
-                  ILY = ILY + 1                  
-               ENDDO                             
-               IPLY(2,I) = ILY                   
-              ENDIF   
-             ENDIF                             
+              IF(NN > 0) THEN
+               ILY = 1
+               DO WHILE(MS_PLY(NN,ILY) == ZERO)
+                  ILY = ILY + 1
+               ENDDO
+               IPLY(2,I) = ILY
+              ENDIF
+             ENDIF
 C                
-              J1= IX3(I) 
+              J1= IX3(I)
               IF(J1 > 0)THEN
               NN = INOD_PXFEM(J1)
-              IF( NN > 0 ) THEN  
+              IF( NN > 0 ) THEN
                 ILY = 1
                 DO WHILE(MS_PLY(NN,ILY) == ZERO)
                   ILY = ILY + 1
                 ENDDO
                 IPLY(3,I) = ILY
-              ENDIF 
+              ENDIF
               ENDIF
 C            
               J1= IX4(I)
@@ -199,14 +199,14 @@ C
               NN = INOD_PXFEM(J1)
               IF( NN > 0) THEN
                  ILY = 1
-                 DO WHILE(MS_PLY(NN,ILY) == ZERO) 
+                 DO WHILE(MS_PLY(NN,ILY) == ZERO)
                   ILY = ILY + 1
                  ENDDO
                  IPLY(4,I) = ILY
-              ENDIF 
               ENDIF
-            ENDIF  
-         ENDDO                
+              ENDIF
+            ENDIF
+         ENDDO
 C         
          RETURN
          END

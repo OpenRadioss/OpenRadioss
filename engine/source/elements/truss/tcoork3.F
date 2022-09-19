@@ -44,7 +44,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER JFT, JLT 
+      INTEGER JFT, JLT
       INTEGER NCC(NIXT,*),MAT(*),NGL(*)
       my_real
      .   X(3,*), AL(*),R11(*),R21(*),R31(*) ,OFFG(*),OFF(*)
@@ -53,7 +53,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I, J,NC1(MVSIZ),NC2(MVSIZ)
       my_real
-     .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),  
+     .   X1(MVSIZ), X2(MVSIZ),Y1(MVSIZ), Y2(MVSIZ),
      .   Z1(MVSIZ), Z2(MVSIZ), NORM
 C-----------------------------------------------
 C   S o u r c e   L i n e s
@@ -63,7 +63,7 @@ C-----------------------------------------------
        MAT(I)=NCC(1,I)
        NC1(I)=NCC(2,I)
        NC2(I)=NCC(3,I)
-      ENDDO 
+      ENDDO
 C----------------------------
 C     COORDONNEES
 C----------------------------
@@ -74,7 +74,7 @@ C----------------------------
        X2(I)=X(1,NC2(I))
        Y2(I)=X(2,NC2(I))
        Z2(I)=X(3,NC2(I))
-      ENDDO 
+      ENDDO
 C----------------------------
 C     LOCAL SYSTEM
 C----------------------------
@@ -87,13 +87,13 @@ C----------------------------
        R11(I)=R11(I)*NORM
        R21(I)=R21(I)*NORM
        R31(I)=R31(I)*NORM
-      ENDDO 
+      ENDDO
 C----------------------------
 C     OFF
 C----------------------------
       DO I=JFT,JLT
        OFF(I)  = OFFG(I)
-      ENDDO 
+      ENDDO
 C
       RETURN
       END

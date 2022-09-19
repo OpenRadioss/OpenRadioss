@@ -39,8 +39,8 @@ C-----------------------------------------------
 !       MID_PID_SHELL(MID)%PID1D( : ) --> (mid ; pid) pair
 !       MID_PID_SHELL(MID)%GROUP1D --> number of Group for each (mid,pid)
 !--------------------------------------------------------------------
-        INTEGER, DIMENSION(:), ALLOCATABLE :: PID1D, GROUP1D 
-           
+        INTEGER, DIMENSION(:), ALLOCATABLE :: PID1D, GROUP1D
+
       END TYPE MID_PID_TYPE
 C
       END MODULE MID_PID_MOD

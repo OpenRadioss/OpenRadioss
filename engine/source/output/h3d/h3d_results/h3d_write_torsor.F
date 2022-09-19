@@ -64,6 +64,6 @@ c        TORSOR(8,OFFSET+NFT+I) = VALUE(8,I)
 c        TORSOR(9,OFFSET+NFT+I) = VALUE(9,I)
         IF(IOK_PART(I) == 1 ) IS_WRITTEN(OFFSET+NFT+I)= 1
       ENDDO
- 
+
       RETURN
       END

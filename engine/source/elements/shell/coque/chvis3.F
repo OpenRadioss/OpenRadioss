@@ -69,7 +69,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT, 
+      INTEGER IXC(NIXC,*),IPARTC(*), JFT, JLT,
      .              IHBE   ,NFT     ,ISMSTR,KFTS,IGTYP,
      .              IGMAT,NEL
 C     REAL
@@ -103,12 +103,12 @@ C     REAL
      .   HH1(MVSIZ), HH2(MVSIZ), HH3(MVSIZ),
      .   A1(MVSIZ),  A2(MVSIZ),  A3(MVSIZ),  A4(MVSIZ),
      .   A5(MVSIZ),  A6(MVSIZ),  A7(MVSIZ),  A8(MVSIZ),
-     .   B1(MVSIZ),  B2(MVSIZ),  EHOU(MVSIZ),  
-     .   HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ), 
+     .   B1(MVSIZ),  B2(MVSIZ),  EHOU(MVSIZ),
+     .   HOUR1(MVSIZ), HOUR2(MVSIZ), HOUR3(MVSIZ),
      .   GAMA1(MVSIZ), GAMA2(MVSIZ), GAMA3(MVSIZ), GAMA4(MVSIZ)
       my_real
      .   PX1V, PX2V, PY1V, PY2V, SSPHVL, HVISH1, HVISH2,ZZ2,
-     .   SHFPR3, FAC, EHOURT, 
+     .   SHFPR3, FAC, EHOURT,
      .   R0,R1,T2A,TSA,TD,VV,MM,HOUR1P,HOUR2P,HOUR3P,
      .   PX1VP,PY1VP,PX2VP,PY2VP,HOUR1A,HOUR2A,HOUR3A,TSAPHI,
      .   TDPHI,SHFPR3D,HVISH1D,HVISH2D,R0D,R1D,HH3D,
@@ -118,7 +118,7 @@ C=======================================================================
       SR2D2 = SQRT(TWO)* HALF
       INV9 = ONE_OVER_9
       INV12 = ONE_OVER_12
-      
+
 !!      IGTYP = IGEO(11,MAT(1))
 C
       IF(ISMSTR/=1.AND.ISMSTR/=11.AND.IHBE>=1)THEN
@@ -130,7 +130,7 @@ C
          GAMA1(I)= OFF(I)*( ONE - PX1V-PY1V)
          GAMA3(I)= OFF(I)*( ONE + PX1V+PY1V)
          GAMA2(I)= OFF(I)*(-ONE - PX2V-PY2V)
-         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)         
+         GAMA4(I)= OFF(I)*(-ONE + PX2V+PY2V)
        ENDDO
       ELSE
        DO I=JFT,JLT
@@ -148,7 +148,7 @@ C----------------------------------------
           R0 = FOURTH*RHO(I)
           R1 = R0*HUNDRED
           R0 = R0*HVLIN
-          A1(I) = R1*HVISH1 
+          A1(I) = R1*HVISH1
           A2(I) = R0*SR2D2*SRH1(I)
           SRSHFPR3 = SQRT(SHFPR3)
           A3(I) = R1*HVISH2*SRSHFPR3
@@ -190,7 +190,7 @@ C-----------------------------------
           H3L(I)=ZERO
           HH1(I)=ZERO
           HH2(I)=ZERO
-        END IF       
+        END IF
       END DO
 C-----------------------------------
 C     RIGIDITE-DT
@@ -208,68 +208,68 @@ C-----------------------------------
           ENDDO
          !! IF(IDTMINS==2 )IGMAT = 1
 C     
-        IF(IGTYP == 52 .OR. 
+        IF(IGTYP == 52 .OR.
      .    ((IGTYP == 11 .OR. IGTYP == 17 .OR. IGTYP == 51)
      .                                   .AND. IGMAT > 0 )) THEN
           IF(NADMESH==0)THEN
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
-                  STIR(I) = ZERO          
+                  STIR(I) = ZERO
                 ELSE
                   VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                   FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
                   STI(I) =  STI(I) + FAC * THK0(I) * A11(I)
-                  STIR(I) = FAC *  A11R(I)*ONE_OVER_12*THK0(I)**3 + 
+                  STIR(I) = FAC *  A11R(I)*ONE_OVER_12*THK0(I)**3 +
      .                      FAC *  A11(I)*THK0(I)*AREA(I)*INV9 +
-     .            FAC*SCALE(I)*(ONE_OVER_12*THK0(I)**2 +  AREA(I)*INV9) 
+     .            FAC*SCALE(I)*(ONE_OVER_12*THK0(I)**2 +  AREA(I)*INV9)
                ENDIF
-             ENDDO  
+             ENDDO
          ELSE
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
-                  STIR(I) = ZERO          
+                  STIR(I) = ZERO
                 ELSE
                   VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                    FAC = MAX(B1(I),B2(I))/(AREA(I) * VV)
                   STI(I) =  STI(I) + FAC * THK0(I) * A11(I)
-                  STIR(I) = FAC *  A11R(I)*ONE_OVER_12*THK0(I)**3 + 
+                  STIR(I) = FAC *  A11R(I)*ONE_OVER_12*THK0(I)**3 +
      .                            FAC*SCALE(I)*ONE_OVER_12*THK0(I)**2
-                ENDIF 
+                ENDIF
              ENDDO
-          END IF   
+          END IF
         ELSE
           IF(NADMESH==0)THEN
 #include   "simd.inc"
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
-                  STIR(I) = ZERO          
+                  STIR(I) = ZERO
                 ELSE
                   VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                   STI(I) =  STI(I) + MAX(B1(I),B2(I))
      .                 * THK0(I) * A11(I) / (AREA(I) * VV)
                   STIR(I) = STI(I) * (THK02(I)*INV12 + AREA(I)*INV9)
-c     ..                   + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I)) 
-                ENDIF 
+c     ..                   + 0.5 * SHF(I) * AREA(I) * G(I)/A11(I))
+                ENDIF
              ENDDO
          ELSE
 #include   "simd.inc"
              DO I=JFT,JLT
                 IF (OFF(I)==ZERO) THEN
                   STI(I) = ZERO
-                  STIR(I) = ZERO          
+                  STIR(I) = ZERO
                 ELSE
                   VV = VISCMX(I) * VISCMX(I)  * ALPE(I)
                   STI(I) =  STI(I) + MAX(B1(I),B2(I))
      .                 * THK0(I) * A11(I) / (AREA(I) * VV)
                   STIR(I) = STI(I) * THK02(I)*INV12
-                ENDIF 
+                ENDIF
              ENDDO
         END IF
        ENDIF! IGTYP
-      ENDIF 
+      ENDIF
 C-----------------------------------
 C     FORCES ANTISABLIER DE MEMBRANE
 C-----------------------------------
@@ -299,7 +299,7 @@ C         H14(I)=HOUR1A*GAMA4(I)
          H22(I)=HOUR2A*GAMA2(I)
          H23(I)=HOUR2A*GAMA3(I)
 C         H24(I)=HOUR2A*GAMA4(I)
-         EHOU(I) = HOUR1A*HG1(I) + HOUR2A*HG2(I) 
+         EHOU(I) = HOUR1A*HG1(I) + HOUR2A*HG2(I)
       ENDDO
 C
 C----------------------------------
@@ -322,7 +322,7 @@ C----------------------------------
         H32(I)=HOUR3A*GAMA2(I)
         H33(I)=HOUR3A*GAMA3(I)
 C         H34(I)=HOUR3(I)*GAMA4(I)
-        EHOU(I) = EHOU(I) + HOUR3A*HG1(I) 
+        EHOU(I) = EHOU(I) + HOUR3A*HG1(I)
       ENDDO
 C
 C------------------------
@@ -336,8 +336,8 @@ C
       DO I=JFT,JLT
        HOUR(I,4)=HG1(I)*(H3L(I)+H3Q(I)*ABS(HG1(I)))
        HOUR(I,5)=HG2(I)*(H3L(I)+H3Q(I)*ABS(HG2(I)))
-       EHOU(I) = EHOU(I) + 
-     .           HOUR(I,4)*HG1(I) + HOUR(I,5)*HG2(I) 
+       EHOU(I) = EHOU(I) +
+     .           HOUR(I,4)*HG1(I) + HOUR(I,5)*HG2(I)
        EHOU(I) = DT1C(I) * EHOU(I) * OFF(I)
 C       EHOURT  = EHOURT + EHOU(I)
        B11(I)= HOUR(I,4)*OFF(I)
@@ -350,7 +350,7 @@ C       EHOURT  = EHOURT + EHOU(I)
        B24(I)=-HOUR(I,5)*OFF(I)
       ENDDO
 C separate loop that does not vectorize w/o simd directive
-#include "simd.inc"       
+#include "simd.inc"
       DO I=JFT,JLT
         EHOURT  = EHOURT + EHOU(I)
       ENDDO
@@ -363,7 +363,7 @@ C
             JST(IC)=J
          ENDIF
       ENDDO
-      
+
       JST(IC+1)=JLT+1
       IF(IC==1) THEN
         MX = IPARTC(JFT)

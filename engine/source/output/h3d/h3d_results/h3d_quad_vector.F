@@ -43,7 +43,7 @@ Chd|====================================================================
      .                  IPM         ,IGEO      ,THKE      ,ERR_THK_SH4 ,ERR_THK_SH3,
      .                  INVERT      ,X         ,V         ,W           ,
      .                  NV46        ,NERCVOIS  ,NESDVOIS  ,LERCVOIS    ,LESDVOIS,
-     .                  STACK       ,ID_ELEM   ,INFO1       ,INFO2      , 
+     .                  STACK       ,ID_ELEM   ,INFO1       ,INFO2      ,
      .                  IS_WRITTEN_QUAD,IPARTQ,IPARTTG   ,LAYER_INPUT ,IPT_INPUT  ,
      .                  PLY_INPUT   ,GAUSS_INPUT,IUVAR_INPUT,H3D_PART  ,KEYWORD   ,
      .                  BUFMAT      ,MULTI_FVM ,IR_INPUT  ,IS_INPUT    ,IT_INPUT)
@@ -51,10 +51,10 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD    
-      USE SCHLIEREN_MOD 
-      USE STACK_MOD 
-      USE MULTI_FVM_MOD              
+      USE ELBUFDEF_MOD
+      USE SCHLIEREN_MOD
+      USE STACK_MOD
+      USE MULTI_FVM_MOD
       USE ALEFVM_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
@@ -129,14 +129,14 @@ C-----------------------------------------------
      .        IS_WRITTEN_VALUE(MVSIZ)
       CHARACTER*5 BUFF
       REAL R4
-      TYPE(G_BUFEL_)  ,POINTER :: GBUF     
-      TYPE(L_BUFEL_)  ,POINTER :: LBUF     
-      TYPE(BUF_LAY_)  ,POINTER :: BUFLY     
-      TYPE(BUF_FAIL_) ,POINTER :: FBUF 
+      TYPE(G_BUFEL_)  ,POINTER :: GBUF
+      TYPE(L_BUFEL_)  ,POINTER :: LBUF
+      TYPE(BUF_LAY_)  ,POINTER :: BUFLY
+      TYPE(BUF_FAIL_) ,POINTER :: FBUF
       my_real,
      .  DIMENSION(:), POINTER  :: UVAR
       TYPE(L_BUFEL_) ,POINTER  :: LBUF1,LBUF2,LBUF3,LBUF4
-      TYPE(BUF_MAT_)  ,POINTER :: MBUF 
+      TYPE(BUF_MAT_)  ,POINTER :: MBUF
       my_real, DIMENSION(:) ,POINTER  :: UPARAM
       TARGET :: BUFMAT
 C-----------------------------------------------
@@ -151,30 +151,30 @@ C
       ENDDO
 C-----------
       DO 900 NG=1,NGROUP
-       CALL INITBUF (IPARG    ,NG      ,                    
-     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+       CALL INITBUF (IPARG    ,NG      ,
+     2          MLW     ,NEL     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTURB   ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
        IF(MLW /= 13) THEN
           NFT   =IPARG(3,NG)
           IAD   =IPARG(4,NG)
           ISUBSTACK = IPARG(71,NG)
           IVISC = IPARG(61,NG)
-          IOK_PART(1:NEL) = 0 
+          IOK_PART(1:NEL) = 0
           LFT=1
           LLT=NEL
 !
           DO I=1,6
             JJ(I) = NEL*(I-1)
-          ENDDO  
+          ENDDO
 c
           VALUE(1:3) = ZERO
           DO I=1,NEL
             IS_WRITTEN_VALUE(I) = 0
-          ENDDO	     
+          ENDDO	
           EVAR(1:3,1:NEL) = ZERO
           IS_WRITTEN_VECTOR(1:NEL) = 0
 C-----------------------------------------------
@@ -193,7 +193,7 @@ C-----------------------------------------------
             NLAY  = ELBUF_TAB(NG)%NLAY
             NUVAR = ELBUF_TAB(NG)%BUFLY(1)%NVAR_MAT
 c
-            DO  I=1,NEL 
+            DO  I=1,NEL
               ID_ELEM(NFT+I) = IXQ(NIXQ,NFT+I)
               IF( H3D_PART(IPARTQ(NFT+I)) == 1) IOK_PART(I) = 1
             ENDDO
@@ -204,7 +204,7 @@ C---------------------
 c
             IUVAR = IUVAR_INPUT
 C--------------------------------------------------
-            IF (KEYWORD == 'VECT/VEL') THEN 
+            IF (KEYWORD == 'VECT/VEL') THEN
 C--------------------------------------------------
                IF (MLW == 151) THEN
                   DO I = 1, NEL
@@ -216,7 +216,7 @@ C--------------------------------------------------
                ELSE
                   DO I=1,NEL
                      IF(GBUF%G_MOM>0 .AND. IALEFVM > 0)THEN
-                        EVAR(1,I) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I) 
+                        EVAR(1,I) = GBUF%MOM(JJ(1) + I) / GBUF%RHO(I)
                         EVAR(2,I) = GBUF%MOM(JJ(2) + I) / GBUF%RHO(I)
                         EVAR(3,I) = GBUF%MOM(JJ(3) + I) / GBUF%RHO(I)
                         IS_WRITTEN_VECTOR(I) = 1
@@ -227,16 +227,16 @@ C--------------------------------------------------
 C                OUTPUT TENSOR STORED IN GLOBAL SYSTEM TO BE TRANSFERED IN THE ELEMENT LOCAL ONE
                  CALL QROTA_VECT(X,IXQ(1,NFT+1),JCVT,EVAR,GBUF%GAMA,NEL)
                ENDIF
-c 
+c
             ENDIF  ! KEYWORD
-          ENDIF  ! ITY 
+          ENDIF  ! ITY
 C-----------------------------------------------
           CALL H3D_WRITE_VECTORS(IOK_PART,IS_WRITTEN_QUAD,QUAD_VECTOR,NEL,0,NFT,
      .                                    EVAR,IS_WRITTEN_VECTOR)
 c
 C-----------------------------------------------
        ENDIF     ! MLW /= 13
- 900  CONTINUE   ! NG 
+ 900  CONTINUE   ! NG
 C-----------------------------------------------
       RETURN
       END

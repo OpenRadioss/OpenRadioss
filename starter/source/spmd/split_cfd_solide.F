@@ -20,7 +20,7 @@ Copyright>
 Copyright>        As an alternative to this open-source version, Altair also offers Altair Radioss 
 Copyright>        software under a commercial license.  Contact Altair to discuss further if the 
 Copyright>        commercial version may interest you: https://www.altair.com/radioss/.    
-        
+
 Chd|====================================================================
 Chd|  SPLIT_CFD_SOLIDE              source/spmd/split_cfd_solide.F
 Chd|-- called by -----------
@@ -34,11 +34,11 @@ Chd|====================================================================
 !$COMMENT
 !       SPLIT_CFD_SOLIDE description :
 !              SPLIT_CFD_SOLIDE retains all the useful solid elements
-!              for the splitting in DDSPLIT for each domain in order to 
+!              for the splitting in DDSPLIT for each domain in order to
 !              avoid a quadratic loop in DDSPLIT
 !       SPLIT_CFD_SOLIDE organization :
 !               - first allocation of ALE_ELM%SOL_ID array
-!               - for each solid element, if a neighbouring element 
+!               - for each solid element, if a neighbouring element
 !                 is useful for the splitting, catch the processor list
 !               - fill the ALE_ELM array and if the ALE_ELM size is not
 !                 sufficient, then increase the size
@@ -61,8 +61,8 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
         INTEGER, INTENT(IN) :: NUMELS
-        INTEGER, DIMENSION(NIXS,*), INTENT(IN) :: IXS    
-        INTEGER, DIMENSION(NSPMD) :: SIZE_ALE_ELM  
+        INTEGER, DIMENSION(NIXS,*), INTENT(IN) :: IXS
+        INTEGER, DIMENSION(NSPMD) :: SIZE_ALE_ELM
         TYPE(split_cfd_type), DIMENSION(NSPMD), INTENT(INOUT) :: ALE_ELM
         TYPE(t_ale_connectivity), INTENT(INOUT) :: ALE_CONNECTIVITY
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
@@ -71,7 +71,7 @@ C-----------------------------------------------
 
 !       IXS      : integer ; dimension=NIXS,NUMELS ; property of solid element
 !       SIZE_ALE_ELM : integer ; dimension=NSPMD ; size of ALE_ELM%SOL_ID array
-!       ALE_ELM : split_cfd_type ; dimension=NSPMD ; solid element ID used 
+!       ALE_ELM : split_cfd_type ; dimension=NSPMD ; solid element ID used
 !                 during the domain splitting (ALE part)
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------
@@ -84,7 +84,7 @@ C-----------------------------------------------
         INTEGER :: I,J,K,L,N,NS,IAD1,LGTH
         INTEGER :: SOLV,ISPMD,NBR_PROC,NEW_SIZE_II,MIN_SIZE
         INTEGER, DIMENSION(NSPMD) :: ID_SPMD,II
-        INTEGER, DIMENSION(:), ALLOCATABLE :: TMP   
+        INTEGER, DIMENSION(:), ALLOCATABLE :: TMP
 C ----------------------------------------
 
         !       -----------------------------
@@ -128,9 +128,9 @@ C ----------------------------------------
                                         ALLOCATE( TMP( NEW_SIZE_II ) )
                                         TMP(1:SIZE_ALE_ELM(ISPMD)) = ALE_ELM(ISPMD)%SOL_ID( 1:SIZE_ALE_ELM(ISPMD) )
                                         CALL MOVE_ALLOC(FROM=TMP,TO=ALE_ELM(ISPMD)%SOL_ID)
-                                        SIZE_ALE_ELM(ISPMD) = NEW_SIZE_II                                        
+                                        SIZE_ALE_ELM(ISPMD) = NEW_SIZE_II
                                 ENDIF
-                                ALE_ELM(ISPMD)%SOL_ID(II(ISPMD)) = I   
+                                ALE_ELM(ISPMD)%SOL_ID(II(ISPMD)) = I
                         ENDIF
                 ENDDO
                 !       -----------------------------
@@ -175,9 +175,9 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-        TYPE(split_cfd_type), DIMENSION(NSPMD), INTENT(INOUT) :: ALE_ELM 
+        TYPE(split_cfd_type), DIMENSION(NSPMD), INTENT(INOUT) :: ALE_ELM
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
-!       ALE_ELM : split_cfd_type ; dimension=NSPMD ; solid element ID used 
+!       ALE_ELM : split_cfd_type ; dimension=NSPMD ; solid element ID used
 !                 during the domain splitting (ALE part)
 !       -*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-**-*-*-*-*-*-*-*-*-*-*-*-*
 C-----------------------------------------------

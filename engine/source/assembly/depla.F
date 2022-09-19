@@ -103,7 +103,7 @@ C-------------------------------------------------------------
           D(3,N)=D(3,N)+VDT
           X(3,N)=X(3,N)+VDT
         ENDDO
-      ENDIF 
+      ENDIF
       IF((ISUB>0.OR.ISECUT>0.OR.IISROT>0.OR.ISHSUB/=0.OR.
      .  IMPOSE_DR/=0 .OR. IDROT==1) .AND. IRODDL/=0) THEN
 #include      "vectorize.inc"

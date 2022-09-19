@@ -37,7 +37,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        NLOCAL_REG_MOD                ../common_source/modules/nlocal_reg_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
-      SUBROUTINE HM_READ_FAIL_GURSON(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,    
+      SUBROUTINE HM_READ_FAIL_GURSON(UPARAM   ,MAXUPARAM,NUPARAM  ,NUVAR    ,
      .                               NFUNC    ,FAIL_ID  ,MAT_ID   ,LSUBMODEL,
      .                               UNITAB   ,NLOC_MOD ,TITR     )
 C-----------------------------------------------
@@ -64,16 +64,16 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       TYPE(SUBMODEL_DATA),INTENT(IN) ::LSUBMODEL(*)
       INTEGER MAXUPARAM,NUPARAM,NUVAR,NFUNC,NLOC_MOD,FAIL_ID,MAT_ID
-      my_real UPARAM(MAXUPARAM) 
+      my_real UPARAM(MAXUPARAM)
       CHARACTER TITR*nchartitle
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER ILOC
-      my_real 
+      my_real
      .    Q1,Q2,Q3,EPN,AS,KW,FC,FR,F0,RLEN,HKHI,LE_MAX
       LOGICAL :: IS_AVAILABLE,IS_ENCRYPTED
 C=======================================================================
@@ -87,10 +87,10 @@ C-----------------------------------------------
 C--------------------------------------------------
 C EXTRACT DATAS (REAL VALUES)
 C--------------------------------------------------
-      ! Card 1 
+      ! Card 1
       CALL HM_GET_FLOATV ('FAIL_q1'        ,Q1      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('FAIL_q2'        ,Q2      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_INTV   ('FAIL_Iloc'      ,ILOC    ,IS_AVAILABLE,LSUBMODEL) 
+      CALL HM_GET_INTV   ('FAIL_Iloc'      ,ILOC    ,IS_AVAILABLE,LSUBMODEL)
       ! Card 2
       CALL HM_GET_FLOATV ('FAIL_eps_strain',EPN     ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('FAIL_As'        ,AS      ,IS_AVAILABLE,LSUBMODEL,UNITAB)
@@ -102,7 +102,7 @@ C--------------------------------------------------
       ! Card 4
       CALL HM_GET_FLOATV ('FAIL_RLen'      ,RLEN    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV ('FAIL_Hchi'      ,HKHI    ,IS_AVAILABLE,LSUBMODEL,UNITAB)
-      CALL HM_GET_FLOATV ('FAIL_Le_max'    ,LE_MAX  ,IS_AVAILABLE,LSUBMODEL,UNITAB)      
+      CALL HM_GET_FLOATV ('FAIL_Le_max'    ,LE_MAX  ,IS_AVAILABLE,LSUBMODEL,UNITAB)
 c-----------------------------------------------------------------------
       ! Checking Gurson yield criterion parameters
       IF (Q1 == ZERO) Q1 = THREE_HALF
@@ -135,7 +135,7 @@ c     ILOC = 3 => Peerlings method of nodal variable regularization
       NLOC_MOD = ILOC-1
 c
       ! Automatic Rlen computation
-      IF (LE_MAX > ZERO) THEN 
+      IF (LE_MAX > ZERO) THEN
         CALL GET_LENGTH(RLEN,LE_MAX)
       ! Or printout the maximum element length target for convergence
       ELSE
@@ -143,7 +143,7 @@ c
       ENDIF
 c
       ! Micromorphic penalty parameter (homogeneous to a stress [MPa])
-      IF (ILOC /= 2) THEN 
+      IF (ILOC /= 2) THEN
         HKHI = ZERO    ! only used for micromorphic
       ENDIF
 c-----------------------------------------------------------------------

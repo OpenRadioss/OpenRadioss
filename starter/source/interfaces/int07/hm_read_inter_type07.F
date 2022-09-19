@@ -41,7 +41,7 @@ Chd|        MESSAGE_MOD                   share/message_module/message_mod.F
 Chd|        SUBMODEL_MOD                  share/modules1/submodel_mod.F 
 Chd|====================================================================
       SUBROUTINE HM_READ_INTER_TYPE07(
-     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,    
+     1        IPARI      ,STFAC      ,FRIGAP     ,NOINT     ,NI         ,
      2        IGRNOD     ,IGRSURF    ,XFILTR     ,FRIC_P    ,NOM_OPT    ,
      3        DEF_INTER  ,NPC1       ,LSENSOR    ,UNITAB    ,LSUBMODEL  ,
      4        TITR       ,NOM_OPTFRIC,INTBUF_FRIC_TAB,NPC   ,TF         ,
@@ -107,7 +107,7 @@ C-----------------------------------------------
      .    INACTI, IBC1M, IBC2M, IBC3M, IGSTI, IVIS2,IS1, IS2,
      .    ILEV, IGAP,MULTIMP,MFROT,IFQ,IBAG,MODFR,
      .    IEDGE,NOD1,
-     .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM7I2,IPRINT,    
+     .    IGAP0,FLAGREMNOD,IDSENS,IDELKEEP,INTKG,IREM7I2,IPRINT,
      .    INTFRIC,IASSIGN,IGAP_TYPE19,IRSTH,IDEL7N,
      .    ICURV,IFRICTH,NA1,NA2,IFORM,IADM,NRADM,FIELD6,ITIED,
      .    IB1,IB2,IB3,ISU1,ISU2,ISU3,NTYP0
@@ -121,7 +121,7 @@ C-----------------------------------------------
       LOGICAL IS_AVAILABLE
 !
       INTEGER, DIMENSION(:), POINTER :: INGR2USR
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
 C-----------------------------------------------
 C   E x t e r n a l   F u n c t i o n s
 C-----------------------------------------------
@@ -144,13 +144,13 @@ C Initializations
       MFROT=0
       IFQ=0
       IBAG=0
-      IGSTI = 0  
-      ILEV=0 
-      IDSENS = 0 
+      IGSTI = 0
+      ILEV=0
+      IDSENS = 0
       IDELKEEP=0
       INTFRIC = 0
       IFRICTH = 0
-      NOD1 = 0    
+      NOD1 = 0
       INTKG = 0
       FLAGREMNOD = 0
       MULTIMP  = 0
@@ -211,7 +211,7 @@ C
 C
       NTYP = 7
       IPARI(7)= NTYP
-      IPARI(15)=NOINT 
+      IPARI(15)=NOINT
 C
       IF (ID_TYPE19 == -1) THEN
 C-- first type7 of type19
@@ -225,8 +225,8 @@ C-- symetrical type7 of type19 - internal id of main type7 must be identified
             IPARI(71) = I
             EXIT
           ENDIF
-        ENDDO           
-      ENDIF     
+        ENDDO
+      ENDIF
 C
       IS_AVAILABLE = .FALSE.
 C--------------------------------------------------
@@ -294,7 +294,7 @@ C
       CALL HM_GET_FLOATV('TSTART',STARTT,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('TSTOP',STOPT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
-      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB) 
+      CALL HM_GET_FLOATV('STIFF_DC',VISC,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('FRIC_DC',VISCF,IS_AVAILABLE,LSUBMODEL,UNITAB)
       CALL HM_GET_FLOATV('SORT_FACT',BUMULT,IS_AVAILABLE,LSUBMODEL,UNITAB)
 C
@@ -381,8 +381,8 @@ C
 C
           IF (IGAP == 4) THEN
 C-- IGAP->4 variable gap Igap==2  for node/surface in TYPE19 contact
-            IGAP_TYPE19 = IGAP 
-            IGAP = 2          
+            IGAP_TYPE19 = IGAP
+            IGAP = 2
           ENDIF
         ENDIF
 C
@@ -500,7 +500,7 @@ C-----IPARI(54) is used temporately  before determined only by FLAGREMNOD
         IF (IREM7I2==0) THEN
            IF (IIMPLICIT>0) IREM7I2=1
         END IF
-        IF (IREM7I2 == 3) IREM7I2=0 
+        IF (IREM7I2 == 3) IREM7I2=0
         IPARI(54) = IREM7I2
 C
         FRIGAP(41)=DTMIN
@@ -586,7 +586,7 @@ C
         IF (IDEL7N>2.OR.N2D==1) IDEL7N = 0
         IPARI(17)=IDEL7N
 
-        IPARI(14)=IVIS2 ! IVIS2 = 0  Hidden flag : no more read using HM reader 
+        IPARI(14)=IVIS2 ! IVIS2 = 0  Hidden flag : no more read using HM reader
 
         IPARI(22)=INACTI
 
@@ -817,15 +817,15 @@ C
                   WRITE(IOUT,1537)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
-     .                 IREM7I2,GAPSCALE,IDSENS,                 
+     .                 IREM7I2,GAPSCALE,IDSENS,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
                 ELSE
                   WRITE(IOUT,1538)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,
-     .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD, 
-     .                 GAPSCALE,STARTT,STOPT,       
-     .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14), 
+     .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
+     .                 GAPSCALE,STARTT,STOPT,
+     .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
                 ENDIF
            ELSE
@@ -833,14 +833,14 @@ C
                   WRITE(IOUT,1547)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,IGSTI,STMIN,STMAX,
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
-     .                 IREM7I2,GAPSCALE,IDSENS,                 
+     .                 IREM7I2,GAPSCALE,IDSENS,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
                 ELSE
                   WRITE(IOUT,1548)IBC1,IBC2,IBC3,IBC1M,IBC2M,IBC3M,
      .                 STFAC,IGSTI,STMIN,STMAX,
      .                 FRIC,IGAP,GAP,GAPMAX,PERCENT_SIZE,FLAGREMNOD,
-     .                 IREM7I2,GAPSCALE,STARTT,STOPT,                 
+     .                 IREM7I2,GAPSCALE,STARTT,STOPT,
      .                 BUMULT,INACTI,FPENMAX,VISC,VISCF,IPARI(14),
      .                 IPARI(20),MULTIMP
                 ENDIF
@@ -895,7 +895,7 @@ C
            IF(IDELKEEP == 1)THEN
               WRITE(IOUT,'(A)')
      . '    IDEL: DO NOT REMOVE NON-CONNECTED NODES FROM SECONDARY SURFACE'
-           ENDIF         
+           ENDIF
         ENDIF
 
         IF(INTFRIC == 0 ) THEN
@@ -913,7 +913,7 @@ C
                 WRITE(IOUT,1524) FRIC
               ELSE
                 WRITE(IOUT,1525) IFRICTH,XFRICTH,FRIC
-              ENDIF 
+              ENDIF
 
            ELSEIF(MFROT==1)THEN
                 WRITE(IOUT,1515)FRIC_P(1),FRIC_P(2),FRIC_P(3),
@@ -960,7 +960,7 @@ C
           END IF
         ENDIF
 C---- printout for TYPE19
-        IF (NTYP == 19) THEN 
+        IF (NTYP == 19) THEN
           IF (IGAP == 4) THEN
             WRITE(IOUT,1552) IEDGE,GAP
           ELSE
@@ -980,7 +980,7 @@ C--------------------------------------------------------------
       ELSEIF(IS1==4 )THEN
         WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY BRICKS'
       ELSEIF(IS1==5 )THEN
-        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'        
+        WRITE(IOUT,'(6X,A)')'SECONDARY SIDE INPUT BY SOLID ELEMENTS'
       ENDIF
       IF(IS2==0)THEN
         WRITE(IOUT,'(6X,A)')'NO MAIN SURFACE INPUT'
@@ -1284,7 +1284,7 @@ C
      .'  MINIMUM PERCENTAGE OF PENETRATION                     ',
      .   1PG20.13/,
      .'  MAXIMUM ANGLE ON MAIN SIDE AT CONTACT LOCATION      ',
-     .   1PG20.13//) 
+     .   1PG20.13//)
  2500   FORMAT(//
      .       '    TYPE==7   thermal interface          ' //,
      .       '    Heat conduction per surface unit. . . .  . ',1PG20.13/,

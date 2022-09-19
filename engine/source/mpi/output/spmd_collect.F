@@ -63,7 +63,7 @@ C   L o c a l  V a r i a b l e s
 C-----------------------------------------------
 #ifdef MPI
       INTEGER MSGOFF,MSGOFF0,MSGTYP,INFO,I,K,NG,N,
-     .        EMPL,SDNODG(NUMNODM),FILEN   
+     .        EMPL,SDNODG(NUMNODM),FILEN
       INTEGER STATUS(MPI_STATUS_SIZE),IERROR
       DOUBLE PRECISION
      .        AGLOB(4,NUMNODM),RECGLOB(4,SIZP0)
@@ -103,8 +103,8 @@ C-----------------------------------------------
        FILNAM=ROOTNAM(1:ROOTLEN)//'_'//CHRUN//'_'//CYCLENUM//'.adb'
 
        LEN_TMP_NAME = OUTFILE_NAME_LEN + LEN_TRIM(FILNAM)
-       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM)) 
-       
+       TMP_NAME=OUTFILE_NAME(1:OUTFILE_NAME_LEN)//FILNAM(1:LEN_TRIM(FILNAM))
+
        OPEN(UNIT=IDBG5,FILE=TMP_NAME(1:LEN_TMP_NAME),ACCESS='SEQUENTIAL',
      .                  FORM='FORMATTED',STATUS='UNKNOWN')
 

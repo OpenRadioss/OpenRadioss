@@ -93,13 +93,13 @@ C
                ISUPEL=ISUPEL+1
                ISTEP=3
                IF (IMACH/=3.AND.IPRIB==1) THEN
-                  CALL PROGCOND_C(ISUPEL, DSLEN, I, 
+                  CALL PROGCOND_C(ISUPEL, DSLEN, I,
      .                            NSLEVEL-ILVL+1, ISD, ISTEP)
                ELSEIF (IPRIB==1) THEN
 C On fait un affichage interactif de l'avancement des procs si NSPMD
 C est inferieur a 16 
 C On affiche rien sinon
-                  IF (NSPMD<=16) 
+                  IF (NSPMD<=16)
      .               CALL PROGCONDP_C(ISUPEL, DSLEN, ISPMD+1, ISD)
                ENDIF
 C
@@ -170,7 +170,7 @@ C Chargement des modes statiques
                   ENDIF
                ENDDO
 C Projection du vecteur des forces
-               IF (NDI>0.AND.NSCM>0) 
+               IF (NDI>0.AND.NSCM>0)
      .            CALL DGEMM(
      .           'N', 'N',                     NSCM,   NDF, NDI,
      .           ONE,  BL,                      NSCM,   VS,  NDI,
@@ -178,7 +178,7 @@ C Projection du vecteur des forces
                DEALLOCATE(VS)
                DEALLOCATE(BL)
             ENDDO
-         ENDDO 
+         ENDDO
 C
       ENDDO
 C
@@ -190,7 +190,7 @@ Chd|-- called by -----------
 Chd|        DSCDF                         source/implicit/dsolve/dscdf.F
 Chd|-- calls ---------------
 Chd|====================================================================
-      SUBROUTINE DSRDKLI(KLI, IPIV, NDI, IFILE, IREC)            
+      SUBROUTINE DSRDKLI(KLI, IPIV, NDI, IFILE, IREC)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -287,4 +287,4 @@ C
 C
       RETURN
       END
-            
+

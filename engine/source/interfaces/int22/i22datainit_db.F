@@ -29,7 +29,7 @@ Chd|        I22TRI_MOD                    ../common_source/modules/cut-cell-sear
 Chd|====================================================================
       SUBROUTINE I22DATAINIT_DB()
       USE I22TRI_MOD
-      USE I22BUFBRIC_MOD   
+      USE I22BUFBRIC_MOD
 C=======================================================================   
 C-----------------------------------------------
 C   D e s c r i p t i o n
@@ -59,7 +59,7 @@ C Debug without inter22 - necessary to compare numerical solution w & w/o inter2
         IBUG22              = 0
         IBUG22_ccBufList    = 0
         IBUG22_antidiff     = 0
-        IBUG22_upwind       = 0               
+        IBUG22_upwind       = 0
         IBUG22_tri          = 0
         IBUG22_trivox       = 0
         IBUG22_intersect    = 0
@@ -67,34 +67,34 @@ C Debug without inter22 - necessary to compare numerical solution w & w/o inter2
         IBUG22_aera         = 0
         IBUG22_ident        = 0
         IBUG22_convec       = 0
-        IBUG22_spe_convec   = 0       
+        IBUG22_spe_convec   = 0
         IBUG22_eos          = 0
-        IBUG22_dvol         = 0      
-        IBUG22_sigeps51     = 0      
-        IBUG22_ssp          = 0   
+        IBUG22_dvol         = 0
+        IBUG22_sigeps51     = 0
+        IBUG22_ssp          = 0
         IBUG22_flux         = 0
         IBUG22_flux22       = 0
-        IBUG22_volfrac      = 0      
-        IBUG22_conti        = 0   
-        IBUG22_fint         = 0     
-        IBUG22_sinit        = 0                          
+        IBUG22_volfrac      = 0
+        IBUG22_conti        = 0
+        IBUG22_fint         = 0
+        IBUG22_sinit        = 0
         IBUG22_nodalp       = 0
-        IBUG22_amouil       = 0                                   
+        IBUG22_amouil       = 0
         IBUG22_fcont        = 0
-        IBUG22_fcontASS     = 0        
+        IBUG22_fcontASS     = 0
         IBUG22_Swet         = 0
-        IBUG22_destroy      = 0         
-        IBUG22_merge        = 0  
+        IBUG22_destroy      = 0
+        IBUG22_merge        = 0
         IBUG22_link_switch  = 0
-        IBUG22_prediction   = 0        
-        IBUG22_UndirectLink = 0      
-        IBUG22_Truss        = 0          
-        IBUG22_OrphanNodes  = 0                  
-        IBUG22_DtMin        = 0        
-        IBUG22_OUTP_CCbuffer= 0    !enables to output bricks in cut cell buffer (HyperMesh tcl script)         
-        IBUG22_OUTP_IntPoint= 0    !enables to output intersection points (HyperMesh tcl script)               
-        IBUG22_NVAR         = 0   !-1: all, 1:mass, 2:energy           
-        IBUG22_ITRIMAT      = 0   !-1: all, 1:submat1, 2:submat2, 3:submat3, 4:submat4        
+        IBUG22_prediction   = 0
+        IBUG22_UndirectLink = 0
+        IBUG22_Truss        = 0
+        IBUG22_OrphanNodes  = 0
+        IBUG22_DtMin        = 0
+        IBUG22_OUTP_CCbuffer= 0    !enables to output bricks in cut cell buffer (HyperMesh tcl script)
+        IBUG22_OUTP_IntPoint= 0    !enables to output intersection points (HyperMesh tcl script)
+        IBUG22_NVAR         = 0   !-1: all, 1:mass, 2:energy
+        IBUG22_ITRIMAT      = 0   !-1: all, 1:submat1, 2:submat2, 3:submat3, 4:submat4
         IBUG22_CC_LENGTH    = 0
       ENDIF
 

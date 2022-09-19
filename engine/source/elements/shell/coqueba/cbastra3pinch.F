@@ -34,7 +34,7 @@ Chd|====================================================================
      3                         DT1C  ,NG    ,EZZPG ,
      4                         EPGPINCHXZ,
      5                         EPGPINCHYZ,
-     6                         EPGPINCHZZ)       
+     6                         EPGPINCHZZ)
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
@@ -66,7 +66,7 @@ C-----------------------------------------------
       INTEGER I,J,EP
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7--
 #include "vectorize.inc"
-      DO I=JFT,JLT 
+      DO I=JFT,JLT
         EP=IPLAT(I)
         EPINCHXZ(EP) = VDEFPINCH(EP,1) * DT1C(EP)
         EPINCHYZ(EP) = VDEFPINCH(EP,2) * DT1C(EP)

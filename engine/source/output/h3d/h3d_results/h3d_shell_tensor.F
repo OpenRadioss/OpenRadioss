@@ -71,7 +71,7 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
       INTEGER IPARG(NPARG,*),ITENS,INVERT(*),
-     .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*), 
+     .   EL2FA(*),IXC(NIXC,*), IGEO(NPROPGI,*),
      .   NELCUT,NBF,IADP(*),NBF_L,NBPART,IADG(NSPMD,*),
      .   IXTG(NIXTG,*),IPM(NPROPMI,*),ID_ELEM(*),ITY_ELEM(*),
      .   INFO1,INFO2,IS_WRITTEN_SHELL(*),IPARTC(*),IPARTTG(*),H3D_PART(*),
@@ -103,9 +103,9 @@ C     REAL
      .        NPT_ALL,NPTT,ILAY,IUS,ID_PLY,IPANG,IPPOS,IPTHK,OFFSET,ISELECT,
      .        IPLY,IUVAR
       INTEGER PID(MVSIZ),MAT(MVSIZ),IOK_PART(MVSIZ),JJ(15)
-      my_real 
-     .   XN(4*MVSIZ) , YN(4*MVSIZ) , ZN(4*MVSIZ), 
-     .   DXN(4*MVSIZ) ,DYN(4*MVSIZ) , DZN(4*MVSIZ),STRAIN(3,MVSIZ) 
+      my_real
+     .   XN(4*MVSIZ) , YN(4*MVSIZ) , ZN(4*MVSIZ),
+     .   DXN(4*MVSIZ) ,DYN(4*MVSIZ) , DZN(4*MVSIZ),STRAIN(3,MVSIZ)
 C
       TYPE(BUF_LAY_) ,POINTER :: BUFLY
       TYPE(G_BUFEL_) ,POINTER :: GBUF
@@ -115,7 +115,7 @@ C
       my_real,
      .   DIMENSION(:), POINTER :: DIR_A
 C-----------------------------------------------
-      
+
        OFFSET = 0
       SIGE(1:MVSIZ,1:5) = ZERO
       DO J=1,18
@@ -126,14 +126,14 @@ C-----------------------------------------------
 C
       NPG = 1
       NN1 = 1
-      NN2 = NN1 
-      NN3 = NN2 
+      NN2 = NN1
+      NN3 = NN2
       NN4 = NN3 + NUMELQ
       NN5 = NN4 + NUMELC
       NN6 = NN5 + NUMELTG
-      NN7 = NN6 
-      NN8 = NN7 
-      NN9 = NN8 
+      NN7 = NN6
+      NN8 = NN7
+      NN9 = NN8
       NN10= NN9 + NUMELUR
 C
       DO I=1,NUMELC+NUMELTG
@@ -152,7 +152,7 @@ C       IF(ANIM_K == 0.AND.IPARG(8,NG) == 1)GOTO 490
         ISUBSTACK = IPARG(71,NG)
         LFT=1
         LLT=NEL
-        IOK_PART(1:NEL) = 0   
+        IOK_PART(1:NEL) = 0
 !
         DO I=1,15
           JJ(I) = NEL*(I-1)
@@ -193,19 +193,19 @@ c
             IF (ITY == 3) OFFSET = 0
             IF (ITY == 7) OFFSET = NUMELC
 c
-            DO  I=1,NEL 
+            DO  I=1,NEL
               IF (ITY == 3) THEN
                 ID_ELEM(OFFSET+NFT+I) = IXC(NIXC,NFT+I)
                 ITY_ELEM(OFFSET+NFT+I) = 3
                 IF( H3D_PART(IPARTC(NFT+I)) == 1) IOK_PART(I) = 1
-              ELSEIF (ITY == 7) THEN 
+              ELSEIF (ITY == 7) THEN
                 ID_ELEM(OFFSET+NFT+I) = IXTG(NIXTG,NFT+I)
                 ITY_ELEM(OFFSET+NFT+I) = 7
                 IF( H3D_PART(IPARTTG(NFT+I)) == 1) IOK_PART(I) = 1
               ENDIF
             ENDDO
 
-c                      
+c
 C
             IF (MLW == 0) GOTO 490
 C
@@ -213,7 +213,7 @@ C
 C
             A1    = ZERO
             A2    = ZERO
-            A3    = ZERO         
+            A3    = ZERO
             ISTRE = 1
             IPT   = 1
 
@@ -236,13 +236,13 @@ c            IG = IGAUSS_INPUT
             IF (ILAY == -2) ILAY = 1   !Lower
             IF (ILAY == -3) ILAY = NLAY  !Upper
             IF (IPT == -2) IPT = 1
-            IF (IPT == -3) IPT = NPT 
-  
+            IF (IPT == -3) IPT = NPT
+
 c
-            DO I=1,NEL      
-              DO K=1,5      
-              SIGE(I,K) = ZERO  
-              ENDDO      
+            DO I=1,NEL
+              DO K=1,5
+              SIGE(I,K) = ZERO
+              ENDDO
             ENDDO
 C------------------------
 C        STRESS
@@ -268,37 +268,37 @@ c
               IVISC = 0
               NUVARV = 0
               IF (MLW == 25) THEN
-                IF (IGTYP == 11) THEN                                
-                  IPMAT = 100                                     
-                  DO N=1,MPT                                     
-                    DO I=1,NEL                                   
-                      MATLY = IGEO(IPMAT+N,PID(I))          
-                      NUVARV = MAX(NUVARV, IPM(225,MATLY ))   
-                      IF (IPM(222,MATLY) > 0 ) IVISC = 1       
-                    ENDDO                                       
-                  ENDDO                                          
-                ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN            
+                IF (IGTYP == 11) THEN
+                  IPMAT = 100
                   DO N=1,MPT
-                    DO I=1,NEL                                  
-                      MATLY = MAT(I)                            
-                      NUVARV = MAX(NUVARV, IPM(225,MATLY))     
-                      IF (IPM(222,MATLY) > 0 ) IVISC = 1         
-                    ENDDO                                      
-                  ENDDO                                         
-                ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN  
+                    DO I=1,NEL
+                      MATLY = IGEO(IPMAT+N,PID(I))
+                      NUVARV = MAX(NUVARV, IPM(225,MATLY ))
+                      IF (IPM(222,MATLY) > 0 ) IVISC = 1
+                    ENDDO
+                  ENDDO
+                ELSEIF (IGTYP == 9 .OR. IGTYP == 10) THEN
+                  DO N=1,MPT
+                    DO I=1,NEL
+                      MATLY = MAT(I)
+                      NUVARV = MAX(NUVARV, IPM(225,MATLY))
+                      IF (IPM(222,MATLY) > 0 ) IVISC = 1
+                    ENDDO
+                  ENDDO
+                ELSEIF(IGTYP == 17 .OR. IGTYP == 51 .OR.IGTYP == 52)THEN
                   IPMAT   = 2 + NLAY
                   IPMAT_IPLY   = IPMAT + NLAY
-                  NUVARV = 0                                      
-                  DO N=1,NLAY                                      
-                    DO I=1,NEL                                  
-                      MATLY = STACK%IGEO(IPMAT+N,ISUBSTACK)            
-                      NUVARV = MAX(NUVARV, IPM(225,MATLY))     
-                      IF(IPM(222,MATLY) > 0 ) IVISC = 1         
-                    END DO                                      
-                  ENDDO                                          
-                ENDIF                                             
-              ENDIF ! mlw == 25                                 
-            ENDIF 
+                  NUVARV = 0
+                  DO N=1,NLAY
+                    DO I=1,NEL
+                      MATLY = STACK%IGEO(IPMAT+N,ISUBSTACK)
+                      NUVARV = MAX(NUVARV, IPM(225,MATLY))
+                      IF(IPM(222,MATLY) > 0 ) IVISC = 1
+                    END DO
+                  ENDDO
+                ENDIF
+              ENDIF ! mlw == 25
+            ENDIF
 C--------------------------------------------------
             IF (KEYWORD == 'TENS/STRESS/MEMB') THEN
 C--------------------------------------------------
@@ -311,7 +311,7 @@ C--------------------------------------------------
                 VALUE(2) = A1 * GBUF%FOR(JJ(2)+I) + A2 * GBUF%MOM(JJ(2)+I)
                 VALUE(3) = A1 * GBUF%FOR(JJ(3)+I) + A2 * GBUF%MOM(JJ(3)+I)
                 CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+     .                 VALUE)
               ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/STRESS/BEND') THEN
@@ -325,7 +325,7 @@ C--------------------------------------------------
                 VALUE(2) = A1 * GBUF%FOR(JJ(2)+I) + A2 * GBUF%MOM(JJ(2)+I)
                 VALUE(3) = A1 * GBUF%FOR(JJ(3)+I) + A2 * GBUF%MOM(JJ(3)+I)
                 CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+     .                 VALUE)
               ENDDO
 
 C--------------------------------------------------
@@ -338,27 +338,27 @@ C--------------------------------------------------
 c ILAYER=NULL NPT=NULL
               IF(MPT == 0 .AND. IPT == 1 ) THEN
                 DO I=1,NEL
-                  VALUE(1) =  GBUF%FOR(JJ(1)+I) - SIX*GBUF%MOM(JJ(1)+I) 
-                  VALUE(2) =  GBUF%FOR(JJ(2)+I) - SIX*GBUF%MOM(JJ(2)+I) 
+                  VALUE(1) =  GBUF%FOR(JJ(1)+I) - SIX*GBUF%MOM(JJ(1)+I)
+                  VALUE(2) =  GBUF%FOR(JJ(2)+I) - SIX*GBUF%MOM(JJ(2)+I)
                   VALUE(3) =  GBUF%FOR(JJ(3)+I) - SIX*GBUF%MOM(JJ(3)+I)
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE)    
-                ENDDO  
+     .                                     VALUE)
+                ENDDO
               ELSEIF(MPT == 0 .AND. IPT_INPUT == -3 ) THEN
                 DO I=1,NEL
-                  VALUE(1) =  GBUF%FOR(JJ(1)+I) + SIX*GBUF%MOM(JJ(1)+I) 
-                  VALUE(2) =  GBUF%FOR(JJ(2)+I) + SIX*GBUF%MOM(JJ(2)+I) 
+                  VALUE(1) =  GBUF%FOR(JJ(1)+I) + SIX*GBUF%MOM(JJ(1)+I)
+                  VALUE(2) =  GBUF%FOR(JJ(2)+I) + SIX*GBUF%MOM(JJ(2)+I)
                   VALUE(3) =  GBUF%FOR(JJ(3)+I) + SIX*GBUF%MOM(JJ(3)+I)
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE)    
-                ENDDO  
-              
-              ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
-                DO I=1,NEL 
+     .                                     VALUE)
+                ENDDO
+
+              ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN
+                DO I=1,NEL
 c                 VALUE(I) =
-                ENDDO  
-c PLY=IPLY NPT=IPT             
-              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN 
+                ENDDO
+c PLY=IPLY NPT=IPT
+              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
 c
                 IF (IGTYP == 17 .OR. IGTYP == 51) THEN
                   DO J=1,NLAY
@@ -367,37 +367,37 @@ c
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                       NPTT = BUFLY%NPTT
                       IF (IHBE == 11 .AND. IPT <= NPTT) THEN
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,5           
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,5
                       VALUE(K) = VALUE(K) + LBUF%SIG(JJ(K) + I)/NPG
                           ENDDO
-                        ENDDO                 
+                        ENDDO
                       ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE) 
+     .                                     VALUE)
                     ENDDO
                       ELSEIF (IPT <= NPTT) THEN ! no batoz
-                    LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)   
-                    DO I=1,NEL  
-                      DO K=1,5            
+                    LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)
+                    DO I=1,NEL
+                      DO K=1,5
                         VALUE(K) = LBUF%SIG(JJ(K) + I)
-                      ENDDO 
+                      ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE) 
+     .                                     VALUE)
                         ENDDO
                        ELSE  ! initialisation
-                         DO I=1,NEL  
-                      DO K=1,5            
+                         DO I=1,NEL
+                      DO K=1,5
                         VALUE(K) = ZERO
-                      ENDDO 
+                      ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE) 
-                         ENDDO   
-                       ENDIF   
-                      ENDIF          
+     .                                     VALUE)
+                         ENDDO
+                       ENDIF
+                      ENDIF
                    ENDDO
 c
                 ELSEIF (IGTYP == 52) THEN
@@ -407,67 +407,67 @@ c
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                       NPTT = BUFLY%NPTT
                       IF (IHBE == 11 .AND. IPT <= NPTT) THEN
-                    DO I=1,NEL    
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,5           
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,5
                       VALUE(K) = VALUE(K) + LBUF%SIG(JJ(K) + I)/NPG
                           ENDDO
-                        ENDDO                 
-                      ENDDO  
+                        ENDDO
+                      ENDDO
                            CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                   VALUE) 
+     .                   VALUE)
                     ENDDO
                       ELSEIF (IPT <= NPTT) THEN ! no batoz
-                    LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)   
-                    DO I=1,NEL     
-                      DO K=1,5            
+                    LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)
+                    DO I=1,NEL
+                      DO K=1,5
                         VALUE(K) = LBUF%SIG(JJ(K) + I)
                       ENDDO
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                   VALUE)                
+     .                   VALUE)
                     ENDDO
-                      ELSE  ! initialisation 
-                         DO I=1,NEL  
-                      DO K=1,5            
+                      ELSE  ! initialisation
+                         DO I=1,NEL
+                      DO K=1,5
                         VALUE(K) = ZERO
-                      ENDDO 
+                      ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE) 
-                         ENDDO     
+     .                                     VALUE)
+                         ENDDO
                       ENDIF
                     ENDIF  ! ID_PLY
                   ENDDO ! NLAY
-                ENDIF   
-c PLY=NULL ILAYER=ILAY NPT=IPT 
-              ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN       
-                IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+                ENDIF
+c PLY=NULL ILAYER=ILAY NPT=IPT
+              ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+                IF (IGTYP == 51 .OR. IGTYP == 52) THEN
                   IF (IGTYP == 51) THEN
                     DO J=1,NLAY
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                       NPTT = BUFLY%NPTT
                       IF (IHBE == 11 .AND. IPT <= NPTT) THEN
-                        DO I=1,NEL  
-                          DO IR=1,NPTR                
-                            DO IS=1,NPTS 
-                              LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                              DO K=1,5           
+                        DO I=1,NEL
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                              DO K=1,5
                           VALUE(K) = VALUE(K) + LBUF%SIG(JJ(K) + I)/NPG
                               ENDDO
-                            ENDDO                 
-                          ENDDO   
+                            ENDDO
+                          ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                         VALUE) 
+     .                         VALUE)
                         ENDDO
                       ELSEIF (IPT <= NPTT) THEN ! no batoz
-                        LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)   
-                        DO I=1,NEL  
-                          DO K=1,5            
+                        LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)
+                        DO I=1,NEL
+                          DO K=1,5
                             VALUE(K) = LBUF%SIG(JJ(K) + I)
-                          ENDDO 
+                          ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                         VALUE)             
+     .                         VALUE)
                         ENDDO
                       ENDIF
                     ENDDO
@@ -477,41 +477,41 @@ c
                       BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                       NPTT = BUFLY%NPTT
                       IF (IHBE == 11 .AND. IPT <= NPTT) THEN
-                        DO I=1,NEL    
-                          DO IR=1,NPTR                
-                            DO IS=1,NPTS 
-                              LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                              DO K=1,5           
+                        DO I=1,NEL
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                              DO K=1,5
                           VALUE(K) = VALUE(K) + LBUF%SIG(JJ(K) + I)/NPG
                               ENDDO
-                            ENDDO                 
-                          ENDDO    
+                            ENDDO
+                          ENDDO
                         ENDDO
                       ELSEIF (IPT <= NPTT) THEN ! no batoz
-                        LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)   
-                        DO I=1,NEL     
-                          DO K=1,5            
+                        LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(1,1,IPT)
+                        DO I=1,NEL
+                          DO K=1,5
                             VALUE(K) = LBUF%SIG(JJ(K) + I)
                           ENDDO
                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                       VALUE)                
+     .                       VALUE)
                         ENDDO
                       ENDIF
                     ENDDO
-                  ENDIF 
+                  ENDIF
                 ENDIF
 c PLY=NULL ILAYER=IL NPT=NULL
               ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
-                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN               
-                  IF (MLW == 1)THEN      
-                    DO I=1,NEL     
-                      DO J=1,5          
+                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
+                  IF (MLW == 1)THEN
+                    DO I=1,NEL
+                      DO J=1,5
                         VALUE(J) = GBUF%FOR(JJ(J) + I)
                       ENDDO
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                            VALUE)             
+     .                            VALUE)
                     ENDDO
-                  ELSE             
+                  ELSE
                     IF ( (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 1)THEN
                          CALL SIGROTA(1  ,NEL ,NFT  ,ILAY     ,NEL    ,
      2                          NS1  ,X   ,IXC  ,ELBUF_TAB(NG),
@@ -523,8 +523,8 @@ c PLY=NULL ILAYER=IL NPT=NULL
                          VALUE(3) = A1 * SIGE(I,3)
                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                          VALUE)
-                       ENDDO      
-            
+                       ENDDO
+
                     ELSE IF ( (MLW == 25.OR.MLW == 15.OR.MLW>=28) .AND. IREP == 0)THEN
 c
                       IF (IHBE == 11) THEN  ! Batoz shell
@@ -560,57 +560,57 @@ C
                           ELSE
                             LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
                           ENDIF
-                          DO J=1,5             
-                            SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG 
-                          ENDDO            
+                          DO J=1,5
+                            SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG
+                          ENDDO
                               ENDDO
-                            ENDDO  
-                          ENDDO  
+                            ENDDO
+                          ENDDO
                         ENDIF  !  IF (IVISC > 0)
                       ELSE  ! not Batoz shell
                         DO I=1,NEL
-                          IF (NLAY > 1) THEN             
-                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                          ELSE                 
-                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                          ENDIF       
+                          IF (NLAY > 1) THEN
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                          ELSE
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                          ENDIF
                           DO J=1,5
                             SIGE(I,J) = LBUF%SIG(JJ(J) + I)
                           ENDDO
                         ENDDO
 
-                        IF (IVISC > 0) THEN  
-                          IF (NLAY > 1) THEN             
-                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                          ELSE                 
-                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)   
-                          ENDIF                
-                          DO I=1,NEL    
-                            DO J=1,5              
+                        IF (IVISC > 0) THEN
+                          IF (NLAY > 1) THEN
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                          ELSE
+                            LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                          ENDIF
+                          DO I=1,NEL
+                            DO J=1,5
                               SIGE(I,J) = SIGE(I,J) +  LBUF%VISC(JJ(J) + I)
-                            ENDDO           
-                          ENDDO           
-                        ENDIF  !  IF (IVISC > 0)               
+                            ENDDO
+                          ENDDO
+                        ENDIF  !  IF (IVISC > 0)
                       ENDIF  !  IF (IHBE == 11)
 C
                       IF (IHBE == 11) THEN
                         IF (IGTYP == 9) THEN
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ELSE
-                          IF (NLAY > 1) THEN          
+                          IF (NLAY > 1) THEN
                             DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                          ELSE              
+                          ELSE
                             DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
                           ENDIF
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ENDIF
                       ELSE
-                        IF (NLAY > 1) THEN        
+                        IF (NLAY > 1) THEN
                           DIR_A => ELBUF_TAB(NG)%BUFLY(ILAY)%DIRA
-                        ELSE            
+                        ELSE
                           DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                        ENDIF                 
+                        ENDIF
                         CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                       ENDIF  !  IF (IHBE == 11)
 c
@@ -623,48 +623,48 @@ c
                       ENDDO
                     ELSE
                       IF(ILAY <= NLAY)THEN
-                        IF (IHBE == 11) THEN             
-                          DO I=1,NEL   
-                            DO IR=1,NPTR            
-                              DO IS=1,NPTS            
-                                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)  
-                                DO J=1,5            
+                        IF (IHBE == 11) THEN
+                          DO I=1,NEL
+                            DO IR=1,NPTR
+                              DO IS=1,NPTS
+                                LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(IR,IS,1)
+                                DO J=1,5
                                   VALUE(J) = VALUE(J) + LBUF%SIG(JJ(J) + I)/NPG
                                 ENDDO
-                              ENDDO              
+                              ENDDO
                             ENDDO
                             CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                               VALUE)    
-                          ENDDO               
-                        ELSE !ihbe           
-                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1) 
-                          DO I=1,NEL   
-                            DO J=1,5              
+     .                                               VALUE)
+                          ENDDO
+                        ELSE !ihbe
+                          LBUF => ELBUF_TAB(NG)%BUFLY(ILAY)%LBUF(1,1,1)
+                          DO I=1,NEL
+                            DO J=1,5
                               VALUE(J) = LBUF%SIG(JJ(J) + I)
-                            ENDDO  
+                            ENDDO
                             CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                             VALUE)               
+     .                                             VALUE)
                           ENDDO
                         ENDIF !IHBE
                       ENDIF !ILAY
                     ENDIF !MLAW
                   ENDIF!MLAW 1
 
-                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN              
-                  IF (MLW == 1)THEN      
-                    DO I=1,NEL     
-                      DO J=1,5          
+                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
+                  IF (MLW == 1)THEN
+                    DO I=1,NEL
+                      DO J=1,5
                         VALUE(J) = GBUF%FOR(JJ(J) + I)
                       ENDDO
                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                            VALUE)             
+     .                            VALUE)
                     ENDDO
                   ELSE
                     IF (IHBE == 11) THEN
                       BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
-                      DO I=1,NEL          
-                        I1 = (I-1)*5    
-                        DO J=1,5             
+                      DO I=1,NEL
+                        I1 = (I-1)*5
+                        DO J=1,5
                           VALUE(J) = BUFLY%SIGPT(I1+J)
                         ENDDO
                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
@@ -688,14 +688,14 @@ c
 c PLY=NULL ILAYER=NULL NPT=IPT
               ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
 
-                IF (IGTYP == 1 .OR. IGTYP == 9) THEN              
-                  IF (MLW == 1)THEN      
-                    DO I=1,NEL     
-                      DO J=1,5          
+                IF (IGTYP == 1 .OR. IGTYP == 9) THEN
+                  IF (MLW == 1)THEN
+                    DO I=1,NEL
+                      DO J=1,5
                         VALUE(J) = GBUF%FOR(JJ(J) + I)
                       ENDDO
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                         VALUE)             
+     .                         VALUE)
                     ENDDO
                   ELSE !(MLW == 1)
 c
@@ -747,57 +747,57 @@ C
                           ELSE
                             LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
                           ENDIF
-                          DO J=1,5             
-                            SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG 
-                          ENDDO            
+                          DO J=1,5
+                            SIGE(I,J) = SIGE(I,J) + LBUF%VISC(JJ(J) + I)/NPG
+                          ENDDO
                               ENDDO
-                            ENDDO  
-                          ENDDO  
+                            ENDDO
+                          ENDDO
                         ENDIF  !  IF (IVISC > 0)
                       ELSE  ! not Batoz shell
                         DO I=1,NEL
-                          IF (NLAY > 1) THEN             
-                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)   
-                          ELSE                 
-                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)   
-                          ENDIF       
+                          IF (NLAY > 1) THEN
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)
+                          ELSE
+                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
+                          ENDIF
                           DO J=1,5
                             SIGE(I,J) = LBUF%SIG(JJ(J) + I)
                           ENDDO
                         ENDDO
 
-                        IF (IVISC > 0) THEN  
-                          IF (NLAY > 1) THEN             
-                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)   
-                          ELSE                 
-                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)   
-                          ENDIF                
-                          DO I=1,NEL    
-                            DO J=1,5              
+                        IF (IVISC > 0) THEN
+                          IF (NLAY > 1) THEN
+                            LBUF => ELBUF_TAB(NG)%BUFLY(IPT)%LBUF(1,1,1)
+                          ELSE
+                            LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
+                          ENDIF
+                          DO I=1,NEL
+                            DO J=1,5
                               SIGE(I,J) = SIGE(I,J) +  LBUF%VISC(JJ(J) + I)
-                            ENDDO           
-                          ENDDO           
-                        ENDIF  !  IF (IVISC > 0)               
+                            ENDDO
+                          ENDDO
+                        ENDIF  !  IF (IVISC > 0)
                       ENDIF  !  IF (IHBE == 11)
 C
                       IF (IHBE == 11) THEN
                         IF (IGTYP == 9) THEN
-                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA  
+                          DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ELSE
-                          IF (NLAY > 1) THEN          
+                          IF (NLAY > 1) THEN
                             DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
-                          ELSE              
+                          ELSE
                             DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
                           ENDIF
                           CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                         ENDIF
                       ELSE
-                        IF (NLAY > 1) THEN        
+                        IF (NLAY > 1) THEN
                           DIR_A => ELBUF_TAB(NG)%BUFLY(IPT)%DIRA
-                        ELSE            
+                        ELSE
                           DIR_A => ELBUF_TAB(NG)%BUFLY(1)%DIRA
-                        ENDIF                 
+                        ENDIF
                         CALL UROTOV(1,NEL,SIGE,DIR_A,NEL)
                       ENDIF  !  IF (IHBE == 11)
 c
@@ -811,27 +811,27 @@ c
 
                     ELSE
                       IF(IPT <= MPT)THEN
-                        IF (IHBE == 11) THEN             
-                          DO I=1,NEL   
-                            DO IR=1,NPTR            
-                              DO IS=1,NPTS            
-                                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)  
-                                DO J=1,5            
+                        IF (IHBE == 11) THEN
+                          DO I=1,NEL
+                            DO IR=1,NPTR
+                              DO IS=1,NPTS
+                                LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(IR,IS,IPT)
+                                DO J=1,5
                                   VALUE(J) = VALUE(J) + LBUF%SIG(JJ(J) + I)/NPG
                                 ENDDO
-                              ENDDO              
+                              ENDDO
                             ENDDO
                             CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                                VALUE)    
-                          ENDDO               
-                        ELSE           
+     .                                                VALUE)
+                          ENDDO
+                        ELSE
                           LBUF => ELBUF_TAB(NG)%BUFLY(1)%LBUF(1,1,IPT)
-                          DO I=1,NEL   
-                            DO J=1,5              
+                          DO I=1,NEL
+                            DO J=1,5
                               VALUE(J) = LBUF%SIG(JJ(J) + I)
-                            ENDDO  
+                            ENDDO
                             CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                               VALUE)               
+     .                                               VALUE)
                           ENDDO
                         ENDIF
                       ENDIF
@@ -854,7 +854,7 @@ C--------------------------------------------------
                   VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                   VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                   VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                  VALUE(3) = VALUE(3) * HALF 
+                  VALUE(3) = VALUE(3) * HALF
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                     VALUE)
                 ENDDO
@@ -874,13 +874,13 @@ C--------------------------------------------------
                   VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                   VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                   VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                  VALUE(3) = VALUE(3) * HALF 
+                  VALUE(3) = VALUE(3) * HALF
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                     VALUE)    
+     .                                     VALUE)
                 ENDDO
               ENDIF
 C--------------------------------------------------
-            ELSEIF (KEYWORD == 'TENS/STRAIN') THEN  
+            ELSEIF (KEYWORD == 'TENS/STRAIN') THEN
 C--------------------------------------------------
               NS1 = 8
               NS2 = 8
@@ -888,24 +888,24 @@ c ILAYER=NULL NPT=NULL
               IF(MPT == 0 .AND. IPT == 1 ) THEN
                   DO I=1,NEL
                     A2 = -HALF*GBUF%THK(I)
-                    VALUE(1) =  GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) 
-                    VALUE(2) =  GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) 
+                    VALUE(1) =  GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I)
+                    VALUE(2) =  GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I)
                     VALUE(3) =  GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I)
-                    VALUE(3) = VALUE(3) * HALF 
+                    VALUE(3) = VALUE(3) * HALF
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                       VALUE)    
-                  ENDDO  
+     .                                       VALUE)
+                  ENDDO
               ELSEIF(MPT == 0 .AND. IPT_INPUT == -3 ) THEN
                   DO I=1,NEL
                     A2 = HALF*GBUF%THK(I)
-                    VALUE(1) =  GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) 
-                    VALUE(2) =  GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) 
+                    VALUE(1) =  GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I)
+                    VALUE(2) =  GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I)
                     VALUE(3) =  GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I)
-                    VALUE(3) = VALUE(3) * HALF 
+                    VALUE(3) = VALUE(3) * HALF
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                                       VALUE)    
-                  ENDDO  
-        ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
+     .                                       VALUE)
+                  ENDDO
+        ELSEIF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN
                 A1 = ONE
                 A2 = ZERO
                 IF (ISTRAIN == 1) THEN
@@ -916,13 +916,13 @@ c ILAYER=NULL NPT=NULL
                     VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                     VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                     VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                    VALUE(3) = VALUE(3) * HALF 
+                    VALUE(3) = VALUE(3) * HALF
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                     VALUE)
                   ENDDO
-                ENDIF 
+                ENDIF
 c PLY=IPLY NPT=IPT
-        ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN     
+        ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
           IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
                IPANG = 1
                IPTHK  = IPANG + NLAY
@@ -933,12 +933,12 @@ c PLY=IPLY NPT=IPT
                  IF (IGTYP == 17 .OR. IGTYP == 51) THEN
              ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                  ELSEIF (IGTYP == 52) THEN
-                   ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                   ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
                  ENDIF
                  IF (ID_PLY  == IPLY .AND.
      .               IPT <= NPTT ) THEN
                    A1 = ONE
-                   A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+ 
+                   A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+
      .                  HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                     STACK%GEO(IPTHK+J,ISUBSTACK)
                       IF (ISTRAIN == 1) THEN
@@ -948,24 +948,24 @@ c PLY=IPLY NPT=IPT
                          VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                          VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                          VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                         VALUE(3) = VALUE(3) * HALF 
+                         VALUE(3) = VALUE(3) * HALF
                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                          VALUE)
                        ENDDO
-                      ENDIF  
-                    ENDIF  
+                      ENDIF
+                    ENDIF
                ENDDO
         ENDIF
-c PLY=NULL ILAYER=ILAY NPT=IPT 
-        ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN       
-          IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+c PLY=NULL ILAYER=ILAY NPT=IPT
+        ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+          IF (IGTYP == 51 .OR. IGTYP == 52) THEN
                IPANG = 1
                IPTHK  = IPANG + NLAY
                IPPOS  = IPTHK + NLAY
                BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
                NPTT = BUFLY%NPTT
                A1 = ONE
-               A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+ 
+               A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+
      .                    HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                 STACK%GEO(IPTHK+ILAY,ISUBSTACK)
                   IF (ISTRAIN == 1) THEN
@@ -975,11 +975,11 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
                       VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                       VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                       VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                      VALUE(3) = VALUE(3) * HALF 
+                      VALUE(3) = VALUE(3) * HALF
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                             VALUE)
                     ENDDO
-                  ENDIF 
+                  ENDIF
           ENDIF
 c PLY=NULL ILAYER=IL NPT=NULL
         ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
@@ -995,17 +995,17 @@ c PLY=NULL ILAYER=IL NPT=NULL
                       VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                       VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                       VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                      VALUE(3) = VALUE(3) * HALF 
+                      VALUE(3) = VALUE(3) * HALF
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                        VALUE)
                     ENDDO
-                  ENDIF  
+                  ENDIF
          ENDIF
 c PLY=NULL ILAYER=NULL NPT=IPT
         ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
                 A1 = ONE
                 A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
-           IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+           IF (IGTYP == 1 .OR. IGTYP == 9) THEN
                   IF (ISTRAIN == 1) THEN
                     DO I=1,NEL
                       N = I + NFT
@@ -1014,55 +1014,55 @@ c PLY=NULL ILAYER=NULL NPT=IPT
                       VALUE(1) = A1*GBUF%STRA(JJ(1)+I) + A2*GBUF%STRA(JJ(6)+I) * THK
                       VALUE(2) = A1*GBUF%STRA(JJ(2)+I) + A2*GBUF%STRA(JJ(7)+I) * THK
                       VALUE(3) = A1*GBUF%STRA(JJ(3)+I) + A2*GBUF%STRA(JJ(8)+I) * THK
-                      VALUE(3) = VALUE(3) * HALF 
+                      VALUE(3) = VALUE(3) * HALF
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                        VALUE)
                     ENDDO
-                  ENDIF 
+                  ENDIF
            ENDIF
         ENDIF
 C--------------------------------------------------
-            ELSEIF (KEYWORD == 'TENS/EPSDOT/MEMB') THEN  
+            ELSEIF (KEYWORD == 'TENS/EPSDOT/MEMB') THEN
 C--------------------------------------------------
               A1 = ONE
               A2 = ZERO
               DO I=1,NEL
-                THK = GBUF%THK(I)  
+                THK = GBUF%THK(I)
                 VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                 VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                 CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                   VALUE)
               ENDDO
 C--------------------------------------------------
-            ELSEIF (KEYWORD == 'TENS/EPSDOT/BEND') THEN  
+            ELSEIF (KEYWORD == 'TENS/EPSDOT/BEND') THEN
 C--------------------------------------------------
               DO I=1,NEL
                 THK = GBUF%THK(I)
                 VALUE(1) = EPSDOT(4,I+NFT+OFFSET)
                 VALUE(2) = EPSDOT(5,I+NFT+OFFSET)
-                VALUE(3) = EPSDOT(6,I+NFT+OFFSET) * HALF 
+                VALUE(3) = EPSDOT(6,I+NFT+OFFSET) * HALF
                 CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                                   VALUE)
               ENDDO
 C--------------------------------------------------
-            ELSEIF (KEYWORD == 'TENS/EPSDOT') THEN  
+            ELSEIF (KEYWORD == 'TENS/EPSDOT') THEN
 C--------------------------------------------------
 c ILAYER=NULL NPT=NULL
-        IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
+        IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN
                 A1 = ONE
                 A2 = ZERO
                 DO I=1,NEL
-                  THK = GBUF%THK(I)    
+                  THK = GBUF%THK(I)
                   VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                   VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                  VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                  VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                   VALUE)
                 ENDDO
 c PLY=IPLY NPT=IPT
-        ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN     
-          IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN 
+        ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+          IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
             A1 = ZERO
             A2 = ZERO
             NS1 = 8
@@ -1074,20 +1074,20 @@ c PLY=IPLY NPT=IPT
               IF (IGTYP == 17 .OR. IGTYP == 51) THEN
                   ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
               ELSEIF (IGTYP == 52) THEN
-                ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK) 
+                ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK)-NUMSTACK)
               ENDIF
               BUFLY => ELBUF_TAB(NG)%BUFLY(J)
               NPTT = BUFLY%NPTT
               IF (ID_PLY  == IPLY .AND. IPT <= NPTT) THEN
                 A1 = ONE
-                A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+ 
+                A2 = STACK%GEO(IPPOS+J,ISUBSTACK)+
      .            HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .               STACK%GEO(IPTHK+J,ISUBSTACK)
                       DO I=1,NEL
-                        THK = GBUF%THK(I)  
+                        THK = GBUF%THK(I)
                         VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                         VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                        VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                        VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                         CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                              VALUE)
                       ENDDO
@@ -1095,9 +1095,9 @@ c PLY=IPLY NPT=IPT
             ENDDO
           ENDIF
 
-c PLY=NULL ILAYER=ILAY NPT=IPT 
-        ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN       
-        IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+c PLY=NULL ILAYER=ILAY NPT=IPT
+        ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+        IF (IGTYP == 51 .OR. IGTYP == 52) THEN
             A1 = ZERO
             A2 = ZERO
             NS1 = 8
@@ -1108,21 +1108,21 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
             IF (IGTYP == 17 .OR. IGTYP == 51) THEN
                 ID_PLY = IGEO(1,STACK%IGEO(2+ILAY,ISUBSTACK))
             ELSEIF (IGTYP == 52) THEN
-              ID_PLY = PLY_INFO(1,STACK%IGEO(2+ILAY,ISUBSTACK)-NUMSTACK) 
+              ID_PLY = PLY_INFO(1,STACK%IGEO(2+ILAY,ISUBSTACK)-NUMSTACK)
             ENDIF
             BUFLY => ELBUF_TAB(NG)%BUFLY(ILAY)
             NPTT = BUFLY%NPTT
             IF (IPT <= NPTT) THEN
               A1 = ONE
-              A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+ 
+              A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+
      .            HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .           STACK%GEO(IPTHK+ILAY,ISUBSTACK)
                     DO I=1,NEL
                       N = I + NFT
-                      THK = GBUF%THK(I)       
+                      THK = GBUF%THK(I)
                       VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                       VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                      VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                      VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                         VALUE)
                     ENDDO
@@ -1130,29 +1130,29 @@ c PLY=NULL ILAYER=ILAY NPT=IPT
          ENDIF
 c PLY=NULL ILAYER=IL NPT=NULL
         ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
-          IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
+          IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
                   A1 = ONE
                   A2 = HALF*(((2*ILAY-ONE)/NLAY)-ONE)
                   DO I=1,NEL
                     N = I + NFT
-                    THK = GBUF%THK(I)      
+                    THK = GBUF%THK(I)
                     VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                     VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                           VALUE)
                   ENDDO
-          ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+          ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
                   A1 = ONE
-                  A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+ 
+                  A2 = STACK%GEO(IPPOS+ILAY,ISUBSTACK)+
      .                       HALF*(((2*IPT-ONE)/NPTT)-ONE) *
      .                       STACK%GEO(IPTHK+ILAY,ISUBSTACK)
                   DO I=1,NEL
                     N = I + NFT
-                    THK = GBUF%THK(I)      
+                    THK = GBUF%THK(I)
                     VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                     VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                           VALUE)
                   ENDDO
@@ -1161,12 +1161,12 @@ c PLY=NULL ILAYER=NULL NPT=IPT
         ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
                 A1 = ONE
                 A2 = HALF*(((2*IPT-ONE)/MPT)-ONE)
-            IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+            IF (IGTYP == 1 .OR. IGTYP == 9) THEN
                   DO I=1,NEL
-                    THK = GBUF%THK(I)      
+                    THK = GBUF%THK(I)
                     VALUE(1) = A1*EPSDOT(1,I+NFT+OFFSET) + A2*EPSDOT(4,I+NFT+OFFSET)*THK
                     VALUE(2) = A1*EPSDOT(2,I+NFT+OFFSET) + A2*EPSDOT(5,I+NFT+OFFSET)*THK
-                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF 
+                    VALUE(3) = (A1*EPSDOT(3,I+NFT+OFFSET) + A2*EPSDOT(6,I+NFT+OFFSET)*THK)* HALF
                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
      .                           VALUE)
                   ENDDO
@@ -1256,7 +1256,7 @@ C-----------------------------------------------
              DO I=1,NEL
                VALUE(1:3) = GBUF%TM_SIG1(JJ(1:3) + I)
                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+     .                 VALUE)
              ENDDO
 C-----------------------------------------------
            ELSEIF (KEYWORD == 'TENS/STRESS/TMIN') THEN
@@ -1264,7 +1264,7 @@ C-----------------------------------------------
              DO I=1,NEL
                VALUE(1:3) = GBUF%TM_SIG3(JJ(1:3) + I)
                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+     .                 VALUE)
              ENDDO
 C-----------------------------------------------
            ELSEIF (KEYWORD == 'TENS/STRAIN/TMAX') THEN
@@ -1272,7 +1272,7 @@ C-----------------------------------------------
              DO I=1,NEL
                VALUE(1:3) = GBUF%TM_STRA1(JJ(1:3) + I)
                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+     .                 VALUE)
              ENDDO
 C-----------------------------------------------
            ELSEIF (KEYWORD == 'TENS/STRAIN/TMIN') THEN
@@ -1280,250 +1280,250 @@ C-----------------------------------------------
              DO I=1,NEL
                VALUE(1:3) = GBUF%TM_STRA3(JJ(1:3) + I)
                CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,
-     .                 VALUE)    
+     .                 VALUE)
              ENDDO
 C--------------------------------------------------
             ELSEIF (KEYWORD == 'TENS/BSTRESS') THEN
 C--------------------------------------------------
               IF (MLW == 87) THEN
-               IMAT = IXC(1,NFT+1)                    
-               IADBUF = IPM(7,IMAT)                       
-               NUPARAM= IPM(9,IMAT)                       
+               IMAT = IXC(1,NFT+1)
+               IADBUF = IPM(7,IMAT)
+               NUPARAM= IPM(9,IMAT)
                UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
-               NBFUNCT = UPARAM(25) 
+               NBFUNCT = UPARAM(25)
                NCHARD = 34 + 2*NBFUNCT +  22
                CHARD  = UPARAM (NCHARD)
               ELSEIF (MLW == 36) THEN
-               IMAT = IXC(1,NFT+1)                        
-               IADBUF = IPM(7,IMAT)                       
-               NUPARAM= IPM(9,IMAT)                       
+               IMAT = IXC(1,NFT+1)
+               IADBUF = IPM(7,IMAT)
+               NUPARAM= IPM(9,IMAT)
                UPARAM => BUFMAT(IADBUF:IADBUF+NUPARAM)
-               NBFUNCT = UPARAM(1) 
+               NBFUNCT = UPARAM(1)
                NCHARD = 2*NBFUNCT + 14
                CHARD  = UPARAM (NCHARD)
               ENDIF
               IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  !global value = mean on gauss points IPs and layers
                 IF(ID == -1) THEN ! somme of all backstresses
                   IF(MLW == 36 .AND. CHARD > ZERO) THEN
-                    DO I=1,NEL  
+                    DO I=1,NEL
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                         NPTT = BUFLY%NPTT
-                        DO IR=1,NPTR                
-                          DO IS=1,NPTS 
-                             DO IT=1,NPTT  
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                        DO IR=1,NPTR
+                          DO IS=1,NPTS
+                             DO IT=1,NPTT
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                 VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG/NPTT/NLAY
                                ENDDO !K
-                             ENDDO !IT                 
+                             ENDDO !IT
                            ENDDO !IS
                          ENDDO !IR
-                      ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE ) 
-                    ENDDO !I              
+                      ENDDO !Jlay
+                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                    ENDDO !I
                   ELSEIF(MLW == 78) THEN
-                    DO I=1,NEL  
+                    DO I=1,NEL
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                         NPTT = BUFLY%NPTT
-                        DO IR=1,NPTR                
-                           DO IS=1,NPTS 
-                             DO IT=1,NPTT  
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                        DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             DO IT=1,NPTT
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + (LBUF%SIGA(JJ(K) + I)+LBUF%SIGB(JJ(K) + I))/NPG/NPTT/NLAY
                                ENDDO !K
-                             ENDDO !IT             
+                             ENDDO !IT
                            ENDDO !IS
                          ENDDO !IR
-                      ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
-                    ENDDO !I              
+                      ENDDO !Jlay
+                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                    ENDDO !I
                   ELSEIF(MLW == 87 .AND. CHARD > ZERO) THEN
                    !SIGBXX(I) = SIGB(I,1) + SIGB(I,4) + SIGB(I,7) + SIGB(I,10)
                    !SIGBYY(I) = SIGB(I,2) + SIGB(I,5) + SIGB(I,8) + SIGB(I,11)
                    !SIGBXY(I) = SIGB(I,3) + SIGB(I,6) + SIGB(I,9) + SIGB(I,12)
-                    DO I=1,NEL  
+                    DO I=1,NEL
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                         NPTT = BUFLY%NPTT
-                        DO IR=1,NPTR                
-                           DO IS=1,NPTS 
-                             DO IT=1,NPTT  
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
-                                  VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I ) 
-     .                                                     +LBUF%SIGB(JJ(K+3) + I ) 
+                        DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             DO IT=1,NPTT
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
+                                  VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I )
+     .                                                     +LBUF%SIGB(JJ(K+3) + I )
      .                                                     +LBUF%SIGB(JJ(K+6) + I )
      .                                                     +LBUF%SIGB(JJ(K+9) + I ))/NPG/NPTT/NLAY
                                ENDDO !K
-                             ENDDO !IT                 
+                             ENDDO !IT
                            ENDDO !IS
                          ENDDO !IR
-                      ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
-                    ENDDO !I              
+                      ENDDO !Jlay
+                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                    ENDDO !I
                   ENDIF ! MLW==
                 ELSEIF(ID >0  ) THEN !!
                   IF(MLW == 36.AND. CHARD > ZERO) THEN ! forcement ID=1 y a qu une BS
-                    DO I=1,NEL  
+                    DO I=1,NEL
                       DO J=1,NLAY
                         BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                         NPTT = BUFLY%NPTT
-                        DO IR=1,NPTR                
-                          DO IS=1,NPTS 
-                             DO IT=1,NPTT  
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                        DO IR=1,NPTR
+                          DO IS=1,NPTS
+                             DO IT=1,NPTT
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                 VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG/NPTT/NLAY
                                ENDDO !K
-                              ENDDO !IT            
+                              ENDDO !IT
                            ENDDO !IS
                          ENDDO !IR
-                      ENDDO !Jlay  
-                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
-                    ENDDO !I              
+                      ENDDO !Jlay
+                      CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                    ENDDO !I
                   ELSEIF(MLW == 78) THEN
                     IF(ID == 1) THEN
-                     DO I=1,NEL  
+                     DO I=1,NEL
                        DO J=1,NLAY
                          BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                          NPTT = BUFLY%NPTT
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
-                             DO IT=1,NPTT  
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             DO IT=1,NPTT
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGA(JJ(K) + I) /NPG/NPTT/NLAY
                                ENDDO !K
-                             ENDDO !IT                 
+                             ENDDO !IT
                            ENDDO !IS
                           ENDDO !IR
-                       ENDDO !Jlay  
-                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                   
-                     ENDDO !I              
+                       ENDDO !Jlay
+                       CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                     ENDDO !I
                     ELSEIF(ID == 2) THEN
-                      DO I=1,NEL  
+                      DO I=1,NEL
                         DO J=1,NLAY
                           BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                           NPTT = BUFLY%NPTT
-                          DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               DO IT=1,NPTT  
-                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                                 DO K=1,3           
+                          DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               DO IT=1,NPTT
+                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                 DO K=1,3
                                     VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I) /NPG/NPTT/NLAY
                                  ENDDO !K
-                               ENDDO !IT                 
+                               ENDDO !IT
                              ENDDO !IS
                            ENDDO !IR
-                        ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                  
-                      ENDDO !I              
-                    ELSEIF(ID == 3) THEN 
-                      DO I=1,NEL  
+                        ENDDO !Jlay
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                      ENDDO !I
+                    ELSEIF(ID == 3) THEN
+                      DO I=1,NEL
                         DO J=1,NLAY
                           BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                           NPTT = BUFLY%NPTT
-                          DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               DO IT=1,NPTT  
-                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                                 DO K=1,3           
+                          DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               DO IT=1,NPTT
+                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                 DO K=1,3
                                     VALUE(K) = VALUE(K) + LBUF%SIGC(JJ(K) + I) /NPG/NPTT/NLAY
                                  ENDDO !K
-                               ENDDO !IT          
+                               ENDDO !IT
                              ENDDO !IS
                            ENDDO !IR
-                        ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                   
-                      ENDDO !I  
-                    ENDIF !ID ==             
+                        ENDDO !Jlay
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                      ENDDO !I
+                    ENDIF !ID ==
                   ELSEIF(MLW == 87.AND. CHARD > ZERO) THEN
                     IF(ID == 1) THEN
-                      DO I=1,NEL  
+                      DO I=1,NEL
                         DO J=1,NLAY
                           BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                           NPTT = BUFLY%NPTT
-                          DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               DO IT=1,NPTT  
-                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                                 DO K=1,3           
+                          DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               DO IT=1,NPTT
+                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                 DO K=1,3
                                     VALUE(K) = VALUE(K) +  LBUF%SIGB(JJ(K)   + I ) /NPG/NPTT/NLAY
                                  ENDDO !K
-                               ENDDO !IT                 
+                               ENDDO !IT
                              ENDDO !IS
                            ENDDO !IR
-                        ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                 
-                      ENDDO !I                
+                        ENDDO !Jlay
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                      ENDDO !I
                     ELSEIF(ID == 2) THEN
-                      DO I=1,NEL  
+                      DO I=1,NEL
                         DO J=1,NLAY
                           BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                           NPTT = BUFLY%NPTT
-                          DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               DO IT=1,NPTT  
-                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                                 DO K=1,3           
+                          DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               DO IT=1,NPTT
+                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                 DO K=1,3
                                     VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+3) + I) /NPG/NPTT/NLAY
                                  ENDDO !K
-                               ENDDO !IT                 
+                               ENDDO !IT
                              ENDDO !IS
                            ENDDO !IR
-                        ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                 
-                      ENDDO !I  
-                    ELSEIF(ID == 3) THEN 
-                      DO I=1,NEL  
+                        ENDDO !Jlay
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                      ENDDO !I
+                    ELSEIF(ID == 3) THEN
+                      DO I=1,NEL
                         DO J=1,NLAY
                           BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                           NPTT = BUFLY%NPTT
-                          DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               DO IT=1,NPTT  
-                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                                 DO K=1,3           
+                          DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               DO IT=1,NPTT
+                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                 DO K=1,3
                                     VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+6) + I)  /NPG/NPTT/NLAY
                                  ENDDO !K
-                               ENDDO !IT                 
+                               ENDDO !IT
                              ENDDO !IS
                            ENDDO !IR
-                        ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                 
-                      ENDDO !I  
+                        ENDDO !Jlay
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                      ENDDO !I
                     ELSEIF( ID == 4) THEN
-                      DO I=1,NEL  
+                      DO I=1,NEL
                         DO J=1,NLAY
                           BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                           NPTT = BUFLY%NPTT
-                          DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               DO IT=1,NPTT  
-                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                                 DO K=1,3           
+                          DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               DO IT=1,NPTT
+                                 LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                 DO K=1,3
                                     VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+9) + I)/NPG/NPTT/NLAY
                                  ENDDO !K
-                               ENDDO !IT                 
+                               ENDDO !IT
                              ENDDO !IS
                           ENDDO !IR
-                        ENDDO !Jlay  
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )                                
-                      ENDDO !I  
-                    ENDIF !(ID == ) 
-                  ENDIF!(MLW ==  
-                ENDIF !(ID >0 ) 
+                        ENDDO !Jlay
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE )
+                      ENDDO !I
+                    ENDIF !(ID == )
+                  ENDIF!(MLW ==
+                ENDIF !(ID >0 )
 C--------------------------------------------------
 c PLY=IPLY NPT=IPT pour prop avec ply 17-51-52
 C--------------------------------------------------
-              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN 
+              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
                 DO J=1,NLAY
                   ID_PLY = 0
                   IF (IGTYP == 17 .OR. IGTYP == 51) THEN
-                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))  
+                    ID_PLY = IGEO(1,STACK%IGEO(2+J,ISUBSTACK))
                   ELSEIF (IGTYP == 52) THEN
                     ID_PLY = PLY_INFO(1,STACK%IGEO(2+J,ISUBSTACK) - NUMSTACK)
                   ENDIF
@@ -1533,69 +1533,69 @@ C--------------------------------------------------
                     !  LAW36
                     !--------
                     IF (MLW == 36 .AND.( ID == -1 .OR. ID == 1).AND. CHARD > ZERO) THEN
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
-                             LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                             DO K=1,3           
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                             DO K=1,3
                                 VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
                              ENDDO !k
-                           ENDDO !IS                 
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
                     !--------
                     !  LAW78
                     !--------
                     ELSEIF (MLW == 78) THEN
                       IF(ID == -1) THEN ! somme of all backstresses
-                          DO I=1,NEL  
-                            DO IR=1,NPTR                
-                              DO IS=1,NPTS 
-                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                                DO K=1,3           
+                          DO I=1,NEL
+                            DO IR=1,NPTR
+                              DO IS=1,NPTS
+                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                                DO K=1,3
                                     VALUE(K) = VALUE(K) + (LBUF%SIGA(JJ(K) + I)+LBUF%SIGB(JJ(K) + I))/NPG
                                 ENDDO !k
-                              ENDDO !IS                 
+                              ENDDO !IS
                             ENDDO !IR
-                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                           CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                           ENDDO ! I
-                      ELSEIF(ID ==1 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==1 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGA(JJ(K) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==2 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==2 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
 
-                      ELSEIF(ID ==3 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==3 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                    VALUE(K) = VALUE(K) + LBUF%SIGC(JJ(K) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
                       ENDIF !ID == -1
                       !--------
@@ -1603,239 +1603,239 @@ C--------------------------------------------------
                       !--------
                     ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                       IF(ID == -1) THEN ! somme of all backstresses
-                        DO I=1,NEL                                                         
-                          DO IR=1,NPTR                                                        
-                            DO IS=1,NPTS                                                  
-                              LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)              
-                              DO K=1,3                                                        
-                                 VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I )            
-     .                                                     +LBUF%SIGB(JJ(K+3) + I )      
-     .                                                     +LBUF%SIGB(JJ(K+6) + I )      
-     .                                                     +LBUF%SIGB(JJ(K+9) + I ))/NPG 
+                        DO I=1,NEL
+                          DO IR=1,NPTR
+                            DO IS=1,NPTS
+                              LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                              DO K=1,3
+                                 VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I )
+     .                                                     +LBUF%SIGB(JJ(K+3) + I )
+     .                                                     +LBUF%SIGB(JJ(K+6) + I )
+     .                                                     +LBUF%SIGB(JJ(K+9) + I ))/NPG
 
-                              ENDDO !k                                                    
-                            ENDDO !IS                                                          
-                          ENDDO !IR                                                       
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                              ENDDO !k
+                            ENDDO !IS
+                          ENDDO !IR
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==1 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==1 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K)   + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==2 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==2 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                    VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+3) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==3 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==3 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+6) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==4 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==4 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+9) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
                       ENDIF !ID == -1
-                    ENDIF !(MLW == 
+                    ENDIF !(MLW ==
                   END IF !(ID_PLY  == IPLY
                 ENDDO !JLAY
 C--------------------------------------------------
-c PLY=NULL ILAYER=IL NPT=IPT 
+c PLY=NULL ILAYER=IL NPT=IPT
 C--------------------------------------------------
-              ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND.  IPT <= MPT .AND. IPT > 0 ) THEN       
-               J = ILAY                                                                                               
-               IF(IGTYP == 9) J = 1                                                                                   
-               BUFLY => ELBUF_TAB(NG)%BUFLY(J)                                                                        
-               !--------                                                                                              
-               !  LAW36                                                                                               
-               !--------                                                                                              
-               IF (MLW == 36.AND. (ID==-1 . OR .ID==1).AND. CHARD > ZERO) THEN                                                          
-                 DO I=1,NEL                                                                                             
-                   DO IR=1,NPTR                                                                                            
-                     DO IS=1,NPTS                                                                                      
-                       LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)                                                  
-                       DO K=1,3                                                                                            
-                          VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG                                                
-                       ENDDO !k                                                                                        
-                     ENDDO !IS                                                                                              
-                   ENDDO !IR                                                                                           
-                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)        
-                 ENDDO ! I                                                                                             
-                !--------                                                                                             
-                !  LAW78                                                                                              
-                !--------                                                                                             
-               ELSEIF (MLW == 78) THEN                                                                                
+              ELSEIF (ILAY > 0 .AND. ILAY <= NLAY .AND.  IPT <= MPT .AND. IPT > 0 ) THEN
+               J = ILAY
+               IF(IGTYP == 9) J = 1
+               BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+               !--------
+               !  LAW36
+               !--------
+               IF (MLW == 36.AND. (ID==-1 . OR .ID==1).AND. CHARD > ZERO) THEN
+                 DO I=1,NEL
+                   DO IR=1,NPTR
+                     DO IS=1,NPTS
+                       LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                       DO K=1,3
+                          VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
+                       ENDDO !k
+                     ENDDO !IS
+                   ENDDO !IR
+                   CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
+                 ENDDO ! I
+                !--------
+                !  LAW78
+                !--------
+               ELSEIF (MLW == 78) THEN
                  IF(ID == -1) THEN ! somme of all backstresses
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + (LBUF%SIGA(JJ(K) + I)+LBUF%SIGB(JJ(K) + I))/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==1 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==1 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGA(JJ(K) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==2 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==2 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==3 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==3 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGC(JJ(K) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
                  ENDIF !ID == -1
-                 !--------   
-                 !  LAW87    
-                 !--------   
+                 !--------
+                 !  LAW87
+                 !--------
                ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                  IF(ID == -1) THEN ! somme of all backstresses
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                               VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I )
-     .                                                +LBUF%SIGB(JJ(K+3) + I ) 
+     .                                                +LBUF%SIGB(JJ(K+3) + I )
      .                                                +LBUF%SIGB(JJ(K+6) + I )
      .                                                +LBUF%SIGB(JJ(K+9) + I ))/NPG
 
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==1 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==1 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==2 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==2 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+3) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==3 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==3 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+6) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
-                 ELSEIF(ID ==4 ) THEN  
-                    DO I=1,NEL  
-                      DO IR=1,NPTR                
-                        DO IS=1,NPTS 
-                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                          DO K=1,3           
+                 ELSEIF(ID ==4 ) THEN
+                    DO I=1,NEL
+                      DO IR=1,NPTR
+                        DO IS=1,NPTS
+                          LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                          DO K=1,3
                              VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+9) + I)/NPG
                           ENDDO !k
-                        ENDDO !IS                 
+                        ENDDO !IS
                       ENDDO !IR
-                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                     CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                     ENDDO ! I
                  ENDIF !ID == -1
-               ENDIF !(MLW == 
+               ENDIF !(MLW ==
 C--------------------------------------------------
 c PLY=NULL ILAYER=IL NPT=NULL ! prop 9-10-11 have layers and not PLY
 C--------------------------------------------------
               ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
-                IF (IGTYP == 9 .OR.IGTYP == 10 .OR. IGTYP == 11 ) THEN             
-                  ! output in  orthotopic frame / elementary                     
-                  J = ILAY                                                         
-                  IF(IGTYP == 9) J = 1                                             
-                  BUFLY => ELBUF_TAB(NG)%BUFLY(J)                                  
-                  NPTT = BUFLY%NPTT                                                
-                  !--------                                                        
-                  !  LAW36                                                         
-                  !--------                                                        
-                  IF (MLW == 36.AND. (ID==-1 .OR. ID==1) .AND. CHARD > ZERO) THEN ! only one Bstress  
-                    DO I=1,NEL                                                       
+                IF (IGTYP == 9 .OR.IGTYP == 10 .OR. IGTYP == 11 ) THEN
+                  ! output in  orthotopic frame / elementary
+                  J = ILAY
+                  IF(IGTYP == 9) J = 1
+                  BUFLY => ELBUF_TAB(NG)%BUFLY(J)
+                  NPTT = BUFLY%NPTT
+                  !--------
+                  !  LAW36
+                  !--------
+                  IF (MLW == 36.AND. (ID==-1 .OR. ID==1) .AND. CHARD > ZERO) THEN ! only one Bstress
+                    DO I=1,NEL
                        DO IR=1,NPTR
                           DO IS=1,NPTS
                             DO IT=1,NPTT
-                             LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                             DO K=1,3           
-                                 VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K)   + I)/NPG/NPTT                        
+                             LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                             DO K=1,3
+                                 VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K)   + I)/NPG/NPTT
                              ENDDO !K
                             ENDDO!IT
                           ENDDO !IS
@@ -1848,60 +1848,60 @@ C--------------------------------------------------
                     !--------
                   ELSEIF (MLW == 78) THEN
                     IF(ID == -1) THEN ! somme of all backstresses
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + (LBUF%SIGA(JJ(K) + I)+LBUF%SIGB(JJ(K) + I))/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                              ENDDO !IS           
+                              ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ELSEIF(ID ==1 ) THEN  
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
+                    ELSEIF(ID ==1 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGA(JJ(K) + I)/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                           ENDDO !IS              
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ELSEIF(ID ==2 ) THEN  
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
+                    ELSEIF(ID ==2 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                           ENDDO !IS              
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ELSEIF(ID ==3 ) THEN  
-                       DO I=1,NEL                  
-                         DO IR=1,NPTR                 
-                           DO IS=1,NPTS           
+                    ELSEIF(ID ==3 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGC(JJ(K) + I)/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                            ENDDO !IS              
+                            ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
                     ENDIF !ID == -1
                     !--------
@@ -1909,82 +1909,82 @@ C--------------------------------------------------
                     !--------
                   ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                     IF(ID == -1) THEN ! somme of all backstresses
-                       DO I=1,NEL  
-                          DO IR=1,NPTR            
-                           DO IS=1,NPTS 
+                       DO I=1,NEL
+                          DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)    
-                                DO K=1,3                                             
+                                LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                                DO K=1,3
                                    VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I )
-     .                                                +LBUF%SIGB(JJ(K+3) + I ) 
+     .                                                +LBUF%SIGB(JJ(K+3) + I )
      .                                                +LBUF%SIGB(JJ(K+6) + I )
      .                                                +LBUF%SIGB(JJ(K+9) + I ))/NPG/NPTT
 
                                 ENDDO !k
                               ENDDO!IT
-                           ENDDO !IS             
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                       ENDDO ! I
-                    ELSEIF(ID ==1 ) THEN  
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
+                    ELSEIF(ID ==1 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K)   + I)/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                           ENDDO !IS              
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ELSEIF(ID ==2 ) THEN  
-                       DO I=1,NEL  
-                         DO IR=1,NPTR             
-                           DO IS=1,NPTS 
+                    ELSEIF(ID ==2 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                    VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+3) + I )/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                           ENDDO !IS              
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ELSEIF(ID ==3 ) THEN  
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
+                    ELSEIF(ID ==3 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+6) + I )/NPG/NPTT
                                ENDDO !k
                               ENDDO!IT
-                           ENDDO !IS              
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ELSEIF(ID ==4 ) THEN  
-                       DO I=1,NEL  
-                         DO IR=1,NPTR             
-                           DO IS=1,NPTS 
+                    ELSEIF(ID ==4 ) THEN
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
                               DO IT=1,NPTT
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT) 
-                               DO K=1,3           
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IT)
+                               DO K=1,3
                                    VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+9) + I )/NPG
                                ENDDO !k
                               ENDDO!IT
-                             ENDDO !IS            
+                             ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
-                    ENDIF !ID == -1  
-                  ENDIF !(MLW ==     
-                ENDIF  !IGTYP ==        
+                    ENDIF !ID == -1
+                  ENDIF !(MLW ==
+                ENDIF  !IGTYP ==
 C---------------------------------------------------------------------------
 c ILAYER=-1 NPT=IPT IPLY=-1 ID=-1
 C---------------------------------------------------------------------------
@@ -1992,73 +1992,73 @@ C---------------------------------------------------------------------------
                 DO J=1,NLAY
                   BUFLY => ELBUF_TAB(NG)%BUFLY(J)
                   NPTT = BUFLY%NPTT
-                  IF (IPT <= NPTT ) THEN            
+                  IF (IPT <= NPTT ) THEN
                     !--------
                     !  LAW36
                     !--------
                     IF (MLW == 36.AND. (ID==-1 .OR. ID==1) .AND. CHARD > ZERO) THEN
-                       DO I=1,NEL  
-                         DO IR=1,NPTR                
-                           DO IS=1,NPTS 
-                             LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                             DO K=1,3           
+                       DO I=1,NEL
+                         DO IR=1,NPTR
+                           DO IS=1,NPTS
+                             LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                             DO K=1,3
                                 VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
                              ENDDO !k
-                           ENDDO !IS                 
+                           ENDDO !IS
                          ENDDO !IR
-                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                        CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                        ENDDO ! I
                       !--------
                       !  LAW78
                       !--------
                     ELSEIF (MLW == 78) THEN
                       IF(ID == -1) THEN ! somme of all backstresses
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + (LBUF%SIGA(JJ(K) + I)+LBUF%SIGB(JJ(K) + I))/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==1 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==1 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGA(JJ(K) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==2 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==2 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                    VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==3 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==3 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGC(JJ(K) + I)/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
                       ENDIF !ID == -1
                       !--------
@@ -2066,71 +2066,71 @@ C---------------------------------------------------------------------------
                       !--------
                     ELSEIF( MLW == 87 .AND. CHARD > ZERO) THEN
                       IF(ID == -1) THEN ! somme of all backstresses
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + (LBUF%SIGB(JJ(K)   + I )
-     .                                                     +LBUF%SIGB(JJ(K+3) + I ) 
+     .                                                     +LBUF%SIGB(JJ(K+3) + I )
      .                                                     +LBUF%SIGB(JJ(K+6) + I )
      .                                                     +LBUF%SIGB(JJ(K+9) + I ))/NPG
 
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==1 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==1 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K)   + I )/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==2 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==2 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+3) + I )/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==3 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==3 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+6) + I )/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
-                      ELSEIF(ID ==4 ) THEN  
-                         DO I=1,NEL  
-                           DO IR=1,NPTR                
-                             DO IS=1,NPTS 
-                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT) 
-                               DO K=1,3           
+                      ELSEIF(ID ==4 ) THEN
+                         DO I=1,NEL
+                           DO IR=1,NPTR
+                             DO IS=1,NPTS
+                               LBUF => ELBUF_TAB(NG)%BUFLY(J)%LBUF(IR,IS,IPT)
+                               DO K=1,3
                                   VALUE(K) = VALUE(K) + LBUF%SIGB(JJ(K+9) + I )/NPG
                                ENDDO !k
-                             ENDDO !IS                 
+                             ENDDO !IS
                            ENDDO !IR
-                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE) 
+                          CALL H3D_WRITE_SH_TENSOR(IOK_PART,ISELECT,IS_WRITTEN_SHELL,SHELL_TENSOR,I,OFFSET,NFT,VALUE)
                          ENDDO ! I
                       ENDIF !ID == -1
-                    ENDIF !(MLW == 
+                    ENDIF !(MLW ==
                   ENDIF! (IPT <= NPTT )
                 ENDDO !JLAY
 
@@ -2140,31 +2140,31 @@ C---------------------------------------------------------------------------
 c            ELSEIF (KEYWORD == 'NEWKEY') THEN ! New Output Example
 C---------------------------------------------------------------------------
 c ILAYER=NULL NPT=NULL
-c              IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN  
-c                  DO I=1,NEL 
+c              IF ( ILAY == -1 .AND. IPT == -1 .AND. IPLY == -1) THEN
+c                  DO I=1,NEL
 c                    VALUE(I) =
-c                  ENDDO  
+c                  ENDDO
 c PLY=IPLY NPT=IPT
-c              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN      
-c                IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN 
+c              ELSEIF ( IPLY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+c                IF (IGTYP == 17 .OR. IGTYP == 51 .OR. IGTYP == 52) THEN
 c
 c                ENDIF
 c
-c PLY=NULL ILAYER=ILAY NPT=IPT 
-c              ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN       
-c                IF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+c PLY=NULL ILAYER=ILAY NPT=IPT
+c              ELSEIF (IPLY == -1 .AND. ILAY <= NLAY .AND. ILAY > 0 .AND. IPT <= MPT .AND. IPT > 0 ) THEN
+c                IF (IGTYP == 51 .OR. IGTYP == 52) THEN
 c
 c                ENDIF
 c PLY=NULL ILAYER=IL NPT=NULL
 c              ELSEIF (IPLY == -1 .AND.  ILAY <= NLAY .AND. ILAY > 0 .AND. IPT == -1 ) THEN
-c                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN 
+c                IF (IGTYP == 10 .OR. IGTYP == 11 .OR. IGTYP == 16 .OR. IGTYP == 17) THEN
 c
-c                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN 
+c                ELSEIF (IGTYP == 51 .OR. IGTYP == 52) THEN
 c
 c                ENDIF
 c PLY=NULL ILAYER=NULL NPT=IPT
 c              ELSEIF ( IPT <= MPT .AND. IPT > 0) THEN
-c                IF (IGTYP == 1 .OR. IGTYP == 9) THEN 
+c                IF (IGTYP == 1 .OR. IGTYP == 9) THEN
 c
 c                ENDIF
 c              ENDIF
@@ -2178,7 +2178,7 @@ c            DO I=1,NEL
 c              N = I + NFT
 c              TENS(1,EL2FA(NN9+N)) = ZERO
 c              TENS(2,EL2FA(NN9+N)) = ZERO
-c              TENS(3,EL2FA(NN9+N)) = ZERO 
+c              TENS(3,EL2FA(NN9+N)) = ZERO
 c            ENDDO
 C-----------------------------------------------
           ELSE
@@ -2219,16 +2219,16 @@ C DZ      |  4*NEL  | R | R | D-Displ ARRAY (4n quad)
 C STRAIN  |  3*NEL  | R | W | STRAIN ARRAY
 C---------+---------+---+---+--------------------------------------------
       INTEGER NEL
-      my_real 
-     .   XN(4,NEL) , YN(4,NEL) , ZN(4,NEL), 
-     .   DX(4,NEL) , DY(4,NEL) , DZ(4,NEL),STRAIN(3,*) 
+      my_real
+     .   XN(4,NEL) , YN(4,NEL) , ZN(4,NEL),
+     .   DX(4,NEL) , DY(4,NEL) , DZ(4,NEL),STRAIN(3,*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,NNOD
       PARAMETER (NNOD = 4)
-      my_real 
-     .   X0N(NNOD,NEL) , Y0N(NNOD,NEL) , Z0N(NNOD,NEL), 
+      my_real
+     .   X0N(NNOD,NEL) , Y0N(NNOD,NEL) , Z0N(NNOD,NEL),
      .   LXYZ0(3),DETA1(NEL),COREL(2,NNOD),XX,YY,ZZ,
      .   XL2(NEL),XL3(NEL),XL4(NEL),YL2(NEL),
      .   YL3(NEL),YL4(NEL),ZL1(NEL),ZL(NEL),
@@ -2285,7 +2285,7 @@ C------ objective disp (or projected disp to free rigide rotation)
           UX24(I)=UX2-UX4
           UY13(I)=UY1-UY3
           UY24(I)=UY2-UY4
-        ENDDO 
+        ENDDO
 C---------------
 C  MEMBRANE [F]-1 = [B0]{d}, [e] ({d} has been projected to free rigide rotation)
 C---------------
@@ -2308,7 +2308,7 @@ Chd|        SH4_TSTRAIN                   source/output/h3d/h3d_results/h3d_shel
 Chd|-- calls ---------------
 Chd|        CLSYS3                        source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|====================================================================
-      SUBROUTINE C4SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,XL4,YL4,ZL1,AREA,NEL) 
+      SUBROUTINE C4SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,XL4,YL4,ZL1,AREA,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2338,7 +2338,7 @@ C---------+---------+---+---+--------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   XN(4,*) , YN(4,*) , ZN(4,*), 
+     .   XN(4,*) , YN(4,*) , ZN(4,*),
      .   XL2(NEL),XL3(NEL),XL4(NEL),YL2(NEL),
      .   YL3(NEL),YL4(NEL),ZL1(NEL),AREA(NEL)
 C-----------------------------------------------
@@ -2360,9 +2360,9 @@ C------g1,g2 :
           SX(I)=XN(3,I)+XN(4,I)-XN(1,I)-XN(2,I)
           SY(I)=YN(3,I)+YN(4,I)-YN(1,I)-YN(2,I)
           SZ(I)=ZN(3,I)+ZN(4,I)-ZN(1,I)-ZN(2,I)
-        ENDDO 
+        ENDDO
 C------Local elem. base:
-        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
+        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ,
      .              VQ, DETA1,NEL)
 C------ Global -> Local Coordinate  FOURTH=0.25 ;
         DO I=1,NEL
@@ -2391,7 +2391,7 @@ C
           XL4(I)=VQ(1,1,I)*XX+VQ(2,1,I)*YY+VQ(3,1,I)*ZZ
           YL4(I)=VQ(1,2,I)*XX+VQ(2,2,I)*YY+VQ(3,2,I)*ZZ
           AREA(I)=FOURTH*DETA1(I)
-        ENDDO 
+        ENDDO
 c-----------
       RETURN
       END
@@ -2417,7 +2417,7 @@ C-----------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   RX(*) , RY(*) , RZ(*), 
+     .   RX(*) , RY(*) , RZ(*),
      .   SX(*) , SY(*) , SZ(*),
      .   DET(*),VQ(3,3,*)
 C-----------------------------------------------
@@ -2444,21 +2444,21 @@ C     REAL
       my_real
      .   E1X(NEL), E1Y(NEL), E1Z(NEL),
      .   E2X(NEL), E2Y(NEL), E2Z(NEL),
-     .   E3X(NEL), E3Y(NEL), E3Z(NEL), 
+     .   E3X(NEL), E3Y(NEL), E3Z(NEL),
      .   C1,C2,CC,C1C1,C2C2,C1_1,C2_1
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       DO I=1,NEL
 C---------E3------------
-       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I) 
-       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I) 
-       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I) 
+       E3X(I) = RY(I) * SZ(I) - RZ(I) * SY(I)
+       E3Y(I) = RZ(I) * SX(I) - RX(I) * SZ(I)
+       E3Z(I) = RX(I) * SY(I) - RY(I) * SX(I)
        DET(I) = SQRT(E3X(I)*E3X(I) + E3Y(I)*E3Y(I) + E3Z(I)*E3Z(I))
 C ----- EM20=1.0E-20      
        DET(I) = MAX(EM20,DET(I))
-       E3X(I) = E3X(I) / DET(I) 
-       E3Y(I) = E3Y(I) / DET(I) 
-       E3Z(I) = E3Z(I) / DET(I) 
-      ENDDO 
+       E3X(I) = E3X(I) / DET(I)
+       E3Y(I) = E3Y(I) / DET(I)
+       E3Z(I) = E3Z(I) / DET(I)
+      ENDDO
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1C1 = RX(I)*RX(I) + RY(I)*RY(I) + RZ(I)*RZ(I)
@@ -2470,11 +2470,11 @@ C ----- ZERO=0., ONE=1.0
         ELSEIF(C2C2 /= ZERO)THEN
           C2_1 = ONE
           C1_1 = SQRT(C1C1/MAX(EM20,C2C2))
-        END IF 
+        END IF
         E1X(I) = RX(I)*C2_1+(SY(I)*E3Z(I)-SZ(I)*E3Y(I))*C1_1
-        E1Y(I) = RY(I)*C2_1+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1 
+        E1Y(I) = RY(I)*C2_1+(SZ(I)*E3X(I)-SX(I)*E3Z(I))*C1_1
         E1Z(I) = RZ(I)*C2_1+(SX(I)*E3Y(I)-SY(I)*E3X(I))*C1_1
-       ENDDO 
+       ENDDO
 C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
        DO I=1,NEL
         C1 = SQRT(E1X(I)*E1X(I) + E1Y(I)*E1Y(I) + E1Z(I)*E1Z(I))
@@ -2485,7 +2485,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         E2X(I) = E3Y(I) * E1Z(I) - E3Z(I) * E1Y(I)
         E2Y(I) = E3Z(I) * E1X(I) - E3X(I) * E1Z(I)
         E2Z(I) = E3X(I) * E1Y(I) - E3Y(I) * E1X(I)
-       ENDDO 
+       ENDDO
       DO I=1,NEL
         VQ(1,1,I)=E1X(I)
         VQ(2,1,I)=E1Y(I)
@@ -2496,7 +2496,7 @@ C~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         VQ(1,3,I)=E3X(I)
         VQ(2,3,I)=E3Y(I)
         VQ(3,3,I)=E3Z(I)
-      ENDDO 
+      ENDDO
 c-----------
       RETURN
       END
@@ -2530,23 +2530,23 @@ C DZ      |  3*NEL  | R | R | D-Displ ARRAY (3n tria)
 C STRAIN  |  3*NEL  | R | W | STRAIN ARRAY
 C---------+---------+---+---+--------------------------------------------
       INTEGER NEL,IHBE
-      my_real 
-     .   XN(3,NEL) , YN(3,NEL) , ZN(3,NEL), 
-     .   DX(3,NEL) , DY(3,NEL) , DZ(3,NEL),STRAIN(3,*) 
+      my_real
+     .   XN(3,NEL) , YN(3,NEL) , ZN(3,NEL),
+     .   DX(3,NEL) , DY(3,NEL) , DZ(3,NEL),STRAIN(3,*)
 C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER I,J,NNOD
       PARAMETER (NNOD = 3)
-      my_real 
-     .   X0N(NNOD,NEL) , Y0N(NNOD,NEL) , Z0N(NNOD,NEL), 
+      my_real
+     .   X0N(NNOD,NEL) , Y0N(NNOD,NEL) , Z0N(NNOD,NEL),
      .   DETA1(NEL),XX,YY,ZZ,
      .   XL2(NEL),XL3(NEL),YL2(NEL),YL3(NEL),
      .   UX1,UY1,UX2,UX3,UY2,UY3,
      .   PX2(NEL),PX3(NEL),PY2(NEL),PY3(NEL),
      .   UX21(NEL),UX31(NEL),UY21(NEL),UY31(NEL),
      .   X0L2(NEL),X0L3(NEL),Y0L2(NEL),
-     .   Y0L3(NEL),AREA(NEL),AREA_I(NEL),FXX,FYY,FXY,FYX,F(2,2,NEL) 
+     .   Y0L3(NEL),AREA(NEL),AREA_I(NEL),FXX,FYY,FXY,FYX,F(2,2,NEL)
 C----------------------------------------------
 C------Compute coordinates in elementary local sys: actual configuration first
         CALL C3SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,AREA,NEL)
@@ -2577,7 +2577,7 @@ C------ objective disp (free rigide rotation)
           UX31(I)=UX3-UX1
           UY21(I)=UY2-UY1
           UY31(I)=UY3-UY1
-        ENDDO 
+        ENDDO
 C---------------
 C  MEMBRANE [F]-1 = [B0]{d}, [e] ({d} has been projected to free rigide rotation)
       DO I=1,NEL
@@ -2601,7 +2601,7 @@ Chd|        SH3_TSTRAIN                   source/output/h3d/h3d_results/h3d_shel
 Chd|-- calls ---------------
 Chd|        CLSYS3                        source/output/h3d/h3d_results/h3d_shell_tensor.F
 Chd|====================================================================
-      SUBROUTINE C3SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,AREA,NEL) 
+      SUBROUTINE C3SYSG2L(XN,YN,ZN,XL2,YL2,XL3,YL3,AREA,NEL)
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -2628,7 +2628,7 @@ C---------+---------+---+---+--------------------------------------------
       INTEGER NEL
 C     REAL
       my_real
-     .   XN(3,*) , YN(3,*) , ZN(3,*), 
+     .   XN(3,*) , YN(3,*) , ZN(3,*),
      .   XL2(NEL),XL3(NEL),YL2(NEL),YL3(NEL),AREA(NEL)
 C-----------------------------------------------
 C   C o m m o n   B l o c k s
@@ -2649,8 +2649,8 @@ C------g1,g2 :
           SX(I)=XN(3,I)-XN(1,I)
           SY(I)=YN(3,I)-YN(1,I)
           SZ(I)=ZN(3,I)-ZN(1,I)
-        ENDDO 
-        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ, 
+        ENDDO
+        CALL CLSYS3(RX, RY, RZ, SX, SY, SZ,
      .              VQ, DETA1,NEL)
 C------ Global -> Local Coordinate  
         DO I=1,NEL
@@ -2666,7 +2666,7 @@ C
           XL3(I)=VQ(1,1,I)*XX+VQ(2,1,I)*YY+VQ(3,1,I)*ZZ
           YL3(I)=VQ(1,2,I)*XX+VQ(2,2,I)*YY+VQ(3,2,I)*ZZ
           AREA(I)=0.5*DETA1(I)
-        ENDDO 
+        ENDDO
 c-----------
       RETURN
       END
@@ -2700,7 +2700,7 @@ C   L o c a l   V a r i a b l e s
 C-----------------------------------------------
       INTEGER I
 C     REAL
-      DOUBLE PRECISION 
+      DOUBLE PRECISION
      .         FMAT(2,2),UM(2,2),IC,I2C,I3C,IU,I2U,I3U,
      .         C11,C21,C31,C12,C22,C32,C13,C23,C33,DETJ0,DETM1,
      .         CC11,CC21,CC31,CC12,CC22,CC32,CC13,CC23,CC33,
@@ -2739,4 +2739,4 @@ C-----------------------------------------------
 C
       RETURN
       END
-        
+

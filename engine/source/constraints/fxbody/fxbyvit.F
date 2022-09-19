@@ -58,8 +58,8 @@ C-----------------------------------------------
       INTEGER FXBIPM(NBIPM,*), FXBNOD(*), WEIGHT(*), IAD_ELEM(2,*),
      .        FR_ELEM(*)
       my_real
-     .   FXBMOD(*), FXBGLM(*), FXBLM(*) , FXBMVN(*), FXBMCD(*),  
-     .   FXBSE(*) , FXBSV(*) , FXBVIT(*), FXBACC(*), FXBRPM(*), 
+     .   FXBMOD(*), FXBGLM(*), FXBLM(*) , FXBMVN(*), FXBMCD(*),
+     .   FXBSE(*) , FXBSV(*) , FXBVIT(*), FXBACC(*), FXBRPM(*),
      .   A(3,*)   , AR(3,*)  , V(3,*)   , VR(3,*)  , MS(*)    ,
      .   IN(*)    , FSAV(NTHVKI,*)      , FXBFC(*) , FXBEDP(*)
 C-----------------------------------------------

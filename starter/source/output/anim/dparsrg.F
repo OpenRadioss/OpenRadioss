@@ -27,44 +27,44 @@ Chd|        GENANI1                       source/output/anim/genani1.F
 Chd|-- calls ---------------
 Chd|        WRITE_I_C                     source/output/tools/write_routines.c
 Chd|====================================================================
-      SUBROUTINE DPARSRG(NSURG,NNWL,NODCUT)                             
+      SUBROUTINE DPARSRG(NSURG,NNWL,NODCUT)
 C-----------------------------------------------                        
 C   I m p l i c i t   T y p e s                                         
 C-----------------------------------------------                        
-#include      "implicit_f.inc"                                          
+#include      "implicit_f.inc"
 C-----------------------------------------------                        
 C   C o m m o n   B l o c k s                                           
 C-----------------------------------------------                        
-#include      "com04_c.inc"                                             
-#include      "scr05_c.inc"                                             
-#include      "param_c.inc"                                             
+#include      "com04_c.inc"
+#include      "scr05_c.inc"
+#include      "param_c.inc"
 C-----------------------------------------------                        
 C   D u m m y   A r g u m e n t s                                       
 C-----------------------------------------------                        
-      INTEGER NSURG,NNWL,NODCUT                                         
+      INTEGER NSURG,NNWL,NODCUT
 C-----------------------------------------------                        
 C   L o c a l   V a r i a b l e s                                       
 C-----------------------------------------------                        
-      INTEGER ISRG, N1, II(4),                                          
-     .        I,J,K                                                     
+      INTEGER ISRG, N1, II(4),
+     .        I,J,K
 C-----------------------------------------------                        
-      N1 = NUMNOD + NODCUT + NSECT + NRWALL + NNWL                      
-      DO ISRG=1,NSURG                                                   
-          DO I = 1,6                                                    
-           DO J = 1,7                                                   
-            DO K = 1,7                                                  
-             II(1) = N1                                                 
-             II(2) = N1 + 1                                             
-             II(3) = N1 + 9                                             
-             II(4) = N1 + 8                                             
-             CALL WRITE_I_C(II,4)                                       
-             N1 = N1 + 1                                                
-            ENDDO                                                       
-            N1 = N1 + 1                                                 
-           ENDDO                                                        
-           N1 = N1 + 8                                                  
-          ENDDO                                                         
-      END DO                                                            
+      N1 = NUMNOD + NODCUT + NSECT + NRWALL + NNWL
+      DO ISRG=1,NSURG
+          DO I = 1,6
+           DO J = 1,7
+            DO K = 1,7
+             II(1) = N1
+             II(2) = N1 + 1
+             II(3) = N1 + 9
+             II(4) = N1 + 8
+             CALL WRITE_I_C(II,4)
+             N1 = N1 + 1
+            ENDDO
+            N1 = N1 + 1
+           ENDDO
+           N1 = N1 + 8
+          ENDDO
+      END DO
 C                                                                       
-      RETURN                                                            
-      END                                                               
+      RETURN
+      END

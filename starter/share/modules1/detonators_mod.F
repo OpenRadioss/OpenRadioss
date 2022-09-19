@@ -78,7 +78,7 @@ C-----------------------------------------------
 C-----------------------------------------------    
 
         TYPE DETONATOR_STRUCT_
-          !counts           
+          !counts
           INTEGER :: NDETPS
           INTEGER :: NDETSG
           INTEGER :: NECRAN
@@ -87,12 +87,12 @@ C-----------------------------------------------
           INTEGER :: NDETCORD
           !sizes
           INTEGER :: NPE2
-          INTEGER :: SDECRAN 
-          INTEGER :: NDET        
+          INTEGER :: SDECRAN
+          INTEGER :: NDET
           INTEGER :: SIECRAN
           INTEGER :: SICORD
           !detonation times (burning times)
-          my_real, DIMENSION(:,:), ALLOCATABLE :: BURN                 
+          my_real, DIMENSION(:,:), ALLOCATABLE :: BURN
           !specific for /dfs/wav_sha
           INTEGER, DIMENSION(:), ALLOCATABLE :: IECRAN
           my_real, DIMENSION(:), ALLOCATABLE :: DECRAN
@@ -100,11 +100,11 @@ C-----------------------------------------------
           INTEGER, DIMENSION(:), ALLOCATABLE :: ICORD
           my_real, DIMENSION(:), ALLOCATABLE :: DCORD
         END TYPE DETONATOR_STRUCT_
-        
-        
+
+
       CONTAINS
-      
-      
+
+
 C-----------------------------------------------   
 Chd|====================================================================
 Chd|  DEALLOCATE_DETONATORS         share/modules1/detonators_mod.F
@@ -120,7 +120,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE(DETONATOR_STRUCT_)::DET      
+      TYPE(DETONATOR_STRUCT_)::DET
 C-----------------------------------------------
 C   S o u r c e   L i n e s
 C-----------------------------------------------
@@ -129,8 +129,8 @@ C-----------------------------------------------
       IF(ALLOCATED(DET%DECRAN))DEALLOCATE(DET%DECRAN)
       IF(ALLOCATED(DET%ICORD))DEALLOCATE(DET%ICORD)
       IF(ALLOCATED(DET%DCORD))DEALLOCATE(DET%DCORD)
-      
+
       END SUBROUTINE DEALLOCATE_DETONATORS
-      
+
       END MODULE DETONATORS_MOD
 

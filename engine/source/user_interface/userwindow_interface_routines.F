@@ -30,7 +30,7 @@ Chd|====================================================================
 #include      "implicit_f.inc"
       INTEGER IERR
       IERR=0
-      END      
+      END
 C
 Chd|====================================================================
 Chd|  USERWINDOW_GET_A              source/user_interface/userwindow_interface_routines.F
@@ -63,7 +63,7 @@ C-----------------------------------------------
           A_BUF(1,I)=A_SAV(1,I)
           A_BUF(2,I)=A_SAV(2,I)
           A_BUF(3,I)=A_SAV(3,I)
-        ENDDO      
+        ENDDO
       ENDIF
       END
 Chd|====================================================================
@@ -97,6 +97,6 @@ C-----------------------------------------------
           AR_BUF(1,I)=AR_SAV(1,I)
           AR_BUF(2,I)=AR_SAV(2,I)
           AR_BUF(3,I)=AR_SAV(3,I)
-        ENDDO      
+        ENDDO
       ENDIF
       END

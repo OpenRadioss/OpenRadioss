@@ -39,7 +39,7 @@ Chd|====================================================================
 C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
-      USE ELBUFDEF_MOD         
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -64,12 +64,12 @@ C     REAL
      .  PM(NPROPM,*), OFF(MVSIZ) ,SIG(NEL,6), EINT(NEL),
      .  RHO(NEL), QOLD(NEL), VOL(NEL) , STIFN(*)   ,
      .  D1(MVSIZ,*)          , D2(MVSIZ,*)           ,
-     .  D3(MVSIZ,*)          , D4(MVSIZ,*)           , 
+     .  D3(MVSIZ,*)          , D4(MVSIZ,*)           ,
      .  D5(MVSIZ,*)          , D6(MVSIZ,*)           ,
      .  DELTAX(MVSIZ)          ,
      . VNEW(MVSIZ), RHO0(MVSIZ), DVOL(MVSIZ), VOLGP(MVSIZ,*),
      . VD2(MVSIZ) ,  VIS(MVSIZ),GEO(NPROPG,*),DT2T, OFFG(NEL),
-     . MSSA(*)    ,DMELS(*)   ,SSP(MVSIZ) 
+     . MSSA(*)    ,DMELS(*)   ,SSP(MVSIZ)
       TYPE (BUF_LAY_), TARGET :: BUFLY
 C-----------------------------------------------
 C   L o c a l   V a r i a b l e s
@@ -116,7 +116,7 @@ C-----------------------
         SIG(I,4)=ZERO
         SIG(I,5)=ZERO
         SIG(I,6)=ZERO
-        EINC(I)=ZERO   
+        EINC(I)=ZERO
       ENDDO
 C------------------------------
 C     DP/DRHO ET VITESSE DU SON
@@ -200,7 +200,7 @@ C--------------------------------------------------
           SIG(I,3)=SIG(I,3)+ONE_OVER_8*SIGP(JJ(3)+I)
           SIG(I,4)=SIG(I,4)+ONE_OVER_8*SIGP(JJ(4)+I)
           SIG(I,5)=SIG(I,5)+ONE_OVER_8*SIGP(JJ(5)+I)
-          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)     
+          SIG(I,6)=SIG(I,6)+ONE_OVER_8*SIGP(JJ(6)+I)
         ENDDO
 C
       ENDDO

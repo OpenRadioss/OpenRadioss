@@ -70,7 +70,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB 
+      TYPE (UNIT_TYPE_),INTENT(IN) ::UNITAB
       INTEGER IGRV(NIGRV,*), IBUF(*), ITAB(*), ITABM1(*),
      .        NPC(*),LSENSOR(NSENSI,*),
      .        ISKN(LISKN,*),ITAGND(*)
@@ -91,7 +91,7 @@ C-----------------------------------------------
      .        ITAG, TSENS, IFLAGUNIT,FLAG_FMT,FLAG_FMT_TMP,IFIX_TMP,IADPL
       CHARACTER XYZ*ncharfield, X*1, Y*1, Z*1, XX*2, YY*2, ZZ*2, MESS*40
       CHARACTER TITR*nchartitle
-      
+
       INTEGER     :: IGU,ISU,IGRAV,IBID, IG, IS, IDIR, PN1, ICURS, IIGRAV,IIG,IIS
       my_real     :: BX_,BY_,BZ_, GRAV0,NX,NY,NZ,NORM,PSURF,BID
       LOGICAL     :: lFOUND, lPLANAR_SURF, lUSER_SURF, lOUTP, lGRAV, lUNIQUE, IS_AVAILABLE
@@ -118,18 +118,18 @@ C
       NGY = ZERO
       NGZ = ZERO
 C
-      ! Start reading /INIGRAV card 
-      CALL HM_OPTION_START('/INIGRAV')       
+      ! Start reading /INIGRAV card
+      CALL HM_OPTION_START('/INIGRAV')
 C
       ! Loop over /INIGRAV
       DO K=1,NINIGRAV
 C
         ! Read title, ID and Unit ID
-        TITR = ''   
-        CALL HM_OPTION_READ_KEY(LSUBMODEL, 
-     .                          OPTION_ID      = ID, 
+        TITR = ''
+        CALL HM_OPTION_READ_KEY(LSUBMODEL,
+     .                          OPTION_ID      = ID,
      .                          UNIT_ID        = UID,
-     .                          OPTION_TITR    = TITR)           
+     .                          OPTION_TITR    = TITR)
 C
         ! Checking unit ID
         IFLAGUNIT = 0
@@ -147,21 +147,21 @@ C
             lUNIQUE=.FALSE.
             EXIT
           ENDIF
-        ENDDO 
+        ENDDO
 C
         IF (UID /= 0 .AND. IFLAGUNIT == 0) THEN
           CALL ANCMSG(MSGID=659,ANMODE=ANINFO,MSGTYPE=MSGERROR,
      .                I2=UID,I1=ID,
      .                 C1='INITIAL GRAVITY LOADING',
      .                 C2='INITIAL GRAVITY LOADING',
-     .                 C3= TITR) 
+     .                 C3= TITR)
           lOUTP = .FALSE.
         ENDIF
 C        
         ! Reading 1st card : ids
-        CALL HM_GET_INTV('grpart_ID',IGU,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('surf_ID'  ,ISU,IS_AVAILABLE,LSUBMODEL)  
-        CALL HM_GET_INTV('grav_ID'  ,IGRAV,IS_AVAILABLE,LSUBMODEL)  
+        CALL HM_GET_INTV('grpart_ID',IGU,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('surf_ID'  ,ISU,IS_AVAILABLE,LSUBMODEL)
+        CALL HM_GET_INTV('grav_ID'  ,IGRAV,IS_AVAILABLE,LSUBMODEL)
 C
         ! Reading 2nd card : pressure, etc
         CALL HM_GET_FLOATV('Pref'   ,PSURF,IS_AVAILABLE, LSUBMODEL, UNITAB)
@@ -170,7 +170,7 @@ C
           CALL HM_GET_FLOATV('Bx',BX_,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('By',BY_,IS_AVAILABLE, LSUBMODEL, UNITAB)
           CALL HM_GET_FLOATV('Bz',BZ_,IS_AVAILABLE, LSUBMODEL, UNITAB)
-        ENDIF        
+        ENDIF
 C
         ! Checking Gravity ID
         lFOUND = .FALSE.
@@ -200,7 +200,7 @@ C
                 NGY       = ONE
               CASE(3)
                 CDIR(1:2) =' Z'
-                NGZ       = ONE 
+                NGZ       = ONE
             END SELECT
             CDIR(1:1)="+"
             IF (GRAV0 < ZERO) THEN
@@ -233,7 +233,7 @@ C
 C
         ! Checking surface ID
         IIS = 0
-        IF (ISU > 0) THEN    
+        IF (ISU > 0) THEN
           lfound = .FALSE.
           DO IS=1,NSURF
             IF (ISU == IGRSURF(IS)%ID)THEN
@@ -254,21 +254,21 @@ C
                 NZ   = ZERO
                 EXIT
               CASE(200)
-                IIS = IS                                                 
-                lPLANAR_SURF=.TRUE.                                            
-                IADPL = IGRSURF(IS)%IAD_BUFR                             
-                lfound = .TRUE.                                          
-                BX_  =  BUFSF(IADPL+1)                                   
-                BY_  =  BUFSF(IADPL+2)                                   
-                BZ_  =  BUFSF(IADPL+3)                                   
-                NX   =  BUFSF(IADPL+4)- BUFSF(IADPL+1)                   
-                NY   =  BUFSF(IADPL+5)- BUFSF(IADPL+2)                   
-                NZ   =  BUFSF(IADPL+6)- BUFSF(IADPL+3)                   
-                NORM = SQRT(NX*NX+NY*NY+NZ*NZ)                           
-                NX   = NX / NORM                                         
-                NY   = NY / NORM                                         
-                NZ   = NZ / NORM                                         
-                EXIT                                                                                                       
+                IIS = IS
+                lPLANAR_SURF=.TRUE.
+                IADPL = IGRSURF(IS)%IAD_BUFR
+                lfound = .TRUE.
+                BX_  =  BUFSF(IADPL+1)
+                BY_  =  BUFSF(IADPL+2)
+                BZ_  =  BUFSF(IADPL+3)
+                NX   =  BUFSF(IADPL+4)- BUFSF(IADPL+1)
+                NY   =  BUFSF(IADPL+5)- BUFSF(IADPL+2)
+                NZ   =  BUFSF(IADPL+6)- BUFSF(IADPL+3)
+                NORM = SQRT(NX*NX+NY*NY+NZ*NZ)
+                NX   = NX / NORM
+                NY   = NY / NORM
+                NZ   = NZ / NORM
+                EXIT
               END SELECT
             ENDIF
           ENDDO
@@ -308,7 +308,7 @@ C
      .                  C2='DOES NOT REFER TO A VALID GRPART ')
             lOUTP = .FALSE.
           ENDIF
-        ENDIF                                                    
+        ENDIF
 C
         ! Checking the normal
         IF (lPLANAR_SURF .AND. lGRAV) THEN
@@ -356,7 +356,7 @@ C
           WRITE (IOUT,3005) IGU,ISU,IGRAV, PSURF
           WRITE (IOUT,3001) CDIR(2:2)
           WRITE (IOUT,3002) GRAV0
-          IF(lUSER_SURF)WRITE (IOUT,3004)        
+          IF(lUSER_SURF)WRITE (IOUT,3004)
         ENDIF
       ENDDO !next K
 C-----------
@@ -374,11 +374,11 @@ C-----------
 
  3000 FORMAT(2X,I10,2X,I10,2X,I10,2X,E12.4,2X,E12.4,2X,E12.4,2X,E12.4)
  3005 FORMAT(2X,I10,2X,I10,2X,I10,3X,E12.4)
- 
+
  3001 FORMAT('     GRAVITY ORIENTATION : ',1X,A2)
  3002 FORMAT('     GRAVITY VALUE       : ',2X,E12.4)
  3003 FORMAT('     SURFACE ORIENTATION : ',2X,E12.4,2X,E12.4,2X,E12.4)
- 3004 FORMAT('     USER DEFINED SURFACE') 
+ 3004 FORMAT('     USER DEFINED SURFACE')
 C-----------
       RETURN
       END

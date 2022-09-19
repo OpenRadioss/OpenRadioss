@@ -66,7 +66,7 @@ C-----------------------------------------------
       REAL(KIND=8), DIMENSION(3,*), TARGET :: DEPLA_DOUBLE
       REAL(KIND=8) :: TT_DOUBLE
       my_real
-     .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*), 
+     .   A(3,*), V(3,*), TF(*), VEL(LFXVELR,*), MS(*), X(3,*),
      .   SKEW(LSKEW,*), AR(3,*), VR(3,*), IN(*), SENSOR(NSENSR,*),
      .   RBY(NRBY,*),XFRAME(NXFRAME,*), DR(3,*)
 C-----------------------------------------------
@@ -76,8 +76,8 @@ C-----------------------------------------------
      .        II, IC, NN, IDEB, NR, NSK, NFK, IFM, N0,
      .        ILENC(MVSIZ), IPOSC(MVSIZ), IADC(MVSIZ),
      .        LC(MVSIZ), INDEX(MVSIZ), ICOOR, ISMOOTH,JJ
-      my_real :: 
-     .   AX, AXI, AOLD, VV, A0, AA, STARTT, STOPT, 
+      my_real ::
+     .   AX, AXI, AOLD, VV, A0, AA, STARTT, STOPT,
      .   DYDX,DW,DW2,DD,RX,RY,RZ,VF,VFX,VFY,VFZ,AFX,AFY,AFZ,RW_SMS(MVSIZ),
      .   R, CTH, STH, SKDIR(3), FMDIR(3), HX, HY, HZ, COEF,
      .   ER(3),ET(3),ALPHA, NOR1, NOR2, NOR3, YIMP, SKEWGLOB,
@@ -115,7 +115,7 @@ C=======================================================================
       ENDIF
 C
       ISENS(1:MVSIZ) = 0
-      TS(1:MVSIZ) = ZERO           
+      TS(1:MVSIZ) = ZERO
 C
       IDEB = 0
       ISMOOTH = 0
@@ -220,15 +220,15 @@ C------- First pass for impdisp with sensor - in the top of the list
               IF(ISMOOTH>0) THEN
                 NINDEX_SMOOTH = NINDEX_SMOOTH + 1
                 INDEX_SMOOTH(NINDEX_SMOOTH) = II
-                TSC_SMOOTH(NINDEX_SMOOTH) = TSC(II)  
-                TSC0_SMOOTH(NINDEX_SMOOTH) = TSC0(II)  
+                TSC_SMOOTH(NINDEX_SMOOTH) = TSC(II)
+                TSC0_SMOOTH(NINDEX_SMOOTH) = TSC0(II)
               ELSE
                 NINDEX_WO_SMOOTH = NINDEX_WO_SMOOTH + 1
-                INDEX_WO_SMOOTH(NINDEX_WO_SMOOTH) = II          
-                TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)  
-                TSC0_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC0(II)  
-              ENDIF 
-            ENDIF       
+                INDEX_WO_SMOOTH(NINDEX_WO_SMOOTH) = II
+                TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)
+                TSC0_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC0(II)
+              ENDIF
+            ENDIF
         ENDDO
         NINDEX_SMOOTH_WSENS = NINDEX_SMOOTH
         NINDEX_WO_SMOOTH_WSENS = NINDEX_WO_SMOOTH
@@ -238,17 +238,17 @@ C------- Second pass
             L = IBFV(3,N)
             ISMOOTH = 0
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(ISENS(II) == 0 .or. TS(II) < ZERO .or. IBFV(7,N) /= 2) THEN   
+            IF(ISENS(II) == 0 .or. TS(II) < ZERO .or. IBFV(7,N) /= 2) THEN
               IF(ISMOOTH>0) THEN
                 NINDEX_SMOOTH = NINDEX_SMOOTH + 1
                 INDEX_SMOOTH(NINDEX_SMOOTH) = II
-                TSC_SMOOTH(NINDEX_SMOOTH) = TSC(II) 
+                TSC_SMOOTH(NINDEX_SMOOTH) = TSC(II)
               ELSE
                 NINDEX_WO_SMOOTH = NINDEX_WO_SMOOTH + 1
-                INDEX_WO_SMOOTH(NINDEX_WO_SMOOTH) = II          
-                TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)  
+                INDEX_WO_SMOOTH(NINDEX_WO_SMOOTH) = II
+                TSC_WO_SMOOTH(NINDEX_WO_SMOOTH) = TSC(II)
               ENDIF
-            ENDIF        
+            ENDIF
         ENDDO
 
         DO II=1,NINDEX_WO_SMOOTH
@@ -256,7 +256,7 @@ C------- Second pass
             N = INDEX(JJ)
             L = IBFV(3,N)
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(NCYCLE == 0)THEN 
+            IF(NCYCLE == 0)THEN
                 IPOSC_WO_SMOOTH(II) = 0
             ELSE
                 IPOSC_WO_SMOOTH(II) = IBFV(5,N)
@@ -270,7 +270,7 @@ C------- Second pass
             N = INDEX(JJ)
             L = IBFV(3,N)
             IF (L > 0) ISMOOTH = NPC(2*NFUNCT+L+1)
-            IF(NCYCLE == 0)THEN 
+            IF(NCYCLE == 0)THEN
                 IPOSC_SMOOTH(II) = 0
             ELSE
                 IPOSC_SMOOTH(II) = IBFV(5,N)
@@ -280,7 +280,7 @@ C------- Second pass
         ENDDO
 
         IF (NINDEX_WO_SMOOTH > 0) THEN
-          IF (NINDEX_WO_SMOOTH_WSENS > 0) 
+          IF (NINDEX_WO_SMOOTH_WSENS > 0)
      .      CALL VINTERDP(TF,IADC_WO_SMOOTH,IPOSC_WO_SMOOTH,ILENC_WO_SMOOTH,NINDEX_WO_SMOOTH_WSENS,
      1                    TSC0_WO_SMOOTH,DYDXC_WO_SMOOTH,YC0_WO_SMOOTH)
           CALL VINTERDP(TF,IADC_WO_SMOOTH,IPOSC_WO_SMOOTH,ILENC_WO_SMOOTH,NINDEX_WO_SMOOTH,
@@ -294,7 +294,7 @@ C------- Second pass
           ENDDO
         ENDIF
         IF (NINDEX_SMOOTH > 0) THEN
-          IF (NINDEX_SMOOTH_WSENS > 0) 
+          IF (NINDEX_SMOOTH_WSENS > 0)
      .      CALL VINTER_SMOOTH(TF,IADC_SMOOTH,IPOSC_SMOOTH,ILENC_SMOOTH,NINDEX_SMOOTH_WSENS,
      1                          TSC0_SMOOTH,DYDXC_SMOOTH,YC0_SMOOTH)
           CALL VINTER_SMOOTH(TF,IADC_SMOOTH,IPOSC_SMOOTH,ILENC_SMOOTH,NINDEX_SMOOTH,
@@ -374,9 +374,9 @@ C dw was already counted in TFEXT, in sms_fixvel...
               K2=3*J-1
               K3=3*J
               IF (IBFV(7,N) == 2) THEN
-                DD = SKEW(K1,ISK)*D(1,I) +  
-     .               SKEW(K2,ISK)*D(2,I) +  
-     .               SKEW(K3,ISK)*D(3,I)  
+                DD = SKEW(K1,ISK)*D(1,I) +
+     .               SKEW(K2,ISK)*D(2,I) +
+     .               SKEW(K3,ISK)*D(3,I)
               ENDIF
               VV = SKEW(K1,ISK)*V(1,I) +
      .             SKEW(K2,ISK)*V(2,I) +

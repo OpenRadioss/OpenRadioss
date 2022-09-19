@@ -68,7 +68,7 @@ C-----------------------------------------------
       LEN_IA = LEN_IA + NSLIN
       ERR = 0
       ALLOCATE (IGRSLIN_L(LENISLIN), STAT=ERR)
-      IGRSLIN_L(1:LENISLIN) = 0  
+      IGRSLIN_L(1:LENISLIN) = 0
 !
 ! COUNT LOCAL SEGMENTS "NSEG_L"
 !
@@ -123,7 +123,7 @@ C-----------------------------------------------
             L_SLIN = L_SLIN+1
             IGRSLIN_L(L_SLIN+1) = ELTYP
             L_SLIN = L_SLIN+1
-            IGRSLIN_L(L_SLIN+1) = ELEM   
+            IGRSLIN_L(L_SLIN+1) = ELEM
             L_SLIN = L_SLIN+1
           ENDIF ! IF (P == PROC +1)
         ENDDO ! DO J=1,NSEG

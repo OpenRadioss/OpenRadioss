@@ -34,9 +34,9 @@ Chd|====================================================================
      4                      SHY  ,NPLAT ,IPLAT,FOR  ,MOM  ,
      5                      K11,K12,K13,K14,K22,K23,K24,K33,K34,K44,
      6                      M11,M12,M13,M14,M22,M23,M24,M33,M34,M44,
-     7                      MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33, 
+     7                      MF11,MF12,MF13,MF14,MF22,MF23,MF24,MF33,
      8                      MF34,MF44,FM12,FM13,FM14,FM23,FM24,FM34,
-     9                      IDRIL,IORTH,NEL) 
+     9                      IDRIL,IORTH,NEL)
 C--------------------------------------------------------------------------------------------------
 C-----------------------------------------------
 C   I M P L I C I T   T Y P E S
@@ -49,7 +49,7 @@ C   D U M M Y   A R G U M E N T S
 C-----------------------------------------------
 C---+----1----+----2----+----3----+----4----+----5----+----6----+----7----+----8
       INTEGER JFT,JLT,NPLAT,IPLAT(*),IDRIL,IORTH,NEL
-      MY_REAL 
+      MY_REAL
      .   VOL(*),THK0(*),THK2(*),
      .    RX(*)   ,RY(*)   ,SX(*)    ,SY(*)   ,
      .    RX2(*)  ,RY2(*)  ,SX2(*)  ,SY2(*) ,FOR(NEL,5),MOM(NEL,3),
@@ -72,11 +72,11 @@ C-----------------------------------------------
 C   L O C A L   V A R I A B L E S
 C-----------------------------------------------
       INTEGER EP,I,J,NF,M
-      MY_REAL 
+      MY_REAL
      .    C1,C2,
-     .    PX1PX1(MVSIZ),PX1PX2(MVSIZ) ,PX2PX2(MVSIZ), 
-     .    PX1PY1(MVSIZ),PX1PY2(MVSIZ) ,PX2PY1(MVSIZ),       
-     .    PX2PY2(MVSIZ),PY1PY1(MVSIZ),PY1PY2(MVSIZ),PY2PY2(MVSIZ),        
+     .    PX1PX1(MVSIZ),PX1PX2(MVSIZ) ,PX2PX2(MVSIZ),
+     .    PX1PY1(MVSIZ),PX1PY2(MVSIZ) ,PX2PY1(MVSIZ),
+     .    PX2PY2(MVSIZ),PY1PY1(MVSIZ),PY1PY2(MVSIZ),PY2PY2(MVSIZ),
      .    H11(MVSIZ),H12(MVSIZ),H22(MVSIZ),H13(MVSIZ),H23(MVSIZ),
      .    FXX(MVSIZ),FYY(MVSIZ),FXY(MVSIZ),MXX(MVSIZ),MYY(MVSIZ),
      .    MXY(MVSIZ),FXY2(MVSIZ),MXY2(MVSIZ),SCX(MVSIZ),SCY(MVSIZ),
@@ -85,7 +85,7 @@ C-----------Attention Matrice sym Kii ne calcul que la moitie---------72
        NF=NPLAT+1
 #include "vectorize.inc"
 C--------Constante parts---------------
-       DO M=JFT,JLT 
+       DO M=JFT,JLT
         EP=IPLAT(M)
         C2=VOL(EP)
         C1=THK2(EP)*C2
@@ -102,16 +102,16 @@ C--------Constante parts---------------
        ENDDO
 C---------px3=-px1,px4=-px2-------------
        DO EP=JFT,JLT
-         PX1PX1(EP) = PX1(EP)*PX1(EP) 
-         PX1PX2(EP) = PX1(EP)*PX2(EP) 
-         PX2PX2(EP) = PX2(EP)*PX2(EP) 
-         PX1PY1(EP) = PX1(EP)*PY1(EP) 
-         PX1PY2(EP) = PX1(EP)*PY2(EP) 
-         PX2PY1(EP) = PX2(EP)*PY1(EP) 
-         PX2PY2(EP) = PX2(EP)*PY2(EP) 
-         PY1PY1(EP) = PY1(EP)*PY1(EP) 
-         PY1PY2(EP) = PY1(EP)*PY2(EP) 
-         PY2PY2(EP) = PY2(EP)*PY2(EP) 
+         PX1PX1(EP) = PX1(EP)*PX1(EP)
+         PX1PX2(EP) = PX1(EP)*PX2(EP)
+         PX2PX2(EP) = PX2(EP)*PX2(EP)
+         PX1PY1(EP) = PX1(EP)*PY1(EP)
+         PX1PY2(EP) = PX1(EP)*PY2(EP)
+         PX2PY1(EP) = PX2(EP)*PY1(EP)
+         PX2PY2(EP) = PX2(EP)*PY2(EP)
+         PY1PY1(EP) = PY1(EP)*PY1(EP)
+         PY1PY2(EP) = PY1(EP)*PY2(EP)
+         PY2PY2(EP) = PY2(EP)*PY2(EP)
          CS1(EP) = SCX(EP)*SY2(EP)+SCY(EP)*SX2(EP)
          CS2(EP) = SCX(EP)*RY2(EP)+SCY(EP)*RX2(EP)
          CS3(EP) =-SCX(EP)*SY(EP)*RY(EP)-SCY(EP)*SX(EP)*RX(EP)
@@ -132,8 +132,8 @@ C---------membrane-------
          K22(I,I,EP) = K22(I,I,EP)+H22(EP)
          K13(I,I,EP) = K13(I,I,EP)-H11(EP)
          K14(I,I,EP) = K14(I,I,EP)-H12(EP)
-         K23(I,I,EP) = K23(I,I,EP)-H12(EP) 
-         K24(I,I,EP) = K24(I,I,EP)-H22(EP) 
+         K23(I,I,EP) = K23(I,I,EP)-H12(EP)
+         K24(I,I,EP) = K24(I,I,EP)-H22(EP)
          K33(I,I,EP) = K33(I,I,EP)+H11(EP)
          K34(I,I,EP) = K34(I,I,EP)+H12(EP)
          K44(I,I,EP) = K44(I,I,EP)+H22(EP)
@@ -171,8 +171,8 @@ C---------flexion---------
          M22(I,I,EP) = M22(I,I,EP)+H22(EP)
          M13(I,I,EP) = M13(I,I,EP)-H11(EP)
          M14(I,I,EP) = M14(I,I,EP)-H12(EP)
-         M23(I,I,EP) = M23(I,I,EP)-H12(EP) 
-         M24(I,I,EP) = M24(I,I,EP)-H22(EP) 
+         M23(I,I,EP) = M23(I,I,EP)-H12(EP)
+         M24(I,I,EP) = M24(I,I,EP)-H22(EP)
          M33(I,I,EP) = M33(I,I,EP)+H11(EP)
          M34(I,I,EP) = M34(I,I,EP)+H12(EP)
          M44(I,I,EP) = M44(I,I,EP)+H22(EP)
@@ -181,10 +181,10 @@ C---------flexion---------
 C---------c.t---------
         DO EP=JFT,JLT
          H11(EP)=CS1(EP)+CS2(EP)+CS3(EP)+CS3(EP)
-         H22(EP)=CS1(EP)+CS2(EP)-CS3(EP)-CS3(EP) 
-         H12(EP)=-CS1(EP)+CS2(EP)+CS3(EP)-CS3(EP) 
-         H13(EP)=-CS1(EP)-CS2(EP)-CS3(EP)-CS3(EP) 
-         H23(EP)= CS1(EP)-CS2(EP)+CS3(EP)-CS3(EP) 
+         H22(EP)=CS1(EP)+CS2(EP)-CS3(EP)-CS3(EP)
+         H12(EP)=-CS1(EP)+CS2(EP)+CS3(EP)-CS3(EP)
+         H13(EP)=-CS1(EP)-CS2(EP)-CS3(EP)-CS3(EP)
+         H23(EP)= CS1(EP)-CS2(EP)+CS3(EP)-CS3(EP)
         ENDDO
        DO I=1,3
         DO EP=JFT,JLT
@@ -193,8 +193,8 @@ C---------c.t---------
          K22(I,I,EP) = K22(I,I,EP)+H22(EP)
          K13(I,I,EP) = K13(I,I,EP)+H13(EP)
          K14(I,I,EP) = K14(I,I,EP)-H12(EP)
-         K23(I,I,EP) = K23(I,I,EP)+H23(EP) 
-         K24(I,I,EP) = K24(I,I,EP)-H22(EP) 
+         K23(I,I,EP) = K23(I,I,EP)+H23(EP)
+         K24(I,I,EP) = K24(I,I,EP)-H22(EP)
          K33(I,I,EP) = K33(I,I,EP)+H11(EP)
          K34(I,I,EP) = K34(I,I,EP)+H12(EP)
          K44(I,I,EP) = K44(I,I,EP)+H22(EP)
@@ -208,7 +208,7 @@ C--------11: 11,12,22 ------
 C------12: 13,14,23,24 ------
          H12(EP)=(RHY(EP,1)*RHY(EP,3)+RHX(EP,1)*RHX(EP,3))*CS1(EP)
 C------13: 33,34,44 ------
-         H13(EP)=(RHY(EP,3)*RHY(EP,3)+RHX(EP,3)*RHX(EP,3))*CS1(EP) 
+         H13(EP)=(RHY(EP,3)*RHY(EP,3)+RHX(EP,3)*RHX(EP,3))*CS1(EP)
         ENDDO
        DO I=1,2
         DO EP=JFT,JLT
@@ -217,8 +217,8 @@ C------13: 33,34,44 ------
          M22(I,I,EP) = M22(I,I,EP)+H11(EP)
          M13(I,I,EP) = M13(I,I,EP)+H12(EP)
          M14(I,I,EP) = M14(I,I,EP)+H12(EP)
-         M23(I,I,EP) = M23(I,I,EP)+H12(EP) 
-         M24(I,I,EP) = M24(I,I,EP)+H12(EP) 
+         M23(I,I,EP) = M23(I,I,EP)+H12(EP)
+         M24(I,I,EP) = M24(I,I,EP)+H12(EP)
          M33(I,I,EP) = M33(I,I,EP)+H13(EP)
          M34(I,I,EP) = M34(I,I,EP)+H13(EP)
          M44(I,I,EP) = M44(I,I,EP)+H13(EP)
@@ -231,7 +231,7 @@ C--------11: 11,14,44 ------
 C------12: 12,13,24,34 ------
          H12(EP)=(SHY(EP,1)*SHY(EP,2)+SHX(EP,1)*SHX(EP,2))*CS2(EP)
 C------22: 22,23,33 ------
-         H22(EP)=(SHY(EP,2)*SHY(EP,2)+SHX(EP,2)*SHX(EP,2))*CS2(EP) 
+         H22(EP)=(SHY(EP,2)*SHY(EP,2)+SHX(EP,2)*SHX(EP,2))*CS2(EP)
         ENDDO
        DO I=1,2
         DO EP=JFT,JLT
@@ -240,8 +240,8 @@ C------22: 22,23,33 ------
          M22(I,I,EP) = M22(I,I,EP)+H22(EP)
          M13(I,I,EP) = M13(I,I,EP)+H12(EP)
          M14(I,I,EP) = M14(I,I,EP)+H11(EP)
-         M23(I,I,EP) = M23(I,I,EP)+H22(EP) 
-         M24(I,I,EP) = M24(I,I,EP)+H12(EP) 
+         M23(I,I,EP) = M23(I,I,EP)+H22(EP)
+         M24(I,I,EP) = M24(I,I,EP)+H12(EP)
          M33(I,I,EP) = M33(I,I,EP)+H22(EP)
          M34(I,I,EP) = M34(I,I,EP)+H12(EP)
          M44(I,I,EP) = M44(I,I,EP)+H11(EP)
@@ -266,7 +266,7 @@ C---------------KC2-----------
          M12(I,I,EP) = M12(I,I,EP)+H12(EP)
          M22(I,I,EP) = M22(I,I,EP)+H22(EP)
          M13(I,I,EP) = M13(I,I,EP)+H12(EP)
-         M23(I,I,EP) = M23(I,I,EP)+H22(EP) 
+         M23(I,I,EP) = M23(I,I,EP)+H22(EP)
         ENDDO
        ENDDO
 C---------11:14 12:24 22:33 13:34 23:44----------
@@ -288,7 +288,7 @@ C---------11:14 12:24 22:33 13:34 23:44----------
          M24(I,I,EP) = M24(I,I,EP)+H12(EP)
          M33(I,I,EP) = M33(I,I,EP)+H22(EP)
          M34(I,I,EP) = M34(I,I,EP)+H12(EP)
-         M44(I,I,EP) = M44(I,I,EP)+H22(EP) 
+         M44(I,I,EP) = M44(I,I,EP)+H22(EP)
         ENDDO
        ENDDO
 C

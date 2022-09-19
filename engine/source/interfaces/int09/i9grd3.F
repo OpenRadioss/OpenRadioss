@@ -36,7 +36,7 @@ C-----------------------------------------------
 C   M o d u l e s
 C-----------------------------------------------
       USE INITBUF_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -54,7 +54,7 @@ C-----------------------------------------------
 C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
-      INTEGER II, IGROU, IELN , IERR, IX(4), IXS(NIXS),IPARG(NPARG,NGROUP) 
+      INTEGER II, IGROU, IELN , IERR, IX(4), IXS(NIXS),IPARG(NPARG,NGROUP)
       my_real
      .   AREA, TSTIF, T, VOL, X(3,NUMNOD), PM(NPROPM,NUMMAT)
       TYPE (ELBUF_STRUCT_), DIMENSION(NGROUP) :: ELBUF_TAB
@@ -71,12 +71,12 @@ C---------------------------------
 C         RECHERCHE DE L'ELEMENT DANS LE BUFFER
 C---------------------------------
           DO 200 NG=II/NVSIZ+1,NGROUP
-          CALL INITBUF (IPARG    ,NG      ,                    
-     2          MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,  
-     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,  
-     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,  
-     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,  
-     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,  
+          CALL INITBUF (IPARG    ,NG      ,
+     2          MTN     ,LLT     ,NFT     ,IAD     ,ITY     ,
+     3          NPT     ,JALE    ,ISMSTR  ,JEUL    ,JTUR    ,
+     4          JTHE    ,JLAG    ,JMULT   ,JHBE    ,JIVF    ,
+     5          NVAUX   ,JPOR    ,JCVT    ,JCLOSE  ,JPLASOL ,
+     6          IREP    ,IINT    ,IGTYP   ,ISRAT   ,ISROT   ,
      7          ICSEN   ,ISORTH  ,ISORTHG ,IFAILURE,JSMS    )
             IF(ITY/=1)          GO TO 200
             IF(II>NFT+LLT)     GO TO 200
@@ -148,7 +148,7 @@ C
 C---------------------------------
 C         CALCUL DISTANCE ET 1/4 SURFACE(SURFFACE NODALE))
 C---------------------------------
-            DIST = ONE_OVER_8*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM) 
+            DIST = ONE_OVER_8*(DX*NX+DY*NY+DZ*NZ) / MAX(EM15,NORM)
             AREA = ONE_OVER_8*NORM
 C---------------------------------
 C         CALCUL DE LA CONDUCTIBILITE
@@ -160,7 +160,7 @@ C---------------------------------
             ELSE
              COND=PM(77,MAT)+PM(78,MAT)*T
             ENDIF
-            TSTIF = DIST / COND 
+            TSTIF = DIST / COND
 C
  600  CONTINUE
 C

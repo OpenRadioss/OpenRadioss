@@ -29,12 +29,12 @@ Chd|====================================================================
       MODULE ADMERR_MOD
 #include "my_real.inc"
 
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE :: 
+        my_real ,
+     .    DIMENSION(:), ALLOCATABLE ::
      .      THICK_SH4, THICK_SH3,
      .      THICK_NOD, AREA_NOD
-        my_real , 
-     .    DIMENSION(:), ALLOCATABLE :: 
+        my_real ,
+     .    DIMENSION(:), ALLOCATABLE ::
      .      AREA_SH4, AREA_SH3
       END MODULE ADMERR_MOD
 Chd|====================================================================
@@ -58,7 +58,7 @@ C   M o d u l e s
 C-----------------------------------------------
       USE ADMERR_MOD
       USE MESSAGE_MOD
-      USE ELBUFDEF_MOD            
+      USE ELBUFDEF_MOD
 C-----------------------------------------------
 C   I m p l i c i t   T y p e s
 C-----------------------------------------------
@@ -80,9 +80,9 @@ C-----------------------------------------------
 C   D u m m y   A r g u m e n t s
 C-----------------------------------------------
 C     REAL
-      INTEGER  
+      INTEGER
      .   IXC(NIXC,*), IXTG(NIXTG,*),IPARG(NPARG,*),
-     .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*), 
+     .   IAD_ELEM(2,*), FR_ELEM(*), WEIGHT(*),
      .   IPART(LIPART1,*), IPARTC(*), IPARTTG(*),
      .   SH4TREE(KSH4TREE,*), SH3TREE(KSH3TREE,*)
       my_real

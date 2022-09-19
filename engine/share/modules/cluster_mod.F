@@ -49,30 +49,30 @@ Chd|====================================================================
       MODULE CLUSTER_MOD
 C----------------------------------------------------------------------- 
 #include "my_real.inc"
-c=======================================================================      
+c=======================================================================
 c
       TYPE CLUSTER_
-        integer     :: ID    
-        integer     :: TYPE   
-        integer     :: IFAIL   
-        integer     :: IGR    
-        integer     :: NEL      
-        integer     :: NNOD     
-        integer     :: SKEW     
-        integer     :: OFF     
-c       
+        integer     :: ID
+        integer     :: TYPE
+        integer     :: IFAIL
+        integer     :: IGR
+        integer     :: NEL
+        integer     :: NNOD
+        integer     :: SKEW
+        integer     :: OFF
+c
         integer, DIMENSION(:), ALLOCATABLE :: NG
         integer, DIMENSION(:), ALLOCATABLE :: ELEM
-        integer, DIMENSION(:), ALLOCATABLE :: NOD1  
-        integer, DIMENSION(:), ALLOCATABLE :: NOD2  
-c       
-        my_real, DIMENSION(:), ALLOCATABLE :: FMAX  
-        my_real, DIMENSION(:), ALLOCATABLE :: MMAX  
-        my_real, DIMENSION(:), ALLOCATABLE :: AX  
-        my_real, DIMENSION(:), ALLOCATABLE :: NX  
-        my_real, DIMENSION(3)    :: FOR     
-        my_real, DIMENSION(3)    :: MOM     
-        my_real                  :: FAIL  
+        integer, DIMENSION(:), ALLOCATABLE :: NOD1
+        integer, DIMENSION(:), ALLOCATABLE :: NOD2
+c
+        my_real, DIMENSION(:), ALLOCATABLE :: FMAX
+        my_real, DIMENSION(:), ALLOCATABLE :: MMAX
+        my_real, DIMENSION(:), ALLOCATABLE :: AX
+        my_real, DIMENSION(:), ALLOCATABLE :: NX
+        my_real, DIMENSION(3)    :: FOR
+        my_real, DIMENSION(3)    :: MOM
+        my_real                  :: FAIL
       END TYPE CLUSTER_
 c
 c---------------

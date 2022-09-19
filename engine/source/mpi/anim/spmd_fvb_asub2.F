@@ -80,7 +80,7 @@ C
      .                       ITAG, MPI_COMM_WORLD,  IERR)
             ENDIF
          ENDIF
-      ENDDO  
+      ENDDO
 C
 #endif
       RETURN

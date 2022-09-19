@@ -126,7 +126,7 @@ C     DEFAULT ELEM_TYPE = 1 : HEXA
             NFACE_NODE = 4
             ELEM_FACE => HEXA_FACE
 C     Test if TETRA
-            IF ((NODELIST(1) == NODELIST(2)) .AND. 
+            IF ((NODELIST(1) == NODELIST(2)) .AND.
      .           (NODELIST(3) == NODELIST(4)) .AND.
      .           (NODELIST(6) == NODELIST(7))) THEN
                ELEM_TYPE = 2
@@ -134,24 +134,24 @@ C     Test if TETRA
                NFACE_NODE = 3
                ELEM_FACE => TETRA_FACE
             ENDIF
-            
+
             DO INODE = 1, 8
                IF (ALE_CONNECTIVITY%NALE(NODELIST(INODE)) == 0) THEN
                   FLAGNODE(INODE) = 0
                ENDIF
             ENDDO
-            
+
             DO KFACE = 1, LGTH
-              JELEM = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)     
-              IF (JELEM > 0) THEN                                                
-                 KFACE2 = ALE_CONNECTIVITY%ee_connect%iface2(IAD + KFACE - 1)    
-                 IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(JELEM)           
-                 ALE_CONNECTIVITY%ee_connect%connected(IAD2 + KFACE - 1) = 0     
-                 ALE_CONNECTIVITY%ee_connect%iface2(IAD2 + KFACE - 1) = 0        
-                 ALE_CONNECTIVITY%ee_connect%connected(IAD2 + KFACE2 - 1) = 0    
-                 ALE_CONNECTIVITY%ee_connect%iface2(IAD2 + KFACE2 - 1) = 0       
-              ENDIF                                                              
-            ENDDO  
+              JELEM = ALE_CONNECTIVITY%ee_connect%connected(IAD + KFACE - 1)
+              IF (JELEM > 0) THEN
+                 KFACE2 = ALE_CONNECTIVITY%ee_connect%iface2(IAD + KFACE - 1)
+                 IAD2 = ALE_CONNECTIVITY%ee_connect%iad_connect(JELEM)
+                 ALE_CONNECTIVITY%ee_connect%connected(IAD2 + KFACE - 1) = 0
+                 ALE_CONNECTIVITY%ee_connect%iface2(IAD2 + KFACE - 1) = 0
+                 ALE_CONNECTIVITY%ee_connect%connected(IAD2 + KFACE2 - 1) = 0
+                 ALE_CONNECTIVITY%ee_connect%iface2(IAD2 + KFACE2 - 1) = 0
+              ENDIF
+            ENDDO
          ENDDO
       ELSE
 C     2D case
